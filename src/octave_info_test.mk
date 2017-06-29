@@ -1,0 +1,3 @@
+octave_info_test_EXTRA_DIARY_FILES=octave_info_test.diary
+
+octave_info_test_FILES = octave_info_test.m

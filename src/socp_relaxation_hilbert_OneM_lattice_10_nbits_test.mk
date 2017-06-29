@@ -1,0 +1,36 @@
+socp_relaxation_hilbert_OneM_lattice_10_nbits_test_FIGURES = \
+socp_relaxation_hilbert_OneM_lattice_10_nbits_test_kc_min \
+socp_relaxation_hilbert_OneM_lattice_10_nbits_test_kc_min_pz
+
+socp_relaxation_hilbert_OneM_lattice_10_nbits_test_COEFS = \
+socp_relaxation_hilbert_OneM_lattice_10_nbits_test.mat \
+socp_relaxation_hilbert_OneM_lattice_10_nbits_test.spec \
+socp_relaxation_hilbert_OneM_lattice_10_nbits_test_k0_sd_coef.m \
+socp_relaxation_hilbert_OneM_lattice_10_nbits_test_c0_sd_coef.m \
+socp_relaxation_hilbert_OneM_lattice_10_nbits_test_k_min_coef.m \
+socp_relaxation_hilbert_OneM_lattice_10_nbits_test_c_min_coef.m \
+socp_relaxation_hilbert_OneM_lattice_10_nbits_test_kc_min_cost.tab
+
+socp_relaxation_hilbert_OneM_lattice_10_nbits_test_FILES = \
+socp_relaxation_hilbert_OneM_lattice_10_nbits_test.m test_common.m \
+schurOneMlatticeAsq.m \
+schurOneMlatticeT.m \
+schurOneMlatticeP.m \
+schurOneMlatticeEsq.m \
+schurOneMlattice_slb.m \
+schurOneMlattice_slb_constraints_are_empty.m \
+schurOneMlattice_socp_mmse.m \
+schurOneMlattice_slb_exchange_constraints.m \
+schurOneMlattice_slb_set_empty_constraints.m \
+schurOneMlattice_slb_show_constraints.m \
+schurOneMlattice_slb_update_constraints.m \
+schurOneMscale.m \
+tf2schurOneMlattice.m \
+schurOneMlattice2tf.m \
+schurOneMlattice_allocsd_Lim.m \
+schurOneMlattice_allocsd_Ito.m \
+local_max.m tf2pa.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
+schurOneMlatticeFilter.m flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
+bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
+complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct \
+sedumi_test.diary

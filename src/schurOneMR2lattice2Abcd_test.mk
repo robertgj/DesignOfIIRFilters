@@ -1,0 +1,16 @@
+schurOneMR2lattice2Abcd_test_FILES = \
+schurOneMR2lattice2Abcd_test.m test_common.m schurOneMR2lattice2Abcd.m \
+tf2schurOneMlattice.m Abcd2tf.m schurOneMscale.m schurdecomp.oct \
+schurexpand.oct svf.m KW.m crossWelch.m reprand.oct
+
+schurOneMR2lattice2Abcd_test_FIGURES = \
+schurOneMR2lattice2Abcd_allpass_response1 \
+schurOneMR2lattice2Abcd_output_response1 \
+schurOneMR2lattice2Abcd_allpass_response2 \
+schurOneMR2lattice2Abcd_output_response2 \
+schurOneMR2lattice2Abcd_allpass_response3 \
+schurOneMR2lattice2Abcd_output_response3 \
+schurOneMR2lattice2Abcd_allpass_response4 \
+schurOneMR2lattice2Abcd_output_response4 \
+schurOneMR2lattice2Abcd_allpass_response5 \
+schurOneMR2lattice2Abcd_output_response5

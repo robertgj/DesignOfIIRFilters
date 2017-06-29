@@ -1,0 +1,212 @@
+		Installation Guide for SparsePOP
+
+                  H. Waki, S. Kim, M. Kojima, 
+           M. Muramatsu, H. Sugimoto and M. Yamashita
+		   September 30, 2014
+
+1. Overview
+
+1.1 Two Versions
+
+Two versions of SparsePOP are available in this package:
+   (A) MATLAB only version
+   (B) MATLAB with C++ version
+(A) is always installed, while (B) is optional.
+
+The functionality of the two is idential, but (B) is much faster
+than (A) in generating SDP problems, because some of the time
+consuming parts are rewritten in C++. We recommend to use (B)
+whenever possible, although in many cases (A) is sufficient.
+
+1.2 System Requirements
+
+The following softwares is the minimum requirement:
+
+  i. MATLAB R2009b or later for Mac OSX
+     MATLAB R2008a or later for Linux
+
+  ii. SDP sovlers (SeDuMi, SDPT3, SDPA or CSDP)
+	 to call SeDuMi from SparsePOP for solving an SDP relaxation problem
+
+Be sure that you have an appropriate version of SeDuMi
+for your MATLAB. For example, if you are using
+MATLAB R2009b or later, then you need SeDuMi 1.1R3 or later.
+
+If you want to use (B), then you need appropriate C++ compilers,
+compatible with MATLAB, to compile the programs.
+
+NOTE: SDP solvers which can be available at SparsePOP are
+SeDuMi, SDPA, SDPT3, CSDP and SDPNAL.
+
+
+2. Quick Installation Guide for MacOSX 10.4.8 or later
+
+If you want to install the C++ version (B), in addition to
+MATLAB and SeDuMi, you need Xcode, distributed by Apple.
+Be sure that you have an appropriate version of Xcode.
+See:
+   http://www.mathworks.com/support/tech-notes/1600/1601.html
+For example, if you are using MATLAB 7.4 or later,
+then you must use:
+   Xcode 2.4.1 or later
+	--available from http://developer.apple.com/tools/xcode/
+
+  Installation steps:
+
+(NOTE: Skip the step marked with * if C++ version is not needed.)
+
+  2.1 Download SparsePOP from:
+	http://sourceforge.net/projects/sparsepop/
+
+  2.2 Unpack it by either:
+	double-clicking the icon, or typing on the Terminal:
+	% tar zxvf sparsePOP300.tar.gz
+
+	You will get a folder named SparsePOP300
+
+  2.3 Move the folder to any place you like, say, to
+	/Users/smith/matlab/SparsePOP300 (if you are Smith),
+	or, if you want to install SparsePOP machine-wide, to
+	/Applications/MATLAB74/toolbox/shared/SparsePOP300
+
+*2.4 Invoke MATLAB, and choose Compiler. In MATLAB, type:
+	>> mex -setup
+	and follow the message to choose a compiler.
+    If you can use llvm-gcc and llvm-g++, then edit your
+    mexopts.sh. See the following url for the detail: 
+http://www.mathworks.com/matlabcentral/answers/103258-mex-on-mavericks-with-r2012b
+
+  2.5 In MATLAB, and cd to the folder of SparsePOP300.
+	>> cd /Users/smith/matlab/SparsePOP300
+
+*2.6 Compile C++ codes from MATLAB window:
+	>> compileSparsePOP
+
+  2.7 Set MATLAB-path to SparsePOP300. Specifically,
+	Choose: File->Set Path
+	Push 'Add with Subfolders...' bottun, and 
+	Select the folder SparsePOP300.
+	Finally, Save it by pushing 'Save' bottun.
+
+  2.8 Now you are ready to use SparsePOP.
+	Test it by typing
+	>> sparsePOP('example1.gms');
+
+NOTE: If you want to use MATLAB in the mode matlab -nodisply, 
+it is useful to add the path of the directory of SparsePOP in 
+your startup.m. If your SparsePOP is installed in 
+/Users/matlab/SparsePOP300, write the following command in your 
+startup.m:
+
+addpath(genpath('/Users/matlab/SparsePOP300'));
+
+
+3. Quick Installation Guide for Linux
+
+If you want to install the C++ version (B), in addition to
+MATLAB and SeDuMi, you need gcc compilers, a free software
+distributed by GNU. Be sure that you have an appropriate
+version of gcc.
+See:
+   http://www.mathworks.com/support/tech-notes/1600/1601.html
+For example, if you are using MATLAB R2007a or later, then
+you must have:
+	gcc/g++ version 4.1.1 or later, and
+	appropriate kernel and glibc.
+
+  Installation steps
+
+(NOTE: Skip the step marked with * if C++ version is not needed.)
+
+
+  3.1 Download SparsePOP from:
+	http://sourceforge.net/projects/sparsepop/
+
+  3.2 Unpack it by either:
+	double-clicking the icon, or typing on the terminal:
+	% tar zxvf sparsePOP300.tar.gz
+
+	You will get a directory named SparsePOP300
+
+  3.3 Move the directory to any place you like, say, to
+	/home/smith/matlab/SparsePOP300 (if you are Smith),
+	or, if you want to install SparsePOP machine-widely, to
+	/usr/matlab2007a/toolbox/shared/SparsePOP300
+
+*3.4 Invoke MATLAB, and choose Compiler. In MATLAB, type:
+	>> mex -setup
+	and follow the message to choose a compiler.
+
+  3.5 In MATLAB, and cd to the folder of SparsePOP300.
+	>> cd /Users/smith/matlab/SparsePOP300
+
+*3.6 Compile C++ codes from MATLAB window:
+	>> compileSparsePOP
+
+  3.7 Set MATLAB-path to SparsePOP300. Specifically,
+	Choose: File->Set Path
+	Push 'Add with Subfolders...' bottun, and 
+	Select the folder SparsePOP300.
+	Finally, Save it by pushing 'Save' bottun.
+ 
+  3.8 Now you are ready to use SparsePOP.
+	Test it by typing
+	>> sparsePOP('example1.gms');
+
+NOTE: If you want to use MATLAB in the mode matlab -nodisply, 
+it is useful to add the path of the directory of SparsePOP in 
+your startup.m. If your SparsePOP is installed in 
+/home/matlab/SparsePOP300, write the following command in your 
+startup.m:
+
+addpath(genpath('/home/matlab/SparsePOP300'));
+
+NOTE2: See the following url when you encounter the error message
+`GLIBC_*.*.** not found':
+http://stackoverflow.com/questions/9959306/
+https://github.com/kyamagu/mexopencv/issues/45
+
+
+4. Quick Installation Guide for Windows 7
+
+If you want to install the C++ version (B), in addition to
+MATLAB and SeDuMi, you need an appropriate C++ compilers.
+See:
+   http://www.mathworks.com/support/tech-notes/1600/1601.html
+We have tested it by Microsoft Visual C++ 2005.
+
+  Installation steps:
+
+(NOTE: Skip the step marked with * if C++ version is not needed.)
+
+  4.1 Download SparsePOP from:
+	http://sourceforge.net/projects/sparsepop/
+
+  4.2 Unpack it double-clicking the icon.
+	You may need an appropriate software for unpacking the
+	tar.gz file.
+
+	You will get a folder named SparsePOP300
+
+  4.3 Move the folder to, say, C:\MATLAB\SparsePOP300
+
+*4.4 Invoke MATLAB, and choose Compiler. In MATLAB, type:
+	>> mex -setup
+	and follow the message to choose a compiler.
+
+  4.5 In MATLAB, and cd to the folder of SparsePOP300.
+	>> cd C:\MATLAB\SparsePOP300
+
+*4.6 Compile C++ codes from MATLAB window:
+	>> compileSparsePOP
+
+  4.7 Set MATLAB-path to SparsePOP300. Specifically,
+	Choose: File->Set Path
+	Push 'Add with Subfolders...' bottun, and 
+	Select the folder SparsePOP300.
+	Finally, Save it by pushing 'Save' bottun.
+
+  4.8 Now you are ready to use SparsePOP.
+	Test it by typing
+	>> sparsePOP('example1.gms');
+

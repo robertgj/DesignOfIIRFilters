@@ -1,0 +1,23 @@
+allpass2ndOrderCascadeDelay_socp_test_FIGURES = \
+allpass2ndOrderCascadeDelay_socp_a0 \
+allpass2ndOrderCascadeDelay_socp_a0phase \
+allpass2ndOrderCascadeDelay_socp_a1 \
+allpass2ndOrderCascadeDelay_socp_a1pass \
+allpass2ndOrderCascadeDelay_socp_a1pz \
+allpass2ndOrderCascadeDelay_socp_a1sqm \
+allpass2ndOrderCascadeDelay_socp_a1sqmpass \
+allpass2ndOrderCascadeDelay_socp_a1sqmpz
+
+allpass2ndOrderCascadeDelay_socp_test_COEFS = \
+allpass2ndOrderCascadeDelay_socp_test.mat \
+allpass2ndOrderCascadeDelay_socp_test.spec \
+allpass2ndOrderCascadeDelay_socp_test_a1_coef.m \
+allpass2ndOrderCascadeDelay_socp_test_Da1_coef.m \
+allpass2ndOrderCascadeDelay_socp_test_a1sqm_coef.m \
+allpass2ndOrderCascadeDelay_socp_test_Da1sqm_coef.m 
+
+allpass2ndOrderCascadeDelay_socp_test_FILES = \
+allpass2ndOrderCascadeDelay_socp_test.m test_common.m \
+stability2ndOrderCascade.m print_polynomial.m allpass2ndOrderCascade.m \
+allpass2ndOrderCascadeDelay_socp.m local_max.m fixResultNaN.m casc2tf.m \
+tf2casc.m sedumi_test.diary

@@ -1,0 +1,26 @@
+parallel_allpass_delay_sqp_slb_test_FIGURES = \
+parallel_allpass_delay_sqp_slb_a0 \
+parallel_allpass_delay_sqp_slb_a0pz \
+parallel_allpass_delay_sqp_slb_a1 \
+parallel_allpass_delay_sqp_slb_a1yy \
+parallel_allpass_delay_sqp_slb_a1pass \
+parallel_allpass_delay_sqp_slb_a1phase \
+parallel_allpass_delay_sqp_slb_a1pz
+
+parallel_allpass_delay_sqp_slb_test_COEFS = \
+parallel_allpass_delay_sqp_slb_test.mat \
+parallel_allpass_delay_sqp_slb_test.spec \
+parallel_allpass_delay_sqp_slb_test_Da1_coef.m
+
+parallel_allpass_delay_sqp_slb_test_FILES = \
+parallel_allpass_delay_sqp_slb_test.m test_common.m \
+parallel_allpass_delay_sqp_mmse.m parallel_allpass_delay_slb.m \
+parallel_allpass_delay_slb_show_constraints.m \
+parallel_allpass_delay_slb_exchange_constraints.m \
+parallel_allpass_delay_slb_update_constraints.m \
+parallel_allpass_delay_slb_set_empty_constraints.m \
+parallel_allpass_delay_slb_constraints_are_empty.m \
+parallel_allpass_delayEsq.m parallel_allpass_delayAsq.m \
+parallel_allpass_delayT.m allpassP.m allpassT.m aConstraints.m \
+a2tf.m tf2a.m local_max.m sqp_bfgs.m invSVD.m armijo_kim.m updateWbfgs.m \
+print_polynomial.m print_pole_zero.m

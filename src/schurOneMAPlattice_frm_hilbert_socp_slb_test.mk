@@ -1,0 +1,31 @@
+schurOneMAPlattice_frm_hilbert_socp_slb_test_FIGURES = \
+schurOneMAPlattice_frm_hilbert_socp_slb_test_initial_response \
+schurOneMAPlattice_frm_hilbert_socp_slb_test_initial_mask_response \
+schurOneMAPlattice_frm_hilbert_socp_slb_test_pcls_response \
+schurOneMAPlattice_frm_hilbert_socp_slb_test_pcls_mask_response 
+
+schurOneMAPlattice_frm_hilbert_socp_slb_test_COEFS = \
+schurOneMAPlattice_frm_hilbert_socp_slb_test.mat \
+schurOneMAPlattice_frm_hilbert_socp_slb_test.spec \
+schurOneMAPlattice_frm_hilbert_socp_slb_test_epsilon2_coef.m \
+schurOneMAPlattice_frm_hilbert_socp_slb_test_k2_coef.m \
+schurOneMAPlattice_frm_hilbert_socp_slb_test_u2_coef.m \
+schurOneMAPlattice_frm_hilbert_socp_slb_test_v2_coef.m
+
+schurOneMAPlattice_frm_hilbert_socp_slb_test_FILES = \
+schurOneMAPlattice_frm_hilbert_socp_slb_test.m test_common.m \
+schurOneMAPlattice_frm_hilbert_socp_mmse.m \
+schurOneMAPlattice_frm_hilbert_slb.m \
+schurOneMAPlattice_frm_hilbert_slb_constraints_are_empty.m \
+schurOneMAPlattice_frm_hilbert_slb_exchange_constraints.m \
+schurOneMAPlattice_frm_hilbert_slb_set_empty_constraints.m \
+schurOneMAPlattice_frm_hilbert_slb_show_constraints.m \
+schurOneMAPlattice_frm_hilbert_slb_update_constraints.m \
+schurOneMAPlattice_frm_hilbert_socp_slb_plot.m schurOneMAPlattice2tf.m \
+schurOneMAPlattice_frm_hilbertEsq.m schurOneMAPlattice_frm_hilbertT.m \
+schurOneMAPlattice_frm_hilbertAsq.m schurOneMAPlattice_frm_hilbertP.m \
+schurOneMAPlatticeP.m schurOneMAPlatticeT.m tf2schurOneMlattice.m \
+schurOneMAPlattice2Abcd.m Abcd2tf.m tf2pa.m H2Asq.m H2P.m H2T.m \
+schurOneMscale.m local_max.m print_polynomial.m print_pole_zero.m \
+schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct spectralfactor.oct \
+schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct sedumi_test.diary

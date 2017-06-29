@@ -1,0 +1,104 @@
+/*
+
+phase.max
+
+Maxima script for generating the laTeX for the gradient vector
+and Hessian matrix of the phase of an IIR filter.
+
+Run as: maxima --very-quiet -b phase.max
+
+For input to LaTeX, filter the tex output with:
+sed -e 's/\\\,//g' -e 's/\\it //g' \
+-e 's/{Rz}/R_{0j}/g' \
+-e 's/{Rp}/R_{pj}/g' \
+-e 's/{rz}/r_{0j}/g' \
+-e 's/{thz}/\\theta _{0j}/g' \
+-e 's/{rp}/r_{pj}/g' \
+-e 's/{thp}/\\theta _{pj}/g' \
+-e 's/w/\\omega /g' \
+-e 's/\pi/\pi /g' \
+-e 's/\\left(/ \\left( /g' \
+-e 's/\\right)/ \\right) /g' 
+
+*/
+
+/* Differentiation of F(x)=atan(N(x)/D(x)) */
+F(x):=atan(N(x)/D(x));
+dFdx(x):=factor(diff(F(x),x));
+dFdx(x);
+tex(dFdx(x));
+
+/* Phase real zero */
+PRzN(w,Rz):=sin(w);
+PRzD(w,Rz):=(cos(w)-Rz);
+/* Phase real pole */
+PRpN(w,Rp):=(sin(w)-((Rp^s)*sin(s*2*pi*i)));
+PRpD(w,Rp):=(cos(w)-((Rp^s)*cos(s*2*pi*i)));
+/* Phase complex zero */
+PrzthzN(w,rz,thz):=(sin(2*w)-(2*rz*cos(thz)*sin(w)));
+PrzthzD(w,rz,thz):=(cos(2*w)-(2*rz*cos(thz)*cos(w))+(rz^2));
+/* Phase complex pole */
+PrpthpN(w,rp,thp):=(sin(2*w)-((rp^s)*cos(s*(thp+(2*pi*i)))));
+PrpthpD(w,rp,thp):=(cos(2*w)-(2*(rp^s)*cos(s*(thp+(2*pi*i)))*cos(w))+(rp^(2*s)));
+
+/* Gradient of phase real zero */
+dPRzNdRz(w,Rz):=trigsimp(factor(diff(PRzN(w,Rz),Rz)));
+dPRzNdRz(w,Rz);
+dPRzDdRz(w,Rz):=trigsimp(factor(diff(PRzD(w,Rz),Rz)));
+dPRzDdRz(w,Rz);
+dPRzdRz(w,Rz):=trigsimp(factor((PRzD(w,Rz)*dPRzNdRz(w,Rz)-PRzN(w,Rz)*dPRzDdRz(w,Rz))))/trigsimp(factor((PRzN(w,Rz)*PRzN(w,Rz)+PRzD(w,Rz)*PRzD(w,Rz))));
+dPRzdRz(w,Rz);
+tex(dPRzdRz(w,Rz));
+
+/* Gradient of phase real pole */
+dPRpNdRp(w,Rp):=trigsimp(factor(diff(PRpN(w,Rp),Rp)));
+dPRpNdRp(w,Rp);
+dPRpDdRp(w,Rp):=trigsimp(factor(diff(PRpD(w,Rp),Rp)));
+dPRpDdRp(w,Rp);
+dPRpdRp(w,Rp):=trigsimp(factor((PRpD(w,Rp)*dPRpNdRp(w,Rp)-PRpN(w,Rp)*dPRpDdRp(w,Rp))))/trigsimp(factor((PRpN(w,Rp)*PRpN(w,Rp)+PRpD(w,Rp)*PRpD(w,Rp))));
+dPRpdRp(w,Rp);
+tex(dPRpdRp(w,Rp));
+
+/* Gradient of phase complex zero radius */
+dPrzthzNdrz(w,rz,thz):=trigsimp(factor(diff(PrzthzN(w,rz,thz),rz)));
+dPrzthzNdrz(w,rz,thz);
+dPrzthzDdrz(w,rz,thz):=trigsimp(factor(diff(PrzthzD(w,rz,thz),rz)));
+dPrzthzDdrz(w,rz,thz);
+dPrzthzdrz(w,rz,thz):=trigsimp(factor(PrzthzD(w,rz,thz)*dPrzthzNdrz(w,rz,thz)-
+  PrzthzN(w,rz,thz)*dPrzthzDdrz(w,rz,thz)))/
+trigsimp(factor((PrzthzN(w,rz,thz)*PrzthzN(w,rz,thz)+PrzthzD(w,rz,thz)*PrzthzD(w,rz,thz))));
+dPrzthzdrz(w,rz,thz);
+tex(dPrzthzdrz(w,rz,thz));
+
+/* Gradient of phase complex zero angle */
+dPrzthzNdthz(w,rz,thz):=trigsimp(factor(diff(PrzthzN(w,rz,thz),thz)));
+dPrzthzNdthz(w,rz,thz);
+dPrzthzDdthz(w,rz,thz):=trigsimp(factor(diff(PrzthzD(w,rz,thz),thz)));
+dPrzthzDdthz(w,rz,thz);
+dPrzthzdthz(w,rz,thz):=trigsimp(factor(PrzthzD(w,rz,thz)*dPrzthzNdthz(w,rz,thz)- PrzthzN(w,rz,thz)*dPrzthzDdthz(w,rz,thz)))/
+trigsimp(factor((PrzthzN(w,rz,thz)*PrzthzN(w,rz,thz)+PrzthzD(w,rz,thz)*PrzthzD(w,rz,thz))));
+dPrzthzdthz(w,rz,thz);
+tex(dPrzthzdthz(w,rz,thz));
+
+/* Gradient of phase complex pole radius */
+dPrpthpNdrp(w,rp,thp):=trigsimp(factor(diff(PrpthpN(w,rp,thp),rp)));
+dPrpthpNdrp(w,rp,thp);
+dPrpthpDdrp(w,rp,thp):=trigsimp(factor(diff(PrpthpD(w,rp,thp),rp)));
+dPrpthpDdrp(w,rp,thp);
+dPrpthpdrp(w,rp,thp):=trigsimp(factor(PrpthpD(w,rp,thp)*dPrpthpNdrp(w,rp,thp)-
+  PrpthpN(w,rp,thp)*dPrpthpDdrp(w,rp,thp)))/
+trigsimp(factor((PrpthpN(w,rp,thp)*PrpthpN(w,rp,thp)+PrpthpD(w,rp,thp)*PrpthpD(w,rp,thp))));
+dPrpthpdrp(w,rp,thp);
+tex(dPrpthpdrp(w,rp,thp));
+
+/* Gradient of phase complex pole angle */
+dPrpthpNdthp(w,rp,thp):=trigsimp(factor(diff(PrpthpN(w,rp,thp),thp)));
+dPrpthpNdthp(w,rp,thp);
+dPrpthpDdthp(w,rp,thp):=trigsimp(factor(diff(PrpthpD(w,rp,thp),thp)));
+dPrpthpDdthp(w,rp,thp);
+dPrpthpdthp(w,rp,thp):=trigsimp(factor(PrpthpD(w,rp,thp)*dPrpthpNdthp(w,rp,thp)-PrpthpN(w,rp,thp)*dPrpthpDdthp(w,rp,thp)))/
+trigsimp(factor((PrpthpN(w,rp,thp)*PrpthpN(w,rp,thp)+PrpthpD(w,rp,thp)*PrpthpD(w,rp,thp))));
+dPrpthpdthp(w,rp,thp);
+tex(dPrpthpdthp(w,rp,thp));
+
+

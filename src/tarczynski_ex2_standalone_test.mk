@@ -1,0 +1,11 @@
+tarczynski_ex2_standalone_test_FIGURES = \
+tarczynski_ex2_standalone_response \
+tarczynski_ex2_standalone_pz
+
+tarczynski_ex2_standalone_test_COEFS = \
+tarczynski_ex2_standalone_test.mat \
+tarczynski_ex2_standalone_test_x_coef.m
+
+tarczynski_ex2_standalone_test_FILES = \
+tarczynski_ex2_standalone_test.m test_common.m \
+tf2x.m print_polynomial.m print_pole_zero.m

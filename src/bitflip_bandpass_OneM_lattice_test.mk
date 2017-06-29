@@ -1,0 +1,37 @@
+bitflip_bandpass_OneM_lattice_test_FIGURES= \
+bitflip_bandpass_OneM_lattice_response \
+bitflip_bandpass_OneM_lattice_response_allocsd
+
+bitflip_bandpass_OneM_lattice_test_COEFS= \
+bitflip_bandpass_OneM_lattice_test.mat \
+bitflip_bandpass_OneM_lattice_test_k_rd_coef.m \
+bitflip_bandpass_OneM_lattice_test_c_rd_coef.m \
+bitflip_bandpass_OneM_lattice_test_k_ex_coef.m \
+bitflip_bandpass_OneM_lattice_test_c_ex_coef.m \
+bitflip_bandpass_OneM_lattice_test_k_bf_coef.m \
+bitflip_bandpass_OneM_lattice_test_c_bf_coef.m \
+bitflip_bandpass_OneM_lattice_test_k_sd_coef.m \
+bitflip_bandpass_OneM_lattice_test_c_sd_coef.m \
+bitflip_bandpass_OneM_lattice_test_k_bfsd_coef.m \
+bitflip_bandpass_OneM_lattice_test_c_bfsd_coef.m \
+bitflip_bandpass_OneM_lattice_test_k_sdl_coef.m \
+bitflip_bandpass_OneM_lattice_test_c_sdl_coef.m \
+bitflip_bandpass_OneM_lattice_test_k_bfsdl_coef.m \
+bitflip_bandpass_OneM_lattice_test_c_bfsdl_coef.m \
+bitflip_bandpass_OneM_lattice_test_k_sdi_coef.m \
+bitflip_bandpass_OneM_lattice_test_c_sdi_coef.m \
+bitflip_bandpass_OneM_lattice_test_k_bfsdi_coef.m \
+bitflip_bandpass_OneM_lattice_test_c_bfsdi_coef.m \
+bitflip_bandpass_OneM_lattice_test_cost.tab \
+bitflip_bandpass_OneM_lattice_test_adders_bfsd.tab \
+bitflip_bandpass_OneM_lattice_test_adders_Lim.tab \
+bitflip_bandpass_OneM_lattice_test_adders_Ito.tab
+
+bitflip_bandpass_OneM_lattice_test_FILES = \
+bitflip_bandpass_test_common.m schurOneMlattice_cost.m schurOneMlattice2tf.m \
+schurdecomp.oct schurexpand.oct bin2SD.oct flt2SD.m x2nextra.m bitflip.oct \
+tf2schurOneMlattice.m schurOneMlatticeNoiseGain.m schurOneMlattice2Abcd.oct \
+Abcd2tf.m schurOneMscale.m print_polynomial.m bin2SPT.oct schurOneMlatticeAsq.m \
+schurOneMlattice2H.oct complex_zhong_inverse.oct H2Asq.m schurOneMlatticeEsq.m \
+schurOneMlatticeT.m H2T.m bin2SDul.m schurOneMlattice_allocsd_Lim.m SDadders.m \
+schurOneMlattice_allocsd_Ito.m

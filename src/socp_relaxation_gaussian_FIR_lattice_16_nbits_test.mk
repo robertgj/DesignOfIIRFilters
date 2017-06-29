@@ -1,0 +1,39 @@
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_FIGURES = \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_g0_impulse \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_g0_response \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_kkhat_min \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_kkhat_min_pass \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_kkhat_min_delay 
+
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_COEFS = \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test.mat \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test.spec \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_g0_coef.m \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_k0_coef.m \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_khat0_coef.m \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_g0_sd_coef.m \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_k0_sd_coef.m \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_khat0_sd_coef.m \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_k_min_coef.m \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_khat_min_coef.m \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_kkhat_min_cost.tab
+
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test_FILES = \
+socp_relaxation_gaussian_FIR_lattice_16_nbits_test.m test_common.m \
+complementaryFIRlatticeAsq.m \
+complementaryFIRlatticeT.m \
+complementaryFIRlatticeP.m \
+complementaryFIRlatticeEsq.m \
+complementaryFIRlattice_slb.m \
+complementaryFIRlattice_slb_constraints_are_empty.m \
+complementaryFIRlattice_socp_mmse.m \
+complementaryFIRlattice_slb_exchange_constraints.m \
+complementaryFIRlattice_slb_set_empty_constraints.m \
+complementaryFIRlattice_slb_show_constraints.m \
+complementaryFIRlattice_slb_update_constraints.m \
+complementaryFIRlattice.m \
+complementaryFIRlattice2Abcd.m \
+minphase.m local_max.m tf2pa.m x2tf.m print_polynomial.m Abcd2tf.m \
+H2Asq.m H2T.m H2P.m flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
+bin2SD.oct bin2SPT.oct Abcd2H.oct complementaryFIRdecomp.oct \
+sedumi_test.diary

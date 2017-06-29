@@ -1,0 +1,154 @@
+% iir_sqp_slb_test.m
+% Copyright (C) 2017 Robert G. Jenssen
+
+test_common;
+
+unlink("iir_sqp_slb_test.diary");
+unlink("iir_sqp_slb_test.diary.tmp");
+diary iir_sqp_slb_test.diary.tmp
+
+format compact;
+
+tol=1e-3
+maxiter=2000
+verbose=false
+
+% Deczky3 Lowpass filter specification
+
+% Filter specifications
+U=0,V=0,Q=6,M=10,R=1
+fap=0.15,dBap=1,Wap=1
+fas=0.3,dBas=36,Was=1
+ftp=0.25,tp=6,tpr=0.025,Wtp=0.1
+
+% Initial coefficients
+z=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...
+   1.5*exp(j*2*pi*0.14),1.5*exp(j*2*pi*0.08)];
+p=[0.7*exp(j*2*pi*0.16),0.6*exp(j*2*pi*0.12),0.5*exp(j*2*pi*0.05)];
+K=0.0096312406;
+x0=[K,abs(z),angle(z),abs(p),angle(p)]';
+
+% Frequency vectors
+n=1000;
+wa=(0:(n-1))'*pi/n;
+nap=ceil(n*fap/0.5)+1;
+nas=floor(n*fas/0.5)+1;
+ntp=ceil(n*ftp/0.5)+1;
+wt=(0:(ntp-1))'*pi/n;
+
+% Coefficient constraints
+[xl,xu]=xConstraints(U,V,M,Q);
+dmax=0.05;
+
+% Amplitude constraints
+Ad=[ones(nap,1); zeros(n-nap,1)];
+Adu=[ones(nas-1,1); (10^(-dBas/20))*ones(n-nas+1,1)];
+Adl=[(10^(-dBap/20))*ones(nap,1);zeros(n-nap,1)+tol/10];
+Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
+
+% Stop-band amplitude response constraints
+ws=[];
+Sd=[];
+Sdu=[];
+Sdl=[];
+Ws=[];
+
+% Group delay constraints
+Td=tp*ones(ntp,1);
+Tdu=(tp+(tpr/2))*ones(ntp,1);
+Tdl=(tp-(tpr/2))*ones(ntp,1);
+Wt=Wtp*ones(ntp,1);
+
+% Phase response constraints
+wp=[];
+Pd=[];
+Pdu=[];
+Pdl=[];
+Wp=[];
+
+% Check
+wa([nap,nas])*0.5/pi
+Wa([nap,nap+1,nas-1,nas])
+wt(ntp)*0.5/pi
+
+% Empty frequency constraint structure
+vS=iir_slb_set_empty_constraints();
+
+% Initialise strings
+strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%%g,",fap,dBap);
+strM=strcat(strM, sprintf("fas=%g,dBas=%g,Was=%%g,",fas,dBas));
+strM=strcat(strM, sprintf("tp=%g,rtp=%g,Wtp=%%g",tp,tpr));
+strd=sprintf("iir_sqp_slb_test_%%s");
+
+% First iir_sqp_mmse pass
+printf("\nFirst MMSE pass\n");
+[x2,E,sqp_iter,func_iter,feasible] = ...
+  iir_sqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...
+               wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
+               wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+               maxiter,tol,verbose)
+if feasible == 0 
+  error("iir_sqp_slb_test, x2(mmse) infeasible");
+endif
+strM2=sprintf(strM,"x2(pcls)",Wap,Was,Wtp);
+showZPplot(x2,U,V,M,Q,R,strM2);
+print(sprintf(strd,"x2pz"),"-dpdflatex");
+close
+showResponse(x2,U,V,M,Q,R,strM2);
+print(sprintf(strd,"x2"),"-dpdflatex");
+close
+showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,x2,U,V,M,Q,R,strM2);
+print(sprintf(strd,"x2pass"),"-dpdflatex");
+close
+
+% Second iir_sqp_mmse pass
+printf("\nSecond MMSE pass\n");
+vS=iir_slb_update_constraints(x2,U,V,M,Q,R,wa,Adu,Adl,Wa, ...
+                              ws,Sdu,Sdl,Ws,wt,Tdu,Tdl,Wt, ...
+                              wp,Pdu,Pdl,Wp,tol);
+printf("S frequency constraints before:\n");
+for [v,k]=vS
+  printf("%s=[ ",k);printf("%d ",v);printf("]\n");
+endfor
+Ax2=iirA(wa,x2,U,V,M,Q,R);
+Sx2=iirA(ws,x2,U,V,M,Q,R);
+Tx2=iirT(wt,x2,U,V,M,Q,R);
+Px2=iirP(wp,x2,U,V,M,Q,R);
+iir_slb_show_constraints(vS,wa,Ax2,ws,Sx2,wt,Tx2,wp,Px2);
+
+[x3,E,sqp_iter,func_iter,feasible] = ...
+  iir_sqp_mmse(vS,x2,xu,xl,dmax,U,V,M,Q,R, ...
+               wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
+               wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+               maxiter,tol,verbose)
+if feasible == 0 
+  error("iir_sqp_slb_test, x3(mmse) infeasible");
+endif
+vS=iir_slb_update_constraints(x3,U,V,M,Q,R,wa,Adu,Adl,Wa, ...
+                              ws,Sdu,Sdl,Ws,wt,Tdu,Tdl,Wt, ...
+                              wp,Pdu,Pdl,Wp,tol);
+printf("S frequency constraints after:\n");
+for [v,k]=vS
+  printf("%s=[ ",k);printf("%d ",v);printf("]\n");
+endfor
+Ax3=iirA(wa,x3,U,V,M,Q,R);
+Sx3=iirA(ws,x3,U,V,M,Q,R);
+Tx3=iirT(wt,x3,U,V,M,Q,R);
+Px3=iirP(wp,x3,U,V,M,Q,R);
+iir_slb_show_constraints(vS,wa,Ax3,ws,Sx3,wt,Tx3,wp,Px3);
+
+strd=sprintf("iir_sqp_slb_test_%%s");
+strM3=sprintf(strM,"x3(mmse)",Wap,Was,Wtp);
+showZPplot(x3,U,V,M,Q,R,strM3);
+print(sprintf(strd,"x3pz"),"-dpdflatex");
+close
+showResponse(x3,U,V,M,Q,R,strM3);
+print(sprintf(strd,"x3"),"-dpdflatex");
+close
+showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,x3,U,V,M,Q,R,strM3);
+print(sprintf(strd,"x3pass"),"-dpdflatex");
+close
+
+% Done
+diary off
+movefile iir_sqp_slb_test.diary.tmp iir_sqp_slb_test.diary;

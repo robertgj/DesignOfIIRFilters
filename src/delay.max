@@ -1,0 +1,153 @@
+/*
+
+delay.max
+
+Maxima script for generating the laTeX for the gradient vector
+and Hessian matrix of the group delay of an IIR filter.
+
+Run as:
+  maxima --very-quiet -b delay.max
+
+For input to LyX, filter the tex output with:
+sed -e 's/\\\,//g' -e 's/\\it //g' \
+-e 's/{rp}/r_{pj}/g' \
+-e 's/{thp}/\\theta _{pj}/g' \
+-e 's/w/\\omega /g' \
+-e 's/\pi/\pi /g' \
+-e 's/\\left(/ \\left( /g' \
+-e 's/\\right)/ \\right) /g' 
+
+*/
+
+/* Time zero numerator w+thz */
+Tznp(rz,thz):=-(1-rz*cos(w+thz));
+/* Time zero numerator w-thz */
+Tznm(rz,thz):=-(1-rz*cos(w-thz));
+/* Time zero denominator w+thz */
+Tzdp(rz,thz):=1-2*rz*cos(w+thz)+rz^2;
+/* Time zero denominator w-thz */
+Tzdm(rz,thz):=1-2*rz*cos(w-thz)+rz^2;
+/* Time pole numerator w+s*(thp... */
+Tpnp(rp,thp):=1-rp^s*cos(w+s*(thp+2*pi*i));
+/* Time pole numerator w-s*(thp... */
+Tpnm(rp,thp):=1-rp^s*cos(w-s*(thp+2*pi*i));
+/* Time pole denominator w+s*(thp... */
+Tpdp(rp,thp):=1-2*rp^s*cos(w+s*(thp+2*pi*i))+rp^(2*s);
+/* Time pole denominator w-s*(thp... */
+Tpdm(rp,thp):=1-2*rp^s*cos(w-s*(thp+2*pi*i))+rp^(2*s);
+
+
+/* grad time denominators are Tzd[pm]^2 or Tpd[pm]^2 */
+
+/* grad time rz numerator w+s*(thz... */
+dTdrzp(rz,thz):=factor(diff(Tznp(rz,thz),rz)*Tzdp(rz,thz) - 
+                       Tznp(rz,thz)*diff(Tzdp(rz,thz),rz));
+dTdrzp(rz,thz);
+tex(dTdrzp(rz,thz));
+/* grad time rz numerator w-s*(thz... */
+dTdrzm(rz,thz):=factor(diff(Tznm(rz,thz),rz)*Tzdm(rz,thz) - 
+                       Tznm(rz,thz)*diff(Tzdm(rz,thz),rz));
+dTdrzm(rz,thz);
+tex(dTdrzm(rz,thz));
+/* grad time thz numerator w+s*(thz... */
+dTdthzp(rz,thz):=factor(diff(Tznp(rz,thz),thz)*Tzdp(rz,thz) - 
+                        Tznp(rz,thz)*diff(Tzdp(rz,thz),thz));
+dTdthzp(rz,thz);
+tex(dTdthzp(rz,thz));
+/* grad time thz numerator w-s*(thz... */
+dTdthzm(rz,thz):=factor(diff(Tznm(rz,thz),thz)*Tzdm(rz,thz) - 
+                        Tznm(rz,thz)*diff(Tzdm(rz,thz),thz));
+dTdthzm(rz,thz);
+tex(dTdthzm(rz,thz));
+
+/* grad time rp numerator w+s*(thp... */
+dTdrpp(rp,thp):=factor(diff(Tpnp(rp,thp),rp)*Tpdp(rp,thp) - 
+                       Tpnp(rp,thp)*diff(Tpdp(rp,thp),rp));
+dTdrpp(rp,thp);
+tex(dTdrpp(rp,thp));
+/* grad time rp numerator w-s*(thp... */
+dTdrpm(rp,thp):=factor(diff(Tpnm(rp,thp),rp)*Tpdm(rp,thp) - 
+                       Tpnm(rp,thp)*diff(Tpdm(rp,thp),rp));
+dTdrpm(rp,thp);
+tex(dTdrpm(rp,thp));
+/* grad time thp numerator w+s*(thp... */
+dTdthpp(rp,thp):=factor(diff(Tpnp(rp,thp),thp)*Tpdp(rp,thp) - 
+                        Tpnp(rp,thp)*diff(Tpdp(rp,thp),thp));
+dTdthpp(rp,thp);
+tex(dTdthpp(rp,thp));
+/* grad time thp numerator w-s*(thp... */
+dTdthpm(rp,thp):=factor(diff(Tpnm(rp,thp),thp)*Tpdm(rp,thp) - 
+                        Tpnm(rp,thp)*diff(Tpdm(rp,thp),thp));
+dTdthpm(rp,thp);
+tex(dTdthpm(rp,thp));
+
+
+/* hess time denominators are Tzd[pm]^3 or Tpd[pm]^3 */
+
+/* hessian time rz rz numerator w+s*(thz... */
+d2Tdrz2p(rz,thz):=factor(diff(dTdrzp(rz,thz),rz)*Tzdp(rz,thz) - 
+                         dTdrzp(rz,thz)*2*diff(Tzdp(rz,thz),rz));
+d2Tdrz2p(rz,thz);
+tex(d2Tdrz2p(rz,thz));
+/* hessian time rz rz numerator w-s*(thz... */
+d2Tdrz2m(rz,thz):=factor(diff(dTdrzm(rz,thz),rz)*Tzdm(rz,thz) - 
+                         dTdrzm(rz,thz)*2*diff(Tzdm(rz,thz),rz));
+d2Tdrz2m(rz,thz);
+tex(d2Tdrz2m(rz,thz));
+
+/* hessian time rz thz numerator w+s*(thz... */
+d2Tdrzthzp(rz,thz):=factor(diff(dTdthzp(rz,thz),rz)*Tzdp(rz,thz) - 
+                           dTdthzp(rz,thz)*2*diff(Tzdp(rz,thz),rz));
+d2Tdrzthzp(rz,thz);
+tex(d2Tdrzthzp(rz,thz));
+/* hessian time rz thz numerator w-s*(thz... */
+d2Tdrzthzm(rz,thz):=factor(diff(dTdthzm(rz,thz),rz)*Tzdm(rz,thz) - 
+                           dTdthzm(rz,thz)*2*diff(Tzdm(rz,thz),rz));
+d2Tdrzthzm(rz,thz);
+tex(d2Tdrzthzm(rz,thz));
+
+/* hessian time thz thz numerator w+s*(thz... */
+d2Tdthz2p(rz,thz):=factor(diff(dTdthzp(rz,thz),thz)*Tzdp(rz,thz) - 
+                          dTdthzp(rz,thz)*2*diff(Tzdp(rz,thz),thz));
+d2Tdthz2p(rz,thz);
+tex(d2Tdthz2p(rz,thz));
+/* hessian time thz thz numerator w-s*(thz... */
+d2Tdthz2m(rz,thz):=factor(diff(dTdthzm(rz,thz),thz)*Tzdm(rz,thz) - 
+                          dTdthzm(rz,thz)*2*diff(Tzdm(rz,thz),thz));
+d2Tdthz2m(rz,thz);
+tex(d2Tdthz2m(rz,thz));
+ 
+
+/* hessian time rp rp numerator w+s*(thp... */
+d2Tdrp2p(rp,thp):=trigsimp(factor(diff(dTdrpp(rp,thp),rp)*Tpdp(rp,thp) - 
+                         dTdrpp(rp,thp)*2*diff(Tpdp(rp,thp),rp)));
+d2Tdrp2p(rp,thp);
+tex(d2Tdrp2p(rp,thp));
+/* hessian time rp rp numerator w-s*(thp... */
+d2Tdrp2m(rp,thp):=trigsimp(factor(diff(dTdrpm(rp,thp),rp)*Tpdm(rp,thp) - 
+                           dTdrpm(rp,thp)*2*diff(Tpdm(rp,thp),rp)));
+d2Tdrp2m(rp,thp);
+tex(d2Tdrp2m(rp,thp));
+
+/* hessian time rp thp numerator w+s*(thp... */
+d2Tdrpthpp(rp,thp):=trigsimp(factor(diff(dTdthpp(rp,thp),rp)*Tpdp(rp,thp) - 
+                             dTdthpp(rp,thp)*2*diff(Tpdp(rp,thp),rp)));
+d2Tdrpthpp(rp,thp);
+tex(d2Tdrpthpp(rp,thp));
+/* hessian time rp thp numerator w-s*(thp... */
+d2Tdrpthpm(rp,thp):=trigsimp(factor(diff(dTdthpm(rp,thp),rp)*Tpdm(rp,thp) - 
+                             dTdthpm(rp,thp)*2*diff(Tpdm(rp,thp),rp)));
+d2Tdrpthpm(rp,thp);
+tex(d2Tdrpthpm(rp,thp));
+
+/* hessian time thp thp numerator w+s*(thp... */
+d2Tdthp2p(rp,thp):=trigsimp(factor(diff(dTdthpp(rp,thp),thp)*Tpdp(rp,thp) - 
+                            dTdthpp(rp,thp)*2*diff(Tpdp(rp,thp),thp)));
+d2Tdthp2p(rp,thp);
+tex(d2Tdthp2p(rp,thp));
+/* hessian time thp thp numerator w-s*(thp... */
+d2Tdthp2m(rp,thp):=trigsimp(factor(diff(dTdthpm(rp,thp),thp)*Tpdm(rp,thp) -
+                            dTdthpm(rp,thp)*2*diff(Tpdm(rp,thp),thp)));
+d2Tdthp2m(rp,thp);
+tex(d2Tdthp2m(rp,thp));
+

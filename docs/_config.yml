@@ -1,1 +1,31 @@
+# Permalinks
+permalink:           pretty
 
+# Setup
+title:               Design of IIR Filters
+tagline:
+url:                 "https://robertgj.github.io"
+paginate:            1
+baseurl:             "/DesignOfIIRFIlters"
+
+# Assets
+#
+# We specify the directory for Jekyll so we can use @imports.
+sass:
+  sass_dir:          _sass
+  style:            :compressed
+
+# About/contact
+author:
+  name:              Robert Jenssen
+#  url:
+#  email:             "robertjenssen@ozemail.com"
+
+# Custom vars
+version:             2.0.0
+github:              
+  repo:              "https://github.com/robertgj/DesignOfIIRFilters"
+
+# Gems
+plugins:
+  - jekyll-paginate

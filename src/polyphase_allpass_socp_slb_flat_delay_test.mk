@@ -1,0 +1,26 @@
+polyphase_allpass_socp_slb_flat_delay_test_FIGURES = \
+polyphase_allpass_socp_slb_flat_delay_ab0 \
+polyphase_allpass_socp_slb_flat_delay_ab0pz \
+polyphase_allpass_socp_slb_flat_delay_ab1 \
+polyphase_allpass_socp_slb_flat_delay_ab1pass \
+polyphase_allpass_socp_slb_flat_delay_ab1phase \
+polyphase_allpass_socp_slb_flat_delay_a1pz \
+polyphase_allpass_socp_slb_flat_delay_b1pz \
+polyphase_allpass_socp_slb_flat_delay_ab1pz
+
+polyphase_allpass_socp_slb_flat_delay_test_COEFS = \
+polyphase_allpass_socp_slb_flat_delay_test.mat \
+polyphase_allpass_socp_slb_flat_delay_test.spec \
+polyphase_allpass_socp_slb_flat_delay_test_Da1_coef.m \
+polyphase_allpass_socp_slb_flat_delay_test_Db1_coef.m
+
+polyphase_allpass_socp_slb_flat_delay_test_FILES = \
+polyphase_allpass_socp_slb_flat_delay_test.m test_common.m \
+parallel_allpassAsq.m parallel_allpassT.m parallel_allpass_slb.m \
+parallel_allpass_slb_constraints_are_empty.m \
+parallel_allpass_slb_exchange_constraints.m \
+parallel_allpass_slb_set_empty_constraints.m \
+parallel_allpass_slb_show_constraints.m \
+parallel_allpass_slb_update_constraints.m \
+parallel_allpass_socp_mmse.m allpassP.m allpassT.m tf2a.m a2tf.m \
+aConstraints.m print_polynomial.m local_max.m sedumi_test.diary

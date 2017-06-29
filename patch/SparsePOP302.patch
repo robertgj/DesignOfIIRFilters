@@ -1,0 +1,144 @@
+--- SparsePOP302.orig/subPrograms/Mfiles/my_unique.m	2017-06-07 22:27:36.200619146 +1000
++++ SparsePOP302/subPrograms/Mfiles/my_unique.m	2017-06-07 22:27:23.000000000 +1000
+@@ -2,6 +2,12 @@ function [C, ia, ic] = my_unique(A, msg)
+ if ~strcmp(msg, 'rows');
+ 	error('msg should be rows in my_unique.');
+ end
++
++% For Octave:
++[C, ia, ic] = unique(A,msg);
++
++% For matlab:
++%{ 
+ if verLessThan('matlab', '8.0.1')
+ 	% This part is the same as unique in R2012b or earlier version
+ 	[C, ia, ic] = unique(A, msg);
+@@ -10,4 +16,6 @@ else
+ 	% We use legacy mode of unique.
+ 	[C, ia, ic] = unique(A, msg, 'last', 'legacy');
+ end
++%}
++
+ return
+--- SparsePOP302.orig/subPrograms/Mex/conversion.cpp	2017-06-07 22:27:36.199619156 +1000
++++ SparsePOP302/subPrograms/Mex/conversion.cpp	2017-06-07 22:27:23.000000000 +1000
+@@ -2677,10 +2677,12 @@ void write_sdpa(/*IN*/class mysdp & psdp
+     }
+ 	if(psdp.mDim <= 0){
+ 		cout << "# All variables are removed in sdpa format" << endl;
++        fclose(fp);
+ 		return;
+ 	}
+ 	if(psdp.nBlocks <= 0){
+ 		cout << "# All blocks are removed in sdpa format" << endl;
++        fclose(fp);
+ 		return;
+ 	}
+     
+--- SparsePOP302.orig/V260SubPrograms/SparseCoLO/mex/mexForestConvert.cpp	2017-06-07 22:27:36.197619178 +1000
++++ SparsePOP302/V260SubPrograms/SparseCoLO/mex/mexForestConvert.cpp	2017-06-07 22:27:23.000000000 +1000
+@@ -676,6 +676,7 @@ void mexFunction(int nlhs, mxArray* plhs
+   for (int i=0; i<NoClique; ++i) {
+     clique[i].finalize();
+   }
++  delete[] forestNumber;
+   delete[] clique;
+ 
+   delete[] blockNumber;
+--- SparsePOP302.orig/compileSparsePOP.m	2017-06-07 22:27:36.195619200 +1000
++++ SparsePOP302/compileSparsePOP.m	2017-06-07 22:27:23.000000000 +1000
+@@ -20,33 +20,15 @@
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %
+ 
+-if exist('verLessThan') ~= 2
+-	error('Get verLessThan.m');
+-end
+-
+-
+-if verLessThan('matlab', '7.3') 
+-	MexFlags = ' -O -Dlinux=0 ';
+-elseif strcmp(computer, 'GLNXA64') || strcmp(computer, 'MACI64')
+-	MexFlags = ' -O -Dlinux=1 -largeArrayDims ';
+-elseif strcmp(computer, 'GLNX86')  || strcmp(computer, 'MACI')
+-	MexFlags = ' -O -Dlinux=0 ';
+-elseif strcmp(computer, 'PCWIN64') 
+-	MexFlags = ' -O -Dlinux=1 -largeArrayDims ';
+-elseif strcmp(computer, 'PXWIN') 
+-	MexFlags = ' -O -Dlinux=0 ';
+-else 
+-	MexFlags = ' -O -Dlinux=0 ';
+-end
++MexFlags = ' -O -Dlinux=1 -DMATLAB_MEX_FILE ';
+ 
+ LIBfiles = ' conversion.cpp spvec.cpp polynomials.cpp sup.cpp clique.cpp mysdp.cpp Parameters.cpp ';
+-if ispc % Windows family create .obj files
+-        OBJfiles = strrep(LIBfiles,'.cpp','.obj');
+-else
+         OBJfiles = strrep(LIBfiles,'.cpp','.o');
+-end
+ 
+-eval('cd subPrograms/Mex');
++mpwd=pwd;
++mpath=mfilename("fullpath");
++mpath=mpath(1:strchr(mpath,filesep,1,'last'));
++cd(strcat(mpath,filesep,'subPrograms',filesep,'Mex'));
+ fprintf('Compiling Libraries...');
+ command = ['mex -c ' MexFlags LIBfiles];
+ eval(command);
+@@ -59,54 +41,6 @@ fprintf('Generating mexconv2...');
+ command = ['mex ' MexFlags ' mexconv2.cpp ' OBJfiles ];
+ eval(command);
+ fprintf('done\n');
+-eval('cd ../../');
+-
+-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-% mex files of SparseCoLO
+-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-
+-if verLessThan('matlab', '7.3') 
+-	MexFlags = ' -O -Dlinux=0 ';
+-elseif strcmp(computer, 'GLNXA64') || strcmp(computer, 'MACI64')  
+-	MexFlags = ' -O -Dlinux=1 -largeArrayDims ';
+-elseif strcmp(computer, 'GLNX86')  || strcmp(computer, 'MACI')
+-	MexFlags = ' -O -Dlinux=0 ';
+-elseif strcmp(computer, 'PCWIN64')
+-	MexFlags = ' -O -Dlinux=1 -largeArrayDims ';
+-elseif strcmp(computer, 'PCWIN')
+-	MexFlags = ' -O -Dlinux=0 ';
+-else
+-	MexFlags = ' -O -Dlinux=0 ';
+-end
+-
+-LIBfiles = [' ccputime.cpp'];
+-if ispc % Windows family create .obj files
+-        OBJfiles = strrep(LIBfiles,'.cpp','.obj');
+-else
+-        OBJfiles = strrep(LIBfiles,'.cpp','.o');
+-end
+-
+-eval('cd V260SubPrograms/SparseCoLO/mex'); 
+-fprintf('Compiling Libraries...');
+-command = ['mex -c ' MexFlags LIBfiles];
+-eval(command);
+-fprintf('done\n');
+-
+-clear mexFiles
+-
+-mexFiles{1} = 'mexForestConvert.cpp';
+-mexFiles{2} = 'mexMaxSpanningTree2.cpp';
+-mexFiles{3} = 'mexPrimalOneSDP2.cpp';
+-% mexFiles{4} = 'mexArrowTriDQOP.cpp';
+-% mexFiles{5} = 'mexDiagTriDQOP.cpp';
+-for i=1:length(mexFiles)
+-    mexFileName = mexFiles{i};
+-    fprintf('Compiling %s...',mexFileName);
+-    command = ['mex ' MexFlags mexFileName OBJfiles];
+-    eval(command);
+-    fprintf('done\n');
+-end
+-
+-eval('cd ../../../');
++cd(mpwd);
+ 
+ fprintf('Compilation finished successfully.\n');

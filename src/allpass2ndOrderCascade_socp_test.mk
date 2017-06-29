@@ -1,0 +1,18 @@
+allpass2ndOrderCascade_socp_test_FIGURES = \
+allpass2ndOrderCascade_socp_ab0 \
+allpass2ndOrderCascade_socp_ab1pass \
+allpass2ndOrderCascade_socp_ab1pz \
+allpass2ndOrderCascade_socp_ab1
+
+allpass2ndOrderCascade_socp_test_COEFS = \
+allpass2ndOrderCascade_socp_test.mat \
+allpass2ndOrderCascade_socp_test.spec \
+allpass2ndOrderCascade_socp_test_a1_coef.m \
+allpass2ndOrderCascade_socp_test_b1_coef.m \
+allpass2ndOrderCascade_socp_test_Da1_coef.m \
+allpass2ndOrderCascade_socp_test_Db1_coef.m
+
+allpass2ndOrderCascade_socp_test_FILES = \
+allpass2ndOrderCascade_socp_test.m test_common.m stability2ndOrderCascade.m \
+print_polynomial.m allpass2ndOrderCascade.m allpass2ndOrderCascade_socp.m \
+casc2tf.m tf2casc.m sedumi_test.diary

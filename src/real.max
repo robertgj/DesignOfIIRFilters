@@ -1,0 +1,44 @@
+/* Real zero amplitude */
+Az(R0):=sqrt(1-2*R0*cos(w)+R0^2);
+Az(R0);
+
+dAzdR0(R0):=factor(diff(Az(R0),R0));
+dAzdR0(R0);
+
+d2AzdR02(R0):=(declare (R0, mainvar), factor(trigsimp(diff(dAzdR0(R0),R0))));
+d2AzdR02(R0);
+
+/*Real zero delay */
+Pz(R0):=atan(sin(w)/(cos(w)-R0));
+Tz(R0):=trigsimp(-diff(Pz(R0),w));
+Tz(R0);
+
+dTzdR0(R0):=factor(diff(Tz(R0),R0));
+dTzdR0(R0);
+
+d2TzdR02(R0):=factor(diff(dTzdR0(R0),R0));
+d2TzdR02(R0);
+
+/* Real pole amplitude */
+Ap(Rp):=1/sqrt(1-2*(Rp^s)*cos(w-s*2*%pi*i)+(Rp^(2*s)));
+Ap(Rp);
+
+dApdRp(Rp):=factor(diff(Ap(Rp),Rp));
+dApdRp(Rp);
+
+FdApdRp(Rp):=-s*(Rp^(s-1))*(Rp^s-cos(w-s*2*%pi*i))/(1-2*(Rp^s)*cos(w-s*2*%pi*i)+(Rp^(2*s)));
+Fd2ApdRp2(Rp):=(declare (Rp, mainvar), factor(diff(FdApdRp(Rp),Rp)));
+Fd2ApdRp2(Rp);
+
+/*Real pole delay */
+Pp(Rp):=-atan((sin(w)-(Rp^s)*sin(s*2*%pi*i))/(cos(w)-(Rp^s)*cos(s*2*%pi*i)));
+Tp(Rp):=factor(trigreduce(trigsimp(-diff(Pp(Rp),w))));
+Tp(Rp);
+
+dTpdRp(Rp):=factor(diff(Tp(Rp),Rp));
+dTpdRp(Rp);
+
+d2TpdRp2(Rp):=(declare (Rp, mainvar), factor(diff(dTpdRp(Rp),Rp)));
+d2TpdRp2(Rp);
+tex(d2TpdRp2(Rp));
+
