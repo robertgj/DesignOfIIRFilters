@@ -30,4 +30,3 @@ github:
 plugins:
   - jekyll-paginate
 
-theme: jekyll-theme-minimal
