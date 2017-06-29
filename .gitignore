@@ -1615,3 +1615,4 @@ aegis.conf
 patch/aegis-4.24.patch
 patch/fhist-1.21.D001.patch
 /DesignOfIIRFilters.pdf
+/docs/.sass-cache
