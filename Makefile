@@ -310,7 +310,7 @@ jekyll-serve: jekyll
 	jekyll serve $(JEKYLL_CONFIG)
 
 .PHONY: all
-all: octfiles $(TARGET).pdf gitignore jekyll
+all: octfiles $(TARGET).pdf 
 
 .DEFAULT_GOAL := $(TARGET).pdf 
 
