@@ -259,7 +259,7 @@ clean:
 	-rm -f $(test_COEFS)
 	-rm -f $(EXTRA_DIARY_FILES)
 	-rm -f $(DIA_FILES:%=%.pdf)
-	-rm -f docs/_site docs/.sass-cache
+	-rm -Rf docs/_site docs/.sass-cache
 	$(call clean_macro,$(CLEAN_SUFFIXES))
 
 .PHONY: cleanaegis
