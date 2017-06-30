@@ -299,6 +299,7 @@ gitignore:
 	echo aegis.conf >> .gitignore
 	echo patch/aegis-4.24.patch >> .gitignore
 	echo patch/fhist-1.21.D001.patch >> .gitignore
+	echo /$(TARGET).pdf >> .gitignore
 
 .PHONY: jekyll
 jekyll: $(TARGET).pdf
