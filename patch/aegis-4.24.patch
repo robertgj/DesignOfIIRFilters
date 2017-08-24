@@ -1,0 +1,31 @@
+--- ../aegis-4.24/./common/ac/unistd.h	2008-03-14 17:19:27.000000000 +1100
++++ ./common/ac/unistd.h	2014-12-10 17:58:26.000000000 +1100
+@@ -29,6 +29,7 @@
+ #ifdef __linux__
+ #ifndef _BSD_SOURCE
+ #define _BSD_SOURCE
++#define _DEFAULT_SOURCE
+ #endif
+ #ifndef __USE_BSD
+ #define __USE_BSD
+--- ../aegis-4.24/./common/ac/string/memmem.cc	2008-03-14 17:19:27.000000000 +1100
++++ ./common/ac/string/memmem.cc	2014-12-10 17:52:28.000000000 +1100
+@@ -182,7 +182,7 @@ memmem_replacement(const void *haystack_
+ 
+     // Use optimizations in memchr when possible.
+     if (needle_len == 1)
+-        return memchr(haystack, *needle, haystack_len);
++      return (void *)memchr(haystack, *needle, haystack_len);
+ 
+     // Minimizing the worst-case complexity:
+     // Let n = haystack_len, m = needle_len.
+--- ../aegis-4.24/./common/config.messy.h	2008-03-14 17:19:27.000000000 +1100
++++ ./common/config.messy.h	2014-12-10 17:58:25.000000000 +1100
+@@ -99,6 +99,7 @@
+ #endif
+ #ifndef _BSD_SOURCE
+ #define _BSD_SOURCE
++#define _DEFAULT_SOURCE
+ #endif
+ #endif
+ 

@@ -3,7 +3,6 @@
 %
 % Design a Schur one-multiplier lattice lowpass filter using the method
 % of Tarczynski et al. to optimise the lattice coefficients directly.
-% This script fails to converge to a sensible solution.
 
 test_common;
 
@@ -88,42 +87,25 @@ WISEJ_ONEM(kc,k0,epsilon0,p0,c0,k_active,c_active,wa,Asqd,Wa,wt,Td,Wt)");
   E = ((1-lambda)*intE) + (lambda*EJ);
   % Echo
   iter = iter+1;
-  if rem(iter,100) == 0
-    iter,k,c,abs(roots(d))',EJ,intE,E
-  endif
 endfunction
 
-if 0
-  
-  % Lowpass filter specification with delay constraint
-  norder=11
-  fap=0.05,dBap=3,Wap=1
-  fas=0.1,dBas=32,Was=2
-  ftp=0.075,tp=26,tpr=2,Wtp=0.1
-  % Initial filter
-  [n0,d0]=besself(norder,2*fap,'z');
-  [k0,epsilon0,p0,c0]=tf2schurOneMlattice(n0,d0);
+% Deczky3 lowpass filter specification
+norder=10
+fap=0.15,Wap=1
+fas=0.25,Was=1e6
+ftp=0.25,tp=10,Wtp=0.05
 
-else
-  
-  % Deczky3 lowpass filter specification
-  norder=10
-  fap=0.15,dBap=1,Wap=1
-  fas=0.25,dBas=36,Was=10
-  ftp=0.25,tp=10,tpr=2,Wtp=0.05
-  % Initial filter calculated by deczky3_socp_test.m
-  n0 = [   0.0036309826,  -0.0134459531,   0.0129551954,  -0.0052177717, ... 
-           0.0152053902,  -0.0061266959,  -0.0417117419,   0.0051613999, ... 
-           0.0957279156,   0.1299867013,   0.1057152085 ]';
-  d0 = [   1.0000000000,  -1.6725147777,   1.8024416339,  -1.2874311768, ... 
-           0.6366590427,  -0.2108632470,   0.0370837999,   0, ...
-           0,              0,              0 ]';
-  [k0,epsilon0,p0,c0]=tf2schurOneMlattice(n0,d0);
-
-endif
+% Initial filter calculated by deczky3_socp_test.m
+n0 = [   0.0035977901,  -0.0134269658,   0.0143363295,  -0.0096787013, ... 
+         0.0229529219,  -0.0144341240,  -0.0333637704,  -0.0029705498, ... 
+         0.1004885069,   0.1306720575,   0.1114400119 ]';
+d0 = [   1.0000000000,  -1.6448783196,   1.7550066822,  -1.2418011834, ... 
+         0.6089139784,  -0.2005572872,   0.0349259794,   0.0000000000, ...
+         0.0000000000,   0.0000000000,   0.0000000000 ]';
+[k0,epsilon0,p0,c0]=tf2schurOneMlattice(n0,d0);
 
 % Amplitude constraints
-n=400;
+n=100;
 wa=(0:(n-1))'*pi/n;
 nap=ceil(n*fap/0.5)+1;
 nas=floor(n*fas/0.5)+1;
@@ -206,8 +188,7 @@ axis([0 fap 5 15]);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 grid("on");
-print("tarczynski_schurOneMlattice_lowpass_passband_response", ...
-      "-dpdflatex");
+print("tarczynski_schurOneMlattice_lowpass_passband_response","-dpdflatex");
 close
 
 % Save the results

@@ -15,7 +15,7 @@ schurOneMAPlattice_frm_halfbandEsq.m schurOneMAPlattice_frm_halfbandT.m \
 schurOneMAPlattice_frm_halfbandAsq.m schurOneMAPlatticeP.m \
 schurOneMAPlatticeT.m tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m \
 Abcd2tf.m tf2pa.m schurOneMscale.m H2Asq.m H2P.m H2T.m \
-schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct spectralfactor.oct \
+schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 local_max.m print_polynomial.m print_pole_zero.m SeDuMi_1_3/"
 
@@ -54,24 +54,24 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_r2_coef.m << 'EOF'
-r2 = [   1.0000000000,   0.4798972922,  -0.1016479773,   0.0351951888, ... 
-        -0.0126520471,   0.0020565211 ];
+r2 = [   1.0000000000,   0.4781695233,  -0.1013106483,   0.0357457625, ... 
+        -0.0107864867,   0.0016971613 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_r2_coef.m"; fail; fi
 cat > test_k2_coef.m << 'EOF'
-k2 = [   0.5541159714,  -0.1235054400,   0.0419578980,  -0.0136390237, ... 
-         0.0020565211 ]';
+k2 = [   0.5513647985,  -0.1226221784,   0.0414694475,  -0.0115980510, ... 
+         0.0016971613 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k2_coef.m"; fail; fi
 cat > test_u2_coef.m << 'EOF'
-u2 = [  -0.0005745653,   0.0023384306,  -0.0070502278,   0.0130140428, ... 
-        -0.0310645326,   0.0344544514,  -0.0508990361,   0.0577324312, ... 
-         0.4385696117 ]';
+u2 = [  -0.0009683952,   0.0030679057,  -0.0073782309,   0.0129251195, ... 
+        -0.0312931506,   0.0347144107,  -0.0509918160,   0.0564017564, ... 
+         0.4410590511 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_u2_coef.m"; fail; fi
 cat > test_v2_coef.m << 'EOF'
-v2 = [   0.0066212307,  -0.0044127894,   0.0067211174,  -0.0028602101, ... 
-        -0.0069802620,   0.0308565055,  -0.0815328874,   0.3143514031 ]';
+v2 = [   0.0069061999,  -0.0046376874,   0.0066901713,  -0.0018175372, ... 
+        -0.0088804803,   0.0318048114,  -0.0813024632,   0.3142298607 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_v2_coef.m"; fail; fi
 
@@ -80,7 +80,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_v2_coef.m"; fail; fi
 #
 echo "Running octave-cli -q " $prog
 
-octave-cli -q $prog
+octave-cli -q $prog > test.out
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_r2_coef.m schurOneMAPlattice_frm_halfband_socp_slb_test_r2_coef.m

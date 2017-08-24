@@ -29,88 +29,35 @@ welcome!
 ### Building *DesignOfIIRFilters.pdf*
 To build *DesignOfIIRFilters.pdf*, run *make* in the root directory. The
 *Makefile* includes a *.mk* fragment from the *src* directory for each Octave
-test script required to create the figures and results included in
+m-file test script required to create the figures and results included in
 *DesignOfIIRFilters.tex*.
 
-You can run individual test scripts by running the Octave script in the *src*
-directory or, if *src/name_of_script_test.mk* exists, by running
-```make name_of_script_test.diary``` in the root directory. 
-
 Useful *Makefile* targets are *octfiles*, *batchtest*, *cleanall*, *backup*,
-*gitignore* and *jekyll*. The regression test scripts in the *test* directory
-assume that the *octfile* dependencies exist.
+*gitignore*, *jekyll* and, if *src/name_of_script_test.mk* exists, 
+```make name_of_script_test.diary```. The regression test shell scripts in the
+*test* directory assume that the *octfiles* targets exist.
 
 ### Dependencies
-I use the [Fedora 25](https://getfedora.org/en/workstation/) operating system
-with the *gcc-6.3.1*, *liblapack-3.6.1*, *dia-0.97.3* and *texlive-2016*
-packages installed from the Fedora repository. The *texlive* packages used are
-listed in *DesignOfIIRFilters.tex*. Fedora 25
-[provides](https://apps.fedoraproject.org/packages/octave/overview/defaults)
-Octave version 4.0.3 so I use a local build of
-[octave-4.2.1](https://ftp.gnu.org/gnu/octave/octave-4.2.1.tar.gz) and the
+I use the [Fedora 26](https://getfedora.org/en/workstation/) operating system
+with the *octave-4.2.1*, *atlas-3.10.2*, *gcc-7.1.1*, *dia-0.97.3* and
+*texlive-2016* packages installed from the Fedora repository. I use the
 [Octave-forge](https://octave.sourceforge.io) *struct*, *optim*, *control*,
-*signal* and *parallel* packages. I use the Octave *gnuplot* graphics toolkit.
-
-The repository web page is built from the sources in the *docs* directory by
-the [*Jekyll*](http://jekyllrb.com) static web page generator.
-
-### Building a local version of Octave
-The file *patch/octave-4.2.1.patch* shows a small patch required to compile
-octave-4.2.1. My version
-of Octave is compiled with LTO and PGO and linked to the reference
-[*liblapack*](http://www.netlib.org/lapack/) and
-[*libblas*](http://www.openblas.net/) libraries:
-```
-#!/bin/sh
-
-#
-# Generate profile
-#
-OPTFLAGS="-m64 -mtune=generic -O2 -flto=6 -ffat-lto-objects -fPIC"
-export CFLAGS=$OPTFLAGS
-export CXXFLAGS=$OPTFLAGS
-export FFLAGS=$OPTFLAGS
-export LDFLAGS="-pthread -lpthread"
-
-../octave-4.2.1/configure --disable-java --without-fltk --without-qt \
-   --disable-atomic-refcount --with-blas=-lblas --with-lapack=-llapack
-make XTRA_CFLAGS="-fprofile-generate" XTRA_CXXFLAGS="-fprofile-generate" V=1 -j6
-find . -name \*.gcda -exec rm -f {} ';'
-make check
-
-#
-# Use profile
-#
-find . -name \*.o -exec rm -f {} ';'
-find . -name \*.lo -exec rm -f {} ';'
-find . -name \*.la -exec rm -f {} ';'
-make XTRA_CFLAGS="-fprofile-use" XTRA_CXXFLAGS="-fprofile-use" V=1 -j6
-make install
-
-#
-# Install packages
-#
-/usr/local/bin/octave-cli \
-    --eval 'pkg install -forge struct optim control signal parallel'
-```
+*signal* and *parallel* Octave packages and the Octave *gnuplot* graphics
+toolkit. The *texlive* packages used are listed in *DesignOfIIRFilters.tex*. 
 
 ### Reproducing my results
 The Octave scripts included in this repository generate long sequences of
-floating point operations. The results shown in *DesignOfIIRFilters.pdf* were
-obtained on my system running Octave with a particular combination of CPU
-architecture, operating system, library versions, compiler version and Octave
-version. The Octave on-line FAQ [discusses](https://wiki.octave.org/FAQ#Why_is_this_floating_point_computation_wrong.3F) this problem.
+floating point operations. The results shown in [*DesignOfIIRFilters.pdf*](docs/public/DesignOfIIRFilters.pdf)
+were obtained on my system running Octave with a particular combination of
+CPU architecture, operating system, library versions, compiler version and
+Octave version.
 
 **Your system will almost certainly be different to mine.**
 
-You may need to modify a script to run on your system. Try relaxing the
-constraints on the filter design, relaxing the tolerance on the optimised
-result or changing the relative weights on the filter bands. If your version
-of *octave-4.2.1* is linked with *libopenblas* rather than *liblapack* then try:
-```
-export LD_PRELOAD="/usr/lib64/liblapack.so.3.6.1"
-octave-cli -p src src/name_of_script_test.m
-```
+The Octave on-line FAQ [discusses](https://wiki.octave.org/FAQ#Why_is_Octave.27s_floating-point_computation_wrong.3F) this. You may need to modify
+an Octave script to run on your system. Try relaxing the constraints on the
+filter design, relaxing the tolerance on the optimised result or changing
+the relative weights on the filter bands. 
 
 ### External code and licencing
 The *src* directory contains the following files included from

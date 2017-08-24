@@ -11,15 +11,15 @@ tic;
 
 format compact
 
-tol=25e-5
+tol=2e-4
 maxiter=2000
 verbose=false;
 
 % Deczky3 Lowpass filter specification
 U=0,V=0,Q=6,M=10,R=1
-fap=0.15,dBap=0.2,Wap=1
-fas=0.3,dBas=52,Was=10
-ftp=0.25,tp_mmse=10,tp_pcls=9.35,tpr=0.25,Wtp_mmse=0.0001,Wtp_pcls=0.001
+fap=0.15,dBap=0.1,Wap=1
+fas=0.3,dBas=50,Was=10
+ftp=0.25,tp_mmse=10,tp_pcls=9.35,tpr=0.3,Wtp_mmse=0.0001,Wtp_pcls=0.001
 
 % Initial coefficients
 z=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...

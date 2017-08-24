@@ -26,12 +26,12 @@ N=2;
 r=reprand(2*N*N);
 A=hess(reshape(r(1:(N*N)),N,N)+j*reshape(r(((N*N)+1):(2*N*N)),N,N))';
 B=complex_lower_hessenberg_inverse(A);
-err_AB=max(max(abs((A*B)-eye(N))));
-if err_AB > 1.063*eps
-  error("err_AB > 1.063*eps");
+err_AB=max(max(abs((A*B)-eye(N))))/eps;
+if err_AB > 1.119
+  error("err_AB > 1.119*eps");
 endif
-err_BA=max(max(abs((B*A)-eye(N))));
-if err_BA > 3*eps
+err_BA=max(max(abs((B*A)-eye(N))))/eps;
+if err_BA > 3
   error("err_BA > 3*eps");
 endif
 
@@ -40,15 +40,16 @@ N=400;
 r=reprand(2*N*N);
 A=hess(reshape(r(1:(N*N)),N,N)+j*reshape(r(((N*N)+1):(2*N*N)),N,N))';
 B=complex_lower_hessenberg_inverse(A);
-err_AB=max(max(abs((A*B)-eye(N))))/eps;
-if err_AB > 11.1
-  error("err_AB > 11.1*eps");
+err_AB=max(max(abs((A*B)-eye(N))));
+if err_AB > 15.52*eps
+  error("err_AB > 15.52*eps");
 endif
-err_BA=max(max(abs((B*A)-eye(N))))/eps;
-if err_BA > 922.6
-  error("err_BA > 922.6*eps");
+err_BA=max(max(abs((B*A)-eye(N))));
+if err_BA > 1668.8*eps
+  error("err_BA > 1668.8*eps");
 endif
 
 % Done
 diary off
-movefile complex_lower_hessenberg_inverse_test.diary.tmp complex_lower_hessenberg_inverse_test.diary;
+movefile complex_lower_hessenberg_inverse_test.diary.tmp ...
+         complex_lower_hessenberg_inverse_test.diary;

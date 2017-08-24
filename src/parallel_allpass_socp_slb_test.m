@@ -13,61 +13,32 @@ format compact
 verbose=false
 maxiter=2000
 
-if 1
-  % Initial coefficients found by tarczynski_parallel_allpass_test.m
-  Da0 = [   1.0000000000,   0.0331304951,  -0.7339349053,   0.6814792581, ... 
-            0.2853107764,  -0.3284984064 ]';
-  Db0 = [   1.0000000000,  -0.5458089218,  -0.4196277845,   1.3137217521, ... 
-           -0.2788635838,  -0.4153187918,   0.3450721543 ]';
-  % Lowpass filter specification for parallel all-pass filters
-  tol=1e-4
-  ctol=7e-9
-  n=1000;
-  polyphase=false
-  rho=0.999 
-  Ra=1
-  Rb=1
-  ma=length(Da0)-1
-  mb=length(Db0)-1
-  fap=0.15
-  dBap=0.05
-  Wap=1
-  ftp=0
-  td=0
-  tdr=0
-  Wtp=0
-  fas=0.17
-  dBas=83
-  Was=1000
-else
-  % Initial coefficients found by ellip and spectralfactor
-  Da0 = [   1.000000000000000, -3.52653741783889,  6.37076364696818, ...
-           -6.888440754452529,  4.70246190303224, -1.89603068554395, ...
-            0.360607863409454 ]';
-  Db0 = [   1.000000000000000, -2.95543063604004,  4.34596320868371, ...
-           -3.603259582217770,  1.69528750483737, -0.35861660275546 ]';
-  % Lowpass filter specification for parallel all-pass filters
-  maxiter=1e5
-  tol=1e-5
-  ctol=1e-10
-  n=1000;
-  polyphase=false
-  rho=0.999;
-  Ra=1
-  Rb=1
-  ma=length(Da0)-1
-  mb=length(Db0)-1
-  fap=0.15
-  dBap=0.02
-  Wap=1
-  ftp=0
-  td=0
-  tdr=0
-  Wtp=0
-  fas=0.17
-  dBas=82.6
-  Was=100
-endif
+% Initial coefficients found by tarczynski_parallel_allpass_test.m
+Da0 = [   1.0000000000,   0.0331353237,  -0.7339294002,   0.6814688637, ... 
+          0.2853085449,  -0.3284896134 ]';
+Db0 = [   1.0000000000,  -0.5457999223,  -0.4196217305,   1.3137096113, ... 
+         -0.2788553794,  -0.4153098050,   0.3450634362 ]';
+
+% Lowpass filter specification for parallel all-pass filters
+tol=5e-5
+ctol=5e-5
+n=1000;
+polyphase=false
+rho=0.999 
+Ra=1
+Rb=1
+ma=length(Da0)-1
+mb=length(Db0)-1
+fap=0.15
+dBap=0.05
+Wap=1
+ftp=0
+td=0
+tdr=0
+Wtp=0
+fas=0.17
+dBas=83
+Was=1e6
 
 % Convert coefficients to a vector
 ab0=zeros(ma+mb,1);
@@ -83,9 +54,9 @@ printf("Initial ab0=[");printf("%g ",ab0');printf("]'\n");
 nap=ceil(n*fap/0.5)+1;
 nas=floor(n*fas/0.5)+1;
 wa=(0:(n-1))'*pi/n;
-A2d=[ones(nap,1);zeros(n-nap,1)];
-A2du=[ones(nas-1,1);(10^(-dBas/10))*ones(n-nas+1,1)];
-A2dl=[(10^(-dBap/10))*ones(nap,1);zeros(n-nap,1)];
+Asqd=[ones(nap,1);zeros(n-nap,1)];
+Asqdu=[ones(nas-1,1);(10^(-dBas/10))*ones(n-nas+1,1)];
+Asqdl=[(10^(-dBap/10))*ones(nap,1);zeros(n-nap,1)];
 Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
 
 % Desired pass-band group delay response
@@ -140,7 +111,7 @@ close
 [ab1,slb_iter,opt_iter,func_iter,feasible]= ...
 parallel_allpass_slb(@parallel_allpass_socp_mmse,ab0,abu,abl, ...
                      Va,Qa,Ra,Vb,Qb,Rb,polyphase, ...
-                     wa,A2d,A2du,A2dl,Wa,wt,Td,Tdu,Tdl,Wt, ...
+                     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                      maxiter,tol,ctol,verbose);
 if !feasible
   error("ab1 infeasible");
@@ -192,6 +163,18 @@ grid("on");
 print(sprintf(strd,"ab1pass"),"-dpdflatex");
 close
 
+% Plot dual amplitude response
+Asq=parallel_allpassAsq(wa,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
+ax=plotyy(wa(1:nap)*0.5/pi,10*log10(Asq(1:nap)), ...
+          wa(nas:end)*0.5/pi,10*log10(Asq(nas:end)));
+axis(ax(1),[0 0.5 -0.05 0]);
+axis(ax(2),[0 0.5 -100 -75]);
+ylabel("Amplitude(dB)");
+xlabel("Frequency");
+grid("on");
+print(sprintf(strd,"ab1dual"),"-dpdflatex");
+close
+
 % Plot poles and zeros
 subplot(111);
 zplane(roots(Nab1),roots(Dab1));
@@ -208,6 +191,15 @@ zplane(roots(Nb1),roots(Db1));
 title("Allpass filter B");
 print(sprintf(strd,"b1pz"),"-dpdflatex");
 close
+
+% PCLS amplitude and delay at local peaks
+Asq=parallel_allpassAsq(wa,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
+vAl=local_max(Asqdl-Asq);
+vAu=local_max(Asq-Asqdu);
+wAsqS=unique([wa(vAl);wa(vAu);wa([1,nap,nas,end])]);
+AsqS=parallel_allpassAsq(wAsqS,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
+printf("d1:fAS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("d1:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
 
 % Save the filter specification
 fid=fopen("parallel_allpass_socp_slb_test.spec","wt");
@@ -233,6 +225,12 @@ fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fclose(fid);
 
 % Save results
+a1=[1;ab1(1:ma)];
+print_pole_zero(a1,0,Va,0,Qa,Ra,"a1");
+print_pole_zero(a1,0,Va,0,Qa,Ra,"a1","parallel_allpass_socp_slb_test_a1_coef.m");
+b1=[1;ab1((ma+1):end)];
+print_pole_zero(b1,0,Vb,0,Qb,Rb,"b1");
+print_pole_zero(b1,0,Vb,0,Qb,Rb,"b1","parallel_allpass_socp_slb_test_b1_coef.m");
 print_polynomial(Da1,"Da1");
 print_polynomial(Da1,"Da1","parallel_allpass_socp_slb_test_Da1_coef.m");
 print_polynomial(Db1,"Db1");
@@ -247,4 +245,5 @@ save parallel_allpass_socp_slb_test.mat ...
      n fap Wap fas Was ma mb Ra Rb ab0 ab1 Da1 Db1
 toc;
 diary off
-movefile parallel_allpass_socp_slb_test.diary.tmp parallel_allpass_socp_slb_test.diary;
+movefile parallel_allpass_socp_slb_test.diary.tmp ...
+         parallel_allpass_socp_slb_test.diary;

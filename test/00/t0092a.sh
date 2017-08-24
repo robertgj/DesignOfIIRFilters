@@ -13,7 +13,7 @@ parallel_allpass_delay_slb_show_constraints.m \
 parallel_allpass_delay_slb_update_constraints.m \
 parallel_allpass_delay_socp_mmse.m \
 allpassP.m allpassT.m tf2a.m a2tf.m \
-aConstraints.m print_polynomial.m local_max.m SeDuMi_1_3/"
+aConstraints.m print_polynomial.m print_pole_zero.m local_max.m SeDuMi_1_3/"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -49,11 +49,19 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
+cat > test_a1_coef.m.ok << 'EOF'
+Ua1=0,Va1=0,Ma1=0,Qa1=12,Ra1=1
+a1 = [   1.0000000000, ...
+         0.9258658566,   0.7242008423,   0.6186694228,   0.5613613234, ... 
+         0.5316308066,   0.5397803357, ...
+         0.9709965183,   0.2672795569,   1.3845082762,   1.8729582402, ... 
+         2.8852169358,   2.3749935769 ]';
+EOF
 cat > test_Da1_coef.m.ok << 'EOF'
-Da1 = [   1.0000000000,  -0.5309207779,   0.3596778262,   0.1918749899, ... 
-          0.0368764697,  -0.0537876390,  -0.0708690080,  -0.0412674263, ... 
-         -0.0028480451,   0.0194176547,   0.0215207341,   0.0129527154, ... 
-          0.0044735847 ]';
+Da1 = [   1.0000000000,  -0.5312101224,   0.3593039496,   0.1913546374, ... 
+          0.0361942528,  -0.0545864209,  -0.0716883960,  -0.0419958343, ... 
+         -0.0034007131,   0.0190683589,   0.0213471537,   0.0128889810, ... 
+          0.0044655079 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Da1_coef.m.ok"; fail; fi
 
@@ -63,6 +71,10 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_Da1_coef.m.ok"; fail; fi
 echo "Running octave-cli -q " $prog
 
 octave-cli -q $prog > test.out
+
+diff -Bb test_a1_coef.m.ok parallel_allpass_delay_socp_slb_test_a1_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb on test_a1_coef.m"; fail; fi
+
 diff -Bb test_Da1_coef.m.ok parallel_allpass_delay_socp_slb_test_Da1_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb on test_Da1_coef.m"; fail; fi
 

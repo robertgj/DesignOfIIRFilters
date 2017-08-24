@@ -80,8 +80,8 @@ for k=1:norder
             k,real(dHdb(k)),imag(dHdb(k)),abs(diff_dHdb(k)-dHdb(k)));
   endif
 endfor
-if max(abs(diff_dHdb-dHdb)) > del/6400
-  error("max(abs(diff_dHdb-dHdb)) > del/6400");
+if max(abs(diff_dHdb-dHdb)) > del/3970
+  error("max(abs(diff_dHdb-dHdb)) > del/3970");
 endif
 
 % Sensitivity of H wrt C
@@ -98,8 +98,8 @@ for k=1:norder
             k,real(dHdc(k)),imag(dHdc(k)),abs(diff_dHdc(k)-dHdc(k)));
   endif
 endfor
-if max(abs(diff_dHdc-dHdc)) > del/3800
-  error("max(abs(diff_dHdc-dHdc)) > del/3800");
+if max(abs(diff_dHdc-dHdc)) > del/2748
+  error("max(abs(diff_dHdc-dHdc)) > del/2748");
 endif
 
 % Sensitivity of H wrt D
@@ -137,8 +137,8 @@ for k=1:norder
     endif
   endfor
 endfor
-if max(max(abs(diff_dAsqda-dAsqda))) > del/245
-  error("max(max(abs(diff_dAsqda-dAsqda))) > del/245");
+if max(max(abs(diff_dAsqda-dAsqda))) > del/208
+  error("max(max(abs(diff_dAsqda-dAsqda))) > del/208");
 endif
 
 % Sensitivity of abs(H)^2 wrt B
@@ -175,8 +175,8 @@ for k=1:norder
             k,real(dAsqdc(k)),imag(dAsqdc(k)),abs(diff_dAsqdc(k)-dAsqdc(k)));
   endif
 endfor
-if max(abs(diff_dAsqdc-dAsqdc)) > del/2086
-  error("max(abs(diff_dAsqdc-dAsqdc)) > del/2086");
+if max(abs(diff_dAsqdc-dAsqdc)) > del/1439
+  error("max(abs(diff_dAsqdc-dAsqdc)) > del/1439");
 endif
 
 %

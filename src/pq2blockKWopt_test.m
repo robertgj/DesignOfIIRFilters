@@ -46,7 +46,7 @@ for N=1:20
         printf("max(abs(bp-b))/eps = %f\n", max(abs(bp-b))/eps);
         printf("max(abs(ap-a))/eps = %f\n", max(abs(ap-a))/eps);
       else
-        tol=192;
+        tol=224;
         if max(abs(bp-b)) > tol*eps
           error("max(abs(bp-b)) > %d*eps", max(abs(bp-b))/eps, tol);
         endif

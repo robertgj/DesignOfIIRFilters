@@ -4,8 +4,8 @@
 test_common;
 
 unlink("stability2ndOrderCascade_test.diary");
-unlink("casc2tf_tf2casc_test.diary");
-diary casc2tf_tf2casc_test.diary
+unlink("stability2ndOrderCascade_test.diary.tmp");
+diary stability2ndOrderCascade_test.diary.tmp
 
 format compact
 
@@ -14,4 +14,5 @@ format compact
 
 % Done
 diary off
-movefile stability2ndOrderCascade_test.diary.tmp stability2ndOrderCascade_test.diary;
+movefile stability2ndOrderCascade_test.diary.tmp ...
+         stability2ndOrderCascade_test.diary;

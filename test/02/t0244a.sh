@@ -45,11 +45,20 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
+cat > test_a1_coef.m << 'EOF'
+Ua1=0,Va1=0,Ma1=0,Qa1=12,Ra1=1
+a1 = [   1.0000000000, ...
+         0.8900735105,   0.7096204812,   0.4979061387,   0.4883578661, ... 
+         0.4563452869,   0.4530596131, ...
+         1.0765359289,   0.3491752822,   1.4325768123,   1.9132816203, ... 
+         3.1357079361,   2.3076683607 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m"; fail; fi
 cat > test_Da1_coef.m << 'EOF'
-Da1 = [   1.0000000000,  -0.4879888402,   0.3768877969,   0.1804203770, ... 
-          0.0178734469,  -0.0553146230,  -0.0461274856,  -0.0070978619, ... 
-          0.0280688923,   0.0254945286,   0.0136551908,   0.0052910447, ... 
-          0.0013345417 ]';
+Da1 = [   1.0000000000,  -0.4656938338,   0.3932740898,   0.1800514545, ... 
+         -0.0108345423,  -0.0456134194,  -0.0478379625,   0.0122069985, ... 
+          0.0230940926,   0.0222695897,   0.0120003947,   0.0044934098, ... 
+          0.0010082616 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Da1_coef.m"; fail; fi
 
@@ -60,6 +69,9 @@ echo "Running octave-cli -q " $prog
 
 octave-cli -q $prog
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
+
+diff -Bb test_a1_coef.m parallel_allpass_delay_sqp_mmse_test_a1_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_a1_coef.m"; fail; fi
 
 diff -Bb test_Da1_coef.m parallel_allpass_delay_sqp_mmse_test_Da1_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Da1_coef.m"; fail; fi

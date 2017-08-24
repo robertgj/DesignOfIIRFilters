@@ -14,15 +14,15 @@ verbose=false;
 
 if 1
 % Use the filter calculated by tarczynski_allpass_phase_shift_test.m
-Da = [  1.0000000000,  -0.8039610589,   0.1453212420,   0.0719289094, ... 
-        0.0116626249,  -0.0154884214,  -0.0138672472,  -0.0018568942, ... 
-        0.0051939247,   0.0039933558,  -0.0001368153,  -0.0023419716 ]';
+Da = [  1.0000000000,  -0.4600541550,   0.3895171433,   0.1750041418, ... 
+        0.0054307833,  -0.0609663877,  -0.0421198266,   0.0019489258, ... 
+        0.0237825475,   0.0162337004,  -0.0003436796,  -0.0109619904 ]';
 else
 % Use the filter calculated by tarczynski_parallel_allpass_delay_test.m
-Da = [  1.0000000000,  -0.5293688883,   0.3581214335,   0.1868454361, ... 
-        0.0310301175,  -0.0571095893,  -0.0703708398,  -0.0384386678, ... 
-       -0.0003605782,   0.0199157506,   0.0202940598,   0.0113549168, ... 
-        0.0034443540 ]';
+Da = [  1.0000000000,  -0.5293688892,   0.3581214325,   0.1868454349, ... 
+        0.0310301162,  -0.0571095908,  -0.0703708412,  -0.0384386690, ... 
+       -0.0003605791,   0.0199157500,   0.0202940594,   0.0113549166, ... 
+        0.0034443539 ]';
 endif
 [a,V,Q]=tf2a(Da);
 R=1;
@@ -99,6 +99,7 @@ for k=1:V
   endif
   delk=shift(delk,1);
 endfor
+tol=2.1e-7;
 for k=1:Qon2
   % delTdelrpa
   TacPdelk2=parallel_allpass_delayT(wc,a+(delk/2),V,Q,R,DD,polyphase);
@@ -151,6 +152,7 @@ for k=1:V
   endif
   delk=shift(delk,1);
 endfor
+tol=2.7e-6;
 for k=1:Qon2
   % del2Tdelrpa2
   [TacPdelk2,gradTacPdelk2] = ...
@@ -169,6 +171,7 @@ for k=1:Qon2
   endif
   delk=shift(delk,1);
 endfor
+tol=6e-7;
 for k=1:Qon2
   % del2Tdelthetapa2
   [TacPdelk2,gradTacPdelk2] = ...

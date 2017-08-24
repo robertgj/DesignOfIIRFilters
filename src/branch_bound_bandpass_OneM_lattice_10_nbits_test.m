@@ -18,11 +18,10 @@ if use_best_branch_and_bound_found
 endif
 enforce_pcls_constraints_on_final_filter=false
 
-
 tic;
+
 maxiter=400
-verbose=false
-tol=1e-4
+verbose=false;
 
 schurOneMlattice_bandpass_10_nbits_common;
 
@@ -50,10 +49,10 @@ c_allocsd_digits=int16(ndigits_alloc((Nk+1):end));
 printf("c_allocsd_digits=[ ");printf("%2d ",c_allocsd_digits);printf("]';\n");
 
 if use_best_branch_and_bound_found
-  k_min=[ 0 328 0 260 0 168 0 216 0 145 0 125 0 71 0 51 0 16 0 7 ]'/nscale;
-  c_min=[ 40 -2 -144 -256 -95 48 190 160 17 -36 -40 -8 -4 -16 -15 ...
-          0 12 10 2 -1 2 ]'/nscale;
-  branches_min=1130
+  k_min=[ 0 334 0 264 0 176 0 216 0 148 0 128 0 74 0 51 0 17 0 7 ]'/nscale;
+  c_min=[ 40 -2 -144 -255 -94 48 192 160 15 -40 -42 -8 -2 -16 -13 ...
+          1 12 8 1 0 2 ]'/nscale;
+  branches_min=670;
   kc_min=[k_min(:);c_min(:)];
   Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p0,c_min,wa,Asqd,Wa,wt,Td,Wt);
   improved_solution_found=true;
@@ -169,14 +168,15 @@ else
         T=schurOneMlatticeT(wt,k_b,epsilon0,p0,c_b);
         vS=schurOneMlattice_slb_update_constraints ...
              (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,[],[],[],[],tol);
-        if ~isempty(vS)
+        if ~schurOneMlattice_slb_constraints_are_empty(vS)
           printf("At maximum depth constraints are not empty!\n");
+          schurOneMlattice_slb_show_constraints(vS);
         endif
       else
-        vS=[];
+        vS=schurOneMlattice_slb_set_empty_constraints();
       endif
       % Update the best solution
-      if Esq<Esq_min && isempty(vS)
+      if Esq<Esq_min && schurOneMlattice_slb_constraints_are_empty(vS)
         improved_solution_found=true;
         Esq_min=Esq;
         kc_min=kc_b;
@@ -359,4 +359,4 @@ save branch_bound_bandpass_OneM_lattice_10_nbits_test.mat ...
 toc;
 diary off
 movefile branch_bound_bandpass_OneM_lattice_10_nbits_test.diary.tmp ...
-       branch_bound_bandpass_OneM_lattice_10_nbits_test.diary;
+         branch_bound_bandpass_OneM_lattice_10_nbits_test.diary;

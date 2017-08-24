@@ -50,8 +50,8 @@ for l=1:Nk
   delk=shift(delk,1);
   diff_Tk(l)=(TkPdel2-TkMdel2)/del;
 endfor
-if max(abs(diff_Tk-gradT(ntpl,1:Nk))) > del/401
-  error("max(abs(diff_Tk-gradT(ntpl,1:Nk))) > del/401");
+if max(abs(diff_Tk-gradT(ntpl,1:Nk))) > del/400
+  error("max(abs(diff_Tk-gradT(ntpl,1:Nk))) > del/400");
 endif
 
 % Check the gradient of the squared-magnitude response wrt khat
@@ -65,8 +65,8 @@ for l=1:Nk
   delkhat=shift(delkhat,1);
   diff_Tkhat(l)=(TkhatPdel2-TkhatMdel2)/del;
 endfor
-if max(abs(diff_Tkhat-gradT(ntpl,(Nk+1):(2*Nk)))) > del/514
-  error("max(abs(diff_Tkhat-gradT(ntpl,(Nk+1):(2*Nk)))) > del/514");
+if max(abs(diff_Tkhat-gradT(ntpl,(Nk+1):(2*Nk)))) > del/441
+  error("max(abs(diff_Tkhat-gradT(ntpl,(Nk+1):(2*Nk)))) > del/441");
 endif
 
 % Done

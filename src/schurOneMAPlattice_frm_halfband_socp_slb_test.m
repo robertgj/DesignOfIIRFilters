@@ -19,7 +19,7 @@ format compact
 % Filter specification
 %
 n=800;
-tol=1e-6
+tol=1e-5
 maxiter=2000
 verbose=false
 
@@ -37,8 +37,8 @@ if 1
           -0.0019232288  ]';
   Mmodel=7 % Model filter FRM decimation
   Dmodel=9 % Desired model filter passband delay
-  dBap=0.05 % Pass band amplitude ripple
-  tpr=0.334 % Peak-to-peak pass band delay ripple
+  dBap=0.1 % Pass band amplitude ripple
+  tpr=0.4 % Peak-to-peak pass band delay ripple
   dBas=45 % Stop band amplitude ripple
 else 
   r0 = [   1.0000000000,   0.4268488267,  -0.0317251967,  -0.0154534827, ... 

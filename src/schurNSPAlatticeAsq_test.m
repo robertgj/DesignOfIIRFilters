@@ -39,7 +39,7 @@ Asq=schurNSPAlatticeAsq(wcheck,A1s20,A1s02,A1s00,A1s22,A2s20,A2s02,A2s00,A2s22);
 % Check the magnitude-squared response
 max_Asq_error=max(abs((abs(hcheck).^2)-Asq));
 if max_Asq_error > 140*eps
-  error("max_Asq_error > 140*eps");
+  error("max_Asq_error(%g*eps) > 140*eps",max_Asq_error/eps);
 endif
 
 % Calculate the gradients
@@ -48,7 +48,7 @@ endif
 
 % Check the gradients of the squared-magnitude wrt A1s
 del=1e-6;
-tol=del/900;
+tol=del/855.37;
 delA1s=zeros(size(A1s20));
 delA1s(1)=del/2;
 diff_AsqA1=zeros(ncheck,A1Ns*4);
@@ -82,7 +82,7 @@ for l=1:A1Ns
 endfor
 max_gradAsq_A1_error=max(max(abs(diff_AsqA1-gradAsq(:,1:(A1Ns*4)))));
 if max_gradAsq_A1_error > tol
-  error("max_gradAsq_A1_error > tol");
+  error("max_gradAsq_A1_error(del/%g) > tol",del/max_gradAsq_A1_error);
 endif
 
 % Check the gradients of the squared-magnitude wrt A2s
@@ -122,7 +122,7 @@ endfor
 max_gradAsq_A2_error=...
   max(max(abs(diff_AsqA2-gradAsq(:,((A1Ns*4)+1):((A1Ns+A2Ns)*4)))));
 if max_gradAsq_A2_error > tol
-  error("max_gradAsq_A2_error > tol");
+  error("max_gradAsq_A2_error(del/%g) > tol",del/max_gradAsq_A2_error);
 endif
 
 % Calculate the diagonal of the Hessian
@@ -131,7 +131,7 @@ endif
 
 % Check the diagonal of the Hessian of the squared-magnitude wrt A1s
 del=1e-6;
-tol=del/250;
+tol=del/217.58;
 delA1s=zeros(size(A1s20));
 delA1s(1)=del/2;
 diff_gradAsqA1=zeros(ncheck,A1Ns*4);
@@ -177,7 +177,7 @@ for l=1:A1Ns
 endfor
 max_diagHessAsq_A1_error=max(max(abs(diff_gradAsqA1-diagHessAsq(:,1:(A1Ns*4)))));
 if max_diagHessAsq_A1_error > tol
-  error("max_diagHessAsq_A1_error > tol");
+  error("max_diagHessAsq_A1_error(del/%g) > tol",del/max_diagHessAsq_A1_error);
 endif
 
 % Check the diagonal of the Hessian of the squared-magnitude wrt A2s
@@ -233,7 +233,7 @@ endfor
 max_diagHessAsq_A2_error=...
   max(max(abs(diff_gradAsqA2-diagHessAsq(:,((A1Ns*4)+1):((A1Ns+A2Ns)*4)))));
 if max_diagHessAsq_A2_error > tol
-  error("max_diagHessAsq_A2_error > tol");
+  error("max_diagHessAsq_A2_error(del/%g) > tol",del/max_diagHessAsq_A2_error);
 endif
 
 % Done

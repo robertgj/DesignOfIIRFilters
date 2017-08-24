@@ -10,6 +10,55 @@ $OCTAVE -v | grep version
 #
 # linpack.m
 # 
+cat > linpack.m << 'EOF'
+% Linpack benchmark in Octave / Matlab
+%
+% MJ Rutter Nov 2015
+
+N=2000;
+
+fprintf('Linpack %dx%d\n',N,N);
+
+ops=2*N*N*N/3+2*N*N;
+eps=2.2e-16;
+
+%  A=rand(N*N)-0.5;
+if exist("reprand") ~= 3
+  mkoctfile reprand.cc
+endif
+A=reshape(reprand(N*N)-0.5,N,N);
+
+norma=max(max(max(A)),-min(min(A)));
+
+B=sum(A,2);
+
+t0=clock();
+
+X=A\B;
+
+t1=clock();
+
+tim=etime(t1,t0);
+
+% compute residual
+
+R=A*X-B;
+
+normx=max(max(X),-min(X));
+resid=max(max(R),-min(R));
+
+residn=resid/(N*norma*normx*eps);
+
+fprintf('Norma is %f\n',norma);
+fprintf('Residual is %g\n',resid);
+fprintf('Normalised residual is %f\n',residn);
+fprintf('Machine epsilon is %g\n',eps);
+fprintf('x(1)-1 is %g\n',X(1)-1);
+fprintf('x(N)-1 is %g\n',X(N)-1);
+fprintf('Time is %f s\n',tim);
+fprintf('MFLOPS: %.0f\n',1e-6*ops/tim);
+EOF
+
 echo "local libblas, generic, linpack.m"
 LAPACK_DIR=lapack/generic/lapack-$LPVER
 for k in `seq 1 10`;do 
@@ -129,186 +178,186 @@ awk '{flops=flops+$2;};\
 
 
 #
-# decimator_R2_test.m
+# iir_sqp_slb_bandpass_test.m
 #
 cd build-$BUILD
 
-echo "local libblas, generic, decimator_R2_test.m"
+echo "local libblas, generic, iir_sqp_slb_bandpass_test.m"
 LAPACK_DIR=../lapack/generic/lapack-$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
-              $OCTAVE -q decimator_R2_test.m >/dev/null
-    mv decimator_R2_test_d1_coef.m decimator_R2_test.d1.generic.$k
-    mv decimator_R2_test_D1_coef.m decimator_R2_test.D1.generic.$k
-    mv decimator_R2_test_N1_coef.m decimator_R2_test.N1.generic.$k
-    mv decimator_R2_test.diary decimator_R2_test.diary.generic.$k
+              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
+    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.generic.$k
+    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.generic.$k
+    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.generic.$k
+    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.generic.$k
 done
-grep Elapsed decimator_R2_test.diary.generic.* | \
+grep Elapsed iir_sqp_slb_bandpass_test.diary.generic.* | \
 awk '{elapsed=elapsed+$4;};\
-     END {printf("decimator_R2_test local generic elapsed=%g\n",elapsed/10);}'
+     END {printf("iir_sqp_slb_bandpass_test local generic elapsed=%g\n",elapsed/10);}'
 
-echo "local libblas, intel, decimator_R2_test.m"
+echo "local libblas, intel, iir_sqp_slb_bandpass_test.m"
 LAPACK_DIR=../lapack/intel/lapack-$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
-              $OCTAVE -q decimator_R2_test.m >/dev/null
-    mv decimator_R2_test_d1_coef.m decimator_R2_test.d1.intel.$k
-    mv decimator_R2_test_D1_coef.m decimator_R2_test.D1.intel.$k
-    mv decimator_R2_test_N1_coef.m decimator_R2_test.N1.intel.$k
-    mv decimator_R2_test.diary decimator_R2_test.diary.intel.$k
+              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
+    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.intel.$k
+    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.intel.$k
+    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.intel.$k
+    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.intel.$k
 done
-grep Elapsed decimator_R2_test.diary.intel.* | \
+grep Elapsed iir_sqp_slb_bandpass_test.diary.intel.* | \
 awk '{elapsed=elapsed+$4;};\
-     END {printf("decimator_R2_test local intel elapsed=%g\n",elapsed/10);}'
+     END {printf("iir_sqp_slb_bandpass_test local intel elapsed=%g\n",elapsed/10);}'
 
-echo "local libblas, haswell, decimator_R2_test.m"
+echo "local libblas, haswell, iir_sqp_slb_bandpass_test.m"
 LAPACK_DIR=../lapack/haswell/lapack-$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
-              $OCTAVE -q decimator_R2_test.m >/dev/null
-    mv decimator_R2_test_d1_coef.m decimator_R2_test.d1.haswell.$k
-    mv decimator_R2_test_D1_coef.m decimator_R2_test.D1.haswell.$k
-    mv decimator_R2_test_N1_coef.m decimator_R2_test.N1.haswell.$k
-    mv decimator_R2_test.diary decimator_R2_test.diary.haswell.$k
+              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
+    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.haswell.$k
+    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.haswell.$k
+    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.haswell.$k
+    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.haswell.$k
 done
-grep Elapsed decimator_R2_test.diary.haswell.* | \
+grep Elapsed iir_sqp_slb_bandpass_test.diary.haswell.* | \
 awk '{elapsed=elapsed+$4;};\
-     END {printf("decimator_R2_test local haswell elapsed=%g\n",elapsed/10);}'
+     END {printf("iir_sqp_slb_bandpass_test local haswell elapsed=%g\n",elapsed/10);}'
 
-echo "local libblas, nehalem, decimator_R2_test.m"
+echo "local libblas, nehalem, iir_sqp_slb_bandpass_test.m"
 LAPACK_DIR=../lapack/nehalem/lapack-$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
-              $OCTAVE -q decimator_R2_test.m >/dev/null
-    mv decimator_R2_test_d1_coef.m decimator_R2_test.d1.nehalem.$k
-    mv decimator_R2_test_D1_coef.m decimator_R2_test.D1.nehalem.$k
-    mv decimator_R2_test_N1_coef.m decimator_R2_test.N1.nehalem.$k
-    mv decimator_R2_test.diary decimator_R2_test.diary.nehalem.$k
+              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
+    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.nehalem.$k
+    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.nehalem.$k
+    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.nehalem.$k
+    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.nehalem.$k
 done
-grep Elapsed decimator_R2_test.diary.nehalem.* | \
+grep Elapsed iir_sqp_slb_bandpass_test.diary.nehalem.* | \
 awk '{elapsed=elapsed+$4;};\
-     END {printf("decimator_R2_test local nehalem elapsed=%g\n",elapsed/10);}'
+     END {printf("iir_sqp_slb_bandpass_test local nehalem elapsed=%g\n",elapsed/10);}'
 
-echo "local libblas, skylake, decimator_R2_test.m"
+echo "local libblas, skylake, iir_sqp_slb_bandpass_test.m"
 LAPACK_DIR=../lapack/skylake/lapack-$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
-              $OCTAVE -q decimator_R2_test.m >/dev/null
-    mv decimator_R2_test_d1_coef.m decimator_R2_test.d1.skylake.$k
-    mv decimator_R2_test_D1_coef.m decimator_R2_test.D1.skylake.$k
-    mv decimator_R2_test_N1_coef.m decimator_R2_test.N1.skylake.$k
-    mv decimator_R2_test.diary decimator_R2_test.diary.skylake.$k
+              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
+    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.skylake.$k
+    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.skylake.$k
+    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.skylake.$k
+    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.skylake.$k
 done
-grep Elapsed decimator_R2_test.diary.skylake.* | \
+grep Elapsed iir_sqp_slb_bandpass_test.diary.skylake.* | \
 awk '{elapsed=elapsed+$4;};\
-     END {printf("decimator_R2_test local skylake elapsed=%g\n",elapsed/10);}'
+     END {printf("iir_sqp_slb_bandpass_test local skylake elapsed=%g\n",elapsed/10);}'
 
-echo "system libblas, decimator_R2_test.m"
+echo "system libblas, iir_sqp_slb_bandpass_test.m"
 for k in `seq 1 10`;do 
     LD_PRELOAD="/usr/lib64/libblas.so:/usr/lib64/liblapack.so" \
-              $OCTAVE -q decimator_R2_test.m >/dev/null
-    mv decimator_R2_test_d1_coef.m decimator_R2_test.d1.libblas.$k
-    mv decimator_R2_test_D1_coef.m decimator_R2_test.D1.libblas.$k
-    mv decimator_R2_test_N1_coef.m decimator_R2_test.N1.libblas.$k
-    mv decimator_R2_test.diary decimator_R2_test.diary.libblas.$k
+              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
+    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.libblas.$k
+    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.libblas.$k
+    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.libblas.$k
+    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.libblas.$k
 done
-grep Elapsed decimator_R2_test.diary.libblas.* | \
+grep Elapsed iir_sqp_slb_bandpass_test.diary.libblas.* | \
 awk '{elapsed=elapsed+$4;};\
-     END {printf("decimator_R2_test system libblas elapsed=%g\n",elapsed/10);}'
+     END {printf("iir_sqp_slb_bandpass_test system libblas elapsed=%g\n",elapsed/10);}'
 
-echo "libgslcblas, decimator_R2_test.m"
+echo "libgslcblas, iir_sqp_slb_bandpass_test.m"
 for k in `seq 1 10`;do 
     LD_PRELOAD=/usr/lib64/libgslcblas.so \
-              $OCTAVE -q decimator_R2_test.m >/dev/null
-    mv decimator_R2_test_d1_coef.m decimator_R2_test.d1.gslcblas.$k
-    mv decimator_R2_test_D1_coef.m decimator_R2_test.D1.gslcblas.$k
-    mv decimator_R2_test_N1_coef.m decimator_R2_test.N1.gslcblas.$k
-    mv decimator_R2_test.diary decimator_R2_test.diary.gslcblas.$k
+              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
+    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.gslcblas.$k
+    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.gslcblas.$k
+    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.gslcblas.$k
+    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.gslcblas.$k
 done
-grep Elapsed decimator_R2_test.diary.gslcblas.* | \
+grep Elapsed iir_sqp_slb_bandpass_test.diary.gslcblas.* | \
 awk '{elapsed=elapsed+$4;};\
-     END {printf("decimator_R2_test libgslcblas elapsed=%g\n",elapsed/10);}'
+     END {printf("iir_sqp_slb_bandpass_test libgslcblas elapsed=%g\n",elapsed/10);}'
 
-echo "libsatlas, decimator_R2_test.m"
+echo "libsatlas, iir_sqp_slb_bandpass_test.m"
 for k in `seq 1 10`;do 
     LD_PRELOAD=/usr/lib64/atlas/libsatlas.so \
-              $OCTAVE -q decimator_R2_test.m >/dev/null
-    mv decimator_R2_test_d1_coef.m decimator_R2_test.d1.satlas.$k
-    mv decimator_R2_test_D1_coef.m decimator_R2_test.D1.satlas.$k
-    mv decimator_R2_test_N1_coef.m decimator_R2_test.N1.satlas.$k
-    mv decimator_R2_test.diary decimator_R2_test.diary.satlas.$k
+              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
+    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.satlas.$k
+    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.satlas.$k
+    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.satlas.$k
+    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.satlas.$k
 done
-grep Elapsed decimator_R2_test.diary.satlas.* | \
+grep Elapsed iir_sqp_slb_bandpass_test.diary.satlas.* | \
 awk '{elapsed=elapsed+$4;};\
-     END {printf("decimator_R2_test libsatlas elapsed=%g\n",elapsed/10);}'
+     END {printf("iir_sqp_slb_bandpass_test libsatlas elapsed=%g\n",elapsed/10);}'
 
-echo "libtatlas, decimator_R2_test.m"
+echo "libtatlas, iir_sqp_slb_bandpass_test.m"
 for k in `seq 1 10`;do 
     LD_PRELOAD=/usr/lib64/atlas/libtatlas.so \
-              $OCTAVE -q decimator_R2_test.m >/dev/null
-    mv decimator_R2_test_d1_coef.m decimator_R2_test.d1.tatlas.$k
-    mv decimator_R2_test_D1_coef.m decimator_R2_test.D1.tatlas.$k
-    mv decimator_R2_test_N1_coef.m decimator_R2_test.N1.tatlas.$k
-    mv decimator_R2_test.diary decimator_R2_test.diary.tatlas.$k
+              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
+    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.tatlas.$k
+    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.tatlas.$k
+    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.tatlas.$k
+    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.tatlas.$k
 done
-grep Elapsed decimator_R2_test.diary.tatlas.* | \
+grep Elapsed iir_sqp_slb_bandpass_test.diary.tatlas.* | \
 awk '{elapsed=elapsed+$4;};\
-     END {printf("decimator_R2_test libtatlas elapsed=%g\n",elapsed/10);}'
+     END {printf("iir_sqp_slb_bandpass_test libtatlas elapsed=%g\n",elapsed/10);}'
 
-echo "libopenblas, decimator_R2_test.m"
+echo "libopenblas, iir_sqp_slb_bandpass_test.m"
 for k in `seq 1 10`;do 
     LD_PRELOAD=/usr/lib64/libopenblas.so.0 \
-              $OCTAVE -q decimator_R2_test.m >/dev/null
-    mv decimator_R2_test_d1_coef.m decimator_R2_test.d1.openblas.$k
-    mv decimator_R2_test_D1_coef.m decimator_R2_test.D1.openblas.$k
-    mv decimator_R2_test_N1_coef.m decimator_R2_test.N1.openblas.$k
-    mv decimator_R2_test.diary decimator_R2_test.diary.openblas.$k
+              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
+    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.openblas.$k
+    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.openblas.$k
+    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.openblas.$k
+    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.openblas.$k
 done
-grep Elapsed decimator_R2_test.diary.openblas.* | \
+grep Elapsed iir_sqp_slb_bandpass_test.diary.openblas.* | \
 awk '{elapsed=elapsed+$4;};\
-     END {printf("decimator_R2_test libopenblas elapsed=%g\n",elapsed/10);}'
+     END {printf("iir_sqp_slb_bandpass_test libopenblas elapsed=%g\n",elapsed/10);}'
 
-echo "libopenblasp, 1 thread, decimator_R2_test.m"
+echo "libopenblasp, 1 thread, iir_sqp_slb_bandpass_test.m"
 export OPENBLAS_NUM_THREADS=1
 for k in `seq 1 10`;do 
     LD_PRELOAD=/usr/lib64/libopenblasp.so.0 \
-              $OCTAVE -q decimator_R2_test.m >/dev/null
-    mv decimator_R2_test_d1_coef.m decimator_R2_test.d1.openblasp.1.$k
-    mv decimator_R2_test_D1_coef.m decimator_R2_test.D1.openblasp.1.$k
-    mv decimator_R2_test_N1_coef.m decimator_R2_test.N1.openblasp.1.$k
-    mv decimator_R2_test.diary decimator_R2_test.diary.openblasp.1.$k
+              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
+    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.openblasp.1.$k
+    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.openblasp.1.$k
+    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.openblasp.1.$k
+    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.openblasp.1.$k
 done
-grep Elapsed decimator_R2_test.diary.openblasp.1.* | \
+grep Elapsed iir_sqp_slb_bandpass_test.diary.openblasp.1.* | \
 awk '{elapsed=elapsed+$4;};\
-     END {printf("decimator_R2_test libopenblasp.1 elapsed=%g\n",elapsed/10);}'
+     END {printf("iir_sqp_slb_bandpass_test libopenblasp.1 elapsed=%g\n",elapsed/10);}'
 
-echo "libopenblasp, 2 threads, decimator_R2_test.m"
+echo "libopenblasp, 2 threads, iir_sqp_slb_bandpass_test.m"
 export OPENBLAS_NUM_THREADS=2
 for k in `seq 1 10`;do 
     LD_PRELOAD=/usr/lib64/libopenblasp.so.0 \
-              $OCTAVE -q decimator_R2_test.m >/dev/null
-    mv decimator_R2_test_d1_coef.m decimator_R2_test.d1.openblasp.2.$k
-    mv decimator_R2_test_D1_coef.m decimator_R2_test.D1.openblasp.2.$k
-    mv decimator_R2_test_N1_coef.m decimator_R2_test.N1.openblasp.2.$k
-    mv decimator_R2_test.diary decimator_R2_test.diary.openblasp.2.$k
+              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
+    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.openblasp.2.$k
+    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.openblasp.2.$k
+    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.openblasp.2.$k
+    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.openblasp.2.$k
 done
-grep Elapsed decimator_R2_test.diary.openblasp.2.* | \
+grep Elapsed iir_sqp_slb_bandpass_test.diary.openblasp.2.* | \
 awk '{elapsed=elapsed+$4;};\
-     END {printf("decimator_R2_test libopenblasp.2 elapsed=%g\n",elapsed/10);}'
+     END {printf("iir_sqp_slb_bandpass_test libopenblasp.2 elapsed=%g\n",elapsed/10);}'
 
-echo "libopenblasp, 4 threads, decimator_R2_test.m"
+echo "libopenblasp, 4 threads, iir_sqp_slb_bandpass_test.m"
 export OPENBLAS_NUM_THREADS=4
 for k in `seq 1 10`;do 
     LD_PRELOAD=/usr/lib64/libopenblasp.so.0 \
-              $OCTAVE -q decimator_R2_test.m >/dev/null
-    mv decimator_R2_test_d1_coef.m decimator_R2_test.d1.openblasp.4.$k
-    mv decimator_R2_test_D1_coef.m decimator_R2_test.D1.openblasp.4.$k
-    mv decimator_R2_test_N1_coef.m decimator_R2_test.N1.openblasp.4.$k
-    mv decimator_R2_test.diary decimator_R2_test.diary.openblasp.4.$k
+              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
+    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.openblasp.4.$k
+    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.openblasp.4.$k
+    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.openblasp.4.$k
+    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.openblasp.4.$k
 done
-grep Elapsed decimator_R2_test.diary.openblasp.4.* | \
+grep Elapsed iir_sqp_slb_bandpass_test.diary.openblasp.4.* | \
 awk '{elapsed=elapsed+$4;};\
-     END {printf("decimator_R2_test libopenblasp.4 elapsed=%g\n",elapsed/10);}'
+     END {printf("iir_sqp_slb_bandpass_test libopenblasp.4 elapsed=%g\n",elapsed/10);}'
 
 cd ..
 

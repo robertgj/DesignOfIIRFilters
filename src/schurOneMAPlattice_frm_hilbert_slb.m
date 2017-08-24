@@ -135,7 +135,7 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
   endif
   % Nothing to do but k, u and v do not satisfy the constraints
   if isempty(kuv_active)
-    feasible=false
+    feasible=false;
     return;
   endif
   

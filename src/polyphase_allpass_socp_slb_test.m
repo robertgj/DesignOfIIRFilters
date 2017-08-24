@@ -14,15 +14,15 @@ verbose=false
 maxiter=2000
 
 % Initial coefficients found by tarczynski_polyphase_allpass_test.m
-Da0 = [   1.0000000000,  -0.5678200774,  -0.7408092770,   0.2506942396, ... 
-         -0.1668555458,   0.1742421827,  -0.3582634504,   0.2364365832, ... 
-          0.5557294579,  -0.2129754175,  -0.1400950350,   0.0014345949 ]';
-Db0 = [   1.0000000000,  -0.0685941087,  -1.1480265355,   0.0125362666, ... 
-         -0.0223606303,   0.0606067077,  -0.2400513446,   0.0221246296, ... 
-          0.7361372042,   0.0024401600,  -0.2799533185,  -0.0300497894 ]';
+Da0 = [   1.0000000000,  -0.3970422576,  -0.8249669888,   0.1740258622, ... 
+          0.1568318123,   0.0403231276,  -0.3975171745,   0.1691550691, ... 
+          0.5556873324,  -0.1367500892,  -0.2041947296,  -0.0121232670 ]';
+Db0 = [   1.0000000000,   0.1021662260,  -1.1467005712,  -0.1276578006, ... 
+          0.2838366955,   0.0866961263,  -0.3831672484,  -0.0312328960, ... 
+          0.6890938976,   0.0960372582,  -0.3161746003,  -0.0784333430 ]';
 % Lowpass filter specification for polyphase combination of all-pass filters
 tol=1e-4
-ctol=5e-8
+ctol=1e-8
 n=500;
 polyphase=true
 rho=0.999
@@ -40,7 +40,7 @@ tdr=0.2
 Wtp=0
 fas=0.26
 dBas=70
-Was=1000
+Was=100
 
 % Convert coefficients to a vector
 ab0=zeros(ma+mb,1);
@@ -150,17 +150,12 @@ print(sprintf(strd,"ab1"),"-dpdflatex");
 close
 
 % Plot passband response
-subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hab1)));
 ylabel("Amplitude(dB)");
-axis([0 max(fap,ftp) -0.1 0.1]);
+xlabel("Frequency");
+axis([0 max(fap,ftp) -dBap/2000 dBap/10000]);
 grid("on");
 title(strt);
-subplot(212);
-plot(wplot*0.5/pi,Tab1);
-ylabel("Group delay(samples)");
-xlabel("Frequency");
-grid("on");
 print(sprintf(strd,"ab1pass"),"-dpdflatex");
 close
 
@@ -205,6 +200,14 @@ fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fclose(fid);
 
 % Save results
+a1=[1;ab1(1:ma)];
+print_pole_zero(a1,0,Va,0,Qa,Ra,"a1");
+print_pole_zero(a1,0,Va,0,Qa,Ra,"a1", ...
+                "polyphase_allpass_socp_slb_test_a1_coef.m");
+b1=[1;ab1((ma+1):end)];
+print_pole_zero(b1,0,Vb,0,Qb,Rb,"b1");
+print_pole_zero(b1,0,Vb,0,Qb,Rb,"b1", ...
+                "polyphase_allpass_socp_slb_test_b1_coef.m");
 print_polynomial(Da1,"Da1");
 print_polynomial(Da1,"Da1","polyphase_allpass_socp_slb_test_Da1_coef.m");
 print_polynomial(Db1,"Db1");
@@ -219,4 +222,5 @@ save polyphase_allpass_socp_slb_test.mat ...
     n fap Wap fas Was ma mb Ra Rb ab0 ab1 Da1 Db1
 toc;
 diary off
-movefile polyphase_allpass_socp_slb_test.diary.tmp polyphase_allpass_socp_slb_test.diary;
+movefile polyphase_allpass_socp_slb_test.diary.tmp ...
+         polyphase_allpass_socp_slb_test.diary;

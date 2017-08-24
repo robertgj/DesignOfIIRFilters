@@ -61,8 +61,8 @@ for l=1:Nk
   delkhat=shift(delkhat,1);
   diff_Asqkhat(l)=(AsqkhatPdel2-AsqkhatMdel2)/del;
 endfor
-if max(abs(diff_Asqkhat-gradAsq(ntpl,(Nk+1):(2*Nk)))) > del/3368
-  error("max(abs(diff_Asqkhat-gradAsq(ntpl,(Nk+1):(2*Nk)))) > del/3368");
+if max(abs(diff_Asqkhat-gradAsq(ntpl,(Nk+1):(2*Nk)))) > del/2940.8
+  error("max(abs(diff_Asqkhat-gradAsq(ntpl,(Nk+1):(2*Nk)))) > del/2940.8");
 endif
 
 % Done

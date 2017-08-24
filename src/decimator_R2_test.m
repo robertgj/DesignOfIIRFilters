@@ -17,13 +17,18 @@ format compact
 verbose=false
 tol_wise=1e-7
 tol_mmse=1e-5
-tol_pcls=1e-3
-maxiter=2000
+tol_pcls=2e-4
 
-% Filter specifications (frequencies are normalised to sample rate)
-fap=0.10,Wap=1,fas=0.25,Was=2,ftp=0.125,tp=12,Wtp=1
-dBap=0.2,dBas=40,tpr=0.06
-U=2,V=0,M=10,Q=6,R=2
+maxiter=4000
+
+% Filter specifications (frequencies are normalised to the sample rate)
+fap=0.10,dBap=0.3,Wap=1
+fas=0.25,dBas=50,Was=4
+ftp=0.125,tp=10,tpr=0.008,Wtp=1
+
+% Initial filter guess
+U=0,V=0,M=12,Q=6,R=2
+xi=[0.0001, [1,1,1,1,1,1], (7:12)*pi/12, 0.7*[1,1,1], (1:3)*pi/8]';
 
 % Frequency points
 n=1000;
@@ -64,14 +69,13 @@ Pdl=[];
 Wp=[];
 
 % Initialise strings
-strM=sprintf("%%s:fap=%g,Wap=%%g,fas=%g,Was=%%g,ftp=%g,tp=%g,Wtp=%%g",...
+strM=sprintf("%%s:fap=%g,fas=%g,Was=%%g,ftp=%g,tp=%g,Wtp=%%g",...
              fap,fas,ftp,tp);
-strP=sprintf("%%s:fap=%g,dBap=%%g,Wap=%%g,fas=%g,dBas=%%g,Was=%%g,\
+strP=sprintf("%%s:fap=%g,dBap=%%g,fas=%g,dBas=%%g,Was=%%g,\
 ftp=%g,tp=%g,tpr=%%g,Wtp=%%g",fap,fas,ftp,tp);
 strd=sprintf("decimator_R2_%%s_%%s");
 
 % Initial filter
-xi=[0.0001, [2,2], [1,1,1,1,1], (6:10)*pi/10, 0.7*[1,1,1], (1:3)*pi/8]';
 [x0,Ex0]=xInitHd(xi,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,tol_wise);
 printf("x0=[ ");printf("%f ",x0');printf("]'\n");
 strMI=sprintf("Initial decimator R=2 : U=%d,V=%d,M=%d,Q=%d,R=%d", U,V,M,Q,R);
@@ -96,7 +100,7 @@ if feasible == 0
   error("R=2 decimator x1 infeasible");
 endif
 printf("x1=[ ");printf("%f ",x1');printf("]'\n");
-strM1=sprintf(strM,"x1",Wap,Was,Wtp);
+strM1=sprintf(strM,"x1",Was,Wtp);
 showResponse(x1,U,V,M,Q,R,strM1);
 print(sprintf(strd,"mmse","x1"),"-dpdflatex");
 close
@@ -117,9 +121,7 @@ printf("\nFinding PCLS d1, dBap=%f,Wap=%f,dBas=%f,Was=%f,tpr=%f,Wtp=%f\n",
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
-strP1=...
-sprintf("d1:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,tpr=%g",...
-        fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr);
+strP1=sprintf(strP,"d1",dBap,dBas,Was,tpr,Wtp);
 showResponse(d1,U,V,M,Q,R,strP1);
 print(sprintf(strd,"pcls","d1"),"-dpdflatex");
 close
@@ -171,15 +173,13 @@ fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
 fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fclose(fid);
 
-[N1,D1]=x2tf(d1,U,V,M,Q,R);
+print_pole_zero(d1,U,V,M,Q,R,"d1");
 print_pole_zero(d1,U,V,M,Q,R,"d1","decimator_R2_test_d1_coef.m");
+[N1,D1]=x2tf(d1,U,V,M,Q,R);
+print_polynomial(N1,"N1");
 print_polynomial(N1,"N1","decimator_R2_test_N1_coef.m");
+print_polynomial(D1,"D1");
 print_polynomial(D1,"D1","decimator_R2_test_D1_coef.m");
-if verbose
-  print_pole_zero(d1,U,V,M,Q,R,"d1");
-  print_polynomial(N1,"N1");
-  print_polynomial(D1,"D1");
-endif
 
 save decimator_R2_test.mat n U V M Q R fap fas ftp tp ...
      dBap dBas tpr Wap Was Wtp x0 x1 d1 tol_wise tol_wise tol_mmse tol_pcls

@@ -149,26 +149,26 @@ stdxx2boptfx =
 
 varydboptfx =    6.3163e+00
 est_varydboptfx =    7.4054e+00
-est_varydGoptf =    2.2740e+00
-varydGoptf =    2.3447e+00
-stdyGoptf =    1.1394e+02
+est_varydGoptf =    2.3226e+00
+varydGoptf =    2.4189e+00
+stdyGoptf =    1.1547e+02
 stdxxGoptf =
 
  Columns 1 through 6:
 
-   6.4044e+01   6.3685e+01   6.3943e+01   6.1626e+01   6.1488e+01   6.3515e+01
+   6.4469e+01   6.4102e+01   6.4042e+01   6.2468e+01   6.4297e+01   6.3697e+01
 
  Columns 7 through 12:
 
-   6.3726e+01   6.3838e+01   6.2331e+01   6.4453e+01   6.4243e+01   6.2790e+01
+   6.4226e+01   6.4627e+01   6.3429e+01   6.3184e+01   6.4524e+01   6.3969e+01
 
  Columns 13 through 18:
 
-   6.3669e+01   6.2624e+01   6.2608e+01   6.3724e+01   6.4064e+01   6.3038e+01
+   6.4197e+01   6.3761e+01   6.3008e+01   6.4146e+01   6.4759e+01   6.4086e+01
 
  Columns 19 and 20:
 
-   6.4052e+01   6.5497e+01
+   6.4467e+01   6.5346e+01
 
 
 Butterworth high-pass filter with N=20, fc=0.100000
@@ -278,26 +278,26 @@ stdxx2boptfx =
 
 varydboptfx =    7.2464e+00
 est_varydboptfx =    7.5025e+00
-est_varydGoptf =    2.3417e+00
-varydGoptf =    2.2568e+00
-stdyGoptf =    2.2844e+02
+est_varydGoptf =    2.3247e+00
+varydGoptf =    2.2726e+00
+stdyGoptf =    2.2775e+02
 stdxxGoptf =
 
  Columns 1 through 6:
 
-   6.3789e+01   6.3956e+01   6.3776e+01   6.3797e+01   6.4070e+01   6.4045e+01
+   6.3728e+01   6.3588e+01   6.4051e+01   6.3761e+01   6.4238e+01   6.3589e+01
 
  Columns 7 through 12:
 
-   6.3827e+01   6.3397e+01   6.3762e+01   6.4063e+01   6.3817e+01   6.3968e+01
+   6.3596e+01   6.3106e+01   6.3835e+01   6.3794e+01   6.3975e+01   6.3697e+01
 
  Columns 13 through 18:
 
-   6.4211e+01   6.3996e+01   6.4142e+01   6.4220e+01   6.3889e+01   6.3702e+01
+   6.4061e+01   6.3466e+01   6.3865e+01   6.4052e+01   6.3854e+01   6.3425e+01
 
  Columns 19 and 20:
 
-   6.4019e+01   6.3800e+01
+   6.3883e+01   6.3682e+01
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi

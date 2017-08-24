@@ -61,8 +61,8 @@ HwPdelw2=schurOneMlattice2H(wtpl+delw/2,A,B,C,D);
 HwMdelw2=schurOneMlattice2H(wtpl-delw/2,A,B,C,D);
 diff_Hw=(HwPdelw2-HwMdelw2)/delw;
 rel_diff_Hw=(diff_Hw-dHdw(ntpl))/dHdw(ntpl);
-if abs(rel_diff_Hw) > delw/7562.49
-  error("abs(rel_diff_Hw) > delw/7562.49");
+if abs(rel_diff_Hw) > delw/6676.5
+  error("abs(rel_diff_Hw) > delw/6676.5");
 endif
 
 % Check the gradients of H wrt k
@@ -84,8 +84,8 @@ for l=1:Nk
   diff_Hk(l)=(HkPdel2-HkMdel2)/del;
 endfor
 rel_diff_Hk=(diff_Hk-dHdkc(ntpl,1:Nk))./dHdkc(ntpl,1:Nk);
-if max(abs(rel_diff_Hk)) > del/210.597
-  error("max(abs(rel_diff_Hk)) > del/210.597");
+if max(abs(rel_diff_Hk)) > del/154.9
+  error("max(abs(rel_diff_Hk)) > del/154.9");
 endif
 
 % Check the gradient of H wrt c
@@ -126,8 +126,8 @@ if diff_Hwkc(end) > eps
 endif
 rel_diff_Hwkc=(diff_Hwkc(1:(Nkc-1))-d2Hdwdkc(ntpl,1:(Nkc-1))) ...
               ./d2Hdwdkc(ntpl,(1:Nkc-1));
-if max(abs(rel_diff_Hwkc)) > delw/583.59
-  error("max(abs(rel_diff_Hwkc)) > delw/583.59");
+if max(abs(rel_diff_Hwkc)) > delw/534
+  error("max(abs(rel_diff_Hwkc)) > delw/534");
 endif
 
 % Check the diagonal of the Hessian of H wrt k
@@ -151,8 +151,8 @@ for l=1:Nk
   delk=shift(delk,1);
 endfor
 rel_diff_dHdkc=(diff_dHdkc-diagd2Hdkc2(ntpl,1:Nk))./diagd2Hdkc2(ntpl,1:Nk);
-if max(abs(rel_diff_dHdkc)) > del/64.548
-  error("max(abs(rel_diff_dHdkc)) > del/64.548");
+if max(abs(rel_diff_dHdkc)) > del/55.6
+  error("max(abs(rel_diff_dHdkc)) > del/55.6");
 endif
 
 % Check the diagonal of the Hessian of H wrt c
@@ -215,8 +215,8 @@ for l=1:Nc
   delc=shift(delc,1);
 endfor
 rel_diff_d2Hdwdkc=(diff_d2Hdwdkc-diagd3Hdwdkc2(ntpl,:))./diagd3Hdwdkc2(ntpl,:);
-if max(abs(rel_diff_d2Hdwdkc)) > del/32.985
-  error("max(abs(rel_diff_d2Hdwdkc)) > del/32.985");
+if max(abs(rel_diff_d2Hdwdkc)) > del/30.4
+  error("max(abs(rel_diff_d2Hdwdkc)) > del/30.4");
 endif
 
 % Check the diagonal of the partial derivative of d2Hdkc2 wrt w
@@ -231,8 +231,8 @@ wtpl=wplot(ntpl);
   schurOneMlattice2H(wtpl-delw,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc);
 diff_d2Hdkc2=(diagd2Hdkc2P-diagd2Hdkc2M)/del;
 rel_diff_d2Hdkc2=(diff_d2Hdkc2-diagd3Hdwdkc2(ntpl,:))./diagd3Hdwdkc2(ntpl,:);
-if max(abs(rel_diff_d2Hdkc2)) > del/850.866
-  error("max(abs(rel_diff_d2Hdkc2)) > del/850.866");
+if max(abs(rel_diff_d2Hdkc2)) > del/792
+  error("max(abs(rel_diff_d2Hdkc2)) > del/792");
 endif
 
 % Done

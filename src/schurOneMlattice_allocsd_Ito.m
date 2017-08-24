@@ -101,7 +101,7 @@ function ndigits_alloc=schurOneMlattice_allocsd_Ito ...
   ndigits_alloc(inzkc)=2*ndigits;
   desired_total_digits=ndigits*length(inzkc);
   while sum(ndigits_alloc) > desired_total_digits
-    % Update the digits allocated to the coefficient with greatest cost
+    % Update the digits allocated to the coefficient with least cost
     [min_cost_kc,imkc]=min(cost_kc);
     ndigits_alloc(imkc)=ndigits_alloc(imkc)-1;
 

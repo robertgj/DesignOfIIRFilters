@@ -18,7 +18,7 @@ maxiter=5000
 % Bandpass filter specification
 % (frequencies are normalised to sample rate)
 fapl=0.1,fapu=0.2,dBap=1,Wap=1
-fasl=0.05,fasu=0.25,dBas=36,Wasl=2,Wasu=4
+fasl=0.05,fasu=0.25,dBas=35,Wasl=2,Wasu=4
 ftpl=0.09,ftpu=0.21,tp=16,tpr=0.08,Wtp=1
 
 strM=sprintf("%%s:fapl=%g,fapu=%g,dBap=%g,Wap=%%g,fasl=%g,\

@@ -33,10 +33,10 @@ tdr=inf
 Wtp=0
 
 % Initial coefficients found by tarczynski_parallel_allpass_delay_test.m
-Da0 = [   1.0000000000,  -0.5293688883,   0.3581214335,   0.1868454361, ... 
-          0.0310301175,  -0.0571095893,  -0.0703708398,  -0.0384386678, ... 
-         -0.0003605782,   0.0199157506,   0.0202940598,   0.0113549168, ... 
-          0.0034443540 ]';
+Da0 = [  1.0000000000,  -0.5293688892,   0.3581214325,   0.1868454349, ... 
+         0.0310301162,  -0.0571095908,  -0.0703708412,  -0.0384386690, ... 
+        -0.0003605791,   0.0199157500,   0.0202940594,   0.0113549166, ... 
+         0.0034443539  ]';
 
 % Coefficient constraints
 rho=127/128
@@ -146,7 +146,7 @@ axis(ax(1),[0 0.5 -0.1 0]);
 axis(ax(2),[0 0.5 -50 -45]);
 grid("on");
 title(strt);
-print(sprintf(strd,"a1yy"),"-dpdflatex");
+print(sprintf(strd,"a1dual"),"-dpdflatex");
 
 % Plot passband response
 subplot(211);
@@ -218,6 +218,9 @@ fprintf(fid,"dmax=%f %% Constraint on coefficent step-size\n",dmax);
 fclose(fid);
 
 % Save results
+print_pole_zero([1;a1],0,V,0,Q,R,"a1");
+print_pole_zero([1;a1],0,V,0,Q,R,"a1", ...
+                 "parallel_allpass_delay_sqp_slb_test_a1_coef.m");
 print_polynomial(Da1,"Da1");
 print_polynomial(Da1,"Da1", ...
                  "parallel_allpass_delay_sqp_slb_test_Da1_coef.m");
@@ -228,4 +231,4 @@ save parallel_allpass_delay_sqp_slb_test.mat ...
 toc;
 diary off
 movefile parallel_allpass_delay_sqp_slb_test.diary.tmp ...
-       parallel_allpass_delay_sqp_slb_test.diary;
+         parallel_allpass_delay_sqp_slb_test.diary;

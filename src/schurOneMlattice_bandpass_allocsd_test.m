@@ -1,8 +1,8 @@
 % schurOneMlattice_bandpass_allocsd_test.m
 % Copyright (C) 2017 Robert G. Jenssen
 %
-% Test case for Lims signed-digit allocation algorithm with coefficents of
-% a bandpass lattice filter in one multiplier form.
+% Test Lims and Itos signed-digit allocation algorithms with
+% coefficents of a band-pass one-multiplier lattice filter.
 
 test_common;
 
@@ -79,7 +79,7 @@ for ndigits=2:3
     kc_sd=[k_sd(:);c_sd(:)];
     nbits_kc_sd_digits(l)=SDadders(kc_sd,nbits);
 
-  % Calculate the noise gain
+    % Calculate the noise gain
     [A_sd,B_sd,C_sd,D_sd]=schurOneMR2lattice2Abcd(k_sd,epsilon0,c_sd);
     [K_sd,W_sd]=KW(A_sd,B_sd,C_sd,D_sd);
     selectX_sd=(sum(A_sd~=0,2)+(B_sd~=0))>1;

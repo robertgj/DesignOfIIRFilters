@@ -5,9 +5,9 @@ export CFLAGS="-std=c11 "$BLDOPTS
 export CXXFLAGS="-std=c++11 "$BLDOPTS
 export FFLAGS=$BLDOPTS
                                                         
-$OCTAVE_DIR/configure --prefix=$OCTAVE_INSTALL_DIR \
+$OCTAVE_DIR/configure --prefix=$OCTAVE_INSTALL_DIR --disable-docs \
 --disable-java --without-fltk --without-qt --disable-atomic-refcount \
---with-blas=$LAPACK_LTO_DIR/libblas.a --with-lapack=$LAPACK_LTO_DIR/liblapack.a
+--with-blas=$LAPACK_DIR/libblas.a --with-lapack=$LAPACK_DIR/liblapack.a
 
 make XTRA_CFLAGS="-fprofile-generate" XTRA_CXXFLAGS="-fprofile-generate" V=1 -j6
 find . -name \*.gcda -exec rm {} ';'

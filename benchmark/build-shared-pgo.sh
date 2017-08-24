@@ -6,7 +6,7 @@ export CXXFLAGS="-std=c++11 "$BLDOPTS
 export FFLAGS=$BLDOPTS
 export LDFLAGS="-L"$LAPACK_DIR
                                                          
-$OCTAVE_DIR/configure --prefix=$OCTAVE_INSTALL_DIR \
+$OCTAVE_DIR/configure --prefix=$OCTAVE_INSTALL_DIR --disable-docs \
 --disable-java --without-fltk --without-qt --disable-atomic-refcount \
 --with-blas="-lblas" --with-lapack="-llapack"
 

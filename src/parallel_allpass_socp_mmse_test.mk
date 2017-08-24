@@ -8,6 +8,8 @@ parallel_allpass_socp_mmse_b1pz
 parallel_allpass_socp_mmse_test_COEFS = \
 parallel_allpass_socp_mmse_test.mat \
 parallel_allpass_socp_mmse_test.spec \
+parallel_allpass_socp_mmse_test_a1_coef.m \
+parallel_allpass_socp_mmse_test_b1_coef.m \
 parallel_allpass_socp_mmse_test_Da1_coef.m \
 parallel_allpass_socp_mmse_test_Db1_coef.m \
 parallel_allpass_socp_mmse_test_Dab1_coef.m \

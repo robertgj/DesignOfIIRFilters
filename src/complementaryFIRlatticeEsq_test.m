@@ -99,8 +99,8 @@ for l=1:Nk
   delkhat=shift(delkhat,1);
   diff_Esqkhat(l)=(EsqkhatPdel2-EsqkhatMdel2)/del;
 endfor
-if max(abs(diff_Esqkhat-gradEsq((Nk+1):(2*Nk)))) > del/2418
-  error("max(abs(diff_Esqkhat-gradEsq((Nk+1):(2*Nk)))) > del/2418");
+if max(abs(diff_Esqkhat-gradEsq((Nk+1):(2*Nk)))) > del/2014
+  error("max(abs(diff_Esqkhat-gradEsq((Nk+1):(2*Nk)))) > del/2014");
 endif
 
 % Done

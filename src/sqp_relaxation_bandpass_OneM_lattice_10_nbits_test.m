@@ -12,13 +12,15 @@ unlink("sqp_relaxation_bandpass_OneM_lattice_10_nbits_test.diary.tmp");
 diary sqp_relaxation_bandpass_OneM_lattice_10_nbits_test.diary.tmp
 
 tic;
-maxiter=150
-verbose=false
-tol=1e-4
+
+maxiter=2000
+verbose=false;
 
 schurOneMlattice_bandpass_10_nbits_common;
 
-kc=kc0;
+% Initial coefficients
+kc=zeros(size(kc0));
+kc(kc0_active)=kc0(kc0_active);
 kc_l=kc0_l;
 kc_u=kc0_u;
 kc_active=kc0_active;
@@ -41,19 +43,6 @@ while ~isempty(kc_active)
 
   % Try to solve the current SQP problem with bounds kc_bu and kc_bl
   try
-    % Find the SQP MMSE solution for the remaining active coefficents
-    [nextk,nextc,opt_iter,func_iter,feasible] = ...
-    schurOneMlattice_sqp_mmse([], ...
-                              kc_b(1:Nk),epsilon0,p0,kc_b((Nk+1):end), ...
-                              kc_bu,kc_bl,kc_active,dmax, ...
-                              wa,Asqd,Asqdu,Asqdl,Wa, ...
-                              wt,Td,Tdu,Tdl,Wt, ...
-                              wp,Pd,Pdu,Pdl,Wp, ...
-                              maxiter,tol,verbose);
-    if ~feasible
-      error("SQP MMSE problem infeasible!");
-    endif
-    kc_b=[nextk(:);nextc(:)];
     % Find the SQP PCLS solution for the remaining active coefficents
     [nextk,nextc,slb_iter,opt_iter,func_iter,feasible] = ...
     schurOneMlattice_slb(@schurOneMlattice_sqp_mmse, ...
@@ -107,7 +96,7 @@ while ~isempty(kc_active)
   endif
   kc=nextkc;
   kc_active(kc_max_n)=[];
-  printf("Fixed kc(%d)=%13.10f\n",coef_n,kc(coef_n));
+  printf("Fixed kc(%d)=%g/%d\n",coef_n,kc(coef_n)*nscale,nscale);
   printf("kc_active=[ ");printf("%d ",kc_active);printf("];\n\n");
 
 endwhile
@@ -131,8 +120,14 @@ print_polynomial(nscale*c_min,sprintf("%d*c_min",nscale), ...
 % Find the number of signed-digits and adders used
 [kc_digits,kc_adders]=SDadders(kc_min(kc0_active),nbits);
 printf("%d signed-digits used\n",kc_digits);
+fid=fopen(strcat(fstr,"_signed_digits.tab"),"wt");
+fprintf(fid,"%d",kc_digits);
+fclose(fid);
 printf("%d %d-bit adders used for coefficient multiplications\n",
        kc_adders,nbits);
+fid=fopen(strcat(fstr,"_adders.tab"),"wt");
+fprintf(fid,"%d",kc_adders);
+fclose(fid);
 
 % Filter a quantised noise signal and check the state variables
 nsamples=2^12;

@@ -29,10 +29,10 @@ Was=2000
 rho=127/128;
 
 % Initial coefficients found by tarczynski_parallel_allpass_delay_test.m
-Da0 = [   1.0000000000,  -0.1379461634,   0.6508711770,   0.3435787722, ... 
-          0.0871260589,  -0.0354868180,  -0.0404097040,  -0.0013520894, ... 
-          0.0198918909,   0.0102233345,  -0.0088825402,  -0.0168505648, ... 
-         -0.0040338574 ]';
+Da0 = [   1.0000000000,  -0.1379465149,   0.6508707694,   0.3435781430, ... 
+          0.0871255641,  -0.0354871756,  -0.0404097917,  -0.0013519661, ... 
+          0.0198921310,   0.0102235648,  -0.0088822037,  -0.0168506845, ... 
+         -0.0040334564 ]';
 
 % Convert coefficients to a vector
 [a0,V,Q]=tf2a(Da0);
@@ -154,6 +154,9 @@ fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fclose(fid);
 
 % Save results
+print_pole_zero([1;a1],0,V,0,Q,R,"a1");
+print_pole_zero([1;a1],0,V,0,Q,R,"a1", ...
+                "parallel_allpass_delay_socp_mmse_test_a1_coef.m");
 print_polynomial(Da1,"Da1");
 print_polynomial(Da1,"Da1","parallel_allpass_delay_socp_mmse_test_Da1_coef.m");
 
@@ -162,4 +165,5 @@ save parallel_allpass_delay_socp_mmse_test.mat  ...
      n fap Wap ftp Wtp fas Was td m R D a0 a1 Da1
 
 diary off
-movefile parallel_allpass_delay_socp_mmse_test.diary.tmp parallel_allpass_delay_socp_mmse_test.diary;
+movefile parallel_allpass_delay_socp_mmse_test.diary.tmp ...
+         parallel_allpass_delay_socp_mmse_test.diary;

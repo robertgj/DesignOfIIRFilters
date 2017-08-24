@@ -47,7 +47,7 @@ dmask=(max(length(x0.aa),length(x0.ac))-1)/2; % FIR masking filter delay
 %
 % Check conversion
 %
-tol=1.3*eps;
+tol=2.5*eps;
 % Convert to gain-pole-zero form
 [xk,Vr,Qr,Rr,na,nc]=iir_frm_allpass_struct_to_vec(x0);
 % Convert back to polynomial form

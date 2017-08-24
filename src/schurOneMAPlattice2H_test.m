@@ -62,8 +62,8 @@ diff_A2Hw=0;
 A2HwPdelw2=schurOneMAPlattice2H(wpass+delw/2,A2A,A2B,A2Cap,A2Dap);
 A2HwMdelw2=schurOneMAPlattice2H(wpass-delw/2,A2A,A2B,A2Cap,A2Dap);
 diff_A2Hw=(A2HwPdelw2-A2HwMdelw2)/delw;
-if abs(diff_A2Hw-A2dHdw(npass)) > delw/874.17
-  error("abs(diff_A2Hw-A2dHdw(npass)) > delw/874.17");
+if abs(diff_A2Hw-A2dHdw(npass)) > delw/836.5
+  error("abs(diff_A2Hw-A2dHdw(npass)) > delw/836.5");
 endif
 
 % Check the gradients of A1H wrt A1k

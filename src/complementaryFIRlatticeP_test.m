@@ -50,8 +50,8 @@ for l=1:Nk
   delk=shift(delk,1);
   diff_Pk(l)=(PkPdel2-PkMdel2)/del;
 endfor
-if max(abs(diff_Pk-gradP(ntpl,1:Nk))) > del/3447
-  error("max(abs(diff_Pk-gradP(ntpl,1:Nk))) > del/3447");
+if max(abs(diff_Pk-gradP(ntpl,1:Nk))) > del/2816
+  error("max(abs(diff_Pk-gradP(ntpl,1:Nk))) > del/2816");
 endif
 
 % Check the gradient of the squared-magnitude response wrt khat

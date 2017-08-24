@@ -93,13 +93,13 @@ design procedure must find a locally optimal solution that satisfies the
 specifications and the coefficients of the IIR transfer function denominator
 polynomial must be constrained to ensure that the IIR filter is stable.
 
-This report describes my experiments in the design of IIR digital
-filters with given amplitude, phase and group delay responses and
-truncated or quantised coefficients. I programmed those experiments in the
-\emph{Octave} language~\cite{Eaton_Octave}. Octave is an ``almost'' compatible
-open-source-software clone of the commercial \emph{MATLAB}
-package~\cite{Mathworks_MATLAB}.  The minimum-mean-squared-error (MMSE)
-approximation to the required response is found by either a
+This report describes my experiments in the design of IIR digital filters with
+given amplitude, phase and group delay responses and with integer coefficients
+implemented as signed-digit shift-and-add operations. I programmed those
+experiments in the \emph{Octave} language~\cite{Eaton_Octave}. Octave is an
+``almost'' compatible open-source-software clone of the commercial
+\emph{MATLAB} package~\cite{Mathworks_MATLAB}. The minimum-mean-squared-error
+(MMSE) approximation to the required response is found by either a
 sequential-quadratic-programming (SQP) solver or by the \emph{SeDuMi}
 second-order-cone-programming (SOCP) solver originally written by
 \emph{Sturm}~\cite{Sturm_SeDuMi_GitHub}. The stability of the filter is
@@ -123,7 +123,8 @@ algorithm of \emph{Lim et
   al.}~\cite{Lim_SignedPowerOfTwoAllocationDigitalFilters} or that of
 \emph{Ito et al.}~\cite{Ito_PowersOfTwoAllocationFIR} and branch-and-bound or
 relaxation search is used to find an acceptable response. For lesser
-coefficient word-lengths simulated-annealing gives the best results.
+coefficient word-lengths simulated-annealing of the signed-digit rounded
+coefficients gives the best results.
 
 \paragraph{The state variable description of digital filters}
 Part~\ref{part:State-Variable-digital-filters} is a review of the \emph{state
@@ -274,7 +275,10 @@ coefficients. The figure compares the filter responses for the exact
 coefficients and $10$-bit signed-digit coefficients with an average of $3$
 signed-digits allocated to each coefficient by the method of \emph{Ito et
   al.}~\cite{Ito_PowersOfTwoAllocationFIR}. After SQP-relaxation optimisation
-of the signed-digit coefficient values, $57$ signed-digits and $26$
+of the signed-digit coefficient values, 
+\input{sqp_relaxation_bandpass_OneM_lattice_10_nbits_test_signed_digits.tab}
+signed-digits and
+\input{sqp_relaxation_bandpass_OneM_lattice_10_nbits_test_adders.tab}
 shift-and-add operations are required to implement the coefficient
 multiplications.
 \begin{figure}[!htbp]
@@ -324,12 +328,10 @@ $-1$.
 
 The results shown in this report were obtained on my system running with a
 particular combination of CPU architecture, operating system, library
-versions, compiler version and Octave version. In
-the~\hyperlink{sec:Colophon}{Colophon} I describe building and benchmarking
-Octave on my system. \textsc{\textbf{Your system will almost certainly be
-    different. You may need to modify a script to run on your system}}. Try
-relaxing the constraints on the filter design, relaxing the tolerance on the
-optimised result or change the relative weights on the filter bands.
+versions, compiler version and Octave version.
+
+\textsc{\textbf{Your system will almost certainly be
+    different. You may need to modify a script to run on your system}}.
 \cleardoublepage{}
 \part{\label{part:State-Variable-digital-filters}State Variable description of digital filters}
 \cleardoublepage{}
@@ -3341,7 +3343,7 @@ simulation results obtained by setting $N=10$ in
  Scaled Direct &  7.36 &  9.93 &  6.93 \\ 
  Block Opt.&  1.92 &  2.69 &  2.62 \\ 
  Block Opt. (extra bits) &  1.10 &  1.59 &  1.59 \\ 
- Global Opt. &  1.03 &  1.45 &  1.42 \\ 
+ Global Opt. &  1.01 &  1.43 &  1.43 \\ 
 \bottomrule
 \end{tabular}
 \end{threeparttable}
@@ -7224,16 +7226,16 @@ and
 \subsection{\label{sec:Low-pass-R-2-decimation-filter}Low-pass R=2 decimation filter}
 The second example design is a low-pass $R=2$ decimation filter.
 \begin{align*}
-U &= 2\\
+U &= 0\\
 V &= 0\\
-M &= 10\\
+M &= 12\\
 Q &= 6\\
 R &= 2\\
 A\left(f\right) &= \begin{cases}
 1 & 0<f<0.10\\
 0 & 0.25<f<0.5
 \end{cases}\\
-T\left(f\right) &= 12\quad0<f<0.125
+T\left(f\right) &= 10 \quad 0<f<0.125
 \end{align*}
 The Octave script \emph{decimator\_R2\_test.m} implements this example.  The
 filter specification defined in that file is
@@ -7246,9 +7248,8 @@ initialised with a ``guess'':
 \begin{small}
 \begin{verbatim}
 xi=[ 0.0001, ...
-     [2,2], ...
      [1,1,1,1,1], ...
-     (6:10)*pi/10, ...
+     (7:12)*pi/12, ...
      0.7*[1,1,1], ...
      (1:3)*pi/8]';
 \end{verbatim}
@@ -7270,7 +7271,7 @@ Figure~\ref{fig:Decimator-R-2-Initial-x0}.
 \end{center}
 \end{figure}
 \subsubsection{MMSE optimisation of the low-pass R=2 decimator}
-After some experimentation and iteration, weights $Wap=1$, $Was=2$ and 
+After some experimentation and iteration, weights $Wap=1$, $Was=4$ and 
 $Wtp=1$ give the response shown in Figure~\ref{fig:Decimator-R-2-MMSE-x1}
 with the pass-band detail shown in 
 Figure~\ref{fig:Decimator-R-2-MMSE-x1-passband}. The corresponding 
@@ -7299,8 +7300,8 @@ pole-zero plot is shown in Figure~\ref{fig:Decimator-R-2-MMSE-x1-pz}.
 
 \subsubsection{PCLS optimisation of the low-pass  R=2 decimator}
 Starting with the MMSE filter of Figure~\ref{fig:Decimator-R-2-MMSE-x1},
-the weights $Wap=1$, $Was=2$ and $Wtp=1$ and the constraints $dBap=0.2$, 
-$dBas=40$ and $tpr=0.06$ give the response shown in
+the weights $Wap=1$, $Was=4$ and $Wtp=1$ and the constraints $dBap=0.3$, 
+$dBas=50$, $tp=10$ and $tpr=0.008$ give the response shown in
 Figure~\ref{fig:Decimator-R-2-PCLS-d1} with pass-band detail 
 shown in Figure~\ref{fig:Decimator-R-2-PCLS-d1-passband}. The corresponding 
 pole-zero plot is shown in Figure~\ref{fig:Decimator-R-2-PCLS-d1-pz}.
@@ -7381,7 +7382,7 @@ Figure~\ref{fig:iir-sqp-slb-bandpass-test-initial-x0}.
 \subsubsection{\label{sub:MMSE-optimisation-of-the-band-pass-R2-decimator}MMSE optimisation of the band-pass  R=2 decimator}
 First the initial filter is passed through \emph{iir\_sqp\_mmse} with amplitude
 response pass-band weight $Wap=1$, amplitude response lower and 
-upper stop-band weights $Wasl=2$ and $Wasu=2$, respectively, and
+upper stop-band weights $Wasl=2$ and $Wasu=4$, respectively, and
 group-delay response pass-band weight $Wtp=1$. The 
 response of the MMSE-optimised filter is shown in 
 Figure~\ref{fig:iir-sqp-slb-bandpass-test-mmse-x1} with pass-band detail
@@ -7414,7 +7415,7 @@ Figure~\ref{fig:iir-sqp-slb-bandpass-test-mmse-x1-pz}.
 Next, the filter designed in 
 Section~\ref{sub:MMSE-optimisation-of-the-band-pass-R2-decimator} is passed 
 through \emph{iir\_slb} for PCLS optimisation with $Wtp=1$, $tpr=0.08$ samples, 
-$dBap=1$ and $dBas=36$. The response of the resulting filter is shown 
+$dBap=1$ and $dBas=35$. The response of the resulting filter is shown 
 in Figure~\ref{fig:iir-sqp-slb-bandpass-test-pcls-d1} with pass-band detail
 shown in Figure~\ref{fig:iir-sqp-slb-bandpass-test-pcls-d1-passband}. The
 corresponding pole-zero plot is shown in
@@ -9165,7 +9166,7 @@ Figure~\ref{fig:Allpass-2nd-order-cascade-delay-squared-magnitude-response}.
 \end{figure}
 At the filter band edges the change in phase of the allpass branch produces a 
 corresponding transient in the group delay response.
-\subsection{\label{sec:Design-IIR-filter-sum-all-pass filters-pole-zero}Design of an IIR filter as the sum of two all-pass filters each represented in pole-zero form}
+\subsection{\label{sec:Design-IIR-filter-sum-all-pass-filters-pole-zero}Design of an IIR filter as the sum of two all-pass filters each represented in pole-zero form}
 Rewriting Equation~\ref{eqn:Parallel-allpass-transfer-function} in terms of
 the phase responses of the component all-pass filters gives
 \begin{align*}
@@ -9231,7 +9232,7 @@ and partial derivatives of the group delay response of the parallel combination
 of two all-pass IIR filters and is exercised by the test script 
 \emph{parallel\_allpassT\_test.m}.
 
-\subsubsection{\label{sec:Design-IIR-filter-sum-all-pass filters-pole-zero-no-constraints-on-group-delay}Design of an IIR filter as the sum of two all-pass filters each represented in pole-zero form with no constraints on the group delay}
+\subsubsection{\label{sec:Design-IIR-filter-sum-all-pass-filters-pole-zero-no-constraints-on-group-delay}Design of an IIR filter as the sum of two all-pass filters each represented in pole-zero form with no constraints on the group delay}
 The Octave script \emph{parallel\_allpass\_socp\_slb\_test.m} calls the Octave
 function \emph{parallel\_allpass\_slb} to perform the PCLS design of a low-pass
 filter composed of two parallel all-pass filters in terms of the all-pass filter
@@ -9249,8 +9250,8 @@ The initial parallel all-pass filters were designed by the Octave script
 using the \emph{WISE} method described in 
 Section~\ref{Unconstrained-minimisation-with-barrier}. The response
 of the initial filter is shown in
-Figure~\ref{fig:Parallel-allpass-filter-initial-response} and the pole-zero
-plot of the initial filter is shown in
+Figure~\ref{fig:Parallel-allpass-filter-initial-response}.
+The pole-zero plot of the initial filter is shown in
 Figure~\ref{fig:Parallel-allpass-filter-initial-response-pz}.
 \begin{figure}[!htbp]
 \begin{center}
@@ -9267,14 +9268,12 @@ Figure~\ref{fig:Parallel-allpass-filter-initial-response-pz}.
 \end{center}
 \end{figure}
 The final filter response is shown in
-Figure~\ref{fig:Parallel-allpass-filter-PCLS-SOCP-response} with passband detail
-shown in Figure~\ref{fig:Parallel-allpass-filter-PCLS-SOCP-pass-band-response}
-and pole-zero plot shown in 
-Figure~\ref{fig:Parallel-allpass-filter-PCLS-SOCP-pz}. The pole-zero plots
-of the branch allpass filters are shown in 
-Figures~\ref{fig:Parallel-allpass-filter-PCLS-SOCP-a1pz} and 
-\ref{fig:Parallel-allpass-filter-PCLS-SOCP-b1pz}. 
-The denominator polynomials of the two all-pass filters are
+Figure~\ref{fig:Parallel-allpass-filter-PCLS-SOCP-response} and the pole-zero
+plot is shown in Figure~\ref{fig:Parallel-allpass-filter-PCLS-SOCP-pz}. The
+pole-zero plots of the branch allpass filters are shown in
+Figures~\ref{fig:Parallel-allpass-filter-PCLS-SOCP-a1pz} and
+\ref{fig:Parallel-allpass-filter-PCLS-SOCP-b1pz}. The denominator polynomials
+of the two all-pass filters are
 \begin{small}
 \verbatiminput{parallel_allpass_socp_slb_test_Da1_coef.m}
 \end{small}
@@ -9291,18 +9290,16 @@ and
 \begin{small}
 \verbatiminput{parallel_allpass_socp_slb_test_Dab1_coef.m}
 \end{small}
+This result is obtained with a fortunate combination of tolerances and
+weights. A constraint using a linear approximation to the square-root of the
+squared magnitude may be a better means of obtaining this level of stop band
+suppression.
+
 \begin{figure}[!htbp]
 \begin{center}
-\scalebox{0.7}{\input{parallel_allpass_socp_slb_ab1}}
+\scalebox{0.7}{\input{parallel_allpass_socp_slb_ab1dual}}
 \caption{Parallel all-pass filters : Response after PCLS SOCP optimisation}
 \label{fig:Parallel-allpass-filter-PCLS-SOCP-response}
-\end{center}
-\end{figure}
-\begin{figure}[!htbp]
-\begin{center}
-\scalebox{0.7}{\input{parallel_allpass_socp_slb_ab1pass}}
-\caption{Parallel all-pass filters : Pass-band response after PCLS SOCP optimisation}
-\label{fig:Parallel-allpass-filter-PCLS-SOCP-pass-band-response}
 \end{center}
 \end{figure}
 \begin{figure}[!htbp]
@@ -9327,7 +9324,7 @@ and
 \end{center}
 \end{figure}
 \clearpage
-\subsubsection{\label{sec:Design-IIR-filter-sum-all-pass filters-pole-zero-constrained-group-delay}Design of an IIR filter as the sum of two all-pass filters each represented in pole-zero form with constraints on the group delay}
+\subsubsection{\label{sec:Design-IIR-filter-sum-all-pass-filters-pole-zero-constrained-group-delay}Design of an IIR filter as the sum of two all-pass filters each represented in pole-zero form with constraints on the group delay}
 The Octave script \emph{parallel\_allpass\_socp\_slb\_flat\_delay\_test.m} calls 
 the Octave function \emph{parallel\_allpass\_slb} to perform the PCLS design of
 a low-pass filter composed of two parallel all-pass filters in terms of the 
@@ -9498,7 +9495,7 @@ The denominator polynomial of the final all-pass filter is
 \end{figure}
 \begin{figure}[!htbp]
 \begin{center}
-\scalebox{0.7}{\input{parallel_allpass_delay_socp_slb_a1yy}}
+\scalebox{0.7}{\input{parallel_allpass_delay_socp_slb_a1dual}}
 \caption{Parallel delay and all-pass filter : Detail of the pass-band and
   stop-band responses after PCLS SOCP optimisation}
 \label{fig:Parallel-allpass-delay-filter-PCLS-SOCP-detail-response}
@@ -9548,7 +9545,7 @@ The denominator polynomial of the final all-pass filter is
 \end{figure}
 \begin{figure}[!htbp]
 \begin{center}
-\scalebox{0.7}{\input{parallel_allpass_delay_sqp_slb_a1yy}}
+\scalebox{0.7}{\input{parallel_allpass_delay_sqp_slb_a1dual}}
 \caption{Parallel delay and all-pass filter : Detail of the pass-band and
   stop-band responses after PCLS SQP optimisation}
 \label{fig:Parallel-allpass-delay-filter-PCLS-SQP-detail-response}
@@ -9590,7 +9587,7 @@ specification is:
 \begin{small}
 \verbatiminput{polyphase_allpass_socp_slb_test.spec}
 \end{small}
-As in Section~\ref{sec:Design-IIR-filter-sum-all-pass filters-pole-zero-no-constraints-on-group-delay}, the script does not optimise for a flat filter group 
+As in Section~\ref{sec:Design-IIR-filter-sum-all-pass-filters-pole-zero-no-constraints-on-group-delay}, the script does not optimise for a flat filter group 
 delay.
 
 The initial parallel all-pass filters were designed by the
@@ -9599,7 +9596,8 @@ method described in Section~\ref{Unconstrained-minimisation-with-barrier}. In
 this case the script has $flat\_delay = false$. The response of the initial 
 filter is shown in Figure~\ref{fig:Polyphase-allpass-filter-initial-response}.
 After PCLS optimisation with the \emph{SeDuMi} SOCP solver the response is 
-shown in Figure~\ref{fig:Polyphase-allpass-filter-PCLS-SOCP-response}. The
+shown in Figure~\ref{fig:Polyphase-allpass-filter-PCLS-SOCP-response} and
+Figure~\ref{fig:Polyphase-allpass-filter-PCLS-SOCP-passband-response}. The
 denominator polynomials of the two all-pass filters are
 \begin{small}
 \verbatiminput{polyphase_allpass_socp_slb_test_Da1_coef.m}
@@ -9621,6 +9619,13 @@ with the WISE barrier function}
 \scalebox{0.7}{\input{polyphase_allpass_socp_slb_ab1}}
 \caption{Polyphase combination of two allpass filters : Response after PCLS SOCP optimisation}
 \label{fig:Polyphase-allpass-filter-PCLS-SOCP-response}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{polyphase_allpass_socp_slb_ab1pass}}
+\caption{Polyphase combination of two allpass filters : Passband response after PCLS SOCP optimisation}
+\label{fig:Polyphase-allpass-filter-PCLS-SOCP-passband-response}
 \end{center}
 \end{figure}
 \clearpage
@@ -9894,11 +9899,37 @@ coefficients of the band-pass filter are:
 \verbatiminput{schurOneMlattice_sqp_slb_bandpass_test_c2_coef.m}
 \end{small}
 
-A second PCLS pass with the constraints $tpr=0.06$ and $Wtp\_pcls=8$ succeeds 
-(eventually). Alternatively, the Octave script  
-\emph{schurOneMlattice\_socp\_slb\_bandpass\_test.m} runs a PCLS SOCP pass 
-starting with the $k2$, $epsilon2$, $p2$ and $c2$ found above and the 
-constraints $dBas=37$, $tpr=0.05$ and $Wtp\_pcls=6$.
+The Octave script \emph{schurOneMlattice\_socp\_slb\_bandpass\_test.m} runs a
+PCLS SOCP pass starting with the $k2$, $epsilon2$, $p2$ and $c2$ found above
+and the constraint $tpr=tp/400$.
+Figures~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS} 
+and~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS-pass} 
+show the overall and passband response of the band-pass filter after SOCP PCLS
+optimisation.
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{schurOneMlattice_socp_slb_bandpass_test_pcls_k3c3}}
+\caption{Schur one-multiplier lattice band-pass filter : response after SOCP PCLS optimisation}
+\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{schurOneMlattice_socp_slb_bandpass_test_pcls_k3c3pass}}
+\caption{Schur one-multiplier lattice band-pass filter : passband response after SOCP PCLS optimisation}
+\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS-pass}
+\end{center}
+\end{figure}
+
+The SOCP PCLS optimised Schur one-multiplier
+allpass lattice and numerator tap coefficients of the band-pass filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_k3_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_epsilon3_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_p3_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_c3_coef.m}
+\end{small}
 \clearpage
 \subsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-hilbert-SQP}Design of an IIR one-multiplier Schur lattice Hilbert filter using SQP}
 The Octave script \emph{schurOneMlattice\_sqp\_slb\_hilbert\_test.m} implements
@@ -10011,8 +10042,63 @@ The SQP loop for this example is called from the Octave
 function \emph{schurNSlattice\_sqp\_mmse} exercised by the 
 Octave script \emph{schurNSlattice\_sqp\_mmse\_test.m}. 
 The \emph{schurNSlattice\_sqp\_mmse} function includes code that forces 
-$s_{02}=-s_{20}$ and $s_{22}=s_{00}$. Enabling this code in the test script
-results in a filter with worse state-variable scaling.
+$s_{02}=-s_{20}$ and $s_{22}=s_{00}$. In neither case does this function
+enforce normalised-scaling with the relations $s_{02}=\sqrt{1-s_{00}^{2}}$ and
+$s_{22}=\sqrt{1-s_{20}^{2}}$. For simplicity, I have assumed that all
+relationships between coefficients are linear.
+
+\clearpage
+\subsection{\label{sec:Design-parallel-Schur-one-mult-all-pass-lattice-low-pass-SOCP}Design of a parallel IIR Schur one-multiplier all-pass lattice low-pass filter using SOCP}
+The Octave script \emph{schurOneMPAlattice\_socp\_slb\_lowpass\_test.m}
+implements the design of a lowpass IIR filter composed of parallel
+one-multiplier Schur lattice all-pass filters with SOCP and PCLS optimisation.
+The specification of the filter is:
+\begin{small}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_test.spec}
+\end{small}
+The initial parallel allpass filters were designed by the Octave script 
+\emph{tarczynski\_parallel\_allpass\_test.m} (with $flat\_delay=true$).
+These initial filters are those used in
+Section~\ref{sec:Design-IIR-filter-sum-all-pass-filters-pole-zero-constrained-group-delay}.
+
+Figures~\ref{fig:Parallel-Schur-one-m-lattice-allpass-lowpass-filter-SOCP-PCLS} 
+and~\ref{fig:Parallel-Schur-one-m-lattice-allpass-lowpass-filter-SOCP-PCLS-pass}
+show the overall and passband responses of the filter after SOCP PCLS
+optimisation and
+Figure~\ref{fig:Parallel-Schur-one-m-lattice-allpass-lowpass-filter-SOCP-PCLS-pz}
+shows the pole-zero plot of the filter. The low-pass filter SOCP PCLS
+optimised Schur one-multiplier all-pass lattice coefficients are:
+\begin{small}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_test_A1k_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_test_A1epsilon_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_test_A2k_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_test_A2epsilon_coef.m}
+\end{small}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_lowpass_test_response}}
+\caption{Parallel Schur one-multiplier allpass lattice lowpass filter : response after SOCP PCLS optimisation}
+\label{fig:Parallel-Schur-one-m-lattice-allpass-lowpass-filter-SOCP-PCLS}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_lowpass_test_passband_response}}
+\caption{Parallel Schur one-multiplier allpass lattice lowpass filter :
+  passband response after SOCP PCLS optimisation}
+\label{fig:Parallel-Schur-one-m-lattice-allpass-lowpass-filter-SOCP-PCLS-pass}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_lowpass_test_pz}}
+\caption{Parallel Schur one-multiplier allpass lattice lowpass filter :
+  pole-zero plot after SOCP PCLS optimisation}
+\label{fig:Parallel-Schur-one-m-lattice-allpass-lowpass-filter-SOCP-PCLS-pz}
+\end{center}
+\end{figure}
+
 \clearpage
 \section{\label{sec:Design-of-an-IIR-filters-with-a-sharp-transition-band-by-frequency-response-masking}Design
   of IIR filters with a sharp transition band by frequency response masking}
@@ -11270,7 +11356,9 @@ shows the impulse response of the resulting FRM masking filters.
 Figure~\ref{fig:iir-frm-parallel-allpass-socp-slb-pcls-masking-response} 
 shows the responses of the resulting FRM masking filters. 
 Figure~\ref{fig:iir-frm-parallel-allpass-socp-slb-pcls-model-response} 
-shows the response of the resulting FRM model filter. 
+shows the response of the resulting FRM model filter\footnote{The responses
+ shown are calculated with the allpass filter polynomial derived from the
+gain-pole-zero form.}.
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{iir_frm_parallel_allpass_socp_slb_test_pcls_response}}
@@ -12089,8 +12177,8 @@ Allocate $n_{k}$:
 \end{algorithm}
 
 \section{Signed-digit allocation of the coefficients of a Schur one-multiplier lattice filter}
-This section compares the performance of the Schur one-multiplier bandpass
-filter of
+This section compares the performance of the SQP optimised Schur
+one-multiplier bandpass filter of
 Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP} with
 coefficients that are exact, rounded, approximated by two signed-digits and
 approximated by an average of two signed-digits allocated by the \emph{Lim} and
@@ -12587,34 +12675,35 @@ required to implement these signed-digit multipliers.
 \section{\label{sec:branch-bound-search-signed-digit-coefficients}\emph{Branch-and-bound} search for signed-digit coefficients}
 Given the $K$ coefficients, $x_{k}$, of a filter, an exhaustive search of the
 upper and lower bounds on the integer or signed-digit approximations to these
-coefficients would require $\mathcal{O}\left(2^{K}\right)$ comparisons.
+coefficients would require $\mathcal{O}\left(2^{K}\right)$ comparisons of the
+corresponding filter approximation error.
 \emph{Branch-and-bound}~\cite{LandDoig_AutomaticMethodSolvingDiscreteProgrammingProblems},
 \cite[p.627]{Sedgewick_AlgorithmsInCPlusPlus} is a heuristic for reducing the
-number of branches searched in a binary decision tree. At each branch
-of the binary tree the solution is compared to the estimated lower bounds
-on the cost of the full path proceeding from that branch. If the cost of that 
-full path is greater than that of the best full path found so far then further
-search on that path is abandoned.
-Figure~\ref{fig:branch-bound-tree-search-algorithm} shows a flow diagram of an 
-implementation of the algorithm using a stack. The exact filter
-coefficients $\boldsymbol{x}$ are approximated by the signed-digit coefficients
-$\bar{\boldsymbol{x}}$. Each coefficient, $x_{k}$ and $\bar{x}_{k}$ is bounded
-by the corresponding signed-digit numbers $u_{k}$ and $l_{k}$ so that
-$l_{k}\le{}x_{k}\le{}u_{k}$ and $l_{k}\le{}\bar{x}_{k}\le{}u_{k}$. The search
-for the set of coefficients with minimum cost is ``depth-first'', starting at
-the root of the search tree and fixing successive coefficients.  \emph{Ito et
+number of branches searched in a binary decision tree. At each branch of the
+binary tree the solution is compared to the estimated lower bounds on the cost
+of the full path proceeding from that branch. If the cost of that full path is
+greater than that of the best full path found so far then further search on
+that path is abandoned.  Figure~\ref{fig:branch-bound-tree-search-algorithm}
+shows a flow diagram of an implementation of the algorithm using a stack. The
+exact filter coefficients $\boldsymbol{x}$ are approximated by the
+signed-digit coefficients $\bar{\boldsymbol{x}}$. Each coefficient, $x_{k}$
+and $\bar{x}_{k}$ is bounded by the corresponding signed-digit numbers $u_{k}$
+and $l_{k}$ so that $l_{k}\le{}x_{k}\le{}u_{k}$ and
+$l_{k}\le{}\bar{x}_{k}\le{}u_{k}$. The search for the set of coefficients with
+minimum cost is ``depth-first'', starting at the root of the search tree and
+fixing successive coefficients.  \emph{Ito et
   al.}~\cite{Ito_PowersOfTwoAllocationFIR} recommend choosing, at each branch,
-the $x_{k}$ with the greatest difference $u_{k}-l_{k}$. The two sub-problems at
-that branch fix $x_{k}$ to $l_{k}$ and $u_{k}$. One of the two sub-problems is
-pushed onto a stack and the other is solved and the cost calculated. I assume 
-that this cost is the least possible for the remaining coefficients on
+the $x_{k}$ with the greatest difference $u_{k}-l_{k}$. The two sub-problems
+at that branch fix $x_{k}$ to $l_{k}$ and $u_{k}$. One of the two sub-problems
+is pushed onto a stack and the other is solved and the cost calculated. I
+assume that this cost is the least possible for the remaining coefficients on
 the current branch. If the cost of the current sub-problem is greater than the
 current minimum cost then the current branch is abandoned and a new
-sub-problem is popped off the problem stack. Otherwise, if search has
-reached the maximum depth of the tree then the current solution is a new 
-signed-digit minimum cost solution. If the current cost is less than the 
-minimum cost and the search has not reached the maximum depth then the search 
-continues with a new branch. 
+sub-problem is popped off the problem stack. Otherwise, if the search has
+reached the maximum depth of the tree then the current solution is a new
+signed-digit minimum cost solution. If the current cost is less than the
+minimum cost and the search has not reached the maximum depth then the search
+continues with a new branch.
 
 \begin{figure}[!hb]
 \begin{center}
@@ -12624,17 +12713,11 @@ continues with a new branch.
 \end{center}
 \end{figure}
 
-The following sections show the results of experiments with branch-and-bound
-search for the signed-digit coefficients of a Schur one-multiplier lattice 
-filter based on that found in 
-Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP}. The
-cost function used is \emph{schurOneMlatticeEsq}.
-
 \subsection{Branch-and-bound search for the 6 bit 3 signed-digit
 coefficients of a one-multiplier Schur lattice filter}
 The Octave script \emph{branch\_bound\_bandpass\_OneM\_lattice\_6\_nbits\_test.m}
-uses the branch-and-bound heuristic to optimise the response of the band-pass 
-Schur one-multiplier lattice filter of
+uses the branch-and-bound heuristic to optimise the response of the SQP
+optimised band-pass Schur one-multiplier lattice filter of
 Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP} with 
 coefficients truncated to $6$ bit and $3$ signed-digits. The filter 
 specification is:
@@ -12810,6 +12893,111 @@ bandpass filter branch-and-bound algorithm example with 10 bit coefficients]
   an average of 3 signed-digits to each coefficient using the heuristic of 
   \emph{Ito et al.} and performing branch-and-bound search}
 \label{tab:branch-bound-schurOneMlattice-bandpass-10-nbits-cost-summary}
+\end{table}
+\clearpage
+\subsection{\label{sec:Branch-and-bound-search-signed-digit-coefficients-parallel-allpass-lowpass}Branch-and-bound
+  search for the 12 bit 3 signed-digit coefficients of a parallel Schur one-multiplier all-pass lattice low-pass filter}
+The Octave script 
+\emph{branch\_bound\_schurOneMPAlattice\_lowpass\_12\_nbits\_test.m} performs
+branch-and-bound search to optimise the response of the parallel
+Schur one-multiplier all-pass lattice low-pass filter of
+Section~\ref{sec:Design-parallel-Schur-one-mult-all-pass-lattice-low-pass-SOCP}
+with $12$-bit integer coefficients. The filter specification is:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test.spec}
+\end{small} 
+
+The filter coefficients are truncated to $12$ bits allocated with an average
+of $3$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
+Section~\ref{sec:Ito-allocation-signed-digits}.
+At each branch the script fixes the coefficient with the largest difference
+between upper and lower $3$ signed-digit approximations to the floating-point
+value. For each sub-problem the coefficients ``higher-up-the-tree'' are fixed
+and the remaining free coefficients are SOCP PCLS optimised with the filter 
+specification given above.
+
+The signed-digit lattice coefficients found by the heuristic of
+\emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_A1k0_sd_coef.m}
+\verbatiminput{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_A2k0_sd_coef.m}
+\end{small}
+
+The signed-digit lattice coefficients found by the SOCP branch-and-bound
+search are:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_A1k_min_coef.m}
+\verbatiminput{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_A2k_min_coef.m}
+\end{small}
+The signed-digit lattice coefficients found by the SOCP branch-and-bound
+search are implemented with 
+\input{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_kmin_digits.tab}
+signed-digits and 
+\input{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_kmin_adders.tab}
+shift-and-add operations.
+
+Figure~\ref{fig:branch-bound-schurOneMPAlattice-lowpass-12-nbits-pass-response}
+shows the amplitude pass-band response of the filter with
+$12$-bit $3$-signed-digit coefficients allocated with the algorithm of
+\emph{Lim et al.} and SOCP-relaxation search.
+Figure~\ref{fig:branch-bound-schurOneMPAlattice-lowpass-12-nbits-delay-response}
+shows the corresponding filter pass-band group-delay response.
+Figure~\ref{fig:branch-bound-schurOneMPAlattice-lowpass-12-nbits-stop-response}
+shows the corresponding filter stop-band amplitude response.
+Table~\ref{tab:branch-bound-schurOneMPAlattice-lowpass-12-nbits-cost-summary}
+compares the cost and the number of $12$ bit shift-and-add operations required
+to implement the coefficient multiplications found by the signed-digit
+allocation heuristic of \emph{Ito et al.} with the branch-and-bound search.
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_kmin_pass}}
+\caption{Amplitude pass-band response for a parallel Schur
+  one-multiplier all-pass lattice low-pass filter with 12 bit integer
+  coefficients found by allocating an average of 3-signed-digits to each
+  coefficient using the heuristic of \emph{Ito et al.} and performing
+  SOCP branch-and-bound search.}
+\label{fig:branch-bound-schurOneMPAlattice-lowpass-12-nbits-pass-response}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_kmin_delay}}
+\caption{Group-delay pass-band response for a parallel Schur
+  one-multiplier all-pass lattice low-pass filter with 12 bit integer
+  coefficients found by allocating an average of 3-signed-digits to each
+  coefficient using the heuristic of \emph{Ito et al.} and performing
+  SOCP branch-and-bound search.}
+\label{fig:branch-bound-schurOneMPAlattice-lowpass-12-nbits-delay-response}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_kmin_stop}}
+\caption{Amplitude stop-band response for a parallel Schur one-multiplier
+  all-pass lattice low-pass filter with 12 bit integer coefficients found by
+  allocating an average of 3-signed-digits to each coefficient using the
+  heuristic of \emph{Ito et al.} and performing SOCP branch-and-bound search.}
+\label{fig:branch-bound-schurOneMPAlattice-lowpass-12-nbits-stop-response}
+\end{center}
+\end{figure}
+\begin{table}[htb]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lccc}  \\ \toprule
+& Cost&Signed-digits&Shift-and-adds\\ \midrule
+\input{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_kmin_cost.tab}
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the parallel Schur one-multiplier
+all-pass lattice lowpass filter SOCP algorithm example with 12 bit
+coefficients] {Comparison of the cost and number of 12-bit shift-and-add
+  operations required to implement the coefficient multiplications for a
+  parallel Schur one-multiplier all-pass lattice low-pass filter with 12 bit
+  integer coefficients found by allocating an average of 3 signed-digits to
+  each coefficient using the heuristic of \emph{Ito et al.} and performing
+  SOCP branch-and-bound search.}
+\label{tab:branch-bound-schurOneMPAlattice-lowpass-12-nbits-cost-summary}
 \end{table}
 \clearpage
 \subsection{\label{sec:Branch-and-bound-search-12-bit-2-sd-one-mult-FRM-Hilbert-Schur-lattice}Branch-and-bound search for the 12 bit 2 signed-digit coefficients of an FRM Hilbert filter with an allpass model filter}
@@ -13004,8 +13192,8 @@ has the expected weight $E[W]\ge\alpha W_{MC}$ where:
 \subsection{\label{sec:SQP-relaxation-search-signed-digit-coefficients-bandpass}SQP relaxation search for the signed-digit coefficients of a Schur one-multiplier lattice bandpass filter}
 The Octave script 
 \emph{sqp\_relaxation\_bandpass\_OneM\_lattice\_10\_nbits\_test.m} performs
-successive SQP relaxations to optimise the response of the band-pass Schur
-one-multiplier lattice filter of
+successive SQP relaxations to optimise the response of the SQP optimised
+band-pass Schur one-multiplier lattice filter of
 Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP}. The 
 filter specification is:
 \begin{small}
@@ -13107,8 +13295,8 @@ $10$-bit integer coefficients. The filter specification is:
 \end{small} 
 
 The filter coefficients are truncated to $10$ bits allocated with an average of
-$3$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
-Section~\ref{sec:Ito-allocation-signed-digits}.  At each coefficient relaxation
+$3$ signed-digits by the heuristic of \emph{Lim et al.} as shown in
+Section~\ref{sec:Lim-allocation-signed-digits}.  At each coefficient relaxation
 step the script finds the upper and lower signed-digit approximations to the
 current set of active coefficients and selects the coefficient with the largest
 difference in those approximations. The corresponding bounds are set in the
@@ -13179,7 +13367,7 @@ allocation heuristic of \emph{Lim et al.} with the SQP-relaxation search.
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the Schur one-multiplier lattice 
-bandpass filter SQP-relaxation algorithm example with 10 bit coefficients]
+low-pass filter SQP-relaxation algorithm example with 10 bit coefficients]
 {Comparison of the cost and number of 10-bit shift-and-add operations required 
   to implement the coefficient multiplications for a Schur one-multiplier 
   lattice low-pass filter with 10 bit integer coefficients found by allocating 
@@ -13187,8 +13375,121 @@ bandpass filter SQP-relaxation algorithm example with 10 bit coefficients]
   \emph{Lim et al.} and performing SQP-relaxation search.}
 \label{tab:sqp-relax-schurOneMlattice-lowpass-10-nbits-cost-summary}
 \end{table}
-\subsection{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-hilbert}SOCP-relaxation search for the signed-digit coefficients of a Schur one-multiplier lattice Hilbert filter}
+\subsection{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-lowpass-parallel-allpass-lowpass}SOCP relaxation search for the signed-digit coefficients of a parallel Schur one-multiplier all-pass lattice low-pass filter}
+The Octave script 
+\emph{socp\_relaxation\_schurOneMPAlattice\_lowpass\_12\_nbits\_test.m} performs
+successive SOCP relaxations to optimise the response of the parallel Schur
+one-multiplier all-pass lattice low-pass filter of
+Section~\ref{sec:Design-parallel-Schur-one-mult-all-pass-lattice-low-pass-SOCP}
+with $12$-bit integer coefficients. The filter specification is:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.spec}
+\end{small} 
+The filter weights differ from those used in
+Section~\ref{sec:Branch-and-bound-search-signed-digit-coefficients-parallel-allpass-lowpass}.
 
+The filter coefficients are truncated to $12$ bits allocated with an average
+of $3$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
+Section~\ref{sec:Ito-allocation-signed-digits}.  At each coefficient
+relaxation step the script finds the upper and lower signed-digit
+approximations to the current set of active coefficients and selects the
+coefficient with the largest difference in those approximations. The
+corresponding bounds are set in the bounds for that coefficient passed to the
+Octave function \emph{schurOneMPAlattice\_socp\_mmse}. The results of this
+MMSE optimisation are then passed to \emph{schurOneMPAlattice\_slb} for PCLS
+optimisation. The resulting PCLS coefficient value selects the closer of the
+upper or lower signed-digit values as the final choice for that
+coefficient. The truncation of the last coefficient is, by necessity, not PCLS
+optimised so the final set of coefficients may not meet the PCLS
+specifications.
+
+The signed-digit lattice coefficients found by the heuristic of
+\emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_A1k_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_A2k_sd_coef.m}
+\end{small}
+
+The signed-digit lattice coefficients found by the SOCP-relaxation search are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_A1k_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_A2k_min_coef.m}
+\end{small}
+The signed-digit lattice coefficients found by the SOCP-relaxation search are
+implemented with 
+\input{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_kmin_digits.tab}
+signed-digits and 
+\input{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_kmin_adders.tab}
+shift-and-add operations.
+
+Figure~\ref{fig:socp-relax-schurOneMPAlattice-lowpass-12-nbits-pass-response}
+shows the amplitude and group-delay pass-band responses of the filter with
+$12$-bit $3$-signed-digit coefficients allocated with the algorithm of
+\emph{Lim et al.} and SOCP-relaxation search.
+Figure~\ref{fig:socp-relax-schurOneMPAlattice-lowpass-12-nbits-stop-response}
+shows the corresponding filter stop-band amplitude response.
+\begin{comment}
+Figure~\ref{fig:socp-relax-schurOneMPAlattice-lowpass-12-nbits-pz} shows the
+filter pole-zero plot.
+\end{comment}
+Table~\ref{tab:socp-relax-schurOneMPAlattice-lowpass-12-nbits-cost-summary}
+compares the cost and the number of $12$ bit shift-and-add operations required
+to implement the coefficient multiplications found by the signed-digit
+allocation heuristic of \emph{Ito et al.} with the SOCP-relaxation search.
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_kmin_pass}}
+\caption{Amplitude and group-delay pass-band responses for a parallel Schur
+  one-multiplier all-pass lattice low-pass filter with 12 bit integer
+  coefficients found by allocating an average of 3-signed-digits to each
+  coefficient using the heuristic of \emph{Ito et al.} and performing
+  SOCP-relaxation search.}
+\label{fig:socp-relax-schurOneMPAlattice-lowpass-12-nbits-pass-response}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_kmin_stop}}
+\caption{Amplitude stop-band responses for a parallel Schur one-multiplier
+  all-pass lattice low-pass filter with 12 bit integer coefficients found by
+  allocating an average of 3-signed-digits to each coefficient using the
+  heuristic of \emph{Ito et al.} and performing SOCP-relaxation search.}
+\label{fig:socp-relax-schurOneMPAlattice-lowpass-12-nbits-stop-response}
+\end{center}
+\end{figure}
+\begin{comment}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_kmin_pz}}
+\caption{Pole-zero plot for a parallel Schur one-multiplier all-pass lattice
+  low-pass filter with 12 bit integer coefficients found by allocating an
+  average of 3 signed-digits to each coefficient using the heuristic of
+  \emph{Ito et al.} and performing SOCP-relaxation search.}
+\label{fig:socp-relax-schurOneMPAlattice-lowpass-12-nbits-pz}
+\end{center}
+\end{figure}
+\end{comment}
+\begin{table}[htb]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lccc}  \\ \toprule
+& Cost&Signed-digits&Shift-and-adds\\ \midrule
+\input{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_kmin_cost.tab}
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the parallel Schur one-multiplier
+all-pass lattice lowpass filter SOCP algorithm example with 12 bit
+coefficients] {Comparison of the cost and number of 12-bit shift-and-add
+  operations required to implement the coefficient multiplications for a
+  parallel Schur one-multiplier all-pass lattice low-pass filter with 12 bit
+  integer coefficients found by allocating an average of 3 signed-digits to
+  each coefficient using the heuristic of \emph{Ito et al.} and performing
+  SOCP-relaxation search.}
+\label{tab:socp-relax-schurOneMPAlattice-lowpass-12-nbits-cost-summary}
+\end{table}
+\clearpage
+\subsection{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-hilbert}SOCP-relaxation search for the signed-digit coefficients of a Schur one-multiplier lattice Hilbert filter}
 The Octave script 
 \emph{socp\_relaxation\_hilbert\_OneM\_lattice\_10\_nbits\_test.m} performs
 successive SOCP relaxations to optimise the response of the band-pass Schur
@@ -13425,8 +13726,8 @@ is solved by SeDuMi.
 
 The Octave script 
 \emph{pop\_relaxation\_bandpass\_OneM\_lattice\_socp\_slb\_test.m} implements
-SparsePOP optimisation of the truncated coefficients of the band-pass 
-Schur one-multiplier lattice filter described in
+SparsePOP optimisation of the truncated coefficients of the SQP optimised
+band-pass Schur one-multiplier lattice filter described in
 Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP}.
 The filter specification is:
 \begin{small}
@@ -18833,170 +19134,44 @@ where:
 \addcontentsline{toc}{part}{Colophon}
 \pdfbookmark[0]{Requirements}{requirements}
 \section*{Software requirements}
-This document is created with \emph{GNU Make} and the \emph{Makefile} in
-project archive. I assume:
+I use the Fedora 26 distribution of Linux and the packaged version of
+\emph{octave} from that distribution. I assume:
 \begin{itemize}
-\item \emph{octave-4.2.1} or later and the \emph{struct}, \emph{control},
+\item \emph{bash-4.4.12(1)-release}
+\item \emph{make-4.2.1}
+\item \emph{octave-4.2.1} with the \emph{struct}, \emph{control},
   \emph{signal}, \emph{optim} and \emph{parallel} Octave-Forge packages
-\item \emph{octave} is linked to the Netlib \emph{lapack} and \emph{blas}
-  libraries either at build-time or using \emph{LD\_PRELOAD}
-\item \emph{octave} uses the \emph{gnuplot} graphics toolkit and
-  \emph{gnuplot-5.0} or later
-\item \emph{texlive} and various packages are installed
+\item the \emph{octave} scripts use the \emph{gnuplot} graphics toolkit and
+  \emph{gnuplot-5.0 patchlevel 5}
+\item \emph{texlive-2016} and various packages are installed
+\item \emph{dia-0.97.3} is used for line drawings
 \end{itemize}
+The Fedora 26 packaged version of \emph{octave-4.2.1} is linked with the
+ATLAS~\cite{ATLAS_website} \emph{blas} and \emph{lapack} library. The test
+script \emph{test/02/t0294a.sh} demonstrates a ``feature'' of the ATLAS
+library.
 
-I recommend building a local version of \emph{octave-4.2.1} or later, as shown
-below in ``\emph{Building Octave with LTO and PGO}''. ``\emph{Testing with
- octave-4.0}'', shown below, lists the modifications required to run most
-scripts with the standard \emph{octave-4.0.3} installed by Fedora25.
-
-\pdfbookmark[0]{Aegis}{aegis}
-\section*{Aegis}
-I use the \emph{aegis} software change management system written by
-Peter Miller~\cite{Miller_Wikipedia,Miller_aegis}. To build \emph{aegis} with
-the patch provided in this project:
-\begin{small}
-\begin{verbatim} 
-cd /usr/local/src/aegis
-tar -xf aegis-4.24.tar.gz
-cd aegis-4.24
-patch -p1 < ../aegis-4.24.patch
-./configure CXXFLAGS="-fpermissive -std=c++98" CFLAGS="-std=c99"
-make && make install
-\end{verbatim}
-\end{small}
-To build \emph{fhist}~\cite{Miller_fhist} with the patch provided in this 
-project:
-\begin{small}
-\begin{verbatim} 
-cd /usr/local/src/fhist
-tar -xf fhist-1.21.D001.tar.gz
-cd fhist-1.21
-patch -p1 < ../fhist-1.21.D001.patch
-./configure 
-make && make install
-\end{verbatim}
-\end{small}
 \pdfbookmark[0]{Makefile}{makefile}
 \section*{\emph{Makefile}}
-This project is built with \emph{GNU Make}. The \emph{Makefile} in the project
-archive builds the PDF version of this document from the \LaTeX source in
-\emph{DesignOfIIRFilters.tex}. The project archive contains the files required
-to generate the figures shown in this document. The diagrams are in \emph{dia}
-format~\cite{Dia_DiagramEditor} in directory \emph{fig}.  The source code is
-in directory \emph{src}.  The source code languages are C++, Maxima and
-Octave. The \emph{Makefile} includes a \emph{.mk} file for each of the Octave
-test script dependencies listed in the variable \emph{OCTAVE\_SCRIPTS}. For
-example, the Octave script \emph{butt3NS\_test.m}, referred to in
-Section~\ref{sec:Round-off-normalised-scaled-lattice}, has the corresponding
-\emph{Makefile} fragment, \emph{butt3NS\_test.mk}:
+This document is built with \emph{GNU make-4.2.1}. The \emph{Makefile} in the
+project archive builds the PDF version of this document from the \LaTeX source
+in \emph{DesignOfIIRFilters.tex}. The project archive contains the files
+required to generate the figures shown in this document. The line diagrams are
+in \emph{dia} format~\cite{Dia_DiagramEditor} in directory \emph{fig}.  The
+source code is in directory \emph{src}.  The source code languages are C++,
+Maxima and Octave. The \emph{Makefile} includes a \emph{.mk} file for each of
+the Octave test script dependencies listed in the variable
+\emph{OCTAVE\_SCRIPTS}. For example, the Octave script \emph{butt3NS\_test.m},
+referred to in Section~\ref{sec:Round-off-normalised-scaled-lattice}, has the
+corresponding \emph{Makefile} fragment, \emph{butt3NS\_test.mk}:
 \begin{small}
 \verbatiminput{src/butt3NS_test.mk}
 \end{small}
-
-\pdfbookmark[0]{Lapack}{lapack}
-\section*{Lapack}
-The Octave-Forge \emph{signal} package requires the \emph{control} package
-which is based on the open-source version of the \emph{SLICOT}
-library~\cite{Slicot_ControlSystemsLibrary} which uses \emph{lapack} routines
-that have been deprecated. Consequently, the \emph{BUILD\_DEPRECATED} flag
-must be set in \emph{make.inc} when building \emph{lapack}.
-\subsection*{Building \emph{lapack} shared libraries}
-My system has an Intel i7 CPU. The \emph{lapack-3.6.1-2.fc25.x86\_64} package
-is installed. The default \emph{gcc} machine type used by the RedHat RPMs is
-given by \emph{rpmbuild --showrc} as ``\emph{-m64 -mtune=generic}''. I could
-recompile and reinstall the \emph{lapack} package with ``\emph{-mtune=intel}''
-as follows:
-\begin{small}
-\begin{verbatim}
-mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
-echo '%_topdir %(echo $HOME)/rpmbuild' > ~/.rpmmacros
-echo 'optflags: x86_64 %{__global_cflags} -m64 -mtune=intel' > ~/.rpmrc
-rpmbuild --rebuild lapack-3.6.1-2.fc25.src.rpm
-sudo rpm -U --reinstall=~/rpmbuild/RPMS/RPMS/x86_64/lapack-3.6.1-2.fc25.x86_64.rpm 
-\end{verbatim}
-\end{small}
-Alternatively, for the purposes of benchmarking with \emph{LD\_PRELOAD}, I
-can rebuild the shared library from the original \emph{lapack-3.6.1.tgz}
-archive by adding the following lines to \emph{lapack-3.6.1/make.inc.example}:
-\begin{small}
-\begin{verbatim}
---- lapack-3.6.1/make.inc.example	2016-06-19 08:15:11.000000000 +1000
-+++ lapack-3.6.1.new/make.inc.example	2017-05-04 15:01:44.316951216 +1000
-@@ -16,17 +16,19 @@
- #  and handle these quantities appropriately. As a consequence, one 
- #  should not compile LAPACK with flags such as -ffpe-trap=overflow.
- #
--FORTRAN  = gfortran 
--OPTS     = -O2 -frecursive
-+BLDOPTS  = -m64 -mtune=intel -fPIC
-+FORTRAN  = gfortran -frecursive $(BLDOPTS)
-+OPTS     = -O2 
- DRVOPTS  = $(OPTS)
--NOOPT    = -O0 -frecursive
--LOADER   = gfortran
-+NOOPT    = -O0
-+LOADER   = $(FORTRAN)
- LOADOPTS =
- #
- #  Comment out the following line to include deprecated routines to the
- #  LAPACK library.
- #
- #MAKEDEPRECATED = Yes
-+BUILD_DEPRECATED = Yes
- #
- # Timer for the SECOND and DSECND routines
- #
-@@ -52,7 +54,7 @@
- # CC is the C compiler, normally invoked with options CFLAGS.
- #
- CC = gcc
--CFLAGS = -O3
-+CFLAGS = -O3 $(BLDOPTS)
- #
- #  The archiver and the flag(s) to use when building archive (library)
- #  If you system has no ranlib, set RANLIB = echo.
-@@ -74,7 +76,7 @@
- #  machine-specific, optimized BLAS library should be used whenever
- #  possible.)
- #
--BLASLIB      = ../../librefblas.a
-+BLASLIB      = ../../libblas.a
- CBLASLIB     = ../../libcblas.a
- LAPACKLIB    = liblapack.a
- TMGLIB       = libtmglib.a
-\end{verbatim}
-\end{small}
-and adding to \emph{BLAS/SRC/Makefile}:
-\begin{small}
-\begin{verbatim}
-libblas.so: $(ALLOBJ)
-        $(FORTRAN) -shared -Wl,-soname,$@ -o $@ $(ALLOBJ)
-\end{verbatim}
-\end{small}
-and to \emph{SRC/Makefile}:
-\begin{small}
-\begin{verbatim}
-liblapack.so: $(ALLOBJ) $(ALLXOBJ) $(DEPRECATED)
-        $(FORTRAN) -shared -Wl,-soname,$@ -o $@ $(ALLOBJ) $(ALLXOBJ) $(DEPRECATED)
-\end{verbatim}
-\end{small}
-\subsection*{Lapack static libraries}
-In order to take full advantage of LTO linking with static versions of 
-\emph{liblapack.a} and \emph{libblas.a}, add the following to \emph{make.inc}:
-\begin{small}
-\begin{verbatim}
-BLDOPTS  = -m64 -mtune=intel -fPIC -flto=6 -ffat-lto-objects
-\end{verbatim}
-\end{small}
-Unfortunately, for \emph{lapack-3.6.1}, the library tests fail with the 
-\emph{-frecursive} linker flag. Without this flag, the compiler allocates 
-static memory and linking a static version of the \emph{lapack} libraries
-with the Octave shared libraries fails.
+Building this document may take a long time. I run \emph{make -j 6}.
 
 \pdfbookmark[0]{Octave}{octave}
 \section*{Octave}
-The Octave version and list of installed packages used to prepare this document
+The Octave version and list of installed packages used to build this document
 are:
 \begin{small}
 \verbatiminput{octave_info_test.diary}
@@ -19020,14 +19195,26 @@ the $NEWS$ file of the Octave source distribution includes the following comment
 This project includes a number of Octave \emph{oct-file} extensions written in
 C++. The Octave on-line FAQ states:
 \begin{quote}
-  Code written using Octave's native plug-in interface (also known as a .oct
-  file) necessarily links with Octave internals and is considered a derivative
-  work of Octave and therefore must be released under terms that are
-  compatible with the GPL.
+  Code written using Octave's native plug-in interface (also known as a
+  \emph{.oct} file) necessarily links with Octave internals and is considered
+  a derivative work of Octave and therefore must be released under terms that
+  are compatible with the GPL.
 \end{quote}
 
 \pdfbookmark[1]{Building Octave}{building-octave}
 \subsection*{Building Octave}
+\subsubsection*{Cloning the Octave Mercurial repository}
+The latest development sources for Octave can be obtained as follows:
+\begin{small}
+\begin{verbatim}
+cd /usr/local/src/octave
+hg clone http://www.octave.org/hg/octave
+cd octave
+hg -v pull
+hg -v update
+./bootstrap
+\end{verbatim}
+\end{small}
 \subsubsection*{Patching Octave}
 \emph{octave-4.2.1/liboctave/system/file-stat.cc} must be altered as follows:
 \begin{small}
@@ -19041,19 +19228,6 @@ C++. The Octave on-line FAQ states:
  
      void
      file_stat::update_internal (bool force)
-\end{verbatim}
-\end{small}
-
-\subsubsection*{Cloning the Octave Mercurial repository}
-The latest development sources for Octave can be obtained as follows:
-\begin{small}
-\begin{verbatim}
-cd /usr/local/src/octave
-hg clone http://www.octave.org/hg/octave
-cd octave
-hg -v pull
-hg -v update
-./bootstrap
 \end{verbatim}
 \end{small}
 \subsubsection*{Building Octave for debugging}
@@ -19081,29 +19255,12 @@ mkoctfile -g -O0 -fsanitize=address -fsanitize=undefined \
 LD_PRELOAD=/usr/lib64/libasan.so.3 octave-cli --eval 'an_oct_file_test_script'
 \end{verbatim}
 \end{small}
-\subsubsection*{Building Octave with LTO}
-To build Octave with static versions of the \emph{lapack}
-libraries containing LTO symbol information:
-\begin{small}
-\begin{verbatim}
-BLDOPTS="-m64 -mtune=generic -O2 -flto=6 -ffat-lto-objects"
-export CFLAGS="-std=c11 "$BLDOPTS
-export CXXFLAGS="-std=c++11 "$BLDOPTS
-export FFLAGS=$BLDOPTS
-
-$OCTAVE_DIR/configure --prefix=$OCTAVE_INSTALL_DIR \
---disable-java --without-fltk --without-qt --disable-atomic-refcount \
---with-blas=$LAPACK_DIR/libblas.a --with-lapack=$LAPACK_DIR/liblapack.a
-
-make V=1 -j6
-\end{verbatim}
-\end{small}
 \subsubsection*{Building Octave with LTO and PGO}
 To build Octave with the system \emph{lapack} and \emph{blas} shared libraries
-and LTO and PGO optimisation:
+with link-time-optimisation (LTO) and profile-guided-optimisation (PGO):
 \begin{small}
 \begin{verbatim}
-BLDOPTS="-m64 -mtune=generic -O2 -flto=6 -ffat-lto-objects"
+BLDOPTS="-m64 -mtune=generic -O2"
 export CFLAGS="-std=c11 "$BLDOPTS
 export CXXFLAGS="-std=c++11 "$BLDOPTS
 export FFLAGS=$BLDOPTS
@@ -19118,50 +19275,11 @@ make check
 find . -name \*.o -exec rm -f {} ';'
 find . -name \*.lo -exec rm -f {} ';'
 find . -name \*.la -exec rm -f {} ';'
-make XTRA_CFLAGS="-fprofile-use" XTRA_CXXFLAGS="-fprofile-use" V=1 -j6 
+make XTRA_CFLAGS="-fprofile-use -flto=6 -ffat-lto-objects" \
+     XTRA_CXXFLAGS="-fprofile-use -flto=6 -ffat-lto-objects" V=1 -j6 
 \end{verbatim}
 \end{small}
 The PGO profile information is generated by running the Octave test suite.
-\subsubsection*{Building Octave with static \emph{blas} and \emph{lapack} libraries}
-To build Octave with static LTO versions of the reference NETLIB \emph{blas} 
-and \emph{lapack} libraries:
-\begin{small}
-\begin{verbatim}
-BLDOPTS="-m64 -mtune=generic -O2 -flto=6 -ffat-lto-objects"
-export CFLAGS="-std=c11 "$BLDOPTS
-export CXXFLAGS="-std=c++11 "$BLDOPTS
-export FFLAGS=$BLDOPTS
-                                                        
-$OCTAVE_DIR/configure --prefix=$OCTAVE_INSTALL_DIR \
---disable-java --without-fltk --without-qt --disable-atomic-refcount \
---with-blas=$LAPACK_DIR/libblas.a --with-lapack=$LAPACK_DIR/liblapack.a
-
-make V=1 -j6
-\end{verbatim}
-\end{small}
-\subsubsection*{Configuring Octave with the  \emph{ATLAS} libraries}
-Alternatively, Octave can be built with the single-threaded
-\emph{ATLAS}~\cite{ATLAS_website} libraries by:
-\begin{small}
-\begin{verbatim}
-BLDOPTS="-m64 -mtune=generic -O2 -flto=6 -ffat-lto-objects"
-export CFLAGS="-std=c11 "$BLDOPTS
-export CXXFLAGS="-std=c++11 "$BLDOPTS
-export FFLAGS=$BLDOPTS
-export LDFLAGS="-L/usr/lib64/atlas"
-
-../$OCTAVE_DIR/configure --prefix=/usr/local/octave-satlas-lto \
---disable-java --without-fltk --without-qt --disable-atomic-refcount \
---with-blas="-lsatlas" --with-lapack="-lsatlas"
-
-make -j 6 && make check && make install
-\end{verbatim}
-\end{small}
-Similarly, for the multi-threaded \emph{ATLAS} libraries call \emph{configure} 
-with:
-\begin{verbatim}
---with-blas="-ltatlas" --with-lapack="-ltatlas"
-\end{verbatim}
 \subsubsection*{Configuring Octave for 64-bit integers}
 This project uses the usual 32-bit integer version of Octave.
 To build a 64-bit integer version of Octave, first build and install the 
@@ -19213,7 +19331,6 @@ make V=1 -j6
 \end{small}
 When compiling a 64-bit version of \emph{SeDuMi}, \emph{openblas/f77blas.h} 
 requires \emph{-DOPENBLAS\_USE64BITINT}. 
-All of the project Aegis test scripts passed with a 64-bit build of Octave.
 \subsubsection*{Installing Octave-Forge packages}
 To install Octave packages from a remote Octave-Forge file-server:
 \begin{small}
@@ -19233,15 +19350,15 @@ be installed with this work-around:
 \pdfbookmark[1]{Benchmarking Octave}{benchmarking-octave}
 \subsection*{Benchmarking Octave}
 This section shows the results of benchmarking various builds with the
-Octave script \emph{decimator\_R2\_test.m} and benchmarking various \emph{blas}
-libraries with a \emph{Link-Time-Optimisation(LTO)} and 
-\emph{Profile-Guided-Optimisation(PGO)} build of Octave running the Octave 
-scripts \emph{linpack.m}~\cite{Rutter_LinpackBenchmark} (modified to produce 
-repeatable residuals) and \emph{decimator\_R2\_test.m}.
-
-The Linux kernel used is \emph{kernel-4.10.11-200.fc25.x86\_64} from the RedHat 
-Fedora25 Linux distribution. The Octave version is \emph{4.2.1} built with 
-\emph{g++ version 6.3.1 20161221 (Red Hat 6.3.1-1)}. 
+Octave script \emph{iir\_sqp\_slb\_bandpass\_test.m} and benchmarking various
+\emph{blas} and \emph{lapack} libraries with a
+\emph{Link-Time-Optimisation(LTO)} and \emph{Profile-Guided-Optimisation(PGO)}
+build of Octave running the Octave scripts
+\emph{linpack.m}~\cite{Rutter_LinpackBenchmark} and
+\emph{iir\_sqp\_slb\_bandpass\_test.m}.
+The Linux kernel used is \emph{kernel-4.12.5-300.fc26.x86\_64} from the RedHat 
+Fedora26 Linux distribution. The system compiler is 
+\emph{gcc (GCC) 7.1.1 20170622 (Red Hat 7.1.1-3)}. 
 The CPU is an Intel i7-7700K for which the number of CPU cores is $4$ ($8$
 hyper-threaded). During the benchmark the CPU frequency was fixed at $4.5GHz$.
 As the \emph{root} user run:
@@ -19254,23 +19371,22 @@ done
 cpupower -c all frequency-info
 \end{verbatim}
 \end{small}
- 
 \subsubsection*{Benchmarking Octave builds}
 The shell script \emph{benchmark/build-benchmark.sh} generates the Octave builds
 shown in Table~\ref{tab:benchmark-octave-builds}. It is assumed to run in the
 \emph{benchmark} sub-directory. The times given are the average of $10$ runs.
 For the \emph{debug} build the optimisation level is \emph{-O0} and for the
-other builds it is \emph{-O2 -m64 -mtune=generic}. PGO uses the profiler 
-information generated by an intermediate \emph{make check}. For the
-static LTO builds the executable is linked with local versions of the 
-\emph{lapack-3.6.1} libraries containing LTO symbols.
-For each case, the Octave build is \emph{configure}d for command-line only 
-with the folowing options:
+other builds it is \emph{-O2 -m64 -mtune=generic}. The Octave
+build is \emph{configure}d for command-line only with the folowing options:
 \begin{small}
 \begin{verbatim}
 --disable-java --without-fltk --without-qt --disable-atomic-refcount
 \end{verbatim}
 \end{small}
+PGO uses the profiler information generated by an intermediate
+\emph{make check}. The \emph{blas} and \emph{lapack} libraries are compiled
+without LTO symbols. Unfortunately, the Octave-4.2.1 \emph{static-lto},
+\emph{static-lto-pgo} and \emph{shared-lto} builds fail.
 
 \begin{table}[!htbp]
 \centering
@@ -19278,43 +19394,43 @@ with the folowing options:
 \bgroup{}
 \def\arraystretch{2}
 \begin{tabular}{lr} \toprule
-Octave build& decimator\_R2\_test.m \\
+Octave build& iir\_sqp\_slb\_bandpass\_test.m \\
             & Execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 223.0 \\
-Generic, static reference lapack and blas            &  39.0 \\
-Generic, static reference lapack and blas, LTO       &  38.7 \\
-Generic, static reference lapack and blas, PGO       &  39.7 \\
-Generic, static reference lapack and blas, LTO, PGO  &  34.0 \\
-Generic, shared reference lapack and blas            &  39.1 \\
-Generic, shared reference lapack and blas, LTO       &  38.7 \\
-Generic, shared reference lapack and blas, PGO       &  40.0 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  33.4 \\
+Debug, shared reference lapack and blas              & 225.7 \\
+Generic, static reference lapack and blas            &  39.4 \\
+Generic, static reference lapack and blas, LTO       &     - \\
+Generic, static reference lapack and blas, PGO       &  37.2 \\
+Generic, static reference lapack and blas, LTO, PGO  &     - \\
+Generic, shared reference lapack and blas            &  39.7 \\
+Generic, shared reference lapack and blas, LTO       &     - \\
+Generic, shared reference lapack and blas, PGO       &  37.6 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  36.3 \\
 \bottomrule
 \end{tabular}
 \egroup{}
 \end{threeparttable}
 \caption[Benchmark results for Octave builds]{Average execution time 
-for 10 runs of \emph{decimator\_R2\_test.m} with various \emph{Octave} builds.}
+  for 10 runs of \emph{iir\_sqp\_slb\_bandpass\_test.m} with various
+  \emph{Octave} builds.}
 \label{tab:benchmark-octave-builds}
 \end{table}
-
-\subsubsection*{Benchmarking Octave \emph{blas} libraries}
+\subsubsection*{Benchmarking \emph{blas} and \emph{lapack} libraries}
 The shell script \emph{library-benchmark.sh} benchmarks the shared library 
-LTO PGO version of Octave, built with the script \emph{build-shared-lto-pgo.sh},
-with the \emph{linpack.m}~\cite{Rutter_LinpackBenchmark} benchmark (modified 
-to produce repeatable residuals) and \emph{decimator\_R2\_test.m} filter design
-scripts using different versions of the \emph{blas} shared library. It is 
-assumed to run in the \emph{benchmark} directory after 
-\emph{build-benchmark.sh}. The alternative \emph{blas} and \emph{lapack} 
-library packages used in this section are:
+LTO and PGO version of Octave with the
+\emph{linpack.m}~\cite{Rutter_LinpackBenchmark} and
+\emph{iir\_sqp\_slb\_bandpass\_test.m} scripts. The
+\emph{linpack.m} script was modified to produce repeatable residuals.
+The alternative \emph{blas} and \emph{lapack} library versions used are
+local builds of \emph{blas-3.6.1} and \emph{lapack-3.6.1} and the following
+Fedora26 packages:
 \begin{small}
 \begin{verbatim}
-atlas.x86_64                3.10.2-14.fc25
-atlas-static.x86_64         3.10.2-14.fc25
-gsl.x86_64                  2.1-4.fc25
-openblas.x86_64             0.2.19-4.fc25
-openblas-threads.x86_64     0.2.19-4.fc25
+atlas.x86_64            3.10.2-16.fc26
+blas.x86_64             3.6.1-4.fc26
+gsl.x86_64              2.3-1.fc26
+lapack.x86_64           3.6.1-4.fc26
+openblas.x86_64         0.2.20-2.fc26
 \end{verbatim}
 \end{small}
 
@@ -19338,7 +19454,10 @@ export OPENBLAS_NUM_THREADS=2
 Table~\ref{tab:benchmark-octave-blas-libraries} shows the average time for $10$
 runs of each test using the shared library, profile-guided, LTO build.  Note
 that the normalised residuals and calculated filter coefficients differ between
-implementations.  
+implementations. The results for \emph{iir\_sqp\_slb\_bandpass\_test.m}
+with the \emph{haswell}, \emph{skylake}, \emph{libsatlas} and
+\emph{libtatlas} library implementations indicate that in these cases small
+differences in the calculations led to a different solution.
 
 \begin{table}[!htbp]
 \centering
@@ -19347,30 +19466,31 @@ implementations.
 \def\arraystretch{2}
 \begin{tabular}{lrrr} \toprule
 \multirow{3}{*}
-{\emph{blas} library}     &\multicolumn{2}{c}{linpack.m} &decimator\_R2\_test.m\\
-\cmidrule{2-4}            & MFLOPS & Normalised          & Execution time \\
-                          &        & residual            & (seconds) \\
+{\emph{blas} library}      &\multicolumn{2}{c}{linpack.m}
+                           &iir\_sqp\_slb\_bandpass\_test.m\\
+\cmidrule{2-4}             & MFLOPS & Normalised          & Execution time \\
+                           &        & residual            & (seconds) \\
 \midrule
-Generic libblas/liblapack &  4689  & 17.7                &  33.4 \\
-Intel libblas/liblapack   &  4653  & 17.7                &  33.5 \\
-Haswell libblas/liblapack &  4465  & 15.1                &  34.5 \\
-Nehalem libblas/liblapack &  4453  & 17.7                &  33.6 \\
-Skylake libblas/liblapack &  4485  & 15.1                &  34.5 \\
-libblas/liblapack         &  4780  & 17.7                &  33.5 \\
-libgslcblas               &  4655  & 17.7                &  33.4 \\
-libsatlas                 & 13925  & 13.6                &  34.8 \\
-libtatlas                 & 30157  & 11.7                &  34.6 \\
-libopenblas               & 12465  &  8.1                &  35.5 \\
-libopenblasp (1 thread)   & 12390  &  8.1                &  35.5 \\
-libopenblasp (2 threads)  & 21273  &  7.8                &  38.3 \\
-libopenblasp (4 threads)  & 35102  &  6.9                &  38.1 \\
+Generic libblas/liblapack  &  4034  & 17.7                &  36.6 \\
+Intel libblas/liblapack    &  4845  & 17.7                &  36.4 \\
+Haswell libblas/liblapack  &  4893  & 15.1                &  50.4 \\
+Nehalem libblas/liblapack  &  4051  & 17.7                &  36.3 \\
+Skylake libblas/liblapack  &  4902  & 15.1                &  50.0 \\
+Fedora26 libblas/liblapack &  4937  & 17.7                &  36.6 \\
+libgslcblas                &  4908  & 17.7                &  36.3 \\
+libsatlas                  & 13873  & 13.3                &  46.8 \\
+libtatlas                  & 30788  & 11.9                &  49.0 \\
+libopenblas                & 35063  &  9.3                &  37.0 \\
+libopenblasp (1 thread)    & 35065  &  9.3                &  36.9 \\
+libopenblasp (2 threads)   & 48957  & 11.8                &  38.8 \\
+libopenblasp (4 threads)   & 61559  &  9.1                &  39.8 \\
 \bottomrule
 \end{tabular}
 \egroup{}
 \end{threeparttable}
 \caption[Benchmark results for \emph{blas} implementations]{Benchmark results
-for \emph{linpack.m} and \emph{decimator\_R2\_test.m} with various \emph{blas}
-implementations.}
+  for \emph{linpack.m} and \emph{iir\_sqp\_slb\_bandpass\_test.m} with various
+  \emph{blas} implementations.}
 \label{tab:benchmark-octave-blas-libraries}
 \end{table}
 \clearpage
@@ -19430,7 +19550,8 @@ The change to \emph{eigK.m} is that suggested in \emph{Note4} of
 \emph{SparsePOP302/readme.txt}. \emph{SparsePOP} examples will fail without it.
 This bug appears only in the \emph{GitHub} version.
 
-As noted above, when compiling a 64-bit version of \emph{SeDuMi}
+\emph{SeDuMi} assumes that the appropriate \emph{openblas} headers are
+present. As noted above, when compiling a 64-bit version of \emph{SeDuMi}
 \emph{openblas/f77blas.h} requires \emph{-DOPENBLAS\_USE64BITINT}. 
 
 \pdfbookmark[0]{SparsePOP}{sparsepop}
@@ -19441,49 +19562,20 @@ minor modifications to \emph{my\_unique.m}, \emph{compileSparsePOP.m} and
 
 \pdfbookmark[0]{Testing}{testing}
 \section*{Testing}
-The \emph{test} directory contains \emph{aegis} regression testing shell
+The \emph{test} directory contains regression test shell
 scripts. The test scripts must be run from the project root directory. The
-test scripts pass on my custom build of Octave using the Fedora25 versions of
-Netlib \emph{lapack} and \emph{blas} (as shown above in \emph{Building Octave
-with LTO and PGO}).
-\subsection*{Testing on Fedora25 with \emph{octave-4.0}}
-Almost all of the regression tests pass on a standard installation of
-\emph{octave-4.0.3} on Fedora25 with ``pre-loaded'' \emph{lapack} and
-\emph{blas} shared libraries and the \emph{svg} plotting device. For example,
-to run the regression test for \emph{deczky3\_sqp\_test.m} under
-\emph{octave-4.0.3}:
-\begin{small}
-\begin{verbatim}
-export LD_PRELOAD="/usr/lib64/liblapack.so.3.6.1 /usr/lib64/libblas.so.3.6.1"
-sed -i -e "s/dpdflatex/dsvg/" deczky3_sqp_test.m
-sh test/00/t0006a.sh
-\end{verbatim}
-\end{small}
-Reasons for regression test script failures under \emph{octave-4.0.3}:
-\begin{itemize}
-\item \emph{octave-4.0.3} does not support printing plots to the
-  \emph{pdflatex} device with the \emph{gnuplot} Octave graphics toolkit
-\item \emph{octave-4.0.3} does not support the
-  \emph{defaultaxestitlefontweight} graphics attribute. (Commented out in
-  \emph{test\_common.m}).
-\item there are numerical differences between \emph{octave-4.0.3} and
-  \emph{octave-4.2.1} 
-\item \emph{sedumi\_hash\_test.m} fails because \emph{octave-4.0.3} does not
-  have a built-in \emph{hash} function
-\item \emph{sparsePOP\_test.m} fails with an internal error in
-  \emph{octave-4.0.3} 
-\end{itemize}
-\pdfbookmark[1]{Testing on Windows10 with ``ubuntu on Windows''}{Testing-on-Windows10-with-ubuntu}
-\subsection*{Testing on Windows10 with ``\emph{ubuntu on Windows}''}
-I have used \emph{octave-4.2.1} in a ``\emph{ubuntu on Windows}'' terminal
+shell script \emph{batchtest.sh} runs multiple tests in parallel.
+
+\pdfbookmark[0]{Windows10}{windows10}
+\section*{Windows10 with ``\emph{ubuntu on Windows}''}
+I have built this document in a ``\emph{ubuntu on Windows}'' terminal
 running the 14.04.5 LTS Ubuntu release. The following tools and libraries were
 built from source:
-
 \begin{itemize}
 \item \emph{gcc-6.3.0} with \emph{configure} options
 \emph{--enable-languages='c,c++,fortran' --disable-multilib}
-\item \emph{make-4.2.1} (run \emph{make-4.2.1} NOT \emph{make} to build this
-    document)
+\item \emph{make-4.2.1} (run \emph{make-4.2.1} NOT the system \emph{make} to
+  build this document)
 \item \emph{lapack-3.6.1} with deprecated routines
 \item \emph{SuiteSparse-4.5.5}
 \item \emph{qrupdate-1.1.2}
@@ -19516,28 +19608,7 @@ built from source:
 \end{itemize}
 \emph{export LD\_LIBRARY\_PATH=/usr/local/lib:/usr/local/lib64} is set in the
 shell environment. Various other packages were installed with \emph{apt-get}
-including \emph{libmpfr}, \emph{libgmp}, \emph{gnuplot} and \emph{texlive}. I
-was able to build this document and all regression test shell scripts passed
-except those testing the Octave scripts
-\emph{iir\_sqp\_mmse\_tarczynski\_ex2\_test.m},
-\emph{tarczynski\_parallel\_allpass\_test.m} and
-\emph{tarczynski\_polyphase\_allpass\_test.m}
-which failed due to differences in the calculated coefficients.
-
-\pdfbookmark[1]{Testing on Windows10 with octave-4.2.1-w64-installer}{Testing-on-Windows10-with-Octave-installer}\subsection*{Testing on Windows10 with \emph{octave-4.2.1-w64-installer}}
-The GNU Octave FTP repository provides a Windows installer for
-\emph{octave-4.2.1} and its dependencies~\cite{OctaveWindowsInstaller}. Of the
-scripts required to run in order to produce this document, the following
-scripts fail under \emph{octave-4.2.1-w64}, apparently because of numerical
-differences:
-\begin{itemize}
-\item \emph{iir\_sqp\_slb\_differentiator\_test.m}
-\item \emph{iir\_sqp\_slb\_pink\_test.m}
-\item \emph{iir\_sqp\_slb\_hilbert\_test.m}
-\item \emph{schurOneMlattice\_sqp\_slb\_bandpass\_test.m}
-\item \emph{iir\_sqp\_slb\_minimum\_phase\_test.m}
-\end{itemize}
-
+including \emph{libmpfr}, \emph{libgmp}, \emph{gnuplot} and \emph{texlive}. 
 \pdfbookmark[0]{Monochrome printing}{monochrome-printing}
 \section*{Monochrome printing}
 Monochrome (or grey-scale) printing of this document is supported by:
@@ -19587,6 +19658,34 @@ package to plot markers in the default colour:
 \end{verbatim}
 \end{small}
 \end{itemize}
+
+\pdfbookmark[0]{Aegis}{aegis}
+\section*{Aegis}
+I use the \emph{aegis} software change management system written by
+Peter Miller~\cite{Miller_Wikipedia,Miller_aegis}. To build \emph{aegis} with
+the patch provided in this project:
+\begin{small}
+\begin{verbatim} 
+cd /usr/local/src/aegis
+tar -xf aegis-4.24.tar.gz
+cd aegis-4.24
+patch -p1 < ../aegis-4.24.patch
+./configure CXXFLAGS="-fpermissive -std=c++98" CFLAGS="-std=c99"
+make && make install
+\end{verbatim}
+\end{small}
+To build \emph{fhist}~\cite{Miller_fhist} with the patch provided in this 
+project:
+\begin{small}
+\begin{verbatim} 
+cd /usr/local/src/fhist
+tar -xf fhist-1.21.D001.tar.gz
+cd fhist-1.21
+patch -p1 < ../fhist-1.21.D001.patch
+./configure 
+make && make install
+\end{verbatim}
+\end{small}
 
 \cleardoublepage
 \phantomsection

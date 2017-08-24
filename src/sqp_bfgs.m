@@ -118,7 +118,9 @@ iter=0;
 feasible=false;
 bestfx=inf;
 bestx=x0;
-min_delta=1e4*eps;
+min_delta=1e-8;
+min_rcond_allowed=2e-12;
+min_rcond_found=inf;
 
 % Initialise function, gradient and Hessian (or approximation)
 if iscell(H0) && ...
@@ -171,7 +173,7 @@ sqp_lm=zeros(length(gx),1);
 while 1
 
   iter=iter+1;
-
+  
   % Find the active constraints
   %
   % The obvious thing to put here is "Ax=find(gx<tol);" However,
@@ -194,8 +196,12 @@ while 1
     sqp_lm=zeros(length(gx),1);
   else
     gxginvWgxg=gxg(:,Ax)'*invW*gxg(:,Ax);
-    if rcond(gxginvWgxg)<(100*eps)
-      error("rcond(gxginvWgxg)<(100*eps)! Bailing out!");
+    rcondgxginvWgxg=rcond(gxginvWgxg);
+    if min_rcond_allowed > rcondgxginvWgxg
+      error("rcond(gxginvWgxg)(%g)<%g",rcondgxginvWgxg,min_rcond_allowed);
+    endif
+    if min_rcond_found > rcondgxginvWgxg
+      min_rcond_found=rcondgxginvWgxg;
     endif
     invgxginvWgxg=invSVD(gxginvWgxg);
     lmA=-invgxginvWgxg*(gx(Ax)-(gxg(:,Ax)'*invW*gxf)); 
@@ -227,21 +233,21 @@ while 1
     if (norm(d)<(tol^2))
       lm=sqp_lm;
       liter=sqp_liter;  
-      warning("searching for d within constraints but norm(d)<tol^2!");
+      error("Searching for d within constraints but norm(d)<tol^2!");
       return
     endif
   endwhile
 
   % Find step size that minimises the objective
   if verbose
-    printf("starting line search of Lagrangian\n");
+    printf("Starting line search:\n");
     printf("x = [ "); printf("%f ",x); printf("]\n");
     printf("d = [ "); printf("%f ",d); printf("]\n");
     printf("norm(d) = %f\n",norm(d));
     printf("fx = %f\n",fx);
     printf("gx' = [ ");printf("%f ",gx');printf("]\n");
     printf("gxf' = [ ");printf("%f ",gxf');printf("]\n");
-    printf("lm' = [ "); printf("%f ",sqp_lm'); printf("]\n");
+    printf("sqp_lm' = [ "); printf("%f ",sqp_lm'); printf("]\n");
     printf("gxL = [ ");printf("%f ",gxL);printf("]\n");
     printf("L = %f\n",L);
   endif
@@ -253,11 +259,9 @@ while 1
 
   % Update delta
   delta=tau*d;
-
-  % Check for infeasible problem
   if verbose
     if norm(delta)<min_delta
-      warning("sqp_bfgs: norm(delta)(%g)<%f*eps",norm(delta),min_delta/eps);
+      warning("sqp_bfgs: norm(delta)(%g)<%g",norm(delta),min_delta);
     endif
   endif
 
@@ -327,8 +331,9 @@ while 1
     printf("fx = %f\n",fx);
     printf("gx' = [ ");printf("%f ",gx');printf("]\n");
     printf("gxL = [ ");printf("%f ",gxL);printf("]\n");
-    printf("lm' = [ ");printf("%f ",sqp_lm');printf("]\n");
-    printf("lm'*gx = %f\n",sqp_lm'*gx);
+    printf("sqp_lm' = [ ");printf("%f ",sqp_lm');printf("]\n");
+    printf("sqp_lm'*gx = %f\n",sqp_lm'*gx);
+    printf("min_rcond_found = %g\n",min_rcond_found);
   endif
   if (norm(gxL)<tol) && (min(sqp_lm)>-tol) && (abs(sqp_lm'*gx)<tol)
     feasible=true;
@@ -341,7 +346,7 @@ while 1
   elseif iter>=maxiter
     x=bestx;
     fx=bestfx;
-    warning("Iteration limit exceeded. Bailing out!\n");
+    error("Iteration limit(%d) exceeded. Bailing out!\n",maxiter);
     break;
   endif
 

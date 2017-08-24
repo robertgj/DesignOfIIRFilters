@@ -106,8 +106,8 @@ for l=1:Nc
   delc=shift(delc,1);
   diff_Esqc(l)=(EsqcPdel2-EsqcMdel2)/del;
 endfor
-if max(abs(diff_Esqc-gradEsq((Nk+1):end))) > del/254.45
-  error("max(abs(diff_Esqc-gradEsq((Nk+1):end))) > del/254.45");
+if max(abs(diff_Esqc-gradEsq((Nk+1):end))) > del/230.07
+  error("max(abs(diff_Esqc-gradEsq((Nk+1):end))) > del/230.07");
 endif
 
 % Check the diagonal of the Hessian of the squared-error wrt k
@@ -123,8 +123,8 @@ for l=1:Nk
   delk=shift(delk,1);
   diff_dEsqdk(l)=(gradEsqkPdel2(l)-gradEsqkMdel2(l))/del;
 endfor
-if max(abs(diff_dEsqdk-diagHessEsq(1:Nk))) > del/0.43028
-  error("max(abs(diff_dEsqdk-diagHessEsq(1:Nk))) > del/0.43028");
+if max(abs(diff_dEsqdk-diagHessEsq(1:Nk))) > del/0.3955
+  error("max(abs(diff_dEsqdk-diagHessEsq(1:Nk))) > del/0.3955");
 endif
 
 % Check the diagonal of the Hessian of the squared-error wrt c
@@ -140,8 +140,8 @@ for l=1:Nc
   delc=shift(delc,1);
   diff_dEsqdc(l)=(gradEsqkPdel2(Nk+l)-gradEsqkMdel2(Nk+l))/del;
 endfor
-if max(abs(diff_dEsqdc-diagHessEsq((Nk+1):end))) > del/0.60764
-  error("max(abs(diff_dEsqdc-diagHessEsq((Nk+1):end))) > del/0.60764");
+if max(abs(diff_dEsqdc-diagHessEsq((Nk+1):end))) > del/0.5712
+  error("max(abs(diff_dEsqdc-diagHessEsq((Nk+1):end))) > del/0.5712");
 endif
 
 % Done

@@ -25,17 +25,17 @@ ftp=0.175
 td=DD
 Wtp=0
 fas=0.2
-Was=1000
+Was=1
 
 % Coefficient constraints
 rho=127/128;
 dmax=0.05
 
 % Initial coefficients found by tarczynski_parallel_allpass_delay_test.m
-Da0 = [   1.0000000000,  -0.5293688883,   0.3581214335,   0.1868454361, ... 
-          0.0310301175,  -0.0571095893,  -0.0703708398,  -0.0384386678, ... 
-         -0.0003605782,   0.0199157506,   0.0202940598,   0.0113549168, ... 
-          0.0034443540 ]';
+Da0 = [  1.0000000000,  -0.5293688892,   0.3581214325,   0.1868454349, ... 
+         0.0310301162,  -0.0571095908,  -0.0703708412,  -0.0384386690, ... 
+        -0.0003605791,   0.0199157500,   0.0202940594,   0.0113549166, ... 
+         0.0034443539  ]';
 
 % Convert coefficients to a vector
 [a0,V,Q]=tf2a(Da0);
@@ -156,6 +156,9 @@ fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fclose(fid);
 
 % Save results
+print_pole_zero([1;a1],0,V,0,Q,R,"a1");
+print_pole_zero([1;a1],0,V,0,Q,R,"a1", ...
+                "parallel_allpass_delay_sqp_mmse_test_a1_coef.m");
 print_polynomial(Da1,"Da1");
 print_polynomial(Da1,"Da1","parallel_allpass_delay_sqp_mmse_test_Da1_coef.m");
 
@@ -165,4 +168,4 @@ save parallel_allpass_delay_sqp_mmse_test.mat  ...
 
 diary off
 movefile parallel_allpass_delay_sqp_mmse_test.diary.tmp ...
-       parallel_allpass_delay_sqp_mmse_test.diary;
+         parallel_allpass_delay_sqp_mmse_test.diary;

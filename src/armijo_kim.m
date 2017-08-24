@@ -53,9 +53,6 @@ while newf > (fx+deltaf)
   tau=tau*beta;
   newf = feval(pf,x+(d*tau));
   deltaf = (c1*tau*(dgxf+(d'*W*d)));
-  if verbose && deltaf<100*eps
-    warning("armijo_kim() deltaf<100*eps!");
-  endif
 endwhile
 
 endfunction

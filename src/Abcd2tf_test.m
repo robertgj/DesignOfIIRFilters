@@ -8,7 +8,7 @@ unlink("Abcd2tf_test.diary.tmp");
 diary Abcd2tf_test.diary.tmp
 
 format short e
-tol=2.6e-11;
+tol=1e-11;
 
 % Design filter transfer function
 N=30;dbap=0.1;dbas=40;fc=0.1;
@@ -34,22 +34,22 @@ endif
 T=optKW(K,W,1);
 Ap=inv(T)*A*T;Bp=inv(T)*B;Cp=C*T;Dp=D;
 [np,dp]=Abcd2tf(Ap,Bp,Cp,Dp);
-if max(abs(n-np))>tol/4.264
-  error("max(abs(n-np))(=%g)>tol/4.264\n",max(abs(n-np)));
+if max(abs(n-np))>tol
+  error("max(abs(n-np))(=%g)>tol\n",max(abs(n-np)));
 endif
-if max(abs(d-dp))>tol/0.7146
-  error("max(abs(d-dp))(=%g)>tol/0.7146\n",max(abs(d-dp)));
+if max(abs(d-dp))>15*tol
+  error("max(abs(d-dp))(=%g)>15*tol\n",max(abs(d-dp)));
 endif
 
 % Use Leverrier's method to find the characteristic polynomial
 [nn,dd]=Abcd2tf(A,B,C,D);
 
 % Check the transfer function 
-if max(abs(n-nn))>tol/9
-  error("max(abs(n-nn))(=%g)>tol/9\n",max(abs(n-nn)));
+if max(abs(n-nn))>tol
+  error("max(abs(n-nn))(=%g)>tol\n",max(abs(n-nn)));
 endif
-if max(abs(d-dd))>tol/3
-  error("max(abs(d-dd))(=%g)>tol/3\n",max(abs(d-dd)));
+if max(abs(d-dd))>tol
+  error("max(abs(d-dd))(=%g)>tol\n",max(abs(d-dd)));
 endif
 
 % Check Cayley-Hamilton
@@ -69,8 +69,8 @@ endfunction
 Abcd2tf_Cayley_Hamilton_check([],A);
 Asum=arrayfun(@Abcd2tf_Cayley_Hamilton_check,d,"UniformOutput",false);
 Asum=Asum{end};
-if max(max(abs(Asum)))>tol
-  error("max(max(abs(Asum)))(=%g)>tol\n",max(max(abs(Asum))));
+if max(max(abs(Asum)))>2.5*tol
+  error("max(max(abs(Asum)))(=%g)>2.5*tol\n",max(max(abs(Asum))));
 endif
 
 % Check BB by multiplying out
@@ -105,11 +105,11 @@ endfunction
 Abcd2tf_char_poly_check([],A);
 [nn,dd,BB]=Abcd2tf(A,B,C,D);
 [a,a_std]=cellfun(@Abcd2tf_char_poly_check,BB);
-if max(abs(d-a))>tol
-  error("max(abs(d-a))(=%g)>tol\n",max(abs(d-a)));
+if max(abs(d-a))>3*tol
+  error("max(abs(d-a))(=%g)>3*tol\n",max(abs(d-a)));
 endif
-if max(a_std)>tol
-  error("max(a_std)(=%g)>tol\n",max(a_std));
+if max(a_std)>2*tol
+  error("max(a_std)(=%g)>2*tol\n",max(a_std));
 endif
 
 diary off

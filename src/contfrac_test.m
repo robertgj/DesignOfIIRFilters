@@ -67,7 +67,6 @@ title(sprintf("Simulated response of a continued-fraction elliptic filter : \
 fc=%g,dBap=%g,dBas=%g",fc,dBap,dBas));
 grid("on");
 print("contfrac_test_response","-dpdflatex");
-%print("contfrac_test_response","-dsvg");
 close
 
 % Check output round-off noise variance

@@ -89,8 +89,8 @@ NkR=length(kR);
 if max(abs(T-TR))/eps > 192
   error("max(abs(T-TR)) > 192*eps");
 endif
-if max(max(abs(gradT(ntpl:ntpu,2:2:end)-gradTR(ntpl:ntpu,:))))/eps > 712
-  error("max(max(abs(gradT(ntpl:ntpu,2:2:end)-gradTR(ntpl:ntpu,:)))) > 712*eps");
+if max(max(abs(gradT(ntpl:ntpu,2:2:end)-gradTR(ntpl:ntpu,:))))/eps > 776
+  error("max(max(abs(gradT(ntpl:ntpu,2:2:end)-gradTR(ntpl:ntpu,:)))) > 776*eps");
 endif
 if max(max(abs(diagHessT(ntpl:ntpu,2:2:end)-diagHessTR(ntpl:ntpu,:))))/eps>11904
   error("max(max(abs(diagHessT(ntpl:ntpu,2:2:end)-diagHessTR(ntpl:ntpu,:))))\

@@ -11,35 +11,36 @@ tic;
 
 format compact
 maxiter=5000
-verbose=true
+verbose=false
 no_delay=true
 
 %
 % Initial filter is based on the filters found by
 % tarczynski_frm_parallel_allpass_test.m
 %
-x0.r = [   1.0000000000,   0.1303406803,   0.6182310943,  -0.3796167625, ... 
-           0.0608855417,  -0.0752426093,   0.1106055616,   0.0510279967, ... 
-           0.0221771493 ]';
-x0.s = [   1.0000000000,  -0.2074482871,   0.4387338838,  -0.4384605488, ... 
-           0.1777524182,  -0.0969794295,   0.1314691246,   0.0053424747 ]';
-x0.aa = [  0.0085388118,  -0.0005998888,  -0.0487067023,  -0.0627188054, ... 
-           0.0042062606,   0.0276319380,  -0.0325876574,  -0.0233700884, ... 
-           0.0349931375,  -0.0111883499,   0.0310987798,   0.3567787983, ... 
-           0.5451832504,   0.2164952315,  -0.1752367017,  -0.1182707459, ... 
-           0.0972830865,   0.0605239910,  -0.0538627841,  -0.0037239065, ... 
-           0.0759694186,   0.0552752896,   0.0110415000,   0.0006290532, ... 
-           0.0017429215 ]';
-x0.ac = [  0.0420884945,   0.0333992597,  -0.1120202670,  -0.1270615954, ... 
-           0.1049979880,   0.0805589666,  -0.2027936907,  -0.0675390158, ... 
-           0.1876360201,  -0.0303535500,  -0.0732531121,   0.4317221037, ... 
-           0.5625432697,   0.1452654499,  -0.1121961282,  -0.1313444595, ... 
-          -0.0512433764,   0.1129137944,   0.0784747266,  -0.1141892247, ... 
-          -0.0249703687,   0.1498053375,   0.0513384426,  -0.0904944957, ... 
-          -0.0587000121 ]';
-n=400;
-tol=2e-3 % Tolerance on coefficient update
-ctol=tol/100 % Tolerance on constraints
+x0.r = [   1.0000000000,   0.1741638972,   0.5027502283,  -0.4761594584, ... 
+          -0.1150929406,  -0.1383555445,   0.0867097934,   0.0603294613, ... 
+           0.0313963054 ]';
+x0.s = [   1.0000000000,  -0.0857111594,   0.1816666635,  -0.4144291285, ... 
+           0.0072733463,  -0.0882460342,   0.1299448672,   0.0173169817 ]';
+x0.aa = [   0.0054935301,  -0.0060642255,  -0.0492191135,  -0.0569589402, ... 
+            0.0090954104,   0.0487256604,   0.0135358020,   0.0173002104, ... 
+            0.0627478485,   0.0465409775,   0.1113837866,   0.3806625453, ... 
+            0.4829154906,   0.1310970617,  -0.2272418254,  -0.1377008309, ... 
+            0.0896744284,   0.0394989454,  -0.0843006560,  -0.0052605268, ... 
+            0.1095521605,   0.0719179183,  -0.0151246472,  -0.0315187993, ... 
+           -0.0088245744 ]';
+x0.ac = [   0.0325757581,   0.0267193719,  -0.1016383423,  -0.1334713697, ... 
+            0.0719353837,   0.1044203058,  -0.1224859003,  -0.0370596816, ... 
+            0.2023003404,   0.0533322021,   0.0072373678,   0.4302371713, ... 
+            0.5098593309,   0.0480425413,  -0.1977649513,  -0.1245580362, ... 
+           -0.0358281145,   0.0559039370,   0.0560841995,  -0.0562044625, ... 
+           -0.0085250089,   0.1000911935,   0.0220632373,  -0.0808465769, ... 
+           -0.0500571556 ]';
+
+n=500;
+tol=1e-3 % Tolerance on coefficient update
+ctol=tol/10 % Tolerance on constraints
 mr=length(x0.r)-1 % Allpass model filter order 
 ms=length(x0.s)-1 % Allpass model filter order
 na=length(x0.aa) % Masking filter FIR length
@@ -49,12 +50,12 @@ Dmodel=0 % Desired model filter passband delay
 dmask=0 % Nominal masking filter delay
 Tnominal=0 % Nominal FRM filter delay
 fap=0.3 % Pass band edge
-dBap=0.05 % Pass band amplitude ripple
+dBap=0.02 % Pass band amplitude ripple
 Wap=1 % Pass band weight
 tpr=inf % Peak-to-peak pass band delay ripple
 Wtp=0 % Pass band delay weight
-Wat=100*eps % Small transition band weight enables constraints
-fas=0.31125 % Stop band edge
+Wat=1e-6 % Small transition band weight enables constraints
+fas=0.31 % Stop band edge
 dBas=40 % Stop band attenuation
 Was=100 % Stop band amplitude weight
 rho=31/32 % Stability constraint on pole radius
@@ -82,10 +83,11 @@ Asqdl=[(10^(-dBap/10))*ones(nap,1);zeros(n-nap,1)];
 Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
 
 % Group delay constraints
-Td=Tnominal*ones(nap,1);
-Tdu=Td+((tpr/2)*ones(nap,1));
-Tdl=Td-((tpr/2)*ones(nap,1));
-Wt=Wtp*ones(nap,1);
+ntp=nap;
+Td=Tnominal*ones(ntp,1);
+Tdu=Td+((tpr/2)*ones(ntp,1));
+Tdl=Td-((tpr/2)*ones(ntp,1));
+Wt=Wtp*ones(ntp,1);
 
 % Common strings for output plots
 if no_delay
@@ -98,7 +100,7 @@ endif
 strF=sprintf("iir_frm_parallel_allpass_socp_slb_test_%%s_%%s");
 
 % Plot the initial response
-nplot=512;
+nplot=1024;
 iir_frm_parallel_allpass_socp_slb_plot(x0,na,nc,Mmodel,Dmodel,dmask, ...
                                        nplot,fap,strT,strF,"initial");
 
@@ -118,6 +120,17 @@ d2=iir_frm_parallel_allpass_vec_to_struct(d2k,Vr,Qr,Vs,Qs,na,nc);
 % Plot the PCLS response
 iir_frm_parallel_allpass_socp_slb_plot(d2,na,nc,Mmodel,Dmodel,dmask, ...
                                        nplot,fap,strT,strF,"pcls");
+
+%
+% PCLS amplitude at local peaks
+%
+Asq=iir_frm_parallel_allpass(w,d2k,Vr,Qr,Vs,Qs,na,nc,Mmodel);
+vAl=local_max(Asqdl-Asq);
+vAu=local_max(Asq-Asqdu);
+vAS=unique([vAl(:);vAu(:);1;nap;nas;n]);
+AS=Asq(vAS);
+printf("d2k:fAS=[ ");printf("%f ",w(vAS)'*0.5/pi);printf(" ] (fs==1)\n");
+printf("d1:AS=[ ");printf("%f ",10*log10(AS'));printf(" ] (dB)\n");
 
 %
 % Save the results

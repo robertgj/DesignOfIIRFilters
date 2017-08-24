@@ -367,14 +367,15 @@ else
               (wp,k_b,epsilon0,p0,u_b,v_b,Mmodel,Dmodel);
         vS=schurOneMAPlattice_frm_hilbert_slb_update_constraints ...
              (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,tol);
-        if ~isempty(vS)
+        if ~schurOneMAPlattice_slb_constraints_are_empty(vS)
           printf("At maximum depth constraints are not empty!\n");
+          schurOneMAPlattice_slb_show_constraints(vS);
         endif
       else
-        vS=[];
+        vS=schurOneMAPlattice_slb_set_empty_constraints();
       endif
       % Update the best solution
-      if Esq<Esq_min && isempty(vS)
+      if Esq<Esq_min && schurOneMAPlattice_slb_constraints_are_empty(vS)
         improved_solution_found=true;
         Esq_min=Esq;
         kuv_min=kuv_b;

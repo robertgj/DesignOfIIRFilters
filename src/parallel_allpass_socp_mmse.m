@@ -87,6 +87,13 @@ Nwa=length(wa);
 wt=wt(:);
 Nwt=length(wt);
 Nab=Va+Qa+Vb+Qb;
+
+if isempty(vS)
+  vS.al=[];vS.au=[];vS.tl=[];vS.tu=[];
+elseif (numfields(vS) ~= 4) || (all(isfield(vS,{"al","au","tl","tu"}))==false)
+  error("numfields(vS)=%d, expected 4 (al,au,tl and tu)",numfields(vS));
+endif
+
 if length(ab0) ~= Nab
   error("Expected length(ab0)(%d) == Va(%d)+Qa(%d)+Vb(%d)+Qb(%d)",
         length(ab0),Va,Qb,Vb,Qb);
@@ -100,10 +107,10 @@ endif
 if Nwa ~= length(Asqd)
   error("Expected length(wa)(%d) == length(Asqd)(%d)",Nwa,length(Asqd));
 endif  
-if (~isempty(vS)) && (Nwa ~= length(Asqdu))
+if (~isempty(vS.au)) && (Nwa ~= length(Asqdu))
   error("Expected length(wa)(%d) == length(Asqdu)(%d)",Nwa,length(Asqdu));
 endif  
-if (~isempty(vS)) && (Nwa ~= length(Asqdl))
+if (~isempty(vS.al)) && (Nwa ~= length(Asqdl))
   error("Expected length(wa)(%d) == length(Asqdl)(%d)",Nwa,length(Asqdl));
 endif  
 if Nwa ~= length(Wa)
@@ -112,19 +119,14 @@ endif
 if Nwt ~= length(Td)
   error("Expected length(wt)(%d) == length(Td)(%d)",Nwt,length(Td));
 endif  
-if (~isempty(vS)) && (Nwt ~= length(Tdu))
+if (~isempty(vS.tu)) && (Nwt ~= length(Tdu))
   error("Expected length(wt)(%d) == length(Tdu)(%d)",Nwt,length(Tdu));
 endif  
-if (~isempty(vS)) && (Nwt ~= length(Tdl))
+if (~isempty(vS.tl)) && (Nwt ~= length(Tdl))
   error("Expected length(wt)(%d) == length(Tdl)(%d)",Nwt,length(Tdl));
 endif  
 if Nwt ~= length(Wt)
   error("Expected length(wt)(%d) == length(Wt)(%d)",Nwa,length(Wt));
-endif
-if isempty(vS)
-  vS.al=[];vS.au=[];vS.tl=[];vS.tu=[];
-elseif (numfields(vS) ~= 4) || (all(isfield(vS,{"al","au","tl","tu"}))==false)
-  error("numfields(vS)=%d, expected 4 (al,au,tl and tu)",numfields(vS));
 endif
 
 % Initialise
@@ -196,25 +198,23 @@ while 1
      abk((Va+Qa+Vb+1):(Va+Qa+Vb+Qbon2)) - abl((Va+Qa+Vb+1):(Va+Qa+Vb+Qbon2))];
 
   % Add linear constraints on the response
-  if ~isempty(vS)
-    % Squared amplitude linear constraints
-    if ~isempty(vS.au)
-      D=[D, [zeros(2,length(vS.au));-gradAsqwa(vS.au,:)']];
-      f=[f; Asqdu(vS.au)-Asqwa(vS.au)];
-    endif
-    if ~isempty(vS.al)
-      D=[D, [zeros(2,length(vS.al));gradAsqwa(vS.al,:)']];
-      f=[f; Asqwa(vS.al)-Asqdl(vS.al)];
-    endif
-    % Group-delay linear constraints
-    if ~isempty(vS.tu)
-      D=[D, [zeros(2,length(vS.tu));-gradTwt(vS.tu,:)']];
-      f=[f; Tdu(vS.tu)-Twt(vS.tu)];
-    endif
-    if ~isempty(vS.tl)
-      D=[D, [zeros(2,length(vS.tl));gradTwt(vS.tl,:)']];
-      f=[f; Twt(vS.tl)-Tdl(vS.tl)];
-    endif
+  % Squared amplitude linear constraints
+  if ~isempty(vS.au)
+    D=[D, [zeros(2,length(vS.au));-gradAsqwa(vS.au,:)']];
+    f=[f; Asqdu(vS.au)-Asqwa(vS.au)];
+  endif
+  if ~isempty(vS.al)
+    D=[D, [zeros(2,length(vS.al));gradAsqwa(vS.al,:)']];
+    f=[f; Asqwa(vS.al)-Asqdl(vS.al)];
+  endif
+  % Group-delay linear constraints
+  if ~isempty(vS.tu)
+    D=[D, [zeros(2,length(vS.tu));-gradTwt(vS.tu,:)']];
+    f=[f; Tdu(vS.tu)-Twt(vS.tu)];
+  endif
+  if ~isempty(vS.tl)
+    D=[D, [zeros(2,length(vS.tl));gradTwt(vS.tl,:)']];
+    f=[f; Twt(vS.tl)-Tdl(vS.tl)];
   endif
     
   % SeDuMi linear constraint matrixes

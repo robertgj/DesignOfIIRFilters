@@ -11,6 +11,8 @@ polyphase_allpass_socp_slb_flat_delay_ab1pz
 polyphase_allpass_socp_slb_flat_delay_test_COEFS = \
 polyphase_allpass_socp_slb_flat_delay_test.mat \
 polyphase_allpass_socp_slb_flat_delay_test.spec \
+polyphase_allpass_socp_slb_flat_delay_test_a1_coef.m \
+polyphase_allpass_socp_slb_flat_delay_test_b1_coef.m \
 polyphase_allpass_socp_slb_flat_delay_test_Da1_coef.m \
 polyphase_allpass_socp_slb_flat_delay_test_Db1_coef.m
 
@@ -23,4 +25,5 @@ parallel_allpass_slb_set_empty_constraints.m \
 parallel_allpass_slb_show_constraints.m \
 parallel_allpass_slb_update_constraints.m \
 parallel_allpass_socp_mmse.m allpassP.m allpassT.m tf2a.m a2tf.m \
-aConstraints.m print_polynomial.m local_max.m sedumi_test.diary
+aConstraints.m print_polynomial.m print_pole_zero.m local_max.m \
+sedumi_test.diary

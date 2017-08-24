@@ -275,7 +275,7 @@ nap=ceil(n*fap/0.5)+1;
 napM=(ceil(n*fap/0.5)/Mmodel)+1;
 T=T(1:napM);
 Tp=Tp(1:napM);
-tolT=704*eps;
+tolT=768*eps;
 if max(abs(T-Tp)) > tolT
   error("max(abs(T-Tp)) > tolT (%d*eps)",ceil(max(abs(T-Tp))/eps));
 endif
@@ -345,7 +345,7 @@ nap=ceil(n*fap/0.5)+1;
 napM=(ceil(n*fap/0.5)/Mmodel)+1;
 T=T(1:napM);
 Tp=Tp(1:napM);
-tolT=832*eps;
+tolT=864*eps;
 if max(abs(T-Tp)) > tolT
   error("max(abs(T-Tp)) > tolT (%d*eps)",ceil(max(abs(T-Tp))/eps));
 endif

@@ -2,16 +2,13 @@
 
 # A script to build shared and static versions of the Lapack libraries:
 #  1. Assumes the NETLIB source archive lapack-$LPVER.tgz is present
-#  2. The static versions include LTO symbols.
-#  3. Under directory lapack-$LPVER, make.inc.example, SRC/Makefile and
+#  2. Under directory lapack-$LPVER, make.inc.example, SRC/Makefile and
 #     BLAS/SRC/Makefile are modified with lapack-$LPVER.patch
 
 alias cp=cp
 
-export LPVER=3.6.1
 MAKE_OPTS=""
-ALL_BUILDS="generic intel haswell nehalem skylake \
-generic-lto intel-lto haswell-lto nehalem-lto skylake-lto"
+ALL_BUILDS="generic intel haswell nehalem skylake"
 
 # Patch lapack files make.inc.example, SRC/Makefile and BLAS/SRC/Makefile
 cat > lapack-$LPVER.patch.uue << 'EOF'
@@ -93,11 +90,9 @@ done
 # Set build options in each directory
 for dir in generic intel ; do
   sed -i -e "s/^BLDOPTS\ *=.*/BLDOPTS\ \ = -fPIC -m64 -mtune=$dir/" $dir/lapack-$LPVER/make.inc
-  sed -i -e "s/^BLDOPTS\ *=.*/BLDOPTS\ \ = -fPIC -m64 -mtune=$dir -flto=6 -ffat-lto-objects/" $dir-lto/lapack-$LPVER/make.inc
 done
 for dir in haswell nehalem skylake ; do
   sed -i -e "s/^BLDOPTS\ *=.*/BLDOPTS\ \ = -fPIC -march=$dir/" $dir/lapack-$LPVER/make.inc
-  sed -i -e "s/^BLDOPTS\ *=.*/BLDOPTS\ \ = -fPIC -march=$dir -flto=6 -ffat-lto-objects/" $dir-lto/lapack-$LPVER/make.inc
 done
 
 # Build in each directory

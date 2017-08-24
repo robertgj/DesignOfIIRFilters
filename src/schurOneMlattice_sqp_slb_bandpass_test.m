@@ -12,15 +12,15 @@ script_id=tic;
 format compact
 
 tol_mmse=2e-5
-tol_pcls=2e-5
+tol_pcls=1e-5
 maxiter=2000
 verbose=false;
 
 % Bandpass R=2 filter specification
 fapl=0.1,fapu=0.2,dBap=2,Wap=1
 fasl=0.05,fasu=0.25,dBas=36
-Wasl_mmse=1e6,Wasu_mmse=1e6,Wasl_pcls=1e6,Wasu_pcls=1e6
-ftpl=0.09,ftpu=0.21,tp=16,tpr=tp/200,Wtp_mmse=6,Wtp_pcls=6
+Wasl_mmse=5e5,Wasu_mmse=5e5,Wasl_pcls=5e5,Wasu_pcls=5e5
+ftpl=0.09,ftpu=0.21,tp=16,tpr=tp/200,Wtp_mmse=5,Wtp_pcls=5
 
 % Initial filter (found by trial-and-error for iir_sqp_slb_bandpass_test.m)
 U=2,V=0,M=18,Q=10,R=2
@@ -120,7 +120,7 @@ schurOneMlattice_sqp_slb_bandpass_plot ...
 %
 % MMSE amplitude and delay at local peaks
 %
-Asq=schurOneMlatticeAsq(wa,k1,epsilon1,p1,c1);
+ Asq=schurOneMlatticeAsq(wa,k1,epsilon1,p1,c1);
 vAl=local_max(Asqdl-Asq);
 vAu=local_max(Asq-Asqdu);
 wAsqS=unique([wa(vAl);wa(vAu);wa([1,nasl,napl,napu,nasu,end])]);
@@ -178,63 +178,6 @@ wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
 TS=schurOneMlatticeT(wTS,k2,epsilon2,p2,c2);
 printf("k2c2:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k2c2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
-
-if 0
-  %
-  % SOCP PCLS pass 2. This works
-  %
-  dBas=36,tpr=0.06,Wtp_pcls=8
-  Asqdu=[(10^(-dBas/10))*ones(nasl,1); ...
-         ones(nasu-nasl-1,1); ...
-         (10^(-dBas/10))*ones(n-nasu+1,1)];
-  Asqdl=[zeros(napl-1,1); ...
-         (10^(-dBap/10))*ones(napu-napl+1,1); ...
-         zeros(n-napu,1)];
-
-  Tdu=(tp+(tpr/2))*ones(ntp,1);
-  Tdl=(tp-(tpr/2))*ones(ntp,1);
-  Wt_pcls=Wtp_pcls*ones(ntp,1);
-  run_id=tic;
-  [k3p,c3p,slb_iter,opt_iter,func_iter,feasible] = ...
-  schurOneMlattice_slb(@schurOneMlattice_sqp_mmse, ...
-                       k2,epsilon2,p2,c2, ...
-                       kc_u,kc_l,kc_active,dmax, ...
-                       wa,Asqd,Asqdu,Asqdl,Wa_pcls, ...
-                       wt,Td,Tdu,Tdl,Wt_pcls, ...
-                       wp,Pd,Pdu,Pdl,Wp, ...
-                       maxiter,tol_pcls,verbose);
-  toc(run_id);
-  if feasible == 0 
-    error("k3p,c3p(pcls) infeasible");
-  endif
-  % Recalculate epsilon3, p3 and c3
-  [n3,d3]=schurOneMlattice2tf(k3p,epsilon2,ones(size(p2)),c3p);
-  [k3,epsilon3,p3,c3]=tf2schurOneMlattice(n3,d3);
-  % Plot the PCLS response
-  strFpcls=sprintf(strF,"pcls","k3c3");
-  strTpcls=sprintf(strT,"Schur 1-multiplier SQP PCLS",Wtp_pcls,Wasl_pcls);
-  schurOneMlattice_sqp_slb_bandpass_plot ...
-    (k3,epsilon3,p3,c3,ftpl,ftpu,dBap,ftpl,ftpu,tp,tpr, ...
-     fasl,fasu,dBas,strFpcls,strTpcls);
-
-  %
-  % PCLS amplitude and delay at local peaks
-  %
-  Asq=schurOneMlatticeAsq(wa,k3,epsilon3,p3,c3);
-  vAl=local_max(Asqdl-Asq);
-  vAu=local_max(Asq-Asqdu);
-  wAsqS=unique([wa(vAl);wa(vAu);wa([1,nasl,napl,napu,nasu,end])]);
-  AsqS=schurOneMlatticeAsq(wAsqS,k3,epsilon3,p3,c3);
-  printf("k3c3:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
-  printf("k3c3:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
-  T=schurOneMlatticeT(wt,k3,epsilon3,p3,c3);
-  vTl=local_max(Tdl-T);
-  vTu=local_max(T-Tdu);
-  wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
-  TS=schurOneMlatticeT(wTS,k3,epsilon3,p3,c3);
-  printf("k3c3:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
-  printf("k3c3:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
-endif
 
 %
 % Save the results

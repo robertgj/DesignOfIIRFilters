@@ -7,20 +7,27 @@ unlink("schurNSlattice_sqp_slb_lowpass_test.diary");
 unlink("schurNSlattice_sqp_slb_lowpass_test.diary.tmp");
 diary schurNSlattice_sqp_slb_lowpass_test.diary.tmp
 
-
 format compact
 
 maxiter=5000
 verbose=false
 
+% Option: enforce s02=-s20,s22=s00?
+sxx_symmetric=false;
+
 % Deczky3 lowpass filter specification
 tol_mmse=1e-3
-tol_pcls=1e-5
-n=400
 norder=10
-fap=0.15,dBap=0.2,Wap=1
-fas=0.3,dBas=46,Was_mmse=1e4,Was_pcls=1e6
-ftp=0.25,tp=9.5,tpr=0.1,Wtp_mmse=0.01,Wtp_pcls=0.1
+fap=0.15,Wap=1
+fas=0.3,Was_mmse=1e4
+ftp=0.25,tp=9.5,Wtp_mmse=0.01
+if sxx_symmetric
+  n=200,tol_pcls=1e-3,dBap=0.5,dBas=46,Was_pcls=1e5,tpr=0.2,Wtp_pcls=0.01
+else
+  n=400,tol_pcls=1e-5,dBap=0.2,dBas=46,Was_pcls=1e6,tpr=0.1,Wtp_pcls=0.1
+endif
+
+
 % Initial filter from deczky3_sqp_test.m
 U=0;V=0;Q=6;M=10;R=1;
 z0=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...
@@ -70,9 +77,6 @@ sxx_l=-sxx_u;
 sxx_0=reshape([s10_0;s11_0;s20_0;s02_0;s00_0;s22_0],1,6*Ns);
 sxx_active=intersect(find(gradEsq),find((sxx_0~=0)&(sxx_0~=1)));
 
-% Enforce s02=-s20,s22=s00?
-sxx_symmetric=false;
-
 %
 % SQP MMSE
 %
@@ -88,7 +92,8 @@ if feasible == 0
   error("s10_1,s11_1,s20_1,s00_1,s02_1,s22_1(mmse) infeasible");
 endif
 schurNSlattice_sqp_slb_lowpass_plot ...
-  (s10_1,s11_1,s20_1,s00_1,s02_1,s22_1,fap,dBap,ftp,tp,tpr*2,fas,dBas, ...
+  (s10_1,s11_1,s20_1,s00_1,s02_1,s22_1, ...
+   max(fap,ftp),dBap,max(fap,ftp),tp,tpr*2,fas,dBas, ...
    sprintf(strF,"mmse","sxx_1"),sprintf(strT,"MMSE"));
 
 %
@@ -107,7 +112,8 @@ if feasible == 0
   error("s10_2,s11_2,s20_2,s00_2,s02_2,s22_2(pcls) infeasible");
 endif
 schurNSlattice_sqp_slb_lowpass_plot ...
-  (s10_2,s11_2,s20_2,s00_2,s02_2,s22_2,fap,dBap,ftp,tp,tpr,fas,dBas, ...
+  (s10_2,s11_2,s20_2,s00_2,s02_2,s22_2, ...
+   max(fap,ftp),dBap,max(fap,ftp),tp,tpr,fas,dBas, ...
    sprintf(strF,"pcls","sxx_2"),sprintf(strT,"PCLS"));
 
 %
@@ -131,10 +137,28 @@ printf("d1:TS=[ ");printf("%f ",TS');printf(" ] (samples)\n");
 %
 % Find state variance
 %
+
+% Compare scaling to normalised-scaling
+s02_00_scale_error=(s02_2.^2)+(s00_2.^2)-1;
+s20_22_scale_error=(s20_2.^2)+(s22_2.^2)-1;
+
+% State-variable calculation
 [A,B,C,D]=schurNSlattice2Abcd(s10_2,s11_2,s20_2,s00_2,s02_2,s22_2);
 [K,W]=KW(A,B,C,D);
+print_polynomial(diag(K),"diag(K)");
 print_polynomial(diag(K),"diag(K)",...
                  "schurNSlattice_sqp_slb_lowpass_test.diagK.val","%10.4f");
+
+% Simulate
+nbits=16;
+scale=2^(nbits-1);
+nsamples=2^14;
+rand("seed",0xdeadbeef);
+u=rand(nsamples,1)-0.5;
+u=0.25*u/std(u);
+u=round(u*scale);
+[~,~,xx]=schurNSlatticeFilter(s10_2,s11_2,s20_2,s00_2,s02_2,s22_2,u,"none");
+print_polynomial(var(xx/(0.25*scale)),"var(xx/(0.25*scale))")
 
 %
 % Save the results

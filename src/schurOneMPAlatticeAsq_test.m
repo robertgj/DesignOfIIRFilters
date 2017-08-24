@@ -18,18 +18,16 @@ fpass=0.125;
 nplot=1024;
 npass=floor(nplot*fpass/0.5);
 [h,wplot]=freqz(n,d,nplot);
-% Alternative calculation
 [Aap1,Aap2]=tf2pa(n,d);
-hAap1=freqz(fliplr(Aap1),Aap1,nplot);
-hAap2=freqz(fliplr(Aap2),Aap2,nplot);
-hAap12=(hAap1+hAap2)/2;
+Aap1=Aap1(:);
+Aap2=Aap2(:);
 
 % Lattice decomposition
-[A1k,A1epsilon,A1p,A1c] = tf2schurOneMlattice(fliplr(Aap1),Aap1);
-[A2k,A2epsilon,A2p,A2c] = tf2schurOneMlattice(fliplr(Aap2),Aap2);
+[A1k,A1epsilon,A1p,~] = tf2schurOneMlattice(flipud(Aap1),Aap1);
+[A2k,A2epsilon,A2p,~] = tf2schurOneMlattice(flipud(Aap2),Aap2);
 
 % Find the complex response
-[Asq]=schurOneMPAlatticeAsq(wplot,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
+Asq=schurOneMPAlatticeAsq(wplot,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
 
 % Check the magnitude-squared response
 if max(abs((abs(h).^2)-Asq)) > 139*eps
@@ -93,9 +91,9 @@ for l=1:length(A1k)
   delk=shift(delk,1);
   diff_gradAsqk(:,l)=(gradAsqkPdel2(:,l)-gradAsqkMdel2(:,l))/del;
 endfor
-if max(max(abs(diff_gradAsqk-diagHessAsq(1:npass,1:length(A1k))))) > del/288.46
+if max(max(abs(diff_gradAsqk-diagHessAsq(1:npass,1:length(A1k))))) > del/246.5
   error("max(max(abs(diff_gradAsqk-\
-diagHessAsq(1:npass,1:length(A1k))))) > del/288.46");
+diagHessAsq(1:npass,1:length(A1k))))) > del/246.5");
 endif
 
 % Check the diagonal of the Hessian of the squared-magnitude response wrt A2k
@@ -115,9 +113,9 @@ for l=1:length(A2k)
     (gradAsqkPdel2(:,length(A1k)+l)-gradAsqkMdel2(:,length(A1k)+l))/del;
 endfor
 if max(max(abs(diff_gradAsqk-diagHessAsq(1:npass,(length(A1k)+1):end)))) ...
-   > del/38.64
+   > del/46.57
   error("max(max(abs(diff_gradAsqk-\
-diagHessAsq(1:npass,(length(A1k)+1):end)))) > del/38.64");
+diagHessAsq(1:npass,(length(A1k)+1):end)))) > del/46.57");
 endif
 
 % Done

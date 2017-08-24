@@ -83,6 +83,17 @@ Nwa=length(wa);
 wt=wt(:);
 Nwt=length(wt);
 Na=V+Q;
+
+if isempty(vS)
+  vS=parallel_allpass_delay_slb_set_empty_constraints();
+else
+  if ((numfields(vS) ~= 4) ...
+      || ~isfield(vS,"al") || ~isfield(vS,"au") ...
+      || ~isfield(vS,"tl") || ~isfield(vS,"tu"))
+    error("numfields(vS)=%d, expected 4 (al,au,tl and tu)",numfields(vS));
+  endif
+endif
+
 if length(a0) ~= Na
   error("Expected length(a0)(%d) == V(%d)+Q(%d)",length(a0),V,Q);
 endif
@@ -95,10 +106,10 @@ endif
 if Nwa ~= length(Asqd)
   error("Expected length(wa)(%d) == length(Asqd)(%d)",Nwa,length(Asqd));
 endif  
-if (~isempty(vS)) && (Nwa ~= length(Asqdu))
+if (~isempty(vS.au)) && (Nwa ~= length(Asqdu))
   error("Expected length(wa)(%d) == length(Asqdu)(%d)",Nwa,length(Asqdu));
 endif  
-if (~isempty(vS)) && (Nwa ~= length(Asqdl))
+if (~isempty(vS.al)) && (Nwa ~= length(Asqdl))
   error("Expected length(wa)(%d) == length(Asqdl)(%d)",Nwa,length(Asqdl));
 endif  
 if Nwa ~= length(Wa)
@@ -107,24 +118,14 @@ endif
 if Nwt ~= length(Td)
   error("Expected length(wt)(%d) == length(Td)(%d)",Nwt,length(Td));
 endif  
-if (~isempty(vS)) && (Nwt ~= length(Tdu))
+if (~isempty(vS.tu)) && (Nwt ~= length(Tdu))
   error("Expected length(wt)(%d) == length(Tdu)(%d)",Nwt,length(Tdu));
 endif  
-if (~isempty(vS)) && (Nwt ~= length(Tdl))
+if (~isempty(vS.tl)) && (Nwt ~= length(Tdl))
   error("Expected length(wt)(%d) == length(Tdl)(%d)",Nwt,length(Tdl));
 endif  
 if Nwt ~= length(Wt)
   error("Expected length(wt)(%d) == length(Wt)(%d)",Nwa,length(Wt));
-endif
-if isempty(vS)
-  vS=parallel_allpass_delay_slb_set_empty_constraints();
-endif
-if ~isempty(vS)
-  if ((numfields(vS) ~= 4) ...
-      || ~isfield(vS,"al") || ~isfield(vS,"au") ...
-      || ~isfield(vS,"tl") || ~isfield(vS,"tu"))
-    error("numfields(vS)=%d, expected 4 (al,au,tl and tu)",numfields(vS));
-  endif
 endif
 
 % Initialise

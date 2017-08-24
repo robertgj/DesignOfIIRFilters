@@ -1,0 +1,36 @@
+schurOneMPAlattice_socp_slb_lowpass_test_FIGURES = \
+schurOneMPAlattice_socp_slb_lowpass_test_response \
+schurOneMPAlattice_socp_slb_lowpass_test_passband_response \
+schurOneMPAlattice_socp_slb_lowpass_test_pz
+
+schurOneMPAlattice_socp_slb_lowpass_test_COEFS = \
+schurOneMPAlattice_socp_slb_lowpass_test.mat \
+schurOneMPAlattice_socp_slb_lowpass_test.spec \
+schurOneMPAlattice_socp_slb_lowpass_test_A1k_coef.m \
+schurOneMPAlattice_socp_slb_lowpass_test_A1epsilon_coef.m \
+schurOneMPAlattice_socp_slb_lowpass_test_A1p_coef.m \
+schurOneMPAlattice_socp_slb_lowpass_test_A2k_coef.m \
+schurOneMPAlattice_socp_slb_lowpass_test_A2epsilon_coef.m \
+schurOneMPAlattice_socp_slb_lowpass_test_A2p_coef.m
+
+schurOneMPAlattice_socp_slb_lowpass_test_FILES = \
+schurOneMPAlattice_socp_slb_lowpass_test.m test_common.m \
+schurOneMPAlatticeAsq.m \
+schurOneMPAlatticeT.m \
+schurOneMPAlatticeP.m \
+schurOneMPAlatticeEsq.m \
+schurOneMPAlattice_slb.m \
+schurOneMPAlattice_slb_constraints_are_empty.m \
+schurOneMPAlattice_socp_mmse.m \
+schurOneMPAlattice_slb_exchange_constraints.m \
+schurOneMPAlattice_slb_set_empty_constraints.m \
+schurOneMPAlattice_slb_show_constraints.m \
+schurOneMPAlattice_slb_update_constraints.m \
+schurOneMPAlattice_socp_slb_lowpass_plot.m \
+schurOneMPAlattice2tf.m \
+schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m \
+schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
+Abcd2tf.m H2Asq.m H2T.m H2P.m \
+schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
+schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
+sedumi_test.diary

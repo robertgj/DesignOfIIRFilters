@@ -53,7 +53,7 @@ Active constraints are [ 2 ]
 Step 1: Trying constraint 1 at g(1) = [ -20.993461 ]
 Step 2a: step direction in primal space d = [ -0.000000 0.000208 -0.000000 ]
 Step 2a: step direction in dual space r = [ 0.000208 ]
-Step 2b)i): partial step length t1 = 1629334390.615776
+Step 2b)i): partial step length t1 = 1629334390.615775
 Step 2b)ii): full step length t2 = 100768.594465
 Step 2b)iii): selecting step length t = 100768.594465
 Step 2c)iii): Step in primal and dual space.

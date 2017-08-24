@@ -28,14 +28,15 @@ d = [ 1.00000    0         -1.42123    0 ...
 % N=6;fc=0.05;dbap=0.1;dbas=40;[n,d]=ellip(N,dbap,dbas,2*fc);
 
 [A,B,C,D]=tf2Abcd(n,d);
-[K,W]=KW(A,B,C,D)
-
+[K,W]=KW(A,B,C,D);
+K(find(abs(K)<100*eps))=0
 [Kdlyap,Wdlyap]=KW(A,B,C,D,"dlyap");
-if max(max(abs(K-Kdlyap)))/max(max(abs(K))) > eps
-  error("max(max(abs(K-Kdlyap)))/max(max(abs(K))) > eps");
+Kdlyap(find(abs(Kdlyap)<100*eps))=0
+if max(max(abs(K-Kdlyap))) > eps
+  error("max(max(abs(K-Kdlyap))) > eps");
 endif
-if max(max(abs(W-Wdlyap)))/max(max(abs(W))) > eps
-  error("max(max(abs(W-Wdlyap)))/max(max(abs(W))) > eps");
+if max(max(abs(W-Wdlyap))) > eps
+  error("max(max(abs(W-Wdlyap))) > eps");
 endif
 
 [Klev,Wlev]=KW(A,B,C,D,"levinson");

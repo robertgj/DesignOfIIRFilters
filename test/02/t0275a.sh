@@ -4,11 +4,6 @@ prog=minphase_test.m
 descr="minphase_test.m (octfile)"
 depends="minphase_test.m test_common.m print_polynomial.m minphase.oct"
 
-# If minphase.oct does not exist then return the aet code for "pass"
-if ! test -f minphase.oct; then 
-    echo SKIPPED $descr minphase.oct not found! ; exit 0; 
-fi
-
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -33,6 +28,11 @@ trap "fail" 1 2 3 15
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
 echo $here
+
+# If minphase.oct does not exist then return the aet code for "pass"
+if ! test -f src/minphase.oct; then 
+    echo SKIPPED $descr minphase.oct not found! ; exit 0; 
+fi
 for file in $depends;do \
   cp -R src/$file $tmp; \
   if [ $? -ne 0 ]; then echo "Failed cp "$file; fail; fi \
@@ -60,9 +60,9 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.brz.ok"; fail; fi
 
 cat > test.brzc.ok << 'EOF'
-brzc = [  0.702278455214, -0.284747150129,  0.195991006193,  0.310333248285, ... 
-          0.135915839433, -0.007622203931,  0.013539408339,  0.068315146083, ... 
-          0.019358425460, -0.088556180168, -0.123568391617, -0.052846068252, ... 
+brzc = [  0.702278455215, -0.284747150129,  0.195991006193,  0.310333248284, ... 
+          0.135915839433, -0.007622203931,  0.013539408339,  0.068315146082, ... 
+          0.019358425460, -0.088556180167, -0.123568391617, -0.052846068252, ... 
           0.035521731832,  0.060100581869,  0.029846895499,  0.000251446154, ... 
          -0.003826320305,  0.001544785941, -0.000527786188, -0.006517762704, ... 
          -0.006982385692, -0.002252609052,  0.001415579658,  0.001682492398, ... 

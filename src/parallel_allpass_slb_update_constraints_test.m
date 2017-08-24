@@ -135,4 +135,5 @@ close
 % Done
 %
 diary off
-movefile parallel_allpass_slb_update_constraints_test.diary.tmp parallel_allpass_slb_update_constraints_test.diary;
+movefile parallel_allpass_slb_update_constraints_test.diary.tmp ...
+         parallel_allpass_slb_update_constraints_test.diary;

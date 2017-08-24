@@ -72,8 +72,8 @@ for l=1:Nk
   delk=shift(delk,1);
   diff_dPdk(l)=(gradPkPdel2(1,l)-gradPkMdel2(1,l))/del;
 endfor
-if max(abs(diff_dPdk-diagHessP(ntpl,:))) > del/339.2
-  error("max(abs(diff_dPdk-diagHessP(ntpl,:))) > del/339.2");
+if max(abs(diff_dPdk-diagHessP(ntpl,:))) > del/260.7
+  error("max(abs(diff_dPdk-diagHessP(ntpl,:))) > del/260.7");
 endif
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -89,9 +89,9 @@ endif
 if max(max(abs(gradP(ntpl:ntpu,2:2:end)-gradPR(ntpl:ntpu,:))))/eps > 40
   error("max(max(abs(gradP(ntpl:ntpu,2:2:end)-gradPR(ntpl:ntpu,:)))) > 40*eps");
 endif
-if max(max(abs(diagHessP(ntpl:ntpu,2:2:end)-diagHessPR(ntpl:ntpu,:))))/eps>192
+if max(max(abs(diagHessP(ntpl:ntpu,2:2:end)-diagHessPR(ntpl:ntpu,:))))/eps>244
   error("max(max(abs(diagHessP(ntpl:ntpu,2:2:end)-diagHessPR(ntpl:ntpu,:))))\
->192*eps");
+>244*eps");
 endif
 
 % Check the phase response

@@ -102,8 +102,8 @@ for l=1:Nc
   delc=shift(delc,1);
   diff_dTdc(l)=(gradTkPdel2(1,Nk+l)-gradTkMdel2(1,Nk+l))/del;
 endfor
-if max(abs(diff_dTdc-diagHessT(ntpl,(Nk+1):end))) > del/45.377
-  error("max(abs(diff_dTdc-diagHessT(ntpl,(Nk+1):end))) > del/45.377");
+if max(abs(diff_dTdc-diagHessT(ntpl,(Nk+1):end))) > del/33.546
+  error("max(abs(diff_dTdc-diagHessT(ntpl,(Nk+1):end))) > del/33.546");
 endif
 
 % Done

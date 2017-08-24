@@ -135,7 +135,7 @@ function [k,khat,slb_iter,opt_iter,func_iter,feasible] = ...
   endif
   % Nothing to do but k and khat do not satisfy the constraints
   if isempty(kkhat_active)
-    feasible=false
+    feasible=false;
     return;
   endif
   

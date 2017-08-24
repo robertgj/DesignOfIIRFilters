@@ -24,7 +24,7 @@ function schurOneMlattice_sqp_slb_bandpass_plot ...
   % Sanity checks
   if (nargin ~= 16)
     print_usage...
-("shurOneMlattice_sqp_slb_lowpass_plot(k,epsilon,p,c, ...\n\
+("shurOneMlattice_sqp_slb_bandpass_plot(k,epsilon,p,c, ...\n\
     fapl,fapu,dBap,ftpl,ftpu,tp,tpr,fasl,fasu,dBas,strF,strT)");
   endif
 

@@ -197,4 +197,5 @@ print(sprintf(strd,"ab1T"),"-dpdflatex");
 close
 
 diary off
-movefile parallel_allpass_slb_exchange_constraints_test.diary.tmp parallel_allpass_slb_exchange_constraints_test.diary;
+movefile parallel_allpass_slb_exchange_constraints_test.diary.tmp ...
+         parallel_allpass_slb_exchange_constraints_test.diary;

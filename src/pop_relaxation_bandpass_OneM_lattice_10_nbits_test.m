@@ -11,15 +11,16 @@ unlink("pop_relaxation_bandpass_OneM_lattice_10_nbits_test.diary.tmp");
 diary pop_relaxation_bandpass_OneM_lattice_10_nbits_test.diary.tmp
 
 tic;
-tol=5e-5
+
 maxiter=2000
 verbose=false;
 
-tpr=0.2;
+tpr=0.3,dBass=36,Wasu=5e5
 schurOneMlattice_bandpass_10_nbits_common;
 
 % Initial coefficients
-kc=kc0;
+kc=zeros(size(kc0));
+kc(kc0_active)=kc0(kc0_active);
 kc_u=kc0_u;
 kc_l=kc0_l;
 kc_active=kc0_active;
@@ -29,6 +30,7 @@ while ~isempty(kc_active)
   
   % Show kc_active
   printf("\nkc_active=[ ");printf("%d ",kc_active);printf("]\n");
+  printf("kc=[ ");printf("%g ",nscale*kc');printf("]'/%d;\n",nscale);
 
   % Find the limits of the signed-digit approximations to k and c
   [~,kc_sdu,kc_sdl]=flt2SD(kc,nbits,ndigits_alloc);
@@ -54,8 +56,8 @@ while ~isempty(kc_active)
     if ~feasible
       error("SOCP PCLS problem infeasible!");
     endif
-    % Find the POP SOCP MMSE solution with an equality constraint on kc_fixed
     kc=[k1(:);c1(:)];
+    % Find the POP SOCP MMSE solution with an equality constraint on kc_fixed
     [~,kc_sdu,kc_sdl]=flt2SD(kc,nbits,ndigits_alloc);
     [k2,c2,opt_iter,func_iter,feasible] = ...
     schurOneMlattice_pop_socp_mmse([], ...

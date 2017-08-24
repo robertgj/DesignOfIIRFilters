@@ -10,65 +10,42 @@
 # If aegis is not installed then run the test scripts with:
 #   /bin/bash ./batchtest.sh "`find test -name t0???a.sh -printf '%p '`" outfile
 
-debug() { if ((DEBUG)) ; then echo "DEBUG: $*" >&2; fi }
-
-main () 
+main ()
 {
+    # Initialise
     local max_tasks=6
-    local -A pids=()
-    local -A tasks=()
-    local -A exit_status=()
+    local errors=0
+    echo "test_result = [ " > $outfile
     
-    # Copy test file names
-    for testfile in $testlist ;do
-      key=`basename $testfile .sh`
-      tasks+=(["$key"]="$testfile")
-    done
-
     # Run the tests
-    for key in "${!tasks[@]}"; do
+    for testfile in $testlist ;do
         while [ $(jobs 2>&1 | grep -c Running) -ge "$max_tasks" ]; do
             sleep 1 
         done
-        /bin/sh ${tasks[$key]} &
-        pids+=(["$key"]="$!")
-        debug "Running $key as PID ${pids[$key]}"
-     done
-
-    # Wait for each test to finish and record the exit status
-    errors=0
-    for key in "${!tasks[@]}"; do
-        pid=${pids[$key]}
-        exit_status[$key]=127
-        if [ -z "$pid" ]; then
-            echo "No Job ID known for the $key process" # should never happen
-            exit_status[$key]=1
-        else
-            debug echo "Waiting for ${tasks[$key]} PID $pid"
-            wait $pid
-            exit_status[$key]=$?
-        fi
-        if [ "${exit_status[$key]}" -ne 0 ]; then
-            errors=$(($errors + 1))
-            debug "$key (${tasks[$key]} PID $pid ${exit_status[$key]}) failed"
-        fi
+        # Run a test in a sub-shell and write the exit status
+        {
+            /bin/sh $testfile &
+            wait $!
+            status=$?
+            if [ "$status" -ne 0 ]; then
+                errors=$(($errors+1));
+            fi
+            flock -x $outfile -c "echo -e '{\n  file_name = \"'$testfile'\" ;\n\
+  exit_status = '$status' ;\n},' >> $outfile"
+        } &
     done
 
-    # Echo results to the output file in aegis format
-    echo "test_result = [ " > $outfile
-    for key in "${!tasks[@]}"; do
-        echo "{" >> $outfile
-        echo "file_name = \""${tasks[$key]}\"";" >> $outfile
-        echo "exit_status = "${exit_status[$key]}";" >> $outfile
-        echo "}," >> $outfile
+    # Wait
+    while [ $(jobs 2>&1 | grep -c Running) -gt 0 ]; do
+        sleep 1 
     done
+
+    # Done
     echo "];" >> $outfile
     return $errors
 }
 
 testlist=$1
-debug "Test files: " $testlist
 outfile=$2
-debug "Output file: " $outfile
 
 main

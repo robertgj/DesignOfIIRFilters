@@ -47,14 +47,7 @@ function [nextW,nextInvW]=updateWbfgs(delta,gamma,W,invW,min_delta,verbose)
   % Update W with Broyden-Fletcher-Goldfarb-Shannon
   nextW=W-(kron(Wdelta,Wdelta')/(delta'*Wdelta));
   deltaTeta=(delta')*eta;
-  if abs(deltaTeta) > min_delta
-    nextW=nextW+(kron(eta,eta')/(deltaTeta));
-  else
-    if verbose
-      warning("updateWbfgs: abs(deltaTeta)(%g) <= %f*eps",
-              abs(deltaTeta),min_delta/eps);
-    endif
-  endif
+  nextW=nextW+(kron(eta,eta')/(deltaTeta));
 
   % Update invW with Sherman-Morrison
   invWeta=invW*eta;

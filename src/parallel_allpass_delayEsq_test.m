@@ -13,10 +13,10 @@ format compact
 verbose=false;
 
 % Use the filter calculated by tarczynski_parallel_allpass_delay_test.m
-Da = [  1.0000000000,  -0.5293688883,   0.3581214335,   0.1868454361, ... 
-        0.0310301175,  -0.0571095893,  -0.0703708398,  -0.0384386678, ... 
-       -0.0003605782,   0.0199157506,   0.0202940598,   0.0113549168, ... 
-        0.0034443540 ]';
+Da = [  1.0000000000,  -0.5293688892,   0.3581214325,   0.1868454349, ... 
+        0.0310301162,  -0.0571095908,  -0.0703708412,  -0.0384386690, ... 
+       -0.0003605791,   0.0199157500,   0.0202940594,   0.0113549166, ... 
+        0.0034443539 ]';
 [a,V,Q]=tf2a(Da);
 R=1;
 DD=11;
@@ -107,7 +107,7 @@ for k=1:V
   
   delk=shift(delk,1);
 endfor
-tol=2.7e-8;
+tol=1e-7;
 for k=1:Qon2
   % delEsqdelrpa
   EsqacPdelk2 = ...
@@ -164,7 +164,7 @@ for k=1:V
   endif
   delk=shift(delk,1);
 endfor
-tol=3.7e-7;
+tol=1e-6;
 for k=1:Qon2
   % del2Esqdelrpa2
   [EsqacPdelk2,gradEsqacPdelk2] = ...
@@ -183,7 +183,7 @@ for k=1:Qon2
   endif
   delk=shift(delk,1);
 endfor
-tol=9.3e-7;
+tol=1e-6;
 for k=1:Qon2
   % del2Esqdelthetapa2
   [EsqacPdelk2,gradEsqacPdelk2] = ...

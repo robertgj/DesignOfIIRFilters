@@ -5,6 +5,8 @@ function [y,ssp,iter] = minphase(h);
 % where the h vector is the right half of a linear-phase FIR filter.
 % It is presumed that any unit-circle zeros of h are of even multiplicity. 
 % Copyright (c) January 2002  by  H. J. Orchard and A. N. Willson, Jr.
+  
+warning("Using Octave m-file version of function minphase()!");
 
 h=h(:)';
 y = [1 zeros(1,length(h)-1)];  % Initialize y (poly. with all zeros at z = 0)

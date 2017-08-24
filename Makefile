@@ -27,6 +27,7 @@ OCTAVE_SCRIPTS = \
  branch_bound_bandpass_OneM_lattice_10_nbits_test \
  branch_bound_bandpass_OneM_lattice_6_nbits_test \
  branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test \
+ branch_bound_schurOneMPAlattice_lowpass_12_nbits_test \
  butt3NSPA_test \
  butt3NSSV_test \
  butt3NS_test \
@@ -86,10 +87,12 @@ OCTAVE_SCRIPTS = \
  schurOneMAPlattice_frm_halfband_socp_slb_test \
  schurOneMAPlattice_frm_hilbert_socp_slb_test \
  schurOneMlattice_bandpass_allocsd_test \
+ schurOneMlattice_socp_slb_bandpass_test \
  schurOneMlattice_socp_slb_lowpass_test \
  schurOneMlattice_sqp_slb_bandpass_test \
  schurOneMlattice_sqp_slb_hilbert_test \
  schurOneMlattice_sqp_slb_lowpass_test \
+ schurOneMPAlattice_socp_slb_lowpass_test \
  schurOneMR2lattice2Abcd_test \
  schur_retimed_test \
  sedumi_test \
@@ -101,6 +104,7 @@ OCTAVE_SCRIPTS = \
  socp_relaxation_gaussian_FIR_lattice_16_nbits_test \
  socp_relaxation_hilbert_OneM_lattice_10_nbits_test \
  socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test \
+ socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test \
  sparsePOP_test \
  spectralfactor_test \
  sqp_bfgs_test \
@@ -164,7 +168,7 @@ CLEAN_SUFFIXES= \~ .eps .diary .tmp .oct .mex .o .ok _coef.m _digits.m \
 .spec -core .tab .out .results
 CLEAN_TEX_SUFFIXES= .aux .bbl .blg .brf .dvi .out .toc .lof .lot \
 .log .synctex.gz 
-CLEAN_AEGIS_SUFFIXES= \,D
+CLEAN_AEGIS_SUFFIXES= \,D \,B
 
 #
 # Command definitions
@@ -174,6 +178,9 @@ OCTAVE=octave-cli $(OCTAVE_FLAGS)
 PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1
 BIBTEX=bibtex
 JEKYLL_CONFIG=--config docs/_config.yml --source docs --destination docs/_site
+#EXTRA_CXXFLAGS=-g -fsanitize=undefined -fsanitize=address -fno-sanitize=vptr \
+#               -fno-omit-frame-pointer
+
 #
 # Rules
 #
@@ -187,7 +194,7 @@ JEKYLL_CONFIG=--config docs/_config.yml --source docs --destination docs/_site
 #    "-g -fsanitize=undefined -fsanitize=address -fno-sanitize=vptr \
 #     -fno-omit-frame-pointer"
 # and run with:
-#   LD_PRELOAD=/usr/lib64/libasan.so.3 octave --eval "expr"
+#   LD_PRELOAD=/usr/lib64/libasan.so.4 octave --eval "expr"
 #
 # Apparently, if the AddressSanitizer library is built without RTTI then
 # there are many "vptr" false-positives.
@@ -237,6 +244,7 @@ $(TARGET).pdf: $(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
 	$(PDFLATEX) $(TARGET) && \
 	$(PDFLATEX) $(TARGET) && \
 	$(PDFLATEX) $(TARGET) 
+	cp -f $(TARGET).pdf docs/public
 
 #
 # PHONY targets
@@ -297,13 +305,10 @@ gitignore:
 		echo $$file >> .gitignore ; \
 	done
 	echo aegis.conf >> .gitignore
-	echo patch/aegis-4.24.patch >> .gitignore
-	echo patch/fhist-1.21.D001.patch >> .gitignore
 	echo /$(TARGET).pdf >> .gitignore
 
 .PHONY: jekyll
 jekyll: $(TARGET).pdf
-	cp $(TARGET).pdf docs/public
 	jekyll build $(JEKYLL_CONFIG)
 
 .PHONY: jekyll-serve
