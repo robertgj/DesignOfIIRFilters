@@ -177,7 +177,8 @@ OCTAVE_FLAGS=-q
 OCTAVE=octave-cli $(OCTAVE_FLAGS)
 PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1
 BIBTEX=bibtex
-JEKYLL_CONFIG=--config docs/_config.yml --source docs --destination docs/_site
+JEKYLL_CONFIG=--incremental --config docs/_config.yml \
+--source docs --destination docs/_site
 #EXTRA_CXXFLAGS=-g -fsanitize=undefined -fsanitize=address -fno-sanitize=vptr \
 #               -fno-omit-frame-pointer
 
