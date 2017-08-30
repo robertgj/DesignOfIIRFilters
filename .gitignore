@@ -1688,4 +1688,6 @@ schurOneMR2lattice_retimed.pdf
 complementary_FIR_filter.pdf
 aegis.conf
 /DesignOfIIRFilters.pdf
-/docs/_site
+_site
+.sass-cache
+.jekyll-metadata
