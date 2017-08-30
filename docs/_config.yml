@@ -4,9 +4,9 @@ permalink:           pretty
 # Setup
 title:               Design of IIR Filters
 tagline:
-url:                 "https://robertgj.github.io/DesignOfIIRFIlters"
+url:                 "https://robertgj.github.io"
 paginate:            1
-baseurl:             ""
+baseurl:             "/DesignOfIIRFIlters"
 
 # Assets
 #
