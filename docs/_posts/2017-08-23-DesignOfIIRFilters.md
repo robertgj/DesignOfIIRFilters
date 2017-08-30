@@ -14,7 +14,7 @@ the IIR transfer function denominator polynomial must be constrained to ensure
 that the IIR filter is stable.
 
 The document
-[DesignOfIIRFilters.pdf]({{ site.baseurl }}/public/DesignOfIIRFilters.pdf)
+[DesignOfIIRFilters.pdf]({{ site.baseurl }}/docs/public/DesignOfIIRFilters.pdf)
 reports my experiments in the design of IIR filters with specified
 amplitude, phase and group delay responses and truncated or quantised
 coefficients. The repository [{{ site.github.repo }}]({{ site.github.repo }})
@@ -90,9 +90,7 @@ coefficient and performing SQP-relaxation optimisation. The optimised
 coefficient multiplications are implemented with 61 signed-digits and 31
 shift-and-add operations.
 
-![]({{ site.baseurl }}/public/sqp_relaxation_bandpass_OneM_lattice_10_nbits_test_intro.svg "Comparison of the responses of a
-one-multiplier lattice band-pass filter with exact coefficients and 
-3-signed-digit integer coefficients optimised with SQP-relaxation.")
+![]({{ site.baseurl }}/docs/public/sqp_relaxation_bandpass_OneM_lattice_10_nbits_test_intro.svg "Comparison of the responses of a one-multiplier lattice band-pass filter with exact coefficients and 3-signed-digit integer coefficients optimised with SQP-relaxation.")
 
 ## Reproducing my results
 The Octave scripts included in this repository generate long sequences of
