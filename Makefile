@@ -174,11 +174,10 @@ CLEAN_AEGIS_SUFFIXES= \,D \,B
 # Command definitions
 #
 OCTAVE_FLAGS=-q
-OCTAVE=octave-cli $(OCTAVE_FLAGS)
-PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1
-BIBTEX=bibtex
-JEKYLL_CONFIG=--incremental --config docs/_config.yml \
---source docs --destination docs/_site
+OCTAVE=/usr/bin/octave-cli $(OCTAVE_FLAGS)
+PDFLATEX=/usr/bin/pdflatex -interaction=nonstopmode --synctex=1
+BIBTEX=/usr/bin/bibtex
+QPDF=/usr/bin/qpdf
 #EXTRA_CXXFLAGS=-g -fsanitize=undefined -fsanitize=address -fno-sanitize=vptr \
 #               -fno-omit-frame-pointer
 
@@ -245,7 +244,6 @@ $(TARGET).pdf: $(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
 	$(PDFLATEX) $(TARGET) && \
 	$(PDFLATEX) $(TARGET) && \
 	$(PDFLATEX) $(TARGET) 
-	cp -f $(TARGET).pdf docs/public
 
 #
 # PHONY targets
@@ -301,20 +299,21 @@ gitignore:
 		echo "*"$$suf >> .gitignore ; \
 	done
 	for file in $(test_FIGURES:%=%.tex) $(test_FIGURES:%=%.pdf) \
-		$(test_COEFS) $(EXTRA_DIARY_FILES) $(DIA_FILES:%=%.pdf); \
+		$(test_COEFS) $(EXTRA_DIARY_FILES) $(DIA_FILES:%=%.pdf) \
+	    aegis.conf /$(TARGET).pdf _site .sass-cache .jekyll-metadata ; \
 	do \
 		echo $$file >> .gitignore ; \
 	done
-	echo aegis.conf >> .gitignore
-	echo /$(TARGET).pdf >> .gitignore
 
 .PHONY: jekyll
 jekyll: $(TARGET).pdf
-	jekyll build $(JEKYLL_CONFIG)
-
-.PHONY: jekyll-serve
-jekyll-serve: jekyll
-	jekyll serve $(JEKYLL_CONFIG)
+	if [[ -x $(QPDF) ]]; then \
+		$(QPDF) --linearize $(TARGET).pdf docs/public/$(TARGET).pdf ; \
+	else \
+		cp -f $(TARGET).pdf docs/public/$(TARGET).pdf ; \
+	fi
+	jekyll serve --incremental \
+		--config docs/_config.yml --source docs --destination docs/_site
 
 .PHONY: all
 all: octfiles $(TARGET).pdf 

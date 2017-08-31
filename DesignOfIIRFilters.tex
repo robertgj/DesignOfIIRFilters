@@ -19256,8 +19256,9 @@ LD_PRELOAD=/usr/lib64/libasan.so.3 octave-cli --eval 'an_oct_file_test_script'
 \end{verbatim}
 \end{small}
 \subsubsection*{Building Octave with LTO and PGO}
-To build Octave with the system \emph{lapack} and \emph{blas} shared libraries
-with link-time-optimisation (LTO) and profile-guided-optimisation (PGO):
+The following commands build Octave linked with the system \emph{lapack} and
+\emph{blas} shared libraries with link-time-optimisation (LTO) and
+profile-guided-optimisation (PGO):
 \begin{small}
 \begin{verbatim}
 BLDOPTS="-m64 -mtune=generic -O2"
