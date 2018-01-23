@@ -110,7 +110,7 @@ hM1_sd_x=(hM1_sdu_Ito+hM1_sdl_Ito)/2;
 
 % Run the SeDuMi problem
 if 1
-  [hM1_sd_min,socp_iter,func_iter,feasible] = ...
+  [hM1_sd_sdp,socp_iter,func_iter,feasible] = ...
   directFIRhilbert_sdp_mmsePW([],hM1_sd_x,hM1_sd_delta, ...
                               na,wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose);
   if feasible==false
@@ -131,24 +131,24 @@ else
     error("SDP PCLS problem for exact filter is infeasible!");
   endif
 endif
-print_polynomial(hM1_sd_min,"hM1_sd_min",nscale);
-print_polynomial(hM1_sd_min,"hM1_sd_min", ...
-                 strcat(strf,"_hM1_sd_min_coef.m"),nscale);
-[hM1_digits_sd_min,hM1_adders_sd_min]=SDadders(hM1_sd_min,nbits);
-Esq1_sd_min=directFIRhilbertEsqPW(hM1_sd_min,waf,Adf,Waf);
+print_polynomial(hM1_sd_sdp,"hM1_sd_sdp",nscale);
+print_polynomial(hM1_sd_sdp,"hM1_sd_sdp", ...
+                 strcat(strf,"_hM1_sd_sdp_coef.m"),nscale);
+[hM1_digits_sd_sdp,hM1_adders_sd_sdp]=SDadders(hM1_sd_sdp,nbits);
+Esq1_sd_sdp=directFIRhilbertEsqPW(hM1_sd_sdp,waf,Adf,Waf);
 
 % Calculate response
 A_hM1=directFIRhilbertA(wa,hM1);
 A_hM1_sd=directFIRhilbertA(wa,hM1_sd);
 A_hM1_sd_Ito=directFIRhilbertA(wa,hM1_sd_Ito);
-A_hM1_sd_min=directFIRhilbertA(wa,hM1_sd_min);
+A_hM1_sd_sdp=directFIRhilbertA(wa,hM1_sd_sdp);
 
 % Find maximum pass-band response
 rsb=[napl:napu];
 max_sb_A_hM1=       max(abs(20*log10(abs(A_hM1(rsb)))))
 max_sb_A_hM1_sd=    max(abs(20*log10(abs(A_hM1_sd(rsb)))))
 max_sb_A_hM1_sd_Ito=max(abs(20*log10(abs(A_hM1_sd_Ito(rsb)))))
-max_sb_A_hM1_sd_min=max(abs(20*log10(abs(A_hM1_sd_min(rsb)))))
+max_sb_A_hM1_sd_sdp=max(abs(20*log10(abs(A_hM1_sd_sdp(rsb)))))
 
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
@@ -158,22 +158,22 @@ fprintf(fid,"%d-bit %d-signed-digit & %10.4g & %10.4g & %d & %d \\\\\n",
 fprintf(fid,"%d-bit %d-signed-digit(Ito) & %10.4g & %10.4g & %d & %d \\\\\n",
         nbits,ndigits,Esq1_sd_Ito,max_sb_A_hM1_sd_Ito, ...
         hM1_digits_sd_Ito,hM1_adders_sd_Ito);
-fprintf(fid,"%d-bit %d-signed-digit(min,tri) & %10.4g & %10.4g & %d & %d \\\\\n",
-        nbits,ndigits,Esq1_sd_min,max_sb_A_hM1_sd_min, ...
-        hM1_digits_sd_min,hM1_adders_sd_min);
+fprintf(fid,"%d-bit %d-signed-digit(SDP) & %10.4g & %10.4g & %d & %d \\\\\n",
+        nbits,ndigits,Esq1_sd_sdp,max_sb_A_hM1_sd_sdp, ...
+        hM1_digits_sd_sdp,hM1_adders_sd_sdp);
 fclose(fid);
 
 % Plot amplitude response
 plot(wa*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
      wa*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle",":", ...
      wa*0.5/pi,20*log10(abs(A_hM1_sd_Ito)),"linestyle","--", ...
-     wa*0.5/pi,20*log10(abs(A_hM1_sd_min)),"linestyle","-.");
+     wa*0.5/pi,20*log10(abs(A_hM1_sd_sdp)),"linestyle","-.");
 ylabel("Amplitude(dB)");
 axis([0 0.25 -0.2 0.2]);
 strt=sprintf("Direct-form Hilbert filter (nbits=%d,ndigits=%d) : \
 fapl=%g,fapu=%g,dBap=%g",nbits,ndigits,fapl,fapu,dBap);
 title(strt);
-legend("exact","s-d","s-d(Ito)","s-d(min,tri)");
+legend("exact","s-d","s-d(Ito)","s-d(SDP)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -198,7 +198,7 @@ fclose(fid);
 % Save results
 save sdp_relaxation_directFIRhilbert_12_nbits_test.mat ...
      tol ctol nbits nscale ndigits ndigits_alloc npoints ...
-     fapl fapu dBap Wap Was hM1_sd_min
+     fapl fapu dBap Wap Was hM1_sd_sdp
        
 % Done
 toc;

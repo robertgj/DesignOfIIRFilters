@@ -20,7 +20,7 @@ strf="sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test";
 
 % Bandpass R=2 filter specification
 fapl=0.1,fapu=0.2,dBap=2,Wap=1
-fasl=0.05,fasu=0.25,dBas=30,Wasl=1e6,Wasu=1e6
+fasl=0.05,fasu=0.25,dBas=33,Wasl=1e6,Wasu=1e6
 ftpl=0.09,ftpu=0.21,tp=16,tpr=tp/40,Wtp=10
 
 % Initial filter (found by schurOneMlattice_sqp_slb_bandpass_test.m)
@@ -296,7 +296,7 @@ fprintf(fid,"%d-bit %d-signed-digit & %8.6f & %4.1f & %d & %d \\\\\n",
 fprintf(fid,"%d-bit %d-signed-digit(Lim) & %8.6f & %4.1f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd_Lim,max_sb_Asq_kc0_sd_Lim, ...
         kc0_digits_sd_Lim,kc0_adders_sd_Lim);
-fprintf(fid,"%d-bit %d-signed-digit(sdp) & %8.6f & %4.1f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(SDP) & %8.6f & %4.1f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd_sdp,max_sb_Asq_kc0_sd_sdp, ...
         kc0_digits_sd_sdp,kc0_adders_sd_sdp);
 fprintf(fid,"%d-bit %d-signed-digit(min) & %8.6f & %4.1f & %d & %d \\\\\n",
@@ -311,11 +311,11 @@ plot(wa*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
      wa*0.5/pi,10*log10(abs(Asq_kc0_sd_sdp)),"linestyle","-", ...
      wa*0.5/pi,10*log10(abs(Asq_kc0_sd_min)),"linestyle","-.");
 ylabel("Amplitude(dB)");
-axis([0 0.5 -50 -20]);
+axis([0 0.5 -50 -30]);
 strt=sprintf("Schur one-multiplier lattice bandpass filter stop-band \
 (nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,ndigits,fasl,fasu,dBas);
 title(strt);
-legend("exact","s-d","s-d(Lim)","s-d(sdp)","s-d(min)");
+legend("exact","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -331,11 +331,11 @@ plot(wa*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
      wa*0.5/pi,10*log10(abs(Asq_kc0_sd_min)),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([fapl fapu -3 1]);
+axis([fapl fapu -2 0.5]);
 strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band amplitude \
 (nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,ndigits,fapl,fapu,dBap);
 title(strt);
-legend("exact","s-d","s-d(Lim)","s-d(sdp)","s-d(min)");
+legend("exact","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
 legend("location","south");
 legend("boxoff");
 legend("left");
@@ -355,7 +355,7 @@ axis([ftpl ftpu tp-tpr tp+tpr]);
 strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band delay \
 (nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g,tpr=%g",nbits,ndigits,ftpl,ftpu,tpr);
 title(strt);
-legend("exact","s-d","s-d(Lim)","s-d(sdp)","s-d(min)");
+legend("exact","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
 legend("location","south");
 legend("boxoff");
 legend("left");

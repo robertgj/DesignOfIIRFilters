@@ -2,7 +2,7 @@
 % Copyright (C) 2017,2018 Robert G. Jenssen
 
 % SDP relaxation optimisation of a symmetric direct-form FIR
-% bandpass filter 12-bit signed-digit coefficients
+% bandpass filter with 12-bit signed-digit coefficients
 
 test_common;
 
@@ -102,7 +102,7 @@ endif
 
 % Run the SeDuMi problem
 if 1
-  [hM1_sd_min,socp_iter,func_iter,feasible] = ...
+  [hM1_sd_sdp,socp_iter,func_iter,feasible] = ...
     directFIRsymmetric_sdp_mmsePW([],hM1_sd_x,hM1_sd_delta,na, ...
                                   wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose);
   if feasible==false
@@ -125,24 +125,24 @@ else
     error("directFIRsymmetric_slb failed!");
   endif
 endif
-print_polynomial(hM1_sd_min,"hM1_sd_min",nscale);
-print_polynomial(hM1_sd_min,"hM1_sd_min", ...
-                 strcat(strf,"_hM1_sd_min_coef.m"),nscale);
-[hM1_digits_sd_min,hM1_adders_sd_min]=SDadders(hM1_sd_min,nbits);
-Esq1_sd_min=directFIRsymmetricEsqPW(hM1_sd_min,waf,Adf,Waf);
+print_polynomial(hM1_sd_sdp,"hM1_sd_sdp",nscale);
+print_polynomial(hM1_sd_sdp,"hM1_sd_sdp", ...
+                 strcat(strf,"_hM1_sd_sdp_coef.m"),nscale);
+[hM1_digits_sd_sdp,hM1_adders_sd_sdp]=SDadders(hM1_sd_sdp,nbits);
+Esq1_sd_sdp=directFIRsymmetricEsqPW(hM1_sd_sdp,waf,Adf,Waf);
 
 % Calculate response
 A_hM1=directFIRsymmetricA(wa,hM1);
 A_hM1_sd=directFIRsymmetricA(wa,hM1_sd);
 A_hM1_sd_Ito=directFIRsymmetricA(wa,hM1_sd_Ito);
-A_hM1_sd_min=directFIRsymmetricA(wa,hM1_sd_min);
+A_hM1_sd_sdp=directFIRsymmetricA(wa,hM1_sd_sdp);
 
 % Find maximum stop band response
 rsb=[1:nasl,nasu:npoints];
 max_sb_A_hM1=20*log10(max(abs(A_hM1(rsb))))
 max_sb_A_hM1_sd=20*log10(max(abs(A_hM1_sd(rsb))))
 max_sb_A_hM1_sd_Ito=20*log10(max(abs(A_hM1_sd_Ito(rsb))))
-max_sb_A_hM1_sd_min=20*log10(max(abs(A_hM1_sd_min(rsb))))
+max_sb_A_hM1_sd_sdp=20*log10(max(abs(A_hM1_sd_sdp(rsb))))
 
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
@@ -152,9 +152,9 @@ fprintf(fid,"%d-bit %d-signed-digit & %8.6f & %4.1f & %d & %d \\\\\n",
 fprintf(fid,"%d-bit %d-signed-digit(Ito) & %8.6f & %4.1f & %d & %d \\\\\n",
         nbits,ndigits,Esq1_sd_Ito,max_sb_A_hM1_sd_Ito, ...
         hM1_digits_sd_Ito,hM1_adders_sd_Ito);
-fprintf(fid,"%d-bit %d-signed-digit(min,tri) & %8.6f & %4.1f & %d & %d \\\\\n",
-        nbits,ndigits,Esq1_sd_min,max_sb_A_hM1_sd_min, ...
-        hM1_digits_sd_min,hM1_adders_sd_min);
+fprintf(fid,"%d-bit %d-signed-digit(SDP) & %8.6f & %4.1f & %d & %d \\\\\n",
+        nbits,ndigits,Esq1_sd_sdp,max_sb_A_hM1_sd_sdp, ...
+        hM1_digits_sd_sdp,hM1_adders_sd_sdp);
 fclose(fid);
 
 % Plot amplitude response
@@ -162,13 +162,13 @@ subplot(211)
 plot(wa*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
      wa*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle",":", ...
      wa*0.5/pi,20*log10(abs(A_hM1_sd_Ito)),"linestyle","--", ...
-     wa*0.5/pi,20*log10(abs(A_hM1_sd_min)),"linestyle","-.");
+     wa*0.5/pi,20*log10(abs(A_hM1_sd_sdp)),"linestyle","-.");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -2 1]);
 strt=sprintf("Direct-form symmetric bandpass filter pass-band \
 (nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,ndigits,fapl,fapu,dBap);
 title(strt);
-legend("exact","s-d","s-d(Ito)","s-d(min,tri)");
+legend("exact","s-d","s-d(Ito)","s-d(SDP)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -177,7 +177,7 @@ subplot(212)
 plot(wa*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
      wa*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle",":", ...
      wa*0.5/pi,20*log10(abs(A_hM1_sd_Ito)),"linestyle","--", ...
-     wa*0.5/pi,20*log10(abs(A_hM1_sd_min)),"linestyle","-.", ...
+     wa*0.5/pi,20*log10(abs(A_hM1_sd_sdp)),"linestyle","-.", ...
      wa*0.5/pi,20*log10(abs(Adu)),"linestyle","-");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
@@ -210,7 +210,7 @@ fclose(fid);
 % Save results
 save sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.mat ...
      tol ctol nbits nscale ndigits ndigits_alloc npoints ...
-     fapl fapu dBap Wap fasl fasu dBas Wasl Wasu hM1_sd_min
+     fapl fapu dBap Wap fasl fasu dBas Wasl Wasu hM1_sd_sdp
        
 % Done
 toc;

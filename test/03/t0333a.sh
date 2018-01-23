@@ -60,19 +60,19 @@ hM1_sd_Ito = [       -2,      -24,      -40,      -16, ...
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_sd_Ito.ok"; fail; fi
 
-cat > test_sd_min.ok << 'EOF'
-hM1_sd_min = [       -2,      -24,      -40,      -16, ... 
+cat > test_sd_sdp.ok << 'EOF'
+hM1_sd_sdp = [       -2,      -24,      -40,      -16, ... 
                      48,       72,       32,       -8, ... 
                      28,       84,        1,     -228, ... 
                    -352,     -136,      288,      508 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_sd_min.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_sd_sdp.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
 Exact & 0.001997 & -47.0 & & \\
 12-bit 2-signed-digit & 0.016256 & -28.2 & 30 & 14 \\
 12-bit 2-signed-digit(Ito) & 0.002318 & -38.3 & 30 & 14 \\
-12-bit 2-signed-digit(min,tri) & 0.002119 & -41.6 & 30 & 14 \\
+12-bit 2-signed-digit(SDP) & 0.002119 & -41.6 & 30 & 14 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 
@@ -84,16 +84,15 @@ echo "Running octave-cli -q " $prog
 octave-cli -q $prog
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_sd_Ito.ok \
-     sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_hM1_sd_Ito_coef.m
+nstr="sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test"
+
+diff -Bb test_sd_Ito.ok $nstr"_hM1_sd_Ito_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_sd_Ito.ok"; fail; fi
 
-diff -Bb test_sd_min.ok \
-     sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_hM1_sd_min_coef.m
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_sd_min.ok"; fail; fi
+diff -Bb test_sd_sdp.ok $nstr"_hM1_sd_sdp_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_sd_sdp.ok"; fail; fi
 
-diff -Bb test_cost.ok \
-     sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_cost.tab
+diff -Bb test_cost.ok $nstr"_cost.tab"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_cost.ok"; fail; fi
 
 #

@@ -117,7 +117,7 @@ cat > test_cost.ok << 'EOF'
 Exact & 0.014800 & -36.0 & & \\
 12-bit 4-signed-digit & 0.016752 & -36.0 & 95 & 64 \\
 12-bit 4-signed-digit(Lim) & 0.017916 & -35.9 & 96 & 65 \\
-12-bit 4-signed-digit(sdp) & 0.021793 & -35.5 & 96 & 65 \\
+12-bit 4-signed-digit(SDP) & 0.021793 & -35.5 & 96 & 65 \\
 12-bit 4-signed-digit(min) & 0.015876 & -36.5 & 97 & 66 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi

@@ -14,44 +14,44 @@ OCTAVE_SCRIPTS = \
  allpass2ndOrderCascade_socp_sqmag_test \
  allpass2ndOrderCascade_socp_test \
  bincoeff_test \
- bitflip_schurNSPAlattice_lowpass_test \
- bitflip_schurNSlattice_lowpass_test \
- bitflip_schurOneMPAlattice_lowpass_test \
- bitflip_schurOneMlattice_lowpass_test \
- bitflip_schurNSlattice_bandpass_test \
- bitflip_schurOneMlattice_bandpass_test \
  bitflip_directFIRsymmetric_bandpass_test \
  bitflip_directIIR_bandpass_test \
  bitflip_schurFIRlattice_bandpass_test \
+ bitflip_schurNSPAlattice_lowpass_test \
+ bitflip_schurNSlattice_bandpass_test \
+ bitflip_schurNSlattice_lowpass_test \
+ bitflip_schurOneMPAlattice_lowpass_test \
+ bitflip_schurOneMlattice_bandpass_test \
+ bitflip_schurOneMlattice_lowpass_test \
  bitflip_svcasc_lowpass_test \
  bitflip_test \
  branch_bound_directFIRhilbert_12_nbits_test \
  branch_bound_directFIRsymmetric_bandpass_8_nbits_test \
+ branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test \
+ branch_bound_schurOneMPAlattice_bandpass_12_nbits_test \
+ branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test \
+ branch_bound_schurOneMPAlattice_lowpass_12_nbits_test \
  branch_bound_schurOneMlattice_bandpass_10_nbits_test \
  branch_bound_schurOneMlattice_bandpass_6_nbits_test \
  branch_bound_schurOneMlattice_bandpass_8_nbits_test \
- branch_bound_schurOneMPAlattice_bandpass_12_nbits_test \
- branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test \
- branch_bound_schurOneMPAlattice_lowpass_12_nbits_test \
- branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test \
  butt3NSPA_test \
  butt3NSSV_test \
  butt3NS_test \
  butt3OneMSV_test \
  butt3OneM_test \
  butt6NSPABP_test \
- decimator_R2_test \
- deczky1_sqp_test \
- deczky3_socp_test \
- deczky3_socp_bfgs_test \
- deczky3_sqp_test \
- deczky3a_socp_test \
- deczky3a_sqp_test \
  de_min_schurNSPAlattice_lowpass_test \
  de_min_schurNSlattice_lowpass_test \
  de_min_schurOneMPAlattice_lowpass_test \
  de_min_schurOneMlattice_lowpass_test \
  de_min_svcasc_lowpass_test \
+ decimator_R2_test \
+ deczky1_sqp_test \
+ deczky3_socp_bfgs_test \
+ deczky3_socp_test \
+ deczky3_sqp_test \
+ deczky3a_socp_test \
+ deczky3a_sqp_test \
  directFIRhilbert_slb_test \
  directFIRsymmetric_bandpass_allocsd_test \
  directFIRsymmetric_slb_bandpass_test \
@@ -66,8 +66,8 @@ OCTAVE_SCRIPTS = \
  iir_slb_exchange_constraints_test \
  iir_slb_update_constraints_test \
  iir_socp_slb_bandpass_test \
- iir_sqp_mmse_test \
  iir_sqp_mmse_tarczynski_ex2_test \
+ iir_sqp_mmse_test \
  iir_sqp_slb_bandpass_test \
  iir_sqp_slb_differentiator_test \
  iir_sqp_slb_fir_bandpass_test \
@@ -83,8 +83,8 @@ OCTAVE_SCRIPTS = \
  octave_info_test \
  parallel_allpass_delay_socp_slb_test \
  parallel_allpass_delay_sqp_slb_test \
- parallel_allpass_socp_slb_bandpass_test \
  parallel_allpass_socp_slb_bandpass_alternate_test \
+ parallel_allpass_socp_slb_bandpass_test \
  parallel_allpass_socp_slb_flat_delay_test \
  parallel_allpass_socp_slb_test \
  polyphase_allpass_socp_slb_flat_delay_test \
@@ -98,18 +98,19 @@ OCTAVE_SCRIPTS = \
  schurNSlattice_sqp_slb_lowpass_test \
  schurOneMAPlattice_frm_halfband_socp_slb_test \
  schurOneMAPlattice_frm_hilbert_socp_slb_test \
+ schurOneMPAlattice_socp_slb_bandpass_test \
+ schurOneMPAlattice_socp_slb_lowpass_test \
+ schurOneMR2lattice2Abcd_test \
  schurOneMlattice_bandpass_allocsd_test \
  schurOneMlattice_socp_slb_bandpass_test \
  schurOneMlattice_socp_slb_lowpass_test \
  schurOneMlattice_sqp_slb_bandpass_test \
  schurOneMlattice_sqp_slb_hilbert_test \
  schurOneMlattice_sqp_slb_lowpass_test \
- schurOneMPAlattice_socp_slb_bandpass_test \
- schurOneMPAlattice_socp_slb_lowpass_test \
- schurOneMR2lattice2Abcd_test \
  schur_retimed_test \
- sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test \
  sdp_relaxation_directFIRhilbert_12_nbits_test \
+ sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test \
+ sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test \
  sedumi_test \
  simplex_schurNSPAlattice_lowpass_test \
  simplex_schurNSlattice_lowpass_test \
@@ -119,15 +120,14 @@ OCTAVE_SCRIPTS = \
  socp_relaxation_directFIRhilbert_12_nbits_test \
  socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test \
  socp_relaxation_schurFIRlattice_gaussian_16_nbits_test \
- socp_relaxation_schurOneMlattice_hilbert_10_nbits_test \
- socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test \
  socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test \
+ socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test \
  socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test \
+ socp_relaxation_schurOneMlattice_hilbert_10_nbits_test \
  sparsePOP_test \
  spectralfactor_test \
  sqp_bfgs_test \
  sqp_gi_test \
- sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test \
  sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test \
  sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test \
  sv2block_test \

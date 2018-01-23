@@ -66,8 +66,8 @@ hM1_sd_Ito = [     1304,      432,      258,      183, ...
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_sd_Ito.ok"; fail; fi
 
-cat > test_sd_min.ok << 'EOF'
-hM1_sd_min = [     1304,      432,      258,      183, ... 
+cat > test_sd_sdp.ok << 'EOF'
+hM1_sd_sdp = [     1304,      432,      258,      183, ... 
                     140,      112,       96,       80, ... 
                      68,       60,       52,       48, ... 
                      40,       36,       32,       30, ... 
@@ -78,13 +78,13 @@ hM1_sd_min = [     1304,      432,      258,      183, ...
                       2,        2,        2,        2, ... 
                       1,        1,        1,        1 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_sd_min.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_sd_sdp.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
 Exact &  4.693e-07 &     0.0675 & & \\
 12-bit 2-signed-digit &  0.0002078 &      0.417 & 71 & 31 \\
 12-bit 2-signed-digit(Ito) &   7.63e-06 &     0.1519 & 71 & 31 \\
-12-bit 2-signed-digit(min,tri) &   6.44e-06 &     0.1007 & 71 & 31 \\
+12-bit 2-signed-digit(SDP) &   6.44e-06 &     0.1007 & 71 & 31 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 
@@ -96,16 +96,15 @@ echo "Running octave-cli -q " $prog
 octave-cli -q $prog
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_sd_Ito.ok \
-     sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_sd_Ito_coef.m
+nstr="sdp_relaxation_directFIRhilbert_12_nbits_test"
+
+diff -Bb test_sd_Ito.ok $nstr"_hM1_sd_Ito_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_sd_Ito.ok"; fail; fi
 
-diff -Bb test_sd_min.ok \
-     sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_sd_min_coef.m
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_sd_min.ok"; fail; fi
+diff -Bb test_sd_sdp.ok $nstr"_hM1_sd_sdp_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_sd_sdp.ok"; fail; fi
 
-diff -Bb test_cost.ok \
-     sdp_relaxation_directFIRhilbert_12_nbits_test_cost.tab
+diff -Bb test_cost.ok $nstr"_cost.tab"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_cost.ok"; fail; fi
 
 #

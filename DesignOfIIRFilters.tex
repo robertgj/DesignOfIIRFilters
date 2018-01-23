@@ -15040,7 +15040,7 @@ The mean-squared-error can be expressed in the form:
 \end{align*}
 or, if $\boldsymbol{Y}=\boldsymbol{y}\boldsymbol{y}^{T}$ and
 $\boldsymbol{\Delta}=\boldsymbol{\delta}\boldsymbol{\delta}^{T}$\footnote{
-  The elements of the product two matrixes, $\boldsymbol{R}$ and
+  The elements of the product of two matrixes, $\boldsymbol{R}$ and
   $\boldsymbol{S}$, of equal size, are:
   \begin{align*}
   [RS]_{kl} &= \sum_{m}R_{km}S_{ml}
@@ -15271,15 +15271,15 @@ with signed-digit coefficients are:
   &=  y_{M}\delta_{M}+2\sum_{n=0}^{M-1}y_{n}\delta_{n}\cos\left(M-n\right)\omega
 \end{align*}
 The Octave script 
-\emph{sdp\_relaxation\_directFIRsymmetric\_bandpass\_12\_nbits\_test.m}
+\emph{sdp\_relaxation\_directFIRsymmetric\_bandpass\_10\_nbits\_test.m}
 performs SDP relaxation to optimise the response of a direct-form symmetric
 band-pass FIR filter. The filter specification is:
 \begin{small}
-\verbatiminput{sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.spec}
+\verbatiminput{sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test.spec}
 \end{small} 
-The filter coefficients are truncated to $12$ bits allocated with an average
-of $2$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
-Section~\ref{sec:Ito-allocation-signed-digits}. The Octave function
+The filter coefficients are truncated to $10$ bits allocated with an average
+of $3$ signed-digits by the heuristic of \emph{Lim et al.} as shown in
+Section~\ref{sec:Lim-allocation-signed-digits}. The Octave function
 \emph{directFIRsymmetric\_sdp\_mmsePW} implements SDP optimisation with the
 triangle inequalities of Equation~\ref{eqn:triangle-inequality-yyY}. The
 resulting $\boldsymbol{y}$ values were all very close to $-1$ or $1$. Attempts
@@ -15288,29 +15288,29 @@ at PCLS optimisation with \emph{directFIRsymmetric\_slb} failed.
 The distinct direct-form symmetric FIR bandpass filter coefficients found by
 the SDP-relaxation optimisation with triangle inequalities are:
 \begin{small}
-\verbatiminput{sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_hM1_sd_min_coef.m}
+\verbatiminput{sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test_hM1_sd_sdp_coef.m}
 \end{small}
 
-Figure~\ref{fig:sdp-relax-direct-FIR-symmetric-bandpass-12-nbits-response}
-compares the responses of the filter with exact, 12-bit signed-digit
-coefficients, 12-bit signed-digit coefficients allocated with the algorithm of
-\emph{Ito et al.} and 12-bit signed-digit coefficients allocated with the
-algorithm of \emph{Ito et al.} and SDP-relaxation search.
-Table~\ref{tab:sdp-relax-direct-FIR-symmetric-bandpass-12-nbits-cost-summary}
-compares the cost and the number of $12$ bit shift-and-add operations required
+Figure~\ref{fig:sdp-relax-direct-FIR-symmetric-bandpass-10-nbits-response}
+compares the responses of the filter with exact, 10-bit signed-digit
+coefficients, 10-bit signed-digit coefficients allocated with the algorithm of
+\emph{Lim et al.} and 10-bit signed-digit coefficients allocated with the
+algorithm of \emph{Lim et al.} and SDP-relaxation search.
+Table~\ref{tab:sdp-relax-direct-FIR-symmetric-bandpass-10-nbits-cost-summary}
+compares the cost and the number of $10$ bit shift-and-add operations required
 to implement the $16$ distinct coefficient multiplications found by the
-signed-digit allocation heuristic of \emph{Ito et al.} with the
+signed-digit allocation heuristic of \emph{Lim et al.} with the
 SDP relaxation optimisation and triangle inequalities.
 
 \begin{figure}[!htbp]
 \begin{center}
-\scalebox{0.7}{\input{sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_response}}
+\scalebox{0.7}{\input{sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test_response}}
 \caption{Comparison of the amplitude responses for a direct-form symmetric FIR
-  bandpass filter with 12-bit integer coefficients found
-  by allocating an average of 2-signed-digits to each coefficient using the
-  heuristic of \emph{Ito et al.} and performing SDP relaxation optimisation with
+  bandpass filter with 10-bit integer coefficients found
+  by allocating an average of 3-signed-digits to each coefficient using the
+  heuristic of \emph{Lim et al.} and performing SDP relaxation optimisation with
   triangle inequalities.}
-\label{fig:sdp-relax-direct-FIR-symmetric-bandpass-12-nbits-response}
+\label{fig:sdp-relax-direct-FIR-symmetric-bandpass-10-nbits-response}
 \end{center}
 \end{figure}
 
@@ -15319,20 +15319,20 @@ SDP relaxation optimisation and triangle inequalities.
 \begin{threeparttable}
 \begin{tabular}{lcccc}  \\ \toprule
 & Cost&Stop-band response&Signed-digits&Shift-and-adds\\ \midrule
-\input{sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_cost.tab}
+\input{sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test_cost.tab}
 \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the direct-form symmetric FIR bandpass
-  filter SDP relaxation algorithm example with 12-bit coefficients]
+  filter SDP relaxation algorithm example with 10-bit coefficients]
         {Comparison of the cost, maximum stop-band response and number of
-          12-bit shift-and-add operations required to implement the
+          10-bit shift-and-add operations required to implement the
           coefficient multiplications for a direct-form symmetric FIR bandpass
-          filter with 12-bit integer coefficients found by allocating an
-          average of 2-signed-digits to each coefficient using the heuristic
-          of \emph{Ito et al.} and performing SDP relaxation optimisation with
+          filter with 10-bit integer coefficients found by allocating an
+          average of 3-signed-digits to each coefficient using the heuristic
+          of \emph{Lim et al.} and performing SDP relaxation optimisation with
           triangle inequalities.}
-\label{tab:sdp-relax-direct-FIR-symmetric-bandpass-12-nbits-cost-summary}
+\label{tab:sdp-relax-direct-FIR-symmetric-bandpass-10-nbits-cost-summary}
 \end{table}
 \clearpage
 \section{\label{sec:SDP-solution-signed-digit-coefficients-direct-form-HilbertFIR}SDP solution for the signed-digit coefficients of a direct-form
@@ -15354,7 +15354,7 @@ resulting $\boldsymbol{y}$ values were all very close to $-1$ or $1$.
 The distinct direct-form Hilbert FIR filter coefficients found by
 the SDP-relaxation optimisation with triangle inequalities are:
 \begin{small}
-\verbatiminput{sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_sd_min_coef.m}
+\verbatiminput{sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_sd_sdp_coef.m}
 \end{small}
 
 Figure~\ref{fig:sdp-relax-direct-FIR-hilbert-12-nbits-response} compares the
@@ -15363,10 +15363,10 @@ signed-digit coefficients allocated with the algorithm of \emph{Ito et al.}
 and 12-bit signed-digit coefficients allocated with the algorithm of \emph{Ito
   et al.} and SDP-relaxation search.
 Table~\ref{tab:sdp-relax-direct-FIR-hilbert-12-nbits-cost-summary} compares
-the cost and the number of $12$ bit shift-and-add operations required to
-implement the $16$ distinct coefficient multiplications found by the
-signed-digit allocation heuristic of \emph{Ito et al.} with the SDP relaxation
-optimisation and triangle inequalities.
+the cost, maximum pass-band response error and the number of $12$ bit
+shift-and-add operations required to implement the $16$ distinct coefficient
+multiplications found by the signed-digit allocation heuristic of \emph{Ito et
+  al.} with the SDP relaxation optimisation and triangle inequalities.
 
 \begin{figure}[!htbp]
 \begin{center}
@@ -15384,20 +15384,19 @@ optimisation and triangle inequalities.
 \centering
 \begin{threeparttable}
 \begin{tabular}{lcccc}  \\ \toprule
-& Cost&Stop-band response&Signed-digits&Shift-and-adds\\ \midrule
+& Cost&Pass-band response&Signed-digits&Shift-and-adds\\ \midrule
 \input{sdp_relaxation_directFIRhilbert_12_nbits_test_cost.tab}
 \bottomrule
 \end{tabular}
 \end{threeparttable}
-\caption[Summary of cost results for the direct-form Hilbert FIR 
-  filter SDP relaxation algorithm example with 12-bit coefficients]
-        {Comparison of the cost, maximum stop-band response and number of
-          12-bit shift-and-add operations required to implement the
-          coefficient multiplications for a direct-form Hilbert FIR
-          filter with 12-bit integer coefficients found by allocating an
-          average of 2-signed-digits to each coefficient using the heuristic
-          of \emph{Ito et al.} and performing SDP relaxation optimisation with
-          triangle inequalities.}
+\caption[Summary of cost results for the direct-form Hilbert FIR filter SDP
+  relaxation algorithm example with 12-bit coefficients] {Comparison of the
+  cost, maximum pass-band response error and number of 12-bit shift-and-add
+  operations required to implement the coefficient multiplications for a
+  direct-form Hilbert FIR filter with 12-bit integer coefficients found by
+  allocating an average of 2-signed-digits to each coefficient using the
+  heuristic of \emph{Ito et al.} and performing SDP relaxation optimisation
+  with triangle inequalities.}
 \label{tab:sdp-relax-direct-FIR-hilbert-12-nbits-cost-summary}
 \end{table}
 \clearpage
@@ -15424,12 +15423,12 @@ Section~\ref{sec:SQP-relaxation-search-signed-digit-coefficients-bandpass}.
 At each coefficient relaxation step the script finds the upper and lower
 signed-digit approximations to the current set of active coefficients and
 selects the coefficient with the largest difference in those
-approximations. The remaining active coefficients are optimised with
+approximations. Then the active coefficients are optimised with
 \emph{schurOneMlattice\_sdp\_mmse}, the set of active coefficients is updated
 and the remaining active coefficients are optimised with the Octave function
 \emph{schurOneMlattice\_socp\_mmse} and the \emph{Selesnick-Lang-Burrus}
 constraint algorithm implemented in the Octave function
-\emph{schurOneMlattice\_slb}.The truncation of the last coefficient is, by
+\emph{schurOneMlattice\_slb}. The truncation of the last coefficient is, by
 necessity, not PCLS optimised so the final set of coefficients may not meet
 the PCLS specifications.
 
@@ -15499,7 +15498,7 @@ the signed-digit SDP optimisation failed by entering a loop of constraints.
 \centering
 \begin{threeparttable}
 \begin{tabular}{lcccc}  \\ \toprule
-& Cost&Signed-digits&Shift-and-adds\\ \midrule
+& Cost&Stop-band response&Signed-digits&Shift-and-adds\\ \midrule
 \input{sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_cost.tab}
 \bottomrule
 \end{tabular}

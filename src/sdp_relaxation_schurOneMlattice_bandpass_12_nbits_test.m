@@ -296,7 +296,7 @@ fprintf(fid,"%d-bit %d-signed-digit & %8.6f & %4.1f & %d & %d \\\\\n",
 fprintf(fid,"%d-bit %d-signed-digit(Lim) & %8.6f & %4.1f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd_Lim,max_sb_Asq_kc0_sd_Lim, ...
         kc0_digits_sd_Lim,kc0_adders_sd_Lim);
-fprintf(fid,"%d-bit %d-signed-digit(sdp) & %8.6f & %4.1f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(SDP) & %8.6f & %4.1f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd_sdp,max_sb_Asq_kc0_sd_sdp, ...
         kc0_digits_sd_sdp,kc0_adders_sd_sdp);
 fprintf(fid,"%d-bit %d-signed-digit(min) & %8.6f & %4.1f & %d & %d \\\\\n",
@@ -315,7 +315,7 @@ axis([0 0.5 -50 -35]);
 strt=sprintf("Schur one-multiplier lattice bandpass filter stop-band \
 (nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,ndigits,fasl,fasu,dBas);
 title(strt);
-legend("exact","s-d","s-d(Lim)","s-d(sdp)","s-d(min)");
+legend("exact","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -335,7 +335,7 @@ axis([fapl fapu -2 1]);
 strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band amplitude \
 (nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,ndigits,fapl,fapu,dBap);
 title(strt);
-legend("exact","s-d","s-d(Lim)","s-d(sdp)","s-d(min)");
+legend("exact","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
 legend("location","south");
 legend("boxoff");
 legend("left");
@@ -355,7 +355,7 @@ axis([ftpl ftpu tp-(3*tpr/4) tp+(tpr/2)]);
 strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band delay \
 (nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g,tpr=%g",nbits,ndigits,ftpl,ftpu,tpr);
 title(strt);
-legend("exact","s-d","s-d(Lim)","s-d(sdp)","s-d(min)");
+legend("exact","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
 legend("location","south");
 legend("boxoff");
 legend("left");
