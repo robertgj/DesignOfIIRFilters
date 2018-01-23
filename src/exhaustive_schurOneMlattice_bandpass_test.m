@@ -1,10 +1,10 @@
-% exhaustive_bandpass_OneM_lattice_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% exhaustive_schurOneMlattice_bandpass_test.m
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 % To divide this script into 8 parts:
 %{ 
    #!/bin/sh
-   sname=exhaustive_bandpass_OneM_lattice_test
+   sname=exhaustive_schurOneMlattice_bandpass_test
    for i in `seq 0 7`;do \
      cp $sname.m $sname"_"$i.m; \
      sed -i -e "s/$sname/$sname"_"$i/" $sname"_"$i.m; \
@@ -16,9 +16,9 @@
 
 test_common;
 
-unlink("exhaustive_bandpass_OneM_lattice_test.diary");
-unlink("exhaustive_bandpass_OneM_lattice_test.diary.tmp");
-diary exhaustive_bandpass_OneM_lattice_test.diary.tmp
+unlink("exhaustive_schurOneMlattice_bandpass_test.diary");
+unlink("exhaustive_schurOneMlattice_bandpass_test.diary.tmp");
+diary exhaustive_schurOneMlattice_bandpass_test.diary.tmp
 
 schurOneMlattice_bandpass_10_nbits_common;
 
@@ -55,5 +55,5 @@ printf("min_m=%d,min_cost=%g\n",min_m,min_cost);
 
 % Done
 diary off
-movefile exhaustive_bandpass_OneM_lattice_test.diary.tmp ...
-       exhaustive_bandpass_OneM_lattice_test.diary;
+movefile exhaustive_schurOneMlattice_bandpass_test.diary.tmp ...
+         exhaustive_schurOneMlattice_bandpass_test.diary;

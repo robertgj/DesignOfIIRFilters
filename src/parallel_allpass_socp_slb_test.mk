@@ -1,12 +1,13 @@
 parallel_allpass_socp_slb_test_FIGURES = \
-parallel_allpass_socp_slb_ab0 \
-parallel_allpass_socp_slb_ab0pz \
-parallel_allpass_socp_slb_ab1 \
-parallel_allpass_socp_slb_ab1pass \
-parallel_allpass_socp_slb_ab1dual \
-parallel_allpass_socp_slb_ab1pz \
-parallel_allpass_socp_slb_a1pz \
-parallel_allpass_socp_slb_b1pz \
+parallel_allpass_socp_slb_test_ab0 \
+parallel_allpass_socp_slb_test_ab0pz \
+parallel_allpass_socp_slb_test_abmdual \
+parallel_allpass_socp_slb_test_ab1 \
+parallel_allpass_socp_slb_test_ab1pass \
+parallel_allpass_socp_slb_test_ab1dual \
+parallel_allpass_socp_slb_test_ab1pz \
+parallel_allpass_socp_slb_test_a1pz \
+parallel_allpass_socp_slb_test_b1pz \
 
 parallel_allpass_socp_slb_test_COEFS = \
 parallel_allpass_socp_slb_test.mat \

@@ -1,5 +1,5 @@
 % tarczynski_frm_allpass_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Design an FRM filter from IIR allpass model in parallel with a delay
 % and FIR masking filters using the method of Tarczynski et al. The 
@@ -17,6 +17,7 @@ tic;
 format compact
 verbose=true
 maxiter=5000
+strf="tarczynski_frm_allpass_test";
 
 function [n,rRM,r,aa,ac]=vec2frm_allpass(rac,mr,na,nc,R,Mmodel,Dmodel)
   rac=rac(:);
@@ -220,17 +221,17 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_frm)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-tstr=sprintf("FRM allpass/delay filter : \
+strt=sprintf("FRM allpass/delay filter : \
 fpass=%g,mr=%d,na=%d,nc=%d,R=%d,Mmodel=%d,Dmodel=%d,Was=%d", ...
           fpass,mr,na,nc,R,Mmodel,Dmodel,Was);
-title(tstr);
+title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 80 120]);
 grid("on");
-print("tarczynski_frm_allpass_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Plot passband response
@@ -239,14 +240,14 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_frm)));
 ylabel("Amplitude(dB)");
 axis([0 fpass -0.4 0.4]);
 grid("on");
-title(tstr);
+title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 fpass 90 110]);
 grid("on");
-print("tarczynski_frm_allpass_passband_response","-dpdflatex");
+print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Plot masking filter responses
@@ -255,9 +256,9 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_aa)),wplot*0.5/pi,20*log10(abs(Hw_ac)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-tstr=sprintf("FRM masking filters : na=%d,nc=%d",na,nc);
-title(tstr);
-print("tarczynski_frm_allpass_masking_response","-dpdflatex");
+strt=sprintf("FRM masking filters : na=%d,nc=%d",na,nc);
+title(strt);
+print(strcat(strf,"_masking_response"),"-dpdflatex");
 close
 
 % Plot model filter response
@@ -266,25 +267,25 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_model)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-tstr=sprintf("FRM allpass model filter plus delay : \
+strt=sprintf("FRM allpass model filter plus delay : \
 mr=%d,R=%d,Mmodel=%d,Dmodel=%d",mr,R,Mmodel,Dmodel);
-title(tstr);
+title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tw_model);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 50 150]);
 grid("on");
-print("tarczynski_frm_allpass_model_response","-dpdflatex");
+print(strcat(strf,"_model_response"),"-dpdflatex");
 close
 
 % Save the results
 print_polynomial(r1,"r1");
-print_polynomial(r1,"r1","tarczynski_frm_allpass_test_r1_coef.m");
+print_polynomial(r1,"r1",strcat(strf,"_test_r1_coef.m"));
 print_polynomial(aa1,"aa1");
-print_polynomial(aa1,"aa1","tarczynski_frm_allpass_test_aa1_coef.m");
+print_polynomial(aa1,"aa1",strcat(strf,"_test_aa1_coef.m"));
 print_polynomial(ac1,"ac1");
-print_polynomial(ac1,"ac1","tarczynski_frm_allpass_test_ac1_coef.m");
+print_polynomial(ac1,"ac1",strcat(strf,"_test_ac1_coef.m"));
 
 save tarczynski_frm_allpass_test.mat ...
     r1 rRM1 aa1 ac1 R Mmodel Dmodel mr na nc fpass fstop Was

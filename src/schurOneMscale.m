@@ -7,7 +7,7 @@ function [S1M,epsilon,p] = schurOneMscale(k,S)
 % and J.D.Markel, IEEE Trans. Audio and Electroacoustics, Vol. 20, No. 6,
 % Dec. 1973, pp.496
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

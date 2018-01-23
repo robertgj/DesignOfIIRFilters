@@ -1,5 +1,5 @@
 % schur_retimed_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -8,6 +8,8 @@ unlink("schur_retimed_test.diary.tmp");
 diary schur_retimed_test.diary.tmp
 
 format short e
+
+strf="schur_retimed_test";
 
 % Filter specification
 fap=0.05;R=2;nN=4;nD=nN/R;
@@ -48,7 +50,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 axis([0 0.5 -40 5]);
 grid("on");
-print("schur_retimed_expected_response","-dpdflatex");
+print(strcat(strf,"_expected_response"),"-dpdflatex");
 close
 
 % Schur decomposition
@@ -123,7 +125,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -40 5]);
 grid("on");
-print("schur_retimed_output_response","-dpdflatex");
+print(strcat(strf,"_output_response"),"-dpdflatex");
 close
 
 diary off

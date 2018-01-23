@@ -1,5 +1,5 @@
 % minphase_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -8,6 +8,8 @@ unlink("minphase_test.diary.tmp");
 diary minphase_test.diary.tmp
 
 format short e
+
+strf="minphase_test";
 
 %
 % Using remez.m and Orchard's minphase.m
@@ -65,16 +67,16 @@ ylabel("Amplitude(dB)");
 axis([0 0.5 -50 1]);
 legend("Hbrz","Hbrzc");
 legend("location","east");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
-print("minphase_test_brz_brzc_response","-dpdflatex");
+print(strcat(strf,"_brz_brzc_response"),"-dpdflatex");
 close
 
 %
 % Print results
 %
-print_polynomial(brz,"brz","minphase_test_brz_coef.m","%15.12f");
-print_polynomial(brzc,"brzc","minphase_test_brzc_coef.m","%15.12f");
+print_polynomial(brz,"brz",strcat(strf,"_brz_coef.m"),"%15.12f");
+print_polynomial(brzc,"brzc",strcat(strf,"_brzc_coef.m"),"%15.12f");
 
 %
 % A simple example of using the cepstrum to find the
@@ -142,7 +144,7 @@ endif
 plot(w*0.5/pi, 10*log10(abs(Grzc).^2 + abs(Hbrz).^2));
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-print("minphase_test_cepstral_combined_response","-dpdflatex");
+print(strcat(strf,"_cepstral_combined_response"),"-dpdflatex");
 close
 
 % Done

@@ -1,19 +1,19 @@
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test_FIGURES = \
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test_kc_min \
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test_kc_minpass \
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test_kc_minpz
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_FIGURES = \
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_kc_min \
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_kc_minpass \
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_kc_minpz
 
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test_COEFS = \
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test.mat \
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test.spec \
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test_k0_sd_coef.m \
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test_c0_sd_coef.m \
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test_k_min_coef.m \
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test_c_min_coef.m \
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test_cost.tab
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_COEFS = \
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.mat \
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.spec \
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_k0_sd_coef.m \
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_c0_sd_coef.m \
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_k_min_coef.m \
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_c_min_coef.m \
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_cost.tab
 
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test_FILES = \
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test.m \
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_FILES = \
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.m \
 schurOneMlattice_bandpass_10_nbits_common.m test_common.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
 schurOneMlatticeEsq.m \
@@ -29,7 +29,6 @@ schurOneMlattice2tf.m \
 schurOneMlattice_allocsd_Ito.m \
 schurOneMlattice_allocsd_Lim.m \
 schurOneMlatticeFilter.m \
-schurOneMlattice_sqp_slb_lowpass_plot.m \
 tf2schurOneMlattice.m \
 local_max.m print_polynomial.m Abcd2tf.m x2nextra.m sqp_bfgs.m armijo_kim.m \
 updateWbfgs.m invSVD.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m SDadders.m \

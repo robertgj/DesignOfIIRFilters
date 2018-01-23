@@ -1,5 +1,5 @@
 % iir_sqp_slb_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -10,6 +10,7 @@ diary iir_sqp_slb_test.diary.tmp
 format compact;
 
 tol=1e-3
+ctol=tol
 maxiter=2000
 verbose=false
 
@@ -105,7 +106,7 @@ close
 printf("\nSecond MMSE pass\n");
 vS=iir_slb_update_constraints(x2,U,V,M,Q,R,wa,Adu,Adl,Wa, ...
                               ws,Sdu,Sdl,Ws,wt,Tdu,Tdl,Wt, ...
-                              wp,Pdu,Pdl,Wp,tol);
+                              wp,Pdu,Pdl,Wp,ctol);
 printf("S frequency constraints before:\n");
 for [v,k]=vS
   printf("%s=[ ",k);printf("%d ",v);printf("]\n");
@@ -126,7 +127,7 @@ if feasible == 0
 endif
 vS=iir_slb_update_constraints(x3,U,V,M,Q,R,wa,Adu,Adl,Wa, ...
                               ws,Sdu,Sdl,Ws,wt,Tdu,Tdl,Wt, ...
-                              wp,Pdu,Pdl,Wp,tol);
+                              wp,Pdu,Pdl,Wp,ctol);
 printf("S frequency constraints after:\n");
 for [v,k]=vS
   printf("%s=[ ",k);printf("%d ",v);printf("]\n");

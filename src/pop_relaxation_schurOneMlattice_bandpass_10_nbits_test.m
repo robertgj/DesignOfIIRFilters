@@ -1,14 +1,14 @@
-% pop_relaxation_bandpass_OneM_lattice_10_nbits_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.m
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 % Optimisation of Schur one-multiplier lattice bandpass filter response with
 % 10-bit signed-digit coefficients and POP relaxation solution.
 
 test_common;
 
-unlink("pop_relaxation_bandpass_OneM_lattice_10_nbits_test.diary");
-unlink("pop_relaxation_bandpass_OneM_lattice_10_nbits_test.diary.tmp");
-diary pop_relaxation_bandpass_OneM_lattice_10_nbits_test.diary.tmp
+unlink("pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary");
+unlink("pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary.tmp");
+diary pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary.tmp
 
 tic;
 
@@ -17,6 +17,8 @@ verbose=false;
 
 tpr=0.3,dBass=36,Wasu=5e5
 schurOneMlattice_bandpass_10_nbits_common;
+
+strf="pop_relaxation_schurOneMlattice_bandpass_10_nbits_test";
 
 % Initial coefficients
 kc=zeros(size(kc0));
@@ -52,7 +54,7 @@ while ~isempty(kc_active)
                          wa,Asqd,Asqdu,Asqdl,Wa, ...
                          wt,Td,Tdu,Tdl,Wt, ...
                          wp,Pd,Pdu,Pdl,Wp, ...
-                         maxiter,tol,verbose);
+                         maxiter,tol,ctol,verbose);
     if ~feasible
       error("SOCP PCLS problem infeasible!");
     endif
@@ -97,20 +99,17 @@ while ~isempty(kc_active)
 endwhile
 
 % Show results
-fstr=sprintf("pop_relaxation_bandpass_OneM_lattice_%d_nbits_test",nbits);
 kc_min=kc;
 k_min=kc(1:Nk);
 c_min=kc((Nk+1):end);
 Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p0,c_min,wa,Asqd,Wa,wt,Td,Wt);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
-printf("nscale*k_min=[ ");printf("%g ",nscale*k_min');printf("]';\n");
+print_polynomial(k_min,"k_min",nscale);
+print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
 printf("epsilon0=[ ");printf("%d ",epsilon0');printf("]';\n");
 printf("p0=[ ");printf("%g ",p0');printf("]';\n");
-printf("nscale*c_min=[ ");printf("%g ",nscale*c_min');printf("]';\n");
-print_polynomial(nscale*k_min,sprintf("%d*k_min",nscale), ...
-                 strcat(fstr,"_k_min_coef.m"),"%6d");
-print_polynomial(nscale*c_min,sprintf("%d*c_min",nscale), ...
-                 strcat(fstr,"_c_min_coef.m"),"%6d");
+print_polynomial(c_min,"c_min",nscale);
+print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used
 [kc_digits,kc_adders]=SDadders(kc_min(kc0_active),nbits);
 printf("%d signed-digits used\n",kc_digits);
@@ -146,7 +145,7 @@ printf("k,c_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 
 % Make a LaTeX table for cost
-fid=fopen(strcat(fstr,"_cost.tab"),"wt");
+fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %6.4f & & \\\\\n",Esq0);
 fprintf(fid,"%d-bit %d-signed-digit(Ito)&%6.4f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd,kc0_digits,kc0_adders);
@@ -171,15 +170,15 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -50 -30]);
-tstr=sprintf("Schur one-multiplier lattice bandpass filter stop-band \
+strt=sprintf("Schur one-multiplier lattice bandpass filter stop-band \
 (nbits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,fasl,fasu,dBas);
-title(tstr);
+title(strt);
 legend("exact","s-d(Ito)","s-d(POP-relax)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print(strcat(fstr,"_stop"),"-dpdflatex");
+print(strcat(strf,"_stop"),"-dpdflatex");
 close
 
 % Plot amplitude pass-band response
@@ -189,15 +188,15 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0.1 0.2 -2 2]);
-tstr=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
+strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
 (nbits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,fapl,fapu,dBap);
-title(tstr);
+title(strt);
 legend("exact","s-d(Ito)","s-d(POP-relax)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print(strcat(fstr,"_pass"),"-dpdflatex");
+print(strcat(strf,"_pass"),"-dpdflatex");
 close
 
 % Plot group-delay pass-band response
@@ -207,22 +206,23 @@ plot(wplot*0.5/pi,T_kc0,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Group delay(samples)");
 axis([0.09 0.21 15.9 16.2]);
-tstr=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
+strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
 (nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g",nbits,ftpl,ftpu,tp,tpr);
- title(tstr);
+ title(strt);
 legend("exact","s-d(Ito)","s-d(POP-relax)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print(strcat(fstr,"_delay"),"-dpdflatex");
+print(strcat(strf,"_delay"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(fstr,".spec"),"wt");
-fprintf(fid,"nbits=%g %% Coeficient bits\n",nbits);
-fprintf(fid,"ndigits=%g %% Nominal average coeficient signed-digits\n",ndigits);
+fid=fopen(strcat(strf,".spec"),"wt");
+fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
+fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
 fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"maxiter=%d %% SOCP iteration limit\n",maxiter);
 fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
 fprintf(fid,"length(c0)=%d %% Num. tap coefficients\n",length(c0));
@@ -248,16 +248,16 @@ fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-save pop_relaxation_bandpass_OneM_lattice_10_nbits_test.mat ...
+save pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.mat ...
      k0 epsilon0 p0 c0 ...
-     tol nbits ndigits ndigits_alloc npoints ...
+     tol ctol nbits ndigits ndigits_alloc npoints ...
      fapl fapu dBap Wap ...
      fasl fasu dBas fasll fasuu dBass Wasl Wasu ...
      ftpl ftpu tp tpr Wtp ...
-     k_min c_min 
-       
+     k_min c_min
+
 % Done
 toc;
 diary off
-movefile pop_relaxation_bandpass_OneM_lattice_10_nbits_test.diary.tmp ...
-       pop_relaxation_bandpass_OneM_lattice_10_nbits_test.diary;
+movefile pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary.tmp ...
+         pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary;

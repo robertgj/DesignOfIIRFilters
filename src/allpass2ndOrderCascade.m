@@ -12,7 +12,7 @@ function [H,gradH]=allpass2ndOrderCascade(a,w)
 %
 % H is a length(w) column vector and gradH is length(w) by length(a) matrix.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

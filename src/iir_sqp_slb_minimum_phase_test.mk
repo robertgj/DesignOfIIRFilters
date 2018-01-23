@@ -1,10 +1,10 @@
 iir_sqp_slb_minimum_phase_test_FIGURES = \
-iir_sqp_slb_minimum_phase_initial_x0 \
-iir_sqp_slb_minimum_phase_initial_x0pass \
-iir_sqp_slb_minimum_phase_initial_x0pz \
-iir_sqp_slb_minimum_phase_pcls_d1 \
-iir_sqp_slb_minimum_phase_pcls_d1pass \
-iir_sqp_slb_minimum_phase_pcls_d1pz
+iir_sqp_slb_minimum_phase_test_initial_x0 \
+iir_sqp_slb_minimum_phase_test_initial_x0pass \
+iir_sqp_slb_minimum_phase_test_initial_x0pz \
+iir_sqp_slb_minimum_phase_test_pcls_d1 \
+iir_sqp_slb_minimum_phase_test_pcls_d1pass \
+iir_sqp_slb_minimum_phase_test_pcls_d1pz
 
 iir_sqp_slb_minimum_phase_test_COEFS = \
 iir_sqp_slb_minimum_phase_test.mat \

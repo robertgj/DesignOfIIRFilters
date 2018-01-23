@@ -1,5 +1,5 @@
 % butt3NSSV_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the 3rd order Butterworth scaled normalised 
 % lattice filter in state variable form

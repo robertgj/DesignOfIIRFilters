@@ -1,0 +1,15 @@
+branch_bound_directFIRsymmetric_bandpass_8_nbits_test_FIGURES = \
+branch_bound_directFIRsymmetric_bandpass_8_nbits_test_response
+
+branch_bound_directFIRsymmetric_bandpass_8_nbits_test_COEFS = \
+branch_bound_directFIRsymmetric_bandpass_8_nbits_test.mat \
+branch_bound_directFIRsymmetric_bandpass_8_nbits_test.spec \
+branch_bound_directFIRsymmetric_bandpass_8_nbits_test_hM_min_coef.m \
+branch_bound_directFIRsymmetric_bandpass_8_nbits_test_hM1_coef.m \
+branch_bound_directFIRsymmetric_bandpass_8_nbits_test_hM_adders.tab \
+branch_bound_directFIRsymmetric_bandpass_8_nbits_test_cost.tab
+
+branch_bound_directFIRsymmetric_bandpass_8_nbits_test_FILES = \
+branch_bound_directFIRsymmetric_bandpass_8_nbits_test.m test_common.m \
+directFIRsymmetricA.m directFIRsymmetricEsqPW.m local_max.m print_polynomial.m \
+flt2SD.m SDadders.m x2nextra.m bin2SDul.m bin2SD.oct bin2SPT.oct

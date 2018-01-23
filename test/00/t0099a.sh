@@ -2,11 +2,13 @@
 
 prog=butt6NSPABP_test.m
 
-depends="butt6NSPABP_test.m test_common.m \
-schurexpand.oct schurdecomp.oct schurNSscale.oct \
-spectralfactor.oct tf2schurNSlattice.m schurNSlatticeNoiseGain.m \
-schurNSlattice2Abcd.oct schurNSlatticeFilter.m schurNSlatticeRetimed2Abcd.m phi2p.m \
-tfp2g.m Abcd2tf.m flt2SD.m x2nextra.m bin2SD.oct KW.m crossWelch.m tf2pa.m"
+depends="butt6NSPABP_test.m test_common.m tf2schurNSlattice.m \
+schurNSlatticeNoiseGain.m \
+schurNSlatticeFilter.m schurNSlatticeRetimed2Abcd.m phi2p.m tfp2g.m Abcd2tf.m \
+flt2SD.m x2nextra.m KW.m crossWelch.m tf2pa.m print_polynomial.m \
+bin2SD.oct schurexpand.oct schurdecomp.oct schurNSscale.oct spectralfactor.oct \
+schurNSlattice2Abcd.oct"
+
 
 tmp=/tmp/$$
 here=`pwd`
@@ -78,93 +80,22 @@ A1ngABCD =    7.0000e+00
 A1ngapABCD =    7.0000e+00
 A2ngABCD =    3.0000e+00
 A2ngapABCD =    3.0000e+00
+use_exact_coefficients = 0
 nbits =    1.0000e+01
 scale =    5.1200e+02
 ndigits =    3.0000e+00
-A1s10f =
-
- Columns 1 through 3:
-
-  -1.64062500000000e-01   9.53125000000000e-01  -1.48437500000000e-01
-
- Column 4:
-
-   7.34375000000000e-01
-
-A1s11f =
-
- Columns 1 through 3:
-
-   9.86328125000000e-01   3.08593750000000e-01   9.88281250000000e-01
-
- Column 4:
-
-   6.87500000000000e-01
-
-A1s20f =
-
- Columns 1 through 3:
-
-  -1.64062500000000e-01   9.53125000000000e-01  -1.48437500000000e-01
-
- Column 4:
-
-   7.34375000000000e-01
-
-A1s00f =
-
- Columns 1 through 3:
-
-   9.86328125000000e-01   3.08593750000000e-01   9.88281250000000e-01
-
- Column 4:
-
-   6.87500000000000e-01
-
-A1s02f =
-
- Columns 1 through 3:
-
-   1.64062500000000e-01  -9.53125000000000e-01   1.48437500000000e-01
-
- Column 4:
-
-  -7.34375000000000e-01
-
-A1s22f =
-
- Columns 1 through 3:
-
-   9.86328125000000e-01   3.08593750000000e-01   9.88281250000000e-01
-
- Column 4:
-
-   6.87500000000000e-01
-
-A2s10f =
-
-  -1.58203125000000e-01   7.18750000000000e-01
-
-A2s11f =
-
-   9.88281250000000e-01   6.87500000000000e-01
-
-A2s20f =
-
-  -1.58203125000000e-01   7.18750000000000e-01
-
-A2s00f =
-
-   9.88281250000000e-01   6.87500000000000e-01
-
-A2s02f =
-
-   1.58203125000000e-01  -7.18750000000000e-01
-
-A2s22f =
-
-   9.88281250000000e-01   6.87500000000000e-01
-
+A1s10f = [      -84,      488,      -76,      376 ]/512;
+A1s11f = [      505,      158,      506,      352 ]/512;
+A1s20f = [      -84,      488,      -76,      376 ]/512;
+A1s00f = [      505,      158,      506,      352 ]/512;
+A1s02f = [       84,     -488,       76,     -376 ]/512;
+A1s22f = [      505,      158,      506,      352 ]/512;
+A2s10f = [      -81,      368 ]/512;
+A2s11f = [      506,      352 ]/512;
+A2s20f = [      -81,      368 ]/512;
+A2s00f = [      506,      352 ]/512;
+A2s02f = [       81,     -368 ]/512;
+A2s22f = [      506,      352 ]/512;
 A1ngABCDf =    7.5062e+00
 A1ngapABCDf =    7.5062e+00
 A2ngABCDf =    2.8995e+00

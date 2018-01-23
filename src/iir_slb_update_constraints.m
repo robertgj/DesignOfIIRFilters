@@ -2,7 +2,7 @@ function vS=iir_slb_update_constraints(x,U,V,M,Q,R,wa,Adu,Adl,Wa, ...
                                        ws,Sdu,Sdl,Ws,wt,Tdu,Tdl,Wt, ...
                                        wp,Pdu,Pdl,Wp,tol)
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

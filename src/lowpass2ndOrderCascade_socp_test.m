@@ -1,5 +1,5 @@
 % lowpass2ndOrderCascade_socp_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -58,7 +58,7 @@ nplot=512;
 t=grpdelay(x1.a, x1.d, nplot);
 
 % Common strings for output plots
-strd=sprintf("lowpass2ndOrderCascade_socp_%%s");
+strf="lowpass2ndOrderCascade_socp_test";
 strt=sprintf("Deczky ex.3,SOCP,td=%d,fpass=%g,fstop=%g,Wstop=%d,dBstop=%d",
              td,fpass,fstop,Wstop,dBstop);
 
@@ -76,7 +76,7 @@ axis([0, 0.5, 0, 20]);
 xlabel("Frequency");
 ylabel("Group delay(samples)");
 grid("on");
-print(sprintf(strd,"x1"),"-dpdflatex");
+print(strcat(strf,"_x1"),"-dpdflatex");
 close
 % Plot passband response
 subplot(211);
@@ -92,13 +92,13 @@ axis([0, fpass, td-0.25, td+0.25]);
 xlabel("Frequency");
 ylabel("Group delay(samples)");
 grid("on");
-print(sprintf(strd,"x1pass"),"-dpdflatex");
+print(strcat(strf,"_x1pass"),"-dpdflatex");
 close
 % Plot poles and zeros
 subplot(111);
 zplane(roots(x1.a),roots(x1.d))
 title(strt);
-print(sprintf(strd,"x1pz"),"-dpdflatex");
+print(strcat(strf,"_x1pz"),"-dpdflatex");
 close
 
 % Alternative response for squared magnitude in both the pass and stop bands
@@ -113,7 +113,7 @@ nplot=512;
 h_sqm=freqz(x1_sqm.a, x1_sqm.d, nplot);
 t_sqm=grpdelay(x1_sqm.a, x1_sqm.d, nplot);
 % Plot response
-strt_sqm= ...
+sqm_strt= ...
 sprintf("Deczky ex.3,SOCP Sq.Mag.,td=%d,fpass=%g,fstop=%g,Wstop=%d,dBstop=%d",
         td,fpass,fstop,Wstop,dBstop);
 subplot(211);
@@ -122,14 +122,14 @@ axis([0, 0.5, -80, 10]);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
-title(strt_sqm);
+title(sqm_strt);
 subplot(212);
 plot(wplot*0.5/pi,t_sqm)
 axis([0, 0.5, 0, 20]);
 xlabel("Frequency");
 ylabel("Group delay(samples)");
 grid("on");
-print(sprintf(strd,"x1sqm"),"-dpdflatex");
+print(strcat(strf,"_x1sqm"),"-dpdflatex");
 close
 % Plot passband response
 subplot(211);
@@ -138,24 +138,24 @@ axis([0, fpass, -0.01, 0.01]);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
-title(strt);
+title(sqm_strt);
 subplot(212);
 plot(wplot*0.5/pi,t_sqm)
 axis([0, fpass, td-1, td+1]);
 xlabel("Frequency");
 ylabel("Group delay(samples)");
 grid("on");
-print(sprintf(strd,"x1sqmpass"),"-dpdflatex");
+print(strcat(strf,"_x1sqmpass"),"-dpdflatex");
 close
 % Plot poles and zeros
 subplot(111);
 zplane(roots(x1_sqm.a),roots(x1_sqm.d))
-title(strt_sqm);
-print(sprintf(strd,"x1sqmpz"),"-dpdflatex");
+title(sqm_strt);
+print(strcat(strf,"_x1sqmpz"),"-dpdflatex");
 close
 
 % Save specification
-fid=fopen("lowpass2ndOrderCascade_socp_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%5.1g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"mn=%d %% Numerator order (mn+1 coefficients)\n",length(x1.a)-1);
 fprintf(fid,"mr=%d %% Denominator order (mr coefficients)\n",length(x1.d)-1);
@@ -171,11 +171,12 @@ fclose(fid);
 
 % Show transfer function polynomials
 print_polynomial(x1.a,"x1.a");
-print_polynomial(x1.a,"a","lowpass2ndOrderCascade_socp_test_a_coef.m");
+print_polynomial(x1.a,"a",strcat(strf,"_a_coef.m"));
 print_polynomial(x1.d,"x1.d");
-print_polynomial(x1.d,"d","lowpass2ndOrderCascade_socp_test_d_coef.m");
+print_polynomial(x1.d,"d",strcat(strf,"_d_coef.m"));
 
 % Done
 toc;
 diary off
-movefile lowpass2ndOrderCascade_socp_test.diary.tmp lowpass2ndOrderCascade_socp_test.diary;
+movefile lowpass2ndOrderCascade_socp_test.diary.tmp ...
+         lowpass2ndOrderCascade_socp_test.diary;

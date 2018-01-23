@@ -9,7 +9,7 @@ function [next_vR,next_vS,exchanged] = ...
 % are violated then move the constraint with the greatest violation
 % from vR to vS.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

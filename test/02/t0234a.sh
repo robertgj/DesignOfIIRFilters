@@ -1,8 +1,8 @@
 #!/bin/sh
 
-prog=sqp_relaxation_bandpass_OneM_lattice_10_nbits_test.m
+prog=sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test.m
 
-depends="sqp_relaxation_bandpass_OneM_lattice_10_nbits_test.m \
+depends="sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test.m \
 schurOneMlattice_bandpass_10_nbits_common.m test_common.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
 schurOneMlatticeEsq.m \
@@ -57,20 +57,20 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k.ok << 'EOF'
-512*k_min = [      0,    344,      0,    260, ... 
-                   0,    184,      0,    216, ... 
-                   0,    156,      0,    128, ... 
-                   0,     78,      0,     50, ... 
-                   0,     18,      0,      6 ]';
+k_min = [        0,      344,        0,      260, ... 
+                 0,      184,        0,      216, ... 
+                 0,      156,        0,      128, ... 
+                 0,       78,        0,       50, ... 
+                 0,       18,        0,        6 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
 cat > test.c.ok << 'EOF'
-512*c_min = [     36,     -1,   -136,   -248, ... 
-                 -92,     48,    194,    160, ... 
-                  16,    -40,    -42,     -8, ... 
-                  -4,    -16,    -13,      2, ... 
-                  12,      8,      2,      0, ... 
-                   2 ]';
+c_min = [       36,       -1,     -136,     -248, ... 
+               -92,       48,      194,      160, ... 
+                16,      -40,      -42,       -8, ... 
+                -4,      -16,      -13,        2, ... 
+                12,        8,        2,        0, ... 
+                 2 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
 cat > test.cost.ok << 'EOF'
@@ -90,13 +90,13 @@ octave-cli -q $prog > test.out
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.k.ok \
-     sqp_relaxation_bandpass_OneM_lattice_10_nbits_test_k_min_coef.m
+     sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test_k_min_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
 diff -Bb test.c.ok \
-     sqp_relaxation_bandpass_OneM_lattice_10_nbits_test_c_min_coef.m
+     sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test_c_min_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi
 diff -Bb test.cost.ok \
-     sqp_relaxation_bandpass_OneM_lattice_10_nbits_test_cost.tab
+     sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test_cost.tab
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.cost.ok"; fail; fi
 
 #

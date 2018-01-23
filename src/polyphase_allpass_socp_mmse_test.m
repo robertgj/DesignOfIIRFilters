@@ -1,5 +1,5 @@
 % polyphase_allpass_socp_mmse_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -10,19 +10,21 @@ diary polyphase_allpass_socp_mmse_test.diary.tmp
 format compact
 
 verbose=true
+strf="polyphase_allpass_socp_mmse_test";
 
 % Initial coefficients found by tarczynski_polyphase_allpass_test.m
-Da0 = [   1.0000000000,  -0.0002144620,   0.0001217075,  -0.0000941128, ... 
-          0.0000834316,  -0.0000784251,   0.0000747429,  -0.0000709091, ... 
-          0.0000671523,  -0.0000654285,   0.0000704340,  -0.0001415473 ]';
-Db0 = [   1.0000000000,   0.4963318340,  -0.1198731550,   0.0562558988, ... 
-         -0.0320270467,   0.0197812451,  -0.0126415467,   0.0081409292, ... 
-         -0.0051814910,   0.0032049927,  -0.0019033405,   0.0011980600 ]';
+Da0 = [   1.0000000000,  -0.0002135795,   0.0001187213,  -0.0000936667, ... 
+          0.0000824972,  -0.0000769381,   0.0000730337,  -0.0000697784, ... 
+          0.0000663975,  -0.0000642384,   0.0000693792,  -0.0001412838 ]';
+Db0 = [   1.0000000000,   0.4963316187,  -0.1198749572,   0.0562537917, ... 
+         -0.0320259192,   0.0197795181,  -0.0126415985,   0.0081394843, ... 
+         -0.0051805297,   0.0032053536,  -0.0019025918,   0.0011977681 ]';
 
 % Lowpass filter specification for polyphase all-pass filters
 tol=1e-7
 maxiter=2000
 polyphase=true
+difference=false
 R=2
 ma=length(Da0)-1
 mb=length(Db0)-1
@@ -74,7 +76,8 @@ vS=[];
 
 % SOCP
 [ab1,socp_iter,func_iter,feasible]= ...
-  parallel_allpass_socp_mmse(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb,polyphase, ...
+  parallel_allpass_socp_mmse(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb, ...
+                             polyphase,difference, ...
                              wa,A2d,A2du,A2dl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                              maxiter,tol,verbose);
 if !feasible
@@ -93,7 +96,6 @@ nplot=512;
 Tab1=grpdelay(Nab1,Dab1,nplot);
 
 % Common strings
-strd=sprintf("polyphase_allpass_socp_mmse_%%s");
 strt=sprintf("Polyphase allpass : ma=%d,mb=%d,td=%g", ma,mb,td);
 
 % Plot response
@@ -109,7 +111,7 @@ ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-0.5 td+0.5]);
 grid("on");
-print(sprintf(strd,"ab1"),"-dpdflatex");
+print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 
 % Plot passband response
@@ -125,24 +127,24 @@ ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 max(fap,ftp) td-0.2 td+0.2]);
 grid("on");
-print(sprintf(strd,"ab1pass"),"-dpdflatex");
+print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 
 % Plot poles and zeros
 subplot(111);
 zplane(roots(Nab1),roots(Dab1));
 title(strt);
-print(sprintf(strd,"ab1pz"),"-dpdflatex");
+print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 subplot(111);
 zplane(roots(Na1),roots(Da1));
 title(strt);
-print(sprintf(strd,"a1pz"),"-dpdflatex");
+print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 subplot(111);
 zplane(roots(Nb1),roots(Db1));
 title(strt);
-print(sprintf(strd,"b1pz"),"-dpdflatex");
+print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 
 % Plot the phase response error of polyphase component filters.
@@ -160,11 +162,11 @@ legend("Filter A","Filter B","location","northwest");
 legend("boxoff");
 text(0.02,-3.5,"Note: the filter B phase includes the polyphase delay")
 grid("on");
-print(sprintf(strd,"ab1phase"),"-dpdflatex");
+print(strcat(strf,"_ab1phase"),"-dpdflatex");
 close
 
 % Save the filter specification
-fid=fopen("polyphase_allpass_socp_mmse_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"ma=%d %% Allpass model filter A denominator order\n",ma);
@@ -187,13 +189,13 @@ fclose(fid);
 
 % Save results
 print_polynomial(Da1,"Da1");
-print_polynomial(Da1,"Da1","polyphase_allpass_socp_mmse_test_Da1_coef.m");
+print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 print_polynomial(Db1,"Db1");
-print_polynomial(Db1,"Db1","polyphase_allpass_socp_mmse_test_Db1_coef.m");
+print_polynomial(Db1,"Db1",strcat(strf,"_Db1_coef.m"));
 print_polynomial(Nab1,"Nab1");
-print_polynomial(Nab1,"Nab1","polyphase_allpass_socp_mmse_test_Nab1_coef.m");
+print_polynomial(Nab1,"Nab1",strcat(strf,"_Nab1_coef.m"));
 print_polynomial(Dab1,"Dab1");
-print_polynomial(Dab1,"Dab1","polyphase_allpass_socp_mmse_test_Dab1_coef.m");
+print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
 % Done 
 save polyphase_allpass_socp_mmse_test.mat ...

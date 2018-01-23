@@ -1,12 +1,12 @@
 allpass2ndOrderCascade_socp_sqmag_test_FIGURES = \
-allpass2ndOrderCascade_socp_sqmag_ab0 \
-allpass2ndOrderCascade_socp_sqmag_ab1pass \
-allpass2ndOrderCascade_socp_sqmag_ab1pz \
-allpass2ndOrderCascade_socp_sqmag_ab1 \
-allpass2ndOrderCascade_socp_sqmag_ab1dual \
-allpass2ndOrderCascade_socp_sqmag_ellip \
-allpass2ndOrderCascade_socp_sqmag_ellipdual \
-allpass2ndOrderCascade_socp_sqmag_ellippz
+allpass2ndOrderCascade_socp_sqmag_test_ab0 \
+allpass2ndOrderCascade_socp_sqmag_test_ab1pass \
+allpass2ndOrderCascade_socp_sqmag_test_ab1pz \
+allpass2ndOrderCascade_socp_sqmag_test_ab1 \
+allpass2ndOrderCascade_socp_sqmag_test_ab1dual \
+allpass2ndOrderCascade_socp_sqmag_test_ellip \
+allpass2ndOrderCascade_socp_sqmag_test_ellipdual \
+allpass2ndOrderCascade_socp_sqmag_test_ellippz
 
 allpass2ndOrderCascade_socp_sqmag_test_COEFS = \
 allpass2ndOrderCascade_socp_sqmag_test.mat \

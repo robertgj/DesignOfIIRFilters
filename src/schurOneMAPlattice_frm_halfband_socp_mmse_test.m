@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_halfband_socp_mmse_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -87,9 +87,9 @@ Tdl=-Tdu;
 Wt=Wtp*ones(ntp,1);
 
 % Common strings
-strT=sprintf("FRM halfband %%s %%s : \
+strt=sprintf("FRM halfband %%s %%s : \
 Mmodel=%d,Dmodel=%d,fap=%g,fas=%g",Mmodel,Dmodel,fap,fas);
-strF=sprintf("schurOneMAPlattice_frm_halfband_socp_mmse_test_%%s_%%s");
+strf="schurOneMAPlattice_frm_halfband_socp_mmse_test";
 
 %
 % FRM halfband SOCP MMSE
@@ -107,12 +107,12 @@ endif
 % Plot the response
 r1=schurOneMAPlattice2tf(k1,epsilon0,p0);
 schurOneMAPlattice_frm_halfband_socp_slb_plot ...
-  (r1,u1,v1,Mmodel,Dmodel,n,strT,strF,"MMSE");
+  (r1,u1,v1,Mmodel,Dmodel,n,strt,strcat(strf,"_%s_%s"),"MMSE");
 
 %
 % Save the results
 %
-fid=fopen("schurOneMAPlattice_frm_halfband_socp_mmse_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"length(k1)=%d %% Number of all-pass coefficients\n",length(k1));
@@ -128,17 +128,13 @@ fprintf(fid,"Was=%d %% Amplitude stop band weight for MMSE\n",Was);
 fclose(fid);
 
 print_polynomial(r1,"r1");
-print_polynomial(r1,"r1", ...
-                 "schurOneMAPlattice_frm_halfband_socp_mmse_test_r1_coef.m");
+print_polynomial(r1,"r1",strcat(strf,"_r1_coef.m"));
 print_polynomial(k1,"k1");
-print_polynomial(k1,"k1", ...
-                 "schurOneMAPlattice_frm_halfband_socp_mmse_test_k1_coef.m");
+print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"));
 print_polynomial(u1,"u1");
-print_polynomial(u1,"u1", ...
-                 "schurOneMAPlattice_frm_halfband_socp_mmse_test_u1_coef.m");
+print_polynomial(u1,"u1",strcat(strf,"_u1_coef.m"));
 print_polynomial(v1,"v1");
-print_polynomial(v1,"v1", ...
-                 "schurOneMAPlattice_frm_halfband_socp_mmse_test_v1_coef.m");
+print_polynomial(v1,"v1",strcat(strf,"_v1_coef.m"));
 
 save schurOneMAPlattice_frm_halfband_socp_mmse_test.mat ...
      r0 aa0 k0 epsilon0 p0 u0 v0 Mmodel Dmodel ...

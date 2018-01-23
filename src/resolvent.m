@@ -21,7 +21,7 @@ function res=resolvent(w,A,method_str)
 %       algorithm of Xu Zhong. See above the reference above. This
 %       implementation is an oct-file that calls the LAPACK ZTRTRI function.
   
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

@@ -1,5 +1,5 @@
 % schurOneMPAlatticeEsq_test_common.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 if m==1
   % Low pass filter from parallel_allpass_socp_slb_flat_delay_test.m

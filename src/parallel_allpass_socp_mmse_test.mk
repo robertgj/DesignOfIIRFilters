@@ -1,9 +1,9 @@
 parallel_allpass_socp_mmse_test_FIGURES = \
-parallel_allpass_socp_mmse_ab1 \
-parallel_allpass_socp_mmse_ab1pass \
-parallel_allpass_socp_mmse_ab1pz \
-parallel_allpass_socp_mmse_a1pz \
-parallel_allpass_socp_mmse_b1pz
+parallel_allpass_socp_mmse_test_ab1 \
+parallel_allpass_socp_mmse_test_ab1pass \
+parallel_allpass_socp_mmse_test_ab1pz \
+parallel_allpass_socp_mmse_test_a1pz \
+parallel_allpass_socp_mmse_test_b1pz
 
 parallel_allpass_socp_mmse_test_COEFS = \
 parallel_allpass_socp_mmse_test.mat \

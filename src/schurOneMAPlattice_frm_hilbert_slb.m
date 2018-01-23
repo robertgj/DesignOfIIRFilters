@@ -2,12 +2,12 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
   schurOneMAPlattice_frm_hilbert_slb ...
     (pfx,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...
      wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-     maxiter,tol,verbose)
+     maxiter,tol,ctol,verbose)
 % [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
 %   schurOneMAPlattice_frm_hilbert_slb ...
 %     (pfx,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...
 %      wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-%      maxiter,tol,verbose)
+%      maxiter,tol,ctol,verbose)
 %
 % PCLS optimisation of an FRM hilbert filter with a model filter implemented
 % as an allpass one-multiplier lattice filter with coefficients in z ^2 and
@@ -44,7 +44,8 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance
+%   tol - tolerance on coefficient update
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -74,7 +75,7 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
 % Transition Bands", I. W. Selesnick, M. Lang and C. S. Burrus, IEEE
 % Transactions on Signal Processing, 46(2):497-501, February 1998.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -97,12 +98,12 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
   %
   % Sanity checks
   %
-  if (nargin != 30) || (nargout !=7)
+  if (nargin != 31) || (nargout !=7)
     print_usage("[k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...\n\
        schurOneMAPlattice_frm_hilbert_slb(pfx,k0,epsilon0,p0,u0,v0, ...\n\
          Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...\n\
          wa,Asqd,Asqdu,Asqdl,Wap,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...\n\
-         maxiter,tol,verbose)");
+         maxiter,tol,ctol,verbose)");
   endif
   if !is_function_handle(pfx)
     error("Expected pfx to be a function handle!");
@@ -126,7 +127,7 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
   Tk=schurOneMAPlattice_frm_hilbertT(wt,k,epsilon0,p0,u,v,Mmodel,Dmodel);
   Pk=schurOneMAPlattice_frm_hilbertP(wp,k,epsilon0,p0,u,v,Mmodel,Dmodel);
   vS=schurOneMAPlattice_frm_hilbert_slb_update_constraints ...
-       (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,tol);
+       (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,ctol);
   if schurOneMAPlattice_frm_hilbert_slb_constraints_are_empty(vS) ...
      && all(kuv_u>=kuv) && all(kuv_l<=kuv)
     printf("Initial solution satisfies constraints!\n");
@@ -194,7 +195,7 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
     Pk=schurOneMAPlattice_frm_hilbertP(wp,k,epsilon0,p0,u,v,Mmodel,Dmodel);
     [vR,vS,exchanged] = ...
       schurOneMAPlattice_frm_hilbert_slb_exchange_constraints ...
-        (vS,vR,Asqk,Asqdu,Asqdl,Tk,Tdu,Tdl,Pk,Pdu,Pdl,tol);
+        (vS,vR,Asqk,Asqdu,Asqdl,Tk,Tdu,Tdl,Pk,Pdu,Pdl,ctol);
     if exchanged
       printf("Step 4: R constraints violated after ");
       printf("%d PCLS iterations.\n",slb_iter)
@@ -220,7 +221,7 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
     %
     vR=vS;
     vS=schurOneMAPlattice_frm_hilbert_slb_update_constraints ...
-         (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,tol);
+         (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,ctol);
     printf("Step 5: vS frequency constraints updated to:\n");
     for [vv,mm]=vS
       printf("%s=[ ",mm);printf("%d ",vv);printf("]\n");

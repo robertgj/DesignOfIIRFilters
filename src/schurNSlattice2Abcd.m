@@ -26,7 +26,7 @@ function [A,B,C,D,Cap,Dap,dAds,dBds,dCds,dDds,dCapds,dDapds]=...
 % For 4 independent lattice coefficients per section:
 %   grad[s10_1,s11_1,s20_1,s00_1,s10_2,s11_2,s20_2,s00_2,s10_3,...]
   
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

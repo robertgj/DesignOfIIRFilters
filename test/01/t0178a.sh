@@ -3,6 +3,7 @@
 prog=schurOneMPAlatticeAsq_test.m
 
 depends="schurOneMPAlatticeAsq_test.m test_common.m schurOneMPAlatticeAsq.m \
+schurOneMPAlattice_test_common.m \
 tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m schurOneMlattice2Abcd.oct \
 H2Asq.m H2T.m tf2pa.m schurOneMscale.m schurOneMAPlattice2H.oct \
 spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct"

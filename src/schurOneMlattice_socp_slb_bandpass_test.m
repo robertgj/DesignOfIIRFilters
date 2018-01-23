@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_bandpass_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -13,6 +13,7 @@ format compact
 
 tol_mmse=2e-5
 tol_pcls=1e-5
+ctol=tol_pcls
 maxiter=2000
 verbose=false
 
@@ -102,10 +103,10 @@ kc_l=-kc_u;
 kc_active=[find((k2)~=0);(Nk+(1:Nc))'];
 
 % Common strings
-strT=sprintf...
+strf="schurOneMlattice_socp_slb_bandpass_test";
+strt=sprintf...
   ("%%s:fapl=%g,fapu=%g,dBap=%g,fasl=%g,fasu=%g,dBas=%g,Wtp=%%g,Was=%%g",
    fapl,fapu,dBap,fasl,fasu,dBas);
-strF=sprintf("schurOneMlattice_socp_slb_bandpass_test_%%s_%%s");
 
 %
 % SOCP PCLS pass
@@ -118,7 +119,7 @@ schurOneMlattice_slb(@schurOneMlattice_socp_mmse, ...
                      wa,Asqd,Asqdu,Asqdl,Wa_pcls, ...
                      wt,Td,Tdu,Tdl,Wt_pcls, ...
                      wp,Pd,Pdu,Pdl,Wp, ...
-                     maxiter,tol_pcls,verbose);
+                     maxiter,tol_pcls,ctol,verbose);
 toc(run_id);
 if feasible == 0 
   error("k3p,c3p(pcls) infeasible");
@@ -127,11 +128,11 @@ endif
 [n3,d3]=schurOneMlattice2tf(k3p,epsilon2,p2,c3p);
 [k3,epsilon3,p3,c3]=tf2schurOneMlattice(n3,d3);
 % Plot the PCLS response
-strFpcls=sprintf(strF,"pcls","k3c3");
-strTpcls=sprintf(strT,"Schur 1-multiplier SOCP PCLS",Wtp_pcls,Wasl_pcls);
+pcls_strf=strcat(strf,"_pcls_k3c3");
+pcls_strt=sprintf(strt,"Schur 1-multiplier SOCP PCLS",Wtp_pcls,Wasl_pcls);
 schurOneMlattice_sqp_slb_bandpass_plot ...
   (k3,epsilon3,p3,c3,ftpl,ftpu,dBap,ftpl,ftpu,tp,tpr, ...
-   fasl,fasu,dBas,strFpcls,strTpcls);
+   fasl,fasu,dBas,pcls_strf,pcls_strt);
 
 %
 % PCLS amplitude and delay at local peaks
@@ -154,9 +155,10 @@ printf("k3c3:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 %
 % Save the results
 %
-fid=fopen("schurOneMlattice_socp_slb_bandpass_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol_mmse=%g %% Tolerance on coef. update for MMSE\n",tol_mmse);
 fprintf(fid,"tol_pcls=%g %% Tolerance on coef. update for PCLS\n",tol_pcls);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"length(c2)=%d %% Tap coefficients\n",length(c2));
 fprintf(fid,"sum(k2~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k2~=0));
@@ -180,25 +182,24 @@ fprintf(fid,"Wasl_pcls=%d %% Ampl. lower stop band weight(PCLS)\n",Wasl_pcls);
 fprintf(fid,"Wasu_pcls=%d %% Ampl. upper stop band weight(PCLS)\n",Wasu_pcls);
 fclose(fid);
 print_polynomial(k3,"k3");
-print_polynomial(k3,"k3","schurOneMlattice_socp_slb_bandpass_test_k3_coef.m");
+print_polynomial(k3,"k3",strcat(strf,"_k3_coef.m"));
 print_polynomial(epsilon3,"epsilon3");
-print_polynomial(epsilon3,"epsilon3",...
-  "schurOneMlattice_socp_slb_bandpass_test_epsilon3_coef.m","%2d");
+print_polynomial(epsilon3,"epsilon3",strcat(strf,"_epsilon3_coef.m"),"%2d");
 print_polynomial(p3,"p3");
-print_polynomial(p3,"p3","schurOneMlattice_socp_slb_bandpass_test_p3_coef.m");
+print_polynomial(p3,"p3",strcat(strf,"_p3_coef.m"));
 print_polynomial(c3,"c3");
-print_polynomial(c3,"c3","schurOneMlattice_socp_slb_bandpass_test_c3_coef.m");
+print_polynomial(c3,"c3",strcat(strf,"_c3_coef.m"));
 print_polynomial(n3,"n3");
-print_polynomial(n3,"n3","schurOneMlattice_socp_slb_bandpass_test_n3_coef.m");
+print_polynomial(n3,"n3",strcat(strf,"_n3_coef.m"));
 print_polynomial(d3,"d3");
-print_polynomial(d3,"d3","schurOneMlattice_socp_slb_bandpass_test_d3_coef.m");
+print_polynomial(d3,"d3",strcat(strf,"_d3_coef.m"));
 save schurOneMlattice_socp_slb_bandpass_test.mat fapl fapu fasl fasu ...
      ftpl ftpu dBap Wap dBas Wasl_mmse Wasu_mmse Wasl_pcls Wasu_pcls ...
-     tp tpr Wtp_mmse Wtp_pcls dmax rho tol_mmse tol_pcls ...
+     tp tpr Wtp_mmse Wtp_pcls dmax rho tol_mmse tol_pcls ctol ...
      k2 epsilon2 p2 c2 k3 epsilon3 p3 c3 n3 d3
 
 % Done
 toc(script_id);
 diary off
 movefile schurOneMlattice_socp_slb_bandpass_test.diary.tmp ...
-       schurOneMlattice_socp_slb_bandpass_test.diary;
+         schurOneMlattice_socp_slb_bandpass_test.diary;

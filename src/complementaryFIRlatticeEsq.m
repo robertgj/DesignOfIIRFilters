@@ -3,7 +3,7 @@ function [Esq,gradEsq]=...
 % [Esq,gradEsq]=complementaryFIRlatticeEsq(k,khat,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)
 % Calculate the squared error response and gradients of a complementary
 % FIR lattice filter. If the order of the filter polynomial is N, then there
-% are N+1 lattice k and khat coeficients. This function only considers the
+% are N+1 lattice k and khat coefficients. This function only considers the
 % response and gradients at the filter output and not the response at the
 % complementary filter output.
 %
@@ -23,7 +23,7 @@ function [Esq,gradEsq]=...
 %   Esq - the squared error value for k and khat
 %   gradEsq - gradient of the squared error value for k and khat
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

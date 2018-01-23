@@ -1,5 +1,5 @@
 % schurOneMPAlatticeAsq_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -7,116 +7,106 @@ unlink("schurOneMPAlatticeAsq_test.diary");
 unlink("schurOneMPAlatticeAsq_test.diary.tmp");
 diary schurOneMPAlatticeAsq_test.diary.tmp
 
-clear schurOneMlattice2H
 tic;
 verbose=true;
+tol=1e-7;
 
-% Low pass filter
-norder=5;
-fpass=0.125;
-[n,d]=butter(norder,2*fpass);
-nplot=1024;
-npass=floor(nplot*fpass/0.5);
-[h,wplot]=freqz(n,d,nplot);
-[Aap1,Aap2]=tf2pa(n,d);
-Aap1=Aap1(:);
-Aap2=Aap2(:);
+for m=1:2
+  
+  schurOneMPAlattice_test_common;
 
-% Lattice decomposition
-[A1k,A1epsilon,A1p,~] = tf2schurOneMlattice(flipud(Aap1),Aap1);
-[A2k,A2epsilon,A2p,~] = tf2schurOneMlattice(flipud(Aap2),Aap2);
+  % Find the squared amplitude
+  Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 
-% Find the complex response
-Asq=schurOneMPAlatticeAsq(wplot,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
+  % Check the squared amplitude response
+  Hab1=freqz(Nab1,Dab1,wa);
+  Asqab1=abs(Hab1).^2;
+  if max(abs(Asqab1-Asq))/min(Asq(Asqrng)) > tol
+    error("max(abs(Asqab1-Asq))/min(Asq(Asqrng)) > tol");
+  endif
 
-% Check the magnitude-squared response
-if max(abs((abs(h).^2)-Asq)) > 139*eps
-  error("max(abs((abs(h).^2)-Asq)) > 139*eps");
-endif
+  % Find the gradients of Asq
+  [Asq,gradAsq]=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
+                                      A2k,A2epsilon,A2p,difference);
+  
+  % Check the gradients of the squared amplitude response wrt A1k
+  del=tol*10;
+  delk=zeros(size(A1k));
+  delk(1)=del/2;
+  diff_Asqk=zeros(length(wa),length(A1k));
+  for l=1:length(A1k)
+    AsqkPdel2=schurOneMPAlatticeAsq(wa,A1k+delk,A1epsilon,A1p, ...
+                                    A2k,A2epsilon,A2p,difference);
+    AsqkMdel2=schurOneMPAlatticeAsq(wa,A1k-delk,A1epsilon,A1p, ...
+                                    A2k,A2epsilon,A2p,difference);
+    delk=shift(delk,1);
+    diff_Asqk(:,l)=(AsqkPdel2-AsqkMdel2)/del;
+  endfor
+  if max(max(abs(diff_Asqk-gradAsq(:,A1rng)))) > tol
+    error("max(max(abs(diff_Asqk-gradAsq(:,A1rng)))) > tol");
+  endif
 
-% Find the gradients of the complex response
-[Asq,gradAsq]=schurOneMPAlatticeAsq(wplot,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
+  % Check the gradients of the squared amplitude response wrt A2k
+  del=tol*10;
+  delk=zeros(size(A2k));
+  delk(1)=del/2;
+  diff_Asqk=zeros(length(wa),length(A2k));
+  for l=1:length(A2k)
+    AsqkPdel2=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
+                                    A2k+delk,A2epsilon,A2p,difference);
+    AsqkMdel2=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
+                                    A2k-delk,A2epsilon,A2p,difference);
+    delk=shift(delk,1);
+    diff_Asqk(:,l)=(AsqkPdel2-AsqkMdel2)/del;
+  endfor
+  if max(max(abs(diff_Asqk-gradAsq(:,A2rng)))) > tol
+    error("max(max(abs(diff_Asqk-gradAsq(:,A2rng)))) > tol");
+  endif
 
-% Check the gradients of the squared-magnitude response wrt A1k
-del=1e-6;
-delk=zeros(size(A1k));
-delk(1)=del/2;
-diff_Asqk=zeros(npass,size(A1k));
-for l=1:length(A1k)
-  AsqkPdel2=schurOneMPAlatticeAsq(wplot(1:npass),...
-                                  A1k+delk,A1epsilon,A1p,A2k,A2epsilon,A2p);
-  AsqkMdel2=schurOneMPAlatticeAsq(wplot(1:npass),...
-                                  A1k-delk,A1epsilon,A1p,A2k,A2epsilon,A2p);
-  delk=shift(delk,1);
-  diff_Asqk(:,l)=(AsqkPdel2-AsqkMdel2)/del;
+  % Find diagHessAsq
+  [Asq,gradAsq,diagHessAsq]=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
+                                                  A2k,A2epsilon,A2p,difference);
+
+  % Check the Hessian of the squared amplitude response wrt A1k
+  del=tol*10;
+  delk=zeros(size(A1k));
+  delk(1)=del/2;
+  diff_gradAsqk=zeros(length(wa),length(A1k));
+  for l=1:length(A1k)
+    [AsqkPdel2,gradAsqkPdel2]=schurOneMPAlatticeAsq(wa,A1k+delk,A1epsilon,A1p,...
+                                                    A2k,A2epsilon,A2p, ...
+                                                    difference);
+    [AsqkMdel2,gradAsqkMdel2]=schurOneMPAlatticeAsq(wa,A1k-delk,A1epsilon,A1p,...
+                                                    A2k,A2epsilon,A2p, ...
+                                                    difference);
+    delk=shift(delk,1);
+    diff_gradAsqk(:,l)=(gradAsqkPdel2(:,l)-gradAsqkMdel2(:,l))/del;
+  endfor
+  if max(max(abs(diff_gradAsqk-diagHessAsq(:,A1rng)))) > tol
+    error("max(max(abs(diff_gradAsqk-diagHessAsq(,A1rng)))) > tol");
+  endif
+
+  % Check the Hessian of the squared amplitude response wrt A2k
+  del=tol*10;
+  delk=zeros(size(A2k));
+  delk(1)=del/2;
+  diff_gradAsqk=zeros(length(wa),length(A2k));
+  for l=1:length(A2k)
+    [AsqkPdel2,gradAsqkPdel2]=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
+                                                    A2k+delk,A2epsilon,A2p, ...
+                                                    difference);
+    [AsqkMdel2,gradAsqkMdel2]=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
+                                                    A2k-delk,A2epsilon,A2p, ...
+                                                    difference);
+    delk=shift(delk,1);
+    diff_gradAsqk(:,l)=(gradAsqkPdel2(:,length(A1k)+l)-...
+                        gradAsqkMdel2(:,length(A1k)+l))/del;
+  endfor
+  if max(max(abs(diff_gradAsqk-diagHessAsq(:,A2rng)))) > tol
+    error("max(max(abs(diff_gradAsqk-diagHessAsq(,A2rng)))) > tol");
+  endif
+  
 endfor
-if max(max(abs(diff_Asqk-gradAsq(1:npass,1:length(A1k))))) > del/1152.8
-  error("max(max(abs(diff_Asqk-gradAsq(1:npass,1:length(A1k))))) > del/1152.8");
-endif
-
-% Check the gradients of the squared-magnitude response wrt A2k
-del=1e-6;
-delk=zeros(size(A2k));
-delk(1)=del/2;
-diff_Asqk=zeros(npass,size(A2k));
-for l=1:length(A2k)
-  AsqkPdel2=schurOneMPAlatticeAsq(wplot(1:npass),A1k,A1epsilon,A1p, ...
-                                  A2k+delk,A2epsilon,A2p);
-  AsqkMdel2=schurOneMPAlatticeAsq(wplot(1:npass),A1k,A1epsilon,A1p, ...
-                                  A2k-delk,A2epsilon,A2p);
-  delk=shift(delk,1);
-  diff_Asqk(:,l)=(AsqkPdel2-AsqkMdel2)/del;
-endfor
-if max(max(abs(diff_Asqk-gradAsq(1:npass,(length(A1k)+1):end)))) > del/518.95
-  error("max(max(abs(diff_Asqk-\
-gradAsq(1:npass,(length(A1k)+1):end)))) > del/518.95");
-endif
-
-% Find the diagonal of the Hessian of the complex response
-[Asq,gradAsq,diagHessAsq]=...
-  schurOneMPAlatticeAsq(wplot,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
-
-% Check the diagonal of the Hessian of the squared-magnitude response wrt A1k
-del=1e-6;
-delk=zeros(size(A1k));
-delk(1)=del/2;
-diff_gradAsqk=zeros(npass,size(A1k));
-for l=1:length(A1k)
-  [AsqkPdel2,gradAsqkPdel2]=...
-    schurOneMPAlatticeAsq(wplot(1:npass), ...
-                          A1k+delk,A1epsilon,A1p,A2k,A2epsilon,A2p);
-  [AsqkMdel2,gradAsqkMdel2]=...
-    schurOneMPAlatticeAsq(wplot(1:npass), ...
-                          A1k-delk,A1epsilon,A1p,A2k,A2epsilon,A2p);
-  delk=shift(delk,1);
-  diff_gradAsqk(:,l)=(gradAsqkPdel2(:,l)-gradAsqkMdel2(:,l))/del;
-endfor
-if max(max(abs(diff_gradAsqk-diagHessAsq(1:npass,1:length(A1k))))) > del/246.5
-  error("max(max(abs(diff_gradAsqk-\
-diagHessAsq(1:npass,1:length(A1k))))) > del/246.5");
-endif
-
-% Check the diagonal of the Hessian of the squared-magnitude response wrt A2k
-del=1e-6;
-delk=zeros(size(A2k));
-delk(1)=del/2;
-diff_gradAsqk=zeros(npass,size(A2k));
-for l=1:length(A2k)
-  [AsqkPdel2,gradAsqkPdel2]=...
-    schurOneMPAlatticeAsq(wplot(1:npass), ...
-                          A1k,A1epsilon,A1p,A2k+delk,A2epsilon,A2p);
-  [AsqkMdel2,gradAsqkMdel2]=...
-    schurOneMPAlatticeAsq(wplot(1:npass), ...
-                          A1k,A1epsilon,A1p,A2k-delk,A2epsilon,A2p);
-  delk=shift(delk,1);
-  diff_gradAsqk(:,l)=...
-    (gradAsqkPdel2(:,length(A1k)+l)-gradAsqkMdel2(:,length(A1k)+l))/del;
-endfor
-if max(max(abs(diff_gradAsqk-diagHessAsq(1:npass,(length(A1k)+1):end)))) ...
-   > del/46.57
-  error("max(max(abs(diff_gradAsqk-\
-diagHessAsq(1:npass,(length(A1k)+1):end)))) > del/46.57");
-endif
 
 % Done
 toc;

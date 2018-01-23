@@ -1,10 +1,10 @@
 deczky3a_socp_test_FIGURES = \
-deczky3a_socp_mmse_x1 \
-deczky3a_socp_mmse_x1pass \
-deczky3a_socp_mmse_x1pz \
-deczky3a_socp_pcls_d2 \
-deczky3a_socp_pcls_d2pass \
-deczky3a_socp_pcls_d2pz 
+deczky3a_socp_test_mmse_x1 \
+deczky3a_socp_test_mmse_x1pass \
+deczky3a_socp_test_mmse_x1pz \
+deczky3a_socp_test_pcls_d2 \
+deczky3a_socp_test_pcls_d2pass \
+deczky3a_socp_test_pcls_d2pz 
 
 deczky3a_socp_test_COEFS = \
 deczky3a_socp_test.mat \

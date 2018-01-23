@@ -2,9 +2,9 @@ function [Asq,gradAsq,diagHessAsq]=schurOneMlatticeAsq(w,k,epsilon,p,c)
 % [Asq,gradAsq,diagHessAsq]=schurOneMlatticeAsq(w,k,epsilon,p,c)
 % Calculate the squared-magnitude response and gradients of a Schur
 % one-multiplier lattice filter. If the order of the filter numerator
-% polynomial is N, then there are N+1 numerator tap coeficients, c.
+% polynomial is N, then there are N+1 numerator tap coefficients, c.
 % If the order of the denominator polynomial is Nk, then there are Nk
-% one-multiplier lattice section coeficients, k. The epsilon and p inputs
+% one-multiplier lattice section coefficients, k. The epsilon and p inputs
 % scale the internal nodes. 
 %
 % Inputs:
@@ -19,7 +19,7 @@ function [Asq,gradAsq,diagHessAsq]=schurOneMlatticeAsq(w,k,epsilon,p,c)
 %   gradAsq - the gradients of Asq with respect to k and c
 %   diagHessAsq - diagonal of the Hessian of Asq with respect to k and c
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

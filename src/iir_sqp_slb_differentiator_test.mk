@@ -1,10 +1,10 @@
 iir_sqp_slb_differentiator_test_FIGURES = \
-iir_sqp_slb_differentiator_initial_x0phase \
-iir_sqp_slb_differentiator_mmse_x1phase \
-iir_sqp_slb_differentiator_mmse_x1pz \
-iir_sqp_slb_differentiator_pcls_d1phase \
-iir_sqp_slb_differentiator_pcls_d1pz \
-iir_sqp_slb_differentiator_pcls_d1freqz
+iir_sqp_slb_differentiator_test_initial_x0phase \
+iir_sqp_slb_differentiator_test_mmse_x1phase \
+iir_sqp_slb_differentiator_test_mmse_x1pz \
+iir_sqp_slb_differentiator_test_pcls_d1phase \
+iir_sqp_slb_differentiator_test_pcls_d1pz \
+iir_sqp_slb_differentiator_test_pcls_d1freqz
 
 iir_sqp_slb_differentiator_test_COEFS = \
 iir_sqp_slb_differentiator_test.mat \

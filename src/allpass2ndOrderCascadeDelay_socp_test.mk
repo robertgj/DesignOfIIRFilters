@@ -1,12 +1,12 @@
 allpass2ndOrderCascadeDelay_socp_test_FIGURES = \
-allpass2ndOrderCascadeDelay_socp_a0 \
-allpass2ndOrderCascadeDelay_socp_a0phase \
-allpass2ndOrderCascadeDelay_socp_a1 \
-allpass2ndOrderCascadeDelay_socp_a1pass \
-allpass2ndOrderCascadeDelay_socp_a1pz \
-allpass2ndOrderCascadeDelay_socp_a1sqm \
-allpass2ndOrderCascadeDelay_socp_a1sqmpass \
-allpass2ndOrderCascadeDelay_socp_a1sqmpz
+allpass2ndOrderCascadeDelay_socp_test_a0 \
+allpass2ndOrderCascadeDelay_socp_test_a0phase \
+allpass2ndOrderCascadeDelay_socp_test_a1 \
+allpass2ndOrderCascadeDelay_socp_test_a1pass \
+allpass2ndOrderCascadeDelay_socp_test_a1pz \
+allpass2ndOrderCascadeDelay_socp_test_a1sqm \
+allpass2ndOrderCascadeDelay_socp_test_a1sqmpass \
+allpass2ndOrderCascadeDelay_socp_test_a1sqmpz
 
 allpass2ndOrderCascadeDelay_socp_test_COEFS = \
 allpass2ndOrderCascadeDelay_socp_test.mat \

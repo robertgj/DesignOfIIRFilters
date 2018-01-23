@@ -1,5 +1,5 @@
 % bitflip_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm
 
@@ -71,15 +71,15 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
-tstr=sprintf("bitflip\\_test: NS lattice,nbits=%d,bitstart=%d,msize=%d",
+strt=sprintf("bitflip\\_test: NS lattice,nbits=%d,bitstart=%d,msize=%d",
              nbits,bitstart,msize);
-title(tstr);
+title(strt);
 legend("exact","round","bitflip");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("bitflip_response","-dpdflatex");
+print("bitflip_test_response","-dpdflatex");
 close
 plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(h_rd)),"linestyle",":", ...
@@ -87,13 +87,13 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 fpass -3 3]);
-title(tstr);
+title(strt);
 legend("exact","round","bitflip");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("bitflip_passband_response","-dpdflatex");
+print("bitflip_test_passband_response","-dpdflatex");
 close
 
 % Perturb each coefficient. 

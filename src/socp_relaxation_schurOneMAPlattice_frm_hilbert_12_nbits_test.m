@@ -4,7 +4,7 @@
 % with 12-bit 3-signed-digit coefficients and an allpass model filter
 % implemented as a Schur one-multiplier lattice.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -38,6 +38,7 @@ v0 = [   0.0065311035,   0.0043827833,   0.0072166026,   0.0020996443, ...
 % Filter specification
 %
 tol=5e-5
+ctol=tol
 maxiter=2000
 verbose=false
 Mmodel=7; % Model filter decimation
@@ -103,11 +104,10 @@ kuv0_active=(1:(length(k0)+length(u0)+length(v0)))';
 dmax=inf;
 
 % Common strings
-strT= ...
+strt= ...
 sprintf("FRM Hilbert %%s %%s : Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d",...
         Mmodel,Dmodel,fap,fas,tp);
-strF= ...
-sprintf("socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test%%s");
+strf="socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test";
 
 % Initialise coefficient vectors
 Nk=length(k0);
@@ -125,7 +125,9 @@ Rv=(Nk+Nu+1):(Nk+Nu+Nv);
 if socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test_allocsd_Lim
   ndigits_alloc=schurOneMAPlattice_frm_hilbert_allocsd_Lim ...
                   (nbits,ndigits,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel, ...
-                   wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                   wa,Asqd,ones(size(Wa)), ...
+                   wt,Td,ones(size(Wt)), ...
+                   wp,Pd,ones(size(Wp)));
 elseif socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test_allocsd_Ito
   ndigits_alloc=schurOneMAPlattice_frm_hilbert_allocsd_Ito ...
                   (nbits,ndigits,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel, ...
@@ -146,15 +148,12 @@ u0_sd=kuv0_sd(Ru);
 u0_sd=u0_sd(:);
 v0_sd=kuv0_sd(Rv);
 v0_sd=v0_sd(:);
-printf("nscale*k0_sd_=[ ");printf("%g ",nscale*k0_sd');printf("]';\n");
-printf("nscale*u0_sd=[ ");printf("%g ",nscale*u0_sd');printf("]';\n");
-printf("nscale*v0_sd=[ ");printf("%g ",nscale*v0_sd');printf("]';\n");
-print_polynomial(nscale*k0_sd,sprintf("%d*k0_sd",nscale), ...
-                 sprintf(strF,"_k0_sd_coef.m"),"%6d");
-print_polynomial(nscale*u0_sd,sprintf("%d*u0_sd",nscale), ...
-                 sprintf(strF,"_u0_sd_coef.m"),"%6d");
-print_polynomial(nscale*v0_sd,sprintf("%d*v0_sd",nscale), ...
-                 sprintf(strF,"_v0_sd_coef.m"),"%6d");
+print_polynomial(k0_sd,"k0_sd",nscale);
+print_polynomial(k0_sd,"k0_sd",strcat(strf,"_k0_sd_coef.m"),nscale);
+print_polynomial(u0_sd,"u0_sd",nscale);
+print_polynomial(u0_sd,"u0_sd",strcat(strf,"_u0_sd_coef.m"),nscale);
+print_polynomial(v0_sd,"v0_sd",nscale);
+print_polynomial(v0_sd,"v0_sd",strcat(strf,"_v0_sd_coef.m"),nscale);
 
 % Initialise kuv_active
 kuv0_sdul=kuv0_sdu-kuv0_sdl;
@@ -231,7 +230,7 @@ while ~isempty(kuv_active)
        kuv_b(Rk),epsilon0,p0,kuv_b(Ru),kuv_b(Rv),Mmodel,Dmodel, ...
        kuv_bu,kuv_bl,kuv_active,dmax, ...
        wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-       maxiter,tol,verbose);
+       maxiter,tol,ctol,verbose);
   catch
     feasible=false;
     err=lasterror();
@@ -273,17 +272,14 @@ Esq_min=schurOneMAPlattice_frm_hilbertEsq ...
           (k_min,epsilon0,p_ones,u_min,v_min,Mmodel,Dmodel, ...
            wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
-printf("nscale*k_min=[ ");printf("%g ",nscale*k_min');printf("]';\n");
+print_polynomial(k_min,"k_min",nscale);
+print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
 printf("epsilon0=[ ");printf("%d ",epsilon0');printf("]';\n");
 printf("p_ones=[ ");printf("%g ",p_ones');printf("]';\n");
-printf("nscale*u_min=[ ");printf("%g ",nscale*u_min');printf("]';\n");
-printf("nscale*v_min=[ ");printf("%g ",nscale*v_min');printf("]';\n");
-print_polynomial(nscale*k_min,sprintf("%d*k_min",nscale), ...
-                 sprintf(strF,"_k_min_coef.m"),"%6d");
-print_polynomial(nscale*u_min,sprintf("%d*u_min",nscale), ...
-                 sprintf(strF,"_u_min_coef.m"),"%6d");
-print_polynomial(nscale*v_min,sprintf("%d*v_min",nscale), ...
-                 sprintf(strF,"_v_min_coef.m"),"%6d");
+print_polynomial(u_min,"u_min",nscale);
+print_polynomial(u_min,"u_min",strcat(strf,"_u_min_coef.m"),nscale);
+print_polynomial(v_min,"v_min",nscale);
+print_polynomial(v_min,"v_min",strcat(strf,"_v_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used
 [kuv_digits,kuv_adders]=SDadders(kuv_min(kuv0_active),nbits);
 printf("%d signed-digits used\n",kuv_digits);
@@ -322,7 +318,7 @@ printf("k,u,v_min:PS=[ ");printf("%f ",PS'/pi);
 printf("] (rad./pi) adjusted for delay\n");
                         
 % Make a LaTeX table for cost
-fid=fopen(sprintf(strF,"_kuv_min_cost.tab"),"wt");
+fid=fopen(strcat(strf,"_kuv_min_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
 fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd,kuv0_digits,kuv0_adders);
@@ -346,16 +342,16 @@ plot(wa*0.5/pi,10*log10(Asq_kuv0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_kuv_min),"linestyle","-.");
 legend("exact","s-d(Lim)","s-d(SOCP-relax)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strT=sprintf("FRM Hilbert filter (nbits=12) : \
+strt=sprintf("FRM Hilbert filter (nbits=12) : \
 fap=%g,fas=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g,Wpp=%g",fap,fas,dBap,Wap,tp,Wtp,Wpp);
-title(strT);
+title(strt);
 axis([0  0.5 -0.3 0.2]);
 grid("on");
-print(sprintf(strF,"_kuv_minAsq"),"-dpdflatex");
+print(strcat(strf,"_kuv_minAsq"),"-dpdflatex");
 close
 % Plot phase
 P_kuv0=schurOneMAPlattice_frm_hilbertP ...
@@ -369,14 +365,14 @@ plot(wp*0.5/pi,P_kuv0/pi,"linestyle","-", ...
      wp*0.5/pi,P_kuv_min/pi,"linestyle","-.");
 legend("exact","s-d(Lim)","s-d(SOCP-relax)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 ylabel("Phase(rad./pi)\n(Adjusted for delay)");
 xlabel("Frequency");
-title(strT);
+title(strt);
 axis([0 0.5 -0.505 -0.495]);
 grid("on");
-print(sprintf(strF,"_kuv_minP"),"-dpdflatex");
+print(strcat(strf,"_kuv_minP"),"-dpdflatex");
 close
 % Plot delay
 T_kuv0=schurOneMAPlattice_frm_hilbertT ...
@@ -390,20 +386,21 @@ plot(wt*0.5/pi,T_kuv0+tp,"linestyle","-", ...
      wt*0.5/pi,T_kuv_min+tp,"linestyle","-.");
 ylabel("Delay(Samples)");
 xlabel("Frequency");
-title(strT);
+title(strt);
 axis([0 0.5 78 80]);
 legend("exact","s-d(Lim)","s-d(SOCP-relax)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print(sprintf(strF,"_kuv_minT"),"-dpdflatex");
+print(strcat(strf,"_kuv_minT"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(sprintf(strF,".spec"),"wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"mr=%d %% Allpass model filter denominator order\n",mr);
 fprintf(fid,"Mmodel=%d %% Model filter FRM decimation factor\n",Mmodel);
@@ -427,9 +424,10 @@ fclose(fid);
 
 % Save results
 save socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test.mat ...
-     k0 epsilon0 p0 u0 v0 Mmodel Dmodel ...
-     n tol maxiter nbits ndigits ndigits_alloc dmax rho k_min u_min v_min ...
+     n tol ctol maxiter nbits ndigits ndigits_alloc dmax rho ...
      fap fas dBap Wap ftp fts tp tpr Wtp fpp fps pp ppr Wpp ...
+     k0 epsilon0 p0 u0 v0 Mmodel Dmodel ...
+     k_min u_min v_min ...
      k_min u_min v_min
        
 % Done

@@ -1,5 +1,5 @@
 % error_feedback_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -8,6 +8,8 @@ unlink("error_feedback_test.diary.tmp");
 diary error_feedback_test.diary.tmp
 
 format short e
+
+strf="error_feedback_test";
 
 % 6th order narrorband lowpass filter
 P=[0.9723-i*0.1989 0.9389-i*0.1623 0.9152-i*0.0646];
@@ -22,7 +24,7 @@ plot(w*0.5/pi,20*log10(abs(H)));
 axis([0 0.5 -60 3]);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-print("error_feedback_calculated_response","-dpdflatex");
+print(strcat(strf,"_calculated_response"),"-dpdflatex");
 close
 
 % Convert to direct form state-space filter
@@ -109,7 +111,7 @@ plot(nppts/nfpts,20*log10(abs(Hibf)));
 axis([0 0.5 -60 3]);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-print("error_feedback_simulated_input_balanced_response","-dpdflatex");
+print(strcat(strf,"_simulated_input_balanced_response"),"-dpdflatex");
 close
 
 % Estimate noise voltage with error feedback using the residue modes
@@ -156,7 +158,7 @@ plot(nppts/nfpts,20*log10(abs(Hpif)));
 axis([0 0.5 -60 3]);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-print("error_feedback_simulated_error_feedback_response","-dpdflatex");
+print(strcat(strf,"_simulated_error_feedback_response"),"-dpdflatex");
 close
 
 diary off

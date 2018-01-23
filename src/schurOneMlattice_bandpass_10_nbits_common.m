@@ -1,5 +1,5 @@
 % schurOneMlattice_bandpass_10_nbits_common.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 % Coefficients found by schurOneMlattice_sqp_slb_bandpass_test.m
 k0 = [   0.0000000000,   0.6700649121,   0.0000000000,   0.5095927841, ... 
@@ -27,6 +27,9 @@ c0 = [   0.0730774319,  -0.0057147055,  -0.2811046156,  -0.4868041665, ...
 % Bandpass filter specification
 if exist('tol','var')~=1
   tol=1e-4
+endif
+if exist('ctol','var')~=1
+  ctol=tol
 endif
 fapl=0.1,fapu=0.2,Wap=1
 if exist('dBap','var')~=1

@@ -12,7 +12,7 @@ function [A,B,C,D]=tfp2schurNSlattice2Abcd(n0,d0,p,s,delta)
 % IEEE Trans. Acoustics Speech and Signal Processing, Vol. 24 No. 6,
 % pp. 538-550, December 1976
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

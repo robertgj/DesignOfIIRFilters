@@ -1,5 +1,5 @@
 % schurOneMlattice_sqp_slb_hilbert_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -12,6 +12,7 @@ tic;
 format compact;
 
 tol=1e-4
+ctol=tol
 maxiter=5000
 verbose=false
 
@@ -26,14 +27,14 @@ w=pi*(0:(n-1))'/n;
 
 % Initial filter from tarczynski_hilbert_test.m
 R=2;
-n0 = [  -0.0579060701,  -0.0707488132,  -0.0092404640,  -0.0274579731, ...
-        -0.1104130391,  -0.4893854880,   0.8949334384,   1.0530071415, ...
-        -0.8682713761,  -0.4995254712,   0.1864234803,   0.0312522437, ...
-         0.0000000000 ]';
-d0 = [   1.0000000000,   0.0000000000,  -1.4115940676,   0.0000000000, ...
-         0.4595341482,   0.0000000000,  -0.0092849195,   0.0000000000, ...
-         0.0011168533,   0.0000000000,   0.0014520227,   0.0000000000, ...
-        -0.0018389921 ]';
+n0 = [ -0.0579060329, -0.0707485922, -0.0092411885, -0.0274591873, ...
+       -0.1104148108, -0.4893876574,  0.8949321301,  1.0529986698, ...
+       -0.8682556384, -0.4995082652,  0.1864128112,  0.0312466802, ...
+        0.0000000000 ]';
+d0 = [  1.0000000000,  0.0000000000, -1.4115743676,  0.0000000000, ...
+        0.4595123498,  0.0000000000, -0.0092821060,  0.0000000000, ...
+        0.0011188759,  0.0000000000,  0.0014499657,  0.0000000000, ...
+       -0.0018384568 ]';
 [k0,epsilon0,p0,c0]=tf2schurOneMlattice(n0,d0);
 Asq0=schurOneMlatticeAsq(w,k0,epsilon0,p0,c0);
 T0=schurOneMlatticeT(w,k0,epsilon0,p0,c0);
@@ -84,7 +85,7 @@ kc_l=-kc_u;
 kc_active=[find((k0)~=0);(Nk+(1:Nc))'];
 
 % Initialise strings
-strF=sprintf("schurOneMlattice_sqp_slb_hilbert_test_%%s");
+strf="schurOneMlattice_sqp_slb_hilbert_test";
 strM=sprintf("Hilbert filter %%s:\
 R=%d,ft1=%g,ft2=%g,tp=%g,Wap=%g,Wtp=%g,Wpp=%g",R,ft1,ft2,tp,Wap,Wtp,Wpp);
 strP=sprintf("Hilbert filter %%s:\
@@ -112,7 +113,7 @@ endif
 schurOneMlattice_sqp_slb_hilbert_plot ...
   (k1,epsilon1,p1,c1,wa,wt,wp, ...
    2*dBap,tp,2*tpr,2*pr,Asqdu,Asqdl,Tdu,Tdl,Pdu,Pdl,...
-   sprintf(strF,"mmse_k1c1"),sprintf(strM,"MMSE"));
+   strcat(strf,"_mmse_k1c1"),sprintf(strM,"MMSE"));
 
 %
 % SQP PCLS
@@ -125,7 +126,7 @@ tic;
                        wa,Asqd,Asqdu,Asqdl,Wa, ...
                        wt,Td,Tdu,Tdl,Wt, ...
                        wp,Pd,Pdu,Pdl,Wp, ...
-                       maxiter,tol,verbose);
+                       maxiter,tol,ctol,verbose);
 toc;
 if feasible == 0 
   error("k2p,c2p(pcls) infeasible");
@@ -136,13 +137,14 @@ endif
 schurOneMlattice_sqp_slb_hilbert_plot ...
   (k2,epsilon2,p2,c2,wa,wt,wp,1.25*dBap,tp,2*tpr,pr, ...
    Asqdu,Asqdl,Tdu,Tdl,Pdu,Pdl, ...
-   sprintf(strF,"pcls_k2c2"),sprintf(strP,"PCLS"));
+   strcat(strf,"_pcls_k2c2"),sprintf(strP,"PCLS"));
 
 %
 % Save the results
 %
-fid=fopen("schurOneMlattice_sqp_slb_hilbert_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"dmax=%f %% Constraint on norm of coefficient SQP step size\n",dmax);
 fprintf(fid,"rho=%f %% Constraint on lattice coefficient magnitudes\n",rho);
@@ -158,28 +160,27 @@ fprintf(fid,"pr=%g pi/2 %% Pass band peak-to-peak phase ripple\n",pr);
 fprintf(fid,"Wpp=%d %% Pass band phase weight\n",Wpp);
 fclose(fid);
 print_polynomial(k2,"k2");
-print_polynomial(k2,"k2","schurOneMlattice_sqp_slb_hilbert_test_k2_coef.m");
+print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
 print_polynomial(epsilon2,"epsilon2");
-print_polynomial(epsilon2,"epsilon2", ...
-                 "schurOneMlattice_sqp_slb_hilbert_test_epsilon2_coef.m","%2d");
+print_polynomial(epsilon2,"epsilon2",strcat(strf,"_epsilon2_coef.m"),"%2d");
 print_polynomial(p2,"p2");
-print_polynomial(p2,"p2","schurOneMlattice_sqp_slb_hilbert_test_p2_coef.m");
+print_polynomial(p2,"p2",strcat(strf,"_p2_coef.m"));
 print_polynomial(c2,"c2");
-print_polynomial(c2,"c2","schurOneMlattice_sqp_slb_hilbert_test_c2_coef.m");
+print_polynomial(c2,"c2",strcat(strf,"_c2_coef.m"));
 print_polynomial(n2,"n2");
-print_polynomial(n2,"n2","schurOneMlattice_sqp_slb_hilbert_test_n2_coef.m");
+print_polynomial(n2,"n2",strcat(strf,"_n2_coef.m"));
 print_polynomial(d2,"d2");
-print_polynomial(d2,"d2","schurOneMlattice_sqp_slb_hilbert_test_d2_coef.m");
+print_polynomial(d2,"d2",strcat(strf,"_d2_coef.m"));
 
 %
 % Save results
 %
 save schurOneMlattice_sqp_slb_hilbert_test.mat ...
-     tol n w n0 d0 k0 epsilon0 p0 c0 dmax rho ...
+     tol ctol n w n0 d0 k0 epsilon0 p0 c0 dmax rho ...
      dBap Wat Wap tp tpr Wtp pr Wpp ...
      k1 epsilon1 p1 c1 k2 epsilon2 p2 c2 n2 d2
 
 % Done
 diary off
 movefile schurOneMlattice_sqp_slb_hilbert_test.diary.tmp ...
-       schurOneMlattice_sqp_slb_hilbert_test.diary;
+         schurOneMlattice_sqp_slb_hilbert_test.diary;

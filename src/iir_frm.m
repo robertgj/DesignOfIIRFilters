@@ -20,7 +20,7 @@ function [Asq,T,gradAsq,gradT]=iir_frm(w,xk,U,V,M,Q,na,nc,Mmodel,Dmodel)
 %   gradAsq - gradient of Asq with respect to the coefficients at w
 %   gradT - gradient of T at w
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

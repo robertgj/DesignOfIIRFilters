@@ -1,5 +1,5 @@
 % complementaryFIRlatticeFilter_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -8,7 +8,8 @@ unlink("complementaryFIRlatticeFilter_test.diary.tmp");
 diary complementaryFIRlatticeFilter_test.diary.tmp
 
 format short e
-fstr="complementaryFIRlatticeFilter_test_%s";
+
+strf="complementaryFIRlatticeFilter_test";
 
 %{
 % Remez filter from Vaidyanathan Example 1
@@ -58,9 +59,9 @@ u=round(u*nscale);
 
 % Filter
 [ykrz ykrzhat xxkrz]=complementaryFIRlatticeFilter(krz,krzhat,u);
-print_polynomial(ykrz(1:256),"ykrz",sprintf(fstr,"ykrz.m"),"% 12.4f");
-print_polynomial(ykrzhat(1:256),"ykrzhat",sprintf(fstr,"ykrzhat.m"),"% 12.4f");
-print_polynomial(std(xxkrz),"stdxxkrz",sprintf(fstr,"stdxxkrz.m"),"% 12.4f");
+print_polynomial(ykrz(1:256),"ykrz",strcat(strf,"_ykrz.m"),"% 12.4f");
+print_polynomial(ykrzhat(1:256),"ykrzhat",strcat(strf,"_ykrzhat.m"),"% 12.4f");
+print_polynomial(std(xxkrz),"stdxxkrz",strcat(strf,"_stdxxkrz.m"),"% 12.4f");
 
 % Compare
 ybrz=filter(brz,1,u);
@@ -91,7 +92,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 legend("Hkrz","Hkrzhat");
 legend("location","east");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 subplot(212);
 plot(nppts/nfpts,abs(abs(Hkrz).^2+abs(Hkrzhat).^2));
@@ -99,7 +100,7 @@ axis([0 0.5 0.9 1.1])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hkrz|^2+|Hkrzhat|^2");
-print(sprintf(fstr,"krz_krzhat_response"),"-dpdflatex");
+print(strcat(strf,"_krz_krzhat_response"),"-dpdflatex");
 close
 
 % Filter with 3-signed-digit coefficients
@@ -108,11 +109,11 @@ sdkrz=flt2SD(krz,nbits,ndigits);
 sdkrzhat=flt2SD(krzhat,nbits,ndigits);
 [ysdkrz ysdkrzhat xxsdkrz] = ...
   complementaryFIRlatticeFilter(sdkrz,sdkrzhat,u,"round");
-print_polynomial(ysdkrz(1:256),"ysdkrz",sprintf(fstr,"ysdkrz.m"),"% 12.4f");
+print_polynomial(ysdkrz(1:256),"ysdkrz",strcat(strf,"_ysdkrz.m"),"% 12.4f");
 print_polynomial ...
-  (ysdkrzhat(1:256),"ysdkrzhat",sprintf(fstr,"ysdkrzhat.m"),"% 12.4f");
+  (ysdkrzhat(1:256),"ysdkrzhat",strcat(strf,"_ysdkrzhat.m"),"% 12.4f");
 print_polynomial ...
-  (std(xxsdkrz),"stdxxsdkrz",sprintf(fstr,"stdxxsdkrz.m"),"% 12.4f");
+  (std(xxsdkrz),"stdxxsdkrz",strcat(strf,"_stdxxsdkrz.m"),"% 12.4f");
 
 % Calculate frequency response
 nfpts=1024;
@@ -130,7 +131,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 legend("Hsdkrz","Hsdkrzhat");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 subplot(212);
 plot(nppts/nfpts,abs(abs(Hsdkrz).^2+abs(Hsdkrzhat).^2));
@@ -138,7 +139,7 @@ axis([0 0.5 0.9 1.1])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hsdkrz|^2+|Hsdkrzhat|^2");
-print(sprintf(fstr,"sdkrz_sdkrzhat_response"),"-dpdflatex");
+print(strcat(strf,"_sdkrz_sdkrzhat_response"),"-dpdflatex");
 close
 
 % Direct form filter with 3-signed-digit coefficients
@@ -164,7 +165,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 legend("Hsdbrz","Hsdbrzc");
 legend("location","southeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 subplot(212);
 plot(nppts/nfpts,abs(abs(Hsdbrz).^2+abs(Hsdbrzc).^2));
@@ -172,7 +173,7 @@ axis([0 0.5 0.9 1.1])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hsdbrz|^2+|Hsdbrzc|^2");
-print(sprintf(fstr,"sdbrz_sdbrzc_response"),"-dpdflatex");
+print(strcat(strf,"_sdbrz_sdbrzc_response"),"-dpdflatex");
 close
 
 % Filter a sine wave

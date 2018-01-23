@@ -1,5 +1,5 @@
 % decimator_R2_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Example of low-pass IIR decimator filter design using quasi-Newton
 % optimisation with constraints on the coefficients.
@@ -18,7 +18,7 @@ verbose=false
 tol_wise=1e-7
 tol_mmse=1e-5
 tol_pcls=2e-4
-
+ctol=tol_pcls
 maxiter=4000
 
 % Filter specifications (frequencies are normalised to the sample rate)
@@ -73,20 +73,20 @@ strM=sprintf("%%s:fap=%g,fas=%g,Was=%%g,ftp=%g,tp=%g,Wtp=%%g",...
              fap,fas,ftp,tp);
 strP=sprintf("%%s:fap=%g,dBap=%%g,fas=%g,dBas=%%g,Was=%%g,\
 ftp=%g,tp=%g,tpr=%%g,Wtp=%%g",fap,fas,ftp,tp);
-strd=sprintf("decimator_R2_%%s_%%s");
+strf="decimator_R2_test";
 
 % Initial filter
 [x0,Ex0]=xInitHd(xi,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,tol_wise);
 printf("x0=[ ");printf("%f ",x0');printf("]'\n");
 strMI=sprintf("Initial decimator R=2 : U=%d,V=%d,M=%d,Q=%d,R=%d", U,V,M,Q,R);
 showResponse(x0,U,V,M,Q,R,strMI);
-print(sprintf(strd,"initial","x0"),"-dpdflatex");
+print(strcat(strf,"_initial_x0"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-3,3,x0,U,V,M,Q,R,strMI);
-print(sprintf(strd,"initial","x0pass"),"-dpdflatex");
+print(strcat(strf,"_initial_x0pass"),"-dpdflatex");
 close
 showZPplot(x0,U,V,M,Q,R,strMI)
-print(sprintf(strd,"initial","x0pz"),"-dpdflatex");
+print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
 close
 
 % MMSE pass
@@ -102,13 +102,13 @@ endif
 printf("x1=[ ");printf("%f ",x1');printf("]'\n");
 strM1=sprintf(strM,"x1",Was,Wtp);
 showResponse(x1,U,V,M,Q,R,strM1);
-print(sprintf(strd,"mmse","x1"),"-dpdflatex");
+print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,x1,U,V,M,Q,R,strM1);
-print(sprintf(strd,"mmse","x1pass"),"-dpdflatex");
+print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 close
 showZPplot(x1,U,V,M,Q,R,strM1)
-print(sprintf(strd,"mmse","x1pz"),"-dpdflatex");
+print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
 
 % PCLS pass 1
@@ -117,19 +117,19 @@ printf("\nFinding PCLS d1, dBap=%f,Wap=%f,dBas=%f,Was=%f,tpr=%f,Wtp=%f\n",
 [d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
   iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
-          wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol_pcls,verbose)
+          wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol_pcls,ctol,verbose)
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
 strP1=sprintf(strP,"d1",dBap,dBas,Was,tpr,Wtp);
 showResponse(d1,U,V,M,Q,R,strP1);
-print(sprintf(strd,"pcls","d1"),"-dpdflatex");
+print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,d1,U,V,M,Q,R,strP1);
-print(sprintf(strd,"pcls","d1pass"),"-dpdflatex");
+print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 close
 showZPplot(d1,U,V,M,Q,R,strP1);
-print(sprintf(strd,"pcls","d1pz"),"-dpdflatex");
+print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
 
 %
@@ -151,11 +151,12 @@ printf("d1:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 
 % Save results
-fid=fopen("decimator_R2_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"tol_wise=%g %% Tolerance on WISE relative coef. update\n",tol_wise);
 fprintf(fid,"tol_mmse=%g %% Tolerance on MMSE relative coef. update\n",tol_mmse);
 fprintf(fid,"tol_pcls=%g %% Tolerance on PCLS relative coef. update\n",tol_pcls);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
 fprintf(fid,"dBap=%d %% Pass band amplitude peak-to-peak ripple\n",dBap);
 fprintf(fid,"Wap=%d %% Pass band weight\n",Wap);
@@ -174,15 +175,15 @@ fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fclose(fid);
 
 print_pole_zero(d1,U,V,M,Q,R,"d1");
-print_pole_zero(d1,U,V,M,Q,R,"d1","decimator_R2_test_d1_coef.m");
+print_pole_zero(d1,U,V,M,Q,R,"d1",strcat(strf,"_d1_coef.m"));
 [N1,D1]=x2tf(d1,U,V,M,Q,R);
 print_polynomial(N1,"N1");
-print_polynomial(N1,"N1","decimator_R2_test_N1_coef.m");
+print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
-print_polynomial(D1,"D1","decimator_R2_test_D1_coef.m");
+print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 save decimator_R2_test.mat n U V M Q R fap fas ftp tp ...
-     dBap dBas tpr Wap Was Wtp x0 x1 d1 tol_wise tol_wise tol_mmse tol_pcls
+     dBap dBas tpr Wap Was Wtp x0 x1 d1 tol_wise tol_wise tol_mmse tol_pcls ctol
 
 % Done
 toc;

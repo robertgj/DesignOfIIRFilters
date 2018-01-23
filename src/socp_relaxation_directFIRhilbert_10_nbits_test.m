@@ -1,5 +1,5 @@
 % socp_relaxation_directFIRhilbert_10_nbits_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 % Optimisation of Hilbert FIR filter response with 12-bit signed-digit
 % coefficients allocated with the heuristic of Ito et al. and SOCP relaxation

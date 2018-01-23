@@ -1,5 +1,5 @@
 % parallel_allpassAsq_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 % Check the squared-magnitude response and gradient for the parallel
 % combination of two allpass filters
 
@@ -56,6 +56,20 @@ maxAbsDelAsqeps=max(abs(Asqab_allpass-(abs(Hab_freqz(:)).^2)))/eps;
 if maxAbsDelAsqeps > 121
   error("max(abs(Asqab_allpass-(abs(Hab_freqz(:)).^2)))/eps(=%g) > 121",
         maxAbsDelAsqeps);
+endif
+
+% Repeat with polyphase=false,difference=true
+Babm=(conv(Ab,Ba)-conv(Bb,Aa))/2;
+Habm_freqz=freqz(Babm,Aab,w);
+Asqabm_freqz=abs(Habm_freqz).^2;
+% Use parallel_allpassAsq to find the squared-magnitude response
+aa_ab=[aa(:);ab(:);];
+Asqabm_allpass=parallel_allpassAsq(w,aa_ab,Va,Qa,Ra,Vb,Qb,Rb,false,true);
+% Compare the squared-amplitude responses
+maxAbsDelAsqM=max(abs(Asqabm_allpass-(abs(Habm_freqz(:)).^2)));
+if maxAbsDelAsqM > 107*eps
+  error("max(abs(Asqabm_allpass-(abs(Habm_freqz(:)).^2)))(=%g*eps) > 107*eps",
+        maxAbsDelAsqM/eps);
 endif
 
 %

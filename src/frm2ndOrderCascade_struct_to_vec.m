@@ -22,7 +22,7 @@ function [xk,mn,mr,na,nc]=frm2ndOrderCascade_struct_to_vec(x0)
 % In other words the denominator coefficient of z^0 is 1. The FIR
 % masking filters are assumed to be symmetric (linear phase).
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

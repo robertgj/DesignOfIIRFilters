@@ -1,11 +1,11 @@
 iir_sqp_slb_hilbert_test_FIGURES = \
-iir_sqp_slb_hilbert_initial_x0phase \
-iir_sqp_slb_hilbert_mmse_x1phase \
-iir_sqp_slb_hilbert_mmse_x1pz \
-iir_sqp_slb_hilbert_mmse_x1 \
-iir_sqp_slb_hilbert_pcls_d1phase \
-iir_sqp_slb_hilbert_pcls_d1pz \
-iir_sqp_slb_hilbert_pcls_d1
+iir_sqp_slb_hilbert_test_initial_x0phase \
+iir_sqp_slb_hilbert_test_mmse_x1phase \
+iir_sqp_slb_hilbert_test_mmse_x1pz \
+iir_sqp_slb_hilbert_test_mmse_x1 \
+iir_sqp_slb_hilbert_test_pcls_d1phase \
+iir_sqp_slb_hilbert_test_pcls_d1pz \
+iir_sqp_slb_hilbert_test_pcls_d1
 
 iir_sqp_slb_hilbert_test_COEFS = \
 iir_sqp_slb_hilbert_test.mat \

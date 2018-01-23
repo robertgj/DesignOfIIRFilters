@@ -1,6 +1,6 @@
 tarczynski_ex2_standalone_test_FIGURES = \
-tarczynski_ex2_standalone_response \
-tarczynski_ex2_standalone_pz
+tarczynski_ex2_standalone_test_response \
+tarczynski_ex2_standalone_test_pz
 
 tarczynski_ex2_standalone_test_COEFS = \
 tarczynski_ex2_standalone_test.mat \

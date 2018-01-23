@@ -17,7 +17,7 @@ function ndigits_alloc=schurOneMAPlattice_frm_hilbert_allocsd_Ito ...
 % Kenji Suyama and Ryuichi Hirabayashi.
 % http://www.eurasip.org/Proceedings/Eusipco/Eusipco2004/defevent/papers/cr1722.pdf
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

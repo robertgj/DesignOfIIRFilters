@@ -1,13 +1,13 @@
 decimator_R2_test_FIGURES = \
-decimator_R2_initial_x0 \
-decimator_R2_initial_x0pass \
-decimator_R2_initial_x0pz \
-decimator_R2_mmse_x1 \
-decimator_R2_mmse_x1pass \
-decimator_R2_mmse_x1pz \
-decimator_R2_pcls_d1 \
-decimator_R2_pcls_d1pass \
-decimator_R2_pcls_d1pz
+decimator_R2_test_initial_x0 \
+decimator_R2_test_initial_x0pass \
+decimator_R2_test_initial_x0pz \
+decimator_R2_test_mmse_x1 \
+decimator_R2_test_mmse_x1pass \
+decimator_R2_test_mmse_x1pz \
+decimator_R2_test_pcls_d1 \
+decimator_R2_test_pcls_d1pass \
+decimator_R2_test_pcls_d1pz
 
 decimator_R2_test_COEFS = \
 decimator_R2_test.mat \

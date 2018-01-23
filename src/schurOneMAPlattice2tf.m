@@ -4,7 +4,7 @@ function r=schurOneMAPlattice2tf(k,epsilon,p,R)
 % one-multiplier lattice with coefficients k and epsilon, scaling p
 % and terms in z^R.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

@@ -1,5 +1,5 @@
 % deczky3_socp_bfgs_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -10,8 +10,11 @@ diary deczky3_socp_bfgs_test.diary.tmp
 format compact
 
 tol=1e-6
+ctol=tol
 maxiter=2000
 verbose=false
+
+strf="deczky3_socp_bfgs_test";
 
 %
 % Deczky3 Lowpass filter specification
@@ -80,17 +83,16 @@ start_time=time();
 if feasible == 0 
   error("x1(MMSE-BFGS) infeasible");
 endif
-strF=sprintf("deczky3_socp_bfgs_test_%%s");
 strM=sprintf("Deczky Ex.3(MMSE-SOCP-BFGS):\
 fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g",fap,Wap,fas,Was,ftp,tp,Wtp);
 showResponse(x1,U,V,M,Q,R,strM);
-print(sprintf(strF,"mmse_x1"),"-dpdflatex");
+print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
 showResponsePassBands(0,fap,-3,3,x1,U,V,M,Q,R,strM);
-print(sprintf(strF,"mmse_x1pass"),"-dpdflatex");
+print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 close
 showZPplot(x1,U,V,M,Q,R,strM);
-print(sprintf(strF,"mmse_x1pz"),"-dpdflatex");
+print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
 
 %
@@ -101,7 +103,7 @@ printf("\nPCLS pass:\n");
   iir_slb(@iir_socp_bfgs,x1,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol,verbose);
+          maxiter,tol,ctol,verbose);
 if feasible == 0 
   error("d2 (PCLS-BFGS) infeasible");
 endif
@@ -110,13 +112,13 @@ printf("Deczky Ex.3 lowpass d2 (PCLS-SOCP-BFGS) feasible after %d seconds!\n",
 strP=sprintf("Deczky Ex.3(PCLS-BFGS):fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,\
 Was=%g,ftp=%g,tp=%g,tpr=%g,Wtp=%g",fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
 showResponse(d2,U,V,M,Q,R,strP);
-print(sprintf(strF,"pcls_d2"),"-dpdflatex");
+print(strcat(strf,"_pcls_d2"),"-dpdflatex");
 close
 showResponsePassBands(0,ftp,-2*dBap,dBap,d2,U,V,M,Q,R,strP);
-print(sprintf(strF,"pcls_d2pass"),"-dpdflatex");
+print(strcat(strf,"_pcls_d2pass"),"-dpdflatex");
 close
 showZPplot(d2,U,V,M,Q,R,strP);
-print(sprintf(strF,"pcls_d2pz"),"-dpdflatex");
+print(strcat(strf,"_pcls_d2pz"),"-dpdflatex");
 close
 
 %
@@ -140,7 +142,7 @@ printf("d2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 %
 % Save results
 %
-fid=fopen("deczky3_socp_bfgs_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"U=%d %% Number of real zeros\n",U);
 fprintf(fid,"V=%d %% Number of real poles\n",V);
 fprintf(fid,"M=%d %% Number of complex zeros\n",M);
@@ -148,6 +150,7 @@ fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
 fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"tol=%g %% Tolerance on relative coefficient update size\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
 fprintf(fid,"dBap=%d %% Pass band amplitude peak-to-peak ripple\n",dBap);
 fprintf(fid,"Wap=%d %% Pass band weight\n",Wap);
@@ -161,16 +164,16 @@ fprintf(fid,"Was=%d %% Stop band amplitude weight\n",Was);
 fclose(fid);
 
 print_pole_zero(d2,U,V,M,Q,R,"d2");
-print_pole_zero(d2,U,V,M,Q,R,"d2","deczky3_socp_bfgs_test_d2_coef.m");
+print_pole_zero(d2,U,V,M,Q,R,"d2",strcat(strf,"_d2_coef.m"));
 
 [N2,D2]=x2tf(d2,U,V,M,Q,R);
 print_polynomial(N2,"N2");
-print_polynomial(N2,"N2","deczky3_socp_bfgs_test_N2_coef.m");
+print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
 print_polynomial(D2,"D2");
-print_polynomial(D2,"D2","deczky3_socp_bfgs_test_D2_coef.m");
+print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
 save deczky3_socp_bfgs_test.mat U V M Q R x0 ...
-     n tol maxiter fap dBap Wap fas dBas Was ftp tp tpr Wtp x1 d2 N2 D2
+     n tol ctol maxiter fap dBap Wap fas dBas Was ftp tp tpr Wtp x1 d2 N2 D2
 
 %
 % Done

@@ -1,5 +1,5 @@
 % branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 % Branch-and-bound search of Schur one-multiplier lattice bandpass filter
 % response with 10-bit signed-digit coefficients and Ito et al. allocation
@@ -13,6 +13,9 @@ diary branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test.diary.tmp
 tic;
 
 format compact
+
+% Common strings
+strf="branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test";
 
 %
 % Options
@@ -39,12 +42,12 @@ u0 = [  -0.0009005864,  -0.0025457761,  -0.0071130803,  -0.0128019220, ...
          0.4398895843 ]';
 v0 = [   0.0065311035,   0.0043827833,   0.0072166026,   0.0020996443, ... 
         -0.0078831931,  -0.0311746387,  -0.0808425030,  -0.3143749022 ]';
-
 %
 % Filter specification
 %
 n=800
 tol=1e-5
+ctol=tol
 maxiter=2000
 verbose=false
 nbits=12 % Coefficient length
@@ -109,13 +112,6 @@ kuv0_l=-kuv0_u;
 kuv0_active=(1:(length(k0)+length(u0)+length(v0)))';
 dmax=inf;
 
-% Common strings
-strT= ...
-sprintf("FRM Hilbert %%s %%s : Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d",...
-        Mmodel,Dmodel,fap,fas,tp);
-strF= ...
-sprintf("branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test%%s");
-
 % Initialise coefficient vectors
 Nk=length(k0);
 Nu=length(u0);
@@ -132,7 +128,9 @@ Rv=(Nk+Nu+1):(Nk+Nu+Nv);
 if branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test_allocsd_Lim
   ndigits_alloc=schurOneMAPlattice_frm_hilbert_allocsd_Lim ...
                   (nbits,ndigits,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel, ...
-                   wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                   wa,Asqd,ones(size(Wa)), ...
+                   wt,Td,ones(size(Wt)), ...
+                   wp,Pd,ones(size(Wp)));
 elseif branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test_allocsd_Ito
   ndigits_alloc=schurOneMAPlattice_frm_hilbert_allocsd_Ito ...
                   (nbits,ndigits,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel, ...
@@ -153,15 +151,12 @@ u0_sd=kuv0_sd(Ru);
 u0_sd=u0_sd(:);
 v0_sd=kuv0_sd(Rv);
 v0_sd=v0_sd(:);
-printf("nscale*k0_sd_=[ ");printf("%g ",nscale*k0_sd');printf("]';\n");
-printf("nscale*u0_sd=[ ");printf("%g ",nscale*u0_sd');printf("]';\n");
-printf("nscale*v0_sd=[ ");printf("%g ",nscale*v0_sd');printf("]';\n");
-print_polynomial(nscale*k0_sd,sprintf("%d*k0_sd",nscale), ...
-                 sprintf(strF,"_k0_sd_coef.m"),"%6d");
-print_polynomial(nscale*u0_sd,sprintf("%d*u0_sd",nscale), ...
-                 sprintf(strF,"_u0_sd_coef.m"),"%6d");
-print_polynomial(nscale*v0_sd,sprintf("%d*v0_sd",nscale), ...
-                 sprintf(strF,"_v0_sd_coef.m"),"%6d");
+print_polynomial(k0_sd,"k0_sd",nscale);
+print_polynomial(k0_sd,"k0_sd",strcat(strf,"_k0_sd_coef.m"),nscale);
+print_polynomial(u0_sd,"u0_sd",nscale);
+print_polynomial(u0_sd,"u0_sd",strcat(strf,"_u0_sd_coef.m"),nscale);
+print_polynomial(v0_sd,"v0_sd",nscale);
+print_polynomial(v0_sd,"v0_sd",strcat(strf,"_v0_sd_coef.m"),nscale);
 
 % Initialise kuv_active
 kuv0_sdul=kuv0_sdu-kuv0_sdl;
@@ -302,18 +297,18 @@ else
     endif
     printf("kuv_depth=%d\n",kuv_depth);
     printf("kuv_active=[ ");printf("%d ",kuv_active);printf("];\n");
-    printf("kuv_b=[ ");printf("%g ",nscale*kuv_b');printf("]'/nscale;\n");
+    printf("kuv_b=[ ");printf("%g ",nscale*kuv_b');printf("]'/%d;\n",nscale);
 
     % Try to solve the current sub-problem
     try  
       % Find the SQP PCLS solution for the remaining active coefficents
-    [nextk,nextu,nextv,slb_iter,opt_iter,func_iter,feasible] = ...
-    schurOneMAPlattice_frm_hilbert_slb ...
-      (@schurOneMAPlattice_frm_hilbert_socp_mmse, ...
-       kuv_b(Rk),epsilon0,p0,kuv_b(Ru),kuv_b(Rv),Mmodel,Dmodel, ...
-       kuv_bu,kuv_bl,kuv_active,dmax, ...
-       wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-       maxiter,tol,verbose);
+      [nextk,nextu,nextv,slb_iter,opt_iter,func_iter,feasible] = ...
+        schurOneMAPlattice_frm_hilbert_slb ...
+          (@schurOneMAPlattice_frm_hilbert_socp_mmse, ...
+           kuv_b(Rk),epsilon0,p0,kuv_b(Ru),kuv_b(Rv),Mmodel,Dmodel, ...
+           kuv_bu,kuv_bl,kuv_active,dmax, ...
+           wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+           maxiter,tol,ctol,verbose);
    catch
       feasible=false;
       warning("Branch and bound SQP failed!\n");
@@ -366,16 +361,17 @@ else
         P=schurOneMAPlattice_frm_hilbertP ...
               (wp,k_b,epsilon0,p0,u_b,v_b,Mmodel,Dmodel);
         vS=schurOneMAPlattice_frm_hilbert_slb_update_constraints ...
-             (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,tol);
-        if ~schurOneMAPlattice_slb_constraints_are_empty(vS)
+             (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,ctol);
+        if ~schurOneMAPlattice_frm_hilbert_slb_constraints_are_empty(vS)
           printf("At maximum depth constraints are not empty!\n");
-          schurOneMAPlattice_slb_show_constraints(vS);
+          schurOneMAPlattice_frm_hilbert_slb_show_constraints(vS);
         endif
       else
-        vS=schurOneMAPlattice_slb_set_empty_constraints();
+        vS=schurOneMAPlattice_frm_hilbert_slb_set_empty_constraints();
       endif
       % Update the best solution
-      if Esq<Esq_min && schurOneMAPlattice_slb_constraints_are_empty(vS)
+      if Esq<Esq_min && ...
+         schurOneMAPlattice_frm_hilbert_slb_constraints_are_empty(vS)
         improved_solution_found=true;
         Esq_min=Esq;
         kuv_min=kuv_b;
@@ -383,9 +379,9 @@ else
         u_min=u_b;
         v_min=v_b;
         printf("Improved solution: kuv_depth=%d,Esq_min=%g\n",kuv_depth,Esq_min);
-        printf("nscale*k_min=[ ");printf("%g ",nscale*k_min');printf("]';\n");
-        printf("nscale*u_min=[ ");printf("%g ",nscale*u_min');printf("]';\n");
-        printf("nscale*v_min=[ ");printf("%g ",nscale*v_min');printf("]';\n");
+        print_polynomial(k_min,"k_min",nscale);
+        print_polynomial(u_min,"u_min",nscale);
+        print_polynomial(v_min,"v_min",nscale);
       endif
     endif
 
@@ -397,23 +393,20 @@ endif
 % Show results
 if improved_solution_found
   printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
-  printf("k_min=[ ");printf("%g ",nscale*k_min');printf("]'/nscale;\n");
+  print_polynomial(k_min,"k_min",nscale);
+  print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
   printf("epsilon0=[ ");printf("%d ",epsilon0');printf("]';\n");
   printf("p0=[ ");printf("%g ",p0');printf("]';\n");
-  printf("u_min=[ ");printf("%g ",nscale*u_min');printf("]'/nscale;\n");
-  printf("v_min=[ ");printf("%g ",nscale*v_min');printf("]'/nscale;\n");
+  print_polynomial(u_min,"u_min",nscale);
+  print_polynomial(u_min,"u_min",strcat(strf,"_u_min_coef.m"),nscale);
+  print_polynomial(v_min,"v_min",nscale);
+  print_polynomial(v_min,"v_min",strcat(strf,"_v_min_coef.m"),nscale);
   print_polynomial(k_allocsd_digits,"k_allocsd_digits", ...
-                   sprintf(strF,"_k_allocsd_digits.m"),"%2d");
-  print_polynomial(nscale*k_min,sprintf("%d*k_min",nscale), ...
-                   sprintf(strF,"_k_min_coef.m"),"%6d");
+                   strcat(strf,"_k_allocsd_digits.m"),"%2d");
   print_polynomial(u_allocsd_digits,"u_allocsd_digits", ...
-                   sprintf(strF,"_u_allocsd_digits.m"),"%2d");
-  print_polynomial(nscale*u_min,sprintf("%d*u_min",nscale), ...
-                   sprintf(strF,"_u_min_coef.m"),"%6d");
-  print_polynomial(u_allocsd_digits,"v_allocsd_digits", ...
-                   sprintf(strF,"_v_allocsd_digits.m"),"%2d");
-  print_polynomial(nscale*u_min,sprintf("%d*v_min",nscale), ...
-                   sprintf(strF,"_v_min_coef.m"),"%6d");
+                   strcat(strf,"_u_allocsd_digits.m"),"%2d");
+  print_polynomial(v_allocsd_digits,"v_allocsd_digits", ...
+                   strcat(strf,"_v_allocsd_digits.m"),"%2d");
   % Find the number of signed-digits adders used
   [kuv_digits,kuv_adders]=SDadders(kuv_min(kuv0_active),nbits);
   printf("%d signed-digits used\n",kuv_digits);
@@ -469,7 +462,7 @@ if improved_solution_found
        wa*0.5/pi,10*log10(Asq_kuv_min),"-.");
   legend("s-d(remez)","s-d(SOCP-bb)");
   legend("location","north");
-  legend("Boxoff");
+  legend("boxoff");
   legend("left");
   ylabel("Amplitude(dB)");
   xlabel("Frequency");
@@ -481,7 +474,7 @@ if improved_solution_found
   xlabel("Frequency");
   axis([0 0.5 -0.502 -0.498]);
   grid("on");
-  print(sprintf(strF,"_remez"),"-dpdflatex");
+  print(strcat(strf,"_remez"),"-dpdflatex");
   close
   % Find the number of signed-digits used
   [b_digits,b_adders]=SDadders(b_sd(1:(tp+1)),nbits);
@@ -497,7 +490,7 @@ if improved_solution_found
   %
   % Make a LaTeX table for cost
   %
-  fid=fopen(sprintf(strF,"_cost.tab"),"wt");
+  fid=fopen(strcat(strf,"_cost.tab"),"wt");
   fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
   fprintf(fid,"%d-bit %d-signed-digit&%8.6f & %d & %d \\\\\n",
           nbits,ndigits,Esq0_sd,kuv0_digits,kuv0_adders);
@@ -523,16 +516,16 @@ if improved_solution_found
        wa*0.5/pi,10*log10(Asq_kuv_min),"linestyle","-.");
   legend("exact","s-d","s-d(SOCP-bb)");
   legend("location","north");
-  legend("Boxoff");
+  legend("boxoff");
   legend("left");
   ylabel("Amplitude(dB)");
   xlabel("Frequency");
-  strT=sprintf("FRM Hilbert filter (nbits=12) : \
+  strt=sprintf("FRM Hilbert filter (nbits=12) : \
 fap=%g,fas=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g,Wpp=%g",fap,fas,dBap,Wap,tp,Wtp,Wpp);
-  title(strT);
+  title(strt);
   axis([0  0.5 -0.2 0.2]);
   grid("on");
-  print(sprintf(strF,"_kuv_minAsq"),"-dpdflatex");
+  print(strcat(strf,"_kuv_minAsq"),"-dpdflatex");
   close
   % Plot phase
   P_kuv0=schurOneMAPlattice_frm_hilbertP ...
@@ -546,14 +539,14 @@ fap=%g,fas=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g,Wpp=%g",fap,fas,dBap,Wap,tp,Wtp,Wpp);
        wp*0.5/pi,P_kuv_min/pi,"linestyle","-.");
   legend("exact","s-d","s-d(SOCP-bb)");
   legend("location","north");
-  legend("Boxoff");
+  legend("boxoff");
   legend("left");
   ylabel("Phase(rad./pi)\n(Adjusted for delay)");
   xlabel("Frequency");
-  title(strT);
+  title(strt);
   axis([0 0.5 -0.505 -0.495]);
   grid("on");
-  print(sprintf(strF,"_kuv_minP"),"-dpdflatex");
+  print(strcat(strf,"_kuv_minP"),"-dpdflatex");
   close
   % Plot delay
   T_kuv0=schurOneMAPlattice_frm_hilbertT ...
@@ -567,14 +560,14 @@ fap=%g,fas=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g,Wpp=%g",fap,fas,dBap,Wap,tp,Wtp,Wpp);
        wt*0.5/pi,T_kuv_min+tp,"linestyle","-.");
   ylabel("Delay(Samples)");
   xlabel("Frequency");
-  title(strT);
+  title(strt);
   axis([0 0.5 78 80]);
   legend("exact","s-d","s-d(SOCP-bb)");
   legend("location","north");
-  legend("Boxoff");
+  legend("boxoff");
   legend("left");
   grid("on");
-  print(sprintf(strF,"_kuv_minT"),"-dpdflatex");
+  print(strcat(strf,"_kuv_minT"),"-dpdflatex");
   close
 
 else
@@ -582,9 +575,10 @@ else
 endif
 
 % Filter specification
-fid=fopen(sprintf(strF,".spec"),"wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"mr=%d %% Allpass model filter denominator order\n",mr);
 fprintf(fid,"Mmodel=%d %% Model filter FRM decimation factor\n",Mmodel);
@@ -609,12 +603,13 @@ fclose(fid);
 % Save results
 save branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test.mat ...
      k0 epsilon0 p0 u0 v0 Mmodel Dmodel ...
-     n tol maxiter nbits ndigits ndigits_alloc dmax rho k_min u_min v_min ...
+     n tol ctol maxiter nbits ndigits ndigits_alloc dmax rho  ...
      fap fas dBap Wap ftp fts tp tpr Wtp fpp fps pp ppr Wpp ...
-     use_best_branch_and_bound_found improved_solution_found k_min u_min 
+     use_best_branch_and_bound_found improved_solution_found ...
+     k_min u_min v_min
        
 % Done
 toc;
 diary off
 movefile branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test.diary.tmp ...
-       branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test.diary;
+         branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test.diary;

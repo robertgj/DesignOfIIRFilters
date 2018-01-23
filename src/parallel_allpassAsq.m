@@ -1,5 +1,6 @@
-function [Asq, gradAsq]=parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase)
-% [Asq, gradAsq]=parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase)
+function [Asq, gradAsq]=parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb, ...
+                                            polyphase,difference)
+% [Asq, gradAsq]=parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference)
 % Calculate the squared-magnitude response and gradient of the
 % squared-magnitude response of the parallel combination of two
 % allpass filters.
@@ -13,6 +14,7 @@ function [Asq, gradAsq]=parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase)
 %  Rb - filter b is in terms of z^Rb
 %  polyphase - return the response for the polyphase combination
 %              (Ra=Rb=2 only)
+%  difference - return the response for the difference of the all-pass filters
 %
 % Outputs;
 %  Asq - the squared-magnitude response of the parallel combination of
@@ -20,7 +22,7 @@ function [Asq, gradAsq]=parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase)
 %  gradAsq - the gradient of Asq with respect to the coefficients of
 %           filters a and b
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -40,12 +42,15 @@ function [Asq, gradAsq]=parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin != 8) && (nargin != 9)
+  if (nargin != 8) && (nargin != 9) && (nargin != 10)
     print_usage("[Asq,gradAsq] = ...\n\
-      parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase)");
+      parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference)");
   endif
   if nargin == 8
     polyphase = false;
+    difference = false;
+  elseif nargin == 9
+    difference = false;
   endif
   if polyphase && (Ra != 2) && (Rb != 2)
     error("For polyphase combination Ra=2 and Rb=2 only!");
@@ -68,8 +73,13 @@ function [Asq, gradAsq]=parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase)
   if polyphase
     Pb = Pb - w(:);
   endif
-  
-  Asq = 0.5*(ones(length(w),1)+cos(Pa-Pb));
-  gradAsq = -0.5*kron(sin(Pa-Pb),ones(1,length(ab))).*[gradPa, -gradPb];
+
+  if difference
+    Asq = 0.5*(ones(length(w),1)-cos(Pa-Pb));
+    gradAsq =  0.5*kron(sin(Pa-Pb),ones(1,length(ab))).*[gradPa, -gradPb];
+  else
+    Asq = 0.5*(ones(length(w),1)+cos(Pa-Pb));
+    gradAsq = -0.5*kron(sin(Pa-Pb),ones(1,length(ab))).*[gradPa, -gradPb];
+  endif
 
 endfunction

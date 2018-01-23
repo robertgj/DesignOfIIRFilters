@@ -1,5 +1,5 @@
 % freq_transform_structure_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -8,6 +8,8 @@ unlink("freq_transform_structure_test.diary.tmp");
 diary freq_transform_structure_test.diary.tmp
 
 format short
+
+strf="freq_transform_structure_test";
 
 % Filter specification
 fap=0.25;tp=3;R=2;nN=8;nD=4;
@@ -41,10 +43,10 @@ plot(0.5*w/pi,20*log10(abs(h)));
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 axis([0 0.5 -50 5]);
-tstrL=sprintf("Low-pass prototype : fap=%1.2f", fap);
-title(tstrL);
+strt=sprintf("Low-pass prototype : fap=%1.2f", fap);
+title(strt);
 grid("on");
-print("freq_transform_structure_lowpass_response","-dpdflatex");
+print(strcat(strf,"_lowpass_response"),"-dpdflatex");
 close
 
 % Do a frequency transformation
@@ -54,10 +56,10 @@ pA=phi2p([0.1 0.25]);
 plot(0.5*w/pi,20*log10(abs(hftA)));
 ylabel("Amplitude(dB)")
 axis([0 0.5 -50 5]);
-tstrA=sprintf("pA=phi2p([0.1 0.25])=[%1.2f %1.2f %1.2f]",pA(1),pA(2),pA(3));
-title(tstrA);
+strt=sprintf("pA=phi2p([0.1 0.25])=[%1.2f %1.2f %1.2f]",pA(1),pA(2),pA(3));
+title(strt);
 grid("on");
-print("freq_transform_structure_bandpass_A_response","-dpdflatex");
+print(strcat(strf,"_bandpass_A_response"),"-dpdflatex");
 close
 
 % Do a second frequency transformation
@@ -68,10 +70,10 @@ plot(0.5*w/pi,20*log10(abs(hftB)))
 ylabel("Amplitude(dB)")
 xlabel("Normalised Frequency")
 axis([0 0.5 -50 5]);
-tstrB=sprintf("pB=phi2p([0.2 0.3])=[%1.2f %1.2f %1.2f]",pB(1),pB(2),pB(3));
-title(tstrB);
+strt=sprintf("pB=phi2p([0.2 0.3])=[%1.2f %1.2f %1.2f]",pB(1),pB(2),pB(3));
+title(strt);
 grid("on");
-print("freq_transform_structure_bandpass_B_response","-dpdflatex");
+print(strcat(strf,"_bandpass_B_response"),"-dpdflatex");
 close
 
 % Results
@@ -87,4 +89,4 @@ print_polynomial(dRftB,"dRftB");
 % Done
 diary off
 movefile freq_transform_structure_test.diary.tmp ...
-       freq_transform_structure_test.diary;
+         freq_transform_structure_test.diary;

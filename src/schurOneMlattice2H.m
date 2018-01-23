@@ -20,7 +20,7 @@ function [H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2,diagd3Hdwdkc2] = ...
 %  diagd3Hdwdkc2 - complex matrix of the diagonal of the matrix of second
 %                  derivatives of H wrt [k,c] and wrt w
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

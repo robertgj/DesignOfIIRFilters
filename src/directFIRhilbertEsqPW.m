@@ -11,7 +11,7 @@ function [Esq,gradEsq,Q,q]=directFIRhilbertEsqPW(hM,waf,Adf,Waf)
 %   gradEsq - gradient of the squared error value at hM, a row vector
 %   Q,q - gradEsq=2*hM'*Q+2*q where hM is Mx1, q is 1xM and Q is MxM
   
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

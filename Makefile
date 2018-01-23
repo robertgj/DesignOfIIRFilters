@@ -14,20 +14,26 @@ OCTAVE_SCRIPTS = \
  allpass2ndOrderCascade_socp_sqmag_test \
  allpass2ndOrderCascade_socp_test \
  bincoeff_test \
- bitflip_NSPA_lattice_test \
- bitflip_NS_lattice_test \
- bitflip_OneMPA_lattice_test \
- bitflip_OneM_lattice_test \
- bitflip_bandpass_NS_lattice_test \
- bitflip_bandpass_OneM_lattice_test \
- bitflip_bandpass_direct_test \
- bitflip_bandpass_schur_FIR_lattice_test \
- bitflip_svcasc_test \
+ bitflip_schurNSPAlattice_lowpass_test \
+ bitflip_schurNSlattice_lowpass_test \
+ bitflip_schurOneMPAlattice_lowpass_test \
+ bitflip_schurOneMlattice_lowpass_test \
+ bitflip_schurNSlattice_bandpass_test \
+ bitflip_schurOneMlattice_bandpass_test \
+ bitflip_directFIRsymmetric_bandpass_test \
+ bitflip_directIIR_bandpass_test \
+ bitflip_schurFIRlattice_bandpass_test \
+ bitflip_svcasc_lowpass_test \
  bitflip_test \
- branch_bound_bandpass_OneM_lattice_10_nbits_test \
- branch_bound_bandpass_OneM_lattice_6_nbits_test \
+ branch_bound_directFIRhilbert_12_nbits_test \
+ branch_bound_directFIRsymmetric_bandpass_8_nbits_test \
+ branch_bound_schurOneMlattice_bandpass_10_nbits_test \
+ branch_bound_schurOneMlattice_bandpass_6_nbits_test \
+ branch_bound_schurOneMlattice_bandpass_8_nbits_test \
+ branch_bound_schurOneMPAlattice_bandpass_12_nbits_test \
  branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test \
  branch_bound_schurOneMPAlattice_lowpass_12_nbits_test \
+ branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test \
  butt3NSPA_test \
  butt3NSSV_test \
  butt3NS_test \
@@ -41,11 +47,15 @@ OCTAVE_SCRIPTS = \
  deczky3_sqp_test \
  deczky3a_socp_test \
  deczky3a_sqp_test \
- de_min_NSPA_lattice_test \
- de_min_NS_lattice_test \
- de_min_OneMPA_lattice_test \
- de_min_OneM_lattice_test \
- de_min_svcasc_test \
+ de_min_schurNSPAlattice_lowpass_test \
+ de_min_schurNSlattice_lowpass_test \
+ de_min_schurOneMPAlattice_lowpass_test \
+ de_min_schurOneMlattice_lowpass_test \
+ de_min_svcasc_lowpass_test \
+ directFIRhilbert_slb_test \
+ directFIRsymmetric_bandpass_allocsd_test \
+ directFIRsymmetric_slb_bandpass_test \
+ directFIRsymmetric_slb_lowpass_test \
  error_feedback_test \
  freq_transform_structure_test \
  frm2ndOrderCascade_socp_test \
@@ -73,16 +83,18 @@ OCTAVE_SCRIPTS = \
  octave_info_test \
  parallel_allpass_delay_socp_slb_test \
  parallel_allpass_delay_sqp_slb_test \
+ parallel_allpass_socp_slb_bandpass_test \
+ parallel_allpass_socp_slb_bandpass_alternate_test \
  parallel_allpass_socp_slb_flat_delay_test \
  parallel_allpass_socp_slb_test \
  polyphase_allpass_socp_slb_flat_delay_test \
  polyphase_allpass_socp_slb_test \
- pop_relaxation_bandpass_OneM_lattice_10_nbits_test \
- samin_NSPA_lattice_test \
- samin_NS_lattice_test \
- samin_OneMPA_lattice_test \
- samin_OneM_lattice_test \
- samin_svcasc_test \
+ pop_relaxation_schurOneMlattice_bandpass_10_nbits_test \
+ samin_schurNSPAlattice_lowpass_test \
+ samin_schurNSlattice_lowpass_test \
+ samin_schurOneMPAlattice_lowpass_test \
+ samin_schurOneMlattice_lowpass_test \
+ samin_svcasc_lowpass_test \
  schurNSlattice_sqp_slb_lowpass_test \
  schurOneMAPlattice_frm_halfband_socp_slb_test \
  schurOneMAPlattice_frm_hilbert_socp_slb_test \
@@ -92,25 +104,32 @@ OCTAVE_SCRIPTS = \
  schurOneMlattice_sqp_slb_bandpass_test \
  schurOneMlattice_sqp_slb_hilbert_test \
  schurOneMlattice_sqp_slb_lowpass_test \
+ schurOneMPAlattice_socp_slb_bandpass_test \
  schurOneMPAlattice_socp_slb_lowpass_test \
  schurOneMR2lattice2Abcd_test \
  schur_retimed_test \
+ sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test \
+ sdp_relaxation_directFIRhilbert_12_nbits_test \
  sedumi_test \
- simplex_NSPA_lattice_test \
- simplex_NS_lattice_test \
- simplex_OneMPA_lattice_test \
- simplex_OneM_lattice_test \
- simplex_svcasc_test \
- socp_relaxation_gaussian_FIR_lattice_16_nbits_test \
- socp_relaxation_hilbert_OneM_lattice_10_nbits_test \
+ simplex_schurNSPAlattice_lowpass_test \
+ simplex_schurNSlattice_lowpass_test \
+ simplex_schurOneMPAlattice_lowpass_test \
+ simplex_schurOneMlattice_lowpass_test \
+ simplex_svcasc_lowpass_test \
+ socp_relaxation_directFIRhilbert_12_nbits_test \
+ socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test \
+ socp_relaxation_schurFIRlattice_gaussian_16_nbits_test \
+ socp_relaxation_schurOneMlattice_hilbert_10_nbits_test \
+ socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test \
  socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test \
  socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test \
  sparsePOP_test \
  spectralfactor_test \
  sqp_bfgs_test \
  sqp_gi_test \
- sqp_relaxation_bandpass_OneM_lattice_10_nbits_test \
- sqp_relaxation_lowpass_OneM_lattice_10_nbits_test \
+ sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test \
+ sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test \
+ sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test \
  sv2block_test \
  svcasc2noise_example_test \
  tarczynski_ex2_standalone_test \
@@ -174,12 +193,13 @@ CLEAN_AEGIS_SUFFIXES= \,D \,B
 # Command definitions
 #
 OCTAVE_FLAGS=-q
-OCTAVE=/usr/bin/octave-cli $(OCTAVE_FLAGS)
-PDFLATEX=/usr/bin/pdflatex -interaction=nonstopmode --synctex=1
-BIBTEX=/usr/bin/bibtex
-QPDF=/usr/bin/qpdf
-#EXTRA_CXXFLAGS=-g -fsanitize=undefined -fsanitize=address -fno-sanitize=vptr \
-#               -fno-omit-frame-pointer
+OCTAVE=octave-cli $(OCTAVE_FLAGS)
+MKOCTFILE=mkoctfile
+PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1
+BIBTEX=bibtex
+QPDF=qpdf
+#XCXXFLAGS=-g -fsanitize=undefined -fsanitize=address -fno-sanitize=vptr \
+#             -fno-omit-frame-pointer
 
 #
 # Rules
@@ -203,7 +223,7 @@ QPDF=/usr/bin/qpdf
 #   operf octave file_test.m
 #   opannotate --source file.oct
 %.oct : %.cc
-	mkoctfile -v -o $@ -march=native -O2 -Wall $(EXTRA_CXXFLAGS) -lgmp -lmpfr $^
+	$(MKOCTFILE) -v -o $@ -march=native -O2 -Wall $(XCXXFLAGS) -lgmp -lmpfr $^
 
 #
 # Macros and templates
@@ -243,7 +263,10 @@ $(TARGET).pdf: $(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
 	$(BIBTEX)   $(TARGET) && \
 	$(PDFLATEX) $(TARGET) && \
 	$(PDFLATEX) $(TARGET) && \
-	$(PDFLATEX) $(TARGET) 
+	$(PDFLATEX) $(TARGET)
+	-for warnstr in "No\ file" ull arning; do \
+		grep "$$warnstr" DesignOfIIRFilters.log ; \
+	done
 
 #
 # PHONY targets

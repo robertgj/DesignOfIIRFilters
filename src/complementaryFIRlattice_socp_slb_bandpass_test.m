@@ -1,5 +1,5 @@
 % complementaryFIRlattice_socp_slb_bandpass_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -12,10 +12,11 @@ script_id=tic;
 format compact
 
 tol=1e-6
+ctol=tol
 maxiter=2000
 verbose=false
 
-% Bandpass minimum-phase filter specification
+% Filter specification from complementaryFIRlattice_socp_slb_bandpass_test.m
 Ud0=2;Vd0=0;Md0=14;Qd0=0;Rd0=1;
 d0 = [   0.0920209477, ...
          0.9990000000,   0.5128855702, ...
@@ -81,9 +82,9 @@ kkhat_l=-kkhat_u;
 kkhat_active=[find(k0~=0),(Nk+find(khat0~=0))];
 kkhat_active=kkhat_active(:);
 % Common strings
-strT=sprintf("%%s:fsl=%g,fpl=%g,fpu=%g,fsu=%g,dBap=%g,dBas=%g,tp=%g",
+strt=sprintf("%%s:fsl=%g,fpl=%g,fpu=%g,fsu=%g,dBap=%g,dBas=%g,tp=%g",
              fsl,fpl,fpu,fsu,dBap,dBas,tp);
-strF="complementaryFIRlattice_socp_slb_bandpass_test";
+strf="complementaryFIRlattice_socp_slb_bandpass_test";
 
 % Plot the initial response
 Asq_plot=complementaryFIRlatticeAsq(wplot,k0,khat0);
@@ -94,7 +95,7 @@ plot(wplot*0.5/pi,10*log10(Asq_plot));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -40 5]);
 grid("on");
-title(sprintf(strT,"Initial"));
+title(sprintf(strt,"Initial"));
 subplot(312);
 plot(wplot*0.5/pi,T_plot);
 ylabel("Group delay(samples)");
@@ -106,7 +107,7 @@ ylabel("Phase(rad./pi)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([0 0.5 0 2]);
 grid("on");
-print(strcat(strF,"_initial_response"),"-dpdflatex");
+print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 
 %
@@ -133,7 +134,7 @@ plot(wplot*0.5/pi,10*log10(Asq_plot));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -40 5]);
 grid("on");
-title(sprintf(strT,"MMSE"));
+title(sprintf(strt,"MMSE"));
 subplot(312);
 plot(wplot*0.5/pi,T_plot);
 ylabel("Group delay(samples)");
@@ -145,7 +146,7 @@ ylabel("Phase(rad./pi)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([0 0.5 0 2]);
 grid("on");
-print(strcat(strF,"_mmse_response"),"-dpdflatex");
+print(strcat(strf,"_mmse_response"),"-dpdflatex");
 close
 
 %
@@ -158,7 +159,7 @@ run_id=tic;
                               wa,Asqd,Asqdu,Asqdl,Wa, ...
                               wt,Td,Tdu,Tdl,Wt, ...
                               wp,Pd,Pdu,Pdl,Wp, ...
-                              maxiter,tol,verbose);
+                              maxiter,tol,ctol,verbose);
 toc(run_id);
 if feasible == 0 
   error("k2,khat2(pcls) infeasible");
@@ -172,7 +173,7 @@ plot(wplot*0.5/pi,10*log10(Asq_plot));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -40 5]);
 grid("on");
-title(sprintf(strT,"PCLS"));
+title(sprintf(strt,"PCLS"));
 subplot(312);
 plot(wplot*0.5/pi,T_plot);
 ylabel("Group delay(samples)");
@@ -184,7 +185,7 @@ ylabel("Phase(rad./pi)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([0 0.5 0 2]);
 grid("on");
-print(strcat(strF,"_pcls_response"),"-dpdflatex");
+print(strcat(strf,"_pcls_response"),"-dpdflatex");
 close
 
 %
@@ -216,8 +217,9 @@ printf("kkhat2:PS=[ ");printf("%f ",PS');printf(" (samples)\n");
 %
 % Save the results
 %
-fid=fopen(strcat(strF,".spec"),"wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"nplot=%d %% Frequency points across the band\n",nplot);
 fprintf(fid,"length(k1)=%d %% Num. FIR lattice coefficients\n",length(k1));
 fprintf(fid,"sum(k1~=0)=%d %% Num. non-zero FIR lattice coef.s\n",sum(k1~=0));
@@ -237,15 +239,15 @@ fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple\n",ppr);
 fprintf(fid,"Wpp=%d %% Phase pass band weight\n",Wpp);
 fclose(fid);
 print_polynomial(k1,"k1");
-print_polynomial(k1,"k1",strcat(strF,"_k1_coef.m"));
+print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"));
 print_polynomial(khat1,"khat1");
-print_polynomial(khat1,"khat1",strcat(strF,"_khat1_coef.m"));
+print_polynomial(khat1,"khat1",strcat(strf,"_khat1_coef.m"));
 print_polynomial(k2,"k2");
-print_polynomial(k2,"k2",strcat(strF,"_k2_coef.m"));
+print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
 print_polynomial(khat2,"khat2");
-print_polynomial(khat2,"khat2",strcat(strF,"_khat2_coef.m"));
+print_polynomial(khat2,"khat2",strcat(strf,"_khat2_coef.m"));
 save complementaryFIRlattice_socp_slb_bandpass_test.mat ...
-     tol fsl fpl fpu fsu dBap Wap dBas Wasl Wasu tp tpr Wtp ppr Wpp ...
+     tol ctol fsl fpl fpu fsu dBap Wap dBas Wasl Wasu tp tpr Wtp ppr Wpp ...
      k1 khat1 k2 khat2
 
 % Done

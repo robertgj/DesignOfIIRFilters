@@ -1,5 +1,5 @@
 % allpass2ndOrderCascade_socp_sqmag_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -25,9 +25,9 @@ Wp=1
 fs=0.17
 Ws=550
 % Initial coefficients found by tarczynski_allpass2ndOrderCascade_test.m
-ab0 = [  -0.6072795804,  -0.9413237228,   0.6742760957,  -0.9162288796, ... 
-          0.6044224510,  -1.0937288714,   0.4439831105,  -1.1393166543, ... 
-          0.9000202847,  -0.8261206530,   0.6286102108 ]';
+ab0 = [  -0.6475200974,  -1.0286245304,   0.5495778602,  -0.9796121901, ... 
+          0.8253740677,  -1.0564090211,   0.4203096538,  -1.0164740576, ... 
+          0.8100941289,  -1.1075302979,   0.8738056038 ]';
 a0=ab0(1:ma);
 b0=ab0((ma+1):end);
 
@@ -43,7 +43,7 @@ Ad=[exp(-j*w(1:np)*td);zeros(n-np,1)];
 W=[Wp*ones(np,1);zeros(ns-np-1,1);Ws*ones(n-ns+1,1)];
 
 % Common strings
-strd=sprintf("allpass2ndOrderCascade_socp_sqmag_%%s");
+strf="allpass2ndOrderCascade_socp_sqmag_test";
 
 % Plot initial response
 Da0=casc2tf(a0);
@@ -77,7 +77,7 @@ plot(wplot*0.5/pi,Tab0);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"ab0"),"-dpdflatex");
+print(strcat(strf,"_ab0"),"-dpdflatex");
 close
 
 % SOCP 
@@ -118,7 +118,7 @@ plot(wplot*0.5/pi,Tab1);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"ab1"),"-dpdflatex");
+print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 % Plot passband response
 subplot(211);
@@ -133,13 +133,13 @@ ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 fp]);
 grid("on");
-print(sprintf(strd,"ab1pass"),"-dpdflatex");
+print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 % Plot poles and zeros
 subplot(111);
 zplane(roots(Nab1),roots(Dab1));
 title(s);
-print(sprintf(strd,"ab1pz"),"-dpdflatex");
+print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 % Dual plot
 npp=ceil(fp*nplot/0.5)+1;
@@ -158,7 +158,7 @@ axis(ax(2),[0 0.5 -90 -80]);
 ylabel("Amplitude(dB)");
 grid("on");
 title(s);
-print(sprintf(strd,"ab1dual"),"-dpdflatex");
+print(strcat(strf,"_ab1dual"),"-dpdflatex");
 close
 
 % Comparison with elliptic filter
@@ -183,7 +183,7 @@ xlabel("Frequency");
 ylabel("Stop-band amplitude(dB)");
 axis([fas 0.5 -90 -80]);
 grid("on");
-print(sprintf(strd,"ellip"),"-dpdflatex");
+print(strcat(strf,"_ellip"),"-dpdflatex");
 close
 % Dual plot
 clf
@@ -199,18 +199,18 @@ axis(ax(1),[0 0.5 -0.025 0]);
 axis(ax(2),[0 0.5 -90 -80]);
 ylabel("Amplitude(dB)");
 grid("on");
-print(sprintf(strd,"ellipdual"),"-dpdflatex");
+print(strcat(strf,"_ellipdual"),"-dpdflatex");
 close
 % Pole zero plot
 subplot(111);
 zplane(roots(Nellip),roots(Dellip));
 strt=sprintf("Order %d elliptic filter pole-zero plot : fap=%g,dBap=%g,dBas=%d",
              ma+mb,fap,dBap,dBas);
-print(sprintf(strd,"ellippz"),"-dpdflatex");
+print(strcat(strf,"_ellippz"),"-dpdflatex");
 close
 
 % Save specification
-fid=fopen("allpass2ndOrderCascade_socp_sqmag_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%5.1g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ma=%d %% Order of filter A\n",ma);
 fprintf(fid,"mb=%d %% Order of filter B\n",mb);
@@ -225,13 +225,13 @@ fclose(fid);
 
 % Save results
 print_polynomial(a1,"a1");
-print_polynomial(a1,"a1","allpass2ndOrderCascade_socp_sqmag_test_a1_coef.m");
+print_polynomial(a1,"a1",strcat(strf,"_a1_coef.m"));
 print_polynomial(b1,"b1");
-print_polynomial(b1,"b1","allpass2ndOrderCascade_socp_sqmag_test_b1_coef.m");
+print_polynomial(b1,"b1",strcat(strf,"_b1_coef.m"));
 print_polynomial(Da1,"Da1");
-print_polynomial(Da1,"Da1","allpass2ndOrderCascade_socp_sqmag_test_Da1_coef.m");
+print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 print_polynomial(Db1,"Db1");
-print_polynomial(Db1,"Db1","allpass2ndOrderCascade_socp_sqmag_test_Db1_coef.m");
+print_polynomial(Db1,"Db1",strcat(strf,"_Db1_coef.m"));
 
 save allpass2ndOrderCascade_socp_sqmag_test.mat ...
      fp Wp fs Ws ab0 a1 b1 Da1 Db1 Nab1 Dab1
@@ -239,4 +239,5 @@ save allpass2ndOrderCascade_socp_sqmag_test.mat ...
 % Done
 toc;
 diary off
-movefile allpass2ndOrderCascade_socp_sqmag_test.diary.tmp allpass2ndOrderCascade_socp_sqmag_test.diary;
+movefile allpass2ndOrderCascade_socp_sqmag_test.diary.tmp ...
+         allpass2ndOrderCascade_socp_sqmag_test.diary;

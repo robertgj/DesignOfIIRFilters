@@ -1,5 +1,5 @@
-% bitflip_NSPA_lattice_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% bitflip_schurNSPAlattice_lowpass_test.m
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a 5th order elliptic filter implemented as the sum of two 
@@ -7,11 +7,13 @@
 
 test_common;
 
-unlink("bitflip_NSPA_lattice_test.diary");
-unlink("bitflip_NSPA_lattice_test.diary.tmp");
-diary bitflip_NSPA_lattice_test.diary.tmp
+unlink("bitflip_schurNSPAlattice_lowpass_test.diary");
+unlink("bitflip_schurNSPAlattice_lowpass_test.diary.tmp");
+diary bitflip_schurNSPAlattice_lowpass_test.diary.tmp
 
 truncation_test_common;
+
+strf="bitflip_schurNSPAlattice_lowpass_test";
 
 % Lattice decomposition
 [Aap1_0,Aap2_0]=tf2pa(n0,d0);
@@ -91,15 +93,15 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
-tstr=sprintf("5th order elliptic NS PA lattice: \
+strt=sprintf("5th order elliptic NS PA lattice: \
 nbits=%d,bitstart=%d,msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
-title(tstr);
+title(strt);
 legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("bitflip_NSPA_lattice_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Passband response
@@ -111,13 +113,13 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 fpass*1.1 -3 3]);
-title(tstr);
+title(strt);
 legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
 legend("location","northwest");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("bitflip_NSPA_lattice_passband_response","-dpdflatex");
+print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Results
@@ -137,7 +139,8 @@ print_polynomial(A2s20_bfsd,"A2s20_bfsd");
 print_polynomial(A2s00_bfsd,"A2s00_bfsd");
 print_polynomial(A2s02_bfsd,"A2s02_bfsd");
 print_polynomial(A2s22_bfsd,"A2s22_bfsd");
-save bitflip_NSPA_lattice_test.mat ...
+
+save bitflip_schurNSPAlattice_lowpass_test.mat ...
      A1s20_rd A1s00_rd A1s02_rd A1s22_rd ...
      A2s20_rd A2s00_rd A2s02_rd A2s22_rd ...
      A1s20_bf A1s00_bf A1s02_bf A1s22_bf ...
@@ -149,4 +152,5 @@ save bitflip_NSPA_lattice_test.mat ...
 
 % Done
 diary off
-movefile bitflip_NSPA_lattice_test.diary.tmp bitflip_NSPA_lattice_test.diary;
+movefile bitflip_schurNSPAlattice_lowpass_test.diary.tmp ...
+         bitflip_schurNSPAlattice_lowpass_test.diary;

@@ -1,5 +1,5 @@
 % sedumi_hash_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 % See: https://github.com/sqlp/sedumi/issues/15
 
 test_common;
@@ -16,13 +16,13 @@ sed_c = [0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1;0;0;0;0
 sed_K = struct(sprintf('f'), {0}, sprintf('l'), {17}, sprintf('q'), {[2 2 2 2 2 2 2 8]}, sprintf('r'), {0});
 pars = struct(sprintf('fid'), {0}, sprintf('maxiter'), {100});
 
-% run sedumi 200 times, and hash the output:
-for i=1:100
-  [x,y,info]  = sedumi(sed_A,sed_b,sed_c,sed_K,pars);
-  xstr=sprintf('%16.10g ',x);
-  myhash=hash ('md5', xstr);
-  if strcmp(myhash,'75afa9de7129edbd30e6b5e7cd0308f7')==false
-    error('Expected myhash to be 75afa9de7129edbd30e6b5e7cd0308f7');
+% Run sedumi 200 times, and hash the output:
+expected_hash='d50f2fb51d0c438fe218383a145f2534';
+for k=1:200
+  [x,y,info] = sedumi(sed_A,sed_b,sed_c,sed_K,pars);
+  myhash=hash ('md5', sprintf('%16.10g ',x));
+  if strcmp(myhash,expected_hash)==false
+    error('Expected myhash to be %s',expected_hash);
   endif
 end
 

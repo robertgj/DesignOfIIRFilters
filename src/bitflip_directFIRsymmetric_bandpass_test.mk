@@ -1,0 +1,30 @@
+bitflip_directFIRsymmetric_bandpass_test_FIGURES=\
+bitflip_directFIRsymmetric_bandpass_test_response \
+bitflip_directFIRsymmetric_bandpass_test_response_allocsd
+
+bitflip_directFIRsymmetric_bandpass_test_COEFS= \
+bitflip_directFIRsymmetric_bandpass_test.mat \
+bitflip_directFIRsymmetric_bandpass_test_adders_Ito.tab \
+bitflip_directFIRsymmetric_bandpass_test_adders_Lim.tab \
+bitflip_directFIRsymmetric_bandpass_test_bf_adders.tab \
+bitflip_directFIRsymmetric_bandpass_test_bfsd_adders.tab \
+bitflip_directFIRsymmetric_bandpass_test_bfsdt_adders.tab \
+bitflip_directFIRsymmetric_bandpass_test_bfsdt_digits.tab \
+bitflip_directFIRsymmetric_bandpass_test_bft_adders.tab \
+bitflip_directFIRsymmetric_bandpass_test_bft_digits.tab \
+bitflip_directFIRsymmetric_bandpass_test_cost.tab \
+bitflip_directFIRsymmetric_bandpass_test_hM_bf_coef.m \
+bitflip_directFIRsymmetric_bandpass_test_hM_bfsd_coef.m \
+bitflip_directFIRsymmetric_bandpass_test_hM_bfsdi_coef.m \
+bitflip_directFIRsymmetric_bandpass_test_hM_bfsdl_coef.m \
+bitflip_directFIRsymmetric_bandpass_test_hM_ex_coef.m \
+bitflip_directFIRsymmetric_bandpass_test_hM_rd_coef.m \
+bitflip_directFIRsymmetric_bandpass_test_hM_sd_coef.m \
+bitflip_directFIRsymmetric_bandpass_test_hM_sdi_coef.m \
+bitflip_directFIRsymmetric_bandpass_test_hM_sdl_coef.m
+
+bitflip_directFIRsymmetric_bandpass_test_FILES = \
+bitflip_directFIRsymmetric_bandpass_test.m test_common.m \
+bitflip_bandpass_test_common.m directFIRsymmetricA.m \
+print_polynomial.m flt2SD.m SDadders.m x2nextra.m \
+bin2SD.oct bitflip.oct bin2SPT.oct

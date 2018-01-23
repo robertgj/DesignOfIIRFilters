@@ -68,89 +68,89 @@ d =
 
    1.7932e+01  -4.9177e+00   5.9536e-01
 
-ngABCDopt =    1.4606e+00
-ngABCDoptf =    1.4556e+00
-est_nvABCDoptf =    4.5237e-01
-nvABCDoptf =    4.4377e-01
+ngABCDopt =    1.4662e+00
+ngABCDoptf =    7.1795e+00
+est_nvABCDoptf =    8.2560e-01
+nvABCDoptf =    6.0888e-01
 Ab =
 
  Columns 1 through 6:
 
-  -4.9168e-01  -3.2985e-02  -7.9082e-02  -9.4057e-02   5.1598e-02  -2.2462e-01
-   1.3169e-01  -6.1542e-01   1.3818e-01   9.7421e-02   2.2996e-01   2.7612e-01
-   7.6949e-02   1.2755e-01  -3.9799e-01   1.8665e-01   4.0771e-01  -2.8491e-03
-   1.3852e-01   1.6338e-01   1.9742e-01  -2.3298e-01  -9.8047e-02   3.9469e-01
-  -1.2949e-01  -6.3565e-02  -1.2361e-01   5.9549e-01  -5.8893e-01  -1.4409e-01
-  -8.2215e-02  -2.1399e-01  -2.0882e-01   2.1682e-02   3.8269e-01  -4.5416e-01
-   1.9705e-01  -3.9815e-01   1.8628e-01   1.1633e-01   1.2029e-02   1.0998e-01
-  -1.5497e-01  -4.2724e-02  -1.5394e-01   6.9770e-02  -7.9810e-02   3.3321e-01
+  -4.8711e-01  -6.4141e-02  -5.2425e-02  -1.3843e-01   3.6162e-02  -2.3818e-01
+   2.5127e-01  -6.0385e-01   1.2970e-01  -7.7810e-02   3.0256e-01   2.9088e-01
+   9.8315e-02   8.5509e-02  -4.0110e-01  -1.2656e-01   4.1895e-01  -8.6086e-02
+   1.9016e-01   1.5478e-01   1.3347e-01  -6.5476e-01  -8.7592e-02   3.3268e-01
+  -4.4329e-02   1.2867e-01  -3.3158e-02   4.1881e-01  -7.2991e-02   1.1075e-03
+  -1.3536e-01  -3.3604e-01  -1.8000e-01  -3.2448e-01   1.5516e-01  -5.7425e-01
+   2.6819e-01  -3.5013e-01   1.2084e-01   1.8165e-01   9.7807e-02   2.7340e-03
+  -1.3553e-01  -7.3841e-02  -8.6136e-02   1.4890e-01   1.2839e-01   3.2615e-01
 
  Columns 7 and 8:
 
-   4.1253e-02  -8.2172e-02
-   2.4260e-01  -1.6255e-01
-  -2.6986e-01   2.1069e-01
-  -1.2359e-02   1.0506e-01
-   7.0388e-02   7.8024e-02
-   1.7681e-02   9.8455e-02
-  -5.8877e-01   2.2386e-01
-   1.1498e-01  -2.6828e-01
+  -3.5824e-02  -2.1298e-02
+   2.3699e-01  -8.6947e-02
+  -3.0433e-01   1.6419e-01
+  -1.6144e-01   6.0195e-02
+   1.5817e-02   1.5977e-01
+  -9.9863e-04   4.7266e-02
+  -6.4115e-01   1.4537e-01
+   4.3482e-02  -2.0298e-01
 
 Bb =
 
  Columns 1 through 6:
 
-   6.1288e-02  -1.1635e-02  -8.7886e-02  -1.6156e-01  -2.2624e-01  -2.7547e-01
-  -2.5054e-01  -2.5098e-01  -2.3815e-01  -2.1294e-01  -1.7705e-01  -1.3284e-01
-  -1.2384e-01  -1.3641e-01  -1.4825e-01  -1.5671e-01  -1.5905e-01  -1.5278e-01
-  -3.3385e-02  -3.6559e-02  -5.0362e-02  -7.5880e-02  -1.1299e-01  -1.6018e-01
-  -2.3578e-01  -2.3471e-01  -2.2085e-01  -1.9623e-01  -1.6388e-01  -1.2753e-01
-   9.6828e-02   7.8344e-02   5.2863e-02   2.0799e-02  -1.7465e-02  -6.1626e-02
-  -9.9393e-02  -6.9530e-02  -4.1577e-02  -1.8155e-02  -1.2060e-03   8.1381e-03
-  -2.2201e-01  -2.6577e-01  -2.9682e-01  -3.1281e-01  -3.1272e-01  -2.9726e-01
+   2.2450e-02  -5.0175e-02  -1.2600e-01  -1.9867e-01  -2.6134e-01  -3.0712e-01
+  -1.9302e-01  -1.9359e-01  -1.8699e-01  -1.7402e-01  -1.5578e-01  -1.3346e-01
+  -1.4471e-01  -1.3485e-01  -1.2278e-01  -1.0773e-01  -8.9057e-02  -6.6405e-02
+   1.9816e-01   1.9532e-01   1.7285e-01   1.3156e-01   7.3981e-02   4.2621e-03
+  -1.5079e-01  -1.5834e-01  -1.6592e-01  -1.7545e-01  -1.8885e-01  -2.0767e-01
+   1.6741e-01   1.5375e-01   1.3227e-01   1.0392e-01   6.9666e-02   3.0270e-02
+  -5.0206e-02  -9.8664e-03   2.6021e-02   5.4211e-02   7.2382e-02   7.9347e-02
+  -2.3560e-01  -2.7255e-01  -2.9750e-01  -3.0870e-01  -3.0559e-01  -2.8909e-01
 
  Columns 7 through 12:
 
-  -3.0313e-01  -3.0406e-01  -2.7450e-01  -2.1268e-01  -1.1927e-01   2.2046e-03
-  -8.3030e-02  -3.0299e-02   2.3058e-02   7.5547e-02   1.2684e-01   1.7806e-01
-  -1.3589e-01  -1.0695e-01  -6.5118e-02  -9.9904e-03   5.8734e-02   1.4175e-01
-  -2.1444e-01  -2.7128e-01  -3.2483e-01  -3.6796e-01  -3.9255e-01  -3.8976e-01
-  -9.1044e-02  -5.7958e-02  -3.0894e-02  -1.1042e-02   2.2897e-03   1.2014e-02
-  -1.1145e-01  -1.6671e-01  -2.2710e-01  -2.9212e-01  -3.6087e-01  -4.3197e-01
-   9.5831e-03   3.5749e-03  -8.9029e-03  -2.6611e-02  -4.8373e-02  -7.3384e-02
-  -2.6899e-01  -2.3246e-01  -1.9411e-01  -1.6204e-01  -1.4552e-01  -1.5437e-01
+  -3.2964e-01  -3.2354e-01  -2.8500e-01  -2.1218e-01  -1.0561e-01   3.1581e-02
+  -1.0814e-01  -8.0577e-02  -5.0953e-02  -1.8670e-02   1.7832e-02   6.1198e-02
+  -3.9759e-02  -9.4193e-03   2.4163e-02   6.0712e-02   1.0060e-01   1.4544e-01
+  -7.2191e-02  -1.4915e-01  -2.2009e-01  -2.7878e-01  -3.1979e-01  -3.3903e-01
+  -2.3268e-01  -2.6350e-01  -2.9821e-01  -3.3306e-01  -3.6220e-01  -3.7757e-01
+  -1.3790e-02  -6.2414e-02  -1.1591e-01  -1.7495e-01  -2.4054e-01  -3.1386e-01
+   7.5139e-02   6.0954e-02   3.8949e-02   1.1933e-02  -1.7030e-02  -4.5044e-02
+  -2.6182e-01  -2.2819e-01  -1.9434e-01  -1.6800e-01  -1.5802e-01  -1.7387e-01
 
 Cb =
 
  Columns 1 through 6:
 
-   8.8464e-02  -6.7101e-02  -2.0084e-01  -9.7503e-02  -9.2652e-02  -1.3966e-03
-   6.5868e-02  -7.1791e-02  -1.6010e-01  -8.1097e-02  -7.7529e-02  -3.8906e-03
-   3.7611e-02  -8.0650e-02  -1.1881e-01  -7.1219e-02  -6.5191e-02  -4.2143e-03
-   7.3375e-03  -9.0350e-02  -7.8412e-02  -6.7454e-02  -5.5714e-02  -4.5408e-03
-  -2.1988e-02  -9.7956e-02  -4.0587e-02  -6.8742e-02  -4.8916e-02  -6.2246e-03
-  -4.8124e-02  -1.0114e-01  -7.0006e-03  -7.3645e-02  -4.4407e-02  -9.9684e-03
-  -6.9528e-02  -9.8332e-02   2.0906e-02  -8.0574e-02  -4.1655e-02  -1.5976e-02
-  -8.5293e-02  -8.8792e-02   4.2081e-02  -8.7971e-02  -4.0038e-02  -2.4089e-02
-  -9.5047e-02  -7.2633e-02   5.5976e-02  -9.4459e-02  -3.8907e-02  -3.3895e-02
-  -9.8852e-02  -5.0750e-02   6.2597e-02  -9.8939e-02  -3.7639e-02  -4.4812e-02
-  -9.7094e-02  -2.4693e-02   6.2491e-02  -1.0065e-01  -3.5692e-02  -5.6160e-02
-  -9.0387e-02   3.5161e-03   5.6684e-02  -9.9166e-02  -3.2651e-02  -6.7207e-02
+   2.3303e-02  -6.3524e-02  -2.1937e-01   6.0743e-03  -1.2718e-01   4.4876e-02
+   1.2741e-02  -6.8911e-02  -1.7417e-01   1.0077e-02  -1.0624e-01   3.6535e-02
+  -2.5743e-03  -7.8995e-02  -1.2681e-01   1.2533e-02  -9.0622e-02   3.2424e-02
+  -1.9632e-02  -9.0481e-02  -7.9649e-02   1.2730e-02  -8.0950e-02   3.0284e-02
+  -3.6161e-02  -1.0035e-01  -3.5060e-02   1.0371e-02  -7.6960e-02   2.8443e-02
+  -5.0601e-02  -1.0614e-01   4.7604e-03   5.4922e-03  -7.7764e-02   2.5737e-02
+  -6.2004e-02  -1.0607e-01   3.8011e-02  -1.6188e-03  -8.2084e-02   2.1430e-02
+  -6.9924e-02  -9.9237e-02   6.3420e-02  -1.0491e-02  -8.8456e-02   1.5148e-02
+  -7.4274e-02  -8.5592e-02   8.0326e-02  -2.0532e-02  -9.5398e-02   6.8184e-03
+  -7.5207e-02  -6.5901e-02   8.8701e-02  -3.1080e-02  -1.0155e-01  -3.3830e-03
+  -7.3009e-02  -4.1627e-02   8.9113e-02  -4.1453e-02  -1.0576e-01  -1.5069e-02
+  -6.8016e-02  -1.4740e-02   8.2641e-02  -5.0987e-02  -1.0718e-01  -2.7680e-02
 
  Columns 7 and 8:
 
-  -6.9447e-02  -2.1749e-02
-  -1.0162e-01  -6.3165e-02
-  -1.2001e-01  -9.2761e-02
-  -1.2472e-01  -1.1265e-01
-  -1.1688e-01  -1.2469e-01
-  -9.8540e-02  -1.3041e-01
-  -7.2453e-02  -1.3102e-01
-  -4.1793e-02  -1.2744e-01
-  -9.8754e-03  -1.2034e-01
-   2.0138e-02  -1.1022e-01
-   4.5502e-02  -9.7509e-02
-   6.4106e-02  -8.2614e-02
+  -6.3804e-02  -3.4693e-02
+  -8.6345e-02  -8.2017e-02
+  -9.7553e-02  -1.1490e-01
+  -9.7261e-02  -1.3548e-01
+  -8.6354e-02  -1.4582e-01
+  -6.6636e-02  -1.4787e-01
+  -4.0620e-02  -1.4336e-01
+  -1.1262e-02  -1.3383e-01
+   1.8331e-02  -1.2061e-01
+   4.5195e-02  -1.0482e-01
+   6.6783e-02  -8.7439e-02
+   8.1175e-02  -6.9277e-02
 
 Db =
 
@@ -184,10 +184,10 @@ Db =
    2.6939e-02   2.0803e-02   1.4232e-02   5.7233e-03   1.0375e-02   0.0000e+00
    3.3476e-02   2.6939e-02   2.0803e-02   1.4232e-02   5.7233e-03   1.0375e-02
 
-ngABCDbf =    1.2172e-01
-est_nvABCDbf =    3.0574e-01
-nvbf =    3.0754e-01
-nvccbf =    3.0754e-01
+ngABCDbf =    1.2218e-01
+est_nvABCDbf =    3.0580e-01
+nvbf =    3.0450e-01
+nvccbf =    3.0450e-01
 N=8,P=12
 For block length 1, multipliers/output=81.000000
 For block length 12, multipliers/output=27.833333
@@ -297,254 +297,256 @@ void filter_ellip8ABCD12_init(void)
 
 void filter_ellip8ABCD12(const WORD *u, WORD *y)
 {
-	static const WORD A_1_1 =    -63;
-	static const WORD A_1_2 =     -4;
-	static const WORD A_1_3 =    -10;
-	static const WORD A_1_4 =    -12;
-	static const WORD A_1_5 =      7;
-	static const WORD A_1_6 =    -29;
-	static const WORD A_1_7 =      5;
-	static const WORD A_1_8 =    -11;
-	static const WORD A_2_1 =     17;
-	static const WORD A_2_2 =    -79;
-	static const WORD A_2_3 =     18;
-	static const WORD A_2_4 =     12;
-	static const WORD A_2_5 =     29;
-	static const WORD A_2_6 =     35;
-	static const WORD A_2_7 =     31;
-	static const WORD A_2_8 =    -21;
-	static const WORD A_3_1 =     10;
-	static const WORD A_3_2 =     16;
+	static const WORD A_1_1 =    -62;
+	static const WORD A_1_2 =     -8;
+	static const WORD A_1_3 =     -7;
+	static const WORD A_1_4 =    -18;
+	static const WORD A_1_5 =      5;
+	static const WORD A_1_6 =    -30;
+	static const WORD A_1_7 =     -5;
+	static const WORD A_1_8 =     -3;
+	static const WORD A_2_1 =     32;
+	static const WORD A_2_2 =    -77;
+	static const WORD A_2_3 =     17;
+	static const WORD A_2_4 =    -10;
+	static const WORD A_2_5 =     39;
+	static const WORD A_2_6 =     37;
+	static const WORD A_2_7 =     30;
+	static const WORD A_2_8 =    -11;
+	static const WORD A_3_1 =     13;
+	static const WORD A_3_2 =     11;
 	static const WORD A_3_3 =    -51;
-	static const WORD A_3_4 =     24;
-	static const WORD A_3_5 =     52;
-	static const WORD A_3_7 =    -35;
-	static const WORD A_3_8 =     27;
-	static const WORD A_4_1 =     18;
-	static const WORD A_4_2 =     21;
-	static const WORD A_4_3 =     25;
-	static const WORD A_4_4 =    -30;
-	static const WORD A_4_5 =    -13;
-	static const WORD A_4_6 =     51;
-	static const WORD A_4_7 =     -2;
-	static const WORD A_4_8 =     13;
-	static const WORD A_5_1 =    -17;
-	static const WORD A_5_2 =     -8;
-	static const WORD A_5_3 =    -16;
-	static const WORD A_5_4 =     76;
-	static const WORD A_5_5 =    -75;
-	static const WORD A_5_6 =    -18;
-	static const WORD A_5_7 =      9;
-	static const WORD A_5_8 =     10;
-	static const WORD A_6_1 =    -11;
-	static const WORD A_6_2 =    -27;
-	static const WORD A_6_3 =    -27;
-	static const WORD A_6_4 =      3;
-	static const WORD A_6_5 =     49;
-	static const WORD A_6_6 =    -58;
-	static const WORD A_6_7 =      2;
-	static const WORD A_6_8 =     13;
-	static const WORD A_7_1 =     25;
-	static const WORD A_7_2 =    -51;
-	static const WORD A_7_3 =     24;
-	static const WORD A_7_4 =     15;
-	static const WORD A_7_5 =      2;
-	static const WORD A_7_6 =     14;
-	static const WORD A_7_7 =    -75;
-	static const WORD A_7_8 =     29;
-	static const WORD A_8_1 =    -20;
-	static const WORD A_8_2 =     -5;
-	static const WORD A_8_3 =    -20;
-	static const WORD A_8_4 =      9;
-	static const WORD A_8_5 =    -10;
-	static const WORD A_8_6 =     43;
-	static const WORD A_8_7 =     15;
-	static const WORD A_8_8 =    -34;
-	static const WORD b_1_1 =      8;
-	static const WORD b_1_2 =     -1;
-	static const WORD b_1_3 =    -11;
-	static const WORD b_1_4 =    -21;
-	static const WORD b_1_5 =    -29;
-	static const WORD b_1_6 =    -35;
-	static const WORD b_1_7 =    -39;
-	static const WORD b_1_8 =    -39;
-	static const WORD b_1_9 =    -35;
+	static const WORD A_3_4 =    -16;
+	static const WORD A_3_5 =     54;
+	static const WORD A_3_6 =    -11;
+	static const WORD A_3_7 =    -39;
+	static const WORD A_3_8 =     21;
+	static const WORD A_4_1 =     24;
+	static const WORD A_4_2 =     20;
+	static const WORD A_4_3 =     17;
+	static const WORD A_4_4 =    -84;
+	static const WORD A_4_5 =    -11;
+	static const WORD A_4_6 =     43;
+	static const WORD A_4_7 =    -21;
+	static const WORD A_4_8 =      8;
+	static const WORD A_5_1 =     -6;
+	static const WORD A_5_2 =     16;
+	static const WORD A_5_3 =     -4;
+	static const WORD A_5_4 =     54;
+	static const WORD A_5_5 =     -9;
+	static const WORD A_5_7 =      2;
+	static const WORD A_5_8 =     20;
+	static const WORD A_6_1 =    -17;
+	static const WORD A_6_2 =    -43;
+	static const WORD A_6_3 =    -23;
+	static const WORD A_6_4 =    -42;
+	static const WORD A_6_5 =     20;
+	static const WORD A_6_6 =    -74;
+	static const WORD A_6_8 =      6;
+	static const WORD A_7_1 =     34;
+	static const WORD A_7_2 =    -45;
+	static const WORD A_7_3 =     15;
+	static const WORD A_7_4 =     23;
+	static const WORD A_7_5 =     13;
+	static const WORD A_7_7 =    -82;
+	static const WORD A_7_8 =     19;
+	static const WORD A_8_1 =    -17;
+	static const WORD A_8_2 =     -9;
+	static const WORD A_8_3 =    -11;
+	static const WORD A_8_4 =     19;
+	static const WORD A_8_5 =     16;
+	static const WORD A_8_6 =     42;
+	static const WORD A_8_7 =      6;
+	static const WORD A_8_8 =    -26;
+	static const WORD b_1_1 =      3;
+	static const WORD b_1_2 =     -6;
+	static const WORD b_1_3 =    -16;
+	static const WORD b_1_4 =    -25;
+	static const WORD b_1_5 =    -33;
+	static const WORD b_1_6 =    -39;
+	static const WORD b_1_7 =    -42;
+	static const WORD b_1_8 =    -41;
+	static const WORD b_1_9 =    -36;
 	static const WORD b_1_10 =    -27;
-	static const WORD b_1_11 =    -15;
-	static const WORD b_2_1 =    -32;
-	static const WORD b_2_2 =    -32;
-	static const WORD b_2_3 =    -30;
-	static const WORD b_2_4 =    -27;
-	static const WORD b_2_5 =    -23;
+	static const WORD b_1_11 =    -14;
+	static const WORD b_1_12 =      4;
+	static const WORD b_2_1 =    -25;
+	static const WORD b_2_2 =    -25;
+	static const WORD b_2_3 =    -24;
+	static const WORD b_2_4 =    -22;
+	static const WORD b_2_5 =    -20;
 	static const WORD b_2_6 =    -17;
-	static const WORD b_2_7 =    -11;
-	static const WORD b_2_8 =     -4;
-	static const WORD b_2_9 =      3;
-	static const WORD b_2_10 =     10;
-	static const WORD b_2_11 =     16;
-	static const WORD b_2_12 =     23;
-	static const WORD b_3_1 =    -16;
+	static const WORD b_2_7 =    -14;
+	static const WORD b_2_8 =    -10;
+	static const WORD b_2_9 =     -7;
+	static const WORD b_2_10 =     -2;
+	static const WORD b_2_11 =      2;
+	static const WORD b_2_12 =      8;
+	static const WORD b_3_1 =    -19;
 	static const WORD b_3_2 =    -17;
-	static const WORD b_3_3 =    -19;
-	static const WORD b_3_4 =    -20;
-	static const WORD b_3_5 =    -20;
-	static const WORD b_3_6 =    -20;
-	static const WORD b_3_7 =    -17;
-	static const WORD b_3_8 =    -14;
-	static const WORD b_3_9 =     -8;
-	static const WORD b_3_10 =     -1;
-	static const WORD b_3_11 =      8;
-	static const WORD b_3_12 =     18;
-	static const WORD b_4_1 =     -4;
-	static const WORD b_4_2 =     -5;
-	static const WORD b_4_3 =     -6;
-	static const WORD b_4_4 =    -10;
-	static const WORD b_4_5 =    -14;
-	static const WORD b_4_6 =    -21;
-	static const WORD b_4_7 =    -27;
-	static const WORD b_4_8 =    -35;
-	static const WORD b_4_9 =    -42;
-	static const WORD b_4_10 =    -47;
-	static const WORD b_4_11 =    -50;
-	static const WORD b_4_12 =    -50;
-	static const WORD b_5_1 =    -30;
-	static const WORD b_5_2 =    -30;
-	static const WORD b_5_3 =    -28;
-	static const WORD b_5_4 =    -25;
-	static const WORD b_5_5 =    -21;
-	static const WORD b_5_6 =    -16;
-	static const WORD b_5_7 =    -12;
-	static const WORD b_5_8 =     -7;
-	static const WORD b_5_9 =     -4;
-	static const WORD b_5_10 =     -1;
-	static const WORD b_5_12 =      2;
-	static const WORD b_6_1 =     12;
-	static const WORD b_6_2 =     10;
-	static const WORD b_6_3 =      7;
-	static const WORD b_6_4 =      3;
-	static const WORD b_6_5 =     -2;
-	static const WORD b_6_6 =     -8;
-	static const WORD b_6_7 =    -14;
-	static const WORD b_6_8 =    -21;
-	static const WORD b_6_9 =    -29;
-	static const WORD b_6_10 =    -37;
-	static const WORD b_6_11 =    -46;
-	static const WORD b_6_12 =    -55;
-	static const WORD b_7_1 =    -13;
-	static const WORD b_7_2 =     -9;
-	static const WORD b_7_3 =     -5;
-	static const WORD b_7_4 =     -2;
-	static const WORD b_7_6 =      1;
-	static const WORD b_7_7 =      1;
-	static const WORD b_7_9 =     -1;
-	static const WORD b_7_10 =     -3;
-	static const WORD b_7_11 =     -6;
-	static const WORD b_7_12 =     -9;
-	static const WORD b_8_1 =    -28;
-	static const WORD b_8_2 =    -34;
+	static const WORD b_3_3 =    -16;
+	static const WORD b_3_4 =    -14;
+	static const WORD b_3_5 =    -11;
+	static const WORD b_3_6 =     -8;
+	static const WORD b_3_7 =     -5;
+	static const WORD b_3_8 =     -1;
+	static const WORD b_3_9 =      3;
+	static const WORD b_3_10 =      8;
+	static const WORD b_3_11 =     13;
+	static const WORD b_3_12 =     19;
+	static const WORD b_4_1 =     25;
+	static const WORD b_4_2 =     25;
+	static const WORD b_4_3 =     22;
+	static const WORD b_4_4 =     17;
+	static const WORD b_4_5 =      9;
+	static const WORD b_4_6 =      1;
+	static const WORD b_4_7 =     -9;
+	static const WORD b_4_8 =    -19;
+	static const WORD b_4_9 =    -28;
+	static const WORD b_4_10 =    -36;
+	static const WORD b_4_11 =    -41;
+	static const WORD b_4_12 =    -43;
+	static const WORD b_5_1 =    -19;
+	static const WORD b_5_2 =    -20;
+	static const WORD b_5_3 =    -21;
+	static const WORD b_5_4 =    -22;
+	static const WORD b_5_5 =    -24;
+	static const WORD b_5_6 =    -27;
+	static const WORD b_5_7 =    -30;
+	static const WORD b_5_8 =    -34;
+	static const WORD b_5_9 =    -38;
+	static const WORD b_5_10 =    -43;
+	static const WORD b_5_11 =    -46;
+	static const WORD b_5_12 =    -48;
+	static const WORD b_6_1 =     21;
+	static const WORD b_6_2 =     20;
+	static const WORD b_6_3 =     17;
+	static const WORD b_6_4 =     13;
+	static const WORD b_6_5 =      9;
+	static const WORD b_6_6 =      4;
+	static const WORD b_6_7 =     -2;
+	static const WORD b_6_8 =     -8;
+	static const WORD b_6_9 =    -15;
+	static const WORD b_6_10 =    -22;
+	static const WORD b_6_11 =    -31;
+	static const WORD b_6_12 =    -40;
+	static const WORD b_7_1 =     -6;
+	static const WORD b_7_2 =     -1;
+	static const WORD b_7_3 =      3;
+	static const WORD b_7_4 =      7;
+	static const WORD b_7_5 =      9;
+	static const WORD b_7_6 =     10;
+	static const WORD b_7_7 =     10;
+	static const WORD b_7_8 =      8;
+	static const WORD b_7_9 =      5;
+	static const WORD b_7_10 =      2;
+	static const WORD b_7_11 =     -2;
+	static const WORD b_7_12 =     -6;
+	static const WORD b_8_1 =    -30;
+	static const WORD b_8_2 =    -35;
 	static const WORD b_8_3 =    -38;
 	static const WORD b_8_4 =    -40;
-	static const WORD b_8_5 =    -40;
-	static const WORD b_8_6 =    -38;
+	static const WORD b_8_5 =    -39;
+	static const WORD b_8_6 =    -37;
 	static const WORD b_8_7 =    -34;
-	static const WORD b_8_8 =    -30;
+	static const WORD b_8_8 =    -29;
 	static const WORD b_8_9 =    -25;
-	static const WORD b_8_10 =    -21;
-	static const WORD b_8_11 =    -19;
-	static const WORD b_8_12 =    -20;
-	static const WORD c_1_1 =     11;
-	static const WORD c_1_2 =     -9;
-	static const WORD c_1_3 =    -26;
-	static const WORD c_1_4 =    -12;
-	static const WORD c_1_5 =    -12;
-	static const WORD c_1_7 =     -9;
-	static const WORD c_1_8 =     -3;
-	static const WORD c_2_1 =      8;
+	static const WORD b_8_10 =    -22;
+	static const WORD b_8_11 =    -20;
+	static const WORD b_8_12 =    -22;
+	static const WORD c_1_1 =      3;
+	static const WORD c_1_2 =     -8;
+	static const WORD c_1_3 =    -28;
+	static const WORD c_1_4 =      1;
+	static const WORD c_1_5 =    -16;
+	static const WORD c_1_6 =      6;
+	static const WORD c_1_7 =     -8;
+	static const WORD c_1_8 =     -4;
+	static const WORD c_2_1 =      2;
 	static const WORD c_2_2 =     -9;
-	static const WORD c_2_3 =    -20;
-	static const WORD c_2_4 =    -10;
-	static const WORD c_2_5 =    -10;
-	static const WORD c_2_7 =    -13;
-	static const WORD c_2_8 =     -8;
-	static const WORD c_3_1 =      5;
+	static const WORD c_2_3 =    -22;
+	static const WORD c_2_4 =      1;
+	static const WORD c_2_5 =    -14;
+	static const WORD c_2_6 =      5;
+	static const WORD c_2_7 =    -11;
+	static const WORD c_2_8 =    -10;
 	static const WORD c_3_2 =    -10;
-	static const WORD c_3_3 =    -15;
-	static const WORD c_3_4 =     -9;
-	static const WORD c_3_5 =     -8;
-	static const WORD c_3_6 =     -1;
-	static const WORD c_3_7 =    -15;
-	static const WORD c_3_8 =    -12;
-	static const WORD c_4_1 =      1;
+	static const WORD c_3_3 =    -16;
+	static const WORD c_3_4 =      2;
+	static const WORD c_3_5 =    -12;
+	static const WORD c_3_6 =      4;
+	static const WORD c_3_7 =    -12;
+	static const WORD c_3_8 =    -15;
+	static const WORD c_4_1 =     -3;
 	static const WORD c_4_2 =    -12;
 	static const WORD c_4_3 =    -10;
-	static const WORD c_4_4 =     -9;
-	static const WORD c_4_5 =     -7;
-	static const WORD c_4_6 =     -1;
-	static const WORD c_4_7 =    -16;
-	static const WORD c_4_8 =    -14;
-	static const WORD c_5_1 =     -3;
+	static const WORD c_4_4 =      2;
+	static const WORD c_4_5 =    -10;
+	static const WORD c_4_6 =      4;
+	static const WORD c_4_7 =    -12;
+	static const WORD c_4_8 =    -17;
+	static const WORD c_5_1 =     -5;
 	static const WORD c_5_2 =    -13;
-	static const WORD c_5_3 =     -5;
-	static const WORD c_5_4 =     -9;
-	static const WORD c_5_5 =     -6;
-	static const WORD c_5_6 =     -1;
-	static const WORD c_5_7 =    -15;
-	static const WORD c_5_8 =    -16;
+	static const WORD c_5_3 =     -4;
+	static const WORD c_5_4 =      1;
+	static const WORD c_5_5 =    -10;
+	static const WORD c_5_6 =      4;
+	static const WORD c_5_7 =    -11;
+	static const WORD c_5_8 =    -19;
 	static const WORD c_6_1 =     -6;
-	static const WORD c_6_2 =    -13;
-	static const WORD c_6_3 =     -1;
-	static const WORD c_6_4 =     -9;
-	static const WORD c_6_5 =     -6;
-	static const WORD c_6_6 =     -1;
-	static const WORD c_6_7 =    -13;
-	static const WORD c_6_8 =    -17;
-	static const WORD c_7_1 =     -9;
-	static const WORD c_7_2 =    -13;
-	static const WORD c_7_3 =      3;
-	static const WORD c_7_4 =    -10;
-	static const WORD c_7_5 =     -5;
-	static const WORD c_7_6 =     -2;
-	static const WORD c_7_7 =     -9;
-	static const WORD c_7_8 =    -17;
-	static const WORD c_8_1 =    -11;
-	static const WORD c_8_2 =    -11;
-	static const WORD c_8_3 =      5;
-	static const WORD c_8_4 =    -11;
-	static const WORD c_8_5 =     -5;
-	static const WORD c_8_6 =     -3;
-	static const WORD c_8_7 =     -5;
-	static const WORD c_8_8 =    -16;
-	static const WORD c_9_1 =    -12;
-	static const WORD c_9_2 =     -9;
-	static const WORD c_9_3 =      7;
-	static const WORD c_9_4 =    -12;
-	static const WORD c_9_5 =     -5;
-	static const WORD c_9_6 =     -4;
-	static const WORD c_9_7 =     -1;
+	static const WORD c_6_2 =    -14;
+	static const WORD c_6_3 =      1;
+	static const WORD c_6_4 =      1;
+	static const WORD c_6_5 =    -10;
+	static const WORD c_6_6 =      3;
+	static const WORD c_6_7 =     -9;
+	static const WORD c_6_8 =    -19;
+	static const WORD c_7_1 =     -8;
+	static const WORD c_7_2 =    -14;
+	static const WORD c_7_3 =      5;
+	static const WORD c_7_5 =    -11;
+	static const WORD c_7_6 =      3;
+	static const WORD c_7_7 =     -5;
+	static const WORD c_7_8 =    -18;
+	static const WORD c_8_1 =     -9;
+	static const WORD c_8_2 =    -13;
+	static const WORD c_8_3 =      8;
+	static const WORD c_8_4 =     -1;
+	static const WORD c_8_5 =    -11;
+	static const WORD c_8_6 =      2;
+	static const WORD c_8_7 =     -1;
+	static const WORD c_8_8 =    -17;
+	static const WORD c_9_1 =    -10;
+	static const WORD c_9_2 =    -11;
+	static const WORD c_9_3 =     10;
+	static const WORD c_9_4 =     -3;
+	static const WORD c_9_5 =    -12;
+	static const WORD c_9_6 =      1;
+	static const WORD c_9_7 =      2;
 	static const WORD c_9_8 =    -15;
-	static const WORD c_10_1 =    -13;
-	static const WORD c_10_2 =     -6;
-	static const WORD c_10_3 =      8;
-	static const WORD c_10_4 =    -13;
-	static const WORD c_10_5 =     -5;
-	static const WORD c_10_6 =     -6;
-	static const WORD c_10_7 =      3;
-	static const WORD c_10_8 =    -14;
-	static const WORD c_11_1 =    -12;
-	static const WORD c_11_2 =     -3;
-	static const WORD c_11_3 =      8;
-	static const WORD c_11_4 =    -13;
-	static const WORD c_11_5 =     -5;
-	static const WORD c_11_6 =     -7;
-	static const WORD c_11_7 =      6;
-	static const WORD c_11_8 =    -12;
-	static const WORD c_12_1 =    -12;
-	static const WORD c_12_3 =      7;
-	static const WORD c_12_4 =    -13;
-	static const WORD c_12_5 =     -4;
-	static const WORD c_12_6 =     -9;
-	static const WORD c_12_7 =      8;
-	static const WORD c_12_8 =    -11;
+	static const WORD c_10_1 =    -10;
+	static const WORD c_10_2 =     -8;
+	static const WORD c_10_3 =     11;
+	static const WORD c_10_4 =     -4;
+	static const WORD c_10_5 =    -13;
+	static const WORD c_10_7 =      6;
+	static const WORD c_10_8 =    -13;
+	static const WORD c_11_1 =     -9;
+	static const WORD c_11_2 =     -5;
+	static const WORD c_11_3 =     11;
+	static const WORD c_11_4 =     -5;
+	static const WORD c_11_5 =    -14;
+	static const WORD c_11_6 =     -2;
+	static const WORD c_11_7 =      9;
+	static const WORD c_11_8 =    -11;
+	static const WORD c_12_1 =     -9;
+	static const WORD c_12_2 =     -2;
+	static const WORD c_12_3 =     11;
+	static const WORD c_12_4 =     -7;
+	static const WORD c_12_5 =    -14;
+	static const WORD c_12_6 =     -4;
+	static const WORD c_12_7 =     10;
+	static const WORD c_12_8 =     -9;
 	static const WORD d_1_1 =      1;
 	static const WORD d_2_1 =      1;
 	static const WORD d_2_2 =      1;
@@ -640,6 +642,7 @@ void filter_ellip8ABCD12(const WORD *u, WORD *y)
 	mac += c_1_3*ellip8ABCD12_x_3;
 	mac += c_1_4*ellip8ABCD12_x_4;
 	mac += c_1_5*ellip8ABCD12_x_5;
+	mac += c_1_6*ellip8ABCD12_x_6;
 	mac += c_1_7*ellip8ABCD12_x_7;
 	mac += c_1_8*ellip8ABCD12_x_8;
 	mac += d_1_1*u[0];
@@ -652,6 +655,7 @@ void filter_ellip8ABCD12(const WORD *u, WORD *y)
 	mac += c_2_3*ellip8ABCD12_x_3;
 	mac += c_2_4*ellip8ABCD12_x_4;
 	mac += c_2_5*ellip8ABCD12_x_5;
+	mac += c_2_6*ellip8ABCD12_x_6;
 	mac += c_2_7*ellip8ABCD12_x_7;
 	mac += c_2_8*ellip8ABCD12_x_8;
 	mac += d_2_1*u[0];
@@ -660,7 +664,6 @@ void filter_ellip8ABCD12(const WORD *u, WORD *y)
 
 	// Calculate the y[2] output
 	mac = 0;
-	mac += c_3_1*ellip8ABCD12_x_1;
 	mac += c_3_2*ellip8ABCD12_x_2;
 	mac += c_3_3*ellip8ABCD12_x_3;
 	mac += c_3_4*ellip8ABCD12_x_4;
@@ -729,7 +732,6 @@ void filter_ellip8ABCD12(const WORD *u, WORD *y)
 	mac += c_7_1*ellip8ABCD12_x_1;
 	mac += c_7_2*ellip8ABCD12_x_2;
 	mac += c_7_3*ellip8ABCD12_x_3;
-	mac += c_7_4*ellip8ABCD12_x_4;
 	mac += c_7_5*ellip8ABCD12_x_5;
 	mac += c_7_6*ellip8ABCD12_x_6;
 	mac += c_7_7*ellip8ABCD12_x_7;
@@ -791,7 +793,6 @@ void filter_ellip8ABCD12(const WORD *u, WORD *y)
 	mac += c_10_3*ellip8ABCD12_x_3;
 	mac += c_10_4*ellip8ABCD12_x_4;
 	mac += c_10_5*ellip8ABCD12_x_5;
-	mac += c_10_6*ellip8ABCD12_x_6;
 	mac += c_10_7*ellip8ABCD12_x_7;
 	mac += c_10_8*ellip8ABCD12_x_8;
 	mac += d_10_1*u[0];
@@ -832,6 +833,7 @@ void filter_ellip8ABCD12(const WORD *u, WORD *y)
 	// Calculate the y[11] output
 	mac = 0;
 	mac += c_12_1*ellip8ABCD12_x_1;
+	mac += c_12_2*ellip8ABCD12_x_2;
 	mac += c_12_3*ellip8ABCD12_x_3;
 	mac += c_12_4*ellip8ABCD12_x_4;
 	mac += c_12_5*ellip8ABCD12_x_5;
@@ -883,6 +885,7 @@ void filter_ellip8ABCD12(const WORD *u, WORD *y)
 	mac += b_1_9*u[8];
 	mac += b_1_10*u[9];
 	mac += b_1_11*u[10];
+	mac += b_1_12*u[11];
 	ellip8ABCD12_x_1 = filter_scale_output(mac);
 
 	// Update state ellip8ABCD12_x_2
@@ -916,6 +919,7 @@ void filter_ellip8ABCD12(const WORD *u, WORD *y)
 	mac += A_3_3*x_3_tmp;
 	mac += A_3_4*x_4_tmp;
 	mac += A_3_5*x_5_tmp;
+	mac += A_3_6*x_6_tmp;
 	mac += A_3_7*x_7_tmp;
 	mac += A_3_8*x_8_tmp;
 	mac += b_3_1*u[0];
@@ -963,7 +967,6 @@ void filter_ellip8ABCD12(const WORD *u, WORD *y)
 	mac += A_5_3*x_3_tmp;
 	mac += A_5_4*x_4_tmp;
 	mac += A_5_5*x_5_tmp;
-	mac += A_5_6*x_6_tmp;
 	mac += A_5_7*x_7_tmp;
 	mac += A_5_8*x_8_tmp;
 	mac += b_5_1*u[0];
@@ -976,6 +979,7 @@ void filter_ellip8ABCD12(const WORD *u, WORD *y)
 	mac += b_5_8*u[7];
 	mac += b_5_9*u[8];
 	mac += b_5_10*u[9];
+	mac += b_5_11*u[10];
 	mac += b_5_12*u[11];
 	ellip8ABCD12_x_5 = filter_scale_output(mac);
 
@@ -987,7 +991,6 @@ void filter_ellip8ABCD12(const WORD *u, WORD *y)
 	mac += A_6_4*x_4_tmp;
 	mac += A_6_5*x_5_tmp;
 	mac += A_6_6*x_6_tmp;
-	mac += A_6_7*x_7_tmp;
 	mac += A_6_8*x_8_tmp;
 	mac += b_6_1*u[0];
 	mac += b_6_2*u[1];
@@ -1010,15 +1013,16 @@ void filter_ellip8ABCD12(const WORD *u, WORD *y)
 	mac += A_7_3*x_3_tmp;
 	mac += A_7_4*x_4_tmp;
 	mac += A_7_5*x_5_tmp;
-	mac += A_7_6*x_6_tmp;
 	mac += A_7_7*x_7_tmp;
 	mac += A_7_8*x_8_tmp;
 	mac += b_7_1*u[0];
 	mac += b_7_2*u[1];
 	mac += b_7_3*u[2];
 	mac += b_7_4*u[3];
+	mac += b_7_5*u[4];
 	mac += b_7_6*u[5];
 	mac += b_7_7*u[6];
+	mac += b_7_8*u[7];
 	mac += b_7_9*u[8];
 	mac += b_7_10*u[9];
 	mac += b_7_11*u[10];

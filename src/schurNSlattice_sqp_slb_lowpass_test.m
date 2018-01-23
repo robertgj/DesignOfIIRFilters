@@ -1,5 +1,5 @@
 % schurNSlattice_sqp_slb_lowpass_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -26,7 +26,7 @@ if sxx_symmetric
 else
   n=400,tol_pcls=1e-5,dBap=0.2,dBas=46,Was_pcls=1e6,tpr=0.1,Wtp_pcls=0.1
 endif
-
+ctol=tol_pcls
 
 % Initial filter from deczky3_sqp_test.m
 U=0;V=0;Q=6;M=10;R=1;
@@ -58,11 +58,6 @@ Tdl=(tp-(tpr/2))*ones(ntp,1);
 Wt_mmse=Wtp_mmse*ones(ntp,1);
 Wt_pcls=Wtp_pcls*ones(ntp,1);
 
-% Common strings
-strT=sprintf("Schur normalised-scaled lattice lowpass filter SQP %%s response : \
-fap=%g,dBap=%g,fas=%g,dBas=%g",fap,dBap,fas,dBas);
-strF=sprintf("schurNSlattice_sqp_slb_lowpass_test_%%s_%%s");
-
 % Constraints on the coefficients
 dmax=0.05
 rho=1-tol_pcls
@@ -76,6 +71,11 @@ sxx_l=-sxx_u;
                     wa,Asqd,Wa_mmse,wt,Td,Wt_mmse);
 sxx_0=reshape([s10_0;s11_0;s20_0;s02_0;s00_0;s22_0],1,6*Ns);
 sxx_active=intersect(find(gradEsq),find((sxx_0~=0)&(sxx_0~=1)));
+
+% Common strings
+strf="schurNSlattice_sqp_slb_lowpass_test";
+strt=sprintf("Schur normalised-scaled lattice lowpass filter SQP %%s response : \
+fap=%g,dBap=%g,fas=%g,dBas=%g",fap,dBap,fas,dBas);
 
 %
 % SQP MMSE
@@ -94,7 +94,7 @@ endif
 schurNSlattice_sqp_slb_lowpass_plot ...
   (s10_1,s11_1,s20_1,s00_1,s02_1,s22_1, ...
    max(fap,ftp),dBap,max(fap,ftp),tp,tpr*2,fas,dBas, ...
-   sprintf(strF,"mmse","sxx_1"),sprintf(strT,"MMSE"));
+   strcat(strf,"_mmse_sxx_1"),sprintf(strt,"MMSE"));
 
 %
 % SQP PCLS
@@ -106,7 +106,7 @@ tic;
                      sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...
                      wa,Asqd,Asqdu,Asqdl,Wa_pcls, ...
                      wt,Td,Tdu,Tdl,Wt_pcls, ...
-                     maxiter,tol_pcls,verbose);
+                     maxiter,tol_pcls,ctol,verbose);
 toc;
 if feasible == 0 
   error("s10_2,s11_2,s20_2,s00_2,s02_2,s22_2(pcls) infeasible");
@@ -114,7 +114,7 @@ endif
 schurNSlattice_sqp_slb_lowpass_plot ...
   (s10_2,s11_2,s20_2,s00_2,s02_2,s22_2, ...
    max(fap,ftp),dBap,max(fap,ftp),tp,tpr,fas,dBas, ...
-   sprintf(strF,"pcls","sxx_2"),sprintf(strT,"PCLS"));
+   strcat(strf,"_pcls_sxx_2"),sprintf(strt,"PCLS"));
 
 %
 % Final amplitude and delay at local peaks
@@ -146,8 +146,7 @@ s20_22_scale_error=(s20_2.^2)+(s22_2.^2)-1;
 [A,B,C,D]=schurNSlattice2Abcd(s10_2,s11_2,s20_2,s00_2,s02_2,s22_2);
 [K,W]=KW(A,B,C,D);
 print_polynomial(diag(K),"diag(K)");
-print_polynomial(diag(K),"diag(K)",...
-                 "schurNSlattice_sqp_slb_lowpass_test.diagK.val","%10.4f");
+print_polynomial(diag(K),"diag(K)",strcat(strf,".diagK.val"),"%10.4f");
 
 % Simulate
 nbits=16;
@@ -163,11 +162,12 @@ print_polynomial(var(xx/(0.25*scale)),"var(xx/(0.25*scale))")
 %
 % Save the results
 %
-fid=fopen("schurNSlattice_sqp_slb_lowpass_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol_mmse=%g %% Tolerance on coefficient update vector for MMSE\n",
         tol_mmse);
 fprintf(fid,"tol_pcls=%g %% Tolerance on coefficient update vector for PCLS\n",
         tol_pcls);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"sxx_symmetric=%1d %% Enforce s02=-s20 and s22=s00\n",sxx_symmetric);
 fprintf(fid,"dmax=%f %% Constraint on norm of coefficient SQP step size\n",dmax);
@@ -185,27 +185,23 @@ fprintf(fid,"dBas=%d %% amplitude stop band peak-to-peak ripple\n",dBas);
 fprintf(fid,"Was_mmse=%g %% Amplitude stop band weight for MMSE\n",Was_mmse);
 fprintf(fid,"Was_pcls=%g %% Amplitude stop band weight for PCLS\n",Was_pcls);
 fclose(fid);
+
 print_polynomial(s10_2,"s10_2");
-print_polynomial(s10_2,"s10_2", ...
-                 "schurNSlattice_sqp_slb_lowpass_test_s10_2_coef.m");
+print_polynomial(s10_2,"s10_2",strcat(strf,"_s10_2_coef.m"));
 print_polynomial(s11_2,"s11_2");
-print_polynomial(s11_2,"s11_2", ...
-                 "schurNSlattice_sqp_slb_lowpass_test_s11_2_coef.m");
+print_polynomial(s11_2,"s11_2",strcat(strf,"_s11_2_coef.m"));
 print_polynomial(s20_2,"s20_2");
-print_polynomial(s20_2,"s20_2", ...
-                 "schurNSlattice_sqp_slb_lowpass_test_s20_2_coef.m");
+print_polynomial(s20_2,"s20_2",strcat(strf,"_s20_2_coef.m"));
 print_polynomial(s00_2,"s00_2");
-print_polynomial(s00_2,"s00_2", ...
-                 "schurNSlattice_sqp_slb_lowpass_test_s00_2_coef.m");
+print_polynomial(s00_2,"s00_2",strcat(strf,"_s00_2_coef.m"));
 print_polynomial(s02_2,"s02_2");
-print_polynomial(s02_2,"s02_2", ...
-                 "schurNSlattice_sqp_slb_lowpass_test_s02_2_coef.m");
+print_polynomial(s02_2,"s02_2",strcat(strf,"_s02_2_coef.m"));
 print_polynomial(s22_2,"s22_2");
-print_polynomial(s22_2,"s22_2", ...
-                 "schurNSlattice_sqp_slb_lowpass_test_s22_2_coef.m");
+print_polynomial(s22_2,"s22_2",strcat(strf,"_s22_2_coef.m"));
+
 save schurNSlattice_sqp_slb_lowpass_test.mat x0 n0 d0 ...
      fap dBap Wap ftp tp tpr Wtp_mmse Wtp_pcls fas dBas Was_mmse Was_pcls ...
-     dmax rho tol_mmse tol_pcls ...
+     dmax rho tol_mmse tol_pcls ctol ...
      s10_0 s11_0 s20_0 s00_0 s02_0 s22_0 ...
      s10_1 s11_1 s20_1 s00_1 s02_1 s22_1 ...
      s10_2 s11_2 s20_2 s00_2 s02_2 s22_2
@@ -213,4 +209,4 @@ save schurNSlattice_sqp_slb_lowpass_test.mat x0 n0 d0 ...
 % Done
 diary off
 movefile schurNSlattice_sqp_slb_lowpass_test.diary.tmp ...
-       schurNSlattice_sqp_slb_lowpass_test.diary;
+         schurNSlattice_sqp_slb_lowpass_test.diary;

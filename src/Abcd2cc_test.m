@@ -1,5 +1,5 @@
 % Abcd2cc_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -19,7 +19,6 @@ dbap=0.1
 dbas=40
 fc=0.05
 [n,d]=ellip(N,dbap,dbas,2*fc)
-name=sprintf("ellip%dABCD%d",N,P);
 n=n(:)';
 d=d(:)';
 [A,B,C,D]=tf2Abcd(n,d);
@@ -30,6 +29,10 @@ Aopt=inv(Topt)*A*Topt;
 Bopt=inv(Topt)*B;
 Copt=C*Topt;
 Dopt=D;
+
+% Common strings
+name=sprintf("ellip%dABCD%d",N,P);
+strf=sprintf("Abcd2cc_test_%s",name);
 
 % Generate a random input signal
 rand("seed",0xdeadbeef);
@@ -97,24 +100,24 @@ Hccbf=crossWelch(u,yccbf,nfpts);
 plot(nppts/nfpts,20*log10(abs(Hoptf)),"linestyle","--", ...
      nppts/nfpts,20*log10(abs(Hccbf)),"linestyle","-");
 legend("Block length 1", sprintf("Block length %d",P));
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -50 10]);
 grid("on");
-print(sprintf("%s_response",name),"-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 plot(nppts/nfpts,20*log10(abs(Hoptf)),"linestyle","--", ...
      nppts/nfpts,20*log10(abs(Hccbf)),"linestyle","-");
 legend("Block length 1", sprintf("Block length %d",P));
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.06 -1 15]);
 grid("on");
-print(sprintf("%s_passband_response",name),"-dpdflatex");
+print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Multipliers per output

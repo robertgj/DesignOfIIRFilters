@@ -2,25 +2,28 @@
 layout: post
 title: On the Design of IIR Filters
 ---
-An *Infinite-Impulse-Response* (IIR) filter can approximate a desired response
-with fewer coefficients than a *Finite-Impulse-Response* (FIR) filter. An FIR
-filter design problem can be formulated as a convex optimisation problem with
-a global solution. The design of IIR filters is more difficult than the design
-of FIR filters. The coefficient-response surface of an IIR filter rational
-polynomial transfer function is more complicated than that of an FIR polynomial
-transfer function. An IIR filter design procedure must find a locally optimal
-solution that satisfies the response specifications and the coefficients of
-the IIR transfer function denominator polynomial must be constrained to ensure
-that the IIR filter is stable.
-
-The document
+An *Infinite-Impulse-Response* (IIR) filter can approximate a desired amplitude
+response with fewer coefficients than a *Finite-Impulse-Response* (FIR)
+filter.  The design of IIR filters is more difficult than the design of FIR
+filters. FIR filters are inherently stable. An FIR filter design problem can
+be formulated as a convex optimisation problem with a global solution. The
+coefficient-response surface of an IIR filter rational polynomial transfer
+function is more complicated than that of an FIR polynomial transfer
+function. An IIR filter design procedure must find a locally optimal solution
+that satisfies the response specifications and the coefficients of the IIR
+transfer function denominator polynomial must be constrained to ensure that
+the IIR filter is stable. The document
 [DesignOfIIRFilters.pdf]({{ site.baseurl }}/public/DesignOfIIRFilters.pdf)
-reports my experiments in the design of IIR filters with specified
+reports my experiments in the design of IIR filters with constraints on the
 amplitude, phase and group delay responses and truncated or quantised
-coefficients. The repository [{{ site.github.repo }}]({{ site.github.repo }})
-contains the files required to generate the figures and results shown in that
-document. I programmed these experiments in the
-[Octave](https://www.gnu.org/software/octave) language. Octave is an 
+coefficients. I intended to show that it is possible to design a
+*good-enough* IIR digital filter with coefficients that are implemented by
+a limited number of shift-and-add operations and so do not require
+software or hardware multiplications. The repository
+[{{site.github.repo }}]({{ site.github.repo }}) contains the files required to
+generate the figures and results shown in that document. I programmed these
+experiments in the [Octave](https://www.gnu.org/software/octave)
+language. Octave is an
 [*almost*](https://wiki.octave.org/FAQ#Differences_between_Octave_and_Matlab)
 compatible open-source-software clone of the commercial
 [MATLAB](http://mathworks.com) package.
@@ -90,7 +93,7 @@ coefficient and performing SQP-relaxation optimisation. The optimised
 coefficient multiplications are implemented with 61 signed-digits and 31
 shift-and-add operations.
 
-![]({{ site.baseurl }}/public/sqp_relaxation_bandpass_OneM_lattice_10_nbits_test_intro.svg "Comparison of the responses of a one-multiplier lattice band-pass filter with exact coefficients and 3-signed-digit integer coefficients optimised with SQP-relaxation.")
+![]({{ site.baseurl }}/public/sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test_intro.svg "Comparison of the responses of a one-multiplier lattice band-pass filter with exact coefficients and 3-signed-digit integer coefficients optimised with SQP-relaxation.")
 
 ## Reproducing my results
 The Octave scripts included in this repository generate long sequences of

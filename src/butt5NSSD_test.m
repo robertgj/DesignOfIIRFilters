@@ -1,5 +1,5 @@
 % butt5NSSD_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the 5th order Butterworth lattice filter with
 % scaled-normalised exact and truncated coefficients.

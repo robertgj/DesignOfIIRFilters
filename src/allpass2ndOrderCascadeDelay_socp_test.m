@@ -1,5 +1,5 @@
 % allpass2ndOrderCascadeDelay_socp_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -45,7 +45,7 @@ Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
 Wa_sqm=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was_sqm*ones(n-nas+1,1)];
 
 % Common strings
-strd=sprintf("allpass2ndOrderCascadeDelay_socp_%%s");
+strf="allpass2ndOrderCascadeDelay_socp_test";
 
 % Plot initial response
 nplot=512;
@@ -69,7 +69,7 @@ ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-1 td+1]);
 grid("on");
-print(sprintf(strd,"a0"),"-dpdflatex");
+print(strcat(strf,"_a0"),"-dpdflatex");
 close
 % Plot phase response
 subplot(111);
@@ -79,7 +79,7 @@ title(s);
 ylabel("Phase(rad.)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"a0phase"),"-dpdflatex");
+print(strcat(strf,"_a0phase"),"-dpdflatex");
 close
 
 % SOCP, optimise delay response
@@ -114,7 +114,7 @@ ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 25]);
 grid("on");
-print(sprintf(strd,"a1"),"-dpdflatex");
+print(strcat(strf,"_a1"),"-dpdflatex");
 close
 % Plot passband response
 subplot(211);
@@ -129,13 +129,13 @@ ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 fap td-2 td+2]);
 grid("on");
-print(sprintf(strd,"a1pass"),"-dpdflatex");
+print(strcat(strf,"_a1pass"),"-dpdflatex");
 close
 % Plot poles and zeros
 subplot(111);
 zplane(roots(Nab1),roots(Da1));
 title(s);
-print(sprintf(strd,"a1pz"),"-dpdflatex");
+print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 
 % SOCP, optimise squared-magnitude response
@@ -170,7 +170,7 @@ axis([0 0.5 0 25]);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"a1sqm"),"-dpdflatex");
+print(strcat(strf,"_a1sqm"),"-dpdflatex");
 close
 % Plot passband response
 subplot(211);
@@ -185,17 +185,17 @@ ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 fap 0 25]);
 grid("on");
-print(sprintf(strd,"a1sqmpass"),"-dpdflatex");
+print(strcat(strf,"_a1sqmpass"),"-dpdflatex");
 close
 % Plot poles and zeros
 subplot(111);
 zplane(roots(Nab1sqm),roots(Da1sqm));
 title(s);
-print(sprintf(strd,"a1sqmpz"),"-dpdflatex");
+print(strcat(strf,"_a1sqmpz"),"-dpdflatex");
 close
 
 % Save specification
-fid=fopen("allpass2ndOrderCascadeDelay_socp_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"n=%d %% Number of frequency points\n",n);
 fprintf(fid,"tol=%5.1g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"tau=%3.1g %% Second order section stability parameter\n",tau);
@@ -211,15 +211,13 @@ fclose(fid);
 
 % Save results
 print_polynomial(a1,"a1");
-print_polynomial(a1,"a1","allpass2ndOrderCascadeDelay_socp_test_a1_coef.m");
+print_polynomial(a1,"a1",strcat(strf,"_a1_coef.m"));
 print_polynomial(Da1,"Da1");
-print_polynomial(Da1,"Da1","allpass2ndOrderCascadeDelay_socp_test_Da1_coef.m");
+print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 print_polynomial(a1sqm,"a1sqm");
-print_polynomial(a1sqm,"a1sqm",
-                 "allpass2ndOrderCascadeDelay_socp_test_a1sqm_coef.m");
+print_polynomial(a1sqm,"a1sqm",strcat(strf,"_a1sqm_coef.m"));
 print_polynomial(Da1sqm,"Da1sqm");
-print_polynomial(Da1sqm,"Da1sqm",
-                 "allpass2ndOrderCascadeDelay_socp_test_Da1sqm_coef.m");
+print_polynomial(Da1sqm,"Da1sqm",strcat(strf,"_Da1sqm_coef.m"));
 
 save allpass2ndOrderCascadeDelay_socp_test.mat ...
      fap Wap fas Was Was_sqm td D Da0 a0 a1 Da1 a1sqm Da1sqm

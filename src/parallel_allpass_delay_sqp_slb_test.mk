@@ -1,11 +1,11 @@
 parallel_allpass_delay_sqp_slb_test_FIGURES = \
-parallel_allpass_delay_sqp_slb_a0 \
-parallel_allpass_delay_sqp_slb_a0pz \
-parallel_allpass_delay_sqp_slb_a1 \
-parallel_allpass_delay_sqp_slb_a1dual \
-parallel_allpass_delay_sqp_slb_a1pass \
-parallel_allpass_delay_sqp_slb_a1phase \
-parallel_allpass_delay_sqp_slb_a1pz
+parallel_allpass_delay_sqp_slb_test_a0 \
+parallel_allpass_delay_sqp_slb_test_a0pz \
+parallel_allpass_delay_sqp_slb_test_a1 \
+parallel_allpass_delay_sqp_slb_test_a1dual \
+parallel_allpass_delay_sqp_slb_test_a1pass \
+parallel_allpass_delay_sqp_slb_test_a1phase \
+parallel_allpass_delay_sqp_slb_test_a1pz
 
 parallel_allpass_delay_sqp_slb_test_COEFS = \
 parallel_allpass_delay_sqp_slb_test.mat \

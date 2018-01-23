@@ -17,7 +17,7 @@ function [xk,Vr,Qr,Rr,na,nc]=iir_frm_allpass_struct_to_vec(x0)
 %   Vr, Qr - number of allpass denominator real and complex poles 
 %   na, nc - lengths of FIR masking and complementary masking filters
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

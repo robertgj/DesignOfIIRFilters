@@ -1,5 +1,5 @@
-% samin_OneM_lattice_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% samin_schurOneMlattice_lowpass_test.m
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the simulated annealing algorithm with coefficents of
 % a 5th order elliptic lattice filter in one multiplier form.
@@ -12,9 +12,9 @@
 
 test_common;
 
-unlink("samin_OneM_lattice_test.diary");
-unlink("samin_OneM_lattice_test.diary.tmp");
-diary samin_OneM_lattice_test.diary.tmp
+unlink("samin_schurOneMlattice_lowpass_test.diary");
+unlink("samin_schurOneMlattice_lowpass_test.diary.tmp");
+diary samin_schurOneMlattice_lowpass_test.diary.tmp
 
 truncation_test_common;
 
@@ -23,6 +23,8 @@ if use_best_samin_found
   warning("Using the best filter found so far. \n\
            Set \"use_best_samin_found\"=false to re-run samin.");
 endif
+
+strf="samin_schurOneMlattice_lowpass_test";
 
 % Lattice decomposition
 [k0,epsilon0,p0,c0] = tf2schurOneMlattice(n0,d0);
@@ -95,15 +97,15 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
-tstr=sprintf("5th order elliptic OneM lattice: nbits=%d,ndigits=%d",
+strt=sprintf("5th order elliptic OneM lattice: nbits=%d,ndigits=%d",
              nbits,ndigits);
-title(tstr);
+title(strt);
 legend("exact","round","samin(round)","signed-digit","samin(s-d)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("samin_OneM_lattice_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Passband response
@@ -115,13 +117,13 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 fpass*1.1 -3 3]);
-title(tstr);
+title(strt);
 legend("exact","round","samin(round)","signed-digit","samin(s-d)");
 legend("location","northwest");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("samin_OneM_lattice_passband_response","-dpdflatex");
+print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Results
@@ -133,8 +135,10 @@ print_polynomial(k_sd,"k_sd");
 print_polynomial(c_sd,"c_sd");
 print_polynomial(k_sasd,"k_sasd");
 print_polynomial(c_sasd,"c_sasd");
-save samin_OneM_lattice_test.mat k_rd c_rd k_sa c_sa k_sd c_sd k_sasd c_sasd
+save samin_schurOneMlattice_lowpass_test.mat ...
+     k_rd c_rd k_sa c_sa k_sd c_sd k_sasd c_sasd
 
 % Done
 diary off
-movefile samin_OneM_lattice_test.diary.tmp samin_OneM_lattice_test.diary;
+movefile samin_schurOneMlattice_lowpass_test.diary.tmp ...
+         samin_schurOneMlattice_lowpass_test.diary;

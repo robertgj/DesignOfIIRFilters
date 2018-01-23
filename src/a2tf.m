@@ -15,7 +15,7 @@ function [num,den]=a2tf(a,V,Q,R)
 %   num - numerator polynomial
 %   den - denominator polynomial
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

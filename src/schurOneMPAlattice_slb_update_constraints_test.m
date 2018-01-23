@@ -1,5 +1,5 @@
 % schurOneMPAlattice_slb_update_constraints_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -16,6 +16,7 @@ verbose=true
 % Low pass filter from parallel_allpass_socp_slb_flat_delay_test.m 
 ma=11; % Allpass model filter A denominator order
 mb=12; % Allpass model filter B denominator order
+difference=false; % Add allpass filter outputs
 fap=0.15; % Pass band amplitude response edge
 dBap=0.5; % Pass band amplitude response ripple
 Wap=1; % Pass band amplitude response weight
@@ -75,9 +76,12 @@ Db0 = [  1.0000000000,   0.1561449789,  -0.3135750674,   0.3178485356, ...
 [A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(Db0),Db0);
 
 % Response for Da0,Db0
-Asq0=schurOneMPAlatticeAsq(wa,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0);
-T0=schurOneMPAlatticeT(wt,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0);
-P0=schurOneMPAlatticeP(wp,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0);
+Asq0=schurOneMPAlatticeAsq(wa,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
+                           difference);
+T0=schurOneMPAlatticeT(wt,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
+                       difference);
+P0=schurOneMPAlatticeP(wp,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
+                       difference);
 
 % Update constraints
 vR0=schurOneMPAlattice_slb_update_constraints ...
@@ -107,7 +111,7 @@ plot(fa(nas:end),10*log10([Asq0(nas:end),Asqdu(nas:end)]), ...
 axis([fas,0.5,-60,-30]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency")
-print(sprintf(strd,"0Asq"),"-dsvg");
+print(sprintf(strd,"0Asq"),"-dpdflatex");
 close
 
 % Plot group delay
@@ -118,7 +122,7 @@ plot(ft,[T0,Tdu,Tdl], ...
 title(strM0);
 ylabel("Group delay");
 xlabel("Frequency")
-print(sprintf(strd,"0T"),"-dsvg");
+print(sprintf(strd,"0T"),"-dpdflatex");
 close
 
 % Plot phase
@@ -129,7 +133,7 @@ plot(fp,[P0-Pd,Pdu-Pd,Pdl-Pd], ...
 title(strM0);
 ylabel("Phase");
 xlabel("Frequency")
-print(sprintf(strd,"0P"),"-dsvg");
+print(sprintf(strd,"0P"),"-dpdflatex");
 close
 
 % Done

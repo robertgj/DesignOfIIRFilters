@@ -1,19 +1,19 @@
-bitflip_bandpass_schur_FIR_lattice_test_FIGURES= \
-bitflip_bandpass_schur_FIR_lattice_response
+bitflip_schurFIRlattice_bandpass_test_FIGURES = \
+bitflip_schurFIRlattice_bandpass_test_response
 
-bitflip_bandpass_schur_FIR_lattice_test_COEFS = \
-bitflip_bandpass_schur_FIR_lattice_test.mat \
-bitflip_bandpass_schur_FIR_lattice_test_b0_coef.m \
-bitflip_bandpass_schur_FIR_lattice_test_k_ex_coef.m \
-bitflip_bandpass_schur_FIR_lattice_test_k_rd_coef.m \
-bitflip_bandpass_schur_FIR_lattice_test_k_bf_coef.m \
-bitflip_bandpass_schur_FIR_lattice_test_k_sd_coef.m \
-bitflip_bandpass_schur_FIR_lattice_test_k_bfsd_coef.m \
-bitflip_bandpass_schur_FIR_lattice_test_cost.tab \
-bitflip_bandpass_schur_FIR_lattice_test_adders.tab
+bitflip_schurFIRlattice_bandpass_test_COEFS = \
+bitflip_schurFIRlattice_bandpass_test.mat \
+bitflip_schurFIRlattice_bandpass_test_b0_coef.m \
+bitflip_schurFIRlattice_bandpass_test_k_ex_coef.m \
+bitflip_schurFIRlattice_bandpass_test_k_rd_coef.m \
+bitflip_schurFIRlattice_bandpass_test_k_bf_coef.m \
+bitflip_schurFIRlattice_bandpass_test_k_sd_coef.m \
+bitflip_schurFIRlattice_bandpass_test_k_bfsd_coef.m \
+bitflip_schurFIRlattice_bandpass_test_cost.tab \
+bitflip_schurFIRlattice_bandpass_test_adders.tab
 
-bitflip_bandpass_schur_FIR_lattice_test_FILES = \
-bitflip_bandpass_schur_FIR_lattice_test.m test_common.m \
+bitflip_schurFIRlattice_bandpass_test_FILES = \
+bitflip_schurFIRlattice_bandpass_test.m test_common.m \
 bitflip_bandpass_test_common.m flt2SD.m schurFIRlattice2Abcd.m \
 Abcd2tf.m print_polynomial.m x2nextra.m SDadders.m \
 bin2SPT.oct bin2SD.oct schurFIRdecomp.oct bitflip.oct 

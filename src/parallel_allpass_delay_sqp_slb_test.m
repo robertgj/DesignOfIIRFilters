@@ -1,5 +1,5 @@
 % parallel_allpass_delay_sqp_slb_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -12,10 +12,11 @@ tic;
 format compact
 verbose=false
 maxiter=2000
+strf="parallel_allpass_delay_sqp_slb_test";
 
 % Lowpass filter specification for parallel all-pass filters
 tol=1e-5
-ctol=2e-7
+ctol=3e-7
 n=1000;
 R=1
 DD=11
@@ -33,10 +34,10 @@ tdr=inf
 Wtp=0
 
 % Initial coefficients found by tarczynski_parallel_allpass_delay_test.m
-Da0 = [  1.0000000000,  -0.5293688892,   0.3581214325,   0.1868454349, ... 
-         0.0310301162,  -0.0571095908,  -0.0703708412,  -0.0384386690, ... 
-        -0.0003605791,   0.0199157500,   0.0202940594,   0.0113549166, ... 
-         0.0034443539  ]';
+Da0 = [  1.0000000000,  -0.5293688883,   0.3581214335,   0.1868454361, ... 
+         0.0310301175,  -0.0571095893,  -0.0703708398,  -0.0384386678, ... 
+        -0.0003605782,   0.0199157506,   0.0202940598,   0.0113549168, ... 
+         0.0034443540 ]';
 
 % Coefficient constraints
 rho=127/128
@@ -69,9 +70,6 @@ Wt=Wtp*ones(ntp,1);
 [al,au]=aConstraints(V,Q,rho);
 vS=[];
 
-% Common strings
-strd=sprintf("parallel_allpass_delay_sqp_slb_%%s");
-
 % Find initial response
 nplot=n;
 [Ha0,wplot]=freqz(flipud(Da0),Da0,nplot);
@@ -92,13 +90,13 @@ plot(wplot*0.5/pi,Ta0);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"a0"),"-dpdflatex");
+print(strcat(strf,"_a0"),"-dpdflatex");
 close
 % Plot initial allpass poles and zeros
 subplot(111);
 zplane(roots(flipud(Da0)),roots(Da0));
 title(strt);
-print(sprintf(strd,"a0pz"),"-dpdflatex");
+print(strcat(strf,"_a0pz"),"-dpdflatex");
 close
 
 %
@@ -135,18 +133,18 @@ plot(wplot*0.5/pi,Ta1D);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"a1"),"-dpdflatex");
+print(strcat(strf,"_a1"),"-dpdflatex");
 close
 % Plot response on separate axes
 ax=plotyy(wplot(1:nap)*0.5/pi,20*log10(abs(Ha1D(1:nap))),...
           wplot(nas:n)*0.5/pi,20*log10(abs(Ha1D(nas:n))));
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis(ax(1),[0 0.5 -0.1 0]);
-axis(ax(2),[0 0.5 -50 -45]);
+axis(ax(1),[0 0.5 -0.06 0.01]);
+axis(ax(2),[0 0.5 -50 -43]);
 grid("on");
 title(strt);
-print(sprintf(strd,"a1dual"),"-dpdflatex");
+print(strcat(strf,"_a1dual"),"-dpdflatex");
 
 % Plot passband response
 subplot(211);
@@ -161,7 +159,7 @@ ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 fap DD-1 DD+1]);
 grid("on");
-print(sprintf(strd,"a1pass"),"-dpdflatex");
+print(strcat(strf,"_a1pass"),"-dpdflatex");
 close
 
 % Plot phase response of filter
@@ -171,14 +169,14 @@ title(s);
 ylabel("Phase(rad.)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"a1phase"),"-dpdflatex");
+print(strcat(strf,"_a1phase"),"-dpdflatex");
 close
 
 % Plot allpass filter poles and zeros
 subplot(111);
 zplane(roots(flipud(Da1)),roots(Da1));
 title(strt);
-print(sprintf(strd,"a1pz"),"-dpdflatex");
+print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 
 % PCLS amplitude and delay at local peaks
@@ -198,7 +196,7 @@ printf("a1:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("a1:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 
 % Save the filter specification
-fid=fopen("parallel_allpass_delay_sqp_slb_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
@@ -219,11 +217,9 @@ fclose(fid);
 
 % Save results
 print_pole_zero([1;a1],0,V,0,Q,R,"a1");
-print_pole_zero([1;a1],0,V,0,Q,R,"a1", ...
-                 "parallel_allpass_delay_sqp_slb_test_a1_coef.m");
+print_pole_zero([1;a1],0,V,0,Q,R,"a1",strcat(strf,"_a1_coef.m"));
 print_polynomial(Da1,"Da1");
-print_polynomial(Da1,"Da1", ...
-                 "parallel_allpass_delay_sqp_slb_test_Da1_coef.m");
+print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 
 % Done 
 save parallel_allpass_delay_sqp_slb_test.mat ...

@@ -67,7 +67,7 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - x satisfies the constraints 
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -298,10 +298,8 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
     %
     try
       [xs,ys,info]=sedumi(At,bt,ct,sedumiK,pars);
-      if verbose
-        printf("SeDuMi info.iter=%d, info.feasratio=%6.4g\n",
-               info.iter,info.feasratio);
-      endif
+      printf("SeDuMi info.iter=%d, info.feasratio=%10.4g, r0=%10.4g\n",
+             info.iter,info.feasratio,info.r0);
       if info.pinf 
         error("SeDuMi primary problem infeasible");
       endif

@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_flat_delay_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -12,21 +12,23 @@ tic;
 format compact
 verbose=false
 maxiter=2000
+strf="parallel_allpass_socp_slb_flat_delay_test";
 
 % Initial coefficients found by tarczynski_parallel_allpass_test.m
-Da0 = [   1.0000000000,   0.6972798244,  -0.2975063565,  -0.3126561409, ... 
-         -0.1822051754,   0.0540552622,   0.0875338601,  -0.1043232198, ... 
-          0.1845967862,   0.0440769117,  -0.1321004467,   0.0451935897 ]';
-Db0 = [   1.0000000000,   0.1561448318,  -0.3135751143,   0.3178486637, ... 
-          0.1300070569,   0.0784800776,  -0.0638101019,  -0.1841985776, ... 
-          0.2692566922,  -0.0893427023,  -0.1362443329,   0.1339411887, ... 
-         -0.0582212520 ]';
+Da0 = [   1.0000000000,   0.6972798665,  -0.2975063336,  -0.3126562447, ... 
+         -0.1822052424,   0.0540552781,   0.0875338385,  -0.1043232331, ... 
+          0.1845967625,   0.0440769201,  -0.1321004303,   0.0451935651 ]';
+Db0 = [   1.0000000000,   0.1561448902,  -0.3135750868,   0.3178486046, ... 
+          0.1300071229,   0.0784801583,  -0.0638101281,  -0.1841985576, ... 
+          0.2692566953,  -0.0893426643,  -0.1362443194,   0.1339411607, ... 
+         -0.0582212263 ]';
 
 % Lowpass filter specification for parallel all-pass filters
 tol=1e-4
 ctol=tol/10
 n=1000;
 polyphase=false
+difference=false
 rho=127/128
 Ra=1
 Rb=1
@@ -41,7 +43,7 @@ tdr=0.08
 Wtp=1
 fas=0.2
 dBas=40
-Was=750
+Was=1000
 
 % Convert coefficients to a vector
 ab0=zeros(ma+mb,1);
@@ -83,9 +85,6 @@ nplot=512;
 [Hab0,wplot]=freqz(Nab0,Dab0,nplot);
 Tab0=grpdelay(Nab0,Dab0,nplot);
 
-% Common strings
-strd=sprintf("parallel_allpass_socp_slb_flat_delay_%%s");
-
 % Plot initial response
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hab0)));
@@ -100,13 +99,13 @@ ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-0.5 td+0.5]);
 grid("on");
-print(sprintf(strd,"ab0"),"-dpdflatex");
+print(strcat(strf,"_ab0"),"-dpdflatex");
 close
 % Plot initial poles and zeros
 subplot(111);
 zplane(roots(Nab0),roots(Dab0));
 title(strt);
-print(sprintf(strd,"ab0pz"),"-dpdflatex");
+print(strcat(strf,"_ab0pz"),"-dpdflatex");
 close
 
 %
@@ -114,7 +113,7 @@ close
 %
 [ab1,slb_iter,opt_iter,func_iter,feasible]= ...
 parallel_allpass_slb(@parallel_allpass_socp_mmse,ab0,abu,abl, ...
-                     Va,Qa,Ra,Vb,Qb,Rb,polyphase, ...
+                     Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
                      wa,A2d,A2du,A2dl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                      maxiter,tol,ctol,verbose);
 if !feasible
@@ -149,7 +148,7 @@ ylabel("Group delay(samples)");
 xlabel("Frequency");
 %axis([0 0.5 td-0.5 td+0.5]);
 grid("on");
-print(sprintf(strd,"ab1"),"-dpdflatex");
+print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 
 % Plot passband response
@@ -165,24 +164,24 @@ ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 max(fap,ftp) td-0.1 td+0.1]);
 grid("on");
-print(sprintf(strd,"ab1pass"),"-dpdflatex");
+print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 
 % Plot poles and zeros
 subplot(111);
 zplane(roots(Nab1),roots(Dab1));
 title(strt);
-print(sprintf(strd,"ab1pz"),"-dpdflatex");
+print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 subplot(111);
 zplane(roots(Na1),roots(Da1));
 title("Allpass filter A");
-print(sprintf(strd,"a1pz"),"-dpdflatex");
+print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 subplot(111);
 zplane(roots(Nb1),roots(Db1));
 title("Allpass filter B");
-print(sprintf(strd,"b1pz"),"-dpdflatex");
+print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 
 % Plot phase response of parallel filters
@@ -198,11 +197,11 @@ xlabel("Frequency");
 legend("Filter A","Filter B","location","northwest");
 legend("boxoff");
 grid("on");
-print(sprintf(strd,"ab1phase"),"-dpdflatex");
+print(strcat(strf,"_ab1phase"),"-dpdflatex");
 close
 
 % Save the filter specification
-fid=fopen("parallel_allpass_socp_slb_flat_delay_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"polyphase=%d %% Use polyphase combination\n",polyphase);
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
@@ -231,24 +230,18 @@ fclose(fid);
 % Save results
 a1=[1;ab1(1:ma)];
 print_pole_zero(a1,0,Va,0,Qa,Ra,"a1");
-print_pole_zero(a1,0,Va,0,Qa,Ra,"a1", ...
-                "parallel_allpass_socp_slb_flat_delay_test_a1_coef.m");
+print_pole_zero(a1,0,Va,0,Qa,Ra,"a1",strcat(strf,"_a1_coef.m"));
 b1=[1;ab1((ma+1):end)];
 print_pole_zero(b1,0,Vb,0,Qb,Rb,"b1");
-print_pole_zero(b1,0,Vb,0,Qb,Rb,"b1", ...
-                "parallel_allpass_socp_slb_flat_delay_test_b1_coef.m");
+print_pole_zero(b1,0,Vb,0,Qb,Rb,"b1",strcat(strf,"_b1_coef.m"));
 print_polynomial(Da1,"Da1");
-print_polynomial(Da1,"Da1", ...
-                 "parallel_allpass_socp_slb_flat_delay_test_Da1_coef.m");
+print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 print_polynomial(Db1,"Db1");
-print_polynomial(Db1,"Db1", ...
-                 "parallel_allpass_socp_slb_flat_delay_test_Db1_coef.m");
+print_polynomial(Db1,"Db1",strcat(strf,"_Db1_coef.m"));
 print_polynomial(Nab1,"Nab1");
-print_polynomial(Nab1,"Nab1", ...
-                 "parallel_allpass_socp_slb_flat_delay_test_Nab1_coef.m");
+print_polynomial(Nab1,"Nab1",strcat(strf,"_Nab1_coef.m"));
 print_polynomial(Dab1,"Dab1");
-print_polynomial(Dab1,"Dab1", ...
-                 "parallel_allpass_socp_slb_flat_delay_test_Dab1_coef.m");
+print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
 % Done 
 save parallel_allpass_socp_slb_flat_delay_test.mat ...

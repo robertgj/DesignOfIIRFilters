@@ -1,5 +1,5 @@
 % polyphase_allpass_socp_slb_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -12,19 +12,22 @@ tic;
 format compact
 verbose=false
 maxiter=2000
+strf="polyphase_allpass_socp_slb_test";
 
 % Initial coefficients found by tarczynski_polyphase_allpass_test.m
-Da0 = [   1.0000000000,  -0.3970422576,  -0.8249669888,   0.1740258622, ... 
-          0.1568318123,   0.0403231276,  -0.3975171745,   0.1691550691, ... 
-          0.5556873324,  -0.1367500892,  -0.2041947296,  -0.0121232670 ]';
-Db0 = [   1.0000000000,   0.1021662260,  -1.1467005712,  -0.1276578006, ... 
-          0.2838366955,   0.0866961263,  -0.3831672484,  -0.0312328960, ... 
-          0.6890938976,   0.0960372582,  -0.3161746003,  -0.0784333430 ]';
+Da0 = [   1.0000000000,  -0.5678200774,  -0.7408092770,   0.2506942396, ... 
+         -0.1668555458,   0.1742421827,  -0.3582634504,   0.2364365832, ... 
+          0.5557294579,  -0.2129754175,  -0.1400950350,   0.0014345949 ]';
+Db0 = [   1.0000000000,  -0.0685941087,  -1.1480265355,   0.0125362666, ... 
+         -0.0223606303,   0.0606067077,  -0.2400513446,   0.0221246296, ... 
+          0.7361372042,   0.0024401600,  -0.2799533185,  -0.0300497894 ]';
+
 % Lowpass filter specification for polyphase combination of all-pass filters
 tol=1e-4
 ctol=1e-8
 n=500;
 polyphase=true
+difference=false
 rho=0.999
 R=2
 Ra=R
@@ -39,8 +42,8 @@ td=(R*(ma+mb))/2
 tdr=0.2
 Wtp=0
 fas=0.26
-dBas=70
-Was=100
+dBas=77
+Was=1000
 
 % Convert coefficients to a vector
 ab0=zeros(ma+mb,1);
@@ -84,9 +87,6 @@ nplot=512;
 [Hab0,wplot]=freqz(Nab0,Dab0,nplot);
 Tab0=grpdelay(Nab0,Dab0,nplot);
 
-% Common strings
-strd=sprintf("polyphase_allpass_socp_slb_%%s");
-
 % Plot initial response
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hab0)));
@@ -100,13 +100,13 @@ plot(wplot*0.5/pi,Tab0);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"ab0"),"-dpdflatex");
+print(strcat(strf,"_ab0"),"-dpdflatex");
 close
 % Plot initial poles and zeros
 subplot(111);
 zplane(roots(Nab0),roots(Dab0));
 title(strt);
-print(sprintf(strd,"ab0pz"),"-dpdflatex");
+print(strcat(strf,"_ab0pz"),"-dpdflatex");
 close
 
 %
@@ -114,7 +114,7 @@ close
 %
 [ab1,slb_iter,opt_iter,func_iter,feasible]= ...
 parallel_allpass_slb(@parallel_allpass_socp_mmse,ab0,abu,abl, ...
-                     Va,Qa,Ra,Vb,Qb,Rb,polyphase, ...
+                     Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
                      wa,A2d,A2du,A2dl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                      maxiter,tol,ctol,verbose);
 if !feasible
@@ -136,7 +136,7 @@ Tab1=grpdelay(Nab1,Dab1,nplot);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hab1)));
 ylabel("Amplitude(dB)");
-axis([0 0.5 -80 5]);
+axis([0 0.5 -90 5]);
 grid("on");
 strt=sprintf("Polyphase allpass : ma=%d,mb=%d,dBap=%5.3f,dBas=%d",
              ma,mb,dBap,dBas);
@@ -146,34 +146,39 @@ plot(wplot*0.5/pi,Tab1);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"ab1"),"-dpdflatex");
+print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 
-% Plot passband response
-plot(wplot*0.5/pi,20*log10(abs(Hab1)));
+% Plot passband and stopband response detail
+nplot=512;
+nplot_ap=ceil(nplot*fap/0.5)+1;
+nplot_as=floor(nplot*fas/0.5)+1;
+ax=plotyy(wplot(1:nplot_ap)*0.5/pi,    20*log10(abs(Hab1(1:nplot_ap))),...
+          wplot(nplot_as:nplot)*0.5/pi,20*log10(abs(Hab1(nplot_as:nplot))));
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-axis([0 max(fap,ftp) -dBap/2000 dBap/10000]);
+axis(ax(1),[0, 0.5, -dBap/2000, dBap/10000]);
+axis(ax(2),[0, 0.5, -80, -74]);
 grid("on");
 title(strt);
-print(sprintf(strd,"ab1pass"),"-dpdflatex");
+print(strcat(strf,"_ab1dual"),"-dpdflatex");
 close
 
 % Plot poles and zeros
 subplot(111);
 zplane(roots(Nab1),roots(Dab1));
 title(strt);
-print(sprintf(strd,"ab1pz"),"-dpdflatex");
+print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 subplot(111);
 zplane(roots(Na1),roots(Da1));
 title("Allpass filter A");
-print(sprintf(strd,"a1pz"),"-dpdflatex");
+print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 subplot(111);
 zplane(roots(Nb1),roots(Db1));
 title("Allpass filter B");
-print(sprintf(strd,"b1pz"),"-dpdflatex");
+print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 
 % Save the filter specification
@@ -202,20 +207,18 @@ fclose(fid);
 % Save results
 a1=[1;ab1(1:ma)];
 print_pole_zero(a1,0,Va,0,Qa,Ra,"a1");
-print_pole_zero(a1,0,Va,0,Qa,Ra,"a1", ...
-                "polyphase_allpass_socp_slb_test_a1_coef.m");
+print_pole_zero(a1,0,Va,0,Qa,Ra,"a1",strcat(strf,"_a1_coef.m"));
 b1=[1;ab1((ma+1):end)];
 print_pole_zero(b1,0,Vb,0,Qb,Rb,"b1");
-print_pole_zero(b1,0,Vb,0,Qb,Rb,"b1", ...
-                "polyphase_allpass_socp_slb_test_b1_coef.m");
+print_pole_zero(b1,0,Vb,0,Qb,Rb,"b1",strcat(strf,"_b1_coef.m"));
 print_polynomial(Da1,"Da1");
-print_polynomial(Da1,"Da1","polyphase_allpass_socp_slb_test_Da1_coef.m");
+print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 print_polynomial(Db1,"Db1");
-print_polynomial(Db1,"Db1","polyphase_allpass_socp_slb_test_Db1_coef.m");
+print_polynomial(Db1,"Db1",strcat(strf,"_Db1_coef.m"));
 print_polynomial(Nab1,"Nab1");
-print_polynomial(Nab1,"Nab1","polyphase_allpass_socp_slb_test_Nab1_coef.m");
+print_polynomial(Nab1,"Nab1",strcat(strf,"_Nab1_coef.m"));
 print_polynomial(Dab1,"Dab1");
-print_polynomial(Dab1,"Dab1","polyphase_allpass_socp_slb_test_Dab1_coef.m");
+print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
 % Done 
 save polyphase_allpass_socp_slb_test.mat ...

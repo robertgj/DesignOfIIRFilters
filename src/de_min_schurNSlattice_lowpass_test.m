@@ -1,5 +1,5 @@
-% de_min_NS_lattice_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% de_min_schurNSlattice_lowpass_test.m
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the de_min differential evolution algorithm with coefficents
 % of a 5th order elliptic lattice filter in normalised-scaled form.
@@ -12,9 +12,9 @@
 
 test_common;
 
-unlink("de_min_NS_lattice_test.diary");
-unlink("de_min_NS_lattice_test.diary.tmp");
-diary de_min_NS_lattice_test.diary.tmp
+unlink("de_min_schurNSlattice_lowpass_test.diary");
+unlink("de_min_schurNSlattice_lowpass_test.diary.tmp");
+diary de_min_schurNSlattice_lowpass_test.diary.tmp
 
 truncation_test_common;
 
@@ -23,6 +23,8 @@ if use_best_de_min_found
   warning("Using the best filter found so far. \n\
            Set \"use_best_de_min_found\"=false to re-run de_min.");
 endif
+
+strf="de_min_schurNSlattice_lowpass_test";
 
 % Lattice decomposition
 [s10_0,s11_0,s20_0,s00_0,s02_0,s22_0]=tf2schurNSlattice(n0,d0);
@@ -117,14 +119,14 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
-tstr=sprintf("5th order elliptic NS lattice: nbits=%d,ndigits=%d",nbits,ndigits);
-title(tstr);
+strt=sprintf("5th order elliptic NS lattice: nbits=%d,ndigits=%d",nbits,ndigits);
+title(strt);
 legend("exact","round","de\\_min(round)","signed-digit","de\\_min(s-d)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("de_min_NS_lattice_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Passband response
@@ -136,13 +138,13 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 fpass*1.1 -3 3]);
-title(tstr);
+title(strt);
 legend("exact","round","de\\_min(round)","signed-digit","de\\_min(s-d)");
 legend("location","northwest");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("de_min_NS_lattice_passband_response","-dpdflatex");
+print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Save results
@@ -170,7 +172,7 @@ print_polynomial(s20_desd,"s20_desd");
 print_polynomial(s00_desd,"s00_desd");
 print_polynomial(s02_desd,"s02_desd");
 print_polynomial(s22_desd,"s22_desd");
-save de_min_NS_lattice_test.mat ...
+save de_min_schurNSlattice_lowpass_test.mat ...
      s10_rd s11_rd s20_rd s00_rd s02_rd s22_rd ...
      s10_de s11_de s20_de s00_de s02_de s22_de ...
      s10_sd s11_sd s20_sd s00_sd s02_sd s22_sd ...
@@ -178,4 +180,5 @@ save de_min_NS_lattice_test.mat ...
 
 % Done
 diary off
-movefile de_min_NS_lattice_test.diary.tmp de_min_NS_lattice_test.diary;
+movefile de_min_schurNSlattice_lowpass_test.diary.tmp ...
+         de_min_schurNSlattice_lowpass_test.diary;

@@ -1,7 +1,7 @@
 1;
 
 % sqp_common.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 
 % Himmelblau's function: f(x,y)=(x^2+y-11)^2 + (x+y^2-7)^2
@@ -77,6 +77,48 @@ elseif 0
 
   function gxg=gradxg(x)
     gxg=[0 1;1 0]';
+  endfunction
+
+elseif 0
+  
+  % Himmelblau's function: f(x,y)=(x^2+y-11)^2 + (x+y^2-7)^2  has 
+  % minima of value 0 at (3.0,2.0), (-2.805118,3.131312), (-3.779310,-3.283185)
+  % and (3.584428,-1.848126)
+  
+  xi=[-3;3];
+  lbx=[-10; -10];
+  ubx=[ 10;  10];
+
+  global a=11 b=7
+  
+  function fx=f(x)
+    global fiter a b
+    fiter=fiter+1;
+    fx=(((x(1)^2)+x(2)-a)^2) + ((x(1)+(x(2)^2)-b)^2);
+  endfunction
+
+  function gxf=gradxf(x)
+    global a b
+    gxf=zeros(length(x),1);
+    gxf(1)=(4*x(1)*((x(1)^2)+x(2)-a))+(2*(x(1)+(x(2)^2)-b));
+    gxf(2)=(2*((x(1)^2)+x(2)-a))+(4*x(2)*(x(1)+(x(2)^2)-b));
+  endfunction
+
+  function hxxf=hessxxf(x)
+    global a b
+    hxxf=zeros(length(x),length(x));
+    hxxf(1,1)=(12*(x(1)^2))+(4*x(2))-42;
+    hxxf(1,2)=4*(x(1)+x(2));
+    hxxf(2,1)=4*(x(1)+x(2));
+    hxxf(2,2)=(12*(x(2)^2))+(4*x(1))-26;
+  endfunction
+
+  function gx=g(x)
+    gx=[4-x(2);4-x(1)];
+  endfunction
+
+  function gxg=gradxg(x)
+    gxg=[0 -1;-1 0]';
   endfunction
 
 endif

@@ -1,5 +1,5 @@
 % tarczynski_frm_hilbert_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Design an FRM Hilbert filter from IIR allpass model in parallel with a delay
 % and FIR masking filters using the method of Tarczynski et al. The 
@@ -18,6 +18,7 @@ tic;
 format compact
 maxiter=5000
 verbose=true;
+strf="tarczynski_frm_hilbert_test";
 
 function [q,r2M]=vec2frm_hilbert(ra,mr,na,Mmodel,Dmodel)
   % Model filter
@@ -190,9 +191,9 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_init)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -0.6 0.6]);
 grid("on");
-tstr=sprintf("Initial FRM Hilbert filter:mr=%d,na=%d,Mmodel=%d,Dmodel=%d,td=%d",
+strt=sprintf("Initial FRM Hilbert filter:mr=%d,na=%d,Mmodel=%d,Dmodel=%d,td=%d",
              mr,na,Mmodel,Dmodel,td);
-title(tstr);
+title(strt);
 subplot(312);
 plot(wplot*0.5/pi,(unwrap(arg(Hw_init))+(wplot*td))/pi);
 ylabel("Phase(rad./pi)\n(Adjusted for delay)");
@@ -204,7 +205,7 @@ ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 76 82]);
 grid("on");
-print("tarczynski_frm_hilbert_initial_response","-dpdflatex");
+print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 
 %
@@ -256,9 +257,9 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_hilbert)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -0.6 0.6]);
 grid("on");
-tstr=sprintf("FRM Hilbert filter:mr=%d,na=%d,Mmodel=%d,Dmodel=%d,td=%d",
+strt=sprintf("FRM Hilbert filter:mr=%d,na=%d,Mmodel=%d,Dmodel=%d,td=%d",
              mr,na,Mmodel,Dmodel,td);
-title(tstr);
+title(strt);
 subplot(312);
 plot(wplot*0.5/pi,(unwrap(arg(Hw_hilbert))+(wplot*td))/pi);
 ylabel("Phase(rad./pi)\n(Adjusted for delay)");
@@ -270,7 +271,7 @@ ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 76 82]);
 grid("on");
-print("tarczynski_frm_hilbert_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 %
@@ -312,15 +313,15 @@ endif
 
 % Save the results
 print_polynomial(q1,"q1");
-print_polynomial(q1,"q1","tarczynski_frm_hilbert_test_q1_coef.m","%10.6f");
+print_polynomial(q1,"q1",strcat(strf,"_q1_coef.m"),"%10.6f");
 print_polynomial(r2M1,"r2M1");
-print_polynomial(r2M1,"r2M1","tarczynski_frm_hilbert_test_r2M1_coef.m","%10.6f");
+print_polynomial(r2M1,"r2M1",strcat(strf,"_r2M1_coef.m"),"%10.6f");
 print_polynomial(r1,"r1");
-print_polynomial(r1,"r1","tarczynski_frm_hilbert_test_r1_coef.m","%10.6f");
+print_polynomial(r1,"r1",strcat(strf,"_r1_coef.m"),"%10.6f");
 print_polynomial(u1,"u1");
-print_polynomial(u1,"u1","tarczynski_frm_hilbert_test_u1_coef.m","%10.6f");
+print_polynomial(u1,"u1",strcat(strf,"_u1_coef.m"),"%10.6f");
 print_polynomial(v1,"v1");
-print_polynomial(v1,"v1","tarczynski_frm_hilbert_test_v1_coef.m","%10.6f");
+print_polynomial(v1,"v1",strcat(strf,"_v1_coef.m"),"%10.6f");
 
 save tarczynski_frm_hilbert_test.mat r0 aa0 q0 r2M0 q1 r2M1 r1 u1 v1 ...
      Mmodel Dmodel dmask mr na fpass fstop n tol nplot wplot

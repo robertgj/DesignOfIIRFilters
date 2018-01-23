@@ -1,8 +1,8 @@
 function [cost,A1k,A2k,svecnz_out] = ...
          schurOneMPAlattice_cost(svecnz,_Ad,_Wa,_Td,_Wt, ...
                                  _A1k0,_A1epsilon0,_A1p0, ...
-                                 _A2k0,_A2epsilon0,_A2p0,...
-                                 _nbits,_ndigits,_max_cost)
+                                 _A2k0,_A2epsilon0,_A2p0, ...
+                                 _difference,_nbits,_ndigits,_max_cost)
 % cost=schurOneMPAlattice_cost(svecnz)
 %
 % [cost,A1k,A2k,svecnz_out] = schurOneMPAlattice_cost(svecnz)
@@ -10,7 +10,12 @@ function [cost,A1k,A2k,svecnz_out] = ...
 % [cost,A1k,A2k,svecnz_out] = ...
 %    schurOneMPAlattice_cost(svecnz,Ad,Wa,Td,Wt, ...
 %                            A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
-%                            nbits,ndigits,max_cost)
+%                            difference,nbits,ndigits)
+%
+% [cost,A1k,A2k,svecnz_out] = ...
+%    schurOneMPAlattice_cost(svecnz,Ad,Wa,Td,Wt, ...
+%                            A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
+%                            difference,nbits,ndigits,max_cost)
 %
 % Calculate the weighted error (cost) of the frequency response of the
 % parallel combination of two all-pass one-multiplier Schur lattice filters.
@@ -43,7 +48,7 @@ function [cost,A1k,A2k,svecnz_out] = ...
 %       - simplex fails if max_cost is not inf
 
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -64,14 +69,14 @@ function [cost,A1k,A2k,svecnz_out] = ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   persistent Ad Wa Td Wt
-  persistent A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0
+  persistent A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 difference
   persistent lsvec lsvecnz nsvecnz
   persistent nbits nscale ndigits npoints
   persistent max_cost
   persistent init_done=false
 
-  if (nargin==13) || (nargin==14)
-    if nargin==13
+  if (nargin==14) || (nargin==15)
+    if nargin==14
       max_cost=inf;
     else
       max_cost=_max_cost;
@@ -92,6 +97,7 @@ function [cost,A1k,A2k,svecnz_out] = ...
     nsvecnz=find(svec~=0);
     svecnz=svec(nsvecnz);
     lsvecnz=length(svecnz);
+    difference=_difference;
     nbits=_nbits;
     ndigits=_ndigits;
     if ~isscalar(ndigits)
@@ -113,13 +119,14 @@ function [cost,A1k,A2k,svecnz_out] = ...
     svecnz=svecnz.*nscale;
     svecnz=svecnz(:);
     init_done=true;
-  elseif (nargin ~= 1) && (nargin ~=2)
-    nargin
-    print_usage("[cost,A1k,A2k,svecnz_out] = ...\n\
-         schurOneMPAlattice_cost(svecnz[,Ad,Wa,Td,Wt, ...\n\
-                                 A1k0,A1epsilon0,A1p0, ...\n\
-                                 A2k0,A2epsilon0,A2p0, ...\n\
-                                 nbits,ndigits,max_cost])");
+  elseif (nargin ~= 1)
+    print_usage("[cost,A1k,A2k,svecnz_out] = schurOneMPAlattice_cost(svecnz)\n\
+[cost,A1k,A2k,svecnz_out] = schurOneMPAlattice_cost(svecnz,Ad,Wa,Td,Wt, ...\n\
+                              A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...\n\
+                              difference,nbits,ndigits)\n\
+[cost,A1k,A2k,svecnz_out] = schurOneMPAlattice_cost(svecnz,Ad,Wa,Td,Wt, ...\n\
+                              A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...\n\
+                              difference,nbits,ndigits,max_cost)");
   elseif init_done==false
     error("init_done==false");
   endif
@@ -153,7 +160,8 @@ function [cost,A1k,A2k,svecnz_out] = ...
   svecnz=svecnz.*nscale;
   svecnz_out=svecnz(:);
   % Find cost
-  [n,d]=schurOneMPAlattice2tf(A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0);
+  [n,d]=schurOneMPAlattice2tf(A1k,A1epsilon0,A1p0, ...
+                              A2k,A2epsilon0,A2p0,difference);
   h=freqz(n,d,npoints);
   h=h(:);
   cost=sqrt(sum(Wa.*((abs(h)-abs(Ad)).^2)));

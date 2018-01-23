@@ -1,7 +1,7 @@
 function [tau iter]=armijo(pf,x,d,fx,gxf,W,tol,maxiter,verbose)
 % [tau iter]=armijo(@f,x,d,fx,gxf,W,tol,maxiter,verbose)
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

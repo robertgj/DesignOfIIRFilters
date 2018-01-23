@@ -3,7 +3,7 @@ function [P,gradP,diagHessP]=schurOneMAPlatticeP(w,k,epsilon,p,R)
 % Calculate the phase responses and gradients of a Schur one-multiplier
 % all-pass lattice filter. If the order of the denominator
 % polynomial is Nk, then there are Nk one-multiplier lattice section
-% coeficients, k. The epsilon and p inputs scale the internal nodes.
+% coefficients, k. The epsilon and p inputs scale the internal nodes.
 % The filter has coefficients only in z^R.
 %
 % Inputs:
@@ -18,7 +18,7 @@ function [P,gradP,diagHessP]=schurOneMAPlatticeP(w,k,epsilon,p,R)
 %   gradP - the gradients of P with respect to k and c
 %   diagHessP - diagonal of the Hessian of P with respect to k and c
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

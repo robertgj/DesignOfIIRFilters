@@ -1,7 +1,7 @@
 function [A,gradA,hessA]=iirA_parallel(w,x,U,V,M,Q,R,tol,Np,parallel_threshold)
 % [A,gradA,hessA]=iirA_parallel(w,x,U,V,M,Q,R,tol,Np,parallel_threshold)
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

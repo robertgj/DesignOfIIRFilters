@@ -6,7 +6,7 @@ function p=casc2tf(a)
 % remaining elements of a are, in order, ai1 and ai2, the coefficients
 % of a second order section [1 + ai1*z^-1 + ai2*z^-2]. 
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

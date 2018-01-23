@@ -1,7 +1,7 @@
 #!/bin/sh
 
-prog=bitflip_bandpass_schur_FIR_lattice_test.m
-depends="bitflip_bandpass_schur_FIR_lattice_test.m test_common.m \
+prog=bitflip_schurFIRlattice_bandpass_test.m
+depends="bitflip_schurFIRlattice_bandpass_test.m test_common.m \
 bitflip_bandpass_test_common.m flt2SD.m schurFIRlattice2Abcd.m \
 Abcd2tf.m print_polynomial.m x2nextra.m SDadders.m \
 bin2SPT.oct bin2SD.oct schurFIRdecomp.oct bitflip.oct"
@@ -47,32 +47,36 @@ k_ex = [   0.4593466811,   0.0207755511,  -0.4543038955,  -0.5752634543, ...
           -0.8093612951,   0.6805119912,  -0.6076281309,   0.2553781860 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k_ex.ok"; fail; fi
+
 cat > test.k_rd.ok << 'EOF'
-k_rd = [  0.46875,  0.03125, -0.46875, -0.56250, ... 
-         -0.37500,  0.15625,  0.50000,  0.43750, ... 
-          0.06250, -0.37500, -0.59375, -0.71875, ... 
-         -0.81250,  0.68750, -0.59375,  0.25000 ];
+k_rd = [       59,        3,      -58,      -74, ... 
+              -47,       19,       62,       57, ... 
+                8,      -49,      -76,      -93, ... 
+             -104,       87,      -78,       33 ]/128;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k_rd.ok"; fail; fi
+
 cat > test.k_bf.ok << 'EOF'
-k_bf = [  0.46875,  0.06250, -0.46875, -0.56250, ... 
-         -0.37500,  0.34375,  0.56250,  0.43750, ... 
-          0.12500, -0.37500, -0.59375, -0.71875, ... 
-         -0.81250,  0.65625, -0.59375,  0.25000 ];
+k_bf = [       63,       10,      -58,      -74, ... 
+              -47,       32,       63,       63, ... 
+               32,      -49,      -76,      -93, ... 
+             -104,       79,      -78,       19 ]/128;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k_bf.ok"; fail; fi
+
 cat > test.k_sd.ok << 'EOF'
-k_sd = [  0.46875,  0.03125, -0.46875, -0.56250, ... 
-         -0.37500,  0.15625,  0.50000,  0.43750, ... 
-          0.06250, -0.37500, -0.59375, -0.71875, ... 
-         -0.81250,  0.68750, -0.59375,  0.25000 ];
+k_sd = [       60,        3,      -56,      -72, ... 
+              -48,       20,       62,       56, ... 
+                8,      -48,      -80,      -96, ... 
+              -96,       80,      -80,       33 ]/128;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k_sd.ok"; fail; fi
+
 cat > test.k_bfsd.ok << 'EOF'
-k_bfsd = [  0.46875,  0.06250, -0.46875, -0.56250, ... 
-           -0.37500,  0.34375,  0.56250,  0.43750, ... 
-            0.12500, -0.37500, -0.59375, -0.71875, ... 
-           -0.81250,  0.65625, -0.59375,  0.25000 ];
+k_bfsd = [       60,       10,      -56,      -72, ... 
+                -48,       33,       63,       63, ... 
+                 32,      -48,      -80,      -96, ... 
+                -96,       80,      -80,       24 ]/128;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k_bfsd.ok"; fail; fi
 
@@ -84,15 +88,15 @@ echo "Running octave-cli -q " $prog
 octave-cli -q $prog > test.out
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.k_ex.ok bitflip_bandpass_schur_FIR_lattice_test_k_ex_coef.m
+diff -Bb test.k_ex.ok bitflip_schurFIRlattice_bandpass_test_k_ex_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.k_ex.ok"; fail; fi
-diff -Bb test.k_rd.ok bitflip_bandpass_schur_FIR_lattice_test_k_rd_coef.m
+diff -Bb test.k_rd.ok bitflip_schurFIRlattice_bandpass_test_k_rd_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.k_rd.ok"; fail; fi
-diff -Bb test.k_bf.ok bitflip_bandpass_schur_FIR_lattice_test_k_bf_coef.m
+diff -Bb test.k_bf.ok bitflip_schurFIRlattice_bandpass_test_k_bf_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.k_bf.ok"; fail; fi
-diff -Bb test.k_sd.ok bitflip_bandpass_schur_FIR_lattice_test_k_sd_coef.m
+diff -Bb test.k_sd.ok bitflip_schurFIRlattice_bandpass_test_k_sd_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.k_sd.ok"; fail; fi
-diff -Bb test.k_bfsd.ok bitflip_bandpass_schur_FIR_lattice_test_k_bfsd_coef.m
+diff -Bb test.k_bfsd.ok bitflip_schurFIRlattice_bandpass_test_k_bfsd_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.k_bfsd.ok"; fail; fi
 
 #

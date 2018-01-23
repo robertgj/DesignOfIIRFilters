@@ -1,5 +1,5 @@
-% simplex_svcasc_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% simplex_svcasc_lowpass_test.m
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the Nelder-Mead simplex algorithm with coefficents of a 5th
 % order elliptic filter implemented as a cascade of 2nd order state variable
@@ -7,11 +7,13 @@
 
 test_common;
 
-unlink("simplex_svcasc_test.diary");
-unlink("simplex_svcasc_test.diary.tmp");
-diary simplex_svcasc_test.diary.tmp
+unlink("simplex_svcasc_lowpass_test.diary");
+unlink("simplex_svcasc_lowpass_test.diary.tmp");
+diary simplex_svcasc_lowpass_test.diary.tmp
 
 truncation_test_common;
+
+strf="simplex_svcasc_lowpass_test";
 
 % Second order cascade state variable decomposition
 [sos,g]=tf2sos(n0,d0);
@@ -69,15 +71,15 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
-tstr=sprintf("5th order elliptic 2nd order cascade: nbits=%d,ndigits=%d",
+strt=sprintf("5th order elliptic 2nd order cascade: nbits=%d,ndigits=%d",
              nbits,ndigits);
-title(tstr);
+title(strt);
 legend("exact","round","simplex(round)","simplex(s-d)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("simplex_svcasc_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Passband response
@@ -88,13 +90,13 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 fpass*1.1 -3 3]);
-title(tstr);
+title(strt);
 legend("exact","round","simplex(round)","simplex(s-d)");
 legend("location","northwest");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("simplex_svcasc_passband_response","-dpdflatex");
+print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Save results
@@ -125,11 +127,12 @@ print_polynomial(b2_sxsd,"b2_sxsd");
 print_polynomial(c1_sxsd,"c1_sxsd");
 print_polynomial(c2_sxsd,"c2_sxsd");
 print_polynomial(dd_sxsd,"dd_sxsd");
-save simplex_svcasc_test.mat ...
+save simplex_svcasc_lowpass_test.mat ...
      a11_rd a12_rd a21_rd a22_rd b1_rd b2_rd c1_rd c2_rd dd_rd ...
      a11_sx a12_sx a21_sx a22_sx b1_sx b2_sx c1_sx c2_sx dd_sx ...
      a11_sxsd a12_sxsd a21_sxsd a22_sxsd b1_sxsd b2_sxsd c1_sxsd c2_sxsd dd_sxsd
 
 % Done
 diary off
-movefile simplex_svcasc_test.diary.tmp simplex_svcasc_test.diary;
+movefile simplex_svcasc_lowpass_test.diary.tmp ...
+         simplex_svcasc_lowpass_test.diary;

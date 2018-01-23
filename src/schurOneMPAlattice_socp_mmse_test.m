@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_mmse_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -16,6 +16,7 @@ verbose=false
 % Low pass filter specification 
 ma=11 % Allpass model filter A denominator order
 mb=12 % Allpass model filter B denominator order
+difference=false % Use sum of allpass filter ouptuts
 fap=0.1 % Pass band amplitude response edge
 dBap=0.5 % Pass band amplitude response ripple
 Wap=1 % Pass band amplitude response weight
@@ -84,6 +85,7 @@ try
   [A1k,A2k,socp_iter,func_iter,feasible]= ...
     schurOneMPAlattice_socp_mmse(vS, ...
                                  A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
+                                 difference, ...
                                  k_u,k_l,k_active,dmax, ...
                                  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                                  wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
@@ -95,9 +97,9 @@ if !feasible
 endif
 
 % Find response
-Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0);
-T=schurOneMPAlatticeT(wt,A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0);
-P=schurOneMPAlatticeP(wp,A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0);
+Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,difference);
+T=schurOneMPAlatticeT(wt,A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,difference);
+P=schurOneMPAlatticeP(wp,A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,difference);
 
 % Common strings
 strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,",fap,dBap,Wap);
@@ -149,7 +151,8 @@ print(sprintf(strd,"A12pass"),"-dpdflatex");
 close
 
 % Plot poles and zeros
-[N12,D12]=schurOneMPAlattice2tf(A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0);
+[N12,D12]=schurOneMPAlattice2tf(A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0, ...
+                                difference);
 subplot(111);
 zplane(roots(N12),roots(D12));
 title(s);

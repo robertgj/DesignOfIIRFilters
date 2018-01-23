@@ -37,7 +37,7 @@ function [s10,s11,s20,s00,s02,s22,sqp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -152,7 +152,7 @@ function [s10,s11,s20,s00,s02,s22,sqp_iter,func_iter,feasible]= ...
   endif
   
   %
-  % Find xsxx_0, the row vector of active coeficients in sxx_0
+  % Find xsxx_0, the row vector of active coefficients in sxx_0
   %
   xsxx_0=sxx_0(sxx_active);
   sxx_u=sxx_u(:)';

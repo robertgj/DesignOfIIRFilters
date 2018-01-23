@@ -9,7 +9,7 @@ function ndigits_alloc=schurOneMAPlattice_frm_hilbert_allocsd_Lim ...
 % D. Li and J. Song, IEEE Transactions on Circuits and Systems-II:Analog and
 % Digital Signal Processing, Vol. 46, No. 5, May 1999, pp.577-584
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

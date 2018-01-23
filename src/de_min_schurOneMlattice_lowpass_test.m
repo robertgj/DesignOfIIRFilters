@@ -1,5 +1,5 @@
-% de_min_OneM_lattice_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% de_min_schurOneMlattice_lowpass_test.m
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the de_min differential evolution algorithm with coefficents
 % of a 5th order elliptic lattice filter in one multiplier form.
@@ -12,9 +12,9 @@
 
 test_common;
 
-unlink("de_min_OneM_lattice_test.diary");
-unlink("de_min_OneM_lattice_test.diary.tmp");
-diary de_min_OneM_lattice_test.diary.tmp
+unlink("de_min_schurOneMlattice_lowpass_test.diary");
+unlink("de_min_schurOneMlattice_lowpass_test.diary.tmp");
+diary de_min_schurOneMlattice_lowpass_test.diary.tmp
 
 truncation_test_common;
 
@@ -23,6 +23,8 @@ if use_best_de_min_found
   warning("Using the best filter found so far. \n\
            Set \"use_best_de_min_found\"=false to re-run de_min.");
 endif
+
+strf="de_min_schurOneMlattice_lowpass_test";
 
 % Lattice decomposition
 [k0,epsilon0,p0,c0] = tf2schurOneMlattice(n0,d0);
@@ -102,15 +104,15 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
-tstr=sprintf("5th order elliptic OneM lattice: nbits=%d,ndigits=%d",
+strt=sprintf("5th order elliptic OneM lattice: nbits=%d,ndigits=%d",
              nbits,ndigits);
-title(tstr);
+title(strt);
 legend("exact","round","de\\_min(round)","signed-digit","de\\_min(s-d)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("de_min_OneM_lattice_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Passband response
@@ -122,13 +124,13 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 fpass*1.1 -3 3]);
-title(tstr);
+title(strt);
 legend("exact","round","de\\_min(round)","signed-digit","de\\_min(s-d)");
 legend("location","northwest");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("de_min_OneM_lattice_passband_response","-dpdflatex");
+print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Results
@@ -140,8 +142,10 @@ print_polynomial(k_sd,"k_sd");
 print_polynomial(c_sd,"c_sd");
 print_polynomial(k_desd,"k_desd");
 print_polynomial(c_desd,"c_desd");
-save de_min_OneM_lattice_test.mat k_rd c_rd k_de c_de k_sd c_sd k_desd c_desd
+save de_min_schurOneMlattice_lowpass_test.mat ...
+     k_rd c_rd k_de c_de k_sd c_sd k_desd c_desd
 
 % Done
 diary off
-movefile de_min_OneM_lattice_test.diary.tmp de_min_OneM_lattice_test.diary;
+movefile de_min_schurOneMlattice_lowpass_test.diary.tmp ...
+         de_min_schurOneMlattice_lowpass_test.diary;

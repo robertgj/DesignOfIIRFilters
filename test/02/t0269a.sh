@@ -49,84 +49,80 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 
 cat > test_2_12_k_Lim.ok << 'EOF'
-2048*k_Lim_12_bits = [  -1152,   -264,    -96,    -32, ... 
-                          -16 ]';
+k_Lim_12_bits = [    -1152,     -272,     -112,      -32, ... 
+                       -16 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_2_12_k_Lim.ok"; fail; fi
 
 cat > test_2_12_u_Lim.ok << 'EOF'
-2048*u_Lim_12_bits = [     -2,     -4,    -15,    -24, ... 
-                          -64,    -72,   -104,   -116, ... 
-                          901 ]';
+u_Lim_12_bits = [       -2,       -4,      -15,      -24, ... 
+                       -64,      -72,     -104,     -116, ... 
+                       901 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_2_12_u_Lim.ok"; fail; fi
 
 cat > test_2_12_v_Lim.ok << 'EOF'
-2048*v_Lim_12_bits = [     16,      9,     15,      4, ... 
-                          -16,    -64,   -164,   -644 ]';
+v_Lim_12_bits = [       16,        9,       15,        4, ... 
+                       -16,      -64,     -168,     -644 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_2_12_v_Lim.ok"; fail; fi
 
 cat > test_2_12_k_Ito.ok << 'EOF'
-2048*k_Ito_12_bits = [  -1152,   -256,    -96,    -32, ... 
-                          -16 ]';
+k_Ito_12_bits = [    -1152,     -272,     -112,      -40, ... 
+                       -16 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_2_12_k_Ito.ok"; fail; fi
 
 cat > test_2_12_u_Ito.ok << 'EOF'
-2048*u_Ito_12_bits = [     -2,     -4,    -16,    -26, ... 
-                          -63,    -70,   -104,   -112, ... 
-                          900 ]';
+u_Ito_12_bits = [       -2,       -4,      -16,      -24, ... 
+                       -63,      -72,     -104,     -120, ... 
+                       900 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_2_12_u_Ito.ok"; fail; fi
 
 cat > test_2_12_v_Ito.ok << 'EOF'
-2048*v_Ito_12_bits = [     16,      9,     16,      4, ... 
-                          -16,    -64,   -164,   -644 ]';
+v_Ito_12_bits = [       16,        8,       16,        4, ... 
+                       -16,      -64,     -168,     -644 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_2_12_v_Ito.ok"; fail; fi
 
 cat > test_3_12_k_Lim.ok << 'EOF'
-2048*k_Lim_12_bits = [  -1160,   -266,   -100,    -40, ... 
-                          -15 ]';
+k_Lim_12_bits = [    -1168,     -280,     -108,      -40, ... 
+                       -18 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_3_12_k_Lim.ok"; fail; fi
 
 cat > test_3_12_u_Lim.ok << 'EOF'
-2048*u_Lim_12_bits = [     -2,     -5,    -15,    -26, ... 
-                          -63,    -70,   -106,   -116, ... 
-                          901 ]';
+u_Lim_12_bits = [       -2,       -5,      -15,      -26, ... 
+                       -63,      -70,     -106,     -117, ... 
+                       901 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_3_12_u_Lim.ok"; fail; fi
 
 cat > test_3_12_v_Lim.ok << 'EOF'
-2048*v_Lim_12_bits = [     12,      9,     15,      4, ... 
-                          -16,    -64,   -165,   -644 ]';
+v_Lim_12_bits = [       12,        9,       15,        4, ... 
+                       -16,      -64,     -166,     -644 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_3_12_v_Lim.ok"; fail; fi
 
 cat > test_3_12_k_Ito.ok << 'EOF'
-2048*k_Ito_12_bits = [  -1152,   -256,    -96,    -32, ... 
-                          -16 ]';
+k_Ito_12_bits = [    -1152,     -272,     -112,      -40, ... 
+                       -16 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_3_12_k_Ito.ok"; fail; fi
 
 cat > test_3_12_u_Ito.ok << 'EOF'
-2048*u_Ito_12_bits = [     -2,     -4,    -16,    -26, ... 
-                          -63,    -70,   -104,   -112, ... 
-                          900 ]';
+u_Ito_12_bits = [       -2,       -4,      -16,      -26, ... 
+                       -63,      -70,     -104,     -117, ... 
+                       900 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_3_12_u_Ito.ok"; fail; fi
 
 cat > test_3_12_v_Ito.ok << 'EOF'
-2048*v_Ito_12_bits = [     13,      9,     16,      4, ... 
-                          -16,    -64,   -164,   -644 ]';
+v_Ito_12_bits = [       13,        8,       16,        4, ... 
+                       -16,      -64,     -168,     -644 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_3_12_v_Ito.ok"; fail; fi
-
-cat > test_12_nbits_cost.ok << 'EOF'
-EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_cost.ok"; fail; fi
 
 #
 # run and see if the results match

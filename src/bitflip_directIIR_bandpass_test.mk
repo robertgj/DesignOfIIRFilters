@@ -1,0 +1,22 @@
+bitflip_directIIR_bandpass_test_FIGURES= \
+bitflip_directIIR_bandpass_test_response
+
+bitflip_directIIR_bandpass_test_COEFS= \
+bitflip_directIIR_bandpass_test.mat \
+bitflip_directIIR_bandpass_test_n_ex_coef.m \
+bitflip_directIIR_bandpass_test_d_ex_coef.m \
+bitflip_directIIR_bandpass_test_n_rd_coef.m \
+bitflip_directIIR_bandpass_test_d_rd_coef.m \
+bitflip_directIIR_bandpass_test_n_bf_coef.m \
+bitflip_directIIR_bandpass_test_d_bf_coef.m \
+bitflip_directIIR_bandpass_test_n_sd_coef.m \
+bitflip_directIIR_bandpass_test_d_sd_coef.m \
+bitflip_directIIR_bandpass_test_n_bfsd_coef.m \
+bitflip_directIIR_bandpass_test_d_bfsd_coef.m \
+bitflip_directIIR_bandpass_test_cost.tab \
+bitflip_directIIR_bandpass_test_adders.tab
+
+bitflip_directIIR_bandpass_test_FILES = \
+bitflip_directIIR_bandpass_test.m test_common.m print_polynomial.m \
+bitflip_bandpass_test_common.m flt2SD.m SDadders.m x2nextra.m \
+bin2SD.oct bitflip.oct bin2SPT.oct

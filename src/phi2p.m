@@ -6,7 +6,7 @@ function p=phi2p(phi)
 % Reference: Figure 6.7.3 of "Digital Signal Processing" R.A. Roberts
 % and C.T. Mullis Addison-Wesley ISBN 0-201-16350-0
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

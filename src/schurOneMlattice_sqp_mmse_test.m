@@ -1,5 +1,5 @@
 % schurOneMlattice_sqp_mmse_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -68,9 +68,9 @@ kc_l=[kl(:);cl(:)];
 kc_active=[find((k0(:)')~=0),(length(k0)+1):(length(k0)+length(c0))]';
 
 % Common strings
-strT=sprintf("Schur one-multiplier lattice lowpass filter SQP %%s response : \
+strf="schurOneMlattice_sqp_mmse_test";
+strt=sprintf("Schur one-multiplier lattice lowpass filter SQP %%s response : \
 fap=%g,fas=%g",fap,fas);
-strF=sprintf("schurOneMlattice_sqp_mmse_test_%%s_%%s");
 
 %
 % SQP MMSE
@@ -87,12 +87,12 @@ if feasible == 0
 endif
 schurOneMlattice_sqp_slb_lowpass_plot ...
   (k1,epsilon0,ones(size(p0)),c1,fap,2,ftp,tp,tp,fas,30, ...
-   sprintf(strF,"mmse","k1c1"),sprintf(strT,"MMSE"));
+   strcat(strf,"_mmse_k1c1"),sprintf(strt,"MMSE"));
 
 %
 % Save the results
 %
-fid=fopen("schurOneMlattice_sqp_mmse_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"length(c0)=%d %% Tap coefficients\n",length(c0));
@@ -108,9 +108,9 @@ fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
 fprintf(fid,"Was_mmse=%d %% Amplitude stop band weight for MMSE\n",Was_mmse);
 fclose(fid);
 print_polynomial(k1,"k1");
-print_polynomial(k1,"k1","schurOneMlattice_sqp_mmse_test_k1_coef.m");
+print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"));
 print_polynomial(c1,"c1");
-print_polynomial(c1,"c1","schurOneMlattice_sqp_mmse_test_c1_coef.m");
+print_polynomial(c1,"c1",strcat(strf,"_c1_coef.m"));
 save schurOneMlattice_sqp_mmse_test.mat n0 d0 k0 epsilon0 p0 c0 ...
      fap Wap ftp tp Wtp_mmse fas Was_mmse dmax rho tol k1 c1
 
@@ -118,4 +118,4 @@ save schurOneMlattice_sqp_mmse_test.mat n0 d0 k0 epsilon0 p0 c0 ...
 toc;
 diary off
 movefile schurOneMlattice_sqp_mmse_test.diary.tmp ...
-       schurOneMlattice_sqp_mmse_test.diary;
+         schurOneMlattice_sqp_mmse_test.diary;

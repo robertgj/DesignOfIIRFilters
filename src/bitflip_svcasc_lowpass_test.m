@@ -1,16 +1,18 @@
-% bitflip_svcasc_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% bitflip_svcasc_lowpass_test.m
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of a 5th order
 % elliptic filter implemented as a cascade of 2nd order state variable sections.
 
 test_common;
 
-unlink("bitflip_svcasc_test.diary");
-unlink("bitflip_svcasc_test.diary.tmp");
-diary bitflip_svcasc_test.diary.tmp
+unlink("bitflip_svcasc_lowpass_test.diary");
+unlink("bitflip_svcasc_lowpass_test.diary.tmp");
+diary bitflip_svcasc_lowpass_test.diary.tmp
 
 truncation_test_common;
+
+strf="bitflip_svcasc_lowpass_test";
 
 % Second order cascade state variable decomposition
 [sos,g]=tf2sos(n0,d0);
@@ -68,15 +70,15 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
-tstr=sprintf("5th order elliptic 2nd order cascade: \
+strt=sprintf("5th order elliptic 2nd order cascade: \
 nbits=%d,bitstart=%d,msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
-title(tstr);
+title(strt);
 legend("exact","round","bitflip(round)","bitflip(s-d)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("bitflip_svcasc_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Passband response
@@ -87,13 +89,13 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 fpass*1.1 -3 3]);
-title(tstr);
+title(strt);
 legend("exact","round","bitflip(round)","bitflip(s-d)");
 legend("location","northwest");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("bitflip_svcasc_passband_response","-dpdflatex");
+print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Save results
@@ -124,11 +126,12 @@ print_polynomial(b2_bfsd,"b2_bfsd");
 print_polynomial(c1_bfsd,"c1_bfsd");
 print_polynomial(c2_bfsd,"c2_bfsd");
 print_polynomial(dd_bfsd,"dd_bfsd");
-save bitflip_svcasc_test.mat ...
+save bitflip_svcasc_lowpass_test.mat ...
      a11_rd a12_rd a21_rd a22_rd b1_rd b2_rd c1_rd c2_rd dd_rd ...
      a11_bf a12_bf a21_bf a22_bf b1_bf b2_bf c1_bf c2_bf dd_bf ...
      a11_bfsd a12_bfsd a21_bfsd a22_bfsd b1_bfsd b2_bfsd c1_bfsd c2_bfsd dd_bfsd
 
 % Done
 diary off
-movefile bitflip_svcasc_test.diary.tmp bitflip_svcasc_test.diary;
+movefile bitflip_svcasc_lowpass_test.diary.tmp ...
+         bitflip_svcasc_lowpass_test.diary;

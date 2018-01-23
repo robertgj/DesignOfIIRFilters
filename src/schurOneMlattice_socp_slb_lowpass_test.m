@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_lowpass_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -12,6 +12,7 @@ tic;
 format compact
 
 tol=1e-6
+ctol=tol
 maxiter=2000
 verbose=false
 
@@ -59,11 +60,6 @@ Pdu=[];
 Pdl=[];
 Wp=[];
 
-% Common strings
-strT=sprintf("Schur one-multiplier lattice lowpass filter SOCP %%s response : \
-fap=%g,dBap=%g,fas=%g,dBas=%g",fap,dBap,fas,dBas);
-strF=sprintf("schurOneMlattice_socp_slb_lowpass_test_%%s_%%s");
-
 % Constraints on the coefficients
 dmax=0; % For compatibility with SQP
 rho=127/128;
@@ -75,6 +71,11 @@ kc_u=[rho*ones(size(k0));10*ones(size(c0))];
 kc_l=-kc_u;
 kc_active=[find((k0)~=0);(Nk+(1:Nc))'];
   
+% Common strings
+strf="schurOneMlattice_socp_slb_lowpass_test";
+strt=sprintf("Schur one-multiplier lattice lowpass filter SOCP %%s response : \
+fap=%g,dBap=%g,fas=%g,dBas=%g",fap,dBap,fas,dBas);
+
 %
 % SOCP PCLS
 %
@@ -85,7 +86,7 @@ tic;
                        wa,Asqd,Asqdu,Asqdl,Wa, ...
                        wt,Td,Tdu,Tdl,Wt, ...
                        wp,Pd,Pdu,Pdl,Wp, ...
-                       maxiter,tol,verbose);
+                       maxiter,tol,ctol,verbose);
 toc;
 if feasible == 0 
   error("k2p,c2p(pcls) infeasible");
@@ -95,7 +96,7 @@ endif
 [k2,epsilon2,p2,c2]=tf2schurOneMlattice(n2,d2);
 schurOneMlattice_socp_slb_lowpass_plot ...
   (k2,epsilon2,p2,c2,fap,dBap,ftp,tp,tpr,fas,dBas, ...
-   sprintf(strF,"pcls","k2c2"),sprintf(strT,"PCLS"));
+   strcat(strf,"_pcls_k2c2"),sprintf(strt,"PCLS"));
 
 % Amplitude and delay at local peaks
 Asq=schurOneMlatticeAsq(wa,k2,epsilon2,p2,c2);
@@ -116,8 +117,9 @@ printf("k2,c2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 %
 % Save the results
 %
-fid=fopen("schurOneMlattice_socp_slb_lowpass_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"length(c0)=%d %% Tap coefficients\n",length(c0));
 fprintf(fid,"length(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",length(k0));
@@ -130,35 +132,29 @@ fprintf(fid,"tp=%g %% Nominal pass band filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Delay pass band peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
-fprintf(fid,"dBas=%d %% amplitude stop band peak-to-peak ripple\n",dBas);
+fprintf(fid,"dBas=%d %% Amplitude stop band peak-to-peak ripple\n",dBas);
 fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 print_polynomial(k2,"k2");
-print_polynomial(k2,"k2",...
-                 "schurOneMlattice_socp_slb_lowpass_test_k2_coef.m");
+print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
 print_polynomial(epsilon2,"epsilon2");
-print_polynomial(epsilon2,"epsilon2",...
-                 "schurOneMlattice_socp_slb_lowpass_test_epsilon2_coef.m","%2d");
+print_polynomial(epsilon2,"epsilon2",strcat(strf,"_epsilon2_coef.m"),"%2d");
 print_polynomial(p2,"p2");
-print_polynomial(p2,"p2",...
-                 "schurOneMlattice_socp_slb_lowpass_test_p2_coef.m");
+print_polynomial(p2,"p2",strcat(strf,"_p2_coef.m"));
 print_polynomial(c2,"c2");
-print_polynomial(c2,"c2",...
-                 "schurOneMlattice_socp_slb_lowpass_test_c2_coef.m");
+print_polynomial(c2,"c2",strcat(strf,"_c2_coef.m"));
 print_polynomial(n2,"n2");
-print_polynomial(n2,"n2",...
-                 "schurOneMlattice_socp_slb_lowpass_test_n2_coef.m");
+print_polynomial(n2,"n2",strcat(strf,"_n2_coef.m"));
 print_polynomial(d2,"d2");
-print_polynomial(d2,"d2",...
-                 "schurOneMlattice_socp_slb_lowpass_test_d2_coef.m");
+print_polynomial(d2,"d2",strcat(strf,"_d2_coef.m"));
 
 save schurOneMlattice_socp_slb_lowpass_test.mat x0 n0 d0 k0 epsilon0 p0 c0 ...
-     fap dBap Wap ftp tp tpr Wtp Wat fas dBas Was rho tol ...
+     fap dBap Wap ftp tp tpr Wtp Wat fas dBas Was rho tol ctol ...
      k2 epsilon2 p2 c2 n2 d2
 
 % Done
 toc;
 diary off
 movefile schurOneMlattice_socp_slb_lowpass_test.diary.tmp ...
-       schurOneMlattice_socp_slb_lowpass_test.diary;
+         schurOneMlattice_socp_slb_lowpass_test.diary;

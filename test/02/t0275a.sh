@@ -25,14 +25,16 @@ pass()
 }
 
 trap "fail" 1 2 3 15
-mkdir $tmp
-if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
-echo $here
 
 # If minphase.oct does not exist then return the aet code for "pass"
 if ! test -f src/minphase.oct; then 
     echo SKIPPED $descr minphase.oct not found! ; exit 0; 
 fi
+
+mkdir $tmp
+if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
+echo $here
+
 for file in $depends;do \
   cp -R src/$file $tmp; \
   if [ $? -ne 0 ]; then echo "Failed cp "$file; fail; fi \

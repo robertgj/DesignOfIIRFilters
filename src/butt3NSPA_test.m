@@ -1,5 +1,5 @@
 % butt3NSPA_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 % 
 % Test case for the 3rd order Butterworth lattice filter
 % implemented as the parallel combination of two allpass
@@ -59,52 +59,78 @@ A2ngABCD
 A2ngapABCD
 
 % Quantise filter coefficients
+use_exact_coefficients=false
 nbits=10
 scale=2^(nbits-1)
 ndigits=3
+
 % Signed-digit approximation
-format long e
-if 0
-  A1s10f = A1s10
-  A1s11f = A1s11
-  A1s20f = A1s20
-  A1s00f = A1s00
-  A1s02f = A1s02
-  A1s22f = A1s22
-  A2s10f = A2s10
-  A2s11f = A2s11
-  A2s20f = A2s20
-  A2s00f = A2s00
-  A2s02f = A2s02
-  A2s22f = A2s22
-elseif ndigits ~= 0
-  A1s10f = flt2SD(A1s10, nbits, ndigits)
-  A1s11f = flt2SD(A1s11, nbits, ndigits)
-  A1s20f = flt2SD(A1s20, nbits, ndigits)
-  A1s00f = flt2SD(A1s00, nbits, ndigits)
-  A1s02f = flt2SD(A1s02, nbits, ndigits)
-  A1s22f = flt2SD(A1s22, nbits, ndigits)
-  A2s10f = flt2SD(A2s10, nbits, ndigits)
-  A2s11f = flt2SD(A2s11, nbits, ndigits)
-  A2s20f = flt2SD(A2s20, nbits, ndigits)
-  A2s00f = flt2SD(A2s00, nbits, ndigits)
-  A2s02f = flt2SD(A2s02, nbits, ndigits)
-  A2s22f = flt2SD(A2s22, nbits, ndigits)
+if use_exact_coefficients
+  A1s10f = A1s10;
+  A1s11f = A1s11;
+  A1s20f = A1s20;
+  A1s00f = A1s00;
+  A1s02f = A1s02;
+  A1s22f = A1s22;
+  A2s10f = A2s10;
+  A2s11f = A2s11;
+  A2s20f = A2s20;
+  A2s00f = A2s00;
+  A2s02f = A2s02;
+  A2s22f = A2s22;
+  print_polynomial(A1s10f,"A1s10f");
+  print_polynomial(A1s11f,"A1s11f");
+  print_polynomial(A1s20f,"A1s20f");
+  print_polynomial(A1s00f,"A1s00f");
+  print_polynomial(A1s02f,"A1s02f");
+  print_polynomial(A1s22f,"A1s22f");
+  print_polynomial(A2s10f,"A2s10f");
+  print_polynomial(A2s11f,"A2s11f");
+  print_polynomial(A2s20f,"A2s20f");
+  print_polynomial(A2s00f,"A2s00f");
+  print_polynomial(A2s02f,"A2s02f");
+  print_polynomial(A2s22f,"A2s22f");
 else
-  A1s10f = round(A1s10*scale)/scale
-  A1s11f = round(A1s11*scale)/scale
-  A1s20f = round(A1s20*scale)/scale
-  A1s00f = round(A1s00*scale)/scale
-  A1s02f = round(A1s02*scale)/scale
-  A1s22f = round(A1s22*scale)/scale
-  A2s10f = round(A2s10*scale)/scale
-  A2s11f = round(A2s11*scale)/scale
-  A2s20f = round(A2s20*scale)/scale
-  A2s00f = round(A2s00*scale)/scale
-  A2s02f = round(A2s02*scale)/scale
-  A2s22f = round(A2s22*scale)/scale;
+  if ndigits ~= 0
+    A1s10f = flt2SD(A1s10, nbits, ndigits);
+    A1s11f = flt2SD(A1s11, nbits, ndigits);
+    A1s20f = flt2SD(A1s20, nbits, ndigits);
+    A1s00f = flt2SD(A1s00, nbits, ndigits);
+    A1s02f = flt2SD(A1s02, nbits, ndigits);
+    A1s22f = flt2SD(A1s22, nbits, ndigits);
+    A2s10f = flt2SD(A2s10, nbits, ndigits);
+    A2s11f = flt2SD(A2s11, nbits, ndigits);
+    A2s20f = flt2SD(A2s20, nbits, ndigits);
+    A2s00f = flt2SD(A2s00, nbits, ndigits);
+    A2s02f = flt2SD(A2s02, nbits, ndigits);
+    A2s22f = flt2SD(A2s22, nbits, ndigits);
+  else
+    A1s10f = round(A1s10*scale)/scale;
+    A1s11f = round(A1s11*scale)/scale;
+    A1s20f = round(A1s20*scale)/scale;
+    A1s00f = round(A1s00*scale)/scale;
+    A1s02f = round(A1s02*scale)/scale;
+    A1s22f = round(A1s22*scale)/scale;
+    A2s10f = round(A2s10*scale)/scale;
+    A2s11f = round(A2s11*scale)/scale;
+    A2s20f = round(A2s20*scale)/scale;
+    A2s00f = round(A2s00*scale)/scale;
+    A2s02f = round(A2s02*scale)/scale;
+    A2s22f = round(A2s22*scale)/scale;
+  endif
+  print_polynomial(A1s10f,"A1s10f",scale);
+  print_polynomial(A1s11f,"A1s11f",scale);
+  print_polynomial(A1s20f,"A1s20f",scale);
+  print_polynomial(A1s00f,"A1s00f",scale);
+  print_polynomial(A1s02f,"A1s02f",scale);
+  print_polynomial(A1s22f,"A1s22f",scale);
+  print_polynomial(A2s10f,"A2s10f",scale);
+  print_polynomial(A2s11f,"A2s11f",scale);
+  print_polynomial(A2s20f,"A2s20f",scale);
+  print_polynomial(A2s00f,"A2s00f",scale);
+  print_polynomial(A2s02f,"A2s02f",scale);
+  print_polynomial(A2s22f,"A2s22f",scale);
 endif
-format short e
 
 % Noise gain for quantised coefficients
 [A1R2f,B1R2f,C1R2f,D1R2f,A1ngABCDf,...

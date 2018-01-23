@@ -1,5 +1,5 @@
 % directFIRsymmetric_socp_slb_bandpass_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 % Optimisation of Schur one-multiplier lattice bandpass filter response with
 % 10-bit signed-digit coefficients having Ito et al. allocation and SOCP

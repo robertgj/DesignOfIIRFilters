@@ -17,7 +17,7 @@ function [T,gradT,diagHessT]=H2T(H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2)
 %   gradT - the gradients of T with respect to x
 %   diagHessT - diagonal of the Hessian of T with respect to x
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

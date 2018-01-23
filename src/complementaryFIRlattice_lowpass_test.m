@@ -1,5 +1,5 @@
 % complementaryFIRlattice_lowpass_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -8,7 +8,8 @@ unlink("complementaryFIRlattice_lowpass_test.diary.tmp");
 diary complementaryFIRlattice_lowpass_test.diary.tmp
 
 format short e
-fstr="complementaryFIRlattice_lowpass_test_%s";
+
+strf="complementaryFIRlattice_lowpass_test";
 
 %
 % Lowpass filter specification
@@ -21,10 +22,10 @@ brz1=remez(2*M,2*[0 fap fas 0.5],[1 1 0 0]);
 [brz,brzc,krz,krzhat]=complementaryFIRlattice(brz1(:));
 
 % Save results
-print_polynomial(brz,"brz",sprintf(fstr,"brz_coef.m"),"%12.8f");
-print_polynomial(brzc,"brzc",sprintf(fstr,"brzc_coef.m"),"%12.8f");
-print_polynomial(krz,"krz",sprintf(fstr,"krz_coef.m"),"%12.8f");
-print_polynomial(krzhat,"krzhat",sprintf(fstr,"krzhat_coef.m"),"%12.8f");
+print_polynomial(brz,"brz",strcat(strf,"_brz_coef.m"),"%12.8f");
+print_polynomial(brzc,"brzc",strcat(strf,"_brzc_coef.m"),"%12.8f");
+print_polynomial(krz,"krz",strcat(strf,"_krz_coef.m"),"%12.8f");
+print_polynomial(krzhat,"krzhat",strcat(strf,"_krzhat_coef.m"),"%12.8f");
 
 % Sanity check on FIR response
 nplot=1024;
@@ -44,9 +45,9 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 legend("Hbrz","Hbrzc");
 legend("location","east");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
-print(sprintf(fstr,"brz_brzc_response"),"-dpdflatex");
+print(strcat(strf,"_brz_brzc_response"),"-dpdflatex");
 close
 
 % Make a quantised noise signal with standard deviation 0.25
@@ -60,9 +61,9 @@ u=round(u*nscale);
 
 % Filter
 [ykrz ykrzhat xxkrz]=complementaryFIRlatticeFilter(krz,krzhat,u);
-print_polynomial(ykrz(1:256),"ykrz",sprintf(fstr,"ykrz.m"),"% 12.4f");
-print_polynomial(ykrzhat(1:256),"ykrzhat",sprintf(fstr,"ykrzhat.m"),"% 12.4f");
-print_polynomial(std(xxkrz),"stdxxkrz",sprintf(fstr,"stdxxkrz.m"),"% 12.4f");
+print_polynomial(ykrz(1:256),"ykrz",strcat(strf,"_ykrz.m"),"% 12.4f");
+print_polynomial(ykrzhat(1:256),"ykrzhat",strcat(strf,"_ykrzhat.m"),"% 12.4f");
+print_polynomial(std(xxkrz),"stdxxkrz",strcat(strf,"_stdxxkrz.m"),"% 12.4f");
 
 % Calculate frequency response
 nfpts=1024;
@@ -80,7 +81,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 legend("Hkrz","Hkrzhat");
 legend("location","east");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 subplot(212);
 plot(nppts/nfpts,abs(abs(Hkrz).^2+abs(Hkrzhat).^2));
@@ -88,7 +89,7 @@ axis([0 0.5 0.9 1.1])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hkrz|^2+|Hkrzhat|^2");
-print(sprintf(fstr,"krz_krzhat_response"),"-dpdflatex");
+print(strcat(strf,"_krz_krzhat_response"),"-dpdflatex");
 close
 
 % Estimate the complementary FIR lattice transfer functions
@@ -107,7 +108,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 legend("Hebrz","Hebrzc");
 legend("location","east");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 subplot(212);
 plot(nppts/nfpts,abs(abs(Hebrz).^2+abs(Hebrzc).^2));
@@ -115,7 +116,7 @@ axis([0 0.5 0.9 1.1])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hebrz|^2+|Hebrzc|^2");
-print(sprintf(fstr,"ebrz_ebrzc_response"),"-dpdflatex");
+print(strcat(strf,"_ebrz_ebrzc_response"),"-dpdflatex");
 close
 
 % Filter a sine wave
@@ -153,10 +154,10 @@ endif
 
 % Filter (brz=-pbkrz and brzc=-flipud(pbrzkhat) so phase responses differ)
 [ypkrz ypkrzhat xxpkrz]=complementaryFIRlatticeFilter(pkrz,pkrzhat,u);
-print_polynomial(ypkrz(1:256),"ypkrz",sprintf(fstr,"ypkrz.m"),"% 12.4f");
+print_polynomial(ypkrz(1:256),"ypkrz",strcat(strf,"_ypkrz.m"),"% 12.4f");
 print_polynomial ...
-  (ypkrzhat(1:256),"ypkrzhat",sprintf(fstr,"ypkrzhat.m"),"% 12.4f");
-print_polynomial(std(xxpkrz),"stdxxpkrz",sprintf(fstr,"stdxxpkrz.m"),"% 12.4f");
+  (ypkrzhat(1:256),"ypkrzhat",strcat(strf,"_ypkrzhat.m"),"% 12.4f");
+print_polynomial(std(xxpkrz),"stdxxpkrz",strcat(strf,"_stdxxpkrz.m"),"% 12.4f");
 
 % Calculate frequency response
 nfpts=1024;
@@ -174,7 +175,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 legend("Hpkrz","Hpkrzhat");
 legend("location","east");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 subplot(212);
 plot(nppts/nfpts,abs(abs(Hpkrz).^2+abs(Hpkrzhat).^2));
@@ -182,7 +183,7 @@ axis([0 0.5 0.9 1.1])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hpkrz|^2+|Hpkrzhat|^2");
-print(sprintf(fstr,"pkrz_pkrzhat_response"),"-dpdflatex");
+print(strcat(strf,"_pkrz_pkrzhat_response"),"-dpdflatex");
 close
 
 % Done

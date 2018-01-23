@@ -22,7 +22,7 @@ function [hM,socp_iter,func_iter,feasible]=directFIRsymmetric_mmsePW ...
 %   socp_iter,func_iter - for compatibility
 %   feasible - true if the design satisfies the constraints
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

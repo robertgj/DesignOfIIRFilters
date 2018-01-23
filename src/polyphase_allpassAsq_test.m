@@ -1,5 +1,5 @@
 % polyphase_allpassAsq_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 % Check the squared-magnitude response and gradient for the polyphase
 % combination of two allpass filters
 

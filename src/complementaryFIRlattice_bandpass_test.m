@@ -1,5 +1,5 @@
 % complementaryFIRlattice_bandpass_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -8,7 +8,8 @@ unlink("complementaryFIRlattice_bandpass_test.diary.tmp");
 diary complementaryFIRlattice_bandpass_test.diary.tmp
 
 format short e
-fstr="complementaryFIRlattice_bandpass_test_%s";
+
+strf="complementaryFIRlattice_bandpass_test";
 
 %
 % Filter from iir_sqp_slb_fir_17_bandpass_test.m
@@ -27,10 +28,10 @@ nb17b=length(b17b1);
 [b17b,b17bc,k17b,k17bhat]=complementaryFIRlattice(b17b1(:));
 
 % Save results
-print_polynomial(b17b,"b17b",sprintf(fstr,"b17b_coef.m"),"%12.8f");
-print_polynomial(b17bc,"b17bc",sprintf(fstr,"b17bc_coef.m"),"%12.8f");
-print_polynomial(k17b,"k17b",sprintf(fstr,"k17b_coef.m"),"%12.8f");
-print_polynomial(k17bhat,"k17bhat",sprintf(fstr,"k17bhat_coef.m"),"%12.8f");
+print_polynomial(b17b,"b17b",strcat(strf,"_b17b_coef.m"),"%12.8f");
+print_polynomial(b17bc,"b17bc",strcat(strf,"_b17bc_coef.m"),"%12.8f");
+print_polynomial(k17b,"k17b",strcat(strf,"_k17b_coef.m"),"%12.8f");
+print_polynomial(k17bhat,"k17bhat",strcat(strf,"_k17bhat_coef.m"),"%12.8f");
 
 % Sanity check on FIR response
 nplot=1024;
@@ -50,9 +51,9 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 legend("Hb17b","Hb17bc");
 legend("location","east");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
-print(sprintf(fstr,"b17b_b17bc_response"),"-dpdflatex");
+print(strcat(strf,"_b17b_b17bc_response"),"-dpdflatex");
 close
 
 % Make a quantised noise signal with standard deviation 0.25
@@ -66,10 +67,10 @@ u=round(u*nscale);
 
 % Filter
 [yk17b yk17bhat xxk17b]=complementaryFIRlatticeFilter(k17b,k17bhat,u);
-print_polynomial(yk17b(1:256),"yk17b",sprintf(fstr,"yk17b.m"),"% 12.4f");
+print_polynomial(yk17b(1:256),"yk17b",strcat(strf,"_yk17b.m"),"% 12.4f");
 print_polynomial ...
-  (yk17bhat(1:256),"yk17bhat",sprintf(fstr,"yk17bhat.m"),"% 12.4f");
-print_polynomial(std(xxk17b),"stdxxk17b",sprintf(fstr,"stdxxk17b.m"),"% 12.4f");
+  (yk17bhat(1:256),"yk17bhat",strcat(strf,"_yk17bhat.m"),"% 12.4f");
+print_polynomial(std(xxk17b),"stdxxk17b",strcat(strf,"_stdxxk17b.m"),"% 12.4f");
 
 % Calculate frequency response
 nfpts=1024;
@@ -87,7 +88,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 legend("Hk17b","Hk17bhat");
 legend("location","east");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 subplot(212);
 plot(nppts/nfpts,abs(abs(Hk17b).^2+abs(Hk17bhat).^2));
@@ -95,7 +96,7 @@ axis([0 0.5 0.98 1.02])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hk17b|^2+|Hk17bhat|^2");
-print(sprintf(fstr,"k17b_k17bhat_response"),"-dpdflatex");
+print(strcat(strf,"_k17b_k17bhat_response"),"-dpdflatex");
 close
 
 % Estimate the complementary FIR lattice transfer functions
@@ -114,7 +115,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 legend("Heb17b","Heb17bc");
 legend("location","east");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 subplot(212);
 plot(nppts/nfpts,abs(abs(Heb17b).^2+abs(Heb17bc).^2));
@@ -122,7 +123,7 @@ axis([0 0.5 0.98 1.02])
 grid("on");
 xlabel("Frequency")
 ylabel("|Heb17b|^2+|Heb17bc|^2");
-print(sprintf(fstr,"eb17b_eb17bc_response"),"-dpdflatex");
+print(strcat(strf,"_eb17b_eb17bc_response"),"-dpdflatex");
 close
 
 % Filter a sine wave
@@ -171,18 +172,18 @@ xlabel("Frequency");
 ylabel("Group delay (samples");
 legend("Tb17b","Tpbk17b");
 legend("location","west");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
-print(sprintf(fstr,"Tb17b_Tpbk17b_response"),"-dpdflatex");
+print(strcat(strf,"_Tb17b_Tpbk17b_response"),"-dpdflatex");
 close
 
 % Filter (b17b=-pbk17b and b17bc=-flipud(pb17bkhat) so phase responses differ)
 [ypk17b ypk17bhat xxpk17b]=complementaryFIRlatticeFilter(pk17b,pk17bhat,u);
-print_polynomial(ypk17b(1:256),"ypk17b",sprintf(fstr,"ypk17b.m"),"% 12.4f");
+print_polynomial(ypk17b(1:256),"ypk17b",strcat(strf,"_ypk17b.m"),"% 12.4f");
 print_polynomial ...
-  (ypk17bhat(1:256),"ypk17bhat",sprintf(fstr,"ypk17bhat.m"),"% 12.4f");
+  (ypk17bhat(1:256),"ypk17bhat",strcat(strf,"_ypk17bhat.m"),"% 12.4f");
 print_polynomial ...
-  (std(xxpk17b),"stdxxpk17b",sprintf(fstr,"stdxxpk17b.m"),"% 12.4f");
+  (std(xxpk17b),"stdxxpk17b",strcat(strf,"_stdxxpk17b.m"),"% 12.4f");
 
 % Calculate frequency response
 nfpts=1024;
@@ -200,7 +201,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 legend("Hpk17b","Hpk17bhat");
 legend("location","east");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 subplot(212);
 plot(nppts/nfpts,abs(abs(Hpk17b).^2+abs(Hpk17bhat).^2));
@@ -208,7 +209,7 @@ axis([0 0.5 0.98 1.02])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hpk17b|^2+|Hpk17bhat|^2");
-print(sprintf(fstr,"pk17b_pk17bhat_response"),"-dpdflatex");
+print(strcat(strf,"_pk17b_pk17bhat_response"),"-dpdflatex");
 close
 
 % Done

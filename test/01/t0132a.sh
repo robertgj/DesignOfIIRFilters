@@ -1,8 +1,8 @@
 #!/bin/sh
 
-prog=simplex_OneMPA_lattice_test.m
+prog=simplex_schurOneMPAlattice_lowpass_test.m
 
-depends="simplex_OneMPA_lattice_test.m test_common.m print_polynomial.m \
+depends="simplex_schurOneMPAlattice_lowpass_test.m test_common.m print_polynomial.m \
 tf2schurOneMlattice.m truncation_test_common.m schurOneMPAlattice2tf.m \
 schurOneMPAlattice_cost.m schurOneMscale.m flt2SD.m x2nextra.m tf2pa.m \
 Abcd2tf.m schurOneMlattice2Abcd.oct spectralfactor.oct schurdecomp.oct \

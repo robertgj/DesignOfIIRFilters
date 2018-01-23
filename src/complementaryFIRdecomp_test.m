@@ -1,5 +1,5 @@
 % complementaryFIRdecomp_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -9,7 +9,7 @@ diary complementaryFIRdecomp_test.diary.tmp
 
 format long e
 
-fstr="complementaryFIRdecomp_test_%s_coef.m";
+strf="complementaryFIRdecomp_test";
                                               
 %
 % Lowpass filter specification
@@ -21,20 +21,20 @@ brz=brz(:);
 tol=40*eps;
 [brz,brzc,krz,krzhat]=complementaryFIRlattice(brz,tol);
 % Save results
-print_polynomial(brz,"brz",sprintf(fstr,"brz"),"%12.8f");
-print_polynomial(brzc,"brzc",sprintf(fstr,"brzc"),"%12.8f");
-print_polynomial(krz,"krz",sprintf(fstr,"krz"),"%12.8f");
-print_polynomial(krzhat,"krzhat",sprintf(fstr,"krzhat"),"%12.8f");
+print_polynomial(brz,"brz",strcat(strf,"_brz_coef.m"),"%12.8f");
+print_polynomial(brzc,"brzc",strcat(strf,"_brzc_coef.m"),"%12.8f");
+print_polynomial(krz,"krz",strcat(strf,"_krz_coef.m"),"%12.8f");
+print_polynomial(krzhat,"krzhat",strcat(strf,"_krzhat_coef.m"),"%12.8f");
 
 % Extra test for order reduction
 brze=[0;brz;0];
 tol=10*eps
 [brze,brzec,krze,krzehat]=complementaryFIRlattice(brze,tol,2^20);
 % Save results
-print_polynomial(brze,"brze",sprintf(fstr,"brze"),"%12.8f");
-print_polynomial(brzec,"brzec",sprintf(fstr,"brzec"),"%12.8f");
-print_polynomial(krze,"krze",sprintf(fstr,"krze"),"%12.8f");
-print_polynomial(krzehat,"krzehat",sprintf(fstr,"krzehat"),"%12.8f");
+print_polynomial(brze,"brze",strcat(strf,"_brze_coef.m"),"%12.8f");
+print_polynomial(brzec,"brzec",strcat(strf,"_brzec_coef.m"),"%12.8f");
+print_polynomial(krze,"krze",strcat(strf,"_krze_coef.m"),"%12.8f");
+print_polynomial(krzehat,"krzehat",strcat(strf,"_krzehat_coef.m"),"%12.8f");
 
 %
 % Minimum-phase bandpass filter from iir_sqp_slb_fir_17_bandpass_test.m
@@ -50,10 +50,10 @@ d1 = [   0.0920209477, ...
 b17b=b17b(:);
 [b17b,b17bc,k17b,k17bhat]=complementaryFIRlattice(b17b);
 % Save results
-print_polynomial(b17b,"b17b",sprintf(fstr,"b17b"),"%12.8f");
-print_polynomial(b17bc,"b17bc",sprintf(fstr,"b17bc"),"%12.8f");
-print_polynomial(k17b,"k17b",sprintf(fstr,"k17b"),"%12.8f");
-print_polynomial(k17bhat,"k17bhat",sprintf(fstr,"k17bhat"),"%12.8f");
+print_polynomial(b17b,"b17b",strcat(strf,"_b17b_coef.m"),"%12.8f");
+print_polynomial(b17bc,"b17bc",strcat(strf,"_b17bc_coef.m"),"%12.8f");
+print_polynomial(k17b,"k17b",strcat(strf,"_k17b_coef.m"),"%12.8f");
+print_polynomial(k17bhat,"k17bhat",strcat(strf,"_k17bhat_coef.m"),"%12.8f");
 
 %
 % Lowpass filter from cl2lp
@@ -62,10 +62,10 @@ hcl=cl2lp(M,0.5*pi,[1, 0.01],[0.95, -0.01],2^20);
 hcl=hcl(:);
 [hcl,hclc,kcl,kclhat]=complementaryFIRlattice(hcl);
 % Save results
-print_polynomial(hcl,"hcl",sprintf(fstr,"hcl"),"%12.8f");
-print_polynomial(hclc,"hclc",sprintf(fstr,"hclc"),"%12.8f");
-print_polynomial(kcl,"kcl",sprintf(fstr,"kcl"),"%12.8f");
-print_polynomial(kclhat,"kclhat",sprintf(fstr,"kclhat"),"%12.8f");
+print_polynomial(hcl,"hcl",strcat(strf,"_hcl_coef.m"),"%12.8f");
+print_polynomial(hclc,"hclc",strcat(strf,"_hclc_coef.m"),"%12.8f");
+print_polynomial(kcl,"kcl",strcat(strf,"_kcl_coef.m"),"%12.8f");
+print_polynomial(kclhat,"kclhat",strcat(strf,"_kclhat_coef.m"),"%12.8f");
 
 % Done
 diary off

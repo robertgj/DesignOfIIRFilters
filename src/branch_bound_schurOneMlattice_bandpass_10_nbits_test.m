@@ -1,14 +1,14 @@
-% branch_bound_bandpass_OneM_lattice_10_nbits_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% branch_bound_schurOneMlattice_bandpass_10_nbits_test.m
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 % Branch-and-bound search of Schur one-multiplier lattice bandpass filter
 % response with 10-bit signed-digit coefficients and Ito et al. allocation
 
 test_common;
 
-unlink("branch_bound_bandpass_OneM_lattice_10_nbits_test.diary");
-unlink("branch_bound_bandpass_OneM_lattice_10_nbits_test.diary.tmp");
-diary branch_bound_bandpass_OneM_lattice_10_nbits_test.diary.tmp
+unlink("branch_bound_schurOneMlattice_bandpass_10_nbits_test.diary");
+unlink("branch_bound_schurOneMlattice_bandpass_10_nbits_test.diary.tmp");
+diary branch_bound_schurOneMlattice_bandpass_10_nbits_test.diary.tmp
 
 % Options
 use_best_branch_and_bound_found=true
@@ -24,6 +24,35 @@ maxiter=400
 verbose=false;
 
 schurOneMlattice_bandpass_10_nbits_common;
+
+strf="branch_bound_schurOneMlattice_bandpass_10_nbits_test";
+
+% Scale the rounded c0 to use all the bits 
+c0_rd=round(c0*nscale)/nscale;
+c0_rd_range=ceil(-log2(min(abs(c0_rd(find(c0_rd~=0))))/max(abs(c0_rd))));
+printf("c0 rounded to %d bits has range %d bits\n",nbits,c0_rd_range);
+if exist('cscale','var')~=1
+  if (nbits-c0_rd_range-1)<=0
+    cscale=1
+  else
+    cscale=2^(nbits-c0_rd_range-1)
+  endif
+endif
+cnscale=cscale*nscale;
+
+% Scale the signed-digit representation
+kc0=[k0;c0*cscale];
+[kc0_sd,kc0_sdu,kc0_sdl]=flt2SD(kc0,nbits,ndigits_alloc);
+k0_sd=kc0_sd(1:Nk);
+k0_sd=k0_sd(:);
+c0_sd=kc0_sd((Nk+1):end)/cscale;
+c0_sd=c0_sd(:);
+% Initialise kc_active
+kc0_sdul=kc0_sdu-kc0_sdl;
+kc0_active=find(kc0_sdul~=0);
+n_active=length(kc0_active);
+% Find kc0_sd error
+Esq0_sd=schurOneMlatticeEsq(k0_sd,epsilon0,p0,c0_sd,wa,Asqd,Wa,wt,Td,Wt);
 
 % Define stack of current filter coefficients and tree depth
 kc_stack=cell(1,n_active);
@@ -49,11 +78,19 @@ c_allocsd_digits=int16(ndigits_alloc((Nk+1):end));
 printf("c_allocsd_digits=[ ");printf("%2d ",c_allocsd_digits);printf("]';\n");
 
 if use_best_branch_and_bound_found
-  k_min=[ 0 334 0 264 0 176 0 216 0 148 0 128 0 74 0 51 0 17 0 7 ]'/nscale;
-  c_min=[ 40 -2 -144 -255 -94 48 192 160 15 -40 -42 -8 -2 -16 -13 ...
-          1 12 8 1 0 2 ]'/nscale;
-  branches_min=670;
-  kc_min=[k_min(:);c_min(:)];
+  k_min = [      0,    351,      0,    264, ... 
+                 0,    188,      0,    216, ... 
+                 0,    156,      0,    128, ... 
+                 0,     78,      0,     49, ... 
+                 0,     17,      0,      6 ]'/nscale;
+  c_min = [     72,     -2,   -272,   -496, ... 
+              -184,     96,    388,    320, ... 
+                30,    -80,    -84,    -16, ... 
+                -4,    -32,    -24,      4, ... 
+                24,     16,      1,      0, ... 
+                 4 ]'/cnscale;
+  branches_min=482;
+  kc_min=[k_min(:);c_min(:)*cscale];
   Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p0,c_min,wa,Asqd,Wa,wt,Td,Wt);
   improved_solution_found=true;
 else
@@ -79,8 +116,9 @@ else
         % Use the active coefficient with the largest absolute gradient of Esq
         % This method did not find an improved solution despite running the
         % MMSE case for several hours without completing.
-        [Esq,gradEsq]=schurOneMlatticeEsq(kc_b(1:Nk),epsilon0,p0,...
-                                          kc_b((Nk+1):end),wa,Asqd,Wa,wt,Td,Wt);
+        [Esq,gradEsq]=schurOneMlatticeEsq ...
+                        (kc_b(1:Nk),epsilon0,p0,kc_b((Nk+1):end)/cscale, ...
+                         wa,Asqd,Wa,wt,Td,Wt);
         [kc_max,kc_max_n]=max(abs(gradEsq(kc_active)));
       endif
       coef_n=kc_active(kc_max_n);
@@ -117,12 +155,12 @@ else
       % Find the SQP PCLS solution for the remaining active coefficents
       [nextk,nextc,slb_iter,opt_iter,func_iter,feasible] = ...
       schurOneMlattice_slb(@schurOneMlattice_sqp_mmse, ...
-                           kc_b(1:Nk),epsilon0,p0,kc_b((Nk+1):end), ...
+                           kc_b(1:Nk),epsilon0,p0,kc_b((Nk+1):end)/cscale, ...
                            kc_bu,kc_bl,kc_active,dmax, ...
                            wa,Asqd,Asqdu,Asqdl,Wa, ...
                            wt,Td,Tdu,Tdl,Wt, ...
                            wp,Pd,Pdu,Pdl,Wp, ...
-                           maxiter,tol,verbose);
+                           maxiter,tol,ctol,verbose);
    catch
       feasible=false;
       warning("Branch and bound SQP failed!\n");
@@ -142,7 +180,7 @@ else
     % Update the active coefficients
     if feasible && ~isempty(kc_active)
       % Update kc_b
-      nextkc=[nextk(:);nextc(:)];
+      nextkc=[nextk(:);nextc(:)*cscale];
       kc_b(kc_active)=nextkc(kc_active);
       % Check bound on Esq 
       Esq=schurOneMlatticeEsq(nextk,epsilon0,p0,nextc,wa,Asqd,Wa,wt,Td,Wt);
@@ -159,7 +197,7 @@ else
       % Update Esq_min
       branch_tree=false;
       k_b=kc_b(1:Nk);
-      c_b=kc_b((Nk+1):end);
+      c_b=kc_b((Nk+1):end)/cscale;
       Esq=schurOneMlatticeEsq(k_b,epsilon0,p0,c_b,wa,Asqd,Wa,wt,Td,Wt);
       printf("At maximum depth Esq=%g\n",Esq);  
       % Check constraints
@@ -167,7 +205,7 @@ else
         Asq=schurOneMlatticeAsq(wa,k_b,epsilon0,p0,c_b);
         T=schurOneMlatticeT(wt,k_b,epsilon0,p0,c_b);
         vS=schurOneMlattice_slb_update_constraints ...
-             (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,[],[],[],[],tol);
+             (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,[],[],[],[],ctol);
         if ~schurOneMlattice_slb_constraints_are_empty(vS)
           printf("At maximum depth constraints are not empty!\n");
           schurOneMlattice_slb_show_constraints(vS);
@@ -183,8 +221,8 @@ else
         k_min=k_b;
         c_min=c_b;
         printf("Improved solution: kc_depth=%d, Esq_min=%g\n",kc_depth,Esq_min);
-        printf("nscale*k_min=[ ");printf("%g ",nscale*k_min');printf("]';\n");
-        printf("nscale*c_min=[ ");printf("%g ",nscale*c_min');printf("]';\n");
+        print_polynomial(k_min,"k_min",nscale);
+        print_polynomial(c_min,"c_min",cnscale);
       endif
     endif
 
@@ -194,21 +232,18 @@ else
 endif
 
 % Show results
-fstr=sprintf("branch_bound_bandpass_OneM_lattice_%d_nbits_test",nbits);
 if improved_solution_found
   printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
-  printf("k_min=[ ");printf("%g ",nscale*k_min');printf("]'/nscale;\n");
+  print_polynomial(k_min,"k_min",nscale);
+  print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
   printf("epsilon0=[ ");printf("%d ",epsilon0');printf("]';\n");
   printf("p0=[ ");printf("%g ",p0');printf("]';\n");
-  printf("c_min=[ ");printf("%g ",nscale*c_min');printf("]'/nscale;\n");
+  print_polynomial(c_min,"c_min",cnscale);
+  print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),cnscale);
   print_polynomial(k_allocsd_digits,"k_allocsd_digits", ...
-                   strcat(fstr,"_k_allocsd_digits_Ito.m"),"%2d");
-  print_polynomial(nscale*k_min,sprintf("%d*k_min",nscale), ...
-                   strcat(fstr,"_k_min_coef.m"),"%6d");
+                   strcat(strf,"_k_allocsd_digits_Ito.m"),"%2d");
   print_polynomial(c_allocsd_digits,"c_allocsd_digits", ...
-                   strcat(fstr,"_c_allocsd_digits_Ito.m"),"%2d");
-  print_polynomial(nscale*c_min,sprintf("%d*c_min",nscale), ...
-                   strcat(fstr,"_c_min_coef.m"),"%6d");
+                   strcat(strf,"_c_allocsd_digits_Ito.m"),"%2d");
 
   % Find the number of signed-digits used
   [kc_digits,kc_adders]=SDadders(kc_min(kc0_active),nbits);
@@ -245,7 +280,7 @@ if improved_solution_found
   printf("k,c_min:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 
   % Make a LaTeX table for cost
-  fid=fopen(strcat(fstr,"_cost.tab"),"wt");
+  fid=fopen(strcat(strf,"_cost.tab"),"wt");
   fprintf(fid,"Exact & %6.4f & & \\\\\n",Esq0);
   fprintf(fid,"%d-bit %d-signed-digit(Ito)&%6.4f & %d & %d \\\\\n",
           nbits,ndigits,Esq0_sd,kc0_digits,kc0_adders);
@@ -270,15 +305,15 @@ if improved_solution_found
   xlabel("Frequency");
   ylabel("Amplitude(dB)");
   axis([0 0.5 -50 -30]);
-  tstr=sprintf("Schur one-multiplier lattice bandpass filter stop-band \
+  strt=sprintf("Schur one-multiplier lattice bandpass filter stop-band \
 (nbits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,fasl,fasu,dBas);
-  title(tstr);
+  title(strt);
   legend("exact","s-d(Ito)","s-d(BandB)");
   legend("location","northeast");
-  legend("Boxoff");
+  legend("boxoff");
   legend("left");
   grid("on");
-  print(strcat(fstr,"_stop"),"-dpdflatex");
+  print(strcat(strf,"_stop"),"-dpdflatex");
   close
 
   % Plot amplitude pass-band response
@@ -288,15 +323,15 @@ if improved_solution_found
   xlabel("Frequency");
   ylabel("Amplitude(dB)");
   axis([0.1 0.2 -2 1]);
-  tstr=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
+  strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
 (nbits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,fapl,fapu,dBap);
-  title(tstr);
+  title(strt);
   legend("exact","s-d(Ito)","s-d(BandB)");
   legend("location","northeast");
-  legend("Boxoff");
+  legend("boxoff");
   legend("left");
   grid("on");
-  print(strcat(fstr,"_pass"),"-dpdflatex");
+  print(strcat(strf,"_pass"),"-dpdflatex");
   close
 
   % Plot group-delay pass-band response
@@ -306,15 +341,15 @@ if improved_solution_found
   xlabel("Frequency");
   ylabel("Group delay(samples)");
   axis([0.09 0.21 15.9 16.2]);
-  tstr=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
+  strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
 (nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g",nbits,ftpl,ftpu,tp,tpr);
-  title(tstr);
+  title(strt);
   legend("exact","s-d(Ito)","s-d(BandB)");
   legend("location","northeast");
-  legend("Boxoff");
+  legend("boxoff");
   legend("left");
   grid("on");
-  print(strcat(fstr,"_delay"),"-dpdflatex");
+  print(strcat(strf,"_delay"),"-dpdflatex");
   close
 
 else
@@ -322,10 +357,11 @@ else
 endif
 
 % Filter specification
-fid=fopen(strcat(fstr,".spec"),"wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
 fprintf(fid,"tol=%g %% Tolerance on coefficient update\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"maxiter=%d %% SQP iteration limit\n",maxiter);
 fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
 fprintf(fid,"length(c0)=%d %% Num. tap coefficients\n",length(c0));
@@ -349,14 +385,14 @@ fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-save branch_bound_bandpass_OneM_lattice_10_nbits_test.mat ...
+save branch_bound_schurOneMlattice_bandpass_10_nbits_test.mat ...
      use_best_branch_and_bound_found ...
-     k0 epsilon0 p0 c0 tol nbits ndigits ndigits_alloc npoints ...
+     k0 epsilon0 p0 c0 tol ctol nbits ndigits ndigits_alloc npoints cscale ...
      fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp ...
-     improved_solution_found k_min c_min 
+     improved_solution_found k_min c_min
        
 % Done
 toc;
 diary off
-movefile branch_bound_bandpass_OneM_lattice_10_nbits_test.diary.tmp ...
-         branch_bound_bandpass_OneM_lattice_10_nbits_test.diary;
+movefile branch_bound_schurOneMlattice_bandpass_10_nbits_test.diary.tmp ...
+         branch_bound_schurOneMlattice_bandpass_10_nbits_test.diary;

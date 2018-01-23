@@ -9,7 +9,7 @@ function print_pole_zero(x,U,V,M,Q,R,name_str,file_name_str,format_str)
 %     where k is the gain coefficient, zR and pR represent real zeros
 %     and poles and z and p represent conjugate zero and pole pairs.
   
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

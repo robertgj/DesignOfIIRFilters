@@ -1,11 +1,11 @@
 polyphase_allpass_socp_slb_test_FIGURES = \
-polyphase_allpass_socp_slb_ab0 \
-polyphase_allpass_socp_slb_ab0pz \
-polyphase_allpass_socp_slb_ab1 \
-polyphase_allpass_socp_slb_ab1pass \
-polyphase_allpass_socp_slb_a1pz \
-polyphase_allpass_socp_slb_b1pz \
-polyphase_allpass_socp_slb_ab1pz
+polyphase_allpass_socp_slb_test_ab0 \
+polyphase_allpass_socp_slb_test_ab0pz \
+polyphase_allpass_socp_slb_test_ab1 \
+polyphase_allpass_socp_slb_test_ab1dual \
+polyphase_allpass_socp_slb_test_a1pz \
+polyphase_allpass_socp_slb_test_b1pz \
+polyphase_allpass_socp_slb_test_ab1pz
 
 polyphase_allpass_socp_slb_test_COEFS = \
 polyphase_allpass_socp_slb_test.mat \

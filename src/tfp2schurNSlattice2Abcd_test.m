@@ -1,5 +1,5 @@
 % tfp2schurNSlattice2Abcd_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Script for testing frequency transformations
 

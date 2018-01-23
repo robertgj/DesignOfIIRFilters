@@ -21,7 +21,7 @@ function [b,a]=x2tf(x,U,V,M,Q,R)
 %   b - numerator polynomial
 %   a - denominator polynomial
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

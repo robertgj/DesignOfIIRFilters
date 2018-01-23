@@ -1,5 +1,5 @@
 % truncation_test_common.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 format short e
 

@@ -1,11 +1,11 @@
 #!/bin/sh
 
 BUILD=shared-lto-pgo
-OCTAVE=`pwd`/octave-$BUILD/bin/octave-cli
+OCTAVE=$LOCAL_PREFIX"/octave-"$BUILD"/bin/octave-cli"
 
+export LD_LIBRARY_PATH=$LOCAL_PREFIX"/lib:"$LOCAL_PREFIX"/lapack/generic/lapack-"$LPVER
 $OCTAVE -v | grep version
-
-`pwd`/octave-$BUILD/bin/mkoctfile ../src/reprand.cc
+$LOCAL_PREFIX"/octave-"$BUILD"/bin/mkoctfile" ../src/reprand.cc
 
 #
 # linpack.m
@@ -60,7 +60,7 @@ fprintf('MFLOPS: %.0f\n',1e-6*ops/tim);
 EOF
 
 echo "local libblas, generic, linpack.m"
-LAPACK_DIR=lapack/generic/lapack-$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/generic/lapack-"$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
       $OCTAVE -q linpack.m
@@ -70,7 +70,7 @@ awk '{flops=flops+$2;}; \
      END {printf("linpack local generic libblas MFLOPS=%g\n",flops/10);}'
 
 echo "local libblas, intel, linpack.m"
-LAPACK_DIR=lapack/intel/lapack-$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/intel/lapack-"$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
       $OCTAVE -q linpack.m
@@ -80,7 +80,7 @@ awk '{flops=flops+$2;}; \
      END {printf("linpack local intel libblas MFLOPS=%g\n",flops/10);}'
 
 echo "local libblas, haswell, linpack.m"
-LAPACK_DIR=lapack/haswell/lapack-$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/haswell/lapack-"$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
       $OCTAVE -q linpack.m
@@ -90,7 +90,7 @@ awk '{flops=flops+$2;}; \
      END {printf("linpack local haswell libblas MFLOPS=%g\n",flops/10);}'
 
 echo "local libblas, nehalem, linpack.m"
-LAPACK_DIR=lapack/nehalem/lapack-$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/nehalem/lapack-"$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
       $OCTAVE -q linpack.m
@@ -100,7 +100,7 @@ awk '{flops=flops+$2;}; \
      END {printf("linpack local nehalem libblas MFLOPS=%g\n",flops/10);}'
 
 echo "local libblas, skylake, linpack.m"
-LAPACK_DIR=lapack/skylake/lapack-$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/skylake/lapack-"$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
       $OCTAVE -q linpack.m
@@ -111,7 +111,7 @@ awk '{flops=flops+$2;}; \
 
 echo "system libblas, linpack.m"
 for k in `seq 1 10`;do 
-    LD_PRELOAD="/usr/lib64/libblas.so:/usr/lib64/liblapack.so" \
+    LD_PRELOAD="/usr/lib64/libblas.so.3:/usr/lib64/liblapack.so.3" \
       $OCTAVE -q linpack.m
 done > linpack.libblas.log
 grep MFLOPS linpack.libblas.log | \
@@ -127,7 +127,7 @@ awk '{flops=flops+$2;};END {printf("linpack libgslcblas MFLOPS=%g\n",flops/10);}
 
 echo "libsatlas, linpack.m"
 for k in `seq 1 10`;do 
-    LD_PRELOAD=/usr/lib64/atlas/libsatlas.so $OCTAVE -q linpack.m
+    LD_PRELOAD=/usr/lib64/atlas/libsatlas.so.3 $OCTAVE -q linpack.m
 done > linpack.libsatlas.log
 grep MFLOPS linpack.libsatlas.log | \
 awk '{flops=flops+$2;}; \
@@ -135,7 +135,7 @@ awk '{flops=flops+$2;}; \
 
 echo "libtatlas, linpack.m"
 for k in `seq 1 10`;do 
-    LD_PRELOAD=/usr/lib64/atlas/libtatlas.so $OCTAVE -q linpack.m
+    LD_PRELOAD=/usr/lib64/atlas/libtatlas.so.3 $OCTAVE -q linpack.m
 done > linpack.libtatlas.log
 grep MFLOPS linpack.libtatlas.log | \
 awk '{flops=flops+$2;}; \
@@ -180,10 +180,10 @@ awk '{flops=flops+$2;};\
 #
 # iir_sqp_slb_bandpass_test.m
 #
-cd build-$BUILD
+pushd build-$BUILD
 
 echo "local libblas, generic, iir_sqp_slb_bandpass_test.m"
-LAPACK_DIR=../lapack/generic/lapack-$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/generic/lapack-"$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
               $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
@@ -197,7 +197,7 @@ awk '{elapsed=elapsed+$4;};\
      END {printf("iir_sqp_slb_bandpass_test local generic elapsed=%g\n",elapsed/10);}'
 
 echo "local libblas, intel, iir_sqp_slb_bandpass_test.m"
-LAPACK_DIR=../lapack/intel/lapack-$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/intel/lapack-"$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
               $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
@@ -211,7 +211,7 @@ awk '{elapsed=elapsed+$4;};\
      END {printf("iir_sqp_slb_bandpass_test local intel elapsed=%g\n",elapsed/10);}'
 
 echo "local libblas, haswell, iir_sqp_slb_bandpass_test.m"
-LAPACK_DIR=../lapack/haswell/lapack-$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/haswell/lapack-"$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
               $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
@@ -225,7 +225,7 @@ awk '{elapsed=elapsed+$4;};\
      END {printf("iir_sqp_slb_bandpass_test local haswell elapsed=%g\n",elapsed/10);}'
 
 echo "local libblas, nehalem, iir_sqp_slb_bandpass_test.m"
-LAPACK_DIR=../lapack/nehalem/lapack-$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/nehalem/lapack-"$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
               $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
@@ -239,7 +239,7 @@ awk '{elapsed=elapsed+$4;};\
      END {printf("iir_sqp_slb_bandpass_test local nehalem elapsed=%g\n",elapsed/10);}'
 
 echo "local libblas, skylake, iir_sqp_slb_bandpass_test.m"
-LAPACK_DIR=../lapack/skylake/lapack-$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/skylake/lapack-"$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
               $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
@@ -254,7 +254,7 @@ awk '{elapsed=elapsed+$4;};\
 
 echo "system libblas, iir_sqp_slb_bandpass_test.m"
 for k in `seq 1 10`;do 
-    LD_PRELOAD="/usr/lib64/libblas.so:/usr/lib64/liblapack.so" \
+    LD_PRELOAD="/usr/lib64/libblas.so.3:/usr/lib64/liblapack.so.3" \
               $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
     mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.libblas.$k
     mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.libblas.$k
@@ -267,7 +267,7 @@ awk '{elapsed=elapsed+$4;};\
 
 echo "libgslcblas, iir_sqp_slb_bandpass_test.m"
 for k in `seq 1 10`;do 
-    LD_PRELOAD=/usr/lib64/libgslcblas.so \
+    LD_PRELOAD=/usr/lib64/libgslcblas.so.0 \
               $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
     mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.gslcblas.$k
     mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.gslcblas.$k
@@ -280,7 +280,7 @@ awk '{elapsed=elapsed+$4;};\
 
 echo "libsatlas, iir_sqp_slb_bandpass_test.m"
 for k in `seq 1 10`;do 
-    LD_PRELOAD=/usr/lib64/atlas/libsatlas.so \
+    LD_PRELOAD=/usr/lib64/atlas/libsatlas.so.3 \
               $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
     mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.satlas.$k
     mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.satlas.$k
@@ -293,7 +293,7 @@ awk '{elapsed=elapsed+$4;};\
 
 echo "libtatlas, iir_sqp_slb_bandpass_test.m"
 for k in `seq 1 10`;do 
-    LD_PRELOAD=/usr/lib64/atlas/libtatlas.so \
+    LD_PRELOAD=/usr/lib64/atlas/libtatlas.so.3 \
               $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
     mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.tatlas.$k
     mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.tatlas.$k
@@ -359,5 +359,6 @@ grep Elapsed iir_sqp_slb_bandpass_test.diary.openblasp.4.* | \
 awk '{elapsed=elapsed+$4;};\
      END {printf("iir_sqp_slb_bandpass_test libopenblasp.4 elapsed=%g\n",elapsed/10);}'
 
-cd ..
+# Done
+popd
 

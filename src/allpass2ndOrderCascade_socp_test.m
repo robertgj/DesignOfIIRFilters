@@ -1,5 +1,5 @@
 % allpass2ndOrderCascade_socp_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -25,12 +25,12 @@ Wp=2
 fs=0.2
 Ws=20
 % Initial coefficients found by tarczynski_allpass2ndOrderCascade_test.m
-ab0 = [ -0.3573509238,  -0.2552196943,  -0.2550020915,  -1.2264854554, ... 
-         0.4770451452,   0.4292908561,   0.5354815720,  -0.4979185377, ... 
-         0.8511272037,  -0.1778544969,   0.8835936074,  -0.1801829585, ... 
-         0.8809845409,  -0.5143694354,   0.8451852985,  -0.2474647245, ... 
-        -0.2783053744,  -1.1444537980,   0.4498401712,   0.4414571968, ... 
-         0.5275062644,  -0.9664842408,   0.6135018016 ]';
+ab0 = [  -0.2876183095,  -1.2465540262,   0.5059240789,  -0.3077915710, ... 
+          0.8710612773,   0.9599883894,   0.7108748771,  -0.4282153252, ... 
+          0.7851874527,  -0.3687625881,  -0.2255228972,  -1.1582745290, ... 
+          0.4256635409,  -0.4622160249,   0.7675231494,   0.9638855737, ... 
+          0.7125397743,  -0.2599119858,  -0.2191083904,  -0.3095138974, ... 
+          0.8785631578,  -0.9905972822,   0.6220207306 ]';
 a0=ab0(1:ma);
 b0=ab0((ma+1):end);
 
@@ -46,7 +46,7 @@ Ad=[exp(-j*w(1:np)*td);zeros(n-np,1)];
 W=[Wp*ones(np,1);zeros(ns-np-1,1);Ws*ones(n-ns+1,1)];
 
 % Common strings
-strd=sprintf("allpass2ndOrderCascade_socp_%%s");
+strf="allpass2ndOrderCascade_socp_test";
 
 % Plot initial response
 Da0=casc2tf(a0);
@@ -71,16 +71,16 @@ plot(wplot*0.5/pi,20*log10(abs(Hab0)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
-s=sprintf ...
+strt=sprintf ...
     ("Parallel all-pass 2nd order cascade initial response : ma=%d,mb=%d",ma,mb);
-title(s);
+title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tab0);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-1 td+1]);
 grid("on");
-print(sprintf(strd,"ab0"),"-dpdflatex");
+print(strcat(strf,"_ab0"),"-dpdflatex");
 close
 
 % SOCP 
@@ -113,14 +113,14 @@ plot(wplot*0.5/pi,20*log10(abs(Hab1)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
-s=sprintf("Parallel all-pass 2nd order cascade : ma=%d,mb=%d",ma,mb);
-title(s);
+strt=sprintf("Parallel all-pass 2nd order cascade : ma=%d,mb=%d",ma,mb);
+title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"ab1"),"-dpdflatex");
+print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 % Plot passband response
 subplot(211);
@@ -128,24 +128,24 @@ plot(wplot*0.5/pi,20*log10(abs(Hab1)));
 ylabel("Amplitude(dB)");
 axis([0 fp -0.2 0.05]);
 grid("on");
-title(s);
+title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 fp td-1 td+1]);
 grid("on");
-print(sprintf(strd,"ab1pass"),"-dpdflatex");
+print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 % Plot poles and zeros
 subplot(111);
 zplane(roots(Nab1),roots(Dab1));
-title(s);
-print(sprintf(strd,"ab1pz"),"-dpdflatex");
+title(strt);
+print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 
 % Save specification
-fid=fopen("allpass2ndOrderCascade_socp_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%5.1g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ma=%d %% Order of filter A\n",ma);
 fprintf(fid,"mb=%d %% Order of filter B\n",mb);
@@ -161,13 +161,13 @@ fclose(fid);
 
 % Save results
 print_polynomial(a1,"a1");
-print_polynomial(a1,"a1","allpass2ndOrderCascade_socp_test_a1_coef.m");
+print_polynomial(a1,"a1",strcat(strf,"_a1_coef.m"));
 print_polynomial(b1,"b1");
-print_polynomial(b1,"b1","allpass2ndOrderCascade_socp_test_b1_coef.m");
+print_polynomial(b1,"b1",strcat(strf,"_b1_coef.m"));
 print_polynomial(Da1,"Da1");
-print_polynomial(Da1,"Da1","allpass2ndOrderCascade_socp_test_Da1_coef.m");
+print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 print_polynomial(Db1,"Db1");
-print_polynomial(Db1,"Db1","allpass2ndOrderCascade_socp_test_Db1_coef.m");
+print_polynomial(Db1,"Db1",strcat(strf,"_Db1_coef.m"));
 
 save allpass2ndOrderCascade_socp_test.mat ...
      fp td Wp fs Ws ab0 a1 b1 Da1 Db1 Nab1 Dab1
@@ -175,4 +175,5 @@ save allpass2ndOrderCascade_socp_test.mat ...
 % Done
 toc;
 diary off
-movefile allpass2ndOrderCascade_socp_test.diary.tmp allpass2ndOrderCascade_socp_test.diary;
+movefile allpass2ndOrderCascade_socp_test.diary.tmp ...
+         allpass2ndOrderCascade_socp_test.diary;

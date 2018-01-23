@@ -1,4 +1,6 @@
-Abcd2cc_test_FIGURES=ellip8ABCD12_response ellip8ABCD12_passband_response
+Abcd2cc_test_FIGURES=\
+Abcd2cc_test_ellip8ABCD12_response \
+Abcd2cc_test_ellip8ABCD12_passband_response
 
 Abcd2cc_test_COEFS = ellip8ABCD12.cc
 

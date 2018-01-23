@@ -1,19 +1,19 @@
-% socp_relaxation_gaussian_FIR_lattice_16_nbits_test.m
+% socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.m
 
 % SOCP-relaxation optimisation of the response of a complementary FIR
 % lattice Gaussian filter with 16-bit 3-signed-digit coefficients
 % allocated with the algorithm of Lim et al.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
-unlink("socp_relaxation_gaussian_FIR_lattice_16_nbits_test.diary");
-unlink("socp_relaxation_gaussian_FIR_lattice_16_nbits_test.diary.tmp");
-diary socp_relaxation_gaussian_FIR_lattice_16_nbits_test.diary.tmp
+unlink("socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.diary");
+unlink("socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.diary.tmp");
+diary socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.diary.tmp
 
 % Options
-socp_relaxation_gaussian_FIR_lattice_16_nbits_test_allocsd_Lim=true;
+socp_relaxation_schurFIRlattice_gaussian_16_nbits_test_allocsd_Lim=true;
 ndigits=3;
 nbits=16;
 nscale=2^(nbits-1);
@@ -23,8 +23,9 @@ tic;
 maxiter=2000
 verbose=false
 tol=1e-8
+ctol=tol
 
-strF=sprintf("socp_relaxation_gaussian_FIR_lattice_16_nbits_test");
+strf="socp_relaxation_schurFIRlattice_gaussian_16_nbits_test";
 
 % Gaussian odd-length FIR filter specification
 BTs=0.3;
@@ -36,9 +37,9 @@ g=g_dc*exp(-((g_dc*sqrt(pi)*k).^2));
 
 % Convert to complementary FIR filter
 [g0,gc0,k0,khat0]=complementaryFIRlattice(g(:));
-print_polynomial(g0,"g0=",strcat(strF,"_g0_coef.m"),"%12.9f"); 
-print_polynomial(k0,"k0=",strcat(strF,"_k0_coef.m"),"%12.9f"); 
-print_polynomial(khat0,"khat0=",strcat(strF,"_khat0_coef.m"),"%12.9f"); 
+print_polynomial(g0,"g0=",strcat(strf,"_g0_coef.m"),"%12.9f"); 
+print_polynomial(k0,"k0=",strcat(strf,"_k0_coef.m"),"%12.9f"); 
+print_polynomial(khat0,"khat0=",strcat(strf,"_khat0_coef.m"),"%12.9f"); 
 k0=k0(:);
 khat0=khat0(:);
 Nk=length(k0);
@@ -92,17 +93,19 @@ kkhat0_active=find(kkhat0~=0);
 
 % Convert g0 coefficients to 3-signed-digits
 g0_sd=flt2SD(g0,nbits,ndigits);
-printf("nscale*g0_sd=[ ");printf("%g ",nscale*g0_sd');printf("]';\n");
-print_polynomial(nscale*g0_sd,sprintf("%d*g0_sd",nscale), ...
-                 strcat(strF,"_g0_sd_coef.m"),"%7d");
+print_polynomial(g0_sd,"g0_sd",nscale);
+print_polynomial(g0_sd,"g0_sd",strcat(strf,"_g0_sd_coef.m"),nscale);
 
 % Find the number of adders required to implement the g0_sd multiplications
 [g0_digits,g0_adders]=SDadders(g0_sd,nbits);
 
 % Allocate signed-digits to the lattice coefficients
-if socp_relaxation_gaussian_FIR_lattice_16_nbits_test_allocsd_Lim
+if socp_relaxation_schurFIRlattice_gaussian_16_nbits_test_allocsd_Lim
   [Esq0,gradEsq0] = ...
-    complementaryFIRlatticeEsq(k0,khat0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+    complementaryFIRlatticeEsq(k0,khat0, ...
+                               wa,Asqd,ones(size(Wa)), ...
+                               wt,Td,ones(size(Wt)), ...
+                               wp,Pd,ones(size(Wp)));
   % Allocate signed digits to non-zero coefficients
   cost=0.36*(log2(abs(kkhat0))+log2(abs(gradEsq0')));
   ndigits_alloc=zeros(size(kkhat0));
@@ -126,12 +129,10 @@ k0_sd=kkhat0_sd(1:Nk);
 k0_sd=k0_sd(:);
 khat0_sd=kkhat0_sd((Nk+1):end);
 khat0_sd=khat0_sd(:);
-printf("nscale*k0_sd_=[ ");printf("%g ",nscale*k0_sd');printf("]';\n");
-printf("nscale*khat0_sd=[ ");printf("%g ",nscale*khat0_sd');printf("]';\n");
-print_polynomial(nscale*k0_sd,sprintf("%d*k0_sd",nscale), ...
-                 strcat(strF,"_k0_sd_coef.m"),"%7d");
-print_polynomial(nscale*khat0_sd,sprintf("%d*khat0_sd",nscale), ...
-                 strcat(strF,"_khat0_sd_coef.m"),"%7d");
+print_polynomial(k0_sd,"k0_sd",nscale);
+print_polynomial(k0_sd,"k0_sd",strcat(strf,"_k0_sd_coef.m"),nscale);
+print_polynomial(khat0_sd,"khat0_sd",nscale);
+print_polynomial(khat0_sd,"khat0_sd",strcat(strf,"_khat0_sd_coef.m"),nscale);
 
 % Initialise kkhat_active
 kkhat0_sdul=kkhat0_sdu-kkhat0_sdl;
@@ -167,14 +168,14 @@ Esq0_sd=complementaryFIRlatticeEsq(k0_sd,khat0_sd,wa,Asqd,Wa,wt,Td,Wt);
 [kkhat0_digits,kkhat0_adders]=SDadders(kkhat0_sd(kkhat0_active),nbits);
 
 % Plot initial filter response
-strT=sprintf("Gaussian filter: BTs=%g,R=%d,Ns=%d",BTs,R,Ns);
+strt=sprintf("Gaussian filter: BTs=%g,R=%d,Ns=%d",BTs,R,Ns);
 plot((0:(Ns*R))/R,g0);
 xlabel("Symbols")
-title(strT);
+title(strt);
 grid("on");
-print(strcat(strF,"_g0_impulse"),"-dpdflatex");
+print(strcat(strf,"_g0_impulse"),"-dpdflatex");
 close
-strT=strcat(strT,sprintf(",nbits=%d,ndigits=%d",nbits,ndigits));
+strt=strcat(strt,sprintf(",nbits=%d,ndigits=%d",nbits,ndigits));
 nplot=1024;
 [H0,wplot]=freqz(g0,1,nplot);
 H0_sd=freqz(g0_sd,1,wplot);
@@ -185,14 +186,14 @@ plot(fTs,20*log10(abs(H0)),"linestyle","-", ...
      fTs,10*log10(Asq_kkhat0_sd),"linestyle","--" );
 xlabel("Frequency(Normalised to 1/Ts)");
 ylabel("Amplitude(dB)");
-title(strT);
+title(strt);
 legend("exact","signed-digit(direct)","signed-digit(lattice)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 axis([0 fTs(end) -120 10]);
 grid("on");
-print(strcat(strF,"_g0_response"),"-dpdflatex");
+print(strcat(strf,"_g0_response"),"-dpdflatex");
 close
 
 % Initialise the vector of filter coefficients to be optimised
@@ -228,7 +229,7 @@ while ~isempty(kkhat_active)
                                   wa,Asqd,Asqdu,Asqdl,Wa, ...
                                   wt,Td,Tdu,Tdl,Wt, ...
                                   wp,Pd,Pdu,Pdl,Wp, ...
-                                  maxiter,tol,verbose);
+                                  maxiter,tol,ctol,verbose);
   catch
     feasible=false;
     err=lasterror();
@@ -242,8 +243,8 @@ while ~isempty(kkhat_active)
   % If this problem was not solved then give up
   if ~feasible
     print_polynomial(kkhat_active,"kkhat_active");
-    print_polynomial(nscale*kkhat_b(1:Nk),sprintf("%d*k_fail",nscale));
-    print_polynomial(nscale*kkhat_b((Nk+1):end),sprintf("%d*khat_fail",nscale));
+    print_polynomial(kkhat_b(1:Nk),"k_fail",nscale);
+    print_polynomial(kkhat_b((Nk+1):end),"khat_fail",nscale);
     error("SOCP problem infeasible!");
   endif
 
@@ -269,12 +270,10 @@ k_min=kkhat(1:Nk);
 khat_min=kkhat((Nk+1):end);
 Esq_min=complementaryFIRlatticeEsq(k_min,khat_min,wa,Asqd,Wa,wt,Td,Wt);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
-printf("nscale*k_min=[ ");printf("%g ",nscale*k_min');printf("]';\n");
-printf("nscale*khat_min=[ ");printf("%g ",nscale*khat_min');printf("]';\n");
-print_polynomial(nscale*k_min,sprintf("%d*k_min",nscale), ...
-                 strcat(strF,"_k_min_coef.m"),"%7d");
-print_polynomial(nscale*khat_min,sprintf("%d*khat_min",nscale), ...
-                 strcat(strF,"_khat_min_coef.m"),"%7d");
+print_polynomial(k_min,"k_min",nscale);
+print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
+print_polynomial(khat_min,"khat_min",nscale);
+print_polynomial(khat_min,"khat_min",strcat(strf,"_khat_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used
 [kkhat_digits,kkhat_adders]=SDadders(kkhat_min(kkhat0_active),nbits);
 printf("%d signed-digits used\n",kkhat_digits);
@@ -309,7 +308,7 @@ printf("k,khat_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,khat_min:TS=[ ");printf("%f ",TS);printf("] (samples)\n");
 
 % Make a LaTeX table for cost
-fid=fopen(strcat(strF,"_kkhat_min_cost.tab"),"wt");
+fid=fopen(strcat(strf,"_kkhat_min_cost.tab"),"wt");
 fprintf(fid,"%d-bit %d-signed-digit(direct-folded)& %d & %d \\\\\n",
         nbits,ndigits,g0_digits,g0_adders);
 fprintf(fid,"%d-bit %d-signed-digit(lattice)& %d & %d \\\\\n",
@@ -330,14 +329,14 @@ plot(fa,10*log10(Asq_kkhat0),"linestyle","-", ...
      fa,10*log10(Asqdu),"linestyle","-");
 legend("exact","s-d(direct)","s-d(lattice)","s-d(SOCP-relax)","Asqdu");
 legend("location","southwest");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
 xlabel("Frequency(Units of 1/Ts)");
-title(strT);
+title(strt);
 axis([0  fa(end) -120 10]);
 grid("on");
-print(strcat(strF,"_kkhat_min"),"-dpdflatex");
+print(strcat(strf,"_kkhat_min"),"-dpdflatex");
 close
 H0_ratio=10*log10((abs(H0_sd(1:nm)).^2)./Asq_kkhat0(1:nm));
 Asq_kkhat0_sd_ratio=10*log10(Asq_kkhat0_sd(1:nm)./Asq_kkhat0(1:nm));
@@ -352,15 +351,15 @@ plot(fam,Asq_kkhat0_sd_ratio,"linestyle","--", ...
      fam,Asqdl_ratio,"linestyle","-");
 legend("s-d(Lim)","s-d(SOCP-relax)","s-d(direct)","Asqdu","Asqdl");
 legend("location","southwest");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 ylabel("Amplitude error(dB)");
 xlabel("Frequency(Units of 1/Ts)");
-title(strT);
+title(strt);
 axis([0 fam(end) -dBap dBap]);
 axis([0 fam(end) -0.2 0.2]);
 grid("on");
-print(strcat(strF,"_kkhat_min_pass"),"-dpdflatex");
+print(strcat(strf,"_kkhat_min_pass"),"-dpdflatex");
 close
 T_kkhat0=complementaryFIRlatticeT(wt,k0,khat0);
 T_kkhat0_sd=complementaryFIRlatticeT(wt,k0_sd,khat0_sd);
@@ -375,19 +374,20 @@ ylabel("Delay(Samples)");
 xlabel("Frequency(Units of 1/Ts)");
 legend("s-d(Lim)","s-d(SOCP-relax)","Tdu","Tdl");
 legend("location","southwest");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
-title(strT);
+title(strt);
 grid("on");
-print(strcat(strF,"_kkhat_min_delay"),"-dpdflatex");
+print(strcat(strf,"_kkhat_min_delay"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strF,".spec"),"wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"BTs=%g %% Bandwidth-Symbol-rate product\n",BTs);
 fprintf(fid,"Ns=%g %% Filter width in symbols\n",Ns);
 fprintf(fid,"R=%d %% Samples-per-symbol\n",R);
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"nplot=%d %% Frequency points across the band\n",nplot);
 fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
 fprintf(fid,"dBas=%d %% Amplitude stop band peak-to-peak ripple\n",dBas);
@@ -400,12 +400,12 @@ fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
 fclose(fid);
 
 % Save results
-save socp_relaxation_gaussian_FIR_lattice_16_nbits_test.mat ...
-     R Ns BTs g0 k0 khat0 tol nbits ndigits ndigits_alloc ...
+save socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.mat ...
+     R Ns BTs g0 k0 khat0 tol ctol nbits ndigits ndigits_alloc ...
      nm Asqd dBap dBas dBasu Wap Was Td tp tpr Wtp k_min khat_min 
        
 % Done
 toc;
 diary off
-movefile socp_relaxation_gaussian_FIR_lattice_16_nbits_test.diary.tmp ...
-         socp_relaxation_gaussian_FIR_lattice_16_nbits_test.diary;
+movefile socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.diary.tmp ...
+         socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.diary;

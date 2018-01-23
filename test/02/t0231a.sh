@@ -395,7 +395,7 @@ stdxx =
 
    128.01
 
-est_varydap =  1.00000
+est_varydap =  1.0000
 varydap =  0.98224
 stdxxap =
 

@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_hilbert_socp_mmse_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -103,13 +103,13 @@ kuv_active=(1:(length(k0)+length(u0)+length(v0)))';
 dmax=inf;
 
 % Common strings
-strT=sprintf("FRM Hilbert %%s %%s : \
+strt=sprintf("FRM Hilbert %%s %%s : \
 Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d",Mmodel,Dmodel,fap,fas,tp);
-strF=sprintf("schurOneMAPlattice_frm_hilbert_socp_mmse_test_%%s_%%s");
+strf="schurOneMAPlattice_frm_hilbert_socp_mmse_test";
 
 % Plot the initial response
 schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
-  (k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,n,strT,strF,"initial");
+  (k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,n,strt,strcat(strf,"_%s_%s"),"initial");
 
 %
 % FRM hilbert SOCP MMSE
@@ -127,12 +127,12 @@ endif
 
 % Plot the response
 schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
-  (k1,epsilon0,p0,u1,v1,Mmodel,Dmodel,n,strT,strF,"MMSE");
+  (k1,epsilon0,p0,u1,v1,Mmodel,Dmodel,n,strt,strcat(strf,"_%s_%s"),"MMSE");
 
 %
 % Save the results
 %
-fid=fopen("schurOneMAPlattice_frm_hilbert_socp_mmse_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"n=%d %% Frequency points\n",n);
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"Mmodel=%d %% Model filter decimation\n",Mmodel);
@@ -153,14 +153,11 @@ fprintf(fid,"Wpp=%g %% Pass band phase weight\n",Wpp);
 fclose(fid);
 
 print_polynomial(k1,"k1");
-print_polynomial(k1,"k1", ...
-                 "schurOneMAPlattice_frm_hilbert_socp_mmse_test_k1_coef.m");
+print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"));
 print_polynomial(u1,"u1");
-print_polynomial(u1,"u1", ...
-                 "schurOneMAPlattice_frm_hilbert_socp_mmse_test_u1_coef.m");
+print_polynomial(u1,"u1",strcat(strf,"_u1_coef.m"));
 print_polynomial(v1,"v1");
-print_polynomial(v1,"v1", ...
-                 "schurOneMAPlattice_frm_hilbert_socp_mmse_test_v1_coef.m");
+print_polynomial(v1,"v1",strcat(strf,"_v1_coef.m"));
 
 save schurOneMAPlattice_frm_hilbert_socp_mmse_test.mat ...
      r0 u0 v0 k0 epsilon0 p0 k1 u1 v1 Mmodel Dmodel dmax rho tol ...

@@ -1,7 +1,17 @@
-function print_polynomial(x,name_str,file_name_str,format_str)
-% print_polynomial(x,name_str[,file_name_str,format_str])
-
-% Copyright (C) 2017 Robert G. Jenssen
+function print_polynomial(x,name_str,arg3,arg4)
+% print_polynomial(x,name_str)
+% print_polynomial(x,name_str,scale)
+% print_polynomial(x,name_str,file_name_str)
+% print_polynomial(x,name_str,file_name_str,format_str)
+% print_polynomial(x,name_str,file_name_str,scale)
+%
+% Formatted printing of an array representing a polynomial with (possibly) :
+%   - integer scaling
+%   - an output file
+%   - an output file and integer scaling
+%   - an output file and printf format string
+  
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -21,23 +31,74 @@ function print_polynomial(x,name_str,file_name_str,format_str)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin < 2) || (nargin > 4)
-    print_usage("print_polynomial(x,name_str[,file_name_str,format_str])");
-  endif
-  if ~isvector(x)
-    error("%s is not a vector!",name_str);
-  endif
-  if nargin == 4
-    fstr=format_str;
+  % Initialise
+  usage_str="\n      print_polynomial(x,name_str) ...\n\
+      print_polynomial(x,name_str,scale) ...\n\
+      print_polynomial(x,name_str,file_name_str) ...\n\
+      print_polynomial(x,name_str,file_name_str,format_str) ...\n\
+      print_polynomial(x,name_str,file_name_str,scale)";
+  file_name_str="";
+  format_str="%14.10f";
+  scale_str="";
+  fid=stdout;
+  xs=x;
+  tol=10*eps;
+  
+  % Sanity checks
+  if nargin == 2
+    if ~isvector(x) || ~all(isstrprop(name_str,"print"))
+      print_usage(usage_str);
+    endif
+  elseif nargin == 3
+    if length(arg3) == 0
+           ;
+    elseif isnumeric(arg3)
+      if mod(arg3,1) ~= 0
+        error("Expected scale to be an integer!");
+      endif
+      scale=round(arg3);
+      scale_str=sprintf("/%d",arg3);
+      format_str="%8d";
+      xs=x*scale;
+      if any(abs(mod(xs,1))>tol)
+        error("Expected x*scale to be integers!");
+      endif
+    elseif length(arg3)>0 && all(isstrprop(arg3,"print"))
+      file_name_str=arg3;
+      fid=fopen(file_name_str,"wt");
+    else
+      print_usage(usage_str);
+    endif
+  elseif nargin == 4
+    if length(arg3) == 0
+           ;
+    elseif length(arg3)>0 && all(isstrprop(arg3,"print"))
+      file_name_str=arg3;
+      fid=fopen(file_name_str,"wt");
+    else
+      print_usage(usage_str);
+    endif
+    if isnumeric(arg4)
+      if mod(arg4,1) ~= 0
+        error("Expected scale to be an integer!");
+      endif
+      scale=round(arg4);
+      scale_str=sprintf("/%d",arg4);
+      format_str="%8d";      
+      xs=x*scale;
+      if any(abs(mod(xs,1))>tol)
+        error("Expected x*scale to be integers!");
+      endif
+    elseif (length(arg4)>0) && all(isstrprop(arg4,"print"))
+      format_str=arg4;
+    else 
+      print_usage(usage_str);
+    endif
   else
-    fstr="%14.10f";
-  endif
-  if nargin >= 3
-    fid=fopen(file_name_str,"wt");
-  else
-    fid=stdout;
+    print_usage(usage_str);
   endif
 
+  % Initialise the output string
   first_str = sprintf("%s = [ ",name_str);
   space_str = ones(1,length(first_str))*" ";
   if rows(x) == 1
@@ -46,9 +107,10 @@ function print_polynomial(x,name_str,file_name_str,format_str)
     tick_str = "'";
   endif
 
+  % Print values into the output string
   fprintf(fid,"%s",first_str);
   for k=1:length(x)
-    fprintf(fid,fstr,x(k));
+    fprintf(fid,format_str,xs(k));
     if k ~= length(x)
       fprintf(fid,",");
     endif
@@ -57,10 +119,10 @@ function print_polynomial(x,name_str,file_name_str,format_str)
       fprintf(fid,"... \n%s",space_str);
     endif
   endfor
-  fprintf(fid,"]%s;\n", tick_str);
+  fprintf(fid,"]%s%s;\n",tick_str,scale_str);
 
   % Done
-  if nargin >= 3
+  if (nargin >= 3) && (length(file_name_str) > 0)
     fclose(fid);
   endif
   

@@ -34,7 +34,7 @@ function [A,B,C,D,ng,Aap,Bap,Cap,Dap,ngap]=...
 %                    V  s22  |
 %       <------------+<------o------<
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

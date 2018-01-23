@@ -1,9 +1,11 @@
 function [abk,socp_iter,func_iter,feasible]= ...
-  parallel_allpass_socp_mmse(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb,polyphase, ...
-                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                             maxiter,tol,verbose)
+         parallel_allpass_socp_mmse(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb, ...
+                                    polyphase,difference, ...
+                                    wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
+                                    maxiter,tol,verbose)
 % [xk,socp_iter,func_iter,feasible] = ...
-%   parallel_allpass_socp_mmse(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb,polyphase, ...
+%   parallel_allpass_socp_mmse(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb, ...
+%                              polyphase,difference, ...
 %                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
 %                              maxiter,tol,verbose)
 %
@@ -32,6 +34,7 @@ function [abk,socp_iter,func_iter,feasible]= ...
 %   polyphase -  Use a polyphase structure:
 %                  A(z) = A1(z^R)+(z^-1)*Asq(z^R)+..+(z^-(R-1))*AR(z^R)
 %                At present only Ra==Rb==2 is supported.
+%  difference - return the response for the difference of the all-pass filters
 %   wa - angular frequencies of desired pass-band squared amplitude response
 %        in [0,pi]. 
 %   Asqd - desired pass-band squared amplitude response
@@ -44,7 +47,7 @@ function [abk,socp_iter,func_iter,feasible]= ...
 %   Tdu,Tdl - upper and lower mask for the pass-band group delay response
 %   Wt - pass-band group delay response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance
+%   tol - tolerance on the relative step size to accept the result
 %   verbose -
 %
 % Outputs:
@@ -52,8 +55,14 @@ function [abk,socp_iter,func_iter,feasible]= ...
 %   socp_iter - number of SOCP iterations
 %   func_iter - number of function calls
 %   feasible - abk satisfies the constraints 
+%
+% If tol is a structure then the tol.dtol field is the minimum relative
+% step size and the tol.stol field sets the SeDuMi pars.eps field (the
+% default is 1e-8). This is a hack to deal with filters for which the
+% desired stop-band attenuation of the squared amplitude response is more
+% than 80dB.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -76,9 +85,10 @@ function [abk,socp_iter,func_iter,feasible]= ...
 %
 % Sanity checks
 %
-if nargin != 24
+if (nargout > 4) || (nargin != 25)
   print_usage("[abk,socp_iter,func_iter,feasible]= ...\n\
-  parallel_allpass_socp_mmse(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb,polyphase, ...\n\
+  parallel_allpass_socp_mmse(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb, ...\n\
+                             polyphase,difference, ...\n\
                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
                              maxiter,tol,verbose)");
 endif
@@ -128,6 +138,15 @@ endif
 if Nwt ~= length(Wt)
   error("Expected length(wt)(%d) == length(Wt)(%d)",Nwa,length(Wt));
 endif
+if isstruct(tol)
+  if all(isfield(tol,{"dtol","stol"})) == false
+    error("Expect tol structure to have fields dtol and stol");
+  endif
+  dtol=tol.dtol;
+  pars.eps=tol.stol;
+else
+  dtol=tol;
+endif
 
 % Initialise
 abk=ab0(:);
@@ -154,7 +173,8 @@ while 1
 
   % Parallel allpass filter amplitude pass-band squared-magnitude response
   if !isempty(wa)
-    [Asqwa,gradAsqwa]=parallel_allpassAsq(wa,abk,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
+    [Asqwa,gradAsqwa]=parallel_allpassAsq(wa,abk,Va,Qa,Ra,Vb,Qb,Rb, ...
+                                          polyphase,difference);
     func_iter = func_iter+1;
   else
     Asqwa=[];
@@ -163,7 +183,8 @@ while 1
   
   % Parallel allpass filter phase pass-band phase response
   if !isempty(wt)
-    [Twt,gradTwt]=parallel_allpassT(wt,abk,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
+    [Twt,gradTwt]=parallel_allpassT(wt,abk,Va,Qa,Ra,Vb,Qb,Rb, ...
+                                    polyphase,difference);
     func_iter = func_iter+1;
   else
     Twt=[];
@@ -276,8 +297,8 @@ while 1
   elseif info.dinf
     error("SeDuMi dual problem infeasible"); 
   endif 
-  if norm(delta)/norm(abk) < tol
-    printf("norm(delta)/norm(abk) < tol\nSolution is feasible!\n");
+  if norm(delta)/norm(abk) < dtol
+    printf("norm(delta)/norm(abk) < dtol\nSolution is feasible!\n");
     feasible=true;
     break;
   endif

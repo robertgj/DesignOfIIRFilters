@@ -8,7 +8,7 @@ function [G0prime,Tq,Fq,Fsign]=orthogonaliseTF(n,d)
 % desired transfer function. Tq and Fq are 2x2 block diagonal
 % rotation matrixes and Fsign is a diagonal matrix of +/-1
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

@@ -1,5 +1,5 @@
 % test_common.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 % Normally these would be in .octaverc or ~/.octaverc
 

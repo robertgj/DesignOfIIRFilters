@@ -1,5 +1,5 @@
 % frm2ndOrderCascade_socp_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -80,9 +80,9 @@ endif
 aM_frm=[conv(aM,aa-ac);zeros(M*Dmodel,1)]+[zeros(M*Dmodel,1);conv(ac,dM)];
 
 % Common strings for output plots
+strf="frm2ndOrderCascade_socp_test";
 strM=sprintf("%%s:M=%d,Dmodel=%d,fpass=%g,fstop=%g,Was=%g", ...
              M,Dmodel,fpass,fstop,Was);
-strd=sprintf("frm2ndOrderCascade_socp_%%s");
 
 % Plot response
 nplot=512
@@ -93,15 +93,15 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_frm)))
 axis([0, 0.5, -70, 10]);
 ylabel("Amplitude(dB)");
 grid("on");
-tstr=sprintf(strM,"FRM filter response");
-title(tstr);
+strt=sprintf(strM,"FRM filter response");
+title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm)
 axis([0, 0.5, 60, 100]);
 xlabel("Frequency");
 ylabel("Group delay(samples)");
 grid("on");
-print(sprintf(strd,"x1"),"-dpdflatex");
+print(strcat(strf,"_x1"),"-dpdflatex");
 close
 % Plot passband response
 subplot(211);
@@ -109,15 +109,15 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_frm)))
 axis([0, 0.3, -0.4, 0.4]);
 ylabel("Amplitude(dB)");
 grid("on");
-tstr=sprintf(strM,"FRM filter passband response");
-title(tstr);
+strt=sprintf(strM,"FRM filter passband response");
+title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm)
 axis([0, 0.3, 76, 84]);
 xlabel("Frequency");
 ylabel("Group delay(samples)");
 grid("on");
-print(sprintf(strd,"x1pass"),"-dpdflatex");
+print(strcat(strf,"_x1pass"),"-dpdflatex");
 close
 
 % Plot model filter response
@@ -129,15 +129,15 @@ axis([0, 0.5, -15, 15]);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
-tstr=sprintf(strM,"FRM model filter");
-title(tstr);
+strt=sprintf(strM,"FRM model filter");
+title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tw_model)
 axis([0, 0.5, 0, 200]);
 xlabel("Frequency");
 ylabel("Group delay(samples)");
 grid("on");
-print(sprintf(strd,"x1model"),"-dpdflatex");
+print(strcat(strf,"_x1model"),"-dpdflatex");
 close
 
 % Plot masking filter response
@@ -152,9 +152,9 @@ axis([0, 0.5, -60, 10]);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
-tstr=sprintf(strM,"FRM masking filters");
-title(tstr);
-print(sprintf(strd,"x1mask"),"-dpdflatex");
+strt=sprintf(strM,"FRM masking filters");
+title(strt);
+print(strcat(strf,"_x1mask"),"-dpdflatex");
 close
 
 % Compare with remez
@@ -172,11 +172,11 @@ axis([fstop, 0.5, -60, -30]);
 xlabel("Stopband frequency");
 ylabel("Stopband amplitude(dB)");
 grid("on");
-print(sprintf(strd,"remez_comparison"),"-dpdflatex");
+print(strcat(strf,"_remez_comparison"),"-dpdflatex");
 close
 
 % Save the results
-fid=fopen("frm2ndOrderCascade_socp_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%5.1g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"mn=%d %% Model filter numerator order (mn+1 coefficients)\n",mn);
@@ -199,18 +199,21 @@ fprintf(fid,"edge_factor=%3.1g %% Add extra frequencies near band edges\n",
 fprintf(fid,"edge_ramp=%d %% Linear change in extra weights over edge region\n",
         edge_ramp);
 fclose(fid);
+
 print_polynomial(a,"a");
-print_polynomial(a,"a","frm2ndOrderCascade_socp_test_a_coef.m");
+print_polynomial(a,"a",strcat(strf,"_a_coef.m"));
 print_polynomial(d,"d");
-print_polynomial(d,"d","frm2ndOrderCascade_socp_test_d_coef.m");
+print_polynomial(d,"d",strcat(strf,"_d_coef.m"));
 print_polynomial(aa,"aa");
-print_polynomial(aa,"aa","frm2ndOrderCascade_socp_test_aa_coef.m");
+print_polynomial(aa,"aa",strcat(strf,"_aa_coef.m"));
 print_polynomial(ac,"ac");
-print_polynomial(ac,"ac","frm2ndOrderCascade_socp_test_ac_coef.m");
+print_polynomial(ac,"ac",strcat(strf,"_ac_coef.m"));
+
 save frm2ndOrderCascade_socp_test.mat ...
      a d aa ac M Dmodel dmask mn mr na nc fpass fstop Was tau edge_factor tol
 
 % Done
 toc;
 diary off
-movefile frm2ndOrderCascade_socp_test.diary.tmp frm2ndOrderCascade_socp_test.diary;
+movefile frm2ndOrderCascade_socp_test.diary.tmp ...
+         frm2ndOrderCascade_socp_test.diary;

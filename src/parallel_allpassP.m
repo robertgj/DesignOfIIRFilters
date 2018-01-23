@@ -1,5 +1,6 @@
-function [P, gradP]=parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase)
-% [P, gradP]=parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase)
+function [P, gradP]=parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb, ...
+                                      polyphase,difference)
+% [P, gradP]=parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference)
 % Calculate the phase response and gradient of the phase response
 % of the parallel combination of two allpass filters.
 %
@@ -12,6 +13,7 @@ function [P, gradP]=parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase)
 %  Rb - filter b is in terms of z^Rb
 %  polyphase - return the response for the polyphase combination
 %              (Ra=Rb=2 only)
+%  difference - return the response for the difference of the all-pass filters
 %
 % Outputs;
 %  P - the phase response of the parallel combination of allpass
@@ -19,7 +21,7 @@ function [P, gradP]=parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase)
 %  gradP - the gradient of P with respect to the coefficients of a
 %          and b
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -39,11 +41,15 @@ function [P, gradP]=parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin != 8) && (nargin != 9)
-    print_usage("[P,gradP]=parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase)");
+  if (nargin != 8) && (nargin != 9) && (nargin != 10)
+    print_usage("[P,gradP]= ...\n\
+      parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference)");
   endif
   if nargin == 8
     polyphase = false;
+    difference = false;
+  elseif nargin == 9
+    difference = false;
   endif
   if polyphase && (Ra != 2) && (Rb != 2)
     error("For polyphase combination Ra=2 and Rb=2 only!");
@@ -66,8 +72,11 @@ function [P, gradP]=parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase)
   if polyphase
     Pb = Pb - w(:);
   endif
-  
+
   P = 0.5*(Pa+Pb);
+  if difference
+    P=P+(pi/2);
+  endif
   gradP = 0.5*[gradPa, gradPb];
 
 endfunction

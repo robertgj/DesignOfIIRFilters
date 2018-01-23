@@ -1,5 +1,5 @@
 % iir_frm_parallel_allpass_socp_slb_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -18,29 +18,28 @@ no_delay=true
 % Initial filter is based on the filters found by
 % tarczynski_frm_parallel_allpass_test.m
 %
-x0.r = [   1.0000000000,   0.1741638972,   0.5027502283,  -0.4761594584, ... 
-          -0.1150929406,  -0.1383555445,   0.0867097934,   0.0603294613, ... 
-           0.0313963054 ]';
-x0.s = [   1.0000000000,  -0.0857111594,   0.1816666635,  -0.4144291285, ... 
-           0.0072733463,  -0.0882460342,   0.1299448672,   0.0173169817 ]';
-x0.aa = [   0.0054935301,  -0.0060642255,  -0.0492191135,  -0.0569589402, ... 
-            0.0090954104,   0.0487256604,   0.0135358020,   0.0173002104, ... 
-            0.0627478485,   0.0465409775,   0.1113837866,   0.3806625453, ... 
-            0.4829154906,   0.1310970617,  -0.2272418254,  -0.1377008309, ... 
-            0.0896744284,   0.0394989454,  -0.0843006560,  -0.0052605268, ... 
-            0.1095521605,   0.0719179183,  -0.0151246472,  -0.0315187993, ... 
-           -0.0088245744 ]';
-x0.ac = [   0.0325757581,   0.0267193719,  -0.1016383423,  -0.1334713697, ... 
-            0.0719353837,   0.1044203058,  -0.1224859003,  -0.0370596816, ... 
-            0.2023003404,   0.0533322021,   0.0072373678,   0.4302371713, ... 
-            0.5098593309,   0.0480425413,  -0.1977649513,  -0.1245580362, ... 
-           -0.0358281145,   0.0559039370,   0.0560841995,  -0.0562044625, ... 
-           -0.0085250089,   0.1000911935,   0.0220632373,  -0.0808465769, ... 
-           -0.0500571556 ]';
-
+x0.r = [   1.0000000000,   0.0057957496,   0.4876446181,  -0.6064448505, ... 
+          -0.0732464764,  -0.1813289594,   0.0825292010,   0.0402271769, ... 
+           0.0231089807 ]';
+x0.s = [   1.0000000000,  -0.3152347372,   0.3294588078,  -0.5882345551, ... 
+           0.1018987408,  -0.1447755809,   0.1262117625,   0.0047961907 ]';
+x0.aa = [   0.0167724708,   0.0233295319,  -0.0304553674,  -0.0791348942, ... 
+           -0.0300527180,   0.0229121992,  -0.0139077644,  -0.0168328428, ... 
+            0.0287721451,  -0.0703480761,  -0.1551090222,   0.1342882334, ... 
+            0.5192009081,   0.4232988444,   0.0323482352,  -0.0592102153, ... 
+            0.0920814112,   0.0687033643,  -0.0653685794,  -0.0454978647, ... 
+            0.0577556352,   0.0763396415,   0.0407261969,   0.0180471815, ... 
+            0.0078340271 ]';
+x0.ac = [   0.0525817988,   0.0684670023,  -0.0954106925,  -0.1826399952, ... 
+            0.0534406622,   0.1410656372,  -0.1362339594,  -0.1008011221, ... 
+            0.1728895402,  -0.0379083588,  -0.2693408810,   0.1621993880, ... 
+            0.5475956821,   0.3636701555,   0.1069084491,  -0.0213955482, ... 
+           -0.0478810661,   0.0921216362,   0.1125651484,  -0.1033147587, ... 
+           -0.0985112180,   0.1149169855,   0.1186773674,  -0.0143883282, ... 
+           -0.0361929652 ]';
 n=500;
 tol=1e-3 % Tolerance on coefficient update
-ctol=tol/10 % Tolerance on constraints
+ctol=tol/40 % Tolerance on constraints
 mr=length(x0.r)-1 % Allpass model filter order 
 ms=length(x0.s)-1 % Allpass model filter order
 na=length(x0.aa) % Masking filter FIR length
@@ -90,19 +89,19 @@ Tdl=Td-((tpr/2)*ones(ntp,1));
 Wt=Wtp*ones(ntp,1);
 
 % Common strings for output plots
+strf="iir_frm_parallel_allpass_socp_slb_test";
 if no_delay
-  strT=sprintf("FRM parallel allpass %%s %%s:fap=%g,fas=%g,na=%d,nc=%d",
+  strt=sprintf("FRM parallel allpass %%s %%s:fap=%g,fas=%g,na=%d,nc=%d",
                fap,fas,na,nc);
 else
-  strT=sprintf("FRM parallel allpass %%s %%s:Mmodel=%d,Dmodel=%d,fap=%g,\
+  strt=sprintf("FRM parallel allpass %%s %%s:Mmodel=%d,Dmodel=%d,fap=%g,\
 fas=%g,na=%d,nc=%d", Mmodel,Dmodel,fap,fas,na,nc);
 endif
-strF=sprintf("iir_frm_parallel_allpass_socp_slb_test_%%s_%%s");
 
 % Plot the initial response
 nplot=1024;
-iir_frm_parallel_allpass_socp_slb_plot(x0,na,nc,Mmodel,Dmodel,dmask, ...
-                                       nplot,fap,strT,strF,"initial");
+iir_frm_parallel_allpass_socp_slb_plot ...
+  (x0,na,nc,Mmodel,Dmodel,dmask,nplot,fap,strt,strcat(strf,"_%s_%s"),"initial");
 
 %
 % SOCP PCLS 
@@ -118,8 +117,8 @@ endif
 % Convert d2k to structure form
 d2=iir_frm_parallel_allpass_vec_to_struct(d2k,Vr,Qr,Vs,Qs,na,nc);
 % Plot the PCLS response
-iir_frm_parallel_allpass_socp_slb_plot(d2,na,nc,Mmodel,Dmodel,dmask, ...
-                                       nplot,fap,strT,strF,"pcls");
+iir_frm_parallel_allpass_socp_slb_plot ...
+  (d2,na,nc,Mmodel,Dmodel,dmask,nplot,fap,strt,strcat(strf,"_%s_%s"),"pcls");
 
 %
 % PCLS amplitude at local peaks
@@ -135,7 +134,7 @@ printf("d1:AS=[ ");printf("%f ",10*log10(AS'));printf(" ] (dB)\n");
 %
 % Save the results
 %
-fid=fopen("iir_frm_parallel_allpass_socp_slb_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
@@ -157,13 +156,13 @@ fprintf(fid,"Was=%d %% Stop band weight\n",Was);
 fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fclose(fid);
 print_polynomial(d2.r,"r");
-print_polynomial(d2.r,"r","iir_frm_parallel_allpass_socp_slb_test_r_coef.m");
+print_polynomial(d2.r,"r",strcat(strf,"_r_coef.m"));
 print_polynomial(d2.s,"s");
-print_polynomial(d2.s,"s","iir_frm_parallel_allpass_socp_slb_test_s_coef.m");
+print_polynomial(d2.s,"s",strcat(strf,"_s_coef.m"));
 print_polynomial(d2.aa,"aa");
-print_polynomial(d2.aa,"aa","iir_frm_parallel_allpass_socp_slb_test_aa_coef.m");
+print_polynomial(d2.aa,"aa",strcat(strf,"_aa_coef.m"));
 print_polynomial(d2.ac,"ac");
-print_polynomial(d2.ac,"ac","iir_frm_parallel_allpass_socp_slb_test_ac_coef.m");
+print_polynomial(d2.ac,"ac",strcat(strf,"_ac_coef.m"));
 save iir_frm_parallel_allpass_socp_slb_test.mat ...
      x0 d2 Mmodel Dmodel fap fas dBap Wap tpr Wtp dBas Was rho tol
 

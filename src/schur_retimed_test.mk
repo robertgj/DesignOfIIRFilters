@@ -1,5 +1,5 @@
 schur_retimed_test_FIGURES= \
-schur_retimed_expected_response schur_retimed_output_response
+schur_retimed_test_expected_response schur_retimed_test_output_response
 
 schur_retimed_test_FILES = \
 schur_retimed_test.m test_common.m \

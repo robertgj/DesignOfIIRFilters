@@ -1,18 +1,21 @@
-% bitflip_bandpass_OneM_lattice_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% bitflip_schurOneMlattice_bandpass_test.m
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass lattice filter in one multiplier form.
 
 test_common;
 
-unlink("bitflip_bandpass_OneM_lattice_test.diary");
-unlink("bitflip_bandpass_OneM_lattice_test.diary.tmp");
-diary bitflip_bandpass_OneM_lattice_test.diary.tmp
+unlink("bitflip_schurOneMlattice_bandpass_test.diary");
+unlink("bitflip_schurOneMlattice_bandpass_test.diary.tmp");
+diary bitflip_schurOneMlattice_bandpass_test.diary.tmp
 
 format long e
 
 bitflip_bandpass_test_common;
+
+% File name string
+strf="bitflip_schurOneMlattice_bandpass_test";
 
 % Lattice decomposition
 [k0,epsilon0,p0,c0]=tf2schurOneMlattice(n0,d0);
@@ -38,6 +41,13 @@ svec_bf=bitflip(@schurOneMlattice_cost,svec_rd,nbits,bitstart,msize);
 [n_bf,d_bf]=schurOneMlattice2tf(k_bf,epsilon0,ones(size(p0)),c_bf);
 h_bf=freqz(n_bf,d_bf,nplot);
 t_bf=grpdelay(n_bf,d_bf,nplot);
+% Find the total number of adders required to implement the BF multipliers
+kcbf=[k_bf(:);c_bf(:)];
+[kcbf_digits,kcbf_adders]=SDadders(kcbf,nbits);
+fname=strcat(strf,"_adders_bf.tab");
+fid=fopen(fname,"wt");
+fprintf(fid,"$%d$",kcbf_adders);
+fclose(fid);
 
 % Signed-digit truncation
 [cost_sd,k_sd,c_sd,svec_sd] = ...
@@ -53,13 +63,13 @@ h_bfsd=freqz(n_bfsd,d_bfsd,nplot);
 t_bfsd=grpdelay(n_bfsd,d_bfsd,nplot);
 
 % Allocate signed digits with Lim's algorithm
-ndigits_lim=schurOneMlattice_allocsd_Lim ...
+ndigits_Lim=schurOneMlattice_allocsd_Lim ...
               (nbits,ndigits,k0,epsilon0,p0,c0, ...
                w,Ad.^2,ones(size(w)),w,Td,ones(size(w)));
 
 % Signed-digit truncation with Lim's algorithm
 [cost_sdl,k_sdl,c_sdl,svec_sdl] = ...
-   schurOneMlattice_cost([],Ad,Wa,Td,Wt,k0,epsilon0,p0,c0,nbits,ndigits_lim)
+   schurOneMlattice_cost([],Ad,Wa,Td,Wt,k0,epsilon0,p0,c0,nbits,ndigits_Lim)
 [n_sdl,d_sdl]=schurOneMlattice2tf(k_sdl,epsilon0,ones(size(p0)),c_sdl);
 h_sdl=freqz(n_sdl,d_sdl,nplot);
 t_sdl=grpdelay(n_sdl,d_sdl,nplot);
@@ -71,12 +81,12 @@ h_bfsdl=freqz(n_bfsdl,d_bfsdl,nplot);
 t_bfsdl=grpdelay(n_bfsdl,d_bfsdl,nplot);
 
 % Allocate signed digits with Ito's algorithm
-ndigits_ito=schurOneMlattice_allocsd_Ito(nbits,ndigits,k0,epsilon0,p0,c0, ...
+ndigits_Ito=schurOneMlattice_allocsd_Ito(nbits,ndigits,k0,epsilon0,p0,c0, ...
                                          w,Ad.^2,Wa,w,Td,Wt);
 
 % Signed-digit truncation with Ito's algorithm
 [cost_sdi,k_sdi,c_sdi,svec_sdi] = ...
-   schurOneMlattice_cost([],Ad,Wa,Td,Wt,k0,epsilon0,p0,c0,nbits,ndigits_ito)
+   schurOneMlattice_cost([],Ad,Wa,Td,Wt,k0,epsilon0,p0,c0,nbits,ndigits_Ito)
 [n_sdi,d_sdi]=schurOneMlattice2tf(k_sdi,epsilon0,ones(size(p0)),c_sdi);
 h_sdi=freqz(n_sdi,d_sdi,nplot);
 t_sdi=grpdelay(n_sdi,d_sdi,nplot);
@@ -88,7 +98,7 @@ h_bfsdi=freqz(n_bfsdi,d_bfsdi,nplot);
 t_bfsdi=grpdelay(n_bfsdi,d_bfsdi,nplot);
 
 % Make a LaTeX table for cost
-fname=sprintf("bitflip_bandpass_OneM_lattice_test_cost.tab");
+fname=strcat(strf,"_cost.tab");
 fid=fopen(fname,"wt");
 fprintf(fid,"Exact & %6.4f\\\\\n",cost_ex);
 fprintf(fid,"%d-bit rounded & %6.4f\\\\\n",nbits,cost_rd);
@@ -109,7 +119,8 @@ fclose(fid);
 % Find the total number of adders required to implement the SD multipliers
 kcbfsd=[k_bfsd(:);c_bfsd(:)];
 [kcbfsd_digits,kcbfsd_adders]=SDadders(kcbfsd,nbits);
-fid=fopen("bitflip_bandpass_OneM_lattice_test_adders_bfsd.tab","wt");
+fname=strcat(strf,"_adders_bfsd.tab");
+fid=fopen(fname,"wt");
 fprintf(fid,"$%d$",kcbfsd_adders);
 fclose(fid);
 
@@ -117,7 +128,8 @@ fclose(fid);
 % with Lim's allocation method
 kcbfsdl=[k_bfsdl(:);c_bfsdl(:)];
 [kcbfsdl_digits,kcbfsdl_adders]=SDadders(kcbfsdl,nbits);
-fid=fopen("bitflip_bandpass_OneM_lattice_test_adders_Lim.tab","wt");
+fname=strcat(strf,"_adders_Lim.tab");
+fid=fopen(fname,"wt");
 fprintf(fid,"$%d$",kcbfsdl_adders);
 fclose(fid);
 
@@ -125,7 +137,8 @@ fclose(fid);
 % with Ito's allocation method
 kcbfsdi=[k_bfsdi(:);c_bfsdi(:)];
 [kcbfsdi_digits,kcbfsdi_adders]=SDadders(kcbfsdi,nbits);
-fid=fopen("bitflip_bandpass_OneM_lattice_test_adders_Ito.tab","wt");
+fname=strcat(strf,"_adders_Ito.tab");
+fid=fopen(fname,"wt");
 fprintf(fid,"$%d$",kcbfsdi_adders);
 fclose(fid);
 
@@ -140,9 +153,9 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-tstr=sprintf("Bandpass OneM lattice,nbits=%d,bitstart=%d,\
+strt=sprintf("Bandpass OneM lattice, nbits=%d,bitstart=%d,\
 msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
-title(tstr);
+title(strt);
 subplot(212)
 iplot=1:(0.7*nplot); % Avoid overlap with legend
 plot(wplot(iplot)*0.5/pi,    t0(iplot),"linestyle","-", ...
@@ -152,14 +165,15 @@ plot(wplot(iplot)*0.5/pi,    t0(iplot),"linestyle","-", ...
      wplot(iplot)*0.5/pi,t_bfsd(iplot),"linestyle","-");
 legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 xlabel("Frequency");
 ylabel("Group delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
-print("bitflip_bandpass_OneM_lattice_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
+
 % Plot results with signed-digit allocation
 subplot(211)
 plot(wplot*0.5/pi,20*log10(abs(    h0)),"linestyle","-", ...
@@ -171,9 +185,9 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-tstr=sprintf("Bandpass OneM lattice,nbits=%d,bitstart=%d,\
+strt=sprintf("Bandpass OneM lattice, nbits=%d,bitstart=%d,\
 msize=%d,ndigits=%d, Lim and Ito SD allocation",nbits,bitstart,msize,ndigits);
-title(tstr);
+title(strt);
 subplot(212)
 iplot=1:(0.7*nplot); % Avoid overlap with legend
 plot(wplot(iplot)*0.5/pi,      t0(iplot),"linestyle","-", ...
@@ -184,79 +198,76 @@ plot(wplot(iplot)*0.5/pi,      t0(iplot),"linestyle","-", ...
 legend("exact","signed-digit (Lim)","bitflip(s-d Lim)","signed-digit (Ito)", ...
        "bitflip(s-d Ito)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 xlabel("Frequency");
 ylabel("Group delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
-print("bitflip_bandpass_OneM_lattice_response_allocsd","-dpdflatex");
+print(strcat(strf,"_response_allocsd"),"-dpdflatex");
 close
 
 % Print the results
 print_polynomial(k_ex,"k_ex");
 print_polynomial(c_ex,"c_ex");
-print_polynomial(k_ex,"k_ex", ...
-                 "bitflip_bandpass_OneM_lattice_test_k_ex_coef.m");
-print_polynomial(c_ex,"c_ex", ...
-                 "bitflip_bandpass_OneM_lattice_test_c_ex_coef.m");
-print_polynomial(k_rd,"k_rd");
-print_polynomial(c_rd,"c_rd");
-print_polynomial(k_rd,"k_rd", ...
-                 "bitflip_bandpass_OneM_lattice_test_k_rd_coef.m",fmt_str);
-print_polynomial(c_rd,"c_rd", ...
-                 "bitflip_bandpass_OneM_lattice_test_c_rd_coef.m",fmt_str);
-print_polynomial(k_bf,"k_bf");
-print_polynomial(c_bf,"c_bf");
-print_polynomial(k_bf,"k_bf", ...
-                 "bitflip_bandpass_OneM_lattice_test_k_bf_coef.m",fmt_str);
-print_polynomial(c_bf,"c_bf", ...
-                 "bitflip_bandpass_OneM_lattice_test_c_bf_coef.m",fmt_str);
-print_polynomial(k_sd,"k_sd");
-print_polynomial(c_sd,"c_sd");
-print_polynomial(k_sd,"k_sd", ...
-                 "bitflip_bandpass_OneM_lattice_test_k_sd_coef.m",fmt_str);
-print_polynomial(c_sd,"c_sd", ...
-                 "bitflip_bandpass_OneM_lattice_test_c_sd_coef.m",fmt_str);
-print_polynomial(k_bfsd,"k_bfsd");
-print_polynomial(c_bfsd,"c_bfsd");
-print_polynomial(k_bfsd,"k_bfsd", ...
-                 "bitflip_bandpass_OneM_lattice_test_k_bfsd_coef.m",fmt_str);
-print_polynomial(c_bfsd,"c_bfsd", ...
-                 "bitflip_bandpass_OneM_lattice_test_c_bfsd_coef.m",fmt_str);
 
-print_polynomial(k_sdl,"k_sdl");
-print_polynomial(c_sdl,"c_sdl");
-print_polynomial(k_sdl,"k_sdl", ...
-                 "bitflip_bandpass_OneM_lattice_test_k_sdl_coef.m",fmt_str);
-print_polynomial(c_sdl,"c_sdl", ...
-                 "bitflip_bandpass_OneM_lattice_test_c_sdl_coef.m",fmt_str);
-print_polynomial(k_bfsdl,"k_bfsdl");
-print_polynomial(c_bfsdl,"c_bfsdl");
-print_polynomial(k_bfsdl,"k_bfsdl", ...
-                 "bitflip_bandpass_OneM_lattice_test_k_bfsdl_coef.m",fmt_str);
-print_polynomial(c_bfsdl,"c_bfsdl", ...
-                 "bitflip_bandpass_OneM_lattice_test_c_bfsdl_coef.m",fmt_str);
+print_polynomial(k_ex,"k_ex",strcat(strf,"_k_ex_coef.m"));
+print_polynomial(c_ex,"c_ex",strcat(strf,"_c_ex_coef.m"));
 
-print_polynomial(k_sdi,"k_sdi");
-print_polynomial(c_sdi,"c_sdi");
-print_polynomial(k_sdi,"k_sdi", ...
-                 "bitflip_bandpass_OneM_lattice_test_k_sdi_coef.m",fmt_str);
-print_polynomial(c_sdi,"c_sdi", ...
-                 "bitflip_bandpass_OneM_lattice_test_c_sdi_coef.m",fmt_str);
-print_polynomial(k_bfsdi,"k_bfsdi");
-print_polynomial(c_bfsdi,"c_bfsdi");
-print_polynomial(k_bfsdi,"k_bfsdi", ...
-                 "bitflip_bandpass_OneM_lattice_test_k_bfsdi_coef.m",fmt_str);
-print_polynomial(c_bfsdi,"c_bfsdi", ...
-                 "bitflip_bandpass_OneM_lattice_test_c_bfsdi_coef.m",fmt_str);
+print_polynomial(k_rd,"k_rd",nscale);
+print_polynomial(c_rd,"c_rd",nscale);
+
+print_polynomial(k_rd,"k_rd",strcat(strf,"_k_rd_coef.m"),nscale);
+print_polynomial(c_rd,"c_rd",strcat(strf,"_c_rd_coef.m"),nscale);
+
+print_polynomial(k_bf,"k_bf",nscale);
+print_polynomial(c_bf,"c_bf",nscale);
+
+print_polynomial(k_bf,"k_bf",strcat(strf,"_k_bf_coef.m"),nscale);
+print_polynomial(c_bf,"c_bf",strcat(strf,"_c_bf_coef.m"),nscale);
+
+print_polynomial(k_sd,"k_sd",nscale);
+print_polynomial(c_sd,"c_sd",nscale);
+
+print_polynomial(k_sd,"k_sd",strcat(strf,"_k_sd_coef.m"),nscale);
+print_polynomial(c_sd,"c_sd",strcat(strf,"_c_sd_coef.m"),nscale);
+
+print_polynomial(k_bfsd,"k_bfsd",nscale);
+print_polynomial(c_bfsd,"c_bfsd",nscale);
+
+print_polynomial(k_bfsd,"k_bfsd",strcat(strf,"_k_bfsd_coef.m"),nscale);
+print_polynomial(c_bfsd,"c_bfsd",strcat(strf,"_c_bfsd_coef.m"),nscale);
+
+print_polynomial(k_sdl,"k_sdl",nscale);
+print_polynomial(c_sdl,"c_sdl",nscale);
+
+print_polynomial(k_sdl,"k_sdl",strcat(strf,"_k_sdl_coef.m"),nscale);
+print_polynomial(c_sdl,"c_sdl",strcat(strf,"_c_sdl_coef.m"),nscale);
+
+print_polynomial(k_bfsdl,"k_bfsdl",nscale);
+print_polynomial(c_bfsdl,"c_bfsdl",nscale);
+
+print_polynomial(k_bfsdl,"k_bfsdl",strcat(strf,"_k_bfsdl_coef.m"),nscale);
+print_polynomial(c_bfsdl,"c_bfsdl",strcat(strf,"_c_bfsdl_coef.m"),nscale);
+
+print_polynomial(k_sdi,"k_sdi",nscale);
+print_polynomial(c_sdi,"c_sdi",nscale);
+
+print_polynomial(k_sdi,"k_sdi",strcat(strf,"_k_sdi_coef.m"),nscale);
+print_polynomial(c_sdi,"c_sdi",strcat(strf,"_c_sdi_coef.m"),nscale);
+
+print_polynomial(k_bfsdi,"k_bfsdi",nscale);
+print_polynomial(c_bfsdi,"c_bfsdi",nscale);
+
+print_polynomial(k_bfsdi,"k_bfsdi",strcat(strf,"_k_bfsdi_coef.m"),nscale);
+print_polynomial(c_bfsdi,"c_bfsdi",strcat(strf,"_c_bfsdi_coef.m"),nscale);
 
 % Save the results
-save bitflip_bandpass_OneM_lattice_test.mat ...
+save bitflip_schurOneMlattice_bandpass_test.mat ...
      k_ex c_ex k_rd c_rd k_bf c_bf k_sd c_sd k_bfsd c_bfsd ...
      k_sdl c_sdl k_bfsdl c_bfsdl k_sdi c_sdi k_bfsdi c_bfsdi 
 
 % Done
 diary off
-movefile bitflip_bandpass_OneM_lattice_test.diary.tmp ...
-       bitflip_bandpass_OneM_lattice_test.diary;
+movefile bitflip_schurOneMlattice_bandpass_test.diary.tmp ...
+         bitflip_schurOneMlattice_bandpass_test.diary;

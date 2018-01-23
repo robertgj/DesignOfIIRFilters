@@ -1,5 +1,5 @@
 % iir_sqp_slb_hilbert_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 % Note that with the SOCP solver this test fails to find and satisfy
 % phase constraints near w=0 because the phase response has inflexions
@@ -16,15 +16,16 @@ diary iir_sqp_slb_hilbert_test.diary.tmp
 format compact;
 
 tol=1e-4;
+ctol=tol;
 maxiter=2000
 verbose=false
 
 % Initial filter from tarczynski_hilbert_test.m
-N0=[  -0.0579060701,  -0.0707488132,  -0.0092404640,  -0.0274579731, ...
-      -0.1104130391,  -0.4893854880,   0.8949334384,   1.0530071415, ...
-      -0.8682713761,  -0.4995254712,   0.1864234803,   0.0312522437 ]';
-D0=[   1.0000000000,  -1.4115940676,   0.4595341482,  -0.0092849195, ...
-       0.0011168533,   0.0014520227,  -0.0018389921 ]';
+N0 = [ -0.0579060329, -0.0707485922, -0.0092411885, -0.0274591873, ...
+       -0.1104148108, -0.4893876574,  0.8949321301,  1.0529986698, ...
+       -0.8682556384, -0.4995082652,  0.1864128112,  0.0312466802 ]';
+D0 = [  1.0000000000, -1.4115743676,  0.4595123498, -0.0092821060, ...
+        0.0011188759,  0.0014499657, -0.0018384568 ]';
 R=2;
 [x0,U,V,M,Q]=tf2x(N0,D0);
 
@@ -94,7 +95,7 @@ strM=sprintf("Hilbert filter %%s:Wap=%g,ftt=%g,td=%g,Wtp=%g,fpt=%g,Wpp=%g", ...
 strP=sprintf("Hilbert filter %%s:\
 Ar=%g,Wap=%g,td=%g,ftt=%g,tdr=%g,Wtp=%g,fpt=%g,pr=%g,Wpp=%g", ...
              Ar,Wap,td,ftt,tdr,Wtp,fpt,pr,Wpp);
-strd=sprintf("iir_sqp_slb_hilbert_%%s_%%s");
+strf="iir_sqp_slb_hilbert_test";
 
 % Show initial response and constraints
 A0=iirA(w,x0,U,V,M,Q,R);
@@ -102,7 +103,8 @@ T0=iirT(w,x0,U,V,M,Q,R);
 P0=iirP(w,x0,U,V,M,Q,R);
 subplot(311);
 plot(w*0.5/pi,A0);
-title(sprintf("Hilbert filter initial response : td=%g,fpt=%g",td,fpt));
+strt=sprintf("Hilbert filter initial response : td=%g,fpt=%g",td,fpt);
+title(strt);
 ylabel("Amplitude");
 axis([-0.5 0.5 -1.2 -0.6]);
 grid("on");
@@ -118,7 +120,7 @@ ylabel("Phase(rad./pi\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([-0.5 0.5 -2 0]);
 grid("on");
-print(sprintf(strd,"initial","x0phase"),"-dpdflatex");
+print(strcat(strf,"_initial_x0phase"),"-dpdflatex");
 close
 
 % Try with xInitHd
@@ -132,7 +134,8 @@ subplot(211);
 plot(w*0.5/pi,[A0b Adl Adu]);
 axis([-0.5 0.5 -1.02 -0.98]);
 grid("on");
-title(sprintf("Hilbert filter initial response(b) : td=%g,fpt=%g",td,fpt));
+strt=sprintf("Hilbert filter initial response(b) : td=%g,fpt=%g",td,fpt);
+title(strt);
 ylabel("Amplitude");
 subplot(212);
 plot(w*0.5/pi,[P0b+w*td Pdl+w*td Pdu+w*td]+4*pi);
@@ -140,7 +143,7 @@ ylabel("Phase(rad.)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([-0.5 0.5 -5 -1]);
 grid("on");
-print(sprintf(strd,"initial","x0bphase"),"-dpdflatex");
+print(strcat(strf,"_initial_x0bphase"),"-dpdflatex");
 close
 %}
 
@@ -156,19 +159,19 @@ printf("\nMMSE pass 1:\n");
 if feasible == 0 
   error("x1(mmse) infeasible");
 endif
-strM1=sprintf(strM,"x1(mmse)");
-showZPplot(x1,U,V,M,Q,R,strM1);
-print(sprintf(strd,"mmse","x1pz"),"-dpdflatex");
+strt=sprintf(strM,"x1(mmse)");
+showZPplot(x1,U,V,M,Q,R,strt);
+print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
-showResponse(x1,U,V,M,Q,R,strM1);
-print(sprintf(strd,"mmse","x1"),"-dpdflatex");
+showResponse(x1,U,V,M,Q,R,strt);
+print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
 Ax1=iirA(w,x1,U,V,M,Q,R);
 Tx1=iirT(w,x1,U,V,M,Q,R);
 Px1=iirP(w,x1,U,V,M,Q,R);
 subplot(311);
 h311=plot(w*0.5/pi,[Ax1 Adl Adu]);
-title(sprintf(strM,"x1(mmse)"));
+title(strt);
 ylabel("Amplitude");
 axis([-0.5 0.5 -1.02 -0.98]);
 grid("on");
@@ -195,7 +198,7 @@ axis(ax(2),[-0.5 0.5 -1.5-(pr/2) -1.5+(pr/2)]);
 ylabel("Phase(rad./pi)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"mmse","x1phase"),"-dpdflatex");
+print(strcat(strf,"_mmse_x1phase"),"-dpdflatex");
 close
 
 %
@@ -206,21 +209,21 @@ printf("\nPCLS pass 1:\n");
   iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol,verbose)
+          maxiter,tol,ctol,verbose)
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
-strP1=sprintf(strP,"d1");
-showZPplot(d1,U,V,M,Q,R,strP1);
-print(sprintf(strd,"pcls","d1pz"),"-dpdflatex");
-showResponse(d1,U,V,M,Q,R,strP1);
-print(sprintf(strd,"pcls","d1"),"-dpdflatex");
+strt=sprintf(strP,"d1(pcls)");
+showZPplot(d1,U,V,M,Q,R,strt);
+print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
+showResponse(d1,U,V,M,Q,R,strt);
+print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 Ad1=iirA(w,d1,U,V,M,Q,R);
 Td1=iirT(w,d1,U,V,M,Q,R);
 Pd1=iirP(w,d1,U,V,M,Q,R);
 subplot(311);
 h311=plot(w*0.5/pi,[Ad1 Adl Adu]);
-title(sprintf(strP,"d1(pcls)"));
+title(strt);
 ylabel("Amplitude");
 grid("on");
 axis([-0.5 0.5 -1.02 -0.98]);
@@ -247,13 +250,14 @@ axis(ax(2),[-0.5 0.5 -1.5-(pr/2) -1.5+(pr/2)]);
 ylabel("Phase(rad./pi)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"pcls","d1phase"),"-dpdflatex");
+print(strcat(strf,"_pcls_d1phase"),"-dpdflatex");
 close
 
 % Specification file
-fid=fopen("iir_sqp_slb_hilbert_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"tol=%g %% Tolerance on relative coefficient update size\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"fpt=%g %% Phase response transition edge\n",fpt);
 fprintf(fid,"pr=%g %% Phase response peak-to-peak ripple(relative to π/2)\n",pr);
 fprintf(fid,"Wpp=%g %% Phase response weight\n",Wpp);
@@ -270,17 +274,17 @@ fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
 fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fclose(fid);
 % Coefficients
-print_pole_zero(x0,U,V,M,Q,R,"x0","iir_sqp_slb_hilbert_test_x0_coef.m");
+print_pole_zero(x0,U,V,M,Q,R,"x0",strcat(strf,"_x0_coef.m"));
 print_pole_zero(d1,U,V,M,Q,R,"d1");
-print_pole_zero(d1,U,V,M,Q,R,"d1","iir_sqp_slb_hilbert_test_d1_coef.m");
+print_pole_zero(d1,U,V,M,Q,R,"d1",strcat(strf,"_d1_coef.m"));
 [N1,D1]=x2tf(d1,U,V,M,Q,R);
 print_polynomial(N1,"N1");
-print_polynomial(N1,"N1","iir_sqp_slb_hilbert_test_N1_coef.m");
+print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
-print_polynomial(D1,"D1","iir_sqp_slb_hilbert_test_D1_coef.m");
+print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 % Done
-save iir_sqp_slb_hilbert_test.mat U V M Q R x0 x1 d1 tol ...
+save iir_sqp_slb_hilbert_test.mat U V M Q R x0 x1 d1 tol ctol ...
      n w Ad Ar td ftt tdr Pd fpt pr
 
 diary off

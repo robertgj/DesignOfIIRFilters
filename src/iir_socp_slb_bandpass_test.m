@@ -1,5 +1,5 @@
 % iir_socp_slb_bandpass_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -13,6 +13,7 @@ format compact;
 
 verbose=false
 tol=1e-4
+ctol=tol
 maxiter=5000
 
 % Bandpass filter specification
@@ -120,7 +121,7 @@ start_time=time();
   iir_slb(@iir_socp_mmse,x0,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol,verbose)
+          maxiter,tol,ctol,verbose)
 if feasible == 0 
   error("R=2 bandpass d1 (pcls) infeasible");
 endif
@@ -151,6 +152,7 @@ printf("d1:TS=[ ");printf("%f ",TS');printf(" ] (samples)\n");
 fid=fopen("iir_socp_slb_bandpass_test.spec","wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"tol=%g %% Tolerance on relative coefficient update size\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"fasl=%g %% Stop band amplitude response lower edge\n",fasl);
 fprintf(fid,"fapl=%g %% Pass band amplitude response lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Pass band amplitude response upper edge\n",fapu);
@@ -182,7 +184,7 @@ print_polynomial(D1,"D1");
 print_polynomial(D1,"D1","iir_socp_slb_bandpass_test_D1_coef.m");
 
 % Done 
-save iir_socp_slb_bandpass_test.mat U V M Q R n tol fapl fapu dBap Wap ...
+save iir_socp_slb_bandpass_test.mat U V M Q R n tol ctol fapl fapu dBap Wap ...
      fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp x0 d1
 
 toc;

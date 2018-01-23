@@ -1,8 +1,8 @@
 #!/bin/sh
 
-prog=branch_bound_bandpass_OneM_lattice_10_nbits_test.m
+prog=branch_bound_schurOneMlattice_bandpass_10_nbits_test.m
 
-depends="branch_bound_bandpass_OneM_lattice_10_nbits_test.m \
+depends="branch_bound_schurOneMlattice_bandpass_10_nbits_test.m \
 schurOneMlattice_bandpass_10_nbits_common.m test_common.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
 schurOneMlatticeEsq.m \
@@ -57,26 +57,26 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k.ok << 'EOF'
-512*k_min = [      0,    334,      0,    264, ... 
-                   0,    176,      0,    216, ... 
-                   0,    148,      0,    128, ... 
-                   0,     74,      0,     51, ... 
-                   0,     17,      0,      7 ]';
+k_min = [        0,      351,        0,      264, ... 
+                 0,      188,        0,      216, ... 
+                 0,      156,        0,      128, ... 
+                 0,       78,        0,       49, ... 
+                 0,       17,        0,        6 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
 cat > test.c.ok << 'EOF'
-512*c_min = [     40,     -2,   -144,   -255, ... 
-                 -94,     48,    192,    160, ... 
-                  15,    -40,    -42,     -8, ... 
-                  -2,    -16,    -13,      1, ... 
-                  12,      8,      1,      0, ... 
-                   2 ]';
+c_min = [       72,       -2,     -272,     -496, ... 
+              -184,       96,      388,      320, ... 
+                30,      -80,      -84,      -16, ... 
+                -4,      -32,      -24,        4, ... 
+                24,       16,        1,        0, ... 
+                 4 ]'/1024;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
 cat > test_cost.tab.ok << 'EOF'
 Exact & 0.0145 & & \\
-10-bit 3-signed-digit(Ito)&0.0852 & 64 & 34 \\
-10-bit 3-signed-digit(branch-and-bound)&0.0184 & 62 & 32 \\
+10-bit 3-signed-digit(Ito)&0.0385 & 64 & 34 \\
+10-bit 3-signed-digit(branch-and-bound)&0.0210 & 61 & 31 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.tab.ok"; fail; fi
 
@@ -88,14 +88,14 @@ echo "Running octave-cli -q " $prog
 octave-cli -q $prog > test.out
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.k.ok branch_bound_bandpass_OneM_lattice_10_nbits_test_k_min_coef.m
+diff -Bb test.k.ok branch_bound_schurOneMlattice_bandpass_10_nbits_test_k_min_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
 
-diff -Bb test.c.ok branch_bound_bandpass_OneM_lattice_10_nbits_test_c_min_coef.m
+diff -Bb test.c.ok branch_bound_schurOneMlattice_bandpass_10_nbits_test_c_min_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi
 
 diff -Bb test_cost.tab.ok \
-     branch_bound_bandpass_OneM_lattice_10_nbits_test_cost.tab
+     branch_bound_schurOneMlattice_bandpass_10_nbits_test_cost.tab
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test_cost.tab.ok"; fail; fi
 
 #

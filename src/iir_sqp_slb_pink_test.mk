@@ -1,10 +1,10 @@
 iir_sqp_slb_pink_test_FIGURES = \
-iir_sqp_slb_pink_init_x0 \
-iir_sqp_slb_pink_init_x0pz \
-iir_sqp_slb_pink_mmse_x1 \
-iir_sqp_slb_pink_mmse_x1pz \
-iir_sqp_slb_pink_pcls_d1 \
-iir_sqp_slb_pink_pcls_d1pz 
+iir_sqp_slb_pink_test_init_x0 \
+iir_sqp_slb_pink_test_init_x0pz \
+iir_sqp_slb_pink_test_mmse_x1 \
+iir_sqp_slb_pink_test_mmse_x1pz \
+iir_sqp_slb_pink_test_pcls_d1 \
+iir_sqp_slb_pink_test_pcls_d1pz 
 
 iir_sqp_slb_pink_test_COEFS = \
 iir_sqp_slb_pink_test.mat \

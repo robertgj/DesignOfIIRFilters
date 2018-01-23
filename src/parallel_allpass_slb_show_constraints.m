@@ -4,7 +4,7 @@ function parallel_allpass_slb_show_constraints(vS,wa,Asq,wt,T)
     print_usage("parallel_allpass_slb_show_constraints(vS,wa,Asq,wt,T)");
   endif
   
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

@@ -22,6 +22,16 @@ pass()
 }
 
 trap "fail" 1 2 3 15
+
+# If /usr/lib64/atlas does not exist then return the aet code for "pass"
+if ! test -d /usr/lib64/atlas ; then 
+    echo SKIPPED $prog /usr/lib64/atlas not found! ; exit 0; 
+fi
+# If /usr/lib64/liblapack.so.3 does not exist then return the aet code for "pass"
+if ! test -f /usr/lib64/liblapack.so.3 ; then 
+    echo SKIPPED $prog /usr/lib64/liblapack.so.3 not found! ; exit 0; 
+fi
+
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
 echo $here
@@ -112,7 +122,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat dgesvd_test.f"; fail; fi
 #
 # Compile
 #
-gfortran -Wall -o dgesvd_test dgesvd_test.f -L/usr/lib64/atlas -ltatlas
+gfortran -Wall -o dgesvd_test dgesvd_test.f /usr/lib64/atlas/libtatlas.so.3
 if [ $? -ne 0 ]; then echo "Failed to compile dgesvd_test.f"; fail; fi
 
 #
@@ -128,7 +138,7 @@ if [ $? -ne 0 ]; then echo "Failed to compile dgesvd_test.f"; fail; fi
 ./dgesvd_test
 if [ $? -ne 0 ]; then echo "Failed running with libtatlas"; fail; fi
 
-LD_PRELOAD="/usr/lib64/libblas.so:/usr/lib64/liblapack.so" \
+LD_PRELOAD="/usr/lib64/libblas.so.3:/usr/lib64/liblapack.so.3" \
 ./dgesvd_test | tee test.out
 if [ $? -ne 0 ]; then echo "Failed running with libblas,liblapack"; fail; fi
 

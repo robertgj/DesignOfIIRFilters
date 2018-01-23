@@ -1,29 +1,30 @@
-% socp_relaxation_hilbert_OneM_lattice_10_nbits_test.m
+% socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.m
 
 % SOCP-relaxation optimisation of the response of a Schur one-multiplier
 % lattice Hilbert filter with 10-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
-unlink("socp_relaxation_hilbert_OneM_lattice_10_nbits_test.diary");
-unlink("socp_relaxation_hilbert_OneM_lattice_10_nbits_test.diary.tmp");
-diary socp_relaxation_hilbert_OneM_lattice_10_nbits_test.diary.tmp
+unlink("socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.diary");
+unlink("socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.diary.tmp");
+diary socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.diary.tmp
 
 % Options
-socp_relaxation_hilbert_OneM_lattice_10_nbits_test_allocsd_Lim=true
-socp_relaxation_hilbert_OneM_lattice_10_nbits_test_allocsd_Ito=false
+socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_allocsd_Lim=true
+socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_allocsd_Ito=false
 
 tic;
 
 maxiter=2000
 verbose=false
 tol=1e-8
+ctol=tol
 nbits=10
 nscale=2^(nbits-1);
 ndigits=3
-strF=sprintf("socp_relaxation_hilbert_OneM_lattice_%d_nbits_test",nbits);
+strf="socp_relaxation_schurOneMlattice_hilbert_10_nbits_test";
 
 % Coefficients found by schurOneMlattice_sqp_slb_hilbert_test.m
 k0 = [   0.0000000000,  -0.9135081383,   0.0000000000,   0.5546428065, ... 
@@ -90,12 +91,12 @@ kc0_l=-kc0_u;
 kc0_active=[find((k0)~=0);(Nk+(1:Nc))'];
 
 % Allocate signed-digits to the coefficients
-if socp_relaxation_hilbert_OneM_lattice_10_nbits_test_allocsd_Lim
+if socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_allocsd_Lim
   ndigits_alloc=schurOneMlattice_allocsd_Lim(nbits,ndigits,k0,epsilon0,p0,c0, ...
                                              wa,Asqd,ones(size(wa)), ...
                                              wt,Td,ones(size(wt)), ...
                                              wp,Pd,ones(size(wp)));
-elseif socp_relaxation_hilbert_OneM_lattice_10_nbits_test_allocsd_Ito
+elseif socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_allocsd_Ito
   ndigits_alloc=schurOneMlattice_allocsd_Ito(nbits,ndigits,k0,epsilon0,p0,c0, ...
                                              wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
 else
@@ -110,12 +111,10 @@ k0_sd=kc0_sd(1:Nk);
 k0_sd=k0_sd(:);
 c0_sd=kc0_sd((Nk+1):end);
 c0_sd=c0_sd(:);
-printf("nscale*k0_sd_=[ ");printf("%g ",nscale*k0_sd');printf("]';\n");
-printf("nscale*c0_sd=[ ");printf("%g ",nscale*c0_sd');printf("]';\n");
-print_polynomial(nscale*k0_sd,sprintf("%d*k0_sd",nscale), ...
-                 strcat(strF,"_k0_sd_coef.m"),"%6d");
-print_polynomial(nscale*c0_sd,sprintf("%d*c0_sd",nscale), ...
-                 strcat(strF,"_c0_sd_coef.m"),"%6d");
+print_polynomial(k0_sd,"k0_sd",nscale);
+print_polynomial(k0_sd,"k0_sd",strcat(strf,"_k0_sd_coef.m"),nscale);
+print_polynomial(c0_sd,"c0_sd",nscale);
+print_polynomial(c0_sd,"c0_sd",strcat(strf,"_c0_sd_coef.m"),nscale);
 
 % Initialise kc_active
 kc0_sdul=kc0_sdu-kc0_sdl;
@@ -183,7 +182,7 @@ while ~isempty(kc_active)
                            wa,Asqd,Asqdu,Asqdl,Wa, ...
                            wt,Td,Tdu,Tdl,Wt, ...
                            wp,Pd,Pdu,Pdl,Wp, ...
-                           maxiter,tol,verbose);
+                           maxiter,tol,ctol,verbose);
   catch
     feasible=false;
     err=lasterror();
@@ -221,14 +220,12 @@ k_min=kc(1:Nk);
 c_min=kc((Nk+1):end);
 Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p_ones,c_min,wa,Asqd,Wa,wt,Td,Wt);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
-printf("nscale*k_min=[ ");printf("%g ",nscale*k_min');printf("]';\n");
+print_polynomial(k_min,"k_min",nscale);
+print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
 printf("epsilon0=[ ");printf("%d ",epsilon0');printf("]';\n");
 printf("p_ones=[ ");printf("%g ",p_ones');printf("]';\n");
-printf("nscale*c_min=[ ");printf("%g ",nscale*c_min');printf("]';\n");
-print_polynomial(nscale*k_min,sprintf("%d*k_min",nscale), ...
-                 strcat(strF,"_k_min_coef.m"),"%6d");
-print_polynomial(nscale*c_min,sprintf("%d*c_min",nscale), ...
-                 strcat(strF,"_c_min_coef.m"),"%6d");
+print_polynomial(c_min,"c_min",nscale);
+print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used by kc_sd
 [kc_digits,kc_adders]=SDadders(kc_sd(kc0_active),nbits);
 printf("%d signed-digits used\n",kc_digits);
@@ -265,7 +262,7 @@ printf("k,c_min:PS=[ ");printf("%f ",mod((PS+(wPS*tp))'/pi,-1));
                         printf("] (rad./pi) adjusted for delay\n");
 
 % Make a LaTeX table for cost
-fid=fopen(strcat(strF,"_kc_min_cost.tab"),"wt");
+fid=fopen(strcat(strf,"_kc_min_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
 fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd,kc0_digits,kc0_adders);
@@ -283,12 +280,12 @@ plot(wa*0.5/pi,10*log10(Asq_kc0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_kc_min),"linestyle","-.");
 legend("exact","s-d(Lim)","s-d(SOCP-relax)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
-strT=sprintf("Hilbert filter:ft=%g,dBap=%g,tp=%g,pr=%g,Wap=%g,Wpp=%g",
+strt=sprintf("Hilbert filter:ft=%g,dBap=%g,tp=%g,pr=%g,Wap=%g,Wpp=%g",
              ft,dBap,tp,pr,Wap,Wpp);
-title(strT);
+title(strt);
 axis([0  0.5 -0.2 0.4]);
 grid("on");
 hold on
@@ -306,20 +303,21 @@ axis([0 0.5 -0.53 -0.47]);
 grid("on");
 hold on
 plot(wp*0.5/pi,([Pdu Pdl]+(wp*tp))/pi);
-print(strcat(strF,"_kc_min"),"-dpdflatex");
+print(strcat(strf,"_kc_min"),"-dpdflatex");
 close
 
 % Plot poles and zeros
 [n_min,d_min]=schurOneMlattice2tf(k_min,epsilon0,p0,c_min);
 subplot(111);
 zplane(roots(n_min),roots(d_min));
-title(strT);
-print(strcat(strF,"_kc_min_pz"),"-dpdflatex");
+title(strt);
+print(strcat(strf,"_kc_min_pz"),"-dpdflatex");
 close 
 
 % Filter specification
-fid=fopen(strcat(strF,".spec"),"wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"rho=%f %% Constraint on lattice coefficient magnitudes\n",rho);
 fprintf(fid,"ft=%g %% Transition band width [0,ft]\n",ft);
@@ -332,14 +330,14 @@ fprintf(fid,"Wpp=%d %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
 % Save results
-save socp_relaxation_hilbert_OneM_lattice_10_nbits_test.mat ...
+save socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.mat ...
      k0 epsilon0 p0 c0 ...
-     tol nbits ndigits ndigits_alloc ...
+     tol ctol nbits ndigits ndigits_alloc ...
      nt Asqd dBap Wat Wap Pd pr Wpp dmax rho ...
      k_min c_min 
        
 % Done
 toc;
 diary off
-movefile socp_relaxation_hilbert_OneM_lattice_10_nbits_test.diary.tmp ...
-       socp_relaxation_hilbert_OneM_lattice_10_nbits_test.diary;
+movefile socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.diary.tmp ...
+         socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.diary;

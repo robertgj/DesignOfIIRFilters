@@ -1,13 +1,14 @@
 function [Esq,gradEsq,diagHessEsq]=...
-         schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+         schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference,...
                                wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)
 % [Esq,gradEsq,diagHessEsq]= ...
-%   schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+%   schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference,...
 %                         wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)
 % Inputs:
 %   A1k,A2k - one-multiplier allpass section denominator multiplier coefficients
 %   A1epsilon,A2epsion - one-multiplier allpass section sign coefficients
 %   A1p,A2p - internal state scaling factors
+%   difference - return the response for the difference of the all-pass filters
 %   wa - angular frequencies of desired pass-band amplitude response in [0,pi]
 %   Asqd - desired pass-band magnitude-squared response
 %   Wa - pass-band amplitude weight vector
@@ -23,7 +24,7 @@ function [Esq,gradEsq,diagHessEsq]=...
 %   gradEsq - gradient of the squared error value at x
 %   diagHessEsq - diagonal of the Hessian of the squared error value at x.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -43,18 +44,24 @@ function [Esq,gradEsq,diagHessEsq]=...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if nargout>3 || ((nargin!=9)&&(nargin!=12)&&(nargin!=15))
+  if nargout>3 || ((nargin!=10)&&(nargin!=13)&&(nargin!=16))
     print_usage("[Esq,gradEsq,diagHessEsq] = ...\n\
       schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...\n\
-                            wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)");
+                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp) \n\
+[Esq,gradEsq,diagHessEsq] = ...\n\
+      schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...\n\
+                            difference,wa,Asqd,Wa,wt,Td,Wt) \n\
+[Esq,gradEsq,diagHessEsq] = ...\n\
+      schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...\n\
+                            difference,wa,Asqd,Wa)");
   endif
-
+  
   NA1k=length(A1k);
   NA2k=length(A2k);
-  if nargin==9
+  if nargin==10
     wt=[];
     wp=[];
-  elseif nargin==12
+  elseif nargin==13
     wp=[];    
   endif
   
@@ -64,21 +71,21 @@ function [Esq,gradEsq,diagHessEsq]=...
     else
       EsqAsq=schurOneMPAlatticeXError(@schurOneMPAlatticeAsq,...
                                       A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                                      wa,Asqd,Wa);
+                                      difference,wa,Asqd,Wa);
     endif
     if isempty(wt)
       EsqT = 0;
     else
       EsqT = schurOneMPAlatticeXError(@schurOneMPAlatticeT,...
                                       A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                                      wt,Td,Wt);
+                                      difference,wt,Td,Wt);
     endif
     if isempty(wp)
       EsqP = 0;
     else
       EsqP = schurOneMPAlatticeXError(@schurOneMPAlatticeP,...
                                       A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                                      wp,Pd,Wp);
+                                      difference,wp,Pd,Wp);
     endif
     Esq = EsqAsq + EsqT + EsqP;
   elseif nargout==2
@@ -88,7 +95,8 @@ function [Esq,gradEsq,diagHessEsq]=...
     else
       [EsqAsq,gradEsqAsq] = ...
         schurOneMPAlatticeXError(@schurOneMPAlatticeAsq,...
-                                 A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,wa,Asqd,Wa);
+                                 A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+                                 difference,wa,Asqd,Wa);
     endif
     if isempty(wt)
       EsqT = 0;
@@ -96,7 +104,8 @@ function [Esq,gradEsq,diagHessEsq]=...
     else
       [EsqT,gradEsqT] = ...
         schurOneMPAlatticeXError(@schurOneMPAlatticeT,...
-                                 A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,wt,Td,Wt);
+                                 A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+                                 difference,wt,Td,Wt);
     endif
     if isempty(wp)
       EsqP = 0;
@@ -104,7 +113,8 @@ function [Esq,gradEsq,diagHessEsq]=...
     else
       [EsqP,gradEsqP] = ...
         schurOneMPAlatticeXError(@schurOneMPAlatticeP,...
-                                 A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,wp,Pd,Wp);
+                                 A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+                                 difference,wp,Pd,Wp);
     endif
     Esq = EsqAsq + EsqT + EsqP;
     gradEsq = gradEsqAsq + gradEsqT + gradEsqP;
@@ -116,7 +126,8 @@ function [Esq,gradEsq,diagHessEsq]=...
     else
       [EsqAsq,gradEsqAsq,diagHessEsqAsq] = ...
         schurOneMPAlatticeXError(@schurOneMPAlatticeAsq, ...
-                                 A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,wa,Asqd,Wa);
+                                 A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+                                 difference,wa,Asqd,Wa);
     endif
     if isempty(wt)
       EsqT = 0;
@@ -125,7 +136,8 @@ function [Esq,gradEsq,diagHessEsq]=...
     else
       [EsqT,gradEsqT,diagHessEsqT] = ...
         schurOneMPAlatticeXError(@schurOneMPAlatticeT, ...
-                                 A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,wt,Td,Wt);
+                                 A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+                                 difference,wt,Td,Wt);
     endif
     if isempty(wp)
       EsqP = 0;
@@ -134,7 +146,8 @@ function [Esq,gradEsq,diagHessEsq]=...
     else
       [EsqP,gradEsqP,diagHessEsqP] = ...
         schurOneMPAlatticeXError(@schurOneMPAlatticeP, ...
-                                 A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,wp,Pd,Wp);
+                                 A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+                                 difference,wp,Pd,Wp);
     endif
     Esq = EsqAsq + EsqT + EsqP;
     gradEsq = gradEsqAsq + gradEsqT + gradEsqP;
@@ -144,11 +157,13 @@ function [Esq,gradEsq,diagHessEsq]=...
 endfunction
 
 function [ErrorX,gradErrorX,diagHessErrorX] = ...
-  schurOneMPAlatticeXError(pfX,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,wx,Xd,Wx)
+         schurOneMPAlatticeXError(pfX,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+                                  difference,wx,Xd,Wx)
 
-  if nargin~=10 || nargout>3 
+  if nargin~=11 || nargout>3 
     print_usage("[ErrorX,gradErrorX,diagHessErrorX] = ...\n\
-    schurOneMPAlatticeXError(pfX,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,wx,Xd,Wx)");
+    schurOneMPAlatticeXError(pfX,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...\n\
+                             difference,wx,Xd,Wx)");
   endif
 
   % Make row vectors with a single column, 
@@ -176,14 +191,14 @@ function [ErrorX,gradErrorX,diagHessErrorX] = ...
   
   % X response at wx
   if nargout==1
-    X=pfX(wx,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
+    X=pfX(wx,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
     gradX=zeros(Nx,NA1k+NA2k);
     diagHessX=zeros(Nx,NA1k+NA2k);
   elseif nargout==2
-    [X,gradX]=pfX(wx,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
+    [X,gradX]=pfX(wx,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
     diagHessX=zeros(Nx,NA1k+NA2k);
   elseif nargout==3
-    [X,gradX,diagHessX]=pfX(wx,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
+    [X,gradX,diagHessX]=pfX(wx,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
   endif
 
   % X response error with trapezoidal integration.

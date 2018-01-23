@@ -1,5 +1,5 @@
 % tarczynski_ex2_standalone_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Design a filter implementing the response of Example 2 of Tarczynski et al. 
 % See "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
@@ -14,6 +14,7 @@ unlink("tarczynski_ex2_standalone_test.diary.tmp");
 diary tarczynski_ex2_standalone_test.diary.tmp
 
 format compact
+strf="tarczynski_ex2_standalone_test";
 
 warning("error","Octave:nonconformant-args");
 warning("error","Octave:undefined-return-values");
@@ -133,27 +134,27 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 10 25]);
 grid("on");
-print("tarczynski_ex2_standalone_response",  "-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 subplot(111);
 zplane(roots(N),roots(DR))
 title(s);
-print("tarczynski_ex2_standalone_pz",  "-dpdflatex");
+print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
 % Print results
 print_polynomial(N,"N");
-print_polynomial(N,"N","tarczynski_ex2_standalone_test_N_coef.m");
+print_polynomial(N,"N",strcat(strf,"_N_coef.m"));
 print_polynomial(D,"D");
-print_polynomial(D,"D","tarczynski_ex2_standalone_test_D_coef.m");
+print_polynomial(D,"D",strcat(strf,"_D_coef.m"));
 [x,U,V,M,Q]=tf2x(N,D);
 print_pole_zero(x,U,V,M,Q,R,"x");
-print_pole_zero(x,U,V,M,Q,R,"x","tarczynski_ex2_standalone_test_x_coef.m");
+print_pole_zero(x,U,V,M,Q,R,"x",strcat(strf,"_x_coef.m"));
 
 % Save the result
 save tarczynski_ex2_standalone_test.mat a1 a2 t1 t2 transf nN nD R N D DR
 
 diary off
 movefile tarczynski_ex2_standalone_test.diary.tmp ...
-       tarczynski_ex2_standalone_test.diary;
+         tarczynski_ex2_standalone_test.diary;

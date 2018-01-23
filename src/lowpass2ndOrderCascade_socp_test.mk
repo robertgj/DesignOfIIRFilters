@@ -1,10 +1,10 @@
 lowpass2ndOrderCascade_socp_test_FIGURES = \
-lowpass2ndOrderCascade_socp_x1 \
-lowpass2ndOrderCascade_socp_x1pass \
-lowpass2ndOrderCascade_socp_x1pz \
-lowpass2ndOrderCascade_socp_x1sqm \
-lowpass2ndOrderCascade_socp_x1sqmpass \
-lowpass2ndOrderCascade_socp_x1sqmpz
+lowpass2ndOrderCascade_socp_test_x1 \
+lowpass2ndOrderCascade_socp_test_x1pass \
+lowpass2ndOrderCascade_socp_test_x1pz \
+lowpass2ndOrderCascade_socp_test_x1sqm \
+lowpass2ndOrderCascade_socp_test_x1sqmpass \
+lowpass2ndOrderCascade_socp_test_x1sqmpz
 
 lowpass2ndOrderCascade_socp_test_COEFS = \
 lowpass2ndOrderCascade_socp_test.spec \

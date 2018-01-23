@@ -48,7 +48,7 @@ function [ak,sqp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - abk satisfies the constraints 
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

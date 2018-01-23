@@ -1,5 +1,5 @@
 % schurNSlatticeT_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -35,8 +35,8 @@ Ns=length(s10);
 [T,gradT,diagHessT]=schurNSlatticeT(wplot,s10,s11,s20,s00,s02,s22);
 
 % Check the magnitude-squared response
-if max(abs(t(ntpl:ntpu)-T(ntpl:ntpu))) > 496*eps
-  error("max(abs(t(ntpl:ntpu)-T(ntpl:ntpu))) > 496*eps");
+if max(abs(t(ntpl:ntpu)-T(ntpl:ntpu))) > 600*eps
+  error("max(abs(t(ntpl:ntpu)-T(ntpl:ntpu))) > 600*eps");
 endif
 
 % Check the gradients of the squared-magnitude wrt s

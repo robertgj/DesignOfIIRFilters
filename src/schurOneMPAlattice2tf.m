@@ -1,7 +1,9 @@
-function [n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)
+function [n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+                                     difference)
 % [n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)
+% [n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -21,9 +23,13 @@ function [n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if nargout ~= 2
+  if (nargout ~= 2) || ((nargin ~= 6) && (nargin ~= 7))
     print_usage ...
-      ("[n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)");
+("[n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)\n\
+[n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)");
+  endif
+  if nargin == 6
+    difference = false;
   endif
   A1c=zeros(1,length(A1k)+1);
   [A1A,A1B,A1C,A1D,A1Cap,A1Dap]=schurOneMlattice2Abcd(A1k,A1epsilon,A1p,A1c);
@@ -31,7 +37,11 @@ function [n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)
   [A2A,A2B,A2C,A2D,A2Cap,A2Dap]=schurOneMlattice2Abcd(A2k,A2epsilon,A2p,A2c);
   [A1n,A1d]=Abcd2tf(A1A,A1B,A1Cap,A1Dap);
   [A2n,A2d]=Abcd2tf(A2A,A2B,A2Cap,A2Dap);
-  n=0.5*(conv(A1n,A2d)+conv(A2n,A1d));
+  if difference
+    n=0.5*(conv(A1n,A2d)-conv(A2n,A1d));
+  else
+    n=0.5*(conv(A1n,A2d)+conv(A2n,A1d));
+  endif
   d=conv(A1d,A2d);
 endfunction
 

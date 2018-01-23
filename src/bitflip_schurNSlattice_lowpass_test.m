@@ -1,16 +1,18 @@
-% bitflip_NS_lattice_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% bitflip_schurNSlattice_lowpass_test.m
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a 5th order elliptic lattice filter in normalised-scaled form.
 
 test_common;
 
-unlink("bitflip_NS_lattice_test.diary");
-unlink("bitflip_NS_lattice_test.diary.tmp");
-diary bitflip_NS_lattice_test.diary.tmp
+unlink("bitflip_schurNSlattice_lowpass_test.diary");
+unlink("bitflip_schurNSlattice_lowpass_test.diary.tmp");
+diary bitflip_schurNSlattice_lowpass_test.diary.tmp
 
 truncation_test_common;
+
+strf="bitflip_schurNSlattice_lowpass_test";
 
 % Lattice decomposition
 [s10_0,s11_0,s20_0,s00_0,s02_0,s22_0]=tf2schurNSlattice(n0,d0);
@@ -68,15 +70,15 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
-tstr=sprintf("5th order elliptic NS lattice: \
+strt=sprintf("5th order elliptic NS lattice: \
 nbits=%d,bitstart=%d,msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
-title(tstr);
+title(strt);
 legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("bitflip_NS_lattice_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Passband response
@@ -88,13 +90,13 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 fpass*1.1 -3 3]);
-title(tstr);
+title(strt);
 legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
 legend("location","northwest");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("bitflip_NS_lattice_passband_response","-dpdflatex");
+print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Save results
@@ -122,7 +124,7 @@ print_polynomial(s20_bfsd,"s20_bfsd");
 print_polynomial(s00_bfsd,"s00_bfsd");
 print_polynomial(s02_bfsd,"s02_bfsd");
 print_polynomial(s22_bfsd,"s22_bfsd");
-save bitflip_NS_lattice_test.mat ...
+save bitflip_schurNSlattice_lowpass_test.mat ...
      s10_rd s11_rd s20_rd s00_rd s02_rd s22_rd ...
      s10_bf s11_bf s20_bf s00_bf s02_bf s22_bf ...
      s10_sd s11_sd s20_sd s00_sd s02_sd s22_sd ...
@@ -130,4 +132,5 @@ save bitflip_NS_lattice_test.mat ...
 
 % Done
 diary off
-movefile bitflip_NS_lattice_test.diary.tmp bitflip_NS_lattice_test.diary;
+movefile bitflip_schurNSlattice_lowpass_test.diary.tmp ...
+         bitflip_schurNSlattice_lowpass_test.diary;

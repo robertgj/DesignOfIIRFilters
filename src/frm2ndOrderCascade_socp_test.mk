@@ -1,9 +1,9 @@
 frm2ndOrderCascade_socp_test_FIGURES = \
-frm2ndOrderCascade_socp_x1 \
-frm2ndOrderCascade_socp_x1pass \
-frm2ndOrderCascade_socp_x1model \
-frm2ndOrderCascade_socp_x1mask \
-frm2ndOrderCascade_socp_remez_comparison
+frm2ndOrderCascade_socp_test_x1 \
+frm2ndOrderCascade_socp_test_x1pass \
+frm2ndOrderCascade_socp_test_x1model \
+frm2ndOrderCascade_socp_test_x1mask \
+frm2ndOrderCascade_socp_test_remez_comparison
 
 frm2ndOrderCascade_socp_test_COEFS = \
 frm2ndOrderCascade_socp_test.mat \

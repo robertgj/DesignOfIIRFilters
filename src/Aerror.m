@@ -50,7 +50,7 @@ function [ErrorA, gradErrorA, hessErrorA] = Aerror(x,U,V,M,Q,R,wa,Ad,Wa)
 %       Filter Design to the Design of Recursive Decimators" IEEE 
 %       Trans. ASSP-30 No. 5, pp. 811-814, October 1982
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

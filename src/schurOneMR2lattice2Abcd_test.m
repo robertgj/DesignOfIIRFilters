@@ -1,5 +1,5 @@
 % schurOneMR2lattice2Abcd_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -7,10 +7,11 @@ unlink("schurOneMR2lattice2Abcd_test.diary");
 unlink("schurOneMR2lattice2Abcd_test.diary.tmp");
 diary schurOneMR2lattice2Abcd_test.diary.tmp
 
+strf="schurOneMR2lattice2Abcd_test";
+
 %
 % Filter polynomials
 %
-
 
 % Alternative filter from schur_retimed_test.m
 f{1}.n =  [  1.8650e-01,  2.7266e-01,  1.8650e-01 ];
@@ -127,7 +128,7 @@ for l=1:length(f)
   ylabel("Amplitude(dB)");
   axis([0 0.5 -60 5]);
   grid("on");
-  print(sprintf("schurOneMR2lattice2Abcd_output_response%d",l),"-dpdflatex");
+  print(sprintf("%s_output_response%d",strf,l),"-dpdflatex");
   close
 
   % All-pass filter
@@ -150,7 +151,7 @@ for l=1:length(f)
   ylabel("Amplitude(dB)");
   axis([0 0.5 -0.2 0.2]);
   grid("on");
-  print(sprintf("schurOneMR2lattice2Abcd_allpass_response%d",l),"-dpdflatex");
+  print(sprintf("%s_allpass_response%d",strf,l),"-dpdflatex");
   close
 
 endfor

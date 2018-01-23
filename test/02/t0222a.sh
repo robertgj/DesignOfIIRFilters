@@ -54,26 +54,29 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k2.ok << 'EOF'
-k2 = [   0.0000000000,  -0.9135081389,   0.0000000000,   0.5546428077, ... 
-         0.0000000000,  -0.0966755695,   0.0000000000,   0.0007462345, ... 
-         0.0000000000,  -0.0020582169,   0.0000000000,   0.0015840381 ];
+k2 = [   0.0000000000,  -0.9135081383,   0.0000000000,   0.5546428065, ... 
+         0.0000000000,  -0.0966755700,   0.0000000000,   0.0007462345, ... 
+         0.0000000000,  -0.0020582169,   0.0000000000,   0.0015840382 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
+
 cat > test.epsilon2.ok << 'EOF'
 epsilon2 = [  0, -1,  0, -1, ... 
               0,  1,  0, -1, ... 
               0,  1,  0, -1 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon2.ok"; fail; fi
+
 cat > test.p2.ok << 'EOF'
-p2 = [   2.2748007087,   2.2748007087,   0.4836328801,   0.4836328801, ... 
-         0.9036013994,   0.9036013994,   0.9956211215,   0.9956211215, ... 
-         0.9963643657,   0.9963643657,   0.9984172145,   0.9984172145 ];
+p2 = [   2.2748007025,   2.2748007025,   0.4836328807,   0.4836328807, ... 
+         0.9036013990,   0.9036013990,   0.9956211215,   0.9956211215, ... 
+         0.9963643657,   0.9963643657,   0.9984172144,   0.9984172144 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.p2.ok"; fail; fi
+
 cat > test.c2.ok << 'EOF'
-c2 = [   0.0435189922,   0.0508921393,   0.2428519496,   0.2882277486, ... 
-         0.1877845006,   0.2854412256,   0.6862739755,  -0.5909939642, ... 
+c2 = [   0.0435189924,   0.0508921396,   0.2428519491,   0.2882277479, ... 
+         0.1877845008,   0.2854412257,   0.6862739755,  -0.5909939642, ... 
         -0.1639093077,  -0.0790058478,  -0.0435858017,  -0.0252833112, ... 
         -0.0155222725 ];
 EOF
@@ -89,10 +92,13 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.k2.ok schurOneMlattice_sqp_slb_hilbert_test_k2_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.k2.ok"; fail; fi
+
 diff -Bb test.epsilon2.ok schurOneMlattice_sqp_slb_hilbert_test_epsilon2_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.epsilon2.ok"; fail; fi
+
 diff -Bb test.p2.ok schurOneMlattice_sqp_slb_hilbert_test_p2_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.p2.ok"; fail; fi
+
 diff -Bb test.c2.ok schurOneMlattice_sqp_slb_hilbert_test_c2_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.c2.ok"; fail; fi
 

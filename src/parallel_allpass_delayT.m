@@ -17,7 +17,7 @@ function [T,gradT,diagHessT]=parallel_allpass_delayT(w,a,V,Q,R,D,polyphase)
 %  diagHessT - the diagonal of the Hessian of T with respect to the
 %              coefficients of a
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

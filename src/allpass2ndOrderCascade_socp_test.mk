@@ -1,8 +1,8 @@
 allpass2ndOrderCascade_socp_test_FIGURES = \
-allpass2ndOrderCascade_socp_ab0 \
-allpass2ndOrderCascade_socp_ab1pass \
-allpass2ndOrderCascade_socp_ab1pz \
-allpass2ndOrderCascade_socp_ab1
+allpass2ndOrderCascade_socp_test_ab0 \
+allpass2ndOrderCascade_socp_test_ab1pass \
+allpass2ndOrderCascade_socp_test_ab1pz \
+allpass2ndOrderCascade_socp_test_ab1
 
 allpass2ndOrderCascade_socp_test_COEFS = \
 allpass2ndOrderCascade_socp_test.mat \

@@ -1,5 +1,5 @@
-% samin_svcasc_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% samin_svcasc_lowpass_test.m
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the simulated-annealing samin algorithm with coefficents of a
 % 5th order elliptic filter implemented as a cascade of 2nd order state variable
@@ -13,9 +13,9 @@
 
 test_common;
 
-unlink("samin_svcasc_test.diary");
-unlink("samin_svcasc_test.diary.tmp");
-diary samin_svcasc_test.diary.tmp
+unlink("samin_svcasc_lowpass_test.diary");
+unlink("samin_svcasc_lowpass_test.diary.tmp");
+diary samin_svcasc_lowpass_test.diary.tmp
 
 truncation_test_common;
 
@@ -24,6 +24,8 @@ if use_best_samin_found
   warning("Using the best filter found so far. \
 Set \"use_best_samin_found\"=false to re-run samin.");
 endif
+
+strf="samin_svcasc_lowpass_test";
 
 % Second order cascade state variable decomposition
 [sos,g]=tf2sos(n0,d0);
@@ -115,15 +117,15 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
-tstr=sprintf("5th order elliptic 2nd order cascade: nbits=%d,ndigits=%d",
+strt=sprintf("5th order elliptic 2nd order cascade: nbits=%d,ndigits=%d",
              nbits,ndigits);
-title(tstr);
+title(strt);
 legend("exact","round","samin(round)","samin(s-d)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("samin_svcasc_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Passband response
@@ -134,13 +136,13 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 fpass*1.1 -3 3]);
-title(tstr);
+title(strt);
 legend("exact","round","samin(round)","samin(s-d)");
 legend("location","northwest");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("samin_svcasc_passband_response","-dpdflatex");
+print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Save results
@@ -171,11 +173,11 @@ print_polynomial(b2_sasd,"b2_sasd");
 print_polynomial(c1_sasd,"c1_sasd");
 print_polynomial(c2_sasd,"c2_sasd");
 print_polynomial(dd_sasd,"dd_sasd");
-save samin_svcasc_test.mat ...
+save samin_svcasc_lowpass_test.mat ...
      a11_rd a12_rd a21_rd a22_rd b1_rd b2_rd c1_rd c2_rd dd_rd ...
      a11_sa a12_sa a21_sa a22_sa b1_sa b2_sa c1_sa c2_sa dd_sa ...
      a11_sasd a12_sasd a21_sasd a22_sasd b1_sasd b2_sasd c1_sasd c2_sasd dd_sasd
 
 % Done
 diary off
-movefile samin_svcasc_test.diary.tmp samin_svcasc_test.diary;
+movefile samin_svcasc_lowpass_test.diary.tmp samin_svcasc_lowpass_test.diary;

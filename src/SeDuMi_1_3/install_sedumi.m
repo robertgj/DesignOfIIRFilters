@@ -166,7 +166,10 @@ if need_rebuild,
             flags{end+1} = '-DmwSignedIndex=int';
         end
         if address_sanitize
-          flags{end+1} = '-fsanitize=address -fno-omit-frame-pointer -g -O0';
+          flags{end+1} = '-fsanitize=address -fsanitize=undefined';
+          flags{end+1} = '-fsanitize=leak -fno-sanitize=vptr';
+          flags{end+1} = '-fno-omit-frame-pointer';
+          flags{end+1} = '-g -O0';
         else
           flags{end+1} = '-O';
         endif
@@ -174,7 +177,6 @@ if need_rebuild,
           flags{end+1} = '-DOPENBLAS_USE64BITINT'
         endif
         flags{end+1} = '-DOCTAVE';
-        flags{end+1} = '-I/usr/include/openblas';
         flags{end+1} = '-Wall'
         flags{end+1} = '-Wno-unused-variable';
         flags{end+1} = '-Wno-unused-but-set-variable';

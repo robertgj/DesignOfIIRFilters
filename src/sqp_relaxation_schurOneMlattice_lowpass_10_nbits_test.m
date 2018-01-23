@@ -1,29 +1,30 @@
-% sqp_relaxation_lowpass_OneM_lattice_10_nbits_test.m
+% sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.m
 
 % SQP-relaxation optimisation of the response of a Schur one-multiplier
 % lattice lowpass filter with 10-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
-unlink("sqp_relaxation_lowpass_OneM_lattice_10_nbits_test.diary");
-unlink("sqp_relaxation_lowpass_OneM_lattice_10_nbits_test.diary.tmp");
-diary sqp_relaxation_lowpass_OneM_lattice_10_nbits_test.diary.tmp
+unlink("sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.diary");
+unlink("sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.diary.tmp");
+diary sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.diary.tmp
 
 % Options
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test_allocsd_Lim=true
-sqp_relaxation_lowpass_OneM_lattice_10_nbits_test_allocsd_Ito=false
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_allocsd_Lim=true
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_allocsd_Ito=false
 
 tic;
 
 maxiter=2000
 verbose=false
 tol=1e-4
+ctol=tol
 nbits=10
 nscale=2^(nbits-1);
 ndigits=3
-strF="sqp_relaxation_lowpass_OneM_lattice_10_nbits_test";
+strf="sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test";
 
 % Coefficients found by schurOneMlattice_sqp_slb_lowpass_test.m
 k0 = [  -0.7375771181,   0.7329492530,  -0.6489740765,   0.4943363006, ... 
@@ -47,8 +48,8 @@ Nc=length(c0);
 % Deczky3 lowpass filter specification
 n=400
 fap=0.15,dBap=0.4,Wap=1
-fas=0.3,dBas=37,Was=1e4
-ftp=0.25,tp=10,tpr=0.1,Wtp=1
+fas=0.3,dBas=37,Was=2e4
+ftp=0.25,tp=10,tpr=0.2,Wtp=0.5
 
 % Amplitude constraints
 wa=(0:(n-1))'*pi/n;
@@ -81,12 +82,12 @@ kc0_u=[rho*ones(size(k0));10*ones(size(c0))];
 kc0_l=-kc0_u;
 
 % Allocate signed-digits to the coefficients
-if sqp_relaxation_lowpass_OneM_lattice_10_nbits_test_allocsd_Lim
+if sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_allocsd_Lim
   ndigits_alloc=schurOneMlattice_allocsd_Lim(nbits,ndigits,k0,epsilon0,p0,c0, ...
                                              wa,Asqd,ones(size(wa)), ...
                                              wt,Td,ones(size(wt)), ...
                                              wp,Pd,ones(size(wp)));
-elseif sqp_relaxation_lowpass_OneM_lattice_10_nbits_test_allocsd_Ito
+elseif sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_allocsd_Ito
   ndigits_alloc=schurOneMlattice_allocsd_Ito(nbits,ndigits,k0,epsilon0,p0,c0, ...
                                              wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
 else
@@ -101,12 +102,10 @@ k0_sd=kc0_sd(1:Nk);
 k0_sd=k0_sd(:);
 c0_sd=kc0_sd((Nk+1):end);
 c0_sd=c0_sd(:);
-printf("nscale*k0_sd_=[ ");printf("%g ",nscale*k0_sd');printf("]';\n");
-printf("nscale*c0_sd=[ ");printf("%g ",nscale*c0_sd');printf("]';\n");
-print_polynomial(nscale*k0_sd,sprintf("%d*k0_sd",nscale), ...
-                 strcat(strF,"_k0_sd_coef.m"),"%6d");
-print_polynomial(nscale*c0_sd,sprintf("%d*c0_sd",nscale), ...
-                 strcat(strF,"_c0_sd_coef.m"),"%6d");
+print_polynomial(k0_sd,"k0_sd",nscale);
+print_polynomial(k0_sd,"k0_sd",strcat(strf,"_k0_sd_coef.m"),nscale);
+print_polynomial(c0_sd,"c0_sd",nscale);
+print_polynomial(c0_sd,"c0_sd",strcat(strf,"_c0_sd_coef.m"),nscale);
 
 % Initialise kc_active
 kc0_sdul=kc0_sdu-kc0_sdl;
@@ -174,7 +173,7 @@ while ~isempty(kc_active)
                            wa,Asqd,Asqdu,Asqdl,Wa, ...
                            wt,Td,Tdu,Tdl,Wt, ...
                            wp,Pd,Pdu,Pdl,Wp, ...
-                           maxiter,tol,verbose);
+                           maxiter,tol,ctol,verbose);
   catch
     feasible=false;
     err=lasterror();
@@ -212,14 +211,12 @@ k_min=kc(1:Nk);
 c_min=kc((Nk+1):end);
 Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p_ones,c_min,wa,Asqd,Wa,wt,Td,Wt);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
-printf("nscale*k_min=[ ");printf("%g ",nscale*k_min');printf("]';\n");
+print_polynomial(k_min,"k_min",nscale);
+print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
 printf("epsilon0=[ ");printf("%d ",epsilon0');printf("]';\n");
 printf("p_ones=[ ");printf("%g ",p_ones');printf("]';\n");
-printf("nscale*c_min=[ ");printf("%g ",nscale*c_min');printf("]';\n");
-print_polynomial(nscale*k_min,sprintf("%d*k_min",nscale), ...
-                 strcat(strF,"_k_min_coef.m"),"%6d");
-print_polynomial(nscale*c_min,sprintf("%d*c_min",nscale), ...
-                 strcat(strF,"_c_min_coef.m"),"%6d");
+print_polynomial(c_min,"c_min",nscale);
+print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),nscale);
 % Find the number of signed-digits used
 [kc_digits,kc_adders]=SDadders(kc_min(kc0_active),nbits);
 printf("%d signed-digits used\n",kc_digits);
@@ -255,7 +252,7 @@ printf("k,c_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:TS=[ ");printf("%f ",TS(:)');printf(" ]'\n");
 
 % Make a LaTeX table for cost
-fid=fopen(strcat(strF,"_cost.tab"),"wt");
+fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
 fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd,kc0_digits,kc0_adders);
@@ -264,15 +261,69 @@ fprintf(fid,"%d-bit %d-signed-digit(SQP-relax) & %8.6f & %d & %d \\\\\n",
 fclose(fid);
 
 % Plot response
-strT=sprintf("Schur One-M lattice lowpass : \
+Asq0=schurOneMlatticeAsq(wa,k0,epsilon0,p_ones,c0);
+Asq_sd=schurOneMlatticeAsq(wa,k0_sd,epsilon0,p_ones,c0_sd);
+Asq_min=schurOneMlatticeAsq(wa,k_min,epsilon0,p_ones,c_min);
+T0=schurOneMlatticeT(wa,k0,epsilon0,p_ones,c0);
+T_sd=schurOneMlatticeT(wa,k0_sd,epsilon0,p_ones,c0_sd);
+T_min=schurOneMlatticeT(wa,k_min,epsilon0,p_ones,c_min);
+strt=sprintf("Schur One-M lattice lowpass : \
 fap=%g,dBap=%g,ftp=%g,tp=%g,tpr=%g,fas=%g,dBas=%g",fap,dBap,ftp,tp,tpr,fas,dBas);
-schurOneMlattice_sqp_slb_lowpass_plot(k_min,epsilon0,p_ones,c_min, ...
-                                      fap,dBap,ftp,tp,tpr,fas,dBas, ...
-                                      strcat(strF,"_kc_min"),strT);
+subplot(211);
+plot(wa*0.5/pi,10*log10(Asq0), "-", ...
+     wa*0.5/pi,10*log10(Asq_sd), "--", ...
+     wa*0.5/pi,10*log10(Asq_min), "-.");
+ylabel("Amplitude(dB)");
+axis([0 0.5 -60 5]);
+grid("on");
+legend("exact","s-d(Lim)","s-d(SQP-relax)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+title(strt);
+subplot(212);
+plot(wa*0.5/pi,T0,"-",wa*0.5/pi,T_sd,"--",wa*0.5/pi,T_min,"-.");
+axis([0 0.5 0 25]);
+ylabel("Group delay(samples)");
+xlabel("Frequency");
+grid("on");
+print(strcat(strf,"_kc_min"),"-dpdflatex");
+close
+
+% Plot passband response
+subplot(211);
+plot(wa*0.5/pi,10*log10(Asq0), "-", ...
+     wa*0.5/pi,10*log10(Asq_sd), "--", ...
+     wa*0.5/pi,10*log10(Asq_min), "-.");
+ylabel("Amplitude(dB)");
+axis([0 fap -1 0.5]);
+grid("on");
+legend("exact","s-d(Lim)","s-d(SQP-relax)");
+legend("location","southeast");
+legend("boxoff");
+legend("left");
+title(strt);
+subplot(212);
+plot(wa*0.5/pi,T0,"-",wa*0.5/pi,T_sd,"--",wa*0.5/pi,T_min,"-.");
+ylabel("Group delay(samples)");
+xlabel("Frequency");
+axis([0 fap tp-tpr tp+tpr]);
+grid("on");
+print(strcat(strf,"_kc_minpass"),"-dpdflatex");
+close
+
+% Plot poles and zeros
+[n_min,d_min]=schurOneMlattice2tf(k_min,epsilon0,p_ones,c_min);
+subplot(111);
+zplane(roots(n_min),roots(d_min));
+title(strt);
+print(strcat(strf,"_kc_minpz"),"-dpdflatex");
+close 
 
 % Filter specification
-fid=fopen(strcat(strF,".spec"),"wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"nbits=%d %% coefficient length in bits\n",nbits);
 fprintf(fid,"ndigits=%d %% signed-digits per coefficient\n",ndigits);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
@@ -293,12 +344,12 @@ fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results
-save sqp_relaxation_lowpass_OneM_lattice_10_nbits_test.mat ...
-     k0 epsilon0 p0 c0 tol nbits ndigits ndigits_alloc ...
+save sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.mat ...
+     k0 epsilon0 p0 c0 tol ctol nbits ndigits ndigits_alloc ...
      fap dBap Wap ftp tp tpr Wtp fas dBas Was dmax rho k_min c_min 
        
 % Done
 toc;
 diary off
-movefile sqp_relaxation_lowpass_OneM_lattice_10_nbits_test.diary.tmp ...
-       sqp_relaxation_lowpass_OneM_lattice_10_nbits_test.diary;
+movefile sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.diary.tmp ...
+         sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.diary;

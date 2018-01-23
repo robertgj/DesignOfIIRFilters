@@ -1,7 +1,8 @@
 #!/bin/sh
 
-prog=socp_relaxation_hilbert_OneM_lattice_10_nbits_test.m
-depends="socp_relaxation_hilbert_OneM_lattice_10_nbits_test.m test_common.m \
+prog=socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.m
+depends="socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.m \
+test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
 schurOneMlatticeP.m \
@@ -58,18 +59,20 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k.ok << 'EOF'
-512*k_min = [      0,   -468,      0,    284, ... 
-                   0,    -50,      0,      0, ... 
-                   0,     -1,      0,      1 ]';
+k_min = [        0,     -468,        0,      284, ... 
+                 0,      -50,        0,        0, ... 
+                 0,       -1,        0,        1 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
+
 cat > test.c.ok << 'EOF'
-512*c_min = [     22,     26,    124,    148, ... 
-                  96,    146,    351,   -303, ... 
-                 -84,    -41,    -23,    -12, ... 
-                  -9 ]';
+c_min = [       22,       26,      124,      148, ... 
+                96,      146,      351,     -303, ... 
+               -84,      -41,      -23,      -12, ... 
+                -9 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
+
 cat > test.cost.ok << 'EOF'
 Exact & 0.000161 & & \\
 10-bit 3-signed-digit(Lim)& 0.000218 & 47 & 29 \\
@@ -86,13 +89,15 @@ octave-cli -q $prog > test.out
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.k.ok \
-     socp_relaxation_hilbert_OneM_lattice_10_nbits_test_k_min_coef.m
+     socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_k_min_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
+
 diff -Bb test.c.ok \
-     socp_relaxation_hilbert_OneM_lattice_10_nbits_test_c_min_coef.m
+     socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_c_min_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi
+
 diff -Bb test.cost.ok \
-     socp_relaxation_hilbert_OneM_lattice_10_nbits_test_kc_min_cost.tab
+     socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_kc_min_cost.tab
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.cost.ok"; fail; fi
 
 #

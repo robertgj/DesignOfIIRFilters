@@ -5,7 +5,7 @@ function [A,b,c,d]=tf2Abcd(N,D)
 % N(z)=N(1)z^n+...+N(n-1)z+N(n)
 % x(k+1)=Ax(k)+bu(k), y(k)=cx(k)+du(k)
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

@@ -1,5 +1,5 @@
 % iir_sqp_slb_differentiator_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -10,6 +10,7 @@ diary iir_sqp_slb_differentiator_test.diary.tmp
 format compact;
 
 tol=2e-4
+ctol=tol
 maxiter=2000
 verbose=false
 
@@ -27,27 +28,27 @@ verbose=false
 %      initial filter used removes the poles and zeros that cancel.
 if 0
 % Polynomials from tarczynski_differentiator_test.m
-N0=[  -0.0033301624,   0.0049842253,  -0.0073918527,   0.0149050168, ...
-      -0.0412778749,   0.3986841861,  -0.3898446856,  -0.0671740367, ...
-       0.1096928244,  -0.1976385902,   0.1919406539,   0.0009944209, ...
-      -0.0148956597 ]';
-D0=[   1.0000000000,  -0.2582347203,  -0.4815140859,   0.0529885252, ...
-       0.0016969048,   0.0009654228,   0.0003876029 ]';
-R=2;
-D0R=[1;kron(D0(2:end),[zeros(R-1,1);1])];
-[x0,U,V,M,Q]=tf2x(N0,D0)
-td=(length(N0)-2)/2
+  N0=[  -0.0033301625,  0.0049842255,  -0.0073918526,   0.0149050168, ...
+        -0.0412778750,  0.3986841861,  -0.3898446854,  -0.0671740371, ...
+         0.1096928251, -0.1976385923,   0.1919406555,   0.0009944238, ...
+        -0.0148956630 ]';
+  D0=[   1.0000000000, -0.2582347217,  -0.4815140911,   0.0529885334, ...
+         0.0016969043,  0.0009654230,   0.0003876029 ]';
+  R=2;
+  D0R=[1;kron(D0(2:end),[zeros(R-1,1);1])];
+  [x0,U,V,M,Q]=tf2x(N0,D0)
+  td=(length(N0)-2)/2
 else
-% Remove zeros and poles that cancel
-U=4;V=2;M=4;Q=2;R=2;
-x0 = [ -0.0033301625 ...
-        2.4432889231   1.0036639004   0.3309893840  -0.2476976266 ...
-        0.2283263247  -0.1370501745 ...
-        2.5725431250   2.6080098957 ...
-        2.3928644449   1.2330172843 ...
-        0.1584621214 ...
-        1.5131179592 ]';
-td=5.5;
+  % Remove zeros and poles that cancel
+  U=4;V=2;M=4;Q=2;R=2;
+  x0=[  -0.0033301625, ...
+         2.4432889231,  1.0036639004,   0.3309893840,  -0.2476976266, ...
+         0.2283263247, -0.1370501745, ...
+         2.5725431250,  2.6080098957, ...
+         2.3928644449,  1.2330172843, ...
+         0.1584621214, ...
+         1.5131179592 ]';
+  td=5.5;
 endif
 n=1000;
 ft=0.05;
@@ -99,7 +100,7 @@ strM=sprintf("Differentiator %%s:R=%d,ft=%g,td=%g,Wap=%g,Wtp=%g,Wpp=%g", ...
 strP=sprintf("Differentiator %%s:\
 R=%d,ft=%g,Ar=%g,Wap=%g,td=%g,tdr=%g,Wtp=%g,pr=%g,Wpp=%g", ...
              R,ft,Ar,Wap,td,tdr,Wtp,pr,Wpp);
-strd=sprintf("iir_sqp_slb_differentiator_%%s_%%s");
+strf="iir_sqp_slb_differentiator_test";
 
 % Show initial response and constraints
 A0=iirA(wa,x0,U,V,M,Q,R);
@@ -107,8 +108,8 @@ T0=iirT(wt,x0,U,V,M,Q,R);
 P0=iirP(wp,x0,U,V,M,Q,R);
 subplot(311);
 plot(wa*0.5/pi,A0-Ad);
-strI=sprintf("Differentiator initial response:R=%d,ft=%g,td=%g",R,ft,td);
-title(strI);
+strt=sprintf("Differentiator initial response:R=%d,ft=%g,td=%g",R,ft,td);
+title(strt);
 ylabel("Amplitude error");
 grid("on");
 subplot(312);
@@ -120,7 +121,7 @@ plot(wp*0.5/pi,(P0+(wp*td))/pi);
 ylabel("Phase(rad./pi)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"initial","x0phase"),"-dpdflatex");
+print(strcat(strf,"_initial_x0phase"),"-dpdflatex");
 close
 
 % MMSE pass 1
@@ -133,17 +134,14 @@ printf("\nMMSE pass 1:\n");
 if feasible == 0 
   error("x1(mmse) infeasible");
 endif
-strM1=sprintf(strM,"x1(mmse)");
-showZPplot(x1,U,V,M,Q,R,strM1);
-print(sprintf(strd,"mmse","x1pz"),"-dpdflatex");
-close
 Ax1=iirA(wa,x1,U,V,M,Q,R);
 Tx1=iirT(wt,x1,U,V,M,Q,R);
 Px1=iirP(wp,x1,U,V,M,Q,R);
 subplot(311);
 plot(wa*0.5/pi,[Ax1 Adl Adu]-Ad)
 axis([0 0.5 -Ar Ar]);
-title(strM1);
+strt=sprintf(strM,"x1(mmse)");
+title(strt);
 ylabel("Amplitude error");
 grid("on");
 subplot(312);
@@ -157,23 +155,22 @@ axis([0 0.5 1.5-pr 1.5+pr]);
 ylabel("Phase(rad./pi)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"mmse","x1phase"),"-dpdflatex");
+print(strcat(strf,"_mmse_x1phase"),"-dpdflatex");
+close
+showZPplot(x1,U,V,M,Q,R,strt);
+print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
 
-% PCLS pass 1 
-printf("\nPCLS pass 1:\n");
+% PCLS pass
+printf("\nPCLS pass :\n");
 [d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
   iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol,verbose)
+          maxiter,tol,ctol,verbose)
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
-strD1=sprintf(strP,"d1(pcls)");
-showZPplot(d1,U,V,M,Q,R,strD1);
-print(sprintf(strd,"pcls","d1pz"),"-dpdflatex");
-close
 Ad1=iirA(wa,d1,U,V,M,Q,R);
 Td1=iirT(wt,d1,U,V,M,Q,R);
 Pd1=iirP(wp,d1,U,V,M,Q,R);
@@ -181,7 +178,8 @@ subplot(311);
 plot(wa*0.5/pi,[Ad1 Adl Adu]-Ad)
 axis([0 0.5 -Ar +Ar]);
 grid("on");
-title(strD1);
+strt=sprintf(strP,"d1(pcls)");
+title(strt);
 ylabel("Amplitude error");
 subplot(312);
 plot(wt*0.5/pi,[Td1 Tdl Tdu])
@@ -194,7 +192,10 @@ axis([0 0.5 1.5-pr 1.5+pr]);
 ylabel("Phase(rad./pi)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"pcls","d1phase"),"-dpdflatex");
+print(strcat(strf,"_pcls_d1phase"),"-dpdflatex");
+close
+showZPplot(d1,U,V,M,Q,R,strt);
+print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
 
 % Check results
@@ -219,21 +220,21 @@ axis([0 0.5 0.5-pr 0.5+pr]);
 ylabel("Phase(rad./pi)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
-print(sprintf(strd,"pcls","d1freqz"),"-dpdflatex");
+print(strcat(strf,"_pcls_d1freqz"),"-dpdflatex");
 
 % Coefficients
-print_pole_zero(x0,U,V,M,Q,R,"x0","iir_sqp_slb_differentiator_test_x0_coef.m");
+print_pole_zero(x0,U,V,M,Q,R,"x0",strcat(strf,"_x0_coef.m"));
 print_pole_zero(d1,U,V,M,Q,R,"d1");
-print_pole_zero(d1,U,V,M,Q,R,"d1","iir_sqp_slb_differentiator_test_d1_coef.m");
+print_pole_zero(d1,U,V,M,Q,R,"d1",strcat(strf,"_d1_coef.m"));
 print_polynomial(N1,"N1");
-print_polynomial(N1,"N1","iir_sqp_slb_differentiator_test_N1_coef.m");
+print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
-print_polynomial(D1,"D1","iir_sqp_slb_differentiator_test_D1_coef.m");
+print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 % Done
 save iir_sqp_slb_differentiator_test.mat U V M Q R x0 x1 d1 N1 D1 ...
-     tol n ft Ar td tdr pr
+     tol ctol n ft Ar td tdr pr
 
 diary off
 movefile iir_sqp_slb_differentiator_test.diary.tmp ...
-       iir_sqp_slb_differentiator_test.diary;
+         iir_sqp_slb_differentiator_test.diary;

@@ -1,5 +1,5 @@
 % schurFIRlattice2Abcd_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Script for testing schurFIRlattice2Abcd.m
 
@@ -32,8 +32,8 @@ k=schurFIRdecomp(b0);
 [b1,a]=Abcd2tf(A,B,C,D);
 
 % Check
-if max(abs(b1-b0)) > 40*eps
-  printf("max(abs(b1-b0)) > 40*eps\n");
+if max(abs(b1-b0)) > 48*eps
+  printf("max(abs(b1-b0)) > 48*eps\n");
 endif
 
 diary off

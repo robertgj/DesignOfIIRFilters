@@ -1,5 +1,5 @@
 % Example of non-linear quasi-newton optimisation using BFGS update
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 % An optimum is at x=[-sqrt(2); 1; -0.527];
 
 test_common;

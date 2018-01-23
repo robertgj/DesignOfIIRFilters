@@ -1,5 +1,5 @@
 % iir_sqp_slb_fir_17_bandpass_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 % Design a minimum-phase FIR filter with order 17.
 
 test_common;
@@ -12,6 +12,7 @@ format short e
 
 maxiter=2500
 tol=1e-3
+ctol=tol
 verbose=false
 
 % Bandpass filter specification
@@ -109,7 +110,7 @@ close
   iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol,verbose)
+          maxiter,tol,ctol,verbose)
 if !feasible 
   error("d1 infeasible");
 endif
@@ -142,9 +143,9 @@ b1=x2tf(d1,U,V,M,Q,R);
 print_polynomial(b1,"b1","iir_sqp_slb_fir_17_bandpass_test_b1_coef.m");
 
 % Done 
-save iir_sqp_slb_fir_17_bandpass_test.mat fapl fapu dBap Wap dBas Wasu Wasl ...
-  U V M Q R x1 d1 b1
+save iir_sqp_slb_fir_17_bandpass_test.mat U V M Q R tol ctol ...
+     fapl fapu dBap Wap dBas Wasu Wasl x1 d1 b1
 
 diary off
 movefile iir_sqp_slb_fir_17_bandpass_test.diary.tmp ...
-       iir_sqp_slb_fir_17_bandpass_test.diary;
+         iir_sqp_slb_fir_17_bandpass_test.diary;

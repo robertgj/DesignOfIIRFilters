@@ -1,5 +1,5 @@
 % schurOneMlattice_bandpass_allocsd_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test Lims and Itos signed-digit allocation algorithms with
 % coefficents of a band-pass one-multiplier lattice filter.
@@ -43,12 +43,13 @@ nbits_ng_sd=zeros(size(nbits_range));
 nbits_ng_Lim=zeros(size(nbits_range));
 nbits_ng_Ito=zeros(size(nbits_range));
 for ndigits=2:3
-  plotstr=sprintf("schurOneMlattice_bandpass_allocsd_%d_ndigits_test",ndigits);
+  strf=sprintf("schurOneMlattice_bandpass_allocsd_%d_ndigits_test",ndigits);
   for l=1:length(nbits_range),
     nbits=nbits_range(l);
     nscale=2^(nbits-1);
-    namestr=sprintf("schurOneMlattice_bandpass_allocsd_%d_ndigits_%d_nbits_test",
-                    ndigits,nbits);
+    nbits_strf= ...
+      sprintf("schurOneMlattice_bandpass_allocsd_%d_ndigits_%d_nbits_test", ...
+              ndigits,nbits);
     
     % Rounded truncation
     k_rd=round(k0.*nscale)./nscale;
@@ -92,10 +93,10 @@ for ndigits=2:3
                    wa,Asqd,ones(size(wa)),wt,Td,ones(size(wt)));
     print_polynomial(int16(ndigits_Lim(1:length(k0))), ...
                      "k_allocsd_digits", ...
-                     strcat(namestr,"_k_Lim_digits.m"),"%2d");
+                     strcat(nbits_strf,"_k_Lim_digits.m"),"%2d");
     print_polynomial(int16(ndigits_Lim((length(k0)+1):end)), ...
                      "c_allocsd_digits", ...
-                     strcat(namestr,"_c_Lim_digits.m"),"%2d");
+                     strcat(nbits_strf,"_c_Lim_digits.m"),"%2d");
     % Signed-digits allocated by Lim
     k_Lim=flt2SD(k0,nbits,ndigits_Lim(1:length(k0)));
     c_Lim=flt2SD(c0,nbits,ndigits_Lim((length(k0)+1):end));
@@ -106,7 +107,7 @@ for ndigits=2:3
     % Find the actual number of signed digits used
     kc_Lim=[k_Lim(:);c_Lim(:)];
     [nbits_kc_digits_Lim(l),kc_Lim_adders]=SDadders(kc_Lim,nbits);
-    fid=fopen(strcat(namestr,"_Lim.adders.tab"),"wt");
+    fid=fopen(strcat(nbits_strf,"_Lim.adders.tab"),"wt");
     fprintf(fid,"$%d$",kc_Lim_adders);
     fclose(fid);
     % Calculate the noise gain
@@ -122,10 +123,10 @@ for ndigits=2:3
                                              wa,Asqd,Wa,wt,Td,Wt);
     print_polynomial(int16(ndigits_Ito(1:length(k0))), ...
                      "k_allocsd_digits", ...
-                     strcat(namestr,"_k_Ito_digits.m"),"%2d");
+                     strcat(nbits_strf,"_k_Ito_digits.m"),"%2d");
     print_polynomial(int16(ndigits_Ito((length(k0)+1):end)), ...
                      "c_allocsd_digits", ...
-                     strcat(namestr,"_c_Ito_digits.m"),"%2d");
+                     strcat(nbits_strf,"_c_Ito_digits.m"),"%2d");
     % Signed-digits allocated by Ito
     k_Ito=flt2SD(k0,nbits,ndigits_Ito(1:length(k0)));
     c_Ito=flt2SD(c0,nbits,ndigits_Ito((length(k0)+1):end));
@@ -136,7 +137,7 @@ for ndigits=2:3
     % Find the actual number of signed digits used
     kc_Ito=[k_Ito(:);c_Ito(:)];
     [nbits_kc_digits_Ito(l),kc_Ito_adders]=SDadders(kc_Ito,nbits);
-    fid=fopen(strcat(namestr,"_Ito.adders.tab"),"wt");
+    fid=fopen(strcat(nbits_strf,"_Ito.adders.tab"),"wt");
     fprintf(fid,"$%d$",kc_Ito_adders);
     fclose(fid);
     % Calculate the noise gain
@@ -157,14 +158,14 @@ for ndigits=2:3
     ylabel("Amplitude(dB)");
     axis([0 0.5 -60 10]);
     grid("on");
-    tstr=sprintf("Bandpass one-multiplier lattice,nbits=%d,ndigits=%d",
+    strt=sprintf("Bandpass one-multiplier lattice,nbits=%d,ndigits=%d",
                  nbits,ndigits);
-    title(tstr);
+    title(strt);
     legend("exact","round","signed-digit","Lim","Ito");
     legend("location","northeast");
-    legend("Boxoff");
+    legend("boxoff");
     legend("left");
-    print(strcat(namestr,"_response"),"-dpdflatex");
+    print(strcat(nbits_strf,"_response"),"-dpdflatex");
     close
     % Plot the passband detail
     subplot(211)
@@ -173,12 +174,12 @@ for ndigits=2:3
          wa*0.5/pi,10*log10(Asq_sd),"linestyle","-.", ... 
          wa*0.5/pi,10*log10(Asq_Lim),"linestyle","--", ...
          wa*0.5/pi,10*log10(Asq_Ito),"linestyle","-")
-    title(tstr);
+    title(strt);
     xlabel("Frequency");
     ylabel("Amplitude(dB)");
     legend("exact","round","signed-digit","Lim","Ito");
     legend("location","northeast");
-    legend("Boxoff");
+    legend("boxoff");
     legend("left");
     axis([0.05 0.25 -2 2]);
     grid("on");
@@ -192,7 +193,7 @@ for ndigits=2:3
     ylabel("Group delay(samples)");
     axis([0.05 0.25 15 17]);
     grid("on");
-    print(strcat(namestr,"_passband_response"),"-dpdflatex");
+    print(strcat(nbits_strf,"_passband_response"),"-dpdflatex");
     close
 
     % Print the maximum side-lobe for Lim
@@ -225,33 +226,22 @@ for ndigits=2:3
     nbits_sidelobe_Ito(l)=max(10*log10(Asq_Ito(nasuu:end)));
     
     % Print the results
-    format short
-    fmt_str="%6d";
-    print_polynomial(int16(k_rd*nscale), ...
-                     sprintf("%d*k_rd_%d_bits",nscale,nbits),...
-                     strcat(namestr,"_k_rd_coef.m"),fmt_str);
-    print_polynomial(int16(c_rd*nscale), ...
-                     sprintf("%d*c_rd_%d_bits",nscale,nbits),...
-                     strcat(namestr,"_c_rd_coef.m"),fmt_str);
-    print_polynomial(int16(k_sd*nscale), ...
-                     sprintf("%d*k_sd_%d_bits",nscale,nbits),...
-                     strcat(namestr,"_k_sd_coef.m"),fmt_str);
-    print_polynomial(int16(c_sd*nscale), ...
-                     sprintf("%d*c_sd_%d_bits",nscale,nbits),...
-                     strcat(namestr,"_c_sd_coef.m"),fmt_str);
-    print_polynomial(int16(k_Lim*nscale), ...
-                     sprintf("%d*k_Lim_%d_bits",nscale,nbits),...
-                     strcat(namestr,"_k_Lim_coef.m"),fmt_str);
-    print_polynomial(int16(c_Lim*nscale), ...
-                     sprintf("%d*c_Lim_%d_bits",nscale,nbits),...
-                     strcat(namestr,"_c_Lim_coef.m"),fmt_str);
-    print_polynomial(int16(k_Ito*nscale), ...
-                     sprintf("%d*k_Ito_%d_bits",nscale,nbits),...
-                     strcat(namestr,"_k_Ito_coef.m"),fmt_str);
-    print_polynomial(int16(c_Ito*nscale), ...
-                     sprintf("%d*c_Ito_%d_bits",nscale,nbits),...
-                     strcat(namestr,"_c_Ito_coef.m"),fmt_str);
-    format long e
+    print_polynomial(k_rd,sprintf("k_rd_%d_bits",nbits),...
+                     strcat(nbits_strf,"_k_rd_coef.m"),nscale);
+    print_polynomial(c_rd,sprintf("c_rd_%d_bits",nbits),...
+                     strcat(nbits_strf,"_c_rd_coef.m"),nscale);
+    print_polynomial(k_sd,sprintf("k_sd_%d_bits",nbits),...
+                     strcat(nbits_strf,"_k_sd_coef.m"),nscale);
+    print_polynomial(c_sd,sprintf("c_sd_%d_bits",nbits),...
+                     strcat(nbits_strf,"_c_sd_coef.m"),nscale);
+    print_polynomial(k_Lim,sprintf("k_Lim_%d_bits",nbits),...
+                     strcat(nbits_strf,"_k_Lim_coef.m"),nscale);
+    print_polynomial(c_Lim,sprintf("c_Lim_%d_bits",nbits),...
+                     strcat(nbits_strf,"_c_Lim_coef.m"),nscale);
+    print_polynomial(k_Ito,sprintf("k_Ito_%d_bits",nbits),...
+                     strcat(nbits_strf,"_k_Ito_coef.m"),nscale);
+    print_polynomial(c_Ito,sprintf("c_Ito_%d_bits",nbits),...
+                     strcat(nbits_strf,"_c_Ito_coef.m"),nscale);
   endfor
 
   % Plot comparison of cost
@@ -260,16 +250,16 @@ for ndigits=2:3
            nbits_range,nbits_cost_sd,"linestyle","-.", ... 
            nbits_range,nbits_cost_Lim,"linestyle","--",...
            nbits_range,nbits_cost_Ito,"linestyle","-")
-  tstr=sprintf("Bandpass one-multiplier lattice cost, ndigits=%d", ndigits);
-  title(tstr);
+  strt=sprintf("Bandpass one-multiplier lattice cost, ndigits=%d", ndigits);
+  title(strt);
   xlabel("bits");
   ylabel("Cost");
   grid("off");
   legend("round","signed-digit","Lim","Ito");
   legend("location","northeast");
-  legend("Boxoff");
+  legend("boxoff");
   legend("left");
-  print(strcat(plotstr,"_cost"),"-dpdflatex");
+  print(strcat(strf,"_cost"),"-dpdflatex");
   close
 
   % Plot comparison of maximum response in [0.26,0.5)
@@ -278,17 +268,17 @@ for ndigits=2:3
        nbits_range,nbits_sidelobe_sd,"linestyle","-.", ... 
        nbits_range,nbits_sidelobe_Lim,"linestyle","--", ...
        nbits_range,nbits_sidelobe_Ito,"linestyle","-")
-  tstr=sprintf("Bandpass one-multiplier lattice maximum response \
-in [%4.2f,0.5) (dB), ndigits=%d",fasu,ndigits);
-  title(tstr);
+  strt=sprintf("Bandpass one-multiplier lattice maximum response \
+in [%4.2f,0.5) (dB), ndigits=%d",fasuu,ndigits);
+  title(strt);
   xlabel("bits");
   ylabel("Maximum response(dB)");
   grid("on");
   legend("round","signed-digit","Lim","Ito");
   legend("location","northeast");
-  legend("Boxoff");
+  legend("boxoff");
   legend("left");
-  print(strcat(plotstr,"_sidelobe"),"-dpdflatex");
+  print(strcat(strf,"_sidelobe"),"-dpdflatex");
   close
 
   % Plot comparison of total signed-digits used
@@ -297,17 +287,17 @@ in [%4.2f,0.5) (dB), ndigits=%d",fasu,ndigits);
        nbits_range,nbits_kc_sd_digits,"linestyle","-.", ... 
        nbits_range,nbits_kc_digits_Lim,"linestyle","--",...
        nbits_range,nbits_kc_digits_Ito,"linestyle","-")
-  tstr=sprintf("Bandpass one-multiplier lattice total signed-digits \
+  strt=sprintf("Bandpass one-multiplier lattice total signed-digits \
 used by coefficients, ndigits=%d",ndigits);
-  title(tstr);
+  title(strt);
   xlabel("bits");
   ylabel("Total signed-digits used by coefficients");
   grid("on");
   legend("round","signed-digit","Lim","Ito");
   legend("location","northwest");
-  legend("Boxoff");
+  legend("boxoff");
   legend("left");
-  print(strcat(plotstr,"_digits"),"-dpdflatex");
+  print(strcat(strf,"_digits"),"-dpdflatex");
   close
 
   % Plot comparison of noise gain
@@ -316,16 +306,16 @@ used by coefficients, ndigits=%d",ndigits);
        nbits_range,nbits_ng_sd,"linestyle","-.", ... 
        nbits_range,nbits_ng_Lim,"linestyle","--",...
        nbits_range,nbits_ng_Ito,"linestyle","-")
-  tstr=sprintf("Bandpass one-multiplier lattice noise gain,ndigits=%d",ndigits);
-  title(tstr);
+  strt=sprintf("Bandpass one-multiplier lattice noise gain,ndigits=%d",ndigits);
+  title(strt);
   xlabel("bits");
   ylabel("Noise gain");
   grid("on");
   legend("round","signed-digit","Lim","Ito");
   legend("location","northeast");
-  legend("Boxoff");
+  legend("boxoff");
   legend("left");
-  print(strcat(plotstr,"_ng"),"-dpdflatex");
+  print(strcat(strf,"_ng"),"-dpdflatex");
   close
   
 endfor

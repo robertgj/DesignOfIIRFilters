@@ -17,7 +17,7 @@ function [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc] = ...
 %  dAdkc,dBdkc,dCdkc,dDdkc - cell vectors of the differentials of A, B, C and D
 %  dCapdk,dDapdk           - cell vectors of the differentials of Cap and Dap    
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

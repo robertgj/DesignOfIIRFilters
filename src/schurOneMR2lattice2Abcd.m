@@ -17,7 +17,7 @@ function [A,B,C,D,Aap,Bap,Cap,Dap]=schurOneMR2lattice2Abcd(k,epsilon,c)
 %  [A,B,C,D] - state variable description of the tapped lattice filter
 %  [Aap,Bap,Cap,Dap] - state variable description of the all-pass lattice filter
   
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

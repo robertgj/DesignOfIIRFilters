@@ -1,5 +1,5 @@
 % tarczynski_frm_halfband_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Design an FRM filter from IIR halfband model in parallel with a delay
 % and FIR masking filters using the method of Tarczynski et al. The 
@@ -18,6 +18,7 @@ tic;
 format compact
 verbose=true
 maxiter=5000
+strf="tarczynski_frm_halfband_test";
 
 function [n,r2M,r,aa,ac,au,av,q]=vec2frm_halfband(ra,mr,na,Mmodel,Dmodel)
   % Model filter
@@ -193,17 +194,17 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_frm)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -70 10]);
 grid("on");
-tstr=sprintf("F2M halfband/delay filter : \
+strt=sprintf("F2M halfband/delay filter : \
 fpass=%g,mr=%d,na=%d,Mmodel=%d,Dmodel=%d,Was=%d", ...
              fpass,mr,na,Mmodel,Dmodel,Was);
-title(tstr);
+title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-10 td+10]);
 grid("on");
-print("tarczynski_frm_halfband_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Plot passband response
@@ -212,14 +213,14 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_frm)));
 ylabel("Amplitude(dB)");
 axis([0 0.25 -0.2 0.2]);
 grid("on");
-title(tstr);
+title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 0.25 td-2 td+2]);
 grid("on");
-print("tarczynski_frm_halfband_passband_response","-dpdflatex");
+print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Plot masking filter responses
@@ -231,9 +232,9 @@ axis([0 0.5 -70 10]);
 grid("on");
 legend("Fma","Fmc","location","northeast");
 legend("boxoff");
-tstr=sprintf("F2M masking filters : na=%d,",na);
-title(tstr);
-print("tarczynski_frm_halfband_masking_response","-dpdflatex");
+strt=sprintf("F2M masking filters : na=%d,",na);
+title(strt);
+print(strcat(strf,"_masking_response"),"-dpdflatex");
 close
 
 % Plot model filter response
@@ -242,16 +243,16 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_model)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -70 10]);
 grid("on");
-tstr=sprintf("F2M halfband model filter plus delay : mr=%d,Mmodel=%d,Dmodel=%d",
+strt=sprintf("F2M halfband model filter plus delay : mr=%d,Mmodel=%d,Dmodel=%d",
              mr,Mmodel,Dmodel);
-title(tstr);
+title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tw_model);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 60 120]);
 grid("on");
-print("tarczynski_frm_halfband_model_response","-dpdflatex");
+print(strcat(strf,"_model_response"),"-dpdflatex");
 close
 
 % Calculate Hilbert function response
@@ -268,9 +269,9 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_hilbert)))
 ylabel("Amplitude(dB)");
 axis([0 0.5 -0.1 0.1]);
 grid("on");
-tstr=sprintf("F2M halfband Hilbert filter : mr=%d,Mmodel=%d,Dmodel=%d,na=%d",
+strt=sprintf("F2M halfband Hilbert filter : mr=%d,Mmodel=%d,Dmodel=%d,na=%d",
              mr,Mmodel,Dmodel,na);
-title(tstr);
+title(strt);
 subplot(312);
 plot(wplot*0.5/pi,(unwrap(arg(Hw_hilbert))+(wplot.*td))/pi)
 ylabel("Phase(rad./pi)\Adjusted for delay");
@@ -282,14 +283,14 @@ plot(wplot*0.5/pi,Tw_hilbert);
 ylabel("Group delay (samples)");
 axis([0 0.5 td-1 td+1]);
 grid("on");
-print("tarczynski_frm_halfband_hilbert_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Save the results
 print_polynomial(r1,"r1");
-print_polynomial(r1,"r1","tarczynski_frm_halfband_test_r1_coef.m");
+print_polynomial(r1,"r1",strcat(strf,"_r1_coef.m"));
 print_polynomial(aa1,"aa1");
-print_polynomial(aa1,"aa1","tarczynski_frm_halfband_test_aa1_coef.m");
+print_polynomial(aa1,"aa1",strcat(strf,"_aa1_coef.m"));
 
 save tarczynski_frm_halfband_test.mat ...
      n1 r1 r2M1 aa1 q1 au1 av1 Mmodel Dmodel dmask mr na fpass fstop ...
@@ -298,4 +299,5 @@ save tarczynski_frm_halfband_test.mat ...
 % Done
 toc;
 diary off
-movefile tarczynski_frm_halfband_test.diary.tmp tarczynski_frm_halfband_test.diary;
+movefile tarczynski_frm_halfband_test.diary.tmp ...
+         tarczynski_frm_halfband_test.diary;

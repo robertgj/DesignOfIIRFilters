@@ -1,6 +1,6 @@
 function iir_frm_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel, ...
                                        nplot,fpass,strT,strF,strOpt)
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

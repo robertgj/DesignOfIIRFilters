@@ -3,7 +3,7 @@ function [yu,yl]=bin2SDul(x,nbits,ndigits)
 % Find the nbits, ndigits signed-digit numbers that are the greatest
 % lower bound, yl, and least upper bound, yu, approximating x.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

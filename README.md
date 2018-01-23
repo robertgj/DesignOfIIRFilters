@@ -38,8 +38,8 @@ Useful *Makefile* targets are *octfiles*, *batchtest*, *cleanall*, *backup*,
 *test* directory assume that the *octfiles* targets exist.
 
 ### Dependencies
-I use the [Fedora 26](https://getfedora.org/en/workstation/) operating system
-with the *octave-4.2.1*, *atlas-3.10.2*, *gcc-7.1.1*, *dia-0.97.3* and
+I use the [Fedora 27](https://getfedora.org/en/workstation/) operating system
+with the *octave-4.2.1*, *lapack-3.7.1*, *gcc-7.2.1*, *dia-0.97.3* and
 *texlive-2016* packages installed from the Fedora repository. I use the
 [Octave-forge](https://octave.sourceforge.io) *struct*, *optim*, *control*,
 *signal* and *parallel* Octave packages and the Octave *gnuplot* graphics

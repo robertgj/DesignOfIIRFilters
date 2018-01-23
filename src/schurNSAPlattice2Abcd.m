@@ -13,7 +13,7 @@ function [A,B,Cap,Dap,dAds,dBds,dCapds,dDapds]=...
 %   [A,B;Cap,Dap] - the state-variable matrixes
 %   dAds,dBds,dCapds,dDapds - the gradients of the state variable matrixes
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

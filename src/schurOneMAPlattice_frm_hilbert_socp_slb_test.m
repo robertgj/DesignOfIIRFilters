@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_hilbert_socp_slb_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -12,14 +12,16 @@ tic;
 format compact
 
 %
-% Initial filter from tarczynski_frm_halfband_test.m
+% Filter specification
 %
 n=800
 maxiter=2000
 verbose=false
 
+% Initial filter from tarczynski_frm_halfband_test.m
 if 1
   tol=75e-6
+  ctol=tol
   r0 = [   1.0000000000,   0.4654027371,  -0.0749201995,   0.0137121216, ... 
            0.0035706175,  -0.0098219303 ]';
   aa0 = [ -0.0019232288,   0.0038703625,   0.0038937068,  -0.0055310972, ... 
@@ -47,6 +49,7 @@ if 1
   endif
 else 
   tol=1e-6
+  ctol=tol
   r0 = [   1.0000000000,   0.4268488267,  -0.0317251967,  -0.0154534827, ... 
            0.0191464815,  -0.0030145193,  -0.0045338772 ]';
   aa0 = [  0.0021429989,   0.0034892719,  -0.0042819826,  -0.0023721012, ... 
@@ -135,13 +138,13 @@ kuv_active=(1:(length(k0)+length(u0)+length(v0)))';
 dmax=inf;
 
 % Common strings
-strT=sprintf("FRM Hilbert %%s %%s : \
+strf="schurOneMAPlattice_frm_hilbert_socp_slb_test";
+strt=sprintf("FRM Hilbert %%s %%s : \
 Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d",Mmodel,Dmodel,fap,fas,tp);
-strF=sprintf("schurOneMAPlattice_frm_hilbert_socp_slb_test_%%s_%%s");
 
 % Plot the initial response
 schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
-  (k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,n,strT,strF,"initial");
+  (k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,n,strt,strcat(strf,"_%s_%s"),"initial");
 
 %
 % FRM hilbert SOCP PCLS
@@ -152,7 +155,7 @@ tic;
     (@schurOneMAPlattice_frm_hilbert_socp_mmse, ...
      k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...
      wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-     maxiter,tol,verbose);
+     maxiter,tol,ctol,verbose);
 toc;
 if feasible == 0 
   error("k2tmp,u2,v2(pcls) infeasible");
@@ -164,15 +167,16 @@ r2=schurOneMAPlattice2tf(k2tmp,epsilon0,p0);
 
 % Plot the response
 schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
-  (k2,epsilon2,p2,u2,v2,Mmodel,Dmodel,n,strT,strF,"PCLS", ...
+  (k2,epsilon2,p2,u2,v2,Mmodel,Dmodel,n,strt,strcat(strf,"_%s_%s"),"PCLS", ...
    wa,Asqdu,Asqdl,wt,Tdu,Tdl,wp,Pdu,Pdl);
 
 %
 % Save the results
 %
-fid=fopen("schurOneMAPlattice_frm_hilbert_socp_slb_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"n=%d %% Frequency points\n",n);
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"Mmodel=%d %% Model filter decimation\n",Mmodel);
 fprintf(fid,"Dmodel=%d %% Desired model filter passband delay\n",Dmodel);
 fprintf(fid,"mr=%d %% Model filter order\n",mr);
@@ -194,25 +198,25 @@ fprintf(fid,"Wpp=%g %% Pass band phase weight\n",Wpp);
 fclose(fid);
 
 print_polynomial(r2,"r2");
-print_polynomial(r2,"r2",sprintf(strF,"r2","coef.m"));
+print_polynomial(r2,"r2",strcat(strf,"_r2_coef.m"));
 print_polynomial(k2,"k2");
-print_polynomial(k2,"k2",sprintf(strF,"k2","coef.m"));
+print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
 print_polynomial(epsilon2,"epsilon2");
-print_polynomial(epsilon2,"epsilon2",sprintf(strF,"epsilon2","coef.m"),"%2d");
+print_polynomial(epsilon2,"epsilon2",strcat(strf,"_epsilon2_coef.m"),"%2d");
 print_polynomial(p2,"p2");
-print_polynomial(p2,"p2",sprintf(strF,"p2","coef.m"));
+print_polynomial(p2,"p2",strcat(strf,"_p2_coef.m"));
 print_polynomial(u2,"u2");
-print_polynomial(u2,"u2",sprintf(strF,"u2","coef.m"));
+print_polynomial(u2,"u2",strcat(strf,"_u2_coef.m"));
 print_polynomial(v2,"v2");
-print_polynomial(v2,"v2",sprintf(strF,"v2","coef.m"));
+print_polynomial(v2,"v2",strcat(strf,"_v2_coef.m"));
 
 save schurOneMAPlattice_frm_hilbert_socp_slb_test.mat ...
      r0 u0 v0 k0 epsilon0 p0 r2 u2 v2 k2 epsilon2 p2 ...
-     Mmodel Dmodel dmax rho tol ...
+     Mmodel Dmodel dmax rho tol ctol ...
      fap fas dBap Wap ftp fts tp tpr Wtp fpp fps pp ppr Wpp 
 
 % Done
 toc;
 diary off
 movefile schurOneMAPlattice_frm_hilbert_socp_slb_test.diary.tmp ...
-       schurOneMAPlattice_frm_hilbert_socp_slb_test.diary;
+         schurOneMAPlattice_frm_hilbert_socp_slb_test.diary;

@@ -2,11 +2,11 @@
 
 prog=butt3NSPA_test.m
 
-depends="butt3NSPA_test.m test_common.m \
-schurexpand.oct schurdecomp.oct schurNSscale.oct spectralfactor.oct tf2pa.m \
-tf2schurNSlattice.m schurNSlatticeNoiseGain.m \
-schurNSlattice2Abcd.oct schurNSlatticeFilter.m schurNSlatticeRetimed2Abcd.m \
-svf.m flt2SD.m x2nextra.m bin2SD.oct KW.m optKW.m tf2Abcd.m crossWelch.m"
+depends="butt3NSPA_test.m test_common.m tf2pa.m tf2schurNSlattice.m \
+schurNSlatticeNoiseGain.m schurNSlatticeFilter.m schurNSlatticeRetimed2Abcd.m \
+svf.m flt2SD.m x2nextra.m optKW.m tf2Abcd.m crossWelch.m print_polynomial.m \
+KW.m schurexpand.oct schurdecomp.oct schurNSlattice2Abcd.oct schurNSscale.oct \
+spectralfactor.oct bin2SD.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -74,39 +74,22 @@ A1ngABCD =    3.0000e+00
 A1ngapABCD =    3.0000e+00
 A2ngABCD =    1.0000e+00
 A2ngapABCD =    1.0000e+00
+use_exact_coefficients = 0
 nbits =    1.0000e+01
 scale =    5.1200e+02
 ndigits =    3.0000e+00
-A1s10f =
-
-  -9.53125000000000e-01   7.34375000000000e-01
-
-A1s11f =
-
-   3.08593750000000e-01   6.87500000000000e-01
-
-A1s20f =
-
-  -9.53125000000000e-01   7.34375000000000e-01
-
-A1s00f =
-
-   3.08593750000000e-01   6.87500000000000e-01
-
-A1s02f =
-
-   9.53125000000000e-01  -7.34375000000000e-01
-
-A1s22f =
-
-   3.08593750000000e-01   6.87500000000000e-01
-
-A2s10f =   -7.18750000000000e-01
-A2s11f =    6.87500000000000e-01
-A2s20f =   -7.18750000000000e-01
-A2s00f =    6.87500000000000e-01
-A2s02f =    7.18750000000000e-01
-A2s22f =    6.87500000000000e-01
+A1s10f = [     -488,      376 ]/512;
+A1s11f = [      158,      352 ]/512;
+A1s20f = [     -488,      376 ]/512;
+A1s00f = [      158,      352 ]/512;
+A1s02f = [      488,     -376 ]/512;
+A1s22f = [      158,      352 ]/512;
+A2s10f = [     -368 ]/512;
+A2s11f = [      352 ]/512;
+A2s20f = [     -368 ]/512;
+A2s00f = [      352 ]/512;
+A2s02f = [      368 ]/512;
+A2s22f = [      352 ]/512;
 A1ngABCDf =    3.2501e+00
 A1ngapABCDf =    3.1899e+00
 A2ngABCDf =    9.5605e-01

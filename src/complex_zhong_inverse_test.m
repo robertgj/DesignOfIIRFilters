@@ -1,5 +1,5 @@
 % complex_zhong_inverse_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -43,12 +43,12 @@ r=reprand(2*N*N);
 A=hess(reshape(r(1:(N*N)),N,N)+j*reshape(r(((N*N)+1):(2*N*N)),N,N))';
 B=complex_zhong_inverse(A);
 err_AB=max(max(abs((A*B)-eye(N))));
-if err_AB > 18.783*eps
-  error("err_AB > 18.783*eps");
+if err_AB > 60*eps
+  error("err_AB > 60*eps");
 endif
 err_BA=max(max(abs((B*A)-eye(N))));
-if err_BA > 445.8*eps
-  error("err_BA > 445.8*eps");
+if err_BA > 700*eps
+  error("err_BA > 700*eps");
 endif
 
 % Done

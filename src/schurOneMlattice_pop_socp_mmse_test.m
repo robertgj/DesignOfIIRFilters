@@ -1,5 +1,5 @@
 % schurOneMlattice_pop_socp_mmse_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -11,6 +11,7 @@ tic;
 tol=1e-8
 maxiter=0
 verbose=true;
+strf="schurOneMlattice_pop_socp_mmse_test";
 
 schurOneMlattice_bandpass_10_nbits_common;
 
@@ -126,9 +127,9 @@ while ~isempty(kc_active)
 endwhile
 
 % Round the k1 and c1 coefficients to the nearest integer
-printf("\nnscale*kc=[ ");printf("%d ",nscale*kc(:)');printf(" ]\n");
+printf("\nkc=[ ");printf("%g ",nscale*kc(:)');printf(" ]/%d\n",nscale);
 kc=round(kc*nscale)/nscale;
-printf("Rounded nscale*kc=[ ");printf("%d ",nscale*kc(:)');printf(" ]\n");
+printf("Rounded kc=[ ");printf("%g ",nscale*kc(:)');printf(" ]/%d\n",nscale);
 k1=kc(1:Nk);
 c1=kc((Nk+1):end);
 
@@ -171,16 +172,15 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -50 -30]);
-tstr=sprintf("Schur one-multiplier lattice bandpass filter stop-band \
+strt=sprintf("Schur one-multiplier lattice bandpass filter stop-band \
 (nbits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,fasl,fasu,dBas);
-title(tstr);
+title(strt);
 legend("exact","s-d(Ito)","s-d(POP-relax)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-fstr=sprintf("schurOneMlattice_pop_socp_mmse_test_k1c1");
-print(strcat(fstr,"_stop"),"-dpdflatex");
+print(strcat(strf,"_k1c1_stop"),"-dpdflatex");
 close
 
 % Plot amplitude pass-band response
@@ -190,15 +190,15 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0.1 0.2 -2 1]);
-tstr=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
+strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
 (nbits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,fapl,fapu,dBap);
-title(tstr);
+title(strt);
 legend("exact","s-d(Ito)","s-d(POP-relax)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print(strcat(fstr,"_pass"),"-dpdflatex");
+print(strcat(strf,"_k1c1_pass"),"-dpdflatex");
 close
 
 % Plot group-delay pass-band response
@@ -208,24 +208,24 @@ plot(wplot*0.5/pi,T_kc0,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Group delay(samples)");
 axis([0.09 0.21 15.9 16.2]);
-tstr=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
+strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
 nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g",nbits,ftpl,ftpu,tp,tpr);
- title(tstr);
+ title(strt);
 legend("exact","s-d(Ito)","s-d(POP-relax)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print(strcat(fstr,"_delay"),"-dpdflatex");
+print(strcat(strf,"_k1c1_delay"),"-dpdflatex");
 close
 
 %
 % Save the results
 %
-fid=fopen("schurOneMlattice_pop_socp_mmse_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
-fprintf(fid,"nbits=%g %% Coeficient bits\n",nbits);
-fprintf(fid,"ndigits=%g %% Nominal average coeficient signed-digits\n",ndigits);
+fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
+fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
 fprintf(fid,"maxiter=%d %% POP iteration limit\n",maxiter);
 fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
 fprintf(fid,"length(c0)=%d %% Num. tap coefficients\n",length(c0));
@@ -243,10 +243,8 @@ fprintf(fid,"fasu=%g %% Amplitude stop band(1) upper edge\n",fasu);
 fprintf(fid,"Wasl=%d %% Amplitude lower stop band weight\n",Wasl);
 fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
-print_polynomial(nscale*k1, "nscale*k1", ...
-                 "schurOneMlattice_pop_socp_mmse_test_k1_coef.m", "%6d");
-print_polynomial(nscale*c1, "nscale*c1",
-                 "schurOneMlattice_pop_socp_mmse_test_c1_coef.m", "%6d");
+print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"),nscale);
+print_polynomial(c1,"c1",strcat(strf,"_c1_coef.m"),nscale);
 save schurOneMlattice_pop_socp_mmse_test.mat ...
      k0 epsilon0 p0 c0 tol nbits ndigits ndigits_alloc npoints ...
      fapl fapu Wap fasl fasu Wasl Wasu ftpl ftpu tp Wtp k1 c1
@@ -255,4 +253,4 @@ save schurOneMlattice_pop_socp_mmse_test.mat ...
 toc;
 diary off
 movefile schurOneMlattice_pop_socp_mmse_test.diary.tmp ...
-       schurOneMlattice_pop_socp_mmse_test.diary;
+         schurOneMlattice_pop_socp_mmse_test.diary;

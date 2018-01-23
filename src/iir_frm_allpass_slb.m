@@ -1,10 +1,10 @@
 function [xk,slb_iter,opt_iter,func_iter,feasible] = ...
            iir_frm_allpass_slb(pfx,x0k,ru,rl,Vr,Qr,Rr,na,nc,Mmodel,Dmodel, ...
-             w,Asqd,Asqdu,Asqdl,Wa,Td,Tdu,Tdl,Wt,maxiter,tol,verbose)
+             w,Asqd,Asqdu,Asqdl,Wa,Td,Tdu,Tdl,Wt,maxiter,tol,ctol,verbose)
 % [xk,slb_iter,opt_iter,func_iter,feasible] = ...
 %   iir_frm_allpass_slb(pfx,x0k,ru,rl,Vr,Qr,Rr,na,nc,Mmodel,Dmodel, ...
 %                       w,Asqd,Asqdu,Asqdl,Wa,Td,Tdu,Tdl,Wt, ...
-%                       maxiter,tol,verbose)
+%                       maxiter,tol,ctol,verbose)
 %
 % PCLS optimisation of an FRM filter with constraints on the amplitude and
 % group delay responses. The FRM filter has a model filter comprised of an
@@ -40,7 +40,8 @@ function [xk,slb_iter,opt_iter,func_iter,feasible] = ...
 %   Tdu,Tdl - upper/lower mask for the desired group delay response
 %   Wt - group delay response weight at each frequency
 %   maxiter - maximum number of SQP iterations
-%   tol - tolerance
+%   tol - tolerance on coefficient update
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -70,7 +71,7 @@ function [xk,slb_iter,opt_iter,func_iter,feasible] = ...
 % Transition Bands", I. W. Selesnick, M. Lang and C. S. Burrus, IEEE
 % Transactions on Signal Processing, 46(2):497-501, February 1998.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -93,11 +94,11 @@ function [xk,slb_iter,opt_iter,func_iter,feasible] = ...
   %
   % Sanity checks
   %
-  if (nargin != 23) || (nargout != 5)
+  if (nargin != 24) || (nargout != 5)
     print_usage("[xk,slb_iter,opt_iter,func_iter,feasible] = ...\n\
          iir_frm_allpass_slb(pfx,x0k,ru,rl,Vr,Qr,Rr,na,nc,Mmodel,Dmodel, ...\n\
                              w,Asqd,Asqdu,Asqdl,Wa,Td,Tdu,Tdl,Wt, ...\n\
-                             maxiter,tol,verbose)");
+                             maxiter,tol,ctol,verbose)");
   endif
   if !is_function_handle(pfx)
     error("Expected pfx to be a function handle!");
@@ -114,7 +115,7 @@ function [xk,slb_iter,opt_iter,func_iter,feasible] = ...
   vR=iir_frm_allpass_slb_set_empty_constraints();
   [Asqk,Tk]=iir_frm_allpass(w,x0k,Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
   vS=iir_frm_allpass_slb_update_constraints ...
-       (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,tol);
+       (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,ctol);
 
   % Initialise SLB loop parameters
   info=0;slb_iter=0;opt_iter=0;func_iter=0;feasible=false;xk=x0k(:);
@@ -168,7 +169,7 @@ function [xk,slb_iter,opt_iter,func_iter,feasible] = ...
     % 
     [Asqk,Tk]=iir_frm_allpass(w,xk,Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
     [vR,vS,exchanged] = iir_frm_allpass_slb_exchange_constraints ...
-                          (vS,vR,Asqk,Asqdu,Asqdl,Tk,Tdu,Tdl,tol);
+                          (vS,vR,Asqk,Asqdu,Asqdl,Tk,Tdu,Tdl,ctol);
     if exchanged
       printf("Step 4: R constraints violated after ");
       printf("%d PCLS iterations\nGoing to Step 2!\n",slb_iter);
@@ -183,7 +184,7 @@ function [xk,slb_iter,opt_iter,func_iter,feasible] = ...
     %
     vR=vS;
     vS=iir_frm_allpass_slb_update_constraints ...
-         (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,tol);
+         (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,ctol);
     printf("Step 5: vS frequency constraints updated to:\n");
     for [v,k]=vS
       printf("%s=[ ",k);printf("%d ",v);printf("]\n");

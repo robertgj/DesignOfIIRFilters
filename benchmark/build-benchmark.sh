@@ -1,7 +1,18 @@
 #!/bin/bash
 
-# Assumes lapack-$LPVER.tgz and octave-4.2.1.tar.lz are in the current directory
-
+# Assume these files are present:
+#  lapack-3.7.1.tgz
+#  SuiteSparse-4.5.6.tar.gz
+#  arpack-ng-master.zip
+#  fftw-3.3.7.tar.gz
+#  qrupdate-1.1.2.tar.gz
+#  octave-4.2.1.tar.lz
+#  octave-4.2.1.patch
+#  struct-1.0.14.tar.gz
+#  optim-1.5.2.tar.gz
+#  control-3.0.0.tar.gz
+#  signal-1.3.2.tar.gz
+#
 # Disable CPU frequency scaling:
 # for c in `seq 0 7` ; do
 #   echo "4500000">/sys/devices/system/cpu/cpu$c/cpufreq/scaling_min_freq ;
@@ -16,83 +27,139 @@ dnf list installed kernel* gcc* atlas* openblas* gsl* blas* lapack* \
     | egrep -v metadata | awk '{print $1 "\t\t" $2}'
 
 # Build local versions of the lapack and blas libraries
-export LPVER=3.6.1
+export LOCAL_PREFIX=`pwd`
+export LPVER=3.7.1
 source ./build-lapack.sh
-export LAPACK_DIR=`pwd`/lapack/generic/lapack-$LPVER
+
+# Build local versions of the other libraries used by octave
+export LAPACK_DIR=$LOCAL_PREFIX/lapack/generic/lapack-$LPVER
+export LD_LIBRARY_PATH=$LOCAL_PREFIX"/lib:"$LAPACK_DIR
+source ./build-other-libs.sh
+
+# Common octave configure options
+export OCTAVE_CONFIG_OPTIONS=" \
+       --disable-docs \
+       --disable-java \
+       --disable-atomic-refcount \
+       --without-fltk \
+       --without-qt \
+       --without-sndfile \
+       --without-portaudio \
+       --without-qhull \
+       --without-magick \
+       --without-glpk \
+       --without-hdf5 \
+       --with-arpack-includedir=$LOCAL_PREFIX/include \
+       --with-arpack-libdir=$LOCAL_PREFIX/lib \
+       --with-qrupdate-includedir=$LOCAL_PREFIX/include \
+       --with-qrupdate-libdir=$LOCAL_PREFIX/lib \
+       --with-amd-includedir=$LOCAL_PREFIX/include \
+       --with-amd-libdir=$LOCAL_PREFIX/lib \
+       --with-camd-includedir=$LOCAL_PREFIX/include \
+       --with-camd-libdir=$LOCAL_PREFIX/lib \
+       --with-colamd-includedir=$LOCAL_PREFIX/include \
+       --with-colamd-libdir=$LOCAL_PREFIX/lib \
+       --with-ccolamd-includedir=$LOCAL_PREFIX/include \
+       --with-ccolamd-libdir=$LOCAL_PREFIX/lib \
+       --with-cholmod-includedir=$LOCAL_PREFIX/include \
+       --with-cholmod-libdir=$LOCAL_PREFIX/lib \
+       --with-cxsparse-includedir=$LOCAL_PREFIX/include \
+       --with-cxsparse-libdir=$LOCAL_PREFIX/lib \
+       --with-umfpack-includedir=$LOCAL_PREFIX/include \
+       --with-umfpack-libdir=$LOCAL_PREFIX/lib \
+       --with-fftw3-includedir=$LOCAL_PREFIX/include \
+       --with-fftw3-libdir=$LOCAL_PREFIX/lib \
+       --with-fftw3f-includedir=$LOCAL_PREFIX/include \
+       --with-fftw3f-libdir=$LOCAL_PREFIX/lib"
 
 # Unpack Octave
 export OCTAVEVER=4.2.1
 cat > octave-$OCTAVEVER.patch.uue << 'EOF'
-begin 666 octave-4.2.1.patch
-M+2TM(&]C=&%V92TT+C(N,2YO;&0O;&EB;V-T879E+W-Y<W1E;2]F:6QE+7-T
-M870N8V,),C`Q-RTP,BTR,R`P-3HP,3HU-2XP,#`P,#`P,#`@*S$Q,#`**RLK
-M(&]C=&%V92TT+C(N,2]L:6)O8W1A=F4O<WES=&5M+V9I;&4M<W1A="YC8PDR
-M,#$W+3`X+3`S(#$S.C,T.C(P+C`P-3`P,#4U,"`K,3`P,`I`0"`M,3<T+#<@
-M*S$W-"PW($!`"B`@("`@("`@("`@=7!D871E7VEN=&5R;F%L("@I.PH@("`@
-M("`@?0H@"BT@("`@:6YL:6YE(&9I;&5?<W1A=#HZ?F9I;&5?<W1A="`H*2![
-M('T**R`@("!F:6QE7W-T870Z.GYF:6QE7W-T870@*"D@>R!]"B`*("`@("!V
-M;VED"B`@("`@9FEL95]S=&%T.CIU<&1A=&5?:6YT97)N86P@*&)O;VP@9F]R
-M8V4I"BTM+2!O8W1A=F4M-"XR+C$N;VQD+VQI8F]C=&%V92]N=6UE<FEC+W-C
-M:'5R+F-C"3(P,3<M,#(M,C,@,#4Z,#$Z-34N,#`P,#`P,#`P("LQ,3`P"BLK
-M*R!O8W1A=F4M-"XR+C$O;&EB;V-T879E+VYU;65R:6,O<V-H=7(N8V,),C`Q
-M-RTP."TP,R`Q,SHS-#HT."XW,#`V.#,S,#(@*S$P,#`*0$`@+3$P,BPW("LQ
-M,#(L-R!`0`H@("`@("`@:68@*&]R9%]C:&%R(#T]("=!)R!\?"!O<F1?8VAA
-M<B`]/2`G1"<@?'P@;W)D7V-H87(@/3T@)V$G('Q\(&]R9%]C:&%R(#T]("=D
-M)RD*("`@("`@("`@<V]R="`]("=3)SL*(`HM("`@("`@=F]L871I;&4@9&]U
-M8FQE7W-E;&5C=&]R('-E;&5C=&]R(#T@,#L**R`@("`@("!D;W5B;&5?<V5L
-M96-T;W(@<V5L96-T;W(@/2`P.PH@("`@("`@:68@*&]R9%]C:&%R(#T]("=!
-M)R!\?"!O<F1?8VAA<B`]/2`G82<I"B`@("`@("`@('-E;&5C=&]R(#T@<V5L
-M96-T7V%N83QD;W5B;&4^.PH@("`@("`@96QS92!I9B`H;W)D7V-H87(@/3T@
-M)T0G('Q\(&]R9%]C:&%R(#T]("=D)RD*0$`@+3$X.2PW("LQ.#DL-R!`0`H@
-M("`@("`@:68@*&]R9%]C:&%R(#T]("=!)R!\?"!O<F1?8VAA<B`]/2`G1"<@
-M?'P@;W)D7V-H87(@/3T@)V$G('Q\(&]R9%]C:&%R(#T]("=D)RD*("`@("`@
-M("`@<V]R="`]("=3)SL*(`HM("`@("`@=F]L871I;&4@9FQO871?<V5L96-T
-M;W(@<V5L96-T;W(@/2`P.PHK("`@("`@(&9L;V%T7W-E;&5C=&]R('-E;&5C
-M=&]R(#T@,#L*("`@("`@(&EF("AO<F1?8VAA<B`]/2`G02<@?'P@;W)D7V-H
-M87(@/3T@)V$G*0H@("`@("`@("!S96QE8W1O<B`]('-E;&5C=%]A;F$\9FQO
-M870^.PH@("`@("`@96QS92!I9B`H;W)D7V-H87(@/3T@)T0G('Q\(&]R9%]C
-M:&%R(#T]("=D)RD*0$`@+3(W-BPW("LR-S8L-R!`0`H@("`@("`@:68@*&]R
-M9%]C:&%R(#T]("=!)R!\?"!O<F1?8VAA<B`]/2`G1"<@?'P@;W)D7V-H87(@
-M/3T@)V$G('Q\(&]R9%]C:&%R(#T]("=D)RD*("`@("`@("`@<V]R="`]("=3
-M)SL*(`HM("`@("`@=F]L871I;&4@8V]M<&QE>%]S96QE8W1O<B!S96QE8W1O
-M<B`](#`["BL@("`@("`@8V]M<&QE>%]S96QE8W1O<B!S96QE8W1O<B`](#`[
-M"B`@("`@("!I9B`H;W)D7V-H87(@/3T@)T$G('Q\(&]R9%]C:&%R(#T]("=A
-M)RD*("`@("`@("`@<V5L96-T;W(@/2!S96QE8W1?86YA/$-O;7!L97@^.PH@
-M("`@("`@96QS92!I9B`H;W)D7V-H87(@/3T@)T0G('Q\(&]R9%]C:&%R(#T]
-M("=D)RD*0$`@+3,X-"PW("LS.#0L-R!`0`H@("`@("`@:68@*&]R9%]C:&%R
-M(#T]("=!)R!\?"!O<F1?8VAA<B`]/2`G1"<@?'P@;W)D7V-H87(@/3T@)V$G
-M('Q\(&]R9%]C:&%R(#T]("=D)RD*("`@("`@("`@<V]R="`]("=3)SL*(`HM
-M("`@("`@=F]L871I;&4@9FQO871?8V]M<&QE>%]S96QE8W1O<B!S96QE8W1O
-M<B`](#`["BL@("`@("`@9FQO871?8V]M<&QE>%]S96QE8W1O<B!S96QE8W1O
-M<B`](#`["B`@("`@("!I9B`H;W)D7V-H87(@/3T@)T$G('Q\(&]R9%]C:&%R
-M(#T]("=A)RD*("`@("`@("`@<V5L96-T;W(@/2!S96QE8W1?86YA/$9L;V%T
-M0V]M<&QE>#X["B`@("`@("!E;'-E(&EF("AO<F1?8VAA<B`]/2`G1"<@?'P@
-1;W)D7V-H87(@/3T@)V0G*0H`
-`
-end
+begin-base64 666 octave-4.2.1.patch
+LS0tIG9jdGF2ZS00LjIuMS5vbGQvY29uZmlndXJlCTIwMTctMDItMjMgMDU6
+MTg6MzYuMDAwMDAwMDAwICsxMTAwCisrKyBvY3RhdmUtNC4yLjEvY29uZmln
+dXJlCTIwMTctMTEtMTkgMTc6MTg6MDIuNDQzMzg1NTQzICsxMTAwCkBAIC03
+MzcwMyw5ICs3MzcwMyw5IEBACiAgIGRvbmUKIGZpCiAKLUdDQ19BRERSRVNT
+X1NBTklUSVpFUl9GTEFHUz0iLWZzYW5pdGl6ZT1hZGRyZXNzIC1mbm8tb21p
+dC1mcmFtZS1wb2ludGVyIgotR1hYX0FERFJFU1NfU0FOSVRJWkVSX0ZMQUdT
+PSItZnNhbml0aXplPWFkZHJlc3MgLWZuby1vbWl0LWZyYW1lLXBvaW50ZXIi
+Ci1MRF9BRERSRVNTX1NBTklUSVpFUl9GTEFHUz0iLWZzYW5pdGl6ZT1hZGRy
+ZXNzIgorR0NDX0FERFJFU1NfU0FOSVRJWkVSX0ZMQUdTPSItZnNhbml0aXpl
+PWFkZHJlc3MgLWZzYW5pdGl6ZT11bmRlZmluZWQgLWZuby1zYW5pdGl6ZT12
+cHRyIC1mbm8tb21pdC1mcmFtZS1wb2ludGVyIgorR1hYX0FERFJFU1NfU0FO
+SVRJWkVSX0ZMQUdTPSItZnNhbml0aXplPWFkZHJlc3MgLWZzYW5pdGl6ZT11
+bmRlZmluZWQgLWZuby1zYW5pdGl6ZT12cHRyIC1mbm8tb21pdC1mcmFtZS1w
+b2ludGVyIgorTERfQUREUkVTU19TQU5JVElaRVJfRkxBR1M9Ii1mc2FuaXRp
+emU9YWRkcmVzcyAtZnNhbml0aXplPXVuZGVmaW5lZCAtZm5vLXNhbml0aXpl
+PXZwdHIiCiAKIHRyeV9hZGRyZXNzX3Nhbml0aXplcl9mbGFncz1ubwogCi0t
+LSBvY3RhdmUtNC4yLjEub2xkL2xpYm9jdGF2ZS9zeXN0ZW0vZmlsZS1zdGF0
+LmNjCTIwMTctMDItMjMgMDU6MDE6NTUuMDAwMDAwMDAwICsxMTAwCisrKyBv
+Y3RhdmUtNC4yLjEvbGlib2N0YXZlL3N5c3RlbS9maWxlLXN0YXQuY2MJMjAx
+Ny0xMS0xOSAxNzoxNzoxMi41MDc4NzY5MjUgKzExMDAKQEAgLTE3NCw3ICsx
+NzQsNyBAQAogICAgICAgICAgIHVwZGF0ZV9pbnRlcm5hbCAoKTsKICAgICAg
+IH0KIAotICAgIGlubGluZSBmaWxlX3N0YXQ6On5maWxlX3N0YXQgKCkgeyB9
+CisgICAgZmlsZV9zdGF0Ojp+ZmlsZV9zdGF0ICgpIHsgfQogCiAgICAgdm9p
+ZAogICAgIGZpbGVfc3RhdDo6dXBkYXRlX2ludGVybmFsIChib29sIGZvcmNl
+KQotLS0gb2N0YXZlLTQuMi4xLm9sZC9saWJvY3RhdmUvbnVtZXJpYy9zY2h1
+ci5jYwkyMDE3LTAyLTIzIDA1OjAxOjU1LjAwMDAwMDAwMCArMTEwMAorKysg
+b2N0YXZlLTQuMi4xL2xpYm9jdGF2ZS9udW1lcmljL3NjaHVyLmNjCTIwMTct
+MTEtMTkgMTc6MTc6MTIuNTA4ODc2OTE1ICsxMTAwCkBAIC0xMDIsNyArMTAy
+LDcgQEAKICAgICAgIGlmIChvcmRfY2hhciA9PSAnQScgfHwgb3JkX2NoYXIg
+PT0gJ0QnIHx8IG9yZF9jaGFyID09ICdhJyB8fCBvcmRfY2hhciA9PSAnZCcp
+CiAgICAgICAgIHNvcnQgPSAnUyc7CiAKLSAgICAgIHZvbGF0aWxlIGRvdWJs
+ZV9zZWxlY3RvciBzZWxlY3RvciA9IDA7CisgICAgICAgZG91YmxlX3NlbGVj
+dG9yIHNlbGVjdG9yID0gMDsKICAgICAgIGlmIChvcmRfY2hhciA9PSAnQScg
+fHwgb3JkX2NoYXIgPT0gJ2EnKQogICAgICAgICBzZWxlY3RvciA9IHNlbGVj
+dF9hbmE8ZG91YmxlPjsKICAgICAgIGVsc2UgaWYgKG9yZF9jaGFyID09ICdE
+JyB8fCBvcmRfY2hhciA9PSAnZCcpCkBAIC0xODksNyArMTg5LDcgQEAKICAg
+ICAgIGlmIChvcmRfY2hhciA9PSAnQScgfHwgb3JkX2NoYXIgPT0gJ0QnIHx8
+IG9yZF9jaGFyID09ICdhJyB8fCBvcmRfY2hhciA9PSAnZCcpCiAgICAgICAg
+IHNvcnQgPSAnUyc7CiAKLSAgICAgIHZvbGF0aWxlIGZsb2F0X3NlbGVjdG9y
+IHNlbGVjdG9yID0gMDsKKyAgICAgICBmbG9hdF9zZWxlY3RvciBzZWxlY3Rv
+ciA9IDA7CiAgICAgICBpZiAob3JkX2NoYXIgPT0gJ0EnIHx8IG9yZF9jaGFy
+ID09ICdhJykKICAgICAgICAgc2VsZWN0b3IgPSBzZWxlY3RfYW5hPGZsb2F0
+PjsKICAgICAgIGVsc2UgaWYgKG9yZF9jaGFyID09ICdEJyB8fCBvcmRfY2hh
+ciA9PSAnZCcpCkBAIC0yNzYsNyArMjc2LDcgQEAKICAgICAgIGlmIChvcmRf
+Y2hhciA9PSAnQScgfHwgb3JkX2NoYXIgPT0gJ0QnIHx8IG9yZF9jaGFyID09
+ICdhJyB8fCBvcmRfY2hhciA9PSAnZCcpCiAgICAgICAgIHNvcnQgPSAnUyc7
+CiAKLSAgICAgIHZvbGF0aWxlIGNvbXBsZXhfc2VsZWN0b3Igc2VsZWN0b3Ig
+PSAwOworICAgICAgIGNvbXBsZXhfc2VsZWN0b3Igc2VsZWN0b3IgPSAwOwog
+ICAgICAgaWYgKG9yZF9jaGFyID09ICdBJyB8fCBvcmRfY2hhciA9PSAnYScp
+CiAgICAgICAgIHNlbGVjdG9yID0gc2VsZWN0X2FuYTxDb21wbGV4PjsKICAg
+ICAgIGVsc2UgaWYgKG9yZF9jaGFyID09ICdEJyB8fCBvcmRfY2hhciA9PSAn
+ZCcpCkBAIC0zODQsNyArMzg0LDcgQEAKICAgICAgIGlmIChvcmRfY2hhciA9
+PSAnQScgfHwgb3JkX2NoYXIgPT0gJ0QnIHx8IG9yZF9jaGFyID09ICdhJyB8
+fCBvcmRfY2hhciA9PSAnZCcpCiAgICAgICAgIHNvcnQgPSAnUyc7CiAKLSAg
+ICAgIHZvbGF0aWxlIGZsb2F0X2NvbXBsZXhfc2VsZWN0b3Igc2VsZWN0b3Ig
+PSAwOworICAgICAgIGZsb2F0X2NvbXBsZXhfc2VsZWN0b3Igc2VsZWN0b3Ig
+PSAwOwogICAgICAgaWYgKG9yZF9jaGFyID09ICdBJyB8fCBvcmRfY2hhciA9
+PSAnYScpCiAgICAgICAgIHNlbGVjdG9yID0gc2VsZWN0X2FuYTxGbG9hdENv
+bXBsZXg+OwogICAgICAgZWxzZSBpZiAob3JkX2NoYXIgPT0gJ0QnIHx8IG9y
+ZF9jaGFyID09ICdkJykK
+====
 EOF
 uudecode octave-$OCTAVEVER.patch.uue
 tar -xf octave-$OCTAVEVER.tar.lz
-cd octave-$OCTAVEVER
+pushd octave-$OCTAVEVER
 patch -p 1 < ../octave-$OCTAVEVER.patch
-cd ..
+popd
 
 # Build the benchmark versions
-for BUILD in dbg static static-lto static-pgo static-lto-pgo \
-                 shared shared-lto shared-pgo shared-lto-pgo ;
+for BUILD in dbg shared shared-lto shared-pgo shared-lto-pgo ;
 do
     #
     echo "Building" $BUILD
     #
-    OCTAVE_DIR=`pwd`/octave-$OCTAVEVER ;
-    OCTAVE_INSTALL_DIR=`pwd`/octave-$BUILD
+    OCTAVE_DIR=$LOCAL_PREFIX/octave-$OCTAVEVER ;
+    OCTAVE_INSTALL_DIR=$LOCAL_PREFIX/octave-$BUILD
     OCTAVE_PACKAGE_DIR=$OCTAVE_INSTALL_DIR/share/octave/packages 
-    OCTAVE_PACKAGES=$OCTAVE_INSTALL_DIR/share/octave/octave_packages 
+    OCTAVE_PACKAGES=$OCTAVE_INSTALL_DIR/share/octave/octave_packages
+    #
+    rm -Rf build-$BUILD
+    #
     mkdir -p build-$BUILD
     #
-    cd build-$BUILD
-    #
-    rm -Rf *
+    pushd build-$BUILD
     #
     source ../build-$BUILD.sh
     #
@@ -101,7 +168,13 @@ do
     echo "pkg prefix $OCTAVE_PACKAGE_DIR $OCTAVE_PACKAGE_DIR ; \
           pkg local_list $OCTAVE_PACKAGES ;" > .octaverc
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-'texi_macros_file("/dev/null");pkg install -forge struct optim control signal'
+'texi_macros_file("/dev/null");pkg install ../struct-1.0.14.tar.gz'
+    $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
+'texi_macros_file("/dev/null");pkg install ../optim-1.5.2.tar.gz'
+    $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
+'texi_macros_file("/dev/null");pkg install ../control-3.0.0.tar.gz'
+    $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
+'texi_macros_file("/dev/null");pkg install ../signal-1.3.2.tar.gz'
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval "pkg list"
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval "__octave_config_info__"
     #
@@ -119,17 +192,19 @@ do
       updateWbfgs.m x2tf.m xConstraints.m ; do
         cp -f ../../src/$file . 
     done
-
+    #
     for k in `seq 1 10`; do \
       LD_PRELOAD=$LAPACK_DIR"/liblapack.so:"$LAPACK_DIR"/libblas.so" \
         $OCTAVE_INSTALL_DIR/bin/octave-cli iir_sqp_slb_bandpass_test.m
-      mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.$BUILD.$k
+      mv iir_sqp_slb_bandpass_test.diary \
+         iir_sqp_slb_bandpass_test.diary.$BUILD.$k
     done
     grep Elapsed iir_sqp_slb_bandpass_test.diary.$BUILD.* | \
       awk -v build_var=$BUILD '{elapsed=elapsed+$4;}; \
-      END {printf("iir_sqp_slb_bandpass_test %s elapsed=%g\n",build_var,elapsed/10);}'
+        END {printf("iir_sqp_slb_bandpass_test %s elapsed=%g\n", \
+                    build_var,elapsed/10);}'
     #
-    cd ..
+    popd
     #    
 done
 

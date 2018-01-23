@@ -13,7 +13,7 @@ function [A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk]= ...
 %  [A,B;Cap,Dap]           - state variable description of the lattice filter
 %  dAdk,dBdk,dCapdk,dDapdk - cell vectors of the differentials of A,B,Cap and Dap
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

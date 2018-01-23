@@ -1,12 +1,12 @@
 deczky1_sqp_test_FIGURES = \
-deczky1_sqp_initial_x0 \
-deczky1_sqp_initial_x0pz \
-deczky1_sqp_mmse_x1 \
-deczky1_sqp_mmse_x1pass \
-deczky1_sqp_mmse_x1pz \
-deczky1_sqp_pcls_d1 \
-deczky1_sqp_pcls_d1pass \
-deczky1_sqp_pcls_d1pz
+deczky1_sqp_test_initial_x0 \
+deczky1_sqp_test_initial_x0pz \
+deczky1_sqp_test_mmse_x1 \
+deczky1_sqp_test_mmse_x1pass \
+deczky1_sqp_test_mmse_x1pz \
+deczky1_sqp_test_pcls_d1 \
+deczky1_sqp_test_pcls_d1pass \
+deczky1_sqp_test_pcls_d1pz
 
 deczky1_sqp_test_COEFS = \
 deczky1_sqp_test.mat \

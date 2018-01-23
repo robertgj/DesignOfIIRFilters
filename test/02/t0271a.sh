@@ -63,24 +63,42 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_cost.ok"; fail; fi
 
 cat > test_12_nbits_k_min.ok << 'EOF'
-2048*k_min = [  -1152,   -264,    -96,    -36, ... 
-                  -12 ]';
+k_min = [    -1152,     -264,      -96,      -36, ... 
+               -12 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_k_min.ok"; fail; fi
 
 cat > test_12_nbits_u_min.ok << 'EOF'
-2048*u_min = [      0,     -3,    -16,    -24, ... 
-                  -63,    -72,   -112,   -120, ... 
-                  896 ]';
+u_min = [        0,       -3,      -16,      -24, ... 
+               -63,      -72,     -112,     -120, ... 
+               896 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_u_min.ok"; fail; fi
 
 cat > test_12_nbits_v_min.ok << 'EOF'
-2048*v_min = [      0,     -3,    -16,    -24, ... 
-                  -63,    -72,   -112,   -120, ... 
-                  896 ]';
+v_min = [       14,        9,       18,        8, ... 
+               -12,      -63,     -160,     -640 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_v_min.ok"; fail; fi
+
+cat > test_12_nbits_k_allocsd.ok << 'EOF'
+k_allocsd_digits = [  2,  2,  2,  2, ... 
+                      2 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_k_allocsd.ok";fail;fi
+
+cat > test_12_nbits_u_allocsd.ok << 'EOF'
+u_allocsd_digits = [  2,  2,  2,  2, ... 
+                      2,  2,  2,  2, ... 
+                      2 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_u_allocsd.ok";fail;fi
+
+cat > test_12_nbits_v_allocsd.ok << 'EOF'
+v_allocsd_digits = [  2,  2,  2,  2, ... 
+                      2,  2,  2,  2 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_v_allocsd.ok";fail;fi
 
 #
 # run and see if the results match
@@ -103,6 +121,15 @@ if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_u_min.ok"; fail; fi
 
 diff -Bb test_12_nbits_v_min.ok $nstr"_v_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_v_min.ok"; fail; fi
+
+diff -Bb test_12_nbits_k_allocsd.ok $nstr"_k_allocsd_digits.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_k_allocsd.ok"; fail; fi
+
+diff -Bb test_12_nbits_u_allocsd.ok $nstr"_u_allocsd_digits.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_u_allocsd.ok"; fail; fi
+
+diff -Bb test_12_nbits_v_allocsd.ok $nstr"_v_allocsd_digits.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_v_allocsd.ok"; fail; fi
 
 #
 # this much worked

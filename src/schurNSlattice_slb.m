@@ -2,12 +2,12 @@ function [s10,s11,s20,s00,s02,s22,slb_iter,opt_iter,func_iter,feasible] = ...
   schurNSlattice_slb(pfx,s10_0,s11_0,s20_0,s00_0,s02_0,s22_0, ...
                         sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...
                         wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                        maxiter,tol,verbose)
+                        maxiter,tol,ctol,verbose)
 % [s10,s11,s20,s00,s02,s22,slb_iter,opt_iter,func_iter,feasible] = ...
 %   schurNSlattice_slb(pfx,s10_0,s11_0,s20_0,s00_0,s02_0,s22_0, ...
 %                      sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...
 %                      wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                      maxiter,tol,verbose)
+%                      maxiter,tol,ctol,verbose)
 %
 % PCLS optimisation of a normalised-scaled lattice filter with constraints on
 % the amplitude and group delay responses. See:
@@ -40,7 +40,8 @@ function [s10,s11,s20,s00,s02,s22,slb_iter,opt_iter,func_iter,feasible] = ...
 %   Tdu,Tdl - upper/lower mask for the desired group delay response
 %   Wt - group delay response weight at each frequency
 %   maxiter - maximum number of SQP iterations
-%   tol - tolerance
+%   tol - tolerance on coefficient update
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -70,7 +71,7 @@ function [s10,s11,s20,s00,s02,s22,slb_iter,opt_iter,func_iter,feasible] = ...
 % Transition Bands", I. W. Selesnick, M. Lang and C. S. Burrus, IEEE
 % Transactions on Signal Processing, 46(2):497-501, February 1998.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -93,13 +94,13 @@ function [s10,s11,s20,s00,s02,s22,slb_iter,opt_iter,func_iter,feasible] = ...
   %
   % Sanity checks
   %
-  if (nargin != 25) || (nargout !=10)
+  if (nargin != 26) || (nargout !=10)
     print_usage...
       ("[s10,s11,s20,s00,s02,s22,slb_iter,opt_iter,func_iter,feasible] = ...\n\
   schurNSlattice_slb(pfx,s10_0,s11_0,s20_0,s00_0,s02_0,s22_0, ...\n\
                      sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...\n\
                      wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                     maxiter,tol,verbose)");
+                     maxiter,tol,ctol,verbose)");
   endif
   if !is_function_handle(pfx)
     error("Expected pfx to be a function handle!");
@@ -124,7 +125,7 @@ function [s10,s11,s20,s00,s02,s22,slb_iter,opt_iter,func_iter,feasible] = ...
   Asqk=schurNSlatticeAsq(wa,s10,s11,s20,s00,s02,s22);
   Tk=schurNSlatticeT(wt,s10,s11,s20,s00,s02,s22);
   vS=schurNSlattice_slb_update_constraints ...
-       (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,tol);
+       (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,ctol);
   if schurNSlattice_slb_constraints_are_empty(vS) ...
      && all((sxx_u+tol)>=sxx_0) && all(sxx_0>=(sxx_l-tol))
     printf("Initial solution satisfies constraints!\n");
@@ -192,7 +193,7 @@ function [s10,s11,s20,s00,s02,s22,slb_iter,opt_iter,func_iter,feasible] = ...
     Asqk=schurNSlatticeAsq(wa,s10,s11,s20,s00,s02,s22);
     Tk=schurNSlatticeT(wt,s10,s11,s20,s00,s02,s22);
     [vR,vS,exchanged] = schurNSlattice_slb_exchange_constraints ...
-                          (vS,vR,Asqk,Asqdu,Asqdl,Tk,Tdu,Tdl,tol);
+                          (vS,vR,Asqk,Asqdu,Asqdl,Tk,Tdu,Tdl,ctol);
     if exchanged
       printf("Step 4: R constraints violated after ");
       printf("%d PCLS iterations.\n",slb_iter)
@@ -215,7 +216,7 @@ function [s10,s11,s20,s00,s02,s22,slb_iter,opt_iter,func_iter,feasible] = ...
     %
     vR=vS;
     vS=schurNSlattice_slb_update_constraints ...
-         (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,tol);
+         (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,ctol);
     printf("Step 5: vS frequency constraints updated to:\n");
     for [v,m]=vS
       printf("%s=[ ",m);printf("%d ",v);printf("]\n");

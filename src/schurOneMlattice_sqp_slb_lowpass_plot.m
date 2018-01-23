@@ -1,7 +1,7 @@
 function schurOneMlattice_sqp_slb_lowpass_plot ...
            (k,epsilon,p,c,fap,dBap,ftp,tp,tpr,fas,dBas,strF,strT)
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

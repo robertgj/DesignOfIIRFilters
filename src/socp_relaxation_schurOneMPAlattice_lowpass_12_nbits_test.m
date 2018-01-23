@@ -4,7 +4,7 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -13,35 +13,38 @@ unlink("socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.diary.tmp");
 diary socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.diary.tmp
 
 % Options
-socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_allocsd_Lim=false
-socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_allocsd_Ito=true
+socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_allocsd_Lim=true
+socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_allocsd_Ito=false
 
 tic;
 
 format compact
 
 tol=1e-7
+ctol=tol
 maxiter=2000
 verbose=false
+strf="socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test";
 
 % Initial coefficients found by schurOneMPAlattice_socp_slb_lowpass_test.m
-A1k = [   0.7353878138,  -0.3220515512,  -0.0527627119,   0.1121018051, ... 
-         -0.3681035439,   0.3545407413,  -0.0748075136,  -0.0613118944, ... 
-          0.1090877104,  -0.0810629033,   0.0325442677 ];
+A1k = [  0.7443908914,  -0.3042576697,  -0.0626208799,   0.0884311645, ... 
+        -0.3588846414,   0.3587038004,  -0.0783633145,  -0.0748085391, ... 
+         0.1263624295,  -0.0900968799,   0.0284686833 ];
 A1epsilon = [  1,  1,  1, -1,  1,  1,  1,  1, -1,  1, -1 ];
-A1p = [   1.0679945548,   0.4170380557,   0.5823734217,   0.6139562159, ... 
-          0.6871128760,   1.0110313237,   0.6979157392,   0.7522328425, ... 
-          0.7998584719,   0.8924391640,   0.9679684700 ];
-A2k = [   0.2507238860,  -0.2430299408,   0.4443531125,  -0.0520030934, ... 
-         -0.2210411396,   0.3618878966,  -0.3099859803,   0.1000148669, ... 
-          0.0557767501,  -0.1213462303,   0.0767042711,  -0.0314227247 ];
+A1p = [  1.0998181327,   0.4210048834,   0.5764274038,   0.6137283063, ... 
+         0.6706283423,   0.9763490507,   0.6707675530,   0.7255623222, ... 
+         0.7820318991,   0.8879691854,   0.9719252527 ];
+A2k = [  0.2690347663,  -0.2543494931,   0.4298554003,  -0.0378193975, ... 
+        -0.2014911283,   0.3478950340,  -0.3145103585,   0.1067123496, ... 
+         0.0713276982,  -0.1388447513,   0.0846842850,  -0.0277935824 ];
 A2epsilon = [ -1,  1,  1,  1,  1,  1,  1, -1, -1, -1, -1,  1 ];
-A2p = [   0.6788636609,   0.8770863250,   1.1239416976,   0.6971183838, ... 
-          0.7343643472,   0.9194316964,   0.6293573123,   0.8671648166, ... 
-          0.9587011728,   1.0137525523,   0.8973688402,   0.9690558104 ];
+A2p = [  0.6490202260,   0.8551585273,   1.1091448098,   0.7003815530, ... 
+         0.7273899429,   0.8922523560,   0.6206095018,   0.8594091607, ... 
+         0.9565808706,   1.0274285085,   0.8934290639,   0.9725821418 ];
 
 % Low pass filter specification
 n=400
+difference=false % Sum all-pass filters
 m1=11 % Allpass model filter 1 denominator order
 m2=12 % Allpass model filter 2 denominator order
 fap=0.125 % Pass band amplitude response edge
@@ -49,12 +52,15 @@ dBap=0.2 % Pass band amplitude response ripple
 Wap=1 % Pass band amplitude response weight
 Wat=0 % Transition band amplitude response weight
 fas=0.25 % Stop band amplitude response edge
-dBas=56 % Stop band amplitude response ripple
-Was=1e2 % Stop band amplitude response weight
+dBas=50 % Stop band amplitude response ripple
+Was=100 % Stop band amplitude response weight
 ftp=0.175 % Pass band group delay response edge
 td=(m1+m2)/2 % Pass band nominal group delay
-tdr=0.08 % Pass band group delay response ripple
-Wtp=1 % Pass band group delay response weight
+tdr=0.1 % Pass band group delay response ripple
+Wtp=2 % Pass band group delay response weight
+
+% This works with Wa, Wt and Wp passed to schurOneMPAlattice_allocsd_Lim:
+% dBas=51;tdr=0.08;Wtp=1;
 
 % Amplitude constraints
 wa=(0:(n-1))'*pi/n;
@@ -88,9 +94,6 @@ k_u=rho*ones(size(k));
 k_l=-k_u;
 k_active=find(k~=0);
 
-% Common strings
-strF="socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test";
-
 % Initialise coefficient vectors
 NA1=length(A1k);
 NA2=length(A2k);
@@ -105,11 +108,12 @@ ndigits=3
 if socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_allocsd_Lim
   ndigits_alloc=schurOneMPAlattice_allocsd_Lim ...
                   (nbits,ndigits,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                   wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                   difference,wa,Asqd,ones(size(Wa)), ...
+                   wt,Td,ones(size(Wt)),wp,Pd,ones(size(Wp)));
 elseif socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_allocsd_Ito
   ndigits_alloc=schurOneMPAlattice_allocsd_Ito ...
                   (nbits,ndigits,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                   wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                   difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
 else
   ndigits_alloc=zeros(size(k));
   ndigits_alloc(k_active)=ndigits;
@@ -119,12 +123,10 @@ endif
 [k_sd,k_sdu,k_sdl]=flt2SD(k,nbits,ndigits_alloc);
 A1k_sd=k_sd(R1);
 A2k_sd=k_sd(R2);
-printf("nscale*A1k_sd_=[ ");printf("%g ",nscale*A1k_sd');printf("]';\n");
-print_polynomial(nscale*A1k_sd,sprintf("%d*A1k_sd",nscale), ...
-                 strcat(strF,"_A1k_sd_coef.m"),"%6d");
-printf("nscale*A2k_sd_=[ ");printf("%g ",nscale*A2k_sd');printf("]';\n");
-print_polynomial(nscale*A2k_sd,sprintf("%d*A2k_sd",nscale), ...
-                 strcat(strF,"_A2k_sd_coef.m"),"%6d");
+print_polynomial(A1k_sd,"A1k_sd",nscale);
+print_polynomial(A1k_sd,"A1k_sd",strcat(strf,"_A1k_sd_coef.m"),nscale);
+print_polynomial(A2k_sd,"A2k_sd",nscale);
+print_polynomial(A2k_sd,"A2k_sd",strcat(strf,"_A2k_sd_coef.m"),nscale);
 
 % Initialise k_active
 k_sdul=k_sdu-k_sdl;
@@ -153,11 +155,11 @@ endif
 
 % Find k error
 Esq0=schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                           wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                           difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
 
 % Find k_sd error
 Esq0_sd=schurOneMPAlatticeEsq ...
-          (k_sd(R1),A1epsilon,A1p,k_sd(R2),A2epsilon,A2p, ...
+          (k_sd(R1),A1epsilon,A1p,k_sd(R2),A2epsilon,A2p,difference, ...
            wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
 
 % Find the number of signed-digits and adders used by k_sd
@@ -196,10 +198,10 @@ while ~isempty(kopt_active)
     [nextA1k,nextA2k,slb_iter,opt_iter,func_iter,feasible] = ...
     schurOneMPAlattice_slb ...
       (@schurOneMPAlattice_socp_mmse, ...
-       kopt_b(R1),A1epsilon,A1p,kopt_b(R2),A2epsilon,A2p, ...
+       kopt_b(R1),A1epsilon,A1p,kopt_b(R2),A2epsilon,A2p,difference, ...
        kopt_bu,kopt_bl,kopt_active,dmax, ...
        wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-       maxiter,tol,verbose);
+       maxiter,tol,ctol,verbose);
   catch
     feasible=false;
     err=lasterror();
@@ -238,53 +240,51 @@ kmin=kopt;
 A1k_min=kopt(R1);
 A2k_min=kopt(R2);
 Esq_min=schurOneMPAlatticeEsq ...
-          (A1k_min,A1epsilon,A1p_ones,A2k_min,A2epsilon,A2p_ones, ...
+          (A1k_min,A1epsilon,A1p_ones,A2k_min,A2epsilon,A2p_ones,difference, ...
            wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
-printf("nscale*A1k_min=[ ");printf("%g ",nscale*A1k_min');printf("]';\n");
+print_polynomial(A1k_min,"A1k_min",nscale);
+print_polynomial(A1k_min,"A1k_min",strcat(strf,"_A1k_min_coef.m"),nscale);
 printf("A1epsilon=[ ");printf("%d ",A1epsilon');printf("]';\n");
-printf("nscale*A2k_min=[ ");printf("%g ",nscale*A2k_min');printf("]';\n");
+print_polynomial(A2k_min,"A2k_min",nscale);
+print_polynomial(A2k_min,"A2k_min",strcat(strf,"_A2k_min_coef.m"),nscale);
 printf("A2epsilon=[ ");printf("%d ",A2epsilon');printf("]';\n");
-print_polynomial(nscale*A1k_min,sprintf("%d*A1k_min",nscale), ...
-                 strcat(strF,"_A1k_min_coef.m"),"%6d");
-print_polynomial(nscale*A2k_min,sprintf("%d*A2k_min",nscale), ...
-                 strcat(strF,"_A2k_min_coef.m"),"%6d");
 % Find the number of signed-digits and adders used
 [kopt_digits,kopt_adders]=SDadders(kmin(k_active),nbits);
 printf("%d signed-digits used\n",kopt_digits);
 printf("%d %d-bit adders used for coefficient multiplications\n",
        kopt_adders,nbits);
-fid=fopen(strcat(strF,"_kmin_digits.tab"),"wt");
+fid=fopen(strcat(strf,"_kmin_digits.tab"),"wt");
 fprintf(fid,"$%d$",kopt_digits);
 fclose(fid);
-fid=fopen(strcat(strF,"_kmin_adders.tab"),"wt");
+fid=fopen(strcat(strf,"_kmin_adders.tab"),"wt");
 fprintf(fid,"$%d$",kopt_adders);
 fclose(fid);
 
-% Amplitude,delay and phase at local peaks
+% Amplitude and delay at local peaks
 Asq=schurOneMPAlatticeAsq ...
-      (wa,A1k_min,A1epsilon,A1p_ones,A2k_min,A2epsilon,A2p_ones);
+      (wa,A1k_min,A1epsilon,A1p_ones,A2k_min,A2epsilon,A2p_ones,difference);
 vAl=local_max(Asqdl-Asq);
 vAu=local_max(Asq-Asqdu);
 wAsqS=unique([wa(vAl);wa(vAu);wa([1,end])]);
 AsqS=schurOneMPAlatticeAsq ...
-       (wAsqS,A1k_min,A1epsilon,A1p_ones,A2k_min,A2epsilon,A2p_ones);
+       (wAsqS,A1k_min,A1epsilon,A1p_ones,A2k_min,A2epsilon,A2p_ones,difference);
 printf("kmin:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("kmin:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
 T=schurOneMPAlatticeT ...
-    (wt,A1k_min,A1epsilon,A1p_ones,A2k_min,A2epsilon,A2p_ones);
+    (wt,A1k_min,A1epsilon,A1p_ones,A2k_min,A2epsilon,A2p_ones,difference);
 vTl=local_max(Tdl-T);
 vTu=local_max(T-Tdu);
 wTS=sort(unique([wt(vTl);wt(vTu);wt([1,end])]));
 TS=schurOneMPAlatticeT ...
-     (wTS,A1k_min,A1epsilon,A1p_ones,A2k_min,A2epsilon,A2p_ones);
+     (wTS,A1k_min,A1epsilon,A1p_ones,A2k_min,A2epsilon,A2p_ones,difference);
 printf("kmin:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("kmin:TS=[ ");printf("%f ",TS');printf("] (Samples)\n")
+printf("kmin:TS=[ ");printf("%f ",TS');printf("] (Samples)\n");
                         
 % Make a LaTeX table for cost
-fid=fopen(strcat(strF,"_kmin_cost.tab"),"wt");
+fid=fopen(strcat(strf,"_kmin_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit(Ito)& %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd,k_digits,k_adders);
 fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq_min,kopt_digits,kopt_adders);
@@ -295,66 +295,66 @@ fclose(fid);
 %
 
 % Find squared-magnitude and group-delay
-Asq_k=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
+Asq_k=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 Asq_k_sd=schurOneMPAlatticeAsq ...
-           (wa,A1k_sd,A1epsilon,A1p_ones,A2k_sd,A2epsilon,A2p_ones);
+           (wa,A1k_sd,A1epsilon,A1p_ones,A2k_sd,A2epsilon,A2p_ones,difference);
 Asq_kmin=schurOneMPAlatticeAsq ...
-               (wa,A1k_min,A1epsilon,A1p_ones,A2k_min,A2epsilon,A2p_ones);
-T_k=schurOneMPAlatticeT(wt,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
+           (wa,A1k_min,A1epsilon,A1p_ones,A2k_min,A2epsilon,A2p_ones,difference);
+T_k=schurOneMPAlatticeT(wt,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 T_k_sd=schurOneMPAlatticeT ...
-         (wt,A1k_sd,A1epsilon,A1p_ones,A2k_sd,A2epsilon,A2p_ones);
+         (wt,A1k_sd,A1epsilon,A1p_ones,A2k_sd,A2epsilon,A2p_ones,difference);
 T_kmin=schurOneMPAlatticeT ...
-             (wt,A1k_min,A1epsilon,A1p_ones,A2k_min,A2epsilon,A2p_ones);
+         (wt,A1k_min,A1epsilon,A1p_ones,A2k_min,A2epsilon,A2p_ones,difference);
 
 % Plot stop-band amplitude
 plot(wa*0.5/pi,10*log10(Asq_k),"linestyle","-", ...
-     wa*0.5/pi,10*log10(Asq_k_sd),"linestyle",":", ...
+     wa*0.5/pi,10*log10(Asq_k_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-legend("exact","s-d(Ito)","s-d(SOCP-relax)");
+legend("exact","s-d(Lim)","s-d(SOCP-relax)");
 legend("location","northwest");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strT=sprintf("Parallel one-multplier allpass lattice lowpass filter (nbits=12) :\
+strt=sprintf("Parallel one-multplier allpass lattice lowpass filter (nbits=12) :\
  fap=%g,fas=%g,dBap=%g,Wap=%g,td=%g,Wtp=%g",fap,fas,dBap,Wap,td,Wtp);
-title(strT);
-axis([fas  0.5 -dBas-10 -dBas+30]);
+title(strt);
+axis([fas  0.5 -70 -20]);
 grid("on");
-print(strcat(strF,"_kmin_stop"),"-dpdflatex");
+print(strcat(strf,"_kmin_stop"),"-dpdflatex");
 close
 
 % Plot pass-band amplitude and delay
 subplot(211)
 plot(wa*0.5/pi,10*log10(Asq_k),"linestyle","-", ...
-     wa*0.5/pi,10*log10(Asq_k_sd),"linestyle",":", ...
+     wa*0.5/pi,10*log10(Asq_k_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
 ylabel("Amplitude(dB)");
-title(strT);
+title(strt);
 axis([0 max(fap,ftp) -2*dBap dBap]);
-legend("exact","s-d(Ito)","s-d(SOCP-relax)");
+legend("exact","s-d(Lim)","s-d(SOCP-relax)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
 subplot(212)
 plot(wt*0.5/pi,T_k,"linestyle","-", ...
-     wt*0.5/pi,T_k_sd,"linestyle",":", ...
+     wt*0.5/pi,T_k_sd,"linestyle","--", ...
      wt*0.5/pi,T_kmin,"linestyle","-.");
 ylabel("Delay(Samples)");
 xlabel("Frequency");
 axis([0 max(fap,ftp) td-(tdr/2) td+(tdr/2)]);
 grid("on");
-print(strcat(strF,"_kmin_pass"),"-dpdflatex");
+print(strcat(strf,"_kmin_pass"),"-dpdflatex");
 close
 
 % Pole-zero plot
 [N12,D12]=schurOneMPAlattice2tf(A1k_min,A1epsilon,A1p_ones, ...
-                                A2k_min,A2epsilon,A2p_ones);
+                                A2k_min,A2epsilon,A2p_ones,difference);
 subplot(111);
 zplane(roots(N12),roots(D12));
-title(strT);
-print(strcat(strF,"_kmin_pz"),"-dpdflatex");
+title(strt);
+print(strcat(strf,"_kmin_pz"),"-dpdflatex");
 close 
 
 % Plot responses for the introduction
@@ -387,9 +387,9 @@ axis(ax(1),[0 0.5 -0.15 0.05]);
 axis(ax(2),[0 0.5 -70 -50]);
 grid("on");
 if ~print_for_web_page
-  tstr=sprintf("Parallel all-pass lattice low-pass filter (nbits=%d) : \
+  strt=sprintf("Parallel all-pass lattice low-pass filter (nbits=%d) : \
 fap=%g,dBap=%g,fas=%g,dBas=%g,td=%g,tdr=%g",nbits,fap,dBap,fas,dBas,td,tdr);
-  title(tstr);
+  title(strt);
 endif
 subplot(312)
 plot(wt*0.5/pi,T_k,"linestyle","-", ...
@@ -397,22 +397,23 @@ plot(wt*0.5/pi,T_k,"linestyle","-", ...
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 11.46 11.54]);
-legend("exact","3-s-d Ito and SOCP");
+legend("exact","3-s-d Lim and SOCP");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print(strcat(strF,"_kmin_intro"),"-dpdflatex");
+print(strcat(strf,"_kmin_intro"),"-dpdflatex");
 if print_for_web_page
-  print(strcat(strF,"_kmin_intro"),"-dsvg");
+  print(strcat(strf,"_kmin_intro"),"-dsvg");
 endif
 close
 
 % Filter specification
-fid=fopen(strcat(strF,".spec"),"wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"nbits=%d %% Coefficient word length\n",nbits);
 fprintf(fid,"ndigits=%d %% Average number of signed digits per coef.\n",ndigits);
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"m1=%d %% Allpass model filter 1 denominator order\n",m1);
 fprintf(fid,"m2=%d %% Allpass model filter 2 denominator order\n",m2);
@@ -432,7 +433,7 @@ fclose(fid);
 
 % Save results
 save socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.mat ...
-     n m1 m2 fap dBap Wap Wat fas dBas Was ftp td tdr Wtp rho tol ...
+     n m1 m2 fap dBap Wap Wat fas dBas Was ftp td tdr Wtp rho tol ctol ...
      A1k A1epsilon A1p A2k A2epsilon A2p ...
      nbits ndigits ndigits_alloc A1k_min A2k_min
 

@@ -1,5 +1,5 @@
 % gkstep_test.m : a script to illustrate the effect of 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % rounding-to-minus-infinity quantisation noise
 

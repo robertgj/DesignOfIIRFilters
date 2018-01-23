@@ -1,10 +1,12 @@
 function [A1k,A2k,socp_iter,func_iter,feasible]= ...
   schurOneMPAlattice_socp_mmse(vS,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
+                               difference, ...
                                k_u,k_l,k_active,dmax, ...
                                wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                                wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
 % [A1k,A2k,socp_iter,func_iter,feasible] =
 % schurOneMPAlattice_socp_mmse(vS,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
+%                              difference, ...
 %                              k_u,k_l,k_active,dmax, ...
 %                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
 %                              wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
@@ -18,6 +20,7 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
 %   A1epsilon0,A2epsilon0, - initial allpass filter multiplier signs
 %   A1p0,A2p0 - state scaling coefficients. These have no effect on the
 %               response but can improve numerical accuracy.
+%   difference - use the difference of the all-pass filter outputs
 %   k_u,k_l - upper and lower bounds on the allpass filter coefficients
 %   k_active - indexes of elements of coefficients being optimised
 %   dmax - for compatibility with SQP. Not used.
@@ -41,9 +44,15 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
 %   A1k,A2k - filter design
 %   socp_iter - number of SOCP iterations
 %   func_iter - number of function calls
-%   feasible - design satisfies the constraints 
+%   feasible - design satisfies the constraints
+%
+% If tol is a structure then the tol.dtol field is the minimum relative
+% step size and the tol.stol field sets the SeDuMi pars.eps field (the
+% default is 1e-8). This is a hack to deal with filters for which the
+% desired stop-band attenuation of the squared amplitude response is more
+% than 80dB.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -63,10 +72,11 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 29) || (nargout ~= 5)
+  if (nargin ~= 30) || (nargout ~= 5)
     print_usage(...
 "[A1k,A2k,socp_iter,func_iter,feasible]=schurOneMPAlattice_socp_mmse ...\n\
-(vS,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,k_u,k_l,k_active,dmax, ...\n\
+(vS,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference, ...\n\
+ k_u,k_l,k_active,dmax, ...\n\
  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)");
   endif
 
@@ -122,6 +132,15 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
          (all(isfield(vS,{"al","au","tl","tu","pl","pu"}))==false)
     error("numfields(vS)=%d, expected 6 (al,au,tl,tu,pl and pu)",numfields(vS));
   endif
+  if isstruct(tol)
+    if all(isfield(tol,{"dtol","stol"})) == false
+      error("Expect tol structure to have fields dtol and stol");
+    endif
+    dtol=tol.dtol;
+    pars.eps=tol.stol;
+  else
+    dtol=tol;
+  endif
 
   %
   % Sanity checks on coefficient vectors
@@ -157,7 +176,7 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
   A1k=A1k0(:);A2k=A2k0(:);k=[A1k;A2k];xk=k(k_active);
   % Initial squared response error
   [Esq,gradEsq]=schurOneMPAlatticeEsq(A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,...
-                                      wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                                      difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
   func_iter=func_iter+1;
   if verbose
     printf("Initial Esq=%g\n",Esq);
@@ -203,14 +222,16 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
     % Squared amplitude linear constraints
     if ~isempty(vS.au)
       [Asq_au,gradAsq_au] = ...
-        schurOneMPAlatticeAsq(wa(vS.au),A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0);
+      schurOneMPAlatticeAsq(wa(vS.au), ...
+                            A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,difference);
       func_iter = func_iter+1;
       D=[D, [zeros(2,length(vS.au));-gradAsq_au(:,k_active)']];
       f=[f; Asqdu(vS.au)-Asq_au];
     endif
     if ~isempty(vS.al)
       [Asq_al,gradAsq_al] = ...
-        schurOneMPAlatticeAsq(wa(vS.al),A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0);
+      schurOneMPAlatticeAsq(wa(vS.al), ...
+                            A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,difference);
       func_iter = func_iter+1;
       D=[D, [zeros(2,length(vS.al));gradAsq_al(:,k_active)']];
       f=[f; Asq_al-Asqdl(vS.al)];
@@ -219,14 +240,16 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
     % Group delay linear constraints
     if ~isempty(vS.tu)
       [T_tu,gradT_tu] = ...
-        schurOneMPAlatticeT(wt(vS.tu),A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0);
+      schurOneMPAlatticeT(wt(vS.tu), ...
+                          A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0);
       func_iter = func_iter+1;
       D=[D, [zeros(2,length(vS.tu));-gradT_tu(:,k_active)']];
       f=[f; Tdu(vS.tu)-T_tu];
     endif
     if ~isempty(vS.tl)
       [T_tl,gradT_tl] = ...
-        schurOneMPAlatticeT(wt(vS.tl),A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0);
+      schurOneMPAlatticeT(wt(vS.tl), ...
+                          A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,difference);
       func_iter = func_iter+1;
       D=[D, [zeros(2,length(vS.tl));gradT_tl(:,k_active)']];
       f=[f; T_tl-Tdl(vS.tl)];
@@ -235,14 +258,16 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
     % Phase linear constraints
     if ~isempty(vS.pu)
       [P_pu,gradP_pu] = ...
-        schurOneMPAlatticeP(wp(vS.pu),A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0);
+      schurOneMPAlatticeP(wp(vS.pu), ...
+                          A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,difference);
       func_iter = func_iter+1;
       D=[D, [zeros(2,length(vS.pu));-gradP_pu(:,k_active)']];
       f=[f; Pdu(vS.pu)-P_pu];
     endif
     if ~isempty(vS.pl)
       [P_pl,gradP_pl] = ...
-        schurOneMPAlatticeP(wp(vS.pl),A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0);
+      schurOneMPAlatticeP(wp(vS.pl), ...
+                          A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,difference);
       func_iter = func_iter+1;
       D=[D, [zeros(2,length(vS.pl));gradP_pl(:,k_active)']];
       f=[f; P_pl-Pdl(vS.pl)];
@@ -314,7 +339,7 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
     A2k=k((NA1k+1):end);
     [Esq,gradEsq] = ...
       schurOneMPAlatticeEsq(A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0, ...
-                            wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
     func_iter=func_iter+1;
     socp_iter=socp_iter+info.iter;
     if verbose
@@ -330,8 +355,8 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
       printf("func_iter=%d, socp_iter=%d\n",func_iter,socp_iter);
       info
     endif
-    if norm(delta)/norm(xk) < tol
-      printf("norm(delta)/norm(xk) < tol\n");
+    if norm(delta)/norm(xk) < dtol
+      printf("norm(delta)/norm(xk) < dtol\n");
       feasible=true;
       break;
     endif

@@ -1,7 +1,7 @@
 function vS=parallel_allpass_delay_slb_update_constraints ...
               (A2,A2du,A2dl,Wa,T,Tdu,Tdl,Wt,tol)
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

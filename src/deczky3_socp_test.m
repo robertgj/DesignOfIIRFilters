@@ -1,5 +1,5 @@
 % deczky3_socp_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -12,6 +12,7 @@ tic;
 format compact
 
 tol=2e-5
+ctol=tol
 maxiter=2000
 verbose=false;
 
@@ -69,7 +70,7 @@ Wp=[];
 strM=sprintf("%%s:fap=%g,Wap=%%g,fas=%g,Was=%%g,tp=%g,Wtp=%%g",fap,fas,tp);
 strP=sprintf("%%s:fap=%g,dBap=%g,Wap=%%g,fas=%g,dBas=%g,Was=%%g,tp=%g,\
 tpr=%%g",fap,dBap,fas,dBas,tp);
-strd=sprintf("deczky3_socp_mmse_%%s");
+strf="deczky3_socp_test";
 
 % SOCP MMSE
 [x1,E,socp_iter,func_iter,feasible] = ...
@@ -80,15 +81,15 @@ strd=sprintf("deczky3_socp_mmse_%%s");
 if feasible == 0 
   error("x1(mmse) infeasible");
 endif
-strM1=sprintf(strM,"x1(mmse)",Wap,Was,Wtp);
-showZPplot(x1,U,V,M,Q,R,strM1);
-print(sprintf(strd,"x1pz"),"-dpdflatex");
+strt=sprintf(strM,"x1(mmse)",Wap,Was,Wtp);
+showZPplot(x1,U,V,M,Q,R,strt);
+print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
-showResponse(x1,U,V,M,Q,R,strM1);
-print(sprintf(strd,"x1"),"-dpdflatex");
+showResponse(x1,U,V,M,Q,R,strt);
+print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
-showResponsePassBands(0,max(fap,ftp),-2,1,x1,U,V,M,Q,R,strM1);
-print(sprintf(strd,"x1pass"),"-dpdflatex");
+showResponsePassBands(0,max(fap,ftp),-2,1,x1,U,V,M,Q,R,strt);
+print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 close
 
 % SOCP PCLS 
@@ -96,20 +97,19 @@ close
   iir_slb(@iir_socp_mmse,x1,xu,xl,inf,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol,verbose)
+          maxiter,tol,ctol,verbose)
 if feasible == 0 
   error("d2(pcls) infeasible");
 endif
-strd=sprintf("deczky3_socp_pcls_%%s");
-strP2=sprintf(strP,"d2(pcls)",Wap,Was,tpr);
-showZPplot(d2,U,V,M,Q,R,strP2);
-print(sprintf(strd,"d2pz"),"-dpdflatex");
+strt=sprintf(strP,"d2(pcls)",Wap,Was,tpr);
+showZPplot(d2,U,V,M,Q,R,strt);
+print(strcat(strf,"_pcls_d2pz"),"-dpdflatex");
 close
-showResponse(d2,U,V,M,Q,R,strP2);
-print(sprintf(strd,"d2"),"-dpdflatex");
+showResponse(d2,U,V,M,Q,R,strt);
+print(strcat(strf,"_pcls_d2"),"-dpdflatex");
 close
-showResponsePassBands(0,max(ftp,fap),-2*dBap,dBap,d2,U,V,M,Q,R,strP2);
-print(sprintf(strd,"d2pass"),"-dpdflatex");
+showResponsePassBands(0,max(ftp,fap),-2*dBap,dBap,d2,U,V,M,Q,R,strt);
+print(strcat(strf,"_pcls_d2pass"),"-dpdflatex");
 close
 
 % Final amplitude and delay at constraints
@@ -135,9 +135,10 @@ if verbose
 endif
 
 % Save results
-fid=fopen("deczky3_socp_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"tol=%g %% Tolerance on relative coefficient update size\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
 fprintf(fid,"dBap=%d %% Pass band amplitude peak-to-peak ripple\n",dBap);
 fprintf(fid,"Wap=%d %% Pass band weight\n",Wap);
@@ -156,9 +157,9 @@ fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fclose(fid);
 
 [N2,D2]=x2tf(d2,U,V,M,Q,R);
-print_pole_zero(d2,U,V,M,Q,R,"d2","deczky3_socp_test_d2_coef.m");
-print_polynomial(N2,"N2","deczky3_socp_test_N2_coef.m");
-print_polynomial(D2,"D2","deczky3_socp_test_D2_coef.m");
+print_pole_zero(d2,U,V,M,Q,R,"d2",strcat(strf,"_d2_coef.m"));
+print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
+print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 if verbose
   print_pole_zero(d2,U,V,M,Q,R,"d2");
   print_polynomial(N2,"N2");
@@ -166,7 +167,7 @@ if verbose
 endif
 
 save deczky3_socp_test.mat U V M Q R ...
-     n tol fap dBap Wap fas dBas Was ftp tp tpr Wtp x1 d2 N2 D2
+     n tol ctol fap dBap Wap fas dBas Was ftp tp tpr Wtp x1 d2 N2 D2
 
 % Done
 toc;

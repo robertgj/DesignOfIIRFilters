@@ -62,21 +62,21 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_cost.ok"; fail; fi
 
 cat > test_12_nbits_k_min.ok << 'EOF'
-2048*k_min = [  -1152,   -272,   -112,    -32, ... 
-                  -16 ]';
+k_min = [    -1152,     -272,     -112,      -32, ... 
+               -16 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_k_min.ok"; fail; fi
 
 cat > test_12_nbits_u_min.ok << 'EOF'
-2048*u_min = [     -1,     -4,    -14,    -24, ... 
-                  -64,    -72,   -104,   -116, ... 
-                  901 ]';
+u_min = [       -1,       -4,      -14,      -24, ... 
+               -64,      -72,     -104,     -116, ... 
+               901 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_u_min.ok"; fail; fi
 
 cat > test_12_nbits_v_min.ok << 'EOF'
-2048*v_min = [     16,     10,     14,      4, ... 
-                  -16,    -64,   -164,   -641 ]';
+v_min = [       16,       10,       14,        4, ... 
+               -16,      -64,     -164,     -641 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_v_min.ok"; fail; fi
 

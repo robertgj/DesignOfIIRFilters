@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_lowpass_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 
 test_common;
 
@@ -12,17 +12,18 @@ tic;
 format compact
 
 tol=1e-7
+ctol=tol
 maxiter=2000
 verbose=false
 
 % Initial coefficients found by tarczynski_parallel_allpass_test.m
-D1_0 = [   1.0000000000,   0.6972798244,  -0.2975063565,  -0.3126561409, ... 
-          -0.1822051754,   0.0540552622,   0.0875338601,  -0.1043232198, ... 
-           0.1845967862,   0.0440769117,  -0.1321004467,   0.0451935897 ]';
-D2_0 = [   1.0000000000,   0.1561448318,  -0.3135751143,   0.3178486637, ... 
-           0.1300070569,   0.0784800776,  -0.0638101019,  -0.1841985776, ... 
-           0.2692566922,  -0.0893427023,  -0.1362443329,   0.1339411887, ... 
-          -0.0582212520 ]';
+D1_0 = [   1.0000000000,   0.6972798665,  -0.2975063336,  -0.3126562447, ... 
+          -0.1822052424,   0.0540552781,   0.0875338385,  -0.1043232331, ... 
+           0.1845967625,   0.0440769201,  -0.1321004303,   0.0451935651 ]';
+D2_0 = [   1.0000000000,   0.1561448902,  -0.3135750868,   0.3178486046, ... 
+           0.1300071229,   0.0784801583,  -0.0638101281,  -0.1841985576, ... 
+           0.2692566953,  -0.0893426643,  -0.1362443194,   0.1339411607, ... 
+          -0.0582212263 ]';
 
 % Lattice decomposition of D1_0, D2_0
 [A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(D1_0),D1_0);
@@ -31,6 +32,7 @@ D2_0 = [   1.0000000000,   0.1561448318,  -0.3135751143,   0.3178486637, ...
 % Low pass filter specification
 if 0
   n=400
+  difference=false
   m1=11 % Allpass model filter 1 denominator order
   m2=12 % Allpass model filter 2 denominator order
   fap=0.15 % Pass band amplitude response edge
@@ -46,6 +48,7 @@ if 0
   Wtp=1 % Pass band group delay response weight
 else
   n=400
+  difference=false
   m1=11 % Allpass model filter 1 denominator order
   m2=12 % Allpass model filter 2 denominator order
   fap=0.125 % Pass band amplitude response edge
@@ -94,7 +97,7 @@ k_l=-k_u;
 k_active=find(k0~=0);
 
 % Common strings
-strF="schurOneMPAlattice_socp_slb_lowpass_test";
+strf="schurOneMPAlattice_socp_slb_lowpass_test";
 
 %
 % SOCP PCLS
@@ -102,9 +105,10 @@ strF="schurOneMPAlattice_socp_slb_lowpass_test";
 [A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...
   schurOneMPAlattice_slb(@schurOneMPAlattice_socp_mmse, ...
                          A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
+                         difference, ...
                          k_u,k_l,k_active,dmax, ...
                          wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                         wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+                         wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
 if feasible == 0 
   error("A1k,A2k(pcls) infeasible");
 endif
@@ -116,21 +120,22 @@ A2d=schurOneMAPlattice2tf(A2k,A2epsilon0,A2p0);
 
 % Plot
 schurOneMPAlattice_socp_slb_lowpass_plot ...
-  (A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,fap,dBap,ftp,td,tdr,fas,dBas,strF);
+  (A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference, ...
+   fap,dBap,ftp,td,tdr,fas,dBas,strf);
 
 % Amplitude and delay at local peaks
-Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
+Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 vAl=local_max(Asqdl-Asq);
 vAu=local_max(Asq-Asqdu);
 wAsqS=unique([wa(vAl);wa(vAu);wa([1,nap,nas,end])]);
-AsqS=schurOneMPAlatticeAsq(wAsqS,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
+AsqS=schurOneMPAlatticeAsq(wAsqS,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 printf("A1,A2:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("A1,A2:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
-T=schurOneMPAlatticeT(wt,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
+T=schurOneMPAlatticeT(wt,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 vTl=local_max(Tdl-T);
 vTu=local_max(T-Tdu);
 wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
-TS=schurOneMPAlatticeT(wTS,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
+TS=schurOneMPAlatticeT(wTS,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 printf("A1,A2:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("A1,A2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 
@@ -139,6 +144,7 @@ printf("A1,A2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 %
 fid=fopen("schurOneMPAlattice_socp_slb_lowpass_test.spec","wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"m1=%d %% Allpass model filter 1 denominator order\n",m1);
 fprintf(fid,"m2=%d %% Allpass model filter 2 denominator order\n",m2);
@@ -157,20 +163,21 @@ fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
 fclose(fid);
 
 print_polynomial(A1k,"A1k");
-print_polynomial(A1k,"A1k",strcat(strF,"_A1k_coef.m"));
+print_polynomial(A1k,"A1k",strcat(strf,"_A1k_coef.m"));
 print_polynomial(A1epsilon,"A1epsilon");
-print_polynomial(A1epsilon,"A1epsilon",strcat(strF,"_A1epsilon_coef.m"),"%2d");
+print_polynomial(A1epsilon,"A1epsilon",strcat(strf,"_A1epsilon_coef.m"),"%2d");
 print_polynomial(A1p,"A1p");
-print_polynomial(A1p,"A1p",strcat(strF,"_A1p_coef.m"));
+print_polynomial(A1p,"A1p",strcat(strf,"_A1p_coef.m"));
 print_polynomial(A2k,"A2k");
-print_polynomial(A2k,"A2k",strcat(strF,"_A2k_coef.m"));
+print_polynomial(A2k,"A2k",strcat(strf,"_A2k_coef.m"));
 print_polynomial(A2epsilon,"A2epsilon");
-print_polynomial(A2epsilon,"A2epsilon",strcat(strF,"_A2epsilon_coef.m"),"%2d");
+print_polynomial(A2epsilon,"A2epsilon",strcat(strf,"_A2epsilon_coef.m"),"%2d");
 print_polynomial(A2p,"A2p");
-print_polynomial(A2p,"A2p",strcat(strF,"_A2p_coef.m"));
+print_polynomial(A2p,"A2p",strcat(strf,"_A2p_coef.m"));
 
 save schurOneMPAlattice_socp_slb_lowpass_test.mat ...
-     n m1 m2 fap dBap Wap Wat fas dBas Was ftp td tdr Wtp rho tol ...
+     rho tol ctol difference n m1 m2 ...
+     fap dBap Wap Wat fas dBas Was ftp td tdr Wtp ...
      D1_0 D2_0 A1k A1epsilon A1p A2k A2epsilon A2p
 
 % Done

@@ -1,7 +1,9 @@
 function [Asq,gradAsq,diagHessAsq] = ...
-         schurOneMPAlatticeAsq(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)
+         schurOneMPAlatticeAsq(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)
 % [Asq,gradAsq,diagHessAsq] = ...
 %   schurOneMPAlatticeAsq(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)
+% [Asq,gradAsq,diagHessAsq] = ...
+%   schurOneMPAlatticeAsq(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)
 % Calculate the squared-magnitude response and gradients of the parallel
 % combination of two Schur one-multiplier all-pass lattice filters. The
 % epsilon and p inputs scale the internal nodes.
@@ -12,13 +14,14 @@ function [Asq,gradAsq,diagHessAsq] = ...
 %                       multiplier and scaling coefficients
 %   A2k,A2epsilon,A2p - filter 2 one-multiplier allpass section denominator
 %                       multiplier and scaling coefficients
+%  difference - return the response for the difference of the all-pass filters
 %
 % Outputs:
 %   Asq - the squared magnitude response at w
 %   gradAsq - the gradients of Asq with respect to k
 %   diagHessAsq - diagonal of the Hessian of Asq with respect to k
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -41,9 +44,14 @@ function [Asq,gradAsq,diagHessAsq] = ...
   %
   % Sanity checks
   %
-  if (nargin ~= 7) || (nargout > 3) 
+  if ((nargin ~= 7) && (nargin ~= 8)) || (nargout > 3) 
     print_usage("[Asq,gradAsq,diagHessAsq]= ...\n\
-      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)");
+      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)\n\
+[Asq,gradAsq,diagHessAsq]= ...\n\
+      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)");
+  endif
+  if nargin == 7
+    difference=false;
   endif
   if length(A1k) ~= length(A1epsilon)
     error("length(A1k) ~= length(A1epsilon)");
@@ -68,7 +76,11 @@ function [Asq,gradAsq,diagHessAsq] = ...
     [A2A,A2B,A2Cap,A2Dap]=schurOneMAPlattice2Abcd(A2k,A2epsilon,A2p);
     A1H=schurOneMAPlattice2H(w,A1A,A1B,A1Cap,A1Dap);
     A2H=schurOneMAPlattice2H(w,A2A,A2B,A2Cap,A2Dap);
-    H=(A1H+A2H)/2;
+    if difference
+      H=(A1H-A2H)/2;
+    else
+      H=(A1H+A2H)/2;
+    endif
     Asq=H2Asq(H); 
   elseif nargout==2
     [A1A,A1B,A1Cap,A1Dap,A1dAdk,A1dBdk,A1dCapdk,A1dDapdk] = ...
@@ -79,8 +91,13 @@ function [Asq,gradAsq,diagHessAsq] = ...
                                              A1dAdk,A1dBdk,A1dCapdk,A1dDapdk);
     [A2H,dA1Hdw,dA2Hdk]=schurOneMAPlattice2H(w,A2A,A2B,A2Cap,A2Dap, ...
                                              A2dAdk,A2dBdk,A2dCapdk,A2dDapdk);
-    H=(A1H+A2H)/2;
-    dHdk=[dA1Hdk,dA2Hdk]/2;
+    if difference
+      H=(A1H-A2H)/2;
+      dHdk=[dA1Hdk,-dA2Hdk]/2;
+    else
+      H=(A1H+A2H)/2;
+      dHdk=[dA1Hdk,dA2Hdk]/2;
+    endif
     [Asq,gradAsq]=H2Asq(H,dHdk);
   else
     [A1A,A1B,A1Cap,A1Dap,A1dAdk,A1dBdk,A1dCapdk,A1dDapdk] = ...
@@ -93,9 +110,15 @@ function [Asq,gradAsq,diagHessAsq] = ...
     [A2H,dA2Hdw,dA2Hdk,d2A2Hdwdk,diagd2A2Hdk2] = ...
       schurOneMAPlattice2H(w,A2A,A2B,A2Cap,A2Dap, ...
                            A2dAdk,A2dBdk,A2dCapdk,A2dDapdk);
-    H=(A1H+A2H)/2;
-    dHdk=[dA1Hdk,dA2Hdk]/2;
-    diagd2Hdk2=[diagd2A1Hdk2,diagd2A2Hdk2]/2;
+    if difference
+     H=(A1H-A2H)/2;
+     dHdk=[dA1Hdk,-dA2Hdk]/2;
+     diagd2Hdk2=[diagd2A1Hdk2,-diagd2A2Hdk2]/2;
+    else
+     H=(A1H+A2H)/2;
+     dHdk=[dA1Hdk,dA2Hdk]/2;
+     diagd2Hdk2=[diagd2A1Hdk2,diagd2A2Hdk2]/2;
+    endif
     [Asq,gradAsq,diagHessAsq]=H2Asq(H,dHdk,diagd2Hdk2);
   endif    
 

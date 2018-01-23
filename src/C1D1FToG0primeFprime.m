@@ -4,7 +4,7 @@ function [G0prime,Fprime]=C1D1FToG0primeFprime(C1,D1,F)
 % all-pass orthogonal filter matrix, F, find the similarity transform
 % and factor that converts F to the desired filter matrix, G.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

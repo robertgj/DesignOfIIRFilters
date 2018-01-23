@@ -1,6 +1,10 @@
 function [P,gradP,diagHessP]=...
-         schurOneMPAlatticeP(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)
-% [P,gradP,diagHessP]=schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)
+         schurOneMPAlatticeP(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)
+% [P,gradP,diagHessP] = ...
+%   schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)
+% [P,gradP,diagHessP] = ...
+%   schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)
+%
 % Calculate the phase response and gradients of the parallel
 % combination of two Schur one-multiplier all-pass lattice filters.
 % Phe epsilon and p inputs scale the internal nodes.
@@ -8,16 +12,16 @@ function [P,gradP,diagHessP]=...
 % Inputs:
 %   w - column vector of angular frequencies
 %   A1k,A1epsilon,A1p - filter 1 one-multiplier allpass section denominator
-%                       multiplier and scaling coefficients
+%                         multiplier and scaling coefficients
 %   A2k,A2epsilon,A2p - filter 2 one-multiplier allpass section denominator
 %                       multiplier and scaling coefficients
-%
+%  difference - return the response for the difference of the all-pass filters
 % Outputs:
 %   P - the phase response at w
 %   gradP - the gradients of P with respect to k
 %   diagHessP - diagonal of the Hessian of P with respect to k
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -40,9 +44,14 @@ function [P,gradP,diagHessP]=...
   %
   % Sanity checks
   %
-  if (nargin ~= 7) || (nargout > 3) 
+  if ((nargin ~= 7) && (nargin ~= 8)) || (nargout > 3) 
     print_usage("[P,gradP,diagHessP] = ...\n\
-      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)");
+      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p) \n\
+[P,gradP,diagHessP] = ...\n\
+      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)");
+  endif
+  if nargin == 7
+    difference = false;
   endif
   if length(A1k) ~= length(A1epsilon)
     error("length(A1k) ~= length(A1epsilon)");
@@ -67,8 +76,13 @@ function [P,gradP,diagHessP]=...
     [A1H,dA1Hdw]=schurOneMAPlattice2H(w,A1A,A1B,A1Cap,A1Dap);
     [A2A,A2B,A2Cap,A2Dap]=schurOneMAPlattice2Abcd(A2k,A2epsilon,A2p);
     [A2H,dA2Hdw]=schurOneMAPlattice2H(w,A2A,A2B,A2Cap,A2Dap);
-    H=(A1H+A2H)/2;
-    P=H2P(H);
+    if difference
+      H=(A1H-A2H)/2;
+      P=H2P(H); 
+    else
+      H=(A1H+A2H)/2;
+      P=H2P(H);
+    endif
   elseif nargout==2
     [A1A,A1B,A1Cap,A1Dap,A1dAdk,A1dBdk,A1dCapdk,A1dDapdk]=...
       schurOneMAPlattice2Abcd(A1k,A1epsilon,A1p);
@@ -80,8 +94,13 @@ function [P,gradP,diagHessP]=...
     [A2H,dA2Hdw,dA2Hdk] = ...
       schurOneMAPlattice2H(w,A2A,A2B,A2Cap,A2Dap, ...
                            A2dAdk,A2dBdk,A2dCapdk,A2dDapdk);
-    H=(A1H+A2H)/2;
-    dHdk=[dA1Hdk,dA2Hdk]/2;
+    if difference
+      H=(A1H-A2H)/2;
+      dHdk=[dA1Hdk,-dA2Hdk]/2;
+    else
+      H=(A1H+A2H)/2;
+      dHdk=[dA1Hdk,dA2Hdk]/2;
+    endif
     [P,gradP]=H2P(H,dHdk);
   else
     [A1A,A1B,A1Cap,A1Dap,A1dAdk,A1dBdk,A1dCapdk,A1dDapdk]=...
@@ -94,9 +113,15 @@ function [P,gradP,diagHessP]=...
     [A2H,dA2Hdw,dA2Hdk,d2A2Hdwdk,diagd2A2Hdk2] = ...
       schurOneMAPlattice2H(w,A2A,A2B,A2Cap,A2Dap, ...
                            A2dAdk,A2dBdk,A2dCapdk,A2dDapdk);
-    H=(A1H+A2H)/2;
-    dHdk=[dA1Hdk,dA2Hdk]/2;
-    diagd2Hdk2=[diagd2A1Hdk2,diagd2A2Hdk2]/2;
+    if difference
+      H=(A1H-A2H)/2;
+      dHdk=[dA1Hdk,-dA2Hdk]/2;
+      diagd2Hdk2=[diagd2A1Hdk2,-diagd2A2Hdk2]/2;
+    else
+      H=(A1H+A2H)/2;
+      dHdk=[dA1Hdk,dA2Hdk]/2;
+      diagd2Hdk2=[diagd2A1Hdk2,diagd2A2Hdk2]/2;
+    endif
     [P,gradP,diagHessP]=H2P(H,dHdk,diagd2Hdk2);
   endif    
 

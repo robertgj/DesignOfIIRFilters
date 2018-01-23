@@ -1,9 +1,7 @@
 #!/bin/sh
 
 prog=svd_test.m
-
 depends=""
-
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -198,7 +196,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 #
 echo "Running octave-cli -q " $prog
 
-LD_PRELOAD=/usr/lib64/liblapack.so octave-cli -q $prog > test.out
+octave-cli -q $prog > test.out
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.ok test.out

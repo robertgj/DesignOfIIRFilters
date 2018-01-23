@@ -21,7 +21,7 @@ function E=WISEJ(ND,_nN,_nD,_R,_wd,_Hd,_Wd)
 % See "A WISE Method for Designing IIR Filters", A.Tarczynski et al.,
 % IEEE Transactions on Signal Processing, Vol. 49, No. 7, pp. 1421-1432
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

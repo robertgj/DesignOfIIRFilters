@@ -9,7 +9,12 @@ function [xk,socp_iter,func_iter,feasible]= ...
 % SOCP MMSE optimisation of a low pass FRM filter with constraints on the
 % amplitude, and low pass group delay responses. The FRM model filter consists
 % of an IIR filter in parallel with a delay. The FRM masking filters are
-% linear phase (ie: symmetric). See:
+% linear phase (ie: symmetric).
+%
+% SeDuMi pars.eps=1e-6 instead of the default 1e-8 to avoid numerical problems
+% with iir_frm_socp_slb_test.m
+%
+% See:
 %
 % "Optimal Design of IIR Frequency-Response-Masking Filters Using 
 % Second-Order Cone Programming", W.-S.Lu and T.Hinamoto, IEEE
@@ -51,7 +56,7 @@ function [xk,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - x satisfies the constraints 
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -145,7 +150,13 @@ function [xk,socp_iter,func_iter,feasible]= ...
   xk=x0(:);
   Asqk=[];Tk=[];feasible=false;
   socp_iter=0;func_iter=0;loop_iter=0;
- 
+  pars.eps=1e-6;
+  if verbose
+    pars.fid=2;
+  else
+    pars.fid=0;
+  endif
+
   %
   % Second Order Cone Programming (SQP) loop
   %
@@ -231,11 +242,9 @@ function [xk,socp_iter,func_iter,feasible]= ...
     % Call SeDuMi
     bt=-[1;1;zeros(Nxk,1)];
     try
-      pars.fid=0; % Suppress SeDuMi status output
       [xs,ys,info]=sedumi(At,bt,ct,sedumiK,pars);
-      if verbose
-        info
-      endif
+      printf("SeDuMi info.iter=%d, info.feasratio=%10.4g, r0=%10.4g\n",
+             info.iter,info.feasratio,info.r0);
       if info.pinf 
         error("SeDuMi primary problem infeasible");
       endif

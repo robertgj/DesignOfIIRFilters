@@ -1,7 +1,7 @@
 polyphase_allpass_socp_mmse_test_FIGURES = \
-polyphase_allpass_socp_mmse_ab1 \
-polyphase_allpass_socp_mmse_ab1pass \
-polyphase_allpass_socp_mmse_ab1pz
+polyphase_allpass_socp_mmse_test_ab1 \
+polyphase_allpass_socp_mmse_test_ab1pass \
+polyphase_allpass_socp_mmse_test_ab1pz
 
 polyphase_allpass_socp_mmse_test_COEFS = \
 polyphase_allpass_socp_mmse_test.mat \

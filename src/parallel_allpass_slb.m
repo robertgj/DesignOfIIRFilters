@@ -1,11 +1,13 @@
 function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
-           parallel_allpass_slb(pfx,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb,polyphase, ...
-                                wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                maxiter,tol,ctol,verbose)
+         parallel_allpass_slb(pfx,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb, ...
+                              polyphase,difference, ...
+                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
+                              maxiter,tol,ctol,verbose)
 % [abk,slb_iter,opt_iter,func_iter,feasible] = ...
-%   parallel_allpass_slb(pfx,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb,polyphase, ...
-%                       wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                       maxiter,tol,ctol,verbose)
+%   parallel_allpass_slb(pfx,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb, ...
+%                        polyphase,difference, ...
+%                        wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
+%                        maxiter,tol,ctol,verbose)
 %
 % PCLS optimisation of a parallel allpass filter with constraints on the
 % amplitude and group delay responses. See:
@@ -17,7 +19,7 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
 % Inputs:
 %   pfx - pointer to function that calls the inner optimisation loop:   
 %         [xk,socp_iter,func_iter,feasible]= ...
-%           pfx(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb,polyphase, ...
+%           pfx(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
 %               wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
 %               maxiter,tol,verbose)
 %   ab0 - initial coefficient vector in the form:
@@ -33,6 +35,7 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
 %   Qb - number of conjugate pole pairs in filter B
 %   Rb - decimation factor of filter B
 %   polyphase - polyphase combination of the allpass filters
+%   difference - difference of the allpass filters
 %   wa - angular frequencies of amplitude response in [0,pi]
 %   Asqd - desired squared amplitude response
 %   Asqdu,Asqdl - upper/lower mask for the desired squared amplitude response
@@ -73,7 +76,7 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
 % Transition Bands", I. W. Selesnick, M. Lang and C. S. Burrus, IEEE
 % Transactions on Signal Processing, 46(2):497-501, February 1998.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -96,9 +99,10 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
   %
   % Sanity checks
   %
-  if (nargin != 25) || (nargout != 5)
+  if (nargin != 26) || (nargout > 5)
     print_usage("[abk,slb_iter,opt_iter,func_iter,feasible] = ...\n\
-      parallel_allpass_slb(pfx,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb,polyphase, ...\n\
+      parallel_allpass_slb(pfx,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb, ...\n\
+                           polyphase,difference, ...\n\
                            wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
                            maxiter,tol,ctol,verbose)");
   endif
@@ -115,8 +119,8 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
   % delay responses over frequency. vS.al etc are angular frequencies.
   %
   vR=parallel_allpass_slb_set_empty_constraints();
-  Asqk=parallel_allpassAsq(wa,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
-  Tk=parallel_allpassT(wt,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
+  Asqk=parallel_allpassAsq(wa,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+  Tk=parallel_allpassT(wt,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
   vS=parallel_allpass_slb_update_constraints ...
        (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,ctol);
 
@@ -140,9 +144,9 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
     %
     try
       [nextabk,tmp_opt_iter,tmp_func_iter,feasible] = ...
-      feval(pfx,vS,abk,abu,abl,Va,Qa,Ra,Vb,Qb,Rb,polyphase, ...
+      feval(pfx,vS,abk,abu,abl,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-            maxiter,tol,verbose);
+            maxiter,tol,false);
       opt_iter = opt_iter + tmp_opt_iter;
       func_iter = func_iter + tmp_func_iter;
     catch
@@ -172,8 +176,8 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
     %
     % Step 4: Check for violations over vR
     % 
-    Asqk=parallel_allpassAsq(wa,abk,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
-    Tk=parallel_allpassT(wt,abk,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
+    Asqk=parallel_allpassAsq(wa,abk,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+    Tk=parallel_allpassT(wt,abk,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
     [vR,vS,exchanged] = parallel_allpass_slb_exchange_constraints ...
                           (vS,vR,Asqk,Asqdu,Asqdl,Tk,Tdu,Tdl,ctol);
     if exchanged
@@ -195,6 +199,9 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
     for [v,k]=vS
       printf("%s=[ ",k);printf("%d ",v);printf("]\n");
     endfor
+    if verbose
+      parallel_allpass_slb_show_constraints(vS,wa,Asqk,wt,Tk);
+    endif
 
     %
     % Step 6: Check for convergence

@@ -1,5 +1,5 @@
 % ellip5OneM_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the 5th order elliptic lattice filter with 
 % single multiplier form. Use the transposed transfer function to

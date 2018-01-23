@@ -1,5 +1,5 @@
-% de_min_svcasc_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% de_min_svcasc_lowpass_test.m
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the de_min differential evolution algorithm with coefficents
 % of a 5th order elliptic filter implemented as a cascade of 2nd order state
@@ -13,9 +13,9 @@
 
 test_common;
 
-unlink("de_min_svcasc_test.diary");
-unlink("de_min_svcasc_test.diary.tmp");
-diary de_min_svcasc_test.diary.tmp
+unlink("de_min_svcasc_lowpass_test.diary");
+unlink("de_min_svcasc_lowpass_test.diary.tmp");
+diary de_min_svcasc_lowpass_test.diary.tmp
 
 truncation_test_common;
 
@@ -24,6 +24,8 @@ if use_best_de_min_found
   warning("Using the best filter found so far. \
 Set \"use_best_de_min_found\"=false to re-run de_min.");
 endif
+
+strf="de_min_svcasc_lowpass_test";
 
 % Second order cascade state variable decomposition
 [sos,g]=tf2sos(n0,d0);
@@ -127,15 +129,15 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
-tstr=sprintf("5th order elliptic 2nd order cascade: nbits=%d,ndigits=%d",
+strt=sprintf("5th order elliptic 2nd order cascade: nbits=%d,ndigits=%d",
              nbits,ndigits);
-title(tstr);
+title(strt);
 legend("exact","round","de\\_min(round)","de\\_min(s-d)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("de_min_svcasc_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Passband response
@@ -146,13 +148,13 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 fpass*1.1 -3 3]);
-title(tstr);
+title(strt);
 legend("exact","round","de\\_min(round)","de\\_min(s-d)");
 legend("location","northwest");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 grid("on");
-print("de_min_svcasc_passband_response","-dpdflatex");
+print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Save results
@@ -183,11 +185,11 @@ print_polynomial(b2_desd,"b2_desd");
 print_polynomial(c1_desd,"c1_desd");
 print_polynomial(c2_desd,"c2_desd");
 print_polynomial(dd_desd,"dd_desd");
-save de_min_svcasc_test.mat ...
+save de_min_svcasc_lowpass_test.mat ...
      a11_rd a12_rd a21_rd a22_rd b1_rd b2_rd c1_rd c2_rd dd_rd ...
      a11_de a12_de a21_de a22_de b1_de b2_de c1_de c2_de dd_de ...
      a11_desd a12_desd a21_desd a22_desd b1_desd b2_desd c1_desd c2_desd dd_desd
 
 % Done
 diary off
-movefile de_min_svcasc_test.diary.tmp de_min_svcasc_test.diary;
+movefile de_min_svcasc_lowpass_test.diary.tmp de_min_svcasc_lowpass_test.diary;

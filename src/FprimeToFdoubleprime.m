@@ -5,7 +5,7 @@ function Tq=FprimeToFdoubleprime(Fprime)
 % Tprime is returned as a cell array of 2x2 block diagonal rotation
 % matrixes.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

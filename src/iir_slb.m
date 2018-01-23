@@ -1,9 +1,10 @@
 function [x,E,slb_iter,opt_iter,func_iter,feasible] = iir_slb(pfx, ...
   x0,xu,xl,dmax,U,V,M,Q,R,wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
-  wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+  wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose)
 % [x,E,slb_iter,opt_iter,func_iter,feasible] = ...
 %   iir_slb(pfx,x0,xu,xl,dmax,U,V,M,Q,R,wa,Ad,Adu,Adl,Wa, ...
-%     ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+%           ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+%           maxiter,tol,ctol,verbose)
 %
 % PCLS optimisation with constraints on the amplitude, phase and
 % group delay responses. See:
@@ -52,7 +53,8 @@ function [x,E,slb_iter,opt_iter,func_iter,feasible] = iir_slb(pfx, ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of optimisation loop iterations
-%   tol - tolerance
+%   tol - tolerance on coefficient update
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Note that Ad, Adu, Adl and Wa are the amplitudes or weights at
@@ -87,7 +89,7 @@ function [x,E,slb_iter,opt_iter,func_iter,feasible] = iir_slb(pfx, ...
 % Transition Bands", I. W. Selesnick, M. Lang and C. S. Burrus, IEEE
 % Transactions on Signal Processing, 46(2):497-501, February 1998.
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -107,11 +109,11 @@ function [x,E,slb_iter,opt_iter,func_iter,feasible] = iir_slb(pfx, ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if (nargin != 33) || (nargout != 6)
+if (nargin != 34) || (nargout != 6)
   print_usage("[x,E,slb_iter,opt_iter,func_iter,feasible] = ...\n\
          iir_slb(pfx,x0,xu,xl,dmax,U,V,M,Q,R,wa,Ad,Adu,Adl,Wa, ...\n\
          ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...\n\
-         maxiter,tol,verbose)");
+         maxiter,tol,ctol,verbose)");
 endif
 
 %
@@ -140,7 +142,7 @@ endif
 vR=iir_slb_set_empty_constraints();
 vS=iir_slb_update_constraints(x0,U,V,M,Q,R,wa,Adu,Adl,Wa, ...
                               ws,Sdu,Sdl,Ws,wt,Tdu,Tdl,Wt, ...
-                              wp,Pdu,Pdl,Wp,tol);
+                              wp,Pdu,Pdl,Wp,ctol);
 
 % Initialise SLB loop parameters
 info=0;slb_iter=0;opt_iter=0;func_iter=0;
@@ -205,7 +207,7 @@ while 1
   % 
   [vR,vS,exchanged] = ...
     iir_slb_exchange_constraints(vS,vR,x,U,V,M,Q,R,wa,Adu,Adl, ...
-                                 ws,Sdu,Sdl,wt,Tdu,Tdl,wp,Pdu,Pdl,tol);
+                                 ws,Sdu,Sdl,wt,Tdu,Tdl,wp,Pdu,Pdl,ctol);
   if exchanged
     printf("Step 4: R constraints violated after ");
     printf("%d PCLS iterations\nGoing to Step 2!\n",slb_iter);
@@ -222,7 +224,7 @@ while 1
   vR=vS;
   vS=iir_slb_update_constraints(x,U,V,M,Q,R, ...
                                 wa,Adu,Adl,Wa,ws,Sdu,Sdl,Ws, ...
-                                wt,Tdu,Tdl,Wt,wp,Pdu,Pdl,Wp,tol);
+                                wt,Tdu,Tdl,Wt,wp,Pdu,Pdl,Wp,ctol);
   printf("Step 5: S frequency constraints updated to:\n");
   for [v,k]=vS
     printf("%s=[ ",k);printf("%d ",v);printf("]\n");

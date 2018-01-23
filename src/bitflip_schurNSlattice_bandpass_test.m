@@ -1,5 +1,5 @@
-% bitflip_bandpass_NS_lattice_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% bitflip_schurNSlattice_bandpass_test.m
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass lattice filter in normalised-scaled form.
@@ -8,11 +8,14 @@
 
 test_common;
 
-unlink("bitflip_bandpass_NS_lattice_test.diary");
-unlink("bitflip_bandpass_NS_lattice_test.diary.tmp");
-diary bitflip_bandpass_NS_lattice_test.diary.tmp
+unlink("bitflip_schurNSlattice_bandpass_test.diary");
+unlink("bitflip_schurNSlattice_bandpass_test.diary.tmp");
+diary bitflip_schurNSlattice_bandpass_test.diary.tmp
 
 bitflip_bandpass_test_common;
+
+% File name string
+strf="bitflip_schurNSlattice_bandpass_test";
 
 % Lattice decomposition
 [s10_0,s11_0,s20_0,s00_0,s02_0,s22_0]=tf2schurNSlattice(n0,d0);
@@ -61,8 +64,9 @@ svec_bfsd=bitflip(@schurNSlattice_cost,svec_sd,nbits,bitstart,msize);
 h_bfsd=freqz(n_bfsd,d_bfsd,nplot);
 t_bfsd=grpdelay(n_bfsd,d_bfsd,nplot);
 
-% Make a LaTeX table for cost
-fid=fopen("bitflip_bandpass_NS_lattice_test_cost.tab","wt");
+  % Make a LaTeX table for cost
+fname=strcat(strf,"_cost.tab");
+fid=fopen(fname,"wt");
 fprintf(fid,"Exact & %6.4f \\\\ \n",cost_ex);
 fprintf(fid,"%d-bit rounded & %6.4f \\\\ \n",nbits,cost_rd);
 fprintf(fid,"%d-bit rounded with bitflipping & %6.4f \\\\ \n",nbits,cost_bf);
@@ -74,7 +78,8 @@ fclose(fid);
 % Find the total number of adders required to implement the SD multipliers
 sbfsd=[s10_bfsd(:);s11_bfsd(:);s20_bfsd(:);s00_bfsd(:);s02_bfsd(:);s22_bfsd(:)];
 [sbfsd_digits,sbfsd_adders]=SDadders(sbfsd,nbits);
-fid=fopen("bitflip_bandpass_NS_lattice_test_adders.tab","wt");
+fname=strcat(strf,"_adders.tab");
+fid=fopen(fname,"wt");
 fprintf(fid,"$%d$",sbfsd_adders);
 fclose(fid);
 
@@ -88,9 +93,9 @@ plot(wplot*0.5/pi,20*log10(abs(    h0)),"linestyle","-", ...
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-tstr=sprintf("Bandpass NS lattice,nbits=%d,bitstart=%d,\
+strt=sprintf("Bandpass NS lattice,nbits=%d,bitstart=%d,\
 msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
-title(tstr);
+title(strt);
 subplot(212)
 iplot=1:(0.7*nplot); % Avoid overlap with legend
 plot(wplot(iplot)*0.5/pi,    t0(iplot),"linestyle","-", ...
@@ -100,13 +105,13 @@ plot(wplot(iplot)*0.5/pi,    t0(iplot),"linestyle","-", ...
      wplot(iplot)*0.5/pi,t_bfsd(iplot),"linestyle","-");
 legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 xlabel("Frequency");
 ylabel("Group delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
-print("bitflip_bandpass_NS_lattice_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Save results
@@ -116,37 +121,36 @@ print_polynomial(s20_rd,"s20_rd");
 print_polynomial(s00_rd,"s00_rd");
 print_polynomial(s02_rd,"s02_rd");
 print_polynomial(s22_rd,"s22_rd");
+
 print_polynomial(s10_bf,"s10_bf");
 print_polynomial(s11_bf,"s11_bf");
 print_polynomial(s20_bf,"s20_bf");
 print_polynomial(s00_bf,"s00_bf");
 print_polynomial(s02_bf,"s02_bf");
 print_polynomial(s22_bf,"s22_bf");
+
 print_polynomial(s10_sd,"s10_sd");
 print_polynomial(s11_sd,"s11_sd");
 print_polynomial(s20_sd,"s20_sd");
 print_polynomial(s00_sd,"s00_sd");
 print_polynomial(s02_sd,"s02_sd");
 print_polynomial(s22_sd,"s22_sd");
+
 print_polynomial(s10_bfsd,"s10_bfsd");
 print_polynomial(s11_bfsd,"s11_bfsd");
 print_polynomial(s20_bfsd,"s20_bfsd");
 print_polynomial(s00_bfsd,"s00_bfsd");
 print_polynomial(s02_bfsd,"s02_bfsd");
 print_polynomial(s22_bfsd,"s22_bfsd");
-print_polynomial(s10_bfsd,"s10_bfsd",...
-                 "bitflip_bandpass_NS_lattice_test_s10_bfsd_coef.m",fmt_str);
-print_polynomial(s11_bfsd,"s11_bfsd",...
-                 "bitflip_bandpass_NS_lattice_test_s11_bfsd_coef.m",fmt_str);
-print_polynomial(s20_bfsd,"s20_bfsd",...
-                 "bitflip_bandpass_NS_lattice_test_s20_bfsd_coef.m",fmt_str);
-print_polynomial(s00_bfsd,"s00_bfsd",...
-                 "bitflip_bandpass_NS_lattice_test_s00_bfsd_coef.m",fmt_str);
-print_polynomial(s02_bfsd,"s02_bfsd",...
-                 "bitflip_bandpass_NS_lattice_test_s02_bfsd_coef.m",fmt_str);
-print_polynomial(s22_bfsd,"s22_bfsd",...
-                 "bitflip_bandpass_NS_lattice_test_s22_bfsd_coef.m",fmt_str);
-save bitflip_bandpass_NS_lattice_test.mat ...
+
+print_polynomial(s10_bfsd,"s10_bfsd",strcat(strf,"_s10_bfsd_coef.m"),nscale);
+print_polynomial(s11_bfsd,"s11_bfsd",strcat(strf,"_s11_bfsd_coef.m"),nscale);
+print_polynomial(s20_bfsd,"s20_bfsd",strcat(strf,"_s20_bfsd_coef.m"),nscale);
+print_polynomial(s00_bfsd,"s00_bfsd",strcat(strf,"_s00_bfsd_coef.m"),nscale);
+print_polynomial(s02_bfsd,"s02_bfsd",strcat(strf,"_s02_bfsd_coef.m"),nscale);
+print_polynomial(s22_bfsd,"s22_bfsd",strcat(strf,"_s22_bfsd_coef.m"),nscale);
+
+save bitflip_schurNSlattice_bandpass_test.mat ...
      s10_rd   s11_rd   s20_rd   s00_rd   s02_rd   s22_rd ...
      s10_bf   s11_bf   s20_bf   s00_bf   s02_bf   s22_bf ...
      s10_sd   s11_sd   s20_sd   s00_sd   s02_sd   s22_sd ...
@@ -154,5 +158,5 @@ save bitflip_bandpass_NS_lattice_test.mat ...
 
 % Done
 diary off
-movefile bitflip_bandpass_NS_lattice_test.diary.tmp ...
-       bitflip_bandpass_NS_lattice_test.diary;
+movefile bitflip_schurNSlattice_bandpass_test.diary.tmp ...
+         bitflip_schurNSlattice_bandpass_test.diary;

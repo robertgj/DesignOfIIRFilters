@@ -1,8 +1,8 @@
 #!/bin/sh
 
-prog=bitflip_NS_lattice_test.m
+prog=bitflip_schurNSlattice_lowpass_test.m
 
-depends="bitflip_NS_lattice_test.m test_common.m \
+depends="bitflip_schurNSlattice_lowpass_test.m test_common.m \
 truncation_test_common.m schurNSlattice2tf.m \
 schurNSlattice_cost.m schurNSscale.oct schurdecomp.oct schurexpand.oct \
 schurNSlattice2Abcd.oct Abcd2tf.m tf2schurNSlattice.m bin2SD.oct flt2SD.m \

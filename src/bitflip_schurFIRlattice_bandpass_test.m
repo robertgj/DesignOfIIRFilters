@@ -1,14 +1,14 @@
-% bitflip_bandpass_schur_FIR_lattice_test.m
-% Copyright (C) 2017 Robert G. Jenssen
+% bitflip_schurFIRlattice_bandpass_test.m
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass FIR Schurlattice filter.
 
 test_common;
 
-unlink("bitflip_bandpass_schur_FIR_lattice_test.diary");
-unlink("bitflip_bandpass_schur_FIR_lattice_test.diary.tmp");
-diary bitflip_bandpass_schur_FIR_lattice_test.diary.tmp;
+unlink("bitflip_schurFIRlattice_bandpass_test.diary");
+unlink("bitflip_schurFIRlattice_bandpass_test.diary.tmp");
+diary bitflip_schurFIRlattice_bandpass_test.diary.tmp;
 
 bitflip_bandpass_test_common;
 
@@ -65,6 +65,9 @@ function [cost,k,svec_out] = ...
   k=svec;
   svec_out=svec.*nscale;
 endfunction
+
+% File name string
+strf="bitflip_schurFIRlattice_bandpass_test";
 
 if 1
   % PCLS FIR band pass filter (from iir_sqp_slb_fir_17_bandpass_test.m)
@@ -131,9 +134,9 @@ plot(wplot*0.5/pi,20*log10(abs(    h0)),"linestyle","-", ...
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-tstr=sprintf("Bandpass Schur FIR lattice,nbits=%d,bitstart=%d,\
+strt=sprintf("Bandpass Schur FIR lattice,nbits=%d,bitstart=%d,\
 msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
-title(tstr);
+title(strt);
 subplot(212)
 iplot=1:(0.7*nplot); % Avoid overlap with legend
 plot(wplot(iplot)*0.5/pi,    t0(iplot),"linestyle","-", ...
@@ -143,17 +146,17 @@ plot(wplot(iplot)*0.5/pi,    t0(iplot),"linestyle","-", ...
      wplot(iplot)*0.5/pi,t_bfsd(iplot),"linestyle","-");
 legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
 legend("location","northeast");
-legend("Boxoff");
+legend("boxoff");
 legend("left");
 xlabel("Frequency");
 ylabel("Group delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
-print("bitflip_bandpass_schur_FIR_lattice_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Make a LaTeX table for cost
-fname=sprintf("bitflip_bandpass_schur_FIR_lattice_test_cost.tab");
+fname=strcat(strf,"_cost.tab");
 fid=fopen(fname,"wt");
 fprintf(fid,"Exact & %6.4f \\\\ \n",cost_ex);
 fprintf(fid,"%d-bit rounded & %6.4f \\\\ \n",nbits,cost_rd);
@@ -165,34 +168,35 @@ fclose(fid);
 
 % Find the total number of adders required to implement the SD multipliers
 [k_bfsd_digits,k_bfsd_adders]=SDadders(k_bfsd,nbits);
-fid=fopen("bitflip_bandpass_schur_FIR_lattice_test_adders.tab","wt");
+fname=strcat(strf,"_adders.tab");
+fid=fopen(fname,"wt");
 fprintf(fid,"$%d$",2*k_bfsd_adders);
 fclose(fid);
 
 % Print the results
 print_polynomial(b0,"b0");
-print_polynomial(b0,"b0",...
-                 "bitflip_bandpass_schur_FIR_lattice_test_b0_coef.m");
+print_polynomial(b0,"b0",strcat(strf,"_b0_coef.m"));
+
 print_polynomial(k_ex,"k_ex");
-print_polynomial(k_ex,"k_ex",...
-                 "bitflip_bandpass_schur_FIR_lattice_test_k_ex_coef.m");
-print_polynomial(k_rd,"k_rd");
-print_polynomial(k_rd,"k_rd",...
-                 "bitflip_bandpass_schur_FIR_lattice_test_k_rd_coef.m",fmt_str);
-print_polynomial(k_bf,"k_bf");
-print_polynomial(k_bf,"k_bf",...
-                 "bitflip_bandpass_schur_FIR_lattice_test_k_bf_coef.m",fmt_str);
-print_polynomial(k_sd,"k_sd");
-print_polynomial(k_sd,"k_sd",...
-                 "bitflip_bandpass_schur_FIR_lattice_test_k_sd_coef.m",fmt_str);
-print_polynomial(k_bfsd,"k_bfsd");
-print_polynomial(k_bfsd,"k_bfsd",...
-                 "bitflip_bandpass_schur_FIR_lattice_test_k_bfsd_coef.m",fmt_str);
+print_polynomial(k_ex,"k_ex",strcat(strf,"_k_ex_coef.m"));
+
+print_polynomial(k_rd,"k_rd",nscale);
+print_polynomial(k_rd,"k_rd",strcat(strf,"_k_rd_coef.m"),nscale);
+
+print_polynomial(k_bf,"k_bf",nscale);
+print_polynomial(k_bf,"k_bf",strcat(strf,"_k_bf_coef.m"),nscale);
+
+print_polynomial(k_sd,"k_sd",nscale);
+print_polynomial(k_sd,"k_sd",strcat(strf,"_k_sd_coef.m"),nscale);
+
+print_polynomial(k_bfsd,"k_bfsd",nscale);
+print_polynomial(k_bfsd,"k_bfsd",strcat(strf,"_k_bfsd_coef.m"),nscale);
 
 % Save the results
-save bitflip_bandpass_schur_FIR_lattice_test.mat b0 k0 k_ex k_rd k_bf k_sd k_bfsd
+save bitflip_schurFIRlattice_bandpass_test.mat ...
+     b0 k0 k_ex k_rd k_bf k_sd k_bfsd
 
 % Done
 diary off
-movefile bitflip_bandpass_schur_FIR_lattice_test.diary.tmp ...
-       bitflip_bandpass_schur_FIR_lattice_test.diary;
+movefile bitflip_schurFIRlattice_bandpass_test.diary.tmp ...
+         bitflip_schurFIRlattice_bandpass_test.diary;

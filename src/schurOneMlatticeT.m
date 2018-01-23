@@ -2,9 +2,9 @@ function [T,gradT,diagHessT]=schurOneMlatticeT(w,k,epsilon,p,c)
 % [T,gradT,diagHessT]=schurOneMlatticeT(w,k,epsilon,p,c)
 % Calculate the group-delay responses and gradients of a Schur one-multiplier
 % lattice filter. If the order of the filter numerator polynomial is N, then
-% there are N+1 numerator tap coeficients, c. If the order of the denominator
+% there are N+1 numerator tap coefficients, c. If the order of the denominator
 % polynomial is Nk, then there are Nk one-multiplier lattice section
-% coeficients, k. The epsilon and p inputs scale the internal nodes.
+% coefficients, k. The epsilon and p inputs scale the internal nodes.
 %
 % Inputs:
 %   w - column vector of angular frequencies
@@ -18,7 +18,7 @@ function [T,gradT,diagHessT]=schurOneMlatticeT(w,k,epsilon,p,c)
 %   gradT - the gradients of T with respect to k and c
 %   diagHessT - diagonal of the Hessian of T with respect to k and c
 
-% Copyright (C) 2017 Robert G. Jenssen
+% Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

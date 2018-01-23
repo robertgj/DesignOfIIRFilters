@@ -55,21 +55,24 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test.k2.ok << 'EOF'
 k2 = [  -0.7375771181,   0.7329492530,  -0.6489740765,   0.4943363006, ... 
         -0.2824593372,   0.0878212134,  -0.0000000000,  -0.0000000000, ... 
-        -0.0000000000,  -0.0000000000 ];
+         0.0000000000,   0.0000000000 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
+
 cat > test.epsilon2.ok << 'EOF'
 epsilon2 = [ -1, -1, -1, -1, ... 
              -1, -1,  1,  1, ... 
-              1,  1 ];
+             -1, -1 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon2.ok"; fail; fi
+
 cat > test.p2.ok << 'EOF'
 p2 = [   1.5591179441,   0.6059095195,   1.5434899280,   0.7121418051, ... 
          1.2242208323,   0.9157168850,   1.0000000000,   1.0000000000, ... 
          1.0000000000,   1.0000000000 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.p2.ok"; fail; fi
+
 cat > test.c2.ok << 'EOF'
 c2 = [   0.2287455707,   0.7274997803,   0.1030199742,  -0.0659731942, ... 
         -0.0487519200,  -0.0063882219,   0.0239044428,   0.0157765877, ... 
@@ -87,10 +90,13 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.k2.ok schurOneMlattice_sqp_slb_lowpass_test_k2_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of k2.coef"; fail; fi
+
 diff -Bb test.epsilon2.ok schurOneMlattice_sqp_slb_lowpass_test_epsilon2_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of epsilon2.coef"; fail; fi
+
 diff -Bb test.p2.ok schurOneMlattice_sqp_slb_lowpass_test_p2_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of p2.coef"; fail; fi
+
 diff -Bb test.c2.ok schurOneMlattice_sqp_slb_lowpass_test_c2_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of c2.coef"; fail; fi
 

@@ -1,8 +1,8 @@
 #!/bin/sh
 
-prog=bitflip_NSPA_lattice_test.m
+prog=bitflip_schurNSPAlattice_lowpass_test.m
 
-depends="bitflip_NSPA_lattice_test.m test_common.m print_polynomial.m \
+depends="bitflip_schurNSPAlattice_lowpass_test.m test_common.m print_polynomial.m \
 truncation_test_common.m schurNSPAlattice2tf.m schurNSPAlattice_cost.m \
 tf2schurNSlattice.m Abcd2tf.m flt2SD.m x2nextra.m  tf2pa.m \
 bitflip.oct spectralfactor.oct schurNSscale.oct schurdecomp.oct \
