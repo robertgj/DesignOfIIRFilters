@@ -1,0 +1,18 @@
+branch_bound_directFIRhilbert_12_nbits_test_FIGURES = \
+branch_bound_directFIRhilbert_12_nbits_test_response
+
+branch_bound_directFIRhilbert_12_nbits_test_COEFS = \
+branch_bound_directFIRhilbert_12_nbits_test.mat \
+branch_bound_directFIRhilbert_12_nbits_test.spec \
+branch_bound_directFIRhilbert_12_nbits_test_hM0_coef.m \
+branch_bound_directFIRhilbert_12_nbits_test_hM0_sd_coef.m \
+branch_bound_directFIRhilbert_12_nbits_test_hM_sd_coef.m \
+branch_bound_directFIRhilbert_12_nbits_test_hM_min_coef.m \
+branch_bound_directFIRhilbert_12_nbits_test_hM_min_adders.tab \
+branch_bound_directFIRhilbert_12_nbits_test_cost.tab
+
+branch_bound_directFIRhilbert_12_nbits_test_FILES = \
+branch_bound_directFIRhilbert_12_nbits_test.m test_common.m \
+directFIRhilbertA.m directFIRhilbertEsqPW.m directFIRhilbert_allocsd_Ito.m \
+local_max.m print_polynomial.m flt2SD.m SDadders.m x2nextra.m bin2SDul.m \
+bin2SD.oct bin2SPT.oct

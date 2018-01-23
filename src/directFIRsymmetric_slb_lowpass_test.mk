@@ -1,0 +1,23 @@
+directFIRsymmetric_slb_lowpass_test_FIGURES = \
+directFIRsymmetric_slb_lowpass_test_response \
+directFIRsymmetric_slb_lowpass_test_truncated
+
+directFIRsymmetric_slb_lowpass_test_COEFS = \
+directFIRsymmetric_slb_lowpass_test.mat \
+directFIRsymmetric_slb_lowpass_test.spec \
+directFIRsymmetric_slb_lowpass_test_hM1_coef.m \
+directFIRsymmetric_slb_lowpass_test_hM2_coef.m
+
+directFIRsymmetric_slb_lowpass_test_FILES = \
+test_common.m \
+directFIRsymmetric_slb_lowpass_test.m \
+directFIRsymmetric_slb_exchange_constraints.m \
+directFIRsymmetric_slb_update_constraints.m \
+directFIRsymmetric_slb_set_empty_constraints.m \
+directFIRsymmetric_slb_show_constraints.m \
+directFIRsymmetric_slb_constraints_are_empty.m \
+directFIRsymmetric_slb.m \
+directFIRsymmetric_mmsePW.m \
+directFIRsymmetricEsqPW.m \
+directFIRsymmetricA.m \
+print_polynomial.m local_max.m

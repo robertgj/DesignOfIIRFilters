@@ -1,0 +1,40 @@
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_FIGURES = \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_intro \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_delay \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_pass \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_stop
+
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_COEFS = \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.mat \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.spec \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_k0_sd_Lim_coef.m \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_c0_sd_Lim_coef.m \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_k0_sd_sdp_coef.m \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_c0_sd_sdp_coef.m \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_k0_sd_min_coef.m \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_c0_sd_min_coef.m \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_cost.tab \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_signed_digits.tab \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_adders.tab
+
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_FILES = \
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.m \
+test_common.m \
+schurOneMlattice_sdp_mmse.m \
+schurOneMlattice_socp_mmse.m \
+schurOneMlattice_allocsd_Lim.m \
+schurOneMlattice_allocsd_Ito.m \
+schurOneMlattice_slb.m \
+schurOneMlattice_slb_constraints_are_empty.m \
+schurOneMlattice_slb_exchange_constraints.m \
+schurOneMlattice_slb_set_empty_constraints.m \
+schurOneMlattice_slb_show_constraints.m \
+schurOneMlattice_slb_update_constraints.m \
+schurOneMlatticeEsq.m \
+schurOneMlatticeAsq.m \
+schurOneMlatticeP.m \
+schurOneMlatticeT.m \
+H2Asq.m H2P.m H2T.m \
+print_polynomial.m local_max.m flt2SD.m SDadders.m x2nextra.m bin2SDul.m \
+schurOneMlattice2H.oct schurOneMlattice2Abcd.oct complex_zhong_inverse.oct \
+bin2SD.oct bin2SPT.oct sedumi_test.diary

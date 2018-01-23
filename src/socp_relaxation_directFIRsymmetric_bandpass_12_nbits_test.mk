@@ -1,0 +1,31 @@
+socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_FIGURES = \
+socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_response
+
+socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_COEFS = \
+socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.mat \
+socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.spec \
+socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_cost.tab \
+socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_hM1_3sd_coef.m \
+socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_hM1_coef.m \
+socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_hM1_sd_coef.m \
+socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_hM_min_adders.tab \
+socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_hM_min_coef.m \
+socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_hM_min_signed_digits.tab
+
+socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_FILES = \
+socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.m \
+test_common.m \
+directFIRsymmetric_mmsePW.m \
+directFIRsymmetric_socp_mmsePW.m \
+directFIRsymmetric_allocsd_Ito.m \
+directFIRsymmetric_slb.m \
+directFIRsymmetric_slb_constraints_are_empty.m \
+directFIRsymmetric_slb_exchange_constraints.m \
+directFIRsymmetric_slb_set_empty_constraints.m \
+directFIRsymmetric_slb_show_constraints.m \
+directFIRsymmetric_slb_update_constraints.m \
+directFIRsymmetricEsqPW.m \
+directFIRsymmetricA.m \
+print_polynomial.m \
+local_max.m flt2SD.m SDadders.m x2nextra.m bin2SDul.m \
+bin2SD.oct bin2SPT.oct sedumi_test.diary
