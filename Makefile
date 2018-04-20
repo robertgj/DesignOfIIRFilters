@@ -29,7 +29,8 @@ OCTAVE_SCRIPTS = \
  branch_bound_directFIRsymmetric_bandpass_8_nbits_test \
  branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test \
  branch_bound_schurOneMPAlattice_bandpass_12_nbits_test \
- branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test \
+ branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test \
+branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test \
  branch_bound_schurOneMPAlattice_lowpass_12_nbits_test \
  branch_bound_schurOneMlattice_bandpass_10_nbits_test \
  branch_bound_schurOneMlattice_bandpass_6_nbits_test \
