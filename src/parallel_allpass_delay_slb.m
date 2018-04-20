@@ -154,7 +154,15 @@ function [ak,slb_iter,opt_iter,func_iter,feasible] = ...
       if ak==nextak
         printf("ak=[ ");printf("%f ",ak);printf("]';\n");
         warning("No change to solution after %d PCLS iterations\n",slb_iter);
-        break;
+        for [v,k]=vR
+          printf("vR.%s=[ ",k);printf("%d ",v);printf("]\n");
+        endfor
+        for [v,k]=vS
+          printf("vS.%s=[ ",k);printf("%d ",v);printf("]\n");
+        endfor
+        if parallel_allpass_delay_slb_constraints_are_empty(vR)
+          break;
+        endif
       endif
       ak=nextak;
       printf("Feasible solution after %d optimisation iterations\n", ...
@@ -189,7 +197,7 @@ function [ak,slb_iter,opt_iter,func_iter,feasible] = ...
        (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,ctol);
     printf("Step 5: vS frequency constraints updated to:\n");
     for [v,k]=vS
-      printf("%s=[ ",k);printf("%d ",v);printf("]\n");
+      printf("vS.%s=[ ",k);printf("%d ",v);printf("]\n");
     endfor
 
     %

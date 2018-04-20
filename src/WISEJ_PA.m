@@ -79,8 +79,10 @@ function E=WISEJ_PA(ab,_ma,_mb,_R,_poly,_w,_Ad,_Wa,_Td,_Wt)
   EAd = Wa.*abs((abs(Ha)-abs(Ad)).^2);
 
   % Find the group delay error response
+  warning('off');
   Ta=grpdelay(flipud(Da),Da,length(w));
   Tb=grpdelay(flipud(Db),Db,length(w));
+  warning('on');
   if polyphase
     T=0.5*(Ta+Tb+1);
   else

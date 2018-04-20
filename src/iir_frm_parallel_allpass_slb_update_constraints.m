@@ -49,36 +49,32 @@ function vS=iir_frm_parallel_allpass_slb_update_constraints ...
   if isempty(Asqdl)
     vS.al=[];
   else
-    vAsql=local_max(Asqdl-Asq);
+    vAsql=local_max((Asqdl-Asq).*(Wa!=0));
     vS.al=vAsql(find((Asqdl(vAsql)-Asq(vAsql))>tol));
-    vS.al=vS.al(find(Wa(vS.al)!=0));
   endif
 
   % Find amplitude upper constraint violations
   if isempty(Asqdu)
     vS.au=[];
   else
-    vAsqu=local_max(Asq-Asqdu);
+    vAsqu=local_max((Asq-Asqdu).*(Wa!=0));
     vS.au=vAsqu(find((Asq(vAsqu)-Asqdu(vAsqu))>tol));
-    vS.au=vS.au(find(Wa(vS.au)!=0));
   endif
 
   % Find group delay lower constraint violations
   if isempty(Tdl)
     vS.tl=[];
   else
-    vTl=local_max(Tdl-T(1:length(Wt)));
+    vTl=local_max((Tdl-T(1:length(Wt))).*(Wt!=0));
     vS.tl=vTl(find((Tdl(vTl)-T(vTl))>tol));
-    vS.tl=vS.tl(find(Wt(vS.tl)!=0));
   endif
   
   % Find group delay upper constraint violations
   if isempty(Tdu)
     vS.tu=[];
   else
-    vTu=local_max(T(1:length(Wt))-Tdu);
+    vTu=local_max((T(1:length(Wt))-Tdu).*(Wt!=0));
     vS.tu=vTu(find((T(vTu)-Tdu(vTu))>tol));
-    vS.tu=vS.tu(find(Wt(vS.tu)!=0));
   endif
 
   % Do not want size 0x1 ?!?!?!

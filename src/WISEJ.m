@@ -1,6 +1,6 @@
 function E=WISEJ(ND,_nN,_nD,_R,_wd,_Hd,_Wd)
 % E=WISEJ(ND,nN,nD,R,wd,Hd,Wd)
-% Function for filter amplitude response optimisation. A barrier
+% Function for filter response optimisation. A barrier
 % function maintains stability by constraining the pole locations to
 % be within the unit circle in the z-plane. The argument ND is the
 % concatenation of the numerator and denominator polynomials to be
@@ -8,16 +8,18 @@ function E=WISEJ(ND,_nN,_nD,_R,_wd,_Hd,_Wd)
 %  N=ND(1:(nN+1));
 %  D=[1;ND((nN+2):end)];
 % First initialise the common parameters of the filter structure with:
-%  WISEJ([],_nN,_nD,_R,_wd,_Hd,_Wd)
+%  WISEJ([],nN,nD,R,wd,Hd,Wd)
 % The common filter parameters are:
-%  _nN    order of numerator polynomial
-%  _nD    order of undecimated denominator polynomial
-%  _R     decimation factor for denominator polynomial. The resulting
-%         denominator polynomial order is  _R*_nD and it has non-zero
-%         coefficients only for powers of z^R
-%  _wd    angular frequencies at which to calculate the response
-%  _Hd    desired filter amplitude response at _wd
-%  _Wd    filter response weighting factor at _wd
+%  nN    order of numerator polynomial
+%  nD    order of undecimated denominator polynomial
+%  R     decimation factor for denominator polynomial. The resulting
+%        denominator polynomial order is  _R*_nD and it has non-zero
+%        coefficients only for powers of z^R
+%  wd    angular frequencies at which to calculate the response
+%  Hd    desired filter response at _wd. If Hd is complex use abs(Hd-H)
+%        to calculate the error. Otherwise uses abs(Hd)-abs(H).
+%  Wd    filter response weighting factor at _wd
+%
 % See "A WISE Method for Designing IIR Filters", A.Tarczynski et al.,
 % IEEE Transactions on Signal Processing, Vol. 49, No. 7, pp. 1421-1432
 
@@ -73,10 +75,13 @@ DR=[1; kron(ND((nN+2):end), [zeros(R-1,1);1])];
 % (This separate calculation is generally more accurate!).
 HNd = freqz(N, 1, wd);
 HDRd = freqz(DR, 1, wd);
-EHd = Wd.*((abs(Hd)-abs(HNd./HDRd)).^2);
-
+if any(iscomplex(Hd))
+  EHd = Wd.*((abs(Hd-(HNd./HDRd))).^2);
+else
+  EHd = Wd.*((abs(Hd)-abs(HNd./HDRd)).^2);
+endif
 % Trapezoidal integration of amplitude response error
-intEHd = sum(diff(wd).*(EHd(1:(length(EHd)-1))+EHd(2:(length(EHd))))/2);
+intEHd = sum(diff(wd).*(EHd(1:(end-1))+EHd(2:end)))/2;
 
 % Heuristics for the barrier function
 lambda = 0.001;

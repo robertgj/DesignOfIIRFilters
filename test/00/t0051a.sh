@@ -2,7 +2,8 @@
 
 prog=tarczynski_differentiator_test.m
 
-depends="tarczynski_differentiator_test.m test_common.m"
+depends="tarczynski_differentiator_test.m test_common.m WISEJ.m tf2Abcd.m \
+print_polynomial.m tf2x.m print_pole_zero.m"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -37,11 +38,32 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test.ok << 'EOF'
-N=[  -0.0033301625   0.0049842255  -0.0073918526   0.0149050168  -0.0412778750   0.3986841861  -0.3898446854  -0.0671740371   0.1096928251  -0.1976385923   0.1919406555   0.0009944238  -0.0148956630 ]';
-R=2,D=[   1.0000000000  -0.2582347217  -0.4815140911   0.0529885334   0.0016969043   0.0009654230   0.0003876029 ]';
+cat > test.N0.ok << 'EOF'
+N0 = [  -0.0033301621,   0.0049842251,  -0.0073918531,   0.0149050168, ... 
+        -0.0412778751,   0.3986841865,  -0.3898446870,  -0.0671740286, ... 
+         0.1096928148,  -0.1976385735,   0.1919406387,   0.0009944144, ... 
+        -0.0148956517 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.N0.ok"; fail; fi
+
+cat > test.D0.ok << 'EOF'
+D0 = [   1.0000000000,  -0.2582347009,  -0.4815140464,   0.0529885038, ... 
+         0.0016969056,   0.0009654222,   0.0003876026 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.D0.ok"; fail; fi
+
+cat > test.x0.ok << 'EOF'
+Ux0=6,Vx0=4,Mx0=6,Qx0=2,Rx0=2
+x0 = [  -0.0033301621, ...
+         2.4432889657,  -0.8808472032,   1.0036638951,   0.8873336861, ... 
+         0.3309892838,  -0.2476975359, ...
+         0.7806129271,  -0.6319238635,   0.2283262756,  -0.1370501638, ...
+         2.5725431737,   2.6080099763,   0.7952102933, ...
+         2.3928644372,   1.2330172830,   1.5705006235, ...
+         0.1584620913, ...
+         1.5131179915 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.D0.ok"; fail; fi
 
 #
 # run and see if the results match
@@ -51,8 +73,14 @@ echo "Running octave-cli -q " $prog
 octave-cli -q $prog > test.out
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.ok tarczynski_differentiator_test.coef
-if [ $? -ne 0 ]; then echo "Failed diff -Bb"; fail; fi
+diff -Bb test.N0.ok tarczynski_differentiator_test_N0_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff test.N0.ok -Bb"; fail; fi
+
+diff -Bb test.D0.ok tarczynski_differentiator_test_D0_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff test.D0.ok -Bb"; fail; fi
+
+diff -Bb test.x0.ok tarczynski_differentiator_test_x0_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff test.x0.ok -Bb"; fail; fi
 
 
 #

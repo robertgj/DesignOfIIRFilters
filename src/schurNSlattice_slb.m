@@ -176,7 +176,15 @@ function [s10,s11,s20,s00,s02,s22,slb_iter,opt_iter,func_iter,feasible] = ...
         printf("s02=[ ");printf("%f ",s02(:)');printf("];\n");
         printf("s22=[ ");printf("%f ",s22(:)');printf("];\n");
         warning("No change to solution after %d PCLS iterations\n",slb_iter);
-        break;
+        for [v,k]=vR
+          printf("vR.%s=[ ",k);printf("%d ",v);printf("]\n");
+        endfor
+        for [v,k]=vS
+          printf("vS.%s=[ ",k);printf("%d ",v);printf("]\n");
+        endfor
+        if schurNSlattice_slb_constraints_are_empty(vR)
+          break;
+        endif
       endif
       printf("Feasible solution after %d PCLS iterations\n", slb_iter);
       s10=next_s10(:)';s11=next_s11(:)';
@@ -219,7 +227,7 @@ function [s10,s11,s20,s00,s02,s22,slb_iter,opt_iter,func_iter,feasible] = ...
          (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,ctol);
     printf("Step 5: vS frequency constraints updated to:\n");
     for [v,m]=vS
-      printf("%s=[ ",m);printf("%d ",v);printf("]\n");
+      printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
     endfor  
     printf("S constraints:\n");
     schurNSlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk);

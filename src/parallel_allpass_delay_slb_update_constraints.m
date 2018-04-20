@@ -1,5 +1,5 @@
 function vS=parallel_allpass_delay_slb_update_constraints ...
-              (A2,A2du,A2dl,Wa,T,Tdu,Tdl,Wt,tol)
+              (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,tol)
 
 % Copyright (C) 2017,2018 Robert G. Jenssen
 %
@@ -24,16 +24,16 @@ function vS=parallel_allpass_delay_slb_update_constraints ...
   % Sanity checks
   if (nargin != 9) || (nargout != 1)
     print_usage("vS=parallel_allpass_delay_slb_update_constraints ...\n\
-      (A2,A2du,A2dl,Wa,T,Tdu,Tdl,Wt,tol)");
+      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,tol)");
   endif
-  if length(A2) ~= length(A2du)
-    error("length(A2) ~= length(A2du)");
+  if length(Asq) ~= length(Asqdu)
+    error("length(Asq) ~= length(Asqdu)");
   endif
-  if length(A2) ~= length(A2dl)
-    error("length(A2) ~= length(A2dl)");
+  if length(Asq) ~= length(Asqdl)
+    error("length(Asq) ~= length(Asqdl)");
   endif
-  if length(A2) ~= length(Wa)
-    error("length(A2) ~= length(Wa)");
+  if length(Asq) ~= length(Wa)
+    error("length(Asq) ~= length(Wa)");
   endif
   if length(T) < length(Tdu)
     error("length(T) < length(Tdu)");
@@ -46,39 +46,35 @@ function vS=parallel_allpass_delay_slb_update_constraints ...
   endif
 
   % Find amplitude lower constraint violations
-  if isempty(A2dl)
+  if isempty(Asqdl)
     vS.al=[];
   else
-    vA2l=local_max(A2dl-A2);
-    vS.al=vA2l(find((A2dl(vA2l)-A2(vA2l))>tol));
-    vS.al=vS.al(find(Wa(vS.al)!=0));
+    vAsql=local_max((Asqdl-Asq).*(Wa!=0));
+    vS.al=vAsql(find((Asqdl(vAsql)-Asq(vAsql))>tol));
   endif
 
   % Find amplitude upper constraint violations
-  if isempty(A2du)
+  if isempty(Asqdu)
     vS.au=[];
   else
-    vA2u=local_max(A2-A2du);
-    vS.au=vA2u(find((A2(vA2u)-A2du(vA2u))>tol));
-    vS.au=vS.au(find(Wa(vS.au)!=0));
+    vAsqu=local_max((Asq-Asqdu).*(Wa!=0));
+    vS.au=vAsqu(find((Asq(vAsqu)-Asqdu(vAsqu))>tol));
   endif
 
   % Find group delay lower constraint violations
   if isempty(Tdl)
     vS.tl=[];
   else
-    vTl=local_max(Tdl-T(1:length(Wt)));
+    vTl=local_max((Tdl-T(1:length(Wt))).*(Wt!=0));
     vS.tl=vTl(find((Tdl(vTl)-T(vTl))>tol));
-    vS.tl=vS.tl(find(Wt(vS.tl)!=0));
   endif
   
   % Find group delay upper constraint violations
   if isempty(Tdu)
     vS.tu=[];
   else
-    vTu=local_max(T(1:length(Wt))-Tdu);
+    vTu=local_max((T(1:length(Wt))-Tdu).*(Wt!=0));
     vS.tu=vTu(find((T(vTu)-Tdu(vTu))>tol));
-    vS.tu=vS.tu(find(Wt(vS.tu)!=0));
   endif
 
   % Do not want size 0x1 ?!?!?!

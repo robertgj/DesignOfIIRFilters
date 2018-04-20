@@ -153,6 +153,8 @@ grid("on");
 subplot(211);
 ax=plotyy(wplot(1:npp)*0.5/pi,20*log10(abs(Hab1(1:npp))), ...
           wplot(nsp:end)*0.5/pi,20*log10(abs(Hab1(nsp:end))));
+set(ax(1),'ycolor','black');
+set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.1 0]);
 axis(ax(2),[0 0.5 -90 -80]);
 ylabel("Amplitude(dB)");
@@ -195,6 +197,8 @@ grid("on");
 subplot(211);
 ax=plotyy(wplot(1:npp)*0.5/pi,20*log10(abs(Hellip(1:npp))), ...
           wplot(nsp:end)*0.5/pi,20*log10(abs(Hellip(nsp:end))));
+set(ax(1),'ycolor','black');
+set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.025 0]);
 axis(ax(2),[0 0.5 -90 -80]);
 ylabel("Amplitude(dB)");

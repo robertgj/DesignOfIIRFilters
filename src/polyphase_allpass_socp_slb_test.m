@@ -155,10 +155,12 @@ nplot_ap=ceil(nplot*fap/0.5)+1;
 nplot_as=floor(nplot*fas/0.5)+1;
 ax=plotyy(wplot(1:nplot_ap)*0.5/pi,    20*log10(abs(Hab1(1:nplot_ap))),...
           wplot(nplot_as:nplot)*0.5/pi,20*log10(abs(Hab1(nplot_as:nplot))));
-ylabel("Amplitude(dB)");
-xlabel("Frequency");
+set(ax(1),'ycolor','black');
+set(ax(2),'ycolor','black');
 axis(ax(1),[0, 0.5, -dBap/2000, dBap/10000]);
 axis(ax(2),[0, 0.5, -80, -74]);
+ylabel("Amplitude(dB)");
+xlabel("Frequency");
 grid("on");
 title(strt);
 print(strcat(strf,"_ab1dual"),"-dpdflatex");

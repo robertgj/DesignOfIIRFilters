@@ -59,37 +59,31 @@ function vS=schurOneMAPlattice_frm_hilbert_slb_update_constraints ...
   % Find amplitude constraint violations
   if ~isempty(Asq)
     % Find amplitude lower constraint violations
-    vAsql=local_max(Asqdl-Asq);
+    vAsql=local_max((Asqdl-Asq).*(Wa!=0));
     vS.al=vAsql(find((Asqdl(vAsql)-Asq(vAsql))>tol));
-    vS.al=vS.al(find(Wa(vS.al)!=0));
     % Find amplitude upper constraint violations
-    vAsqu=local_max(Asq-Asqdu);
+    vAsqu=local_max((Asq-Asqdu).*(Wa!=0));
     vS.au=vAsqu(find((Asq(vAsqu)-Asqdu(vAsqu))>tol));
-    vS.au=vS.au(find(Wa(vS.au)!=0));
   endif
 
   % Find group delay constraint violations
   if ~isempty(T)
     % Find group delay lower constraint violations
-    vTl=local_max(Tdl-T);
+    vTl=local_max((Tdl-T).*(Wt!=0));
     vS.tl=vTl(find((Tdl(vTl)-T(vTl))>tol));
-    vS.tl=vS.tl(find(Wt(vS.tl)!=0));
     % Find group delay upper constraint violations
-    vTu=local_max(T-Tdu);
+    vTu=local_max((T-Tdu).*(Wt!=0));
     vS.tu=vTu(find((T(vTu)-Tdu(vTu))>tol));
-    vS.tu=vS.tu(find(Wt(vS.tu)!=0));
   endif
 
   % Find phase constraint violations
   if ~isempty(P)
     % Find phase lower constraint violations
-    vPl=local_max(Pdl-P);
+    vPl=local_max((Pdl-P).*(Wp!=0));
     vS.pl=vPl(find((Pdl(vPl)-P(vPl))>tol));
-    vS.pl=vS.pl(find(Wp(vS.pl)!=0));
     % Find phase upper constraint violations
-    vPu=local_max(P-Pdu);
+    vPu=local_max((P-Pdu).*(Wp!=0));
     vS.pu=vPu(find((P(vPu)-Pdu(vPu))>tol));
-    vS.pu=vS.pu(find(Wp(vS.pu)!=0));
   endif
 
   % Do not want size 0x1 ?!?!?!

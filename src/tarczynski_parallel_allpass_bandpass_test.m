@@ -31,7 +31,7 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt)
   persistent init_done=false
 
   if (nargin != 1) && (nargin != 7)
-    print_usage("E=WISEJ_PA(ab[,ma,mb,Ad,Wa,Td,Wt])");
+    print_usage("E=WISEJ_PAB(ab[,ma,mb,Ad,Wa,Td,Wt])");
   endif
   if nargin==7
     ma=_ma; mb=_mb; Ad=_Ad; Wa=_Wa; Td=_Td; Wt=_Wt;

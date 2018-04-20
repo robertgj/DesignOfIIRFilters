@@ -175,7 +175,15 @@ function [k,khat,slb_iter,opt_iter,func_iter,feasible] = ...
         printf("k=[ ");printf("%f ",k');printf("]';\n");
         printf("khat=[ ");printf("%f ",khat');printf("]';\n");
         warning("No change to solution after %d PCLS iterations\n",slb_iter);
-        break;
+        for [v,k]=vR
+          printf("vR.%s=[ ",k);printf("%d ",v);printf("]\n");
+        endfor
+        for [v,k]=vS
+          printf("vS.%s=[ ",k);printf("%d ",v);printf("]\n");
+        endfor
+        if complementaryFIRlattice_slb_constraints_are_empty(vR)
+          break;
+        endif
       endif
       k=nextk; 
       khat=nextkhat;
@@ -219,7 +227,7 @@ function [k,khat,slb_iter,opt_iter,func_iter,feasible] = ...
          (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,ctol);
     printf("Step 5: vS frequency constraints updated to:\n");
     for [v,m]=vS
-      printf("%s=[ ",m);printf("%d ",v);printf("]\n");
+      printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
     endfor  
     printf("k=[ ");printf("%g ",k');printf("]'\n");
     printf("khat=[ ");printf("%g ",khat');printf("]'\n");

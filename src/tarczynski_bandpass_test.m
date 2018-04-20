@@ -12,62 +12,6 @@ tic;
 
 format compact
 
-% Objective function
-function E=WISEJ_ND(ND,_nN,_nD,_R,_wd,_Hd,_Wd)
-  persistent nN nD R wd Hd Wd
-  persistent init_done=false
-  if nargin == 7
-    nN=_nN;nD=_nD;R=_R;wd=_wd;Hd=_Hd;Wd=_Wd;
-    init_done=true;
-    return;
-  elseif nargin ~=1
-    print_usage("E=WISEJ_ND(ND[,nN,nD,R,wd,Hd,Wd])");
-  elseif init_done==false
-    error("init_done==false");
-  endif
-  % Sanity check
-  if (length(ND) != (1+nN+nD))
-    error("Expected length(ND) == (1+nN+nD)!");
-  endif
-  
-  % Decimate the denominator
-  N=ND(1:(nN+1));
-  DR=[1;kron(ND((nN+2):(nN+1+nD)), [zeros(R-1,1);1])];
-  % Find the error complex frequency response 
-  HNDRd = freqz(N,DR, wd);
-  EHd = Wd.*(abs(Hd-HNDRd).^2);
-  % Trapezoidal integration of the error
-  intEHd = sum(diff(wd).*(EHd(1:(length(EHd)-1))+EHd(2:(length(EHd))))/2);
-  % Heuristics for the barrier function
-  lambda = 0.001;
-  if (nD > 0)
-    M = nD*R;
-    T = 300;
-    rho = 31/32;
-    % Convert to state variable form
-    DRrho=DR./(rho.^(0:(length(DR)-1))');
-    DRrho=DRrho(:)'/DRrho(1);
-    nDRrho=length(DRrho);
-    ADR=[zeros(nDRrho-2,1) eye(nDRrho-2); -DRrho(nDRrho:-1:2)];
-    bDR=[zeros(nDRrho-2,1);1];
-    cDR=-DRrho(nDRrho:-1:2);
-    dDR=1;
-    % Calculate barrier function
-    f = zeros(M,1);
-    cADR_Tk = cDR*(ADR^(T-1));
-    for k=1:M
-      f(k) = cADR_Tk*bDR;
-      cADR_Tk = cADR_Tk*ADR;
-    endfor
-    f = real(f);
-    EJ = sum(f.*f);
-  else
-    EJ = 0;
-  endif
-  % Done
-  E = ((1-lambda)*intEHd) + (lambda*EJ);
-endfunction
-
 % Initial filter (found by trial-and-error)
 U=2,V=0,M=18,Q=10,R=2
 x0=[ 0.00005, ...
@@ -103,9 +47,9 @@ Wd=[Wasl*ones(nasl,1); ...
     Wasu*ones(n-nasu+1,1)];
 
 % Unconstrained minimisation
-WISEJ_ND([],nN,nD,R,wd,Hd,Wd);
+WISEJ([],nN,nD,R,wd,Hd,Wd);
 tol=1e-6;
-[ND,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_ND,ND0,optimset("TolFun",tol,"TolX",tol));
+[ND,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,ND0,optimset("TolFun",tol,"TolX",tol));
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)

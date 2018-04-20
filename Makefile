@@ -40,12 +40,14 @@ OCTAVE_SCRIPTS = \
  butt3OneMSV_test \
  butt3OneM_test \
  butt6NSPABP_test \
+ compare_fir_iir_socp_slb_lowpass_test \
  de_min_schurNSPAlattice_lowpass_test \
  de_min_schurNSlattice_lowpass_test \
  de_min_schurOneMPAlattice_lowpass_test \
  de_min_schurOneMlattice_lowpass_test \
  de_min_svcasc_lowpass_test \
  decimator_R2_test \
+ decimator_R2_alternate_test \
  deczky1_sqp_test \
  deczky3_socp_bfgs_test \
  deczky3_socp_test \
@@ -57,6 +59,7 @@ OCTAVE_SCRIPTS = \
  directFIRsymmetric_slb_bandpass_test \
  directFIRsymmetric_slb_lowpass_test \
  error_feedback_test \
+ fir_socp_slb_lowpass_test \
  freq_transform_structure_test \
  frm2ndOrderCascade_socp_test \
  gkstep_test \
@@ -66,6 +69,7 @@ OCTAVE_SCRIPTS = \
  iir_slb_exchange_constraints_test \
  iir_slb_update_constraints_test \
  iir_socp_slb_bandpass_test \
+ iir_socp_slb_lowpass_test \
  iir_sqp_mmse_tarczynski_ex2_test \
  iir_sqp_mmse_test \
  iir_sqp_slb_bandpass_test \
@@ -99,6 +103,7 @@ OCTAVE_SCRIPTS = \
  schurOneMAPlattice_frm_halfband_socp_slb_test \
  schurOneMAPlattice_frm_hilbert_socp_slb_test \
  schurOneMPAlattice_socp_slb_bandpass_test \
+ schurOneMPAlattice_socp_slb_bandpass_hilbert_test \
  schurOneMPAlattice_socp_slb_lowpass_test \
  schurOneMR2lattice2Abcd_test \
  schurOneMlattice_bandpass_allocsd_test \
@@ -195,7 +200,8 @@ CLEAN_AEGIS_SUFFIXES= \,D \,B
 OCTAVE_FLAGS=-q
 OCTAVE=octave-cli $(OCTAVE_FLAGS)
 MKOCTFILE=mkoctfile
-PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1
+#PDF_MONO_FLAGS='\def\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
+PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1 $(PDF_MONO_FLAGS)
 BIBTEX=bibtex
 QPDF=qpdf
 #XCXXFLAGS=-g -fsanitize=undefined -fsanitize=address -fno-sanitize=vptr \

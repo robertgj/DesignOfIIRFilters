@@ -36,6 +36,22 @@ if 0
   m1=11 % Allpass model filter 1 denominator order
   m2=12 % Allpass model filter 2 denominator order
   fap=0.15 % Pass band amplitude response edge
+  dBap=1 % Pass band amplitude response ripple
+  Wap=1 % Pass band amplitude response weight
+  Wat=0 % Transition band amplitude response weight
+  fas=0.2 % Stop band amplitude response edge
+  dBas=35 % Stop band amplitude response ripple
+  Was=1e4 % Stop band amplitude response weight
+  ftp=0.175 % Pass band group delay response edge
+  td=(m1+m2)/2 % Pass band nominal group delay
+  tdr=0.4 % Pass band group delay response ripple
+  Wtp=0.01 % Pass band group delay response weight
+elseif 0
+  n=400
+  difference=false
+  m1=11 % Allpass model filter 1 denominator order
+  m2=12 % Allpass model filter 2 denominator order
+  fap=0.15 % Pass band amplitude response edge
   dBap=3 % Pass band amplitude response ripple
   Wap=1 % Pass band amplitude response weight
   Wat=0 % Transition band amplitude response weight
@@ -168,6 +184,11 @@ print_polynomial(A1epsilon,"A1epsilon");
 print_polynomial(A1epsilon,"A1epsilon",strcat(strf,"_A1epsilon_coef.m"),"%2d");
 print_polynomial(A1p,"A1p");
 print_polynomial(A1p,"A1p",strcat(strf,"_A1p_coef.m"));
+
+D1_1=schurOneMAPlattice2tf(A1k,A1epsilon,A1p);
+print_polynomial(D1_1,"D1_1");
+print_polynomial(D1_1,"D1_1",strcat(strf,"_D1_1_coef.m"));
+
 print_polynomial(A2k,"A2k");
 print_polynomial(A2k,"A2k",strcat(strf,"_A2k_coef.m"));
 print_polynomial(A2epsilon,"A2epsilon");
@@ -175,13 +196,17 @@ print_polynomial(A2epsilon,"A2epsilon",strcat(strf,"_A2epsilon_coef.m"),"%2d");
 print_polynomial(A2p,"A2p");
 print_polynomial(A2p,"A2p",strcat(strf,"_A2p_coef.m"));
 
+D2_1=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
+print_polynomial(D2_1,"D2_1");
+print_polynomial(D2_1,"D2_1",strcat(strf,"_D2_1_coef.m"));
+
 save schurOneMPAlattice_socp_slb_lowpass_test.mat ...
      rho tol ctol difference n m1 m2 ...
      fap dBap Wap Wat fas dBas Was ftp td tdr Wtp ...
-     D1_0 D2_0 A1k A1epsilon A1p A2k A2epsilon A2p
+     D1_0 D2_0 A1k A1epsilon A1p D1_1 A2k A2epsilon A2p D2_1
 
 % Done
 toc;
 diary off
 movefile schurOneMPAlattice_socp_slb_lowpass_test.diary.tmp ...
-       schurOneMPAlattice_socp_slb_lowpass_test.diary;
+         schurOneMPAlattice_socp_slb_lowpass_test.diary;

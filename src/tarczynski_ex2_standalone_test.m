@@ -22,53 +22,6 @@ warning("error","Octave:broadcast");
 warning("error","Octave:divide-by-zero");
 warning("error","Octave:possible-matlab-short-circuit-operator");
 
-global nN nD R wd Hd Wd
-
-% Objective function
-function E=WISEJ_ND(ND)
-  global nN nD R wd Hd Wd
-  % Sanity check
-  if (length(ND) != (1+nN+nD))
-    error("Expected length(ND) == (1+nN+nD)!");
-  endif
-  % Decimate the denominator
-  N=ND(1:(nN+1));
-  DR=[1;kron(ND((nN+2):(nN+1+nD)), [zeros(R-1,1);1])];
-  % Find the error complex frequency response 
-  HNDRd = freqz(N,DR, wd);
-  EHd = Wd.*(abs(Hd-HNDRd).^2);
-  % Trapezoidal integration of the error
-  intEHd = sum(diff(wd).*(EHd(1:(length(EHd)-1))+EHd(2:(length(EHd))))/2);
-  % Heuristics for the barrier function
-  lambda = 0.001;
-  if (nD > 0)
-    M = nD*R;
-    T = 300;
-    rho = 31/32;
-    % Convert to state variable form
-    DRrho=DR./(rho.^(0:(length(DR)-1))');
-    DRrho=DRrho(:)'/DRrho(1);
-    nDRrho=length(DRrho);
-    ADR=[zeros(nDRrho-2,1) eye(nDRrho-2); -DRrho(nDRrho:-1:2)];
-    bDR=[zeros(nDRrho-2,1);1];
-    cDR=-DRrho(nDRrho:-1:2);
-    dDR=1;
-    % Calculate barrier function
-    f = zeros(M,1);
-    cADR_Tk = cDR*(ADR^(T-1));
-    for k=1:M
-      f(k) = cADR_Tk*bDR;
-      cADR_Tk = cADR_Tk*ADR;
-    endfor
-    f = real(f);
-    EJ = sum(f.*f);
-  else
-    EJ = 0;
-  endif
-  % Done
-  E = ((1-lambda)*intEHd) + (lambda*EJ);
-endfunction
-
 % Filter specification
 transf=0.02;
 f1=0.5-transf;f2=0.5+transf;
@@ -91,8 +44,9 @@ Hd=Ha.*exp(-j*wd.*Ht);
 Wd=[10*ones(bw,1); ones(bt,1); 50*ones(bw,1)];
 
 % Unconstrained minimisation
-N0=[1;zeros(nN+nD,1)];
-[ND,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_ND,N0,optimset("TolFun",tol,"TolX",tol));
+NI=[1;zeros(nN+nD,1)];
+WISEJ([],nN,nD,R,wd,Hd,Wd);
+[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,NI,optimset("TolFun",tol,"TolX",tol));
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -112,15 +66,15 @@ printf("fminunc successful=%d??\n", OUTPUT.successful);
 printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 
 % Create the output polynomials
-ND=ND(:);
-N=ND(1:(nN+1));
-D=[1; ND((nN+2):(nN+1+nD))];
-DR=[D(1);kron(D(2:length(D)), [zeros(R-1,1);1])];
+N0=ND0(:);
+N0=ND0(1:(nN+1));
+D0=[1; ND0((nN+2):end)];
+D0R=[D0(1);kron(D0(2:end), [zeros(R-1,1);1])];
 
 % Plot results
 nplot=512;
-[H,wplot]=freqz(N,DR,nplot);
-T=grpdelay(N',DR',nplot);
+[H,wplot]=freqz(N0,D0R,nplot);
+T=grpdelay(N0',D0R',nplot);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(H)));
 ylabel("Amplitude(dB)");
@@ -138,22 +92,22 @@ print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 subplot(111);
-zplane(roots(N),roots(DR))
+zplane(roots(N0),roots(D0R))
 title(s);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
 % Print results
-print_polynomial(N,"N");
-print_polynomial(N,"N",strcat(strf,"_N_coef.m"));
-print_polynomial(D,"D");
-print_polynomial(D,"D",strcat(strf,"_D_coef.m"));
-[x,U,V,M,Q]=tf2x(N,D);
-print_pole_zero(x,U,V,M,Q,R,"x");
-print_pole_zero(x,U,V,M,Q,R,"x",strcat(strf,"_x_coef.m"));
+print_polynomial(N0,"N0");
+print_polynomial(N0,"N0",strcat(strf,"_N0_coef.m"));
+print_polynomial(D0,"D0");
+print_polynomial(D0,"D0",strcat(strf,"_D0_coef.m"));
+[x0,U,V,M,Q]=tf2x(N0,D0);
+print_pole_zero(x0,U,V,M,Q,R,"x0");
+print_pole_zero(x0,U,V,M,Q,R,"x0",strcat(strf,"_x0_coef.m"));
 
 % Save the result
-save tarczynski_ex2_standalone_test.mat a1 a2 t1 t2 transf nN nD R N D DR
+save tarczynski_ex2_standalone_test.mat a1 a2 t1 t2 transf nN nD R N0 D0 D0R x0
 
 diary off
 movefile tarczynski_ex2_standalone_test.diary.tmp ...

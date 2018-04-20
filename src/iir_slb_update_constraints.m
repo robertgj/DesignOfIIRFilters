@@ -31,53 +31,45 @@ endif
 A=iirA(wa,x,U,V,M,Q,R);
 
 % Find amplitude lower constraint violations with local_max
-vAl=local_max(Adl-A);
+vAl=local_max((Adl-A).*(Wa!=0));
 vS.al=vAl(find((Adl(vAl)-A(vAl))>tol));
-vS.al=vS.al(find(Wa(vS.al)!=0));
 
 % Find amplitude upper constraint violations
-vAu=local_max(A-Adu);
+vAu=local_max((A-Adu).*(Wa!=0));
 vS.au=vAu(find((A(vAu)-Adu(vAu))>tol));
-vS.au=vS.au(find(Wa(vS.au)!=0));
 
 % Stop-band mplitude response
 S=iirA(ws,x,U,V,M,Q,R);
 
 % Find stop-band amplitude lower constraint violations with local_max
-vSl=local_max(Sdl-S);
+vSl=local_max((Sdl-S).*(Ws!=0));
 vS.sl=vSl(find((Sdl(vSl)-S(vSl))>tol));
-vS.sl=vS.sl(find(Ws(vS.sl)!=0));
 
 % Find stop-band amplitude upper constraint violations
-vSu=local_max(S-Sdu);
+vSu=local_max((S-Sdu).*(Ws!=0));
 vS.su=vSu(find((S(vSu)-Sdu(vSu))>tol));
-vS.su=vS.su(find(Ws(vS.su)!=0));
 
 % Group delay response
 T=iirT(wt,x,U,V,M,Q,R);
 
 % Find group delay lower constraint violations
-vTl=local_max(Tdl-T);
+vTl=local_max((Tdl-T).*(Wt!=0));
 vS.tl=vTl(find((Tdl(vTl)-T(vTl))>tol));
-vS.tl=vS.tl(find(Wt(vS.tl)!=0));
 
 % Find group delay upper constraint violations
-vTu=local_max(T-Tdu);
+vTu=local_max((T-Tdu).*(Wt!=0));
 vS.tu=vTu(find((T(vTu)-Tdu(vTu))>tol));
-vS.tu=vS.tu(find(Wt(vS.tu)!=0));
 
 % Phase response
 P=iirP(wp,x,U,V,M,Q,R);
 
 % Find phase response lower constraint violations
-vPl=local_max(Pdl-P);
+vPl=local_max((Pdl-P).*(Wp!=0));
 vS.pl=vPl(find((Pdl(vPl)-P(vPl))>tol));
-vS.pl=vS.pl(find(Wp(vS.pl)!=0));
 
 % Find phase response upper constraint violations
-vPu=local_max(P-Pdu);
+vPu=local_max((P-Pdu).*(Wp!=0));
 vS.pu=vPu(find((P(vPu)-Pdu(vPu))>tol));
-vS.pu=vS.pu(find(Wp(vS.pu)!=0));
 
 % Do not want size 0x1 ?!?!?!
 if isempty(vS.al) 

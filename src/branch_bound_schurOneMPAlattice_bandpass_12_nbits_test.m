@@ -404,7 +404,7 @@ else
   % Make a LaTeX table for cost
   fid=fopen(strcat(strf,"_kmin_cost.tab"),"wt");
   fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-  fprintf(fid,"%d-bit %d-signed-digit(Ito)& %8.6f & %d & %d \\\\\n",
+  fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n",
           nbits,ndigits,Esq0_sd,k0_sd_digits,k0_sd_adders);
   fprintf(fid,"%d-bit %d-signed-digit(SOCP b-and-b) & %8.6f & %d & %d \\\\\n",
           nbits,ndigits,Esq_min,kmin_digits,kmin_adders);
@@ -436,7 +436,7 @@ else
   plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
        wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
        wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-  legend("exact","s-d(Ito)","s-d(SOCP b-and-b)");
+  legend("exact","s-d(Lim)","s-d(SOCP b-and-b)");
   legend("location","northeast");
   legend("boxoff");
   legend("left");
@@ -459,7 +459,7 @@ else
 (nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,ndigits,fapl,fapu,dBap);
   title(strt);
   axis([fapl fapu -3, 1]);
-  legend("exact","s-d(Ito)","s-d(b-and-b)");
+  legend("exact","s-d(Lim)","s-d(b-and-b)");
   legend("location","northeast");
   legend("boxoff");
   legend("left");
@@ -477,7 +477,7 @@ else
 (nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g,tdr=%g",nbits,ndigits,ftpl,ftpu,tdr);
   title(strt);
   axis([ftpl ftpu, td-tdr, td+tdr]);
-  legend("exact","s-d(Ito)","s-d(b-and-b)");
+  legend("exact","s-d(Lim)","s-d(b-and-b)");
   legend("location","northeast");
   legend("boxoff");
   legend("left");

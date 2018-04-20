@@ -42,12 +42,12 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-verbose =  1
+verbose = 1
 tol =    1.0000e-05
 tol =    1.0000e-06
 constraints_tol =    1.0000e-07
 maxiter =  5000
-verbose =  1
+verbose = 1
 Mmodel =  9
 Dmodel =  7
 dmask =  20
@@ -59,87 +59,6 @@ Wtp =  0.050000
 fas =  0.31000
 dBas =  40
 Was =  50
-vTu =
-     6
-    17
-    29
-    40
-    51
-    62
-    74
-    84
-    92
-   101
-   110
-   124
-   134
-   145
-   158
-   168
-   179
-   190
-   200
-   212
-   223
-   234
-   241
-vS =
-  scalar structure containing the fields:
-    al =
-       156
-       201
-       218
-       241
-    au =
-         1
-        23
-        41
-        66
-        81
-       108
-       123
-       149
-       163
-       171
-       186
-       195
-       208
-       234
-       249
-       251
-       258
-       268
-       282
-       290
-       297
-       309
-       315
-       331
-       339
-       349
-       353
-       359
-       371
-       375
-       381
-       392
-       399
-    tl =
-       173
-       184
-       195
-       206
-       218
-       229
-       240
-    tu =
-       168
-       179
-       190
-       200
-       212
-       223
-       234
 vS =
   scalar structure containing the fields:
     al =

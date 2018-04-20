@@ -18,17 +18,17 @@ verbose=false
 tol_wise=1e-7
 tol_mmse=1e-5
 tol_pcls=2e-4
-ctol=tol_pcls
+ctol=1e-6
 maxiter=4000
 
 % Filter specifications (frequencies are normalised to the sample rate)
-fap=0.10,dBap=0.3,Wap=1
-fas=0.25,dBas=50,Was=4
-ftp=0.125,tp=10,tpr=0.008,Wtp=1
+U=0,V=0,M=10,Q=6,R=2
+fap=0.10,dBap=0.2,Wap=1
+fas=0.25,dBas=40,Was=4
+ftp=0.125,tp=M-2,tpr=tp/1000,Wtp=1
 
 % Initial filter guess
-U=0,V=0,M=12,Q=6,R=2
-xi=[0.0001, [1,1,1,1,1,1], (7:12)*pi/12, 0.7*[1,1,1], (1:3)*pi/8]';
+xi=[0.001, [1,1,1,1,1], (7:11)*pi/12, 0.7*[1,1,1], (1:3)*pi/8]';
 
 % Frequency points
 n=1000;
@@ -41,9 +41,9 @@ dmax=0.05;
 wa=(0:(n-1))'*pi/n;
 nap=ceil(n*fap/0.5)+1;
 nas=floor(n*fas/0.5)+1;
-Ad=[ones(nap,1);zeros(n-nap,1)];
-Adu=[ones(nas-1,1);(10^(-dBas/20))*ones(n-nas+1,1)];
-Adl=[(10^(-dBap/20))*ones(nap,1);zeros(n-nap,1)];
+Ad=[1./sinc(wa(1:nap)/2);zeros(n-nap,1)];
+Adu=[Ad(1:(nas-1));(10^(-dBas/20))*ones(n-nas+1,1)];
+Adl=[(10^(-dBap/20))*Ad(1:nap);zeros(n-nap,1)];
 Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
 
 % Stop-band amplitude response constraints
@@ -67,6 +67,14 @@ Pd=[];
 Pdu=[];
 Pdl=[];
 Wp=[];
+
+% Sanity checks
+nchka=[nap-1,nap,nap+1,nas-1,nas,nas+1]';
+printf("0.5*wa(nchka)'/pi=[ ");printf("%6.4g ",0.5*wa(nchka)'/pi);printf("];\n");
+printf("Ad(nchka)=[ ");printf("%6.4g ",Ad(nchka)');printf("];\n");
+printf("Adu(nchka)=[ ");printf("%6.4g ",Adu(nchka)');printf("];\n");
+printf("Adl(nchka)=[ ");printf("%6.4g ",Adl(nchka)');printf("];\n");
+printf("Wa(nchka)=[ ");printf("%6.4g ",Wa(nchka)');printf("];\n");
 
 % Initialise strings
 strM=sprintf("%%s:fap=%g,fas=%g,Was=%%g,ftp=%g,tp=%g,Wtp=%%g",...
@@ -104,7 +112,7 @@ strM1=sprintf(strM,"x1",Was,Wtp);
 showResponse(x1,U,V,M,Q,R,strM1);
 print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
-showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,x1,U,V,M,Q,R,strM1);
+showResponsePassBands(0,max(fap,ftp),-0.5,1.5,x1,U,V,M,Q,R,strM1);
 print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 close
 showZPplot(x1,U,V,M,Q,R,strM1)
@@ -125,7 +133,7 @@ strP1=sprintf(strP,"d1",dBap,dBas,Was,tpr,Wtp);
 showResponse(d1,U,V,M,Q,R,strP1);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
-showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,d1,U,V,M,Q,R,strP1);
+showResponsePassBands(0,max(fap,ftp),-0.5,1.5,d1,U,V,M,Q,R,strP1);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 close
 showZPplot(d1,U,V,M,Q,R,strP1);
@@ -152,6 +160,11 @@ printf("d1:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 
 % Save results
 fid=fopen(strcat(strf,".spec"),"wt");
+fprintf(fid,"U=%d %% Number of real zeros\n",U);
+fprintf(fid,"V=%d %% Number of real poles\n",V);
+fprintf(fid,"M=%d %% Number of complex zeros\n",M);
+fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
+fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"tol_wise=%g %% Tolerance on WISE relative coef. update\n",tol_wise);
 fprintf(fid,"tol_mmse=%g %% Tolerance on MMSE relative coef. update\n",tol_mmse);
@@ -167,11 +180,6 @@ fprintf(fid,"Wtp=%d %% Pass band group delay weight\n",Wtp);
 fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
 fprintf(fid,"dBas=%d %% Stop band minimum attenuation\n",dBas);
 fprintf(fid,"Was=%d %% Stop band amplitude weight\n",Was);
-fprintf(fid,"U=%d %% Number of real zeros\n",U);
-fprintf(fid,"V=%d %% Number of real poles\n",V);
-fprintf(fid,"M=%d %% Number of complex zeros\n",M);
-fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
-fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fclose(fid);
 
 print_pole_zero(d1,U,V,M,Q,R,"d1");

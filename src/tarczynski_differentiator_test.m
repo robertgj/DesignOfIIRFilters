@@ -13,62 +13,6 @@ diary tarczynski_differentiator_test.diary.tmp
 
 format compact
 
-% Objective function
-function E=WISEJ_DIFF(ND,_nN,_nD,_R,_wd,_Hd,_Wd)
-  persistent nN nD R wd Hd Wd td
-  persistent init_done=false
-  % Sanity checks
-  if (nargin ~= 1) && (nargin ~= 7)
-    print_usage("E=WISEJ_ND(ND[,nN,nD,R,wd,Hd,Wd,td])")
-  endif
-  if nargin == 7
-    nN=_nN;nD=_nD;R=_R;wd=_wd;Hd=_Hd;Wd=_Wd;
-    init_done=true;
-    if nargout == 0
-      return;
-    endif
-  endif
-  if (length(ND) != (1+nN+nD))
-    error("Expected length(ND) == (1+nN+nD)!");
-  endif
-  % Decimate the denominator
-  N=ND(1:(nN+1));
-  DR=[1;kron(ND((nN+2):end),[zeros(R-1,1);1])];
-  % Find the error complex frequency response 
-  HNDRd = freqz(N,DR, wd);
-  EHd = Wd.*(abs(Hd-HNDRd).^2);
-  % Trapezoidal integration of the error
-  intEHd = sum(diff(wd).*(EHd(1:(length(EHd)-1))+EHd(2:(length(EHd))))/2);
-  % Heuristics for the barrier function
-  lambda = 0.001;
-  if (nD > 0)
-    M = nD*R;
-    T = 300;
-    rho = 31/32;
-    % Convert to state variable form
-    DRrho=DR./(rho.^(0:(length(DR)-1))');
-    DRrho=DRrho(:)'/DRrho(1);
-    nDRrho=length(DRrho);
-    ADR=[zeros(nDRrho-2,1) eye(nDRrho-2); -DRrho(nDRrho:-1:2)];
-    bDR=[zeros(nDRrho-2,1);1];
-    cDR=-DRrho(nDRrho:-1:2);
-    dDR=1;
-    % Calculate barrier function
-    f = zeros(M,1);
-    cADR_Tk = cDR*(ADR^(T-1));
-    for k=1:M
-      f(k) = cADR_Tk*bDR;
-      cADR_Tk = cADR_Tk*ADR;
-    endfor
-    f = real(f);
-    EJ = sum(f.*f);
-  else
-    EJ = 0;
-  endif
-  % Done
-  E = ((1-lambda)*intEHd) + (lambda*EJ);
-endfunction
-
 % Filter specification
 R=2;nN=12;nD=6;td=(nN-1)/2;tol=1e-9;
 
@@ -81,9 +25,9 @@ Hd=(wd/pi).*exp(-j*td*wd)*exp(j*pi/2);
 Wd=ones(n,1);
 
 % Unconstrained minimisation
-N0=[1;zeros(nN+nD,1)];
-WISEJ_DIFF([],nN,nD,R,wd,Hd,Wd);
-[ND,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_DIFF,N0,optimset("TolFun",tol,"TolX",tol));
+NI=[1;zeros(nN+nD,1)];
+WISEJ([],nN,nD,R,wd,Hd,Wd);
+[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,NI,optimset("TolFun",tol,"TolX",tol));
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -103,15 +47,15 @@ printf("fminunc successful=%d??\n", OUTPUT.successful);
 printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 
 % Create the output polynomials
-ND=ND(:);
-N=ND(1:(nN+1));
-D=[1; ND((nN+2):end)];
-DR=[D(1);kron(D(2:end),[zeros(R-1,1);1])];
+ND0=ND0(:);
+N0=ND0(1:(nN+1));
+D0=[1; ND0((nN+2):end)];
+D0R=[D0(1);kron(D0(2:end),[zeros(R-1,1);1])];
 
 % Plot results
 nplot=512;
-[H,wplot]=freqz(N,DR,nplot);
-T=grpdelay(N',DR',nplot);
+[H,wplot]=freqz(N0,D0R,nplot);
+T=grpdelay(N0',D0R',nplot);
 subplot(211);
 plot(wplot*0.5/pi,abs(H)-wplot/pi);
 axis([0 0.5 -0.01 0.01]);
@@ -131,22 +75,21 @@ print("tarczynski_differentiator_response",  "-dpdflatex");
 close
 
 subplot(111);
-zplane(roots(N),roots(DR));
+zplane(roots(N0),roots(D0R));
 title(s);
 print("tarczynski_differentiator_pz",  "-dpdflatex");
 close
 
 % Save the result
-sort(roots(N))
-sort(roots(DR))
-fprintf("N=[ ");fprintf("%14.10f ",N');fprintf("]';\n");
-fprintf("R=%d,D=[ ",R);fprintf("%14.10f ",D');fprintf("]';\n");
-fid=fopen("tarczynski_differentiator_test.coef","wt");
-fprintf(fid,"N=[ ");fprintf(fid,"%14.10f ",N');fprintf(fid,"]';\n");
-fprintf(fid,"R=%d,D=[ ",R);fprintf(fid,"%14.10f ",D');fprintf(fid,"]';\n");
-fclose(fid);
+print_polynomial(N0,"N0");
+print_polynomial(N0,"N0","tarczynski_differentiator_test_N0_coef.m");
+print_polynomial(D0,"D0");
+print_polynomial(D0,"D0","tarczynski_differentiator_test_D0_coef.m");
+[x0,U,V,M,Q]=tf2x(N0,D0);
+print_pole_zero(x0,U,V,M,Q,R,"x0");
+print_pole_zero(x0,U,V,M,Q,R,"x0","tarczynski_differentiator_test_x0_coef.m");
 
-save tarczynski_differentiator_test.mat nN nD R N D DR
+save tarczynski_differentiator_test.mat nN nD R N0 D0 D0R U V M Q x0
 
 diary off
 movefile tarczynski_differentiator_test.diary.tmp ...

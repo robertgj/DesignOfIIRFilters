@@ -162,7 +162,15 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
       if abk==nextabk
         printf("abk=[ ");printf("%f ",abk);printf("]';\n");
         warning("No change to solution after %d PCLS iterations\n",slb_iter);
-        break;
+        for [v,k]=vR
+          printf("vR.%s=[ ",k);printf("%d ",v);printf("]\n");
+        endfor
+        for [v,k]=vS
+          printf("vS.%s=[ ",k);printf("%d ",v);printf("]\n");
+        endfor
+        if parallel_allpass_slb_constraints_are_empty(vR)
+          break;
+        endif
       endif
       abk=nextabk;
       printf("Feasible solution after %d optimisation iterations\n", ...
@@ -197,7 +205,7 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
        (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,ctol);
     printf("Step 5: vS frequency constraints updated to:\n");
     for [v,k]=vS
-      printf("%s=[ ",k);printf("%d ",v);printf("]\n");
+      printf("vS.%s=[ ",k);printf("%d ",v);printf("]\n");
     endfor
     if verbose
       parallel_allpass_slb_show_constraints(vS,wa,Asqk,wt,Tk);

@@ -146,7 +146,15 @@ function [hM,slb_iter,socp_iter,func_iter,feasible] = ...
       if hM==nexthM
         printf("hM=[ ");printf("%f ",hM');printf("]';\n");
         warning("No change to solution after %d PCLS iterations\n",slb_iter);
-        break;
+        for [v,k]=vR
+          printf("vR.%s=[ ",k);printf("%d ",v);printf("]\n");
+        endfor
+        for [v,k]=vS
+          printf("vS.%s=[ ",k);printf("%d ",v);printf("]\n");
+        endfor
+        if directFIRsymmetric_slb_constraints_are_empty(vR)
+          break;
+        endif
       endif
       hM=nexthM; 
       printf("Feasible solution after %d optimisation iterations\n",slb_iter);
@@ -185,7 +193,7 @@ function [hM,slb_iter,socp_iter,func_iter,feasible] = ...
     vS=directFIRsymmetric_slb_update_constraints(Ak,Adu,Adl,ctol);
     printf("Step 5: vS frequency constraints updated to:\n");
     for [v,m]=vS
-      printf("%s=[ ",m);printf("%d ",v);printf("]\n");
+      printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
     endfor  
     printf("hM=[ ");printf("%g ",hM');printf("]'\n");
     printf("S constraints:\n");

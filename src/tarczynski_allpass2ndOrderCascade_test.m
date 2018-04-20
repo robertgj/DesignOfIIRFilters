@@ -260,14 +260,18 @@ np=ceil(fap*nplot/0.5)+1;
 ns=floor(fas*nplot/0.5)+1;
 clf();
 subplot(211);
-plotyy(wplot(1:np)*0.5/pi,20*log10(abs(H(1:np))),...
-       wplot(ns:end)*0.5/pi,20*log10(abs(H(ns:end))));
+ax=plotyy(wplot(1:np)*0.5/pi,20*log10(abs(H(1:np))),...
+          wplot(ns:end)*0.5/pi,20*log10(abs(H(ns:end))));
+set(ax(1),'ycolor','black');
+set(ax(2),'ycolor','black');
 axis([0 0.5 -3 1]);
 ylabel("Amplitude(dB)");
 grid("on");
 title(s);
 subplot(212);
-plotyy(wplot(1:np)*0.5/pi,T(1:np),wplot(ns:end)*0.5/pi,T(ns:end));
+ax=plotyy(wplot(1:np)*0.5/pi,T(1:np),wplot(ns:end)*0.5/pi,T(ns:end));
+set(ax(1),'ycolor','black');
+set(ax(2),'ycolor','black');
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 grid("on");
@@ -291,8 +295,10 @@ close
 clf();
 subplot(111);
 phase_diff=(unwrap(arg(Ha))-unwrap(arg(Hb)));
-plotyy(wplot(1:np)*0.5/pi,phase_diff(1:np), ...
-       wplot(ns:end)*0.5/pi,phase_diff(ns:end))
+ax=plotyy(wplot(1:np)*0.5/pi,phase_diff(1:np), ...
+          wplot(ns:end)*0.5/pi,phase_diff(ns:end))
+set(ax(1),'ycolor','black');
+set(ax(2),'ycolor','black');
 ylabel("Allpass filter phase difference(rad)");
 xlabel("Frequency");
 grid("on");

@@ -9,9 +9,11 @@ schurOneMPAlattice_socp_slb_lowpass_test.spec \
 schurOneMPAlattice_socp_slb_lowpass_test_A1k_coef.m \
 schurOneMPAlattice_socp_slb_lowpass_test_A1epsilon_coef.m \
 schurOneMPAlattice_socp_slb_lowpass_test_A1p_coef.m \
+schurOneMPAlattice_socp_slb_lowpass_test_D1_1_coef.m \
 schurOneMPAlattice_socp_slb_lowpass_test_A2k_coef.m \
 schurOneMPAlattice_socp_slb_lowpass_test_A2epsilon_coef.m \
-schurOneMPAlattice_socp_slb_lowpass_test_A2p_coef.m
+schurOneMPAlattice_socp_slb_lowpass_test_A2p_coef.m \
+schurOneMPAlattice_socp_slb_lowpass_test_D2_1_coef.m
 
 schurOneMPAlattice_socp_slb_lowpass_test_FILES = \
 schurOneMPAlattice_socp_slb_lowpass_test.m test_common.m \

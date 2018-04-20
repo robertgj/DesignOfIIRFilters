@@ -374,8 +374,8 @@ set(h1(1),"linestyle","-");
 set(h1(2),"linestyle","-.");
 set(h2(1),"linestyle","-");
 set(h2(2),"linestyle","-.");
-set(ax(1),"ycolor",'black');
-set(ax(2),"ycolor",'black');
+set(ax(1),'ycolor','black');
+set(ax(2),'ycolor','black');
 if 0
   ylabel(ax(1),"Pass-band amplitude(dB)");
   ylabel(ax(2),"Stop-band amplitude(dB)");

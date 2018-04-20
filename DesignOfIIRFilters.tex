@@ -42,8 +42,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \ifdefined\DesignOfIIRFiltersMono{}
   \begin{comment}
   To build a monochrome version use:
-    pdflatex -jobname=DesignOfIIRFiltersMono \
-      '\def\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
+    pdflatex '\def\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
   The PDF viewer shows red boxes around links, these are not printed.
   \end{comment}
   \usepackage[hidelinks]{hyperref} 
@@ -84,7 +83,11 @@ License.\\ View a copy of the license at:
 \cleardoublepage{}
 \chapter{Introduction}
 An IIR filter can approximate a desired amplitude response with fewer
-coefficients than an FIR filter. The design of IIR filters is more difficult
+coefficients than an FIR filter\footnote
+{Section~\ref{sec:Comparison-FIR-IIR-low-pass-filter-gain-zero-pole-with-SeDuMi}
+compares the frequency responses of FIR and IIR implementations of a low-pass
+filter with approximately flat pass-band group delay.}.
+The design of IIR filters is more difficult
 than the design of FIR filters. FIR filters are inherently stable. An FIR
 filter design problem can be formulated as a convex optimisation problem with
 a global solution (see, for example, \emph{Wu et
@@ -6912,7 +6915,7 @@ filter designed with the ``WISE'' method of \emph{Tarczynski et al.}
 \cite{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters}. In 
 gain-pole-zero format the filter is:
 \begin{small}
-\verbatiminput{tarczynski_ex2_standalone_test_x_coef.m}
+\verbatiminput{tarczynski_ex2_standalone_test_x0_coef.m}
 \end{small}
 In the above listing, the first line shows the gain, and subsequent lines show,
 respectively, $2$ real zeros, $2$ real poles, the zero radiuses for $11$
@@ -7230,21 +7233,22 @@ and
 \verbatiminput{deczky1_sqp_test_D1_coef.m}
 \end{small}
 \subsection{\label{sec:Low-pass-R-2-decimation-filter}Low-pass R=2 decimation filter}
-The second example design is a low-pass $R=2$ decimation filter.
+The second example design is a low-pass $R=2$ decimation filter with
+compensation for the zero-order hold amplitude response:
 \begin{align*}
 U &= 0\\
 V &= 0\\
-M &= 12\\
+M &= 10\\
 Q &= 6\\
 R &= 2\\
 A\left(f\right) &= \begin{cases}
-1 & 0<f<0.10\\
+\frac{\pi f}{\sin \pi f} & 0<f<0.10\\
 0 & 0.25<f<0.5
 \end{cases}\\
-T\left(f\right) &= 10 \quad 0<f<0.125
+T\left(f\right) &= 8 \quad 0<f<0.125
 \end{align*}
 The Octave script \emph{decimator\_R2\_test.m} implements this example.  The
-filter specification defined in that file is
+filter specification is
 \begin{small}
 \verbatiminput{decimator_R2_test.spec}
 \end{small}
@@ -7253,21 +7257,21 @@ the Octave function \emph{xInitHd} function. That filter design is itself
 initialised with a ``guess'':
 \begin{small}
 \begin{verbatim}
-xi=[ 0.0001, ...
+xi=[ 0.001, ...
      [1,1,1,1,1], ...
-     (7:12)*pi/12, ...
+     (7:11)*pi/12, ...
      0.7*[1,1,1], ...
      (1:3)*pi/8]';
 \end{verbatim}
 \end{small}
-In the above listing, the first line shows the gain, and subsequent lines show,
-respectively, $2$ real zeros, $0$ real poles, the zero radiuses for $5$
-conjugate pairs of zeros, the zero angles for $5$ conjugate pairs of zeros, the
-pole radiuses for $3$ conjugate pairs of poles and the pole angles for $3$
-conjugate pairs of poles. In this case the denominator decimation
+In this case the denominator decimation
 factor is $R=2$ and each complex pole pair is split into $2$ complex pole pairs
-so that the overall filter has $6$ complex conjugate pole pairs.
-The resulting initial response is shown in 
+so that the overall filter has $6$ complex conjugate pole pairs. In the above
+listing, the first line shows the gain, and subsequent lines show,
+respectively, $0$ real zeros, $0$ real poles, the zero radiuses for $5$
+conjugate pairs of zeros, the zero angles for $5$ conjugate pairs of zeros, the
+pole radiuses for $3$ conjugate quadruples of poles and the pole angles for $3$
+conjugate quadruples of poles. The resulting initial response is shown in 
 Figure~\ref{fig:Decimator-R-2-Initial-x0}. 
 \begin{figure}[!htbp]
 \begin{center}
@@ -7285,29 +7289,29 @@ pole-zero plot is shown in Figure~\ref{fig:Decimator-R-2-MMSE-x1-pz}.
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{decimator_R2_test_mmse_x1}}
-\caption{Low-pass decimator R=2 MMSE : Optimised response with Wap=1, Was=2, Wtp=1}
+\caption{Low-pass decimator R=2 MMSE : Optimised response with Wap=1, Was=4, Wtp=1}
 \label{fig:Decimator-R-2-MMSE-x1}
 \end{center}
 \end{figure}
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{decimator_R2_test_mmse_x1pass}}
-\caption{Low-pass decimator R=2 MMSE : Optimised passband response with Wap=1, Was=2, Wtp=1}
+\caption{Low-pass decimator R=2 MMSE : Optimised passband response with Wap=1, Was=4, Wtp=1}
 \label{fig:Decimator-R-2-MMSE-x1-passband}
 \end{center}
 \end{figure}
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{decimator_R2_test_mmse_x1pz}}
-\caption{Low-pass decimator R=2 MMSE : Pole-zero plot after optimisation with Wap=1, Was=2, Wtp=1}
+\caption{Low-pass decimator R=2 MMSE : Pole-zero plot after optimisation with Wap=1, Was=4, Wtp=1}
 \label{fig:Decimator-R-2-MMSE-x1-pz}
 \end{center}
 \end{figure}
 
-\subsubsection{PCLS optimisation of the low-pass  R=2 decimator}
+\subsubsection{PCLS optimisation of the low-pass R=2 decimator}
 Starting with the MMSE filter of Figure~\ref{fig:Decimator-R-2-MMSE-x1},
-the weights $Wap=1$, $Was=4$ and $Wtp=1$ and the constraints $dBap=0.3$, 
-$dBas=50$, $tp=10$ and $tpr=0.008$ give the response shown in
+the weights $Wap=1$, $Was=4$ and $Wtp=1$ and the constraints $dBap=0.2$, 
+$dBas=40$, $tp=8$ and $tpr=0.008$ give the response shown in
 Figure~\ref{fig:Decimator-R-2-PCLS-d1} with pass-band detail 
 shown in Figure~\ref{fig:Decimator-R-2-PCLS-d1-passband}. The corresponding 
 pole-zero plot is shown in Figure~\ref{fig:Decimator-R-2-PCLS-d1-pz}.
@@ -7328,24 +7332,44 @@ and
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{decimator_R2_test_pcls_d1}}
-\caption{Low-pass decimator R=2 PCLS : Optimised response with Wap=1, Was=2, Wtp=1, dBap=0.2, dBas=40, tpr=0.06}
+\caption{Low-pass decimator R=2 PCLS : Optimised response with Wap=1, Was=4, Wtp=1, dBap=0.2, dBas=40, tpr=0.008}
 \label{fig:Decimator-R-2-PCLS-d1}
 \end{center}
 \end{figure}
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{decimator_R2_test_pcls_d1pass}}
-\caption{Low-pass decimator R=2 PCLS : Optimised passband response with Wap=1, Was=2, Wtp=1, dBap=0.2, dBas=40, tpr=0.06}
+\caption{Low-pass decimator R=2 PCLS : Optimised passband response with Wap=1, Was=4, Wtp=1, dBap=0.2, dBas=40, tpr=0.008}
 \label{fig:Decimator-R-2-PCLS-d1-passband}
 \end{center}
 \end{figure}
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{decimator_R2_test_pcls_d1pz}}
-\caption{Low-pass decimator R=2 PCLS : Optimised pole-zero plot with Wap=1, Was=2, Wtp=1, dBap=0.2, dBas=40, tpr=0.06}
+\caption{Low-pass decimator R=2 PCLS : Optimised pole-zero plot with Wap=1, Was=4, Wtp=1, dBap=0.2, dBas=40, tpr=0.008}
 \label{fig:Decimator-R-2-PCLS-d1-pz}
 \end{center}
 \end{figure}
+\clearpage
+\subsubsection{An alternative implementation of the low-pass R=2 decimator}
+The Octave script \emph{decimator\_R2\_alternate\_test.m} designs an
+alternative implementation of an $R=2$ decimation low-pass filter with a flat
+pass-band amplitude response. The alternative filter specification is:
+\begin{small}
+\verbatiminput{decimator_R2_alternate_test.spec}
+\end{small}
+Figure~\ref{fig:Alternate_decimator-R-2-PCLS-d1} shows the response of the
+resulting filter.
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{decimator_R2_alternate_test_pcls_d1dual}}
+\caption{Alternative low-pass decimator R=2 : PCLS optimised response with
+  Wap=1, Was=4, Wtp=1, dBap=0.3, dBas=50, tp=10, tpr=0.008}
+\label{fig:Alternate_decimator-R-2-PCLS-d1}
+\end{center}
+\end{figure}
+
 \clearpage
 \subsection{\label{sec:Band-pass-R-2-decimation-filter}Band-pass R=2 decimation filter}
 The fourth example design is an $R=2$ decimation band-pass filter.
@@ -8176,7 +8200,7 @@ Equation~\ref{eqn:Lu-SeDuMi-Remarks-problem-format-conic-constraints},
 $\boldsymbol{q}=\left[\begin{array}{cccc}n_{1} & n_{2} & \hdots & n_{q}
 \end{array}\right]$.
 \clearpage
-\section{\label{sec:Deczky3-IIR-filter-gain-zero-pole-with-SeDuMi}An example of SOCP MMSE design of an IIR filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
+\section{\label{sec:Deczky3-IIR-filter-gain-zero-pole-with-SeDuMi}An example of SOCP design of an IIR filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
 The Octave script \emph{deczky3\_socp\_test.m} implements the design of Deczky's
 Example 3, used previously in Section~\ref{sub:Deczkys-Example-3}, with MMSE 
 optimisation of the weighted response error by the \emph{SeDuMi} SOCP solver.
@@ -8444,6 +8468,58 @@ and
 \begin{small}
 \verbatiminput{deczky3_socp_bfgs_test_D2_coef.m}
 \end{small}
+\clearpage
+\section{\label{sec:Comparison-FIR-IIR-low-pass-filter-gain-zero-pole-with-SeDuMi}Comparison of FIR and IIR low-pass filters having approximately flat pass-band group delay with symmetric FIR filters}
+The Octave script \emph{compare\_fir\_iir\_socp\_slb\_lowpass\_test.m}
+compares the performance of FIR and IIR implementations of a low-pass filter
+having $31$ coefficients and a pass-band group delay of approximately $10$
+samples designed by the \emph{SeDuMi} solver with symmetric FIR low-pass
+filters having $21$ and $31$ coefficients designed by the Octave \emph{remez}
+function. The low-pass filter pass-band and stop-band edges are $0.15$ and
+$0.2$, respectively, and the allowed pass-band ripple is $3dB$. The IIR filter
+specification is:
+\begin{small}
+\verbatiminput{iir_socp_slb_lowpass_test.spec}
+\end{small}
+The \emph{gain-zero-pole} FIR filter specification is:
+\begin{small}
+\verbatiminput{fir_socp_slb_lowpass_test.spec}
+\end{small}
+The symmetric FIR filters were designed with:
+\begin{small}
+\begin{verbatim}
+d10=remez(20,[0 0.15 0.2 0.5]*2,[1 1 0 0],[1 7]);
+\end{verbatim}
+\end{small}
+and
+\begin{small}
+\begin{verbatim}
+d15=remez(30,[0 0.15 0.2 0.5]*2,[1 1 0 0],[1 50]);
+\end{verbatim}
+\end{small}
+
+Figure~\ref{fig:FIR-IIR-low-pass-filter-gain-zero-pole-with-SeDuMi-amplitude}
+compares the amplitude responses of the four filters and
+Figure~\ref{fig:FIR-IIR-low-pass-filter-gain-zero-pole-with-SeDuMi-delay}
+compares the delay responses (the flat delay of $15$ samples of the order $30$
+symmetric FIR filter is not shown).
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{compare_fir_iir_socp_slb_lowpass_test_A}}
+\caption{Comparison of FIR and IIR low-pass filters : Amplitude responses}
+\label{fig:FIR-IIR-low-pass-filter-gain-zero-pole-with-SeDuMi-amplitude}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{compare_fir_iir_socp_slb_lowpass_test_T}}
+\caption{Comparison of FIR and IIR low-pass filters : Group delay responses}
+\label{fig:FIR-IIR-low-pass-filter-gain-zero-pole-with-SeDuMi-delay}
+\end{center}
+\end{figure}
+
 \clearpage
 \section{\label{sec:Bandpass-R-2-IIR-filter-gain-zero-pole-with-SeDuMi}SOCP MMSE design of a bandpass R=2 filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
 The Octave script \emph{iir\_socp\_slb\_bandpass\_test.m} uses the \emph{SeDuMi}
@@ -10268,16 +10344,16 @@ optimisation.The specification of the filter is:
 \begin{small}
 \verbatiminput{schurOneMPAlattice_socp_slb_lowpass_test.spec}
 \end{small}
-The initial parallel allpass filters were designed by the Octave script 
+The initial parallel all-pass filters were designed by the Octave script 
 \emph{tarczynski\_parallel\_allpass\_test.m} (with $flat\_delay=true$).
 These initial filters are those used in
 Section~\ref{sec:Design-IIR-filter-sum-all-pass-filters-pole-zero-constrained-group-delay}.
 
-Figures~\ref{fig:Parallel-Schur-one-m-lattice-allpass-lowpass-filter-SOCP-PCLS} 
-and~\ref{fig:Parallel-Schur-one-m-lattice-allpass-lowpass-filter-SOCP-PCLS-pass}
+Figures~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-lowpass-filter-SOCP-PCLS} 
+and~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-lowpass-filter-SOCP-PCLS-pass}
 show the overall and passband responses of the filter after SOCP PCLS
 optimisation and
-Figure~\ref{fig:Parallel-Schur-one-m-lattice-allpass-lowpass-filter-SOCP-PCLS-pz}
+Figure~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-lowpass-filter-SOCP-PCLS-pz}
 shows the pole-zero plot of the filter. The low-pass filter SOCP PCLS
 optimised Schur one-multiplier all-pass lattice coefficients are:
 \begin{small}
@@ -10290,24 +10366,24 @@ optimised Schur one-multiplier all-pass lattice coefficients are:
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_lowpass_test_response}}
-\caption{Parallel Schur one-multiplier allpass lattice low-pass filter : response after SOCP PCLS optimisation}
-\label{fig:Parallel-Schur-one-m-lattice-allpass-lowpass-filter-SOCP-PCLS}
+\caption{Parallel Schur one-multiplier all-pass lattice low-pass filter : response after SOCP PCLS optimisation}
+\label{fig:Parallel-Schur-one-m-lattice-all-pass-lowpass-filter-SOCP-PCLS}
 \end{center}
 \end{figure}
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_lowpass_test_passband_response}}
-\caption{Parallel Schur one-multiplier allpass lattice low-pass filter :
+\caption{Parallel Schur one-multiplier all-pass lattice low-pass filter :
   passband response after SOCP PCLS optimisation}
-\label{fig:Parallel-Schur-one-m-lattice-allpass-lowpass-filter-SOCP-PCLS-pass}
+\label{fig:Parallel-Schur-one-m-lattice-all-pass-lowpass-filter-SOCP-PCLS-pass}
 \end{center}
 \end{figure}
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_lowpass_test_pz}}
-\caption{Parallel Schur one-multiplier allpass lattice low-pass filter :
+\caption{Parallel Schur one-multiplier all-pass lattice low-pass filter :
   pole-zero plot after SOCP PCLS optimisation}
-\label{fig:Parallel-Schur-one-m-lattice-allpass-lowpass-filter-SOCP-PCLS-pz}
+\label{fig:Parallel-Schur-one-m-lattice-all-pass-lowpass-filter-SOCP-PCLS-pz}
 \end{center}
 \end{figure}
 
@@ -10320,16 +10396,15 @@ optimisation. The specification of the filter is:
 \begin{small}
 \verbatiminput{schurOneMPAlattice_socp_slb_bandpass_test.spec}
 \end{small}
-The initial parallel allpass filters were designed by the Octave script 
+The initial parallel all-pass filters were designed by the Octave script 
 \emph{tarczynski\_parallel\_allpass\_bandpass\_test.m}.
 These initial filters are those used in
 Section~\ref{sec:Design-IIR-filter-difference-all-pass-filters-pole-zero-constrained-group-delay}.
-
-Figures~\ref{fig:Parallel-Schur-one-m-lattice-allpass-bandpass-filter-SOCP-PCLS} 
-and~\ref{fig:Parallel-Schur-one-m-lattice-allpass-bandpass-filter-SOCP-PCLS-pass}
+Figures~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-filter-SOCP-PCLS} 
+and~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-filter-SOCP-PCLS-pass}
 show the overall and passband responses of the filter after SOCP PCLS
 optimisation and
-Figure~\ref{fig:Parallel-Schur-one-m-lattice-allpass-bandpass-filter-SOCP-PCLS-pz}
+Figure~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-filter-SOCP-PCLS-pz}
 shows the pole-zero plot of the filter. The band-pass filter SOCP PCLS
 optimised Schur one-multiplier all-pass lattice coefficients are:
 \begin{small}
@@ -10342,24 +10417,63 @@ optimised Schur one-multiplier all-pass lattice coefficients are:
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_bandpass_test_response}}
-\caption{Parallel Schur one-multiplier allpass lattice band-pass filter : response after SOCP PCLS optimisation}
-\label{fig:Parallel-Schur-one-m-lattice-allpass-bandpass-filter-SOCP-PCLS}
+\caption{Parallel Schur one-multiplier all-pass lattice band-pass filter : response after SOCP PCLS optimisation}
+\label{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-filter-SOCP-PCLS}
 \end{center}
 \end{figure}
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_bandpass_test_passband_response}}
-\caption{Parallel Schur one-multiplier allpass lattice band-pass filter :
+\caption{Parallel Schur one-multiplier all-pass lattice band-pass filter :
   passband response after SOCP PCLS optimisation}
-\label{fig:Parallel-Schur-one-m-lattice-allpass-bandpass-filter-SOCP-PCLS-pass}
+\label{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-filter-SOCP-PCLS-pass}
 \end{center}
 \end{figure}
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_bandpass_test_pz}}
-\caption{Parallel Schur one-multiplier allpass lattice band-pass filter :
+\caption{Parallel Schur one-multiplier all-pass lattice band-pass filter :
   pole-zero plot after SOCP PCLS optimisation}
-\label{fig:Parallel-Schur-one-m-lattice-allpass-bandpass-filter-SOCP-PCLS-pz}
+\label{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-filter-SOCP-PCLS-pz}
+\end{center}
+\end{figure}
+
+\clearpage
+\subsection{\label{sec:Design-parallel-Schur-one-mult-all-pass-lattice-band-pass-Hilbert-SOCP}Design of a parallel IIR Schur one-multiplier all-pass lattice band-pass Hilbert filter using SOCP}
+The Octave script \emph{schurOneMPAlattice\_socp\_slb\_bandpass\_hilbert\_test.m}
+implements the design of a band-pass IIR Hilbert filter composed of the
+difference of two parallel one-multiplier Schur lattice all-pass filters with
+SOCP and PCLS optimisation. The specification of the filter is:
+\begin{small}
+\verbatiminput{schurOneMPAlattice_socp_slb_bandpass_hilbert_test.spec}
+\end{small}
+The initial parallel all-pass filters were designed by the Octave script 
+\emph{tarczynski\_parallel\_allpass\_bandpass\_hilbert\_test.m}.
+Figures~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS} 
+and~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS-pass}
+show the overall and passband responses of the filter after SOCP PCLS
+optimisation. The band-pass filter SOCP PCLS optimised Schur one-multiplier
+all-pass lattice coefficients are: 
+\begin{small}
+\verbatiminput{schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A1k_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A1epsilon_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A2k_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A2epsilon_coef.m}
+\end{small}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_bandpass_hilbert_test_response}}
+\caption{Parallel Schur one-multiplier all-pass lattice band-pass Hilbert filter : response after SOCP PCLS optimisation}
+\label{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_bandpass_hilbert_test_passband_response}}
+\caption{Parallel Schur one-multiplier all-pass lattice band-pass Hilbert filter :
+  passband response after SOCP PCLS optimisation}
+\label{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS-pass}
 \end{center}
 \end{figure}
 
@@ -10405,7 +10519,7 @@ $F_{c}=z^{-D}-F_{a}\left(z\right)$ is complementary to $F_{a}\left(z\right)$.
 Johansson and
 Wanhammar~\cite{JohanssonWanhammar_RecursiveDigitalFiltersFrequencyMasking}
 describe design of frequency response masking filters with a model filter
-consisting of parallel allpass filters, FIR masking filters and the structure
+consisting of parallel all-pass filters, FIR masking filters and the structure
 shown in 
 Figure~\ref{fig:Johansson-and-Wanhammar-frequency-response-masking-structure}.
 Johansson and Wanhammar specify a delay line in one arm of the model filter
@@ -21525,7 +21639,7 @@ Monochrome (or grey-scale) printing of this document is supported by:
 document with:
 \begin{small}
 \begin{verbatim}
-pdflatex '\def\DesignOfIIRFiltersMono\input{DesignOfIIRFilters}'
+pdflatex '\def\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
 \end{verbatim}
 \end{small}
 The \emph{DesignOfIIRFiltersMono} flag enables the following \LaTeX code:
@@ -21548,7 +21662,7 @@ package to plot markers in the default colour:
 \begin{small}
 \begin{verbatim}
 --- signal-1.3.2/inst/zplane.m
-+++ /usr/local/share/octave/packages/signal-1.3.2/zplane.m
++++ /usr/local/octave/share/octave/packages/signal-1.3.2/zplane.m
 @@ -100,12 +100,12 @@
    grid on;
    axis(1.05*[xmin, xmax, ymin, ymax]);

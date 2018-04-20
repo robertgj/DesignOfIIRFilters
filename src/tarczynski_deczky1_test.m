@@ -11,68 +11,6 @@ tic;
 
 format compact
 
-% Objective function
-function E=WISEJ_ND(ND,_nN,_nD,_R,_wd,_Ad,_Wa,_Td,_Wt)
-  persistent nN nD R wd Ad Wa Td Wt
-  persistent init_done=false
-  if nargin == 9
-    nN=_nN;nD=_nD;R=_R;wd=_wd;Ad=_Ad;Wa=_Wa;Td=_Td;Wt=_Wt;
-    init_done=true;
-    return;
-  elseif nargin ~=1
-    print_usage("E=WISEJ_ND(ND[,nN,nD,R,wd,Ad,Wa,Td,Wt])");
-  elseif init_done==false
-    error("init_done==false");
-  endif
-  % Sanity check
-  if (length(ND) != (1+nN+nD))
-    error("Expected length(ND) == (1+nN+nD)!");
-  endif
-  
-  % Decimate the denominator
-  N=ND(1:(nN+1));
-  DR=[1;kron(ND((nN+2):(nN+1+nD)), [zeros(R-1,1);1])];
-  % Find the amplitude error response 
-  HNDRd = freqz(N,DR, wd);
-  EAd = Wa.*((abs(Ad)-abs(HNDRd)).^2);
-  % Find the delay error response 
-  warning('off');
-  TNDRd = grpdelay(N,DR, wd);
-  warning('on');
-  ETd = Wt.*(abs(Td-TNDRd).^2);
-  % Trapezoidal integration of the error
-  intEAd = sum(diff(wd).*(EAd(1:(length(EAd)-1))+EAd(2:end))/2);
-  intETd = sum(diff(wd).*(ETd(1:(length(ETd)-1))+ETd(2:end))/2);
-  % Heuristics for the barrier function
-  lambda = 0.001;
-  if (nD > 0)
-    M = nD*R;
-    T = 300;
-    rho = 31/32;
-    % Convert to state variable form
-    DRrho=DR./(rho.^(0:(length(DR)-1))');
-    DRrho=DRrho(:)'/DRrho(1);
-    nDRrho=length(DRrho);
-    ADR=[zeros(nDRrho-2,1) eye(nDRrho-2); -DRrho(nDRrho:-1:2)];
-    bDR=[zeros(nDRrho-2,1);1];
-    cDR=-DRrho(nDRrho:-1:2);
-    dDR=1;
-    % Calculate barrier function
-    f = zeros(M,1);
-    cADR_Tk = cDR*(ADR^(T-1));
-    for k=1:M
-      f(k) = cADR_Tk*bDR;
-      cADR_Tk = cADR_Tk*ADR;
-    endfor
-    f = real(f);
-    EJ = sum(f.*f);
-  else
-    EJ = 0;
-  endif
-  % Done
-  E = ((1-lambda)*(intEAd+intETd)) + (lambda*EJ);
-endfunction
-
 % Initial filter
 R=1;
 [N0,D0]=butter(12, 0.25*2);

@@ -144,6 +144,8 @@ endif
 Asq_mmse=parallel_allpassAsq(wa,abm,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 ax=plotyy(wa(1:nap)*0.5/pi,10*log10(Asq_mmse(1:nap)), ...
           wa(nas:end)*0.5/pi,10*log10(Asq_mmse(nas:end)));
+set(ax(1),'ycolor','black');
+set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.04 0.01]);
 axis(ax(2),[0 0.5 -100 -75]);
 strt=sprintf("Parallel allpass MMSE response : ma=%d,mb=%d,fap=%g,fas=%g", ...
@@ -229,6 +231,8 @@ close
 Asq=parallel_allpassAsq(wa,ab1,Va,Qa,Ra,Vb,Qb,Rb);
 ax=plotyy(wa(1:nap)*0.5/pi,10*log10(Asq(1:nap)), ...
           wa(nas:end)*0.5/pi,10*log10(Asq(nas:end)));
+set(ax(1),'ycolor','black');
+set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.04 0.01]);
 axis(ax(2),[0 0.5 -100 -75]);
 title(strt);

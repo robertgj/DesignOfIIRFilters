@@ -185,7 +185,15 @@ while 1
       printf("E=%f\n",E);
       printf("x=[ ");printf("%f ",x);printf("]';\n");
       warning("No change to solution after %d PCLS iterations\n",slb_iter);
-      break;
+      for [v,k]=vR
+        printf("vR.%s=[ ",k);printf("%d ",v);printf("]\n");
+      endfor
+      for [v,k]=vS
+        printf("vS.%s=[ ",k);printf("%d ",v);printf("]\n");
+      endfor
+      if iir_slb_constraints_are_empty(vR)
+        break;
+      endif
     endif
     x=nextx;
     printf("Feasible solution after %d optimisation iterations\n",tmp_opt_iter);
@@ -227,7 +235,7 @@ while 1
                                 wt,Tdu,Tdl,Wt,wp,Pdu,Pdl,Wp,ctol);
   printf("Step 5: S frequency constraints updated to:\n");
   for [v,k]=vS
-    printf("%s=[ ",k);printf("%d ",v);printf("]\n");
+    printf("vS.%s=[ ",k);printf("%d ",v);printf("]\n");
   endfor
 
   %

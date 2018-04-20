@@ -2,7 +2,8 @@
 
 prog=tarczynski_pink_test.m
 
-depends="tarczynski_pink_test.m test_common.m"
+depends="tarczynski_pink_test.m test_common.m WISEJ.m tf2Abcd.m \
+print_polynomial.m"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -37,11 +38,19 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test.ok << 'EOF'
-N=[   0.0255743587   0.0278384489   0.0321476859   0.0361079952   0.0657889278   0.2319828340   0.0319161641  -0.0285660148  -0.0468650948  -0.0439578015  -0.0332308639   0.0133637638 ]';
-R=1,D=[   1.0000000000  -0.0879376251  -0.1670765454  -0.1960898452  -0.1461189848  -0.1356729636   0.1032110433  -0.0102026181   0.0012949550  -0.0039114345  -0.0018552456  -0.0051358746 ]';
+cat > test.N0.ok << 'EOF'
+N0 = [   0.0255741848,   0.0278386749,   0.0321481039,   0.0361088386, ... 
+         0.0657901764,   0.2319842340,   0.0319190798,  -0.0285615960, ... 
+        -0.0468610251,  -0.0439564720,  -0.0332327568,   0.0133589614 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.N0.ok"; fail; fi
+
+cat > test.D0.ok << 'EOF'
+D0 = [   1.0000000000,  -0.0879297101,  -0.1670636850,  -0.1960773579, ... 
+        -0.1461154685,  -0.1356801929,   0.1031879047,  -0.0101978030, ... 
+         0.0012959758,  -0.0039106524,  -0.0018552194,  -0.0051351505 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.D0.ok"; fail; fi
 
 #
 # run and see if the results match
@@ -51,8 +60,11 @@ echo "Running octave-cli -q " $prog
 octave-cli -q $prog > test.out
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.ok tarczynski_pink_test.coef
-if [ $? -ne 0 ]; then echo "Failed diff -Bb"; fail; fi
+diff -Bb test.N0.ok tarczynski_pink_test_N0_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff test.N0.ok -Bb"; fail; fi
+
+diff -Bb test.D0.ok tarczynski_pink_test_D0_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff test.D0.ok-Bb"; fail; fi
 
 
 #

@@ -50,25 +50,21 @@ function vS=schurOneMAPlattice_frm_halfband_slb_update_constraints ...
   % Find amplitude constraint violations
   if ~isempty(Asq)
     % Find amplitude lower constraint violations
-    vAsql=local_max(Asqdl-Asq);
+    vAsql=local_max((Asqdl-Asq).*(Wa!=0));
     vS.al=vAsql(find((Asqdl(vAsql)-Asq(vAsql))>tol));
-    vS.al=vS.al(find(Wa(vS.al)!=0));
     % Find amplitude upper constraint violations
-    vAsqu=local_max(Asq-Asqdu);
+    vAsqu=local_max((Asq-Asqdu).*(Wa!=0));
     vS.au=vAsqu(find((Asq(vAsqu)-Asqdu(vAsqu))>tol));
-    vS.au=vS.au(find(Wa(vS.au)!=0));
   endif
 
   % Find group delay constraint violations
   if ~isempty(T)
     % Find group delay lower constraint violations
-    vTl=local_max(Tdl-T);
+    vTl=local_max((Tdl-T).*(Wt!=0));
     vS.tl=vTl(find((Tdl(vTl)-T(vTl))>tol));
-    vS.tl=vS.tl(find(Wt(vS.tl)!=0));
     % Find group delay upper constraint violations
-    vTu=local_max(T-Tdu);
+    vTu=local_max((T-Tdu).*(Wt!=0));
     vS.tu=vTu(find((T(vTu)-Tdu(vTu))>tol));
-    vS.tu=vS.tu(find(Wt(vS.tu)!=0));
   endif
 
   % Do not want size 0x1 ?!?!?!

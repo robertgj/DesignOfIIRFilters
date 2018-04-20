@@ -185,7 +185,15 @@ function [A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...
         printf("A1k=[ ");printf("%f ",A1k');printf("]';\n");
         printf("A2k=[ ");printf("%f ",A2k');printf("]';\n");
         warning("No change to solution after %d PCLS iterations\n",slb_iter);
-        break;
+        for [v,k]=vR
+          printf("vR.%s=[ ",k);printf("%d ",v);printf("]\n");
+        endfor
+        for [v,k]=vS
+          printf("vS.%s=[ ",k);printf("%d ",v);printf("]\n");
+        endfor
+        if schurOneMPAlattice_slb_constraints_are_empty(vR)
+          break;
+        endif
       endif
       A1k=nextA1k; 
       A2k=nextA2k;
@@ -232,7 +240,7 @@ function [A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...
          (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,ctol);
     printf("Step 5: vS frequency constraints updated to:\n");
     for [v,m]=vS
-      printf("%s=[ ",m);printf("%d ",v);printf("]\n");
+      printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
     endfor  
     printf("A1k=[ ");printf("%g ",A1k');printf("]'\n");
     printf("A2k=[ ");printf("%g ",A2k');printf("]'\n");

@@ -14,69 +14,6 @@ diary tarczynski_gaussian_test.diary.tmp
 format compact
 tic
 
-% Objective function
-function E=WISEJ_GAUSS(ND,_nN,_nD,_R,_wd,_Hd,_Wd)
-  persistent nN nD R wd Hd Wd
-  persistent init_done=false
-  % Sanity checks
-  if (nargin ~= 1) && (nargin ~= 7)
-    print_usage("E=WISEJ_GAUSS(ND[,nN,nD,R,wd,Hd,Wd])")
-  endif
-  if nargin == 7
-    nN=_nN;nD=_nD;R=_R;wd=_wd;Hd=_Hd;Wd=_Wd;
-    init_done=true;
-    if nargout == 0
-      return;
-    endif
-  endif
-  if (length(ND) != (1+nN+nD))
-    error("Expected length(ND) == (1+nN+nD)!");
-  endif
-  % Decimate the denominator
-  ND=ND(:);
-  N=ND(1:(nN+1));
-  if nD==0
-    DR=1;
-  else
-    DR=[1;kron(ND((nN+2):end),[zeros(R-1,1);1])];
-  endif
-  % Find the error complex frequency response
-  HN = freqz(N,1,wd);
-  HDR = freqz(DR,1,wd);
-  HNDR = HN./HDR;
-  EHd = Wd.*(abs(Hd-HNDR).^2);
-  % Trapezoidal integration of the weighted error
-  intEHd = sum(diff(wd).*(EHd(1:(length(EHd)-1))+EHd(2:length(EHd))))/2;
-  % Heuristics for the barrier function
-  lambda = 0.001;
-  if (nD > 0)
-    M = nD*R;
-    T = 300;
-    rho = 31/32;
-    % Convert to state variable form
-    DRrho=DR./(rho.^(0:(length(DR)-1))');
-    DRrho=DRrho(:)'/DRrho(1);
-    nDRrho=length(DRrho);
-    ADR=[zeros(nDRrho-2,1) eye(nDRrho-2); -DRrho(nDRrho:-1:2)];
-    bDR=[zeros(nDRrho-2,1);1];
-    cDR=-DRrho(nDRrho:-1:2);
-    dDR=1;
-    % Calculate barrier function
-    f = zeros(M,1);
-    cADR_Tk = cDR*(ADR^(T-1));
-    for k=1:M
-      f(k) = cADR_Tk*bDR;
-      cADR_Tk = cADR_Tk*ADR;
-    endfor
-    f = real(f);
-    EJ = sum(f.*f);
-  else
-    EJ = 0;
-  endif
-  % Done
-  E = ((1-lambda)*intEHd) + (lambda*EJ);
-endfunction
-
 % Filter specification
 tol=1e-10;
 sf=0.5;
@@ -95,9 +32,9 @@ Hd=exp(-(j*td*wd)-((wd.^2)/(2*sf*sf)));
 Wd=ones(size(wd));
 
 % Unconstrained minimisation
-N0=[1;ones(nN+nD,1)];
-WISEJ_GAUSS([],nN,nD,R,wd,Hd,Wd);
-[ND,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_GAUSS,N0,optimset("TolFun",tol,"TolX",tol));
+NI=[1;ones(nN+nD,1)];
+WISEJ([],nN,nD,R,wd,Hd,Wd);
+[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,NI,optimset("TolFun",tol,"TolX",tol));
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -117,20 +54,20 @@ printf("fminunc successful=%d??\n", OUTPUT.successful);
 printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 
 % Create the output polynomials
-ND=ND(:);
-N=ND(1:(nN+1));
+ND0=ND0(:);
+N0=ND0(1:(nN+1));
 if nD==0
-  D=1;
-  DR=1;
+  D0=1;
+  D0R=1;
 else
-  D=[1;ND((nN+2):end)];
-  DR=[D(1);kron(D(2:end),[zeros(R-1,1);1])];
+  D0=[1;ND0((nN+2):end)];
+  D0R=[D0(1);kron(D0(2:end),[zeros(R-1,1);1])];
 endif
 
 % Plot results
 nplot=n;
-[H,wplot]=freqz(N',DR',nplot);
-T=grpdelay(N',DR',nplot);
+[H,wplot]=freqz(N0',D0R',nplot);
+T=grpdelay(N0',D0R',nplot);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(H)),"-",wplot*0.5/pi,20*log10(abs(Hd)),"--");
 ylabel("Amplitude(dB)");
@@ -162,14 +99,14 @@ print("tarczynski_gaussian_response_error",  "-dpdflatex");
 close
 % Pole-zero plot
 subplot(111);
-zplane(roots(N),roots(DR));
+zplane(roots(N0),roots(D0R));
 title(s);
 print("tarczynski_gaussian_pz",  "-dpdflatex");
 close
 % Impulse response
 subplot(111);
 u=[1;zeros(2*nN,1)];
-y=filter(N,DR,u);
+y=filter(N0,D0R,u);
 plot(y);
 ylabel("Amplitude");
 xlabel("Sample");
@@ -178,16 +115,14 @@ print("tarczynski_gaussian_impulse",  "-dpdflatex");
 close
 
 % Save the result
-printf("N=[ ");printf("%14.10f ",N');printf("]';\n");
-printf("R=%d,D=[ ",R);printf("%14.10f ",D');printf("]';\n");
-fid=fopen("tarczynski_gaussian_test.coef","wt");
-fprintf(fid,"N=[ ");fprintf(fid,"%14.10f ",N');fprintf(fid,"]';\n");
-fprintf(fid,"R=%d,D=[ ",R);fprintf(fid,"%14.10f ",D');fprintf(fid,"]';\n");
-fclose(fid);
+print_polynomial(N0,"N0");
+print_polynomial(N0,"N0","tarczynski_gaussian_test_N0_coef.m");
+print_polynomial(D0,"D0");
+print_polynomial(D0,"D0","tarczynski_gaussian_test_D0_coef.m");
 
 toc;
 
-save tarczynski_gaussian_test.mat nN nD R N D DR
+save tarczynski_gaussian_test.mat nN nD R N0 D0 D0R
 
 diary off
 movefile tarczynski_gaussian_test.diary.tmp tarczynski_gaussian_test.diary;

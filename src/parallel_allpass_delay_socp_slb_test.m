@@ -147,10 +147,12 @@ close
 % Plot response on separate axes
 ax=plotyy(wplot(1:nap)*0.5/pi,20*log10(abs(Ha1(1:nap))),...
           wplot(nas:n)*0.5/pi,20*log10(abs(Ha1(nas:n))));
-xlabel("Frequency");
-ylabel("Amplitude(dB)");
+set(ax(1),'ycolor','black');
+set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.6 0.1]);
 axis(ax(2),[0 0.5 -70 -63]);
+xlabel("Frequency");
+ylabel("Amplitude(dB)");
 grid("on");
 title(strt);
 print(strcat(strf,"_a1dual"),"-dpdflatex");
