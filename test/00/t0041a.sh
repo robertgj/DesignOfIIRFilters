@@ -4,7 +4,7 @@ prog=polyphase_allpass_socp_mmse_test.m
 depends="polyphase_allpass_socp_mmse_test.m test_common.m \
 parallel_allpass_socp_mmse.m parallel_allpass_mmse_error.m \
 parallel_allpass_delay_slb_set_empty_constraints.m \
-parallel_allpassAsq.m parallel_allpassT.m \
+parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \
 allpassT.m allpassP.m aConstraints.m \
 print_polynomial.m print_pole_zero.m a2tf.m tf2a.m SeDuMi_1_3/"
 tmp=/tmp/$$

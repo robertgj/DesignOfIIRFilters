@@ -22,7 +22,9 @@ function r=parallel_allpass_slb_constraints_are_empty(vS)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  r=isempty(vS.al) && isempty(vS.au) && isempty(vS.tl) && isempty(vS.tu);
+  r=isempty(vS.al) && isempty(vS.au) &&  ...
+    isempty(vS.tl) && isempty(vS.tu) && ...
+    isempty(vS.pl) && isempty(vS.pu);
 
 endfunction
       

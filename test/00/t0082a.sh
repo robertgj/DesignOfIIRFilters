@@ -6,7 +6,7 @@ depends="parallel_allpass_slb_exchange_constraints_test.m \
 parallel_allpass_slb_exchange_constraints.m \
 parallel_allpass_slb_show_constraints.m \
 parallel_allpass_slb_update_constraints.m \
-parallel_allpassAsq.m parallel_allpassT.m \
+parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \
 test_common.m allpassP.m allpassT.m tf2a.m a2tf.m local_max.m"
 tmp=/tmp/$$
 here=`pwd`
@@ -44,7 +44,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 maxiter =  2000
-verbose =  1
+verbose = 1
 tol =    1.0000e-06
 maxiter =  2000
 polyphase = 0
@@ -58,10 +58,12 @@ fap =  0.17500
 Wap =  1
 dBap =  1
 ftp =  0.20000
-Wtp =  5
+Wtp =  100
 fas =  0.25000
-Was =  500
+Was =  10000
 dBas =  50
+fpp =  0.18000
+Wpp =  1000
 vRab0 before exchange constraints:
 Current constraints:
 al=[ 351 ]
@@ -76,6 +78,12 @@ Tl=[ 11.476069 ](Samples)
 tu=[ 333 401 ]
 f(tu)=[ 0.166000 0.200000 ](fs=1)
 Tu=[ 11.522271 11.527620 ](Samples)
+pl=[ 264 ]
+f(pl)=[ 0.131500 ](fs=1)
+Pl=[ -9.502973 ](rad.)
+pu=[ 312 ]
+f(pu)=[ 0.155500 ](fs=1)
+Pu=[ -11.234853 ](rad.)
 vSab1 before exchange constraints:
 Current constraints:
 al=[ 351 ]
@@ -90,6 +98,12 @@ Tl=[ 11.492883 11.493026 11.478988 11.485693 ](Samples)
 tu=[ 83 247 342 401 ]
 f(tu)=[ 0.041000 0.123000 0.170500 0.200000 ](fs=1)
 Tu=[ 11.509780 11.516601 11.517986 11.527620 ](Samples)
+pl=[ 109 271 ]
+f(pl)=[ 0.054000 0.135000 ](fs=1)
+Pl=[ -3.902395 -9.755756 ](rad.)
+pu=[ 54 218 322 ]
+f(pu)=[ 0.026500 0.108500 0.160500 ](fs=1)
+Pu=[ -1.914422 -7.839412 -11.596391 ](rad.)
 Exchanged constraint from vR.au(1) to vS
 vRab1 after exchange constraints:
 Current constraints:
@@ -105,6 +119,12 @@ Tl=[ 11.438747 ](Samples)
 tu=[ 333 401 ]
 f(tu)=[ 0.166000 0.200000 ](fs=1)
 Tu=[ 11.535894 11.575651 ](Samples)
+pl=[ 264 ]
+f(pl)=[ 0.131500 ](fs=1)
+Pl=[ -9.504444 ](rad.)
+pu=[ 312 ]
+f(pu)=[ 0.155500 ](fs=1)
+Pu=[ -11.232544 ](rad.)
 vSab1 after exchange constraints:
 Current constraints:
 al=[ 351 ]
@@ -119,6 +139,12 @@ Tl=[ 11.473012 11.479364 11.431741 11.471335 ](Samples)
 tu=[ 83 247 342 401 ]
 f(tu)=[ 0.041000 0.123000 0.170500 0.200000 ](fs=1)
 Tu=[ 11.537656 11.555707 11.546648 11.575651 ](Samples)
+pl=[ 109 271 ]
+f(pl)=[ 0.054000 0.135000 ](fs=1)
+Pl=[ -3.903796 -9.757606 ](rad.)
+pu=[ 54 218 322 ]
+f(pu)=[ 0.026500 0.108500 0.160500 ](fs=1)
+Pu=[ -1.912691 -7.837082 -11.593214 ](rad.)
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

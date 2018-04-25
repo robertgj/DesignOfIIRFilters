@@ -28,10 +28,14 @@ fap =  0.17500
 Wap =  1
 dBap = 1
 ftp =  0.20000
-Wtp =  5
+Wtp =  100
 fas =  0.25000
-Was =  500
+Was =  10000
 dBas = 50
+fpp=0.18
+pd=0;
+pdr=0.002;
+Wpp=1000
 
 %
 % Use the filters found by tarczynski_parallel_allpass_test.m
@@ -70,6 +74,14 @@ Td=td*ones(ntp,1);
 Tdu=Td+(tdr/2);
 Tdl=Td-(tdr/2);
 
+% Desired pass-band phase response
+npp=ceil(n*fpp/0.5)+1;
+wp=(0:(npp-1))'*pi/n;
+Pd=(pd*pi)-(td*wp);
+Pdu=Pd+(pdr/2);
+Pdl=Pd-(pdr/2);
+Wp=Wpp*ones(npp,1);
+
 % Convert Da0 and Db0 to vector form
 ab0=zeros(ma+mb,1);
 [ab0(1:ma),Va,Qa]=tf2a(Da0);
@@ -83,22 +95,24 @@ ab1=zeros(ma+mb,1);
 % Response of ab0
 Asqab0=parallel_allpassAsq(wa,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
 Tab0=parallel_allpassT(wt,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
+Pab0=parallel_allpassP(wp,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
 
 % Response of ab1
 Asqab1=parallel_allpassAsq(wa,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
 Tab1=parallel_allpassT(wt,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
+Pab1=parallel_allpassP(wp,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
 
 % Update constraints
 vRab0=parallel_allpass_slb_update_constraints ...
-       (Asqab0,Asqdu,Asqdl,Wa,Tab0,Tdu,Tdl,Wt,tol);
+       (Asqab0,Asqdu,Asqdl,Wa,Tab0,Tdu,Tdl,Wt,Pab0,Pdu,Pdl,Wp,tol);
 vSab1=parallel_allpass_slb_update_constraints ...
-        (Asqab1,Asqdu,Asqdl,Wa,Tab1,Tdu,Tdl,Wt,tol);
+        (Asqab1,Asqdu,Asqdl,Wa,Tab1,Tdu,Tdl,Wt,Pab1,Pdu,Pdl,Wp,tol);
 
 % Show constraints
 printf("vRab0 before exchange constraints:\n");
-parallel_allpass_slb_show_constraints(vRab0,wa,Asqab0,wt,Tab0);
+parallel_allpass_slb_show_constraints(vRab0,wa,Asqab0,wt,Tab0,wp,Pab0);
 printf("vSab1 before exchange constraints:\n");
-parallel_allpass_slb_show_constraints(vSab1,wa,Asqab0,wt,Tab0);
+parallel_allpass_slb_show_constraints(vSab1,wa,Asqab0,wt,Tab0,wp,Pab0);
 
 % Common strings
 strd=sprintf("parallel_allpass_slb_exchange_constraints_test_%%s");
@@ -142,14 +156,25 @@ xlabel("Frequency")
 print(sprintf(strd,"ab0T"),"-dpdflatex");
 close
 
+% Plot phase
+plot(wp*0.5/pi,([Pab0,Pdu,Pdl]+(wp*td)-pd)/pi, ...
+     wp(vRab0.pl)*0.5/pi,(Pab0(vRab0.pl)+(wp(vRab0.pl)*td)-pd)/pi,'*', ...
+     wp(vRab0.pu)*0.5/pi,(Pab0(vRab0.pu)+(wp(vRab0.pu)*td)-pd)/pi,'+');
+title(strMab0);
+axis([0 fpp -pdr pdr])
+ylabel("Phase(rad./pi)");
+xlabel("Frequency")
+print(sprintf(strd,"ab0P"),"-dpdflatex");
+close
+
 % Exchange constraints
 [vRab1,vSab1,exchanged] = ...
 parallel_allpass_slb_exchange_constraints ...
-  (vSab1,vRab0,Asqab1,Asqdu,Asqdl,Tab1,Tdu,Tdl,tol);
+  (vSab1,vRab0,Asqab1,Asqdu,Asqdl,Tab1,Tdu,Tdl,Pab1,Pdu,Pdl,tol);
 printf("vRab1 after exchange constraints:\n");
-parallel_allpass_slb_show_constraints(vRab1,wa,Asqab1,wt,Tab1);
+parallel_allpass_slb_show_constraints(vRab1,wa,Asqab1,wt,Tab1,wp,Pab1);
 printf("vSab1 after exchange constraints:\n");
-parallel_allpass_slb_show_constraints(vSab1,wa,Asqab1,wt,Tab1);
+parallel_allpass_slb_show_constraints(vSab1,wa,Asqab1,wt,Tab1,wp,Pab1);
 
 % Plot passband amplitude
 plot(wa*0.5/pi,10*log10([Asqab0,Asqab1,Asqdu,Asqdl]), ...
@@ -194,6 +219,20 @@ xlabel("Frequency")
 legend("Tab0","Tab1","Tdu","Tdl","location","southwest");
 legend("boxoff");
 print(sprintf(strd,"ab1T"),"-dpdflatex");
+close
+
+% Plot phase
+plot(wp*0.5/pi,([Pab0,Pab1,Pdu,Pdl]+(wp*td)-pd)/pi, ...
+     wp(vRab0.pl)*0.5/pi,(Pab0(vRab0.pl)+(wp(vRab0.pl)*td)-pd)/pi,'*', ...
+     wp(vRab0.pu)*0.5/pi,(Pab0(vRab0.pu)+(wp(vRab0.pu)*td)-pd)/pi,'+', ...
+     wp(vSab1.pl)*0.5/pi,(Pab1(vSab1.pl)+(wp(vSab1.pl)*td)-pd)/pi,'*', ...
+     wp(vSab1.pu)*0.5/pi,(Pab1(vSab1.pu)+(wp(vSab1.pu)*td)-pd)/pi,'+');
+title(strMab0);
+axis([0 fpp -pdr pdr])
+ylabel("Phase(rad./pi)");
+xlabel("Frequency")
+legend("Pab0","Pab1","Pdu","Pdl","location","southwest");
+print(sprintf(strd,"ab1P"),"-dpdflatex");
 close
 
 diary off

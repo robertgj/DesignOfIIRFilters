@@ -13,55 +13,85 @@ verbose=true
 tol=1e-5
 
 %
-% Use the filters found by tarczynski_frm_parallel_allpass_test.m
+% Use the filters found by tarczynski_parallel_allpass_bandpass_hilbert_test.m
 %
-Da0=[  1.0000000000,   0.5644605415,  -0.3056222591,  -0.2415730335, ... 
-       0.0256333874,   0.2514930770,  -0.1559975498,  -0.0115350049, ... 
-       0.1136206749,  -0.1395015083,   0.0465486808,   0.0320384980 ]';
-Db0=[  1.0000000000,   0.1241070032,  -0.2051723448,   0.1858795419, ... 
-       0.0410325915,   0.0645608025,  -0.2902638241,   0.1849229645, ... 
-       0.1093103052,  -0.2229380801,   0.1353491692,  -0.0251777039, ... 
-      -0.0248722010 ]';
+Da0 = [   1.0000000000,   0.3123079354,  -0.2317108438,   0.9181260586, ... 
+          0.2492627390,  -0.1604453376,  -0.1449740884,   0.1991309068, ... 
+          0.1424266816,  -0.7047805558,   0.0597938923,   0.1479724997, ... 
+         -0.2887348192 ]';
+Db0 = [   1.0000000000,  -0.2759072714,  -0.8959725116,   1.0579968251, ... 
+          0.3672877136,  -0.4415731334,  -0.3552580282,   0.4705275516, ... 
+          0.4602430859,  -0.8255136289,   0.0910399914,   0.3135264585, ... 
+         -0.2785177818 ]';
 
 % Filter specification
 tol = 1e-06
 maxiter = 2000
-polyphase = 0
+polyphase = false
+difference = true
 Ra = 1
-ma = 11
+ma = length(Da0)-1;
 Rb = 1
-mb = 12
-td = 11.500
-tdr = 0.04
-fap = 0.17500
-Wap = 1
-dBap = 1
-ftp = 0.20000
-Wtp = 5
-fas = 0.25000
-Wat = 1
-Was = 500
-dBas = 50
+mb = length(Db0)-1;
+fasl=0.05
+fapl=0.1
+fapu=0.2
+fasu=0.25
+dBap=0.1
+dBas=40
+Wap=1
+Watl=1e-3
+Watu=1e-3
+Wasl=1000
+Wasu=1000
+ftpl=0.12
+ftpu=0.18
+td=16
+tdr=td/400
+Wtp=10
+fppl=0.115
+fppu=0.185
+pd=1.5
+pdr=1/5000
+Wpp=2000
 
 % Frequency vectors
 n=1000;
-nap=ceil(fap*n/0.5)+1;
-ntp=ceil(ftp*n/0.5)+1;
-nas=floor(fas*n/0.5)+1;
+wa=(0:(n-1))'*pi/n;
 
-% Pass-band amplitude constraints
-wa=(0:(n-1))*pi/n;
-Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
-Asqd=[0.9*ones(nap,1);zeros(n-nap,1)];
-Asqdu=[0.9*ones(nas-1,1);(10^(-dBas/10))*ones(n-nas+1,1)];
-Asqdl=[(10^(-dBap/10))*ones(nap,1);zeros(n-nap,1)];
+% Desired squared magnitude response
+nasl=ceil(n*fasl/0.5)+1;
+napl=floor(n*fapl/0.5)+1;
+napu=ceil(n*fapu/0.5)+1;
+nasu=floor(n*fasu/0.5)+1;
+Asqd=[zeros(napl-1,1);ones(napu-napl+1,1);zeros(n-napu,1)];
+Asqdu=[(10^(-dBas/10))*ones(nasl,1); ...
+       (10^(-0.5*dBap/10))*ones(nasu-nasl-1,1); ...
+       (10^(-dBas/10))*ones(n-nasu+1,1)];
+Asqdl=[zeros(napl-1,1);(10^(-dBap/10))*ones(napu-napl+1,1);zeros(n-napu,1)];
+Wa=[Wasl*ones(nasl,1); ...
+    Watl*ones(napl-nasl-1,1); ...
+    Wap*ones(napu-napl+1,1); ...
+    Watu*ones(nasu-napu-1,1); ...
+    Wasu*ones(n-nasu+1,1)];
 
-% Group delay constraints
-wt=(0:(ntp-1))*pi/n;
-Wt=Wtp*ones(ntp,1);
-Td=td*ones(ntp,1);
+% Desired pass-band group delay response
+ntpl=floor(n*ftpl/0.5)+1;
+ntpu=ceil(n*ftpu/0.5)+1;
+wt=wa(ntpl:ntpu);
+Td=td*ones(size(wt),1);
 Tdu=Td+(tdr/2);
 Tdl=Td-(tdr/2);
+Wt=Wtp*ones(size(wt),1);
+
+% Desired pass-band phase response
+nppl=floor(n*fppl/0.5)+1;
+nppu=ceil(n*fppu/0.5)+1;
+wp=wa(nppl:nppu);
+Pd=(pd*pi)-(td*wp);
+Pdu=Pd+(pdr*pi/2);
+Pdl=Pd-(pdr*pi/2);
+Wp=Wpp*ones(nppu-nppl+1,1);
 
 % Convert Da0 and Db0 to vector form
 ab0=zeros(ma+mb,1);
@@ -69,37 +99,39 @@ ab0=zeros(ma+mb,1);
 [ab0((ma+1):end),Vb,Qb]=tf2a(Db0);
 
 % Response of ab0
-Asqab0=parallel_allpassAsq(wa,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
-Tab0=parallel_allpassT(wt,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
+Asqab0=parallel_allpassAsq(wa,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+Tab0=parallel_allpassT(wt,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+Pab0=parallel_allpassP(wp,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 
 % Constraints
 vS=parallel_allpass_slb_update_constraints ...
-     (Asqab0,Asqdu,Asqdl,Wa,Tab0,Tdu,Tdl,Wt,tol);
+     (Asqab0,Asqdu,Asqdl,Wa,Tab0,Tdu,Tdl,Wt,Pab0,Pdu,Pdl,Wp,tol);
 for [v,k]=vS
-  printf("%s=[ ",k);printf("%d ",v);printf("]\n");
+  printf("vS.%s=[ ",k);printf("%d ",v);printf("]\n");
 endfor
 Asql=Asqab0(vS.al);
 Asqu=Asqab0(vS.au);
 Tl=Tab0(vS.tl);
 Tu=Tab0(vS.tu);
+Pl=Pab0(vS.pl);
+Pu=Pab0(vS.pu);
 
 % Show constraints
-parallel_allpass_slb_show_constraints(vS,wa,Asqab0,wt,Tab0);
+parallel_allpass_slb_show_constraints(vS,wa,Asqab0,wt,Tab0,wp,Pab0);
 
 % Common strings
 strd=sprintf("parallel_allpass_slb_update_constraints_test_%%s");
-strM=sprintf("%%s:fap=%g,dBap=%g,fas=%g,dBas=%g,tdr=%f",
-             fap,dBap,fas,dBas,tdr);
+strM=sprintf("%%s:dBap=%g,dBas=%g,tdr=%f,pdr=%f",dBap,dBas,tdr,pdr);
 
 % Plot pass-band amplitude
 plot(wa*0.5/pi,10*log10([Asqab0,Asqdu,Asqdl]), ...
      wa(vS.al)*0.5/pi,10*log10(Asql),"x", ...
      wa(vS.au)*0.5/pi,10*log10(Asqu),"+");
-axis([0 fap -3 1]);
+axis([fapl fapu -3*dBap dBap]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 title(sprintf(strM,"ab0 pass-band amplitude"));
-legend("Asq","Asqdu","Asqdl","location","southwest");
+legend("Asq","Asqdu","Asqdl","location","northeast");
 legend("boxoff");
 print(sprintf(strd,"pass_band_amplitude"),"-dpdflatex");
 close
@@ -108,11 +140,11 @@ close
 plot(wa*0.5/pi,10*log10([Asqab0,Asqdu]), ...
      wa(vS.al)*0.5/pi,10*log10(Asql),"x", ...
      wa(vS.au)*0.5/pi,10*log10(Asqu),"+");
-axis([fas 0.5 -60 -20]);
+axis([0 0.5 -60 -20]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 title(sprintf(strM,"ab0 stop-band amplitude"));
-legend("Asq","Asqdu","location","northwest");
+legend("Asq","Asqdu","location","northeast");
 legend("boxoff");
 print(sprintf(strd,"stop_band_amplitude"),"-dpdflatex");
 close
@@ -121,7 +153,7 @@ close
 plot(wt*0.5/pi,[Tab0,Tdu,Tdl], ...
      wt(vS.tl)*0.5/pi,Tl,"x",
      wt(vS.tu)*0.5/pi,Tu,"+");
-axis([0 ftp 11.4 11.6]);
+axis([ftpl ftpu td-(2*tdr) td+(2*tdr)]);
 ylabel("Group delay");
 xlabel("Frequency")
 strMdelay=sprintf(strM,"ab0 group delay");
@@ -129,6 +161,20 @@ title(strMdelay);
 legend("Tab0","Tdu","Tdl","location","northwest");
 legend("boxoff");
 print(sprintf(strd,"delay"),"-dpdflatex");
+close
+
+% Plot phase
+plot(wp*0.5/pi,mod(([Pab0,Pdu,Pdl]+(td*wp))/pi,2), ...
+     wp(vS.pl)*0.5/pi,mod((Pl+(td*wp(vS.pl)))/pi,2),"x",
+     wp(vS.pu)*0.5/pi,mod((Pu+(td*wp(vS.pu)))/pi,2),"+");
+axis([fppl fppu mod(pd-(5*pdr),2) mod(pd+(5*pdr),2)]);
+ylabel("Phase(rad./pi)\n(corrected for delay)");
+xlabel("Frequency")
+strMdelay=sprintf(strM,"ab0 phase");
+title(strMdelay);
+legend("Pab0","Pdu","Pdl","location","northwest");
+legend("boxoff");
+print(sprintf(strd,"phase"),"-dpdflatex");
 close
 
 %

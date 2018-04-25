@@ -1,18 +1,30 @@
 #!/bin/sh
 
+LAPACK_VER=3.8.0
+SUITESPARSE_VER=4.5.6
+FFTW_VER=3.3.7
+GLPK_VER=4.65
+QRUPDATE_VER=1.1.2
+OCTAVE_VER=4.2.2
+STRUCT_VER=1.0.14
+OPTIM_VER=1.5.2
+CONTROL_VER=3.1.0
+SIGNAL_VER=1.3.2
+PARALLEL_VER=3.1.1
+
 # Assume these files are present:
-#  lapack-3.8.0.tgz
-#  SuiteSparse-4.5.6.tar.gz
-#  arpack-ng-master.zip
-#  fftw-3.3.7.tar.gz
-#  qrupdate-1.1.2.tar.gz
-#  glpk-4.65.tar.gz
-#  octave-4.2.1.tar.lz
-#  struct-1.0.14.tar.gz
-#  optim-1.5.2.tar.gz
-#  control-3.0.0.tar.gz
-#  signal-1.3.2.tar.gz
-#  parallel-3.1.1.tar.gz
+LAPACK_ARCHIVE=lapack-$LAPACK_VER".tar.gz"
+SUITESPARSE_ARCHIVE=SuiteSparse-$SUITESPARSE_VER".tar.gz"
+ARPACK_ARCHIVE=arpack-ng-master.zip
+FFTW_ARCHIVE=fftw-$FFTW_VER".tar.gz"
+GLPK_ARCHIVE=glpk-$GLPK_VER".tar.gz"
+QRUPDATE_ARCHIVE=qrupdate-$QRUPDATE_VER".tar.gz"
+OCTAVE_ARCHIVE=octave-$OCTAVE_VER".tar.lz"
+STRUCT_ARCHIVE=struct-$STRUCT_VER".tar.gz"
+OPTIM_ARCHIVE=optim-$OPTIM_VER".tar.gz"
+CONTROL_ARCHIVE=control-$CONTROL_VER".tar.gz"
+SIGNAL_ARCHIVE=signal-$SIGNAL_VER".tar.gz"
+PARALLEL_ARCHIVE=parallel-$PARALLEL_VER".tar.gz"
 
 OCTAVE_DIR=/usr/local/octave
 OCTAVE_INCLUDE_DIR=$OCTAVE_DIR/include
@@ -28,14 +40,14 @@ export PATH=$PATH:$OCTAVE_BIN_DIR
 #
 # Starting from scratch!
 #
-rm -R $OCTAVE_DIR
+rm -Rf $OCTAVE_DIR
 
 #
 # Build lapack
 #
-rm -Rf lapack-3.8.0
-tar -xf lapack-3.8.0.tar.gz
-cat > lapack-3.8.0.patch.uue << 'EOF'
+rm -Rf lapack-$LAPACK_VER
+tar -xf $LAPACK_ARCHIVE
+cat > lapack-$LAPACK_VER".patch.uue" << 'EOF'
 begin-base64 644 lapack-3.8.0.patch
 LS0tIGxhcGFjay0zLjguMC9tYWtlLmluYy5leGFtcGxlCTIwMTctMTEtMTMg
 MTU6MTU6NTQuMDAwMDAwMDAwICsxMTAwCisrKyBsYXBhY2stMy44LjAubW9k
@@ -98,20 +110,20 @@ bHJlYWR5IGhhdmUKICMgIHRoZSBMZXZlbCAxIEJMQVMuCg==
 EOF
 
 # Patch
-LPVER=3.8.0
-uudecode lapack-$LPVER.patch.uue > lapack-$LPVER.patch
-pushd lapack-$LPVER
-patch -p1 < ../lapack-$LPVER.patch
+uudecode lapack-$LAPACK_VER.patch.uue > lapack-$LAPACK_VER.patch
+tar -xf $LAPACK_ARCHIVE
+pushd lapack-$LAPACK_VER
+patch -p1 < ../lapack-$LAPACK_VER.patch
 cp make.inc.example make.inc
 popd
 # Make libblas.so
-pushd lapack-$LPVER/BLAS/SRC
+pushd lapack-$LAPACK_VER/BLAS/SRC
 make && make libblas.so
 mkdir -p $OCTAVE_LIB_DIR
 cp libblas.so $OCTAVE_LIB_DIR
 popd
 # Make liblapack.so
-pushd lapack-$LPVER/SRC
+pushd lapack-$LAPACK_VER/SRC
 make liblapack.so
 cp liblapack.so $OCTAVE_LIB_DIR
 popd
@@ -131,7 +143,7 @@ popd
 # Build SuiteSparse
 #
 rm -Rf SuiteSparse
-tar -xf SuiteSparse-4.5.6.tar.gz
+tar -xf $SUITESPARSE_ARCHIVE
 pushd SuiteSparse
 make INSTALL=$OCTAVE_DIR OPTIMIZATION=-O2 BLAS=-lblas install
 popd
@@ -139,8 +151,8 @@ popd
 #
 # Build qrupdate
 #
-rm -Rf qrupdate-1.1.2
-tar -xf qrupdate-1.1.2.tar.gz
+rm -Rf qrupdate-$QRUPDATE_VER
+tar -xf $QRUPDATE_ARCHIVE
 pushd qrupdate-1.1.2
 rm -f Makeconf
 cat > Makeconf << 'EOF'
@@ -166,9 +178,9 @@ popd
 #
 # Build glpk
 #
-rm -Rf glpk-4.65
-tar -xf glpk-4.65.tar.gz
-pushd glpk-4.65
+rm -Rf glpk-$GLPK_VER
+tar -xf $GLPK_ARCHIVE
+pushd glpk-$GLPK_VER
 ./configure --prefix=$OCTAVE_DIR
 make -j 6 && make install
 popd
@@ -176,9 +188,9 @@ popd
 #
 # Build fftw
 #
-rm -Rf fftw-3.3.7
-tar -xf fftw-3.3.7.tar.gz
-pushd fftw-3.3.7
+rm -Rf fftw-$FFTW_VER
+tar -xf $FFTW_ARCHIVE
+pushd fftw-$FFTW_VER
 ./configure --prefix=$OCTAVE_DIR --enable-shared \
             --with-combined-threads --enable-threads
 make -j 6 && make install
@@ -187,9 +199,9 @@ popd
 #
 # Build fftw single-precision
 #
-rm -Rf fftw-3.3.7
-tar -xf fftw-3.3.7.tar.gz
-pushd fftw-3.3.7
+rm -Rf fftw-$FFTW_VER
+tar -xf $FFTW_ARCHIVE
+pushd fftw-$FFTW_VER
 ./configure --prefix=$OCTAVE_DIR --enable-shared \
             --with-combined-threads --enable-threads --enable-single
 make -j 6 && make install
@@ -198,78 +210,8 @@ popd
 #
 # Build octave
 #
-
-# Unpack octave
-cat > octave-4.2.1.patch.uue << 'EOF'
-begin-base64 666 octave-4.2.1.patch
-LS0tIG9jdGF2ZS00LjIuMS5vbGQvY29uZmlndXJlCTIwMTctMDItMjMgMDU6
-MTg6MzYuMDAwMDAwMDAwICsxMTAwCisrKyBvY3RhdmUtNC4yLjEvY29uZmln
-dXJlCTIwMTctMTEtMTkgMTc6MTg6MDIuNDQzMzg1NTQzICsxMTAwCkBAIC03
-MzcwMyw5ICs3MzcwMyw5IEBACiAgIGRvbmUKIGZpCiAKLUdDQ19BRERSRVNT
-X1NBTklUSVpFUl9GTEFHUz0iLWZzYW5pdGl6ZT1hZGRyZXNzIC1mbm8tb21p
-dC1mcmFtZS1wb2ludGVyIgotR1hYX0FERFJFU1NfU0FOSVRJWkVSX0ZMQUdT
-PSItZnNhbml0aXplPWFkZHJlc3MgLWZuby1vbWl0LWZyYW1lLXBvaW50ZXIi
-Ci1MRF9BRERSRVNTX1NBTklUSVpFUl9GTEFHUz0iLWZzYW5pdGl6ZT1hZGRy
-ZXNzIgorR0NDX0FERFJFU1NfU0FOSVRJWkVSX0ZMQUdTPSItZnNhbml0aXpl
-PWFkZHJlc3MgLWZzYW5pdGl6ZT11bmRlZmluZWQgLWZuby1zYW5pdGl6ZT12
-cHRyIC1mbm8tb21pdC1mcmFtZS1wb2ludGVyIgorR1hYX0FERFJFU1NfU0FO
-SVRJWkVSX0ZMQUdTPSItZnNhbml0aXplPWFkZHJlc3MgLWZzYW5pdGl6ZT11
-bmRlZmluZWQgLWZuby1zYW5pdGl6ZT12cHRyIC1mbm8tb21pdC1mcmFtZS1w
-b2ludGVyIgorTERfQUREUkVTU19TQU5JVElaRVJfRkxBR1M9Ii1mc2FuaXRp
-emU9YWRkcmVzcyAtZnNhbml0aXplPXVuZGVmaW5lZCAtZm5vLXNhbml0aXpl
-PXZwdHIiCiAKIHRyeV9hZGRyZXNzX3Nhbml0aXplcl9mbGFncz1ubwogCi0t
-LSBvY3RhdmUtNC4yLjEub2xkL2xpYm9jdGF2ZS9zeXN0ZW0vZmlsZS1zdGF0
-LmNjCTIwMTctMDItMjMgMDU6MDE6NTUuMDAwMDAwMDAwICsxMTAwCisrKyBv
-Y3RhdmUtNC4yLjEvbGlib2N0YXZlL3N5c3RlbS9maWxlLXN0YXQuY2MJMjAx
-Ny0xMS0xOSAxNzoxNzoxMi41MDc4NzY5MjUgKzExMDAKQEAgLTE3NCw3ICsx
-NzQsNyBAQAogICAgICAgICAgIHVwZGF0ZV9pbnRlcm5hbCAoKTsKICAgICAg
-IH0KIAotICAgIGlubGluZSBmaWxlX3N0YXQ6On5maWxlX3N0YXQgKCkgeyB9
-CisgICAgZmlsZV9zdGF0Ojp+ZmlsZV9zdGF0ICgpIHsgfQogCiAgICAgdm9p
-ZAogICAgIGZpbGVfc3RhdDo6dXBkYXRlX2ludGVybmFsIChib29sIGZvcmNl
-KQotLS0gb2N0YXZlLTQuMi4xLm9sZC9saWJvY3RhdmUvbnVtZXJpYy9zY2h1
-ci5jYwkyMDE3LTAyLTIzIDA1OjAxOjU1LjAwMDAwMDAwMCArMTEwMAorKysg
-b2N0YXZlLTQuMi4xL2xpYm9jdGF2ZS9udW1lcmljL3NjaHVyLmNjCTIwMTct
-MTEtMTkgMTc6MTc6MTIuNTA4ODc2OTE1ICsxMTAwCkBAIC0xMDIsNyArMTAy
-LDcgQEAKICAgICAgIGlmIChvcmRfY2hhciA9PSAnQScgfHwgb3JkX2NoYXIg
-PT0gJ0QnIHx8IG9yZF9jaGFyID09ICdhJyB8fCBvcmRfY2hhciA9PSAnZCcp
-CiAgICAgICAgIHNvcnQgPSAnUyc7CiAKLSAgICAgIHZvbGF0aWxlIGRvdWJs
-ZV9zZWxlY3RvciBzZWxlY3RvciA9IDA7CisgICAgICAgZG91YmxlX3NlbGVj
-dG9yIHNlbGVjdG9yID0gMDsKICAgICAgIGlmIChvcmRfY2hhciA9PSAnQScg
-fHwgb3JkX2NoYXIgPT0gJ2EnKQogICAgICAgICBzZWxlY3RvciA9IHNlbGVj
-dF9hbmE8ZG91YmxlPjsKICAgICAgIGVsc2UgaWYgKG9yZF9jaGFyID09ICdE
-JyB8fCBvcmRfY2hhciA9PSAnZCcpCkBAIC0xODksNyArMTg5LDcgQEAKICAg
-ICAgIGlmIChvcmRfY2hhciA9PSAnQScgfHwgb3JkX2NoYXIgPT0gJ0QnIHx8
-IG9yZF9jaGFyID09ICdhJyB8fCBvcmRfY2hhciA9PSAnZCcpCiAgICAgICAg
-IHNvcnQgPSAnUyc7CiAKLSAgICAgIHZvbGF0aWxlIGZsb2F0X3NlbGVjdG9y
-IHNlbGVjdG9yID0gMDsKKyAgICAgICBmbG9hdF9zZWxlY3RvciBzZWxlY3Rv
-ciA9IDA7CiAgICAgICBpZiAob3JkX2NoYXIgPT0gJ0EnIHx8IG9yZF9jaGFy
-ID09ICdhJykKICAgICAgICAgc2VsZWN0b3IgPSBzZWxlY3RfYW5hPGZsb2F0
-PjsKICAgICAgIGVsc2UgaWYgKG9yZF9jaGFyID09ICdEJyB8fCBvcmRfY2hh
-ciA9PSAnZCcpCkBAIC0yNzYsNyArMjc2LDcgQEAKICAgICAgIGlmIChvcmRf
-Y2hhciA9PSAnQScgfHwgb3JkX2NoYXIgPT0gJ0QnIHx8IG9yZF9jaGFyID09
-ICdhJyB8fCBvcmRfY2hhciA9PSAnZCcpCiAgICAgICAgIHNvcnQgPSAnUyc7
-CiAKLSAgICAgIHZvbGF0aWxlIGNvbXBsZXhfc2VsZWN0b3Igc2VsZWN0b3Ig
-PSAwOworICAgICAgIGNvbXBsZXhfc2VsZWN0b3Igc2VsZWN0b3IgPSAwOwog
-ICAgICAgaWYgKG9yZF9jaGFyID09ICdBJyB8fCBvcmRfY2hhciA9PSAnYScp
-CiAgICAgICAgIHNlbGVjdG9yID0gc2VsZWN0X2FuYTxDb21wbGV4PjsKICAg
-ICAgIGVsc2UgaWYgKG9yZF9jaGFyID09ICdEJyB8fCBvcmRfY2hhciA9PSAn
-ZCcpCkBAIC0zODQsNyArMzg0LDcgQEAKICAgICAgIGlmIChvcmRfY2hhciA9
-PSAnQScgfHwgb3JkX2NoYXIgPT0gJ0QnIHx8IG9yZF9jaGFyID09ICdhJyB8
-fCBvcmRfY2hhciA9PSAnZCcpCiAgICAgICAgIHNvcnQgPSAnUyc7CiAKLSAg
-ICAgIHZvbGF0aWxlIGZsb2F0X2NvbXBsZXhfc2VsZWN0b3Igc2VsZWN0b3Ig
-PSAwOworICAgICAgIGZsb2F0X2NvbXBsZXhfc2VsZWN0b3Igc2VsZWN0b3Ig
-PSAwOwogICAgICAgaWYgKG9yZF9jaGFyID09ICdBJyB8fCBvcmRfY2hhciA9
-PSAnYScpCiAgICAgICAgIHNlbGVjdG9yID0gc2VsZWN0X2FuYTxGbG9hdENv
-bXBsZXg+OwogICAgICAgZWxzZSBpZiAob3JkX2NoYXIgPT0gJ0QnIHx8IG9y
-ZF9jaGFyID09ICdkJykK
-====
-EOF
-uudecode octave-4.2.1.patch.uue > octave-4.2.1.patch
-rm -Rf octave-4.2.1
-tar -xf octave-4.2.1.tar.lz
-pushd octave-4.2.1
-patch -p 1 < ../octave-4.2.1.patch
-popd
+rm -Rf octave-$OCTAVE_VER
+tar -xf $OCTAVE_ARCHIVE
 rm -Rf build
 mkdir build
 pushd build
@@ -278,7 +220,7 @@ export CFLAGS=$OPTFLAGS" -std=c11 -I"$OCTAVE_INCLUDE_DIR
 export CXXFLAGS=$OPTFLAGS" -std=c++11 -I"$OCTAVE_INCLUDE_DIR
 export FFLAGS=$OPTFLAGS
 export LDFLAGS=-L$OCTAVE_LIB_DIR
-../octave-4.2.1/configure --prefix=$OCTAVE_DIR \
+../octave-$OCTAVE_VER/configure --prefix=$OCTAVE_DIR \
                           --disable-java \
                           --disable-atomic-refcount \
                           --without-fltk \
@@ -346,9 +288,9 @@ popd
 # Install packages
 #
 $OCTAVE_BIN_DIR/octave-cli \
-  --eval "pkg install struct-1.0.14.tar.gz ; ...
-          pkg install optim-1.5.2.tar.gz ; ...
-          pkg install control-3.0.0.tar.gz ; ...
-          pkg install signal-1.3.2.tar.gz ; ...
-          pkg install parallel-3.1.1.tar.gz ; ...
+  --eval "pkg install "$STRUCT_ARCHIVE" ; ...
+          pkg install "$OPTIM_ARCHIVE" ; ...
+          pkg install "$CONTROL_ARCHIVE" ; ...
+          pkg install "$SIGNAL_ARCHIVE" ; ...
+          pkg install "$PARALLEL_ARCHIVE" ; ...
           pkg list"

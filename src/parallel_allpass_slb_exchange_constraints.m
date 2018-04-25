@@ -1,9 +1,9 @@
 function [next_vR,next_vS,exchanged] = ...
-  parallel_allpass_slb_exchange_constraints(vS,vR, ...
-                                            Asq,Asqdu,Asqdl,T,Tdu,Tdl,tol)
+  parallel_allpass_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl, ...
+                                            P,Pdu,Pdl,tol)
 % [next_vR,next_vS,exchanged] = ...
-%   parallel_allpass_slb_exchange_constraints(vS,vR, ...
-%                                             Asq,Asqdu,Asqdl,T,Tdu,Tdl,tol)
+%   parallel_allpass_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,...
+%                                             P,Pdu,Pdl,tol)
 % Check for violation of the constraints in vR. If any constraints are violated
 % then move the constraint with the greatest violation from vR to vS.
 
@@ -28,16 +28,17 @@ function [next_vR,next_vS,exchanged] = ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if (nargin != 9) || (nargout != 3)
+  if (nargin != 12) || (nargout != 3)
     print_usage("[next_vR,next_vS,exchanged]= ...\n\
   parallel_allpass_slb_exchange_constraints(vS,vR, ...\n\
-                                            Asq,Asqdu,Asqdl,T,Tdu,Tdl,tol)");
+                                            Asq,Asqdu,Asqdl,T,Tdu,Tdl, ...\n\
+                                            P,Pdu,Pdl,tol)");
   endif
-  if all(isfield(vS,{"al","au","tl","tu"})) == false
-    error("Expect fields vS.al, vS.au, vS.tl and vS.tu");
+  if all(isfield(vS,{"al","au","tl","tu","pl","pu"})) == false
+    error("Expect fields vS.al, vS.au, vS.tlv, S.tu, vS.pl and vS.pu");
   endif
-  if all(isfield(vR,{"al","au","tl","tu"})) == false
-    error("Expect fields vR.al, vR.au, vR.tl and vR.tu");
+  if all(isfield(vR,{"al","au","tl","tu","pl","pu"})) == false
+    error("Expect fields vR.al, vR.au, vR.tl, vR.tu, vR.pl and vR.pu");
   endif
   if length(Asq) ~= length(Asqdu)
     error("length(Asq) ~= length(Asqdu)");
@@ -50,6 +51,12 @@ function [next_vR,next_vS,exchanged] = ...
   endif
   if length(Tdu) ~= length(Tdl)
     error("length(Tdu) ~= length(Tdl)");
+  endif
+  if length(P) ~= length(Pdu)
+    error("length(P) ~= length(Pdu)");
+  endif
+  if length(Pdu) ~= length(Pdl)
+    error("length(Pdu) ~= length(Pdl)");
   endif
 
   % Initialise
@@ -109,6 +116,32 @@ function [next_vR,next_vS,exchanged] = ...
     endif
   endif
 
+  % Phase lower constraint
+  Pl=P(vR.pl);
+  Pdl=Pdl(vR.pl);  
+  vPl=[];
+  vPl_max=-inf;
+  if !isempty(vR.pl)
+    vPl=find((Pdl-tol)>Pl);
+    if !isempty(vPl)
+      exchanged = true;
+      [vPl_max,vPl_maxi]=max((Pdl-tol)-Pl);
+    endif 
+  endif
+
+  % Phase upper constraint
+  Pu=P(vR.pu);
+  Pdu=Pdu(vR.pu); 
+  vPu_max=-inf;
+  vPu=[];
+  if !isempty(vR.pu)
+    vPu=find(Pu>(Pdu+tol));
+    if !isempty(vPu)
+      exchanged = true;
+      [vPu_max,vPu_maxi]=max(Pu-(Pdu+tol));
+    endif
+  endif
+
   % Return if no exchange
   if exchanged == false
     printf("No vR constraints violated. No exchange with vS.\n");
@@ -116,7 +149,8 @@ function [next_vR,next_vS,exchanged] = ...
   endif
 
   % Find the most violated constraint in vR
-  [violation, most_violated] = max([vAsql_max, vAsqu_max, vTl_max, vTu_max]);
+  [violation, most_violated] =  ...
+    max([vAsql_max, vAsqu_max, vTl_max, vTu_max, vPl_max, vPu_max]);
 
   % Move the most violated constraint to vS
   if most_violated == 1
@@ -135,6 +169,14 @@ function [next_vR,next_vS,exchanged] = ...
     next_vS.tu=unique([vS.tu;vR.tu(vTu_maxi)]);
     next_vR.tu(vTu_maxi)=[];
     printf("Exchanged constraint from vR.tu(%d) to vS\n",vR.tu(vTu_maxi));
+  elseif most_violated == 5
+    next_vS.pl=unique([vS.pl;vR.pl(vPl_maxi)]);
+    next_vR.pl(vPl_maxi)=[];
+    printf("Exchanged constraint from vR.pl(%d) to vS\n",vR.pl(vPl_maxi));
+  elseif most_violated == 6
+    next_vS.pu=unique([vS.pu;vR.pu(vPu_maxi)]);
+    next_vR.pu(vPu_maxi)=[];
+    printf("Exchanged constraint from vR.pu(%d) to vS\n",vR.pu(vPu_maxi));
   else
     error("Illegal max. position!?!");
   endif

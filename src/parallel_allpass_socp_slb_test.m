@@ -82,12 +82,18 @@ printf("Wa(nchka)=[ ");printf("%6.4g ",Wa(nchka)');printf("];\n");
 printf("Wae(nchka)=[ ");printf("%6.4g ",Wae(nchka)');printf("];\n");
 
 % Desired pass-band group delay response
-ntp=0;
 wt=[];
 Td=[];
 Tdu=[];
 Tdl=[];
 Wt=[];
+
+% Desired pass-band phase response
+wp=[];
+Pd=[];
+Pdu=[];
+Pdl=[];
+Wp=[];
 
 % Linear constraints
 [al,au]=aConstraints(Va,Qa,rho);
@@ -133,7 +139,7 @@ printf("Starting MMSE pass\n");
 parallel_allpass_socp_mmse([],ab0,abu,abl, ...
                            Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
                            wa,Asqd,Asqdu,Asqdl,Wa+Wae,wt,Td,Tdu,Tdl,Wt, ...
-                           maxiter,tol,false);
+                           wp,Pd,Pdu,Pdl,Wp,maxiter,tol,false);
 if feasible
   printf("Found feasible MMSE abm=[ ");printf("%g ",abm(:)');printf("]';\n");
 else
@@ -174,7 +180,7 @@ Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
 parallel_allpass_slb(@parallel_allpass_socp_mmse,abm,abu,abl, ...
                      Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
                      wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                     maxiter,del,ctol,verbose);
+                     wp,Pd,Pdu,Pdl,Wp,maxiter,del,ctol,verbose);
 if feasible
   printf("Found feasible PCLS ab1=[ ");printf("%g ",ab1(:)');printf("]';\n");
 else

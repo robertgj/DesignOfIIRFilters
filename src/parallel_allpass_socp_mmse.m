@@ -2,12 +2,12 @@ function [abk,socp_iter,func_iter,feasible]= ...
          parallel_allpass_socp_mmse(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb, ...
                                     polyphase,difference, ...
                                     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                    maxiter,tol,verbose)
+                                    wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
 % [xk,socp_iter,func_iter,feasible] = ...
 %   parallel_allpass_socp_mmse(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb, ...
 %                              polyphase,difference, ...
 %                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                              maxiter,tol,verbose)
+%                              wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
 %
 % SOCP MMSE optimisation with multiple frequency constraints
 % on the amplitude and group delay responses of a filter consisting of the
@@ -46,6 +46,10 @@ function [abk,socp_iter,func_iter,feasible]= ...
 %   Td - desired pass-band group delay response
 %   Tdu,Tdl - upper and lower mask for the pass-band group delay response
 %   Wt - pass-band group delay response weight at each frequency
+%   wp - angular frequencies of desired pass-band phase response in [0,pi]. 
+%   Pd - desired pass-band group delay response
+%   Pdu,Pdl - upper and lower mask for the pass-band phase response
+%   Wp - pass-band phase response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
 %   tol - tolerance on the relative step size to accept the result
 %   verbose -
@@ -85,23 +89,26 @@ function [abk,socp_iter,func_iter,feasible]= ...
 %
 % Sanity checks
 %
-if (nargout > 4) || (nargin != 25)
+if (nargout > 4) || (nargin != 30)
   print_usage("[abk,socp_iter,func_iter,feasible]= ...\n\
   parallel_allpass_socp_mmse(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb, ...\n\
                              polyphase,difference, ...\n\
                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                             maxiter,tol,verbose)");
+                             wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)");
 endif
 wa=wa(:);
 Nwa=length(wa);
 wt=wt(:);
 Nwt=length(wt);
+wp=wp(:);
+Nwp=length(wp);
 Nab=Va+Qa+Vb+Qb;
 
 if isempty(vS)
-  vS.al=[];vS.au=[];vS.tl=[];vS.tu=[];
-elseif (numfields(vS) ~= 4) || (all(isfield(vS,{"al","au","tl","tu"}))==false)
-  error("numfields(vS)=%d, expected 4 (al,au,tl and tu)",numfields(vS));
+  vS.al=[];vS.au=[];vS.tl=[];vS.tu=[];vS.pl=[];vS.pu=[];
+elseif (numfields(vS) ~= 6) ||  ...
+       (all(isfield(vS,{"al","au","tl","tu","pl","pu"}))==false)
+  error("numfields(vS)=%d, expected 6 (al,au,tl,tu,pl and pu)",numfields(vS));
 endif
 
 if length(ab0) ~= Nab
@@ -136,7 +143,19 @@ if (~isempty(vS.tl)) && (Nwt ~= length(Tdl))
   error("Expected length(wt)(%d) == length(Tdl)(%d)",Nwt,length(Tdl));
 endif  
 if Nwt ~= length(Wt)
-  error("Expected length(wt)(%d) == length(Wt)(%d)",Nwa,length(Wt));
+  error("Expected length(wt)(%d) == length(Wt)(%d)",Nwt,length(Wt));
+endif
+if Nwp ~= length(Pd)
+  error("Expected length(wp)(%d) == length(Pd)(%d)",Nwp,length(Pd));
+endif  
+if (~isempty(vS.pu)) && (Nwp ~= length(Pdu))
+  error("Expected length(wp)(%d) == length(Pdu)(%d)",Nwp,length(Pdu));
+endif  
+if (~isempty(vS.pl)) && (Nwp ~= length(Pdl))
+  error("Expected length(wp)(%d) == length(Pdl)(%d)",Nwp,length(Pdl));
+endif  
+if Nwp ~= length(Wp)
+  error("Expected length(wp)(%d) == length(Wp)(%d)",Nwp,length(Wp));
 endif
 if isstruct(tol)
   if all(isfield(tol,{"dtol","stol"})) == false
@@ -171,7 +190,7 @@ while 1
     error("maxiter exceeded");
   endif
 
-  % Parallel allpass filter amplitude pass-band squared-magnitude response
+  % Parallel allpass filter pass-band squared-magnitude response
   if !isempty(wa)
     [Asqwa,gradAsqwa]=parallel_allpassAsq(wa,abk,Va,Qa,Ra,Vb,Qb,Rb, ...
                                           polyphase,difference);
@@ -181,7 +200,7 @@ while 1
     gradAsqwa=[];
   endif;
   
-  % Parallel allpass filter phase pass-band phase response
+  % Parallel allpass filter pass-band group-delay response
   if !isempty(wt)
     [Twt,gradTwt]=parallel_allpassT(wt,abk,Va,Qa,Ra,Vb,Qb,Rb, ...
                                     polyphase,difference);
@@ -189,6 +208,16 @@ while 1
   else
     Twt=[];
     gradTwt=[];
+  endif;
+  
+  % Parallel allpass filter pass-band phase response
+  if !isempty(wp)
+    [Pwp,gradPwp]=parallel_allpassP(wp,abk,Va,Qa,Ra,Vb,Qb,Rb, ...
+                                    polyphase,difference);
+    func_iter = func_iter+1;
+  else
+    Pwp=[];
+    gradPwp=[];
   endif;
   
   %
@@ -238,6 +267,16 @@ while 1
     f=[f; Twt(vS.tl)-Tdl(vS.tl)];
   endif
     
+  % Phase linear constraints
+  if ~isempty(vS.pu)
+    D=[D, [zeros(2,length(vS.pu));-gradPwp(vS.pu,:)']];
+    f=[f; Pdu(vS.pu)-Pwp(vS.pu)];
+  endif
+  if ~isempty(vS.pl)
+    D=[D, [zeros(2,length(vS.pl));gradPwp(vS.pl,:)']];
+    f=[f; Pwp(vS.pl)-Pdl(vS.pl)];
+  endif
+    
   % SeDuMi linear constraint matrixes
   At=-D;
   ct=f;
@@ -257,9 +296,10 @@ while 1
 
   % Sum error over frequency
   b_err=[1;0;zeros(Nab,1)];
-  At_err=[zeros(Nwa+Nwt,2), [gradAsqwa.*kron(ones(1,Nab),Wa); ...
-                             gradTwt.*kron(ones(1,Nab),Wt)] ]';
-  c=[Wa.*(Asqwa-Asqd);Wt.*(Twt-Td)];
+  At_err=[zeros(Nwa+Nwt+Nwp,2), [gradAsqwa.*kron(ones(1,Nab),Wa); ...
+                                 gradTwt.*kron(ones(1,Nab),Wt); ...
+                                 gradPwp.*kron(ones(1,Nab),Wp)] ]';
+  c=[Wa.*(Asqwa-Asqd);Wt.*(Twt-Td);Wp.*(Pwp-Pd)];
   d=0;
   At=[At, -b_err, -At_err];
   ct=[ct;d;c];

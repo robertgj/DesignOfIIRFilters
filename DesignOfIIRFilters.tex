@@ -9632,7 +9632,6 @@ Figure~\ref{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-ab1pz}.
 \end{center}
 \end{figure}
 \clearpage
-
 Alternatively, the Octave script
 \emph{parallel\_allpass\_socp\_slb\_bandpass\_alternate\_test.m} uses
 the SeDuMi SOCP solver and the PCLS algorithm of \emph{Selesnick et al.}
@@ -9714,6 +9713,48 @@ Figure~\ref{fig:Parallel-allpass-bandpass-alternate-filter-PCLS-SOCP-ab1pz}.
 \end{center}
 \end{figure}
 \clearpage
+The Octave script
+\emph{parallel\_allpass\_socp\_slb\_bandpass\_hilbert\_test.m} uses
+the SeDuMi SOCP solver to design a band-pass Hilbert filter consisting of the
+difference of two all-pass filters. The script calls the Octave function
+\emph{parallel\_allpass\_slb} to perform the PCLS design of the filter in
+terms of the all-pass filter pole locations with constraints on the filter
+group-delay and phase. The filter specification is
+\begin{small}
+\verbatiminput{parallel_allpass_socp_slb_bandpass_hilbert_test.spec}
+\end{small}
+The initial filter was designed by the Octave script
+\emph{tarczynski\_parallel\_allpass\_bandpass\_hilbert\_test.m} using the
+\emph{WISE} method described in
+Section~\ref{Unconstrained-minimisation-with-barrier}.
+
+The denominator polynomials of the all-pass filters in the final band-pass
+filter are:
+\begin{small}
+\verbatiminput{parallel_allpass_socp_slb_bandpass_hilbert_test_Da1_coef.m}
+\verbatiminput{parallel_allpass_socp_slb_bandpass_hilbert_test_Db1_coef.m}
+\end{small}
+
+The final filter response is shown in
+Figure~\ref{fig:Parallel-allpass-bandpass-Hilbert-filter-PCLS-SOCP-response} and
+Figure~\ref{fig:Parallel-allpass-bandpass-Hilbert-filter-PCLS-SOCP-pass-band-response}.
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{parallel_allpass_socp_slb_bandpass_hilbert_test_ab1}}
+\caption{Band-pass Hilbert filter implemented as the difference of two all-pass filters : Response after PCLS SOCP optimisation}
+\label{fig:Parallel-allpass-bandpass-Hilbert-filter-PCLS-SOCP-response}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{parallel_allpass_socp_slb_bandpass_hilbert_test_ab1pass}}
+\caption{Band-pass Hilbert filter implemented as the difference of two
+  all-pass filters : Pass-band response after PCLS SOCP optimisation}
+\label{fig:Parallel-allpass-bandpass-Hilbert-filter-PCLS-SOCP-pass-band-response}
+\end{center}
+\end{figure}
+\clearpage
 \subsection{\label{sec:Design-IIR-filter-sum-delay-all-pass-filter-pole-zero}Design of an IIR filter as the sum of a delay and an all-pass filter represented in pole-zero form}
 \emph{Kunold}~\cite{Kunold_LinearPhaseRealizationWaveDigitalFilters} suggests
 realisation of a low-pass filter with flat pass-band delay by the parallel
@@ -9721,7 +9762,6 @@ combination of a wave-digital lattice filter and a pure delay. The parallel
 fixed delay means that the all-pass filter phase change during the pass-band
 to stop-band transition of the overall amplitude response must result in a
 large peak in the group delay response over that transition band. 
-
 \subsubsection{\label{sec:Design-IIR-filter-sum-delay-all-pass-filter-pole-zero-SOCP}Design of an IIR filter as the sum of a delay and an all-pass filter represented in pole-zero form using SOCP}
 The Octave script \emph{parallel\_allpass\_delay\_socp\_slb\_test.m} uses the
 SeDuMi SOCP solver to design a low-pass filter consisting of an all-pass
@@ -14549,7 +14589,7 @@ coefficients] {Comparison of the cost and number of 12-bit shift-and-add
 \label{tab:socp-relax-schurOneMPAlattice-lowpass-12-nbits-cost-summary}
 \end{table}
 \clearpage
-\section{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-bandpass-parallel-allpass-lowpass}SOCP-relaxation search for the signed-digit coefficients of a parallel all-pass lattice band-pass IIR filter}
+\section{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-parallel-allpass-bandpass}SOCP-relaxation search for the signed-digit coefficients of a parallel all-pass lattice band-pass IIR filter}
 The Octave script 
 \emph{socp\_relaxation\_schurOneMPAlattice\_bandpass\_12\_nbits\_test.m} performs
 successive SOCP relaxations to optimise the response of the parallel Schur
@@ -15745,6 +15785,133 @@ bandpass filter SDP-relaxation algorithm example with 10-bit coefficients]
   an average of 3-signed-digits to each coefficient using the heuristic of 
   \emph{Lim et al.} and performing SDP-relaxation search}
 \label{tab:sdp-relax-schurOneMlattice-bandpass-10-nbits-cost-summary}
+\end{table}
+\clearpage
+\section{\label{sec:SDP-relaxation-search-signed-digit-coefficients-IIR-lattice-bandpass-Hilbert}SDP-relaxation search for the signed-digit coefficients of a parallel allpass lattice bandpass Hilbert IIR filter}
+The Octave script 
+\emph{sdp\_relaxation\_schurOneMPAlattice\_bandpass\_hilbert\_12\_nbits\_test.m}
+performs successive SDP relaxations to optimise the response of the band-pass
+Hilbert filter designed by the script 
+\emph{parallel\_allpass\_socp\_slb\_bandpass\_hilbert\_test.m} described in
+Section~\ref{sec:Design-IIR-filter-difference-all-pass-filters-pole-zero-constrained-group-delay}
+implemented with 12-bit coefficients each having an average of
+3-signed-digits. The filter specification is: 
+\begin{small}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test.spec}
+\end{small} 
+The filter coefficients are truncated to $12$ bits allocated with an average of
+$3$ signed-digits by the heuristic of \emph{Lim et al.} as shown in
+Section~\ref{sec:Lim-allocation-signed-digits}. 
+
+The script compares the filter designed by a single call to the Octave
+function \emph{schurOneMPAlattice\_sdp\_mmse} with that designed by successively
+fixing the value of the remaining active coefficients to the SDP coefficient
+corresponding to that with the largest difference between the upper and lower
+signed-digit approximations as in
+Section~\ref{sec:SQP-relaxation-search-signed-digit-coefficients-bandpass}.
+At each coefficient relaxation step the script finds the upper and lower
+signed-digit approximations to the current set of active coefficients and
+selects the coefficient with the largest difference in those
+approximations. Then the active coefficients are optimised with
+\emph{schurOneMPAlattice\_sdp\_mmse}, the set of active coefficients is updated
+and the remaining active coefficients are optimised with the Octave function
+\emph{schurOneMPAlattice\_socp\_mmse} and the \emph{Selesnick-Lang-Burrus}
+constraint algorithm implemented in the Octave function
+\emph{schurOneMPAlattice\_slb}. The truncation of the last coefficient is, by
+necessity, not PCLS optimised so the final set of coefficients may not meet
+the PCLS specifications.
+
+The filter coefficients found by a single ``global'' SDP optimisation are:
+\begin{small}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_A1k0_sd_sdp_coef.m}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_A2k0_sd_sdp_coef.m}
+\end{small}
+
+The filter coefficients found by the SDP-relaxation search are:
+\begin{small}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_A1k0_sd_min_coef.m}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_A2k0_sd_min_coef.m}
+\end{small}
+
+Figures~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-pass},
+Figure~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-delay}
+and
+Figure~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-phase}
+compare the pass-band responses of the filter with exact, 12-bit signed-digit
+coefficients allocated with the algorithm of \emph{Lim et al.} and 12-bit
+signed-digit coefficients allocated with the algorithm of \emph{Lim et al.}
+and SDP-relaxation search.
+Likewise,
+Figure~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-stop}
+shows the filter stop-band response.
+Table~\ref{tab:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-cost}
+compares the cost and the number of $12$ bit shift-and-add operations required
+to implement the $31$ coefficient multiplications found by the signed-digit
+allocation heuristic of \emph{Lim et al.} with the SDP-relaxation search.
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_pass}}
+\caption{Comparison of the pass-band amplitude responses for a parallel
+  all-pass Schur one-multiplier lattice bandpass Hilbert filter with 12-bit
+  integer coefficients found by allocating an average of 3-signed-digits to
+  each coefficient using the heuristic of \emph{Lim et al.} and performing
+  SDP-relaxation search}
+\label{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-pass}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_delay}}
+\caption{Comparison of the pass-band group delay responses for a parallel
+  all-pass Schur one-multiplier lattice bandpass Hilbert filter with 12-bit
+  integer coefficients found by allocating an average of 3-signed-digits to
+  each coefficient using the heuristic of \emph{Lim et al.} and performing
+  SDP-relaxation search}
+\label{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-delay}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_phase}}
+\caption{Comparison of the pass-band phase responses for a parallel
+  all-pass Schur one-multiplier lattice bandpass Hilbert filter with 12-bit
+  integer coefficients found by allocating an average of 3-signed-digits to
+  each coefficient using the heuristic of \emph{Lim et al.} and performing
+  SDP-relaxation search}
+\label{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-phase}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_stop}}
+\caption{Comparison of the stop-band amplitude responses for a parallel
+  all-pass Schur one-multiplier lattice bandpass Hilbert filter with 12-bit
+  integer coefficients found  by allocating an average of 3-signed-digits to
+  each coefficient using the heuristic of \emph{Lim et al.} and performing
+  SDP-relaxation search} 
+\label{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-stop}
+\end{center}
+\end{figure}
+
+\begin{table}[htb]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lcccc}  \\ \toprule
+& Cost&Stop-band response&Signed-digits&Shift-and-adds\\ \midrule
+\input{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_cost.tab}
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the parallel all-pass Schur
+  one-multiplier lattice bandpass Hilbert filter SDP-relaxation algorithm
+  example with 1 2-bit coefficients]
+{Comparison of the cost and number of 12-bit shift-and-add operations required 
+  to implement the coefficient multiplications for a parallel all-pass Schur
+  one-multiplier lattice bandpass Hilbert filter with 12-bit integer
+  coefficients found by allocating an average of 3-signed-digits to each
+  coefficient using the heuristic of \emph{Lim et al.} and performing
+  SDP-relaxation search}
+\label{tab:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-cost}
 \end{table}
 \clearpage
 \chapter{\label{sec:Comparison-filter-search-fifth-order-elliptic-filter}Comparison of filter coefficient search methods for a 5th order elliptic filter with 6-bit integer and 2-signed-digit  coefficients}
@@ -21326,7 +21493,7 @@ where:
 \section*{Software requirements}
 I use the Fedora 27 distribution of Linux with:
 \begin{itemize}
-\item \emph{octave-4.2.1} with the \emph{struct}, \emph{control}, 
+\item \emph{octave-4.2.2} with the \emph{struct}, \emph{control}, 
   \emph{signal}, \emph{optim} and \emph{parallel} Octave-Forge packages
 \item the \emph{octave} scripts use the \emph{gnuplot} graphics toolkit and
   \emph{gnuplot-5.0 patchlevel 6}
@@ -21355,13 +21522,13 @@ Building this document may take a long time. I run \emph{make -j 6}.
 \pdfbookmark[0]{Octave}{octave}
 \section*{Octave}
 The script \emph{build-octave.sh} builds a local, command-line only, version
-of \emph{octave-4.2.1} avoiding the vagaries of the Fedora packagers
+of \emph{octave-4.2.2} avoiding the vagaries of the Fedora packagers
 \footnote{The Fedora 27 \emph{octave-4.2.1-4.fc27.2} package depends on the
   Netlib, ATLAS and OpenBLAS versions of the \emph{blas} and \emph{lapack}
   libraries.}. The local build of Octave links to locally built versions of
-the following libraries: \emph{arpack-ng-3.6.0}~\cite{ARPACKNG_website},
-\emph{fftw-3.3.7}~\cite{FFTW_website}, \emph{glpk-4.63}~\cite{GNU_GLPK},
-\emph{lapack-3.7.1}~\cite{LAPACK_website},
+the following libraries: \emph{arpack-ng-master}~\cite{ARPACKNG_website},
+\emph{fftw-3.3.7}~\cite{FFTW_website}, \emph{glpk-4.65}~\cite{GNU_GLPK},
+\emph{lapack-3.8.0}~\cite{LAPACK_website},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website} and
 \emph{SuiteSparse-4.5.6}~\cite{SUITESPARSE_website}. My benchmarks show that
 the Octave workload in this project does not benefit from the threaded
@@ -21414,21 +21581,6 @@ hg -v update
 \end{verbatim}
 \end{small}
 \end{comment}
-\subsubsection*{Patching Octave}
-\emph{octave-4.2.1/liboctave/system/file-stat.cc} must be altered as follows:
-\begin{small}
-\begin{verbatim}
-@@ -174,7 +174,7 @@
-           update_internal ();
-       }
- 
--    inline file_stat::~file_stat () { }
-+    file_stat::~file_stat () { }
- 
-     void
-     file_stat::update_internal (bool force)
-\end{verbatim}
-\end{small}
 \subsubsection*{Building Octave with LTO and PGO}
 The following commands build Octave linked with the system \emph{lapack} and
 \emph{blas} shared libraries with link-time-optimisation (LTO) and
@@ -21478,9 +21630,9 @@ script \emph{iir\_sqp\_slb\_bandpass\_test.m} and benchmarking various
 build of Octave running the Octave scripts
 \emph{linpack.m}~\cite{Rutter_LinpackBenchmark} and
 \emph{iir\_sqp\_slb\_bandpass\_test.m}. The Linux kernel used is
-\emph{4.13.12-300.fc27.x86\_64} from the RedHat Fedora 27 Linux
-distribution. The system compiler is \emph{gcc version 7.2.1 20170915 (Red Hat
-  7.2.1-2)}. The CPU is an Intel i7-7700K for which the number of CPU cores
+\emph{4.15.17-300.fc27.x86\_64} from the RedHat Fedora 27 Linux
+distribution. The system compiler is \emph{gcc version 7.3.1 20180303 (Red Hat
+ 7.3.1-5)}. The CPU is an Intel i7-7700K for which the number of CPU cores
 is $4$ ($8$ hyper-threaded). During the benchmark the CPU frequency was fixed
 at $4.5GHz$.  As the \emph{root} user run:
 \begin{small}
@@ -21548,11 +21700,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 Octave build& iir\_sqp\_slb\_bandpass\_test.m \\
             & Execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 203.6 \\
-Generic, shared reference lapack and blas            &  37.7 \\
-Generic, shared reference lapack and blas, LTO       &  36.9 \\
-Generic, shared reference lapack and blas, PGO       &  35.3 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  33.6 \\
+Debug, shared reference lapack and blas              & 205.9 \\
+Generic, shared reference lapack and blas            &  37.3 \\
+Generic, shared reference lapack and blas, LTO       &  36.7 \\
+Generic, shared reference lapack and blas, PGO       &  34.7 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  33.3 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -21567,15 +21719,17 @@ The shell script \emph{library-benchmark.sh} benchmarks the shared library LTO
 and PGO version of Octave with the \emph{linpack.m} and
 \emph{iir\_sqp\_slb\_bandpass\_test.m} scripts. The \emph{linpack.m} script
 was modified to produce repeatable residuals. The alternative \emph{blas} and
-\emph{lapack} library versions used are local builds of \emph{blas-3.7.1} and
-\emph{lapack-3.7.1} and the following Fedora 27 packages:
+\emph{lapack} library versions used are local builds of \emph{blas-3.8.0} and
+\emph{lapack-3.8.0} and the following Fedora 27 packages:
 \begin{small}
 \begin{verbatim}
 atlas.x86_64            3.10.3-1.fc27
-blas.x86_64             3.7.1-5.fc27
+blas.x86_64             3.8.0-7.fc27
 gsl.x86_64              2.4-3.fc27
-lapack.x86_64           3.7.1-5.fc27
-openblas.x86_64         0.2.20-3.fc27
+gsl-devel.x86_64        2.4-3.fc27
+lapack.x86_64           3.8.0-7.fc27
+openblas.x86_64         0.2.20-10.fc27
+openblas-threads.x86_64 0.2.20-10.fc27
 \end{verbatim}
 \end{small}
 
@@ -21608,24 +21762,24 @@ filter coefficients differ between implementations.
 \def\arraystretch{2}
 \begin{tabular}{lrrr} \toprule
 \multirow{3}{*}
-{\emph{blas} library}      &\multicolumn{2}{c}{linpack.m}
-                           &iir\_sqp\_slb\_bandpass\_test.m\\
-\cmidrule{2-4}             & MFLOPS & Normalised          & Execution time \\
-                           &        & residual            & (seconds) \\
+{\emph{blas} library}       &\multicolumn{2}{c}{linpack.m}
+                            &iir\_sqp\_slb\_bandpass\_test.m\\
+\cmidrule{2-4}              & MFLOPS & Normalised          & Execution time \\
+                            &        & residual            & (seconds) \\
 \midrule
-Generic libblas/liblapack  &  4944  & 17.7                &  33.9 \\
-Intel libblas/liblapack    &  4841  & 17.7                &  34.1 \\
-Haswell libblas/liblapack  &  4954  & 15.1                &  46.2 \\
-Nehalem libblas/liblapack  &  4049  & 17.7                &  34.0 \\
-Skylake libblas/liblapack  &  4956  & 15.1                &  46.5 \\
-Fedora 27 libblas/liblapack &  4956  & 17.7                &  33.6 \\
-libgslcblas                &  4784  & 17.7                &  33.9 \\
-libsatlas                  & 13845  & 12.2                &  33.9 \\
-libtatlas                  & 21488  & 13.2                &  34.2 \\
-libopenblas                & 34776  &  9.3                &  34.5 \\
-libopenblasp (1 thread)    & 35097  &  9.3                &  34.3 \\
-libopenblasp (2 threads)   & 49016  & 11.8                &  35.1 \\
-libopenblasp (4 threads)   & 61118  &  9.1                &  34.9 \\
+Generic libblas/liblapack   &  4897  & 17.7                &  33.1 \\
+Intel libblas/liblapack     &  4003  & 17.7                &  33.2 \\
+Haswell libblas/liblapack   &  4044  & 15.1                &  45.6 \\
+Nehalem libblas/liblapack   &  4829  & 17.7                &  33.1 \\
+Skylake libblas/liblapack   &  4047  & 15.1                &  44.3 \\
+Fedora 27 libblas/liblapack &  4868  & 17.7                &  33.3 \\
+libgslcblas                 &  4876  & 17.7                &  33.4 \\
+libsatlas                   & 13830  & 12.2                &  33.7 \\
+libtatlas                   & 21705  & 13.2                &  33.8 \\
+libopenblas                 & 34464  &  9.3                &  33.6 \\
+libopenblasp (1 thread)     & 34610  &  9.3                &  33.9 \\
+libopenblasp (2 threads)    & 48410  & 11.8                &  34.5 \\
+libopenblasp (4 threads)    & 59300  &  9.1                &  34.7 \\
 \bottomrule
 \end{tabular}
 \egroup{}

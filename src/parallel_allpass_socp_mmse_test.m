@@ -34,8 +34,13 @@ Wap=1
 ftp=0.175
 Wtp=5
 td=(ma+mb)/2
+tdr=0.04
 fas=0.2
 Was=1000
+fpp=0.17
+pd=0;
+pdr=0.0008;
+Wpp=1
 
 % Coefficient constraints
 rho=31/32;
@@ -66,6 +71,14 @@ Tdu=[];
 Tdl=[];
 Wt=Wtp*ones(ntp,1);
 
+% Desired pass-band phase response
+npp=ceil(n*fpp/0.5)+1;
+wp=(0:(npp-1))'*pi/n;
+Pd=(pd*pi)-(td*wp);
+Pdu=[];
+Pdl=[];
+Wp=Wpp*ones(npp,1);
+
 % Linear constraints
 [al,au]=aConstraints(Va,Qa,rho);
 [bl,bu]=aConstraints(Vb,Qb,rho);
@@ -78,32 +91,26 @@ vS=[];
   parallel_allpass_socp_mmse(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb, ...
                              polyphase,difference, ...
                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                             maxiter,tol,verbose);
+                             wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
 if !feasible
   error("ab1 infeasible");
 endif
 
-% Find overall filter polynomials
-[Na1,Da1]=a2tf(ab1(1:ma),Va,Qa,Ra);
-[Nb1,Db1]=a2tf(ab1((ma+1):end),Vb,Qb,Rb);
-Nab1=0.5*(conv(Na1,Db1)+conv(Nb1,Da1));
-Dab1=conv(Da1,Db1);
-
 % Find response
-nplot=512;
-[Hab1,wplot]=freqz(Nab1,Dab1,nplot);
-Tab1=grpdelay(Nab1,Dab1,nplot);
+Asq1=parallel_allpassAsq(wa,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+T1=parallel_allpassT(wt,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+P1=parallel_allpassP(wp,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 
 % Plot response
 subplot(211);
-plot(wplot*0.5/pi,20*log10(abs(Hab1)));
+plot(wa*0.5/pi,10*log10(Asq1));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
 s=sprintf("Parallel allpass : ma=%d,mb=%d,td=%g", ma,mb,td);
 title(s);
 subplot(212);
-plot(wplot*0.5/pi,Tab1);
+plot(wt*0.5/pi,T1);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-0.5 td+0.5]);
@@ -112,22 +119,31 @@ print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 
 % Plot passband response
-subplot(211);
-plot(wplot*0.5/pi,20*log10(abs(Hab1)));
+subplot(311);
+plot(wa*0.5/pi,10*log10(Asq1));
 ylabel("Amplitude(dB)");
-axis([0 max(fap,ftp) -3 1]);
+axis([0 max([fap,ftp,fpp]) -3 1]);
 grid("on");
 title(s);
-subplot(212);
-plot(wplot*0.5/pi,Tab1);
+subplot(312);
+plot(wt*0.5/pi,T1);
 ylabel("Group delay(samples)");
+axis([0 max([fap,ftp,fpp]) td-(tdr/2) td+(tdr/2)]);
+grid("on");
+subplot(313);
+plot(wp*0.5/pi,(P1+(wp*td)-pd)/pi);
+ylabel("Phase(rad./pi)");
 xlabel("Frequency");
-axis([0 max(fap,ftp) td-0.1 td+0.1]);
+axis([0 max([fap,ftp,fpp]) pd-(pdr/2) pd+(pdr/2)]);
 grid("on");
 print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 
 % Plot poles and zeros
+[Na1,Da1]=a2tf(ab1(1:ma),Va,Qa,Ra);
+[Nb1,Db1]=a2tf(ab1((ma+1):end),Vb,Qb,Rb);
+Nab1=0.5*(conv(Na1,Db1)+conv(Nb1,Da1));
+Dab1=conv(Da1,Db1);
 subplot(111);
 zplane(roots(Nab1),roots(Dab1));
 title(s);
@@ -145,9 +161,9 @@ print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 
 % Plot phase response of parallel filters
-H1=freqz(Na1,Da1,nplot);
-Asq=freqz(Nb1,Db1,nplot);
-plot(wplot*0.5/pi,[unwrap(arg(H1)) unwrap(arg(Asq))]+(wplot*td));
+H1=freqz(Na1,Da1,wa);
+Asq=freqz(Nb1,Db1,wa);
+plot(wa*0.5/pi,[unwrap(arg(H1)) unwrap(arg(Asq))]+(wa*td));
 s=sprintf(...
 "Allpass phase response error from linear phase (-w*td): ma=%d,mb=%d,td=%g",...
 ma,mb,td);
@@ -163,6 +179,7 @@ close
 % Save the filter specification
 fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"ma=%d %% Allpass model filter A denominator order\n",ma);
 fprintf(fid,"Va=%d %% Allpass model filter A no. of real poles\n",Va);
@@ -179,7 +196,9 @@ fprintf(fid,"Wtp=%d %% Pass band group delay response weight\n",Wtp);
 fprintf(fid,"td=%g %% Pass band nominal group delay\n",td);
 fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
 fprintf(fid,"Was=%d %% Stop band amplitude response weight\n",Was);
-fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
+fprintf(fid,"fpp=%g %% Pass band phase response edge\n",fpp);
+fprintf(fid,"Wpp=%d %% Pass band phase response weight\n",Wpp);
+fprintf(fid,"pd=%g %% Pass band initial phase\n",pd);
 fclose(fid);
 
 % Save results
@@ -199,7 +218,9 @@ print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
 % Done 
 save parallel_allpass_socp_mmse_test.mat ...
-     n fap Wap ftp Wtp fas Was td ma mb Ra Rb ab0 ab1 Na1 Da1 Nb1 Db1
+     ma mb Ra Rb ab0 ab1 ...
+     n fap Wap ftp Wtp fas Was td fpp pd pdr Wpp ...
+     Na1 Da1 Nb1 Db1
 
 diary off
 movefile parallel_allpass_socp_mmse_test.diary.tmp ...

@@ -1,7 +1,7 @@
-function parallel_allpass_slb_show_constraints(vS,wa,Asq,wt,T)
+function parallel_allpass_slb_show_constraints(vS,wa,Asq,wt,T,wp,P)
 
-  if nargin ~= 5
-    print_usage("parallel_allpass_slb_show_constraints(vS,wa,Asq,wt,T)");
+  if nargin ~= 7
+    print_usage("parallel_allpass_slb_show_constraints(vS,wa,Asq,wt,T,wp,P)");
   endif
   
 % Copyright (C) 2017,2018 Robert G. Jenssen
@@ -48,6 +48,18 @@ function parallel_allpass_slb_show_constraints(vS,wa,Asq,wt,T)
     printf("tu=[ ");printf("%d ",vS.tu');printf("]\n");
     printf("f(tu)=[ ");printf("%f ",wt(vS.tu)'*0.5/pi);printf("](fs=1)\n");
     printf("Tu=[ ");printf("%f ",T(vS.tu));printf("](Samples)\n");
+  endif
+
+  if !isempty(vS.pl)
+    printf("pl=[ ");printf("%d ",vS.pl');printf("]\n");
+    printf("f(pl)=[ ");printf("%f ",wp(vS.pl)'*0.5/pi);printf("](fs=1)\n");
+    printf("Pl=[ ");printf("%f ",P(vS.pl));printf("](rad.)\n");
+  endif
+
+  if !isempty(vS.pu)
+    printf("pu=[ ");printf("%d ",vS.pu');printf("]\n");
+    printf("f(pu)=[ ");printf("%f ",wp(vS.pu)'*0.5/pi);printf("](fs=1)\n");
+    printf("Pu=[ ");printf("%f ",P(vS.pu));printf("](rad.)\n");
   endif
 
 endfunction

@@ -67,6 +67,13 @@ Tdu=[];
 Tdl=[];
 Wt=Wtp*ones(ntp,1);
 
+% Desired pass-band phase response
+wp=[];
+Pd=[];
+Pdu=[];
+Pdl=[];
+Wp=[];
+
 % Linear constraints
 [al,au]=aConstraints(Va,Qa,rho);
 [bl,bu]=aConstraints(Vb,Qb,rho);
@@ -79,7 +86,7 @@ vS=[];
   parallel_allpass_socp_mmse(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb, ...
                              polyphase,difference, ...
                              wa,A2d,A2du,A2dl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                             maxiter,tol,verbose);
+                             wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
 if !feasible
   error("ab1 infeasible");
 endif

@@ -1,8 +1,8 @@
 #!/bin/sh
 
-prog=parallel_allpass_socp_slb_test.m
+prog=parallel_allpass_socp_slb_bandpass_hilbert_test.m
 
-depends="parallel_allpass_socp_slb_test.m test_common.m \
+depends="parallel_allpass_socp_slb_bandpass_hilbert_test.m test_common.m \
 parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \
 parallel_allpass_slb.m \
 parallel_allpass_slb_constraints_are_empty.m \
@@ -11,7 +11,8 @@ parallel_allpass_slb_set_empty_constraints.m \
 parallel_allpass_slb_show_constraints.m \
 parallel_allpass_slb_update_constraints.m \
 parallel_allpass_socp_mmse.m allpassP.m allpassT.m tf2a.m a2tf.m \
-aConstraints.m print_polynomial.m print_pole_zero.m local_max.m SeDuMi_1_3/"
+aConstraints.m print_polynomial.m print_pole_zero.m local_max.m \
+SeDuMi_1_3/"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -48,18 +49,23 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_a1_coef.m.ok << 'EOF'
-Ua1=0,Va1=1,Ma1=0,Qa1=4,Ra1=1
+Ua1=0,Va1=2,Ma1=0,Qa1=10,Ra1=1
 a1 = [   1.0000000000, ...
-         0.6250496954, ...
-        -0.7936416263,   0.9458093150, ...
-         3.8645866079,   0.9311291551 ]';
+        -0.7257854627,   0.0046848933, ...
+         0.4694995666,   0.6534120695,   0.9172438273,   0.7854664871, ... 
+         0.7180191852, ...
+         2.9757094174,   1.6152175272,   1.3495291976,   0.7244916931, ... 
+         0.9450058998 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m.ok"; fail; fi
 cat > test_b1_coef.m.ok << 'EOF'
-Ub1=0,Vb1=0,Mb1=0,Qb1=6,Rb1=1
+Ub1=0,Vb1=2,Mb1=0,Qb1=10,Rb1=1
 b1 = [   1.0000000000, ...
-        -0.6825270808,   0.9841722372,   0.8860324295, ...
-         2.6974551585,   0.9572228974,   0.8647487310 ]';
+        -0.7416267668,  -0.0401085124, ...
+         0.4968183357,   0.6988504401,   0.9270587724,   0.7768938934, ... 
+         0.7163992700, ...
+         2.8246898215,   1.6121432217,   0.5551855407,   1.1248643500, ... 
+         0.8734789955 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_b1_coef.m.ok"; fail; fi
 
@@ -69,9 +75,11 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_b1_coef.m.ok"; fail; fi
 echo "Running octave-cli -q " $prog
 
 octave-cli -q $prog > test.out
-diff -Bb test_a1_coef.m.ok parallel_allpass_socp_slb_test_a1_coef.m
+diff -Bb test_a1_coef.m.ok \
+     parallel_allpass_socp_slb_bandpass_hilbert_test_a1_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb on test_a1_coef.m"; fail; fi
-diff -Bb test_b1_coef.m.ok parallel_allpass_socp_slb_test_b1_coef.m
+diff -Bb test_b1_coef.m.ok \
+     parallel_allpass_socp_slb_bandpass_hilbert_test_b1_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb on test_b1_coef.m"; fail; fi
 
 #

@@ -22,6 +22,6 @@ function vS=parallel_allpass_slb_set_empty_constraints()
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  vS.al=[];vS.au=[];vS.tl=[];vS.tu=[];
+  vS.al=[];vS.au=[];vS.tl=[];vS.tu=[];vS.pl=[];vS.pu=[];
 
 endfunction

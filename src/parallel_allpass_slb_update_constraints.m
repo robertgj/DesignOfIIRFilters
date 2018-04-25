@@ -1,5 +1,5 @@
 function vS=parallel_allpass_slb_update_constraints ...
-              (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,tol)
+              (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,tol)
 
 % Copyright (C) 2017,2018 Robert G. Jenssen
 %
@@ -22,9 +22,9 @@ function vS=parallel_allpass_slb_update_constraints ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if (nargin != 9) || (nargout != 1)
+  if (nargin != 13) || (nargout != 1)
     print_usage("vS=parallel_allpass_slb_update_constraints ...\n\
-      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,tol)");
+      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,tol)");
   endif
   if length(Asq) ~= length(Asqdu)
     error("length(Asq) ~= length(Asqdu)");
@@ -43,6 +43,15 @@ function vS=parallel_allpass_slb_update_constraints ...
   endif
   if length(Tdl) ~= length(Wt)
     error("length(Tdl) ~= length(Wt)");
+  endif
+  if length(P) < length(Pdu)
+    error("length(P) < length(Pdu)");
+  endif
+  if length(Pdu) ~= length(Pdl)
+    error("length(Pdu) ~= length(Pdl)");
+  endif
+  if length(Pdl) ~= length(Wp)
+    error("length(Pdl) ~= length(Wp)");
   endif
 
   % Find amplitude lower constraint violations
@@ -65,7 +74,7 @@ function vS=parallel_allpass_slb_update_constraints ...
   if isempty(Tdl)
     vS.tl=[];
   else
-    vTl=local_max((Tdl-T(1:length(Wt))).*(Wt!=0));
+    vTl=local_max((Tdl-T).*(Wt!=0));
     vS.tl=vTl(find((Tdl(vTl)-T(vTl))>tol));
   endif
   
@@ -73,8 +82,24 @@ function vS=parallel_allpass_slb_update_constraints ...
   if isempty(Tdu)
     vS.tu=[];
   else
-    vTu=local_max((T(1:length(Wt))-Tdu).*(Wt!=0));
+    vTu=local_max((T-Tdu).*(Wt!=0));
     vS.tu=vTu(find((T(vTu)-Tdu(vTu))>tol));
+  endif
+
+  % Find phase lower constraint violations
+  if isempty(Pdl)
+    vS.pl=[];
+  else
+    vPl=local_max((Pdl-P).*(Wp!=0));
+    vS.pl=vPl(find((Pdl(vPl)-P(vPl))>tol));
+  endif
+  
+  % Find phase upper constraint violations
+  if isempty(Pdu)
+    vS.pu=[];
+  else
+    vPu=local_max((P-Pdu).*(Wp!=0));
+    vS.pu=vPu(find((P(vPu)-Pdu(vPu))>tol));
   endif
 
   % Do not want size 0x1 ?!?!?!
@@ -89,6 +114,12 @@ function vS=parallel_allpass_slb_update_constraints ...
   endif
   if isempty(vS.tu) 
     vS.tu=[];
+  endif
+  if isempty(vS.pl) 
+    vS.pl=[];
+  endif
+  if isempty(vS.pu) 
+    vS.pu=[];
   endif
 
 endfunction

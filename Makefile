@@ -30,7 +30,7 @@ OCTAVE_SCRIPTS = \
  branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test \
  branch_bound_schurOneMPAlattice_bandpass_12_nbits_test \
  branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test \
-branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test \
+ branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test \
  branch_bound_schurOneMPAlattice_lowpass_12_nbits_test \
  branch_bound_schurOneMlattice_bandpass_10_nbits_test \
  branch_bound_schurOneMlattice_bandpass_6_nbits_test \
@@ -90,6 +90,7 @@ branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test \
  parallel_allpass_delay_sqp_slb_test \
  parallel_allpass_socp_slb_bandpass_alternate_test \
  parallel_allpass_socp_slb_bandpass_test \
+ parallel_allpass_socp_slb_bandpass_hilbert_test \
  parallel_allpass_socp_slb_flat_delay_test \
  parallel_allpass_socp_slb_test \
  polyphase_allpass_socp_slb_flat_delay_test \
@@ -117,6 +118,7 @@ branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test \
  sdp_relaxation_directFIRhilbert_12_nbits_test \
  sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test \
  sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test \
+ sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test \
  sedumi_test \
  simplex_schurNSPAlattice_lowpass_test \
  simplex_schurNSlattice_lowpass_test \

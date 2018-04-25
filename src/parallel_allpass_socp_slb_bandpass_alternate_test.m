@@ -109,6 +109,13 @@ Tdl=[(td-(ttr/2))*ones(ntpl-nttl,1); ...
      (td-(ttr/2))*ones(nttu-ntpu,1)];
 Wt=[Wttl*ones(ntpl-nttl,1);Wtp*ones(ntpu-ntpl+1,1);Wttu*ones(nttu-ntpu,1)];
 
+% Desired pass-band phase response
+wp=[];
+Pd=[];
+Pdu=[];
+Pdl=[];
+Wp=[];
+
 % Sanity checks
 nchka=[nasl-1,nasl,nasl+1,napl-1,napl,napl+1,napu-1,napu,napu+1, ...
        nasu-1,nasu,nasu+1]';
@@ -203,7 +210,7 @@ printf("T0Err_transition=%g,T0Err_pass=%g\n",T0Err_transition,T0Err_pass);
 parallel_allpass_slb(@parallel_allpass_socp_mmse,ab0,abu,abl, ...
                      Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
                      wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                     maxiter,tol,ctol,verbose);
+                     wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
 if !feasible
   error("ab1 infeasible");
 endif
