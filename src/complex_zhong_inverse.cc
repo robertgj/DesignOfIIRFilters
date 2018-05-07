@@ -18,16 +18,16 @@
 //
 // Test with address-sanitizer (and a release build of octave):
 #if 0
-mkoctfile -g -fsanitize=address -fsanitize=undefined \
--fno-sanitize=vptr -fno-omit-frame-pointer complex_zhong_inverse.cc
-LD_PRELOAD=/usr/lib64/libasan.so.3 octave-cli \
-  --eval "N=4, \
-          r=reprand(2*N*N); \
-          A=hess(reshape(r(1:(N*N)),N,N)+ \
-                 j*reshape(r(((N*N)+1):(2*N*N)),N,N))', \
-          B=complex_zhong_inverse(A), \
-          max(max(abs((B*A)-eye(N))))/eps, \
-          max(max(abs((A*B)-eye(N))))/eps"
+   mkoctfile -O0 -g -fsanitize=address -fsanitize=undefined \
+     -fno-sanitize=vptr -fno-omit-frame-pointer complex_zhong_inverse.cc
+   LD_PRELOAD=/usr/lib64/libasan.so.5 octave-cli  \
+     --eval "N=4, \
+             r=reprand(2*N*N); \
+             A=hess(reshape(r(1:(N*N)),N,N)+ \
+                    j*reshape(r(((N*N)+1):(2*N*N)),N,N))', \
+             B=complex_zhong_inverse(A), \
+             max(max(abs((B*A)-eye(N))))/eps, \
+             max(max(abs((A*B)-eye(N))))/eps"
 #endif
 
 
@@ -54,8 +54,8 @@ LD_PRELOAD=/usr/lib64/libasan.so.3 octave-cli \
 extern "C"
 {
   F77_RET_T
-  F77_FUNC (ztrtri, ZTRTRI) (F77_CONST_CHAR_ARG_DECL DIAG,
-                             F77_CONST_CHAR_ARG_DECL UPLO,
+  F77_FUNC (ztrtri, ZTRTRI) (F77_CONST_CHAR_ARG_DECL UPLO,
+                             F77_CONST_CHAR_ARG_DECL DIAG,
                              const octave_idx_type& N,
                              Complex* A,
                              const octave_idx_type& LDA,

@@ -15,12 +15,12 @@ maxiter=2000
 strf="polyphase_allpass_socp_slb_flat_delay_test";
 
 % Initial coefficients found by tarczynski_polyphase_allpass_test.m
-Da0 = [   1.0000000000,  -0.0002135795,   0.0001187213,  -0.0000936667, ... 
-          0.0000824972,  -0.0000769381,   0.0000730337,  -0.0000697784, ... 
-          0.0000663975,  -0.0000642384,   0.0000693792,  -0.0001412838 ]';
-Db0 = [   1.0000000000,   0.4963316187,  -0.1198749572,   0.0562537917, ... 
-         -0.0320259192,   0.0197795181,  -0.0126415985,   0.0081394843, ... 
-         -0.0051805297,   0.0032053536,  -0.0019025918,   0.0011977681 ]';
+Da0 = [   1.0000000000,  -0.0002121961,   0.0001202238,  -0.0000935560, ... 
+          0.0000838474,  -0.0000779294,   0.0000749508,  -0.0000709944, ... 
+          0.0000677135,  -0.0000656198,   0.0000704229,  -0.0001415160 ]';
+Db0 = [   1.0000000000,   0.4963343295,  -0.1198744804,   0.0562556510, ... 
+         -0.0320274025,   0.0197815475,  -0.0126424184,   0.0081407634, ... 
+         -0.0051817103,   0.0032066263,  -0.0019030800,   0.0011987353 ]';
 
 % Lowpass filter specification for polyphase combination of all-pass filters
 tol=1e-4
@@ -110,12 +110,6 @@ axis([0 0.5 td-0.5 td+0.5]);
 grid("on");
 print(strcat(strf,"_ab0"),"-dpdflatex");
 close
-% Plot initial poles and zeros
-subplot(111);
-zplane(roots(Nab0),roots(Dab0));
-title(strt);
-print(strcat(strf,"_ab0pz"),"-dpdflatex");
-close
 
 %
 % PCLS pass
@@ -175,11 +169,6 @@ close
 
 % Plot poles and zeros
 subplot(111);
-zplane(roots(Nab1),roots(Dab1));
-title(strt);
-print(strcat(strf,"_ab1pz"),"-dpdflatex");
-close
-subplot(111);
 zplane(roots(Na1),roots(Da1));
 title("Allpass filter A");
 print(strcat(strf,"_a1pz"),"-dpdflatex");
@@ -190,7 +179,7 @@ title("Allpass filter B");
 print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 
-  % Plot phase response of polyphase parallel filters
+% Plot phase response of polyphase parallel filters
 Ha=freqz(Na1,Da1,nplot);
 Hb=freqz(Nb1,Db1,nplot);
 plot(wplot*0.5/pi,unwrap(arg(Ha))+(wplot*td), ...

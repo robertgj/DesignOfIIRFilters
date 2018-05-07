@@ -1,5 +1,5 @@
 function E=WISEJ_ND(ND,_nN,_nD,_R,_wd,_Ad,_Wa,_Td,_Wt)
-% E=WISEJ(ND,nN,nD,R,wd,Ad,Wa,Td,Wt)
+% E=WISEJ_ND(ND,nN,nD,R,wd,Ad,Wa,Td,Wt)
 % Function for IIR filter response optimisation. A barrier
 % function maintains stability by constraining the pole locations to
 % be within the unit circle in the z-plane. The argument ND is the

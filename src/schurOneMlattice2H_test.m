@@ -42,8 +42,8 @@ Nkc=Nk+Nc;
 [A,B,C,D,Cap,Dap]=schurOneMlattice2Abcd(k,epsilon,p,c);
 H=schurOneMlattice2H(wplot,A,B,C,D);
 % Check the magnitude-squared response
-if max(abs(h-H))/eps > 22.14
-  error("max(abs(h-H))/eps > 22.14");
+if max(abs(h-H))/eps > 23.39
+  error("max(abs(h-H))/eps > 23.39");
 endif
 Hap=schurOneMlattice2H(wplot,A,B,Cap,Dap);
 % Check the magnitude-squared response of the allpass filter

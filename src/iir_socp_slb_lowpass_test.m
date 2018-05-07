@@ -12,7 +12,7 @@ format short e
 tic
 
 tol=1e-4
-ctol=tol
+ctol=1e-6
 maxiter=2000
 verbose=false
 
@@ -23,15 +23,15 @@ N=15
 fap=0.15
 dBap=3
 Wap=1
-Wat=0.0001
+Wat=0.001
 ftp=0.15
 td=10
 tdr=0.2
-Wtp=0.01
-Wtt=0.0001
+Wtp=0.1
+Wtt=0.001
 fas=0.2
 dBas=46
-Was=100
+Was=1000
 
 % Frequency vectors
 n=1000;
@@ -85,9 +85,9 @@ strf="iir_socp_slb_lowpass_test";
 
 % Initial coefficients
 [ni,di]=butter(N,2*fap);
-ndi=[ni,di(2:end)]';
-                           
+
 % Use unconstrained optimisation to find an initial filter
+ndi=[ni,di(2:end)]';
 WISEJ_ND([],N,N,R,wd,Hda,Wda,Hdt,Wdt);
 [nd0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_ND,ndi);
 if (INFO == 1)
@@ -113,15 +113,11 @@ n0=nd0(1:(N+1));
 d0=[1;nd0((N+2):end)];
 [x0,U,V,M,Q]=tf2x(n0,d0);
 strt=sprintf(strP,"x0");
-showZPplot(x0,U,V,M,Q,R,strt);
-print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
-close
 showResponse(x0,U,V,M,Q,R,strt);
 print(strcat(strf,"_initial_x0"),"-dpdflatex");
 close
 showResponsePassBands(0,fap,-3,3,x0,U,V,M,Q,R,strt);
 print(strcat(strf,"_initial_x0pass"),"-dpdflatex");
-hold off
 close
 
 % Coefficient constraints
@@ -138,9 +134,6 @@ if ~feasible
   error("x1 infeasible");
 endif
 strt=sprintf(strP,"x1(MMSE)");
-showZPplot(x1,U,V,M,Q,R,strt);
-print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
-close
 showResponse(x1,U,V,M,Q,R,strt);
 print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
@@ -159,9 +152,6 @@ if ~feasible
   error("d1 infeasible");
 endif
 strt=sprintf(strP,"d1(PCLS)");
-showZPplot(d1,U,V,M,Q,R,strt);
-print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
-close
 showResponse(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close

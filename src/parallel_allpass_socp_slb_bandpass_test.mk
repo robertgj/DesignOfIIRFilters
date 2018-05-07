@@ -1,10 +1,8 @@
 parallel_allpass_socp_slb_bandpass_test_FIGURES = \
 parallel_allpass_socp_slb_bandpass_test_ab0 \
-parallel_allpass_socp_slb_bandpass_test_ab0pz \
 parallel_allpass_socp_slb_bandpass_test_ab1 \
 parallel_allpass_socp_slb_bandpass_test_ab1pass \
 parallel_allpass_socp_slb_bandpass_test_ab1phase \
-parallel_allpass_socp_slb_bandpass_test_ab1pz \
 parallel_allpass_socp_slb_bandpass_test_a1pz \
 parallel_allpass_socp_slb_bandpass_test_b1pz \
 

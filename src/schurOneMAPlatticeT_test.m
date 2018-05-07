@@ -142,8 +142,8 @@ dR10=zeros(R10*(length(dp)-1)+1,1);
 dR10(1:R10:end)=dp;
 T10=grpdelay(flipud(dR10),dR10,nplot);
 TR10=schurOneMAPlatticeT(wplot,kR,epsilonR,pR,R10);
-if max(abs(T10-TR10)) > 1e-10
-  error("max(abs(T10-TR10)) > 1e-10");
+if max(abs(T10-TR10)) > 1.4e-10
+  error("max(abs(T10-TR10)) > 1.4e-10");
 endif
 
 % Done

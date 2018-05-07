@@ -20,14 +20,13 @@ strf="schurOneMPAlattice_socp_slb_bandpass_test";
 %
 % Initial coefficients found by tarczynski_parallel_allpass_bandpass_test.m
 %
-D1_0 = [  1.0000000000,   0.1280011023,  -0.1601860289,   1.0669262177, ... 
-          0.0679141337,  -0.4055121887,   0.5371265119,   0.1528643922, ... 
-         -0.2975036003,   0.2399502280,   0.1258002204,  -0.1146057628, ... 
-          0.0967922409 ]';
-D2_0 = [  1.0000000000,  -0.4374642066,  -0.6930043887,   1.2398379614, ... 
-          0.0433872070,  -0.6735072949,   0.6034868487,   0.1897699694, ... 
-         -0.4255284914,   0.2644327567,   0.1418774548,  -0.1876066549, ... 
-          0.0887899062 ]';
+D1_0 = [  1.0000000000,  -1.3927200461,   1.0550019685,   0.6759516717, ... 
+         -1.8298487475,   1.7395948268,  -0.5413931059,  -0.4101583072, ... 
+          0.6786544967,  -0.3772455979,   0.1249241545 ]';
+D2_0 = [  1.0000000000,  -1.9582541553,   1.3818707728,   0.8621447327, ... 
+         -2.4071972207,   2.1559727974,  -0.6160012132,  -0.5862709792, ... 
+          0.8469858938,  -0.4539103913,   0.1169551807 ]';
+
 
 % Lattice decomposition of D1_0, D2_0
 [A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(D1_0),D1_0);
@@ -37,7 +36,7 @@ D2_0 = [  1.0000000000,  -0.4374642066,  -0.6930043887,   1.2398379614, ...
 % Band-pass filter specification for parallel all-pass filters
 %
 difference=true
-rho=0.999
+rho=127/128
 m1=length(D1_0)-1;
 m2=length(D2_0)-1;
 fasl=0.05
@@ -97,7 +96,6 @@ Wp=[];
 
 % Linear constraints
 dmax=inf;
-rho=127/128
 k0=[A1k0(:);A2k0(:)];
 k_u=rho*ones(size(k0));
 k_l=-k_u;
@@ -162,13 +160,6 @@ print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Plot poles and zeros
-N12=(conv(flipud(A1d),A2d)-conv(flipud(A2d),A1d))/2;
-D12=conv(A1d,A2d);
-subplot(111);
-zplane(roots(N12),roots(D12));
-title(strt);
-print(strcat(strf,"_pz"),"-dpdflatex");
-close
 zplane(roots(flipud(A1d)),roots(A1d));
 title("Allpass filter 1");
 print(strcat(strf,"_A1pz"),"-dpdflatex");

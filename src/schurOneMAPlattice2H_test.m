@@ -38,8 +38,8 @@ A2H=schurOneMAPlattice2H(wplot,A2A,A2B,A2Cap,A2Dap);
 if max(abs(hAap1-A1H)) > 9.1002*eps
   error("max(abs(hAap1-A1H)) > 9.1002*eps");
 endif
-if max(abs(hAap2-A2H)) > 21*eps
-  error("max(abs(hAap2-A2H)) > 21*eps");
+if max(abs(hAap2-A2H)) > 23.2*eps
+  error("max(abs(hAap2-A2H)) > 23.2*eps");
 endif
 
 % Check the gradient of A1H wrt w

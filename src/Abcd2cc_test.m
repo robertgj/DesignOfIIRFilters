@@ -78,10 +78,13 @@ Abcd2cc(Abf,Bbf,Cbf,Dbf,bits,name);
 if status
   error("mkoctfile() failed for %s! : (%s)", name, output);
 endif
-% If testing with address-sanitizer add these flags for mkoctfile:
-%   "-O0 -g -fsanitize=address -fsanitize=undefined -fno-omit-frame-pointer"
-% and run octave with:
-%   LD_PRELOAD=/usr/lib64/libasan.so.3 octave-cli
+%  If testing with address-sanitizer add these flags for mkoctfile:
+%{
+   "-O0 -g -fsanitize=address -fsanitize=undefined -fno-sanitize=vptr \
+    -fno-omit-frame-pointer"
+%}
+%  and run octave with:
+%    LD_PRELOAD=/usr/lib64/libasan.so.5 octave-cli
 
 % Run the block processing filters
 [yb,xxb]=svf(Abf,Bbf,Cbf,Dbf,u,"none");

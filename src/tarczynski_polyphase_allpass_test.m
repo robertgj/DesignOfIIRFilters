@@ -132,17 +132,6 @@ grid("on");
 print("tarczynski_polyphase_allpass_response_passband","-dpdflatex");
 close
 
-% octave fails in zplane with warning("error","Octave:neg-dim-as-zero"):
-%   error: zeros: converting negative dimension to zero
-%   error: called from
-%      zplane at line 75 column 9
-%      tarczynski_polyphase_allpass_test at line 107 column 1
-subplot(111);
-zplane(roots(N),roots(D));
-title(s);
-print("tarczynski_polyphase_allpass_pz","-dpdflatex");
-close
-
 % Plot phase response
 if flat_delay
   % Plot phase response of polyphase parallel filters

@@ -21,14 +21,12 @@ D0=D0(:);
 D0=D0/D0(1);
 nD=length(D0)-1;
 % Truncate Butterworth denominator to order 6
-if 1
-  D0=D0(1:7);
-  nD=length(D0)-1;
-endif
+D0=D0(1:7);
+nD=length(D0)-1;
 
 % Frequency points
 td=9,fap=0.25,fas=0.3,ftp=0.25
-dBas=40,Wap=1,Wat=0.02,Was=50,Wtp=0.02
+dBas=40,Wap=1,Wat=0.1,Was=10,Wtp=0.1
 n=200;
 wd=(0:(n-1))'*pi/n;
 nap=ceil(n*fap/0.5)+1;

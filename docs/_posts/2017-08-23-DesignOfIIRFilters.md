@@ -19,9 +19,7 @@ amplitude, phase and group delay responses and truncated or quantised
 coefficients. I intended to show that it is possible to design a
 *good-enough* IIR digital filter with coefficients that are implemented by
 a limited number of shift-and-add operations and so do not require
-software or hardware multiplications. The repository
-[{{site.github.repo }}]({{ site.github.repo }}) contains the files required to
-generate the figures and results shown in that document. I programmed these
+software or hardware multiplications. I programmed these
 experiments in the [Octave](https://www.gnu.org/software/octave)
 language. Octave is an
 [*almost*](https://wiki.octave.org/FAQ#Differences_between_Octave_and_Matlab)

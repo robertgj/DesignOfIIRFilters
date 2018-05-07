@@ -37,10 +37,6 @@ mb=length(Db0)-1
 fap=0.24
 dBap=0.001
 Wap=1
-ftp=0.24
-td=(R*(ma+mb))/2
-tdr=0.2
-Wtp=0
 fas=0.26
 dBas=77
 Was=1000
@@ -64,13 +60,12 @@ A2du=[ones(nas-1,1);(10^(-dBas/10))*ones(n-nas+1,1)];
 A2dl=[(10^(-dBap/10))*ones(nap,1);zeros(n-nap,1)];
 Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
 
-% Desired pass-band group delay response
-ntp=ceil(n*ftp/0.5)+1;
-wt=wa(1:ntp);
-Td=td*ones(ntp,1);
-Tdu=Td+(tdr*ones(ntp,1)/2);
-Tdl=Td-(tdr*ones(ntp,1)/2);
-Wt=Wtp*ones(ntp,1);
+% Group delay response
+wt=[];
+Td=[];
+Tdu=[];
+Tdl=[];
+Wt=[];
 
 % Phase response
 wp=[];
@@ -108,12 +103,6 @@ ylabel("Group delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_ab0"),"-dpdflatex");
-close
-% Plot initial poles and zeros
-subplot(111);
-zplane(roots(Nab0),roots(Dab0));
-title(strt);
-print(strcat(strf,"_ab0pz"),"-dpdflatex");
 close
 
 %
@@ -174,11 +163,6 @@ print(strcat(strf,"_ab1dual"),"-dpdflatex");
 close
 
 % Plot poles and zeros
-subplot(111);
-zplane(roots(Nab1),roots(Dab1));
-title(strt);
-print(strcat(strf,"_ab1pz"),"-dpdflatex");
-close
 subplot(111);
 zplane(roots(Na1),roots(Da1));
 title("Allpass filter A");

@@ -14,7 +14,7 @@ unlink(strcat(strf,".diary.tmp"));
 diary branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test.diary.tmp
 
 % Options
-use_best_branch_and_bound_found=false
+use_best_branch_and_bound_found=true
 if use_best_branch_and_bound_found
   warning("Reporting the best branch-and-bound filter found so far. \n\
            Set \"use_best_branch_and_bound_found\"=false to re-run.");
@@ -27,34 +27,24 @@ tic;
 
 format compact
 
-tol=1e-6
-ctol=tol
-maxiter=500
+tol=1e-4
+ctol=1e-5
+maxiter=1000
 verbose=false
 
-%
-% Initial coefficients from schurOneMPAlattice_socp_slb_bandpass_hilbert_test.m
-%
-A1k0 = [  0.7923016649,  -0.3497701656,   0.7156356035,   0.2208076590, ... 
-         -0.2379121403,   0.4642894434,  -0.0169119075,   0.1625679132, ... 
-         -0.2531481725,   0.1652225002,   0.0246684118,  -0.1242258429 ];
-A1epsilon0 = [  1,   1,   1,  -1, ... 
-                1,  -1,   1,  -1, ... 
-                1,  -1,  -1,  -1 ];
-A1p0 = [  1.1444788717,   0.3895998070,   0.5613260523,   0.2285284553, ... 
-          0.2860497478,   0.3645725439,   0.6027432036,   0.6130244135, ... 
-          0.7222908913,   0.9356127395,   1.1053891319,   1.1330021118 ];
-A1p_ones=ones(size(A1p0));
-A2k0 = [  0.4329850829,  -0.6591154491,   0.7533697834,   0.1794679146, ... 
-         -0.3126927494,   0.4580543646,   0.0293427673,   0.1981720396, ... 
-         -0.2482671722,   0.1636650648,   0.0628820574,  -0.1209973284 ];
-A2epsilon0 = [  1,   1,   1,  -1, ... 
-                1,   1,  -1,  -1, ... 
-                1,  -1,  -1,   1 ];
-A2p0 = [  0.8265053115,   0.5199026803,   1.1469822590,   0.4301729361, ... 
-          0.5157489652,   0.7127618490,   0.4345456919,   0.4474891501, ... 
-          0.5470178547,   0.7048935206,   0.8314715570,   0.8855086517 ];
-A2p_ones=ones(size(A2p0));
+% Initial coefficients from parallel_allpass_socp_slb_bandpass_hilbert_test.m
+D1_0 = [  1.0000000000,  -2.3806229406,   4.1087444557,  -4.5154933899, ... 
+          3.8922229828,  -2.3241553357,   1.0922383767,  -0.2923332531, ... 
+          0.0499352338,   0.0141403953,   0.0006159517 ]';
+D2_0 = [  1.0000000000,  -3.0587168991,   5.2466517385,  -5.9070643923, ... 
+          4.8860591999,  -2.8958975490,   1.2506197100,  -0.3014872656, ... 
+          0.0231788740,   0.0193662750,   0.0012449906 ]';
+
+% Lattice decomposition of D1_0, D2_0
+[A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(D1_0),D1_0);
+A1p_ones = ones(size(A1k0));
+[A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(D2_0),D2_0);
+A2p_ones = ones(size(A2k0));
 
 % Initialise coefficient range vectors
 NA1=length(A1k0);
@@ -72,11 +62,11 @@ fapu=0.2
 fasu=0.25
 dBap=0.05
 Wap=1
-dBas=25
+dBas=35
 Watl=1e-3
 Watu=1e-3
-Wasl=1e2
-Wasu=1e2
+Wasl=20000
+Wasu=5000
 ftpl=0.11
 ftpu=0.19
 td=16
@@ -85,13 +75,13 @@ Wtp=10
 fppl=0.11
 fppu=0.19
 pd=3.5 % Initial phase offset in multiples of pi radians
-pdr=0.001 % Peak-to-peak phase ripple in multiples of pi radians
-Wpp=1000
+pdr=0.02 % Peak-to-peak phase ripple in multiples of pi radians
+Wpp=200
 
 %
 % Frequency vectors
 %
-n=400;
+n=1000;
 wa=(0:(n-1))'*pi/n;
 
 % Desired squared magnitude response
@@ -200,14 +190,13 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 
 % Fix one coefficient at each iteration 
 if use_best_branch_and_bound_found
-  A1k_min = [  1624,     -717,     1468,      452, ... 
-               -488,      952,      -32,      328, ... 
-               -516,      336,       56,     -256 ]'/nscale;
-  A2k_min = [   888,    -1350,     1543,      368, ... 
-               -640,      936,       60,      402, ... 
-               -512,      336,      128,     -248 ]'/nscale;
-
-  branches_min=34;
+  branches_min=159; % 202 seconds
+  A1k_min = [     -832,     1788,    -1156,     1644, ... 
+                  -951,      952,     -304,      184, ... 
+                    30,       -8 ]'/2048;
+  A2k_min = [    -1576,     1800,    -1216,     1602, ... 
+                  -894,      992,     -286,      190, ... 
+                    64,        4 ]'/2048;
   k_min=[A1k_min(:);A2k_min(:)];
   Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon0,A1p_ones, ...
                                 A2k_min,A2epsilon0,A2p_ones, ...
@@ -468,7 +457,7 @@ else
   strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
 stop-band(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g",nbits,ndigits,fasl,fasu);
   title(strt);
-  axis([0, 0.5, -40, -25]);
+  axis([0, 0.5, -50, -30]);
   grid("on");
   print(strcat(strf,"_kmin_stop"),"-dpdflatex");  
   close
@@ -481,7 +470,7 @@ stop-band(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g",nbits,ndigits,fasl,fasu);
   strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
 pass-band(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
   title(strt);
-  axis([fapl fapu -0.03, 0.01]);
+  axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), -0.06, 0.02]);
   legend("exact","s-d(Ito)","s-d(b-and-b)");
   legend("location","northeast");
   legend("boxoff");
@@ -499,9 +488,9 @@ pass-band(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
   strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
 pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
   title(strt);
-  axis([ftpl ftpu, td-0.1, td+0.1]);
+  axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), td-0.04, td+0.04]);
   legend("exact","s-d(Ito)","s-d(b-and-b)");
-  legend("location","northeast");
+  legend("location","south");
   legend("boxoff");
   legend("left");
   grid("on");
@@ -517,7 +506,8 @@ pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
   strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
 pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
   title(strt);
-  axis([fppl fppu, mod(pd-pdr,2), mod(pd+pdr,2)]);
+  axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), ...
+        mod(pd-(pdr/20),2), mod(pd+(pdr/20),2)]);
   legend("exact","s-d(Ito)","s-d(b-and-b)");
   legend("location","northeast");
   legend("boxoff");
@@ -567,7 +557,7 @@ branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_allocsd_Ito));
   fprintf(fid,"Wtp=%d %% Pass band group-delay response weight\n",Wtp);
   fprintf(fid,"fppl=%g %% Pass band phase response lower edge\n",fppl);
   fprintf(fid,"fppu=%g %% Pass band phase response upper edge\n",fppu);
-  fprintf(fid,"pd=%f %% Pass band nominal phase response(rad./pi)\n",mod(pd,2));
+  fprintf(fid,"pd=%f %% Pass band nominal phase response(rad./pi)\n",pd);
   fprintf(fid,"pdr=%f %% Pass band phase response ripple(rad./pi)\n",pdr);
   fprintf(fid,"Wpp=%d %% Pass band phase response weight\n",Wpp);
   fclose(fid);

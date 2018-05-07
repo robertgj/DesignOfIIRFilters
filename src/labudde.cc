@@ -12,9 +12,12 @@
 //   mkoctfile labudde.cc
 //
 // Test with address-sanitizer:
-//   mkoctfile -g -fsanitize=address -fno-omit-frame-pointer labudde.cc
-//   LD_PRELOAD=/usr/lib64/libasan.so.2 octave --eval "a=labudde(rand(4,4))"
-
+#if 0
+   mkoctfile -O0 -g -fsanitize=address -fsanitize=undefined \
+     -fno-sanitize=vptr -fno-omit-frame-pointer-fsanitize=address \
+     -fno-omit-frame-pointer labudde.cc
+   LD_PRELOAD=/usr/lib64/libasan.so.5 octave --eval "a=labudde(rand(4,4))"
+#endif
 
 // Copyright (C) 2017 Robert G. Jenssen
 //

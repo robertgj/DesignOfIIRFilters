@@ -20,27 +20,30 @@ tic;
 
 format compact
 
-tol=1e-7
-ctol=tol
+tol=1e-4
+ctol=1e-6
 maxiter=2000
 verbose=false
 strf="socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test";
 
 % Initial coefficients found by schurOneMPAlattice_socp_slb_lowpass_test.m
-A1k = [  0.7443908914,  -0.3042576697,  -0.0626208799,   0.0884311645, ... 
-        -0.3588846414,   0.3587038004,  -0.0783633145,  -0.0748085391, ... 
-         0.1263624295,  -0.0900968799,   0.0284686833 ];
-A1epsilon = [  1,  1,  1, -1,  1,  1,  1,  1, -1,  1, -1 ];
-A1p = [  1.0998181327,   0.4210048834,   0.5764274038,   0.6137283063, ... 
-         0.6706283423,   0.9763490507,   0.6707675530,   0.7255623222, ... 
-         0.7820318991,   0.8879691854,   0.9719252527 ];
-A2k = [  0.2690347663,  -0.2543494931,   0.4298554003,  -0.0378193975, ... 
-        -0.2014911283,   0.3478950340,  -0.3145103585,   0.1067123496, ... 
-         0.0713276982,  -0.1388447513,   0.0846842850,  -0.0277935824 ];
-A2epsilon = [ -1,  1,  1,  1,  1,  1,  1, -1, -1, -1, -1,  1 ];
-A2p = [  0.6490202260,   0.8551585273,   1.1091448098,   0.7003815530, ... 
-         0.7273899429,   0.8922523560,   0.6206095018,   0.8594091607, ... 
-         0.9565808706,   1.0274285085,   0.8934290639,   0.9725821418 ];
+A1k = [   0.7710795093,  -0.0877400647,  -0.2681542511,  -0.0632157363, ... 
+         -0.0597026472,   0.2447728972,  -0.1440273009,  -0.0047480818, ... 
+          0.1651064200,  -0.1595413513,   0.0533694484 ];
+A1epsilon = [  1,  1,  1,  1,  1, -1,  1,  1,  1,  1, -1 ];
+A1p = [   1.0938869878,   0.3932744761,   0.4294365675,   0.5652951852, ... 
+          0.6022352763,   0.6393307509,   0.8207896515,   0.9488992642, ... 
+          0.9534154626,   0.8070769688,   0.9479815814 ];
+A2k = [   0.3879271200,  -0.2736030845,   0.1865887260,   0.1645039495, ... 
+         -0.0468126786,   0.0421834282,  -0.2013732385,   0.1799895947, ... 
+          0.0060613149,  -0.1789457435,   0.1504871218,  -0.0543901331 ];
+A2k = [   0.3879271200,  -0.2736030845,   0.1865887260,   0.1645039495, ... 
+         -0.0468126786,   0.0421834282,  -0.2013732385,   0.1799895947, ... 
+          0.0060613149,  -0.1789457435,   0.1504871218,  -0.0543901331 ];
+A2epsilon = [  1,  1,  1, -1,  1, -1, -1, -1, -1, -1, -1,  1 ];
+A2p = [   1.0547215023,   0.7004159663,   0.9274405767,   0.7678759716, ... 
+          0.9065449858,   0.9500243102,   0.9909816820,   0.8079762210, ... 
+          0.9692325410,   0.9751252777,   0.8137657995,   0.9470116704 ];
 
 % Low pass filter specification
 n=400
@@ -52,7 +55,7 @@ dBap=0.2 % Pass band amplitude response ripple
 Wap=1 % Pass band amplitude response weight
 Wat=0 % Transition band amplitude response weight
 fas=0.25 % Stop band amplitude response edge
-dBas=50 % Stop band amplitude response ripple
+dBas=53 % Stop band amplitude response ripple
 Was=100 % Stop band amplitude response weight
 ftp=0.175 % Pass band group delay response edge
 td=(m1+m2)/2 % Pass band nominal group delay
@@ -343,19 +346,10 @@ plot(wt*0.5/pi,T_k,"linestyle","-", ...
      wt*0.5/pi,T_kmin,"linestyle","-.");
 ylabel("Delay(Samples)");
 xlabel("Frequency");
-axis([0 max(fap,ftp) td-(tdr/2) td+(tdr/2)]);
+axis([0 max(fap,ftp) td-tdr td+tdr]);
 grid("on");
 print(strcat(strf,"_kmin_pass"),"-dpdflatex");
 close
-
-% Pole-zero plot
-[N12,D12]=schurOneMPAlattice2tf(A1k_min,A1epsilon,A1p_ones, ...
-                                A2k_min,A2epsilon,A2p_ones,difference);
-subplot(111);
-zplane(roots(N12),roots(D12));
-title(strt);
-print(strcat(strf,"_kmin_pz"),"-dpdflatex");
-close 
 
 % Plot responses for the introduction
 print_for_web_page=false;

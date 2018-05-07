@@ -108,17 +108,11 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt)
 endfunction
 
 % Filter specification
-tol=1e-6
 maxiter=2000
+tol=1e-8
+% Initial filter for parallel_allpass_bandpass_test.m
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,Watl=0.1,Wap=1,Watu=0.1
-if 1
-  % Initial filter for parallel_allpass_bandpass_test.m
-  ma=12,td=16,Wasl=100,Wasu=100,Wtp=0.1,ftpl=0.09,ftpu=0.21
-else
-  % Initial filter for parallel_allpass_bandpass_alternate_test.m
-  ma=16,td=20,Wasl=2000,Wasu=1000,Wtp=0.01,ftpl=0.08,ftpu=0.23
-endif
-mb=ma
+ma=mb=10,td=16,Wasl=100,Wasu=100,Wtp=1,ftpl=0.09,ftpu=0.21
 
 % Frequency points
 n=1000;

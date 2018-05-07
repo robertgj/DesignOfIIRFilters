@@ -20,14 +20,12 @@ strf="schurOneMPAlattice_socp_slb_bandpass_hilbert_test";
 %
 % Initial coefficients from tarczynski_parallel_allpass_bandpass_hilbert_test.m
 %
-D1_0 = [  1.0000000000,   0.3123079354,  -0.2317108438,   0.9181260586, ... 
-          0.2492627390,  -0.1604453376,  -0.1449740884,   0.1991309068, ... 
-          0.1424266816,  -0.7047805558,   0.0597938923,   0.1479724997, ... 
-         -0.2887348192 ]';
-D2_0 = [  1.0000000000,  -0.2759072714,  -0.8959725116,   1.0579968251, ... 
-          0.3672877136,  -0.4415731334,  -0.3552580282,   0.4705275516, ... 
-          0.4602430859,  -0.8255136289,   0.0910399914,   0.3135264585, ... 
-         -0.2785177818 ]';
+D1_0 = [  1.0000000000,  -1.1319587228,   0.6097871223,   0.6261090381, ... 
+         -0.6194298490,  -0.2617965851,   0.6709858095,  -0.1023935473, ... 
+         -0.7834255458,   0.7179469484,  -0.3420403636 ]';
+D2_0 = [  1.0000000000,  -1.7205540442,   0.7957560903,   0.9668362534, ... 
+         -0.9599495709,  -0.4817982577,   1.0463598362,   0.0039741053, ... 
+         -1.0432403929,   0.9012118884,  -0.3322131351 ]';
 
 % Lattice decomposition of D1_0, D2_0
 [A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(D1_0),D1_0);
@@ -44,8 +42,8 @@ fasl=0.05
 fapl=0.1
 fapu=0.2
 fasu=0.25
-dBap=0.02
-dBas=30
+dBap=0.2
+dBas=30 % 33 takes 509 seconds
 Wap=1
 Watl=1e-3
 Watu=1e-3
@@ -54,7 +52,7 @@ Wasu=1000
 ftpl=0.11
 ftpu=0.19
 td=16
-tdr=td/800
+tdr=td/200
 Wtp=10
 fppl=0.11
 fppu=0.19
@@ -106,21 +104,21 @@ Wp=Wpp*ones(nppu-nppl+1,1);
 %
 % Relative errors
 %
-EsqA0p=schurOneMPAlatticeEsq ...
-         (A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference, ...
-          wa,Asqd,[zeros(napl-1,1);ones(napu-napl+1,1);zeros(n-napu,1)], ...
-          wt,Td,zeros(size(wt)), ...
-          wp,Pd,zeros(size(wp)));
 EsqA0sl=schurOneMPAlatticeEsq ...
          (A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference, ...
           wa,Asqd,[ones(nasl,1);zeros(n-nasl,1)], ...
           wt,Td,zeros(size(wt)), ...
-          wp,Pd,zeros(size(wp)));
+          wp,Pd,zeros(size(wp)))
+EsqA0p=schurOneMPAlatticeEsq ...
+         (A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference, ...
+          wa,Asqd,[zeros(napl-1,1);ones(napu-napl+1,1);zeros(n-napu,1)], ...
+          wt,Td,zeros(size(wt)), ...
+          wp,Pd,zeros(size(wp)))
 EsqA0su=schurOneMPAlatticeEsq ...
          (A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference, ...
           wa,Asqd,[zeros(nasu-1,1);ones(n-nasu+1,1)], ...
           wt,Td,zeros(size(wt)), ...
-          wp,Pd,zeros(size(wp)));
+          wp,Pd,zeros(size(wp)))
 EsqT0=schurOneMPAlatticeEsq ...
         (A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference, ...
          wa,Asqd,zeros(size(wa)), ...
@@ -130,7 +128,7 @@ EsqP0=schurOneMPAlatticeEsq ...
         (A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference, ...
          wa,Asqd,zeros(size(wa)), ...
          wt,Td,zeros(size(wt)), ...
-         wp,Pd,ones(size(wp)));
+         wp,Pd,ones(size(wp)))
 
 %
 % Sanity checks
@@ -161,9 +159,9 @@ k_active=find(k0~=0);
 %
 Asq0=schurOneMPAlatticeAsq(wa,A1k0,A1epsilon0,A1p0, ...
                            A2k0,A2epsilon0,A2p0,difference);
-T0=schurOneMPAlatticeT(wt,A1k0,A1epsilon0,A1p0, ...
+T0=schurOneMPAlatticeT(wa,A1k0,A1epsilon0,A1p0, ...
                        A2k0,A2epsilon0,A2p0,difference);
-P0=schurOneMPAlatticeP(wp,A1k0,A1epsilon0,A1p0, ...
+P0=schurOneMPAlatticeP(wa,A1k0,A1epsilon0,A1p0, ...
                        A2k0,A2epsilon0,A2p0,difference);
 subplot(311);
 plot(wa*0.5/pi,10*log10(abs(Asq0)));
@@ -173,12 +171,12 @@ grid("on");
 strt=sprintf("Initial parallel all-pass bandpass Hilbert");
 title(strt);
 subplot(312);
-plot(wt*0.5/pi,T0);
+plot(wa*0.5/pi,T0);
 ylabel("Group delay(samples)");
 axis([0 0.5 15.5 16.5]);
 grid("on");
 subplot(313);
-plot(wp*0.5/pi,mod((P0+(td*wp))/pi,2));
+plot(wa*0.5/pi,mod((P0+(td*wa))/pi,2));
 ylabel("Phase(rad./pi)\n(corrected for delay)");
 xlabel("Frequency");
 axis([0 0.5 1.498 1.502]);
@@ -252,19 +250,12 @@ subplot(313);
 plot(wa*0.5/pi,mod((P12+(td*wa))/pi,2));
 ylabel("Phase(rad./pi)\n(corrected for delay)");
 xlabel("Frequency");
-axis([minf maxf mod(pd-(pdr/10),2) mod(pd+(pdr/10),2)]);
+axis([minf maxf mod(pd-pdr,2) mod(pd+pdr,2)]);
 grid("on");
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Plot poles and zeros
-N12=(conv(flipud(A1d),A2d)-conv(flipud(A2d),A1d))/2;
-D12=conv(A1d,A2d);
-subplot(111);
-zplane(roots(N12),roots(D12));
-title(strt);
-print(strcat(strf,"_pz"),"-dpdflatex");
-close
 zplane(roots(flipud(A1d)),roots(A1d));
 title("Allpass filter 1");
 print(strcat(strf,"_A1pz"),"-dpdflatex");

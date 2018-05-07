@@ -117,10 +117,19 @@ function E=WISEJ_PAB_Hilbert(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt,_Pd,_Wp)
   E = ((1-lambda)*intEd) + (lambda*EJ);
 endfunction
 
+% Initialise with the result of tarczynski_parallel_allpass_bandpass_test.m
+Da0 = [   1.0000000000,  -1.3927200461,   1.0550019685,   0.6759516717, ... 
+         -1.8298487475,   1.7395948268,  -0.5413931059,  -0.4101583072, ... 
+          0.6786544967,  -0.3772455979,   0.1249241545 ]';
+Db0 = [   1.0000000000,  -1.9582541553,   1.3818707728,   0.8621447327, ... 
+         -2.4071972207,   2.1559727974,  -0.6160012132,  -0.5862709792, ... 
+          0.8469858938,  -0.4539103913,   0.1169551807 ]';
+
 % Filter specification
 tol=1e-6
 maxiter=2000
-ma=12,mb=ma
+ma=length(Da0)-1
+mb=length(Db0)-1
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,Wasl=2,Watl=0.1,Wap=20,Watu=0.1,Wasu=1
 ftpl=0.11,ftpu=0.19,td=16,tdr=0.2,Wtp=0.5
 fppl=0.11,fppu=0.19,pd=1.5,pdr=0.002,Wpp=5
@@ -172,15 +181,8 @@ nchkp=[nppl-1,nppl,nppl+1,nppu-1,nppu,nppu+1];
 printf("0.5*w(nchkp)'/pi=[ ");printf("%6.4g ",0.5*w(nchkp)'/pi);printf("];\n");
 printf("Wp(nchkp)=[ ");printf("%6.4g ",Wp(nchkp)');printf("];\n");
 
-% Initialise with the result of tarczynski_parallel_allpass_bandpass_test.m
-ab0 = [   0.1280011023,  -0.1601860289,   1.0669262177,   0.0679141337, ... 
-         -0.4055121887,   0.5371265119,   0.1528643922,  -0.2975036003, ... 
-          0.2399502280,   0.1258002204,  -0.1146057628,   0.0967922409, ... 
-         -0.4374642066,  -0.6930043887,   1.2398379614,   0.0433872070, ... 
-         -0.6735072949,   0.6034868487,   0.1897699694,  -0.4255284914, ... 
-          0.2644327567,   0.1418774548,  -0.1876066549,   0.0887899062 ];
-
 % Unconstrained minimisation
+ab0 = [Da0(2:end);Db0(2:end)];
 WISEJ_PAB_Hilbert([],ma,mb,Ad,Wa,Td,Wt,Pd,Wp);
 options=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter);
 [ab1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PAB_Hilbert,ab0,options);
@@ -234,7 +236,7 @@ subplot(313);
 plot(wplot*0.5/pi,(P+(wplot*td))/pi);
 ylabel("Phase(rad./pi)\n(delaycorrected)");
 xlabel("Frequency");
-axis([0 0.5 -5 5]);
+axis([0 0.5 -1 4]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
@@ -245,19 +247,19 @@ maxf=max([fapu,ftpu,fppu]);
 subplot(311);
 plot(wplot*0.5/pi,20*log10(abs(H)));
 ylabel("Amplitude(dB)");
-axis([minf maxf -0.2 0.05]);
+axis([minf maxf -0.3 0.1]);
 grid("on");
 title(strt);
 subplot(312);
 plot(wplot*0.5/pi,T);
 ylabel("Group delay(samples)");
-axis([minf maxf (td-(tdr/2)) (td+(tdr/2))]);
+axis([minf maxf (td-tdr) (td+tdr)]);
 grid("on");
 subplot(313);
 plot(wplot*0.5/pi,(P+(wplot*td))/pi);
 ylabel("Phase(rad./pi)\n(delaycorrected)");
 xlabel("Frequency");
-axis([minf maxf 1.5-(pdr/2) 1.5+(pdr/2)]);
+axis([minf maxf 1.5-pdr 1.5+pdr]);
 grid("on");
 print(strcat(strf,"_response_passband"),"-dpdflatex");
 close

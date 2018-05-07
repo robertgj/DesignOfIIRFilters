@@ -4,10 +4,10 @@
 #if 0
   mkoctfile -v -g -O0 -Wall -fno-omit-frame-pointer -fno-sanitize=vptr \
     -fsanitize=undefined -fsanitize=address address_sanitizer_test.cc
- #endif
+#endif
 // and run with:
 #if 0
-  LD_PRELOAD=/usr/lib64/libasan.so.3 octave-cli --eval "address_sanitizer_test"
+  LD_PRELOAD=/usr/lib64/libasan.so.5 octave-cli --eval "address_sanitizer_test"
 #endif
 
 // Copyright (C) 2016 Robert Jenssen

@@ -1,13 +1,10 @@
 iir_socp_slb_lowpass_test_FIGURES = \
 iir_socp_slb_lowpass_test_initial_x0 \
 iir_socp_slb_lowpass_test_initial_x0pass \
-iir_socp_slb_lowpass_test_initial_x0pz \
 iir_socp_slb_lowpass_test_mmse_x1 \
 iir_socp_slb_lowpass_test_mmse_x1pass \
-iir_socp_slb_lowpass_test_mmse_x1pz \
 iir_socp_slb_lowpass_test_pcls_d1 \
-iir_socp_slb_lowpass_test_pcls_d1pass \
-iir_socp_slb_lowpass_test_pcls_d1pz
+iir_socp_slb_lowpass_test_pcls_d1pass 
 
 iir_socp_slb_lowpass_test_COEFS = \
 iir_socp_slb_lowpass_test.mat \

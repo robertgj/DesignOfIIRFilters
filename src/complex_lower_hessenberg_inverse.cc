@@ -14,9 +14,9 @@
 //
 // Test with address-sanitizer:
 #if 0
-mkoctfile -g -fsanitize=address -fsanitize=undefined \
+mkoctfile -g -O0 -fsanitize=address -fsanitize=undefined \
 -fno-sanitize=vptr -fno-omit-frame-pointer complex_lower_hessenberg_inverse.cc
-LD_PRELOAD=/usr/lib64/libasan.so.3 octave \
+LD_PRELOAD=/usr/lib64/libasan.so.5 octave \
   --eval "N=4, \
           r=reprand(2*N*N); \
           A=hess(reshape(r(1:(N*N)),N,N)+ \

@@ -15,13 +15,13 @@ maxiter=2000
 strf="parallel_allpass_socp_slb_flat_delay_test";
 
 % Initial coefficients found by tarczynski_parallel_allpass_test.m
-Da0 = [   1.0000000000,   0.6972798665,  -0.2975063336,  -0.3126562447, ... 
-         -0.1822052424,   0.0540552781,   0.0875338385,  -0.1043232331, ... 
-          0.1845967625,   0.0440769201,  -0.1321004303,   0.0451935651 ]';
-Db0 = [   1.0000000000,   0.1561448902,  -0.3135750868,   0.3178486046, ... 
-          0.1300071229,   0.0784801583,  -0.0638101281,  -0.1841985576, ... 
-          0.2692566953,  -0.0893426643,  -0.1362443194,   0.1339411607, ... 
-         -0.0582212263 ]';
+Da0 = [   1.0000000000,   0.6972800895,  -0.2975062139,  -0.3126568149, ... 
+         -0.1822056467,   0.0540553513,   0.0875337561,  -0.1043233247, ... 
+          0.1845966147,   0.0440769846,  -0.1321003444,   0.0451934246 ]';
+Db0 = [   1.0000000000,   0.1561452139,  -0.3135749197,   0.3178482983, ... 
+          0.1300074645,   0.0784806204,  -0.0638102286,  -0.1841984885, ... 
+          0.2692567177,  -0.0893424226,  -0.1362442636,   0.1339410075, ... 
+         -0.0582210798 ]';
 
 % Lowpass filter specification for parallel all-pass filters
 tol=1e-4
@@ -108,12 +108,6 @@ axis([0 0.5 td-0.5 td+0.5]);
 grid("on");
 print(strcat(strf,"_ab0"),"-dpdflatex");
 close
-% Plot initial poles and zeros
-subplot(111);
-zplane(roots(Nab0),roots(Dab0));
-title(strt);
-print(strcat(strf,"_ab0pz"),"-dpdflatex");
-close
 
 %
 % PCLS pass
@@ -175,11 +169,6 @@ print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 
 % Plot poles and zeros
-subplot(111);
-zplane(roots(Nab1),roots(Dab1));
-title(strt);
-print(strcat(strf,"_ab1pz"),"-dpdflatex");
-close
 subplot(111);
 zplane(roots(Na1),roots(Da1));
 title("Allpass filter A");

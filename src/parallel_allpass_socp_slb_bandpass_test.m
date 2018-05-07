@@ -17,14 +17,18 @@ strf="parallel_allpass_socp_slb_bandpass_test";
 %
 % Initial coefficients found by tarczynski_parallel_allpass_bandpass_test.m
 %
-Da0 = [   1.0000000000,   0.1280011023,  -0.1601860289,   1.0669262177, ... 
-          0.0679141337,  -0.4055121887,   0.5371265119,   0.1528643922, ... 
-         -0.2975036003,   0.2399502280,   0.1258002204,  -0.1146057628, ... 
-          0.0967922409 ]';
-Db0 = [   1.0000000000,  -0.4374642066,  -0.6930043887,   1.2398379614, ... 
-          0.0433872070,  -0.6735072949,   0.6034868487,   0.1897699694, ... 
-         -0.4255284914,   0.2644327567,   0.1418774548,  -0.1876066549, ... 
-          0.0887899062 ]';
+Da0 = [   1.0000000000,  -1.3927200461,   1.0550019685,   0.6759516717, ... 
+         -1.8298487475,   1.7395948268,  -0.5413931059,  -0.4101583072, ... 
+          0.6786544967,  -0.3772455979,   0.1249241545 ]';
+Db0 = [   1.0000000000,  -1.9582541553,   1.3818707728,   0.8621447327, ... 
+         -2.4071972207,   2.1559727974,  -0.6160012132,  -0.5862709792, ... 
+          0.8469858938,  -0.4539103913,   0.1169551807 ]';
+
+% Convert coefficients to a vector
+[a0,Va,Qa]=tf2a(Da0);
+[b0,Vb,Qb]=tf2a(Db0);
+ab0=[a0(:);b0(:)];
+printf("Initial ab0=[");printf("%g ",ab0');printf("]'\n");
 
 %
 % Band-pass filter specification for parallel all-pass filters
@@ -36,32 +40,24 @@ difference=true
 rho=0.999 
 Ra=1
 Rb=1
-ma=length(Da0)-1
-mb=length(Db0)-1
+ma=length(a0)
+mb=length(b0)
 fasl=0.05
 fapl=0.1
 fapu=0.2
-fasu=0.25;
+fasu=0.25
 dBap=2
 Wap=1
-if 0
-  Watl=0,Watu=0,dBas=54
-else
-  Watl=0.1,Watu=0.1,dBas=53
-endif
-Wasl=1e4
-Wasu=1e4
+Watl=0.01
+Watu=0.01
+dBas=53
+Wasl=10000
+Wasu=10000
 ftpl=0.09
 ftpu=0.21
 td=16
 tdr=td/200
 Wtp=1
-
-% Convert coefficients to a vector
-ab0=zeros(ma+mb,1);
-[ab0(1:ma),Va,Qa]=tf2a(Da0);
-[ab0((ma+1):end),Vb,Qb]=tf2a(Db0);
-printf("Initial ab0=[");printf("%g ",ab0');printf("]'\n");
 
 %
 % Frequency vectors
@@ -142,12 +138,6 @@ axis([0 0.5 0 20]);
 grid("on");
 print(strcat(strf,"_ab0"),"-dpdflatex");
 close
-% Plot initial poles and zeros
-subplot(111);
-zplane(roots(Nab0),roots(Dab0));
-title(strt);
-print(strcat(strf,"_ab0pz"),"-dpdflatex");
-close
 
 %
 % PCLS pass
@@ -227,10 +217,6 @@ close
 
 % Plot poles and zeros
 subplot(111);
-zplane(roots(Nab1),roots(Dab1));
-title(strt);
-print(strcat(strf,"_ab1pz"),"-dpdflatex");
-close
 zplane(roots(flipud(Da1)),roots(Da1));
 title("Allpass filter A");
 print(strcat(strf,"_a1pz"),"-dpdflatex");

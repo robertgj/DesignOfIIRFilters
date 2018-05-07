@@ -57,8 +57,8 @@ Hab0=(Ha0+Hb0)/2;
 Ha0p=allpass2ndOrderCascade(a0,wplot);
 Hb0p=allpass2ndOrderCascade(b0,wplot);
 Hab0p=(Ha0p+Hb0p)/2;
-if max(abs(Hab0-Hab0p)) > 659*eps
-  error("max(abs(Hab0-Hab0p)) > 659*eps");
+if max(abs(Hab0-Hab0p)) > 746*eps
+  error("max(abs(Hab0-Hab0p)) > 746*eps");
 endif
 Ta0=grpdelay(flipud(Da0),Da0,nplot);
 Tb0=grpdelay(flipud(Db0),Db0,nplot);

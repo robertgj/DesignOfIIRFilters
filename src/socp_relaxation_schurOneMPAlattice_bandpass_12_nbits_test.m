@@ -13,8 +13,8 @@ unlink("socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test.diary.tmp");
 diary socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test.diary.tmp
 
 % Options
-socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim=true
-socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito=false
+socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim=false
+socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito=true
 
 tic;
 
@@ -22,28 +22,32 @@ format compact
 
 tol=1e-4
 ctol=1e-6
-maxiter=500
+maxiter=2000
 verbose=false
 strf="socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test";
 
 %
 % Initial coefficients found by schurOneMPAlattice_socp_slb_bandpass_test.m
 %
-A1k = [   0.2892623403,  -0.0722998682,   0.7673448879,   0.1218109095, ... 
-         -0.1933815833,   0.3321992386,   0.0735610114,  -0.1828639681, ... 
-          0.1128603061,   0.1706247610,  -0.1442749575,   0.1211757591 ];
-A1epsilon = [  -1,   1,   1,  -1,   1,  -1,  -1,   1,   1,  -1,  -1,  -1 ];
-A1p = [   0.7305157320,   0.9838877597,   1.0577910175,   0.3837916490, ... 
-          0.4337718167,   0.5276147524,   0.7452089563,   0.8022006681, ... 
-          0.9651687235,   0.8617452928,   1.0237931988,   0.8853483132 ];
+A1k = [  -0.4122875993,   0.7274027913,   0.3921028223,  -0.5075641848, ... 
+          0.6456078159,  -0.3997559085,   0.0732696073,   0.2883190076, ... 
+         -0.2187962779,   0.1458056283 ];
+A1epsilon = [   1,   1,  -1,  -1, ... 
+               -1,  -1,  -1,  -1, ... 
+                1,   1 ];
+A1p = [   0.8520940649,   1.3208901026,   0.5247235786,   0.7940560759, ... 
+          0.4538246523,   0.9779331917,   0.6403935939,   0.6891673456, ... 
+          0.9272433239,   1.1581828315 ];
 A1p_ones=ones(size(A1p));
-A2k = [  -0.2524565293,  -0.3365991773,   0.7758894169,   0.1208763683, ... 
-         -0.2397134389,   0.3162548649,   0.1325278942,  -0.1057222169, ... 
-          0.1415626419,   0.1513870043,  -0.1733251864,   0.1098310926 ];
-A2epsilon = [  -1,   1,   1,  -1,   1,  -1,  -1,   1,   1,  -1,  -1,  -1 ];
-A2p = [   1.0668034407,   0.8241785424,   1.1698600095,   0.4155823729, ... 
-          0.4692572571,   0.5992154400,   0.8313920462,   0.9499539650, ... 
-          1.0563050520,   0.9159964438,   1.0669636162,   0.8955869704 ];
+A2k = [  -0.7581369590,   0.7906575136,   0.3807636387,  -0.5510223722, ... 
+          0.6658279543,  -0.3206665227,   0.1116129667,   0.2745504689, ... 
+         -0.2474231016,   0.1329944592 ];
+A2epsilon = [   1,   1,  -1,   1, ... 
+                1,   1,  -1,  -1, ... 
+               -1,  -1 ];
+A2p = [   0.4754016344,   1.2817468766,   0.4382527926,   0.6544193588, ... 
+          1.2163339214,   0.5447820686,   0.7595876247,   0.8496764416, ... 
+          1.1262336351,   0.8747763708 ];
 A2p_ones=ones(size(A2p));
 
 % Initialise coefficient range vectors
@@ -54,7 +58,7 @@ R2=(NA1+1):(NA1+NA2);
 
 % Band pass filter specification
 difference=true
-rho=0.999
+rho=127/128
 m1=length(A1k);
 m2=length(A2k);
 fasl=0.05
@@ -62,17 +66,17 @@ fapl=0.1
 fapu=0.2
 fasu=0.25
 dBap=2
-Wap=1
+Wap=0.5
 Watl=0.1
 Watu=0.1
-dBas=45
-Wasl=2e5
+dBas=40
+Wasl=1e5
 Wasu=1e5
 ftpl=0.09
 ftpu=0.21
 td=16
-tdr=td/80
-Wtp=2
+tdr=0.2
+Wtp=1
 
 %
 % Frequency vectors
@@ -114,7 +118,6 @@ Wp=[];
 
 % Linear constraints
 dmax=inf;
-rho=127/128
 k=[A1k(:);A2k(:)];
 k_u=rho*ones(size(k));
 k_l=-k_u;
@@ -236,6 +239,7 @@ while ~isempty(kopt_active)
 
   % If this problem was not solved then give up
   if ~feasible
+    printf("kopt*nscale=[ ");printf("%g ",kopt(:)'*nscale);printf(" ];\n");
     error("SOCP problem infeasible!");
   endif
 
@@ -306,7 +310,7 @@ printf("kmin:TS=[ ");printf("%f ",TS');printf("] (Samples)\n")
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_kmin_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Ito)& %8.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd,k_digits,k_adders);
 fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq_min,kopt_digits,kopt_adders);
@@ -332,7 +336,7 @@ T_kmin=schurOneMPAlatticeT ...
 plot(wa*0.5/pi,10*log10(Asq_k),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_k_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+legend("exact","s-d(Ito)","s-d(SOCP-relax)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -354,7 +358,7 @@ plot(wa*0.5/pi,10*log10(Asq_k),"linestyle","-", ...
 ylabel("Amplitude(dB)");
 title(strt);
 axis([min(fapl,ftpl) max(fapu,ftpu) -2*dBap 2*dBap]);
-legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+legend("exact","s-d(Ito)","s-d(SOCP-relax)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -369,15 +373,6 @@ axis([min(fapl,ftpl) max(fapu,ftpu) td-0.2 td+0.2]);
 grid("on");
 print(strcat(strf,"_kmin_pass"),"-dpdflatex");
 close
-
-% Pole-zero plot
-[N12,D12]=schurOneMPAlattice2tf(A1k_min,A1epsilon,A1p_ones, ...
-                                A2k_min,A2epsilon,A2p_ones,difference);
-subplot(111);
-zplane(roots(N12),roots(D12));
-title(strt);
-print(strcat(strf,"_kmin_pz"),"-dpdflatex");
-close 
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");

@@ -88,7 +88,6 @@ OCTAVE_SCRIPTS = \
  octave_info_test \
  parallel_allpass_delay_socp_slb_test \
  parallel_allpass_delay_sqp_slb_test \
- parallel_allpass_socp_slb_bandpass_alternate_test \
  parallel_allpass_socp_slb_bandpass_test \
  parallel_allpass_socp_slb_bandpass_hilbert_test \
  parallel_allpass_socp_slb_flat_delay_test \
@@ -209,6 +208,7 @@ BIBTEX=bibtex
 QPDF=qpdf
 #XCXXFLAGS=-g -fsanitize=undefined -fsanitize=address -fno-sanitize=vptr \
 #             -fno-omit-frame-pointer
+JEKYLL_OPTS=--config docs/_config.yml --source docs --destination docs/_site
 
 #
 # Rules
@@ -310,8 +310,12 @@ cleantex:
 	$(call clean_macro,$(CLEAN_TEX_SUFFIXES))
 	-rm -f $(TARGET).pdf
 
+.PHONY: cleanjekyll
+cleanjekyll:	
+	jekyll clean $(JEKYLL_OPTS)
+
 .PHONY: cleanall
-cleanall: clean cleantex cleanaegis
+cleanall: clean cleantex cleanaegis cleanjekyll
 
 .PHONY: backup
 backup: cleanall
@@ -338,14 +342,13 @@ gitignore:
 	done
 
 .PHONY: jekyll
-jekyll: $(TARGET).pdf
+jekyll: $(TARGET).pdf cleanjekyll
 	if [[ -x $(QPDF) ]]; then \
 		$(QPDF) --linearize $(TARGET).pdf docs/public/$(TARGET).pdf ; \
 	else \
 		cp -f $(TARGET).pdf docs/public/$(TARGET).pdf ; \
 	fi
-	jekyll serve --incremental \
-		--config docs/_config.yml --source docs --destination docs/_site
+	jekyll serve $(JEKYLL_OPTS)
 
 .PHONY: all
 all: octfiles $(TARGET).pdf 

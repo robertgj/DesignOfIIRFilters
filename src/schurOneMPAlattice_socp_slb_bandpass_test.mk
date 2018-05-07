@@ -1,7 +1,6 @@
 schurOneMPAlattice_socp_slb_bandpass_test_FIGURES = \
 schurOneMPAlattice_socp_slb_bandpass_test_response \
 schurOneMPAlattice_socp_slb_bandpass_test_passband_response \
-schurOneMPAlattice_socp_slb_bandpass_test_pz \
 schurOneMPAlattice_socp_slb_bandpass_test_A1pz \
 schurOneMPAlattice_socp_slb_bandpass_test_A2pz
 
