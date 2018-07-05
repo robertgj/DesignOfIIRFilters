@@ -11,7 +11,7 @@ format compact
 
 verbose=true
 tol=1e-8
-maxiter=2000
+maxiter=1000
 
 % Lowpass filter specification for parallel all-pass filters
 R=1
@@ -19,11 +19,11 @@ D=11
 m=12
 fap=0.15
 Wap=0
-ftp=0.16
-td=10.8;
+ftp=0.15
+td=10.5;
 Wtp=1
 fas=0.2
-Was=2000
+Was=1000
 
 % Coefficient constraints
 rho=127/128;

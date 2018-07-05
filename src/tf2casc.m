@@ -45,7 +45,7 @@ function [a,k]=tf2casc(p)
   k=p(ik(1));
   p=p/k; 
   % Find roots of p(z^-1) sorted by absolute magnitude of the imaginary part
-  pr=roots(p);
+  pr=qroots(p);
   [spr,ipr]=sort(abs(imag(pr)));
   pr=pr(ipr);
 

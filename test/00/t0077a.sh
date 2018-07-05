@@ -8,7 +8,8 @@ iir_frm_parallel_allpass_slb_show_constraints.m \
 iir_frm_parallel_allpass_struct_to_vec.m \
 iir_frm_parallel_allpass_vec_to_struct.m \
 iir_frm_parallel_allpass.m allpassP.m allpassT.m \
-local_max.m tf2a.m a2tf.m"
+local_max.m tf2a.m a2tf.m qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -44,9 +45,9 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-verbose =  1
-tol =    1.0000e-05
-tol =    1.0000e-05
+verbose = 1
+tol =  0.000010000
+tol =  0.000010000
 mr =  7
 ms =  6
 na =  17

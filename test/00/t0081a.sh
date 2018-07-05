@@ -4,7 +4,8 @@ prog=parallel_allpassT_test.m
 
 depends="parallel_allpassT_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
-allpassT.m parallel_allpassT.m a2tf.m tf2a.m"
+allpassT.m parallel_allpassT.m a2tf.m tf2a.m qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

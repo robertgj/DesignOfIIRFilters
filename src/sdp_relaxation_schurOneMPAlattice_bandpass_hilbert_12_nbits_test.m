@@ -20,15 +20,17 @@ tol=1e-5;
 ctol=tol;
 strf="sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test";
 
-% Initial filter from parallel_allpass_socp_slb_bandpass_hilbert_test.m
-D1_0 = [  1.0000000000,  -2.3806229406,   4.1087444557,  -4.5154933899, ... 
-          3.8922229828,  -2.3241553357,   1.0922383767,  -0.2923332531, ... 
-          0.0499352338,   0.0141403953,   0.0006159517 ]';
-D2_0 = [  1.0000000000,  -3.0587168991,   5.2466517385,  -5.9070643923, ... 
-          4.8860591999,  -2.8958975490,   1.2506197100,  -0.3014872656, ... 
-          0.0231788740,   0.0193662750,   0.0012449906 ]';
 
-% Lattice decomposition of D1_0, D2_0
+%
+% Initial filters from tarczynski_parallel_allpass_bandpass_hilbert_test.m
+%
+D1_0 = [  1.0000000000,  -1.3419083642,   0.9474053665,   0.8932394713, ... 
+         -1.9577425273,   1.7243229570,  -0.3128783437,  -0.6225716131, ... 
+          0.7615817995,  -0.3630932621,   0.0929764525 ]';
+D2_0 = [  1.0000000000,  -1.9568187576,   1.2934169329,   1.1293002733, ... 
+         -2.6916225471,   2.1601049527,  -0.3125221494,  -0.8696178419, ... 
+          0.9380517293,  -0.4314959988,   0.1003220024 ]';
+
 [A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(D1_0),D1_0);
 [A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(D2_0),D2_0);
 
@@ -46,22 +48,22 @@ fapl=0.12
 fapu=0.18
 fasu=0.25
 dBap=0.1
-Wap=10
+Wap=1
 Watl=1e-3
 Watu=1e-3
-dBas=30
-Wasl=1000
-Wasu=10000
+dBas=33
+Wasl=2000
+Wasu=2000
 ftpl=0.12
 ftpu=0.18
 td=16
-tdr=0.2
-Wtp=1
+tdr=0.1
+Wtp=10
 fppl=0.12
 fppu=0.18
 pd=3.5 % Initial phase offset in multiples of pi radians
-pdr=0.02 % Peak-to-peak phase ripple in multiples of pi radians
-Wpp=100
+pdr=0.04 % Peak-to-peak phase ripple in multiples of pi radians
+Wpp=500
 
 %
 % Frequency vectors
@@ -168,7 +170,7 @@ waf=wa([1 nasl napl napu nasu end]);
 Adf=[0 0 1 0 0];
 Waf=[Wasl 0 Wap 0 Wasu];
 ndigits_alloc= ...
-  schurOneMPAlattice_allocsd_Ito(nbits,ndigits, ...
+  schurOneMPAlattice_allocsd_Lim(nbits,ndigits, ...
                                  A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
                                  difference, ...
                                  wa,Asqd,ones(size(wa)), ...
@@ -178,14 +180,14 @@ ndigits_alloc= ...
 % Find the signed-digit approximations to k0
 [k0_sd,k0_sdu,k0_sdl]=flt2SD(k0,nbits,ndigits);
 [k0_digits_sd,k0_adders_sd]=SDadders(k0_sd,nbits);
-[k0_sd_Ito,k0_sdu_Ito,k0_sdl_Ito]=flt2SD(k0,nbits,ndigits_alloc);
-[k0_digits_sd_Ito,k0_adders_sd_Ito]=SDadders(k0_sd_Ito,nbits);
-print_polynomial(k0_sd_Ito(RA1k),"A1k0_sd_Ito",nscale);
-print_polynomial(k0_sd_Ito(RA1k),"A1k0_sd_Ito", ...
-                 strcat(strf,"_A1k0_sd_Ito_coef.m"),nscale);
-print_polynomial(k0_sd_Ito(RA2k),"A2k0_sd_Ito",nscale);
-print_polynomial(k0_sd_Ito(RA2k),"A2k0_sd_Ito", ...
-                 strcat(strf,"_A2k0_sd_Ito_coef.m"),nscale);
+[k0_sd_Lim,k0_sdu_Lim,k0_sdl_Lim]=flt2SD(k0,nbits,ndigits_alloc);
+[k0_digits_sd_Lim,k0_adders_sd_Lim]=SDadders(k0_sd_Lim,nbits);
+print_polynomial(k0_sd_Lim(RA1k),"A1k0_sd_Lim",nscale);
+print_polynomial(k0_sd_Lim(RA1k),"A1k0_sd_Lim", ...
+                 strcat(strf,"_A1k0_sd_Lim_coef.m"),nscale);
+print_polynomial(k0_sd_Lim(RA2k),"A2k0_sd_Lim",nscale);
+print_polynomial(k0_sd_Lim(RA2k),"A2k0_sd_Lim", ...
+                 strcat(strf,"_A2k0_sd_Lim_coef.m"),nscale);
 
 % Find initial mean-squared errrors
 Esq0=schurOneMPAlatticeEsq(A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
@@ -193,13 +195,13 @@ Esq0=schurOneMPAlatticeEsq(A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
 Esq0_sd=schurOneMPAlatticeEsq(k0_sd(RA1k),A1epsilon0,A1p0, ...
                               k0_sd(RA2k),A2epsilon0,A2p0, ... 
                               difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-Esq0_sd_Ito=schurOneMPAlatticeEsq(k0_sd_Ito(RA1k),A1epsilon0,A1p0, ...
-                                  k0_sd_Ito(RA2k),A2epsilon0,A2p0, ...
+Esq0_sd_Lim=schurOneMPAlatticeEsq(k0_sd_Lim(RA1k),A1epsilon0,A1p0, ...
+                                  k0_sd_Lim(RA2k),A2epsilon0,A2p0, ...
                                   difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
 
 % Define filter coefficients
-k0_sd_delta=(k0_sdu_Ito-k0_sdl_Ito)/2;
-k0_sd_x=(k0_sdu_Ito+k0_sdl_Ito)/2;
+k0_sd_delta=(k0_sdu_Lim-k0_sdl_Lim)/2;
+k0_sd_x=(k0_sdu_Lim+k0_sdl_Lim)/2;
 k0_sd_x_active=find((k0_sd_x)~=0);
 [Esq0_sd_x,gradEsq0_sd_x]= ...
   schurOneMPAlatticeEsq(k0_sd_x(RA1k),A1epsilon0,A1p0, ...
@@ -238,12 +240,12 @@ k_active=k0_sd_x_active;
 while 1
   
   % Find the signed-digit filter coefficients 
-  [k_sd_Ito,k_sdu_Ito,k_sdl_Ito]=flt2SD(k,nbits,ndigits_alloc);
-  k_sdul_Ito=k_sdu_Ito-k_sdl_Ito;
+  [k_sd_Lim,k_sdu_Lim,k_sdl_Lim]=flt2SD(k,nbits,ndigits_alloc);
+  k_sdul_Lim=k_sdu_Lim-k_sdl_Lim;
   
   % Run the SeDuMi problem to find the SDP solution for the current coefficients
-  k_sd_delta=(k_sdu_Ito-k_sdl_Ito)/2;
-  k_sd_x=(k_sdu_Ito+k_sdl_Ito)/2;
+  k_sd_delta=(k_sdu_Lim-k_sdl_Lim)/2;
+  k_sd_x=(k_sdu_Lim+k_sdl_Lim)/2;
   k_sd_x_active=find((k_sd_x)~=0);
   [A1k_sd_sdp,A2k_sd_sdp,socp_iter,func_iter,feasible] = ...
     schurOneMPAlattice_sdp_mmse([], ...
@@ -257,7 +259,7 @@ while 1
   endif
 
   % Ito et al. suggest ordering the search by max(k_sdu-k_sdl)
-  [k_max,k_max_n]=max(k_sdul_Ito(k_active));
+  [k_max,k_max_n]=max(k_sdul_Lim(k_active));
   coef_n=k_active(k_max_n);
 
   % Fix the coefficient with the largest k_sdul to the SDP value
@@ -331,8 +333,8 @@ Asq_k0=schurOneMPAlatticeAsq(wa,A1k0,A1epsilon0,A1p0, ...
                              A2k0,A2epsilon0,A2p0,difference);
 Asq_k0_sd=schurOneMPAlatticeAsq(wa,k0_sd(RA1k),A1epsilon0,A1p0, ...
                                 k0_sd(RA2k),A2epsilon0,A2p0,difference);
-Asq_k0_sd_Ito=schurOneMPAlatticeAsq(wa,k0_sd_Ito(RA1k),A1epsilon0,A1p0, ...
-                                    k0_sd_Ito(RA2k),A2epsilon0,A2p0,difference);
+Asq_k0_sd_Lim=schurOneMPAlatticeAsq(wa,k0_sd_Lim(RA1k),A1epsilon0,A1p0, ...
+                                    k0_sd_Lim(RA2k),A2epsilon0,A2p0,difference);
 Asq_k0_sd_sdp=schurOneMPAlatticeAsq(wa,k0_sd_sdp(RA1k),A1epsilon0,A1p0, ...
                                     k0_sd_sdp(RA2k),A2epsilon0,A2p0,difference);
 Asq_k0_sd_min=schurOneMPAlatticeAsq(wa,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
@@ -341,8 +343,8 @@ T_k0=schurOneMPAlatticeT(wt,A1k0,A1epsilon0,A1p0, ...
                          A2k0,A2epsilon0,A2p0,difference);
 T_k0_sd=schurOneMPAlatticeT(wt,k0_sd(RA1k),A1epsilon0,A1p0, ...
                             k0_sd(RA2k),A2epsilon0,A2p0,difference);
-T_k0_sd_Ito=schurOneMPAlatticeT(wt,k0_sd_Ito(RA1k),A1epsilon0,A1p0, ...
-                                k0_sd_Ito(RA2k),A2epsilon0,A2p0,difference);
+T_k0_sd_Lim=schurOneMPAlatticeT(wt,k0_sd_Lim(RA1k),A1epsilon0,A1p0, ...
+                                k0_sd_Lim(RA2k),A2epsilon0,A2p0,difference);
 T_k0_sd_sdp=schurOneMPAlatticeT(wt,k0_sd_sdp(RA1k),A1epsilon0,A1p0, ...
                                 k0_sd_sdp(RA2k),A2epsilon0,A2p0,difference);
 T_k0_sd_min=schurOneMPAlatticeT(wt,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
@@ -351,8 +353,8 @@ P_k0=schurOneMPAlatticeP(wp,A1k0,A1epsilon0,A1p0, ...
                          A2k0,A2epsilon0,A2p0,difference);
 P_k0_sd=schurOneMPAlatticeP(wp,k0_sd(RA1k),A1epsilon0,A1p0, ...
                             k0_sd(RA2k),A2epsilon0,A2p0,difference);
-P_k0_sd_Ito=schurOneMPAlatticeP(wp,k0_sd_Ito(RA1k),A1epsilon0,A1p0, ...
-                                k0_sd_Ito(RA2k),A2epsilon0,A2p0,difference);
+P_k0_sd_Lim=schurOneMPAlatticeP(wp,k0_sd_Lim(RA1k),A1epsilon0,A1p0, ...
+                                k0_sd_Lim(RA2k),A2epsilon0,A2p0,difference);
 P_k0_sd_sdp=schurOneMPAlatticeP(wp,k0_sd_sdp(RA1k),A1epsilon0,A1p0, ...
                                 k0_sd_sdp(RA2k),A2epsilon0,A2p0,difference);
 P_k0_sd_min=schurOneMPAlatticeP(wp,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
@@ -388,7 +390,7 @@ printf("] (rad./pi)\n");
 rsb=[1:nasl,nasu:n];
 max_sb_Asq_k0=10*log10(max(abs(Asq_k0(rsb))))
 max_sb_Asq_k0_sd=10*log10(max(abs(Asq_k0_sd(rsb))))
-max_sb_Asq_k0_sd_Ito=10*log10(max(abs(Asq_k0_sd_Ito(rsb))))
+max_sb_Asq_k0_sd_Lim=10*log10(max(abs(Asq_k0_sd_Lim(rsb))))
 max_sb_Asq_k0_sd_sdp=10*log10(max(abs(Asq_k0_sd_sdp(rsb))))
 max_sb_Asq_k0_sd_min=10*log10(max(abs(Asq_k0_sd_min(rsb))))
 
@@ -397,9 +399,9 @@ fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & %4.1f & & \\\\\n",Esq0,max_sb_Asq_k0);
 fprintf(fid,"%d-bit %d-signed-digit & %8.6f & %4.1f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd,max_sb_Asq_k0_sd,k0_digits_sd,k0_adders_sd);
-fprintf(fid,"%d-bit %d-signed-digit(Ito) & %8.6f & %4.1f & %d & %d \\\\\n",
-        nbits,ndigits,Esq0_sd_Ito,max_sb_Asq_k0_sd_Ito, ...
-        k0_digits_sd_Ito,k0_adders_sd_Ito);
+fprintf(fid,"%d-bit %d-signed-digit(Lim) & %8.6f & %4.1f & %d & %d \\\\\n",
+        nbits,ndigits,Esq0_sd_Lim,max_sb_Asq_k0_sd_Lim, ...
+        k0_digits_sd_Lim,k0_adders_sd_Lim);
 fprintf(fid,"%d-bit %d-signed-digit(SDP) & %8.6f & %4.1f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd_sdp,max_sb_Asq_k0_sd_sdp, ...
         k0_digits_sd_sdp,k0_adders_sd_sdp);
@@ -411,7 +413,7 @@ fclose(fid);
 % Plot stop band amplitude response
 plot(wa*0.5/pi,10*log10(abs(Asq_k0)),"linestyle","-", ...
      wa*0.5/pi,10*log10(abs(Asq_k0_sd)),"linestyle",":", ...
-     wa*0.5/pi,10*log10(abs(Asq_k0_sd_Ito)),"linestyle","--", ...
+     wa*0.5/pi,10*log10(abs(Asq_k0_sd_Lim)),"linestyle","--", ...
      wa*0.5/pi,10*log10(abs(Asq_k0_sd_sdp)),"linestyle","-", ...
      wa*0.5/pi,10*log10(abs(Asq_k0_sd_min)),"linestyle","-.");
 xlabel("Frequency");
@@ -420,7 +422,7 @@ axis([0 0.5 -50 -20]);
 strt=sprintf("Parallel allpass lattice bandpass Hilbert filter stop-band \
 (nbits=%d,ndigits=%d) : fasl=%g,fasu=%g",nbits,ndigits,fasl,fasu);
 title(strt);
-legend("exact","s-d","s-d(Ito)","s-d(SDP)","s-d(min)");
+legend("initial","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -431,17 +433,17 @@ close
 % Plot pass band amplitude response
 plot(wa*0.5/pi,10*log10(abs(Asq_k0)),"linestyle","-", ...
      wa*0.5/pi,10*log10(abs(Asq_k0_sd)),"linestyle",":", ...
-     wa*0.5/pi,10*log10(abs(Asq_k0_sd_Ito)),"linestyle","--", ...
+     wa*0.5/pi,10*log10(abs(Asq_k0_sd_Lim)),"linestyle","--", ...
      wa*0.5/pi,10*log10(abs(Asq_k0_sd_sdp)),"linestyle","-", ...
      wa*0.5/pi,10*log10(abs(Asq_k0_sd_min)),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), -0.1, 0.05]);
+axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), -0.3, 0]);
 strt=sprintf("Parallel allpass lattice bandpass Hilbert filter pass-band \
 amplitude nbits=%d,ndigits=%d) : fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
 title(strt);
-legend("exact","s-d","s-d(Ito)","s-d(SDP)","s-d(min)");
-legend("location","northeast");
+legend("initial","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
+legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -451,7 +453,7 @@ close
 % Plot delay response
 plot(wt*0.5/pi,T_k0,"linestyle","-", ...
      wt*0.5/pi,T_k0_sd,"linestyle",":", ...
-     wt*0.5/pi,T_k0_sd_Ito,"linestyle","--", ...
+     wt*0.5/pi,T_k0_sd_Lim,"linestyle","--", ...
      wt*0.5/pi,T_k0_sd_sdp,"linestyle","-", ...
      wt*0.5/pi,T_k0_sd_min,"linestyle","-.");
 xlabel("Frequency");
@@ -460,8 +462,8 @@ axis([min([fapl ftpl fppl]),max([fapu ftpu ftpu]),td-tdr,td+tdr]);
 strt=sprintf("Parallel allpass lattice bandpass Hilbert filter pass-band delay \
 (nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
 title(strt);
-legend("exact","s-d","s-d(Ito)","s-d(SDP)","s-d(min)");
-legend("location","northeast");
+legend("initial","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
+legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -471,7 +473,7 @@ close
 % Plot phase response
 plot(wp*0.5/pi,mod((P_k0+(wp*td))/pi,2),"linestyle","-", ...
      wp*0.5/pi,mod((P_k0_sd+(wp*td))/pi,2),"linestyle",":", ...
-     wp*0.5/pi,mod((P_k0_sd_Ito+(wp*td))/pi,2),"linestyle","--", ...
+     wp*0.5/pi,mod((P_k0_sd_Lim+(wp*td))/pi,2),"linestyle","--", ...
      wp*0.5/pi,mod((P_k0_sd_sdp+(wp*td))/pi,2),"linestyle","-", ...
      wp*0.5/pi,mod((P_k0_sd_min+(wp*td))/pi,2),"linestyle","-.");
 xlabel("Frequency");
@@ -481,8 +483,8 @@ axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), ...
 strt=sprintf("Parallel allpass lattice bandpass Hilbert filter pass-band phase \
 (nbits=%d,ndigits=%d) : fppl=%g,fppu=%g",nbits,ndigits,fppl,fppu);
 title(strt);
-legend("exact","s-d","s-d(Ito)","s-d(SDP)","s-d(min)");
-legend("location","northeast");
+legend("initial","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
+legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");

@@ -77,7 +77,7 @@ delTdelrpb=gradTab((Va+Qa+Vb+1):(Va+Qa+Vb+Qbon2));
 delTdelthetapb=gradTab((Va+Qa+Vb+Qbon2+1):(Va+Qa+Vb+Qb));
 
 % Find approximate values
-tol=7e-9;
+tol=1e-8;
 del=1e-6;
 delk=[del;zeros(Va+Qa+Vb+Qb-1,1)];
 

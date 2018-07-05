@@ -121,7 +121,7 @@ Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)")
         }
       octave_value_list argval(1),retval(1);
       argval(0)=zIminusA;
-      retval=feval("inv",argval,1);
+      retval=octave::feval("inv",argval,1);
       ComplexMatrix R=retval(0).complex_matrix_value();
       
       // Find H

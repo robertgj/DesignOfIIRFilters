@@ -1041,7 +1041,7 @@ aM=[a(1);kron(a(2:end),[zeros(M-1,1);1])];
 dM=[d(1);kron(d(2:end),[zeros(M-1,1);1])];
 aM_frm=[conv(aM,aa-ac);zeros(M*td,1)]+[zeros(M*td,1);conv(ac,dM)];
 Hw_frm_alt=freqz(aM_frm,dM,w);
-tol=818*eps;
+tol=1212*eps;
 if max(abs(Hw_frm_alt-Hw_frm)) > tol
   error("Expected max(abs((Hw_frm_alt-Hw_frm))) <= tol");
 endif

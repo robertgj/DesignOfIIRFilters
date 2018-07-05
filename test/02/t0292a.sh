@@ -19,7 +19,8 @@ schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m \
 schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
 Abcd2tf.m H2Asq.m H2T.m H2P.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct SeDuMi_1_3/"
+schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
+qroots.m qzsolve.oct SeDuMi_1_3/"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -56,9 +57,9 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k_coef.m << 'EOF'
-A1k = [   0.7710795093,  -0.0877400647,  -0.2681542511,  -0.0632157363, ... 
-         -0.0597026472,   0.2447728972,  -0.1440273009,  -0.0047480818, ... 
-          0.1651064200,  -0.1595413513,   0.0533694484 ];
+A1k = [   0.7712250388,  -0.0877496178,  -0.2678724208,  -0.0631258812, ... 
+         -0.0596152481,   0.2450346868,  -0.1437239308,  -0.0045985983, ... 
+          0.1651299262,  -0.1595241189,   0.0536505166 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_coef.m"; fail; fi
 
@@ -70,16 +71,16 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1epsilon_coef.m"; fail; fi
 
 cat > test_A1p_coef.m << 'EOF'
-A1p = [   1.0938869878,   0.3932744761,   0.4294365675,   0.5652951852, ... 
-          0.6022352763,   0.6393307509,   0.8207896515,   0.9488992642, ... 
-          0.9534154626,   0.8070769688,   0.9479815814 ];
+A1p = [   1.0947315031,   0.3934368096,   0.4296179638,   0.5653622756, ... 
+          0.6022524162,   0.6392928708,   0.8209696225,   0.9488133538, ... 
+          0.9531866439,   0.8068637730,   0.9477144064 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1p_coef.m"; fail; fi
 
 cat > test_A2k_coef.m << 'EOF'
-A2k = [   0.3879271200,  -0.2736030845,   0.1865887260,   0.1645039495, ... 
-         -0.0468126786,   0.0421834282,  -0.2013732385,   0.1799895947, ... 
-          0.0060613149,  -0.1789457435,   0.1504871218,  -0.0543901331 ];
+A2k = [   0.3881244878,  -0.2738055506,   0.1865798672,   0.1641814835, ... 
+         -0.0469188348,   0.0421190828,  -0.2016031224,   0.1797166992, ... 
+          0.0059153715,  -0.1789830861,   0.1504560225,  -0.0546760282 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_coef.m"; fail; fi
 
@@ -91,9 +92,9 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2epsilon_coef.m"; fail; fi
 
 cat > test_A2p_coef.m << 'EOF'
-A2p = [   1.0547215023,   0.7004159663,   0.9274405767,   0.7678759716, ... 
-          0.9065449858,   0.9500243102,   0.9909816820,   0.8079762210, ... 
-          0.9692325410,   0.9751252777,   0.8137657995,   0.9470116704 ];
+A2p = [   1.0555075907,   0.7007751442,   0.9281192820,   0.7684449597, ... 
+          0.9069161089,   0.9505143527,   0.9914289418,   0.8081472203, ... 
+          0.9691643082,   0.9749143323,   0.8135583742,   0.9467401557 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2p_coef.m"; fail; fi
 

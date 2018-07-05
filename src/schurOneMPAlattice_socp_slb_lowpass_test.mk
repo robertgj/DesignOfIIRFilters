@@ -1,7 +1,10 @@
 schurOneMPAlattice_socp_slb_lowpass_test_FIGURES = \
 schurOneMPAlattice_socp_slb_lowpass_test_response \
 schurOneMPAlattice_socp_slb_lowpass_test_passband_response \
-schurOneMPAlattice_socp_slb_lowpass_test_pz
+schurOneMPAlattice_socp_slb_lowpass_test_pz \
+schurOneMPAlattice_socp_slb_lowpass_test_A1pz \
+schurOneMPAlattice_socp_slb_lowpass_test_A2pz \
+schurOneMPAlattice_socp_slb_lowpass_test_sensitivity
 
 schurOneMPAlattice_socp_slb_lowpass_test_COEFS = \
 schurOneMPAlattice_socp_slb_lowpass_test.mat \
@@ -35,4 +38,4 @@ schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
 Abcd2tf.m H2Asq.m H2T.m H2P.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
-sedumi_test.diary
+qroots.m qzsolve.oct sedumi_test.diary

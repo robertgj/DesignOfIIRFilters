@@ -192,7 +192,7 @@ if improved_solution_found
 
   % Make a LaTeX table for cost
   fid=fopen(strcat(strf,"_cost.tab"),"wt");
-  fprintf(fid,"Initial & %10.2e & & \\\\\n",Esq0);
+  fprintf(fid,"Exact & %10.2e & & \\\\\n",Esq0);
   fprintf(fid,"%d-bit %d-signed-digit & %10.2e & %d & %d \\\\\n", ...
           nbits,ndigits,Esq0_sd,hM0_sd_digits,hM0_sd_adders);  
   fprintf(fid,"%d-bit %d-signed-digit(Ito) & %10.2e & %d & %d \\\\\n", ...
@@ -231,7 +231,7 @@ if improved_solution_found
   strt=sprintf("Direct-form FIR Hilbert filter (nbits=%d,ndigits=%d) : \
 fapl=%g,fapu=%g,Wap=%g,Was=%g",nbits,ndigits,fapl,fapu,Wap,Was);
   title(strt);
-  legend("initial","s-d","s-d(Ito)","s-d(BandB)");
+  legend("exact","s-d","s-d(Ito)","s-d(BandB)");
   legend("location","southeast");
   legend("boxoff");
   legend("left");

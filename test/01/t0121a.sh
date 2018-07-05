@@ -4,8 +4,8 @@ prog=butt6OneMSD_test.m
 
 depends="butt6OneMSD_test.m test_common.m \
 spectralfactor.oct schurexpand.oct schurdecomp.oct bin2SD.oct \
-schurOneMscale.m tf2schurOneMlattice.m schurOneMlatticeFilter.m flt2SD.m x2nextra.m \
-crossWelch.m tf2pa.m"
+schurOneMscale.m tf2schurOneMlattice.m schurOneMlatticeFilter.m flt2SD.m \
+x2nextra.m crossWelch.m tf2pa.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -56,25 +56,25 @@ scale =    1.2800e+02
 ndigits =    2.0000e+00
 A1ksd =
 
-  -9.37500000000000e-01   6.25000000000000e-01
+  -9.375000000000000e-01   6.250000000000000e-01
 
 A1csd =
 
-   7.81250000000000e-02  -1.50000000000000e+00   6.25000000000000e-01
+   7.812500000000000e-02  -1.500000000000000e+00   6.250000000000000e-01
 
 A2ksd =
 
-  -9.68750000000000e-01   9.37500000000000e-01  -6.25000000000000e-01
+  -9.687500000000000e-01   9.375000000000000e-01  -6.250000000000000e-01
 
 A2csd =
 
  Columns 1 through 3:
 
-   2.34375000000000e-02  -7.50000000000000e-01   3.75000000000000e-01
+   2.343750000000000e-02  -7.500000000000000e-01   3.750000000000000e-01
 
  Column 4:
 
-  -6.25000000000000e-01
+  -6.250000000000000e-01
 
 ans =
 

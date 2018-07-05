@@ -201,7 +201,7 @@ endfunction
 function [Esq,gradEsq,diagHessEsq,func_iter] = ...
   parallel_allpass_delay_sqp_mmse_fx(a,_V,_Q,_R,_DD,_wa,_Asqd,_Wa,_wt,_Td,_Wt);
   persistent N V Q R DD wa Asqd Wa wt Td Wt
-  persistent func_iter=0
+  persistent iter=0
   persistent init_complete=false
 
   % Initialise persistent (constant) values
@@ -211,14 +211,14 @@ function [Esq,gradEsq,diagHessEsq,func_iter] = ...
     endif
   elseif nargout == 4
     % Hack to avoid a global for func_iter
-    Esq=inf;gradEsq=[];diagHessEsq=[];
+    Esq=inf;gradEsq=[];diagHessEsq=[];func_iter=iter;
     return;
   elseif nargin == 11
     V=_V;Q=_Q;R=_R;DD=_DD
     N=V+Q;
     wa=_wa;Asqd=_Asqd;Wa=_Wa;
     wt=_wt;Td=_Td;Wt=_Wt;
-    func_iter=0;
+    iter=0;
     init_complete=true;
   else
     print_usage("[Esq,gradEsq,diagHessEsq,func_iter]=...\n\
@@ -229,7 +229,8 @@ function [Esq,gradEsq,diagHessEsq,func_iter] = ...
   endif
 
   % Calculate error, error gradient and error Hessian 
-  func_iter=func_iter+1;
+  iter=iter+1;
+  func_iter=iter;
   if nargout == 3
     [Esq,gradEsq,diagHessEsq]=...
       parallel_allpass_delayEsq(a,V,Q,R,DD,wa,Asqd,Wa,wt,Td,Wt);

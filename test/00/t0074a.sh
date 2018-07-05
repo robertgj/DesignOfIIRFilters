@@ -6,7 +6,8 @@ depends="iir_frm_slb_exchange_constraints_test.m test_common.m \
 iir_frm_slb_exchange_constraints.m iir_frm_slb_show_constraints.m \
 iir_frm_slb_update_constraints.m iir_frm_struct_to_vec.m \
 iir_frm_vec_to_struct.m iir_frm.m iirA.m iirP.m iirT.m iirdelAdelw.m \
-fixResultNaN.m xConstraints.m tf2x.m x2tf.m local_max.m"
+fixResultNaN.m xConstraints.m tf2x.m x2tf.m local_max.m qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -43,10 +44,10 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 maxiter =  2000
-tol =    1.0000e-05
+tol =  0.000010000
 verbose = 1
-tol =    1.0000e-06
-constraints_tol =    1.0000e-07
+tol =  0.0000010000
+constraints_tol =  0.00000010000
 maxiter =  5000
 verbose = 1
 Mmodel =  9
@@ -117,6 +118,7 @@ vS =
        212
        223
        234
+
 vS =
   scalar structure containing the fields:
     al =
@@ -147,6 +149,7 @@ vS =
        290
     tl = [](0x1)
     tu =  241
+
 vR before exchange constraints:
 Current constraints:
 al=[ 156 201 218 241 ]
@@ -229,6 +232,7 @@ vRx1k =
        212
        223
        234
+
 vSx1k =
   scalar structure containing the fields:
     al =
@@ -259,6 +263,7 @@ vSx1k =
        290
     tl = [](0x0)
     tu =  241
+
 exchanged = 1
 vR after exchange constraints:
 Current constraints:

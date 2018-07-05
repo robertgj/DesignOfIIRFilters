@@ -4,7 +4,8 @@ prog=iir_frm_test.m
 
 depends="iir_frm_test.m test_common.m \
 iir_frm.m iir_frm_struct_to_vec.m iir_frm_vec_to_struct.m \
-iirA.m iirP.m iirT.m iirdelAdelw.m fixResultNaN.m tf2x.m x2tf.m"
+iirA.m iirP.m iirT.m iirdelAdelw.m fixResultNaN.m tf2x.m x2tf.m \
+qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

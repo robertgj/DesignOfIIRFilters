@@ -10,7 +10,9 @@ iir_slb_show_constraints.m iir_slb_update_constraints.m \
 Aerror.m Terror.m armijo_kim.m cl2bp.m fixResultNaN.m iirA.m iirE.m \
 iirT.m iirP.m iir_sqp_octave.m invSVD.m local_max.m local_peak.m \
 showResponseBands.m showResponse.m showResponsePassBands.m showZPplot.m \
-sqp_bfgs.m tf2x.m updateWchol.m updateWbfgs.m x2tf.m xConstraints.m"
+sqp_bfgs.m tf2x.m updateWchol.m updateWbfgs.m x2tf.m xConstraints.m \
+qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -68,11 +70,13 @@ Wtp =  0.10000
 ans =
    0.15000
    0.30000
+
 ans =
    1
    0
    0
    1
+
 ans =  0.25000
 
 First MMSE pass
@@ -94,72 +98,74 @@ x2 =
    1.6351238
    1.1377136
    0.4015617
-E =    2.6155e-04
+
+E =  0.00026155
 sqp_iter =  191
 func_iter =  385
 feasible = 1
 
 Second MMSE pass
 S frequency constraints before:
-al=[ ]
+al=[  ]
 au=[ 224 601 ]
-sl=[ ]
-su=[ ]
+sl=[  ]
+su=[  ]
 tl=[ 1 237 418 501 ]
 tu=[ 122 338 475 ]
-pl=[ ]
-pu=[ ]
+pl=[  ]
+pu=[  ]
 Current constraints:
 au = [ 224 601 ]
-au = [ 0.111500 0.300000 ] (fs=1)
+f(au) = [ 0.111500 0.300000 ] (fs=1)
 Au = [ 0.066354 -28.227954 ] (dB)
 tl = [ 1 237 418 501 ]
-tl = [ 0.000000 0.118000 0.208500 0.250000 ] (fs=1)
+f(tl) = [ 0.000000 0.118000 0.208500 0.250000 ] (fs=1)
 Tl = [ 5.982961 5.976243 5.975326 5.939707 ] (Samples)
 tu = [ 122 338 475 ]
-tu = [ 0.060500 0.168500 0.237000 ] (fs=1)
+f(tu) = [ 0.060500 0.168500 0.237000 ] (fs=1)
 Tu = [ 6.019701 6.030296 6.032665 ] (Samples)
 x3 =
-   0.012616
-   0.993811
-   1.117414
-   0.922665
-   0.293884
-   2.058634
-   1.956782
-   2.468857
-   3.377285
-   0.718612
-   0.473067
-   0.624414
-   0.545646
-   0.334645
-   1.650738
-   1.061537
-  -0.036451
-E =    1.4083e-04
-sqp_iter =  226
-func_iter =  455
+   0.012576
+   0.996729
+   1.131747
+   0.938148
+   0.314412
+   2.062128
+   1.955535
+   2.458481
+   3.396346
+   0.717734
+   0.472503
+   0.612925
+   0.540278
+   0.330630
+   1.650788
+   1.057816
+  -0.061872
+
+E =  0.00014703
+sqp_iter =  222
+func_iter =  447
 feasible = 1
 S frequency constraints after:
-al=[ ]
+al=[  ]
 au=[ 1 ]
-sl=[ ]
-su=[ ]
-tl=[ 410 ]
-tu=[ 322 476 ]
-pl=[ ]
-pu=[ ]
+sl=[  ]
+su=[  ]
+tl=[ 227 ]
+tu=[ 324 475 ]
+pl=[  ]
+pu=[  ]
 Current constraints:
 au = [ 1 ]
-au = [ 0.000000 ] (fs=1)
-Au = [ 0.067302 ] (dB)
-tl = [ 410 ]
-tl = [ 0.204500 ] (fs=1)
-Tl = [ 5.980938 ] (Samples)
-tu = [ 322 476 ]
-tu = [ 0.160500 0.237500 ] (fs=1)
-Tu = [ 6.015425 6.014548 ] (Samples)
+f(au) = [ 0.000000 ] (fs=1)
+Au = [ 0.064746 ] (dB)
+tl = [ 227 ]
+f(tl) = [ 0.113000 ] (fs=1)
+Tl = [ 5.986324 ] (Samples)
+tu = [ 324 475 ]
+f(tu) = [ 0.161500 0.237000 ] (fs=1)
+Tu = [ 6.013877 6.013527 ] (Samples)
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

@@ -14,10 +14,11 @@ format compact
 verbose=false
 tol=1e-6
 maxiter=2000
+limit_cycle=false;
 
 % Deczky example 3 filter specification
 tau=0.1 % Stability parameter for second order sections
-td=10 % Pass band group delay 
+td=10 % Pass band group delay
 fpass=0.15 % Pass band edge
 Wpass=1 % Pass band weight
 fstop=0.3 % Stop band edge
@@ -45,9 +46,8 @@ w([npass,nstop])*0.5/pi
 W([npass,npass+1,nstop-1,nstop])
 
 % SOCP loop
-[x1,socp_iter,feasible] = ...
-  lowpass2ndOrderCascade_socp(x0,tau,w,Hd,W,npass,nstop,"complex", ...
-                              maxiter,tol,verbose);
+[x1,socp_iter,feasible] = lowpass2ndOrderCascade_socp ...
+  (x0,tau,w,Hd,W,npass,nstop,"complex",limit_cycle,maxiter,tol,verbose);
 if feasible == 0 
   error("x1 infeasible");
 endif
@@ -102,9 +102,8 @@ print(strcat(strf,"_x1pz"),"-dpdflatex");
 close
 
 % Alternative response for squared magnitude in both the pass and stop bands
-[x1_sqm,socp_iter,feasible] = ...
-  lowpass2ndOrderCascade_socp(x0,tau,w,Hd,W,npass,nstop,"sqmag", ...
-                              maxiter,tol,verbose);
+[x1_sqm,socp_iter,feasible]=lowpass2ndOrderCascade_socp ...
+  (x0,tau,w,Hd,W,npass,nstop,"sqmag",limit_cycle,maxiter,tol,verbose);
 if feasible == 0 
   error("x1_sqm infeasible");
 endif

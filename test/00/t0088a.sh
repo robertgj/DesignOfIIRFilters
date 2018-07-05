@@ -7,7 +7,8 @@ parallel_allpass_delay_socp_mmse.m \
 parallel_allpass_delay_slb_set_empty_constraints.m \
 parallel_allpass_delayAsq.m parallel_allpass_delayT.m \
 allpassP.m allpassT.m aConstraints.m a2tf.m tf2a.m \
-print_polynomial.m print_pole_zero.m SeDuMi_1_3/"
+print_polynomial.m print_pole_zero.m qroots.m qzsolve.oct SeDuMi_1_3/"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -45,20 +46,12 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test_a1_coef.m << 'EOF'
 Ua1=0,Va1=0,Ma1=0,Qa1=12,Ra1=1
 a1 = [   1.0000000000, ...
-         0.9489570320,   0.6266251668,   0.6664242957,  -0.2260451885, ... 
-         0.6305836292,   0.6377391810, ...
-         1.1267495826,   0.4331196637,   1.6397266374,   3.1107406557, ... 
-         2.8427904101,   4.0393979498 ]';
+         0.1516439388,   0.4750154527,   0.5841336535,   0.5886150299, ... 
+         0.6335031691,   0.9495327988, ...
+         0.5010126706,   3.0658621836,   2.3399870621,   0.4191886532, ... 
+         1.6640460456,   1.1166559072 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m"; fail; fi
-
-cat > test_Da1_coef.m << 'EOF'
-Da1 = [   1.0000000000,  -0.3126136786,   0.5135255018,   0.2595836263, ... 
-          0.0473066186,  -0.0517611137,  -0.0479051307,  -0.0027893211, ... 
-          0.0271948632,   0.0258013919,   0.0103724279,  -0.0096721526, ... 
-          0.0012976947 ]';
-EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_Da1_coef.m"; fail; fi
 
 #
 # run and see if the results match
@@ -70,9 +63,6 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_a1_coef.m parallel_allpass_delay_socp_mmse_test_a1_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_a1_coef.m"; fail; fi
-
-diff -Bb test_Da1_coef.m parallel_allpass_delay_socp_mmse_test_Da1_coef.m
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Da1_coef.m"; fail; fi
 
 #
 # this much worked

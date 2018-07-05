@@ -96,7 +96,7 @@ DEFUN_DLD(schurOneMAPlattice2H, args, nargout,
         }
       octave_value_list argval(1),retval(1);
       argval(0)=zIminusA;
-      retval=feval("complex_zhong_inverse",argval,1);
+      retval=octave::feval("complex_zhong_inverse",argval,1);
       ComplexMatrix R=retval(0).complex_matrix_value();
       
       // Find H

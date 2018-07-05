@@ -93,7 +93,7 @@ delPdelrp=-1.355572, approx=-1.355571, diff=-0.000001
 delPdelthetap=0.304096, approx=0.304099, diff=-0.000003
 
 Compare hessP to the approximation (hessPD-hessP)./hessP
-ans =    1.9588e-04
+ans =  0.00019588
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

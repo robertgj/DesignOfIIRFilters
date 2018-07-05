@@ -51,16 +51,67 @@ function print_pole_zero(x,U,V,M,Q,R,name_str,file_name_str,format_str)
   Mon2=M/2;
   Qon2=Q/2;
 
+  % Fix conjugate zero angles
+  for k=(1+U+V+1):(1+U+V+Mon2)
+    if x(k) < 0
+      x(k)=-x(k);
+      if x(k+Mon2) < 0
+        x(k+Mon2)=x(k+Mon2)+pi;
+      else
+        x(k+Mon2)=x(k+Mon2)-pi;
+      endif
+    endif
+  endfor
+  for k=(1+U+V+Mon2+1):(1+U+V+M)
+    if x(k) < -pi
+      x(k)=(2*pi)+x(k);
+    elseif x(k) > pi
+      x(k)=(2*pi)-x(k);
+    endif
+    x(k)=abs(x(k));
+  endfor
+
+  % Fix conjugate pole angles
+  for k=(1+U+V+M+1):(1+U+V+M+Qon2)
+    if x(k) < 0
+      x(k)=-x(k);
+      if x(k+Qon2) < 0
+        x(k+Qon2)=x(k+Qon2)+pi;
+      else
+        x(k+Qon2)=x(k+Qon2)-pi;
+      endif
+    endif
+  endfor
+  for k=(1+U+V+M+Qon2+1):(1+U+V+M+Q)
+    if x(k) < -pi
+      x(k)=(2*pi)+x(k);
+    elseif x(k) > pi
+      x(k)=(2*pi)-x(k);
+    endif
+    x(k)=abs(x(k));
+  endfor
+  
+  % Sort by real part
+  [~,kU]=sort(x((1+1):(1+U)));
+  x((1+1):(1+U))=x(1+kU);
+  [~,kV]=sort(x((1+U+1):(1+U+V)));
+  x((1+U+1):(1+U+V))=x(1+U+kV);
+  [~,kMon2]=sort(x((1+U+V+1):(1+U+V+Mon2)));
+  x((1+U+V+1):(1+U+V+Mon2))=x(1+U+V+kMon2);
+  x((1+U+V+Mon2+1):(1+U+V+M))=x(1+U+V+Mon2+kMon2);
+  [~,kQon2]=sort(x((1+U+V+M+1):(1+U+V+M+Qon2)));
+  x((1+U+V+M+1):(1+U+V+M+Qon2))=x(1+U+V+M+kQon2);
+  x((1+U+V+M+Qon2+1):(1+U+V+M+Q))=x(1+U+V+M+Qon2+kQon2);
+
   % Initialise format and file
   if nargin == 9
     fstr=format_str;
   else
     fstr="%14.10f";
   endif
-  if nargin >= 8
+  fid=stdout;
+  if (nargin >= 8) && (length(file_name_str) > 0)
     fid=fopen(file_name_str,"wt");
-  else
-    fid=stdout;
   endif
   fprintf(fid,"U%s=%d,V%s=%d,M%s=%d,Q%s=%d,R%s=%d\n", ...
           name_str,U,name_str,V,name_str,M,name_str,Q,name_str,R);
@@ -162,7 +213,7 @@ function print_pole_zero(x,U,V,M,Q,R,name_str,file_name_str,format_str)
   fprintf(fid,"]%s;\n", tick_str);
   
   % Done
-  if nargin >= 8
+  if (nargin >= 8) && (length(file_name_str) > 0)
     fclose(fid);
   endif
   

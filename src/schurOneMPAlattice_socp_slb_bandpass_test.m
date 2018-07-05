@@ -11,8 +11,8 @@ tic;
 
 format compact
 
-tol=2e-7
-ctol=tol
+tol=1e-4
+ctol=5e-8
 maxiter=2000
 verbose=false
 strf="schurOneMPAlattice_socp_slb_bandpass_test";
@@ -20,25 +20,24 @@ strf="schurOneMPAlattice_socp_slb_bandpass_test";
 %
 % Initial coefficients found by tarczynski_parallel_allpass_bandpass_test.m
 %
-D1_0 = [  1.0000000000,  -1.3927200461,   1.0550019685,   0.6759516717, ... 
-         -1.8298487475,   1.7395948268,  -0.5413931059,  -0.4101583072, ... 
-          0.6786544967,  -0.3772455979,   0.1249241545 ]';
-D2_0 = [  1.0000000000,  -1.9582541553,   1.3818707728,   0.8621447327, ... 
-         -2.4071972207,   2.1559727974,  -0.6160012132,  -0.5862709792, ... 
-          0.8469858938,  -0.4539103913,   0.1169551807 ]';
+Da0 = [   1.0000000000,  -1.8896420762,   1.1851087257,   1.1354840927, ... 
+         -2.5805074455,   2.1148671967,  -0.3997762976,  -0.8276413628, ... 
+          1.0054762267,  -0.5159272604,   0.1296151332 ]';
+Db0 = [   1.0000000000,  -1.3249813230,   0.8978004911,   0.8919687861, ... 
+         -1.9646494147,   1.7116313675,  -0.3716958949,  -0.6039880527, ... 
+          0.8116637093,  -0.4321107682,   0.1379462636 ]';
 
-
-% Lattice decomposition of D1_0, D2_0
-[A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(D1_0),D1_0);
-[A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(D2_0),D2_0);
+% Lattice decomposition of Da0, Db0
+[A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(Da0),Da0);
+[A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(Db0),Db0);
 
 %
 % Band-pass filter specification for parallel all-pass filters
 %
 difference=true
 rho=127/128
-m1=length(D1_0)-1;
-m2=length(D2_0)-1;
+m1=length(Da0)-1;
+m2=length(Db0)-1;
 fasl=0.05
 fapl=0.1
 fapu=0.2
@@ -48,13 +47,13 @@ Wap=1
 Watl=0.1
 Watu=0.1
 dBas=53
-Wasl=1e5
-Wasu=1e5
+Wasl=1e4
+Wasu=1e4
 ftpl=0.09
 ftpu=0.21
 td=16
 tdr=td/200
-Wtp=1
+Wtp=0.1
 
 %
 % Frequency vectors
@@ -232,7 +231,7 @@ save schurOneMPAlattice_socp_slb_bandpass_test.mat ...
      fapl fapu dBap Wap Watl Watu ...
      fasl fasu dBas Wasl Wasu ...
      ftpl ftpu td tdr Wtp ...
-     D1_0 D2_0 A1k A1epsilon A1p A2k A2epsilon A2p
+     Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p
 
 % Done
 toc;

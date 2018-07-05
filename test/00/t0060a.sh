@@ -2,7 +2,9 @@
 
 prog=casc2tf_tf2casc_test.m
 
-depends="casc2tf_tf2casc_test.m test_common.m tf2casc.m casc2tf.m"
+depends="casc2tf_tf2casc_test.m test_common.m tf2casc.m casc2tf.m \
+qroots.m qzsolve.oct"
+
 
 tmp=/tmp/$$
 here=`pwd`
@@ -40,16 +42,19 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 tol =    1.0000e-11
+casc2tf_tf2casc_test.m : a=[]
 p =    1.0000e+00
+casc2tf_tf2casc_test.m : p=1
 p =    1.0000e+00
 a = [](0x0)
 k =    1.0000e+00
+casc2tf_tf2casc_test.m : even n, real poles
 a =
 
-  -4.0000e+00
-   4.0000e+00
   -6.0000e+00
    9.0000e+00
+  -4.0000e+00
+   4.0000e+00
   -4.0000e+00
    5.0000e+00
 
@@ -64,6 +69,7 @@ pp =
   -1.7760e+03
    7.2000e+02
 
+casc2tf_tf2casc_test.m : odd n
 p =
 
  Columns 1 through 6:
@@ -78,7 +84,7 @@ a =
 
  Columns 1 through 6:
 
-  -2.0000e+00  -4.0000e+00   4.0001e+00  -4.0000e+00   5.0000e+00   7.7716e-16
+  -2.0000e+00  -4.0000e+00   4.0000e+00  -4.0000e+00   5.0000e+00   2.5037e-33
 
  Column 7:
 
@@ -95,6 +101,7 @@ pp =
 
    5.5200e+02  -2.4000e+02
 
+casc2tf_tf2casc_test.m : from frm2ndOrderCascade_socp.m
 dk =
 
   -1.2724e+00

@@ -10,14 +10,13 @@ diary iirdelAdelw_test.diary.tmp
 format short e
 
 % Simple case 
-[delAdelw,graddelAdelw]=iirdelAdelw(0.1,0,0,0,0,0);
+[delAdelw,graddelAdelw]=iirdelAdelw(0.1,0,0,0,0,0,1);
 if (delAdelw ~= 0) || (graddelAdelw ~= 0)
   error("Expected delAdelw==0 and graddelAdelw==0");
 endif
   
-  % Define the filter
-if 1
-U=2;V=2;M=20;Q=8;
+% Define the filter
+U=2;V=2;M=20;Q=8;R=1;
 x0=[  0.0089234, ...
       0.5000000, -0.5000000,  ...
       0.5000000, -0.5000000,  ...
@@ -26,29 +25,28 @@ x0=[  0.0089234, ...
       0.6700726,  0.7205564,  0.8963898,  1.1980053,  1.3738387, ...
       1.4243225,  2.7644677,  2.8149515,  2.9907849,  1.9896753, ...
      -0.9698147, -0.8442244,  0.4511337,  0.4242641,  ...
-     1.8917946,  1.7780303,  1.2325954,  0.7853982 ]';
-else
-fp=0.15;
-[a,d]=butter(5,2*fp);
-a=a(:);
-d=d(:);
-Mmodel=3;
-Dmodel=5;
-aM_5=[a(1);kron(a(2:end),[zeros(Mmodel-1,1);1])];
-dM_5=[d(1);kron(d(2:end),[zeros(Mmodel-1,1);1])];
-[x0,U,V,M,Q]=tf2x(aM_5,dM_5);
-endif
+      1.8917946,  1.7780303,  1.2325954,  0.7853982 ]';
 
 % Check empty frequency
-delAdelw=iirdelAdelw([],x0,U,V,M,Q);
+delAdelw=iirdelAdelw([],x0,U,V,M,Q,R);
 if !isempty(delAdelw)
   error("Expected delAdelw=[]");
 endif
 
+% Check R
+try
+  delAdelw=iirdelAdelw([],x0,U,V,M,Q,2);
+catch
+  err=lasterror();
+  printf("%s\n", err.message);
+end_try_catch
+
+%
 % Find iirdelAdelw
+%
 n=513;
 w=(1:(n-1))*pi/n;
-delAdelw=iirdelAdelw(w,x0,U,V,M,Q);
+delAdelw=iirdelAdelw(w,x0,U,V,M,Q,R);
 
 % Compare with an approximation calculated with iirA
 Aw=iirA(w,x0,U,V,M,Q,1);
@@ -62,9 +60,11 @@ if max_diff_delAdelw > tol
   error("max_diff_delAdelw(=%f) > tol(=%f)",max_diff_delAdelw,tol);
 endif
 
+%
 % Find graddelAdelw
+%
 wc=2*pi*0.19;
-[delAdelw,graddelAdelw]=iirdelAdelw(wc,x0,U,V,M,Q);
+[delAdelw,graddelAdelw]=iirdelAdelw(wc,x0,U,V,M,Q,R);
 % Calculated values
 del2AdelwdelK=graddelAdelw(1);
 del2AdelwdelR0=graddelAdelw((1+1):(1+U));
@@ -89,7 +89,7 @@ del=1e-7;
 % del2AdelwdelK
 tolK=del/5000;
 [delAdelwD,graddelAdelwD]=...
-  iirdelAdelw(wc,[K+del,R0,Rp,r0,theta0,rp,thetap],U,V,M,Q);
+  iirdelAdelw(wc,[K+del,R0,Rp,r0,theta0,rp,thetap],U,V,M,Q,R);
 approx_del2AdelwdelK=(delAdelwD-delAdelw)/del;
 diff_del2AdelwdelK=del2AdelwdelK-approx_del2AdelwdelK;
 if abs(diff_del2AdelwdelK/del2AdelwdelK) > tolK
@@ -104,7 +104,7 @@ for k=1:U
 
   % del2AdelwdelR0
   [delAdelwD,graddelAdelwD]=...
-    iirdelAdelw(wc,[K,R0+delk,Rp,r0,theta0,rp,thetap],U,V,M,Q);
+    iirdelAdelw(wc,[K,R0+delk,Rp,r0,theta0,rp,thetap],U,V,M,Q,R);
   approx_del2AdelwdelR0k=(delAdelwD-delAdelw)/del;
   diff_del2AdelwdelR0k=del2AdelwdelR0(k)-approx_del2AdelwdelR0k;
   if abs(diff_del2AdelwdelR0k/del2AdelwdelR0(k)) > tolR0
@@ -120,7 +120,7 @@ for k=1:V
 
   % del2AdelwdelRp
   [delAdelwD,graddelAdelwD]=...
-    iirdelAdelw(wc,[K,R0,Rp+delk,r0,theta0,rp,thetap],U,V,M,Q);
+    iirdelAdelw(wc,[K,R0,Rp+delk,r0,theta0,rp,thetap],U,V,M,Q,R);
   approx_del2AdelwdelRpk=(delAdelwD-delAdelw)/del;
   diff_del2AdelwdelRpk=del2AdelwdelRp(k)-approx_del2AdelwdelRpk;
   if abs(diff_del2AdelwdelRpk/del2AdelwdelRp(k)) > tolRp
@@ -137,7 +137,7 @@ for k=1:Mon2
 
   % del2Adelwdelr0
   [delAdelwD,graddelAdelwD]=...
-    iirdelAdelw(wc,[K,R0,Rp,r0+delk,theta0,rp,thetap],U,V,M,Q);
+    iirdelAdelw(wc,[K,R0,Rp,r0+delk,theta0,rp,thetap],U,V,M,Q,R);
   approx_del2Adelwdelr0k=(delAdelwD-delAdelw)/del;
   diff_del2Adelwdelr0k=del2Adelwdelr0(k)-approx_del2Adelwdelr0k;
   if abs(diff_del2Adelwdelr0k/del2Adelwdelr0(k)) > tolr0
@@ -147,7 +147,7 @@ for k=1:Mon2
 
   % del2Adelwdeltheta0
   [delAdelwD,graddelAdelwD]=...
-    iirdelAdelw(wc,[K,R0,Rp,r0,theta0+delk,rp,thetap],U,V,M,Q);
+    iirdelAdelw(wc,[K,R0,Rp,r0,theta0+delk,rp,thetap],U,V,M,Q,R);
   approx_del2Adelwdeltheta0k=(delAdelwD-delAdelw)/del;
   diff_del2Adelwdeltheta0k=del2Adelwdeltheta0(k)-approx_del2Adelwdeltheta0k;
   if abs(diff_del2Adelwdeltheta0k/del2Adelwdeltheta0(k)) > toltheta0
@@ -165,7 +165,7 @@ for k=1:Qon2
 
   % del2Adelwdelrp
   [delAdelwD,graddelAdelwD]=...
-    iirdelAdelw(wc,[K,R0,Rp,r0,theta0,rp+delk,thetap],U,V,M,Q);
+    iirdelAdelw(wc,[K,R0,Rp,r0,theta0,rp+delk,thetap],U,V,M,Q,R);
   approx_del2Adelwdelrpk=(delAdelwD-delAdelw)/del;
   diff_del2Adelwdelrpk=del2Adelwdelrp(k)-approx_del2Adelwdelrpk;
   if abs(diff_del2Adelwdelrpk/del2Adelwdelrp(k)) > tolrp
@@ -175,7 +175,7 @@ for k=1:Qon2
 
   % del2Adelwdelthetap
   [delAdelwD,graddelAdelwD]=...
-    iirdelAdelw(wc,[K,R0,Rp,r0,theta0,rp,thetap+delk],U,V,M,Q);
+    iirdelAdelw(wc,[K,R0,Rp,r0,theta0,rp,thetap+delk],U,V,M,Q,R);
   approx_del2Adelwdelthetapk=(delAdelwD-delAdelw)/del;
   diff_del2Adelwdelthetapk=del2Adelwdelthetap(k)-approx_del2Adelwdelthetapk;
   if abs(diff_del2Adelwdelthetapk/del2Adelwdelthetap(k)) > tolthetap
@@ -184,6 +184,21 @@ for k=1:Qon2
           diff_del2Adelwdelthetapk);
   endif
 endfor
+
+%
+% Find del2Adelw2
+%
+[~,~,del2Adelw2]=iirdelAdelw(w,x0,U,V,M,Q,R);
+% Compare with an approximation
+del=1e-6;
+delAdelwPdelon2=iirdelAdelw(w+(del/2),x0,U,V,M,Q,R);
+delAdelwMdelon2=iirdelAdelw(w-(del/2),x0,U,V,M,Q,R);
+approx_del2Adelw2=(delAdelwPdelon2-delAdelwMdelon2)/del;
+max_diff_del2Adelw2=max(abs((approx_del2Adelw2-del2Adelw2)./del2Adelw2));
+tol=6e-8;
+if max_diff_del2Adelw2 > tol
+  error("max_diff_del2Adelw2(=%f) > tol(=%f)",max_diff_del2Adelw2,tol);
+endif
 
 % Done
 diary off

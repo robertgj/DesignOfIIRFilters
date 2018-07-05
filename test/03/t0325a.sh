@@ -18,7 +18,7 @@ local_max.m tf2pa.m print_polynomial.m flt2SD.m bin2SDul.m x2nextra.m \
 SDadders.m Abcd2tf.m H2Asq.m H2T.m H2P.m tf2schurOneMlattice.m schurOneMscale.m \
 bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
 complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
-SeDuMi_1_3/"
+qroots.m qzsolve.oct SeDuMi_1_3/"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -55,16 +55,16 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k_coef.m << 'EOF'
-A1k_min = [     -856,     1464,      784,    -1022, ... 
-                1345,     -804,      160,      608, ... 
-                -480,      297 ]'/2048;
+A1k_min = [    -1496,     1408,     1136,    -1164, ... 
+                1348,     -482,        0,      760, ... 
+                -572,      320 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_D1_coef.m"; fail; fi
 
 cat > test_A2k_coef.m << 'EOF'
-A2k_min = [    -1544,     1592,      768,    -1106, ... 
-                1376,     -672,      224,      584, ... 
-                -512,      288 ]'/2048;
+A2k_min = [     -740,     1282,     1152,    -1068, ... 
+                1336,     -608,      -96,      776, ... 
+                -542,      320 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_D2_coef.m"; fail; fi
 

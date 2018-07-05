@@ -9,7 +9,9 @@ iir_frm_parallel_allpass_slb_update_constraints.m \
 iir_frm_parallel_allpass_struct_to_vec.m \
 iir_frm_parallel_allpass_vec_to_struct.m \
 iir_frm_parallel_allpass.m \
-test_common.m allpassP.m allpassT.m tf2a.m a2tf.m local_max.m local_peak.m"
+test_common.m allpassP.m allpassT.m tf2a.m a2tf.m local_max.m local_peak.m \
+qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -47,7 +49,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test.ok << 'EOF'
 maxiter =  2000
 verbose = 1
-tol =    5.0000e-06
+tol =  0.0000050000
 Mmodel =  9
 Dmodel =  9.5000
 dmask =  8.5000

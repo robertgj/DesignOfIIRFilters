@@ -46,21 +46,21 @@ if nargin < 2
   print_usage("[x,U,V,M,Q]=tf2x(b,a,tol)");
 endif
 if nargin==2
-  tol=1e-9;
+  tol=100*eps;
 endif
 
 % Find real and complex zeros
-bz=roots(b);
+bz=qroots(b);
 irz=find(abs(imag(bz))<tol);
-iz=find(imag(bz)>tol);
+iz=find(imag(bz)>=tol);
 
 % Find real and complex poles
-ap=roots(a);
+ap=qroots(a);
 if any(abs(ap)>=1)
    warning("Transfer function is not stable (poles |R|>=1)!");
 endif
 irp=find(abs(imag(ap))<tol);
-ip=find(imag(ap)>tol);
+ip=find(imag(ap)>=tol);
 
 % Find gain
 bnz = b(abs(b)>tol);
@@ -73,8 +73,8 @@ endif
 
 % Make outputs
 x=[K; ...
-   bz(irz); ...
-   ap(irp); ...
+   real(bz(irz)); ...
+   real(ap(irp)); ...
    abs(bz(iz)); angle(bz(iz)); ...
    abs(ap(ip)); angle(ap(ip))];
 U = length(irz);

@@ -63,7 +63,7 @@ function [N,D,B]=Abcd2tf(A,b,c,d)
 endfunction
 
 function [N,D,B]=Abcd2tf_loop(_A,_b,_c)
-  persistent A b c n k B 
+  persistent A b c n k BB
   persistent init_done=false
   if nargin==3
     A=_A;
@@ -71,7 +71,7 @@ function [N,D,B]=Abcd2tf_loop(_A,_b,_c)
     c=_c;
     n=rows(A);
     k=0;
-    B=eye(n);
+    BB=eye(n);
     init_done=true;
     return;
   elseif ~init_done
@@ -81,9 +81,10 @@ function [N,D,B]=Abcd2tf_loop(_A,_b,_c)
     N=0;
     D=1;
   else
-    N=c*B*b;
-    D=-trace(A*B/k);
-    B=(A*B)+(D*eye(n));
+    N=c*BB*b;
+    D=-trace(A*BB/k);
+    BB=(A*BB)+(D*eye(n));
   endif
   k=k+1;
+  B=BB;
 endfunction

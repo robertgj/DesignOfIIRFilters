@@ -494,7 +494,7 @@ endif
 %
 clear all
 verbose=false;
-n=1024;
+n=1021;
 w=((0:(n-1))*pi/n)';
 fp=0.15;
 [b_5,a_5]=butter(5,2*fp);
@@ -689,8 +689,8 @@ wp=2*pi*fp/5;
 [Asq_wp,T_wp,gradAsq_wp,gradT_wp] = ...
   iir_frm(wp,xk,Uad,Vad,Mad,Qad,na,nc,Mmodel,Dmodel);
 del=1e-7;
-tol_gradAsq=del/10;
-tol_gradT=del/2;
+tol_gradAsq=del/2;
+tol_gradT=del;
 delxk=[del;zeros(length(xk)-1,1)];
 for k=1:length(xk)
   % Approximate gradAsq and gradT for this coefficient
@@ -799,7 +799,7 @@ tolAsq_14_10=42240*eps;
 if max(abs(Asq_14_10-Asq)) > tolAsq_14_10
   error("Expected max(abs(Asq_14_10-Asq)) <= tolAsq_14_10");
 endif
-tolT_14_10=34096*eps;
+tolT_14_10=40000*eps;
 np=ceil((fp*n/0.5)/8);
 if max(abs(T_14_10(2:np)-Tnominal-T(2:np))) > tolT_14_10
   error("Expected max(abs(T_14_10(2:np)-Tnominal-T(2:np))) <= tolT_14_10");
@@ -980,7 +980,7 @@ if max(abs(Asq_frm_alt-Asq)) > tolAsq_frm_alt
 endif
 np=ceil((fp*n/0.5)/2);
 T_frm_alt=grpdelay(aM_frm,dM,n);
-tolT_frm_alt=115060*eps;
+tolT_frm_alt=200000*eps;
 if max(abs(T_frm_alt(2:np)-Tnominal-T(2:np))) > tolT_frm_alt
   error("Expected max(abs(T_frm_alt(2:np)-Tnominal-T(2:np))) <= tolT_frm_alt");
 endif

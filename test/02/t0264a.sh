@@ -12,7 +12,8 @@ schurOneMAPlattice_frm_hilbertAsq.m schurOneMAPlattice_frm_hilbertP.m \
 schurOneMAPlatticeP.m schurOneMAPlatticeT.m tf2schurOneMlattice.m \
 schurOneMAPlattice2Abcd.m Abcd2tf.m tf2pa.m schurOneMscale.m H2Asq.m H2P.m \
 H2T.m local_max.m schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
-spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct"
+spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
+qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -50,7 +51,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.out << 'EOF'
 maxiter =  2000
-tol =    5.0000e-06
+tol =  0.0000050000
 verbose = 1
 fap =  0.020000
 fas =  0.48000

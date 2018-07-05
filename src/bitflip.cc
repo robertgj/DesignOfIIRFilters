@@ -61,7 +61,7 @@ DEFUN_DLD(bitflip, args, nargout,"[cof,cost,fiter] = ...\n\
   RowVector cof = args(1).vector_value(true);
   uint64_t ncof = args(1).length();
   const uint64_t nbits = args(2).uint64_value(true);
-  octave_value_list flintmax_retval = feval("flintmax");
+  octave_value_list flintmax_retval = octave::feval("flintmax");
   uint64_t max_nbits = floor(log2(flintmax_retval(0).double_value(true)));
   if ((nbits<1) ||(nbits>max_nbits))
     {
@@ -99,7 +99,7 @@ DEFUN_DLD(bitflip, args, nargout,"[cof,cost,fiter] = ...\n\
   // Initialise outputs
   octave_value_list costfun_args(1);
   costfun_args(0)=cof;
-  octave_value_list costfun_retval = feval(pcostfun,costfun_args);
+  octave_value_list costfun_retval = octave::feval(pcostfun,costfun_args);
   double cost=costfun_retval(0).double_value(true);
   uint64_t fiter=0;
   if (verbose)
@@ -135,7 +135,7 @@ DEFUN_DLD(bitflip, args, nargout,"[cof,cost,fiter] = ...\n\
                   newcof(k)= newcofkmask + l;
                   // Calculate cost function
                   costfun_args(0)=newcof;
-                  costfun_retval = feval(pcostfun,costfun_args);
+                  costfun_retval = octave::feval(pcostfun,costfun_args);
                   double newcost=costfun_retval(0).double_value(true);
                   fiter=fiter+1;
                   if (newcost < cost)

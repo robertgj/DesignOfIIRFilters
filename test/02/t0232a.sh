@@ -21,7 +21,9 @@ tf2schurOneMlattice.m \
 local_max.m x2tf.m tf2pa.m print_polynomial.m Abcd2tf.m x2nextra.m sqp_bfgs.m \
 armijo_kim.m updateWbfgs.m invSVD.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m \
 SDadders.m schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct"
+schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct \
+qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

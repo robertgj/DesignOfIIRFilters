@@ -3,7 +3,7 @@
 # Assume these files are present:
 #  SuiteSparse-4.5.6.tar.gz
 #  arpack-ng-master.zip
-#  fftw-3.3.7.tar.gz
+#  fftw-3.3.8.tar.gz
 #  qrupdate-1.1.2.tar.gz
 
 export LDFLAGS="-L"$LAPACK_DIR
@@ -58,20 +58,21 @@ popd
 #
 # Build fftw
 #
-rm -Rf fftw-3.3.7
-tar -xf fftw-3.3.7.tar.gz
-pushd fftw-3.3.7
+FFTW_VER=3.3.8
+rm -Rf fftw-$FFTW_VER
+tar -xf fftw-$FFW_VER".tar.gz"
+pushd fftw-$FFTW_VER
 ./configure --prefix=$LOCAL_PREFIX --enable-shared \
-            --with-combined-threads --enable-threads
+            --with-combined-threads --enable-threads 
 make -j 6 && make install
 popd
 
 #
 # Build fftw single-precision
 #
-rm -Rf fftw-3.3.7
-tar -xf fftw-3.3.7.tar.gz
-pushd fftw-3.3.7
+rm -Rf fftw-$FFTW_VER
+tar -xf fftw-$FFTW_VER".tar.gz"
+pushd fftw-$FFTW_VER
 ./configure --prefix=$LOCAL_PREFIX --enable-shared \
             --with-combined-threads --enable-threads --enable-single
 make -j 6 && make install

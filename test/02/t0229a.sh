@@ -3,14 +3,15 @@
 prog=deczky1_sqp_test.m
 
 depends="deczky1_sqp_test.m \
-test_common.m print_polynomial.m print_pole_zero.m \
-Aerror.m Terror.m armijo_kim.m \
-fixResultNaN.m iirA.m iirE.m iirT.m iirP.m invSVD.m local_max.m iir_sqp_mmse.m \
-iir_slb.m iir_slb_exchange_constraints.m iir_slb_constraints_are_empty.m \
-iir_slb_set_empty_constraints.m iir_slb_show_constraints.m \
-iir_slb_update_constraints.m showResponseBands.m \
-showResponse.m showResponsePassBands.m showZPplot.m sqp_bfgs.m \
-updateWchol.m updateWbfgs.m xConstraints.m x2tf.m"
+test_common.m deczky1_slb.m deczky1_slb_constraints_are_empty.m \
+deczky1_slb_exchange_constraints.m deczky1_slb_set_empty_constraints.m \
+deczky1_slb_show_constraints.m deczky1_slb_update_constraints.m \
+deczky1_slb_update_constraints_test.m deczky1_sqp_mmse.m \
+Aerror.m Terror.m iirA.m iirE.m iirT.m iirP.m iirdelAdelw.m \
+invSVD.m armijo_kim.m fixResultNaN.m sqp_bfgs.m updateWchol.m local_max.m \
+updateWbfgs.m xConstraints.m x2tf.m print_polynomial.m print_pole_zero.m \
+showResponseBands.m showResponse.m showResponsePassBands.m showZPplot.m"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -47,14 +48,14 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 Ud1=2,Vd1=0,Md1=10,Qd1=6,Rd1=1
-d1 = [   0.0112122730, ...
-        -0.9861004336,  -0.9861004418, ...
-         1.6110573997,   1.5722087253,   0.9922923829,   0.9715772075, ... 
-         0.9771125907, ...
-         0.3501543945,   1.0364670361,   1.9044365672,   2.1121907965, ... 
-         2.4859615633, ...
-         0.9551538736,   0.6593886914,   0.4529386321, ...
-         1.7176976492,   1.4735817876,   0.5786060583 ]';
+d1 = [   0.0157184452, ...
+        -0.7508048918,  -0.7507590553, ...
+         0.8647407885,   0.9159595503,   0.9848602704,   1.7192993961, ... 
+         1.8235405761, ...
+         2.4562778951,   2.0642550412,   1.9018978540,   1.0650852367, ... 
+         0.3576859135, ...
+         0.2912190301,   0.6015688785,   0.9346136352, ...
+         0.7939895272,   1.6756563696,   1.7319473102 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

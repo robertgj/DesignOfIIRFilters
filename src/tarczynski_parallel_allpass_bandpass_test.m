@@ -112,7 +112,7 @@ maxiter=2000
 tol=1e-8
 % Initial filter for parallel_allpass_bandpass_test.m
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,Watl=0.1,Wap=1,Watu=0.1
-ma=mb=10,td=16,Wasl=100,Wasu=100,Wtp=1,ftpl=0.09,ftpu=0.21
+ma=mb=10,td=16,Wasl=200,Wasu=200,Wtp=1,ftpl=0.09,ftpu=0.21
 
 % Frequency points
 n=1000;

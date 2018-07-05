@@ -16,7 +16,9 @@ schurOneMlattice_sqp_slb_bandpass_plot.m \
 schurOneMlattice2Abcd.oct schurOneMscale.m tf2schurOneMlattice.m \
 schurOneMlattice2tf.m local_max.m x2tf.m tf2pa.m print_polynomial.m Abcd2tf.m \
 sqp_bfgs.m armijo_kim.m updateWbfgs.m invSVD.m H2Asq.m H2T.m H2P.m \
-schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct schurOneMlattice2H.oct"
+schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
+schurOneMlattice2H.oct qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

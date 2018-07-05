@@ -12,7 +12,7 @@ diary iir_sqp_slb_fir_bandpass_test.diary.tmp
 
 format short e
 
-maxiter=2500
+maxiter=5000
 tol=1e-3
 ctol=tol
 verbose=false

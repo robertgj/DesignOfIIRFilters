@@ -18,7 +18,7 @@ local_max.m tf2pa.m print_polynomial.m flt2SD.m bin2SDul.m x2nextra.m \
 SDadders.m Abcd2tf.m H2Asq.m H2T.m H2P.m tf2schurOneMlattice.m schurOneMscale.m \
 bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
 complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
-SeDuMi_1_3/"
+qroots.m qzsolve.oct SeDuMi_1_3/"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -55,23 +55,23 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_12_nbits_cost.ok << 'EOF'
-Exact & 0.024488 & & \\
-12-bit 3-signed-digit(Ito)& 0.069894 & 56 & 36 \\
-12-bit 3-signed-digit(SOCP b-and-b) & 0.001135 & 57 & 37 \\
+Exact & 0.017116 & & \\
+12-bit 3-signed-digit(Ito)& 0.036000 & 58 & 38 \\
+12-bit 3-signed-digit(SOCP b-and-b) & 0.001506 & 54 & 34 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_cost.ok"; fail; fi
 
 cat > test_12_nbits_A1k_min.ok << 'EOF'
-A1k_min = [     -832,     1788,    -1156,     1644, ... 
-                -951,      952,     -304,      184, ... 
-                  30,       -8 ]'/2048;
+A1k_min = [     -792,     1152,     1104,    -1024, ... 
+                1584,     -635,     -128,      896, ... 
+                -542,      240 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_A1k_min.ok"; fail; fi
 
 cat > test_12_nbits_A2k_min.ok << 'EOF'
-A2k_min = [    -1576,     1800,    -1216,     1602, ... 
-                -894,      992,     -286,      190, ... 
-                  64,        4 ]'/2048;
+A2k_min = [    -1576,     1376,     1088,    -1144, ... 
+                1602,     -560,     -120,      896, ... 
+                -513,      264 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_A2k_min.ok"; fail; fi
 

@@ -1,36 +1,78 @@
 #!/bin/sh
 
-LAPACK_VER=3.8.0
-SUITESPARSE_VER=4.5.6
-FFTW_VER=3.3.7
-GLPK_VER=4.65
-QRUPDATE_VER=1.1.2
-OCTAVE_VER=4.2.2
-STRUCT_VER=1.0.14
-OPTIM_VER=1.5.2
-CONTROL_VER=3.1.0
-SIGNAL_VER=1.3.2
-PARALLEL_VER=3.1.1
+# Build a local version of octave-cli
+#
+# Requires wget, gnuplot-latex, readline-devel, lzip, sharutils, gfortran
+# cmake and ???
+#
+# From the fftw-3.3.8 release notes (May 28th, 2018):
+#    Fixed AVX, AVX2 for gcc-8.
+#      By default, FFTW 3.3.7 was broken with gcc-8. AVX and AVX2 code
+#      assumed that the compiler honors the distinction between +0 and -0,
+#      but gcc-8 -ffast-math does not. The default CFLAGS included
+#      -ffast-math . This release ensures that FFTW works with gcc-8
+#      -ffast-math , and removes -ffast-math from the default CFLAGS for
+#      good measure.
 
-# Assume these files are present:
+
+#
+# Assume these files are present. Get them if they are not.
+#
+LAPACK_VER=${LAPACK_VER:-3.8.0}
 LAPACK_ARCHIVE=lapack-$LAPACK_VER".tar.gz"
-SUITESPARSE_ARCHIVE=SuiteSparse-$SUITESPARSE_VER".tar.gz"
-ARPACK_ARCHIVE=arpack-ng-master.zip
-FFTW_ARCHIVE=fftw-$FFTW_VER".tar.gz"
-GLPK_ARCHIVE=glpk-$GLPK_VER".tar.gz"
-QRUPDATE_ARCHIVE=qrupdate-$QRUPDATE_VER".tar.gz"
-OCTAVE_ARCHIVE=octave-$OCTAVE_VER".tar.lz"
-STRUCT_ARCHIVE=struct-$STRUCT_VER".tar.gz"
-OPTIM_ARCHIVE=optim-$OPTIM_VER".tar.gz"
-CONTROL_ARCHIVE=control-$CONTROL_VER".tar.gz"
-SIGNAL_ARCHIVE=signal-$SIGNAL_VER".tar.gz"
-PARALLEL_ARCHIVE=parallel-$PARALLEL_VER".tar.gz"
+LAPACK_URL=http://www.netlib.org/lapack/$LAPACK_ARCHIVE
+if ! test -f $LAPACK_ARCHIVE; then
+  wget -c $LAPACK_URL
+fi
 
-OCTAVE_DIR=/usr/local/octave
+ARPACK_ARCHIVE=master.zip
+ARPACK_URL=https://github.com/opencollab/arpack-ng/archive/$ARPACK_ARCHIVE
+if ! test -f $ARPACK_ARCHIVE; then
+  wget -c $ARPACK_URL
+fi
+
+SUITESPARSE_VER=${SUITESPARSE_VER:-4.5.6}
+SUITESPARSE_ARCHIVE=SuiteSparse-$SUITESPARSE_VER".tar.gz"
+SUITESPARSE_URL=http://faculty.cse.tamu.edu/davis/SuiteSparse/$SUITESPARSE_ARCHIVE
+if ! test -f $SUITESPARSE_ARCHIVE; then
+  wget -c $SUITESPARSE_URL
+fi
+
+QRUPDATE_VER=${QRUPDATE_VER:-1.1.2}
+QRUPDATE_ARCHIVE=qrupdate-$QRUPDATE_VER".tar.gz"
+QRUPDATE_URL=https://sourceforge.net/projects/qrupdate/files/qrupdate/1.2/$QRUPDATE_ARCHIVE
+if ! test -f $QRUPDATE_ARCHIVE; then
+  wget -c $QRUPDATE_URL
+fi
+
+FFTW_VER=${FFTW_VER:-3.3.8}
+FFTW_ARCHIVE=fftw-$FFTW_VER".tar.gz"
+FFTW_URL=ftp://ftp.fftw.org/pub/fftw/$FFTW_ARCHIVE
+if ! test -f $FFTW_ARCHIVE; then
+  wget -c $FFTW_URL
+fi
+
+GLPK_VER=${GLPK_VER:-4.65}
+GLPK_ARCHIVE=glpk-$GLPK_VER".tar.gz"
+GLPK_URL=https://ftp.gnu.org/gnu/glpk/$GLPK_ARCHIVE
+if ! test -f $GLPK_ARCHIVE; then
+  wget -c $GLPK_URL
+fi
+
+OCTAVE_VER=${OCTAVE_VER:-"4.4.0"}
+OCTAVE_ARCHIVE=octave-$OCTAVE_VER".tar.lz"
+OCTAVE_URL=https://ftp.gnu.org/gnu/octave/$OCTAVE_ARCHIVE
+if ! test -f $OCTAVE_ARCHIVE; then
+  wget -c $OCTAVE_URL
+fi
+
+#
+# Octave directories
+#
+OCTAVE_DIR=${OCTAVE_DIR:-"/usr/local/octave"}
 OCTAVE_INCLUDE_DIR=$OCTAVE_DIR/include
 OCTAVE_LIB_DIR=$OCTAVE_DIR/lib
 OCTAVE_BIN_DIR=$OCTAVE_DIR/bin
-
 export LD_LIBRARY_PATH=$OCTAVE_LIB_DIR
 export LDFLAGS=-L$OCTAVE_LIB_DIR
 export PATH=$PATH:$OCTAVE_BIN_DIR
@@ -41,6 +83,7 @@ export PATH=$PATH:$OCTAVE_BIN_DIR
 # Starting from scratch!
 #
 rm -Rf $OCTAVE_DIR
+echo "Building octave-"$OCTAVE_VER
 
 #
 # Build lapack
@@ -132,7 +175,7 @@ popd
 # Build arpack-ng
 #
 rm -Rf arpack-ng-master
-unzip arpack-ng-master.zip
+unzip $ARPACK_ARCHIVE
 pushd arpack-ng-master
 sh ./bootstrap
 ./configure --prefix=$OCTAVE_DIR --with-blas=-lblas --with-lapack=-llapack
@@ -153,7 +196,7 @@ popd
 #
 rm -Rf qrupdate-$QRUPDATE_VER
 tar -xf $QRUPDATE_ARCHIVE
-pushd qrupdate-1.1.2
+pushd qrupdate-$QRUPDATE_VER
 rm -f Makeconf
 cat > Makeconf << 'EOF'
 FC=gfortran
@@ -264,11 +307,10 @@ export LDFLAGS=-L$OCTAVE_LIB_DIR
 #
 # Generate profile
 #
-export PGO_GEN_FLAGS="-fprofile-generate"
-export PGO_LTO_FLAGS="-fprofile-use -flto=6 -ffat-lto-objects"
-make XTRA_CFLAGS=$PGO_GEN_FLAGS XTRA_CXXFLAGS=$PGO_GEN_FLAGS V=1 -j6
+export PGO_GEN_FLAGS="-pthread -fopenmp -fprofile-generate"
+make XTRA_CFLAGS="$PGO_GEN_FLAGS" XTRA_CXXFLAGS="$PGO_GEN_FLAGS" V=1 -j6
 find . -name \*.gcda -exec rm -f {} ';'
-make check
+make V=1 -j6 check
 
 #
 # Use profile
@@ -276,6 +318,7 @@ make check
 find . -name \*.o -exec rm -f {} ';'
 find . -name \*.lo -exec rm -f {} ';'
 find . -name \*.la -exec rm -f {} ';'
+export PGO_LTO_FLAGS="-pthread -fopenmp -fprofile-use -flto=6 -ffat-lto-objects"
 make XTRA_CFLAGS="$PGO_LTO_FLAGS" XTRA_CXXFLAGS="$PGO_LTO_FLAGS" V=1 -j6
 make install
 
@@ -288,9 +331,9 @@ popd
 # Install packages
 #
 $OCTAVE_BIN_DIR/octave-cli \
-  --eval "pkg install "$STRUCT_ARCHIVE" ; ...
-          pkg install "$OPTIM_ARCHIVE" ; ...
-          pkg install "$CONTROL_ARCHIVE" ; ...
-          pkg install "$SIGNAL_ARCHIVE" ; ...
-          pkg install "$PARALLEL_ARCHIVE" ; ...
-          pkg list"
+    --eval "pkg install struct-1.0.15.tar.gz ; ...
+            pkg install optim-1.5.2.tar.gz ; ...
+            pkg install control-3.1.0.tar.gz ; ...
+            pkg install signal-1.4.0.tar.gz ; ...
+            pkg list"
+

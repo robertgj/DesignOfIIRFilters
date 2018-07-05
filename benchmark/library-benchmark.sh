@@ -3,7 +3,8 @@
 BUILD=shared-lto-pgo
 OCTAVE=$LOCAL_PREFIX"/octave-"$BUILD"/bin/octave-cli"
 
-export LD_LIBRARY_PATH=$LOCAL_PREFIX"/lib:"$LOCAL_PREFIX"/lapack/generic/lapack-"$LPVER
+export LD_LIBRARY_PATH=$LOCAL_PREFIX"/lib:"\
+$LOCAL_PREFIX"/lapack/generic/lapack-"$LPVER
 $OCTAVE -v | grep version
 $LOCAL_PREFIX"/octave-"$BUILD"/bin/mkoctfile" ../src/reprand.cc
 
@@ -178,186 +179,101 @@ awk '{flops=flops+$2;};\
 
 
 #
-# iir_sqp_slb_bandpass_test.m
+# iir_benchmark.m
 #
 pushd build-$BUILD
 
-echo "local libblas, generic, iir_sqp_slb_bandpass_test.m"
+echo "local libblas, generic, iir_benchmark.m"
 LAPACK_DIR=$LOCAL_PREFIX"/lapack/generic/lapack-"$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
-              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
-    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.generic.$k
-    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.generic.$k
-    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.generic.$k
-    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.generic.$k
-done
-grep Elapsed iir_sqp_slb_bandpass_test.diary.generic.* | \
-awk '{elapsed=elapsed+$4;};\
-     END {printf("iir_sqp_slb_bandpass_test local generic elapsed=%g\n",elapsed/10);}'
+    $OCTAVE -q iir_benchmark.m
+done | awk '{elapsed=elapsed+$4;};\
+  END {printf("iir_benchmark local generic elapsed=%g\n",elapsed/10);}'
 
-echo "local libblas, intel, iir_sqp_slb_bandpass_test.m"
+echo "local libblas, intel, iir_benchmark.m"
 LAPACK_DIR=$LOCAL_PREFIX"/lapack/intel/lapack-"$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
-              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
-    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.intel.$k
-    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.intel.$k
-    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.intel.$k
-    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.intel.$k
-done
-grep Elapsed iir_sqp_slb_bandpass_test.diary.intel.* | \
-awk '{elapsed=elapsed+$4;};\
-     END {printf("iir_sqp_slb_bandpass_test local intel elapsed=%g\n",elapsed/10);}'
+    $OCTAVE -q iir_benchmark.m
+done | awk '{elapsed=elapsed+$4;};\
+  END {printf("iir_benchmark local intel elapsed=%g\n",elapsed/10);}'
 
-echo "local libblas, haswell, iir_sqp_slb_bandpass_test.m"
+echo "local libblas, haswell, iir_benchmark.m"
 LAPACK_DIR=$LOCAL_PREFIX"/lapack/haswell/lapack-"$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
-              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
-    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.haswell.$k
-    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.haswell.$k
-    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.haswell.$k
-    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.haswell.$k
-done
-grep Elapsed iir_sqp_slb_bandpass_test.diary.haswell.* | \
-awk '{elapsed=elapsed+$4;};\
-     END {printf("iir_sqp_slb_bandpass_test local haswell elapsed=%g\n",elapsed/10);}'
+    $OCTAVE -q iir_benchmark.m
+done | awk '{elapsed=elapsed+$4;};\
+  END {printf("iir_benchmark local haswell elapsed=%g\n",elapsed/10);}'
 
-echo "local libblas, nehalem, iir_sqp_slb_bandpass_test.m"
+echo "local libblas, nehalem, iir_benchmark.m"
 LAPACK_DIR=$LOCAL_PREFIX"/lapack/nehalem/lapack-"$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
-              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
-    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.nehalem.$k
-    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.nehalem.$k
-    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.nehalem.$k
-    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.nehalem.$k
-done
-grep Elapsed iir_sqp_slb_bandpass_test.diary.nehalem.* | \
-awk '{elapsed=elapsed+$4;};\
-     END {printf("iir_sqp_slb_bandpass_test local nehalem elapsed=%g\n",elapsed/10);}'
+    $OCTAVE -q iir_benchmark.m
+done | awk '{elapsed=elapsed+$4;};\
+  END {printf("iir_benchmark local nehalem elapsed=%g\n",elapsed/10);}'
 
-echo "local libblas, skylake, iir_sqp_slb_bandpass_test.m"
+echo "local libblas, skylake, iir_benchmark.m"
 LAPACK_DIR=$LOCAL_PREFIX"/lapack/skylake/lapack-"$LPVER
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
-              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
-    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.skylake.$k
-    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.skylake.$k
-    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.skylake.$k
-    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.skylake.$k
-done
-grep Elapsed iir_sqp_slb_bandpass_test.diary.skylake.* | \
-awk '{elapsed=elapsed+$4;};\
-     END {printf("iir_sqp_slb_bandpass_test local skylake elapsed=%g\n",elapsed/10);}'
+    $OCTAVE -q iir_benchmark.m
+done | awk '{elapsed=elapsed+$4;};\
+  END {printf("iir_benchmark local skylake elapsed=%g\n",elapsed/10);}'
 
-echo "system libblas, iir_sqp_slb_bandpass_test.m"
+echo "system libblas, iir_benchmark.m"
 for k in `seq 1 10`;do 
     LD_PRELOAD="/usr/lib64/libblas.so.3:/usr/lib64/liblapack.so.3" \
-              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
-    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.libblas.$k
-    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.libblas.$k
-    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.libblas.$k
-    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.libblas.$k
-done
-grep Elapsed iir_sqp_slb_bandpass_test.diary.libblas.* | \
-awk '{elapsed=elapsed+$4;};\
-     END {printf("iir_sqp_slb_bandpass_test system libblas elapsed=%g\n",elapsed/10);}'
+    $OCTAVE -q iir_benchmark.m
+done | awk '{elapsed=elapsed+$4;};\
+  END {printf("iir_benchmark system libblas elapsed=%g\n",elapsed/10);}'
 
-echo "libgslcblas, iir_sqp_slb_bandpass_test.m"
+echo "libgslcblas, iir_benchmark.m"
 for k in `seq 1 10`;do 
-    LD_PRELOAD=/usr/lib64/libgslcblas.so.0 \
-              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
-    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.gslcblas.$k
-    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.gslcblas.$k
-    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.gslcblas.$k
-    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.gslcblas.$k
-done
-grep Elapsed iir_sqp_slb_bandpass_test.diary.gslcblas.* | \
-awk '{elapsed=elapsed+$4;};\
-     END {printf("iir_sqp_slb_bandpass_test libgslcblas elapsed=%g\n",elapsed/10);}'
+    LD_PRELOAD=/usr/lib64/libgslcblas.so.0 $OCTAVE -q iir_benchmark.m
+done | awk '{elapsed=elapsed+$4;};\
+  END {printf("iir_benchmark libgslcblas elapsed=%g\n",elapsed/10);}'
 
-echo "libsatlas, iir_sqp_slb_bandpass_test.m"
+echo "libsatlas, iir_benchmark.m"
 for k in `seq 1 10`;do 
-    LD_PRELOAD=/usr/lib64/atlas/libsatlas.so.3 \
-              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
-    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.satlas.$k
-    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.satlas.$k
-    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.satlas.$k
-    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.satlas.$k
-done
-grep Elapsed iir_sqp_slb_bandpass_test.diary.satlas.* | \
-awk '{elapsed=elapsed+$4;};\
-     END {printf("iir_sqp_slb_bandpass_test libsatlas elapsed=%g\n",elapsed/10);}'
+    LD_PRELOAD=/usr/lib64/atlas/libsatlas.so.3 $OCTAVE -q iir_benchmark.m 
+done | awk '{elapsed=elapsed+$4;};\
+  END {printf("iir_benchmark libsatlas elapsed=%g\n",elapsed/10);}'
 
-echo "libtatlas, iir_sqp_slb_bandpass_test.m"
+echo "libtatlas, iir_benchmark.m"
 for k in `seq 1 10`;do 
-    LD_PRELOAD=/usr/lib64/atlas/libtatlas.so.3 \
-              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
-    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.tatlas.$k
-    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.tatlas.$k
-    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.tatlas.$k
-    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.tatlas.$k
-done
-grep Elapsed iir_sqp_slb_bandpass_test.diary.tatlas.* | \
-awk '{elapsed=elapsed+$4;};\
-     END {printf("iir_sqp_slb_bandpass_test libtatlas elapsed=%g\n",elapsed/10);}'
+    LD_PRELOAD=/usr/lib64/atlas/libtatlas.so.3 $OCTAVE -q iir_benchmark.m 
+done | awk '{elapsed=elapsed+$4;};\
+  END {printf("iir_benchmark libtatlas elapsed=%g\n",elapsed/10);}'
 
-echo "libopenblas, iir_sqp_slb_bandpass_test.m"
+echo "libopenblas, iir_benchmark.m"
 for k in `seq 1 10`;do 
-    LD_PRELOAD=/usr/lib64/libopenblas.so.0 \
-              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
-    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.openblas.$k
-    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.openblas.$k
-    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.openblas.$k
-    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.openblas.$k
-done
-grep Elapsed iir_sqp_slb_bandpass_test.diary.openblas.* | \
-awk '{elapsed=elapsed+$4;};\
-     END {printf("iir_sqp_slb_bandpass_test libopenblas elapsed=%g\n",elapsed/10);}'
+    LD_PRELOAD=/usr/lib64/libopenblas.so.0 $OCTAVE -q iir_benchmark.m
+done | awk '{elapsed=elapsed+$4;};\
+  END {printf("iir_benchmark libopenblas elapsed=%g\n",elapsed/10);}'
 
-echo "libopenblasp, 1 thread, iir_sqp_slb_bandpass_test.m"
+echo "libopenblasp, 1 thread, iir_benchmark.m"
 export OPENBLAS_NUM_THREADS=1
 for k in `seq 1 10`;do 
-    LD_PRELOAD=/usr/lib64/libopenblasp.so.0 \
-              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
-    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.openblasp.1.$k
-    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.openblasp.1.$k
-    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.openblasp.1.$k
-    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.openblasp.1.$k
-done
-grep Elapsed iir_sqp_slb_bandpass_test.diary.openblasp.1.* | \
-awk '{elapsed=elapsed+$4;};\
-     END {printf("iir_sqp_slb_bandpass_test libopenblasp.1 elapsed=%g\n",elapsed/10);}'
+    LD_PRELOAD=/usr/lib64/libopenblasp.so.0 $OCTAVE -q iir_benchmark.m
+done | awk '{elapsed=elapsed+$4;};\
+  END {printf("iir_benchmark libopenblasp.1 elapsed=%g\n",elapsed/10);}'
 
-echo "libopenblasp, 2 threads, iir_sqp_slb_bandpass_test.m"
+echo "libopenblasp, 2 threads, iir_benchmark.m"
 export OPENBLAS_NUM_THREADS=2
 for k in `seq 1 10`;do 
-    LD_PRELOAD=/usr/lib64/libopenblasp.so.0 \
-              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
-    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.openblasp.2.$k
-    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.openblasp.2.$k
-    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.openblasp.2.$k
-    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.openblasp.2.$k
-done
-grep Elapsed iir_sqp_slb_bandpass_test.diary.openblasp.2.* | \
-awk '{elapsed=elapsed+$4;};\
-     END {printf("iir_sqp_slb_bandpass_test libopenblasp.2 elapsed=%g\n",elapsed/10);}'
+    LD_PRELOAD=/usr/lib64/libopenblasp.so.0 $OCTAVE -q iir_benchmark.m
+done | awk '{elapsed=elapsed+$4;};\
+  END {printf("iir_benchmark libopenblasp.2 elapsed=%g\n",elapsed/10);}'
 
-echo "libopenblasp, 4 threads, iir_sqp_slb_bandpass_test.m"
+echo "libopenblasp, 4 threads, iir_benchmark.m"
 export OPENBLAS_NUM_THREADS=4
 for k in `seq 1 10`;do 
-    LD_PRELOAD=/usr/lib64/libopenblasp.so.0 \
-              $OCTAVE -q iir_sqp_slb_bandpass_test.m >/dev/null
-    mv iir_sqp_slb_bandpass_test_d1_coef.m iir_sqp_slb_bandpass_test.d1.openblasp.4.$k
-    mv iir_sqp_slb_bandpass_test_D1_coef.m iir_sqp_slb_bandpass_test.D1.openblasp.4.$k
-    mv iir_sqp_slb_bandpass_test_N1_coef.m iir_sqp_slb_bandpass_test.N1.openblasp.4.$k
-    mv iir_sqp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary.openblasp.4.$k
-done
-grep Elapsed iir_sqp_slb_bandpass_test.diary.openblasp.4.* | \
-awk '{elapsed=elapsed+$4;};\
-     END {printf("iir_sqp_slb_bandpass_test libopenblasp.4 elapsed=%g\n",elapsed/10);}'
+    LD_PRELOAD=/usr/lib64/libopenblasp.so.0 $OCTAVE -q iir_benchmark.m
+done | awk '{elapsed=elapsed+$4;};\
+  END {printf("iir_benchmark libopenblasp.4 elapsed=%g\n",elapsed/10);}'
 
 # Done
 popd

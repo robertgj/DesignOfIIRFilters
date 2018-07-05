@@ -95,7 +95,7 @@ delAdelrp=-0.072828, approx=-0.072828, diff=0.000000
 delAdelthetap=0.042673, approx=0.042673, diff=-0.000000
 
 Compare hessA to the approximation (hessAD-hessA)./hessA
-ans =    1.7166e-04
+ans =  0.00017166
 EOF
 
 #

@@ -52,12 +52,12 @@ A2ng=schurNSlatticeNoiseGain(A2S,A2s10,A2s11,A2s20,A2s00,A2s02,A2s22,...
 zeros(size(A2BP)),A2BP,fliplr(A2BP))
 
 % Another method for noise gain
-[A1R2,B1R2,C1R2,D1R2,A1ngABCD,A1R2ap,B1R2ap,C1R2ap,D1R2ap,A1ngapABCD]=...
-  schurNSlatticeRetimed2Abcd(A1s10,A1s11,A1s20,A1s00,A1s02,A1s22);
+[A1ngABCD,A1ngapABCD]=...
+  schurNSlatticeRetimedNoiseGain(A1s10,A1s11,A1s20,A1s00,A1s02,A1s22);
 A1ngABCD
 A1ngapABCD
-[A2R2,B2R2,C2R2,D2R2,A2ngABCD,A2R2ap,B2R2ap,C2R2ap,D2R2ap,A2ngapABCD]=...
-  schurNSlatticeRetimed2Abcd(A2s10,A2s11,A2s20,A2s00,A2s02,A2s22);
+[A2ngABCD,A2ngapABCD]=...
+  schurNSlatticeRetimedNoiseGain(A2s10,A2s11,A2s20,A2s00,A2s02,A2s22);
 A2ngABCD
 A2ngapABCD
 
@@ -134,12 +134,12 @@ else
 endif
 
 % Noise gain for the allpass filters with quantised coefficients
-[A1R2,B1R2,C1R2,D1R2,A1ngABCDf,A1R2ap,B1R2ap,C1R2ap,D1R2ap,A1ngapABCDf]=...
-  schurNSlatticeRetimed2Abcd(A1s10f,A1s11f,A1s20f,A1s00f,A1s02f,A1s22f);
+[A1ngABCDf,A1ngapABCDf]=...
+  schurNSlatticeRetimedNoiseGain(A1s10f,A1s11f,A1s20f,A1s00f,A1s02f,A1s22f);
 A1ngABCDf
 A1ngapABCDf
-[A2R2,B2R2,C2R2,D2R2,A2ngABCDf,A2R2ap,B2R2ap,C2R2ap,D2R2ap,A2ngapABCDf]=...
-  schurNSlatticeRetimed2Abcd(A2s10f,A2s11f,A2s20f,A2s00f,A2s02f,A2s22f);
+[A2ngABCDf,A2ngapABCDf]=...
+  schurNSlatticeRetimedNoiseGain(A2s10f,A2s11f,A2s20f,A2s00f,A2s02f,A2s22f);
 A2ngABCDf
 A2ngapABCDf
 

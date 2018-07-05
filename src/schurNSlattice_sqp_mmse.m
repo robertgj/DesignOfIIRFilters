@@ -234,7 +234,7 @@ function [E,gradE,hessE,func_iter]=schurNSlattice_sqp_mmse_fx(xsxx, ...
   _sxx_0,_sxx_active,_sxx_symmetric,_wa,_Asqd,_Wa,_wt,_Td,_Wt)
          
   persistent sxx_0 sxx_active sxx_symmetric wa Asqd Wa wt Td Wt
-  persistent func_iter=0
+  persistent iter=0
   persistent init_done=false
 
   % Initialise persistent (constant) values
@@ -242,11 +242,11 @@ function [E,gradE,hessE,func_iter]=schurNSlattice_sqp_mmse_fx(xsxx, ...
     sxx_0=_sxx_0;sxx_active=_sxx_active;sxx_symmetric=_sxx_symmetric;
     wa=_wa;Asqd=_Asqd;Wa=_Wa;
     wt=_wt;Td=_Td;Wt=_Wt;
-    func_iter=0;
+    iter=0;
     init_done=true;
   elseif nargout == 4
     % Hack to avoid a global for func_iter
-    E=inf;gradE=[];hessE=[];
+    E=inf;gradE=[];hessE=[];func_iter=iter;
     return;
   elseif nargin == 1
     if init_done == false
@@ -294,7 +294,8 @@ schurNSlattice_sqp_mmse_fx(xsxx,...\n\
     hessE=diag(diagHessE(sxx_active)); 
   endif
 
-  func_iter=func_iter+1;
+  iter=iter+1;
+  func_iter=iter;
   
 endfunction
 

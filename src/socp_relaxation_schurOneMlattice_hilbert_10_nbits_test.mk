@@ -33,4 +33,4 @@ local_max.m tf2pa.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
 schurOneMlatticeFilter.m flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
 bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
 complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct \
-sedumi_test.diary
+qroots.m qzsolve.oct sedumi_test.diary

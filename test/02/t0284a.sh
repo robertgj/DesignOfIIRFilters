@@ -21,7 +21,7 @@ complementaryFIRlattice2Abcd.m \
 minphase.m local_max.m tf2pa.m x2tf.m print_polynomial.m Abcd2tf.m \
 H2Asq.m H2T.m H2P.m flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
 bin2SD.oct bin2SPT.oct Abcd2H.oct complementaryFIRdecomp.oct \
-SeDuMi_1_3/"
+qroots.m qzsolve.oct SeDuMi_1_3/"
 
 tmp=/tmp/$$
 here=`pwd`

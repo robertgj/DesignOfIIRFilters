@@ -85,12 +85,9 @@ print_polynomial(N0,"N0");
 print_polynomial(N0,"N0","tarczynski_differentiator_test_N0_coef.m");
 print_polynomial(D0,"D0");
 print_polynomial(D0,"D0","tarczynski_differentiator_test_D0_coef.m");
-[x0,U,V,M,Q]=tf2x(N0,D0);
-print_pole_zero(x0,U,V,M,Q,R,"x0");
-print_pole_zero(x0,U,V,M,Q,R,"x0","tarczynski_differentiator_test_x0_coef.m");
 
-save tarczynski_differentiator_test.mat nN nD R N0 D0 D0R U V M Q x0
+save tarczynski_differentiator_test.mat nN nD R N0 D0 D0R
 
 diary off
 movefile tarczynski_differentiator_test.diary.tmp ...
-       tarczynski_differentiator_test.diary;
+         tarczynski_differentiator_test.diary;

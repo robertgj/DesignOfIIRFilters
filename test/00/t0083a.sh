@@ -6,7 +6,8 @@ depends="parallel_allpass_slb_update_constraints_test.m test_common.m \
 parallel_allpass_slb_update_constraints.m \
 parallel_allpass_slb_show_constraints.m \
 parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \
-allpassP.m allpassT.m local_max.m tf2a.m a2tf.m"
+allpassP.m allpassT.m local_max.m tf2a.m a2tf.m qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -43,8 +44,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 verbose = 1
-tol =    1.0000e-05
-tol =    1.0000e-06
+tol =  0.000010000
+tol =  0.0000010000
 maxiter =  2000
 polyphase = 0
 difference = 1
@@ -69,7 +70,7 @@ Wtp =  10
 fppl =  0.11500
 fppu =  0.18500
 pd =  1.5000
-pdr =    2.0000e-04
+pdr =  0.00020000
 Wpp =  2000
 vS.al=[ 225 301 381 ]
 vS.au=[ 35 101 206 256 348 398 544 ]

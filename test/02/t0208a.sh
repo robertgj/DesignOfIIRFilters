@@ -181,7 +181,7 @@ gammak= [ 0.253289 ] fgammak = 0.000043
 deltak= [ 0.263932 ] fdeltak = 0.000776
 tau =  0.24671
 iter =  2
-ans =    4.3268e-05
+ans =  0.000043268
 fiter =  65
 
 Initial point:
@@ -282,7 +282,7 @@ gammak= [ 0.099853 ] fgammak = 0.000002
 deltak= [ 0.100813 ] fdeltak = 0.000066
 tau =  0.099853
 iter =  11
-ans =    2.1500e-06
+ans =  0.0000021500
 fiter =  82
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

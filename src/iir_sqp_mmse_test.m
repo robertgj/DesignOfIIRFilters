@@ -10,13 +10,13 @@ diary iir_sqp_mmse_test.diary.tmp
 format compact
 
 verbose=true
-tol=1e-4
+tol=1e-3
 maxiter=2000
 
 % Bandpass filter specification
 % Filter specifications (frequencies are normalised to sample rate)
-fapl=0.1;fapu=0.2;fasl=0.08;fasu=0.22;Wasl=1;Wap=1;Wasu=1;
-ftpl=0.08;ftpu=0.22;tp=8;Wtp=0.05;
+fapl=0.1;fapu=0.2;fasl=0.08;fasu=0.22;Wasl=2;Wap=1;Wasu=2;
+ftpl=0.08;ftpu=0.22;tp=8;Wtp=0.01;pd=0.5*pi;Wpp=0.00001;
 
 % Initial filter
 U=0;V=0;M=16;Q=8;R=2;
@@ -37,44 +37,42 @@ dmax=0.05;
 [xl,xu]=xConstraints(U,V,M,Q);
 
 % Amplitude constraints
-wa=(0:(n-1))'*pi/n;
-nasl=ceil(n*fasl/0.5)+1;
 napl=floor(n*fapl/0.5)+1;
 napu=ceil(n*fapu/0.5)+1;
-nasu=floor(n*fasu/0.5)+1;
-Ad=[zeros(napl-1,1);ones(napu-napl+1,1);zeros(n-napu,1)];
+wa=(napl:napu)'*pi/n;
+Ad=ones(size(wa));
 Adu=[];
 Adl=[];
-Wa=[Wasl*ones(nasl,1);
-    zeros(napl-nasl-1,1);
-    Wap*ones(napu-napl+1,1);
-    zeros(nasu-napu-1,1);
-    Wasu*ones(n-nasu+1,1)];
-% Check
-wa([nasl,napl,napu,nasu])*0.5/pi
-Wa([nasl,nasl+1,napl-1,napl,napu,napu+1,nasu-1,nasu])
+Wa=Wap*ones(size(wa));
 
 % Amplitude stop-band constraints
-ws=[];
-Sd=[];
+nasl=ceil(n*fasl/0.5)+1;
+nasu=floor(n*fasu/0.5)+1;
+ws=(0:(n-1))'*pi/n;
+Sd=zeros(n,1);
 Sdu=[];
 Sdl=[];
-Ws=[];
+Ws=[Wasl*ones(nasl,1);zeros(nasu-nasl-1,1);Wasu*ones(n-nasu+1,1)];
+% Check
+ws([nasl,nasl+1,napl-1,napl,napl+1,napu-1,napu,napu+1,nasu-1,nasu])'*0.5/pi
+Ws([nasl,nasl+1,napl-1,napl,napl+1,napu-1,napu,napu+1,nasu-1,nasu])'
 
 % Group delay constraints
-wt=wa(napl:napu);
-ntp=length(wt);
-Td=tp*ones(ntp,1);
+wt=wa;
+Td=tp*ones(size(wt));
 Tdu=[];
 Tdl=[];
-Wt=Wtp*ones(ntp,1);
+Wt=Wtp*ones(size(wt));
 
 % Phase constraints
-wp=[];
-Pd=[];
+wp=ws;
+Pd=pd-tp*wp;
 Pdu=[];
 Pdl=[];
-Wp=[];
+Wp=[zeros(napl-1,1);Wpp*ones(napu-napl+1,1);zeros(n-napu,1)];
+% Check
+wp([napl-1,napl,napl+1,napu-1,napu,napu+1])'*0.5/pi
+Wp([napl-1,napl,napl+1,napu-1,napu,napu+1])'
 
 % Initialise strings
 strM=sprintf("%%s:fapl=%g,fapu=%g,Wasl=%%g,Wap=%%g,Wasu=%%g,tp=%d,Wtp=%%g",...
@@ -120,27 +118,6 @@ x1'
 [N1,D1]=x2tf(x1,U,V,M,Q,R);
 N1'
 D1'
-
-% MMSE pass using the Octave sqp() function
-%{
-[x1octave,E,sqp_iter,func_iter,feasible] = ...
-  iir_sqp_octave(x0,U,V,M,Q,R,wa,Ad,Wa,wt,Td,Wt,maxiter,tol,verbose)
-if feasible == 0 
-  error("iir_sqp_mmse_test, x1octave infeasible");
-endif
-strd=sprintf("iir_sqp_mmse_test_octave_%%s");
-strM1=sprintf(strM,"x1",Wasl,Wap,Wasu,Wtp);
-showZPplot(x1octave,U,V,M,Q,R,strM1);
-print(sprintf(strd,"x1pz"),"-dpdflatex");
-close
-showResponse(x1octave,U,V,M,Q,R,strM1);
-print(sprintf(strd,"x1"),"-dpdflatex");
-close
-showResponsePassBands(fapl,fapu,x1octave,U,V,M,Q,R,strM1);
-print(sprintf(strd,"x1pass"),"-dpdflatex");
-close
-x1octave'
-%}
 
 % Compare with cl2bp. 
 % There are N coefficients in the IIR filter. There will be Cfir+1

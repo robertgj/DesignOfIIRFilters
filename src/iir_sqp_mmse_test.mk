@@ -13,10 +13,12 @@ iir_sqp_mmse_test.mat \
 iir_sqp_mmse_test_x1_coef.m
 
 iir_sqp_mmse_test_FILES = \
-iir_sqp_mmse_test.m test_common.m print_polynomial.m print_pole_zero.m \
-iir_sqp_mmse.m iir_sqp_octave.m \
-Aerror.m Terror.m armijo_kim.m cl2bp.m fixResultNaN.m \
-iirA.m iirE.m iirT.m invSVD.m local_max.m showResponseBands.m \
+iir_sqp_mmse_test.m \
+test_common.m print_polynomial.m print_pole_zero.m \
+iir_sqp_mmse.m iir_sqp_octave.m iirP_hessP_DiagonalApprox.m \
+Aerror.m Terror.m Perror.m armijo_kim.m cl2bp.m fixResultNaN.m \
+iirA.m iirE.m iirT.m iirP.m invSVD.m local_max.m showResponseBands.m \
 showResponse.m showResponsePassBands.m showZPplot.m sqp_bfgs.m \
 tf2x.m updateWchol.m updateWbfgs.m x2tf.m xConstraints.m xInitHd.m \
-iir_slb_set_empty_constraints.m iir_slb_constraints_are_empty.m
+iir_slb_set_empty_constraints.m iir_slb_constraints_are_empty.m \
+qroots.m qzsolve.oct

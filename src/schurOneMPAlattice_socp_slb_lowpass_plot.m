@@ -34,9 +34,10 @@ function schurOneMPAlattice_socp_slb_lowpass_plot ...
 fap=%g,dBap=%g,fas=%g,dBas=%g,ftp=%g,td=%g",fap,dBap,fas,dBas,ftp,td);
   nplot=2048;
   wplot=(0:(nplot-1))'*pi/nplot;
-  Asq=schurOneMPAlatticeAsq(wplot, ...
-                            A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
-  T=schurOneMPAlatticeT(wplot,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
+  [Asq,gradAsq]=schurOneMPAlatticeAsq(wplot,A1k,A1epsilon,A1p, ...
+                                      A2k,A2epsilon,A2p,difference);
+  [T,gradT]=schurOneMPAlatticeT(wplot,A1k,A1epsilon,A1p, ...
+                                A2k,A2epsilon,A2p,difference);
   subplot(211);
   plot(wplot*0.5/pi,10*log10(Asq));
   ylabel("Amplitude(dB)");
@@ -71,11 +72,45 @@ fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g",fap,dBap,ftp,td,tdr);
   close
   
   % Plot poles and zeros
+  d1=schurOneMAPlattice2tf(A1k,A1epsilon,A1p);
+  subplot(111);
+  zplane(qroots(flipud(d1(:))),qroots(d1(:)));
+  title(strT);
+  print(strcat(strF,"_A1pz"),"-dpdflatex");
+  close 
+  d2=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
+  subplot(111);
+  zplane(qroots(flipud(d2(:))),qroots(d2(:)));
+  title(strT);
+  print(strcat(strF,"_A2pz"),"-dpdflatex");
+  close 
   [n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
   subplot(111);
-  zplane(roots(n),roots(d));
+  zplane(qroots(n),qroots(d));
   title(strT);
   print(strcat(strF,"_pz"),"-dpdflatex");
   close 
-  
+
+  % Plot coefficient sensitivity
+  nas=floor(nplot*fas/0.5)+1;
+  subplot(211);
+  [ax,h1,h2]= ...
+    plotyy(wplot(1:floor(0.98*nas))*0.5/pi,gradAsq(1:floor(0.98*nas),:), ...
+           wplot(nas:nplot)*0.5/pi,gradAsq(nas:nplot,:));
+  axis(ax(1),[0 0.5 -2 2]);
+  set(ax(1),'ycolor','black');
+  set(ax(2),'ycolor','black');
+  ylabel(ax(1),"Passband squared amplitude sensitivity");
+  ylabel(ax(2),"Stopband squared amplitude sensitivity");
+  grid("on");
+  title("Parallel Schur one-multiplier lattice : sensitivity responses");
+  subplot(212);
+  plot(wplot(1:nas)*0.5/pi,gradT(1:nas,:));
+  ylabel("Passband group delay sensitivity");
+  xlabel("Frequency");
+  axis([0 0.5]);
+  grid("on"); 
+  print(strcat(strF,"_sensitivity"),"-dpdflatex");
+  close
+    
 endfunction

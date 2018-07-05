@@ -22,4 +22,4 @@ updateWbfgs.m invSVD.m xConstraints.m tf2x.m x2tf.m \
 iir_slb_exchange_constraints.m iir_slb_constraints_are_empty.m \
 iir_slb_set_empty_constraints.m iir_slb_show_constraints.m \
 iir_slb_update_constraints.m showResponseBands.m \
-showResponse.m showResponsePassBands.m showZPplot.m
+showResponse.m showResponsePassBands.m showZPplot.m qroots.m qzsolve.oct 

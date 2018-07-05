@@ -4,7 +4,8 @@ prog=parallel_allpassP_test.m
 
 depends="parallel_allpassP_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
-allpassP.m parallel_allpassP.m a2tf.m tf2a.m"
+allpassP.m parallel_allpassP.m a2tf.m tf2a.m qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -40,35 +41,35 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-verbose =  1
+verbose = 1
 Filter a: real pole/zero 1
-delPdelRpa=-1.426185, approx=-1.426184, diff=-0.000001
-Filter a: real pole/zero 2
 delPdelRpa=-0.240969, approx=-0.240969, diff=-0.000000
+Filter a: real pole/zero 2
+delPdelRpa=-1.426185, approx=-1.426184, diff=-0.000001
 Filter a: real pole/zero 3
 delPdelRpa=-0.347116, approx=-0.347116, diff=-0.000000
 Filter a: conjugate pole/zero 1 radius
-delPdelrpa=1.641951, approx=1.641952, diff=-0.000001
-Filter a: conjugate pole/zero 2 radius
-delPdelrpa=-0.665876, approx=-0.665879, diff=0.000002
-Filter a: conjugate pole/zero 3 radius
-delPdelrpa=-0.918506, approx=-0.918506, diff=0.000000
-Filter a: conjugate pole/zero 4 radius
 delPdelrpa=-0.519255, approx=-0.519254, diff=-0.000000
+Filter a: conjugate pole/zero 2 radius
+delPdelrpa=-0.918506, approx=-0.918506, diff=0.000000
+Filter a: conjugate pole/zero 3 radius
+delPdelrpa=-0.665876, approx=-0.665879, diff=0.000002
+Filter a: conjugate pole/zero 4 radius
+delPdelrpa=1.641951, approx=1.641952, diff=-0.000001
 Filter a: conjugate pole/zero 1 angle
-delPdelthetapa=1.216243, approx=1.216242, diff=0.000001
-Filter a: conjugate pole/zero 2 angle
-delPdelthetapa=1.046367, approx=1.046368, diff=-0.000001
-Filter a: conjugate pole/zero 3 angle
-delPdelthetapa=0.374308, approx=0.374308, diff=-0.000000
-Filter a: conjugate pole/zero 4 angle
 delPdelthetapa=0.051116, approx=0.051116, diff=-0.000000
+Filter a: conjugate pole/zero 2 angle
+delPdelthetapa=0.374308, approx=0.374308, diff=-0.000000
+Filter a: conjugate pole/zero 3 angle
+delPdelthetapa=1.046367, approx=1.046368, diff=-0.000001
+Filter a: conjugate pole/zero 4 angle
+delPdelthetapa=1.216243, approx=1.216242, diff=0.000001
 Filter b: conjugate pole/zero 1 radius
-delPdelrpb=0.490392, approx=0.490392, diff=0.000000
+delPdelrpb=0.674987, approx=0.674987, diff=0.000000
 Filter b: conjugate pole/zero 2 radius
 delPdelrpb=0.573911, approx=0.573910, diff=0.000000
 Filter b: conjugate pole/zero 3 radius
-delPdelrpb=0.674987, approx=0.674987, diff=0.000000
+delPdelrpb=0.490392, approx=0.490392, diff=0.000000
 Filter b: conjugate pole/zero 4 radius
 delPdelrpb=0.991125, approx=0.991126, diff=-0.000001
 Filter b: conjugate pole/zero 5 radius
@@ -76,11 +77,11 @@ delPdelrpb=-0.355406, approx=-0.355405, diff=-0.000001
 Filter b: conjugate pole/zero 6 radius
 delPdelrpb=-2.591529, approx=-2.591531, diff=0.000002
 Filter b: conjugate pole/zero 1 angle
-delPdelthetapb=-0.023934, approx=-0.023934, diff=0.000000
+delPdelthetapb=-0.145610, approx=-0.145610, diff=0.000000
 Filter b: conjugate pole/zero 2 angle
 delPdelthetapb=-0.087160, approx=-0.087160, diff=0.000000
 Filter b: conjugate pole/zero 3 angle
-delPdelthetapb=-0.145610, approx=-0.145610, diff=0.000000
+delPdelthetapb=-0.023934, approx=-0.023934, diff=0.000000
 Filter b: conjugate pole/zero 4 angle
 delPdelthetapb=-0.654089, approx=-0.654090, diff=0.000001
 Filter b: conjugate pole/zero 5 angle

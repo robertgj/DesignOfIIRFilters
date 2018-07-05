@@ -13,6 +13,7 @@ OCTAVE_SCRIPTS = \
  allpass2ndOrderCascadeDelay_socp_test \
  allpass2ndOrderCascade_socp_sqmag_test \
  allpass2ndOrderCascade_socp_test \
+ allpass_filter_test \
  bincoeff_test \
  bitflip_directFIRsymmetric_bandpass_test \
  bitflip_directIIR_bandpass_test \
@@ -29,7 +30,9 @@ OCTAVE_SCRIPTS = \
  branch_bound_directFIRsymmetric_bandpass_8_nbits_test \
  branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test \
  branch_bound_schurOneMPAlattice_bandpass_12_nbits_test \
+ branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test \
  branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test \
+ branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test \
  branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test \
  branch_bound_schurOneMPAlattice_lowpass_12_nbits_test \
  branch_bound_schurOneMlattice_bandpass_10_nbits_test \
@@ -155,6 +158,7 @@ OCTFILES = \
  complex_lower_hessenberg_inverse \
  complex_zhong_inverse \
  labudde \
+ qzsolve \
  reprand \
  schurdecomp \
  schurexpand \
@@ -185,7 +189,10 @@ DIA_FILES= johansson_frm_structure lim_frm_structure \
  Example_Butt3NS_SV_retimed Example_Butt3OneM_SV_retimed \
  Example_Schur_retimedA Example_Schur_retimedB \
  BitFlippingAlgorithm BranchBoundTree errorfeedback \
- schurOneMR2lattice schurOneMR2lattice_retimed complementary_FIR_filter
+ schurOneMR2lattice schurOneMR2lattice_retimed complementary_FIR_filter \
+ schur_OneMultiplierRetimed allpass_AL7c allpass_dir1 allpass_dir2 allpass_GM1 \
+ allpass_GM2 allpass_IS allpass_LS1 allpass_LS2a allpass_MH2d allpass_MH2dt \
+ allpass_MH3d allpass_MH3dt allpass_dir1_retimed allpass_MH2d_retimed
 
 #
 # clean suffixes

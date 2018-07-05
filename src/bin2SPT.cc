@@ -107,7 +107,7 @@ DEFUN_DLD(bin2SPT,args,nargout,"spt=bin2SPT(x,nbits)")
   static octave_idx_type max_nbits=0;
   if (bit_max_init_done==false)
     {
-      octave_value_list flintmax_retval = feval("flintmax");
+      octave_value_list flintmax_retval = octave::feval("flintmax");
       double bit_max = flintmax_retval(0).double_value(true);
       max_nbits = floor(log2(bit_max)-2);
       bit_max_init_done=true;

@@ -4,7 +4,7 @@ prog=schurNSPAlatticeT_test.m
 depends="schurNSPAlatticeT_test.m test_common.m schurNSPAlatticeT.m \
 tf2schurNSlattice.m schurNSAPlattice2Abcd.m H2Asq.m H2T.m tf2pa.m \
 schurNSlattice2Abcd.oct schurNSscale.oct schurdecomp.oct schurexpand.oct \
-Abcd2H.oct complex_zhong_inverse.oct spectralfactor.oct"
+Abcd2H.oct complex_zhong_inverse.oct spectralfactor.oct qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

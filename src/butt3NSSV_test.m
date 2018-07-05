@@ -21,8 +21,7 @@ fc=0.05
 
 % Build a state variable representation of the retimed filter for
 % the exact coefficients and calculate the noise gains
-[AR2,BR2,CR2,DR2,ng,AR2ap,BR2ap,CR2ap,DR2ap,ngap]=...
-  schurNSlatticeRetimed2Abcd(s10,s11,s20,s00,s02,s22);
+[ng,ngap]=schurNSlatticeRetimedNoiseGain(s10,s11,s20,s00,s02,s22);
 ng
 ngap
 
@@ -53,8 +52,7 @@ format short e
 
 % Build a state variable representation of the retimed filter for the
 % truncated coefficients and calculate the noise gains
-[AR2f,BR2f,CR2f,DR2f,ngf,AR2fap,BR2fap,CR2fap,DR2fap,ngfap]=...
-  schurNSlatticeRetimed2Abcd(s10f,s11f,s20f,s00f,s02f,s22f);
+[ngf,ngfap]=schurNSlatticeRetimedNoiseGain(s10f,s11f,s20f,s00f,s02f,s22f);
 ngf
 ngfap
 

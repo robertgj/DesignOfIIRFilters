@@ -5,8 +5,8 @@ prog=butt3OneMSV_test.m
 depends="butt3OneMSV_test.m test_common.m \
 schurexpand.oct schurdecomp.oct bin2SD.oct x2nextra.m flt2SD.m \
 schurOneMscale.m tf2schurOneMlattice.m schurOneMlatticeNoiseGain.m \
-schurOneMlattice2Abcd.oct schurOneMlatticeRetimed2Abcd.m schurOneMlatticeFilter.m \
-KW.m optKW.m svf.m crossWelch.m"
+schurOneMlattice2Abcd.oct schurOneMlatticeRetimedNoiseGain.m \
+schurOneMlatticeFilter.m KW.m optKW.m svf.m crossWelch.m"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -88,6 +88,8 @@ ngABCD =    7.5000e-01
 ngABCDap =    3.0000e+00
 ngDecim =    1.1906e+00
 ngDecimap =    5.0000e+00
+ngPipe =    7.5000e-01
+ngPipeap =    3.0000e+00
 ngopt =    4.7049e-01
 ngoptap =    3.0000e+00
 nbits =    1.0000e+01
@@ -95,22 +97,24 @@ scale =    5.1200e+02
 ndigits =    3.0000e+00
 kf =
 
-  -9.76562500000000e-01   9.29687500000000e-01  -5.31250000000000e-01
+  -9.765625000000000e-01   9.296875000000000e-01  -5.312500000000000e-01
 
 cf =
 
  Columns 1 through 3:
 
-   1.01562500000000e-01   2.96875000000000e-01   9.76562500000000e-03
+   1.015625000000000e-01   2.968750000000000e-01   9.765625000000000e-03
 
  Column 4:
 
-   1.95312500000000e-03
+   1.953125000000000e-03
 
 ngf =    1.1019e+00
 ngfap =    5.0000e+00
 ngABCDf =    8.4725e-01
 ngABCDfap =    3.0000e+00
+ngPipef =    8.4725e-01
+ngPipefap =    3.0000e+00
 est_varyd =    1.7516e-01
 varyd =    1.7410e-01
 est_varyapd =    5.0000e-01

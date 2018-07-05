@@ -232,18 +232,18 @@ function [E,gradE,hessE,func_iter] = ...
                                       _wa,_Asqd,_Wa,_wt,_Td,_Wt,_wp,_Pd,_Wp)
          
   persistent k0 epsilon0 p0 c0 kc_active wa Asqd Wa wt Td Wt wp Pd Wp
-  persistent func_iter=0
+  persistent iter=0
   persistent init_done=false
 
   % Initialise persistent (constant) values
   if nargin == 15
     k0=_k0;epsilon0=_epsilon0;p0=_p0;c0=_c0;kc_active=_kc_active;
     wa=_wa;Asqd=_Asqd;Wa=_Wa;wt=_wt;Td=_Td;Wt=_Wt;wp=_wp;Pd=_Pd;Wp=_Wp;
-    func_iter=0;
+    iter=0;
     init_done=true;
   elseif nargout == 4
     % Hack to avoid a global for func_iter
-    E=inf;gradE=[];hessE=[];
+    E=inf;gradE=[];hessE=[];func_iter=iter;
     return;
   elseif nargin == 1
     if init_done == false
@@ -282,7 +282,8 @@ schurOneMlattice_sqp_mmse_fx(xkc0,k0,epsilon0,p0,c0,kc_active, ...\n\
     hessE=eye(Nkc_active,Nkc_active);
   endif
     
-  func_iter=func_iter+1;
+  iter=iter+1;
+  func_iter=iter;
   
 endfunction
 

@@ -28,7 +28,7 @@ strd=sprintf("iir_sqp_slb_fir_17_bandpass_test_%%s_%%s");
 
 % Initial filter in gain-zero-pole vector form
 U=2;V=0;M=14;Q=0;R=1;
-x0=[ 0.03, 1, -1, 0.8*ones(1,7), pi*[[1 2]/80, (10:14)/10] ]';
+x0=[ 0.03, 0.9*ones(1,U), 0.9*ones(1,M/2), pi*[[1 2]/80, (10:14)/10] ]';
 strM0=sprintf(strM,"x0",Wasl,Wasu);
 showResponse(x0,U,V,M,Q,R,strM0);
 print(sprintf(strd,"initial","x0"),"-dpdflatex");

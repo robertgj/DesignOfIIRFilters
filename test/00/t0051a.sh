@@ -3,7 +3,8 @@
 prog=tarczynski_differentiator_test.m
 
 depends="tarczynski_differentiator_test.m test_common.m WISEJ.m tf2Abcd.m \
-print_polynomial.m tf2x.m print_pole_zero.m"
+print_polynomial.m print_pole_zero.m"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -52,19 +53,6 @@ D0 = [   1.0000000000,  -0.2582347009,  -0.4815140464,   0.0529885038, ...
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.D0.ok"; fail; fi
 
-cat > test.x0.ok << 'EOF'
-Ux0=6,Vx0=4,Mx0=6,Qx0=2,Rx0=2
-x0 = [  -0.0033301621, ...
-         2.4432889657,  -0.8808472032,   1.0036638951,   0.8873336861, ... 
-         0.3309892838,  -0.2476975359, ...
-         0.7806129271,  -0.6319238635,   0.2283262756,  -0.1370501638, ...
-         2.5725431737,   2.6080099763,   0.7952102933, ...
-         2.3928644372,   1.2330172830,   1.5705006235, ...
-         0.1584620913, ...
-         1.5131179915 ]';
-EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.D0.ok"; fail; fi
-
 #
 # run and see if the results match
 #
@@ -78,10 +66,6 @@ if [ $? -ne 0 ]; then echo "Failed diff test.N0.ok -Bb"; fail; fi
 
 diff -Bb test.D0.ok tarczynski_differentiator_test_D0_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff test.D0.ok -Bb"; fail; fi
-
-diff -Bb test.x0.ok tarczynski_differentiator_test_x0_coef.m
-if [ $? -ne 0 ]; then echo "Failed diff test.x0.ok -Bb"; fail; fi
-
 
 #
 # this much worked

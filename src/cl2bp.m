@@ -54,7 +54,7 @@ while 1
      kmin  = kmin( A(kmin) < l(kmin)+SN/10 );
      % ----- check stopping criterion ------------
      Eup = A(kmax)-u(kmax); Elo = l(kmin)-A(kmin);
-     E = max([Eup; Elo; 0])
+     E = max([Eup; Elo; 0]);
      if E < SN, break, end
   end
 

@@ -13,7 +13,7 @@ format compact;
 
 verbose=false
 tol=5e-4
-ctol=tol
+ctol=tol/100
 maxiter=5000
 
 % Bandpass filter specification
@@ -193,18 +193,7 @@ Ccl=floor(N/2)
 ncl=2048;
 bcl = cl2bp(Ccl,wl,wu,up,lo,512);
 length(bcl)
-[xcl,Ucl,Vcl,Mcl,Qcl]=tf2x(bcl,1);
-Rcl=1;
-strMcl=sprintf("xcl:length=%d,fapl=%g,fapu=%g,stop band ripple=-30dB", ...
-                length(bcl),fapl,fapu);
-showResponse(xcl,Ucl,Vcl,Mcl,Qcl,Rcl,strMcl);
-print(strcat(strf,"_cl2bp_xcl"),"-dpdflatex");
-close
-showZPplot(xcl,Ucl,Vcl,Mcl,Qcl,Rcl,strMcl);
-print(strcat(strf,"_cl2bp_xclpz"),"-dpdflatex");
-close
-
-% Ccl amplitude and delay at constraints
+% Ccl amplitude at constraints
 faC=[0 fasl fapl fapu fasu 0.5];
 AC=freqz(bcl,1,faC,1);
 printf("faC=[ ");printf("%f ",faC');printf(" ] (fs==1)\n");
@@ -216,16 +205,11 @@ printf("AC=[ ");printf("%f ",20*log10(abs(AC')));printf(" ] (dB)\n");
 % (frequencies are normalised to sample rate)
 brz=remez(N-1,2*[0 fasl fapl fapu fasu 0.5],[0 0 1 1 0 0], ...
           [Wasl Wap Wasu],'bandpass');
-[xrz,Urz,Vrz,Mrz,Qrz]=tf2x(brz,1);
-Rrz=1;
-strMrz=sprintf("xrz:length=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g", ...
-               length(brz),fasl,fapl,fapu,fasu);
-showResponse(xrz,Urz,Vrz,Mrz,Qrz,Rrz,strMrz);
-print(strcat(strf,"_remez_xrz"),"-dpdflatex");
-close
-showZPplot(xrz,Urz,Vrz,Mrz,Qrz,Rrz,strMrz);
-print(strcat(strf,"_remez_xrzpz"),"-dpdflatex");
-close
+% brz amplitude at constraints
+faR=[0 fasl fapl fapu fasu 0.5];
+AR=freqz(brz,1,faR,1);
+printf("faR=[ ");printf("%f ",faR');printf(" ] (fs==1)\n");
+printf("AR=[ ");printf("%f ",20*log10(abs(AR')));printf(" ] (dB)\n");
 
 %
 % Overall comparison

@@ -3,7 +3,7 @@
 prog=tarczynski_ex2_standalone_test.m
 
 depends="tarczynski_ex2_standalone_test.m test_common.m \
-WISEJ.m tf2Abcd.m tf2x.m print_polynomial.m print_pole_zero.m"
+WISEJ.m tf2Abcd.m print_polynomial.m"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -39,19 +39,21 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test.ok << 'EOF'
-Ux0=2,Vx0=2,Mx0=22,Qx0=0,Rx0=2
-x0 = [   0.0055318290, ...
-        -2.5168138363,  -1.3161006896, ...
-        -0.9079557694,  -0.2702604014, ...
-         1.3053839613,   1.2801562714,   1.2457015679,   1.3543478806, ... 
-         1.3403308282,   1.3017580799,   1.1940442549,   1.0577008496, ... 
-         0.8556853308,   0.6295776743,   0.5427305259, ...
-         2.8130730290,   2.4936247780,   2.1815996170,   0.2206321191, ... 
-         0.6636972247,   1.1146367092,   1.8756711050,   1.6003205057, ... 
-         1.5609072986,   1.0945225147,   0.3906921811 ]';
+cat > test.ok.D0 << 'EOF'
+D0 = [   1.0000000000,   1.1782161709,   0.2453844907 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.ok.D0"; fail; fi
+
+cat > test.ok.N0 << 'EOF'
+N0 = [   0.0055318290,   0.0168954222,   0.0074759427,  -0.0015204343, ... 
+        -0.0019732313,   0.0069425737,   0.0033984642,  -0.0102840762, ... 
+        -0.0055109661,   0.0171241295,   0.0104434225,  -0.0353406488, ... 
+        -0.0284855289,   0.1348455852,   0.4155099983,   0.6323682462, ... 
+         0.6374954584,   0.4464522836,   0.1789073550,  -0.0679303239, ... 
+         0.2506267859,  -0.3305116532,   0.2960033061,  -0.1721616224, ... 
+         0.0604569743 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.ok.N0"; fail; fi
 
 #
 # run and see if the results match
@@ -61,9 +63,11 @@ echo "Running octave-cli -q " $prog
 octave-cli -q $prog > test.out
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.ok tarczynski_ex2_standalone_test_x0_coef.m
-if [ $? -ne 0 ]; then echo "Failed diff -Bb"; fail; fi
+diff -Bb test.ok.D0 tarczynski_ex2_standalone_test_D0_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok.D0"; fail; fi
 
+diff -Bb test.ok.N0 tarczynski_ex2_standalone_test_N0_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok.N0"; fail; fi
 
 #
 # this much worked

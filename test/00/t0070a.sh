@@ -39,6 +39,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
+R~=1
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

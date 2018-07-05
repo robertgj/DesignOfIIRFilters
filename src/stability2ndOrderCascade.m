@@ -1,7 +1,7 @@
-function [C,e]=stability2ndOrderCascade(m)
+function [C,e]=stability2ndOrderCascade(m,limit_cycle)
 % [C,e]=stability2ndOrderCascade(m)
-% Return the second order stability constraint matrixes C and e for
-% a filter denominator polynomial with order m.
+% Return the second order stability and limit-cycle constraint
+% matrixes, C and e, for an order m filter denominator polynomial.
 
 % Copyright (C) 2017,2018 Robert G. Jenssen
 %
@@ -23,11 +23,22 @@ function [C,e]=stability2ndOrderCascade(m)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+  if (nargin ~= 1) && (nargin ~= 2)
+    print_usage("[C,e]=stability2ndOrderCascade(m[,limit_cycle])");
+  endif
+  if nargin == 1
+    limit_cycle=false;
+  endif
+  
   c1=[1;-1];
   e1=[1;1];
-  c2=[1 1;-1 1;0 -1];
+  if limit_cycle
+    c2=[1 1;-1 1;1 -1;-1 -1;0 -1];
+  else
+    c2=[1 1;-1 1;0 -1];
+  endif    
   m2=floor(m/2);  
-  e2=kron(ones(m2,1),[1;1;1]);
+  e2=ones(m2*rows(c2),1);
   C2=kron(eye(m2,m2),c2);
   if mod(m,2)==1
     C=[c1, zeros(2,columns(C2));zeros(rows(C2),1), C2];

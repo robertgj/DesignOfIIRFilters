@@ -23,18 +23,18 @@ fc=0.05
 
 % Build a state variable representation of the retimed filter for
 % the exact coefficients to find noise gains of the lattice
-[AR2,BR2,CR2,DR2,ng,AR2ap,BR2ap,CR2ap,DR2ap,ngap]=...
-  schurOneMlatticeRetimed2Abcd(k,epsilon,p,c,"schur");
+[ng,ngap]=schurOneMlatticeRetimedNoiseGain(k,epsilon,p,c,"schur");
 ng
 ngap
-[AR2,BR2,CR2,DR2,ngABCD,AR2ap,BR2ap,CR2ap,DR2ap,ngABCDap]=...
-  schurOneMlatticeRetimed2Abcd(k,epsilon,p,c,"ABCD");
+[ngABCD,ngABCDap]=schurOneMlatticeRetimedNoiseGain(k,epsilon,p,c,"ABCD");
 ngABCD
 ngABCDap
-[AR2,BR2,CR2,DR2,ngDecim,AR2ap,BR2ap,CR2ap,DR2ap,ngDecimap]=...
-  schurOneMlatticeRetimed2Abcd(k,epsilon,p,c,"decim");
+[ngDecim,ngDecimap]=schurOneMlatticeRetimedNoiseGain(k,epsilon,p,c,"decim");
 ngDecim
 ngDecimap
+[ngPipe,ngPipeap]=schurOneMlatticeRetimedNoiseGain(k,epsilon,p,c,"pipe");
+ngPipe
+ngPipeap
 
 % Compare with the noise gain of the globally optimised state variable
 % filters with exact coefficients
@@ -72,14 +72,15 @@ format short e
 
 % Build a state variable representation of the retimed filter for the
 % truncated coefficients and calculate the noise gains
-[AR2f,BR2f,CR2f,DR2f,ngf,AR2fap,BR2fap,CR2fap,DR2fap,ngfap]=...
-  schurOneMlatticeRetimed2Abcd(kf,epsilon,p,cf,"schur");
+[ngf,ngfap]=schurOneMlatticeRetimedNoiseGain(kf,epsilon,p,cf,"schur");
 ngf
 ngfap
-[AR2f,BR2f,CR2f,DR2f,ngABCDf,AR2fap,BR2fap,CR2fap,DR2fap,ngABCDfap]=...
-  schurOneMlatticeRetimed2Abcd(kf,epsilon,p,cf,"ABCD");
+[ngABCDf,ngABCDfap]=schurOneMlatticeRetimedNoiseGain(kf,epsilon,p,cf,"ABCD");
 ngABCDf
 ngABCDfap
+[ngPipef,ngPipefap]=schurOneMlatticeRetimedNoiseGain(kf,epsilon,p,cf,"pipe");
+ngPipef
+ngPipefap
 
 % Make a quantised noise signal
 nsamples=2^14;

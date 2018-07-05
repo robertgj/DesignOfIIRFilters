@@ -3,7 +3,8 @@
 prog=tarczynski_deczky1_test.m
 
 depends="tarczynski_deczky1_test.m \
-test_common.m print_polynomial.m print_pole_zero.m tf2x.m WISEJ_ND.m tf2Abcd.m"
+test_common.m print_polynomial.m WISEJ_ND.m tf2Abcd.m"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -38,19 +39,19 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test.ok << 'EOF'
-Ux=2,Vx=0,Mx=10,Qx=6,Rx=1
-x = [   0.0095393248, ...
-       -2.3530732118,  -0.7662178198, ...
-        1.6712575992,   1.5552409763,   0.9700510001,   0.8901780773, ... 
-        0.8134531466, ...
-        0.3215459836,   1.0029563164,   1.9141390916,   2.1064191823, ... 
-        2.5091066137, ...
-        0.8790198707,   0.6933363297,   0.4636825808, ...
-        1.7964436442,   1.4853675461,   0.5712376550 ]';
+cat > test.ok.N << 'EOF'
+N = [   0.0095380838,   0.0109608619,  -0.0258454676,   0.0045745905, ... 
+        0.0146566325,   0.0073654540,  -0.0548386069,   0.0103495879, ... 
+        0.2235388397,   0.4134372875,   0.3933557331,   0.2136223426, ... 
+        0.0573090371 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.ok.N"; fail; fi
 
+cat > test.ok.D << 'EOF'
+D = [   1.0000000000,  -0.5052405063,   1.2073401895,  -0.7847897993, ... 
+        0.5547435463,  -0.2687696722,   0.0798567135 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.ok.D"; fail; fi
 #
 # run and see if the results match
 #
@@ -59,9 +60,11 @@ echo "Running octave-cli -q " $prog
 octave-cli -q $prog
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.ok tarczynski_deczky1_test_x_coef.m
-if [ $? -ne 0 ]; then echo "Failed diff -Bb"; fail; fi
+diff -Bb test.ok.N tarczynski_deczky1_test_N_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok.N"; fail; fi
 
+diff -Bb test.ok.D tarczynski_deczky1_test_D_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok.D"; fail; fi
 
 #
 # this much worked

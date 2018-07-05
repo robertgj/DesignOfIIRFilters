@@ -20,7 +20,6 @@ sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_kmin_adders.tab
 sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_FILES = \
 sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test.m \
 test_common.m \
-tf2schurOneMlattice.m \
 schurOneMPAlattice_sdp_mmse.m \
 schurOneMPAlattice_socp_mmse.m \
 schurOneMPAlattice_allocsd_Lim.m \
@@ -36,7 +35,7 @@ schurOneMPAlatticeP.m \
 schurOneMPAlatticeT.m \
 H2Asq.m H2P.m H2T.m \
 print_polynomial.m local_max.m flt2SD.m SDadders.m x2nextra.m bin2SDul.m \
-schurOneMAPlattice2Abcd.m schurOneMscale.m \
+schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m schurOneMscale.m \
 schurdecomp.oct schurexpand.oct schurOneMAPlattice2H.oct \
 schurOneMlattice2Abcd.oct complex_zhong_inverse.oct bin2SD.oct bin2SPT.oct \
 sedumi_test.diary

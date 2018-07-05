@@ -17,7 +17,8 @@ schurOneMAPlatticeT.m tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m \
 Abcd2tf.m tf2pa.m schurOneMscale.m H2Asq.m H2P.m H2T.m \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-local_max.m print_polynomial.m print_pole_zero.m SeDuMi_1_3/"
+local_max.m print_polynomial.m print_pole_zero.m \
+qroots.m qzsolve.oct SeDuMi_1_3/"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -54,27 +55,27 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_r2_coef.m << 'EOF'
-r2 = [   1.0000000000,   0.4781695233,  -0.1013106483,   0.0357457625, ... 
-        -0.0107864868,   0.0016971614 ];
+r2 = [   1.0000000000,   0.4782881551,  -0.1010101504,   0.0358906667, ... 
+        -0.0107639175,   0.0016569247 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_r2_coef.m"; fail; fi
 
 cat > test_k2_coef.m << 'EOF'
-k2 = [   0.5513647985,  -0.1226221784,   0.0414694475,  -0.0115980510, ... 
-         0.0016971614 ]';
+k2 = [   0.5513501056,  -0.1223766226,   0.0415912145,  -0.0115564367, ... 
+         0.0016569247 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k2_coef.m"; fail; fi
 
 cat > test_u2_coef.m << 'EOF'
-u2 = [  -0.0009683952,   0.0030679057,  -0.0073782309,   0.0129251195, ... 
-        -0.0312931506,   0.0347144107,  -0.0509918159,   0.0564017564, ... 
-         0.4410590511 ]';
+u2 = [  -0.0009524659,   0.0032835376,  -0.0076927988,   0.0126907986, ... 
+        -0.0312239714,   0.0346742245,  -0.0513773522,   0.0559392742, ... 
+         0.4415826576 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_u2_coef.m"; fail; fi
 
 cat > test_v2_coef.m << 'EOF'
-v2 = [   0.0069061999,  -0.0046376875,   0.0066901713,  -0.0018175372, ... 
-        -0.0088804803,   0.0318048114,  -0.0813024632,   0.3142298607 ]';
+v2 = [   0.0069089989,  -0.0044769484,   0.0069003327,  -0.0017104210, ... 
+        -0.0092835054,   0.0323135607,  -0.0809069460,   0.3141223532 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_v2_coef.m"; fail; fi
 

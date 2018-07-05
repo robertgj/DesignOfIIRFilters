@@ -118,21 +118,22 @@ function E=WISEJ_PAB_Hilbert(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt,_Pd,_Wp)
 endfunction
 
 % Initialise with the result of tarczynski_parallel_allpass_bandpass_test.m
-Da0 = [   1.0000000000,  -1.3927200461,   1.0550019685,   0.6759516717, ... 
-         -1.8298487475,   1.7395948268,  -0.5413931059,  -0.4101583072, ... 
-          0.6786544967,  -0.3772455979,   0.1249241545 ]';
-Db0 = [   1.0000000000,  -1.9582541553,   1.3818707728,   0.8621447327, ... 
-         -2.4071972207,   2.1559727974,  -0.6160012132,  -0.5862709792, ... 
-          0.8469858938,  -0.4539103913,   0.1169551807 ]';
+% Note that the initial filters are swapped to get the desired passband phase
+Db0 = [   1.0000000000,  -1.8896420762,   1.1851087257,   1.1354840927, ... 
+         -2.5805074455,   2.1148671967,  -0.3997762976,  -0.8276413628, ... 
+          1.0054762267,  -0.5159272604,   0.1296151332 ]';
+Da0 = [   1.0000000000,  -1.3249813230,   0.8978004911,   0.8919687861, ... 
+         -1.9646494147,   1.7116313675,  -0.3716958949,  -0.6039880527, ... 
+          0.8116637093,  -0.4321107682,   0.1379462636 ]';
 
 % Filter specification
 tol=1e-6
 maxiter=2000
 ma=length(Da0)-1
 mb=length(Db0)-1
-fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,Wasl=2,Watl=0.1,Wap=20,Watu=0.1,Wasu=1
-ftpl=0.11,ftpu=0.19,td=16,tdr=0.2,Wtp=0.5
-fppl=0.11,fppu=0.19,pd=1.5,pdr=0.002,Wpp=5
+fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,Wasl=10,Watl=0.1,Wap=5,Watu=0.1,Wasu=5
+ftpl=0.11,ftpu=0.19,td=16,tdr=0.2,Wtp=1
+fppl=0.11,fppu=0.19,pd=1.5,pdr=0.002,Wpp=10
 
 % Frequency points
 n=1000;
@@ -233,12 +234,13 @@ ylabel("Group delay(samples)");
 axis([0 0.5 0 2*td]);
 grid("on");
 subplot(313);
-plot(wplot*0.5/pi,(P+(wplot*td))/pi);
-ylabel("Phase(rad./pi)\n(delaycorrected)");
+plot(wplot*0.5/pi,mod((P+(wplot*td))/pi,2));
+ylabel("Phase(rad./pi)\n(corr. for delay)");
 xlabel("Frequency");
-axis([0 0.5 -1 4]);
+axis([0 0.5 0 2]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
+print(strcat(strf,"_response"),"-dsvg");
 close
 
 % Plot passband response
@@ -262,6 +264,7 @@ xlabel("Frequency");
 axis([minf maxf 1.5-pdr 1.5+pdr]);
 grid("on");
 print(strcat(strf,"_response_passband"),"-dpdflatex");
+print(strcat(strf,"_response_passband"),"-dsvg");
 close
 
 % Plot poles and zeros

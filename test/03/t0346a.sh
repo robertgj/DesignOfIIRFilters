@@ -3,10 +3,9 @@
 prog=sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test.m
 depends="sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test.m \
 test_common.m \
-tf2schurOneMlattice.m \
 schurOneMPAlattice_sdp_mmse.m \
 schurOneMPAlattice_socp_mmse.m \
-schurOneMPAlattice_allocsd_Ito.m \
+schurOneMPAlattice_allocsd_Lim.m \
 schurOneMPAlattice_slb.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
 schurOneMPAlattice_slb_exchange_constraints.m \
@@ -19,7 +18,7 @@ schurOneMPAlatticeP.m \
 schurOneMPAlatticeT.m \
 H2Asq.m H2P.m H2T.m \
 print_polynomial.m local_max.m flt2SD.m SDadders.m x2nextra.m bin2SDul.m \
-schurOneMAPlattice2Abcd.m schurOneMscale.m \
+schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m schurOneMscale.m \
 schurdecomp.oct schurexpand.oct schurOneMAPlattice2H.oct \
 schurOneMlattice2Abcd.oct complex_zhong_inverse.oct bin2SD.oct bin2SPT.oct \
 SeDuMi_1_3/"
@@ -58,54 +57,54 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test_A1k0_sd_Ito.ok << 'EOF'
-A1k0_sd_Ito = [     -839,     1800,    -1158,     1640, ... 
-                    -928,      960,     -320,      160, ... 
-                      32,        1 ]'/2048;
+cat > test_A1k0_sd_Lim.ok << 'EOF'
+A1k0_sd_Lim = [     -865,     1278,      976,    -1090, ... 
+                    1408,     -640,     -128,      784, ... 
+                    -496,      192 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_k0_sd_Ito.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sd_Lim.ok"; fail; fi
 
-cat > test_A2k0_sd_Ito.ok << 'EOF'
-A2k0_sd_Ito = [    -1568,     1824,    -1188,     1616, ... 
-                    -880,      992,     -320,      176, ... 
-                      48,        4 ]'/2048;
+cat > test_A2k0_sd_Lim.ok << 'EOF'
+A2k0_sd_Lim = [    -1557,     1500,      946,    -1176, ... 
+                    1464,     -522,     -120,      768, ... 
+                    -488,      192 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_c0_sd_Ito.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd_Lim.ok"; fail; fi
 
 cat > test_A1k0_sd_sdp.ok << 'EOF'
-A1k0_sd_sdp = [     -838,     1800,    -1157,     1636, ... 
-                    -928,      960,     -288,      160, ... 
-                      16,        1 ]'/2048;
+A1k0_sd_sdp = [     -864,     1278,      984,    -1090, ... 
+                    1408,     -576,     -128,      784, ... 
+                    -480,      192 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_k0_sd_sdp.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sd_sdp.ok"; fail; fi
 
 cat > test_A2k0_sd_sdp.ok << 'EOF'
-A2k0_sd_sdp = [    -1568,     1808,    -1188,     1616, ... 
-                    -880,      992,     -320,      184, ... 
-                      48,        4 ]'/2048;
+A2k0_sd_sdp = [    -1557,     1496,      945,    -1176, ... 
+                    1464,     -521,     -120,      768, ... 
+                    -484,      224 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_c0_sd_sdp.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd_sdp.ok"; fail; fi
 
 cat > test_A1k0_sd_min.ok << 'EOF'
-A1k0_sd_min = [     -836,     1772,    -1136,     1644, ... 
-                    -928,      960,     -288,      192, ... 
-                      32,        8 ]'/2048;
+A1k0_sd_min = [     -899,     1264,      976,    -1084, ... 
+                    1408,     -576,     -128,      776, ... 
+                    -480,      224 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_k0_sd_min.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sd_min.ok"; fail; fi
 
 cat > test_A2k0_sd_min.ok << 'EOF'
-A2k0_sd_min = [    -1568,     1824,    -1188,     1616, ... 
-                    -864,      992,     -320,      208, ... 
-                      48,       -2 ]'/2048;
+A2k0_sd_min = [    -1554,     1502,      948,    -1149, ... 
+                    1456,     -494,      -96,      768, ... 
+                    -464,      224 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_c0_sd_min.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd_min.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
-Exact & 0.000519 & -40.0 & & \\
-12-bit 3-signed-digit & 0.082588 & -26.5 & 55 & 35 \\
-12-bit 3-signed-digit(Ito) & 0.008675 & -36.4 & 55 & 35 \\
-12-bit 3-signed-digit(SDP) & 0.252699 & -29.5 & 55 & 35 \\
-12-bit 3-signed-digit(min) & 0.004030 & -30.7 & 54 & 34 \\
+Exact & 0.003784 & -35.2 & & \\
+12-bit 3-signed-digit & 0.281738 & -29.0 & 60 & 40 \\
+12-bit 3-signed-digit(Lim) & 0.240011 & -34.3 & 59 & 39 \\
+12-bit 3-signed-digit(SDP) & 0.792950 & -28.2 & 58 & 38 \\
+12-bit 3-signed-digit(min) & 0.005787 & -33.4 & 58 & 38 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 
@@ -119,11 +118,11 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test"
 
-diff -Bb test_A1k0_sd_Ito.ok $nstr"_A1k0_sd_Ito_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_k0_sd_Ito.ok"; fail; fi
+diff -Bb test_A1k0_sd_Lim.ok $nstr"_A1k0_sd_Lim_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k0_sd_Lim.ok"; fail; fi
 
-diff -Bb test_A2k0_sd_Ito.ok $nstr"_A2k0_sd_Ito_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k0_sd_Ito.ok"; fail; fi
+diff -Bb test_A2k0_sd_Lim.ok $nstr"_A2k0_sd_Lim_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k0_sd_Lim.ok"; fail; fi
 
 diff -Bb test_A1k0_sd_sdp.ok $nstr"_A1k0_sd_sdp_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k0_sd_sdp.ok"; fail; fi

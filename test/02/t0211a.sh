@@ -51,8 +51,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 maxiter =  2000
-tol =    5.0000e-06
-verbose =  1
+tol =  0.0000050000
+verbose = 1
 fap =  0.15000
 dBap =  0.10000
 Wap =  1

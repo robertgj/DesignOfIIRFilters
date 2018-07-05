@@ -49,7 +49,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 maxiter =  2000
-tol =    5.0000e-06
+tol =  0.0000050000
 verbose = 1
 vR0 after update constraints:
 al=[ 148 301 ]
@@ -66,10 +66,10 @@ f(tu)=[ 0.000000 0.175000 ](fs=1)
 Tu=[ 11.523894 11.532802 ](Samples)
 pl=[ 29 311 351 ]
 f(pl)=[ 0.014000 0.155000 0.175000 ](fs=1)
-Pl=[ -1.012924 -11.200626 -12.645780 ](Samples)
+Pl=[ -1.012924 -11.200626 -12.645780 ](rad./pi)
 pu=[ 84 ]
 f(pu)=[ 0.041500 ](fs=1)
-Pu=[ -2.997700 ](Samples)
+Pu=[ -2.997700 ](rad./pi)
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

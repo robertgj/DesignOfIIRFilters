@@ -1,7 +1,7 @@
-function [x1,socp_iter,feasible]= ...
-  lowpass2ndOrderCascade_socp(x0,tau,w,Hd,W,npass,nstop,resp,maxiter,tol,verbose)
-% [x1,socp_iter,func_iter,feasible]= ...
-% lowpass2ndOrderCascade_socp(x0,tau,w,Hd,W,npass,nstop,resp,maxiter,tol,verbose)
+function [x1,socp_iter,feasible]=lowpass2ndOrderCascade_socp ...
+ (x0,tau,w,Hd,W,npass,nstop,resp,limit_cycle,maxiter,tol,verbose)
+% [x1,socp_iter,func_iter,feasible]=lowpass2ndOrderCascade_socp ...
+%   (x0,tau,w,Hd,W,npass,nstop,resp,limit_cycle,maxiter,tol,verbose)
 %
 % Use the SeDuMi solver to find the coefficients of an IIR lowpass filter.
 % The stability of the IIR filter is ensured by linear constraints on the
@@ -28,6 +28,7 @@ function [x1,socp_iter,feasible]= ...
 %           * "mixed"    : use the complex response across the pass band and the
 %                          squared-magnitude response across the stop band
 %           * "separate" : use the complex response at each frequency
+%   limit_cycle - add linear constraints for freedom from limit cycles
 %   maxiter -
 %   tol - 
 %   verbose -
@@ -64,9 +65,9 @@ function [x1,socp_iter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 % Sanity checks
-if nargin != 11
+if nargin != 12
   print_usage("[x1,E,socp_iter,feasible]= ...\n\
-  lowpass2ndOrderCascade_socp(x0,tau,w,Hd,W,npass,nstop,resp, ...\n\
+  lowpass2ndOrderCascade_socp(x0,tau,w,Hd,W,npass,nstop,resp,limit_cycle, ...\n\
                               maxiter,tol,verbose)");
 endif
 if all(isfield(x0,{"a","d"}))==false
@@ -80,6 +81,9 @@ if length(w) != length(W)
 endif
 if (0 > npass) || (npass > nstop) || (nstop>length(w))
   error("Expect 0<npass<nstop<length(w)");
+endif
+if limit_cycle
+  printf("Adding linear constraints to enforce freedom from limit cycles\n");
 endif
 
 % Initialise
@@ -180,7 +184,7 @@ while 1
   %
 
   % Linear stability constraints on denominator coefficients
-  [C,e]=stability2ndOrderCascade(mr);
+  [C,e]=stability2ndOrderCascade(mr,limit_cycle);
   % Allow for epsilon and beta in D
   D=[zeros(2,rows(C)); zeros(mnp1,rows(C)); C'];
   f=[zeros(rows(C),mnp1) C]*xk+(1-tau)*e;
@@ -188,8 +192,10 @@ while 1
   % SeDuMi linear constraint matrixes
   At=-D;
   ct=f;
-  sedumiK.l=size(D,2);
-  printf("Added %d linear constraints\n",sedumiK.l);
+  sedumiK.l=rows(C);
+  if verbose
+    printf("Added %d linear constraints\n",sedumiK.l);
+  endif
 
   % SeDuMi quadratic constraint matrixes
   % Step size constraints
@@ -296,8 +302,13 @@ while 1
     printf("delta=[ ");printf("%g ",delta');printf(" ]';\n"); 
     printf("norm(delta)=%g\n",norm(delta));
     printf("xk=[ ");printf("%g ",xk');printf(" ]';\n");
+    printf("norm(delta)/norm(xk)=%g\n",norm(delta)/norm(xk));
     printf("func_iter=%d, socp_iter=%d\n",func_iter,socp_iter);
     info
+  endif
+  f=([zeros(rows(C),mnp1) C]*xk)+((1-tau)*e);
+  if any(f<-tol)
+    error("Stability constraint failed");
   endif
   if norm(delta)/norm(xk) < tol
     printf("norm(delta)/norm(xk) < tol\n");

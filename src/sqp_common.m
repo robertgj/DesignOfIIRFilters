@@ -4,13 +4,6 @@
 % Copyright (C) 2017,2018 Robert G. Jenssen
 
 
-% Himmelblau's function: f(x,y)=(x^2+y-11)^2 + (x+y^2-7)^2
-% has one local maximum at x=-0.270845,y=-0.923039\,f(x,y)=181.617\,
-% and four identical local minima f(3.0,2.0)=0.0, f(-2.805118,3.131312)=0.0,
-% f(-3.779310,-3.283186)=0.0, f(3.584428,-1.848126)=0.0
-
-if 1
-  
   % Expected minimum: x=[-sqrt(2); 1; -0.527];
   xi=[30;-20;10];
   lbx=[-200; -150; -100];
@@ -38,8 +31,7 @@ if 1
     gxg=[0 1 0; -1 0 0; 0 0 -1]';
   endfunction
 
-elseif 0
-  
+  %{
   % Rosenbrock's function: f(x,y)=(a-x)^2 + b(y-x^2)^2  has a global
   % minimum at (x,y)=(a,a^2), f(x,y)=0. Usually a=1 and b=100.
   
@@ -78,9 +70,9 @@ elseif 0
   function gxg=gradxg(x)
     gxg=[0 1;1 0]';
   endfunction
+  %}
 
-elseif 0
-  
+  %{
   % Himmelblau's function: f(x,y)=(x^2+y-11)^2 + (x+y^2-7)^2  has 
   % minima of value 0 at (3.0,2.0), (-2.805118,3.131312), (-3.779310,-3.283185)
   % and (3.584428,-1.848126)
@@ -120,8 +112,7 @@ elseif 0
   function gxg=gradxg(x)
     gxg=[0 -1;-1 0]';
   endfunction
-
-endif
+  %}
 
 function hxxf=hessxxf_diag(x)
   hxxf=diag(diag(hessxxf(x)));

@@ -7,7 +7,8 @@ schurOneMPAlattice_test_common.m \
 schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m schurOneMPAlatticeP.m \
 tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m schurOneMlattice2Abcd.oct \
 H2Asq.m H2T.m H2P.m schurOneMAPlattice2H.oct tf2pa.m schurOneMscale.m \
-spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct"
+spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
+qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

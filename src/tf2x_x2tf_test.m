@@ -40,6 +40,17 @@ if max(abs(d1-d2)) > epstol*eps
         ceil(max(abs(d1-d2))/eps));
 endif
 
+[a,U,V,M,Q]=tf2x(n1,d1,0.00008);
+[n2a,d2a]=x2tf(a,U,V,M,Q,R);
+if max(abs(n1-n2a)) > epstol*eps
+  error("max(abs(n1-n2a)) > epstol*eps (%f*eps)", ...
+        ceil(max(abs(n1-n2a))/eps));
+endif
+if max(abs(d1-d2a)) > epstol*eps
+  error("max(abs(d1-d2a)) > epstol*eps (%f*eps)", ...
+        ceil(max(abs(d1-d2a))/eps));
+endif
+
 R=3;
 [n3,d3]=x2tf(a,U,V,M,Q,R);
 n3=n3(:);

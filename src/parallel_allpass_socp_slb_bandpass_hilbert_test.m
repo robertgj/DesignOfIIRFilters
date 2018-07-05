@@ -17,18 +17,18 @@ strf="parallel_allpass_socp_slb_bandpass_hilbert_test";
 %
 % Initial coefficients from tarczynski_parallel_allpass_bandpass_hilbert_test.m
 %
-Da0 = [   1.0000000000,  -1.1319587228,   0.6097871223,   0.6261090381, ... 
-         -0.6194298490,  -0.2617965851,   0.6709858095,  -0.1023935473, ... 
-         -0.7834255458,   0.7179469484,  -0.3420403636 ]';
-Db0 = [   1.0000000000,  -1.7205540442,   0.7957560903,   0.9668362534, ... 
-         -0.9599495709,  -0.4817982577,   1.0463598362,   0.0039741053, ... 
-         -1.0432403929,   0.9012118884,  -0.3322131351 ]';
+Da0 = [   1.0000000000,  -1.3419083642,   0.9474053665,   0.8932394713, ... 
+         -1.9577425273,   1.7243229570,  -0.3128783437,  -0.6225716131, ... 
+          0.7615817995,  -0.3630932621,   0.0929764525 ]';
+Db0 = [   1.0000000000,  -1.9568187576,   1.2934169329,   1.1293002733, ... 
+         -2.6916225471,   2.1601049527,  -0.3125221494,  -0.8696178419, ... 
+          0.9380517293,  -0.4314959988,   0.1003220024 ]';
 
 %
 % Band-pass filter specification for parallel all-pass filters
 %
-tol=1e-4
-ctol=1e-7
+tol=1e-5
+ctol=1e-8
 polyphase=false
 difference=true
 rho=0.999 
@@ -45,8 +45,8 @@ dBas=40
 Wap=1
 Watl=1e-3
 Watu=1e-3
-Wasl=1000
-Wasu=1000
+Wasl=200
+Wasu=200
 ftpl=0.12
 ftpu=0.18
 td=16
@@ -117,7 +117,7 @@ printf("0.5*wa(nchkp)'/pi=[ ");printf("%6.4g ",0.5*wa(nchkp)'/pi);printf("];\n")
 ab0=zeros(ma+mb,1);
 [ab0(1:ma),Va,Qa]=tf2a(Da0);
 [ab0((ma+1):end),Vb,Qb]=tf2a(Db0);
-printf("Initial ab0=[");printf("%g ",ab0');printf("]'\n");
+printf("Initial ab0=[");printf("%14.10f ",ab0');printf("]'\n");
 
 % Linear constraints
 [al,au]=aConstraints(Va,Qa,rho);

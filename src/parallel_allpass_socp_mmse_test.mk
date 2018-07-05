@@ -20,4 +20,4 @@ parallel_allpass_socp_mmse_test.m test_common.m \
 parallel_allpass_socp_mmse.m parallel_allpass_mmse_error.m \
 allpassP.m allpassT.m parallel_allpassAsq.m parallel_allpassT.m \
 parallel_allpassP.m print_polynomial.m print_pole_zero.m \
-aConstraints.m a2tf.m tf2a.m sedumi_test.diary
+aConstraints.m a2tf.m tf2a.m qroots.m qzsolve.oct sedumi_test.diary

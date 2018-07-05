@@ -4,7 +4,8 @@ prog=polyphase_allpassP_test.m
 
 depends="polyphase_allpassP_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
-allpassP.m parallel_allpassP.m a2tf.m tf2a.m"
+allpassP.m parallel_allpassP.m a2tf.m tf2a.m qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -40,7 +41,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-verbose =  1
+verbose = 1
 Filter a: real pole/zero 1
 delPdelRpa=-0.275099, approx=-0.275099, diff=-0.000000
 Filter a: real pole/zero 2

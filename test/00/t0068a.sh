@@ -6,7 +6,9 @@ depends="iir_frm_allpass_slb_update_constraints_test.m test_common.m \
 iir_frm_allpass_slb_update_constraints.m \
 iir_frm_allpass_slb_show_constraints.m \
 iir_frm_allpass_struct_to_vec.m iir_frm_allpass_vec_to_struct.m \
-iir_frm_allpass.m allpassP.m allpassT.m local_max.m local_peak.m tf2a.m a2tf.m"
+iir_frm_allpass.m allpassP.m allpassT.m local_max.m local_peak.m tf2a.m a2tf.m \
+qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -42,8 +44,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-verbose =  1
-tol =    1.0000e-05
+verbose = 1
+tol =  0.000010000
 al=[ 601 ]
 au=[ 1 60 106 161 209 276 303 367 412 487 516 581 621 626 ]
 tl=[ 558 585 ]

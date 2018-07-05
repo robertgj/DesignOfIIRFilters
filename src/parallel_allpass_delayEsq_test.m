@@ -62,8 +62,8 @@ Esq_allpass_delay=parallel_allpass_delayEsq(a,V,Q,R,DD,wa,Asqd,Wa,wt,Td,Wt);
 
 % Compare the squared-error responses
 maxAbsDelEsqeps=max(abs(Esq_allpass_delay-EsqAsqT))/eps;
-if maxAbsDelEsqeps > 651
-  error("max(abs(Esq_allpass_delay-EsqAsqT))/eps(=%g) > 651",
+if maxAbsDelEsqeps > 800
+  error("max(abs(Esq_allpass_delay-EsqAsqT))/eps(=%g) > 800",
         maxAbsDelEsqeps);
 endif
 

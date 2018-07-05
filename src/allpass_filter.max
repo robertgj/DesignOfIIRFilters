@@ -1,0 +1,416 @@
+/* allpass_filter.max
+ *
+ * Frequency responses of all-pass first and second order sections
+ */
+load("f90")$
+exptdispflag:true;
+stardisp:true;
+
+
+/*
+ * Direct-form all-pass first order section
+ */
+kill(all)$
+
+/* State variable equations */
+zx1:u-b1*x1;
+y:(1-(b1*b1))*x1+b1*u;
+
+/* State variable matrix description */
+Adir1:matrix([ratcoef(zx1,x1)]);
+Bdir1:matrix([ratcoef(zx1,u)]);
+Cdir1:matrix([ratcoef(y,x1)]);
+Ddir1:ratcoef(y,u);
+
+/* Transfer function */
+Hdir1:ratsimp((Cdir1*Bdir1/(z-Adir1))+Ddir1);
+
+/* Print in Fortran90 (ie: Matlab) format*/
+f90('Adir1 = Adir1);
+f90('Bdir1 = Bdir1);
+f90('Cdir1 = Cdir1);
+f90('Ddir1 = Ddir1);
+
+
+/*
+ * Gray-Markel all-pass first order section
+ */
+kill(all)$
+
+/* State variable equations */
+zx1:-k1*x1+(1+k1*e1)*u;
+y:k1*u+(1-e1*k1)*x1;
+
+/* State variable matrix description */
+AGM1:matrix([ratcoef(zx1,x1)]);
+BGM1:matrix([ratcoef(zx1,u)]);
+CGM1:matrix([ratcoef(y,x1)]);
+DGM1:ratcoef(y,u);
+
+/* Transfer function */
+HGM1:subst([e1=1],ratsimp((CGM1*BGM1/(z-AGM1))+DGM1));
+
+/* Print in Fortran90 (ie: Matlab) format*/
+f90('AGM1 = AGM1);
+f90('BGM1 = BGM1);
+f90('CGM1 = CGM1);
+f90('DGM1 = DGM1);
+
+
+/*
+ * Stoyanov et al. low sensitivity LS1 all-pass first order section
+ */
+kill(all)$
+ 
+/* State variable equations */
+v1:u-x1;
+v2:c1*v1+x1;
+zx1:v2;
+y:-v1+v2;
+
+/* State variable matrix description */
+ALS1:matrix([ratcoef(zx1,x1)]);
+BLS1:matrix([ratcoef(zx1,u)]);
+CLS1:matrix([ratcoef(y,x1)]);
+DLS1:ratcoef(y,u);
+
+/* Transfer function */
+HLS1:ratsimp((CLS1*BLS1/(z-ALS1))+DLS1);
+
+/* Print in Fortran90 (ie: Matlab) format*/
+f90('ALS1 = ALS1);
+f90('BLS1 = BLS1);
+f90('CLS1 = CLS1);
+f90('DLS1 = DLS1);
+
+
+/*
+ * General second-order state variable implementation
+ */
+kill(all)$
+A:matrix([A11,A12],[A21,A22]);
+B:matrix([B1],[B2]);
+C:matrix([C1,C2]);
+I2:matrix([1,0],[0,1]);
+H:ratsimp(C.invert(z*I2-A).B+D);
+
+/*
+ * Direct form all-pass second order section
+ */
+kill(all)$
+
+/* State variable equations */
+v1:-b1*x1-b2*x2;
+v2:u+v1;
+v3:b1*x1+x2;
+zx1:v2;
+zx2:x1;
+y:b2*v2+v3;
+
+/* State variable matrix description */
+Adir2:matrix([ratcoef(zx1,x1),ratcoef(zx1,x2)],
+             [ratcoef(zx2,x1),ratcoef(zx2,x2)]);
+Bdir2:matrix([ratcoef(zx1,u)],[ratcoef(zx2,u)]);
+Cdir2:matrix([ratcoef(y,x1),ratcoef(y,x2)]);
+Ddir2:ratcoef(y,u);
+
+/* Transfer function */
+I2:matrix([1,0],[0,1]);
+Hdir2:ratsimp(Cdir2.invert(z*I2-Adir2).Bdir2+Ddir2);
+
+/* Print in Fortran90 (ie: Matlab) format*/
+f90('Adir2 = Adir2);
+f90('Bdir2 = Bdir2);
+f90('Cdir2 = Cdir2);
+f90('Ddir2 = Ddir2);
+
+
+/*
+ * Stoyanov et al. low sensitivity LS2a all-pass second order section
+ */
+kill(all)$
+
+/* State variable equations */
+v1:x1-u;
+v2:x2+v1;
+v3:v1-c1*v2;
+v4:v3+u;
+v5:v2+v3;
+v6:v5-c2*v2;
+zx1:v4;
+zx2:v6;
+y:c2*v2+u;
+
+/* State variable matrix description */
+ALS2a:matrix([ratcoef(zx1,x1),ratcoef(zx1,x2)],
+             [ratcoef(zx2,x1),ratcoef(zx2,x2)]);
+BLS2a:matrix([ratcoef(zx1,u)],[ratcoef(zx2,u)]);
+CLS2a:matrix([ratcoef(y,x1),ratcoef(y,x2)]);
+DLS2a:ratcoef(y,u);
+
+/* Transfer function */
+I2:matrix([1,0],[0,1]);
+HLS2a:ratsimp(CLS2a.invert(z*I2-ALS2a).BLS2a+DLS2a);
+
+/* Print in Fortran90 (ie: Matlab) format*/
+f90('ALS2a = ALS2a);
+f90('BLS2a = BLS2a);
+f90('CLS2a = CLS2a);
+f90('DLS2a = DLS2a);
+
+
+/*
+ * Gray-Markel all-pass second order section
+ */
+kill(all)$
+
+/* State variable equations */
+v1:-k1*x1+(1+e1*k1)*x2;
+v2:-k2*(1-k1*e1)*x1-k1*k2*x2+(1+k2*e2)*u;
+zx1:v1;
+zx2:v2;
+y:(1-e2*k2)*(1-e1*k1)*x1+k1*(1-e2*k2)*x2+k2*u;
+
+/* State variable matrix description */
+AGM2:matrix([ratcoef(zx1,x1),ratcoef(zx1,x2)],
+            [ratcoef(zx2,x1),ratcoef(zx2,x2)]);
+BGM2:matrix([ratcoef(zx1,u)],[ratcoef(zx2,u)]);
+CGM2:matrix([ratcoef(y,x1),ratcoef(y,x2)]);
+DGM2:ratcoef(y,u);
+
+/* Transfer function */
+I2:matrix([1,0],[0,1]);
+HGM2:subst([e1=1,e2=1],ratsimp(CGM2.invert(z*I2-AGM2).BGM2+DGM2));
+
+/* Print in Fortran90 (ie: Matlab) format*/
+f90('AGM2 = AGM2);
+f90('BGM2 = BGM2);
+f90('CGM2 = CGM2);
+f90('DGM2 = DGM2);
+
+
+/*
+ * Ansari-Lui Figure 7(c) all-pass second order section
+ */
+kill(all)$
+
+/* State variable equations */
+zx1:-k1*x1-k1*k2*x1-k2*x2+(1+k2)*u;
+zx2:x1;
+y:k1*x1-k1*k2*x1+x2-k2*x2+k2*u;
+
+/* State variable matrix description */
+AAL7c:matrix([ratcoef(zx1,x1),ratcoef(zx1,x2)],
+             [ratcoef(zx2,x1),ratcoef(zx2,x2)]);
+BAL7c:matrix([ratcoef(zx1,u)],[ratcoef(zx2,u)]);
+CAL7c:matrix([ratcoef(y,x1),ratcoef(y,x2)]);
+DAL7c:ratcoef(y,u);
+
+/* Transfer function */
+I2:matrix([1,0],[0,1]);
+HAL7c:ratsimp(CAL7c.invert(z*I2-AAL7c).BAL7c+DAL7c);
+
+/* Print in Fortran90 (ie: Matlab) format*/
+f90('AAL7c = AAL7c);
+f90('BAL7c = BAL7c);
+f90('CAL7c = CAL7c);
+f90('DAL7c = DAL7c);
+
+
+/*
+ * Ivanova-Stoyanov low-sensitivity near z=0 all-pass second order section
+ */
+kill(all)$
+
+/* State variable equations */
+v1:d2*x2+d2*u-d1*d2*x1;
+v2:v1-u+d1*x1;
+zx1:v2;
+zx2:2*v2-x1;
+y:x2-2*x1+d1*x1+v1;
+
+/* State variable matrix description */
+AIS:matrix([ratcoef(zx1,x1),ratcoef(zx1,x2)],
+           [ratcoef(zx2,x1),ratcoef(zx2,x2)]);
+BIS:matrix([ratcoef(zx1,u)],[ratcoef(zx2,u)]);
+CIS:matrix([ratcoef(y,x1),ratcoef(y,x2)]);
+DIS:ratcoef(y,u);
+
+/* Transfer function */
+I2:matrix([1,0],[0,1]);
+HIS:ratsimp(CIS.invert(z*I2-AIS).BIS+DIS);
+
+/* Print in Fortran90 (ie: Matlab) format*/
+f90('AIS = AIS);
+f90('BIS = BIS);
+f90('CIS = CIS);
+f90('DIS = DIS);
+
+
+/*
+ * Mitra-Hirano Type 2(d) all-pass second order section
+ */
+kill(all)$
+
+/* State variable equations */
+zx1:u;
+zx2:x1;
+zx3:x4;
+zx4:-b1*x1+x2-b1*b2*x3+b1*x4+b1*b2*u;
+y:zx4;
+
+/* State variable matrix description */
+AMH2d:matrix([ratcoef(zx1,x1),ratcoef(zx1,x2),ratcoef(zx1,x3),ratcoef(zx1,x4)],
+             [ratcoef(zx2,x1),ratcoef(zx2,x2),ratcoef(zx2,x3),ratcoef(zx2,x4)],
+             [ratcoef(zx3,x1),ratcoef(zx3,x2),ratcoef(zx3,x3),ratcoef(zx3,x4)],
+             [ratcoef(zx4,x1),ratcoef(zx4,x2),ratcoef(zx4,x3),ratcoef(zx4,x4)]);
+BMH2d:matrix([ratcoef(zx1,u)],[ratcoef(zx2,u)],
+             [ratcoef(zx3,u)],[ratcoef(zx4,u)]);
+CMH2d:matrix([ratcoef(y,x1),ratcoef(y,x2),ratcoef(y,x3),ratcoef(y,x4)]);
+DMH2d:ratcoef(y,u);
+
+/* Transfer function */
+I4:matrix([1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]);
+HMH2d:ratsimp(CMH2d.invert(z*I4-AMH2d).BMH2d+DMH2d);
+
+/* Print in Fortran90 (ie: Matlab) format*/
+f90('AMH2d = AMH2d);
+f90('BMH2d = BMH2d);
+f90('CMH2d = CMH2d);
+f90('DMH2d = DMH2d);
+
+
+/*
+ * Mitra-Hirano transposed Type 2(d) all-pass second order section
+ */
+kill(all)$
+
+/* State variable equations */
+zx1:x3+u;
+zx2:x1-b1*x3-b1*u;
+zx3:b1*x3+x4+b1*u;
+zx4:-b1*b2*x3-b1*b2*u;
+y:b1*b2*x3+x2+b1*b2*u;
+
+/* State variable matrix description */
+AMH2dt:matrix([ratcoef(zx1,x1),ratcoef(zx1,x2),ratcoef(zx1,x3),ratcoef(zx1,x4)],
+              [ratcoef(zx2,x1),ratcoef(zx2,x2),ratcoef(zx2,x3),ratcoef(zx2,x4)],
+              [ratcoef(zx3,x1),ratcoef(zx3,x2),ratcoef(zx3,x3),ratcoef(zx3,x4)],
+              [ratcoef(zx4,x1),ratcoef(zx4,x2),ratcoef(zx4,x3),ratcoef(zx4,x4)]);
+BMH2dt:matrix([ratcoef(zx1,u)],[ratcoef(zx2,u)],
+              [ratcoef(zx3,u)],[ratcoef(zx4,u)]);
+CMH2dt:matrix([ratcoef(y,x1),ratcoef(y,x2),ratcoef(y,x3),ratcoef(y,x4)]);
+DMH2dt:ratcoef(y,u);
+
+/* Transfer function */
+I4:matrix([1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]);
+HMH2dt:ratsimp(CMH2dt.invert(z*I4-AMH2dt).BMH2dt+DMH2dt);
+
+/* Print in Fortran90 (ie: Matlab) format*/
+f90('AMH2dt = AMH2dt);
+f90('BMH2dt = BMH2dt);
+f90('CMH2dt = CMH2dt);
+f90('DMH2dt = DMH2dt);
+
+
+/*
+ * Mitra-Hirano Type 3(d) all-pass second order section
+ */
+kill(all)$
+
+/* State variable equations */
+zx1:u;
+zx2:x1;
+zx3:x4;
+zx4:x2-b1*x1+b2*u-b2*x3+b1*x4;
+y:zx4;
+
+/* State variable matrix description */
+AMH3d:matrix([ratcoef(zx1,x1),ratcoef(zx1,x2),ratcoef(zx1,x3),ratcoef(zx1,x4)],
+             [ratcoef(zx2,x1),ratcoef(zx2,x2),ratcoef(zx2,x3),ratcoef(zx2,x4)],
+             [ratcoef(zx3,x1),ratcoef(zx3,x2),ratcoef(zx3,x3),ratcoef(zx3,x4)],
+             [ratcoef(zx4,x1),ratcoef(zx4,x2),ratcoef(zx4,x3),ratcoef(zx4,x4)]);
+BMH3d:matrix([ratcoef(zx1,u)],[ratcoef(zx2,u)],
+             [ratcoef(zx3,u)],[ratcoef(zx4,u)]);
+CMH3d:matrix([ratcoef(y,x1),ratcoef(y,x2),ratcoef(y,x3),ratcoef(y,x4)]);
+DMH3d:ratcoef(y,u);
+
+/* Transfer function */
+I4:matrix([1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]);
+HMH3d:ratsimp(CMH3d.invert(z*I4-AMH3d).BMH3d+DMH3d);
+
+/* Print in Fortran90 (ie: Matlab) format*/
+f90('AMH3d = AMH3d);
+f90('BMH3d = BMH3d);
+f90('CMH3d = CMH3d);
+f90('DMH3d = DMH3d);
+
+
+/*
+ * Mitra-Hirano transposed Type 3(d) all-pass second order section
+ */
+kill(all)$
+
+/* State variable equations */
+zx1:-b2*x2-b2*u;
+zx2:x1+b1*x2+b1*u;
+zx3:x2+u;
+zx4:-b1*x2+x3-b1*u;
+y:b2*x2+x4+b2*u;
+
+/* State variable matrix description */
+AMH3dt:matrix([ratcoef(zx1,x1),ratcoef(zx1,x2),ratcoef(zx1,x3),ratcoef(zx1,x4)],
+              [ratcoef(zx2,x1),ratcoef(zx2,x2),ratcoef(zx2,x3),ratcoef(zx2,x4)],
+              [ratcoef(zx3,x1),ratcoef(zx3,x2),ratcoef(zx3,x3),ratcoef(zx3,x4)],
+              [ratcoef(zx4,x1),ratcoef(zx4,x2),ratcoef(zx4,x3),ratcoef(zx4,x4)]);
+BMH3dt:matrix([ratcoef(zx1,u)],[ratcoef(zx2,u)],
+              [ratcoef(zx3,u)],[ratcoef(zx4,u)]);
+CMH3dt:matrix([ratcoef(y,x1),ratcoef(y,x2),ratcoef(y,x3),ratcoef(y,x4)]);
+DMH3dt:ratcoef(y,u);
+
+/* Transfer function */
+I4:matrix([1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]);
+HMH3dt:ratsimp(CMH3dt.invert(z*I4-AMH3dt).BMH3dt+DMH3dt);
+
+/* Print in Fortran90 (ie: Matlab) format*/
+f90('AMH3dt = AMH3dt);
+f90('BMH3dt = BMH3dt);
+f90('CMH3dt = CMH3dt);
+f90('DMH3dt = DMH3dt);
+
+
+/*
+ * Mitra-Hirano transposed Type 3(d) all-pass second order section
+ * with state 1 removed
+ */
+kill(all)$
+
+/* State variable equations */
+zx2:-b2*x3+b1*x2+b1*u;
+zx3:x2+u;
+zx4:-b1*x2+x3-b1*u;
+y:b2*x2+x4+b2*u;
+
+/* State variable matrix description */
+AMH3dtp:matrix([ratcoef(zx2,x2),ratcoef(zx2,x3),ratcoef(zx2,x4)],
+               [ratcoef(zx3,x2),ratcoef(zx3,x3),ratcoef(zx3,x4)],
+               [ratcoef(zx4,x2),ratcoef(zx4,x3),ratcoef(zx4,x4)]);
+BMH3dtp:matrix([ratcoef(zx2,u)],[ratcoef(zx3,u)],[ratcoef(zx4,u)]);
+CMH3dtp:matrix([ratcoef(y,x2),ratcoef(y,x3),ratcoef(y,x4)]);
+DMH3dtp:ratcoef(y,u);
+
+/* Transfer function */
+I3:matrix([1,0,0],[0,1,0],[0,0,1]);
+HMH3dtp:ratsimp(CMH3dtp.invert(z*I3-AMH3dtp).BMH3dtp+DMH3dtp);
+
+/* Print in Fortran90 (ie: Matlab) format*/
+f90('AMH3dtp = AMH3dtp);
+f90('BMH3dtp = BMH3dtp);
+f90('CMH3dtp = CMH3dtp);
+f90('DMH3dtp = DMH3dtp);
+
+
+/*
+ * Done
+ */
+quit()$

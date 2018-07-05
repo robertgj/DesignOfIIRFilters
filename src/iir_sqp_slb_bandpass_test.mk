@@ -8,10 +8,6 @@ iir_sqp_slb_bandpass_test_mmse_x1pz \
 iir_sqp_slb_bandpass_test_pcls_d1 \
 iir_sqp_slb_bandpass_test_pcls_d1pass \
 iir_sqp_slb_bandpass_test_pcls_d1pz \
-iir_sqp_slb_bandpass_test_cl2bp_xcl \
-iir_sqp_slb_bandpass_test_cl2bp_xclpz \
-iir_sqp_slb_bandpass_test_remez_xrz \
-iir_sqp_slb_bandpass_test_remez_xrzpz \
 iir_sqp_slb_bandpass_test_compare_magnitude
 
 iir_sqp_slb_bandpass_test_COEFS = \
@@ -28,4 +24,4 @@ iir_slb_constraints_are_empty.m iir_slb_set_empty_constraints.m \
 Aerror.m Terror.m armijo_kim.m cl2bp.m fixResultNaN.m iirA.m iirE.m iirP.m \
 iirT.m iir_sqp_octave.m invSVD.m local_max.m local_peak.m \
 showResponseBands.m showResponse.m showResponsePassBands.m showZPplot.m \
-sqp_bfgs.m tf2x.m updateWchol.m updateWbfgs.m x2tf.m xConstraints.m
+sqp_bfgs.m updateWchol.m updateWbfgs.m x2tf.m xConstraints.m 

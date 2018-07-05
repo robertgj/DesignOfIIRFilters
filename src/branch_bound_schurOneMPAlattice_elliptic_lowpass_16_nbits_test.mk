@@ -27,8 +27,8 @@ schurOneMPAlattice_slb_update_constraints.m \
 schurOneMPAlattice_slb_exchange_constraints.m \
 schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice2tf.m schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m \
-local_max.m tf2pa.m print_polynomial.m flt2SD.m bin2SDul.m x2nextra.m \
-SDadders.m Abcd2tf.m H2Asq.m H2T.m H2P.m tf2schurOneMlattice.m schurOneMscale.m \
-bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
+local_max.m print_polynomial.m flt2SD.m bin2SDul.m x2nextra.m \
+SDadders.m Abcd2tf.m H2Asq.m H2T.m H2P.m tf2schurOneMlattice.m \
+schurOneMscale.m bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
 complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
-sedumi_test.diary
+qroots.m qzsolve.oct sedumi_test.diary

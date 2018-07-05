@@ -131,7 +131,7 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
     error("Expected length(ws)(%d) == length(Sdu)(%d)",Nws,length(Sdu));
   endif
   if ~isempty(Sdl) && Nws ~= length(Sdl)
-    error("Expected lenth(ws)(%d) == length(Sdl)(%d)",Nws,length(Sdl));
+    error("Expected length(ws)(%d) == length(Sdl)(%d)",Nws,length(Sdl));
   endif
   if Nws ~= length(Ws)
     error("Expected length(ws)(%d) == length(Ws)(%d)",Nws,length(Ws));

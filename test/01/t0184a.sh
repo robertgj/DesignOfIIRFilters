@@ -4,7 +4,8 @@ prog=schurOneMAPlattice2H_test.m
 descr="schurOneMAPlattice2H_test.m (octfile)"
 depends="schurOneMAPlattice2H_test.m test_common.m tf2schurOneMlattice.m \
 schurOneMlattice2Abcd.oct schurOneMscale.m schurOneMAPlattice2H.oct tf2pa.m \
-spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct "
+spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
+qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

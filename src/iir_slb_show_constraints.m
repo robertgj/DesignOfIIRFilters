@@ -28,49 +28,49 @@ printf("Current constraints:\n");
 
 if !isempty(vS.al)
   printf("al = [ ");printf("%d ",vS.al');printf("]\n");
-  printf("al = [ ");printf("%f ",wa(vS.al)'*0.5/pi);printf("] (fs=1)\n");
+  printf("f(al) = [ ");printf("%f ",wa(vS.al)'*0.5/pi);printf("] (fs=1)\n");
   printf("Al = [ ");printf("%f ",20*log10(abs(A(vS.al))));printf("] (dB)\n");
 endif
 
 if !isempty(vS.au)
   printf("au = [ ");printf("%d ",vS.au');printf("]\n");
-  printf("au = [ ");printf("%f ",wa(vS.au)'*0.5/pi);printf("] (fs=1)\n");
+  printf("f(au) = [ ");printf("%f ",wa(vS.au)'*0.5/pi);printf("] (fs=1)\n");
   printf("Au = [ ");printf("%f ",20*log10(abs(A(vS.au))));printf("] (dB)\n");
 endif
 
 if !isempty(vS.sl)
   printf("sl = [ ");printf("%d ",vS.sl');printf("]\n");
-  printf("sl = [ ");printf("%f ",ws(vS.sl)'*0.5/pi);printf("] (fs=1)\n");
+  printf("f(sl) = [ ");printf("%f ",ws(vS.sl)'*0.5/pi);printf("] (fs=1)\n");
   printf("Sl = [ ");printf("%f ",20*log10(abs(S(vS.sl))));printf("] (dB)\n");
 endif
 
 if !isempty(vS.su)
   printf("su = [ ");printf("%d ",vS.su');printf("]\n");
-  printf("su = [ ");printf("%f ",ws(vS.su)'*0.5/pi);printf("] (fs=1)\n");
+  printf("f(su) = [ ");printf("%f ",ws(vS.su)'*0.5/pi);printf("] (fs=1)\n");
   printf("Su = [ ");printf("%f ",20*log10(abs(S(vS.su))));printf("] (dB)\n");
 endif
 
 if !isempty(vS.tl)
   printf("tl = [ ");printf("%d ",vS.tl');printf("]\n");
-  printf("tl = [ ");printf("%f ",wt(vS.tl)'*0.5/pi);printf("] (fs=1)\n");
+  printf("f(tl) = [ ");printf("%f ",wt(vS.tl)'*0.5/pi);printf("] (fs=1)\n");
   printf("Tl = [ ");printf("%f ",T(vS.tl));printf("] (Samples)\n");
 endif
 
 if !isempty(vS.tu)
   printf("tu = [ ");printf("%d ",vS.tu');printf("]\n");
-  printf("tu = [ ");printf("%f ",wt(vS.tu)'*0.5/pi);printf("] (fs=1)\n");
+  printf("f(tu) = [ ");printf("%f ",wt(vS.tu)'*0.5/pi);printf("] (fs=1)\n");
   printf("Tu = [ ");printf("%f ",T(vS.tu));printf("] (Samples)\n");
 endif
 
 if !isempty(vS.pl)
   printf("pl = [ ");printf("%d ",vS.pl');printf("]\n");
-  printf("pl = [ ");printf("%f ",wp(vS.pl)'*0.5/pi);printf("] (fs=1)\n");
+  printf("f(pl) = [ ");printf("%f ",wp(vS.pl)'*0.5/pi);printf("] (fs=1)\n");
   printf("Pl = [ ");printf("%f ",P(vS.pl));printf("] (Samples)\n");
 endif
 
 if !isempty(vS.pu)
   printf("pu = [ ");printf("%d ",vS.pu');printf("]\n");
-  printf("pu = [ ");printf("%f ",wp(vS.pu)'*0.5/pi);printf("] (fs=1)\n");
+  printf("f(pu) = [ ");printf("%f ",wp(vS.pu)'*0.5/pi);printf("] (fs=1)\n");
   printf("Pu = [ ");printf("%f ",P(vS.pu));printf("] (Samples)\n");
 endif
 

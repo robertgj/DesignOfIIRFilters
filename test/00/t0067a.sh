@@ -7,7 +7,9 @@ iir_frm_allpass_slb_exchange_constraints.m \
 iir_frm_allpass_slb_show_constraints.m \
 iir_frm_allpass_slb_update_constraints.m \
 iir_frm_allpass_struct_to_vec.m iir_frm_allpass_vec_to_struct.m \
-iir_frm_allpass.m allpassP.m allpassT.m tf2a.m a2tf.m local_max.m local_peak.m"
+iir_frm_allpass.m allpassP.m allpassT.m tf2a.m a2tf.m local_max.m local_peak.m \
+qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -44,8 +46,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 maxiter =  2000
-tol =    5.0000e-06
-verbose =  1
+tol =  0.0000050000
+verbose = 1
 dmask =  16
 tp =  97
 vRx0 before exchange constraints:

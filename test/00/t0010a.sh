@@ -93,7 +93,7 @@ delTdelrp=-3.006315, approx=-3.006345, diff=0.000030
 delTdelthetap=1.345774, approx=1.345785, diff=-0.000012
 
 Compare hessT to the approximation (hessTD-hessT)./hessT
-ans =    1.0468e-04
+ans =  0.00010468
 EOF
 
 #

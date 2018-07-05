@@ -19,6 +19,7 @@ U=0,V=0,Q=6,M=10,R=1
 fap=0.15,dBap=0.1,Wap=1
 fas=0.3,dBas=50,Was=10
 ftp=0.25,tp=6,tpr=0.01,Wtp=0.1
+fpp=0.25,pd=0,ppr=0.002,Wpp=0.001
 
 strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,",fap,dBap,Wap);
 strM=strcat(strM, sprintf("fas=%g,dBas=%g,Was=%g,",fas,dBas,Was));
@@ -40,37 +41,38 @@ x7 = [   0.0094386 ...
 
 % Frequency vectors
 n=1000;
-wa=(0:(n-1))'*pi/n;
+
+% Pass-band amplitude constraints
 nap=ceil(fap*n/0.5)+1;
+wa=(0:nap)'*pi/n;
+Ad  = ones(size(wa));
+Adu = ones(size(wa));
+Adl = (10^(-dBap/20))*ones(size(wa));
+Wa=ones(size(wa));
+
+% Stop-band amplitude constraints
 nas=floor(fas*n/0.5)+1;
-ntp=ceil(ftp*n/0.5)+1;
-wt=(0:(ntp-1))'*pi/n;
-
-% Amplitude constraints
-Ad  = [ones(nap,1); zeros(n-nap,1)];
-Adu = [ones(nas-1,1); (10^(-dBas/20))*ones(n-nas+1,1)];
-Adl = [(10^(-dBap/20))*ones(nap,1); zeros(n-nap,1)];
-Wa  = [Wap*ones(nap,1); zeros(nas-nap-1,1); Was*ones(n-nas+1,1)];
-
-% Stop-band response constraints
-ws=[];
-Sd=[];
-Sdu=[];
-Sdl=[];
-Ws=[];
+ws=(nas:n)'*pi/n;
+Sd=zeros(size(ws));
+Sdu=(10^(-dBas/20))*ones(size(ws));
+Sdl=zeros(size(ws));
+Ws=Was*ones(size(ws));
 
 % Group delay constraints
-Td=tp*ones(ntp,1);
-Tdu=(tp+(tpr/2))*ones(ntp,1);
-Tdl=(tp-(tpr/2))*ones(ntp,1);
-Wt=Wtp*ones(ntp,1);
+ntp=ceil(ftp*n/0.5)+1;
+wt=(0:(ntp-1))'*pi/n;
+Wt=Wtp*ones(size(wt));
+Td=tp*ones(size(wt));
+Tdu=(tp+(tpr/2))*ones(size(wt));
+Tdl=(tp-(tpr/2))*ones(size(wt));
 
-% Phase response constraints
-wp=[];
-Pd=[];
-Pdu=[];
-Pdl=[];
-Wp=[];
+% Phase constraints
+npp=ceil(fpp*n/0.5)+1;
+wp=(0:(npp-1))'*pi/n;
+Wp=Wpp*ones(size(wp));
+Pd=pd-(tp*wp);
+Pdu=Pd+(ppr/2);
+Pdl=Pd-(ppr/2);
 
 Ax2=iirA(wa,x2,U,V,M,Q,R);
 Ax7=iirA(wa,x7,U,V,M,Q,R);
@@ -95,20 +97,26 @@ printf("vS before exchange constraints:\n");
 iir_slb_show_constraints(vSx7,wa,Ax7,ws,Sx7,wt,Tx7,wp,Px7);
 
 % Plot amplitude
+w=(0:(n-1))'*pi/n;
+f=w*0.5/pi;
+AAx2=iirA(w,x2,U,V,M,Q,R);
+AAdu = [ones(nas-1,1); (10^(-dBas/20))*ones(n-nas+1,1)];
+AAdl = [(10^(-dBap/20))*ones(nap,1); zeros(n-nap,1)];
 fa=wa*0.5/pi;
 strd=sprintf("iir_slb_exchange_constraints_test_%%s");
 strM2=sprintf(strM,"x2");
 subplot(211);
-plot(fa,[Ax2,Adu,Adl], ...
-     0.5*wa(vRx2.al)/pi,Ax2(vRx2.al),'*', ...
-     0.5*wa(vRx2.au)/pi,Ax2(vRx2.au),'*');
+plot(f,[AAx2,AAdu,AAdl], ...
+     fa(vRx2.al),Ax2(vRx2.al),'*', ...
+     fa(vRx2.au),Ax2(vRx2.au),'+');
 axis([0,0.5,0.9,1.1]);
 title(strM2);
 ylabel("Amplitude");
 subplot(212);
-plot(fa,[Ax2,Adu,Adl], ...
-     0.5*wa(vRx2.al)/pi,Ax2(vRx2.al),'*', ...
-     0.5*wa(vRx2.au)/pi,Ax2(vRx2.au),'*');
+fs=ws*0.5/pi;
+plot(f,[AAx2,AAdu,AAdl], ...
+     fs(vRx2.sl),Sx2(vRx2.sl),'*', ...
+     fs(vRx2.su),Sx2(vRx2.su),'+');
 axis([0,0.5,0,0.02]);
 ylabel("Amplitude");
 xlabel("Frequency")
@@ -118,19 +126,29 @@ close
 % Plot group delay
 ft=wt*0.5/pi;
 plot(ft,[Tx2,Tdu,Tdl], ...
-     0.5*wt(vRx2.tu)/pi,Tx2(vRx2.tu),'*', ...
-     0.5*wt(vRx2.tl)/pi,Tx2(vRx2.tl));
-% axis([0 ftp 0 tp*2]);
+     ft(vRx2.tu),Tx2(vRx2.tu),'+', ...
+     ft(vRx2.tl),Tx2(vRx2.tl),'*');
 title(strM2);
 ylabel("Group delay");
 xlabel("Frequency")
 print(sprintf(strd,"x2T"),"-dpdflatex");
 close
 
+% Plot phase
+fp=wp*0.5/pi;
+plot(fp,[Px2-Pd,Pdu-Pd,Pdl-Pd], ...
+     fp(vRx2.pu),Px2(vRx2.pu)-Pd(vRx2.pu),'+', ...
+     fp(vRx2.pl),Px2(vRx2.pl)-Pd(vRx2.pl),'*');
+title(strM2);
+ylabel("Phase(rad.)\n(Corrected for delay)");
+xlabel("Frequency")
+print(sprintf(strd,"x2P"),"-dpdflatex");
+close
+
 % Exchange constraints
 [vRx7,vSx7,exchanged] = ...
-  iir_slb_exchange_constraints(vSx7,vRx2,x7,U,V,M,Q,R,wa,Adu,Adl, ...
-                               ws,Sdu,Sdl,wt,Tdu,Tdl,wp,Pdu,Pdl,tol)
+iir_slb_exchange_constraints(vSx7,vRx2,x7,U,V,M,Q,R, ...
+                             wa,Adu,Adl,ws,Sdu,Sdl,wt,Tdu,Tdl,wp,Pdu,Pdl,tol)
 
 printf("vR after exchange constraints:\n");
 iir_slb_show_constraints(vRx7,wa,Ax7,ws,Sx7,wt,Tx7,wp,Px7);
@@ -139,21 +157,19 @@ printf("vS after exchange constraints:\n");
 iir_slb_show_constraints(vSx7,wa,Ax7,ws,Sx7,wt,Tx7,wp,Px7);
 
 % Plot amplitude
-fa=wa*0.5/pi;
-strd=sprintf("iir_slb_exchange_constraints_test_%%s");
+AAx7=iirA(w,x7,U,V,M,Q,R);
 strM7=sprintf(strM,"x7");
 subplot(211);
-plot(fa,[Ax2,Ax7,Adu,Adl], ...
-     0.5*wa(vRx2.al)/pi,Ax2(vRx2.al),'*',0.5*wa(vRx2.au)/pi,Ax2(vRx2.au),'+', ...
-     0.5*wa(vSx7.al)/pi,Ax7(vSx7.al),'*',0.5*wa(vSx7.au)/pi,Ax7(vSx7.au),'+');
-axis([0,0.5,10^(-2*dBap/20),10^(2*dBap/20)]);
+plot(f,[AAx2,AAx7,AAdu,AAdl], ...
+     fa(vRx2.al),Ax2(vRx2.al),'*',fa(vRx2.au),Ax2(vRx2.au),'+', ...
+     fa(vSx7.al),Ax7(vSx7.al),'*',fa(vSx7.au),Ax7(vSx7.au),'+');
+axis([0,0.5,10^(-10*dBap/20),10^(2*dBap/20)]);
 title(strM7);
 ylabel("Amplitude");
 subplot(212);
-plot(fa,[Ax2,Ax7,Adu,Adl], ...
-     0.5*wa(vRx2.al)/pi,Ax2(vRx2.al),'*',0.5*wa(vRx2.au)/pi,Ax2(vRx2.au),'+', ...
-     0.5*wa(vSx7.al)/pi,Ax7(vSx7.al),'*',0.5*wa(vSx7.au)/pi,Ax7(vSx7.au),'+');
-% axis([0,0.5,0,10^(-2*dBas/20)]);
+plot(f,[AAx2,AAx7,AAdu,AAdl], ...
+     fs(vRx2.sl),Sx2(vRx2.sl),'*',fs(vRx2.su),Sx2(vRx2.su),'+', ...
+     fs(vSx7.sl),Sx7(vSx7.sl),'*',fs(vSx7.su),Sx7(vSx7.su),'+');
 axis([0 0.5 0 2e-2]);
 ylabel("Amplitude");
 xlabel("Frequency")
@@ -163,14 +179,28 @@ close
 % Plot group delay
 ft=wt*0.5/pi;
 plot(ft,[Tx2,Tx7,Tdu,Tdl], ...
-     0.5*wt(vRx2.tl)/pi,Tx2(vRx2.tl),'*',0.5*wt(vRx2.tu)/pi,Tx2(vRx2.tu),'+',
-     0.5*wt(vSx7.tl)/pi,Tx7(vSx7.tl),'*',0.5*wt(vSx7.tu)/pi,Tx7(vSx7.tu),'+');
-axis([0 ftp tp-(tpr*10) tp+(tpr*10)]);
+     ft(vRx2.tl),Tx2(vRx2.tl),'*',ft(vRx2.tu),Tx2(vRx2.tu),'+',
+     ft(vSx7.tl),Tx7(vSx7.tl),'*',ft(vSx7.tu),Tx7(vSx7.tu),'+');
+axis([0 ftp tp-(2*tpr) tp+(2*tpr)]);
 title(strM7);
 ylabel("Group delay");
 xlabel("Frequency")
 print(sprintf(strd,"x7T"),"-dpdflatex");
 close
 
+% Plot phase
+plot(fp,[Px2-Pd,Px7-Pd,Pdu-Pd,Pdl-Pd], ...
+     fp(vRx2.pl),Px2(vRx2.pl)-Pd(vRx2.pl),'*', ...
+     fp(vRx2.pu),Px2(vRx2.pu)-Pd(vRx2.pu),'+', ...
+     fp(vSx7.pl),Px7(vSx7.pl)-Pd(vSx7.pl),'*', ...
+     fp(vSx7.pu),Px7(vSx7.pu)-Pd(vSx7.pu),'+');
+axis([0 fpp -ppr ppr]);
+title(strM2);
+ylabel("Phase(rad.)\n(Corrected for delay)");
+xlabel("Frequency")
+print(sprintf(strd,"x7P"),"-dpdflatex");
+close
+
 diary off
-movefile iir_slb_exchange_constraints_test.diary.tmp iir_slb_exchange_constraints_test.diary;
+movefile iir_slb_exchange_constraints_test.diary.tmp ...
+         iir_slb_exchange_constraints_test.diary;

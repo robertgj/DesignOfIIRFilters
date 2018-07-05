@@ -17,68 +17,34 @@ maxiter=2000
 verbose=false
 
 % Initial coefficients found by tarczynski_parallel_allpass_test.m
-D1_0 = [  1.0000000000,   0.6972800895,  -0.2975062139,  -0.3126568149, ... 
-         -0.1822056467,   0.0540553513,   0.0875337561,  -0.1043233247, ... 
-          0.1845966147,   0.0440769846,  -0.1321003444,   0.0451934246 ]';
-D2_0 = [  1.0000000000,   0.1561452139,  -0.3135749197,   0.3178482983, ... 
-          0.1300074645,   0.0784806204,  -0.0638102286,  -0.1841984885, ... 
-          0.2692567177,  -0.0893424226,  -0.1362442636,   0.1339410075, ... 
-         -0.0582210798 ]';
+D1_0 = [  1.0000000000,   0.6972804509,  -0.2975059919,  -0.3126579214, ... 
+         -0.1822064777,   0.0540555083,   0.0875335651,  -0.1043234245, ... 
+          0.1845963009,   0.0440770573,  -0.1321001195,   0.0451931216 ]';
+D2_0 = [  1.0000000000,   0.1561458040,  -0.3135745087,   0.3178477288, ... 
+          0.1300080918,   0.0784815680,  -0.0638104663,  -0.1841982522, ... 
+          0.2692566794,  -0.0893419692,  -0.1362440598,   0.1339406290, ... 
+         -0.0582207682 ]';
 
 % Lattice decomposition of D1_0, D2_0
 [A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(D1_0),D1_0);
 [A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(D2_0),D2_0);
 
 % Low pass filter specification
-if 0
-  n=400
-  difference=false
-  m1=11 % Allpass model filter 1 denominator order
-  m2=12 % Allpass model filter 2 denominator order
-  fap=0.15 % Pass band amplitude response edge
-  dBap=1 % Pass band amplitude response ripple
-  Wap=1 % Pass band amplitude response weight
-  Wat=0 % Transition band amplitude response weight
-  fas=0.2 % Stop band amplitude response edge
-  dBas=35 % Stop band amplitude response ripple
-  Was=1e4 % Stop band amplitude response weight
-  ftp=0.175 % Pass band group delay response edge
-  td=(m1+m2)/2 % Pass band nominal group delay
-  tdr=0.4 % Pass band group delay response ripple
-  Wtp=0.01 % Pass band group delay response weight
-elseif 0
-  n=400
-  difference=false
-  m1=11 % Allpass model filter 1 denominator order
-  m2=12 % Allpass model filter 2 denominator order
-  fap=0.15 % Pass band amplitude response edge
-  dBap=3 % Pass band amplitude response ripple
-  Wap=1 % Pass band amplitude response weight
-  Wat=0 % Transition band amplitude response weight
-  fas=0.2 % Stop band amplitude response edge
-  dBas=40 % Stop band amplitude response ripple
-  Was=1e4 % Stop band amplitude response weight
-  ftp=0.175 % Pass band group delay response edge
-  td=(m1+m2)/2 % Pass band nominal group delay
-  tdr=0.04 % Pass band group delay response ripple
-  Wtp=1 % Pass band group delay response weight
-else
-  n=400
-  difference=false
-  m1=11 % Allpass model filter 1 denominator order
-  m2=12 % Allpass model filter 2 denominator order
-  fap=0.125 % Pass band amplitude response edge
-  dBap=0.1 % Pass band amplitude response ripple
-  Wap=1 % Pass band amplitude response weight
-  Wat=0 % Transition band amplitude response weight
-  fas=0.25 % Stop band amplitude response edge
-  dBas=60 % Stop band amplitude response ripple
-  Was=1e2 % Stop band amplitude response weight
-  ftp=0.175 % Pass band group delay response edge
-  td=(m1+m2)/2 % Pass band nominal group delay
-  tdr=0.08 % Pass band group delay response ripple
-  Wtp=2 % Pass band group delay response weight
-endif
+n=400
+difference=false
+m1=11 % Allpass model filter 1 denominator order
+m2=12 % Allpass model filter 2 denominator order
+fap=0.125 % Pass band amplitude response edge
+dBap=0.1 % Pass band amplitude response ripple
+Wap=1 % Pass band amplitude response weight
+Wat=0 % Transition band amplitude response weight
+fas=0.25 % Stop band amplitude response edge
+dBas=60 % Stop band amplitude response ripple
+Was=1e2 % Stop band amplitude response weight
+ftp=0.175 % Pass band group delay response edge
+td=(m1+m2)/2 % Pass band nominal group delay
+tdr=0.08 % Pass band group delay response ripple
+Wtp=2 % Pass band group delay response weight
 
 % Amplitude constraints
 wa=(0:(n-1))'*pi/n;

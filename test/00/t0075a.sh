@@ -6,7 +6,8 @@ depends="iir_frm_slb_update_constraints_test.m test_common.m \
 iir_frm_slb_update_constraints.m iir_frm_slb_show_constraints.m \
 iir_frm_struct_to_vec.m iir_frm_vec_to_struct.m \
 iir_frm.m iirA.m iirP.m iirT.m  iirdelAdelw.m \
-fixResultNaN.m xConstraints.m local_max.m tf2x.m x2tf.m"
+fixResultNaN.m xConstraints.m local_max.m tf2x.m x2tf.m qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -43,9 +44,9 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 verbose = 1
-tol =    1.0000e-05
-tol =    1.0000e-06
-constraints_tol =    1.0000e-07
+tol =  0.000010000
+tol =  0.0000010000
+constraints_tol =  0.00000010000
 maxiter =  5000
 verbose = 1
 Mmodel =  9
@@ -116,6 +117,7 @@ vS =
        212
        223
        234
+
 al=[ 156 201 218 241 ]
 au=[ 1 23 41 66 81 108 123 149 163 171 186 195 208 234 249 251 258 268 282 290 297 309 315 331 339 349 353 359 371 375 381 392 399 ]
 tl=[ 173 184 195 206 218 229 240 ]

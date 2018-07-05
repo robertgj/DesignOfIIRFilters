@@ -2,7 +2,7 @@
 
 prog=tf2x_x2tf_test.m
 
-depends="tf2x_x2tf_test.m test_common.m tf2x.m x2tf.m"
+depends="tf2x_x2tf_test.m test_common.m tf2x.m x2tf.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

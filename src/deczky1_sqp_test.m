@@ -12,25 +12,25 @@ tic;
 format compact
 
 tol=2e-4
-ctol=tol
+ctol=tol/100
 maxiter=2000
 verbose=false
 
+% Filter specifications
+fap=0.25,ftp=0.25,fas=0.3
+dBap=1,dBas=36,tp=8,tpr=2
+Wap=1,Wat=0.01,Was=1,Wtp=0.01
+
 % Initial filter from tarczynski_deczky1_test.m
 U=2,V=0,M=10,Q=6,R=1
-x0 = [  0.0095393248, ...
-       -2.3530732118,  -0.7662178198, ...
-        1.6712575992,   1.5552409763,   0.9700510001,   0.8901780773, ... 
-        0.8134531466, ...
-        0.3215459836,   1.0029563164,   1.9141390916,   2.1064191823, ... 
-        2.5091066137, ...
-        0.8790198707,   0.6933363297,   0.4636825808, ...
-        1.7964436442,   1.4853675461,   0.5712376550 ]';
-
-% Filter specifications
-fap=0.25,fas=0.3,ftp=0.25
-dBap=1,dBas=41,tp=9,tpr=1
-Wap=1,Wat=0.02,Was=50,Wtp=0.02
+x0 = [   0.0095380838, ...
+        -2.3532169349,  -0.7659973371, ...
+         0.8134368441,   0.8901741625,   0.9700306793,   1.5552500658, ... 
+         1.6712901509, ...
+         2.5091221805,   2.1065146355,   1.9141398197,   1.0029709238, ... 
+         0.3215162673, ...
+         0.4636942581,   0.6933148226,   0.8790093874, ...
+         0.5712250407,   1.4853477467,   1.7963981993 ]';
 
 % Strings
 strM=sprintf("%%s:fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g",
@@ -40,10 +40,10 @@ tpr=%g,Wtp=%g",fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
 strf="deczky1_sqp_test";
 
 % Frequency points
-n=200;
+n=400;
 
 % Coefficient constraints
-dmax=0.1;
+dmax=0.05;
 [xl,xu]=xConstraints(U,V,M,Q);
 
 % Amplitude constraints
@@ -55,27 +55,17 @@ Adu=[ones(nas-1,1); (10^(-dBas/20))*ones(n-nas+1,1)];
 Adl=[(10^(-dBap/20))*ones(nap,1);zeros(n-nap,1)];
 Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
 
-% Stop-band amplitude constraints
-ws=[];
-Sd=[];
-Sdu=[];
-Sdl=[];
-Ws=[];
+% Transition-band amplitude derivative constraint frequencies
+%wx=((nap+1):(nas-1))'*pi/n;
+wx=(nap:nas)'*pi/n;
 
 % Group delay constraints
 ntp=ceil(n*ftp/0.5)+1;
 wt=(0:(ntp-1))'*pi/n;
 Td=tp*ones(ntp,1);
-Tdu=(tp+((tpr-tol)/2))*ones(ntp,1);
-Tdl=(tp-((tpr-tol)/2))*ones(ntp,1);
+Tdu=(tp+(tpr/2))*ones(ntp,1);
+Tdl=(tp-(tpr/2))*ones(ntp,1);
 Wt=Wtp*ones(ntp,1);
-
-% Phase constraints
-wp=[];
-Pd=[];
-Pdu=[];
-Pdl=[];
-Wp=[];
 
 % Initial response
 strt=sprintf("Initial Deczky Ex. 1 : U=%d,V=%d,M=%d,Q=%d,R=%d", U,V,M,Q,R);
@@ -88,13 +78,12 @@ close
 
 % MMSE pass 1
 printf("\nMMSE pass 1:\n");
-vS=iir_slb_set_empty_constraints();
+vS=deczky1_slb_set_empty_constraints();
 [x1,E,sqp_iter,func_iter,feasible] = ...
-  iir_sqp_mmse(vS, ...
-               x0,xu,xl,dmax,U,V,M,Q,R, ...
-               wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
-               wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-               maxiter,tol,verbose)
+  deczky1_sqp_mmse(vS, ...
+                   x0,xu,xl,dmax,U,V,M,Q,R, ...
+                   wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx, ...
+                   maxiter,tol,verbose)
 if feasible == 0 
   error("x1(mmse) infeasible");
 endif
@@ -112,9 +101,9 @@ close
 % PCLS pass 1
 printf("\nPCLS pass 1:\n");
 [d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
-  iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
-          wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt, ...
-          wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose)
+  deczky1_slb(@deczky1_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
+              wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx, ...
+              maxiter,tol,ctol,verbose)
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
@@ -137,6 +126,14 @@ wAS=unique([wa(vAl);wa(vAu);wa(nap);wa(nas)]);
 AS=iirA(wAS,d1,U,V,M,Q,R);
 printf("d1:fAS=[ ");printf("%f ",wAS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:AS=[ ");printf("%f ",20*log10(AS'));printf(" ] (dB)\n");
+
+delAdelw=iirdelAdelw(wx,d1,U,V,M,Q,R);
+vAx=local_max(delAdelw);
+wAx=unique([wx(vAx);wa(nap);wa(nas)]);
+printf("d1:fAx=[ ");printf("%f ",wAx'*0.5/pi);printf(" ] (fs==1)\n");
+delAdelwx=delAdelw([vAx;1;length(wx)]);
+printf("d1:delAdelw=[ ");printf("%f ",delAdelwx);printf(" ]\n");
+
 T=iirT(wt,d1,U,V,M,Q,R);
 vTl=local_max(Tdl-T);
 vTu=local_max(T-Tdu);
@@ -176,7 +173,7 @@ print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 save deczky1_sqp_test.mat U V M Q R ...
-     tol ctol fap dBap Wap fas dBas Was ftp tp tpr Wtp x0 x1 d1
+     tol ctol fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp x0 x1 d1
 
 % Done
 toc

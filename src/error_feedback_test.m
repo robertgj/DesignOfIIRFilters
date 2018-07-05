@@ -85,8 +85,8 @@ error("max(abs(pib-p)) > 300*eps");
 endif
 Kib=diag(diag(U'*Korth*U));
 Wib=diag(diag(U'*Worth*U));
-if max(max(abs(Aib*Kib*Aib'+Bib*Bib'-Kib))) > 51*eps
-  error("max(max(abs(Aib*Kib*Aib'+Bib*Bib'-Kib))) > 51*eps");
+if max(max(abs(Aib*Kib*Aib'+Bib*Bib'-Kib))) > 60*eps
+  error("max(max(abs(Aib*Kib*Aib'+Bib*Bib'-Kib))) > 60*eps");
 endif
 if max(max(abs(Aib'*Wib*Aib+Cib'*Cib-Wib))) > 50*eps
   error("max(max(abs(Aib'*Wib*Aib+Cib'*Cib-Wib))) > 50*eps");

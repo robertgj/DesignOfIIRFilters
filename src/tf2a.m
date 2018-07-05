@@ -39,14 +39,14 @@ if nargin < 1
   print_usage("[a,V,Q]=tf2x(den,tol)");
 endif
 if nargin==1
-  tol=1e-9;
+  tol=100*eps;
 endif
 
 % Find real and complex zeros of den. (Finding the complex zeros that
 % have an imaginary part greater than zero).
-denz=roots(den);
+denz=qroots(den);
 iRdenz=find(abs(imag(denz))<tol);
-iCdenz=find(imag(denz)>tol);
+iCdenz=find(imag(denz)>=tol);
 
 % Make outputs
 a=[real(denz(iRdenz)); abs(denz(iCdenz)); angle(denz(iCdenz))];

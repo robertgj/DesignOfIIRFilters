@@ -102,12 +102,9 @@ print_polynomial(N0,"N0");
 print_polynomial(N0,"N0",strcat(strf,"_N0_coef.m"));
 print_polynomial(D0,"D0");
 print_polynomial(D0,"D0",strcat(strf,"_D0_coef.m"));
-[x0,U,V,M,Q]=tf2x(N0,D0);
-print_pole_zero(x0,U,V,M,Q,R,"x0");
-print_pole_zero(x0,U,V,M,Q,R,"x0",strcat(strf,"_x0_coef.m"));
 
 % Save the result
-save tarczynski_ex2_standalone_test.mat a1 a2 t1 t2 transf nN nD R N0 D0 D0R x0
+save tarczynski_ex2_standalone_test.mat a1 a2 t1 t2 transf nN nD R N0 D0 D0R
 
 diary off
 movefile tarczynski_ex2_standalone_test.diary.tmp ...

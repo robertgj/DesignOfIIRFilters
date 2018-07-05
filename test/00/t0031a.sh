@@ -4,7 +4,8 @@ prog=frm2ndOrderCascade_test.m
 
 depends="frm2ndOrderCascade_test.m test_common.m \
 print_polynomial.m frm2ndOrderCascade.m tf2casc.m casc2tf.m \
-frm2ndOrderCascade_struct_to_vec.m frm2ndOrderCascade_vec_to_struct.m"
+frm2ndOrderCascade_struct_to_vec.m frm2ndOrderCascade_vec_to_struct.m \
+qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -48,8 +49,8 @@ if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 # run and see if the results match
 #
 echo "Running octave-cli -q " $prog
-
-octave-cli -q $prog > test.out
+echo "warning('off');" >> .octaverc
+octave-cli -q $prog > test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.ok test.out

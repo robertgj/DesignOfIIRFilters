@@ -31,10 +31,10 @@ format compact
 strf="branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test";
 
 % Initial filters found by parallel_allpass_socp_slb_test.m
-Da1 = [   1.0000000000,  -2.9447627177,   4.3192364731,  -3.5706356574, ... 
-          1.6749334117,  -0.3527563375 ]';
-Db1 = [   1.0000000000,  -3.5159456806,   6.3379361398,  -6.8370848228, ... 
-          4.6564922855,  -1.8722719971,   0.3547979979 ]';
+Da1 = [   1.0000000000,  -2.9370256814,   4.2987046309,  -3.5450945854, ... 
+          1.6585880492,  -0.3480706806 ]';
+Db1 = [   1.0000000000,  -3.5079720067,   6.3124993689,  -6.7966514690, ... 
+          4.6197923326,  -1.8531196768,   0.3501151401 ]';
 
 % Lattice decomposition of Da1 and Db1
 [A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(Da1),Da1);
@@ -69,7 +69,7 @@ Wat=1
 fas=0.17
 fase=0.18
 dBas=63
-Was=1e4
+Was=1e5
 Wase=Was % Extra passband weight decreasing linearly from fas to fase
 
 %
@@ -172,10 +172,10 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 
 % Fix one coefficient at each iteration 
 if use_best_branch_and_bound_found
-  A1k_min=[ -24576  29696 -27392  23552 -10240 ]'/nscale
-  A2k_min=[ -20735  31736 -27648  27648 -23552  10240 ]'/nscale;
+  A1k_min = [ -22528,  30720, -26624,  24064, -12160 ]'/nscale;
+  A2k_min = [ -19704,  32448, -25088,  28544, -23552,  12288 ]'/nscale;
   k_min=[A1k_min(:);A2k_min(:)];
-  branches_min=55;
+  branches_min=47; % 486 seconds
   Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon0,A1p_ones, ...
                                 A2k_min,A2epsilon0,A2p_ones, ...
                                 difference,wa,Asqd,Wa);

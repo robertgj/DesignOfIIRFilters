@@ -37,7 +37,7 @@ function [a1,a2]=tf2pa(n,d)
 
   % Roots of n+q
   nq=n+q;
-  z=roots(nq);
+  z=qroots(nq);
 
   % Find denominators of a1 and a2
   a1=[1];
@@ -60,4 +60,5 @@ function [a1,a2]=tf2pa(n,d)
   endif
   a1=real(a1(:)');
   a2=real(a2(:)');
+  
 endfunction

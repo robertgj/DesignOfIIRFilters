@@ -131,4 +131,5 @@ iir_gi_gx([],xl,xu,U,V,M,Q,R,wa(1:15:end),Adu(1:15:end),Adl(1:15:end));
 
 % Done 
 diary off
-movefile goldfarb_idnani_fir_minimum_phase_test.diary.tmp goldfarb_idnani_fir_minimum_phase_test.diary;
+movefile goldfarb_idnani_fir_minimum_phase_test.diary.tmp ...
+         goldfarb_idnani_fir_minimum_phase_test.diary;

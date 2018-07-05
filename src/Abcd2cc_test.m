@@ -118,7 +118,7 @@ legend("boxoff");
 legend("left");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([0 0.06 -1 15]);
+axis([0 0.06 -1 1]);
 grid("on");
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close

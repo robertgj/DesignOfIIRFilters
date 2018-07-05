@@ -12,7 +12,7 @@ parallel_allpass_slb_show_constraints.m \
 parallel_allpass_slb_update_constraints.m \
 parallel_allpass_socp_mmse.m allpassP.m allpassT.m tf2a.m a2tf.m \
 aConstraints.m print_polynomial.m print_pole_zero.m local_max.m \
-SeDuMi_1_3/"
+qroots.m qzsolve.oct SeDuMi_1_3/"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -49,19 +49,22 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_a1_coef.m.ok << 'EOF'
-Ua1=0,Va1=2,Ma1=0,Qa1=8,Ra1=1
+Ua1=0,Va1=0,Ma1=0,Qa1=10,Ra1=1
 a1 = [   1.0000000000, ...
-        -0.3757771295,  -0.3664109615, ...
-         0.7668593807,   0.8332498331,   0.8169870519,   0.7995630856, ...
-         0.4192776566,   1.4605718252,   1.2198470614,   1.0170398617 ]';
+         0.3602523477,   0.7050893076,   0.7824436843,   0.8163809984, ... 
+         0.8293077198, ...
+         3.0946878253,   0.8225857969,   0.7720878547,   0.5392949510, ... 
+         1.5022993988 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m.ok"; fail; fi
+
 cat > test_b1_coef.m.ok << 'EOF'
-Ub1=0,Vb1=2,Mb1=0,Qb1=8,Rb1=1
+Ub1=0,Vb1=0,Mb1=0,Qb1=10,Rb1=1
 b1 = [   1.0000000000, ...
-        -0.3165665181,  -0.4040940010, ...
-         0.8297437365,   0.8168713661,   0.7015407179,   0.7842072108, ...
-         1.5024100239,   0.5401588381,   0.8218583732,   0.7739033961 ]';
+         0.3719065277,   0.7673421769,   0.7990888381,   0.8167947659, ... 
+         0.8328706278, ...
+         3.0339789741,   0.4187896711,   1.0167453706,   1.2195508704, ... 
+         1.4600526439 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_b1_coef.m.ok"; fail; fi
 
@@ -71,8 +74,10 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_b1_coef.m.ok"; fail; fi
 echo "Running octave-cli -q " $prog
 
 octave-cli -q $prog > test.out
+
 diff -Bb test_a1_coef.m.ok parallel_allpass_socp_slb_bandpass_test_a1_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb on test_a1_coef.m"; fail; fi
+
 diff -Bb test_b1_coef.m.ok parallel_allpass_socp_slb_bandpass_test_b1_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb on test_b1_coef.m"; fail; fi
 

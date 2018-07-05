@@ -25,9 +25,9 @@ Wp=1
 fs=0.17
 Ws=550
 % Initial coefficients found by tarczynski_allpass2ndOrderCascade_test.m
-ab0 = [  -0.6475200974,  -1.0286245304,   0.5495778602,  -0.9796121901, ... 
-          0.8253740677,  -1.0564090211,   0.4203096538,  -1.0164740576, ... 
-          0.8100941289,  -1.1075302979,   0.8738056038 ]';
+ab0 = [  -0.6296435763,  -1.0496696577,   0.5481680580,  -0.9786571127, ... 
+          0.8240237670,  -1.0529258085,   0.4039167225,  -1.0147463254, ... 
+          0.8081349396,  -1.1099274534,   0.8819867923 ]';
 a0=ab0(1:ma);
 b0=ab0((ma+1):end);
 
@@ -57,8 +57,8 @@ Hab0=(Ha0+Hb0)/2;
 Ha0p=allpass2ndOrderCascade(a0,wplot);
 Hb0p=allpass2ndOrderCascade(b0,wplot);
 Hab0p=(Ha0p+Hb0p)/2;
-if max(abs(Hab0-Hab0p)) > 746*eps
-  error("max(abs(Hab0-Hab0p)) > 746*eps");
+if max(abs(Hab0-Hab0p)) > 1000*eps
+  error("max(abs(Hab0-Hab0p)) > 1000*eps");
 endif
 Ta0=grpdelay(flipud(Da0),Da0,nplot);
 Tb0=grpdelay(flipud(Db0),Db0,nplot);

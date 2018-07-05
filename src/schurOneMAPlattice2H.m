@@ -99,8 +99,7 @@ endfunction
 function [H,dHdw,dHdk,d2Hdwdk,diagd2Hdk2,diagd3Hdwdk2]= ...
   schurOneMAPlattice2H_loop(w,_A,_B,_Cap,_Dap,_dAdk,_dBdk,_dCapdk,_dDapdk)
   
-  persistent Nw A B Cap Dap dAdk dBdk dCapdk dDapdk
-  persistent H dHdw dHdk d2Hdwdk diagd2Hdk2 diagd3Hdwdk2 Nk
+  persistent Nk Nw A B Cap Dap dAdk dBdk dCapdk dDapdk 
   persistent init_done=false
   if nargin==9
     A=_A; B=_B; Cap=_Cap; Dap=_Dap;

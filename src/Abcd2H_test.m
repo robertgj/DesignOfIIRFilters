@@ -634,9 +634,9 @@ diff_dHoptdx(1+Nc+Nr+(Nc*Nr))=...
   abs(((dHoptdxP(1+Nc+Nr+(Nc*Nr))-dHoptdxM(1+Nc+Nr+(Nc*Nr)))/del)-...
       diagd2Hoptdx2(1+Nc+Nr+(Nc*Nr)));
 % Check d2Hoptdx2
-if max(diff_dHoptdx) > 360.5*tol
+if max(diff_dHoptdx) > 500*tol
   error("max(abs(((dHoptdxP-dHoptdxM)/del)-diagd2Hoptdx2));)\
-(%g*tol) > 360.5*tol",max(diff_dHoptdx)/tol);
+(%g*tol) > 500*tol",max(diff_dHoptdx)/tol);
 endif
 
 % Check diagd3Hoptdwdx2

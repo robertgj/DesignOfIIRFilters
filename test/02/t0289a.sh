@@ -21,7 +21,7 @@ tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
 local_max.m tf2pa.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2H.oct SeDuMi_1_3/"
+schurOneMlattice2H.oct qroots.m qzsolve.oct SeDuMi_1_3/"
 
 tmp=/tmp/$$
 here=`pwd`

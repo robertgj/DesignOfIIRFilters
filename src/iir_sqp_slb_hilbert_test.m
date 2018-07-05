@@ -5,8 +5,6 @@
 % phase constraints near w=0 because the phase response has inflexions
 % but no peaks in that region.
 
-% TODO : set up octave and latex to use unicode pi(π) in labels
-
 test_common;
 
 unlink("iir_sqp_slb_hilbert_test.diary");
@@ -66,7 +64,7 @@ Td=td*ones(2*n,1);
 tdr=0.4;
 Tdu=[(td+(tdr/2))*ones(n-ntt,1);10*td*ones(2*ntt,1);(td+(tdr/2))*ones(n-ntt,1)];
 Tdl=[(td-(tdr/2))*ones(n-ntt,1);     zeros(2*ntt,1);(td-(tdr/2))*ones(n-ntt,1)];
-Wtp=1e-5;
+Wtp=1e-4;
 Wt=Wtp*[ones(n-ntt,1);zeros(2*ntt,1);ones(n-ntt,1)];
 
 % Phase constraints

@@ -26,7 +26,7 @@ dBap=0.05
 Wap=1
 fas=0.2
 dBas=46
-Was=100
+Was=200
 % Unused delay specification
 ftp=0.15
 td=11

@@ -45,8 +45,8 @@ endif
 
 % Check the group delay response
 max_Tap12_error=max(abs(tAap12check-T));
-if max_Tap12_error > 1350*eps
-  error("max_Tap12_error > 1350*eps");
+if max_Tap12_error > 1636*eps
+  error("max_Tap12_error > 1636*eps");
 endif
 
 % Calculate the gradients

@@ -11,7 +11,8 @@ parallel_allpass_slb_set_empty_constraints.m \
 parallel_allpass_slb_show_constraints.m \
 parallel_allpass_slb_update_constraints.m \
 parallel_allpass_socp_mmse.m allpassP.m allpassT.m tf2a.m a2tf.m \
-aConstraints.m print_polynomial.m print_pole_zero.m local_max.m SeDuMi_1_3/"
+aConstraints.m print_polynomial.m print_pole_zero.m local_max.m \
+qroots.m qzsolve.oct SeDuMi_1_3/"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -50,16 +51,17 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test_a1_coef.m.ok << 'EOF'
 Ua1=0,Va1=1,Ma1=0,Qa1=4,Ra1=1
 a1 = [   1.0000000000, ...
-         0.6250496954, ...
-        -0.7936416263,   0.9458093150, ...
-         3.8645866079,   0.9311291551 ]';
+         0.6222031323, ...
+         0.7911869225,   0.9453410664, ...
+         0.7232263761,   0.9311585311 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m.ok"; fail; fi
+
 cat > test_b1_coef.m.ok << 'EOF'
 Ub1=0,Vb1=0,Mb1=0,Qb1=6,Rb1=1
 b1 = [   1.0000000000, ...
-        -0.6825270808,   0.9841722372,   0.8860324295, ...
-         2.6974551585,   0.9572228974,   0.8647487310 ]';
+         0.6795801693,   0.8847974483,   0.9840584318, ...
+         5.8379536323,   0.8646750243,   0.9573349548 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_b1_coef.m.ok"; fail; fi
 
@@ -69,8 +71,10 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_b1_coef.m.ok"; fail; fi
 echo "Running octave-cli -q " $prog
 
 octave-cli -q $prog > test.out
+
 diff -Bb test_a1_coef.m.ok parallel_allpass_socp_slb_test_a1_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb on test_a1_coef.m"; fail; fi
+
 diff -Bb test_b1_coef.m.ok parallel_allpass_socp_slb_test_b1_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb on test_b1_coef.m"; fail; fi
 

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Assume these packages are installed:
-#  atlas.x86_64            3.10.3-1.fc27
-#  blas.x86_64             3.8.0-7.fc27
-#  lapack.x86_64           3.8.0-7.fc27
+#  atlas.x86_64            3.10.3-5.fc27
+#  blas.x86_64             3.8.0-8.fc27
+#  lapack.x86_64           3.8.0-8.fc27
 #  gsl.x86_64              2.4-3.fc27
 #  gsl-devel.x86_64        2.4-3.fc27
 #  openblas.x86_64         0.2.20-10.fc27
@@ -13,16 +13,15 @@
 
 # Assume these archive files are present:
 #  lapack-3.8.0.tar.gz
-#  lapack-3.8.0.patch
 #  SuiteSparse-4.5.6.tar.gz
 #  arpack-ng-master.zip
-#  fftw-3.3.7.tar.gz
+#  fftw-3.3.8.tar.gz
 #  qrupdate-1.1.2.tar.gz
-#  octave-4.2.2.tar.lz
-#  struct-1.0.14.tar.gz
+#  octave-4.4.0.tar.lz
+#  struct-1.0.15.tar.gz
 #  optim-1.5.2.tar.gz
 #  control-3.1.0.tar.gz
-#  signal-1.3.2.tar.gz
+#  signal-1.4.0.tar.gz
 
 # Disable CPU frequency scaling:
 # for c in `seq 0 7` ; do
@@ -83,8 +82,8 @@ export OCTAVE_CONFIG_OPTIONS=" \
        --with-fftw3f-libdir=$LOCAL_PREFIX/lib"
 
 # Unpack Octave
-export OCTAVEVER=4.2.2
-tar -xf octave-$OCTAVEVER.tar.lz
+export OCTAVEVER=4.4.0
+tar -xf octave-$OCTAVEVER".tar.lz"
 
 # Build the benchmark versions
 for BUILD in dbg shared shared-lto shared-pgo shared-lto-pgo ;
@@ -110,41 +109,48 @@ do
     echo "pkg prefix $OCTAVE_PACKAGE_DIR $OCTAVE_PACKAGE_DIR ; \
           pkg local_list $OCTAVE_PACKAGES ;" > .octaverc
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../struct-1.0.14.tar.gz'
+                                       'pkg install ../struct-1.0.15.tar.gz'
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
                                        'pkg install ../optim-1.5.2.tar.gz'
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
                                        'pkg install ../control-3.1.0.tar.gz'
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../signal-1.3.2.tar.gz'
+                                       'pkg install ../signal-1.4.0.tar.gz'
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval "pkg list"
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval "__octave_config_info__"
     #
     echo "Testing " $BUILD
     #
-    for file in iir_sqp_slb_bandpass_test.m \
-      test_common.m print_polynomial.m print_pole_zero.m \
-      iir_slb.m iir_sqp_mmse.m iir_slb_show_constraints.m \
-      iir_slb_update_constraints.m iir_slb_exchange_constraints.m \
-      iir_slb_constraints_are_empty.m iir_slb_set_empty_constraints.m \
-      Aerror.m Terror.m armijo_kim.m cl2bp.m fixResultNaN.m \
-      iirA.m iirE.m iirP.m iirT.m iir_sqp_octave.m invSVD.m \
-      local_max.m local_peak.m showResponseBands.m showResponse.m \
-      showResponsePassBands.m showZPplot.m sqp_bfgs.m tf2x.m updateWchol.m \
-      updateWbfgs.m x2tf.m xConstraints.m ; do
-        cp -f ../../src/$file . 
-    done
+    cat > iir_benchmark.m << 'EOF'
+% Define a filter
+fc=0.10;U=2;V=2;M=20;Q=8;R=3;tol=1e-6;
+x0=[ 0.0089234, ...
+     2.0000000, -2.0000000,  ...
+     0.5000000, -0.5000000,  ...
+    -0.5000000, -0.5000000,  0.5000000,  0.5000000,  0.5000000, ...
+     0.5000000,  0.5000000,  0.5000000,  0.5000000,  0.8000000, ...
+     0.6700726,  0.7205564,  0.8963898,  1.1980053,  1.3738387, ...
+     1.4243225,  2.7644677,  2.8149515,  2.9907849,  1.9896753, ...
+    -0.9698147, -0.8442244,  0.4511337,  0.4242641, ...
+     1.8917946,  1.7780303,  1.2325954,  0.7853982 ]';
+% Run
+nplot=4000;
+w=(0:(nplot-1))'*pi/nplot;
+id=tic();
+for n=1:100
+  [A,gradA,hessA]=iirA(w,x0,U,V,M,Q,R,tol);
+  [T,gradT,hessT]=iirT(w,x0,U,V,M,Q,R,tol);
+  [P,gradP]=iirP(w,x0,U,V,M,Q,R,tol);
+endfor
+toc(id)
+EOF
+    cp -f ../../src/{fixResultNaN,iirA,iirP,iirT}.m .
     #
     for k in `seq 1 10`; do \
       LD_PRELOAD=$LAPACK_DIR"/liblapack.so:"$LAPACK_DIR"/libblas.so" \
-        $OCTAVE_INSTALL_DIR/bin/octave-cli iir_sqp_slb_bandpass_test.m
-      mv iir_sqp_slb_bandpass_test.diary \
-         iir_sqp_slb_bandpass_test.diary.$BUILD.$k
-    done
-    grep Elapsed iir_sqp_slb_bandpass_test.diary.$BUILD.* | \
-      awk -v build_var=$BUILD '{elapsed=elapsed+$4;}; \
-        END {printf("iir_sqp_slb_bandpass_test %s elapsed=%g\n", \
-                    build_var,elapsed/10);}'
+        $OCTAVE_INSTALL_DIR/bin/octave-cli iir_benchmark.m
+    done | awk -v build_var=$BUILD '{elapsed=elapsed+$4;}; \
+      END {printf("iir_benchmark %s elapsed=%g\n",build_var,elapsed/10);}'
     #
     popd
     #    

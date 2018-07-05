@@ -205,7 +205,7 @@ nap=ceil(n*fap/0.5)+1;
 napM=(ceil(n*fap/0.5)/Mmodel)+1;
 T=T(1:napM);
 Tp=Tp(1:napM);
-tolT=1120*eps;
+tolT=2000*eps;
 if max(abs(T-Tp)) > tolT
   error("max(abs(T-Tp)) > tolT (%d*eps)",ceil(max(abs(T-Tp))/eps));
 endif
@@ -285,7 +285,7 @@ wap=2*pi*fap/8;
   iir_frm_parallel_allpass(wap,xk,Vr,Qr,Vs,Qs,na,nc,Mmodel);
 del=1e-7;
 tol_gradAsq=del/10;
-tol_gradT=del*4;
+tol_gradT=del*5;
 delxk=[del;zeros(length(xk)-1,1)];
 for k=1:length(xk)
   % Approximate gradAsq and gradT for this coefficient

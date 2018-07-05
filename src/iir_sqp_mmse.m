@@ -223,17 +223,17 @@ function [E,gradE,hessE,func_iter] = ...
                          _wa,_Ad,_Wa,_ws,_Sd,_Ws,_wt,_Td,_Wt,_wp,_Pd,_Wp)
          
   persistent U V M Q R N wa Ad Wa ws Sd Ws wt Td Wt wp Pd Wp
-  persistent func_iter=0
+  persistent iter=0
   persistent init_complete=false
 
-  % Initialise persistent (constant) values
+  % Initialise persistent (constant) values 
   if nargin == 1
     if init_complete == false
       error("nargin==1 && init_complete==false");
     endif
   elseif nargout == 4
     % Hack to avoid a global for func_iter
-    E=inf;gradE=[];hessE=[];
+    E=inf;gradE=[];hessE=[];func_iter=iter;
     return;
   elseif nargin == 18
     U=_U;V=_V;M=_M;Q=_Q;R=_R;
@@ -242,7 +242,7 @@ function [E,gradE,hessE,func_iter] = ...
     ws=_ws;Sd=_Sd;Ws=_Ws;
     wt=_wt;Td=_Td;Wt=_Wt;
     wp=_wp;Pd=_Pd;Wp=_Wp;
-    func_iter=0;
+    iter=0;
     init_complete=true;
   else
     print_usage("[E,gradE,hessE,func_iter] = iir_sqp_mmse(x, ... );");
@@ -252,7 +252,8 @@ function [E,gradE,hessE,func_iter] = ...
   endif
 
   % Calculate error, error gradient and error Hessian 
-  func_iter=func_iter+1;
+  iter=iter+1;
+  func_iter=iter;
   if nargout == 3
     [E,gradE,hessE]=iirE(x,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp);
   elseif nargout == 2
@@ -330,7 +331,7 @@ function [gx,B] = iir_sqp_mmse_gx(x,_vS,_U,_V,_M,_Q,_R, ...
     Au=iirA(wa(vS.au),x,U,V,M,Q,R);
     gradSl=[];
     Sl=iirA(ws(vS.sl),x,U,V,M,Q,R);
-    gradAu=[];
+    gradSu=[];
     Su=iirA(ws(vS.su),x,U,V,M,Q,R);
     gradTl=[];
     Tl=iirT(wt(vS.tl),x,U,V,M,Q,R);

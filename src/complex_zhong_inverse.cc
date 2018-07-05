@@ -86,7 +86,7 @@ DEFUN_DLD(complex_zhong_inverse,args,nargout,"B=complex_zhong_inverse(A)")
     }
   if (args(0).rows() <= 2)
     {
-      return feval("inv",args(0),1);
+      return octave::feval("inv",args(0),1);
     }
 
   ComplexMatrix A=args(0).complex_matrix_value();

@@ -53,7 +53,7 @@ mwIndex blkLDL(const mwIndex neqns, const mwIndex nsuper, const mwIndex *xsuper,
 void isscalarmul(double *x, double alpha, mwIndex n)
 {
     blasint one=1,nn=n;
-    FORT(dscal)(&n,&alpha,x,&one);
+    FORT(dscal)(&nn,&alpha,x,&one);
 }
 
 /* ************************************************************

@@ -15,14 +15,19 @@ maxiter=1000
 strf="parallel_allpass_socp_slb_test";
 
 % Initial filter from tarczynski_parallel_allpass_test.m with flat_delay=false
-Da0 = [   1.0000000000,   0.0331304951,  -0.7339349053,   0.6814792581, ... 
-          0.2853107764,  -0.3284984064 ]';
-Db0 = [   1.0000000000,  -0.5458089218,  -0.4196277845,   1.3137217521, ... 
-         -0.2788635838,  -0.4153187918,   0.3450721543 ]';
+Da0 = [   1.0000000000,   0.0331350534,  -0.7339303797,   0.6814695090, ... 
+          0.2853089664,  -0.3284905582 ]';
+Db0 = [   1.0000000000,  -0.5458004122,  -0.4196227296,   1.3137107887, ... 
+         -0.2788556957,  -0.4153109600,   0.3450643233 ]';
 
-% Lowpass filter specification
-tol=5e-5
-ctol=5e-10
+% Lowpass filter specification (tol=5e-5,ctol=5e-10 is not repeatable!)
+tol=1e-4
+ctol=1e-9
+% The default SeDuMi eps is 1e-8 which is insufficient for this example.
+% Pass separate tolerances for the coefficient step and SeDuMi eps.
+del.dtol=tol;
+del.stol=ctol;
+warning("Using coef. delta tolerance=%g, SeDuMi eps=%g\n",del.dtol,del.stol);
 n=2000;
 polyphase=false
 difference=false
@@ -43,8 +48,9 @@ Wtp=0
 fas=0.17
 fase=0.18
 dBas=83
-Was=1e6
-Wase=Was/4 % Extra passband weight decreasing linearly from fas to fase
+Was_mmse=1e5
+Wase=Was_mmse/4 % Extra passband weight decreasing linearly from fas to fase
+Was_pcls=1e-6 % Do not attempt to minimise MMSE squared error
 
 % Convert coefficients to a vector
 ab0=zeros(ma+mb,1);
@@ -65,12 +71,14 @@ wa=(0:(n-1))'*pi/n;
 Asqd=[ones(nap,1);zeros(n-nap,1)];
 Asqdu=[ones(nas-1,1);(10^(-dBas/10))*ones(n-nas+1,1)];
 Asqdl=[(10^(-dBap/10))*ones(nap,1);zeros(n-nap,1)];
-Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
+Wa_mmse=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was_mmse*ones(n-nas+1,1)];
 Wae=[zeros(nape,1); ...
      Wape*((1:(nap-nape))'/(nap-nape)); ...
      zeros(nas-nap-1,1)
      Wase*(((nase-nas):-1:1)'/(nase-nas)); ...
      zeros(n-nase+1,1)];
+Wa_mmse=Wa_mmse+Wae;
+Wa_pcls=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was_pcls*ones(n-nas+1,1)];
 
 % Sanity checks
 nchka=[nape-1,nape,nape+1,nap-1,nap,nap+1,nas-1,nas,nas+1,nase-1,nase,nase+1]';
@@ -78,8 +86,9 @@ printf("0.5*wa(nchka)'/pi=[ ");printf("%6.4g ",0.5*wa(nchka)'/pi);printf("];\n")
 printf("Asqd(nchka)=[ ");printf("%6.4g ",Asqd(nchka)');printf("];\n");
 printf("Asqdu(nchka)=[ ");printf("%6.4g ",Asqdu(nchka)');printf("];\n");
 printf("Asqdl(nchka)=[ ");printf("%6.4g ",Asqdl(nchka)');printf("];\n");
-printf("Wa(nchka)=[ ");printf("%6.4g ",Wa(nchka)');printf("];\n");
+printf("Wa_mmse(nchka)=[ ");printf("%6.4g ",Wa_mmse(nchka)');printf("];\n");
 printf("Wae(nchka)=[ ");printf("%6.4g ",Wae(nchka)');printf("];\n");
+printf("Wa_pcls(nchka)=[ ");printf("%6.4g ",Wa_pcls(nchka)');printf("];\n");
 
 % Desired pass-band group delay response
 wt=[];
@@ -138,7 +147,7 @@ printf("Starting MMSE pass\n");
 [abm,opt_iter,func_iter,feasible]= ...
 parallel_allpass_socp_mmse([],ab0,abu,abl, ...
                            Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
-                           wa,Asqd,Asqdu,Asqdl,Wa+Wae,wt,Td,Tdu,Tdl,Wt, ...
+                           wa,Asqd,Asqdu,Asqdl,Wa_mmse,wt,Td,Tdu,Tdl,Wt, ...
                            wp,Pd,Pdu,Pdl,Wp,maxiter,tol,false);
 if feasible
   printf("Found feasible MMSE abm=[ ");printf("%g ",abm(:)');printf("]';\n");
@@ -152,8 +161,8 @@ ax=plotyy(wa(1:nap)*0.5/pi,10*log10(Asq_mmse(1:nap)), ...
           wa(nas:end)*0.5/pi,10*log10(Asq_mmse(nas:end)));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
-axis(ax(1),[0 0.5 -0.04 0.01]);
-axis(ax(2),[0 0.5 -100 -75]);
+axis(ax(1),[0 0.5 -0.3 0.05]);
+axis(ax(2),[0 0.5 -90 -55]);
 strt=sprintf("Parallel allpass MMSE response : ma=%d,mb=%d,fap=%g,fas=%g", ...
              ma,mb,fap,fas);
 title(strt);
@@ -167,19 +176,10 @@ close
 % PCLS pass
 %
 printf("Starting PCLS pass\n");
-% The default SeDuMi eps is 1e-8 which is insufficient for this example.
-% Pass separate tolerances for the coefficient step and SeDuMi eps.
-del.dtol=tol;
-del.stol=ctol;
-warning("Using coef. delta tolerance=%g, SeDuMi eps=%g\n",del.dtol,del.stol);
-% Do not attempt to minimise MMSE squared error
-Was=1e-6
-Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
-% Go
 [ab1,slb_iter,opt_iter,func_iter,feasible]= ...
 parallel_allpass_slb(@parallel_allpass_socp_mmse,abm,abu,abl, ...
                      Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
-                     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
+                     wa,Asqd,Asqdu,Asqdl,Wa_pcls,wt,Td,Tdu,Tdl,Wt, ...
                      wp,Pd,Pdu,Pdl,Wp,maxiter,del,ctol,verbose);
 if feasible
   printf("Found feasible PCLS ab1=[ ");printf("%g ",ab1(:)');printf("]';\n");
@@ -250,17 +250,17 @@ close
 
 % Plot poles and zeros
 subplot(111);
-zplane(roots(Nab1),roots(Dab1));
+zplane(qroots(Nab1),qroots(Dab1));
 title(strt);
 print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 subplot(111);
-zplane(roots(Na1),roots(Da1));
+zplane(qroots(Na1),qroots(Da1));
 title("Allpass filter A");
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 subplot(111);
-zplane(roots(Nb1),roots(Db1));
+zplane(qroots(Nb1),qroots(Db1));
 title("Allpass filter B");
 print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
@@ -293,7 +293,10 @@ fprintf(fid,"dBap=%f %% Pass band amplitude response ripple\n",dBap);
 fprintf(fid,"Wap=%d %% Pass band amplitude response weight\n",Wap);
 fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
 fprintf(fid,"dBas=%f %% Stop band amplitude response ripple\n",dBas);
-fprintf(fid,"Was=%d %% Stop band amplitude response weight\n",Was);
+fprintf(fid,"Was_mmse=%d %% Stop band amplitude response weight(MMSE)\n",
+        Was_mmse);
+fprintf(fid,"Was_pcls=%d %% Stop band amplitude response weight(PCLS)\n",
+        Was_pcls);
 fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fclose(fid);
 
@@ -315,7 +318,7 @@ print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
 % Done 
 save parallel_allpass_socp_slb_test.mat ...
-     n fap Wap fas Was ma mb Ra Rb ab0 abm ab1 Da1 Db1
+     n fap Wap fas Was_mmse Was_pcls ma mb Ra Rb ab0 abm ab1 Da1 Db1
 toc;
 diary off
 movefile parallel_allpass_socp_slb_test.diary.tmp ...

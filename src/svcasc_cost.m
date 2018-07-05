@@ -141,7 +141,7 @@ function [cost,a11,a12,a21,a22,b1,b2,c1,c2,dd,svecnz_out] = ...
   % Find cost
   [n,d]=svcasc2tf(a11,a12,a21,a22,b1,b2,c1,c2,dd);
   % Check stability
-  if any(abs(roots(d)) >= 1)
+  if any(abs(qroots(d)) >= 1)
     cost=max_cost;
     return;
   endif

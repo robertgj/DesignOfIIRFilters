@@ -49,8 +49,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 maxiter =  2000
-tol =    5.0000e-06
-verbose =  1
+tol =  0.0000050000
+verbose = 1
 fap =  0.15000
 dBap =  0.10000
 Wap =  1
@@ -65,8 +65,8 @@ al=[ 1 301 ]
 au=[ 191 601 655 ]
 tl=[ 1 246 443 ]
 tu=[ 126 355 498 ]
-pl=[ ]
-pu=[ ]
+pl=[  ]
+pu=[  ]
 al=[ 1 301 ]
 f(al)=[ 0.000000 0.150000 ](fs=1)
 Asql=[ -0.184653 -0.786008 ](dB)

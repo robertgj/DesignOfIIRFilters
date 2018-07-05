@@ -18,6 +18,7 @@
 @String{JSV = {Journal of Sound and Vibration}}
 @String{SigProc = {Signal Processing}}
 @String{SIAM_JOPT = {SIAM Journal on Optimization}}
+@String{TRANS_IECE = {The Transactions of the IECE of Japan}}
 
 @Misc{ARPACKNG_website,
   key =          {ARPACK-NG},
@@ -60,6 +61,19 @@
   year =         2001,
   volume =       95,
   pages =        {3--51}
+}
+
+@Article{AnsariLiu_LowNoiseEfficientRecursiveDigitalFilters,
+  author =       {{R. Ansari and B. Liu}},
+  title =        {{A Class of Low-Noise Computationally Efficient Recursive
+                   Digital Filters with Applications to Sampling Rate
+                   Alterations}},
+  journal =      IEEE_TRANS_ASSP,
+  year =         1985,
+  volume =       33,
+  number =       1,
+  pages =        {90--97},
+  month =        {February},
 }
 
 @Book{AntoniouLu_PracticalOptimization,
@@ -112,6 +126,12 @@
   author =       {{J. Bezanson, S. Karpinski et. al.}},
   title =        {{The julia language}},
   howpublished = {\url{http://julialang.org}}
+}
+
+@Misc{BiniFiorentinoRobol_mpsolve,
+  author =       {{D. A. Bini, G. Fiorentino and L. Robol}},
+  title =        {{Multiprecision Polynomial Solver}},
+  howpublished = {\url{https://github.com/robol/MPSolve}}
 }
 
 @Article{Bomar_NewSecondOrderStateSpaceStructures,
@@ -285,6 +305,12 @@
   howpublished = {\url{http://gmplib.org}}
 }
 
+@Misc{GNU_GSL,
+  title =        {{GMP - GNU Scientific Library}},
+  author =       {GNU Project},
+  howpublished = {\url{https://www.gnu.org/software/gsl/}}
+}
+
 @Article{GoemansWilliamson_ImprovedApproximationMaximumCut,
   author =       {{M. X. Goemans and D. P. Williamson}},
   title =        {{Improved Approximation Algorithms for Maximum Cut and
@@ -403,6 +429,15 @@
                   {\url{http://www.eurasip.org/Proceedings/Eusipco/Eusipco2004/defevent/papers/cr1722.pdf}}
 }
 
+@InProceedings{IvanovaStoyanov_LowSensitivitySecondOrderAllpass,
+  author =       {{K. Ivanova and G.Stoyanov}},
+  title =        {{A New Low-sensitivity Second-order Allpass Section Suitable for Fractional Delay Filter Realizations}},
+  booktitle =    {TELSIKS 2007},
+  year =         {2007},
+  month =        {September},
+  pages =        {317--320},
+}
+
 @Article{JohanssonWanhammar_RecursiveDigitalFiltersFrequencyMasking,
   author =       {{H. Johansson and L. Wanhammar}},
   title =        {{High-Speed Recursive Digital Filters Based on the
@@ -503,6 +538,12 @@
   pages =        {1455--1458},
 }
 
+@Misc{LAPACK_website,
+  key =          {LAPACK},
+  title =        {{LAPACK-Linear Algebra PACKage}},
+  howpublished = {\url{http://http://www.netlib.org/lapack/}}
+}
+
 @Article{LandDoig_AutomaticMethodSolvingDiscreteProgrammingProblems,
   author =       {{A. H. Land and A. G. Doig}},
   title =        {{An Automatic Method Of Solving Discrete Programming
@@ -525,12 +566,6 @@
   number =       11,
   pages =        {3109--3121},
   month =        {November},
-}
-
-@Misc{LAPACK_website,
-  key =          {LAPACK},
-  title =        {{LAPACK-Linear Algebra PACKage}},
-  howpublished = {\url{http://http://www.netlib.org/lapack/}}
 }
 
 @Article{Lasserre_GlobalOptimizationPolynomialsMoments,
@@ -691,15 +726,6 @@
   year =         2005,
 }
 
-@Article{Lu_FIRDiscreteCoefficientsSphereRelaxation,
-  author =       {{Wu-Sheng Lu}},
-  title =        {{Design of FIR Filters with Discrete Coefficients via Sphere
-                  Relaxation}},
-  journal =      IEEE_ISCAS,
-  pages =        {2509--2512},
-  year =         2006,
-}
-
 @Article{Lu_FIRDiscreteCoefficientsSemidefiniteRelaxation,
   author =       {{Wu-Sheng Lu}},
   title =        {{Design of FIR Filters with Discrete Coefficients: A Semidefinite Programming Relaxation Approach}},
@@ -707,6 +733,15 @@
   volume =       {II},
   pages =        {297--300},
   year =         2001,
+}
+
+@Article{Lu_FIRDiscreteCoefficientsSphereRelaxation,
+  author =       {{Wu-Sheng Lu}},
+  title =        {{Design of FIR Filters with Discrete Coefficients via Sphere
+                  Relaxation}},
+  journal =      IEEE_ISCAS,
+  pages =        {2509--2512},
+  year =         2006,
 }
 
 @Misc{Lu_SedumiRemarks,
@@ -783,6 +818,17 @@
   author =       {{Peter Miller}},
   title =        {{libexplain}},
   howpublished = {\url{http://libexplain.sourceforge.net}}
+}
+
+@Article{MitraHirano_DigitalAllPassNetworks,
+  author =       {{S. K. Mitra and K. Hirano}},
+  title =        {{Digital All-Pass Networks}},
+  journal =      IEEE_TRANS_CAS,
+  volume =       21,
+  number =       5,
+  pages =        {688--700},
+  month =        {September},
+  year =         1974
 }
 
 @Article{MitraSherwood_DigitalFiltersContinuedFraction,
@@ -864,6 +910,17 @@ howpublished = {\url{http://dlmf.nist.gov/}, Release 1.0.15 of 2017-06-01},
   year =         1998,
 }
                 
+@Article{NishiharaSugahara_SynthesisDigitalFiltersMinimumPoleSensitivity,
+  author =       {{A. Nishihara and K. Sugahara}},
+  title =        {{A Synthesis of Digital Filters with Minimum Pole Sensitivity}},
+  journal =      TRANS_IECE,
+  year =         1982,
+  volume =       E65,
+  number =       5,
+  pages =        {234--240},
+  month =        {May},
+}
+
 @Book{NocedalWright_NumericalOptimization,
   author =       {{Jorge Nocedal and Stephen J.Wright}},
   title =        {Numerical Optimization},
@@ -1089,6 +1146,13 @@ howpublished = {\url{http://dlmf.nist.gov/}, Release 1.0.15 of 2017-06-01},
   howpublished = {\url{http://www.tcm.phy.cam.ac.uk/~mjr/linpack/linpack.m}}
 }
 
+@Misc{SUITESPARSE_website,
+  key =          {SuiteSparse},
+  author =       {{T. A. Davis et al.}},
+  title =        {{SuiteSparse: a suite of sparse matrix packages }},
+  howpublished = {\url{http://faculty.cse.tamu.edu/davis/suitesparse.html}}
+}
+
 @Article{SaramakiLimYang_SynthesisHalfBandFRM,
   author =       {{T. Saram\"{a}ki, Y.C. Lim and R. Yang}},
   title =        {The synthesis of half-band filter using frequency-response
@@ -1184,6 +1248,15 @@ howpublished = {\url{http://dlmf.nist.gov/}, Release 1.0.15 of 2017-06-01},
   howpublished = {\url{http://www1.icsi.berkeley.edu/~storn/TR-95-012.pdf}}
 }
 
+@InProceedings{Stoyanov_RealizationEfficientIIRFilterSensitivityMinimizations,
+  author =       {{G.Stoyanov, Zl. Nikolova, K. Ivanova, V. Anzova}},
+  title =        {{Design and Realization of Efficient IIR Digital Filter Structures Based on Sensitivity Minimizations}},
+  booktitle =    {TELSIKS 2007},
+  year =         {2007},
+  pages =        {299--308},
+  month =        {September},
+}
+
 @Misc{Sturm_SeDuMi_1_3,
   author =       {J. Sturm},
   title =        {{SeDuMi\_1\_3 at LeHigh University}},
@@ -1205,13 +1278,6 @@ howpublished = {\url{http://dlmf.nist.gov/}, Release 1.0.15 of 2017-06-01},
   month =        {August},
 }
 
-@Misc{SUITESPARSE_website,
-  key =          {SuiteSparse},
-  author =       {{T. A. Davis et al.}},
-  title =        {{SuiteSparse: a suite of sparse matrix packages }},
-  howpublished = {\url{http://faculty.cse.tamu.edu/davis/suitesparse.html}}
-}
-
 @Article{SullivanAdams_PCLS_IIRDigitalFilters,
   author =       {{J. L. Sullivan and J. W. Adams}},
   title =        {{PCLS IIR Digital Filters with Simultaneous Frequency
@@ -1222,6 +1288,18 @@ howpublished = {\url{http://dlmf.nist.gov/}, Release 1.0.15 of 2017-06-01},
   number =       11,
   pages =        {2853--2861},
   month =        {November},
+}
+
+@Article{SzczupakMitraFardavi_ComputerBasedSynthesisAllpassNetworks,
+  author =       {{J, Szczupak, S. K. Mitra and J. Fadavi-Ardekani}},
+  title =        {{A Computer-Based Synthesis Method of Structurally LBR
+                   Digital AllPass Networks}},
+  journal =      IEEE_TRANS_CAS,
+  volume =       35,
+  number =       6,
+  pages =        {755--760},
+  month =        {June},
+  year =         1988
 }
 
 @Article{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters,

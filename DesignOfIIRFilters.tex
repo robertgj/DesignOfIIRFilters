@@ -319,17 +319,32 @@ the latter, Wilkinson reminisces about programming polynomial root finding on
 early computers. He comments that \emph{``explicit polynomial equations with
   ill-conditioned roots are remarkably common''} but that if \emph{``one
   already knows the roots, then the polynomial can be evaluated without any
-  loss of accuracy.''} As an example, Figure~\ref{fig:bincoeff-test-zeros}
+  loss of accuracy.''} As an example, Figure~\ref{fig:bincoeff-test-roots}
 shows the results of calling the Octave \emph{roots} function to find the
 roots of the binomial polynomial of order $20$ with the expression
 \texttt{roots(bincoeff(20,0:20))}. In fact, by definition, the roots are all
 $-1$.
 \begin{figure}[!htbp]
 \begin{center}
-\scalebox{0.7}{\input{bincoeff_test_zeros}}
+\scalebox{0.7}{\input{bincoeff_test_roots}}
 \caption{Plot of the roots of the binomial polynomial of order
-      $20$ calculated by the Octave \emph{roots} function}
-\label{fig:bincoeff-test-zeros}
+  $20$ calculated by the Octave \emph{roots} function}
+\label{fig:bincoeff-test-roots}
+\end{center}
+\end{figure}
+Figure~\ref{fig:bincoeff-test-qzsolve} repeats the example with the oct-file
+\emph{qzsolve}, an implementation using 128-bit floating-point numbers based
+on the function \emph{gsl\_poly\_complex\_solve} from the GNU GSL
+library\cite{GNU_GSL}\footnote{The \emph{MPSolve} multi-precision polynomial
+  solver~\cite{BiniFiorentinoRobol_mpsolve} finds the expected roots. The package
+  includes an Octave interface.}.
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{bincoeff_test_qzsolve}}
+\caption{Plot of the roots of the binomial polynomial of order
+  $20$ calculated by the \emph{qzsolve} oct-file function using 128-bit
+  floating point numbers}
+\label{fig:bincoeff-test-qzsolve}
 \end{center}
 \end{figure}
 
@@ -527,7 +542,7 @@ and are called the zeros of $H\left(z\right)$. $g=H\left(0\right)$ is a gain
 factor.
 
 
-\section{Filter signal flow graph}
+\section{\label{sec:Filter-signal-flow-graph}Filter signal flow graph}
 Signal flow graphs are \emph{primitive} if 
 \begin{enumerate}
 \item All branch gains are either constant or $z^{-1}$ (a unit delay)
@@ -709,6 +724,16 @@ filter of Equation~\ref{eq:StateVarZdom}. The matrix $A$ is called the
 \end{center}
 \end{figure}
 
+If the arrows in Figure~\ref{fig:SVFG-PSFG} are reversed and the inputs to each
+node become the outputs then the state-variable description of the
+\emph{transposed} signal flow graph is:
+\begin{align}
+\left[\begin{array}{cc}
+A & B\\
+C & D\end{array}\right]^{T}&=\left[\begin{array}{cc}
+A^{T} & C^{T}\\
+B^{T} & D\end{array}\right]^{T}
+\end{align}
 \section{Controllability}
 The matrix pair $\left(A,B\right)$ is said to be \emph{controllable}
 if and only if $\det\left[\begin{array}{cccc}
@@ -815,6 +840,10 @@ and the transfer function is
 H\left(z\right) &= D+C\left(zI-A\right)^{-1}B
 \label{eqn:State-variable-transfer-function}
 \end{align}
+
+The transfer function of the \emph{transpose} of the signal flow diagram shown
+in \ref{fig:SVFG-PSFG} is the same as that of the original diagram.
+
 The similarity transformation,
  $\left\{A,B,C,D\right\} \leftarrow \left\{T^{-1}AT,T^{-1}B,CT,D\right\}$,
 leaves the transfer function, $H\left(z\right)$, unchanged\footnote{Recall that
@@ -2355,7 +2384,7 @@ that immediate overflows in an accumulator cancel whenever the resulting sum
 is in range. An example will demonstrate the effect of the 
 rounding-to-minus-infinity quantiser. 
 
-\section{Limit-cycle oscillations in digital filters}
+\section{\label{sec:Limit-cycle-oscillation-digital-filters}Limit-cycle oscillations in digital filters}
 See \emph{Roberts} and
 \emph{Mullis}~\cite[Section 9.3]{RobertsMullis_DigitalSignalProcessing}. If
 numbers are represented as $2$'s complement integers and there is no provision
@@ -3357,7 +3386,809 @@ simulation results obtained by setting $N=10$ in
 \caption[Butterworth 10th order lowpass noise simulation]{Estimated noise gain and estimated and simulated output roundoff noise variances for the $10$th order Butterworth lowpass filter with $10$ bit rounded coefficients.}
 \label{tab:Simulated-noise-10-order-Butterworth-low-pass}
 \end{table}
+\clearpage{}
+\section{Coefficient sensitivity and round-off noise of first-order and second-order all-pass filter sections}
+Digital filters implemented as the parallel combination of two or more allpass
+filters typically have low coefficient
+sensitivity~\cite{VaidyanathanMitraNuevo_LowSensitivityIIRDigitalFilters}.
+The transfer function of a filter consisting of parallel all-pass filters
+$A\left(z\right)$ and $B\left(z\right)$ is:
+\begin{align*}
+  H\left(z\right)&=\frac{A\left(z\right)+B\left(z\right)}{2}
+\end{align*}
+The frequency response of this filter is:
+\begin{align*}
+  H\left(\omega\right)&=\frac{e^{\phi_{A}\left(\omega\right)}+
+                        e^{\phi_{B}\left(\omega\right)}}{2}
+\end{align*}
+where $\phi_{A}\left(\omega\right)$ and $\phi_{B}\left(\omega\right)$ are the
+phase responses of the all-pass filters. The corresponding squared-amplitude,
+phase and group delay responses are:
+\begin{align*}
+\left|H\left(\omega\right)\right|^{2} &=
+\frac{1+\cos\left(\phi_{A}\left(\omega\right)-
+                  \phi_{B}\left(\omega\right)\right)}{2}\\
+\arg H\left(\omega\right) &=
+\frac{\phi_{A}\left(\omega\right)+\phi_{B}\left(\omega\right)}{2} \\
+T\left(\omega\right) &= 
+-\frac{1}{2}\left[
+\frac{\partial\phi_{A}\left(\omega\right)}{\partial\omega}+
+\frac{\partial\phi_{B}\left(\omega\right)}{\partial\omega}
+\right]
+\end{align*}
 
+When the all-pass branches of a parallel all-pass filter are realised as the
+cascaded connection of first and second order all-pass filters then the phase
+response of each branch is, without loss of generality,
+$\phi_{A}\left(\omega\right)=\sum_{l}\phi_{A_{l}}\left(\omega\right)$ where
+$\phi_{A_{l}}$ is the phase response of the $l$'th first or second order
+all-pass section. If $x$ represents a multiplier coefficient in the realisation
+of section $A_{l}$, then the squared-amplitude and group delay sensitivities with respect to $x$ are:
+\begin{align*}
+  S^{\left|H\right|^{2}}_{x}\left(\omega\right)
+  &=
+    -\frac{1}{\left|H\left(\omega\right)\right|^{2}}
+    \frac{\sin\left(\phi_{A}\left(\omega\right)-
+                    \phi_{B}\left(\omega\right)\right)}{2}
+    \frac{\partial\phi_{A_{l}}\left(\omega\right)}{\partial{}x} \\  
+  S^{T}_{x}\left(\omega\right)
+  &=-\frac{1}{T\left(\omega\right)}\frac{1}{2}
+    \frac{\partial^{2}\phi_{A_{l}}\left(\omega\right)}{\partial\omega\partial{}x}
+\end{align*}
+
+The transfer function of a first order all-pass filter section is:
+\begin{align*}
+  H\left(z\right)&=-\frac{r-z^{-1}}{1-rz^{-1}}
+\end{align*}
+where $r$ is real. The filter is stable if $\left|r\right|<1$.
+
+The transfer function of a second order all-pass filter section is:
+\begin{align*}
+  H\left(z\right)&=\frac{a_{2}+a_{1}z^{-1}+z^{-2}}{1+a_{1}z^{-1}+a_{2}z^{-2}}
+\end{align*}
+The transfer function of a second order all-pass filter section with complex
+poles in the z-plane at $z=re^{\pm\imath\theta}$ is:
+\begin{align*}
+  H\left(z\right)
+  &=\frac{\left(re^{\imath\theta}-z^{-1}\right) \left(re^{-\imath\theta}-z^{-1}\right)}
+    {\left(1-re^{\imath\theta}z^{-1}\right)\left(1-re^{-\imath\theta}z^{-1}\right)}\\
+  &=\frac{r^{2}-2r\cos\theta{}z^{-1}+z^{-2}}{1-2r\cos\theta{}z^{-1}+r^2z^{-2}}
+\end{align*}
+where $r$ is real. The filter is stable if $\left|r\right|<1$.
+The transfer function of a second order all-pass filter section with real
+poles in the z-plane at $z=r_{1},r_{2}$ is:
+\begin{align*}
+  H\left(z\right)
+  &=\frac{\left(r_{1}-z^{-1}\right)\left(r_{2}-z^{-1}\right)}
+    {\left(1-r_{1}z^{-1}\right)\left(1-r_{2}z^{-1}\right)}\\
+  &=\frac{r_{1}r_{2}-\left(r_{1}+r_{2}\right)z^{-1}+z^{-2}}
+    {1-\left(r_{1}+r_{2}\right)z^{-1}+r_{1}r_{2}z^{-2}}
+\end{align*}
+The filter is stable if $\left|r_{1}\right|<1$ and $\left|r_{2}\right|<1$.
+
+This section surveys the maximum phase response gradient,
+$\frac{\partial\phi}{\partial{}x}$, and round-off noise performance of a
+selection of first-order and second-order all-pass filter section transfer
+functions and realisations. The Maxima script \emph{allpass\_filter.max}
+performs the algebra required to find the state variable description of each
+realisation and the Octave scripts \emph{Abcd2H.m} and \emph{H2P.m} calculate
+the phase response gradient (see
+Appendix~\ref{app:Gradients-state-variable-filter-frequency-response}). 
+
+\subsection{Searching for realisations of all-pass filter transfer functions}
+\emph{Mitra} and
+\emph{Hirano}~\cite{MitraHirano_DigitalAllPassNetworks} show a catalogue of
+realizations of minimum multiplier first and second order all-pass filters. They
+consider realizations of the \emph{Type 1} first order all-pass transfer
+function:
+\begin{align}
+  H_{1}\left(z\right)&=\frac{z^{-1}-b_{1}}{1-b_{1}z^{-1}}
+                       \label{eqn:First-order-allpass-direct-form}
+\end{align}
+as a \emph{two-port} network with a constraint:  
+\begin{align*}
+  \left[\begin{array}{c}
+          Y_{1}\\
+          Y_{2}\end{array}\right] &=
+  \left[\begin{array}{cc}
+          t_{11} & t_{12}\\
+          t_{21} & t_{22}\end{array}\right]
+  \left[\begin{array}{c}
+          X_{1}\\
+          X_{2}\end{array}\right] \\
+  X_{2}&=b_{1}Y{2}
+\end{align*}
+Eliminating variables $X_{2}$ and $Y_{2}$:
+\begin{align*}
+  \frac{Y_{1}}{X_{1}}&=\frac{t_{11}-b_{1}\left(t_{11}t_{22}-t_{12}t_{21}\right)}
+                       {1-t_{22}b_{1}}
+\end{align*}
+Comparing with Equation~\ref{eqn:First-order-allpass-direct-form}:
+\begin{align*}
+  t_{11}=t_{22}&=z^{-1}\\
+  t_{12}t_{21}&=z^{-2}-1
+\end{align*}
+There are four possible realisations of $t_{12}$ and $t_{21}$:
+$t_{12}=z^{-2}-1,t_{21}=1$ and $t_{12}=z^{-1}-1,t_{21}=z^{-1}+1$ and their transposed
+equivalents~\cite[Fig. 2]{MitraHirano_DigitalAllPassNetworks}. 
+
+In a similar fashion, \emph{Mitra} and \emph{Hirano} find 
+realisations of the \emph{Type 2} and \emph{Type 3} second order all-pass
+transfer functions: 
+\begin{subequations}
+\begin{align}
+  H_{MH2}\left(z\right)&=\frac{z^{-2}-b_{1}z^{-1}+b_{1}b_{2}}
+                         {1-b_{1}z^{-1}+b_{1}b_{2}z^{-2}}
+                         \label{eqn:MH2-second-order-all-pass-filter-section} \\
+  H_{MH3}\left(z\right)&=\frac{z^{-2}-b_{1}z^{-1}+b_{2}}{1-b_{1}z^{-1}+b_{2}z^{-2}}
+                         \label{eqn:MH3-second-order-all-pass-filter-section}
+\end{align}
+\end{subequations}
+Their realisations of these transfer functions are constrained to have only $2$
+multipliers but may have more than $2$ delays. \emph{Mitra} and \emph{Hirano}
+show $4$ Type 2 and $8$ Type 3 realisations\footnote{There are equal numbers of
+  transposed realisations.}. \emph{Mitra} and \emph{Hirano } show plots of the
+estimated output round-off noise of each
+realisation~\cite[Fig.9, Fig.10 and Fig.11]{MitraHirano_DigitalAllPassNetworks}
+due to truncation at the multiplier outputs. This estimate does not include the
+round-off noise due to truncation at the register inputs.
+
+\emph{Nishihara} and \emph{Sugahara}~\cite{NishiharaSugahara_SynthesisDigitalFiltersMinimumPoleSensitivity}
+present a catalogue of general (not just all-pass) second order filter
+realisations with low pole sensitivity with respect to each of the two
+multipliers in the realisation. They show 37 realisations\footnote{Note the
+  complexity of the classification map shown in Figure 2!}.
+
+\emph{Szczupak
+  et. al}~\cite{SzczupakMitraFardavi_ComputerBasedSynthesisAllpassNetworks}
+describe a computer based search for realisations in which the two coefficients
+of the second order all-pass filter transfer function are themselves functions
+of two multipliers. They find $646$ distinct realisations. 
+
+\clearpage
+
+\subsection{Maximum phase gradient and round-off noise of some first-order all-pass filter sections}
+
+Equation~\ref{eqn:Dir1-first-order-all-pass-filter-section} is the transfer
+function of the first order direct form all-pass filter section
+shown in Figure~\ref{fig:Dir1-first-order-all-pass-filter-section}. This
+realisation has $2$ multipliers.
+\begin{align}
+\label{eqn:Dir1-first-order-all-pass-filter-section}
+  H_{Dir1}\left(z\right)&=\frac{b_{1}+z^{-1}}{1+b_{1}z^{-1}}
+\end{align}
+
+The \emph{Gray} and
+\emph{Markel}~\cite{GrayMarkel_DigitalLatticeAndLadderFilterSynthesis}
+first order all-pass filter section shown in
+Figure~\ref{fig:GM1-first-order-all-pass-filter-section} also implements the
+transfer function of Equation~\ref{eqn:Dir1-first-order-all-pass-filter-section}.
+The $\epsilon_{1}=\pm{}1$ are chosen to scale the state for good numerical
+performance in the implementation. The choice of $\epsilon$ does not alter the
+transfer function or the noise gain.
+
+Equation~\ref{eqn:LS1-first-order-all-pass-filter-section} is the transfer
+function of the first order all-pass filter section of \emph{Stoyanov et
+  al.}~\cite{Stoyanov_RealizationEfficientIIRFilterSensitivityMinimizations}
+shown in Figure~\ref{fig:LS1-first-order-all-pass-filter-section}. This
+realisation has low sensitivity for filter poles near $z=1$.
+\begin{align}
+\label{eqn:LS1-first-order-all-pass-filter-section}
+  H_{LS1}\left(z\right)&=\frac{-\left(1-c_{1}\right)+z^{-1}}
+                         {1-\left(1-c_{1}\right)z^{-1}}
+\end{align}
+
+\begin{figure}[!htbp]
+\begin{center}
+\begin{subfigure}{\textwidth}
+\begin{center}
+\includegraphics[scale=0.33]{allpass_dir1}
+\caption{Direct form first order all-pass filter section}
+\label{fig:Dir1-first-order-all-pass-filter-section}
+\vspace{1cm}
+\end{center}
+\end{subfigure}
+ 
+\begin{subfigure}{\textwidth}
+\begin{center}
+\includegraphics[scale=0.33]{allpass_GM1}
+\caption{Gray and Markel first order all-pass filter section}
+\label{fig:GM1-first-order-all-pass-filter-section}
+\vspace{1cm}
+\end{center}
+\end{subfigure}
+ 
+\begin{subfigure}{\textwidth}
+\begin{center}
+\includegraphics[scale=0.33]{allpass_LS1}
+\caption{Stoyanov et al. low sensitvity first order all-pass filter section}
+\label{fig:LS1-first-order-all-pass-filter-section}
+\vspace{1cm}
+\end{center}
+\end{subfigure}
+\caption{First order all-pass filter sections}
+\label{fig:First-order-all-pass-filter-sections}
+\end{center}
+\end{figure}
+
+Figure~\ref{fig:dir1-all-pass-filter-phase-gradient} plots the maximum of the
+gradient of the first-order all-pass filter phase response with respect to the
+section coefficient against the pole radius. It is the same for each
+realisation. The noise gain of each scaled realisation was calculated with the
+Octave function \emph{Abcd2ng.m}, as shown in
+Chapter~\ref{sec:Round-off-noise-in-state-variable-filters}. The noise gain is
+found to be $1$ for each realisation regardless of pole radius. For the
+direct-form section, a \emph{slowed} and \emph{retimed} realisation, shown in
+Figure~\ref{fig:Retimed-dir1-first-order-all-pass-filter-section}, was
+analysed. \emph{Slowing} is the replacement of each $z^{-1}$ delay by $z^{-M}$, reducing the sample rate. The realisation is \emph{retimed} by distributing the
+delays so that there is a register, or state, at each multiplier output. This
+allows calculation  by the state-variable method of the output round-off noise
+due to truncation at both the register inputs and the multiplier outputs. See
+\emph{Parhi}~\cite[Chapter 4]{Parhi_VLSIDigitalSignalProcessingSystems} for a
+description of retiming algorithms. The Maxima script
+\emph{allpass\_filter\_retimed.max} performs the algebra required to find the 
+state variable description of each retimed filter realisation.
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_dir1_pgrad}}
+\caption{Maximum phase gradient with plotted against pole radius of first order
+  all-pass filter sections}
+\label{fig:dir1-all-pass-filter-phase-gradient}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\includegraphics[scale=0.33]{allpass_dir1_retimed}
+\caption{Retimed first-order direct form all-pass filter section}
+\label{fig:Retimed-dir1-first-order-all-pass-filter-section}
+\end{center}
+\end{figure}
+ 
+
+\subsection{Maximum phase gradient and round-off noise of some second-order all-pass filter sections}
+Equation~\ref{eqn:Dir2-second-order-all-pass-filter-section} is the transfer
+function of the second-order direct-form all-pass filter section
+shown in Figure~\ref{fig:Dir2-second-order-all-pass-filter-section}. This
+realisation has $4$ multipliers.
+\begin{align}
+\label{eqn:Dir2-second-order-all-pass-filter-section}
+  H_{Dir2}\left(z\right)&=\frac{b_{2}+b_{1}z^{-1}+z^{-2}}{1+b_{1}z^{-1}+b_{2}z^{-2}}
+\end{align}
+
+Equation~\ref{eqn:GM2-second-order-all-pass-filter-section} is the transfer
+function of the second order Gray-and-Markel all-pass filter section shown in
+Figure~\ref{fig:GM2-second-order-all-pass-filter-section}.
+The $\epsilon_{1},\epsilon_{2}=\pm{}1$ are chosen to scale the states.
+\begin{align}
+\label{eqn:GM2-second-order-all-pass-filter-section}
+  H_{GM2}\left(z\right)&=\frac{k_{2}+k_{1}\left(1+k_{2}\right)z^{-1}+z^{-2}}
+                         {1+k_{1}\left(1+k_{2}\right)z^{-1}+k_{2}z^{-2}}
+\end{align}
+
+Figure~\ref{fig:AL7c-second-order-all-pass-filter-section} shows a realisation
+of Equation~\ref{eqn:GM2-second-order-all-pass-filter-section} due to
+\emph{Ansari} and
+\emph{Lui}~\cite{AnsariLiu_LowNoiseEfficientRecursiveDigitalFilters}. This
+realisation has low noise gain for poles near $z=\pm\imath$. 
+
+The three port transfer matrix of the \emph{Mitra} and
+\emph{Hirano}~\cite{MitraHirano_DigitalAllPassNetworks} type 2d
+realisation of Equation~\ref{eqn:MH2-second-order-all-pass-filter-section} is:
+\begin{align}
+\left[\begin{array}{ccc}
+        z^{-2} & 1 & 0 \\
+        z^{-1}\left(z^{-2}-1\right) & z^{-1} & 1 \\
+        z^{-4}-1 & z^{-2} & 0 
+\end{array}\right]
+\end{align}
+and that of the type 3d realisation of
+Equation~\ref{eqn:MH3-second-order-all-pass-filter-section} is:
+\begin{align}
+\left[\begin{array}{ccc}
+        z^{-2} & 1 & 1 \\
+        z^{-1}\left(z^{-2}-1\right) & z^{-1} & z^{-1} \\
+        z^{-4}-1 & z^{-2} & z^{-2}        
+\end{array}\right]
+\end{align}
+Figures~\ref{fig:MH2d-second-order-all-pass-filter-section}
+and~\ref{fig:MH2dt-second-order-all-pass-filter-section} show the type 2d
+and transposed type 2d realisations of
+Equation~\ref{eqn:MH2-second-order-all-pass-filter-section}. 
+Figures~\ref{fig:MH3d-second-order-all-pass-filter-section}
+and~\ref{fig:MH3dt-second-order-all-pass-filter-section} show the type 3d
+and transposed type 3d realisations of
+Equation~\ref{eqn:MH3-second-order-all-pass-filter-section}. The state variable
+implementations of the transposed realisations have duplicated state
+updates. In other words, the rows of the state-transition matrix are not
+linearly independent.
+
+Equation~\ref{eqn:LS2a-second-order-all-pass-filter-section} is the transfer
+function of the second order all-pass filter section of \emph{Stoyanov et
+  al.}~\cite{Stoyanov_RealizationEfficientIIRFilterSensitivityMinimizations}
+shown in Figure~\ref{fig:LS2a-second-order-all-pass-filter-section}. This
+realisation has low sensitivity for filter poles near $z=1$.
+\begin{align}
+\label{eqn:LS2a-second-order-all-pass-filter-section}
+  H_{LS2}\left(z\right)&=
+   \frac{\left(1-c_{2}\right)+\left(2c_{1}+c_{2}-2\right)z^{-1}+z^{2}}
+        {1+\left(2c_{1}+c_{2}-2\right)z^{-1}+\left(1-c_{2}\right)z^{-2}}
+\end{align}
+
+Equation~\ref{eqn:IS-second-order-all-pass-filter-section} is the transfer
+function of the second order all-pass filter section of \emph{Ivanova} and
+\emph{Stoyanov}~\cite{IvanovaStoyanov_LowSensitivitySecondOrderAllpass}
+shown in Figure~\ref{fig:IS-second-order-all-pass-filter-section}. This
+realisation has low sensitivity for filter poles near $z=0$.
+\begin{align}
+\label{eqn:IS-second-order-all-pass-filter-section}
+  H_{IS}\left(z\right)&=
+   \frac{d_{2}+\left(d_{1}d_{2}-d_{1}-2d_{2}\right)z^{-1}+z^{2}}
+        {1+\left(d_{1}d_{2}-d_{1}-2d_{2}\right)z^{-1}+d_{2}z^{-2}}
+\end{align}
+
+\begin{figure}[!htbp]
+\begin{center}
+
+\begin{subfigure}{\textwidth}
+\begin{center}
+\includegraphics[scale=0.33]{allpass_dir2}
+\caption{Direct form second order all-pass filter section}
+\label{fig:Dir2-second-order-all-pass-filter-section}
+\vspace{1cm}
+\end{center}
+\end{subfigure}
+ 
+\begin{subfigure}{\textwidth}
+\begin{center}
+\includegraphics[scale=0.33]{allpass_GM2}
+\caption{Gray-and-Markel second order all-pass filter section}
+\label{fig:GM2-second-order-all-pass-filter-section}
+\vspace{1cm}
+\end{center}
+\end{subfigure}
+ 
+\begin{subfigure}{\textwidth}
+\begin{center}
+\includegraphics[scale=0.33]{allpass_AL7c}
+\caption{Ansari-and-Lui second order all-pass filter section}
+\label{fig:AL7c-second-order-all-pass-filter-section}
+\vspace{1cm}
+\end{center}
+\end{subfigure}
+
+\begin{subfigure}{\textwidth}
+\begin{center}
+\includegraphics[scale=0.33]{allpass_MH2d}
+\caption{Mitra-and-Hirano Type 2d second order all-pass filter section}
+\label{fig:MH2d-second-order-all-pass-filter-section}
+\vspace{1cm}
+\end{center}
+\end{subfigure}
+
+\begin{subfigure}{\textwidth}
+\begin{center}
+\includegraphics[scale=0.33]{allpass_MH2dt}
+\caption{Mitra-and-Hirano transposed type 2d second order all-pass filter
+  section}
+\label{fig:MH2dt-second-order-all-pass-filter-section}
+\vspace{1cm}
+\end{center}
+\end{subfigure}
+
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]\ContinuedFloat
+\begin{center}
+
+\begin{subfigure}{\textwidth}
+\begin{center}
+\includegraphics[scale=0.33]{allpass_MH3d}
+\caption{Mitra-and-Hirano type 3d second order all-pass filter section}
+\label{fig:MH3d-second-order-all-pass-filter-section}
+\vspace{1cm}
+\end{center}
+\end{subfigure}
+
+\begin{subfigure}{\textwidth}
+\begin{center}
+\includegraphics[scale=0.33]{allpass_MH3dt}
+\caption{Mitra-and-Hirano transposed type 3d second order all-pass filter
+  section}
+\label{fig:MH3dt-second-order-all-pass-filter-section}
+\vspace{1cm}
+\end{center}
+\end{subfigure}
+
+\begin{subfigure}{\textwidth}
+\begin{center}
+\includegraphics[scale=0.33]{allpass_LS2a}
+\caption{Stoyanov et al. low sensitvity near $z=1$ second order all-pass filter
+  section}
+\label{fig:LS2a-second-order-all-pass-filter-section}
+\vspace{1cm}
+\end{center}
+\end{subfigure}
+
+\begin{subfigure}{\textwidth}
+\begin{center}
+\includegraphics[scale=0.33]{allpass_IS}
+\caption{Ivanova-and-Stoyanov low sensitivity near $z=0$ second order all-pass
+  filter section} 
+\label{fig:IS-second-order-all-pass-filter-section}
+\vspace{1cm}
+\end{center}
+\end{subfigure}
+
+\caption{Second order all-pass filter sections}
+\label{fig:Second-order-all-pass-filter-sections}
+\end{center}
+\end{figure}
+\clearpage
+\subsubsection{Maximum phase gradient of some second-order all-pass filter sections}
+Figure~\ref{fig:dir2-all-pass-filter-phase-gradient-real-poles} shows the maximum
+of the gradient of the phase with respect to the second-order direct-form
+coefficients $b_{1}$ and $b_{2}$ in
+Equation~\ref{eqn:Dir2-second-order-all-pass-filter-section} for real poles
+plotted against the real pole radius.
+Figure~\ref{fig:dir2-all-pass-filter-phase-gradient-complex-poles} shows
+the maximum of the gradient of the phase with respect to the same coefficients
+for complex conjugate poles plotted against pole angle. 
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_dir2_real_pgrad}}
+\caption{Maximum phase gradient with respect to pole radius of the second-order
+  direct-form all-pass filter section with real poles}
+\label{fig:dir2-all-pass-filter-phase-gradient-real-poles}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_dir2_complex_pgrad}}
+\caption{Maximum phase gradient with respect to pole angle of the second-order
+  direct-form all-pass filter section with complex conjugate poles }
+\label{fig:dir2-all-pass-filter-phase-gradient-complex-poles}
+\end{center}
+\end{figure}
+
+Figure~\ref{fig:GM2-all-pass-filter-phase-gradient-real-poles} shows the maximum
+of the gradient of the phase with respect to the second-order
+\emph{Gray} and \emph{Markel} and \emph{Ansari} and \emph{Lui} coefficients
+$k_{1}$ and $k_{2}$ in
+Equation~\ref{eqn:GM2-second-order-all-pass-filter-section} for real 
+poles plotted against pole
+radius. Figure~\ref{fig:GM2-all-pass-filter-phase-gradient-complex-poles} shows 
+the maximum of the gradient of the phase with respect to the same coefficients 
+for complex conjugate poles plotted against pole angle.
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_GM2_real_pgrad}}
+\caption{Maximum phase gradient plotted against pole radius of the second-order
+  Gray-and-Markel and Ansari-and-Lui all-pass filter section with real poles}
+\label{fig:GM2-all-pass-filter-phase-gradient-real-poles}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_GM2_complex_pgrad}}
+\caption{Maximum phase gradient plotted against pole angle of the second-order
+  Gray-and-Markel and Ansari-and-Lui all-pass filter section with complex
+  conjugate poles}
+\label{fig:GM2-all-pass-filter-phase-gradient-complex-poles}
+\end{center}
+\end{figure}
+
+Figure~\ref{fig:MH2d-all-pass-filter-phase-gradient-real-poles} shows the maximum
+of the gradient of the phase with respect to the \emph{Mitra} and \emph{Hirano}
+type 2d second-order all-pass filter section coefficients $b_{1}$ and $b_{2}$ in
+Equation~\ref{eqn:MH2-second-order-all-pass-filter-section} for real poles.
+Figure~\ref{fig:MH2d-all-pass-filter-phase-gradient-complex-poles} shows
+the maximum of the gradient of the phase with respect to the same coefficients
+for complex conjugate poles. The phase gradient is not defined at a pole angle
+of $\frac{\pi}{2}$. 
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_MH2d_real_pgrad}}
+\caption{Maximum phase gradient plotted against pole radius of the second-order
+  Mitra-and-Hirano type 2d all-pass filter section with real poles}
+\label{fig:MH2d-all-pass-filter-phase-gradient-real-poles}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_MH2d_complex_pgrad}}
+\caption{Maximum phase gradient plotted against pole angle of the second-order
+  Mitra-and-Hirano type 2d all-pass filter section with complex
+  conjugate poles}
+\label{fig:MH2d-all-pass-filter-phase-gradient-complex-poles}
+\end{center}
+\end{figure}
+
+Figure~\ref{fig:MH3d-all-pass-filter-phase-gradient-real-poles} shows the maximum
+of the gradient of the phase with respect to the \emph{Mitra} and \emph{Hirano}
+type 3d second-order all-pass filter section coefficients $b_{1}$ and $b_{2}$ in
+Equation~\ref{eqn:MH3-second-order-all-pass-filter-section} for real poles.
+Figure~\ref{fig:MH3d-all-pass-filter-phase-gradient-complex-poles} shows
+the maximum of the gradient of the phase with respect to the same coefficients
+for complex conjugate poles.  
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_MH3d_real_pgrad}}
+\caption{Maximum phase gradient plotted against pole radius of the second-order
+  Mitra-and-Hirano type 3d all-pass filter section with real poles}
+\label{fig:MH3d-all-pass-filter-phase-gradient-real-poles}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_MH3d_complex_pgrad}}
+\caption{Maximum phase gradient plotted against pole angle of the second-order
+  Mitra-and-Hirano type 3d all-pass filter section with complex
+  conjugate poles}
+\label{fig:MH3d-all-pass-filter-phase-gradient-complex-poles}
+\end{center}
+\end{figure}
+
+Figure~\ref{fig:LS2a-all-pass-filter-phase-gradient-real-poles} shows the maximum
+of the gradient of the phase with respect to the coefficients $c_{1}$ and
+$c_{2}$ of the second-order low-sensitivity near $z=1$ section of \emph{Stoyanov
+  et al.} having the transfer function shown in
+Equation~\ref{eqn:LS2a-second-order-all-pass-filter-section} for real poles.
+Figure~\ref{fig:LS2a-all-pass-filter-phase-gradient-complex-poles} shows
+the maximum of the gradient of the phase with respect to the same coefficients
+for complex conjugate poles.  
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_LS2a_real_pgrad}}
+\caption{Maximum phase gradient plotted against pole radius of the second-order
+  Stoyanov low-sensitivity mear $z=1$ all-pass filter section with real poles}
+\label{fig:LS2a-all-pass-filter-phase-gradient-real-poles}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_LS2a_complex_pgrad}}
+\caption{Maximum phase gradient plotted against pole angle of the second-order
+  Stoyanov low-sensitivity near $z=1$ all-pass filter section with complex
+  conjugate poles}
+\label{fig:LS2a-all-pass-filter-phase-gradient-complex-poles}
+\end{center}
+\end{figure}
+
+Figure~\ref{fig:IS-all-pass-filter-phase-gradient-real-poles} shows the maximum
+of the gradient of the phase with respect to the coefficients $d_{1}$ and
+$d_{2}$ of the second-order low-sensitivity near $z=0$ section of \emph{Ivanova}
+and \emph{Stoyanov} having the transfer function shown in
+Equation~\ref{eqn:IS-second-order-all-pass-filter-section} for real poles.
+Figure~\ref{fig:IS-all-pass-filter-phase-gradient-complex-poles} shows
+the maximum of the gradient of the phase with respect to the same coefficients
+for complex conjugate poles.  
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_IS_real_pgrad}}
+\caption{Maximum phase gradient plotted against pole radius of the second-order
+  Ivanova and Stoyanov low-sensitivity near $z=0$ all-pass filter section with
+  real poles}
+\label{fig:IS-all-pass-filter-phase-gradient-real-poles}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_IS_complex_pgrad}}
+\caption{Maximum phase gradient plotted against pole angle of the second-order
+  Ivanova and Stoyanov low-sensitivity near $z=0$ all-pass filter section with
+  complex conjugate poles}
+\label{fig:IS-all-pass-filter-phase-gradient-complex-poles}
+\end{center}
+\end{figure}
+
+\clearpage
+\subsubsection{Noise gain of some second-order all-pass filter sections}
+As for the first-order direct-form section the noise gain of the scaled
+second-order direct-form section can be estimated with a slowed and retimed
+realisation. 
+Figure~\ref{fig:dir2-all-pass-filter-noise-gain-real-poles} shows the
+noise gain of a scaled realisation with real poles of
+Equation~\ref{eqn:Dir2-second-order-all-pass-filter-section}. Figure~\ref{fig:dir2-all-pass-filter-noise-gain-complex-poles}
+shows  the noise gain of a scaled realisation with complex conjugate poles.  
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_dir2_retimed_real_ng}}
+\caption{Noise gain of the scaled and retimed second-order direct-form all-pass
+  filter section with real poles}
+\label{fig:dir2-all-pass-filter-noise-gain-real-poles}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_dir2_retimed_complex_ng}}
+\caption{Noise gain of the scaled and retimed second-order direct-form
+  all-pass filter section with complex conjugate poles}
+\label{fig:dir2-all-pass-filter-noise-gain-complex-poles}
+\end{center}
+\end{figure}
+
+As for the second-order direct-form section the noise gain of the scaled
+second-order \emph{Gray} and \emph{Markel} section can be estimated with a slowed
+and retimed realisation. As for the first-order \emph{Gray} and \emph{Markel}
+section, the $\epsilon$ coefficients do not alter the transfer function or noise
+gain but must be selected for effective internal state scaling in a fixed-point
+implementation. Figure~\ref{fig:GM2-all-pass-filter-noise-gain-real-poles} shows
+the noise gain of a scaled realisation with real poles.
+Figure~\ref{fig:GM2-all-pass-filter-noise-gain-complex-poles} shows 
+the noise gain of a scaled realisation with complex conjugate poles.  
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_GM2_retimed_real_ng}}
+\caption{Noise gain of the scaled and retimed second-order Gray-and-Markel
+  all-pass filter section with real poles}
+\label{fig:GM2-all-pass-filter-noise-gain-real-poles}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_GM2_retimed_complex_ng}}
+\caption{Noise gain of the scaled and retimed second-order Gray-and-Markel
+  all-pass filter section with complex conjugate poles}
+\label{fig:GM2-all-pass-filter-noise-gain-complex-poles}
+\end{center}
+\end{figure}
+
+The noise gain of the scaled second-order \emph{Ansari} and \emph{Lui} section
+can be estimated with a slowed and retimed realisation. 
+Figure~\ref{fig:AL7c-all-pass-filter-noise-gain-real-poles} shows the
+noise gain of a scaled realisation with real poles.
+Figure~\ref{fig:AL7c-all-pass-filter-noise-gain-complex-poles} shows 
+the noise gain of a scaled realisation with complex conjugate poles.  
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_AL7c_retimed_real_ng}}
+\caption{Noise gain of the scaled and retimed second-order Ansari-and-Lui
+  all-pass filter section with real poles}
+\label{fig:AL7c-all-pass-filter-noise-gain-real-poles}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_AL7c_retimed_complex_ng}}
+\caption{Noise gain of the scaled and retimed second-order Ansari-and-Lui
+  all-pass filter section with complex conjugate poles}
+\label{fig:AL7c-all-pass-filter-noise-gain-complex-poles}
+\end{center}
+\end{figure}
+
+The noise gain of the scaled second-order \emph{Mitra} and \emph{Hirano} type 2d
+section can be estimated with the retimed realisation shown in
+Figure~\ref{fig:Retimed-MH2d-second-order-all-pass-filter-section}. The section
+is retimed by adding a $z^{-1} $delay at the output and then redistributing
+the delay ``backwards'' until the output of the $b_{1}$ multiplier is registered.
+Figure~\ref{fig:MH2d-all-pass-filter-noise-gain-real-poles} shows the
+noise gain of a scaled realisation with real poles.
+Figure~\ref{fig:MH2d-all-pass-filter-noise-gain-complex-poles} shows 
+the noise gain of a scaled realisation with complex conjugate poles.  
+
+\begin{figure}[hp]
+\begin{center}
+\includegraphics[scale=0.33]{allpass_MH2d_retimed}
+\caption{Retimed Mitra-and-Hirano type 2d second-order direct form all-pass
+  filter section}
+\label{fig:Retimed-MH2d-second-order-all-pass-filter-section}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_MH2d_retimed_real_ng}}
+\caption{Noise gain of the scaled and retimed second-order Mitra-and-Hirano
+  type 2d all-pass filter section with real poles}
+\label{fig:MH2d-all-pass-filter-noise-gain-real-poles}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_MH2d_retimed_complex_ng}}
+\caption{Noise gain of the scaled and retimed second-order Mitra-and-Hirano
+  type 2d all-pass filter section with complex conjugate poles}
+\label{fig:MH2d-all-pass-filter-noise-gain-complex-poles}
+\end{center}
+\end{figure}
+
+The noise gain of the scaled second-order \emph{Mitra} and \emph{Hirano} type 3d
+section can be estimated without slowing or retiming the retimed realisation.
+Figure~\ref{fig:MH3d-all-pass-filter-noise-gain-real-poles} shows the
+noise gain of a scaled realisation with real poles.
+Figure~\ref{fig:MH3d-all-pass-filter-noise-gain-complex-poles} shows 
+the noise gain of a scaled realisation with complex conjugate poles.  
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_MH3d_real_ng}}
+\caption{Noise gain of the scaled second-order Mitra-and-Hirano
+  type 3d all-pass filter section with real poles}
+\label{fig:MH3d-all-pass-filter-noise-gain-real-poles}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_MH3d_complex_ng}}
+\caption{Noise gain of the scaled second-order Mitra-and-Hirano
+  type 3d all-pass filter section with complex conjugate poles}
+\label{fig:MH3d-all-pass-filter-noise-gain-complex-poles}
+\end{center}
+\end{figure}
+
+The round-off noise of the second-order Stoyanov low-sensitivity section can be
+estimated without slowing and retiming the realisation. 
+Figure~\ref{fig:LS2a-all-pass-filter-noise-gain-real-poles} shows the
+noise gain of a scaled realisation with real poles. 
+Figure~\ref{fig:LS2a-all-pass-filter-noise-gain-complex-poles} shows 
+the noise gain of a scaled realisation with complex conjugate poles.  
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_LS2a_real_ng}}
+\caption{Noise gain of the scaled second-order Stoyanov low-sensitivity
+  near $z=1$ all-pass filter section with real poles}
+\label{fig:LS2a-all-pass-filter-noise-gain-real-poles}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_LS2a_complex_ng}}
+\caption{Noise gain of the scaled second-order Stoyanov low-sensitivity
+  near $z=1$ all-pass filter section with complex conjugate poles}
+\label{fig:LS2a-all-pass-filter-noise-gain-complex-poles}
+\end{center}
+\end{figure}
+
+The round-off noise of the second-order \emph{Ivanova} and \emph{Stoyanov}
+low-sensitivity near $z=0$ section can be estimated with a slowed and retimed
+realisation. Figure~\ref{fig:IS-all-pass-filter-noise-gain-real-poles} shows
+the noise gain of a scaled realisation with real poles. 
+Figure~\ref{fig:IS-all-pass-filter-noise-gain-complex-poles} shows 
+the noise gain of a scaled realisation with complex conjugate poles.  
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_IS_retimed_real_ng}}
+\caption{Noise gain of the scaled and retimed second-order Ivanova-and-Stoyanov
+  low-sensitivity near $z=0$ all-pass filter section with real poles}
+\label{fig:IS-all-pass-filter-noise-gain-real-poles}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{allpass_filter_test_IS_retimed_complex_ng}}
+\caption{Noise gain of the scaled and retimed second-order Ivanova-and Stoyanov
+  low-sensitivity near $z=0$ all-pass filter section with complex conjugate
+  poles} 
+\label{fig:IS-all-pass-filter-noise-gain-complex-poles}
+\end{center}
+\end{figure}
 \cleardoublepage{}
 \chapter{\label{sec:Schur-decomposition}Filter synthesis by the Schur decomposition}
 This chapter follows
@@ -4197,8 +5028,8 @@ and $y_{n}^{*}$ the all-pass output of the $n$-th section.
 \label{fig:State-variable-description-One-Multiplier-Lattice}
 \end{center}
 \end{figure}
-Construction of the state variable description is summarised in Algorithm
-\ref{alg:Construction-state-variable-One-Multiplier-lattice}.
+Construction of the state variable description is summarised in
+Algorithm~\ref{alg:Construction-state-variable-One-Multiplier-lattice}.
 \begin{algorithm}[!htbp]
 \begin{algorithmic}
 \State $y_{0}^{*} = x_{1}$
@@ -4791,9 +5622,10 @@ Butterworth example}
 \end{center}
 \end{figure}
 
-The Octave function \emph{schurNSlatticeRetimed2Abcd} converts the Schur
-normalised-scaled lattice implementation to a retimed state variable form. The 
-Octave script \emph{butt3NSSV\_test.m} demonstrates roundoff noise
+The Octave function \emph{schurNSlatticeRetimedNoiseGain} converts the Schur
+normalised-scaled lattice implementation to a retimed state variable form
+used to calculate the noise gains. The Octave script \emph{butt3NSSV\_test.m}
+demonstrates roundoff noise
 calculations in the retimed state variable form. The Butterworth and all-pass
 filter noise gains with exact coefficients are found to be the same as those
 for the transposed filter calculation above. With $10$ bit $2$ signed-digit
@@ -4967,7 +5799,7 @@ gains are unchanged.
 \end{figure}
 The state-variable equations for this single-multiplier lattice example
 after slowing and re-timing are calculated in the Octave function 
-\emph{schurOneMlatticeRetimed2Abcd}. The Octave function 
+\emph{schurOneMlatticeRetimedNoiseGain}. The Octave function 
 \emph{schurOneMlatticeFilter} calculates the upper, Butterworth output, edge of 
 Figure~\ref{fig:One-multiplier-lattice-structure} in a single operation,
 ie: with a single large accumulator, and the lower, all-pass output, edge
@@ -4975,7 +5807,7 @@ with separate truncated accumulations. On the other hand, the Octave function
 \emph{svf} implements a general
 state-variable filter with truncated accumulations for each state and a wide
 accumulator for both the outputs. The round-off noise estimation in 
-\emph{schurOneMlatticeRetimed2Abcd} illustrates that the retiming method of 
+\emph{schurOneMlatticeRetimedNoiseGain} illustrates that the retiming method of 
 calculating noise gain is much more flexible than the transposed filter 
 method. In addition, as noted in 
 Section~\ref{sec:Round-off-normalised-scaled-lattice}, the Schur basis is not 
@@ -4984,7 +5816,7 @@ to calculate the noise gain after truncation. Consequently, it is
 simpler to use the state-variable description to calculate the round-off noise
 of the one multiplier lattice with truncated coefficients. 
 
-The \emph{schurOneMlatticeRetimed2Abcd} function can calculate round-off 
+The \emph{schurOneMlatticeRetimedNoiseGain} function can calculate round-off 
 noise gain for three different one multiplier lattice filter implementations by 
 selecting the states included through the \emph{filterStr} argument:
 \begin{itemize}
@@ -5007,7 +5839,7 @@ shown in the following.
 
 When filter type \emph{``schur''} is selected the round-off noise gains 
 for exact filter coefficients calculated with the Octave function
-\emph{schurOneMlatticeRetimed2Abcd} match those found with
+\emph{schurOneMlatticeRetimedNoiseGain} match those found with
 \emph{schurOneMlatticeNoiseGain}.
 
 When filter type \emph{``ABCD''} is selected the Butterworth filter noise
@@ -5071,9 +5903,12 @@ and lower branches of the signal flow graph. The total delay in each loop of
 the signal flow graph is unchanged so the transfer function of the filter is
 also unchanged. Retiming limits the maximum latency of each filter update
 calculation to the latency of two sections and changes the round-off noise
-performance of the filter.\footnote{The tapped output could be retimed by
+performance of the filter\footnote{The tapped output could be retimed by
   pipelining the arithmetic operations in a tree structure. The all-pass
-  lattice ouput calculation is recursive and cannot be retimed in that way.}
+  lattice ouput calculation is recursive and cannot be retimed in that way.}.
+Appendix~\ref{app:State-variable-retimed-One-multiplier-Schur-lattice-filter}
+derives the state variable description of the retimed one-multipler Schur
+lattice filter.
 \begin{figure}
 \begin{subfigure}{\textwidth}
 \begin{center}
@@ -5806,8 +6641,8 @@ other examples of orthogonal filter factorisation.
 Chapter~\ref{sec:Round-off-noise-in-state-variable-filters} reviewed the 
 optimisation of a state variable digital filter for minimum roundoff noise. The
 resulting filter has $\mathcal{O}\left(N^{2}\right)$ non-zero coefficients. 
-Part~\ref{sec:Second-order-cascade} showed how a filter could be implemented as
-a cascade of second-order sections with section optimal roundoff noise 
+Section~\ref{sec:Second-order-cascade} showed how a filter could be implemented
+as a cascade of second-order sections with section optimal roundoff noise 
 performance. Chapters~\ref{sec:Schur-decomposition}
 and~\ref{sec:Orthogonal-state-variable-filters} reviewed the design of lattice
 filters with good roundoff noise performance and low coefficient sensitivity.
@@ -6842,11 +7677,15 @@ calls \emph{sqp\_bfgs} to minimise the objective function
 response amplitude and delay and linear constraints by calls to \emph{iirE()}.
 That function calculates the error
 with trapezoidal integration. If the frequency bands are not contiguous then
-zeros in the weight vector can make frequency transition bands. I found
-by trial-and-error when running \emph{iir\_sqp\_mmse} that the SQP Hessian
-matrix can be initialised with the diagonal elements of the amplitude squared
-error Hessian. Similarly, the current SQP search point can be updated with the
-\emph{Armijo-Kim} line-search algorithm and the 
+zeros in the weight vector can make frequency transition bands.
+A useful future improvement is to add a constraint on the slope of
+the amplitude response in the transition band. For a lowpass filter:
+$\frac{\partial{}A}{\partial\omega}<0$. 
+
+I found by trial-and-error when running \emph{iir\_sqp\_mmse} that the SQP
+Hessian matrix can be initialised with the diagonal elements of the amplitude
+squared error Hessian. Similarly, the current SQP search point can be updated
+with the \emph{Armijo-Kim} line-search algorithm and the 
 \emph{Broyden-Fletcher-Goldfarb-Shanno}(BFGS) Hessian matrix update algorithm 
 (see Appendix~\ref{Inexact-step-size-selection} and
 Appendix~\ref{Updating-with-the-BFGS-formula} respectively). The error surface
@@ -6855,7 +7694,7 @@ if, at each iteration, the error surface is approximated by a quadratic surface
 with the BFGS estimate of the Hessian matrix. Typically, the MMSE optimisation
 process is iterative; the design process starts with a loose amplitude only
 specification and the constraints on amplitude, phase and delay are gradually
-tightened. 
+tightened.
 
 There are several reasons why an optimisation attempt might fail:
 \begin{itemize}
@@ -6883,7 +7722,6 @@ function because it calls separate functions to calculate the error and the
 constraints. In  \emph{iir\_sqp\_mmse} and in the PCLS
 solver, \emph{iir\_slb}, the constraints are calculated at the same
 time as the error.
-
 \subsubsection{PCLS optimisation}
 The MMSE optimisation constrains the integrated error over a frequency interval.
 PCLS optimisation constrains the peaks of the amplitude, phase and group-delay
@@ -6918,10 +7756,11 @@ weights must be modified by trial-and-error.
 \subsection{Tarczynski et al. Example 2}
 Figure \ref{fig:tarczynski-ex2-standalone-response} shows the response of a
 filter designed with the ``WISE'' method of \emph{Tarczynski et al.} 
-\cite{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters}. In 
-gain-pole-zero format the filter is:
+\cite{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters}. The
+coefficients of the numerator and denominator polynomials of the filter are:
 \begin{small}
-\verbatiminput{tarczynski_ex2_standalone_test_x0_coef.m}
+\verbatiminput{tarczynski_ex2_standalone_test_N0_coef.m}
+\verbatiminput{tarczynski_ex2_standalone_test_D0_coef.m}
 \end{small}
 In the above listing, the first line shows the gain, and subsequent lines show,
 respectively, $2$ real zeros, $2$ real poles, the zero radiuses for $11$
@@ -7061,6 +7900,7 @@ pole-zero plot shown in Figure~\ref{fig:Deczky-Example-3-MMSE-x2-pz}.
 \label{fig:Deczky-Example-3-MMSE-x2-pz}
 \end{center}
 \end{figure}
+\clearpage
 \subsubsection{PCLS optimisation of Deczky's Example 3}
 The test script \emph{deczky3\_sqp\_test.m} now switches to PCLS optimisation of
 the MMSE filter. After some experimentation, the final specification becomes
@@ -7091,7 +7931,7 @@ pole-zero plot is shown in Figure~\ref{fig:Deczky-Example-3-PCLS-d1-pz}.
 \label{fig:Deczky-Example-3-PCLS-d1-pz}
 \end{center}
 \end{figure}
-The last estimate of the optimised filter vector is, in the gain, zeros and 
+The optimised filter vector is, in the gain, zeros and 
 poles form of Equation~\ref{eqn:Filter-gain-zeros-poles}:
 \begin{small}
 \verbatiminput{deczky3_sqp_test_d1_coef.m}
@@ -7105,6 +7945,7 @@ and
 \begin{small}
 \verbatiminput{deczky3_sqp_test_D1_coef.m}
 \end{small}
+\clearpage
 \subsubsection{An alternative implementation of Deczky's Example 3}
 The test script \emph{deczky3a\_sqp\_test.m} is an alternative implementation
 of \emph{Deczky}'s Example 3 with $fap=0.15$, $dBap=0.2dB$, $Wap=1$, $fas=0.30$,
@@ -7148,24 +7989,24 @@ and
 \begin{small}
 \verbatiminput{deczky3a_sqp_test_D1_coef.m}
 \end{small}
+\clearpage
 \subsection{\label{sub:Deczkys-Example-1}Deczky's Example 1}
-\emph{Antoniou} and 
-\emph{Lu}~\cite[Example 16.3]{AntoniouLu_PracticalOptimization}
-refer to the following example IIR filter design specification as
-\emph{Deczky}'s Example 1~\cite{Deczky_MinPSynthesisIIRDigitalFilters}: the
-pass-band is $\left[0.0,0.25\right]$ with $0.02$ maximum amplitude ripple,
-the pass-band ripple is $9$ samples with $1$ sample maximum ripple and
-the stop band is $\left[0.3,0.5\right)$ with at least $34\,dB$ attenuation.
-The Octave script \emph{deczky1\_sqp\_test.m} implements this example. The
-filter specification defined in that file is
+The following example IIR filter design specification is similar to
+\emph{Deczky}'s Example 1~\cite{Deczky_MinPSynthesisIIRDigitalFilters}. The
+pass-band is $\left[0.0,0.25\right]$ with $1dB$ maximum amplitude ripple, the
+pass-band delay is $8$ samples with $2$ sample maximum peak-to-peak ripple and
+the stop band is $\left[0.3,0.5\right)$ with at least $36dB$ attenuation. The
+PCLS optimisation in this example includes a constraint on the derivative
+of the amplitude response in the transition band:
+$\frac{\partial{}A\left(\omega\right)}{\partial\omega}<0$. The Octave script
+\emph{deczky1\_sqp\_test.m} implements this example. The filter specification
+defined in that file is:  
 \begin{small}
 \verbatiminput{deczky1_sqp_test.spec}
 \end{small}
 The initial filter design was found with the Octave script 
-\emph{tarczynski\_deczky1\_test.m}:
-The initial frequency response is shown in
-Figure~\ref{fig:Deczky-Ex1-Initial-x0} and the corresponding pole-zero plot is 
-shown in Figure~\ref{fig:Deczky-Ex1-Initial-x0-pz}.
+\emph{tarczynski\_deczky1\_test.m}. The initial frequency response is shown in
+Figure~\ref{fig:Deczky-Ex1-Initial-x0}.
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{deczky1_sqp_test_initial_x0}}
@@ -7173,13 +8014,7 @@ shown in Figure~\ref{fig:Deczky-Ex1-Initial-x0-pz}.
 \label{fig:Deczky-Ex1-Initial-x0}
 \end{center}
 \end{figure}
-\begin{figure}[!htbp]
-\begin{center}
-\scalebox{0.7}{\input{deczky1_sqp_test_initial_x0pz}}
-\caption{Deczky Example 1 : Pole-zero plot for initial coefficients}
-\label{fig:Deczky-Ex1-Initial-x0-pz}
-\end{center}
-\end{figure}
+
 \subsubsection{MMSE optimisation of Deczky's Example 1}
 The frequency response after MMSE optimisation is shown in
 Figure~\ref{fig:Deczky-Ex1-MMSE-x1} and the pole-zero plot is shown in 
@@ -7187,50 +8022,28 @@ Figure~\ref{fig:Deczky-Ex1-MMSE-x1-pz}.
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{deczky1_sqp_test_mmse_x1}}
-\caption{Deczky Example 1 MMSE : Optimised response with Wap=1, Wtp=0.02, Was=3}
+\caption{Deczky Example 1 : MMSE optimised response with Wap=1, Wtp=0.01, Was=1}
 \label{fig:Deczky-Ex1-MMSE-x1}
 \end{center}
 \end{figure}
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{deczky1_sqp_test_mmse_x1pz}}
-\caption{Deczky Example 1 MMSE : Pole-zero plot after optimisation with Wap=1, Wtp=0.02, Was=3}
+\caption{Deczky Example 1 : MMSE pole-zero plot after optimisation with Wap=1, Wtp=0.01, Was=1}
 \label{fig:Deczky-Ex1-MMSE-x1-pz}
 \end{center}
 \end{figure}
 \subsubsection{PCLS optimisation of Deczky's Example 1}
-The frequency response after PCLS optimisation is shown in
+The frequency response after PCLS optimisation is shown in 
 Figure~\ref{fig:Deczky-Ex1-PCLS-d1}, the pass-band detail is shown in 
 Figure~\ref{fig:Deczky-Ex1-PCLS-d1-passband} and the pole-zero plot is shown in 
 Figure~\ref{fig:Deczky-Ex1-PCLS-d1-pz}. 
-\begin{figure}[!htb]
-\begin{center}
-\scalebox{0.7}{\input{deczky1_sqp_test_pcls_d1}}
-\caption{Deczky Example 1 PCLS : Optimised response with dBap=0.7, tp=10, tpr=0.6, dBas=36}
-\label{fig:Deczky-Ex1-PCLS-d1}
-\end{center}
-\end{figure}
-\begin{figure}[!htb]
-\begin{center}
-\scalebox{0.7}{\input{deczky1_sqp_test_pcls_d1pass}}
-\caption{Deczky Example 1 PCLS : Optimised passband response with dBap=0.7, tp=10, tpr=0.6, dBas=36}
-\label{fig:Deczky-Ex1-PCLS-d1-passband}
-\end{center}
-\end{figure}
-\begin{figure}[!htb]
-\begin{center}
-\scalebox{0.7}{\input{deczky1_sqp_test_pcls_d1pz}}
-\caption{Deczky Example 1 PCLS : Pole-zero plot after optimisation with dBap=0.7,tp=10, tpr=0.6, dBas=36}
-\label{fig:Deczky-Ex1-PCLS-d1-pz}
-\end{center}
-\end{figure}
-The last estimate of the optimised filter vector is, in the gain, zeros and 
-poles form of Equation~\ref{eqn:Filter-gain-zeros-poles}:
+The optimised filter vector is, in gain, zeros and poles form:
 \begin{small}
 \verbatiminput{deczky1_sqp_test_d1_coef.m}
 \end{small}
 and the corresponding transfer function numerator and denominator polynomials
-(found with Octave function \emph{x2tf}) are, respectively:
+are, respectively:
 \begin{small}
 \verbatiminput{deczky1_sqp_test_N1_coef.m}
 \end{small}
@@ -7238,6 +8051,28 @@ and
 \begin{small}
 \verbatiminput{deczky1_sqp_test_D1_coef.m}
 \end{small}
+\begin{figure}[!htb]
+\begin{center}
+\scalebox{0.7}{\input{deczky1_sqp_test_pcls_d1}}
+\caption{Deczky Example 1 : PCLS optimised response with dBap=1, tp=8, tpr=2, dBas=36}
+\label{fig:Deczky-Ex1-PCLS-d1}
+\end{center}
+\end{figure}
+\begin{figure}[!htb]
+\begin{center}
+\scalebox{0.7}{\input{deczky1_sqp_test_pcls_d1pass}}
+\caption{Deczky Example 1 : PCLS optimised passband response with dBap=1, tp=8, tpr=2, dBas=36}
+\label{fig:Deczky-Ex1-PCLS-d1-passband}
+\end{center}
+\end{figure}
+\begin{figure}[!htb]
+\begin{center}
+\scalebox{0.7}{\input{deczky1_sqp_test_pcls_d1pz}}
+\caption{Deczky Example 1 : PCLS pole-zero plot after optimisation with dBap=1,tp=8, tpr=2, dBas=36}
+\label{fig:Deczky-Ex1-PCLS-d1-pz}
+\end{center}
+\end{figure}
+\clearpage
 \subsection{\label{sec:Low-pass-R-2-decimation-filter}Low-pass R=2 decimation filter}
 The second example design is a low-pass $R=2$ decimation filter with
 compensation for the zero-order hold amplitude response:
@@ -7859,8 +8694,7 @@ The initial filter coefficients are, in gain-pole-zero form:
 x0=[ 0.005, -0.7, 0.7, 0.7*ones(1,14), pi*[(1:3)/80, (13:23)/24] ]';
 \end{verbatim}
 \end{small}
-The zero radiuses are constrained by $\left|z\right|<\frac{31}{32}$ (so
-that the Schur FIR decomposition succeeds).
+The zero radiuses are constrained by $\left|z\right|<\frac{31}{32}$.
 The inital filter is first MMSE optimised and then optimised with the PCLS
 algorithm.  The radiuses of the zeros of the filter are constrained to
 $\left|z\right|\le1$.
@@ -8650,21 +9484,21 @@ stability constraint matrixes as
 d_{0} \\
 \boldsymbol{d}_{1} \\
 \vdots \\
-\boldsymbol{d}_{L} \\
+\boldsymbol{d}_{L}
 \end{array}\right]
-\; &\text{where}\; \boldsymbol{d}_{i}=\left[\begin{array}{c}
+ &\text{ where } \boldsymbol{d}_{i}=\left[\begin{array}{c}
 d_{i1} \\
-d_{i2} \\
+d_{i2}
 \end{array}\right]\\
 \boldsymbol{C}&=\left[\begin{array}{cccc}
 c_{1} &       & & \boldsymbol{0} \\
       & c_{2} &               &  \\
       &      & \ddots        & \\
 \boldsymbol{0} & & & c_{2}\end{array}\right]
-\; &\text{where}\; c_{1}=\left[\begin{array}{c}
+ &\text{ where } c_{1}=\left[\begin{array}{c}
 \phantom{-}1\\
 -1\\
-\end{array}\right] \; &\text{ and } c_{2}=\left[\begin{array}{cc}
+\end{array}\right] &\text{ and } c_{2}=\left[\begin{array}{cc}
 \phantom{-}1 & 1\\
 -1 & 1\\
 \phantom{-}0 & 1\\
@@ -8673,12 +9507,12 @@ c_{1} &       & & \boldsymbol{0} \\
 e_{1}\\
 e_{2}\\
 \vdots\\
-e_{2}\\
+e_{2}
 \end{array}\right]
-\; &\text{where}\; e_{1}=\left[\begin{array}{c}
+&\text{ where } e_{1}=\left[\begin{array}{c}
 1\\
 1\\
-\end{array}\right] \; &\text{ and } e_{2}=\left[\begin{array}{c}
+\end{array}\right] &\text{ and } e_{2}=\left[\begin{array}{c}
 1\\
 1\\
 1\\
@@ -8696,6 +9530,37 @@ $\boldsymbol{\delta}$. Then the stability constraint becomes
 \end{align*}
 where $\boldsymbol{h}=\boldsymbol{C}\boldsymbol{d}+
 \left(1-\tau\right)\boldsymbol{e}$.
+
+\subsection{\label{sec:Limit-cycle-oscillations-second-order-filter-sections}Linear constraints on limit-cycle oscillations in second-order filter sections}
+Section~\ref{sec:Limit-cycle-oscillation-digital-filters} states that
+second-order section limit-cycle oscillations can be suppressed by adding the
+constraint:
+\begin{align*}
+\left|d_{1}\right|+\left|d_{2}\right|\le 1
+\end{align*}
+so that, in addition to the stability constraints shown in the previous section:
+\begin{align*}
+d_{1}-d_{2} &> -1+\tau \\
+-d_{1}-d_{2} &> -1+\tau 
+\end{align*}
+and
+\begin{align*}
+e_{2}&=\left[\begin{array}{c}
+1\\
+1\\
+1\\
+1\\
+1\\
+\end{array}\right]\\
+c_{2}&=\left[\begin{array}{cc}
+\phantom{-}1 & \phantom{-}1\\
+          -1 & \phantom{-}1\\
+\phantom{-}1 &           -1\\
+          -1 &           -1\\
+\phantom{-}0 & \phantom{-}1\\
+\end{array}\right]
+\end{align*}
+
 \subsection{\label{sec:Design-IIR-filter-2nd-order-sections-with-SeDuMi}Design of an IIR filter composed of second order sections with \emph{SeDuMi}}
 For the IIR filter transfer function
 \begin{align*}
@@ -8817,9 +9682,9 @@ a low pass filter similar to that of Deczky's Example 3:
 \begin{small}
 \verbatiminput{lowpass2ndOrderCascade_socp_test.spec}
 \end{small}
-The filter coefficients are initialised with the ``IPZS-1'' set.
-After SOCP MMSE optimisation, the numerator and denominator polynomials are 
-respectively
+The filter coefficients are initialised with the ``IPZS-1'' set. The script
+does not enforce the limit-cycle constraints. After SOCP MMSE optimisation,
+the numerator and denominator polynomials are respectively:
 \begin{small}
 \verbatiminput{lowpass2ndOrderCascade_socp_test_a_coef.m}
 \end{small}
@@ -9262,8 +10127,7 @@ H\left(z\right)=\frac{e^{\imath\phi_{1}\left(z\right)}+e^{\imath\phi_{2}\left(z\
 \end{align*}
 where $\phi_{1}\left(z\right)=\arg A_{1}\left(z\right)$ and 
 $\phi_{2}\left(z\right)=\arg A_{2}\left(z\right)$. The squared magnitude
-response and phase of the frequency response, $H\left(\omega\right)$, are, 
-with simple trigonometry
+response and phase of the frequency response, $H\left(\omega\right)$, are:
 \begin{align*}
 \left|H\left(\omega\right)\right|^{2} &=
 \frac{1+\cos\left(\phi_{1}\left(\omega\right)-
@@ -10277,13 +11141,17 @@ The initial parallel all-pass filters were designed by the Octave script
 These initial filters are those used in
 Section~\ref{sec:Design-IIR-filter-sum-all-pass-filters-pole-zero-constrained-group-delay}.
 
-Figures~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-lowpass-filter-SOCP-PCLS} 
-and~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-lowpass-filter-SOCP-PCLS-pass}
+Figures~\ref{fig:Parallel-Schur-OneMPA-lattice-lowpass-filter-SOCP-PCLS} 
+and~\ref{fig:Parallel-Schur-OneMPA-lattice-lowpass-filter-SOCP-PCLS-pass}
 show the overall and passband responses of the filter after SOCP PCLS
 optimisation and
-Figure~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-lowpass-filter-SOCP-PCLS-pz}
-shows the pole-zero plot of the filter. The low-pass filter SOCP PCLS
-optimised Schur one-multiplier all-pass lattice coefficients are:
+Figure~\ref{fig:Parallel-Schur-OneMPA-lattice-lowpass-filter-SOCP-PCLS-pz}
+shows the pole-zero plot of the filter.
+Figure~\ref{fig:Parallel-Schur-OneMPA-lattice-lowpass-filter-SOCP-PCLS-sens}
+shows the coefficient sensitivity responses of the filter.
+
+The low-pass filter SOCP PCLS optimised Schur one-multiplier all-pass lattice
+coefficients are: 
 \begin{small}
 \verbatiminput{schurOneMPAlattice_socp_slb_lowpass_test_A1k_coef.m}
 \verbatiminput{schurOneMPAlattice_socp_slb_lowpass_test_A1epsilon_coef.m}
@@ -10295,7 +11163,7 @@ optimised Schur one-multiplier all-pass lattice coefficients are:
 \begin{center}
 \scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_lowpass_test_response}}
 \caption{Parallel Schur one-multiplier all-pass lattice low-pass filter : response after SOCP PCLS optimisation}
-\label{fig:Parallel-Schur-one-m-lattice-all-pass-lowpass-filter-SOCP-PCLS}
+\label{fig:Parallel-Schur-OneMPA-lattice-lowpass-filter-SOCP-PCLS}
 \end{center}
 \end{figure}
 \begin{figure}[!htbp]
@@ -10303,7 +11171,7 @@ optimised Schur one-multiplier all-pass lattice coefficients are:
 \scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_lowpass_test_passband_response}}
 \caption{Parallel Schur one-multiplier all-pass lattice low-pass filter :
   passband response after SOCP PCLS optimisation}
-\label{fig:Parallel-Schur-one-m-lattice-all-pass-lowpass-filter-SOCP-PCLS-pass}
+\label{fig:Parallel-Schur-OneMPA-lattice-lowpass-filter-SOCP-PCLS-pass}
 \end{center}
 \end{figure}
 \begin{figure}[!htbp]
@@ -10311,7 +11179,15 @@ optimised Schur one-multiplier all-pass lattice coefficients are:
 \scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_lowpass_test_pz}}
 \caption{Parallel Schur one-multiplier all-pass lattice low-pass filter :
   pole-zero plot after SOCP PCLS optimisation}
-\label{fig:Parallel-Schur-one-m-lattice-all-pass-lowpass-filter-SOCP-PCLS-pz}
+\label{fig:Parallel-Schur-OneMPA-lattice-lowpass-filter-SOCP-PCLS-pz}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_lowpass_test_sensitivity}}
+\caption{Parallel Schur one-multiplier all-pass lattice low-pass filter :
+  coefficient sensitivity responses after SOCP PCLS optimisation}
+\label{fig:Parallel-Schur-OneMPA-lattice-lowpass-filter-SOCP-PCLS-sens}
 \end{center}
 \end{figure}
 
@@ -13615,6 +14491,89 @@ coefficients] {Comparison of the cost and number of 12-bit shift-and-add
 \label{tab:branch-bound-schurOneMPAlattice-lowpass-12-nbits-cost-summary}
 \end{table}
 \clearpage
+\section{Branch-and-bound search for the 8-bit 3-signed-digit coefficients of a parallel all-pass lattice IIR elliptic low-pass filter}
+The Octave script
+\emph{branch\_bound\_schurOneMPAlattice\_elliptic\_lowpass\_8\_nbits\_test.m}
+performs branch-and-bound search to optimise the response of a parallel
+Schur one-multiplier all-pass lattice elliptic approximation low-pass filter
+with $8$-bit integer coefficients. The filter specification is:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test.spec}
+\end{small} 
+
+The filter coefficients are truncated to $8$ bits and $2$ signed-digits. At each
+branch the script fixes the coefficient with the largest difference between
+upper and lower $2$ signed-digit approximations to the floating-point value. For
+each sub-problem the coefficients ``higher-up-the-tree'' are fixed and the
+remaining free coefficients are SOCP PCLS optimised with the filter
+specification given above.
+
+The $8$ bit, $2$ signed-digit lattice coefficients are:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test_A1k0_sd_coef.m}
+\verbatiminput{branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test_A2k0_sd_coef.m}
+\end{small}
+
+The signed-digit lattice coefficients found by the branch-and-bound
+search are:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test_A1k_min_coef.m}
+\verbatiminput{branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test_A2k_min_coef.m}
+\end{small}
+The signed-digit lattice coefficients found by the branch-and-bound
+search are implemented with 
+\input{branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test_kmin_digits.tab}
+signed-digits and 
+\input{branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test_kmin_adders.tab}
+shift-and-add operations.
+
+Figure~\ref{fig:branch-bound-schurOneMPAlattice-elliptic-lowpass-8-nbits-response}
+shows the amplitude response of the filter with $8$-bit, $2$-signed-digit
+coefficients and branch-and-bound search. 
+Figure~\ref{fig:branch-bound-schurOneMPAlattice-elliptic-lowpass-8-nbits-pass-response}
+shows the filter pass-band amplitude response.
+Table~\ref{tab:branch-bound-schurOneMPAlattice-elliptic-lowpass-8-nbits-cost-summary}
+compares the cost and the number of $8$ bit shift-and-add operations required
+to implement the coefficient multiplications found with the branch-and-bound
+search. 
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test_kmin}}
+\caption{Amplitude response for a parallel Schur one-multiplier all-pass
+  lattice elliptic approximation low-pass filter with 8 bit, 2-signed-digits
+  integer coefficients found performing branch-and-bound search.}
+\label{fig:branch-bound-schurOneMPAlattice-elliptic-lowpass-8-nbits-response}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test_kmin_pass}}
+\caption{Amplitude pass-band response for a parallel Schur one-multiplier
+  all-pass lattice elliptic approximation low-pass filter with 8 bit, 2
+  signed-digit integer coefficients found by performing branch-and-bound search.}
+\label{fig:branch-bound-schurOneMPAlattice-elliptic-lowpass-8-nbits-pass-response}
+\end{center}
+\end{figure}
+\begin{table}[htb]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lccc}  \\ \toprule
+& Cost&Signed-digits&Shift-and-adds\\ \midrule
+\input{branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test_kmin_cost.tab}
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the parallel Schur one-multiplier
+all-pass lattice elliptic approximation lowpass filter SOCP algorithm example
+with 8 bit, 2 signed-digit coefficients] {Comparison of the cost and number of
+  8-bit 
+  shift-and-add operations required to implement the coefficient
+  multiplications for a parallel Schur one-multiplier all-pass lattice
+  elliptic approximation low-pass filter with 8 bit, 2 signed-digit integer
+  coefficients found by performing branch-and-bound search.} 
+\label{tab:branch-bound-schurOneMPAlattice-elliptic-lowpass-8-nbits-cost-summary}
+\end{table}
+\clearpage
 \section{\label{sec:Branch-and-bound-search-signed-digit-coefficients-parallel-allpass-elliptic-lowpass}Branch-and-bound search for the 16-bit 3-signed-digit coefficients of a parallel all-pass lattice IIR elliptic low-pass filter}
 The Octave script
 \emph{branch\_bound\_schurOneMPAlattice\_elliptic\_lowpass\_16\_nbits\_test.m}
@@ -13813,7 +14772,104 @@ coefficients] {Comparison of the cost and number of 12-bit shift-and-add
 \label{tab:branch-bound-schurOneMPAlattice-bandpass-12-nbits-cost-summary}
 \end{table}
 \clearpage
-\section{\label{sec:Branch-and-bound-search-signed-digit-coefficients-parallel-allpass-bandpass-Hilbert}Branch-and-bound
+\section{\label{sec:Branch-and-bound-search-signed-digit-coefficients-parallel-allpass-bandpass-Hilbert-10-bit}Branch-and-bound search for the 10-bit 3-signed-digit coefficients of a parallel all-pass lattice band-pass Hilbert IIR filter}
+The Octave script
+\emph{branch\_bound\_schurOneMPAlattice\_bandpass\_hilbert\_10\_nbits\_test.m}
+performs branch-and-bound search to optimise the response of the parallel
+Schur one-multiplier all-pass lattice band-pass Hilbert filter of
+Section~\ref{sec:Design-parallel-Schur-one-mult-all-pass-lattice-band-pass-Hilbert-SOCP}
+with $10$-bit integer coefficients. The filter specification is:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test.spec}
+\end{small} 
+
+The filter coefficients are truncated to $10$ bits with $3$ signed-digits.
+At each branch the script fixes the coefficient with the largest difference
+between upper and lower $3$ signed-digit approximations to the floating-point
+value. For each sub-problem the coefficients ``higher-up-the-tree'' are fixed
+and the remaining free coefficients are SOCP PCLS optimised with the filter
+specification given above.
+
+The $12$-bit, $3$-signed-digit, lattice coefficients found by the
+branch-and-bound search are: 
+\begin{small}
+\verbatiminput{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_A1k_min_coef.m}
+\verbatiminput{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_A2k_min_coef.m}
+\end{small}
+
+The signed-digit lattice coefficients found by the branch-and-bound
+search are implemented with 
+\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_kmin_digits.tab}
+signed-digits and 
+\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_kmin_adders.tab}
+shift-and-add operations.
+
+Figure~\ref{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-pass-response}
+shows the amplitude pass-band response of the filter with
+$10$-bit, $3$-signed-digit coefficients. 
+Figure~\ref{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-delay-response}
+shows the corresponding filter pass-band group-delay response.
+Figure~\ref{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-phase-response}
+shows the corresponding filter pass-band phase response (in multiples of $\pi$
+and corrected for delay).
+Figure~\ref{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-stop-response}
+shows the corresponding filter stop-band amplitude response.
+Table~\ref{tab:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-cost-summary}
+compares the cost and the number of $12$ bit shift-and-add operations required
+to implement the coefficient multiplications found with the branch-and-bound
+search. 
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_kmin_pass}}
+\caption{Amplitude pass-band response for a parallel Schur
+  one-multiplier all-pass lattice band-pass Hilbert filter with 10 bit 
+  3-signed-digit coefficients found by branch-and-bound search.}
+\label{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-pass-response}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_kmin_delay}}
+\caption{Group-delay pass-band response for a parallel Schur
+  one-multiplier all-pass lattice band-pass Hilbert filter with 10 bit 
+  3-signed-digit coefficients found by branch-and-bound search.}
+\label{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-delay-response}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_kmin_phase}}
+\caption{Phase pass-band response for a parallel Schur
+  one-multiplier all-pass lattice band-pass Hilbert filter with 10 bit 
+  3-signed-digit coefficients found by performing branch-and-bound search.}
+\label{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-phase-response}
+\end{center}
+\end{figure}
+\begin{figure}[!htbp]
+\begin{center}
+\scalebox{0.7}{\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_kmin_stop}}
+\caption{Amplitude stop-band response for a parallel Schur
+  one-multiplier all-pass lattice band-pass Hilbert filter with 10 bit 
+  3-signed-digit coefficients found by branch-and-bound search.}
+\label{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-stop-response}
+\end{center}
+\end{figure}
+\begin{table}[htb]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lccc}  \\ \toprule
+& Cost&Signed-digits&Shift-and-adds\\ \midrule
+\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_kmin_cost.tab}
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption{Summary of cost results for the parallel Schur
+  one-multiplier all-pass lattice band-pass Hilbert filter with 10 bit 
+  3-signed-digit coefficients found by branch-and-bound search.}
+\label{tab:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-cost-summary}
+\end{table}
+\clearpage
+\section{\label{sec:Branch-and-bound-search-signed-digit-coefficients-parallel-allpass-bandpass-Hilbert-12-bit}Branch-and-bound
   search for the 12-bit 3-signed-digit coefficients of a parallel all-pass
   lattice band-pass Hilbert IIR filter}
 The Octave script
@@ -13830,7 +14886,7 @@ The filter coefficients are truncated to $12$ bits allocated with an average
 of $3$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
 Section~\ref{sec:Ito-allocation-signed-digits}.
 At each branch the script fixes the coefficient with the largest difference
-between upper and lower $3$ signed-digit approximations to the floating-point
+between upper and lower signed-digit approximations to the floating-point
 value. For each sub-problem the coefficients ``higher-up-the-tree'' are fixed
 and the remaining free coefficients are SOCP PCLS optimised with the filter
 specification given above.
@@ -13934,7 +14990,8 @@ coefficients] {Comparison of the cost and number of 12-bit shift-and-add
 \label{tab:branch-bound-schurOneMPAlattice-band-pass-Hilbert-12-nbits-cost-summary}
 \end{table}
 \clearpage
-\section{\label{sec:Branch-and-bound-search-12-bit-2-sd-one-mult-FRM-Hilbert-Schur-lattice}Branch-and-bound search for the 12-bit 2-signed-digit coefficients of an FRM Hilbert filter with an allpass model filter}
+\section{\label{sec:Branch-and-bound-search-12-bit-2-sd-one-mult-FRM-Hilbert-Schur-lattice}Branch-and-bound search for the 12-bit 2-signed-digit coefficients of a frequency response masking Hilbert filter}
+%with an allpass model filter}
 The Octave script
 \emph{branch\_bound\_schurOneMAPlattice\_frm\_hilbert\_12\_nbits\_test.m} uses
 the branch-and-bound heuristic to optimise the response of the FRM Hilbert
@@ -14462,8 +15519,8 @@ with $12$-bit integer coefficients. The filter specification is:
 \end{small} 
 
 The filter coefficients are truncated to $12$ bits allocated with an average
-of $3$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
-Section~\ref{sec:Ito-allocation-signed-digits}.  At each coefficient
+of $3$ signed-digits by the heuristic of \emph{Lim et al.} as shown in
+Section~\ref{sec:Lim-allocation-signed-digits}.  At each coefficient
 relaxation step the script finds the upper and lower signed-digit
 approximations to the current set of active coefficients and selects the
 coefficient with the largest difference in those approximations. The
@@ -14477,7 +15534,7 @@ optimised so the final set of coefficients may not meet the PCLS
 specifications.
 
 The signed-digit lattice coefficients found by the heuristic of
-\emph{Ito et al.} are:
+\emph{Lim et al.} are:
 \begin{small}
 \verbatiminput{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_A1k_sd_coef.m}
 \verbatiminput{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_A2k_sd_coef.m}
@@ -14498,20 +15555,20 @@ shift-and-add operations.
 Figure~\ref{fig:socp-relax-schurOneMPAlattice-bandpass-12-nbits-pass-response}
 shows the amplitude and group-delay pass-band responses of the filter with
 $12$-bit $3$-signed-digit coefficients allocated with the algorithm of
-\emph{Ito et al.} and SOCP-relaxation search.
+\emph{Lim et al.} and SOCP-relaxation search.
 Figure~\ref{fig:socp-relax-schurOneMPAlattice-bandpass-12-nbits-stop-response}
 shows the corresponding filter stop-band amplitude response.
 Table~\ref{tab:socp-relax-schurOneMPAlattice-bandpass-12-nbits-cost-summary}
 compares the cost and the number of $12$ bit shift-and-add operations required
 to implement the coefficient multiplications found by the signed-digit
-allocation heuristic of \emph{Ito et al.} with the SOCP-relaxation search.
+allocation heuristic of \emph{Lim et al.} with the SOCP-relaxation search.
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_kmin_pass}}
 \caption{Amplitude and group-delay pass-band responses for a parallel Schur
   one-multiplier all-pass lattice band-pass filter with 12 bit integer
   coefficients found by allocating an average of 3-signed-digits to each
-  coefficient using the heuristic of \emph{Ito et al.} and performing
+  coefficient using the heuristic of \emph{Lim et al.} and performing
   SOCP-relaxation search.}
 \label{fig:socp-relax-schurOneMPAlattice-bandpass-12-nbits-pass-response}
 \end{center}
@@ -14522,7 +15579,7 @@ allocation heuristic of \emph{Ito et al.} with the SOCP-relaxation search.
 \caption{Amplitude stop-band responses for a parallel Schur one-multiplier
   all-pass lattice band-pass filter with 12 bit integer coefficients found by
   allocating an average of 3-signed-digits to each coefficient using the
-  heuristic of \emph{Ito et al.} and performing SOCP-relaxation search.}
+  heuristic of \emph{Lim et al.} and performing SOCP-relaxation search.}
 \label{fig:socp-relax-schurOneMPAlattice-bandpass-12-nbits-stop-response}
 \end{center}
 \end{figure}
@@ -14541,7 +15598,7 @@ coefficients] {Comparison of the cost and number of 12-bit shift-and-add
   operations required to implement the coefficient multiplications for a
   parallel Schur one-multiplier all-pass lattice band-pass filter with 12 bit
   integer coefficients found by allocating an average of 3-signed-digits to
-  each coefficient using the heuristic of \emph{Ito et al.} and performing
+  each coefficient using the heuristic of \emph{Lim et al.} and performing
   SOCP-relaxation search.}
 \label{tab:socp-relax-schurOneMPAlattice-bandpass-12-nbits-cost-summary}
 \end{table}
@@ -15644,8 +16701,8 @@ implemented with 12-bit coefficients each having an average of
 \verbatiminput{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test.spec}
 \end{small} 
 The filter coefficients are truncated to $12$ bits allocated with an average of
-$3$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
-Section~\ref{sec:Ito-allocation-signed-digits}. 
+$3$ signed-digits by the heuristic of \emph{Lim et al.} as shown in
+Section~\ref{sec:Lim-allocation-signed-digits}. 
 
 The script compares the filter designed by a single call to the Octave
 function \emph{schurOneMPAlattice\_sdp\_mmse} with that designed by successively
@@ -15682,8 +16739,8 @@ Figure~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-delay}
 and
 Figure~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-phase}
 compare the pass-band responses of the filter with exact, 12-bit signed-digit
-coefficients allocated with the algorithm of \emph{Ito et al.} and 12-bit
-signed-digit coefficients allocated with the algorithm of \emph{Ito et al.}
+coefficients allocated with the algorithm of \emph{Lim et al.} and 12-bit
+signed-digit coefficients allocated with the algorithm of \emph{Lim et al.}
 and SDP-relaxation search.
 Likewise,
 Figure~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-stop}
@@ -15691,14 +16748,14 @@ shows the filter stop-band response.
 Table~\ref{tab:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-cost}
 compares the cost and the number of $12$ bit shift-and-add operations required
 to implement the $31$ coefficient multiplications found by the signed-digit
-allocation heuristic of \emph{Ito et al.} with the SDP-relaxation search.
+allocation heuristic of \emph{Lim et al.} with the SDP-relaxation search.
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_pass}}
 \caption{Comparison of the pass-band amplitude responses for a parallel
   all-pass Schur one-multiplier lattice bandpass Hilbert filter with 12-bit
   integer coefficients found by allocating an average of 3-signed-digits to
-  each coefficient using the heuristic of \emph{Ito et al.} and performing
+  each coefficient using the heuristic of \emph{Lim et al.} and performing
   SDP-relaxation search}
 \label{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-pass}
 \end{center}
@@ -15709,7 +16766,7 @@ allocation heuristic of \emph{Ito et al.} with the SDP-relaxation search.
 \caption{Comparison of the pass-band group delay responses for a parallel
   all-pass Schur one-multiplier lattice bandpass Hilbert filter with 12-bit
   integer coefficients found by allocating an average of 3-signed-digits to
-  each coefficient using the heuristic of \emph{Ito et al.} and performing
+  each coefficient using the heuristic of \emph{Lim et al.} and performing
   SDP-relaxation search}
 \label{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-delay}
 \end{center}
@@ -15720,7 +16777,7 @@ allocation heuristic of \emph{Ito et al.} with the SDP-relaxation search.
 \caption{Comparison of the pass-band phase responses for a parallel
   all-pass Schur one-multiplier lattice bandpass Hilbert filter with 12-bit
   integer coefficients found by allocating an average of 3-signed-digits to
-  each coefficient using the heuristic of \emph{Ito et al.} and performing
+  each coefficient using the heuristic of \emph{Lim et al.} and performing
   SDP-relaxation search}
 \label{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-phase}
 \end{center}
@@ -15731,7 +16788,7 @@ allocation heuristic of \emph{Ito et al.} with the SDP-relaxation search.
 \caption{Comparison of the stop-band amplitude responses for a parallel
   all-pass Schur one-multiplier lattice bandpass Hilbert filter with 12-bit
   integer coefficients found  by allocating an average of 3-signed-digits to
-  each coefficient using the heuristic of \emph{Ito et al.} and performing
+  each coefficient using the heuristic of \emph{Lim et al.} and performing
   SDP-relaxation search} 
 \label{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-stop}
 \end{center}
@@ -15748,12 +16805,12 @@ allocation heuristic of \emph{Ito et al.} with the SDP-relaxation search.
 \end{threeparttable}
 \caption[Summary of cost results for the parallel all-pass Schur
   one-multiplier lattice bandpass Hilbert filter SDP-relaxation algorithm
-  example with 1 2-bit coefficients]
+  example with 12-bit coefficients]
 {Comparison of the cost and number of 12-bit shift-and-add operations required 
   to implement the coefficient multiplications for a parallel all-pass Schur
   one-multiplier lattice bandpass Hilbert filter with 12-bit integer
   coefficients found by allocating an average of 3-signed-digits to each
-  coefficient using the heuristic of \emph{Ito et al.} and performing
+  coefficient using the heuristic of \emph{Lim et al.} and performing
   SDP-relaxation search}
 \label{tab:sdp-relax-schurOneMPAlattice-bandpass-hilbert-12-nbits-cost}
 \end{table}
@@ -17384,17 +18441,17 @@ examples.
 \end{raggedbottom}
 \cleardoublepage
 \chapter{\label{app:Gradient-IIR-filter-amplitude-response-wrt-frequency}Gradient of the IIR filter amplitude response with respect to frequency}
-This section describes the gradient of the amplitude response, 
-$A\left(\omega\right)$ of an IIR filter expressed in gain-pole-zero form (as 
-derived in Section~\ref{app:IIR-filter-response}) with respect to frequency.
-This section derives a formula for 
-$\frac{\partial A\left(\omega\right)}{\partial\omega}$ and
+This section describes the derivatives with respect to angular frequency of the
+amplitude response, $A\left(\omega\right)$, of an IIR filter expressed in
+gain-pole-zero form. This section derives formulas for 
+$\frac{\partial A\left(\omega\right)}{\partial\omega}$,
+$\frac{\partial^{2} A\left(\omega\right)}{\partial\omega^{2}}$ and
 formulas for the gradients with respect to the gain-pole-zero coefficients, 
  $\frac{\partial^{2} A\left(\omega\right)}{\partial\omega\partial K}$,
  $\frac{\partial^{2} A\left(\omega\right)}{\partial\omega\partial R_{0j}}$,
  $\frac{\partial^{2} A\left(\omega\right)}{\partial\omega\partial R_{pj}}$, etc.
 In this case the denominator polynomial is \emph{not} decimated by $R$. 
-The squared amplitude response is 
+The squared amplitude response is:
 \begin{align*}
 A^{2}\left(\omega\right) &= K^{2}
 \frac{\prod_{j=1}^{U}\left\{ 1-2R_{0j}\cos\omega+R_{0j}^{2}\right\}}
@@ -17406,7 +18463,8 @@ A^{2}\left(\omega\right) &= K^{2}
 \left\{\left(1-2r_{pj}\cos\left(\omega-\theta_{pj}\right)+r_{pj}^{2}\right)
 \left(1-2r_{pj}\cos\left(\omega+\theta_{pj}\right)+r_{pj}^{2}\right)\right\}}
 \end{align*}
-The gradient of the amplitude response with respect to frequency is given by
+The gradient of the amplitude response with respect to angular frequency is
+given by: 
 \begin{align*}
 \frac{1}{A\left(\omega\right)}
 \frac{\partial A\left(\omega\right)}{\partial\omega} = 
@@ -17478,6 +18536,37 @@ The gradients with respect to the coefficients are given by
 {\left(1-2r_{pj}\cos\left(\omega-\theta_{pj}\right)+r_{pj}^{2}\right)^2} 
 -\frac{r_{pj}\left(1+r_{pj}^2\right)\cos\left(\omega+\theta_{pj}\right)-2r_{pj}^{2}}
 {\left(1-2r_{pj}\cos\left(\omega+\theta_{pj}\right)+r_{pj}^{2}\right)^2}
+\end{align*}
+The second derivative of the amplitude response with respect to angular
+frequency is given by:
+\begin{align*}
+-\left[\frac{1}{A\left(\omega\right)}
+       \frac{\partial{}A\left(\omega\right)}{\partial\omega}\right]^{2}
++\frac{1}{A\left(\omega\right)}
+  \frac{\partial^{2}A\left(\omega\right)}{\partial\omega^{2}} =
+  & \phantom{+}\sum_{j=1}^{U}\frac{R_{0j}\cos\omega}
+    {1-2R_{0j}\cos\omega + R_{0j}^{2}}
+       -\sum_{j=1}^{U}\frac{2R_{0j}^{2}\sin^{2}\omega}
+    {\left[1-2R_{0j}\cos\omega + R_{0j}^{2}\right]^{2}} \cdots\\
+  &-\sum_{j=1}^{V}\frac{R_{pj}\cos\omega}{1-2R_{pj}\cos\omega + R_{pj}^{2}}
+    +\sum_{j=1}^{V}\frac{2R_{pj}^{2}\sin^{2}\omega}
+    {\left[1-2R_{pj}\cos\omega + R_{pj}^{2}\right]^{2}}\cdots\\
+&+\sum_{j=1}^{\frac{M}{2}}\frac{r_{0j}\cos\left(\omega-\theta_{0j}\right)} 
+           {1-2r_{0j}\cos\left(\omega-\theta_{0j}\right) + r_{0j}^{2}}
+- \sum_{j=1}^{\frac{M}{2}}\frac{2r_{0j}^{2}\sin^{2}\left(\omega-\theta_{0j}\right)} 
+{\left[1-2r_{0j}\cos\left(\omega-\theta_{0j}\right) + r_{0j}^{2}\right]^{2}}\cdots\\
+&-\sum_{j=1}^{\frac{Q}{2}}\frac{r_{pj}\cos\left(\omega-\theta_{pj}\right)} 
+{1-2r_{pj}\cos\left(\omega-\theta_{pj}\right) + r_{pj}^{2}}
++\sum_{j=1}^{\frac{Q}{2}}\frac{2r_{pj}^{2}\sin^{2}\left(\omega-\theta_{pj}\right)} 
+{\left[1-2r_{pj}\cos\left(\omega-\theta_{pj}\right) + r_{pj}^{2}\right]^{2}}\cdots\\
+&+\sum_{j=1}^{\frac{M}{2}}\frac{r_{0j}\cos\left(\omega+\theta_{0j}\right)} 
+{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right) + r_{0j}^{2}}
+-\sum_{j=1}^{\frac{M}{2}}\frac{2r_{0j}^{2}\sin^{2}\left(\omega+\theta_{0j}\right)} 
+{\left[1-2r_{0j}\cos\left(\omega+\theta_{0j}\right) + r_{0j}^{2}\right]^{2}}\cdots\\
+&-\sum_{j=1}^{\frac{Q}{2}}\frac{r_{pj}\cos\left(\omega+\theta_{pj}\right)}
+{1-2r_{pj}\cos\left(\omega+\theta_{pj}\right) + r_{pj}^{2}}
++\sum_{j=1}^{\frac{Q}{2}}\frac{2r_{pj}^{2}\sin^{2}\left(\omega+\theta_{pj}\right)} 
+{\left[1-2r_{pj}\cos\left(\omega+\theta_{pj}\right) + r_{pj}^{2}\right]^{2}}
 \end{align*}
 \cleardoublepage{}
 \chapter{\label{app:Allpass-filter-frequency-response}Allpass filter frequency response}
@@ -17878,7 +18967,197 @@ where $x$ represents the components of the state variable matrixes and:
 \left(e^{\imath\omega}I-A\right)^{-1}
 \right]\left(e^{\imath\omega}I-A\right)^{-1}B
 \end{align*}
+\cleardoublepage{}
+\chapter{\label{app:State-variable-retimed-One-multiplier-Schur-lattice-filter}State variable description of the retimed one-multiplier Schur lattice filter}
+Figure~\ref{fig:State-variable-description-retimed-One-Multiplier-Lattice} shows
+a second order segment of the retimed Schur one-multiplier lattice filter in 
+Figure~\ref{subfig:example-lattice-filter-after-retiming}. 
+\begin{figure}[!htbp]
+\begin{center}
+\includegraphics[scale=0.33]{schur_OneMultiplierRetimed}
+\caption{Second order segment of the retimed Schur one-multiplier lattice filter}
+\label{fig:State-variable-description-retimed-One-Multiplier-Lattice}
+\end{center}
+\end{figure}
 
+Construction of a state variable description of the retimed Schur
+one-multiplier lattice filter is summarised in
+Algorithm~\ref{alg:Construction-state-variable-retimed-One-Multiplier-lattice}.
+\begin{algorithm}[!htbp]
+Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$,
+$\left\{\epsilon_{1},\epsilon_{2}\hdots,\epsilon_{N}\right\}$ and
+$\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
+\begin{algorithmic}
+\State $y_{0} = c_{0}x_{1}$
+\State $y_{0}^{*} = x_{1}$
+\For{$n=1,\hdots,\left\lceil\frac{N}{2}\right\rceil-1$}
+\State $x_{3n-2}^{\prime}=-k_{2n-1}y_{n-1}^{*}
+  -\left(1+k_{2n-1}\epsilon_{2n-1}\right)k_{2n}x_{3n}+
+  \left(1+k_{2n-1}\epsilon_{2n-1}\right)\left(1+k_{2n}\epsilon_{2n}\right)x_{3n+1}$
+  \State $x_{3n-1}^{\prime}=y_{n-1}-c_{2n-1}k_{2n}x_{3n}+
+  c_{2n-1}\left(1+k_{2n}\epsilon_{2n}\right)x_{3n+1}$
+  \State $x_{3n}^{\prime}=\left(1-k_{2n-1}\epsilon_{2n-1}\right)y_{n-1}^{*}
+  -k_{2n-1}k_{2n}x_{3n}+
+  k_{2n-1}\left(1+k_{2n}\epsilon_{2n}\right)x_{3n+1}$
+  \State $y_{n} = x_{3n-1}+c_{2n}x_{3n+1}$
+  \State $y_{n}^{*}=\left(1-k_{2n}\epsilon_{2n}\right)x_{3n}+k_{2n}x_{3n+1}$
+\EndFor
+\If{N is odd}
+\State $x_{3\left\lceil\frac{N}{2}\right\rceil-2}^{\prime}=
+  -k_{N}y_{\left\lceil\frac{N}{2}\right\rceil-1}^{*}+
+  \left(1+k_{N}\epsilon_{N}\right)u$
+\State $y  = y_{\left\lceil\frac{N}{2}\right\rceil-1}+c_{N}u$
+\State $y^{*}=
+  \left(1-k_{N}\epsilon_{N}\right)y_{\left\lceil\frac{N}{2}\right\rceil-1}^{*}+k_{N}u$
+\Else
+\State $x_{3\frac{N}{2}-2}^{\prime} = -k_{N-1}y_{\frac{N}{2}-1}^{*}
+  -\left(1+k_{N-1}\epsilon_{N-1}\right)k_{N}x_{3\frac{N}{2}} +
+  \left(1+k_{N-1}\epsilon_{N-1}\right)\left(1+k_{N}\epsilon_{N}\right)u$
+\State $x_{3\frac{N}{2}-1}^{\prime} = y_{\frac{N}{2}-1} -c_{N-1}k_{N}x_{3\frac{N}{2}} +
+    c_{N-1}\left(1+k_{N}\epsilon_{N}\right)u$
+\State $x_{3\frac{N}{2}}^{\prime} =
+    \left(1-k_{N-1}\epsilon_{N-1}\right)y_{\frac{N}{2}-1}^{*}
+    -k_{N-1}k_{N}x_{3\frac{N}{2}}+
+    k_{N-1}\left(1+k_{N}\epsilon_{N}\right)u$
+\State $y = x_{3\frac{N}{2}-1}+c_{N}u$
+\State $y^{*} = \left(1-k_{N}\epsilon_{N}\right)x_{3\frac{N}{2}}+k_{N}u$
+\EndIf
+\end{algorithmic}
+\caption{Construction of a state variable description of the retimed Schur one-multiplier lattice filter}
+\label{alg:Construction-state-variable-retimed-One-Multiplier-lattice}
+\end{algorithm}
+\clearpage
+As in Section~\ref{State-Variable-Description-One-Multiplier-IIR-Lattice-Filter},
+the state variable description can be expressed as a series of matrix
+multiplications. For an even order filter:
+
+\begin{align*}
+\left[\begin{array}{c}
+y_{0}\\
+y_{0}^{*}\\
+x_{1}\\
+x_{2}\\
+x_{3}\\
+\vdots\\
+x_{3\frac{N}{2}}\\
+u
+\end{array}\right] & = \left[\begin{array}{ccccc}
+c_{0} & 0 & \cdots & \cdots & 0 \\
+1 & 0 & \cdots & \cdots & 0 \\
+1 & 0 & \cdots & \cdots & 0 \\
+\vdots & \ddots & & & \vdots \\
+ &  & \ddots &  & \vdots\\
+0 &  &  & 1 & 0\\
+0 & \cdots & \cdots & 0 & 1
+\end{array}\right]
+\left[\begin{array}{c}
+x_{1}\\
+x_{2}\\
+x_{3}\\
+\vdots\\
+x_{3\frac{N}{2}}\\
+u
+\end{array}\right]
+\end{align*}
+\begin{align*}
+\left[\begin{array}{c}
+x_{1}^{\prime}\\
+x_{2}^{\prime}\\
+x_{3}^{\prime}\\
+y_{1}\\
+y_{1}^{*}\\
+x_{4}\\
+\vdots\\
+x_{3\frac{N}{2}}\\
+u
+\end{array}\right] & = \left[\begin{array}{ccccccccc}
+    0 & -k_{1} & 0 & 0 & -\left(1+k_{1}\epsilon_{1}\right)k_{2} &
+    \left(1+k_{1}\epsilon_{1}\right)\left(1+k_{2}\epsilon_{2}\right)
+    & & \cdots & 0 \\
+1 & 0 & 0 & 0 & -c_{1}k_{2} & c_{1}\left(1+k_{2}\epsilon_{2}\right) & &\cdots&0\\
+0 & \left(1-k_{1}\epsilon_{1}\right) & 0 & 0 & -k_{1}k_{2} &
+    k_{1}\left(1+k_{2}\epsilon_{2}\right) &  & \cdots & 0\\
+0 & 0 & 0 & 1 & 0 & c_{2} &  & \cdots & 0\\
+0 & 0 & 0 & 0 & \left(1-k_{2}\epsilon_{2}\right) & k_{2} & & \cdots & 0 \\
+  &   &   &   &   &      & \ddots  &  & \vdots\\
+0 & \cdots & & & & & \cdots & 1 & 0\\
+0 & \cdots & & & & & \cdots & 0 & 1
+  \end{array}\right]
+\left[\begin{array}{c}
+y_{0}\\
+y_{0}^{*}\\
+x_{1}\\
+x_{2}\\
+x_{3}\\
+x_{4}\\
+\vdots\\
+x_{3\frac{N}{2}}\\
+u
+\end{array}\right]
+\end{align*}
+\begin{align*}
+\left[\begin{array}{c}
+x_{1}^{\prime}\\
+\vdots\\
+x_{3\frac{N}{2}}^{\prime}\\
+y \\
+y^{*}
+\end{array}\right] &=
+\left[\begin{array}{cccccccc}
+1 & \cdots & & & & & \cdots & 0\\
+\vdots  & \ddots & & & & & & \vdots\\
+0 & \cdots & 0 & -k_{N-1} & 0 & 0 & -\left(1+k_{N-1}\epsilon_{N-1}\right)k_{N} &
+  \left(1+k_{N-1}\epsilon_{N-1}\right)\left(1+k_{N}\epsilon_{N}\right)\\
+0 & \cdots & 1 & 0 & 0 & 0 & -c_{N-1}k_{N} &
+  c_{N-1}\left(1+k_{N}\epsilon_{N}\right)\\
+0 & \cdots & 0 & 1-k_{N-1}\epsilon_{N-1} & 0 & 0 &-k_{N-1}k_{N} & 
+  k_{N-1}\left(1+k_{N}\epsilon_{N}\right) \\
+0  & \cdots & 0 & 0 & 0 & 1 & 0 & c_{N} \\
+0  & \cdots & 0 & 0 & 0 & 0 & \left(1-k_{N}\epsilon_{N}\right) & k_{N}  
+\end{array}\right]\left[\begin{array}{c}
+x_{1}^{\prime}\\
+\vdots\\
+x_{3\frac{N}{2}-3}^{\prime}\\
+y_{\frac{N}{2}-1}\\
+y_{\frac{N}{2}-1}^{*}\\
+x_{3\frac{N}{2}-2}\\
+x_{3\frac{N}{2}-1}\\
+x_{3\frac{N}{2}}\\
+u  
+\end{array}\right]
+\end{align*}
+
+For an odd order filter, the final matrix multiplication is:
+\begin{align*}
+\left[\begin{array}{c}
+x_{1}^{\prime}\\
+\vdots\\
+x_{3\left\lceil\frac{N}{2}\right\rceil-2}^{\prime}\\
+y \\
+y^{*}
+\end{array}\right] &=
+\left[\begin{array}{cccccc}
+1  & \cdots & & & \cdots & 0\\
+\vdots  & \ddots & & & & \vdots\\
+0  & \cdots & 0 & -k_{N} & 0 & \left(1+k_{N}\epsilon_{N}\right)\\
+0  & \cdots & 1 & 0 & 0 & c_{N} \\
+0  & \cdots & 0 & \left(1-k_{N}\epsilon_{N}\right) & 0 & k_{N}  
+\end{array}\right]
+\left[\begin{array}{c}
+x_{1}^{\prime}\\
+\vdots\\
+x_{3\left\lceil\frac{N}{2}\right\rceil-3}^{\prime}\\
+y_{\left\lceil\frac{N}{2}\right\rceil-1}\\
+y_{\left\lceil\frac{N}{2}\right\rceil-1}^{*}\\
+x_{3\left\lceil\frac{N}{2}\right\rceil-2}\\
+u  
+\end{array}\right]
+\end{align*}
+
+
+The Octave function \emph{schurOneMlatticeRetimed2Abcd} returns the state
+variable description of a retimed Schur one-multiplier lattice filter
+(including the all-pass filter $Cap$ and $Dap$ output matrixes).
 \cleardoublepage{}
 \chapter{\label{app:Constrained-Non-linear-Optimisation}Constrained non-linear optimisation}
 The following largely follows \emph{Ruszczynski} 
@@ -21337,7 +22616,7 @@ where:
 \section*{Software requirements}
 I use the Fedora 28 distribution of Linux with:
 \begin{itemize}
-\item \emph{octave-4.2.2} with the \emph{struct}, \emph{control}, 
+\item \emph{octave-4.4.0} with the \emph{struct}, \emph{control}, 
   \emph{signal}, \emph{optim} and \emph{parallel} Octave-Forge packages
 \item the \emph{octave} scripts use the \emph{gnuplot} graphics toolkit and
   \emph{gnuplot-5.0 patchlevel 6}
@@ -21366,19 +22645,16 @@ Building this document may take a long time. I run \emph{make -j 6}.
 \pdfbookmark[0]{Octave}{octave}
 \section*{Octave}
 The script \emph{build-octave.sh} builds a local, command-line only, version
-of \emph{octave-4.2.2} avoiding the vagaries of the Fedora packagers
+of \emph{octave-4.4.0} avoiding the vagaries of the Fedora packagers
 \footnote{The Fedora 27 \emph{octave-4.2.2-1.fc27.2} package
   depends on the Netlib, ATLAS and OpenBLAS versions of the \emph{blas} and
   \emph{lapack} libraries.}. The local build of Octave links to locally built
 versions of the following libraries:
 \emph{arpack-ng-master}~\cite{ARPACKNG_website},
-\emph{fftw-3.3.7}~\cite{FFTW_website}, \emph{glpk-4.65}~\cite{GNU_GLPK},
+\emph{fftw-3.3.8}~\cite{FFTW_website}, \emph{glpk-4.65}~\cite{GNU_GLPK},
 \emph{lapack-3.8.0}~\cite{LAPACK_website},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website} and
-\emph{SuiteSparse-4.5.6}~\cite{SUITESPARSE_website}. My benchmarks show that
-the Octave workload in this project does not benefit from the threaded
-\emph{blas} implementations in the OpenBLAS~\cite{OpenBLAS_website} and
-ATLAS~\cite{ATLAS_website} libraries.
+\emph{SuiteSparse-4.5.6}~\cite{SUITESPARSE_website}. 
 
 The Octave version and list of installed Octave packages used to build this
 document are:
@@ -21408,6 +22684,17 @@ C++. The Octave on-line FAQ states:
   \emph{.oct} file) necessarily links with Octave internals and is considered
   a derivative work of Octave and therefore must be released under terms that
   are compatible with the GPL.
+\end{quote}
+
+The \emph{fftw-3.3.8} release notes (May 28th, 2018) state:
+\begin{quote}
+    Fixed AVX, AVX2 for gcc-8.
+      By default, FFTW 3.3.7 was broken with gcc-8. AVX and AVX2 code
+      assumed that the compiler honors the distinction between +0 and -0,
+      but gcc-8 -ffast-math does not. The default CFLAGS included
+      -ffast-math . This release ensures that FFTW works with gcc-8
+      -ffast-math , and removes -ffast-math from the default CFLAGS for
+      good measure.
 \end{quote}
 
 \pdfbookmark[1]{Building Octave}{building-octave}
@@ -21468,17 +22755,14 @@ be installed with this work-around:
 \end{small}
 \pdfbookmark[1]{Benchmarking Octave}{benchmarking-octave}
 \subsection*{Benchmarking Octave}
-This section shows the results of benchmarking various builds with the Octave
-script \emph{iir\_sqp\_slb\_bandpass\_test.m} and benchmarking various
-\emph{blas} and \emph{lapack} libraries with a
-\emph{LTO} and \emph{PGO} build of Octave running the Octave scripts
-\emph{linpack.m}~\cite{Rutter_LinpackBenchmark} and
-\emph{iir\_sqp\_slb\_bandpass\_test.m}. The Linux kernel used is
-\emph{4.16.5-300.fc28.x86\_64} from the RedHat Fedora 28 Linux
-distribution. The system compiler is \emph{gcc version 8.0.1 20180324 (Red Hat
- 8.0.1-0.20)}. The CPU is an Intel i7-7700K for which the number of CPU cores
+This section shows the results of benchmarking various builds of Octave
+and benchmarking \emph{blas} and \emph{lapack} libraries with a shared library
+\emph{LTO} and \emph{PGO} build of Octave. The Linux kernel used is
+\emph{4.17.2-200.fc28.x86\_64} from the RedHat Fedora 28 Linux
+distribution. The system compiler is \emph{8.1.1 20180502 (Red Hat 8.1.1-1)}.
+The CPU is an Intel i7-7700K for which the number of CPU cores 
 is $4$ ($8$ hyper-threaded). During the benchmark the CPU frequency was fixed
-at $4.5GHz$.  As the \emph{root} user run:
+at $4.5GHz$.  To do this, as the \emph{root} user:
 \begin{small}
 \begin{verbatim}
 for c in `seq 0 7`;do 
@@ -21488,14 +22772,20 @@ done
 cpupower -c all frequency-info
 \end{verbatim}
 \end{small}
+
 \subsubsection*{Benchmarking Octave builds}
 The shell script \emph{benchmark/build-benchmark.sh} generates the Octave
 builds shown in Table~\ref{tab:benchmark-octave-builds}. It is assumed to run
-in the \emph{benchmark} sub-directory. The times given are the average of $10$
-runs.  For the \emph{debug} build the optimisation level is \emph{-O0} and for
-the other builds it is \emph{-O2 -m64 -mtune=generic}. The Octave build is
+in the \emph{benchmark} sub-directory. The Octave build benchmark test loops
+$100$ times finding the amplitude, group delay and phase response of a
+filter. Numerical differences between the \emph{blas} and  \emph{lapack}
+implementations make it impossible to usefully benchmark with a filter design
+script like \emph{iir\_sqp\_slb\_bandpass\_test.m} or
+\emph{decimator\_R2\_test.m}. The times given are the average of $10$ runs. For
+the \emph{debug} build the optimisation level is \emph{-O0} and for the other
+builds it is \emph{-O2 -m64 -mtune=generic}. The Octave build is
 \emph{configure}d for command-line only and local libraries with the folowing
-options:
+options: 
 \begin{small}
 \begin{verbatim}
 export OCTAVE_CONFIG_OPTIONS=" \
@@ -21541,39 +22831,39 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \bgroup{}
 \def\arraystretch{2}
 \begin{tabular}{lr} \toprule
-Octave build& iir\_sqp\_slb\_bandpass\_test.m \\
-            & Execution time (seconds) \\
+Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 201.7 \\
-Generic, shared reference lapack and blas            &  36.6 \\
-Generic, shared reference lapack and blas, LTO       &  35.3 \\
-Generic, shared reference lapack and blas, PGO       &  33.7 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  31.2 \\
+Debug, shared reference lapack and blas              & 124.4 \\
+Generic, shared reference lapack and blas            &  39.3 \\
+Generic, shared reference lapack and blas, LTO       &  39.9 \\
+Generic, shared reference lapack and blas, PGO       &  38.5 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  38.0 \\
 \bottomrule
 \end{tabular}
 \egroup{}
 \end{threeparttable}
 \caption[Benchmark results for Octave builds]{Average execution time 
-  for 10 runs of \emph{iir\_sqp\_slb\_bandpass\_test.m} with various
-  \emph{Octave} builds.}
+  for 10 runs of IIR benchmark scripts with various \emph{Octave} builds.}
 \label{tab:benchmark-octave-builds}
 \end{table}
 \subsubsection*{Benchmarking \emph{blas} and \emph{lapack} libraries}
-The shell script \emph{library-benchmark.sh} benchmarks the shared library LTO
-and PGO version of Octave with the \emph{linpack.m} and
-\emph{iir\_sqp\_slb\_bandpass\_test.m} scripts. The \emph{linpack.m} script
-was modified to produce repeatable residuals. The alternative \emph{blas} and
-\emph{lapack} library versions used are local builds of \emph{blas-3.8.0} and
-\emph{lapack-3.8.0} and the following Fedora 28 packages:
+The shell script \emph{library-benchmark.sh} benchmarks the shared library
+\emph{LTO} and \emph{PGO} version of Octave with the
+\emph{linpack.m}~\cite{Rutter_LinpackBenchmark} script and the previous IIR
+benchmark script. The \emph{linpack.m} script was modified to produce
+repeatable residuals. The alternative \emph{blas} and \emph{lapack} library
+versions used are local builds of \emph{blas-3.8.0} and \emph{lapack-3.8.0} and
+the Fedora 28 \emph{lapack}, \emph{blas}, \emph{atlas}\cite{ATLAS_website},
+\emph{gsl}\cite{GNU_GSL} and \emph{openblas}\cite{OpenBLAS_website} packages:
 \begin{small}
 \begin{verbatim}
-atlas.x86_64            3.10.5-1.fc28
+atlas.x86_64            3.10.3-5.fc28
 blas.x86_64             3.8.0-8.fc28
-gsl.x86_64              2.4-3.fc28
-gsl-devel.x86_64        2.4-3.fc28
+gsl.x86_64              2.4-3.fc27
+gsl-devel.x86_64        2.4-3.fc27
 lapack.x86_64           3.8.0-8.fc28
-openblas.x86_64         0.2.20-10.fc28
-openblas-threads.x86_64 0.2.20-10.fc28
+openblas.x86_64         0.3.0-1.fc28
+openblas-threads.x86_64 0.3.0-1.fc28
 \end{verbatim}
 \end{small}
 
@@ -21594,10 +22884,9 @@ export OPENBLAS_NUM_THREADS=2
 \end{verbatim}
 \end{small}
 
-Table~\ref{tab:benchmark-octave-blas-libraries} shows the average time for
-$10$ runs of each test using the shared library, profile-guided,
-link-time-optimised build. Note that the normalised residuals and calculated
-filter coefficients differ between implementations. 
+Table~\ref{tab:benchmark-octave-blas-libraries} shows the average MFLOPS or
+execution time for $10$ runs of each test using the shared library \emph{PGO}
+and \emph{LTO} build of Octave.
 
 \begin{table}[!htbp]
 \centering
@@ -21607,33 +22896,35 @@ filter coefficients differ between implementations.
 \begin{tabular}{lrrr} \toprule
 \multirow{3}{*}
 {\emph{blas} library}       &\multicolumn{2}{c}{linpack.m}
-                            &iir\_sqp\_slb\_bandpass\_test.m\\
+                            & IIR benchmark script\\
 \cmidrule{2-4}              & MFLOPS & Normalised          & Execution time \\
                             &        & residual            & (seconds) \\
 \midrule
-Generic libblas/liblapack   &  3916  & 17.7                &  31.1 \\
-Intel libblas/liblapack     &  3991  & 17.7                &  31.0 \\
-Haswell libblas/liblapack   &  4824  & 15.1                &  42.6 \\
-Nehalem libblas/liblapack   &  3948  & 17.7                &  31.3 \\
-Skylake libblas/liblapack   &  4949  & 15.1                &  43.1 \\
-Fedora 28 libblas/liblapack &  3994  & 17.7                &  31.7 \\
-libgslcblas                 &  3985  & 17.7                &  31.1 \\
-libsatlas                   & 13748  & 11.5                &  41.9 \\
-libtatlas                   & 21346  & 11.6                &  41.9 \\
-libopenblas                 & 34440  &  9.3                &  31.7 \\
-libopenblasp (1 thread)     & 34156  &  9.3                &  31.9 \\
-libopenblasp (2 threads)    & 48016  & 11.8                &  32.4 \\
-libopenblasp (4 threads)    & 59378  &  9.1                &  32.4 \\
+Generic libblas/liblapack   &  4038  & 17.7                &  37.9 \\
+Intel libblas/liblapack     &  3998  & 17.7                &  38.0 \\
+Haswell libblas/liblapack   &  4933  & 15.1                &  37.5 \\
+Nehalem libblas/liblapack   &  4033  & 17.7                &  38.0 \\
+Skylake libblas/liblapack   &  4905  & 15.1                &  37.7 \\
+Fedora 28 libblas/liblapack &  4036  & 17.7                &  37.8 \\
+libgslcblas                 &  4039  & 17.7                &  37.9 \\
+libsatlas                   & 13850  & 11.5                &  38.1 \\
+libtatlas                   & 21343  & 11.6                &  37.5 \\
+libopenblas                 & 34330  &  9.3                &  36.2 \\
+libopenblasp (1 thread)     & 34262  &  9.3                &  36.2 \\
+libopenblasp (2 threads)    & 47755  & 11.8                &  36.7 \\
+libopenblasp (4 threads)    & 59656  &  9.1                &  36.2 \\
 \bottomrule
 \end{tabular}
 \egroup{}
 \end{threeparttable}
 \caption[Benchmark results for \emph{blas} implementations]{Benchmark results
-  for \emph{linpack.m} and \emph{iir\_sqp\_slb\_bandpass\_test.m} with various
-  \emph{blas} implementations.}
+  for \emph{linpack.m} and IIR benchmark with various \emph{blas} and
+  \emph{lapack} implementations.} 
 \label{tab:benchmark-octave-blas-libraries}
 \end{table}
-\clearpage
+
+
+ \clearpage
 \pdfbookmark[0]{SeDuMi}{sedumi}
 \section*{SeDuMi}
 The ``official'' SeDuMi source is available from \emph{LeHigh
@@ -21699,6 +22990,38 @@ The \emph{SeDuMi} source depends on the OpenBLAS \emph{f77blas.h} and
 \emph{SparsePOP302}~\cite{SparsePOP} compiles and runs on Octave with the
 minor modifications to \emph{my\_unique.m}, \emph{compileSparsePOP.m} and
 \emph{sparsePOP.m} shown in \emph{SparsePOP302.patch}.
+
+\pdfbookmark[0]{MPSolve}{mpsolve}
+\section*{MPSolve}
+Install \emph{MPSolve}~\cite{BiniFiorentinoRobol_mpsolve} as follows:
+\begin{small}
+\begin{verbatim}
+tar -xf mpsolve-3.1.5.tar.bz2
+cd mpsolve-3.1.5
+./configure --prefix=/usr/local/octave --enable-octave
+make 
+make install
+octave-cli --eval 'pkg install examples/octave/mpsolve.tar.gz'
+\end{verbatim}
+\end{small}
+
+An example of using \emph{mps\_roots}, the quad-float implementation in
+\emph{qroots} and the built-in Octave \emph{roots}:
+\begin{small}
+\begin{verbatim}
+LD_LIBRARY_PATH=/usr/local/octave/lib/ octave-cli \
+--eval 'pkg load mpsolve;norm(mps_roots(bincoeff(20,0:20))+1)'
+ans =    1.1939e-13
+
+octave-cli -p src --eval 'norm(qroots(bincoeff(20,0:20))+1)'
+ans =  0.19206
+
+octave-cli --eval 'norm(roots(bincoeff(20,0:20))+1)'
+ans =  1.4835
+\end{verbatim}
+\end{small}
+Unfortunately, I found that the results of \emph{mps\_roots} are not
+repeatable. 
 
 \pdfbookmark[0]{Testing}{testing}
 \section*{Testing}

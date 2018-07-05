@@ -97,9 +97,6 @@ print_polynomial(N,"N");
 print_polynomial(N,"N","tarczynski_deczky1_test_N_coef.m");
 print_polynomial(D,"D");
 print_polynomial(D,"D","tarczynski_deczky1_test_D_coef.m");
-[x,U,V,M,Q]=tf2x(N,D);
-print_pole_zero(x,U,V,M,Q,R,"x");
-print_pole_zero(x,U,V,M,Q,R,"x","tarczynski_deczky1_test_x_coef.m");
 
 % Save the result
 save tarczynski_deczky1_test.mat fap fas Wap Was td n nN nD N0 D0 N D 

@@ -54,18 +54,20 @@ endif
 
 % Check Cayley-Hamilton
 function Asum=Abcd2tf_Cayley_Hamilton_check(d,_A)
-  persistent A Asum
+  persistent A AAsum
   persistent init_done=false
   if nargin==2
     A=_A;
-    Asum=zeros(size(A));
+    AAsum=zeros(size(A));
     init_done=true;
     return;
   elseif ~init_done
     error("Not initialised!");
   endif
-  Asum=(Asum+d)*A;
+  AAsum=(AAsum+d)*A;
+  Asum=AAsum;
 endfunction
+
 Abcd2tf_Cayley_Hamilton_check([],A);
 Asum=arrayfun(@Abcd2tf_Cayley_Hamilton_check,d,"UniformOutput",false);
 Asum=Asum{end};
@@ -112,5 +114,60 @@ if max(a_std)>2*tol
   error("max(a_std)(=%g)>2*tol\n",max(a_std));
 endif
 
+%
+% Additional test cases
+%
+
+% Extra state in transition matrix
+[n,d]=butter(2,0.1);
+A = [   0.951056516295154   0.000000000000000  -1.251313097563128; ...
+        0.107496250311725   0.000000000000000  -0.127890368738360; ...
+        0.048943483704846   0.000000000000000   0.609961559505565];
+B = [   0.6997434187320259;   0.0715172277970699;  -0.3410949567895891];
+C = [   0   1   0];
+dd =  0.0200833655642112;
+[N,D,BB]=Abcd2tf(A,B,C,dd);
+if max(abs(n-N(1:3))) > 2*eps
+  error("max(abs(n-N(1:3))) > 2*eps");
+endif
+if max(abs(d-D(1:3))) > 3*eps
+  error("max(abs(d-D(1:3))) > 3*eps");
+endif
+Cap =[   0.000000000000000   0.000000000000000   1.641351538057563];
+ddap =  0.641351538057563;
+[Nap,Dap,BBap]=Abcd2tf(A,B,Cap,ddap);
+if max(abs((fliplr(Nap(1:3))-Dap(1:3)))) > 2*eps
+  error("max(abs((fliplr(Nap(1:3))-Dap(1:3)))) > 2*eps");
+endif
+if max(abs(d-Dap(1:3))) > 3*eps
+  error("max(abs(d-Dap(1:3))) > 3*eps");
+endif
+
+% FIR
+b=remez(20,[0 0.1 0.2 0.5]*2,[1 1 0 0]);
+[k,epsilon,p,c] = tf2schurOneMlattice(b,[1;zeros(length(b)-1,1)]);
+[A,B,C,dd]=schurOneMlattice2Abcd(k,epsilon,p,c);
+[N,D]=Abcd2tf(A,B,C,dd);
+if max(abs(D(:)-[1;zeros(length(b)-1,1)]))>eps
+  error("max(abs(D(:)-[1;zeros(length(b)-1,1)]))>eps");
+endif
+if max(abs(N(:)-b(:)))>eps
+  error("max(abs(N(:)-b(:)))>eps");
+endif
+
+% Recursive only
+dbap=0.1;dbas=40;fc=0.1;
+[n,d]=cheby2(20,dbas,2*fc);
+[k,epsilon,p,c] = tf2schurOneMlattice([1;zeros(length(d)-1,1)],d);
+[A,B,C,dd]=schurOneMlattice2Abcd(k,epsilon,p,c);
+[N,D]=Abcd2tf(A,B,C,dd);
+if max(abs(N(:)-[1;zeros(length(d)-1,1)]))>65*tol
+  error("max(abs(N(:)-[1;zeros(length(d)-1,1)]))>65*tol");
+endif
+if max(abs(D(:)-d(:)))>tol/29
+  error("max(abs(D(:)-d(:)))>tol/29");
+endif
+
+% Done
 diary off
 movefile Abcd2tf_test.diary.tmp Abcd2tf_test.diary;

@@ -5,7 +5,7 @@ prog=schurOneMlatticeAsq_test.m
 depends="schurOneMlatticeAsq_test.m test_common.m schurOneMlatticeAsq.m \
 tf2schurOneMlattice.m schurOneMlattice2Abcd.oct tf2pa.m schurOneMscale.m \
 H2Asq.m H2T.m schurOneMlattice2H.oct spectralfactor.oct schurdecomp.oct \
-schurexpand.oct complex_zhong_inverse.oct"
+schurexpand.oct complex_zhong_inverse.oct qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

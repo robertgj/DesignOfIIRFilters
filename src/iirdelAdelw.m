@@ -1,5 +1,5 @@
-function [delAdelw,graddelAdelw]=iirdelAdelw(w,x,U,V,M,Q,tol)
-% [delAdelw,graddelAdelw]=iirdelAdel(w,x,U,V,M,Q,tol)
+function [delAdelw,graddelAdelw,del2Adelw2]=iirdelAdelw(w,x,U,V,M,Q,R,tol)
+% [delAdelw,graddelAdelw,del2Adelw2]=iirdelAdel(w,x,U,V,M,Q,R,tol)
 % Given the U real zeros, V real poles, M conjugate zeros and 
 % Q conjugate poles of an IIR filter find the gradient of the
 % magnitude response with frequency, delAdelw, and the gradients
@@ -30,12 +30,14 @@ function [delAdelw,graddelAdelw]=iirdelAdelw(w,x,U,V,M,Q,tol)
 %   V - number of real poles
 %   M - number of conjugate zero pairs
 %   Q - number of conjugate pole pairs
+%   R - denominator polynomial decimation. Currently, must be R=1.
 %   tol - tolerance for maximum imaginary component of a real value
 %
 % Outputs:
-%   A - gradient of the amplitude with frequency at angular frequencies, w
-%   gradA - gradient of the gradient of the amplitude response with frequency
-%           with respect to x at angular frequencies w,
+%   delAdelw - derivative of A with respect to angular frequency
+%   graddelAdelw - gradient of the gradient of the amplitude response with
+%                  frequency with respect to x at angular frequencies w
+%   del2Adelw2 - second derivative of A with respect to angular frequency
 %
 % !!! NOTE WELL !!! :
 %
@@ -71,11 +73,18 @@ function [delAdelw,graddelAdelw]=iirdelAdelw(w,x,U,V,M,Q,tol)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if nargin<6 || nargout>2
-    print_usage ("[delAdelw,graddelAdelw]=iirdelAdelw(w,x,U,V,M,Q,tol)");
+  if nargin<6 || nargin>8 || nargout>3
+    print_usage ...
+      ("[delAdelw,graddelAdelw,del2Adw2]=iirdelAdelw(w,x,U,V,M,Q,R,tol)");
   endif
   if nargin == 6
+    R=1;
     tol=1e-9;
+  elseif nargin == 7
+    tol=1e-9;
+  endif
+  if R~=1
+    error("R~=1");
   endif
   if length(x) ~= 1+U+V+Q+M
     error ("Expect length(x) == 1+U+V+Q+M");
@@ -89,12 +98,13 @@ function [delAdelw,graddelAdelw]=iirdelAdelw(w,x,U,V,M,Q,tol)
 
   % Allow empty frequency vector
   if isempty(w)
-    delAdelw=[]; graddelAdelw=[]; return;
+    delAdelw=[]; graddelAdelw=[]; del2Adelw=[]; return;
   endif
   % For K==0
   if x(1)==0
     delAdelw=zeros(length(w),1);
     graddelAdelw=zeros(length(w),length(x));
+    del2Adelw2=zeros(length(w),1);
     return;
   endif
 
@@ -277,6 +287,40 @@ function [delAdelw,graddelAdelw]=iirdelAdelw(w,x,U,V,M,Q,tol)
   graddelAdelw=fixResultNaN(graddelAdelw);
   if any(any(isinf(graddelAdelw)))
     error("graddelAdelw has inf!");
+  endif
+
+  if nargout==2
+    return;
+  endif
+  
+  % del2Adelw2
+  delnumAR0delw=kR0.*kcoswR0;
+  delnumARpdelw=kRp.*kcoswRp;
+  delnumAr0Ptheta0delw=kr0.*kcoswr0Ptheta0;
+  delnumAr0Mtheta0delw=kr0.*kcoswr0Mtheta0;
+  delnumArpPthetapdelw=krp.*kcoswrpPthetap;
+  delnumArpMthetapdelw=krp.*kcoswrpMthetap;
+  if any(A==0)
+    error("A==0!");
+  endif
+  del2Adelw2=((delAdelw.^2)./A) ...
+              +A.*( sum(delnumAR0delw./denomAR0,2) ...
+                   -2*sum(((numAR0./denomAR0).^2),2) ...
+                   -sum(delnumARpdelw./denomARp,2) ...
+                   +2*sum(((numARp./denomARp).^2),2) ...
+                   +sum(delnumAr0Mtheta0delw./denomAr0Mtheta0,2) ...
+                   -2*sum(((numAr0Mtheta0./denomAr0Mtheta0).^2),2) ...
+                   -sum(delnumArpMthetapdelw./denomArpMthetap,2) ...
+                   +2*sum(((numArpMthetap./denomArpMthetap).^2),2) ...
+                   +sum(delnumAr0Ptheta0delw./denomAr0Ptheta0,2) ...
+                   -2*sum(((numAr0Ptheta0./denomAr0Ptheta0).^2),2) ...
+                   -sum(delnumArpPthetapdelw./denomArpPthetap,2) ...
+                   +2*sum(((numArpPthetap./denomArpPthetap).^2),2));
+  
+  % Sanity checks on del2Adelw2
+  del2Adelw2=fixResultNaN(del2Adelw2);
+  if any(isinf(del2Adelw2))
+    error("del2Adelw2 has inf!");
   endif
 
 endfunction
