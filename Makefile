@@ -62,6 +62,7 @@ OCTAVE_SCRIPTS = \
  directFIRsymmetric_bandpass_allocsd_test \
  directFIRsymmetric_slb_bandpass_test \
  directFIRsymmetric_slb_lowpass_test \
+ ellipMinQ_test \
  error_feedback_test \
  fir_socp_slb_lowpass_test \
  freq_transform_structure_test \
@@ -103,6 +104,7 @@ OCTAVE_SCRIPTS = \
  samin_schurOneMPAlattice_lowpass_test \
  samin_schurOneMlattice_lowpass_test \
  samin_svcasc_lowpass_test \
+ saramakiFAvLogNewton_test \
  schurNSlattice_sqp_slb_lowpass_test \
  schurOneMAPlattice_frm_halfband_socp_slb_test \
  schurOneMAPlattice_frm_hilbert_socp_slb_test \

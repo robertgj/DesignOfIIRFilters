@@ -34,7 +34,7 @@ plot(0.5*w/pi,20*log10(abs(g)),"--", ...
 legend("G","H","G+H","location","southeast");
 legend("boxoff");
 legend("left");
-axis([0.04 0.06 -2 2]);
+axis([0.046 0.054 -3 3]);
 grid("on");
 xlabel("Normalised Frequency")
 ylabel("Amplitude(dB)")

@@ -59,7 +59,7 @@ if ! test -f $GLPK_ARCHIVE; then
   wget -c $GLPK_URL
 fi
 
-OCTAVE_VER=${OCTAVE_VER:-"4.4.0"}
+OCTAVE_VER=${OCTAVE_VER:-"4.4.1"}
 OCTAVE_ARCHIVE=octave-$OCTAVE_VER".tar.lz"
 OCTAVE_URL=https://ftp.gnu.org/gnu/octave/$OCTAVE_ARCHIVE
 if ! test -f $OCTAVE_ARCHIVE; then
@@ -330,10 +330,6 @@ popd
 #
 # Install packages
 #
-$OCTAVE_BIN_DIR/octave-cli \
-    --eval "pkg install struct-1.0.15.tar.gz ; ...
-            pkg install optim-1.5.2.tar.gz ; ...
-            pkg install control-3.1.0.tar.gz ; ...
-            pkg install signal-1.4.0.tar.gz ; ...
-            pkg list"
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg install -forge \
+struct io statistics optim control signal parallel; pkg list"
 
