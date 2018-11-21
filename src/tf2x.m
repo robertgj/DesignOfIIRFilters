@@ -50,17 +50,10 @@ if nargin==2
 endif
 
 % Find real and complex zeros
-bz=qroots(b);
-irz=find(abs(imag(bz))<tol);
-iz=find(imag(bz)>=tol);
+z=qroots(b);
 
 % Find real and complex poles
-ap=qroots(a);
-if any(abs(ap)>=1)
-   warning("Transfer function is not stable (poles |R|>=1)!");
-endif
-irp=find(abs(imag(ap))<tol);
-ip=find(imag(ap)>=tol);
+p=qroots(a);
 
 % Find gain
 bnz = b(abs(b)>tol);
@@ -71,23 +64,6 @@ else
   K=bnz(1)/anz(1);
 endif
 
-% Make outputs
-x=[K; ...
-   real(bz(irz)); ...
-   real(ap(irp)); ...
-   abs(bz(iz)); angle(bz(iz)); ...
-   abs(ap(ip)); angle(ap(ip))];
-U = length(irz);
-V = length(irp);
-M = 2*length(iz);
-Q = 2*length(ip);
-
-% Sanity checks
-if length(b) ~= 1+U+M
-  error("length(b)=%d not consistent with U=%d and M=%d", length(b), U, M);
-endif;
-if length(a) ~= 1+V+Q
-  error("length(a)=%d not consistent with V=%d and Q=%d", length(a), V, Q);
-endif;
+[x,U,V,M,Q]=zp2x(z,p,K,tol);
 
 endfunction

@@ -370,7 +370,7 @@ void mexFunction(const int nlhs, mxArray *plhs[],
   mwIndex i,j,jnz,MAXN, m,dimflqr,lenfull,reallength, nf,nx,ns, iwsize;
   mwIndex *iwork, *sdpNL, *cpxf, *cpxx, *cpxs, *cpxsi;
   bool *cwork;
-  const double *cpxfPr, *cpxxPr, *cpxsPr, *xpi;
+  const double *cpxfPr=NULL, *cpxxPr=NULL, *cpxsPr=NULL, *xpi;
   mxArray *MY_FIELD;
   coneK cK;
   jcir x,y;

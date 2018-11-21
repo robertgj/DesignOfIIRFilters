@@ -1,5 +1,5 @@
 --- sedumi-master/blkchol2.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/blkchol2.c	2018-06-18 21:42:12.000000000 +1000
++++ SeDuMi_1_3/blkchol2.c	2018-11-01 11:58:47.721663331 +1100
 @@ -53,7 +53,7 @@ mwIndex blkLDL(const mwIndex neqns, cons
  void isscalarmul(double *x, double alpha, mwIndex n)
  {
@@ -18,8 +18,30 @@
          ubk = maxabs(x+inz+1,m-1) / maxu;
          if(xkk < ubk){
  /* ------------------------------------------------------------
+--- sedumi-master/blkchol.c	2015-06-08 05:24:25.000000000 +1000
++++ SeDuMi_1_3/blkchol.c	2018-11-01 11:58:47.721663331 +1100
+@@ -243,7 +243,7 @@ void mexFunction(int nlhs, mxArray *plhs
+   mxArray *myplhs[NPAROUT];
+   mwIndex    m, i, j, iwsiz, nsuper, tmpsiz, fwsiz, nskip, nadd, m1;
+   double *fwork, *d, *skipPr, *orgd;
+-  const double *permPr,*xsuperPr,*Ppr,*absd;
++  const double *permPr,*xsuperPr,*Ppr,*absd=NULL;
+   mwIndex    *perm, *snode, *xsuper, *iwork, *xlindx, *skip, *skipJc;
+   const mwIndex *LINir, *Pjc, *Pir;
+   double canceltol, maxu, abstol;
+--- sedumi-master/bwblkslv.c	2015-06-08 05:24:25.000000000 +1000
++++ SeDuMi_1_3/bwblkslv.c	2018-11-01 11:58:47.722663322 +1100
+@@ -186,7 +186,7 @@ void mexFunction(const int nlhs, mxArray
+  mwIndex m,n, j, k, nsuper, inz;
+  double *y, *fwork;
+  const double *permPr, *b, *xsuperPr;
+- const mwIndex *yjc, *yir, *bjc, *bir;
++ const mwIndex *yjc=NULL, *yir=NULL, *bjc=NULL, *bir=NULL;
+  mwIndex *perm, *xsuper, *iwork, *snode;
+  jcir L;
+  char bissparse;
 --- sedumi-master/dpr1fact.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/dpr1fact.c	2017-06-08 12:37:40.000000000 +1000
++++ SeDuMi_1_3/dpr1fact.c	2018-11-01 11:58:47.723663312 +1100
 @@ -365,7 +365,7 @@ char dodpr1fact(double *beta, mwIndex *p
     ------------------------------------------------------------ */
    else{
@@ -30,7 +52,7 @@
          j = i;
          psqrdep = psqr[dep[i]];
 --- sedumi-master/eigK.m	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/eigK.m	2017-06-08 12:37:40.000000000 +1000
++++ SeDuMi_1_3/eigK.m	2018-11-01 11:58:47.723663312 +1100
 @@ -74,7 +74,7 @@ end
  li = 0;
  xi = nf;
@@ -41,7 +63,7 @@
  li = li + nl;
  if nq,
 --- sedumi-master/extractA.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/extractA.c	2017-06-08 12:37:40.000000000 +1000
++++ SeDuMi_1_3/extractA.c	2018-11-01 11:58:47.727663276 +1100
 @@ -98,7 +98,7 @@ void mexFunction(int nlhs, mxArray *plhs
                   int nrhs, const mxArray *prhs[])
  {
@@ -51,8 +73,19 @@
    mwIndex *Ajc;
    const double *blkstartPr, *AjcPr;
    bool isblk0negative;
+--- sedumi-master/fwblkslv.c	2015-06-08 05:24:25.000000000 +1000
++++ SeDuMi_1_3/fwblkslv.c	2018-11-01 11:58:47.727663276 +1100
+@@ -197,7 +197,7 @@ void mexFunction(const int nlhs, mxArray
+  mwIndex m,n, j, k, nsuper, inz;
+  double *y,*fwork;
+  const double *permPr, *b, *xsuperPr;
+- const mwIndex *yjc, *yir, *bjc, *bir;
++ const mwIndex *yjc=NULL, *yir=NULL, *bjc=NULL, *bir=NULL;
+  mwIndex *perm, *invperm, *snode, *xsuper, *iwork;
+  jcir L;
+  char bissparse;
 --- sedumi-master/install_sedumi.m	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/install_sedumi.m	2017-11-21 23:10:24.000000000 +1100
++++ SeDuMi_1_3/install_sedumi.m	2018-11-01 11:58:47.728663266 +1100
 @@ -36,6 +36,8 @@ function install_sedumi( varargin )
  
  need_rebuild = any( strcmp( varargin, '-rebuild' ) );
@@ -62,17 +95,21 @@
  
  targets64={...
      'bwblkslv.c sdmauxFill.c sdmauxRdot.c',...
-@@ -163,9 +165,21 @@ if need_rebuild,
+@@ -163,9 +165,24 @@ if need_rebuild,
          if VERSION < 3.08,
              flags{end+1} = '-DmwSignedIndex=int';
          end
+-        flags{end+1} = '-O';
 +        if address_sanitize
-+          flags{end+1} = '-fsanitize=address -fsanitize=undefined';
-+          flags{end+1} = '-fsanitize=leak -fno-sanitize=vptr';
++          flags{end+1} = '-fsanitize=address';
++          flags{end+1} = '-fsanitize=undefined';
++          flags{end+1} = '-fsanitize=leak';
++          flags{end+1} = '-fsanitize-address-use-after-scope';
++          flags{end+1} = '-fno-sanitize=vptr';
 +          flags{end+1} = '-fno-omit-frame-pointer';
-+          flags{end+1} = '-g -O0';
++          flags{end+1} = '-ggdb3 -Og';
 +        else
-         flags{end+1} = '-O';
++          flags{end+1} = '-O3';
 +        endif
 +        if enable_64bits
 +          flags{end+1} = '-DOPENBLAS_USE64BITINT'
@@ -85,7 +122,7 @@
      else
          flags{end+1} = '-O';
          if IS64BIT && ( VERSION >= 7.03 ),
-@@ -209,6 +223,7 @@ if need_rebuild,
+@@ -209,6 +227,7 @@ if need_rebuild,
          mfile = [ targ(1:min(strfind(targ,'.'))), mext ];
          temp = [ 'mex ', flags, ' ', targets64{i}, libs ];
          fprintf( '   %s: %s\n', mfile, targ );
@@ -93,8 +130,19 @@
          eval( temp, 'failed=true;' ); %#ok
      end
      cd( olddir );
+--- sedumi-master/makereal.c	2015-06-08 05:24:25.000000000 +1000
++++ SeDuMi_1_3/makereal.c	2018-11-01 11:58:47.729663257 +1100
+@@ -370,7 +370,7 @@ void mexFunction(const int nlhs, mxArray
+   mwIndex i,j,jnz,MAXN, m,dimflqr,lenfull,reallength, nf,nx,ns, iwsize;
+   mwIndex *iwork, *sdpNL, *cpxf, *cpxx, *cpxs, *cpxsi;
+   bool *cwork;
+-  const double *cpxfPr, *cpxxPr, *cpxsPr, *xpi;
++  const double *cpxfPr=NULL, *cpxxPr=NULL, *cpxsPr=NULL, *xpi;
+   mxArray *MY_FIELD;
+   coneK cK;
+   jcir x,y;
 --- sedumi-master/ordmmdmex.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/ordmmdmex.c	2017-06-08 12:37:40.000000000 +1000
++++ SeDuMi_1_3/ordmmdmex.c	2018-11-01 11:58:47.729663257 +1100
 @@ -39,6 +39,12 @@
  
  #include "mex.h"
@@ -109,7 +157,7 @@
  
  #define X_IN prhs[0]
 --- sedumi-master/sdmauxRdot.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/sdmauxRdot.c	2018-06-18 21:42:12.000000000 +1000
++++ SeDuMi_1_3/sdmauxRdot.c	2018-11-01 11:58:47.730663248 +1100
 @@ -53,6 +53,6 @@ double realdot(const double *x, const do
     ************************************************************ */
  double realssqr(const double *x, const mwIndex n)
@@ -119,7 +167,7 @@
      return FORT(ddot)(&nn,(double*)x,&one,(double*)x,&one);
  }
 --- sedumi-master/sedumi.m	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/sedumi.m	2017-06-08 12:37:40.000000000 +1000
++++ SeDuMi_1_3/sedumi.m	2018-11-01 11:58:47.730663248 +1100
 @@ -805,7 +805,7 @@ if ~isempty(origcoeff)
          info.err(4)=0;
      end
@@ -130,7 +178,7 @@
      info.err(5)=(cx-by)/(1+abs(cx)+abs(by));
      %     Relative complementarity
 --- sedumi-master/spscale.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/spscale.c	2017-06-08 12:37:40.000000000 +1000
++++ SeDuMi_1_3/spscale.c	2018-11-01 11:58:47.731663239 +1100
 @@ -74,7 +74,7 @@ mwIndex realdmulx(double *y, mwIndex *yc
                const double *xpr, const mwIndex *xir, mwIndex *pxjc0, const mwIndex xjc1,
                const mwIndex first, const mwIndex n)
@@ -175,7 +223,7 @@
  /* ------------------------------------------------------------
     Partition 4*n^2 WORKING array fwork into [fwork(2*n^2), dxRows(2*n^2)].
 --- sedumi-master/statsK.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/statsK.c	2017-06-08 12:37:40.000000000 +1000
++++ SeDuMi_1_3/statsK.c	2018-11-01 11:58:47.731663239 +1100
 @@ -126,6 +126,7 @@ void mexFunction(int nlhs, mxArray *plhs
    conepars(K_IN, &cK);
    if( (K_FIELD = mxGetField(K_IN,(mwIndex)0,"ycomplex")) == NULL){  /* K.ycomplex */
@@ -185,7 +233,7 @@
    else{
      nycomplex = mxGetM(K_FIELD) * mxGetN(K_FIELD);
 --- sedumi-master/symfctmex.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/symfctmex.c	2017-06-08 12:37:40.000000000 +1000
++++ SeDuMi_1_3/symfctmex.c	2018-11-01 11:58:47.731663239 +1100
 @@ -40,6 +40,18 @@
  
  #include "mex.h"
@@ -206,7 +254,7 @@
  #define NPAROUT 1
  
 --- sedumi-master/urotorder.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/urotorder.c	2017-06-08 12:37:40.000000000 +1000
++++ SeDuMi_1_3/urotorder.c	2018-11-01 11:58:47.731663239 +1100
 @@ -79,7 +79,7 @@ function [u,perm,gjc,g] = urotorder(u,K,
  void rotorder(mwIndex *perm, double *u, mwIndex *gjc, twodouble *g, double *d,
                const double maxusqr, const mwIndex n)
@@ -235,7 +283,7 @@
    mwIndex *perm, *gjc;
    double *g, *gk;
 --- sedumi-master/vectril.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/vectril.c	2017-06-08 12:37:40.000000000 +1000
++++ SeDuMi_1_3/vectril.c	2018-11-01 11:58:47.732663229 +1100
 @@ -65,7 +65,7 @@
  mwIndex sptriujcT(mwIndex *triujc, const mwIndex *xir, const mwIndex xjc0, const mwIndex xjc1,
                const mwIndex first,const mwIndex n)
@@ -255,13 +303,22 @@
     Store [tril(X); triu(X,1)'] into y,
     using the column pointers of triu(X,1)' as computed in triujc.
 --- sedumi-master/whichcpx.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/whichcpx.c	2017-06-08 12:37:40.000000000 +1000
++++ SeDuMi_1_3/whichcpx.c	2018-11-01 11:58:47.732663229 +1100
+@@ -67,7 +67,7 @@ mwIndex whichcpx(mwIndex *ifr, mwIndex *
+ 	     const mwIndex nxcomplex, const mwIndex frlpN, const mwIndex lorN,
+ 	     const mwIndex rconeN)
+ {
+-  mwIndex n, ix, i,j,k,lastj, ixOld;
++  mwIndex n, ix, i,j=0,k,lastj, ixOld;
+   if(nxcomplex <= 0)
+     return 0;
+   n = 0; ix = 0;   /* target index into ifr, xcomplex */
 @@ -141,7 +141,7 @@ void mexFunction( int nlhs, mxArray *plh
    int nrhs, const mxArray *prhs[])
  {
    mwIndex i,j,iwsiz, nxcomplex, cpxf;
 -  mwIndex *iwork, *lorNL, *rconeNL, *xcomplex;
-+  mwIndex *iwork, *lorNL, *rconeNL, *xcomplex=NULL;
++  mwIndex *iwork=NULL, *lorNL, *rconeNL=NULL, *xcomplex=NULL;
    double *myPr;
    const double *xcomplexPr;
    mxArray *MY_FIELD;

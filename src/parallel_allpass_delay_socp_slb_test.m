@@ -190,8 +190,8 @@ fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fclose(fid);
 
 % Save results
-print_pole_zero([1;a1],0,V,0,Q,R,"a1");
-print_pole_zero([1;a1],0,V,0,Q,R,"a1",strcat(strf,"_a1_coef.m"));
+print_allpass_pole(a1,V,Q,R,"a1");
+print_allpass_pole(a1,V,Q,R,"a1",strcat(strf,"_a1_coef.m"));
 print_polynomial(Da1,"Da1");
 print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 

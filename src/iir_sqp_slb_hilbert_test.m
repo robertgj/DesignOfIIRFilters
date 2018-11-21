@@ -35,7 +35,7 @@ w=pi*(-n:(n-1))'/n;
 fpt=0.1; % Phase transition band at zero
 npt=floor(fpt*n); 
 td=(U+M)/2;
-ftt=0.14; % Delay transition band at zero
+ftt=0.15; % Delay transition band at zero
 ntt=floor(ftt*n); 
 
 % Coefficient constraints
@@ -70,7 +70,7 @@ Wt=Wtp*[ones(n-ntt,1);zeros(2*ntt,1);ones(n-ntt,1)];
 % Phase constraints
 wp=w;
 Pd=-wp*td-(5*pi)+[0.5*pi*ones(n,1);0;-0.5*pi*ones(n-1,1)];
-pr=0.1;
+pr=0.16;
 Pdu=-w*td-(5*pi)+[0.5*pi*ones(n+npt,1);-0.5*pi*ones(n-npt,1)]+(pr*0.5*pi/2);
 Pdl=-w*td-(5*pi)+[0.5*pi*ones(n-npt,1);-0.5*pi*ones(n+npt,1)]-(pr*0.5*pi/2);
 Wpp=1e-3;
@@ -154,7 +154,7 @@ printf("\nMMSE pass 1:\n");
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
                maxiter,tol,verbose)
-if feasible == 0 
+if feasible == 0
   error("x1(mmse) infeasible");
 endif
 strt=sprintf(strM,"x1(mmse)");

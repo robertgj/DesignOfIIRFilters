@@ -1,8 +1,8 @@
 #!/bin/sh
 
 prog=qzsolve_test.m
-depends="qzsolve_test.m test_common.m qroots.m print_pole_zero.m tf2x.m \
-qzsolve.oct"
+depends="qzsolve_test.m test_common.m qroots.m print_pole_zero.m \
+tf2x.m zp2x.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

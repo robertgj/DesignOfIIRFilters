@@ -1,8 +1,8 @@
 function [z,p,K,iter] = ...
          saramakiFAvLogNewton(n,m,fp,fs,dBap,dBas,mu,maxiter,tol,verbose)
-% [z,p,k]=saramakiFAvLogNewton(n,m,fp,fs,dBap)
-% [z,p,k]=saramakiFAvLogNewton(n,m,fp,fs,dBap,dBas)
-% [z,p,k,iter]=saramakiFAvLogNewton(n,m,fp,fs,dBap,dBas,mu,maxiter,tol,verbose)
+% [z,p,K]=saramakiFAvLogNewton(n,m,fp,fs,dBap)
+% [z,p,K]=saramakiFAvLogNewton(n,m,fp,fs,dBap,dBas)
+% [z,p,K,iter]=saramakiFAvLogNewton(n,m,fp,fs,dBap,dBas,mu,maxiter,tol,verbose)
 %
 % Find the zeros, z, poles, p, and gain, K, of an IIR low-pass filter
 % with denominator order, n, numerator order, m, pass-band edge, fp,
@@ -36,8 +36,8 @@ function [z,p,K,iter] = ...
 
   % Sanity checks
   if nargout<3 || nargout>4 || nargin<5 || nargin>10
-    print_usage("[z,p,k]=saramakiFAvLogNewton(n,m,fp,fs,dBap) \n\
-[z,p,k]=saramakiFAvLogNewton(n,m,fp,fs,dBap,dBas) \n\
+    print_usage("[z,p,K]=saramakiFAvLogNewton(n,m,fp,fs,dBap) \n\
+[z,p,K]=saramakiFAvLogNewton(n,m,fp,fs,dBap,dBas) \n\
 [z,p,K,iter]=saramakiFAvLogNewton(n,m,fp,fs,dBap,dBas,mu,maxiter,tol,verbose)");
   endif
 
@@ -149,13 +149,16 @@ function [z,p,K,iter] = ...
     endif
   endfor    
 
-  % Find delta1
+  % Find Deltap and Deltas
+  lambda=exp(Lambda);
   if isempty(dBas)
-    delta1=1-(10^(-dBap/10));
+    deltap=1-(10^(-dBap/20));
+    Deltap=2*deltap*(1-deltap);
+    Deltas=1/(1+((Deltap/(1-Deltap))*((1/2)+((1/4)*(lambda+(1/lambda))))));
   else
-    delta2=10^(-dBas/10);
-    delta1=1/(1+((delta2/(1-delta2))* ...
-                 ((1/2)+((1/4)*(exp(Lambda)+(1/exp(Lambda)))))));
+    Deltas=10^(-dBas/10);
+    Deltap=1/(1+((Deltas/(1-Deltas))*((1/2)+((1/4)*(lambda+(1/lambda))))));
+    deltap=1-sqrt(1-Deltap);
   endif
 
   % Convert v-plane alpha to z-plane zero locations
@@ -177,7 +180,7 @@ function [z,p,K,iter] = ...
   if mod(m,2),
     den_v=conv(den_v,[1 -zeta(2)]);
   endif
-  den_v=den_v*m1n*(((2-delta1)/delta1)+sqrt((((2-delta1)/delta1)^2)-1));
+  den_v=den_v*m1n*(((2-Deltap)/Deltap)+sqrt((((2-Deltap)/Deltap)^2)-1));
   num_v=1;
   for k=1:floor(m/2),
     num_v=conv(num_v,[-alpha(k) 1]);
@@ -195,6 +198,6 @@ function [z,p,K,iter] = ...
   % Find scale factor at fp
   ejwp=e^(j*wp);
   h=prod(1-(z/ejwp))/prod(1-(p/ejwp));
-  K=sqrt((1-delta1)/(abs(h)^2));
+  K=sqrt((1-Deltap)/(abs(h)^2));
 
 endfunction

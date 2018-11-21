@@ -46,12 +46,12 @@ for N=1:20
         printf("max(abs(bp-b))/eps = %f\n", max(abs(bp-b))/eps);
         printf("max(abs(ap-a))/eps = %f\n", max(abs(ap-a))/eps);
       else
-        tol=224;
+        tol=240;
         if max(abs(bp-b)) > tol*eps
-          error("max(abs(bp-b)) > %d*eps", max(abs(bp-b))/eps, tol);
+          error("max(abs(bp-b)) > %d*eps\n", max(abs(bp-b))/eps, tol);
         endif
         if max(abs(ap-a)) > tol*eps
-          error("max(abs(ap-a))=%f*eps > %d*eps", max(abs(ap-a))/eps, tol);
+          error("max(abs(ap-a))=%f*eps > %d*eps\n", max(abs(ap-a))/eps, tol);
         endif
       endif
       

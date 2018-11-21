@@ -13,5 +13,5 @@ iir_slb_constraints_are_empty.m iir_slb_show_constraints.m \
 iir_slb_update_constraints.m Aerror.m Terror.m armijo_kim.m cl2bp.m \
 fixResultNaN.m iirA.m iirE.m iirT.m iirP.m iir_sqp_octave.m invSVD.m \
 local_max.m local_peak.m showResponseBands.m showResponse.m \
-showResponsePassBands.m showZPplot.m sqp_bfgs.m tf2x.m updateWchol.m \
+showResponsePassBands.m showZPplot.m sqp_bfgs.m tf2x.m zp2x.m updateWchol.m \
 updateWbfgs.m x2tf.m xConstraints.m qroots.m qzsolve.oct 

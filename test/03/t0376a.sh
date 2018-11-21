@@ -2,7 +2,7 @@
 
 prog=saramakiFAvLogNewton_test.m
 depends="saramakiFAvLogNewton_test.m test_common.m saramakiFAvLogNewton.m \
-local_max.m qroots.m qzsolve.oct"
+local_max.m print_polynomial.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -80,7 +80,7 @@ n= 7,m=3,max_dBap=0.002000,max_dBas= 23.05
 n= 8,m=3,max_dBap=0.002000,max_dBas= 30.16
 n= 9,m=3,max_dBap=0.002000,max_dBas= 37.12
 n= 4,m=4,max_dBap=0.002000,max_dBas=  5.20
-n= 5,m=4,max_dBap=0.002000,max_dBas= 13.93
+n= 5,m=4,max_dBap=0.002000,max_dBas= 13.92
 n= 6,m=4,max_dBap=0.002000,max_dBas= 23.79
 n= 7,m=4,max_dBap=0.002000,max_dBas= 32.95
 n= 8,m=4,max_dBap=0.002000,max_dBas= 41.58

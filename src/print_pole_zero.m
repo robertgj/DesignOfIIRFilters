@@ -91,15 +91,23 @@ function print_pole_zero(x,U,V,M,Q,R,name_str,file_name_str,format_str)
     x(k)=abs(x(k));
   endfor
   
-  % Sort by real part
+  % Sort by radius then angle
+  % Real zeros
   [~,kU]=sort(x((1+1):(1+U)));
-  x((1+1):(1+U))=x(1+kU);
+  x((1+1):(1+U))=x(1+kU); 
+  % Real poles
   [~,kV]=sort(x((1+U+1):(1+U+V)));
   x((1+U+1):(1+U+V))=x(1+U+kV);
-  [~,kMon2]=sort(x((1+U+V+1):(1+U+V+Mon2)));
+  % Conjugate zeros
+  rz=x((1+U+V+1):(1+U+V+Mon2));
+  thz=x((1+U+V+Mon2+1):(1+U+V+M));
+  [~,kMon2]=sort(rz.*exp(j*thz));
   x((1+U+V+1):(1+U+V+Mon2))=x(1+U+V+kMon2);
-  x((1+U+V+Mon2+1):(1+U+V+M))=x(1+U+V+Mon2+kMon2);
-  [~,kQon2]=sort(x((1+U+V+M+1):(1+U+V+M+Qon2)));
+  x((1+U+V+Mon2+1):(1+U+V+M))=x(1+U+V+Mon2+kMon2); 
+  % Conjugate poles
+  rp=x((1+U+V+M+1):(1+U+V+M+Qon2));
+  thp=x((1+U+V+M+Qon2+1):(1+U+V+M+Q));
+  [~,kQon2]=sort(rp.*exp(j*thp));
   x((1+U+V+M+1):(1+U+V+M+Qon2))=x(1+U+V+M+kQon2);
   x((1+U+V+M+Qon2+1):(1+U+V+M+Q))=x(1+U+V+M+Qon2+kQon2);
 

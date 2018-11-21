@@ -36,7 +36,7 @@ function [a,V,Q]=tf2a(den,tol)
 
 % Sanity checks
 if nargin < 1
-  print_usage("[a,V,Q]=tf2x(den,tol)");
+  print_usage("[a,V,Q]=tf2a(den,tol)");
 endif
 if nargin==1
   tol=100*eps;

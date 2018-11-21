@@ -166,12 +166,15 @@ if need_rebuild,
             flags{end+1} = '-DmwSignedIndex=int';
         end
         if address_sanitize
-          flags{end+1} = '-fsanitize=address -fsanitize=undefined';
-          flags{end+1} = '-fsanitize=leak -fno-sanitize=vptr';
+          flags{end+1} = '-fsanitize=address';
+          flags{end+1} = '-fsanitize=undefined';
+          flags{end+1} = '-fsanitize=leak';
+          flags{end+1} = '-fsanitize-address-use-after-scope';
+          flags{end+1} = '-fno-sanitize=vptr';
           flags{end+1} = '-fno-omit-frame-pointer';
-          flags{end+1} = '-g -O0';
+          flags{end+1} = '-ggdb3 -Og';
         else
-          flags{end+1} = '-O';
+          flags{end+1} = '-O3';
         endif
         if enable_64bits
           flags{end+1} = '-DOPENBLAS_USE64BITINT'
@@ -207,7 +210,8 @@ if need_rebuild,
             end
         end
         if VERSION >= 7.05,
-            libs{end+1} = '-lmwblas';
+
+          libs{end+1} = '-lmwblas';
         else
             libs{end+1} = '-lmwlapack';
         end

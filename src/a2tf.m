@@ -1,5 +1,6 @@
 function [num,den]=a2tf(a,V,Q,R)
 % [num,den]=a2tf(a,V,Q,R)
+% [num,den]=a2tf(a,V,Q)
 % Convert a real and complex pole representation of an allpass filter
 % into numerator and denominator polynomials having order (V+Q)R.
 %
@@ -36,8 +37,11 @@ function [num,den]=a2tf(a,V,Q,R)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 % Sanity checks
-if (nargin ~=4) || (nargout~=2)
-  print_usage("[num,den]=x2tf(a,V,Q,R)");
+if ((nargin ~=3) && (nargin ~= 4)) || (nargout~=2)
+  print_usage("[num,den]=a2tf(a,V,Q,R)");
+endif
+if nargin==3
+  R=1;
 endif
 if rem(Q,2) ~= 0
   error("Expected Q even");
@@ -52,7 +56,7 @@ if isempty(a)
 endif
 
 % Initialise
-a=a(:)';
+a=a(:);
 N=V+Q;
 Qon2=Q/2;
 
@@ -62,12 +66,11 @@ pr=a((V+1):(V+Qon2));
 thetar=a((V+Qon2+1):(V+Q));
 den=1;
 for k=1:V
-  den=conv(den, [1, -pR(k)]);
+  den=conv(den, [1; -pR(k)]);
 endfor
 for k=1:Qon2
-  den=conv(den, [1, -2*pr(k)*cos(thetar(k)), pr(k)^2]);
+  den=conv(den, [1; -2*pr(k)*cos(thetar(k)); pr(k)^2]);
 endfor
-den=den(:);
 den=[kron(den(1:(V+Q)),[1;zeros(R-1,1)]);den(end)];
 
 % Numerator

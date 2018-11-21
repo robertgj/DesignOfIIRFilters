@@ -22,7 +22,7 @@ ctol=1e-7
 maxiter=4000
 
 % Filter specifications (frequencies are normalised to the sample rate)
-fap=0.10,dBap=0.3,Wap=1
+fap=0.10,dBap=0.35,Wap=1
 fas=0.25,dBas=50,Was=4
 ftp=0.125,tp=10,tpr=0.008,Wtp=1
 

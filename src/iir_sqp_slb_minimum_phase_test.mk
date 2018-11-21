@@ -18,7 +18,7 @@ iir_sqp_slb_minimum_phase_test.m test_common.m print_polynomial.m \
 print_pole_zero.m iirA.m iirE.m iirT.m iirP.m \
 local_max.m iir_sqp_mmse.m iir_slb.m Aerror.m Terror.m armijo_kim.m \
 fixResultNaN.m goldensection.m quadratic.m sqp_bfgs.m updateWchol.m \
-updateWbfgs.m invSVD.m xConstraints.m tf2x.m x2tf.m \
+updateWbfgs.m invSVD.m xConstraints.m tf2x.m zp2x.m x2tf.m \
 iir_slb_exchange_constraints.m iir_slb_constraints_are_empty.m \
 iir_slb_set_empty_constraints.m iir_slb_show_constraints.m \
 iir_slb_update_constraints.m showResponseBands.m \

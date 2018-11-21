@@ -69,12 +69,11 @@ zr=x((1+U+V+1):(1+U+V+Mon2));
 za=x((1+U+V+Mon2+1):(1+U+V+M));
 b=x(1);
 for k=1:U
-  b=conv(b, [1, -zR(k)]);
+  b=conv(b, [1; -zR(k)]);
 endfor
 for k=1:Mon2
-  b=conv(b, [1, -2*zr(k)*cos(za(k)), zr(k)^2]);
+  b=conv(b, [1; -2*zr(k)*cos(za(k)); zr(k)^2]);
 endfor
-b=b(:);
 if nargout==1
   return
 endif
@@ -86,14 +85,13 @@ if (any(abs(pr)>=1) || any(abs(pR)>=1))
   warning("Transfer function is not stable (poles |R|>=1)!");
 endif
 pa=x((1+U+V+M+Qon2+1):(1+U+V+M+Q));
-Rz=zeros(1,R-1);
+Rz=zeros(R-1,1);
 a=1;
 for k=1:V
-  a=conv(a, [1, Rz, -pR(k)]);
+  a=conv(a, [1; Rz; -pR(k)]);
 endfor
 for k=1:Qon2
-  a=conv(a, [1, Rz, -2*pr(k)*cos(pa(k)), Rz, pr(k)^2]);
+  a=conv(a, [1; Rz; -2*pr(k)*cos(pa(k)); Rz; pr(k)^2]);
 endfor
-a=a(:);
 
 endfunction

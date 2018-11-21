@@ -67,7 +67,7 @@ mwIndex whichcpx(mwIndex *ifr, mwIndex *xcomplex, mwIndex *lorNL, mwIndex *rcone
 	     const mwIndex nxcomplex, const mwIndex frlpN, const mwIndex lorN,
 	     const mwIndex rconeN)
 {
-  mwIndex n, ix, i,j,k,lastj, ixOld;
+  mwIndex n, ix, i,j=0,k,lastj, ixOld;
   if(nxcomplex <= 0)
     return 0;
   n = 0; ix = 0;   /* target index into ifr, xcomplex */
@@ -141,7 +141,7 @@ void mexFunction( int nlhs, mxArray *plhs[],
   int nrhs, const mxArray *prhs[])
 {
   mwIndex i,j,iwsiz, nxcomplex, cpxf;
-  mwIndex *iwork, *lorNL, *rconeNL, *xcomplex=NULL;
+  mwIndex *iwork=NULL, *lorNL, *rconeNL=NULL, *xcomplex=NULL;
   double *myPr;
   const double *xcomplexPr;
   mxArray *MY_FIELD;

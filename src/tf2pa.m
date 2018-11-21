@@ -1,5 +1,5 @@
-function [a1,a2]=tf2pa(n,d)
-% [a1,a2]=tf2pa(n,d)
+function [a1,a2]=tf2pa(n,d,tol)
+% [a1,a2]=tf2pa(n,d,tol)
 % Find the denominator polynomials, a1 and a2, of the parallel
 % allpass filter that implements the transfer function n(z)/d(z)
   
@@ -23,7 +23,16 @@ function [a1,a2]=tf2pa(n,d)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+  if ((nargin ~=2) && (nargin ~=3)) || (nargout~=2)
+    print_usage("[a1,a2]=tf2pa(n,d,tol)");
+  endif
+  if nargin==2
+    tol=10*eps;
+  endif
+  
   % Find the spectral factor
+  n=n(:);
+  d=d(:);
   try
     q=spectralfactor(n,d);
   catch
@@ -36,7 +45,7 @@ function [a1,a2]=tf2pa(n,d)
   end_try_catch
 
   % Roots of n+q
-  nq=n+q;
+  nq=n(:)+q(:);
   z=qroots(nq);
 
   % Find denominators of a1 and a2
@@ -51,7 +60,6 @@ function [a1,a2]=tf2pa(n,d)
       a2=conv(a2, [1 -z(m)]);
     endif
   endfor
-  tol=10*eps;
   if max(abs(imag(a1)))>tol
     warning("max(abs(imag(a1)))>%3d*eps",tol/eps);
   endif

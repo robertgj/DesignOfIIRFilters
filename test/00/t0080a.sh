@@ -50,49 +50,49 @@ ftp =  0.22000
 Wtp =  10
 td =  22
 Filter a: real pole/zero 1
-delEdelRpa=1.62556, approx=1.62556, diff=-5.1959e-07
+delEdelRpa=1.62556, approx=1.62556, diff=-6.08408e-07
 Filter a: conjugate pole/zero 1 radius
-delEdelrpa=-3.02676, approx=-3.02676, diff=-3.34503e-06
+delEdelrpa=-3.02676, approx=-3.02676, diff=-3.43385e-06
 Filter a: conjugate pole/zero 2 radius
-delEdelrpa=6.44049, approx=6.44049, diff=1.55361e-07
+delEdelrpa=6.44049, approx=6.44049, diff=6.65433e-08
 Filter a: conjugate pole/zero 3 radius
-delEdelrpa=4.94096, approx=4.94096, diff=-3.27755e-06
+delEdelrpa=4.94096, approx=4.94096, diff=-3.36637e-06
 Filter a: conjugate pole/zero 4 radius
-delEdelrpa=3.89346, approx=3.89346, diff=-2.84271e-06
+delEdelrpa=3.89346, approx=3.89346, diff=-2.93152e-06
 Filter a: conjugate pole/zero 5 radius
-delEdelrpa=3.39486, approx=3.39486, diff=-1.06283e-06
+delEdelrpa=3.39486, approx=3.39486, diff=-1.15165e-06
 Filter a: conjugate pole/zero 1 angle
-delPdelthetapa=-17.9634, approx=-17.9634, diff=-1.66527e-07
+delPdelthetapa=-17.9634, approx=-17.9634, diff=-2.55345e-07
 Filter a: conjugate pole/zero 2 angle
-delPdelthetapa=-4.96857, approx=-4.96857, diff=-1.09416e-06
+delPdelthetapa=-4.96857, approx=-4.96857, diff=-1.18298e-06
 Filter a: conjugate pole/zero 3 angle
-delPdelthetapa=-1.77363, approx=-1.77363, diff=-2.83891e-07
+delPdelthetapa=-1.77363, approx=-1.77363, diff=-3.72709e-07
 Filter a: conjugate pole/zero 4 angle
-delPdelthetapa=-0.755846, approx=-0.755846, diff=-1.64143e-07
+delPdelthetapa=-0.755846, approx=-0.755846, diff=-2.5296e-07
 Filter a: conjugate pole/zero 5 angle
-delPdelthetapa=-0.298183, approx=-0.298183, diff=-3.75435e-07
+delPdelthetapa=-0.298183, approx=-0.298183, diff=-4.64253e-07
 Filter b: real pole/zero 1
-delEdelRpb=18.8616, approx=18.8616, diff=4.30053e-07
+delEdelRpb=18.8616, approx=18.8616, diff=3.41235e-07
 Filter b: real pole/zero 2
-delEdelRpb=1.63197, approx=1.63197, diff=-1.13385e-06
+delEdelRpb=1.63197, approx=1.63197, diff=-1.22267e-06
 Filter b: real pole/zero 3
-delEdelRpb=11.7116, approx=11.7116, diff=4.38166e-07
+delEdelRpb=11.7116, approx=11.7116, diff=3.93757e-07
 Filter b: conjugate pole/zero 1 radius
-delEdelrpb=4.42407, approx=4.42407, diff=-1.90836e-06
+delEdelrpb=4.42407, approx=4.42407, diff=-1.99718e-06
 Filter b: conjugate pole/zero 2 radius
-delEdelrpb=5.16884, approx=5.16885, diff=-8.68618e-07
+delEdelrpb=5.16884, approx=5.16885, diff=-9.57435e-07
 Filter b: conjugate pole/zero 3 radius
-delEdelrpb=4.06603, approx=4.06603, diff=-5.46605e-07
+delEdelrpb=4.06603, approx=4.06603, diff=-6.35423e-07
 Filter b: conjugate pole/zero 4 radius
 delEdelrpb=3.45018, approx=3.45018, diff=-6.43099e-07
 Filter b: conjugate pole/zero 1 angle
-delPdelthetapb=-7.32132, approx=-7.32132, diff=-2.30524e-07
+delPdelthetapb=-7.32132, approx=-7.32132, diff=-3.19342e-07
 Filter b: conjugate pole/zero 2 angle
-delPdelthetapb=-2.37111, approx=-2.37111, diff=-3.84379e-07
+delPdelthetapb=-2.37111, approx=-2.37111, diff=-4.28788e-07
 Filter b: conjugate pole/zero 3 angle
-delPdelthetapb=-0.923596, approx=-0.923596, diff=-4.85774e-07
+delPdelthetapb=-0.923596, approx=-0.923596, diff=-5.74592e-07
 Filter b: conjugate pole/zero 4 angle
-delPdelthetapb=-0.344337, approx=-0.344336, diff=-4.08525e-07
+delPdelthetapb=-0.344337, approx=-0.344336, diff=-4.97343e-07
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

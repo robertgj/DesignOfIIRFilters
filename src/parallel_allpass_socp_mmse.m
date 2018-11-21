@@ -10,12 +10,12 @@ function [abk,socp_iter,func_iter,feasible]= ...
 %                              wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
 %
 % SOCP MMSE optimisation with multiple frequency constraints
-% on the amplitude and group delay responses of a filter consisting of the
-% parallel combination of two allpass filters. The allpass filters are
+% on the amplitude, phase and group delay responses of a filter consisting
+% of the parallel combination of two allpass filters. The allpass filters are
 % defined by the real and complex conjugate pole locations.
 %
 % Inputs:
-%   vS - structure of peak constraint frequencies {al,au,tl,tu}
+%   vS - structure of peak constraint frequencies {al,au,tl,tu,pl,pu}
 %   ab0 - initial coefficient vector in the form:
 %         [ RpA(1:Va) rpA(1:(Qa/2)) thetapA(1:(Qa/2)) ...
 %           RpB(1:Vb) rpB(1:(Qb/2)) thetapB(1:(Qb/2))]
@@ -113,7 +113,7 @@ endif
 
 if length(ab0) ~= Nab
   error("Expected length(ab0)(%d) == Va(%d)+Qa(%d)+Vb(%d)+Qb(%d)",
-        length(ab0),Va,Qb,Vb,Qb);
+        length(ab0),Va,Qa,Vb,Qb);
 endif
 if length(abu) ~= Nab
   error("Expected length(abu)(%d) == length(ab0)(%d)",length(abu),Nab);

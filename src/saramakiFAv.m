@@ -1,5 +1,5 @@
-function [F,delFdelalpha]=saramakiFAv(v,n,m,alpha,zeta)
-% [F,delFdelalpha]=saramakiFAv(v,n,m,alpha,zeta)
+function [F,delFdelalpha]=saramakiFAv(alpha,n,m,v,zeta)
+% [F,delFdelalpha]=saramakiFAv(alpha,n,m,v,zeta)
 %
 % Calculate the value of Saramaki's F(A,w) function. This function represents
 % the stop band response on the negative real axis of the w-plane. See
@@ -30,7 +30,7 @@ function [F,delFdelalpha]=saramakiFAv(v,n,m,alpha,zeta)
 
   % Sanity checks
   if (nargout>2)|| nargin~=5
-    print_usage("[F,delFdelalpha]=saramakiFAv(v,n,m,alpha,zeta)")
+    print_usage("[F,delFdelalpha]=saramakiFAv(alpha,n,m,v,zeta)")
   endif
   if n<m
     error("n<m");
@@ -47,11 +47,14 @@ function [F,delFdelalpha]=saramakiFAv(v,n,m,alpha,zeta)
   if zeta(2)>0
     error("zeta(2)>0");
   endif
+  if zeta(1)<-1
+    error("zeta(1)<-1");
+  endif
+  if zeta(2)<-1
+    error("zeta(2)<-1");
+  endif
   if zeta(1)>=zeta(2)
     error("zeta(1)>=zeta(2)");
-  endif
-  if any(v>zeta(2))
-    error("v>zeta(2)");
   endif
   if any(v<zeta(1))
     error("v<zeta(1)");
@@ -75,11 +78,11 @@ function [F,delFdelalpha]=saramakiFAv(v,n,m,alpha,zeta)
     return;
   endif
   if m==0
-    F=v.^(-n);
+    F=v(:).^(-n);
     return;
   endif
 
-  % F(A,v)
+  % Calculate F(alpha,v)
   v=v(:);
   alpha=alpha(:)';
   vv=kron(v,ones(size(alpha)));

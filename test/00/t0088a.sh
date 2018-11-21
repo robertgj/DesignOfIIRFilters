@@ -7,7 +7,8 @@ parallel_allpass_delay_socp_mmse.m \
 parallel_allpass_delay_slb_set_empty_constraints.m \
 parallel_allpass_delayAsq.m parallel_allpass_delayT.m \
 allpassP.m allpassT.m aConstraints.m a2tf.m tf2a.m \
-print_polynomial.m print_pole_zero.m qroots.m qzsolve.oct SeDuMi_1_3/"
+print_polynomial.m print_allpass_pole.m \
+qroots.m qzsolve.oct SeDuMi_1_3/"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -44,12 +45,12 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_a1_coef.m << 'EOF'
-Ua1=0,Va1=0,Ma1=0,Qa1=12,Ra1=1
-a1 = [   1.0000000000, ...
-         0.1516439388,   0.4750154527,   0.5841336535,   0.5886150299, ... 
-         0.6335031691,   0.9495327988, ...
-         0.5010126706,   3.0658621836,   2.3399870621,   0.4191886532, ... 
-         1.6640460456,   1.1166559072 ]';
+% All-pass single-vector representation
+Va1=0,Qa1=12,Ra1=1
+a1 = [   0.1460814253,   0.4735134834,   0.5829663805,   0.5902634889, ... 
+         0.6328476366,   0.9495708134, ...
+         0.5018758824,   3.0680169660,   2.3394892787,   0.4183831458, ... 
+         1.6630434696,   1.1164280046 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m"; fail; fi
 

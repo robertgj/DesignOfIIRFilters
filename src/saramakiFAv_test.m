@@ -27,17 +27,17 @@ for m=8:9,
   v=v(:);
   alpha=linspace(zeta(1),zeta(2),2+floor(m/2));
   alpha=alpha(2:(end-1));
-  F=saramakiFAv(v,n,m,alpha,zeta);
+  F=saramakiFAv(alpha,n,m,v,zeta);
   vFmin=local_max(-F);
   % Check delFdelalpha
   tol=5e-8;
   del=1e-6;
   delk=[del,zeros(1,length(alpha)-1)];
-  [~,delFdelalpha]=saramakiFAv(v(vFmin),n,m,alpha,zeta);
+  [~,delFdelalpha]=saramakiFAv(alpha,n,m,v(vFmin),zeta);
   approx_delFdelalpha=zeros(size(delFdelalpha));
   for k=1:length(alpha)
-    Fpdelk=saramakiFAv(v(vFmin),n,m,alpha+(delk/2),zeta);
-    Fmdelk=saramakiFAv(v(vFmin),n,m,alpha-(delk/2),zeta);
+    Fpdelk=saramakiFAv(alpha+(delk/2),n,m,v(vFmin),zeta);
+    Fmdelk=saramakiFAv(alpha-(delk/2),n,m,v(vFmin),zeta);
     delk=shift(delk,1);
     approx_delFdelalpha(:,k)=(Fpdelk-Fmdelk)/del;
   endfor

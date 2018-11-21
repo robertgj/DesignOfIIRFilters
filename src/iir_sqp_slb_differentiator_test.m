@@ -63,7 +63,7 @@ dmax=0.05;
 % Amplitude
 wa=w;
 Ad=-wa/pi;
-Ar=0.004;
+Ar=0.005;
 Adu=-wa/pi+(Ar/2);
 Adl=-wa/pi-(Ar/2);
 Wap=1;

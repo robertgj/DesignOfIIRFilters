@@ -22,7 +22,7 @@ verbose=false
 U=0,V=0,Q=6,M=10,R=1
 fap=0.15,dBap=0.1,Wap=1
 fas=0.3,dBas=30,Was=1
-ftp=0.25,tp=10,tpr=0.0035,Wtp_mmse1=0.25,Wtp_mmse2=0.5,Wtp_pcls=2
+ftp=0.25,tp=10,tpr=0.0035,Wtp_mmse1=0.25,Wtp_mmse2=0.5,Wtp_pcls=3
 
 % Strings
 strM=sprintf("%%s:fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp\\_mmse=%%g",

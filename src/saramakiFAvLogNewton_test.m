@@ -12,6 +12,7 @@ n=11,m=6,fp=0.1,fs=0.125,dBap=0.002,dBas=75
 nplot=4000;
 nfp=ceil(fp*nplot/0.5)+1;
 nfs=floor(fs*nplot/0.5)+1;
+strf="saramakiFAvLogNewton_test";
 
 % Find filter
 if 1
@@ -22,10 +23,12 @@ endif
 if any(abs(p))>1
   error("any(abs(p))>1");
 endif
-[b,a]=zp2tf(z,p,K);
+[num,den]=zp2tf(z,p,K);
+print_polynomial(num,"n",strcat(strf,"_n_coef.m"),"%15.10f");
+print_polynomial(den,"d",strcat(strf,"_d_coef.m"),"%15.10f");
 
 % Calculate response
-[h,w]=freqz(b,a,nplot);
+[h,w]=freqz(num,den,nplot);
 
 % Check dBap, dBas
 max_dBap=max(20*log10(abs(h(1:nfp))));
@@ -46,7 +49,6 @@ title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
-strf="saramakiFAvLogNewton_test";
 print(strcat(strf,"_resp"),"-dpdflatex");
 close
 
@@ -86,7 +88,7 @@ for m=3:8,
     printf("n=%2d,m=%d,max_dBap=%8.6f,max_dBas=%6.2f\n",n,m,max_dBap,max_dBas);
   endfor
 endfor
-
+  
 % Done
 diary off
 movefile saramakiFAvLogNewton_test.diary.tmp saramakiFAvLogNewton_test.diary;

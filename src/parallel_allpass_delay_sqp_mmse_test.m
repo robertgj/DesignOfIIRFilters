@@ -156,9 +156,9 @@ fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fclose(fid);
 
 % Save results
-print_pole_zero([1;a1],0,V,0,Q,R,"a1");
-print_pole_zero([1;a1],0,V,0,Q,R,"a1", ...
-                "parallel_allpass_delay_sqp_mmse_test_a1_coef.m");
+print_allpass_pole(a1,V,Q,R,"a1");
+print_allpass_pole(a1,V,Q,R,"a1", ...
+                   "parallel_allpass_delay_sqp_mmse_test_a1_coef.m");
 print_polynomial(Da1,"Da1");
 print_polynomial(Da1,"Da1","parallel_allpass_delay_sqp_mmse_test_Da1_coef.m");
 

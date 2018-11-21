@@ -23,5 +23,5 @@ parallel_allpass_delay_slb_show_constraints.m \
 parallel_allpass_delay_slb_update_constraints.m \
 parallel_allpass_delay_socp_mmse.m \
 allpassP.m allpassT.m tf2a.m a2tf.m \
-aConstraints.m print_polynomial.m print_pole_zero.m local_max.m \
-qroots.m qzsolve.oct sedumi_test.diary
+aConstraints.m print_polynomial.m local_max.m \
+print_allpass_pole.m qroots.m qzsolve.oct sedumi_test.diary

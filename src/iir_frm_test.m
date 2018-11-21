@@ -690,7 +690,7 @@ wp=2*pi*fp/5;
   iir_frm(wp,xk,Uad,Vad,Mad,Qad,na,nc,Mmodel,Dmodel);
 del=1e-7;
 tol_gradAsq=del/2;
-tol_gradT=del;
+tol_gradT=2*del;
 delxk=[del;zeros(length(xk)-1,1)];
 for k=1:length(xk)
   % Approximate gradAsq and gradT for this coefficient

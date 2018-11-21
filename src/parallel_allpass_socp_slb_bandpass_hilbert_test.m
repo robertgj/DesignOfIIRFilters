@@ -330,10 +330,10 @@ fprintf(fid,"Wpp=%d %% Pass band phase response weight\n",Wpp);
 fclose(fid);
 
 % Save results
-print_pole_zero([1;a1],0,Va,0,Qa,Ra,"a1");
-print_pole_zero([1;a1],0,Va,0,Qa,Ra,"a1",strcat(strf,"_a1_coef.m"));
-print_pole_zero([1;b1],0,Vb,0,Qb,Rb,"b1");
-print_pole_zero([1;b1],0,Vb,0,Qb,Rb,"b1",strcat(strf,"_b1_coef.m"));
+print_allpass_pole(a1,Va,Qa,Ra,"a1");
+print_allpass_pole(a1,Va,Qa,Ra,"a1",strcat(strf,"_a1_coef.m"));
+print_allpass_pole(b1,Vb,Qb,Rb,"b1");
+print_allpass_pole(b1,Vb,Qb,Rb,"b1",strcat(strf,"_b1_coef.m"));
 print_polynomial(Da1,"Da1");
 print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 print_polynomial(Db1,"Db1");

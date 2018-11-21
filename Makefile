@@ -105,6 +105,7 @@ OCTAVE_SCRIPTS = \
  samin_schurOneMlattice_lowpass_test \
  samin_svcasc_lowpass_test \
  saramakiFAvLogNewton_test \
+ saramakiFBvNewton_test \
  schurNSlattice_sqp_slb_lowpass_test \
  schurOneMAPlattice_frm_halfband_socp_slb_test \
  schurOneMAPlattice_frm_hilbert_socp_slb_test \
@@ -142,6 +143,8 @@ OCTAVE_SCRIPTS = \
  sqp_gi_test \
  sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test \
  sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test \
+ surmaaho_lowpass_test \
+ surmaaho_parallel_allpass_lowpass_test \
  sv2block_test \
  svcasc2noise_example_test \
  tarczynski_ex2_standalone_test \

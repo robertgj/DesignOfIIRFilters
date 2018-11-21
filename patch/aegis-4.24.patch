@@ -1,5 +1,49 @@
---- ../aegis-4.24/./common/ac/unistd.h	2008-03-14 17:19:27.000000000 +1100
-+++ ./common/ac/unistd.h	2014-12-10 17:58:26.000000000 +1100
+--- aegis-4.24/./common/config.messy.h	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/./common/config.messy.h	2018-10-31 15:32:37.995133044 +1100
+@@ -99,6 +99,7 @@
+ #endif
+ #ifndef _BSD_SOURCE
+ #define _BSD_SOURCE
++#define _DEFAULT_SOURCE
+ #endif
+ #endif
+ 
+--- aegis-4.24/./common/mem.h	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/./common/mem.h	2018-10-31 15:42:11.900540196 +1100
+@@ -124,11 +124,7 @@
+    dmem_copy_string(__FILE__, __LINE__, (p), ## __VA_ARGS__)
+ #endif
+ 
+-#if HAVE_HEADER_NEW || HAVE_NEW_H
+-#define THROW_BAD_ALLOC throw(std::bad_alloc)
+-#else
+ #define THROW_BAD_ALLOC
+-#endif
+ 
+ #ifndef DMALLOC
+ void *operator new(size_t nbytes) THROW_BAD_ALLOC;
+--- aegis-4.24/./common/stack.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/./common/stack.cc	2018-10-31 15:32:37.995133044 +1100
+@@ -24,7 +24,7 @@
+ find_stack_direction ()
+ {
+     static char *addr = 0;
+-    auto char dummy;
++    char dummy;
+     if (addr == 0)
+     {
+ 	addr = &dummy;
+@@ -47,7 +47,7 @@
+ 	return false;
+     if (stack_direction == 0)
+ 	stack_direction = find_stack_direction();
+-    auto char dummy = 0;
++    char dummy = 0;
+     char *cp = (char *)p;
+     return (stack_direction < 0 ?  (&dummy < cp) : (&dummy > cp));
+ }
+--- aegis-4.24/./common/ac/unistd.h	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/./common/ac/unistd.h	2018-10-31 15:32:37.994133054 +1100
 @@ -29,6 +29,7 @@
  #ifdef __linux__
  #ifndef _BSD_SOURCE
@@ -8,9 +52,9 @@
  #endif
  #ifndef __USE_BSD
  #define __USE_BSD
---- ../aegis-4.24/./common/ac/string/memmem.cc	2008-03-14 17:19:27.000000000 +1100
-+++ ./common/ac/string/memmem.cc	2014-12-10 17:52:28.000000000 +1100
-@@ -182,7 +182,7 @@ memmem_replacement(const void *haystack_
+--- aegis-4.24/./common/ac/string/memmem.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/./common/ac/string/memmem.cc	2018-10-31 15:32:37.994133054 +1100
+@@ -182,7 +182,7 @@
  
      // Use optimizations in memchr when possible.
      if (needle_len == 1)
@@ -19,13 +63,13 @@
  
      // Minimizing the worst-case complexity:
      // Let n = haystack_len, m = needle_len.
---- ../aegis-4.24/./common/config.messy.h	2008-03-14 17:19:27.000000000 +1100
-+++ ./common/config.messy.h	2014-12-10 17:58:25.000000000 +1100
-@@ -99,6 +99,7 @@
- #endif
- #ifndef _BSD_SOURCE
- #define _BSD_SOURCE
-+#define _DEFAULT_SOURCE
- #endif
- #endif
+--- aegis-4.24/./Makefile.in	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/./Makefile.in	2018-10-31 15:32:37.999133004 +1100
+@@ -37493,7 +37493,6 @@
+ 	-$(INSTALL) -m 0755 -d $(RPM_BUILD_ROOT)$(comdir)
+ 	-chown $(AEGIS_UID) $(RPM_BUILD_ROOT)$(comdir) && chgrp \
+ 		$(AEGIS_GID) $(RPM_BUILD_ROOT)$(comdir)
+-	$(SH) etc/compat.2.3
+ 	-@touch $@
+ 	@sleep 1
  

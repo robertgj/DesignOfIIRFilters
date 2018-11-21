@@ -24,14 +24,14 @@ fap=0.15
 dBap=3
 Wap=1
 Wat=0.001
-ftp=0.15
+ftp=0.155
 td=10
 tdr=0.2
-Wtp=0.05
+Wtp=0.01
 Wtt=0.001
 fas=0.2
 dBas=46
-Was=1000
+Was=20
 
 % Frequency vectors
 n=1000;
@@ -47,13 +47,10 @@ Hdt=td*ones(n,1);
 Wdt=[Wtp*ones(ntp,1);zeros(n-ntp,1)];
 
 % Amplitude constraints
-wa=(0:(n-1))'*pi/n;
+wa=wd;
 Ad=[ones(nap,1);zeros(n-nap,1)];
-% Adu is parabolic (dB=k*(f-fap)^2) in the transition band
-Adu=10.^(-[zeros(nap,1);
-           (dBas/((fas-fap)^2))*(((wa((nap+1):(nas-1))*0.5/pi)-fap).^2); ...
-           dBas*ones(n-nas+1,1)]/20);
-Adl=[(10^(-dBap/20))*ones(nap,1); zeros(n-nap,1)];
+Adu=[ones(nas-1,1);(10^(-dBas/20))*ones(n-nas+1,1)];
+Adl=[(10^(-dBap/20))*ones(nap,1);zeros(n-nap,1)];
 Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
 
 % Stop-band amplitude constraints
@@ -64,12 +61,22 @@ Sdl=[];
 Ws=[];
 
 % Group delay constraints
-ntp=ceil(n*ftp/0.5)+1;
-wt=(0:(nas-1))'*pi/n;
-Td=td*ones(nas,1);
-Tdu=[(td+(tdr/2))*ones(ntp,1);(td*2)*ones(nas-ntp,1)];
-Tdl=[(td-(tdr/2))*ones(ntp,1);zeros(nas-ntp,1)];
-Wt=[Wtp*ones(ntp,1);Wtt*ones(nas-ntp,1)];
+if 1
+  % Limit transition band peaks
+  ntp=ceil(n*ftp/0.5)+1;
+  wt=wd(1:(nas-1));
+  Td=td*ones(nas-1,1);
+  Tdu=[(td+(tdr/2))*ones(ntp,1);(td*2)*ones(nas-1-ntp,1)];
+  Tdl=[(td-(tdr/2))*ones(ntp,1);zeros(nas-1-ntp,1)];
+  Wt=[Wtp*ones(ntp,1);Wtt*ones(nas-1-ntp,1)];
+else
+  ntp=ceil(n*ftp/0.5)+1;
+  wt=wd(1:ntp);
+  Td=td*ones(ntp,1);
+  Tdu=(td+(tdr/2))*ones(ntp,1);
+  Tdl=(td-(tdr/2))*ones(ntp,1);
+  Wt=Wtp*ones(ntp,1);
+endif
 
 % Phase constraints
 wp=[];
@@ -108,7 +115,7 @@ printf("fminunc iterations=%d\n", OUTPUT.iterations);
 printf("fminunc successful=%d??\n", OUTPUT.successful);
 printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 
-% Convert b0 to gain-pole-zero form
+% Convert initial filter to gain-pole-zero form
 n0=nd0(1:(N+1));
 d0=[1;nd0((N+2):end)];
 [x0,U,V,M,Q]=tf2x(n0,d0);
@@ -123,28 +130,10 @@ close
 % Coefficient constraints
 [xl,xu]=xConstraints(U,V,M,Q,rho);
 
-% MMSE pass
-feasible=false;
-[x1,E,socp_iter,func_iter,feasible] = ...
-  iir_socp_mmse([],x0,xu,xl,0,U,V,M,Q,R, ...
-                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
-                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-                maxiter,tol,verbose)
-if ~feasible 
-  error("x1 infeasible");
-endif
-strt=sprintf(strP,"x1(MMSE)");
-showResponse(x1,U,V,M,Q,R,strt);
-print(strcat(strf,"_mmse_x1"),"-dpdflatex");
-close
-showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,x1,U,V,M,Q,R,strt);
-print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
-hold off
-close
-
 % PCLS pass
+feasible=false;
 [d1,E,slb_iter,socp_iter,func_iter,feasible] = ...
-  iir_slb(@iir_socp_mmse,x1,xu,xl,0,U,V,M,Q,R, ...
+  iir_slb(@iir_socp_mmse,x0,xu,xl,0,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
           maxiter,tol,ctol,verbose)
@@ -213,7 +202,7 @@ print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 % Done
 toc;
 save iir_socp_slb_lowpass_test.mat N U V M Q R tol ctol rho ...
-     fap dBap Wap ftp td tdr Wtp fas dBas Was ni di x0 x1 d1 N1 D1
+     fap dBap Wap ftp td tdr Wtp fas dBas Was ni di x0 d1 N1 D1
 
 diary off
 movefile iir_socp_slb_lowpass_test.diary.tmp ...

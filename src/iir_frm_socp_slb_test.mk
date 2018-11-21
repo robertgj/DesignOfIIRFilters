@@ -29,6 +29,6 @@ iir_frm_socp_mmse.m \
 iir_frm_socp_slb_plot.m \
 iir_frm_struct_to_vec.m \
 iir_frm_vec_to_struct.m \
-iirA.m iirP.m iirT.m iirdelAdelw.m fixResultNaN.m tf2x.m x2tf.m \
+iirA.m iirP.m iirT.m iirdelAdelw.m fixResultNaN.m tf2x.m zp2x.m x2tf.m \
 xConstraints.m print_polynomial.m print_pole_zero.m \
 local_max.m local_peak.m qroots.m qzsolve.oct sedumi_test.diary

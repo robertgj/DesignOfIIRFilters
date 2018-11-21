@@ -1,3 +1,4 @@
+\pdfminorversion=7 % Suppress warning messages with pdf files produced by dia
 \documentclass[a4paper,twoside,10pt,english]{report}
 %\usepackage{showframe} % Helps debug vbox and hbox warnings
 \usepackage{geometry}
@@ -7078,10 +7079,9 @@ of the Lagrangian function
 \end{align*}
 subject to the constraints. The iteration finishes when the
 \emph{Karush-Kuhn-Tucker} conditions are satisfied.
-\subsection{\label{sub:Choice-of-Active-Constraints}
-Choice of active constraints}
-\emph{Selesnick, Lang and Burrus} 
-~\cite{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters}
+\subsection{\label{sub:Choice-of-Active-Constraints}Choice of active constraints}
+\emph{Selesnick, Lang and
+  Burrus}~\cite{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters}
 describe a simple algorithm for selecting the constraints on the magnitude
 response that apply at each iteration in the design of an FIR filter. The 
 general discussion accompanying that description is applicable here. The 
@@ -7593,128 +7593,28 @@ plot of the filter is shown in Figure \ref{fig:tarczynski-ex2-standalone-pz}.
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{tarczynski_ex2_standalone_test_pz}}
-\caption{Tarczynski et al. Example 2 : Response for nN=24, nD=2 and R=2}
+\caption{Tarczynski et al. Example 2 : Pole-zero plot for nN=24, nD=2 and R=2}
 \label{fig:tarczynski-ex2-standalone-pz}
 \end{center}
 \end{figure}
 
 The Octave function \emph{xInitHd} uses the WISE barrier function to design an 
-initial filter in polynomial form and then calls the Octave \emph{roots}
+initial filter in polynomial form and then calls the Octave \emph{qroots}
 function to convert that polynomial into \emph{gain-pole-zero} form. As 
 noted in the Introduction, finding the roots of a polynomial is a difficult
-problem in numerical analysis and the output of the \emph{roots} function
+problem in numerical analysis and the output of the \emph{qroots} function
 depends on the CPU architecture, operating system, library
 versions, compiler version and Octave version.
-\clearpage
 
-\subsubsection{\label{Saram\"{a}ki-unconstrained-minimisation-with-barrier}Surma-aho and Saram\"{a}ki method of unconstrained optimisation of an IIR initial filter}
-The method of \emph{Tarczynski et al.} finds the polynomial transfer function of
-an initial filter. \emph{Surma-aho} and
+
+\subsubsection{Surma-aho and Saram\"{a}ki method of designing an IIR initial filter}
+Appendix~\ref{Saram\"{a}ki-unconstrained-minimisation-initial-IIR} describes
+the method of \emph{Surma-aho} and
 \emph{Saram\"{a}ki}~\cite{SurmaahoSaramaki_ApproximatelyLinearPhaseRecursiveDigitalFilters}
-describe an algorithm for finding an initial filter with approximately flat
-group delay in terms of the \emph{gain-pole-zero} description of the
-cascade-form transfer function, reproduced here as
-Algorithm~\ref{alg:Saramaki-initial-filter}. The cascade form filter is
-decomposed into a minimum-phase filter and an all-pass equaliser. 
-\begin{algorithm}[!htb]
-\textbf{Step 1:} Determine the minimum order of an elliptic filter to meet the
-given amplitude criteria. Denote the minimum order by $N_{min}$ and set
-${k=1}$. Then, design an elliptic filter transfer function 
-$H^{k}_{min}\left(z\right)$ such that it satisfies:\\
-\emph{Condition 1}: $\left|H^{k}_{min}\left(e^{\imath\omega}\right)\right|$
-oscillates in the stopband $\left[\omega_{s},\pi\right]$ between $\delta_{s}$
-and $0$ achieving these values at $N_{min}+1$ points such that the value at
-$\omega=\omega_{s}$ is $\delta_{s}$. Here, $\delta_{s}$ is the specified
-stopband ripple.\\
-\emph{Condition 2:} $\left|H^{k}_{min}\left(e^{\imath\omega}\right)\right|$ 
-oscillates in the interval $\left[0, \Omega^{k}_{p}\right]
-\left(\Omega^{k}_{p}\ge\omega_{p}\right)$ between $1$ and $1-\delta^{k}_{p}$
-achieving these values at $N_{min}+1$ points such that the value at
-$\omega=\Omega^{k}_{p}$ is $1-\delta^{k}_{p}$. For Candidate I,
-$\delta^{k}_{p}=\delta_{p}$,
-with $\delta_{p}$ being the specified passband ripple, whereas the passband
-region $\left[0,\Omega^{k}_{p} \right]$ is the widest possible to still meet the
-given stopband requirements. For Candidate II, $\Omega^{k}_{p}=\omega_{p}$ with
-$\omega_{p}$ being the specified passband edge, whereas $\delta^{k}_{p}$ is the
-smallest passband ripple to still meet the given stopband criteria.
-
-
-\textbf{Step 2}: Cascade $H^{k}_{min}\left(e^{\imath\omega}\right)$ with a
-stable all-pass equalizer with a transfer function
-$H^{k}_{all}\left(e^{\imath\omega}\right)$ of order $N_{all}$. Determine the
-adjustable  parameters of $H^{k}_{all}\left(z\right)$ and $\psi^{k}$ such that
-the maximum deviation of
-$arg\left[H^{k}_{all}\left(z\right)H^{k}_{min}\left(z\right)\right]$ from the
-average slope $\phi_{ave}\left(\omega\right)=\psi^{k}\omega$ is
-minimized in the specified passband region, $\left[0,\omega_{p}\right]$. Let the
-poles of the all-pass filter be located at
-$z=z^{k}_{1},z^{k}_{2},\hdots,z^{k}_{N_{all}}$.
-
-
-\textbf{Step 3:} Set $k=k+1$. Then, design a minimum-phase filter transfer
-function $H^{k}_{min}\left(z\right)$ of order $N_{min}+N_{all}$ such that it has
-$N_{all}$ fixed zeros at $z=z^{k-1}_{1},z^{k-1}_{2},\hdots,z^{k-1}_{N_{all}}$
-and it satisfies Condition 1 of Step 1 with the same number of extremal points,
-that is, $N_{min}+1$, and Condition 2 of Step 1 with $N_{min}+N_{all}+1$
-extremal points, instead of $N_{min}+1$ points.
-
-\textbf{Step 4:} Like in Step 2, cascade  $H^{k}_{min}\left(z\right)$ with a
-stable all-pass filter transfer function $H^{k}_{all}\left(z\right)$ of order
-$N_{all}$ and determine its adjustable parameters and $\psi^{k}$ such that the
-maximum of
-$\left|arg\left[H^{k}_{all}\left(z\right)H^{k}_{min}\left(z\right)\right]-\psi^{k}\omega\right|$
-  is minimized in $\left[0,\omega_{p}\right]$. Let the poles of the all-pass
-  filter be  located at $z=z^{k}_{1},z^{k}_{2},\hdots,z^{k}_{N_{all}}$.
-
-
-\textbf{Step 5:} If $\left|z^{k}_{l}-z^{k-1}_{l}\right|\le\epsilon$ for
-  $l=1,2,\hdots,N_{all}$ ($\epsilon$ is a small positive number), then stop. In
-  this case, the  zeros of the minimum-phase filter being located inside the
-  unit  circle and the poles of the all-pass equalizer coincide, reducing the
-  overall order of
-  $H\left(z\right)=H^{k}_{all}\left(z\right)H^{k}_{min}\left(z\right)$
-  from $N_{min}+2N_{all}$ to $N_{min}+N_{all}$. This filter is the desired
-  initial filter with approximately linear-phase characteristics. Otherwise, go
-  to Step 3. 
-\caption{\emph{Surma-aho} and \emph{Saram\"{a}ki} method for finding an initial
-  IIR filter in \emph{gain-pole-zero} form~\cite[pp. 958-959]
-  {SurmaahoSaramaki_ApproximatelyLinearPhaseRecursiveDigitalFilters}} 
-\label{alg:Saramaki-initial-filter}
-\end{algorithm}
-
-\emph{Saram\"{a}ki}~\cite{Saramaki_DigitalFiltersSumAllPassFilters} and
-\emph{Vaidyanathan} and
-\emph{Mitra}~\cite{VaidyanathanMitra_LowPassbandSensitivityDigitalFilters}
-describe the conditions under which a filter transfer function can be
-implemented as the sum of two all-pass filters. \emph{Surma-aho} and
-\emph{Saram\"{a}ki} modify their algorithm to design a filter composed of two
-parallel allpass filters, 
-$H\left(z\right)=\frac{1}{2}\left[A\left(z\right)+B\left(z\right)\right]$,
-where the all-pass filter orders differ by $1$ and the numerator polynomial of
-$H\left(z\right)$ is a symmetric, even-length FIR filter. Step 3 of
-Algorithm~\ref{alg:Saramaki-initial-filter} is modified so that:
-\begin{quotation}
-the minimum-phase filter is now of order $N_{min}+2N_{all}$ and it possesses
-double zeros at $z=z^{k}_{1},z^{k}_{2},\hdots,z^{k}_{N_{all}}$. Consequently,
-Condition 2 of Step 1 should be satisfied with $N_{min}+2N_{all}+1$ extremal
-points. In the case of Step 5, the algorithm is terminated when the double zeros
-of the minimum-phase filter being located inside the unit circle and the poles
-of the all-pass phase equaliser coincide. This reduces the overall order of
-$H\left(z\right)=H^{k}_{all}\left(z\right)H^{k}_{min}\left(z\right)$ from
-$N_{min}+3N_{all}$ to $N_{min}+2N_{all}$. The third modification in the low-pass
-case is that $N_{min}$ should be an odd number.
-\end{quotation}
-
-\emph{Saram\"{a}ki}~\cite{Saramaki_OptimumRecursiveFilterZerosUnitCircle} and
-\emph{Surma-aho} and \emph{Saram\"{a}ki}~\cite[Appendix]
-{SurmaahoSaramaki_ApproximatelyLinearPhaseRecursiveDigitalFilters} describe an
-algorithm that implements Steps 1 and 3 of
-Algorithm~\ref{alg:Saramaki-initial-filter}.
-Appendix~\ref{app:Saramaki-design-IIR-filters-zeros-unit-circle} reviews
-\emph{Saram\"{a}ki}'s method for designing equi-ripple IIR
-filters~\cite{Saramaki_OptimumRecursiveFilterZerosUnitCircle}.
-
-
+for designing an initial low-pass filter implemented as either a single filter
+or as the parallel combination of two all-pass filters. Unfortunately, this
+method requires root-finding of intermediate polynomials. I find the
+method of \emph{Tarczynski et al.} to be more useful.
 
 \cleardoublepage{}
 \section{\label{sec:Examples-of-IIR-filter-design-SQP}Examples of IIR filter design with SQP and constrained pole and zero locations}
@@ -7873,7 +7773,7 @@ weights must be modified by trial-and-error.
 \subsection{Tarczynski et al. Example 2}
 Figure \ref{fig:tarczynski-ex2-standalone-response} shows the response of a
 filter designed with the ``WISE'' method of \emph{Tarczynski et al.} 
-\cite{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters}. The
+~\cite{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters}. The
 coefficients of the numerator and denominator polynomials of the filter are:
 \begin{small}
 \verbatiminput{tarczynski_ex2_standalone_test_N0_coef.m}
@@ -8022,7 +7922,7 @@ pole-zero plot shown in Figure~\ref{fig:Deczky-Example-3-MMSE-x2-pz}.
 The test script \emph{deczky3\_sqp\_test.m} now switches to PCLS optimisation of
 the MMSE filter. After some experimentation, the final specification becomes
 $fap=0.15$, $dBap=0.1dB$, $Wap=1$, $fas=0.30$, $dBas=30dB$, $Was=1$, $ftp=0.25$,
-$Wtp=2$, $tp=10$ samples group delay and $tpr=0.0035$ samples 
+$Wtp=3$, $tp=10$ samples group delay and $tpr=0.0035$ samples 
 of peak-to-peak group delay ripple. The resulting amplitude and delay responses 
 are shown in Figure~\ref{fig:Deczky-Example-3-PCLS-d1} with pass-band detail 
 shown in Figure~\ref{fig:Deczky-Example-3-PCLS-d1-passband}. The corresponding 
@@ -8323,7 +8223,7 @@ resulting filter.
 \begin{center}
 \scalebox{0.7}{\input{decimator_R2_alternate_test_pcls_d1dual}}
 \caption{Alternative low-pass decimator R=2 : PCLS optimised response with
-  Wap=1, Was=4, Wtp=1, dBap=0.3, dBas=50, tp=10, tpr=0.008}
+  Wap=1, Was=4, Wtp=1, dBap=0.35, dBas=50, tp=10, tpr=0.008}
 \label{fig:Alternate_decimator-R-2-PCLS-d1}
 \end{center}
 \end{figure}
@@ -8505,7 +8405,7 @@ calculated by the Octave functions \emph{iirA}, \emph{iirT} and \emph{iirP}
 are shown in Figure~\ref{fig:iir-sqp-slb-hilbert-initial-response}. The script
 defines a phase response ``don't-care''transition band of $f_{pt}=\pm 0.05$
 about $\omega=0$. Similarly, the group delay transition band is
-$f_{pt}=\pm 0.07$.  Note that the \emph{iirA} function can return a negative
+$f_{pt}=\pm 0.075$.  Note that the \emph{iirA} function can return a negative
 amplitude if, as in this case, the gain coefficient is negative. I do this so
 that $\frac{\partial A}{\partial K}$ is well-defined at $K=0$ (since the
 absolute value of $K$ is not differentiable at $0$). Consequently, the phase
@@ -8565,7 +8465,7 @@ and
 \begin{center}
 \scalebox{0.7}{\input{iir_sqp_slb_hilbert_test_pcls_d1phase}}
 \caption{Response of the Hilbert filter after PCLS optimisation with 
-$R=2$, $A_{r}=0.002$, $t_{dr}=0.4$ and $p_{r}=0.1\frac{\pi}{2}$}
+$R=2$, $A_{r}=0.002$, $t_{dr}=0.4$ and $p_{r}=0.16\frac{\pi}{2}$}
 \label{fig:iir-sqp-slb-hilbert-pcls-response}
 \end{center}
 \end{figure}
@@ -8573,7 +8473,7 @@ $R=2$, $A_{r}=0.002$, $t_{dr}=0.4$ and $p_{r}=0.1\frac{\pi}{2}$}
 \begin{center}
 \scalebox{0.7}{\input{iir_sqp_slb_hilbert_test_pcls_d1pz}}
 \caption{Pole-zero plot of the Hilbert filter after PCLS optimisation with 
-$R=2$, $A_{r}=0.002$, $t_{dr}=0.4$ and $p_{r}=0.1\frac{\pi}{2}$}
+$R=2$, $A_{r}=0.002$, $t_{dr}=0.4$ and $p_{r}=0.16\frac{\pi}{2}$}
 \label{fig:iir-sqp-slb-hilbert-pcls-pz}
 \end{center}
 \end{figure}
@@ -8632,7 +8532,7 @@ after PCLS optimisation of the MMSE optimised filter of
 Figure~\ref{fig:iir-sqp-slb-differentiator-mmse-response}.
 Figure~\ref{fig:iir-sqp-slb-differentiator-pcls-pz} shows the pole-zero plot
 for the PCLS filter. The peak-to-peak amplitude, group delay and phase ripple
-outside the transition bands are $A_{r}=\pm 0.002$, $t_{dr}=\pm 0.1$ samples and
+outside the transition bands are $A_{r}=\pm 0.0025$, $t_{dr}=\pm 0.1$ samples and
 $p_{r}=\pm 0.004\pi$ respectively.  The PCLS optimised filter coefficients are,
 in gain-pole-zero form:
 \begin{small}
@@ -14164,7 +14064,7 @@ Figure~\ref{fig:bitflip-direct-form-symmetric-bandpass-FIR-response-allocsd}.
   2-signed-digit coefficients allocated with Ito's algorithm and 8-bit
   2-signed-digit coefficients allocated with Ito's algorithm and optimised
   with the bit-flipping algorithm}
-\label{fig:bitflip-direct-form-symmetric-bandpass-FIR-response-allocsd}.
+\label{fig:bitflip-direct-form-symmetric-bandpass-FIR-response-allocsd}
 \end{center}
 \end{figure}
 
@@ -22377,7 +22277,7 @@ Figure~\ref{fig:minphase-cepstral-combined-response}.
 \caption{Combined amplitude responses of the FIR band-pass filter and the
 minimum-phase complementary filter found with \emph{Mian} and \emph{Nainer}'s 
 cepstral method}
-\label{fig:minphase-cepstral-combined-response}.
+\label{fig:minphase-cepstral-combined-response}
 \end{center}
 \end{figure}
 
@@ -22919,21 +22819,21 @@ corresponding filter.
 \begin{center}
 \scalebox{0.7}{\input{ellipMinQ_test_s_resp}}
 \caption{Amplitude response of the continuous-time $s$-plane filter}
-\label{fig:ellip-min-Q-s-resp}.
+\label{fig:ellip-min-Q-s-resp}
 \end{center}
 \end{figure}
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{ellipMinQ_test_z_resp}}
 \caption{Amplitude response of the discrete-time $z$-plane filter}
-\label{fig:ellip-min-Q-z-resp}.
+\label{fig:ellip-min-Q-z-resp}
 \end{center}
 \end{figure}
 \begin{figure}[!htbp]
 \begin{center}
 \scalebox{0.7}{\input{ellipMinQ_test_z_pz}}
 \caption{Pole-zero plot of the discrete-time $z$-plane filter}
-\label{fig:ellip-min-Q-z-pz}.
+\label{fig:ellip-min-Q-z-pz}
 \end{center}
 \end{figure}
 \begin{figure}[!htbp]
@@ -22941,10 +22841,10 @@ corresponding filter.
 \scalebox{0.7}{\input{ellipMinQ_test_z_resp_sd}}
 \caption{Amplitude response of the discrete-time $z$-plane filter with $8$-bit,
 $3$-signed-digit all-pass lattice coefficients}
-\label{fig:ellip-min-Q-z-resp-sd}.
+\label{fig:ellip-min-Q-z-resp-sd}
 \end{center}
 \end{figure}
-\section{\label{app:Saramaki-design-IIR-filters-zeros-unit-circle}Design of IIR filters with zeros on the unit circle}
+\section{\label{app:Saramaki-design-IIR-filters-zeros-unit-circle}\emph{Saram\"{a}ki}'s method for the design of IIR filters with zeros on the unit circle}
 Firstly, define the transfer function of an IIR filter:
 \begin{align*}
   H\left(z\right)&=Kz^{n-m}\frac{\prod^{m}_{k=1}\left(z-a_{k}\right)}
@@ -22970,16 +22870,14 @@ E\frac{\prod^{m}_{k=1}\left(z+\frac{1}{z}\right)\left(a_{k}-\frac{1}{a_{k}}\righ
 {\prod^{n}_{k=1}\left(z+\frac{1}{z}\right)\left(b_{k}-\frac{1}{b_{k}}\right)}
 \end{align*}
 
-\emph{Saram\"{a}ki}'s procedure maps $z+\frac{1}{z}$ to $w+\frac{1}{w}$ so that
+\emph{Saram\"{a}ki}'s procedure maps $z+\frac{1}{z}$ to $v+\frac{1}{v}$ so that
 for $n\ge{}m$ ($n<m$) the pass-band (stop-band) on the unit circle in the
-$z$-plane is mapped to the entire upper unit circle on the $w$-plane. An
-equi-ripple pass-band (stop-band) function is obtained in the $w$-plane. The
+$z$-plane is mapped to the entire upper unit circle on the $v$-plane. An
+equi-ripple pass-band (stop-band) response is obtained by construction. The
 remaining problem is, for $n\ge{}m$ ($n<m$), to find adjustable zeros (poles)
 so that the resulting $H\left(z\right)$ has $n-m$ zeros ($m-n$ poles) at the
 origin and the squared-magnitude function is equiripple in the stop-band
-(pass-band). In other words, for $n\ge{}m$, the pass-band response is found
-analytically and the stop-band response is found by numerical optimisation
-(and \emph{vice-versa} for $n<m$).
+(pass-band).
 
 The all-pass function
 \begin{align*}
@@ -23019,7 +22917,8 @@ where:
   D&=-\frac{2\left(\cos\omega_{1}+\cos\omega_{2}\right)}
      {\cos\omega_{1}-\cos\omega_{2}}
 \end{align*}
-\subsection{Optimisation with denominator order higher}
+
+\subsection{\label{app:Saramaki-optimisation-denominator-order-higher}Optimisation of a low-pass filter with denominator order higher}
 When $n\ge{}m$ set $\omega_{1}=0$ and $\omega_{2}=\omega_{p}$. The resulting
 transformation maps the pass-band $z=e^{\imath\omega}$,
 $0\le\omega\le\omega_{p}$, to the upper-unit circle $v=e^{\imath\Omega}$,
@@ -23030,7 +22929,7 @@ for $\zeta_{1}$ and $\zeta_{2}$ gives:
 \begin{align*}
   \zeta_{1}&=-\frac{1}{2}\left[-2C\cos\omega_{s}-D-
              \sqrt{\left(-2C\cos\omega_{s}-D\right)^{2}-4}\right] \\
-  \zeta_{2}&=-\frac{1}{2}\left[-2C-D-\sqrt{\left(-2C-D\right)^{2}-4}\right]
+  \zeta_{2}&=-\frac{1}{2}\left[2C-D-\sqrt{\left(2C-D\right)^{2}-4}\right]
 \end{align*}
 
 The transformed magnitude-squared function is constructed as\footnote{Here
@@ -23041,7 +22940,7 @@ The transformed magnitude-squared function is constructed as\footnote{Here
 \begin{align*}
   \hat{H}\left(v\right)
   \hat{H}\left(\frac{1}{v}\right)
-  &=\frac{1}{1+\frac{\delta_{1}}{1-\delta_{1}}\left[\frac{1}{2}+
+  &=\frac{1}{1+\frac{\Delta_{p}}{1-\Delta_{p}}\left[\frac{1}{2}+
     \left(-1\right)^{n}\frac{1}{4}
     \left[F\left(v\right)+\frac{1}{F\left(v\right)}\right]\right]}
 \end{align*}
@@ -23049,11 +22948,13 @@ where
 \begin{align*}
   F\left(v\right)&=\prod^{n}_{k=1}\left(\frac{1-\alpha_{k}v}{v-\alpha_{k}}\right)
 \end{align*}
-By design, $\hat{H}\left(v\right)\hat{H}\left(\frac{1}{v}\right)$ has $n+1$
-alternating extrema $1$ and $1-\delta_{1}$ in $v=e^{\imath\Omega}$,
-$0\le\Omega\le\pi$. We want to find $\alpha_{k}$ such that, in the $z$-plane,
+and $1-\Delta_{p}=\left(1-\delta_{p}\right)^{2}$,
+$\delta_{p}=1-10^{\frac{-dBap}{20}}$. By design,
+$\hat{H}\left(v\right)\hat{H}\left( \frac{1}{v}\right)$ has $n+1$ alternating
+extrema $1$ and $1-\Delta_{p}$ in $v=e^{\imath\Omega}$, $0\le\Omega\le\pi$. We
+want to find $\alpha_{k}$ such that, in the $z$-plane,
 $H\left(z\right)H\left(\frac{1}{z}\right)$ has $m+1$ alternating extrema,
-$\delta_{2}$ and 0, on $z=e^{\imath\omega}$, $\omega_{s}\le\omega\le\pi$, and
+$\Delta_{s}$ and 0, on $z=e^{\imath\omega}$, $\omega_{s}\le\omega\le\pi$, and
 $H\left(z\right)$ has $n-m$ zeros at the origin. The $z$-to-$v$-plane
 transformation maps $z=0$ to $v=0$ so set $\alpha_{k}=0$ for
 $k=m+1,\hdots,n$. In addition, since $H\left(z\right)H\left(\frac{1}{z}\right)$
@@ -23065,11 +22966,11 @@ $z=-1$ which is transformed to $v=\zeta_{2}$. Thus, the $F\left(v\right)$ for
 the optimal $H\left(z\right)H\left(\frac{1}{z}\right)$ is:  
 \begin{align*}
   F\left(\boldsymbol{\alpha},v\right)&=v^{-\left(n-m\right)}
-                     \left(\frac{1-\zeta_{2}v}{v-\zeta_{2}}\right)^{l}
+                     \left(\frac{1-\zeta_{2}v}{v-\zeta_{2}}\right)^{q}
                      \prod^{\floor{\frac{m}{2}}}_{k=1}
                      \left(\frac{1-\alpha_{k}v}{v-\alpha_{k}}\right)^{2}
 \end{align*}
-where $l=0$ for $m$ even and $l=1$ for $m$ odd, $\zeta_{1}<\alpha_{k}<\zeta_{2}$
+where $q=0$ for $m$ even and $q=1$ for $m$ odd, $\zeta_{1}<\alpha_{k}<\zeta_{2}$
 and
 $\boldsymbol{\alpha}=\left[\alpha_{1},\hdots,\alpha_{\floor{\frac{m}{2}}}\right]$.
 The gradient of
@@ -23091,8 +22992,8 @@ scalar, $\Lambda$, such that at the $\floor{\frac{m}{2}}+1$ minima, $v_{l}$:
 non-linear equations. At each iteration, after linearising:
 \begin{align*}
   \log\left[\left(-1\right)^{n}F\left(\boldsymbol{\alpha},v_{l}\right)\right]
-  +\frac{\nabla_{\boldsymbol{\alpha}}F\left(\boldsymbol{\alpha},v_{l}\right)
-  \Delta\boldsymbol{\alpha}}{F\left(\boldsymbol{\alpha},v_{l}\right)}
+  +\frac{\nabla_{\boldsymbol{\alpha}}F\left(\boldsymbol{\alpha},v_{l}\right)}
+  {F\left(\boldsymbol{\alpha},v_{l}\right)}\Delta\boldsymbol{\alpha}
   &=\Lambda+\Delta\Lambda 
 \end{align*}
 The initial $\boldsymbol{\alpha}$ are evenly spaced in
@@ -23106,20 +23007,27 @@ The poles, $b_{k}$, of $H\left(z\right)$ are found by transforming the $n$ poles
 $\beta_{k}$, of $\hat{H}\left(v\right)\hat{H}\left(\frac{1}{v}\right)$ that are
 the solutions of:
 \begin{align*}
-  F\left(\boldsymbol{\alpha},v\right)
-  &=-\left(-1\right)^{n}\left[\frac{2-\delta_{1}}{\delta_{1}}
-    +\sqrt{\left(\frac{2-\delta_{1}}{\delta_{1}}\right)^{2}-1}\right]
+  1+\frac{\Delta_{p}}{1-\Delta_{p}}\left[\frac{1}{2}+
+  \left(-1\right)^{n}\frac{1}{4}
+  \left[F\left(\boldsymbol{\alpha},v\right)+
+  \frac{1}{F\left(\boldsymbol{\alpha},v\right)}\right]\right]&=0
 \end{align*}
-If the stop-band ripple, $\delta_{2}$, is specified instead of the pass-band
-ripple, then the corresponding pass-band ripple, $\delta_{1}$, is found from the
+Re-arranging gives:
+\begin{align*}
+  F\left(\boldsymbol{\alpha},v\right)
+  &=-\left(-1\right)^{n}\left[\frac{2-\Delta_{p}}{\Delta_{p}}
+    +\sqrt{\left(\frac{2-\Delta_{p}}{\Delta_{p}}\right)^{2}-1}\right]
+\end{align*}
+If the stop-band ripple, $\Delta_{s}$, is specified instead of the pass-band
+ripple, then the corresponding pass-band ripple, $\Delta_{p}$, is found from the
 stop-band equi-ripple maximum, 
 $\lambda=\left(-1\right)^{n}F\left(\boldsymbol{\alpha},v_{l}\right)$:
 \begin{align*}
-\delta_{1}&=\frac{1}{1+\frac{\delta_{2}}{1-\delta_{2}}\left[\frac{1}{2}+
+\Delta_{p}&=\frac{1}{1+\frac{\Delta_{s}}{1-\Delta_{s}}\left[\frac{1}{2}+
             \frac{1}{4}\left[\lambda+\frac{1}{\lambda}\right]\right]}
 \end{align*}
 The scaling constant, $K$, is found from the condition
-$\left|H\left(e^{\imath\omega_{p}}\right)\right|^{2}=1-\delta_{1}$. 
+$\left|H\left(e^{\imath\omega_{p}}\right)\right|^{2}=1-\Delta_{p}$. 
 
 The Octave function \emph{saramakiFAvLogNewton} implements
 \emph{Saram\"{a}ki}'s procedure for $n\ge{}m$.
@@ -23128,18 +23036,32 @@ pass-band edge frequency, $fp=0.1$, stop-band edge frequency, $fs=0.125$,
 stop-band ripple, $dBas=75$, denominator order, $n=11$, and numerator order,
 $m=6$. The resulting pass-band peak-to-peak ripple is $0.001713dB$.
 Figure~\ref{fig:saramaki-FAv-LogNewton-resp} shows the amplitude response of the
-filter.
+filter. Figure~\ref{fig:saramaki-FAv-LogNewton-pz} shows the pole-zero plot of
+the filter. The numerator and denominator polynomials are, respectively:
+\begin{small}
+\verbatiminput{saramakiFAvLogNewton_test_n_coef.m}
+\verbatiminput{saramakiFAvLogNewton_test_d_coef.m}
+\end{small}
 
 \begin{figure}[!htp]
 \begin{center}
 \scalebox{0.7}{\input{saramakiFAvLogNewton_test_resp}}
 \caption{Amplitude response of an IIR filter with $n=11$ and $m=6$, designed
 with the procedure of Saram\"{a}ki}
-\label{fig:saramaki-FAv-LogNewton-resp}.
+\label{fig:saramaki-FAv-LogNewton-resp}
 \end{center}
 \end{figure}
 
-\subsection{Optimisation with denominator order lower}
+\begin{figure}[!htp]
+\begin{center}
+\scalebox{0.7}{\input{saramakiFAvLogNewton_test_pz}}
+\caption{Pole-zero plot of an IIR filter with $n=11$ and $m=6$, designed
+with the procedure of Saram\"{a}ki}
+\label{fig:saramaki-FAv-LogNewton-pz}
+\end{center}
+\end{figure}
+
+\subsection{Optimisation of a low-pass filter with denominator order lower}
 When $n<m$ set $\omega_{1}=\omega_{s}$ and $\omega_{2}=\pi$. The resulting
 transformation maps the stop-band $z=e^{\imath\omega}$,
 $\omega_{s}\le\omega\le\pi$, to the upper-unit circle $v=e^{\imath\Omega}$,
@@ -23155,87 +23077,347 @@ for $\zeta_{1}$ and $\zeta_{2}$ gives:
 
 The transformed magnitude-squared function,
 $\hat{H}\left(v\right)\hat{H}\left(\frac{1}{v}\right)$, having $m+1$ alternating
-extrema $\delta_{2}$ and $0$ on $v=e^{\imath\Omega}$, $0\le\Omega\le\pi$, is
-constructed as: 
+extrema $\Delta_{s}$ and $0$ on $v=e^{\imath\Omega}$, $0\le\Omega\le\pi$ is
+constructed as:
 \begin{align*}
   \hat{H}\left(v\right)\hat{H}\left(\frac{1}{v}\right)
-  &=\delta_{2}\left[\frac{1}{2}+\frac{1}{4}
-    \left[F\left(v\right)+\frac{1}{F\left(v\right)}\right]\right]
+  &=\Delta_{s}\left[\frac{1}{2}+\frac{1}{4}
+    \left(F\left(v\right)+\frac{1}{F\left(v\right)}\right)\right]
 \end{align*}
 where:
 \begin{align*}
-  F\left(v\right)&=\prod^{m}_{k=1}\frac{1-\beta_{k}v}{v-\beta_{k}}
+  F\left(v\right)
+  &=\prod^{m}_{k=1}\frac{1-\beta_{k}v}{v-\beta_{k}}
 \end{align*}
-$\left|\beta_{k}\right|<1$ for $k=1,\hdots,m$, and $\beta_{k}=0$ for
-$k=m+1,\hdots,n$. Write $F\left(v\right)$ in terms of the conjugate poles as:
+is an all-pass function with $\left|\beta_{k}\right|<1$ for $k=1,\hdots,m$, and
+$\beta_{k}=0$ for $k=m+1,\hdots,n$. The poles of $F\left(v\right)$ are poles of
+$\hat{H}\left(v\right)$ and the zeros of $F\left(v\right)+1$ are the zeros of
+$\hat{H}\left(v\right)$.
+
+Rewrite $F\left(v\right)$ as: 
 \begin{align*}
   F\left(\boldsymbol{\beta},v\right)
-  &=v^{-\left(m-n\right)}\left(\frac{1-fv}{v-f}\right)^{l}
-    \prod^{\floor{\frac{m}{2}}}_{k=1}\frac{1+s_{k}v+r_{k}v^{2}}{v^{2}+s_{k}v+r_{k}}
+  &=v^{-\left(m-n\right)}\left(\frac{1-Rv}{v-R}\right)^{q}
+    \prod^{\floor{\frac{n}{2}}}_{k=1}\frac{1+s_{k}v+r_{k}v^{2}}{v^{2}+s_{k}v+r_{k}}
 \end{align*}
-where $l=0$ for $n$ even and $l=1$ for $n$ odd. For $n$ odd, $f$ is a pole lying
-on the real axis in $\left[-1,\zeta_{1}\right]$. For $n$ odd the parameter
-vector is
-$\boldsymbol{\beta}=\left[s_{1},r_{1},\hdots,s_{\floor{\frac{m}{2}}},r_{\floor{\frac{m}{2}}},f\right]$. By construction, $F\left(\boldsymbol{\beta},v\right)>{}0$.
+where $q=0$ for $n$ even and $q=1$ for $n$ odd. For $n$ odd, the parameter
+vector is 
+$\boldsymbol{\beta}=\left[s_{1},r_{1},\hdots,s_{\floor{\frac{n}{2}}},r_{\floor{\frac{n}{2}}},R\right]$
+where $R$ is a real pole lying on the real axis in
+$\left[-1,\zeta_{1}\right]$. By construction,
+$F\left(\boldsymbol{\beta},v\right)>{}0$ in the pass-band. 
 
-If $\delta_{1}$ is specified then the optimisation problem is to find the
-second order section coefficients, $s_{k}$ and $r_{k}$, and the first
-order coefficient, $f$, such that
-$\hat{H}\left(v\right)\hat{H}\left(\frac{1}{v}\right)$ has $n+1$ alternating
-extrema $1$ and $1-\delta_{1}$ on $\left(\zeta_{1},\zeta_{2}\right)$. It is
-reasonable to assume that $1\gg{}\delta_{2}$ so that
-$F\left(v\right)\gg{}1\gg{}F\left(\frac{1}{v}\right)$ on
-$\left(\zeta_{1},\zeta_{2}\right)$ and: 
+The gradients of $F\left(\boldsymbol{\beta},v\right)$ with respect to the
+coefficients, $\boldsymbol{\beta}$, are:  
+\begin{comment}
+The numerators of the gradients in rk and thetak were found with the following
+maxima code:
+  A(s,r):=1+(s*v)+(r*(v^2));
+  B(s,r):=(v^2)+(s*v)+r;
+  dds(s,r):=factor((diff(A(s,r),s)*B(s,r)) - (diff(B(s,r),s)*A(s,r)));
+  dds(s,r);
+  ddr(s,r):=factor((diff(A(s,r),r)*B(s,r)) - (diff(B(s,r),r)*A(s,r)));
+  ddr(s,r);
+  ddR(R):=factor(diff((1-(R*v))/(v-R),R));
+  ddR(R);
+\end{comment}
 \begin{align*}
-  \hat{H}\left(v\right)\hat{H}\left(\frac{1}{v}\right)
-  &\approx\frac{\delta_{2}}{4}F\left(\boldsymbol{\beta},v\right)
-\end{align*}
-We want to solve the non-linear system of
-equations:
-\begin{align*}
-  F\left(\boldsymbol{\beta},v_{l}\right)
-  &=\frac{4}{\delta_{2}}\left(1-\frac{\delta_{1}}{2}\pm\frac{\delta_{1}}{2}\right)
-\end{align*}
-where the $n+1$ $v_{l}$ are the frequencies of the extrema in
-$\left(\zeta_{1},\zeta_{2}\right)$. These equations can be solved with the
-Remez-exchange and linearised Newton-Raphson approach. At each iteration, after
-linearising: 
-\begin{align*}
-  \log{}F\left(\boldsymbol{\beta},v_{l}\right) +
-  \frac{\nabla_{\boldsymbol{\beta}}F\left(\boldsymbol{\beta},v_{l}\right)
-  \Delta\boldsymbol{\beta}}{F\left(\boldsymbol{\beta},v_{l}\right)}
-  &=\Lambda+\Delta\Lambda 
-\end{align*}
-where:
-\begin{align*}
-  \frac{\partial{}F\left(\boldsymbol{\beta},v\right)}{\partial{}f}
-  &= \frac{1-v^2}{\left(v-f\right)\left(1-fv\right)}
+  \frac{\partial{}F\left(\boldsymbol{\beta},v\right)}{\partial{}s_{k}}
+  &=\frac{\left(1-r_{k}\right)v\left(v^{2}-1\right)}
+    {\left(1+s_{k}v+r_{k}v^{2}\right)\left(v^{2}+s_{k}v+r_{k}\right)}
     F\left(\boldsymbol{\beta},v\right)\\
-  \frac{\partial{}F\left(\boldsymbol{\beta},v\right)}{\partial{}r_{k}}
-  &= \frac{\left(v^{2}-1\right)\left(v^{2}+s_{k}v+1\right)}
-    {\left(v^{2}+s_{k}v+r_{k}\right)\left(1+s_{k}v+r_{k}v^{2}\right)}
-      F\left(\boldsymbol{\beta},v\right)\\
-  \frac{\partial{}F\left(\boldsymbol{\beta},v\right)}{\partial{}s_{k}} 
-  &= \frac{v\left(v^{2}-1\right)\left(1-r_{k}\right)}
-    {\left(v^{2}+s_{k}v+r_{k}\right)\left(1+s_{k}v+r_{k}v^{2}\right)}
+  \frac{\partial{}F\left(\boldsymbol{\beta},v\right)}{\partial{}r_{k}} 
+  &=\frac{\left(v^{2}-1\right)\left(v^{2}+s_{k}v+1\right)}
+    {\left(1+s_{k}v+r_{k}v^{2}\right)\left(v^{2}+s_{k}v+r_{k}\right)}
+  F\left(\boldsymbol{\beta},v\right)\\
+  \frac{\partial{}F\left(\boldsymbol{\beta},v\right)}{\partial{}R}
+  &= \frac{1-v^2}{\left(v-R\right)\left(1-Rv\right)}
     F\left(\boldsymbol{\beta},v\right)
 \end{align*}
 
+If $\Delta_{p}$ is specified, then the optimisation problem is to find the stop
+band attenuation, $\Delta_{s}$, and $F\left(\boldsymbol{\beta},v\right)$ such
+that $\hat{H}\left(v\right)\hat{H}\left(\frac{1}{v}\right)$ has $n+1$
+alternating extrema $1$ and $1-\Delta_{p}$ on
+$\left(\zeta_{1},\zeta_{2}\right)$. \emph{Saram\"{a}ki} points out that, if
+$\Delta_{s}\ll{}1$, then, in the pass-band:
+\begin{align*}
+  \hat{H}\left(v\right)\hat{H}\left(\frac{1}{v}\right)&\approx
+               \frac{\Delta_{s}}{4}F\left(\boldsymbol{\beta},v\right)
+\end{align*}
+If $\gamma=\frac{4}{\Delta_{s}}$, then, in the pass-band, the Newton-Raphson
+update, $\left[\Delta\boldsymbol{\beta},\Delta\gamma\right]$, is the
+solution of: 
+\begin{align*}
+  F\left(\boldsymbol{\beta},v\right)+
+  \nabla_{\boldsymbol{\beta}}F\left(\boldsymbol{\beta},v\right)
+  \Delta\boldsymbol{\beta}
+  &=\left(\gamma+\Delta\gamma\right)
+    \left(1-\frac{\Delta_{p}}{2}\pm\frac{\Delta_{p}}{2}\right)
+\end{align*}
+
 \emph{Saram\"{a}ki} suggests that the initial values of $\boldsymbol{\beta}$ and
-$\delta_{2}$ be found by transforming the $n+1$ frequencies of the pass-band
-extremal points of an order $n$ Chebychev Type 1 filter to the $v$-plane and
-solving the $n+1$ non-linear polynomial equations in $\delta_{2}$ and
-$e_{0},\hdots,e_{n-1}$, with $e_{n}=1$:
+$\Delta_{s}$ be found by transforming the $n+1$ frequencies of the pass-band
+extremal points of an order $n$ Chebychev Type 1 filter from the $z$-plane to
+the $v$-plane and then solving the corresponding $n+1$ non-linear polynomial
+equations for $\hat{H}\left(v\right)\hat{H}\left(\frac{1}{v}\right)$ in the
+unknowns $e_{0},\hdots,e_{n-1}$ and $\Delta_{s}$, with $e_{n}=1$: 
 \begin{align*}
-v_{l}^{n-m}\frac{\sum^{n}_{k=0}e_{n-k}v_{l}^{k}}{\sum^{n}_{k=0}e_{k}v_{l}^{k}}
-&=\frac{4}{\delta_{2}}\left(1-\frac{\delta_{1}}{2}\pm\frac{\delta_{1}}{2}\right)
+  F\left(v\right)&=v^{-\left(m-n\right)}\frac{\sum^{n}_{k=0}e_{n-k}v^{k}}
+                   {\sum^{n}_{k=0}e_{k}v^{k}}
 \end{align*}
-or:
+
+The Octave function \emph{saramakiFBvNewton} implements
+\emph{Saram\"{a}ki}'s procedure for $n<m$. The function initialises
+$F\left(\boldsymbol{\beta},v\right)$ and $\Delta_{s}$ with a polynomial fitted to
+the $n+1$ frequencies of the pass-band extremal points. This method is simple
+but not robust. The Octave script \emph{saramakiFBvNewton\_test.m} designs an
+IIR filter with pass-band edge frequency, $fp=0.2$, stop-band edge frequency,
+$fs=0.35$, pass-band ripple, $dBap=0.1$, denominator order, $n=6$, and numerator
+order, $m=9$. The resulting stop-band suppression is $127.29dB$.
+Figure~\ref{fig:saramaki-FBv-Newton-resp} shows the amplitude response of the
+filter. Figure~\ref{fig:saramaki-FBv-Newton-pz} shows the pole-zero plot of the
+filter. The numerator and denominator polynomials are, respectively:
+\begin{small}
+\verbatiminput{saramakiFBvNewton_test_n_coef.m}
+\verbatiminput{saramakiFBvNewton_test_d_coef.m}
+\end{small}
+
+\begin{figure}[!htp]
+\begin{center}
+\scalebox{0.7}{\input{saramakiFBvNewton_test_resp}}
+\caption{Amplitude response of an IIR filter with $n=6$ and $m=9$, designed
+with the procedure of Saram\"{a}ki}
+\label{fig:saramaki-FBv-Newton-resp}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htp]
+\begin{center}
+\scalebox{0.7}{\input{saramakiFBvNewton_test_pz}}
+\caption{Pole-zero of an IIR filter with $n=6$ and $m=9$, designed
+with the procedure of Saram\"{a}ki}
+\label{fig:saramaki-FBv-Newton-pz}
+\end{center}
+\end{figure}
+
+\subsection{\label{Saram\"{a}ki-unconstrained-minimisation-initial-IIR}Surma-aho and Saram\"{a}ki method of unconstrained optimisation of an initial IIR filter}
+The method of \emph{Tarczynski et al.} finds the polynomial transfer function of
+an initial filter. \emph{Surma-aho} and
+\emph{Saram\"{a}ki}~\cite{SurmaahoSaramaki_ApproximatelyLinearPhaseRecursiveDigitalFilters}
+describe an algorithm for finding an initial filter with approximately flat
+group delay in terms of the \emph{gain-pole-zero} description\footnote{Although,
+  unfortunately, the algorithm requires root-finding of intermediate
+  polynomials.} of the cascade-form transfer function, reproduced here as
+Algorithm~\ref{alg:Saramaki-initial-filter}. The cascade form filter is
+decomposed into a minimum-phase filter and an all-pass equaliser.
+\begin{algorithm}[!htb]
+\textbf{Step 1:} Determine the minimum order of an elliptic filter to meet the
+given amplitude criteria. Denote the minimum order by $n_{min}$ and set
+${k=1}$. Then, design an elliptic filter transfer function 
+$H^{k}_{min}\left(z\right)$ such that it satisfies:\\
+\emph{Condition 1}: $\left|H^{k}_{min}\left(e^{\imath\omega}\right)\right|$
+oscillates in the stopband $\left[\omega_{s},\pi\right]$ between $\delta_{s}$
+and $0$ achieving these values at $n_{min}+1$ points such that the value at
+$\omega=\omega_{s}$ is $\delta_{s}$. Here, $\delta_{s}$ is the specified
+stopband ripple.\\
+\emph{Condition 2:} $\left|H^{k}_{min}\left(e^{\imath\omega}\right)\right|$ 
+oscillates in the interval $\left[0, \Omega^{k}_{p}\right]
+\left(\Omega^{k}_{p}\ge\omega_{p}\right)$ between $1$ and $1-\delta^{k}_{p}$
+achieving these values at $n_{min}+1$ points such that the value at
+$\omega=\Omega^{k}_{p}$ is $1-\delta^{k}_{p}$. For Candidate I,
+$\delta^{k}_{p}=\delta_{p}$,
+with $\delta_{p}$ being the specified passband ripple, whereas the passband
+region $\left[0,\Omega^{k}_{p} \right]$ is the widest possible to still meet the
+given stopband requirements. For Candidate II, $\Omega^{k}_{p}=\omega_{p}$ with
+$\omega_{p}$ being the specified passband edge, whereas $\delta^{k}_{p}$ is the
+smallest passband ripple to still meet the given stopband criteria.
+
+
+\textbf{Step 2}: Cascade $H^{k}_{min}\left(e^{\imath\omega}\right)$ with a
+stable all-pass equalizer with a transfer function
+$H^{k}_{all}\left(e^{\imath\omega}\right)$ of order $n_{all}$. Determine the
+adjustable  parameters of $H^{k}_{all}\left(z\right)$ and $\psi^{k}$ such that
+the maximum deviation of
+$arg\left[H^{k}_{all}\left(z\right)H^{k}_{min}\left(z\right)\right]$ from the
+average slope $\phi_{ave}\left(\omega\right)=\psi^{k}\omega$ is
+minimized in the specified passband region, $\left[0,\omega_{p}\right]$. Let the
+poles of the all-pass filter be located at
+$z=z^{k}_{1},z^{k}_{2},\hdots,z^{k}_{n_{all}}$.
+
+
+\textbf{Step 3:} Set $k=k+1$. Then, design a minimum-phase filter transfer
+function $H^{k}_{min}\left(z\right)$ of order $n_{min}+n_{all}$ such that it has
+$n_{all}$ fixed zeros at $z=z^{k-1}_{1},z^{k-1}_{2},\hdots,z^{k-1}_{n_{all}}$
+and it satisfies Condition 1 of Step 1 with the same number of extremal points,
+that is, $n_{min}+1$, and Condition 2 of Step 1 with $n_{min}+n_{all}+1$
+extremal points, instead of $n_{min}+1$ points.
+
+\textbf{Step 4:} Like in Step 2, cascade  $H^{k}_{min}\left(z\right)$ with a
+stable all-pass filter transfer function $H^{k}_{all}\left(z\right)$ of order
+$n_{all}$ and determine its adjustable parameters and $\psi^{k}$ such that the
+maximum of
+$\left|arg\left[H^{k}_{all}\left(z\right)H^{k}_{min}\left(z\right)\right]-\psi^{k}\omega\right|$
+  is minimized in $\left[0,\omega_{p}\right]$. Let the poles of the all-pass
+  filter be  located at $z=z^{k}_{1},z^{k}_{2},\hdots,z^{k}_{n_{all}}$.
+
+
+\textbf{Step 5:} If $\left|z^{k}_{l}-z^{k-1}_{l}\right|\le\epsilon$ for
+  $l=1,2,\hdots,n_{all}$ ($\epsilon$ is a small positive number), then stop. In
+  this case, the  zeros of the minimum-phase filter being located inside the
+  unit  circle and the poles of the all-pass equalizer coincide, reducing the
+  overall order of
+  $H\left(z\right)=H^{k}_{all}\left(z\right)H^{k}_{min}\left(z\right)$
+  from $n_{min}+2n_{all}$ to $n_{min}+n_{all}$. This filter is the desired
+  initial filter with approximately linear-phase characteristics. Otherwise, go
+  to Step 3. 
+\caption{\emph{Surma-aho} and \emph{Saram\"{a}ki} method for finding an initial
+  IIR filter in \emph{gain-pole-zero} form~\cite[pp. 958-959]
+  {SurmaahoSaramaki_ApproximatelyLinearPhaseRecursiveDigitalFilters}} 
+\label{alg:Saramaki-initial-filter}
+\end{algorithm}
+
+\emph{Saram\"{a}ki}~\cite{Saramaki_DigitalFiltersSumAllPassFilters} and
+\emph{Vaidyanathan} and
+\emph{Mitra}~\cite{VaidyanathanMitra_LowPassbandSensitivityDigitalFilters}
+describe the conditions under which a filter transfer function can be
+implemented as the sum of two all-pass filters. \emph{Surma-aho} and
+\emph{Saram\"{a}ki} modify their algorithm to design a filter composed of two
+parallel allpass filters, 
+$H\left(z\right)=\frac{1}{2}\left[A\left(z\right)+B\left(z\right)\right]$,
+where the all-pass filter orders differ by $1$ and the numerator polynomial of
+$H\left(z\right)$ is a symmetric, even-length FIR filter. Step 3 of
+Algorithm~\ref{alg:Saramaki-initial-filter} is modified so that:
+\begin{quotation}
+the minimum-phase filter is now of order $n_{min}+2n_{all}$ and it possesses
+double zeros at $z=z^{k}_{1},z^{k}_{2},\hdots,z^{k}_{n_{all}}$. Consequently,
+Condition 2 of Step 1 should be satisfied with $n_{min}+2n_{all}+1$ extremal
+points. In the case of Step 5, the algorithm is terminated when the double zeros
+of the minimum-phase filter being located inside the unit circle and the poles
+of the all-pass phase equaliser coincide. This reduces the overall order of
+$H\left(z\right)=H^{k}_{all}\left(z\right)H^{k}_{min}\left(z\right)$ from
+$n_{min}+3n_{all}$ to $n_{min}+2n_{all}$. The third modification in the low-pass
+case is that $n_{min}$ should be an odd number.
+\end{quotation}
+
+\emph{Surma-aho} and \emph{Saram\"{a}ki}~\cite[Appendix]
+{SurmaahoSaramaki_ApproximatelyLinearPhaseRecursiveDigitalFilters} describe an
+implementation of Steps 1 and 3 of
+Algorithm~\ref{alg:Saramaki-initial-filter} that is similar to that described
+above in Section~\ref{app:Saramaki-optimisation-denominator-order-higher}, based
+on \emph{Saram\"{a}ki}~\cite{Saramaki_OptimumRecursiveFilterZerosUnitCircle}.
+
+Algorithm~\ref{alg:Saramaki-initial-filter} is intialised with a minimum-phase
+filter of order $n_{min}$ cascaded with an all-pass phase equaliser of order
+$n_{all}$. The squared-magnitude function is constructed with: 
 \begin{align*}
-  \sum^{n}_{k=0}\delta_{2}e_{k}v_{l}^{n-k}
-  -4\left(1-\frac{\delta_{1}}{2}\pm\frac{\delta_{1}}{2}\right)
-    v_{l}^{m}\sum^{n}_{k=0}e_{k}v_{l}^{k-n}&=0
+  F\left(\boldsymbol{\alpha},v\right)
+  &= \left(\frac{1-\xi_{2}v}{v-\xi_{2}}\right)^{q}\times
+    \prod^{\floor{\frac{n_{min}}{2}}}_{k=1}\left(\frac{1-R_{k}v}
+    {v-R_{k}}\right)^{2}\times
+    \prod^{n_{all}}_{k=1}\left(\frac{1-v\Gamma_{k}}{v-\Gamma_{k}}\right)^{p}
 \end{align*}
+where $n=m=n_{min}+p\times{}n_{all}$, $q=0$ if $n_{min}$ is even, $q=1$ if
+$n_{min}$ is odd, $p=2$ if the filter is to be realised as the parallel sum of
+two all-pass filters and $p=1$ otherwise. The $v$-plane poles, $\Gamma_{k}$, are
+fixed and correspond to the $z$-plane poles of the all-pass filter. As above,
+optimising the stop-band peaks results in a new minimum-phase filter with order
+$n_{min}+p\times{}n_{all}$. This filter is then equalised with a new all-pass
+filter of order $n_{all}$. The procedure is repeated until the poles of the
+all-pass filter are cancelled by corresponding zeros of the minimum-phase
+filter. The resulting filter has order $n_{min}+p\times{}n_{all }$ and
+approximately linear phase in the pass-band. 
+\subsubsection{Low-pass filter example of the Surma-aho and Saram\"{a}ki method}
+The Octave script \emph{surmaaho\_lowpass\_test.m} designs a low-pass filter
+with approximately flat pass-band delay. The filter specification is:
+\begin{small}
+\verbatiminput{surmaaho_lowpass_test.spec}
+\end{small}
+The gain-zero-pole coefficients are:
+\begin{small}
+\verbatiminput{surmaaho_lowpass_test_x_coef.m}
+\end{small}
+Figure~\ref{fig:surmaaho-lowpass-resp} shows the response of the
+filter. Figure~\ref{fig:surmaaho-lowpass-pz} shows the pole-zero plot of the
+filter. 
+
+\begin{figure}[!htp]
+\begin{center}
+\scalebox{0.7}{\input{surmaaho_lowpass_test_resp}}
+\caption{Response of a low-pass IIR filter with $nmin=7$ and $nall=4$, designed
+with the procedure of Surma-aho and Saram\"{a}ki}
+\label{fig:surmaaho-lowpass-resp}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htp]
+\begin{center}
+\scalebox{0.7}{\input{surmaaho_lowpass_test_pz}}
+\caption{Pole-zero plot of a low-pass IIR filter with $nmin=7$ and $nall=4$,
+  designed with the procedure of Surma-aho and Saram\"{a}ki}
+\label{fig:surmaaho-lowpass-pz}
+\end{center}
+\end{figure}
+
+\subsubsection{Parallel all-pass low-pass filter example of the Surma-aho and Saram\"{a}ki method}
+The Octave script \emph{surmaaho\_parallel\_allpass\_lowpass\_test.m} designs
+a low-pass filter with approximately flat pass-band delay, implemented as the
+sum of two all-pass filters. The filter specification is:
+\begin{small}
+\verbatiminput{surmaaho_parallel_allpass_lowpass_test.spec}
+\end{small}
+The combined gain-zero-pole coefficients are:
+\begin{small}
+\verbatiminput{surmaaho_parallel_allpass_lowpass_test_x_coef.m}
+\end{small}
+The all-pass filter pole coefficients are:
+\begin{small}
+\verbatiminput{surmaaho_parallel_allpass_lowpass_test_a1_coef.m}
+\verbatiminput{surmaaho_parallel_allpass_lowpass_test_a2_coef.m}
+\end{small}
+Figure~\ref{fig:surmaaho-parallel-allpass-lowpass-resp} shows the response of
+the filter. There are $nmin+2\times{}nall+1=16$ pass-band
+extrema. Figure~\ref{fig:surmaaho-parallel-allpass-lowpass-pz} shows the 
+pole-zero plot of the filter.
+Figures~\ref{fig:surmaaho-parallel-allpass-lowpass-A1-pz}
+and~\ref{fig:surmaaho-parallel-allpass-lowpass-A2-pz} show the pole-zero
+plots of the all-pass filters.
+
+\begin{figure}[!htp]
+\begin{center}
+\scalebox{0.7}{\input{surmaaho_parallel_allpass_lowpass_test_A12_resp}}
+\caption{Response of a parallel all-pass low-pass IIR filter with $nmin=7$ and
+  $nall=4$, designed with the procedure of Surma-aho and Saram\"{a}ki}
+\label{fig:surmaaho-parallel-allpass-lowpass-resp}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htp]
+\begin{center}
+\scalebox{0.7}{\input{surmaaho_parallel_allpass_lowpass_test_pz}}
+\caption{Pole-zero plot of a parallel all-pass low-pass IIR filter with $nmin=7$
+  and $nall=4$, designed with the procedure of Surma-aho and Saram\"{a}ki}
+\label{fig:surmaaho-parallel-allpass-lowpass-pz}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htp]
+\begin{center}
+\scalebox{0.7}{\input{surmaaho_parallel_allpass_lowpass_test_A1_pz}}
+\caption{Pole-zero plot of the A1 all-pass low-pass IIR filter designed with the
+  procedure of Surma-aho and Saram\"{a}ki} 
+\label{fig:surmaaho-parallel-allpass-lowpass-A1-pz}
+\end{center}
+\end{figure}
+
+\begin{figure}[!htp]
+\begin{center}
+\scalebox{0.7}{\input{surmaaho_parallel_allpass_lowpass_test_A2_pz}}
+\caption{Pole-zero plot of the A2 all-pass low-pass IIR filter designed with the
+  procedure of Surma-aho and Saram\"{a}ki} 
+\label{fig:surmaaho-parallel-allpass-lowpass-A2-pz}
+\end{center}
+\end{figure}
 
 \cleardoublepage
 \chapter{\label{app:Fourier-transform-of-the-Gaussian-function}Fourier transform of the Gaussian function}  
@@ -23332,13 +23514,15 @@ where:
 \addcontentsline{toc}{part}{Colophon}
 \pdfbookmark[0]{Requirements}{requirements}
 \section*{Software requirements}
-I use the Fedora 28 distribution of Linux with:
+I currently use the Fedora 29 distribution of Linux with:
 \begin{itemize}
-\item \emph{octave-4.4.1} with the \emph{struct}, \emph{control}, 
-  \emph{signal}, \emph{optim} and \emph{parallel} Octave-Forge packages
+\item \emph{gcc version 8.2.1 20180801 (Red Hat 8.2.1-2)}
+\item a local build of \emph{octave-4.4.1} with the \emph{struct},
+      \emph{control}, \emph{signal}, \emph{optim} and \emph{parallel}
+      Octave-Forge packages
 \item the \emph{octave} scripts use the \emph{gnuplot} graphics toolkit and
   \emph{gnuplot-5.0 patchlevel 6}
-\item \emph{texlive-2016-42.20160520.fc28} and various packages are installed
+\item \emph{texlive-2018-20} and various packages are installed
 \item \emph{dia-0.97.3} is used for line drawings
 \end{itemize}
 

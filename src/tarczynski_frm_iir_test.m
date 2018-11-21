@@ -137,7 +137,7 @@ if 1
   Wap=1 % Pass band weight
   Wapextra=0 % Extra pass band amplitude weight for extra points
   Wasextra=0 % Extra stop band amplitude weight for extra points
-  Was=50 % Stop band amplitude weight
+  Was=20 % Stop band amplitude weight
   edge_factor=0.1 % Add extra frequencies near band edges
   edge_ramp=0 % Linear change of extra weights
 elseif 0

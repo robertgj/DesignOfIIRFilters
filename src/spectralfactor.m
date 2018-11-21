@@ -42,6 +42,7 @@ function q=spectralfactor(n,d)
   endif
 
   % q is antisymmetric
+  n=n(:)';
   d=d(:)';
   r=conv(n,n)-conv(d,fliplr(d));
   q=zeros(size(d));

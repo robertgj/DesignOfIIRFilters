@@ -53,7 +53,7 @@ rp=rp/2;
 
 % Initialise response
 [ErrorA, gradErrorA, hessErrorA] = ...
-  Aerror([K;R0,;Rp;r0;theta0;rp;thetap],U,V,M,Q,R,wa,Ad,Wa);
+  Aerror([K;R0;Rp;r0;theta0;rp;thetap],U,V,M,Q,R,wa,Ad,Wa);
 
 % Calculated values
 delEdelK=gradErrorA(1);
