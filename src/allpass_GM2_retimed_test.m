@@ -252,8 +252,8 @@ for e1=-1:2:1
     TM=H2T(HM,dHMdw,dHMdx,d2HMdwdx);
     approx_gradT=(TP-TM)/del;
     max_diff_gradT_k1=max(abs(gradT(:,1)-approx_gradT));
-    if max_diff_gradT_k1 > 2*dtol
-      error("max_diff_gradT_k1(%g) > 2*dtol",max_diff_gradT_k1);
+    if max_diff_gradT_k1 > 2.5*dtol
+      error("max_diff_gradT_k1(%g) > 2.5*dtol",max_diff_gradT_k1);
     endif
     
     % Check gradT(:,2)

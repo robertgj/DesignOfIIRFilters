@@ -1,5 +1,5 @@
 % schurOneMlatticeAsq_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -54,8 +54,8 @@ for l=1:Nk
   delk=shift(delk,1);
   diff_Asqk(l)=(AsqkPdel2-AsqkMdel2)/del;
 endfor
-if max(abs(diff_Asqk-gradAsq(ntpl,1:Nk))) > del/1364.5
-  error("max(abs(diff_Asqk-gradAsq(ntpl,1:Nk))) > del/1364.5");
+if max(abs(diff_Asqk-gradAsq(ntpl,1:Nk))) > del/1000
+  error("max(abs(diff_Asqk-gradAsq(ntpl,1:Nk))) > del/1000");
 endif
 
 % Check the gradient of the squared-magnitude response wrt c
@@ -70,8 +70,8 @@ for l=1:Nc
   delc=shift(delc,1);
   diff_Asqc(l)=(AsqcPdel2-AsqcMdel2)/del;
 endfor
-if max(abs(diff_Asqc-gradAsq(ntpl,(Nk+1):Nkc))) > del/5508.9
-  error("max(abs(diff_Asqc-gradAsq(ntpl,(Nk+1):Nkc))) > del/5508.9");
+if max(abs(diff_Asqc-gradAsq(ntpl,(Nk+1):Nkc))) > del/2500
+  error("max(abs(diff_Asqc-gradAsq(ntpl,(Nk+1):Nkc))) > del/2500");
 endif
 
 % Check the diagonal of the Hessian of the squared-magnitude wrt k
@@ -86,8 +86,8 @@ for l=1:Nk
   delk=shift(delk,1);
   diff_dAsqdk(l)=(gradAsqkPdel2(1,l)-gradAsqkMdel2(1,l))/del;
 endfor
-if max(abs(diff_dAsqdk-diagHessAsq(ntpl,1:Nk))) > del/433.14
-  error("max(abs(diff_dAsqdk-diagHessAsq(ntpl,1:Nk))) > del/433.14");
+if max(abs(diff_dAsqdk-diagHessAsq(ntpl,1:Nk))) > del/400
+  error("max(abs(diff_dAsqdk-diagHessAsq(ntpl,1:Nk))) > del/400");
 endif
 
 % Check the diagonal of the Hessian of the squared-magnitude wrt c
@@ -102,8 +102,8 @@ for l=1:Nc
   delc=shift(delc,1);
   diff_dAsqdc(l)=(gradAsqkPdel2(1,Nk+l)-gradAsqkMdel2(1,Nk+l))/del;
 endfor
-if max(abs(diff_dAsqdc-diagHessAsq(ntpl,(Nk+1):Nkc))) > del/2624.6
-  error("max(abs(diff_dAsqdc-diagHessAsq(ntpl,(Nk+1):Nkc))) > del/2624.6");
+if max(abs(diff_dAsqdc-diagHessAsq(ntpl,(Nk+1):Nkc))) > del/2500
+  error("max(abs(diff_dAsqdc-diagHessAsq(ntpl,(Nk+1):Nkc))) > del/2500");
 endif
 
 % Done

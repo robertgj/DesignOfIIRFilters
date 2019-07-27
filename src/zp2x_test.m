@@ -1,5 +1,5 @@
 % zp2x_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2019 Robert G. Jenssen
 
 test_common;
 
@@ -24,7 +24,7 @@ epstol=10;
 R=1;
 
 [z1,p1,k1]=cheby2(N,dBas,2*fc);
-[n1,d1]=zp2tf(z1,p1,k1);
+[n1,d1]=zp2tf(z1,cplxpair(p1),k1); % Workaround for poly.m in octave-5.1.0
 n1=n1(:);
 d1=d1(:);
 [x1,U,V,M,Q]=zp2x(z1,p1,k1);

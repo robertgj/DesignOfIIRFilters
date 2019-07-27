@@ -45,7 +45,7 @@ T=H2T(H,dHdw);
 if max(abs(T-Tf)) > 2*tol
   error("max(abs(T-Tf)) > 2*tol");
 endif
-allpass_filter_check_gradc1c2(@allpass_GM2_coef2Abcd,w,k1,k2,del,del/500);
+allpass_filter_check_gradc1c2(@allpass_GM2_coef2Abcd,w,k1,k2,del,del/400);
 
 % Check e1,e2
 dtol=del/200;

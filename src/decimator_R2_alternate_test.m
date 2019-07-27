@@ -1,5 +1,5 @@
 % decimator_R2_alternate_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Example of low-pass IIR decimator filter design using quasi-Newton
 % optimisation with constraints on the coefficients.
@@ -28,7 +28,7 @@ ftp=0.125,tp=10,tpr=0.008,Wtp=1
 
 % Initial filter guess
 U=0,V=0,M=12,Q=6,R=2
-xi=[0.01, [1,1,1,1,1,1], (7:12)*pi/12, 0.7*[1,1,1], (1:3)*pi/8]';
+xi=[0.01, [1,1,1,1,1,1], (7:12)*pi/12, 0.75*[1,1,1], (1:3)*pi/8]';
 
 % Frequency points
 n=1000;
@@ -84,7 +84,8 @@ ftp=%g,tp=%g,tpr=%%g,Wtp=%%g",fap,fas,ftp,tp);
 strf="decimator_R2_alternate_test";
 
 % Initial filter
-[x0,Ex0]=xInitHd(xi,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,tol_wise);
+[x0,Ex0]=xInitHd(xi,U,V,M,Q,R, ...
+                 wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,maxiter,tol_wise);
 printf("x0=[ ");printf("%f ",x0');printf("]'\n");
 strMI=sprintf("Initial decimator R=2 : U=%d,V=%d,M=%d,Q=%d,R=%d", U,V,M,Q,R);
 showResponse(x0,U,V,M,Q,R,strMI);

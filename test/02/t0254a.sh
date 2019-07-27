@@ -53,17 +53,26 @@ r1 = [   1.0000000000,   0.4654027371,  -0.0749201995,   0.0137121216, ...
          0.0035706175,  -0.0098219303 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_r1_coef.m"; fail; fi
+
 cat > test_k1_coef.m << 'EOF'
 k1 = [   0.5058213990,  -0.0784713968,   0.0091879026,   0.0081425563, ... 
-        -0.0098219303 ]';
+        -0.0098219303 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k1_coef.m"; fail; fi
+
+cat > test_epsilon1_coef.m << 'EOF'
+epsilon1 = [   0.5058213990,  -0.0784713968,   0.0091879026,   0.0081425563, ... 
+              -0.0098219303 ];
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_epsilon1_coef.m"; fail; fi
+
 cat > test_u1_coef.m << 'EOF'
 u1 = [  -0.0019232288,   0.0038937068,  -0.0073554558,   0.0124707197, ... 
         -0.0274067156,   0.0373112692,  -0.0500281266,   0.0547645647, ... 
          0.4439780707 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_u1_coef.m"; fail; fi
+
 cat > test_v1_coef.m << 'EOF'
 v1 = [   0.0038703625,  -0.0055310972,   0.0065538587,   0.0002190941, ... 
         -0.0109227368,   0.0338245953,  -0.0817426036,   0.3116242327 ]';
@@ -78,13 +87,20 @@ echo "Running octave-cli -q " $prog
 octave-cli -q $prog
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_r1_coef.m schurOneMAPlattice_frm_halfband_socp_mmse_test_r1_coef.m
+nstr="schurOneMAPlattice_frm_halfband_socp_mmse_test"
+diff -Bb test_r1_coef.m $nstr"_r1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_r1_coef.m"; fail; fi
-diff -Bb test_k1_coef.m schurOneMAPlattice_frm_halfband_socp_mmse_test_k1_coef.m
+
+diff -Bb test_k1_coef.m $nstr"_k1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_k1_coef.m"; fail; fi
-diff -Bb test_u1_coef.m schurOneMAPlattice_frm_halfband_socp_mmse_test_u1_coef.m
+
+diff -Bb test_epsilon1_coef.m $nstr"_epsilon1_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_epsilon1_coef.m"; fail; fi
+
+diff -Bb test_u1_coef.m $nstr"_u1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_u1_coef.m"; fail; fi
-diff -Bb test_v1_coef.m schurOneMAPlattice_frm_halfband_socp_mmse_test_v1_coef.m
+
+diff -Bb test_v1_coef.m $nstr"_v1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_v1_coef.m"; fail; fi
 
 #

@@ -1,5 +1,5 @@
 % Abcd2cc_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -35,8 +35,9 @@ name=sprintf("ellip%dABCD%d",N,P);
 strf=sprintf("Abcd2cc_test_%s",name);
 
 % Generate a random input signal
+nsamples=2^14;
 rand("seed",0xdeadbeef);
-u=rand(2^14,1)-0.5;
+u=rand(nsamples,1)-0.5;
 u=0.25*u/std(u);
 u=round(u*scale);
 
@@ -87,13 +88,17 @@ endif
 %    LD_PRELOAD=/usr/lib64/libasan.so.5 octave-cli
 
 % Run the block processing filters
-[yb,xxb]=svf(Abf,Bbf,Cbf,Dbf,u,"none");
-[ybf,xxbf]=svf(Abf,Bbf,Cbf,Dbf,u,"round");
+ub=u(1:(floor(nsamples/P)*P));
+ub=reshape(ub(:)',P,floor(nsamples/P))';
+[yb,xxb]=svf(Abf,Bbf,Cbf,Dbf,ub,"none");
+yb=yb'(:);
+[ybf,xxbf]=svf(Abf,Bbf,Cbf,Dbf,ub,"round");
+ybf=ybf'(:);
 yccbf=feval(name,u);
 
 % Check the roundoff noise for the block processing filter
 nvbf=std(ybf-yb)
-nvccbf=std(yccbf-yb)
+nvccbf=std(yccbf(1:length(yb))-yb)
 
 % Plot the transfer function of the filter
 nfpts=8192;
@@ -105,6 +110,7 @@ plot(nppts/nfpts,20*log10(abs(Hoptf)),"linestyle","--", ...
 legend("Block length 1", sprintf("Block length %d",P));
 legend("boxoff");
 legend("left");
+legend("location","northwest");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -50 10]);
@@ -116,9 +122,10 @@ plot(nppts/nfpts,20*log10(abs(Hoptf)),"linestyle","--", ...
 legend("Block length 1", sprintf("Block length %d",P));
 legend("boxoff");
 legend("left");
+legend("location","northwest");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([0 0.06 -1 1]);
+axis([0 0.06 -1 3]);
 grid("on");
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close

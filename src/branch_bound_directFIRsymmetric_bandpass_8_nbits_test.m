@@ -1,7 +1,7 @@
 % branch_bound_directFIRsymmetric_bandpass_8_nbits_test.m
 % Copyright (C) 2017,2018 Robert G. Jenssen
 
-% Branch-and-bound search of even-order direct-form symmetric bandpass filter
+% Branch-and-bound search of direct-form symmetric bandpass filter
 % response with 8-bit signed-digit coefficients
 
 test_common;
@@ -17,23 +17,19 @@ tol=1e-4
 strf="branch_bound_directFIRsymmetric_bandpass_8_nbits_test";
 
 % Coefficients found by directFIRsymmetric_slb_bandpass_test.m
-hM1 = [  -0.0004538174,  -0.0114029873,  -0.0194431345,  -0.0069796479, ... 
-          0.0215771882,   0.0348545408,   0.0158541332,  -0.0033225166, ... 
-          0.0154055974,   0.0414424100,  -0.0021970758,  -0.1162784301, ... 
-         -0.1760013118,  -0.0669604509,   0.1451751014,   0.2540400868 ]';
+hM1 = [  -0.0058181010,   0.0017787857,  -0.0047084625,  -0.0143846688, ... 
+         -0.0077550125,   0.0219788564,   0.0432578789,   0.0247317110, ... 
+         -0.0077853817,  -0.0010276677,   0.0304650309,   0.0009925325, ... 
+         -0.1110651112,  -0.1806101683,  -0.0725659905,   0.1536437055, ... 
+          0.2719559562 ]';
 
 % Scale the rounded coefficients to use all the bits 
 nbits=8
 nscale=2^(nbits-1)
 ndigits=3
 hM1_rd=round(hM1*nscale)/nscale;
-hM1_rd_range=ceil(-log2(min(abs(hM1_rd(find(hM1_rd~=0))))/max(abs(hM1_rd))));
-printf("hM1_rd rounded to %d bits has range %d bits\n",nbits,hM1_rd_range);
-if (nbits-hM1_rd_range-1)<=0
-  escale=1;
-else
-  escale=2^(nbits-hM1_rd_range-1);
-endif
+escale=ceil(log2(1/max(abs(hM1_rd))));
+printf("Scaling hM1 by %d\n",escale);
 enscale=escale*nscale;
 
 % Find the signed-digit approximations to hM1
@@ -67,9 +63,8 @@ printf("hM1_sd uses %d %d-bit adders for coefficient multiplications\n",
        hM1_sd_adders,nbits);
 
 % Bandpass filter specification for directFIRsymmetric_slb_bandpass_test.m
-M=15;
 fapl=0.1;fapu=0.2;Wap=1;
-fasl=0.05;fasu=0.25;Wasl=40;Wasu=40;
+fasl=0.05;fasu=0.25;Wasl=5;Wasu=10;
 
 % Desired magnitude response
 nplot=1000;
@@ -109,7 +104,7 @@ Esq_min=Esq1_sd;
 hM_min=hM1_sd;
 printf("Initial Esq_min=%g\n",Esq_min);
 printf("Initial hM_active=[ ");printf("%d ",hM_active);printf("];\n");
-printf("Initial hM_b=[ ");printf("%g ",enscale*hM_b');printf("]'/%d;\n",enscale);
+printf("Initial hM_b=[ ");printf("%g ",nscale*hM_b');printf("]'/%d;\n",enscale);
 
 % At each node of a branch, define two sub-problems, one of which is
 % stacked and one of which is solved immediately. If the solved problem
@@ -153,7 +148,7 @@ do
   endif
   printf("hM_depth=%d\n",hM_depth);
   printf("hM_active=[ ");printf("%d ",hM_active);printf("];\n");
-  printf("hM_b=[ ");printf("%g ",enscale*hM_b');printf("]'/%d;\n",enscale);
+  printf("hM_b=[ ");printf("%g ",nscale*hM_b');printf("]'/%d;\n",enscale);
 
   % Find the error for the current sub-problem
   Esq=directFIRsymmetricEsqPW(hM_b/escale,waf,Adf,Waf);
@@ -177,9 +172,9 @@ do
     if Esq<Esq_min
       improved_solution_found=true;
       Esq_min=Esq;
-      hM_min=hM_b/escale;
+      hM_min=hM_b;
       printf("Improved solution: hM_depth=%d, Esq_min=%g\n",hM_depth,Esq_min);
-      print_polynomial(hM_min,"hM_min",enscale);
+      print_polynomial(hM_min/escale,"hM_min",enscale);
     endif
   endif
 
@@ -191,10 +186,10 @@ printf("Branch-and-bound search completed with %d branches\n",n_branch);
 if improved_solution_found
   print_polynomial(hM1,"hM1",strcat(strf,"_hM1_coef.m"));
   printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
-  print_polynomial(hM_min,"hM_min",enscale);
-  print_polynomial(hM_min,"hM_min",strcat(strf,"_hM_min_coef.m"),enscale);
+  print_polynomial(hM_min/escale,"hM_min",enscale);
+  print_polynomial(hM_min/escale,"hM_min",strcat(strf,"_hM_min_coef.m"),enscale);
   % Find the number of signed-digits and adders used
-  [hM_min_digits,hM_min_adders]=SDadders(hM_min(hM1_active)*enscale,nbits);
+  [hM_min_digits,hM_min_adders]=SDadders(hM_min(hM1_active),nbits);
   printf("%d signed-digits used\n",hM_min_digits);
   printf("%d %d-bit adders used for coefficient multiplications\n", ...
          hM_min_adders,nbits);
@@ -205,18 +200,19 @@ if improved_solution_found
 
   % Make a LaTeX table for cost
   fid=fopen(strcat(strf,"_cost.tab"),"wt");
-  fprintf(fid,"Exact & %6.4f \\\\\n",Esq1);
-  fprintf(fid,"%d-bit %d-signed-digit&%6.4f \\\\\n",nbits,ndigits,Esq1_sd);
-  fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%6.4f \\\\\n",
-          nbits,ndigits,Esq_min);
+  fprintf(fid,"Exact & %7.5f \\\\\n",Esq1);
+  fprintf(fid,"%d-bit %d-signed-digit & %7.5f & %d & %d \\\\\n", ...
+          nbits,ndigits,Esq1_sd,hM1_sd_digits,hM1_sd_adders);
+  fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)& %7.5f & %d & %d \\\\\n",
+          nbits,ndigits,Esq_min,hM_min_digits,hM_min_adders);
   fclose(fid);
 
   % Amplitude and delay at local peaks
-  A=directFIRsymmetricA(wa,hM_min);
+  A=directFIRsymmetricA(wa,hM_min/escale);
   vAl=local_max(-A);
   vAu=local_max(A);
   wAS=unique([wa(vAl);wa(vAu);wa([nasl,napl,napu,nasu])]);
-  AS=directFIRsymmetricA(wAS,hM_min);
+  AS=directFIRsymmetricA(wAS,hM_min/escale);
   wAS=wAS(find(abs(AS)>0));
   AS=AS(find(abs(AS)>0));
   printf("hM_min:fAS=[ ");printf("%f ",wAS'*0.5/pi);printf(" ] (fs==1)\n");
@@ -227,7 +223,7 @@ if improved_solution_found
   wplot=(0:(nplot-1))'*pi/nplot;
   A_hM1=directFIRsymmetricA(wplot,hM1);
   A_hM1_sd=directFIRsymmetricA(wplot,hM1_sd/escale);
-  A_hM_min=directFIRsymmetricA(wplot,hM_min);
+  A_hM_min=directFIRsymmetricA(wplot,hM_min/escale);
 
   % Plot amplitude response
   subplot(211)
@@ -236,12 +232,13 @@ if improved_solution_found
        wplot*0.5/pi,20*log10(abs(A_hM_min)),"linestyle","-.");
   xlabel("Frequency");
   ylabel("Amplitude(dB)");
-  axis([0.1 0.2 -2 2]);
-  strt=sprintf("Direct-form symmetric bandpass filter pass-band \
-(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,Wap=%g",nbits,ndigits,fapl,fapu,Wap);
+  axis([0.1 0.2 -1.5 0.5]);
+  strt=sprintf("Direct-form symmetric bandpass filter response \
+(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,fasl=%g,fasu=%g", ...
+               nbits,ndigits,fapl,fapu,fasl,fasu);
   title(strt);
   legend("exact","s-d","s-d(BandB)");
-  legend("location","northeast");
+  legend("location","north");
   legend("boxoff");
   legend("left");
   grid("on");
@@ -252,10 +249,6 @@ if improved_solution_found
   xlabel("Frequency");
   ylabel("Amplitude(dB)");
   axis([0 0.5 -50 -30]);
-  strt=sprintf("Direct-form symmetric bandpass filter pass-band \
-(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,Wasl=%g,Wasu", ...
-    nbits,ndigits,fasl,fasu,Wasl,Wasu);
-  title(strt);
   grid("on");
   print(strcat(strf,"_response"),"-dpdflatex");
   close
@@ -266,8 +259,9 @@ endif
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");
-fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
-fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
+fprintf(fid,"nbits=%d %% Coefficient bits\n",nbits);
+fprintf(fid,"ndigits=%d %% Nominal average coefficient signed-digits\n",ndigits);
+fprintf(fid,"escale=%d %% Coefficient scaling for full range\n",escale);
 fprintf(fid,"tol=%g %% Tolerance on coefficient. update\n",tol);
 fprintf(fid,"maxiter=%d %% iteration limit\n",maxiter);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);

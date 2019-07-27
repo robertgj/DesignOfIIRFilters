@@ -49,6 +49,7 @@ tol =  0.0000010000
 maxiter =  2000
 polyphase = 0
 difference = 1
+K =  2
 Ra =  1
 Rb =  1
 fasl =  0.050000

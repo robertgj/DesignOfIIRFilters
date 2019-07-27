@@ -16,15 +16,15 @@ function [k,u,v,socp_iter,func_iter,feasible]= ...
 % coefficients in z^2 and constraints on the amplitude and group delay responses
 %
 % Inputs:
-%   vS - structure of peak constraint frequencies {al,au,tl,tu}
+%   vS - structure of peak constraint frequencies {al,au,tl,tu,pu,pl}
 %   k0 - initial allpass filter multipliers
 %   epsilon0,p0 - state scaling coefficients. These have no effect on the
 %                 response but can improve numerical accuracy.
 %   u0,v0 - initial unique FIR masking filter coefficients
 %   Mmodel - model filter FRM decimation factor
 %   Dmodel - nominal model filter delay
-%   kc_u,kc_l - upper and lower bounds on the allpass filter coefficients
-%   kc_active - indexes of elements of coefficients being optimised
+%   kuv_u,kuv_l - upper and lower bounds on the allpass filter coefficients
+%   kuv_active - indexes of elements of coefficients being optimised
 %   dmax - for compatibility with SQP. Not used.
 %   wa - angular frequencies of the squared-magnitude response
 %   Asqd - desired squared amplitude response
@@ -48,7 +48,7 @@ function [k,u,v,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

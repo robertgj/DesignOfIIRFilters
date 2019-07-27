@@ -23,7 +23,7 @@ function [Esq,gradEsq]=schurOneMAPlattice_frm_hilbertEsq ...
 %   Esq - the squared error value at x
 %   gradEsq - gradient of the squared error value at x
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -43,16 +43,9 @@ function [Esq,gradEsq]=schurOneMAPlattice_frm_hilbertEsq ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargout > 2) || ((nargin != 1) && (nargin != 13) && (nargin != 16))
+  if (nargout > 2) || (nargin != 16)
     print_usage("[Esq,gradEsq] = schurOneMAPlattice_frm_hilbertEsq ...\n\
       (k,epsilon,p,u,v,Mmodel,Dmodel,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)");
-  endif
-
-  if nargin==10
-    wp=[];
-    wt=[];
-  elseif nargin==13
-    wt=[];
   endif
 
   Nk=length(k);

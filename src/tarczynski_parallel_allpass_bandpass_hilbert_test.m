@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_bandpass_hilbert_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a bandpass Hilbert filter
 % as the difference of two parallel allpass filters. See:
@@ -128,7 +128,7 @@ Da0 = [   1.0000000000,  -1.3249813230,   0.8978004911,   0.8919687861, ...
 
 % Filter specification
 tol=1e-6
-maxiter=2000
+maxiter=5000
 ma=length(Da0)-1
 mb=length(Db0)-1
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,Wasl=10,Watl=0.1,Wap=5,Watu=0.1,Wasu=5
@@ -185,8 +185,8 @@ printf("Wp(nchkp)=[ ");printf("%6.4g ",Wp(nchkp)');printf("];\n");
 % Unconstrained minimisation
 ab0 = [Da0(2:end);Db0(2:end)];
 WISEJ_PAB_Hilbert([],ma,mb,Ad,Wa,Td,Wt,Pd,Wp);
-options=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter);
-[ab1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PAB_Hilbert,ab0,options);
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[ab1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PAB_Hilbert,ab0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -235,12 +235,11 @@ axis([0 0.5 0 2*td]);
 grid("on");
 subplot(313);
 plot(wplot*0.5/pi,mod((P+(wplot*td))/pi,2));
-ylabel("Phase(rad./pi)\n(corr. for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([0 0.5 0 2]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
-print(strcat(strf,"_response"),"-dsvg");
 close
 
 % Plot passband response
@@ -259,12 +258,11 @@ axis([minf maxf (td-tdr) (td+tdr)]);
 grid("on");
 subplot(313);
 plot(wplot*0.5/pi,(P+(wplot*td))/pi);
-ylabel("Phase(rad./pi)\n(delaycorrected)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([minf maxf 1.5-pdr 1.5+pdr]);
 grid("on");
 print(strcat(strf,"_response_passband"),"-dpdflatex");
-print(strcat(strf,"_response_passband"),"-dsvg");
 close
 
 % Plot poles and zeros
@@ -282,7 +280,7 @@ plot(wplot*0.5/pi,(unwrap(arg(Ha))+(wplot*td))/pi,"-", ...
 strt=sprintf("Allpass phase response error from linear phase (-w*td): \
 ma=%d,mb=%d,td=%g",ma,mb,td);
 title(strt);
-ylabel("Linear phase error(rad./pi)");
+ylabel("Linear phase error(rad./$\\pi$)");
 xlabel("Frequency");
 legend("Filter A","Filter B","location","northwest");
 legend("boxoff");

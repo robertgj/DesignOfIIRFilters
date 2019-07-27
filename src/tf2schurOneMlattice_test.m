@@ -1,5 +1,5 @@
 % tf2schurOneMlattice_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -21,15 +21,15 @@ dBstop=60;
 if norm(n1-n0)/eps > 2.005
   error("norm(n1-n0)/eps > 2.005");
 endif
-if norm(d1-d0)/eps > 0.001
-  error("norm(d1-d0)/eps > 0.001");
+if norm(d1-d0)/eps > 7
+  error("norm(d1-d0)/eps > 7");
 endif
 [nap1,dap1]=Abcd2tf(A,B,Cap,Dap);
-if norm(fliplr(nap1)-dap1)/eps > 5.657
-  error("norm(fliplr(nap1)-dap1)/eps > 5.657");
+if norm(fliplr(nap1)-dap1)/eps > 10
+  error("norm(fliplr(nap1)-dap1)/eps > 10");
 endif
-if norm(dap1-d0)/eps > 2.005
-  error("norm(dap1-n0)/eps > 2.005");
+if norm(dap1-d0)/eps > 7
+  error("norm(dap1-n0)/eps > 7");
 endif
 
 % High-pass fpass=0.2
@@ -37,8 +37,8 @@ endif
 [k,epsilon,p,c]=tf2schurOneMlattice(n0,d0);
 [A,B,C,D,Cap,Dap]=schurOneMlattice2Abcd(k,epsilon,p,c);
 [n1,d1]=Abcd2tf(A,B,C,D);
-if norm(n1-n0)/eps > 1.2252
-  error("norm(n1-n0)/eps > 1.2252");
+if norm(n1-n0)/eps > 3
+  error("norm(n1-n0)/eps > 3");
 endif
 if norm(d1-d0)/eps > 1.9255
   error("norm(d1-d0)/eps > 1.9255");
@@ -65,8 +65,8 @@ endif
 if norm(fliplr(n2)-d2)/eps > 2.2063
   error("norm(fliplr(n2)-d2)/eps > 2.2063");
 endif
-if norm(fliplr(n2)-d0)/eps > 1.161
-  error("norm(fliplr(n2)-d0)/eps > 1.61");
+if norm(fliplr(n2)-d0)/eps > 3.2
+  error("norm(fliplr(n2)-d0)/eps > 3.2");
 endif
 
 % All-pass filter with pi phase shift fpass=0.2
@@ -86,18 +86,18 @@ fpass=0.1;
 [k,epsilon,p,c]=tf2schurOneMlattice(n0,d0);
 [A,B,C,D,Cap,Dap]=schurOneMlattice2Abcd(k,epsilon,p,c);
 [n1,d1]=Abcd2tf(A,B,C,D);
-if norm(n1-n0)/eps > 0.2492
-  error("norm(n1-n0)/eps > 0.2492");
+if norm(n1-n0)/eps > 0.4
+  error("norm(n1-n0)/eps > 0.4");
 endif
-if norm(d1-d0)/eps > 30.913
-  error("norm(d1-d0)/eps > 30.913");
+if norm(d1-d0)/eps > 50
+  error("norm(d1-d0)/eps > 50");
 endif
 [nap1,dap1]=Abcd2tf(A,B,Cap,Dap);
-if norm(fliplr(nap1)-dap1)/eps > 22.795
-  error("norm(fliplr(nap1)-dap1)/eps > 22.795");
+if norm(fliplr(nap1)-dap1)/eps > 50
+  error("norm(fliplr(nap1)-dap1)/eps > 50");
 endif
-if norm(dap1-d0)/eps > 30.913
-  error("norm(dap1-d0)/eps > 30.913");
+if norm(dap1-d0)/eps > 50
+  error("norm(dap1-d0)/eps > 50");
 endif
 
 % High-pass fpass=0.1
@@ -105,47 +105,47 @@ endif
 [k,epsilon,p,c]=tf2schurOneMlattice(n0,d0);
 [A,B,C,D,Cap,Dap]=schurOneMlattice2Abcd(k,epsilon,p,c);
 [n1,d1]=Abcd2tf(A,B,C,D);
-if norm(n1-n0)/eps > 31.21
-  error("norm(n1-n0)/eps > 31.21");
+if norm(n1-n0)/eps > 50
+  error("norm(n1-n0)/eps > 50");
 endif
-if norm(d1-d0)/eps > 22.522
-  error("norm(d1-d0)/eps > 22.522");
+if norm(d1-d0)/eps > 50
+  error("norm(d1-d0)/eps > 50");
 endif
 [nap1,dap1]=Abcd2tf(A,B,Cap,Dap);
-if norm(fliplr(nap1)-dap1)/eps > 22.482
-  error("norm(fliplr(nap1)-dap1)/eps > 22.482");
+if norm(fliplr(nap1)-dap1)/eps > 50
+  error("norm(fliplr(nap1)-dap1)/eps > 50");
 endif
-if norm(dap1-d0)/eps > 22.522
-  error("norm(dap1-d0)/eps > 22.522");
+if norm(dap1-d0)/eps > 50
+  error("norm(dap1-d0)/eps > 50");
 endif
 
 % All-pass filter fpass=0.1
 [k,epsilon,p,c]=tf2schurOneMlattice(d0(length(d0):-1:1),d0);
 [A,B,C,D,Cap,Dap]=schurOneMlattice2Abcd(k,epsilon,p,c);
 [n1,d1]=Abcd2tf(A,B,C,D);
-if norm(fliplr(n1)-d0)/eps > 38.064
-  error("norm(fliplr(n1)-d0)/eps > 38.064");
+if norm(fliplr(n1)-d0)/eps > 50
+  error("norm(fliplr(n1)-d0)/eps > 50");
 endif
-if norm(fliplr(n1)-d1)/eps > 22.482
-  error("norm(fliplr(n1)-d1)/eps > 22.482");
+if norm(fliplr(n1)-d1)/eps > 50
+  error("norm(fliplr(n1)-d1)/eps > 50");
 endif
 [n2,d2]=Abcd2tf(A,B,Cap,Dap);
-if norm(fliplr(n2)-d2)/eps > 22.482
-  error("norm(fliplr(n2)-d2)/eps > 22.482");
+if norm(fliplr(n2)-d2)/eps > 50
+  error("norm(fliplr(n2)-d2)/eps > 50");
 endif
-if norm(fliplr(n2)-d0)/eps > 38.064
-  error("norm(fliplr(n2)-d0)/eps > 38.064");
+if norm(fliplr(n2)-d0)/eps > 50
+  error("norm(fliplr(n2)-d0)/eps > 50");
 endif
 
 % All-pass filter with pi phase shift fpass=0.1
 [k,epsilon,p,c]=tf2schurOneMlattice(d0(length(d0):-1:1),-d0);
 [A,B,C,D]=schurOneMlattice2Abcd(k,epsilon,p,c);
 [n1,d1]=Abcd2tf(A,B,C,D);
-if norm(fliplr(n1)+d0)/eps > 29.135
-  error("norm(fliplr(n1)+d0)/eps > 29.135");
+if norm(fliplr(n1)+d0)/eps > 50
+  error("norm(fliplr(n1)+d0)/eps > 50");
 endif
-if norm(d1-d0)/eps > 22.522
-  error("norm(d1-d0)/eps > 22.522");
+if norm(d1-d0)/eps > 50
+  error("norm(d1-d0)/eps > 50");
 endif
 
 % Done

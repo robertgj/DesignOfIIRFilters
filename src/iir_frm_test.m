@@ -1,5 +1,5 @@
 % iir_frm_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -962,7 +962,7 @@ H_acD=freqz([zeros(Mmodel*Dmodel,1);ac],1,w);
 HM_model=freqz(a,d,w*Mmodel);
 H_frm=(HM_model.*(H_aa-H_ac))+H_acD;
 Asq_frm=abs(H_frm).^2;
-tolAsq_frm=303*eps;
+tolAsq_frm=343*eps;
 if max(abs(Asq_frm-Asq)) > tolAsq_frm
   error("Expected max(abs(Asq_frm-Asq)) <= tolAsq_frm");
 endif
@@ -974,7 +974,7 @@ aM_frm=[conv(aM,aa-ac);zeros(Mmodel*Dmodel,1)] ...
        +[zeros(Mmodel*Dmodel,1);conv(ac,dM)];
 H_frm_alt=freqz(aM_frm,dM,w);
 Asq_frm_alt=abs(H_frm_alt).^2;
-tolAsq_frm_alt=315*eps;
+tolAsq_frm_alt=337*eps;
 if max(abs(Asq_frm_alt-Asq)) > tolAsq_frm_alt
   error("Expected max(abs((Asq_frm_alt-Asq))) <= tolAsq_frm_alt");
 endif

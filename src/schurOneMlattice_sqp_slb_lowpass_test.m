@@ -24,11 +24,11 @@ fas=0.3,dBas=46,Was_mmse=1e8,Was_pcls=1e8
 ftp=0.25,tp=10,tpr=0.08,Wtp_mmse=0.1,Wtp_pcls=1
 % Initial filter from deczky3_sqp_test.m
 U=0;V=0;Q=6;M=10;R=1;
-z0=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...
+Z0=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...
    1.5*exp(j*2*pi*0.14),1.5*exp(j*2*pi*0.08)];
-p0=[0.7*exp(j*2*pi*0.16),0.6*exp(j*2*pi*0.12),0.5*exp(j*2*pi*0.05)];
+P0=[0.7*exp(j*2*pi*0.16),0.6*exp(j*2*pi*0.12),0.5*exp(j*2*pi*0.05)];
 K0=0.0096312406;
-x0=[K0,abs(z0),angle(z0),abs(p0),angle(p0)]';
+x0=[K0,abs(Z0),angle(Z0),abs(P0),angle(P0)]';
 [n0,d0]=x2tf(x0,U,V,M,Q,R);
 d0=[d0(:);zeros(length(n0)-length(d0),1)];
 [k0,epsilon0,p0,c0]=tf2schurOneMlattice(n0,d0);
@@ -91,7 +91,7 @@ if feasible == 0
   error("k1p,c1p(mmse) infeasible");
 endif
 % Recalculate epsilon1, p1 and c1
-[n1,d1]=schurOneMlattice2tf(k1p,epsilon0,ones(size(p0)),c1p);
+[n1,d1]=schurOneMlattice2tf(k1p,epsilon0,p0,c1p);
 [k1,epsilon1,p1,c1]=tf2schurOneMlattice(n1,d1);
 schurOneMlattice_sqp_slb_lowpass_plot ...
   (k1,epsilon1,p1,c1,fap,2*dBap,ftp,tp,2*tpr,fas,dBas, ...
@@ -114,7 +114,7 @@ if feasible == 0
   error("k2p,c2p(pcls) infeasible");
 endif
 % Recalculate epsilon2, p2 and c2
-[n2,d2]=schurOneMlattice2tf(k2p,epsilon1,ones(size(p1)),c2p);
+[n2,d2]=schurOneMlattice2tf(k2p,epsilon1,p1,c2p);
 [k2,epsilon2,p2,c2]=tf2schurOneMlattice(n2,d2);
 schurOneMlattice_sqp_slb_lowpass_plot ...
   (k2,epsilon2,p2,c2,fap,dBap,ftp,tp,tpr,fas,dBas, ...

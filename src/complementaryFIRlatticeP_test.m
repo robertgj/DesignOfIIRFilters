@@ -1,5 +1,5 @@
 % complementaryFIRlatticeP_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -50,8 +50,8 @@ for l=1:Nk
   delk=shift(delk,1);
   diff_Pk(l)=(PkPdel2-PkMdel2)/del;
 endfor
-if max(abs(diff_Pk-gradP(ntpl,1:Nk))) > del/2816
-  error("max(abs(diff_Pk-gradP(ntpl,1:Nk))) > del/2816");
+if max(abs(diff_Pk-gradP(ntpl,1:Nk))) > del/2230
+  error("max(abs(diff_Pk-gradP(ntpl,1:Nk))) > del/2230");
 endif
 
 % Check the gradient of the squared-magnitude response wrt khat

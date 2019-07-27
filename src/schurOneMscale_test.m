@@ -9,15 +9,21 @@ diary schurOneMscale_test.diary.tmp
 
 format short e
 
+% epsilon only
+k =[ 0.5530909  -0.1250394   0.0415215  -0.0135149   0.0023471];
+epsilon=schurOneMscale(k)
+[epsilon,p]=schurOneMscale(k)
+
 % Low-pass 1
+clear all
 fp=0.1;
 norder=7;
 [n0,d0]=ellip(norder,1,40,fp*2);
 [k,S]=schurdecomp(d0)
-[S1M,epsilon,p]=schurOneMscale(k,S)
+[epsilon,p,S1M]=schurOneMscale(k,S)
 c=schurexpand(n0,S1M)
 [km,Sm]=schurdecomp(-d0)
-[S1Mm,epsilonm,pm]=schurOneMscale(km,Sm)
+[epsilonm,pm,S1Mm]=schurOneMscale(km,Sm)
 cm=schurexpand(n0,S1Mm)
 norm(k-km)
 norm(S+Sm)
@@ -53,10 +59,10 @@ stdxfm=std(xxfm)
 % High-pass 1
 [n0,d0]=ellip(norder,1,40,fp*2,"high");
 [k,S]=schurdecomp(d0)
-[S1M,epsilon,p]=schurOneMscale(k,S)
+[epsilon,p,S1M]=schurOneMscale(k,S)
 c=schurexpand(n0,S1M)
 [km,Sm]=schurdecomp(-d0)
-[S1Mm,epsilonm,pm]=schurOneMscale(km,Sm)
+[epsilonm,pm,S1Mm]=schurOneMscale(km,Sm)
 cm=schurexpand(n0,S1Mm)
 norm(k-km)
 norm(S+Sm)
@@ -70,10 +76,10 @@ fp=0.2;
 norder=5;
 [n0,d0]=ellip(norder,1,40,fp*2);
 [k,S]=schurdecomp(d0)
-[S1M,epsilon,p]=schurOneMscale(k,S)
+[epsilon,p,S1M]=schurOneMscale(k,S)
 c=schurexpand(n0,S1M)
 [km,Sm]=schurdecomp(-d0)
-[S1Mm,epsilonm,pm]=schurOneMscale(km,Sm)
+[epsilonm,pm,S1Mm]=schurOneMscale(km,Sm)
 cm=schurexpand(n0,S1Mm)
 norm(k-km)
 norm(S+Sm)
@@ -85,10 +91,10 @@ norm(p-pm)
 % High-pass 2
 [n0,d0]=ellip(norder,1,40,fp*2,"high");
 [k,S]=schurdecomp(d0)
-[S1M,epsilon,p]=schurOneMscale(k,S)
+[epsilon,p,S1M]=schurOneMscale(k,S)
 c=schurexpand(n0,S1M)
 [km,Sm]=schurdecomp(-d0)
-[S1Mm,epsilonm,pm]=schurOneMscale(km,Sm)
+[epsilonm,pm,S1Mm]=schurOneMscale(km,Sm)
 cm=schurexpand(n0,S1Mm)
 norm(k-km)
 norm(S+Sm)

@@ -27,6 +27,8 @@ aa_ab=[aa(:);ab(:);];
 polyphase=true;
 Ra=2;
 Rb=2;
+K=2;
+Ksq=K^2;
 
 % Define the frequency edges and weighting factors
 fap=0.22
@@ -47,8 +49,8 @@ n=1000;
 % (Do not use wa=0 because of zero coefficient gradients).
 nap=ceil(n*fap/0.5)+1;
 nas=floor(n*fas/0.5)+1;
-Asqd=[ones(nap,1);zeros(n-nap,1)];
-Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
+Asqd=Ksq*[ones(nap,1);zeros(n-nap,1)];
+Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)]/Ksq;
 
 % Desired pass-band group delay response
 ntp=ceil(n*ftp/0.5)+1;
@@ -70,16 +72,16 @@ else
 endif
 [H_freqz,wa]=freqz(Bab,Aab,n);
 H_freqz=H_freqz(:);
-Asqwa_freqz=abs(H_freqz(:)).^2;
+Asqwa_freqz=abs(K*H_freqz(:)).^2;
 [T_grpdelay,wt]=grpdelay(Bab,Aab,n);
 wt=wt(1:ntp);
 Twt_grpdelay=T_grpdelay(1:ntp);
 
 % Check frequency responses
-Asqwa_allpass=parallel_allpassAsq(wa,aa_ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
+Asqwa_allpass=parallel_allpassAsq(wa,aa_ab,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
 maxAbsAsqwa_freqz_allpass_eps=max(abs(Asqwa_freqz-Asqwa_allpass))/eps;
-if maxAbsAsqwa_freqz_allpass_eps > 20
-  error("max(abs(Asqwa_freqz-Asqwa_allpass))/eps(=%g)>20\n",
+if maxAbsAsqwa_freqz_allpass_eps > 100
+  error("max(abs(Asqwa_freqz-Asqwa_allpass))/eps(=%g)>100\n",
           maxAbsAsqwa_freqz_allpass_eps);
 endif
 
@@ -95,7 +97,7 @@ endif
 %
 
 % Passband amplitude
-AsqwaMAsqd=Asqwa_freqz-Asqd;
+AsqwaMAsqd=Asqwa_freqz-(Asqd);
 Ewa_freqz=sum(diff(wa).*((Wa(1:(n-1)).*(AsqwaMAsqd(1:n-1).^2)) + ...
                          (Wa(2:end).*(AsqwaMAsqd(2:end).^2))))/2;
 
@@ -109,7 +111,7 @@ Eab_test = Ewa_freqz + Ewt_grpdelay;
 
 % Use parallel_allpass_mmse_error to find the MMSE error
 Eab_allpass=parallel_allpass_mmse_error ...
-  (aa_ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase,wa,Asqd,Wa,wt,Td,Wt);
+  (aa_ab,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,wa,Asqd,Wa,wt,Td,Wt);
 
 % Compare the MMSE error values
 absEeps=abs(Eab_test-Eab_allpass)/eps;
@@ -121,7 +123,7 @@ endif
 % Check partial derivatives of the MMSE error
 %
 [Eabc,gradEabc]=...
-  parallel_allpass_mmse_error(aa_ab,Va,Qa,Ra,Vb,Qb,Rb,...
+  parallel_allpass_mmse_error(aa_ab,K,Va,Qa,Ra,Vb,Qb,Rb,...
                               polyphase,wa,Asqd,Wa,wt,Td,Wt);
 
 delEdelRpa=gradEabc(1:Va);
@@ -144,7 +146,7 @@ for k=1:Va
 
   % delPdelRpa
   [Eabcd,gradEabcd]=...
-    parallel_allpass_mmse_error(aa_ab+delk,Va,Qa,Ra,Vb,Qb,Rb,...
+    parallel_allpass_mmse_error(aa_ab+delk,K,Va,Qa,Ra,Vb,Qb,Rb,...
                                 polyphase,wa,Asqd,Wa,wt,Td,Wt);
   printf("delEdelRpa=%g, approx=%g, diff=%g\n",...
          delEdelRpa(k), (Eabcd-Eabc)/del,...
@@ -157,7 +159,7 @@ for k=1:Qaon2
 
   % delPdelrpa
   [Eabcd,gradEabcd]=...
-    parallel_allpass_mmse_error(aa_ab+delk,Va,Qa,Ra,Vb,Qb,Rb,...
+    parallel_allpass_mmse_error(aa_ab+delk,K,Va,Qa,Ra,Vb,Qb,Rb,...
                                 polyphase,wa,Asqd,Wa,wt,Td,Wt);
   printf("delEdelrpa=%g, approx=%g, diff=%g\n",...
          delEdelrpa(k), (Eabcd-Eabc)/del, ...
@@ -170,7 +172,7 @@ for k=1:Qaon2
 
   % delPdelthetapa
   [Eabcd,gradEabcd]=...
-    parallel_allpass_mmse_error(aa_ab+delk,Va,Qa,Ra,Vb,Qb,Rb,...
+    parallel_allpass_mmse_error(aa_ab+delk,K,Va,Qa,Ra,Vb,Qb,Rb,...
                                 polyphase,wa,Asqd,Wa,wt,Td,Wt);
   printf("delPdelthetapa=%g, approx=%g, diff=%g\n",...
          delEdelthetapa(k), (Eabcd-Eabc)/del,...
@@ -185,7 +187,7 @@ for k=1:Vb
 
   % delPdelRpb
   [Eabcd,gradEabcd]=...
-    parallel_allpass_mmse_error(aa_ab+delk,Va,Qa,Ra,Vb,Qb,Rb,...
+    parallel_allpass_mmse_error(aa_ab+delk,K,Va,Qa,Ra,Vb,Qb,Rb,...
                                 polyphase,wa,Asqd,Wa,wt,Td,Wt);
   printf("delEdelRpb=%g, approx=%g, diff=%g\n",...
          delEdelRpb(k), (Eabcd-Eabc)/del,...
@@ -198,7 +200,7 @@ for k=1:Qbon2
 
   % delPdelrpb
   [Eabcd,gradEabcd]=...
-    parallel_allpass_mmse_error(aa_ab+delk,Va,Qa,Ra,Vb,Qb,Rb,...
+    parallel_allpass_mmse_error(aa_ab+delk,K,Va,Qa,Ra,Vb,Qb,Rb,...
                                 polyphase,wa,Asqd,Wa,wt,Td,Wt);
   printf("delEdelrpb=%g, approx=%g, diff=%g\n",...
          delEdelrpb(k), (Eabcd-Eabc)/del, ...
@@ -211,7 +213,7 @@ for k=1:Qbon2
 
   % delPdelthetapb
   [Eabcd,gradEabcd]=...
-    parallel_allpass_mmse_error(aa_ab+delk,Va,Qa,Ra,Vb,Qb,Rb,...
+    parallel_allpass_mmse_error(aa_ab+delk,K,Va,Qa,Ra,Vb,Qb,Rb,...
                                 polyphase,wa,Asqd,Wa,wt,Td,Wt);
   printf("delPdelthetapb=%g, approx=%g, diff=%g\n",...
          delEdelthetapb(k), (Eabcd-Eabc)/del,...
@@ -222,4 +224,5 @@ endfor
 
 % Done
 diary off
-movefile polyphase_allpass_mmse_error_test.diary.tmp polyphase_allpass_mmse_error_test.diary;
+movefile polyphase_allpass_mmse_error_test.diary.tmp ...
+         polyphase_allpass_mmse_error_test.diary;

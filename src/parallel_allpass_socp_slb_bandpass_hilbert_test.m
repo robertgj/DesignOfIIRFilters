@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_bandpass_hilbert_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -17,12 +17,12 @@ strf="parallel_allpass_socp_slb_bandpass_hilbert_test";
 %
 % Initial coefficients from tarczynski_parallel_allpass_bandpass_hilbert_test.m
 %
-Da0 = [   1.0000000000,  -1.3419083642,   0.9474053665,   0.8932394713, ... 
-         -1.9577425273,   1.7243229570,  -0.3128783437,  -0.6225716131, ... 
-          0.7615817995,  -0.3630932621,   0.0929764525 ]';
-Db0 = [   1.0000000000,  -1.9568187576,   1.2934169329,   1.1293002733, ... 
-         -2.6916225471,   2.1601049527,  -0.3125221494,  -0.8696178419, ... 
-          0.9380517293,  -0.4314959988,   0.1003220024 ]';
+Da0 = [   1.0000000000,  -1.3420348529,   0.9476408004,   0.8924339392, ... 
+         -1.9566456567,   1.7230582345,  -0.3125109409,  -0.6221973493, ... 
+          0.7605942655,  -0.3624502969,   0.0926731060 ]';
+Db0 = [   1.0000000000,  -1.9568937354,   1.2936834023,   1.1283899984, ... 
+         -2.6900919871,   2.1584733783,  -0.3119350555,  -0.8689577257, ... 
+          0.9367692460,  -0.4306409818,   0.1000235909 ]';
 
 %
 % Band-pass filter specification for parallel all-pass filters
@@ -126,7 +126,7 @@ abl=[al(:);bl(:)];
 abu=[au(:);bu(:)];
 
 % Find initial response
-Asq0=parallel_allpassAsq(wa,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+Asq0=parallel_allpassAsq(wa,ab0,1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 T0=parallel_allpassT(wa,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 P0=parallel_allpassP(wa,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
              
@@ -145,7 +145,7 @@ axis([0 0.5 0 20]);
 grid("on");
 subplot(313);
 plot(wa*0.5/pi,(P0+(wa*td))/pi);
-ylabel("Phase(rad./pi)\n(corrected for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([0 0.5 0 2]);
 grid("on");
@@ -157,7 +157,7 @@ close
 %
 [abm,opt_iter,func_iter,feasible]= ...
   parallel_allpass_socp_mmse([],ab0,abu,abl, ...
-                             Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
+                             1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                              wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
 if !feasible
@@ -169,7 +169,7 @@ endif
 %
 [ab1,slb_iter,opt_iter,func_iter,feasible]= ...
 parallel_allpass_slb(@parallel_allpass_socp_mmse,abm,abu,abl, ...
-                     Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
+                     1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
                      wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                      wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
 if !feasible
@@ -209,7 +209,7 @@ axis([0 0.5 10 30]);
 grid("on");
 subplot(313);
 plot(wplot*0.5/pi,mod((Pab1+(wplot*td))/pi,2));
-ylabel("Phase(rad./pi)\n(corrected for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([0 0.5 0 2]);
 grid("on");
@@ -230,7 +230,7 @@ axis([min([fapl,ftpl,fppl]) max([fapu,ftpu,fppl]) td-tdr td+tdr]);
 grid("on");
 subplot(313);
 plot(wplot*0.5/pi,mod((Pab1+(wplot*td))/pi,2));
-ylabel("Phase(rad./pi)\n(corrected for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([min([fapl,ftpl,fppl]) max([fapu,ftpu,fppl]) pd-pdr pd+pdr]);
 grid("on");
@@ -255,7 +255,7 @@ plot(wplot*0.5/pi,(Pa+(wplot*td))/pi,"-", ...
 strt=sprintf("Parallel allpass bandpass Hilbert : all-pass filter phase \
 responses : ma=%d,mb=%d,td=%g",ma,mb,td);
 title(strt);
-ylabel("All-pass filter phase (rad./pi)\n(corrected for delay)");
+ylabel("All-pass filter phase (rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 legend("Filter A","Filter B","location","northwest");
 legend("boxoff");
@@ -264,11 +264,11 @@ print(strcat(strf,"_ab1phase"),"-dpdflatex");
 close
 
 % PCLS amplitude at local peaks
-Asq=parallel_allpassAsq(wa,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+Asq=parallel_allpassAsq(wa,ab1,1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 vAl=local_max(Asqdl-Asq);
 vAu=local_max(Asq-Asqdu);
 wAsqS=unique([wa(vAl);wa(vAu);wa([1,nasl,napl,napu,nasu,end])]);
-AsqS=parallel_allpassAsq(wAsqS,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+AsqS=parallel_allpassAsq(wAsqS,ab1,1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 printf("d1:fAS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
 

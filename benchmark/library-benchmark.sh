@@ -142,14 +142,6 @@ grep MFLOPS linpack.libtatlas.log | \
 awk '{flops=flops+$2;}; \
      END {printf("linpack libtatlas MFLOPS=%g\n",flops/10);}'
 
-echo "libopenblas, linpack.m"
-for k in `seq 1 10`;do 
-    LD_PRELOAD=/usr/lib64/libopenblas.so.0 $OCTAVE -q linpack.m
-done > linpack.libopenblas.log
-grep MFLOPS linpack.libopenblas.log | \
-awk '{flops=flops+$2;}; \
-     END {printf("linpack libopenblas MFLOPS=%g\n",flops/10);}'
-
 echo "libopenblasp, 1 thread, linpack.m"
 for k in `seq 1 10`;do 
     export OPENBLAS_NUM_THREADS=1
@@ -247,12 +239,6 @@ for k in `seq 1 10`;do
     LD_PRELOAD=/usr/lib64/atlas/libtatlas.so.3 $OCTAVE -q iir_benchmark.m 
 done | awk '{elapsed=elapsed+$4;};\
   END {printf("iir_benchmark libtatlas elapsed=%g\n",elapsed/10);}'
-
-echo "libopenblas, iir_benchmark.m"
-for k in `seq 1 10`;do 
-    LD_PRELOAD=/usr/lib64/libopenblas.so.0 $OCTAVE -q iir_benchmark.m
-done | awk '{elapsed=elapsed+$4;};\
-  END {printf("iir_benchmark libopenblas elapsed=%g\n",elapsed/10);}'
 
 echo "libopenblasp, 1 thread, iir_benchmark.m"
 export OPENBLAS_NUM_THREADS=1

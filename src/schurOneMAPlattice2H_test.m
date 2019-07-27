@@ -62,8 +62,8 @@ diff_A2Hw=0;
 A2HwPdelw2=schurOneMAPlattice2H(wpass+delw/2,A2A,A2B,A2Cap,A2Dap);
 A2HwMdelw2=schurOneMAPlattice2H(wpass-delw/2,A2A,A2B,A2Cap,A2Dap);
 diff_A2Hw=(A2HwPdelw2-A2HwMdelw2)/delw;
-if abs(diff_A2Hw-A2dHdw(npass)) > delw/776.27
-  error("abs(diff_A2Hw-A2dHdw(npass)) > delw/776.27");
+if abs(diff_A2Hw-A2dHdw(npass)) > delw/673.5
+  error("abs(diff_A2Hw-A2dHdw(npass)) > delw/673.5");
 endif
 
 % Check the gradients of A1H wrt A1k
@@ -254,8 +254,8 @@ diff_A2diagd2Hdk2=zeros(1,columns(A2diagd2Hdk2));
   schurOneMAPlattice2H(wpass-(delw/2),A2A,A2B,A2Cap,A2Dap, ...
                        A2dAdkc,A2dBdkc,A2dCapdkc,A2dDapdkc);
 diff_A2diagd2Hdk2=(A2diagd2Hdk2P-A2diagd2Hdk2M)/delw;
-if max(abs(diff_A2diagd2Hdk2-A2diagd3Hdwdk2(npass,:))) > delw/1.759
-  error("max(abs(diff_A2diagd2Hdk2-A2diagd3Hdwdk2(npass,:))) > delw/1.759");
+if max(abs(diff_A2diagd2Hdk2-A2diagd3Hdwdk2(npass,:))) > delw/1.506
+  error("max(abs(diff_A2diagd2Hdk2-A2diagd3Hdwdk2(npass,:))) > delw/1.506");
 endif
 
 % Done

@@ -1,5 +1,5 @@
 % tarczynski_allpass2ndOrderCascade_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Design a lowpass filter that is the parallel combination of two 2nd order
 % cascade allpass filters using the method of Tarczynski et al. 
@@ -134,7 +134,7 @@ function E=WISEJ_AB(ab,_flat_delay,_ma,_mb, ...
 endfunction
 
 % Filter specification
-maxiter=1000;
+maxiter=10000;
 tol=1e-6;
 n=1000;
 flat_delay=false
@@ -157,7 +157,7 @@ else
   td=(ma+mb)/2;
   Wtp=0;
   fas=0.17;
-  Was=250;
+  Was=100;
 endif
 
 % Frequency points
@@ -179,8 +179,8 @@ Ws=Was*ones(n-nas,1);
 % Unconstrained minimisation
 ab0=0.1*ones(ma+mb,1);
 WISEJ_AB([],flat_delay,ma,mb,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,verbose);
-opts=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter);
-[ab1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_AB,ab0,opts);
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[ab1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_AB,ab0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -296,7 +296,7 @@ clf();
 subplot(111);
 phase_diff=(unwrap(arg(Ha))-unwrap(arg(Hb)));
 ax=plotyy(wplot(1:np)*0.5/pi,phase_diff(1:np), ...
-          wplot(ns:end)*0.5/pi,phase_diff(ns:end))
+          wplot(ns:end)*0.5/pi,phase_diff(ns:end));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 ylabel("Allpass filter phase difference(rad)");

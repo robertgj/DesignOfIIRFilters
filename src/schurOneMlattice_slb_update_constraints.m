@@ -1,5 +1,7 @@
 function vS=schurOneMlattice_slb_update_constraints ...
               (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,tol)
+% vS=schurOneMlattice_slb_update_constraints ...
+%      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,tol)
 
 % Copyright (C) 2017,2018 Robert G. Jenssen
 %

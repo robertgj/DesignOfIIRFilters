@@ -1,5 +1,5 @@
 % test_common.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 % Normally these would be in .octaverc or ~/.octaverc
 
@@ -9,7 +9,7 @@ pkg load signal optim;
 graphics_toolkit("gnuplot");
 % Change the linewidth for each file format.
 % See :https://savannah.gnu.org/bugs/?43552
-set(0,"defaultlinelinewidth",5);
+set(0,"defaultlinelinewidth",8);
 % Comment the following line for octave-4.0.3
 set(0,"defaultaxestitlefontweight","normal");
 % The following set command disables plotting to the screen.
@@ -37,6 +37,9 @@ warning("error","Octave:possible-matlab-short-circuit-operator");
 warning("error","Octave:precedence-change");
 warning("error","Octave:singular-matrix");
 warning("error","Octave:undefined-return-values");
+
+% See octave-5.1.0/scripts/plot/util/private/__gnuplot_draw_axes__.m:2257
+warning ("off","Octave:latex-markup-not-supported-for-tick-marks");
 
 name_strs={"SeDuMi_1_3","SparsePOP302"};
 mpath=mfilename("fullpath");

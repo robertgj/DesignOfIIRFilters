@@ -84,7 +84,7 @@ T=H2T(H,dHdw);
 if max(abs(T-Tf)) > 3*tol
   error("max(abs(T-Tf)) > 3*tol");
 endif
-allpass_filter_check_gradc1c2(@allpass_LS2a_coef2Abcd,w,c1,c2,del,del/400);
+allpass_filter_check_gradc1c2(@allpass_LS2a_coef2Abcd,w,c1,c2,del,del/200);
 
 
 %

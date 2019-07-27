@@ -14,7 +14,9 @@ allpass2ndOrderCascade_socp_sqmag_test.spec \
 allpass2ndOrderCascade_socp_sqmag_test_a1_coef.m \
 allpass2ndOrderCascade_socp_sqmag_test_b1_coef.m \
 allpass2ndOrderCascade_socp_sqmag_test_Da1_coef.m \
-allpass2ndOrderCascade_socp_sqmag_test_Db1_coef.m
+allpass2ndOrderCascade_socp_sqmag_test_Db1_coef.m \
+allpass2ndOrderCascade_socp_sqmag_test_Nellip_coef.m \
+allpass2ndOrderCascade_socp_sqmag_test_Dellip_coef.m
 
 allpass2ndOrderCascade_socp_sqmag_test_FILES = \
 allpass2ndOrderCascade_socp_sqmag_test.m test_common.m \

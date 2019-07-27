@@ -96,12 +96,12 @@ fas=0.25,Was=1e6
 ftp=0.25,tp=10,Wtp=0.05
 
 % Initial filter calculated by deczky3_socp_test.m
-n0 = [   0.0035977901,  -0.0134269658,   0.0143363295,  -0.0096787013, ... 
-         0.0229529219,  -0.0144341240,  -0.0333637704,  -0.0029705498, ... 
-         0.1004885069,   0.1306720575,   0.1114400119 ]';
-d0 = [   1.0000000000,  -1.6448783196,   1.7550066822,  -1.2418011834, ... 
-         0.6089139784,  -0.2005572872,   0.0349259794,   0.0000000000, ...
-         0.0000000000,   0.0000000000,   0.0000000000 ]';
+n0 = [   0.0034549892,  -0.0126111635,   0.0128424226,  -0.0085225483, ... 
+         0.0217938968,  -0.0126330860,  -0.0347097162,  -0.0044625617, ... 
+         0.1013086677,   0.1318220717,   0.1164537735 ]';
+d0 = [   1.0000000000,  -1.6221027249,   1.7194613866,  -1.2096422600, ... 
+         0.5911699380,  -0.1945010363,   0.0339957995,   0, ...
+         0,              0,              0 ]';
 [k0,epsilon0,p0,c0]=tf2schurOneMlattice(n0,d0);
 
 % Amplitude constraints
@@ -127,8 +127,8 @@ c0=c0(:)';
 c_active=1:length(c0);
 kc0=[k0(k_active),c0(c_active)];
 WISEJ_ONEM([],k0,epsilon0,p0,c0,k_active,c_active,wa,Asqd,Wa,wt,Td,Wt);
-options=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter);
-[kc1,FVEC,INFO,OUTPUT] = fminunc(@WISEJ_ONEM,kc0,options);
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[kc1,FVEC,INFO,OUTPUT] = fminunc(@WISEJ_ONEM,kc0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)

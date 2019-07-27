@@ -84,7 +84,7 @@ function schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
   endif
   axis([0, 0.5, -0.504, -0.496]);
   xlabel("Frequency");
-  ylabel("Phase(rad./pi)\n(Adjusted for delay)");
+  ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
   grid("on");
   print(sprintf(strF,lower(strOpt),"response"),"-dpdflatex"); 
   close

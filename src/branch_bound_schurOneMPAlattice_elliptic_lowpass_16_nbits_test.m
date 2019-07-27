@@ -4,7 +4,7 @@
 % filter composed of parallel Schur one-multiplier all-pass lattice
 % filters with 16-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -31,10 +31,10 @@ format compact
 strf="branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test";
 
 % Initial filters found by parallel_allpass_socp_slb_test.m
-Da1 = [   1.0000000000,  -2.9370256814,   4.2987046309,  -3.5450945854, ... 
-          1.6585880492,  -0.3480706806 ]';
-Db1 = [   1.0000000000,  -3.5079720067,   6.3124993689,  -6.7966514690, ... 
-          4.6197923326,  -1.8531196768,   0.3501151401 ]';
+Da1 = [   1.0000000000,  -2.9402572112,   4.3065870986,  -3.5543099587, ... 
+          1.6640472637,  -0.3494581651 ]';
+Db1 = [   1.0000000000,  -3.5113112515,   6.3224172805,  -6.8117054892, ... 
+          4.6326494921,  -1.8594338344,   0.3514813431 ]';
 
 % Lattice decomposition of Da1 and Db1
 [A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(Da1),Da1);
@@ -172,10 +172,12 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 
 % Fix one coefficient at each iteration 
 if use_best_branch_and_bound_found
-  A1k_min = [ -22528,  30720, -26624,  24064, -12160 ]'/nscale;
-  A2k_min = [ -19704,  32448, -25088,  28544, -23552,  12288 ]'/nscale;
+  A1k_min = [   -22528,    30720,   -26624,    24064, ... 
+                -12160 ]'/32768;
+  A2k_min = [   -19888,    32288,   -25600,    28416, ... 
+                -23552,    12288 ]'/32768;
   k_min=[A1k_min(:);A2k_min(:)];
-  branches_min=47; % 486 seconds
+  branches_min=51; % 975 seconds
   Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon0,A1p_ones, ...
                                 A2k_min,A2epsilon0,A2p_ones, ...
                                 difference,wa,Asqd,Wa);
@@ -311,6 +313,7 @@ else
         improved_solution_found=true;
         Esq_min=Esq;
         k_min=k_b;
+        branches_min=n_branch;
         printf("Improved solution: k_depth=%d, Esq_min=%g\n",k_depth,Esq_min);
         print_polynomial(k_min,"k_min",nscale);
       endif
@@ -323,6 +326,8 @@ endif
   
   % Show results
 if ~improved_solution_found
+  A1k_min=[];
+  A2k_min=[];
   printf("Did not find an improved solution!\n");
 else
   A1k_min=k_min(R1);

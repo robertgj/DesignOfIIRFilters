@@ -18,7 +18,7 @@ format compact
 
 % Filter specification
 tol=1e-6
-maxiter=2000
+maxiter=5000
 polyphase=false
 flat_delay=true
 n=1000;
@@ -56,8 +56,8 @@ Wt=[Wtp*ones(ntp,1);zeros(n-ntp,1)];
 % Unconstrained minimisation
 ab0=[1;zeros(ma-1,1);1;zeros(mb-1,1)];
 WISEJ_PA([],ma,mb,R,polyphase,w,Ad,Wa,Td,Wt);
-options=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter);
-[ab1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PA,ab0,options);
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[ab1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PA,ab0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)

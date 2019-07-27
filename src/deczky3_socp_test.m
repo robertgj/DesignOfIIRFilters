@@ -1,5 +1,5 @@
 % deczky3_socp_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -11,15 +11,15 @@ tic;
 
 format compact
 
-tol=2e-5
-ctol=tol
+tol=1e-4
+ctol=tol/10
 maxiter=2000
 verbose=false;
 
 % Deczky3 Lowpass filter specification
 U=0,V=0,Q=6,M=10,R=1
 fap=0.15,dBap=0.1,Wap=1
-fas=0.3,dBas=33,Was=1.1
+fas=0.3,dBas=33,Was=1
 ftp=0.25,tp=10,tpr=0.003,Wtp=1
 
 % Deczky example 3 initial coefficients

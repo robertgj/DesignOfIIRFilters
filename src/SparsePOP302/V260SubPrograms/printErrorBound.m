@@ -12,7 +12,7 @@ end
 %		fprintf('## some variables in POP are removed by param.reduceAMatSW = 1.\n');
 %		fprintf('## To compute error bounds, set param.reduceAMatSW = 0.\n');
 %	end
-%	if isfield(param,'printFileName') && ~isempty(param.printFileName) && isstr(param.printFileName)
+%	if isfield(param,'printFileName') && ~isempty(param.printFileName) && ischar(param.printFileName)
 %		fileId = fopen(param.printFileName,'a+');
 %		fprintf(fileId, '## Cannot apply the computation of error bounds because\n');
 %		fprintf(fileId, '## some variables in POP are removed by param.reduceAMatSW = 1.\n');

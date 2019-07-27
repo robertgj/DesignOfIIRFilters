@@ -1,5 +1,5 @@
 % sv2block_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -73,8 +73,11 @@ ngABCDbf=ngABCDopt/mblock
 est_nvABCDbf=sqrt((1+(delta*delta*ngABCDbf))/12)
 
 % Run the block filter
-[yb,xxb]=svf(Abf,Bbf,Cbf,Dbf,u,"none");
-[ybf,xxbf]=svf(Abf,Bbf,Cbf,Dbf,u,"round");
+ub=reshape(u(:)',mblock,floor(nsamples/mblock))';
+[yb,xxb]=svf(Abf,Bbf,Cbf,Dbf,ub,"none");
+yb=yb'(:);
+[ybf,xxbf]=svf(Abf,Bbf,Cbf,Dbf,ub,"round");
+ybf=ybf'(:);
 
 % Check the RMS roundoff noise in bits for the block filter
 nvABCDbf=std(ybf-yb)

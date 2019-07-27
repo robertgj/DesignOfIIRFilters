@@ -1,5 +1,5 @@
 % parallel_allpass_delay_sqp_slb_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -11,7 +11,7 @@ tic;
 
 format compact
 verbose=false
-maxiter=2000
+maxiter=5000
 strf="parallel_allpass_delay_sqp_slb_test";
 
 % Lowpass filter specification for parallel all-pass filters
@@ -26,7 +26,7 @@ dBap=0.05
 Wap=1
 fas=0.2
 dBas=46
-Was=200
+Was=100
 % Unused delay specification
 ftp=0.15
 td=11
@@ -34,10 +34,10 @@ tdr=inf
 Wtp=0
 
 % Initial coefficients found by tarczynski_parallel_allpass_delay_test.m
-Da0 = [  1.0000000000,  -0.5293688883,   0.3581214335,   0.1868454361, ... 
-         0.0310301175,  -0.0571095893,  -0.0703708398,  -0.0384386678, ... 
-        -0.0003605782,   0.0199157506,   0.0202940598,   0.0113549168, ... 
-         0.0034443540 ]';
+Da0 = [   1.0000000000,  -0.5293611377,   0.3581368348,   0.1868795745, ... 
+          0.0310949260,  -0.0570094736,  -0.0702446896,  -0.0383080635, ... 
+         -0.0002494299,   0.0199925321,   0.0203357943,   0.0113714592, ... 
+          0.0034482822 ]';
 
 % Coefficient constraints
 rho=127/128

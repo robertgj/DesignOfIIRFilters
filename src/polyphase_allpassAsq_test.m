@@ -38,7 +38,7 @@ Hab_freqz=freqz(Bab,Aab,w);
 % Use polyphase_allpassAsq to find the squared-magnitude response
 aa_ab=[aa(:);ab(:);];
 w=w(:);
-Asqab_allpass=parallel_allpassAsq(w,aa_ab,Va,Qa,R,Vb,Qb,R,true);
+Asqab_allpass=parallel_allpassAsq(w,aa_ab,1,Va,Qa,R,Vb,Qb,R,true);
 
 % Compare the squared-amplitude responses
 maxAbsDelAsqeps=max(abs(Asqab_allpass-(abs(Hab_freqz(:)).^2)))/eps;
@@ -54,7 +54,8 @@ fc=0.20;
 wc=2*pi*fc;
 
 % Check partial derivatives of the phase
-[Asqabc,gradAsqabc]=parallel_allpassAsq(wc,aa_ab,Va,Qa,R,Vb,Qb,R,true);
+[Asqabc,gradAsqabc]=parallel_allpassAsq(wc,aa_ab, ...
+                                        1,Va,Qa,R,Vb,Qb,R,true);
 
 delAsqdelRpa=gradAsqabc(1:Va);
 Qaon2=Qa/2;
@@ -75,7 +76,8 @@ for k=1:Va
   printf("Filter a: real pole/zero %d\n", k);
 
   % delPdelRpa
-  [Asqabcd,gradAsqabcd]=parallel_allpassAsq(wc,aa_ab+delk,Va,Qa,R,Vb,Qb,R,true);
+  [Asqabcd,gradAsqabcd]=parallel_allpassAsq(wc,aa_ab+delk, ...
+                                            1,Va,Qa,R,Vb,Qb,R,true);
   printf("delAsqdelRpa=%f, approx=%f, diff=%f\n",...
          delAsqdelRpa(k), (Asqabcd-Asqabc)/del, ...
          delAsqdelRpa(k)-((Asqabcd-Asqabc)/del));
@@ -86,7 +88,8 @@ for k=1:Qaon2
   printf("Filter a: conjugate pole/zero %d radius\n", k);
 
   % delPdelrpa
-  [Asqabcd,gradAsqabcd]=parallel_allpassAsq(wc,aa_ab+delk,Va,Qa,R,Vb,Qb,R,true);
+  [Asqabcd,gradAsqabcd]=parallel_allpassAsq(wc,aa_ab+delk, ...
+                                            1,Va,Qa,R,Vb,Qb,R,true);
   printf("delAsqdelrpa=%f, approx=%f, diff=%f\n",...
          delAsqdelrpa(k), (Asqabcd-Asqabc)/del, ...
          delAsqdelrpa(k)-((Asqabcd-Asqabc)/del));
@@ -97,7 +100,8 @@ for k=1:Qaon2
   printf("Filter a: conjugate pole/zero %d angle\n", k);
 
   % delPdelthetapa
-  [Asqabcd,gradAsqabcd]=parallel_allpassAsq(wc,aa_ab+delk,Va,Qa,R,Vb,Qb,R,true);
+  [Asqabcd,gradAsqabcd]=parallel_allpassAsq(wc,aa_ab+delk, ...
+                                            1,Va,Qa,R,Vb,Qb,R,true);
   printf("delPdelthetapa=%f, approx=%f, diff=%f\n",...
          delAsqdelthetapa(k), (Asqabcd-Asqabc)/del,...
          delAsqdelthetapa(k)-((Asqabcd-Asqabc)/del));
@@ -110,7 +114,8 @@ for k=1:Vb
   printf("Filter b: real pole/zero %d\n", k);
 
   % delPdelRpb
-  [Asqabcd,gradAsqabcd]=parallel_allpassAsq(wc,aa_ab+delk,Va,Qa,R,Vb,Qb,R,true);
+  [Asqabcd,gradAsqabcd]=parallel_allpassAsq(wc,aa_ab+delk, ...
+                                            1,Va,Qa,R,Vb,Qb,R,true);
   printf("delAsqdelRpb=%f, approx=%f, diff=%f\n",...
          delAsqdelRpb(k), (Asqabcd-Asqabc)/del,...
          delAsqdelRpb(k)-((Asqabcd-Asqabc)/del));
@@ -121,7 +126,8 @@ for k=1:Qbon2
   printf("Filter b: conjugate pole/zero %d radius\n", k);
 
   % delPdelrpb
-  [Asqabcd,gradAsqabcd]=parallel_allpassAsq(wc,aa_ab+delk,Va,Qa,R,Vb,Qb,R,true);
+  [Asqabcd,gradAsqabcd]=parallel_allpassAsq(wc,aa_ab+delk, ...
+                                            1,Va,Qa,R,Vb,Qb,R,true);
   printf("delAsqdelrpb=%f, approx=%f, diff=%f\n",...
          delAsqdelrpb(k), (Asqabcd-Asqabc)/del, ...
          delAsqdelrpb(k)-((Asqabcd-Asqabc)/del));
@@ -132,7 +138,8 @@ for k=1:Qbon2
   printf("Filter b: conjugate pole/zero %d angle\n", k);
 
   % delPdelthetapb
-  [Asqabcd,gradAsqabcd]=parallel_allpassAsq(wc,aa_ab+delk,Va,Qa,R,Vb,Qb,R,true);
+  [Asqabcd,gradAsqabcd]=parallel_allpassAsq(wc,aa_ab+delk, ...
+                                            1,Va,Qa,R,Vb,Qb,R,true);
   printf("delPdelthetapb=%f, approx=%f, diff=%f\n",...
          delAsqdelthetapb(k), (Asqabcd-Asqabc)/del,...
          delAsqdelthetapb(k)-((Asqabcd-Asqabc)/del));

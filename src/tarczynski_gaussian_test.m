@@ -34,7 +34,8 @@ Wd=ones(size(wd));
 % Unconstrained minimisation
 NI=[1;ones(nN+nD,1)];
 WISEJ([],nN,nD,R,wd,Hd,Wd);
-[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,NI,optimset("TolFun",tol,"TolX",tol));
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,NI,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)

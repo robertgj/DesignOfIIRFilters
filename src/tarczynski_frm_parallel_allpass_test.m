@@ -1,5 +1,5 @@
 % tarczynski_frm_parallel_allpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Design an FRM filter from a parallel allpass IIR model filter
 % and FIR masking filters using the method of Tarczynski et al.
@@ -110,8 +110,8 @@ function E=WISEJ_FRM_PA(adac,_mr,_ms,_na,_nc,_Mmodel, ...
 endfunction
 
 if no_phase
-  maxiter=1000
-  tol=1e-6 % Tolerance on coefficient update vector
+  maxiter=2000
+  tol=1e-8 % Tolerance on coefficient update vector
   n=200 % Number of frequency points
   mr=8 % Allpass model filter order 
   ms=7 % Allpass model filter order
@@ -123,11 +123,11 @@ if no_phase
   Tnominal=0 % Nominal FRM filter passband delay
   fpass=0.3 % Pass band edge
   fstop=0.305 % Stop band edge
-  dBas=60 % Stop band attenuation
+  dBas=50 % Stop band attenuation
   Wap=1 % Pass band weight
-  Wapextra=0 % Extra pass band amplitude weight for extra points
-  Wasextra=0 % Extra stop band amplitude weight for extra points
-  Was=1000 % Stop band amplitude weight
+  Wapextra=10 % Extra pass band amplitude weight for extra points
+  Wasextra=500 % Extra stop band amplitude weight for extra points
+  Was=100 % Stop band amplitude weight
   edge_factor=0.1 % Add extra frequencies near band edge
   edge_ramp=0 % Linear change of extra weights
 else
@@ -169,8 +169,8 @@ adac0=[r0(2:end);s0(2:end);aa0;ac0];
 
 % Unconstrained minimisation
 WISEJ_FRM_PA([],mr,ms,na,nc,Mmodel,no_phase,wpass,Hpass,Wpass,wstop,Hstop,Wstop);
-options=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter);
-[adac1,FVEC,INFO,OUTPUT] = fminunc(@WISEJ_FRM_PA,adac0,options);
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[adac1,FVEC,INFO,OUTPUT] = fminunc(@WISEJ_FRM_PA,adac0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)

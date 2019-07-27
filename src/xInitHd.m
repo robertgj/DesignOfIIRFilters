@@ -1,6 +1,7 @@
-function [X0,FVEC]=xInitHd(XI,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,tol)
+function [X0,FVEC]=xInitHd(XI,U,V,M,Q,R, ...
+                           wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,maxiter,tol)
 % function [X0,FVEC]=xInitHd(XI,U,V,M,Q,R, ...
-%                            wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,tol)
+%                            wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,maxiter,tol)
 % Derive an IIR filter with unconstrained optimisation of the
 % transfer function polynomial coefficients sand the "WISE" 
 % barrier function. 
@@ -23,6 +24,7 @@ function [X0,FVEC]=xInitHd(XI,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,tol)
 %  wp - angular frequencies of desired phase response
 %  Pd - desired phase response
 %  Wp - desired phase response weighting function
+%  maxiter - 
 %  tol - tolerance for function and x value differences
 % Outputs:
 %  X0 - filter design as [gain, real zero radii, real pole radii,
@@ -57,9 +59,9 @@ function [X0,FVEC]=xInitHd(XI,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,tol)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if nargin!=19
+if nargin!=20
   print_usage("[X0,FVEC]=xInitHd(XI,U,V,M,Q,R, ..\n\
-    wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,tol)");
+    wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,maxiter,tol)");
 endif
 % Sanity checks
 if ((length(wa) != length(Ad)) || (length(wa) != length(Wa)))
@@ -77,10 +79,10 @@ endif
 
 % Initialisation
 WISEJ_X(XI,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp);
-fminunc_options = optimset("TolFun",tol,"TolX",tol);
+opt = optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
 
 % Unconstrained minimisation
-[X0, FVEC, INFO, OUTPUT] = fminunc(@WISEJ_X,XI,fminunc_options);
+[X0, FVEC, INFO, OUTPUT] = fminunc(@WISEJ_X,XI,opt);
 if (INFO == 1)
    printf("Converged to a solution point.\n");
 elseif (INFO == 2)

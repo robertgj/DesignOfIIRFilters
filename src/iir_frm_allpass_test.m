@@ -39,10 +39,13 @@ x0.ac = [ -0.0058372532,  -0.0018606215,   0.0079382993,  -0.0012568145, ...
            0.0067886150,  -0.0110495541,   0.0029550866,   0.0055582177, ... 
           -0.0096958156,  -0.0012568145,   0.0079382993,  -0.0018606215, ... 
           -0.0058372532 ]';
-fap=0.3; % Pass band edge
 Mmodel=9; % Model filter decimation
 Dmodel=9; % Desired model filter passband delay
 dmask=(max(length(x0.aa),length(x0.ac))-1)/2; % FIR masking filter delay
+nplot=1000;
+w=(0:(nplot-1))'*pi/nplot;
+fap=0.30; % Pass band edge
+nap=(ceil(fap*nplot/0.5)+1);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -88,77 +91,72 @@ elseif na<nc
 endif
 nM=([conv(flipud(rM),x0.aa+x0.ac);zeros(Mmodel*Dmodel,1)] + ...
     [zeros(Mmodel*Dmodel,1);conv(x0.aa-x0.ac,rM)])/2;
-n=2048;
-[Hp,w]=freqz(nM,rM,n);
+Hp=freqz(nM,rM,w);
 Asqp=abs(Hp).^2;
 [Asq,T]=iir_frm_allpass(w,xk,Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
-tolAsq=200*eps;
-if max(abs(Asq-Asqp)) > tolAsq
-  error("max(abs(Asq-Asqp)) > tolAsq (%d*eps)", ...
+if max(abs(Asq-Asqp)) > 500*eps
+  error("Whole band max(abs(Asq-Asqp)) > 500*eps (%d*eps)", ...
         ceil(max(abs(Asq-Asqp))/eps));
 endif
-nap=ceil(fap*n/0.5)+1;
-Tp=grpdelay(nM,rM,n)-((Mmodel*Dmodel)+dmask);
+Tp=grpdelay(nM,rM,w)-((Mmodel*Dmodel)+dmask);
 Tp=Tp(1:nap);
 T=T(1:nap);
-tolT=307328*eps;
-if max(abs(T-Tp)) > tolT
-  error("max(abs(T(1:%d)-Tp(1:%d))) > tolT (%d*eps)", ...
-        nap,nap,ceil(max(abs(T-Tp))/eps));
+if max(abs(T-Tp)) > 3e5*eps
+  error("Pass band max(abs(T-Tp)) > 3e5*eps (%d*eps)",ceil(max(abs(T-Tp))/eps));
 endif
+% Don't do whole band check on T
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Check gradients of Asq
 %
 del=1e-6;
-w=[0.5;1.1]*fap*n/0.5;
-[Asq,T,gradAsq]=iir_frm_allpass(w,xk,Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
+[Asq,~,gradAsq]=iir_frm_allpass(w,xk,Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
 Nxk=length(xk);
 delxk=[del;zeros(Nxk-1,1)];
-tolgradAsq=130*del;
+approx_gradAsq=zeros(nplot,Nxk);
 for k=1:Nxk
   % Test gradient of amplitude response with respect to coefficients 
-  [AsqD,TD,gradAsqD]=iir_frm_allpass(w,xk+delxk,Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
-  approx_gradAsq=(AsqD-Asq)/del;
-  diff_gradAsq=abs((gradAsq(:,k)-approx_gradAsq)./gradAsq(:,k));
-  if 0
-    printf("gradAsq(1,%d)=%f,diff_gradAsq(1)=%g\n",
-           k,gradAsq(1,k),diff_gradAsq(1));
-    printf("gradAsq(2,%d)=%f,diff_gradAsq(1)=%g\n",
-           k,gradAsq(2,k),diff_gradAsq(2));
-  endif
-  if max(diff_gradAsq) > tolgradAsq
-    error("max(diff_gradAsq)> tolgradAsq(k=%d)",k);
-  endif
+  AsqP=iir_frm_allpass(w,xk+(delxk/2),Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
+  AsqM=iir_frm_allpass(w,xk-(delxk/2),Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
+  approx_gradAsq(:,k)=(AsqP-AsqM)/del;
   delxk=shift(delxk,1);
 endfor
+diff_gradAsq=approx_gradAsq-gradAsq;
+% Pass band
+if max(max(abs(diff_gradAsq(1:nap,:)))) > del/20;
+  error("Pass band max(max(abs(diff_gradAsq)))(%g*del) > del/20", ...
+        max(max(abs(diff_gradAsq(1:nap,:))))/del);
+endif
+% Whole band
+if max(max(abs(diff_gradAsq))) > del/20;
+  error("Whole band max(max(abs(diff_gradAsq)))(%g*del) > del/20",
+        max(max(abs(diff_gradAsq)))/del);
+endif
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Check gradients of T
 %
 del=1e-6;
-w=[0.5;1.1]*fap*n/0.5;
-[Asq,T,gradAsq,gradT]=iir_frm_allpass(w,xk,Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
+[~,T,~,gradT]=iir_frm_allpass(w,xk,Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
 Nxk=length(xk);
 delxk=[del;zeros(Nxk-1,1)];
-tolgradT=688.5*del;
+approx_gradT=zeros(nplot,Nxk);
 for k=1:Nxk
   % Test gradient of phase response with respect to coefficients
-  [AsqD,TD,gradAsqD,gradTD]= ...
-    iir_frm_allpass(w,xk+delxk,Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
-  approx_gradT=(TD-T)/del;
-  diff_gradT=abs((gradT(:,k)-approx_gradT)./gradT(:,k));
-  if 0
-    printf("gradT(1,%d)=%f,diff_gradT(1)=%g\n",k,gradT(1,k),diff_gradT(1));
-    printf("gradT(2,%d)=%f,diff_gradT(2)=%g\n",k,gradT(2,k),diff_gradT(2));
-  endif
-  if max(diff_gradT) > tolgradT
-    error("max(diff_gradT)> tolgradT(k=%d)",k);
-  endif
+  [~,TP]=iir_frm_allpass(w,xk+(delxk/2),Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
+  [~,TM]=iir_frm_allpass(w,xk-(delxk/2),Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
+  approx_gradT(:,k)=(TP-TM)/del;
   delxk=shift(delxk,1);
 endfor
+diff_gradT=approx_gradT-gradT;
+% Pass band
+if max(max(abs(diff_gradT(1:nap,:)))) > 40*del;
+  error("Pass band max(max(abs(diff_gradT)))(%g*del) > 40*del", ...
+        max(max(abs(diff_gradT(1:nap,:))))/del);
+endif
+% Don't do whole band check on gradT
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %

@@ -4,9 +4,11 @@ function [y,xx]=svf(a,b,c,d,u,rounding,efb)
 % represented by a,b,c,d. rounding determines the rounding used,
 % "round" for rounding to nearest, "fix" for rounding to zero,
 % "floor" for rounding to -inf and "lperrfb" for low-pass
-% error feedback with efb bits.
+% error feedback with efb bits. The row numbers of y and u correspond
+% to sample number. The rows of u are inputs at each sample and the
+% rows of y are the outputs at each sample.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -26,8 +28,33 @@ function [y,xx]=svf(a,b,c,d,u,rounding,efb)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if nargin<5
-  print_usage("[y,xx]=svf(a,b,c,d,u,rounding,efb)");
+% Sanity checks
+if nargin<5 || nargin>7 || nargout>2
+  print_usage("y=svf(a,b,c,d,u) \n\
+[y,xx]=svf(a,b,c,d,u) \n\
+[y,xx]=svf(a,b,c,d,u,rounding) \n\
+[y,xx]=svf(a,b,c,d,u,rounding,efb)");
+endif
+if rows(a)~=columns(a)
+  error("rows(a)~=columns(a)");
+endif
+if rows(a)~=rows(b)
+  error("rows(a)~=rows(b)");
+endif
+if columns(a)~=columns(c)
+  error("columns(a)~=columns(c)");
+endif
+if columns(b)~=columns(d)
+  error("columns(b)~=columns(d)");
+endif
+if rows(c)~=rows(d)
+  error("rows(c)~=rows(d)");
+endif
+if columns(u)~=columns(d)
+  error("columns(u)~=columns(d)");
+endif
+if nargin==5
+  rounding='none';
 endif
 
 % Decode rounding
@@ -52,21 +79,18 @@ else
 end
 
 % Allocate state variable storage 
-xk=zeros(max(size(a)),1);
+nstates=columns(a);
+xk=zeros(nstates,1);
 
 % Allocate output storage now for speed
-u=u(:);
-nsamples=length(u);
-[ynout dec]=size(d);
-nblocks=floor(nsamples/dec);
-nstates=max(size(a));
-xx=zeros(nblocks,nstates);
-y=zeros(nsamples,1);
+nsamples=rows(u);
+xx=zeros(nsamples,nstates);
+noutputs=rows(d);
+y=zeros(nsamples,noutputs);
 
 % Do the filter
-for l=1:nblocks
-  k=1+((l-1)*dec):l*dec;
-  uk=u(k); 
+for k=1:nsamples
+  uk=u(k,:)';    
   if rtype==4
     yk=c*round(xk)+d*uk;
   else
@@ -83,9 +107,9 @@ for l=1:nblocks
   elseif rtype == 4
     xk=round(xk*(2^efb))/(2^efb);
   end
-  % Save 
-  y(k)=yk';
-  xx(l,:)=xk;
+  % Save
+  y(k,:)=yk';
+  xx(k,:)=xk';
 end
 
 % Round the output

@@ -1,5 +1,5 @@
 % schurOneMlatticeEsq_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -91,8 +91,8 @@ for l=1:Nk
   delk=shift(delk,1);
   diff_Esqk(l)=(EsqkPdel2-EsqkMdel2)/del;
 endfor
-if max(abs(diff_Esqk-gradEsq(1:Nk))) > del/171.81
-  error("max(abs(diff_Esqk-gradEsq(1:Nk))) > del/171.81");
+if max(abs(diff_Esqk-gradEsq(1:Nk))) > del/142
+  error("max(abs(diff_Esqk-gradEsq(1:Nk))) > del/142");
 endif
 
 % Check the gradient of the squared-error response wrt c
@@ -123,8 +123,8 @@ for l=1:Nk
   delk=shift(delk,1);
   diff_dEsqdk(l)=(gradEsqkPdel2(l)-gradEsqkMdel2(l))/del;
 endfor
-if max(abs(diff_dEsqdk-diagHessEsq(1:Nk))) > del/0.3955
-  error("max(abs(diff_dEsqdk-diagHessEsq(1:Nk))) > del/0.3955");
+if max(abs(diff_dEsqdk-diagHessEsq(1:Nk))) > del/0.29258
+  error("max(abs(diff_dEsqdk-diagHessEsq(1:Nk))) > del/0.29258");
 endif
 
 % Check the diagonal of the Hessian of the squared-error wrt c
@@ -140,8 +140,8 @@ for l=1:Nc
   delc=shift(delc,1);
   diff_dEsqdc(l)=(gradEsqkPdel2(Nk+l)-gradEsqkMdel2(Nk+l))/del;
 endfor
-if max(abs(diff_dEsqdc-diagHessEsq((Nk+1):end))) > del/0.5712
-  error("max(abs(diff_dEsqdc-diagHessEsq((Nk+1):end))) > del/0.5712");
+if max(abs(diff_dEsqdc-diagHessEsq((Nk+1):end))) > del/0.6043
+  error("max(abs(diff_dEsqdc-diagHessEsq((Nk+1):end))) > del/0.6043");
 endif
 
 % Done

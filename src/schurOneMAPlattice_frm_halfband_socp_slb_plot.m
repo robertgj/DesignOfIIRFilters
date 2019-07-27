@@ -1,5 +1,5 @@
 function schurOneMAPlattice_frm_halfband_socp_slb_plot ...
-           (r,u,v,Mmodel,Dmodel,nplot,strT,strF,strOpt)
+           (k,epsilon,p,u,v,Mmodel,Dmodel,nplot,strT,strF,strOpt)
 
 % Copyright (C) 2017,2018 Robert G. Jenssen
 %
@@ -22,12 +22,13 @@ function schurOneMAPlattice_frm_halfband_socp_slb_plot ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if (nargin ~= 9)
+  if (nargin ~= 11)
     print_usage("schurOneMAPlattice_frm_halfband_socp_slb_plot ...\n\
-      (r,u,v,Mmodel,Dmodel,nplot,strT,strF,strOpt)")
+      (k,epsilon,p,u,v,Mmodel,Dmodel,nplot,strT,strF,strOpt)")
   endif
 
   % Reconstruct the FRM filters
+  r=schurOneMAPlattice2tf(k,epsilon,p);
   r=r(:);
   mr=length(r)-1;
   r2M=zeros((2*Mmodel*mr)+1,1);

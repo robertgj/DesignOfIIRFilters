@@ -17,10 +17,9 @@ ctol=tol;
 strf="directFIRsymmetric_slb_bandpass_test";
 
 % Band pass filter
-M=15;
-fapl=0.1;fapu=0.2;Wap=1;dBap=2;
-fasl=0.05;fasu=0.25;Wasl=20;Wasu=40;dBas=46;
-% Also: M=16,dBap=1,dBas=36.947
+M=16;
+fapl=0.1;fapu=0.2;Wap=1;dBap=1;
+fasl=0.05;fasu=0.25;Wasl=20;Wasu=40;dBas=36.947;
 
 % Desired magnitude response
 nplot=1000;
@@ -69,7 +68,7 @@ A0=directFIRsymmetricA(wa,hM0);
 A1=directFIRsymmetricA(wa,hM1);
 subplot(211)
 plot(wa*0.5/pi,A0,"-",wa*0.5/pi,A1,"--",wa*0.5/pi,Adu,"-",wa*0.5/pi,Adl,"-");
-axis([0 0.5 0.7 1.2]);
+axis([0 0.5 0.6 1.2]);
 ylabel("Amplitude");
 legend("Initial","PCLS","Adu","Adl","location","northeast");
 legend("boxoff");
@@ -96,8 +95,8 @@ hM_active(hM_inactive)=[];
 nbits=8;nscale=2^(nbits-1);
 hM1t=hM1;
 hM1t(hM_inactive)=round(hM1(hM_inactive)*nscale)/nscale;
-dBapt=2;
-dBast=38;
+dBapt=3;
+dBast=25;
 Adut=[(10^(-dBast/20))*ones(nasl,1); ...
       ones(nasu-nasl-1,1); ...
       (10^(-dBast/20))*ones(nplot-nasu+2,1)];
@@ -117,7 +116,7 @@ endif
 A2=directFIRsymmetricA(wa,hM2);
 subplot(211)
 plot(wa*0.5/pi,A0,"-",wa*0.5/pi,A2,"--",wa*0.5/pi,Adut,"-",wa*0.5/pi,Adlt,"-");
-axis([0 0.5 0.7 1.2]);
+axis([0 0.5 0.6 1.2]);
 ylabel("Amplitude");
 legend("Initial","PCLS","Adut","Adlt","location","northeast");
 legend("boxoff");
@@ -129,7 +128,7 @@ fapl=%g,fapu=%g,dBapt=%g,fasl=%g,fasu=%g,dBast=%g", ...
 title(strt);
 subplot(212)
 plot(wa*0.5/pi,A0,"-",wa*0.5/pi,A2,"--",wa*0.5/pi,Adut,"-",wa*0.5/pi,Adlt,"-");
-axis([0 0.5 -0.02 0.02]);
+axis([0 0.5 -0.1 0.1]);
 ylabel("Amplitude");
 xlabel("Frequency");
 grid("on");
@@ -147,12 +146,12 @@ fprintf(fid,"M=%d %% M+1 distinct coefficients\n",M);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
 fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
+fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
 fprintf(fid,"fasl=%g %% Amplitude lower stop band edge\n",fasl);
 fprintf(fid,"Wasl=%d %% Amplitude lower stop band weight\n",Wasl);
 fprintf(fid,"fasu=%g %% Amplitude upper stop band edge\n",fasu);
 fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
-fprintf(fid,"dBas=%d %% Amplitude stop band peak-to-peak ripple\n",dBas);
+fprintf(fid,"dBas=%g %% Amplitude stop band peak-to-peak ripple\n",dBas);
 fclose(fid);
 
 print_polynomial(hM1,"hM1");

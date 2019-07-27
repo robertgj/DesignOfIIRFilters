@@ -1,8 +1,8 @@
 function [E gradE]=...
-         parallel_allpass_mmse_error(abk,_Va,_Qa,_Ra,_Vb,_Qb,_Rb,_poly,...
+         parallel_allpass_mmse_error(abk,_K,_Va,_Qa,_Ra,_Vb,_Qb,_Rb,_poly,...
                                      _wa,_Asqd,_Wa,_wt,_Td,_Wt)
 % [E gradE]= parallel_allpass_mmse_error...
-%   (abk,_Va,_Qa,_Ra,_Vb,_Qb,_Rb,_poly,_wa,_Asqd,_Wa,_wt,_Td,_Wt)
+%   (abk,_K,_Va,_Qa,_Ra,_Vb,_Qb,_Rb,_poly,_wa,_Asqd,_Wa,_wt,_Td,_Wt)
 
 % Copyright (C) 2017,2018 Robert G. Jenssen
 %
@@ -24,9 +24,10 @@ function [E gradE]=...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  persistent Va Qa Ra Vb Qb Rb polyphase wa Asqd Wa wt Td Wt
+  persistent K Va Qa Ra Vb Qb Rb polyphase wa Asqd Wa wt Td Wt
   persistent init_done=false
-  if nargin == 14
+  if nargin == 15
+    K=_K;
     Va=_Va;Qa=_Qa;Ra=_Ra;
     Vb=_Vb;Qb=_Qb;Rb=_Rb;
     polyphase=_poly;
@@ -35,7 +36,7 @@ function [E gradE]=...
     init_done=true;
   elseif nargin != 1
     print_usage("[E gradE]= parallel_allpass_mmse_error...\n\
-    (abk,Va,Qa,Ra,Vb,Qb,Rb,polyphase,wa,Asqd,Wa,wt,Td,Wt)");
+    (abk,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,wa,Asqd,Wa,wt,Td,Wt)");
   endif
   if init_done==false
     error("init_done==false");
@@ -51,7 +52,7 @@ function [E gradE]=...
   Ewa=0;
   gradEwa=zeros(1,Nab);
   if !isempty(wa)
-    [Asqwa,gradAsqwa]=parallel_allpassAsq(wa,abk,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
+    [Asqwa,gradAsqwa]=parallel_allpassAsq(wa,abk,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
     AsqwaMAsqd=Asqwa-Asqd;
     NwaM1=Nwa-1;
     Ewa=sum(diff(wa).*((Wa(1:NwaM1).*(AsqwaMAsqd(1:NwaM1).^2)) + ...

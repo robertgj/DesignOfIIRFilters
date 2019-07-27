@@ -113,14 +113,14 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_3_12_k_Ito.ok"; fail; fi
 
 cat > test_3_12_u_Ito.ok << 'EOF'
 u_Ito_12_bits = [       -2,       -4,      -16,      -26, ... 
-                       -63,      -70,     -104,     -117, ... 
+                       -63,      -72,     -104,     -117, ... 
                        900 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_3_12_u_Ito.ok"; fail; fi
 
 cat > test_3_12_v_Ito.ok << 'EOF'
 v_Ito_12_bits = [       13,        8,       16,        4, ... 
-                       -16,      -64,     -168,     -644 ]'/2048;
+                       -16,      -64,     -166,     -644 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_3_12_v_Ito.ok"; fail; fi
 

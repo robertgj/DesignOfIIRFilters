@@ -75,7 +75,7 @@ subplot(212);
 f=w*0.5/pi;
 plot(f,(Px+(tp*w))/pi,"linestyle","-.",f,(Px+Pa1+(tp*w))/pi);
 axis([0 0.1 -0.1 0.2]);
-ylabel("Phase error(rad/pi)");
+ylabel("Phase error(rad/$\\pi$)");
 xlabel("Frequency");
 legend("Elliptic","Equalised","location","northwest");
 legend("boxoff");

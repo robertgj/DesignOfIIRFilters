@@ -2,7 +2,7 @@
 
 prog=tarczynski_hilbert_test.m
 
-depends="tarczynski_hilbert_test.m test_common.m"
+depends="tarczynski_hilbert_test.m test_common.m print_polynomial.m"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -37,11 +37,18 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test.ok << 'EOF'
-N=[  -0.0579053233  -0.0707481442  -0.0092422690  -0.0274613547  -0.1104158723  -0.4893868686   0.8949311635   1.0529927756  -0.8682444068  -0.4994993662   0.1864046274   0.0312445612 ]';
-R=2,D=[   1.0000000000  -1.4115609553   0.4594959495  -0.0092778518   0.0011187859   0.0014496979  -0.0018385332 ]';
+cat > test.ok.N << 'EOF'
+N = [  -0.0579063991,  -0.0707490525,  -0.0092677810,  -0.0274919718, ... 
+       -0.1104277026,  -0.4894105730,   0.8948745630,   1.0527570805, ... 
+       -0.8678508170,  -0.4990735123,   0.1861313381,   0.0311088704 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.ok.N"; fail; fi
+
+cat > test.ok.D << 'EOF'
+D = [   1.0000000000,  -1.4110993644,   0.4589810713,  -0.0092017575, ... 
+        0.0011255865,   0.0014507700,  -0.0018420748 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.ok.D"; fail; fi
 
 #
 # run and see if the results match
@@ -51,8 +58,11 @@ echo "Running octave-cli -q " $prog
 octave-cli -q $prog > test.out
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.ok tarczynski_hilbert_test.coef
-if [ $? -ne 0 ]; then echo "Failed diff -Bb"; fail; fi
+diff -Bb test.ok.N tarczynski_hilbert_test_N_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok.N"; fail; fi
+
+diff -Bb test.ok.D tarczynski_hilbert_test_D_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok.D"; fail; fi
 
 
 #

@@ -1,5 +1,5 @@
 % iir_socp_slb_lowpass_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2019 Robert G. Jenssen
 
 test_common;
 
@@ -30,7 +30,7 @@ tdr=0.2
 Wtp=0.01
 Wtt=0.001
 fas=0.2
-dBas=46
+dBas=45
 Was=20
 
 % Frequency vectors

@@ -1,5 +1,5 @@
 % tarczynski_frm_allpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Design an FRM filter from IIR allpass model in parallel with a delay
 % and FIR masking filters using the method of Tarczynski et al. The 
@@ -153,11 +153,11 @@ else
   na=41 % Masking filter FIR length
   nc=41 % Complementary masking filter FIR length
   dmask=(max(na,nc)-1)/2 % Nominal masking filter delay (assumes odd length)
-  dBas=60 % Stop band attenuation
+  dBas=40 % Stop band attenuation
   Wap=1 % Pass band weight
   Wapextra=1 % Extra pass band amplitude weight for extra points
-  Wasextra=0 % 200 % Extra stop band amplitude weight for extra points
-  Was=200 % 200 % Stop band amplitude weight
+  Wasextra=0 % Extra stop band amplitude weight for extra points
+  Was=10 % Stop band amplitude weight
   edge_factor=0.1 % Add extra frequencies near band edges
   edge_ramp=1 % Linear change of extra weights
 endif
@@ -179,8 +179,8 @@ rac0=[r0(2:end);aa0(1:((na+1)/2));ac0(1:((nc+1)/2))];
 
 % Unconstrained minimisation of zero phase response
 WISEJ_FRM_AP([],mr,na,nc,R,Mmodel,Dmodel,wpass,Hpass,Wpass,wstop,Hstop,Wstop);
-[rac1,FVEC,INFO,OUTPUT] = ...
-  fminunc(@WISEJ_FRM_AP,rac0,optimset("TolFun",tol,"TolX",tol));
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[rac1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_FRM_AP,rac0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)

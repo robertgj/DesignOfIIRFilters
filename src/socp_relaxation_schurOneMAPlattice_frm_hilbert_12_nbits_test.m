@@ -4,7 +4,7 @@
 % with 12-bit 3-signed-digit coefficients and an allpass model filter
 % implemented as a Schur one-multiplier lattice.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -23,16 +23,16 @@ format compact
 %
 % Initial filter from schurOneMAPlattice_frm_hilbert_socp_slb_test.m
 %
-k0 = [  -0.5737912484,  -0.1357861406,  -0.0532745521,  -0.0211256540, ... 
-        -0.0087697088 ];
-epsilon0 = [  -1,   1,   1,   1,   1 ];
-p0 = [   1.5423434314,   0.8026361328,   0.9201452230,   0.9705438143, ... 
-         0.9912684100 ];
-u0 = [  -0.0009005863,  -0.0025457761,  -0.0071130804,  -0.0128019219, ... 
-        -0.0309485916,  -0.0343335608,  -0.0517736812,  -0.0570207655, ... 
-         0.4398895843 ]';
-v0 = [   0.0065311034,   0.0043827834,   0.0072166026,   0.0020996444, ... 
-        -0.0078831931,  -0.0311746387,  -0.0808425030,  -0.3143749021 ]';
+k0 = [  -0.5737726298,  -0.1357954240,  -0.0532684516,  -0.0211111235, ... 
+        -0.0087703126 ];
+epsilon0 = [  -1,  1,  1,  1,  1 ];
+p0 = [   1.5423169594,   0.8026446354,   0.9201636732,   0.9705573372, ... 
+         0.9912678115 ];
+u0 = [  -0.0009207330,  -0.0025408772,  -0.0071034731,  -0.0128187644, ... 
+        -0.0309895964,  -0.0342924460,  -0.0517579913,  -0.0570036999, ... 
+         0.4398918391 ]';
+v0 = [   0.0065494606,   0.0043721486,   0.0072055070,   0.0020700954, ... 
+        -0.0078782694,  -0.0311739891,  -0.0808661252,  -0.3144277686 ]';
 
 %
 % Filter specification
@@ -139,17 +139,32 @@ endif
 k_allocsd_digits=int16(ndigits_alloc(Rk));
 u_allocsd_digits=int16(ndigits_alloc(Ru));
 v_allocsd_digits=int16(ndigits_alloc(Rv));
+print_polynomial(k_allocsd_digits,"k_allocsd_digits");
+print_polynomial(k_allocsd_digits,"k_allocsd_digits", ...
+                 strcat(strf,"_k_allocsd_digits.m"),"%2d");
+print_polynomial(u_allocsd_digits,"u_allocsd_digits");
+print_polynomial(u_allocsd_digits,"u_allocsd_digits", ...
+                 strcat(strf,"_u_allocsd_digits.m"),"%2d");
+print_polynomial(v_allocsd_digits,"v_allocsd_digits");
+print_polynomial(v_allocsd_digits,"v_allocsd_digits", ...
+                 strcat(strf,"_v_allocsd_digits.m"),"%2d");
 
 % Find the signed-digit approximations to k0,u0 and v0
 [kuv0_sd,kuv0_sdu,kuv0_sdl]=flt2SD(kuv0,nbits,ndigits_alloc);
 k0_sd=kuv0_sd(Rk);
 k0_sd=k0_sd(:);
+[epsilon0_sd,p0_sd]=schurOneMscale(k0_sd);
 u0_sd=kuv0_sd(Ru);
 u0_sd=u0_sd(:);
 v0_sd=kuv0_sd(Rv);
 v0_sd=v0_sd(:);
 print_polynomial(k0_sd,"k0_sd",nscale);
 print_polynomial(k0_sd,"k0_sd",strcat(strf,"_k0_sd_coef.m"),nscale);
+print_polynomial(epsilon0_sd,"epsilon0_sd",nscale);
+print_polynomial(epsilon0_sd,"epsilon0_sd", ...
+                 strcat(strf,"_epsilon0_sd_coef.m"),"%2d");
+print_polynomial(p0_sd,"p0_sd");
+print_polynomial(p0_sd,"p0_sd",strcat(strf,"_p0_sd_coef.m"));
 print_polynomial(u0_sd,"u0_sd",nscale);
 print_polynomial(u0_sd,"u0_sd",strcat(strf,"_u0_sd_coef.m"),nscale);
 print_polynomial(v0_sd,"v0_sd",nscale);
@@ -266,16 +281,20 @@ endwhile
 p_ones=ones(size(p0));
 kuv_min=kuv;
 k_min=kuv(Rk);
+[epsilon_min,p_min]=schurOneMscale(k_min);
 u_min=kuv(Ru);
 v_min=kuv(Rv);
 Esq_min=schurOneMAPlattice_frm_hilbertEsq ...
-          (k_min,epsilon0,p_ones,u_min,v_min,Mmodel,Dmodel, ...
+          (k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel, ...
            wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
 print_polynomial(k_min,"k_min",nscale);
 print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
-printf("epsilon0=[ ");printf("%d ",epsilon0');printf("]';\n");
-printf("p_ones=[ ");printf("%g ",p_ones');printf("]';\n");
+print_polynomial(epsilon_min,"epsilon_min");
+print_polynomial(epsilon_min,"epsilon_min", ...
+                 strcat(strf,"_epsilon_min_coef.m"),"%2d");
+print_polynomial(p_min,"p_min");
+print_polynomial(p_min,"p_min",strcat(strf,"_p_min_coef.m"));
 print_polynomial(u_min,"u_min",nscale);
 print_polynomial(u_min,"u_min",strcat(strf,"_u_min_coef.m"),nscale);
 print_polynomial(v_min,"v_min",nscale);
@@ -288,31 +307,31 @@ printf("%d %d-bit adders used for coefficient multiplications\n",
 
 % Amplitude,delay and phase at local peaks
 Asq=schurOneMAPlattice_frm_hilbertAsq ...
-      (wa,k_min,epsilon0,p_ones,u_min,v_min,Mmodel,Dmodel);
+      (wa,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
 vAl=local_max(Asqdl-Asq);
 vAu=local_max(Asq-Asqdu);
 wAsqS=unique([wa(vAl);wa(vAu);wa([1,end])]);
 AsqS=schurOneMAPlattice_frm_hilbertAsq ...
-       (wAsqS,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+       (wAsqS,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
 printf("k,u,v_min:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,u,v_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
 T=schurOneMAPlattice_frm_hilbertT ...
-    (wt,k_min,epsilon0,p_ones,u_min,v_min,Mmodel,Dmodel);
+    (wt,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
 vTl=local_max(Tdl-T);
 vTu=local_max(T-Tdu);
 wTS=sort(unique([wt(vTl);wt(vTu);wt([1,end])]));
 TS=schurOneMAPlattice_frm_hilbertT ...
-     (wTS,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+     (wTS,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
 printf("k,u,v_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,u,v_min:TS=[ ");printf("%f ",TS'+tp);
 printf("] (Samples)\n")
 P=schurOneMAPlattice_frm_hilbertP ...
-    (wp,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+    (wp,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
 vPl=local_max(Pdl-P);
 vPu=local_max(P-Pdu);
 wPS=sort(unique([wp(vPl);wp(vPu);wp([1,end])]));
 PS=schurOneMAPlattice_frm_hilbertP ...
-     (wPS,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+     (wPS,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
 printf("k,u,v_min:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,u,v_min:PS=[ ");printf("%f ",PS'/pi);
 printf("] (rad./pi) adjusted for delay\n");
@@ -336,7 +355,7 @@ Asq_kuv0=schurOneMAPlattice_frm_hilbertAsq ...
 Asq_kuv0_sd=schurOneMAPlattice_frm_hilbertAsq ...
            (wa,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
 Asq_kuv_min=schurOneMAPlattice_frm_hilbertAsq ...
-           (wa,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+           (wa,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
 plot(wa*0.5/pi,10*log10(Asq_kuv0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_kuv0_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kuv_min),"linestyle","-.");
@@ -359,7 +378,7 @@ P_kuv0=schurOneMAPlattice_frm_hilbertP ...
 P_kuv0_sd=schurOneMAPlattice_frm_hilbertP ...
             (wp,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
 P_kuv_min=schurOneMAPlattice_frm_hilbertP ...
-            (wp,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+            (wp,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
 plot(wp*0.5/pi,P_kuv0/pi,"linestyle","-", ...
      wp*0.5/pi,P_kuv0_sd/pi,"linestyle","--", ...
      wp*0.5/pi,P_kuv_min/pi,"linestyle","-.");
@@ -367,7 +386,7 @@ legend("exact","s-d(Lim)","s-d(SOCP-relax)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
-ylabel("Phase(rad./pi)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 title(strt);
 axis([0 0.5 -0.505 -0.495]);
@@ -380,7 +399,7 @@ T_kuv0=schurOneMAPlattice_frm_hilbertT ...
 T_kuv0_sd=schurOneMAPlattice_frm_hilbertT ...
             (wt,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
 T_kuv_min=schurOneMAPlattice_frm_hilbertT ...
-            (wt,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+            (wt,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
 plot(wt*0.5/pi,T_kuv0+tp,"linestyle","-", ...
      wt*0.5/pi,T_kuv0_sd+tp,"linestyle","--", ...
      wt*0.5/pi,T_kuv_min+tp,"linestyle","-.");
@@ -417,8 +436,8 @@ fprintf(fid,"tpr=tp/%g %% Pass band delay peak-to-peak ripple\n",tp/tpr);
 fprintf(fid,"Wtp=%g %% Pass band magnitude-squared weight\n",Wap);
 fprintf(fid,"fpp=%g %% Phase pass band edge\n",fpp);
 fprintf(fid,"fps=%g %% Phase stop band edge\n",fps);
-fprintf(fid,"pp=%g*pi %% Pass band phase peak-to-peak ripple (rad.)\n",pp/pi);
-fprintf(fid,"ppr=pi/%g %% Pass band phase peak-to-peak ripple (rad.)\n",pi/ppr);
+fprintf(fid,"pp=%g*pi %% Pass band nominal phase (rad.)\n",pp/pi);
+fprintf(fid,"ppr=%g*pi %% Pass band phase peak-to-peak ripple (rad.)\n",ppr/pi);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
@@ -427,8 +446,8 @@ save socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test.mat ...
      n tol ctol maxiter nbits ndigits ndigits_alloc dmax rho ...
      fap fas dBap Wap ftp fts tp tpr Wtp fpp fps pp ppr Wpp ...
      k0 epsilon0 p0 u0 v0 Mmodel Dmodel ...
-     k_min u_min v_min ...
-     k_min u_min v_min
+     k0_sd epsilon0_sd p0_sd u0_sd v0_sd ...
+     k_min epsilon_min p_min u_min v_min
        
 % Done
 toc;

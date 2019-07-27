@@ -222,8 +222,6 @@ Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p_ones,c_min,wa,Asqd,Wa,wt,Td,Wt);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
 print_polynomial(k_min,"k_min",nscale);
 print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
-printf("epsilon0=[ ");printf("%d ",epsilon0');printf("]';\n");
-printf("p_ones=[ ");printf("%g ",p_ones');printf("]';\n");
 print_polynomial(c_min,"c_min",nscale);
 print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used by kc_sd
@@ -241,7 +239,7 @@ u=round(u*nscale);
 [yap,y,xx]=schurOneMlatticeFilter(k0,epsilon0,p_ones,c0,u,"round");
 stdx=std(xx)
 [yapf,yf,xxf]= ...
-schurOneMlatticeFilter(k_min,epsilon0,ones(size(k0)),c_min,u,"round");
+schurOneMlatticeFilter(k_min,epsilon0,p_ones,c_min,u,"round");
 stdxf=std(xxf)
 
 % Amplitude and phase at local peaks
@@ -273,8 +271,8 @@ fclose(fid);
 % Plot response
 subplot(211);
 Asq_kc0=schurOneMlatticeAsq(wa,k0,epsilon0,p0,c0);
-Asq_kc0_sd=schurOneMlatticeAsq(wa,k0_sd,epsilon0,p0,c0_sd);
-Asq_kc_min=schurOneMlatticeAsq(wa,k_min,epsilon0,p0,c_min);
+Asq_kc0_sd=schurOneMlatticeAsq(wa,k0_sd,epsilon0,p_ones,c0_sd);
+Asq_kc_min=schurOneMlatticeAsq(wa,k_min,epsilon0,p_ones,c_min);
 plot(wa*0.5/pi,10*log10(Asq_kc0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_kc0_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kc_min),"linestyle","-.");
@@ -292,12 +290,12 @@ hold on
 plot(wa*0.5/pi,10*log10([Asqdl Asqdu]));
 subplot(212);
 P_kc0=schurOneMlatticeP(wp,k0,epsilon0,p0,c0);
-P_kc0_sd=schurOneMlatticeP(wp,k0_sd,epsilon0,p0,c0_sd);
-P_kc_min=schurOneMlatticeP(wp,k_min,epsilon0,p0,c_min);
+P_kc0_sd=schurOneMlatticeP(wp,k0_sd,epsilon0,p_ones,c0_sd);
+P_kc_min=schurOneMlatticeP(wp,k_min,epsilon0,p_ones,c_min);
 plot(wp*0.5/pi,(P_kc0+(wp*tp))/pi,"linestyle","-", ...
      wp*0.5/pi,(P_kc0_sd+(wp*tp))/pi,"linestyle","--", ...
      wp*0.5/pi,(P_kc_min+(wp*tp))/pi,"linestyle","-.");
-ylabel("Phase(rad./pi)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([0 0.5 -0.53 -0.47]);
 grid("on");
@@ -333,8 +331,7 @@ fclose(fid);
 save socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.mat ...
      k0 epsilon0 p0 c0 ...
      tol ctol nbits ndigits ndigits_alloc ...
-     nt Asqd dBap Wat Wap Pd pr Wpp dmax rho ...
-     k_min c_min 
+     nt Asqd dBap Wat Wap Pd pr Wpp dmax rho k_min c_min 
        
 % Done
 toc;

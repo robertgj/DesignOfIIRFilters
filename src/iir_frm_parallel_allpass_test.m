@@ -1,5 +1,5 @@
 % iir_frm_parallel_allpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -266,7 +266,7 @@ numfrm=(conv(conv(flipud(rM),x1.aa+ac1),sM) + ...
 denfrm=conv(rM,sM);
 Hp=freqz(numfrm,denfrm,w);
 Asqp=abs(Hp).^2;
-tolAsq=170*eps;
+tolAsq=177*eps;
 if max(abs(Asq-Asqp)) > tolAsq
   error("max(abs(Asq-Asqp)) > tolAsq (%d*eps)",ceil(max(abs(Asq-Asqp))/eps));
 endif
@@ -275,7 +275,7 @@ nap=ceil(n*fap/0.5)+1;
 napM=(ceil(n*fap/0.5)/Mmodel)+1;
 T=T(1:napM);
 Tp=Tp(1:napM);
-tolT=768*eps;
+tolT=961*eps;
 if max(abs(T-Tp)) > tolT
   error("max(abs(T-Tp)) > tolT (%d*eps)",ceil(max(abs(T-Tp))/eps));
 endif

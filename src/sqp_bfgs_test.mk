@@ -1,4 +1,4 @@
-sqp_bfgs_test_EXTRA_DIARY_FILES+=sqp_bfgs_test.diary.SQP
+sqp_bfgs_test_EXTRA_DIARY_FILES=sqp_bfgs_test.diary.SQP
 
 sqp_bfgs_test.diary.SQP : sqp_bfgs_test.diary
 	grep SQP $^ > $@

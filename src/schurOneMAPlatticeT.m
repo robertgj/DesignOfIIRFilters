@@ -18,7 +18,7 @@ function [T,gradT,diagHessT]=schurOneMAPlatticeT(w,k,epsilon,p,R)
 %   gradT - the gradients of T with respect to k and c
 %   diagHessT - diagonal of the Hessian of T with respect to k and c
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -41,26 +41,31 @@ function [T,gradT,diagHessT]=schurOneMAPlatticeT(w,k,epsilon,p,R)
   %
   % Sanity checks
   %
-  if ((nargin ~= 4) && (nargin ~= 5)) || (nargout > 3) 
-    print_usage("[T,gradT,diagHessT]=schurOneMAPlatticeT(w,k,epsilon,p[,R])");
+  if ((nargin ~= 3) && (nargin ~= 4) && (nargin ~= 5)) || (nargout > 3) 
+    print_usage("[T,gradT,diagHessT]=schurOneMAPlatticeP(w,k,epsilon[,p,R])");
   endif
   if length(k) ~= length(epsilon)
     error("length(k) ~= length(epsilon)");
   endif
-  if length(k) ~= length(p)
+  if (nargin >= 4) && (length(k) ~= length(p))
     error("length(k) ~= length(p)");
   endif
   if length(w) == 0
     T=[]; gradT=[]; diagHessT=[];
     return;
   endif
-  if nargin == 4
+  if nargin == 3
+    p=ones(size(k));
     R=1;
     wR=w;
-  elseif ~isscalar(R)
-    error("~isscalar(R)");
+  elseif nargin == 4
+    R=1;
+    wR=w;
   else
-    wR=w*R;
+    if ~isscalar(R)
+      error("~isscalar(R)");
+    endif
+    wR=R*w;
   endif
 
   % Calculate the complex transfer function at w 

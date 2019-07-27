@@ -42,51 +42,51 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 Filter a: real pole/zero 1
-delAsqdelRpa=-0.233183, approx=-0.233183, diff=-0.000000
+delAsqdelRpa=-0.932731, approx=-0.932731, diff=-0.000001
 Filter a: real pole/zero 2
-delAsqdelRpa=-1.380102, approx=-1.380101, diff=-0.000000
+delAsqdelRpa=-5.520407, approx=-5.520406, diff=-0.000001
 Filter a: real pole/zero 3
-delAsqdelRpa=-0.335900, approx=-0.335900, diff=-0.000000
+delAsqdelRpa=-1.343599, approx=-1.343598, diff=-0.000001
 Filter a: conjugate pole/zero 1 radius
-delAsqdelrpa=-0.502476, approx=-0.502476, diff=-0.000000
+delAsqdelrpa=-2.009905, approx=-2.009904, diff=-0.000001
 Filter a: conjugate pole/zero 2 radius
-delAsqdelrpa=-0.888827, approx=-0.888827, diff=0.000000
+delAsqdelrpa=-3.555307, approx=-3.555309, diff=0.000002
 Filter a: conjugate pole/zero 3 radius
-delAsqdelrpa=-0.644360, approx=-0.644363, diff=0.000002
+delAsqdelrpa=-2.577442, approx=-2.577451, diff=0.000009
 Filter a: conjugate pole/zero 4 radius
-delAsqdelrpa=1.588896, approx=1.588896, diff=-0.000000
+delAsqdelrpa=6.355584, approx=6.355586, diff=-0.000001
 Filter a: conjugate pole/zero 1 angle
-delPdelthetapa=0.049464, approx=0.049464, diff=-0.000000
+delPdelthetapa=0.197856, approx=0.197856, diff=-0.000000
 Filter a: conjugate pole/zero 2 angle
-delPdelthetapa=0.362213, approx=0.362213, diff=-0.000000
+delPdelthetapa=1.448851, approx=1.448853, diff=-0.000001
 Filter a: conjugate pole/zero 3 angle
-delPdelthetapa=1.012557, approx=1.012557, diff=-0.000001
+delPdelthetapa=4.050227, approx=4.050230, diff=-0.000002
 Filter a: conjugate pole/zero 4 angle
-delPdelthetapa=1.176943, approx=1.176942, diff=0.000001
+delPdelthetapa=4.707773, approx=4.707768, diff=0.000004
 Filter b: conjugate pole/zero 1 radius
-delAsqdelrpb=-0.653177, approx=-0.653177, diff=-0.000000
+delAsqdelrpb=-2.612708, approx=-2.612708, diff=-0.000000
 Filter b: conjugate pole/zero 2 radius
-delAsqdelrpb=-0.555366, approx=-0.555366, diff=-0.000000
+delAsqdelrpb=-2.221465, approx=-2.221465, diff=-0.000001
 Filter b: conjugate pole/zero 3 radius
-delAsqdelrpb=-0.474547, approx=-0.474546, diff=-0.000000
+delAsqdelrpb=-1.898186, approx=-1.898185, diff=-0.000001
 Filter b: conjugate pole/zero 4 radius
-delAsqdelrpb=-0.959100, approx=-0.959101, diff=0.000001
+delAsqdelrpb=-3.836398, approx=-3.836404, diff=0.000005
 Filter b: conjugate pole/zero 5 radius
-delAsqdelrpb=0.343922, approx=0.343921, diff=0.000001
+delAsqdelrpb=1.375689, approx=1.375683, diff=0.000006
 Filter b: conjugate pole/zero 6 radius
-delAsqdelrpb=2.507791, approx=2.507791, diff=-0.000000
+delAsqdelrpb=10.031163, approx=10.031164, diff=-0.000001
 Filter b: conjugate pole/zero 1 angle
-delPdelthetapb=0.140905, approx=0.140905, diff=-0.000000
+delPdelthetapb=0.563619, approx=0.563620, diff=-0.000001
 Filter b: conjugate pole/zero 2 angle
-delPdelthetapb=0.084343, approx=0.084344, diff=-0.000000
+delPdelthetapb=0.337374, approx=0.337374, diff=-0.000000
 Filter b: conjugate pole/zero 3 angle
-delPdelthetapb=0.023161, approx=0.023161, diff=-0.000000
+delPdelthetapb=0.092643, approx=0.092643, diff=-0.000000
 Filter b: conjugate pole/zero 4 angle
-delPdelthetapb=0.632954, approx=0.632955, diff=-0.000001
+delPdelthetapb=2.531817, approx=2.531820, diff=-0.000002
 Filter b: conjugate pole/zero 5 angle
-delPdelthetapb=1.321866, approx=1.321865, diff=0.000000
+delPdelthetapb=5.287462, approx=5.287462, diff=0.000001
 Filter b: conjugate pole/zero 6 angle
-delPdelthetapb=0.622944, approx=0.622942, diff=0.000001
+delPdelthetapb=2.491775, approx=2.491769, diff=0.000005
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

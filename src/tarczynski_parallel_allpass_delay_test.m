@@ -128,7 +128,7 @@ endfunction
 
 % Filter specification
 tol=1e-9
-maxiter=2000
+maxiter=5000
 polyphase=false
 n=1000;
 R=1
@@ -161,8 +161,8 @@ Wt=[Wtp*ones(ntp,1);zeros(n-ntp,1)];
 % Unconstrained minimisation
 a0=[ -0.9;zeros(m-1,1)];
 WISEJ_DA([],R,D,polyphase,w,Ad,Wa,Td,Wt);
-options=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter);
-[a1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_DA,a0,options);
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[a1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_DA,a0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)

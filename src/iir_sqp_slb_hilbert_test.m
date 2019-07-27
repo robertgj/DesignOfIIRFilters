@@ -1,5 +1,5 @@
 % iir_sqp_slb_hilbert_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 % Note that with the SOCP solver this test fails to find and satisfy
 % phase constraints near w=0 because the phase response has inflexions
@@ -19,11 +19,11 @@ maxiter=2000
 verbose=false
 
 % Initial filter from tarczynski_hilbert_test.m
-N0 = [ -0.0579060329, -0.0707485922, -0.0092411885, -0.0274591873, ...
-       -0.1104148108, -0.4893876574,  0.8949321301,  1.0529986698, ...
-       -0.8682556384, -0.4995082652,  0.1864128112,  0.0312466802 ]';
-D0 = [  1.0000000000, -1.4115743676,  0.4595123498, -0.0092821060, ...
-        0.0011188759,  0.0014499657, -0.0018384568 ]';
+N0 = [ -0.0579063991,  -0.0707490525,  -0.0092677810,  -0.0274919718, ... 
+       -0.1104277026,  -0.4894105730,   0.8948745630,   1.0527570805, ... 
+       -0.8678508170,  -0.4990735123,   0.1861313381,   0.0311088704 ]';
+D0 = [  1.0000000000,  -1.4110993644,   0.4589810713,  -0.0092017575, ... 
+        0.0011255865,   0.0014507700,  -0.0018420748 ]';
 R=2;
 [x0,U,V,M,Q]=tf2x(N0,D0);
 
@@ -114,7 +114,7 @@ axis([-0.5 0.5 0 10*td]);
 grid("on");
 subplot(313);
 plot(w*0.5/pi,(P0+w*td+4*pi)/pi);
-ylabel("Phase(rad./pi\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([-0.5 0.5 -2 0]);
 grid("on");
@@ -123,7 +123,8 @@ close
 
 % Try with xInitHd
 %{
-[x0b,Ex0b]=xInitHd(x0,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,1e-7);
+[x0b,Ex0b]=xInitHd(x0,U,V,M,Q,R, ...
+                   wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,maxiter,1e-7);
 printf("x0b=[ ");printf("%f ",x0b');printf("]'\n");
 % Show initial response and constraints
 A0b=iirA(w,x0b,U,V,M,Q,R);
@@ -136,8 +137,8 @@ strt=sprintf("Hilbert filter initial response(b) : td=%g,fpt=%g",td,fpt);
 title(strt);
 ylabel("Amplitude");
 subplot(212);
-plot(w*0.5/pi,[P0b+w*td Pdl+w*td Pdu+w*td]+4*pi);
-ylabel("Phase(rad.)\n(Adjusted for delay)");
+plot(w*0.5/pi,4+([P0b+w*td Pdl+w*td Pdu+w*td]/pi));
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([-0.5 0.5 -5 -1]);
 grid("on");
@@ -193,7 +194,7 @@ set(ax(2),'ycolor','black');
 % End of hack
 axis(ax(1),[-0.5 0.5 -0.5-(pr/2) -0.5+(pr/2)]);
 axis(ax(2),[-0.5 0.5 -1.5-(pr/2) -1.5+(pr/2)]);
-ylabel("Phase(rad./pi)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_mmse_x1phase"),"-dpdflatex");
@@ -245,7 +246,7 @@ set(ax(2),'ycolor','black');
 % End of hack
 axis(ax(1),[-0.5 0.5 -0.5-(pr/2) -0.5+(pr/2)]);
 axis(ax(2),[-0.5 0.5 -1.5-(pr/2) -1.5+(pr/2)]); 
-ylabel("Phase(rad./pi)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_d1phase"),"-dpdflatex");

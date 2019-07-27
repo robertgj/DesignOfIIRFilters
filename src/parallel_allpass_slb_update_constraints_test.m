@@ -29,6 +29,7 @@ tol = 1e-06
 maxiter = 2000
 polyphase = false
 difference = true
+K=2
 Ra = 1
 ma = length(Da0)-1;
 Rb = 1
@@ -64,16 +65,17 @@ nasl=ceil(n*fasl/0.5)+1;
 napl=floor(n*fapl/0.5)+1;
 napu=ceil(n*fapu/0.5)+1;
 nasu=floor(n*fasu/0.5)+1;
-Asqd=[zeros(napl-1,1);ones(napu-napl+1,1);zeros(n-napu,1)];
-Asqdu=[(10^(-dBas/10))*ones(nasl,1); ...
-       (10^(-0.5*dBap/10))*ones(nasu-nasl-1,1); ...
-       (10^(-dBas/10))*ones(n-nasu+1,1)];
-Asqdl=[zeros(napl-1,1);(10^(-dBap/10))*ones(napu-napl+1,1);zeros(n-napu,1)];
+Ksq=K^2;
+Asqd=Ksq*[zeros(napl-1,1);ones(napu-napl+1,1);zeros(n-napu,1)];
+Asqdu=Ksq*[(10^(-dBas/10))*ones(nasl,1); ...
+           (10^(-0.5*dBap/10))*ones(nasu-nasl-1,1); ...
+           (10^(-dBas/10))*ones(n-nasu+1,1)];
+Asqdl=Ksq*[zeros(napl-1,1);(10^(-dBap/10))*ones(napu-napl+1,1);zeros(n-napu,1)];
 Wa=[Wasl*ones(nasl,1); ...
     Watl*ones(napl-nasl-1,1); ...
     Wap*ones(napu-napl+1,1); ...
     Watu*ones(nasu-napu-1,1); ...
-    Wasu*ones(n-nasu+1,1)];
+    Wasu*ones(n-nasu+1,1)]/Ksq;
 
 % Desired pass-band group delay response
 ntpl=floor(n*ftpl/0.5)+1;
@@ -99,7 +101,7 @@ ab0=zeros(ma+mb,1);
 [ab0((ma+1):end),Vb,Qb]=tf2a(Db0);
 
 % Response of ab0
-Asqab0=parallel_allpassAsq(wa,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+Asqab0=parallel_allpassAsq(wa,ab0,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 Tab0=parallel_allpassT(wt,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 Pab0=parallel_allpassP(wp,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 
@@ -117,16 +119,16 @@ Pl=Pab0(vS.pl);
 Pu=Pab0(vS.pu);
 
 % Show constraints
-parallel_allpass_slb_show_constraints(vS,wa,Asqab0,wt,Tab0,wp,Pab0);
+parallel_allpass_slb_show_constraints(vS,wa,Asqab0/Ksq,wt,Tab0,wp,Pab0);
 
 % Common strings
 strd=sprintf("parallel_allpass_slb_update_constraints_test_%%s");
 strM=sprintf("%%s:dBap=%g,dBas=%g,tdr=%f,pdr=%f",dBap,dBas,tdr,pdr);
 
 % Plot pass-band amplitude
-plot(wa*0.5/pi,10*log10([Asqab0,Asqdu,Asqdl]), ...
-     wa(vS.al)*0.5/pi,10*log10(Asql),"x", ...
-     wa(vS.au)*0.5/pi,10*log10(Asqu),"+");
+plot(wa*0.5/pi,10*log10([Asqab0,Asqdu,Asqdl]/Ksq), ...
+     wa(vS.al)*0.5/pi,10*log10(Asql/Ksq),"x", ...
+     wa(vS.au)*0.5/pi,10*log10(Asqu/Ksq),"+");
 axis([fapl fapu -3*dBap dBap]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
@@ -137,9 +139,9 @@ print(sprintf(strd,"pass_band_amplitude"),"-dpdflatex");
 close
 
 % Plot stop-band amplitude
-plot(wa*0.5/pi,10*log10([Asqab0,Asqdu]), ...
-     wa(vS.al)*0.5/pi,10*log10(Asql),"x", ...
-     wa(vS.au)*0.5/pi,10*log10(Asqu),"+");
+plot(wa*0.5/pi,10*log10([Asqab0,Asqdu]/Ksq), ...
+     wa(vS.al)*0.5/pi,10*log10(Asql/Ksq/Ksq),"x", ...
+     wa(vS.au)*0.5/pi,10*log10(Asqu/Ksq),"+");
 axis([0 0.5 -60 -20]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
@@ -168,7 +170,7 @@ plot(wp*0.5/pi,mod(([Pab0,Pdu,Pdl]+(td*wp))/pi,2), ...
      wp(vS.pl)*0.5/pi,mod((Pl+(td*wp(vS.pl)))/pi,2),"x",
      wp(vS.pu)*0.5/pi,mod((Pu+(td*wp(vS.pu)))/pi,2),"+");
 axis([fppl fppu mod(pd-(5*pdr),2) mod(pd+(5*pdr),2)]);
-ylabel("Phase(rad./pi)\n(corrected for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency")
 strMdelay=sprintf(strM,"ab0 phase");
 title(strMdelay);

@@ -1,5 +1,5 @@
 % print_allpass_pole_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2019 Robert G. Jenssen
 
 test_common;
 
@@ -54,8 +54,8 @@ dBas=40;
 R=1;
 R1=1;
 R2=1;
-[b1,a1]=cheby2(N,dBas,2*fc);
-[x1,U,V,M,Q]=tf2x(b1,a1);
+[z1,p1,k1]=cheby2(N,dBas,2*fc);
+[x1,U,V,M,Q]=zp2x(z1,p1,k1);
 [a1,V1,Q1,a2,V2,Q2]=x2pa(x1,U,V,M,Q,R);
 print_allpass_pole(a1,V1,Q1,R1,"a1","","%10.6f");
 print_allpass_pole(a1,V1,Q1,R1,"a1", ...

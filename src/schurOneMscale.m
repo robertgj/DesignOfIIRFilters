@@ -1,5 +1,8 @@
-function [S1M,epsilon,p] = schurOneMscale(k,S)
-% [S1M,epsilon,p] = schurOneMscale(k,S)
+function [epsilon,p,S1M] = schurOneMscale(k,S)
+% [epsilon,p,S1M] = schurOneMscale(k,S)
+% [epsilon,p] = schurOneMscale(k)
+% epsilon = schurOneMscale(k)
+%
 % Determine the sign coefficients, epsilon, and scaling factors, p,
 % that scale the Schur lattice filter with coefficients, k, and Schur 
 % orthogonal basis, S. The orthonormal Schur basis is returned in S1M. 
@@ -27,48 +30,66 @@ function [S1M,epsilon,p] = schurOneMscale(k,S)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-% Sanity check
-if rows(S) ~= length(k)+1 || columns(S) ~= length(k)+1
-  error("Expected S to be square matrix size length(k)+1");
-endif 
-
-% Select the sign coefficients
-M=length(k);
-epsilon=zeros(1,M);
-[kl,l]=max(abs(k));
-Qm=1;
-for m=l-1:-1:1
-  qm=(1+abs(k(m)))/(1-abs(k(m)));
-  if Qm<(1/qm)
-    epsilon(m)=sign(k(m));
-    Qm=Qm*qm;
-  else
-    epsilon(m)=-sign(k(m));
-    Qm=Qm/qm;
+  % Sanity checks
+  if ~(((nargin==2) && (nargout==3)) ...
+       || ((nargin==1) && (nargout==1)) ...
+       || ((nargin=1) && (nargout=2)))
+    print_usage("[epsilon,p,S1M] = schurOneMscale(k,S) \n\
+[epsilon,p] = schurOneMscale(k) \n\
+epsilon = schurOneMscale(k)");
   endif
-endfor
 
-Qm=1;
-for m=l:M
-  qm=(1+abs(k(m)))/(1-abs(k(m)));
-  if Qm<(1/qm)
-    epsilon(m)=-sign(k(m));
-    Qm=Qm*qm;
-  else
-    epsilon(m)=sign(k(m));
-    Qm=Qm/qm;
+  % Select the sign coefficients
+  M=length(k);
+  epsilon=zeros(1,M);
+  [kl,l]=max(abs(k));
+  Qm=1;
+  for m=l-1:-1:1
+    qm=(1+abs(k(m)))/(1-abs(k(m)));
+    if Qm<(1/qm)
+      epsilon(m)=sign(k(m));
+      Qm=Qm*qm;
+    else
+      epsilon(m)=-sign(k(m));
+      Qm=Qm/qm;
+    endif
+  endfor
+
+  Qm=1;
+  for m=l:M
+    qm=(1+abs(k(m)))/(1-abs(k(m)));
+    if Qm<(1/qm)
+      epsilon(m)=-sign(k(m));
+      Qm=Qm*qm;
+    else
+      epsilon(m)=sign(k(m));
+      Qm=Qm/qm;
+    endif
+  endfor
+
+  if (nargin==1) && (nargout==1)
+    return;
   endif
-endfor
 
-% Scale the orthonormal Schur basis to the one-multiplier lattice
-% orthogonal Schur basis
-S1M=S;
-p=zeros(1,M);
-scale=1;
-for m=M:-1:1
-  scale=scale*sqrt((1+(epsilon(m)*k(m)))/(1-(epsilon(m)*k(m))));
-  p(m)=scale;
-  S1M(m,:)=S1M(m,:)*p(m);
-endfor
+  % Calculate state scaling
+  p=zeros(1,M);
+  scale=1;
+  for m=M:-1:1
+    scale=scale*sqrt((1+(epsilon(m)*k(m)))/(1-(epsilon(m)*k(m))));
+    p(m)=scale;
+  endfor
+
+  if nargout==2
+    return;
+  endif
+  
+  % Scale the orthonormal Schur basis to the one-multiplier lattice basis
+  if rows(S) ~= length(k)+1 || columns(S) ~= length(k)+1
+    error("Expected S to be square matrix size length(k)+1");
+  endif 
+  S1M=S;
+  for m=M:-1:1
+    S1M(m,:)=S1M(m,:)*p(m);
+  endfor
 
 endfunction

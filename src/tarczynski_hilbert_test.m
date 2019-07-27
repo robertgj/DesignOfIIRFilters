@@ -1,5 +1,5 @@
 % tarczynski_hilbert_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Design a full-band Hilbert transform filter, H(w)=-jsign(w), using
 % the method of Tarczynski et al.  See "A WISE Method for Designing 
@@ -73,7 +73,7 @@ function E=WISEJ_HILBERT(ND,_nN,_nD,_R,_wd,_Hd,_Wd,_td)
 endfunction
 
 % Filter specification
-R=2;nN=11;nD=6;td=nN/2;tol=1e-9;
+R=2;nN=11;nD=6;td=nN/2;tol=1e-9;maxiter=5000;
 
 % Frequency points
 n=1024;
@@ -94,8 +94,8 @@ endif
 
 % Unconstrained minimisation
 WISEJ_HILBERT([],nN,nD,R,wd,Hd,Wd,td);
-opts=optimset("TolFun",tol,"TolX",tol);
-[ND,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_HILBERT,N0,opts);
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[ND,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_HILBERT,N0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -166,12 +166,11 @@ close
 % Save the result
 sort(roots(N))
 sort(roots(DR))
-fprintf("N=[ ");fprintf("%14.10f ",N');fprintf("]';\n");
-fprintf("R=%d,D=[ ",R);fprintf("%14.10f ",D');fprintf("]';\n");
-fid=fopen("tarczynski_hilbert_test.coef","wt");
-fprintf(fid,"N=[ ");fprintf(fid,"%14.10f ",N');fprintf(fid,"]';\n");
-fprintf(fid,"R=%d,D=[ ",R);fprintf(fid,"%14.10f ",D');fprintf(fid,"]';\n");
-fclose(fid);
+printf("R=%d\n",R);
+print_polynomial(N,"N");
+print_polynomial(N,"N","tarczynski_hilbert_test_N_coef.m");
+print_polynomial(D,"D");
+print_polynomial(D,"D","tarczynski_hilbert_test_D_coef.m");
 save tarczynski_hilbert_test.mat nN nD R N D DR
 
 diary off

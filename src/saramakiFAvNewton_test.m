@@ -23,7 +23,7 @@ set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -2*dBap 2*dBap]);
 axis(ax(2),[0 0.5 -80 -60]);
-strt="Saramaki n>=m filter response";
+strt="Saram\\\"{a}ki n>=m filter response";
 title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
@@ -34,7 +34,7 @@ close
 
 % Show zplane
 zplane(z,p);
-strt="Saramaki n>=m filter";
+strt="Saram\\\"{a}ki n>=m filter";
 title(strt);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close

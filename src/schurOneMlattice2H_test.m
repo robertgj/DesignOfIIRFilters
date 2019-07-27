@@ -1,5 +1,5 @@
 % schurOneMlattice2H_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -84,8 +84,8 @@ for l=1:Nk
   diff_Hk(l)=(HkPdel2-HkMdel2)/del;
 endfor
 rel_diff_Hk=(diff_Hk-dHdkc(ntpl,1:Nk))./dHdkc(ntpl,1:Nk);
-if max(abs(rel_diff_Hk)) > del/154.9
-  error("max(abs(rel_diff_Hk)) > del/154.9");
+if max(abs(rel_diff_Hk)) > del/47.5
+  error("max(abs(rel_diff_Hk)) > del/47.5");
 endif
 
 % Check the gradient of H wrt c

@@ -140,7 +140,7 @@ set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.000008 0]);
 axis(ax(2),[0 0.5 -50 -30]);
-strt="Surma-aho-and-Saramaki combined parallel all-pass filter response";
+strt="Surma-aho-and-Saram\\\"{a}ki combined parallel all-pass filter response";
 title(strt);
 ylabel("Amplitude(dB)");
 grid("on");
@@ -148,7 +148,7 @@ subplot(212);
 plot(Fp,Pp);
 axis([0 0.5 -0.02 0.02]);
 grid("on");
-ylabel("Phase error(rad./pi)");
+ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
 print(strcat(strf,"_resp"),"-dpdflatex");
 close
@@ -156,7 +156,7 @@ close
 % Combined parallel allpass filter zplane plot
 subplot(111);
 zplane([min_z;1./allpass_p],min_p);
-strt="Surma-aho-and-Saramaki combined parallel all-pass filter";
+strt="Surma-aho-and-Saram\\\"{a}ki combined parallel all-pass filter";
 title(strt);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
@@ -171,7 +171,7 @@ p2=a2p(a2,V2,Q2,R2);
 %
 % Parallel all-pass response
 %
-Asq=parallel_allpassAsq(w,[a1;a2],V1,Q1,R1,V2,Q2,R2);
+Asq=parallel_allpassAsq(w,[a1;a2],1,V1,Q1,R1,V2,Q2,R2);
 A12p=10*log10(abs(Asq(1:nap)));
 A12s=10*log10(abs(Asq(nas:end)));
 P=parallel_allpassP(wa,[a1;a2],V1,Q1,R1,V2,Q2,R2);
@@ -184,7 +184,7 @@ set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.000008 0]);
 axis(ax(2),[0 0.5 -50 -30]);
-strt="Surma-aho-and-Saramaki combined parallel all-pass filter response";
+strt="Surma-aho-and-Saram\\\"{a}ki combined parallel all-pass filter response";
 title(strt);
 ylabel("Amplitude(dB)");
 grid("on");
@@ -192,19 +192,19 @@ subplot(212);
 plot(Fp,P12p);
 axis([0 0.5 -0.02 0.02]);
 grid("on");
-ylabel("Phase error(rad./pi)");
+ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
 print(strcat(strf,"_A12_resp"),"-dpdflatex");
 close
 % All-pass filter pole-zero plots
 subplot(111);
 zplane(1./p1,p1);
-strt="Surma-aho-and-Saramaki A1 all-pass filter";
+strt="Surma-aho-and-Saram\\\"{a}ki A1 all-pass filter";
 title(strt);
 print(strcat(strf,"_A1_pz"),"-dpdflatex");
 close
 zplane(1./p2,p2);
-strt="Surma-aho-and-Saramaki A2 all-pass filter";
+strt="Surma-aho-and-Saram\\\"{a}ki A2 all-pass filter";
 title(strt);
 print(strcat(strf,"_A2_pz"),"-dpdflatex");
 close

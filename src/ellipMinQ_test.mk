@@ -1,4 +1,5 @@
 ellipMinQ_test_FIGURES = \
+ellipMinQ_test_cd \
 ellipMinQ_test_s_resp \
 ellipMinQ_test_z_resp \
 ellipMinQ_test_z_pz \

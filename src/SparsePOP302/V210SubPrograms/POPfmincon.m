@@ -74,7 +74,7 @@ function [x,fval,exitflag,output] ...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 
-if isstr(objPoly)
+if ischar(objPoly)
     % Input is described in either the GAMS format or the SparsePOP format.
 	problemData = objPoly;
     if nargin == 3

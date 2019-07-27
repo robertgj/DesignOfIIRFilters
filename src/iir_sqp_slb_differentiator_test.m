@@ -1,5 +1,5 @@
 % iir_sqp_slb_differentiator_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -28,12 +28,12 @@ verbose=false
 %      initial filter used removes the poles and zeros that cancel.
 if 0
 % Polynomials from tarczynski_differentiator_test.m
-  N0 = [  -0.0033301621,   0.0049842251,  -0.0073918531,   0.0149050168, ... 
-          -0.0412778751,   0.3986841865,  -0.3898446870,  -0.0671740286, ... 
-           0.1096928148,  -0.1976385735,   0.1919406387,   0.0009944144, ... 
-          -0.0148956517 ]';
-  D0 = [   1.0000000000,  -0.2582347009,  -0.4815140464,   0.0529885038, ... 
-           0.0016969056,   0.0009654222,   0.0003876026 ]';
+  N0 = [  -0.0033301006,   0.0049841797,  -0.0073919085,   0.0149051187, ... 
+          -0.0412856655,   0.3986958729,  -0.3898632907,  -0.0671281845, ... 
+           0.1095830959,  -0.1967255803,   0.1910381393,   0.0009415971, ... 
+          -0.0147769262 ]';
+  D0 = [   1.0000000000,  -0.2582075296,  -0.4792470831,   0.0526057610, ... 
+           0.0016903440,   0.0009546646,   0.0003777705 ]';
   R=2;
   D0R=[1;kron(D0(2:end),[zeros(R-1,1);1])];
   [x0,U,V,M,Q]=tf2x(N0,D0)
@@ -118,7 +118,7 @@ ylabel("Group delay(samples)");
 grid("on");
 subplot(313);
 plot(wp*0.5/pi,(P0+(wp*td))/pi);
-ylabel("Phase(rad./pi)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_initial_x0phase"),"-dpdflatex");
@@ -152,7 +152,7 @@ grid("on");
 subplot(313);
 plot(wp*0.5/pi,([Px1 Pdl Pdu]+(wp*td))/pi);
 axis([0 0.5 1.5-pr 1.5+pr]);
-ylabel("Phase(rad./pi)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_mmse_x1phase"),"-dpdflatex");
@@ -189,7 +189,7 @@ grid("on");
 subplot(313);
 plot(wp*0.5/pi,([Pd1 Pdl Pdu]+(wp*td))/pi);
 axis([0 0.5 1.5-pr 1.5+pr]);
-ylabel("Phase(rad./pi)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_d1phase"),"-dpdflatex");
@@ -217,7 +217,7 @@ grid("on");
 subplot(313)
 plot(w*0.5/pi,([unwrap(arg(h)) Pdl-pi Pdu-pi]+(w*td))/pi)
 axis([0 0.5 0.5-pr 0.5+pr]);
-ylabel("Phase(rad./pi)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_d1freqz"),"-dpdflatex");

@@ -1,5 +1,5 @@
 % freq_transform_structure_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -28,7 +28,8 @@ di=di(:)/di(1);
 ndi=[ni; di(2:end)];
 % Unconstrained minimisation
 WISEJ([],nN,nD,R,w,Hd,Wd);
-[ND, FVEC, INFO, OUTPUT] = fminunc(@WISEJ,ndi);
+opt=optimset("MaxFunEvals",10000,"MaxIter",1000);
+[ND, FVEC, INFO, OUTPUT] = fminunc(@WISEJ,ndi,opt);
 if (INFO <= 0)
   error("fminunc failed!");
 endif

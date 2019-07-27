@@ -1,5 +1,5 @@
 % tarczynski_deczky1_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -41,8 +41,10 @@ Wt=[Wtp*ones(ntp,1); zeros(n-ntp,1)];
 % Unconstrained minimisation
 WISEJ_ND([],nN,nD,R,wd,Ad,Wa,Td,Wt);
 tol=1e-6;
+maxiter=10000;
 ND0=[N0;D0(2:end)];
-[ND,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_ND,ND0,optimset("TolFun",tol,"TolX",tol));
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[ND,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_ND,ND0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -97,7 +99,10 @@ print_polynomial(N,"N");
 print_polynomial(N,"N","tarczynski_deczky1_test_N_coef.m");
 print_polynomial(D,"D");
 print_polynomial(D,"D","tarczynski_deczky1_test_D_coef.m");
-
+[x,Ux,Vx,Mx,Qx]=tf2x(N,D);
+print_pole_zero(x,Ux,Vx,Mx,Qx,R,"x");
+print_pole_zero(x,Ux,Vx,Mx,Qx,R,"x","tarczynski_deczky1_test_x_coef.m")
+                                                      
 % Save the result
 save tarczynski_deczky1_test.mat fap fas Wap Was td n nN nD N0 D0 N D 
 

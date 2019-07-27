@@ -1,5 +1,5 @@
 % complementaryFIRlatticeEsq_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -99,8 +99,8 @@ for l=1:Nk
   delkhat=shift(delkhat,1);
   diff_Esqkhat(l)=(EsqkhatPdel2-EsqkhatMdel2)/del;
 endfor
-if max(abs(diff_Esqkhat-gradEsq((Nk+1):(2*Nk)))) > del/2014
-  error("max(abs(diff_Esqkhat-gradEsq((Nk+1):(2*Nk)))) > del/2014");
+if max(abs(diff_Esqkhat-gradEsq((Nk+1):(2*Nk)))) > del/1967
+  error("max(abs(diff_Esqkhat-gradEsq((Nk+1):(2*Nk)))) > del/1967");
 endif
 
 % Done

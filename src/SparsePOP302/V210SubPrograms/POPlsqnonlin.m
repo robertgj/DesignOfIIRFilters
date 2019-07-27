@@ -75,7 +75,7 @@ function [x,fval,exitflag,output] = POPlsqnonlin(LSobjPoly,lbd,ubd,x0,options)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 
-if isstr(LSobjPoly)
+if ischar(LSobjPoly)
     % Input is described in either the GAMS format or the SparsePOP format.
 	problemData = LSobjPoly;
     if nargin == 3

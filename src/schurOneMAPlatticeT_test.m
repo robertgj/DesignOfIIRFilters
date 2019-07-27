@@ -1,5 +1,5 @@
 % schurOneMAPlatticeT_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -40,6 +40,12 @@ t=grpdelay(flipud(d),d,nplot);
 Nk=length(k);
 [T,gradT,diagHessT]=schurOneMAPlatticeT(wplot,k,epsilon,p);
 
+% Check argument processing
+Tp=schurOneMAPlatticeT(wplot,k,epsilon);
+if max(abs(Tp-T)) > 200*eps
+  error("max(abs(Tp-T)) > 200*eps");
+endif
+
 % Check the group-delay response
 if max(abs(t(ntpl:ntpu)-T(ntpl:ntpu))) > 43328*eps
   error("max(abs(t(ntpl:ntpu)-T(ntpl:ntpu))) > 43328*eps");
@@ -57,8 +63,8 @@ for l=1:Nk
   delk=shift(delk,1);
   diff_Tk(l)=(TkPdel2-TkMdel2)/del;
 endfor
-if max(abs(diff_Tk-gradT(ntpl,:))) > del/46.48
-  error("max(abs(diff_Tk-gradT(ntpl,:))) > del/46.48");
+if max(abs(diff_Tk-gradT(ntpl,:))) > del/34.7
+  error("max(abs(diff_Tk-gradT(ntpl,:))) > del/34.7");
 endif
 
 % Check the diagonal of the Hessian of the group delay wrt k
@@ -86,11 +92,11 @@ dp=d(1:2:end);
 [kR,epsilonR,pR,~]=tf2schurOneMlattice(flipud(dp),dp);
 NkR=length(kR);
 [TR,gradTR,diagHessTR]=schurOneMAPlatticeT(wplot,kR,epsilonR,pR,R);
-if max(abs(T-TR))/eps > 192
-  error("max(abs(T-TR)) > 192*eps");
+if max(abs(T-TR))/eps > 208
+  error("max(abs(T-TR)) > 208*eps");
 endif
-if max(max(abs(gradT(ntpl:ntpu,2:2:end)-gradTR(ntpl:ntpu,:))))/eps > 776
-  error("max(max(abs(gradT(ntpl:ntpu,2:2:end)-gradTR(ntpl:ntpu,:)))) > 776*eps");
+if max(max(abs(gradT(ntpl:ntpu,2:2:end)-gradTR(ntpl:ntpu,:))))/eps > 960
+  error("max(max(abs(gradT(ntpl:ntpu,2:2:end)-gradTR(ntpl:ntpu,:)))) > 960*eps");
 endif
 if max(max(abs(diagHessT(ntpl:ntpu,2:2:end)-diagHessTR(ntpl:ntpu,:))))/eps>11904
   error("max(max(abs(diagHessT(ntpl:ntpu,2:2:end)-diagHessTR(ntpl:ntpu,:))))\

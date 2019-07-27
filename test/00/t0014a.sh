@@ -40,10 +40,10 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-Sau=[1 1438 1590 1600 1604 1645 2277 ]
-vSau=[1 1438 1590 1600 1604 1645 2277 ]
-Sal=[1023 1557 1598 1602 1613 1771 4000 ]
-vSal=[1023 1557 1598 ]
+Sau=[1 1433 1589 1600 1604 1647 2288 ]
+vSau=[1 1433 1589 1600 1604 1647 2288 ]
+Sal=[1015 1555 1598 1602 1613 1777 4000 ]
+vSal=[1015 1555 1598 ]
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

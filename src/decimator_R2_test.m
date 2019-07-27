@@ -84,7 +84,8 @@ ftp=%g,tp=%g,tpr=%%g,Wtp=%%g",fap,fas,ftp,tp);
 strf="decimator_R2_test";
 
 % Initial filter
-[x0,Ex0]=xInitHd(xi,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,tol_wise);
+[x0,Ex0]=xInitHd(xi,U,V,M,Q,R, ...
+                 wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,maxiter,tol_wise);
 printf("x0=[ ");printf("%f ",x0');printf("]'\n");
 strMI=sprintf("Initial decimator R=2 : U=%d,V=%d,M=%d,Q=%d,R=%d", U,V,M,Q,R);
 showResponse(x0,U,V,M,Q,R,strMI);

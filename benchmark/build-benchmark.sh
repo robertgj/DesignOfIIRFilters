@@ -17,11 +17,11 @@
 #  arpack-ng-master.zip
 #  fftw-3.3.8.tar.gz
 #  qrupdate-1.1.2.tar.gz
-#  octave-4.4.0.tar.lz
-#  struct-1.0.15.tar.gz
-#  optim-1.5.2.tar.gz
-#  control-3.1.0.tar.gz
-#  signal-1.4.0.tar.gz
+#  octave-5.1.0.tar.lz
+#  struct-?.?.?.tar.gz
+#  optim-?.?.?.tar.gz
+#  control-?.?.?.tar.gz
+#  signal-?.?.?.tar.gz
 
 # Disable CPU frequency scaling:
 # for c in `seq 0 7` ; do
@@ -82,7 +82,7 @@ export OCTAVE_CONFIG_OPTIONS=" \
        --with-fftw3f-libdir=$LOCAL_PREFIX/lib"
 
 # Unpack Octave
-export OCTAVEVER=4.4.0
+export OCTAVEVER=5.1.0
 tar -xf octave-$OCTAVEVER".tar.lz"
 
 # Build the benchmark versions
@@ -109,13 +109,13 @@ do
     echo "pkg prefix $OCTAVE_PACKAGE_DIR $OCTAVE_PACKAGE_DIR ; \
           pkg local_list $OCTAVE_PACKAGES ;" > .octaverc
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../struct-1.0.15.tar.gz'
+                                       'pkg install ../struct-tip.tar.gz'
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../optim-1.5.2.tar.gz'
+                                       'pkg install ../optim-tip.tar.gz'
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../control-3.1.0.tar.gz'
+                                       'pkg install ../control-tip.tar.gz'
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../signal-1.4.0.tar.gz'
+                                       'pkg install ../signal-tip.tar.gz'
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval "pkg list"
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval "__octave_config_info__"
     #

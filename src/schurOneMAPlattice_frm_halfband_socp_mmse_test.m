@@ -95,19 +95,20 @@ strf="schurOneMAPlattice_frm_halfband_socp_mmse_test";
 % FRM halfband SOCP MMSE
 %
 tic;
-[k1,u1,v1,socp_iter,func_iter,feasible] = ...
+[k1tmp,u1,v1,socp_iter,func_iter,feasible] = ...
   schurOneMAPlattice_frm_halfband_socp_mmse ...
     ([],k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...
      wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,maxiter,tol,verbose);
 toc;
 if feasible == 0 
-  error("k1,u1,v1(mmse) infeasible");
+  error("k1tmp,u1,v1(mmse) infeasible");
 endif
 
 % Plot the response
-r1=schurOneMAPlattice2tf(k1,epsilon0,p0);
+r1=schurOneMAPlattice2tf(k1tmp,epsilon0,p0);
+[k1,epsilon1,p1,~] = tf2schurOneMlattice(flipud(r1),r1);
 schurOneMAPlattice_frm_halfband_socp_slb_plot ...
-  (r1,u1,v1,Mmodel,Dmodel,n,strt,strcat(strf,"_%s_%s"),"MMSE");
+  (k1,epsilon1,p1,u1,v1,Mmodel,Dmodel,n,strt,strcat(strf,"_%s_%s"),"MMSE");
 
 %
 % Save the results
@@ -131,6 +132,8 @@ print_polynomial(r1,"r1");
 print_polynomial(r1,"r1",strcat(strf,"_r1_coef.m"));
 print_polynomial(k1,"k1");
 print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"));
+print_polynomial(epsilon1,"epsilon1");
+print_polynomial(k1,"epsilon1",strcat(strf,"_epsilon1_coef.m"));
 print_polynomial(u1,"u1");
 print_polynomial(u1,"u1",strcat(strf,"_u1_coef.m"));
 print_polynomial(v1,"v1");

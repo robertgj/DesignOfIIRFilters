@@ -1,5 +1,5 @@
 % iirA_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -57,8 +57,8 @@ w=(0:(L-1))'*pi/L;
 % Compare A with freqz
 [N,D]=x2tf(x0,U,V,M,Q,R);
 H=freqz(N,D,w);
-if mean(abs(abs(H)-A)) > 16*eps
-  error("mean(abs(abs(H)-A)) > 16*eps");
+if mean(abs(abs(H)-A)) > 25*eps
+  error("mean(abs(abs(H)-A)) > 25*eps");
 endif
 
 %

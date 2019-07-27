@@ -1,5 +1,5 @@
 % tarczynski_frm_hilbert_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Design an FRM Hilbert filter from IIR allpass model in parallel with a delay
 % and FIR masking filters using the method of Tarczynski et al. The 
@@ -154,28 +154,10 @@ else
 endif
 
 %
-% Initial filters from tarczynski_frm_halfband_test.m
-%
-rhb = [    1.0000000000,   0.4654027371,  -0.0749201995,   0.0137121216, ... 
-           0.0035706175,  -0.0098219303 ]';
-aahb = [  -0.0019232288,   0.0038703625,   0.0038937068,  -0.0055310972, ... 
-          -0.0073554558,   0.0065538587,   0.0124707197,   0.0002190941, ... 
-          -0.0274067156,  -0.0109227368,   0.0373112692,   0.0338245953, ... 
-          -0.0500281266,  -0.0817426036,   0.0547645647,   0.3116242327, ... 
-           0.4439780707,   0.3116242327,   0.0547645647,  -0.0817426036, ... 
-          -0.0500281266,   0.0338245953,   0.0373112692,  -0.0109227368, ... 
-          -0.0274067156,   0.0002190941,   0.0124707197,   0.0065538587, ... 
-          -0.0073554558,  -0.0055310972,   0.0038937068,   0.0038703625, ... 
-          -0.0019232288 ]';
-
 % Initial filter vector
-if 0
-  r0=rhb;
-  aa0=aahb;
-else
-  r0=[1;zeros(mr,1)];
-  aa0=remez(na-1,2*[0 faap faas 0.5],[1 1 0 0]);
-endif
+%
+r0=[1;zeros(mr,1)];
+aa0=remez(na-1,2*[0 faap faas 0.5],[1 1 0 0]);
 ra0=[r0(2:end);aa0(1:(dmask+1))];
 
 %
@@ -196,7 +178,7 @@ strt=sprintf("Initial FRM Hilbert filter:mr=%d,na=%d,Mmodel=%d,Dmodel=%d,td=%d",
 title(strt);
 subplot(312);
 plot(wplot*0.5/pi,(unwrap(arg(Hw_init))+(wplot*td))/pi);
-ylabel("Phase(rad./pi)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 axis([0 0.5 -0.6 -0.4]);
 grid("on");
 subplot(313);
@@ -219,8 +201,8 @@ Td=((Dmodel*Mmodel)+dmask)*ones(size(w));
 Pd=-pi*ones(size(w))/2;
 
 WISEJ_FRM_HILBERT([],mr,na,Mmodel,Dmodel,w,Hd,Wa,Td,Wt,Pd,Wp);
-[ra1,FVEC,INFO,OUTPUT] = ...
-  fminunc(@WISEJ_FRM_HILBERT,ra0,optimset("TolFun",tol,"TolX",tol));
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[ra1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_FRM_HILBERT,ra0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -262,7 +244,7 @@ strt=sprintf("FRM Hilbert filter:mr=%d,na=%d,Mmodel=%d,Dmodel=%d,td=%d",
 title(strt);
 subplot(312);
 plot(wplot*0.5/pi,(unwrap(arg(Hw_hilbert))+(wplot*td))/pi);
-ylabel("Phase(rad./pi)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 axis([0 0.5 -0.6 -0.4]);
 grid("on");
 subplot(313);
@@ -313,15 +295,15 @@ endif
 
 % Save the results
 print_polynomial(q1,"q1");
-print_polynomial(q1,"q1",strcat(strf,"_q1_coef.m"),"%10.6f");
+print_polynomial(q1,"q1",strcat(strf,"_q1_coef.m"),"%16.10f");
 print_polynomial(r2M1,"r2M1");
-print_polynomial(r2M1,"r2M1",strcat(strf,"_r2M1_coef.m"),"%10.6f");
+print_polynomial(r2M1,"r2M1",strcat(strf,"_r2M1_coef.m"),"%16.10f");
 print_polynomial(r1,"r1");
-print_polynomial(r1,"r1",strcat(strf,"_r1_coef.m"),"%10.6f");
+print_polynomial(r1,"r1",strcat(strf,"_r1_coef.m"),"%16.10f");
 print_polynomial(u1,"u1");
-print_polynomial(u1,"u1",strcat(strf,"_u1_coef.m"),"%10.6f");
+print_polynomial(u1,"u1",strcat(strf,"_u1_coef.m"),"%16.10f");
 print_polynomial(v1,"v1");
-print_polynomial(v1,"v1",strcat(strf,"_v1_coef.m"),"%10.6f");
+print_polynomial(v1,"v1",strcat(strf,"_v1_coef.m"),"%16.10f");
 
 save tarczynski_frm_hilbert_test.mat r0 aa0 q0 r2M0 q1 r2M1 r1 u1 v1 ...
      Mmodel Dmodel dmask mr na fpass fstop n tol nplot wplot

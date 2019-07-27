@@ -1,8 +1,9 @@
 % branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
-% Branch-and-bound search of Schur one-multiplier lattice bandpass filter
-% response with 10-bit signed-digit coefficients and Ito et al. allocation
+% Branch-and-bound search of FRM Hilbert filter response with 12-bit
+% signed-digit coefficients. The model filter is implemented as the parallel
+% combination of a Schur one-multiplier lattice filter and a delay.
 
 test_common;
 
@@ -32,16 +33,16 @@ branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test_allocsd_Ito=false
 %
 % Initial filter from schurOneMAPlattice_frm_hilbert_socp_slb_test.m
 %
-k0 = [  -0.5737912484,  -0.1357861406,  -0.0532745521,  -0.0211256540, ... 
-        -0.0087697088 ];
-epsilon0 = [  -1,   1,   1,   1,   1 ];
-p0 = [   1.5423434314,   0.8026361328,   0.9201452230,   0.9705438143, ... 
-         0.9912684100 ];
-u0 = [  -0.0009005863,  -0.0025457761,  -0.0071130804,  -0.0128019219, ... 
-        -0.0309485916,  -0.0343335608,  -0.0517736812,  -0.0570207655, ... 
-         0.4398895843 ]';
-v0 = [   0.0065311034,   0.0043827834,   0.0072166026,   0.0020996444, ... 
-        -0.0078831931,  -0.0311746387,  -0.0808425030,  -0.3143749021 ]';
+k0 = [  -0.5737726298,  -0.1357954240,  -0.0532684516,  -0.0211111235, ... 
+        -0.0087703126 ];
+epsilon0 = [  -1,  1,  1,  1,  1 ];
+p0 = [   1.5423169594,   0.8026446354,   0.9201636732,   0.9705573372, ... 
+         0.9912678115 ];
+u0 = [  -0.0009207330,  -0.0025408772,  -0.0071034731,  -0.0128187644, ... 
+        -0.0309895964,  -0.0342924460,  -0.0517579913,  -0.0570036999, ... 
+         0.4398918391 ]';
+v0 = [   0.0065494606,   0.0043721486,   0.0072055070,   0.0020700954, ... 
+        -0.0078782694,  -0.0311739891,  -0.0808661252,  -0.3144277686 ]';
 
 %
 % Filter specification
@@ -246,7 +247,7 @@ if use_best_branch_and_bound_found
     k_min=[ -1152 -264 -96 -36 -12 ]'/nscale;
     u_min=[ 0 -3 -16 -24 -63 -72 -112 -120 896 ]'/nscale;
     v_min=[ 14 9 18 8 -12 -63 -160 -640 ]'/nscale;
-    branches_min=72
+    branches_min=75 % 1170 seconds
   endif
   kuv_min=[k_min(:);u_min(:);v_min(:)];
   Esq_min=schurOneMAPlattice_frm_hilbertEsq ...
@@ -379,6 +380,7 @@ else
         k_min=k_b;
         u_min=u_b;
         v_min=v_b;
+        branches_min=n_branch;
         printf("Improved solution: kuv_depth=%d,Esq_min=%g\n",kuv_depth,Esq_min);
         print_polynomial(k_min,"k_min",nscale);
         print_polynomial(u_min,"u_min",nscale);
@@ -471,7 +473,7 @@ if improved_solution_found
   grid("on");
   subplot(212);
   plot(wp*0.5/pi,Pfir_sd/pi,"-",wp*0.5/pi,P_kuv_min/pi,"-.");
-  ylabel("Phase(rad./pi)\n(Adjusted for delay)");
+  ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
   xlabel("Frequency");
   axis([0 0.5 -0.502 -0.498]);
   grid("on");
@@ -542,7 +544,7 @@ fap=%g,fas=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g,Wpp=%g",fap,fas,dBap,Wap,tp,Wtp,Wpp);
   legend("location","north");
   legend("boxoff");
   legend("left");
-  ylabel("Phase(rad./pi)\n(Adjusted for delay)");
+  ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
   xlabel("Frequency");
   title(strt);
   axis([0 0.5 -0.505 -0.495]);

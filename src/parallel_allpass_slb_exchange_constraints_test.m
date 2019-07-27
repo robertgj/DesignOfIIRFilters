@@ -59,6 +59,8 @@ n=1000;
 nap=ceil(fap*n/0.5)+1;
 ntp=ceil(ftp*n/0.5)+1;
 nas=floor(fas*n/0.5)+1;
+K=2;
+Ksq=K^2;
 
 % Amplitude constraints
 wa=(0:(n-1))*pi/n;
@@ -93,26 +95,26 @@ ab1=zeros(ma+mb,1);
 [ab1((ma+1):end),Vb,Qb]=tf2a(Db1);
 
 % Response of ab0
-Asqab0=parallel_allpassAsq(wa,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
+Asqab0=parallel_allpassAsq(wa,ab0,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
 Tab0=parallel_allpassT(wt,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
 Pab0=parallel_allpassP(wp,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
 
 % Response of ab1
-Asqab1=parallel_allpassAsq(wa,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
+Asqab1=parallel_allpassAsq(wa,ab1,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
 Tab1=parallel_allpassT(wt,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
 Pab1=parallel_allpassP(wp,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
 
 % Update constraints
 vRab0=parallel_allpass_slb_update_constraints ...
-       (Asqab0,Asqdu,Asqdl,Wa,Tab0,Tdu,Tdl,Wt,Pab0,Pdu,Pdl,Wp,tol);
+        (Asqab0,Asqdu*Ksq,Asqdl*Ksq,Wa/Ksq,Tab0,Tdu,Tdl,Wt,Pab0,Pdu,Pdl,Wp,tol);
 vSab1=parallel_allpass_slb_update_constraints ...
-        (Asqab1,Asqdu,Asqdl,Wa,Tab1,Tdu,Tdl,Wt,Pab1,Pdu,Pdl,Wp,tol);
+        (Asqab1,Asqdu*Ksq,Asqdl*Ksq,Wa/Ksq,Tab1,Tdu,Tdl,Wt,Pab1,Pdu,Pdl,Wp,tol);
 
 % Show constraints
 printf("vRab0 before exchange constraints:\n");
-parallel_allpass_slb_show_constraints(vRab0,wa,Asqab0,wt,Tab0,wp,Pab0);
+parallel_allpass_slb_show_constraints(vRab0,wa,Asqab0/Ksq,wt,Tab0,wp,Pab0);
 printf("vSab1 before exchange constraints:\n");
-parallel_allpass_slb_show_constraints(vSab1,wa,Asqab0,wt,Tab0,wp,Pab0);
+parallel_allpass_slb_show_constraints(vSab1,wa,Asqab0/Ksq,wt,Tab0,wp,Pab0);
 
 % Common strings
 strd=sprintf("parallel_allpass_slb_exchange_constraints_test_%%s");
@@ -120,9 +122,9 @@ strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tdr=%g,Wtp=%g",
              fap,dBap,Wap,fas,dBas,Was,tdr,Wtp);
 
 % Plot pass-band amplitude
-plot(wa*0.5/pi,10*log10([Asqab0,Asqdu,Asqdl]), ...
-     wa(vRab0.al)*0.5/pi,10*log10(Asqab0(vRab0.al)),'*', ...
-     wa(vRab0.au)*0.5/pi,10*log10(Asqab0(vRab0.au)),'+');
+plot(wa*0.5/pi,10*log10([Asqab0/Ksq,Asqdu,Asqdl]), ...
+     wa(vRab0.al)*0.5/pi,10*log10(Asqab0(vRab0.al)/Ksq),'*', ...
+     wa(vRab0.au)*0.5/pi,10*log10(Asqab0(vRab0.au)/Ksq),'+');
 axis([0,fap,-3,1]);
 strMab0=sprintf(strM,"ab0");
 title(strMab0);
@@ -134,9 +136,9 @@ print(sprintf(strd,"ab0A"),"-dpdflatex");
 close
 
 % Plot stop-band amplitude
-plot(wa*0.5/pi,10*log10([Asqab0,Asqdu,Asqdu+tol*ones(n,1)]), ...
-     wa(vRab0.al)*0.5/pi,10*log10(Asqab0(vRab0.al)),'*', ...
-     wa(vRab0.au)*0.5/pi,10*log10(Asqab0(vRab0.au)),'+');
+plot(wa*0.5/pi,10*log10([Asqab0/Ksq,Asqdu,Asqdu+tol*ones(n,1)]), ...
+     wa(vRab0.al)*0.5/pi,10*log10(Asqab0(vRab0.al)/Ksq),'*', ...
+     wa(vRab0.au)*0.5/pi,10*log10(Asqab0(vRab0.au)/Ksq),'+');
 axis([fas,0.5,-60,-20]);
 xlabel("Frequency")
 ylabel("Amplitude(dB)");
@@ -162,7 +164,7 @@ plot(wp*0.5/pi,([Pab0,Pdu,Pdl]+(wp*td)-pd)/pi, ...
      wp(vRab0.pu)*0.5/pi,(Pab0(vRab0.pu)+(wp(vRab0.pu)*td)-pd)/pi,'+');
 title(strMab0);
 axis([0 fpp -pdr pdr])
-ylabel("Phase(rad./pi)");
+ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency")
 print(sprintf(strd,"ab0P"),"-dpdflatex");
 close
@@ -170,18 +172,18 @@ close
 % Exchange constraints
 [vRab1,vSab1,exchanged] = ...
 parallel_allpass_slb_exchange_constraints ...
-  (vSab1,vRab0,Asqab1,Asqdu,Asqdl,Tab1,Tdu,Tdl,Pab1,Pdu,Pdl,tol);
+  (vSab1,vRab0,Asqab1,Asqdu*Ksq,Asqdl*Ksq,Tab1,Tdu,Tdl,Pab1,Pdu,Pdl,tol);
 printf("vRab1 after exchange constraints:\n");
-parallel_allpass_slb_show_constraints(vRab1,wa,Asqab1,wt,Tab1,wp,Pab1);
+parallel_allpass_slb_show_constraints(vRab1,wa,Asqab1/Ksq,wt,Tab1,wp,Pab1);
 printf("vSab1 after exchange constraints:\n");
-parallel_allpass_slb_show_constraints(vSab1,wa,Asqab1,wt,Tab1,wp,Pab1);
+parallel_allpass_slb_show_constraints(vSab1,wa,Asqab1/Ksq,wt,Tab1,wp,Pab1);
 
 % Plot passband amplitude
-plot(wa*0.5/pi,10*log10([Asqab0,Asqab1,Asqdu,Asqdl]), ...
-     wa(vRab0.al)*0.5/pi,10*log10(Asqab0(vRab0.al)),'*', ...
-     wa(vRab0.au)*0.5/pi,10*log10(Asqab0(vRab0.au)),'+', ...
-     wa(vSab1.al)*0.5/pi,10*log10(Asqab1(vSab1.al)),'*', ...
-     wa(vSab1.au)*0.5/pi,10*log10(Asqab1(vSab1.au)),'+');
+plot(wa*0.5/pi,10*log10([Asqab0/Ksq,Asqab1/Ksq,Asqdu,Asqdl]), ...
+     wa(vRab0.al)*0.5/pi,10*log10(Asqab0(vRab0.al)/Ksq),'*', ...
+     wa(vRab0.au)*0.5/pi,10*log10(Asqab0(vRab0.au)/Ksq),'+', ...
+     wa(vSab1.al)*0.5/pi,10*log10(Asqab1(vSab1.al)/Ksq),'*', ...
+     wa(vSab1.au)*0.5/pi,10*log10(Asqab1(vSab1.au)/Ksq),'+');
 axis([0,fap,-3,1]);
 strMab1=sprintf(strM,"ab1");
 title(strMab1);
@@ -193,11 +195,11 @@ print(sprintf(strd,"ab1A"),"-dpdflatex");
 close
 
 % Plot stop-band amplitude
-plot(wa*0.5/pi,10*log10([Asqab0,Asqab1,Asqdu,Asqdu+tol*ones(n,1)]), ...
-     wa(vRab0.al)*0.5/pi,10*log10(Asqab0(vRab0.al)),'*', ...
-     wa(vRab0.au)*0.5/pi,10*log10(Asqab0(vRab0.au)),'+', ...
-     wa(vSab1.al)*0.5/pi,10*log10(Asqab1(vSab1.al)),'*', ...
-     wa(vSab1.au)*0.5/pi,10*log10(Asqab1(vSab1.au)),'+');
+plot(wa*0.5/pi,10*log10([Asqab0/Ksq,Asqab1/Ksq,Asqdu,Asqdu+tol*ones(n,1)]), ...
+     wa(vRab0.al)*0.5/pi,10*log10(Asqab0(vRab0.al)/Ksq),'*', ...
+     wa(vRab0.au)*0.5/pi,10*log10(Asqab0(vRab0.au)/Ksq),'+', ...
+     wa(vSab1.al)*0.5/pi,10*log10(Asqab1(vSab1.al)/Ksq),'*', ...
+     wa(vSab1.au)*0.5/pi,10*log10(Asqab1(vSab1.au)/Ksq),'+');
 axis([fas,0.5,-60,-10]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
@@ -229,7 +231,7 @@ plot(wp*0.5/pi,([Pab0,Pab1,Pdu,Pdl]+(wp*td)-pd)/pi, ...
      wp(vSab1.pu)*0.5/pi,(Pab1(vSab1.pu)+(wp(vSab1.pu)*td)-pd)/pi,'+');
 title(strMab0);
 axis([0 fpp -pdr pdr])
-ylabel("Phase(rad./pi)");
+ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency")
 legend("Pab0","Pab1","Pdu","Pdl","location","southwest");
 print(sprintf(strd,"ab1P"),"-dpdflatex");

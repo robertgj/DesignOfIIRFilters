@@ -43,8 +43,8 @@ rs=55.43
 [Nd,Dd]=zp2tf(Zd,Pd,Kd);
 Hc=freqs(Nc,Dc,w);
 Hd=freqs(Nd,Dd,w);
-if 20*log10(max(abs(Hc-Hd))) > -119
-  error("20*log10(max(abs(Hc-Hd))) > -119");
+if 20*log10(max(abs(Hc-Hd))) > -98
+  error("20*log10(max(abs(Hc-Hd))) > -98");
 endif
 ax = plotyy(w*0.5/pi,20*log10(abs(Hd)),w*0.5/pi,20*log10(abs(Hd)));
 set(ax(1),'ycolor','black');

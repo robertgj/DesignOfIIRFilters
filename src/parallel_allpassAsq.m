@@ -1,6 +1,7 @@
-function [Asq, gradAsq]=parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb, ...
+function [Asq, gradAsq]=parallel_allpassAsq(w,ab,K,Va,Qa,Ra,Vb,Qb,Rb, ...
                                             polyphase,difference)
-% [Asq, gradAsq]=parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference)
+% [Asq, gradAsq]=parallel_allpassAsq(w,ab,K,Va,Qa,Ra,Vb,Qb,Rb, ...
+%                                    polyphase,difference)
 % Calculate the squared-magnitude response and gradient of the
 % squared-magnitude response of the parallel combination of two
 % allpass filters.
@@ -10,6 +11,7 @@ function [Asq, gradAsq]=parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb, ...
 %  ab - vector of Va real pole radiuses, Qa/2 complex pole radiuses and
 %       Qa/2 complex pole angles, Vb real pole radiuses, Qb/2 complex
 %       pole radiuses and Qb/2 complex pole angles.
+%  K - gain factor
 %  Ra - filter a is in terms of z^Ra
 %  Rb - filter b is in terms of z^Rb
 %  polyphase - return the response for the polyphase combination
@@ -42,14 +44,14 @@ function [Asq, gradAsq]=parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb, ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin != 8) && (nargin != 9) && (nargin != 10)
+  if (nargin != 9) && (nargin != 10) && (nargin != 11)
     print_usage("[Asq,gradAsq] = ...\n\
-      parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference)");
+      parallel_allpassAsq(w,ab,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference)");
   endif
-  if nargin == 8
+  if nargin == 9
     polyphase = false;
     difference = false;
-  elseif nargin == 9
+  elseif nargin == 10
     difference = false;
   endif
   if polyphase && (Ra != 2) && (Rb != 2)
@@ -81,5 +83,9 @@ function [Asq, gradAsq]=parallel_allpassAsq(w,ab,Va,Qa,Ra,Vb,Qb,Rb, ...
     Asq = 0.5*(ones(length(w),1)+cos(Pa-Pb));
     gradAsq = -0.5*kron(sin(Pa-Pb),ones(1,length(ab))).*[gradPa, -gradPb];
   endif
+
+  Ksq=K^2;
+  Asq=Ksq*Asq;
+  gradAsq=Ksq*gradAsq;
 
 endfunction

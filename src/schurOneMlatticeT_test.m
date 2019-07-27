@@ -1,5 +1,5 @@
 % schurOneMlatticeT_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -70,8 +70,8 @@ for l=1:Nc
   delc=shift(delc,1);
   diff_Tc(l)=(TcPdel2-TcMdel2)/del;
 endfor
-if max(abs(diff_Tc-gradT(ntpl,(Nk+1):end))) > del/85.63
-  error("max(abs(diff_Tc-gradT(ntpl,(Nk+1):end))) > del/85.63");
+if max(abs(diff_Tc-gradT(ntpl,(Nk+1):end))) > del/50
+  error("max(abs(diff_Tc-gradT(ntpl,(Nk+1):end))) > del/50");
 endif
 
 % Check the diagonal of the Hessian of the group delay wrt k
@@ -86,8 +86,8 @@ for l=1:Nk
   delk=shift(delk,1);
   diff_dTdk(l)=(gradTkPdel2(1,l)-gradTkMdel2(1,l))/del;
 endfor
-if max(abs(diff_dTdk-diagHessT(ntpl,1:Nk))) > del/13.84
-  error("max(abs(diff_dTdk-diagHessT(ntpl,1:Nk))) > del/13.84");
+if max(abs(diff_dTdk-diagHessT(ntpl,1:Nk))) > del/10
+  error("max(abs(diff_dTdk-diagHessT(ntpl,1:Nk))) > del/10");
 endif
 
 % Check the diagonal of the Hessian of the group delay wrt c
@@ -102,8 +102,8 @@ for l=1:Nc
   delc=shift(delc,1);
   diff_dTdc(l)=(gradTkPdel2(1,Nk+l)-gradTkMdel2(1,Nk+l))/del;
 endfor
-if max(abs(diff_dTdc-diagHessT(ntpl,(Nk+1):end))) > del/33.546
-  error("max(abs(diff_dTdc-diagHessT(ntpl,(Nk+1):end))) > del/33.546");
+if max(abs(diff_dTdc-diagHessT(ntpl,(Nk+1):end))) > del/30
+  error("max(abs(diff_dTdc-diagHessT(ntpl,(Nk+1):end))) > del/30");
 endif
 
 % Done

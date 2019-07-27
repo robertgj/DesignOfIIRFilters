@@ -1,43 +1,37 @@
---- SparsePOP302.orig/subPrograms/Mfiles/my_unique.m	2017-06-07 22:27:36.200619146 +1000
-+++ SparsePOP302/subPrograms/Mfiles/my_unique.m	2017-06-07 22:27:23.000000000 +1000
-@@ -2,6 +2,12 @@ function [C, ia, ic] = my_unique(A, msg)
- if ~strcmp(msg, 'rows');
- 	error('msg should be rows in my_unique.');
- end
-+
-+% For Octave:
-+[C, ia, ic] = unique(A,msg);
-+
-+% For matlab:
-+%{ 
- if verLessThan('matlab', '8.0.1')
- 	% This part is the same as unique in R2012b or earlier version
- 	[C, ia, ic] = unique(A, msg);
-@@ -10,4 +16,6 @@ else
- 	% We use legacy mode of unique.
- 	[C, ia, ic] = unique(A, msg, 'last', 'legacy');
- end
-+%}
-+
- return
---- SparsePOP302.orig/subPrograms/Mex/conversion.cpp	2017-06-07 22:27:36.199619156 +1000
-+++ SparsePOP302/subPrograms/Mex/conversion.cpp	2017-06-07 22:27:23.000000000 +1000
-@@ -2677,10 +2677,12 @@ void write_sdpa(/*IN*/class mysdp & psdp
-     }
- 	if(psdp.mDim <= 0){
- 		cout << "# All variables are removed in sdpa format" << endl;
-+        fclose(fp);
- 		return;
- 	}
- 	if(psdp.nBlocks <= 0){
- 		cout << "# All blocks are removed in sdpa format" << endl;
-+        fclose(fp);
- 		return;
- 	}
-     
---- SparsePOP302.orig/V260SubPrograms/SparseCoLO/mex/mexForestConvert.cpp	2017-06-07 22:27:36.197619178 +1000
-+++ SparsePOP302/V260SubPrograms/SparseCoLO/mex/mexForestConvert.cpp	2017-06-07 22:27:23.000000000 +1000
-@@ -676,6 +676,7 @@ void mexFunction(int nlhs, mxArray* plhs
+--- SparsePOP302.orig/sparsePOP.m	2016-12-29 18:58:33.000000000 +1100
++++ SparsePOP302/sparsePOP.m	2019-03-06 20:51:20.055864467 +1100
+@@ -534,7 +534,7 @@
+ 		if (param.printLevel(1) >= 1) 
+ 			printErrorBound(1,[],param,POP, SDPinfo);
+ 		end
+-		if isfield(param,'printFileName') && ~isempty(param.printFileName) && isstr(param.printFileName)
++		if isfield(param,'printFileName') && ~isempty(param.printFileName) && ischar(param.printFileName)
+ 			fileId = fopen(param.printFileName,'a+');
+ 			printErrorBound(fileId,[],param,POP, SDPinfo);
+ 			fclose(fileId);
+--- SparsePOP302.orig/V260SubPrograms/errorBound.m	2016-12-29 17:09:28.000000000 +1100
++++ SparsePOP302/V260SubPrograms/errorBound.m	2019-03-06 20:51:20.052864492 +1100
+@@ -43,7 +43,7 @@
+ %				fprintf('## param.binarySW\n');
+ %			end
+ %		end
+-%		if isfield(param,'printFileName') && ~isempty(param.printFileName) && isstr(param.printFileName)
++%		if isfield(param,'printFileName') && ~isempty(param.printFileName) && ischar(param.printFileName)
+ %			fileId = fopen(param.printFileName,'a+');
+ %			fprintf(fileId, '\n## Cannot apply the computation of error bounds because\n');
+ %			fprintf(fileId, '## exist no variable corresponding to x(%d)^2 in the SDP relaxation problem\n', i);
+@@ -88,7 +88,7 @@
+ %		fprintf('## exist no variable corresponding to x(%d) in the SDP relaxation problem\n', i);
+ %		fprintf('## To compute error bounds, set param.reduceAMatSW = 0.\n');
+ %	end
+-%	if isfield(param,'printFileName') && ~isempty(param.printFileName) && isstr(param.printFileName)
++%	if isfield(param,'printFileName') && ~isempty(param.printFileName) && ischar(param.printFileName)
+ %		fileId = fopen(param.printFileName,'a+');
+ %		fprintf(fileId, '\n## Cannot apply the computation of error bounds because\n');
+ %		fprintf(fileId, '## exist no variable corresponding to x(%d) in the SDP relaxation problem\n', i);
+--- SparsePOP302.orig/V260SubPrograms/SparseCoLO/mex/mexForestConvert.cpp	2016-12-29 17:09:28.000000000 +1100
++++ SparsePOP302/V260SubPrograms/SparseCoLO/mex/mexForestConvert.cpp	2019-03-06 20:51:20.051864501 +1100
+@@ -676,6 +676,7 @@
    for (int i=0; i<NoClique; ++i) {
      clique[i].finalize();
    }
@@ -45,8 +39,19 @@
    delete[] clique;
  
    delete[] blockNumber;
---- SparsePOP302.orig/compileSparsePOP.m	2017-06-07 22:27:36.195619200 +1000
-+++ SparsePOP302/compileSparsePOP.m	2017-06-07 22:27:23.000000000 +1000
+--- SparsePOP302.orig/V260SubPrograms/printErrorBound.m	2016-12-29 17:09:28.000000000 +1100
++++ SparsePOP302/V260SubPrograms/printErrorBound.m	2019-03-06 20:51:20.052864492 +1100
+@@ -12,7 +12,7 @@
+ %		fprintf('## some variables in POP are removed by param.reduceAMatSW = 1.\n');
+ %		fprintf('## To compute error bounds, set param.reduceAMatSW = 0.\n');
+ %	end
+-%	if isfield(param,'printFileName') && ~isempty(param.printFileName) && isstr(param.printFileName)
++%	if isfield(param,'printFileName') && ~isempty(param.printFileName) && ischar(param.printFileName)
+ %		fileId = fopen(param.printFileName,'a+');
+ %		fprintf(fileId, '## Cannot apply the computation of error bounds because\n');
+ %		fprintf(fileId, '## some variables in POP are removed by param.reduceAMatSW = 1.\n');
+--- SparsePOP302.orig/compileSparsePOP.m	2016-12-29 17:09:28.000000000 +1100
++++ SparsePOP302/compileSparsePOP.m	2019-03-06 20:51:20.055864467 +1100
 @@ -20,33 +20,15 @@
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %
@@ -75,8 +80,9 @@
 -if ispc % Windows family create .obj files
 -        OBJfiles = strrep(LIBfiles,'.cpp','.obj');
 -else
-         OBJfiles = strrep(LIBfiles,'.cpp','.o');
+-        OBJfiles = strrep(LIBfiles,'.cpp','.o');
 -end
++OBJfiles = strrep(LIBfiles,'.cpp','.o');
  
 -eval('cd subPrograms/Mex');
 +mpwd=pwd;
@@ -86,7 +92,7 @@
  fprintf('Compiling Libraries...');
  command = ['mex -c ' MexFlags LIBfiles];
  eval(command);
-@@ -59,54 +41,6 @@ fprintf('Generating mexconv2...');
+@@ -59,54 +41,6 @@
  command = ['mex ' MexFlags ' mexconv2.cpp ' OBJfiles ];
  eval(command);
  fprintf('done\n');
@@ -142,3 +148,117 @@
 +cd(mpwd);
  
  fprintf('Compilation finished successfully.\n');
+--- SparsePOP302.orig/V210SubPrograms/ExploitOptTool.m	2016-12-29 17:09:28.000000000 +1100
++++ SparsePOP302/V210SubPrograms/ExploitOptTool.m	2019-03-06 20:51:20.052864492 +1100
+@@ -29,7 +29,7 @@
+ 		fprintf('## the SDP relaxation problem is infeasible or the solution\n');
+ 		fprintf('## obtained by %s is very inaccurate.\n\n', param.SDPsolver);
+ 	end
+-	if isfield(param, 'printFileName') && isstr(param.printFileName) && param.printLevel(2) > 0
++	if isfield(param, 'printFileName') && ischar(param.printFileName) && param.printLevel(2) > 0
+ 		fileId = fopen(param.printFileName,'a+');
+ 		fprintf(fileId, '\n## Cannot apply %s of Optimiation Toolbox because\n', param.POPsolver);
+ 		fprintf(fileId, '## the SDP relaxation problem is infeasible or the obtained\n');
+@@ -53,7 +53,7 @@
+ 			fprintf('## please solve this problem with param.reduceAMatSW = 0.\n\n');
+ 		end
+ 	end	
+-	if isfield(param, 'printFileName') && isstr(param.printFileName) && param.printLevel(2) > 0
++	if isfield(param, 'printFileName') && ischar(param.printFileName) && param.printLevel(2) > 0
+ 		fileId = fopen(param.printFileName,'a+');
+ 		fprintf(fileId, '## Cannot apply %s of Optimiation Toolbox because\n', param.POPsolver);
+ 		fprintf(fileId, '## SparsePOP cannot generate an initial solution for %s.\n', param.POPsolver);
+--- SparsePOP302.orig/V210SubPrograms/POPfmincon.m	2016-12-29 17:09:28.000000000 +1100
++++ SparsePOP302/V210SubPrograms/POPfmincon.m	2019-03-06 20:51:20.052864492 +1100
+@@ -74,7 +74,7 @@
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %
+ 
+-if isstr(objPoly)
++if ischar(objPoly)
+     % Input is described in either the GAMS format or the SparsePOP format.
+ 	problemData = objPoly;
+     if nargin == 3
+--- SparsePOP302.orig/V210SubPrograms/POPlsqnonlin.m	2016-12-29 17:09:28.000000000 +1100
++++ SparsePOP302/V210SubPrograms/POPlsqnonlin.m	2019-03-06 20:51:20.052864492 +1100
+@@ -75,7 +75,7 @@
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %
+ 
+-if isstr(LSobjPoly)
++if ischar(LSobjPoly)
+     % Input is described in either the GAMS format or the SparsePOP format.
+ 	problemData = LSobjPoly;
+     if nargin == 3
+--- SparsePOP302.orig/subPrograms/Mex/conversion.cpp	2016-12-29 17:09:28.000000000 +1100
++++ SparsePOP302/subPrograms/Mex/conversion.cpp	2019-03-06 20:51:20.053864484 +1100
+@@ -2676,11 +2676,13 @@
+         size = size + psdp.block_info[1][i];
+     }
+ 	if(psdp.mDim <= 0){
+-		cout << "# All variables are removed in sdpa format" << endl;
+-		return;
++		cout << "# All variables are removed in sdpa format" << endl;	
++        fclose(fp);
++        return;
+ 	}
+ 	if(psdp.nBlocks <= 0){
+ 		cout << "# All blocks are removed in sdpa format" << endl;
++        fclose(fp);
+ 		return;
+ 	}
+     
+--- SparsePOP302.orig/subPrograms/Mfiles/my_unique.m	2016-12-29 17:09:28.000000000 +1100
++++ SparsePOP302/subPrograms/Mfiles/my_unique.m	2019-03-06 20:51:20.055864467 +1100
+@@ -1,13 +1,21 @@
+ function [C, ia, ic] = my_unique(A, msg)
+-if ~strcmp(msg, 'rows');
+-	error('msg should be rows in my_unique.');
+-end
+-if verLessThan('matlab', '8.0.1')
+-	% This part is the same as unique in R2012b or earlier version
+-	[C, ia, ic] = unique(A, msg);
+-else
+-	% This part is for unique in R2013a or later version
+-	% We use legacy mode of unique.
+-	[C, ia, ic] = unique(A, msg, 'last', 'legacy');
+-end
++ if ~strcmp(msg, 'rows');
++   error('msg should be rows in my_unique.');
++ end
++
++% For Octave:
++[C, ia, ic] = unique(A,msg);
++
++% For matlab:
++%{ 
++ if verLessThan('matlab', '8.0.1')
++   % This part is the same as unique in R2012b or earlier version
++   [C, ia, ic] = unique(A, msg);
++ else
++   % This part is for unique in R2013a or later version
++   % We use legacy mode of unique.
++   [C, ia, ic] = unique(A, msg, 'last', 'legacy');
++ end
++%}
++
+ return
+--- SparsePOP302.orig/subPrograms/Mfiles/writeFunctions/writeParameters.m	2016-12-29 17:09:28.000000000 +1100
++++ SparsePOP302/subPrograms/Mfiles/writeFunctions/writeParameters.m	2019-03-06 20:51:20.054864476 +1100
+@@ -75,14 +75,14 @@
+ 		if iscell(param.errorBdIdx)
+ 			r = size(param.errorBdIdx, 2);
+ 			for k=1:r
+-				if isstr(param.errorBdIdx{k})
++				if ischar(param.errorBdIdx{k})
+ 					fprintf(fileId,'  errorBdIdx         = %s\n', param.errorBdIdx{k});
+ 				else
+ 					fprintf(fileId,'  errorBdIdx         = [%2d, %2d]\n', param.errorBdIdx{k}(1), param.errorBdIdx{k}(end));
+ 				end
+ 			end
+ 		else
+-			if isstr(param.errorBdIdx)
++			if ischar(param.errorBdIdx)
+ 				fprintf(fileId,'  errorBdIdx         = %s\n', param.errorBdIdx);
+ 			else
+ 				fprintf(fileId,'  errorBdIdx         = [%2d, %2d]\n', param.errorBdIdx(1), param.errorBdIdx(end));

@@ -173,7 +173,7 @@ plot(fp,[P0,Pdu,Pdl]/pi, ...
      fp(vR0.pu),P0(vR0.pu)/pi,'+');
 strMp0=sprintf(strMp,"P0");
 title(strMp0);
-ylabel("Phase(rad./pi)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency")
 grid("on");
 print(sprintf(strd,"P0"),"-dpdflatex");

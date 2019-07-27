@@ -1,0 +1,26 @@
+johansson_cascade_allpass_bandstop_test_FIGURES = \
+johansson_cascade_allpass_bandstop_test_fir \
+johansson_cascade_allpass_bandstop_test_iir \
+johansson_cascade_allpass_bandstop_test_iir_dual \
+johansson_cascade_allpass_bandstop_test_comp \
+johansson_cascade_allpass_bandstop_test_comp_dual \
+johansson_cascade_allpass_bandstop_test_zp \
+johansson_cascade_allpass_bandstop_test_zp_dual
+
+johansson_cascade_allpass_bandstop_test_COEFS = \
+johansson_cascade_allpass_bandstop_test.spec \
+johansson_cascade_allpass_bandstop_test_f1_coef.m \
+johansson_cascade_allpass_bandstop_test_bsA0_coef.m \
+johansson_cascade_allpass_bandstop_test_bsA1_coef.m
+
+johansson_cascade_allpass_bandstop_test_FILES = \
+johansson_cascade_allpass_bandstop_test.m test_common.m \
+directFIRsymmetric_socp_mmse.m directFIRsymmetric_slb.m \
+directFIRsymmetric_slb_update_constraints.m \
+directFIRsymmetric_slb_exchange_constraints.m \
+directFIRsymmetric_slb_set_empty_constraints.m \
+directFIRsymmetric_slb_constraints_are_empty.m \
+directFIRsymmetric_slb_show_constraints.m \
+directFIRsymmetricA.m directFIRsymmetricEsq.m \
+phi2p.m tfp2g.m tf2pa.m local_max.m print_polynomial.m qroots.m \
+qzsolve.oct spectralfactor.oct sedumi_test.diary

@@ -75,14 +75,14 @@ if isfield(param, 'errorBdIdx')
 		if iscell(param.errorBdIdx)
 			r = size(param.errorBdIdx, 2);
 			for k=1:r
-				if isstr(param.errorBdIdx{k})
+				if ischar(param.errorBdIdx{k})
 					fprintf(fileId,'  errorBdIdx         = %s\n', param.errorBdIdx{k});
 				else
 					fprintf(fileId,'  errorBdIdx         = [%2d, %2d]\n', param.errorBdIdx{k}(1), param.errorBdIdx{k}(end));
 				end
 			end
 		else
-			if isstr(param.errorBdIdx)
+			if ischar(param.errorBdIdx)
 				fprintf(fileId,'  errorBdIdx         = %s\n', param.errorBdIdx);
 			else
 				fprintf(fileId,'  errorBdIdx         = [%2d, %2d]\n', param.errorBdIdx(1), param.errorBdIdx(end));

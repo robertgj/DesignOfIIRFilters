@@ -39,22 +39,22 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_nh4_na4.ok << 'EOF'
-a1 = [   0.96081648,   0.49630492,   0.74361849,   0.27143674 ]';
+a1 = [   0.96081644,   0.49630478,   0.74361849,   0.27143678 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_nh4_na4.ok"; fail; fi
 
 cat > test_nh4_na3.ok << 'EOF'
-a1 = [   0.66091527,   0.93352711,   0.92391194 ]';
+a1 = [   0.66091529,   0.93352733,   0.92391228 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_nh4_na3.ok"; fail; fi
 
 cat > test_nh3_na4.ok << 'EOF'
-a1 = [   0.92358904,   0.51356980,   0.76805889,   0.25759083 ]';
+a1 = [   0.92358863,   0.51356932,   0.76805895,   0.25759056 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_nh3_na4.ok"; fail; fi
 
 cat > test_nh3_na3.ok << 'EOF'
-a1 = [   0.55672024,   0.75876521,   0.83542747 ]';
+a1 = [   0.55671986,   0.75876445,   0.83542796 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_nh3_na3.ok"; fail; fi
 

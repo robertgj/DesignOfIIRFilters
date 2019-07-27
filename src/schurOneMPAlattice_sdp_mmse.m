@@ -63,7 +63,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -157,7 +157,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   NA1k=length(A1k0);
   NA2k=length(A2k0);
   RA1k=1:NA1k;
-  RA2k=NA1k+RA1k;
+  RA2k=(NA1k+1):(NA2k+NA1k);
   Nk=NA1k+NA2k;
   if (Nk==0)
     error("No active coefficients");
@@ -183,7 +183,6 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
     pars.fid=0;
   endif
   % Coefficient vector being optimised
-  Nk_active=length(k_active);
   if isempty(k_active)
     error("k_active empty");
   endif
@@ -230,19 +229,14 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
     delk=zeros(size(A2k0));
     delk(m)=del/2;
     [~,gradEsq_mnPdel2]= ...
-      schurOneMPAlatticeEsq(A1k0,A2epsilon0,A2p0,A2k0+delk,A2epsilon0,A2p0, ...
+      schurOneMPAlatticeEsq(A1k0,A1epsilon0,A1p0,A2k0+delk,A2epsilon0,A2p0, ...
                             difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
     [~,gradEsq_mnMdel2]= ...
-      schurOneMPAlatticeEsq(A1k0,A2epsilon0,A2p0,A2k0-delk,A2epsilon0,A2p0, ...
+      schurOneMPAlatticeEsq(A1k0,A1epsilon0,A1p0,A2k0-delk,A2epsilon0,A2p0, ...
                             difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
     hessEsq0(m+NA1k,:)=(gradEsq_mnPdel2-gradEsq_mnMdel2)/del;
   endfor
   func_iter=func_iter+Nk;
-  % Sanity check
-  [~,P]=chol(hessEsq0(Nk_active,Nk_active));
-  if P~=0
-    error("hessEsq0(Nk_active,Nk_active) is not positive definite");
-  endif
 
   %
   % Set up the SeDuMi problem.
@@ -253,9 +247,14 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   %            of elements of Y with y
   %         3. k0+(k0_delta.*sign(y)) is the new filter design
   %
+  Nk_active=length(k_active);
   MM=Nk_active*(Nk_active-1)/2;
   NN=MM+Nk_active;
-  
+  if verbose
+    printf("k_active=[ "),printf("%d ",k_active);printf("]\n");
+    printf("Nk_active=%d,MM=%d,NN=%d\n",Nk_active,MM,NN);
+  endif
+ 
   % Linear constraints on reflection coefficients
   %   D'*deltak+f>=0
   % implementing:
@@ -422,7 +421,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   % Extract results
   y=yy((MM+1):NN);
   k_min=zeros(size(k0));
-  k_min(k_active)=xk0+(sign(y).*xk_delta);
+  k_min(k_active)=xk0+(sign(y.*(abs(y)>0.5)).*xk_delta);
   A1k_min=k_min(RA1k);
   A2k_min=k_min(RA2k);
   socp_iter=info.iter;

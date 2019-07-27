@@ -1,7 +1,7 @@
 function showZPplot(x,U,V,M,Q,R,title_str)
   % showZPplot(x,U,V,M,Q,R,title_str)
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -44,7 +44,7 @@ function showZPplot(x,U,V,M,Q,R,title_str)
     % Complex zeros
     for k=1:(M/2)
       Z(U+k)      =x(1+V+U+k)*exp( j*x(k+1+V+U+(M/2)));
-      Z(U+(M/2)+k)=x(1+V+U+k)*exp(-j*x(k+1+V+U+(M/2)));
+      Z(U+k+(M/2))=conj(Z(U+k));
     endfor
   endif
 
@@ -63,12 +63,11 @@ function showZPplot(x,U,V,M,Q,R,title_str)
       for l=0:(R-1)
         P((R*(V+k-1))+l+1)      =(x(k+1+U+V+M)^(1/R))* ...
                                  exp(j*((2*pi*l)+x(k+1+U+V+M+(Q/2)))/R);
-        P((R*(V+(Q/2)+k-1))+l+1)=(x(k+1+U+V+M)^(1/R))* ...
-                                 exp(j*((2*pi*l)-x(k+1+U+V+M+(Q/2)))/R);
+        P((R*(V+(Q/2)+k-1))+l+1)=conj(P((R*(V+k-1))+l+1));
       endfor
     endfor
   endif
-
+  
   subplot(111);
   zplane(Z,P);
   title(title_str);

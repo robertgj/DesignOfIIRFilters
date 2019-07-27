@@ -27,7 +27,10 @@ OCTAVE_SCRIPTS = \
  bitflip_svcasc_lowpass_test \
  bitflip_test \
  branch_bound_directFIRhilbert_12_nbits_test \
+ branch_bound_directFIRhilbert_bandpass_12_nbits_test \
  branch_bound_directFIRsymmetric_bandpass_8_nbits_test \
+ branch_bound_johanssonOneMlattice_bandstop_16_nbits_test \
+ branch_bound_schurOneMAPlattice_frm_12_nbits_test \
  branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test \
  branch_bound_schurOneMPAlattice_bandpass_12_nbits_test \
  branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test \
@@ -59,6 +62,7 @@ OCTAVE_SCRIPTS = \
  deczky3a_socp_test \
  deczky3a_sqp_test \
  directFIRhilbert_slb_test \
+ directFIRhilbert_bandpass_slb_test \
  directFIRsymmetric_bandpass_allocsd_test \
  directFIRsymmetric_slb_bandpass_test \
  directFIRsymmetric_slb_lowpass_test \
@@ -84,6 +88,9 @@ OCTAVE_SCRIPTS = \
  iir_sqp_slb_minimum_phase_test \
  iir_sqp_slb_pink_test \
  iir_sqp_slb_test \
+ jacobi_Zeta_test \
+ johansson_cascade_allpass_bandstop_test \
+ johanssonOneMlattice_socp_slb_bandstop_test \
  linesearch_test \
  local_max_test \
  local_peak_test \
@@ -107,6 +114,7 @@ OCTAVE_SCRIPTS = \
  saramakiFAvLogNewton_test \
  saramakiFBvNewton_test \
  schurNSlattice_sqp_slb_lowpass_test \
+ schurOneMAPlattice_frm_socp_slb_test \
  schurOneMAPlattice_frm_halfband_socp_slb_test \
  schurOneMAPlattice_frm_hilbert_socp_slb_test \
  schurOneMPAlattice_socp_slb_bandpass_test \
@@ -121,9 +129,11 @@ OCTAVE_SCRIPTS = \
  schurOneMlattice_sqp_slb_lowpass_test \
  schur_retimed_test \
  sdp_relaxation_directFIRhilbert_12_nbits_test \
+ sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test \
  sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test \
  sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test \
- sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test \
+ sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test \
+ sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test \
  sedumi_test \
  simplex_schurNSPAlattice_lowpass_test \
  simplex_schurNSlattice_lowpass_test \
@@ -133,6 +143,7 @@ OCTAVE_SCRIPTS = \
  socp_relaxation_directFIRhilbert_12_nbits_test \
  socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test \
  socp_relaxation_schurFIRlattice_gaussian_16_nbits_test \
+ socp_relaxation_schurOneMAPlattice_frm_12_nbits_test \
  socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test \
  socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test \
  socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test \
@@ -149,7 +160,10 @@ OCTAVE_SCRIPTS = \
  svcasc2noise_example_test \
  tarczynski_ex2_standalone_test \
  tfp2g_test \
- tfp2schurNSlattice2Abcd_test
+ tfp2schurNSlattice2Abcd_test \
+ vaidyanathan_trick_test \
+ zahradnik_halfband_test \
+ zolotarev_vlcek_unbehauen_test
 
 # These are all the .oct files. Some are not needed to build the pdf
 # (eg: labudde.oct and complex_lower_hessenberg_inverse.oct) but are
@@ -197,7 +211,8 @@ DIA_FILES= johansson_frm_structure lim_frm_structure \
  schurOneMR2lattice schurOneMR2lattice_retimed complementary_FIR_filter \
  schur_OneMultiplierRetimed allpass_AL7c allpass_dir1 allpass_dir2 allpass_GM1 \
  allpass_GM2 allpass_IS allpass_LS1 allpass_LS2a allpass_MH2d allpass_MH2dt \
- allpass_MH3d allpass_MH3dt allpass_dir1_retimed allpass_MH2d_retimed
+ allpass_MH3d allpass_MH3dt allpass_dir1_retimed allpass_MH2d_retimed \
+ elliptic_unit_cell 
 
 #
 # clean suffixes
@@ -211,9 +226,10 @@ CLEAN_AEGIS_SUFFIXES= \,D \,B
 #
 # Command definitions
 #
-OCTAVE_FLAGS=-q
-OCTAVE=octave-cli $(OCTAVE_FLAGS)
-MKOCTFILE=mkoctfile
+OCTAVE_DIR=/usr/local/octave
+OCTAVE_FLAGS=-q -p src
+OCTAVE=$(OCTAVE_DIR)/bin/octave-cli
+MKOCTFILE=$(OCTAVE_DIR)/bin/mkoctfile
 #PDF_MONO_FLAGS='\def\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
 PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1 $(PDF_MONO_FLAGS)
 BIBTEX=bibtex
@@ -225,6 +241,9 @@ JEKYLL_OPTS=--config docs/_config.yml --source docs --destination docs/_site
 #
 # Rules
 #
+%.diary : %.m
+	$(OCTAVE_LD_PRELOAD) $(OCTAVE) $(OCTAVE_FLAGS) $<
+
 %.eps : %.dia
 	dia -t eps -e $@ $^ 
 
@@ -247,10 +266,13 @@ JEKYLL_OPTS=--config docs/_config.yml --source docs --destination docs/_site
 	$(MKOCTFILE) -v -o $@ -march=native -O2 -Wall $(XCXXFLAGS) -lgmp -lmpfr $^
 
 #
-# Macros and templates
+# Macros 
 #
 clean_macro=-for suf in $(1) ; do find . -name \*$$suf -exec rm -f {} ';' ; done
 
+#
+# Templates defining dependencies
+#
 define dia_template =
 $(1).eps : $(1).dia
 $(1).pdf : $(1).eps
@@ -258,7 +280,6 @@ endef
 
 define octave_script_template =
 $(1).diary : $($(1)_FILES)
-	$(OCTAVE) -p `pwd`/src --eval '$(1)'
 endef
 
 #
@@ -272,8 +293,6 @@ $(foreach octave_script, $(OCTAVE_SCRIPTS), \
   $(eval $(call octave_script_template,$(octave_script))))
 
 $(foreach dia_file, $(DIA_FILES), $(eval $(call dia_template,$(dia_file))))
-
-$(foreach figure, $(test_FIGURES), $(eval $(call bw_pdf_template,$(figure))))
 
 #
 # Target file dependencies
@@ -336,22 +355,22 @@ backup: cleanall
 .PHONY: help
 help: 
 	@echo "Targets: all octfiles clean cleantex cleanall backup"
-	@echo "         batchtest gitignore jekyll jekyll-serve"
+	@echo "         batchtest gitignore jekyll"
 
 .PHONY: gitignore
 gitignore:
 	-rm -f .gitignore
-	for suf in $(CLEAN_SUFFIXES) $(CLEAN_TEX_SUFFIXES) \
-		$(CLEAN_AEGIS_SUFFIXES);\
-	do \
-		echo "*"$$suf >> .gitignore ; \
-	done
-	for file in $(test_FIGURES:%=%.tex) $(test_FIGURES:%=%.pdf) \
-		$(test_COEFS) $(EXTRA_DIARY_FILES) $(DIA_FILES:%=%.pdf) \
-	    aegis.conf /$(TARGET).pdf _site .sass-cache .jekyll-metadata ; \
-	do \
-		echo $$file >> .gitignore ; \
-	done
+	echo $(CLEAN_SUFFIXES:%="*"%) >> .gitignore
+	echo $(CLEAN_TEX_SUFFIXES:%="*"%) >> .gitignore
+	echo $(CLEAN_AEGIS_SUFFIXES:%="*"%) >> .gitignore
+	echo $(test_FIGURES:%=%.tex) >> .gitignore
+	echo $(test_FIGURES:%=%.pdf) >> .gitignore 
+	echo $(test_COEFS) >> .gitignore
+	echo $(EXTRA_DIARY_FILES) >> .gitignore
+	echo $(DIA_FILES:%=%.pdf) >> .gitignore
+	echo aegis.conf /$(TARGET).pdf >> .gitignore
+	echo _site .sass-cache .jekyll-metadata >> .gitignore
+	sed -ie "s/\ /\n/g" .gitignore 
 
 .PHONY: jekyll
 jekyll: $(TARGET).pdf cleanjekyll

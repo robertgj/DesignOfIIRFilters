@@ -1,5 +1,5 @@
 % iir_sqp_slb_minimum_phase_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -21,7 +21,7 @@ dBap=0.2
 Wap=1
 fas=0.2
 dBas=46
-Was=2
+Was=10
 
 % Frequency vectors
 n=1000;

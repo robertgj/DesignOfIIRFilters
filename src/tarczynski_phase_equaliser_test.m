@@ -37,7 +37,8 @@ for nh=3:4,
     [a0,Va,Qa]=tf2a(A0);
     Ra=1;
     WISEJ_PhaseEq([],Va,Qa,Ra,x0,Ux,Vx,Mx,Qx,Rx,w(1:ntp),tp);
-    opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter);
+    opt=optimset("TolFun",tol,"TolX",tol, ...
+                 "MaxIter",maxiter,"MaxFunEvals",maxiter);
     [a1,FVEC1,INFO,OUTPUT]=fminunc(@WISEJ_PhaseEq,a0,opt);
     if (INFO == 1)
       printf("Converged to a solution point.\n");

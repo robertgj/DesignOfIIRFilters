@@ -1,7 +1,7 @@
 % ellipMinQ_test.m
 % Copyright (C) 2018 Robert G. Jenssen
 %
-% An example of the design of a minimum-Q elliptic IIR filter.
+% An example of the design of a minimal-Q elliptic IIR filter.
 %
 % References:
 %  [1] H. J. Orchard and A. N. Willson, Jr., "Elliptic Functions
@@ -18,9 +18,6 @@ unlink("ellipMinQ_test.diary.tmp");
 diary ellipMinQ_test.diary.tmp
 
 format short e
-% Plotting axis limits
-dBpass=[-0.0008 0];
-dBstop=[-46 -38];
 
 % IIR filter specification
 Fp=0.1,ApdB=0.1,Fa=0.125,AadB=40,n=9,nbits=8,ndigits=3
@@ -84,13 +81,45 @@ for m=m2:-1:2
   g(m-1)=2*sqrt(g(m))/(1+g(m)); % [1,Eqn.32]
 endfor
 
+% Calculate u-to-Omega mapping and cd function value
+k2=k(1)^2;
+K=ellipke(k2);
+Kp=ellipke(1-k2);
+g2=g(1)^2;
+G=ellipke(g2);
+nf=8000;
+Wend=8;
+u=[(nf:-1:1)/nf, (j*Kp/K)*(0:(nf-1))/nf, ((0:(nf-1))/nf)+(j*Kp/K)];
+[~,Kcn,Kdn]=ellipj(u*K,k2);
+Omega=real(Kcn./Kdn);
+Oend=min(find(Omega>Wend));
+[~,Gcn,Gdn]=ellipj(n*u*G,g2);
+cdnuGg=real(Gcn./Gdn).^2;
+
+% Plot Omega and cdnuGg
+[ax,h1,h2]=plotyy(Omega(1:nf),cdnuGg(1:nf), ...
+                  Omega((nf+1):Oend),cdnuGg((nf+1):Oend));
+set(ax(1),'ycolor','black');
+set(ax(2),'ycolor','black');
+axis(ax(1),[0 Wend 0 1]);
+axis(ax(2),[0 Wend 0 2.5e9]);
+strt="Minimal-Q elliptic filter $cd^2$(nuG,g)";
+title(strt);
+ylabel("$cd^2$(nuG,g)");
+xlabel("$\\Omega$(u)");
+grid("on");
+strf="ellipMinQ_test";
+print(strcat(strf,"_cd"),"-dpdflatex");
+close
+
 % Response ripple
+printf("g=%g\n",g(1));
 L=1/g(1)
 apdB=10*log10(1+(1/L)) % [2, Eqn.11]
 aadB=10*log10(1+L)
 
 % Find s-plane poles/zeros by Landen transform of the Cheb. Type1 poles/zeros
-epsilon=1/sqrt(L); % Minimum Q relation
+epsilon=1/sqrt(L); % Minimal-Q relation
 % From ellipap1.m
 u2 = log((1 + sqrt(1 + epsilon^2))/epsilon)/n; % [1,Eqn.22]
 zs = [];
@@ -117,29 +146,28 @@ if mod(n,2)
   ps = [ps;-1/tmp];
 endif
 
-% Gain
-Gs = real(prod(-ps)/prod(-zs));
-
 % Check radius of s-plane pole circle
 printf("abs(ps)=[ ");printf("%f ",abs(ps'));printf("], expected %f\n",sqrt(wa));
 
+% Gain
+Gs = real(prod(-ps)/prod(-zs));
+
 % Plot s-plane response
 [ns,ds]=zp2tf(zs,ps,Gs);
-nf=8000;Wend=8;
 nWp=ceil(nf/Wend)+1;
 nWa=floor(wa*nf/Wend)+1;
 Ws=linspace(0,Wend,nf);
-hs=freqs(ns,ds,Ws);
-ax=plotyy(Ws(1:nWp),20*log10(abs(hs(1:nWp))), ...
-          Ws(nWa:end),20*log10(abs(hs(nWa:end))));
+Hs=freqs(ns,ds,Ws);
+ax=plotyy(Ws(1:nWp),20*log10(abs(Hs(1:nWp))), ...
+          Ws((nWp+1):end),20*log10(abs(Hs((nWp+1):end))));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
-axis(ax(1),[0 Wend dBpass]);
-axis(ax(2),[0 Wend dBstop]);
-strt="Minimum-Q elliptic filter s-plane response";
+axis(ax(1),[0 Wend -0.0002 0]);
+axis(ax(2),[0 Wend -80 0]);
+strt="Minimal-Q elliptic filter s-plane response";
 title(strt);
 ylabel("Amplitude(dB)");
-xlabel("Angular frequency");
+xlabel("$\\Omega$");
 grid("on");
 strf="ellipMinQ_test";
 print(strcat(strf,"_s_resp"),"-dpdflatex");
@@ -189,9 +217,10 @@ ax=plotyy(Wz(1:nfp)*0.5/pi,20*log10(abs(hz(1:nfp))), ...
           Wz(nfa:end)*0.5/pi,20*log10(abs(hz(nfa:end))));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
-axis(ax(1),[0 0.5 dBpass]);
-axis(ax(2),[0 0.5 dBstop]);
-strt="Minimum-Q elliptic filter z-plane response";
+% Plotting axis limits
+axis(ax(1),[0 0.5 -0.0008 0]);
+axis(ax(2),[0 0.5 -46 -38]);
+strt="Minimal-Q elliptic filter z-plane response";
 title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
@@ -202,7 +231,7 @@ close
 
 % Plot poles and zeros
 zplane(zz,pz);
-strt="Minimum-Q elliptic filter poles and zeros";
+strt="Minimal-Q elliptic filter poles and zeros";
 title(strt);
 grid("on");
 print(strcat(strf,"_z_pz"),"-dpdflatex");
@@ -261,9 +290,9 @@ ax=plotyy(Wz(1:nfp)*0.5/pi,20*log10(abs(hz_sd(1:nfp))), ...
           Wz(nfa:end)*0.5/pi,20*log10(abs(hz_sd(nfa:end))));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
-axis(ax(1),[0 0.5 dBpass]);
-axis(ax(2),[0 0.5 dBstop]);
-strt=sprintf("Minimum-Q elliptic filter z-plane response (%d-bit, \
+axis(ax(1),[0 0.5 -0.0008 0]);
+axis(ax(2),[0 0.5 -46 -38]);
+strt=sprintf("Minimal-Q elliptic filter z-plane response (%d-bit, \
 %d-signed-digit lattice coefficients)",nbits,ndigits);
 title(strt);
 ylabel("Amplitude(dB)");

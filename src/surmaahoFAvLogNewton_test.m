@@ -93,7 +93,7 @@ min_P=%6.2f,max_P=%6.2f\n",nmin,nall,max_dBap,min_dBap,max_dBas,min_P,max_P);
     set(ax(2),'ycolor','black');
     axis(ax(1),[0 0.5 -0.008 0]);
     axis(ax(2),[0 0.5 -60 -40]);
-    strt="Surma-aho/Saramaki combined filter response";
+    strt="Surma-aho-and-Saram\\\"{a}ki combined filter response";
     title(strt);
     ylabel("Amplitude(dB)");
     grid("on");
@@ -101,7 +101,7 @@ min_P=%6.2f,max_P=%6.2f\n",nmin,nall,max_dBap,min_dBap,max_dBas,min_P,max_P);
     plot(Fp,Pp);
     axis([0 0.5 -0.4 0.4]);
     grid("on");
-    ylabel("Phase error(rad./pi)");
+    ylabel("Phase error(rad./$\\pi$)");
     xlabel("Frequency");
     print(strcat(strf,"_resp"),"-dpdflatex");
     close
@@ -109,7 +109,7 @@ min_P=%6.2f,max_P=%6.2f\n",nmin,nall,max_dBap,min_dBap,max_dBas,min_P,max_P);
     % Combined filter zplane plot
     subplot(111);
     zplane([min_z;1./allpass_p],min_p);
-    strt="Surma-aho/Saramaki combined filter";
+    strt="Surma-aho-and-Saram\\\"{a}ki combined filter";
     title(strt);
     print(strcat(strf,"_pz"),"-dpdflatex");
     close
@@ -149,7 +149,8 @@ min_P=%6.2f,max_P=%6.2f\n",nmin,nall,max_dBap,min_dBap,max_dBas,min_P,max_P);
     set(ax(2),'ycolor','black');
     axis(ax(1),[0 0.5 -0.008 0]);
     axis(ax(2),[0 0.5 -60 -40]);
-    strt="Surma-aho/Saramaki combined filter response with double zeros";
+    strt= ...
+      "Surma-aho-and-Saram\\\"{a}ki combined filter response with double zeros";
     title(strt);
     ylabel("Amplitude(dB)");
     grid("on");
@@ -157,7 +158,7 @@ min_P=%6.2f,max_P=%6.2f\n",nmin,nall,max_dBap,min_dBap,max_dBas,min_P,max_P);
     plot(Fp,Pp);
     axis([0 0.5 -0.4 0.4]);
     grid("on");
-    ylabel("Phase error(rad./pi)");
+    ylabel("Phase error(rad./$\\pi$)");
     xlabel("Frequency");
     print(strcat(strf,"_pa_resp"),"-dpdflatex");
     close
@@ -165,7 +166,7 @@ min_P=%6.2f,max_P=%6.2f\n",nmin,nall,max_dBap,min_dBap,max_dBas,min_P,max_P);
     % Combined filter zplane plot
     subplot(111);
     zplane([min_z;1./allpass_p],min_p);
-    strt="Surma-aho/Saramaki combined filter with double zeros";
+    strt="Surma-aho-and-Saram\\\"{a}ki combined filter with double zeros";
     title(strt);
     print(strcat(strf,"_pa_pz"),"-dpdflatex");
     close

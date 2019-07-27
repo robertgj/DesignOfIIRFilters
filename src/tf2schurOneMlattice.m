@@ -70,7 +70,7 @@ endif
 [k,S] = schurdecomp(d);
 
 % Scale the one-multiplier implementation
-[S1M,epsilon,p] = schurOneMscale(k,S);
+[epsilon,p,S1M] = schurOneMscale(k,S);
 
 % Expand the numerator in the Schur basis
 c = schurexpand(n,S1M);

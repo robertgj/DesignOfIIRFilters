@@ -534,7 +534,7 @@ if (versionSW >= 260) && (~isempty(param.errorBdIdx)) && (SDPinfo.infeasibleSW =
 		if (param.printLevel(1) >= 1) 
 			printErrorBound(1,[],param,POP, SDPinfo);
 		end
-		if isfield(param,'printFileName') && ~isempty(param.printFileName) && isstr(param.printFileName)
+		if isfield(param,'printFileName') && ~isempty(param.printFileName) && ischar(param.printFileName)
 			fileId = fopen(param.printFileName,'a+');
 			printErrorBound(fileId,[],param,POP, SDPinfo);
 			fclose(fileId);

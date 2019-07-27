@@ -43,7 +43,7 @@ end
 %				fprintf('## param.binarySW\n');
 %			end
 %		end
-%		if isfield(param,'printFileName') && ~isempty(param.printFileName) && isstr(param.printFileName)
+%		if isfield(param,'printFileName') && ~isempty(param.printFileName) && ischar(param.printFileName)
 %			fileId = fopen(param.printFileName,'a+');
 %			fprintf(fileId, '\n## Cannot apply the computation of error bounds because\n');
 %			fprintf(fileId, '## exist no variable corresponding to x(%d)^2 in the SDP relaxation problem\n', i);
@@ -88,7 +88,7 @@ end
 %		fprintf('## exist no variable corresponding to x(%d) in the SDP relaxation problem\n', i);
 %		fprintf('## To compute error bounds, set param.reduceAMatSW = 0.\n');
 %	end
-%	if isfield(param,'printFileName') && ~isempty(param.printFileName) && isstr(param.printFileName)
+%	if isfield(param,'printFileName') && ~isempty(param.printFileName) && ischar(param.printFileName)
 %		fileId = fopen(param.printFileName,'a+');
 %		fprintf(fileId, '\n## Cannot apply the computation of error bounds because\n');
 %		fprintf(fileId, '## exist no variable corresponding to x(%d) in the SDP relaxation problem\n', i);

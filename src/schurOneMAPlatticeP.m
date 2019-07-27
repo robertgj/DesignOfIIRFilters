@@ -18,7 +18,7 @@ function [P,gradP,diagHessP]=schurOneMAPlatticeP(w,k,epsilon,p,R)
 %   gradP - the gradients of P with respect to k and c
 %   diagHessP - diagonal of the Hessian of P with respect to k and c
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -41,25 +41,30 @@ function [P,gradP,diagHessP]=schurOneMAPlatticeP(w,k,epsilon,p,R)
   %
   % Sanity checks
   %
-  if ((nargin ~= 4) && (nargin ~= 5)) || (nargout > 3) 
-    print_usage("[P,gradP,diagHessP]=schurOneMAPlatticeP(w,k,epsilon,p[,R])");
+  if ((nargin ~= 3) && (nargin ~= 4) && (nargin ~= 5)) || (nargout > 3) 
+    print_usage("[P,gradP,diagHessP]=schurOneMAPlatticeP(w,k,epsilon[,p,R])");
   endif
   if length(k) ~= length(epsilon)
     error("length(k) ~= length(epsilon)");
   endif
-  if length(k) ~= length(p)
+  if (nargin >= 4) && (length(k) ~= length(p))
     error("length(k) ~= length(p)");
   endif
   if length(w) == 0
     P=[]; gradP=[]; diagHessP=[];
     return;
   endif
-  if nargin == 4
+  if nargin == 3
+    p=ones(size(k));
     R=1;
     wR=w;
-  elseif ~isscalar(R)
-    error("~isscalar(R)");
+  elseif nargin == 4
+    R=1;
+    wR=w;
   else
+    if ~isscalar(R)
+      error("~isscalar(R)");
+    endif
     wR=R*w;
   endif
 

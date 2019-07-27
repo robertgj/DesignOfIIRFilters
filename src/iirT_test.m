@@ -1,5 +1,5 @@
 % iirT_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 % Script to test group delay 
 
 test_common;
@@ -40,8 +40,8 @@ w=(0:(L-1))*pi/L;
 Tgd=grpdelay(B,A,L);
 Tgd=Tgd(1:50);
 T=T(1:50);
-if max(abs(Tgd-T))>144*eps
-  error("max(abs(Tgd-T))>144*eps");
+if max(abs(Tgd-T))>200*eps
+  error("max(abs(Tgd-T))>200*eps");
 endif
 
 % Test first derivatives

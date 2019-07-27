@@ -1,4 +1,4 @@
-EXTRA_DIARY_FILES += linesearch_test.diary.warning
+linesearch_test_EXTRA_DIARY_FILES=linesearch_test.diary.warning
 
 linesearch_test.diary.warning : linesearch_test.diary
 	egrep -v warning $^ > $@

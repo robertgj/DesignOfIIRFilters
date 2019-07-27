@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_bandpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a bandpass filter as the
 % difference of two parallel allpass filters. See:
@@ -108,11 +108,11 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt)
 endfunction
 
 % Filter specification
-maxiter=2000
+maxiter=20000
 tol=1e-8
 % Initial filter for parallel_allpass_bandpass_test.m
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,Watl=0.1,Wap=1,Watu=0.1
-ma=mb=10,td=16,Wasl=200,Wasu=200,Wtp=1,ftpl=0.09,ftpu=0.21
+ma=mb=10,td=16,Wasl=10,Wasu=10,Wtp=1,ftpl=0.09,ftpu=0.21
 
 % Frequency points
 n=1000;
@@ -139,8 +139,8 @@ Wt=[zeros(ntpl-1,1);
 % Unconstrained minimisation
 ab0=[1;zeros(ma-1,1);1;zeros(mb-1,1)];
 WISEJ_PAB([],ma,mb,Ad,Wa,Td,Wt);
-options=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter);
-[ab1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PAB,ab0,options);
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[ab1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PAB,ab0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)

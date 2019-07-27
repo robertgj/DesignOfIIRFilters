@@ -112,8 +112,8 @@ W=[Wp*ones(np,1);zeros(ns-np-1,1);Ws*ones(n-ns+1,1)];
 % Unconstrained minimisation
 a0=[-0.9;zeros(m-1,1)];
 WISEJ_PS([],w,td,D,Pd,W);
-options=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter);
-[a1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PS,a0,options);
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[a1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PS,a0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)

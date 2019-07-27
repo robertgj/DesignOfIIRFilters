@@ -54,28 +54,28 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test_r2_coef.m << 'EOF'
-r2 = [   1.0000000000,   0.4782881551,  -0.1010101504,   0.0358906667, ... 
-        -0.0107639175,   0.0016569248 ];
-EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_r2_coef.m"; fail; fi
-
 cat > test_k2_coef.m << 'EOF'
-k2 = [   0.5513501056,  -0.1223766226,   0.0415912145,  -0.0115564367, ... 
-         0.0016569248 ]';
+k2 = [   0.5530908702,  -0.1250393727,   0.0415215054,  -0.0135148726, ... 
+         0.0023471213 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k2_coef.m"; fail; fi
 
+cat > test_epsilon2_coef.m << 'EOF'
+epsilon2 = [  1,  1, -1,  1, ... 
+             -1 ];
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_epsilon2_coef.m"; fail; fi
+
 cat > test_u2_coef.m << 'EOF'
-u2 = [  -0.0009524659,   0.0032835376,  -0.0076927988,   0.0126907986, ... 
-        -0.0312239714,   0.0346742245,  -0.0513773521,   0.0559392742, ... 
-         0.4415826575 ]';
+u2 = [  -0.0004880213,   0.0023491483,  -0.0070017092,   0.0130026516, ... 
+        -0.0309751474,   0.0346130567,  -0.0508817539,   0.0580181001, ... 
+         0.4385471578 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_u2_coef.m"; fail; fi
 
 cat > test_v2_coef.m << 'EOF'
-v2 = [   0.0069089989,  -0.0044769484,   0.0069003327,  -0.0017104210, ... 
-        -0.0092835054,   0.0323135607,  -0.0809069461,   0.3141223532 ]';
+v2 = [   0.0066015766,  -0.0044701172,   0.0066994268,  -0.0031082142, ... 
+        -0.0069727257,   0.0306836611,  -0.0815291960,   0.3141854206 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_v2_coef.m"; fail; fi
 
@@ -87,16 +87,17 @@ echo "Running octave-cli -q " $prog
 octave-cli -q $prog > test.out
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_r2_coef.m schurOneMAPlattice_frm_halfband_socp_slb_test_r2_coef.m
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_r2_coef.m"; fail; fi
-
-diff -Bb test_k2_coef.m schurOneMAPlattice_frm_halfband_socp_slb_test_k2_coef.m
+nstr="schurOneMAPlattice_frm_halfband_socp_slb_test"
+diff -Bb test_k2_coef.m $nstr"_k2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_k2_coef.m"; fail; fi
 
-diff -Bb test_u2_coef.m schurOneMAPlattice_frm_halfband_socp_slb_test_u2_coef.m
+diff -Bb test_epsilon2_coef.m $nstr"_epsilon2_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_epsilon2_coef.m"; fail; fi
+
+diff -Bb test_u2_coef.m $nstr"_u2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_u2_coef.m"; fail; fi
 
-diff -Bb test_v2_coef.m schurOneMAPlattice_frm_halfband_socp_slb_test_v2_coef.m
+diff -Bb test_v2_coef.m $nstr"_v2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_v2_coef.m"; fail; fi
 
 #

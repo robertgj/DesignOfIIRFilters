@@ -14,7 +14,7 @@ diary tarczynski_differentiator_test.diary.tmp
 format compact
 
 % Filter specification
-R=2;nN=12;nD=6;td=(nN-1)/2;tol=1e-9;
+R=2;nN=12;nD=6;td=(nN-1)/2;tol=1e-9;maxiter=5000;
 
 % Frequency points
 n=1024;
@@ -27,7 +27,8 @@ Wd=ones(n,1);
 % Unconstrained minimisation
 NI=[1;zeros(nN+nD,1)];
 WISEJ([],nN,nD,R,wd,Hd,Wd);
-[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,NI,optimset("TolFun",tol,"TolX",tol));
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,NI,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -66,9 +67,9 @@ s=sprintf("Tarczynski et al. differentiator : nN=%d,nD=%d,R=%d,td=%g",
 title(s);
 subplot(212);
 % plot(wplot*0.5/pi,T-td); ylabel("Delay error(samples)");
-plot(wplot*0.5/pi,unwrap(arg(H))-(pi/2)+(wplot*td));
-axis([0 0.5 -0.1 0.1 ]);
-ylabel("Phase error(radians)");
+plot(wplot*0.5/pi,(unwrap(arg(H))-(pi/2)+(wplot*td))/pi);
+axis([0 0.5 -0.01 0.01 ]);
+ylabel("Phase error(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
 print("tarczynski_differentiator_response",  "-dpdflatex");

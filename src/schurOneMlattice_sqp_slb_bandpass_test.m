@@ -1,5 +1,5 @@
 % schurOneMlattice_sqp_slb_bandpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -20,8 +20,8 @@ verbose=false;
 % Bandpass R=2 filter specification
 fapl=0.1,fapu=0.2,dBap=2,Wap=1
 fasl=0.05,fasu=0.25,dBas=36
-Wasl_mmse=5e5,Wasu_mmse=5e5,Wasl_pcls=5e5,Wasu_pcls=5e5
-ftpl=0.09,ftpu=0.21,tp=16,tpr=tp/200,Wtp_mmse=5,Wtp_pcls=5
+Wasl_mmse=1e5,Wasu_mmse=5e5,Wasl_pcls=1e5,Wasu_pcls=5e5
+ftpl=0.09,ftpu=0.21,tp=16,tpr=tp/200,Wtp_mmse=5,Wtp_pcls=1
 
 % Initial filter (found by trial-and-error for iir_sqp_slb_bandpass_test.m)
 U=2,V=0,M=18,Q=10,R=2
@@ -153,7 +153,7 @@ if feasible == 0
   error("k2p,c2p(pcls) infeasible");
 endif
 % Recalculate epsilon2, p2 and c2
-[n2,d2]=schurOneMlattice2tf(k2p,epsilon1,ones(size(p1)),c2p);
+[n2,d2]=schurOneMlattice2tf(k2p,epsilon1,p1,c2p);
 [k2,epsilon2,p2,c2]=tf2schurOneMlattice(n2,d2);
 % Plot the PCLS response
 pcls_strf=strcat(strf,"_pcls_k2c2");

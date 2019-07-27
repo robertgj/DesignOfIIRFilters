@@ -1,5 +1,5 @@
 % complementaryFIRlatticeT_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -32,7 +32,7 @@ Nk=length(k);
 nplot=1024;
 [H,wplot]=grpdelay(b,1,nplot);
 [T,gradT]=complementaryFIRlatticeT(wplot,k,khat);
-tol=20*eps;
+tol=25*eps;
 if max(abs(H(ntpl:ntph)-T(ntpl:ntph))) > tol
   error("max(abs(H(ntpl:ntph)-T(ntpl:ntph)))(%g*eps) > %g*eps", ...
         max(abs(H(ntpl:ntph)-T(ntpl:ntph)))/eps,tol/eps);
@@ -50,8 +50,8 @@ for l=1:Nk
   delk=shift(delk,1);
   diff_Tk(l)=(TkPdel2-TkMdel2)/del;
 endfor
-if max(abs(diff_Tk-gradT(ntpl,1:Nk))) > del/400
-  error("max(abs(diff_Tk-gradT(ntpl,1:Nk))) > del/400");
+if max(abs(diff_Tk-gradT(ntpl,1:Nk))) > del/280
+  error("max(abs(diff_Tk-gradT(ntpl,1:Nk))) > del/280");
 endif
 
 % Check the gradient of the squared-magnitude response wrt khat
@@ -65,8 +65,8 @@ for l=1:Nk
   delkhat=shift(delkhat,1);
   diff_Tkhat(l)=(TkhatPdel2-TkhatMdel2)/del;
 endfor
-if max(abs(diff_Tkhat-gradT(ntpl,(Nk+1):(2*Nk)))) > del/441
-  error("max(abs(diff_Tkhat-gradT(ntpl,(Nk+1):(2*Nk)))) > del/441");
+if max(abs(diff_Tkhat-gradT(ntpl,(Nk+1):(2*Nk)))) > del/400
+  error("max(abs(diff_Tkhat-gradT(ntpl,(Nk+1):(2*Nk)))) > del/400");
 endif
 
 % Done

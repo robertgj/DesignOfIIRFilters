@@ -1,5 +1,5 @@
 % allpass2ndOrderCascade_socp_sqmag_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -13,7 +13,7 @@ format compact
 
 verbose=false
 tol=1e-8
-maxiter=1000
+maxiter=2000
 
 % Lowpass filter specification for parallel all-pass filters
 resp="sqmag"
@@ -23,11 +23,11 @@ td=(ma+mb)/2;
 fp=0.15
 Wp=1
 fs=0.17
-Ws=550
+Ws=1000
 % Initial coefficients found by tarczynski_allpass2ndOrderCascade_test.m
-ab0 = [  -0.6296435763,  -1.0496696577,   0.5481680580,  -0.9786571127, ... 
-          0.8240237670,  -1.0529258085,   0.4039167225,  -1.0147463254, ... 
-          0.8081349396,  -1.1099274534,   0.8819867923 ]';
+ab0 = [  -0.5491144871,  -0.9438148829,   0.6933469959,  -0.9089283344, ... 
+          0.6000684256,  -1.1049657444,   0.8936801186,  -1.1260755205, ... 
+          0.4169280694,  -0.8116034213,   0.6198702579 ]';
 a0=ab0(1:ma);
 b0=ab0((ma+1):end);
 
@@ -35,7 +35,7 @@ b0=ab0((ma+1):end);
 tau=0.001;
 
 % Frequency vectors
-n=500;
+n=1000;
 w=pi*(0:(n-1))'/n;
 np=ceil(fp*n/0.5)+1;
 ns=floor(fs*n/0.5)+1;
@@ -50,7 +50,7 @@ Da0=casc2tf(a0);
 Da0=Da0(:);
 Db0=casc2tf(b0);
 Db0=Db0(:);
-nplot=512;
+nplot=4000;
 [Ha0,wplot]=freqz(flipud(Da0),Da0,nplot);
 Hb0=freqz(flipud(Db0),Db0,nplot);
 Hab0=(Ha0+Hb0)/2;
@@ -93,7 +93,7 @@ Da1=Da1(:);
 Db1=casc2tf(b1);
 Db1=Db1(:);
 Dab1=conv(Da1,Db1);
-Nab1=(conv(Da1,flipud(Db1))+conv(Db1,flipud(Da1)))/2
+Nab1=(conv(Da1,flipud(Db1))+conv(Db1,flipud(Da1)))/2;
 
 % Find response
 nplot=2048;
@@ -164,9 +164,9 @@ print(strcat(strf,"_ab1dual"),"-dpdflatex");
 close
 
 % Comparison with elliptic filter
-fap=0.15
-fas=0.17
-dBap=0.02
+fap=0.15;
+fas=0.17;
+dBap=0.02;
 dBas=84;
 [Nellip,Dellip]=ellip(ma+mb,dBap,dBas,fap*2);
 Hellip=freqz(Nellip,Dellip,nplot);
@@ -176,8 +176,8 @@ plot(wplot*0.5/pi,20*log10(abs(Hellip)));
 ylabel("Pass-band amplitude(dB)");
 axis([0 fap -dBap 0]);
 grid("on");
-st=sprintf("Order %d elliptic filter response : fap=%g,dBap=%g,dBas=%d",
-           ma+mb,fap,dBap,dBas);
+st=sprintf("Order %d elliptic filter response : fap=%g,dBap=%g,fas=%g,dBas=%g",
+           ma+mb,fap,dBap,fas,dBas);
 title(st);
 subplot(212);
 plot(wplot*0.5/pi,20*log10(abs(Hellip)));
@@ -189,27 +189,26 @@ print(strcat(strf,"_ellip"),"-dpdflatex");
 close
 % Dual plot
 clf
-subplot(212);
-plot(wplot*0.5/pi,Tellip)
-ylabel("Group delay(samples)");
-xlabel("Frequency");
-grid("on");
-subplot(211);
+subplot(111);
 ax=plotyy(wplot(1:npp)*0.5/pi,20*log10(abs(Hellip(1:npp))), ...
           wplot(nsp:end)*0.5/pi,20*log10(abs(Hellip(nsp:end))));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.025 0]);
-axis(ax(2),[0 0.5 -90 -80]);
+axis(ax(2),[0 0.5 -84.06 -83.96]);
 ylabel("Amplitude(dB)");
+strt=sprintf("Order %d elliptic amplitude response plot : \
+fap=%4.2f,dBap=%4.2f,fas=%4.2f,dBas=%2d",ma+mb,fap,dBap,fas,dBas);
+title(strt);
 grid("on");
 print(strcat(strf,"_ellipdual"),"-dpdflatex");
 close
+
 % Pole zero plot
 subplot(111);
 zplane(roots(Nellip),roots(Dellip));
-strt=sprintf("Order %d elliptic filter pole-zero plot : fap=%g,dBap=%g,dBas=%d",
-             ma+mb,fap,dBap,dBas);
+strt=sprintf("Order %d elliptic filter pole-zero plot : \
+fap=%g,dBap=%g,fas=%g,dBas=%g",ma+mb,fap,dBap,fas,dBas);
 print(strcat(strf,"_ellippz"),"-dpdflatex");
 close
 
@@ -236,9 +235,13 @@ print_polynomial(Da1,"Da1");
 print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 print_polynomial(Db1,"Db1");
 print_polynomial(Db1,"Db1",strcat(strf,"_Db1_coef.m"));
+print_polynomial(Nellip,"Nellip");
+print_polynomial(Nellip,"Nellip",strcat(strf,"_Nellip_coef.m"));
+print_polynomial(Dellip,"Dellip");
+print_polynomial(Dellip,"Dellip",strcat(strf,"_Dellip_coef.m"));
 
 save allpass2ndOrderCascade_socp_sqmag_test.mat ...
-     fp Wp fs Ws ab0 a1 b1 Da1 Db1 Nab1 Dab1
+     fp Wp fs Ws dBap dBas ab0 a1 b1 Da1 Db1 Nab1 Dab1 Nellip Dellip
 
 % Done
 toc;

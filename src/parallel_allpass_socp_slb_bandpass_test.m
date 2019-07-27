@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_bandpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -17,12 +17,12 @@ strf="parallel_allpass_socp_slb_bandpass_test";
 %
 % Initial coefficients found by tarczynski_parallel_allpass_bandpass_test.m
 %
-Da0 = [   1.0000000000,  -1.8896420762,   1.1851087257,   1.1354840927, ... 
-         -2.5805074455,   2.1148671967,  -0.3997762976,  -0.8276413628, ... 
-          1.0054762267,  -0.5159272604,   0.1296151332 ]';
-Db0 = [   1.0000000000,  -1.3249813230,   0.8978004911,   0.8919687861, ... 
-         -1.9646494147,   1.7116313675,  -0.3716958949,  -0.6039880527, ... 
-          0.8116637093,  -0.4321107682,   0.1379462636 ]';
+Da0 = [   1.0000000000,  -1.8973150269,   1.2642558998,   0.9180982400, ... 
+         -2.2325999512,   1.7468966414,  -0.1256228968,  -0.9677806380, ... 
+          1.0525981896,  -0.5245983396,   0.1304756216 ]';
+Db0 = [   1.0000000000,  -1.3313250884,   0.9709608648,   0.7128573966, ... 
+         -1.6815516926,   1.4133922361,  -0.1433260786,  -0.7254905194, ... 
+          0.8538839663,  -0.4392568120,   0.1374006920 ]';
 
 % Convert coefficients to a vector
 [a0,Va,Qa]=tf2a(Da0);
@@ -144,7 +144,7 @@ close
 %
 [ab1,slb_iter,opt_iter,func_iter,feasible]= ...
 parallel_allpass_slb(@parallel_allpass_socp_mmse,ab0,abu,abl, ...
-                     Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
+                     1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
                      wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                      wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
 if !feasible
@@ -203,11 +203,11 @@ close
 % Plot phase response
 Pa=allpassP(wplot,a1,Va,Qa,Ra);
 Pb=allpassP(wplot,b1,Vb,Qb,Rb);
-plot(wplot*0.5/pi,Pa+(wplot*td),"-",wplot*0.5/pi,Pb+(wplot*td),"--");
+plot(wplot*0.5/pi,(Pa+(wplot*td))/pi,"-",wplot*0.5/pi,(Pb+(wplot*td))/pi,"--");
 strt=sprintf("Parallel allpass bandpass filter : all-pass filter phase \
 responses adjusted for linear phase (w*td): ma=%d,mb=%d,td=%g",ma,mb,td);
 title(strt);
-ylabel("All-pass filter phase (rad.)\n(Adjusted for linear phase.)");
+ylabel("All-pass filter phase (rad./$\\pi$)\n(Adjusted for linear phase.)");
 xlabel("Frequency");
 legend("Filter A","Filter B","location","northwest");
 legend("boxoff");
@@ -227,11 +227,11 @@ print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 
 % PCLS amplitude at local peaks
-Asq=parallel_allpassAsq(wa,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+Asq=parallel_allpassAsq(wa,ab1,1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 vAl=local_max(Asqdl-Asq);
 vAu=local_max(Asq-Asqdu);
 wAsqS=unique([wa(vAl);wa(vAu);wa([1,nasl,napl,napu,nasu,end])]);
-AsqS=parallel_allpassAsq(wAsqS,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+AsqS=parallel_allpassAsq(wAsqS,ab1,1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 printf("d1:fAS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
 

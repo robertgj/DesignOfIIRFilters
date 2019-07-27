@@ -39,6 +39,10 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
+ans =
+
+   1.6384e+04   1.0000e+00
+
 ans =    9.9997e-01
 ans =    3.0786e-06
 ans =    5.0111e-01

@@ -1,5 +1,6 @@
 % parallel_allpass_socp_mmse_test.m
 % Copyright (C) 2017,2018 Robert G. Jenssen
+
 test_common;
 
 unlink("parallel_allpass_socp_mmse_test.diary");
@@ -25,6 +26,7 @@ Db0 = [   1.0000000000,   0.1561448902,  -0.3135750868,   0.3178486046, ...
 % Lowpass filter specification for parallel all-pass filters
 polyphase=false
 difference=false
+K=3
 Ra=1
 Rb=1
 ma=length(Da0)-1
@@ -58,10 +60,11 @@ n=1000;
 nap=ceil(n*fap/0.5)+1;
 nas=floor(n*fas/0.5)-1;
 wa=(0:(n-1))'*pi/n;
-Asqd=[ones(nap,1);zeros(n-nap,1)];
+Ksq=K^2;
+Asqd=Ksq*[ones(nap,1);zeros(n-nap,1)];
 Asqdu=[];
 Asqdl=[];
-Wa=[Wap*ones(nap,1);zeros(nas-nap,1);Was*ones(n-nas,1)];
+Wa=[Wap*ones(nap,1);zeros(nas-nap,1);Was*ones(n-nas,1)]/Ksq;
 
 % Desired pass-band group delay response
 ntp=ceil(n*ftp/0.5)+1;
@@ -88,7 +91,7 @@ vS=[];
 
 % SOCP
 [ab1,socp_iter,func_iter,feasible]= ...
-  parallel_allpass_socp_mmse(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb, ...
+  parallel_allpass_socp_mmse(vS,ab0,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb, ...
                              polyphase,difference, ...
                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                              wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
@@ -97,13 +100,13 @@ if !feasible
 endif
 
 % Find response
-Asq1=parallel_allpassAsq(wa,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+Asq1=parallel_allpassAsq(wa,ab1,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 T1=parallel_allpassT(wt,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 P1=parallel_allpassP(wp,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 
 % Plot response
 subplot(211);
-plot(wa*0.5/pi,10*log10(Asq1));
+plot(wa*0.5/pi,10*log10(Asq1/Ksq));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
@@ -120,7 +123,7 @@ close
 
 % Plot passband response
 subplot(311);
-plot(wa*0.5/pi,10*log10(Asq1));
+plot(wa*0.5/pi,10*log10(Asq1/Ksq));
 ylabel("Amplitude(dB)");
 axis([0 max([fap,ftp,fpp]) -3 1]);
 grid("on");
@@ -132,7 +135,7 @@ axis([0 max([fap,ftp,fpp]) td-(tdr/2) td+(tdr/2)]);
 grid("on");
 subplot(313);
 plot(wp*0.5/pi,(P1+(wp*td)-pd)/pi);
-ylabel("Phase(rad./pi)");
+ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 axis([0 max([fap,ftp,fpp]) pd-(pdr/2) pd+(pdr/2)]);
 grid("on");
@@ -182,6 +185,7 @@ fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"ma=%d %% Allpass model filter A denominator order\n",ma);
+fprintf(fid,"K=%g %% Scale factor\n",K);
 fprintf(fid,"Va=%d %% Allpass model filter A no. of real poles\n",Va);
 fprintf(fid,"Qa=%d %% Allpass model filter A no. of complex poles\n",Qa);
 fprintf(fid,"Ra=%d %% Allpass model filter A decimation\n",Ra);
@@ -218,7 +222,7 @@ print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
 % Done 
 save parallel_allpass_socp_mmse_test.mat ...
-     ma mb Ra Rb ab0 ab1 ...
+     ma mb K Ra Rb ab0 ab1 ...
      n fap Wap ftp Wtp fas Was td fpp pd pdr Wpp ...
      Na1 Da1 Nb1 Db1
 

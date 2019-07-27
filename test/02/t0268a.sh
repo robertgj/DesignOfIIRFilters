@@ -54,15 +54,9 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test_r2_coef.m << 'EOF'
-r2 = [   1.0000000000,  -0.4873336778,  -0.1066812904,  -0.0420127524, ... 
-        -0.0168502548,  -0.0087697087 ];
-EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_r2_coef.m"; fail; fi
-
 cat > test_k2_coef.m << 'EOF'
-k2 = [  -0.5737912482,  -0.1357861404,  -0.0532745521,  -0.0211256540, ... 
-        -0.0087697087 ];
+k2 = [  -0.5737726298,  -0.1357954240,  -0.0532684516,  -0.0211111235, ... 
+        -0.0087703126 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k2_coef.m"; fail; fi
 
@@ -73,15 +67,15 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_epsilon2_coef.m"; fail; fi
 
 cat > test_u2_coef.m << 'EOF'
-u2 = [  -0.0009005864,  -0.0025457761,  -0.0071130804,  -0.0128019219, ... 
-        -0.0309485917,  -0.0343335607,  -0.0517736812,  -0.0570207655, ... 
-         0.4398895843 ]';
+u2 = [  -0.0009207330,  -0.0025408772,  -0.0071034731,  -0.0128187644, ... 
+        -0.0309895964,  -0.0342924460,  -0.0517579913,  -0.0570036999, ... 
+         0.4398918391 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_u2_coef.m"; fail; fi
 
 cat > test_v2_coef.m << 'EOF'
-v2 = [   0.0065311035,   0.0043827833,   0.0072166026,   0.0020996443, ... 
-        -0.0078831931,  -0.0311746387,  -0.0808425030,  -0.3143749021 ]';
+v2 = [   0.0065494606,   0.0043721486,   0.0072055070,   0.0020700954, ... 
+        -0.0078782694,  -0.0311739891,  -0.0808661252,  -0.3144277686 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_v2_coef.m"; fail; fi
 
@@ -92,9 +86,6 @@ echo "Running octave-cli -q " $prog
 
 octave-cli -q $prog
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
-
-diff -Bb test_r2_coef.m schurOneMAPlattice_frm_hilbert_socp_slb_test_r2_coef.m
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_r2_coef.m"; fail; fi
 
 diff -Bb test_k2_coef.m schurOneMAPlattice_frm_hilbert_socp_slb_test_k2_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_k2_coef.m"; fail; fi

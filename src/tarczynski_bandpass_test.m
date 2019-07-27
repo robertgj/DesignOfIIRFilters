@@ -1,5 +1,5 @@
 % tarczynski_bandpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 
 test_common;
@@ -28,10 +28,10 @@ nD=length(D0R);
 
 % Frequency points
 td=16;
-dBas=40;
+dBas=30;
 fapl=0.09;fapu=0.21;fasl=0.05;fasu=0.25;
-Wasl=5;Watl=1;Wap=1;Watu=1;Wasu=10;
-n=512;
+Wasl=1;Watl=1;Wap=1;Watu=1;Wasu=1;
+n=500;
 wd=(0:(n-1))'*pi/n;
 nasl=ceil(n*fasl/0.5)+1;
 napl=floor(n*fapl/0.5)+1;
@@ -49,7 +49,9 @@ Wd=[Wasl*ones(nasl,1); ...
 % Unconstrained minimisation
 WISEJ([],nN,nD,R,wd,Hd,Wd);
 tol=1e-6;
-[ND,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,ND0,optimset("TolFun",tol,"TolX",tol));
+maxiter=10000;
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[ND,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,ND0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)

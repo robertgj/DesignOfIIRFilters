@@ -1,0 +1,30 @@
+johanssonOneMlattice_socp_slb_bandstop_test_FIGURES = \
+johanssonOneMlattice_socp_slb_bandstop_test_init \
+johanssonOneMlattice_socp_slb_bandstop_test_pcls
+
+johanssonOneMlattice_socp_slb_bandstop_test_COEFS = \
+johanssonOneMlattice_socp_slb_bandstop_test.spec \
+johanssonOneMlattice_socp_slb_bandstop_test.mat \
+johanssonOneMlattice_socp_slb_bandstop_test_f_coef.m \
+johanssonOneMlattice_socp_slb_bandstop_test_k0_coef.m \
+johanssonOneMlattice_socp_slb_bandstop_test_epsilon0_coef.m \
+johanssonOneMlattice_socp_slb_bandstop_test_k1_coef.m \
+johanssonOneMlattice_socp_slb_bandstop_test_epsilon1_coef.m
+
+johanssonOneMlattice_socp_slb_bandstop_test_FILES = \
+johanssonOneMlattice_socp_slb_bandstop_test.m \
+test_common.m \
+johanssonOneMlatticeAzp.m \
+johanssonOneMlatticeEsq.m \
+johanssonOneMlattice_socp_mmse.m \
+johanssonOneMlattice_slb.m \
+johanssonOneMlattice_slb_update_constraints.m \
+johanssonOneMlattice_slb_exchange_constraints.m \
+johanssonOneMlattice_slb_show_constraints.m \
+johanssonOneMlattice_slb_set_empty_constraints.m \
+johanssonOneMlattice_slb_constraints_are_empty.m \
+tf2schurOneMlattice.m phi2p.m tfp2g.m tf2pa.m local_max.m print_polynomial.m \
+qroots.m schurOneMAPlatticeP.m schurOneMscale.m schurOneMAPlattice2Abcd.m \
+H2P.m qzsolve.oct schurOneMlattice2Abcd.oct complex_zhong_inverse.oct \
+schurOneMAPlattice2H.oct schurdecomp.oct schurexpand.oct spectralfactor.oct \
+sedumi_test.diary

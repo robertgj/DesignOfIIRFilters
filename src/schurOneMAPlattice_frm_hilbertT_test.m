@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_hilbertT_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -88,8 +88,8 @@ Tp=Tp(1:length(w));
 
 % Check schurOneMAPlattice_frm_hilbertT
 T=schurOneMAPlattice_frm_hilbertT(w,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
-if max(abs(T+((Dmodel*Mmodel)+dmask)-Tp)) > 3200*eps
-  error("max(abs(T+((Dmodel*Mmodel)+dmask)-Tp))>3200*eps (%d*eps)", ...
+if max(abs(T+((Dmodel*Mmodel)+dmask)-Tp)) > 3712*eps
+  error("max(abs(T+((Dmodel*Mmodel)+dmask)-Tp))>3712*eps (%d*eps)", ...
         ceil(max(abs(T+((Dmodel*Mmodel)+dmask)-Tp))/eps));
 endif
 
@@ -147,8 +147,8 @@ max_diff=del/max(max(abs(diff_gradT)));
 if verbose
   printf("max(max(abs(diff_gradT)))=del/%g\n",max_diff);
 endif
-if max(max(abs(diff_gradT))) > del/58.969;
-  error("max(max(abs(diff_gradT)))(del/%g) > del/58.969",max_diff);
+if max(max(abs(diff_gradT))) > del/54.61;
+  error("max(max(abs(diff_gradT)))(del/%g) > del/54.61",max_diff);
 endif
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

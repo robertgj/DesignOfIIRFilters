@@ -106,6 +106,40 @@ if max_diff > del/1000
   error("max(abs(diff_Esq-gradEsq))(%g)>del/1000",max_diff);
 endif
 
+% Alternate test
+% Hilbert band-pass filter from directFIRhilbert_bandpass_slb_test.m
+hM2 = [   0.4239235327,  -0.1596092306,  -0.0550052923,   0.0629162600, ... 
+          0.0144604946,  -0.0291468051,  -0.0031738998,   0.0104589390 ]';
+% Hilbert filter frequency specification
+fapl=0.15;fapu=0.5-fapl;
+fasl=0.1;fasu=0.5-fasl;
+Wap=20;Wat=0;Was=1;
+waf=2*pi*[0 fasl fapl fapu fasu 0.5];
+Adf=[0 0 1 0 0];
+Waf=[Was Wat Wap Wat Was];
+Esq2=directFIRhilbertEsqPW(hM2,waf,Adf,Waf);
+wa=(0:((nplot)-1))'*pi/(nplot);
+nasl=ceil(nplot*fasl/0.5)+1;
+napl=floor(nplot*fapl/0.5)+1;
+napu=ceil(nplot*fapu/0.5)+1;
+nasu=floor(nplot*fasu/0.5)+1;
+Ad=[zeros(napl-1,1);ones(napu-napl+1,1);zeros(nplot-napu,1)];
+Wa=[Was*ones(nasl,1); ...
+    Wat*ones(napl-nasl-1,1); ...
+    Wap*ones(napu-napl+1,1); ...
+    Wat*ones(nasu-napu-1,1); ...
+    Was*ones(nplot-nasu+1,1)];
+A2=directFIRhilbertA(wa,hM2);
+AsqErr=Wa.*((A2-Ad).^2);
+AsqErrSum=sum(diff(wa).*(AsqErr(1:(end-1))+AsqErr(2:end))/2)/pi;
+err_Esq2=abs(AsqErrSum-Esq2)/Esq2;
+tol=100/nplot;
+if err_Esq2 > tol
+  warning("(abs(AsqErrSum(%17.11g)-Esq2(%17.11g))/Esq2)(=%17.11g)>tol(%g)", ...
+          AsqErrSum,Esq2,err_Esq2,tol);
+endif
+
+
 % Done
 diary off
 movefile directFIRhilbertEsqPW_test.diary.tmp directFIRhilbertEsqPW_test.diary;

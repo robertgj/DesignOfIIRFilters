@@ -1,0 +1,73 @@
+function x=jacobi_theta4p(z,q,tol)
+% x=jacobi_theta4p(z,q,tol) for real scalars z and nome, q
+% Return the differential of theta4.
+% See Section 20.2 of "NIST Digital Library of Mathematical
+% Functions", http://dlmf.nist.gov/, edited by F. W. J. Olver, et al.
+
+% Calculate at least three terms for improved accuracy. If an argument
+% is close to a zero of cos or sin, the argument is "further" from the
+% zero for later terms.
+
+% Copyright (C) 2019 Robert G. Jenssen
+%
+% Permission is hereby granted, free of charge, to any person
+% obtaining a copy of this software and associated documentation
+% files (the "Software"), to deal in the Software without restriction,
+% including without limitation the rights to use, copy, modify, merge,
+% publish, distribute, sublicense, and/or sell copies of the Software,
+% and to permit persons to whom the Software is furnished to do so,
+% subject to the following conditions: The above copyright notice and
+% this permission notice shall be included in all copies or substantial
+% portions of the Software.
+% 
+% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+% EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+% MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+% IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY 
+% CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+% TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+% SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  
+  if (nargin~=2 && nargin~=3) || nargout>1
+    print_usage("x=jacobi_theta4p(z,q,tol)");
+  endif
+  if nargin==2
+    tol=eps;
+  endif
+
+  if ~isscalar(z)
+    error("Expect z scalar!");
+  endif
+  if ~isscalar(q)
+    error("Expect q scalar!");
+  endif
+  if abs(imag(q))>tol
+    error("Expect q real!");
+  endif
+  q=real(q);
+  if q<0 || q>=1
+    error("Expect 0<=q<1 !");
+  endif
+
+  x=0; 
+  m1=-1;
+  qe=1;
+  maxiter=100;
+  n=1;
+  nn=2;
+  while 1
+    dx=2*m1*(q^qe)*(-nn)*sin(nn*z);
+    x=x+dx;
+    if abs(dx)<tol && n>2
+      break;
+    endif
+    qe=qe+(2*n)+1;
+    m1=-m1;
+    nn=nn+2;
+    n=n+1;
+    if n>=maxiter
+      error("n>=maxiter");
+    endif
+  endwhile
+
+endfunction

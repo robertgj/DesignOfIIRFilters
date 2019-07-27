@@ -152,8 +152,8 @@ ra0=[r0(2:end);aa0(1:((na+1)/2))];
 
 % Unconstrained minimisation of zero phase response
 WISEJ_FRM_HB([],mr,na,Mmodel,Dmodel,wpass,Hpass,Wpass,wstop,Hstop,Wstop);
-[ra1,FVEC,INFO,OUTPUT] = ...
-  fminunc(@WISEJ_FRM_HB,ra0,optimset("TolFun",tol,"TolX",tol));
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[ra1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_FRM_HB,ra0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -274,7 +274,7 @@ strt=sprintf("F2M halfband Hilbert filter : mr=%d,Mmodel=%d,Dmodel=%d,na=%d",
 title(strt);
 subplot(312);
 plot(wplot*0.5/pi,(unwrap(arg(Hw_hilbert))+(wplot.*td))/pi)
-ylabel("Phase(rad./pi)\Adjusted for delay");
+ylabel("Phase(rad./$\\pi$)\Adjusted for delay");
 xlabel("Frequency");
 axis([0 0.5 -0.504 -0.496]);
 grid("on");

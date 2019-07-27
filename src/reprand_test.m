@@ -1,5 +1,5 @@
 % reprand_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -11,6 +11,7 @@ format short e
 
 n1=reprand(2^14);
 n2=reprand(2^14);
+size(n1)
 max(n1)
 min(n1)
 mean(n1)

@@ -1,8 +1,8 @@
 % branch_bound_directFIRhilbert_12_nbits_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
-% Branch-and-bound search of even-order direct-form hilbert bandpass filter
-% response with 12-bit signed-digit coefficients
+% Branch-and-bound search of a direct-form Hilbert filter
+% with 12-bit 2-signed-digit coefficients
 
 test_common;
 

@@ -1,5 +1,5 @@
 % allpass2ndOrderCascadeDelay_socp_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -16,9 +16,9 @@ tol=1e-6
 maxiter=2000
 
 % Initial coefficients found by tarczynski_allpass_phase_shift_test.m
-Da0 = [   1.0000000000,  -0.4600541550,   0.3895171433,   0.1750041418, ... 
-          0.0054307833,  -0.0609663877,  -0.0421198266,   0.0019489258, ... 
-          0.0237825475,   0.0162337004,  -0.0003436796,  -0.0109619904 ]';
+Da0 = [   1.0000000000,  -0.4600541695,   0.3895171299,   0.1750041350, ... 
+          0.0054307844,  -0.0609663815,  -0.0421198300,   0.0019489050, ... 
+          0.0237825454,   0.0162336873,  -0.0003436750,  -0.0109619832 ]';
 a0=tf2casc(Da0);
 
 % Lowpass filter specification for parallel all-pass filter and delay

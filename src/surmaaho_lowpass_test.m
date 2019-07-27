@@ -139,7 +139,7 @@ set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.02 0]);
 axis(ax(2),[0 0.5 -70 -50]);
-strt="Surma-aho-and-Saramaki combined filter response";
+strt="Surma-aho-and-Saram\\\"{a}ki combined filter response";
 title(strt);
 ylabel("Amplitude(dB)");
 grid("on");
@@ -147,7 +147,7 @@ subplot(212);
 plot(Fp,Pp);
 axis([0 0.5 -0.08 0.08]);
 grid("on");
-ylabel("Phase error(rad./pi)");
+ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
 print(strcat(strf,"_resp"),"-dpdflatex");
 close
@@ -155,7 +155,7 @@ close
 % Combined filter zplane plot
 subplot(111);
 zplane([min_z;1./allpass_p],min_p);
-strt="Surma-aho-and-Saramaki combined filter";
+strt="Surma-aho-and-Saram\\\"{a}ki combined filter";
 title(strt);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close

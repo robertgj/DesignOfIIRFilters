@@ -55,7 +55,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_12_nbits_cost.ok << 'EOF'
-Exact & 0.000655 & & \\
+Exact & 0.000656 & & \\
 12-bit 2-signed-digit(Lim)& 0.001206 & 41 & 19 \\
 12-bit 2-signed-digit(SOCP-relax) & 0.001701 & 41 & 19 \\
 EOF
@@ -66,6 +66,13 @@ k_min = [    -1152,     -272,     -112,      -32, ...
                -16 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_k_min.ok"; fail; fi
+
+cat > test_12_nbits_epsilon_min.ok << 'EOF'
+epsilon_min = [ -1,  1,  1,  1, ... 
+                 1 ];
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_epsilon_min.ok"; \
+                      fail; fi
 
 cat > test_12_nbits_u_min.ok << 'EOF'
 u_min = [       -1,       -4,      -14,      -24, ... 
@@ -95,6 +102,10 @@ if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_cost.ok"; fail; fi
 
 diff -Bb test_12_nbits_k_min.ok $nstr"_k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_k_min.ok"; fail; fi
+
+diff -Bb test_12_nbits_epsilon_min.ok $nstr"_epsilon_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_epsilon_min.ok"; \
+                      fail; fi
 
 diff -Bb test_12_nbits_u_min.ok $nstr"_u_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_u_min.ok"; fail; fi

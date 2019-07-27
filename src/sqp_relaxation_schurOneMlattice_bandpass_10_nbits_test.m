@@ -26,6 +26,7 @@ kc(kc0_active)=kc0(kc0_active);
 kc_l=kc0_l;
 kc_u=kc0_u;
 kc_active=kc0_active;
+p_ones=ones(size(k0));
 
 % Fix one coefficient at each iteration 
 while ~isempty(kc_active)
@@ -48,7 +49,7 @@ while ~isempty(kc_active)
     % Find the SQP PCLS solution for the remaining active coefficents
     [nextk,nextc,slb_iter,opt_iter,func_iter,feasible] = ...
     schurOneMlattice_slb(@schurOneMlattice_sqp_mmse, ...
-                         kc_b(1:Nk),epsilon0,p0,kc_b((Nk+1):end), ...
+                         kc_b(1:Nk),epsilon0,p_ones,kc_b((Nk+1):end), ...
                          kc_bu,kc_bl,kc_active,dmax, ...
                          wa,Asqd,Asqdu,Asqdl,Wa, ...
                          wt,Td,Tdu,Tdl,Wt, ...
@@ -85,10 +86,10 @@ while ~isempty(kc_active)
     kc_ul=nextkc;
     [~,kc_ul_sdu,kc_ul_sdl]=flt2SD(kc_ul(coef_n),nbits,ndigits_alloc(coef_n))
     kc_ul(coef_n)=kc_ul_sdu;
-    Esq_u=schurOneMlatticeEsq(kc_ul(1:Nk),epsilon0,p0,kc_ul((Nk+1):end), ...
+    Esq_u=schurOneMlatticeEsq(kc_ul(1:Nk),epsilon0,p_ones,kc_ul((Nk+1):end), ...
                               wa,Asqd,Wa,wt,Td,Wt)
     kc_ul(coef_n)=kc_ul_sdl;
-    Esq_l=schurOneMlatticeEsq(kc_ul(1:Nk),epsilon0,p0,kc_ul((Nk+1):end), ...
+    Esq_l=schurOneMlatticeEsq(kc_ul(1:Nk),epsilon0,p_ones,kc_ul((Nk+1):end), ...
                               wa,Asqd,Wa,wt,Td,Wt)
     if Esq_l<Esq_u
       nextkc(coef_n)=kc_ul_sdl
@@ -107,13 +108,11 @@ endwhile
 kc_min=kc;
 k_min=kc(1:Nk);
 c_min=kc((Nk+1):end);
-Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p0,c_min,wa,Asqd,Wa,wt,Td,Wt);
+Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p_ones,c_min,wa,Asqd,Wa,wt,Td,Wt);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
 printf("ndigits_alloc=[ ");printf("%d ",ndigits_alloc);printf("]\n");
 print_polynomial(k_min,"k_min",nscale);
 print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
-printf("epsilon0=[ ");printf("%d ",epsilon0');printf("]';\n");
-printf("p0=[ ");printf("%g ",p0');printf("]';\n");
 print_polynomial(c_min,"c_min",nscale);
 print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used
@@ -134,25 +133,25 @@ rand("seed",0xdeadbeef);
 u=rand(nsamples,1)-0.5;
 u=0.25*u/std(u); 
 u=round(u*nscale);
-[yap,y,xx]=schurOneMlatticeFilter(k0,epsilon0,p0,c0,u,"round");
+[yap,y,xx]=schurOneMlatticeFilter(k0,epsilon0,p_ones,c0,u,"round");
 stdx=std(xx)
 [yapf,yf,xxf]= ...
-schurOneMlatticeFilter(k_min,epsilon0,ones(size(k0)),c_min,u,"round");
+schurOneMlatticeFilter(k_min,epsilon0,p_ones,c_min,u,"round");
 stdxf=std(xxf)
 
 % Amplitude and delay at local peaks
-Asq=schurOneMlatticeAsq(wa,k_min,epsilon0,p0,c_min);
+Asq=schurOneMlatticeAsq(wa,k_min,epsilon0,p_ones,c_min);
 vAl=local_max(Asqdl-Asq);
 vAu=local_max(Asq-Asqdu);
 wAsqS=unique([wa(vAl);wa(vAu);wa([1,nasl,napl,napu,nasu,end])]);
-AsqS=schurOneMlatticeAsq(wAsqS,k_min,epsilon0,p0,c_min);
+AsqS=schurOneMlatticeAsq(wAsqS,k_min,epsilon0,p_ones,c_min);
 printf("k,c_min:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
-T=schurOneMlatticeT(wt,k_min,epsilon0,p0,c_min);
+T=schurOneMlatticeT(wt,k_min,epsilon0,p_ones,c_min);
 vTl=local_max(Tdl-T);
 vTu=local_max(T-Tdu);
 wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
-TS=schurOneMlatticeT(wTS,k_min,epsilon0,p0,c_min);
+TS=schurOneMlatticeT(wTS,k_min,epsilon0,p_ones,c_min);
 printf("k,c_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 
@@ -165,7 +164,7 @@ printf("%d %d-bit adders used for 3-sd coefficient multiplications\n",
        kc0_3sd_adders,nbits);
 k0_3sd=kc0_3sd(1:Nk);
 c0_3sd=kc0_3sd((Nk+1):end);
-Esq0_3sd=schurOneMlatticeEsq(k0_3sd,epsilon0,p0,c0_3sd,wa,Asqd,Wa,wt,Td,Wt);
+Esq0_3sd=schurOneMlatticeEsq(k0_3sd,epsilon0,p_ones,c0_3sd,wa,Asqd,Wa,wt,Td,Wt);
 
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
@@ -182,13 +181,13 @@ fclose(fid);
 nplot=1000;
 wplot=(0:(nplot-1))'*pi/nplot;
 Asq_kc0=schurOneMlatticeAsq(wplot,k0,epsilon0,p0,c0);
-Asq_kc0_sd=schurOneMlatticeAsq(wplot,k0_sd,epsilon0,p0,c0_sd);
-Asq_kc_min=schurOneMlatticeAsq(wplot,k_min,epsilon0,p0,c_min);
-Asq_kc0_3sd=schurOneMlatticeAsq(wplot,k0_3sd,epsilon0,p0,c0_3sd);
+Asq_kc0_sd=schurOneMlatticeAsq(wplot,k0_sd,epsilon0,p_ones,c0_sd);
+Asq_kc_min=schurOneMlatticeAsq(wplot,k_min,epsilon0,p_ones,c_min);
+Asq_kc0_3sd=schurOneMlatticeAsq(wplot,k0_3sd,epsilon0,p_ones,c0_3sd);
 T_kc0=schurOneMlatticeT(wplot,k0,epsilon0,p0,c0);
-T_kc0_sd=schurOneMlatticeT(wplot,k0_sd,epsilon0,p0,c0_sd);
-T_kc_min=schurOneMlatticeT(wplot,k_min,epsilon0,p0,c_min);
-T_kc0_3sd=schurOneMlatticeT(wplot,k0_3sd,epsilon0,p0,c0_3sd);
+T_kc0_sd=schurOneMlatticeT(wplot,k0_sd,epsilon0,p_ones,c0_sd);
+T_kc_min=schurOneMlatticeT(wplot,k_min,epsilon0,p_ones,c_min);
+T_kc0_3sd=schurOneMlatticeT(wplot,k0_3sd,epsilon0,p_ones,c0_3sd);
 
 % Plot amplitude stop-band response
 plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
@@ -334,8 +333,7 @@ save sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test.mat ...
      tol ctol nbits nscale ndigits ndigits_alloc npoints ...
      fapl fapu dBap Wap ...
      fasl fasu dBas fasll fasuu dBass Wasl Wasu ...
-     ftpl ftpu tp tpr Wtp ...
-     k_min c_min 
+     ftpl ftpu tp tpr Wtp k_min c_min 
        
 % Done
 toc;

@@ -79,16 +79,15 @@ echo "Running octave-cli -q " $prog
 octave-cli -q $prog > test.out
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.k.ok \
-     branch_bound_schurOneMlattice_bandpass_6_nbits_test_k_min_coef.m
+nstr="branch_bound_schurOneMlattice_bandpass_6_nbits_test"
+
+diff -Bb test.k.ok $nstr"_k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
 
-diff -Bb test.c.ok \
-     branch_bound_schurOneMlattice_bandpass_6_nbits_test_c_min_coef.m
+diff -Bb test.c.ok $nstr"_c_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi
 
-diff -Bb test.cost.ok \
-     branch_bound_schurOneMlattice_bandpass_6_nbits_test_cost.tab
+diff -Bb test.cost.ok $nstr"_cost.tab"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.cost.ok"; fail; fi
 
 #

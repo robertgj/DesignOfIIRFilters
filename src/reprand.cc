@@ -8,7 +8,7 @@
 //   Bioinformatics Applications" by David Jones, UCL Bioinformatics Group
 //
 
-// Copyright (C) 2017 Robert G. Jenssen
+// Copyright (C) 2017-2019 Robert G. Jenssen
 // 
 // This program is free software; you can redistribute it
 // and/or modify it underthe terms of the GNU General Public
@@ -45,7 +45,7 @@ DEFUN_DLD(reprand, args, nargout, "n=reprand(N)")
 
   uint64NDArray NN = args(0).vector_value();
   uint64_t N = NN(0);
-  RowVector n(N);
+  ColumnVector n(N);
 
   init_JKISS();
   for (uint64_t l = 0;l < N;l++)

@@ -46,7 +46,7 @@ function schurOneMlattice_sqp_slb_hilbert_plot ...
   subplot(313);
   P=schurOneMlatticeP(wp,k,epsilon,p,c);
   plot(wp*0.5/pi,([P Pdu Pdl]+(wp*tp))/pi);
-  ylabel("Phase(rad./pi)\n(Adjusted for delay)");
+  ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
   xlabel("Frequency");
   axis([0 0.5 (-0.5-(pr*2)) (-0.5+(pr*2))]);
   grid("on");

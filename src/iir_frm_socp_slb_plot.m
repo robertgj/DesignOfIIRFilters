@@ -119,9 +119,11 @@ function iir_frm_socp_slb_plot(x,na,nc,Mmodel,Dmodel, ...
   subplot(111);
   plot(wplot*0.5/pi,20*log10(abs(Hw_aa)),'-',...
        wplot*0.5/pi,20*log10(abs(Hw_ac)),'--');
-  legend("Mask","Comp","location","northeast");
+  legend("Mask","Comp");
+  legend("location","northeast");
+  legend("left");
   legend("boxoff");
-  axis([0, 0.5, -60, 10]);
+  axis([0, 0.5, -60, 20]);
   xlabel("Frequency");
   ylabel("Amplitude(dB)");
   grid("on");

@@ -35,6 +35,8 @@ td=(R*(ma+mb))/2
 Wtp=3
 fas=0.28
 Was=1000
+K=2
+Ksq=K^2;
 
 % Coefficient constraints
 rho=31/32;
@@ -83,10 +85,11 @@ vS=[];
 
 % SOCP
 [ab1,socp_iter,func_iter,feasible]= ...
-  parallel_allpass_socp_mmse(vS,ab0,abu,abl,Va,Qa,Ra,Vb,Qb,Rb, ...
+  parallel_allpass_socp_mmse(vS,ab0,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb, ...
                              polyphase,difference, ...
-                             wa,A2d,A2du,A2dl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                             wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+                             wa,A2d*Ksq,A2du*Ksq,A2dl*Ksq,Wa/Ksq, ...
+                             wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+                             maxiter,tol,verbose);
 if !feasible
   error("ab1 infeasible");
 endif
@@ -125,7 +128,7 @@ close
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hab1)));
 ylabel("Amplitude(dB)");
-axis([0 max(fap,ftp) -0.01 0.01]);
+axis([0 max(fap,ftp) -1e-4 1e-4]);
 grid("on");
 title(strt);
 subplot(212);

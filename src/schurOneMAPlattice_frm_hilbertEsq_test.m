@@ -172,8 +172,8 @@ max_diff=del/max(abs(diff_gradEsq));
 if verbose
   printf("max(abs(diff_gradEsq))=del/%g\n",max_diff);
 endif
-if max(abs(diff_gradEsq)) > del/965.57;
-  error("max(abs(diff_gradEsq))(del/%g) > del/965.57",max_diff);
+if max(abs(diff_gradEsq)) > del/952.78;
+  error("max(abs(diff_gradEsq))(del/%g) > del/952.78",max_diff);
 endif
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

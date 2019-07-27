@@ -12,8 +12,8 @@ format short e
 tic
 
 tol=1e-4
-ctol=tol
-maxiter=2000
+ctol=1e-6
+maxiter=10000
 verbose=false
 
 % Filter specifications
@@ -105,7 +105,8 @@ function intEH=ERROR_FIR(b,_wd,_Hd,_Wd)
 endfunction
 
 ERROR_FIR([],wd,Hd,Wd);
-[b0,FVEC,INFO,OUTPUT]=fminunc(@ERROR_FIR,bi,optimset("TolFun",tol,"TolX",tol));
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[b0,FVEC,INFO,OUTPUT]=fminunc(@ERROR_FIR,bi,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -126,6 +127,7 @@ printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 
 % Convert b0 to gain-pole-zero form
 [x0,U,V,M,Q]=tf2x(b0,1,tol);
+U,V,M,Q
 R=1;
 strt=sprintf(strP,"x0");
 showZPplot(x0,U,V,M,Q,R,strt);

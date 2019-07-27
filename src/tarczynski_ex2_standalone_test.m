@@ -29,6 +29,7 @@ a1=1;a2=0.5;
 t1=14.3;t2=20;
 R=2;nN=24;nD=2;
 tol=1e-9;
+maxiter=10000;
 
 % Frequency points
 n=1024;
@@ -46,7 +47,8 @@ Wd=[10*ones(bw,1); ones(bt,1); 50*ones(bw,1)];
 % Unconstrained minimisation
 NI=[1;zeros(nN+nD,1)];
 WISEJ([],nN,nD,R,wd,Hd,Wd);
-[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,NI,optimset("TolFun",tol,"TolX",tol));
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,NI,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)

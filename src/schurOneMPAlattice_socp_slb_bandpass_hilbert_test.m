@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_bandpass_hilbert_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -20,12 +20,12 @@ strf="schurOneMPAlattice_socp_slb_bandpass_hilbert_test";
 %
 % Initial coefficients from tarczynski_parallel_allpass_bandpass_hilbert_test.m
 %
-Da0 = [   1.0000000000,  -1.3419083642,   0.9474053665,   0.8932394713, ... 
-         -1.9577425273,   1.7243229570,  -0.3128783437,  -0.6225716131, ... 
-          0.7615817995,  -0.3630932621,   0.0929764525 ]';
-Db0 = [   1.0000000000,  -1.9568187576,   1.2934169329,   1.1293002733, ... 
-         -2.6916225471,   2.1601049527,  -0.3125221494,  -0.8696178419, ... 
-          0.9380517293,  -0.4314959988,   0.1003220024 ]';
+Da0 = [   1.0000000000,  -1.3420348529,   0.9476408004,   0.8924339392, ... 
+         -1.9566456567,   1.7230582345,  -0.3125109409,  -0.6221973493, ... 
+          0.7605942655,  -0.3624502969,   0.0926731060 ]';
+Db0 = [   1.0000000000,  -1.9568937354,   1.2936834023,   1.1283899984, ... 
+         -2.6900919871,   2.1584733783,  -0.3119350555,  -0.8689577257, ... 
+          0.9367692460,  -0.4306409818,   0.1000235909 ]';
 
 % Lattice decomposition of D1_0, D2_0
 [A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(Da0),Da0);
@@ -43,7 +43,7 @@ fapl=0.1
 fapu=0.2
 fasu=0.25
 dBap=0.2
-dBas=30 % 33 takes 509 seconds
+dBas=30 
 Wap=1
 Watl=1e-3
 Watu=1e-3
@@ -177,7 +177,7 @@ axis([0 0.5 15.5 16.5]);
 grid("on");
 subplot(313);
 plot(wa*0.5/pi,mod((P0+(td*wa))/pi,2));
-ylabel("Phase(rad./pi)\n(corrected for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([0 0.5 1.498 1.502]);
 grid("on");
@@ -225,7 +225,7 @@ axis([0 0.5 0 20]);
 grid("on");
 subplot(313);
 plot(wa*0.5/pi,mod((P12+(td*wa))/pi,2));
-ylabel("Phase(rad./pi)\n(corrected for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([0 0.5 0 2]);
 grid("on");
@@ -248,7 +248,7 @@ axis([minf maxf td-tdr td+tdr]);
 grid("on");
 subplot(313);
 plot(wa*0.5/pi,mod((P12+(td*wa))/pi,2));
-ylabel("Phase(rad./pi)\n(corrected for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([minf maxf mod(pd-pdr,2) mod(pd+pdr,2)]);
 grid("on");

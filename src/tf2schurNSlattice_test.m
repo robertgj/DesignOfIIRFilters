@@ -1,5 +1,5 @@
 % tf2schurNSlattice_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -38,18 +38,18 @@ dBstop=60;
 [s10,s11,s20,s00,s02,s22]=tf2schurNSlattice(n0,d0);
 [A,B,C,D,Cap,Dap]=schurNSlattice2Abcd(s10,s11,s20,s00,s02,s22);
 [n1,d1]=Abcd2tf(A,B,C,D);
-if norm(n1-n0)/eps > 1.5701
-  error("norm(n1-n0)/eps > 1.5701");
+if norm(n1-n0)/eps > 2
+  error("norm(n1-n0)/eps > 2");
 endif
-if norm(d1-d0)/eps > 6.1289
-  error("norm(d1-d0)/eps > 6.1289");
+if norm(d1-d0)/eps > 10
+  error("norm(d1-d0)/eps > 10");
 endif
 [nap1,dap1]=Abcd2tf(A,B,Cap,Dap);
-if norm(fliplr(nap1)-dap1)/eps > 13.923
-  error("norm(fliplr(nap1)-dap1)/eps > 13.923");
+if norm(fliplr(nap1)-dap1)/eps > 20
+  error("norm(fliplr(nap1)-dap1)/eps > 20");
 endif
-if norm(dap1-d0)/eps > 6.1289
-  error("norm(dap1-n0)/eps > 6.1289");
+if norm(dap1-d0)/eps > 10
+  error("norm(dap1-n0)/eps > 10");
 endif
 
 % High-pass fpass=0.2
@@ -57,47 +57,47 @@ endif
 [s10,s11,s20,s00,s02,s22]=tf2schurNSlattice(n0,d0);
 [A,B,C,D,Cap,Dap]=schurNSlattice2Abcd(s10,s11,s20,s00,s02,s22);
 [n1,d1]=Abcd2tf(A,B,C,D);
-if norm(n1-n0)/eps > 1.6350
-  error("norm(n1-n0)/eps > 1.6350");
+if norm(n1-n0)/eps > 5
+  error("norm(n1-n0)/eps > 5");
 endif
-if norm(d1-d0)/eps > 1.1445
-  error("norm(d1-d0)/eps > 1.1445");
+if norm(d1-d0)/eps > 2
+  error("norm(d1-d0)/eps > 2");
 endif
 [nap1,dap1]=Abcd2tf(A,B,Cap,Dap);
-if norm(fliplr(nap1)-dap1)/eps > 1.1513
-  error("norm(fliplr(nap1)-dap1)/eps > 1.1513");
+if norm(fliplr(nap1)-dap1)/eps > 5
+  error("norm(fliplr(nap1)-dap1)/eps > 5");
 endif
-if norm(dap1-d0)/eps > 1.1445
-  error("norm(dap1-n0)/eps > 1.1445");
+if norm(dap1-d0)/eps > 2
+  error("norm(dap1-n0)/eps > 2");
 endif
 
 % All-pass filter fpass=0.2
 [s10,s11,s20,s00,s02,s22]=tf2schurNSlattice(d0(length(d0):-1:1),d0);
 [A,B,C,D,Cap,Dap]=schurNSlattice2Abcd(s10,s11,s20,s00,s02,s22);
 [n1,d1]=Abcd2tf(A,B,C,D);
-if norm(fliplr(n1)-d0)/eps > 1.8803
-  error("norm(fliplr(n1)-d0)/eps > 1.8803");
+if norm(fliplr(n1)-d0)/eps > 5
+  error("norm(fliplr(n1)-d0)/eps > 5");
 endif
-if norm(d1-d0)/eps > 1.1445
-  error("norm(d1-d0)/eps > 1.1445");
+if norm(d1-d0)/eps > 5
+  error("norm(d1-d0)/eps > 5");
 endif
 [n2,d2]=Abcd2tf(A,B,Cap,Dap);
-if norm(fliplr(n2)-d2)/eps > 1.1513
-  error("norm(fliplr(n2)-d2)/eps > 1.1513");
+if norm(fliplr(n2)-d2)/eps > 5
+  error("norm(fliplr(n2)-d2)/eps > 5");
 endif
-if norm(fliplr(n2)-d0)/eps > 1.5014
-  error("norm(fliplr(n2)-d0)/eps > 1.5014");
+if norm(fliplr(n2)-d0)/eps > 5
+  error("norm(fliplr(n2)-d0)/eps > 5");
 endif
 
 % All-pass filter with pi phase shift fpass=0.2
 [s10,s11,s20,s00,s02,s22]=tf2schurNSlattice(d0(length(d0):-1:1),-d0);
 [A,B,C,D]=schurNSlattice2Abcd(s10,s11,s20,s00,s02,s22);
 [n1,d1]=Abcd2tf(A,B,C,D);
-if norm(fliplr(n1)+d0)/eps > 1.8803
-  error("norm(fliplr(n1)+d0)/eps > 1.8803");
+if norm(fliplr(n1)+d0)/eps > 5
+  error("norm(fliplr(n1)+d0)/eps > 5");
 endif
-if norm(d1-d0)/eps > 1.1445
-  error("norm(d1-d0)/eps > 1.1445");
+if norm(d1-d0)/eps > 5
+  error("norm(d1-d0)/eps > 5");
 endif
 
 % Low-pass fpass=0.1
@@ -106,18 +106,18 @@ fpass=0.1;
 [s10,s11,s20,s00,s02,s22]=tf2schurNSlattice(n0,d0);
 [A,B,C,D,Cap,Dap]=schurNSlattice2Abcd(s10,s11,s20,s00,s02,s22);
 [n1,d1]=Abcd2tf(A,B,C,D);
-if norm(n1-n0)/eps > 0.23002
-  error("norm(n1-n0)/eps > 0.23002");
+if norm(n1-n0)/eps > 1
+  error("norm(n1-n0)/eps > 1");
 endif
-if norm(d1-d0)/eps > 10.153
-  error("norm(d1-d0)/eps > 10.153");
+if norm(d1-d0)/eps > 50
+  error("norm(d1-d0)/eps > 50");
 endif
 [nap1,dap1]=Abcd2tf(A,B,Cap,Dap);
-if norm(fliplr(nap1)-dap1)/eps > 15.495
-  error("norm(fliplr(nap1)-dap1)/eps > 15.495");
+if norm(fliplr(nap1)-dap1)/eps > 50
+  error("norm(fliplr(nap1)-dap1)/eps > 50");
 endif
-if norm(dap1-d0)/eps > 10.153
-  error("norm(dap1-n0)/eps > 10.153");
+if norm(dap1-d0)/eps > 50
+  error("norm(dap1-n0)/eps > 50");
 endif
 
 % High-pass fpass=0.1
@@ -125,47 +125,47 @@ endif
 [s10,s11,s20,s00,s02,s22]=tf2schurNSlattice(n0,d0);
 [A,B,C,D,Cap,Dap]=schurNSlattice2Abcd(s10,s11,s20,s00,s02,s22);
 [n1,d1]=Abcd2tf(A,B,C,D);
-if norm(n1-n0)/eps > 12.210
-  error("norm(n1-n0)/eps > 12.210");
+if norm(n1-n0)/eps > 20
+  error("norm(n1-n0)/eps > 20");
 endif
-if norm(d1-d0)/eps > 10.372
-  error("norm(d1-d0)/eps > 10.372");
+if norm(d1-d0)/eps > 20
+  error("norm(d1-d0)/eps > 20");
 endif
 [nap1,dap1]=Abcd2tf(A,B,Cap,Dap);
-if norm(fliplr(nap1)-dap1)/eps > 9.5691
-  error("norm(fliplr(nap1)-dap1)/eps > 9.5691");
+if norm(fliplr(nap1)-dap1)/eps > 20
+  error("norm(fliplr(nap1)-dap1)/eps > 20");
 endif
-if norm(dap1-d0)/eps > 10.372
-  error("norm(dap1-n0)/eps > 10.372");
+if norm(dap1-d0)/eps > 20
+  error("norm(dap1-n0)/eps > 20");
 endif
 
 % All-pass filter fpass=0.1
 [s10,s11,s20,s00,s02,s22]=tf2schurNSlattice(d0(length(d0):-1:1),d0);
 [A,B,C,D,Cap,Dap]=schurNSlattice2Abcd(s10,s11,s20,s00,s02,s22);
 [n1,d1]=Abcd2tf(A,B,C,D);
-if norm(fliplr(n1)-d0)/eps > 23.089
-  error("norm(fliplr(n1)-d0)/eps > 23.089");
+if norm(fliplr(n1)-d0)/eps > 20
+  error("norm(fliplr(n1)-d0)/eps > 20");
 endif
-if norm(d1-d0)/eps > 10.372
-  error("norm(d1-d0)/eps > 10.372");
+if norm(d1-d0)/eps > 20
+  error("norm(d1-d0)/eps > 20");
 endif
 [n2,d2]=Abcd2tf(A,B,Cap,Dap);
-if norm(fliplr(n2)-d2)/eps > 9.5691
-  error("norm(fliplr(n2)-d2)/eps > 9.5691");
+if norm(fliplr(n2)-d2)/eps > 20
+  error("norm(fliplr(n2)-d2)/eps > 20");
 endif
-if norm(fliplr(n2)-d0)/eps > 16.249
-  error("norm(fliplr(n2)-d0)/eps > 16.249");
+if norm(fliplr(n2)-d0)/eps > 20
+  error("norm(fliplr(n2)-d0)/eps > 20");
 endif
 
 % All-pass filter with pi phase shift fpass=0.1
 [s10,s11,s20,s00,s02,s22]=tf2schurNSlattice(d0(length(d0):-1:1),-d0);
 [A,B,C,D]=schurNSlattice2Abcd(s10,s11,s20,s00,s02,s22);
 [n1,d1]=Abcd2tf(A,B,C,D);
-if norm(fliplr(n1)+d0)/eps > 23.089
-  error("norm(fliplr(n1)+d0)/eps > 23.089");
+if norm(fliplr(n1)+d0)/eps > 20
+  error("norm(fliplr(n1)+d0)/eps > 20");
 endif
-if norm(d1-d0)/eps > 10.372
-  error("norm(d1-d0)/eps > 10.372");
+if norm(d1-d0)/eps > 20
+  error("norm(d1-d0)/eps > 20");
 endif
 
 % Done

@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_halfband_socp_slb_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -16,49 +16,27 @@ format compact
 %
 n=800;
 tol=1e-5
-ctol=tol
+ctol=tol/100
 maxiter=2000
 verbose=false
 
 % Initial filter is found by tarczynski_frm_halfband_test.m
-if 1
-  r0 = [   1.0000000000,   0.4653218344,  -0.0748844988,   0.0136271947, ... 
-           0.0036404244,  -0.0098545395 ]';
-  aa0 = [ -0.0019386694,   0.0038651658,   0.0038966667,  -0.0055183094, ... 
-          -0.0073803747,   0.0065412259,   0.0124707032,   0.0002743368, ... 
-          -0.0274018042,  -0.0109536422,   0.0372892516,   0.0338854400, ... 
-          -0.0500123121,  -0.0817477325,   0.0546928300,   0.3116333907, ... 
-           0.4440189387,   0.3116333907,   0.0546928300,  -0.0817477325, ... 
-          -0.0500123121,   0.0338854400,   0.0372892516,  -0.0109536422, ... 
-          -0.0274018042,   0.0002743368,   0.0124707032,   0.0065412259, ... 
-          -0.0073803747,  -0.0055183094,   0.0038966667,   0.0038651658, ... 
-          -0.0019386694 ]';
-  Mmodel=7 % Model filter FRM decimation
-  Dmodel=9 % Desired model filter passband delay
-  dBap=0.1 % Pass band amplitude ripple
-  tpr=0.4 % Peak-to-peak pass band delay ripple
-  dBas=45 % Stop band amplitude ripple
-else 
-  tol=1e-6
-  r0 = [   1.0000000000,   0.4268488267,  -0.0317251967,  -0.0154534827, ... 
-           0.0191464815,  -0.0030145193,  -0.0045338772 ]';
-  aa0 = [  0.0021429989,   0.0034892719,  -0.0042819826,  -0.0023721012, ... 
-           0.0046545446,   0.0041687504,  -0.0086028453,  -0.0025908625, ... 
-           0.0116079760,  -0.0024962176,  -0.0228420082,   0.0119922344, ... 
-           0.0246549624,  -0.0222050941,  -0.0357212812,   0.0433955283, ... 
-           0.0398228758,  -0.0913972722,  -0.0409314244,   0.3174162326, ... 
-           0.5379853724,   0.3174162326,  -0.0409314244,  -0.0913972722, ... 
-           0.0398228758,   0.0433955283,  -0.0357212812,  -0.0222050941, ... 
-           0.0246549624,   0.0119922344,  -0.0228420082,  -0.0024962176, ... 
-           0.0116079760,  -0.0025908625,  -0.0086028453,   0.0041687504, ... 
-           0.0046545446,  -0.0023721012,  -0.0042819826,   0.0034892719, ... 
-           0.0021429989 ]';
-  Mmodel=9 % Model filter FRM decimation
-  Dmodel=11 % Desired model filter passband delay
-  dBap=0.045 % Pass band amplitude ripple
-  tpr=0.45 % Peak-to-peak pass band delay ripple
-  dBas=46 % Stop band amplitude ripple 
-endif
+r0 = [   1.0000000000,   0.4650421403,  -0.0756662210,   0.0125742228, ... 
+         0.0030944722,  -0.0100384056 ]';
+aa0 = [ -0.0022730568,   0.0037199326,   0.0049034950,  -0.0046329239, ... 
+        -0.0086841885,   0.0062298648,   0.0122190261,   0.0017956534, ... 
+        -0.0266708058,  -0.0137096895,   0.0360235999,   0.0362740186, ... 
+        -0.0501721957,  -0.0810254219,   0.0522745514,   0.3115883684, ... 
+         0.4475813048,   0.3115883684,   0.0522745514,  -0.0810254219, ... 
+        -0.0501721957,   0.0362740186,   0.0360235999,  -0.0137096895, ... 
+        -0.0266708058,   0.0017956534,   0.0122190261,   0.0062298648, ... 
+        -0.0086841885,  -0.0046329239,   0.0049034950,   0.0037199326, ... 
+        -0.0022730568 ]';
+Mmodel=7 % Model filter FRM decimation
+Dmodel=9 % Desired model filter passband delay
+dBap=0.05 % Pass band amplitude ripple
+tpr=0.335 % Peak-to-peak pass band delay ripple
+dBas=45 % Stop band amplitude ripple
 mr=length(r0)-1 % Allpass model filter order
 na=length(aa0) % FIR masking filter length
 dmask=(na-1)/2 % FIR masking filter delay
@@ -116,7 +94,7 @@ fap=%g,ftp=%g,fas=%g,mr=%d,Mmodel=%d,Dmodel=%d,dmask=%d", ...
 
 % Plot the initial response
 schurOneMAPlattice_frm_halfband_socp_slb_plot ...
-  (r0,u0,v0,Mmodel,Dmodel,n,strt,strcat(strf,"_%s_%s"),"initial");
+  (k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,n,strt,strcat(strf,"_%s_%s"),"initial");
 
 %
 % SOCP PCLS 
@@ -130,10 +108,12 @@ if feasible == 0
   error("k2(pcls) infeasible");
 endif
 
+% Recalculate epsilon2 and p2
+[epsilon2,p2] = schurOneMscale(k2);
+
 % Plot the PCLS response
-r2=schurOneMAPlattice2tf(k2,epsilon0,p0);
 schurOneMAPlattice_frm_halfband_socp_slb_plot ...
-  (r2,u2,v2,Mmodel,Dmodel,n,strt,strcat(strf,"_%s_%s"),"PCLS");
+  (k2,epsilon2,p2,u2,v2,Mmodel,Dmodel,n,strt,strcat(strf,"_%s_%s"),"PCLS");
 
 %
 % Save the results
@@ -159,19 +139,19 @@ fprintf(fid,"Was=%d %% Stop band weight\n",Was);
 fprintf(fid,"rho=%f %% Constraint on all-pass lattice coefficients\n",rho);
 fclose(fid);
 
-print_polynomial(r2,"r2");
-print_polynomial(r2,"r2",strcat(strf,"_r2_coef.m"));
 print_polynomial(k2,"k2");
 print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
-printf("epsilon0=[ ");printf("%2d ",epsilon0);printf("]\n");
-print_polynomial(epsilon0,"epsilon0",strcat(strf,"_epsilon0_coef.m"),"%2d");
+printf("epsilon2=[ ");printf("%2d ",epsilon2);printf("]\n");
+print_polynomial(epsilon2,"epsilon2",strcat(strf,"_epsilon2_coef.m"),"%2d");
+print_polynomial(p2,"p2");
+print_polynomial(p2,"p2",strcat(strf,"_p2_coef.m"));
 print_polynomial(u2,"u2");
 print_polynomial(u2,"u2",strcat(strf,"_u2_coef.m"));
 print_polynomial(v2,"v2");
 print_polynomial(v2,"v2",strcat(strf,"_v2_coef.m"));
 
 save schurOneMAPlattice_frm_halfband_socp_slb_test.mat ...
-     r0 aa0 k0 epsilon0 p0 k2 u2 v2 Mmodel Dmodel ...
+     r0 aa0 k0 epsilon0 p0 k2 epsilon2 p2 u2 v2 Mmodel Dmodel ...
      fap fas dBap Wap tpr Wtp dBas Was rho tol ctol
 
 % Done

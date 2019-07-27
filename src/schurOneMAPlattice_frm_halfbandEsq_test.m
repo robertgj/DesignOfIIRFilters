@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_halfbandEsq_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -129,12 +129,12 @@ for l=1:Nv
   delv=shift(delv,1);
   diff_Esqv(l)=(EsqPv-EsqMv)/del;
 endfor
-if max(abs(diff_Esqv-gradEsq((Nk+Nu+1):end))) > del/206780
-  error("max(abs(diff_Esqv-gradEsq((Nk+Nu+1):end))) > del/206780");
+if max(abs(diff_Esqv-gradEsq((Nk+Nu+1):end))) > del/189763
+  error("max(abs(diff_Esqv-gradEsq((Nk+Nu+1):end))) > del/189763");
 endif
 
 % Done
 toc;
 diary off
 movefile schurOneMAPlattice_frm_halfbandEsq_test.diary.tmp ...
-       schurOneMAPlattice_frm_halfbandEsq_test.diary;
+         schurOneMAPlattice_frm_halfbandEsq_test.diary;

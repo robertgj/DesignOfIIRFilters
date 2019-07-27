@@ -70,6 +70,8 @@ function [hM,socp_iter,func_iter,feasible]=directFIRsymmetric_mmsePW ...
   hM_test=ones(length(hM0),1);
   hM_test(hM_active)=0;
   hM_inactive=find(hM_test);
+  % Initialise
+  hM=[];socp_iter=0;func_iter=0;feasible=false;
   
   %
   % Sanity checks on frequency response vectors
@@ -140,15 +142,12 @@ function [hM,socp_iter,func_iter,feasible]=directFIRsymmetric_mmsePW ...
      [Adl(vS.al);Adu(vS.au)]-(G(:,hM_inactive)*hM0(hM_inactive))];
   A=[2*Q(hM_active,hM_active),G(:,hM_active)';G(:,hM_active),zeros(rows(G))];
   if rank(A) ~= rows(A)
-    hM=[];
-    feasible=false;
-    warning("rank(A) ~= rows(A)");
+    warning("rank(A)(%d) ~= rows(A)(%d)",rank(A),rows(A));
     return;
   endif
   x=A\b;
   hM=hM0;
   hM(hM_active)=x(1:length(hM_active));
-  socp_iter=0;
   func_iter=1;
   feasible=true;
 

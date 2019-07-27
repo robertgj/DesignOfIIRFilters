@@ -106,7 +106,7 @@ for nm=1:length(second),
            thetaR/pi,PStheta(:,2),'linestyle','-', ...
            thetaR/pi,PStheta(:,3),'linestyle','-.', ...
            thetaR/pi,PStheta(:,4),'linestyle','--');
-  xlabel("Pole angle(rad./pi)");
+  xlabel("Pole angle(rad./$\\pi$)");
   ylabel("Maximum phase gradient");
   axis([0 1 10^0 10^3]);
   grid("on");
@@ -119,7 +119,7 @@ for nm=1:length(second),
            thetaR/pi,ng2C(:,2),'linestyle','-', ...
            thetaR/pi,ng2C(:,3),'linestyle','-.', ...
            thetaR/pi,ng2C(:,4),'linestyle','--');
-  xlabel("Pole angle(rad./pi)");
+  xlabel("Pole angle(rad./$\\pi$)");
   ylabel("Noise gain");
   axis([0 1 10^-1 10^2]);
   grid("on");

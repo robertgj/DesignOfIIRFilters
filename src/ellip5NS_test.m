@@ -1,5 +1,5 @@
 % ellip5NS_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Test case for the 5th order elliptic lattice filter with
 % scaled-normalised form. Use the transposed transfer function to
@@ -123,13 +123,13 @@ ylabel("State variable x3");
 print("ellip5NS_sv_noise_schur_lattice","-dpdflatex");
 close
 subplot(211);
-plot(xxdirf(svk,1), xxdirf(svk,2));
-xlabel("State variable x1");
-ylabel("State variable x2");
+plot(xxdirf(svk,1)/(2^32), xxdirf(svk,2)/(2^32));
+xlabel("State variable x1/2^{32}");
+ylabel("State variable x2/2^{32}");
 subplot(212);
-plot(xxdirf(svk,1), xxdirf(svk,3));
-xlabel("State variable x1");
-ylabel("State variable x3");
+plot(xxdirf(svk,1)/(2^32), xxdirf(svk,3)/(2^32));
+xlabel("State variable x1/2^{32}");
+ylabel("State variable x3/2^{32}");
 print("ellip5NS_sv_noise_direct_form","-dpdflatex");
 close
 subplot(211);
@@ -144,8 +144,8 @@ print("ellip5NS_sv_noise_global_optimum","-dpdflatex");
 close
 
 % Filter a quantised sine wave
-usin=round(0.5*sin(2*pi*0.0125*1:128)*scale);
-[ydirsin,xxdirsin]=svf(Adir,Bdir,Cdir,Ddir,usin,"none");
+usin=round(0.5*sin(2*pi*0.0125*(1:128))*scale);
+[ydirsin,xxdirsin]=svf(Adir,Bdir,Cdir,Ddir,usin(:),"none");
 % Plot state variables for the sine wave
 subplot(211);
 plot(xxdirsin(:,1), xxdirsin(:,2))

@@ -1,5 +1,5 @@
 % schurOneMAPlatticeP_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 
 test_common;
 
@@ -37,6 +37,12 @@ pp=unwrap(atan2(imag(h),real(h)));
 Nk=length(k);
 [P,gradP,diagHessP]=schurOneMAPlatticeP(wplot,k,epsilon,p);
 
+% Check argument processing
+Pp=schurOneMAPlatticeP(wplot,k,epsilon);
+if max(abs(Pp-P)) > 100*eps
+  error("max(abs(Pp-P)) > 100*eps");
+endif
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Check the phase response
@@ -56,8 +62,8 @@ for l=1:Nk
   delk=shift(delk,1);
   diff_Pk(l)=(PkPdel2-PkMdel2)/del;
 endfor
-if max(abs(diff_Pk-gradP(ntpl,:))) > del/2325
-  error("max(abs(diff_Pk-gradP(ntpl,:))) > del/2325");
+if max(abs(diff_Pk-gradP(ntpl,:))) > del/1751
+  error("max(abs(diff_Pk-gradP(ntpl,:))) > del/1751");
 endif
 
 % Check the diagonal of the Hessian of the phase response wrt k
@@ -72,8 +78,8 @@ for l=1:Nk
   delk=shift(delk,1);
   diff_dPdk(l)=(gradPkPdel2(1,l)-gradPkMdel2(1,l))/del;
 endfor
-if max(abs(diff_dPdk-diagHessP(ntpl,:))) > del/260.7
-  error("max(abs(diff_dPdk-diagHessP(ntpl,:))) > del/260.7");
+if max(abs(diff_dPdk-diagHessP(ntpl,:))) > del/189.2
+  error("max(abs(diff_dPdk-diagHessP(ntpl,:))) > del/189.2");
 endif
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -87,11 +93,12 @@ if max(abs(P-PR))/eps > 32
   error("max(abs(P-PR)) > 32*eps");
 endif
 if max(max(abs(gradP(ntpl:ntpu,2:2:end)-gradPR(ntpl:ntpu,:))))/eps > 40
-  error("max(max(abs(gradP(ntpl:ntpu,2:2:end)-gradPR(ntpl:ntpu,:)))) > 40*eps");
+  error("max(max(abs(gradP(ntpl_to_ntpu,2_by_2_to_end)-\
+gradPR(ntpl_to_ntpu,)))) > 40*eps");
 endif
-if max(max(abs(diagHessP(ntpl:ntpu,2:2:end)-diagHessPR(ntpl:ntpu,:))))/eps>244
-  error("max(max(abs(diagHessP(ntpl:ntpu,2:2:end)-diagHessPR(ntpl:ntpu,:))))\
->244*eps");
+if max(max(abs(diagHessP(ntpl:ntpu,2:2:end)-diagHessPR(ntpl:ntpu,:))))/eps>250
+  error("max(max(abs(diagHessP(ntpl_to_ntpu,2_by_2_to_end)-\
+diagHessPR(ntpl_to_ntpu,))))>250*eps");
 endif
 
 % Check the phase response
@@ -112,8 +119,8 @@ for l=1:NkR
   delkR=shift(delkR,1);
   diff_PkR(l)=(PkRPdel2-PkRMdel2)/del;
 endfor
-if max(abs(diff_PkR-gradPR(ntpl,:))) > del/1722
-  error("max(abs(diff_PkR-gradPR(ntpl,:))) > del/1722");
+if max(abs(diff_PkR-gradPR(ntpl,:))) > del/1650
+  error("max(abs(diff_PkR-gradPR(ntpl,:))) > del/1650");
 endif
 
 % Check the diagonal of the Hessian of the phase response wrt kR

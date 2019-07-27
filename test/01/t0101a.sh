@@ -42,7 +42,7 @@ q =
 
  Columns 1 through 6:
 
-   5.9180e-01  -7.4349e+00   4.3362e+01  -1.5544e+02   3.8209e+02  -6.8008e+02
+   5.9180e-01  -7.4348e+00   4.3362e+01  -1.5544e+02   3.8209e+02  -6.8008e+02
 
  Columns 7 through 12:
 
@@ -50,7 +50,7 @@ q =
 
  Columns 13 and 14:
 
-   7.4349e+00  -5.9180e-01
+   7.4348e+00  -5.9180e-01
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

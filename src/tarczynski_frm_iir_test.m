@@ -1,5 +1,5 @@
 % tarczynski_frm_iir_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Design an FRM filter from IIR model and FIR masking filters using
 % the method of Tarczynski et al. The masking filters have odd lengths
@@ -133,13 +133,13 @@ if 1
   d=(max(na,nc)-1)/2 % Nominal masking filter delay
   fpass=0.3 % Pass band edge
   fstop=0.31 % Stop band edge 
-  dBas=40 % Stop band attenuation
+  dBas=50 % Stop band attenuation
   Wap=1 % Pass band weight
-  Wapextra=0 % Extra pass band amplitude weight for extra points
-  Wasextra=0 % Extra stop band amplitude weight for extra points
-  Was=20 % Stop band amplitude weight
+  Wapextra=100 % Extra pass band amplitude weight for extra points
+  Wasextra=200 % Extra stop band amplitude weight for extra points
+  Was=200 % Stop band amplitude weight
   edge_factor=0.1 % Add extra frequencies near band edges
-  edge_ramp=0 % Linear change of extra weights
+  edge_ramp=1 % Linear change of extra weights
 elseif 0
   % Filter specification (based on Lu and Hinamoto example)
   tol=1e-6 % Tolerance on coefficient update vector
@@ -219,8 +219,8 @@ adac0=[a0;d0(2:end);aa0(1:((na+1)/2));ac0(1:((nc+1)/2))];
 
 % Unconstrained minimisation
 WISEJ_FRM_IIR([],mn,mr,na,nc,M,D,wpass,Hpass,Wpass,wstop,Hstop,Wstop);
-[adac1,FVEC,INFO,OUTPUT] = ...
-  fminunc(@WISEJ_FRM_IIR,adac0,optimset("TolFun",tol,"TolX",tol));
+opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+[adac1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_FRM_IIR,adac0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -300,14 +300,14 @@ print("tarczynski_frm_iir_model_response","-dpdflatex");
 close
 
 % Save the results
-print_polynomial(a1,"a1");
-print_polynomial(a1,"a1","tarczynski_frm_iir_test_a1_coef.m");
-print_polynomial(d1,"d1");
-print_polynomial(d1,"d1","tarczynski_frm_iir_test_d1_coef.m");
-print_polynomial(aa1,"aa1");
-print_polynomial(aa1,"aa1","tarczynski_frm_iir_test_aa1_coef.m");
-print_polynomial(ac1,"ac1");
-print_polynomial(ac1,"ac1","tarczynski_frm_iir_test_ac1_coef.m");
+print_polynomial(a1,"x0.a");
+print_polynomial(a1,"x0.a","tarczynski_frm_iir_test_a_coef.m");
+print_polynomial(d1,"x0.d");
+print_polynomial(d1,"x0.d","tarczynski_frm_iir_test_d_coef.m");
+print_polynomial(aa1,"x0.aa");
+print_polynomial(aa1,"x0.aa","tarczynski_frm_iir_test_aa_coef.m");
+print_polynomial(ac1,"x0.ac");
+print_polynomial(ac1,"x0.ac","tarczynski_frm_iir_test_ac_coef.m");
 
 save tarczynski_frm_iir_test.mat ...
      n1 dM1 d1 a1 aM1 aa1 ac1 M D mn mr na nc fpass fstop Was

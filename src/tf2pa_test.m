@@ -1,5 +1,5 @@
 % tf2pa_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Test case for conversion of a transfer function to parallel allpass form
 
@@ -21,8 +21,8 @@ Nw=1024;
 w=((0:(Nw-1))'*pi/Nw)*(fc/0.5);
 hpa=freqz(numpa,denpa,w);
 h=freqz(n,d,w);
-if max(abs(h-hpa)) > 1e5*eps
-  error("max(abs(h-hpa)) = %g*eps > 1e5*eps",max(abs(h-hpa))/eps);
+if max(abs(h-hpa)) > 2e5*eps
+  error("max(abs(h-hpa)) = %g*eps > 2e5*eps",max(abs(h-hpa))/eps);
 endif
 
 fc=0.1;
