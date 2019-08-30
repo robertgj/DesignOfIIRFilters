@@ -121,8 +121,8 @@ for Nk=1:9
   HABCDf=crossWelch(u,yABCDf,nfpts);
   HABCDapf=crossWelch(u,yABCDapf,nfpts);
   subplot(111);
-  plot(nppts/nfpts,20*log10(abs(HABCDf)),"1",...
-       nppts/nfpts,20*log10(abs(HABCDapf)),"2");
+  plot(nppts/nfpts,20*log10(abs(HABCDf)), ...
+       nppts/nfpts,20*log10(abs(HABCDapf)));
   axis([0 0.5 -80 5])
   grid("on");
   xlabel("Frequency")

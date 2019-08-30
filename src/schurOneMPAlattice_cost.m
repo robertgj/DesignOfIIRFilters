@@ -166,9 +166,9 @@ function [cost,A1k,A2k,svecnz_out] = ...
   h=h(:);
   cost=sqrt(sum(Wa.*((abs(h)-abs(Ad)).^2)));
   if ~isempty(Td)
-    t=freqz(n,d,npoints);
+    t=grpdelay(n,d,npoints);
     t=t(:);
-    cost=sqrt(sum(Wt.*((abs(h-Td)).^2)));
+    cost=cost+sqrt(sum(Wt.*((t-Td).^2)));
   endif
 endfunction
 

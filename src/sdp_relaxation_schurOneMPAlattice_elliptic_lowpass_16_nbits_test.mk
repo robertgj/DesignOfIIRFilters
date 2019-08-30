@@ -1,10 +1,13 @@
 sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_FIGURES = \
+sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_dual \
 sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_pass \
 sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_stop
 
 sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_COEFS = \
 sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.mat \
 sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.spec \
+sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A1k0_allocsd.m \
+sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A2k0_allocsd.m \
 sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A1k0_sd_coef.m \
 sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A2k0_sd_coef.m \
 sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A1k0_sd_sdp_coef.m \
@@ -20,6 +23,7 @@ sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m \
 test_common.m \
 schurOneMPAlattice_sdp_mmse.m \
 schurOneMPAlattice_socp_mmse.m \
+schurOneMPAlattice_allocsd_Ito.m \
 schurOneMPAlattice_allocsd_Lim.m \
 schurOneMPAlattice_slb.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
@@ -31,9 +35,9 @@ schurOneMPAlatticeEsq.m \
 schurOneMPAlatticeAsq.m \
 schurOneMPAlatticeP.m \
 schurOneMPAlatticeT.m \
-H2Asq.m H2P.m H2T.m \
-print_polynomial.m local_max.m flt2SD.m SDadders.m x2nextra.m bin2SDul.m \
-schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m schurOneMscale.m \
-schurdecomp.oct schurexpand.oct schurOneMAPlattice2H.oct \
+H2Asq.m H2P.m H2T.m print_polynomial.m local_max.m flt2SD.m SDadders.m \
+x2nextra.m bin2SDul.m tf2pa.m schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m \
+schurOneMscale.m qroots.m qzsolve.oct \
+spectralfactor.oct schurdecomp.oct schurexpand.oct schurOneMAPlattice2H.oct \
 schurOneMlattice2Abcd.oct complex_zhong_inverse.oct bin2SD.oct bin2SPT.oct \
 sedumi_test.diary

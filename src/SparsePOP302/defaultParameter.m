@@ -246,7 +246,7 @@ function param = defaultParameter(param)
 if ~isfield(param,'relaxOrder')
     param.relaxOrder = 1; 
 %   param.relaxOrder will be updated to
-%       max{the minimum relaxation order ?½omega_{?½max}, param.relaxOrder}.
+%       max{the minimum relaxation order omega_{max}, param.relaxOrder}.
 end
 
 if ~isfield(param,'sparseSW')

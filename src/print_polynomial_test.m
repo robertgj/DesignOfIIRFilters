@@ -7,6 +7,12 @@ unlink("print_polynomial_test.diary");
 unlink("print_polynomial_test.diary.tmp");
 diary print_polynomial_test.diary.tmp
 
+print_polynomial([],"h");
+print_polynomial(22,"x","%6d");
+print_polynomial(22,"y","%g");
+print_polynomial(1:10,"y","%d");
+print_polynomial((1:10)/2,"z","%g");
+
 [N1,D1]=butter(8,0.1*2);
 
 print_polynomial(N1,"N1");

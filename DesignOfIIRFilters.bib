@@ -12,12 +12,15 @@
 @String{IEEE_TRANS_CAS2 = {IEEE Transactions on Circuits and Systems-II:Analog and Digital Signal Processing}}
 @String{IEEE_TRANS_CAS_Express = {IEEE Transactions on Circuits and Systems-II:Express Briefs}}
 @String{IEEE_TRANS_COMP = {IEEE Transactions on Computers}}
+@String{IEEE_TRANS_CONTROL = {IEEE Transactions on Automatic Control}}
 @String{IEEE_TRANS_SP = {IEEE Transactions on Signal Processing}}
+@String{IEEE_TRANS_MTT = {IEEE Transactions on Microwave Theory and Techniques}}
 @String{IRE_TRANS_COM = {IRE Transactions on Communications Systems}}
 @String{JASA = {Journal of the Acoustical Society of America}}
 @String{JSV = {Journal of Sound and Vibration}}
 @String{SigProc = {Signal Processing}}
 @String{SIAM_JOPT = {SIAM Journal on Optimization}}
+@String{SIAM_SICON = {SIAM Journal on Control and Optimization}}
 @String{TRANS_IECE = {The Transactions of the IECE of Japan}}
 
 @Misc{ARPACKNG_website,
@@ -123,6 +126,14 @@
   month =        {August},
 }
 
+@Misc{Balakrishnan_SDPDualityLinearTimeInvariantSystems,
+  author =       {V. Balakrishnan and L. Vandenberghe},
+  title =        {{Semidefinite Programming Duality and Linear Time-invariant Systems}},
+  howpublished = {\url{http://docs.lib.purdue.edu/ecetr/162}},
+  year =         {2002},
+  note =         {{ECE Technical Reports. Paper 162.}},
+}
+
 @Book{Bertsekas_NonlinearProgramming,
   author =       {{D. P. Bertsekas}},
   title =        {{Nonlinear Programming}},
@@ -202,7 +213,7 @@
   title =        {{Equiripple Approximation of Low-Pass FIR Filters}},
   journal =      IEEE_TRANS_CAS,
   year =         1986,
-  month =        November,
+  month =        {November},
   volume =       33,
   number =       11, 
   pages =        {1065--1071},
@@ -218,6 +229,17 @@
   number =       1,
   pages =        {25--31},
   issn =         {1841-4311},
+}
+
+@Article{Davidson_LMISpectralConstraints,
+  author =       {{T. N. Davidson, Z.-Q. Luo and J. F. Sturm}},
+  title =        {{Linear Matrix Inequality Formulation of Spectral Mask Constraints With Applications to FIR Filter Design}},
+  journal =      IEEE_TRANS_SP,
+  year =         2002,
+  volume =       50,
+  number =       11,
+  pages =        {2702--2715},
+  month =        {November},
 }
 
 @Article{Deczky_MinPSynthesisIIRDigitalFilters,
@@ -308,7 +330,7 @@
   issue_date =   {June 2007},
   volume =       33,
   number =       2,
-  month =        jun,
+  month =        {June},
   year =         2007,
   issn =         {0098-3500},
   articleno =    13,
@@ -327,6 +349,14 @@
   title =        {{MPFR: A multiple-precision binary floating-point library with
                   correct rounding}},
   howpublished = {\url{http://www.mpfr.org}}
+}
+
+@Misc{Freund_IntroToSDP,
+  author =       {{R. M. Freund}},
+  title =        {{Introduction to Semidefinite Programming (SDP)}},
+  howpublished = {\url{https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-251j-introduction-to-mathematical-programming-fall-2009/readings/MIT6_251JF09_SDP.pdf}},
+  month =        {September},
+  year =         2009
 }
 
 @Misc{GNU_GLPK,
@@ -484,6 +514,26 @@
   pages =        {317--320},
 }
 
+@Article{Iwasaki_GeneralizedKYPFrequencyDomainInequalities,
+  author =       {{T. Iwasaki and S. Hara}},
+  title =        {{Generalised KYP Lemma: Unified Frequency Domain Inequalities With Design Applications}},
+  journal =      IEEE_TRANS_CONTROL,
+  year =         2005,
+  volume =       50,
+  number =       1,
+  pages =        {41--59},
+  month =        {January},
+}
+
+@InProceedings{Iwasaki_KYPlemmaFrequencyInequalities,
+  author =       {{T. Iwasaki and S. Hara}},
+  title =        {{Generalization of Kalman-Yakubovi\u{c}-Popov Lemma for Restricted Frequency Inequalities}},
+  booktitle =    {{Proceedings of the American Control Conference}},
+  year =         2003,
+  month =        {June},
+  pages =        {3828--3833},
+}
+
 @InProceedings{JohanssonSaramaki_ClassComplementaryIIRFilters,
   author =       {{H. Johansson and T. Saram\"{a}ki}},
   title =        {{A Class of Complementary IIR Filters}},
@@ -509,7 +559,20 @@
   title =        {{Good Practice in (Pseudo) Random Number Generation for
                   Bioinformatics Applications}},
   howpublished =
-                  {\url{http://www0.cs.ucl.ac.uk/staff/d.jones/GoodPracticeRNG.pdf}}
+  {\url{http://www0.cs.ucl.ac.uk/staff/d.jones/GoodPracticeRNG.pdf}}
+}
+
+@Article{Kalman_LyapunovFunctions,
+  author =       {{R. E. Kalman}},
+  title =        {{Lyapunov Functions for the Poblem of Lur'e in Automatic
+                  Control}},
+  journal =      {{Proceedings of the National Academy of Sciences of the United
+                  States of America}},
+  year =         1963,
+  month =        {February},
+  volume =       49,
+  number =       2,
+  pages =        {201--205},
 }
 
 @Article{Kauraniemi_DeltaOperatorRealizationsDirectForm,
@@ -546,8 +609,8 @@
   pages =        {1124--1127},
 }
 
-@Book{KreyzigAdvancedEngineeringMathematics,
-  author =       {{Erwin Kreysig}},
+@Book{Kreyszig_AdvancedEngineeringMathematics,
+  author =       {{Erwin Kreyszig}},
   title =        {{Advanced Engineering Mathematics}},
   publisher =    {{John Wiley and Sons}},
   year =         1983,
@@ -647,7 +710,7 @@ journal = {{Philosophical Transactions}}
 @Article{Levy_RationalApproximationZolotarev,
   author =       {{R. Levy}},
   title =        {{Generalized Rational Function Approximation in Finite Intervals Using Zolotarev Functions}},
-  journal =      {{IEEE Transactions on Microwave Theory and Techniques}},
+  journal =      IEEE_TRANS_MTT,
   year =         1970,
   volume =       18,
   number =       12,
@@ -949,6 +1012,14 @@ journal = {{Philosophical Transactions}}
   year =         1972
 }
 
+@Book{MorseFeshbach_MethodsOfTheoreticalPhysics,
+  author =       {{P. Morse and H. Feshbach}},
+  title =        {{Methods Of Theoretical Physics Part I}},
+  publisher =    {{McGraw-Hill Book Company}},
+  year =         1953,
+  note =         {{Library of Congress Catalog Card Number: 52-11515}},
+}
+
 @Article{MullisRoberts_InterpretationOfErrorSpectrumShapingInDigitalFilters,
   author =       {{C. T. Mullis and R. A. Roberts}},
   title =        {{An Interpretation of Error Spectrum Shaping in Digital
@@ -1023,7 +1094,7 @@ howpublished =   {\url{http://dlmf.nist.gov/}},
                   Sensitivity}},
   journal =      TRANS_IECE,
   year =         1982,
-  volume =       E65,
+  volume =       {E65},
   number =       5,
   pages =        {234--240},
   month =        {May},
@@ -1144,6 +1215,27 @@ howpublished =   {\url{http://dlmf.nist.gov/}},
   month =        {October},
 }
 
+@Article{Pipeleers_GeneralisedKYPRealData,
+  author =       {{G. Pipeleers and L. Vandenberghe}},
+  title =        {{Generalized KYP Lemma with Real Data}},
+  journal =      IEEE_TRANS_CONTROL,
+  year =         2011,
+  volume =       56,
+  number =       12,
+  pages =        {2942--2946},
+  month =        {December},
+}
+
+@Article{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals,
+  author =       {{G. Pipeleers, T. Iwasaki and S. Hara}},
+  title =        {{GENERALIZING THE KYP LEMMA TO MULTIPLE FREQUENCY INTERVALS}},
+  journal =      SIAM_SICON,
+  year =         2014,
+  volume =       52,
+  number =       6,
+  pages =        {3618--3638},
+}
+
 @Article{Powell_FastNonlinearConstrainedOptimization,
   author =       {{M. J. D. Powell}},
   title =        {{A Fast Algorithm for Nonlinearly Constrained Optimization
@@ -1182,6 +1274,17 @@ howpublished =   {\url{http://dlmf.nist.gov/}},
   number =       3,
   pages =        {206--207},
   month =        {{3rd February}},
+}
+
+@Article{Rantzer_KYP_PositiveSystems,
+  author =       {{A. Rantzer}},
+  title =        {{On the Kalman-Yakubovich-Popov Lemma for Positive Systems}},
+  journal =      IEEE_TRANS_CONTROL,
+  year =         2016,
+  volume =       61,
+  number =       5,
+  pages =        {1346--1349},
+  month =        {May},
 }
 
 @Article{RegaliaMitraVaidyanathan_DigitalAllPassFilterVersatileSignalProcessing,
@@ -1255,6 +1358,16 @@ howpublished =   {\url{http://dlmf.nist.gov/}},
   number =       1,
   pages =        {40--51},
   month =        {January},
+}
+
+@Article{Riblet_EquiRippleFunctionsTransmissionLine,
+  author =       {{H. Riblet}},
+  title =        {{The Application of a New Class of Equal-Ripple Functions to Some Familiar Transmission-Line Problems}},
+  journal =      IEEE_TRANS_MTT,
+  year =         1964,
+  volume =       12,
+  pages =        {415--421},
+  month =        {July},
 }
 
 @Article{Richards_DeczkyRecursiveDecimator,
@@ -1378,7 +1491,18 @@ howpublished =   {\url{http://dlmf.nist.gov/}},
   author =       {I. W. Selesnick},
   title =        {{A collection of scripts for constrained-least-squares FIR
                   filter design}},
-  howpublished = {\url{http://dsp.rice.edu/files/software/ConstrainedLeastSquaresAllprogs.tar.zip}}
+  howpublished = {\url{http://dsp.rice.edu/files/software/ConstrainedLeastSquaresAllprogs.tar.zip}},
+}
+
+@Article{Singh_NewProofDiscreteTimeBoundedRealLemma,
+  author =       {{V. Singh}},
+  title =        {{A New Proof of the Discrete-Time Bounded-Real Lemma and Lossless Bounded-Real Lemma}},
+  journal =      IEEE_TRANS_CAS,
+  year =         1987,
+  volume =       34,
+  number =       8,
+  pages =        {960--962},
+  month =        {August},
 }
 
 @Misc{Slicot_ControlSystemsLibrary,
@@ -1546,6 +1670,17 @@ howpublished =   {\url{http://dlmf.nist.gov/}},
   pages =        {411-414},
 }
 
+@Article{TuqanVaidyanathan_StateSpaceFIREnergyCompaction,
+  author =       {{J. Tuqan and P. P. Vaidyanathan}},
+  title =        {{A State Space Approach to the Design of Globally Optimal FIR Energy Compaction Filters}},
+  journal =      IEEE_TRANS_SP,
+  year =         2000,
+  volume =       48,
+  number =       10,
+  pages =        {2822--2838},
+  month =        {October},
+}
+
 @Article{VaidyanathanMitraNuevo_LowSensitivityIIRDigitalFilters,
   author =       {{P. P. Vaidyanathan, S. K. Mitra and Y. Nuevo}},
   title =        {{A New Approach to the Realization of Low-Sensitivity IIR
@@ -1582,6 +1717,17 @@ howpublished =   {\url{http://dlmf.nist.gov/}},
   month =        {April},
 }
 
+@Article{Vaidyanathan_DiscreteBoundedRealLemmaDigitalFiltering,
+  author =       {{P. P. Vaidyanathan}},
+  title =        {{The Discrete-Time Bounded-Real Lemma in Digital Filtering}},
+  journal =      IEEE_TRANS_CAS,
+  year =         1985,
+  volume =       32,
+  number =       9,
+  pages =        {918--924},
+  month =        {September},
+}
+
 @Article{Vaidyanathan_PassiveCascadedLatticeFIR,
   author =       {{P. P. Vaidyanathan}},
   title =        {{Passive Cascaded-Lattice Structures for Low-Sensitivity FIR
@@ -1592,6 +1738,21 @@ howpublished =   {\url{http://dlmf.nist.gov/}},
   number =       11,
   pages =        {1045--1064},
   month =        {November},
+}
+
+@Misc{VandenbergheBalakrishnan_InteriorPointKYPlemma,
+  author =       {L. Vandenberghe, V. Balakrishnan, R. Wallin, A. Hansson and T. Roh},
+  title =        {{Interior-point algorithms for semidefinite programming problems derived from the KYP lemma}},
+  howpublished = {\url{https://engineering.purdue.edu/~ragu/book-chapters/VBWAR04.pdf}},
+}
+
+@InProceedings{VandenbergheBalakrishnan_ImplementationInteriorPointKYPlemma,
+  author =       {L. Vandenberghe, V. Balakrishnan, R. Wallin and A. Hansson},
+  title =        {{On the implementation of primal-dual interior-point methods for semidefinite programming problems derived from the KYP lemma}},
+  booktitle =    {{Proceedings of the 42nd IEEE Conference on Decision and Control}},
+  year =         2003,
+  month =        {December},
+  pages =        {4658--4663},
 }
 
 @Article{Vaidyanathan_TRICK_HalfBand_FIR,
@@ -1638,6 +1799,25 @@ howpublished =   {\url{http://dlmf.nist.gov/}},
   month =        {July},
 }
 
+@InProceedings{VlcekZahradnik_AlmostEquirippleApproxLowPassFIR,
+  author =       {{M.Vl\v{c}ek and P. Zahradn\'{i}k}},
+  title =        {{Approximation of Almost Equiripple Low-pass FIR Filters}},
+  booktitle =    {{2013 European Conference on Circuit Theory and Design}},
+  year =         2013,
+  month =        {September},
+  note =         {{DOI: 10.1109/ECCTD.2013.6662301}},
+}
+
+@Article{VlcekZahradnik_AlmostEquirippleLowPassFIR,
+  author =       {{M.Vl\v{c}ek and P. Zahradn\'{i}k}},
+  title =        {{Almost Equiripple Low-pass FIR Filters}},
+  journal =      {{Circuits Syst Signal Processing}},
+  year =         2013,
+  volume =       32,
+  pages =        {743--757},
+  note =         {{DOI 10.1007/s00034-012-9484-0}},
+}
+
 @Article{Volder_CordicTrigonometricComputingTechnique,
   author =       {{J. E. Volder}},
   title =        {{The CORDIC trigonometric computing technique}},
@@ -1668,6 +1848,12 @@ howpublished =   {\url{http://dlmf.nist.gov/}},
   number =       1,
   pages =        {218--242},
   year =         2006,
+}
+
+@Misc{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers,
+  author =       {R. Wallin, A. Hansson and L. Vandenberghe},
+  title =        {{Efficiently solving semidefinite programs originating from the KYP lemma using standard pimal-dual solvers}},
+  howpublished = {\url{http://www.control.isy.liu.se/research/reports/2003/2503.pdf}},
 }
 
 @InProceedings{Walther_UnifiedAlgorithmForElementaryFunctions,
@@ -1750,6 +1936,17 @@ howpublished =   {\url{http://dlmf.nist.gov/}},
   pages =        {271--276},
 }
 
+@Article{XiaoHill_NewProofBoundedRealLemma,
+  author =       {{Chengshan Xiao and David J. Hill}},
+  title =        {{Generalizations and New Proof of the Discrete-Time Positive Real Lemma and Bounded Real Lemma}},
+  journal =      IEEE_TRANS_CAS1,
+  year =         1999,
+  volume =       46,
+  number =       6,
+  pages =        {740--743},
+  month =        {June},
+}
+
 @Misc{YinyuYe_solnp,
   author =       {{Yinyu Ye}},
   title =        {{solnp - a Nonlinear Optimization Program in MATLAB}},
@@ -1758,33 +1955,33 @@ howpublished =   {\url{http://dlmf.nist.gov/}},
 }
 
 @Article{Zahradnik_EquirippleApproxLowPassFIR,
-  author =       {{P. Zahradnik}},
+  author =       {{P. Zahradn\'{i}k}},
   title =        {{Equiripple Approximation of Low-Pass FIR Filters}},
   journal =      IEEE_TRANS_CAS_Express,
   year =         2018,
-  month =        April,
+  month =        {April},
   volume =       65,
   number =       4, 
   pages =        {526--530},
 } 
 
 @Article{Zahradnik_AlmostEquirippleApproxHalfBandFIR,
-  author =       {{P. Zahradnik, M.Vl\v{c}ek and R. Unbehauen}},
+  author =       {{P. Zahradn\'{i}k, M.Vl\v{c}ek and R. Unbehauen}},
   title =        {{Almost Equiripple FIR Half-Band Filters}},
   journal =      IEEE_TRANS_CAS1,
   year =         1999,
-  month =        June,
+  month =        {June},
   volume =       46,
   number =       6, 
   pages =        {744--748},
 }
 
 @Article{Zahradnik_EquirippleApproxHalfBandFIR,
-  author =       {{P. Zahradnik and M. Vl\v{c}ek}},
+  author =       {{P. Zahradn\'{i}k and M. Vl\v{c}ek}},
   title =        {{Equiripple Approximation of Half-Band FIR Filters}},
   journal =      IEEE_TRANS_CAS_Express,
   year =         2009,
-  month =        December,
+  month =        {December},
   volume =       56,
   number =       12, 
   pages =        {941--945},

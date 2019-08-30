@@ -7,16 +7,25 @@ clear all
 more off
 pkg load signal optim;
 graphics_toolkit("gnuplot");
-% Change the linewidth for each file format.
-% See :https://savannah.gnu.org/bugs/?43552
-set(0,"defaultlinelinewidth",8);
+if getenv("OCTAVE_ENABLE_PLOT_TO_SCREEN")
+  % Enabling plotting to the screen causes difficulties when building the
+  % entire project: the plots capture the screen focus.
+  set(0,'DefaultFigureVisible','on');
+  % Choose the appropriate linewidth for the svg file format.
+  % See :https://savannah.gnu.org/bugs/?43552
+  set(0,"defaultlinelinewidth",2);
+else
+  % Disable plotting to the screen.
+  set(0,'DefaultFigureVisible','off');
+  % Choose the appropriate linewidth for the pdf file format.
+  set(0,"defaultlinelinewidth",8);
+endif
 % Comment the following line for octave-4.0.3
 set(0,"defaultaxestitlefontweight","normal");
-% The following set command disables plotting to the screen.
-set(0,'DefaultFigureVisible','off');
-warning("Plotting to the screen is disabled!");
-% Uncomment this for monochrome printing
-% set(0,"defaultaxescolororder",zeros(size(get(0,"defaultaxescolororder"))));
+% For monochrome printing
+if getenv("OCTAVE_ENABLE_MONOCHROME")
+  set(0,"defaultaxescolororder",zeros(size(get(0,"defaultaxescolororder"))));
+endif
 clf
 close
 
@@ -38,9 +47,12 @@ warning("error","Octave:precedence-change");
 warning("error","Octave:singular-matrix");
 warning("error","Octave:undefined-return-values");
 
+% Disable some noisy warnings
+warning ("off","signal:grpdelay-singularity");
 % See octave-5.1.0/scripts/plot/util/private/__gnuplot_draw_axes__.m:2257
 warning ("off","Octave:latex-markup-not-supported-for-tick-marks");
 
+% Add third party optimisers to the path
 name_strs={"SeDuMi_1_3","SparsePOP302"};
 mpath=mfilename("fullpath");
 mpath=mpath(1:strchr(mpath,filesep,1,'last'));

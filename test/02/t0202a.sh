@@ -47,7 +47,6 @@ if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 # run and see if the results match. Suppress m-file warnings
 #
 echo "Running octave-cli -q " $prog
-echo "warning('off');" >> .octaverc
 
 octave-cli -q $prog > /dev/null 2>test.out
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi

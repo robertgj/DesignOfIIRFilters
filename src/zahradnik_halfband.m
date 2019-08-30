@@ -1,12 +1,14 @@
-function hn=zahradnik_halfband(n,kp)
-% hn=zahradnik_halfband(n,kp)
+function [hn,a,alpha]=zahradnik_halfband(n,kp)
+% [hn,a,alpha]=zahradnik_halfband(n,kp)
 % Implement Table 1 of [1] (with a correction for alpha(2n-4))
 % Inputs:
 %  2n+1 - Order the zero-phase half-band filter (not including the 0.5)
 %         The final half-band FIR filter has length 4n+3
 %  kp - A constant determined by the pass-band edge frequency
 % Output:
-%  hn - Impulse response of the integrated Chebychev Type 2 generating function
+%  hn - Impulse response of the integrated generating function
+%  a - coefficients for Chebychev polynomials of the first kind
+%  alpha - coefficients for Chebychev polynomials of the second kind
 %
 % [1] "Equiripple Approximation of Half-Band FIR Filters",
 % P. Zahradnik and M. Vlcek, IEEE Transactions on Circuits and Systems - II:
@@ -33,8 +35,8 @@ function hn=zahradnik_halfband(n,kp)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 % Sanity checks
-if nargin~=2|| nargout>1
-  print_usage("hn=zahradnik_halfband(n,kp)");
+if nargin~=2 || nargout>3
+  print_usage("[hn,a,alpha]=zahradnik_halfband(n,kp)");
 endif
 if kp<=0 || kp>=1
   error("Expect 0<kp<1!")

@@ -6,9 +6,8 @@ depends="schurOneMAPlattice_frmEsq_test.m test_common.m \
 schurOneMAPlattice_frmEsq.m schurOneMAPlattice_frmAsq.m \
 schurOneMAPlattice_frmT.m schurOneMAPlattice_frmP.m \
 schurOneMAPlattice_frm.m schurOneMAPlatticeP.m schurOneMAPlatticeT.m \
-schurOneMAPlattice2Abcd.m schurOneMAPlattice2H.m \
-tf2schurOneMlattice.m H2Asq.m H2P.m H2T.m \
-schurOneMlattice2H.oct schurOneMlattice2Abcd.oct \
+schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m H2Asq.m H2P.m H2T.m \
+schurOneMlattice2H.oct schurOneMAPlattice2H.oct schurOneMlattice2Abcd.oct \
 spectralfactor.oct schurdecomp.oct schurexpand.oct schurOneMscale.m \
 complex_zhong_inverse.oct qroots.m qzsolve.oct"
 
@@ -54,7 +53,6 @@ if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 # run and see if the results match
 #
 echo "Running octave-cli -q " $prog
-echo "warning('off');" >> .octaverc
 
 octave-cli -q $prog >/dev/null 2>test.out 
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi

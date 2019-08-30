@@ -15,7 +15,8 @@ schurOneMPAlattice_slb_exchange_constraints.m \
 schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice2tf.m schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m \
 local_max.m print_polynomial.m flt2SD.m bin2SDul.m x2nextra.m \
-SDadders.m Abcd2tf.m H2Asq.m H2T.m H2P.m tf2schurOneMlattice.m schurOneMscale.m \
+SDadders.m Abcd2tf.m H2Asq.m H2T.m H2P.m tf2pa.m tf2schurOneMlattice.m \
+schurOneMscale.m spectralfactor.m \
 bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
 complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
 qroots.m qzsolve.oct SeDuMi_1_3/"
@@ -55,21 +56,21 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_16_nbits_cost.ok << 'EOF'
-Exact & 0.012234 & & \\
-16-bit 3-signed-digit(Ito)& 0.698551 & 33 & 22 \\
-16-bit 3-signed-digit(SOCP b-and-b) & 0.009492 & 33 & 22 \\
+Initial & 7.49e-06 & & \\
+16-bit 4-signed-digit(Ito)& 1.67e-04 & 44 & 33 \\
+16-bit 4-signed-digit(SOCP b-and-b) & 8.25e-06 & 44 & 33 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_16_nbits_cost.ok"; fail; fi
 
 cat > test_16_nbits_A1k_min.ok << 'EOF'
-A1k_min = [   -22528,    30720,   -26624,    24064, ... 
-              -12160 ]'/32768;
+A1k_min = [   -19584,    32384,   -25760,    28304, ... 
+              -23551,    11840 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_16_nbits_A1k_min.ok"; fail; fi
 
 cat > test_16_nbits_A2k_min.ok << 'EOF'
-A2k_min = [   -19888,    32288,   -25600,    28416, ... 
-              -23552,    12288 ]'/32768;
+A2k_min = [   -22528,    30736,   -26768,    23904, ... 
+              -11776 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_16_nbits_A2k_min.ok"; fail; fi
 

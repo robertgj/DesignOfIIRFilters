@@ -1,4 +1,4 @@
-% schurOneMPAlatticeEsq_test_common.m
+% schurOneMPAlattice_test_common.m
 % Copyright (C) 2017,2018 Robert G. Jenssen
 
 if m==1

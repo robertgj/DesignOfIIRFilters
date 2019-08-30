@@ -75,7 +75,6 @@ if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 #
 # run and see if the results match
 #
-echo "warning('off');" >> .octaverc
 echo "Running octave-cli -q " $prog
 
 octave-cli -q $prog > test.out 2>&1 

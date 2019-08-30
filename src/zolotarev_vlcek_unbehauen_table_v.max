@@ -1,0 +1,81 @@
+/* zolotarev_vlcek_unbehauen_table_v.max
+ *
+ * Working for Table V of [1].
+ * [1] "Zolotarev Polynomials and Optimal FIR Filters", M. Vlcek and
+ *      R. Unbehauen, IEEE Transactions on Signal Processing, Vol. 47,
+ *      No. 3, March, 1999, pp. 717-730
+ *
+ * Copyright (C) 2019 Robert G. Jenssen
+ */
+
+/* The second-order linear differential equation of Zolotarev functions */
+funmake(f,[w]);
+funmake(fp,[w]);
+funmake(fpp,[w]);
+funmake(g0,[w]);
+funmake(g1,[w]);
+funmake(g2,[w]);
+fde:(g2*(((1-w^2)*fpp)-(w*fp))) -(g1*(1-w^2)*fp) +(g0*f);
+
+/* After substituting the expansion in Chebychev polynomials of the first kind */
+g0:(n^2)*((w-wm)^3);
+g1:((w-wp)*(w-ws))-((w-wm)*(w-wq));
+g2:(w-wm)*(w-wp)*(w-ws);
+/* Equation 75 */
+Ssum:-(g2*(m^2)*Tm) -(g1*m*(Tmm1-(w*Tm))) +(g0*Tm);
+
+/* Find the coefficients of 1, w, w^2 and w^3 */
+Seq:collectterms(expand(Ssum));
+Sw0:coeff(Seq,w,0);
+Sw1:coeff(Seq,w,1);
+Sw2:coeff(Seq,w,2);
+Sw3:coeff(Seq,w,3);
+
+/* Find the terms in Tm and Tmm1 for 1, w, w^2 and w^3 */
+TmSw0:coeff(Sw0,Tm,1);
+Tmm1Sw0:coeff(Sw0,Tmm1,1);
+
+TmSw1:coeff(Sw1,Tm,1);
+Tmm1Sw1:coeff(Sw1,Tmm1,1);
+
+TmSw2:coeff(Sw2,Tm,1);
+Tmm1Sw2:coeff(Sw2,Tmm1,1);
+
+TmSw3:coeff(Sw3,Tm,1);
+Tmm1Sw3:coeff(Sw3,Tmm1,1);
+
+/* Substitute the recurrence relations for w*Tm, (w^2)*Tm and (w^3)*Tm */
+SeqT:expand(((Tm*TmSw0)+(Tmm1*Tmm1Sw0))+
+  ((Tmp1+Tmm1)*TmSw1/2)+
+  ((Tm+Tmm2)*Tmm1Sw1/2)+
+  ((Tmp2+(2*Tm)+Tmm2)*TmSw2/4)+
+  ((Tm+(2*Tmm1)+Tmm2)*Tmm1Sw2/4)+
+  ((Tmp3+(3*Tmp1)+(3*Tmm1)+Tmm3)*TmSw3/8)+
+  ((Tmp2+(3*Tm)+(3*Tmm2)+Tmm4)*Tmm1Sw3/8));
+
+/* Find the coefficients for each order of T */
+Tmp3SeqT:factorout(factor(coeff(SeqT,Tmp3,1)),m)*8;
+Tmp2SeqT:factorout(factor(coeff(SeqT,Tmp2,1)),m)*8;
+Tmp1SeqT:factorout(factor(coeff(SeqT,Tmp1,1)),m)*8;
+TmSeqT:  factorout(factor(coeff(SeqT,Tm,1)  ),m)*8;
+Tmm1SeqT:factorout(factor(coeff(SeqT,Tmm1,1)),m)*8;
+Tmm2SeqT:factorout(factor(coeff(SeqT,Tmm2,1)),m)*8;
+Tmm3SeqT:factorout(factor(coeff(SeqT,Tmm3,1)),m)*8;
+Tmm4SeqT:factorout(factor(coeff(SeqT,Tmm4,1)),m)*8;
+
+/* Re-number the summations for each order of T */
+Tmp3SeqTm:Tmp3SeqT, m=m-3;
+Tmp2SeqTm:Tmp2SeqT, m=m-2;
+Tmp1SeqTm:Tmp1SeqT, m=m-1;
+TmSeqTm:  TmSeqT;
+Tmm1SeqTm:Tmm1SeqT, m=m+1;
+Tmm2SeqTm:Tmm2SeqT, m=m+2;
+Tmm3SeqTm:Tmm3SeqT, m=m+3;
+Tmm4SeqTm:Tmm4SeqT, m=m+4;
+
+/* Save */
+stardisp:true;
+stringout("zolotarev_vlcek_unbehauen_table_v.out",
+  Tmp3SeqTm,Tmp2SeqTm,Tmp1SeqTm,TmSeqTm,
+  Tmm1SeqTm,Tmm2SeqTm,Tmm3SeqTm,Tmm4SeqTm);
+

@@ -2,15 +2,18 @@ zahradnik_halfband_test_FIGURES = \
 zahradnik_halfband_test_fig1 \
 zahradnik_halfband_test_fig2_response \
 zahradnik_halfband_test_fig2 \
-zahradnik_halfband_test_fp_0_225_as_120 \
-zahradnik_halfband_test_fp_0_225_as_140 \
+zahradnik_halfband_test_G_fp_0_225_as_60 \
 zahradnik_halfband_test_fp_0_225_as_60 \
-zahradnik_halfband_test_hn_fp_0_225_as_60 \
-zahradnik_halfband_test_table_ii 
+zahradnik_halfband_test_fp_0_225_as_120 \
+zahradnik_halfband_test_table_ii \
+zahradnik_halfband_test_fp_0_240_as_140
 
 zahradnik_halfband_test_COEFS = \
+zahradnik_halfband_test_fp_0_225_as_60_coef.m \
 zahradnik_halfband_test_fp_0_225_as_120_coef.m \
-zahradnik_halfband_test_fp_0_225_as_140_coef.m 
+zahradnik_halfband_test_fp_0_240_as_140_coef.m 
 
 zahradnik_halfband_test_FILES = \
-zahradnik_halfband_test.m test_common.m print_polynomial.m zahradnik_halfband.m
+zahradnik_halfband_test.m test_common.m print_polynomial.m \
+zahradnik_halfband.m local_max.m chebychevU.m chebychevP.m \
+chebychevP_backward_recurrence.m chebychevU_backward_recurrence.m

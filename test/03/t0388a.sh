@@ -108,7 +108,6 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_N5_a2_coef.ok"; fail; fi
 #
 # run and see if the results match. Suppress m-file warnings
 #
-echo "warning('off');" >> .octaverc
 echo "Running octave-cli -q " $prog
 
 octave-cli -q $prog > test.out 2>&1

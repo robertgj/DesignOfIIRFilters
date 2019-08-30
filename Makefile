@@ -21,6 +21,7 @@ OCTAVE_SCRIPTS = \
  bitflip_schurNSPAlattice_lowpass_test \
  bitflip_schurNSlattice_bandpass_test \
  bitflip_schurNSlattice_lowpass_test \
+ bitflip_schurOneMPAlattice_bandpass_test \
  bitflip_schurOneMPAlattice_lowpass_test \
  bitflip_schurOneMlattice_bandpass_test \
  bitflip_schurOneMlattice_lowpass_test \
@@ -163,7 +164,8 @@ OCTAVE_SCRIPTS = \
  tfp2schurNSlattice2Abcd_test \
  vaidyanathan_trick_test \
  zahradnik_halfband_test \
- zolotarev_vlcek_unbehauen_test
+ zolotarev_vlcek_unbehauen_test \
+ zolotarev_vlcek_zahradnik_test
 
 # These are all the .oct files. Some are not needed to build the pdf
 # (eg: labudde.oct and complex_lower_hessenberg_inverse.oct) but are
@@ -219,24 +221,30 @@ DIA_FILES= johansson_frm_structure lim_frm_structure \
 #
 CLEAN_SUFFIXES= \~ .eps .diary .tmp .oct .mex .o .ok _coef.m _digits.m \
 .spec -core .tab .out .results
-CLEAN_TEX_SUFFIXES= .aux .bbl .blg .brf .dvi .out .toc .lof .lot \
+CLEAN_TEX_SUFFIXES= .aux .bbl .blg .brf .dvi .out .toc .lof .lot .loa \
 .log .synctex.gz 
 CLEAN_AEGIS_SUFFIXES= \,D \,B
 
 #
 # Command definitions
 #
-OCTAVE_DIR=/usr/local/octave
+OCTAVE_DIR?=/usr/local/octave
 OCTAVE_FLAGS=-q -p src
 OCTAVE=$(OCTAVE_DIR)/bin/octave-cli
 MKOCTFILE=$(OCTAVE_DIR)/bin/mkoctfile
-#PDF_MONO_FLAGS='\def\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
-PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1 $(PDF_MONO_FLAGS)
+PDF_MONO_FLAGS='\newcommand\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
+PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1
 BIBTEX=bibtex
 QPDF=qpdf
 #XCXXFLAGS=-g -fsanitize=undefined -fsanitize=address -fno-sanitize=vptr \
 #             -fno-omit-frame-pointer
 JEKYLL_OPTS=--config docs/_config.yml --source docs --destination docs/_site
+
+#
+# A list of all the dependencies of $(TARGET).pdf
+#
+TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
+                    $(EXTRA_DIARY_FILES) $(TARGET).bib $(TARGET).tex
 
 #
 # Rules
@@ -297,16 +305,20 @@ $(foreach dia_file, $(DIA_FILES), $(eval $(call dia_template,$(dia_file))))
 #
 # Target file dependencies
 #
-$(TARGET).pdf: $(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
-               $(EXTRA_DIARY_FILES) $(TARGET).bib $(TARGET).tex
+$(TARGET).pdf: $(TARGET_DEPENDENCIES)
 	$(PDFLATEX) $(TARGET) && \
 	$(BIBTEX)   $(TARGET) && \
 	$(PDFLATEX) $(TARGET) && \
 	$(PDFLATEX) $(TARGET) && \
 	$(PDFLATEX) $(TARGET)
-	-for warnstr in "No\ file" ull arning; do \
-		grep "$$warnstr" DesignOfIIRFilters.log ; \
-	done
+	-@for warnstr in "No\ file" ull arning; do \
+		grep "$$warnstr" DesignOfIIRFilters.log | sort | uniq ; \
+	done ; \
+	grep "arning" DesignOfIIRFilters.blg | sort | uniq ; \
+	if test -e `which pdfgrep` ; then \
+		pdfgrep "\[\?" DesignOfIIRFilters.pdf ; \
+	fi; \
+	echo "Build complete" ;
 
 #
 # PHONY targets
@@ -370,7 +382,7 @@ gitignore:
 	echo $(DIA_FILES:%=%.pdf) >> .gitignore
 	echo aegis.conf /$(TARGET).pdf >> .gitignore
 	echo _site .sass-cache .jekyll-metadata >> .gitignore
-	sed -ie "s/\ /\n/g" .gitignore 
+	sed -i -e "s/\ /\n/g" .gitignore 
 
 .PHONY: jekyll
 jekyll: $(TARGET).pdf cleanjekyll
@@ -380,6 +392,14 @@ jekyll: $(TARGET).pdf cleanjekyll
 		cp -f $(TARGET).pdf docs/public/$(TARGET).pdf ; \
 	fi
 	jekyll serve $(JEKYLL_OPTS)
+
+.PHONY: monochrome
+monochrome: $(TARGET_DEPENDENCIES)
+	$(PDFLATEX) $(PDF_MONO_FLAGS) && \
+	$(BIBTEX) $(TARGET) && \
+	$(PDFLATEX) $(PDF_MONO_FLAGS) && \
+	$(PDFLATEX) $(PDF_MONO_FLAGS) && \
+	$(PDFLATEX) $(PDF_MONO_FLAGS)
 
 .PHONY: all
 all: octfiles $(TARGET).pdf 

@@ -115,7 +115,7 @@ DEFUN_DLD(bin2SPT,args,nargout,"spt=bin2SPT(x,nbits)")
   // Check size of nbits
   if ((nbits<=0) ||(nbits>max_nbits))
     {
-      error("Expected 0<nbits(%d)<=%d",nbits,max_nbits);
+      error("Expected 0<nbits(%ld)<=%ld",nbits,max_nbits);
       return octave_value_list();
     }
 
@@ -138,7 +138,7 @@ DEFUN_DLD(bin2SPT,args,nargout,"spt=bin2SPT(x,nbits)")
   double log2xx=log2(abs(xx));
   if (log2xx>(nbits-1))
     {   
-      error("round(x)=%ld is out of range for a %d bits signed-digit number",
+      error("round(x)=%ld is out of range for a %ld bits signed-digit number",
             xx,nbits);
       return octave_value_list();
     }

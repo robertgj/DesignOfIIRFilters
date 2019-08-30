@@ -1,0 +1,44 @@
+bitflip_schurOneMPAlattice_bandpass_test_FIGURES= \
+bitflip_schurOneMPAlattice_bandpass_test_passband_response \
+bitflip_schurOneMPAlattice_bandpass_test_response \
+bitflip_schurOneMPAlattice_bandpass_test_passband_response_allocsd \
+bitflip_schurOneMPAlattice_bandpass_test_response_allocsd 
+
+bitflip_schurOneMPAlattice_bandpass_test_COEFS = \
+bitflip_schurOneMPAlattice_bandpass_test_A1k_bf_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A1k_bfsd_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A1k_bfsdi_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A1k_bfsdl_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A1k_ex_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A1k_rd_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A1k_sd_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A1k_sdi_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A1k_sdl_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A2k_bf_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A2k_bfsd_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A2k_bfsdi_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A2k_bfsdl_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A2k_ex_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A2k_rd_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A2k_sd_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A2k_sdi_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_A2k_sdl_coef.m \
+bitflip_schurOneMPAlattice_bandpass_test_adders_bfsd.tab \
+bitflip_schurOneMPAlattice_bandpass_test_adders_bf.tab \
+bitflip_schurOneMPAlattice_bandpass_test_adders_Ito.tab \
+bitflip_schurOneMPAlattice_bandpass_test_adders_Lim.tab \
+bitflip_schurOneMPAlattice_bandpass_test_adders_rd.tab \
+bitflip_schurOneMPAlattice_bandpass_test_cost.tab \
+bitflip_schurOneMPAlattice_bandpass_test.mat 
+
+bitflip_schurOneMPAlattice_bandpass_test_FILES = \
+bitflip_schurOneMPAlattice_bandpass_test.m test_common.m print_polynomial.m \
+bitflip_bandpass_test_common.m schurOneMPAlattice2tf.m tf2pa.m \
+schurOneMPAlattice_cost.m tf2schurOneMlattice.m Abcd2tf.m \
+schurOneMscale.m flt2SD.m x2nextra.m qroots.m SDadders.m \
+schurOneMPAlattice_allocsd_Lim.m schurOneMPAlattice_allocsd_Ito.m \
+schurOneMAPlattice2Abcd.m H2Asq.m H2T.m bin2SDul.m \
+schurOneMPAlatticeEsq.m schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m \
+schurdecomp.oct schurexpand.oct bitflip.oct bin2SD.oct spectralfactor.oct \
+schurOneMlattice2Abcd.oct qzsolve.oct complex_zhong_inverse.oct bin2SPT.oct \
+schurOneMAPlattice2H.oct

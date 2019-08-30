@@ -62,7 +62,6 @@ if [ $? -ne 0 ]; then echo "Failed output cat of test.coef"; fail; fi
 # run and see if the results match
 #
 echo "Running octave-cli -q " $prog
-echo "warning('off');" >> .octaverc
 
 LD_LIBRARY_PATH=/usr/local/octave/lib octave-cli -q $prog > test.out
 

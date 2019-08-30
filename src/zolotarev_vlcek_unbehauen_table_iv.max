@@ -1,0 +1,45 @@
+/* zolotarev_vlcek_unbehauen_table_iv.max
+ *
+ * Working for Table IV of [1].
+ * [1] "Zolotarev Polynomials and Optimal FIR Filters", M. Vlcek and
+ *      R. Unbehauen, IEEE Transactions on Signal Processing, Vol. 47,
+ *      No. 3, March, 1999, pp. 717-730
+ *
+ * Copyright (C) 2019 Robert G. Jenssen
+ */
+
+/* The second-order linear differential equation of Zolotarev functions */
+funmake(f,[w]);
+funmake(g0,[w]);
+funmake(g1,[w]);
+funmake(g2,[w]);
+f: w^m;
+fp: diff(f,w,1);
+fpp: diff(f,w,2);
+g0:(n^2)*((w-wm)^3);
+g1:((w-wp)*(w-ws))-((w-wm)*(w-wq));
+g2:(w-wm)*(w-wp)*(w-ws);
+fde:(g2*(((1-w^2)*fpp)-(w*fp))) -(g1*(1-w^2)*fp) +(g0*f);
+
+/* Find the coefficients of w^(m-2), ... ,w^(m+3) */
+Seq:collectterms(expand(fde),w);
+Swmm2:collectterms(coeff(Seq,w,m-2),m);
+Swmm1:collectterms(coeff(Seq,w,m-1),m);
+Swm:  collectterms(coeff(Seq,w,m),  m);
+Swmp1:collectterms(coeff(Seq,w,m+1),m);
+Swmp2:collectterms(coeff(Seq,w,m+2),m);
+Swmp3:collectterms(coeff(Seq,w,m+3),m);
+coeff(Swmp1,(ws+wp)/2);
+
+/* Re-number the summations for each order of w */
+mSwmm2:Swmm2, m=m+2;
+mSwmm1:Swmm1, m=m+1;
+mSwm:  Swm;
+mSwmp1:Swmp1, m=m-1;
+mSwmp2:Swmp2, m=m-2;
+mSwmp3:Swmp3, m=m-3;
+
+/* Save */
+stardisp:true;
+stringout("zolotarev_vlcek_unbehauen_table_iv.out",
+  mSwmm2,mSwmm1,mSwm,mSwmp1,mSwmp2,mSwmp3);

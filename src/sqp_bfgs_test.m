@@ -44,11 +44,11 @@ for initType={"GI","eye","none"}
         % Find a feasible initial point and Hessian
         fiter=0;
         x=xi;
-        if strcmpi(initType{},"GI")
+        if strcmpi(initType{1},"GI")
           [x,W,invW,iter,feasible] = ...
             goldfarb_idnani(x,@sqp_fx,@sqp_gx,tol,maxiter,verbose);
           [W,invW]=updateWchol(W,1);
-        elseif strcmpi(initType{},"eye")
+        elseif strcmpi(initType{1},"eye")
           W=invW=eye(N,N);
         else
           W=invW=[];
@@ -57,8 +57,8 @@ for initType={"GI","eye","none"}
         % SQP loop
         tic();
         [x,fx,lm,iter,liter,feasible] = ...
-            sqp_bfgs(x,@sqp_fx,@sqp_gx,linesearchType{},lbx,ubx,inf, ...
-                     {W,invW},hessianType{},tol,maxiter,verbose);
+            sqp_bfgs(x,@sqp_fx,@sqp_gx,linesearchType{1},lbx,ubx,inf, ...
+                     {W,invW},hessianType{1},tol,maxiter,verbose);
         elapsedTime=toc();
         if feasible == 0
 	        error("infeasible\n");
@@ -77,18 +77,18 @@ for initType={"GI","eye","none"}
           floatPrint("lm'*g(x) = ",lm'*gx);
           floatPrint("gradxL = ",gxL); 
           printf("%s %f secs, %d iterations, %d f(x) calls\n", ...
-                 initType{},elapsedTime,iter,fiter);
+                 initType{1},elapsedTime,iter,fiter);
           printf("%s Hessian approximation, %d %s linesearch calls\n", ...
-                 hessianType{},liter,linesearchType{});
+                 hessianType{1},liter,linesearchType{1});
         endif
         
-        printf("SQP %s %s %s ",initType{},hessianType{},linesearchType{}); 
+        printf("SQP %s %s %s ",initType{1},hessianType{1},linesearchType{1}); 
         printf("[ ");printf("%f ",x);printf("] ");
         printf("%d %d %d %d\n",feasible,iter,fiter,liter);
         
       catch
         printf("SQP %s %s %s :\n %s\n", ...
-               initType{}, hessianType{}, linesearchType{},lasterror.message);
+               initType{1}, hessianType{1}, linesearchType{1},lasterror.message);
         err=lasterror();
         for e=1:length(err.stack)
           printf("Called from %s at line %d\n", ...

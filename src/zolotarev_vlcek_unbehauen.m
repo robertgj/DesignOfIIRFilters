@@ -1,10 +1,10 @@
-function b=zolotarev_vlcek_unbehauen(p,q,k)
-% b=zolotarev_vlcek_unbehauen(p,q,k)
+function [a,b]=zolotarev_vlcek_unbehauen(p,q,k)
+% a=zolotarev_vlcek_unbehauen(p,q,k)
 % For the Zolotarev function, Zpq(w,k), defined by Vlcek and Unbehauen,
 % calculate the power series expansion coefficients, b(m)w^m, as per
-% Table IV of [1](with the corrections in [2]). I failed to duplicate the
-% results of Table VI for the Chebychev Type 1 expansion shown in Table V
-% (with the corrections in [2]).
+% Table IV of [1](with the corrections in [2]) and the expansion in
+% Chebychev polynomials of the first kind shown in Table V (with the
+% corrections in [2]).
 % [1] "Zolotarev Polynomials and Optimal FIR Filters", M. Vlcek and
 %      R. Unbehauen, IEEE Transactions on Signal Processing, Vol. 47,
 %      No. 3, March, 1999, pp. 717-730
@@ -33,8 +33,8 @@ function b=zolotarev_vlcek_unbehauen(p,q,k)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 % Sanity checks
-if nargin~=3 || nargout>1
-  print_usage("b=zolotarev_vlcek_unbehauen(p,q,k)");
+if nargin~=3 || nargout>2
+  print_usage("[a,b]=zolotarev_vlcek_unbehauen(p,q,k)");
 endif
 if ~isscalar(p)
   error("Expect p a scalar!")
@@ -70,6 +70,8 @@ wq=(wp+ws)/2;
 Zu0=jacobi_Zeta(u0,k);
 wm=ws+(2*(snu0*cnu0)*Zu0/dnu0);
 
+% Table V of [1]
+a=zolotarev_vlcek_unbehauen_chebychev_sum(p,q,wp,ws,wq,wm);
 % Table IV of [1]
 b=zolotarev_vlcek_unbehauen_power_sum(p,q,wp,ws,wq,wm);
 
@@ -98,34 +100,32 @@ function b=zolotarev_vlcek_unbehauen_power_sum(p,q,wp,ws,wq,wm)
   b=((-1)^p)*beta(1+(0:n))/sn;
 endfunction;
 
-% Table V of [1]. This does not reproduce the a(m) of Table VI of [1]
+% Table V of [1]
 function a=zolotarev_vlcek_unbehauen_chebychev_sum(p,q,wp,ws,wq,wm)
   n=p+q;
   alpha=zeros(1,1+n+5);
   alpha(1+n)=1;
-  c=zeros(1,7);
+  c=zeros(7,1);
   for m=(n+2):-1:3,
-    c(1)=((n^2)-((m+3)^2))/8;
-    c(2)=((((2*m)+5)*(m+2)*(wm-wq))+...
-          (3*wm*((n^2)-((m+2)^2))))/4;
-    c(3)=((3*((n^2)-((m+1)^2))/4)+...
-          (3*wm*(((n^2)*wm)-(((m+1)^2)*wq)))- ...
-          ((m+1)*(m+2)*((wp*ws)-(wm*wq))))/2;
-    c(4)=(3*((n^2)-(m^2))/2)+ ...
-         ((m^2)*(wm-wq))+ ...
-         (wm*(((n^2)*(wm^2))-((m^2)*wp*ws)));
-    c(5)=((3*((n^2)-((m-1)^2))/4)+ ...
-          (3*wm*(((n^2)*wm)-(((m-1)^2)*wq)))- ...
-          ((m-1)*(m-2)*((wp*ws)-(wm*wq))))/2;
-    c(6)=((((2*m)-5)*(m-2)*(wm-wq))+ ...
-          (3*wm*((n^2)-((m-2)^2))))/4;
-    c(7)=((n^2)-((m-3)^2))/8;
-    alpha(1+m-3)=sum(c(1:6).*alpha(1+(m+4)-(1:6)))/c(7);
-  endfor
+    c(7)=(n^2)-((m-3)^2);
+    c(6)=(2*(((m-2)*(m-3)*wp)+((m-2)*(m-3)*ws)+ ...
+             ((((m-2)*(m-1))-(3*(n^2)))*wm)+((m-2)*wq)));
+    c(5)=((3*((n^2)-((m-1)^2))) ...
+          +(4*((3*(n^2)*(wm^2))-(((m-1)^2)*wm*wp) ...
+               -(((m-1)^2)*wm*ws)-(((m-1)*(m-2))*wp*ws)-((m-1)*wm*wq))));
+    c(4)=((4*(((m^2)*wp)+((m^2)*ws)+(((m^2)-(3*(n^2)))*wm))) ...
+          +(8*(-((n^2)*(wm^3))+((m^2)*wm*wp*ws))));
+    c(3)=((3*((n^2)-((m+1)^2))) ...
+          +(4*((3*(n^2)*(wm^2))-(((m+1)^2)*wm*wp) ...
+               -(((m+1)^2)*wm*ws)-(((m+1)*(m+2))*wp*ws) ...
+               +((m+1)*wm*wq))));
+    c(2)=(2*(((m+2)*(m+3)*wp)+((m+2)*(m+3)*ws)+ ...
+             ((((m+2)*(m+1))-(3*(n^2)))*wm)-((m+2)*wq)));
+    c(1)=(n^2)-((m+3)^2);
 
-  sn=(alpha(1+0)/2)+sum(alpha(1+(1:n)));
-  a(1+0)=((-1)^p)*alpha(1+0)/(2*sn);
-  for m=1:n,
-    a(1+m)=((-1)^p)*alpha(1+m)/sn;
+    alpha(1+m-3)=-alpha((1+m+3):-1:(1+m-2))*c(1:6)/c(7);
   endfor
+  s=sum(alpha)-(alpha(1+0)/2);
+  a(1+0)=((-1)^p)*alpha(1+0)/(2*s);
+  a(1+(1:n))=((-1)^p)*alpha(1+(1:n))/s;
 endfunction;

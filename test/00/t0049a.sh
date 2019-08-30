@@ -38,6 +38,15 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
+h = [ ];
+x = [     22 ];
+y = [ 22 ];
+y = [ 1, 2, 3, 4, ... 
+      5, 6, 7, 8, ... 
+      9, 10 ];
+z = [ 0.5, 1, 1.5, 2, ... 
+      2.5, 3, 3.5, 4, ... 
+      4.5, 5 ];
 N1 = [   0.0000239596,   0.0001916772,   0.0006708700,   0.0013417401, ... 
          0.0016771751,   0.0013417401,   0.0006708700,   0.0001916772, ... 
          0.0000239596 ];
@@ -85,7 +94,6 @@ if [ $? -ne 0 ]; then echo "Failed output cat of test.ok.5"; fail; fi
 # run and see if the results match
 #
 echo "Running octave-cli -q " $prog
-echo "warning('off');" >> .octaverc
 
 octave-cli -q $prog > test.out
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi

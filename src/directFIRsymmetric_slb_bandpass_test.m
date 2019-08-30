@@ -1,6 +1,8 @@
 % directFIRsymmetric_slb_bandpass_test.m
 % Copyright (C) 2017,2018 Robert G. Jenssen
 
+% Also M=31;dBap=0.039217209;dBas=60.01714835;dBapt=0.188164;dBast=44.152;
+
 test_common;
 
 unlink("directFIRsymmetric_slb_bandpass_test.diary");
@@ -90,13 +92,13 @@ close
 %
 % Try SLB solution with some coefficients rounded
 %
+dBapt=3;
+dBast=25;
 hM_inactive=[7,9,11];
 hM_active(hM_inactive)=[];
 nbits=8;nscale=2^(nbits-1);
 hM1t=hM1;
 hM1t(hM_inactive)=round(hM1(hM_inactive)*nscale)/nscale;
-dBapt=3;
-dBast=25;
 Adut=[(10^(-dBast/20))*ones(nasl,1); ...
       ones(nasu-nasl-1,1); ...
       (10^(-dBast/20))*ones(nplot-nasu+2,1)];

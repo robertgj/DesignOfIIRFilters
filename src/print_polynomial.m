@@ -1,17 +1,19 @@
 function print_polynomial(x,name_str,arg3,arg4)
 % print_polynomial(x,name_str)
+% print_polynomial(x,name_str,format_str)
 % print_polynomial(x,name_str,scale)
 % print_polynomial(x,name_str,file_name_str)
 % print_polynomial(x,name_str,file_name_str,format_str)
 % print_polynomial(x,name_str,file_name_str,scale)
 %
 % Formatted printing of an array representing a polynomial with (possibly) :
+%   - a printf format string (assumed if it contains '%')
 %   - integer scaling
 %   - an output file
+%   - an output file and printf format string (it contains '%') 
 %   - an output file and integer scaling
-%   - an output file and printf format string
-  
-% Copyright (C) 2017,2018 Robert G. Jenssen
+
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -33,10 +35,11 @@ function print_polynomial(x,name_str,arg3,arg4)
 
   % Initialise
   usage_str="\n      print_polynomial(x,name_str) ...\n\
+      print_polynomial(x,name_str,format_str) ...\n\
       print_polynomial(x,name_str,scale) ...\n\
       print_polynomial(x,name_str,file_name_str) ...\n\
       print_polynomial(x,name_str,file_name_str,format_str) ...\n\
-      print_polynomial(x,name_str,file_name_str,scale)";
+      print_polynomial(x,name_str,file_name_str,scale)\n";
   file_name_str="";
   format_str="%14.10f";
   scale_str="";
@@ -46,7 +49,7 @@ function print_polynomial(x,name_str,arg3,arg4)
   
   % Sanity checks
   if nargin == 2
-    if ~isvector(x) || ~all(isstrprop(name_str,"print"))
+    if (~isempty(x) && ~isvector(x)) || ~all(isstrprop(name_str,"print"))
       print_usage(usage_str);
     endif
   elseif nargin == 3
@@ -63,6 +66,8 @@ function print_polynomial(x,name_str,arg3,arg4)
       if any(abs(mod(xs,1))>tol)
         error("Expected x*scale to be integers!");
       endif
+    elseif length(arg3)>0 && any(arg3=="%")
+      format_str=arg3;
     elseif length(arg3)>0 && all(isstrprop(arg3,"print"))
       file_name_str=arg3;
       fid=fopen(file_name_str,"wt");
@@ -101,7 +106,7 @@ function print_polynomial(x,name_str,arg3,arg4)
   % Initialise the output string
   first_str = sprintf("%s = [ ",name_str);
   space_str = ones(1,length(first_str))*" ";
-  if rows(x) == 1
+  if isempty(x) || rows(x) == 1 
     tick_str = "";
   else
     tick_str = "'";

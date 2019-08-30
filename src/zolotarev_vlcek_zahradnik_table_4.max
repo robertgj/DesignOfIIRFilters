@@ -1,0 +1,84 @@
+/* zolotarev_vlcek_zahradnik_table_4.max
+ *
+ * Working for Equation 17 and Table 4 of [1] or Table I of [2].
+ * [1] "Almost Equiripple Low-Pass FIR Filters", M. Vlcek and
+ * P. Zahradnik, Circuits Syst Signal Process (2013) 32:743–757,
+ * DOI 10.1007/s00034-012-9484-0
+ * [2] "Approximation of Almost Equiripple Low-pass FIR Filters",
+ * M. Vlcek and P. Zahradnik, 2013 European Conference on Circuit
+ * Theory and Design, DOI: 10.1109/ECCTD.2013.6662301
+ *
+ * Copyright (C) 2019 Robert G. Jenssen
+ */
+
+/* Equation 14 of [2]: the Zolotarev differential equation */
+funmake(f,[w]);
+funmake(fp,[w]);
+funmake(fpp,[w]);
+funmake(g0,[w]);
+funmake(g1,[w]);
+funmake(g2,[w]);
+fde:(g2*(((1-w^2)*fpp)-(w*fp))) -(g1*(1-w^2)*fp) +((n^2)*g0*f);
+
+/* Substitute sqrt(1-w^2)*S into fde */
+funmake(S,[w]);
+f:S(w)*sqrt(1-w^2);
+fde:fde,fp=diff(f,w,1),fpp=diff(f,w,2);
+Sfde:factor(expand(fde/sqrt(1-w^2)));
+
+/* Substitute Chebychev polynomials of the second kind and replace n by (n+1) */
+g0:(w-wm)^3;
+g1:((w-wp)*(w-ws))-((w-wm)*(w-wq));
+g2:(w-wm)*(w-wp)*(w-ws);
+Ssum:-g2*m*(m+2)*Um -(g1*((m+2)*w*Um-(m+1)*Ump1)) +(((n+1)^2)*g0+w*g1-g2)*Um;
+     
+/* Find the coefficients of 1, w, w^2 and w^3 */
+Seq:expand(Ssum);
+Sw0:coeff(Seq,w,0);
+Sw1:coeff(Seq,w,1);
+Sw2:coeff(Seq,w,2);
+Sw3:coeff(Seq,w,3);
+
+/* Find the terms in Um and Ump1 for 1, w, w^2 and w^3 */
+UmSw0:coeff(Sw0,Um,1);
+Ump1Sw0:coeff(Sw0,Ump1,1);
+UmSw1:coeff(Sw1,Um,1);
+Ump1Sw1:coeff(Sw1,Ump1,1);
+UmSw2:coeff(Sw2,Um,1);
+Ump1Sw2:coeff(Sw2,Ump1,1);
+UmSw3:coeff(Sw3,Um,1);
+Ump1Sw3:coeff(Sw3,Ump1,1);
+
+/* Substitute the recurrence relations for w*Um, (w^2)*Um and (w^3)*Um */
+SeqU:expand(((Um*UmSw0)+(Ump1*Ump1Sw0))+
+  ((Ump1+Umm1)*UmSw1/2)+
+  ((Ump2+Um)*Ump1Sw1/2)+
+  ((Ump2+(2*Um)+Umm2)*UmSw2/4)+
+  ((Ump3+(2*Ump1)+Umm1)*Ump1Sw2/4)+
+  ((Ump3+(3*Ump1)+(3*Umm1)+Umm3)*UmSw3/8)+
+  ((Ump4+(3*Ump2)+(3*Um)+Umm2)*Ump1Sw3/8));
+
+/* Find the coefficients for each order of U */
+Umm3SeqU:expand(coeff(SeqU,Umm3)*8);
+Umm2SeqU:expand(coeff(SeqU,Umm2)*8);
+Umm1SeqU:expand(coeff(SeqU,Umm1)*8);
+UmSeqU:  expand(coeff(SeqU,Um  )*8);
+Ump1SeqU:expand(coeff(SeqU,Ump1)*8);
+Ump2SeqU:expand(coeff(SeqU,Ump2)*8);
+Ump3SeqU:expand(coeff(SeqU,Ump3)*8);
+Ump4SeqU:expand(coeff(SeqU,Ump4)*8);
+
+/* Re-number the summations for each order of U */
+Umm3SeqUm:Umm3SeqU, m=m+3;
+Umm2SeqUm:Umm2SeqU, m=m+2;
+Umm1SeqUm:Umm1SeqU, m=m+1;
+UmSeqUm:  UmSeqU;
+Ump1SeqUm:Ump1SeqU, m=m-1;
+Ump2SeqUm:Ump2SeqU, m=m-2;
+Ump3SeqUm:Ump3SeqU, m=m-3;
+
+/* Save */
+stardisp:true;
+stringout("zolotarev_vlcek_zahradnik_table_4.out",
+  Umm3SeqUm,Umm2SeqUm,Umm1SeqUm,UmSeqUm,Ump1SeqUm,Ump2SeqUm,Ump3SeqUm);
+

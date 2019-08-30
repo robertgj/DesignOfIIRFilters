@@ -1,11 +1,14 @@
 branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_FIGURES = \
 branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_kmin \
 branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_kmin_stop \
-branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_kmin_pass
+branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_kmin_pass \
+branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_kmin_dual
 
 branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_COEFS = \
 branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.mat \
 branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.spec \
+branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A1k0_allocsd.m \
+branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A2k0_allocsd.m \
 branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A1k0_sd_coef.m \
 branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A2k0_sd_coef.m \
 branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A1k_min_coef.m \
@@ -28,7 +31,8 @@ schurOneMPAlattice_slb_exchange_constraints.m \
 schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice2tf.m schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m \
 local_max.m print_polynomial.m flt2SD.m bin2SDul.m x2nextra.m \
-SDadders.m Abcd2tf.m H2Asq.m H2T.m H2P.m tf2schurOneMlattice.m \
-schurOneMscale.m bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
+SDadders.m Abcd2tf.m H2Asq.m H2T.m H2P.m tf2pa.m tf2schurOneMlattice.m \
+schurOneMscale.m spectralfactor.m \
+bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
 complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
 qroots.m qzsolve.oct sedumi_test.diary

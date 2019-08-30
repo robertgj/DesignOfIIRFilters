@@ -61,8 +61,8 @@ nppts=(0:511);
 Hf=crossWelch(u,yf,nfpts);
 Hapf=crossWelch(u,yapf,nfpts);
 subplot(111);
-plot(nppts/nfpts,20*log10(abs(Hf)),"1",...
-     nppts/nfpts,20*log10(abs(Hapf)),"2");
+plot(nppts/nfpts,20*log10(abs(Hf)),...
+     nppts/nfpts,20*log10(abs(Hapf)));
 axis([0 0.5 -50 5])
 grid("on");
 xlabel("Frequency")

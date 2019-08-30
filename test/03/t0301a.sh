@@ -104,7 +104,6 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.hM_bfsdl.ok"; fail; fi
 # run and see if the results match
 #
 echo "Running octave-cli -q " $prog
-echo "warning('off');" >> .octaverc
 
 octave-cli -q $prog > test.out
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi

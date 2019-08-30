@@ -61,7 +61,13 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
 %   A1k_min,A2k_min - filter design
 %   socp_iter - number of SOCP iterations
 %   func_iter - number of function calls
-%   feasible - design satisfies the constraints 
+%   feasible - design satisfies the constraints
+%
+% If tol is a structure then the tol.dtol field is the minimum relative
+% step size and the tol.stol field sets the SeDuMi pars.eps field (the
+% default is 1e-8). This is a hack to deal with filters for which the
+% desired stop-band attenuation of the squared amplitude response is more
+% than 80dB.
 
 % Copyright (C) 2017-2019 Robert G. Jenssen
 %
@@ -143,6 +149,16 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
          (all(isfield(vS,{"al","au","tl","tu","pl","pu"}))==false)
     error("numfields(vS)=%d, expected 6 (al,au,tl,tu,pl and pu)",numfields(vS));
   endif
+  if isstruct(tol)
+    if all(isfield(tol,{"dtol","stol"})) == false
+      error("Expect tol structure to have fields dtol and stol");
+    endif
+    dtol=tol.dtol;
+    pars.eps=tol.stol;
+  else
+    dtol=tol;
+  endif
+
   Nresp=length(vS.al)+length(vS.au)+ ...
         length(vS.tl)+length(vS.tu)+ ...
         length(vS.pl)+length(vS.pu);
@@ -211,7 +227,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   %
   % Numerical approximation to hessEsq0
   %
-  del=tol*10;
+  del=dtol*10;
   % del-squared-Esq-del-A1k-m-del-kc
   for m=1:NA1k
     delk=zeros(size(A1k0));
