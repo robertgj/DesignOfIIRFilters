@@ -30,30 +30,43 @@
 static void init_JKISS(void);
 static double uni_qdblflt(void);
 
-DEFUN_DLD(reprand, args, nargout, "n=reprand(N)")
+DEFUN_DLD(reprand, args, nargout, "r=reprand(N,M)")
 {
-  if ((args.length() != 1) || (nargout > 1))
+  if ((args.length() > 2) || (args.length() == 0) || (nargout > 1))
     {
       print_usage();
       return octave_value();
     }
-  if (args(0).length() != 1)
+  if ((args(0).length() != 1) || (args.length() == 2 && args(1).length() != 1))
     {
-      error("expected single integer argument!");
+      error("Expected integer arguments!");
       return octave_value();
     }
-
-  uint64NDArray NN = args(0).vector_value();
-  uint64_t N = NN(0);
-  ColumnVector n(N);
-
-  init_JKISS();
-  for (uint64_t l = 0;l < N;l++)
+  uint64NDArray NN=args(0).vector_value();
+  uint64_t N=NN(0);
+  uint64_t M=1;
+  if (args.length() == 1)
     {
-      n(l) = uni_qdblflt();
+      M=N;
+    }
+  else
+    {
+      uint64NDArray MM=args(1).vector_value();
+      M=MM(0);
     }
 
-  return octave_value(n);
+  Matrix r(N,M);
+
+  init_JKISS();
+  for (uint64_t n = 0;n < N;n++)
+    {
+      for (uint64_t m = 0;m < M;m++)
+        {  
+          r(n,m) = uni_qdblflt();
+        }
+    }
+
+  return octave_value(r);
 }
 #endif
 

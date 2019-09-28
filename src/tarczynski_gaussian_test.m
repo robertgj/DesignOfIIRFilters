@@ -11,7 +11,6 @@ unlink("tarczynski_gaussian_test.diary");
 unlink("tarczynski_gaussian_test.diary.tmp");
 diary tarczynski_gaussian_test.diary.tmp
 
-format compact
 tic
 
 % Filter specification

@@ -7,7 +7,6 @@ unlink("iir_socp_slb_lowpass_test.diary");
 unlink("iir_socp_slb_lowpass_test.diary.tmp");
 diary iir_socp_slb_lowpass_test.diary.tmp
 
-format short e
 
 tic
 

@@ -79,12 +79,8 @@ LKN=L*K/N;
 [snupLKN,cnupLKN,dnupLKN]=ellipj(u+(LKN),k2);
 [snumLKN,cnumLKN,dnumLKN]=ellipj(u-(LKN),k2);
 x=((snu.^2)+(snLKN^2))./((snu.^2)-(snLKN^2));
-HumLKN=zeros(size(u));
-HupLKN=zeros(size(u));
-for t=1:length(u)
-  HumLKN(t)=jacobi_Eta(u(t)-LKN,k);
-  HupLKN(t)=jacobi_Eta(u(t)+LKN,k);
-endfor
+HumLKN=jacobi_Eta(u-LKN,k);
+HupLKN=jacobi_Eta(u+LKN,k);
 tmp=(HumLKN./HupLKN).^N;
 f=(((-1)^L)/2)*(tmp+(1./tmp));
 

@@ -9,7 +9,6 @@ diary deczky1_sqp_test.diary.tmp
 
 tic;
 
-format compact
 
 tol=2e-4
 ctol=tol/100

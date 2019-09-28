@@ -7,7 +7,6 @@ unlink("butter2pq_test.diary");
 unlink("butter2pq_test.diary.tmp");
 diary butter2pq_test.diary.tmp
 
-format short e
 
 fc=0.1;
 for N=1:12

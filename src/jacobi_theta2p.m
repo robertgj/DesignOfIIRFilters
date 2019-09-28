@@ -1,5 +1,5 @@
 function x=jacobi_theta2p(z,q,tol)
-% x=jacobi_theta2p(z,q,tol) for scalars z and nome, q
+% x=jacobi_theta2p(z,q,tol)
 % Return the differential of theta2.
 % See Section 20.2 of "NIST Digital Library of Mathematical
 % Functions", http://dlmf.nist.gov/, edited by F. W. J. Olver, et al.
@@ -34,8 +34,8 @@ function x=jacobi_theta2p(z,q,tol)
   if nargin==2
     tol=eps;
   endif
-  if ~isscalar(z)
-    error("Expect z scalar!");
+  if length(size(z))>2
+    error("length(size(z))>2");
   endif
   if ~isscalar(q)
     error("Expect q scalar!");
@@ -48,7 +48,7 @@ function x=jacobi_theta2p(z,q,tol)
     error("Expect 0<=q<1 !");
   endif
   
-  x=0;
+  x=zeros(size(z));
   qe=1;
   maxiter=100;
   n=0;
@@ -56,7 +56,7 @@ function x=jacobi_theta2p(z,q,tol)
   while 1
     dx=2*(q^(qe/4))*(-nn)*sin(nn*z);
     x=x+dx;
-    if abs(dx)<tol && n>1
+    if all(all(abs(dx)<tol)) && n>1
       break;
     endif
     qe=qe+(8*n)+8;

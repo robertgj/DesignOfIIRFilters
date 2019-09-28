@@ -10,13 +10,11 @@ unlink("butt6OneMSD_test.diary");
 unlink("butt6OneMSD_test.diary.tmp");
 diary butt6OneMSD_test.diary.tmp
 
-format short e
-
 % fc is the filter cutoff as a fraction of the sampling frequency
 fc=0.05
 [n,d]=butter(5,2*fc);
-n=n(:)'
-d=d(:)'
+n=n(:)';
+d=d(:)';
 [Aap1,Aap2]=tf2pa(n,d);
 sgma=1;
 
@@ -30,12 +28,18 @@ sgma=1;
 nbits=8
 scale=2^(nbits-1)
 ndigits=2
-format long e
-A1ksd = flt2SD(A1k, nbits, ndigits)
-A1csd = flt2SD(A1c, nbits, ndigits)
-A2ksd = flt2SD(A2k, nbits, ndigits)
-A2csd = flt2SD(A2c, nbits, ndigits)
-format short e
+A1ksd = flt2SD(A1k, nbits, ndigits);
+A1csd = flt2SD(A1c, nbits, ndigits);
+A2ksd = flt2SD(A2k, nbits, ndigits);
+A2csd = flt2SD(A2c, nbits, ndigits);
+
+print_polynomial(n,"n","%13.10f");
+print_polynomial(d,"d","%13.10f");
+print_polynomial(A1ksd,"A1ksd","%12.8f");
+print_polynomial(A1ksd,"A1ksd","%12.8f");
+print_polynomial(A1csd,"A1csd","%12.8f");
+print_polynomial(A1ksd,"A2ksd","%12.8f");
+print_polynomial(A1ksd,"A2csd","%12.8f");
 
 % Make a quantised noise signal with standard deviation 0.25
 nbits=10;

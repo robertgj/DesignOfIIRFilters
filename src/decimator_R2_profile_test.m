@@ -16,7 +16,6 @@ diary decimator_R2_profile_test.diary.tmp
 
 tic;
 
-format compact
 
 verbose=false
 tol_mmse=1e-5

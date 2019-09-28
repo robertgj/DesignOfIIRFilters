@@ -9,7 +9,6 @@ diary tarczynski_phase_equaliser_test.diary.tmp
 
 tic;
 
-format compact
 
 tol=1e-3
 maxiter=1000

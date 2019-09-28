@@ -14,7 +14,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -22,7 +22,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -43,90 +43,73 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-fc =    5.0000e-02
+fc =  0.050000
 k =
-
-  -9.7432e-01   9.2923e-01  -5.3208e-01
+  -0.97432   0.92923  -0.53208
 
 epsilon =
-
-  -1.0000e+00  -1.0000e+00  -1.0000e+00
+  -1  -1  -1
 
 p =
-
-   3.0386e+00   3.4657e-01   1.8095e+00
+   3.03862   0.34657   1.80947
 
 c =
-
-   1.0050e-01   2.9862e-01   1.0166e-02   2.8982e-03
+   0.1005013   0.2986163   0.0101661   0.0028982
 
 A =
-
-   9.7432e-01   2.2518e-01   0.0000e+00
-  -2.0925e-01   9.0536e-01   3.6951e-01
-   4.4273e-02  -1.9156e-01   4.9442e-01
+   0.97432   0.22518   0.00000
+  -0.20925   0.90536   0.36951
+   0.04427  -0.19156   0.49442
 
 B =
-
-   0.0000e+00
-   0.0000e+00
-   8.4670e-01
+   0.00000
+   0.00000
+   0.84670
 
 C =
+   0.305385   0.103493   0.018395
 
-   3.0538e-01   1.0349e-01   1.8395e-02
-
-D =    2.8982e-03
+D =  0.0028982
 Cap =
+   0.070452  -0.304829   0.786773
 
-   7.0452e-02  -3.0483e-01   7.8677e-01
-
-Dap =   -5.3208e-01
-ng =    9.8228e-01
-ngap =    5.0000e+00
-ngABCD =    7.5000e-01
-ngABCDap =    3.0000e+00
-ngDecim =    1.1906e+00
-ngDecimap =    5.0000e+00
-ngPipe =    7.5000e-01
-ngPipeap =    3.0000e+00
-ngopt =    4.7049e-01
-ngoptap =    3.0000e+00
-nbits =    1.0000e+01
-scale =    5.1200e+02
-ndigits =    3.0000e+00
+Dap = -0.53208
+ng =  0.98228
+ngap =  5.0000
+ngABCD =  0.75000
+ngABCDap =  3.0000
+ngDecim =  1.1906
+ngDecimap =  5.0000
+ngPipe =  0.75000
+ngPipeap =  3.0000
+ngopt =  0.47049
+ngoptap =  3.0000
+nbits =  10
+scale =  512
+ndigits =  3
 kf =
-
-  -9.765625000000000e-01   9.296875000000000e-01  -5.312500000000000e-01
+  -0.97656   0.92969  -0.53125
 
 cf =
+   0.1015625   0.2968750   0.0097656   0.0019531
 
- Columns 1 through 3:
-
-   1.015625000000000e-01   2.968750000000000e-01   9.765625000000000e-03
-
- Column 4:
-
-   1.953125000000000e-03
-
-ngf =    1.1019e+00
-ngfap =    5.0000e+00
-ngABCDf =    8.4725e-01
-ngABCDfap =    3.0000e+00
-ngPipef =    8.4725e-01
-ngPipefap =    3.0000e+00
-est_varyd =    1.7516e-01
-varyd =    1.7410e-01
-est_varyapd =    5.0000e-01
-varyapd =    4.9283e-01
+ngf =  1.1019
+ngfap =  5.0000
+ngABCDf =  0.84725
+ngABCDfap =  3.0000
+ngPipef =  0.84725
+ngPipefap =  3.0000
+est_varyd =  0.17516
+varyd =  0.17410
+est_varyapd =  0.50000
+varyapd =  0.49283
 stdxf =
+   137.06   129.04   127.82
 
-   1.3706e+02   1.2904e+02   1.2782e+02
-
-est_varyABCDd =    1.5394e-01
-varyABCDd =    1.5147e-01
-est_varyABCDapd =    3.3333e-01
-varyABCDapd =    3.2012e-01
+est_varyABCDd =  0.15394
+varyABCDd =  0.15147
+est_varyABCDapd =  0.33333
+varyABCDapd =  0.32012
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

@@ -9,7 +9,6 @@ unlink("polyphase_allpass_mmse_error_test.diary");
 unlink("polyphase_allpass_mmse_error_test.diary.tmp");
 diary polyphase_allpass_mmse_error_test.diary.tmp
 
-format compact
 
 verbose=true
 

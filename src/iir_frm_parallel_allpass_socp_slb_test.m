@@ -9,7 +9,6 @@ diary iir_frm_parallel_allpass_socp_slb_test.diary.tmp
 
 tic;
 
-format compact
 maxiter=5000
 verbose=false
 no_delay=true

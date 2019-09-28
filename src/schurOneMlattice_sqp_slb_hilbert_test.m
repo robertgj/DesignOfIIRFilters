@@ -9,7 +9,6 @@ diary schurOneMlattice_sqp_slb_hilbert_test.diary.tmp
 
 tic;
 
-format compact;
 
 tol=1e-4
 ctol=tol

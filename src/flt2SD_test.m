@@ -7,16 +7,16 @@ unlink("flt2SD_test.diary");
 unlink("flt2SD_test.diary.tmp");
 diary flt2SD_test.diary.tmp
 
-format long e
-
 % Test vectors : [num, nbits, ndigits, verbose]
 testrand=0.5-[  0.021960  0.713256  0.836613   0.155482;
                 0.333852  0.887277  0.118811   0.175826;
                 0.198802  0.304426  0.035785   0.145806;
                 0.325552  0.268381  0.258796   0.670809];
-testrandSD=flt2SD(testrand,8,2,true)
+testrandSD=flt2SD(testrand,8,2,true);
+print_polynomial(testrandSD,"testrandSD","%7.5f");
 testrandSDarray= ...
-  flt2SD(testrand,8,kron(ones(rows(testrand),1),[1:columns(testrand)]),true)
+  flt2SD(testrand,8,kron(ones(rows(testrand),1),[1:columns(testrand)]),true);
+print_polynomial(testrandSDarray,"testrandSDarray","%5.3f");
 
 max_nbits=floor(log2(flintmax()))-2;
 testvecs1={ ...

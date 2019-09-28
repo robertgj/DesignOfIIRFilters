@@ -7,7 +7,6 @@ unlink("Terror_test.diary");
 unlink("Terror_test.diary.tmp");
 diary Terror_test.diary.tmp
 
-format short e
 
 % Initial filter
 U=2;V=2;M=14;Q=6;R=2;tol=1e-4;

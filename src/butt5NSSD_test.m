@@ -10,7 +10,6 @@ unlink("butt5NSSD_test.diary");
 unlink("butt5NSSD_test.diary.tmp");
 diary butt5NSSD_test.diary.tmp
 
-format short e
 
 % fc is the filter cutoff as a fraction of the sampling frequency
 fc=0.05
@@ -30,7 +29,6 @@ d=d(:)'
 nbits=10
 scale=2^(nbits-1)
 ndigits=2
-format long e
 A1s10f = flt2SD(A1s10, nbits, ndigits)
 A1s11f = flt2SD(A1s11, nbits, ndigits)
 A1s20f = flt2SD(A1s20, nbits, ndigits)
@@ -43,7 +41,6 @@ A2s20f = flt2SD(A2s20, nbits, ndigits)
 A2s00f = flt2SD(A2s00, nbits, ndigits)
 A2s02f = flt2SD(A2s02, nbits, ndigits)
 A2s22f = flt2SD(A2s22, nbits, ndigits)
-format short e
 
 % Make a quantised noise signal with standard deviation 0.25
 nsamples=2^14;

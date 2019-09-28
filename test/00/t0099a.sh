@@ -15,7 +15,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -23,7 +23,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -44,45 +44,38 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-fc =    2.5000e-01
+fc =  0.25000
 n =
-
-   1.6667e-01   5.0000e-01   5.0000e-01   1.6667e-01
+   0.16667   0.50000   0.50000   0.16667
 
 d =
-
    1.0000e+00  -3.0531e-16   3.3333e-01  -1.8504e-17
 
 p =
-
-   1.0000e+00  -2.7346e-01   7.2654e-01
+   1.00000  -0.27346   0.72654
 
 A1BPStar =
-
-   1.3655e+00  -7.8886e-01   2.3655e+00  -6.7309e-01   1.0000e+00
+   1.36549  -0.78886   2.36549  -0.67309   1.00000
 
 A1BP =
-
-   1.0000e+00  -6.7309e-01   2.3655e+00  -7.8886e-01   1.3655e+00
+   1.00000  -0.67309   2.36549  -0.78886   1.36549
 
 A2BPStar =
-
-  -1.3764e+00   3.7638e-01  -1.0000e+00
+  -1.37638   0.37638  -1.00000
 
 A2BP =
+   1.00000  -0.37638   1.37638
 
-   1.0000e+00  -3.7638e-01   1.3764e+00
-
-A1ng =    7.0000e+00
-A2ng =    3.0000e+00
-A1ngABCD =    7.0000e+00
-A1ngapABCD =    7.0000e+00
-A2ngABCD =    3.0000e+00
-A2ngapABCD =    3.0000e+00
+A1ng =  7.0000
+A2ng =  3.0000
+A1ngABCD =  7.0000
+A1ngapABCD =  7.0000
+A2ngABCD =  3.0000
+A2ngapABCD =  3.0000
 use_exact_coefficients = 0
-nbits =    1.0000e+01
-scale =    5.1200e+02
-ndigits =    3.0000e+00
+nbits =  10
+scale =  512
+ndigits =  3
 A1s10f = [      -84,      488,      -76,      376 ]/512;
 A1s11f = [      505,      158,      506,      352 ]/512;
 A1s20f = [      -84,      488,      -76,      376 ]/512;
@@ -95,29 +88,27 @@ A2s20f = [      -81,      368 ]/512;
 A2s00f = [      506,      352 ]/512;
 A2s02f = [       81,     -368 ]/512;
 A2s22f = [      506,      352 ]/512;
-A1ngABCDf =    7.5062e+00
-A1ngapABCDf =    7.5062e+00
-A2ngABCDf =    2.8995e+00
-A2ngapABCDf =    2.8995e+00
-est_varA1yd =    7.0885e-01
-varA1yd =    6.8465e-01
-est_varA2yd =    3.2496e-01
-varA2yd =    3.3069e-01
-est_varyd =    3.8345e-01
-varyd =    3.8520e-01
-est_varA1yapd =    7.0885e-01
-varA1yapd =    6.8465e-01
-est_varA2yapd =    3.2496e-01
-varA2yapd =    3.3069e-01
-est_varyapd =    3.8345e-01
-varyapd =    3.8520e-01
+A1ngABCDf =  7.5062
+A1ngapABCDf =  7.5062
+A2ngABCDf =  2.8995
+A2ngapABCDf =  2.8995
+est_varA1yd =  0.70885
+varA1yd =  0.68465
+est_varA2yd =  0.32496
+varA2yd =  0.33069
+est_varyd =  0.38345
+varyd =  0.38520
+est_varA1yapd =  0.70885
+varA1yapd =  0.68465
+est_varA2yapd =  0.32496
+varA2yapd =  0.33069
+est_varyapd =  0.38345
+varyapd =  0.38520
 A1stdxf =
-
-   1.2867e+02   1.2865e+02   1.2928e+02   1.2937e+02
+   128.67   128.65   129.28   129.37
 
 A2stdxf =
-
-   1.2674e+02   1.2657e+02
+   126.74   126.57
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

@@ -7,7 +7,7 @@ unlink("schurexpand_test.diary");
 unlink("schurexpand_test.diary.tmp");
 diary schurexpand_test.diary.tmp
 
-format short e
+check_octave_file("schurexpand");
 
 % Low-pass 1
 fp=0.1;

@@ -10,7 +10,6 @@ unlink("butt3NSSV_test.diary");
 unlink("butt3NSSV_test.diary.tmp");
 diary butt3NSSV_test.diary.tmp
 
-format short e
 
 % fc is the filter cutoff as a fraction of the sampling frequency
 fc=0.05
@@ -30,7 +29,6 @@ exact=false;
 nbits=10
 scale=2^(nbits-1)
 ndigits=2
-format long e
 if exact==true
  ;
 elseif ndigits ~= 0 
@@ -48,7 +46,6 @@ s00f = round(s00*scale)/scale
 s02f = round(s02*scale)/scale
 s22f = round(s22*scale)/scale
 endif
-format short e
 
 % Build a state variable representation of the retimed filter for the
 % truncated coefficients and calculate the noise gains

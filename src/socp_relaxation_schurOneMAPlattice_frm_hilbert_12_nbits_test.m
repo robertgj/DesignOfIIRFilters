@@ -18,7 +18,6 @@ socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test_allocsd_Ito=false
 
 tic;
 
-format compact
 
 %
 % Initial filter from schurOneMAPlattice_frm_hilbert_socp_slb_test.m

@@ -7,7 +7,8 @@ unlink("schurNSlattice2Abcd_test.diary");
 unlink("schurNSlattice2Abcd_test.diary.tmp");
 diary schurNSlattice2Abcd_test.diary.tmp
 
-tic;
+check_octave_file("schurNSlattice2Abcd");
+
 verbose=true;
 
 %
@@ -635,6 +636,5 @@ for x=1:3
 endfor
 
 % Done
-toc;
 diary off
 movefile schurNSlattice2Abcd_test.diary.tmp schurNSlattice2Abcd_test.diary;

@@ -38,6 +38,14 @@ function S=chebychevP_backward_recurrence(a,kind)
     error("Expected kind=1 or kind=2");
   endif
 
+  if isempty(a)
+    S=[];
+    return;
+  elseif length(a)==1
+    S=a;
+    return;
+  endif
+  
   n=length(a)-1;
   S=zeros(1,n+1);
   Smp1=a(end);

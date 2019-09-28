@@ -7,7 +7,6 @@ unlink("state_variable_sensitivity_test.diary");
 unlink("state_variable_sensitivity_test.diary.tmp");
 diary state_variable_sensitivity_test.diary.tmp
 
-format short e
 verbose=false;
 
 % Specify elliptic low pass filter

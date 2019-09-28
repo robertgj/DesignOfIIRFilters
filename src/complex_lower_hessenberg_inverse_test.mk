@@ -1,3 +1,3 @@
 complex_lower_hessenberg_inverse_test_FILES = \
-complex_lower_hessenberg_inverse_test.m test_common.m reprand.oct \
-complex_lower_hessenberg_inverse.oct
+complex_lower_hessenberg_inverse_test.m test_common.m check_octave_file.m \
+reprand.oct complex_lower_hessenberg_inverse.oct

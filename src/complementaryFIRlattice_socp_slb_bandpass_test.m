@@ -9,7 +9,6 @@ diary complementaryFIRlattice_socp_slb_bandpass_test.diary.tmp
 
 script_id=tic;
 
-format compact
 
 tol=1e-6
 ctol=tol

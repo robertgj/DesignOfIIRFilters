@@ -7,7 +7,6 @@ unlink("svcasc2noise_test.diary");
 unlink("svcasc2noise_test.diary.tmp");
 diary svcasc2noise_test.diary.tmp
 
-format short e
 
 N=19;
 fc=0.1;

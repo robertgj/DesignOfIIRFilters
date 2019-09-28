@@ -17,7 +17,6 @@ diary tarczynski_parallel_allpass_bandpass_hilbert_test.diary.tmp
 
 tic;
 
-format compact
 strf="tarczynski_parallel_allpass_bandpass_hilbert_test";
 
 function E=WISEJ_PAB_Hilbert(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt,_Pd,_Wp)

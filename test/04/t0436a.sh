@@ -7,6 +7,7 @@ test_common.m zolotarev_chen_parks.m zolotarev_vlcek_unbehauen.m \
 elliptic_F.m elliptic_E.m jacobi_Eta.m jacobi_Theta.m jacobi_Zeta.m \
 jacobi_theta1.m jacobi_theta1k.m jacobi_theta2.m jacobi_theta2k.m \
 jacobi_theta3.m jacobi_theta3k.m jacobi_theta4.m jacobi_theta4k.m \
+jacobi_theta2p.m jacobi_theta4p.m jacobi_theta4kp.m \
 carlson_RJ.m carlson_RD.m carlson_RC.m carlson_RF.m \
 chebychevP.m chebychevT.m chebychevU.m \
 chebychevP_backward_recurrence.m chebychevT_backward_recurrence.m \
@@ -18,7 +19,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -26,7 +27,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -47,9 +48,9 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_p_4_q_11_generator.ok << 'EOF'
-Spq_4_11 = [  38786.9521326014,   4952.0784724135, -136236.7742741081, -17885.2310204814, ... 
-             189461.1918963996,  25144.3377725511, -132143.2526806125, -17168.9266419171, ... 
-              48227.1793650688,   5753.7134319685,  -8745.7208016871,   -836.9833835704, ... 
+Spq_4_11 = [  38786.9521326013,   4952.0784724136, -136236.7742741076, -17885.2310204815, ... 
+             189461.1918963988,  25144.3377725513, -132143.2526806119, -17168.9266419172, ... 
+              48227.1793650686,   5753.7134319685,  -8745.7208016871,   -836.9833835704, ... 
                 681.3381263128,     41.5325084764,    -15.1250439406,     -0.3098594749 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed cat test_p_4_q_11_generator.ok"; fail; fi

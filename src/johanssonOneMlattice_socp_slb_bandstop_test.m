@@ -9,7 +9,6 @@ diary johanssonOneMlattice_socp_slb_bandstop_test.diary.tmp
 
 script_id=tic;
 
-format compact
 
 maxiter=2000
 tol=1e-6

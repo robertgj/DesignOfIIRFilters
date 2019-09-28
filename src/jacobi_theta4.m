@@ -1,5 +1,5 @@
 function x=jacobi_theta4(z,q,tol)
-% x=jacobi_theta4(z,q,tol) for real scalars z and nome, q
+% x=jacobi_theta4(z,q,tol)
 % See Section 20.2 of "NIST Digital Library of Mathematical
 % Functions", http://dlmf.nist.gov/, edited by F. W. J. Olver, et al.
 
@@ -33,9 +33,9 @@ function x=jacobi_theta4(z,q,tol)
   if nargin==2
     tol=eps;
   endif
-
-  if ~isscalar(z)
-    error("Expect z scalar!");
+  
+  if length(size(z))>2
+    error("length(size(z))>2");
   endif
   if ~isscalar(q)
     error("Expect q scalar!");
@@ -48,7 +48,7 @@ function x=jacobi_theta4(z,q,tol)
     error("Expect 0<=q<1 !");
   endif
 
-  x=1;
+  x=ones(size(z));
   m1=-1;
   qe=1;
   maxiter=100;
@@ -57,7 +57,7 @@ function x=jacobi_theta4(z,q,tol)
   while 1
     dx=2*m1*(q^qe)*cos(nn*z);
     x=x+dx;
-    if abs(dx)<tol && n>2
+    if all(all(abs(dx)<tol)) && n>2
       break;
     endif
     qe=qe+(2*n)+1;

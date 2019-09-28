@@ -7,7 +7,7 @@ unlink("schurdecomp_test.diary");
 unlink("schurdecomp_test.diary.tmp");
 diary schurdecomp_test.diary.tmp
 
-format short e
+check_octave_file("schurdecomp");
 
 % Check error conditions
 try

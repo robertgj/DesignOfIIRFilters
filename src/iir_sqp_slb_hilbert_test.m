@@ -11,7 +11,6 @@ unlink("iir_sqp_slb_hilbert_test.diary");
 unlink("iir_sqp_slb_hilbert_test.diary.tmp");
 diary iir_sqp_slb_hilbert_test.diary.tmp
 
-format compact;
 
 tol=1e-4;
 ctol=tol;

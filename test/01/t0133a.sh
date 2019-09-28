@@ -1,8 +1,10 @@
 #!/bin/sh
 
 prog=bin2SPT_test.m
+
 descr="bin2SPT_test.m (mfile)"
-depends="bin2SPT_test.m test_common.m bin2SPT.m"
+
+depends="bin2SPT_test.m test_common.m check_octave_file.m bin2SPT.m"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -10,7 +12,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $descr 1>&2
+        echo FAILED ${0#$here"/"} $descr 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -18,7 +20,7 @@ fail()
 
 pass()
 {
-        echo PASSED $descr
+        echo PASSED ${0#$here"/"} $descr
         cd $here
         rm -rf $tmp
         exit 0
@@ -39,71 +41,5260 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
+Using bin2SPT mfile
+warning: Using Octave m-file version of function bin2SPT()!
 x=     1, nbits=51, spt(51:-1:1)=[  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 Caught spt=bin2SPT(1,52): Expected 0<nbits(52)<=51
+warning: Using Octave m-file version of function bin2SPT()!
 x=     1, nbits=8, spt(8:-1:1)=[  0  0  0  0  0  0  0  1 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=    -1, nbits=8, spt(8:-1:1)=[  0  0  0  0  0  0  0 -1 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 Caught spt=bin2SPT(1,0): nbits<=0
+warning: Using Octave m-file version of function bin2SPT()!
 Caught spt=bin2SPT(-1,0): nbits<=0
+warning: Using Octave m-file version of function bin2SPT()!
 x=     0, nbits=8, spt(8:-1:1)=[  0  0  0  0  0  0  0  0 ], ndigits=0
+warning: Using Octave m-file version of function bin2SPT()!
 x=     0, nbits=1, spt(1:-1:1)=[  0 ], ndigits=0
+warning: Using Octave m-file version of function bin2SPT()!
 x=     1, nbits=1, spt(1:-1:1)=[  1 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 Caught spt=bin2SPT(2,1): round(x)=2 is out of range for a 1 bits signed-digit number
+warning: Using Octave m-file version of function bin2SPT()!
 x=    -1, nbits=1, spt(1:-1:1)=[ -1 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=     0, nbits=2, spt(2:-1:1)=[  0  0 ], ndigits=0
+warning: Using Octave m-file version of function bin2SPT()!
 x=     1, nbits=2, spt(2:-1:1)=[  0  1 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=    -1, nbits=2, spt(2:-1:1)=[  0 -1 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=    -2, nbits=2, spt(2:-1:1)=[ -1  0 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=     1, nbits=8, spt(8:-1:1)=[  0  0  0  0  0  0  0  1 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=    -1, nbits=8, spt(8:-1:1)=[  0  0  0  0  0  0  0 -1 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=   1.5, nbits=8, spt(8:-1:1)=[  0  0  0  0  0  0  1  0 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=  -1.5, nbits=8, spt(8:-1:1)=[  0  0  0  0  0  0 -1  0 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=   -43, nbits=7, spt(7:-1:1)=[ -1  0  1  0  1  0  1 ], ndigits=4
+warning: Using Octave m-file version of function bin2SPT()!
 x=    43, nbits=7, spt(7:-1:1)=[  1  0 -1  0 -1  0 -1 ], ndigits=4
+warning: Using Octave m-file version of function bin2SPT()!
 x= -43.4, nbits=7, spt(7:-1:1)=[ -1  0  1  0  1  0  1 ], ndigits=4
+warning: Using Octave m-file version of function bin2SPT()!
 x=  43.4, nbits=7, spt(7:-1:1)=[  1  0 -1  0 -1  0 -1 ], ndigits=4
+warning: Using Octave m-file version of function bin2SPT()!
 x= -43.6, nbits=7, spt(7:-1:1)=[ -1  0  1  0  1  0  0 ], ndigits=3
+warning: Using Octave m-file version of function bin2SPT()!
 x=  43.6, nbits=7, spt(7:-1:1)=[  1  0 -1  0 -1  0  0 ], ndigits=3
+warning: Using Octave m-file version of function bin2SPT()!
 x= -42.9, nbits=7, spt(7:-1:1)=[ -1  0  1  0  1  0  1 ], ndigits=4
+warning: Using Octave m-file version of function bin2SPT()!
 x=  42.9, nbits=7, spt(7:-1:1)=[  1  0 -1  0 -1  0 -1 ], ndigits=4
+warning: Using Octave m-file version of function bin2SPT()!
 x=   141, nbits=9, spt(9:-1:1)=[  0  1  0  0  1  0 -1  0  1 ], ndigits=4
+warning: Using Octave m-file version of function bin2SPT()!
 x=  -141, nbits=9, spt(9:-1:1)=[  0 -1  0  0 -1  0  1  0 -1 ], ndigits=4
+warning: Using Octave m-file version of function bin2SPT()!
 x=   170, nbits=9, spt(9:-1:1)=[  0  1  0  1  0  1  0  1  0 ], ndigits=4
+warning: Using Octave m-file version of function bin2SPT()!
 x=  -170, nbits=9, spt(9:-1:1)=[  0 -1  0 -1  0 -1  0 -1  0 ], ndigits=4
+warning: Using Octave m-file version of function bin2SPT()!
 Caught spt=bin2SPT(129,8): round(x)=129 is out of range for a 8 bits signed-digit number
+warning: Using Octave m-file version of function bin2SPT()!
 x=   129, nbits=9, spt(9:-1:1)=[  0  1  0  0  0  0  0  0  1 ], ndigits=2
+warning: Using Octave m-file version of function bin2SPT()!
 Caught spt=bin2SPT(-129,8): round(x)=-129 is out of range for a 8 bits signed-digit number
+warning: Using Octave m-file version of function bin2SPT()!
 x=  -129, nbits=9, spt(9:-1:1)=[  0 -1  0  0  0  0  0  0 -1 ], ndigits=2
+warning: Using Octave m-file version of function bin2SPT()!
 x=   128, nbits=8, spt(8:-1:1)=[  1  0  0  0  0  0  0  0 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=   128, nbits=9, spt(9:-1:1)=[  0  1  0  0  0  0  0  0  0 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=  -128, nbits=8, spt(8:-1:1)=[ -1  0  0  0  0  0  0  0 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=   127, nbits=8, spt(8:-1:1)=[  1  0  0  0  0  0  0 -1 ], ndigits=2
+warning: Using Octave m-file version of function bin2SPT()!
 x=   127, nbits=8, spt(8:-1:1)=[  1  0  0  0  0  0  0 -1 ], ndigits=2
+warning: Using Octave m-file version of function bin2SPT()!
 x=  -127, nbits=8, spt(8:-1:1)=[ -1  0  0  0  0  0  0  1 ], ndigits=2
+warning: Using Octave m-file version of function bin2SPT()!
 x=   127, nbits=51, spt(51:-1:1)=[  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1  0  0  0  0  0  0 -1 ], ndigits=2
+warning: Using Octave m-file version of function bin2SPT()!
 x=  -127, nbits=51, spt(51:-1:1)=[  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1  0  0  0  0  0  0  1 ], ndigits=2
+warning: Using Octave m-file version of function bin2SPT()!
 x=   128, nbits=51, spt(51:-1:1)=[  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1  0  0  0  0  0  0  0 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=  -128, nbits=51, spt(51:-1:1)=[  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1  0  0  0  0  0  0  0 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 Caught spt=bin2SPT(129,8): round(x)=129 is out of range for a 8 bits signed-digit number
+warning: Using Octave m-file version of function bin2SPT()!
 Caught spt=bin2SPT(-129,8): round(x)=-129 is out of range for a 8 bits signed-digit number
+warning: Using Octave m-file version of function bin2SPT()!
 x= 63.49, nbits=7, spt(7:-1:1)=[  1  0  0  0  0  0 -1 ], ndigits=2
+warning: Using Octave m-file version of function bin2SPT()!
 x= 63.51, nbits=7, spt(7:-1:1)=[  1  0  0  0  0  0  0 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=     0, spt(1:-1:1)=[  0 ], ndigits=0
+warning: Using Octave m-file version of function bin2SPT()!
 x=   0.1, spt(1:-1:1)=[  0 ], ndigits=0
+warning: Using Octave m-file version of function bin2SPT()!
 x=  -0.1, spt(1:-1:1)=[  0 ], ndigits=0
+warning: Using Octave m-file version of function bin2SPT()!
 x=   0.5, spt(1:-1:1)=[  1 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=  -0.5, spt(1:-1:1)=[ -1 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=     1, spt(1:-1:1)=[  1 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=    -1, spt(1:-1:1)=[ -1 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=   1.1, spt(1:-1:1)=[  1 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=  -1.1, spt(1:-1:1)=[ -1 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=  1023, spt(11:-1:1)=[  1  0  0  0  0  0  0  0  0  0 -1 ], ndigits=2
+warning: Using Octave m-file version of function bin2SPT()!
 x= -1023, spt(11:-1:1)=[ -1  0  0  0  0  0  0  0  0  0  1 ], ndigits=2
+warning: Using Octave m-file version of function bin2SPT()!
 x=  1024, spt(11:-1:1)=[  1  0  0  0  0  0  0  0  0  0  0 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x= -1024, spt(11:-1:1)=[ -1  0  0  0  0  0  0  0  0  0  0 ], ndigits=1
+warning: Using Octave m-file version of function bin2SPT()!
 x=  1025, spt(12:-1:1)=[  0  1  0  0  0  0  0  0  0  0  0  1 ], ndigits=2
+warning: Using Octave m-file version of function bin2SPT()!
 x= -1025, spt(12:-1:1)=[  0 -1  0  0  0  0  0  0  0  0  0 -1 ], ndigits=2
-X = 
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 115 column 6
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 126 column 2
+X =
 {
   [1,1] =
      0   0   0   0   0   0   0  -1
@@ -617,13 +5808,115 @@ X =
   [1,257] =
      0   0   0   0   0   0   0   1
 }
+
 y =
     92  -119   -27    75   213
    123   128   150    28  -202
    -23   146    -4   102   206
    231    41   158   121    62
   -187   197   168  -119   114
-Y = 
+
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+warning: Using Octave m-file version of function bin2SPT()!
+warning: called from
+    bin2SPT at line 64 column 3
+    bin2SPT_test at line 135 column 2
+Y =
 {
   [1,1] =
      0   0  -1   0   0  -1   0   1
@@ -676,18 +5969,21 @@ Y =
   [5,5] =
      0   1   0   0  -1   0   0   1
 }
+
 z =
    3   3   3   4   5
    3   1   4   2   4
    3   3   1   4   4
    4   3   3   3   2
    4   4   3   3   3
+
 zz =
-   1   1   1   1   1
-   1   0   1   1   1
-   1   1   0   1   1
-   1   1   1   1   1
-   1   1   1   1   1
+  1  1  1  1  1
+  1  0  1  1  1
+  1  1  0  1  1
+  1  1  1  1  1
+  1  1  1  1  1
+
 ans =  54
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
@@ -696,9 +5992,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 # run and see if the results match
 #
 echo "Running octave-cli -q " $descr
-echo "warning('off');" >> .octaverc
-
-octave-cli -q $prog > test.out
+octave-cli -q $prog >test.out 2>&1 
 if [ $? -ne 0 ]; then echo "Failed running $descr"; fail; fi
 
 diff -Bb test.ok test.out

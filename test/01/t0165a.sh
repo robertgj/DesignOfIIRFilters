@@ -1,11 +1,14 @@
 #!/bin/sh
 
 prog=bitflip_test.m
+
 descr="bitflip_test.m (octfile)"
-depends="bitflip_test.m test_common.m bitflip.oct tf2schurNSlattice.m \
-truncation_test_common.m print_polynomial.m schurNSlattice_cost.m \
-schurNSlattice2tf.m x2nextra.m flt2SD.m bin2SD.oct schurNSscale.oct \
-schurdecomp.oct schurexpand.oct schurNSlattice2Abcd.oct Abcd2tf.m"
+
+depends="bitflip_test.m test_common.m check_octave_file.m \
+tf2schurNSlattice.m truncation_test_common.m print_polynomial.m \
+schurNSlattice_cost.m  schurNSlattice2tf.m Abcd2tf.m x2nextra.m flt2SD.m \
+bitflip.oct bin2SD.oct schurNSscale.oct schurdecomp.oct schurexpand.oct \
+schurNSlattice2Abcd.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -13,7 +16,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $descr 1>&2
+        echo FAILED ${0#$here"/"} $descr 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -21,7 +24,7 @@ fail()
 
 pass()
 {
-        echo PASSED $descr
+        echo PASSED ${0#$here"/"} $descr
         cd $here
         rm -rf $tmp
         exit 0
@@ -42,15 +45,16 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-norder =    5.0000e+00
-dBpass =    1.0000e+00
-dBstop =    4.0000e+01
-fpass =    1.2500e-01
-fstop =    1.5000e-01
-nbits =    6.0000e+00
-ndigits =    2.0000e+00
-bitstart =    4.0000e+00
-msize =    3.0000e+00
+Using bitflip octfile
+norder =  5
+dBpass =  1
+dBstop =  40
+fpass =  0.12500
+fstop =  0.15000
+nbits =  6
+ndigits =  2
+bitstart =  4
+msize =  3
 bitflip_test: cost_ex= 1.00080
 bitflip_test: cost_rd= 1.21300
 bitflip_test:nbits=7,bitstart=6,msize=1,cost_bf= 0.85784,fiter=480
@@ -131,8 +135,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 # run and see if the results match
 #
 echo "Running octave-cli -q " $descr
-
-octave-cli -q $prog > test.out 
+octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $descr"; fail; fi
 
 diff -Bb test.ok test.out

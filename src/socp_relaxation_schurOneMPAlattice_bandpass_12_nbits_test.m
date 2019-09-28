@@ -18,7 +18,6 @@ socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito=false
 
 tic;
 
-format compact
 
 maxiter=2000
 verbose=false

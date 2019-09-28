@@ -1,5 +1,5 @@
 function x=jacobi_Eta(z,k,tol)
-% x=jacobi_Eta(z,k,tol) for scalars z and modulus, k
+% x=jacobi_Eta(z,k,tol)
 
 % Copyright (C) 2019 Robert G. Jenssen
 %
@@ -27,9 +27,6 @@ function x=jacobi_Eta(z,k,tol)
   if nargin==2
     tol=eps;
   endif
-  if ~isscalar(z)
-    error("Expect z scalar!");
-  endif
   if ~isscalar(k)
     error("Expect k scalar!");
   endif
@@ -49,7 +46,7 @@ function x=jacobi_Eta(z,k,tol)
     q=exp(-pi*tp);
     u=z/(tp*(jacobi_theta3(0,q)^2));
     x=jacobi_theta1(u*j*tp,q,tol);
-    x=x*(-j)*sqrt(tp)*exp(-u*u*tp/pi);
+    x=x.*(-j)*sqrt(tp).*exp(-u.*u*tp/pi);
   else
     q=exp(-pi/tp);
     u=z/(jacobi_theta3(0,q)^2);

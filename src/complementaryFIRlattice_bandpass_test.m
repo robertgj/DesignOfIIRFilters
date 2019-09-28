@@ -7,7 +7,6 @@ unlink("complementaryFIRlattice_bandpass_test.diary");
 unlink("complementaryFIRlattice_bandpass_test.diary.tmp");
 diary complementaryFIRlattice_bandpass_test.diary.tmp
 
-format short e
 
 strf="complementaryFIRlattice_bandpass_test";
 

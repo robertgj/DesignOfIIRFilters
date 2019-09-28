@@ -34,20 +34,11 @@ function [RF,err]=carlson_RF(x0,y0,z0,tol)
   if ~isscalar(x0)
     error("Expect x0 a scalar");
   endif 
-  if x0<0
-    error("Expect x0>=0");
-  endif
   if ~isscalar(y0)
     error("Expect y0 a scalar");
   endif 
-  if y0<=0
-    error("Expect y0>0");
-  endif
   if ~isscalar(z0)
     error("Expect z0 a scalar");
-  endif
-  if z0<=0
-    error("Expect z0>0");
   endif
 
   maxiter=10;n=0;x=x0;y=y0;z=z0;s=[0,0,0];RF=inf;err=inf;

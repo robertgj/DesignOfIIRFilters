@@ -8,7 +8,6 @@ unlink("iirT_test.diary");
 unlink("iirT_test.diary.tmp");
 diary iirT_test.diary.tmp
 
-format compact
 
 % Define the filter
 fc=0.10;U=2;V=2;M=20;Q=8;R=3;

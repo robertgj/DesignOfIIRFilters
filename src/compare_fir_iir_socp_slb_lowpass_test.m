@@ -7,7 +7,6 @@ unlink("compare_fir_iir_socp_slb_lowpass_test.diary");
 unlink("compare_fir_iir_socp_slb_lowpass_test.diary.tmp");
 diary compare_fir_iir_socp_slb_lowpass_test.diary.tmp
 
-format short e
 
 % Import coefficients
 fir_socp_slb_lowpass_test_d1_coef;

@@ -12,7 +12,6 @@ unlink("tarczynski_hilbert_test.diary");
 unlink("tarczynski_hilbert_test.diary.tmp");
 diary tarczynski_hilbert_test.diary.tmp
 
-format compact
 
 % Objective function
 function E=WISEJ_HILBERT(ND,_nN,_nD,_R,_wd,_Hd,_Wd,_td)

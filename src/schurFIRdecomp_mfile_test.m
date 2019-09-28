@@ -7,7 +7,6 @@ unlink("schurFIRdecomp_mfile_test.diary");
 unlink("schurFIRdecomp_mfile_test.diary.tmp");
 diary schurFIRdecomp_mfile_test.diary.tmp
 
-format short e
 
 [n,d]=ellip(5,0.0005,40,2*0.05);
 k=schurFIRdecomp(d)

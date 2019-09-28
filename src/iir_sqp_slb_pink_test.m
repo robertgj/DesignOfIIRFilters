@@ -9,7 +9,6 @@ diary iir_sqp_slb_pink_test.diary.tmp
 
 tic;
 
-format compact;
 
 tol_mmse=2e-5
 tol_pcls=2e-5

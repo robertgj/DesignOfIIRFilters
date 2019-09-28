@@ -7,7 +7,6 @@ unlink("svcasc2cc_test.diary");
 unlink("svcasc2cc_test.diary.tmp");
 diary svcasc2cc_test.diary.tmp
 
-format short e
 
 % Some housekeeping
 N=21;

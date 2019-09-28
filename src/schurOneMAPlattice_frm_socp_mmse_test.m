@@ -9,7 +9,6 @@ diary schurOneMAPlattice_frm_socp_mmse_test.diary.tmp
 
 tic;
 
-format compact
 maxiter=2000
 tol=1e-4
 verbose=false

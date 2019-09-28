@@ -13,7 +13,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -21,7 +21,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -42,19 +42,19 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-maxiter =    2.5000e+03
-tol =    1.0000e-03
-fapl =    1.0000e-01
-fapu =    2.0000e-01
-dBap =    3.0000e+00
-Wap =    1.0000e+00
-fasl =    5.0000e-02
-fasu =    2.5000e-01
-dBas =    2.0000e+01
-Wasl =    1.0000e+00
-Wasu =    1.0000e+00
-N =    4.1000e+01
-R =    1.0000e+00
+maxiter =  2500
+tol =  0.0010000
+fapl =  0.10000
+fapu =  0.20000
+dBap =  3
+Wap =  1
+fasl =  0.050000
+fasu =  0.25000
+dBas =  20
+Wasl =  1
+Wasu =  1
+N =  41
+R =  1
 Initial x0 = [ -0.000553 -1.823326 -0.548448 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 0.264871 0.788032 0.787381 1.268984 1.270032 1.000000 1.000000 1.000000 3.775417 3.042980 2.849519 2.663426 2.484143 2.309947 2.140277 1.975570 1.818770 1.679377 1.584821 0.761172 1.106564 0.779415 1.106564 0.779415 0.300219 0.207264 0.072378 0.761172 ]
 ans = 0
 Active constraints are [  ]

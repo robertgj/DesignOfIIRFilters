@@ -7,7 +7,6 @@ unlink("iirA_test.diary");
 unlink("iirA_test.diary.tmp");
 diary iirA_test.diary.tmp
 
-format compact
 
 % Simple case 
 [A,gradA]=iirA(0.1,0,0,0,0,0,1);

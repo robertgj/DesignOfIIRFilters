@@ -7,7 +7,6 @@ unlink("parallel_allpass_slb_exchange_constraints_test.diary");
 unlink("parallel_allpass_slb_exchange_constraints_test.diary.tmp");
 diary parallel_allpass_slb_exchange_constraints_test.diary.tmp
 
-format compact;
 
 maxiter=2000 
 verbose=true

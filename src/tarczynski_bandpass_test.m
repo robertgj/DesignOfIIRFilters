@@ -10,7 +10,6 @@ diary tarczynski_bandpass_test.diary.tmp
 
 tic;
 
-format compact
 
 % Initial filter (found by trial-and-error)
 U=2,V=0,M=18,Q=10,R=2

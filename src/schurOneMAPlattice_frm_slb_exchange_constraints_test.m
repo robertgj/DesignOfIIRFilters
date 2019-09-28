@@ -7,7 +7,6 @@ unlink("schurOneMAPlattice_frm_slb_exchange_constraints_test.diary");
 unlink("schurOneMAPlattice_frm_slb_exchange_constraints_test.diary.tmp");
 diary schurOneMAPlattice_frm_slb_exchange_constraints_test.diary.tmp
 
-format compact;
 
 maxiter=2000
 tol=5e-6

@@ -9,7 +9,6 @@ diary parallel_allpass_delay_sqp_slb_test.diary.tmp
 
 tic;
 
-format compact
 verbose=false
 maxiter=5000
 strf="parallel_allpass_delay_sqp_slb_test";

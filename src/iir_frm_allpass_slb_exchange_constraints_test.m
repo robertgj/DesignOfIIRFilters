@@ -7,7 +7,6 @@ unlink("iir_frm_allpass_slb_exchange_constraints_test.diary");
 unlink("iir_frm_allpass_slb_exchange_constraints_test.diary.tmp");
 diary iir_frm_allpass_slb_exchange_constraints_test.diary.tmp
 
-format compact;
 
 maxiter=2000
 tol=5e-6

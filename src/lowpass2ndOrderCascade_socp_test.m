@@ -9,7 +9,6 @@ diary lowpass2ndOrderCascade_socp_test.diary.tmp
 
 tic;
 
-format compact
 
 verbose=false
 tol=1e-6

@@ -11,7 +11,6 @@ unlink("tarczynski_pink_test.diary");
 unlink("tarczynski_pink_test.diary.tmp");
 diary tarczynski_pink_test.diary.tmp
 
-format compact
 tic
 
 % Filter specification

@@ -7,7 +7,6 @@ unlink("tf2schurOneMlattice_test.diary");
 unlink("tf2schurOneMlattice_test.diary.tmp");
 diary tf2schurOneMlattice_test.diary.tmp
 
-format short e
 
 % Low-pass fpass=0.2
 norder=7;

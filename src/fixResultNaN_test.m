@@ -7,7 +7,6 @@ unlink("fixResultNaN_test.diary");
 unlink("fixResultNaN_test.diary.tmp");
 diary fixResultNaN_test.diary.tmp
 
-format short e
 
 X=NaN
 X=fixResultNaN(X)

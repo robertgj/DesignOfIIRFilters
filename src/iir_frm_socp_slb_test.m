@@ -14,7 +14,6 @@ diary iir_frm_socp_slb_test.diary.tmp
 
 tic;
 
-format compact
 
 %
 % Initial filter is based on the filters found by tarczynski_frm_iir_test.m

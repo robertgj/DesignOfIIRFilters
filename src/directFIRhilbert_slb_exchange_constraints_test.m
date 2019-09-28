@@ -7,7 +7,6 @@ unlink("directFIRhilbert_slb_exchange_constraints_test.diary");
 unlink("directFIRhilbert_slb_exchange_constraints_test.diary.tmp");
 diary directFIRhilbert_slb_exchange_constraints_test.diary.tmp
 
-format compact;
 
 tol=1e-4;
 

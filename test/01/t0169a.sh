@@ -1,8 +1,10 @@
 #!/bin/sh
 
 prog=complex_zhong_inverse_test.m
+
 descr="complex_zhong_inverse_test.m (octfile)"
-depends="complex_zhong_inverse_test.m test_common.m \
+
+depends="complex_zhong_inverse_test.m test_common.m check_octave_file.m \
 complex_zhong_inverse.oct reprand.oct"
 
 tmp=/tmp/$$
@@ -11,7 +13,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -19,7 +21,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -40,6 +42,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
+Using complex_zhong_inverse octfile
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 
@@ -48,7 +51,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 #
 echo "Running octave-cli -q " $prog
 
-octave-cli -q $prog > /dev/null 2> test.out
+octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $descr"; fail; fi
 
 diff -Bb test.ok test.out

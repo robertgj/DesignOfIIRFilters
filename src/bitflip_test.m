@@ -9,6 +9,8 @@ unlink("bitflip_test.diary");
 unlink("bitflip_test.diary.tmp");
 diary bitflip_test.diary.tmp
 
+check_octave_file("bitflip");
+
 truncation_test_common;
 
 % Specify quantisation

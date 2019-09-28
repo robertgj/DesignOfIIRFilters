@@ -7,7 +7,6 @@ unlink("stability2ndOrderCascade_test.diary");
 unlink("stability2ndOrderCascade_test.diary.tmp");
 diary stability2ndOrderCascade_test.diary.tmp
 
-format compact
 
 [Ce,ee]=stability2ndOrderCascade(4)
 if rows(Ce) ~= rows(ee)

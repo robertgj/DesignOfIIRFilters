@@ -9,7 +9,6 @@ diary parallel_allpass_socp_slb_bandpass_test.diary.tmp
 
 tic;
 
-format compact
 verbose=false
 maxiter=2000
 strf="parallel_allpass_socp_slb_bandpass_test";

@@ -9,7 +9,6 @@ unlink("tf2pa_test.diary");
 unlink("tf2pa_test.diary.tmp");
 diary tf2pa_test.diary.tmp
 
-format short e
 
 fc=0.05;
 [n,d]=ellip(5,1,40,2*fc);

@@ -11,7 +11,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -19,7 +19,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -40,37 +40,34 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-N =    5.0000e+00
-fc =    5.0000e-02
+N =  5
+fc =  0.050000
 Acf =
-
-   1.1807e+00   3.0070e-01   0.0000e+00   0.0000e+00   0.0000e+00
-   1.0000e+00   1.1142e-01  -7.0303e-01   0.0000e+00   0.0000e+00
-   0.0000e+00   1.0000e+00   1.2927e+00   1.5201e-02   0.0000e+00
-   0.0000e+00   0.0000e+00   1.0000e+00   7.3758e-01  -2.0193e-01
-   0.0000e+00   0.0000e+00   0.0000e+00   1.0000e+00   1.0175e+00
+   1.18075   0.30070   0.00000   0.00000   0.00000
+   1.00000   0.11142  -0.70303   0.00000   0.00000
+   0.00000   1.00000   1.29267   0.01520   0.00000
+   0.00000   0.00000   1.00000   0.73758  -0.20193
+   0.00000   0.00000   0.00000   1.00000   1.01748
 
 Bcf =
-
-   1.6346e-02
-   0.0000e+00
-   0.0000e+00
-   0.0000e+00
-   0.0000e+00
+   0.016346
+   0.000000
+   0.000000
+   0.000000
+   0.000000
 
 Ccf =
+   1   0   0   0   0
 
-   1.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00   0.0000e+00
-
-Dcf =    8.3020e-03
+Dcf =  0.0083020
 max(abs(b-bcf))=0.000000
 max(abs(a-acf))=0.000000
-ngcf =    1.2669e+02
-ngdir =    5.8334e+05
-ngoptdir =    9.2821e-01
-ngopt =    9.2821e-01
-est_varydcf =    4.2312e+01
-varydcf =    4.5528e+01
+ngcf =  126.69
+ngdir =  583337.81582
+ngoptdir =  0.92821
+ngopt =  0.92821
+est_varydcf =  42.312
+varydcf =  45.528
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

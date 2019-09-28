@@ -7,7 +7,6 @@ unlink("parallel_allpass_delay_sqp_mmse_test.diary");
 unlink("parallel_allpass_delay_sqp_mmse_test.diary.tmp");
 diary parallel_allpass_delay_sqp_mmse_test.diary.tmp
 
-format compact
 
 verbose=true
 tol=1e-4

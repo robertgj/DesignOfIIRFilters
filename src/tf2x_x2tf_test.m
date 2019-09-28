@@ -7,7 +7,6 @@ unlink("tf2x_x2tf_test.diary");
 unlink("tf2x_x2tf_test.diary.tmp");
 diary tf2x_x2tf_test.diary.tmp
 
-format compact
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [x,U,V,M,Q]=tf2x(0,1);

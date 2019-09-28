@@ -7,7 +7,8 @@ unlink("Abcd2H_test.diary");
 unlink("Abcd2H_test.diary.tmp");
 diary Abcd2H_test.diary.tmp
 
-tic;
+check_octave_file("Abcd2H");
+
 verbose=true;
 tol=5e-9;
 
@@ -657,6 +658,5 @@ diagd3Hoptdwdx2(nc,:)))(%g*tol) > 16247*tol",
 endif
 
 % Done
-toc;
 diary off
 movefile Abcd2H_test.diary.tmp Abcd2H_test.diary;

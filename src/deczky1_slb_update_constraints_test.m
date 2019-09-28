@@ -7,7 +7,6 @@ unlink("deczky1_slb_update_constraints_test.diary");
 unlink("deczky1_slb_update_constraints_test.diary.tmp");
 diary deczky1_slb_update_constraints_test.diary.tmp
 
-format compact;
 
 verbose=true
 tol=1e-5

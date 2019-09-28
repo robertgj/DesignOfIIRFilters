@@ -10,7 +10,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -18,7 +18,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -40,18 +40,10 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 k =
-
- Columns 1 through 6:
-
-  -9.5026e-01   9.9999e-01  -9.5071e-01   9.9987e-01  -9.5354e-01   9.9851e-01
-
- Columns 7 through 12:
-
-  -9.6607e-01   9.8925e-01  -9.7526e-01   9.7221e-01  -9.4763e-01   8.2399e-01
-
- Column 13:
-
-  -3.5017e-01
+ Columns 1 through 8:
+  -0.95026   0.99999  -0.95071   0.99987  -0.95354   0.99851  -0.96607   0.98925
+ Columns 9 through 13:
+  -0.97526   0.97221  -0.94763   0.82399  -0.35017
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

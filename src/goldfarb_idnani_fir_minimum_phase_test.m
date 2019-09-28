@@ -7,7 +7,6 @@ unlink("goldfarb_idnani_fir_minimum_phase_test.diary");
 unlink("goldfarb_idnani_fir_minimum_phase_test.diary.tmp");
 diary goldfarb_idnani_fir_minimum_phase_test.diary.tmp
 
-format short e
 
 maxiter=2500
 tol=1e-3

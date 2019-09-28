@@ -25,7 +25,6 @@ branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_allocsd_Ito=true
 
 tic;
 
-format compact
 
 % Common strings
 strf="branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test";

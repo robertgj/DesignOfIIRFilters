@@ -7,7 +7,6 @@ unlink("schurOneMAPlattice_frmP_test.diary");
 unlink("schurOneMAPlattice_frmP_test.diary.tmp");
 diary schurOneMAPlattice_frmP_test.diary.tmp
 
-format compact
 verbose=false;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

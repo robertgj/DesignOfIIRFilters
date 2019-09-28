@@ -11,7 +11,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -19,7 +19,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -40,25 +40,25 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-Fp =    1.0000e-01
-ApdB =    1.0000e-01
-Fa =    1.2500e-01
-AadB =    4.0000e+01
-n =    9.0000e+00
-nbits =    8.0000e+00
-ndigits =    3.0000e+00
+Fp =  0.10000
+ApdB =  0.10000
+Fa =  0.12500
+AadB =  40
+n =  9
+nbits =  8
+ndigits =  3
 -0.809017 < a < -0.707107. Choose a=-0.750000
-x0 =    1.3333e+00
-f3dB =    1.1503e-01
-a1 =   -4.5142e-01
-fa =    1.2500e-01
-fp =    1.0571e-01
-wa =    1.2010e+00
-k =    8.3263e-01
+x0 =  1.3333
+f3dB =  0.11503
+a1 = -0.45142
+fa =  0.12500
+fp =  0.10571
+wa =  1.2010
+k =  0.83263
 g=3.13294e-05
-L =    3.1919e+04
-apdB =    1.3606e-04
-aadB =    4.5041e+01
+L =  31918.88137
+apdB =  0.00013606
+aadB =  45.041
 abs(ps)=[ 1.095908 1.095908 1.095907 1.095907 1.095906 1.095906 1.095906 1.095906 1.095908 ], expected 1.095906
 abs(pz-x0)=[ 0.881918 0.881918 0.881918 0.881918 0.881917 0.881917 0.881917 0.881917 0.881918 ]
 b=[ 0.350740 0.619208 0.822345 0.949033 ]

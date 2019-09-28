@@ -11,7 +11,6 @@ unlink("tarczynski_differentiator_test.diary");
 unlink("tarczynski_differentiator_test.diary.tmp");
 diary tarczynski_differentiator_test.diary.tmp
 
-format compact
 
 % Filter specification
 R=2;nN=12;nD=6;td=(nN-1)/2;tol=1e-9;maxiter=5000;

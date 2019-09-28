@@ -131,6 +131,24 @@ if abs(K3-carlson_RF(0,1-(k3^2),1))>tol
   error("abs(K3-carlson_RF(0,1-(k3^2),1))>tol");
 endif
 
+% Check DLMF Equation 19.25.31
+k=0.1:0.1:0.9;
+u=(0.05:0.05:0.95);
+tol=2*eps;
+for n=1:length(k),
+  [snu,cnu,dnu]=ellipj(u,k(n).^2);
+  csu=cnu./snu;
+  dsu=dnu./snu;
+  nsu=1./snu;
+  uc=zeros(size(u));
+  for l=1:length(u),
+    uc(l)=carlson_RF(csu(l)^2,dsu(l)^2,nsu(l)^2);
+  endfor
+  if max(abs(uc-u))>tol
+    error("max(abs(uc-u))>tol");
+  endif
+endfor
+
 % Done
 diary off
 movefile carlson_RF_test.diary.tmp carlson_RF_test.diary;

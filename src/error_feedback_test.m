@@ -7,7 +7,6 @@ unlink("error_feedback_test.diary");
 unlink("error_feedback_test.diary.tmp");
 diary error_feedback_test.diary.tmp
 
-format short e
 
 strf="error_feedback_test";
 

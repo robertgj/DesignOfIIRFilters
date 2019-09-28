@@ -10,8 +10,6 @@ unlink("bitflip_schurOneMlattice_bandpass_test.diary");
 unlink("bitflip_schurOneMlattice_bandpass_test.diary.tmp");
 diary bitflip_schurOneMlattice_bandpass_test.diary.tmp
 
-format long e
-
 bitflip_bandpass_test_common;
 
 % File name string

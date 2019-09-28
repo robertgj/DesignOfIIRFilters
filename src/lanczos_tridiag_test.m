@@ -7,7 +7,6 @@ unlink("lanczos_tridiag_test.diary");
 unlink("lanczos_tridiag_test.diary.tmp");
 diary lanczos_tridiag_test.diary.tmp
 
-format short e
 
 rand("seed",0xdeadbeef);
 A=rand(9,9);

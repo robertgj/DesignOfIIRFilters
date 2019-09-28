@@ -14,32 +14,26 @@ tol=10*eps;
   % elfun18v1_3 (https://github.com/ElsevierSoftwareX/SOFTX_2018_246)
   x=-1:0.1:1;
   k=0.1:0.1:0.9;
-  eta=zeros(length(x),length(k));
+  Eta=zeros(length(x),length(k));
   for m=1:length(x),
     for n=1:length(k),
-      eta(m,n)=JacobiEta(x(m),k(n));
+      Eta(m,n)=JacobiEta(x(m),k(n));
     endfor
   endfor
-  save -ascii -double JacobiEta.txt eta
+  save -ascii -double JacobiEta.txt Eta
 %}
 
 load JacobiEta.txt
 
-x=-1:0.1:1;
+x=(-1:0.1:1)';
 k=0.1:0.1:0.9;
-z=zeros(size(JacobiEta));
-for m=1:rows(JacobiEta),
-  for n=1:columns(JacobiEta),
-    eta(m,n)=jacobi_Eta(x(m),k(n));
-    if abs(eta(m,n)-JacobiEta(m,n))>tol
-      error("abs(eta(m,n)-JacobiEta(m,n))>tol,x=%f,k=%f",x(m),k(n));
-    endif
-  endfor
+for l=1:length(k),
+  Eta=jacobi_Eta(x,k(l));
+  if max(abs(Eta-JacobiEta(:,l)))>tol
+    error("max(abs(Eta-JacobiEta(_,%d)))(%g)>tol", ...
+          l,max(abs(Eta-JacobiEta(:,l))));
+  endif
 endfor
-
-if max(max(abs(eta-JacobiEta)))>tol
-  error("max(max(abs(eta-JacobiEta)))>tol");
-endif
 
 %{
   % jacobiEtaMoiseev.txt was created by the JacobiThetaEta function from
@@ -47,35 +41,29 @@ endif
   x=-1:0.1:1;
   k=0.1:0.1:0.9;
   th=zeros(length(x),length(k));
-  eta=zeros(length(x),length(k));
+  Eta=zeros(length(x),length(k));
   for m=1:length(x),
     for n=1:length(k),
-      [th_tmp,eta_tmp]=jacobiThetaEta(x(m),k(n)^2);
+      [th_tmp,Eta_tmp]=jacobiThetaEta(x(m),k(n)^2);
       th(m,n)=th_tmp;  
-      eta(m,n)=eta_tmp;  
+      Eta(m,n)=eta_tmp;  
     endfor
   endfor
   save -ascii -double jacobiThetaMoiseev.txt th
-  save -ascii -double jacobiEtaMoiseev.txt eta
+  save -ascii -double jacobiEtaMoiseev.txt Eta
 %}
 
 load jacobiEtaMoiseev.txt
 
-x=-1:0.1:1;
+x=(-1:0.1:1)';
 k=0.1:0.1:0.9;
-eta=zeros(size(jacobiEtaMoiseev));
-for m=1:rows(jacobiEtaMoiseev),
-  for n=1:columns(jacobiEtaMoiseev),
-    eta(m,n)=jacobi_Eta(x(m),k(n));
-    if abs(eta(m,n)-jacobiEtaMoiseev(m,n))>tol
-      error("abs(eta(m,n)-jacobiEtaMoiseev(m,n))>tol,x=%f,k=%f",x(m),k(n));
-    endif
-  endfor
+for l=1:length(k),
+  Eta=jacobi_Eta(x,k(l));
+  if max(abs(Eta-jacobiEtaMoiseev(:,l)))>tol
+    error("max(abs(Eta-jacobiEtaMoiseev(_,%d)))(%g)>tol", ...
+          l,max(abs(Eta-jacobiEtaMoiseev(:,l))));
+  endif
 endfor
-
-if max(max(abs(eta-jacobiEtaMoiseev)))>tol
-  error("max(max(abs(eta-jacobiEtaMoiseev)))>tol");
-endif
 
 % Done
 diary off

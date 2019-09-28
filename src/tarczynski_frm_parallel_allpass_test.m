@@ -13,7 +13,6 @@ diary tarczynski_frm_parallel_allpass_test.diary.tmp
 
 tic;
 
-format compact
 verbose=true
 no_phase=true
 strf="tarczynski_frm_parallel_allpass_test";

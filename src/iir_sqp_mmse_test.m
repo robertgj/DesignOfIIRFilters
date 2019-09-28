@@ -7,7 +7,6 @@ unlink("iir_sqp_mmse_test.diary");
 unlink("iir_sqp_mmse_test.diary.tmp");
 diary iir_sqp_mmse_test.diary.tmp
 
-format compact
 
 verbose=true
 tol=1e-3
@@ -113,7 +112,6 @@ print(sprintf(strd,"x1pass"),"-dpdflatex");
 close
 
 print_polynomial(x1,"x1=","iir_sqp_mmse_test_x1_coef.m");
-format short e
 x1'
 [N1,D1]=x2tf(x1,U,V,M,Q,R);
 N1'

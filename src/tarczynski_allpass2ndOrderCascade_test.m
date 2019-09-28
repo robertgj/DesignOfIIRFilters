@@ -14,7 +14,6 @@ diary tarczynski_allpass2ndOrderCascade_test.diary.tmp
 
 tic;
 
-format compact
 verbose=true;
 
 % Objective function

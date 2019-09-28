@@ -7,10 +7,7 @@ unlink("schurOneMlattice2H_test.diary");
 unlink("schurOneMlattice2H_test.diary.tmp");
 diary schurOneMlattice2H_test.diary.tmp
 
-clear schurOneMlattice2H
-
-format long e
-tic;
+check_octave_file("schurOneMlattice2H");
 
 verbose=true;
 
@@ -236,8 +233,5 @@ if max(abs(rel_diff_d2Hdkc2)) > del/792
 endif
 
 % Done
-toc;
-if verbose
-endif
 diary off
 movefile schurOneMlattice2H_test.diary.tmp schurOneMlattice2H_test.diary;

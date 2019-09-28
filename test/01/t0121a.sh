@@ -2,10 +2,10 @@
 
 prog=butt6OneMSD_test.m
 
-depends="butt6OneMSD_test.m test_common.m \
-spectralfactor.oct schurexpand.oct schurdecomp.oct bin2SD.oct \
-schurOneMscale.m tf2schurOneMlattice.m schurOneMlatticeFilter.m flt2SD.m \
-x2nextra.m crossWelch.m tf2pa.m qroots.m qzsolve.oct"
+depends="butt6OneMSD_test.m test_common.m print_polynomial.m \
+schurOneMscale.m tf2schurOneMlattice.m schurOneMlatticeFilter.m \
+flt2SD.m x2nextra.m crossWelch.m tf2pa.m qroots.m \
+qzsolve.oct spectralfactor.oct schurexpand.oct schurdecomp.oct bin2SD.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -13,7 +13,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -21,7 +21,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -42,47 +42,24 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-fc =    5.0000e-02
-n =
-
-   5.9796e-05   2.9898e-04   5.9796e-04   5.9796e-04   2.9898e-04   5.9796e-05
-
-d =
-
-   1.0000e+00  -3.9845e+00   6.4349e+00  -5.2536e+00   2.1651e+00  -3.5993e-01
-
-nbits =    8.0000e+00
-scale =    1.2800e+02
-ndigits =    2.0000e+00
-A1ksd =
-
-  -9.375000000000000e-01   6.250000000000000e-01
-
-A1csd =
-
-   7.812500000000000e-02  -1.500000000000000e+00   6.250000000000000e-01
-
-A2ksd =
-
-  -9.687500000000000e-01   9.375000000000000e-01  -6.250000000000000e-01
-
-A2csd =
-
- Columns 1 through 3:
-
-   2.343750000000000e-02  -7.500000000000000e-01   3.750000000000000e-01
-
- Column 4:
-
-  -6.250000000000000e-01
+fc =  0.050000
+nbits =  8
+scale =  128
+ndigits =  2
+n = [  0.0000597958,  0.0002989789,  0.0005979578,  0.0005979578, ... 
+       0.0002989789,  0.0000597958 ];
+d = [  1.0000000000, -3.9845431196,  6.4348670903, -5.2536151704, ... 
+       2.1651329097, -0.3599282451 ];
+A1ksd = [  -0.93750000,   0.62500000 ];
+A1ksd = [  -0.93750000,   0.62500000 ];
+A1csd = [   0.07812500,  -1.50000000,   0.62500000 ];
+A2ksd = [  -0.93750000,   0.62500000 ];
+A2csd = [  -0.93750000,   0.62500000 ];
+ans =
+   110.52   123.00
 
 ans =
-
-   1.1052e+02   1.2300e+02
-
-ans =
-
-   1.5710e+02   1.5472e+02   1.3331e+02
+   157.10   154.72   133.31
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

@@ -1,8 +1,6 @@
 % bitflip_bandpass_test_common.m
 % Copyright (C) 2017,2018 Robert G. Jenssen
 
-format long e
-
 % PCLS IIR band pass filter from iir_sqp_slb_bandpass_test.m
 n0 = [   0.0119656597,   0.0054227177,   0.0227005335,   0.0226922170, ... 
          0.0478437399,   0.0344596061,   0.0300157817,   0.0005327649, ... 

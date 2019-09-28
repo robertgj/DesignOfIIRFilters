@@ -7,7 +7,6 @@ unlink("iirdelAdelw_test.diary");
 unlink("iirdelAdelw_test.diary.tmp");
 diary iirdelAdelw_test.diary.tmp
 
-format short e
 
 % Simple case 
 [delAdelw,graddelAdelw]=iirdelAdelw(0.1,0,0,0,0,0,1);

@@ -15,7 +15,6 @@ strf="zahradnik_halfband_test";
 nplot=10000;
 tol=1e-10;
 maxiter=1e4;
-format long e
 
 function [n,kp,A,B]=zahradnik_halfband_param(fp,as)
   wp=2*pi*fp;

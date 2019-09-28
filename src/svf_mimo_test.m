@@ -7,7 +7,6 @@ unlink("svf_mimo_test.diary");
 unlink("svf_mimo_test.diary.tmp");
 diary svf_mimo_test.diary.tmp
 
-format short e
 
 % Design filters
 dbap=0.1;
@@ -18,7 +17,7 @@ fh=0.15;
 [a2,b2,c2,d2]=ellip(6,dbap,dbas,2*[fl,fh]);
 [a3,b3,c3,d3]=ellip(7,dbap,dbas,2*fh,'high');
 N=1000;
-u=[reprand(N),reprand(N),reprand(N)];
+u=reprand(N,3);
 u=u-mean(u);
 u=0.25*std(u).*u;
 
@@ -69,7 +68,7 @@ c=[c1,zeros(1,columns(a2)+columns(a3)); ...
    c1,zeros(1,columns(a2)),c3];
 d=[diag([d1,d2,d3]);d1,0,d3];
 N=1000;
-u=[reprand(N),reprand(N),reprand(N)];
+u=reprand(N,3);
 u=u-mean(u);
 u=0.25*std(u).*u;
 y1=svf(a1,b1,c1,d1,u(:,1));

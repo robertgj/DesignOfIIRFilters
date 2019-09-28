@@ -12,7 +12,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -20,7 +20,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -44,260 +44,154 @@ cat > test.ok << 'EOF'
 
 Butterworth low-pass filter with N=20, fc=0.100000
 xbits =
-
- Columns 1 through 6:
-
-   1.0000e+00   1.0000e+00   1.0000e+00   1.0000e+00   1.0000e+00   1.0000e+00
-
- Columns 7 through 10:
-
-  -0.0000e+00  -0.0000e+00   0.0000e+00   0.0000e+00
+   1   1   1   1   1   1  -0  -0   0   0
 
 stdydirf =
-
- Columns 1 through 6:
-
-   3.5030e+02   6.7611e+02   9.1500e+02   9.0059e+02   7.6001e+02   5.3286e+02
-
- Columns 7 through 10:
-
-   3.5274e+02   2.3100e+02   1.5957e+02   1.1932e+02
+ Columns 1 through 8:
+   350.30   676.11   915.00   900.59   760.01   532.86   352.74   231.00
+ Columns 9 and 10:
+   159.57   119.32
 
 stdxx1dirf =
-
- Columns 1 through 6:
-
-   6.3838e+01   6.4133e+01   6.6489e+01   6.6030e+01   6.8010e+01   6.5967e+01
-
- Columns 7 through 10:
-
-   6.5025e+01   6.4667e+01   6.5595e+01   6.6575e+01
+ Columns 1 through 8:
+   63.838   64.133   66.489   66.030   68.010   65.967   65.025   64.667
+ Columns 9 and 10:
+   65.595   66.575
 
 stdxx2dirf =
+ Columns 1 through 8:
+   63.839   64.136   66.490   66.031   68.015   65.967   65.031   64.667
+ Columns 9 and 10:
+   65.606   66.593
 
- Columns 1 through 6:
-
-   6.3839e+01   6.4136e+01   6.6490e+01   6.6031e+01   6.8015e+01   6.5967e+01
-
- Columns 7 through 10:
-
-   6.5031e+01   6.4667e+01   6.5606e+01   6.6593e+01
-
-varyddirf =    6.5502e+01
-est_varyddirf =    9.0674e+01
+varyddirf =  65.502
+est_varyddirf =  90.674
 stdyboptf =
-
- Columns 1 through 6:
-
-   3.5090e+02   6.8265e+02   9.0847e+02   9.1126e+02   7.6012e+02   5.4583e+02
-
- Columns 7 through 10:
-
-   3.6162e+02   2.3650e+02   1.6140e+02   1.2024e+02
+ Columns 1 through 8:
+   350.90   682.65   908.47   911.26   760.12   545.83   361.62   236.50
+ Columns 9 and 10:
+   161.40   120.24
 
 stdxx1boptf =
-
- Columns 1 through 6:
-
-   6.3834e+01   6.4837e+01   6.5687e+01   6.7650e+01   6.7485e+01   6.9474e+01
-
- Columns 7 through 10:
-
-   6.7229e+01   6.6440e+01   6.6252e+01   6.6591e+01
+ Columns 1 through 8:
+   63.834   64.837   65.687   67.650   67.485   69.474   67.229   66.440
+ Columns 9 and 10:
+   66.252   66.591
 
 stdxx2boptf =
+ Columns 1 through 8:
+   63.898   64.753   65.938   66.939   67.925   67.807   66.755   66.271
+ Columns 9 and 10:
+   66.384   67.126
 
- Columns 1 through 6:
-
-   6.3898e+01   6.4753e+01   6.5938e+01   6.6939e+01   6.7925e+01   6.7807e+01
-
- Columns 7 through 10:
-
-   6.6755e+01   6.6271e+01   6.6384e+01   6.7126e+01
-
-varydboptf =    2.0351e+01
-est_varydboptf =    2.1937e+01
+varydboptf =  20.351
+est_varydboptf =  21.937
 stdyboptfx =
-
- Columns 1 through 6:
-
-   3.5100e+02   6.8279e+02   9.0857e+02   9.1135e+02   7.6018e+02   5.4589e+02
-
- Columns 7 through 10:
-
-   3.6170e+02   2.3656e+02   1.6141e+02   1.2026e+02
+ Columns 1 through 8:
+   351.00   682.79   908.57   911.35   760.18   545.89   361.70   236.56
+ Columns 9 and 10:
+   161.41   120.26
 
 stdxx1boptfx =
-
- Columns 1 through 6:
-
-   1.2769e+02   1.2968e+02   1.3137e+02   1.3532e+02   1.3498e+02   1.3897e+02
-
- Columns 7 through 10:
-
-   6.7252e+01   6.6445e+01   6.6262e+01   6.6596e+01
+ Columns 1 through 8:
+   127.694   129.685   131.373   135.320   134.984   138.968    67.252    66.445
+ Columns 9 and 10:
+    66.262    66.596
 
 stdxx2boptfx =
+ Columns 1 through 8:
+   127.824   129.532   131.891   133.894   135.864   135.629    66.773    66.289
+ Columns 9 and 10:
+    66.388    67.139
 
- Columns 1 through 6:
-
-   1.2782e+02   1.2953e+02   1.3189e+02   1.3389e+02   1.3586e+02   1.3563e+02
-
- Columns 7 through 10:
-
-   6.6773e+01   6.6289e+01   6.6388e+01   6.7139e+01
-
-varydboptfx =    6.3163e+00
-est_varydboptfx =    7.4054e+00
-est_varydGoptf =    2.2740e+00
-varydGoptf =    2.3447e+00
-stdyGoptf =    1.1394e+02
+varydboptfx =  6.3163
+est_varydboptfx =  7.4054
+est_varydGoptf =  2.2740
+varydGoptf =  2.3447
+stdyGoptf =  113.94
 stdxxGoptf =
-
- Columns 1 through 6:
-
-   6.4044e+01   6.3685e+01   6.3943e+01   6.1626e+01   6.1488e+01   6.3515e+01
-
- Columns 7 through 12:
-
-   6.3726e+01   6.3838e+01   6.2331e+01   6.4453e+01   6.4243e+01   6.2790e+01
-
- Columns 13 through 18:
-
-   6.3669e+01   6.2624e+01   6.2608e+01   6.3724e+01   6.4064e+01   6.3038e+01
-
- Columns 19 and 20:
-
-   6.4052e+01   6.5497e+01
+ Columns 1 through 8:
+   64.044   63.685   63.943   61.626   61.488   63.515   63.726   63.838
+ Columns 9 through 16:
+   62.331   64.453   64.243   62.790   63.669   62.624   62.608   63.724
+ Columns 17 through 20:
+   64.064   63.038   64.052   65.497
 
 
 Butterworth high-pass filter with N=20, fc=0.100000
 xbits =
-
- Columns 1 through 6:
-
-   1.0000e+00   1.0000e+00   1.0000e+00   1.0000e+00   1.0000e+00   1.0000e+00
-
- Columns 7 through 10:
-
-  -0.0000e+00  -0.0000e+00   0.0000e+00   0.0000e+00
+   1   1   1   1   1   1  -0  -0   0   0
 
 stdydirf =
-
- Columns 1 through 6:
-
-   4.1666e+02   7.2434e+02   9.4075e+02   9.8165e+02   8.0454e+02   6.1241e+02
-
- Columns 7 through 10:
-
-   4.5257e+02   3.3910e+02   2.7054e+02   2.3061e+02
+ Columns 1 through 8:
+   416.66   724.34   940.75   981.65   804.54   612.41   452.57   339.10
+ Columns 9 and 10:
+   270.54   230.61
 
 stdxx1dirf =
-
- Columns 1 through 6:
-
-   6.3838e+01   6.2562e+01   6.2796e+01   6.5297e+01   6.2861e+01   6.3224e+01
-
- Columns 7 through 10:
-
-   6.4225e+01   6.4630e+01   6.5003e+01   6.4855e+01
+ Columns 1 through 8:
+   63.838   62.562   62.796   65.297   62.861   63.224   64.225   64.630
+ Columns 9 and 10:
+   65.003   64.855
 
 stdxx2dirf =
+ Columns 1 through 8:
+   63.839   62.564   62.796   65.297   62.861   63.225   64.225   64.631
+ Columns 9 and 10:
+   65.004   64.857
 
- Columns 1 through 6:
-
-   6.3839e+01   6.2564e+01   6.2796e+01   6.5297e+01   6.2861e+01   6.3225e+01
-
- Columns 7 through 10:
-
-   6.4225e+01   6.4631e+01   6.5004e+01   6.4857e+01
-
-varyddirf =    6.1327e+01
-est_varyddirf =    8.1968e+01
+varyddirf =  61.327
+est_varyddirf =  81.968
 stdyboptf =
-
- Columns 1 through 6:
-
-   4.1718e+02   7.5087e+02   9.8471e+02   9.8438e+02   8.3766e+02   6.3023e+02
-
- Columns 7 through 10:
-
-   4.6124e+02   3.4444e+02   2.7238e+02   2.3162e+02
+ Columns 1 through 8:
+   417.18   750.87   984.71   984.38   837.66   630.23   461.24   344.44
+ Columns 9 and 10:
+   272.38   231.62
 
 stdxx1boptf =
-
- Columns 1 through 6:
-
-   6.3973e+01   6.5177e+01   6.5832e+01   6.5745e+01   6.6306e+01   6.5530e+01
-
- Columns 7 through 10:
-
-   6.5750e+01   6.5883e+01   6.5366e+01   6.5252e+01
+ Columns 1 through 8:
+   63.973   65.177   65.832   65.745   66.306   65.530   65.750   65.883
+ Columns 9 and 10:
+   65.366   65.252
 
 stdxx2boptf =
+ Columns 1 through 8:
+   63.954   65.119   64.774   66.748   66.601   66.472   65.240   65.876
+ Columns 9 and 10:
+   65.551   65.050
 
- Columns 1 through 6:
-
-   6.3954e+01   6.5119e+01   6.4774e+01   6.6748e+01   6.6601e+01   6.6472e+01
-
- Columns 7 through 10:
-
-   6.5240e+01   6.5876e+01   6.5551e+01   6.5050e+01
-
-varydboptf =    2.0341e+01
-est_varydboptf =    2.1574e+01
+varydboptf =  20.341
+est_varydboptf =  21.574
 stdyboptfx =
-
- Columns 1 through 6:
-
-   4.1684e+02   7.4999e+02   9.8352e+02   9.8329e+02   8.3694e+02   6.2977e+02
-
- Columns 7 through 10:
-
-   4.6104e+02   3.4437e+02   2.7237e+02   2.3162e+02
+ Columns 1 through 8:
+   416.84   749.99   983.52   983.29   836.94   629.77   461.04   344.37
+ Columns 9 and 10:
+   272.37   231.62
 
 stdxx1boptfx =
-
- Columns 1 through 6:
-
-   1.2781e+02   1.3017e+02   1.3148e+02   1.3132e+02   1.3247e+02   1.3091e+02
-
- Columns 7 through 10:
-
-   6.5697e+01   6.5853e+01   6.5342e+01   6.5248e+01
+ Columns 1 through 8:
+   127.808   130.166   131.476   131.320   132.467   130.909    65.697    65.853
+ Columns 9 and 10:
+    65.342    65.248
 
 stdxx2boptfx =
+ Columns 1 through 8:
+   127.766   130.040   129.344   133.307   133.035   132.786    65.166    65.841
+ Columns 9 and 10:
+    65.523    65.036
 
- Columns 1 through 6:
-
-   1.2777e+02   1.3004e+02   1.2934e+02   1.3331e+02   1.3304e+02   1.3279e+02
-
- Columns 7 through 10:
-
-   6.5166e+01   6.5841e+01   6.5523e+01   6.5036e+01
-
-varydboptfx =    7.2464e+00
-est_varydboptfx =    7.5025e+00
-est_varydGoptf =    2.3417e+00
-varydGoptf =    2.2568e+00
-stdyGoptf =    2.2844e+02
+varydboptfx =  7.2464
+est_varydboptfx =  7.5025
+est_varydGoptf =  2.3417
+varydGoptf =  2.2568
+stdyGoptf =  228.44
 stdxxGoptf =
-
- Columns 1 through 6:
-
-   6.3789e+01   6.3956e+01   6.3776e+01   6.3797e+01   6.4070e+01   6.4045e+01
-
- Columns 7 through 12:
-
-   6.3827e+01   6.3397e+01   6.3762e+01   6.4063e+01   6.3817e+01   6.3968e+01
-
- Columns 13 through 18:
-
-   6.4211e+01   6.3996e+01   6.4142e+01   6.4220e+01   6.3889e+01   6.3702e+01
-
- Columns 19 and 20:
-
-   6.4019e+01   6.3800e+01
+ Columns 1 through 8:
+   63.789   63.956   63.776   63.797   64.070   64.045   63.827   63.397
+ Columns 9 through 16:
+   63.762   64.063   63.817   63.968   64.211   63.996   64.142   64.220
+ Columns 17 through 20:
+   63.889   63.702   64.019   63.800
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi

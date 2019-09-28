@@ -1,9 +1,7 @@
 function z=jacobi_Zeta_alt(x,k,tol)
 % z=jacobi_Zeta_alt(x,k,tol) for real scalars x and k
-
-% See Section 22.16(iii) and equations 22.16.31 and 22.16.32
-% of the Digital Library of Mathematical Functions
-% at https://dlmf.nist.gov/22.16
+% See Section 22.16(iii) and equations 22.16.30 and 22.16.32 of the
+% Digital Library of Mathematical Functions at https://dlmf.nist.gov/22.16
 
 % Copyright (C) 2019 Robert G. Jenssen
 %
@@ -62,7 +60,8 @@ function z=jacobi_Zeta_alt(x,k,tol)
     del=0;
   endif
 
-  % Calculate Jacobi's Zeta function as (jacobi_Theta'/jacobi_Theta)
-  jt2=jacobi_theta3k(0,k,tol)^2;
-  z=jacobi_theta4kp(x/jt2,k,tol)/(jt2*jacobi_theta4k(x/jt2,k,tol));
+  % Calculate Jacobi's Zeta function
+  phi=asin(snxmK);
+  z=elliptic_E(phi,k,tol)-(xmK*Ek/Kk)-del;
 endfunction
+

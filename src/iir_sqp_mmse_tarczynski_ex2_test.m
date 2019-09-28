@@ -11,7 +11,6 @@ unlink("iir_sqp_mmse_tarczynski_ex2_test.diary");
 unlink("iir_sqp_mmse_tarczynski_ex2_test.diary.tmp");
 diary iir_sqp_mmse_tarczynski_ex2_test.diary.tmp
 
-format compact
 
 tol=1e-2;
 maxiter=2000;

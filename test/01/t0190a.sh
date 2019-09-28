@@ -13,7 +13,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -21,7 +21,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -42,15 +42,15 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-norder =    5.0000e+00
-dBpass =    1.0000e+00
-dBstop =    4.0000e+01
-fpass =    1.2500e-01
-fstop =    1.5000e-01
-nbits =    6.0000e+00
-ndigits =    2.0000e+00
-bitstart =    4.0000e+00
-msize =    3.0000e+00
+norder =  5
+dBpass =  1
+dBstop =  40
+fpass =  0.12500
+fstop =  0.15000
+nbits =  6
+ndigits =  2
+bitstart =  4
+msize =  3
 cost_ex= 1.00080
 cost_rd= 1.52987
 cost_sx= 1.46171

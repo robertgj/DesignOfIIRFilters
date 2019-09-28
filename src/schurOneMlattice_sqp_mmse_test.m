@@ -9,7 +9,6 @@ diary schurOneMlattice_sqp_mmse_test.diary.tmp
 
 tic;
 
-format compact
 
 tol=1e-6
 maxiter=2000

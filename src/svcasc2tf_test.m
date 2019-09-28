@@ -7,7 +7,6 @@ unlink("svcasc2tf_test.diary");
 unlink("svcasc2tf_test.diary.tmp");
 diary svcasc2tf_test.diary.tmp
 
-format short e
 
 fc=0.1;
 for N=1:20

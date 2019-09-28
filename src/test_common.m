@@ -31,6 +31,8 @@ close
 
 page_screen_output(false);
 suppress_verbose_help_message(true);
+format compact
+format short
 
 warning("error","Octave:assign-as-truth-value");
 warning("error","Octave:associativity-change");

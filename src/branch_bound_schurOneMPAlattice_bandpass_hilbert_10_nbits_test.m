@@ -23,7 +23,6 @@ enforce_pcls_constraints_on_final_filter=true
 
 tic;
 
-format compact
 
 tol=1e-4
 ctol=1e-5

@@ -13,7 +13,6 @@ diary tarczynski_frm_iir_test.diary.tmp
 
 tic;
 
-format compact
 verbose=true
 maxiter=2000
 

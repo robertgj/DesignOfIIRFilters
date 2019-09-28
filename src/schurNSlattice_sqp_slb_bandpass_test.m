@@ -64,7 +64,6 @@ unlink("schurNSlattice_sqp_slb_bandpass_test.diary");
 unlink("schurNSlattice_sqp_slb_bandpass_test.diary.tmp");
 diary schurNSlattice_sqp_slb_bandpass_test.diary.tmp
 
-format compact
 
 tol_mmse=1e-3
 tol_pcls=2e-5

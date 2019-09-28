@@ -7,7 +7,6 @@ unlink("tf2a_a2tf_test.diary");
 unlink("tf2a_a2tf_test.diary.tmp");
 diary tf2a_a2tf_test.diary.tmp
 
-format compact
 
 N=7;
 fc=0.1;

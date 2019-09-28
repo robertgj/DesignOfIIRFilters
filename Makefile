@@ -164,8 +164,10 @@ OCTAVE_SCRIPTS = \
  tfp2schurNSlattice2Abcd_test \
  vaidyanathan_trick_test \
  zahradnik_halfband_test \
+ zolotarevFIRcascade_test \
  zolotarev_vlcek_unbehauen_test \
- zolotarev_vlcek_zahradnik_test
+ zolotarev_vlcek_zahradnik_test \
+ zolotarev_zahradnik_degree_test
 
 # These are all the .oct files. Some are not needed to build the pdf
 # (eg: labudde.oct and complex_lower_hessenberg_inverse.oct) but are
@@ -181,6 +183,7 @@ OCTFILES = \
  labudde \
  qzsolve \
  reprand \
+ roots2T \
  schurdecomp \
  schurexpand \
  schurFIRdecomp \
@@ -228,10 +231,10 @@ CLEAN_AEGIS_SUFFIXES= \,D \,B
 #
 # Command definitions
 #
-OCTAVE_DIR?=/usr/local/octave
 OCTAVE_FLAGS=-q -p src
-OCTAVE=$(OCTAVE_DIR)/bin/octave-cli
-MKOCTFILE=$(OCTAVE_DIR)/bin/mkoctfile
+OCTAVE=octave-cli
+MKOCTFILE=mkoctfile
+MKOCTFILE_FLAGS=-v -o $@ -march=native -O2 -Wall -lgmp -lmpfr
 PDF_MONO_FLAGS='\newcommand\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
 PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1
 BIBTEX=bibtex
@@ -262,7 +265,7 @@ TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
 #    "-g -fsanitize=undefined -fsanitize=address -fno-sanitize=vptr \
 #     -fno-omit-frame-pointer"
 # and run with:
-#   LD_PRELOAD=/usr/lib64/libasan.so.4 octave --eval "expr"
+#   LD_PRELOAD=/usr/lib64/libasan.so.5 octave --eval "expr"
 #
 # Apparently, if the AddressSanitizer library is built without RTTI then
 # there are many "vptr" false-positives.
@@ -271,7 +274,7 @@ TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
 #   operf octave file_test.m
 #   opannotate --source file.oct
 %.oct : %.cc
-	$(MKOCTFILE) -v -o $@ -march=native -O2 -Wall $(XCXXFLAGS) -lgmp -lmpfr $^
+	$(MKOCTFILE) $(MKOCTFILE_FLAGS) $(XCXXFLAGS) $^
 
 #
 # Macros 
@@ -405,4 +408,3 @@ monochrome: $(TARGET_DEPENDENCIES)
 all: octfiles $(TARGET).pdf 
 
 .DEFAULT_GOAL := $(TARGET).pdf 
-

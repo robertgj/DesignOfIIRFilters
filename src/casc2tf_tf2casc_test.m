@@ -7,7 +7,6 @@ unlink("casc2tf_tf2casc_test.diary");
 unlink("casc2tf_tf2casc_test.diary.tmp");
 diary casc2tf_tf2casc_test.diary.tmp
 
-format short e
 
 tol=1e-11
 

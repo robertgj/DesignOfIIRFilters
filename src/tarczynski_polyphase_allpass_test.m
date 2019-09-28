@@ -14,7 +14,6 @@ diary tarczynski_polyphase_allpass_test.diary.tmp
 
 tic;
 
-format compact
 
 % Filter specification
 polyphase=true

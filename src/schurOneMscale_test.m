@@ -7,7 +7,6 @@ unlink("schurOneMscale_test.diary");
 unlink("schurOneMscale_test.diary.tmp");
 diary schurOneMscale_test.diary.tmp
 
-format short e
 
 % epsilon only
 k =[ 0.5530909  -0.1250394   0.0415215  -0.0135149   0.0023471];

@@ -43,14 +43,7 @@ else
   % From Table IV
   [a,b]=zolotarev_vlcek_unbehauen(p,q,k);
   n=p+q;
-  alphaTvi=zeros(1,1+n);
-  bt=b;
-  for m=n:-1:0,
-    Tm=chebychevT(m);
-    Tm=fliplr(Tm);
-    alphaTvi(1+m)=bt(1+m)/Tm(end);
-    bt(1+(0:m))=bt(1+(0:m))-(alphaTvi(1+m)*Tm);
-  endfor
+  alphaTvi=chebychevT_expand(fliplr(b));
   tol=1e-12;
   if max(abs(alphaTvi-a))>tol
     error(" max(abs(alphaTvi-a))>%g",tol);

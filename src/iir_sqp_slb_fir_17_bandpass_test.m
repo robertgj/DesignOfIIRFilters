@@ -8,7 +8,6 @@ unlink("iir_sqp_slb_fir_17_bandpass_test.diary");
 unlink("iir_sqp_slb_fir_17_bandpass_test.diary.tmp");
 diary iir_sqp_slb_fir_17_bandpass_test.diary.tmp
 
-format short e
 
 maxiter=2500
 tol=1e-3

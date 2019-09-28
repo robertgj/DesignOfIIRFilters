@@ -7,7 +7,6 @@ unlink("deczky3_socp_bfgs_test.diary");
 unlink("deczky3_socp_bfgs_test.diary.tmp");
 diary deczky3_socp_bfgs_test.diary.tmp
 
-format compact
 
 tol=1e-6
 ctol=tol

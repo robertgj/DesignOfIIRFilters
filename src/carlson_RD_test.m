@@ -7,8 +7,6 @@ unlink("carlson_RD_test.diary");
 unlink("carlson_RD_test.diary.tmp");
 diary carlson_RD_test.diary.tmp
 
-format long e
-
 % Compare with examples of Section 3 in "Computing Elliptic Integrals
 % by Duplication", B.C. Carlson, Numerische Mathematik, 33, pp. 1-16,(1979)
 B=3*0.5990701173;

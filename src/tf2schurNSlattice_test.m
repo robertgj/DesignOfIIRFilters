@@ -7,7 +7,6 @@ unlink("tf2schurNSlattice_test.diary");
 unlink("tf2schurNSlattice_test.diary.tmp");
 diary tf2schurNSlattice_test.diary.tmp
 
-format short e
 
 % No filter
 [s10,s11,s20,s00,s02,s22]=tf2schurNSlattice(1,1);

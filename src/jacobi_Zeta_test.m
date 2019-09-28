@@ -7,10 +7,9 @@ unlink("jacobi_Zeta_test.diary");
 unlink("jacobi_Zeta_test.diary.tmp");
 diary jacobi_Zeta_test.diary.tmp
 
-
 % Compare jacobi_Zeta.m and jacobi_Zeta_alt.m 
 tol=40*eps;
-x=-5:0.1:5;
+x=(-5:0.1:5)';
 k=0.1:0.1:0.9;
 Z=zeros(length(x),length(k));
 Zalt=zeros(length(x),length(k));
@@ -19,14 +18,11 @@ for m=1:length(x),
     Z(m,n)=jacobi_Zeta(x(m),k(n));
     Zalt(m,n)=jacobi_Zeta_alt(x(m),k(n));
     if abs(Z(m,n)-Zalt(m,n))>tol
-      error("abs(Z(%d,%d)(%f)-Zalt(%d,%d)(%f))>tol", ...
-            m,n,Z(m,n),m,n,Zalt(m,n));
+      error("abs(Z(%d,%d)(%g)-Zalt(%d,%d))(%g)>tol", ...
+            m,n,Z(m,n),m,n,abs(Z(m,n)-Zalt(m,n)));
     endif
   endfor
 endfor
-if max(max(abs(Z-Zalt)))>tol
-  error("max(max(abs(Z-Zalt)))>tol");
-endif
 
 %{ 
   % JacobiZeta.txt was created by the JacobiZeta function in
@@ -45,18 +41,14 @@ endif
 load JacobiZeta.txt
 
 tol=100*eps;
-x=-5:0.1:5;
+x=(-5:0.1:5)';
 k=0.1:0.1:0.9;
-Z=zeros(size(JacobiZeta));
-for m=1:rows(JacobiZeta),
-  for n=1:columns(JacobiZeta),
-    Z(m,n)=jacobi_Zeta(x(m),k(n));
-  endfor
+for n=1:length(k);
+  Z=jacobi_Zeta(x,k(n));
+  if max(abs(Z-JacobiZeta(:,n)))>tol
+    error("max(abs(Z-JacobiZeta(_,%d)))(%g)>tol",n,max(abs(Z-JacobiZeta(:,n))));
+  endif
 endfor
-
-if max(max(abs(Z-JacobiZeta)))>tol
-  error("max(max(abs(Z-JacobiZeta)))>tol");
-endif
 
 %{ 
   % jacobi_zeta_boost.txt was created by the boost::math::jacobi_zeta function:
@@ -80,33 +72,25 @@ endif
 
 load jacobi_zeta_boost.txt
 tol=10*eps;
-x=-1:0.1:1;
+x=(-1:0.1:1)';
 k=0.1:0.1:0.9;
-Z=zeros(size(jacobi_zeta_boost));
-for m=1:rows(jacobi_zeta_boost),
-  for n=1:columns(jacobi_zeta_boost),
-    Z(m,n)=jacobi_Zeta(x(m),k(n));
-    if abs(Z(m,n)-jacobi_zeta_boost(m,n))>tol
-      error("abs(Z(%d,%d)-jacobi_zeta_boost(%d,%d))>tol",m,n,m,n);
-    endif
-  endfor
+for n=1:length(k),
+    Z=jacobi_Zeta(x,k(n));
+  if max(abs(Z-jacobi_zeta_boost(:,n)))>tol
+    error("max(abs(Z-jacobi_zeta_boost(_,%d))(%g)>tol", ...
+          n,max(abs(Z-jacobi_zeta_boost(:,n))));
+  endif
 endfor
-
-if max(max(abs(Z-jacobi_zeta_boost)))>tol
-  error("max(max(abs(Z-jacobi_zeta_boost)))>tol");
-endif
 
 % Reproduce Figure 22.16.3 of https://dlmf.nist.gov/22.16
 k=[0.4 0.7 0.99 0.999999];
 nf=1000;
-jz=zeros(length(k),nf);
-x=10*pi*(1:nf)/nf;
-for m=1:length(k),
-  for n=1:nf,
-    jz(m,n)=jacobi_Zeta(x(n),k(m));
-  endfor
+jz=zeros(nf,length(k));
+x=10*pi*(1:nf)'/nf;
+for n=1:length(k),
+  jz(:,n)=jacobi_Zeta(x,k(n));
 endfor
-plot(x/pi,jz(1,:),":",x/pi,jz(2,:),"-.",x/pi,jz(3,:),"--",x/pi,jz(4,:),"-")
+plot(x/pi,jz(:,1),":",x/pi,jz(:,2),"-.",x/pi,jz(:,3),"--",x/pi,jz(:,4),"-")
 axis([0 10 -0.8 0.8])
 grid("on");
 title("Jacobi's Zeta function, Z(x,k) (DLMF Figure 22.16.3)");

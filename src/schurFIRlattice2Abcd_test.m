@@ -9,7 +9,6 @@ unlink("schurFIRlattice2Abcd_test.diary");
 unlink("schurFIRlattice2Abcd_test.diary.tmp");
 diary schurFIRlattice2Abcd_test.diary.tmp
 
-format short e
 
 % PCLS FIR band pass filter (from iir_sqp_slb_fir_bandpass_test.m)
 b0 = [  0.0117087207,   0.0499190257,   0.0726142627,   0.0034935525, ... 

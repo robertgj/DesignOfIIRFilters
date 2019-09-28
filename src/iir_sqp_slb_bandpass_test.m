@@ -9,7 +9,6 @@ diary iir_sqp_slb_bandpass_test.diary.tmp
 
 tic;
 
-format compact;
 
 verbose=false
 tol=5e-4

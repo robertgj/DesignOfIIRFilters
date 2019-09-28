@@ -7,7 +7,6 @@ unlink("goldensection_test.diary");
 unlink("goldensection_test.diary.tmp");
 diary goldensection_test.diary.tmp
 
-format compact
 
 global fiter=0
 

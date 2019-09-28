@@ -7,7 +7,6 @@ unlink("butterworth2ndOrderSection_test.diary");
 unlink("butterworth2ndOrderSection_test.diary.tmp");
 diary butterworth2ndOrderSection_test.diary.tmp
 
-format short e
 
 % Filter specification
 n=7;

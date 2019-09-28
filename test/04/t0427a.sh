@@ -6,6 +6,7 @@ depends="zolotarev_chen_parks_test.m zolotarev_chen_parks.m test_common.m \
 elliptic_F.m elliptic_E.m jacobi_Eta.m jacobi_Zeta.m \
 jacobi_theta1.m jacobi_theta1k.m jacobi_theta2.m jacobi_theta2k.m \
 jacobi_theta3.m jacobi_theta3k.m jacobi_theta4.m jacobi_theta4k.m \
+jacobi_theta2p.m jacobi_theta4p.m jacobi_theta4kp.m \
 carlson_RJ.m carlson_RD.m carlson_RC.m carlson_RF.m"
 
 tmp=/tmp/$$
@@ -14,7 +15,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -22,7 +23,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -55,7 +56,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 #
 echo "Running octave-cli -q " $prog
 
-octave-cli -q $prog >test.out 2>/dev/null 
+octave-cli -q $prog >test.out 
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.ok test.out

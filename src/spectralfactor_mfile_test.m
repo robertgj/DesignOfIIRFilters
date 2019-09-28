@@ -9,7 +9,6 @@ unlink("spectralfactor_mfile_test.diary");
 unlink("spectralfactor_mfile_test.diary.tmp");
 diary spectralfactor_mfile_test.diary.tmp
 
-format short e
 
 [n,d]=ellip(5,0.5,40,2*0.05);
 q=spectralfactor(n,d)

@@ -9,7 +9,6 @@ unlink("tfp2schurNSlattice2Abcd_test.diary");
 unlink("tfp2schurNSlattice2Abcd_test.diary.tmp");
 diary tfp2schurNSlattice2Abcd_test.diary.tmp
 
-format short e
 
 function plot_response(B,A,fname)
   [h,w]=freqz(B,A,2048);

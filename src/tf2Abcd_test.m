@@ -7,7 +7,6 @@ unlink("tf2Abcd_test.diary");
 unlink("tf2Abcd_test.diary.tmp");
 diary tf2Abcd_test.diary.tmp
 
-format short e
 
 fc=0.05
 [n,d]=butter(3,2*fc)

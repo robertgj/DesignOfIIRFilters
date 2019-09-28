@@ -7,11 +7,14 @@ unlink("svseries_test.diary");
 unlink("svseries_test.diary.tmp");
 diary svseries_test.diary.tmp
 
-format short e
-
 tol=50*eps;
-nsamples=2^10;
 fc=[0.1,0.15];
+nsamples=2^10;
+
+% Input signal
+u=reprand(nsamples,2);
+u=u-mean(u);
+u=0.25*u./std(u);
 
 % Filter 1
 [A1a, B1a, C1a, D11] = butter (3,fc(1)*2);
@@ -22,9 +25,6 @@ C1=[[C1a,zeros(1,columns(C2b))];[zeros(1,columns(C1a)),C2b]];
 D12=-0.2;
 D21=0.1;
 D1=[D11,D12;D21,D22];
-u=[reprand(nsamples),reprand(nsamples)];
-u=u-mean(u);
-u=0.25*u./std(u);
 
 % Filter 2
 [a2a, b1a, c1a, d11] = butter (4,fc(2)*2);

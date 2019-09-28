@@ -17,7 +17,6 @@ unlink("ellipMinQ_test.diary");
 unlink("ellipMinQ_test.diary.tmp");
 diary ellipMinQ_test.diary.tmp
 
-format short e
 
 % IIR filter specification
 Fp=0.1,ApdB=0.1,Fa=0.125,AadB=40,n=9,nbits=8,ndigits=3
@@ -103,9 +102,9 @@ set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 axis(ax(1),[0 Wend 0 1]);
 axis(ax(2),[0 Wend 0 2.5e9]);
-strt="Minimal-Q elliptic filter $cd^2$(nuG,g)";
+strt="Minimal-Q elliptic filter $cd^2(nuG,\\gamma)$";
 title(strt);
-ylabel("$cd^2$(nuG,g)");
+ylabel("$cd^2(nuG,\\gamma)$");
 xlabel("$\\Omega$(u)");
 grid("on");
 strf="ellipMinQ_test";

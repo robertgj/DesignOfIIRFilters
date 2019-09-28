@@ -7,7 +7,6 @@ unlink("zp2x_test.diary");
 unlink("zp2x_test.diary.tmp");
 diary zp2x_test.diary.tmp
 
-format compact
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [x0,U,V,M,Q]=zp2x([],[],1);

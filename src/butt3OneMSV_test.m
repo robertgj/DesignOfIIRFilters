@@ -9,7 +9,6 @@ unlink("butt3OneMSV_test.diary");
 unlink("butt3OneMSV_test.diary.tmp");
 diary butt3OneMSV_test.diary.tmp
 
-format short e
 
 % fc is the filter cutoff as a fraction of the sampling frequency
 fc=0.05
@@ -58,7 +57,6 @@ exact=false;
 nbits=10
 scale=2^(nbits-1)
 ndigits=3
-format long e
 if exact==true
  ;
 elseif ndigits ~= 0 
@@ -68,7 +66,6 @@ else
 kf = round(k*scale)/scale
 cf = round(c*scale)/scale
 endif
-format short e
 
 % Build a state variable representation of the retimed filter for the
 % truncated coefficients and calculate the noise gains

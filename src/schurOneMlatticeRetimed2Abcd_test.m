@@ -1,5 +1,5 @@
 % schurOneMlatticeRetimed2Abcd_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Test cases for the retimed Schur one-multiplier lattice filter 
 
@@ -9,14 +9,13 @@ unlink("schurOneMlatticeRetimed2Abcd_test.diary");
 unlink("schurOneMlatticeRetimed2Abcd_test.diary.tmp");
 diary schurOneMlatticeRetimed2Abcd_test.diary.tmp
 
-format short e
 
 % Make a quantised noise signal
 nbits=10;
 scale=2^(nbits-1);
 delta=1;
 nsamples=2^14;
-u=reprand(nsamples)-0.5;
+u=reprand(nsamples,1)-0.5;
 u=0.25*u/std(u);
 u=round(u*scale);
 

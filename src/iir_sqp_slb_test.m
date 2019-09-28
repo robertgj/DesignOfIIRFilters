@@ -7,7 +7,6 @@ unlink("iir_sqp_slb_test.diary");
 unlink("iir_sqp_slb_test.diary.tmp");
 diary iir_sqp_slb_test.diary.tmp
 
-format compact;
 
 tol=1e-3
 ctol=tol

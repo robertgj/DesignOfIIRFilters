@@ -7,7 +7,6 @@ unlink("sv2block_test.diary");
 unlink("sv2block_test.diary.tmp");
 diary sv2block_test.diary.tmp
 
-format short e
 
 % Design a filter with block processing of length 4
 mblock=4;
@@ -60,12 +59,10 @@ nvABCDoptf=std(yoptf-yopt)
 [Ab,Bb,Cb,Db] = sv2block(mblock,Aopt,Bopt,Copt,Dopt)
 
 % Truncate the block filter coefficients
-format long e
 Abf=round(Ab*scale)/scale
 Bbf=round(Bb*scale)/scale
 Cbf=round(Cb*scale)/scale
 Dbf=round(Db*scale)/scale
-format short e
 
 % Estimate RMS roundoff noise in bits of the block filter
 % (See Roberts and Mullis, Section 10.2, pp. 436-437).

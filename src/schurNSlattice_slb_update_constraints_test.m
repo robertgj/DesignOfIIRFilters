@@ -7,7 +7,6 @@ unlink("schurNSlattice_slb_update_constraints_test.diary");
 unlink("schurNSlattice_slb_update_constraints_test.diary.tmp");
 diary schurNSlattice_slb_update_constraints_test.diary.tmp
 
-format compact;
 
 maxiter=2000
 tol=5e-6

@@ -9,7 +9,6 @@ unlink("parallel_allpassT_test.diary");
 unlink("parallel_allpassT_test.diary.tmp");
 diary parallel_allpassT_test.diary.tmp
 
-format compact
 
 % Define the filters
 Da=[  1.000000  0.191995 -0.144503 -0.190714 -0.045705  0.067090 ...

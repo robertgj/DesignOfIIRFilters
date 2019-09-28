@@ -7,7 +7,6 @@ unlink("sedumi_test.diary");
 unlink("sedumi_test.diary.tmp");
 diary sedumi_test.diary.tmp
 
-format short e
 
 % Build SeDuMi oct files (add '-address_sanitize' for sanitizer)
 install_sedumi -rebuild

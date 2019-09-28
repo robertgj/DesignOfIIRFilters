@@ -7,7 +7,6 @@ unlink("complementaryFIRlattice_lowpass_test.diary");
 unlink("complementaryFIRlattice_lowpass_test.diary.tmp");
 diary complementaryFIRlattice_lowpass_test.diary.tmp
 
-format short e
 
 strf="complementaryFIRlattice_lowpass_test";
 

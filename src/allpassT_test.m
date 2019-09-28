@@ -7,7 +7,6 @@ unlink("allpassT_test.diary");
 unlink("allpassT_test.diary.tmp");
 diary allpassT_test.diary.tmp
 
-format compact
 
 % Define the filter
 V=5;Q=10;R=3;

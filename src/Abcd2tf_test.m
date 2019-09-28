@@ -7,7 +7,6 @@ unlink("Abcd2tf_test.diary");
 unlink("Abcd2tf_test.diary.tmp");
 diary Abcd2tf_test.diary.tmp
 
-format short e
 tol=1e-11;
 
 % Design filter transfer function

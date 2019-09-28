@@ -13,7 +13,6 @@ diary branch_bound_schurOneMAPlattice_frm_12_nbits_test.diary.tmp
 
 tic;
 
-format compact
 
 % Common strings
 strf="branch_bound_schurOneMAPlattice_frm_12_nbits_test";

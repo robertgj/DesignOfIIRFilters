@@ -23,7 +23,6 @@ unlink("gkstep_test.diary");
 unlink("gkstep_test.diary.tmp");
 diary gkstep_test.diary.tmp
 
-format short e
 
 % Make a 3rd order Butterworth state variable filter. The
 % filter is globally optimised so that diagonal elements of

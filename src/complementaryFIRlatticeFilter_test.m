@@ -7,7 +7,6 @@ unlink("complementaryFIRlatticeFilter_test.diary");
 unlink("complementaryFIRlatticeFilter_test.diary.tmp");
 diary complementaryFIRlatticeFilter_test.diary.tmp
 
-format short e
 
 strf="complementaryFIRlatticeFilter_test";
 

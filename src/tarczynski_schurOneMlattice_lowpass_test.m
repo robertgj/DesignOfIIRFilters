@@ -12,7 +12,6 @@ diary tarczynski_schurOneMlattice_lowpass_test.diary.tmp
 
 tic;
 
-format compact
 verbose=true
 
 function E=WISEJ_ONEM(kc,_k0,_epsilon0,_p0,_c0,_k_active,_c_active, ...

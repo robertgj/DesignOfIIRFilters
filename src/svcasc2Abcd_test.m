@@ -7,7 +7,6 @@ unlink("svcasc2Abcd_test.diary");
 unlink("svcasc2Abcd_test.diary.tmp");
 diary svcasc2Abcd_test.diary.tmp
 
-format short e
 
 % Check A,B,C,D
 fc=0.1;

@@ -7,7 +7,6 @@ unlink("directFIRsymmetric_slb_update_constraints_test.diary");
 unlink("directFIRsymmetric_slb_update_constraints_test.diary.tmp");
 diary directFIRsymmetric_slb_update_constraints_test.diary.tmp
 
-format compact;
 
 tol=1e-3;
 

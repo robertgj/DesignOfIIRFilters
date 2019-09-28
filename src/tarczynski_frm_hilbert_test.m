@@ -15,7 +15,6 @@ diary tarczynski_frm_hilbert_test.diary.tmp
 
 tic;
 
-format compact
 maxiter=5000
 verbose=true;
 strf="tarczynski_frm_hilbert_test";

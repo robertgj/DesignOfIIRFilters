@@ -7,7 +7,6 @@ unlink("minphase_test.diary");
 unlink("minphase_test.diary.tmp");
 diary minphase_test.diary.tmp
 
-format short e
 
 strf="minphase_test";
 

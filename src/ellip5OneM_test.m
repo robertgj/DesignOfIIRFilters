@@ -13,7 +13,6 @@ unlink("ellip5OneM_test.diary");
 unlink("ellip5OneM_test.diary.tmp");
 diary ellip5OneM_test.diary.tmp
 
-format short e
 
 % fc is the filter cutoff as a fraction of the sampling frequency
 fc=0.05

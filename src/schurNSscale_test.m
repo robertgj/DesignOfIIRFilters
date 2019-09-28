@@ -7,7 +7,7 @@ unlink("schurNSscale_test.diary");
 unlink("schurNSscale_test.diary.tmp");
 diary schurNSscale_test.diary.tmp
 
-format short e
+check_octave_file("schurNSscale");
 
 % Catch errors
 try

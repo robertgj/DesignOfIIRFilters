@@ -7,7 +7,6 @@ unlink("complementaryFIRlattice_slb_exchange_constraints_test.diary");
 unlink("complementaryFIRlattice_slb_exchange_constraints_test.diary.tmp");
 diary complementaryFIRlattice_slb_exchange_constraints_test.diary.tmp
 
-format compact;
 
 maxiter=2000
 tol=1e-4

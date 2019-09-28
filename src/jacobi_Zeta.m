@@ -1,7 +1,8 @@
 function z=jacobi_Zeta(x,k,tol)
-% z=jacobi_Zeta(x,k,tol) for real scalars x and k
-% See Section 22.16(iii) and equations 22.16.30 and 22.16.32 of the
-% Digital Library of Mathematical Functions at https://dlmf.nist.gov/22.16
+% z=jacobi_Zeta(x,k,tol)
+% See Section 22.16(iii) and equations 22.16.31 and 22.16.32
+% of the Digital Library of Mathematical Functions
+% at https://dlmf.nist.gov/22.16
 
 % Copyright (C) 2019 Robert G. Jenssen
 %
@@ -29,16 +30,20 @@ function z=jacobi_Zeta(x,k,tol)
   if nargin==2
     tol=eps;
   endif
-  if ~isscalar(x)
-    error("Expect x scalar!");
+  if length(size(x))>2
+    error("length(size(x))>2");
   endif
-  if imag(x)>tol
+  if any(any(imag(x)>tol))
     error("Expect x real!");
   endif
   x=real(x);
   if ~isscalar(k)
     error("Expect k scalar!");
   endif
+  if abs(imag(k))>tol
+    error("Expect k real!");
+  endif
+  k=real(k);
   if k<=0 || k>=1
     error("Expect 0<k<1!");
   endif
@@ -46,21 +51,8 @@ function z=jacobi_Zeta(x,k,tol)
   k2=k^2;
   [Kk,Ek]=ellipke(k2);
   
-  % Adjust elliptic integral limits
-  % Apply Equation 22.16.34: Z(x+2K,k)=Z(x,k)
-  xm2K=mod(x,2*Kk);
-  % Apply Equation 22.16.33: Z(x+K,k)=Z(x,k)-(k^2)*sn(x,k)*cd(x,k)
-  if xm2K>=Kk
-    xmK=mod(xm2K,Kk);
-    [snxmK,cnxmK,dnxmK]=ellipj(xmK,k2);
-    del=k2*snxmK*cnxmK/dnxmK;
-  else
-    xmK=xm2K;
-    snxmK=ellipj(xmK,k2);
-    del=0;
-  endif
-
-  % Calculate Jacobi's Zeta function
-  phi=asin(snxmK);
-  z=elliptic_E(phi,k,tol)-(xmK*Ek/Kk)-del;
+  % Calculate Jacobi's Zeta function as (jacobi_Theta'/jacobi_Theta)
+  jt2=jacobi_theta3k(0,k,tol)^2;
+  z=jacobi_theta4kp(x/jt2,k,tol)./(jt2*jacobi_theta4k(x/jt2,k,tol));
+  
 endfunction

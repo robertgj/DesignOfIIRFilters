@@ -7,7 +7,6 @@ unlink("local_max_test.diary");
 unlink("local_max_test.diary.tmp");
 diary local_max_test.diary.tmp
 
-format compact
 
 % Check empty
 x=local_max([]);

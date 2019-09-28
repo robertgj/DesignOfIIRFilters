@@ -9,7 +9,6 @@ diary deczky3_socp_test.diary.tmp
 
 tic;
 
-format compact
 
 tol=1e-4
 ctol=tol/10

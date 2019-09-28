@@ -7,7 +7,6 @@ unlink("schurOneMAPlattice_frm_halfbandP_test.diary");
 unlink("schurOneMAPlattice_frm_halfbandP_test.diary.tmp");
 diary schurOneMAPlattice_frm_halfbandP_test.diary.tmp
 
-format compact
 verbose=false;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

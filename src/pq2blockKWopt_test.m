@@ -7,7 +7,6 @@ unlink("pq2blockKWopt_test.diary");
 unlink("pq2blockKWopt_test.diary.tmp");
 diary pq2blockKWopt_test.diary.tmp
 
-format short e
 
 fc=0.2;
 for N=1:20

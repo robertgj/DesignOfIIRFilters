@@ -8,7 +8,6 @@ unlink("directFIRhilbert_socp_mmsePW_test.diary.tmp");
 diary directFIRhilbert_socp_mmsePW_test.diary.tmp
 
 tic;
-format compact
 
 maxiter=2000
 tol=1e-8

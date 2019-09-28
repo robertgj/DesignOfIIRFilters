@@ -9,7 +9,6 @@ diary schurOneMAPlattice_frm_socp_slb_test.diary.tmp
 
 tic;
 
-format compact
 
 %
 % Initial filter from iir_frm_allpass_socp_slb_test.m

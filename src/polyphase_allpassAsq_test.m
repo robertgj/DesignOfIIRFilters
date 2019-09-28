@@ -9,7 +9,6 @@ unlink("polyphase_allpassAsq_test.diary");
 unlink("polyphase_allpassAsq_test.diary.tmp");
 diary polyphase_allpassAsq_test.diary.tmp
 
-format compact
 
 verbose=true
 

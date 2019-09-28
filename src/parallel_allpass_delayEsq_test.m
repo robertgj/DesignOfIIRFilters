@@ -9,7 +9,6 @@ unlink("parallel_allpass_delayEsq_test.diary");
 unlink("parallel_allpass_delayEsq_test.diary.tmp");
 diary parallel_allpass_delayEsq_test.diary.tmp
 
-format compact
 verbose=false;
 
 % Use the filter calculated by tarczynski_parallel_allpass_delay_test.m

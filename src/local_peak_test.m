@@ -7,8 +7,6 @@ unlink("local_peak_test.diary");
 unlink("local_peak_test.diary.tmp");
 diary local_peak_test.diary.tmp
 
-format compact
-
 x=2*pi*linspace(0,1,1024);
 y=sin(3.14*x)+0.5*cos(6.09*x)+0.1*sin(10.11*x+1/6)+0.1*sin(15.3*x+1/3);
 

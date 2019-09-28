@@ -7,7 +7,6 @@ unlink("allpass_phase_socp_mmse_test.diary");
 unlink("allpass_phase_socp_mmse_test.diary.tmp");
 diary allpass_phase_socp_mmse_test.diary.tmp
 
-format compact
 
 verbose=false
 tol=1e-6

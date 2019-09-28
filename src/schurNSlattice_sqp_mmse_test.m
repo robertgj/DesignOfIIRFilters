@@ -9,7 +9,6 @@ diary schurNSlattice_sqp_mmse_test.diary.tmp
 
 tic;
 
-format compact
 
 tol=1e-3
 maxiter=2000

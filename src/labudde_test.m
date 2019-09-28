@@ -7,7 +7,7 @@ unlink("labudde_test.diary");
 unlink("labudde_test.diary.tmp");
 diary labudde_test.diary.tmp
 
-format short e
+check_octave_file("labudde");
 
 % Find an elliptic filter
 N=11;dbap=0.1;dbas=40;fc=0.05;

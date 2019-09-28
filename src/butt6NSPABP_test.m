@@ -9,8 +9,6 @@ unlink("butt6NSPABP_test.diary");
 unlink("butt6NSPABP_test.diary.tmp");
 diary butt6NSPABP_test.diary.tmp
 
-format short e
-
 % fc is the filter cutoff as a fraction of the sampling frequency
 fc=0.25
 [n,d]=butter(3,2*fc)

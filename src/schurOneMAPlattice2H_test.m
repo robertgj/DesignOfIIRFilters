@@ -7,8 +7,8 @@ unlink("schurOneMAPlattice2H_test.diary");
 unlink("schurOneMAPlattice2H_test.diary.tmp");
 diary schurOneMAPlattice2H_test.diary.tmp
 
-clear schurOneMAPlattice2H
-tic;
+check_octave_file("schurOneMAPlattice2H");
+
 verbose=true;
 
 % Low pass filter
@@ -259,6 +259,5 @@ if max(abs(diff_A2diagd2Hdk2-A2diagd3Hdwdk2(npass,:))) > delw/1.506
 endif
 
 % Done
-toc;
 diary off
 movefile schurOneMAPlattice2H_test.diary.tmp schurOneMAPlattice2H_test.diary;

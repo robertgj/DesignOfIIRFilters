@@ -7,10 +7,17 @@ unlink("svfeedback_test.diary");
 unlink("svfeedback_test.diary.tmp");
 diary svfeedback_test.diary.tmp
 
-format short e
-
-nsamples=2^10;
 fc=[0.1,0.15];
+
+% Input signals
+nsamples=2^10;
+u=reprand(nsamples,2);
+u1=u(:,1);
+u1=u1-mean(u1);
+u1=0.25*u1./std(u1);
+w2=u(:,2);
+w2=w2-mean(w2);
+w2=0.25*w2./std(w2);
 
 % A1,B1,B1,C1,C2,D11,D12,D21,D22 filter
 [A1a, B1a, C1a, D11] = butter (3,fc(1)*2);
@@ -22,9 +29,6 @@ C1=[C1a,zeros(1,columns(C2b))];
 C2=[zeros(1,columns(C1a)),C2b];
 D12=-0.2;
 D21=0.1;
-u1=reprand(nsamples);
-u1=u1-mean(u1);
-u1=0.25*u1./std(u1);
 
 % A2,b1,b1,c1,c2,d12,d21,d22 filter
 [A2a, b1a, c1a, d12] = butter (4,fc(2)*2);
@@ -35,9 +39,6 @@ b2=[zeros(rows(b1a),1);b2b];
 c1=[c1a,zeros(1,columns(c2b))];
 c2=[zeros(1,columns(c1a)),c2b];
 d21=0.1;
-w2=reprand(nsamples);
-w2=w2-mean(w2);
-w2=0.25*w2./std(w2);
 
 % Run feedback state variable equations
 x1=zeros(rows(A1),1);

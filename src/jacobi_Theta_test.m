@@ -54,21 +54,15 @@ tol=10*eps;
 
 load JacobiTheta.txt
 
-x=-1:0.1:1;
+x=(-1:0.1:1)';
 k=0.1:0.1:0.9;
-th=zeros(size(JacobiTheta));
-for m=1:rows(JacobiTheta),
-  for n=1:columns(JacobiTheta),
-    th(m,n)=jacobi_Theta(x(m),k(n));
-    if abs(th(m,n)-JacobiTheta(m,n))>tol
-      error("abs(th(m,n)-JacobiTheta(m,n))>tol,x=%f,k=%f",x(m),k(n));
-    endif
-  endfor
+for n=1:length(k),
+  th=jacobi_Theta(x,k(n));
+  if max(abs(th-JacobiTheta(:,n)))>tol
+    error("max(abs(th-JacobiTheta(_,%d)))(%g)>tol", ...
+          n,max(abs(th-JacobiTheta(:,n))));
+  endif
 endfor
-
-if max(max(abs(th-JacobiTheta)))>tol
-  error("max(max(abs(th-JacobiTheta)))>tol");
-endif
 
 %{
   % jacobiThetaMoiseev.txt was created by the JacobiThetaEta function from
@@ -89,22 +83,15 @@ endif
 %}
 
 load jacobiThetaMoiseev.txt
-
-x=-1:0.1:1;
+x=(-1:0.1:1)';
 k=0.1:0.1:0.9;
-th=zeros(size(jacobiThetaMoiseev));
-for m=1:rows(jacobiThetaMoiseev),
-  for n=1:columns(jacobiThetaMoiseev),
-    th(m,n)=jacobi_Theta(x(m),k(n));
-    if abs(th(m,n)-jacobiThetaMoiseev(m,n))>tol
-      error("abs(th(m,n)-jacobiThetaMoiseev(m,n))>tol,x=%f,k=%f",x(m),k(n));
-    endif
-  endfor
+for n=1:length(k),
+  th=jacobi_Theta(x,k(n));
+  if max(abs(th-jacobiThetaMoiseev(:,n)))>tol
+    error("max(abs(th-jacobiThetaMoiseev(_,%d)))(%g)>tol", ...
+          n,max(abs(th-jacobiThetaMoiseev(:,n))));
+  endif
 endfor
-
-if max(max(abs(th-jacobiThetaMoiseev)))>tol
-  error("max(max(abs(th-jacobiThetaMoiseev)))>tol");
-endif
 
 % Done
 diary off

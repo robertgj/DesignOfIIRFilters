@@ -1,5 +1,5 @@
 function x=jacobi_theta1k(z,k,tol)
-% x=jacobi_theta1k(z,k,tol) for scalars z and modulus, k
+% x=jacobi_theta1k(z,k,tol)
 % See Section 20.2 and 20.7(viii) of "NIST Digital Library of Mathematical
 % Functions", http://dlmf.nist.gov/, edited by F. W. J. Olver, et al.
 % Given k, if K'(k)>K(k) then implement equation 20.2.1, otherwise 20.7.30.
@@ -30,9 +30,6 @@ function x=jacobi_theta1k(z,k,tol)
   if nargin==2
     tol=eps;
   endif
-  if ~isscalar(z)
-    error("Expect z scalar!");
-  endif
   if ~isscalar(k)
     error("Expect k scalar!");
   endif
@@ -51,7 +48,7 @@ function x=jacobi_theta1k(z,k,tol)
   if tp>1
     q=exp(-pi*tp);
     x=jacobi_theta1(z*j*tp,q,tol);
-    x=x*(-j)*sqrt(tp)*exp(-z*z*tp/pi);
+    x=x.*(-j)*sqrt(tp).*exp(-z.*z*tp/pi);
   else
     q=exp(-pi/tp);
     x=jacobi_theta1(z,q,tol);

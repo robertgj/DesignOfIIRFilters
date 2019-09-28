@@ -7,7 +7,7 @@ unlink("complementaryFIRdecomp_test.diary");
 unlink("complementaryFIRdecomp_test.diary.tmp");
 diary complementaryFIRdecomp_test.diary.tmp
 
-format long e
+check_octave_file("complementaryFIRdecomp");
 
 strf="complementaryFIRdecomp_test";
                                               

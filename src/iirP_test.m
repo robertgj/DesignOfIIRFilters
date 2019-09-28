@@ -7,7 +7,6 @@ unlink("iirP_test.diary");
 unlink("iirP_test.diary.tmp");
 diary iirP_test.diary.tmp
 
-format compact
 
 % Define the filter
 if 1

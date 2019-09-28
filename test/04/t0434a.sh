@@ -7,8 +7,9 @@ zolotarev_vlcek_unbehauen.m test_common.m print_polynomial.m \
 elliptic_F.m elliptic_E.m jacobi_Eta.m jacobi_Theta.m jacobi_Zeta.m \
 jacobi_theta1.m jacobi_theta1k.m jacobi_theta2.m jacobi_theta2k.m \
 jacobi_theta3.m jacobi_theta3k.m jacobi_theta4.m jacobi_theta4k.m \
+jacobi_theta2p.m jacobi_theta4p.m jacobi_theta4kp.m \
 carlson_RJ.m carlson_RD.m carlson_RC.m carlson_RF.m \
-chebychevP.m chebychevT.m chebychevU.m"
+chebychevP.m chebychevT.m chebychevU.m chebychevT_expand.m"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -16,7 +17,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -24,7 +25,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0

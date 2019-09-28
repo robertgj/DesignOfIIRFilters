@@ -7,7 +7,6 @@ unlink("iir_sqp_slb_minimum_phase_test.diary");
 unlink("iir_sqp_slb_minimum_phase_test.diary.tmp");
 diary iir_sqp_slb_minimum_phase_test.diary.tmp
 
-format short e
 
 tol=5e-4
 ctol=tol

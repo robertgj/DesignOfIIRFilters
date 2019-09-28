@@ -7,7 +7,7 @@ unlink("qzsolve_test.diary");
 unlink("qzsolve_test.diary.tmp");
 diary qzsolve_test.diary.tmp
 
-format long e
+check_octave_file("qzsolve");
 
 % Binomial coefficients
 N=6;

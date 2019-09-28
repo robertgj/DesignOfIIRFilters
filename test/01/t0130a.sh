@@ -13,7 +13,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -21,7 +21,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -42,25 +42,24 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-ng =    1.9734e+10
-ngopt =    1.3329e+00
-ngorth =    2.0865e+00
-ngib =    2.0865e+00
-est_nvib =    5.0715e-01
-nvibf =    5.1108e-01
+ng =  19733626174.06045
+ngopt =  1.3329
+ngorth =  2.0865
+ngib =  2.0865
+est_nvib =  0.50715
+nvibf =  0.51108
 rho =
+   0.2685608
+   0.1416492
+   0.1270416
+   0.0582988
+   0.0212510
+   0.0055120
 
-   2.6856e-01
-   1.4165e-01
-   1.2704e-01
-   5.8299e-02
-   2.1251e-02
-   5.5120e-03
-
-ngpi =    2.0865e+00
-gI =    2.5406e-01
-est_nvgI =    3.2327e-01
-nvpilpef =    3.0792e-01
+ngpi =  2.0865
+gI =  0.25406
+est_nvgI =  0.32327
+nvpilpef =  0.30792
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

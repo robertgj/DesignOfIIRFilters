@@ -21,6 +21,7 @@ test_common.m zolotarev_chen_parks.m zolotarev_vlcek_unbehauen.m \
 elliptic_F.m elliptic_E.m jacobi_Eta.m jacobi_Theta.m jacobi_Zeta.m \
 jacobi_theta1.m jacobi_theta1k.m jacobi_theta2.m jacobi_theta2k.m \
 jacobi_theta3.m jacobi_theta3k.m jacobi_theta4.m jacobi_theta4k.m \
+jacobi_theta2p.m jacobi_theta4p.m jacobi_theta4kp.m \
 carlson_RJ.m carlson_RD.m carlson_RC.m carlson_RF.m \
 chebychevP.m chebychevT.m chebychevU.m \
 chebychevP_backward_recurrence.m chebychevT_backward_recurrence.m \

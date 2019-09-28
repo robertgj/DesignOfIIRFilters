@@ -1,6 +1,6 @@
 % zolotarev_vlcek_unbehauen_test.m
 %
-% Test the Vlcek and Unbehauen formula for the Zolotarev functions. See:
+% Test the Vlcek and Unbehauen formula for the Zolotarev polynomials. See:
 %  [1] "Zolotarev Polynomials and Optimal FIR Filters", M. Vlcek and
 %       R. Unbehauen, IEEE Transactions on Signal Processing, Vol. 47,
 %       No. 3, March, 1999, pp. 717-730
@@ -53,7 +53,7 @@ endfunction
 %
 % Reproduce Figure 1.
 %
-% Calculate u-to-x mapping and zolotarev function value
+% Calculate u-to-x mapping and Zolotarev polynomial value
 k=0.78;p=5;q=9;
 [u,x,f,um,xm,fm,a,fa,b,fb]=zolotarev_chen_parks(k,p+q,p);
 % Transform from x to w
@@ -69,14 +69,14 @@ printf("p=%2d,q=%1d,k=%4.2f,wm=%13.10f,fm=%13.10f\nwp=%13.10f,ws=%13.10f\n",
 % Plot w and f and maximum
 plot(w,f,"-",[ws,ws],[-1,1],"-",[wm,wm],[-1,fm],"-",[wp,wp],[-1,1],"-");
 axis([-1 1 -1 10]);
-text(wp,-1.8,"$w_{p}$","horizontalalignment","center");
-text(wm,-1.8,"$w_{m}$","horizontalalignment","center");
-text(ws,-1.8,"$w_{s}$","horizontalalignment","center");
-strt=sprintf("Zolotarev function (Vlcek and Unbehauen) : \
-p=%2d,q=%1d,k=%4.2f,$w_{p}=%6.4f$,$w_{m}=%6.4f$,$w_{s}=%6.4f$\n",p,q,k,wp,wm,ws);
+text(wp,-1.5,"$w_{p}$","horizontalalignment","center");
+text(wm,-1.5,"$w_{m}$","horizontalalignment","center");
+text(ws,-1.5,"$w_{s}$","horizontalalignment","center");
+strt=sprintf("Zolotarev polynomial $Z_{%d,%d}(w,%4.2f)$ (Vlcek and Unbehauen) : \
+$w_{p}=%6.4f$,$w_{m}=%6.4f$,$w_{s}=%6.4f$\n",p,q,k,wp,wm,ws);
 title(strt);
-ylabel(sprintf("$Z_{%d,%d}(u,%7.5f)$",p,q,k));
-xlabel("w");
+ylabel("Amplitude");
+xlabel("$w$");
 grid("on");
 print(sprintf("%s_w_%d_%d",strf,p,q),"-dpdflatex");
 close
@@ -84,8 +84,8 @@ close
 [~,b]=zolotarev_vlcek_unbehauen(p,q,k);
 plot(b);
 axis([1 (p+q+1)]);
-strt=sprintf("Zolotarev function (Vlcek and Unbehauen) coefficients :\
- p=%d, q=%d k=%4.2f",p,q,k);
+strt=sprintf("Zolotarev polynomial $Z_{%d,%d}(w,%4.2f)$ coefficients \
+(Vlcek and Unbehauen)",p,q,k);
 title(strt);
 grid("on");
 print(sprintf("%s_b_%d_%d",strf,p,q),"-dpdflatex");
@@ -100,8 +100,8 @@ h=h/fm;
 print_polynomial(h,sprintf("h_%d_%d",p,q),sprintf("%s_h_%d_%d_coef.m",strf,p,q));
 plot(h);
 axis([1 ((2*(p+q))+1)]);
-strt=sprintf("Zolotarev function (Vlcek and Unbehauen) impulse response :\
- p=%d, q=%d k=%4.2f",p,q,k);
+strt=sprintf("Zolotarev polynomial $Z_{%d,%d}(w,%4.2f)$ impulse response \
+(Vlcek and Unbehauen)",p,q,k);
 title(strt);
 grid("on");
 print(sprintf("%s_h_%d_%d",strf,p,q),"-dpdflatex");
@@ -116,9 +116,9 @@ k=0.78;p=5;q=9;
 n=p+q;
 f=fliplr((b(:)'));
 err=zolotarev_vlcek_unbehauen_equation_7(f,n,wp,wm,ws);
-tol=25e-4;
+tol=6e-3;
 if sum(abs(err)) > tol
-  error("sum(abs(err))) > %g",tol);
+  error("sum(abs(err)))(%g) > %g",sum(abs(err)),tol);
 endif
 
 %
@@ -127,19 +127,19 @@ endif
 n=p+q;
 f=fliplr((b(:)'));
 err=zolotarev_vlcek_unbehauen_equation_63(f,n,wp,wm,ws);
-tol=2e-8;
+tol=5e-8;
 if err > tol
-  error("sum(abs(sum(eqn63,1))) > %g",tol);
+  error("sum(abs(sum(eqn63,1)))(%g) > %g",err,tol);
 endif
 
 %
-% Compare the Zolotarev functions calculated from the formula shown by
+% Compare the Zolotarev polynomials calculated from the formula shown by
 % Chen and Parks and the power series and Chebychev expansions.
 %
 k=0.78;p=5;q=9;
 %k=0.58;p=15;q=19;
 n=p+q;
-% Calculate the Zolotarev function directly using Chen and Parks
+% Calculate the Zolotarev polynomial directly using Chen and Parks
 [u,x,f,um,xm,fm,a,fa,b,fb]=zolotarev_chen_parks(k,p+q,p);
 % Transform from x to w
 K=ellipke(k^2);
@@ -179,8 +179,8 @@ endif
 % Compare Zolotarev and Vlcek and Unbehauen power series expansion
 % (This calculation has round-off and overflow problems for long filters!)
 Zbwx=polyval(fliplr(Zb),wx);
-if max(abs(Zbwx-Zwx))>2e-10
-  error("max(abs(Zbwx-Zwx))(%g)>2e-10",max(abs(Zbwx-Zwx)));
+if max(abs(Zbwx-Zwx))>5e-10
+  error("max(abs(Zbwx-Zwx))(%g)>5e-10",max(abs(Zbwx-Zwx)));
 endif
 
 %
@@ -195,14 +195,7 @@ print_polynomial(a,sprintf("b_%d_%d",p,q),sprintf("%s_b_%d_%d_coef.m",strf,p,q))
 % Expand the b power series in Chebychev polynomials of the first kind
 %
 n=p+q;
-alpha=zeros(1,1+n);
-bt=b;
-for m=n:-1:0,
-  Tm=chebychevT(m);
-  Tm=fliplr(Tm);
-  alpha(1+m)=bt(1+m)/Tm(end);
-  bt(1+(0:m))=bt(1+(0:m))-(alpha(1+m)*Tm);
-endfor
+alpha=chebychevT_expand(fliplr(b));
 tol=1e-12;
 if max(abs(alpha-a))>tol
   error("max(abs(alpha-a))>%g",tol);
@@ -307,11 +300,11 @@ Hc=cosw_n*b(:);
 Hc=Hc;
 plot(f,Hc);
 axis([0 0.5 -1 14]);
-strt=sprintf("Zolotarev function (Vlcek and Unbehauen) : p=%d, q=%d k=%7.5f",
+strt=sprintf("Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ (Vlcek and Unbehauen)",
              p,q,k);
 title(strt);
-ylabel(sprintf("$Z_{%d,%d}(u,%7.5f)$",p,q,k));
-xlabel("Frequency");
+ylabel(sprintf("$Z_{%d,%d}(w,%7.5f)$",p,q,k));
+xlabel("$w$");
 grid("on");
 print(sprintf("%s_f_%d_%d",strf,p,q),"-dpdflatex");
 close
@@ -331,7 +324,7 @@ for m=0:(p+q)
 endfor
 hb=hb/fm;
 % Compare the two
-tol=2e-9;
+tol=5e-9;
 if max(abs(ha-hb))>tol
   error("max(abs(ha-hb))>%g",tol);
 endif
@@ -340,9 +333,10 @@ h=hb;
 print_polynomial(h,sprintf("h_%d_%d",p,q),sprintf("%s_h_%d_%d_coef.m",strf,p,q));
 plot(h);
 axis([1 ((2*(p+q))+1)]);
-strt=sprintf("Zolotarev function (Vlcek and Unbehauen) impulse response :\
- p=%d, q=%d k=%7.2f",p,q,k);
+strt=sprintf("Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ impulse response \
+(Vlcek and Unbehauen)",p,q,k);
 title(strt);
+xlabel("$w$");
 grid("on");
 print(sprintf("%s_h_%d_%d",strf,p,q),"-dpdflatex");
 close
@@ -350,8 +344,8 @@ close
 [H,w]=freqz(h,1,nf);
 plot(w*0.5/pi,20*log10(abs(H)));
 axis([0 0.5 -40 0]);
-strt=sprintf("Zolotarev function (Vlcek and Unbehauen) frequency response : \
-p=%d, q=%d k=%7.5f",p,q,k);
+strt=sprintf("Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ frequency response \
+(Vlcek and Unbehauen)",p,q,k);
 title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
@@ -369,35 +363,20 @@ phip=(0.5-ifp)*pi;phis=ifs*pi;kp=cot(phip)*cot(phis);k=sqrt(1-(kp^2));
 % Step 3: Search for n
 qKn=elliptic_F(phip,k);
 pKn=elliptic_F(phis,k);
-ym=10^(idelta/20);
 ws=cos(2*pi*ifs);
 u0=pKn;
 [snu0,cnu0,dnu0]=ellipj(u0,k^2);
 Zu0=jacobi_Zeta(u0,k);
 wm=ws+(2*(snu0*cnu0)*Zu0/dnu0);
 sm=elliptic_F(asin(sqrt((wm-ws)/(wm+1))/(k*snu0)),k);
-Kp=ellipke(kp^2);
-um=sm+(j*Kp);
-HummpKn=jacobi_Eta(um-pKn,k);
-HumppKn=jacobi_Eta(um+pKn,k);
-for n=1:100,
-  if n==100
-    error("Did not find suitable n for delta=%fdB",delta)
-  endif
-  fm=abs(real(0.5*(((HummpKn/HumppKn)^n)+((HumppKn/HummpKn)^n))));
-  if fm>ym
-    break;
-  endif
-endfor
-% Compare with [1,Eqn. 85]
-PIuak=(log(jacobi_Theta(sm-u0,k)/jacobi_Theta(sm+u0,k))/2)+(sm*Zu0);
-np=log(ym+sqrt((ym^2)-1))/((2*sm*Zu0)-(2*PIuak));
-printf("idelta=%d,n(brute force)=%d,n(with Pi function)=%f\n",idelta,n,np);
+% Estimate n
+ym=(2*10^(idelta/20))-1;
+est_n=log(ym+sqrt((ym^2)-1))/log(jacobi_Theta(sm+u0,k)/jacobi_Theta(sm-u0,k));
 % Step 4: Find p and q
 K=ellipke(k^2);
-q=ceil(n*qKn/K);
-p=ceil(n*pKn/K);
-n=p+q;
+n=ceil(est_n);
+p=round(n*u0/K);
+q=n-p;
 % Step 5: Calculate the actual values of wp,ws and wm
 snqKn=ellipj(q*K/n,k^2);
 wp=(2*(snqKn^2))-1;
@@ -409,23 +388,24 @@ ZpKn=jacobi_Zeta(p*K/n,k);
 wm=ws+(2*snpKn*cnpKn*ZpKn/dnpKn);
 [~,~,~,~,~,fm]=zolotarev_chen_parks(k,p+q,p);
 fmax=acos(wm)*0.5/pi;
-% Step 6: Calculate the z-domain impulse response from 
+% Step 6: Calculate the scaled z-domain impulse response from 
 [a,b]=zolotarev_vlcek_unbehauen(p,q,k);
 c=p+q+1;
 % Using Chebychev polynomial of the first kind expansion
 ha=zeros(1,(2*(p+q))+1);
-ha(c)=a(1);
+ha(c)=a(1)+1;
 ha(1:(c-1))=fliplr(a(2:end))/2;
 ha((c+1):end)=a(2:end)/2;
-ha=ha/fm;
+ha=ha/(1+fm);
 % Using the power series in w
 hb=zeros(1,(2*(p+q))+1);
 for m=0:(p+q)
   hb(c-m:2:c+m)=hb(c-m:2:c+m)+(b(1+m)*bincoeff(m,0:m)/(2^m));
 endfor
-hb=hb/fm;
+hb(c)=hb(c)+1;
+hb=hb/(1+fm);
 % Compare the two
-tol=3e-9;
+tol=4e-8;
 if max(abs(ha-hb))>tol
   error("max(abs(ha-hb))>%g",tol);
 endif
@@ -438,13 +418,27 @@ printf("p=%d,q=%2d,k=%7.5f,fmax=%6.4f,fm=%6.4f(%6.4f dB),fp=%6.4f,fs=%6.4f\n",
 [H,w]=freqz(h,1,nf);
 plot(w*0.5/pi,20*log10(abs(H)));
 axis([0 0.5 -40 0]);
-strt=sprintf("Zolotarev function (Vlcek and Unbehauen) FIR filter : \
-p=%d,q=%d,k=%6.4f,fp=%6.4f,fmax=%6.4f,fs=%6.4f",p,q,k,fp,fmax,fs);
+strt=sprintf("Normalised Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ FIR filter \
+(Vlcek and Unbehauen) : fp=%6.4f,fmax=%6.4f,fs=%6.4f", p,q,k,fp,fmax,fs);
 title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
 print(sprintf("%s_fir_response",strf),"-dpdflatex");
+close
+% ZPTF
+Za=chebychevT_backward_recurrence(a);
+Wzptf=(-1:0.001:1);
+Qzptf=polyval(Za,Wzptf);
+plot(Wzptf,(1+Qzptf)/(1+fm));
+axis([-1 1 -0.1 1]);
+strt=sprintf("Normalised Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ \
+(Vlcek and Unbehauen)",p,q,k);
+title(strt);
+ylabel("Amplitude");
+xlabel("$w$");
+grid("on");
+print(sprintf("%s_fir_zptf",strf),"-dpdflatex");
 close
 % Show z-plane zeros
 zplane(roots(h),[]);
@@ -461,7 +455,7 @@ fprintf(fid,"k=%8.6f %% Elliptic modulus\n",k);
 fprintf(fid,"fp=%8.6f %% Lower stop-band edge\n",fp);
 fprintf(fid,"fmax=%8.6f %% Pass-band centre frequency\n",fmax);
 fprintf(fid,"fs=%8.6f %% Upper stop-band edge\n",fs);
-fprintf(fid,"delta=%8.6f %% Stop-band attenuation(dB)\n",20*log10(fm));
+fprintf(fid,"delta=%8.6f %% Stop-band attenuation(dB)\n",20*log10(2/(1+fm)));
 fclose(fid);
 
 % Done

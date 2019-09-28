@@ -10,7 +10,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $descr 1>&2
+        echo FAILED ${0#$here"/"} $descr 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -18,7 +18,7 @@ fail()
 
 pass()
 {
-        echo PASSED $descr
+        echo PASSED ${0#$here"/"} $descr
         cd $here
         rm -rf $tmp
         exit 0
@@ -74,7 +74,7 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.brzc.ok"; fail; fi
 
 #
-# run and see if the results match. Suppress m-file warnings
+# run and see if the results match. 
 #
 echo "Running octave-cli -q " $prog
 

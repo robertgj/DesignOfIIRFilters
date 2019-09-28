@@ -9,7 +9,6 @@ diary schurOneMAPlattice_frm_hilbert_socp_mmse_test.diary.tmp
 
 tic;
 
-format compact
 
 %
 % Initial filter from tarczynski_frm_halfband_test.m

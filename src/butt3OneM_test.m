@@ -13,7 +13,6 @@ unlink("butt3OneM_test.diary");
 unlink("butt3OneM_test.diary.tmp");
 diary butt3OneM_test.diary.tmp
 
-format short e
 
 % fc is the filter cutoff as a fraction of the sampling frequency
 fc=0.05

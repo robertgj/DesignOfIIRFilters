@@ -9,7 +9,6 @@ diary allpass2ndOrderCascade_socp_sqmag_test.diary.tmp
 
 tic;
 
-format compact
 
 verbose=false
 tol=1e-8

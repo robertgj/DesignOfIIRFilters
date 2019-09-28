@@ -14,7 +14,6 @@ catch
   error("Loading the parallel package failed!\n");
 end_try_catch
 
-format compact
 
 naverage=10;
 

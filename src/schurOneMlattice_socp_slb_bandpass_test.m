@@ -9,7 +9,6 @@ diary schurOneMlattice_socp_slb_bandpass_test.diary.tmp
 
 script_id=tic;
 
-format compact
 
 tol_mmse=2e-5
 tol_pcls=1e-5

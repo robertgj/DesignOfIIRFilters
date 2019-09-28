@@ -14,7 +14,6 @@ diary tarczynski_parallel_allpass_test.diary.tmp
 
 tic;
 
-format compact
 
 % Filter specification
 tol=1e-6

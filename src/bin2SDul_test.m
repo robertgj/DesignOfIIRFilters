@@ -7,7 +7,6 @@ unlink("bin2SDul_test.diary");
 unlink("bin2SDul_test.diary.tmp");
 diary bin2SDul_test.diary.tmp
 
-format short e
 
 try
   [yu,yl]=bin2SDul([6:7],4,1);

@@ -1,5 +1,5 @@
 function x=jacobi_theta4p(z,q,tol)
-% x=jacobi_theta4p(z,q,tol) for real scalars z and nome, q
+% x=jacobi_theta4p(z,q,tol)
 % Return the differential of theta4.
 % See Section 20.2 of "NIST Digital Library of Mathematical
 % Functions", http://dlmf.nist.gov/, edited by F. W. J. Olver, et al.
@@ -35,8 +35,8 @@ function x=jacobi_theta4p(z,q,tol)
     tol=eps;
   endif
 
-  if ~isscalar(z)
-    error("Expect z scalar!");
+  if length(size(z))>2
+    error("length(size(z))>2");
   endif
   if ~isscalar(q)
     error("Expect q scalar!");
@@ -49,7 +49,7 @@ function x=jacobi_theta4p(z,q,tol)
     error("Expect 0<=q<1 !");
   endif
 
-  x=0; 
+  x=zeros(size(z));
   m1=-1;
   qe=1;
   maxiter=100;
@@ -58,7 +58,7 @@ function x=jacobi_theta4p(z,q,tol)
   while 1
     dx=2*m1*(q^qe)*(-nn)*sin(nn*z);
     x=x+dx;
-    if abs(dx)<tol && n>2
+    if all(all(abs(dx)<tol)) && n>2
       break;
     endif
     qe=qe+(2*n)+1;

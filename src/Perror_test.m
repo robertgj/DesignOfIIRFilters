@@ -7,7 +7,6 @@ unlink("Perror_test.diary");
 unlink("Perror_test.diary.tmp");
 diary Perror_test.diary.tmp
 
-format short e
 
 % Initial filter
 U=2;V=2;M=14;Q=6;R=2;tol=1e-4;
@@ -174,6 +173,7 @@ printf("\nCompare hessErrorP to the approximation \
 diag(hessErrorP)
 hessErrorP10_del = (diag(hessErrorPD10)-diag(hessErrorP))./diag(hessErrorP)
 max(abs(hessErrorP10_del(isfinite(hessErrorP10_del))))
+
 
 diary off
 movefile Perror_test.diary.tmp Perror_test.diary;

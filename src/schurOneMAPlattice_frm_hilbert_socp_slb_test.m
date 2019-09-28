@@ -9,7 +9,6 @@ diary schurOneMAPlattice_frm_hilbert_socp_slb_test.diary.tmp
 
 tic;
 
-format compact
 
 %
 % Filter specification

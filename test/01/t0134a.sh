@@ -1,10 +1,13 @@
 #!/bin/sh
 
 prog=bitflip_test.m
+
 descr="bitflip_test.m (mfile)"
-depends="bitflip_test.m test_common.m bitflip.m tf2schurNSlattice.m \
-truncation_test_common.m print_polynomial.m schurNSlattice2tf.m \
-schurNSlattice_cost.m schurNSscale.oct schurdecomp.oct schurexpand.oct \
+
+depends="bitflip_test.m test_common.m check_octave_file.m \
+bitflip.m tf2schurNSlattice.m truncation_test_common.m print_polynomial.m \
+schurNSlattice2tf.m schurNSlattice_cost.m \
+schurNSscale.oct schurdecomp.oct schurexpand.oct \
 schurNSlattice2Abcd.oct Abcd2tf.m x2nextra.m flt2SD.m bin2SD.oct"
 
 tmp=/tmp/$$
@@ -13,7 +16,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $descr 1>&2
+        echo FAILED ${0#$here"/"} $descr 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -21,7 +24,7 @@ fail()
 
 pass()
 {
-        echo PASSED $descr
+        echo PASSED ${0#$here"/"} $descr
         cd $here
         rm -rf $tmp
         exit 0
@@ -42,23 +45,52 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-norder =    5.0000e+00
-dBpass =    1.0000e+00
-dBstop =    4.0000e+01
-fpass =    1.2500e-01
-fstop =    1.5000e-01
-nbits =    6.0000e+00
-ndigits =    2.0000e+00
-bitstart =    4.0000e+00
-msize =    3.0000e+00
+Using bitflip mfile
+norder =  5
+dBpass =  1
+dBstop =  40
+fpass =  0.12500
+fstop =  0.15000
+nbits =  6
+ndigits =  2
+bitstart =  4
+msize =  3
 bitflip_test: cost_ex= 1.00080
 bitflip_test: cost_rd= 1.21300
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 39 column 27
 bitflip_test:nbits=7,bitstart=6,msize=1,cost_bf= 0.85784,fiter=480
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 39 column 27
 bitflip_test:nbits=7,bitstart=6,msize=2,cost_bf= 0.79712,fiter=960
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 39 column 27
 bitflip_test:nbits=7,bitstart=6,msize=3,cost_bf= 0.75325,fiter=2880
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 39 column 27
 bitflip_test:nbits=7,bitstart=6,msize=4,cost_bf= 0.74147,fiter=3200
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 39 column 27
 bitflip_test:nbits=7,bitstart=6,msize=5,cost_bf= 0.74147,fiter=5760
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 39 column 27
 bitflip_test:nbits=7,bitstart=6,msize=6,cost_bf= 0.75179,fiter=8960
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 48 column 25
 bitflip:initial cost=1.213
 bitflip:cof(2)=0x2c:cost 1.213001>1.109735 for 0x2e(mask=0x41,l=0x2e,bit=6)
 bitflip:cof(2)=0x2e:cost 1.109735>1.082687 for 0x30(mask=0x41,l=0x30,bit=6)
@@ -104,35 +136,114 @@ svec_bf = [  63.0000000000,  48.0000000000,  23.0000000000,   8.0000000000, ...
              63.0000000000,  31.0000000000, -49.0000000000,  61.0000000000, ... 
             -56.0000000000,  53.0000000000, -31.0000000000,  41.0000000000, ... 
              17.0000000000,  29.0000000000,  34.0000000000,  59.0000000000 ];
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=1,cost_del=1.42732,cost_bf= 1.06396,fiter=72
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=2,cost_del=1.57734,cost_bf= 1.08269,fiter=48
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=3,cost_del=1.69007,cost_bf= 1.16854,fiter=64
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=4,cost_del=2.20297,cost_bf= 1.16550,fiter=64
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=5,cost_del=3.61572,cost_bf= 1.21300,fiter=48
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=6,cost_del=1.2542,cost_bf= 1.18562,fiter=72
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=7,cost_del=1.51635,cost_bf= 1.04592,fiter=72
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=8,cost_del=1.67635,cost_bf= 0.94405,fiter=64
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=9,cost_del=1.74457,cost_bf= 0.88431,fiter=64
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=10,cost_del=2.29648,cost_bf= 0.97110,fiter=56
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=11,cost_del=3.72372,cost_bf= 3.70641,fiter=48
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=12,cost_del=2.1759,cost_bf= 1.14340,fiter=56
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=13,cost_del=8.34413,cost_bf= 8.15111,fiter=48
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=14,cost_del=2.07156,cost_bf= 1.08866,fiter=64
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=15,cost_del=4.45667,cost_bf= 4.14261,fiter=48
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=16,cost_del=3.62241,cost_bf= 1.21300,fiter=64
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=17,cost_del=1.77598,cost_bf= 1.21300,fiter=56
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=18,cost_del=2.07816,cost_bf= 1.21778,fiter=56
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=19,cost_del=1.99109,cost_bf= 1.05388,fiter=56
+warning: Using Octave m-file version of function bitflip()!
+warning: called from
+    bitflip at line 47 column 3
+    bitflip_test at line 109 column 26
 bitflip_test:k=20,cost_del=0.969901,cost_bf= 0.96990,fiter=40
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 
 #
-# run and see if the results match. Suppress m-file warnings.
+# run and see if the results match. .
 #
 echo "Running octave-cli -q " $descr
-
-octave-cli -q $prog > test.out 
+octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $descr"; fail; fi
 
 diff -Bb test.ok test.out

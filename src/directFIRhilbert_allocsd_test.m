@@ -160,7 +160,6 @@ for ndigits=2:3
     nbits_sidelobe_Ito(l)=max(20*log10(abs(A_Ito(napl:(npoints/2)))));
     
     % Print the results
-    format short
     print_polynomial(hM_rd,sprintf("hM_rd_%d_bits",nbits), ...
                      strcat(namestr,"_hM_rd_coef.m"),nscale);
     print_polynomial(hM_sd,sprintf("hM_sd_%d_bits",nbits), ...
@@ -169,7 +168,6 @@ for ndigits=2:3
                      strcat(namestr,"_hM_Lim_coef.m"),nscale);
     print_polynomial(hM_Ito,sprintf("hM_Ito_%d_bits",nbits),...
                      strcat(namestr,"_hM_Ito_coef.m"),nscale);
-    format long e
   endfor
 
   % Plot comparison of cost

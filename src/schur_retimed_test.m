@@ -7,7 +7,6 @@ unlink("schur_retimed_test.diary");
 unlink("schur_retimed_test.diary.tmp");
 diary schur_retimed_test.diary.tmp
 
-format short e
 
 strf="schur_retimed_test";
 

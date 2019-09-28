@@ -24,7 +24,6 @@ branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_allocsd_Ito=true
 
 tic;
 
-format compact
 
 tol=1e-4
 ctol=5e-7

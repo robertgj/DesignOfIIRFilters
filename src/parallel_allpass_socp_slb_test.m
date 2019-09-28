@@ -9,7 +9,6 @@ diary parallel_allpass_socp_slb_test.diary.tmp
 
 tic;
 
-format compact
 verbose=true
 maxiter=1000
 strf="parallel_allpass_socp_slb_test";

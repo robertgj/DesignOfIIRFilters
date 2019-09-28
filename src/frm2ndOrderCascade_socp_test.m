@@ -9,7 +9,6 @@ diary frm2ndOrderCascade_socp_test.diary.tmp
 
 tic;
 
-format compact
 verbose=false
 maxiter=2000
 

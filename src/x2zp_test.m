@@ -13,7 +13,6 @@ unlink("x2zp_test.diary");
 unlink("x2zp_test.diary.tmp");
 diary x2zp_test.diary.tmp
 
-format compact
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [z,p,K]=x2zp([1],0,0,0,0);

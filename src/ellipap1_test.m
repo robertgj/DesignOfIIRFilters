@@ -6,7 +6,6 @@ unlink("ellipap1_test.diary");
 unlink("ellipap1_test.diary.tmp");
 diary ellipap1_test.diary.tmp
 
-format short e
 
 w=2*pi*linspace(0,1,2048);
 w=w(:);

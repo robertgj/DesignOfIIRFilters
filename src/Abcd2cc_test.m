@@ -7,7 +7,6 @@ unlink("Abcd2cc_test.diary");
 unlink("Abcd2cc_test.diary.tmp");
 diary Abcd2cc_test.diary.tmp
 
-format short e
 
 % Design a filter
 bits=8

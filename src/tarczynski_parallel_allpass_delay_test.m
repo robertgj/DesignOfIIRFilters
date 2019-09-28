@@ -14,7 +14,6 @@ diary tarczynski_parallel_allpass_delay_test.diary.tmp
 
 tic;
 
-format compact
 
 tarczynski_parallel_allpass_delay_flat_delay=false
 

@@ -9,7 +9,6 @@ unlink("parallel_allpassP_test.diary");
 unlink("parallel_allpassP_test.diary.tmp");
 diary parallel_allpassP_test.diary.tmp
 
-format compact
 verbose=true
 
 % Define the filters

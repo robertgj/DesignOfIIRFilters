@@ -14,7 +14,6 @@ catch
   warning("Loading the parallel package failed!");
 end_try_catch
  
-format short e
 
 N=20;
 fc=0.1;

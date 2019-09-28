@@ -9,7 +9,6 @@ diary schurOneMlattice_socp_slb_lowpass_test.diary.tmp
 
 tic;
 
-format compact
 
 tol=1e-6
 ctol=tol

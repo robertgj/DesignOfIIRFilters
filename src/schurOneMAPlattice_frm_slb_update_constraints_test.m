@@ -7,7 +7,6 @@ unlink("schurOneMAPlattice_frm_slb_update_constraints_test.diary");
 unlink("schurOneMAPlattice_frm_slb_update_constraints_test.diary.tmp");
 diary schurOneMAPlattice_frm_slb_update_constraints_test.diary.tmp
 
-format compact;
 
 verbose=true
 tol=1e-5

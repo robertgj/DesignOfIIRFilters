@@ -13,7 +13,6 @@ unlink("tarczynski_ex2_standalone_test.diary");
 unlink("tarczynski_ex2_standalone_test.diary.tmp");
 diary tarczynski_ex2_standalone_test.diary.tmp
 
-format compact
 strf="tarczynski_ex2_standalone_test";
 
 warning("error","Octave:nonconformant-args");

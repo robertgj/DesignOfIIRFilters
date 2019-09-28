@@ -7,7 +7,6 @@ unlink("complementaryFIRlattice2Abcd_test.diary");
 unlink("complementaryFIRlattice2Abcd_test.diary.tmp");
 diary complementaryFIRlattice2Abcd_test.diary.tmp
 
-format long e
 verbose=false;
 
 for x=1:2

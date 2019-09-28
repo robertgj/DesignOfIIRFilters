@@ -36,75 +36,73 @@ endif
 % Check values of sn, cn and dn from NIST Digital Library of Mathematical
 % Formulas, Section 22.2
 tol=400*eps;
-for zr=-1.6:0.4:1.6,
-  for zi=-1.6:0.4:1.6,
-    for k=0.1:0.1:0.9,
-      z=zr+(j*zi);
-      [sn,cn,dn]=ellipj(z,k^2);
-      K=ellipke(k^2);
-      zeta=pi*z/(2*K);
-      snz=jacobi_theta3k(0,k)*jacobi_theta1k(zeta,k)/ ...
-          (jacobi_theta2k(0,k)*jacobi_theta4k(zeta,k));
-      if abs(sn-snz)>tol
-        error("abs(sn-snz)>tol,(zr=%g,zi=%g,k=%g)",zr,zi,k);
-      endif
-      cnz=jacobi_theta4k(0,k)*jacobi_theta2k(zeta,k)/ ...
-          (jacobi_theta2k(0,k)*jacobi_theta4k(zeta,k));
-      if abs(cn-cnz)>tol
-        error("abs(cn-cnz)>tol,(zr=%g,zi=%g,k=%g)",zr,zi,k);
-      endif
-      dnz=jacobi_theta4k(0,k)*jacobi_theta3k(zeta,k)/ ...
-          (jacobi_theta3k(0,k)*jacobi_theta4k(zeta,k));
-      if abs(dn-dnz)>tol
-        error("abs(dn-dnz)>tol,(zr=%g,zi=%g,k=%g)",zr,zi,k);
-      endif
-    endfor
-  endfor
+for k=0.1:0.1:0.9,
+  zr=(-1.6:0.4:1.6);
+  zi=(-1.6:0.4:1.6)';
+  z=zr+(j*zi);
+  [sn,cn,dn]=ellipj(z,k^2);
+  K=ellipke(k^2);
+  Kp=ellipke(1-(k^2));
+  q=exp(-pi*Kp/K);
+  zeta=pi*z/(2*K);
+  snz=jacobi_theta3k(0,k)*jacobi_theta1k(zeta,k)./ ...
+      (jacobi_theta2k(0,k)*jacobi_theta4k(zeta,k));
+  if max(max(abs(sn-snz)))>tol
+    error("max(max(abs(sn-snz)))(k=%f,%g*eps)>tol",k,max(max(abs(sn-snz)))/eps);
+  endif
+  cnz=jacobi_theta4k(0,k)*jacobi_theta2k(zeta,k)./ ...
+      (jacobi_theta2k(0,k)*jacobi_theta4k(zeta,k));
+  if max(max(abs(cn-cnz)))>tol
+    error("max(max(abs(cn-cnz))))(k=%f,%g*eps)>tol",k,max(max(abs(cn-cnz)))/eps);
+  endif
+  dnz=jacobi_theta4k(0,k)*jacobi_theta3k(zeta,k)./ ...
+      (jacobi_theta3k(0,k)*jacobi_theta4k(zeta,k));
+  if max(max(abs(dn-dnz)))>tol
+    error("max(max(abs(dn-dnz)))(k=%f,%g*eps)>tol",k,max(max(abs(dn-dnz)))/eps);
+  endif
 endfor
 
 % Check sn,cn,dn identities
 tol=20*eps;
 for k=0.1:0.1:0.9,
-  for zr=-1:0.1:1,
-    for zi=-1:0.1:1,
-      z=zr+(j*zi);
-      k2=k^2;
-      K=ellipke(k2);
-      kp2=1-k2;
-      Kp=ellipke(kp2);
-      zeta=pi*z/(2*K);
-      snz=jacobi_theta3k(0,k)*jacobi_theta1k(zeta,k)/ ...
-             (jacobi_theta2k(0,k)*jacobi_theta4k(zeta,k));
-      cnz=jacobi_theta4k(0,k)*jacobi_theta2k(zeta,k)/ ...
-             (jacobi_theta2k(0,k)*jacobi_theta4k(zeta,k));
-      dnz=jacobi_theta4k(0,k)*jacobi_theta3k(zeta,k)/ ...
-             (jacobi_theta3k(0,k)*jacobi_theta4k(zeta,k));
-      snz2=snz^2;
-      cnz2=cnz^2;
-      dnz2=dnz^2;
+  zr=(-1:0.1:1);
+  zi=(-1:0.1:1)';
+  z=zr+(j*zi);
+  k2=k^2;
+  K=ellipke(k2);
+  kp2=1-k2;
+  Kp=ellipke(kp2);
+  zeta=pi*z/(2*K);
+  snz=jacobi_theta3k(0,k)*jacobi_theta1k(zeta,k)./ ...
+      (jacobi_theta2k(0,k)*jacobi_theta4k(zeta,k));
+  cnz=jacobi_theta4k(0,k)*jacobi_theta2k(zeta,k)./ ...
+      (jacobi_theta2k(0,k)*jacobi_theta4k(zeta,k));
+  dnz=jacobi_theta4k(0,k)*jacobi_theta3k(zeta,k)./ ...
+      (jacobi_theta3k(0,k)*jacobi_theta4k(zeta,k));
+  snz2=snz.^2;
+  cnz2=cnz.^2;
+  dnz2=dnz.^2;
 
-      % Check sn^2+cn^2=1
-      if abs(snz2+(cnz2)-1)>tol
-        error("abs((snz^2)+(cnz^2)-1)>tol(zr=%g,zi=%g,k=%g,%g eps)",
-              zr,zi,k,abs(snz2+(cnz2)-1)/eps);
-      endif
-      % Check dn^2+k^2*sn^2=1
-      if abs(dnz2+(k2*snz2)-1)>tol
-        error("abs((dnz^2)+(k2*(snz^2))-1)>tol(zr=%g,zi=%g,k=%g,%g eps)",
-              zr,zi,k,abs(dnz2+(k2*snz2)-1)/eps);
-      endif
-      % Check k'^2+k^2*cn^2=dn^2
-      if abs(dnz2-(k2*cnz2)-kp2)>tol
-        error("abs((dnz^2)-(k2*(cnz^2))-kp2)>tol(zr=%g,zi=%g,k=%g,%g eps)",
-              zr,zi,k,abs(dnz2-(k2*cnz2)-kp2)/eps);
-      endif
-      % Check k'^2+k^2*cn^2=dn^2
-      if abs(dnz2-cnz2-(kp2*snz2))>tol
-        error("abs((dnz^2)-(cnz^2)-((kp*snz)^2))>tol(zr=%g,zi=%g,k=%g,%g eps)",
-              zr,zi,k,abs(dnz2-cnz2-(kp2*snz2))/eps);
-      endif
-    endfor
-  endfor
+  % Check sn^2+cn^2=1
+  if max(max(abs(snz2+(cnz2)-1)))>tol
+    error("max(max(abs((snz^2)+(cnz^2)-1)))(k=%f,%g*eps)>tol", ...
+          k,max(max(abs(snz2+(cnz2)-1)))/eps);
+  endif
+  % Check dn^2+k^2*sn^2=1
+  if max(max(abs(dnz2+(k2*snz2)-1)))>tol
+    error("max(max(abs((dnz^2)+(k2*(snz^2))-1)))(k=%f,%g*eps)>tol", ...
+          k,max(max(abs(dnz2+(k2*snz2)-1)))/eps);
+  endif
+  % Check k'^2+k^2*cn^2=dn^2
+  if max(max(abs(dnz2-(k2*cnz2)-kp2)))>tol
+    error("max(max(abs((dnz^2)-(k2*(cnz^2))-kp2)))(k=%f,%g*eps)>tol", ...
+          k,max(max(abs(dnz2-(k2*cnz2)-kp2)))/eps);
+  endif
+  % Check k'^2+k^2*cn^2=dn^2
+  if max(max(abs(dnz2-cnz2-(kp2*snz2))))>tol
+    error("max(max(abs((dnz^2)-(cnz^2)-((kp*snz)^2))))(k=%f,%g*eps)>tol", ...
+          k,max(max(abs(dnz2-cnz2-(kp2*snz2))))/eps);
+  endif
 endfor
 
 % Check special arguments with jacobi_theta[1,2,3,4]k functions

@@ -9,7 +9,6 @@ unlink("tfp2g_test.diary");
 unlink("tfp2g_test.diary.tmp");
 diary tfp2g_test.diary.tmp
 
-format compact
 
 function plot_response(B,A,fname)
   [h,w]=freqz(B,A,1024);

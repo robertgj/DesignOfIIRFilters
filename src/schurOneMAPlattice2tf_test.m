@@ -7,7 +7,6 @@ unlink("schurOneMAPlattice2tf_test.diary");
 unlink("schurOneMAPlattice2tf_test.diary.tmp");
 diary schurOneMAPlattice2tf_test.diary.tmp
 
-format short e
 
 % From tarczynski_frm_hilbert_test.m
 r0 = [  1.0000000000,  0,  0.4654027371,  0, -0.0749201995,  0, ...

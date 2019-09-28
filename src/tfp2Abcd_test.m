@@ -9,7 +9,6 @@ unlink("tfp2Abcd_test.diary");
 unlink("tfp2Abcd_test.diary.tmp");
 diary tfp2Abcd_test.diary.tmp
 
-format short
 
 function plot_response(n,d,fname)
   [h,w]=freqz(n,d,1024);

@@ -9,7 +9,6 @@ diary polyphase_allpass_socp_slb_test.diary.tmp
 
 tic;
 
-format compact
 verbose=false
 maxiter=10000
 strf="polyphase_allpass_socp_slb_test";

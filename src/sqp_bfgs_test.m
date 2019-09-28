@@ -8,7 +8,6 @@ unlink("sqp_bfgs_test.diary");
 unlink("sqp_bfgs_test.diary.tmp");
 diary sqp_bfgs_test.diary.tmp
 
-format compact
 
 sqp_common;
 

@@ -1,8 +1,8 @@
 #!/bin/sh
 
 prog=qzsolve_test.m
-depends="qzsolve_test.m test_common.m qroots.m print_pole_zero.m \
-tf2x.m zp2x.m qzsolve.oct"
+depends="qzsolve_test.m test_common.m qroots.m check_octave_file.m \
+ print_pole_zero.m tf2x.m zp2x.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -10,7 +10,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -18,7 +18,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -39,6 +39,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
+Using qzsolve octfile
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 
@@ -52,11 +53,11 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.coef"; fail; fi
 
 #
-# run and see if the results match. Suppress m-file warnings
+# run and see if the results match. 
 #
 echo "Running octave-cli -q " $prog
 
-octave-cli -q $prog > test.out
+octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.ok test.out

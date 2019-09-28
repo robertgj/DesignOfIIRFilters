@@ -7,7 +7,6 @@ unlink("optKW_test.diary");
 unlink("optKW_test.diary.tmp");
 diary optKW_test.diary.tmp
 
-format short e
 
 if !(exist("dlyap","builtin")||exist("dlyap","file"))
   error("dlyap() not found!");

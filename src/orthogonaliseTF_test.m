@@ -7,7 +7,6 @@ unlink("orthogonaliseTF_test.diary");
 unlink("orthogonaliseTF_test.diary.tmp");
 diary orthogonaliseTF_test.diary.tmp
 
-format short 
 
 tol=eps*10;
 

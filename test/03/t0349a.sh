@@ -12,7 +12,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -20,7 +20,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -44,72 +44,72 @@ cat > test.ok << 'EOF'
 k is empty!
 
 Testing Nk=1
-est_varyABCDd =    1.0417e-01
-varyABCDd =    1.0490e-01
-est_varyABCDapd =    1.6667e-01
-varyABCDapd =    1.6734e-01
+est_varyABCDd =  0.10417
+varyABCDd =  0.10490
+est_varyABCDapd =  0.16667
+varyABCDapd =  0.16734
 At fc HABCDf=-3.004614 (dB)
 
 Testing Nk=2
-est_varyABCDd =    1.2518e-01
-varyABCDd =    1.2440e-01
-est_varyABCDapd =    2.5000e-01
-varyABCDapd =    2.4217e-01
+est_varyABCDd =  0.12518
+varyABCDd =  0.12440
+est_varyABCDapd =  0.25000
+varyABCDapd =  0.24217
 At fc HABCDf=-2.995112 (dB)
 
 Testing Nk=3
-est_varyABCDd =    1.4516e-01
-varyABCDd =    1.4595e-01
-est_varyABCDapd =    3.3333e-01
-varyABCDapd =    3.3121e-01
+est_varyABCDd =  0.14516
+varyABCDd =  0.14595
+est_varyABCDapd =  0.33333
+varyABCDapd =  0.33121
 At fc HABCDf=-3.086457 (dB)
 
 Testing Nk=4
-est_varyABCDd =    1.6408e-01
-varyABCDd =    1.6263e-01
-est_varyABCDapd =    4.1667e-01
-varyABCDapd =    4.2845e-01
+est_varyABCDd =  0.16408
+varyABCDd =  0.16263
+est_varyABCDapd =  0.41667
+varyABCDapd =  0.42845
 At fc HABCDf=-2.971763 (dB)
 
 Testing Nk=5
-est_varyABCDd =    1.9124e-01
-varyABCDd =    1.8404e-01
-est_varyABCDapd =    5.0000e-01
-varyABCDapd =    4.8990e-01
+est_varyABCDd =  0.19124
+varyABCDd =  0.18404
+est_varyABCDapd =  0.50000
+varyABCDapd =  0.48990
 At fc HABCDf=-2.677854 (dB)
 
 Testing Nk=6
-est_varyABCDd =    2.1622e-01
-varyABCDd =    2.1729e-01
-est_varyABCDapd =    5.8333e-01
-varyABCDapd =    5.8813e-01
+est_varyABCDd =  0.21622
+varyABCDd =  0.21729
+est_varyABCDapd =  0.58333
+varyABCDapd =  0.58813
 At fc HABCDf=-2.655840 (dB)
 
 Testing Nk=7
-est_varyABCDd =    2.3080e-01
-varyABCDd =    2.3430e-01
-est_varyABCDapd =    6.6667e-01
-varyABCDapd =    6.7891e-01
+est_varyABCDd =  0.23080
+varyABCDd =  0.23430
+est_varyABCDapd =  0.66667
+varyABCDapd =  0.67891
 At fc HABCDf=-3.900121 (dB)
 
 Testing Nk=8
-est_varyABCDd =    2.5189e-01
-varyABCDd =    2.4683e-01
-est_varyABCDapd =    7.5000e-01
-varyABCDapd =    7.2857e-01
+est_varyABCDd =  0.25189
+varyABCDd =  0.24683
+est_varyABCDapd =  0.75000
+varyABCDapd =  0.72857
 At fc HABCDf=-3.045956 (dB)
 
 Testing Nk=9
-est_varyABCDd =    2.6143e-01
-varyABCDd =    2.6566e-01
-est_varyABCDapd =    8.3333e-01
-varyABCDapd =    8.7073e-01
+est_varyABCDd =  0.26143
+varyABCDd =  0.26566
+est_varyABCDapd =  0.83333
+varyABCDapd =  0.87073
 At fc HABCDf=-2.722792 (dB)
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 
 #
-# run and see if the results match. Suppress m-file warnings.
+# run and see if the results match. .
 #
 echo "Running octave-cli -q " $prog
 

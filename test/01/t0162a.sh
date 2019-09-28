@@ -2,14 +2,17 @@
 
 prog=labudde_test.m
 
-depends="labudde_test.m labudde.m test_common.m tf2Abcd.m"
+descr="labudde_test.m (mfile)"
+
+depends="labudde_test.m labudde.m test_common.m check_octave_file.m tf2Abcd.m"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $descr 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -17,7 +20,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $descr
         cd $here
         rm -rf $tmp
         exit 0
@@ -38,6 +41,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
+Using labudde mfile
 d=[  1.0000000000000000
 -10.1056655234449586
  46.8017429779240715
@@ -67,6 +71,10 @@ poly(A)=[  1.0000000000000000
 -0.5967165560107511
 ]
 norm(d-poly(A))=8.89919e-13
+warning: Using Octave m-file version of function labudde()!
+warning: called from
+    labudde at line 14 column 3
+    labudde_test at line 29 column 3
 labudde(A)=[ -10.1056655234449586
  46.8017429779240715
 -131.0797709418646377
@@ -103,6 +111,10 @@ poly(A)=[  1.0000000000000000
  0.0197382407000001
 ]
 norm(d0-poly(A))=2.07018e-14
+warning: Using Octave m-file version of function labudde()!
+warning: called from
+    labudde at line 14 column 3
+    labudde_test at line 50 column 3
 labudde(A)=[ -0.0000000000000000
  1.8669208761000000
  0.0000000000000000
@@ -131,10 +143,9 @@ if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 #
 # run and see if the results match
 #
-echo "Running octave-cli -q " $prog
-
-octave-cli -q $prog > test.out
-if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
+echo "Running octave-cli -q " $descr
+octave-cli -q $prog >test.out 2>&1
+if [ $? -ne 0 ]; then echo "Failed running $descr"; fail; fi
 
 diff -Bb test.ok test.out
 if [ $? -ne 0 ]; then echo "Failed diff -Bb"; fail; fi

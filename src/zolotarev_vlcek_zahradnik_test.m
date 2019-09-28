@@ -122,7 +122,8 @@ ZSwx=Swx.*sqrt(1-(wx.^2));
 subplot(211);
 plot(wx,ZSwx,'-',wx,Zwx,'--');
 axis([-1.1 1.1 -2 8]);
-xlabel("w");
+xlabel("$w$");
+ylabel("Amplitude");
 grid("on");
 legend_ZSwx=sprintf("$(1-w^{2})^{1/2}S_{%d,%d}(u,%4.2f)$",p,q,k);
 legend_Zwx=sprintf("$Z_{%d,%d}(u,%4.2f)$",p,q,k);
@@ -138,7 +139,8 @@ title(strt);
 subplot(212);
 plot(wx,Swx,'-',wx,SZwx,'--');
 axis([-1.1 1.1 -10 10]);
-xlabel("w");
+xlabel("$w$");
+ylabel("Amplitude");
 legend_Swx=sprintf("$S_{%d,%d}(u,%4.2f)$",p,q,k);
 legend_SZwx=sprintf("$Z_{%d,%d}(u,%4.2f)/(1-w^{2})^{1/2}$",p,q,k);
 legend(legend_Swx,legend_SZwx)
@@ -172,6 +174,8 @@ Spq=chebychevU_backward_recurrence(aplus);
 w=-1:0.001:1;
 plot(w,polyval(Spq,w).*sqrt(1-(w.^2)));
 axis([-1.1 1.1 -1 7])
+xlabel("$w$");
+ylabel("Amplitude");
 strt=sprintf("Function $(1-w^2)^{1/2}S_{%d,%d}(u,%4.2f)$",p,q,k);
 title(strt);
 grid("on");
@@ -181,7 +185,8 @@ close
 % Generating function (Figure 2)
 plot(w,polyval(Spq,w));
 axis([-1.1 1.1 -10 10])
-xlabel("w");
+xlabel("$w$");
+ylabel("Amplitude");
 grid("on");
 strt=sprintf("Generating function $S_{%d,%d}(u,%4.2f)$",p,q,k);
 title(strt);
@@ -207,7 +212,8 @@ w=-1:0.001:1;
 S=(-N1+polyval(intSpq,w))./(N2-N1);
 plot(w,S);
 axis([-1 1 0 1])
-xlabel("w");
+xlabel("$w$");
+ylabel("Amplitude");
 grid("on");
 strt=sprintf("Un-normalised zero-phase transfer function S :\
 p=%d, q=%d, k=%4.2f",p,q,k);
@@ -227,7 +233,8 @@ if max(abs(Q-S))>tol
 endif
 plot(w,Q);
 axis([-1.1 1.1 0 1])
-xlabel("w");
+xlabel("$w$");
+ylabel("Amplitude");
 grid("on");
 strt=sprintf("Zero-phase transfer function $Q_{%d,%d}(u,%4.2f)$",p,q,k);
 title(strt);

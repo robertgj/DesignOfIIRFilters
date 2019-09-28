@@ -7,7 +7,6 @@ unlink("iir_frm_parallel_allpass_slb_update_constraints_test.diary");
 unlink("iir_frm_parallel_allpass_slb_update_constraints_test.diary.tmp");
 diary iir_frm_parallel_allpass_slb_update_constraints_test.diary.tmp
 
-format compact;
 
 verbose=true
 tol=1e-5

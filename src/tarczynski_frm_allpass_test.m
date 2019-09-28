@@ -14,7 +14,6 @@ diary tarczynski_frm_allpass_test.diary.tmp
 
 tic;
 
-format compact
 verbose=true
 maxiter=5000
 strf="tarczynski_frm_allpass_test";

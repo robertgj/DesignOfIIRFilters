@@ -7,7 +7,6 @@ unlink("svcascf_test.diary");
 unlink("svcascf_test.diary.tmp");
 diary svcascf_test.diary.tmp
 
-format short e
 
 % Some housekeeping
 N=19;

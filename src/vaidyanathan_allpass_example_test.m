@@ -11,7 +11,6 @@ unlink("vaidyanathan_allpass_example_test.diary");
 unlink("vaidyanathan_allpass_example_test.diary.tmp");
 diary vaidyanathan_allpass_example_test.diary.tmp
 
-format short e
 
 P=0.13494*[1, 1.73306, 2.83075, 2.83075, 1.73306, 1];
 D=[1, -0.7004, 1.42787, -0.57995, 0.40866, -0.05463];

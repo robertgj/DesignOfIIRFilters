@@ -7,7 +7,6 @@ unlink("iir_frm_allpass_test.diary");
 unlink("iir_frm_allpass_test.diary.tmp");
 diary iir_frm_allpass_test.diary.tmp
 
-format compact
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %

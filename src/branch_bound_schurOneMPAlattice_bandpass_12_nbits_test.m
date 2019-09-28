@@ -24,7 +24,6 @@ branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito=false
 
 tic;
 
-format compact
 
 maxiter=500
 verbose=false

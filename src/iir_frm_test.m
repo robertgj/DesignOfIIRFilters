@@ -7,7 +7,6 @@ unlink("iir_frm_test.diary");
 unlink("iir_frm_test.diary.tmp");
 diary iir_frm_test.diary.tmp
 
-format compact
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %

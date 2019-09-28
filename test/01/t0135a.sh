@@ -2,7 +2,7 @@
 
 prog=bin2SPT_test.m
 descr="bin2SPT_test.m (octfile)"
-depends="bin2SPT_test.m test_common.m bin2SPT.oct"
+depends="bin2SPT_test.m test_common.m check_octave_file.m bin2SPT.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -10,7 +10,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $descr 1>&2
+        echo FAILED ${0#$here"/"} $descr 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -18,7 +18,7 @@ fail()
 
 pass()
 {
-        echo PASSED $descr
+        echo PASSED ${0#$here"/"} $descr
         cd $here
         rm -rf $tmp
         exit 0
@@ -39,6 +39,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
+Using bin2SPT octfile
 x=     1, nbits=51, spt(51:-1:1)=[  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1 ], ndigits=1
 Caught spt=bin2SPT(1,52): Expected 0<nbits(52)<=51
 x=     1, nbits=8, spt(8:-1:1)=[  0  0  0  0  0  0  0  1 ], ndigits=1
@@ -697,7 +698,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 #
 echo "Running octave-cli -q " $descr
 
-octave-cli -q $prog > test.out
+octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $descr"; fail; fi
 
 diff -Bb test.ok test.out

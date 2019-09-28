@@ -9,7 +9,6 @@ diary schurOneMPAlattice_socp_slb_bandpass_test.diary.tmp
 
 tic;
 
-format compact
 
 tol=1e-4
 ctol=5e-8

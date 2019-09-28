@@ -11,7 +11,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $prog 1>&2
+        echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -19,7 +19,7 @@ fail()
 
 pass()
 {
-        echo PASSED $prog
+        echo PASSED ${0#$here"/"} $prog
         cd $here
         rm -rf $tmp
         exit 0
@@ -82,10 +82,10 @@ delEdelrp=0.004189, approx=0.004190, diff=-0.000000
 delEdelthetap=0.006481, approx=0.006481, diff=0.000000
 
 Compare hessErrorA to the approximation (hessErrorAD-hessErrorA)./hessErrorA
-ans =    1.2861e-02
+ans =  0.012861
 
 Compare hessErrorA to the approximation (hessErrorAD10-hessErrorA)./hessErrorA
-ans =    1.2861e-03
+ans =  0.0012861
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

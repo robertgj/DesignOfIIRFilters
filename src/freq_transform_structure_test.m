@@ -7,7 +7,6 @@ unlink("freq_transform_structure_test.diary");
 unlink("freq_transform_structure_test.diary.tmp");
 diary freq_transform_structure_test.diary.tmp
 
-format short
 
 strf="freq_transform_structure_test";
 

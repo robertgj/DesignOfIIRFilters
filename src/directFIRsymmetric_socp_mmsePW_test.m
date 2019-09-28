@@ -8,7 +8,6 @@ unlink("directFIRsymmetric_socp_mmsePW_test.diary.tmp");
 diary directFIRsymmetric_socp_mmsePW_test.diary.tmp
 
 tic;
-format compact
 
 maxiter=2000
 tol=5e-5

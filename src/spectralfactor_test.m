@@ -1,5 +1,5 @@
 % spectralfactor_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2019 Robert G. Jenssen
 %
 % Test case for the spectral factor 
 
@@ -9,7 +9,7 @@ unlink("spectralfactor_test.diary");
 unlink("spectralfactor_test.diary.tmp");
 diary spectralfactor_test.diary.tmp
 
-format short e
+check_octave_file("spectralfactor");
 
 strf="spectralfactor_test";
 
@@ -42,5 +42,7 @@ print(strcat(strf,"_ellip13_0_05_detail"),"-dpdflatex");
 close
 
 print_polynomial(q,"q",strcat(strf,"_q_coef.m"));
+
+% Done
 diary off
 movefile spectralfactor_test.diary.tmp spectralfactor_test.diary;

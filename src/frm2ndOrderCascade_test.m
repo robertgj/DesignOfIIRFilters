@@ -10,7 +10,6 @@ unlink("frm2ndOrderCascade_test.diary");
 unlink("frm2ndOrderCascade_test.diary.tmp");
 diary frm2ndOrderCascade_test.diary.tmp
 
-format compact
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %

@@ -7,7 +7,6 @@ unlink("x2pa_test.diary");
 unlink("x2pa_test.diary.tmp");
 diary x2pa_test.diary.tmp
 
-format compact
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [a1,V1,Q1,a2,V2,Q2]=x2pa([1 -1.1 -0.9],1,1,0,0,1);

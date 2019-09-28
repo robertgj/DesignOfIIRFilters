@@ -7,7 +7,6 @@ unlink("directFIRsymmetricSqErr_bandpass_test.diary");
 unlink("directFIRsymmetricSqErr_bandpass_test.diary.tmp");
 diary directFIRsymmetricSqErr_bandpass_test.diary.tmp
 
-format short e
 
 % Specify desired response
 npoints=10^4

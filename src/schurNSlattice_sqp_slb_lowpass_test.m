@@ -7,7 +7,6 @@ unlink("schurNSlattice_sqp_slb_lowpass_test.diary");
 unlink("schurNSlattice_sqp_slb_lowpass_test.diary.tmp");
 diary schurNSlattice_sqp_slb_lowpass_test.diary.tmp
 
-format compact
 
 maxiter=5000
 verbose=false

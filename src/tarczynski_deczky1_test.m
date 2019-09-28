@@ -9,7 +9,6 @@ diary tarczynski_deczky1_test.diary.tmp
 
 tic;
 
-format compact
 
 % Initial filter
 R=1;

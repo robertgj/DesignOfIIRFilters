@@ -7,7 +7,6 @@ unlink("contfrac_test.diary");
 unlink("contfrac_test.diary.tmp");
 diary contfrac_test.diary.tmp
 
-format short e
 
 N=5
 fc=0.05

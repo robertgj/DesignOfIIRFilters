@@ -1,8 +1,10 @@
 #!/bin/sh
 
 prog=bin2SD_test.m
+
 descr="bin2SD_test.m (octfile)"
-depends="bin2SD_test.m test_common.m bin2SD.oct bin2SPT.oct"
+
+depends="bin2SD_test.m test_common.m check_octave_file.m bin2SD.oct bin2SPT.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -10,7 +12,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 
 fail()
 {
-        echo FAILED $descr 1>&2
+        echo FAILED ${0#$here"/"} $descr 1>&2
         cd $here
         rm -rf $tmp
         exit 1
@@ -18,7 +20,7 @@ fail()
 
 pass()
 {
-        echo PASSED $descr
+        echo PASSED ${0#$here"/"} $descr
         cd $here
         rm -rf $tmp
         exit 0
@@ -39,6 +41,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
+Using bin2SD octfile
 Caught sd=bin2SD([6:7],4,1): x is not a scalar
 Caught y=bin2SD(1,51,52): Expected 0<=ndigits(52)<=nbits(51)
 Caught y=bin2SD(1,52,51): Expected 0<nbits(52)<=51
@@ -402,8 +405,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 # run and see if the results match
 #
 echo "Running octave-cli -q " $descr
-
-octave-cli -q $prog > test.out
+octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $descr"; fail; fi
 
 diff -Bb test.ok test.out
@@ -413,4 +415,3 @@ if [ $? -ne 0 ]; then echo "Failed diff -Bb"; fail; fi
 # this much worked
 #
 pass
-

@@ -14,7 +14,6 @@ diary tarczynski_allpass_phase_shift_test.diary.tmp
 
 tic;
 
-format compact
 
 function E=WISEJ_PS(a,_w,_td,_D,_Pd,_Wp)
 % E=WISEJ_PS(a,[w,td,D,Pd,Wp])

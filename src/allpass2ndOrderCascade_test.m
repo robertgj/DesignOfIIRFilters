@@ -7,7 +7,6 @@ unlink("allpass2ndOrderCascade_test.diary");
 unlink("allpass2ndOrderCascade_test.diary.tmp");
 diary allpass2ndOrderCascade_test.diary.tmp
 
-format compact
 
 tol=1e-4;
 

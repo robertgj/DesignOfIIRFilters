@@ -7,17 +7,53 @@ unlink("reprand_test.diary");
 unlink("reprand_test.diary.tmp");
 diary reprand_test.diary.tmp
 
-format short e
+check_octave_file("reprand");
 
-n1=reprand(2^14);
-n2=reprand(2^14);
+try
+  reprand()
+catch
+  printf("Caught reprand exception for no arguments!\n");
+end_try_catch
+
+try
+  reprand(1,2,3)
+catch
+  printf("Caught reprand exception for 3 arguments!\n");
+end_try_catch
+
+isempty(reprand(-1))
+
+isempty(reprand(0))
+
+isempty(reprand(0,0))
+
+reprand(1)
+
+reprand(1,1)
+
+reprand(1,4)
+
+reprand(4,1)
+
+reprand(4)
+
+n1=reprand(1,2^14);
 size(n1)
-max(n1)
-min(n1)
-mean(n1)
-var(n1)
-std(n1)
-max(abs(n1-n2))
+printf("max(n1)=%20.12e\n",max(n1));
+printf("min(n1)=%20.12e\n",min(n1));
+printf("mean(n1)=%20.12e\n",mean(n1));
+printf("var(n1)=%20.12e\n",var(n1));
+printf("std(n1)=%20.12e\n",std(n1));
+
+n2=reprand(2^14,1);
+size(n2)
+printf("max(n2)=%20.12e\n",max(n2));
+printf("min(n2)=%20.12e\n",min(n2));
+printf("mean(n2)=%20.12e\n",mean(n2));
+printf("var(n2)=%20.12e\n",var(n2));
+printf("std(n2)=%20.12e\n",std(n2));
+
+printf("norm(n1(:)-n2(:))=%20.12e\n",norm(n1(:)-n2(:)));
 
 diary off
 movefile reprand_test.diary.tmp reprand_test.diary;

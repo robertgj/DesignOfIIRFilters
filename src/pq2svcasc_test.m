@@ -7,7 +7,6 @@ unlink("pq2svcasc_test.diary");
 unlink("pq2svcasc_test.diary.tmp");
 diary pq2svcasc_test.diary.tmp
 
-format short e
 
 fc=0.1;
 delta=4; % For optKW2()

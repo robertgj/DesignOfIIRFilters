@@ -7,7 +7,7 @@ unlink("bin2SD_test.diary");
 unlink("bin2SD_test.diary.tmp");
 diary bin2SD_test.diary.tmp
 
-format short e
+check_octave_file("bin2SD");
 
 try
   y=bin2SD([6:7],4,1);

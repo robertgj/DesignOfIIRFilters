@@ -9,7 +9,6 @@ unlink("parallel_allpass_delayAsq_test.diary");
 unlink("parallel_allpass_delayAsq_test.diary.tmp");
 diary parallel_allpass_delayAsq_test.diary.tmp
 
-format compact
 verbose=false;
 
 if 1

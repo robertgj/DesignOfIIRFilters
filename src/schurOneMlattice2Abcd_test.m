@@ -7,6 +7,8 @@ unlink("schurOneMlattice2Abcd_test.diary");
 unlink("schurOneMlattice2Abcd_test.diary.tmp");
 diary schurOneMlattice2Abcd_test.diary.tmp
 
+check_octave_file("schurOneMlattice2Abcd");
+
 verbose=false;
 del=1e-8;
 

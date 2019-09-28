@@ -7,7 +7,6 @@ unlink("schurOneMPAlattice_socp_mmse_test.diary");
 unlink("schurOneMPAlattice_socp_mmse_test.diary.tmp");
 diary schurOneMPAlattice_socp_mmse_test.diary.tmp
 
-format compact
 
 maxiter=2000
 tol=1e-9

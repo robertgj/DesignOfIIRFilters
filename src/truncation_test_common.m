@@ -1,8 +1,6 @@
 % truncation_test_common.m
 % Copyright (C) 2017,2018 Robert G. Jenssen
 
-format short e
-
 % Specify elliptic low pass filter
 norder=5
 dBpass=1

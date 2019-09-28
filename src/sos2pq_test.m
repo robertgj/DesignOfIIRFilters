@@ -7,7 +7,6 @@ unlink("sos2pq_test.diary");
 unlink("sos2pq_test.diary.tmp");
 diary sos2pq_test.diary.tmp
 
-format short e
 
 % Specify elliptic low pass filter
 fc=0.1;

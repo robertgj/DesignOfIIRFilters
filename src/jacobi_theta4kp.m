@@ -1,5 +1,5 @@
 function x=jacobi_theta4kp(z,k,tol)
-% x=jacobi_theta4kp(z,k.tol) for real scalars z and modulus, k
+% x=jacobi_theta4kp(z,k.tol)
 % Return the differential of theta4k.
 % See Section 20.2 and 20.7(viii) of "NIST Digital Library of Mathematical
 % Functions", http://dlmf.nist.gov/, edited by F. W. J. Olver, et al.
@@ -32,9 +32,6 @@ function x=jacobi_theta4kp(z,k,tol)
     tol=eps;
   endif
   
-  if ~isscalar(z)
-    error("Expect z scalar!");
-  endif
   if ~isscalar(k)
     error("Expect k scalar!");
   endif
@@ -52,9 +49,9 @@ function x=jacobi_theta4kp(z,k,tol)
   tp=K/Kp;
   if tp>1
     q=exp(-pi*tp);
-    x=(2*j*z/pi)*jacobi_theta2(z*j*tp,q,tol);
+    x=(2*j*z/pi).*jacobi_theta2(z*j*tp,q,tol);
     x=x+jacobi_theta2p(z*j*tp,q,tol);
-    x=x*j*(tp^(3/2))*exp(-z*z*tp/pi);
+    x=x.*j*(tp^(3/2)).*exp(-z.*z*tp/pi);
   else
     q=exp(-pi/tp);
     x=jacobi_theta4p(z,q,tol);
