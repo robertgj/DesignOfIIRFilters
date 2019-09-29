@@ -7,10 +7,6 @@ unlink("schurOneMAPlatticeT_test.diary");
 unlink("schurOneMAPlatticeT_test.diary.tmp");
 diary schurOneMAPlatticeT_test.diary.tmp
 
-clear schurOneMAPlattice2H
-tic;
-verbose=true;
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % R=2 bandpass filter
@@ -153,8 +149,5 @@ if max(abs(T10-TR10)) > 1.4e-10
 endif
 
 % Done
-toc;
-if verbose
-endif
 diary off
 movefile schurOneMAPlatticeT_test.diary.tmp schurOneMAPlatticeT_test.diary;

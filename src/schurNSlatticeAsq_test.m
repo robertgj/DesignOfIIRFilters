@@ -7,9 +7,6 @@ unlink("schurNSlatticeAsq_test.diary");
 unlink("schurNSlatticeAsq_test.diary.tmp");
 diary schurNSlatticeAsq_test.diary.tmp
 
-tic;
-verbose=true;
-
 % R=2 bandpass filter from iir_sqp_slb_bandpass_test.m
 fapl=0.1;fapu=0.2;fasl=0.05;ftpl=0.09;ftpu=0.21;
 n = [   0.0119898572,   0.0055005262,   0.0227465629,   0.0227676952, ... 
@@ -125,6 +122,5 @@ if max(abs(diff_gradAsq-diagHessAsq(ntpl,:))) > del/214.82
 endif
 
 % Done
-toc;
 diary off
 movefile schurNSlatticeAsq_test.diary.tmp schurNSlatticeAsq_test.diary;

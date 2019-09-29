@@ -7,13 +7,12 @@ unlink("schurOneMlatticeEsq_test.diary");
 unlink("schurOneMlatticeEsq_test.diary.tmp");
 diary schurOneMlatticeEsq_test.diary.tmp
 
-tic;
 verbose=true;
 
 % R=2 bandpass filter
-fapl=0.1,fapu=0.2,Wap=10
-fasl=0.05,fasu=0.25,Wasl=20,Wasu=20
-ftpl=0.09,ftpu=0.21,tp=16,Wtp=100
+fapl=0.1;fapu=0.2;Wap=10;
+fasl=0.05;fasu=0.25;Wasl=20;Wasu=20;
+ftpl=0.09;ftpu=0.21;tp=16;Wtp=100;
 n = [   0.0127469845,   0.0032780608,   0.0285568297,   0.0217618336, ... 
         0.0543730436,   0.0291811860,   0.0325479489,  -0.0069026091, ... 
        -0.0040414137,  -0.0430974012,  -0.0720651216,  -0.1000828758, ... 
@@ -145,6 +144,5 @@ if max(abs(diff_dEsqdc-diagHessEsq((Nk+1):end))) > del/0.6043
 endif
 
 % Done
-toc;
 diary off
 movefile schurOneMlatticeEsq_test.diary.tmp schurOneMlatticeEsq_test.diary;

@@ -22,7 +22,7 @@ fail()
 {
         echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
-#        rm -rf $tmp
+        rm -rf $tmp
         exit 1
 }
 
@@ -37,7 +37,6 @@ pass()
 trap "fail" 1 2 3 15
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
-echo $here
 for file in $depends;do \
   cp -R src/$file $tmp; \
   if [ $? -ne 0 ]; then echo "Failed cp "$file; fail; fi \
@@ -61,9 +60,9 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m.ok"; fail; fi
 #
 # run and see if the results match
 #
-echo "Running octave-cli -q " $prog
+echo "Running $prog"
 
-octave-cli -q $prog > test.out
+octave-cli -q $prog >test.out 2>&1
 
 diff -Bb test_a1_coef.m.ok parallel_allpass_delay_sqp_slb_test_a1_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb on test_a1_coef.m"; fail; fi

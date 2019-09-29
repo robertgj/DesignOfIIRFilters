@@ -34,7 +34,6 @@ fi
 
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
-echo $here
 for file in $depends;do \
   cp -R src/$file $tmp; \
   if [ $? -ne 0 ]; then echo "Failed cp "$file; fail; fi \
@@ -59,8 +58,8 @@ if [ $? -ne 0 ]; then echo "Failed output cat of test.ok"; fail; fi
 #
 # run and see if the results match
 #
-echo "Running maxima -b " $prog
-maxima -b $prog
+echo "Running maxima -b $prog"
+maxima -b $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.ok ${prog//max/out}

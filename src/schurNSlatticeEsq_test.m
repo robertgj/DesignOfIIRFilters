@@ -7,16 +7,13 @@ unlink("schurNSlatticeEsq_test.diary");
 unlink("schurNSlatticeEsq_test.diary.tmp");
 diary schurNSlatticeEsq_test.diary.tmp
 
-tic;
-verbose=true;
-
 if 0
   % Deczky3 lowpass filter specification
-  n=800
-  norder=10
-  fap=0.15,Wap=1
-  fas=0.3,Was_mmse=1
-  ftp=0.25,tp=10,Wtp_mmse=1
+  n=800;
+  norder=10;
+  fap=0.15;Wap=1;
+  fas=0.3;Was_mmse=1;
+  ftp=0.25;tp=10;Wtp_mmse=1;
   % Initial filter from deczky3_sqp_test.m
   U=0;V=0;Q=6;M=10;R=1;
   z0=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...
@@ -44,9 +41,9 @@ if 0
   Wt=Wtp_mmse*ones(ntp,1);
 else
   % R=2 bandpass filter from iir_sqp_slb_bandpass_test.m
-  fapl=0.1,fapu=0.2,Wap=1
-  fasl=0.05,fasu=0.25,Wasl=2,Wasu=2
-  ftpl=0.09,ftpu=0.21,tp=16,Wtp=1
+  fapl=0.1;fapu=0.2;Wap=1;
+  fasl=0.05;fasu=0.25;Wasl=2;Wasu=2;
+  ftpl=0.09;ftpu=0.21;tp=16;Wtp=1;
   n0 = [   0.0119898572,   0.0055005262,   0.0227465629,   0.0227676952, ... 
            0.0477699159,   0.0346032386,   0.0300158271,   0.0007692638, ... 
           -0.0021264872,  -0.0305118086,  -0.0677680871,  -0.1021835628, ... 
@@ -207,6 +204,5 @@ if max_diagHessEsq_error > tol
 endif
 
 % Done
-toc;
 diary off
 movefile schurNSlatticeEsq_test.diary.tmp schurNSlatticeEsq_test.diary;

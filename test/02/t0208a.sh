@@ -27,7 +27,6 @@ pass()
 trap "fail" 1 2 3 15
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
-echo $here
 for file in $depends;do \
   cp -R src/$file $tmp; \
   if [ $? -ne 0 ]; then echo "Failed cp "$file; fail; fi \
@@ -69,6 +68,11 @@ ans =  0.062500
 fiter =  31
 
 With goldensection()
+warning: 2nd deriv(1)<=tol x=[-4.100000 ] 
+warning: called from
+    quadratic at line 54 column 3
+    goldensection at line 71 column 7
+    goldensection_test at line 50 column 12
 
 Initial point:
 gxf= [ -6.200000 ]
@@ -154,6 +158,11 @@ tau =  0.50000
 iter =  9
 ans =  6.7600
 fiter =  55
+warning: 2nd deriv(4)<=tol x=[-1.500000 ] 
+warning: called from
+    quadratic at line 54 column 3
+    goldensection at line 71 column 7
+    goldensection_test at line 53 column 12
 
 Initial point:
 gxf= [ -1.000000 ]
@@ -183,6 +192,11 @@ tau =  0.24671
 iter =  2
 ans =  0.000043268
 fiter =  65
+warning: 2nd deriv(100)<=tol x=[-2.000000 ] 
+warning: called from
+    quadratic at line 54 column 3
+    goldensection at line 71 column 7
+    goldensection_test at line 56 column 12
 
 Initial point:
 gxf= [ -2.000000 ]
@@ -290,9 +304,9 @@ if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 #
 # run and see if the results match. 
 #
-echo "Running octave-cli -q " $prog
+echo "Running $prog"
 
-octave-cli -q $prog > test.out 2> /dev/null
+octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.ok test.out

@@ -7,9 +7,6 @@ unlink("complementaryFIRlatticeT_test.diary");
 unlink("complementaryFIRlatticeT_test.diary.tmp");
 diary complementaryFIRlatticeT_test.diary.tmp
 
-tic;
-verbose=true;
-
 % Bandpass minimum-phase filter specification
 ftpl=0.1;
 ftph=0.2;
@@ -70,7 +67,6 @@ if max(abs(diff_Tkhat-gradT(ntpl,(Nk+1):(2*Nk)))) > del/400
 endif
 
 % Done
-toc;
 diary off
 movefile complementaryFIRlatticeT_test.diary.tmp ...
          complementaryFIRlatticeT_test.diary;

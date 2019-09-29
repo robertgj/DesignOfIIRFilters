@@ -7,10 +7,6 @@ unlink("schurOneMlatticeAsq_test.diary");
 unlink("schurOneMlatticeAsq_test.diary.tmp");
 diary schurOneMlatticeAsq_test.diary.tmp
 
-clear schurOneMlattice2H
-tic;
-verbose=true;
-
 % R=2 bandpass filter
 fapl=0.1;fapu=0.2;fasl=0.05;ftpl=0.09;ftpu=0.21;
 n = [   0.0127469845,   0.0032780608,   0.0285568297,   0.0217618336, ... 
@@ -107,8 +103,5 @@ if max(abs(diff_dAsqdc-diagHessAsq(ntpl,(Nk+1):Nkc))) > del/2500
 endif
 
 % Done
-toc;
-if verbose
-endif
 diary off
 movefile schurOneMlatticeAsq_test.diary.tmp schurOneMlatticeAsq_test.diary;

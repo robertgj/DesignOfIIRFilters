@@ -7,8 +7,6 @@ unlink("schurOneMlatticeT_test.diary");
 unlink("schurOneMlatticeT_test.diary.tmp");
 diary schurOneMlatticeT_test.diary.tmp
 
-clear schurOneMlattice2H
-tic;
 verbose=true;
 
 % R=2 bandpass filter
@@ -107,8 +105,5 @@ if max(abs(diff_dTdc-diagHessT(ntpl,(Nk+1):end))) > del/30
 endif
 
 % Done
-toc;
-if verbose
-endif
 diary off
 movefile schurOneMlatticeT_test.diary.tmp schurOneMlatticeT_test.diary;

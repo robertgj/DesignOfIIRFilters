@@ -26,7 +26,6 @@ pass()
 trap "fail" 1 2 3 15
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
-echo $here
 for file in $depends;do \
   cp -R src/$file $tmp; \
   if [ $? -ne 0 ]; then echo "Failed cp "$file; fail; fi \
@@ -38,15 +37,31 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
+dBpass =  1
+dBstop =  40
+fc =  0.12500
+Testing ellip. LP,fc=0.125000,dBpass=1.000000,dBstop=40.000000
+Testing N=1
+Testing N=2
+Testing N=3
+Testing N=4
+Testing N=5
+Testing N=6
+Testing N=7
+Testing N=8
+Testing N=9
+Testing N=10
+Testing N=11
+Testing N=12
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 
 #
 # run and see if the results match
 #
-echo "Running octave-cli -q " $prog
+echo "Running $prog"
 
-octave-cli -q $prog 2> test.out
+octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.ok test.out

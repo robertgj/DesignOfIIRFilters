@@ -27,7 +27,6 @@ pass()
 trap "fail" 1 2 3 15
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
-echo $here
 for file in $depends;do \
   cp -R src/$file $tmp; \
   if [ $? -ne 0 ]; then echo "Failed cp "$file; fail; fi \
@@ -49,10 +48,10 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 echo "Building SeDuMi_1_3"
 cd SeDuMi_1_3
 
-octave-cli --eval 'install_sedumi'
+octave-cli -q $prog >test.out 2>&1
 cd ..
-echo "Running octave-cli -q " $prog
-octave-cli -q $prog > test.out 2>&1
+echo "Running $prog"
+octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.ok test.out

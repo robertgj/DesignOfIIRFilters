@@ -7,9 +7,6 @@ unlink("schurNSPAlatticeT_test.diary");
 unlink("schurNSPAlatticeT_test.diary.tmp");
 diary schurNSPAlatticeT_test.diary.tmp
 
-tic;
-verbose=true;
-
 % Low pass filter
 norder=5;
 fpass=0.125;
@@ -244,6 +241,5 @@ if max_diagHessTA2_error > tol
 endif
 
 % Done
-toc;
 diary off
 movefile schurNSPAlatticeT_test.diary.tmp schurNSPAlatticeT_test.diary;

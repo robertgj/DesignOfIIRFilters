@@ -7,7 +7,7 @@ unlink("resolvent_test.diary");
 unlink("resolvent_test.diary.tmp");
 diary resolvent_test.diary.tmp
 
-show_profile=true;
+show_profile=false;
 
 % Design filter transfer function
 N=20;dbap=0.1;dbas=40;fc=0.1;

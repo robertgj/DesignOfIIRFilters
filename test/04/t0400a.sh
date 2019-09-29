@@ -9,11 +9,11 @@ schurOneMAPlattice_frm_slb_constraints_are_empty.m \
 schurOneMAPlattice_frm.m schurOneMAPlattice_frmAsq.m \
 schurOneMAPlattice_frmT.m schurOneMAPlattice_frmP.m \
 schurOneMAPlatticeT.m schurOneMAPlatticeP.m \
-schurOneMAPlattice2Abcd.m schurOneMAPlattice2H.m schurOneMscale.m \
+schurOneMAPlattice2Abcd.m schurOneMscale.m \
 tf2schurOneMlattice.m schurOneMlattice2tf.m local_max.m x2tf.m \
 print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
 schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2H.oct"
+complex_zhong_inverse.oct schurOneMlattice2H.oct schurOneMAPlattice2H.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -38,7 +38,6 @@ pass()
 trap "fail" 1 2 3 15
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
-echo $here
 for file in $depends;do \
   cp -R src/$file $tmp; \
   if [ $? -ne 0 ]; then echo "Failed cp "$file; fail; fi \
@@ -96,9 +95,9 @@ if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 #
 # run and see if the results match. 
 #
-echo "Running octave-cli -q " $prog
+echo "Running $prog"
 
-octave-cli -q $prog >test.out 
+octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.out test.ok

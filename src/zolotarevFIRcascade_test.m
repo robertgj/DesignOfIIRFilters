@@ -200,7 +200,7 @@ for l=1:4,
     error("max(abs(Hazs_zero))>1e6*eps");
   endif
 
-  figure 1
+  figure(1,"visible","off");
   subplot(2,2,l)
   plot(w,Q,wdr,Qdr,"or");
   axis([-1.05 1.05 -0.05 1.05]);
@@ -210,7 +210,7 @@ for l=1:4,
   title(strt);
   grid("on");
 
-  figure 2
+  figure(2,"visible","off");
   subplot(2,2,l)
   h=plot(w,twoargHp*n/pi,wdr,twoargHpdr*n/pi,"or");
   axis([-1.05 1.05 -9 5]);
@@ -220,11 +220,11 @@ for l=1:4,
   grid("on");
 endfor
 
-figure 1
+figure(1,"visible","off");
 print(sprintf("%s_Q_p_q",strf),"-dpdflatex");
 close
 
-figure 2
+figure(2,"visible","off");
 print(sprintf("%s_argHupu0_p_q",strf),"-dpdflatex");
 close
 

@@ -7,9 +7,6 @@ unlink("schurOneMlatticeP_test.diary");
 unlink("schurOneMlatticeP_test.diary.tmp");
 diary schurOneMlatticeP_test.diary.tmp
 
-tic;
-verbose=true;
-
 % R=2 bandpass filter
 fapl=0.1;fapu=0.2;fasl=0.05;ftpl=0.09;ftpu=0.21;
 n = [   0.0127469845,   0.0032780608,   0.0285568297,   0.0217618336, ... 
@@ -106,8 +103,5 @@ if max(abs(diff_dPdc-diagHessP(ntpl,(Nk+1):end))) > del/2244.9
 endif
 
 % Done
-toc;
-if verbose
-endif
 diary off
 movefile schurOneMlatticeP_test.diary.tmp schurOneMlatticeP_test.diary;

@@ -7,8 +7,6 @@ unlink("schurOneMPAlatticeT_test.diary");
 unlink("schurOneMPAlatticeT_test.diary.tmp");
 diary schurOneMPAlatticeT_test.diary.tmp
 
-tic;
-verbose=true;
 tol=1e-8;
 
 for m=1:2
@@ -105,6 +103,5 @@ for m=1:2
 endfor
 
 % Done
-toc;
 diary off
 movefile schurOneMPAlatticeT_test.diary.tmp schurOneMPAlatticeT_test.diary;

@@ -7,9 +7,6 @@ unlink("complementaryFIRlatticeAsq_test.diary");
 unlink("complementaryFIRlatticeAsq_test.diary.tmp");
 diary complementaryFIRlatticeAsq_test.diary.tmp
 
-tic;
-verbose=true;
-
 % Bandpass minimum-phase filter specification
 Ud1=2;Vd1=0;Md1=14;Qd1=0;Rd1=1;
 d1 = [   0.0920209477, ...
@@ -66,7 +63,6 @@ if max(abs(diff_Asqkhat-gradAsq(ntpl,(Nk+1):(2*Nk)))) > del/2230
 endif
 
 % Done
-toc;
 diary off
 movefile complementaryFIRlatticeAsq_test.diary.tmp ...
          complementaryFIRlatticeAsq_test.diary;

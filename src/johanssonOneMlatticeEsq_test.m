@@ -10,7 +10,7 @@ diary johanssonOneMlatticeEsq_test.diary.tmp
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Band-stopfilter specification
-fapl=0.15,fasl=0.2,fasu=0.25,fapu=0.3,Wap=1,Was=1
+fapl=0.15;fasl=0.2;fasu=0.25;fapu=0.3;Wap=1;Was=1;
 
 % Band-stop filter from johansson_cascade_allpass_bandstop_test.m
 fM = [  -0.0314881200,  -0.0000085599,   0.2814857078,   0.5000169443 ];

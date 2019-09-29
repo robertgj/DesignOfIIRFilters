@@ -7,9 +7,6 @@ unlink("schurNSPAlatticeAsq_test.diary");
 unlink("schurNSPAlatticeAsq_test.diary.tmp");
 diary schurNSPAlatticeAsq_test.diary.tmp
 
-tic;
-verbose=true;
-
 % Low pass filter
 norder=5;
 fpass=0.125;
@@ -237,8 +234,5 @@ if max_diagHessAsq_A2_error > tol
 endif
 
 % Done
-toc;
-if verbose
-endif
 diary off
 movefile schurNSPAlatticeAsq_test.diary.tmp schurNSPAlatticeAsq_test.diary;

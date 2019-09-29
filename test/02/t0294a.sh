@@ -34,7 +34,6 @@ fi
 
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
-echo $here
 cd $tmp
 if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 

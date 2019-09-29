@@ -28,7 +28,6 @@ pass()
 trap "fail" 1 2 3 15
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
-echo $here
 for file in $depends;do \
   cp -R src/$file $tmp; \
   if [ $? -ne 0 ]; then echo "Failed cp "$file; fail; fi \
@@ -56,6 +55,9 @@ NFUN_Q =  2037
 ERR_Q =  0.0000000039791
 Esq_V =  0.00052043
 NFUN_V =  421
+warning: A single tolerance input now sets AbsTol, not RelTol
+warning: called from
+    directFIRsymmetricSqErr_test at line 65 column 23
 Esq_CC =  0.00052043
 ERR_CC =  0.0000000091266
 NR_CC =  1367
@@ -69,9 +71,9 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 #
 # run and see if the results match
 #
-echo "Running octave-cli -q " $prog
+echo "Running $prog"
 
-octave-cli -q $prog > test.out
+octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.ok test.out

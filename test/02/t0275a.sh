@@ -33,7 +33,6 @@ fi
 
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
-echo $here
 
 for file in $depends;do \
   cp -R src/$file $tmp; \
@@ -76,9 +75,9 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.brzc.ok"; fail; fi
 #
 # run and see if the results match. 
 #
-echo "Running octave-cli -q " $prog
+echo "Running $prog"
 
-octave-cli -q $prog > test.out 2>&1
+octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $descr"; fail; fi
 
 diff -Bb test.ok test.out

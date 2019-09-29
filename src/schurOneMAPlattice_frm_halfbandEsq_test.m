@@ -7,9 +7,6 @@ unlink("schurOneMAPlattice_frm_halfbandEsq_test.diary");
 unlink("schurOneMAPlattice_frm_halfbandEsq_test.diary.tmp");
 diary schurOneMAPlattice_frm_halfbandEsq_test.diary.tmp
 
-tic;
-verbose=true;
-
 %
 % Initial filter is found by tarczynski_frm_halfband_test.m
 %
@@ -134,7 +131,6 @@ if max(abs(diff_Esqv-gradEsq((Nk+Nu+1):end))) > del/189763
 endif
 
 % Done
-toc;
 diary off
 movefile schurOneMAPlattice_frm_halfbandEsq_test.diary.tmp ...
          schurOneMAPlattice_frm_halfbandEsq_test.diary;

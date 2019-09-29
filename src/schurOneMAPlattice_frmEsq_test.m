@@ -56,17 +56,17 @@ v0=ac0((dmask+1):end);
 % Filter specification
 %
 n=1000;
-tol=1e-6
-ctol=tol/10
-fap=0.30 % Pass band edge
-Wap=1 % Pass band amplitude weight
-Wat=1 % Transition band amplitude weight
-fas=0.3125 % Stop band edge
-Was=50 % Stop band amplitude weight
+tol=1e-6;
+ctol=tol/10;
+fap=0.30; % Pass band edge
+Wap=1; % Pass band amplitude weight
+Wat=1; % Transition band amplitude weight
+fas=0.3125; % Stop band edge
+Was=50; % Stop band amplitude weight
 tp=(Mmodel*Dmodel)+dmask;
-Wtp=0.05 % Pass band delay weight
-pp=0 % Pass band zero-phase phase
-Wpp=0.01 % Pass band phase weight
+Wtp=0.05; % Pass band delay weight
+pp=0; % Pass band zero-phase phase
+Wpp=0.01; % Pass band phase weight
 
 %
 % Frequency vectors

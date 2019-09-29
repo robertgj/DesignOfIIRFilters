@@ -7,9 +7,6 @@ unlink("schurOneMAPlatticeP_test.diary");
 unlink("schurOneMAPlatticeP_test.diary.tmp");
 diary schurOneMAPlatticeP_test.diary.tmp
 
-tic;
-verbose=true;
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % R=2 bandpass filter
@@ -153,8 +150,5 @@ if max(abs(P10-PR10))/eps > 256
 endif
 
 % Done
-toc;
-if verbose
-endif
 diary off
 movefile schurOneMAPlatticeP_test.diary.tmp schurOneMAPlatticeP_test.diary;

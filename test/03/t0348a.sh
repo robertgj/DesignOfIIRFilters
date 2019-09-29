@@ -27,14 +27,13 @@ pass()
 trap "fail" 1 2 3 15
 
 # If package mpsolve is not found then return the aet code for "pass"
-octave-cli --eval "pkg load mpsolve"
+octave-cli -q $prog >test.out 2>&1
 if test $? -ne 0; then 
     echo SKIPPED $descr "octave mpsolve package not found!" ; exit 0; 
 fi
 
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
-echo $here
 for file in $depends;do \
   cp -R src/$file $tmp; \
   if [ $? -ne 0 ]; then echo "Failed cp "$file; fail; fi \
@@ -61,7 +60,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat of test.coef"; fail; fi
 #
 # run and see if the results match
 #
-echo "Running octave-cli -q " $prog
+echo "Running $prog"
 
 LD_LIBRARY_PATH=/usr/local/octave/lib octave-cli -q $prog > test.out
 
