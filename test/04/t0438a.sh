@@ -27,9 +27,10 @@ pass()
 trap "fail" 1 2 3 15
 
 # If maxima is not found then return the aet code for "pass"
-which maxima
+which maxima >/dev/null 2>&1
 if test $? -ne 0; then 
-    echo SKIPPED $descr "maxima not found!" ; exit 0; 
+    echo SKIPPED ${0#$here"/"} $prog "maxima not found!" ;
+    exit 0; 
 fi
 
 mkdir $tmp
