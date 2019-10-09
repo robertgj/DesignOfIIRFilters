@@ -37,6 +37,13 @@ h0=remez(2*M,[0 0.1 0.25 0.5]*2,[1 1 0 0]);
 hM0=h0(1:(M+1));
 hM_active=1:length(hM0);
 
+[hM1mmse,socp_iter,func_iter,feasible]= ...
+  directFIRsymmetric_mmsePW([],hM0,hM_active,na,wa,Ad,Adu,Adl,Wa, ...
+                            maxiter,tol,verbose);
+if feasible==false
+  error("hM1mmse not feasible");
+endif
+
 %
 % Find SLB solution
 %

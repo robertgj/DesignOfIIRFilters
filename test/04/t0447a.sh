@@ -3,7 +3,7 @@
 prog=roots2T_quadmath_test.m
 
 depends="roots2T_quadmath_test.m roots2T_quadmath.cc test_common.m \
-chebychevT_expand.m chebychevT.m chebychevP.m"
+chebyshevT_expand.m chebyshevT.m chebyshevP.m"
 
 tmp=/tmp/$$
 here=`pwd`

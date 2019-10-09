@@ -45,26 +45,26 @@ for p=1:4,
     n=p+q;
     % Calculate the generating function using Vlcek and Zahradnik Table 4
     [~,wp,wm,ws,a,aplus]=zolotarev_vlcek_zahradnik(p,q,k);
-    % Brute force calculation of Spq for chebychevU coefficients
+    % Brute force calculation of Spq for chebyshevU coefficients
     Spq=zeros(size(aplus));
     for m=0:n,
-      aplusU=aplus(1+m)*chebychevU(m);
+      aplusU=aplus(1+m)*chebyshevU(m);
       Spq=Spq+[zeros(1,columns(aplus)-columns(aplusU)),aplusU];
     endfor
-    % Check Chebychev recurrence calculation of Spq
-    Spq_br=chebychevU_backward_recurrence(aplus);
+    % Check Chebyshev recurrence calculation of Spq
+    Spq_br=chebyshevU_backward_recurrence(aplus);
     tol=1e-10;
     if max(abs(Spq_br-Spq)) > tol
       error("p=%d,q=%d,max(abs(Spq_br-Spq))(%g)>%g", ...
             p,q,max(abs(Spq_br-Spq)),tol);
     endif
-    % Check recurrence for chebychevT coefficients
+    % Check recurrence for chebyshevT coefficients
     intSpq=zeros(size(a));
     for m=1:(n+1),
-      aT=a(1+m)*chebychevT(m);
+      aT=a(1+m)*chebyshevT(m);
       intSpq=intSpq+[zeros(1,columns(a)-columns(aT)),aT];
     endfor
-    intSpq_br=chebychevT_backward_recurrence(a);
+    intSpq_br=chebyshevT_backward_recurrence(a);
     tol=1e-10;
     if max(abs(intSpq_br-intSpq)) > tol
       error("p=%d,q=%d,max(abs(intSpq_br-intSpq))(%g)>%g",
@@ -99,18 +99,18 @@ wx=real(wx);
 Zwx=f;
 % Calculate the generating function using Vlcek and Zahradnik Table 4
 [~,~,~,~,~,aplus]=zolotarev_vlcek_zahradnik(p,q,k);
-Spq=chebychevU_backward_recurrence(aplus);
-% Calculate the Zolotarev function using Vlcek and Unbehauen Chebychev recurrence
+Spq=chebyshevU_backward_recurrence(aplus);
+% Calculate the Zolotarev function using Vlcek and Unbehauen Chebyshev recurrence
 aa=zolotarev_vlcek_unbehauen(p,q,k);
-ZC_br=chebychevT_backward_recurrence(aa);
+ZC_br=chebyshevT_backward_recurrence(aa);
 ZCwx_br=polyval(ZC_br,wx);
 if max(abs(ZCwx_br-Zwx))>1e-10
   error("max(abs(ZCwx_br-Zwx))(%g)>1e-10",max(abs(ZCwx_br-Zwx)));
 endif
-% Calculate the Zolotarev function using Vlcek and Unbehauen Chebychev expansion
+% Calculate the Zolotarev function using Vlcek and Unbehauen Chebyshev expansion
 ZCwx=zeros(size(wx));
 for m=0:n,
-  ZCwx=ZCwx+polyval(aa(1+m)*chebychevT(m),wx);
+  ZCwx=ZCwx+polyval(aa(1+m)*chebyshevT(m),wx);
 endfor
 if max(abs(ZCwx-Zwx))>1e-10
   error("max(abs(ZCwx-Zwx))(%g)>1e-10",max(abs(ZCwx-Zwx)));
@@ -170,7 +170,7 @@ else
 endif
 
 % Modified Zolotarev function
-Spq=chebychevU_backward_recurrence(aplus);
+Spq=chebyshevU_backward_recurrence(aplus);
 w=-1:0.001:1;
 plot(w,polyval(Spq,w).*sqrt(1-(w.^2)));
 axis([-1.1 1.1 -1 7])
@@ -196,7 +196,7 @@ print_polynomial(Spq,sprintf("Spq_%d_%d",p,q),
                  sprintf("%s_p_%d_q_%d_generator_coef.m",strf,p,q),"%17.10f");
 
 % Zero phase transfer function (Figure 3)
-intSpq=chebychevT_backward_recurrence(a);
+intSpq=chebyshevT_backward_recurrence(a);
 N=polyval(intSpq,cos([0,(pi/(n+1)),(n*pi/(n+1)),pi]));
 if mod(q,2)
   N1=N(3);
@@ -224,7 +224,7 @@ close
 % Try with modified coefficients
 a=zeros(1,n+2);
 a=[-N1,aplus./(1:n+1)]/(N2-N1);
-intSpq=chebychevT_backward_recurrence(a);
+intSpq=chebyshevT_backward_recurrence(a);
 w=-1:0.001:1;
 Q=polyval(intSpq,w);
 tol=2e-6;

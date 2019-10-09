@@ -1,5 +1,5 @@
 // roots2T.cc - given the all real roots of a polynomial, find the
-// coefficients of the expansion of the polynomial in Chebychev
+// coefficients of the expansion of the polynomial in Chebyshev
 // polynomials of the first kind
 
 // Copyright (C) 2019 Robert G. Jenssen

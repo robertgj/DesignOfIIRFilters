@@ -3,8 +3,8 @@
 prog=zahradnik_halfband_test.m
 
 depends="zahradnik_halfband_test.m test_common.m print_polynomial.m \
-zahradnik_halfband.m local_max.m chebychevP.m chebychevU.m \
-chebychevP_backward_recurrence.m chebychevU_backward_recurrence.m"
+zahradnik_halfband.m local_max.m chebyshevP.m chebyshevU.m \
+chebyshevP_backward_recurrence.m chebyshevU_backward_recurrence.m"
 
 tmp=/tmp/$$
 here=`pwd`

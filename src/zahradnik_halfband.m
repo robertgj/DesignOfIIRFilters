@@ -7,8 +7,8 @@ function [hn,a,alpha]=zahradnik_halfband(n,kp)
 %  kp - A constant determined by the pass-band edge frequency
 % Output:
 %  hn - Impulse response of the integrated generating function
-%  a - coefficients for Chebychev polynomials of the first kind
-%  alpha - coefficients for Chebychev polynomials of the second kind
+%  a - coefficients for Chebyshev polynomials of the first kind
+%  alpha - coefficients for Chebyshev polynomials of the second kind
 %
 % [1] "Equiripple Approximation of Half-Band FIR Filters",
 % P. Zahradnik and M. Vlcek, IEEE Transactions on Circuits and Systems - II:

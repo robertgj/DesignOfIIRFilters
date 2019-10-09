@@ -9,7 +9,7 @@ jacobi_theta1.m jacobi_theta1k.m jacobi_theta2.m jacobi_theta2k.m \
 jacobi_theta3.m jacobi_theta3k.m jacobi_theta4.m jacobi_theta4k.m \
 jacobi_theta2p.m jacobi_theta4p.m jacobi_theta4kp.m \
 carlson_RJ.m carlson_RD.m carlson_RC.m carlson_RF.m \
-chebychevP.m chebychevT.m chebychevU.m chebychevT_expand.m"
+chebyshevP.m chebyshevT.m chebyshevU.m chebyshevT_expand.m"
 
 tmp=/tmp/$$
 here=`pwd`

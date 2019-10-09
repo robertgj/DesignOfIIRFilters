@@ -26,7 +26,7 @@ f:S(w)*sqrt(1-w^2);
 fde:fde,fp=diff(f,w,1),fpp=diff(f,w,2);
 Sfde:factor(expand(fde/sqrt(1-w^2)));
 
-/* Substitute Chebychev polynomials of the second kind and replace n by (n+1) */
+/* Substitute Chebyshev polynomials of the second kind and replace n by (n+1) */
 g0:(w-wm)^3;
 g1:((w-wp)*(w-ws))-((w-wm)*(w-wq));
 g2:(w-wm)*(w-wp)*(w-ws);

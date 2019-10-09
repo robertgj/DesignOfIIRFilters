@@ -3,7 +3,7 @@ function [a,b]=zolotarev_vlcek_unbehauen(p,q,k)
 % For the Zolotarev function, Zpq(w,k), defined by Vlcek and Unbehauen,
 % calculate the power series expansion coefficients, b(m)w^m, as per
 % Table IV of [1](with the corrections in [2]) and the expansion in
-% Chebychev polynomials of the first kind shown in Table V (with the
+% Chebyshev polynomials of the first kind shown in Table V (with the
 % corrections in [2]).
 % [1] "Zolotarev Polynomials and Optimal FIR Filters", M. Vlcek and
 %      R. Unbehauen, IEEE Transactions on Signal Processing, Vol. 47,
@@ -71,7 +71,7 @@ Zu0=jacobi_Zeta(u0,k);
 wm=ws+(2*(snu0*cnu0)*Zu0/dnu0);
 
 % Table V of [1]
-a=zolotarev_vlcek_unbehauen_chebychev_sum(p,q,wp,ws,wq,wm);
+a=zolotarev_vlcek_unbehauen_chebyshev_sum(p,q,wp,ws,wq,wm);
 % Table IV of [1]
 b=zolotarev_vlcek_unbehauen_power_sum(p,q,wp,ws,wq,wm);
 
@@ -101,7 +101,7 @@ function b=zolotarev_vlcek_unbehauen_power_sum(p,q,wp,ws,wq,wm)
 endfunction;
 
 % Table V of [1]
-function a=zolotarev_vlcek_unbehauen_chebychev_sum(p,q,wp,ws,wq,wm)
+function a=zolotarev_vlcek_unbehauen_chebyshev_sum(p,q,wp,ws,wq,wm)
   n=p+q;
   alpha=zeros(1,1+n+5);
   alpha(1+n)=1;

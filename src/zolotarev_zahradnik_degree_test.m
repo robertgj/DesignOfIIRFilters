@@ -123,7 +123,7 @@ close
 
 % Calculate Zpq as zero-phase FIR filter response with backwards recurrence
 a=zolotarev_vlcek_unbehauen(p,q,k);
-Za=chebychevT_backward_recurrence(a);
+Za=chebyshevT_backward_recurrence(a);
 Qzptf=polyval(Za,w);
 if max(abs(Qzptf-Zpq))>1e36
   warning("max(abs(Qzptf-Zpq))>1e36");

@@ -134,7 +134,7 @@ endif
 
 %
 % Compare the Zolotarev polynomials calculated from the formula shown by
-% Chen and Parks and the power series and Chebychev expansions.
+% Chen and Parks and the power series and Chebyshev expansions.
 %
 k=0.78;p=5;q=9;
 %k=0.58;p=15;q=19;
@@ -151,13 +151,13 @@ if max(imag(wx))>eps
 endif
 wx=real(wx);
 Zwx=f;
-% Compare Zolotarev and Vlcek and Unbehauen Chebychev expansion
+% Compare Zolotarev and Vlcek and Unbehauen Chebyshev expansion
 [aa,Zb]=zolotarev_vlcek_unbehauen(p,q,k);
-% Calculate the zero-phase response with Chebychev backward recurrence.
+% Calculate the zero-phase response with Chebyshev backward recurrence.
 % Numerical problems for long polynomials?
-Zaa=chebychevT_backward_recurrence(aa);
+Zaa=chebyshevT_backward_recurrence(aa);
 Zaawx=polyval(Zaa,wx);
-% Compare Zolotarev and Vlcek and Unbehauen Chebychev polynomial expansion
+% Compare Zolotarev and Vlcek and Unbehauen Chebyshev polynomial expansion
 tol=1e-10;
 if max(abs(Zaawx-Zwx))>tol
   error("max(abs(Zaawx-Zwx))(%g)>%g",max(abs(Zaawx-Zwx)),tol);
@@ -192,10 +192,10 @@ print_polynomial(a,sprintf("a_%d_%d",p,q),sprintf("%s_a_%d_%d_coef.m",strf,p,q))
 print_polynomial(a,sprintf("b_%d_%d",p,q),sprintf("%s_b_%d_%d_coef.m",strf,p,q));
 
 %
-% Expand the b power series in Chebychev polynomials of the first kind
+% Expand the b power series in Chebyshev polynomials of the first kind
 %
 n=p+q;
-alpha=chebychevT_expand(fliplr(b));
+alpha=chebyshevT_expand(fliplr(b));
 tol=1e-12;
 if max(abs(alpha-a))>tol
   error("max(abs(alpha-a))>%g",tol);
@@ -209,7 +209,7 @@ endif
 % Reverse
 br=zeros(size(b));
 for m=0:n,
-  Tm=chebychevT(m);
+  Tm=chebyshevT(m);
   Tm=fliplr(Tm);
   Tm=[Tm,zeros(1,columns(b)-columns(Tm))];
   br=br+(alpha(1+m)*Tm);
@@ -269,7 +269,7 @@ endif
 alphaTvi=zolotarev_vlcek_unbehauen(p,q,k);
 f=zeros(size(alphaTvi));
 for m=0:n,
-  aT=alphaTvi(1+m)*chebychevT(m);
+  aT=alphaTvi(1+m)*chebyshevT(m);
   f=f+[zeros(1,columns(alphaTvi)-columns(aT)),aT];
 endfor
 err=zolotarev_vlcek_unbehauen_equation_7(f,n,wp,wm,ws);
@@ -311,7 +311,7 @@ close
 % Calculate z-domain impulse response as a sum over w^m=((z^(-1)+z)/2)^m
 c=p+q+1;
 [~,~,~,~,~,fm]=zolotarev_chen_parks(k,p+q,p);
-% Using Chebychev polynomial of the first kind expansion
+% Using Chebyshev polynomial of the first kind expansion
 ha=zeros(1,(2*(p+q))+1);
 ha(c)=a(1);
 ha(1:(c-1))=fliplr(a(2:end))/2;
@@ -391,7 +391,7 @@ fmax=acos(wm)*0.5/pi;
 % Step 6: Calculate the scaled z-domain impulse response from 
 [a,b]=zolotarev_vlcek_unbehauen(p,q,k);
 c=p+q+1;
-% Using Chebychev polynomial of the first kind expansion
+% Using Chebyshev polynomial of the first kind expansion
 ha=zeros(1,(2*(p+q))+1);
 ha(c)=a(1)+1;
 ha(1:(c-1))=fliplr(a(2:end))/2;
@@ -409,7 +409,7 @@ tol=4e-8;
 if max(abs(ha-hb))>tol
   error("max(abs(ha-hb))>%g",tol);
 endif
-% Plot using the Chebychev polynomial of the first kind expansion coefficients
+% Plot using the Chebyshev polynomial of the first kind expansion coefficients
 h=ha;
 print_polynomial(h,sprintf("h_%d_%d",p,q),sprintf("%s_fir_coef.m",strf));
 printf("p=%d,q=%2d,k=%7.5f,fmax=%6.4f,fm=%6.4f(%6.4f dB),fp=%6.4f,fs=%6.4f\n",
@@ -427,7 +427,7 @@ grid("on");
 print(sprintf("%s_fir_response",strf),"-dpdflatex");
 close
 % ZPTF
-Za=chebychevT_backward_recurrence(a);
+Za=chebyshevT_backward_recurrence(a);
 Wzptf=(-1:0.001:1);
 Qzptf=polyval(Za,Wzptf);
 plot(Wzptf,(1+Qzptf)/(1+fm));

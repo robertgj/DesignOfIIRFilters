@@ -41,7 +41,7 @@ for l=1:n
   bn=bincoeff(l,0:l);
   rn=-1*ones(1,l);
   at=roots2T(rn);
-  ae=chebychevT_expand(bn);
+  ae=chebyshevT_expand(bn);
   if norm(abs(diff(at./ae)))~=0
     error("norm(abs(diff(at./ae)))~=0");
   endif
@@ -57,7 +57,7 @@ for l=1:n
   for m=1:l
     br=conv(br,[1 -rr(m)]);
   endfor
-  ae=chebychevT_expand(br);
+  ae=chebyshevT_expand(br);
   if norm(abs(diff(at./ae)))>tol
     error("norm(abs(diff(at./ae)))(%g)>%f*eps", ...
           norm(abs(diff(at./ae))),tol/eps);

@@ -1,9 +1,9 @@
 #!/bin/sh
 
-prog=chebychevU_expand_test.m
+prog=chebyshevU_expand_test.m
 
-depends="chebychevU_expand_test.m test_common.m print_polynomial.m \
-chebychevU_expand.m chebychevP.m chebychevU.m"
+depends="chebyshevU_expand_test.m test_common.m print_polynomial.m \
+chebyshevU_expand.m chebyshevP.m chebyshevU.m"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -30,7 +30,7 @@ function [G,Q,h]=zahradnik_halfband_G(n,kp,A,B,N)
   endif
   
   % Find G in x
-  [Un,Unm1]=chebychevU(n);
+  [Un,Unm1]=chebyshevU(n);
   G=(A*Un)+(B*[0,Unm1]);
   
   if nargout==1
@@ -170,10 +170,10 @@ if any(alpha(2:2:end))
 endif
 U=zeros(1,((2*n)+1));
 for m=0:2:(2*n),
-  alphaUm=alpha(1+m)*chebychevU(m);
+  alphaUm=alpha(1+m)*chebyshevU(m);
   U=U+[zeros(1,length(U)-length(alphaUm)),alphaUm];
 endfor
-U_br=chebychevU_backward_recurrence(alpha);
+U_br=chebyshevU_backward_recurrence(alpha);
 tol=1e-12;
 if max(abs(U-U_br))>tol
   error("max(abs(U-U_br))(%g)>%g",max(abs(U-U_br)),tol);

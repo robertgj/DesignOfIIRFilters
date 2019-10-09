@@ -33,7 +33,7 @@ wm=ws+(2*(snu0*cnu0)*Zu0/dnu0);
 wq=(wp+ws)/2;
 
 %
-% Expand the b power series in Chebychev Type 1 polynomials
+% Expand the b power series in Chebyshev Type 1 polynomials
 %
 if 0
   % From Table VI
@@ -43,7 +43,7 @@ else
   % From Table IV
   [a,b]=zolotarev_vlcek_unbehauen(p,q,k);
   n=p+q;
-  alphaTvi=chebychevT_expand(fliplr(b));
+  alphaTvi=chebyshevT_expand(fliplr(b));
   tol=1e-12;
   if max(abs(alphaTvi-a))>tol
     error(" max(abs(alphaTvi-a))>%g",tol);
@@ -55,7 +55,7 @@ endif
 %
 eqn75=zeros(3,n+5);
 for m=0:n,
-  [Tm,Tmm1]=chebychevT(m);
+  [Tm,Tmm1]=chebyshevT(m);
   if 0
     eqn1=-conv(conv([1,-wp],conv([1,-ws],[1,-wm])),(m^2)*alphaTvi(1+m)*Tm);
     eqn2a=-conv((conv([1,-wp],[1,-ws])-conv([1,-wm],[1,-wq])), ...
@@ -92,7 +92,7 @@ endif
 %
 eqn=zeros(6,n+5);
 for m=0:n,
-  [Tm,Tmm1]=chebychevT(m); 
+  [Tm,Tmm1]=chebyshevT(m); 
   eqn1=((n^2)-(m^2))*alphaTvi(1+m)*conv([1,0,0,0],Tm);
   eqn2=((m*(m-1)*wp)+(m*(m-1)*ws)+(((m^2)+m-(3*(n^2)))*wm)+(m*wq))* ...
        alphaTvi(1+m)*conv([1,0,0],Tm);
@@ -120,7 +120,7 @@ endif
 eqn02=zeros(7,n+5);
 eqn=zeros(7,n+5);
 for m=0:2
-  [Tm,Tmm1]=chebychevT(m); 
+  [Tm,Tmm1]=chebyshevT(m); 
   eqn1=((n^2)-(m^2))*alphaTvi(1+m)*conv([1,0,0,0],Tm);
   eqn2=((m*(m-1)*wp)+(m*(m-1)*ws)+(((m^2)+m-(3*(n^2)))*wm)+(m*wq))* ...
        alphaTvi(1+m)*conv([1,0,0],Tm);
@@ -138,19 +138,19 @@ for m=0:2
   eqn02(6,:)=eqn02(6,:)+[zeros(1,columns(eqn)-columns(eqn6)),eqn6];
 endfor
 for m=3:n,
-  Tmp3=chebychevT(m+3);
+  Tmp3=chebyshevT(m+3);
   Tmp3=[zeros(1,columns(eqn)-columns(Tmp3)),Tmp3];
-  Tmp2=chebychevT(m+2);
+  Tmp2=chebyshevT(m+2);
   Tmp2=[zeros(1,columns(eqn)-columns(Tmp2)),Tmp2];
-  Tmp1=chebychevT(m+1);
+  Tmp1=chebyshevT(m+1);
   Tmp1=[zeros(1,columns(eqn)-columns(Tmp1)),Tmp1];
-  Tm=chebychevT(m);
+  Tm=chebyshevT(m);
   Tm=[zeros(1,columns(eqn)-columns(Tm)),Tm];
-  Tmm1=chebychevT(m-1);
+  Tmm1=chebyshevT(m-1);
   Tmm1=[zeros(1,columns(eqn)-columns(Tmm1)),Tmm1];
-  Tmm2=chebychevT(m-2);
+  Tmm2=chebyshevT(m-2);
   Tmm2=[zeros(1,columns(eqn)-columns(Tmm2)),Tmm2];
-  Tmm3=chebychevT(m-3);
+  Tmm3=chebyshevT(m-3);
   Tmm3=[zeros(1,columns(eqn)-columns(Tmm3)),Tmm3];
 
   if any((Tmm3+(3*Tmm1)+(3*Tmp1)+Tmp3)-(8*shift(Tm,-3)))
@@ -239,14 +239,14 @@ endif
 %
 eqn=zeros(7,n+5);
 for m=6:(n+3),
-  Tm=chebychevT(m);
+  Tm=chebyshevT(m);
   Tm=[zeros(1,columns(eqn)-columns(Tm)),Tm];
   eqn(1,:)=eqn(1,:)+ ...
            ((n^2)-((m-3)^2)) ...
            *alphaTvi(1+m-3)*Tm;
 endfor
 for m=5:(n+2),
-  Tm=chebychevT(m);
+  Tm=chebyshevT(m);
   Tm=[zeros(1,columns(eqn)-columns(Tm)),Tm];
   eqn(2,:)=eqn(2,:)+ ...
            (2*(((m-2)*(m-3)*wp)+((m-2)*(m-3)*ws)+ ...
@@ -254,7 +254,7 @@ for m=5:(n+2),
            *alphaTvi(1+m-2)*Tm;
 endfor
 for m=4:(n+1),
-  Tm=chebychevT(m);
+  Tm=chebyshevT(m);
   Tm=[zeros(1,columns(eqn)-columns(Tm)),Tm];
   eqn(3,:)=eqn(3,:)+ ...
            ((3*((n^2)-((m-1)^2))) ...
@@ -264,7 +264,7 @@ for m=4:(n+1),
            *alphaTvi(1+m-1)*Tm;
 endfor
 for m=3:n,
-  Tm=chebychevT(m);
+  Tm=chebyshevT(m);
   Tm=[zeros(1,columns(eqn)-columns(Tm)),Tm];
   eqn(4,:)=eqn(4,:)+ ...
            ((4*((m*(m-1)*wp)+(m*(m-1)*ws)+(((m^2)+m-(3*(n^2)))*wm)+(m*wq))) ...
@@ -273,7 +273,7 @@ for m=3:n,
            *alphaTvi(1+m)*Tm;
 endfor
 for m=2:(n-1),
-  Tm=chebychevT(m);  
+  Tm=chebyshevT(m);  
   Tm=[zeros(1,columns(eqn)-columns(Tm)),Tm];
   eqn(5,:)=eqn(5,:)+ ...
            ((3*((n^2)-((m+1)^2))) ...
@@ -284,7 +284,7 @@ for m=2:(n-1),
            *alphaTvi(1+m+1)*Tm;
 endfor
 for m=1:(n-2),
-  Tm=chebychevT(m);  
+  Tm=chebyshevT(m);  
   Tm=[zeros(1,columns(eqn)-columns(Tm)),Tm];
   eqn(6,:)=eqn(6,:)+ ...
            ((2*(((m+2)*(m+1)*wp)+((m+2)*(m+1)*ws)+ ...
@@ -293,7 +293,7 @@ for m=1:(n-2),
            *alphaTvi(1+(m+2))*Tm;
 endfor
 for m=0:(n-3),
-  Tm=chebychevT(m);  
+  Tm=chebyshevT(m);  
   Tm=[zeros(1,columns(eqn)-columns(Tm)),Tm];
   eqn(7,:)=eqn(7,:)+ ...
            ((n^2)-((m+3)^2)) ...
@@ -310,14 +310,14 @@ endif
 %
 eqn=zeros(7,n+5);
 for m=6:(n+3),
-  Tm=chebychevT(m);
+  Tm=chebyshevT(m);
   Tm=[zeros(1,columns(eqn)-columns(Tm)),Tm];
   eqn(1,:)=eqn(1,:)+ ...
            ((n^2)-((m-3)^2)) ...
            *alphaTvi(1+m-3)*Tm;
 endfor
 for m=5:(n+2),
-  Tm=chebychevT(m);
+  Tm=chebyshevT(m);
   Tm=[zeros(1,columns(eqn)-columns(Tm)),Tm];
   eqn(2,:)=eqn(2,:)+ ...
            (2*(((m-2)*(m-3)*wp)+((m-2)*(m-3)*ws)+ ...
@@ -325,7 +325,7 @@ for m=5:(n+2),
            *alphaTvi(1+m-2)*Tm;
 endfor
 for m=4:(n+1),
-  Tm=chebychevT(m);
+  Tm=chebyshevT(m);
   Tm=[zeros(1,columns(eqn)-columns(Tm)),Tm];
   eqn(3,:)=eqn(3,:)+ ...
            ((3*((n^2)-((m-1)^2))) ...
@@ -334,7 +334,7 @@ for m=4:(n+1),
            *alphaTvi(1+m-1)*Tm;
 endfor
 for m=3:n,
-  Tm=chebychevT(m);
+  Tm=chebyshevT(m);
   Tm=[zeros(1,columns(eqn)-columns(Tm)),Tm];
   eqn(4,:)=eqn(4,:)+ ...
            ((4*(((m^2)*wp)+((m^2)*ws)+(((m^2)-(3*(n^2)))*wm))) ...
@@ -342,7 +342,7 @@ for m=3:n,
            *alphaTvi(1+m)*Tm;
 endfor
 for m=2:(n-1),
-  Tm=chebychevT(m);  
+  Tm=chebyshevT(m);  
   Tm=[zeros(1,columns(eqn)-columns(Tm)),Tm];
   eqn(5,:)=eqn(5,:)+ ...
            ((3*((n^2)-((m+1)^2))) ...
@@ -352,7 +352,7 @@ for m=2:(n-1),
            *alphaTvi(1+m+1)*Tm;
 endfor
 for m=1:(n-2),
-  Tm=chebychevT(m);  
+  Tm=chebyshevT(m);  
   Tm=[zeros(1,columns(eqn)-columns(Tm)),Tm];
   eqn(6,:)=eqn(6,:)+ ...
            (2*(((m+2)*(m+3)*wp)+((m+2)*(m+3)*ws)+ ...
@@ -360,7 +360,7 @@ for m=1:(n-2),
            *alphaTvi(1+(m+2))*Tm;
 endfor
 for m=0:(n-3),
-  Tm=chebychevT(m);  
+  Tm=chebyshevT(m);  
   Tm=[zeros(1,columns(eqn)-columns(Tm)),Tm];
   eqn(7,:)=eqn(7,:)+ ...
            ((n^2)-((m+3)^2)) ...
@@ -416,7 +416,7 @@ endif
 
 Zp3q6=zeros(1,n+1);
 for m=0:n,
-  Tm=chebychevT(m);
+  Tm=chebyshevT(m);
   Tm=fliplr(Tm);
   Tm=[Tm,zeros(1,columns(Zp3q6)-columns(Tm))];
   Zp3q6=Zp3q6+(a(1+m)*Tm);

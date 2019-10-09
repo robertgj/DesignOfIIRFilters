@@ -15,5 +15,5 @@ zahradnik_halfband_test_fp_0_240_as_140_coef.m
 
 zahradnik_halfband_test_FILES = \
 zahradnik_halfband_test.m test_common.m print_polynomial.m \
-zahradnik_halfband.m local_max.m chebychevU.m chebychevP.m \
-chebychevP_backward_recurrence.m chebychevU_backward_recurrence.m
+zahradnik_halfband.m local_max.m chebyshevU.m chebyshevP.m \
+chebyshevP_backward_recurrence.m chebyshevU_backward_recurrence.m

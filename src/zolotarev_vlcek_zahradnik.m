@@ -2,7 +2,7 @@ function [h,wp,wm,ws,a,aplus]=zolotarev_vlcek_zahradnik(p,q,k)
 % [h,wp,wm,ws,a,aplus]=zolotarev_vlcek_zahradnik(p,q,k)
 % For the modified Zolotarev function, Spq(w,k), defined by Vlcek and
 % Zahradnik, calculate the coefficients of the expansion of that function in
-% Chebychev polynomials of the second kind.
+% Chebyshev polynomials of the second kind.
 %
 % Inputs:
 %   p,q - order of the Zolotarev function Zpq(w,k)
@@ -14,9 +14,9 @@ function [h,wp,wm,ws,a,aplus]=zolotarev_vlcek_zahradnik(p,q,k)
 %   wm - peak in [ws,wp]
 %   ws - stop-band edge in [-1,1]
 %   a - coefficients of the zero-phase frequency response expanded in
-%       Chebychev polynomial of the first kind
+%       Chebyshev polynomial of the first kind
 %   aplus - coefficients of the generating function expanded in
-%           Chebychev polynomial of the second kind
+%           Chebyshev polynomial of the second kind
 %
 % See Table I of [1] or Tables 4 and 5 of [2]:
 % [1] "Approximation of Almost Equiripple Low-pass FIR Filters", M. Vlcek and

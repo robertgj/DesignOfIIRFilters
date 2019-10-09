@@ -1,10 +1,10 @@
 #!/bin/sh
 
-prog=chebychevT_backward_recurrence_test.m
+prog=chebyshevT_backward_recurrence_test.m
 
-depends="chebychevT_backward_recurrence_test.m test_common.m \
-chebychevT_backward_recurrence.m chebychevP_backward_recurrence.m \
-chebychevT.m chebychevP.m chebychevT_expand.m"
+depends="chebyshevT_backward_recurrence_test.m test_common.m \
+chebyshevT_backward_recurrence.m chebyshevP_backward_recurrence.m \
+chebyshevT.m chebyshevP.m chebyshevT_expand.m"
 
 tmp=/tmp/$$
 here=`pwd`

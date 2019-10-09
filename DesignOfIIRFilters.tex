@@ -19539,6 +19539,127 @@ Algorithm~\ref{alg:Unsymmetric-Lanczos-tridiagonalisation}.
 % \raggedbottom suppresses the following warning:
 % "Underfull \vbox (badness 10000) has occurred while \output is active"
 % Pages following \raggedbottom may have unequal page heights.
+\cleardoublepage{}
+\chapter{\label{app:Lagrange-Interpolation}Review of Lagrange Interpolation}
+This chapter follows the review article of \emph{Berrut} and
+\emph{Trefethen}~\cite{BerrutTrefethen_BarycentricLagrangeInterpolation}.
+\section{The barycentric Lagrange polynomial}
+Let $n+1$ distinct interpolation points or \emph{nodes}, $x_{j}$, be given,
+together with corresponding values, $f_{j}$. The interpolation problem is to
+find a polynomial such that $p\left(x_{j}\right)=f_{j}$. The \emph{Lagrange}
+solution is: 
+\begin{align*}
+  p\left(x\right)&=\sum^{n}_{j=0}f_{j}l_{j}\left(x\right)\\
+  l_{j}&=\frac{\prod^{n}_{k=0,k\ne{}j}\left(x-x_{k}\right)}
+         {\prod^{n}_{k=0,k\ne{}j}\left(x_{j}-x_{k}\right)}
+\end{align*}
+The \emph{Lagrange polynomial} $l_{j}$ corresponding to $x_{j}$ has the
+property:
+\begin{align*}
+  l_{j}\left(x_{k}\right)&=\begin{cases}
+    1, & j=k \\
+    0, & otherwise \\
+    \end{cases}
+\end{align*}
+If $l\left(x\right)=\left(x-x_{0}\right)\hdots\left(x-x_{n}\right)$, and the
+\emph{barycentric weights} are defined as:
+\begin{align*}
+  w_{j}&=\frac{1}{\prod_{k\ne{}j}\left(x_{j}-x_{k}\right)}
+         =\frac{1}{l^{\prime}\left(x_{j}\right)}
+\end{align*}
+then $l_{j}$ can be rewritten as:
+\begin{align*}
+  l_{j}&=l\left(x\right)\frac{w_{j}}{\left(x-x_{j}\right)}
+\end{align*}
+so that:
+\begin{align}
+  p\left(x\right)&=l\left(x\right)\sum^{n}_{j=0}\frac{w_{j}}{x-x_{j}}f_{j}
+\label{eqn:First-Barycentric-Lagrange-polynomial}                   
+\end{align}
+
+If all $f_{j}=1$,
+\begin{align*}
+  1&=\sum^{n}_{j=0}l_{j}\left(x\right)
+     =l\left(x\right)\sum^{n}_{j=0}\frac{w_{j}}{x-x_{j}}
+\end{align*}
+giving the \emph{barycentric formula} for $p\left(x\right)$:
+\begin{align}
+  p\left(x\right)&=\frac{\sum^{n}_{j=0}\frac{w_{j}}{x-x_{j}}f_{j}}
+                   {\sum^{n}_{j=0}\frac{w_{j}}{x-x_{j}}}
+\label{eqn:True-Barycentric-Lagrange-polynomial}                   
+\end{align}
+
+\section{Node distributions}
+Explicit formulas for the weights, $w_{j}$, are available for certain sets of
+nodes, $x_{j}$. If the nodes are equidistant, with spacing $h=\frac{2}{n}$, in
+the interval $\left[-1,1\right]$, then:
+\begin{align*}
+  w_{j}&=\frac{\left(-1\right)^{n-j}\binom{n}{j}}{h^{n}n!}
+\end{align*}
+After cancelling factors independent of $j$:
+\begin{align*}
+  w_{j}&=\left(-1\right)^{j}\binom{n}{j}
+\end{align*}
+Clearly, for large $n$, the weights vary by exponentially large factors and, 
+consequently, interpolation in equally spaced points is
+\emph{ill-conditioned}\footnote{This is called the \emph{Runge phenomenon}}.
+Unless $n$ is small, it is better to use node distributions that are clustered
+at the end-points of the interval. The simplest such distributions are the
+\emph{Chebyshev nodes}, formed by projecting equally spaced points on the unit
+circle down to the interval $\left[-1,1\right]$. The \emph{Chebyshev nodes of
+  the first kind} are:
+\begin{align*}
+  x_{j}&=\cos\frac{\left(2j+1\right)\pi}{2n+2}
+\end{align*}
+with weights:
+\begin{align*}
+  w_{j}&=\left(-1\right)^{j}\sin\frac{\left(2j+1\right)\pi}{2n+2}
+\end{align*}
+The \emph{Chebyshev nodes of the second kind} are:
+\begin{align*}
+  x_{j}&=\cos\frac{j\pi}{n}
+\end{align*}
+with weights:
+\begin{align*}
+  w_{j}&=\left(-1\right)^{j}\delta_{j}\\
+  \quad \delta_{j}&=\begin{cases}
+    \frac{1}{2}, & j=0 \text{ or } j=n \\
+    1,           & otherwise \\
+    \end{cases}
+\end{align*}
+\emph{Higham}~\cite{Higham_StabilityBarycentricLagrangianInterpolation} has
+shown that Equation~\ref{eqn:First-Barycentric-Lagrange-polynomial} is
+unconditionally numerically stable and that
+Equation~\ref{eqn:True-Barycentric-Lagrange-polynomial} is stable if the
+interpolation points are clustered appropriately.
+
+The Octave script \emph{lagrange\_interp\_test.m} exercises the implementation
+of Lagrange interpolation in the Octave function \emph{lagrange\_interp()}.
+Figure~\ref{fig:Lagrange-Interp-n-20-Chebyshev-2} attempts to reproduce
+\emph{Berrut} and \emph{Trefethen}'s Figure 5.1 for $21$ Chebyshev nodes of the
+second kind. Figure~\ref{fig:Lagrange-Interp-n-20-linear} repeats the
+interpolation experiment with linearly spaced nodes.
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{lagrange_interp_test_n_20_Chebyshev_2}}
+\caption{Lagrange interpolation of the function
+  $fun\left(x\right)=|x|+\frac{x}{2}-x^{2}$ with $21$ Chebyshev nodes of the
+  second kind and $101$ interpolated values on $\left[-1,1\right]$. The
+  marks indicate the values, $f_{k}$, being interpolated.}
+\label{fig:Lagrange-Interp-n-20-Chebyshev-2}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{lagrange_interp_test_n_20_linear}}
+\caption{Lagrange interpolation of the function
+  $fun\left(x\right)=|x|+\frac{x}{2}-x^{2}$ with $21$ linearly spaced nodes
+  and $101$ interpolated values on $\left[-1,1\right]$. The marks
+  indicate the values, $f_{k}$, being interpolated.}
+\label{fig:Lagrange-Interp-n-20-linear}
+\end{figure}
+
 \begin{raggedbottom}
 \cleardoublepage{}
 \chapter{\label{app:IIR-filter-response}IIR filter amplitude, phase and group-delay frequency responses}
@@ -22435,7 +22556,7 @@ complementary to $G\left(z\right)$.
 \label{alg:Filter-realisation-sum-of-all-pass-functions}
 \end{algorithm}
 
-The classical Butterworth, Chebychev and Cauer low-pass digital filters
+The classical Butterworth, Chebyshev and Cauer low-pass digital filters
 of odd order satisfy the following conditions and can be implemented
 as the combination of two stable all-pass functions 
 \begin{enumerate}
@@ -22764,7 +22885,7 @@ $L_{n}=R_{n}\left(\omega_{a}\right)$ is called the discrimination factor.
 \emph{Orchard} and \emph{Willson} show how to
 derive a continuous time elliptic filter with filter order $n$, pass-band ripple
 $\alpha_{p}$ and stop-band ripple $\alpha_{a}$ from the s-plane poles and zeros
-of an initial \emph{Chebychev Type 1} filter. They comment that:
+of an initial \emph{Chebyshev Type 1} filter. They comment that:
 \begin{quotation}
   The fact that the degree $n$ must be an integer means that the smallest value
   of $n$ that meets the specification will normally provide some margin in
@@ -22813,7 +22934,7 @@ attenuation\footnote{\emph{Orchard} prefers the convention that
   A\left(s\right)A\left(-s\right) &= 1+\varepsilon^{2}\cos^{2}\frac{nu\pi}{2}\\
   \Omega&=\cos\frac{u\pi}{2}  
 \end{align*}
-\emph{Orchard} and \emph{Willson} generalise the Chebychev filter by changing
+\emph{Orchard} and \emph{Willson} generalise the Chebyshev filter by changing
 the cosine function into the appropriate elliptic function equivalent. The
 resulting parametric equations are:
 \begin{align*}
@@ -23386,7 +23507,7 @@ solution of:
 
 \emph{Saram\"{a}ki} suggests that the initial values of $\boldsymbol{\beta}$ and
 $\Delta_{s}$ be found by transforming the $n+1$ frequencies of the pass-band
-extremal points of an order $n$ Chebychev Type 1 filter from the $z$-plane to
+extremal points of an order $n$ Chebyshev Type 1 filter from the $z$-plane to
 the $v$-plane and then solving the corresponding $n+1$ non-linear polynomial
 equations for $\hat{H}\left(v\right)\hat{H}\left(\frac{1}{v}\right)$ in the
 unknowns $e_{0},\hdots,e_{n-1}$ and $\Delta_{s}$, with $e_{n}=1$: 
@@ -25403,7 +25524,7 @@ Substituting into Equation~\ref{eqn:Zahradnik-half-band-Chebyshev-type2-in-x}
 gives Equation~\ref{eqn:Zahradnik-half-band-Chebyshev-type2-in-v}.
 \subsubsection{Working for \emph{Zahradn\'{i}k} and \emph{Vl\v{c}ek} Table 1~\cite[Appendix and Table 1]{Zahradnik_EquirippleApproxHalfBandFIR}}
 Equations 18 to 25 are experimentally confirmed in the Octave script
-\emph{chebychevU\_test.m} under the assumption that $U_{l}\left(v\right)=0$
+\emph{chebyshevU\_test.m} under the assumption that $U_{l}\left(v\right)=0$
 for $l\le{}0$.
 \paragraph{\label{app:Equiripple-Approx-Half-Band-FIR-Working-for-Equation-25}Working for Equation 25}
 \begin{align*}
@@ -25660,7 +25781,7 @@ The $n+1$ term in \ref{eqn:Zahradnik-half-band-recurrence-summation} gives:
 \end{align*}
 \clearpage
 \section{\label{app:FIR-design-Zolotarev}Design of equi-ripple FIR filters with Zolotarev polynomials}
-The \emph{Zolotarev} polynomials are an extension of the \emph{Chebychev}
+The \emph{Zolotarev} polynomials are an extension of the \emph{Chebyshev}
 polynomials that have found applications in the design of narrow-band FIR
 filters~\cite{Vlcek_ZolotarevOptimalFIR,ChenParks_AnalyticNarrowBandFIRZolotarev,
   Zahradnik_EquirippleApproxLowPassFIR}.
@@ -25757,7 +25878,7 @@ Equation~\ref{eqn:Zolotarev-function-parametric-equation} as:
 \end{align*}
 
 Alternatively, the Zolotarev polynomials can be expressed in terms of the
-Chebychev polynomials of the first kind,
+Chebyshev polynomials of the first kind,
 $T_{n}\left(\cos\Phi\right)=\cos n\Phi$~\cite[Equations 26 and
 27]{Vlcek_ZolotarevOptimalFIR}:
 \begin{align}
@@ -25769,7 +25890,7 @@ $T_{n}\left(\cos\Phi\right)=\cos n\Phi$~\cite[Equations 26 and
             \frac{H\left(u-u_{0},\kappa\right)}{H\left(u+u_{0},\kappa\right)}
                             \right]
 \end{split}
-\label{eqn:Zolotarev-Chebychev-first-kind}
+\label{eqn:Zolotarev-Chebyshev-first-kind}
 \end{align}
 
 \emph{Whittaker} and \emph{Watson}~\cite[Page
@@ -25957,13 +26078,13 @@ The corresponding $z$-domain discrete-time impulse response coefficients are:
 \end{small}
 
 \emph{Vl\v{c}ek} and \emph{Unbehauen} also show the expansion of
-$Z_{p,q}\left(w,\kappa\right)$ in Chebychev polynomials of the first kind,
+$Z_{p,q}\left(w,\kappa\right)$ in Chebyshev polynomials of the first kind,
 $T_{m}\left(w\right)$:
 \begin{align*}
 f\left(w\right)&=\sum^{n}_{m=0}a_{m}T_{m}\left(w\right)
 \end{align*}
 The resulting recurrence relations are shown in
-Algorithm~\ref{alg:Zolotarev-Chebychev-sum-recurrence}~\cite[Table V with 
+Algorithm~\ref{alg:Zolotarev-Chebyshev-sum-recurrence}~\cite[Table V with 
  corrections]{Vlcek_ZolotarevOptimalFIR}\footnote{The Maxima script 
   \emph{zolotarev\_vlcek\_unbehauen\_table\_v.max} and my working by hand did
   not reproduce Table V of \emph{Vl\v{c}ek} and
@@ -25971,7 +26092,7 @@ Algorithm~\ref{alg:Zolotarev-Chebychev-sum-recurrence}~\cite[Table V with
     Vlcek_ZolotarevOptimalFIRcorrections}. However, the Octave script
 \emph{zolotarev\_vlcek\_unbehauen\_test.m} shows that, for $\kappa=0.78$, $p=5$
 and $q=9$, my Algorithm~\ref{alg:Zolotarev-power-sum-recurrence} and
-Algorithm~\ref{alg:Zolotarev-Chebychev-sum-recurrence} produce, to within
+Algorithm~\ref{alg:Zolotarev-Chebyshev-sum-recurrence} produce, to within
 round-off error, the same Zolotarev polynomial as the calculation using
 elliptic functions in the Octave function \emph{zolotarev\_chen\_parks.m}.}.
 
@@ -26037,10 +26158,10 @@ elliptic functions in the Octave function \emph{zolotarev\_chen\_parks.m}.}.
 \caption{Modified \emph{Vl\v{c}ek} and \emph{Unbehauen} backwards recursion for 
   $Z_{p,q}\left(w\right)=\sum^{n}_{m=0}a_{m}T_{m}\left(w\right)$~\cite[Table
   V]{Vlcek_ZolotarevOptimalFIR},~\cite{Vlcek_ZolotarevOptimalFIRcorrections}}
-\label{alg:Zolotarev-Chebychev-sum-recurrence}
+\label{alg:Zolotarev-Chebyshev-sum-recurrence}
 \end{algorithm}
 
-The Chebychev polynomial expansion coefficients of the example shown by
+The Chebyshev polynomial expansion coefficients of the example shown by
 \emph{Vl\v{c}ek} and
 \emph{Unbehauen}~\cite[Table VI]{Vlcek_ZolotarevOptimalFIRcorrections} are: 
 \begin{small}
@@ -26152,7 +26273,7 @@ The Chebyshev polynomial of the first kind satisfies the differential equation:
 \end{align}
 Equation~\ref{eqn:Zolotarev-linear-second-order-differential-equation} is
 deliberately written in a form that can be solved with an expansion of
-$Z_{p,q}\left(w\right)$ in Chebychev polynomials of the first kind,
+$Z_{p,q}\left(w\right)$ in Chebyshev polynomials of the first kind,
 $T_{m}\left(w\right)$:
 \begin{align*}
   f\left(w\right)&=\sum^{n}_{m=0}a_{m}T_{m}\left(w\right)
@@ -26241,8 +26362,8 @@ After much algebra (shown in the Octave script
   +&\sum^{n-3}_{m=-3}\left[n^{2}-\left(m+3\right)^{2}\right]
      \alpha_{m+3}T_{m}\left(w\right)=0
 \end{align*}
-Algorithm~\ref{alg:Zolotarev-Chebychev-sum-recurrence} follows by collecting
-terms in the Chebychev polynomials of equal order. The recursion is
+Algorithm~\ref{alg:Zolotarev-Chebyshev-sum-recurrence} follows by collecting
+terms in the Chebyshev polynomials of equal order. The recursion is
 initialised by setting $\alpha_{n}=1$. At each backwards recursion,
 $m=n+2,\hdots,3$, the next coefficient calculated is $\alpha_{m-3}$.
 \clearpage
@@ -26348,8 +26469,8 @@ stop-band bandwidth and stop-band attenuation:
       u_{m}&=\sigma_{m}+\imath{}K^{\prime} \\
       f_{m}&=Z_{p,q}\left(u_{m},\kappa\right)
     \end{align*}
-  \item Perform Algorithm~\ref{alg:Zolotarev-Chebychev-sum-recurrence} to find
-    the Chebychev polynomial coefficients, $a_{m}$, and convert these to the
+  \item Perform Algorithm~\ref{alg:Zolotarev-Chebyshev-sum-recurrence} to find
+    the Chebyshev polynomial coefficients, $a_{m}$, and convert these to the
     impulse response~\cite[Equation 87]{Vlcek_ZolotarevOptimalFIR}:
     $a_{0}=h_{M}$ and $a_{m}=2h_{M-m}$.
 \end{enumerate}
@@ -26479,7 +26600,7 @@ well as:
 \item no other zeros if $p$ is even and $q$ is even
 \end{itemize}
 
-Recall Equation~\ref{eqn:Zolotarev-Chebychev-first-kind}:
+Recall Equation~\ref{eqn:Zolotarev-Chebyshev-first-kind}:
 \begin{align*}
   Z_{p,q}\left(u,\kappa\right)
   &=\left(-1\right)^{p} T_{p+q}\left(\cos \Phi\left(u,\kappa\right)\right)\\
@@ -26501,7 +26622,7 @@ Equation~\ref{eqn:Whittaker-Watson-Jacobi-Eta-definition}:
 \end{align}
 where $H^{\dagger}$ is the complex-conjugate of $H$. The
 $\Phi\left(u,\kappa\right)$ function of
-Equation~\ref{eqn:Zolotarev-Chebychev-first-kind} becomes:  
+Equation~\ref{eqn:Zolotarev-Chebyshev-first-kind} becomes:  
 \begin{align*}
   \Phi\left(u,\kappa\right)&=\begin{cases}
     -2 \arg H\left(u+u_{0},\kappa\right)+\pi
@@ -26540,7 +26661,7 @@ $\frac{n}{\pi}$, in the regions on either side of the central lobe.
 \emph{Zahradn\'{i}k, \v{S}usta et al.}~\cite[Table
 I]{ZahradnikSusta_CascadeNarrowEquirippleFIR} show an algorithm, reproduced
 below as Algorithm~\ref{alg:Zahradnik-evaluation-of-coefficients-ZPTF}, for the 
-calculation of the coefficients of the expansion in Chebychev polynomials
+calculation of the coefficients of the expansion in Chebyshev polynomials
 of the first kind of the product of the factors, $\left(w-w_{l}\right)$, of a
 polynomial. They recommend ordering the roots in ascending order of $z$-domain
 angular frequency and the $m$ subfilters select the roots with the ordering
@@ -26592,7 +26713,7 @@ frequency of the central lobe maximum of the overall filter~\cite[Equation
   \State $a_{k}=\alpha^{\left(n\right)}_{k}\quad{}k=0,\hdots,n$
 \end{algorithmic}
 \caption{Recursion of \emph{Zahradn\'{i}k, \v{S}usta et al.} for the calculation
-  of the scaled coefficients of the expansion, in Chebychev polynomials of
+  of the scaled coefficients of the expansion, in Chebyshev polynomials of
   the first kind, of the product of the $n$ factors, $\left(w-w_{m}\right)$, of a
   polynomial~\cite[Table I]{ZahradnikSusta_CascadeNarrowEquirippleFIR}}.
 \label{alg:Zahradnik-evaluation-of-coefficients-ZPTF}
@@ -26665,7 +26786,7 @@ Figure~\ref{fig:Zolotarev-cascade-p-2159-q-540} attempts to reproduce
 \emph{Zahradn\'{i}k, \v{S}usta et al.}s Figure 5 showing 
 $Q_{2159,540}\left(w,0.16238959\right)$ with $3$ subfilters. 
 Algortihm~\ref{alg:Zahradnik-evaluation-of-coefficients-ZPTF}, 
-the calculation of the coefficients of the Chebychev polynomials of the first
+the calculation of the coefficients of the Chebyshev polynomials of the first
 kind, is implemented with the \emph{MPFR}~\cite{Fousse:2007:MMB:1236463.1236468} 
  library in the Octave \emph{octfile} \emph{roots2T.cc}.
 
@@ -26715,7 +26836,7 @@ Equation~\ref{eqn:Whittaker-Watson-Jacobi-Eta-definition}:
 
 \paragraph{Working for
   Algorithm~\ref{alg:Zahradnik-evaluation-of-coefficients-ZPTF}}
-This is an application of the recurrence relations of the Chebychev polynomials
+This is an application of the recurrence relations of the Chebyshev polynomials
 of the first kind:
 \begin{align*}
   T_{0}\left(w\right)=\;&1\\
@@ -26837,7 +26958,7 @@ filter\footnote{The normalisation is shown in \emph{Vl\v{c}ek} and
   Q\left(w\right)&=\frac{\mathcal{S}\left(w\right)-\mathcal{N}_{1}}
                    {\mathcal{N}_{2}-\mathcal{N}_{1}}
 \end{align*}
-where $U_{m}\left(w\right)$ is the $m$'th Chebychev polynomial of the second
+where $U_{m}\left(w\right)$ is the $m$'th Chebyshev polynomial of the second
 kind, $Q\left(w\right)$ is the zero-phase transfer function of the FIR
 filter and the normalising constants $\mathcal{N}_{1}$ and
 $\mathcal{N}_{2}$ are: 
@@ -27030,7 +27151,7 @@ Figure~\ref{fig:Zolotarev-Vlcek-Zahradnik-p-4-q-11-zero-phase} shows zero-phase
 transfer function and
 Figure~\ref{fig:Zolotarev-Vlcek-Zahradnik-p-4-q-11-response} shows the 
 amplitude frequency response.
-The coefficients of the expansion of the zero-phase response in Chebychev
+The coefficients of the expansion of the zero-phase response in Chebyshev
 polynomials of the first kind found with
 Algorithm~\ref{alg:Zolotarev-almost-equiripple-low-pass-FIR}~\cite[Table
   4]{VlcekZahradnik_AlmostEquirippleLowPassFIR} are:
@@ -27134,7 +27255,7 @@ polynomial $S_{4,11}\left(w,0.75\right)$.
 \caption{Comparison of the iso-extremal function,
   $\sqrt{1-w^{2}}S_{4,11}\left(w,0.75\right)$, the Zolotarev polynomial,
   $Z_{4,11}\left(w,0.75\right)$, 
-  calculated by the Chebychev expansion by \emph{Vl\v{c}ek} and
+  calculated by the Chebyshev expansion by \emph{Vl\v{c}ek} and
   \emph{Unbehauen}~\cite{Vlcek_ZolotarevOptimalFIR}, the generating function,
   $S_{4,11}\left(w,0.75\right)$, of \emph{Vl\v{c}ek} and 
   \emph{Zahradn\'{i}k}~\cite{VlcekZahradnik_AlmostEquirippleLowPassFIR} and
@@ -27186,7 +27307,7 @@ mean by `` the second solution of $\left(14\right)$ in the form
  \emph{Vl\v{c}ek} and \emph{Zahradn\'{i}k} satisfies this differential equation. 
  
 
-The Chebychev polynomials of the second kind, $U_{m}\left(w\right)$, satisfy the
+The Chebyshev polynomials of the second kind, $U_{m}\left(w\right)$, satisfy the
 differential equation: 
 \begin{align*}
   \left(1-w^{2}\right)\frac{d^{2}U_{m}\left(w\right)}{dw^{2}}
@@ -27198,7 +27319,7 @@ Differentiating $U_{m}\left(w\right)$ gives:
   &=\left(m+2\right)wU_{m}\left(w\right)-\left(m+1\right)U_{m+1}\left(w\right)
 \end{align*}
 
-The Chebychev polynomials of the second kind obey the following relations:
+The Chebyshev polynomials of the second kind obey the following relations:
 \begin{align*}
   2wU_{m}\left(w\right)&= U_{m+1}\left(w\right)+U_{m-1}\left(w\right)\\
   4w^{2}U_{m}\left(w\right)&= U_{m+2}\left(w\right)+2U_{m}\left(w\right)
@@ -27209,7 +27330,7 @@ The Chebychev polynomials of the second kind obey the following relations:
 \end{align*}
 
 The linear differential equation for $S_{p,q}\left(w,\kappa\right)$ can be
-solved by substituting an expansion in Chebychev polynomials of the second kind: 
+solved by substituting an expansion in Chebyshev polynomials of the second kind: 
 \begin{align*}
   S_{p,q}\left(w\right)&=\sum^{n}_{m=0}a^{+}_{m}U_{m}\left(w\right)
 \end{align*}
@@ -27224,11 +27345,11 @@ so that:
     & +\left[\left(n+1\right)^2g_{0}\left(w\right)+wg_{1}\left(w\right)
       -g_{2}\left(w\right)\right]\sum^{n}_{m=0}a^{+}_{m}U_{m}\left(w\right) =0
   \end{split}
-\label{eqn:Modified-Zolotarev-linear-ode-Chebychev-2-substitution}
+\label{eqn:Modified-Zolotarev-linear-ode-Chebyshev-2-substitution}
 \end{align}
 The Maxima script \emph{zolotarev\_vlcek\_zahradnik\_table\_4.max} calculates
 the recurrence relations from
-Equation~\ref{eqn:Modified-Zolotarev-linear-ode-Chebychev-2-substitution}. The
+Equation~\ref{eqn:Modified-Zolotarev-linear-ode-Chebyshev-2-substitution}. The
 results agree with Table 4 of \emph{Vl\v{c}ek} and
 \emph{Zahradn\'{i}k}~\cite{VlcekZahradnik_AlmostEquirippleLowPassFIR} when
 inserted into the Octave function \emph{zolotarev\_vlcek\_zahradnik.m}.

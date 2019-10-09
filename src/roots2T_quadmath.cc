@@ -1,5 +1,5 @@
 // roots2T_quadmath.cc - given the all real roots of a polynomial, find the
-// coefficients of the expansion of that polynomial in Chebychev polynomials
+// coefficients of the expansion of that polynomial in Chebyshev polynomials
 // of the first kind with quad float arithmetic.
 // Compile with:
 //  XCXXFLAGS="-lquadmath -fext-numeric-literals" make src/roots2T_quadmath.oct

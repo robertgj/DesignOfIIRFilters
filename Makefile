@@ -92,6 +92,7 @@ OCTAVE_SCRIPTS = \
  jacobi_Zeta_test \
  johansson_cascade_allpass_bandstop_test \
  johanssonOneMlattice_socp_slb_bandstop_test \
+ lagrange_interp_test \
  linesearch_test \
  local_max_test \
  local_peak_test \

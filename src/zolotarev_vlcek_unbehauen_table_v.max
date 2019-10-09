@@ -17,7 +17,7 @@ funmake(g1,[w]);
 funmake(g2,[w]);
 fde:(g2*(((1-w^2)*fpp)-(w*fp))) -(g1*(1-w^2)*fp) +(g0*f);
 
-/* After substituting the expansion in Chebychev polynomials of the first kind */
+/* After substituting the expansion in Chebyshev polynomials of the first kind */
 g0:(n^2)*((w-wm)^3);
 g1:((w-wp)*(w-ws))-((w-wm)*(w-wq));
 g2:(w-wm)*(w-wp)*(w-ws);

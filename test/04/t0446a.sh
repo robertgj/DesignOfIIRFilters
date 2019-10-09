@@ -4,7 +4,7 @@ prog=roots2T_test.m
 descr="roots2T_test.m (octfile)"
 
 depends="roots2T_test.m roots2T.oct test_common.m check_octave_file.m \
-chebychevT_expand.m chebychevT.m chebychevP.m"
+chebyshevT_expand.m chebyshevT.m chebyshevP.m"
 
 tmp=/tmp/$$
 here=`pwd`

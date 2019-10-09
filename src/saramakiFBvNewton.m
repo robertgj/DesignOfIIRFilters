@@ -85,7 +85,7 @@ function [Z,P,K,dBas,iter] = ...
   %
   % Find initial filter
   %
-  % Find Chebychev Type 1 filter
+  % Find Chebyshev Type 1 filter
   [b0,a0]=cheby1(n,dBap,2*fp);
   nh=1000;
   [h0,w0]=freqz(b0,a0,nh);

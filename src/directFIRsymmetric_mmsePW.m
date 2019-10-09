@@ -138,12 +138,16 @@ function [hM,socp_iter,func_iter,feasible]=directFIRsymmetric_mmsePW ...
   % Na-Na, G is Nc-Na, h is Na-1, l is Nc-1. The constraint amplitude
   % components due to the inactive coefficients are included in D.
   G=[gradAl;gradAu];
-  b=[-2*q(hM_active)'; ...
-     [Adl(vS.al);Adu(vS.au)]-(G(:,hM_inactive)*hM0(hM_inactive))];
-  A=[2*Q(hM_active,hM_active),G(:,hM_active)';G(:,hM_active),zeros(rows(G))];
+  if isempty(G)
+    b=[-2*q(hM_active)';[Adl(vS.al);Adu(vS.au)]];
+    A=2*Q(hM_active,hM_active);
+  else
+    b=[-2*q(hM_active)'; ...
+       [Adl(vS.al);Adu(vS.au)]-(G(:,hM_inactive)*hM0(hM_inactive))];
+    A=[2*Q(hM_active,hM_active),G(:,hM_active)';G(:,hM_active),zeros(rows(G))];
+  endif
   if rank(A) ~= rows(A)
-    warning("rank(A)(%d) ~= rows(A)(%d)",rank(A),rows(A));
-    return;
+    error("rank(A)(%d) ~= rows(A)(%d)",rank(A),rows(A));
   endif
   x=A\b;
   hM=hM0;

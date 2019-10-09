@@ -96,7 +96,7 @@ if max(abs(Zpq3-Zpq3arg))>200*eps
 endif
 
 %
-% Example of Chebychev expansion
+% Example of Chebyshev expansion
 %
 clear -x strf
 
