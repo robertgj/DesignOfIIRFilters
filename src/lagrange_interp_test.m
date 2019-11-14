@@ -166,14 +166,14 @@ close
 
 % Check w
 [f,w]=lagrange_interp(xk,fk,[],x);
-if std(w./wk)>1e-2
-  error("std(w./wk)(%g)>1e-2",std(w./wk));
+if std(w./wk)>1e-10
+  error("std(w./wk)(%g)>1e-10",std(w./wk));
 endif
 print_polynomial(w,"w",sprintf("%s_n_%2d_Chebyshev_2_w_coef.m",strf,n),"%15.8f");
 % Check p
 [f,w,p]=lagrange_interp(xk,fk,[],x);
-if norm(f-polyval(p,x))>1e-6
-  error("norm(f-polyval(p,x))(%g)>1e-6",norm(f-polyval(p,x)));
+if norm(f-polyval(p,x))>1e-8
+  error("norm(f-polyval(p,x))(%g)>1e-8",norm(f-polyval(p,x)));
 endif
 print_polynomial(p,"p",sprintf("%s_n_%2d_Chebyshev_2_p_coef.m",strf,n),"%15.8f");
 
@@ -204,8 +204,8 @@ if norm(f-fun(x))>0.1
   warning("norm(f-fun(x))(%g)>0.1",norm(f-fun(x)));
 endif
 [f,w]=lagrange_interp(xk,fk,[],x);
-if std(w./wk)>1e-8
-  error("std(w./wk)(%g)>1e-8",std(w./wk));
+if std(w./wk)>1e-13
+  error("std(w./wk)(%g)>1e-13",std(w./wk));
 endif
 % Make plot
 subplot(111)
@@ -230,14 +230,14 @@ if norm(f-fun(x))>0.1
 endif
 % Check w
 [f,w]=lagrange_interp(xk,fk,[],x);
-if std(w./wk)>1e-3
-  error("std(w./wk)(%g)>1e-3",std(w./wk));
+if std(w./wk)>1e-10
+  error("std(w./wk)(%g)>1e-10",std(w./wk));
 endif
 print_polynomial(w,"w",sprintf("%s_n_%2d_Chebyshev_1_w_coef.m",strf,n),"%15.8f");
 % Check p
 [f,w,p]=lagrange_interp(xk,fk,[],x);
-if norm(f-polyval(p,x))>1e-8
-  error("norm(f-polyval(p,x))(%g)>1e-8",norm(f-polyval(p,x)));
+if norm(f-polyval(p,x))>1e-9
+  error("norm(f-polyval(p,x))(%g)>1e-9",norm(f-polyval(p,x)));
 endif
 print_polynomial(p,"p",sprintf("%s_n_%2d_Chebyshev_1_p_coef.m",strf,n),"%15.8f");
 

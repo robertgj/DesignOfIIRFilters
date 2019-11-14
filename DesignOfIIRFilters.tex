@@ -19563,14 +19563,16 @@ property:
 \end{align*}
 If $l\left(x\right)=\left(x-x_{0}\right)\hdots\left(x-x_{n}\right)$, and the
 \emph{barycentric weights} are defined as:
-\begin{align*}
+\begin{align}
   w_{j}&=\frac{1}{\prod_{k\ne{}j}\left(x_{j}-x_{k}\right)}
          =\frac{1}{l^{\prime}\left(x_{j}\right)}
-\end{align*}
+\label{eqn:First-Barycentric-Lagrange-weights}
+\end{align}
 then $l_{j}$ can be rewritten as:
-\begin{align*}
+\begin{align}
   l_{j}&=l\left(x\right)\frac{w_{j}}{\left(x-x_{j}\right)}
-\end{align*}
+\label{eqn:First-Barycentric-Lagrange-weights-for-proof}
+\end{align}
 so that:
 \begin{align}
   p\left(x\right)&=l\left(x\right)\sum^{n}_{j=0}\frac{w_{j}}{x-x_{j}}f_{j}
@@ -19624,7 +19626,7 @@ with weights:
   w_{j}&=\left(-1\right)^{j}\delta_{j}\\
   \quad \delta_{j}&=\begin{cases}
     \frac{1}{2}, & j=0 \text{ or } j=n \\
-    1,           & otherwise \\
+    1,           & \text{otherwise} \\
     \end{cases}
 \end{align*}
 \emph{Higham}~\cite{Higham_StabilityBarycentricLagrangianInterpolation} has
@@ -19634,7 +19636,11 @@ Equation~\ref{eqn:True-Barycentric-Lagrange-polynomial} is stable if the
 interpolation points are clustered appropriately.
 
 The Octave script \emph{lagrange\_interp\_test.m} exercises the implementation
-of Lagrange interpolation in the Octave function \emph{lagrange\_interp()}.
+of Lagrange interpolation in the Octave function
+\emph{lagrange\_interp()}\footnote{The interpolation is much more accurate if
+the function calculates the weights by the product in
+Equation~\ref{eqn:First-Barycentric-Lagrange-weights} rather than
+Equation~\ref{eqn:First-Barycentric-Lagrange-weights-for-proof}}. 
 Figure~\ref{fig:Lagrange-Interp-n-20-Chebyshev-2} attempts to reproduce
 \emph{Berrut} and \emph{Trefethen}'s Figure 5.1 for $21$ Chebyshev nodes of the
 second kind. Figure~\ref{fig:Lagrange-Interp-n-20-linear} repeats the

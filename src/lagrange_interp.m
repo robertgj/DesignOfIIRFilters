@@ -1,5 +1,5 @@
-function [f,w,p]=lagrange_interp(xk,fk,wk,x)
-% [f,w,p]=lagrange_interp(xk,fk,wk,x)
+function [f,w,p]=lagrange_interp(xk,fk,wk,x,tol)
+% [f,w,p]=lagrange_interp(xk,fk,wk,x,tol)
 % Given the pairs <xk,fk>, return the values, f, of the Lagrange
 % polynomial, p, at x. If wk is empty, the weights are calculated and
 % returned in w. See: "Barycentric Lagrange Interpolation", J.-P. Berrut
@@ -25,8 +25,11 @@ function [f,w,p]=lagrange_interp(xk,fk,wk,x)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if nargin~=4 || nargout>3
-    print_usage("[f,w,p]=lagrange_interp(xk,fk,wk,x);");
+  if (nargin~=4 && nargin~=5) || nargout>3
+    print_usage("[f,w,p]=lagrange_interp(xk,fk,wk,x,tol);");
+  endif
+  if nargin==4
+    tol=2e-12;
   endif
   % Sanity checks
   if max(x)>max(xk) || min(x)<min(xk)
@@ -41,8 +44,8 @@ function [f,w,p]=lagrange_interp(xk,fk,wk,x)
   if max(size(xk))<2
     error("max(size(xk))<2)")
   endif
-  if any(diff(xk)==0)
-    error("any(diff(xk)==0)");
+  if length(xk)~=length(unique(xk))
+    error("length(xk)~=length(unique(xk))");
   endif
   if all(size(x)~=1)
     error("all(size(x)~=1)");
@@ -80,40 +83,29 @@ function [f,w,p]=lagrange_interp(xk,fk,wk,x)
   % If necessary, calculate the weights
   w=wk;
   if isempty(w)
-    l1=polyder(l);
-    w=zeros(size(xk));
-    for k=1:length(xk),
-      tmpk=polyval(l1,xk(k));
-      if tmpk==0
-        error("tmpk==0");
-      endif
-      w(k)=1/tmpk;
-    endfor
+    wxk=xk(:)-(xk(:)')+eye(length(xk));
+    w=1./prod(wxk,1);
+    if columns(xk)==1
+      w=w';
+    endif
   endif
 
-  % Barycentric Lagrange interpolation
-  numer = zeros(size(x));
-  denom = zeros(size(x));
-  exact = zeros(size(x));
-  for k=1:length(xk),
-    xdiff = x-xk(k);
-    temp = w(k)./xdiff;
-    numer = numer + temp*fk(k);
-    denom = denom + temp;
-    exact(xdiff==0) = k;
-  end
-  f = numer./denom;
-  kexact = find(exact);
-  f(kexact) = fk(exact(kexact));
+  % Barycentric Lagrange interpolation (the fixed points are along rows)
+  xdiff=x(:)-(xk(:)');
+  [exact,kexact]=find(xdiff==0);
+  kw=kron(w(:)',ones(length(x),1));
+  kf=kron(fk(:)',ones(length(x),1));
+  kwdx=kw./xdiff;
+  f=sum((kwdx.*kf),2)./sum(kwdx,2);
+  f(exact)=fk(kexact);
 
-  % If necessary, calculate the interpolation polynomial
+  % Calculate the interpolation polynomial if requested
   if nargout==3,
     p=zeros(1,length(xk));
     for k=1:length(xk),
       [quot,rem]=deconv(l,[1 -xk(k)]);
-      if norm(rem)>1e-10
-        rem
-        warning("norm(rem)(%g)>1e-10",norm(rem));
+      if norm(rem)>tol
+        warning("norm(rem)(%g)>%g",norm(rem),tol);
       endif
       p=p+(quot*w(k)*fk(k));
     endfor;
