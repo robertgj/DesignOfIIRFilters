@@ -327,6 +327,9 @@ frm2ndOrderCascade_socp_test_x1model.tex
 frm2ndOrderCascade_socp_test_x1mask.tex
 frm2ndOrderCascade_socp_test_remez_comparison.tex
 gkstep_test_noise.tex
+hofstetterFIRsymmetric_lowpass_test_response.tex
+hofstetterFIRsymmetric_lowpass_test_dual.tex
+hofstetterFIRsymmetric_lowpass_test_zeros.tex
 iir_frm_allpass_socp_slb_test_initial_response.tex
 iir_frm_allpass_socp_slb_test_initial_passband_response.tex
 iir_frm_allpass_socp_slb_test_initial_mask_response.tex
@@ -1060,6 +1063,9 @@ frm2ndOrderCascade_socp_test_x1model.pdf
 frm2ndOrderCascade_socp_test_x1mask.pdf
 frm2ndOrderCascade_socp_test_remez_comparison.pdf
 gkstep_test_noise.pdf
+hofstetterFIRsymmetric_lowpass_test_response.pdf
+hofstetterFIRsymmetric_lowpass_test_dual.pdf
+hofstetterFIRsymmetric_lowpass_test_zeros.pdf
 iir_frm_allpass_socp_slb_test_initial_response.pdf
 iir_frm_allpass_socp_slb_test_initial_passband_response.pdf
 iir_frm_allpass_socp_slb_test_initial_mask_response.pdf
@@ -1948,6 +1954,9 @@ frm2ndOrderCascade_socp_test_a_coef.m
 frm2ndOrderCascade_socp_test_d_coef.m
 frm2ndOrderCascade_socp_test_aa_coef.m
 frm2ndOrderCascade_socp_test_ac_coef.m
+hofstetterFIRsymmetric_lowpass_test.mat
+hofstetterFIRsymmetric_lowpass_test.spec
+hofstetterFIRsymmetric_lowpass_test_hM_coef.m
 iir_frm_allpass_socp_slb_test.mat
 iir_frm_allpass_socp_slb_test.spec
 iir_frm_allpass_socp_slb_test_r_coef.m
@@ -2729,6 +2738,7 @@ allpass_dir1_retimed.pdf
 allpass_MH2d_retimed.pdf
 elliptic_unit_cell.pdf
 aegis.conf
+octave-workspace
 /DesignOfIIRFilters.pdf
 _site
 .sass-cache

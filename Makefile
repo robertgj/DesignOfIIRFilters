@@ -73,6 +73,7 @@ OCTAVE_SCRIPTS = \
  freq_transform_structure_test \
  frm2ndOrderCascade_socp_test \
  gkstep_test \
+ hofstetterFIRsymmetric_lowpass_test \
  iir_frm_allpass_socp_slb_test \
  iir_frm_parallel_allpass_socp_slb_test \
  iir_frm_socp_slb_test \
@@ -345,6 +346,7 @@ clean:
 	-rm -f $(test_COEFS)
 	-rm -f $(EXTRA_DIARY_FILES)
 	-rm -f $(DIA_FILES:%=%.pdf)
+	-rm -f octave-workspace
 	-rm -Rf docs/.sass-cache docs/_site
 	$(call clean_macro,$(CLEAN_SUFFIXES))
 
@@ -384,7 +386,7 @@ gitignore:
 	echo $(test_COEFS) >> .gitignore
 	echo $(EXTRA_DIARY_FILES) >> .gitignore
 	echo $(DIA_FILES:%=%.pdf) >> .gitignore
-	echo aegis.conf /$(TARGET).pdf >> .gitignore
+	echo aegis.conf octave-workspace /$(TARGET).pdf >> .gitignore
 	echo _site .sass-cache .jekyll-metadata >> .gitignore
 	sed -i -e "s/\ /\n/g" .gitignore 
 
