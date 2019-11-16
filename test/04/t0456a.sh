@@ -58,7 +58,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_n_20_Cheby_1_p.ok"; fail; fi
 #
 echo "Running $prog" 
 
-octave-cli -q $prog
+octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_hM.ok hofstetterFIRsymmetric_lowpass_test_hM_coef.m

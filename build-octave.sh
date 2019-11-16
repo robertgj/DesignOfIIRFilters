@@ -124,7 +124,7 @@ fi
 #
 # Octave directories
 #
-OCTAVE_DIR=${OCTAVE_DIR:-"/usr/local/octave"}
+OCTAVE_DIR=${OCTAVE_DIR:-"/usr/local/octave"}-$OCTAVE_VER
 OCTAVE_INCLUDE_DIR=$OCTAVE_DIR/include
 OCTAVE_LIB_DIR=$OCTAVE_DIR/lib
 OCTAVE_BIN_DIR=$OCTAVE_DIR/bin
@@ -388,7 +388,7 @@ export LDFLAGS="-L"$OCTAVE_LIB_DIR
 export PGO_GEN_FLAGS="-pthread -fopenmp -fprofile-generate"
 make XTRA_CFLAGS="$PGO_GEN_FLAGS" XTRA_CXXFLAGS="$PGO_GEN_FLAGS" V=1 -j6
 find . -name \*.gcda -exec rm -f {} ';'
-make V=1 -j6 check
+make V=1 check
 
 #
 # Use profile
