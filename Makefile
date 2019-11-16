@@ -74,6 +74,7 @@ OCTAVE_SCRIPTS = \
  frm2ndOrderCascade_socp_test \
  gkstep_test \
  hofstetterFIRsymmetric_lowpass_test \
+ hofstetterFIRsymmetric_bandpass_test \
  iir_frm_allpass_socp_slb_test \
  iir_frm_parallel_allpass_socp_slb_test \
  iir_frm_socp_slb_test \

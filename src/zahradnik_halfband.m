@@ -58,26 +58,27 @@ alpha(1+(2*n)-4)= ...
   -((((2*n)+1)*(((n+1)*kp2)+1)*alpha(1+(2*n)))/(2*n));
 
 % Body
+nnp2=n*(n+2);
 for l=n:-1:3,
-  alpha(1+(2*l)-6)= ...
-  (-(((3*((n*(n+2))-(l*(l-2))))+(2*l)-3+ ...
-      (2*(l-2)*((2*l)-3)*kp2))*alpha(1+(2*l)-4)) ...
-   -(((3*((n*(n+2))-((l-1)*(l+1))))+(2*((2*l)-1))+ ...
-      ((2*l)*((2*l)-1)*kp2))*alpha(1+(2*l)-2)) ...
-   -(((n*(n+2))-((l-1)*(l+1)))*alpha(1+(2*l))))/((n*(n+2))-((l-3)*(l-1))); 
+  twol=2*l;
+  l2=l*l;
+  alpha(1+twol-6)= ...
+  (-(((3*(nnp2-(l2-twol)))+twol-3+ ...
+      (2*(l-2)*(twol-3)*kp2))*alpha(1+twol-4)) ...
+   -(((3*(nnp2-(l2-1)))+(2*(twol-1))+ ...
+      (twol*(twol-1)*kp2))*alpha(1+twol-2)) ...
+   -((nnp2-(l2-1))*alpha(1+twol)))/(nnp2-((l-3)*(l-1))); 
 endfor
 
 % Integration
 a=zeros(1,1+1+(2*n));
-for l=0:n,
-  a(1+(2*l)+1)=alpha(1+(2*l))/((2*l)+1);
-endfor
+twolp1=2*(0:n)+1;
+a(1+twolp1)=alpha(twolp1)./twolp1;
 
 % Impulse response
 hn=zeros(1,(4*n)+3);
-for l=0:n,
-  hn(1+(2*n)+1+((2*l)+1))=a(1+(2*l)+1)/2;
-  hn(1+(2*n)+1-((2*l)+1))=a(1+(2*l)+1)/2;
-endfor
+twonp1=(2*n)+1;
+hn(1+twonp1+twolp1)=a(1+twolp1)/2;
+hn(1+twonp1-twolp1)=a(1+twolp1)/2;
 
 endfunction

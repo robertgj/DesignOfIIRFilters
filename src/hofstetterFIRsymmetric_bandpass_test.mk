@@ -1,0 +1,13 @@
+hofstetterFIRsymmetric_bandpass_test_FIGURES = \
+hofstetterFIRsymmetric_bandpass_test_response \
+hofstetterFIRsymmetric_bandpass_test_dual \
+hofstetterFIRsymmetric_bandpass_test_zeros
+
+hofstetterFIRsymmetric_bandpass_test_COEFS = \
+hofstetterFIRsymmetric_bandpass_test.mat \
+hofstetterFIRsymmetric_bandpass_test.spec \
+hofstetterFIRsymmetric_bandpass_test_hM_coef.m
+
+hofstetterFIRsymmetric_bandpass_test_FILES = \
+hofstetterFIRsymmetric_bandpass_test.m test_common.m print_polynomial.m \
+hofstetterFIRsymmetric.m local_max.m lagrange_interp.m directFIRsymmetricA.m

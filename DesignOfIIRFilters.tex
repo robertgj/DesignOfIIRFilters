@@ -25127,7 +25127,7 @@ optimised filter coefficients are:
 \clearpage
 \section{\label{app:Minimax-error-design-FIR-filters}Constrained
   mini-max error optimisation of FIR digital filters}
-\section{The \emph{Alternation} theorem of approximation}
+\subsection{The alternation theorem}
 A symmetric or linear phase FIR filter with even order $2M$ and a symmetric
 impulse response with $2M+1$ coefficients has zero-phase frequency response:
 \begin{align*}
@@ -25202,7 +25202,7 @@ approximation) and that a low-pass filter may have at most $M+3$ alternations
 (for which the amplitude is $+\delta_{s}$). Further, the polynomial amplitude
 will be equi-ripple except possibly at $\omega=0$ or $\omega=\pi$.
 
-\section{\emph{Hofstetter}'s algorithm for mini-max FIR filter approximation}
+\subsection{\emph{Hofstetter}'s algorithm for mini-max FIR filter approximation}
 \emph{Hofstetter}~\cite{Hofstetter_DesignNonRecursiveDigitalFilters} describes
 an iterative technique for the design of FIR transfer functions that have the
 specified pass-band and stop-band ripple. The technique:
@@ -25241,6 +25241,7 @@ by \emph{barycentric Lagrange interpolation}\footnote{The
 5]{Hofstetter_DesignNonRecursiveDigitalFilters}\cite[Page 
 192]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}
 \cite{BerrutTrefethen_BarycentricLagrangeInterpolation}.
+
 The Octave script \emph{hofstetterFIRsymmetric\_lowpass\_test.m} uses an
 implementation of \emph{Hofstetter}'s algorithm in the Octave function
 \emph{hofstetterFIRsymmetric.m} to design a low-pass filter. The filter
@@ -25270,7 +25271,36 @@ zeros of the filter.
 \label{fig:hofstetterFIRsymmetric-lowpass-test-zeros}
 \end{figure}
 
-\section{The \emph{Selesnick-Burrus} algorithm for mini-max FIR filter approximation}
+The Octave script \emph{hofstetterFIRsymmetric\_bandpass\_test.m} uses an
+implementation of \emph{Hofstetter}'s algorithm in the Octave function
+\emph{hofstetterFIRsymmetric.m} to design a band-pass filter. The filter
+specification is:
+\begin{small}
+\verbatiminput{hofstetterFIRsymmetric_bandpass_test.spec}
+\end{small}
+
+Figure~\ref{fig:hofstetterFIRsymmetric-bandpass-test-dual} shows the pass-band
+and stop-band amplitude responses of the
+filter. Figure~\ref{fig:hofstetterFIRsymmetric-bandpass-test-zeros} shows the
+zeros of the filter.
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{hofstetterFIRsymmetric_bandpass_test_dual}}
+\caption{Response of a mini-max FIR band-pass filter designed with
+  \emph{Hofstetter}'s algorithm}
+\label{fig:hofstetterFIRsymmetric-bandpass-test-dual}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{hofstetterFIRsymmetric_bandpass_test_zeros}}
+\caption{Zeros of a mini-max FIR band-pass filter designed with
+  \emph{Hofstetter}'s algorithm}
+\label{fig:hofstetterFIRsymmetric-bandpass-test-zeros}
+\end{figure}
+
+\subsection{The \emph{Selesnick-Burrus} algorithm for mini-max FIR filter approximation}
 
 \emph{Selesnick} and 
 \emph{Burrus}~\cite{SelesnickBurrus_ExchangeAlgorithmsParksMcClellanAlgorithm}
@@ -25283,7 +25313,7 @@ as Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}) and the
 \emph{Selesnick-Burrus} algorithm, the number of frequency constraints is 
 reduced to $M+2$ by discarding extremal frequency constraints.
 
-\section{The \emph{Parks-McClellan} algorithm for mini-max FIR filter approximation}
+\subsection{The \emph{Parks-McClellan} algorithm for mini-max FIR filter approximation}
 \emph{Parks} and
 \emph{McClellan}~\cite{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters,
   McClellanParks_ComputerProgramFIRLinearPhaseFilters}\cite[Section
