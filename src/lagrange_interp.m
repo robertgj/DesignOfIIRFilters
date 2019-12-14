@@ -1,5 +1,5 @@
-function [f,w,p]=lagrange_interp(xk,fk,wk,x,tol)
-% [f,w,p]=lagrange_interp(xk,fk,wk,x,tol)
+function [f,w,p]=lagrange_interp(xk,fk,wk,x,tol,allow_extrap)
+% [f,w,p]=lagrange_interp(xk,fk,wk,x,tol,allow_extrap)
 % Given the pairs <xk,fk>, return the values, f, of the Lagrange
 % polynomial, p, at x. If wk is empty, the weights are calculated and
 % returned in w. See: "Barycentric Lagrange Interpolation", J.-P. Berrut
@@ -25,14 +25,19 @@ function [f,w,p]=lagrange_interp(xk,fk,wk,x,tol)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin~=4 && nargin~=5) || nargout>3
-    print_usage("[f,w,p]=lagrange_interp(xk,fk,wk,x,tol);");
+  if (nargin<4 && nargin>6) || nargout>3
+    print_usage("f=lagrange_interp(xk,fk,wk,x);\n\
+[f,w,p]=lagrange_interp(xk,fk,wk,x,tol);\n\
+[f,w,p]=lagrange_interp(xk,fk,wk,x,tol,allow_extrap);");
   endif
-  if nargin==4
+  if nargin<6
+    allow_extrap=false;
+  endif
+  if nargin<5
     tol=2e-12;
   endif
   % Sanity checks
-  if max(x)>max(xk) || min(x)<min(xk)
+  if (~allow_extrap) && (max(x)>max(xk) || min(x)<min(xk))
     error("Refusing to extrapolate");
   endif
   if any(size(xk)~=size(fk))
@@ -92,7 +97,7 @@ function [f,w,p]=lagrange_interp(xk,fk,wk,x,tol)
 
   % Barycentric Lagrange interpolation (the fixed points are along rows)
   xdiff=x(:)-(xk(:)');
-  [exact,kexact]=find(xdiff==0);
+  [exact,kexact]=find(abs(xdiff)<tol);
   kw=kron(w(:)',ones(length(x),1));
   kf=kron(fk(:)',ones(length(x),1));
   kwdx=kw./xdiff;

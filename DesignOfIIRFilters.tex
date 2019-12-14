@@ -25183,7 +25183,7 @@ a positive function, continuous on $F_{P}$, and
   \begin{align*}
     \left\|E\right\|&=\max_{x\in{}F_{P}}\left|E_{P}\left(x\right)\right|
   \end{align*}
-  A necessart and sufficient condition that $P\left(x\right)$ be the unique
+  A necessary and sufficient condition that $P\left(x\right)$ be the unique
   $r$th order polynomial that minimises $\left\|E\right\|$ is that
   $E_{P}\left(x\right)$ exhibit \emph{at least} $\left(r+2\right)$ alternations;
   i.e., there must exist at least $\left(r+2\right)$ values $x_{i}$ in $F_{P}$
@@ -25321,10 +25321,11 @@ reduced to $M+2$ by discarding extremal frequency constraints.
 amplitude constraints at the band edges. Their algorithm allows the designer to
 specify $\omega_{p}$, $\omega_{s}$ and the ratio $\frac{\delta_{p}}{\delta_{s}}$
 but does not allow direct specification of $\delta_{p}$ and $\delta_{s}$.
-\emph{Oppenheim} and \emph{Schafer}~\cite[Section
-7.4.3]{OppenheimSchafer_DiscreteTimeSignalProcessing} describe the
-\emph{Parks-McClellan} algorithm as shown in
-Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}.
+\emph{Parks} and
+\emph{McClellan}~\cite{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}
+and \emph{Oppenheim} and \emph{Schafer}~\cite[Section
+  7.4.3]{OppenheimSchafer_DiscreteTimeSignalProcessing} describe the algorithm
+shown in Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}.
 
 \begin{algorithm}
 \begin{enumerate}
@@ -25332,8 +25333,18 @@ Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}.
     \begin{align*}
     W\left(\omega_{k}\right)
     \left[A_{d}\left(\omega_{k}\right)-A\left(\omega_{k}\right)\right]
-    &=\left(-1\right)^{k+1}\delta\;,\quad k=1,2,\hdots,\left(M+2\right)
+    &=\left(-1\right)^{k+1}\rho\;,\quad k=1,2,\hdots,\left(M+2\right)
     \end{align*}
+    where
+    \begin{align*}
+      A\left(e^{\imath\omega}\right)&=\sum_{k=0}^{L}a_{k}\left(\cos\omega\right)^{k}
+    \end{align*} 
+     For a lowpass filter, the approximation polynomial has values
+     $A\left(\omega_{k}\right)=1\pm{}K\rho$ if
+     $W\left(\omega\right)=\frac{1}{K}$ in 
+     $0\le\omega_{k}\le\omega_{p}$ and $A\left(\omega_{k}\right)=\pm\rho$ if
+     $W\left(\omega\right)=1$ in $\omega_{s}\le\omega_{k}\le\pi$~\cite[Equation
+     7.85]{OppenheimSchafer_DiscreteTimeSignalProcessing}.
   \item Begin by guessing a set of alternation frequencies,
     $\omega_{1},\omega_{2},\hdots,\omega_{M+2}$. This set includes the pass-band
     and stop-band frequencies, $\omega_{p}$ and $\omega_{s}$. If
@@ -25341,18 +25352,16 @@ Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}.
   \item The required values at the extremal frequencies are given
     by~\cite[Equation 7.101]{OppenheimSchafer_DiscreteTimeSignalProcessing}:
     \begin{align*}
-      \delta&=\frac{\sum^{M+2}_{k=1}b_{k}A_{d}\left(\omega_{k}\right)}
-              {\sum^{M+2}_{k=1}b_{k}\left(-1\right)^{k+1}W\left(\omega_{k}\right)}
+      \rho&=\frac{\sum^{M+2}_{k=1}b_{k}A_{d}\left(\omega_{k}\right)}
+              {\sum^{M+2}_{k=1}\frac{b_{k}\left(-1\right)^{k+1}}
+                                  {W\left(\omega_{k}\right)}}
     \end{align*}
     where~\cite[Equation 7.102]{OppenheimSchafer_DiscreteTimeSignalProcessing}
     \begin{align*}
       b_{k}&=\prod^{M+2}_{l=1,l\ne{}k}\frac{1}{\left(x_{k}-x_{l}\right)}
     \end{align*}
     and $x_{k}=\cos\omega_{k}$.
-   \item The approximation polynomial has values
-     $A\left(\omega_{k}\right)=1\pm{}K\delta$ if $0\le\omega_{k}\le\omega_{p}$ and
-     $A\left(\omega_{k}\right)=\pm\delta$ if$\omega_{s}\le\omega_{k}\le\pi$.
-     $A\left(\omega\right)$ is known to be an $M$-th order polynomial in
+   \item $A\left(\omega\right)$ is known to be an $M$-th order polynomial in
      $\cos\omega$ so we can interpolate through $M+1$ of the $M+2$ known values
      of $A\left(\omega\right)$. The Lagrange interpolation formula
      gives~\cite[Equation 7.103a]{OppenheimSchafer_DiscreteTimeSignalProcessing} 
@@ -25361,20 +25370,22 @@ Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}.
       &=\frac{\sum^{M+1}_{k=1}\frac{d_{k}}{\left(x-x_{k}\right)}C_{k}}
         {\sum^{M+1}_{k=1}\frac{d_{k}}{\left(x-x_{k}\right)}}
     \end{align*}
-where~\cite[Equation 7.103b]{OppenheimSchafer_DiscreteTimeSignalProcessing}
+    where~\cite[Equation 7.103b]{OppenheimSchafer_DiscreteTimeSignalProcessing}
     \begin{align*}
-      C_{k}&=A_{d}\left(\omega\right)-\frac{\left(-1\right)^{k+1}\delta}
+      C_{k}&=A_{d}\left(\omega\right)-\frac{\left(-1\right)^{k+1}\rho}
              {W\left(\omega_{k}\right)}
     \end{align*}
     and~\cite[Equation 7.103c]{OppenheimSchafer_DiscreteTimeSignalProcessing}
     \begin{align*}
-      d_{k}&=\prod^{M+1}_{l=1,l\ne{}k}\frac{1}{\left(x_{k}-x_{M+2}\right)}
+      d_{k}&=\prod^{M+1}_{l=1,l\ne{}k}\frac{1}{\left(x_{k}-x_{l}\right)}
     \end{align*}
-    \item Now $A\left(\omega\right)$ and the error, $E\left(\omega\right)$, can
+    \item Now $A\left(\omega\right)$ and the error,
+      $E\left(\omega\right)=A\left(\omega\right)-A_{d}\left(\omega\right)$, can 
       be calculated at a dense grid of frequencies. If
-      $\left|E\left(\omega\right)\right|\le\delta$ for all $\omega$ in the
+      $\left|E\left(\omega\right)\right|\le\rho$ for all $\omega$ in the
       pass-band and stop-band, then the optimal filter is found. Otherwise, this
-      procedure is repeated with a new set of extremal frequencies.
+      procedure is repeated with a new set of extremal frequencies chosen at
+      the $M+2$ greatest values of $\left|E\left(\omega\right)\right|$.
     \item The impulse response can be approximated with equally spaced samples
       of the frequency response (calculated by Lagrange interpolation) and the
       \emph{discrete Fourier transform pair}~\cite[Section
@@ -25383,15 +25394,49 @@ where~\cite[Equation 7.103b]{OppenheimSchafer_DiscreteTimeSignalProcessing}
         F\left(l\right)&=\sum^{N-1}_{k=0}f\left(k\right)W_{N}^{-kl}\\
         f\left(k\right)&=\frac{1}{N}\sum^{N-1}_{l=0}F\left(l\right)W_{N}^{kl}
       \end{align*}
-      where $W_{N}=e^{\frac{\imath{}2\pi}{N}}$.
+      where $N=2M+1$ and $W_{N}=e^{\frac{\imath{}2\pi}{N}}$.
 \end{enumerate}
 \caption{Parks-McClellan FIR filter design~\cite[Section
-7.4.3]{OppenheimSchafer_DiscreteTimeSignalProcessing}}
+  7.4.3]{OppenheimSchafer_DiscreteTimeSignalProcessing}
+\cite{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters,
+  McClellanParks_ComputerProgramFIRLinearPhaseFilters}}
 \label{alg:Parks-McClellan-FIR-filter-design}
 \end{algorithm}
 
 The Octave \emph{signal} package includes \emph{remez.cc}, an \emph{oct-file}
-implementation of the \emph{Parks-McClellan} algorithm.
+implementation of the \emph{Parks-McClellan} algorithm. The Octave script
+\emph{hofstetterFIRsymmetric\_lowpass\_test.m} designs the \emph{Parks} and
+\emph{McClellan} low-pass filter 
+example~\cite[Table I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}
+by calling the Octave function \emph{mcclellanFIRsymmetric}. The filter
+specification is
+\begin{small}
+\verbatiminput{mcclellanFIRsymmetric_lowpass_test.spec}
+\end{small}
+The stop-band ripple found is
+$\rho=$\input{mcclellanFIRsymmetric_lowpass_test_rho.tab}.
+Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-test-dual} shows the pass-band
+and stop-band amplitude responses of the
+filter. Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-test-zeros} shows the
+zeros of the filter.
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{mcclellanFIRsymmetric_lowpass_test_dual}}
+\caption{Response of a mini-max FIR low-pass filter designed with
+  the \emph{Parks} and\emph{McClellan} algorithm~\cite[Table
+  I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
+\label{fig:mcclellanFIRsymmetric-lowpass-test-dual}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{mcclellanFIRsymmetric_lowpass_test_zeros}}
+\caption{Zeros of a mini-max FIR low-pass filter designed with
+  the \emph{Parks} and\emph{McClellan} algorithm~\cite[Table
+  I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
+\label{fig:mcclellanFIRsymmetric-lowpass-test-zeros}
+\end{figure}
 
 \clearpage
 \section{\label{app:Vaidyanathan-FIR-half-band-trick}Vaidyanathan's ``TRICK'' for the design of FIR half-band filters}

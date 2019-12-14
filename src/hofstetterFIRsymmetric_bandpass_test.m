@@ -90,7 +90,7 @@ close
 % Save the results
 %
 fid=fopen(strcat(strf,".spec"),"wt");
-fprintf(fid,"M=%d %% Filter order (M+1 distinct coefficients)\n",M);
+fprintf(fid,"M=%d %% Filter order is 2*M (M+1 distinct coefficients)\n",M);
 fprintf(fid,"fasl=%g %% Amplitude stop band lower edge\n",fasl);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);

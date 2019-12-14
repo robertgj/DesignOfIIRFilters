@@ -21,15 +21,30 @@ tol=1e-5;
 %
 
 % Specification: low pass filter order is 2*M
-M=41;fap=0.1;deltap=1e-4;fas=0.2;deltas=1e-6;
-%M=750;fap=0.125;deltap=1e-5;fas=0.135;deltas=1e-7;
-strt=sprintf("Hofstetter lowpass FIR: M=%d,fap=%g,deltap=%g,fas=%g,deltas=%g",...
-             M,fap,deltap,fas,deltas);
+if 1
+  M=41;fap=0.1;deltap=1e-4;fas=0.2;deltas=1e-6;
+  %M=750;fap=0.125;deltap=1e-5;fas=0.135;deltas=1e-7;
+  nMp=ceil((M+1)*fap/0.5);
+  nMs=M-nMp-1;
+  fap_actual=0.13;
+  fas_actual=0.13;
+else
+  % From Parks and McClellan Table I
+  nMp=5;
+  nMs=8;
+  M=nMp+nMs+1
+  deltap=0.0098747;
+  deltas=deltap/10;
+  fap=0.5*(nMp+1)/(M+1);
+  fas=0.5-(0.5*(nMs+1)/(M+1));
+  fap_actual=0.2;
+  fas_actual=0.2;
+endif
+strt=sprintf("Hofstetter lowpass FIR: M=%d,nMp=%d,deltap=%g,nMs=%d,deltas=%g",...
+             M,nMp,deltap,nMs,deltas);
 
 % Place 1+deltap at fap and -deltas at fas
 f0=linspace(0,0.5,M+1);
-nMp=ceil((M+1)*fap/0.5);
-nMs=M-nMp-1;
 a0p=fliplr(1+(((-1).^(0:nMp))*deltap));
 a0s=(-((-1).^(0:nMs))*deltas);
 a0=[a0p,a0s];
@@ -58,8 +73,6 @@ print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Dual plot
-fap_actual=0.13;
-fas_actual=0.13;
 nap=ceil(nplot*fap_actual/0.5)+1;
 nas=ceil(nplot*fas_actual/0.5)+1;
 ax=plotyy(wa(1:nap)*0.5/pi,A(1:nap),wa(nas:end)*0.5/pi,A(nas:end));
@@ -85,10 +98,12 @@ close
 % Save the results
 %
 fid=fopen(strcat(strf,".spec"),"wt");
-fprintf(fid,"M=%d %% Filter order is 2*M+1 (M+1 extremal frequencies)\n",M);
+fprintf(fid,"M=%d %% Filter order is 2*M\n",M);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
+fprintf(fid,"nMp+1=%d %% Amplitude pass band alternations\n",nMp+1);
 fprintf(fid,"deltap=%d %% Amplitude pass band peak-to-peak ripple\n",deltap);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
+fprintf(fid,"nMs+1=%d %% Amplitude stop band alternations\n",nMs+1);
 fprintf(fid,"deltas=%d %% Amplitude stop band peak-to-peak ripple\n",deltas);
 fclose(fid);
 
@@ -96,7 +111,7 @@ print_polynomial(hM,"hM");
 print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"));
 
 save hofstetterFIRsymmetric_lowpass_test.mat ...
-     maxiter M nplot fap deltap fas deltas hM
+     maxiter M nplot fap nMp deltap fas nMs deltas hM
 
 %
 % Done
