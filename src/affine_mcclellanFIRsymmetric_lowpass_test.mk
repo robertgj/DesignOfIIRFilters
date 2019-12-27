@@ -1,0 +1,13 @@
+affine_mcclellanFIRsymmetric_lowpass_test_FIGURES = \
+affine_mcclellanFIRsymmetric_lowpass_test_response \
+affine_mcclellanFIRsymmetric_lowpass_test_dual
+
+affine_mcclellanFIRsymmetric_lowpass_test_COEFS = \
+affine_mcclellanFIRsymmetric_lowpass_test.mat \
+affine_mcclellanFIRsymmetric_lowpass_test.spec \
+affine_mcclellanFIRsymmetric_lowpass_test_h_coef.m \
+affine_mcclellanFIRsymmetric_lowpass_test_del_p.tab
+
+affine_mcclellanFIRsymmetric_lowpass_test_FILES = \
+affine_mcclellanFIRsymmetric_lowpass_test.m test_common.m print_polynomial.m \
+faffine.m frefine.m local_max.m directFIRsymmetricA.m

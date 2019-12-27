@@ -24,7 +24,7 @@ tol=1e-5;
 M=30;fasl=0.15;fapl=0.2;fapu=0.25;fasu=0.3;deltap=0.001;deltas=0.001;
 strt=sprintf("Hofstetter bandpass FIR: \
 fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g", ...
-             fasu,fapl,fapu,fasu,deltap,deltas);
+             fasl,fapl,fapu,fasu,deltap,deltas);
 
 % Place 1+deltap at fapl,fapu and -deltas at fasl,fasu
 sumfbands=fasl+(fapu-fapl)+(0.5-fasu);

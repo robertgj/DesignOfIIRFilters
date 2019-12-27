@@ -25,14 +25,14 @@ tol=1e-12;
 %
 
 % Specification: low pass filter order is 2*M, length is 2*M+1
-M=14;fap=0.17265;fas=0.26265;K=10;gd=100;
+M=14;fap=0.17265;fas=0.26265;K=10;
+% Alternative : M=48;fap=0.15;fas=0.175;K=20;
 
 % Constants 
-nf=(gd*(M+1))+1;
+nf=1000;
 f=(0:nf)*0.5/nf;
 nap=ceil(fap*nf/0.5)+1;
-nas=ceil(fas*nf/0.5)+1;
-bands=[1,(nap+1)];
+nas=floor(fas*nf/0.5)+1;
 F=[f(1:(nap-1)),fap,fas,f((nas+1):end)];
 F=F(:);
 gs=length(F);
@@ -40,7 +40,7 @@ D=[ones(nap,1); zeros(gs-nap,1)];
 W=[ones(nap,1)/K; ones(gs-nap,1)];
 
 % Filter design
-[hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,maxiter,tol);
+[hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,"lowpass",maxiter,tol);
 if feasible==false
   error("hM not feasible");
 endif
@@ -48,10 +48,10 @@ endif
 %
 % Plot response
 %
-strt=sprintf("McClellan lowpass FIR: M=%d,fap=%g,fas=%g,K=%g,gd=%d,rho=%g", ...
-             M,fap,fas,K,gd,rho);
-nplot=2000;
-wa=(0:(nplot-1))'*pi/nplot;
+strt=sprintf("McClellan lowpass FIR: M=%d,fap=%g,fas=%g,K=%g,nf=%d,rho=%g", ...
+             M,fap,fas,K,nf,rho);
+nplot=10000;
+wa=(0:nplot)'*pi/nplot;
 A=directFIRsymmetricA(wa,hM);
 plot(wa*0.5/pi,20*log10(abs(A)))
 axis([0 0.5 (20*log10(abs(rho))-10) 1]);
@@ -63,8 +63,8 @@ print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Dual plot
-pnap=ceil(nplot*fap/0.5)+1;
-pnas=floor(nplot*fas/0.5)+1;
+pnap=ceil((nplot+1)*fap/0.5)+1;
+pnas=floor((nplot+1)*fas/0.5)+1;
 ax=plotyy(wa(1:pnap)*0.5/pi,A(1:pnap),wa(pnas:end)*0.5/pi,A(pnas:end));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
@@ -84,6 +84,35 @@ grid("on");
 print(strcat(strf,"_zeros"),"-dpdflatex");
 close
 
+% Check response at band edges
+Ap=directFIRsymmetricA(2*pi*fap,hM);
+if abs(abs((Ap-1)/K)-abs(rho))>tol
+  error("abs(abs((Ap-1)/K)-abs(rho))>tol");
+endif
+As=directFIRsymmetricA(2*pi*fas,hM);
+if abs(abs(As)-abs(rho))>tol
+  error("abs(abs(As)-abs(rho))>tol");
+endif
+
+% Check response at extremal frequencies
+maxA=local_max(A);
+minA=local_max(-A);
+extA=unique([pnap;pnas;maxA(:);minA(:)]);
+extx=cos(wa(extA));
+extf=wa(extA)*0.5/pi;
+[intA,inta,p]=lagrange_interp(extx,A(extA),[],cos(wa));
+dp=polyder(p);
+subplot(211),plot(cos(wa),polyval(p,cos(wa)),extx,A(extA),"o");
+title(strt);
+ylabel("p(x)");
+grid("on");
+subplot(212),plot(cos(wa),polyval(dp,cos(wa)),extx,polyval(dp,extx),"o");
+ylabel("p'(x)");
+xlabel("x");
+grid("on");
+print(strcat(strf,"_extremal"),"-dpdflatex");
+close
+
 %
 % Save the results
 %
@@ -92,7 +121,7 @@ fprintf(fid,"M=%d %% Filter order is 2*M\n",M);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
 fprintf(fid,"K=%d %% Stop band weight\n",K);
-fprintf(fid,"gd=%d %% Grid density\n",gd);
+fprintf(fid,"nf=%d %% Number of frequency grid points in [0,0.5]\n",nf);
 fprintf(fid,"maxiter=%d %% Maximum iterations\n",maxiter);
 fprintf(fid,"tol=%g %% Tolerance on convergence of rho\n",tol);
 fclose(fid);
@@ -105,7 +134,7 @@ fprintf(fid,"%11.8f",rho);
 fclose(fid);
 
 save mcclellanFIRsymmetric_lowpass_test.mat ...
-     M fap fas K gd maxiter tol nplot rho hM 
+     M fap fas K nf maxiter tol nplot rho hM 
 
 %
 % Done

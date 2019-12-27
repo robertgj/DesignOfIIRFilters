@@ -19549,11 +19549,14 @@ Let $n+1$ distinct interpolation points or \emph{nodes}, $x_{j}$, be given,
 together with corresponding values, $f_{j}$. The interpolation problem is to
 find a polynomial such that $p\left(x_{j}\right)=f_{j}$. The \emph{Lagrange}
 solution is: 
-\begin{align*}
+\begin{align}
+\begin{split}
   p\left(x\right)&=\sum^{n}_{j=0}f_{j}l_{j}\left(x\right)\\
   l_{j}&=\frac{\prod^{n}_{k=0,k\ne{}j}\left(x-x_{k}\right)}
          {\prod^{n}_{k=0,k\ne{}j}\left(x_{j}-x_{k}\right)}
-\end{align*}
+\end{split}
+\label{eqn:Lagrange-interpolation-polynomial}
+\end{align}
 The \emph{Lagrange polynomial} $l_{j}$ corresponding to $x_{j}$ has the
 property:
 \begin{align*}
@@ -19638,7 +19641,7 @@ interpolation points are clustered appropriately.
 
 The Octave script \emph{lagrange\_interp\_test.m} exercises the implementation
 of Lagrange interpolation in the Octave function
-\emph{lagrange\_interp()}\footnote{The interpolation is much more accurate if
+\emph{lagrange\_interp}\footnote{The interpolation is much more accurate if
 the function calculates the weights by the product in
 Equation~\ref{eqn:First-Barycentric-Lagrange-weights} rather than
 Equation~\ref{eqn:First-Barycentric-Lagrange-weights-for-proof}}. 
@@ -25127,7 +25130,7 @@ optimised filter coefficients are:
 \clearpage
 \section{\label{app:Minimax-error-design-FIR-filters}Constrained
   mini-max error optimisation of FIR digital filters}
-\subsection{The alternation theorem}
+\subsection{Alternation theorem}
 A symmetric or linear phase FIR filter with even order $2M$ and a symmetric
 impulse response with $2M+1$ coefficients has zero-phase frequency response:
 \begin{align*}
@@ -25299,9 +25302,9 @@ zeros of the filter.
   \emph{Hofstetter}'s algorithm}
 \label{fig:hofstetterFIRsymmetric-bandpass-test-zeros}
 \end{figure}
-
-\subsection{The \emph{Selesnick-Burrus} algorithm for mini-max FIR filter approximation}
-
+\clearpage
+\subsubsection{\emph{Selesnick-Burrus} modification to  \emph{Hofstetter}'s
+  algorithm}
 \emph{Selesnick} and 
 \emph{Burrus}~\cite{SelesnickBurrus_ExchangeAlgorithmsParksMcClellanAlgorithm}
 point out that whilst \emph{Hofstetter}'s algorithm ``produces equi-ripple
@@ -25312,8 +25315,8 @@ the transition band. In both the \emph{Parks-McClellan} algorithm (shown below
 as Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}) and the
 \emph{Selesnick-Burrus} algorithm, the number of frequency constraints is 
 reduced to $M+2$ by discarding extremal frequency constraints.
-
-\subsection{The \emph{Parks-McClellan} algorithm for mini-max FIR filter approximation}
+\clearpage
+\subsection{\emph{Parks-McClellan} algorithm for mini-max FIR filter approximation}
 \emph{Parks} and
 \emph{McClellan}~\cite{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters,
   McClellanParks_ComputerProgramFIRLinearPhaseFilters}\cite[Section
@@ -25325,7 +25328,58 @@ but does not allow direct specification of $\delta_{p}$ and $\delta_{s}$.
 \emph{McClellan}~\cite{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}
 and \emph{Oppenheim} and \emph{Schafer}~\cite[Section
   7.4.3]{OppenheimSchafer_DiscreteTimeSignalProcessing} describe the algorithm
-shown in Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}.
+  shown in Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}. None
+    of the references justify the calculation of $\rho$ (eg:~\cite[Equation
+    7.101]{OppenheimSchafer_DiscreteTimeSignalProcessing}). The following is my
+    unsatisfactory attempt. Suppose that the alternations of
+    $A\left(x_{k}\right)$ mean that 
+    $\sum^{M+2}_{k=1}\left|A\left(x_{k}\right)-A_{d}\left(x_{k}\right)\right|$ 
+    may be  approximated by
+    $\sum^{M+2}_{k=1}\left(-1\right)^{k+1}A\left(x_{k}\right)/2$
+  and that, since $\left|x-x_{k}\right|\le{}2$, $\left(x-x_{k}\right)$ is
+  replaced with $2$. For the minimum possible approximation error: 
+\begin{align*}
+  \sum^{M+2}_{k=1}b_{k}\left[A_{d}\left(x_{k}\right)-
+  \frac{\left(-1\right)^{k+1}\rho}{W\left(x_{k}\right)}\right]=0
+\end{align*}
+The result follows.
+
+The Octave \emph{signal} package includes \emph{remez.cc}, an \emph{oct-file}
+implementation of the \emph{Parks-McClellan} algorithm. Alternatively, the
+Octave script \emph{mcclellanFIRsymmetric\_lowpass\_test.m} calls the Octave
+function \emph{mcclellanFIRsymmetric} to design the \emph{Parks} and
+\emph{McClellan} low-pass filter  
+example~\cite[Table I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}.
+ The filter specification is:
+\begin{small}
+\verbatiminput{mcclellanFIRsymmetric_lowpass_test.spec}
+\end{small}
+The stop-band ripple found is
+$\rho=$\input{mcclellanFIRsymmetric_lowpass_test_rho.tab} and the distinct
+filter coefficients are:
+\begin{small}
+\verbatiminput{mcclellanFIRsymmetric_lowpass_test_hM_coef.m}
+\end{small}
+Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-test-dual} shows the pass-band
+and stop-band amplitude responses of the
+filter. Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-test-zeros} shows the
+zeros of the filter.
+
+The Octave script \emph{mcclellanFIRsymmetric\_bandpass\_test.m} designs 
+the band-pass filter with the specification:
+\begin{small}
+\verbatiminput{mcclellanFIRsymmetric_bandpass_test.spec}
+\end{small}
+In this case, the Octave function \emph{mcclellanFIRsymmetric} does a
+preliminary search for error alternation failures when finding the error
+extremal frequencies. In my experience, failure of this error extremal
+  amplitude alternation search indicates that the filter specification is
+  unrealistic. The stop-band ripple found is 
+$\rho=$\input{mcclellanFIRsymmetric_bandpass_test_rho.tab}.
+Figure~\ref{fig:mcclellanFIRsymmetric-bandpass-test-dual} shows the pass-band
+and stop-band amplitude responses of the
+filter. Figure~\ref{fig:mcclellanFIRsymmetric-bandpass-test-zeros} shows the
+zeros of the filter.
 
 \begin{algorithm}
 \begin{enumerate}
@@ -25337,7 +25391,7 @@ shown in Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}.
     \end{align*}
     where
     \begin{align*}
-      A\left(e^{\imath\omega}\right)&=\sum_{k=0}^{L}a_{k}\left(\cos\omega\right)^{k}
+      A\left(e^{\imath\omega}\right)&=\sum_{k=0}^{M}a_{k}\left(\cos\omega\right)^{k}
     \end{align*} 
      For a lowpass filter, the approximation polynomial has values
      $A\left(\omega_{k}\right)=1\pm{}K\rho$ if
@@ -25352,40 +25406,40 @@ shown in Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}.
   \item The required values at the extremal frequencies are given
     by~\cite[Equation 7.101]{OppenheimSchafer_DiscreteTimeSignalProcessing}:
     \begin{align*}
-      \rho&=\frac{\sum^{M+2}_{k=1}b_{k}A_{d}\left(\omega_{k}\right)}
+      \rho&=\frac{\sum^{M+2}_{k=1}b_{k}A_{d}\left(x_{k}\right)}
               {\sum^{M+2}_{k=1}\frac{b_{k}\left(-1\right)^{k+1}}
-                                  {W\left(\omega_{k}\right)}}
+                                  {W\left(x_{k}\right)}}
     \end{align*}
     where~\cite[Equation 7.102]{OppenheimSchafer_DiscreteTimeSignalProcessing}
     \begin{align*}
       b_{k}&=\prod^{M+2}_{l=1,l\ne{}k}\frac{1}{\left(x_{k}-x_{l}\right)}
     \end{align*}
     and $x_{k}=\cos\omega_{k}$.
-   \item $A\left(\omega\right)$ is known to be an $M$-th order polynomial in
-     $\cos\omega$ so we can interpolate through $M+1$ of the $M+2$ known values
-     of $A\left(\omega\right)$. The Lagrange interpolation formula
+   \item $A\left(\omega\right)$ is an $M$-th order polynomial in $x=\cos\omega$
+     so we can interpolate through $M+1$ of the $M+2$ known values of
+     $A\left(x\right)$. The Lagrange interpolation formula 
      gives~\cite[Equation 7.103a]{OppenheimSchafer_DiscreteTimeSignalProcessing} 
      \begin{align*} 
-      A\left(\omega\right)
+      A\left(x\right)
       &=\frac{\sum^{M+1}_{k=1}\frac{d_{k}}{\left(x-x_{k}\right)}C_{k}}
         {\sum^{M+1}_{k=1}\frac{d_{k}}{\left(x-x_{k}\right)}}
     \end{align*}
     where~\cite[Equation 7.103b]{OppenheimSchafer_DiscreteTimeSignalProcessing}
     \begin{align*}
-      C_{k}&=A_{d}\left(\omega\right)-\frac{\left(-1\right)^{k+1}\rho}
-             {W\left(\omega_{k}\right)}
+      C_{k}&=A_{d}\left(x\right)-\frac{\left(-1\right)^{k+1}\rho}
+             {W\left(x_{k}\right)}
     \end{align*}
     and~\cite[Equation 7.103c]{OppenheimSchafer_DiscreteTimeSignalProcessing}
     \begin{align*}
       d_{k}&=\prod^{M+1}_{l=1,l\ne{}k}\frac{1}{\left(x_{k}-x_{l}\right)}
     \end{align*}
-    \item Now $A\left(\omega\right)$ and the error,
-      $E\left(\omega\right)=A\left(\omega\right)-A_{d}\left(\omega\right)$, can 
+    \item Now $A\left(x\right)$ and the error,
+      $E\left(x\right)=A\left(x\right)-A_{d}\left(x\right)$, can 
       be calculated at a dense grid of frequencies. If
-      $\left|E\left(\omega\right)\right|\le\rho$ for all $\omega$ in the
+      $\left|E\left(x\right)\right|\le\rho$ for all $x$ in the
       pass-band and stop-band, then the optimal filter is found. Otherwise, this
       procedure is repeated with a new set of extremal frequencies chosen at
-      the $M+2$ greatest values of $\left|E\left(\omega\right)\right|$.
+      the $M+2$ greatest values of $\left|E\left(x\right)\right|$.
     \item The impulse response can be approximated with equally spaced samples
       of the frequency response (calculated by Lagrange interpolation) and the
       \emph{discrete Fourier transform pair}~\cite[Section
@@ -25394,7 +25448,7 @@ shown in Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}.
         F\left(l\right)&=\sum^{N-1}_{k=0}f\left(k\right)W_{N}^{-kl}\\
         f\left(k\right)&=\frac{1}{N}\sum^{N-1}_{l=0}F\left(l\right)W_{N}^{kl}
       \end{align*}
-      where $N=2M+1$ and $W_{N}=e^{\frac{\imath{}2\pi}{N}}$.
+      where $N=2M+1$ and $W_{N}=e^{\frac{2\pi\imath}{N}}$.
 \end{enumerate}
 \caption{Parks-McClellan FIR filter design~\cite[Section
   7.4.3]{OppenheimSchafer_DiscreteTimeSignalProcessing}
@@ -25402,29 +25456,11 @@ shown in Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}.
   McClellanParks_ComputerProgramFIRLinearPhaseFilters}}
 \label{alg:Parks-McClellan-FIR-filter-design}
 \end{algorithm}
-
-The Octave \emph{signal} package includes \emph{remez.cc}, an \emph{oct-file}
-implementation of the \emph{Parks-McClellan} algorithm. The Octave script
-\emph{hofstetterFIRsymmetric\_lowpass\_test.m} designs the \emph{Parks} and
-\emph{McClellan} low-pass filter 
-example~\cite[Table I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}
-by calling the Octave function \emph{mcclellanFIRsymmetric}. The filter
-specification is
-\begin{small}
-\verbatiminput{mcclellanFIRsymmetric_lowpass_test.spec}
-\end{small}
-The stop-band ripple found is
-$\rho=$\input{mcclellanFIRsymmetric_lowpass_test_rho.tab}.
-Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-test-dual} shows the pass-band
-and stop-band amplitude responses of the
-filter. Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-test-zeros} shows the
-zeros of the filter.
-
 \begin{figure}
 \centering
 \scalebox{0.7}{\input{mcclellanFIRsymmetric_lowpass_test_dual}}
 \caption{Response of a mini-max FIR low-pass filter designed with
-  the \emph{Parks} and\emph{McClellan} algorithm~\cite[Table
+  the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
   I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
 \label{fig:mcclellanFIRsymmetric-lowpass-test-dual}
 \end{figure}
@@ -25433,9 +25469,126 @@ zeros of the filter.
 \centering
 \scalebox{0.7}{\input{mcclellanFIRsymmetric_lowpass_test_zeros}}
 \caption{Zeros of a mini-max FIR low-pass filter designed with
-  the \emph{Parks} and\emph{McClellan} algorithm~\cite[Table
+  the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
   I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
 \label{fig:mcclellanFIRsymmetric-lowpass-test-zeros}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{mcclellanFIRsymmetric_bandpass_test_dual}}
+\caption{Response of a mini-max FIR band-pass filter designed with
+  the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
+  I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
+\label{fig:mcclellanFIRsymmetric-bandpass-test-dual}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{mcclellanFIRsymmetric_bandpass_test_zeros}}
+\caption{Zeros of a mini-max FIR band-pass filter designed with
+  the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
+  I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
+\label{fig:mcclellanFIRsymmetric-bandpass-test-zeros}
+\end{figure}
+\clearpage
+\subsubsection{\emph{Selesnick-Burrus} modification to the
+  \emph{Parks-McClellan} algorithm}
+\emph{Selesnick} and \emph{Burrus} describe modifications to the
+  \emph{Parks-McClellan} algorithm~\cite[Section
+II.A]{SelesnickBurrus_ExchangeAlgorithmsParksMcClellanAlgorithm} that allow
+either the pass-band or stop-band ripple, $\delta_{p}$ or $\delta_{s}$, to be
+fixed and the other minimised. The user specifies $M$, $\omega_{p}$,
+$\omega_{s}$, $K_{p}$, $K_{s}$, $\eta_{p}$ and $\eta_{s}$ satisfying: 
+\begin{align*}
+  \delta_{p}&=K_{p}\delta + \eta_{p} \\
+  \delta_{s}&=K_{s}\delta + \eta_{s} \\
+\end{align*}
+The parameters $K_{p},K_{s}\eta_{p}$ and $\eta_{s}$ must be non-negative and
+satisfy the inequalities $K_{p}+\eta_{p}>0$ and $K_{s}+\eta_{s}>0$. When
+$\eta_{p}=\eta_{s}=0$ the linear relationship reduces to the usual
+\emph{Parks-McClellan} algorithm. Alternatively, if $K_{s}=\eta_{p}=0$, then
+the stop-band ripple, $\delta_{s}=\eta_{s}$ and the pass-band ripple,
+$\delta_{p}$, is minimised.
+
+The linear system of equations to be solved at each iteration is, in addition
+to the affine equations for $\delta_{p}$ and $\delta_{s}$:
+\begin{align*}
+  A\left(\omega_{k}\right)&=\begin{cases}
+    1+\left(-1\right)^{k+c}\delta_{p} & \text{for } 1\le{}k\le{}q \\
+    \left(-1\right)^{k+c}\delta_{s} & \text{for } q+1\le{}k\le{}M+2 \\
+    \end{cases}
+\end{align*}
+where $\omega_{p}=\omega_{q}$ and $\omega_{s}=\omega_{q+1}$ and $c$ is chosen to
+be $0$ or $1$ so that $A\left(\omega_{q}\right)=1-\delta_{p}$.
+
+If $\delta_{p}$ or $\delta_{s}$ are found to be negative then the interpolation
+step should be repeated. If $\delta_{p}<0$:
+\begin{align*}
+  A\left(\omega_{k}\right)&=\begin{cases}
+    1+\left(-1\right)^{k+c}\delta_{p} & \text{for } 1\le{}k\le{}q \\
+    0 & \text{for } q+1\le{}k\le{}M+2 \\
+    \end{cases}\\
+    \delta_{s}&=0
+\end{align*}
+If $\delta_{s}<0$:
+\begin{align*}
+  A\left(\omega_{k}\right)&=\begin{cases}
+    1 & \text{for } 1\le{}k\le{}q \\
+    \left(-1\right)^{k+c}\delta_{s}& \text{for } q+1\le{}k\le{}M+2 \\
+    \end{cases}\\
+    \delta_{p}&=0
+\end{align*}
+
+The exchange algorithm is described as follows:
+\begin{quotation}
+The procedure to update the reference set from one iteration to
+the next is the multiple exchange of the PM algorithm: Let \emph{S} be the
+set obtained by appending $\omega_{p}$ and $\omega_{s}$ to the set of extrema of
+$A\left(\omega\right)$ in $[0,\pi]$. \emph{S} will have either $M+2$ or $M+3$
+frequencies and will include both $0$ and $\pi$. If \emph{S} has $M+2$
+frequencies, then take the new reference set to be \emph{S}. If \emph{S} has
+$M+3$ frequencies, then remove either $0$ or $\pi$ from \emph{S} according to
+the following rule: If $\omega=0$ is a local maximum of $A\left(\omega\right)$
+then let $\alpha=1$, otherwise set $\alpha=-1$. If $\omega=\pi$ is a local
+maximum of $A\left(\omega\right)$ then let $\beta=1$, otherwise set
+$\beta=-1$. If
+\begin{align*}
+\left[A\left(0\right)-1\right]\alpha-\delta_{p}<A\left(\pi\right)\beta-\delta_{s}
+\end{align*}
+then remove $0$ from \emph{S}, otherwise remove $\pi$ from \emph{S}, and take the
+new reference set to be the resulting set S. The expressions on each side of the
+inequality indicate the amount by which the error exceeds its intended
+value. $\alpha$ and $\beta$ must be chosen appropriately because both the
+magnitude and the sign of this value is important: negative values appear in the
+design of filters possessing a scaled extra-ripple. The rule states that the
+frequency to be retained in S is the one at which the error exceeds its intended
+value the most.
+\end{quotation}
+
+A MATLAB example, \emph{faffine.m}, of low-pass filter design with this
+algorithm is available~\cite{Selesnick_faffine}. That function solves for the
+coefficients, $\delta$, $\delta_{p}$ and $\delta_{p}$ by left
+division~\cite[Equation 
+4]{SelesnickBurrus_ExchangeAlgorithmsParksMcClellanAlgorithm}.
+The Octave script \emph{affine\_mcclellanFIRsymmetric\_lowpass\_test.m} calls a
+slightly modified version of \emph{faffine.m} to design a low-pass filter
+with the following specification:
+\begin{small}
+\verbatiminput{affine_mcclellanFIRsymmetric_lowpass_test.spec}
+\end{small}
+The resulting filter has
+$\delta_{p}=$\input{affine_mcclellanFIRsymmetric_lowpass_test_del_p.tab}. 
+Figure~\ref{fig:affine-mcclellanFIRsymmetric-lowpass-test-dual} shows the
+pass-band and stop-band amplitude responses of the filter.
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{affine_mcclellanFIRsymmetric_lowpass_test_dual}}
+\caption{Response of a mini-max FIR low-pass filter designed with the
+  \emph{Parks} and \emph{McClellan} algorithm modified by \emph{Selesnick} and
+  \emph{Burrus}~\cite[Section
+  II.A]{SelesnickBurrus_ExchangeAlgorithmsParksMcClellanAlgorithm}.} 
+\label{fig:affine-mcclellanFIRsymmetric-lowpass-test-dual}
 \end{figure}
 
 \clearpage

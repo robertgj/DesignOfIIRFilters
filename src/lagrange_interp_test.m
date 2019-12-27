@@ -123,6 +123,28 @@ catch
   err=lasterror();
   printf("Caught error: %s\n",err.message);
 end_try_catch
+% All fk the same
+try
+  xk=1:7;
+  fk=pi*ones(size(xk));
+  x=1:6;
+  wk=[];
+  f=lagrange_interp(xk,fk,wk,x);
+catch
+  err=lasterror();
+  printf("Caught error: %s\n",err.message);
+end_try_catch
+% Linear interpolation
+try
+  xk=[1 60];
+  fk=xk*2;
+  x=1:60;
+  wk=[];
+  f=lagrange_interp(xk,fk,wk,x);
+catch
+  err=lasterror();
+  printf("Caught error: %s\n",err.message);
+end_try_catch
 
 %
 % Berrut and Trefethen example, Figure 5.1, n=20,

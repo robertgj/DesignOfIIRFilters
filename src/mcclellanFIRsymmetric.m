@@ -1,5 +1,5 @@
-function [hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,maxiter,tol)
-% [hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,maxiter,tol)
+function [hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)
+% [hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)
 % Implement Park and McClellans' algorithm for the design of a linear-phase FIR
 % filter with given pass-band and stop-band ripples.
 %
@@ -8,6 +8,7 @@ function [hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,maxiter,tol)
 %   F - Grid frequencies in [0,0.5]
 %   D - desired amplitude responses at each frequency in F
 %   W - weight at each frequency in F
+%   type - 'lowpass' or 'bandpass' determines extrema search type
 %   maxiter - maximum number of iterations
 %   tol - tolerance on convergence
 %
@@ -37,16 +38,16 @@ function [hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,maxiter,tol)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if (nargin < 4) || (nargin > 6) || (nargout>4)
-  print_usage("hM=mcclellanFIRsymmetric(M,F,D,W)\n\
-[hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,maxiter,tol)");
+if (nargin < 5) || (nargin > 7) || (nargout>4)
+  print_usage("hM=mcclellanFIRsymmetric(M,F,D,W,type)\n\
+[hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)");
 endif
 
 % Sanity checks
-if nargin<6
-  tol=1e-8;
+if nargin<7
+  tol=1e-12;
 endif
-if nargin<5
+if nargin<6
   maxiter=100;
 endif
 if size(F)~=size(D)
@@ -60,6 +61,15 @@ if any(F<0)
 endif
 if any(F>0.5)
   error("any(F>0.5)");
+endif
+if ~ischar(type)
+  error("~ischar(type)");
+endif
+if length(type)<4
+  error("length(type)<4");
+endif
+if length(type)>8
+  error("length(type)>8");
 endif
 
 % Initialise flags
@@ -109,7 +119,24 @@ for fiter=1:maxiter
   Ek=Ek(:)';
   % If more than M+2 alternations discard the smallest absolute errors
   while length(Ek)>(M+2)
-    [~,k]=min(abs(E(Ek)));
+    % Search for bandpass extremal points
+    if strcmpi(type(1:4),"band")
+      alternation_fail_found=false;
+      for m=1:(length(Ek)-1),
+        if sign(E(Ek(m)))==sign(E(Ek(m+1)))
+          [~,k]=min(abs(E(Ek([m,m+1]))));
+          alternation_fail_found=true;
+        endif
+      endfor
+      if alternation_fail_found==false
+        [~,k]=min(abs(E(Ek)));
+      endif 
+    % Search for lowpass extremal points
+    elseif strcmpi(type(1:3),"low")
+      [~,k]=min(abs(E(Ek)));
+    else
+      error("Unknown search type %s",type);
+    endif
     Ek(k)=[];
   endwhile
   if length(Ek)~=(M+2)
@@ -153,7 +180,7 @@ AN=lagrange_interp(xk,Ak,ak,cos(pi*(0:N)/N));
 % Find the distinct impulse response coefficients
 h=ifft([AN;flipud(AN(2:(end-1)))]);
 if norm(imag(h))>tol
-  error("norm(imag(h))(%g)>tol".norm(imag(h)));
+  error("norm(imag(h))(%g)>tol",norm(imag(h)));
 endif
 hM=real(flipud(h(1:M+1)));
     

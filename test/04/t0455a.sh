@@ -51,7 +51,7 @@ Caught error: any(size(wk)~=size(xk))
 Caught error: any(size(wk)~=size(xk))
 warning: norm(f-fun(x))(187.855)>0.1
 warning: called from
-    lagrange_interp_test at line 204 column 3
+    lagrange_interp_test at line 226 column 3
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

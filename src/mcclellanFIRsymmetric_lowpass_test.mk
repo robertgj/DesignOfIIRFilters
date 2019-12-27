@@ -1,7 +1,8 @@
 mcclellanFIRsymmetric_lowpass_test_FIGURES = \
 mcclellanFIRsymmetric_lowpass_test_response \
 mcclellanFIRsymmetric_lowpass_test_dual \
-mcclellanFIRsymmetric_lowpass_test_zeros
+mcclellanFIRsymmetric_lowpass_test_zeros \
+mcclellanFIRsymmetric_lowpass_test_extremal
 
 mcclellanFIRsymmetric_lowpass_test_COEFS = \
 mcclellanFIRsymmetric_lowpass_test.mat \

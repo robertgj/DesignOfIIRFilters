@@ -36,6 +36,7 @@ function [f,w,p]=lagrange_interp(xk,fk,wk,x,tol,allow_extrap)
   if nargin<5
     tol=2e-12;
   endif
+  
   % Sanity checks
   if (~allow_extrap) && (max(x)>max(xk) || min(x)<min(xk))
     error("Refusing to extrapolate");
@@ -64,9 +65,11 @@ function [f,w,p]=lagrange_interp(xk,fk,wk,x,tol,allow_extrap)
   % Linear interpolation between two points
   if any(size(xk)==2)
     a=(fk(2)-fk(1))/(xk(2)-xk(1));
-    b=fk(1)-(a*xk(1));
+    b=sum(fk-(a*xk))/2;
     p=[a b];
+    w=[];
     f=(a*x)+b;
+    return;
   endif
 
   % All fk the same
@@ -74,17 +77,9 @@ function [f,w,p]=lagrange_interp(xk,fk,wk,x,tol,allow_extrap)
     f=fk(1)*ones(size(x));
     p=fk(1);
     w=[];
-    warning("all(fk==fk(1))");
+    return;
   endif
   
-  % If necessary, calculate l=(x-xk(1))(x-xk(2)...(x-xk(end))
-  if isempty(wk) || nargout==3
-    l=1;
-    for k=1:length(xk),
-      l=conv(l,[1 -xk(k)]);
-    endfor
-  endif
-
   % If necessary, calculate the weights
   w=wk;
   if isempty(w)
@@ -106,6 +101,12 @@ function [f,w,p]=lagrange_interp(xk,fk,wk,x,tol,allow_extrap)
 
   % Calculate the interpolation polynomial if requested
   if nargout==3,
+    % Calculate l=(x-xk(1))(x-xk(2)...(x-xk(end))
+    l=1;
+    for k=1:length(xk),
+      l=conv(l,[1 -xk(k)]);
+    endfor
+    % Calculate p
     p=zeros(1,length(xk));
     for k=1:length(xk),
       [quot,rem]=deconv(l,[1 -xk(k)]);
