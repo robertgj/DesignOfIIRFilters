@@ -1,5 +1,5 @@
 function [hM,func_iter,feasible]=hofstetterFIRsymmetric(f0,a0,nf,max_iter,tol)
-% [hM,func_iter,feasible]=hofstetterFIRsymmetric(f0,a0,nf,maxiter,tol)
+% [hM,func_iter,feasible]=hofstetterFIRsymmetric(f0,a0,nf,max_iter,tol)
 % Implement Hofstetter's algorithm for the design of a linear-phase FIR
 % filter with given pass-band and stop-band ripples.
 %
@@ -59,6 +59,7 @@ hM=hofstetterFIRsymmetric(f0,a0,nf)\n\
   % Initialise
   func_iter=0;
   feasible=false;
+  
   % Initial mini-max frequency-amplitude pairs
   f=f0(:)';
   a=a0(:)';
@@ -69,7 +70,7 @@ hM=hofstetterFIRsymmetric(f0,a0,nf)\n\
   xi=cos(pi*(0:nf)/nf);
   
   % Loop performing Hofstetter's algorithm
-  for l=1:max_iter
+  for func_iter=1:max_iter
 
     % Lagrange interpolation
     [ai,w]=lagrange_interp(x,a,[],xi);
@@ -87,11 +88,11 @@ hM=hofstetterFIRsymmetric(f0,a0,nf)\n\
     delx=norm(x-lastx);
     lastx=x;
     if delx<tol
-      printf("x convergence (delx=%g) after %d iterations\n",delx,l);
+      printf("x convergence (delx=%g) after %d iterations\n",delx,func_iter);
       feasible=true;
       break;
     endif
-    if l==max_iter,
+    if func_iter==max_iter,
       error("No convergence after %d iterations",max_iter);
     endif
     

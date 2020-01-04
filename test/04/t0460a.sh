@@ -141,7 +141,7 @@ h = [ -0.000049780154,  0.000009861919,  0.000035898843,  0.000071398852, ...
        0.000104753138,  0.000071398852,  0.000035898843,  0.000009861919, ... 
       -0.000049780154 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_n_20_Cheby_1_p.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_h.ok"; fail; fi
 
 #
 # run and see if the results match

@@ -179,18 +179,21 @@ help:
 
 .PHONY: gitignore
 gitignore:
-	-rm -f .gitignore
-	echo $(CLEAN_SUFFIXES:%="*"%) >> .gitignore
+	-rm -f .gitignore gitignore.tmp
+	echo $(CLEAN_SUFFIXES:%="*"%) > .gitignore
 	echo $(CLEAN_TEX_SUFFIXES:%="*"%) >> .gitignore
 	echo $(CLEAN_AEGIS_SUFFIXES:%="*"%) >> .gitignore
-	echo $(test_FIGURES:%=%.tex) >> .gitignore
-	echo $(test_FIGURES:%=%.pdf) >> .gitignore 
-	echo $(test_COEFS) >> .gitignore
-	echo $(EXTRA_DIARY_FILES) >> .gitignore
-	echo $(DIA_FILES:%=%.pdf) >> .gitignore
 	echo aegis.conf octave-workspace /$(TARGET).pdf >> .gitignore
 	echo _site .sass-cache .jekyll-metadata >> .gitignore
-	sed -i -e "s/\ /\n/g" .gitignore 
+	sed -i -e "s/\ /\n/g" .gitignore
+	echo $(test_FIGURES:%=%.tex) > gitignore.tmp
+	echo $(test_FIGURES:%=%.pdf) >> gitignore.tmp
+	echo $(test_COEFS) >> gitignore.tmp
+	echo $(EXTRA_DIARY_FILES) >> gitignore.tmp
+	echo $(DIA_FILES:%=%.pdf) >> gitignore.tmp
+	sed -i -e "s/\ /\n/g" gitignore.tmp
+	cat gitignore.tmp | sort >> .gitignore
+	rm gitignore.tmp
 
 .PHONY: jekyll
 jekyll: $(TARGET).pdf cleanjekyll

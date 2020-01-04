@@ -54,9 +54,6 @@ a0=[a0p,a0s];
 if feasible==false
   error("hM not feasible");
 endif
-wa=(0:nplot)'*pi/nplot;
-A=directFIRsymmetricA(wa,hM);
-plot(wa*0.5/pi,20*log10(abs(A)));
 
 %
 % Plot solution

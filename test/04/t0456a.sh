@@ -51,7 +51,7 @@ hM = [  -0.0000062744,  -0.0000244944,  -0.0000551827,  -0.0000819533, ...
         -0.0449658253,  -0.0039620478,   0.0704678795,   0.1575442544, ... 
          0.2274359299,   0.2541534897 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_n_20_Cheby_1_p.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_hM.ok"; fail; fi
 
 #
 # run and see if the results match

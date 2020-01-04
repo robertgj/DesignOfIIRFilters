@@ -1,0 +1,14 @@
+selesnickFIRsymmetric_lowpass_test_FIGURES = \
+selesnickFIRsymmetric_lowpass_test_response \
+selesnickFIRsymmetric_lowpass_test_dual \
+selesnickFIRsymmetric_lowpass_test_zeros
+
+selesnickFIRsymmetric_lowpass_test_COEFS = \
+selesnickFIRsymmetric_lowpass_test.mat \
+selesnickFIRsymmetric_lowpass_test.spec \
+selesnickFIRsymmetric_lowpass_test_hM_coef.m
+
+selesnickFIRsymmetric_lowpass_test_FILES = \
+selesnickFIRsymmetric_lowpass_test.m test_common.m \
+selesnickFIRsymmetric_lowpass.m  selesnickFIRsymmetric_lowpass_exchange.m \
+lagrange_interp.m print_polynomial.m local_max.m directFIRsymmetricA.m

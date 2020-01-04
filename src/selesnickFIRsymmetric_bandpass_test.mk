@@ -1,0 +1,16 @@
+selesnickFIRsymmetric_bandpass_test_FIGURES = \
+selesnickFIRsymmetric_bandpass_test_response \
+selesnickFIRsymmetric_bandpass_test_dual \
+selesnickFIRsymmetric_bandpass_test_zeros \
+selesnickFIRsymmetric_bandpass_test_dual_remez \
+selesnickFIRsymmetric_bandpass_test_zeros_remez
+
+selesnickFIRsymmetric_bandpass_test_COEFS = \
+selesnickFIRsymmetric_bandpass_test.mat \
+selesnickFIRsymmetric_bandpass_test.spec \
+selesnickFIRsymmetric_bandpass_test_hM_coef.m
+
+selesnickFIRsymmetric_bandpass_test_FILES = \
+selesnickFIRsymmetric_bandpass_test.m test_common.m \
+selesnickFIRsymmetric_bandpass.m  selesnickFIRsymmetric_lowpass_exchange.m \
+lagrange_interp.m print_polynomial.m local_max.m directFIRsymmetricA.m

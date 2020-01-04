@@ -34,7 +34,7 @@ function [f,w,p]=lagrange_interp(xk,fk,wk,x,tol,allow_extrap)
     allow_extrap=false;
   endif
   if nargin<5
-    tol=2e-12;
+    tol=15e-13;
   endif
   
   % Sanity checks
@@ -106,7 +106,8 @@ function [f,w,p]=lagrange_interp(xk,fk,wk,x,tol,allow_extrap)
     for k=1:length(xk),
       l=conv(l,[1 -xk(k)]);
     endfor
-    % Calculate p
+    % Calculate p.
+    % (Polynomial division is more accurate than calculating lk(x) for each k).
     p=zeros(1,length(xk));
     for k=1:length(xk),
       [quot,rem]=deconv(l,[1 -xk(k)]);
@@ -115,14 +116,14 @@ function [f,w,p]=lagrange_interp(xk,fk,wk,x,tol,allow_extrap)
       endif
       p=p+(quot*w(k)*fk(k));
     endfor;
+    % Normalise p to the non-zero fk values
     if ~isempty(wk)
-      nzfk=find(abs(fk)>1e-10);
+      nzfk=find(abs(fk)>tol);
       if isempty(nzfk)
         error("isempty(nzfk)");
       endif
       pk=polyval(p,xk(nzfk));
-      tmp=fk(nzfk);
-      p=p/mean(pk(:)./tmp(:));
+      p=p/mean(pk(:)./fk(nzfk)(:));
     endif
   endif
 
