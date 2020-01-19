@@ -1,5 +1,5 @@
 % decimator_R2_alternate_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Example of low-pass IIR decimator filter design using quasi-Newton
 % optimisation with constraints on the coefficients.
@@ -12,22 +12,21 @@ diary decimator_R2_alternate_test.diary.tmp
 
 tic;
 
-
 verbose=false
 tol_wise=1e-7
 tol_mmse=1e-5
-tol_pcls=2e-4
+tol_pcls=5e-4
 ctol=1e-7
-maxiter=4000
+maxiter=8000
 
 % Filter specifications (frequencies are normalised to the sample rate)
 fap=0.10,dBap=0.35,Wap=1
-fas=0.25,dBas=50,Was=4
-ftp=0.125,tp=10,tpr=0.008,Wtp=1
+fas=0.25,dBas=50,Was=5
+ftp=0.125,tp=10,tpr=0.016,Wtp=0.1
 
 % Initial filter guess
 U=0,V=0,M=12,Q=6,R=2
-xi=[0.01, [1,1,1,1,1,1], (7:12)*pi/12, 0.75*[1,1,1], (1:3)*pi/8]';
+xi=[0.00005, [1,1,1,1,1,1], (7:12)*pi/12, 0.75*[1,1,1], (1:3)*pi/8]';
 
 % Frequency points
 n=1000;
@@ -127,7 +126,7 @@ printf("\nFinding PCLS d1, dBap=%f,Wap=%f,dBas=%f,Was=%f,tpr=%f,Wtp=%f\n",
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol_pcls,ctol,verbose)
 if feasible == 0 
-  error("d1 (pcls) infeasible");
+  warning("d1 (pcls) infeasible");
 endif
 strP1=sprintf(strP,"d1",dBap,dBas,Was,tpr,Wtp);
 showResponse(d1,U,V,M,Q,R,strP1);
@@ -164,14 +163,14 @@ printf("d1:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 subplot(211);
 ax=plotyy(wa*0.5/pi,20*log10(A),wa*0.5/pi,20*log10(A));
 axis(ax(1),[0 0.5 -0.3 0]);
-axis(ax(2),[0 0.5 -60 -48]);
+axis(ax(2),[0 0.5 -60 -40]);
 set(ax(1),"ycolor",'black');
 set(ax(2),"ycolor",'black');
 ylabel("Amplitude(dB)");
 grid("on");
 subplot(212);
 plot(wt*0.5/pi,T)
-axis([0 0.5 9.996 10.004]);
+axis([0 0.5 9.98 10.02]);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 grid("on");
@@ -211,7 +210,7 @@ print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 save decimator_R2_alternate_test.mat n U V M Q R fap fas ftp tp ...
-     dBap dBas tpr Wap Was Wtp x0 x1 d1 tol_wise tol_wise tol_mmse tol_pcls ctol
+     dBap dBas tpr Wap Was Wtp x0 x1 d1 tol_wise tol_mmse tol_pcls ctol
 
 % Done
 toc;

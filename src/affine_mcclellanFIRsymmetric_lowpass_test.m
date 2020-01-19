@@ -17,17 +17,17 @@ diary affine_mcclellanFIRsymmetric_lowpass_test.diary.tmp
 strf="affine_mcclellanFIRsymmetric_lowpass_test";
 
 % Specification: low pass filter order is 2*M, length is 2*M+1
-M=200;fap=0.1;fas=0.11;Kp=1;Ks=0;eta_p=0;eta_s=0.0001;
+M=200;fap=0.1;fas=0.11;Kp=1;Ks=0;etap=0;etas=0.0001;
 
 % Filter design
-[h,rs,del_p,del_s]=faffine(M,2*pi*fap,2*pi*fas,Kp,Ks,eta_p,eta_s);
+[h,rs,del_p,del_s]=faffine(M,2*pi*fap,2*pi*fas,Kp,Ks,etap,etas);
 
 %
 % Plot response
 %
 strt=sprintf("Selesnick-Burrus Parks-McClellan lowpass FIR: \
-M=%d,fap=%g,fas=%g,Kp=%g,Ks=%g,eta\\_p=%g,eta\\_s=%g", ...
-             M,fap,fas,Kp,Ks,eta_p,eta_s);
+M=%d,fap=%g,fas=%g,$K\_p$=%g,$K\_s$=%g,$\\eta\_p$=%g,$\\eta\_s$=%g", ...
+             M,fap,fas,Kp,Ks,etap,etas);
 nplot=4000;
 wa=(0:(nplot-1))'*pi/nplot;
 hM=h(1:(M+1));
@@ -76,8 +76,8 @@ fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
 fprintf(fid,"Kp=%d %% Pass band weight\n",Kp);
 fprintf(fid,"Ks=%d %% Stop band weight\n",Ks);
-fprintf(fid,"eta_p=%d %% Pass band eta\n",eta_p);
-fprintf(fid,"eta_s=%d %% Stop band eta\n",eta_s);
+fprintf(fid,"etap=%d %% Pass band eta\n",etap);
+fprintf(fid,"etas=%d %% Stop band eta\n",etas);
 fclose(fid);
 
 print_polynomial(h,"h","%15.12f");
@@ -88,7 +88,7 @@ fprintf(fid,"%11.8f",del_p);
 fclose(fid);
 
 save affine_mcclellanFIRsymmetric_lowpass_test.mat ...
-     M fap fas Kp Ks eta_p eta_s nplot del_p del_s h 
+     M fap fas Kp Ks etap etas nplot del_p del_s h 
 
 %
 % Done

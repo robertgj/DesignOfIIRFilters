@@ -20,6 +20,12 @@ if (length(x) ~= 1) || (x(1) ~= 1)
   error("Expected x(1)=1");
 endif
 
+% Check equal elements
+x=local_max([1 2 3 3 3 2 1]);
+if (length(x) ~= 1) || (x(1) ~= 5)
+  error("Expected x(1)=5");
+endif
+
 % Filter specification
 nN=9;dbap=3;dbas=20;fap=0.2;
 [N,D]=ellip(nN,dbap,dbas,fap*2);

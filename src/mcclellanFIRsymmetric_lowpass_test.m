@@ -17,6 +17,7 @@ strf="mcclellanFIRsymmetric_lowpass_test";
 %  
 % Initialise
 %
+nplot=1000;
 maxiter=100;
 tol=1e-12;
 
@@ -29,10 +30,9 @@ M=14;fap=0.17265;fas=0.26265;K=10;
 % Alternative : M=48;fap=0.15;fas=0.175;K=20;
 
 % Constants 
-nf=1000;
-f=(0:nf)*0.5/nf;
-nap=ceil(fap*nf/0.5)+1;
-nas=floor(fas*nf/0.5)+1;
+f=(0:nplot)*0.5/nplot;
+nap=ceil(fap*nplot/0.5)+1;
+nas=floor(fas*nplot/0.5)+1;
 F=[f(1:(nap-1)),fap,fas,f((nas+1):end)];
 F=F(:);
 gs=length(F);
@@ -40,7 +40,8 @@ D=[ones(nap,1); zeros(gs-nap,1)];
 W=[ones(nap,1)/K; ones(gs-nap,1)];
 
 % Filter design
-[hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,"lowpass",maxiter,tol);
+[hM,rho,fext,fiter,feasible] = ...
+  mcclellanFIRsymmetric(M,F,D,W,"lowpass",maxiter,tol);
 if feasible==false
   error("hM not feasible");
 endif
@@ -48,8 +49,8 @@ endif
 %
 % Plot response
 %
-strt=sprintf("McClellan lowpass FIR: M=%d,fap=%g,fas=%g,K=%g,nf=%d,rho=%g", ...
-             M,fap,fas,K,nf,rho);
+strt=sprintf("McClellan lowpass FIR: M=%d,fap=%g,fas=%g,K=%g,nplot=%d,rho=%g",...
+             M,fap,fas,K,nplot,rho);
 nplot=10000;
 wa=(0:nplot)'*pi/nplot;
 A=directFIRsymmetricA(wa,hM);
@@ -121,9 +122,10 @@ fprintf(fid,"M=%d %% Filter order is 2*M\n",M);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
 fprintf(fid,"K=%d %% Stop band weight\n",K);
-fprintf(fid,"nf=%d %% Number of frequency grid points in [0,0.5]\n",nf);
+fprintf(fid,"nplot=%d %% Number of frequency grid points in [0,0.5]\n",nplot);
+fprintf(fid,"nplot=%d %% Number of frequency points\n",nplot);
 fprintf(fid,"maxiter=%d %% Maximum iterations\n",maxiter);
-fprintf(fid,"tol=%g %% Tolerance on convergence of rho\n",tol);
+fprintf(fid,"tol=%g %% Tolerance on convergence\n",tol);
 fclose(fid);
 
 print_polynomial(hM,"hM");
@@ -134,7 +136,7 @@ fprintf(fid,"%11.8f",rho);
 fclose(fid);
 
 save mcclellanFIRsymmetric_lowpass_test.mat ...
-     M fap fas K nf maxiter tol nplot rho hM 
+     M fap fas K nplot maxiter tol nplot rho hM fext
 
 %
 % Done

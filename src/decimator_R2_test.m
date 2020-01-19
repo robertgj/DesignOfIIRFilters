@@ -1,5 +1,5 @@
 % decimator_R2_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Example of low-pass IIR decimator filter design using quasi-Newton
 % optimisation with constraints on the coefficients.
@@ -12,22 +12,21 @@ diary decimator_R2_test.diary.tmp
 
 tic;
 
-
 verbose=false
 tol_wise=1e-7
 tol_mmse=1e-5
-tol_pcls=2e-4
+tol_pcls=4e-4
 ctol=1e-6
-maxiter=4000
+maxiter=10000
 
 % Filter specifications (frequencies are normalised to the sample rate)
 U=0,V=0,M=10,Q=6,R=2
 fap=0.10,dBap=0.2,Wap=1
 fas=0.25,dBas=40,Was=4
-ftp=0.125,tp=M-2,tpr=tp/1000,Wtp=1
+ftp=0.125,tp=8,tpr=0.008,Wtp=0.25
 
 % Initial filter guess
-xi=[0.001, [1,1,1,1,1], (7:11)*pi/12, 0.7*[1,1,1], (1:3)*pi/8]';
+xi=[0.0001, [1,1,1,1,1], (8:12)*pi/12, 0.7*[1,1,1], (1:3)*pi/8]';
 
 % Frequency points
 n=1000;
@@ -41,8 +40,10 @@ wa=(0:(n-1))'*pi/n;
 nap=ceil(n*fap/0.5)+1;
 nas=floor(n*fas/0.5)+1;
 Ad=[1./sinc(wa(1:nap)/2);zeros(n-nap,1)];
-Adu=[Ad(1:(nas-1));(10^(-dBas/20))*ones(n-nas+1,1)];
-Adl=[(10^(-dBap/20))*Ad(1:nap);zeros(n-nap,1)];
+Adu=[(10^(dBap/40))*Ad(1:nap); ...
+     (10^(dBap/40))*Ad(nap)*ones(nas-nap-1,1); ...
+     (10^(-dBas/20))*ones(n-nas+1,1)];
+Adl=[(10^(-dBap/40))*Ad(1:nap);zeros(n-nap,1)];
 Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
 
 % Stop-band amplitude response constraints

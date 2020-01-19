@@ -1,4 +1,4 @@
-function [hM,func_iter,feasible]= ...
+function [hM,fext,func_iter,feasible]= ...
   selesnickFIRsymmetric_bandpass(M,deltasl,deltap,deltasu,ftl,ftu,at, ...
                                  nf,max_iter,tol)
 % [hM,func_iter,feasible]= ...
@@ -22,6 +22,7 @@ function [hM,func_iter,feasible]= ...
 %
 % Outputs:
 %   hM - M+1 distinct coefficients [h(1),...,h(M+1)]
+%   fext - extremal frequencies
 %   func_iter - number of iterations
 %   feasible - true if the design satisfies the constraints
 %
@@ -50,10 +51,10 @@ function [hM,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin < 7) || (nargin > 10) || (nargout>3)
+  if (nargin < 7) || (nargin > 10) || (nargout>4)
     print_usage ...
 ("hM=selesnickFIRsymmetric_bandpass(M,deltasl,deltap,deltasu,ftl,ftu,at)\n\
-[hM,func_iter,feasible]= ...\n\
+[hM,fext,func_iter,feasible]= ...\n\
   selesnickFIRsymmetric_bandpass(M,deltasl,deltap,deltasu,ftl,ftu,at, ...\n\
                                  nf,max_iter,tol)");
   endif
@@ -140,6 +141,7 @@ function [hM,func_iter,feasible]= ...
   
   % Initialise
   hM=[];
+  fext=[];
   func_iter=0;
   feasible=false;
   allow_extrap=true;
@@ -262,8 +264,11 @@ function [hM,func_iter,feasible]= ...
     delx=norm(x-lastx);
     lastx=x;
     if delx<tol
+      printf("Convergence : delx=%g after %d iterations\n",delx,func_iter);
+      fext=acos(x)/(2*pi);
+      printf("%d extremal frequencies : ",length(fext));
+      printf(" %g",fext(:)');printf("\n");
       feasible=true;
-      printf("x convergence (delx=%g) after %d iterations\n",delx,func_iter);
       break;
     endif
     if (feasible==false) && (func_iter==max_iter)
@@ -274,56 +279,14 @@ function [hM,func_iter,feasible]= ...
 
   if feasible
     % Find equally spaced samples of the frequency response
-    N=(2*M)+1;
-    H=lagrange_interp(x,a,[],cos(pi*(0:N)/N),tol,allow_extrap);
-    
+    A=lagrange_interp(x,a,[],cos(pi*(0:M)/M),tol,allow_extrap);
     % Find the distinct impulse response coefficients
-    h=ifft([H;flipud(H(2:end-1))]);
-    if norm(imag(h))>tol
-      error("norm(imag(h))(%g)>tol",norm(imag(h)));
+    a=ifft([A;flipud(A(2:(end-1)))]);
+    if norm(imag(a))>tol
+      error("norm(imag(a))(%g)>tol",norm(imag(a)));
     endif
-    hM=real(flipud(h(1:(M+1))));
-  
-    % Sanity checks
-    A=directFIRsymmetricA(wi,hM);
-    maxA=local_max(A);
-    minA=local_max(-A);
-    eindex=unique([1;maxA(:);minA(:);nf]);
-    slindex=max(find(wi(eindex)<wtl));
-    plindex=min(find(wi(eindex)>wtl));
-    puindex=max(find(wi(eindex)<wtu));
-    suindex=min(find(wi(eindex)>wtu));
-    % Check extrema in lower stop-band
-    if isempty(find(abs(A(eindex(1:slindex)))<(deltasl+tol)))
-      feasible=false;
-      warning("isempty(max(find(abs(A(eindex))), eindex in lower stop-band");
-    else
-      if any(abs(A(eindex(1:slindex)))>(deltasl+tol))
-        feasible=false;
-        warning("Found lower stop-band abs(A) > (deltasl+tol)");
-      endif
-    endif
-                                                                   
-    % Check extrema in pass-band
-    if isempty(find(abs(1-A(eindex(plindex:puindex)))<(deltap+tol)));
-      feasible=false;
-      warning("isempty(max(find(abs(1-A(eindex))))), eindex in pass-band");
-    else
-      if any(abs(1-abs(A(eindex(plindex:puindex))))>(deltap+tol))
-        feasible=false;
-        warning("Found pass-band abs(1-A) > (deltap+tol)");
-      endif
-    endif
-    % Check extrema in upper stop-band
-    if isempty(find(abs(A(eindex(suindex:end)))<(deltasu+tol)))
-      feasible=false;
-      warning("isempty(max(find(abs(A(eindex))), eindex in upper stop-band");
-    else
-      if any(abs(A(eindex(suindex:end)))>(deltasl+tol))
-        feasible=false;
-        warning("Found upper stop-band abs(A) > (deltasu+tol)");
-      endif
-    endif
+    a=real(a(:));
+    hM=[a(M+1)/2;flipud(a(1:(M)))];
   endif
-
+  
 endfunction

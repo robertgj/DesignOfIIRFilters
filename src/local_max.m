@@ -3,6 +3,9 @@ function x = local_max(c)
 % Based on the local_max(x) function of I.W.Selesnick from:
 % http://dsp.rice.edu/files/software/ConstrainedLeastSquaresAllprogs.tar.zip
 
+  if nargin~=1 || nargout>1
+    print_usage("x=local_max(c)");
+  endif
   % Sanity checks
   if isempty(c)
     x=[];
@@ -16,7 +19,7 @@ function x = local_max(c)
   s = size(c); 
   c = [c(:)].';
   N = length(c);
-  b1 = c(1:N-1)<c(2:N);
+  b1 = c(1:N-1)<=c(2:N);
   b2 = c(1:N-1)>c(2:N);
   x = find(b1(1:N-2)&b2(2:N-1))+1;
   if c(1)>c(2),

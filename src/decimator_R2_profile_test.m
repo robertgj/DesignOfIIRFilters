@@ -1,7 +1,5 @@
 % decimator_R2_profile_test.m
-% Copyright (C) 2018 Robert G. Jenssen
-
-% This script produces the same results with octave-4.2.2 and octave-4.4.0
+% Copyright (C) 2018,2020 Robert G. Jenssen
 
 clear all
 more off
@@ -16,25 +14,24 @@ diary decimator_R2_profile_test.diary.tmp
 
 tic;
 
-
 verbose=false
 tol_mmse=1e-5
-tol_pcls=2e-4
-ctol=1e-6
-maxiter=4000
+tol_pcls=1e-4
+ctol=1e-5
+maxiter=10000
 
 % Filter specifications (frequencies are normalised to the sample rate)
-U=0,V=0,M=10,Q=6,R=2
-fap=0.10,dBap=0.2,Wap=1
-fas=0.25,dBas=40,Was=4
-ftp=0.125,tp=M-2,tpr=tp/1000,Wtp=1
+U=0,V=0,M=12,Q=6,R=2
+fap=0.10,dBap=1,Wap=1
+fas=0.25,dBas=40,Was=5
+ftp=0.125,tp=10,tpr=0.02,Wtp=0.1
 
 % Initial filter
-x0=[ 0.000058, ...
-     0.870594, 2.157462, 2.121797, 2.049648, 1.999908, ...
-     1.911521, 1.883639, 2.186107, 2.511114, 2.828522, ...
+x0=[ 0.000003, ...
+     3.000000, 0.870594, 2.157462, 2.121797, 2.049648, 1.999908, ...
+     3.141598, 1.911521, 1.883639, 2.186107, 2.511114, 2.828522, ...
      0.400373, 0.419078, 0.510494, ...
-     0.359445, 1.050310, 1.696869 ]'
+     0.359445, 1.050310, 1.696869 ]';
 
 % Frequency points
 n=1000;

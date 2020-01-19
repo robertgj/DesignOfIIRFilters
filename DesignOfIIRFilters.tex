@@ -8439,32 +8439,32 @@ Figure~\ref{fig:Decimator-R-2-Initial-x0}.
 \end{figure}
 \subsubsection{MMSE optimisation of the low-pass R=2 decimator}
 After some experimentation and iteration, weights $Wap=1$, $Was=4$ and 
-$Wtp=1$ give the response shown in Figure~\ref{fig:Decimator-R-2-MMSE-x1}
+$Wtp=0.25$ give the response shown in Figure~\ref{fig:Decimator-R-2-MMSE-x1}
 with the pass-band detail shown in 
 Figure~\ref{fig:Decimator-R-2-MMSE-x1-passband}. The corresponding 
 pole-zero plot is shown in Figure~\ref{fig:Decimator-R-2-MMSE-x1-pz}.
 \begin{figure}
 \centering
 \scalebox{0.7}{\input{decimator_R2_test_mmse_x1}}
-\caption{Low-pass decimator R=2 MMSE : Optimised response with Wap=1, Was=4, Wtp=1}
+\caption{Low-pass decimator R=2 MMSE : Optimised response with Wap=1, Was=4, Wtp=0.25}
 \label{fig:Decimator-R-2-MMSE-x1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{0.7}{\input{decimator_R2_test_mmse_x1pass}}
-\caption{Low-pass decimator R=2 MMSE : Optimised passband response with Wap=1, Was=4, Wtp=1}
+\caption{Low-pass decimator R=2 MMSE : Optimised passband response with Wap=1, Was=4, Wtp=0.25}
 \label{fig:Decimator-R-2-MMSE-x1-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{0.7}{\input{decimator_R2_test_mmse_x1pz}}
-\caption{Low-pass decimator R=2 MMSE : Pole-zero plot after optimisation with Wap=1, Was=4, Wtp=1}
+\caption{Low-pass decimator R=2 MMSE : Pole-zero plot after optimisation with Wap=1, Was=4, Wtp=0.25}
 \label{fig:Decimator-R-2-MMSE-x1-pz}
 \end{figure}
 
 \subsubsection{PCLS optimisation of the low-pass R=2 decimator}
 Starting with the MMSE filter of Figure~\ref{fig:Decimator-R-2-MMSE-x1},
-the weights $Wap=1$, $Was=4$ and $Wtp=1$ and the constraints $dBap=0.2$, 
+the weights $Wap=1$, $Was=4$ and $Wtp=0.25$ and the constraints $dBap=0.2$, 
 $dBas=40$, $tp=8$ and $tpr=0.008$ give the response shown in
 Figure~\ref{fig:Decimator-R-2-PCLS-d1} with pass-band detail 
 shown in Figure~\ref{fig:Decimator-R-2-PCLS-d1-passband}. The corresponding 
@@ -8486,19 +8486,19 @@ and
 \begin{figure}
 \centering
 \scalebox{0.7}{\input{decimator_R2_test_pcls_d1}}
-\caption{Low-pass decimator R=2 PCLS : Optimised response with Wap=1, Was=4, Wtp=1, dBap=0.2, dBas=40, tpr=0.008}
+\caption{Low-pass decimator R=2 PCLS : Optimised response with Wap=1, Was=4, Wtp=0.25, dBap=0.2, dBas=40, tpr=0.008}
 \label{fig:Decimator-R-2-PCLS-d1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{0.7}{\input{decimator_R2_test_pcls_d1pass}}
-\caption{Low-pass decimator R=2 PCLS : Optimised passband response with Wap=1, Was=4, Wtp=1, dBap=0.2, dBas=40, tpr=0.008}
+\caption{Low-pass decimator R=2 PCLS : Optimised passband response with Wap=1, Was=4, Wtp=0.25, dBap=0.2, dBas=40, tpr=0.008}
 \label{fig:Decimator-R-2-PCLS-d1-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{0.7}{\input{decimator_R2_test_pcls_d1pz}}
-\caption{Low-pass decimator R=2 PCLS : Optimised pole-zero plot with Wap=1, Was=4, Wtp=1, dBap=0.2, dBas=40, tpr=0.008}
+\caption{Low-pass decimator R=2 PCLS : Optimised pole-zero plot with Wap=1, Was=4, Wtp=0.25, dBap=0.2, dBas=40, tpr=0.008}
 \label{fig:Decimator-R-2-PCLS-d1-pz}
 \end{figure}
 \clearpage
@@ -8516,7 +8516,7 @@ resulting filter.
 \centering
 \scalebox{0.7}{\input{decimator_R2_alternate_test_pcls_d1dual}}
 \caption{Alternative low-pass decimator R=2 : PCLS optimised response with
-  Wap=1, Was=4, Wtp=1, dBap=0.35, dBas=50, tp=10, tpr=0.008}
+  Wap=1, Was=5, Wtp=0.1, dBap=0.35, dBas=50, tp=10, tpr=0.016}
 \label{fig:Alternate_decimator-R-2-PCLS-d1}
 \end{figure}
 
@@ -19116,18 +19116,18 @@ $f\left(\tau\right)$ is analytic at $q=0$, then $f\left(\tau\right)$ is called a
 close to $1$ with $\tau^{\prime}=-\frac{1}{\tau}$~\cite[Section
 20.7(viii)]{NIST_DigitalLibraryMathematicalFunctions}:
 \begin{align*}
-  (-\imath\tau)^{\frac{1}{2}}\theta_{1}\left(z\middle|\tau\right)
+  (-\imath\tau)^{\frac{1}{2}}\theta_{1}\left(z,\tau\right)
   &=-\imath{}\exp\left(\frac{\imath\tau^{\prime}z^{2}}{\pi}\right)
-    \theta_{1}\left(z\tau^{\prime}\middle|\tau^{\prime}\right)\\
-  (-\imath\tau)^{\frac{1}{2}}\theta_{2}\left(z\middle|\tau\right)
+    \theta_{1}\left(z\tau^{\prime},\tau^{\prime}\right)\\
+  (-\imath\tau)^{\frac{1}{2}}\theta_{2}\left(z,\tau\right)
   &=\exp\left(\frac{\imath\tau^{\prime}z^{2}}{\pi}\right)
-    \theta_{4}\left(z\tau^{\prime}\middle|\tau^{\prime}\right)\\
-  (-\imath\tau)^{\frac{1}{2}}\theta_{3}\left(z\middle|\tau\right)
+    \theta_{4}\left(z\tau^{\prime},\tau^{\prime}\right)\\
+  (-\imath\tau)^{\frac{1}{2}}\theta_{3}\left(z,\tau\right)
   &=\exp\left(\frac{\imath\tau^{\prime}z^{2}}{\pi}\right)
-    \theta_{3}\left(z\tau^{\prime}\middle|\tau^{\prime}\right)\\
-  (-\imath\tau)^{\frac{1}{2}}\theta_{4}\left(z\middle|\tau\right)
+    \theta_{3}\left(z\tau^{\prime},\tau^{\prime}\right)\\
+  (-\imath\tau)^{\frac{1}{2}}\theta_{4}\left(z,\tau\right)
   &=\exp\left(\frac{\imath\tau^{\prime}z^{2}}{\pi}\right)
-    \theta_{2}\left(z\tau^{\prime}\middle|\tau^{\prime}\right)
+    \theta_{2}\left(z\tau^{\prime},\tau^{\prime}\right)
 \end{align*}
 \section{Jacobi's elliptic functions}
 See~\cite[Section 22.2]{NIST_DigitalLibraryMathematicalFunctions}. The nome,
@@ -19291,8 +19291,6 @@ give (omitting the $x$ and $\kappa$ arguments):
   \jdn^{2} &=1-\kappa^{2}\jsn^{2} = \kappa^{\prime{}2}+\kappa^{2}\jcn^{2}
              =\jcn^{2}+\kappa^{\prime{}2}\jsn^{2}
 \end{align*}
-For many more such identities, see, for example, the DLMF~\cite[Section
-22.6]{NIST_DigitalLibraryMathematicalFunctions}.
 
 The identities:
 \begin{align*}
@@ -25421,10 +25419,10 @@ band-pass filter with the implementation of \emph{Hofstetter}'s algorithm with
 the modifications of \emph{Selesnick} and \emph{Burrus} in the Octave function
 \emph{selesnickFIRsymmetric\_bandpass.m}. Unlike the MATLAB implementation made
 available by \emph{Selesnick}, \emph{firebp.m}~\cite{Selesnick_faffine}, this
-function uses Lagrange interpolation to find the response rather than left
-division to find the coefficients and does not attempt to implement the
-constraint on the slope of the response at the transition frequencies. The
-filter specification is: 
+function uses Lagrange interpolation to find the response in the $x=\cos\omega$
+domain rather than using left division to find the coefficients directly and
+does not attempt to implement the constraint on the slope of the response at the
+transition frequencies. The filter specification is: 
 \begin{small}
 \verbatiminput{selesnickFIRsymmetric_bandpass_test.spec}
 \end{small}
@@ -25456,19 +25454,19 @@ Figure~\ref{fig:selesnickFIRsymmetric-bandpass-test-dual-remez}.
 \label{fig:selesnickFIRsymmetric-bandpass-test-dual-remez}
 \end{figure}
 \clearpage
-\subsection{\emph{Parks-McClellan} algorithm for mini-max FIR filter approximation}
+\subsection{\label{sec:Parks-McClellan-mini-max-FIR}\emph{Parks-McClellan} algorithm for mini-max FIR filter approximation}
 \emph{Parks} and
 \emph{McClellan}~\cite{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters,
   McClellanParks_ComputerProgramFIRLinearPhaseFilters}\cite[Section
 7.4.3]{OppenheimSchafer_DiscreteTimeSignalProcessing} add extra non-extremal
 amplitude constraints at the band edges. Their algorithm allows the designer to
-specify $\omega_{p}$, $\omega_{s}$ and the ratio $\frac{\delta_{p}}{\delta_{s}}$
+specify $\omega_{p}$, $\omega_{s}$ and the ratio $\delta_{p}/delta_{s}$
 but does not allow direct specification of $\delta_{p}$ and $\delta_{s}$.
 \emph{Parks} and
 \emph{McClellan}~\cite{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}
 and \emph{Oppenheim} and \emph{Schafer}~\cite[Section
   7.4.3]{OppenheimSchafer_DiscreteTimeSignalProcessing} describe the algorithm
-  shown in Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}. None
+  shown in Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}\footnote{None
     of the references justify the calculation of $\rho$ (eg:~\cite[Equation
     7.101]{OppenheimSchafer_DiscreteTimeSignalProcessing}). The following is my
     unsatisfactory attempt. Suppose that the alternations of
@@ -25482,44 +25480,9 @@ and \emph{Oppenheim} and \emph{Schafer}~\cite[Section
   \sum^{M+2}_{k=1}b_{k}\left[A_{d}\left(x_{k}\right)-
   \frac{\left(-1\right)^{k+1}\rho}{W\left(x_{k}\right)}\right]=0
 \end{align*}
-The result follows.
-
-The Octave \emph{signal} package includes \emph{remez.cc}, an \emph{oct-file}
-implementation of the \emph{Parks-McClellan} algorithm. Alternatively, the
-Octave script \emph{mcclellanFIRsymmetric\_lowpass\_test.m} calls the Octave
-function \emph{mcclellanFIRsymmetric} to design the \emph{Parks} and
-\emph{McClellan} low-pass filter  
-example~\cite[Table I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}.
- The filter specification is:
-\begin{small}
-\verbatiminput{mcclellanFIRsymmetric_lowpass_test.spec}
-\end{small}
-The stop-band ripple found is
-$\rho=$\input{mcclellanFIRsymmetric_lowpass_test_rho.tab} and the distinct
-filter coefficients are:
-\begin{small}
-\verbatiminput{mcclellanFIRsymmetric_lowpass_test_hM_coef.m}
-\end{small}
-Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-test-dual} shows the pass-band
-and stop-band amplitude responses of the
-filter. Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-test-zeros} shows the
-zeros of the filter.
-
-The Octave script \emph{mcclellanFIRsymmetric\_bandpass\_test.m} designs 
-the band-pass filter with the specification:
-\begin{small}
-\verbatiminput{mcclellanFIRsymmetric_bandpass_test.spec}
-\end{small}
-In this case, the Octave function \emph{mcclellanFIRsymmetric} does a
-preliminary search for error alternation failures when finding the error
-extremal frequencies. In my experience, failure of this error extremal
-  amplitude alternation search indicates that the filter specification is
-  unrealistic. The stop-band ripple found is 
-$\rho=$\input{mcclellanFIRsymmetric_bandpass_test_rho.tab}.
-Figure~\ref{fig:mcclellanFIRsymmetric-bandpass-test-dual} shows the pass-band
-and stop-band amplitude responses of the
-filter. Figure~\ref{fig:mcclellanFIRsymmetric-bandpass-test-zeros} shows the
-zeros of the filter.
+The result follows. In his MATLAB scripts~\cite{Selesnick_faffine},
+\emph{Selesnick} avoids this difficulty by directly calculating $\rho$ and the
+coefficients of $A\left(x\right)$ by left-division.}.
 
 \begin{algorithm}
 \begin{enumerate}
@@ -25596,6 +25559,28 @@ zeros of the filter.
   McClellanParks_ComputerProgramFIRLinearPhaseFilters}}
 \label{alg:Parks-McClellan-FIR-filter-design}
 \end{algorithm}
+
+The Octave \emph{signal} package includes \emph{remez.cc}, an \emph{oct-file}
+implementation of the \emph{Parks-McClellan} algorithm. Alternatively, the
+Octave script \emph{mcclellanFIRsymmetric\_lowpass\_test.m} calls the Octave
+function \emph{mcclellanFIRsymmetric} to design the \emph{Parks} and
+\emph{McClellan} low-pass filter  
+example~\cite[Table I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}.
+The filter specification is:
+\begin{small}
+\verbatiminput{mcclellanFIRsymmetric_lowpass_test.spec}
+\end{small}
+The stop-band ripple found is
+$\rho=$\input{mcclellanFIRsymmetric_lowpass_test_rho.tab} and the distinct
+filter coefficients are:
+\begin{small}
+\verbatiminput{mcclellanFIRsymmetric_lowpass_test_hM_coef.m}
+\end{small}
+Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-test-dual} shows the pass-band
+and stop-band amplitude responses of the filter.
+Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-test-zeros} shows the zeros of the
+filter. 
+
 \begin{figure}
 \centering
 \scalebox{0.7}{\input{mcclellanFIRsymmetric_lowpass_test_dual}}
@@ -25614,6 +25599,22 @@ zeros of the filter.
 \label{fig:mcclellanFIRsymmetric-lowpass-test-zeros}
 \end{figure}
 
+The Octave script \emph{mcclellanFIRsymmetric\_bandpass\_test.m} designs 
+the band-pass filter with the specification:
+\begin{small}
+\verbatiminput{mcclellanFIRsymmetric_bandpass_test.spec}
+\end{small}
+In this case, the Octave function \emph{mcclellanFIRsymmetric} does a
+preliminary search for error alternation failures when finding the error
+extremal frequencies. In my experience, failure of this error extremal
+  amplitude alternation search indicates that the filter specification is
+  unrealistic. The stop-band ripple found is 
+$\rho=$\input{mcclellanFIRsymmetric_bandpass_test_rho.tab}.
+Figure~\ref{fig:mcclellanFIRsymmetric-bandpass-test-dual} shows the pass-band
+and stop-band amplitude responses of the
+filter. Figure~\ref{fig:mcclellanFIRsymmetric-bandpass-test-zeros} shows the
+zeros of the filter.
+
 \begin{figure}
 \centering
 \scalebox{0.7}{\input{mcclellanFIRsymmetric_bandpass_test_dual}}
@@ -25630,6 +25631,37 @@ zeros of the filter.
   the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
   I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
 \label{fig:mcclellanFIRsymmetric-bandpass-test-zeros}
+\end{figure}
+\clearpage
+The Octave script \emph{mcclellanFIRsymmetric\_multi\_band\_test.m} calls the
+Octave function \emph{mcclellanFIRsymmetric} to design a multi-band filter with
+the specification:
+\begin{small}
+\verbatiminput{mcclellanFIRsymmetric_multi_band_test.spec}
+\end{small}
+The pass-band ripple found is
+$\rho=$\input{mcclellanFIRsymmetric_multi_band_test_rho.tab}.
+Figure~\ref{fig:mcclellanFIRsymmetric-multi-band-test-response} shows the
+amplitude response of the filter.
+Figure~\ref{fig:mcclellanFIRsymmetric-multi-band-test-zeros} shows the zeros of
+the filter. 
+\clearpage
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{mcclellanFIRsymmetric_multi_band_test_response}}
+\caption{Response of a mini-max FIR multi-band filter designed with
+  the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
+  I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
+\label{fig:mcclellanFIRsymmetric-multi-band-test-response}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{mcclellanFIRsymmetric_multi_band_test_zeros}}
+\caption{Zeros of a mini-max FIR multi-band filter designed with
+  the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
+  I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
+\label{fig:mcclellanFIRsymmetric-multi-band-test-zeros}
 \end{figure}
 \clearpage
 \subsubsection{\emph{Selesnick-Burrus} modification to the
@@ -25730,9 +25762,274 @@ pass-band and stop-band amplitude responses of the filter.
   II.A]{SelesnickBurrus_ExchangeAlgorithmsParksMcClellanAlgorithm}.} 
 \label{fig:affine-mcclellanFIRsymmetric-lowpass-test-dual}
 \end{figure}
+\clearpage
+\section{Design of FIR filters with flat pass-bands and equi-ripple stop-bands}
+Flat pass-band filters are preferred when a signal is repeated or
+re-transmitted many
+times.
+\emph{Vaidyanathan}~\cite{Vaidyanathan_DesignFIRFlatPassbandEquirippleStopband}
+and \emph{Selesnick} and 
+\emph{Burrus}~\cite{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}
+describe the design of FIR filters with flat pass-bands and equi-ripple
+stop-bands. \emph{Selesnick} and \emph{Burrus} interpret the flat pass-band FIR
+filter structure proposed by \emph{Vaidyanathan}~\cite[Figure 4]
+{Vaidyanathan_DesignFIRFlatPassbandEquirippleStopband} as~\cite[Figure 2]
+{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}:
+\begin{align*}
+  H\left(z\right)&=z^{-\frac{N-1}{2}}+H_{L}\left(z\right)H_{M}\left(z\right)
+\end{align*}
+where:
+\begin{align*}
+  H_{L}\left(z\right)&=\left(\frac{1-z^{-1}}{2}\right)^{L}
+\end{align*}
+$N$ is odd and $H_{M}\left(z\right)$ is a high-pass filter with a symmetric
+impulse response of length $N-L$. $H_{M}\left(e^{\imath\omega}\right)$ can be
+written:
+\begin{align*}
+  H_{M}\left(e^{\imath\omega}\right)
+  &=e^{-\imath\omega\left(\frac{N-L-1}{2}\right)}A_{M}\left(\omega\right)
+\end{align*}
+where $A_{M}\left(\omega\right)$ is  a real valued function. When $L$ is chosen
+to be even:
+\begin{align*}
+  \left(\frac{1-e^{-\imath\omega}}{2}\right)^{L}
+  &=\left(-1\right)^{\frac{L}{2}} \left(e^{-\frac{\imath\omega}{2}}\right)^{L}
+    \left(\sin\frac{\omega}{2}\right)^{L}
+\end{align*}
+Therefore the frequency response is:
+\begin{align*}
+  H\left(e^{\imath\omega}\right)
+  &=e^{-\imath\omega\left(\frac{N-1}{2}\right)}A\left(\omega\right)
+\end{align*}
+where the amplitude response is:
+\begin{align*}
+  A\left(\omega\right)
+  &=1+\left(-1\right)^{\frac{L}{2}} \left(\sin\frac{\omega}{2}\right)^{L}
+    A_{M}\left(\omega\right)
+\end{align*}
+Let $M=\left(N-L-1\right)/2$ then:
+\begin{align*}
+  A_{M}\left(\omega\right)
+  &=h_{M}\left(M\right)+2\sum^{M-1}_{k=0}h_{M}\left(k\right)
+    \cos\left[\omega\left(M-k\right)\right]
+\end{align*}
+where $h_{M}$ are the coefficients of $H_{M}$.
+\subsection{Design of FIR low-pass filters with flat pass-bands and equi-ripple stop-bands}
+\emph{Selesnick} and \emph{Burrus} describe exchange algorithms for the cases in
+which the maximally-flat pass-band, low-pass, FIR filter design:
+\begin{enumerate}
+\item specifies $N$, $L$, $\omega_{s}$ and minimises $\delta_{s}$
+\item specifies $N$, $L$, $\delta_{s}$ and minimises $\omega_{s}$
+\end{enumerate}
+\subsubsection{Maximally-flat pass-band and fixed $\omega_{s}$}
+In the first case, $A_{M}\left(\omega\right)$ is found by
+minimising~\cite[Section
+II.A]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}:  
+\begin{align*}
+  \left\|\left[A_{M}\left(\omega\right)-
+  D\left(\omega\right)\right]W\left(\omega\right)\right\|_{\infty}
+\end{align*}
+where:
+\begin{align*}
+  D\left(\omega\right)&=-\frac{\left(-1\right)^{\frac{L}{2}}}
+                        {\left(\sin\frac{\omega}{2}\right)^{L}}\\
+  W\left(\omega\right)&=\begin{cases}
+    0 & \text{for }\omega < \omega_{s} \\
+    \left(-1\right)^{\frac{L}{2}}\left(\sin\frac{\omega}{2}\right)^{L} &
+    \text{for } \omega\ge\omega_{s}
+    \end{cases}
+\end{align*}
+\begin{quotation}
+  On each iteration, a reference set of stopband frequencies is updated and the
+  filter $H_{M}$ is found such that $A\left(\omega\right)$ alternately
+  interpolates $\delta_{s}$ and $-\delta_{s}$, over the reference set
+  frequencies. The size of the reference set is $q=\left(N-L+3\right)/2$. 
+\end{quotation}
+The Octave script \emph{mcclellanFIRsymmetric\_flat\_lowpass\_test.m} calls the
+Octave function \emph{mcclellanFIRsymmetric} to design a maximally-flat FIR
+low-pass filter having fixed $\omega_{s}$ with the \emph{Parks-McClellan}
+algorithm (Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}). The
+specification of the filter is:    
+\begin{small}
+\verbatiminput{mcclellanFIRsymmetric_flat_lowpass_test.spec}
+\end{small}
+Figure~\ref{fig:mcclellanFIRsymmetric-flat-lowpass-test-dual} shows  the
+pass-band and stop-band amplitude responses of the fixed $\omega_{s}$ filter. 
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{mcclellanFIRsymmetric_flat_lowpass_test_dual}}
+\caption{Response of a mini-max FIR maximally-flat pass-band low-pass filter
+  with fixed $\omega_{s}$ designed with the \emph{Parks} and \emph{McClellan}
+  algorithm~\cite[Section 
+  II.A]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.} 
+\label{fig:mcclellanFIRsymmetric-flat-lowpass-test-dual}
+\end{figure}
+
+\subsubsection{Maximally-flat pass-band and fixed $\delta_{s}$}
+In the second case~\cite[Section
+II.B]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}: 
+\begin{quotation}
+  Like the Remez algorithm, this approach employs a set of stopband reference
+  frequencies. On each iteration: 1) an interpolation problem is solved and 2)
+  the reference set is updated. The reference set here, however, does not
+  contain the stopband edge (indeed, it is not specified). Therefore the
+  reference set contains $\left(N-L+1\right)/2$ stopband frequencies. ...
+  At each iteration, the local extremal frequencies of $A\left(\omega\right)$
+  in $\left(0,\pi\right]$ are found and are taken to be the reference set
+  frequencies for the next iteration.
+\end{quotation}
+The Octave script \emph{mcclellanFIRsymmetric\_flat\_lowpass\_test.m} calls the
+Octave function \emph{selesnickFIRsymmetric\_flat\_lowpass} to design a 
+maximally-flat FIR low-pass filter having fixed $\delta_{s}$. The specification
+of the filter is: 
+\begin{small}
+\verbatiminput{selesnickFIRsymmetric_flat_lowpass_test.spec}
+\end{small}
+Figure~\ref{fig:selesnickFIRsymmetric-flat-lowpass-test-dual} shows  the
+pass-band and stop-band amplitude responses of the fixed $\delta_{s}$ filter.
+The Octave function \emph{selesnickFIRsymmetric\_flat\_lowpass} uses Lagrange
+interpolation to find the filter amplitude response and removes spurious peaks
+in the pass-band amplitude response that are due to numerical errors.
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{selesnickFIRsymmetric_flat_lowpass_test_dual}}
+\caption{Response of a mini-max FIR maximally-flat pass-band low-pass filter
+  with fixed $\delta_{s}$~\cite[Section 
+  II.B]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.} 
+\label{fig:selesnickFIRsymmetric-flat-lowpass-test-dual}
+\end{figure}
+\subsection{Design of FIR band-pass filters with flat pass-bands and equi-ripple stop-bands}
+\emph{Selesnick} and \emph{Burrus} describe the design of maximally-flat
+pass-band, band-pass, FIR filters with centre frequency, $\omega_{p}$, pass-band
+width $2\omega_{t}$ and upper and lower stop-band ripple $\delta_{su}$ and
+$\delta_{sl}$, respectively. For maximally-flat band-pass FIR filters:
+\begin{align*}
+  H_{L}\left(z\right)
+  &= \left[\frac{1-2z^{-1}\cos\omega_{p}+z^{-2}}{4}\right]^{\frac{L}{2}}
+\end{align*}
+where $L$ is a multiple of $4$, $N$ is odd. The amplitude response is:
+\begin{align*}
+  A\left(\omega\right)
+  &= 1+ \left(-1\right)^{\frac{L}{2}}
+    \left[\frac{\cos\omega_{p}-\cos\omega}{2}\right]^{\frac{L}{2}}
+    A_{M}\left(\omega\right)
+\end{align*}
+where $A_{M}$ is the amplitude response of a symmetric FIR filter, $H_{M}$, of
+length $N-L$. \emph{Selesnick} and \emph{Burrus} describe exchange algorithms
+for the two cases: 
+\begin{enumerate}
+\item specifies $N$, $L$, $\omega_{p}$, $\omega_{t}$,
+  $K=\delta_{su}/\delta_{sl}$ and minimises $\delta_{sl}$ 
+\item specifies $N$, $L$, $\delta_{su}$ and $\delta_{sl}$ and maximises
+  $\omega_{t}$
+\end{enumerate}
+The exchange algorithms described in this section place all extremal frequencies
+in the stop-bands. The \emph{Remez} exchange algorithm requires that the error
+alternate in sign over the set of reference frequencies. Consequently, at each
+iteration, only one of the stop-band edges can be included in the set of
+reference frequencies. 
+\subsubsection{Maximally-flat pass-band and fixed $\omega_{p}$ and $\omega_{t}$}
+For convenience, set $\omega_{a}=\omega_{p}-\omega_{t}$ and
+$\omega_{b}=\omega_{p}+\omega_{t}$. In this case~\cite[Section
+III]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}: 
+\begin{quotation}
+  The reference set is updated by the following procedure: First compute the set
+  of all local extremal frequencies of $A\left(\omega\right)$ in
+  $\left[0,\pi\right]$. Calling this set $R$, remove $\omega_{p}$ from $R$. $R$
+  will then contain either $\left(N-L+1\right)/2$ or $\left(N-L+3\right)/2$
+  frequencies. If $R$ contains $\left(N-L+3\right)/2$ frequencies, then remove
+  either $0$ or $\pi$ as follows: if
+  $\left|A\left(\pi\right)\right|<K\left|A\left(0\right)\right|$ then remove
+  $\pi$, otherwise remove $0$. Next append either $\omega_{a}$ or $\omega_{b}$
+  to $R$: if
+  $\left|A\left(\omega_{b}\right)\right|<K\left|A\left(\omega_{a}\right)\right|$
+  then append $\omega_{a}$, otherwise append $\omega_{b}$. $R$ is the new
+  reference set and has size $\left(N-L+3\right)/2$.
+  On each iteration, the filter $H_{M}$ is found such that
+  $A\left(\omega\right)$ interpolates $\delta_{sl}\left(-1\right)^{k}$ over the
+  reference set frequencies in the first stop-band and
+  $K\delta_{sl}\left(-1\right)^{k}$ in the second stop-band.
+\end{quotation}
+
+The Octave script \emph{mcclellanFIRsymmetric\_flat\_bandpass\_test.m} calls the
+Octave function \emph{mcclellanFIRsymmetric} to design a maximally-flat FIR
+band-pass filter having fixed $\omega_{p}$ and $\omega_{t}$ and
+$K=\delta_{su}/\delta_{sl}$. The specification of the filter is:    
+\begin{small}
+\verbatiminput{mcclellanFIRsymmetric_flat_bandpass_test.spec}
+\end{small}
+Figure~\ref{fig:mcclellanFIRsymmetric-flat-bandpass-test-response} shows  the
+amplitude response of the fixed $\omega_{p}$ and $\omega_{t}$ filter. 
+Figure~\ref{fig:mcclellanFIRsymmetric-flat-bandpass-test-dual} shows  the
+detailed pass-band and stop-band amplitude responses of the filter. 
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{mcclellanFIRsymmetric_flat_bandpass_test_response}}
+\caption{Response of a mini-max FIR maximally-flat pass-band band-pass filter
+  with fixed $\omega_{p}$ and $\omega_{t}$~\cite[Section 
+  III]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.}
+\label{fig:mcclellanFIRsymmetric-flat-bandpass-test-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{mcclellanFIRsymmetric_flat_bandpass_test_dual}}
+\caption{Pass-band and stop-band responses of a mini-max FIR maximally-flat
+  pass-band band-pass filter with fixed $\omega_{p}$ and
+  $\omega_{t}$~\cite[Section
+  III]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.}
+\label{fig:mcclellanFIRsymmetric-flat-bandpass-test-dual}
+\end{figure}
+
+\subsubsection{Maximally-flat pass-band and fixed $\delta_{su}$ and
+  $\delta_{sl}$}
+In the second case~\cite[Section
+III]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}: 
+\begin{quotation}
+  A similar algorithm is used for approach (2) in which $\delta_{sl}$ and
+  $\delta_{su}$ are specified and the stop-band edges are left variable. The
+  reference set is updated in the same manner, except no stopband edge is
+  appended to $R$. Let $\omega_{1},\hdots\omega_{q}$ denote the reference set
+  frequencies ordered in increasing order. On each iteration, the filter $H_{M}$
+  is found such that:
+  \begin{align*}
+    A\left(\omega\right)&=\delta_{sl}\left(-1\right)^{k+c}
+    &\text{for }\omega_{k}<\omega_{p} \\
+    A\left(\omega\right)&=\delta_{su}\left(-1\right)^{k+c+1}
+    &\text{for }\omega_{k}>\omega_{p} 
+  \end{align*}
+  where $c$ equals $0$ or $1$, whichever gives
+  $A\left(\omega\right)=-\delta_{sl}$ at the highest reference frequency less
+  than $\omega_{p}$.
+\end{quotation}
+
+The Octave script \emph{selesnickFIRsymmetric\_flat\_bandpass\_test.m} calls the
+Octave function \emph{selesnickFIRsymmetric\_flat\_bandpass} to design a 
+maximally-flat FIR low-pass filter having fixed $\delta_{su}$ and
+$\delta_{sl}$. The specification of the filter is: 
+\begin{small}
+\verbatiminput{selesnickFIRsymmetric_flat_bandpass_test.spec}
+\end{small}
+Figure~\ref{fig:selesnickFIRsymmetric-flat-bandpass-test-dual} shows  the
+pass-band and stop-band amplitude responses of the fixed
+$\delta_{su}$ and $\delta_{sl}$ filter.
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{selesnickFIRsymmetric_flat_bandpass_test_dual}}
+\caption{Response of a mini-max FIR maximally-flat pass-band band-pass filter
+  with fixed $\delta_{su}$ and $\delta_{sl}$~\cite[Section 
+  III]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.} 
+\label{fig:selesnickFIRsymmetric-flat-bandpass-test-dual}
+\end{figure}
+\clearpage
+\subsection{Design of FIR low-pass differentiators with equi-ripple stop-bands}
 
 \clearpage
-\section{\label{app:Vaidyanathan-FIR-half-band-trick}Vaidyanathan's ``TRICK'' for the design of FIR half-band filters}
+\section{\label{app:Design-of-FIR-half-band-filters}Design of half-band FIR filters}
+\subsection{\label{app:Vaidyanathan-FIR-half-band-trick}Vaidyanathan's ``TRICK'' for the design of FIR half-band filters}
 \emph{Vaidyanathan} and \emph{Nguyen}~\cite{Vaidyanathan_TRICK_HalfBand_FIR}
 describe a method for the design of half-band FIR filters with pass-band edge
 $f_{p}$ and length $4M+3$:
@@ -25771,7 +26068,7 @@ Vaidyanathan's ``TRICK''~\cite{Vaidyanathan_TRICK_HalfBand_FIR}}
 \end{figure}
 
 \clearpage
-\section{\label{app:Equiripple-FIR-half-band-design}Design of equi-ripple FIR half-band filters}
+\subsection{\label{app:Equiripple-FIR-half-band-design}Design of equi-ripple FIR half-band filters}
 \emph{Zahradn\'{i}k}, \emph{Vl\v{c}ek} and
 \emph{Unbehauen}~\cite{Zahradnik_AlmostEquirippleApproxHalfBandFIR} describe the
 closed-form design of almost-equiripple half-band FIR filters. The impulse
@@ -26114,7 +26411,7 @@ h((2*n)+2)=0.5;
   1]{Zahradnik_EquirippleApproxHalfBandFIR}}
 \label{fig:Zahradnik-Vlcek-half-band-fp-0-240-as-140-dB}
 \end{figure}
-\subsection{\label{sec:Addendum-Zahradnik-Table-1}Addendum}
+\subsubsection{Addendum}
 \subsubsection{Working for \emph{Zahradn\'{i}k} and \emph{Vl\v{c}ek} Equation 8~\cite{Zahradnik_EquirippleApproxHalfBandFIR}}
 The chain rule gives:
 \begin{align*}
@@ -26784,9 +27081,8 @@ The Chebyshev polynomial expansion coefficients of the example shown by
 \begin{small}
 \verbatiminput{zolotarev_vlcek_unbehauen_test_a_3_6_coef.m}
 \end{small}
-
+\clearpage
 \subsubsection{Addendum}
-
 \paragraph{Working for Equation~\ref{eqn:w-to-u-conformal-transformation}}
 Re-writing Equation~\ref{eqn:u-to-w-conformal-transformation}:
 \begin{align}
@@ -27402,7 +27698,7 @@ $Q_{2159,540}\left(w,0.16238959\right)$ for \emph{Zahradn\'{i}k, \v{S}usta et
 Figure~\ref{fig:Zolotarev-cascade-p-2159-q-540} attempts to reproduce
 \emph{Zahradn\'{i}k, \v{S}usta et al.}s Figure 5 showing 
 $Q_{2159,540}\left(w,0.16238959\right)$ with $3$ subfilters. 
-Algortihm~\ref{alg:Zahradnik-evaluation-of-coefficients-ZPTF}, 
+Algorithm~\ref{alg:Zahradnik-evaluation-of-coefficients-ZPTF}, 
 the calculation of the coefficients of the Chebyshev polynomials of the first
 kind, is implemented with the \emph{MPFR}~\cite{Fousse:2007:MMB:1236463.1236468} 
  library in the Octave \emph{octfile} \emph{roots2T.cc}.

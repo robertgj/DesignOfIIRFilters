@@ -14,20 +14,19 @@ strf="selesnickFIRsymmetric_lowpass_test";
 %
 nplot=4000;
 maxiter=100;
-tol=1e-5;
+tol=1e-8;
 
 %
 % Filter design
 %
 
-% Failing specification: M=11 is successful
+% Failing specification: 0 is not an extremal point (M=11 is successful)
 M=10;deltap=1e-3;deltas=1e-4;ft=0.15;at=deltas;
 strt=sprintf("Failing Selesnick-Burrus Hofstetter lowpass FIR: \
 M=%d,deltap=%g,deltas=%g,ft=%g,at=%g",M,deltap,deltas,ft,at);
-
 % Failing filter design
-[hM,fiter,feasible]=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at, ...
-                                                  nplot,maxiter,tol);
+[hM,fext,fiter,feasible]=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at, ...
+                                                       nplot,maxiter,tol);
 if feasible==false
   warning("hM not feasible");
 endif
@@ -38,8 +37,8 @@ strt=sprintf("Selesnick-Burrus Hofstetter lowpass FIR: \
 M=%d,deltap=%g,deltas=%g,ft=%g,at=%g",M,deltap,deltas,ft,at);
 
 % Filter design
-[hM,fiter,feasible]=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at, ...
-                                                  nplot,maxiter,tol);
+[hM,fext,fiter,feasible]=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at, ...
+                                                       nplot,maxiter,tol);
 if feasible==false
   error("hM not feasible");
 endif
@@ -89,13 +88,15 @@ fprintf(fid,"deltap=%d %% Amplitude pass band peak-to-peak ripple\n",deltap);
 fprintf(fid,"deltas=%d %% Amplitude stop band peak-to-peak ripple\n",deltas);
 fprintf(fid,"ft=%g %% Amplitude transition band frequency\n",ft);
 fprintf(fid,"at=%d %% Amplitude at transition band frequency\n",at);
+fprintf(fid,"nplot=%d %% Number of frequencies\n",nplot);
+fprintf(fid,"tol=%g %% Tolerance on convergence\n",tol);
 fclose(fid);
 
 print_polynomial(hM,"hM","%15.12f");
 print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"),"%15.12f");
 
 save selesnickFIRsymmetric_lowpass_test.mat  ...
-     M deltap deltas ft at nplot maxiter tol hM
+     M deltap deltas ft at nplot maxiter tol hM fext
 
 %
 % Done

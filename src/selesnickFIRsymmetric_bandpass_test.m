@@ -24,7 +24,7 @@ M=%d,deltasl=%g,deltap=%g,deltasu=%g,ftl=%g,ftu=%g,at=%g", ...
              M,deltasl,deltap,deltasu,ftl,ftu,at);
 
 % Filter design
-[hM,fiter,feasible]= ...
+[hM,fext,fiter,feasible]= ...
   selesnickFIRsymmetric_bandpass(M,deltasl,deltap,deltasu,ftl,ftu,at, ...
                                  nplot,max_iter,tol);
 if feasible==false
@@ -116,15 +116,15 @@ fprintf(fid,"deltasu=%g %% Amplitude upper stop-band peak ripple\n",deltasu);
 fprintf(fid,"ftl=%g %% Amplitude lower transition band frequency\n",ftl);
 fprintf(fid,"ftu=%g %% Amplitude upper transition band frequency\n",ftu);
 fprintf(fid,"at=%g %% Amplitude at transition band frequencies\n",at);
-fprintf(fid,"nplot=%d %% Number of frequency\n",nplot);
-fprintf(fid,"tol=%g %% Tolerance\n",tol);
+fprintf(fid,"nplot=%d %% Number of frequencies\n",nplot);
+fprintf(fid,"tol=%g %% Tolerance on convergence\n",tol);
 fclose(fid);
 
 print_polynomial(hM,"hM","%15.12f");
 print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"),"%15.12f");
 
 save selesnickFIRsymmetric_bandpass_test.mat  ...
-     M deltasl deltap deltasu ftl ftu at nplot max_iter tol hM
+     M deltasl deltap deltasu ftl ftu at nplot max_iter tol hM fext
 
 %
 % Done

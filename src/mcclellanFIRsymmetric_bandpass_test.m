@@ -19,6 +19,7 @@ strf="mcclellanFIRsymmetric_bandpass_test";
 %  
 % Initialise
 %
+nplot=2000;
 maxiter=100;
 tol=1e-12;
 
@@ -30,21 +31,19 @@ tol=1e-12;
 M=40;fasl=0.15;fapl=0.2;fapu=0.25;fasu=0.3;K=20;
 
 % Constants 
-nf=2000;
-f=(0:nf)*0.5/nf;
-nasl=ceil(fasl*nf/0.5)+1;
-napl=floor(fapl*nf/0.5)+1;
-napu=ceil(fapu*nf/0.5)+1;
-nasu=floor(fasu*nf/0.5)+1;
-bands=[1,napl,nasu];
+f=(0:nplot)*0.5/nplot;
+nasl=ceil(fasl*nplot/0.5)+1;
+napl=floor(fapl*nplot/0.5)+1;
+napu=ceil(fapu*nplot/0.5)+1;
+nasu=floor(fasu*nplot/0.5)+1;
 F=[f(1:(nasl-1)),fasl,fapl,f((napl+1):(napu-1)),fapu,fasu,f((nasu+1):end)];
 F=F(:);
-gs=length(F);
-D=[zeros(nasl,1); ones(napu-napl+1,1); zeros(nf+1-nasu+1,1)];
-W=[ones(nasl,1); ones(napu-napl+1,1)/K; ones(nf+1-nasu+1,1)];
+D=[zeros(nasl,1); ones(napu-napl+1,1); zeros(nplot+1-nasu+1,1)];
+W=[ones(nasl,1); ones(napu-napl+1,1)/K; ones(nplot+1-nasu+1,1)];
 
 % Filter design
-[hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,"bandpass",maxiter,tol);
+[hM,rho,fext,fiter,feasible]= ...
+  mcclellanFIRsymmetric(M,F,D,W,"bandpass",maxiter,tol);
 if feasible==false
   error("hM not feasible");
 endif
@@ -71,8 +70,8 @@ endif
 % Plot response
 %
 strt=sprintf("McClellan bandpass FIR: \
-M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,K=%g,nf=%d,rho=%g", ...
-             M,fasl,fapl,fapu,fasu,K,nf,rho);
+M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,K=%g,nplot=%d,rho=%g", ...
+             M,fasl,fapl,fapu,fasu,K,nplot,rho);
 nplot=2000;
 wa=(0:(nplot-1))'*pi/nplot;
 A=directFIRsymmetricA(wa,hM);
@@ -115,9 +114,9 @@ fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
 fprintf(fid,"fasu=%g %% Amplitude stop band upper edge\n",fasu);
 fprintf(fid,"K=%d %% Stop band weight\n",K);
-fprintf(fid,"nf=%d %% Number of frequency grid points in [0,0.5]\n",nf);
+fprintf(fid,"nplot=%d %% Number of frequency grid points in [0,0.5]\n",nplot);
 fprintf(fid,"maxiter=%d %% Maximum iterations\n",maxiter);
-fprintf(fid,"tol=%g %% Tolerance on convergence of rho\n",tol);
+fprintf(fid,"tol=%g %% Tolerance on convergence\n",tol);
 fclose(fid);
 
 print_polynomial(hM,"hM");
@@ -128,7 +127,7 @@ fprintf(fid,"%11.8f",rho);
 fclose(fid);
 
 save mcclellanFIRsymmetric_bandpass_test.mat ...
-     M fasl fapl fapu fasu K nf maxiter tol nplot rho hM 
+     M fasl fapl fapu fasu K nplot maxiter tol maxiter nplot rho hM fext
 
 %
 % Done

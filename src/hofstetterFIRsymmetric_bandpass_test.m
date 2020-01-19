@@ -44,7 +44,7 @@ f0=[f0sl,f0p,f0su];
 a0=[a0sl,a0p,a0su];
 
 % Filter design
-[hM,fiter,feasible]=hofstetterFIRsymmetric(f0,a0,nplot,maxiter,tol);
+[hM,fext,fiter,feasible]=hofstetterFIRsymmetric(f0,a0,nplot,maxiter,tol);
 if feasible==false
   error("hM not feasible");
 endif
@@ -57,7 +57,7 @@ plot(wa*0.5/pi,20*log10(abs(A)));
 %
 wa=(0:(nplot-1))'*pi/nplot;
 A=directFIRsymmetricA(wa,hM);
-plot(wa*0.5/pi,20*log10(abs(A)))
+plot(wa*0.5/pi,20*log10(abs(A)));
 axis([0 0.5 (20*log10(deltas)-10) 1]);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
@@ -97,13 +97,15 @@ fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
 fprintf(fid,"fasu=%g %% Amplitude stop band upper edge\n",fasu);
 fprintf(fid,"deltap=%d %% Amplitude pass band peak-to-peak ripple\n",deltap);
 fprintf(fid,"deltas=%d %% Amplitude stop band peak-to-peak ripple\n",deltas);
+fprintf(fid,"nplot=%d %% Number of frequencies\n",nplot);
+fprintf(fid,"tol=%g %% Tolerance on convergence\n",tol);
 fclose(fid);
 
 print_polynomial(hM,"hM");
 print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"));
 
 save hofstetterFIRsymmetric_bandpass_test.mat ...
-     maxiter M nplot fasl fapl fapu fasu deltap deltas hM
+     maxiter M nplot maxiter tol fasl fapl fapu fasu deltap deltas hM fext
 
 %
 % Done

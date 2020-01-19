@@ -1,6 +1,6 @@
-function [hM,func_iter,feasible]= ...
+function [hM,fext,func_iter,feasible]= ...
   selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at,nf,max_iter,tol)
-% [hM,func_iter,feasible]= ...
+% [hM,fext,func_iter,feasible]= ...
 %   selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at,nf,max_iter,tol)
 % Implement the Selesnick-Burrus modification to Hofstetter's algorithm for the
 % design of a linear-phase FIR filter with given pass-band and stop-band ripples.
@@ -17,6 +17,7 @@ function [hM,func_iter,feasible]= ...
 %
 % Outputs:
 %   hM - M+1 distinct coefficients [h(1),...,h(M+1)]
+%   fext - extremal frequencies
 %   func_iter - number of iterations
 %   feasible - true if the design satisfies the constraints
 %
@@ -45,11 +46,11 @@ function [hM,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin < 5) || (nargin > 8) || (nargout>3)
+  if (nargin < 5) || (nargin > 8) || (nargout>4)
     print_usage ...
       ("hM=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at)\n\
 hM=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at,nf)\n\
-[hM,func_iter,feasible]= ...\n\
+[hM,fext,func_iter,feasible]= ...\n\
   selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at,nf,max_iter,tol)");
   endif
 
@@ -114,6 +115,7 @@ hM=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at,nf)\n\
   
   % Initialise
   hM=[];
+  fext=[];
   func_iter=0;
   feasible=false;
   allow_extrap=true;
@@ -146,7 +148,7 @@ hM=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at,nf)\n\
     % Choose new extremal values
     maxai=local_max(ai);
     minai=local_max(-ai);
-    eindex=unique([1;maxai(:);minai(:);nf]);
+    eindex=unique([maxai(:);minai(:)]);
     
     % Insert xt,at (recall f=0 -> x=1, f=0.5 -> x=-1)
     pindex=max(find(xi(eindex)>xt));
@@ -166,9 +168,6 @@ hM=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at,nf)\n\
     elseif length(x)==(M+2)
       [x,a]=selesnickFIRsymmetric_lowpass_exchange ...
               (x,a,ai,eindex,pindex,sindex,deltap,deltas);
-    elseif length(x)==(M+3)
-      x=x(2:(end-1));
-      a=a(2:(end-1));
     else
       error("length(x)=%d,M=%d,pindex=%d,sindex=%d",length(x),M,pindex,sindex);
     endif
@@ -177,7 +176,10 @@ hM=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at,nf)\n\
     delx=norm(x-lastx);
     lastx=x;
     if delx<tol
-      printf("x convergence (delx=%g) after %d iterations\n",delx,func_iter);
+      printf("Convergence : delx=%g after %d iterations\n",delx,func_iter);
+      fext=acos(x)/(2*pi);
+      printf("%d extremal frequencies : ",length(fext));
+      printf(" %g",fext(:)');printf("\n");
       feasible=true;
       break;
     endif
@@ -189,52 +191,14 @@ hM=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at,nf)\n\
 
   if feasible
     % Find equally spaced samples of the frequency response
-    N=(2*M)+1;
-    H=lagrange_interp(x,a,[],cos(pi*(0:N)/N),tol,allow_extrap);
-    
+    A=lagrange_interp(x,a,[],cos(pi*(0:M)/M),tol,allow_extrap);
     % Find the distinct impulse response coefficients
-    h=ifft([H;flipud(H(2:(end-1)))]);
-    if norm(imag(h))>tol
-      error("norm(imag(h))(%g)>tol".norm(imag(h)));
+    a=ifft([A;flipud(A(2:(end-1)))]);
+    if norm(imag(a))>tol
+      error("norm(imag(a))(%g)>tol",norm(imag(a)));
     endif
-    hM=real(flipud(h(1:M+1)));
-
-    % Sanity checks
-    wa=(0:(nf-1))'*pi/nf;
-    A=directFIRsymmetricA(wa,hM);
-    maxA=local_max(A);
-    minA=local_max(-A);
-    eindex=unique([1;maxA(:);minA(:);nf]);
-    % Check extrema in pass-band
-    pindex=max(find(abs(1-A(eindex))<(deltap+tol)));
-    if isempty(pindex)
-      feasible=false;
-      warning("isempty(pindex)");
-    else
-      if (wa(eindex(pindex))*0.5/pi)>ft
-        feasible=false;
-        warning("(wa(eindex(pindex))*0.5/pi)>ft");
-      endif
-      if any(abs(1-abs(A(eindex(1:pindex))))>(deltap+tol))
-        feasible=false;
-        warning("Found pass-band abs(1-A) > (deltap+tol)");
-      endif
-    endif
-    % Check extrema in stop-band
-    sindex=min(find(A(eindex)<(deltas+tol)));
-    if isempty(sindex)
-      feasible=false;
-      warning("isempty(sindex)");
-    else
-      if (wa(eindex(sindex))*0.5/pi)<ft
-        feasible=false;
-        warning("(wa(eindex(sindex))*0.5/pi)<ft");
-      endif
-      if any(abs(abs(A(eindex(sindex:end))))>(deltas+tol))
-        feasible=false;
-        warning("Found stop-band A > (deltas+tol)");
-      endif
-    endif
+    a=real(a(:));
+    hM=[a(M+1)/2;flipud(a(1:M))];
   endif
-    
+  
 endfunction

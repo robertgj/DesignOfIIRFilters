@@ -1,5 +1,6 @@
-function [hM,func_iter,feasible]=hofstetterFIRsymmetric(f0,a0,nf,max_iter,tol)
-% [hM,func_iter,feasible]=hofstetterFIRsymmetric(f0,a0,nf,max_iter,tol)
+function [hM,fext,func_iter,feasible]= ...
+         hofstetterFIRsymmetric(f0,a0,nf,max_iter,tol)
+% [hM,fext,func_iter,feasible]=hofstetterFIRsymmetric(f0,a0,nf,max_iter,tol)
 % Implement Hofstetter's algorithm for the design of a linear-phase FIR
 % filter with given pass-band and stop-band ripples.
 %
@@ -12,6 +13,7 @@ function [hM,func_iter,feasible]=hofstetterFIRsymmetric(f0,a0,nf,max_iter,tol)
 %
 % Outputs:
 %   hM - M+1 distinct coefficients [h(1),...,h(M+1)]
+%   fext- extremal frequencies
 %   func_iter - number of iterations
 %   feasible - true if the design satisfies the constraints
 
@@ -35,10 +37,10 @@ function [hM,func_iter,feasible]=hofstetterFIRsymmetric(f0,a0,nf,max_iter,tol)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin < 2) || (nargin > 5) || (nargout>3)
+  if (nargin < 2) || (nargin > 5) || (nargout>4)
     print_usage("hM=hofstetterFIRsymmetric(f0,a0)\n\
 hM=hofstetterFIRsymmetric(f0,a0,nf)\n\
-[hM,func_iter,feasible]=hofstetterFIRsymmetric(f0,a0,nf,max_iter,tol)");
+[hM,fext,func_iter,feasible]=hofstetterFIRsymmetric(f0,a0,nf,max_iter,tol)");
   endif
 
   % Sanity checks
@@ -57,6 +59,8 @@ hM=hofstetterFIRsymmetric(f0,a0,nf)\n\
   endif
 
   % Initialise
+  hM=[];
+  fext=[];
   func_iter=0;
   feasible=false;
   
@@ -88,7 +92,10 @@ hM=hofstetterFIRsymmetric(f0,a0,nf)\n\
     delx=norm(x-lastx);
     lastx=x;
     if delx<tol
-      printf("x convergence (delx=%g) after %d iterations\n",delx,func_iter);
+      printf("Convergence : delx=%g after %d iterations\n",delx,func_iter);
+      fext=acos(x)/(2*pi);
+      printf("%d extremal frequencies : ",length(fext));
+      printf(" %g",fext(:)');printf("\n");
       feasible=true;
       break;
     endif
@@ -98,15 +105,16 @@ hM=hofstetterFIRsymmetric(f0,a0,nf)\n\
     
   endfor
 
-  % Find equally spaced samples of the frequency response
-  N=(2*M)+1;
-  H=lagrange_interp(x,a,w,cos(pi*(0:N)/N));
-
-  % Find the distinct impulse response coefficients
-  h=ifft([H;flipud(H(2:(end-1)))]);
-  if norm(imag(h))>tol
-    error("norm(imag(h))(%g)>tol".norm(imag(h)));
+  if feasible
+    % Find equally spaced samples of the frequency response
+    A=lagrange_interp(x,a,[],cos(pi*(0:M)/M),tol);
+    % Find the distinct impulse response coefficients
+    a=ifft([A;flipud(A(2:(end-1)))]);
+    if norm(imag(a))>tol
+      error("norm(imag(a))(%g)>tol",norm(imag(a)));
+    endif
+    a=real(a(:));
+    hM=[a(M+1)/2;flipud(a(1:M))];
   endif
-  hM=real(flipud(h(1:M+1)));
-  
+
 endfunction

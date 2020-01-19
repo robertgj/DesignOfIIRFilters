@@ -1,5 +1,6 @@
-function [hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)
-% [hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)
+function [hM,rho,fext,fiter,feasible]= ...
+         mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)
+% [hM,rho,fext,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)
 % Implement Park and McClellans' algorithm for the design of a linear-phase FIR
 % filter with given pass-band and stop-band ripples.
 %
@@ -15,10 +16,11 @@ function [hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)
 % Outputs:
 %   hM - M+1 distinct coefficients [h(1),...,h(M+1)]
 %   rho - stop-band ripple
+%   fext - extremal frequencies
 %   fiter - number of iterations
 %   feasible - true if the design satisfies the constraints
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -38,17 +40,20 @@ function [hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if (nargin < 5) || (nargin > 7) || (nargout>4)
-  print_usage("hM=mcclellanFIRsymmetric(M,F,D,W,type)\n\
-[hM,rho,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)");
+if (nargin < 4) || (nargin > 7) || (nargout>5)
+  print_usage("hM=mcclellanFIRsymmetric(M,F,D,W)\n\
+[hM,rho,fext,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)");
 endif
 
 % Sanity checks
 if nargin<7
-  tol=1e-12;
+  tol=1e-10;
 endif
 if nargin<6
   maxiter=100;
+endif
+if nargin<5
+  type="lowpass";
 endif
 if size(F)~=size(D)
   error("size(F)~=size(D)");
@@ -73,9 +78,13 @@ if length(type)>8
 endif
 
 % Initialise flags
-allow_extrap=true;
-last_rho=0;
+hM=[];
+rho=inf;
+fext=[];
+fiter=0;
 feasible=false;
+allow_extrap=true;
+lastrhoxk=zeros(1,M+3);
 
 % Initial guess at M+2 extremal points in F
 gs=length(F);
@@ -108,7 +117,7 @@ for fiter=1:maxiter
   ck=ck(1:(M+1));
   dk=1./prod(axk(1:(M+1),1:(M+1)),1);
   A=lagrange_interp(xk,ck,dk,x,tol,allow_extrap);
-
+  
   % Calculate weighted error
   E=W.*(D-A); 
   
@@ -145,8 +154,8 @@ for fiter=1:maxiter
   
   % Check for alternation of errors
   Ekalt=E(Ek)'.*m1k;
-  if any(Ekalt<0) && any(Ekalt>0)
-    error("any(Ekalt<0) && any(Ekalt>0)")
+  if any(Ekalt<-eps) && any(Ekalt>eps)
+    warning("fiter=%d : any(Ekalt<-eps) && any(Ekalt>eps)",fiter)
   endif
 
   % Update values at extremal points
@@ -155,11 +164,14 @@ for fiter=1:maxiter
   Wk=W(Ek)';
   
   % Test convergence
-  del_rho=abs(rho-last_rho);
-  last_rho=rho; 
-  if del_rho<tol
-    printf("rho=%g convergence (del_rho=%g) after %d iterations\n",
-           rho,del_rho,fiter);
+  delrhoxk=norm([rho,xk]-lastrhoxk);
+  lastrhoxk=[rho,xk];
+  if delrhoxk<tol
+    printf("Converged : rho=%g, delrhoxk=%g after %d iterations\n",
+           rho,delrhoxk,fiter);
+    fext=acos(xk)/(2*pi);
+    printf("%d extremal frequencies : ",length(fext));
+    printf(" %g",fext(:)');printf("\n");
     feasible=true;
     break;
   endif
@@ -168,20 +180,21 @@ for fiter=1:maxiter
   endif
 endfor
 
-% Find equally spaced samples of the frequency response
-Ek=unique([1,gs,Ek]);
-xk=x(Ek)';
-Ak=A(Ek)';
-axk=(((xk(:)')-xk(:))*2)+eye(length(xk));
-ak=1./prod(axk,1);
-N=(2*M)+1;
-AN=lagrange_interp(xk,Ak,ak,cos(pi*(0:N)/N));
-
-% Find the distinct impulse response coefficients
-h=ifft([AN;flipud(AN(2:(end-1)))]);
-if norm(imag(h))>tol
-  error("norm(imag(h))(%g)>tol",norm(imag(h)));
+if feasible
+  % Find equally spaced samples of the frequency response
+  Ek=unique([1,Ek,gs]);
+  xk=x(Ek)';
+  Ak=A(Ek)';
+  xM=cos(pi*(0:M)/M);
+  AM=lagrange_interp(xk,Ak,[],xM,tol,allow_extrap);
+  % IDFT to find the coefficients of the cosine polynomial
+  a=ifft([AM;flipud(AM(2:(end-1)))]);
+  if norm(imag(a))>tol
+    error("norm(imag(a))(%g)>tol",norm(imag(a)));
+  endif
+  a=real(a(:));
+  % Convert a to vector of the distinct impulse response coefficients
+  hM=[a(M+1)/2;flipud(a(1:M))];
 endif
-hM=real(flipud(h(1:M+1)));
-    
+
 endfunction

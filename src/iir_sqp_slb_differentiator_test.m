@@ -220,6 +220,7 @@ ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_d1freqz"),"-dpdflatex");
+close
 
 % Coefficients
 print_pole_zero(x0,U,V,M,Q,R,"x0",strcat(strf,"_x0_coef.m"));
