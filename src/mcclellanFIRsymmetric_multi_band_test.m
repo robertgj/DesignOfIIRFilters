@@ -114,6 +114,9 @@ printf("W(Fchk)=[ ");printf("%7.5f ",W(Fchk)');printf("]\n");
 if feasible==false
   error("hM not feasible");
 endif
+Aext=directFIRsymmetricA(2*pi*fext,hM);
+print_polynomial(fext,"fext","%13.10f");
+print_polynomial(Aext,"Aext","%13.10f");
 
 % Check response at band edges
 % First stop-band
@@ -157,12 +160,12 @@ endif
 %
 % Plot response
 %
-strt=sprintf("McClellan bandpass FIR: \
+strt=sprintf("McClellan multi-band FIR: \
 M=%d,fasu1=%g,fapl1=%g,fapu1=%g,fasl2=%g,fasu2=%g,fapl2=%g,fapu2=%g,fasl3=%g,\
 K1=%g,K2=%g,K3=%g,nplot=%d,rho=%g", ...
 M,fasu1,fapl1,fapu1,fasl2,fasu2,fapl2,fapu2,fasl3,K1,K2,K3,nplot,rho);
 nplot=2000;
-wa=(0:(nplot-1))'*pi/nplot;
+wa=(0:nplot)'*pi/nplot;
 A=directFIRsymmetricA(wa,hM);
 plot(wa*0.5/pi,20*log10(abs(A)))
 axis([0 0.5 (20*log10(abs(rho))-10) 1]);
@@ -223,7 +226,7 @@ fclose(fid);
 
 save mcclellanFIRsymmetric_multi_band_test.mat ...
      M fasu1 fapl1 fapu1 fasl2 fasu2 fapl2 fapu2 fasl3 K1 K2 K3 ...
-     nplot maxiter tol rho hM 
+     nplot maxiter tol rho hM fext Aext
 
 %
 % Done

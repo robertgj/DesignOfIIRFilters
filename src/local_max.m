@@ -13,6 +13,12 @@ function x = local_max(c)
   elseif length(c)==1
     x=[1];
     return;
+  elseif all(diff(c)==0)
+    x=[1];
+    return;
+  elseif length(c)==2
+    [~,x]=max(c);
+    return;
   endif
 
   % Find the locations of local maximums
@@ -28,7 +34,24 @@ function x = local_max(c)
   if c(N)>c(N-1),
     x = [x, N];
   endif
-  x = sort(x);
+  
+  % Check for maxima in repeated values at the start and finish
+  dc=diff(c);
+  if dc(1)==0
+    neq=min(find(c~=c(1)));
+    if c(1)>c(neq)
+      x(1)=1;
+    endif
+  endif
+  if dc(N-1)==0
+    neq=max(find(c~=c(N)));
+    if c(N)>c(neq)
+      x=[x, N];
+    endif
+  endif
+  
+  % Done
+  x = unique(x);
   x = x(:);
 
 endfunction

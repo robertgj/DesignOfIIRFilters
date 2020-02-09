@@ -31,4 +31,4 @@ iir_frm_allpass_struct_to_vec.m \
 iir_frm_allpass_vec_to_struct.m \
 allpassP.m allpassT.m tf2a.m a2tf.m \
 aConstraints.m print_polynomial.m \
-local_max.m local_peak.m qroots.m qzsolve.oct sedumi_test.diary
+local_max.m qroots.m qzsolve.oct sedumi_test.diary

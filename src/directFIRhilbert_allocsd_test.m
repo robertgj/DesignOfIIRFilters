@@ -1,5 +1,5 @@
 % directFIRhilbert_allocsd_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Test Lims and Itos signed-digit allocation algorithms with
 % the distinct non-zero coefficients of a Hilbert FIR filter
@@ -20,22 +20,22 @@ npoints=1000;
 wa=(0:((npoints)-1))'*pi/(npoints);
 napl=floor(npoints*fapl/0.5)+1;
 napu=ceil(npoints*fapu/0.5)+1;
-Ad=ones(npoints,1);
+Ad=-ones(npoints,1);
 Wa=[Was*ones(napl-1,1); ...
     Wap*ones(napu-napl+1,1); ...
     Was*ones(npoints-napu,1)];
 
 % For directFIRhilbertEsqPW
 waf=wa([napl napu]);
-Adf=1;
+Adf=-1;
 Waf=Wap;
 
 % Make a Hilbert filter
 n4M1=((-2*M)+1):2:((2*M)-1)';
-h0=zeros((4*M)+1,1);
-h0(n4M1+(2*M)+1)=2*(sin(pi*n4M1/2).^2)./(pi*n4M1);
-h0=h0.*hamming((4*M)+1);
-hM=h0(((2*M)+2):2:(end-1));
+h0=zeros((4*M)-1,1);
+h0(n4M1+(2*M))=2*(sin(pi*n4M1/2).^2)./(pi*n4M1);
+h0=h0.*hamming((4*M)-1);
+hM=h0(1:2:((2*M)-1));
 
 % Find response of exact filter
 A_ex=directFIRhilbertA(wa,hM);

@@ -52,14 +52,14 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_sd_Ito.ok << 'EOF'
-hM2_sd_Ito = [      868,     -327,     -112,      128, ... 
-                     32,      -64,       -8,       20 ]'/2048;
+hM2_sd_Ito = [      -20,        8,       64,      -32, ... 
+                   -128,      112,      327,     -868 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_sd_Ito.ok"; fail; fi
 
 cat > test_sd_sdp.ok << 'EOF'
-hM2_sd_sdp = [      872,     -326,     -120,      128, ... 
-                     32,      -64,       -8,       24 ]'/2048;
+hM2_sd_sdp = [      -24,        8,       64,      -32, ... 
+                   -128,      120,      326,     -872 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_sd_sdp.ok"; fail; fi
 

@@ -1,7 +1,7 @@
-function [hM,fext,func_iter,feasible]= ...
-  selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at,nf,max_iter,tol)
-% [hM,fext,func_iter,feasible]= ...
-%   selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at,nf,max_iter,tol)
+function [hM,fext,fiter,feasible]= ...
+  selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,At,nf,max_iter,tol,verbose)
+% [hM,fext,fiter,feasible]= ...
+%  selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,At,nf,max_iter,tol,verbose)
 % Implement the Selesnick-Burrus modification to Hofstetter's algorithm for the
 % design of a linear-phase FIR filter with given pass-band and stop-band ripples.
 %
@@ -10,15 +10,16 @@ function [hM,fext,func_iter,feasible]= ...
 %   deltap - desired pass-band amplitude response ripple
 %   deltas - desired stop-band amplitude response ripple
 %   ft - fixed transition band frequencies in [0,0.5]
-%   at - desired amplitude response at ft
+%   At - desired amplitude response at ft
 %   nf - number of interpolation frequency points used to evaluate error
 %   max_iter - maximum number of iterations
 %   tol - tolerance on convergence
+%   verbose - show intermediate results
 %
 % Outputs:
 %   hM - M+1 distinct coefficients [h(1),...,h(M+1)]
 %   fext - extremal frequencies
-%   func_iter - number of iterations
+%   fiter - number of iterations
 %   feasible - true if the design satisfies the constraints
 %
 % See: Section II.B of "Exchange Algorithms that Complement the Parks-McClellan
@@ -46,15 +47,20 @@ function [hM,fext,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin < 5) || (nargin > 8) || (nargout>4)
+  if (nargin < 5) || (nargin > 9) || (nargout>4)
     print_usage ...
-      ("hM=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at)\n\
-hM=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at,nf)\n\
-[hM,fext,func_iter,feasible]= ...\n\
-  selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at,nf,max_iter,tol)");
+      ("hM=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,At)\n\
+hM=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,At,nf)\n\
+[hM,fext,fiter,feasible]= ...\n\
+selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,At,nf,max_iter,tol,verbose)");
   endif
 
+  %
   % Sanity checks
+  %
+  if nargin<9
+    verbose=false;
+  endif
   if nargin<8
     tol=1e-8;
   endif
@@ -76,8 +82,8 @@ hM=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at,nf)\n\
   if ~isscalar(ft)
     error("~isscalar(ft)");
   endif
-  if ~isscalar(at)
-    error("~isscalar(at)");
+  if ~isscalar(At)
+    error("~isscalar(At)");
   endif
   if ~isscalar(nf)
     error("~isscalar(nf)");
@@ -106,99 +112,152 @@ hM=selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,at,nf)\n\
   if ft>0.5
     error("ft>0.5");
   endif
-  if at>=(1+deltap)
-    error("at>=(1+deltap)");
+  if At>=(1+deltap)
+    error("At>=(1+deltap)");
   endif
-  if at<=-deltas
-    error("at<=-deltas");
+  if At<=-deltas
+    error("At<=-deltas");
   endif
-  
+
+  %
   % Initialise
+  %
   hM=[];
   fext=[];
-  func_iter=0;
+  fiter=0;
   feasible=false;
   allow_extrap=true;
   
-  % Initial mini-max frequency-amplitude pairs
-  np=floor(M*ft/0.5)+1;
-  ns=M-np;
-  if mod(np,2)
-    c=1;
-  else
-    c=0;
-  endif
-  a=[(1+((((-1).^(c+(1:np))'))*deltap)); ...
-     at; ...
-     ((-1).^(c+((np+1):M)'))*deltas];
-  f=[(0:(np-1))/(2*(M+1)),ft,((np+2):(M+1))/(2*(M+1))]';
-  % Convert the initial mini-max frequencies to the cos(omega) domain
-  xt=cos(2*pi*ft);
-  x=cos(2*pi*f);
   % Fixed interpolation frequencies in the cos(omega) domain
-  xi=cos(pi*(0:nf)'/nf);
+  fi=0.5*(0:nf)'/nf;
+  wi=2*pi*fi;
+  xi=cos(wi);
   
+  % Initial mini-max frequency-amplitude pairs, (x,A). Ensure ft is unique.
+  np=floor(M*ft/0.5);
+  del=0.5/(4*M);
+  f=unique([linspace(0,ft-del,np),ft,linspace(ft+del,0.5,M-np)]');
+  if length(f)~=(M+1)
+    error("Initial length(f)(%d)~=(M+1)",length(f));
+  endif
+  % M+1 initial amplitudes
+  A=[(1+fliplr(((-1).^(1:np))*deltap)), ...
+     At, ...
+     (((-1).^(1:(M-np)))*deltas)]';
+  if length(A)~=(M+1)
+    error("Initial length(A)(%d)~=(M+1)",length(f));
+  endif
+
+  % Frequencies
+  w=2*pi*f;
+  x=cos(w);
+  wt=2*pi*ft;
+  xt=cos(wt);
+
+  %
   % Loop performing modified Hofstetter's algorithm
+  %
   lastx=zeros(size(x));
-  for func_iter=1:max_iter
+  for fiter=1:max_iter
 
     % Lagrange interpolation
-    ai=lagrange_interp(x,a,[],xi,tol,allow_extrap);
-      
-    % Choose new extremal values
-    maxai=local_max(ai);
-    minai=local_max(-ai);
-    eindex=unique([maxai(:);minai(:)]);
+    Ai=lagrange_interp(x,A,[],xi,tol,allow_extrap);
+
+    %
+    % Choose new extremal values (maintaining frequency order when sorting)
+    %
+    [max_fi,max_Ai]=local_peak(fi,Ai);
+    [min_fi,min_Ai]=local_peak(fi,-Ai);
+    min_Ai=-min_Ai;
+    fext=[max_fi;min_fi];
+    [fext,ifi]=unique(fext);
+    xext=cos(2*pi*fext);
+    Aext=[max_Ai;min_Ai];
+    Aext=Aext(ifi);
+
+    % Sanity checks
+    if fext(1)~=0.0
+      error("0.0 should be an extrema!");
+    endif
+    if fext(end)~=0.5
+      error("0.5 should be an extrema!");
+    endif
+    if ~isempty(find(fext==ft))
+      error("ft should not be an extrema!");
+    endif
+    if length(fext)~=(length(max_fi)+length(min_fi))
+      error("length(fext)~=(length(max_fi)+length(min_fi))");
+    endif
+    if verbose
+      plot(fi,Ai,max_fi,max_Ai,"o",min_fi,min_Ai,"+",ft,At,"x");
+    endif
     
-    % Insert xt,at (recall f=0 -> x=1, f=0.5 -> x=-1)
-    pindex=max(find(xi(eindex)>xt));
-    sindex=min(find(xi(eindex)<xt));
-    if mod(pindex,2)
-      c=1;
-    else
-      c=0;
+    %
+    % Selesnick-Burrus exchange for low-pass filters results in M extrema
+    %
+    
+    % Insert xt,At to create reference set S, (x,A)
+    pindex=max(find(xext>xt));
+    sindex=min(find(xext<xt));
+    if (pindex+1)~=sindex
+      error("(pindex+1)~=sindex");
     endif
-    a=[(1+(((-1).^(c+(1:pindex)'))*deltap)); ...
-       at; ...
-       ((-1).^(c+((pindex+1):length(eindex))'))*deltas];
-    x=[xi(eindex(1:pindex));xt;xi(eindex((pindex+1):end))];
-
-    % Selesnick-Burrus exchange
-    if length(x)==M+1
-    elseif length(x)==(M+2)
-      [x,a]=selesnickFIRsymmetric_lowpass_exchange ...
-              (x,a,ai,eindex,pindex,sindex,deltap,deltas);
+    x=[xext(1:pindex);xt;xext(sindex:end)];
+    A=[(1+fliplr(((-1).^(0:(pindex-1)))*deltap)), ...
+       At, ...
+       (((-1).^(1:(length(xext(sindex:end)))))*deltas)]';
+    
+    % Exchange 
+    L=length(Aext);
+    if L==M
+    elseif L==(M+1)
+      if all(xt>xext(2:end))
+        if verbose
+          printf("L=%d,M=%d,no extrema 0<f<ft,removing extremal f=0\n",L,M);
+        endif
+        x=x(2:end);
+        A=A(2:end);
+      elseif all(xext(1:(end-1))>xt)
+        if verbose
+          printf("L=%d,M=%d,no extrema ft<f<0.5,removing extremal f=0.5\n",L,M);
+        endif
+        x=x(1:(end-1));
+        A=A(1:(end-1));
+      else
+        if (abs(Aext(1)-Aext(2))*deltas) < (abs(Aext(end)-Aext(end-1))*deltap)
+          if verbose
+            printf("L=%d,M=%d,removing extremal f=0\n",L,M);
+          endif
+          x=x(2:end);
+          A=A(2:end);
+        else
+          if verbose
+            printf("L=%d,M=%d,removing extremal f=0.5\n",L,M);
+          endif
+          x=x(1:(end-1));
+          A=A(1:(end-1));
+        endif
+      endif
     else
-      error("length(x)=%d,M=%d,pindex=%d,sindex=%d",length(x),M,pindex,sindex);
+      error("L=%d,M=%d,pindex=%d,sindex=%d",L,M,pindex,sindex);
     endif
 
+    %
     % Test convergence
+    %
     delx=norm(x-lastx);
     lastx=x;
     if delx<tol
-      printf("Convergence : delx=%g after %d iterations\n",delx,func_iter);
+      hM=xfr2tf(M,x,A,tol);
       fext=acos(x)/(2*pi);
-      printf("%d extremal frequencies : ",length(fext));
-      printf(" %g",fext(:)');printf("\n");
       feasible=true;
+      printf("Converged : delx=%g after %d iterations\n",delx,fiter);
       break;
     endif
-    if (feasible==false) && (func_iter==max_iter),
+    if (feasible==false) && (fiter==max_iter),
       warning("No convergence after %d iterations",max_iter);
     endif
     
   endfor
-
-  if feasible
-    % Find equally spaced samples of the frequency response
-    A=lagrange_interp(x,a,[],cos(pi*(0:M)/M),tol,allow_extrap);
-    % Find the distinct impulse response coefficients
-    a=ifft([A;flipud(A(2:(end-1)))]);
-    if norm(imag(a))>tol
-      error("norm(imag(a))(%g)>tol",norm(imag(a)));
-    endif
-    a=real(a(:));
-    hM=[a(M+1)/2;flipud(a(1:M))];
-  endif
   
 endfunction

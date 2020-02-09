@@ -1,0 +1,16 @@
+selesnickFIRsymmetric_halfband_test_FIGURES = \
+selesnickFIRsymmetric_halfband_test_response \
+selesnickFIRsymmetric_halfband_test_dual \
+selesnickFIRsymmetric_halfband_test_zeros \
+selesnickFIRsymmetric_halfband_test_hilbert_response \
+selesnickFIRsymmetric_halfband_test_hilbert_zeros
+
+selesnickFIRsymmetric_halfband_test_COEFS = \
+selesnickFIRsymmetric_halfband_test.mat \
+selesnickFIRsymmetric_halfband_test.spec \
+selesnickFIRsymmetric_halfband_test_hM_coef.m
+
+selesnickFIRsymmetric_halfband_test_FILES = \
+selesnickFIRsymmetric_halfband_test.m test_common.m \
+selesnickFIRsymmetric_lowpass.m lagrange_interp.m print_polynomial.m \
+local_max.m xfr2tf.m directFIRsymmetricA.m

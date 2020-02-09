@@ -1,14 +1,20 @@
-function [A,gradA]=directFIRhilbertA(wa,hM)
-% [A,gradA]=directFIRhilbertA(wa,hM)
+function [A,gradA]=directFIRhilbertA(wa,hM,order)
+% [A,gradA]=directFIRhilbertA(wa,hM,order)
 % Inputs:
 %   wa - angular frequencies
-%   hM - M distinct coefficients of an order 4M, Hilbert FIR filter polynomial
+%   hM - M distinct coefficients of an even order 4M-2, odd length 4M-1,
+%        Hilbert FIR filter:
+%          h=[hM(1) 0 hM(2) 0 ... 0 hM(M) 0 -hM(M) 0 ... 0 -hM(1)] or
+%        For an odd-order 2M-1, even length 2M filter:
+%          h=[hM(1) ... hM(M) -hM(M) ... -hM(1)]
+%   order - "even" if even order, odd length (the default)
+%         - "odd" if odd order, even length
 % Outputs:
 %   A - a column vector of the amplitudes at wa
 %   gradA - the gradients of the amplitude wrt hM at wa. The rows of gradA
 %           are the gradients of A at each frequency in wa. 
   
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -28,8 +34,12 @@ function [A,gradA]=directFIRhilbertA(wa,hM)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargout > 2) || (nargin ~= 2)
-    print_usage("[A,gradA]=directFIRhilbertA(wa,hM)");
+  if (nargout > 2) || ((nargin~=2) && (nargin~=3))
+    print_usage("A=directFIRhilbertA(wa,hM)\n\
+[A,gradA]=directFIRhilbertA(wa,hM,order)");
+  endif
+  if nargin==2
+    order="even";
   endif
   if isempty(hM)
     error("hM is empty");
@@ -43,7 +53,13 @@ function [A,gradA]=directFIRhilbertA(wa,hM)
   wa=wa(:);
   hM=hM(:);
   M=rows(hM);
-  gradA=2*sin((1:2:((2*M)-1)).*wa);
+
+  if strncmp(order,"odd",3)
+    gradA=2*sin((M-(0:(M-1))-0.5).*wa);
+  else
+    gradA=2*sin((2*M-(1:2:(2*M-1))).*wa);
+  endif
+  
   A=gradA*hM;
 
 endfunction

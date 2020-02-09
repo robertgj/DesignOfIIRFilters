@@ -9,4 +9,5 @@ mcclellanFIRsymmetric_flat_lowpass_test_hM_coef.m
 
 mcclellanFIRsymmetric_flat_lowpass_test_FILES = \
 mcclellanFIRsymmetric_flat_lowpass_test.m test_common.m print_polynomial.m \
-mcclellanFIRsymmetric.m local_max.m lagrange_interp.m directFIRsymmetricA.m
+mcclellanFIRsymmetric.m local_max.m lagrange_interp.m \
+xfr2tf.m directFIRsymmetricA.m

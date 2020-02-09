@@ -10,4 +10,4 @@ selesnickFIRsymmetric_flat_bandpass_test_hM_coef.m
 selesnickFIRsymmetric_flat_bandpass_test_FILES = \
 selesnickFIRsymmetric_flat_bandpass_test.m test_common.m \
 selesnickFIRsymmetric_flat_bandpass.m lagrange_interp.m print_polynomial.m \
-local_max.m directFIRsymmetricA.m
+local_max.m xfr2tf.m directFIRsymmetricA.m

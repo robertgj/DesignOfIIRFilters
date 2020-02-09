@@ -1,5 +1,5 @@
 % directFIRhilbert_bandpass_slb_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2020 Robert G. Jenssen
 
 test_common;
 
@@ -19,20 +19,20 @@ ctol=tol;
 npoints=1000;
 M=8;
 fasl=0.1;fapl=0.16325;fapu=0.5-fapl;fasu=0.5-fasl;
-dBap=0.315;Wap=1;Wat=0.001;dBas=35;Was=10;
+dBap=0.31375;Wap=1;Wat=0.001;dBas=35;Was=10;
 
 wa=(0:((npoints)-1))'*pi/(npoints);
 nasl=ceil(npoints*fasl/0.5)+1;
 napl=floor(npoints*fapl/0.5)+1;
 napu=ceil(npoints*fapu/0.5)+1;
 nasu=floor(npoints*fasu/0.5)+1;
-Ad=[zeros(napl-1,1);ones(napu-napl+1,1);zeros(npoints-napu,1)];
-Adu=[(10^(-dBas/20))*ones(nasl,1); ...
-       ones(nasu-nasl-1,1); ...
-       (10^(-dBas/20))*ones(npoints-nasu+1,1)];
-Adl=[zeros(napl-1,1); ...
-     (10^(-dBap/20))*ones(napu-napl+1,1); ...
-     zeros(npoints-napu,1)];
+Ad=-[zeros(napl-1,1);ones(napu-napl+1,1);zeros(npoints-napu,1)];
+Adl=-[(10^(-dBas/20))*ones(nasl,1); ...
+      ones(nasu-nasl-1,1); ...
+      (10^(-dBas/20))*ones(npoints-nasu+1,1)];
+Adu=-[zeros(napl-1,1); ...
+      (10^(-dBap/20))*ones(napu-napl+1,1); ...
+      zeros(npoints-napu,1)];
 Wa=[Was*ones(nasl,1); ...
     Wat*ones(napl-nasl-1,1); ...
     Wap*ones(napu-napl+1,1); ...
@@ -52,17 +52,17 @@ printf("Wa=[ ");printf("%d ",Wa(nch));printf("]\n");
 % Make an initial Hilbert filter
 %
 n4M1=((-2*M)+1):2:((2*M)-1)';
-h0=zeros((4*M)+1,1);
-h0(n4M1+(2*M)+1)=2*(sin(pi*n4M1/2).^2)./(pi*n4M1);
-h0=h0.*hamming((4*M)+1);
-hM0=h0(((2*M)+2):2:(end-1));
+h0=zeros((4*M)-1,1);
+h0(n4M1+(2*M))=2*(sin(pi*n4M1/2).^2)./(pi*n4M1);
+h0=h0.*hamming((4*M)-1);
+hM0=h0(1:2:((2*M)-1));
 hM_active=1:length(hM0);
 
 %
 % fminunc solution
 %
 waf=2*pi*[0 fasl fasu 0.5];
-Adf=[0 1 0];
+Adf=[0 -1 0];
 Waf=[Was Wap Was];
 function Esq=directFIRhilbert_bandpassEsq(hM,_waf,_Adf,_Waf)
   persistent waf Adf Waf

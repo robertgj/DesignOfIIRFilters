@@ -11,4 +11,5 @@ mcclellanFIRsymmetric_multi_band_test_rho.tab
 
 mcclellanFIRsymmetric_multi_band_test_FILES = \
 mcclellanFIRsymmetric_multi_band_test.m test_common.m print_polynomial.m \
-mcclellanFIRsymmetric.m local_max.m lagrange_interp.m directFIRsymmetricA.m
+mcclellanFIRsymmetric.m local_max.m lagrange_interp.m \
+directFIRsymmetricA.m

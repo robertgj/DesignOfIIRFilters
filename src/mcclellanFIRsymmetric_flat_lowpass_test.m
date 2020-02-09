@@ -37,6 +37,9 @@ D=-1./W;
 if feasible==false
   error("hM not feasible");
 endif
+Aext=directFIRsymmetricA(2*pi*fext,hM);
+print_polynomial(fext,"fext","%13.10f");
+print_polynomial(Aext,"Aext","%13.7f");
 
 % Plot solution
 AM=directFIRsymmetricA(2*pi*F,hM);
@@ -71,6 +74,16 @@ grid("on");
 print(strcat(strf,"_dual"),"-dpdflatex");
 close
 
+% Check response at extremal frequencies
+maxA=local_max(A);
+minA=local_max(-A);
+[mm,imm]=unique([maxA;minA]);
+[Fmm,imm]=unique(F([maxA;minA]));
+Amm=[A(maxA);A(minA)];
+Amm=Amm(imm);
+print_polynomial(Fmm,"Fmm","%13.10f");
+print_polynomial(Amm,"Amm","%13.10f");
+
 %
 % Save the results
 %
@@ -86,7 +99,8 @@ fclose(fid);
 print_polynomial(hM,"hM","%14.8f");
 print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"),"%14.8f");
 
-save mcclellanFIRsymmetric_flat_lowpass_test.mat N L fs nplot maxiter tol hM fext
+save mcclellanFIRsymmetric_flat_lowpass_test.mat ...
+     N L fs nplot maxiter tol hM fext Aext
 
 %
 % Done

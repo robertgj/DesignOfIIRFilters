@@ -1,5 +1,5 @@
 % directFIRhilbert_slb_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -16,17 +16,18 @@ tol=1e-4;
 ctol=tol;
 
 % Hilbert filter frequency specification
-M=8;fapl=0.025;fapu=0.5-fapl;dBap=1;Wap=1;Was=0;
+%M=10;fapl=0.05;fapu=0.5-fapl;dBap=0.015;Wap=1;Was=0;
+M=10;fapl=0.025;fapu=0.5-fapl;dBap=0.5;Wap=1;Was=0;
 npoints=1000;
 
 wa=(0:((npoints)-1))'*pi/(npoints);
 napl=floor(npoints*fapl/0.5)+1;
 napu=ceil(npoints*fapu/0.5)+1;
-Ad=ones(npoints,1);
-Adu=ones(npoints,1);
-Adl=[zeros(napl-1,1); ...
-     (10^(-dBap/20))*ones(napu-napl+1,1); ...
-     zeros(npoints-napu,1)];
+Ad=-ones(npoints,1);
+Adl=-ones(npoints,1);
+Adu=-[zeros(napl-1,1); ...
+      (10^(-dBap/20))*ones(napu-napl+1,1); ...
+      zeros(npoints-napu,1)];
 Wa=[Was*ones(napl-1,1); ...
     Wap*ones(napu-napl+1,1); ...
     Was*ones(npoints-napu,1)];
@@ -38,10 +39,10 @@ printf("Wa=[ ");printf("%d ",Wa(nch));printf("]\n");
 
 % Make a Hilbert filter
 n4M1=((-2*M)+1):2:((2*M)-1)';
-h0=zeros((4*M)+1,1);
-h0(n4M1+(2*M)+1)=2*(sin(pi*n4M1/2).^2)./(pi*n4M1);
-h0=h0.*hamming((4*M)+1);
-hM0=h0(((2*M)+2):2:(end-1));
+h0=zeros((4*M)-11,1);
+h0(n4M1+(2*M))=2*(sin(pi*n4M1/2).^2)./(pi*n4M1);
+h0=h0.*hamming((4*M)-1);
+hM0=h0(1:2:((2*M)-1));
 hM_active=1:length(hM0);
 
 %
@@ -86,6 +87,14 @@ strM=sprintf("FIR Hilbert : fapl=%g,fapu=%g,dBap=%g,Was=%g",fapl,fapu,dBap,Was);
 title(strM);
 print("directFIRhilbert_slb_test_response","-dpdflatex");
 close
+
+% Check phase response, group delay should be 2M-1
+H2=freqz(kron([hM2(:);-flipud(hM2(:))],[1;0])(1:(end-1)),1,wa);
+max_phase_err= ...
+  max(mod((unwrap(angle(H2(napl:napu)))+(wa(napl:napu)*((2*M)-1)))/pi,2)-1.5);
+if  max_phase_err > 10*eps
+  error("max_phase_err(%g*eps) > 10*eps",max_phase_err/eps);
+endif
 
 %
 % Save the results

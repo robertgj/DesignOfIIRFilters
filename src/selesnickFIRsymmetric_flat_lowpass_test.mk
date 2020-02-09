@@ -10,4 +10,4 @@ selesnickFIRsymmetric_flat_lowpass_test_hM_coef.m
 selesnickFIRsymmetric_flat_lowpass_test_FILES = \
 selesnickFIRsymmetric_flat_lowpass_test.m test_common.m print_polynomial.m \
 selesnickFIRsymmetric_flat_lowpass.m local_max.m lagrange_interp.m \
-directFIRsymmetricA.m
+xfr2tf.m directFIRsymmetricA.m

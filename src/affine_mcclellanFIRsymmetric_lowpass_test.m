@@ -1,5 +1,5 @@
 % affine_mcclellanFIRsymmetric_lowpass_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 %
 % See: "Exchange Algorithms that Complement the Parks-McClellan Algorithm for
 % Linear-Phase FIR Filter Design", Ivan W. Selesnick and C. Sidney Burrus,
@@ -80,8 +80,8 @@ fprintf(fid,"etap=%d %% Pass band eta\n",etap);
 fprintf(fid,"etas=%d %% Stop band eta\n",etas);
 fclose(fid);
 
-print_polynomial(h,"h","%15.12f");
-print_polynomial(h,"h",strcat(strf,"_h_coef.m"),"%15.12f");
+print_polynomial(hM,"hM","%15.12f");
+print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"),"%15.12f");
 
 fid=fopen(strcat(strf,"_del_p.tab"),"wt");
 fprintf(fid,"%11.8f",del_p);

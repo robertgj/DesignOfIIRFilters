@@ -1,5 +1,5 @@
 % branch_bound_directFIRhilbert_bandpass_12_nbits_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 
 % Branch-and-bound search of a direct-form Hilbert bandpass filter
 % with 12-bit 2-signed-digit coefficients
@@ -21,17 +21,17 @@ tol=1e-4
 strf="branch_bound_directFIRhilbert_bandpass_12_nbits_test";
 
 % Hilbert band-pass filter from directFIRhilbert_bandpass_slb_test.m
-hM2 = [   0.4239235327,  -0.1596092306,  -0.0550052923,   0.0629162600, ... 
-          0.0144604946,  -0.0291468051,  -0.0031738998,   0.0104589390 ]';
+hM2 = [  -0.0104589390,   0.0031738998,   0.0291468051,  -0.0144604946, ... 
+         -0.0629162600,   0.0550052923,   0.1596092306,  -0.4239235327 ]';
 
 % Hilbert filter frequency specification
 fasl=0.1;fapl=0.16325;Wap=2;Wat=0;Was=1;
 fapu=0.5-fapl;fasu=0.5-fasl;
 dBap=0.1;
 if branch_bound_directFIRhilbert_bandpass_12_nbits_test_use_unity_passband
-  Ad_passband=1;
+  Ad_passband=-1;
 else
-  Ad_passband=(10^(-dBap/40));
+  Ad_passband=-(10^(-dBap/40));
 endif
 npoints=5000;
 wa=(0:((npoints)-1))'*pi/(npoints);

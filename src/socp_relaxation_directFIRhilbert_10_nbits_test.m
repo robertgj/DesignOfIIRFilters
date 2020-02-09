@@ -1,5 +1,5 @@
 % socp_relaxation_directFIRhilbert_10_nbits_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 % Optimisation of Hilbert FIR filter response with 12-bit signed-digit
 % coefficients allocated with the heuristic of Ito et al. and SOCP relaxation
@@ -19,22 +19,22 @@ tol=1e-5;
 ctol=tol;
 
 % Hilbert filter frequency specification
-M=40;fapl=0.01;fapu=0.5-fapl;dBap=0.48;Wap=1;Was=0;
+M=40;fapl=0.01;fapu=0.5-fapl;dBap=0.35325;Wap=1;Was=0;
 npoints=500;
 wa=(0:((npoints)-1))'*pi/(npoints);
 napl=floor(npoints*fapl/0.5)+1;
 napu=ceil(npoints*fapu/0.5)+1;
-Ad=ones(npoints,1);
+Ad=-ones(npoints,1);
 if 1
-  Adu=(10^(dBap/40))*ones(npoints,1);
-  Adl=[zeros(napl-1,1); ...
-       (10^(-dBap/40))*ones(napu-napl+1,1); ...
-       zeros(npoints-napu,1)];
+  Adl=-(10^(dBap/40))*ones(npoints,1);
+  Adu=-[zeros(napl-1,1); ...
+        (10^(-dBap/40))*ones(napu-napl+1,1); ...
+        zeros(npoints-napu,1)];
 else
-  Adu=Ad;
-  Adl=[zeros(napl-1,1); ...
-       (10^(-dBap/20))*ones(napu-napl+1,1); ...
-       zeros(npoints-napu,1)];
+  Adl=Ad;
+  Adu=-[zeros(napl-1,1); ...
+        (10^(-dBap/20))*ones(napu-napl+1,1); ...
+        zeros(npoints-napu,1)];
 endif
 Wa=[Was*ones(napl-1,1); ...
     Wap*ones(napu-napl+1,1); ...
@@ -42,17 +42,17 @@ Wa=[Was*ones(napl-1,1); ...
 
 % Make a Hilbert filter
 n4M1=((-2*M)+1):2:((2*M)-1)';
-h0=zeros((4*M)+1,1);
-h0(n4M1+(2*M)+1)=2*(sin(pi*n4M1/2).^2)./(pi*n4M1);
-h0=h0.*hamming((4*M)+1);
-hM0=h0(((2*M)+2):2:(end-1));
+h0=zeros((4*M)-1,1);
+h0(n4M1+(2*M))=2*(sin(pi*n4M1/2).^2)./(pi*n4M1);
+h0=h0.*hamming((4*M)-1);
+hM0=h0(1:2:((2*M)-1));
 printf("hM0=[ ");printf("%g ",hM0');printf("]';\n");
 print_polynomial(hM0,"hM0",strcat(strf,"_hM0_coef.m"),"%12.8g");
 
 % Find the exact coefficient error
 na=[napl (npoints/2)];
 waf=wa(na);
-Adf=1;
+Adf=-1;
 Waf=Wap;
 Esq0=directFIRhilbertEsqPW(hM0,waf,Adf,Waf);
 printf("Esq0=%g\n",Esq0);
@@ -222,17 +222,18 @@ close
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");
-fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
-fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
+fprintf(fid,"M=%d %% Number of distinct coefficients\n",M);
+fprintf(fid,"nbits=%d %% Coefficient bits\n",nbits);
+fprintf(fid,"ndigits=%d %% Nominal average coefficient signed-digits\n",ndigits);
 fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"maxiter=%d %% SOCP iteration limit\n",maxiter);
-fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
+fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
 fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
-fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results

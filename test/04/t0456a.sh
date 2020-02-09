@@ -3,7 +3,8 @@
 prog=hofstetterFIRsymmetric_lowpass_test.m
 
 depends="hofstetterFIRsymmetric_lowpass_test.m test_common.m print_polynomial.m \
-hofstetterFIRsymmetric.m local_max.m lagrange_interp.m directFIRsymmetricA.m"
+hofstetterFIRsymmetric.m local_max.m lagrange_interp.m xfr2tf.m \
+directFIRsymmetricA.m"
 
 tmp=/tmp/$$
 here=`pwd`

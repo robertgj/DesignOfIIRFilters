@@ -16,14 +16,70 @@ endif
 
 % Check one element
 x=local_max([pi]);
-if (length(x) ~= 1) || (x(1) ~= 1)
-  error("Expected x(1)=1");
+if x~=[1]
+  error("Expected x==[1]");
 endif
 
 % Check equal elements
+x=local_max([3 3 3]);
+if x~=[1]
+  error("Expected x==[1]");
+endif
 x=local_max([1 2 3 3 3 2 1]);
-if (length(x) ~= 1) || (x(1) ~= 5)
-  error("Expected x(1)=5");
+if x~=[5]
+  error("Expected x==[5]");
+endif
+x=local_max([3 2 1 2 3]);
+if x~=[1;5]
+  error("Expected x==[1;5]");
+endif
+x=local_max([3 3 3 2 1]);
+if x~=[1]
+  error("Expected x==[1]");
+endif
+x=local_max([1 2 3 3 3]);
+if x~=[5]
+  error("Expected x==[5]");
+endif
+x=local_max([2 2 1 2 3 3 3]);
+if x~=[1;7]
+  error("Expected x==[1;7]");
+endif
+x=local_max([3 2 3]);
+if x~=[1;3]
+  error("Expected x==[1;3]");
+endif
+x=local_max([3 3 2 3 3]);
+if x~=[1;5]
+  error("Expected x==[1;5]");
+endif
+x=local_max([3 3 1 2 1 3 3 3]);
+if x~=[1;4;8]
+  error("Expected x==[1;4;8]");
+endif
+x=local_max([3 3 1 -3 -3]);
+if x~=[1]
+  error("Expected x==[1]");
+endif
+x=local_max([-3 -3 1 3 3]);
+if x~=[5]
+  error("Expected x==[5]");
+endif
+x=local_max([3 3 1 3 3 -3]);
+if x~=[1;5]
+  error("Expected x==[1;5]");
+endif
+x=local_max([3 3 1 3 1 3 -3]);
+if x~=[1;4;6]
+  error("Expected x==[1;4;6]");
+endif
+x=local_max([3 1 3 1 3 3]);
+if x~=[1;3;6]
+  error("Expected x==[1;3;6]");
+endif
+x=local_max([-3 -3 1 3 1 3 3]);
+if x~=[4;7]
+  error("Expected x==[4;7]");
 endif
 
 % Filter specification

@@ -1,14 +1,29 @@
 selesnickFIRsymmetric_lowpass_test_FIGURES = \
-selesnickFIRsymmetric_lowpass_test_response \
-selesnickFIRsymmetric_lowpass_test_dual \
-selesnickFIRsymmetric_lowpass_test_zeros
+selesnickFIRsymmetric_lowpass_test_hMa_response \
+selesnickFIRsymmetric_lowpass_test_hMa_dual \
+selesnickFIRsymmetric_lowpass_test_hMa_zeros \
+selesnickFIRsymmetric_lowpass_test_hMb_response \
+selesnickFIRsymmetric_lowpass_test_hMb_dual \
+selesnickFIRsymmetric_lowpass_test_hMb_zeros \
+selesnickFIRsymmetric_lowpass_test_hMc_response \
+selesnickFIRsymmetric_lowpass_test_hMc_dual \
+selesnickFIRsymmetric_lowpass_test_hMc_zeros \
+selesnickFIRsymmetric_lowpass_test_hMd_response \
+selesnickFIRsymmetric_lowpass_test_hMd_dual \
+selesnickFIRsymmetric_lowpass_test_hMd_zeros
 
 selesnickFIRsymmetric_lowpass_test_COEFS = \
 selesnickFIRsymmetric_lowpass_test.mat \
-selesnickFIRsymmetric_lowpass_test.spec \
-selesnickFIRsymmetric_lowpass_test_hM_coef.m
+selesnickFIRsymmetric_lowpass_test_hMa.spec \
+selesnickFIRsymmetric_lowpass_test_hMa_coef.m \
+selesnickFIRsymmetric_lowpass_test_hMb.spec \
+selesnickFIRsymmetric_lowpass_test_hMb_coef.m \
+selesnickFIRsymmetric_lowpass_test_hMc.spec \
+selesnickFIRsymmetric_lowpass_test_hMc_coef.m \
+selesnickFIRsymmetric_lowpass_test_hMd.spec \
+selesnickFIRsymmetric_lowpass_test_hMd_coef.m
 
 selesnickFIRsymmetric_lowpass_test_FILES = \
 selesnickFIRsymmetric_lowpass_test.m test_common.m \
-selesnickFIRsymmetric_lowpass.m  selesnickFIRsymmetric_lowpass_exchange.m \
-lagrange_interp.m print_polynomial.m local_max.m directFIRsymmetricA.m
+selesnickFIRsymmetric_lowpass.m lagrange_interp.m print_polynomial.m \
+local_max.m local_peak.m xfr2tf.m directFIRsymmetricA.m

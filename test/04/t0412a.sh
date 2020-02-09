@@ -40,14 +40,14 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.hM_min.ok << 'EOF'
-hM_min = [      872,     -327,     -120,      128, ... 
-                 32,      -64,       -8,       24 ]'/2048;
+hM_min = [      -24,        8,       64,      -32, ... 
+               -128,      120,      327,     -872 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.hM_min.ok"; fail; fi
 
 cat > test.hM_sd.ok << 'EOF'
-hM_sd = [      868,     -327,     -112,      128, ... 
-                32,      -64,       -8,       20 ]'/2048;
+hM_sd = [      -20,        8,       64,      -32, ... 
+              -128,      112,      327,     -868 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.hM_sd.ok"; fail; fi
 

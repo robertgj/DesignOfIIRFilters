@@ -48,8 +48,9 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.hM_min.ok << 'EOF'
-hM_min = [       81,       25,       13,        7, ... 
-                  4,        2,        1,        0 ]'/128;
+hM_min = [        0,        0,        0,        0, ... 
+                 -1,       -3,       -6,      -12, ... 
+                -24,      -80 ]'/128;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.hM_min.ok"; fail; fi
 

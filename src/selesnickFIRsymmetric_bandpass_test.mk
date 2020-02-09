@@ -1,16 +1,24 @@
 selesnickFIRsymmetric_bandpass_test_FIGURES = \
-selesnickFIRsymmetric_bandpass_test_response \
-selesnickFIRsymmetric_bandpass_test_dual \
-selesnickFIRsymmetric_bandpass_test_zeros \
-selesnickFIRsymmetric_bandpass_test_dual_remez \
-selesnickFIRsymmetric_bandpass_test_zeros_remez
+selesnickFIRsymmetric_bandpass_test_hMa_response \
+selesnickFIRsymmetric_bandpass_test_hMa_dual \
+selesnickFIRsymmetric_bandpass_test_hMa_zeros \
+selesnickFIRsymmetric_bandpass_test_hMb_response \
+selesnickFIRsymmetric_bandpass_test_hMb_dual \
+selesnickFIRsymmetric_bandpass_test_hMb_zeros \
+selesnickFIRsymmetric_bandpass_test_hMc_response \
+selesnickFIRsymmetric_bandpass_test_hMc_dual \
+selesnickFIRsymmetric_bandpass_test_hMc_zeros
 
 selesnickFIRsymmetric_bandpass_test_COEFS = \
 selesnickFIRsymmetric_bandpass_test.mat \
-selesnickFIRsymmetric_bandpass_test.spec \
-selesnickFIRsymmetric_bandpass_test_hM_coef.m
+selesnickFIRsymmetric_bandpass_test_hMa_coef.m \
+selesnickFIRsymmetric_bandpass_test_hMa.spec \
+selesnickFIRsymmetric_bandpass_test_hMb_coef.m \
+selesnickFIRsymmetric_bandpass_test_hMb.spec \
+selesnickFIRsymmetric_bandpass_test_hMc_coef.m \
+selesnickFIRsymmetric_bandpass_test_hMc.spec 
 
 selesnickFIRsymmetric_bandpass_test_FILES = \
 selesnickFIRsymmetric_bandpass_test.m test_common.m \
-selesnickFIRsymmetric_bandpass.m  selesnickFIRsymmetric_lowpass_exchange.m \
-lagrange_interp.m print_polynomial.m local_max.m directFIRsymmetricA.m
+selesnickFIRsymmetric_bandpass.m lagrange_interp.m print_polynomial.m \
+local_max.m local_peak.m xfr2tf.m directFIRsymmetricA.m

@@ -1,5 +1,5 @@
 % branch_bound_directFIRhilbert_12_nbits_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 % Branch-and-bound search of a direct-form Hilbert filter
 % with 12-bit 2-signed-digit coefficients
@@ -29,15 +29,15 @@ Wa=[Was*ones(napl-1,1); ...
 
 % Make a Hilbert filter
 n4M1=((-2*M)+1):2:((2*M)-1)';
-h0=zeros((4*M)+1,1);
-h0(n4M1+(2*M)+1)=2*(sin(pi*n4M1/2).^2)./(pi*n4M1);
-h0=h0.*hamming((4*M)+1);
-hM0=h0(((2*M)+2):2:(end-1));
+h0=zeros((4*M)-1,1);
+h0(n4M1+(2*M))=2*(sin(pi*n4M1/2).^2)./(pi*n4M1);
+h0=h0.*hamming((4*M)-1);
+hM0=h0(1:2:((2*M)-1));
 hM0_active=1:length(hM0);
 
 % Find the exact coefficient error
 waf=wa([napl napu]);
-Adf=1;
+Adf=-1;
 Waf=Wap;
 Esq0=directFIRhilbertEsqPW(hM0,waf,Adf,Waf);
 printf("Esq0=%g\n",Esq0);

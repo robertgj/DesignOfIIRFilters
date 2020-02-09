@@ -7,7 +7,7 @@ iir_slb.m iir_slb_constraints_are_empty.m \
 iir_slb_exchange_constraints.m iir_slb_set_empty_constraints.m \
 iir_slb_show_constraints.m iir_slb_update_constraints.m \
 iirA.m iirP.m iirT.m iirE.m Aerror.m x2tf.m tf2x.m zp2x.m fixResultNaN.m \
-xConstraints.m print_pole_zero.m showZPplot.m local_max.m local_peak.m \
+xConstraints.m print_pole_zero.m showZPplot.m local_max.m \
 qroots.m qzsolve.oct SeDuMi_1_3/"
 
 tmp=/tmp/$$

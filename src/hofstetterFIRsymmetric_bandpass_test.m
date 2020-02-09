@@ -48,14 +48,14 @@ a0=[a0sl,a0p,a0su];
 if feasible==false
   error("hM not feasible");
 endif
-wa=(0:nplot)'*pi/nplot;
-A=directFIRsymmetricA(wa,hM);
-plot(wa*0.5/pi,20*log10(abs(A)));
+Aext=directFIRsymmetricA(2*pi*fext,hM);
+print_polynomial(fext,"fext","%13.10f");
+print_polynomial(Aext,"Aext","%13.10f");
 
 %
 % Plot solution
 %
-wa=(0:(nplot-1))'*pi/nplot;
+wa=(0:nplot)'*pi/nplot;
 A=directFIRsymmetricA(wa,hM);
 plot(wa*0.5/pi,20*log10(abs(A)));
 axis([0 0.5 (20*log10(deltas)-10) 1]);
@@ -105,7 +105,7 @@ print_polynomial(hM,"hM");
 print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"));
 
 save hofstetterFIRsymmetric_bandpass_test.mat ...
-     maxiter M nplot maxiter tol fasl fapl fapu fasu deltap deltas hM fext
+     maxiter M nplot maxiter tol fasl fapl fapu fasu deltap deltas hM fext Aext
 
 %
 % Done

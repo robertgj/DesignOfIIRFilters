@@ -1,5 +1,5 @@
 % sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 % SDP relaxation optimisation of a direct-form FIR Hilbert filter
 % with 12-bit signed-digit coefficients
@@ -26,9 +26,9 @@ M=8;
 fasl=0.1;fapl=0.16325;fapu=0.5-fapl;fasu=0.5-fasl;
 dBap=0.1;Wap=2;Wat=0.001;dBas=35;Was=1;
 if sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test_use_unity_passband
-  Ad_passband=1;
+  Ad_passband=-1;
 else
-  Ad_passband=(10^(-dBap/40));
+  Ad_passband=-(10^(-dBap/40));
 endif
 npoints=5000;
 wa=(0:((npoints)-1))'*pi/(npoints);
@@ -37,12 +37,12 @@ napl=floor(npoints*fapl/0.5)+1;
 napu=ceil(npoints*fapu/0.5)+1;
 nasu=floor(npoints*fasu/0.5)+1;
 Ad=[zeros(napl-1,1);Ad_passband*ones(napu-napl+1,1);zeros(npoints-napu,1)];
-Adu=[(10^(-dBas/20))*ones(nasl,1); ...
-       ones(nasu-nasl-1,1); ...
-       (10^(-dBas/20))*ones(npoints-nasu+1,1)];
-Adl=[zeros(napl-1,1); ...
-     (10^(-dBap/20))*ones(napu-napl+1,1); ...
-     zeros(npoints-napu,1)];
+Adl=-[(10^(-dBas/20))*ones(nasl,1); ...
+      ones(nasu-nasl-1,1); ...
+      (10^(-dBas/20))*ones(npoints-nasu+1,1)];
+Adu=-[zeros(napl-1,1); ...
+      (10^(-dBap/20))*ones(napu-napl+1,1); ...
+      zeros(npoints-napu,1)];
 Wa=[Was*ones(nasl,1); ...
     Wat*ones(napl-nasl-1,1); ...
     Wap*ones(napu-napl+1,1); ...
@@ -59,8 +59,8 @@ printf("Adl=[ ");printf("%d ",Adl(nch));printf("]\n");
 printf("Wa=[ ");printf("%d ",Wa(nch));printf("]\n");
 
 % Hilbert band-pass filter from directFIRhilbert_bandpass_slb_test.m
-hM2 = [   0.4239235327,  -0.1596092306,  -0.0550052923,   0.0629162600, ... 
-          0.0144604946,  -0.0291468051,  -0.0031738998,   0.0104589390 ]';
+hM2 = [  -0.0104589390,   0.0031738998,   0.0291468051,  -0.0144604946, ... 
+         -0.0629162600,   0.0550052923,   0.1596092306,  -0.4239235327 ]';
 
 % Find the exact coefficient error
 waf=2*pi*[0 fasl fapl fapu fasu 0.5];
@@ -180,21 +180,21 @@ close
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");
-fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
-fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
+fprintf(fid,"M=%d %% Number of distinct coefficients\n",M);
+fprintf(fid,"nbits=%d %% Coefficient bits\n",nbits);
+fprintf(fid,"ndigits=%d %% Nominal average coefficient signed-digits\n",ndigits);
 fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
-fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
-fprintf(fid,"M=%d %% M distinct coefficients\n",M);
+fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);
 fprintf(fid,"fasl=%g %% Amplitude stop band lower edge\n",fasl);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
 fprintf(fid,"fasu=%g %% Amplitude stop band upper edge\n",fasu);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wat=%d %% Amplitude transition band weight\n",Wat);
-fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
-fprintf(fid,"dBas=%d %% Amplitude stop band peak ripple\n",dBas);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
+fprintf(fid,"Wat=%g %% Amplitude transition band weight\n",Wat);
+fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
+fprintf(fid,"dBas=%g %% Amplitude stop band peak ripple\n",dBas);
 fclose(fid);
 
 % Save results

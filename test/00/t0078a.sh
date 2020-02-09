@@ -9,7 +9,7 @@ iir_frm_parallel_allpass_slb_update_constraints.m \
 iir_frm_parallel_allpass_struct_to_vec.m \
 iir_frm_parallel_allpass_vec_to_struct.m \
 iir_frm_parallel_allpass.m \
-test_common.m allpassP.m allpassT.m tf2a.m a2tf.m local_max.m local_peak.m \
+test_common.m allpassP.m allpassT.m tf2a.m a2tf.m local_max.m \
 qroots.m qzsolve.oct"
 
 tmp=/tmp/$$

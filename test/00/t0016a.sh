@@ -5,7 +5,7 @@ prog=iir_slb_update_constraints_test.m
 depends="iir_slb_update_constraints_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 iir_slb_update_constraints.m xConstraints.m iir_slb_show_constraints.m \
-iirA.m iirT.m iirP.m local_max.m local_peak.m fixResultNaN.m"
+iirA.m iirT.m iirP.m local_max.m fixResultNaN.m"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

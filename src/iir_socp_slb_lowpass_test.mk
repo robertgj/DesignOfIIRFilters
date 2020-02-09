@@ -19,5 +19,5 @@ iir_slb_update_constraints.m iir_slb_exchange_constraints.m \
 iir_slb_constraints_are_empty.m iir_slb_set_empty_constraints.m \
 fixResultNaN.m iirA.m iirE.m iirP.m iirT.m Aerror.m Perror.m Terror.m \
 showResponseBands.m showResponse.m showResponsePassBands.m showZPplot.m \
-local_max.m local_peak.m tf2x.m zp2x.m x2tf.m xConstraints.m WISEJ_ND.m \
+local_max.m tf2x.m zp2x.m x2tf.m xConstraints.m WISEJ_ND.m \
 tf2Abcd.m qroots.m qzsolve.oct sedumi_test.diary

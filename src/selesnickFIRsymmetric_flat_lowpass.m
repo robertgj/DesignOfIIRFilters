@@ -1,6 +1,6 @@
-function [hM,fext,func_iter,feasible]= ...
+function [hM,fext,fiter,feasible]= ...
   selesnickFIRsymmetric_flat_lowpass(N,L,deltas,fs,nf,max_iter,tol)
-% [hM,fext,func_iter,feasible]= ...
+% [hM,fext,fiter,feasible]= ...
 %   selesnickFIRsymmetric_flat_lowpass(N,L,deltas,fs,nf,max_iter,tol)
 % Implement the Selesnick-Burrus maximally-flat lowpass filter design algorithm
 % for specified deltas and initial fs.
@@ -17,7 +17,7 @@ function [hM,fext,func_iter,feasible]= ...
 % Outputs:
 %   hM - M+1 distinct coefficients of H2 [h(1),...,h(M+1)], where M=(N-L-1)/2
 %   fext - extremal frequencies
-%   func_iter - number of iterations
+%   fiter - number of iterations
 %   feasible - true if the design satisfies the constraints
 %
 % See: Section II.B of "Exchange Algorithms for the Design of Linear Phase
@@ -48,8 +48,8 @@ function [hM,fext,func_iter,feasible]= ...
 
   if (nargin < 3) || (nargin > 7) || (nargout>4)
     print_usage ...
-("[hM,func_iter,feasible]=selesnickFIRsymmetric_flat_lowpass(N,L,deltas)\n\
-[hM,fext,func_iter,feasible]= ...\n\
+("[hM,fext,fiter,feasible]=selesnickFIRsymmetric_flat_lowpass(N,L,deltas)\n\
+[hM,fext,fiter,feasible]= ...\n\
   selesnickFIRsymmetric_flat_lowpass(N,L,deltas,fs,nf,max_iter,tol)");
   endif
 
@@ -110,7 +110,7 @@ function [hM,fext,func_iter,feasible]= ...
   M=(N-L-1)/2;
   hM=[];
   fext=[];
-  func_iter=0;
+  fiter=0;
   feasible=false;
   allow_extrap=true;
   m1=(-1).^((1:(M+1))');
@@ -129,7 +129,7 @@ function [hM,fext,func_iter,feasible]= ...
   
   % Loop
   lastxM=zeros(size(xM));
-  for func_iter=1:max_iter
+  for fiter=1:max_iter
 
     % Lagrange interpolation
     ai=lagrange_interp(xM,aM,[],xi,tol,allow_extrap);
@@ -153,8 +153,8 @@ function [hM,fext,func_iter,feasible]= ...
       eindex(end)=[];
     endif
     if length(eindex)~=(M+1)
-      error("func_iter=%d,length(eindex)(%d)~=(M+1)(%d)",
-            func_iter,length(eindex),M+1);
+      error("fiter=%d,length(eindex)(%d)~=(M+1)(%d)",
+            fiter,length(eindex),M+1);
     endif
     xM=xi(eindex);
 
@@ -166,29 +166,16 @@ function [hM,fext,func_iter,feasible]= ...
     delxM=norm(xM-lastxM);
     lastxM=xM;
     if delxM<tol
-      printf("Convergence : delxM=%g after %d iterations\n",delxM,func_iter);
+      hM=xfr2tf(M,xM,aM,tol);
       fext=acos(xM)/(2*pi);
-      printf("%d extremal frequencies : ",length(fext));
-      printf(" %g",fext(:)');printf("\n");
       feasible=true;
+      printf("Converged : delxM=%g after %d iterations\n",delxM,fiter);
       break;
     endif
-    if (feasible==false) && (func_iter==max_iter),
+    if (feasible==false) && (fiter==max_iter),
       warning("No convergence after %d iterations",max_iter);
     endif
     
   endfor
-  
-  if feasible
-    % Find equally spaced samples of the frequency response
-    A=lagrange_interp(xM,aM,[],cos(pi*(0:M)/M),tol,allow_extrap);
-    % Find the distinct impulse response coefficients
-    a=ifft([A;flipud(A(2:(end-1)))]);
-    if norm(imag(a))>tol
-      error("norm(imag(a))(%g)>tol",norm(imag(a)));
-    endif
-    a=real(a(:));
-    hM=[a(M+1)/2;flipud(a(1:M))];
-  endif
   
 endfunction

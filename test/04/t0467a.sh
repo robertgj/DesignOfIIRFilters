@@ -4,7 +4,7 @@ prog=mcclellanFIRsymmetric_multi_band_test.m
 
 depends="mcclellanFIRsymmetric_multi_band_test.m test_common.m \
 print_polynomial.m mcclellanFIRsymmetric.m local_max.m lagrange_interp.m \
-directFIRsymmetricA.m"
+xfr2tf.m directFIRsymmetricA.m"
 
 tmp=/tmp/$$
 here=`pwd`

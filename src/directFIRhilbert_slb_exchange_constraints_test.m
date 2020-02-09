@@ -1,5 +1,5 @@
 % directFIRhilbert_slb_exchange_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -23,26 +23,27 @@ npoints=1000;
 wa=(0:((npoints)-1))'*pi/(npoints);
 napl=floor(npoints*fapl/0.5)+1;
 napu=ceil(npoints*fapu/0.5)+1;
-Ad=ones(npoints,1);
-Adu=ones(npoints,1);
-Adl=[zeros(napl-1,1); ...
-     (10^(-dBap/20))*ones(napu-napl+1,1); ...
-     zeros(npoints-napu,1)];
+Ad=-ones(npoints,1);
+Adl=-ones(npoints,1);
+Adu=-[zeros(napl-1,1); ...
+      (10^(-dBap/20))*ones(napu-napl+1,1); ...
+      zeros(npoints-napu,1)];
 Wa=[Was*ones(napl-1,1); ...
     Wap*ones(napu-napl+1,1); ...
     Was*ones(npoints-napu,1)];
 % Sanity check
 nch=[1 napl-1 napl napl+1 napu-1 napu napu+1 npoints];
 printf("fa=[ ");printf("%d ",wa(nch)*0.5/pi);printf("]\n");
+printf("Adu=[ ");printf("%d ",Adu(nch));printf("]\n");
 printf("Adl=[ ");printf("%d ",Adl(nch));printf("]\n");
 printf("Wa=[ ");printf("%d ",Wa(nch));printf("]\n");
 
 % Make a Hilbert filter
 n4M1=((-2*M)+1):2:((2*M)-1)';
-h0=zeros((4*M)+1,1);
-h0(n4M1+(2*M)+1)=2*(sin(pi*n4M1/2).^2)./(pi*n4M1);
-h0=h0.*hamming((4*M)+1);
-hM0=h0(((2*M)+2):2:(end-1));
+h0=zeros((4*M)-1,1);
+h0(n4M1+(2*M))=2*(sin(pi*n4M1/2).^2)./(pi*n4M1);
+h0=h0.*hamming((4*M)-1);
+hM0=h0(1:2:((2*M)-1));
 hM_active=1:length(hM0);
 
 % Common strings

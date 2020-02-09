@@ -29,11 +29,14 @@ N=%d,L=%d,$\\delta_{sl}$=%g,$\\delta_{su}$=%g,fp=%g,ft=%g", ...
 if feasible==false
   error("hM not feasible");
 endif
+Aext=directFIRsymmetricA(2*pi*fext,hM);
+print_polynomial(fext,"fext","%13.10f");
+print_polynomial(Aext,"Aext","%13.5f");
 
 %
 % Plot solution
 %
-F=linspace(0,0.5,nplot)(:);
+F=linspace(0,0.5,nplot+1)(:);
 W=((-1)^(L/2))*(((cos(2*pi*fp)-cos(2*pi*F))/2).^(L/2));
 AM=directFIRsymmetricA(2*pi*F,hM);
 A=1+(AM(:).*W(:));
@@ -61,6 +64,16 @@ grid("on");
 print(strcat(strf,"_dual"),"-dpdflatex");
 close
 
+% Check response at extremal frequencies
+maxA=local_max(A);
+minA=local_max(-A);
+[mm,imm]=unique([maxA;minA]);
+[Fmm,imm]=unique(F([maxA;minA]));
+Amm=[A(maxA);A(minA)];
+Amm=Amm(imm);
+print_polynomial(Fmm,"Fmm","%13.10f");
+print_polynomial(Amm,"Amm","%13.10f");
+
 %
 % Save the results
 %
@@ -79,7 +92,7 @@ print_polynomial(hM,"hM","%15.7f");
 print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"),"%15.7f");
 
 save selesnickFIRsymmetric_flat_bandpass_test.mat  ...
-     N L deltasl deltasu fp ft nplot max_iter tol hM fext
+     N L deltasl deltasu fp ft nplot max_iter tol hM fext Aext
 
 %
 % Done

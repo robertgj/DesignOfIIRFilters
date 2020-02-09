@@ -13,12 +13,12 @@ if getenv("OCTAVE_ENABLE_PLOT_TO_SCREEN")
   set(0,'DefaultFigureVisible','on');
   % Choose the appropriate linewidth for the svg file format.
   % See :https://savannah.gnu.org/bugs/?43552
-  set(0,"defaultlinelinewidth",2);
+  set(0,"defaultlinelinewidth",4);
 else
   % Disable plotting to the screen.
   set(0,'DefaultFigureVisible','off');
   % Choose the appropriate linewidth for the pdf file format.
-  set(0,"defaultlinelinewidth",8);
+  set(0,"defaultlinelinewidth",4);
 endif
 % Comment the following line for octave-4.0.3
 set(0,"defaultaxestitlefontweight","normal");

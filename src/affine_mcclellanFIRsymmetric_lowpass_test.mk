@@ -5,7 +5,7 @@ affine_mcclellanFIRsymmetric_lowpass_test_dual
 affine_mcclellanFIRsymmetric_lowpass_test_COEFS = \
 affine_mcclellanFIRsymmetric_lowpass_test.mat \
 affine_mcclellanFIRsymmetric_lowpass_test.spec \
-affine_mcclellanFIRsymmetric_lowpass_test_h_coef.m \
+affine_mcclellanFIRsymmetric_lowpass_test_hM_coef.m \
 affine_mcclellanFIRsymmetric_lowpass_test_del_p.tab
 
 affine_mcclellanFIRsymmetric_lowpass_test_FILES = \

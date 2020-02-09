@@ -1,12 +1,12 @@
-function [hM,fext,func_iter,feasible]= ...
-         hofstetterFIRsymmetric(f0,a0,nf,max_iter,tol)
-% [hM,fext,func_iter,feasible]=hofstetterFIRsymmetric(f0,a0,nf,max_iter,tol)
+function [hM,fext,fiter,feasible]= ...
+         hofstetterFIRsymmetric(f0,A0,nf,max_iter,tol)
+% [hM,fext,fiter,feasible]=hofstetterFIRsymmetric(f0,A0,nf,max_iter,tol)
 % Implement Hofstetter's algorithm for the design of a linear-phase FIR
 % filter with given pass-band and stop-band ripples.
 %
 % Inputs:
 %   f0 - list of initial mini-max frequencies in [0,0.5]
-%   a0 - desired amplitude responses at mini-maxfrequencies in f0
+%   A0 - desired amplitude responses at mini-maxfrequencies in f0
 %   nf - number of interpolation frequency points used to evaluate error
 %   max_iter - maximum number of iterations
 %   tol - tolerance on convergence
@@ -14,7 +14,7 @@ function [hM,fext,func_iter,feasible]= ...
 % Outputs:
 %   hM - M+1 distinct coefficients [h(1),...,h(M+1)]
 %   fext- extremal frequencies
-%   func_iter - number of iterations
+%   fiter - number of iterations
 %   feasible - true if the design satisfies the constraints
 
 % Copyright (C) 2019 Robert G. Jenssen
@@ -38,9 +38,9 @@ function [hM,fext,func_iter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin < 2) || (nargin > 5) || (nargout>4)
-    print_usage("hM=hofstetterFIRsymmetric(f0,a0)\n\
-hM=hofstetterFIRsymmetric(f0,a0,nf)\n\
-[hM,fext,func_iter,feasible]=hofstetterFIRsymmetric(f0,a0,nf,max_iter,tol)");
+    print_usage("hM=hofstetterFIRsymmetric(f0,A0)\n\
+hM=hofstetterFIRsymmetric(f0,A0,nf)\n\
+[hM,fext,fiter,feasible]=hofstetterFIRsymmetric(f0,A0,nf,max_iter,tol)");
   endif
 
   % Sanity checks
@@ -54,19 +54,19 @@ hM=hofstetterFIRsymmetric(f0,a0,nf)\n\
   if nargin<3
     nf=100*M;
   endif
-  if size(f0)~=size(a0)
-    error("size(f0)~=size(a0)");
+  if size(f0)~=size(A0)
+    error("size(f0)~=size(A0)");
   endif
 
   % Initialise
   hM=[];
   fext=[];
-  func_iter=0;
+  fiter=0;
   feasible=false;
   
   % Initial mini-max frequency-amplitude pairs
   f=f0(:)';
-  a=a0(:)';
+  A=A0(:)';
   % Convert the initial mini-max frequencies to the cos(omega) domain
   x=cos(2*pi*f);
   lastx=x;
@@ -74,15 +74,15 @@ hM=hofstetterFIRsymmetric(f0,a0,nf)\n\
   xi=cos(pi*(0:nf)/nf);
   
   % Loop performing Hofstetter's algorithm
-  for func_iter=1:max_iter
+  for fiter=1:max_iter
 
     % Lagrange interpolation
-    [ai,w]=lagrange_interp(x,a,[],xi);
+    Ai=lagrange_interp(x,A,[],xi);
       
     % Choose new extremal values
-    maxai=local_max(ai);
-    minai=local_max(-ai);
-    eindex=unique([maxai(:);minai(:)]);
+    maxAi=local_max(Ai);
+    minAi=local_max(-Ai);
+    eindex=unique([maxAi(:);minAi(:)]);
     if length(eindex)~=(M+1)
       error("length(eindex)~=(M+1)");
     endif
@@ -92,29 +92,16 @@ hM=hofstetterFIRsymmetric(f0,a0,nf)\n\
     delx=norm(x-lastx);
     lastx=x;
     if delx<tol
-      printf("Convergence : delx=%g after %d iterations\n",delx,func_iter);
+      hM=xfr2tf(M,x,A,tol);
       fext=acos(x)/(2*pi);
-      printf("%d extremal frequencies : ",length(fext));
-      printf(" %g",fext(:)');printf("\n");
       feasible=true;
+      printf("Convergence : delx=%g after %d iterations\n",delx,fiter);
       break;
     endif
-    if func_iter==max_iter,
+    if fiter==max_iter,
       error("No convergence after %d iterations",max_iter);
     endif
     
   endfor
-
-  if feasible
-    % Find equally spaced samples of the frequency response
-    A=lagrange_interp(x,a,[],cos(pi*(0:M)/M),tol);
-    % Find the distinct impulse response coefficients
-    a=ifft([A;flipud(A(2:(end-1)))]);
-    if norm(imag(a))>tol
-      error("norm(imag(a))(%g)>tol",norm(imag(a)));
-    endif
-    a=real(a(:));
-    hM=[a(M+1)/2;flipud(a(1:M))];
-  endif
 
 endfunction

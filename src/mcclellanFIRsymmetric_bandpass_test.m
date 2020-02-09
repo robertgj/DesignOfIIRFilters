@@ -47,6 +47,9 @@ W=[ones(nasl,1); ones(napu-napl+1,1)/K; ones(nplot+1-nasu+1,1)];
 if feasible==false
   error("hM not feasible");
 endif
+Aext=directFIRsymmetricA(2*pi*fext,hM);
+print_polynomial(fext,"fext","%13.10f");
+print_polynomial(Aext,"Aext","%13.10f");
 
 % Check response at band edges
 Asl=directFIRsymmetricA(2*pi*fasl,hM);
@@ -73,7 +76,7 @@ strt=sprintf("McClellan bandpass FIR: \
 M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,K=%g,nplot=%d,rho=%g", ...
              M,fasl,fapl,fapu,fasu,K,nplot,rho);
 nplot=2000;
-wa=(0:(nplot-1))'*pi/nplot;
+wa=(0:nplot)'*pi/nplot;
 A=directFIRsymmetricA(wa,hM);
 plot(wa*0.5/pi,20*log10(abs(A)))
 axis([0 0.5 (20*log10(abs(rho))-10) 1]);
@@ -105,6 +108,21 @@ print(strcat(strf,"_zeros"),"-dpdflatex");
 close
 
 %
+% Filter design with left division
+%
+[hM_LD,rho_LD,fext_LD,fiter,feasible]= ...
+  mcclellanFIRsymmetric(M,F,D,W,"bandpass\\",maxiter,tol);
+if feasible==false
+  error("hM not feasible");
+endif
+Aext_LD=directFIRsymmetricA(2*pi*fext_LD,hM_LD);
+if norm(Aext-Aext_LD)>tol
+  error("norm(Aext-Aext_LD)>tol");
+endif
+print_polynomial(fext_LD,"fext_LD","%13.10f");
+print_polynomial(Aext_LD,"Aext_LD","%13.10f");
+
+%
 % Save the results
 %
 fid=fopen(strcat(strf,".spec"),"wt");
@@ -122,12 +140,15 @@ fclose(fid);
 print_polynomial(hM,"hM");
 print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"));
 
+print_polynomial(hM_LD,"hM_LD");
+print_polynomial(hM_LD,"hM_LD",strcat(strf,"_hM_LD_coef.m"));
+
 fid=fopen(strcat(strf,"_rho.tab"),"wt");
 fprintf(fid,"%11.8f",rho);
 fclose(fid);
 
 save mcclellanFIRsymmetric_bandpass_test.mat ...
-     M fasl fapl fapu fasu K nplot maxiter tol maxiter nplot rho hM fext
+     M fasl fapl fapu fasu K nplot maxiter tol maxiter nplot rho hM fext Aext
 
 %
 % Done

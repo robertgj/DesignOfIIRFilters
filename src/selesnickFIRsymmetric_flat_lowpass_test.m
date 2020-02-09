@@ -24,19 +24,22 @@ try
   [hM,fext,fiter,feasible]= ...
     selesnickFIRsymmetric_flat_lowpass(N,L,deltas,initial_fs,nplot,maxiter,tol);
 catch
-      err=lasterror();
-    warning("Caught exception!\n%s\n",err.message);
-    for e=1:length(err.stack)
-      warning("Called %s at line %d\n",err.stack(e).name,err.stack(e).line);
-    endfor
-    error("selesnickFIRsymmetric_flat_lowpass() failed");
+  err=lasterror();
+  warning("Caught exception!\n%s\n",err.message);
+  for e=1:length(err.stack)
+    warning("Called %s at line %d\n",err.stack(e).name,err.stack(e).line);
+  endfor
+  error("selesnickFIRsymmetric_flat_lowpass() failed");
 end_try_catch
 if feasible==false
   warning("hM not feasible for fixed deltas");
 endif
+Aext=directFIRsymmetricA(2*pi*fext,hM);
+print_polynomial(fext,"fext","%13.10f");
+print_polynomial(Aext,"Aext","%13.10f");
 
 % Plot solution
-F=linspace(0,0.5,nplot)(:);
+F=linspace(0,0.5,nplot+1)(:);
 W=((-1)^(L/2)*(sin(pi*F).^L));
 AM=directFIRsymmetricA(2*pi*F,hM);
 A=1+(AM(:).*W(:));
@@ -85,7 +88,7 @@ print_polynomial(hM,"hM","%14.8f");
 print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"),"%14.8f");
 
 save selesnickFIRsymmetric_flat_lowpass_test.mat ...
-     N L deltas nplot maxiter tol hM fext
+     N L deltas nplot maxiter tol hM fext Aext
 
 %
 % Done

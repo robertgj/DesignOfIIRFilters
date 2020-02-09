@@ -8,8 +8,10 @@ mcclellanFIRsymmetric_lowpass_test_COEFS = \
 mcclellanFIRsymmetric_lowpass_test.mat \
 mcclellanFIRsymmetric_lowpass_test.spec \
 mcclellanFIRsymmetric_lowpass_test_hM_coef.m \
+mcclellanFIRsymmetric_lowpass_test_hM_LD_coef.m \
 mcclellanFIRsymmetric_lowpass_test_rho.tab
 
 mcclellanFIRsymmetric_lowpass_test_FILES = \
 mcclellanFIRsymmetric_lowpass_test.m test_common.m print_polynomial.m \
-mcclellanFIRsymmetric.m local_max.m lagrange_interp.m directFIRsymmetricA.m
+mcclellanFIRsymmetric.m local_max.m lagrange_interp.m \
+xfr2tf.m directFIRsymmetricA.m

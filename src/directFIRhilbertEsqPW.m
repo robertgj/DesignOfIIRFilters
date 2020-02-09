@@ -11,7 +11,7 @@ function [Esq,gradEsq,Q,q]=directFIRhilbertEsqPW(hM,waf,Adf,Waf)
 %   gradEsq - gradient of the squared error value at hM, a row vector
 %   Q,q - gradEsq=2*hM'*Q+2*q where hM is Mx1, q is 1xM and Q is MxM
   
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -40,9 +40,12 @@ function [Esq,gradEsq,Q,q]=directFIRhilbertEsqPW(hM,waf,Adf,Waf)
   if isempty(waf)
     error("waf is empty");
   endif
+  if length(waf)<2
+    error("length(waf)<2");
+  endif
   if nargin == 2
-    Adf=ones(length(waf)-1,1);
-    Waf=Adf;
+    Adf=-ones(length(waf)-1,1);
+    Waf=abs(Adf);
   elseif nargin == 3
     Waf=ones(length(waf)-1,1);
   endif
@@ -58,28 +61,28 @@ function [Esq,gradEsq,Q,q]=directFIRhilbertEsqPW(hM,waf,Adf,Waf)
   waf=waf(:);
   Adf=Adf(:);
   Waf=Waf(:);
-  m2Mp1=(2*(0:(M-1)))+1;
-  lpm=(m2Mp1')+m2Mp1;
-  lmm=(m2Mp1')-m2Mp1;
+  m2Mm1=(2*M)-(1:2:((2*M)-1));
+  lpm=(m2Mm1')+m2Mm1;
+  lmm=(m2Mm1')-m2Mm1;
 
   % Find q
   % Find the values of the unweighted indefinite integral at the band edges
-  intdelAdfelhM=-2*cos(m2Mp1.*waf)./m2Mp1;
+  intdelAdelhM=-2*cos(m2Mm1.*waf)./m2Mm1;
   % Sum over the bands
-  q=-sum((Waf.*Adf).*(intdelAdfelhM(2:end,:)-intdelAdfelhM(1:(end-1),:)),1)/pi;
+  q=-sum((Waf.*Adf).*(intdelAdelhM(2:end,:)-intdelAdelhM(1:(end-1),:)),1)/pi;
 
   % Find Q
   % Find the values of the unweighted indefinite integral at the band edges
-  intAdfelAdfelhM=zeros(length(waf),M,M);
+  intAdelAdelhM=zeros(length(waf),M,M);
   for l=1:length(waf)
-    intAdfelAdfelhM(l,:,:) =  (2*waf(l)*eye(M)) ...
-                              +(2*sin(lmm*waf(l))./(lmm+eye(M))) ...
-                              -(2*sin(lpm*waf(l))./lpm);
+    intAdelAdelhM(l,:,:) = (2*waf(l)*eye(M)) ...
+                           +(2*sin(lmm*waf(l))./(lmm+eye(M))) ...
+                           -(2*sin(lpm*waf(l))./lpm);
   endfor
   % Find the definite integrals over each band
-  def_intAdfelAdfelhM=intAdfelAdfelhM(2:end,:,:)-intAdfelAdfelhM(1:(end-1),:,:);
+  def_intAdelAdelhM=intAdelAdelhM(2:end,:,:)-intAdelAdelhM(1:(end-1),:,:);
   % Sum over the bands
-  Q=reshape(sum(Waf.*def_intAdfelAdfelhM,1)/pi,[M,M]);
+  Q=reshape(sum(Waf.*def_intAdelAdelhM,1)/pi,[M,M]);
   % Check
   if ~isdefinite(Q)
     error("~isdefinite(Q)");
