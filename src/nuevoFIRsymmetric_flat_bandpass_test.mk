@@ -1,0 +1,18 @@
+nuevoFIRsymmetric_flat_bandpass_test_FIGURES = \
+nuevoFIRsymmetric_flat_bandpass_test_response \
+nuevoFIRsymmetric_flat_bandpass_test_interpolator \
+nuevoFIRsymmetric_flat_bandpass_test_16bit_response \
+nuevoFIRsymmetric_flat_bandpass_test_16bit_error
+
+nuevoFIRsymmetric_flat_bandpass_test_COEFS = \
+nuevoFIRsymmetric_flat_bandpass_test.mat \
+nuevoFIRsymmetric_flat_bandpass_test.spec \
+nuevoFIRsymmetric_flat_bandpass_test_hM_coef.m \
+nuevoFIRsymmetric_flat_bandpass_test_hza_coef.m \
+nuevoFIRsymmetric_flat_bandpass_test_hzb_coef.m \
+nuevoFIRsymmetric_flat_bandpass_test_hMf_coef.m \
+nuevoFIRsymmetric_flat_bandpass_test_hzbf_coef.m
+
+nuevoFIRsymmetric_flat_bandpass_test_FILES = \
+nuevoFIRsymmetric_flat_bandpass_test.m test_common.m \
+herrmannFIRsymmetric_flat_lowpass.m directFIRsymmetricA.m print_polynomial.m

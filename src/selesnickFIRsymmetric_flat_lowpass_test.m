@@ -21,7 +21,7 @@ tol=1e-10;
 %
 N=33;L=22;deltas=0.01;initial_fs=0.3;
 try
-  [hM,fext,fiter,feasible]= ...
+  [hA,hM,fext,fiter,feasible]= ...
     selesnickFIRsymmetric_flat_lowpass(N,L,deltas,initial_fs,nplot,maxiter,tol);
 catch
   err=lasterror();
@@ -32,17 +32,25 @@ catch
   error("selesnickFIRsymmetric_flat_lowpass() failed");
 end_try_catch
 if feasible==false
-  warning("hM not feasible for fixed deltas");
+  warning("hA not feasible for fixed deltas");
 endif
-Aext=directFIRsymmetricA(2*pi*fext,hM);
+Aext=directFIRsymmetricA(2*pi*fext,hA);
 print_polynomial(fext,"fext","%13.10f");
 print_polynomial(Aext,"Aext","%13.10f");
 
-% Plot solution
+% Check the overall impulse response
 F=linspace(0,0.5,nplot+1)(:);
 W=((-1)^(L/2)*(sin(pi*F).^L));
 AM=directFIRsymmetricA(2*pi*F,hM);
 A=1+(AM(:).*W(:));
+AA=directFIRsymmetricA(2*pi*F,hA);
+if max(abs(A-AA))>tol
+  error("max(abs(A-AA))>tol");
+endif
+
+%
+% Plot solution
+%
 plot(F,20*log10(abs(A)))
 axis([0 0.5 -40 1]);
 xlabel("Frequency");
@@ -56,16 +64,9 @@ close
 
 % Dual plot
 nas=min(find(abs(A)<(deltas+tol)))-1;
-if 0
-  ax=plotyy(F(1:nas),20*log10(abs(A(1:nas))), ...
-            F(nas:end),20*log10(abs(A(nas:end))));
-  axis(ax(1),[0 0.5 -0.02 0.002]);
-  axis(ax(2),[0 0.5 -50 -44]);
-else
-  ax=plotyy(F(1:nas),A(1:nas),F(nas:end),A(nas:end));
-  axis(ax(1),[0 0.5 0.985 1.005]);
-  axis(ax(2),[0 0.5 -0.02 0.02]);
-endif
+ax=plotyy(F(1:nas),A(1:nas),F(nas:end),A(nas:end));
+axis(ax(1),[0 0.5 0.985 1.005]);
+axis(ax(2),[0 0.5 -0.02 0.02]);
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 title(strt);
@@ -87,8 +88,11 @@ fclose(fid);
 print_polynomial(hM,"hM","%14.8f");
 print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"),"%14.8f");
 
+print_polynomial(hA,"hA","%15.12f");
+print_polynomial(hA,"hA",strcat(strf,"_hA_coef.m"),"%15.12f");
+
 save selesnickFIRsymmetric_flat_lowpass_test.mat ...
-     N L deltas nplot maxiter tol hM fext Aext
+     N L deltas nplot maxiter tol hM hA fext Aext
 
 %
 % Done

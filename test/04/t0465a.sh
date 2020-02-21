@@ -48,6 +48,17 @@ hM = [     346.6174396,    1384.1759768,     475.0397670,   -6894.9867361, ...
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_hM.ok"; fail; fi
 
+cat > test_hA.ok << 'EOF'
+hA = [  0.005288962396, -0.005029218952,  0.001698717440,  0.000837899726, ... 
+       -0.006722826823, -0.007310340194,  0.003652712386,  0.008669566276, ... 
+        0.000373708830, -0.002473206028,  0.003854128204, -0.003966841253, ... 
+       -0.020504739476, -0.007257285343,  0.027139879160,  0.025442553037, ... 
+       -0.010768618017, -0.017976446123,  0.000514558621, -0.018567051350, ... 
+       -0.041227875018,  0.027796612785,  0.118120851466,  0.044099737518, ... 
+       -0.146972969139, -0.162797555955,  0.068053509975,  0.222063151703 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_hA.ok"; fail; fi
+
 #
 # run and see if the results match
 #
@@ -58,6 +69,9 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_hM.ok selesnickFIRsymmetric_flat_bandpass_test_hM_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hM.ok"; fail; fi
+
+diff -Bb test_hA.ok selesnickFIRsymmetric_flat_bandpass_test_hA_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hA.ok"; fail; fi
 
 #
 # this much worked

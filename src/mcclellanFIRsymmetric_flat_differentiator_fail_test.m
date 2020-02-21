@@ -7,7 +7,7 @@
 %
 % See: Section IV of "Exchange Algorithms for the Design of Linear Phase
 % FIR Filters and Differentiators Having Flat Monotonic Passbands and
-% Equiripple %Stopband", Ivan W. Selesnick and C. Sidney Burrus, IEEE
+% Equiripple Stopband", Ivan W. Selesnick and C. Sidney Burrus, IEEE
 % TRANSACTIONS ON CIRCUITS AND SYSTEMS—II: ANALOG AND
 % DIGITAL SIGNAL PROCESSING, VOL. 43, NO. 9, SEPTEMBER 1996, pp. 671-675
 

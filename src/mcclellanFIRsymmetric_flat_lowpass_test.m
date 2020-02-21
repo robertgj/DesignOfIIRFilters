@@ -14,7 +14,7 @@ strf="mcclellanFIRsymmetric_flat_lowpass_test";
 %
 nplot=4000;
 maxiter=100;
-tol=1e-5;
+tol=1e-10;
 
 %
 % Filter design with fs fixed
@@ -26,20 +26,20 @@ else
   % Example in Selesnick's cheblp2.m:
   N=25;L=18;fs=0.3;
 endif
-M=(N-L+1)/2;
+M=(N-1-L)/2;
 strt=sprintf("Selesnick-Burrus flat low-pass FIR : N=%d,L=%d,$f_{s}$=%g",N,L,fs);
 nas=floor(fs*nplot/0.5)+1;
 F=linspace(0,0.5,nplot+1)(:);
 W=(-1)^(L/2)*(sin(pi*F).^L);
 D=-1./W;
-[hM,rho,fext,fiter,feasible]= ...
+[hM,rho,fMext,fiter,feasible]= ...
   mcclellanFIRsymmetric(M,F(nas:end),D(nas:end),W(nas:end));
 if feasible==false
   error("hM not feasible");
 endif
-Aext=directFIRsymmetricA(2*pi*fext,hM);
-print_polynomial(fext,"fext","%13.10f");
-print_polynomial(Aext,"Aext","%13.7f");
+AMext=directFIRsymmetricA(2*pi*fMext,hM);
+print_polynomial(fMext,"fMext","%13.10f");
+print_polynomial(AMext,"AMext","%13.7f");
 
 % Plot solution
 AM=directFIRsymmetricA(2*pi*F,hM);
@@ -55,16 +55,9 @@ print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Dual plot
-if 0
-  ax=plotyy(F(1:nas),20*log10(abs(A(1:nas))), ...
-            F(nas:end),20*log10(abs(A(nas:end))));
-  axis(ax(1),[0 0.5 -0.02 0.002]);
-  axis(ax(2),[0 0.5 -50 -44]);
-else
-  ax=plotyy(F(1:nas),A(1:nas),F(nas:end),A(nas:end));
-  axis(ax(1),[0 0.5 0.99 1.002]);
-  axis(ax(2),[0 0.5 -0.006 0.006]);
-endif
+ax=plotyy(F(1:nas),A(1:nas),F(nas:end),A(nas:end));
+axis(ax(1),[0 0.5 0.98 1.02]);
+axis(ax(2),[0 0.5 -0.02 0.02]);
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 title(strt);
@@ -85,6 +78,24 @@ print_polynomial(Fmm,"Fmm","%13.10f");
 print_polynomial(Amm,"Amm","%13.10f");
 
 %
+% Construct the overall impulse response
+%
+hL=1;
+for k=1:L,
+  hL=conv(hL,[1;-1]/2);
+endfor
+HL=freqz(hL,1,2*pi*F);
+if max(abs(abs(W)-abs(HL)))>tol
+  error("max(abs(abs(W)-abs(HL)))>tol");
+endif
+hA=[zeros((N-1)/2,1);1;zeros((N-1)/2,1)]+conv(hL,[hM;hM((end-1):-1:1)]);
+hA=hA(1:((N+1)/2));
+AA=directFIRsymmetricA(2*pi*F,hA);
+if max(abs(A-AA))>tol
+  error("max(abs(A-AA))>tol");
+endif
+
+%
 % Save the results
 %
 fid=fopen(strcat(strf,".spec"),"wt");
@@ -99,8 +110,15 @@ fclose(fid);
 print_polynomial(hM,"hM","%14.8f");
 print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"),"%14.8f");
 
+print_polynomial(hA,"hA","%15.12f");
+print_polynomial(hA,"hA",strcat(strf,"_hA_coef.m"),"%15.12f");
+
+fid=fopen(strcat(strf,"_rho.tab"),"wt");
+fprintf(fid,"%11.8f",rho);
+fclose(fid);
+
 save mcclellanFIRsymmetric_flat_lowpass_test.mat ...
-     N L fs nplot maxiter tol hM fext Aext
+     N L fs nplot maxiter tol hM fMext AMext hA
 
 %
 % Done

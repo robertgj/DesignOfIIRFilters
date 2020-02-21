@@ -1,6 +1,6 @@
-function [hM,fext,fiter,feasible]= ...
+function [hA,hM,fext,fiter,feasible]= ...
   selesnickFIRsymmetric_flat_lowpass(N,L,deltas,fs,nf,max_iter,tol)
-% [hM,fext,fiter,feasible]= ...
+% [hA,hM,fext,fiter,feasible]= ...
 %   selesnickFIRsymmetric_flat_lowpass(N,L,deltas,fs,nf,max_iter,tol)
 % Implement the Selesnick-Burrus maximally-flat lowpass filter design algorithm
 % for specified deltas and initial fs.
@@ -15,14 +15,15 @@ function [hM,fext,fiter,feasible]= ...
 %   tol - tolerance on convergence
 %
 % Outputs:
-%   hM - M+1 distinct coefficients of H2 [h(1),...,h(M+1)], where M=(N-L-1)/2
+%   hA - (N+1)/2 distinct coefficients of H [hA(1),...,hA((N+1)/2)]
+%   hM - M+1 distinct coefficients of H2 [hM(1),...,hM(M+1)], where M=(N-1-L)/2
 %   fext - extremal frequencies
 %   fiter - number of iterations
 %   feasible - true if the design satisfies the constraints
 %
 % See: Section II.B of "Exchange Algorithms for the Design of Linear Phase
 % FIR Filters and Differentiators Having Flat Monotonic Passbands and
-% Equiripple %Stopband", Ivan W. Selesnick and C. Sidney Burrus, IEEE
+% Equiripple Stopband", Ivan W. Selesnick and C. Sidney Burrus, IEEE
 % TRANSACTIONS ON CIRCUITS AND SYSTEMS—II: ANALOG AND
 % DIGITAL SIGNAL PROCESSING, VOL. 43, NO. 9, SEPTEMBER 1996, pp. 671-675
 
@@ -46,10 +47,10 @@ function [hM,fext,fiter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin < 3) || (nargin > 7) || (nargout>4)
+  if (nargin < 3) || (nargin > 7) || (nargout>5)
     print_usage ...
-("[hM,fext,fiter,feasible]=selesnickFIRsymmetric_flat_lowpass(N,L,deltas)\n\
-[hM,fext,fiter,feasible]= ...\n\
+("hA=selesnickFIRsymmetric_flat_lowpass(N,L,deltas)\n\
+[hA,hM,fext,fiter,feasible]= ...\n\
   selesnickFIRsymmetric_flat_lowpass(N,L,deltas,fs,nf,max_iter,tol)");
   endif
 
@@ -108,6 +109,7 @@ function [hM,fext,fiter,feasible]= ...
   
   % Initialise
   M=(N-L-1)/2;
+  hA=[];
   hM=[];
   fext=[];
   fiter=0;
@@ -177,5 +179,13 @@ function [hM,fext,fiter,feasible]= ...
     endif
     
   endfor
+  
+  % Construct the overall impulse response
+  hL=1;
+  for k=1:L,
+    hL=conv(hL,[1;-1]/2);
+  endfor
+  hA=[zeros((N-1)/2,1);1;zeros((N-1)/2,1)]+conv(hL,[hM;hM((end-1):-1:1)]);
+  hA=hA(1:((N+1)/2));
   
 endfunction

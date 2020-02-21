@@ -14,7 +14,7 @@ strf="selesnickFIRsymmetric_flat_bandpass_test";
 %
 nplot=4000;
 max_iter=100;
-tol=1e-8;
+tol=1e-9;
 
 % Specification
 N=55;L=16;deltasl=1e-2;deltasu=2e-2;fp=0.2;ft=0.04;
@@ -22,24 +22,32 @@ strt=sprintf("Selesnick-Burrus Hofstetter flat band-pass FIR: \
 N=%d,L=%d,$\\delta_{sl}$=%g,$\\delta_{su}$=%g,fp=%g,ft=%g", ...
              N,L,deltasl,deltasu,fp,ft);
 
+%
 % Filter design
-[hM,fext,fiter,feasible]= ...
+%
+[hA,hM,fext,fiter,feasible]= ...
   selesnickFIRsymmetric_flat_bandpass(N,L,deltasl,deltasu,fp,ft, ...
                                       nplot,max_iter,tol);
 if feasible==false
-  error("hM not feasible");
+  error("hA not feasible");
 endif
-Aext=directFIRsymmetricA(2*pi*fext,hM);
+Aext=directFIRsymmetricA(2*pi*fext,hA);
 print_polynomial(fext,"fext","%13.10f");
 print_polynomial(Aext,"Aext","%13.5f");
 
-%
-% Plot solution
-%
+% Check the overall impulse response
 F=linspace(0,0.5,nplot+1)(:);
 W=((-1)^(L/2))*(((cos(2*pi*fp)-cos(2*pi*F))/2).^(L/2));
 AM=directFIRsymmetricA(2*pi*F,hM);
 A=1+(AM(:).*W(:));
+AA=directFIRsymmetricA(2*pi*F,hA);
+if max(abs(A-AA))>tol
+  error("max(abs(A-AA))>tol");
+endif
+
+%
+% Plot solution
+%
 plot(F,20*log10(abs(A)))
 axis([0 0.5 -50 1]);
 xlabel("Frequency");
@@ -91,8 +99,11 @@ fclose(fid);
 print_polynomial(hM,"hM","%15.7f");
 print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"),"%15.7f");
 
+print_polynomial(hA,"hA","%15.12f");
+print_polynomial(hA,"hA",strcat(strf,"_hA_coef.m"),"%15.12f");
+
 save selesnickFIRsymmetric_flat_bandpass_test.mat  ...
-     N L deltasl deltasu fp ft nplot max_iter tol hM fext Aext
+     N L deltasl deltasu fp ft nplot max_iter tol hM hA fext Aext
 
 %
 % Done

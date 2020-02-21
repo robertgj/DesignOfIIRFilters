@@ -7716,7 +7716,7 @@ the unit circle: $\left| z \right| < R < 1$.
 function in the form of gain, pole locations and zero locations. In this case
 filter stability is ensured by a simple constraint on the pole radius.
 
-The partial differentials of the amplitude response with respect to the filter
+The partial derivatives of the amplitude response with respect to the filter
 coefficients are simpler when expressed in terms of the numerator and 
 denominator polynomials of the transfer function. This has lead many authors to
 suggest filter stability criteria expressed in terms of the coefficients of the
@@ -20328,7 +20328,7 @@ the state variable coefficients, $\alpha$, $\beta$, etc., are:
 \end{align*}
 where $x$ represents the components of the state variable matrixes. The 
 diagonal of the Hessian matrix of the squared-magnitude (that is the second
-differentials of the squared-magnitude) is:
+derivatives of the squared-magnitude) is:
 \begin{align*}
 \frac{\partial^{2}\left|H\left(z\right)\right|^{2}}{\partial{}x^{2}} &= 2\left[
 \left|\frac{\partial{}H\left(z\right)}{\partial{}x}\right|^{2}+
@@ -20369,7 +20369,7 @@ the state variable coefficients, $\alpha$, $\beta$, etc., are given by:
 \end{align*}
 where $x$ represents the components of the state variable matrixes.
 The diagonal of the Hessian matrix of the phase (that is the second
-differentials of the phase) is given by:
+derivatives of the phase) is given by:
 \begin{align*}
 \frac{\partial\left|H\left(z\right)\right|^{2}}{\partial{}x}
 \frac{\partial{}P\left(z\right)}{\partial{}x}+
@@ -20441,7 +20441,7 @@ etc. where
 \frac{\partial^{2}H\left(\omega\right)}{\partial\delta\partial{}\omega}&=0
 \end{align*}
 The diagonal of the Hessian matrix of the group-delay (that is the second
-differentials of the group-delay) is given by:
+derivatives of the group-delay) is given by:
 \begin{align*}
 \frac{\partial^{2}\left|H\right|^{2}}{\partial{}x^{2}}T +
 2\frac{\partial\left|H\right|^{2}}{\partial{}x}\frac{\partial{}T}{\partial{}x} +
@@ -25944,10 +25944,7 @@ filter coefficients are:
 \label{fig:affineFIRsymmetric-lowpass-test-dual}
 \end{figure}
 \clearpage
-\section{Design of FIR filters with flat pass-bands and equi-ripple stop-bands}
-Flat pass-band filters are preferred when a signal is repeated or
-re-transmitted many
-times.
+\section{Design of FIR filters with maximally-linear pass-bands and equi-ripple stop-bands using the \emph{Parks-Mcclellan} algorithm}
 \emph{Vaidyanathan}~\cite{Vaidyanathan_DesignFIRFlatPassbandEquirippleStopband}
 and \emph{Selesnick} and 
 \emph{Burrus}~\cite{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}
@@ -25963,14 +25960,14 @@ where:
 \begin{align*}
   H_{L}\left(z\right)&=\left(\frac{1-z^{-1}}{2}\right)^{L}
 \end{align*}
-$N$ is odd and $H_{M}\left(z\right)$ is a high-pass filter with a symmetric
-impulse response of length $N-L$. $H_{M}\left(e^{\imath\omega}\right)$ can be
-written:
+The filter length, $N$, is odd and $H_{M}\left(z\right)$ is a high-pass filter
+with a symmetric impulse response of length $N-L$.
+The frequency reponse of $H_{M}\left(\omega\right)$ is: 
 \begin{align*}
-  H_{M}\left(e^{\imath\omega}\right)
+  H_{M}\left(\omega\right)
   &=e^{-\imath\omega\left(\frac{N-L-1}{2}\right)}A_{M}\left(\omega\right)
 \end{align*}
-where $A_{M}\left(\omega\right)$ is  a real valued function. When $L$ is chosen
+where $A_{M}\left(\omega\right)$ is a real valued function. When $L$ is chosen
 to be even:
 \begin{align*}
   \left(\frac{1-e^{-\imath\omega}}{2}\right)^{L}
@@ -25979,7 +25976,7 @@ to be even:
 \end{align*}
 Therefore the frequency response is:
 \begin{align*}
-  H\left(e^{\imath\omega}\right)
+  H\left(\omega\right)
   &=e^{-\imath\omega\left(\frac{N-1}{2}\right)}A\left(\omega\right)
 \end{align*}
 where the amplitude response is:
@@ -25995,7 +25992,7 @@ Let $M=\left(N-L-1\right)/2$ then:
     \cos\left[\omega\left(M-k\right)\right]
 \end{align*}
 where $h_{M}$ are the coefficients of $H_{M}$.
-\subsection{Design of FIR low-pass filters with flat pass-bands and equi-ripple stop-bands}
+\subsection{Design of FIR low-pass filters with maximally-flat pass-bands and equi-ripple stop-bands}
 \emph{Selesnick} and \emph{Burrus} describe exchange algorithms for the cases in
 which the maximally-flat pass-band, low-pass, FIR filter design:
 \begin{enumerate}
@@ -26034,11 +26031,15 @@ specification of the filter is:
 \begin{small}
 \verbatiminput{mcclellanFIRsymmetric_flat_lowpass_test.spec}
 \end{small}
-Figure~\ref{fig:mcclellanFIRsymmetric-flat-lowpass-test-dual} shows  the
+Figure~\ref{fig:mcclellanFIRsymmetric-flat-lowpass-test-dual} shows the
 pass-band and stop-band amplitude responses of the fixed $\omega_{s}$ filter. 
-The distinct filter coefficients are:
+The distinct filter coefficients of $H_{M}\left(z\right)$ are:
 \begin{small}
 \verbatiminput{mcclellanFIRsymmetric_flat_lowpass_test_hM_coef.m}
+\end{small}
+The distinct filter coefficients of the overall filter, $H\left(z\right)$, are:
+\begin{small}
+\verbatiminput{mcclellanFIRsymmetric_flat_lowpass_test_hA_coef.m}
 \end{small}
 
 \begin{figure}
@@ -26064,7 +26065,7 @@ II.B]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}:
   in $\left(0,\pi\right]$ are found and are taken to be the reference set
   frequencies for the next iteration.
 \end{quotation}
-The Octave script \emph{mcclellanFIRsymmetric\_flat\_lowpass\_test.m} calls the
+The Octave script \emph{selesnickFIRsymmetric\_flat\_lowpass\_test.m} calls the
 Octave function \emph{selesnickFIRsymmetric\_flat\_lowpass} to design a 
 maximally-flat FIR low-pass filter having fixed $\delta_{s}$. The specification
 of the filter is: 
@@ -26076,9 +26077,13 @@ pass-band and stop-band amplitude responses of the fixed $\delta_{s}$ filter.
 The Octave function \emph{selesnickFIRsymmetric\_flat\_lowpass} uses Lagrange
 interpolation to find the filter amplitude response and removes spurious peaks
 in the pass-band amplitude response that are due to numerical errors.
-The distinct filter coefficients are:
+The distinct filter coefficients of $H_{M}\left(z\right)$ are:
 \begin{small}
 \verbatiminput{selesnickFIRsymmetric_flat_lowpass_test_hM_coef.m}
+\end{small}
+The distinct filter coefficients of the overall filter, $H\left(z\right)$, are:
+\begin{small}
+\verbatiminput{selesnickFIRsymmetric_flat_lowpass_test_hA_coef.m}
 \end{small}
 
 \begin{figure}
@@ -26090,7 +26095,7 @@ The distinct filter coefficients are:
 \label{fig:selesnickFIRsymmetric-flat-lowpass-test-dual}
 \end{figure}
 \clearpage
-\subsection{Design of FIR band-pass filters with flat pass-bands and equi-ripple stop-bands}
+\subsection{Design of FIR band-pass filters with maximally-flat pass-bands and equi-ripple stop-bands}
 \emph{Selesnick} and \emph{Burrus} describe the design of maximally-flat
 pass-band, band-pass, FIR filters with centre frequency, $\omega_{p}$, pass-band
 width $2\omega_{t}$ and upper and lower stop-band ripple $\delta_{su}$ and
@@ -26154,11 +26159,15 @@ $K=\delta_{su}/\delta_{sl}$. The specification of the filter is:
 Figure~\ref{fig:mcclellanFIRsymmetric-flat-bandpass-test-response} shows  the
 amplitude response of the fixed $\omega_{p}$ and $\omega_{t}$ filter. 
 \end{comment}
-Figure~\ref{fig:mcclellanFIRsymmetric-flat-bandpass-test-dual} shows  the
-detailed pass-band and stop-band amplitude responses of the filter. The distinct
-filter coefficients are:
+Figure~\ref{fig:mcclellanFIRsymmetric-flat-bandpass-test-dual} shows the
+detailed pass-band and stop-band amplitude responses of the filter.
+The distinct filter coefficients of $H_{M}\left(z\right)$ are: 
 \begin{small}
 \verbatiminput{mcclellanFIRsymmetric_flat_bandpass_test_hM_coef.m}
+\end{small}
+The distinct filter coefficients of the overall filter, $H\left(z\right)$, are:
+\begin{small}
+\verbatiminput{mcclellanFIRsymmetric_flat_bandpass_test_hA_coef.m}
 \end{small}
 
 \begin{comment}
@@ -26211,9 +26220,14 @@ $\delta_{sl}$. The specification of the filter is:
 \end{small}
 Figure~\ref{fig:selesnickFIRsymmetric-flat-bandpass-test-dual} shows  the
 pass-band and stop-band amplitude responses of the fixed
-$\delta_{su}$ and $\delta_{sl}$ filter. The distinct filter coefficients are:
+$\delta_{su}$ and $\delta_{sl}$ filter.
+The distinct filter coefficients of $H_{M}\left(z\right)$ are: 
 \begin{small}
 \verbatiminput{selesnickFIRsymmetric_flat_bandpass_test_hM_coef.m}
+\end{small}
+The distinct filter coefficients of the overall filter, $H\left(z\right)$, are:
+\begin{small}
+\verbatiminput{selesnickFIRsymmetric_flat_bandpass_test_hA_coef.m}
 \end{small}
 
 \begin{figure}
@@ -26225,12 +26239,14 @@ $\delta_{su}$ and $\delta_{sl}$ filter. The distinct filter coefficients are:
 \label{fig:selesnickFIRsymmetric-flat-bandpass-test-dual}
 \end{figure}
 \clearpage
-\subsection{Design of FIR low-pass differentiators with equi-ripple stop-bands}
-The ideal differentiator response is $H\left(\omega\right)=-\imath\omega$.
-Usually, a differentiator filter with a low-pass amplitude response is preferred.
-\emph{Selesnick} and \emph{Burrus}~\cite[Section 
+\subsection{Design of maximally-linear FIR low-pass differentiators with equi-ripple stop-bands}
+The ideal full-band differentiator response is
+$H\left(\omega\right)=\imath\omega$ where $\left|\omega\right|\le\pi$. If the
+input signal contains broadband random noise then a differentiator filter with a
+low-pass amplitude response is preferred. \emph{Selesnick} and
+\emph{Burrus}~\cite[Section  
 IV, Figure 5]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}\footnote{
-  The caption to Figure 5 should say ``N even''} describe the design of low-pass
+The caption to Figure 5 should say ``N even''} describe the design of low-pass
 FIR differentiator filters with equi-ripple stop-bands and ``a specified degree
 of tangency, $L$, at $\omega=0$''. They present the design equations shown below.
 
@@ -26255,8 +26271,8 @@ $M=\left(N-L-1\right)/2$ and:
 For the amplitude response, $A\left(0\right)=0$, $A^{\prime}\left(0\right)=1$ and
 $A^{\left(k\right)}\left(0\right)=0$ for $k=2,\ldots,L$.
 \subsubsection{Odd-length FIR differentiators}
-If $N$ is odd and $S\left(z\right)=-\left(1-z^{-2}\right)/2$ so that
-$S\left(\omega\right)=\sin\omega$, then the amplitude response is:
+If $N$ is odd and $L$ is even and $S\left(z\right)=-\left(1-z^{-2}\right)/2$ so
+that $S\left(\omega\right)=\sin\omega$, then the amplitude response is:
 \begin{align*}
   A\left(\omega\right)
   &=\sin\left(\omega\right)\left[1+d_{1}C\left(\omega\right)+
@@ -26274,10 +26290,11 @@ where $A_{M}\left(\omega\right)$ is an arbitrary cosine polynomial and:
 The Octave script
 \emph{mcclellanFIRsymmetric\_flat\_differentiator\_fail\_test.m} calls the
 Octave function \emph{mcclellanFIRsymmetric} to design the stop-band filter,
-$A_{M}\left(\omega\right)$, of an odd-length, even-order, monotonic pass-band,
-equi-ripple stop-band, FIR differentiator filter. The filter specification is
-similar to that of the example of \emph{Selesnick} and \emph{Burrus}~\cite[Figure
-6]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}:  
+$A_{M}\left(\omega\right)$, of an odd-length, even-order, maximally-linear
+pass-band, equi-ripple stop-band, FIR differentiator filter. The filter
+specification is similar to that of the example of \emph{Selesnick} and
+\emph{Burrus}~\cite[Figure
+6]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}:   
 \begin{small}
 \verbatiminput{mcclellanFIRsymmetric_flat_differentiator_fail_test.spec}
 \end{small}
@@ -26292,7 +26309,7 @@ stop-band amplitude response.
 \begin{figure}
 \centering
 \scalebox{0.7}{\input{mcclellanFIRsymmetric_flat_differentiator_fail_test_hM_dual}}
-\caption{Response of the $A_{M}$ filter of an odd-length, even-order, monotonic
+\caption{Response of the $A_{M}$ filter of an odd-length, even-order, maximally-linear
   pass-band, equi-ripple stop-band, FIR differentiator ~\cite[Section   
   IV]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.} 
 \label{fig:mcclellanFIRsymmetric-flat-differentiator-fail-test-hM-dual}
@@ -26301,7 +26318,7 @@ stop-band amplitude response.
 \begin{figure}
 \centering
 \scalebox{0.7}{\input{mcclellanFIRsymmetric_flat_differentiator_fail_test_response}}
-\caption{Response of the failed design of an odd-length, even-order, monotonic
+\caption{Response of the failed design of an odd-length, even-order, maximally-linear
   pass-band, equi-ripple stop-band, FIR differentiator ~\cite[Section   
   IV]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.}
 \label{fig:mcclellanFIRsymmetric-flat-differentiator-fail-test-response}
@@ -26310,7 +26327,7 @@ stop-band amplitude response.
 \subsubsection{Design of an odd length differentiator with
   \emph{mcclellanFIRantisymmetric\_flat\_differentiator}}
 The Octave function \emph{mcclellanFIRantisymmetric\_flat\_differentiator} 
-designs monotonic pass-band, equi-ripple stop-band, FIR differentiator
+designs maximally-linear pass-band, equi-ripple stop-band, FIR differentiator
 filters. It follows the MATLAB function \emph{chebdiff.m}
 of \emph{Selesnick}~\cite{Selesnick_chebdiff} for even-length filters and adds
 the odd-length case. The Octave script
@@ -26323,59 +26340,813 @@ of the odd-length filter is:
 \begin{small}
 \verbatiminput{mcclellanFIRantisymmetric_flat_differentiator_test.spec}
 \end{small}
-The coefficients of the odd-length filter are:
-\begin{small}
+The coefficients of the odd-length, even-order, anti-symmetric, FIR
+differentiator filter are\footnote{This truncation introduces ripple of about
+  $\pm{}1e-7$ into the maximally-linear low-pass differentiator response.}:  
+\begin{small} 
 \verbatiminput{mcclellanFIRantisymmetric_flat_differentiator_test_hA59_coef.m}
 \end{small}
-Figure~\ref{fig:mcclellanFIRantisymmetric-flat-differentiator-test-response}
-shows the amplitude response of the odd-length even-order FIR monotonic pass-band
-differentiator filter. 
-Figure~\ref{fig:mcclellanFIRantisymmetric-flat-differentiator-test-error}
-shows the amplitude response error of the differentiator filter. The width of
-the stop-band is determined by the stop-band ripple specification. There are
+Figure~\ref{fig:mcclellanFIRantisymmetric-flat-differentiator-test-dual}
+shows the pass-band and stop-band amplitude responses of the odd-length
+even-order FIR maximally-linear pass-band differentiator filter. The width of
+the stop-band is determined by the stop-band ripple specification. There are 
 $M=\left(N-1-L\right)/2$ stop-band extremal frequencies.
-Figure~\ref{fig:mcclellanFIRantisymmetric-flat-differentiator-test-zeros}
-shows the zeros of the differentiator filter. There are single zeros at
-$z=\pm{}1$.
-
+Figure~\ref{fig:mcclellanFIRantisymmetric-flat-differentiator-test-zeros} shows  
+the zeros of the differentiator filter. There are single zeros at $z=\pm{}1$.
+Figure~\ref{fig:mcclellanFIRantisymmetric-flat-differentiator-test-feasible}
+shows the values of odd or even $N$ and even $L$ with \emph{deltas=1e-4} and
+\emph{tol=1e-8} for which the Octave function
+\emph{mcclellanFIRantisymmetric\_flat\_differentiator} converges to a feasible
+filter. 
 \begin{figure}
 \centering
-\scalebox{0.7}{\input{mcclellanFIRantisymmetric_flat_differentiator_test_response}}
-\caption{Amplitude response of an odd-length, even-order, monotonic
-  pass-band, equi-ripple stop-band, FIR differentiator ~\cite[Section   
-  IV]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.} 
-\label{fig:mcclellanFIRantisymmetric-flat-differentiator-test-response}
-\end{figure}
-
-\begin{figure}
-\centering
-\scalebox{0.7}{\input{mcclellanFIRantisymmetric_flat_differentiator_test_error}}
-\caption{Amplitude response error of an odd-length, even-order, monotonic
-  pass-band, equi-ripple stop-band, FIR differentiator ~\cite[Section   
-  IV]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.} 
-\label{fig:mcclellanFIRantisymmetric-flat-differentiator-test-error}
+\scalebox{0.7}{\input{mcclellanFIRantisymmetric_flat_differentiator_test_dual}}
+\caption{Pass-band and stop-band amplitude responses of an odd-length,
+  even-order, maximally-linear pass-band, equi-ripple stop-band, FIR
+  differentiator ~\cite[Section
+  IV]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.}  
+\label{fig:mcclellanFIRantisymmetric-flat-differentiator-test-dual}
 \end{figure}
 
 \begin{figure}
 \centering
 \scalebox{0.7}{\input{mcclellanFIRantisymmetric_flat_differentiator_test_zeros}}
-\caption{Zeros of an odd-length, even-order, monotonic
+\caption{Zeros of an odd-length, even-order, maximally-linear
   pass-band, equi-ripple stop-band, FIR differentiator ~\cite[Section   
   IV]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.} 
 \label{fig:mcclellanFIRantisymmetric-flat-differentiator-test-zeros}
 \end{figure}
 
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{mcclellanFIRantisymmetric_flat_differentiator_test_feasible}}
+\caption{Feasible values of odd or even $N$ and even $L$ with
+  \emph{deltas=1e-4} and \emph{tol=1e-8} for the maximally-linear pass-band,
+  equi-ripple stop-band, FIR differentiator designed by the Octave function
+  \emph{mcclellanFIRantisymmetric\_flat\_differentiator}}. 
+\label{fig:mcclellanFIRantisymmetric-flat-differentiator-test-feasible}
+\end{figure}
+
 \clearpage
-\subsection{Closed form design of FIR low-pass differentiators}
-\emph{Selesnick}~\cite{Selesnick_MaximallyFlatLowPassDigitalDifferentiators}
-describes the closed-form design of monotonic pass-band FIR differentiator
-filters\footnote{\emph{Selesnick} uses the terminology
-  of \emph{Openheim} and \emph{Schafer}~\cite[Section
-  5.7.3]{OppenheimSchafer_DiscreteTimeSignalProcessing}: 
+\section{Closed-form design of maximally-linear FIR filters}
+Maximally-linear filters are preferred when a signal is repeated or
+re-transmitted many times. The linearity constraints allow a closed-form
+solution for the filter coefficients. \emph{Samadi} and \emph{Nishihara} give a
+historical survey of maximally-flat FIR
+filters~\cite{SamadiNishihara_WorldOfFlatness}. They emphasise their use since
+the late $19$th century by actuaries for \emph{graduation} or data-smoothing.
+Maximally-linear FIR filters are typically longer that equi-ripple FIR filters
+but may have fewer multipliers.
+
+\subsection{Closed-form design of maximally-flat low-pass FIR filters}
+
+\subsubsection{\emph{Herrmann}'s closed form design of FIR low-pass filters that are maximally-flat at $\omega=0$ and $\omega=\pi$}
+\emph{Herrman}~\cite{Herrmann_ApproximationProblemNonrecursiveDigitalFilter}
+describes a method of designing maximally-flat low-pass FIR filters with a closed
+form expression for the coefficients. The zero-phase frequency response of the
+filter is:
+\begin{align*}
+  A\left(\omega\right)&=\sum_{k=0}^{M}d_{k}\cos{}k\omega
+\end{align*}
+where the length of the filter is $N=2M+1$. The maximally-flat constraints on
+the low-pass filter coefficients are: 
+\begin{align*}
+  \left. A\left(\omega\right) \right\vert_{\omega=0}&=1 \\
+  \vspace{1.5mm}
+  \left. A\left(\omega\right) \right\vert_{\omega=\pi}&=0 \\
+  \vspace{1.5mm}
+  \left. \frac{d^{p}}{d\omega^{p}} A\left(\omega\right)\right\vert_{\omega=0}&=0
+  \quad p=1,2,\hdots,2L-1 \\
+  \vspace{1.5mm}
+  \left. \frac{d^{q}}{d\omega^{q}}A\left(\omega\right)\right\vert_{\omega=\pi}&=0 
+  \quad q=1,2,\hdots,2K-1
+\end{align*}
+where $M=L+K-1$ and $L$ and $K$ represent the required degrees of "flatness" at
+$\omega=0$ and $\omega=\pi$. \emph{Herrmann} defines a transformation
+$\cos\omega =1-2x$ on the interval $\left[0,1\right]$ by which
+$A\left(\omega\right)$ is transformed into: 
+\begin{align*}
+  P_{M,K}\left(x\right)&=\sum_{k=0}^{M}a_{k}x^{k}
+\end{align*}
+$P_{M,K}\left(x\right)$ has $K$ zeros at $x=1$ and $L=M-K+1$ zeros at $x=0$.
+\emph{Herrmann} states that: 
+\begin{align*}
+  P_{M,K}\left(x\right)&= \left(1-x\right)^{K}\sum_{k=0}^{M-K}
+           \left(\begin{array}{c}
+                   M+k-1 \\
+                   k \end{array}\right)x^{k}
+\end{align*}
+\emph{Herrmann} gives an empirical relation for the filter cut-off frequency,
+$x_{c}$:
+\begin{align*}
+K &= M-\floor{Mx_{c} +0.5}
+\end{align*}
+\emph{Rajagopal} and \emph{Roy}~\cite{RajagopalRoy_MaxFlatFIRBernstein} derive
+$P_{M,K}\left(x\right)$ from the properties of the \emph{Bernstein
+  polynomial}\footnote{In computer graphics a two- or three-dimensional 
+  \emph{Bernstein polynomial} is called a \emph{Bezier curve}. The \emph{De
+    Casteljau recursion} is a numerically stable method for calculation of the
+  value of the Bernstein polynomial.} representation of a function
+$f\left(x\right)$ on the interval $\left[0,1\right]$:
+\begin{align*}
+  B_{M}\left(f;x\right)&=\sum_{k=0}^{M}f\left(\frac{k}{M}\right)
+                         \left(\begin{array}{c}
+                                 M \\
+                                 k \end{array}\right)x^{k}\left(1-x\right)^{M-k}
+\end{align*}
+where the values of $f\left(x\right)$ at
+$x=\frac{0}{M},\frac{1}{M},\hdots,\frac{M}{M}$ are known. They point out that
+for a low-pass function, $f\left(x\right)$: 
+\begin{align*}
+  f\left(\frac{k}{M}\right) &=\begin{cases}
+      1, & 0\le k \le M-K \\
+      0, & M-K +1 \le k \le M \end{cases}
+\end{align*}
+we get:
+\begin{align*}
+  B_{M,K}\left(f;x\right)&=\sum_{k=0}^{M-K}
+           \left(\begin{array}{c}
+                   M \\
+                   k \end{array}\right)x^{k}\left(1-x\right)^{M-k}
+\end{align*}
+Expanding and simplifying, \emph{Rajagopal} and \emph{Roy}~\cite[Appendix
+A]{RajagopalRoy_MaxFlatFIRBernstein} derive \emph{Herrmann}'s
+$P_{M,K}\left(x\right)$:
+\begin{align}
+  B_{M,K}\left(x\right)&=\left(1-x\right)^{K}\sum_{k=0}^{M-K}
+           \left(\begin{array}{c}
+                   M+k-1 \\
+                   k \end{array}\right)x^{k}
+  \label{eqn:Bernstein-M-K}
+\end{align}
+
+Identifying $x$ with $-\frac{1}{4}\left(1-z^{-1}\right)^{2}$ and $1-x$ with
+$\frac{1}{4}\left(1+z^{-1}\right)^{2}$, the filter transfer function
+corresponding to the \emph{Bernstein polynomial} representation of the low-pass
+function, $f\left(x\right)$, is:
+\begin{align*}
+  H\left(z\right)
+  &=\frac{1}{4^{M}}\sum_{k=0}^{M-K}\left(-1\right)^{k}
+    \left(\begin{array}{c}
+            M \\
+            k \end{array}\right)
+  \left(1-z^{-1}\right)^{2k}  \left(1+z^{-1}\right)^{2\left(M-k\right)}
+\end{align*}
+
+Alternatively, applying \emph{Bernstein interpolation} to $f\left(x\right)$:
+\begin{align*}
+  B_{M}\left(f;x\right)&=\sum_{k=0}^{M}\Delta^{k}f\left(0\right)
+                         \left(\begin{array}{c}
+                                 M \\
+                                 k \end{array}\right)x^{k}              
+\end{align*}
+where $\Delta^{k}f\left(0\right)$ is the $k$th forward difference\footnote{The
+  forward differences are:
+  \begin{align*}
+    \Delta^{0}f_{n}&=f_{n}\\
+    \Delta^{1}f_{n}&=f_{n+1}-f_{n}\\
+    \Delta^{k}f_{n}&=\Delta^{k-1}f_{n+1}-\Delta^{k-1}f_{n}\\
+                   &=\sum_{p=0}^{k}\left(-1\right)^{p}\left(\begin{array}{c}
+                                                                k \\
+                                                                p \end{array}
+                                                              \right)f_{n+p}
+    \end{align*}} at $x=0$ calculated from the values of $f\left(x\right)$ at
+  $x=\frac{0}{M},\frac{1}{M},\hdots,\frac{M}{M}$, \emph{Rajagopal} and
+  \emph{Roy} show that~\cite[Equation 23]{RajagopalRoy_MaxFlatFIRBernstein}: 
+\begin{align*}
+  a_{0}&= 1 \\
+  a_{k}&=\begin{cases}
+    0, & k=1,\hdots,L-1 \\
+    \left(-1\right)^{k-L+1}\cdot\frac{L}{k}\cdot
+        \left(\begin{array}{c}
+                M-L \\
+                k-L \end{array}\right)\cdot
+            \left(\begin{array}{c}
+                    M \\
+                    L \end{array}\right) , & k=L,\hdots,M \end{cases}
+\end{align*}
+In this case the filter transfer function is:
+\begin{align*}
+  H\left(z\right) &= \sum_{k=0}^{M}a_{k}
+                    \left[-\frac{1}{4}\left(1-z^{-1}\right)^{2}\right]^{k}
+\end{align*}
+
+Figure~\ref{fig:herrmannFIRsymmetric-flat-lowpass-test-M-10-K-1-M} shows the
+\emph{x}-domain responses of maximally-flat lowpass filters for $M=10$ and
+$K=1,\hdots,M$ designed with the Octave function
+\emph{herrmannFIRsymmetric\_flat\_lowpass}. It reproduces \emph{Herrmann}'s
+Figure 1~\cite{Herrmann_ApproximationProblemNonrecursiveDigitalFilter}.
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{herrmannFIRsymmetric_flat_lowpass_test_M_10_K_1_M}}
+\caption{\emph{x}-domain amplitude responses of maximally-flat low-pass filters
+  designed by the method of \emph{Herrmann} with $M=10$ and
+  $K=1,\hdots,M$~\cite[Figure
+  1]{Herrmann_ApproximationProblemNonrecursiveDigitalFilter}.} 
+\label{fig:herrmannFIRsymmetric-flat-lowpass-test-M-10-K-1-M}
+\end{figure}
+
+The distinct coefficients of the $z$-domain impulse response of
+an $M=19$ and $K=11$ maximally-flat low-pass filter are:
+\begin{small}
+\verbatiminput{herrmannFIRsymmetric_flat_lowpass_test_hM19K11_coef.m}
+\end{small}
+The numerical range of the maximally-flat filter $a_{k}$ coefficients increases
+rapidly with the length of the filter.
+\clearpage
+\subsubsection{Closed-form design of FIR filters by \emph{Nuevo et al.}'s
+  interpolation with a maximally-flat model filter}
+\emph{Nuevo et al.}~\cite{NuevoDongMitra_InterpolatedFIRFilters} describe a
+general method for the design of \emph{interpolated FIR filters} of the form
+$H\left(z\right)=H_{M}\left(z^{P}\right)G\left(z\right)$. $H_{M}\left(z\right)$
+is called the model filter, designed to meet the required frequency
+specification in $z^{P}$. $H_{M}\left(z\right)$ is transformed by
+interpolating $P-1$ zeros between each impulse response coefficient creating $P$
+images of the desired frequency response. The $G\left(z\right)$ filter places
+zeros at each of the $P-1$ unwanted images. This method is claimed to
+``implement most practical FIR filters with significant savings in the number of
+arithmetic operations''. 
+
+The Octave script \emph{nuevoFIRsymmetric\_flat\_bandpass\_test.m} applies this
+method to the design of a bandpass filter. The maximally flat model filter is
+designed by the Octave function \emph{herrmannFIRsymmetric\_flat\_lowpass} with
+$M=19$ and $fc=0.2$ giving $K=12$. The interpolation factor is $P=8$. The script
+constructs an interpolator filter, $G\left(z\right)$, with double zeros at $z=1$
+and $z=-1$, a pair of zeros at $z=\pm\imath$ and pairs of zeros at on the unit
+circle at
+$\omega=\pm{}2\pi\left[3, 29, 35, 47, 48, 50, 62\right]/\left(16P\right)$. 
+The latter were adjusted ``by-eye''. The resulting filter has a model filter
+with length $39$ and an overall filter length of $325$. The model filter has
+$20$ distinct coefficients and the interpolator filter requires $8$ distinct
+non-power-of-two
+multipliers. Figure~\ref{fig:nuevoFIRsymmetric-flat-bandpass-test-response} 
+shows the overall response of the interpolated filter.
+Figure~\ref{fig:nuevoFIRsymmetric-flat-bandpass-test-interpolator} shows the
+responses of the interpolated maximally-flat model filter and the
+interpolator filter. The distinct coefficients of the model filter are:
+\begin{small} 
+\verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hM_coef.m}
+\end{small}
+The coefficients of the two sections of the interpolator filter are:
+\begin{small} 
+\verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hza_coef.m}
+\end{small}
+and
+\begin{small} 
+\verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hzb_coef.m}
+\end{small}
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{nuevoFIRsymmetric_flat_bandpass_test_response}}
+\caption{Amplitude response of an interpolated maximally-flat band-pass filter
+with $P=8$, $M=19$, $fc=0.2$, $K=12$.}
+\label{fig:nuevoFIRsymmetric-flat-bandpass-test-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{nuevoFIRsymmetric_flat_bandpass_test_interpolator}}
+\caption{Amplitude response of the interpolated maximally-flat model filter and
+  interpolator filter with $P=8$, $M=19$, $fc=0.2$, $K=12$.}
+\label{fig:nuevoFIRsymmetric-flat-bandpass-test-interpolator}
+\end{figure}
+
+Figure~\ref{fig:nuevoFIRsymmetric-flat-bandpass-test-16bit-response} shows the
+overall response of the filter with $16$-bit rounded coefficients. The model
+filter now has $16$ distinct coefficients, a total of $24$ multipliers are
+required and the overall filter length is $261$.
+The distinct $16$-bit coefficients of the model filter are:
+\begin{small} 
+\verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hMf_coef.m}
+\end{small}
+The $16$-bit coefficients of the interpolator filter are:
+\begin{small} 
+\verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hzbf_coef.m}
+\end{small}
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{nuevoFIRsymmetric_flat_bandpass_test_16bit_response}}
+\caption{Amplitude response of an interpolated maximally-flat band-pass filter
+with $P=8$, $M=19$, $fc=0.2$, $K=12$ and $16$-bit rounded coefficients.}
+\label{fig:nuevoFIRsymmetric-flat-bandpass-test-16bit-response}
+\end{figure}
+\clearpage
+\subsubsection{\emph{Vl\v{c}ek et al.}'s recursive algorithm for the calculation of the coefficients of odd-length, symmetric, maximally-flat, FIR low-pass filters}
+\emph{Vl\v{c}ek et al.}~\cite{Vlcek_AnalyticalDesignFIRFilter} give a recursive
+algorithm for the coefficients of an odd-length, even-order, symmetric,
+maximally flat, low-pass FIR filter. They begin with a length $N=2M+1$
+$z$-domain impulse response~\cite[Equations 1 to
+4]{Vlcek_AnalyticalDesignFIRFilter}: 
+\begin{align*}
+  H\left(z\right)&=\sum_{k=0}^{N-1}h_{k}z^{-k}\\
+                 &=z^{-M}\left[h_{M}+ 2\sum_{k=1}^{M}
+                   h_{M-n}\cdot\frac{1}{2}\left(z^{k}+z^{-k}\right)\right]
+\end{align*}
+The zero-phase frequency response is:
+\begin{align*}
+A\left(v\right)&=\left[a_{0}+\sum_{k=1}^{M}a_{k}T_{k}\left(v\right)\right]
+\end{align*}
+where $a_{0}=h_{M}$, $a_{k}=2h_{M-m}$, $v=\cos\omega$,
+$T_{k}\left(\omega\right)=\cos{}k\omega$ is a \emph{Chebyshev polynomial of
+  the first kind}. If the impulse response has all zeros at $z=\pm{}1$ then the
+zero-phase amplitude response is a \emph{Bernstein} polynomal. Re-writing
+Equation~\ref{eqn:Bernstein-M-K} in terms of $v$~\cite[Equation
+9]{Vlcek_AnalyticalDesignFIRFilter}\footnote{In the notation of \emph{Vl\v{c}ek
+    et al.}, $p=M-K$ and $q=K-1$.}, $A\left(v\right)=C_{M,K}\left(v\right)$,
+where: 
+\begin{align*}
+  C_{M,K} \left(v\right)&=\left(\frac{1+v}{2}\right)^{K}\;\sum_{k=0}^{M-K}
+            \left(\begin{array}{c}
+                    M+k-1\\
+                    k\end{array}\right)\left(\frac{1-v}{2}\right)^{k}
+\end{align*}
+\emph{Vl\v{c}ek et al.} state that:
+\begin{align}
+  \frac{d}{dv}C_{M,K}\left(v\right)&=2^{-M}M\left(\begin{array}{c}
+                                              M-1\\
+                                              M-K\end{array}\right)
+  \left(1-v\right)^{M-K}\left(1+v\right)^{K-1}
+  \label{eqn:d-dv-C-p-q-v}
+\end{align}
+Differentiating again~\cite[Equation 11]{Vlcek_AnalyticalDesignFIRFilter}:
+\begin{align*}
+  \left(1-v^{2}\right)\frac{d^{2}}{dv^{}}C_{M,K}\left(v\right)
+  +\left[\left(M-2K+1\right)+\left(M-1\right)v\right]\frac{d}{dv}C_{M,K}&=0
+\end{align*}
+
+ The Chebyshev polynomials of the first kind have the property:
+\begin{align*}
+  \frac{d}{dv}T_{k}\left(v\right)&=kU_{k-1}\left(v\right)
+\end{align*}
+where $U_{k}\left(v\right)$ is a \emph{Chebyshev polynomial of the second kind}.
+An alternative expression of Equation~\ref{eqn:d-dv-C-p-q-v} is:
+\begin{align*}
+  \frac{d}{dv}C_{M,K}\left(v\right)&=\sum_{k=1}^{M}ka_{k}U_{k-1}\left(v\right)
+\end{align*}
+Substituting $\alpha_{k}=ka_{k}$:
+\begin{align*}
+  \left(1-v^{2}\right)\frac{d^{2}}{dv^{2}}C_{M,K}\left(v\right)
+  &=\sum_{k=1}^{M}\alpha_{k}\left(1-v^{2}\right)\frac{d}{dv}U_{k-1}\left(v\right)\\
+  &=-\sum_{k=1}^{M}\left(\frac{k-1}{2}\right)\alpha_{k}U_{k}\left(v\right)
+    +\sum_{k=1}^{M}\left(\frac{k+1}{2}\right)\alpha_{k}U_{k-2}\left(v\right)
+\end{align*}
+The second-order differential equation becomes:
+\begin{align*}
+  \sum_{k=1}^{M}\frac{M-k}{2}\alpha_{k}U_{k}\left(v\right)
+  +\sum_{k=1}^{M}\left(M-2K+1\right)\alpha_{k}U_{k-1}\left(v\right)
+  +\sum_{k=1}^{M}\frac{M+k}{2}\alpha_{k}U_{k-2}\left(v\right) &=0
+\end{align*}
+Setting $\alpha_{0}=0$ and $U_{-1}\left(v\right)=0$:
+\begin{align*}
+  \sum_{k=1}^{M+1}\frac{M-k+1}{2}\alpha_{k-1}U_{k-1}\left(v\right)
+  +\sum_{k=1}^{M}\left(M-2K+1\right)\alpha_{k}U_{k-1}\left(v\right)
+  +\sum_{k=1}^{M-1}\frac{M+k+1}{2}\alpha_{k+1}U_{k-1}\left(v\right) &=0
+\end{align*}
+For $k=M+1$, the first sum gives:
+\begin{align*}
+  \frac{M-M}{2}\alpha_{M}U_{M}\left(v\right) &=0
+\end{align*}
+Comparing the coefficient of the highest power of $v$ in the expansion of
+$\frac{d}{dv}A\left(v\right)$ in Chebyshev polynomials of the second kind,
+$U_{M-1}\left(v\right)$, with that in $\frac{d}{dv}C_{M,K}\left(v\right)$:
+\begin{align*}
+  2^{M-1}Ma_{M}&=\left(-1\right)^{M-K}2^{-M}M\left(\begin{array}{c}
+                                              M-1\\
+                                              M-K\end{array}\right)\\
+  \alpha_{M}&=\left(-1\right)^{M-K}2^{-2M+1}M\left(\begin{array}{c}
+                                              M-1\\
+                                              M-K\end{array}\right)
+\end{align*}
+Setting $k=M$ gives:
+\begin{align*}
+  \left(\frac{1}{2}\alpha_{M-1}
+  +\left(M-2K+1\right)\alpha_{M}\right)U_{k-1}\left(v\right)&=0
+\end{align*}
+or:
+\begin{align*}
+  \alpha_{M-1} &=-2\left(M-2K+1\right)\alpha_{M}
+\end{align*}
+Finally, $a_{0}$ is given by the value of $A\left(v\right)$ at $v=1$ or
+$\omega=0$:
+\begin{align*}
+  a_{0}&=1-\sum_{k=1}^{M}a_{M}                         
+\end{align*}
+
+Algorithm~\ref{alg:Vlcek-maximally-flat-impulse-response} summarises the
+calculation. It reproduces Table I of \emph{Vl\v{c}ek et al.}.
+
+\begin{algorithm}[htbp]
+  \begin{algorithmic}
+  \vspace{1.5mm}
+  \vspace{1.5mm}
+    \Require $M$, $K$
+  \vspace{1.5mm}
+  \vspace{1.5mm}
+  \\
+  \textit{Initialisation:}
+  \State $\alpha_{M}=\left(-1\right)^{M-K}2^{-2M+1}M\left(\begin{array}{c}
+                                                   M-1\\
+                                                   M-K\end{array}\right)$
+  \State $\alpha_{M-1}=-2\left(M-2K+1\right)\alpha_{M}$
+  \vspace{1.5mm}
+  \vspace{1.5mm}
+  \\
+  \textit{Body:}
+    \For{$k=M-1$ \textbf{ down to } $2$ }\\
+    \quad\quad$\frac{M-k+1}{2}\alpha_{k-1}=\left(2K-1-M\right)\alpha_{k}
+    -\frac{M+k+1}{2}\alpha_{k+1}$
+    \EndFor
+  \vspace{1.5mm}
+  \vspace{1.5mm}
+\\
+  \textit{Integration:}
+  \For{$k=M$ \textbf{ down to } $1$}\\
+  \quad\quad $a_{k}=\frac{\alpha_{k}}{k}$
+  \EndFor\\
+  $a_{0}=1-\sum_{k=1}^{M}a_{M}$
+  \vspace{1.5mm}
+  \vspace{1.5mm}
+  \\
+  \textit{Impulse response:}
+  \For{$k=M$ \textbf{ down to } $1$}\\
+  \quad\quad $h_{M\pm{}k}=\frac{a_{k}}{2}$
+  \EndFor\\
+  $h_{M}=a_{0}$
+  \vspace{1.5mm}
+  \vspace{1.5mm}
+\end{algorithmic}
+\caption{\emph{Vl\v{c}ek et al.}'s backwards recursion for the calculation of
+  the impulse response of an odd-length, symmetric, maximally-flat, low-pass FIR
+  filter~\cite[Table 1]{Vlcek_AnalyticalDesignFIRFilter}.}
+\label{alg:Vlcek-maximally-flat-impulse-response}
+\end{algorithm}
+
+The backwards recursion of \emph{Vl\v{c}ek et al.} can successfully calculate
+the coefficients of much longer filters than is possible with the ``direct''
+calculation of
+\emph{Herrman}~\cite{Herrmann_ApproximationProblemNonrecursiveDigitalFilter} or
+\emph{Rajagopal} and \emph{Roy}~\cite{RajagopalRoy_MaxFlatFIRBernstein}. The
+Octave function \emph{vlcekFIRsymmetric\_flat\_lowpass} calculates the distinct
+coefficients of a symmetric, odd-length, maximally-flat FIR low-pass filter by
+the backwards recursion.
+Figure~\ref{fig:vlcekFIRsymmetric-flat-lowpass-test-response} shows
+the amplitude responses of maximally-flat low-pass filters with $M=300$ and
+$K=10,30,\hdots,290$.
+\clearpage
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{vlcekFIRsymmetric_flat_lowpass_test_response}}
+\caption{Amplitude responses of maximally-flat low-pass filters
+  designed by the backwards recursion of \emph{Vl\v{c}ek et al.}~\cite[Table
+  1]{Vlcek_AnalyticalDesignFIRFilter} with $M=300$ and $K=10,30,\hdots,290$.} 
+\label{fig:vlcekFIRsymmetric-flat-lowpass-test-response}
+\end{figure}
+
+\paragraph{Working for \emph{Vl\v{c}ek et al.} Equation
+  14~\cite{Vlcek_AnalyticalDesignFIRFilter}} 
+The recursion for the Chebyshev polynomials of the first kind is:
+\begin{align*}
+  T_{0}\left(v\right)&=1\\
+  T_{1}\left(v\right)&=v\\
+  T_{k}\left(v\right)&=2vT_{k-1}\left(v\right)-T_{k-2}\left(v\right)
+\end{align*}
+The recursion for the Chebyshev polynomials of the second kind is:
+\begin{align*}
+  U_{0}\left(v\right)&=1\\
+  U_{1}\left(v\right)&=2v\\
+  U_{k}\left(v\right)&=2vU_{k-1}\left(v\right)-U_{k-2}\left(v\right)
+\end{align*}
+Also:
+\begin{align*}
+  T_{k}\left(v\right)&=U_{k}\left(v\right)-vU_{k-1}\left(v\right)
+\end{align*}
+
+The derivatives of the Chebyshev polynomials are:
+\begin{align*}
+  \frac{d}{dv}T_{k}\left(v\right)&=kU_{k-1}\left(v\right)\\
+  \left(v^{2}-1\right)\frac{d}{dv}U_{k}\left(v\right)
+                                 &=\left(k+1\right)T_{k+1}-vU_{k}\left(v\right)
+\end{align*}
+Accordingly:
+\begin{align*}
+  \left(1-v^{2}\right)\frac{d}{dv}U_{k-1}\left(v\right)
+  &=vU_{k-1}\left(v\right)-kT_{k}\\
+  &=vU_{k-1}\left(v\right)-kU_{k}\left(v\right)+kvU_{k-1}\left(v\right) \\
+  &=\left(k+1\right)vU_{k-1}\left(v\right)-kU_{k}\left(v\right)\\
+  &=\left(k+1\right)
+    \left(\frac{U_{k}\left(v\right)+U_{k-2}\left(v\right)}{2}\right)
+    -kU_{k}\left(v\right)\\
+  &=-\left(\frac{k-1}{2}\right)U_{k}\left(v\right)
+    +\left(\frac{k+1}{2}\right)U_{k-2}\left(v\right)
+\end{align*}
+\begin{comment}
+\clearpage
+\subsubsection{\emph{Vaidyanathan}'s design of monotonic FIR filters by
+  combining maximally-flat interpolators}
+\emph{Vaidyanathan}~\cite{Vaidyanathan_MultiplierLessFIRSharpCutoffMaxFlat}
+describes the design of monotonic (rather than maximally-flat) FIR filters by
+combining maximally-flat interpolator blocks.
+\end{comment}
+\clearpage
+\subsection{Closed-form design of maximally-flat FIR half-band filters}
+\subsubsection{\emph{Gumacos}'s closed form design of FIR half-band filters that are maximally-flat at $\omega=0$}
+\emph{Gumacos}~\cite[Equation
+1]{Gumacos_WeightingCoeffMaxFlatNonrecursiveDigitalFilters} represents the
+zero-phase amplitude response of a half-band filter, $A\left(\omega\right)$, by
+a power series: 
+\begin{align*}
+  A\left(\omega\right)&=\sum_{k=0}^{M}a_{k}\cos\left(2k+1\right)\omega
+\end{align*}
+where $a_{0}=1$ and $N=4M+3$ is the length of the filter. Scaling and
+mean-value are to be determined later. The condition for maximal flatness at
+$\omega=0$ is: 
+\begin{align*}
+  \left.\frac{d^{l}}{d\omega^{l}}A\left(\omega\right)\right\vert_{\omega=0}
+  &=0\quad l=1,\hdots{},2M
+\end{align*}
+resulting in a set of $M$ constraint equations:
+\begin{align*}
+  1+\sum_{k=1}^{M}\left(2k+1\right)^{2l}a_{k}&=0 \quad l=1,\hdots,M
+\end{align*}
+\emph{Gumacos} solves this system of equations algebraically~\cite[Equation
+4]{Gumacos_WeightingCoeffMaxFlatNonrecursiveDigitalFilters}:
+\begin{align*}
+  a_{k}&=\frac{\left(-1\right)^{k}}{2k+1}\cdot
+         \frac{M!\,\left(M+1\right)!}
+         {\left(M-k\right)!\,\left(M+k+1\right)!} \quad k=0,1,\hdots,M
+\end{align*}
+Recursively:
+\begin{align*}
+a_{0}&=1 \\
+a_{k}&=-a_{k-1}\cdot\frac{2k-1}{2k+1}\cdot\frac{M-k+1}{M+k+1}\quad k=1,\hdots,M
+\end{align*}
+The $z$-domain transfer function is:
+\begin{align*}
+  H\left(z\right)&=z^{-2M-1}\left[h_{0}
+                   +\sum_{k=0}^{M}h_{2k+1}\left(z^{2k+1}+z^{-2k-1}\right)\right]
+\end{align*}
+where:
+\begin{align*}
+  h_{0}&=\frac{1}{2} \\
+  h_{1}&=\left[4\sum_{k=0}^{M}a_k\right]^{-1}\\
+  h_{2k+1}&=h_{1}a_{k}\quad k=2,\hdots,M
+\end{align*}
+The Octave script \emph{gumacosFIRsymmetric\_flat\_halfband\_test.m} calls the
+Octave function \emph{gumacosFIRsymmetric\_flat\_halfband.m} to design half-band
+filters with $M=5,10,15,20$ and $25$.
+Figure~\ref{fig:gumacosFIRsymmetric-flat-halfband-test-response} shows the
+amplitude responses of the resulting half-band filters.
+Figure~\ref{fig:gumacosFIRsymmetric-flat-halfband-test-hilbert} shows
+the amplitude responses of the corresponding Hilbert filters.
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{gumacosFIRsymmetric_flat_halfband_test_response}}
+\caption{Amplitude responses of maximally-flat half-band FIR filters designed by
+  the method of
+  \emph{Gumacos}~\cite{Gumacos_WeightingCoeffMaxFlatNonrecursiveDigitalFilters}
+  with $M=5,10,15,20$ and $25$.}
+\label{fig:gumacosFIRsymmetric-flat-halfband-test-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{gumacosFIRsymmetric_flat_halfband_test_hilbert}}
+\caption{Amplitude responses of maximally-flat Hilbert FIR filters derived from
+  half-band FIR filters designed by the method of
+  \emph{Gumacos}~\cite{Gumacos_WeightingCoeffMaxFlatNonrecursiveDigitalFilters}
+  with $M=5,10,15,20$ and $25$.}
+\label{fig:gumacosFIRsymmetric-flat-halfband-test-hilbert}
+\end{figure}
+\clearpage
+\subsection{Closed-form design of maximally-flat FIR Hilbert filters}
+\subsubsection{\emph{Pei} and \emph{Wang}'s design of maximally-flat FIR Hilbert and differentiator filters by truncated power series}
+
+\clearpage
+\subsection{Closed-form design of maximally-linear FIR low-pass differentiators}
+\emph{Kumar} and
+\emph{Roy}~\cite{KumarRoy_CoefficientsMaxLinearFIRDifferentiatorLowFrequencies}
+and \emph{Selesnick}~\cite{Selesnick_MaximallyFlatLowPassDigitalDifferentiators}
+describe the closed-form design of maximally-linear low-pass FIR differentiator
+filters. \emph{Yoshida et
+  al.}~\cite{YoshidaSugiuraAikawa_LowPassMaxFlatFIRDifferentiators} show
+formulas for an FIR differentiator that is maximally-linear at $\omega=0$ and
+maximally flat at $\omega=\pi$ with a given group-delay at $\omega=0$. 
+\emph{Khan et al.}~\cite{KhanOkudaOhba_FIRDifferentiatorsMaxLinearMidBand} show
+formulas for the coefficients of an FIR differentiator that is maximally-linear
+at the middle of the frequency band, $\omega=\frac{\pi}{2}$.
+\emph{Purczy\'{n}ski} and
+\emph{Pawelczak}~\cite{PurczynskiPawelczak_MaxLinearDifferentiatorFrequenciesP}  
+extend the work of \emph{Kumar et
+  al.}~\cite{KumarRoyShah_FIRDifferentiatorMaxLinearPionP} to show formulas for
+the weighting coefficients of FIR differentiators that are maximally-linear at
+frequencies $\pi/p$, where $p$ is a positive integer. 
+
+The derivation of the coefficients of the maximally-linear FIR differentiator
+begins with the constraints on zero-phase amplitude response,
+$A\left(\omega\right)$. When the constraint is at $\omega=0$~\cite[Equations 6 to
+8]{Selesnick_MaximallyFlatLowPassDigitalDifferentiators}:
+\begin{align*}
+  \left. A\left(\omega\right) \right\vert_{\omega=0}&=0 \\
+  \vspace{1.5mm}
+  \left. \frac{d}{d\omega} A\left(\omega\right)\right\vert_{\omega=0}&=1 \\
+  \vspace{1.5mm}
+  \left. \frac{d^{k}}{d\omega^{k}}A\left(\omega\right)\right\vert_{\omega=0}&=0 
+  \quad k=2,\hdots,2L
+\end{align*}
+\emph{Kumar etal.}~\cite{KumarRoyShah_FIRDifferentiatorMaxLinearPionP} define
+similar constraints at $\omega=\frac{\pi}{p}$. \emph{Selesnick}~\cite[Equation
+9]{Selesnick_MaximallyFlatLowPassDigitalDifferentiators} adds a constraint on
+the amplitude response at $\omega=\pi$:
+\begin{align*}
+  \left. \frac{d^{k}}{d\omega^{k}}A\left(\omega\right)\right\vert_{\omega=\pi}&=0
+  \quad k=0,\hdots,2M
+\end{align*}
+\emph{Yoshida et al.}~\cite[Equation
+3d]{YoshidaSugiuraAikawa_LowPassMaxFlatFIRDifferentiators} add a constraint on
+the group-delay of the frequency response, $H\left(\omega\right)$, at $\omega=0$:
+\begin{align*}
+  \left. -\frac{d}{d\omega}\arg{}H\left(\omega\right)\right\vert_{\omega=0}&=\tau
+\end{align*}
+
+\subsubsection{\emph{Kumar} and \emph{Roy} closed form design of FIR low-pass differentiators that are maximally-linear at $\omega=0$}
+
+\emph{Kumar} and \emph{Roy}~\cite[Equation
+2]{KumarRoy_CoefficientsMaxLinearFIRDifferentiatorLowFrequencies} approximate the
+zero-phase amplitude response, $A\left(\omega\right)$, of an FIR differentiator
+filter, by a power series: 
+\begin{align*}
+  A\left(\omega\right)&=\sum_{k=1}^{n}d_{k}\sin{}k\omega
+\end{align*}
+where $n=\frac{N-1}{2}$ and $N$ is the order of the filter, assumed to be
+odd. Applying the maximally-linear constraints at $\omega=0$, the system of
+constraint equations is~\cite[Equation
+4]{KumarRoy_CoefficientsMaxLinearFIRDifferentiatorLowFrequencies}: 
+\begin{align*}
+  \left[\begin{array}{ccccc}
+          1 & 1 & 1 & \hdots & 1 \\
+          1 & 2^{2} & 3^{2} & \hdots & n^{2} \\
+          1 & 2^{4} & 3^{4} & \hdots & n^{4} \\
+          \vdots & & & & \vdots \\
+          1 & 2^{2n-2} & 3^{2n-2} & \hdots & n^{2n-2} \\
+        \end{array}\right]\left[\begin{array}{c}
+                                  D_{1} \\
+                                  D_{2} \\
+                                  D_{3} \\
+                                  \vdots \\
+                                  D_{n} \\
+                                \end{array}\right]&=\left[\begin{array}{c}
+                                                            1 \\
+                                                            0 \\
+                                                            0 \\
+                                                            \vdots \\
+                                                            0
+                                                            \end{array}\right]
+\end{align*}
+where $D_{k}=kd_{k}$. As $n$ increases, this system of equations rapidly becomes
+numerically unstable. \emph{Kumar} and \emph{Roy} solve this system of
+constraint equations algebraically as~\cite[Equation 
+14]{KumarRoy_CoefficientsMaxLinearFIRDifferentiatorLowFrequencies}: 
+\begin{align*}
+  d_{k}&=\left[k\left(\begin{array}{c}
+                        2n-1 \\
+                        n-1 \end{array}\right)\right]^{-1}
+  \sum_{l=0}^{n-1}\left(-1\right)^{l}\left(\begin{array}{c}
+                        n \\
+                        l \end{array}\right)
+  \sum_{m=0}^{2l}\left(-1\right)^{m}\left(\begin{array}{c}
+                        2l \\
+                        m \end{array}\right)\left(\begin{array}{c}
+                        2n-2l \\
+                        n-k-m \end{array}\right)
+\end{align*}
+This appears to be a misprint. $\left(\begin{array}{c} 
+    2n-2l\\
+    n-k-m\end{array}\right)$ is not defined for $n-k-m<0$. (For example, when
+$k=n$, $l=n-1$ and $m=2n-2$). 
+\clearpage
+\subsubsection{\emph{Selesnick} closed form design of FIR low-pass
+  differentiators that are maximally-linear at $\omega=0$ and maximally-flat at $\omega=\pi$}
+\emph{Selesnick}~\cite[Equations 10 and
+11]{Selesnick_MaximallyFlatLowPassDigitalDifferentiators} derives the $z$-domain
+transfer function, $H\left(z\right)$, of a maximally-linear differentiator from
+a transformation of the interval $[0,1]$ to polynomials on the upper half-circle
+of $\left|z\right|=1$:
+\begin{align*}
+  P\left(x\right)&=\sum^{n}_{k=0}p_{k}x^{k} \\
+  H\left(z\right)&=P\left(\frac{-z+2-z^{-1}}{4}\right)
+\end{align*}
+\emph{Selesnick}~\cite[Section
+IV]{Selesnick_MaximallyFlatLowPassDigitalDifferentiators} gives the following
+equation for the $z$-domain transfer function of \emph{Type III} and \emph{Type
+  IV}\footnote{\emph{Selesnick} uses the terminology of \emph{Oppenheim} and
+  \emph{Schafer}~\cite[Section
+  5.7.3]{OppenheimSchafer_DiscreteTimeSignalProcessing}:  
 \emph{Type I} filters are symmetric and have even order, 
 \emph{Type II} filters are symmetric and have odd order, 
 \emph{Type III} filters are anti-symmetric and have even order
-and \emph{Type IV} filters are anti-symmetric and have odd order.}.
+and \emph{Type IV} filters are anti-symmetric and have odd order.} FIR
+differentiators that are maximally-linear at $\omega=0$ and maximally-flat at 
+$\omega=\pi$:
+\begin{align*}
+  H\left(z\right)&=\left(\frac{1-z^{-1}}{2}\right)
+                   \left(\frac{1+z^{-1}}{2}\right)^{K}
+                   z^{-L}\sum_{n=0}^{L}c_{n}\left[\frac{-z+2-z^{-1}}{4}\right]^{n}
+\end{align*}
+where the $c_{n}$ are defined recursively:
+\begin{align*}
+c_{0}&=2\\
+c_{1}&=K+\frac{1}{3} \\
+c_{n}&=\frac{\left(8n^{2}+4Kn-10n-K+3\right)c_{n-1}-\left(2n+K-3\right)^{2}c_{n-2}}
+       {2n\left(2n+1\right)}
+\end{align*}
+The length of the impulse response is $N=K+2L+2$. When $K$ is even
+$H\left(z\right)$ is a \emph{Type IV} transfer function and when $K$ is odd
+$H\left(z\right)$ is \emph{Type III} transfer function. When $K=0$, the
+differentiator is ``full-band''. The Octave script
+\emph{selesnickFIRantisymmetric\_flat\_differentiator\_test.m} 
+calls the Octave function \emph{selesnickFIRantisymmetric\_flat\_differentiator}
+to design a series of differentiator filters.
+Figure~\ref{fig:selesnickFIRantisymmetric-flat-differentiator-test-N30-response}
+shows the differentiator filters for length $N=30$ and $K=0,4,8,12,16,20$ and
+$24$~\cite[Figure 1]{Selesnick_MaximallyFlatLowPassDigitalDifferentiators}.
+Figure~\ref{fig:selesnickFIRantisymmetric-flat-differentiator-test-N31-response}
+shows the differentiator filters for length $N=31$ and $K=1,5,9,13,17,21$ and
+$25$~\cite[Figure 2]{Selesnick_MaximallyFlatLowPassDigitalDifferentiators}.
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{selesnickFIRantisymmetric_flat_differentiator_test_N30_response}}
+\caption{Amplitude response of length $N=30$, maximally-linear
+  pass-band, maximally-flat stop-band, FIR differentiators with
+  $K=0,4,8,12,16,20$ and $24$~\cite[Figure
+  1]{Selesnick_MaximallyFlatLowPassDigitalDifferentiators}.} 
+\label{fig:selesnickFIRantisymmetric-flat-differentiator-test-N30-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{selesnickFIRantisymmetric_flat_differentiator_test_N31_response}}
+\caption{Amplitude response of length $N=31$, maximally-linear
+  pass-band, maximally-flat stop-band, FIR differentiators with
+  $K=1,5,9,13,17,21$ and $25$~\cite[Figure
+  2]{Selesnick_MaximallyFlatLowPassDigitalDifferentiators}.} 
+\label{fig:selesnickFIRantisymmetric-flat-differentiator-test-N31-response}
+\end{figure}
+\clearpage
+\subsubsection{\emph{Kumar et al.} closed form design of FIR low-pass
+  differentiators that are maximally-linear at $\omega=\frac{\pi}{p}$}
+\emph{Kumar et al.}~\cite[Equation
+9]{KumarRoyShah_FIRDifferentiatorMaxLinearPionP}\footnote{See
+  also \emph{Khan et al.}~\cite[Equation
+1]{KhanOkudaOhba_FIRDifferentiatorsMaxLinearMidBand} for design of
+differentiators that are maximally-linear at $\omega=\frac{\pi}{2}$} approximate
+the amplitude response of an FIR differentiator that is maximally-linear at
+$\omega=\frac{\pi}{p}$ by:
+\begin{align*}
+  \left|H\left(\omega\right)\right|
+  &=\frac{\pi}{p}\sum_{k=1}^{m}d_{2k-1}
+    \sin\left(\left(2k-1\right)\cdot\frac{p}{2}\cdot\omega\right)
+ +\frac{1}{p}\sum_{k=1}^{m}d_{2k}\sin\left(2k\cdot\frac{p}{2}\cdot\omega\right)
+\end{align*}
+where $p$ is a positive integer, $m=\frac{n}{2}$, $n=\frac{N-1}{2}$, $n$ is
+even, and $N$ is the length of the filter, assumed to be
+odd. They show a realisation of the filter~\cite[Figure
+1]{KumarRoyShah_FIRDifferentiatorMaxLinearPionP}. \emph{Purczy\'{n}ski} and
+\emph{Pawelczak} solve the resulting system of constraint equations
+algebraically to find the following recursive closed-form solutions for the
+coefficients~\cite[Equation
+7]{PurczynskiPawelczak_MaxLinearDifferentiatorFrequenciesP}:
+\begin{align*}
+  d_{1}&=\frac{m}{4^{2m-1}} \left(\begin{array}{c}
+                                    2m \\
+                                    m \end{array}\right)^{2}  \\
+  d_{2k-1}&=d_{2k-3}\cdot{}\frac{2k-3}{2k-1}\cdot{}\frac{m-k+1}{m+k-1}
+            \quad k=2,\hdots,m
+\end{align*}
+and
+\begin{align*}
+  d_{2}&=-\frac{2m}{m+1} \\
+  d_{2k}&=d_{2k-2}\cdot{}\frac{k-1}{k}\cdot{}\frac{m-k+1}{m+k}\quad k=2,\hdots,m
+\end{align*}
+The Octave script
+\emph{purczynskiFIRantisymmetric\_flat\_differentiator\_test.m} calls the Octave 
+function \emph{purczynskiFIRantisymmetric\_flat\_differentiator} to design
+FIR differentiators that are maximally flat at $\omega=\frac{\pi}{p}$ where $p$
+is a multiple of $2$.
+Figure~\ref{fig:purczynskiFIRantisymmetric-flat-differentiator-test-response}
+shows the amplitude errors of the differentiators,
+$\left|H_{p}\left(\omega\right)\right|-2\omega$, for $p=2,4,8$ and $16$.
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{purczynskiFIRantisymmetric_flat_differentiator_test_response}}
+\caption{Amplitude response errors of FIR differentiators that are
+  maximally-linear at $\frac{\pi}{p}$ with length $N=101$ and $p=2,4,8$ and $16$
+  designed by the method of \emph{Kumar et
+    al.}~\cite{KumarRoyShah_FIRDifferentiatorMaxLinearPionP} and with the
+  recursive calculation of the $d_{k}$ performed by the method of
+  \emph{Purczy\'{n}ski} and \emph{Pawelczak}~\cite[Equation 
+  7]{PurczynskiPawelczak_MaxLinearDifferentiatorFrequenciesP}} 
+\label{fig:purczynskiFIRantisymmetric-flat-differentiator-test-response}
+\end{figure}
+
 \clearpage
 \section{\label{app:Design-of-FIR-half-band-filters}Design of half-band FIR filters}
 \subsection{\label{app:Vaidyanathan-FIR-half-band-trick}Vaidyanathan's ``TRICK'' for the design of FIR half-band filters}

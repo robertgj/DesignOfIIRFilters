@@ -1,0 +1,14 @@
+gumacosFIRsymmetric_flat_halfband_test_FIGURES = \
+gumacosFIRsymmetric_flat_halfband_test_response \
+gumacosFIRsymmetric_flat_halfband_test_hilbert
+
+gumacosFIRsymmetric_flat_halfband_test_COEFS = \
+gumacosFIRsymmetric_flat_halfband_test_h5_coef.m \
+gumacosFIRsymmetric_flat_halfband_test_h10_coef.m \
+gumacosFIRsymmetric_flat_halfband_test_h15_coef.m \
+gumacosFIRsymmetric_flat_halfband_test_h20_coef.m \
+gumacosFIRsymmetric_flat_halfband_test_h25_coef.m
+
+gumacosFIRsymmetric_flat_halfband_test_FILES = \
+gumacosFIRsymmetric_flat_halfband_test.m test_common.m \
+gumacosFIRsymmetric_flat_halfband.m print_polynomial.m

@@ -5,7 +5,7 @@ function [hA,hAM,dk,err,fext,fiter,feasible]= ...
 % Implement Selesnick and Burrus' modification to the Parks and McClellan
 % algorithm for the design of an even- or odd-order, odd- or even-length,
 % anti-symmetric, linear-phase, low-pass, maximally-flat FIR differentiator
-% filters.
+% filters. My attempts to use Lagrange integration to calculate AM failed.
 %
 % Inputs:
 %   N - Filter order
@@ -28,7 +28,7 @@ function [hA,hAM,dk,err,fext,fiter,feasible]= ...
 % for even length filters and adds the case of odd length filters. See
 % Section IV of "Exchange Algorithms for the Design of Linear Phase
 % FIR Filters and Differentiators Having Flat Monotonic Passbands and
-% Equiripple %Stopband", Ivan W. Selesnick and C. Sidney Burrus, IEEE
+% Equiripple Stopband", Ivan W. Selesnick and C. Sidney Burrus, IEEE
 % TRANSACTIONS ON CIRCUITS AND SYSTEMS—II: ANALOG AND DIGITAL SIGNAL
 % PROCESSING, VOL. 43, NO. 9, SEPTEMBER 1996, pp. 671-675
 
@@ -122,14 +122,30 @@ function [hA,hAM,dk,err,fext,fiter,feasible]= ...
   % Stop-band extremal amplitudes
   Ad=deltas*((-1).^((1:M)'));
 
+  % Options to select matrix left-division or Lagrange interpolation
+  opt_left_division=true;
+  if opt_left_division==false
+    opt_allow_extrap=true;
+    fprintf(stderr,"Using Lagrange interpolation!\n");
+  endif
+  
   % Loop performing Remez exchange algorithm with stop-band extrema
   for fiter=1:maxiter
-    
-    % Solve for the aM stop-band filter coefficients
-    aM=cosFM(fk,:)\[[(Ad./S(fk))-sumdkCk(fk)]./CL2(fk)];
+
+    % Desired hM filter amplitude response
+    AMd=[[(Ad./S(fk))-sumdkCk(fk)]./CL2(fk)];
+
+    % Find hM filter response
+    if opt_left_division
+      % Solve for the aM stop-band filter coefficients
+      aM=cosFM(fk,:)\AMd;
+      AM=cosFM*aM;
+    else
+      % Barycentric Lagrange interpolation
+      AM=lagrange_interp(cosFM(fk,2),AMd,[],cosFM(:,2),tol,opt_allow_extrap);
+    endif
     
     % Calculate the over-all differentiator filter response
-    AM=cosFM*aM;
     A=S.*(sumdkCk+(AM.*CL2));
 
     % Find M stop-band extremal points (exclude 0.5 if N odd)
@@ -140,6 +156,9 @@ function [hA,hAM,dk,err,fext,fiter,feasible]= ...
       fk=fk((length(fk)-M):(length(fk)-1));
     else
       fk=fk((length(fk)-M+1):length(fk));
+    endif
+    if length(fk)~=M
+      error("length(fk)~=M");
     endif
 
     % Check for convergence
@@ -157,7 +176,12 @@ function [hA,hAM,dk,err,fext,fiter,feasible]= ...
   endfor
 
   % Construct the AM filter impulse response
-  hAM=[aM(M:-1:2)/2;aM(1);aM(2:M)/2];
+  if opt_left_division
+    hAM=[aM(M:-1:2)/2;aM(1);aM(2:M)/2];
+  else
+    hAM=xfr2tf(M-1,cosFM(fk,2),AM(fk),tol);
+    hAM=[hAM;hAM((M-1):-1:1)];
+  endif
 
   % Construct the overall filter impulse response
   hA=hAM;

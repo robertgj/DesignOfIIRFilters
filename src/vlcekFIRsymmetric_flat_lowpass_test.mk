@@ -1,0 +1,9 @@
+vlcekFIRsymmetric_flat_lowpass_test_FIGURES = \
+vlcekFIRsymmetric_flat_lowpass_test_response
+
+vlcekFIRsymmetric_flat_lowpass_test_COEFS = 
+
+vlcekFIRsymmetric_flat_lowpass_test_FILES = \
+vlcekFIRsymmetric_flat_lowpass_test.m test_common.m \
+vlcekFIRsymmetric_flat_lowpass.m herrmannFIRsymmetric_flat_lowpass.m \
+directFIRsymmetricA.m print_polynomial.m
