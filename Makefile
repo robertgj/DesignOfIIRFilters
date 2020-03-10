@@ -1,12 +1,19 @@
 # Makefile for DesignOfIIRFilters.pdf
 
-VPATH = src:fig
-TARGET=DesignOfIIRFilters
+# Debugging hack in "Tracing rule execution in GNU Make" by John Graham-Cumming
+# See https://www.cmcrossroads.com/article/tracing-rule-execution-gnu-make
+# OLD_SHELL := $(SHELL)
+# SHELL = $(warning Building $@$(if $<, (from $<))$(if $?, ($? newer))) \
+#         $(OLD_SHELL) -x
 
 #
+# Top-level variables
+#
+VPATH=src:fig
+TARGET=DesignOfIIRFilters
+
 # Octave script files that generate figures. Each has an associated .mk file
 # and, on completion, a .diary file.
-#
 OCTAVE_SCRIPTS:=$(notdir $(basename $(wildcard src/*.mk)))
 
 # These are all the .oct files. Some are not needed to build the pdf
@@ -14,23 +21,17 @@ OCTAVE_SCRIPTS:=$(notdir $(basename $(wildcard src/*.mk)))
 # needed by aegis test scripts.
 OCT_FILES:=$(notdir $(basename $(wildcard src/*.cc)))
 
-#
-# Generate figures
-#
+# GNU dia figure files
 DIA_FILES:=$(notdir $(basename $(wildcard fig/*.dia)))
 
-#
 # clean suffixes
-#
 CLEAN_SUFFIXES= \~ .eps .diary .tmp .oct .mex .o .ok _coef.m _digits.m \
 .spec -core .tab .out .results
 CLEAN_TEX_SUFFIXES= .aux .bbl .blg .brf .dvi .out .toc .lof .lot .loa \
 .log .synctex.gz 
 CLEAN_AEGIS_SUFFIXES= \,D \,B
 
-#
 # Command definitions
-#
 OCTAVE_FLAGS=-q -p src
 OCTAVE=octave-cli
 MKOCTFILE=mkoctfile
@@ -41,11 +42,13 @@ BIBTEX=bibtex
 QPDF=qpdf
 JEKYLL_OPTS=--config docs/_config.yml --source docs --destination docs/_site
 
+
 #
 # A list of all the dependencies of $(TARGET).pdf
 #
 TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
                     $(EXTRA_DIARY_FILES) $(TARGET).bib $(TARGET).tex
+
 
 #
 # Rules
@@ -54,7 +57,7 @@ TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
 	$(OCTAVE_LD_PRELOAD) $(OCTAVE) $(OCTAVE_FLAGS) $<
 
 %.eps : %.dia
-	dia -t eps -e $@ $^ 
+	dia -t eps -e $@ $^ 2>&1 | tee $@.out 
 
 %.pdf : %.eps
 	epstopdf $< 
@@ -74,10 +77,12 @@ TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
 %.oct : %.cc
 	$(MKOCTFILE) $(MKOCTFILE_FLAGS) $(XCXXFLAGS) $^
 
+
 #
 # Macros 
 #
 clean_macro=-for suf in $(1) ; do find . -name \*$$suf -exec rm -f {} ';' ; done
+
 
 #
 # Templates defining dependencies
@@ -91,6 +96,7 @@ define octave_script_template =
 $(1).diary : $($(1)_FILES)
 endef
 
+
 #
 # Intermediate file dependencies
 # 
@@ -103,8 +109,9 @@ $(foreach octave_script, $(OCTAVE_SCRIPTS), \
 
 $(foreach dia_file, $(DIA_FILES), $(eval $(call dia_template,$(dia_file))))
 
+
 #
-# Build target file
+# Build target file. Check for log file warnings, incomplete references.
 #
 $(TARGET).pdf: $(TARGET_DEPENDENCIES)
 	$(PDFLATEX) $(TARGET) && \
@@ -112,23 +119,28 @@ $(TARGET).pdf: $(TARGET_DEPENDENCIES)
 	$(PDFLATEX) $(TARGET) && \
 	$(PDFLATEX) $(TARGET) && \
 	$(PDFLATEX) $(TARGET)
+	-@for file in `ls -1 *.eps.out`; do \
+		grep -H Can\'t\ load\ glyph $$file | sort | uniq ; \
+	done ; 
 	-@for warnstr in "No\ file" ull arning; do \
 		grep "$$warnstr" DesignOfIIRFilters.log | sort | uniq ; \
-	done ; \
-	grep "arning" DesignOfIIRFilters.blg | sort | uniq ; \
-	if test -e `which pdfgrep` ; then \
+	done ; 
+	-@grep "arning" DesignOfIIRFilters.blg | sort | uniq ; 
+	-@if test -e `which pdfgrep` ; then \
 		pdfgrep "\[\?" DesignOfIIRFilters.pdf ; \
-	fi; \
-	if [[ -x $(QPDF) ]]; then \
+	fi; 
+	-@if [[ -x $(QPDF) ]]; then \
 		$(QPDF) --linearize $(TARGET).pdf docs/public/$(TARGET).pdf ; \
 	else \
 		cp -f $(TARGET).pdf docs/public/$(TARGET).pdf ; \
 	fi
 	echo "Build complete" ;
 
+
 #
 # PHONY targets
 #
+
 .PHONY: testvars
 testvars :
 	@echo "OCTAVE_SCRIPTS=" $(OCTAVE_SCRIPTS)
