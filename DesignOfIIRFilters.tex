@@ -4771,7 +4771,8 @@ recursion is simple because:
 \end{align*}
 
 By changing the sign parameter, this ratio can always be made smaller or larger 
-than one.
+than one. Algorithm~\ref{alg:One-multiplier-sign-assignment} shows the method
+used to assign the sign parameters in the Octave function \emph{schurOneMscale}.
 
 \begin{algorithm}[htbp]
 Assume that $k_{l}$ has the largest magnitude of the $k_{m}$ for
@@ -4807,7 +4808,8 @@ Now assign the $\epsilon_{m}$:
   \EndIf
 \EndFor
 \end{algorithmic}
-\caption{One-multiplier lattice sign assignment}
+\caption{One-multiplier lattice sign assignment~\cite[Page
+  496]{GrayMarkel_DigitalLatticeAndLadderFilterSynthesis}} 
 \label{alg:One-multiplier-sign-assignment}
 \end{algorithm}
 
@@ -11052,7 +11054,7 @@ Octave function \emph{Abcd2H} assumes that the components of the state variable
 matrixes are first order combinations of the lattice coefficients. In other
 words, \emph{Abcd2H} does not support gradients with respect to the square-roots
 of the $k$ and $c$ lattice coefficients derived in
-Section~\ref{sec:Schur-decomposition}. The results of this section are intended
+Chapter~\ref{sec:Schur-decomposition}. The results of this section are intended
 to be used in the following Part~\ref{part:IIR-filters-fixed-point-coefficients}
 to optimise the choice of fixed-point lattice coefficients. The $k$ and $c$
 lattice coefficients of an ``exact'' transfer function can be calculated from a
@@ -26647,7 +26649,7 @@ The zero-phase frequency response is:
 \begin{align*}
 A\left(v\right)&=\left[a_{0}+\sum_{k=1}^{M}a_{k}T_{k}\left(v\right)\right]
 \end{align*}
-where $a_{0}=h_{M}$, $a_{k}=2h_{M-m}$, $v=\cos\omega$,
+where $a_{0}=h_{M}$, $a_{k}=2h_{M-m}$, $v=\cos\omega$ and
 $T_{k}\left(\omega\right)=\cos{}k\omega$ is a \emph{Chebyshev polynomial of
   the first kind}. If the impulse response has all zeros at $z=\pm{}1$ then the
 zero-phase amplitude response is a \emph{Bernstein} polynomal. Re-writing
@@ -28765,8 +28767,8 @@ and sub-filter $2$ shown in their Figure 4 appear to have a similar shape but
 a different gain, the filter impulse responses shown in their Table II are all
 different and I do not understand how their Equation 15 corresponds to the
 numbering shown in their Figure 3. I tried randomly rearranging the roots with
-the Octave \emph{randperm} function. The range of the responses of the resulting
-sub-filters was far greater. 
+the Octave \emph{randperm} function and found that the range of the responses of
+the resulting sub-filters was far greater. 
 
 \begin{figure}
 \centering
@@ -29809,15 +29811,15 @@ $det\left(\Psi\right)<0$.
 \addcontentsline{toc}{part}{Colophon}
 \pdfbookmark[0]{Requirements}{requirements}
 \section*{Software requirements}
-I currently use the Fedora 30 distribution of Linux with:
+I currently use the Fedora 31 distribution of Linux with:
 \begin{itemize}
-\item \emph{gcc version 9.1.1 20190503 (Red Hat 9.1.1-1)}
-\item a local build of \emph{octave-5.1.0} with the \emph{struct}, \emph{io},
+\item \emph{gcc version 9.2.1 20190827 (Red Hat 9.2.1-1)}
+\item a local build of \emph{octave-5.2.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal} and
   \emph{parallel} Octave-Forge packages
 \item the \emph{octave} scripts use the \emph{gnuplot} graphics toolkit and
   \emph{gnuplot-5.0 patchlevel 6}
-\item \emph{texlive-2018-25} and various packages are installed
+\item \emph{texlive-2019-15} and various packages are installed
 \item \emph{dia-0.97.3} is used for line drawings
 \end{itemize}
 
@@ -29842,10 +29844,10 @@ Building this document may take a long time. I run \emph{make -j 6}.
 \pdfbookmark[0]{Octave}{octave}
 \section*{Octave}
 The \emph{build-octave.sh} script builds a local, command-line only, version
-of \emph{octave-5.1.0} avoiding the vagaries of the Fedora packagers
-\footnote{The Fedora 28 \emph{octave-4.2.2-1.fc28} package
-  depends on the Netlib, ATLAS and OpenBLAS versions of the \emph{blas} and
-  \emph{lapack} libraries.}. The local build of Octave links to locally built
+of \emph{octave-5.2.0} avoiding the vagaries of the Fedora packagers
+\footnote{The Fedora 31 \emph{octave-5.1.0-3.fc31} package
+  depends on the OpenBLAS versions of the \emph{blas} and \emph{lapack}
+  libraries.}. The local build of Octave links to locally built
 versions of the following libraries:
 \emph{arpack-ng-master}~\cite{ARPACKNG_website},
 \emph{fftw-3.3.8}~\cite{FFTW_website},
@@ -29865,7 +29867,7 @@ document are:
 \end{small}
 The \emph{signal-1.4.1} package \emph{zplane.m} function is patched to avoid a
 \LaTeX error. The \emph{parallel-3.1.3} package is patched to make it compatible
-with \emph{octave-5.1.0}.
+with \emph{octave-5.2.0}.
 
 The section \emph{Summary of important user-visible changes for version 4.0} in 
 the $NEWS$ file of the Octave source distribution includes the following comment:
@@ -30101,23 +30103,22 @@ and \emph{LTO} build of Octave.
 %\newcommand\arraystretch{2}
 \begin{tabular}{lrrr} \toprule
 \multirow{3}{*}
-{\emph{blas} library}       &\multicolumn{2}{c}{linpack.m}
-                            & IIR benchmark script\\
-\cmidrule{2-4}              & MFLOPS & Normalised          & Execution time \\
-                            &        & residual            & (seconds) \\
+{\emph{blas} library}      &\multicolumn{2}{c}{linpack.m} &IIR benchmark script\\
+\cmidrule{2-4}             & MFLOPS & Normalised          & Execution time \\
+                           &        & residual            & (seconds) \\
 \midrule
-Generic libblas/liblapack   &  4032  & 17.7                &  37.3 \\
-Intel libblas/liblapack     &  4026  & 17.7                &  37.3 \\
-Haswell libblas/liblapack   &  4067  & 15.1                &  37.4 \\
-Nehalem libblas/liblapack   &  4037  & 17.7                &  37.3 \\
-Skylake libblas/liblapack   &  4870  & 15.1                &  37.1 \\
-Fedora 29 libblas/liblapack &  4038  & 17.7                &  37.3 \\
-libgslcblas                 &  4034  & 17.7                &  37.3 \\
-libsatlas                   & 13915  & 11.5                &  37.5 \\
-libtatlas                   & 21518  & 11.6                &  36.9 \\
-libopenblasp (1 thread)     & 34367  &  9.3                &  35.5 \\
-libopenblasp (2 threads)    & 48259  & 11.8                &  35.7 \\
-libopenblasp (4 threads)    & 59752  &  9.1                &  35.6 \\
+Generic libblas/liblapack  &  4032  & 17.7                &  37.3 \\
+Intel libblas/liblapack    &  4026  & 17.7                &  37.3 \\
+Haswell libblas/liblapack  &  4067  & 15.1                &  37.4 \\
+Nehalem libblas/liblapack  &  4037  & 17.7                &  37.3 \\
+Skylake libblas/liblapack  &  4870  & 15.1                &  37.1 \\
+Fedora 29 libblas/liblapack&  4038  & 17.7                &  37.3 \\
+libgslcblas                &  4034  & 17.7                &  37.3 \\
+libsatlas                  & 13915  & 11.5                &  37.5 \\
+libtatlas                  & 21518  & 11.6                &  36.9 \\
+libopenblasp (1 thread)    & 34367  &  9.3                &  35.5 \\
+libopenblasp (2 threads)   & 48259  & 11.8                &  35.7 \\
+libopenblasp (4 threads)   & 59752  &  9.1                &  35.6 \\
 \bottomrule
 \end{tabular}
 \egroup{}

@@ -26,7 +26,7 @@ DIA_FILES:=$(notdir $(basename $(wildcard fig/*.dia)))
 
 # clean suffixes
 CLEAN_SUFFIXES= \~ .eps .diary .tmp .oct .mex .o .ok _coef.m _digits.m \
-.spec -core .tab .out .results
+.spec -core .tab .elg .results
 CLEAN_TEX_SUFFIXES= .aux .bbl .blg .brf .dvi .out .toc .lof .lot .loa \
 .log .synctex.gz 
 CLEAN_AEGIS_SUFFIXES= \,D \,B
@@ -39,7 +39,9 @@ MKOCTFILE_FLAGS=-v -o $@ -march=native -O2 -Wall -lgmp -lmpfr
 PDF_MONO_FLAGS='\newcommand\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
 PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1
 BIBTEX=bibtex
-QPDF=qpdf
+QPDF=/usr/bin/qpdf
+PDFGREP=/usr/bin/pdfgrep
+GREP=/usr/bin/grep -Hi
 JEKYLL_OPTS=--config docs/_config.yml --source docs --destination docs/_site
 
 
@@ -57,7 +59,7 @@ TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
 	$(OCTAVE_LD_PRELOAD) $(OCTAVE) $(OCTAVE_FLAGS) $<
 
 %.eps : %.dia
-	dia -t eps -e $@ $^ 2>&1 | tee $@.out 
+	dia -t eps -e $@ $^ 2>&1 | tee $@.elg
 
 %.pdf : %.eps
 	epstopdf $< 
@@ -119,21 +121,19 @@ $(TARGET).pdf: $(TARGET_DEPENDENCIES)
 	$(PDFLATEX) $(TARGET) && \
 	$(PDFLATEX) $(TARGET) && \
 	$(PDFLATEX) $(TARGET)
-	-@for file in `ls -1 *.eps.out`; do \
-		grep -H Can\'t\ load\ glyph $$file | sort | uniq ; \
-	done ; 
-	-@for warnstr in "No\ file" ull arning; do \
-		grep "$$warnstr" DesignOfIIRFilters.log | sort | uniq ; \
-	done ; 
-	-@grep "arning" DesignOfIIRFilters.blg | sort | uniq ; 
-	-@if test -e `which pdfgrep` ; then \
-		pdfgrep "\[\?" DesignOfIIRFilters.pdf ; \
-	fi; 
-	-@if [[ -x $(QPDF) ]]; then \
+	-@if [[ -x $(QPDF) ]] ; then \
 		$(QPDF) --linearize $(TARGET).pdf docs/public/$(TARGET).pdf ; \
 	else \
 		cp -f $(TARGET).pdf docs/public/$(TARGET).pdf ; \
 	fi
+	-@if [[ -x $(PDFGREP) ]] ; then \
+		$(PDFGREP) "\[\?" DesignOfIIRFilters.pdf || true ; \
+	fi;
+	-@find . -name \*.elg -exec $(GREP) Can\'t\ load\ glyph {} ';' | sort | uniq
+	-@for warnstr in "No\ file" erfull warning ; do \
+		$(GREP) "$$warnstr" DesignOfIIRFilters.log | sort | uniq ; \
+	done ; 	
+	-@$(GREP) "warning" DesignOfIIRFilters.blg | sort | uniq ; 
 	echo "Build complete" ;
 
 

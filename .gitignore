@@ -11,7 +11,7 @@
 *.spec
 *-core
 *.tab
-*.out
+*.elg
 *.results
 *.aux
 *.bbl

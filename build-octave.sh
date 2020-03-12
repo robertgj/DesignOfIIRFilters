@@ -13,8 +13,11 @@
 #      -ffast-math . This release ensures that FFTW works with gcc-8
 #      -ffast-math , and removes -ffast-math from the default CFLAGS for
 #      good measure.
-
-
+#
+# Get the GNU octave public keys with:
+#   gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 5D36644B
+# then verify the .sig file with (for example):
+#   gpg2 --verify octave-5.2.0.tar.lz.sig
 #
 # Assume these files are present. Get them if they are not.
 #
@@ -59,7 +62,7 @@ if ! test -f $GLPK_ARCHIVE; then
   wget -c $GLPK_URL
 fi
 
-OCTAVE_VER=${OCTAVE_VER:-"5.1.0"}
+OCTAVE_VER=${OCTAVE_VER:-"5.2.0"}
 OCTAVE_ARCHIVE=octave-$OCTAVE_VER".tar.lz"
 OCTAVE_URL=https://ftp.gnu.org/gnu/octave/$OCTAVE_ARCHIVE
 if ! test -f $OCTAVE_ARCHIVE; then
@@ -312,7 +315,7 @@ rm -Rf octave-$OCTAVE_VER
 tar -xf $OCTAVE_ARCHIVE
 # Patch
 cat > octave-$OCTAVE_VER".patch.uue" << 'EOF'
-begin-base64 644 octave-5.1.0.patch
+begin-base64 644 octave-5.2.0.patch
 LS0tIG9jdGF2ZS01LjEuMC9zY3JpcHRzL3Bsb3QvdXRpbC9wcml2YXRlL19f
 Z251cGxvdF9kcmF3X2F4ZXNfXy5tCTIwMTktMDItMjQgMDQ6MzM6MzcuMDAw
 MDAwMDAwICsxMTAwCisrKyBvY3RhdmUtNS4xLjAubmV3L3NjcmlwdHMvcGxv
@@ -622,4 +625,9 @@ $OCTAVE_BIN_DIR/octave-cli --eval "pkg install signal-1.4.1.new.tar.gz"
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg install parallel-3.1.3.new.tar.gz"
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg list"
 
+#
+# Cleanup
+#
+rm -Rf lapack-$LAPACK_VER fftw-$FFTW_VER glpk-$GLPK_VER qrupdate-$QRUPDATE_VER \
+   SuiteSparse arpack-ng-master build *patch* signal-1.4.1 parallel-3.1.3
 
