@@ -169,6 +169,8 @@ print_polynomial(A2k0_sd_sdp,"A2k0_sd_sdp", ...
 k=zeros(size(k0));
 k(k0_sd_x_active)=k0(k0_sd_x_active);
 k_active=k0_sd_x_active;
+k_hist=zeros(length(k_active));
+k_active_max_n_hist=[];
 
 % Fix one coefficient at each iteration 
 while 1
@@ -201,6 +203,8 @@ while 1
   % Fix the coefficient with the largest k_sdul to the SDP value
   k_sd_sdp=[A1k_sd_sdp(:);A2k_sd_sdp(:)];
   k(coef_n)=k_sd_sdp(coef_n);
+  k_active_max_n_hist=[k_active_max_n_hist,k_active(k_max_n)]
+  k_hist(:,length(k_active_max_n_hist))=k;
   k_active(k_max_n)=[];
   printf("\nFixed k(%d)=%g/%d\n",coef_n,k(coef_n)*nscale,nscale);
   printf("k=[ ");printf("%g ",k'*nscale);printf("]/%d;\n",nscale);
@@ -358,16 +362,10 @@ Asq_k0_sd_min_was=Asq_k0_sd_min(Rfas);
                   was*0.5/pi, ...
                   10*log10([Asq_k0_was,Asq_k0_sd_was, ...
                             Asq_k0_sd_sdp_was,Asq_k0_sd_min_was]));
-[ax,h1,h2]=plotyy(wap*0.5/pi, ...
-                  10*log10([Asq_k0_wap,Asq_k0_sd_wap, ...
-                            Asq_k0_sd_sdp_wap,Asq_k0_sd_min_wap]), ...
-                  was*0.5/pi, ...
-                  10*log10([Asq_k0_was,Asq_k0_sd_was, ...
-                            Asq_k0_sd_sdp_was,Asq_k0_sd_min_was]));
 % Hack to set line colour and style 
 h1c=get(h1,"color");
-for k=1:4
-  set(h2(k),"color",h1c{k});
+for c=1:4
+  set(h2(c),"color",h1c{c});
 endfor
 set(h1(1),"linestyle","-");
 set(h1(2),"linestyle",":");
@@ -396,7 +394,23 @@ title(strt);
 grid("on");
 print(strcat(strf,"_dual"),"-dpdflatex"); 
 close;
-  
+
+% Plot coefficient histories
+plot(0:length(k0),([k0,k_hist]-k0)'*nscale);
+axis([0 length(k0)]);
+str_active=sprintf("%d",k_active_max_n_hist(1));
+for n=2:length(k_active_max_n_hist)
+  str_active=sprintf("%s, %d",str_active,k_active_max_n_hist(n))
+endfor
+title(sprintf("Parallel allpass lattice elliptic lowpass filter : %d bit %d \
+signed-digit coefficient difference from the exact values\n as SDP-relaxation \
+proceeds. The coefficients were fixed in the order : %s", ...
+              nbits,ndigits,str_active));
+xlabel("Relaxation step");
+ylabel("Bits difference from exact");
+print(strcat(strf,"_coef_hist"),"-dpdflatex"); 
+close;
+      
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);

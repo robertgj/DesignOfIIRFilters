@@ -174,6 +174,8 @@ Esq0_sd_sdp=schurOneMlatticeEsq(k0_sd_sdp,epsilon0,p0,c0_sd_sdp, ...
 kc=zeros(size(kc0));
 kc(kc0_sd_x_active)=kc0(kc0_sd_x_active);
 kc_active=kc0_sd_x_active;
+kc_hist=zeros(length(kc0_sd_x_active));
+kc_active_max_n_hist=[];
 
 % Fix one coefficient at each iteration 
 while 1
@@ -202,6 +204,8 @@ while 1
   % Fix the coefficient with the largest kc_sdul to the SDP value
   kc_sd_sdp=[k_sd_sdp(:);c_sd_sdp(:)];
   kc(coef_n)=kc_sd_sdp(coef_n);
+  kc_active_max_n_hist=[kc_active_max_n_hist,kc_active(kc_max_n)];
+  kc_hist(:,length(kc_active_max_n_hist))=kc(kc0_sd_x_active);
   kc_active(kc_max_n)=[];
   printf("\nFixed kc(%d)=%g/%d\n",coef_n,kc(coef_n)*nscale,nscale);
   printf("kc=[ ");printf("%g ",kc'*nscale);printf("]/%d;\n",nscale);
@@ -399,6 +403,27 @@ if print_for_web_page
 endif
 close
 
+% Plot coefficient histories
+kc0_active=kc0(kc0_sd_x_active);
+plot(0:length(kc0_active),([kc0_active,kc_hist]-kc0_active)'*nscale);
+axis([0 length(kc0_active)]);
+str_active="";
+for n=1:(length(kc_active_max_n_hist)-1)
+  str_active=sprintf("%s %d,",str_active,kc_active_max_n_hist(n));
+  if n==11
+    str_active=strcat(str_active,"\n");
+  endif
+endfor
+str_active=sprintf("%s %d",str_active,kc_active_max_n_hist(end));
+title(sprintf("Schur one-multiplier lattice bandpass filter : %d bit %d \
+signed-digit coefficient difference from the exact values\n as SDP-relaxation \
+proceeds. The coefficients were fixed in the order : %s", ...
+              nbits,ndigits,str_active));
+xlabel("Relaxation step");
+ylabel("Bits difference from exact");
+print(strcat(strf,"_coef_hist"),"-dpdflatex"); 
+close;
+      
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);

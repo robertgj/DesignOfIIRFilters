@@ -17095,7 +17095,6 @@ multiplications found by the signed-digit allocation heuristic of \emph{Ito et
   heuristic of \emph{Ito et al.} and performing SDP optimisation with triangle inequalities.}
 \label{fig:sdp-direct-FIR-hilbert-bandpass-12-nbits-response}
 \end{figure}
-
 \begin{figure}
 \centering
 \scalebox{0.7}{\input{sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test_passband_response}}
@@ -17105,7 +17104,6 @@ multiplications found by the signed-digit allocation heuristic of \emph{Ito et
   heuristic of \emph{Ito et al.} and performing SDP optimisation with triangle inequalities.}
 \label{fig:sdp-direct-FIR-hilbert-bandpass-12-nbits-passband-response}
 \end{figure}
-
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
@@ -17177,16 +17175,18 @@ and SDP-relaxation search.
 Figure~\ref{fig:sdp-relax-schurOneMlattice-bandpass-10-nbits-stop-response}
 shows the filter stop-band response and
 Figure~\ref{fig:sdp-relax-schurOneMlattice-bandpass-10-nbits-delay-response}
-shows the filter pass-band group delay response.
+shows the filter pass-band group delay response. The ``global'' unconstrained
+SDP optimisation gives a poor delay response. Application of the
+\emph{Selesnick-Lang-Burrus} PCLS algorithm to that ``global'' signed-digit SDP
+optimisation failed by entering a loop of constraints. 
+Figure~\ref{fig:sdp-relax-schurOneMlattice-bandpass-10-nbits-coef-hist}
+shows the history of the difference of the successive relaxed signed-digit
+coefficients from the initial exact values. 
 Table~\ref{tab:sdp-relax-schurOneMlattice-bandpass-10-nbits-cost-summary}
 compares the cost and the number of $10$ bit shift-and-add operations required
 to implement the $20$ coefficient multiplications found by the signed-digit
 allocation heuristic of \emph{Lim et al.} with the SDP-relaxation search. A
 further $51$ additions are required by the lattice filter structure.
-Figure~\ref{fig:sdp-relax-schurOneMlattice-bandpass-10-nbits-delay-response}
-shows that the ``global'' unconstrained SDP optimisation gives a poor delay
-response. Application of the \emph{Selesnick-Lang-Burrus} PCLS algorithm to
-the signed-digit SDP optimisation failed by entering a loop of constraints.
 
 \begin{figure}
 \centering
@@ -17214,6 +17214,13 @@ the signed-digit SDP optimisation failed by entering a loop of constraints.
   by allocating an average of 3-signed-digits to each coefficient using the
   heuristic of \emph{Lim et al.} and performing SDP-relaxation search}
 \label{fig:sdp-relax-schurOneMlattice-bandpass-10-nbits-delay-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_coef_hist}}
+\caption{History of the difference of the successive SDP relaxed signed-digit
+coefficients from the initial exact values.}
+\label{fig:sdp-relax-schurOneMlattice-bandpass-10-nbits-coef-hist}
 \end{figure}
 
 \begin{table}[htbp]
@@ -17301,9 +17308,13 @@ compare the pass-band and stop-band responses of the filter with exact, $16$-bit
 coefficients with an average of $4$ signed-digits allocated with the algorithm
 of \emph{Ito et al.}, signed-digit coefficients found with ``global'' SDP
 approximation and those found by SDP-relaxation search.
+Figure~\ref{fig:sdp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-coef-hist}
+shows the history of the difference of the successive relaxed signed-digit
+coefficients from the initial exact values.
 Table~\ref{tab:sdp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-cost}
 compares the cost and the number of $16$ bit shift-and-add operations required
 to implement the $11$ coefficient multiplications.
+
 \begin{figure}
 \centering
 \scalebox{0.7}{\input{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_pass}}
@@ -17324,7 +17335,13 @@ to implement the $11$ coefficient multiplications.
   relaxation search} 
 \label{fig:sdp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-stop}
 \end{figure}
-
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_coef_hist}}
+\caption{History of the difference of the successive SDP relaxed signed-digit
+coefficients from the initial exact values}
+\label{fig:sdp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-coef-hist}
+\end{figure}
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
@@ -18853,7 +18870,7 @@ $\Pi\left(\phi,\eta,\kappa\right)$ is the \emph{incomplete elliptic integral of
   &= \int^{\sin\phi}_{0}\frac{dt}{\sqrt{1-t^{2}}\sqrt{1-\kappa^{2}t^{2}}
     \left(1-\eta t^{2}\right)}
 \end{align*}
-$Pi\left(\eta,\kappa\right)=\Pi\left(\frac{\pi}{2},\eta,\kappa\right)$ is the
+$\Pi\left(\eta,\kappa\right)=\Pi\left(\frac{\pi}{2},\eta,\kappa\right)$ is the
 \emph{complete elliptic integral of the third kind}. 
 \section{Computation of Legendre's elliptic integrals}
 \emph{Carlson}~\cite{Carlson_ComputingEllipticIntegrals} and~\cite[Section
@@ -18893,7 +18910,7 @@ The complete elliptic integrals are:
   K\left(\kappa\right)&=R_{F}\left(0,1-\kappa^{2},1\right)\\
   E\left(\kappa\right)&=R_{F}\left(0,1-\kappa^{2},1\right)-
                    \frac{1}{3}\kappa^{2}R_{D}\left(0,1-\kappa^{2},1\right)\\
-  Pi\left(\eta,\kappa\right)&=R_{F}\left(0,1-\kappa^{2},1\right)+
+  \Pi\left(\eta,\kappa\right)&=R_{F}\left(0,1-\kappa^{2},1\right)+
           \frac{\eta}{3}\kappa^{2}R_{J}\left(0,1-\kappa^{2},1,1-\eta\right)
 \end{align*}
 
@@ -22718,8 +22735,8 @@ coefficients}
 \label{fig:Butt3NSPA_combined_allpass_output_response}
 \end{figure}
 \subsubsection{6th order Butterworth band-pass}
-The Octave script \emph{butt6NSPABP\_test.m} shows synthesis as a parallel 
-combination of two all-pass filters of a 6th order band-pass Butterworth filter. 
+The Octave script \emph{butt6NSPABP\_test.m} shows synthesis of a 6th order
+band-pass Butterworth filter as a parallel combination of two all-pass filters. 
 Annotated results of the script follow.
 
 The prototype filter has cutoff frequency:
@@ -22838,6 +22855,112 @@ band-pass filter synthesised as the parallel combination of two all-pass
 filters implemented as normalised-scaled lattices with 10-bit 3-signed-digit
 coefficients}
 \label{fig:Butt6NSPABP_combined_allpass_output_response}
+\end{figure}
+\clearpage
+\subsubsection{20th order elliptic multi-band-pass}
+The Octave script \emph{ellip20OneMPAMB\_test.m} shows synthesis of a 20th order
+multi-band-pass elliptic filter as the parallel combination of two all-pass
+filters. Annotated results of the script follow.
+
+The prototype filter is a $5$-th elliptic low-pass filter with cutoff frequency
+$f_{c}=0.25$, pass-band ripple $0.5$dB and stop-band attenuation $40$dB.
+
+The low-pass to multi-band-pass transformation defines the two pass-bands
+$0.05$ to $0.125$ and $0.175$ to $0.225$:
+\begin{small}
+\verbatiminput{ellip12OneMPAMB_test_phi_coef.m}
+\end{small}
+
+The multi-band-pass numerator and denominator polynomials are:
+\begin{small}
+\verbatiminput{ellip20OneMPAMB_test_B_coef.m}
+\verbatiminput{ellip20OneMPAMB_test_A_coef.m}
+\end{small}
+
+The numerator polynomial is ``sanitised'' so that all zeros lie on the
+$z$-plane unit circle.
+
+The multi-band-pass polynomials have even order. They are converted to odd order
+by adding a zero and a pole at $z=1$. The resulting spectral factor is, after
+removing the zero at $z=1$:
+\begin{small}
+\verbatiminput{ellip20OneMPAMB_test_Qp_coef.m}
+\end{small}
+
+The sum $B\left(z\right)+Qp\left(z\right)$ has roots
+\begin{small}
+\begin{verbatim}
+Z =
+   0.25704 + 1.05045i
+   0.25704 - 1.05045i
+   0.78300 + 0.71880i
+   0.78300 - 0.71880i
+   0.98935 + 0.36462i
+   0.98935 - 0.36462i
+   0.45133 + 0.91101i
+   0.45133 - 0.91101i
+   0.45317 + 0.88790i
+   0.45317 - 0.88790i
+   0.94176 + 0.30369i
+   0.94176 - 0.30369i
+   0.69726 + 0.70078i
+   0.69726 - 0.70078i
+   0.14957 + 0.96734i
+   0.14957 - 0.96734i
+   0.37041 + 0.86443i
+   0.37041 - 0.86443i
+   0.75232 + 0.44289i
+   0.75232 - 0.44289i
+\end{verbatim}
+\end{small}
+
+The polynomials for the all-pass components of the multi-band-pass filter are:
+\begin{small}
+\verbatiminput{ellip20OneMPAMB_test_A1_coef.m}
+\verbatiminput{ellip20OneMPAMB_test_A2_coef.m}
+\end{small}
+
+The 8-bit 4-signed-digit coefficients of the one-multiplier lattice
+implementation are:
+\begin{small}
+\verbatiminput{ellip20OneMPAMB_test_k1sd_coef.m}
+\verbatiminput{ellip20OneMPAMB_test_epsilon1_coef.m}
+\end{small}
+and
+\begin{small}
+\verbatiminput{ellip20OneMPAMB_test_k2sd_coef.m}
+\verbatiminput{ellip20OneMPAMB_test_epsilon2_coef.m}
+\end{small}
+
+The noise gains of each all-pass filter with signed-digit coefficients are
+(with exact state scaling):
+\begin{small}
+\begin{verbatim}
+A1ng =  15.000
+A2ng =  23.0000
+\end{verbatim}
+\end{small}
+
+The estimated and simulated round-off noise variances at the combined all-pass 
+output are (again with exact state scaling):
+\begin{small}
+\begin{verbatim}
+est_varysd =  0.95833
+varyapsd =  0.98377
+\end{verbatim}
+\end{small}
+
+Figure~\ref{fig:ellip20OneMPAMB-test-response} shows the response with exact and
+signed-digit coefficients and the simulated amplitude response, found from the
+cross-correlation of the input and output, with signed-digit coefficients.
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{ellip20OneMPAMB_test_response}}
+\caption{Simulated amplitude response of the 20th order elliptic
+multi-band-pass filter synthesised as the parallel combination of two all-pass
+filters implemented as one-multiplier lattices with 8-bit 4-signed-digit
+coefficients}
+\label{fig:ellip20OneMPAMB-test-response}
 \end{figure}
 \clearpage
 \section{\label{app:DesignEllipticIIRReducedNumberMultipliers}Design of Elliptic IIR filters with a reduced number of multipliers}
