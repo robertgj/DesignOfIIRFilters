@@ -9693,6 +9693,42 @@ of the filter after PCLS SOCP optimisation}
 pole-zero plot of the filter after PCLS SOCP optimisation}
 \label{fig:iir-socp-slb-bandpass-test-pcls-d1-pz}
 \end{figure}
+\clearpage
+\section{\label{sec:Multi-bandpass-IIR-filter-gain-zero-pole-with-SeDuMi}SOCP MMSE design of a multi-band-pass filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
+The Octave script
+\emph{iir\_socp\_slb\_multiband\_test.m}
+implements the design of a multi-band-pass IIR filter expressed in
+\emph{gain-pole-zero} format with SOCP and PCLS optimisation using
+\emph{SeDuMi}\footnote{The Octave script \emph{iir\_sqp\_slb\_multiband\_test.m}
+attempts to implement the design of a similar multi-band-pass IIR filter
+expressed in \emph{gain-pole-zero} format with the SQP solver. I did not find a
+satisfactory combination of constraints for successful PCLS optimisation.}. The
+specification of the filter is:
+\begin{small}
+\verbatiminput{iir_socp_slb_multiband_test.spec}
+\end{small}
+The initial filter is designed by frequency transformation of a prototype
+elliptic filter. The SOCP PCLS optimised filter is:
+\begin{small}
+\verbatiminput{iir_socp_slb_multiband_test_x2_coef.m}
+\end{small}
+Figure~\ref{fig:IIR-multiband-SOCP-PCLS} shows the
+amplitude and delay response of the PCLS SOCP optimised filter.
+Figure~\ref{fig:IIR-multiband-SOCP-PCLS-pass} shows the pass-band response of
+the filter.
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{iir_socp_slb_multiband_test_pcls}}
+\caption{IIR multi-band filter : response after SOCP PCLS optimisation}
+\label{fig:IIR-multiband-SOCP-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{iir_socp_slb_multiband_test_pcls_pass}}
+\caption{IIR multi-band filter : pass-band response after SOCP PCLS optimisation}
+\label{fig:IIR-multiband-SOCP-PCLS-pass}
+\end{figure}
+
 \cleardoublepage{}
 \chapter{\label{sec:IIR-Filter-Design-With-Predefined-Structure}IIR filter design with a pre-defined structure}
 In this chapter I describe the design of IIR filters with a predefined structure.
@@ -11247,7 +11283,7 @@ PCLS. The specification of the filter is:
 \end{small}
 The initial filter is that of the Octave script 
 \emph{iir\_sqp\_slb\_hilbert\_test.m} designed by
-the method of Tarczynski et. al. with the Octave script 
+the method of \emph{Tarczynski et. al.} with the Octave script 
 \emph{tarczynski\_hilbert\_test.m}, as shown in 
 Section~\ref{sec:Hilbert-transform-R-2-decimation-filter}.
 The denominator polynomial of the filter has coefficients in $z^{2}$ only.
@@ -11354,7 +11390,7 @@ relationships between coefficients are linear.
 The Octave script \emph{schurOneMPAlattice\_socp\_slb\_lowpass\_test.m}
 implements the design of a low-pass IIR filter composed of the sum of two
 parallel one-multiplier Schur lattice all-pass filters with SOCP and PCLS
-optimisation.The specification of the filter is:
+optimisation. The specification of the filter is:
 \begin{small}
 \verbatiminput{schurOneMPAlattice_socp_slb_lowpass_test.spec}
 \end{small}
@@ -11482,6 +11518,83 @@ all-pass lattice coefficients are:
 \caption{Parallel Schur one-multiplier all-pass lattice band-pass Hilbert filter :
   passband response after SOCP PCLS optimisation}
 \label{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS-pass}
+\end{figure}
+\clearpage
+\subsection{\label{sec:Design-parallel-Schur-one-mult-all-pass-lattice-multi-band-pass-SOCP}Design of a parallel IIR Schur one-multiplier all-pass lattice multi-band-pass filter  using SOCP}
+The Octave script
+\emph{schurOneMPAlattice\_socp\_slb\_lowpass\_to\_multiband\_test.m}
+implements the design of a multi-band-pass IIR filter composed of the difference
+of two parallel one-multiplier Schur lattice all-pass filters with SOCP and PCLS
+optimisation. The specification of the filter is:
+\begin{small}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_to_multiband_test.spec}
+\end{small}
+The initial parallel all-pass filters are designed by the frequency
+transformation of a prototype elliptic low-pass filter. The parallel all-pass
+multi-band filter orders are $12$ and $8$. The SOCP PCLS optimised lattice coefficients are:
+\begin{small}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_to_multiband_test_A1kpcls_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_to_multiband_test_A1epsilon0_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_to_multiband_test_A2kpcls_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_to_multiband_test_A2epsilon0_coef.m}
+\end{small}
+Figure~\ref{fig:Schur-one-multiplier-parallel-allpass-low-multiband-PCLS}
+shows the amplitude and delay response of the PCLS SOCP optimised parallel
+all-pass filter.
+Figure~\ref{fig:Schur-one-multiplier-parallel-allpass-low-multiband-PCLS-pass}
+shows the pass-band response of the filter.
+\clearpage
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_lowpass_to_multiband_test_pcls}}
+\caption{Schur one-multiplier parallel all-pass lattice multi-band filter :
+  response after SOCP PCLS optimisation. The initial filter is designed by a
+low-pass to multi-band frequency transformation.}
+\label{fig:Schur-one-multiplier-parallel-allpass-low-multiband-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_lowpass_to_multiband_test_pcls_pass}}
+\caption{Schur one-multiplier parallel all-pass lattice multi-band filter :
+  pass-band response after SOCP PCLS optimisation. The initial filter is
+  designed by a low-pass to multi-band frequency transformation.}
+\label{fig:Schur-one-multiplier-parallel-allpass-low-multiband-PCLS-pass}
+\end{figure}
+\clearpage
+The Octave script
+\emph{schurOneMPAlattice\_socp\_slb\_multiband\_test.m}
+implements the design of a multi-band-pass IIR filter composed of the difference
+of two parallel one-multiplier Schur lattice all-pass filters with SOCP and PCLS
+optimisation. The specification of the filter is:
+\begin{small}
+\verbatiminput{schurOneMPAlattice_socp_slb_multiband_test.spec}
+\end{small}
+The initial parallel all-pass filters are designed by the Octave script
+\emph{tarczynski\_parallel\_allpass\_multiband\_test.m}. The SOCP PCLS optimised
+lattice coefficients are:
+\begin{small}
+\verbatiminput{schurOneMPAlattice_socp_slb_multiband_test_A1kpcls_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_multiband_test_A1epsilon0_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_multiband_test_A2kpcls_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_multiband_test_A2epsilon0_coef.m}
+\end{small}
+Figure~\ref{fig:Schur-one-multiplier-parallel-allpass-multiband-PCLS} shows the
+amplitude and delay response of the PCLS SOCP optimised parallel all-pass filter.
+Figure~\ref{fig:Schur-one-multiplier-parallel-allpass-multiband-PCLS-pass} shows
+the pass-band response of the filter. 
+\clearpage
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_multiband_test_pcls}}
+\caption{Schur one-multiplier parallel all-pass lattice multi-band filter : response after SOCP PCLS optimisation.}
+\label{fig:Schur-one-multiplier-parallel-allpass-multiband-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{schurOneMPAlattice_socp_slb_multiband_test_pcls_pass}}
+\caption{Schur one-multiplier parallel all-pass lattice multi-band filter :
+  pass-band response after SOCP PCLS optimisation.}
+\label{fig:Schur-one-multiplier-parallel-allpass-multiband-PCLS-pass}
 \end{figure}
 
 \clearpage
@@ -22868,7 +22981,7 @@ $f_{c}=0.25$, pass-band ripple $0.5$dB and stop-band attenuation $40$dB.
 The low-pass to multi-band-pass transformation defines the two pass-bands
 $0.05$ to $0.125$ and $0.175$ to $0.225$:
 \begin{small}
-\verbatiminput{ellip12OneMPAMB_test_phi_coef.m}
+\verbatiminput{ellip20OneMPAMB_test_phi_coef.m}
 \end{small}
 
 The multi-band-pass numerator and denominator polynomials are:
