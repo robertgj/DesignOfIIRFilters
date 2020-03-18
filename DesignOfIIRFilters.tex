@@ -91,6 +91,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \DeclareMathOperator{\sech}{sech}
 \DeclareMathOperator{\arctanh}{arctanh}
 \DeclareMathOperator{\arccosh}{arccosh}
+\DeclareMathOperator{\sgn}{sgn}
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 \DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
 \DeclarePairedDelimiter{\nint}{\lfloor}{\rceil}
@@ -27100,7 +27101,7 @@ where $a_{0}=1$ and $N=4M+3$ is the length of the filter. Scaling and
 mean-value are to be determined later. The condition for maximal flatness at
 $\omega=0$ is: 
 \begin{align*}
-  \left.\frac{d^{l}}{d\omega^{l}}A\left(\omega\right)\right\vert_{\omega=0}
+  \left.A^{\left(l\right)}\left(\omega\right)\right\vert_{\omega=0}
   &=0\quad l=1,\hdots{},2M
 \end{align*}
 resulting in a set of $M$ constraint equations:
@@ -27157,7 +27158,129 @@ the amplitude responses of the corresponding Hilbert filters.
 \end{figure}
 \clearpage
 \subsection{Closed-form design of maximally-flat FIR Hilbert filters}
-\subsubsection{\emph{Pei} and \emph{Wang}'s design of maximally-flat FIR Hilbert and differentiator filters by truncated power series}
+\subsubsection{\emph{Pei} and \emph{Wang}'s design of maximally-flat
+  Hilbert FIR filters by truncated power series}
+\emph{Pei} and \emph{Wang}~\cite{PeiWang_ClosedFormMaximallyFlatFIRHilbert}
+describe the closed form design of maximally-flat Hilbert, differentiator
+and fractional-delay FIR filters by truncation of a power series. Here I follow
+their derivation of a closed form expression for a maximally-flat FIR Hilbert
+filter~\cite[Section II.A]{PeiWang_ClosedFormMaximallyFlatFIRHilbert}. The
+Hilbert filter frequency response is $H\left(\omega\right)=-\imath\sgn\omega$
+where $-\pi<\omega<\pi$ and $\sgn$ is the \emph{sign} function: 
+\begin{align*}
+  \sgn{}\omega &=\begin{cases}
+    -1 & \omega < 0\\
+    \phantom{-}0 & \omega = 0 \\
+    \phantom{-}1 & \omega > 0
+   \end{cases}
+\end{align*}
+\emph{Pei} and \emph{Wang} choose to represent $\sgn{}x$ by:
+\begin{align*}
+  \sgn{}x&=\frac{x}{\sqrt{x^{2}}}\quad x\ne 0
+\end{align*}
+If $f\left(u\right)=u^{-\frac{1}{2}}$ then:
+\begin{align*}
+  \sgn{}x&=xf\left(x^{2}\right)\quad x\ne 0
+\end{align*}
+The Taylor series expansion of this representation of the $\sgn{}x$ function at
+$x=c$ is: 
+\begin{align}
+  \label{eqn:Pei-Wang-sgn-Taylor-series}
+  \sgn{}x &=\frac{x}{\sqrt{c}}\left[1+\sum^{\infty}_{k=1}
+            \frac{\left(2k-1\right)!!}{\left(2k\right)!!}
+            \left(1-\frac{x^{2}}{c}\right)^{k}\right]
+\end{align}
+where $2k!!$ and $\left(2k-1\right)!!$ are the double factorial:
+\begin{align*}
+  \left(2k-1\right)!! &= 1\cdot{}3\cdot{}5\cdot\hdots\cdot\left(2k-1\right) \\
+  \left(2k\right)!!   &= 2\cdot{}4\cdot{}6\cdot\hdots\cdot\left(2k\right)
+\end{align*}
+This series converges for $-1<\left(1-\frac{x^{2}}{c}\right)<1$ or
+$c>\frac{1}{2}x^{2}$.
+
+\emph{Pei} and \emph{Wang} observe that:
+\begin{align*}
+  \sgn{}\omega &= \sgn\sin\omega = \sgn\sin\frac{\omega}{2}
+\end{align*}
+where $-\pi<\omega<\pi$. Consequently, if $\sgn{}x$ is approximated by a
+polynomial in $x$, then $\sin\omega$ or $\sin\frac{\omega}{2}$ can be
+substituted for $x$. Subsituting $x=\sin\omega$ and using the first $M$ terms
+of the power series, the frequency response of the Hilbert filter is
+approximated by:
+\begin{align*}
+  H\left(\omega,c\right)
+  &=-\imath\frac{\sin\omega}{\sqrt{c}}\left[1+\sum^{M}_{k=1}
+    \frac{\left(2k-1\right)!!}{\left(2k\right)!!}
+    \left(1-\frac{\sin^{2}\omega}{c}\right)^{k}\right]
+\end{align*}
+In the $z$-plane, substituting $\frac{\imath}{2}\left(z^{-1}-z\right)$ for
+$\sin\omega$ and multiplying by $z^{-2M-1}$, the causal transfer function that
+approximates a Hilbert filter is:
+\begin{align*}
+  H\left(z,c\right)
+  &= -\frac{1-z^{2}}{2\sqrt{c}}\left[z^{-2M}+\sum^{M}_{k=1}
+    \frac{\left(2k-1\right)!!}{\left(2k\right)!!}z^{-2\left(M-k\right)}
+    \left(z^{-2}+\frac{1}{c}\left(\frac{1-z^{-2}}{2}\right)^{2}\right)^{k}\right]
+\end{align*}
+In particular, if $c=1$, then $H\left(\omega\right)$ is maximally flat at
+$\omega=\frac{\pi}{2}$ and:
+\begin{align*}
+  H\left(z\right)
+  &= -\frac{1-z^{2}}{2}\left[z^{-2M}+\sum^{M}_{k=1}
+    \frac{\left(2k-1\right)!!}{\left(2k\right)!!}z^{-2\left(M-k\right)}
+    \left(\frac{1+z^{-2}}{2}\right)^{2k}\right]
+\end{align*}
+\emph{Pei} and \emph{Wang}~\cite[Figure
+2]{PeiWang_ClosedFormMaximallyFlatFIRHilbert} show a realisation of this
+order $4M+2$ transfer function with $M$ coefficients of the form
+$\frac{2k-1}{2k}$.
+\clearpage
+
+The Octave code to calculate the amplitude response for $M=1,\hdots,25$ is:
+\begin{small}
+\begin{verbatim}
+nplot=1024;
+w=(0:(nplot-1))'*pi/nplot;
+kM=1:25;
+AM=sin(w).*(1+cumsum(cumprod(((2*kM)-1)./(2*kM)).*(cos(w).^(2*kM)),2));
+\end{verbatim}
+\end{small}
+
+Figure~\ref{fig:pei-wang-FIR-flat-hilbert-amplitude} shows the amplitude
+responses of the maximally-flat at $\omega=\frac{\pi}{2}$ Hilbert filters for
+$M=5,10,\hdots,25$.
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{peiFIRantisymmetric_flat_hilbert_test_response}}
+\caption{Amplitude responses of \emph{Pei} and \emph{Wang}~\cite[Section
+  II.A]{PeiWang_ClosedFormMaximallyFlatFIRHilbert} maximally-flat at
+  $\omega=\frac{\pi}{2}$ Hilbert FIR filters.}
+\label{fig:pei-wang-FIR-flat-hilbert-amplitude}
+\end{figure}
+
+\paragraph{Addendum}
+The Taylor series expansion of $f\left(x\right)=x^{-\frac{1}{2}}$ at $x=c$ is:
+\begin{align*}
+  f\left(x\right)&=f\left(c\right)+\sum^{\infty}_{k=1}
+                   \frac{f^{\left(k\right)}\left(c\right)}{k!}
+                   \left(x-c\right)^{k}\\
+  &= c^{-\frac{1}{2}}+\sum^{\infty}_{k=1}
+                   \frac{f^{\left(k\right)}\left(c\right)}{k!}
+                   \left(-1\right)^{k}c^{k}\left(1-\frac{x}{c}\right)^{k}
+\end{align*}
+The derivatives of $f\left(x\right)$ are:
+\begin{align*}
+  f^{\left(1\right)}\left(x\right)
+  &=-\frac{1}{2}\cdot x^{-1-\frac{1}{2}}\\
+  f^{\left(2\right)}\left(x\right)
+  &=\left(-1\right)^{2}\frac{1}{2}\cdot\frac{3}{2}\cdot x^{-2-\frac{1}{2}}\\
+  \vdots & \\
+  f^{\left(k\right)}\left(x\right)
+  &=\left(-1\right)^{k}\frac{1}{2}\cdot\frac{3}{2}\cdot\hdots\cdot\frac{2k-1}{2}
+    \cdot x^{-k-\frac{1}{2}}
+\end{align*}
+Since $k!\cdot{}2^{k}=\left(2k\right)!!\;$,
+Equation~\ref{eqn:Pei-Wang-sgn-Taylor-series} follows. 
 
 \clearpage
 \subsection{Closed-form design of maximally-linear FIR low-pass differentiators}
@@ -27259,8 +27382,8 @@ constraint equations algebraically as~\cite[Equation
 \end{align*}
 This appears to be a misprint. $\left(\begin{array}{c} 
     2n-2l\\
-    n-k-m\end{array}\right)$ is not defined for $n-k-m<0$. (For example, when
-$k=n$, $l=n-1$ and $m=2n-2$). 
+    n-k-m\end{array}\right)$ is not defined for $n-k-m<0$. For example, when
+$k=n$, $l=n-1$ and $m=2n-2$. 
 \clearpage
 \subsubsection{\emph{Selesnick} closed form design of FIR low-pass
   differentiators that are maximally-linear at $\omega=0$ and maximally-flat at $\omega=\pi$}
@@ -27275,16 +27398,15 @@ of $\left|z\right|=1$:
 \end{align*}
 \emph{Selesnick}~\cite[Section
 IV]{Selesnick_MaximallyFlatLowPassDigitalDifferentiators} gives the following
-equation for the $z$-domain transfer function of \emph{Type III} and \emph{Type
-  IV}\footnote{\emph{Selesnick} uses the terminology of \emph{Oppenheim} and
-  \emph{Schafer}~\cite[Section
-  5.7.3]{OppenheimSchafer_DiscreteTimeSignalProcessing}:  
-\emph{Type I} filters are symmetric and have even order, 
-\emph{Type II} filters are symmetric and have odd order, 
-\emph{Type III} filters are anti-symmetric and have even order
-and \emph{Type IV} filters are anti-symmetric and have odd order.} FIR
-differentiators that are maximally-linear at $\omega=0$ and maximally-flat at 
-$\omega=\pi$:
+equation for the $z$-domain transfer function of \emph{Type
+  III}\footnote{\label{foot:Schafer-Oppenheim-FIR-filter-types}\emph{Selesnick}
+  uses the terminology of \emph{Oppenheim} and \emph{Schafer}~\cite[Section
+  5.7.3]{OppenheimSchafer_DiscreteTimeSignalProcessing}: \emph{Type I} filters
+  are symmetric and have even order, \emph{Type II} filters are symmetric and
+  have odd order, \emph{Type III} filters are anti-symmetric and have even order
+  and \emph{Type IV} filters are anti-symmetric and have odd order.} and
+\emph{Type IV} FIR differentiators that are maximally-linear at $\omega=0$ and
+maximally-flat at $\omega=\pi$:
 \begin{align*}
   H\left(z\right)&=\left(\frac{1-z^{-1}}{2}\right)
                    \left(\frac{1+z^{-1}}{2}\right)^{K}

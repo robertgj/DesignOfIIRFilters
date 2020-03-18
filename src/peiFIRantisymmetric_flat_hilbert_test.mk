@@ -1,0 +1,8 @@
+peiFIRantisymmetric_flat_hilbert_test_FIGURES = \
+peiFIRantisymmetric_flat_hilbert_test_response
+
+peiFIRantisymmetric_flat_hilbert_test_COEFS = \
+
+
+peiFIRantisymmetric_flat_hilbert_test_FILES = \
+peiFIRantisymmetric_flat_hilbert_test.m test_common.m
