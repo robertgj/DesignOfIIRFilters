@@ -25577,10 +25577,9 @@ zeros of the filter. The distinct filter coefficients are:
 \label{fig:hofstetterFIRsymmetric-lowpass-test-zeros}
 \end{figure}
 
-The Octave script \emph{hofstetterFIRsymmetric\_bandpass\_test.m} uses an
-implementation of \emph{Hofstetter}'s algorithm in the Octave function
-\emph{hofstetterFIRsymmetric.m} to design a band-pass filter. The filter
-specification is:
+The Octave script \emph{hofstetterFIRsymmetric\_bandpass\_test.m} calls the
+Octave function \emph{hofstetterFIRsymmetric.m} to design a band-pass
+filter. The filter specification is:
 \begin{small}
 \verbatiminput{hofstetterFIRsymmetric_bandpass_test.spec}
 \end{small}
@@ -25607,6 +25606,39 @@ zeros of the filter. The distinct filter coefficients are:
 \caption{Zeros of a mini-max FIR band-pass filter designed with
   \emph{Hofstetter}'s algorithm}
 \label{fig:hofstetterFIRsymmetric-bandpass-test-zeros}
+\end{figure}
+
+The Octave script \emph{hofstetterFIRsymmetric\_multiband\_test.m} calls the
+Octave function \emph{hofstetterFIRsymmetric.m} to design a multi-band
+filter. The filter specification is: 
+\begin{small}
+\verbatiminput{hofstetterFIRsymmetric_multiband_test.spec}
+\end{small}
+
+Some experimentation was required to find the number of extrema in each band
+that approximately satisfied the
+specification. Figure~\ref{fig:hofstetterFIRsymmetric-multiband-test-dual}
+shows the pass-band and stop-band amplitude responses of the
+filter. Figure~\ref{fig:hofstetterFIRsymmetric-multiband-test-zeros} shows the
+zeros of the filter. The distinct filter coefficients are:
+\begin{small}
+\verbatiminput{hofstetterFIRsymmetric_multiband_test_hM_coef.m}
+\end{small}
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{hofstetterFIRsymmetric_multiband_test_dual}}
+\caption{Response of a mini-max FIR multi-band filter designed with
+  \emph{Hofstetter}'s algorithm}
+\label{fig:hofstetterFIRsymmetric-multiband-test-dual}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{0.7}{\input{hofstetterFIRsymmetric_multiband_test_zeros}}
+\caption{Zeros of a mini-max FIR multi-band filter designed with
+  \emph{Hofstetter}'s algorithm}
+\label{fig:hofstetterFIRsymmetric-multiband-test-zeros}
 \end{figure}
 \clearpage
 \subsubsection{\emph{Selesnick-Burrus} modification to  \emph{Hofstetter}'s
@@ -25834,11 +25866,11 @@ of the filter. The distinct filter coefficients are:
 \emph{Parks} and
 \emph{McClellan}~\cite{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters,
   McClellanParks_ComputerProgramFIRLinearPhaseFilters}\cite[Section
-7.4.3]{OppenheimSchafer_DiscreteTimeSignalProcessing} add extra non-extremal
-amplitude constraints at the band edges. Their algorithm allows the designer to
-specify $\omega_{p}$, $\omega_{s}$ and the ratio $\delta_{p}/\delta_{s}$
-but does not allow direct specification of $\delta_{p}$ and $\delta_{s}$.
-\emph{Parks} and
+7.4.3]{OppenheimSchafer_DiscreteTimeSignalProcessing} modify \emph{Hofstetter}'s
+algorithm by substituting non-extremal amplitude constraints at the filter band
+edges. This allows the designer to specify $\omega_{p}$, $\omega_{s}$ and the
+ratio $\delta_{p}/\delta_{s}$ but does not allow direct specification of
+$\delta_{p}$ and $\delta_{s}$. \emph{Parks} and 
 \emph{McClellan}~\cite{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}
 and \emph{Oppenheim} and \emph{Schafer}~\cite[Section
   7.4.3]{OppenheimSchafer_DiscreteTimeSignalProcessing} describe the algorithm
@@ -26022,21 +26054,21 @@ filter coefficients are:
 Octave function \emph{mcclellanFIRsymmetric} to design a multi-band filter with
 the specification:
 \begin{small}
-\verbatiminput{mcclellanFIRsymmetric_multi_band_test.spec}
+\verbatiminput{mcclellanFIRsymmetric_multiband_test.spec}
 \end{small}
 Figure~\ref{fig:mcclellanFIRsymmetric-multi-band-test-response} shows the
 amplitude response of the filter.
 Figure~\ref{fig:mcclellanFIRsymmetric-multi-band-test-zeros} shows the zeros of
 the filter. The pass-band ripple found is
-$\rho=$\input{mcclellanFIRsymmetric_multi_band_test_rho.tab} and the distinct
+$\rho=$\input{mcclellanFIRsymmetric_multiband_test_rho.tab} and the distinct
 filter coefficients are:
 \begin{small}
-\verbatiminput{mcclellanFIRsymmetric_multi_band_test_hM_coef.m}
+\verbatiminput{mcclellanFIRsymmetric_multiband_test_hM_coef.m}
 \end{small}
 \clearpage
 \begin{figure}
 \centering
-\scalebox{0.7}{\input{mcclellanFIRsymmetric_multi_band_test_response}}
+\scalebox{0.7}{\input{mcclellanFIRsymmetric_multiband_test_response}}
 \caption{Response of a mini-max FIR multi-band filter designed with
   the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
   I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
@@ -26044,7 +26076,7 @@ filter coefficients are:
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{0.7}{\input{mcclellanFIRsymmetric_multi_band_test_zeros}}
+\scalebox{0.7}{\input{mcclellanFIRsymmetric_multiband_test_zeros}}
 \caption{Zeros of a mini-max FIR multi-band filter designed with
   the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
   I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 

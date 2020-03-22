@@ -1,8 +1,8 @@
 #!/bin/sh
 
-prog=mcclellanFIRsymmetric_multi_band_test.m
+prog=mcclellanFIRsymmetric_multiband_test.m
 
-depends="mcclellanFIRsymmetric_multi_band_test.m test_common.m \
+depends="mcclellanFIRsymmetric_multiband_test.m test_common.m \
 print_polynomial.m mcclellanFIRsymmetric.m local_max.m lagrange_interp.m \
 xfr2tf.m directFIRsymmetricA.m"
 
@@ -59,7 +59,7 @@ echo "Running $prog"
 octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_hM.ok mcclellanFIRsymmetric_multi_band_test_hM_coef.m
+diff -Bb test_hM.ok mcclellanFIRsymmetric_multiband_test_hM_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hM.ok"; fail; fi
 
 #
