@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("johanssonOneMlatticeEsq_test.diary");
-unlink("johanssonOneMlatticeEsq_test.diary.tmp");
+delete("johanssonOneMlatticeEsq_test.diary");
+delete("johanssonOneMlatticeEsq_test.diary.tmp");
 diary johanssonOneMlatticeEsq_test.diary.tmp
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

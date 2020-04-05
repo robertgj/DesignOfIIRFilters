@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("chebyshevU_test.diary");
-unlink("chebyshevU_test.diary.tmp");
+delete("chebyshevU_test.diary");
+delete("chebyshevU_test.diary.tmp");
 diary chebyshevU_test.diary.tmp
 
 strf="chebyshevU_test";

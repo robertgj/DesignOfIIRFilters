@@ -4,8 +4,8 @@
 
 test_common;
 
-unlink("chebyshevU_backward_recurrence_test.diary");
-unlink("chebyshevU_backward_recurrence_test.diary.tmp");
+delete("chebyshevU_backward_recurrence_test.diary");
+delete("chebyshevU_backward_recurrence_test.diary.tmp");
 diary chebyshevU_backward_recurrence_test.diary.tmp
 
 x=chebyshevU_backward_recurrence(zeros(1,0));

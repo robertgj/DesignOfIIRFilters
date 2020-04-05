@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("allpass_dir1_retimed_test.diary");
-unlink("allpass_dir1_retimed_test.diary.tmp");
+delete("allpass_dir1_retimed_test.diary");
+delete("allpass_dir1_retimed_test.diary.tmp");
 diary allpass_dir1_retimed_test.diary.tmp
 
 del=1e-6;

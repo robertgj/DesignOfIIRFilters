@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("iir_sqp_slb_differentiator_test.diary");
-unlink("iir_sqp_slb_differentiator_test.diary.tmp");
+delete("iir_sqp_slb_differentiator_test.diary");
+delete("iir_sqp_slb_differentiator_test.diary.tmp");
 diary iir_sqp_slb_differentiator_test.diary.tmp
 
 

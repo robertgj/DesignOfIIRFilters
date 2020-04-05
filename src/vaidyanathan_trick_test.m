@@ -7,8 +7,8 @@
 
 test_common;
 
-unlink("vaidyanathan_trick_test.diary");
-unlink("vaidyanathan_trick_test.diary.tmp");
+delete("vaidyanathan_trick_test.diary");
+delete("vaidyanathan_trick_test.diary.tmp");
 diary vaidyanathan_trick_test.diary.tmp
 
 strf="vaidyanathan_trick_test";

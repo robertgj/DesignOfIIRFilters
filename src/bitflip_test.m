@@ -5,8 +5,8 @@
 
 test_common;
 
-unlink("bitflip_test.diary");
-unlink("bitflip_test.diary.tmp");
+delete("bitflip_test.diary");
+delete("bitflip_test.diary.tmp");
 diary bitflip_test.diary.tmp
 
 check_octave_file("bitflip");

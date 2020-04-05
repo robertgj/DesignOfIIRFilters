@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("ellip20OneMPAMB_test.diary");
-unlink("ellip20OneMPAMB_test.diary.tmp");
+delete("ellip20OneMPAMB_test.diary");
+delete("ellip20OneMPAMB_test.diary.tmp");
 diary ellip20OneMPAMB_test.diary.tmp
 
 tol=25e-7;

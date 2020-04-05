@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("carlson_RJ_test.diary");
-unlink("carlson_RJ_test.diary.tmp");
+delete("carlson_RJ_test.diary");
+delete("carlson_RJ_test.diary.tmp");
 diary carlson_RJ_test.diary.tmp
 
 % Compare with example of Section 3 in "Computing Elliptic Integrals

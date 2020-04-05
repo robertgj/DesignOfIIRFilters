@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("Abcd2tf_test.diary");
-unlink("Abcd2tf_test.diary.tmp");
+delete("Abcd2tf_test.diary");
+delete("Abcd2tf_test.diary.tmp");
 diary Abcd2tf_test.diary.tmp
 
 tol=1e-11;

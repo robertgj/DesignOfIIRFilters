@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("goldensection_test.diary");
-unlink("goldensection_test.diary.tmp");
+delete("goldensection_test.diary");
+delete("goldensection_test.diary.tmp");
 diary goldensection_test.diary.tmp
 
 

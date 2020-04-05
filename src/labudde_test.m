@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("labudde_test.diary");
-unlink("labudde_test.diary.tmp");
+delete("labudde_test.diary");
+delete("labudde_test.diary.tmp");
 diary labudde_test.diary.tmp
 
 check_octave_file("labudde");

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("complementaryFIRlattice_lowpass_test.diary");
-unlink("complementaryFIRlattice_lowpass_test.diary.tmp");
+delete("complementaryFIRlattice_lowpass_test.diary");
+delete("complementaryFIRlattice_lowpass_test.diary.tmp");
 diary complementaryFIRlattice_lowpass_test.diary.tmp
 
 

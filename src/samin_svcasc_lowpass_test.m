@@ -13,8 +13,8 @@
 
 test_common;
 
-unlink("samin_svcasc_lowpass_test.diary");
-unlink("samin_svcasc_lowpass_test.diary.tmp");
+delete("samin_svcasc_lowpass_test.diary");
+delete("samin_svcasc_lowpass_test.diary.tmp");
 diary samin_svcasc_lowpass_test.diary.tmp
 
 truncation_test_common;

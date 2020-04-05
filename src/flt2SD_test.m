@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("flt2SD_test.diary");
-unlink("flt2SD_test.diary.tmp");
+delete("flt2SD_test.diary");
+delete("flt2SD_test.diary.tmp");
 diary flt2SD_test.diary.tmp
 
 % Test vectors : [num, nbits, ndigits, verbose]

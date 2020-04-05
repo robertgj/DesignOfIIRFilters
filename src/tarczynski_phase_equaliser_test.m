@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("tarczynski_phase_equaliser_test.diary");
-unlink("tarczynski_phase_equaliser_test.diary.tmp");
+delete("tarczynski_phase_equaliser_test.diary");
+delete("tarczynski_phase_equaliser_test.diary.tmp");
 diary tarczynski_phase_equaliser_test.diary.tmp
 
 tic;

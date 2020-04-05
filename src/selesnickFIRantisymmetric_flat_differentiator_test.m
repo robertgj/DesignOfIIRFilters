@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("selesnickFIRantisymmetric_flat_differentiator_test.diary");
-unlink("selesnickFIRantisymmetric_flat_differentiator_test.diary.tmp");
+delete("selesnickFIRantisymmetric_flat_differentiator_test.diary");
+delete("selesnickFIRantisymmetric_flat_differentiator_test.diary.tmp");
 diary selesnickFIRantisymmetric_flat_differentiator_test.diary.tmp
 
 strf="selesnickFIRantisymmetric_flat_differentiator_test";

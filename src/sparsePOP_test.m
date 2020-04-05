@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("sparsePOP_test.diary");
-unlink("sparsePOP_test.diary.tmp");
+delete("sparsePOP_test.diary");
+delete("sparsePOP_test.diary.tmp");
 diary sparsePOP_test.diary.tmp
 
 compileSparsePOP;

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMscale_test.diary");
-unlink("schurOneMscale_test.diary.tmp");
+delete("schurOneMscale_test.diary");
+delete("schurOneMscale_test.diary.tmp");
 diary schurOneMscale_test.diary.tmp
 
 

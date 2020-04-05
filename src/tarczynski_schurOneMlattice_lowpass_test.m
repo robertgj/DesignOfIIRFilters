@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("tarczynski_schurOneMlattice_lowpass_test.diary");
-unlink("tarczynski_schurOneMlattice_lowpass_test.diary.tmp");
+delete("tarczynski_schurOneMlattice_lowpass_test.diary");
+delete("tarczynski_schurOneMlattice_lowpass_test.diary.tmp");
 diary tarczynski_schurOneMlattice_lowpass_test.diary.tmp
 
 tic;

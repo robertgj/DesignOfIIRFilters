@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("octave_format_test.diary");
-unlink("octave_format_test.diary.tmp");
+delete("octave_format_test.diary");
+delete("octave_format_test.diary.tmp");
 diary octave_format_test.diary.tmp
 
 [f,t]=format

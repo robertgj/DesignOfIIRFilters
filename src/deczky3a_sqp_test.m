@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("deczky3a_sqp_test.diary");
-unlink("deczky3a_sqp_test.diary.tmp");
+delete("deczky3a_sqp_test.diary");
+delete("deczky3a_sqp_test.diary.tmp");
 diary deczky3a_sqp_test.diary.tmp
 
 tic;

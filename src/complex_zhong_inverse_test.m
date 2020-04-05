@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("complex_zhong_inverse_test.diary");
-unlink("complex_zhong_inverse_test.diary.tmp");
+delete("complex_zhong_inverse_test.diary");
+delete("complex_zhong_inverse_test.diary.tmp");
 diary complex_zhong_inverse_test.diary.tmp
 
 check_octave_file("complex_zhong_inverse");

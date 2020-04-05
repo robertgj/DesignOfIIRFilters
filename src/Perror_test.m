@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("Perror_test.diary");
-unlink("Perror_test.diary.tmp");
+delete("Perror_test.diary");
+delete("Perror_test.diary.tmp");
 diary Perror_test.diary.tmp
 
 

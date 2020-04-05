@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("svcascf_test.diary");
-unlink("svcascf_test.diary.tmp");
+delete("svcascf_test.diary");
+delete("svcascf_test.diary.tmp");
 diary svcascf_test.diary.tmp
 
 

@@ -5,8 +5,8 @@
 
 test_common;
 
-unlink("parallel_allpass_mmse_error_test.diary");
-unlink("parallel_allpass_mmse_error_test.diary.tmp");
+delete("parallel_allpass_mmse_error_test.diary");
+delete("parallel_allpass_mmse_error_test.diary.tmp");
 diary parallel_allpass_mmse_error_test.diary.tmp
 
 

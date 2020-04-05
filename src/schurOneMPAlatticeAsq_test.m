@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMPAlatticeAsq_test.diary");
-unlink("schurOneMPAlatticeAsq_test.diary.tmp");
+delete("schurOneMPAlatticeAsq_test.diary");
+delete("schurOneMPAlatticeAsq_test.diary.tmp");
 diary schurOneMPAlatticeAsq_test.diary.tmp
 
 tol=1e-7;

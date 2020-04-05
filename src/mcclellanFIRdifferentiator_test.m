@@ -9,8 +9,8 @@
 
 test_common;
 
-unlink("mcclellanFIRdifferentiator_test.diary");
-unlink("mcclellanFIRdifferentiator_test.diary.tmp");
+delete("mcclellanFIRdifferentiator_test.diary");
+delete("mcclellanFIRdifferentiator_test.diary.tmp");
 diary mcclellanFIRdifferentiator_test.diary.tmp
 
 strf="mcclellanFIRdifferentiator_test";

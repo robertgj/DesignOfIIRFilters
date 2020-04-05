@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("minphase_test.diary");
-unlink("minphase_test.diary.tmp");
+delete("minphase_test.diary");
+delete("minphase_test.diary.tmp");
 diary minphase_test.diary.tmp
 
 

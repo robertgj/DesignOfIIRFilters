@@ -5,8 +5,8 @@
 
 test_common;
 
-unlink("tf2pa_test.diary");
-unlink("tf2pa_test.diary.tmp");
+delete("tf2pa_test.diary");
+delete("tf2pa_test.diary.tmp");
 diary tf2pa_test.diary.tmp
 
 

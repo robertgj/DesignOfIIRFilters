@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("sedumi_test.diary");
-unlink("sedumi_test.diary.tmp");
+delete("sedumi_test.diary");
+delete("sedumi_test.diary.tmp");
 diary sedumi_test.diary.tmp
 
 

@@ -6,8 +6,8 @@ test_common;
 set(0,'DefaultFigureVisible','on');
 set(0,"defaultlinelinewidth",2);
 
-unlink("directFIRhilbertA_test.diary");
-unlink("directFIRhilbertA_test.diary.tmp");
+delete("directFIRhilbertA_test.diary");
+delete("directFIRhilbertA_test.diary.tmp");
 diary directFIRhilbertA_test.diary.tmp
 
 %

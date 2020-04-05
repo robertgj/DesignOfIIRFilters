@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("herrmannFIRsymmetric_flat_lowpass_test.diary");
-unlink("herrmannFIRsymmetric_flat_lowpass_test.diary.tmp");
+delete("herrmannFIRsymmetric_flat_lowpass_test.diary");
+delete("herrmannFIRsymmetric_flat_lowpass_test.diary.tmp");
 diary herrmannFIRsymmetric_flat_lowpass_test.diary.tmp
 
 strf="herrmannFIRsymmetric_flat_lowpass_test";

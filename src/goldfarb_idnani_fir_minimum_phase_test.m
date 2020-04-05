@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("goldfarb_idnani_fir_minimum_phase_test.diary");
-unlink("goldfarb_idnani_fir_minimum_phase_test.diary.tmp");
+delete("goldfarb_idnani_fir_minimum_phase_test.diary");
+delete("goldfarb_idnani_fir_minimum_phase_test.diary.tmp");
 diary goldfarb_idnani_fir_minimum_phase_test.diary.tmp
 
 

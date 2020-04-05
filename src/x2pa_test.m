@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("x2pa_test.diary");
-unlink("x2pa_test.diary.tmp");
+delete("x2pa_test.diary");
+delete("x2pa_test.diary.tmp");
 diary x2pa_test.diary.tmp
 
 

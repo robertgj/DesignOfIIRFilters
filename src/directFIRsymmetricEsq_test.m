@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("directFIRsymmetricEsq_test.diary");
-unlink("directFIRsymmetricEsq_test.diary.tmp");
+delete("directFIRsymmetricEsq_test.diary");
+delete("directFIRsymmetricEsq_test.diary.tmp");
 diary directFIRsymmetricEsq_test.diary.tmp
 
 % Specify desired response

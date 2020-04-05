@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("johanssonOneMlattice_socp_slb_bandstop_test.diary");
-unlink("johanssonOneMlattice_socp_slb_bandstop_test.diary.tmp");
+delete("johanssonOneMlattice_socp_slb_bandstop_test.diary");
+delete("johanssonOneMlattice_socp_slb_bandstop_test.diary.tmp");
 diary johanssonOneMlattice_socp_slb_bandstop_test.diary.tmp
 
 script_id=tic;

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("complementaryFIRlattice_bandpass_test.diary");
-unlink("complementaryFIRlattice_bandpass_test.diary.tmp");
+delete("complementaryFIRlattice_bandpass_test.diary");
+delete("complementaryFIRlattice_bandpass_test.diary.tmp");
 diary complementaryFIRlattice_bandpass_test.diary.tmp
 
 

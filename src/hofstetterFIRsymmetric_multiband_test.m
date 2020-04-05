@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("hofstetterFIRsymmetric_multiband_test.diary");
-unlink("hofstetterFIRsymmetric_multiband_test.diary.tmp");
+delete("hofstetterFIRsymmetric_multiband_test.diary");
+delete("hofstetterFIRsymmetric_multiband_test.diary.tmp");
 diary hofstetterFIRsymmetric_multiband_test.diary.tmp
 
 strf="hofstetterFIRsymmetric_multiband_test";

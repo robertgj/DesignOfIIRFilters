@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("surmaaho_parallel_allpass_lowpass_test.diary");
-unlink("surmaaho_parallel_allpass_lowpass_test.diary.tmp");
+delete("surmaaho_parallel_allpass_lowpass_test.diary");
+delete("surmaaho_parallel_allpass_lowpass_test.diary.tmp");
 diary surmaaho_parallel_allpass_lowpass_test.diary.tmp
 
 maxiter=5000

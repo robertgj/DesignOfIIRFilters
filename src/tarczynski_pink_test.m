@@ -7,8 +7,8 @@
 
 test_common;
 
-unlink("tarczynski_pink_test.diary");
-unlink("tarczynski_pink_test.diary.tmp");
+delete("tarczynski_pink_test.diary");
+delete("tarczynski_pink_test.diary.tmp");
 diary tarczynski_pink_test.diary.tmp
 
 tic

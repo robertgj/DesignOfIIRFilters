@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("directFIRsymmetric_bandpass_allocsd_test.diary");
-unlink("directFIRsymmetric_bandpass_allocsd_test.diary.tmp");
+delete("directFIRsymmetric_bandpass_allocsd_test.diary");
+delete("directFIRsymmetric_bandpass_allocsd_test.diary.tmp");
 diary directFIRsymmetric_bandpass_allocsd_test.diary.tmp
 
 maxiter=500;

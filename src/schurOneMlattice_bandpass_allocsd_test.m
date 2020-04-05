@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("schurOneMlattice_bandpass_allocsd_test.diary");
-unlink("schurOneMlattice_bandpass_allocsd_test.diary.tmp");
+delete("schurOneMlattice_bandpass_allocsd_test.diary");
+delete("schurOneMlattice_bandpass_allocsd_test.diary.tmp");
 diary schurOneMlattice_bandpass_allocsd_test.diary.tmp
 
 % Initialise

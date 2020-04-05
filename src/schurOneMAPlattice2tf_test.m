@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMAPlattice2tf_test.diary");
-unlink("schurOneMAPlattice2tf_test.diary.tmp");
+delete("schurOneMAPlattice2tf_test.diary");
+delete("schurOneMAPlattice2tf_test.diary.tmp");
 diary schurOneMAPlattice2tf_test.diary.tmp
 
 

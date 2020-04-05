@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("SDadders_test.diary");
-unlink("SDadders_test.diary.tmp");
+delete("SDadders_test.diary");
+delete("SDadders_test.diary.tmp");
 diary SDadders_test.diary.tmp
 
 % From bitflip_bandpass_NS_lattice_test.m

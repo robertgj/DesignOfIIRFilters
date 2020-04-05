@@ -5,8 +5,8 @@
 
 test_common;
 
-unlink("spectralfactor_test.diary");
-unlink("spectralfactor_test.diary.tmp");
+delete("spectralfactor_test.diary");
+delete("spectralfactor_test.diary.tmp");
 diary spectralfactor_test.diary.tmp
 
 check_octave_file("spectralfactor");

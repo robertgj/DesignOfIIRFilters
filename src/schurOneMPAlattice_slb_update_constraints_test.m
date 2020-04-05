@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMPAlattice_slb_update_constraints_test.diary");
-unlink("schurOneMPAlattice_slb_update_constraints_test.diary.tmp");
+delete("schurOneMPAlattice_slb_update_constraints_test.diary");
+delete("schurOneMPAlattice_slb_update_constraints_test.diary.tmp");
 diary schurOneMPAlattice_slb_update_constraints_test.diary.tmp
 
 

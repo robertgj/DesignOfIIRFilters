@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("arcsc_test.diary");
-unlink("arcsc_test.diary.tmp");
+delete("arcsc_test.diary");
+delete("arcsc_test.diary.tmp");
 diary arcsc_test.diary.tmp
 
 k=0.05:0.05:0.95;

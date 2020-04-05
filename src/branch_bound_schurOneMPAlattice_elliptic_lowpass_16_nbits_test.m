@@ -8,8 +8,8 @@
 
 test_common;
 
-unlink("branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.diary");
-unlink ...
+delete("branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.diary");
+delete ...
   ("branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.diary.tmp");
 diary branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.diary.tmp
 

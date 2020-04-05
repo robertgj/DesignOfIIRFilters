@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("directFIRsymmetricGradSqErr_test.diary");
-unlink("directFIRsymmetricGradSqErr_test.diary.tmp");
+delete("directFIRsymmetricGradSqErr_test.diary");
+delete("directFIRsymmetricGradSqErr_test.diary.tmp");
 diary directFIRsymmetricGradSqErr_test.diary.tmp
 
 % Specify desired response

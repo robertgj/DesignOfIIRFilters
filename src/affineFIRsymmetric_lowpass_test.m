@@ -12,8 +12,8 @@
 
 test_common;
 
-unlink("affineFIRsymmetric_lowpass_test.diary");
-unlink("affineFIRsymmetric_lowpass_test.diary.tmp");
+delete("affineFIRsymmetric_lowpass_test.diary");
+delete("affineFIRsymmetric_lowpass_test.diary.tmp");
 diary affineFIRsymmetric_lowpass_test.diary.tmp
 
 strf="affineFIRsymmetric_lowpass_test";

@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("nuevoFIRsymmetric_flat_bandpass_test.diary");
-unlink("nuevoFIRsymmetric_flat_bandpass_test.diary.tmp");
+delete("nuevoFIRsymmetric_flat_bandpass_test.diary");
+delete("nuevoFIRsymmetric_flat_bandpass_test.diary.tmp");
 diary nuevoFIRsymmetric_flat_bandpass_test.diary.tmp
 
 strf="nuevoFIRsymmetric_flat_bandpass_test";

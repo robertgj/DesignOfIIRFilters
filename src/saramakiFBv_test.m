@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("saramakiFBv_test.diary");
-unlink("saramakiFBv_test.diary.tmp");
+delete("saramakiFBv_test.diary");
+delete("saramakiFBv_test.diary.tmp");
 diary saramakiFBv_test.diary.tmp
 
 % Specify pass-band

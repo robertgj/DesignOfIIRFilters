@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("complementaryFIRlatticeT_test.diary");
-unlink("complementaryFIRlatticeT_test.diary.tmp");
+delete("complementaryFIRlatticeT_test.diary");
+delete("complementaryFIRlatticeT_test.diary.tmp");
 diary complementaryFIRlatticeT_test.diary.tmp
 
 % Bandpass minimum-phase filter specification

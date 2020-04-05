@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("parallel_allpass_delay_socp_mmse_test.diary");
-unlink("parallel_allpass_delay_socp_mmse_test.diary.tmp");
+delete("parallel_allpass_delay_socp_mmse_test.diary");
+delete("parallel_allpass_delay_socp_mmse_test.diary.tmp");
 diary parallel_allpass_delay_socp_mmse_test.diary.tmp
 
 

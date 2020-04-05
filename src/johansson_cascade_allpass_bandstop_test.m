@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("johansson_cascade_allpass_bandstop_test.diary");
-unlink("johansson_cascade_allpass_bandstop_test.diary.tmp");
+delete("johansson_cascade_allpass_bandstop_test.diary");
+delete("johansson_cascade_allpass_bandstop_test.diary.tmp");
 diary johansson_cascade_allpass_bandstop_test.diary.tmp
 
 maxiter=2000

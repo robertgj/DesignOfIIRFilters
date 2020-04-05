@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("qzsolve_test.diary");
-unlink("qzsolve_test.diary.tmp");
+delete("qzsolve_test.diary");
+delete("qzsolve_test.diary.tmp");
 diary qzsolve_test.diary.tmp
 
 check_octave_file("qzsolve");

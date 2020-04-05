@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurNSscale_test.diary");
-unlink("schurNSscale_test.diary.tmp");
+delete("schurNSscale_test.diary");
+delete("schurNSscale_test.diary.tmp");
 diary schurNSscale_test.diary.tmp
 
 check_octave_file("schurNSscale");

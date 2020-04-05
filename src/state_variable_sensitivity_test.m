@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("state_variable_sensitivity_test.diary");
-unlink("state_variable_sensitivity_test.diary.tmp");
+delete("state_variable_sensitivity_test.diary");
+delete("state_variable_sensitivity_test.diary.tmp");
 diary state_variable_sensitivity_test.diary.tmp
 
 verbose=false;

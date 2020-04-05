@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurNSlatticeEsq_test.diary");
-unlink("schurNSlatticeEsq_test.diary.tmp");
+delete("schurNSlatticeEsq_test.diary");
+delete("schurNSlatticeEsq_test.diary.tmp");
 diary schurNSlatticeEsq_test.diary.tmp
 
 if 0

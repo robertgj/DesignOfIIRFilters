@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("fixResultNaN_test.diary");
-unlink("fixResultNaN_test.diary.tmp");
+delete("fixResultNaN_test.diary");
+delete("fixResultNaN_test.diary.tmp");
 diary fixResultNaN_test.diary.tmp
 
 

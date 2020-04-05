@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("error_feedback_test.diary");
-unlink("error_feedback_test.diary.tmp");
+delete("error_feedback_test.diary");
+delete("error_feedback_test.diary.tmp");
 diary error_feedback_test.diary.tmp
 
 

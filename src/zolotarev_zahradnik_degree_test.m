@@ -9,8 +9,8 @@
 
 test_common;
 
-unlink("zolotarev_zahradnik_degree_test.diary");
-unlink("zolotarev_zahradnik_degree_test.diary.tmp");
+delete("zolotarev_zahradnik_degree_test.diary");
+delete("zolotarev_zahradnik_degree_test.diary.tmp");
 diary zolotarev_zahradnik_degree_test.diary.tmp
 
 strf="zolotarev_zahradnik_degree_test";

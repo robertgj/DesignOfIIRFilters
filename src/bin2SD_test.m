@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("bin2SD_test.diary");
-unlink("bin2SD_test.diary.tmp");
+delete("bin2SD_test.diary");
+delete("bin2SD_test.diary.tmp");
 diary bin2SD_test.diary.tmp
 
 check_octave_file("bin2SD");

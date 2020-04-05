@@ -7,8 +7,8 @@
 
 test_common;
 
-unlink("tarczynski_lowpass_differentiator_test.diary");
-unlink("tarczynski_lowpass_differentiator_test.diary.tmp");
+delete("tarczynski_lowpass_differentiator_test.diary");
+delete("tarczynski_lowpass_differentiator_test.diary.tmp");
 diary tarczynski_lowpass_differentiator_test.diary.tmp
 
 % Filter specification

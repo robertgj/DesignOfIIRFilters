@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("purczynskiFIRantisymmetric_flat_differentiator_test.diary");
-unlink("purczynskiFIRantisymmetric_flat_differentiator_test.diary.tmp");
+delete("purczynskiFIRantisymmetric_flat_differentiator_test.diary");
+delete("purczynskiFIRantisymmetric_flat_differentiator_test.diary.tmp");
 diary purczynskiFIRantisymmetric_flat_differentiator_test.diary.tmp
 
 strf="purczynskiFIRantisymmetric_flat_differentiator_test";

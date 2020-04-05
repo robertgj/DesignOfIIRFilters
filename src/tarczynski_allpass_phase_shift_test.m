@@ -8,8 +8,8 @@
 
 test_common;
 
-unlink("tarczynski_allpass_phase_shift_test.diary");
-unlink("tarczynski_allpass_phase_shift_test.diary.tmp");
+delete("tarczynski_allpass_phase_shift_test.diary");
+delete("tarczynski_allpass_phase_shift_test.diary.tmp");
 diary tarczynski_allpass_phase_shift_test.diary.tmp
 
 tic;

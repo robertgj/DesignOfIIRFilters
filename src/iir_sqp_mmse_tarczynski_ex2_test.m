@@ -7,8 +7,8 @@
 
 test_common;
 
-unlink("iir_sqp_mmse_tarczynski_ex2_test.diary");
-unlink("iir_sqp_mmse_tarczynski_ex2_test.diary.tmp");
+delete("iir_sqp_mmse_tarczynski_ex2_test.diary");
+delete("iir_sqp_mmse_tarczynski_ex2_test.diary.tmp");
 diary iir_sqp_mmse_tarczynski_ex2_test.diary.tmp
 
 

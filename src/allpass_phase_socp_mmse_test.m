@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("allpass_phase_socp_mmse_test.diary");
-unlink("allpass_phase_socp_mmse_test.diary.tmp");
+delete("allpass_phase_socp_mmse_test.diary");
+delete("allpass_phase_socp_mmse_test.diary.tmp");
 diary allpass_phase_socp_mmse_test.diary.tmp
 
 

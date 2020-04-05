@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMPAlattice_socp_slb_bandpass_hilbert_test.diary");
-unlink("schurOneMPAlattice_socp_slb_bandpass_hilbert_test.diary.tmp");
+delete("schurOneMPAlattice_socp_slb_bandpass_hilbert_test.diary");
+delete("schurOneMPAlattice_socp_slb_bandpass_hilbert_test.diary.tmp");
 diary schurOneMPAlattice_socp_slb_bandpass_hilbert_test.diary.tmp
 
 tic;

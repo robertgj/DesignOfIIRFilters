@@ -8,8 +8,8 @@
 
 test_common;
 
-unlink("tarczynski_parallel_allpass_delay_test.diary");
-unlink("tarczynski_parallel_allpass_delay_test.diary.tmp");
+delete("tarczynski_parallel_allpass_delay_test.diary");
+delete("tarczynski_parallel_allpass_delay_test.diary.tmp");
 diary tarczynski_parallel_allpass_delay_test.diary.tmp
 
 tic;

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("lowpass2ndOrderCascade_socp_test.diary");
-unlink("lowpass2ndOrderCascade_socp_test.diary.tmp");
+delete("lowpass2ndOrderCascade_socp_test.diary");
+delete("lowpass2ndOrderCascade_socp_test.diary.tmp");
 diary lowpass2ndOrderCascade_socp_test.diary.tmp
 
 tic;

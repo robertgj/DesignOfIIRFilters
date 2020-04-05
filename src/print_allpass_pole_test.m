@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("print_allpass_pole_test.diary");
-unlink("print_allpass_pole_test.diary.tmp");
+delete("print_allpass_pole_test.diary");
+delete("print_allpass_pole_test.diary.tmp");
 diary print_allpass_pole_test.diary.tmp
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

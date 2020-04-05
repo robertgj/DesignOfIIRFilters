@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("hofstetterFIRsymmetric_lowpass_test.diary");
-unlink("hofstetterFIRsymmetric_lowpass_test.diary.tmp");
+delete("hofstetterFIRsymmetric_lowpass_test.diary");
+delete("hofstetterFIRsymmetric_lowpass_test.diary.tmp");
 diary hofstetterFIRsymmetric_lowpass_test.diary.tmp
 
 strf="hofstetterFIRsymmetric_lowpass_test";

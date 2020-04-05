@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("allpass_MH2dt_test.diary");
-unlink("allpass_MH2dt_test.diary.tmp");
+delete("allpass_MH2dt_test.diary");
+delete("allpass_MH2dt_test.diary.tmp");
 diary allpass_MH2dt_test.diary.tmp
 
 del=1e-6;

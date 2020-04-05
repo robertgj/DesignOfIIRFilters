@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("svf_mimo_test.diary");
-unlink("svf_mimo_test.diary.tmp");
+delete("svf_mimo_test.diary");
+delete("svf_mimo_test.diary.tmp");
 diary svf_mimo_test.diary.tmp
 
 

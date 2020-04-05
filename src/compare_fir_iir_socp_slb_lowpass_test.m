@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("compare_fir_iir_socp_slb_lowpass_test.diary");
-unlink("compare_fir_iir_socp_slb_lowpass_test.diary.tmp");
+delete("compare_fir_iir_socp_slb_lowpass_test.diary");
+delete("compare_fir_iir_socp_slb_lowpass_test.diary.tmp");
 diary compare_fir_iir_socp_slb_lowpass_test.diary.tmp
 
 

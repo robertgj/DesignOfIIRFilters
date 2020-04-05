@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("hofstetterFIRsymmetric_bandpass_test.diary");
-unlink("hofstetterFIRsymmetric_bandpass_test.diary.tmp");
+delete("hofstetterFIRsymmetric_bandpass_test.diary");
+delete("hofstetterFIRsymmetric_bandpass_test.diary.tmp");
 diary hofstetterFIRsymmetric_bandpass_test.diary.tmp
 
 strf="hofstetterFIRsymmetric_bandpass_test";

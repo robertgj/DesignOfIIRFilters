@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("sos2pq_test.diary");
-unlink("sos2pq_test.diary.tmp");
+delete("sos2pq_test.diary");
+delete("sos2pq_test.diary.tmp");
 diary sos2pq_test.diary.tmp
 
 

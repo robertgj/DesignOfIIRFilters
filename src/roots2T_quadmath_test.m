@@ -4,8 +4,8 @@
 
 test_common;
 
-unlink("roots2T_quadmath_test.diary");
-unlink("roots2T_quadmath_test.diary.tmp");
+delete("roots2T_quadmath_test.diary");
+delete("roots2T_quadmath_test.diary.tmp");
 diary roots2T_quadmath_test.diary.tmp
 
 try

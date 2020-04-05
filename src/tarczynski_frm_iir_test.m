@@ -7,8 +7,8 @@
 
 test_common;
 
-unlink("tarczynski_frm_iir_test.diary");
-unlink("tarczynski_frm_iir_test.diary.tmp");
+delete("tarczynski_frm_iir_test.diary");
+delete("tarczynski_frm_iir_test.diary.tmp");
 diary tarczynski_frm_iir_test.diary.tmp
 
 tic;

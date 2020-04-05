@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("pq2blockKWopt_test.diary");
-unlink("pq2blockKWopt_test.diary.tmp");
+delete("pq2blockKWopt_test.diary");
+delete("pq2blockKWopt_test.diary.tmp");
 diary pq2blockKWopt_test.diary.tmp
 
 

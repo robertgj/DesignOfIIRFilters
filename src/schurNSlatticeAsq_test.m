@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurNSlatticeAsq_test.diary");
-unlink("schurNSlatticeAsq_test.diary.tmp");
+delete("schurNSlatticeAsq_test.diary");
+delete("schurNSlatticeAsq_test.diary.tmp");
 diary schurNSlatticeAsq_test.diary.tmp
 
 % R=2 bandpass filter from iir_sqp_slb_bandpass_test.m

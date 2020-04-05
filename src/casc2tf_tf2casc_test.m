@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("casc2tf_tf2casc_test.diary");
-unlink("casc2tf_tf2casc_test.diary.tmp");
+delete("casc2tf_tf2casc_test.diary");
+delete("casc2tf_tf2casc_test.diary.tmp");
 diary casc2tf_tf2casc_test.diary.tmp
 
 

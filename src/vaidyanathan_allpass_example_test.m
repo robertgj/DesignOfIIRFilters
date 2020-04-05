@@ -7,8 +7,8 @@
 
 test_common;
 
-unlink("vaidyanathan_allpass_example_test.diary");
-unlink("vaidyanathan_allpass_example_test.diary.tmp");
+delete("vaidyanathan_allpass_example_test.diary");
+delete("vaidyanathan_allpass_example_test.diary.tmp");
 diary vaidyanathan_allpass_example_test.diary.tmp
 
 

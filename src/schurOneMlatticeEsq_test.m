@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMlatticeEsq_test.diary");
-unlink("schurOneMlatticeEsq_test.diary.tmp");
+delete("schurOneMlatticeEsq_test.diary");
+delete("schurOneMlatticeEsq_test.diary.tmp");
 diary schurOneMlatticeEsq_test.diary.tmp
 
 verbose=true;

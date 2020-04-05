@@ -60,8 +60,8 @@ stdxxf = [  31.7,  31.7,  53.5,  53.5, 101.5, 101.5, 114.4, 114.4, ...
 
 test_common;
 
-unlink("schurNSlattice_sqp_slb_bandpass_test.diary");
-unlink("schurNSlattice_sqp_slb_bandpass_test.diary.tmp");
+delete("schurNSlattice_sqp_slb_bandpass_test.diary");
+delete("schurNSlattice_sqp_slb_bandpass_test.diary.tmp");
 diary schurNSlattice_sqp_slb_bandpass_test.diary.tmp
 
 

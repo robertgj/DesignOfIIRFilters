@@ -5,8 +5,8 @@
 
 test_common;
 
-unlink("parallel_allpassP_test.diary");
-unlink("parallel_allpassP_test.diary.tmp");
+delete("parallel_allpassP_test.diary");
+delete("parallel_allpassP_test.diary.tmp");
 diary parallel_allpassP_test.diary.tmp
 
 verbose=true

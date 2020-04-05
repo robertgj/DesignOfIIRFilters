@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("simplex_schurNSlattice_lowpass_test.diary");
-unlink("simplex_schurNSlattice_lowpass_test.diary.tmp");
+delete("simplex_schurNSlattice_lowpass_test.diary");
+delete("simplex_schurNSlattice_lowpass_test.diary.tmp");
 diary simplex_schurNSlattice_lowpass_test.diary.tmp
 
 truncation_test_common;

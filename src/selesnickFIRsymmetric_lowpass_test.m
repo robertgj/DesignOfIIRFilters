@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("selesnickFIRsymmetric_lowpass_test.diary");
-unlink("selesnickFIRsymmetric_lowpass_test.diary.tmp");
+delete("selesnickFIRsymmetric_lowpass_test.diary");
+delete("selesnickFIRsymmetric_lowpass_test.diary.tmp");
 diary selesnickFIRsymmetric_lowpass_test.diary.tmp
 
 strf="selesnickFIRsymmetric_lowpass_test";

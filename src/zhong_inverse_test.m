@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("zhong_inverse_test.diary");
-unlink("zhong_inverse_test.diary.tmp");
+delete("zhong_inverse_test.diary");
+delete("zhong_inverse_test.diary.tmp");
 diary zhong_inverse_test.diary.tmp
 
 % First small matrix

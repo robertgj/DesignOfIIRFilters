@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurFIRdecomp_octfile_test.diary");
-unlink("schurFIRdecomp_octfile_test.diary.tmp");
+delete("schurFIRdecomp_octfile_test.diary");
+delete("schurFIRdecomp_octfile_test.diary.tmp");
 diary schurFIRdecomp_octfile_test.diary.tmp
 
 

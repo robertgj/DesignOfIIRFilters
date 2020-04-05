@@ -5,8 +5,8 @@
 
 test_common;
 
-unlink("spectralfactor_mfile_test.diary");
-unlink("spectralfactor_mfile_test.diary.tmp");
+delete("spectralfactor_mfile_test.diary");
+delete("spectralfactor_mfile_test.diary.tmp");
 diary spectralfactor_mfile_test.diary.tmp
 
 

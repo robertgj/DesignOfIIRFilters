@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("complex_lower_hessenberg_inverse_test.diary");
-unlink("complex_lower_hessenberg_inverse_test.diary.tmp");
+delete("complex_lower_hessenberg_inverse_test.diary");
+delete("complex_lower_hessenberg_inverse_test.diary.tmp");
 diary complex_lower_hessenberg_inverse_test.diary.tmp
 
 check_octave_file("complex_lower_hessenberg_inverse");

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("complementaryFIRdecomp_test.diary");
-unlink("complementaryFIRdecomp_test.diary.tmp");
+delete("complementaryFIRdecomp_test.diary");
+delete("complementaryFIRdecomp_test.diary.tmp");
 diary complementaryFIRdecomp_test.diary.tmp
 
 check_octave_file("complementaryFIRdecomp");

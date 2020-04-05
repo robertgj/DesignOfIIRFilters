@@ -5,8 +5,8 @@
 
 test_common;
 
-unlink("schurFIRlatticeFilter_test.diary");
-unlink("schurFIRlatticeFilter_test.diary.tmp");
+delete("schurFIRlatticeFilter_test.diary");
+delete("schurFIRlatticeFilter_test.diary.tmp");
 diary schurFIRlatticeFilter_test.diary.tmp
 
 

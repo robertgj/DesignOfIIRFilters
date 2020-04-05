@@ -7,8 +7,8 @@
 
 test_common;
 
-unlink("bitflip_schurOneMPAlattice_lowpass_test.diary");
-unlink("bitflip_schurOneMPAlattice_lowpass_test.diary.tmp");
+delete("bitflip_schurOneMPAlattice_lowpass_test.diary");
+delete("bitflip_schurOneMPAlattice_lowpass_test.diary.tmp");
 diary bitflip_schurOneMPAlattice_lowpass_test.diary.tmp
 
 truncation_test_common;

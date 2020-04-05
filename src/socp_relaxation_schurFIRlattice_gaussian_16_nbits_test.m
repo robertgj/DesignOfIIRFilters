@@ -8,8 +8,8 @@
 
 test_common;
 
-unlink("socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.diary");
-unlink("socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.diary.tmp");
+delete("socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.diary");
+delete("socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.diary.tmp");
 diary socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.diary.tmp
 
 % Options

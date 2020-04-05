@@ -10,8 +10,8 @@
 
 test_common;
 
-unlink("affine_mcclellanFIRsymmetric_lowpass_test.diary");
-unlink("affine_mcclellanFIRsymmetric_lowpass_test.diary.tmp");
+delete("affine_mcclellanFIRsymmetric_lowpass_test.diary");
+delete("affine_mcclellanFIRsymmetric_lowpass_test.diary.tmp");
 diary affine_mcclellanFIRsymmetric_lowpass_test.diary.tmp
 
 strf="affine_mcclellanFIRsymmetric_lowpass_test";

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("reprand_test.diary");
-unlink("reprand_test.diary.tmp");
+delete("reprand_test.diary");
+delete("reprand_test.diary.tmp");
 diary reprand_test.diary.tmp
 
 check_octave_file("reprand");

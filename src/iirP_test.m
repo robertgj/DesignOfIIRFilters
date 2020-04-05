@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("iirP_test.diary");
-unlink("iirP_test.diary.tmp");
+delete("iirP_test.diary");
+delete("iirP_test.diary.tmp");
 diary iirP_test.diary.tmp
 
 

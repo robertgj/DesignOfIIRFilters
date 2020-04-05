@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("triangle_inequalities_test.diary");
-unlink("triangle_inequalities_test.diary.tmp");
+delete("triangle_inequalities_test.diary");
+delete("triangle_inequalities_test.diary.tmp");
 diary triangle_inequalities_test.diary.tmp
 
 for yi = -1:2:1,

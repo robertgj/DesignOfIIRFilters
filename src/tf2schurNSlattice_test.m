@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("tf2schurNSlattice_test.diary");
-unlink("tf2schurNSlattice_test.diary.tmp");
+delete("tf2schurNSlattice_test.diary");
+delete("tf2schurNSlattice_test.diary.tmp");
 diary tf2schurNSlattice_test.diary.tmp
 
 

@@ -5,8 +5,8 @@
 
 test_common;
 
-unlink("butt6NSPABP_test.diary");
-unlink("butt6NSPABP_test.diary.tmp");
+delete("butt6NSPABP_test.diary");
+delete("butt6NSPABP_test.diary.tmp");
 diary butt6NSPABP_test.diary.tmp
 
 % fc is the filter cutoff as a fraction of the sampling frequency

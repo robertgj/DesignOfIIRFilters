@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("directFIRhilbert_bandpass_slb_test.diary");
-unlink("directFIRhilbert_bandpass_slb_test.diary.tmp");
+delete("directFIRhilbert_bandpass_slb_test.diary");
+delete("directFIRhilbert_bandpass_slb_test.diary.tmp");
 diary directFIRhilbert_bandpass_slb_test.diary.tmp
 
 %

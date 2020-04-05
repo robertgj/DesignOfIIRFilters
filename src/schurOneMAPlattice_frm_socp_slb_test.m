@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMAPlattice_frm_socp_slb_test.diary");
-unlink("schurOneMAPlattice_frm_socp_slb_test.diary.tmp");
+delete("schurOneMAPlattice_frm_socp_slb_test.diary");
+delete("schurOneMAPlattice_frm_socp_slb_test.diary.tmp");
 diary schurOneMAPlattice_frm_socp_slb_test.diary.tmp
 
 tic;

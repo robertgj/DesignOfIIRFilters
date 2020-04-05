@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("saramakiFAv_test.diary");
-unlink("saramakiFAv_test.diary.tmp");
+delete("saramakiFAv_test.diary");
+delete("saramakiFAv_test.diary.tmp");
 diary saramakiFAv_test.diary.tmp
 
 % Specify stop-band

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("deczky1_slb_update_constraints_test.diary");
-unlink("deczky1_slb_update_constraints_test.diary.tmp");
+delete("deczky1_slb_update_constraints_test.diary");
+delete("deczky1_slb_update_constraints_test.diary.tmp");
 diary deczky1_slb_update_constraints_test.diary.tmp
 
 

@@ -8,8 +8,8 @@ close
 page_screen_output(false);
 suppress_verbose_help_message(true);
 
-unlink("decimator_R2_profile_test.diary");
-unlink("decimator_R2_profile_test.diary.tmp");
+delete("decimator_R2_profile_test.diary");
+delete("decimator_R2_profile_test.diary.tmp");
 diary decimator_R2_profile_test.diary.tmp
 
 tic;

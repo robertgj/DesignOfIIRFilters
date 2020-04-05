@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("bitflip_directFIRsymmetric_bandpass_test.diary");
-unlink("bitflip_directFIRsymmetric_bandpass_test.diary.tmp");
+delete("bitflip_directFIRsymmetric_bandpass_test.diary");
+delete("bitflip_directFIRsymmetric_bandpass_test.diary.tmp");
 diary bitflip_directFIRsymmetric_bandpass_test.diary.tmp
 
 bitflip_bandpass_test_common;

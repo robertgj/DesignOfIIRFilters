@@ -4,8 +4,8 @@
 
 test_common;
 
-unlink("sqp_bfgs_test.diary");
-unlink("sqp_bfgs_test.diary.tmp");
+delete("sqp_bfgs_test.diary");
+delete("sqp_bfgs_test.diary.tmp");
 diary sqp_bfgs_test.diary.tmp
 
 

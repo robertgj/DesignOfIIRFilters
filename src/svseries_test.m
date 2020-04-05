@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("svseries_test.diary");
-unlink("svseries_test.diary.tmp");
+delete("svseries_test.diary");
+delete("svseries_test.diary.tmp");
 diary svseries_test.diary.tmp
 
 tol=50*eps;

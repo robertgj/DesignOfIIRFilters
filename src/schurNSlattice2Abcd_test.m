@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurNSlattice2Abcd_test.diary");
-unlink("schurNSlattice2Abcd_test.diary.tmp");
+delete("schurNSlattice2Abcd_test.diary");
+delete("schurNSlattice2Abcd_test.diary.tmp");
 diary schurNSlattice2Abcd_test.diary.tmp
 
 check_octave_file("schurNSlattice2Abcd");

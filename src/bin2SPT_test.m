@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("bin2SPT_test.diary");
-unlink("bin2SPT_test.diary.tmp");
+delete("bin2SPT_test.diary");
+delete("bin2SPT_test.diary.tmp");
 diary bin2SPT_test.diary.tmp
 
 check_octave_file("bin2SPT");

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("selesnickFIRsymmetric_halfband_test.diary");
-unlink("selesnickFIRsymmetric_halfband_test.diary.tmp");
+delete("selesnickFIRsymmetric_halfband_test.diary");
+delete("selesnickFIRsymmetric_halfband_test.diary.tmp");
 diary selesnickFIRsymmetric_halfband_test.diary.tmp
 
 strf="selesnickFIRsymmetric_halfband_test";

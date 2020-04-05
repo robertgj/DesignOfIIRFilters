@@ -7,8 +7,8 @@
 
 test_common;
 
-unlink("simplex_svcasc_lowpass_test.diary");
-unlink("simplex_svcasc_lowpass_test.diary.tmp");
+delete("simplex_svcasc_lowpass_test.diary");
+delete("simplex_svcasc_lowpass_test.diary.tmp");
 diary simplex_svcasc_lowpass_test.diary.tmp
 
 truncation_test_common;

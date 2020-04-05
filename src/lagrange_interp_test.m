@@ -4,8 +4,8 @@
 
 test_common;
 
-unlink("lagrange_interp_test.diary");
-unlink("lagrange_interp_test.diary.tmp");
+delete("lagrange_interp_test.diary");
+delete("lagrange_interp_test.diary.tmp");
 diary lagrange_interp_test.diary.tmp
 
 strf="lagrange_interp_test";

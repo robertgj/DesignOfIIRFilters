@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("butterworth2ndOrderSection_test.diary");
-unlink("butterworth2ndOrderSection_test.diary.tmp");
+delete("butterworth2ndOrderSection_test.diary");
+delete("butterworth2ndOrderSection_test.diary.tmp");
 diary butterworth2ndOrderSection_test.diary.tmp
 
 

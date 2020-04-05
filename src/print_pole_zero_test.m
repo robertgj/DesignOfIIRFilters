@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("print_pole_zero_test.diary");
-unlink("print_pole_zero_test.diary.tmp");
+delete("print_pole_zero_test.diary");
+delete("print_pole_zero_test.diary.tmp");
 diary print_pole_zero_test.diary.tmp
 
 Ux0=0,Vx0=0,Mx0=8,Qx0=8,Rx0=1

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("elliptic_E_test.diary");
-unlink("elliptic_E_test.diary.tmp");
+delete("elliptic_E_test.diary");
+delete("elliptic_E_test.diary.tmp");
 diary elliptic_E_test.diary.tmp
 
 function y=elliptic2_integrand(t,_k)

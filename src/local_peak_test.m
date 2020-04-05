@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("local_peak_test.diary");
-unlink("local_peak_test.diary.tmp");
+delete("local_peak_test.diary");
+delete("local_peak_test.diary.tmp");
 diary local_peak_test.diary.tmp
 
 x=2*pi*linspace(0,1,1024);

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMlattice_socp_slb_hilbert_test.diary");
-unlink("schurOneMlattice_socp_slb_hilbert_test.diary.tmp");
+delete("schurOneMlattice_socp_slb_hilbert_test.diary");
+delete("schurOneMlattice_socp_slb_hilbert_test.diary.tmp");
 diary schurOneMlattice_socp_slb_hilbert_test.diary.tmp
 
 tic;

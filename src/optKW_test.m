@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("optKW_test.diary");
-unlink("optKW_test.diary.tmp");
+delete("optKW_test.diary");
+delete("optKW_test.diary.tmp");
 diary optKW_test.diary.tmp
 
 

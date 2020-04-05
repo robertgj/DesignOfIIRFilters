@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurexpand_test.diary");
-unlink("schurexpand_test.diary.tmp");
+delete("schurexpand_test.diary");
+delete("schurexpand_test.diary.tmp");
 diary schurexpand_test.diary.tmp
 
 check_octave_file("schurexpand");

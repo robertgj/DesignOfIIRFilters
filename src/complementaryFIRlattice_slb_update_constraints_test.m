@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("complementaryFIRlattice_slb_update_constraints_test.diary");
-unlink("complementaryFIRlattice_slb_update_constraints_test.diary.tmp");
+delete("complementaryFIRlattice_slb_update_constraints_test.diary");
+delete("complementaryFIRlattice_slb_update_constraints_test.diary.tmp");
 diary complementaryFIRlattice_slb_update_constraints_test.diary.tmp
 
 

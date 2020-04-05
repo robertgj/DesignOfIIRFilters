@@ -9,8 +9,8 @@
 
 test_common;
 
-unlink("polyphase_allpassP_test.diary");
-unlink("polyphase_allpassP_test.diary.tmp");
+delete("polyphase_allpassP_test.diary");
+delete("polyphase_allpassP_test.diary.tmp");
 diary polyphase_allpassP_test.diary.tmp
 
 

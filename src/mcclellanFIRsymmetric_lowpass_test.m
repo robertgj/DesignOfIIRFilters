@@ -8,8 +8,8 @@
 
 test_common;
 
-unlink("mcclellanFIRsymmetric_lowpass_test.diary");
-unlink("mcclellanFIRsymmetric_lowpass_test.diary.tmp");
+delete("mcclellanFIRsymmetric_lowpass_test.diary");
+delete("mcclellanFIRsymmetric_lowpass_test.diary.tmp");
 diary mcclellanFIRsymmetric_lowpass_test.diary.tmp
 
 strf="mcclellanFIRsymmetric_lowpass_test";

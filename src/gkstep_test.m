@@ -19,8 +19,8 @@
 
 test_common;
 
-unlink("gkstep_test.diary");
-unlink("gkstep_test.diary.tmp");
+delete("gkstep_test.diary");
+delete("gkstep_test.diary.tmp");
 diary gkstep_test.diary.tmp
 
 

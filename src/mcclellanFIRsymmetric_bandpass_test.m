@@ -10,8 +10,8 @@
 
 test_common;
 
-unlink("mcclellanFIRsymmetric_bandpass_test.diary");
-unlink("mcclellanFIRsymmetric_bandpass_test.diary.tmp");
+delete("mcclellanFIRsymmetric_bandpass_test.diary");
+delete("mcclellanFIRsymmetric_bandpass_test.diary.tmp");
 diary mcclellanFIRsymmetric_bandpass_test.diary.tmp
 
 strf="mcclellanFIRsymmetric_bandpass_test";

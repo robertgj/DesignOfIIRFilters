@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("decimator_R2_test.diary");
-unlink("decimator_R2_test.diary.tmp");
+delete("decimator_R2_test.diary");
+delete("decimator_R2_test.diary.tmp");
 diary decimator_R2_test.diary.tmp
 
 tic;

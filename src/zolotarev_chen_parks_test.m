@@ -4,8 +4,8 @@
 
 test_common;
 
-unlink("zolotarev_chen_parks_test.diary");
-unlink("zolotarev_chen_parks_test.diary.tmp");
+delete("zolotarev_chen_parks_test.diary");
+delete("zolotarev_chen_parks_test.diary.tmp");
 diary zolotarev_chen_parks_test.diary.tmp
 
 strf="zolotarev_chen_parks_test";

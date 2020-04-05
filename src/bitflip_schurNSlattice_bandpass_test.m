@@ -8,8 +8,8 @@
 
 test_common;
 
-unlink("bitflip_schurNSlattice_bandpass_test.diary");
-unlink("bitflip_schurNSlattice_bandpass_test.diary.tmp");
+delete("bitflip_schurNSlattice_bandpass_test.diary");
+delete("bitflip_schurNSlattice_bandpass_test.diary.tmp");
 diary bitflip_schurNSlattice_bandpass_test.diary.tmp
 
 bitflip_bandpass_test_common;

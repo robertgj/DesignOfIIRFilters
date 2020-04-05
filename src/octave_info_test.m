@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("octave_info_test.diary");
-unlink("octave_info_test.diary.tmp");
+delete("octave_info_test.diary");
+delete("octave_info_test.diary.tmp");
 diary octave_info_test.diary.tmp
 
 printf("computer=%s\n",computer);

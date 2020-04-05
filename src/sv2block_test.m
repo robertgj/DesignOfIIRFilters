@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("sv2block_test.diary");
-unlink("sv2block_test.diary.tmp");
+delete("sv2block_test.diary");
+delete("sv2block_test.diary.tmp");
 diary sv2block_test.diary.tmp
 
 

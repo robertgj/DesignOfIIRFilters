@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("johanssonOneMlattice_slb_update_constraints_test.diary");
-unlink("johanssonOneMlattice_slb_update_constraints_test.diary.tmp");
+delete("johanssonOneMlattice_slb_update_constraints_test.diary");
+delete("johanssonOneMlattice_slb_update_constraints_test.diary.tmp");
 diary johanssonOneMlattice_slb_update_constraints_test.diary.tmp
 
 

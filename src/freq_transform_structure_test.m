@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("freq_transform_structure_test.diary");
-unlink("freq_transform_structure_test.diary.tmp");
+delete("freq_transform_structure_test.diary");
+delete("freq_transform_structure_test.diary.tmp");
 diary freq_transform_structure_test.diary.tmp
 
 

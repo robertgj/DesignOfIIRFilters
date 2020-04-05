@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("directFIRsymmetric_socp_mmse_test.diary");
-unlink("directFIRsymmetric_socp_mmse_test.diary.tmp");
+delete("directFIRsymmetric_socp_mmse_test.diary");
+delete("directFIRsymmetric_socp_mmse_test.diary.tmp");
 diary directFIRsymmetric_socp_mmse_test.diary.tmp
 
 tic;

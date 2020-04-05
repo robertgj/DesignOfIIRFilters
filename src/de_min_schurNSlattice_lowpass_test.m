@@ -12,8 +12,8 @@
 
 test_common;
 
-unlink("de_min_schurNSlattice_lowpass_test.diary");
-unlink("de_min_schurNSlattice_lowpass_test.diary.tmp");
+delete("de_min_schurNSlattice_lowpass_test.diary");
+delete("de_min_schurNSlattice_lowpass_test.diary.tmp");
 diary de_min_schurNSlattice_lowpass_test.diary.tmp
 
 truncation_test_common;

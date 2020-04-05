@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("zp2x_test.diary");
-unlink("zp2x_test.diary.tmp");
+delete("zp2x_test.diary");
+delete("zp2x_test.diary.tmp");
 diary zp2x_test.diary.tmp
 
 

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("complementaryFIRlattice2Abcd_test.diary");
-unlink("complementaryFIRlattice2Abcd_test.diary.tmp");
+delete("complementaryFIRlattice2Abcd_test.diary");
+delete("complementaryFIRlattice2Abcd_test.diary.tmp");
 diary complementaryFIRlattice2Abcd_test.diary.tmp
 
 verbose=false;

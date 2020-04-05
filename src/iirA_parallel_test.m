@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("iirA_parallel_test.diary");
-unlink("iirA_parallel_test.diary.tmp");
+delete("iirA_parallel_test.diary");
+delete("iirA_parallel_test.diary.tmp");
 diary iirA_parallel_test.diary.tmp
 
 % The parallel package is not supported on Windows

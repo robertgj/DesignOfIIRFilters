@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("complementaryFIRlatticeFilter_test.diary");
-unlink("complementaryFIRlatticeFilter_test.diary.tmp");
+delete("complementaryFIRlatticeFilter_test.diary");
+delete("complementaryFIRlatticeFilter_test.diary.tmp");
 diary complementaryFIRlatticeFilter_test.diary.tmp
 
 

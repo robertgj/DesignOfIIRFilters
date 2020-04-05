@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("butt6OneMSD_test.diary");
-unlink("butt6OneMSD_test.diary.tmp");
+delete("butt6OneMSD_test.diary");
+delete("butt6OneMSD_test.diary.tmp");
 diary butt6OneMSD_test.diary.tmp
 
 % fc is the filter cutoff as a fraction of the sampling frequency

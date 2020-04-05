@@ -5,8 +5,8 @@
 
 test_common;
 
-unlink("parallel_allpassAsq_test.diary");
-unlink("parallel_allpassAsq_test.diary.tmp");
+delete("parallel_allpassAsq_test.diary");
+delete("parallel_allpassAsq_test.diary.tmp");
 diary parallel_allpassAsq_test.diary.tmp
 
 

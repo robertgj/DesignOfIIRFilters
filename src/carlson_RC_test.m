@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("carlson_RC_test.diary");
-unlink("carlson_RC_test.diary.tmp");
+delete("carlson_RC_test.diary");
+delete("carlson_RC_test.diary.tmp");
 diary carlson_RC_test.diary.tmp
 
 tol=4*eps;

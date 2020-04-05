@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("mcclellanFIRantisymmetric_flat_differentiator_test.diary");
-unlink("mcclellanFIRantisymmetric_flat_differentiator_test.diary.tmp");
+delete("mcclellanFIRantisymmetric_flat_differentiator_test.diary");
+delete("mcclellanFIRantisymmetric_flat_differentiator_test.diary.tmp");
 diary mcclellanFIRantisymmetric_flat_differentiator_test.diary.tmp
 
 strf="mcclellanFIRantisymmetric_flat_differentiator_test";

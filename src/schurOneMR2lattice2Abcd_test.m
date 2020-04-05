@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMR2lattice2Abcd_test.diary");
-unlink("schurOneMR2lattice2Abcd_test.diary.tmp");
+delete("schurOneMR2lattice2Abcd_test.diary");
+delete("schurOneMR2lattice2Abcd_test.diary.tmp");
 diary schurOneMR2lattice2Abcd_test.diary.tmp
 
 strf="schurOneMR2lattice2Abcd_test";

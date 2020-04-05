@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("contfrac_test.diary");
-unlink("contfrac_test.diary.tmp");
+delete("contfrac_test.diary");
+delete("contfrac_test.diary.tmp");
 diary contfrac_test.diary.tmp
 
 

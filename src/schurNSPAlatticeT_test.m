@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurNSPAlatticeT_test.diary");
-unlink("schurNSPAlatticeT_test.diary.tmp");
+delete("schurNSPAlatticeT_test.diary");
+delete("schurNSPAlatticeT_test.diary.tmp");
 diary schurNSPAlatticeT_test.diary.tmp
 
 % Low pass filter

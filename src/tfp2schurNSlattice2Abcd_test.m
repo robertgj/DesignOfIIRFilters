@@ -5,8 +5,8 @@
 
 test_common;
 
-unlink("tfp2schurNSlattice2Abcd_test.diary");
-unlink("tfp2schurNSlattice2Abcd_test.diary.tmp");
+delete("tfp2schurNSlattice2Abcd_test.diary");
+delete("tfp2schurNSlattice2Abcd_test.diary.tmp");
 diary tfp2schurNSlattice2Abcd_test.diary.tmp
 
 

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurNSlattice_sqp_mmse_test.diary");
-unlink("schurNSlattice_sqp_mmse_test.diary.tmp");
+delete("schurNSlattice_sqp_mmse_test.diary");
+delete("schurNSlattice_sqp_mmse_test.diary.tmp");
 diary schurNSlattice_sqp_mmse_test.diary.tmp
 
 tic;

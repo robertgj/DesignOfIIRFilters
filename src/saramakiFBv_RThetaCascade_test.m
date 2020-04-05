@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("saramakiFBv_RThetaCascade_test.diary");
-unlink("saramakiFBv_RThetaCascade_test.diary.tmp");
+delete("saramakiFBv_RThetaCascade_test.diary");
+delete("saramakiFBv_RThetaCascade_test.diary.tmp");
 diary saramakiFBv_RThetaCascade_test.diary.tmp
 
 % Specify pass-band

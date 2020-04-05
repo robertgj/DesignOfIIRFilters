@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("parallel_allpass_socp_slb_flat_delay_test.diary");
-unlink("parallel_allpass_socp_slb_flat_delay_test.diary.tmp");
+delete("parallel_allpass_socp_slb_flat_delay_test.diary");
+delete("parallel_allpass_socp_slb_flat_delay_test.diary.tmp");
 diary parallel_allpass_socp_slb_flat_delay_test.diary.tmp
 
 tic;

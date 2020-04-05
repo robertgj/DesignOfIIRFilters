@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("svcasc2noise_example_test.diary");
-unlink("svcasc2noise_example_test.diary.tmp");
+delete("svcasc2noise_example_test.diary");
+delete("svcasc2noise_example_test.diary.tmp");
 diary svcasc2noise_example_test.diary.tmp
 
 % The parallel package is not supported on Windows but it speeds up this test.

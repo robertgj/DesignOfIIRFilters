@@ -9,8 +9,8 @@
 
 test_common;
 
-unlink("ellip5NS_test.diary");
-unlink("ellip5NS_test.diary.tmp");
+delete("ellip5NS_test.diary");
+delete("ellip5NS_test.diary.tmp");
 diary ellip5NS_test.diary.tmp
 
 

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("selesnickFIRsymmetric_bandpass_test.diary");
-unlink("selesnickFIRsymmetric_bandpass_test.diary.tmp");
+delete("selesnickFIRsymmetric_bandpass_test.diary");
+delete("selesnickFIRsymmetric_bandpass_test.diary.tmp");
 diary selesnickFIRsymmetric_bandpass_test.diary.tmp
 
 strf="selesnickFIRsymmetric_bandpass_test";

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("print_polynomial_test.diary");
-unlink("print_polynomial_test.diary.tmp");
+delete("print_polynomial_test.diary");
+delete("print_polynomial_test.diary.tmp");
 diary print_polynomial_test.diary.tmp
 
 print_polynomial([],"h");

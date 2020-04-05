@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("iirdelAdelw_test.diary");
-unlink("iirdelAdelw_test.diary.tmp");
+delete("iirdelAdelw_test.diary");
+delete("iirdelAdelw_test.diary.tmp");
 diary iirdelAdelw_test.diary.tmp
 
 

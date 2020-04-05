@@ -8,8 +8,8 @@
 
 test_common;
 
-unlink("tarczynski_hilbert_test.diary");
-unlink("tarczynski_hilbert_test.diary.tmp");
+delete("tarczynski_hilbert_test.diary");
+delete("tarczynski_hilbert_test.diary.tmp");
 diary tarczynski_hilbert_test.diary.tmp
 
 

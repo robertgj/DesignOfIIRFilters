@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("orthogonaliseTF_test.diary");
-unlink("orthogonaliseTF_test.diary.tmp");
+delete("orthogonaliseTF_test.diary");
+delete("orthogonaliseTF_test.diary.tmp");
 diary orthogonaliseTF_test.diary.tmp
 
 

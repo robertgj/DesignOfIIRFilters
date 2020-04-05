@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("jacobi_theta_test.diary");
-unlink("jacobi_theta_test.diary.tmp");
+delete("jacobi_theta_test.diary");
+delete("jacobi_theta_test.diary.tmp");
 diary jacobi_theta_test.diary.tmp
 
 % Check identities from NIST Digital Library of Mathematical

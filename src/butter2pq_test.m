@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("butter2pq_test.diary");
-unlink("butter2pq_test.diary.tmp");
+delete("butter2pq_test.diary");
+delete("butter2pq_test.diary.tmp");
 diary butter2pq_test.diary.tmp
 
 

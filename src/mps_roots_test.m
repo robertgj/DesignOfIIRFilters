@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("mps_roots_test.diary");
-unlink("mps_roots_test.diary.tmp");
+delete("mps_roots_test.diary");
+delete("mps_roots_test.diary.tmp");
 diary mps_roots_test.diary.tmp
 
 % Load mpsolve and check for the presence of mps_roots()

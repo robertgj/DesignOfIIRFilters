@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("svfeedback_test.diary");
-unlink("svfeedback_test.diary.tmp");
+delete("svfeedback_test.diary");
+delete("svfeedback_test.diary.tmp");
 diary svfeedback_test.diary.tmp
 
 fc=[0.1,0.15];

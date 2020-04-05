@@ -11,8 +11,8 @@ test_common;
 % Disable group delay warnings
 warning("off");
 
-unlink("tarczynski_parallel_allpass_bandpass_hilbert_test.diary");
-unlink("tarczynski_parallel_allpass_bandpass_hilbert_test.diary.tmp");
+delete("tarczynski_parallel_allpass_bandpass_hilbert_test.diary");
+delete("tarczynski_parallel_allpass_bandpass_hilbert_test.diary.tmp");
 diary tarczynski_parallel_allpass_bandpass_hilbert_test.diary.tmp
 
 tic;

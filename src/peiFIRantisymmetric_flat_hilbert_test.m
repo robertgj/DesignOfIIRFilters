@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("peiFIRantisymmetric_flat_hilbert_test.diary");
-unlink("peiFIRantisymmetric_flat_hilbert_test.diary.tmp");
+delete("peiFIRantisymmetric_flat_hilbert_test.diary");
+delete("peiFIRantisymmetric_flat_hilbert_test.diary.tmp");
 diary peiFIRantisymmetric_flat_hilbert_test.diary.tmp
 
 strf="peiFIRantisymmetric_flat_hilbert_test";

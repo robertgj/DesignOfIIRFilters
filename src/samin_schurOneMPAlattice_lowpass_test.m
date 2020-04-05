@@ -13,8 +13,8 @@
 
 test_common;
 
-unlink("samin_schurOneMPAlattice_lowpass_test.diary");
-unlink("samin_schurOneMPAlattice_lowpass_test.diary.tmp");
+delete("samin_schurOneMPAlattice_lowpass_test.diary");
+delete("samin_schurOneMPAlattice_lowpass_test.diary.tmp");
 diary samin_schurOneMPAlattice_lowpass_test.diary.tmp
 
 truncation_test_common;

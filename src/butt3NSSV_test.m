@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("butt3NSSV_test.diary");
-unlink("butt3NSSV_test.diary.tmp");
+delete("butt3NSSV_test.diary");
+delete("butt3NSSV_test.diary.tmp");
 diary butt3NSSV_test.diary.tmp
 
 

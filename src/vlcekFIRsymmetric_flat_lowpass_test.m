@@ -5,8 +5,8 @@
 
 test_common;
 
-unlink("vlcekFIRsymmetric_flat_lowpass_test.diary");
-unlink("vlcekFIRsymmetric_flat_lowpass_test.diary.tmp");
+delete("vlcekFIRsymmetric_flat_lowpass_test.diary");
+delete("vlcekFIRsymmetric_flat_lowpass_test.diary.tmp");
 diary vlcekFIRsymmetric_flat_lowpass_test.diary.tmp
 
 strf="vlcekFIRsymmetric_flat_lowpass_test";

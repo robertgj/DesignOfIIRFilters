@@ -7,8 +7,8 @@
 
 test_common;
 
-unlink("tarczynski_differentiator_test.diary");
-unlink("tarczynski_differentiator_test.diary.tmp");
+delete("tarczynski_differentiator_test.diary");
+delete("tarczynski_differentiator_test.diary.tmp");
 diary tarczynski_differentiator_test.diary.tmp
 
 

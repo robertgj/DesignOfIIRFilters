@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("directFIRsymmetricSqErr_bandpass_test.diary");
-unlink("directFIRsymmetricSqErr_bandpass_test.diary.tmp");
+delete("directFIRsymmetricSqErr_bandpass_test.diary");
+delete("directFIRsymmetricSqErr_bandpass_test.diary.tmp");
 diary directFIRsymmetricSqErr_bandpass_test.diary.tmp
 
 

@@ -50,8 +50,10 @@ warning("error","Octave:undefined-return-values");
 
 % Disable some noisy warnings
 warning ("off","signal:grpdelay-singularity");
-% See octave-5.1.0/scripts/plot/util/private/__gnuplot_draw_axes__.m:2257
+% See octave-5.2.0/scripts/plot/util/private/__gnuplot_draw_axes__.m:2257
 warning ("off","Octave:latex-markup-not-supported-for-tick-marks");
+% See octave-5.2.0/scripts/miscellaneous/delete.m
+warning ("off","Octave:delete-no-such-file");
 
 % Add third party optimisers to the path
 name_strs={"SeDuMi_1_3","SparsePOP302"};

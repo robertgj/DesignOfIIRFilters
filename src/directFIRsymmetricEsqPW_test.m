@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("directFIRsymmetricEsqPW_test.diary");
-unlink("directFIRsymmetricEsqPW_test.diary.tmp");
+delete("directFIRsymmetricEsqPW_test.diary");
+delete("directFIRsymmetricEsqPW_test.diary.tmp");
 diary directFIRsymmetricEsqPW_test.diary.tmp
 
 for k=1:2

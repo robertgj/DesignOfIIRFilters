@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMlattice_pop_socp_mmse_test.diary");
-unlink("schurOneMlattice_pop_socp_mmse_test.diary.tmp");
+delete("schurOneMlattice_pop_socp_mmse_test.diary");
+delete("schurOneMlattice_pop_socp_mmse_test.diary.tmp");
 diary schurOneMlattice_pop_socp_mmse_test.diary.tmp
 
 tic;

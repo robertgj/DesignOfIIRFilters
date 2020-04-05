@@ -9,8 +9,8 @@
 
 test_common;
 
-unlink("butt3OneM_test.diary");
-unlink("butt3OneM_test.diary.tmp");
+delete("butt3OneM_test.diary");
+delete("butt3OneM_test.diary.tmp");
 diary butt3OneM_test.diary.tmp
 
 

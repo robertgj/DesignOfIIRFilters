@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMlattice2H_test.diary");
-unlink("schurOneMlattice2H_test.diary.tmp");
+delete("schurOneMlattice2H_test.diary");
+delete("schurOneMlattice2H_test.diary.tmp");
 diary schurOneMlattice2H_test.diary.tmp
 
 check_octave_file("schurOneMlattice2H");

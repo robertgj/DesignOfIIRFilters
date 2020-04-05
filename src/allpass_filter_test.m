@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("allpass_filter_test.diary");
-unlink("allpass_filter_test.diary.tmp");
+delete("allpass_filter_test.diary");
+delete("allpass_filter_test.diary.tmp");
 diary allpass_filter_test.diary.tmp
 
 n=1024;

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("Abcd2ng_test.diary");
-unlink("Abcd2ng_test.diary.tmp");
+delete("Abcd2ng_test.diary");
+delete("Abcd2ng_test.diary.tmp");
 diary Abcd2ng_test.diary.tmp
 
 % Input signal

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("complementaryFIRlattice_socp_slb_bandpass_test.diary");
-unlink("complementaryFIRlattice_socp_slb_bandpass_test.diary.tmp");
+delete("complementaryFIRlattice_socp_slb_bandpass_test.diary");
+delete("complementaryFIRlattice_socp_slb_bandpass_test.diary.tmp");
 diary complementaryFIRlattice_socp_slb_bandpass_test.diary.tmp
 
 script_id=tic;

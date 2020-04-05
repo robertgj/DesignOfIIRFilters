@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("resolvent_test.diary");
-unlink("resolvent_test.diary.tmp");
+delete("resolvent_test.diary");
+delete("resolvent_test.diary.tmp");
 diary resolvent_test.diary.tmp
 
 show_profile=false;

@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("socp_relaxation_directFIRhilbert_12_nbits_test.diary");
-unlink("socp_relaxation_directFIRhilbert_12_nbits_test.diary.tmp");
+delete("socp_relaxation_directFIRhilbert_12_nbits_test.diary");
+delete("socp_relaxation_directFIRhilbert_12_nbits_test.diary.tmp");
 diary socp_relaxation_directFIRhilbert_12_nbits_test.diary.tmp
 
 tic;

@@ -8,8 +8,8 @@ test_common;
 
 strf="branch_bound_johanssonOneMlattice_bandstop_16_nbits_test";
 
-unlink(strcat(strf,".diary"));
-unlink(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
 
 diary branch_bound_johanssonOneMlattice_bandstop_16_nbits_test.diary.tmp
 

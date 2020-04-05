@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("local_max_test.diary");
-unlink("local_max_test.diary.tmp");
+delete("local_max_test.diary");
+delete("local_max_test.diary.tmp");
 diary local_max_test.diary.tmp
 
 

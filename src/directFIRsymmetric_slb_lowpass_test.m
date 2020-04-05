@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("directFIRsymmetric_slb_lowpass_test.diary");
-unlink("directFIRsymmetric_slb_lowpass_test.diary.tmp");
+delete("directFIRsymmetric_slb_lowpass_test.diary");
+delete("directFIRsymmetric_slb_lowpass_test.diary.tmp");
 diary directFIRsymmetric_slb_lowpass_test.diary.tmp
 
 %

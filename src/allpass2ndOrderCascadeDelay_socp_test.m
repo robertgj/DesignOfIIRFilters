@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("allpass2ndOrderCascadeDelay_socp_test.diary");
-unlink("allpass2ndOrderCascadeDelay_socp_test.diary.tmp");
+delete("allpass2ndOrderCascadeDelay_socp_test.diary");
+delete("allpass2ndOrderCascadeDelay_socp_test.diary.tmp");
 diary allpass2ndOrderCascadeDelay_socp_test.diary.tmp
 
 tic;

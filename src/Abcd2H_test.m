@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("Abcd2H_test.diary");
-unlink("Abcd2H_test.diary.tmp");
+delete("Abcd2H_test.diary");
+delete("Abcd2H_test.diary.tmp");
 diary Abcd2H_test.diary.tmp
 
 check_octave_file("Abcd2H");

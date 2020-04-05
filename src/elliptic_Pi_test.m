@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("elliptic_Pi_test.diary");
-unlink("elliptic_Pi_test.diary.tmp");
+delete("elliptic_Pi_test.diary");
+delete("elliptic_Pi_test.diary.tmp");
 diary elliptic_Pi_test.diary.tmp
 
 % Compare with the value given in Section 3 of  "Computing

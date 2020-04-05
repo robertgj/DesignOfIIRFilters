@@ -4,8 +4,8 @@
 
 test_common;
 
-unlink("tarczynski_bandpass_test.diary");
-unlink("tarczynski_bandpass_test.diary.tmp");
+delete("tarczynski_bandpass_test.diary");
+delete("tarczynski_bandpass_test.diary.tmp");
 diary tarczynski_bandpass_test.diary.tmp
 
 tic;

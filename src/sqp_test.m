@@ -4,8 +4,8 @@
 
 test_common;
 
-unlink("sqp_test.diary");
-unlink("sqp_test.diary.tmp");
+delete("sqp_test.diary");
+delete("sqp_test.diary.tmp");
 diary sqp_test.diary.tmp
 
 

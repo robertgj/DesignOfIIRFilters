@@ -13,8 +13,8 @@
 
 test_common;
 
-unlink("ellipMinQ_test.diary");
-unlink("ellipMinQ_test.diary.tmp");
+delete("ellipMinQ_test.diary");
+delete("ellipMinQ_test.diary.tmp");
 diary ellipMinQ_test.diary.tmp
 
 

@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("directFIRhilbert_allocsd_test.diary");
-unlink("directFIRhilbert_allocsd_test.diary.tmp");
+delete("directFIRhilbert_allocsd_test.diary");
+delete("directFIRhilbert_allocsd_test.diary.tmp");
 diary directFIRhilbert_allocsd_test.diary.tmp
 
 maxiter=400

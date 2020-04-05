@@ -7,8 +7,8 @@
 
 test_common;
 
-unlink("schurOneMAPlattice_frm_allocsd_test.diary");
-unlink("schurOneMAPlattice_frm_allocsd_test.diary.tmp");
+delete("schurOneMAPlattice_frm_allocsd_test.diary");
+delete("schurOneMAPlattice_frm_allocsd_test.diary.tmp");
 diary schurOneMAPlattice_frm_allocsd_test.diary.tmp
 
 %

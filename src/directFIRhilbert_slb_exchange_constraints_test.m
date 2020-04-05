@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("directFIRhilbert_slb_exchange_constraints_test.diary");
-unlink("directFIRhilbert_slb_exchange_constraints_test.diary.tmp");
+delete("directFIRhilbert_slb_exchange_constraints_test.diary");
+delete("directFIRhilbert_slb_exchange_constraints_test.diary.tmp");
 diary directFIRhilbert_slb_exchange_constraints_test.diary.tmp
 
 

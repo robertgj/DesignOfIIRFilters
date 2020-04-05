@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("allpass2ndOrderCascade_test.diary");
-unlink("allpass2ndOrderCascade_test.diary.tmp");
+delete("allpass2ndOrderCascade_test.diary");
+delete("allpass2ndOrderCascade_test.diary.tmp");
 diary allpass2ndOrderCascade_test.diary.tmp
 
 

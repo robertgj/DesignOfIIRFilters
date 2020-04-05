@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("directFIRsymmetricA_test.diary");
-unlink("directFIRsymmetricA_test.diary.tmp");
+delete("directFIRsymmetricA_test.diary");
+delete("directFIRsymmetricA_test.diary.tmp");
 diary directFIRsymmetricA_test.diary.tmp
 
 tol=10*eps;

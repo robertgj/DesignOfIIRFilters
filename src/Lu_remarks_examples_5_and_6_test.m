@@ -4,8 +4,8 @@
 
 test_common;
 
-unlink("Lu_remarks_examples_5_and_6_test.diary");
-unlink("Lu_remarks_examples_5_and_6_test.diary.tmp");
+delete("Lu_remarks_examples_5_and_6_test.diary");
+delete("Lu_remarks_examples_5_and_6_test.diary.tmp");
 diary Lu_remarks_examples_5_and_6_test.diary.tmp
 
 % Example 5

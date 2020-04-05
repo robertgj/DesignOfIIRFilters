@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMAPlatticeP_test.diary");
-unlink("schurOneMAPlatticeP_test.diary.tmp");
+delete("schurOneMAPlatticeP_test.diary");
+delete("schurOneMAPlatticeP_test.diary.tmp");
 diary schurOneMAPlatticeP_test.diary.tmp
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

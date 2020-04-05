@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurdecomp_test.diary");
-unlink("schurdecomp_test.diary.tmp");
+delete("schurdecomp_test.diary");
+delete("schurdecomp_test.diary.tmp");
 diary schurdecomp_test.diary.tmp
 
 check_octave_file("schurdecomp");

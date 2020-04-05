@@ -8,8 +8,8 @@
 
 test_common;
 
-unlink("tarczynski_polyphase_allpass_test.diary");
-unlink("tarczynski_polyphase_allpass_test.diary.tmp");
+delete("tarczynski_polyphase_allpass_test.diary");
+delete("tarczynski_polyphase_allpass_test.diary.tmp");
 diary tarczynski_polyphase_allpass_test.diary.tmp
 
 tic;

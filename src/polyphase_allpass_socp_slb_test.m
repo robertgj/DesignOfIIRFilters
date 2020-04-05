@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("polyphase_allpass_socp_slb_test.diary");
-unlink("polyphase_allpass_socp_slb_test.diary.tmp");
+delete("polyphase_allpass_socp_slb_test.diary");
+delete("polyphase_allpass_socp_slb_test.diary.tmp");
 diary polyphase_allpass_socp_slb_test.diary.tmp
 
 tic;

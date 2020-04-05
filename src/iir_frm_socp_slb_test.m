@@ -8,8 +8,8 @@
 
 test_common;
 
-unlink("iir_frm_socp_slb_test.diary");
-unlink("iir_frm_socp_slb_test.diary.tmp");
+delete("iir_frm_socp_slb_test.diary");
+delete("iir_frm_socp_slb_test.diary.tmp");
 diary iir_frm_socp_slb_test.diary.tmp
 
 tic;

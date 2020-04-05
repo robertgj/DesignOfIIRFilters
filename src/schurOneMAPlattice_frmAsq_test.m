@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMAPlattice_frmAsq_test.diary");
-unlink("schurOneMAPlattice_frmAsq_test.diary.tmp");
+delete("schurOneMAPlattice_frmAsq_test.diary");
+delete("schurOneMAPlattice_frmAsq_test.diary.tmp");
 diary schurOneMAPlattice_frmAsq_test.diary.tmp
 
 verbose=false;

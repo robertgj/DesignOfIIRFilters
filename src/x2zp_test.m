@@ -9,8 +9,8 @@ if show_zplane
   set(0,'DefaultFigureVisible','on');
 endif
 
-unlink("x2zp_test.diary");
-unlink("x2zp_test.diary.tmp");
+delete("x2zp_test.diary");
+delete("x2zp_test.diary.tmp");
 diary x2zp_test.diary.tmp
 
 

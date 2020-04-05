@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("directFIRhilbert_socp_mmsePW_test.diary");
-unlink("directFIRhilbert_socp_mmsePW_test.diary.tmp");
+delete("directFIRhilbert_socp_mmsePW_test.diary");
+delete("directFIRhilbert_socp_mmsePW_test.diary.tmp");
 diary directFIRhilbert_socp_mmsePW_test.diary.tmp
 
 tic;

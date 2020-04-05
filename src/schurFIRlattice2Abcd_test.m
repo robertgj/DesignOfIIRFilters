@@ -5,8 +5,8 @@
 
 test_common;
 
-unlink("schurFIRlattice2Abcd_test.diary");
-unlink("schurFIRlattice2Abcd_test.diary.tmp");
+delete("schurFIRlattice2Abcd_test.diary");
+delete("schurFIRlattice2Abcd_test.diary.tmp");
 diary schurFIRlattice2Abcd_test.diary.tmp
 
 

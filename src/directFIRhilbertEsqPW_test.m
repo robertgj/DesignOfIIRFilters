@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("directFIRhilbertEsqPW_test.diary");
-unlink("directFIRhilbertEsqPW_test.diary.tmp");
+delete("directFIRhilbertEsqPW_test.diary");
+delete("directFIRhilbertEsqPW_test.diary.tmp");
 diary directFIRhilbertEsqPW_test.diary.tmp
 
 % Hilbert filter frequency specification

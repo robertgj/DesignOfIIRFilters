@@ -4,8 +4,8 @@
 
 test_common;
 
-unlink("chebyshevT_expand_test.diary");
-unlink("chebyshevT_expand_test.diary.tmp");
+delete("chebyshevT_expand_test.diary");
+delete("chebyshevT_expand_test.diary.tmp");
 diary chebyshevT_expand_test.diary.tmp
 
 try

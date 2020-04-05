@@ -16,8 +16,8 @@
 
 test_common;
 
-unlink("exhaustive_schurOneMlattice_bandpass_test.diary");
-unlink("exhaustive_schurOneMlattice_bandpass_test.diary.tmp");
+delete("exhaustive_schurOneMlattice_bandpass_test.diary");
+delete("exhaustive_schurOneMlattice_bandpass_test.diary.tmp");
 diary exhaustive_schurOneMlattice_bandpass_test.diary.tmp
 
 schurOneMlattice_bandpass_10_nbits_common;

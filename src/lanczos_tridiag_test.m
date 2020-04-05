@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("lanczos_tridiag_test.diary");
-unlink("lanczos_tridiag_test.diary.tmp");
+delete("lanczos_tridiag_test.diary");
+delete("lanczos_tridiag_test.diary.tmp");
 diary lanczos_tridiag_test.diary.tmp
 
 

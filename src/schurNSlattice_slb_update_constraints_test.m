@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurNSlattice_slb_update_constraints_test.diary");
-unlink("schurNSlattice_slb_update_constraints_test.diary.tmp");
+delete("schurNSlattice_slb_update_constraints_test.diary");
+delete("schurNSlattice_slb_update_constraints_test.diary.tmp");
 diary schurNSlattice_slb_update_constraints_test.diary.tmp
 
 

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("iir_socp_slb_bandpass_test.diary");
-unlink("iir_socp_slb_bandpass_test.diary.tmp");
+delete("iir_socp_slb_bandpass_test.diary");
+delete("iir_socp_slb_bandpass_test.diary.tmp");
 diary iir_socp_slb_bandpass_test.diary.tmp
 
 tic;

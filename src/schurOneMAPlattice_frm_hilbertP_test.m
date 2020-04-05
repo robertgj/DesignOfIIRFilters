@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMAPlattice_frm_hilbertP_test.diary");
-unlink("schurOneMAPlattice_frm_hilbertP_test.diary.tmp");
+delete("schurOneMAPlattice_frm_hilbertP_test.diary");
+delete("schurOneMAPlattice_frm_hilbertP_test.diary.tmp");
 diary schurOneMAPlattice_frm_hilbertP_test.diary.tmp
 
 verbose=false;

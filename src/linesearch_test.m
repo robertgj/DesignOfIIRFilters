@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("linesearch_test.diary");
-unlink("linesearch_test.diary.tmp");
+delete("linesearch_test.diary");
+delete("linesearch_test.diary.tmp");
 diary linesearch_test.diary.tmp
 
 sqp_common;

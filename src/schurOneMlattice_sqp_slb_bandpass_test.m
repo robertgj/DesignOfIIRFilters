@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMlattice_sqp_slb_bandpass_test.diary");
-unlink("schurOneMlattice_sqp_slb_bandpass_test.diary.tmp");
+delete("schurOneMlattice_sqp_slb_bandpass_test.diary");
+delete("schurOneMlattice_sqp_slb_bandpass_test.diary.tmp");
 diary schurOneMlattice_sqp_slb_bandpass_test.diary.tmp
 
 script_id=tic;

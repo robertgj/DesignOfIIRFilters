@@ -5,8 +5,8 @@
 
 test_common;
 
-unlink("schurOneMlatticeRetimed2Abcd_test.diary");
-unlink("schurOneMlatticeRetimed2Abcd_test.diary.tmp");
+delete("schurOneMlatticeRetimed2Abcd_test.diary");
+delete("schurOneMlatticeRetimed2Abcd_test.diary.tmp");
 diary schurOneMlatticeRetimed2Abcd_test.diary.tmp
 
 

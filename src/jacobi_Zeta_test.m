@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("jacobi_Zeta_test.diary");
-unlink("jacobi_Zeta_test.diary.tmp");
+delete("jacobi_Zeta_test.diary");
+delete("jacobi_Zeta_test.diary.tmp");
 diary jacobi_Zeta_test.diary.tmp
 
 % Compare jacobi_Zeta.m and jacobi_Zeta_alt.m 

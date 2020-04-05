@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("bin2SDul_test.diary");
-unlink("bin2SDul_test.diary.tmp");
+delete("bin2SDul_test.diary");
+delete("bin2SDul_test.diary.tmp");
 diary bin2SDul_test.diary.tmp
 
 

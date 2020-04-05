@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("saramakiFAvLogNewton_test.diary");
-unlink("saramakiFAvLogNewton_test.diary.tmp");
+delete("saramakiFAvLogNewton_test.diary");
+delete("saramakiFAvLogNewton_test.diary.tmp");
 diary saramakiFAvLogNewton_test.diary.tmp
 
 % Filter specification

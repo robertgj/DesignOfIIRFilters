@@ -10,8 +10,8 @@
 
 test_common;
 
-unlink("zolotarev_vlcek_unbehauen_table_v_test.diary");
-unlink("zolotarev_vlcek_unbehauen_table_v_test.diary.tmp");
+delete("zolotarev_vlcek_unbehauen_table_v_test.diary");
+delete("zolotarev_vlcek_unbehauen_table_v_test.diary.tmp");
 diary zolotarev_vlcek_unbehauen_table_v_test.diary.tmp
 
 strf="zolotarev_vlcek_unbehauen_table_v_test";

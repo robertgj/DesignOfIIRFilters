@@ -7,8 +7,8 @@
 
 test_common;
 
-unlink("zahradnik_halfband_test.diary");
-unlink("zahradnik_halfband_test.diary.tmp");
+delete("zahradnik_halfband_test.diary");
+delete("zahradnik_halfband_test.diary.tmp");
 diary zahradnik_halfband_test.diary.tmp
 
 strf="zahradnik_halfband_test";

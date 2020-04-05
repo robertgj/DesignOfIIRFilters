@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMAPlattice_frm_hilbert_slb_exchange_constraints_test.diary");
-unlink...
+delete("schurOneMAPlattice_frm_hilbert_slb_exchange_constraints_test.diary");
+delete...
   ("schurOneMAPlattice_frm_hilbert_slb_exchange_constraints_test.diary.tmp");
 diary schurOneMAPlattice_frm_hilbert_slb_exchange_constraints_test.diary.tmp
 

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schurOneMlatticeP_test.diary");
-unlink("schurOneMlatticeP_test.diary.tmp");
+delete("schurOneMlatticeP_test.diary");
+delete("schurOneMlatticeP_test.diary.tmp");
 diary schurOneMlatticeP_test.diary.tmp
 
 % R=2 bandpass filter

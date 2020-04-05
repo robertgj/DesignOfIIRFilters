@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("iir_frm_allpass_slb_update_constraints_test.diary");
-unlink("iir_frm_allpass_slb_update_constraints_test.diary.tmp");
+delete("iir_frm_allpass_slb_update_constraints_test.diary");
+delete("iir_frm_allpass_slb_update_constraints_test.diary.tmp");
 diary iir_frm_allpass_slb_update_constraints_test.diary.tmp
 
 

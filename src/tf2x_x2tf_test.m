@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("tf2x_x2tf_test.diary");
-unlink("tf2x_x2tf_test.diary.tmp");
+delete("tf2x_x2tf_test.diary");
+delete("tf2x_x2tf_test.diary.tmp");
 diary tf2x_x2tf_test.diary.tmp
 
 

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("svcasc2Abcd_test.diary");
-unlink("svcasc2Abcd_test.diary.tmp");
+delete("svcasc2Abcd_test.diary");
+delete("svcasc2Abcd_test.diary.tmp");
 diary svcasc2Abcd_test.diary.tmp
 
 

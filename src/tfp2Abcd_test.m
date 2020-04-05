@@ -5,8 +5,8 @@
 
 test_common;
 
-unlink("tfp2Abcd_test.diary");
-unlink("tfp2Abcd_test.diary.tmp");
+delete("tfp2Abcd_test.diary");
+delete("tfp2Abcd_test.diary.tmp");
 diary tfp2Abcd_test.diary.tmp
 
 

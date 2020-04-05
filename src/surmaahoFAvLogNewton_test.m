@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("surmaahoFAvLogNewton_test.diary");
-unlink("surmaahoFAvLogNewton_test.diary.tmp");
+delete("surmaahoFAvLogNewton_test.diary");
+delete("surmaahoFAvLogNewton_test.diary.tmp");
 diary surmaahoFAvLogNewton_test.diary.tmp
 
 maxiter=5000

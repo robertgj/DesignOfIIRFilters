@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("jacobi_Theta_test.diary");
-unlink("jacobi_Theta_test.diary.tmp");
+delete("jacobi_Theta_test.diary");
+delete("jacobi_Theta_test.diary.tmp");
 diary jacobi_Theta_test.diary.tmp
 
 tol=10*eps;

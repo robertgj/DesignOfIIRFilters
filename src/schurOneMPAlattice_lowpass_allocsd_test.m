@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("schurOneMPAlattice_lowpass_allocsd_test.diary");
-unlink("schurOneMPAlattice_lowpass_allocsd_test.diary.tmp");
+delete("schurOneMPAlattice_lowpass_allocsd_test.diary");
+delete("schurOneMPAlattice_lowpass_allocsd_test.diary.tmp");
 diary schurOneMPAlattice_lowpass_allocsd_test.diary.tmp
 
 % Coefficients found by schurOneMPAlattice_socp_slb_lowpass_test.m

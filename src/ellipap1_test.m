@@ -2,8 +2,8 @@
 
 test_common;
 
-unlink("ellipap1_test.diary");
-unlink("ellipap1_test.diary.tmp");
+delete("ellipap1_test.diary");
+delete("ellipap1_test.diary.tmp");
 diary ellipap1_test.diary.tmp
 
 

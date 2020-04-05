@@ -9,8 +9,8 @@
 
 test_common;
 
-unlink("zolotarevFIRcascade_test.diary");
-unlink("zolotarevFIRcascade_test.diary.tmp");
+delete("zolotarevFIRcascade_test.diary");
+delete("zolotarevFIRcascade_test.diary.tmp");
 diary zolotarevFIRcascade_test.diary.tmp
 
 strf="zolotarevFIRcascade_test";

@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("saramakiFBvNewton_test.diary");
-unlink("saramakiFBvNewton_test.diary.tmp");
+delete("saramakiFBvNewton_test.diary");
+delete("saramakiFBvNewton_test.diary.tmp");
 diary saramakiFBvNewton_test.diary.tmp
 
 maxiter=1000;

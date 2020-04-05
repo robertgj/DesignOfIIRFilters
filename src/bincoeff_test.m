@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("bincoeff_test.diary");
-unlink("bincoeff_test.diary.tmp");
+delete("bincoeff_test.diary");
+delete("bincoeff_test.diary.tmp");
 diary bincoeff_test.diary.tmp
 
 n=20;

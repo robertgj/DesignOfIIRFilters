@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("sqp_gi_test.diary");
-unlink("sqp_gi_test.diary.tmp");
+delete("sqp_gi_test.diary");
+delete("sqp_gi_test.diary.tmp");
 diary sqp_gi_test.diary.tmp
 
 sqp_common;

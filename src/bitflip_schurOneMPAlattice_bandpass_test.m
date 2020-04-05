@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("bitflip_schurOneMPAlattice_bandpass_test.diary");
-unlink("bitflip_schurOneMPAlattice_bandpass_test.diary.tmp");
+delete("bitflip_schurOneMPAlattice_bandpass_test.diary");
+delete("bitflip_schurOneMPAlattice_bandpass_test.diary.tmp");
 diary bitflip_schurOneMPAlattice_bandpass_test.diary.tmp
 
 % File name string

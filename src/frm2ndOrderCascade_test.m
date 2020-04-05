@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("frm2ndOrderCascade_test.diary");
-unlink("frm2ndOrderCascade_test.diary.tmp");
+delete("frm2ndOrderCascade_test.diary");
+delete("frm2ndOrderCascade_test.diary.tmp");
 diary frm2ndOrderCascade_test.diary.tmp
 
 

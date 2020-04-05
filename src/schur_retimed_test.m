@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("schur_retimed_test.diary");
-unlink("schur_retimed_test.diary.tmp");
+delete("schur_retimed_test.diary");
+delete("schur_retimed_test.diary.tmp");
 diary schur_retimed_test.diary.tmp
 
 

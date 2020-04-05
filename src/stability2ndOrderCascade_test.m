@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("stability2ndOrderCascade_test.diary");
-unlink("stability2ndOrderCascade_test.diary.tmp");
+delete("stability2ndOrderCascade_test.diary");
+delete("stability2ndOrderCascade_test.diary.tmp");
 diary stability2ndOrderCascade_test.diary.tmp
 
 

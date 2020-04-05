@@ -7,8 +7,8 @@
 
 test_common;
 
-unlink("sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.diary");
-unlink ...
+delete("sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.diary");
+delete ...
   ("sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.diary.tmp");
 diary sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.diary.tmp
 

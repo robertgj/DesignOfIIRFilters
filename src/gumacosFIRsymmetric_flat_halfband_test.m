@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("gumacosFIRsymmetric_flat_halfband_test.diary");
-unlink("gumacosFIRsymmetric_flat_halfband_test.diary.tmp");
+delete("gumacosFIRsymmetric_flat_halfband_test.diary");
+delete("gumacosFIRsymmetric_flat_halfband_test.diary.tmp");
 diary gumacosFIRsymmetric_flat_halfband_test.diary.tmp
 
 strf="gumacosFIRsymmetric_flat_halfband_test";

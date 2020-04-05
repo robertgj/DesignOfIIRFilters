@@ -6,8 +6,8 @@
 
 test_common;
 
-unlink("sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary");
-unlink("sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary.tmp");
+delete("sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary");
+delete("sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary.tmp");
 diary sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary.tmp
 
 tic;

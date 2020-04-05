@@ -4,8 +4,8 @@
 
 test_common;
 
-unlink("iirT_test.diary");
-unlink("iirT_test.diary.tmp");
+delete("iirT_test.diary");
+delete("iirT_test.diary.tmp");
 diary iirT_test.diary.tmp
 
 

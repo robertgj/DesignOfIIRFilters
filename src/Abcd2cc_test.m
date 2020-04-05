@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("Abcd2cc_test.diary");
-unlink("Abcd2cc_test.diary.tmp");
+delete("Abcd2cc_test.diary");
+delete("Abcd2cc_test.diary.tmp");
 diary Abcd2cc_test.diary.tmp
 
 

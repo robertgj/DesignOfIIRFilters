@@ -3,8 +3,8 @@
 
 test_common;
 
-unlink("arcsn_test.diary");
-unlink("arcsn_test.diary.tmp");
+delete("arcsn_test.diary");
+delete("arcsn_test.diary.tmp");
 diary arcsn_test.diary.tmp
 
 % DLMF Equation 19.25.33

@@ -12,8 +12,8 @@ test_common;
 % Avoid grpdelay warning messages
 warning("off");
 
-unlink("bitflip_directIIR_bandpass_test.diary");
-unlink("bitflip_directIIR_bandpass_test.diary.tmp");
+delete("bitflip_directIIR_bandpass_test.diary");
+delete("bitflip_directIIR_bandpass_test.diary.tmp");
 diary bitflip_directIIR_bandpass_test.diary.tmp
 
 bitflip_bandpass_test_common;
