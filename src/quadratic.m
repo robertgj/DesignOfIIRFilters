@@ -50,7 +50,7 @@ endif
 
 iter=1;
 a=feval(pf,x+d)-(d'*gxf)-fx;
-if a<=tol
+if verbose && (a<=tol)
   warning("2nd deriv(%g)<=tol x=[%s] ", a, sprintf("%f ",x));
   tau=1;
 else

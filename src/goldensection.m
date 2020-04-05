@@ -68,7 +68,7 @@ endif
 % Find first two points
 alphak=0;
 falphak=fx;
-deltak=quadratic(pf,x,d,fx,gxf,tol,maxiter,verbose);
+deltak=quadratic(pf,x,d,fx,gxf,[],tol,maxiter,verbose);
 fdeltak=feval(pf,x+(deltak*d));
 
 % Choose betak and gammak for golden section

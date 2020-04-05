@@ -48,10 +48,10 @@ LINESEARCH armijo_kim 84 iterations 86 f(x) calls
 LINESEARCH armijo_kim f(x)= 4.361595 x=[ -0.574793 0.334409 -0.574793  ]
 LINESEARCH goldstein 94 iterations 157 f(x) calls
 LINESEARCH goldstein f(x)= 4.361595 x=[ -0.574793 0.334408 -0.574792  ]
-LINESEARCH goldensection 124 iterations 1149 f(x) calls
-LINESEARCH goldensection f(x)= 4.361595 x=[ -0.574820 0.334448 -0.574814  ]
-LINESEARCH quadratic 118 iterations 119 f(x) calls
-LINESEARCH quadratic f(x)= 4.361595 x=[ -0.574836 0.334460 -0.574793  ]
+LINESEARCH goldensection 94 iterations 916 f(x) calls
+LINESEARCH goldensection f(x)= 4.361595 x=[ -0.574878 0.334439 -0.574804  ]
+LINESEARCH quadratic 104 iterations 105 f(x) calls
+LINESEARCH quadratic f(x)= 4.361595 x=[ -0.574868 0.334438 -0.574777  ]
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

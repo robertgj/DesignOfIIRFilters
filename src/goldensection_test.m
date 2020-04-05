@@ -24,38 +24,17 @@ tol=1e-3;
 maxiter=100;
 W=[];
 
-printf("\nWith goldstein()\n");
-[tau iter]=goldstein(@f, -4.1,  1, f(-4.1), gradxf(-4.1), W, tol, maxiter)
-f(-4.1+tau)
-fiter
-[tau iter]=goldstein(@f, -1.5,  2, f(-1.5), gradxf(-1.5), W, tol, maxiter)
-f(-1.5+(2*tau))
-fiter
-[tau iter]=goldstein(@f, -2.0, 10, f(-2.0), gradxf(-2.0), W, tol, maxiter)
-f(-2.0+(10*tau))
-fiter
-
-printf("\nWith armijo()\n");
-[tau iter]=armijo(@f, -4.1,  1, f(-4.1), gradxf(-4.1), W, tol, maxiter)
-f(-4.1+tau)
-fiter
-[tau iter]=armijo(@f, -1.5,  2, f(-1.5), gradxf(-1.5), W, tol, maxiter)
-f(-1.5+(2*tau))
-fiter
-[tau iter]=armijo(@f, -2.0, 10, f(-2.0), gradxf(-2.0), W, tol, maxiter)
-f(-2.0+(10*tau))
-fiter
-
-printf("\nWith goldensection()\n");
-[tau iter]=goldensection(@f, -4.1,  1, f(-4.1), gradxf(-4.1), W, tol, maxiter,true)
-f(-4.1+tau)
-fiter
-[tau iter]=goldensection(@f, -1.5,  2, f(-1.5), gradxf(-1.5), W, tol, maxiter,true)
-f(-1.5+(2*tau))
-fiter
-[tau iter]=goldensection(@f, -2.0, 10, f(-2.0), gradxf(-2.0), W, tol, maxiter,true)
-f(-2.0+(10*tau))
-fiter
+searchTypes={"armijo","goldstein","goldensection"};
+x=[-4.1,-1.5,-2];
+d=[1,2,10];
+for k=1:length(searchTypes)
+  printf("\nTesting %s:\n", searchTypes{k});
+  for l=1:length(x)
+    [tau iter]=goldensection(@f,x(l),d(l),f(x(l)),gradxf(x(l)),W,tol,maxiter);
+    printf("tau=%g,f(%g+tau)=%g,iter=%d,fiter=%d\n",
+           tau,x(l),f(x(l)+tau),iter,fiter);
+  endfor
+endfor
 
 diary off
 movefile goldensection_test.diary.tmp goldensection_test.diary;

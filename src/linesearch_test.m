@@ -56,7 +56,7 @@ function doSQP(searchType)
     x=x+delta;
     lastfx=fx;
     fx=f(x);
-    if fx>lastfx+tol
+    if verbose && (fx>(lastfx+tol))
       warning("tau=%f,x=[ %s],fx=%f,\nlastx=[ %s],lastfx=%f", ...
               tau,sprintf("%f,",x),fx,sprintf("%f,",x-delta),lastfx),
       warning("fx-lastfx=%f at iter %d (fx increasing!)", fx-lastfx,iter);
