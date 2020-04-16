@@ -10756,6 +10756,10 @@ Figure~\ref{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-ab1phase}.
 \label{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-ab1phase}
 \end{figure}
 \clearpage
+
+\subsubsection{\label{sec:Design-IIR-filter-difference-all-pass-filters-pole-zero-constrained-group-delay-and-phase}Design
+  of an IIR filter as the difference of two all-pass filters each represented
+  in pole-zero form with constraints on the group delay and phase}
 The Octave script
 \emph{parallel\_allpass\_socp\_slb\_bandpass\_hilbert\_test.m}
 uses the SeDuMi SOCP solver to design a band-pass Hilbert filter consisting of
@@ -19874,62 +19878,72 @@ so that the group delay due to this zero is
  &= -\frac{1-r\cos\theta\cos\omega-r\sin\theta\sin\omega}{\left(\cos\omega-r\cos\theta\right)^{2}+\left(\sin\omega-r\sin\theta\right)^{2}}\\
  &= -\frac{1-r\cos\left(\omega-\theta\right)}{1-2r\cos\left(\omega-\theta\right)+r^{2}}
 \end{align*}
-Using these results, for decimation factor $R$, $s=\frac{1}{R}$, $U$ real 
-zeros, $V$ real poles, $\frac{M}{2}$ conjugate zero pairs and $\frac{Q}{2}$ 
-conjugate pole pairs, the magnitude response of $H\left(z\right)$ is 
+
+An alternative derivation of the group delay, $T\left(\omega\right)$, requires
+that the amplitude response, $A\left(\omega\right)$, be positive: 
 \begin{align*}
-A\left(\omega\right) &= K \times\frac{\prod_{j=1}^{U}\left\{ 1-2R_{0j}\cos\omega+R_{0j}^{2}\right\} ^{\frac{1}{2}}}{\prod_{j=1}^{V}\prod_{i=0}^{R-1}\left\{ 1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}\right\} ^{\frac{1}{2}}}\times\cdots\\
- & \cdots\,\frac{\prod_{j=1}^{\frac{M}{2}}\left\{ 1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}\right\} ^{\frac{1}{2}}}{\prod_{j=1}^{\frac{Q}{2}}\prod_{i=0}^{R-1}\left\{ 1-2r_{pj}^{s}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}\right\} ^{\frac{1}{2}}}\times\cdots\\
- & \cdots\,\frac{\prod_{j=1}^{\frac{M}{2}}\left\{ 1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}\right\} ^{\frac{1}{2}}}{\prod_{j=1}^{\frac{Q}{2}}\prod_{i=0}^{R-1}\left\{ 1-2r_{pj}^{s}\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}\right\} ^{\frac{1}{2}}}
-\end{align*}
-the phase response of $H\left(z\right)$ is\footnote{Note that 
-$\arg\left\{K\right\}$ is not included here. The sign of $K$ is included
-in the amplitude response. This means that the amplitude response returned
-may be negative. This is allowed so that
-$\frac{\partial A\left(\omega\right)}{\partial K}$ is well defined at $K=0$.}
-\begin{align*}
-P\left(\omega\right) &= \left[(V+Q)R-\left(U+M\right)\right]\omega+\cdots\\
- & \cdots\,\sum_{j=1}^{U}\arctan\left(\frac{\sin\omega}{\cos\omega-R_{0j}}\right)-\cdots\\
- & \cdots\,\sum_{j=1}^{V}\left\{\sum_{i=0}^{R-1}\arctan\left(\frac{\sin\omega-R_{pj}^{s}\sin\left(s2\pi i\right)}{\cos\omega-R_{pj}^{s}\cos\left(s2\pi i\right)}\right)\right\}+\cdots\\
- & \cdots\,\sum_{j=1}^{\frac{M}{2}}\arctan\left(\frac{\sin2\omega-2r_{0j}\cos\theta_{0j}\sin\omega}{\cos2\omega-2r_{0j}\cos\theta_{0j}\cos\omega+r_{0j}^{2}}\right)-\cdots\\
- & \cdots\,\sum_{j=1}^{\frac{Q}{2}}\left\{ \sum_{i=0}^{R-1}\arctan\left(\frac{\sin2\omega-2r_{pj}^{s}\cos\left[s\left(\theta_{pj}+2\pi i\right)\right]\sin\omega}{\cos2\omega-2r_{pj}^{s}\cos\left[s\left(\theta_{pj}+2\pi i\right)\right]\cos\omega+r_{pj}^{2s}}\right)\right\} 
-\end{align*}
-and the group-delay response of $H\left(z\right)$ is \footnote{
-An alternative derivation of the group delay, $T\left(\omega\right)$, 
-is:\begin{align*}
 H\left(e^{ \imath \omega T}\right) 
-&= A \left( \omega \right) e^{ \imath \Theta \left( \omega \right)} \\
+ &= A \left( \omega \right) e^{ \imath \Theta \left( \omega \right)} \\
 \ln H\left( e^{ \imath \omega T}\right)
-&= \ln A\left( \omega \right) + \imath \Theta \left( \omega \right) \\
-\frac{d}{d\omega} \left\{ \ln H\left( e^{ \imath \omega T}\right) \right\}
-&= \frac{A^{\prime}\left( \omega \right)}{A \left( \omega \right)} 
-   + \imath \Theta^{\prime} \left( \omega \right)\\
+ &= \ln A\left( \omega \right) + \imath \Theta \left( \omega \right) \\
 T\left( \omega \right) = - \frac{d}{d\omega} \Theta \left( \omega \right) 
  &= -\Im\left\{ \frac{H^{\prime}\left( e^{ \imath \omega T}\right)}
    {H \left( e^{ \imath \omega T}\right)} \right\}
-\end{align*}}
+\end{align*}
+
+In the following, the filter transfer function, $H\left(z\right)$, has
+decimation factor $R$, $s=\frac{1}{R}$, $U$ real zeros, $V$ real poles,
+$\frac{M}{2}$ conjugate zero pairs and $\frac{Q}{2}$ conjugate pole pairs.
+
+\section{IIR filter responses}
+\subsection{IIR filter amplitude response}
+The amplitude response of $H\left(z\right)$ is:
 \begin{align*}
-T\left(\omega\right) &= -\left[(V+Q)R-\left(U+M\right)\right]-\cdots\\
- & \cdots\,\sum_{j=1}^{U}\frac{1-R_{0j}\cos\omega}{1-2R_{0j}\cos\omega+R_{0j}^{2}}+\cdots\\
- & \cdots\,\sum_{j=1}^{V}\left\{ \sum_{i=0}^{R-1}\frac{1-R_{pj}^{s}\cos\left(\omega-s2\pi i\right)}{1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}}\right\} -\cdots\\
- & \cdots\,\sum_{j=1}^{\frac{M}{2}}\left\{ \frac{1-r_{0j}\cos\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}+\frac{1-r_{0j}\cos\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}\right\} +\cdots\\
- & \cdots\,\sum_{j=1}^{\frac{Q}{2}}\left\{ \sum_{i=0}^{R-1}\frac{1-r_{pj}^{s}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{1-2r_{pj}^{s}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}}\right\} +\cdots\\
+A\left(\omega\right) &= K \times\frac{\prod_{j=1}^{U}\left\{ 1-2R_{0j}\cos\omega+R_{0j}^{2}\right\} ^{\frac{1}{2}}}{\prod_{j=1}^{V}\prod_{i=0}^{R-1}\left\{ 1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}\right\} ^{\frac{1}{2}}}\times\cdots\\*
+ & \cdots\,\frac{\prod_{j=1}^{\frac{M}{2}}\left\{ 1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}\right\} ^{\frac{1}{2}}}{\prod_{j=1}^{\frac{Q}{2}}\prod_{i=0}^{R-1}\left\{ 1-2r_{pj}^{s}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}\right\} ^{\frac{1}{2}}}\times\cdots\\*
+ & \cdots\,\frac{\prod_{j=1}^{\frac{M}{2}}\left\{ 1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}\right\} ^{\frac{1}{2}}}{\prod_{j=1}^{\frac{Q}{2}}\prod_{i=0}^{R-1}\left\{ 1-2r_{pj}^{s}\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}\right\} ^{\frac{1}{2}}}
+\end{align*}
+The sign of $K$ is included in the amplitude response so that  
+$\frac{\partial A\left(\omega\right)}{\partial K}$ is well defined at $K=0$.
+\subsection{IIR filter phase response}
+The phase response of $H\left(z\right)$ is:
+\begin{align*}
+P\left(\omega\right) &= \left[(V+Q)R-\left(U+M\right)\right]\omega+\cdots\\*
+ & \cdots\,\sum_{j=1}^{U}\arctan\left(\frac{\sin\omega}{\cos\omega-R_{0j}}\right)-\cdots\\*
+ & \cdots\,\sum_{j=1}^{V}\left\{\sum_{i=0}^{R-1}\arctan\left(\frac{\sin\omega-R_{pj}^{s}\sin\left(s2\pi i\right)}{\cos\omega-R_{pj}^{s}\cos\left(s2\pi i\right)}\right)\right\}+\cdots\\*
+ & \cdots\,\sum_{j=1}^{\frac{M}{2}}\arctan\left(\frac{\sin2\omega-2r_{0j}\cos\theta_{0j}\sin\omega}{\cos2\omega-2r_{0j}\cos\theta_{0j}\cos\omega+r_{0j}^{2}}\right)-\cdots\\*
+ & \cdots\,\sum_{j=1}^{\frac{Q}{2}}\left\{ \sum_{i=0}^{R-1}\arctan\left(\frac{\sin2\omega-2r_{pj}^{s}\cos\left[s\left(\theta_{pj}+2\pi i\right)\right]\sin\omega}{\cos2\omega-2r_{pj}^{s}\cos\left[s\left(\theta_{pj}+2\pi i\right)\right]\cos\omega+r_{pj}^{2s}}\right)\right\} 
+\end{align*}
+As noted above, the phase response does not include the sign of $K$.
+\subsection{IIR filter group-delay response}
+The group-delay response of $H\left(z\right)$ is:
+\begin{align*}
+T\left(\omega\right) &= -\left[(V+Q)R-\left(U+M\right)\right]-\cdots\\*
+ & \cdots\,\sum_{j=1}^{U}\frac{1-R_{0j}\cos\omega}{1-2R_{0j}\cos\omega+R_{0j}^{2}}+\cdots\\*
+ & \cdots\,\sum_{j=1}^{V}\left\{ \sum_{i=0}^{R-1}\frac{1-R_{pj}^{s}\cos\left(\omega-s2\pi i\right)}{1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}}\right\} -\cdots\\*
+ & \cdots\,\sum_{j=1}^{\frac{M}{2}}\left\{ \frac{1-r_{0j}\cos\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}+\frac{1-r_{0j}\cos\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}\right\} +\cdots\\*
+ & \cdots\,\sum_{j=1}^{\frac{Q}{2}}\left\{ \sum_{i=0}^{R-1}\frac{1-r_{pj}^{s}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{1-2r_{pj}^{s}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}}\right\} +\cdots\\*
  & \cdots\,\sum_{j=1}^{\frac{Q}{2}}\left\{ \sum_{i=0}^{R-1}\frac{1-r_{pj}^{s}\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{1-2r_{pj}^{s}\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}}\right\} 
 \end{align*}
-The partial derivatives of the magnitude response are
+
+\section{Partial derivatives of the IIR filter responses}
+\subsection{Partial derivatives of the IIR filter amplitude response}
+The partial derivatives of the magnitude response with respect to the
+coefficients are:
 \begin{align*}
 \frac{\partial A\left(\omega\right)}{\partial K} &= \frac{A\left(\omega\right)}{K}\\
 \frac{\partial A\left(\omega\right)}{\partial R_{0j}} &= A\left(\omega\right)\left\{ \frac{R_{0j}-\cos\omega}{1-2R_{0j}\cos\omega+R_{0j}^{2}}\right\} \\
 \frac{\partial A\left(\omega\right)}{\partial R_{pj}} &= -sR_{pj}^{s-1}A\left(\omega\right)\left\{ \sum_{i=0}^{R-1}\frac{R_{pj}^{s}-\cos\left(\omega-s2\pi i\right)}{1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}}\right\} \\
 \frac{\partial A\left(\omega\right)}{\partial r_{0j}} &= A\left(\omega\right)\left\{ \frac{r_{0j}-\cos\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}+\frac{r_{0j}-\cos\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}\right\} \\
 \frac{\partial A\left(\omega\right)}{\partial\theta_{0j}} &= A\left(\omega\right)\left\{ \frac{r_{0j}\sin\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}-\frac{r_{0j}\sin\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}\right\} \\
-\frac{\partial A\left(\omega\right)}{\partial r_{pj}} &= -sr_{pj}^{s-1}A\left(\omega\right)\sum_{i=0}^{R-1}\left\{ \frac{r_{pj}^{s}-\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{1-2r_{pj}^{s}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}}+\cdots\right.\\
+\frac{\partial A\left(\omega\right)}{\partial r_{pj}} &= -sr_{pj}^{s-1}A\left(\omega\right)\sum_{i=0}^{R-1}\left\{ \frac{r_{pj}^{s}-\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{1-2r_{pj}^{s}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}}+\cdots\right.\\*
  & \left.\cdots\,\frac{r_{pj}^{s}-\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{1-2r_{pj}^{s}\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}}\right\} \\
-\frac{\partial A\left(\omega\right)}{\partial\theta_{pj}} &= -sr_{pj}^{s}A\left(\omega\right)\sum_{i=0}^{R-1}\left\{ \frac{\sin\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{1-2r_{pj}^{s}\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}}-\cdots\right.\\
+\frac{\partial A\left(\omega\right)}{\partial\theta_{pj}} &= -sr_{pj}^{s}A\left(\omega\right)\sum_{i=0}^{R-1}\left\{ \frac{\sin\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{1-2r_{pj}^{s}\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}}-\cdots\right.\\*
  & \left.\cdots\,\frac{\sin\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{1-2r_{pj}^{s}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}}\right\} 
 \end{align*}
 
-The partial derivatives of the phase are
+\subsection{Partial derivatives of the IIR filter phase response}
+The partial derivatives of the phase response are
 \begin{align*}
 \frac{\partial P\left(\omega\right)}{\partial K} &= 0\\
 \frac{\partial P\left(\omega\right)}{\partial R_{0j}} &= 
@@ -19941,40 +19955,49 @@ The partial derivatives of the phase are
 For convenience, write
 \begin{align*}
 P_{0N}&=\sin2\omega-2r_{0j}\cos\theta_{0j}\sin\omega\\
-P_{0D}&=\cos2\omega-2r_{0j}\cos\theta_{0j}\cos\omega+r_{0j}^{2}
+\frac{\partial P_{0N}}{\partial r_{0j}}&=-2\cos\theta_{0j}\sin\omega\\
+\frac{\partial P_{0N}}{\partial \theta_{0j}}&=2r_{0j}\sin\theta_{0j}\sin\omega \\
+P_{0D}&=\cos2\omega-2r_{0j}\cos\theta_{0j}\cos\omega+r_{0j}^{2}\\
+\frac{\partial P_{0D}}{\partial r_{0j}}&=-2\cos\theta_{0j}\cos\omega+2r_{0j}\\
+\frac{\partial P_{0D}}{\partial \theta_{0j}}&=2r_{0j}\sin\theta_{0j}\cos\omega
 \end{align*}
 then
 \begin{align*}
-\frac{\partial P\left(\omega\right)}{\partial r_{0j}} &= 
-P_{0N}\frac{\left(2\cos\theta_{0j}\cos\omega -2r_{0j}\right)}{P_{0N}^{2}+P_{0D}^{2}}
--P_{0D}\frac{2\cos\theta_{0j}\sin\omega}{P_{0N}^{2}+P_{0D}^{2}}\\
-\frac{\partial P\left(\omega\right)}{\partial \theta_{0j}} &=
-P_{0D}\frac{2r_{0j}\sin\theta_{0j}\sin\omega}{P_{0N}^{2}+P_{0D}^{2}}
--P_{0N}\frac{2r_{0j}\sin\theta_{0j}\cos\omega }{P_{0N}^{2}+P_{0D}^{2}}\\
+  \frac{\partial P\left(\omega\right)}{\partial r_{0j}}
+  &= \frac{P_{0D}\frac{\partial P_{0N}}{\partial r_{0j}}
+    -P_{0N}\frac{\partial P_{0D}}{\partial r_{0j}}}{P_{0N}^{2}+P_{0D}^{2}}\\
+  \frac{\partial P\left(\omega\right)}{\partial\theta_{0j}}
+  &= \frac{P_{0D}\frac{\partial P_{0N}}{\partial\theta_{0j}}
+    -P_{0N}\frac{\partial P_{0D}}{\partial\theta_{0j}}}{P_{0N}^{2}+P_{0D}^{2}}
 \end{align*}
 For convenience, write
 \begin{align*}
 P_{pN}&= \sin2\omega-
 2r_{pj}^{s}\cos\left[s\left(\theta_{pj}+2\pi i\right)\right]\sin\omega\\
-P_{pD}&=\cos2\omega-
-2r_{pj}^{s}\cos\left[s\left(\theta_{pj}+2\pi i\right)\right]\cos\omega+r_{pj}^{2s}
+\frac{\partial P_{pN}}{\partial r_{pj}}
+  &=-2sr_{pj}^{s-1}\cos\left[s\right(\theta_{pj}+2\pi i\left)\right]\sin\omega\\
+  \frac{\partial P_{pN}}{\partial \theta_{pj}}
+  &=2sr_{pj}^{s}\sin\left[s\right(\theta_{pj}+2\pi i\left)\right]\sin\omega \\
+  P_{pD}&=\cos2\omega
+          -2r_{pj}^{s}\cos\left[s\left(\theta_{pj}+2\pi i\right)\right]\cos\omega
+          +r_{pj}^{2s}\\
+  \frac{\partial P_{pD}}{\partial r_{pj}}
+  &=-2sr_{pj}^{s-1}\cos\left[s\right(\theta_{pj}+2\pi i\left)\right]\cos\omega
+    +2sr_{pj}^{2s-1}\\
+  \frac{\partial P_{pD}}{\partial \theta_{pj}}
+  &=2sr_{pj}^{s}\sin\left[s\right(\theta_{pj}+2\pi i\left)\right]\cos\omega
 \end{align*}
 then
 \begin{align*}
-\frac{\partial P\left(\omega\right)}{\partial r_{pj}} &= -\sum_{i=0}^{R-1}\left\{
-P_{pD}\frac{-2sr_{pj}^{s-1}\cos\left[s\left(\theta_{pj}+2\pi i\right)\right]
-sin\omega}{P_{pN}^{2}+P_{pD}^{2}} -
-P_{pN}\frac{-2sr_{pj}^{s-1}\cos\left[s\left(\theta_{pj}+2\pi i\right)\right]
-cos\omega + 2sr_{pj}^{2s-1}}
-{P_{pN}^{2}+P_{pD}^{2}}\right\}\\
-\frac{\partial P\left(\omega\right)}{\partial \theta_{pj}} &= -\sum_{i=0}^{R-1}
-\left\{
-P_{pD}\frac{2sr_{pj}^{s}\sin\left[s\left(\theta_{pj}+2\pi i\right)\right]
-sin\omega}{P_{pN}^{2}+P_{pD}^{2}}
--P_{pN}\frac{2sr_{pj}^{s}\sin\left[s\left(\theta_{pj}+2\pi i\right)\right]cos\omega}
-{P_{pN}^{2}+P_{pD}^{2}} \right\}\\
+  \frac{\partial P\left(\omega\right)}{\partial r_{pj}}
+&=-\sum_{i=0}^{R-1}\left\{ \frac{P_{pD}\frac{\partial P_{pN}}{\partial r_{pj}}
+ -P_{pN}\frac{\partial P_{pD}}{\partial r_{pj}}}{P_{pN}^{2}+P_{pD}^{2}}\right\} \\
+  \frac{\partial P\left(\omega\right)}{\partial\theta_{pj}}
+&=-\sum_{i=0}^{R-1}\left\{ \frac{P_{pD}\frac{\partial P_{pN}}{\partial\theta_{pj}}
+ -P_{pN}\frac{\partial P_{pD}}{\partial\theta_{pj}}}{P_{pN}^{2}+P_{pD}^{2}}\right\}
 \end{align*}
 
+\subsection{Partial derivatives of the IIR filter group-delay response}
 The partial derivatives of the group delay are
 \begin{align*}
 \frac{\partial T\left(\omega\right)}{\partial K} &= 0\\
@@ -19982,11 +20005,13 @@ The partial derivatives of the group delay are
 \frac{\partial T\left(\omega\right)}{\partial R_{pj}} &= sR_{pj}^{s-1}\sum_{i=0}^{R-1}\frac{\left(R_{pj}^{2s}+1\right)\cos\left(\omega-s2\pi i\right)-2R_{pj}^{s}}{\left[1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}\right]^{2}}\\
 \frac{\partial T\left(\omega\right)}{\partial r_{0j}} &= \frac{2r_{0j}-\left(r_{0j}^{2}+1\right)\cos\left(\omega-\theta_{0j}\right)}{\left[1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}\right]^{2}}+\frac{2r_{0j}-\left(r_{0j}^{2}+1\right)\cos\left(\omega+\theta_{0j}\right)}{\left[1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}\right]^{2}}\\
 \frac{\partial T\left(\omega\right)}{\partial\theta_{0j}} &= \frac{r_{0j}(r_{0j}^{2}-1)\sin\left(\omega-\theta_{0j}\right)}{\left[1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}\right]^{2}}-\frac{r_{0j}(r_{0j}^{2}-1)\sin\left(\omega+\theta_{0j}\right)}{\left[1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}\right]^{2}}\\
-\frac{\partial T\left(\omega\right)}{\partial r_{pj}} &= sr_{pj}^{s-1}\sum_{i=0}^{R-1}\left\{ \frac{\left(r_{pj}^{2s}+1\right)\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)-2r_{pj}^{s}}{\left[1-2r_{pj}^{s}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}\right]^{2}}+\cdots\right.\\
+\frac{\partial T\left(\omega\right)}{\partial r_{pj}} &= sr_{pj}^{s-1}\sum_{i=0}^{R-1}\left\{ \frac{\left(r_{pj}^{2s}+1\right)\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)-2r_{pj}^{s}}{\left[1-2r_{pj}^{s}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}\right]^{2}}+\cdots\right.\\*
  & \left.\cdots\,\frac{\left(r_{pj}^{2s}+1\right)\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)-2r_{pj}^{s}}{\left[1-2r_{pj}^{s}\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}\right]^{2}}\right\} \\
-\frac{\partial T\left(\omega\right)}{\partial\theta_{pj}} &= sr_{pj}^{s}\left(1-r_{pj}^{2s}\right)\sum_{i=0}^{R-1}\left\{ \frac{\sin\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{\left[1-2r_{pj}^{s}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}\right]^{2}}-\cdots\right.\\
+\frac{\partial T\left(\omega\right)}{\partial\theta_{pj}} &= sr_{pj}^{s}\left(1-r_{pj}^{2s}\right)\sum_{i=0}^{R-1}\left\{ \frac{\sin\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{\left[1-2r_{pj}^{s}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}\right]^{2}}-\cdots\right.\\*
  & \left.\cdots\,\frac{\sin\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{\left[1-2r_{pj}^{s}\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)+r_{pj}^{2s}\right]^{2}}\right\} 
 \end{align*}
+\section{Second partial derivatives of the IIR filter response}
+\subsection{Second partial derivatives of the IIR filter amplitude response}
 The second partial derivatives of the magnitude response are (with $j\ne k$, and otherwise assumed to vary across all indexes):
 \begin{align*}
 \frac{\partial^{2}A\left(\omega\right)}{\partial K^{2}} &= 0\\
@@ -20003,24 +20028,24 @@ The second partial derivatives of the magnitude response are (with $j\ne k$, and
 \frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{0j}\partial R_{0j}} &= \frac{\partial A\left(\omega\right)}{\partial\theta_{0j}}\left\{ \frac{R_{0j}-\cos\omega}{1-2R_{0j}\cos\omega+R_{0j}^{2}}\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial r_{pj}\partial R_{0j}} &= \frac{\partial A\left(\omega\right)}{\partial r_{pj}}\left\{ \frac{R_{0j}-\cos\omega}{1-2R_{0j}\cos\omega+R_{0j}^{2}}\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{pj}\partial R_{0j}} &= \frac{\partial A\left(\omega\right)}{\partial\theta_{pj}}\left\{ \frac{R_{0j}-\cos\omega}{1-2R_{0j}\cos\omega+R_{0j}^{2}}\right\} \\
-\frac{\partial^{2}A\left(\omega\right)}{\partial R_{pj}^{2}} &= -sR_{pj}^{s-1}\frac{\partial A\left(\omega\right)}{\partial R_{pj}}\left\{ \sum_{i=0}^{R-1}\frac{R_{pj}^{s}-\cos\left(\omega-s2\pi i\right)}{1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}}\right\} +\cdots\\
- & \cdots\, sR_{pj}^{s-2}A\left(\omega\right)\sum_{i=0}^{R-1}\left\{ \frac{R_{pj}^{3s}+\left(s-3\right)R_{pj}^{2s}\cos\left(\omega-s2\pi i\right)}{\left[1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}\right]^{2}}\right.+\cdots\\
+\frac{\partial^{2}A\left(\omega\right)}{\partial R_{pj}^{2}} &= -sR_{pj}^{s-1}\frac{\partial A\left(\omega\right)}{\partial R_{pj}}\left\{ \sum_{i=0}^{R-1}\frac{R_{pj}^{s}-\cos\left(\omega-s2\pi i\right)}{1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}}\right\} +\cdots\\*
+ & \cdots\, sR_{pj}^{s-2}A\left(\omega\right)\sum_{i=0}^{R-1}\left\{ \frac{R_{pj}^{3s}+\left(s-3\right)R_{pj}^{2s}\cos\left(\omega-s2\pi i\right)}{\left[1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}\right]^{2}}\right.+\cdots\\*
  & \cdots\,\left.\frac{\left(2\cos^{2}\left(\omega-s2\pi i\right)-2s+1\right)R_{pj}^{s}+\left(s-1\right)\cos\left(\omega-s2\pi i\right)}{\left[1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}\right]^{2}}\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial R_{pk}\partial R_{pj}} &= -sR_{pj}^{s-1}\frac{\partial A\left(\omega\right)}{\partial R_{pk}}\left\{ \sum_{i=0}^{R-1}\frac{R_{pj}^{s}-\cos\left(\omega-s2\pi i\right)}{1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}}\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial r_{0j}\partial R_{pj}} &= -sR_{pj}^{s-1}\frac{\partial A\left(\omega\right)}{\partial r_{0j}}\left\{ \sum_{i=0}^{R-1}\frac{R_{pj}^{s}-\cos\left(\omega-s2\pi i\right)}{1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}}\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{0j}\partial R_{pj}} &= -sR_{pj}^{s-1}\frac{\partial A\left(\omega\right)}{\partial\theta_{0j}}\left\{ \sum_{i=0}^{R-1}\frac{R_{pj}^{s}-\cos\left(\omega-s2\pi i\right)}{1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}}\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial r_{pj}\partial R_{pj}} &= -sR_{pj}^{s-1}\frac{\partial A\left(\omega\right)}{\partial r_{pj}}\left\{ \sum_{i=0}^{R-1}\frac{R_{pj}^{s}-\cos\left(\omega-s2\pi i\right)}{1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}}\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{pj}\partial R_{pj}} &= -sR_{pj}^{s-1}\frac{\partial A\left(\omega\right)}{\partial\theta_{pj}}\left\{ \sum_{i=0}^{R-1}\frac{R_{pj}^{s}-\cos\left(\omega-s2\pi i\right)}{1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}}\right\}\\
-\frac{\partial^{2}A\left(\omega\right)}{\partial r_{0j}^{2}} &= \frac{\partial A\left(\omega\right)}{\partial r_{0j}}\left\{ \frac{r_{0j}-\cos\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}+\frac{r_{0j}-\cos\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}\right\} +\cdots\\
- & \cdots\, A\left(\omega\right)\left\{ \frac{2\sin^{2}\left(\omega-\theta_{0j}\right)}{\left[1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}\right]^{2}}-\frac{1}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}+\cdots\right.\\
+\frac{\partial^{2}A\left(\omega\right)}{\partial r_{0j}^{2}} &= \frac{\partial A\left(\omega\right)}{\partial r_{0j}}\left\{ \frac{r_{0j}-\cos\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}+\frac{r_{0j}-\cos\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}\right\} +\cdots\\*
+ & \cdots\, A\left(\omega\right)\left\{ \frac{2\sin^{2}\left(\omega-\theta_{0j}\right)}{\left[1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}\right]^{2}}-\frac{1}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}+\cdots\right.\\*
  & \left.\cdots\,\frac{2\sin^{2}\left(\omega+\theta_{0j}\right)}{\left[1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}\right]^{2}}-\frac{1}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial r_{0k}\partial r_{0j}} &= \frac{\partial A\left(\omega\right)}{\partial r_{0k}}\left\{ \frac{r_{0j}-\cos\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}+\frac{r_{0j}-\cos\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}\right\} \\
-\frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{0j}\partial r_{0j}} &= \frac{\partial A\left(\omega\right)}{\partial\theta_{0j}}\left\{ \frac{r_{0j}-\cos\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}+\frac{r_{0j}-\cos\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}\right\} +\cdots\\
+\frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{0j}\partial r_{0j}} &= \frac{\partial A\left(\omega\right)}{\partial\theta_{0j}}\left\{ \frac{r_{0j}-\cos\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}+\frac{r_{0j}-\cos\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}\right\} +\cdots\\*
  & \cdots\, A\left(\omega\right)\left\{ \frac{\left(1-r_{0j}^{2}\right)\sin\left(\omega+\theta_{0j}\right)}{\left[1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}\right]^{2}}-\frac{\left(1-r_{0j}^{2}\right)\sin\left(\omega-\theta_{0j}\right)}{\left[1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}\right]^{2}}\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{0k}\partial r_{0j}} &= \frac{\partial A\left(\omega\right)}{\partial\theta_{0k}}\left\{ \frac{r_{0j}-\cos\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}+\frac{r_{0j}-\cos\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial r_{pj}\partial r_{0j}} &= \frac{\partial A\left(\omega\right)}{\partial r_{pj}}\left\{ \frac{r_{0j}-\cos\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}+\frac{r_{0j}-\cos\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{pj}\partial r_{0j}} &= \frac{\partial A\left(\omega\right)}{\partial\theta_{pj}}\left\{ \frac{r_{0j}-\cos\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}+\frac{r_{0j}-\cos\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}\right\} \\
-\frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{0j}^{2}} &= \frac{\partial A\left(\omega\right)}{\partial\theta_{0j}}\left\{ \frac{r_{0j}\sin\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}-\frac{r_{0j}\sin\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}\right\} +\cdots\\
+\frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{0j}^{2}} &= \frac{\partial A\left(\omega\right)}{\partial\theta_{0j}}\left\{ \frac{r_{0j}\sin\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}-\frac{r_{0j}\sin\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}\right\} +\cdots\\*
  & \cdots\, A\left(\omega\right)\left\{ \frac{\left(r_{0j}+r_{0j}^{3}\right)\cos\left(\omega+\theta_{0j}\right)-2r_{0j}^{2}}{\left[1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}\right]^{2}}+\frac{\left(r_{0j}+r_{0j}^{3}\right)\cos\left(\omega-\theta_{0j}\right)-2r_{0j}^{2}}{\left[1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}\right]^{2}}\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{0k}\partial\theta_{0j}} &= \frac{\partial A\left(\omega\right)}{\partial\theta_{0k}}\left\{ \frac{r_{0j}\sin\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}-\frac{r_{0j}\sin\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial r_{pj}\partial\theta_{0j}} &= \frac{\partial A\left(\omega\right)}{\partial r_{pj}}\left\{ \frac{r_{0j}\sin\left(\omega+\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}}-\frac{r_{0j}\sin\left(\omega-\theta_{0j}\right)}{1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}}\right\} \\
@@ -20035,37 +20060,171 @@ D_{p} &= 1-2r_{pj}^{s}\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)+r
 \end{align*}
 so, to continue
 \begin{align*}
-\frac{\partial^{2}A\left(\omega\right)}{\partial r_{pj}^{2}} &= -s\frac{\partial A\left(\omega\right)}{\partial r_{pj}}\sum_{i=0}^{R-1}\left\{ \frac{N_{n}}{D_{n}}+\frac{N_{p}}{D_{p}}\right\} -\cdots\\
- & \cdots\, sA\left(\omega\right)\sum_{i=0}^{R-1}\left\{ \frac{\left(2s-1\right)r_{pj}^{2s-2}-\left(s-1\right)r_{pj}^{s-2}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{D_{n}}-\frac{2sN_{n}^{2}}{D_{n}^{2}}+\cdots\right.\\
+\frac{\partial^{2}A\left(\omega\right)}{\partial r_{pj}^{2}} &= -s\frac{\partial A\left(\omega\right)}{\partial r_{pj}}\sum_{i=0}^{R-1}\left\{ \frac{N_{n}}{D_{n}}+\frac{N_{p}}{D_{p}}\right\} -\cdots\\*
+ & \cdots\, sA\left(\omega\right)\sum_{i=0}^{R-1}\left\{ \frac{\left(2s-1\right)r_{pj}^{2s-2}-\left(s-1\right)r_{pj}^{s-2}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{D_{n}}-\frac{2sN_{n}^{2}}{D_{n}^{2}}+\cdots\right.\\*
  & \left.\cdots\,\frac{\left(2s-1\right)r_{pj}^{2s-2}-\left(s-1\right)r_{pj}^{s-2}\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{D_{p}}-\frac{2sN_{p}^{2}}{D_{p}^{2}}\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial r_{pk}\partial r_{pj}} &= -s\frac{\partial A\left(\omega\right)}{\partial r_{pk}}\sum_{i=0}^{R-1}\left\{ \frac{N_{n}}{D_{n}}+\frac{N_{p}}{D_{p}}\right\} \\
-\frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{pj}\partial r_{pj}} &= -s\frac{\partial A\left(\omega\right)}{\partial\theta_{pj}}\sum_{i=0}^{R-1}\left\{ \frac{N_{n}}{D_{n}}+\frac{N_{p}}{D_{p}}\right\} -\cdots\\
- & \cdots\, sA\left(\omega\right)\sum_{i=0}^{R-1}\left\{ sr_{pj}^{s-1}\sin\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)\left[\frac{1}{D_{p}}-\frac{2N_{p}r_{pj}}{D_{p}^{2}}\right]-\cdots\right.\\
+\frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{pj}\partial r_{pj}} &= -s\frac{\partial A\left(\omega\right)}{\partial\theta_{pj}}\sum_{i=0}^{R-1}\left\{ \frac{N_{n}}{D_{n}}+\frac{N_{p}}{D_{p}}\right\} -\cdots\\*
+ & \cdots\, sA\left(\omega\right)\sum_{i=0}^{R-1}\left\{ sr_{pj}^{s-1}\sin\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)\left[\frac{1}{D_{p}}-\frac{2N_{p}r_{pj}}{D_{p}^{2}}\right]-\cdots\right.\\*
  & \left.\cdots\, sr_{pj}^{s-1}\sin\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)\left[\frac{1}{D_{n}}-\frac{2N_{n}r_{pj}}{D_{n}^{2}}\right]\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{pk}\partial r_{pj}} &= -s\frac{\partial A\left(\omega\right)}{\partial\theta_{pk}}\sum_{i=0}^{R-1}\left\{ \frac{N_{n}}{D_{n}}+\frac{N_{p}}{D_{p}}\right\} \\
-\frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{pj}^{2}} &= -s\frac{\partial A\left(\omega\right)}{\partial\theta_{pj}}\sum_{i=0}^{R-1}\left\{ \frac{r_{pj}^{s}\sin\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{D_{p}}-\frac{r_{pj}^{s}\sin\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{D_{n}}\right\} -\cdots\\
- & \cdots sA\left(\omega\right)\sum_{i=0}^{R-1}\left\{ \frac{sr_{pj}^{s}\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{D_{p}}-\frac{2sr_{pj}^{2s}\sin^{2}\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{D_{p}^{2}}+\cdots\right.\\
+\frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{pj}^{2}} &= -s\frac{\partial A\left(\omega\right)}{\partial\theta_{pj}}\sum_{i=0}^{R-1}\left\{ \frac{r_{pj}^{s}\sin\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{D_{p}}-\frac{r_{pj}^{s}\sin\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{D_{n}}\right\} -\cdots\\*
+ & \cdots sA\left(\omega\right)\sum_{i=0}^{R-1}\left\{ \frac{sr_{pj}^{s}\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{D_{p}}-\frac{2sr_{pj}^{2s}\sin^{2}\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{D_{p}^{2}}+\cdots\right.\\*
  & \left.\cdots\,\frac{sr_{pj}^{s}\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{D_{n}}-\frac{2sr_{pj}^{2s}\sin^{2}\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{D_{n}^{2}}\right\} \\
 \frac{\partial^{2}A\left(\omega\right)}{\partial\theta_{pk}\partial\theta_{pj}} &= -s\frac{\partial A\left(\omega\right)}{\partial\theta_{pk}}\sum_{i=0}^{R-1}\left\{ \frac{r_{pj}^{s}\sin\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{D_{p}}-\frac{r_{pj}^{s}\sin\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{D_{n}}\right\} 
 \end{align*}
-The non-zero second partial derivatives of the delay response are
+
+\subsection{Second partial derivatives of the IIR filter phase response}
+The non-zero second partial derivatives of the phase response are:
+\begin{align*}
+  \frac{\partial^{2}P\left(\omega\right)}{\partial R_{0j}^{2}}
+  =& \frac{\partial P\left(\omega\right)}{\partial R_{0j}}
+     \frac{2\cos\omega-2R_{0j}}{1-2R_{0j}\cos\omega+R_{0j}^{2}}  \\
+\frac{\partial^{2}P\left(\omega\right)}{\partial R_{pj}^{2}}
+  =& -s\left(s-1\right)R_{pj}^{s-2}\sum_{i=0}^{R-1}
+    \frac{\sin\left(\omega-s2\pi i\right)}
+    {1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}} \hdots \\
+  &  -2s^{2}R_{pj}^{2s-2}\sum_{i=0}^{R-1}\frac{\sin\left(\omega-s2\pi i\right)
+    \left[\cos\left(\omega-s2\pi i\right)-R_{pj}^{s}\right]}
+    {\left[1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}\right]^{2}}
+\end{align*}
+For convenience, write:
+\begin{align*}
+  \frac{\partial^{2} P_{0N}\left(\omega\right)}{\partial r_{0j}^{2}} &=0 \\  
+  \frac{\partial^{2} P_{0N}\left(\omega\right)}{\partial r_{0j}\theta_{0j}}
+   &=2\sin\theta_{0j}\sin\omega \\  
+  \frac{\partial^{2} P_{0N}\left(\omega\right)}{\partial\theta_{0j}^{2}}
+   &=2r_{0j}\cos\theta_{0j}\sin\omega \\  
+  \frac{\partial^{2} P_{0D}\left(\omega\right)}{\partial r_{0j}^{2}} &=2 \\  
+  \frac{\partial^{2} P_{0D}\left(\omega\right)}{\partial r_{0j}\theta_{0j}}
+   &=2\sin\theta_{0j}\cos\omega \\  
+  \frac{\partial^{2} P_{0D}\left(\omega\right)}{\partial\theta_{0j}^{2}}
+   &=2r_{0j}\cos\theta_{0j}\cos\omega
+\end{align*}
+then:
+\begin{align*}
+  \frac{\partial^{2} P\left(\omega\right)}{\partial r_{0j}^{2}}
+  =&\frac{
+    \frac{\partial P_{0D}}{\partial r_{0j}}\frac{\partial P_{0N}}{\partial r_{0j}}
+    +P_{0D}\frac{\partial^{2} P_{0N}}{\partial r_{0j}^{2}}
+   -\frac{\partial P_{0N}}{\partial r_{0j}}\frac{\partial P_{0D}}{\partial r_{0j}}
+   -P_{0N}\frac{\partial^{2} P_{0D}}{\partial r_{0j}^{2}}}
+     {P_{0N}^{2}+P_{0D}^{2}} \cdots\\*
+ & -\frac{\left[ P_{0D}\frac{\partial P_{0N}}{\partial r_{0j}}
+                -P_{0N}\frac{\partial P_{0D}}{\partial r_{0j}}\right]
+          \left[2P_{0N}\frac{\partial P_{0N}}{\partial r_{0j}} 
+               +2P_{0D}\frac{\partial P_{0D}}{\partial r_{0j}}\right]}
+         {\left[P_{0N}^{2}+P_{0D}^{2}\right]^{2}} \\
+  \frac{\partial^{2} P\left(\omega\right)}{\partial r_{0j}\partial\theta_{0j}}
+  =&\frac{
+\frac{\partial P_{0D}}{\partial\theta_{0j}}\frac{\partial P_{0N}}{\partial r_{0j}}
++P_{0D}\frac{\partial^{2} P_{0N}}{\partial r_{0j}\partial\theta_{0j}}
+-\frac{\partial P_{0N}}{\partial\theta_{0j}}\frac{\partial P_{0D}}{\partial r_{0j}}
+-P_{0N}\frac{\partial^{2} P_{0D}}{\partial r_{0j}\partial\theta_{0j}}}
+     {P_{0N}^{2}+P_{0D}^{2}} \cdots\\*
+   & -\frac{\left[  P_{0D}\frac{\partial P_{0N}}{\partial r_{0j}}
+              -P_{0N}\frac{\partial P_{0D}}{\partial r_{0j}}\right]
+            \left[ 2P_{0N}\frac{\partial P_{0N}}{\partial\theta_{0j}} 
+                  +2P_{0D}\frac{\partial P_{0D}}{\partial\theta_{0j}}\right]}
+           {\left[P_{0N}^{2}+P_{0D}^{2}\right]^{2}}\\
+  \frac{\partial^{2} P\left(\omega\right)}{\partial\theta_{0j}^{2}}
+  =&\frac{
+     \frac{\partial P_{0D}}{\partial\theta_{0j}}
+     \frac{\partial P_{0N}}{\partial\theta_{0j}}
+     +P_{0D}\frac{\partial^{2} P_{0N}}{\partial\theta_{0j}^{2}}
+     -\frac{\partial P_{0N}}{\partial\theta_{0j}}
+      \frac{\partial P_{0D}}{\partial\theta_{0j}}
+     -P_{0N}\frac{\partial^{2} P_{0D}}{\partial\theta_{0j}^{2}}}
+     {P_{0N}^{2}+P_{0D}^{2}} \cdots\\*
+  & -\frac{\left[  P_{0D}\frac{\partial P_{0N}}{\partial\theta_{0j}}
+                  -P_{0N}\frac{\partial P_{0D}}{\partial\theta_{0j}}\right]
+       \left[ 2P_{0N}\frac{\partial P_{0N}}{\partial\theta_{0j}} 
+             +2P_{0D}\frac{\partial P_{0D}}{\partial\theta_{0j}}\right]}
+    {\left[P_{0N}^{2}+P_{0D}^{2}\right]^{2}}
+\end{align*}
+
+For convenience, write:
+\begin{align*}
+  \frac{\partial^{2} P_{pN}\left(\omega\right)}{\partial r_{pj}^{2}}
+  &=-2s\left(s-1\right)r_{pj}^{s-2}
+    \cos\left[s\right(\theta_{pj}+2\pi i\left)\right]\sin\omega \\  
+  \frac{\partial^{2} P_{pN}\left(\omega\right)}{\partial r_{pj}\theta_{pj}}
+  &= 2s^{2}r_{pj}^{s-1}
+    \sin\left[s\right(\theta_{pj}+2\pi i\left)\right]\sin\omega \\  
+  \frac{\partial^{2} P_{pN}\left(\omega\right)}{\partial\theta_{pj}^{2}}
+  &= 2s^{2}r_{pj}^{s}\cos\left[s\right(\theta_{pj}+2\pi i\left)\right]\sin\omega \\
+  \frac{\partial^{2} P_{pD}\left(\omega\right)}{\partial r_{pj}^{2}}
+  &= -2s\left(s-1\right)r_{pj}^{s-2}
+    \cos\left[s\right(\theta_{pj}+2\pi i\left)\right]\cos\omega
+    +2s\left(2s-1\right)r_{pj}^{2s-2}\\  
+  \frac{\partial^{2} P_{pD}\left(\omega\right)}{\partial r_{pj}\theta_{pj}}
+   &=  2s^{2}r_{pj}^{s-1}
+    \sin\left[s\right(\theta_{pj}+2\pi i\left)\right]\cos\omega \\  
+  \frac{\partial^{2} P_{pD}\left(\omega\right)}{\partial\theta_{pj}^{2}}
+   &=2s^{2}r_{pj}^{s}\cos\left[s\right(\theta_{pj}+2\pi i\left)\right]\cos\omega
+\end{align*}
+
+then:
+\begin{align*}
+  \frac{\partial^{2} P\left(\omega\right)}{\partial r_{pj}^{2}}
+  = -\sum_{i=0}^{R-1} & \left\{ \frac{
+    \frac{\partial P_{pD}}{\partial r_{pj}}\frac{\partial P_{pN}}{\partial r_{pj}}
+    +P_{pD}\frac{\partial^{2} P_{pN}}{\partial r_{pj}^{2}}
+   -\frac{\partial P_{pN}}{\partial r_{pj}}\frac{\partial P_{pD}}{\partial r_{pj}}
+   -P_{pN}\frac{\partial^{2} P_{pD}}{\partial r_{pj}^{2}}}
+     {P_{pN}^{2}+P_{pD}^{2}} \cdots \right.\\*
+ & \left. -\frac{\left[ P_{pD}\frac{\partial P_{pN}}{\partial r_{pj}}
+                -P_{pN}\frac{\partial P_{pD}}{\partial r_{pj}}\right]
+          \left[2P_{pN}\frac{\partial P_{pN}}{\partial r_{pj}} 
+               +2P_{pD}\frac{\partial P_{pD}}{\partial r_{pj}}\right]}
+         {\left[P_{pN}^{2}+P_{pD}^{2}\right]^{2}} \right\}\\
+  \frac{\partial^{2} P\left(\omega\right)}{\partial r_{pj}\partial\theta_{pj}}
+  = -\sum_{i=0}^{R-1} & \left\{ \frac{
+\frac{\partial P_{pD}}{\partial\theta_{pj}}\frac{\partial P_{pN}}{\partial r_{pj}}
++P_{pD}\frac{\partial^{2} P_{pN}}{\partial r_{pj}\partial\theta_{pj}}
+-\frac{\partial P_{pN}}{\partial\theta_{pj}}\frac{\partial P_{pD}}{\partial r_{pj}}
+-P_{pN}\frac{\partial^{2} P_{pD}}{\partial r_{pj}\partial\theta_{pj}}}
+     {P_{pN}^{2}+P_{pD}^{2}} \cdots \right.\\*
+   & \left. -\frac{\left[  P_{pD}\frac{\partial P_{pN}}{\partial r_{pj}}
+              -P_{pN}\frac{\partial P_{pD}}{\partial r_{pj}}\right]
+            \left[ 2P_{pN}\frac{\partial P_{pN}}{\partial\theta_{pj}} 
+                  +2P_{pD}\frac{\partial P_{pD}}{\partial\theta_{pj}}\right]}
+           {\left[P_{pN}^{2}+P_{pD}^{2}\right]^{2}} \right\} \\
+  \frac{\partial^{2} P\left(\omega\right)}{\partial\theta_{pj}^{2}}
+  = -\sum_{i=0}^{R-1} & \left\{ \frac{
+     \frac{\partial P_{pD}}{\partial\theta_{pj}}
+     \frac{\partial P_{pN}}{\partial\theta_{pj}}
+     +P_{pD}\frac{\partial^{2} P_{pN}}{\partial\theta_{pj}^{2}}
+     -\frac{\partial P_{pN}}{\partial\theta_{pj}}
+      \frac{\partial P_{pD}}{\partial\theta_{pj}}
+     -P_{pN}\frac{\partial^{2} P_{pD}}{\partial\theta_{pj}^{2}}}
+     {P_{pN}^{2}+P_{pD}^{2}} \cdots \right.\\*
+  & \left. -\frac{\left[  P_{pD}\frac{\partial P_{pN}}{\partial\theta_{pj}}
+                  -P_{pN}\frac{\partial P_{pD}}{\partial\theta_{pj}}\right]
+       \left[ 2P_{pN}\frac{\partial P_{pN}}{\partial\theta_{pj}} 
+             +2P_{pD}\frac{\partial P_{pD}}{\partial\theta_{pj}}\right]}
+    {\left[P_{pN}^{2}+P_{pD}^{2}\right]^{2}} \right\}
+\end{align*}
+
+\subsection{Second partial derivatives of the IIR filter group-delay response}
+The non-zero second partial derivatives of the group-delay response are:
 \begin{align*}
 \frac{\partial^{2}T\left(\omega\right)}{\partial R_{0j}^{2}} &= \frac{2\left(R_{0j}^{3}\cos\omega-3R_{0j}^{2}+3R_{0j}\cos\omega-\cos2\omega\right)}{\left[1-2R_{0j}\cos\omega+R_{0j}^{2}\right]^{3}}\\
-\frac{\partial^{2}T\left(\omega\right)}{\partial R_{pj}^{2}} &= -sR_{pj}^{s-2}\sum_{i=0}^{R-1}\left\{ \frac{\left(s+1\right)\cos\left(\omega-s2\pi i\right)R_{pj}^{4s}+2\left[\left(s-1\right)\cos^{2}\left(\omega-s2\pi i\right)-\left(2s+1\right)\right]R_{pj}^{3s}}{\left[1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}\right]^{3}}\right.+\cdots\\
+\frac{\partial^{2}T\left(\omega\right)}{\partial R_{pj}^{2}} &= -sR_{pj}^{s-2}\sum_{i=0}^{R-1}\left\{ \frac{\left(s+1\right)\cos\left(\omega-s2\pi i\right)R_{pj}^{4s}+2\left[\left(s-1\right)\cos^{2}\left(\omega-s2\pi i\right)-\left(2s+1\right)\right]R_{pj}^{3s}}{\left[1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}\right]^{3}}\right.+\cdots\\*
  & \cdots\,\left.\frac{6\cos\left(\omega-s2\pi i\right)R_{pj}^{2s}+2\left[\left(2s-1\right)-\left(s+1\right)\cos^{2}\left(\omega-s2\pi i\right)\right]R_{pj}^{s}-\left(s-1\right)\cos\left(\omega-s2\pi i\right)}{\left[1-2R_{pj}^{s}\cos\left(\omega-s2\pi i\right)+R_{pj}^{2s}\right]^{3}}\right\} \\
-\frac{\partial^{2}T\left(\omega\right)}{\partial r_{0j}^{2}} &= \frac{2\left[r_{0j}^{3}\cos\left(\omega-\theta_{0j}\right)-3r_{0j}^{2}+3r_{0j}\cos\left(\omega-\theta_{0j}\right)-\cos2\left(\omega-\theta_{0j}\right)\right]}{\left[1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}\right]^{3}}+\cdots\\
+\frac{\partial^{2}T\left(\omega\right)}{\partial r_{0j}^{2}} &= \frac{2\left[r_{0j}^{3}\cos\left(\omega-\theta_{0j}\right)-3r_{0j}^{2}+3r_{0j}\cos\left(\omega-\theta_{0j}\right)-\cos2\left(\omega-\theta_{0j}\right)\right]}{\left[1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}\right]^{3}}+\cdots\\*
  & \frac{2\left[r_{0j}^{3}\cos\left(\omega+\theta_{0j}\right)-3r_{0j}^{2}+3r_{0j}\cos\left(\omega+\theta_{0j}\right)-\cos2\left(\omega+\theta_{0j}\right)\right]}{\left[1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}\right]^{3}}\\
-\frac{\partial^{2}T\left(\omega\right)}{\partial\theta_{0j}\partial r_{0j}} &= \frac{\sin\left(\omega+\theta_{0j}\right)\left[r_{0j}^{4}+2r_{0j}^{3}\cos\left(\omega+\theta_{0j}\right)-6r_{0j}^{2}+2r_{0j}\cos\left(\omega+\theta_{0j}\right)+1\right]}{\left[1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}\right]^{3}}-\cdots\\
+\frac{\partial^{2}T\left(\omega\right)}{\partial\theta_{0j}\partial r_{0j}} &= \frac{\sin\left(\omega+\theta_{0j}\right)\left[r_{0j}^{4}+2r_{0j}^{3}\cos\left(\omega+\theta_{0j}\right)-6r_{0j}^{2}+2r_{0j}\cos\left(\omega+\theta_{0j}\right)+1\right]}{\left[1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}\right]^{3}}-\cdots\\*
  & \frac{\sin\left(\omega-\theta_{0j}\right)\left[r_{0j}^{4}+2r_{0j}^{3}\cos\left(\omega-\theta_{0j}\right)-6r_{0j}^{2}+2r_{0j}\cos\left(\omega-\theta_{0j}\right)+1\right]}{\left[1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}\right]^{3}}\\
-\frac{\partial^{2}T\left(\omega\right)}{\partial\theta_{0j}^{2}} &= -\frac{r_{0j}\left(r_{0j}^{2}-1\right)\left[r_{0j}^{2}\cos\left(\omega-\theta_{0j}\right)-2r_{0j}\left(1+\sin^{2}\left(\omega-\theta_{0j}\right)\right)+\cos\left(\omega-\theta_{0j}\right)\right]}{\left[1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}\right]^{3}}-\cdots\\
+\frac{\partial^{2}T\left(\omega\right)}{\partial\theta_{0j}^{2}} &= -\frac{r_{0j}\left(r_{0j}^{2}-1\right)\left[r_{0j}^{2}\cos\left(\omega-\theta_{0j}\right)-2r_{0j}\left(1+\sin^{2}\left(\omega-\theta_{0j}\right)\right)+\cos\left(\omega-\theta_{0j}\right)\right]}{\left[1-2r_{0j}\cos\left(\omega-\theta_{0j}\right)+r_{0j}^{2}\right]^{3}}-\cdots\\*
  & \frac{r_{0j}\left(r_{0j}^{2}-1\right)\left[r_{0j}^{2}\cos\left(\omega+\theta_{0j}\right)-2r_{0j}\left(1+\sin^{2}\left(\omega+\theta_{0j}\right)\right)+\cos\left(\omega+\theta_{0j}\right)\right]}{\left[1-2r_{0j}\cos\left(\omega+\theta_{0j}\right)+r_{0j}^{2}\right]^{3}}\\
-\frac{\partial^{2}T\left(\omega\right)}{\partial r_{pj}^{2}} &= -s\sum_{i=1}^{R-1}r_{pj}^{s-2}\left\{ \frac{2r_{pj}^{s}\left(s\left(r_{pj}^{2s}-1\right)-\left(r_{pj}^{2s}+1\right)\right)\cos^{2}\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{D_{p}^{3}}+\cdots\right.\\
- & \left.\cdots\,\frac{\left(s\left(r_{pj}^{4s}-1\right)+\left(r_{pj}^{4s}+6r_{pj}^{2s}+1\right)\right)\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)-4sr_{pj}^{s}\left(r_{pj}^{2s}-1\right)-2r_{pj}^{s}\left(r_{pj}^{2s}+1\right)}{D_{p}^{3}}+\cdots\right.\\
- & \left.\cdots\,\frac{2r_{pj}^{s}\left(s\left(r_{pj}^{2s}-1\right)-\left(r_{pj}^{2s}+1\right)\right)\cos^{2}\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{D_{n}^{3}}+\cdots\right.\\
+\frac{\partial^{2}T\left(\omega\right)}{\partial r_{pj}^{2}} &= -s\sum_{i=1}^{R-1}r_{pj}^{s-2}\left\{ \frac{2r_{pj}^{s}\left(s\left(r_{pj}^{2s}-1\right)-\left(r_{pj}^{2s}+1\right)\right)\cos^{2}\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{D_{p}^{3}}+\cdots\right.\\*
+ & \left.\cdots\,\frac{\left(s\left(r_{pj}^{4s}-1\right)+\left(r_{pj}^{4s}+6r_{pj}^{2s}+1\right)\right)\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)-4sr_{pj}^{s}\left(r_{pj}^{2s}-1\right)-2r_{pj}^{s}\left(r_{pj}^{2s}+1\right)}{D_{p}^{3}}+\cdots\right.\\*
+ & \left.\cdots\,\frac{2r_{pj}^{s}\left(s\left(r_{pj}^{2s}-1\right)-\left(r_{pj}^{2s}+1\right)\right)\cos^{2}\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{D_{n}^{3}}+\cdots\right.\\*
  & \left.\cdots\,\frac{\left(s\left(r_{pj}^{4s}-1\right)+\left(r_{pj}^{4s}+6r_{pj}^{2s}+1\right)\right)\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)-4sr_{pj}^{s}\left(r_{pj}^{2s}-1\right)-2r_{pj}^{s}\left(r_{pj}^{2s}+1\right)}{D_{n}^{3}}\right\} \\
-\frac{\partial^{2}T\left(\omega\right)}{\partial\theta_{pj}\partial r_{pj}} &= s^{2}\sum_{i=1}^{R-1}r_{pj}^{s-1}\left\{ \frac{\left[2r_{pj}^{s}\left(r_{pj}^{2s}+1\right)\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)+\left(r_{pj}^{4s}-6r_{pj}^{2s}+1\right)\right]\sin\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{D_{n}^{3}}-\cdots\right.\\
+\frac{\partial^{2}T\left(\omega\right)}{\partial\theta_{pj}\partial r_{pj}} &= s^{2}\sum_{i=1}^{R-1}r_{pj}^{s-1}\left\{ \frac{\left[2r_{pj}^{s}\left(r_{pj}^{2s}+1\right)\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)+\left(r_{pj}^{4s}-6r_{pj}^{2s}+1\right)\right]\sin\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)}{D_{n}^{3}}-\cdots\right.\\*
  & \left.\cdots\,\frac{\left[2r_{pj}^{s}\left(r_{pj}^{2s}+1\right)\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)+\left(r_{pj}^{4s}-6r_{pj}^{2s}+1\right)\right]\sin\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)}{D_{p}^{3}}\right\} \\
-\frac{\partial^{2}T\left(\omega\right)}{\partial\theta_{pj}^{2}} &= s^{2}\sum_{i=1}^{R-1}r_{pj}^{s}\left(r_{pj}^{2s}-1\right)\left\{ \frac{2r_{pj}^{s}\cos^{2}\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)+\left(r_{pj}^{2s}+1\right)\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)-4r_{pj}^{s}}{D_{p}^{3}}+\cdots\right.\\
+\frac{\partial^{2}T\left(\omega\right)}{\partial\theta_{pj}^{2}} &= s^{2}\sum_{i=1}^{R-1}r_{pj}^{s}\left(r_{pj}^{2s}-1\right)\left\{ \frac{2r_{pj}^{s}\cos^{2}\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)+\left(r_{pj}^{2s}+1\right)\cos\left(\omega+s\left(\theta_{pj}+2\pi i\right)\right)-4r_{pj}^{s}}{D_{p}^{3}}+\cdots\right.\\*
  & \left.\cdots\;\frac{2r_{pj}^{s}\cos^{2}\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)+\left(r_{pj}^{2s}+1\right)\cos\left(\omega-s\left(\theta_{pj}+2\pi i\right)\right)-4r_{pj}^{s}}{D_{n}^{3}}\right\} 
 \end{align*}
 The results for group delay were calculated with the assistance of
@@ -20079,9 +20238,9 @@ zero pairs and $\frac{Q}{2}$ conjugate pole pairs. The Octave script
 moved off the unit circle when testing the gradients. Likewise, Octave function
 \emph{iirT} calculates the group delay, partial derivatives and Hessian of the
 group delay response of an IIR filter and is exercised by the test script
-\emph{iirT\_test.m}. Again, Octave function \emph{iirP} calculates the phase and
-partial derivatives of the phase response of an IIR filter and is exercised by
-the test script \emph{iirP\_test.m}.
+\emph{iirT\_test.m}. Again, Octave function \emph{iirP} calculates the phase, 
+partial derivatives and Hessian of the phase response of an IIR filter and is
+exercised by the test script \emph{iirP\_test.m}.
 
 The Octave function \emph{iirA\_parallel.m} uses the \emph{parcellfun} function
 included in the Octave-Forge \emph{parallel}
@@ -20121,11 +20280,11 @@ given by:
 \frac{1}{A\left(\omega\right)}
 \frac{\partial A\left(\omega\right)}{\partial\omega} = 
 &\sum_{j=1}^{U}\frac{R_{0j}\sin\omega}{1-2R_{0j}\cos\omega + R_{0j}^{2}}
--\sum_{j=1}^{V}\frac{R_{pj}\sin\omega}{1-2R_{pj}\cos\omega + R_{pj}^{2}}\cdots\\
+-\sum_{j=1}^{V}\frac{R_{pj}\sin\omega}{1-2R_{pj}\cos\omega + R_{pj}^{2}}\cdots\\*
 &+\sum_{j=1}^{\frac{M}{2}}\frac{r_{0j}\sin\left(\omega-\theta_{0j}\right)} 
 {1-2r_{0j}\cos\left(\omega-\theta_{0j}\right) + r_{0j}^{2}}
 -\sum_{j=1}^{\frac{Q}{2}}\frac{r_{pj}\sin\left(\omega-\theta_{pj}\right)} 
-{1-2r_{pj}\cos\left(\omega-\theta_{pj}\right) + r_{pj}^{2}}\cdots\\
+{1-2r_{pj}\cos\left(\omega-\theta_{pj}\right) + r_{pj}^{2}}\cdots\\*
 &+\sum_{j=1}^{\frac{M}{2}}\frac{r_{0j}\sin\left(\omega+\theta_{0j}\right)} 
 {1-2r_{0j}\cos\left(\omega+\theta_{0j}\right) + r_{0j}^{2}}
 -\sum_{j=1}^{\frac{Q}{2}}\frac{r_{pj}\sin\left(\omega+\theta_{pj}\right)} 
@@ -20199,22 +20358,22 @@ frequency is given by:
   & \phantom{+}\sum_{j=1}^{U}\frac{R_{0j}\cos\omega}
     {1-2R_{0j}\cos\omega + R_{0j}^{2}}
        -\sum_{j=1}^{U}\frac{2R_{0j}^{2}\sin^{2}\omega}
-    {\left[1-2R_{0j}\cos\omega + R_{0j}^{2}\right]^{2}} \cdots\\
+    {\left[1-2R_{0j}\cos\omega + R_{0j}^{2}\right]^{2}} \cdots\\*
   &-\sum_{j=1}^{V}\frac{R_{pj}\cos\omega}{1-2R_{pj}\cos\omega + R_{pj}^{2}}
     +\sum_{j=1}^{V}\frac{2R_{pj}^{2}\sin^{2}\omega}
-    {\left[1-2R_{pj}\cos\omega + R_{pj}^{2}\right]^{2}}\cdots\\
+    {\left[1-2R_{pj}\cos\omega + R_{pj}^{2}\right]^{2}}\cdots\\*
 &+\sum_{j=1}^{\frac{M}{2}}\frac{r_{0j}\cos\left(\omega-\theta_{0j}\right)} 
            {1-2r_{0j}\cos\left(\omega-\theta_{0j}\right) + r_{0j}^{2}}
 - \sum_{j=1}^{\frac{M}{2}}\frac{2r_{0j}^{2}\sin^{2}\left(\omega-\theta_{0j}\right)} 
-{\left[1-2r_{0j}\cos\left(\omega-\theta_{0j}\right) + r_{0j}^{2}\right]^{2}}\cdots\\
+{\left[1-2r_{0j}\cos\left(\omega-\theta_{0j}\right) + r_{0j}^{2}\right]^{2}}\cdots\\*
 &-\sum_{j=1}^{\frac{Q}{2}}\frac{r_{pj}\cos\left(\omega-\theta_{pj}\right)} 
 {1-2r_{pj}\cos\left(\omega-\theta_{pj}\right) + r_{pj}^{2}}
 +\sum_{j=1}^{\frac{Q}{2}}\frac{2r_{pj}^{2}\sin^{2}\left(\omega-\theta_{pj}\right)} 
-{\left[1-2r_{pj}\cos\left(\omega-\theta_{pj}\right) + r_{pj}^{2}\right]^{2}}\cdots\\
+{\left[1-2r_{pj}\cos\left(\omega-\theta_{pj}\right) + r_{pj}^{2}\right]^{2}}\cdots\\*
 &+\sum_{j=1}^{\frac{M}{2}}\frac{r_{0j}\cos\left(\omega+\theta_{0j}\right)} 
 {1-2r_{0j}\cos\left(\omega+\theta_{0j}\right) + r_{0j}^{2}}
 -\sum_{j=1}^{\frac{M}{2}}\frac{2r_{0j}^{2}\sin^{2}\left(\omega+\theta_{0j}\right)} 
-{\left[1-2r_{0j}\cos\left(\omega+\theta_{0j}\right) + r_{0j}^{2}\right]^{2}}\cdots\\
+{\left[1-2r_{0j}\cos\left(\omega+\theta_{0j}\right) + r_{0j}^{2}\right]^{2}}\cdots\\*
 &-\sum_{j=1}^{\frac{Q}{2}}\frac{r_{pj}\cos\left(\omega+\theta_{pj}\right)}
 {1-2r_{pj}\cos\left(\omega+\theta_{pj}\right) + r_{pj}^{2}}
 +\sum_{j=1}^{\frac{Q}{2}}\frac{2r_{pj}^{2}\sin^{2}\left(\omega+\theta_{pj}\right)} 
@@ -20222,6 +20381,7 @@ frequency is given by:
 \end{align*}
 \cleardoublepage{}
 \chapter{\label{app:Allpass-filter-frequency-response}Allpass filter frequency response}
+
 \section{\label{app:Allpass-filter-phase-response}Allpass filter phase response}
 This section describes the phase response and the gradient of the phase response
 of an all-pass filter in terms of the pole and zero locations of the transfer 
@@ -20247,19 +20407,19 @@ A\left(z\right)
   \frac{z^{-R}-r_{pk}e^{-\imath\theta_{pk}}}{1-r_{pk}e^{\imath\theta_{pk}}z^{-R}}\right\}
 \end{align*}
 
-The magnitude response of $A\left(z\right)$ is
-$\left|A\left(e^{\imath \omega}\right)\right|=1$. The phase response of
+The squared-magnitude response of $A\left(z\right)$ is
+$\left|A\left(e^{\imath \omega}\right)\right|^{2}=1$. The phase response of
 $A\left(z\right)$ is
 \begin{align*}
   P\left(\omega\right)=
 &-\sum_{k=1}^{V}\left\{
          \arctan\frac{R_{pk}\sin R\omega}{1-R_{pk}\cos R\omega}+
-         \arctan\frac{\sin R\omega}{\cos R\omega-R_{pk}}\right\}\cdots\\
+         \arctan\frac{\sin R\omega}{\cos R\omega-R_{pk}}\right\}\cdots\\*
 &-\sum_{k=1}^{\frac{Q}{2}}\left\{
           \arctan\frac{r_{pk}\sin\left(R\omega+\theta_{pk}\right)}
                        {1-r_{pk}\cos\left(R\omega+\theta_{pk}\right)}-
           \arctan\frac{\sin R\omega+r_{pk}\sin\theta_{pk}}
-                       {\cos R\omega-r_{pk}\cos\theta_{pk}}\right\}\cdots\\
+                       {\cos R\omega-r_{pk}\cos\theta_{pk}}\right\}\cdots\\*
 &-\sum_{k=1}^{\frac{Q}{2}}\left\{
           \arctan\frac{r_{pk}\sin\left(R\omega-\theta_{pk}\right)}
                       {1-r_{pk}\cos\left(R\omega-\theta_{pk}\right)}-
@@ -20295,12 +20455,12 @@ Hessian matrix only) are:
         \sin\left(R\omega+\theta_{pk}\right)}
        {\left[r_{pk}^{2}-2r_{pk}\cos\left(R\omega+\theta_{pk}\right)+1\right]^{2}}\\
   \frac{\partial^{2} P\left(\omega\right)}{\partial \theta_{pk}^{2}} =&
-\frac{2r_{pk}\sin\left(R\omega-\theta_{pk}\right)}
+\phantom{+}\frac{2r_{pk}\sin\left(R\omega-\theta_{pk}\right)}
      {r_{pk}^{2}-2r_{pk}\cos\left(R\omega-\theta_{pk}\right)+1} 
 -\frac{4\left[r_{pk}^{2}-r_{pk}\cos\left(R\omega-\theta_{pk}\right)\right]
        r_{pk}\sin\left(R\omega-\theta_{pk}\right)}
- {\left[r_{pk}^{2}-2r_{pk}\cos\left(R\omega-\theta_{pk}\right)+1\right]^{2}}\cdots\\
-&\frac{2r_{pk}\sin\left(R\omega+\theta_{pk}\right)}
+ {\left[r_{pk}^{2}-2r_{pk}\cos\left(R\omega-\theta_{pk}\right)+1\right]^{2}}\cdots\\*
+&+\frac{2r_{pk}\sin\left(R\omega+\theta_{pk}\right)}
       {r_{pk}^{2}-2r_{pk}\cos\left(R\omega+\theta_{pk}\right)+1} 
 -\frac{4\left[r_{pk}^{2}-r_{pk}\cos\left(R\omega+\theta_{pk}\right)\right]
        r_{pk}\sin\left(R\omega+\theta_{pk}\right)}
@@ -20319,13 +20479,13 @@ Hessian matrix only) are:
  +\frac{4\left[r_{pk}-\cos\left(R\omega+\theta_{pk}\right)\right]
         \sin\left(R\omega+\theta_{pk}\right)}
        {\left[r_{pk}^{2}-2r_{pk}\cos\left(R\omega+\theta_{pk}\right)+1\right]^{2}}\\
-  \frac{\partial^{2} P\left(\omega\right)}{\partial \theta_{pk}^{2}} =&
-\frac{2r_{pk}\sin\left(R\omega-\theta_{pk}\right)}
+  \frac{\partial^{2} P\left(\omega\right)}{\partial \theta_{pk}^{2}}
+  =&\phantom{+}\frac{2r_{pk}\sin\left(R\omega-\theta_{pk}\right)}
      {r_{pk}^{2}-2r_{pk}\cos\left(R\omega-\theta_{pk}\right)+1} 
 -\frac{4\left[r_{pk}^{2}-r_{pk}\cos\left(R\omega-\theta_{pk}\right)\right]
        r_{pk}\sin\left(R\omega-\theta_{pk}\right)}
- {\left[r_{pk}^{2}-2r_{pk}\cos\left(R\omega-\theta_{pk}\right)+1\right]^{2}}\cdots\\
-&\frac{2r_{pk}\sin\left(R\omega+\theta_{pk}\right)}
+ {\left[r_{pk}^{2}-2r_{pk}\cos\left(R\omega-\theta_{pk}\right)+1\right]^{2}}\cdots\\*
+&+\frac{2r_{pk}\sin\left(R\omega+\theta_{pk}\right)}
       {r_{pk}^{2}-2r_{pk}\cos\left(R\omega+\theta_{pk}\right)+1} 
 -\frac{4\left[r_{pk}^{2}-r_{pk}\cos\left(R\omega+\theta_{pk}\right)\right]
        r_{pk}\sin\left(R\omega+\theta_{pk}\right)}
@@ -20374,7 +20534,7 @@ of the Hessian matrix only) are:
 -4R\frac{r_{pk}^{3}\cos\left(R\omega+\theta_{pk}\right)-3r_{pk}^{2}
 +3r_{pk}\cos\left(R\omega+\theta_{pk}\right)
 +1-2\cos^{2}\left(R\omega+\theta_{pk}\right)}
-{\left[r_{pk}^{2}-2r_{pk}\cos\left(R\omega+\theta_{pk}\right)+1\right]^{3}}\cdots\\
+{\left[r_{pk}^{2}-2r_{pk}\cos\left(R\omega+\theta_{pk}\right)+1\right]^{3}}\cdots\\*
 &-4R\frac{r_{pk}^{3}\cos\left(R\omega-\theta_{pk}\right)-3r_{pk}^{2}
 +3r_{pk}\cos\left(R\omega-\theta_{pk}\right)
 +1-2\cos^{2}\left(R\omega-\theta_{pk}\right)}
@@ -20384,7 +20544,7 @@ of the Hessian matrix only) are:
 -2r_{pk}^{2}\left(r_{pk}^{2}-1\right)
 \left[1+\sin^{2}\left(R\omega+\theta_{pk}\right)\right]
 -r_{pk}\cos\left(R\omega+\theta_{pk}\right)}
-{\left[r_{pk}^{2}-2r_{pk}\cos\left(R\omega+\theta_{pk}\right)+1\right]^{3}}\cdots\\
+{\left[r_{pk}^{2}-2r_{pk}\cos\left(R\omega+\theta_{pk}\right)+1\right]^{3}}\cdots\\*
 &+2R\frac{r_{pk}^{5}\cos\left(R\omega-\theta_{pk}\right)
 -2r_{pk}^{2}\left(r_{pk}^{2}-1\right)
 \left[1+\sin^{2}\left(R\omega-\theta_{pk}\right)\right]
@@ -20430,11 +20590,11 @@ and
 \frac{d^{2}C}{dx^{2}}RRB+
 2\frac{dC}{dx}R\frac{dA}{dx}RRB+
 2\frac{dC}{dx}RR\frac{dA}{dx}RB+
-2\frac{dC}{dx}RR\frac{dB}{dx}+\cdots\right.\\
+2\frac{dC}{dx}RR\frac{dB}{dx}+\cdots\right.\\*
 &\left. 2CR\frac{dA}{dx}R\frac{dA}{dx}RRB+
 CR\frac{d^{2}A}{dx^{2}}RRB+
 2CR\frac{dA}{dx}RR\frac{dA}{dx}RB+
-2CR\frac{dA}{dx}RR\frac{dB}{dx}+\cdots\right.\\
+2CR\frac{dA}{dx}RR\frac{dB}{dx}+\cdots\right.\\*
 &\left. 2CRR\frac{dA}{dx}R\frac{dA}{dx}RB+
 CRR\frac{d^{2}A}{dx^{2}}RB+
 2CRR\frac{dA}{dx}R\frac{dB}{dx}+
@@ -20546,7 +20706,7 @@ variable coefficients, $\alpha$, $\beta$, etc., are given by:
 \Im\frac{\partial{}H\left(\omega\right)}{\partial\alpha}\right]
 T\left(\omega\right)+
 \left|H\left(\omega\right)\right|^{2}
-\frac{\partial{}T\left(\omega\right)}{\partial\alpha} = \\
+\frac{\partial{}T\left(\omega\right)}{\partial\alpha} = \cdots\\*
 &-\left[
 \Re\frac{\partial{}H\left(\omega\right)}{\partial\alpha}
 \Im\frac{\partial{}H\left(\omega\right)}{\partial\omega} +
@@ -20586,7 +20746,7 @@ derivatives of the group-delay) is given by:
 \Re\frac{\partial{}H}{\partial{}x}
 \Im\frac{\partial^{2}H}{\partial{}x\partial\omega} -
 \Re H
-\Im\frac{\partial^{3}H}{\partial{}x^{2}\partial\omega} \cdots\\
+\Im\frac{\partial^{3}H}{\partial{}x^{2}\partial\omega} \cdots\\*
 &+\Im\frac{\partial^{2}H}{\partial{}x^{2}}
 \Re\frac{\partial{}H}{\partial\omega} +
 \Im\frac{\partial{}H}{\partial{}x}
@@ -20602,15 +20762,15 @@ where $x$ represents the components of the state variable matrixes and:
 -\imath{}e^{\imath\omega}C\left(e^{\imath\omega}I-A\right)^{-1}&\left[
 2\frac{\partial{}A}{\partial\alpha}
 \left(e^{\imath\omega}I-A\right)^{-2}
-\frac{\partial{}A}{\partial\alpha}+ \cdots\right.\\
+\frac{\partial{}A}{\partial\alpha}+ \cdots\right.\\*
 &\left. 2\left(e^{\imath\omega}I-A\right)^{-1}
 \frac{\partial{}A}{\partial\alpha}
 \left(e^{\imath\omega}I-A\right)^{-1}
-\frac{\partial{}A}{\partial\alpha}+ \cdots\right.\\
+\frac{\partial{}A}{\partial\alpha}+ \cdots\right.\\*
 &\left. 2\frac{\partial{}A}{\partial\alpha}
 \left(e^{\imath\omega}I-A\right)^{-1}
 \frac{\partial{}A}{\partial\alpha}
-\left(e^{\imath\omega}I-A\right)^{-1}+ \cdots\right.\\
+\left(e^{\imath\omega}I-A\right)^{-1}+ \cdots\right.\\*
 &\left. \left(e^{\imath\omega}I-A\right)^{-1}
 \frac{\partial^{2}A}{\partial\alpha^{2}}+
 \frac{\partial^{2}A}{\partial\alpha^{2}}
@@ -24097,7 +24257,7 @@ The diagonal of the Hessian of $F_{R}$ with respect to the coefficients is:
 \sum^{\frac{M}{2}-1}_{k=0}c_{k}\left(\frac{M}{2}-k\right)
 \sin\left[\left(\frac{M}{2}-k\right)
 \left(\phi_{1}\left(\omega{}T\right)-
-\phi_{0}\left(\omega{}T\right)\right)\right] \cdots\\
+\phi_{0}\left(\omega{}T\right)\right)\right] \cdots\\*
 &-2\left[\frac{\partial\phi_{0}\left(\omega{}T\right)}
        {\partial\boldsymbol{a}_{0}}\right]^{2}
 \sum^{\frac{M}{2}-1}_{k=0}c_{k}\left(\frac{M}{2}-k\right)^{2}
@@ -24111,7 +24271,7 @@ The diagonal of the Hessian of $F_{R}$ with respect to the coefficients is:
 \sum^{\frac{M}{2}-1}_{k=0}c_{k}\left(\frac{M}{2}-k\right)
 \sin\left[\left(\frac{M}{2}-k\right)
 \left(\phi_{1}\left(\omega{}T\right)-
-\phi_{0}\left(\omega{}T\right)\right)\right] \cdots\\
+\phi_{0}\left(\omega{}T\right)\right)\right] \cdots\\*
  &-2\left[\frac{\partial\phi_{1}\left(\omega{}T\right)}
                {\partial\boldsymbol{a}_{1}}\right]^{2}
 \sum^{\frac{M}{2}-1}_{k=0}c_{k}\left(\frac{M}{2}-k\right)^2
@@ -27250,7 +27410,7 @@ $\sin\omega$ and multiplying by $z^{-2M-1}$, the causal transfer function that
 approximates a Hilbert filter is:
 \begin{align*}
   H\left(z,c\right)
-  &= -\frac{1-z^{2}}{2\sqrt{c}}\left[z^{-2M}+\sum^{M}_{k=1}
+  &= -\frac{1-z^{-2}}{2\sqrt{c}}\left[z^{-2M}+\sum^{M}_{k=1}
     \frac{\left(2k-1\right)!!}{\left(2k\right)!!}z^{-2\left(M-k\right)}
     \left(z^{-2}+\frac{1}{c}\left(\frac{1-z^{-2}}{2}\right)^{2}\right)^{k}\right]
 \end{align*}
@@ -27258,7 +27418,7 @@ In particular, if $c=1$, then $H\left(\omega\right)$ is maximally flat at
 $\omega=\frac{\pi}{2}$ and:
 \begin{align*}
   H\left(z\right)
-  &= -\frac{1-z^{2}}{2}\left[z^{-2M}+\sum^{M}_{k=1}
+  &= -\frac{1-z^{-2}}{2}\left[z^{-2M}+\sum^{M}_{k=1}
     \frac{\left(2k-1\right)!!}{\left(2k\right)!!}z^{-2\left(M-k\right)}
     \left(\frac{1+z^{-2}}{2}\right)^{2k}\right]
 \end{align*}
@@ -30273,6 +30433,21 @@ the $NEWS$ file of the Octave source distribution includes the following comment
   or hardware using SSE options exclusively, can disable float truncation
   if desired.
 \end{quote}
+
+At present the ``bleeding-edge'' in the Octave repository does not print with
+the correct precision:
+\begin{small}
+\begin{verbatim}
+$ octave-cli -q
+octave:1> [V,D]=version
+V = 7.0.0
+D = 2020-02-17
+octave:2> output_precision
+ans = 5
+octave:3> 1/3
+ans = 0.3333
+\end{verbatim}
+\end{small}
 
 This project includes a number of Octave \emph{oct-file} extensions written in
 C++. The Octave on-line FAQ states:

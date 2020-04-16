@@ -66,7 +66,7 @@ function [A,gradA,hessA]=iirA(w,x,U,V,M,Q,R,tol)
 % Filter Design to the Design of Recursive Decimators" IEEE Trans.
 % ASSP-30 No. 5, pp. 811-814, October 1982
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -129,6 +129,7 @@ endif
 if x(1)==0
   A=zeros(length(w),1);
   gradA=zeros(length(w),length(x));
+  hessA=zeros(length(w),length(x),length(x));
   return;
 endif
 
@@ -163,12 +164,14 @@ thetap=thetap(:)';
 if iscomplex(x)
   error("Complex coefficient found in x!");
 endif
+%{
 if (R>=2) && (nargout>=2) && any(Rp==0)
   error("Gradient of Rp==0 undefined when R>=2!");
 endif
 if (R>=2) && (nargout>=2) && any(rp==0)
   error("Gradient of rp==0 undefined when R>=2!");
 endif
+%}
 
 % In the following, the real zero coefficients are organised as
 % (Nw, U), the real pole coefficients are organised as (Nw, V, R),
@@ -405,19 +408,14 @@ endif
 
 
 % Utility matrixes for the diagonal corrections
-DU=zeros(U,U,U);
-for k=1:U, DU(k,k,k)=1; endfor
-DU=reshape(DU,U,U*U);
-DV=zeros(V,V,V);
-for k=1:V, DV(k,k,k)=1; endfor
-DV=reshape(DV,V,V*V);
-DMon2=zeros(Mon2,Mon2,Mon2);
-for k=1:Mon2, DMon2(k,k,k)=1; endfor
-DMon2=reshape(DMon2,Mon2,Mon2*Mon2);
-DQon2=zeros(Qon2,Qon2,Qon2);
-for k=1:Qon2, DQon2(k,k,k)=1; endfor
-DQon2=reshape(DQon2,Qon2,Qon2*Qon2);
-
+DU=zeros(U,U*U);
+DU(1:U,1:(1+U):(U*U))=eye(U);
+DV=zeros(V,V*V);
+DV(1:V,1:(1+V):(V*V))=eye(V);
+DMon2=zeros(Mon2,Mon2*Mon2);
+DMon2(1:Mon2,1:(1+Mon2):(Mon2*Mon2))=eye(Mon2);
+DQon2=zeros(Qon2,Qon2*Qon2);
+DQon2(1:Qon2,1:(1+Qon2):(Qon2*Qon2))=eye(Qon2);
 
 % Common factor for kR0 has dimensions (Nw,U,U), (Nw,V,U), 
 % (Nw,Mon2,U) or (Nw,Qon2,U)
@@ -738,7 +736,7 @@ hessA(:,(1+UVM+1):(1+UVMQon2),(1+UVMQon2+1):(1+UVMQ))= ...
 
 % Remove a redundant frequency dimension
 sizeH=size(hessA);
-if sizeH(1) == 1
+if length(sizeH)==3 && sizeH(1)==1
   hessA=reshape(hessA,sizeH(2),sizeH(3));
 endif
 

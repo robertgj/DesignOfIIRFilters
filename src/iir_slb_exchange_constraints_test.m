@@ -1,5 +1,5 @@
 % iir_slb_exchange_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -8,22 +8,24 @@ delete("iir_slb_exchange_constraints_test.diary.tmp");
 diary iir_slb_exchange_constraints_test.diary.tmp
 
 
-maxiter=2000
-tol=1e-5
-verbose=true
+maxiter=2000;
+tol=1e-5;
+verbose=false;
+printf("maxiter=%d,tol=%g,verbose=%d\n",maxiter,tol,verbose);
 
-%%% Deczky3 Lowpass filter specification
-%% Filter specifications
-U=0,V=0,Q=6,M=10,R=1
-fap=0.15,dBap=0.1,Wap=1
-fas=0.3,dBas=50,Was=10
-ftp=0.25,tp=6,tpr=0.01,Wtp=0.1
-fpp=0.25,pd=0,ppr=0.002,Wpp=0.001
+%% Deczky3 Lowpass filter specification
+% Filter specifications
+U=0;V=0;Q=6;M=10;R=1;
+fap=0.15;dBap=0.1;Wap=1;
+fas=0.3;dBas=50;Was=10;
+ftp=0.25;tp=6;tpr=0.01;Wtp=0.1;
+fpp=0.25;pd=0;ppr=0.002;Wpp=0.001;
 
 strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,",fap,dBap,Wap);
 strM=strcat(strM, sprintf("fas=%g,dBas=%g,Was=%g,",fas,dBas,Was));
 strM=strcat(strM, sprintf("tp=%d,rtp=%g,Wtp=%g",tp,tpr,Wtp));
-
+printf("%s\n",sprintf(strM,"Test parameters"));
+       
 %% Initial coefficients (x2 from deczky3_sqp_test.m)
 x2 = [   0.0047292 ...
          0.9707886   0.9722610   1.4900880   1.4787074 ...
@@ -54,7 +56,7 @@ nas=floor(fas*n/0.5)+1;
 ws=(nas:n)'*pi/n;
 Sd=zeros(size(ws));
 Sdu=(10^(-dBas/20))*ones(size(ws));
-Sdl=zeros(size(ws));
+Sdl=(10^(-(dBas+6)/20))*ones(size(ws));
 Ws=Was*ones(size(ws));
 
 % Group delay constraints
@@ -100,7 +102,7 @@ w=(0:(n-1))'*pi/n;
 f=w*0.5/pi;
 AAx2=iirA(w,x2,U,V,M,Q,R);
 AAdu = [ones(nas-1,1); (10^(-dBas/20))*ones(n-nas+1,1)];
-AAdl = [(10^(-dBap/20))*ones(nap,1); zeros(n-nap,1)];
+AAdl = [(10^(-dBap/20))*ones(nap,1); (10^(-(dBas+6)/20))*ones(n-nap,1)];
 fa=wa*0.5/pi;
 strd=sprintf("iir_slb_exchange_constraints_test_%%s");
 strM2=sprintf(strM,"x2");
@@ -147,7 +149,7 @@ close
 % Exchange constraints
 [vRx7,vSx7,exchanged] = ...
 iir_slb_exchange_constraints(vSx7,vRx2,x7,U,V,M,Q,R, ...
-                             wa,Adu,Adl,ws,Sdu,Sdl,wt,Tdu,Tdl,wp,Pdu,Pdl,tol)
+                             wa,Adu,Adl,ws,Sdu,Sdl,wt,Tdu,Tdl,wp,Pdu,Pdl,tol);
 
 printf("vR after exchange constraints:\n");
 iir_slb_show_constraints(vRx7,wa,Ax7,ws,Sx7,wt,Tx7,wp,Px7);

@@ -143,6 +143,7 @@ xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_a1"),"-dpdflatex");
 close
+
 % Plot response on separate axes
 ax=plotyy(wplot(1:nap)*0.5/pi,20*log10(abs(Ha1(1:nap))),...
           wplot(nas:n)*0.5/pi,20*log10(abs(Ha1(nas:n))));
@@ -155,6 +156,7 @@ ylabel("Amplitude(dB)");
 grid("on");
 title(strt);
 print(strcat(strf,"_a1dual"),"-dpdflatex");
+close
 
 % Plot allpass filter poles and zeros
 subplot(111);

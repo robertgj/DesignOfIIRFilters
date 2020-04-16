@@ -17,8 +17,8 @@ iir_sqp_slb_hilbert_test_x0_coef.m
 
 iir_sqp_slb_hilbert_test_FILES = \
 iir_sqp_slb_hilbert_test.m test_common.m print_polynomial.m \
-print_pole_zero.m Aerror.m Terror.m Perror.m armijo_kim.m fixResultNaN.m \
-iirA.m iirE.m iirP.m iirP_hessP_DiagonalApprox.m iirT.m invSVD.m \
+print_pole_zero.m armijo_kim.m fixResultNaN.m \
+iirA.m iirE.m iirP.m iirT.m invSVD.m \
 local_max.m iir_sqp_mmse.m iir_slb.m iir_slb_exchange_constraints.m \
 iir_slb_show_constraints.m iir_slb_constraints_are_empty.m \
 iir_slb_set_empty_constraints.m iir_slb_update_constraints.m \

@@ -8,7 +8,7 @@ iir_slb.m iir_sqp_mmse.m iir_slb_show_constraints.m \
 iir_slb_update_constraints.m iir_slb_exchange_constraints.m \
 iir_slb_constraints_are_empty.m iir_slb_set_empty_constraints.m \
 sqp_bfgs.m armijo_kim.m updateWbfgs.m invSVD.m \
-fixResultNaN.m iirA.m iirE.m iirP.m iirT.m Aerror.m Perror.m Terror.m qroots.m \
+fixResultNaN.m iirA.m iirE.m iirP.m iirT.m qroots.m \
 phi2p.m tfp2g.m local_max.m tf2x.m zp2x.m x2tf.m xConstraints.m \
 qzsolve.oct SeDuMi_1_3/"
 

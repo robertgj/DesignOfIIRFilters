@@ -4,7 +4,7 @@ prog=decimator_R2_alternate_test.m
 
 depends="decimator_R2_alternate_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
-Aerror.m Terror.m armijo_kim.m fixResultNaN.m \
+armijo_kim.m fixResultNaN.m \
 iirA.m iirE.m iirP.m iirT.m invSVD.m local_max.m iir_sqp_mmse.m \
 iir_slb.m iir_slb_exchange_constraints.m iir_slb_show_constraints.m \
 iir_slb_constraints_are_empty.m iir_slb_set_empty_constraints.m \

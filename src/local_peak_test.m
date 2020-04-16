@@ -12,21 +12,42 @@ y=sin(3.14*x)+0.5*cos(6.09*x)+0.1*sin(10.11*x+1/6)+0.1*sin(15.3*x+1/3);
 
 % Simple test
 yflat=ones(1024,1);
-[xpeak,ypeak] = local_peak(yflat)
-[xpeak,ypeak,ipeak] = local_peak(yflat)
+[xpeak,ypeak] = local_peak(yflat);
+print_polynomial(xpeak,"xpeak");
+print_polynomial(ypeak,"ypeak");
+[xpeak,ypeak,ipeak] = local_peak(yflat);
+print_polynomial(xpeak,"xpeak");
+print_polynomial(ypeak,"ypeak");
+print_polynomial(ipeak,"ipeak","%4d");
 
 % From local_max
-idxpeak = local_max(y)
-idxtrough = local_max(-y)
+idxpeak = local_max(y);
+print_polynomial(idxpeak,"idxpeak","%4d");
+idxtrough = local_max(-y);
+print_polynomial(idxtrough,"idxtrough","%4d");
 
 % From local_peak using index
-[xpeak,ypeak] = local_peak(y)
-[xpeak,ypeak,ipeak] = local_peak(y)
-[xtrough,ytrough,itrough] = local_peak(-y')
+[xpeak,ypeak] = local_peak(y);
+print_polynomial(xpeak,"xpeak");
+print_polynomial(ypeak,"ypeak");
+[xpeak,ypeak,ipeak] = local_peak(y);
+print_polynomial(xpeak,"xpeak");
+print_polynomial(ypeak,"ypeak");
+print_polynomial(ipeak,"ipeak","%4d");
+[xtrough,ytrough,itrough] = local_peak(-y');
+print_polynomial(xtrough,"xtrough");
+print_polynomial(ytrough,"ytrough");
+print_polynomial(itrough,"itrough","%4d");
 
 % From local_peak using x
-[xpeak,ypeak,ipeak] = local_peak(x,y)
-[xtrough,ytrough,itrough] = local_peak(x',-y')
+[xpeak,ypeak,ipeak] = local_peak(x,y);
+print_polynomial(xpeak,"xpeak");
+print_polynomial(ypeak,"ypeak");
+print_polynomial(ipeak,"ipeak","%4d");
+[xtrough,ytrough,itrough] = local_peak(x',-y');
+print_polynomial(xtrough,"xtrough");
+print_polynomial(ytrough,"ytrough");
+print_polynomial(itrough,"itrough","%4d");
 
 % Plot
 plot(x,y);
@@ -49,7 +70,9 @@ n=1000;wa=(0:(n-1))'*pi/n;
 A=iirA(wa,x,U,V,M,Q,R,tol);
 fap=0.15;nap=ceil(n*fap/0.5)+1;dBap=1;
 Adl=[(10^(-dBap/20))*ones(nap,1);zeros(n-nap,1)+tol/10];
-[wAl, dAl]=local_peak(wa,Adl-A)
+[wAl, dAl]=local_peak(wa,Adl-A);
+print_polynomial(wAl,"wAl");
+print_polynomial(dAl,"dAl");
 
 diary off
 movefile local_peak_test.diary.tmp local_peak_test.diary;

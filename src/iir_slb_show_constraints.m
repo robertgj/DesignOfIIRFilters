@@ -4,7 +4,7 @@ if nargin ~= 9
   print_usage("iir_slb_show_constraints(vS,wa,A,ws,S,wt,T,wp,P)");
 endif
   
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -27,51 +27,51 @@ endif
 printf("Current constraints:\n");
 
 if !isempty(vS.al)
-  printf("al = [ ");printf("%d ",vS.al');printf("]\n");
-  printf("f(al) = [ ");printf("%f ",wa(vS.al)'*0.5/pi);printf("] (fs=1)\n");
-  printf("Al = [ ");printf("%f ",20*log10(abs(A(vS.al))));printf("] (dB)\n");
+  print_polynomial(vS.al,"al","%d");
+  print_polynomial(wa(vS.al)*0.5/pi,"f(al)(fs=1)");
+  print_polynomial(20*log10(abs(A(vS.al))),"Al(dB)");
 endif
 
 if !isempty(vS.au)
-  printf("au = [ ");printf("%d ",vS.au');printf("]\n");
-  printf("f(au) = [ ");printf("%f ",wa(vS.au)'*0.5/pi);printf("] (fs=1)\n");
-  printf("Au = [ ");printf("%f ",20*log10(abs(A(vS.au))));printf("] (dB)\n");
+  print_polynomial(vS.au,"au","%d");
+  print_polynomial(wa(vS.au)*0.5/pi,"f(au)(fs=1)");
+  print_polynomial(20*log10(abs(A(vS.au))),"Au(dB)");
 endif
 
 if !isempty(vS.sl)
-  printf("sl = [ ");printf("%d ",vS.sl');printf("]\n");
-  printf("f(sl) = [ ");printf("%f ",ws(vS.sl)'*0.5/pi);printf("] (fs=1)\n");
-  printf("Sl = [ ");printf("%f ",20*log10(abs(S(vS.sl))));printf("] (dB)\n");
+  print_polynomial(vS.sl,"sl","%d");
+  print_polynomial(ws(vS.sl)*0.5/pi,"f(sl)(fs=1)");
+  print_polynomial(20*log10(abs(S(vS.sl))),"Sl(dB)");
 endif
 
 if !isempty(vS.su)
-  printf("su = [ ");printf("%d ",vS.su');printf("]\n");
-  printf("f(su) = [ ");printf("%f ",ws(vS.su)'*0.5/pi);printf("] (fs=1)\n");
-  printf("Su = [ ");printf("%f ",20*log10(abs(S(vS.su))));printf("] (dB)\n");
+  print_polynomial(vS.su,"su","%d");
+  print_polynomial(ws(vS.su)*0.5/pi,"f(su)(fs=1)");
+  print_polynomial(20*log10(abs(S(vS.su))),"Su(dB)");
 endif
 
 if !isempty(vS.tl)
-  printf("tl = [ ");printf("%d ",vS.tl');printf("]\n");
-  printf("f(tl) = [ ");printf("%f ",wt(vS.tl)'*0.5/pi);printf("] (fs=1)\n");
-  printf("Tl = [ ");printf("%f ",T(vS.tl));printf("] (Samples)\n");
+  print_polynomial(vS.tl,"tl","%d");
+  print_polynomial(wt(vS.tl)*0.5/pi,"f(tl)(fs=1)");
+  print_polynomial(T(vS.tl),"Tl(samples)");
 endif
 
 if !isempty(vS.tu)
-  printf("tu = [ ");printf("%d ",vS.tu');printf("]\n");
-  printf("f(tu) = [ ");printf("%f ",wt(vS.tu)'*0.5/pi);printf("] (fs=1)\n");
-  printf("Tu = [ ");printf("%f ",T(vS.tu));printf("] (Samples)\n");
+  print_polynomial(vS.tu,"tu","%d");
+  print_polynomial(wt(vS.tu)*0.5/pi,"f(tu)(fs=1)");
+  print_polynomial(T(vS.tu),"Tu(samples)");
 endif
 
 if !isempty(vS.pl)
-  printf("pl = [ ");printf("%d ",vS.pl');printf("]\n");
-  printf("f(pl) = [ ");printf("%f ",wp(vS.pl)'*0.5/pi);printf("] (fs=1)\n");
-  printf("Pl = [ ");printf("%f ",P(vS.pl));printf("] (Samples)\n");
+  print_polynomial(vS.pl,"pl","%d");
+  print_polynomial(wp(vS.pl)*0.5/pi,"f(pl)(fs=1)");
+  print_polynomial(P(vS.pl)/pi,"Pl(rad.)");
 endif
 
 if !isempty(vS.pu)
-  printf("pu = [ ");printf("%d ",vS.pu');printf("]\n");
-  printf("f(pu) = [ ");printf("%f ",wp(vS.pu)'*0.5/pi);printf("] (fs=1)\n");
-  printf("Pu = [ ");printf("%f ",P(vS.pu));printf("] (Samples)\n");
+  print_polynomial(vS.pu,"pu","%d");
+  print_polynomial(wp(vS.pu)*0.5/pi,"f(pu)(fs=1)");
+  print_polynomial(P(vS.pu)/pi,"Pu(rad.)");
 endif
 
 endfunction

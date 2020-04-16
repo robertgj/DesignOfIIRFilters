@@ -1,5 +1,5 @@
 % iir_slb_update_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -8,17 +8,18 @@ delete("iir_slb_update_constraints_test.diary.tmp");
 diary iir_slb_update_constraints_test.diary.tmp
 
 
-verbose=true
-tol=1e-5
+verbose=false;
+tol=1e-5;
 
 % Deczky3 Lowpass filter specification
-U=0,V=0,Q=6,M=10,R=1
-fap=0.15,dBap=0.1,Wap=1
-fas=0.3,dBas=60,Was=1
-ftp=0.25,tp=6,tpr=0.025,Wtp=1
-fpp=0.25,pd=0,ppr=0.002,Wpp=0.001
-strM=sprintf("%%s:fap=%g,dBap=%g,fas=%g,dBas=%g,",fap,dBap,fas,dBas);
-strM=strcat(strM, sprintf("tp=%d,rtp=%g",tp,tpr));
+U=0;V=0;Q=6;M=10;R=1;
+fap=0.15;dBap=0.1;Wap=1;
+fas=0.3;dBas=45;Was=1;
+ftp=0.25;tp=6;tpr=0.025;Wtp=1;
+fpp=0.25;pd=0;ppr=0.002;Wpp=0.001;
+strM=sprintf("test parameters:fap=%g,dBap=%g,fas=%g,dBas=%g,",fap,dBap,fas,dBas);
+strM=strcat(strM, sprintf("tp=%d,rtp=%g,tol=%g",tp,tpr,tol));
+printf("%s\n",strM);
 
 % Initial coefficients (x7 from Deczky3_test.m)
 x7 = [ 0.0095 ...
@@ -43,7 +44,7 @@ nas=floor(fas*n/0.5)+1;
 ws=(nas:n)'*pi/n;
 Sd=zeros(size(ws));
 Sdu=(10^(-dBas/20))*ones(size(ws));
-Sdl=zeros(size(ws));
+Sdl=(10^(-(dBas+3)/20))*ones(size(ws));
 Ws=Was*ones(size(ws));
 
 % Group delay constraints
@@ -78,7 +79,7 @@ vS=iir_slb_update_constraints(x7,U,V,M,Q,R,wa,Adu,Adl,Wa, ...
                               ws,Sdu,Sdl,Ws,wt,Tdu,Tdl,Wt, ...
                               wp,Pdu,Pdl,Wp,tol);
 for [v,k]=vS
-  printf("%s=[ ",k);printf("%d ",v);printf("]\n");
+  print_polynomial(v,k,"%4d");
 endfor
 
 % Show constraints
@@ -88,8 +89,8 @@ iir_slb_show_constraints(vS,wa,A,ws,S,wt,T,wp,P);
 f=w*0.5/pi;
 fa=wa*0.5/pi;
 fs=ws*0.5/pi;
-AAdu = [ones(nas-1,1); (10^(-dBas/20))*ones(n-nas+1,1)];
-AAdl = [(10^(-dBap/20))*ones(nap,1); zeros(n-nap,1)];
+AAdu=[ones(nas-1,1); (10^(-dBas/20))*ones(n-nas+1,1)];
+AAdl=[(10^(-dBap/20))*ones(nap,1); (10^(-(dBas+3)/20))*ones(n-nap,1)];
 strd=sprintf("iir_slb_update_constraints_test_%%s");
 strM7=sprintf(strM,"x7");
 subplot(211);
@@ -132,4 +133,5 @@ close
 % Done
 %
 diary off
-movefile iir_slb_update_constraints_test.diary.tmp iir_slb_update_constraints_test.diary;
+movefile iir_slb_update_constraints_test.diary.tmp ...
+         iir_slb_update_constraints_test.diary;

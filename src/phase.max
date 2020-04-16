@@ -18,7 +18,8 @@ sed -e 's/\\\,//g' -e 's/\\it //g' \
 -e 's/w/\\omega /g' \
 -e 's/\pi/\pi /g' \
 -e 's/\\left(/ \\left( /g' \
--e 's/\\right)/ \\right) /g' 
+-e 's/\\right)/ \\right) /g' \
+-e 's/2i\\pi/2\\imath\\pi/g' 
 
 */
 

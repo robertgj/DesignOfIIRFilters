@@ -31,6 +31,8 @@ close
 
 page_screen_output(false);
 suppress_verbose_help_message(true);
+output_precision(5)
+format short
 format compact
 
 warning("error","Octave:assign-as-truth-value");

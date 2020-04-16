@@ -62,7 +62,7 @@ function [T,gradT,hessT]=iirT(w,x,U,V,M,Q,R,tol)
 % Filter Design to the Design of Recursive Decimators" IEEE Trans.
 % ASSP-30 No. 5, pp. 811-814, October 1982
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -359,18 +359,14 @@ denomAminus3=denomAminus.^3;
 denomAplus3=denomAplus.^3;
 
 % Utility matrixes for the diagonals
-DU=zeros(U,U,U);
-for k=1:U, DU(k,k,k)=1; endfor
-DU=reshape(DU,U,U*U);
-DV=zeros(V,V,V);
-for k=1:V, DV(k,k,k)=1; endfor
-DV=reshape(DV,V,V*V);
-DMon2=zeros(Mon2,Mon2,Mon2);
-for k=1:Mon2, DMon2(k,k,k)=1; endfor
-DMon2=reshape(DMon2,Mon2,Mon2*Mon2);
-DQon2=zeros(Qon2,Qon2,Qon2);
-for k=1:Qon2, DQon2(k,k,k)=1; endfor
-DQon2=reshape(DQon2,Qon2,Qon2*Qon2);
+DU=zeros(U,U*U);
+DU(1:U,1:(1+U):(U*U))=eye(U);
+DV=zeros(V,V*V);
+DV(1:V,1:(1+V):(V*V))=eye(V);
+DMon2=zeros(Mon2,Mon2*Mon2);
+DMon2(1:Mon2,1:(1+Mon2):(Mon2*Mon2))=eye(Mon2);
+DQon2=zeros(Qon2,Qon2*Qon2);
+DQon2(1:Qon2,1:(1+Qon2):(Qon2*Qon2))=eye(Qon2);
 
 % Note that the delay Hessian contains only diagonal sub-matrices
 % that are constructed in the same way as the amplitude Hessian 
@@ -521,31 +517,31 @@ hdel2Tdelthetap2=...
 % Make the Hessian of the delay response
 hessT=zeros(Nw,1+UVMQ,1+UVMQ);
 
-% delTdelR0 column
+% del2TdelR02 column
 hessT(:,(1+1):(1+U),(1+1):(1+U))=hdel2TdelR02;
-% delTdelRp column
+% del2TdelRp2 column
 hessT(:,(1+U+1):(1+UV),(1+U+1):(1+UV))=hdel2TdelRp2;
-% delTdelr0 column
+% del2Tdelr02 column
 hessT(:,(1+UV+1):(1+UVMon2),(1+UV+1):(1+UVMon2))=hdel2Tdelr02;
 hessT(:,(1+UVMon2+1):(1+UVM),(1+UV+1):(1+UVMon2))=hdel2Tdeltheta0delr0;
-% delTdeltheta0 column
+% del2Tdeltheta02 column
 hessT(:,(1+UVMon2+1):(1+UVM),(1+UVMon2+1):(1+UVM))=hdel2Tdeltheta02;
-% delTdelrp column
+% del2Tdelrp2 column
 hessT(:,(1+UVM+1):(1+UVMQon2),(1+UVM+1):(1+UVMQon2))=hdel2Tdelrp2;
 hessT(:,(1+UVMQon2+1):(1+UVMQ),(1+UVM+1):(1+UVMQon2))=hdel2Tdelthetapdelrp;
-% delTdelthetap column
+% del2Tdelthetap2 column
 hessT(:,(1+UVMQon2+1):(1+UVMQ),(1+UVMQon2+1):(1+UVMQ))=hdel2Tdelthetap2;
 
-% delTdelr0 row
+% del2Tdeltheta0delr0 row
 hessT(:,(1+UV+1):(1+UVMon2),(1+UVMon2+1):(1+UVM))= ...
     permute(hdel2Tdeltheta0delr0,[1,3,2]);
-% delTdelrp row
+% del2Tdelthetapdelrp row
 hessT(:,(1+UVM+1):(1+UVMQon2),(1+UVMQon2+1):(1+UVMQ))= ...
     permute(hdel2Tdelthetapdelrp, [1,3,2]);
 
 % Remove a redundant frequency dimension
 sizeH=size(hessT);
-if sizeH(1) == 1
+if length(sizeH)==3 && sizeH(1)==1
   hessT=reshape(hessT,sizeH(2),sizeH(3));
 endif
 

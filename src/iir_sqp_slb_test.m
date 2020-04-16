@@ -1,5 +1,5 @@
 % iir_sqp_slb_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -7,19 +7,19 @@ delete("iir_sqp_slb_test.diary");
 delete("iir_sqp_slb_test.diary.tmp");
 diary iir_sqp_slb_test.diary.tmp
 
-
-tol=1e-3
-ctol=tol
-maxiter=2000
-verbose=false
+tol=1e-3;
+ctol=tol;
+maxiter=2000;
+verbose=false;
+printf("tol=%g,ctol=%g,maxiter=%d,verbose=%d\n",tol,ctol,maxiter,verbose);
 
 % Deczky3 Lowpass filter specification
 
 % Filter specifications
-U=0,V=0,Q=6,M=10,R=1
-fap=0.15,dBap=1,Wap=1
-fas=0.3,dBas=36,Was=1
-ftp=0.25,tp=6,tpr=0.025,Wtp=0.1
+U=0;V=0;Q=6;M=10;R=1;
+fap=0.15;dBap=1;Wap=1;
+fas=0.3;dBas=40;Was=1;
+ftp=0.25;tp=6;tpr=0.025;Wtp=0.1;
 
 % Initial coefficients
 z=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...
@@ -67,17 +67,18 @@ Pdl=[];
 Wp=[];
 
 % Check
-wa([nap,nas])*0.5/pi
-Wa([nap,nap+1,nas-1,nas])
-wt(ntp)*0.5/pi
+print_polynomial(wa([nap-1,nap,nap+1,nas-1,nas,nas+1])*0.5/pi,"f");
+print_polynomial(Wa([nap-1,nap,nap+1,nas-1,nas,nas+1])*0.5/pi,"Wa");
+print_polynomial(wt(ntp)*0.5/pi,"ft(ntp)");
 
 % Empty frequency constraint structure
 vS=iir_slb_set_empty_constraints();
 
 % Initialise strings
-strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%%g,",fap,dBap);
-strM=strcat(strM, sprintf("fas=%g,dBas=%g,Was=%%g,",fas,dBas));
-strM=strcat(strM, sprintf("tp=%g,rtp=%g,Wtp=%%g",tp,tpr));
+strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,",fap,dBap,Wap);
+strM=strcat(strM, sprintf("fas=%g,dBas=%g,Was=%g,",fas,dBas,Was));
+strM=strcat(strM, sprintf("tp=%g,rtp=%g,Wtp=%g",tp,tpr,Wtp));
+printf("%s\n",sprintf(strM,"Test parameters"));
 strd=sprintf("iir_sqp_slb_test_%%s");
 
 % First iir_sqp_mmse pass
@@ -86,11 +87,14 @@ printf("\nFirst MMSE pass\n");
   iir_sqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-               maxiter,tol,verbose)
+               maxiter,tol,verbose);
 if feasible == 0 
   error("iir_sqp_slb_test, x2(mmse) infeasible");
 endif
-strM2=sprintf(strM,"x2(pcls)",Wap,Was,Wtp);
+print_polynomial(x2,"x2");
+printf("E=%g,sqp_iter=%d,func_iter=%d,feasible=%d\n", ...
+       E,sqp_iter,func_iter,feasible);
+strM2=sprintf(strM,"x2(mmse)");
 showZPplot(x2,U,V,M,Q,R,strM2);
 print(sprintf(strd,"x2pz"),"-dpdflatex");
 close
@@ -108,7 +112,7 @@ vS=iir_slb_update_constraints(x2,U,V,M,Q,R,wa,Adu,Adl,Wa, ...
                               wp,Pdu,Pdl,Wp,ctol);
 printf("S frequency constraints before:\n");
 for [v,k]=vS
-  printf("%s=[ ",k);printf("%d ",v);printf("]\n");
+  print_polynomial(v,k,"%d");
 endfor
 Ax2=iirA(wa,x2,U,V,M,Q,R);
 Sx2=iirA(ws,x2,U,V,M,Q,R);
@@ -120,16 +124,19 @@ iir_slb_show_constraints(vS,wa,Ax2,ws,Sx2,wt,Tx2,wp,Px2);
   iir_sqp_mmse(vS,x2,xu,xl,dmax,U,V,M,Q,R, ...
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-               maxiter,tol,verbose)
+               maxiter,tol,verbose);
 if feasible == 0 
   error("iir_sqp_slb_test, x3(mmse) infeasible");
 endif
+print_polynomial(x3,"x3");
+printf("E=%g,sqp_iter=%d,func_iter=%d,feasible=%d\n", ...
+       E,sqp_iter,func_iter,feasible);
 vS=iir_slb_update_constraints(x3,U,V,M,Q,R,wa,Adu,Adl,Wa, ...
                               ws,Sdu,Sdl,Ws,wt,Tdu,Tdl,Wt, ...
                               wp,Pdu,Pdl,Wp,ctol);
 printf("S frequency constraints after:\n");
 for [v,k]=vS
-  printf("%s=[ ",k);printf("%d ",v);printf("]\n");
+  print_polynomial(v,k,"%d");
 endfor
 Ax3=iirA(wa,x3,U,V,M,Q,R);
 Sx3=iirA(ws,x3,U,V,M,Q,R);
@@ -138,7 +145,7 @@ Px3=iirP(wp,x3,U,V,M,Q,R);
 iir_slb_show_constraints(vS,wa,Ax3,ws,Sx3,wt,Tx3,wp,Px3);
 
 strd=sprintf("iir_sqp_slb_test_%%s");
-strM3=sprintf(strM,"x3(mmse)",Wap,Was,Wtp);
+strM3=sprintf(strM,"x3(mmse)");
 showZPplot(x3,U,V,M,Q,R,strM3);
 print(sprintf(strd,"x3pz"),"-dpdflatex");
 close
