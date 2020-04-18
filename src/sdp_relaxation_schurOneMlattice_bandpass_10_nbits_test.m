@@ -422,7 +422,7 @@ proceeds. The coefficients were fixed in the order : %s", ...
 xlabel("Relaxation step");
 ylabel("Bits difference from exact");
 print(strcat(strf,"_coef_hist"),"-dpdflatex"); 
-close;
+close
       
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");

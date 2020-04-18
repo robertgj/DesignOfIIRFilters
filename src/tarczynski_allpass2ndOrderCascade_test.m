@@ -309,10 +309,12 @@ zplane(roots(Na1),roots(Da1))
 s=sprintf("All-pass 2nd order cascade A : ma=%d",ma);
 title(s);
 print("tarczynski_allpass2ndOrderCascade_Apz","-dpdflatex");
+close
 zplane(roots(Nb1),roots(Db1))
 s=sprintf("All-pass 2nd order cascade B : mb=%d",mb);
 title(s);
 print("tarczynski_allpass2ndOrderCascade_Bpz","-dpdflatex");
+close
 subplot(111);
 zplane(roots(N1),roots(D1))
 title(s);

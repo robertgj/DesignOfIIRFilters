@@ -77,19 +77,19 @@ fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g",fap,dBap,ftp,td,tdr);
   zplane(qroots(flipud(d1(:))),qroots(d1(:)));
   title(strT);
   print(strcat(strF,"_A1pz"),"-dpdflatex");
-  close 
+  close
   d2=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
   subplot(111);
   zplane(qroots(flipud(d2(:))),qroots(d2(:)));
   title(strT);
   print(strcat(strF,"_A2pz"),"-dpdflatex");
-  close 
+  close
   [n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
   subplot(111);
   zplane(qroots(n),qroots(d));
   title(strT);
   print(strcat(strF,"_pz"),"-dpdflatex");
-  close 
+  close
 
   % Plot coefficient sensitivity
   nas=floor(nplot*fas/0.5)+1;

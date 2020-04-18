@@ -214,8 +214,10 @@ endif
 strt=sprintf(strP,"d1(pcls)");
 showZPplot(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
+close
 showResponse(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
+close
 Ad1=iirA(w,d1,U,V,M,Q,R);
 Td1=iirT(w,d1,U,V,M,Q,R);
 Pd1=iirP(w,d1,U,V,M,Q,R);

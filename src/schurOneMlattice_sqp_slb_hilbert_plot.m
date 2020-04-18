@@ -59,6 +59,6 @@ function schurOneMlattice_sqp_slb_hilbert_plot ...
   zplane(roots(n),roots(d));
   title(strT);
   print(strcat(strF,"pz"),"-dpdflatex");
-  close 
+  close
   
 endfunction

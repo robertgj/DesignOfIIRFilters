@@ -228,6 +228,7 @@ ylabel("Group delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
+% Re-display plots
 subplot(211);
 axis([0 0.5 -3 1]);
 subplot(212);
@@ -266,6 +267,7 @@ ylabel("Group delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
 print(strcat(strf,"_response_allocsd"),"-dpdflatex");
+% Re-display plots
 subplot(211);
 axis([0 0.5 -3 1]);
 subplot(212);

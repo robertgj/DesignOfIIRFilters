@@ -310,7 +310,7 @@ subplot(111);
 zplane(roots(n_min),roots(d_min));
 title(strt);
 print(strcat(strf,"_kc_min_pz"),"-dpdflatex");
-close 
+close
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");

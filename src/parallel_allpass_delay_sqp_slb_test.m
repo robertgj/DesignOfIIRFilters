@@ -146,6 +146,7 @@ ylabel("Amplitude(dB)");
 grid("on");
 title(strt);
 print(strcat(strf,"_a1dual"),"-dpdflatex");
+close
 
 % Plot passband response
 subplot(211);

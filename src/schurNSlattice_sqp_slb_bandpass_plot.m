@@ -48,7 +48,7 @@ function schurNSlattice_sqp_slb_bandpass_plot ...
   grid("on");
   print(strcat(strF,""),"-dpdflatex");
   close
-  
+
   % Plot passband response 
   subplot(211);
   plot(wplot*0.5/pi,10*log10(Asq));
@@ -64,13 +64,13 @@ function schurNSlattice_sqp_slb_bandpass_plot ...
   grid("on");
   print(strcat(strF,"pass"),"-dpdflatex");
   close
-  
+
   % Plot poles and zeros
   [n,d]=schurNSlattice2tf(s10,s11,s20,s00,s02,s22);
   subplot(111);
   zplane(roots(n),roots(d));
   title(strT);
   print(strcat(strF,"pz"),"-dpdflatex");
-  close 
+  close
   
 endfunction

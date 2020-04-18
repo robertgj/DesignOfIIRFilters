@@ -590,7 +590,7 @@ dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g",nbits,ndigits,fap,fas,dBap,dBas,tp,tpr,ppr)
   legend("left");
   grid("on");
   print(strcat(strf,"_response"),"-dpdflatex");
-  close();
+  close
 else
   error("Did not find an improved solution!");
 endif

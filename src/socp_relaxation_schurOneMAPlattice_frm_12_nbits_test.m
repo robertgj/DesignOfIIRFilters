@@ -427,7 +427,7 @@ legend("boxoff");
 legend("left");
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
-close();
+close
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");

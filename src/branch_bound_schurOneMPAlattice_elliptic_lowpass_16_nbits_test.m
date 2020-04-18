@@ -427,7 +427,7 @@ else
   axis([fap, 0.5, -100, -40]);
   grid("on");
   print(strcat(strf,"_kmin_stop"),"-dpdflatex"); 
-  close;
+  close
 
   % Plot pass-band amplitude
   plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
@@ -442,7 +442,7 @@ else
   legend("left");
   grid("on");
   print(strcat(strf,"_kmin_pass"),"-dpdflatex"); 
-  close;
+  close
   
   % Dual plot of amplitude response
   Rfap=1:(nap+50);
@@ -490,7 +490,7 @@ else
   title(strt);
   grid("on");
   print(strcat(strf,"_kmin_dual"),"-dpdflatex"); 
-  close;
+  close
 endif
   
 % Filter specification

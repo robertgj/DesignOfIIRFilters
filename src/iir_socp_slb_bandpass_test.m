@@ -129,8 +129,10 @@ printf("R=2 bandpass d1 (pcls) feasible after %d seconds!\n",time()-start_time);
 strP1=sprintf(strM,"d1",Wap,Wasl,Wasu,Wtp);
 showZPplot(d1,U,V,M,Q,R,strP1);
 print(sprintf(strd,"pcls","d1pz"),"-dpdflatex");
+close
 showResponse(d1,U,V,M,Q,R,strP1);
 print(sprintf(strd,"pcls","d1"),"-dpdflatex");
+close
 showResponsePassBands(ftpl,ftpu,-2*dBap,dBap,d1,U,V,M,Q,R,strP1);
 print(sprintf(strd,"pcls","d1pass"),"-dpdflatex");
 close

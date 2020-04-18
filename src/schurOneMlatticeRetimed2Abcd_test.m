@@ -119,7 +119,6 @@ for Nk=1:9
   nppts=(0:499);
   HABCDf=crossWelch(u,yABCDf,nfpts);
   HABCDapf=crossWelch(u,yABCDapf,nfpts);
-  subplot(111);
   plot(nppts/nfpts,20*log10(abs(HABCDf)), ...
        nppts/nfpts,20*log10(abs(HABCDapf)));
   axis([0 0.5 -80 5])
@@ -128,6 +127,7 @@ for Nk=1:9
   ylabel("Amplitude(dB)")
   print(sprintf("schurOneMlatticeRetimed2Abcd_test_response_%d",Nk),
         "-dpdflatex");
+  close
   npass=1+(nfpts*fc);
   printf("At fc HABCDf=%f (dB)\n",20*log10(abs(HABCDf(npass))));
 endfor

@@ -30,15 +30,15 @@ for nm=first,
   semilogy(rR,PS);
   xlabel("Pole radius");
   ylabel("Maximum phase gradient");
-  print(sprintf("allpass_filter_test_%s_pgrad",nm{1}),"-dpdflatex");
   axis([0 1 10^0 10^2]);
-  close;
+  print(sprintf("allpass_filter_test_%s_pgrad",nm{1}),"-dpdflatex");
+  close
   semilogy(rR,ng1);
   xlabel("Pole radius");
   ylabel("Noise gain");
-  print(sprintf("allpass_filter_test_%s_ng",nm{1}),"-dpdflatex");
   axis([0 1 10^-1 10^2]);
-  close;
+  print(sprintf("allpass_filter_test_%s_ng",nm{1}),"-dpdflatex");
+  close
 endfor
 
 second={"dir2","dir2_retimed","AL7c","AL7c_retimed","GM2","GM2_retimed", ...
@@ -74,7 +74,7 @@ for nm=1:length(second),
   legend("location","northwest");
   legend("boxoff");
   print(sprintf("allpass_filter_test_%s_real_pgrad",second{nm}),"-dpdflatex");
-  close;
+  close
   semilogy(realR,ng2R(:,1),'linestyle',':', ...
            realR,ng2R(:,2),'linestyle','-', ...
            realR,ng2R(:,3),'linestyle','-.', ...
@@ -87,7 +87,7 @@ for nm=1:length(second),
   legend("location","northwest");
   legend("boxoff");
   print(sprintf("allpass_filter_test_%s_real_ng",second{nm}),"-dpdflatex");
-  close;
+  close
 
   % Complex poles
   PStheta=zeros(length(thetaR),length(rR));
@@ -114,7 +114,7 @@ for nm=1:length(second),
   legend("location","north");
   legend("boxoff");
   print(sprintf("allpass_filter_test_%s_complex_pgrad",second{nm}),"-dpdflatex");
-  close;
+  close
   semilogy(thetaR/pi,ng2C(:,1),'linestyle',':', ...
            thetaR/pi,ng2C(:,2),'linestyle','-', ...
            thetaR/pi,ng2C(:,3),'linestyle','-.', ...
@@ -127,7 +127,7 @@ for nm=1:length(second),
   legend("location","north");
   legend("boxoff");
   print(sprintf("allpass_filter_test_%s_complex_ng",second{nm}),"-dpdflatex");
-  close;
+  close
 
 endfor
 
