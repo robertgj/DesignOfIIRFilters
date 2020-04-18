@@ -18,7 +18,7 @@ else
   % Disable plotting to the screen.
   set(0,'DefaultFigureVisible','off');
   % Choose the appropriate linewidth for the pdf file format.
-  set(0,"defaultlinelinewidth",4);
+  set(0,"defaultlinelinewidth",8);
 endif
 % Comment the following line for octave-4.0.3
 set(0,"defaultaxestitlefontweight","normal");
