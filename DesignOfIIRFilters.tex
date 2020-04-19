@@ -23137,7 +23137,7 @@ coefficients}
 \clearpage
 \subsubsection{20th order elliptic multi-band-pass}
 The Octave script \emph{ellip20OneMPAMB\_test.m} shows synthesis of a 20th order
-multi-band-pass elliptic filter as the parallel combination of two all-pass
+multi-band-pass elliptic filter as the difference of two parallel all-pass
 filters. Annotated results of the script follow.
 
 The prototype filter is a $5$-th elliptic low-pass filter with cutoff frequency
@@ -23192,14 +23192,15 @@ Z =
 \end{verbatim}
 \end{small}
 
-The polynomials for the all-pass components of the multi-band-pass filter are:
+The numerator polynomials for the all-pass components of the multi-band-pass
+filter are:
 \begin{small}
 \verbatiminput{ellip20OneMPAMB_test_A1_coef.m}
 \verbatiminput{ellip20OneMPAMB_test_A2_coef.m}
 \end{small}
 
-The 8-bit 4-signed-digit coefficients of the one-multiplier lattice
-implementation are:
+The 8-bit 4-signed-digit coefficients of the two one-multiplier lattice
+implementations are:
 \begin{small}
 \verbatiminput{ellip20OneMPAMB_test_k1sd_coef.m}
 \verbatiminput{ellip20OneMPAMB_test_epsilon1_coef.m}
@@ -23545,7 +23546,7 @@ elliptic filter implemented as the sum of parallel all-pass filters. The filter
 order is $n=9$, pass-band edge is $F_{p}=0.1$, 
 pass-band ripple specification is $0.1dB$, stop-band edge is $F_{a}=0.125$,
 and the stop-band ripple specification is $40dB$. The second order lattice
-constant, $a$, set was to $-\frac{3}{4}$ with corresponding $f_{3dB}=0.115027$.
+constant, $a$, was set to $-\frac{3}{4}$ with corresponding $f_{3dB}=0.115027$.
 Setting $f_{a}=Fa$ gives a corresponding $f_{p}=0.105715$. The continuous-time
 $s$-plane stop-band edge angular frequency is $\omega_{a}=1.201010$ with elliptic
 filter moduluses $\kappa=0.832632$ and $\gamma=3.1329e-05$. The calculation of
