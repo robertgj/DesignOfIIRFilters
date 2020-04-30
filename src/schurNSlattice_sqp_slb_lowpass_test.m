@@ -7,7 +7,6 @@ delete("schurNSlattice_sqp_slb_lowpass_test.diary");
 delete("schurNSlattice_sqp_slb_lowpass_test.diary.tmp");
 diary schurNSlattice_sqp_slb_lowpass_test.diary.tmp
 
-
 maxiter=5000
 verbose=false
 
@@ -15,17 +14,13 @@ verbose=false
 sxx_symmetric=false;
 
 % Deczky3 lowpass filter specification
-tol_mmse=1e-3
+tol=1e-4
 norder=10
 fap=0.15,Wap=1
-fas=0.3,Was_mmse=1e4
-ftp=0.25,tp=9.5,Wtp_mmse=0.01
-if sxx_symmetric
-  n=200,tol_pcls=1e-3,dBap=0.5,dBas=46,Was_pcls=1e5,tpr=0.2,Wtp_pcls=0.01
-else
-  n=400,tol_pcls=1e-5,dBap=0.2,dBas=46,Was_pcls=1e6,tpr=0.1,Wtp_pcls=0.1
-endif
-ctol=tol_pcls
+fas=0.3,Was=1e3
+ftp=0.25,tp=10,Wtp=0.1
+n=800,dBap=0.2,dBas=40,tpr=0.08
+ctol=1e-6
 
 % Initial filter from deczky3_sqp_test.m
 U=0;V=0;Q=6;M=10;R=1;
@@ -45,8 +40,7 @@ nas=floor(n*fas/0.5)+1;
 Asqd=[ones(nap,1); zeros(n-nap,1)];
 Asqdu=[ones(nas-1,1); (10^(-dBas/10))*ones(n-nas+1,1)];
 Asqdl=[(10^(-dBap/10))*ones(nap,1); zeros(n-nap,1)];
-Wa_mmse=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was_mmse*ones(n-nas+1,1)];
-Wa_pcls=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was_pcls*ones(n-nas+1,1)];
+Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
 
 % Group delay constraints
 ntp=ceil(n*ftp/0.5)+1;
@@ -54,12 +48,11 @@ wt=(0:(ntp-1))'*pi/n;
 Td=tp*ones(ntp,1);
 Tdu=(tp+(tpr/2))*ones(ntp,1);
 Tdl=(tp-(tpr/2))*ones(ntp,1);
-Wt_mmse=Wtp_mmse*ones(ntp,1);
-Wt_pcls=Wtp_pcls*ones(ntp,1);
+Wt=Wtp*ones(ntp,1);
 
 % Constraints on the coefficients
 dmax=0.05
-rho=1-tol_pcls
+rho=1-tol
 Ns=length(s10_0);
 sxx_u=reshape(kron([10*ones(2,1);rho*ones(4,1)],ones(1,Ns)),1,6*Ns);
 sxx_l=-sxx_u;
@@ -67,7 +60,7 @@ sxx_l=-sxx_u;
 % Find the active coefficients. Note the bitwise & operation!
 [Esq,gradEsq]=...
   schurNSlatticeEsq(s10_0,s11_0,s20_0,s00_0,s02_0,s22_0,...
-                    wa,Asqd,Wa_mmse,wt,Td,Wt_mmse);
+                    wa,Asqd,Wa,wt,Td,Wt);
 sxx_0=reshape([s10_0;s11_0;s20_0;s02_0;s00_0;s22_0],1,6*Ns);
 sxx_active=intersect(find(gradEsq),find((sxx_0~=0)&(sxx_0~=1)));
 
@@ -83,9 +76,9 @@ tic;
 [s10_1,s11_1,s20_1,s00_1,s02_1,s22_1,opt_iter,func_iter,feasible] = ...
   schurNSlattice_sqp_mmse([],s10_0,s11_0,s20_0,s00_0,s02_0,s22_0, ...
                           sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...
-                          wa,Asqd,Asqdu,Asqdl,Wa_mmse, ...
-                          wt,Td,Tdu,Tdl,Wt_mmse, ...
-                          maxiter,tol_mmse,verbose);
+                          wa,Asqd,Asqdu,Asqdl,Wa, ...
+                          wt,Td,Tdu,Tdl,Wt, ...
+                          maxiter,tol,verbose);
 toc;
 if feasible == 0 
   error("s10_1,s11_1,s20_1,s00_1,s02_1,s22_1(mmse) infeasible");
@@ -103,9 +96,9 @@ tic;
   schurNSlattice_slb(@schurNSlattice_sqp_mmse, ...
                      s10_1,s11_1,s20_1,s00_1,s02_1,s22_1, ...
                      sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...
-                     wa,Asqd,Asqdu,Asqdl,Wa_pcls, ...
-                     wt,Td,Tdu,Tdl,Wt_pcls, ...
-                     maxiter,tol_pcls,ctol,verbose);
+                     wa,Asqd,Asqdu,Asqdl,Wa, ...
+                     wt,Td,Tdu,Tdl,Wt, ...
+                     maxiter,tol,ctol,verbose);
 toc;
 if feasible == 0 
   error("s10_2,s11_2,s20_2,s00_2,s02_2,s22_2(pcls) infeasible");
@@ -162,10 +155,7 @@ print_polynomial(var(xx/(0.25*scale)),"var(xx/(0.25*scale))")
 % Save the results
 %
 fid=fopen(strcat(strf,".spec"),"wt");
-fprintf(fid,"tol_mmse=%g %% Tolerance on coefficient update vector for MMSE\n",
-        tol_mmse);
-fprintf(fid,"tol_pcls=%g %% Tolerance on coefficient update vector for PCLS\n",
-        tol_pcls);
+fprintf(fid,"tol=%g %% Tolerance on coefficient update vector for MMSE\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"sxx_symmetric=%1d %% Enforce s02=-s20 and s22=s00\n",sxx_symmetric);
@@ -177,12 +167,10 @@ fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"ftp=%g %% Delay pass band edge\n",ftp);
 fprintf(fid,"tp=%g %% Nominal pass band filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Delay pass band peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtp_mmse=%d %% Delay pass band weight for MMSE\n",Wtp_mmse);
-fprintf(fid,"Wtp_pcls=%d %% Delay pass band weight for PCLS\n",Wtp_pcls);
+fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
 fprintf(fid,"dBas=%d %% amplitude stop band peak-to-peak ripple\n",dBas);
-fprintf(fid,"Was_mmse=%g %% Amplitude stop band weight for MMSE\n",Was_mmse);
-fprintf(fid,"Was_pcls=%g %% Amplitude stop band weight for PCLS\n",Was_pcls);
+fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 print_polynomial(s10_2,"s10_2");
@@ -199,8 +187,8 @@ print_polynomial(s22_2,"s22_2");
 print_polynomial(s22_2,"s22_2",strcat(strf,"_s22_2_coef.m"));
 
 save schurNSlattice_sqp_slb_lowpass_test.mat x0 n0 d0 ...
-     fap dBap Wap ftp tp tpr Wtp_mmse Wtp_pcls fas dBas Was_mmse Was_pcls ...
-     dmax rho tol_mmse tol_pcls ctol ...
+     fap dBap Wap ftp tp tpr Wtp fas dBas Was ...
+     dmax rho tol ctol ...
      s10_0 s11_0 s20_0 s00_0 s02_0 s22_0 ...
      s10_1 s11_1 s20_1 s00_1 s02_1 s22_1 ...
      s10_2 s11_2 s20_2 s00_2 s02_2 s22_2

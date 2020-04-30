@@ -119,7 +119,7 @@ feasible=false;
 bestfx=inf;
 bestx=x0;
 min_delta=1e-8;
-min_rcond_allowed=2e-12;
+min_rcond_allowed=1e-7;
 min_rcond_found=inf;
 
 % Initialise function, gradient and Hessian (or approximation)
@@ -197,7 +197,10 @@ while 1
   else
     gxginvWgxg=gxg(:,Ax)'*invW*gxg(:,Ax);
     rcondgxginvWgxg=rcond(gxginvWgxg);
-    if min_rcond_allowed > rcondgxginvWgxg
+    if min_rcond_allowed > rcondgxginvWgxg;
+      disp("diag(invW)=");disp(diag(invW));
+      disp("gxg(all,Ax)=");disp(gxg(:,Ax));
+      disp("gxginvWgxg=");disp(gxginvWgxg);
       error("rcond(gxginvWgxg)(%g)<%g",rcondgxginvWgxg,min_rcond_allowed);
     endif
     if min_rcond_found > rcondgxginvWgxg

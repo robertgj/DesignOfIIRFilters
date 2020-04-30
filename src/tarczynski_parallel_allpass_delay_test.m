@@ -14,7 +14,6 @@ diary tarczynski_parallel_allpass_delay_test.diary.tmp
 
 tic;
 
-
 tarczynski_parallel_allpass_delay_flat_delay=false
 
 function E=WISEJ_DA(a,_R,_D,_poly,_w,_Ad,_Wa,_Td,_Wt)
@@ -135,12 +134,13 @@ fap=0.15
 Wap=1
 ftp=0.175
 if tarczynski_parallel_allpass_delay_flat_delay
+  Was=1000
   Wtp=10
 else
+  Was=100
   Wtp=0
 endif
 fas=0.2
-Was=1000
 m=12
 D=11
 td=10.25

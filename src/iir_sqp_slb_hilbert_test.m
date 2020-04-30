@@ -38,7 +38,7 @@ ftt=0.15; % Delay transition band at zero
 ntt=floor(ftt*n); 
 
 % Coefficient constraints
-dmax=0.5;
+dmax=0.05;
 [xl,xu]=xConstraints(U,V,M,Q);
 
 % Amplitude constraints

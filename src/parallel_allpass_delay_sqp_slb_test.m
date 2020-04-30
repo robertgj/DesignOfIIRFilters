@@ -10,37 +10,32 @@ diary parallel_allpass_delay_sqp_slb_test.diary.tmp
 tic;
 
 verbose=false
-maxiter=5000
+maxiter=2000
 strf="parallel_allpass_delay_sqp_slb_test";
 
 % Lowpass filter specification for parallel all-pass filters
 tol=1e-5
-ctol=3e-7
-n=1000;
+ctol=1e-7
+n=500;
 R=1
 DD=11
 m=12
 fap=0.15
-dBap=0.05
+dBap=0.04
 Wap=1
 fas=0.2
-dBas=46
-Was=100
-% Unused delay specification
-ftp=0.15
-td=11
-tdr=inf
-Wtp=0
+dBas=43
+Was=50
 
 % Initial coefficients found by tarczynski_parallel_allpass_delay_test.m
-Da0 = [   1.0000000000,  -0.5293611377,   0.3581368348,   0.1868795745, ... 
-          0.0310949260,  -0.0570094736,  -0.0702446896,  -0.0383080635, ... 
-         -0.0002494299,   0.0199925321,   0.0203357943,   0.0113714592, ... 
-          0.0034482822 ]';
+Da0 = [   1.0000000000,  -0.5220973842,   0.3616272734,   0.1867311869, ... 
+          0.0318266239,  -0.0498503285,  -0.0543925688,  -0.0165336258, ... 
+          0.0215871327,   0.0367003807,   0.0300048879,   0.0153328172, ... 
+          0.0043648415 ]';
 
 % Coefficient constraints
-rho=127/128
-dmax=0.05
+rho=0.99
+dmax=0.005
 
 % Convert coefficients to a vector
 [a0,V,Q]=tf2a(Da0);
@@ -56,14 +51,6 @@ Asqd=[ones(nap,1);zeros(n-nap,1)];
 Asqdu=[ones(nas-1,1);(10^(-dBas/10))*ones(n-nas+1,1)];
 Asqdl=[(10^(-dBap/10))*ones(nap,1);zeros(n-nap,1)];
 Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
-
-% Desired pass-band group delay response
-ntp=ceil(n*ftp/0.5)+1;
-wt=(0:(ntp-1))'*pi/n;
-Td=td*ones(ntp,1);
-Tdu=Td+(tdr*ones(ntp,1)/2);
-Tdl=Td-(tdr*ones(ntp,1)/2);
-Wt=Wtp*ones(ntp,1);
 
 % Linear constraints
 [al,au]=aConstraints(V,Q,rho);
@@ -104,7 +91,7 @@ close
 [a1,slb_iter,opt_iter,func_iter,feasible]= ...
   parallel_allpass_delay_slb(@parallel_allpass_delay_sqp_mmse, ...
                              a0,au,al,dmax,V,Q,R,DD, ...
-                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
+                             wa,Asqd,Asqdu,Asqdl,Wa,[],[],[],[],[], ...
                              maxiter,tol,ctol,verbose);
 if !feasible
   error("a1 infeasible");
@@ -139,8 +126,8 @@ ax=plotyy(wplot(1:nap)*0.5/pi,20*log10(abs(Ha1D(1:nap))),...
           wplot(nas:n)*0.5/pi,20*log10(abs(Ha1D(nas:n))));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
-axis(ax(1),[0 0.5 -0.06 0.01]);
-axis(ax(2),[0 0.5 -50 -43]);
+axis(ax(1),[0 0.5 -0.04 0.01]);
+axis(ax(2),[0 0.5 -45 -40]);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
@@ -189,13 +176,6 @@ wAsqS=unique([wa(vAl);wa(vAu);wa([1,nap,nas,end])]);
 AsqS=parallel_allpass_delayAsq(wAsqS,a1,V,Q,R,DD);
 printf("a1:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("a1:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
-T=parallel_allpass_delayT(wt,a1,V,Q,R,DD);
-vTl=local_max(Tdl-T);
-vTu=local_max(T-Tdu);
-wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
-TS=parallel_allpass_delayT(wTS,a1,V,Q,R,DD);
-printf("a1:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("a1:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 
 % Save the filter specification
 fid=fopen(strcat(strf,".spec"),"wt");

@@ -9,18 +9,18 @@ diary deczky3a_sqp_test.diary.tmp
 
 tic;
 
-
 tol=2e-4
 ctol=tol
-maxiter=2000
-verbose=false;
+maxiter=10000
+verbose=false
+
 strf="deczky3a_sqp_test";
 
 % Deczky3 Lowpass filter specification
 U=0,V=0,Q=6,M=10,R=1
 fap=0.15,dBap=0.1,Wap=1
-fas=0.3,dBas=50,Was=10
-ftp=0.25,tp_mmse=10,tp_pcls=9.35,tpr=0.3,Wtp_mmse=0.0001,Wtp_pcls=0.001
+fas=0.3,dBas=50,Was=4
+ftp=0.25,tp=9.35,tpr=0.3,Wtp=0.0001
 
 % Initial coefficients
 z=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...
@@ -55,14 +55,10 @@ Ws=[];
 % Group delay constraints
 ntp=ceil(n*ftp/0.5)+1;
 wt=(0:(ntp-1))'*pi/n;
-Td_mmse=tp_mmse*ones(ntp,1);
-Tdu_mmse=(tp_mmse+((tpr-tol)/2))*ones(ntp,1);
-Tdl_mmse=(tp_mmse-((tpr-tol)/2))*ones(ntp,1);
-Wt_mmse=Wtp_mmse*ones(ntp,1);
-Td_pcls=tp_pcls*ones(ntp,1);
-Tdu_pcls=(tp_pcls+((tpr-tol)/2))*ones(ntp,1);
-Tdl_pcls=(tp_pcls-((tpr-tol)/2))*ones(ntp,1);
-Wt_pcls=Wtp_pcls*ones(ntp,1);
+Td=tp*ones(ntp,1);
+Tdu=(tp+((tpr-tol)/2))*ones(ntp,1);
+Tdl=(tp-((tpr-tol)/2))*ones(ntp,1);
+Wt=Wtp*ones(ntp,1);
 
 % Phase constraints
 wp=[];
@@ -87,13 +83,13 @@ vS=iir_slb_set_empty_constraints();
   iir_sqp_mmse(vS, ...
                x0,xu,xl,dmax,U,V,M,Q,R, ...
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
-               wt,Td_mmse,Tdu_mmse,Tdl_mmse,Wt_mmse,wp,Pd,Pdu,Pdl,Wp, ...
+               wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
                maxiter,tol,verbose)
 if feasible == 0 
   error("x1(mmse) infeasible");
 endif
 strt=sprintf("x1(mmse):fap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g",
-             fap,Wap,fas,dBas,Was,ftp,tp_mmse,Wtp_mmse);
+             fap,Wap,fas,dBas,Was,ftp,tp,Wtp);
 showZPplot(x1,U,V,M,Q,R,strt);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
@@ -109,13 +105,12 @@ printf("\nPCLS pass 1:\n");
 [d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
   iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
-          wt,Td_pcls,Tdu_pcls,Tdl_pcls,Wt_pcls, ...
-          wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose)
+          wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose)
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
 strt=sprintf("d1:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,\
-tp=%g,tpr=%g,Wtp=%g",fap,dBap,Wap,fas,dBas,Was,ftp,tp_pcls,tpr,Wtp_pcls);
+tp=%g,tpr=%g,Wtp=%g",fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
 showZPplot(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
@@ -135,8 +130,8 @@ AS=iirA(wAS,d1,U,V,M,Q,R);
 printf("d1:fAS=[ ");printf("%f ",wAS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:AS=[ ");printf("%f ",20*log10(AS'));printf(" ] (dB)\n");
 T=iirT(wt,d1,U,V,M,Q,R);
-vTl=local_max(Tdl_pcls-T);
-vTu=local_max(T-Tdu_pcls);
+vTl=local_max(Tdl-T);
+vTu=local_max(T-Tdu);
 wTS=unique([wt(vTl);wt(vTu);wt(ntp)]);
 TS=iirT(wTS,d1,U,V,M,Q,R);
 printf("d1:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
@@ -151,11 +146,9 @@ fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
 fprintf(fid,"dBap=%d %% Pass band amplitude peak-to-peak ripple\n",dBap);
 fprintf(fid,"Wap=%d %% Pass band weight\n",Wap);
 fprintf(fid,"ftp=%g %% Pass band group delay response edge\n",ftp);
-fprintf(fid,"tp=%d %% Nominal filter group delay(MMSE pass)\n",tp_mmse);
-fprintf(fid,"tp=%d %% Nominal filter group delay(PCLS pass)\n",tp_pcls);
+fprintf(fid,"tp=%d %% Nominal filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtp=%g %% Pass band group delay weight(MMSE pass)\n",Wtp_mmse);
-fprintf(fid,"Wtp=%g %% Pass band group delay weight(PCLS pass)\n",Wtp_pcls);
+fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
 fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
 fprintf(fid,"dBas=%d %% Stop band minimum attenuation\n",dBas);
 fprintf(fid,"Was=%d %% Stop band amplitude weight\n",Was);
@@ -174,7 +167,7 @@ print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 save deczky3a_sqp_test.mat U V M Q R tol ctol ...
-     fap dBap Wap fas dBas Was ftp tp_mmse tp_pcls tpr Wtp_mmse Wtp_pcls d1
+     fap dBap Wap fas dBas Was ftp tp tpr Wtp d1
 
 % Done
 toc

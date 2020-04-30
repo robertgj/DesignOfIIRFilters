@@ -7,8 +7,7 @@ delete("iir_sqp_slb_minimum_phase_test.diary");
 delete("iir_sqp_slb_minimum_phase_test.diary.tmp");
 diary iir_sqp_slb_minimum_phase_test.diary.tmp
 
-
-tol=5e-4
+tol=2e-4
 ctol=tol
 maxiter=2000
 verbose=false
@@ -20,7 +19,7 @@ dBap=0.2
 Wap=1
 fas=0.2
 dBas=46
-Was=10
+Was=5
 
 % Frequency vectors
 n=1000;
@@ -77,7 +76,7 @@ close
             
 % Coefficient constraints
 [xl,xu]=xConstraints(U,V,M,Q,31/32,1);
-dmax=0.1;
+dmax=0.005;
 
 % PCLS
 [d1,E,slb_iter,opt_iter,func_iter,feasible] = ...
