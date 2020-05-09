@@ -27,7 +27,7 @@ eps=2.2e-16;
 if exist("reprand") ~= 3
   mkoctfile reprand.cc
 endif
-A=reshape(reprand(N*N)-0.5,N,N);
+A=reprand(N,N)-0.5;
 
 norma=max(max(max(A)),-min(min(A)));
 

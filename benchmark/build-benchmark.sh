@@ -17,7 +17,7 @@
 #  arpack-ng-master.zip
 #  fftw-3.3.8.tar.gz
 #  qrupdate-1.1.2.tar.gz
-#  octave-5.1.0.tar.lz
+#  octave-5.2.0.tar.lz
 #  struct-?.?.?.tar.gz
 #  optim-?.?.?.tar.gz
 #  control-?.?.?.tar.gz
@@ -82,16 +82,48 @@ export OCTAVE_CONFIG_OPTIONS=" \
        --with-fftw3f-libdir=$LOCAL_PREFIX/lib"
 
 # Unpack Octave
-export OCTAVEVER=5.1.0
-tar -xf octave-$OCTAVEVER".tar.lz"
-
+export OCTAVE_VER=5.2.0
+rm -Rf octave-$OCTAVE_VER
+tar -xf octave-$OCTAVE_VER".tar.lz"
+# Patch
+cat > octave-$OCTAVE_VER".patch.uue" << 'EOF'
+begin-base64 644 octave-5.2.0.patch
+LS0tIC4vc2NyaXB0cy9wbG90L3V0aWwvcHJpdmF0ZS9fX2dudXBsb3RfZHJh
+d19heGVzX18ubQkyMDIwLTAxLTI4IDEyOjU3OjM1LjAwMDAwMDAwMCArMTEw
+MAorKysgLi4vb2N0YXZlLTUuMi4wLm5ldy8uL3NjcmlwdHMvcGxvdC91dGls
+L3ByaXZhdGUvX19nbnVwbG90X2RyYXdfYXhlc19fLm0JMjAyMC0wNC0wNSAx
+MTo0MzozMi4xNzg2ODY1ODcgKzEwMDAKQEAgLTIyNTQsNyArMjI1NCw4IEBA
+CiAgICAgZW5kZm9yCiAgIGVsc2VpZiAoc3RyY21wIChpbnRlcnByZXRlciwg
+ImxhdGV4IikpCiAgICAgaWYgKCEgd2FybmVkX2xhdGV4KQotICAgICAgd2Fy
+bmluZyAoImxhdGV4IG1hcmt1cCBub3Qgc3VwcG9ydGVkIGZvciB0aWNrIG1h
+cmtzIik7CisgICAgICB3YXJuaW5nICgiT2N0YXZlOmxhdGV4LW1hcmt1cC1u
+b3Qtc3VwcG9ydGVkLWZvci10aWNrLW1hcmtzIiwKKwkgICAgICAgImxhdGV4
+IG1hcmt1cCBub3Qgc3VwcG9ydGVkIGZvciB0aWNrIG1hcmtzIik7CiAgICAg
+ICB3YXJuZWRfbGF0ZXggPSB0cnVlOwogICAgIGVuZGlmCiAgIGVuZGlmCi0t
+LSAuL3NjcmlwdHMvbWlzY2VsbGFuZW91cy9kZWxldGUubQkyMDIwLTAxLTI4
+IDEyOjU3OjM1LjAwMDAwMDAwMCArMTEwMAorKysgLi4vb2N0YXZlLTUuMi4w
+Lm5ldy8uL3NjcmlwdHMvbWlzY2VsbGFuZW91cy9kZWxldGUubQkyMDIwLTA0
+LTA1IDExOjQzOjU0LjY4OTQ5NTY2MCArMTAwMApAQCAtNDQsNyArNDQsOCBA
+QAogICAgIGZvciBhcmcgPSB2YXJhcmdpbgogICAgICAgZmlsZXMgPSBnbG9i
+IChhcmd7MX0pOwogICAgICAgaWYgKGlzZW1wdHkgKGZpbGVzKSkKLSAgICAg
+ICAgd2FybmluZyAoImRlbGV0ZTogbm8gc3VjaCBmaWxlOiAlcyIsIGFyZ3sx
+fSk7CisgICAgICAgIHdhcm5pbmcgKCJPY3RhdmU6ZGVsZXRlLW5vLXN1Y2gt
+ZmlsZSIsCisJICAgICAgICAgImRlbGV0ZTogbm8gc3VjaCBmaWxlOiAlcyIs
+IGFyZ3sxfSk7CiAgICAgICBlbmRpZgogICAgICAgZm9yIGkgPSAxOmxlbmd0
+aCAoZmlsZXMpCiAgICAgICAgIGZpbGUgPSBmaWxlc3tpfTsK
+====
+EOF
+uudecode octave-$OCTAVE_VER.patch.uue > octave-$OCTAVE_VER.patch
+pushd octave-$OCTAVE_VER
+patch -p1 < ../octave-$OCTAVE_VER.patch
+popd
 # Build the benchmark versions
 for BUILD in dbg shared shared-lto shared-pgo shared-lto-pgo ;
 do
     #
     echo "Building" $BUILD
     #
-    OCTAVE_DIR=$LOCAL_PREFIX/octave-$OCTAVEVER ;
+    OCTAVE_DIR=$LOCAL_PREFIX/octave-$OCTAVE_VER ;
     OCTAVE_INSTALL_DIR=$LOCAL_PREFIX/octave-$BUILD
     OCTAVE_PACKAGE_DIR=$OCTAVE_INSTALL_DIR/share/octave/packages 
     OCTAVE_PACKAGES=$OCTAVE_INSTALL_DIR/share/octave/octave_packages
@@ -109,13 +141,13 @@ do
     echo "pkg prefix $OCTAVE_PACKAGE_DIR $OCTAVE_PACKAGE_DIR ; \
           pkg local_list $OCTAVE_PACKAGES ;" > .octaverc
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../struct-tip.tar.gz'
+                                       'pkg install ../struct-1.0.16.tar.gz'
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../optim-tip.tar.gz'
+                                       'pkg install ../optim-1.6.0.tar.gz'
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../control-tip.tar.gz'
+                                       'pkg install ../control-3.2.0.tar.gz'
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../signal-tip.tar.gz'
+                                       'pkg install ../signal-1.4.1.tar.gz'
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval "pkg list"
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval "__octave_config_info__"
     #

@@ -12,7 +12,7 @@ export LDFLAGS="-L"$LAPACK_DIR
 # Build arpack-ng
 #
 rm -Rf arpack-ng-master
-unzip arpack-ng-master.zip
+unzip master.zip
 pushd arpack-ng-master
 sh ./bootstrap
 ./configure --prefix=$LOCAL_PREFIX --with-blas=-lblas --with-lapack=-llapack
