@@ -68,7 +68,7 @@ Wp=[];
 
 % Check
 print_polynomial(wa([nap-1,nap,nap+1,nas-1,nas,nas+1])*0.5/pi,"f");
-print_polynomial(Wa([nap-1,nap,nap+1,nas-1,nas,nas+1])*0.5/pi,"Wa");
+print_polynomial(Wa([nap-1,nap,nap+1,nas-1,nas,nas+1]),"Wa");
 print_polynomial(wt(ntp)*0.5/pi,"ft(ntp)");
 
 % Empty frequency constraint structure

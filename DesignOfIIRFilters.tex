@@ -25807,7 +25807,7 @@ zeros of the filter. The distinct filter coefficients are:
 \end{figure}
 \clearpage
 \subsubsection{\emph{Selesnick-Burrus} modification to  \emph{Hofstetter}'s
-  algorithm for low-pass filters}
+  algorithm for low-pass filters\label{sec:Selesnick-Burrus-modification-Hofstetter-low-pass}}
 \emph{Selesnick} and 
 \emph{Burrus}~\cite{SelesnickBurrus_ExchangeAlgorithmsParksMcClellanAlgorithm}
 point out that whilst \emph{Hofstetter}'s algorithm ``produces equi-ripple
@@ -25897,7 +25897,7 @@ filter with the specification:
 \begin{small}
 \verbatiminput{selesnickFIRsymmetric_halfband_test.spec}
 \end{small}
-For the half-band filter, $\delta_{p}=\delta_{s}$, $f_{t}=0.5$ and $A_{t}=0.5$. 
+For the half-band filter, $\delta_{p}=\delta_{s}$, $f_{t}=0.25$ and $A_{t}=0.5$. 
 Figure~\ref{fig:selesnickFIRsymmetric-halfband-test-dual} shows the
 amplitude response of the half-band filter. The distinct filter coefficients are:
 \begin{small}
@@ -30141,6 +30141,487 @@ form of Equation~\ref{eqn:Second-order-linear-homogeous-differential-equation}:
 The points $w=-1,w_{s},w_{m},w_{p},1$ are the \emph{singular} points of the
 Zolotarev differential equation.
 \end{comment}
+\clearpage
+\section{\label{app:FIR-tapped-cascaded}Design of FIR filters as a tapped cascade of subfilters}
+This chapter describes the design of FIR filters as a series cascade of
+sub-filters. See, for example,
+\emph{Sara\"{a}ki}~\cite{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters},
+\emph{Shiung et al.}~\cite{Shiung_ImprovingFIRFiltersCascadeTechniques},
+\emph{Smith}~\cite{Smith_DecompositionFIRCascadeSubFilters} or
+\emph{Lim} and \emph{Liu}~\cite{LimLui_CascadeFIRDiscreteCoefficients}. The
+cascade connection permits an improved response and/or reduced complexity by
+partition of the FIR filter or the use of fewer multipliers.
+
+\emph{Saram\"{a}ki}~\cite{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters}
+describes a the design of a tapped cascade of identical subfilters by ``mapping
+a prototype filter into a composite filter by means of a frequency
+travsformation. The transformation determines the subfilter, whereas the
+prototype filter determines the tap coefficients.'' He claims that his proposed
+approach results in an overall filter order that is approximately $30$\%
+higher than the order, $L$, of the correponding mini-max direct-form FIR filter
+but has approximately $\sqrt{2.6L}$
+multipliers. \emph{Saram\"{a}ki}~\cite[Section
+V]{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters} gives experimental
+results for the effect of the number of sub-filters on performance measures such
+as overall filter order, number of distinct multipliers, number of delay
+elements, round-off error and coefficient sensitivity.  
+
+\subsection{Transformations of linear-phase FIR filters}
+The transfer function, $H\left(Z\right)$, of a linear-phase FIR filter with
+impulse response $h_{n}$ of length $2N+1$, and symmetry $h_{N-n}=h_{n}$ can be
+expressed in terms of the \emph{zero-phase} transfer function,
+$\tilde{H}_{0}\left(Z\right)$, as: 
+\begin{align*}
+ \tilde{H}_{0}\left(Z\right)&=z^{-N}H\left(Z\right)\\
+                            &=h_{N}+\sum^{N}_{n=1}h_{N-n}\left[Z^{n}+Z^{-n}\right]
+\end{align*}
+
+This can be re-written as:
+\begin{align*}
+  \tilde{H}_{0}\left(v\right) &=h_{N}+\sum^{N}_{n=1}2h_{N-n}T_{n}\left(v\right)\\
+                              &=\sum^{N}_{n=0}a_{n}v^{n}
+\end{align*}
+where $v=\frac{1}{2}\left(Z+Z^{-1}\right)$ and $T_{n}\left(v\right)$ are the
+Chebychev polynomials of the first kind, defined by
+$T\left(\cos\theta\right)=\cos{}n\theta$. In the following, 
+$\tilde{H}_{0}\left(v\right)$ is also called the \emph{prototype} filter. 
+
+$\tilde{H}_{0}\left(v\right)$ can be converted to another transfer function by
+substitution of a zero-phase sub-filter, $v=\bar{H}_{M}\left(z\right)$, where:
+\begin{align*}
+  H_{M}\left(z\right)&=\sum^{2M}_{r=0}\bar{h}_{r}z^{-r}\\
+  \bar{H}_{M}\left(z\right)&=z^{M}H_{M}\left(z\right)\\
+       &=\left[\bar{h}_{M}+
+         \sum^{M}_{r=0}\bar{h}_{M-r}\left(z^{r}+z^{-r}\right)\right]\\
+\end{align*}
+The overall zero-phase transfer function is then:
+\begin{align}
+  \label{eqn:FIR-tapped-cascade-hM}
+  H_{0}\left(z\right)&=\sum^{N}_{n=0}a_{n}\left[\bar{H}_{M}\left(z\right)\right]^{n}
+\end{align}
+This is an order $NM$ polynomial in $\frac{1}{2}\left(z+z^{-1}\right)$ with a
+corresponding impulse response of length $2NM+1$.
+
+\subsubsection{Implementations of transformed FIR filters}
+\emph{Saram\"{a}ki}~\cite[Figure
+1]{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters} shows several 
+implementations of Equation~\ref{eqn:FIR-tapped-cascade-hM}. The 
+first is~\cite[Figure 1a and Equation
+6]{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters}: 
+\begin{align}
+\begin{split}
+  H\left(z\right)
+  &=z^{-NM}H_{0}\left(z\right)\\
+  &=\sum^{N}_{n=0}a_{n}z^{-\left(N-n\right)M}\left[H_{M}\left(z\right)\right]^{n}
+\end{split}
+\label{eqn:FIR-tapped-cascade-sub-filters-tap-coefficients}
+\end{align}
+
+An alternative implementation is derived from the recursion relation for
+Chebychev polynomials of the first kind:
+\begin{align*}
+  T_{0}\left(x\right)&=1\\
+  T_{1}\left(x\right)&=x\\
+  \vdots\\
+  T_{n}\left(x\right)&=2xT_{n-1}\left(x\right)-T_{n-2}\left(x\right)
+\end{align*}
+Substitution gives~\cite[Figure 1c and Equation
+9]{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters}:
+\begin{align*}
+   H\left(z\right)
+  &=h_{N}z^{-NM}G_{0}\left(z\right)+
+    \sum^{N}_{n=1}2h_{N-n}z^{-\left(N-n\right)M}G_{n}\left(z\right)\\
+  G_{n}\left(z\right)&=z^{-nM}T_{n}\left(z^{M}H_{M}\left(z\right)\right)
+\end{align*}
+The transfer functions $G_{n}\left(z\right)$ can be implemented recursively as:
+\begin{align*}
+  G_{0}\left(z\right)&=1\\
+  G_{1}\left(z\right)&=H_{M}\left(z\right)\\
+  G_{n}\left(z\right)&=2H_{M}\left(z\right)G_{n-1}\left(z\right)-
+                       z^{-2M}G_{n-2}\left(x\right)
+\end{align*}
+  
+\subsubsection{Frequency domain relations}
+Setting $Z=e^{\imath\Omega}$ and $z=e^{\imath\omega}$, the zero-phase frequency
+responses of the prototype filter, $\tilde{H_{0}}\left(Z\right)$, and transformed
+filter, $H_{0}\left(z\right)$, are:
+\begin{align*}
+  \tilde{H_{0}}\left(e^{\imath\Omega}\right)
+  &=\sum^{N}_{n=0}a_{n}\left[\cos\Omega\right]^{n}\\
+  H_{0}\left(e^{\imath\omega}\right)
+  &=\sum^{N}_{n=0}a_{n}\left[P_{M}\left(\omega\right)\right]^{n}
+\end{align*}
+where the zero-phase frequency response of the
+sub-filter, $H_{M}\left(z\right)$, is: 
+\begin{align*}
+  P_{M}\left(\omega\right)&=\bar{h}_{M}+\sum^{M}_{r=1}2\bar{h}_{M-r}\cos{}r\omega
+\end{align*}
+$\tilde{H_{0}}\left(e^{\imath\Omega}\right)$ and $H_{0}\left(e^{\imath\omega}\right)$
+are related by:
+\begin{align*}
+  \Omega&=g_{M}\left(\omega\right)=\arccos{}P_{M}\left(\omega\right)  
+\end{align*}
+If $0\le{}g_{M}\left(\omega\right)\le\pi$ and $0\le\omega\le\pi$ this
+transformation preserves the amplitude characteristics of 
+$\tilde{H_{0}}\left(e^{\imath\Omega}\right)$ and distorts the frequency
+axis~\cite[Figure 2]{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters}.
+\subsection{Frequency-domain constraints on the prototype and sub-filter}
+\subsubsection{Specifications Based on a Normalized Prototype Filter}
+Let the specifications of $H_{0}\left(e^{\imath\omega}\right)$ in the pass-bands,
+$I_{p}$, and stop-bands, $I_{s}$, be:
+\begin{align}
+  \begin{split}
+  1-\delta_{p}\le H_{0}\left(e^{\imath\omega}\right) \le 1+\delta_{p}
+  &\quad \omega\in I_{p} \\
+    -\delta_{s}\le H_{0}\left(e^{\imath\omega}\right) \le \delta_{s}
+  &\quad \omega\in I_{s}
+  \end{split}
+    \label{eqn:FIR-tapped-cascade-composite-specification}
+\end{align}
+The specifications for the prototype filter,
+$\tilde{H_{0}}\left(e^{\imath\Omega}\right)$, are:
+\begin{align}
+  \begin{split}
+  1-\delta_{p}\le \tilde{H}_{0}\left(e^{\imath\Omega}\right) \le 1+\delta_{p}
+  &\quad 0\le\Omega\le\Omega_{p}\\
+  -\delta_{s}\le \tilde{H}_{0}\left(e^{\imath\Omega}\right) \le \delta_{s}
+  &\quad \Omega_{s}\le\Omega\le\pi
+  \end{split}
+    \label{eqn:FIR-tapped-cascade-prototype-specification}
+\end{align}
+
+The requirements for $g_{M}\left(\omega\right)$ are:
+\begin{align*}
+  0\le g_{M}\left(\omega\right) \le \Omega_{p}
+  &\quad \text{for }\omega\in I_{p}\\
+  \Omega_{s}\le g_{M}\left(\omega\right) \le \pi
+  &\quad \text{for }\omega\in I_{s}
+\end{align*}
+The requirements for the zero-phase response of the sub-filter are:
+\begin{align}
+  \begin{split}
+  \cos\Omega_{p}\le P_{M}\left(\omega\right) \le 1
+  &\quad \text{for }\omega\in I_{p}\\
+  -1\le P_{M}\left(\omega\right) \le\cos\Omega_{s}
+  &\quad \text{for }\omega\in I_{s}
+  \end{split}
+    \label{eqn:FIR-tapped-cascade-subfilter-specification}
+\end{align}
+For fixed values of $\Omega_{p}$, and $\Omega_{s}$, both the prototype filter
+and the subfilter can be designed using minimax FIR design
+software. \emph{Saram\"{a}ki} calls this type of specification ``normalised-prototype-filter-based''(NPFB).
+\subsubsection{General specifications}
+The same overall frequency response can be obtained by replacing
+the subfilter, $H_{M}\left(z\right)$, with:
+\begin{align*}
+  \hat{H}_{M}\left(z\right)&=AH_{M}\left(z\right)+Bz^{-M}
+\end{align*}
+which has the zero-phase response:
+\begin{align}
+  \hat{P}_{M}\left(\omega\right)&=AP_{M}\left(\omega\right)+B
+\label{eqn:FIR-tapped-cascade-transformation-subfilter-zero-phase}
+\end{align}
+The overall zero-phase frequency response becomes:
+\begin{align*}
+  \hat{H}_{0}\left(e^{\imath\omega}\right)
+  &=\sum^{N}_{n=0}\hat{a}_{n}\left[\hat{P}_{M}\left(\omega\right)\right]^{n}
+\end{align*}
+which corresponds to a frequency transformation:
+\begin{align}
+  x&=A\cos\Omega+B
+\label{eqn:FIR-tapped-cascade-transformation-x-to-Omega}
+\end{align}
+The prototype frequency response becomes:
+\begin{align*}
+  \hat{H}_{0}\left(x\right)
+  &=\tilde{H}_{0}\left(e^{\imath\omega}\right)\rvert_{x=A\cos\Omega+B}
+    =\sum^{N}_{n=0}\hat{a}_{n}x^{n}
+\end{align*}
+The zero-phase frequency response is obtained from $\hat{H}_{0}\left(x\right)$ by
+the substitution $x=\frac{1}{2}\left(z+z^{-1}\right)$. Likewise, the prototype
+filter frequency response is obtained by the substitution $x=\cos\Omega$.
+$H_{0}\left(e^{\imath\omega}\right)$ and $\hat{H}_{0}\left(x\right)$ are related
+by $x=\hat{P}_{M}\left(\omega\right)$. If $A>0$, then
+Equation~\ref{eqn:FIR-tapped-cascade-transformation-x-to-Omega} maps the
+pass-band, $\left[0,\Omega_{p}\right]$, and the stop-band,
+$\left[\Omega_{s},\pi\right]$, of the $\Omega$-plane onto the $x$-plane regions
+$\left[x_{p1},x_{p2}\right]$ and $\left[x_{s1},x_{s2}\right]$, respectively, where:
+\begin{align}
+  \begin{split}
+  x_{p1}&=\phantom{-}A\cos\Omega_{p}+B\\
+  x_{p2}&=\phantom{-}A+B\\
+  x_{s1}&=-A+B\\
+  x_{s2}&=\phantom{-}A\cos\Omega_{s}+B
+  \end{split}
+          \label{eqn:FIR-tapped-cascade-x-plane-A-B}
+\end{align}
+If $\tilde{H}_{0}\left(e^{\imath\Omega}\right)$ satisfies
+Equation~\ref{eqn:FIR-tapped-cascade-prototype-specification}, then
+$1-\delta_{p}\le\tilde{H}_{0}\left(x\right)\le 1+\delta_{p}$ on
+$\left[x_{p1},x_{p2}\right]$ and
+$-\delta_{s}\le\tilde{H}_{0}\left(x\right)\le\delta_{s}$ on
+$\left[x_{s1},x_{s2}\right]$~\cite[Figure
+3]{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters}. Similarly, if $P_{M}$
+satisfies Equation~\ref{eqn:FIR-tapped-cascade-subfilter-specification}, then
+the new subfilter frequency response $\hat{P}_{M}\left(\omega\right)$ is within
+the limits $x_{p1}$ and $x_{p2}$ on $I_{p}$ and within the limits $x_{s1}$ and
+$x_{s2}$ on $I_{s}$. The simultaneous specifications for the prototype filter
+and sub-filter are~\cite[Figure
+4]{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters}:
+\begin{align}
+  \begin{split}
+  1-\delta_{p}\le\hat{H}_{0}\left(x\right)\le 1+\delta_{p}
+  &\quad\text{for }x\in\left[x_{p1},x_{p2}\right]\\
+  \delta_{s}\le\hat{H}_{0}\left(x\right)\le\delta_{s}
+  &\quad\text{for }x\in\left[x_{s1},x_{s2}\right]\\
+  x_{p1}\le\hat{P}_{M}\left(\omega\right)\le x_{p2}
+  &\quad\text{for }\omega\in I_{p}\\
+  x_{s1}\le\hat{P}_{M}\left(\omega\right)\le x_{s2}
+  &\quad\text{for }\omega\in I_{s}
+  \end{split}
+   \label{eqn:FIR-tapped-cascade-general-specification}
+\end{align}
+The design of the sub-filter $\hat{P}_{M}\left(\omega\right)$ can be performed
+by standard FIR filter design algorithms. The design of the prototype filter,
+$\hat{H}_{0}\left(x\right)$ can be performed by using the transformation of
+Equation~\ref{eqn:FIR-tapped-cascade-transformation-x-to-Omega} to map the
+problem to the $\Omega$-plane, designing the filter to meet the specifications
+of Equation~\ref{eqn:FIR-tapped-cascade-prototype-specification}, then mapping
+the result back to the $x$-plane.
+\subsubsection{Specifications based on the normalised subfilter}
+For the special case of $x_{p1}=1-\hat{\delta}_{p}$, $x_{p2}=1+\hat{\delta}_{p}$,
+$x_{s1}=-\hat{\delta}_{s}$ and $x_{s2}=\hat{\delta}_{s}$, \emph{Saram\"{a}ki}
+refers to the ``normalised-subfilter-based'' (NFSB) specifications:
+\begin{align}
+  \begin{split}
+    1-\delta_{p}\le\hat{H}_{0}\left(x\right)\le 1+\delta_{p}
+  &\quad\text{for }x\in\left[1-\hat{\delta}_{p},1+\hat{\delta}_{p}\right]\\
+  \delta_{s}\le\hat{H}_{0}\left(x\right)\le\delta_{s}
+  &\quad\text{for }x\in\left[-\hat{\delta}_{s},\hat{\delta}_{s}\right]\\
+  1-\hat{\delta}_{p}\le\hat{P}_{M}\left(\omega\right)\le 1+\hat{\delta}_{p}
+  &\quad\text{for }\omega\in I_{p}\\
+  -\hat{\delta}_{s}\le\hat{P}_{M}\left(\omega\right)\le \hat{\delta}_{s}
+  &\quad\text{for }\omega\in I_{s}
+  \end{split}
+\label{eqn:FIR-tapped-cascade-NSFB-specifications}    
+\end{align}
+The NPFB and NSFB specifications are related by the transformation of 
+Equation~\ref{eqn:FIR-tapped-cascade-transformation-x-to-Omega} and the
+subsitution of Equation~\ref{eqn:FIR-tapped-cascade-x-plane-A-B} with
+$x_{p2}-x_{s1}$ and $x_{p2}+x_{s1}$ giving:
+\begin{align*}
+  A&=\frac{1+\hat{\delta}_{p}+\hat{\delta}_{s}}{2}\\
+  B&=\frac{1+\hat{\delta}_{p}-\hat{\delta}_{s}}{2}
+\end{align*}
+
+$\cos\Omega_{p}$ and $\cos\Omega_{s}$ are related to $\hat{\delta}_{p}$ and
+$\hat{\delta}_{p}$ by the relative proportions:
+\begin{align*}
+  \frac{1-\cos\Omega_{p}}{2}&=\frac{2\hat{\delta}_{p}}
+                  {1+\hat{\delta}_{p}+\hat{\delta}_{s}}\\
+  \frac{1+\cos\Omega_{s}}{2}&=\frac{2\hat{\delta}_{s}}
+                  {1+\hat{\delta}_{p}+\hat{\delta}_{s}}
+\end{align*}
+so that:
+\begin{align*}
+  \cos\Omega_{p}&=\frac{1+\hat{\delta}_{s}-3\hat{\delta}_{p}}
+                  {1+\hat{\delta}_{p}+\hat{\delta}_{s}}\\
+  \cos\Omega_{s}&=\frac{3\hat{\delta}_{s}-\hat{\delta}_{p}-1}
+                  {1+\hat{\delta}_{p}+\hat{\delta}_{s}}\\
+\end{align*}
+Alternatively, given $\cos\Omega_{p}$ and $\cos\Omega_{s}$:
+\begin{align*}
+  \left[\begin{array}{cc}
+          3+\cos\Omega_{p} & -1+\cos\Omega_{p}\\
+          1+\cos\Omega_{s} & -3+\cos\Omega_{s}\end{array}\right]
+  \left[\begin{array}{c}
+          \hat{\delta}_{p} \\
+          \hat{\delta}_{s}\end{array}\right] &=
+  \left[\begin{array}{c}
+          \phantom{-}1-\cos\Omega_{p} \\
+          -1-\cos\Omega_{s}\end{array}\right]
+\end{align*}
+
+\subsection{Filter design}
+\emph{Saram\"{a}ki}~\cite[Section
+IV]{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters} considers four separate
+design problems. 
+
+\subsubsection{Approximation Problem I}
+Given the composite filter specifications of
+Equation~\ref{eqn:FIR-tapped-cascade-composite-specification} and $N$, the 
+number of subfilters, find the tap coefficients and the sub-filter such that the
+subfilter order $2M$ is minimised.
+
+This approximation problem may be solved by:
+\begin{enumerate}
+\item Given the prototype filter order, $2N$, find the minimum subfilter order,
+  $2M$, which is required by the overall filter to meet the specification of
+  Equation~\ref{eqn:FIR-tapped-cascade-composite-specification}. This can be
+  done by choosing the prototype filter pass-band edge, $\Omega_{p}$ as the
+  unknown and, for each $\Omega_{p}$ finding the prototype filter with the
+  minimum $\Omega_{s}$ that satisfies
+  Equation~\ref{eqn:FIR-tapped-cascade-prototype-specification}. 
+\item Find the coefficients of the subfilter of the resulting order $2M$ and the
+  coefficients of the prototype filter of the given order $2N$ to minimise the
+  absolute value of the error function on $I_{p}\cup I_{s}$.
+\end{enumerate}
+
+Minimising $\Omega_{s}$ maximises the allowable variation of
+$P_{M}\left(\omega\right)$ on $I_{s}$ and, consequently, the minimum required
+sub-filter order to meet
+Equation~\ref{eqn:FIR-tapped-cascade-prototype-specification}. The solution is
+obtained by reducing $\Omega_{s}$ until the given ripple ratio
+$\frac{\delta_{p}}{\delta_{s}}$ attains the specified maximum
+value. Alternatively, the \emph{Selesnik-Burrus} modification to the
+\emph{Hofstetter} low-pass filter design method, shown in
+Section~\ref{sec:Selesnick-Burrus-modification-Hofstetter-low-pass}, finds 
+the filter that minimises $\Omega_{s}$ for the given $\Omega_{p}$, $\delta_{p}$
+and $\delta_{s}$.
+
+\subsubsection{Approximation Problem II}
+Given the composite filter specifications of
+Equation~\ref{eqn:FIR-tapped-cascade-composite-specification} and the sub-filter
+order $2M$, find the tap coefficients and the sub-filter such that $N$, the
+number of subfilters, is minimised.
+
+This approximation problem may be solved by:
+\begin{enumerate}
+\item Given the NPFB specifications of
+  Equations~\ref{eqn:FIR-tapped-cascade-subfilter-specification}
+  and~\ref{eqn:FIR-tapped-cascade-prototype-specification}, increase $N$ until,
+  at least at one extraripple solution of the prototype subfilter, the given
+  subfilter order, $2M$, is large enough to meet the specification of
+  Equation~\ref{eqn:FIR-tapped-cascade-subfilter-specification}. Denote by
+  $\Omega^{\left(i\right)}_{p}$ and $\Omega^{\left(i\right)}_{s}$,
+  $i=1,2,\hdots,r$, the pass-band and stop-band edge angles of those
+  extra-ripple solutions at which the subfilter meets the criteria. At this
+  point, the minimum number of subfilters is known and both the prototype filter
+  and subfilter orders $2N$ and $2M$ are known.
+\item Given the NSFB specifications of
+  Equation~\ref{eqn:FIR-tapped-cascade-NSFB-specifications}, consider the
+  ripple ratio $k=\frac{\hat{\delta}_{p}}{\hat{\delta}_{s}}$ as a primary unknown.
+  Find the value of $k$ near each of the points
+  \begin{align*}
+    k^{\left(i\right)}_{0}
+    &=\frac{1-\cos\Omega^{\left(i\right)}_{p}}
+      {1+\cos\Omega^{\left(i\right)}_{s}}\;,\quad i=1,\hdots,r
+  \end{align*}
+  that minimises the passband ripple, $\delta_{p}$, of $\hat{H}_{0}\left(x\right)$
+  for the given ripple ratio $\frac{\delta_{p}}{\delta_{s}}$. Select the
+  resulting value of $k^{\left(i\right)}_{0}$ giving the smallest pass-band ripple.
+\end{enumerate}
+
+\subsubsection{Prescribed Subfilter}
+The sub-filter may be determined in advance, perhaps to reduce hardware
+requirements. In this case, the tap coefficients are optimised to reduce the
+number of sub-filters, $N$, by:
+\begin{enumerate}
+\item Determine the maximum and minimum values of the subfilter frequency
+  response $\hat{P}_{M}\left(\omega\right)$ on $I_{p}$, denoted by $x_{p1}$ and
+  $x_{p2}$. Similarly, determine the maximum and minimum
+  values $x_{s1}$ and $x_{s2}$ on $I_{s}$.
+\item Determine $\hat{H}_{0}\left(x\right)$ to satisfy the specifications of
+  Equation~\ref{eqn:FIR-tapped-cascade-general-specification} with the minimum
+  value of $N$:
+  \begin{enumerate}
+  \item Determine $A$ and $B$  and then $\Omega_{p}$ and $\Omega_{s}$ from
+    Equation~\ref{eqn:FIR-tapped-cascade-x-plane-A-B}.
+  \item Design the prototype filter of minimum even-order $2N$ to meet the
+    specification of
+    Equation~\ref{eqn:FIR-tapped-cascade-prototype-specification}. 
+  \item Transform the resulting frequency response to the $x$-plane with
+    Equation~\ref{eqn:FIR-tapped-cascade-transformation-x-to-Omega}.
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{Prescribed tap coefficients}
+If the prototype frequency response, $\hat{H}_{0}\left(x\right)$ is given:
+\begin{enumerate}
+  \item Determine the regions $X_{p}$ and $X_{s}$ where
+    $1-\delta_{p}\le\hat{H}_{0}\left(x\right)\le 1+\delta_{p}$ and
+    $\delta_{s}\le\hat{H}_{0}\left(x\right)\le \delta_{s}$, respectively. Let
+    $x_{p1}$ and $x_{p2}$ ($x_{s1}$ and $x_{s2}$) denote the maximum (minimum)
+    values of $X_{p}$ ($X_{s}$). 
+  \item Find the minimum even-order subfilter to satisfy the specification of
+    Equation~\ref{eqn:FIR-tapped-cascade-general-specification}.
+\end{enumerate}
+
+\subsection{Filter design examples}
+
+\subsubsection{Approximation Problem I low-pass filter example}
+\emph{Saram\"{a}ki}'s Approximation Problem I assumes that the prototype
+filter order, $2N$, is given. First, given the prototype filter pass-band edge,
+$\Omega_{p}$, search for the minimum  prototype filter transition width,
+$\Delta\Omega$, that satisfies the amplitude specifications, $\delta_{p}$ and
+$\delta_{s}$. Next, search for the minimum sub-filter order, $2M$, that, given
+$\Omega_{p}$ and $\Delta\Omega$, satisfies the overall filter frequency 
+specifications $\omega\in I_{p}$ and $\omega\in I_{p}$. The Octave script
+\emph{saramakiFIRcascade\_ApproxI\_lowpass\_test.m} attempts to reproduce the
+design shown in \emph{Saram\"{a}ki}'s Figure 5~\cite[Figure 
+5]{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters}\footnote{The plot
+  shown in \emph{Saram\"{a}ki}'s Figure 6 has the same filter parameters except
+  for $N=7$.}. In this script, both searches are made with the Octave function
+\emph{selesnickFIRsymmetric\_lowpass}, an implementation of \emph{Hofstetter}'s 
+low-pass filter design method with the \emph{Selesnik-Burrus} modification
+shown in Section~\ref{sec:Selesnick-Burrus-modification-Hofstetter-low-pass}.
+Table~\ref{tab:Saramaki-FIR-cascade-Approximation-I-example} shows the
+specifications and derived parameters for this example of Approximation Problem
+I. The minimum sub-filter order found is $M=23$ and the overall filter impulse
+response length is $2NM+1=277$.
+Figure~\ref{fig:Saramaki-FIR-cascade-Figure-5-transition-width-M} compares the
+minimum sub-filter order, $2M$, and the minimum prototype filter transition
+width, $\Delta\Omega$, found with \emph{selesnickFIRsymmetric\_lowpass}. 
+Figure~\ref{fig:Saramaki-FIR-cascade-threeway-response}
+is a plot, similar to that of \emph{Saram\"{a}ki}'s Figure 6, showing the
+mapping of the prototype filter to the sub-filter and the overall response.
+Figure~\ref{fig:Saramaki-FIR-cascade-response-detail} shows the pass-band and
+stop-band of the filter.  
+
+\input{saramakiFIRcascade_ApproxI_lowpass_test.tab}
+
+The $N+1$ distinct coefficients of the prototype filter are:
+\begin{small}
+\verbatiminput{saramakiFIRcascade_ApproxI_lowpass_test_prototype_coef.m}
+\end{small}
+
+The $N+1$ tap coefficients, $a_{n}$ in
+Equation~\ref{eqn:FIR-tapped-cascade-sub-filters-tap-coefficients}, are:
+\begin{small}
+\verbatiminput{saramakiFIRcascade_ApproxI_lowpass_test_tap_coef.m}
+\end{small}
+
+The $M+1$ distinct coefficients of the sub-filter are:
+\begin{small}
+\verbatiminput{saramakiFIRcascade_ApproxI_lowpass_test_subfilter_coef.m}
+\end{small}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{saramakiFIRcascade_ApproxI_lowpass_test_trans_width_M}}
+\caption{Comparison of the minimum sub-filter order, $2M$, and the minimum
+  prototype filter transition width, $\Delta\Omega$, found with
+  \emph{selesnickFIRsymmetric\_lowpass}~\cite[Figure
+  5]{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters}.}
+\label{fig:Saramaki-FIR-cascade-Figure-5-transition-width-M}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{saramakiFIRcascade_ApproxI_lowpass_test_threeway_response}}
+\caption{Approximation problem I solution mapping the prototype filter to the
+  sub-filter and the overall response.} 
+\label{fig:Saramaki-FIR-cascade-threeway-response}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{saramakiFIRcascade_ApproxI_lowpass_test_response_detail}}
+\caption{Detailed view of the pass-band and stop-band response of the
+  Approximation Problem I filter example.} 
+\label{fig:Saramaki-FIR-cascade-response-detail}
+\end{figure}
+
 \cleardoublepage
 \chapter{\label{app:Kalman-Yakubovic-Popov-Lemma-IIR-Filter-Design}Application of the \emph{Kalman-Yakubovi\u{c}-Popov} lemma to IIR filter design}
 The \emph{Kalman-Yakubovi\u{c}-Popov} (KYP) lemma~\cite{Kalman_LyapunovFunctions}

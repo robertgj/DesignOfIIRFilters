@@ -135,6 +135,14 @@ selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,At,nf,max_iter,tol,verbose)");
   
   % Initial mini-max frequency-amplitude pairs, (x,A). Ensure ft is unique.
   np=floor(M*ft/0.5);
+  if np<2
+    warning("np<2, setting np=2");
+    np=2;
+  endif
+  if np>=(M-1)
+    warning("np>=(M-1)");
+    return;
+  endif
   del=0.5/(4*M);
   f=unique([linspace(0,ft-del,np),ft,linspace(ft+del,0.5,M-np)]');
   if length(f)~=(M+1)
@@ -251,7 +259,9 @@ selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,At,nf,max_iter,tol,verbose)");
       hM=xfr2tf(M,x,A,tol);
       fext=acos(x)/(2*pi);
       feasible=true;
-      printf("Converged : delx=%g after %d iterations\n",delx,fiter);
+      if verbose
+        printf("Converged : delx=%g after %d iterations\n",delx,fiter);
+      endif
       break;
     endif
     if (feasible==false) && (fiter==max_iter),

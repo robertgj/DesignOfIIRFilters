@@ -1,0 +1,22 @@
+saramakiFIRcascade_ApproxI_lowpass_test_FIGURES = \
+saramakiFIRcascade_ApproxI_lowpass_test_trans_width_M \
+saramakiFIRcascade_ApproxI_lowpass_test_trans_width \
+saramakiFIRcascade_ApproxI_lowpass_test_response_detail \
+saramakiFIRcascade_ApproxI_lowpass_test_response \
+saramakiFIRcascade_ApproxI_lowpass_test_subfilter_response \
+saramakiFIRcascade_ApproxI_lowpass_test_subfilter_PM_response \
+saramakiFIRcascade_ApproxI_lowpass_test_threeway_response
+
+saramakiFIRcascade_ApproxI_lowpass_test_COEFS = \
+saramakiFIRcascade_ApproxI_lowpass_test.mat \
+saramakiFIRcascade_ApproxI_lowpass_test.spec \
+saramakiFIRcascade_ApproxI_lowpass_test.tab \
+saramakiFIRcascade_ApproxI_lowpass_test_tap_coef.m \
+saramakiFIRcascade_ApproxI_lowpass_test_prototype_coef.m \
+saramakiFIRcascade_ApproxI_lowpass_test_subfilter_coef.m
+
+saramakiFIRcascade_ApproxI_lowpass_test_FILES = \
+saramakiFIRcascade_ApproxI_lowpass_test.m test_common.m \
+selesnickFIRsymmetric_lowpass.m directFIRsymmetricA.m \
+halleyFIRsymmetricA.m chebyshevT.m chebyshevP.m lagrange_interp.m \
+print_polynomial.m local_max.m local_peak.m xfr2tf.m
