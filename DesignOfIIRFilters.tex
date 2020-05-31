@@ -8526,10 +8526,95 @@ resulting filter.
   Wap=1, Was=5, Wtp=0.1, dBap=0.35, dBas=50, tp=10, tpr=0.016}
 \label{fig:Alternate_decimator-R-2-PCLS-d1}
 \end{figure}
+\clearpage
+\subsubsection{An interpolated low-pass R=2 decimator}
+\emph{Lyons}~\cite{Lyons_InterpolatedNarrowbandLowpassFIR} describes the design
+of interpolated low-pass FIR filters. The Octave script
+\emph{decimator\_R2\_interpolated\_test.m} first designs an interpolated $R=2$
+IIR low-pass filter. The un-interpolated filter specification is:
+\begin{small}
+\verbatiminput{decimator_R2_interpolated_test.spec}
+\end{small}
+The  gain, zeros and poles of the optimised filter are:
+\begin{small}
+\verbatiminput{decimator_R2_interpolated_test_d1_coef.m}
+\end{small}
+The numerator and denominator polynomials of the PCLS optimised un-interpolated
+filter are: 
+\begin{small}
+\verbatiminput{decimator_R2_interpolated_test_N1_coef.m}
+\end{small}
+\begin{small}
+\verbatiminput{decimator_R2_interpolated_test_D1_coef.m}
+\end{small}
+Next, an anti-aliasing filter is designed with the \emph{remez} function from
+the Octave-Forge \emph{signal} package using the actual pass-band
+edge, \input{decimator_R2_interpolated_test_actual_passband.tab},
+stop-band edge, \input{decimator_R2_interpolated_test_actual_stopband.tab},
+and interpolation factor, $P$. The coefficients of the FIR anti-aliasing filter
+are:
+\begin{small}
+\verbatiminput{decimator_R2_interpolated_test_b_coef.m}
+\end{small}
+The interpolated, anti-aliased IIR filter has a nominal delay
+of \input{decimator_R2_interpolated_test_nominal_delay.tab} samples
+and \input{decimator_R2_interpolated_test_distinct_multipliers.tab} multipliers. 
+Figure~\ref{fig:decimator-R2-interpolated-test-fir-antialiasing} shows the
+responses of the IIR filter interpolated by the factor, $P$, and the FIR
+anti-aliasing filter.
+Figure~\ref{fig:decimator-R2-interpolated-test-response} shows the
+amplitude response of the interpolated and anti-aliased IIR filter.
+Figure~\ref{fig:decimator-R2-interpolated-test-passband-response} shows the
+pass-band amplitude and group delay responses of the interpolated and
+anti-aliased IIR filter.
+Figure~\ref{fig:decimator-R2-interpolated-test-remez-comparison} compares the
+amplitude response of the interpolated and anti-aliased IIR filter with that
+of three equi-ripple FIR filters designed with the \emph{remez} function from the
+Octave-Forge \emph{signal} package: firstly an interpolated and anti-aliased FIR
+filter having the same frequency specifications as the IIR filter with a delay
+of \input{decimator_R2_interpolated_test_bbeq_delay.tab} samples
+and \input{decimator_R2_interpolated_test_bbeq_distinct_multipliers.tab}
+distinct mulipliers; secondly, a direct-form FIR filter
+with \input{decimator_R2_interpolated_test_fir_distinct_multipliers.tab} distinct
+multipliers; thirdly, a direct form FIR filter
+with \input{decimator_R2_interpolated_test_fir_delay.tab} samples delay. 
 
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_interpolated_test_fir_antialiasing}}
+\caption{Responses of an interpolated low-pass PCLS optimised R=2 IIR filter and
+  FIR anti-aliasing filter.}
+\label{fig:decimator-R2-interpolated-test-fir-antialiasing}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_interpolated_test_response}}
+\caption{Amplitude response of an interpolated anti-aliased low-pass IIR filter.}
+\label{fig:decimator-R2-interpolated-test-response}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_interpolated_test_passband_response}}
+\caption{Pass-band amplitude and group delay responses of an interpolated anti-aliased low-pass IIR filter.}
+\label{fig:decimator-R2-interpolated-test-passband-response}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_interpolated_test_remez_comparison}}
+\caption{Comparison of the amplitude response of the interpolated and
+  anti-aliased IIR filter with that of three FIR filters: firstly an
+  interpolated and anti-aliased FIR filter having the same frequency
+  specifications as the IIR filter; secondly, a direct-form FIR filter
+  having the same number of distinct multipliers; thirdly, a direct form
+  FIR filter having the same nominal delay.} 
+\label{fig:decimator-R2-interpolated-test-remez-comparison}
+\end{figure}
 \clearpage
 \subsection{\label{sec:Band-pass-R-2-decimation-filter}Band-pass R=2 decimation filter}
-The fourth example design is an $R=2$ decimation band-pass filter.
+This example design is an $R=2$ decimation band-pass filter.
 The amplitude response pass-band edges are at frequencies $0.1f_{s}$ 
 and $0.2f_{s}$. The amplitude response stop-band edges are at 
 frequencies $0.05f_{s}$ and $0.25f_{s}$. The pass-band 
