@@ -13,7 +13,6 @@ strf="mcclellanFIRsymmetric_flat_lowpass_test";
 % Initialise
 %
 nplot=4000;
-maxiter=100;
 tol=1e-10;
 
 %
@@ -103,7 +102,6 @@ fprintf(fid,"N=%d %% Filter length\n",N);
 fprintf(fid,"L=%d %% Filter flat-ness\n",L);
 fprintf(fid,"fs=%d %% Amplitude stop band frequency\n",fs);
 fprintf(fid,"nplot=%d %% Number of frequency points\n",nplot);
-fprintf(fid,"maxiter=%d %% Maximum iterations\n",maxiter);
 fprintf(fid,"tol=%g %% Tolerance on convergence\n",tol);
 fclose(fid);
 
@@ -118,7 +116,7 @@ fprintf(fid,"%11.8f",rho);
 fclose(fid);
 
 save mcclellanFIRsymmetric_flat_lowpass_test.mat ...
-     N L fs nplot maxiter tol hM fMext AMext hA
+     N L fs nplot tol hM fMext AMext hA
 
 %
 % Done

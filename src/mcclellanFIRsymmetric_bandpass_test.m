@@ -20,7 +20,6 @@ strf="mcclellanFIRsymmetric_bandpass_test";
 % Initialise
 %
 nplot=2000;
-maxiter=100;
 tol=1e-12;
 
 %
@@ -43,7 +42,7 @@ W=[ones(nasl,1); ones(napu-napl+1,1)/K; ones(nplot+1-nasu+1,1)];
 
 % Filter design
 [hM,rho,fext,fiter,feasible]= ...
-  mcclellanFIRsymmetric(M,F,D,W,"bandpass",maxiter,tol);
+  mcclellanFIRsymmetric(M,F,D,W);
 if feasible==false
   error("hM not feasible");
 endif
@@ -111,7 +110,7 @@ close
 % Filter design with left division
 %
 [hM_LD,rho_LD,fext_LD,fiter,feasible]= ...
-  mcclellanFIRsymmetric(M,F,D,W,"bandpass\\",maxiter,tol);
+  mcclellanFIRsymmetric(M,F,D,W,"left");
 if feasible==false
   error("hM not feasible");
 endif
@@ -133,7 +132,6 @@ fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
 fprintf(fid,"fasu=%g %% Amplitude stop band upper edge\n",fasu);
 fprintf(fid,"K=%d %% Stop band weight\n",K);
 fprintf(fid,"nplot=%d %% Number of frequency grid points in [0,0.5]\n",nplot);
-fprintf(fid,"maxiter=%d %% Maximum iterations\n",maxiter);
 fprintf(fid,"tol=%g %% Tolerance on convergence\n",tol);
 fclose(fid);
 
@@ -148,7 +146,7 @@ fprintf(fid,"%11.8f",rho);
 fclose(fid);
 
 save mcclellanFIRsymmetric_bandpass_test.mat ...
-     M fasl fapl fapu fasu K nplot maxiter tol maxiter nplot rho hM fext Aext
+     M fasl fapl fapu fasu K tol nplot rho hM fext Aext
 
 %
 % Done

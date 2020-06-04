@@ -1,0 +1,19 @@
+saramakiFIRcascade_ApproxII_multiband_test_FIGURES = \
+saramakiFIRcascade_ApproxII_multiband_test_response_detail \
+saramakiFIRcascade_ApproxII_multiband_test_response \
+saramakiFIRcascade_ApproxII_multiband_test_subfilter_response \
+saramakiFIRcascade_ApproxII_multiband_test_threeway_response
+
+saramakiFIRcascade_ApproxII_multiband_test_COEFS = \
+saramakiFIRcascade_ApproxII_multiband_test.mat \
+saramakiFIRcascade_ApproxII_multiband_test.spec \
+saramakiFIRcascade_ApproxII_multiband_test.tab \
+saramakiFIRcascade_ApproxII_multiband_test_tap_coef.m \
+saramakiFIRcascade_ApproxII_multiband_test_prototype_coef.m \
+saramakiFIRcascade_ApproxII_multiband_test_subfilter_coef.m
+
+saramakiFIRcascade_ApproxII_multiband_test_FILES = \
+saramakiFIRcascade_ApproxII_multiband_test.m test_common.m \
+mcclellanFIRsymmetric.m selesnickFIRsymmetric_lowpass.m directFIRsymmetricA.m \
+halleyFIRsymmetricA.m directFIRsymmetricEsq.m chebyshevT.m chebyshevP.m \
+lagrange_interp.m print_polynomial.m local_max.m local_peak.m xfr2tf.m

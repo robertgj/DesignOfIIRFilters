@@ -18,7 +18,6 @@ strf="mcclellanFIRsymmetric_lowpass_test";
 % Initialise
 %
 nplot=1000;
-maxiter=100;
 tol=1e-12;
 
 %
@@ -40,8 +39,7 @@ D=[ones(nap,1); zeros(gs-nap,1)];
 W=[ones(nap,1)/K; ones(gs-nap,1)];
 
 % Filter design
-[hM,rho,fext,fiter,feasible] = ...
-  mcclellanFIRsymmetric(M,F,D,W,"lowpass",maxiter,tol);
+[hM,rho,fext,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W);
 if feasible==false
   error("hM not feasible");
 endif
@@ -121,8 +119,7 @@ close
 %
 % Filter design with left-division
 %
-[hM_LD,rho_LD,fext_LD,fiter,feasible] = ...
-  mcclellanFIRsymmetric(M,F,D,W,"lowpass\\",maxiter,tol);
+[hM_LD,rho_LD,fext_LD,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W,"left");
 if feasible==false
   error("hM_LD not feasible");
 endif
@@ -142,7 +139,6 @@ fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
 fprintf(fid,"K=%d %% Stop band weight\n",K);
 fprintf(fid,"nplot=%d %% Number of frequency grid points in [0,0.5]\n",nplot);
-fprintf(fid,"maxiter=%d %% Maximum iterations\n",maxiter);
 fprintf(fid,"tol=%g %% Tolerance on convergence\n",tol);
 fclose(fid);
 
@@ -157,7 +153,7 @@ fprintf(fid,"%11.8f",rho);
 fclose(fid);
 
 save mcclellanFIRsymmetric_lowpass_test.mat ...
-     M fap fas K nplot maxiter tol nplot rho hM fext Aext
+     M fap fas K nplot tol nplot rho hM fext Aext
 
 %
 % Done

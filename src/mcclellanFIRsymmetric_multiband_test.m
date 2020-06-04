@@ -22,7 +22,6 @@ strf="mcclellanFIRsymmetric_multiband_test";
 % Initialise
 %
 nplot=2000;
-maxiter=100;
 tol=1e-12;
 
 %
@@ -109,8 +108,7 @@ printf("D(Fchk)=[ ");printf("%7.5f ",D(Fchk)');printf("]\n");
 printf("W(Fchk)=[ ");printf("%7.5f ",W(Fchk)');printf("]\n");
 
 % Filter design
-[hM,rho,fext,fiter,feasible]= ...
-  mcclellanFIRsymmetric(M,F,D,W,"bandpass",maxiter,tol);
+[hM,rho,fext,fiter,feasible]=mcclellanFIRsymmetric(M,F,D,W);
 if feasible==false
   error("hM not feasible");
 endif
@@ -213,7 +211,6 @@ fprintf(fid,"K1=%g %% First stop band weight\n",K1);
 fprintf(fid,"K2=%g %% Second stop band weight\n",K2);
 fprintf(fid,"K3=%g %% Third stop band weight\n",K3);
 fprintf(fid,"nplot=%d %% Number of frequency grid points in [0,0.5]\n",nplot);
-fprintf(fid,"maxiter=%d %% Maximum iterations\n",maxiter);
 fprintf(fid,"tol=%g %% Tolerance on convergence\n",tol);
 fclose(fid);
 
@@ -226,7 +223,7 @@ fclose(fid);
 
 save mcclellanFIRsymmetric_multiband_test.mat ...
      M fasu1 fapl1 fapu1 fasl2 fasu2 fapl2 fapu2 fasl3 K1 K2 K3 ...
-     nplot maxiter tol rho hM fext Aext
+     nplot tol rho hM fext Aext
 
 %
 % Done

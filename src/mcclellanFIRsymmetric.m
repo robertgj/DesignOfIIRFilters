@@ -1,5 +1,5 @@
 function [hM,rho,fext,fiter,feasible]= ...
-         mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)
+         mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol,verbose)
 % [hM,rho,fext,fiter,feasible]= ...
 %   mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)
 % Implement Park and McClellans' algorithm for the design of an even-order,
@@ -10,10 +10,10 @@ function [hM,rho,fext,fiter,feasible]= ...
 %   F - Grid frequencies in [0,0.5]
 %   D - desired amplitude responses at each frequency in F
 %   W - weight at each frequency in F
-%   type - 'lowpass' or 'bandpass' determines extrema search type
-%          (if type ends with '\', eg: "lowpass\\", then use left division)
+%   type - 'left' means use the left division algorithm to find rho
 %   maxiter - maximum number of iterations
 %   tol - tolerance on convergence
+%   verbose -
 %
 % Outputs:
 %   hM - M+1 distinct coefficients [h(1),...,h(M+1)]
@@ -42,13 +42,19 @@ function [hM,rho,fext,fiter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin < 4) || (nargin > 7) || (nargout>5)
+  if (nargin < 4) || (nargin > 8) || (nargout>5)
     print_usage("hM=mcclellanFIRsymmetric(M,F,D,W)\n\
 [hM,rho,fext,fiter,feasible]= ...\n\
   mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)");
   endif
 
   % Sanity checks
+  if nargin<8
+    verbose=false;
+  endif
+  if ~isbool(verbose)
+    error("verbose is not a boolean!");
+  endif
   if nargin<7
     tol=1e-10;
   endif
@@ -70,16 +76,11 @@ function [hM,rho,fext,fiter,feasible]= ...
   if any(F>0.5)
     error("any(F>0.5)");
   endif
-  if ~ischar(type)
-    error("~ischar(type)");
-  endif
-  if type(end)=="\\"
+  if (length(type)>=4) && ischar(type) && strcmpi("left",type(1:4))
     opt_left_division=true;
+    fprintf(stderr,"Using left-division to find rho and coefficients\n");
   else
     opt_left_division=false;
-  endif
-  if opt_left_division
-    fprintf(stderr,"Using left-division to find rho and coefficients\n");
   endif
   
   % Initialise flags
@@ -111,7 +112,7 @@ function [hM,rho,fext,fiter,feasible]= ...
   if opt_left_division
     xM=cos(w.*(0:M));
   endif
-
+  
   % Loop performing Parks and McClellan algorithm
   lastrhoxk=zeros(M+3,1);
   for fiter=1:maxiter
@@ -144,37 +145,18 @@ function [hM,rho,fext,fiter,feasible]= ...
     minE=local_max(-E);
     Ek=sort([maxE;minE]);
     Ek=Ek(:);
+    if length(Ek)<(M+2)
+      error("length(Ek)<(M+2)")
+    endif
     % If more than M+2 alternations discard the smallest absolute errors
     while length(Ek)>(M+2)
-      % Search for bandpass extremal points
-      if strcmpi(type(1:4),"band")
-        alternation_fail_found=false;
-        for m=1:(length(Ek)-1),
-          if sign(E(Ek(m)))==sign(E(Ek(m+1)))
-            [~,k]=min(abs(E(Ek([m,m+1]))));
-            alternation_fail_found=true;
-          endif
-        endfor
-        if alternation_fail_found==false
-          [~,k]=min(abs(E(Ek)));
-        endif 
-      % Search for lowpass extremal points
-      elseif strcmpi(type(1:3),"low")
-        [~,k]=min(abs(E(Ek)));
-      else
-        error("Unknown search type %s",type);
+      [~,k]=min(abs(E(Ek)));
+      if verbose
+        printf("Discarding extrema at F(%d)=%g,D=%g,A=%g\n", ...
+               k,acos(x(Ek(k)))/(2*pi),D(Ek(k)),A(Ek(k)));
       endif
       Ek(k)=[];
     endwhile
-    if length(Ek)~=(M+2)
-      error("length(Ek)~=(M+2)")
-    endif
-
-    % Check for alternation of errors
-    Ekalt=E(Ek).*m1k;
-    if any(Ekalt<-eps) && any(Ekalt>eps)
-      warning("fiter=%d : any(Ekalt<-eps) && any(Ekalt>eps)",fiter)
-    endif
 
     % Update values at extremal points
     xk=x(Ek);
@@ -193,13 +175,19 @@ function [hM,rho,fext,fiter,feasible]= ...
       endif
       fext=acos(xk)/(2*pi);
       feasible=true;
-      printf("Converged : rho=%g, delrhoxk=%g after %d iterations\n",
-             rho,delrhoxk,fiter);
+      if verbose
+        printf("Converged : rho=%g, delrhoxk=%g after %d iterations\n",
+               rho,delrhoxk,fiter);
+      endif
       break;
     endif
+
     if fiter==maxiter,
-      error("No convergence after %d iterations",maxiter);
+      if verbose
+        warning("No convergence after %d iterations",maxiter);
+      endif
     endif
+
   endfor
 
 endfunction

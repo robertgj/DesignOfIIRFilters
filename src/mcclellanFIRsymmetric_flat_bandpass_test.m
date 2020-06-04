@@ -13,7 +13,6 @@ strf="mcclellanFIRsymmetric_flat_bandpass_test";
 % Initialise
 %
 nplot=4000;
-maxiter=100;
 tol=1e-10;
 
 %
@@ -37,8 +36,7 @@ Flu=[F(1:(nsl-1));fsl;fsu;F((nsu+1):end)];
 Wlu=((-1)^L)*((sin(pi*(fp+Flu)).*sin(pi*(fp-Flu))).^(L/2));
 Dlu=-1./Wlu;
 [hM,rho,fMext,fiter,feasible]= ...
-  mcclellanFIRsymmetric(M,Flu,Dlu,[K*Wlu(1:nsl);Wlu((nsl+1):end)], ...
-                        "bandpass",maxiter,tol);
+  mcclellanFIRsymmetric(M,Flu,Dlu,[K*Wlu(1:nsl);Wlu((nsl+1):end)]);
 if feasible==false
   error("hM not feasible");
 endif
@@ -109,7 +107,6 @@ fprintf(fid,"fp=%g %% Amplitude pass-band centre frequency\n",fp);
 fprintf(fid,"ft=%g %% Amplitude pass-band half-width frequency\n",ft);
 fprintf(fid,"K=%g %% Amplitude stop-band ripple ratio\n",K);
 fprintf(fid,"nplot=%d %% Number of frequency points\n",nplot);
-fprintf(fid,"maxiter=%d %% Maximum iterations\n",maxiter);
 fprintf(fid,"tol=%g %% Tolerance on convergence\n",tol);
 fclose(fid);
 
@@ -124,7 +121,7 @@ fprintf(fid,"%11.8f",rho);
 fclose(fid);
 
 save mcclellanFIRsymmetric_flat_bandpass_test.mat ...
-     N L fp ft K nplot maxiter tol hM fMext AMext hA
+     N L fp ft K nplot tol hM fMext AMext hA
 
 %
 % Done

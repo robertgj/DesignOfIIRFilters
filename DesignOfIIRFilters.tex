@@ -24264,7 +24264,7 @@ plots of the all-pass filters.
 \emph{Johansson} and \emph{Saram\"{a}ki}~\cite[Figure 1]
 {JohanssonSaramaki_ClassComplementaryIIRFilters} describe a class of
 all-pass complementary IIR filters ``realised as a
-tapped, cascaded interconnection of identical all-pass subfilters''.
+tapped, cascaded interconnection of identical all-pass sub-filters''.
 A pair of all-pass complementary filters has:
 \begin{align*}
   H\left(z\right)+H_{C}\left(z\right)=H_{ap}\left(z\right)
@@ -29340,7 +29340,7 @@ below as Algorithm~\ref{alg:Zahradnik-evaluation-of-coefficients-ZPTF}, for the
 calculation of the coefficients of the expansion in Chebyshev polynomials
 of the first kind of the product of the factors, $\left(w-w_{l}\right)$, of a
 polynomial. They recommend ordering the roots in ascending order of $z$-domain
-angular frequency and the $m$ subfilters select the roots with the ordering
+angular frequency and the $m$ sub-filters select the roots with the ordering
 $\rho\left(l\right),\;l=1,\hdots,m$~\cite[Equation
 8]{ZahradnikSusta_CascadeNarrowEquirippleFIR}:
 \begin{align*}
@@ -29460,7 +29460,7 @@ $Q_{2159,540}\left(w,0.16238959\right)$ for \emph{Zahradn\'{i}k, \v{S}usta et
   al.}'s Example 2~\cite{ZahradnikSusta_CascadeNarrowEquirippleFIR}.
 Figure~\ref{fig:Zolotarev-cascade-p-2159-q-540} attempts to reproduce
 \emph{Zahradn\'{i}k, \v{S}usta et al.}s Figure 5 showing 
-$Q_{2159,540}\left(w,0.16238959\right)$ with $3$ subfilters. 
+$Q_{2159,540}\left(w,0.16238959\right)$ with $3$ sub-filters. 
 Algorithm~\ref{alg:Zahradnik-evaluation-of-coefficients-ZPTF}, 
 the calculation of the coefficients of the Chebyshev polynomials of the first
 kind, is implemented with the \emph{MPFR}~\cite{Fousse:2007:MMB:1236463.1236468} 
@@ -30227,7 +30227,7 @@ The points $w=-1,w_{s},w_{m},w_{p},1$ are the \emph{singular} points of the
 Zolotarev differential equation.
 \end{comment}
 \clearpage
-\section{\label{app:FIR-tapped-cascaded}Design of FIR filters as a tapped cascade of subfilters}
+\section{\label{app:FIR-tapped-cascaded}Design of FIR filters as a tapped cascade of sub-filters}
 This chapter describes the design of FIR filters as a series cascade of
 sub-filters. See, for example,
 \emph{Sara\"{a}ki}~\cite{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters},
@@ -30238,9 +30238,9 @@ cascade connection permits an improved response and/or reduced complexity by
 partition of the FIR filter or the use of fewer multipliers.
 
 \emph{Saram\"{a}ki}~\cite{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters}
-describes a the design of a tapped cascade of identical subfilters by ``mapping
+describes a the design of a tapped cascade of identical sub-filters by ``mapping
 a prototype filter into a composite filter by means of a frequency
-travsformation. The transformation determines the subfilter, whereas the
+travsformation. The transformation determines the sub-filter, whereas the
 prototype filter determines the tap coefficients.'' He claims that his proposed
 approach results in an overall filter order that is approximately $30$\%
 higher than the order, $L$, of the correponding mini-max direct-form FIR filter
@@ -30393,11 +30393,11 @@ The requirements for the zero-phase response of the sub-filter are:
     \label{eqn:FIR-tapped-cascade-subfilter-specification}
 \end{align}
 For fixed values of $\Omega_{p}$, and $\Omega_{s}$, both the prototype filter
-and the subfilter can be designed using minimax FIR design
+and the sub-filter can be designed using minimax FIR design
 software. \emph{Saram\"{a}ki} calls this type of specification ``normalised-prototype-filter-based''(NPFB).
 \subsubsection{General specifications}
 The same overall frequency response can be obtained by replacing
-the subfilter, $H_{M}\left(z\right)$, with:
+the sub-filter, $H_{M}\left(z\right)$, with:
 \begin{align*}
   \hat{H}_{M}\left(z\right)&=AH_{M}\left(z\right)+Bz^{-M}
 \end{align*}
@@ -30448,7 +30448,7 @@ $-\delta_{s}\le\tilde{H}_{0}\left(x\right)\le\delta_{s}$ on
 $\left[x_{s1},x_{s2}\right]$~\cite[Figure
 3]{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters}. Similarly, if $P_{M}$
 satisfies Equation~\ref{eqn:FIR-tapped-cascade-subfilter-specification}, then
-the new subfilter frequency response $\hat{P}_{M}\left(\omega\right)$ is within
+the new sub-filter frequency response $\hat{P}_{M}\left(\omega\right)$ is within
 the limits $x_{p1}$ and $x_{p2}$ on $I_{p}$ and within the limits $x_{s1}$ and
 $x_{s2}$ on $I_{s}$. The simultaneous specifications for the prototype filter
 and sub-filter are~\cite[Figure
@@ -30473,10 +30473,10 @@ Equation~\ref{eqn:FIR-tapped-cascade-transformation-x-to-Omega} to map the
 problem to the $\Omega$-plane, designing the filter to meet the specifications
 of Equation~\ref{eqn:FIR-tapped-cascade-prototype-specification}, then mapping
 the result back to the $x$-plane.
-\subsubsection{Specifications based on the normalised subfilter}
+\subsubsection{Specifications based on the normalised sub-filter}
 For the special case of $x_{p1}=1-\hat{\delta}_{p}$, $x_{p2}=1+\hat{\delta}_{p}$,
 $x_{s1}=-\hat{\delta}_{s}$ and $x_{s2}=\hat{\delta}_{s}$, \emph{Saram\"{a}ki}
-refers to the ``normalised-subfilter-based'' (NFSB) specifications:
+refers to the ``normalised-sub-filter-based'' (NFSB) specifications:
 \begin{align}
   \begin{split}
     1-\delta_{p}\le\hat{H}_{0}\left(x\right)\le 1+\delta_{p}
@@ -30535,19 +30535,19 @@ design problems.
 \subsubsection{Approximation Problem I}
 Given the composite filter specifications of
 Equation~\ref{eqn:FIR-tapped-cascade-composite-specification} and $N$, the 
-number of subfilters, find the tap coefficients and the sub-filter such that the
-subfilter order $2M$ is minimised.
+number of sub-filters, find the tap coefficients and the sub-filter such that the
+sub-filter order $2M$ is minimised.
 
-This approximation problem may be solved by:
+\emph{Saram\"{a}ki} suggests that this approximation problem may be solved by:
 \begin{enumerate}
-\item Given the prototype filter order, $2N$, find the minimum subfilter order,
+\item Given the prototype filter order, $2N$, find the minimum sub-filter order,
   $2M$, which is required by the overall filter to meet the specification of
   Equation~\ref{eqn:FIR-tapped-cascade-composite-specification}. This can be
   done by choosing the prototype filter pass-band edge, $\Omega_{p}$ as the
   unknown and, for each $\Omega_{p}$ finding the prototype filter with the
   minimum $\Omega_{s}$ that satisfies
   Equation~\ref{eqn:FIR-tapped-cascade-prototype-specification}. 
-\item Find the coefficients of the subfilter of the resulting order $2M$ and the
+\item Find the coefficients of the sub-filter of the resulting order $2M$ and the
   coefficients of the prototype filter of the given order $2N$ to minimise the
   absolute value of the error function on $I_{p}\cup I_{s}$.
 \end{enumerate}
@@ -30568,21 +30568,21 @@ and $\delta_{s}$.
 Given the composite filter specifications of
 Equation~\ref{eqn:FIR-tapped-cascade-composite-specification} and the sub-filter
 order $2M$, find the tap coefficients and the sub-filter such that $N$, the
-number of subfilters, is minimised.
+number of sub-filters, is minimised.
 
-This approximation problem may be solved by:
+\emph{Saram\"{a}ki} suggests this approximation problem may be solved by:
 \begin{enumerate}
 \item Given the NPFB specifications of
   Equations~\ref{eqn:FIR-tapped-cascade-subfilter-specification}
   and~\ref{eqn:FIR-tapped-cascade-prototype-specification}, increase $N$ until,
-  at least at one extraripple solution of the prototype subfilter, the given
-  subfilter order, $2M$, is large enough to meet the specification of
+  at least at one extraripple solution of the prototype sub-filter, the given
+  sub-filter order, $2M$, is large enough to meet the specification of
   Equation~\ref{eqn:FIR-tapped-cascade-subfilter-specification}. Denote by
   $\Omega^{\left(i\right)}_{p}$ and $\Omega^{\left(i\right)}_{s}$,
   $i=1,2,\hdots,r$, the pass-band and stop-band edge angles of those
-  extra-ripple solutions at which the subfilter meets the criteria. At this
-  point, the minimum number of subfilters is known and both the prototype filter
-  and subfilter orders $2N$ and $2M$ are known.
+  extra-ripple solutions at which the sub-filter meets the criteria. At this
+  point, the minimum number of sub-filters is known and both the prototype filter
+  and sub-filter orders $2N$ and $2M$ are known.
 \item Given the NSFB specifications of
   Equation~\ref{eqn:FIR-tapped-cascade-NSFB-specifications}, consider the
   ripple ratio $k=\frac{\hat{\delta}_{p}}{\hat{\delta}_{s}}$ as a primary unknown.
@@ -30599,10 +30599,10 @@ This approximation problem may be solved by:
 
 \subsubsection{Prescribed Subfilter}
 The sub-filter may be determined in advance, perhaps to reduce hardware
-requirements. In this case, the tap coefficients are optimised to reduce the
-number of sub-filters, $N$, by:
+requirements. In this case, \emph{Saram\"{a}ki} suggests that the tap
+coefficients be optimised to reduce the number of sub-filters, $N$, by:
 \begin{enumerate}
-\item Determine the maximum and minimum values of the subfilter frequency
+\item Determine the maximum and minimum values of the sub-filter frequency
   response $\hat{P}_{M}\left(\omega\right)$ on $I_{p}$, denoted by $x_{p1}$ and
   $x_{p2}$. Similarly, determine the maximum and minimum
   values $x_{s1}$ and $x_{s2}$ on $I_{s}$.
@@ -30621,22 +30621,24 @@ number of sub-filters, $N$, by:
 \end{enumerate}
 
 \subsubsection{Prescribed tap coefficients}
-If the prototype frequency response, $\hat{H}_{0}\left(x\right)$ is given:
+\emph{Saram\"{a}ki} suggests that if the prototype frequency response,
+$\hat{H}_{0}\left(x\right)$ is given:
 \begin{enumerate}
   \item Determine the regions $X_{p}$ and $X_{s}$ where
     $1-\delta_{p}\le\hat{H}_{0}\left(x\right)\le 1+\delta_{p}$ and
     $\delta_{s}\le\hat{H}_{0}\left(x\right)\le \delta_{s}$, respectively. Let
     $x_{p1}$ and $x_{p2}$ ($x_{s1}$ and $x_{s2}$) denote the maximum (minimum)
     values of $X_{p}$ ($X_{s}$). 
-  \item Find the minimum even-order subfilter to satisfy the specification of
+  \item Find the minimum even-order sub-filter to satisfy the specification of
     Equation~\ref{eqn:FIR-tapped-cascade-general-specification}.
 \end{enumerate}
-
+\clearpage
 \subsection{Filter design examples}
 
 \subsubsection{Approximation Problem I low-pass filter example}
 \emph{Saram\"{a}ki}'s Approximation Problem I assumes that the prototype
-filter order, $2N$, is given. First, given the prototype filter pass-band edge,
+filter order, $2N$, or number of sub-filters, $N$, is given. First, given the
+prototype filter pass-band edge, 
 $\Omega_{p}$, search for the minimum  prototype filter transition width,
 $\Delta\Omega$, that satisfies the amplitude specifications, $\delta_{p}$ and
 $\delta_{s}$. Next, search for the minimum sub-filter order, $2M$, that, given
@@ -30657,11 +30659,11 @@ response length is $2NM+1=277$.
 Figure~\ref{fig:Saramaki-FIR-cascade-Figure-5-transition-width-M} compares the
 minimum sub-filter order, $2M$, and the minimum prototype filter transition
 width, $\Delta\Omega$, found with \emph{selesnickFIRsymmetric\_lowpass}. 
-Figure~\ref{fig:Saramaki-FIR-cascade-threeway-response}
+Figure~\ref{fig:Saramaki-FIR-cascade-Approx-I-threeway-response}
 is a plot, similar to that of \emph{Saram\"{a}ki}'s Figure 6, showing the
 mapping of the prototype filter to the sub-filter and the overall response.
-Figure~\ref{fig:Saramaki-FIR-cascade-response-detail} shows the pass-band and
-stop-band of the filter.  
+Figure~\ref{fig:Saramaki-FIR-cascade-Approx-I-response-detail} shows the
+pass-band and stop-band of the filter.  
 
 \input{saramakiFIRcascade_ApproxI_lowpass_test.tab}
 
@@ -30696,15 +30698,81 @@ The $M+1$ distinct coefficients of the sub-filter are:
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{saramakiFIRcascade_ApproxI_lowpass_test_threeway_response}}
 \caption{Approximation problem I solution mapping the prototype filter to the
   sub-filter and the overall response.} 
-\label{fig:Saramaki-FIR-cascade-threeway-response}
+\label{fig:Saramaki-FIR-cascade-Approx-I-threeway-response}
 \end{figure}
 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{saramakiFIRcascade_ApproxI_lowpass_test_response_detail}}
 \caption{Detailed view of the pass-band and stop-band response of the
-  Approximation Problem I filter example.} 
-\label{fig:Saramaki-FIR-cascade-response-detail}
+  Approximation Problem I low-pass filter example.} 
+\label{fig:Saramaki-FIR-cascade-Approx-I-response-detail}
+\end{figure}
+\clearpage
+\subsubsection{Approximation Problem II multi-band filter example}
+\emph{Saram\"{a}ki}'s Approximation Problem II assumes that the sub-filter
+order, $2M$, is given. The Octave script
+\emph{saramakiFIRcascade\_ApproxII\_multiband\_test.m} attempts to reproduce 
+\emph{Saram\"{a}ki}'s multi-band example~\cite[Figure 17 and
+Section VI]{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters}.
+Table~\ref{tab:Saramaki-FIR-cascade-Approximation-II-example} shows the 
+specifications and derived parameters for this example of Approximation Problem
+II.
+
+\input{saramakiFIRcascade_ApproxII_multiband_test.tab}
+
+The script sets the ratio of stop-band to pass-band weights
+$K=\frac{W_{s}}{W_{p}}$ and calls the Octave function
+\emph{mcclellanFIRsymmetric} to design an order $2M=50$ multi-band sub-filter
+that satisfies the frequency specifications, $\omega_{su1}$ etc., of the
+filter pass-bands and stop-bands. If the sub-filter is feasible then the script
+next searches for the minimum order $2N$ prototype filter that satisfies the
+overall filter $\delta_{p}$ and $\delta_{s}$ amplitude response ripple
+specifications. The script does this by calling the Octave function
+\emph{selesnickFIRsymmetric\_lowpass} with fixed prototype filter pass-band edge
+frequency, $\Omega_{p}$ at $1-\delta_{p}$, and increasing $N$ until the resulting
+prototype filter stop-band edge frequency, $\Omega_{sN}$, satisfies the value of
+$\Omega_{s}$ corresponding to the stop-band ripple of the sub-filter. A final
+design is selected from the set of feasible designs by choosing the design with
+the lowest RMS error in the amplitude response. The sub-filter order is given as
+$2M=50$. The minimum prototype filter order found is $2N=12$ and the overall
+filter impulse response length is $2NM+1=301$.  
+Figure~\ref{fig:Saramaki-FIR-cascade-Approx-II-threeway-response}
+is a plot, similar to that of \emph{Saram\"{a}ki}'s Figure 17, showing the
+mapping of the prototype filter to the sub-filter and the overall response.
+Figure~\ref{fig:Saramaki-FIR-cascade-Approx-II-response-detail} shows the
+pass-band and stop-band of the filter.  
+
+The $N+1$ distinct coefficients of the prototype filter are:
+\begin{small}
+\verbatiminput{saramakiFIRcascade_ApproxII_multiband_test_prototype_coef.m}
+\end{small}
+
+The $N+1$ tap coefficients, $a_{n}$ in
+Equation~\ref{eqn:FIR-tapped-cascade-sub-filters-tap-coefficients}, are:
+\begin{small}
+\verbatiminput{saramakiFIRcascade_ApproxII_multiband_test_tap_coef.m}
+\end{small}
+
+The $M+1$ distinct coefficients of the sub-filter are:
+\begin{small}
+\verbatiminput{saramakiFIRcascade_ApproxII_multiband_test_subfilter_coef.m}
+\end{small}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{saramakiFIRcascade_ApproxII_multiband_test_threeway_response}}
+\caption{Approximation problem II solution mapping the prototype filter to the
+  sub-filter and the overall response.} 
+\label{fig:Saramaki-FIR-cascade-Approx-II-threeway-response}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{saramakiFIRcascade_ApproxII_multiband_test_response_detail}}
+\caption{Detailed view of the pass-band and stop-band response of the
+  Approximation Problem II multi-band filter example.} 
+\label{fig:Saramaki-FIR-cascade-Approx-II-response-detail}
 \end{figure}
 
 \cleardoublepage

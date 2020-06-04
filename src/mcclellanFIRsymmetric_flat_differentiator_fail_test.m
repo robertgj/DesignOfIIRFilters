@@ -23,8 +23,7 @@ strf="mcclellanFIRsymmetric_flat_differentiator_fail_test";
 % Initialise
 %
 nplot=1000;
-maxiter=100;
-tol=1e-12;
+tol=1e-10;
 
 %
 % Filter design with fs fixed, N odd, L even
@@ -106,7 +105,7 @@ print_polynomial(hM,"hM","%14.7f");
 print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"),"%14.7f");
 
 save mcclellanFIRsymmetric_flat_differentiator_fail_test.mat ...
-     N L fs nplot maxiter tol hM fext
+     N L fs nplot tol hM fext
 
 %
 % Done

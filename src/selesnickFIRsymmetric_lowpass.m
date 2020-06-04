@@ -136,11 +136,15 @@ selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,At,nf,max_iter,tol,verbose)");
   % Initial mini-max frequency-amplitude pairs, (x,A). Ensure ft is unique.
   np=floor(M*ft/0.5);
   if np<2
-    warning("np<2, setting np=2");
+    if verbose
+      printf("np<2, setting np=2\n");
+    endif
     np=2;
   endif
   if np>=(M-1)
-    warning("np>=(M-1)");
+    if verbose
+      printf("floor(M*ft/0.5)>=(M-1)\n");
+    endif
     return;
   endif
   del=0.5/(4*M);

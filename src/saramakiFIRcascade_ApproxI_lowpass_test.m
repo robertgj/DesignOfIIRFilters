@@ -382,7 +382,7 @@ endfor
 H=freqz(h,1,wa);
 if norm((H.*exp(j*N*M*wa))-Amin_subfilter(:,kM))>tol
   error("norm((H.*exp(j*N*M*wa))-Amin_subfilter(all,kM))(%g)>tol",
-        norm((HM.*exp(j*N*M*wa))-Amin_subfilter(:,kM)));
+        norm((H.*exp(j*N*M*wa))-Amin_subfilter(:,kM)));
 endif
 
 % Save prototype and subfilter coefficients
