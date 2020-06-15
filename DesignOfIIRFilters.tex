@@ -9056,6 +9056,40 @@ and
 \label{fig:iir-sqp-slb-minimum-phase-pcls-pz}
 \end{figure}
 \clearpage
+\subsection{\label{sec:SQP-non-linear-phase-FIR-lowpass-filter}Non-linear phase FIR low-pass filter}
+The Octave script \emph{iir\_sqp\_slb\_fir\_lowpass\_test.m} designs an 
+FIR low-pass filter that has approximately linear phase in the pass-band. The
+impulse response is \emph{not} symmetric. The filter specification is:
+\begin{small}
+\verbatiminput{iir_sqp_slb_fir_lowpass_test.spec}
+\end{small}
+Figure~\ref{fig:iir-sqp-slb-fir-lowpass-pcls-response} shows the response of
+the PCLS optimised filter.
+Figure~\ref{fig:iir-sqp-slb-fir-lowpass-pcls-passband-response} shows the
+pass-band detail of the response of the PCLS optimised filter.
+The coefficients of the PCLS optimised minimum phase
+FIR bandpass filter are, in gain-pole-zero form:
+\begin{small}
+\verbatiminput{iir_sqp_slb_fir_lowpass_test_d1_coef.m}
+\end{small}
+and in transfer function form the FIR polynomial is:
+\begin{small}
+\verbatiminput{iir_sqp_slb_fir_lowpass_test_N1_coef.m}
+\end{small}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_fir_lowpass_test_pcls_d1}}
+\caption{Response of the non-linear phase FIR low-pass filter after SQP PCLS optimisation}
+\label{fig:iir-sqp-slb-fir-lowpass-pcls-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_fir_lowpass_test_pcls_d1pass}}
+\caption{Pass-band response of the non-linear phase FIR low-pass filter after SQP PCLS optimisation}
+\label{fig:iir-sqp-slb-fir-lowpass-pcls-passband-response}
+\end{figure}
+\clearpage
 \subsection{\label{sec:Minimum-phase-FIR-bandpass-filter}Minimum phase FIR bandpass filter}
 The Octave script \emph{iir\_sqp\_slb\_fir\_bandpass\_test.m} designs a minimum
 phase FIR bandpass filter specified by:
@@ -9672,6 +9706,40 @@ and
 \begin{small}
 \verbatiminput{deczky3_socp_bfgs_test_D2_coef.m}
 \end{small}
+\clearpage
+\section{\label{sec:SOCP-non-linear-phase-FIR-lowpass-filter}SOCP design of a non-linear phase FIR low-pass filter}
+The Octave script \emph{iir\_socp\_slb\_fir\_lowpass\_test.m} designs an 
+FIR low-pass filter that has approximately linear phase in the pass-band. The
+impulse response is \emph{not} symmetric. The filter specification is:
+\begin{small}
+\verbatiminput{iir_socp_slb_fir_lowpass_test.spec}
+\end{small}
+Figure~\ref{fig:iir-socp-slb-fir-lowpass-pcls-response} shows the response of
+the PCLS optimised filter.
+Figure~\ref{fig:iir-socp-slb-fir-lowpass-pcls-passband-response} shows the
+pass-band detail of the response of the PCLS optimised filter.
+The coefficients of the PCLS optimised minimum phase
+FIR bandpass filter are, in gain-pole-zero form:
+\begin{small}
+\verbatiminput{iir_socp_slb_fir_lowpass_test_d1_coef.m}
+\end{small}
+and in transfer function form the FIR polynomial is:
+\begin{small}
+\verbatiminput{iir_socp_slb_fir_lowpass_test_N1_coef.m}
+\end{small}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_fir_lowpass_test_pcls_d1}}
+\caption{Response of the non-linear phase FIR low-pass filter after SOCP PCLS optimisation}
+\label{fig:iir-socp-slb-fir-lowpass-pcls-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_fir_lowpass_test_pcls_d1pass}}
+\caption{Pass-band response of the non-linear phase FIR low-pass filter after SOCP PCLS optimisation}
+\label{fig:iir-socp-slb-fir-lowpass-pcls-passband-response}
+\end{figure}
 \clearpage
 \section{\label{sec:Comparison-FIR-IIR-low-pass-filter-gain-zero-pole-with-SeDuMi}Comparison of FIR and IIR low-pass filters having approximately flat pass-band group delay with symmetric FIR filters}
 The Octave script \emph{compare\_fir\_iir\_socp\_slb\_lowpass\_test.m}
