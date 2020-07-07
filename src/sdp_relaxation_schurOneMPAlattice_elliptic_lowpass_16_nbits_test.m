@@ -1,5 +1,5 @@
 % sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 
 % SDP relaxation optimisation of a Schur parallel one-multiplier allpass
 % lattice elliptic lowpass filter with 16-bit signed-digit coefficients having
@@ -153,7 +153,7 @@ k0_sd_x_active=find((k0_sd_x)~=0);
 if feasible==false
   error("schurOneMPAlattice_sdp_mmse failed!");
 endif
-k0_sd_sdp=[A1k0_sd_sdp(:);A2k0_sd_sdp];
+k0_sd_sdp=[A1k0_sd_sdp(:);A2k0_sd_sdp(:)];
 [k0_digits_sd_sdp,k0_adders_sd_sdp]=SDadders(k0_sd_sdp,nbits);
 Esq0_sd_sdp=schurOneMPAlatticeEsq(A1k0_sd_sdp,A1epsilon0,A1p_ones, ...
                                   A2k0_sd_sdp,A2epsilon0,A2p_ones, ...
@@ -400,7 +400,7 @@ plot(0:length(k0),([k0,k_hist]-k0)'*nscale);
 axis([0 length(k0)]);
 str_active=sprintf("%d",k_active_max_n_hist(1));
 for n=2:length(k_active_max_n_hist)
-  str_active=sprintf("%s, %d",str_active,k_active_max_n_hist(n))
+  str_active=sprintf("%s, %d",str_active,k_active_max_n_hist(n));
 endfor
 title(sprintf("Parallel allpass lattice elliptic lowpass filter : %d bit %d \
 signed-digit coefficient difference from the exact values\n as SDP-relaxation \
