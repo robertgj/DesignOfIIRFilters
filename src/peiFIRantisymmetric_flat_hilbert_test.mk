@@ -2,7 +2,12 @@ peiFIRantisymmetric_flat_hilbert_test_FIGURES = \
 peiFIRantisymmetric_flat_hilbert_test_response
 
 peiFIRantisymmetric_flat_hilbert_test_COEFS = \
-
+peiFIRantisymmetric_flat_hilbert_test.mat \
+peiFIRantisymmetric_flat_hilbert_test_h5_coef.m \
+peiFIRantisymmetric_flat_hilbert_test_h10_coef.m \
+peiFIRantisymmetric_flat_hilbert_test_h15_coef.m \
+peiFIRantisymmetric_flat_hilbert_test_h20_coef.m \
+peiFIRantisymmetric_flat_hilbert_test_h25_coef.m 
 
 peiFIRantisymmetric_flat_hilbert_test_FILES = \
-peiFIRantisymmetric_flat_hilbert_test.m test_common.m
+peiFIRantisymmetric_flat_hilbert_test.m test_common.m print_polynomial.m

@@ -96,6 +96,9 @@ echo "Running $prog"
 octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
+diff -Bb test_h15.ok gumacosFIRsymmetric_flat_halfband_test_h15_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_h15.ok"; fail; fi
+
 diff -Bb test_h25.ok gumacosFIRsymmetric_flat_halfband_test_h25_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_h25.ok"; fail; fi
 
