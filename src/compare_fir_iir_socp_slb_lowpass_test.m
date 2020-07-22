@@ -78,7 +78,7 @@ else
 endif
 % End of hack
 axis(ax(1),[0 0.5 -5, 2]);
-axis(ax(2),[0 0.5 -60 -30]);
+axis(ax(2),[0 0.5 -60 -25]);
 grid("on");
 strt=sprintf("Amplitude response");
 title(strt);
