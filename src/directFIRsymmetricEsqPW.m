@@ -15,7 +15,7 @@ function [Esq,gradEsq,Q,q]=directFIRsymmetricEsqPW(hM,waf,Adf,Waf)
 %   gradEsq - gradient of the squared error value at h, a row vector
 %   Q,q - gradEsq=2*hM'*Q+2*q. hM is (M+1)x1, q is 1x(M+1) and Q is (M+1)x(M+1)
   
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -84,6 +84,9 @@ function [Esq,gradEsq,Q,q]=directFIRsymmetricEsqPW(hM,waf,Adf,Waf)
   % Sum over the bands
   Q=reshape(sum(Waf.*def_intAdelAdelhM,1)/pi,[M+1,M+1]);
   % Check
+  if ~issymmetric(Q)
+    error("~issymmetric(Q)");
+  endif
   if ~isdefinite(Q)
     error("~isdefinite(Q)");
   endif
