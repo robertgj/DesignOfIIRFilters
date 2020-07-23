@@ -1440,7 +1440,7 @@ individual coefficients $a_{k}$.
 \end{quotation}
 \subsection{\label{sec:Sensitivity-analysis-state-variable-transfer-function}Sensitivity of the state variable description of a transfer function}
 \emph{Thiele}~\cite{Theile_SensitivityLinearStateSpaceSystems} analyses the
-sensitivity of the frequency response of linear state space digital filters 
+sensitivity of the frequency response of linear state variable digital filters 
 with respect to the coefficients. Differentiation of the resolvent,
 $R=\left(zI-A\right)^{-1}$, is simplified
 by the matrix identity:
@@ -2182,7 +2182,7 @@ number of multipliers-per-output is reduced accordingly.
 \hline
 Filter structure & Number of multipliers per output & Optimal block length, P\\
 \hline
-Full state-space filter & $\frac{N^{2}}{P}+2N+\frac{P+1}{2}$ & $N\sqrt{2}$ \\
+Full state variable filter & $\frac{N^{2}}{P}+2N+\frac{P+1}{2}$ & $N\sqrt{2}$ \\
 $m$-th order cascaded sections & $\left(\frac{m}{P}+2+\frac{P+1}{2m}\right)N$ & $m\sqrt{2}$ \\
 $m$-th order parallel sections & $\left(\frac{m}{P}+2+\frac{P-1}{2m}\right)N+1$ & $m\sqrt{2}$ \\
 \hline
@@ -3422,11 +3422,11 @@ c_{2} &= \frac{q_{1}}{b_{2}}
 The Octave function \emph{pq2svcasc}
 converts the 2nd-order sections from the \emph{d-p-q} format of 
 Equation~\ref{eqn:Second-order-section-transfer-function} into 2nd-order
-\emph{direct-form}, \emph{Bomar-Type-III} or \emph{minimum-noise} state-space
+\emph{direct-form}, \emph{Bomar-Type-III} or \emph{minimum-noise} state variable
 sections.
 
 \emph{Bomar}~\cite{Bomar_OnDesignSecondOrderStateSpaceDigitalFilterSections}
-also describes realisation of second-order state-space sections that are
+also describes realisation of second-order state variable sections that are
 \emph{``as computationally efficient as possible subject to preserving
 low-roundoff noise,low coefficient sensitivity and freedom from limit cycles''}.
 In these realisations some matrix elements are replaced by single powers of $2$.
@@ -3454,7 +3454,7 @@ $\left\{K_{i},W_{i}\right\}$ for each section
 The Octave script \emph{svcasc2noise\_example\_test.m} designs a $20$th order 
 Butterworth filter with cut-off frequency $f_{c}=0.1\,f_{S}$, where $f_{S}$ is the
 sample rate, realised as a cascade of direct-form, Bomar Type III, minimum noise 
-or block-optimised second-order state-space sections with a state variable 
+or block-optimised second-order state variable sections with a state variable 
 scaling of $\delta=4$. The Octave function \emph{butter2pq} calculates the
 coefficients of a highpass or lowpass Butterworth filter with second order 
 sections in the form of the rational transfer function shown in
@@ -3463,7 +3463,7 @@ ordered with increasing pole angle. \footnote{The Octave function \emph{sos2pq}
 converts the output of the Octave-Forge \emph{signal} 
 package~\cite{OctaveForge_SignalPackage} \emph{tf2sos} function to \emph{p-q} 
 format}. The Octave function \emph{pq2svcasc} converts these coefficients to 
-second-order direct-form, Bomar Type III or minimum-noise state-space sections.
+second-order direct-form, Bomar Type III or minimum-noise state variable sections.
 The \emph{pq2blockKWopt} function block-optimises the second-order direct-form
 cascade realisation. If the transfer function has odd order then 
 \emph{pq2blockKWopt} makes the final section a direct-form first-order section 
@@ -3490,7 +3490,7 @@ with the section pole angles in increasing and decreasing order. That is, in
 the latter case the sections are in the reverse order to that calculated by
 \emph{butter2pq}.
 
-For comparison, the example script finds the overall state-space matrix with
+For comparison, the example script finds the overall state variable matrix with
 \emph{svcasc2Abcd} and calculates the noise gain of the globally optimised
 filter. Recall that in the worst case, the globally optimised $N$th order
 filter requires $\left(N+1\right)^{2}$ multiplies and the second-order cascade
@@ -7849,12 +7849,12 @@ chosen to limit the pole magnitudes. Let the output of the $i$th
 section, $y_{i}$, be the input to the $i+1$th section, $u_{i+1}$, and 
 assume the poles are ordered so that 
 $\left|p_{1}\right|\ge\left|p_{2}\right|\ge\hdots\ge\left|p_{N_{d}}\right|$,
-then the state space model for each section is:
+then the state variable model for each section is:
 \begin{align*}
   x_{i}\left(t+1\right) &= p_{i}\rho^{-1}x_{i}\left(t\right)+u_{i}\left(t\right)\\
   y_{i}\left(t\right)   &= x_{i}\left(t\right)
 \end{align*}
-The overall state space model is (for $R=1$):
+The overall state variable model is (for $R=1$):
 \begin{align*}
 A &= \left[\begin{array}{ccccc}
 p_{1}\rho^{-1} & 0             & 0      & \cdots & 0\\
@@ -9175,12 +9175,12 @@ the desired magnitude response,
 $\left|H\left(e^{\imath\omega}\right)\right| \le 1$, a more accurate complementary
 minimum-phase FIR spectral factor of
 $1-z^{-N}H\left(z^{-1}\right)H\left(z\right) = 1-\left|H\left(z\right)\right|^{2}$
-can be derived from the real cepstrum
-(see for example, \emph{Mian} and
-\emph{Nainer}~\cite{MianNainer_FastDesignEquiRippleMinimumPhaseFIR}) or directly
-by \emph{Orchard}'s Newton-Raphson
+can be derived from the real cepstrum method of
+ \emph{Mian} and
+ \emph{Nainer}~\cite{MianNainer_FastDesignEquiRippleMinimumPhaseFIR} or
+ directly by \emph{Orchard} and \emph{Willson}'s Newton-Raphson
 solution~\cite{OrchardWillson_ComputationMinimumPhaseSpectralFactor}. See
-Appendix~\ref{app:Low-passband-sensitivity-FIR-digital-filters}.
+Appendix~\ref{app:Design-of-complementary-FIR-digital-filter}.
 \cleardoublepage
 \chapter{\label{sec:IIR-Design-Using-SOCP}IIR filter design using Second Order Cone Programming}
 \section{Second Order Cone Programming}
@@ -23409,10 +23409,12 @@ increased filter order or reduced selectivity.
 In this section I follow the tutorial paper by \emph{Orchard} and
 \emph{Willson}~\cite{OrchardWillson_EllipticFunctionsFilterDesign}. Elliptic
 filters are an application of the \emph{Jacobian elliptic functions} 
-and \emph{elliptic integrals}. The original purpose of the elliptic functions
+and \emph{elliptic integrals}
+(reviewed in Appendix~\ref{app:Review-of-elliptic-integrals-and-functions}).
+The original purpose of the elliptic functions
 was to invert the integral that finds the arc length of an ellipse. For example,
 the elliptic function $w=\jsn{}u$ is defined by the \emph{incomplete elliptic
-integral}:
+integral}: 
 \begin{align}
   \label{eqn:Elliptic-sn-integral}
 u&=\int_{0}^{w}\frac{dt}{\sqrt{\left(1-t^{2}\right)\left(1-\kappa^{2}t^{2}\right)}}

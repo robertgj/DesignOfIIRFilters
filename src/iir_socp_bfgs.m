@@ -193,11 +193,10 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
     if verbose
       printf("BFGS update initialised with Hessian\n");
     endif
-    W=hessEk;
-    [~,P]=chol(W);
-    if P ~= 0
+    if ~isdefinite(hessEk)
       error("hessEk is not positive definite!");
     endif
+    W=hessEk;
     invW=inv(hessEk);
   elseif test_initialise_BFGS_with_Cholesky_update_of_Hessian
     if verbose

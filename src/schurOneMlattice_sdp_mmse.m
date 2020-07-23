@@ -10,7 +10,8 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
 %                             wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
 %
 % SDP optimisation of a one-multiplier Schur lattice filter with integer
-% coefficients and constraints on the amplitude, phase and group delay responses.
+% coefficients and constraints on the amplitude, phase and group delay
+% responses.
 %
 % The objective function minimised is:
 % (0.5*(kc0+kc_delta.*y)'*hessEsq*(kc0+kc_delta.*y))+(gradEsq*(kc0+kc_delta.*y))
@@ -232,8 +233,7 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
   endfor
   func_iter=func_iter+Nkc;
   % Sanity check
-  [cholEsq0,P]=chol(hessEsq0(Nkc_active,Nkc_active));
-  if P~=0
+  if ~isdefinite(hessEsq0(Nkc_active,Nkc_active))
     error("hessEsq0(Nkc_active,Nkc_active) is not positive definite");
   endif
 
