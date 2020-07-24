@@ -9389,9 +9389,9 @@ by \emph{Jos Sturm}~\cite{Sturm_SeDuMi_1_3}.
 The~\hyperlink{sec:Colophon}{Colophon} shows construction of a \emph{patch}
 file that makes \emph{SeDuMi v1.3} compatible with Octave.
 
-Lu~\cite[Section III]{Lu_SedumiRemarks} provides an example of expressing an
-optimisation problem in the form accepted by SeDuMi. In Lu's notation the 
-problem is
+\emph{Lu}~\cite[Section III]{Lu_SedumiRemarks} provides an example of expressing
+an optimisation problem in the form accepted by SeDuMi. In \emph{Lu}'s notation
+the problem is:
 \begin{subequations}
 \begin{align}
 \textbf{minimise}  \quad&\boldsymbol{b}^{T}\boldsymbol{x}
@@ -9405,24 +9405,24 @@ problem is
 \end{align}
 \end{subequations}
 where $\boldsymbol{x}\in\mathfrak{\mathbb{R}}^{m\times 1}$, 
-$\boldsymbol{D}\in\mathfrak{\mathbb{R}}^{m\times p}$, 
-$\boldsymbol{f}\in\mathfrak{\mathbb{R}}^{p\times 1}$, 
-$\boldsymbol{b}\in\mathfrak{\mathbb{R}}^{m\times 1}$, 
+$\boldsymbol{b}\in\mathfrak{\mathbb{R}}^{m\times 1}$,
 $\boldsymbol{A}_{i}\in\mathfrak{\mathbb{R}}^{m\times\left(n_{i}-1\right)}$
-\footnote{$n_{i}-1$ to allow for $d_{i}$ in the column vector 
+\footnote{$n_{i}-1$ to allow for the column $b_{i}$ in the matrix 
+$\boldsymbol{A}_{t}^{\left(i\right)}$ and $d_{i}$ in the column vector 
 $\boldsymbol{c}_{t}^{\left(i\right)}$}, 
+$\boldsymbol{c}_{i}\in\mathfrak{\mathbb{R}}^{\left(n_{i}-1\right)\times 1}$,
 $\boldsymbol{b}_{i}\in\mathfrak{\mathbb{R}}^{m\times 1}$, 
-$\boldsymbol{c}_{i}\in\mathfrak{\mathbb{R}}^{\left(n_{i}-1\right)\times 1}$ and
-$d_{i}\in\mathfrak{\mathbb{R}}$ for $1 \le i \le q$. The problem is cast into
+$d_{i}\in\mathfrak{\mathbb{R}}$ for $1 \le i \le q$,
+$\boldsymbol{D}\in\mathfrak{\mathbb{R}}^{m\times p}$ and
+$\boldsymbol{f}\in\mathfrak{\mathbb{R}}^{p\times 1}$. The problem is cast into
 SeDuMi format by defining
 \begin{align}
 \label{eqn:Lu-SeDuMi-Remarks-problem-matrixes}
 \boldsymbol{A}_{t}&=\left[-\boldsymbol{D} \quad \boldsymbol{A}_{t}^{\left(1\right)}
-\hdots \boldsymbol{A}_{t}^{\left(q\right)}\right]\\
+\hdots \quad \boldsymbol{A}_{t}^{\left(q\right)}\right]\\
 \boldsymbol{A}_{t}^{\left(i\right)} &= -\left[\boldsymbol{b}_{i} \quad
 \boldsymbol{A}_{i}\right]\nonumber\\
-\boldsymbol{b}_{t}=-\boldsymbol{b}&=\left[-1\quad 0\quad\hdots\quad 0\right]^{T}
-\nonumber\\
+\boldsymbol{b}_{t}&=-\boldsymbol{b}\nonumber\\
 \boldsymbol{c}_{t}&=\left[\boldsymbol{f};\quad \boldsymbol{c}_{t}^{\left(1\right)}
 ;\quad \hdots\quad \boldsymbol{c}_{t}^{\left(q\right)}\right]\nonumber\\
 \boldsymbol{c}_{t}^{\left(i\right)}&=\left[d_{i} ;\quad \boldsymbol{c}_{i}\right]
@@ -9445,8 +9445,9 @@ $\boldsymbol{q}$ is a vector giving the dimensions of the $q$ sets of conic
 constraints in 
 Equation~\ref{eqn:Lu-SeDuMi-Remarks-problem-format-conic-constraints},
 $\boldsymbol{q}=\left[\begin{array}{cccc}n_{1} & n_{2} & \hdots & n_{q}
-\end{array}\right]$.
-\clearpage
+\end{array}\right]$. The Octave script \emph{Lu\_remarks\_example\_4\_test.m}
+shows \emph{Lu}'s Example 4~\cite[Section III]{Lu_SedumiRemarks}, an SOCP
+problem with linear and quadratic constraints.
 \section{\label{sec:Deczky3-IIR-filter-gain-zero-pole-with-SeDuMi}An example of SOCP design of an IIR filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
 The Octave script \emph{deczky3\_socp\_test.m} implements the design of Deczky's
 Example 3, used previously in Section~\ref{sub:Deczkys-Example-3}, with MMSE 
@@ -9595,7 +9596,7 @@ and
 \begin{small}
 \verbatiminput{deczky3_socp_test_D2_coef.m}
 \end{small}
-
+\clearpage
 For comparison, the \emph{deczky3a\_socp\_test.m} script has looser constraints
 on the pass-band group-delay ripple and increases the required stop-band
 attenuation:
