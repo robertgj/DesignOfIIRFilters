@@ -1,9 +1,9 @@
 function wx=halleyFIRsymmetricA(wa,hM,Ax)
 % wx=halleyFIRsymmetricA(wa,hM,Ax)
 % Given the distinct coefficients of an even-order FIR filter, hM, and an
-% approximate angular frequency, wx, use Halleys method to find the frequencies,
-% wx, corresponding to Ax. If Ax is empty or not given then find the peaks
-% (zeros of the gradient).
+% approximate angular frequencies, wa, use Halleys method to find the 
+% frequencies, wx, corresponding to Ax. If Ax is empty or not given then
+% find the peaks (zeros of the gradient) near the frequencies in wa.
 %
 % Writing fn=f(x(n)) and f'=df(x)/dx, Newtons method is: x(n+1)=x(n)-[fn/fn']
 % and Halleys method is: x(n+1)=x(n)-(fn/fn')/[1-((fn/fn')*(fn''/(2fn')))]

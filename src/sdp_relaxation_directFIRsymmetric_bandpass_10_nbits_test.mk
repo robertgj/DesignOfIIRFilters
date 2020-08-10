@@ -11,7 +11,7 @@ sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test.mat
 sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test_FILES = \
 sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test.m \
 test_common.m \
-directFIRsymmetric_sdp_mmsePW.m \
+sdp_relaxation_directFIRsymmetric_mmsePW.m \
 directFIRsymmetric_socp_mmsePW.m \
 directFIRsymmetric_allocsd_Lim.m \
 directFIRsymmetric_slb.m \

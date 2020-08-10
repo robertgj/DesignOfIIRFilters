@@ -94,11 +94,18 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \DeclareMathOperator{\sech}{sech}
 \DeclareMathOperator{\arctanh}{arctanh}
 \DeclareMathOperator{\arccosh}{arccosh}
-\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\sign}{sign}
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 \DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
 \DeclarePairedDelimiter{\nint}{\lfloor}{\rceil}
-\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\mathabs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\mathnorm}{\Lvert}{\Rvert}
+\DeclareMathOperator{\mathnull}{null}
+\DeclareMathOperator{\mathspan}{span}
+\DeclareMathOperator{\mathrank}{rank}
+\DeclareMathOperator{\mathrange}{range}
+\DeclareMathOperator{\mathtrace}{trace}
+\DeclareMathOperator{\mathdiag}{diag}
 
 \allowdisplaybreaks % For page breaks in long \align{} equations
 
@@ -247,8 +254,8 @@ Chapter~\ref{sec:Constrained-Optimisation-of-IIR-by-Quadratic-Programming-Pole-Z
 applies the \emph{Sequential Quadratic Programming} (SQP) method to the
 optimisation of the frequency of an IIR filter. The SQP method is reviewed in
 Appendix~\ref{app:Constrained-Non-linear-Optimisation}. That review makes
-extensive use of the books by \emph{Nocedal and
-  Wright}~\cite{NocedalWright_NumericalOptimization},
+extensive use of the books by \emph{Nocedal} and 
+\emph{Wright}~\cite{NocedalWright_NumericalOptimization},
 \emph{Ruszczynski}~\cite{Ruszczynski_NonlinearOptimization} and
 \emph{Bertsekas}~\cite{Bertsekas_NonlinearProgramming}.  I chose to write my
 own SQP solver in Octave.  In
@@ -774,9 +781,9 @@ node become the outputs then the state-variable description of the
 \begin{align}
 \left[\begin{array}{cc}
 A & B\\
-C & D\end{array}\right]^{T}&=\left[\begin{array}{cc}
-A^{T} & C^{T}\\
-B^{T} & D\end{array}\right]^{T}
+C & D\end{array}\right]^{\top}&=\left[\begin{array}{cc}
+A^{\top} & C^{\top}\\
+B^{\top} & D\end{array}\right]^{\top}
 \end{align}
 \section{Controllability}
 The matrix pair $\left(A,B\right)$ is said to be \emph{controllable}
@@ -968,7 +975,7 @@ A &= \left[\begin{array}{cccc}
 -a_{n} & -a_{n-1} & \cdots & -a_{1}
 \end{array}\right]\\
 B &= \left[\begin{array}{ccccc}
-0 & 0 & \cdots & 0 & 1\end{array}\right]^{T}\\
+0 & 0 & \cdots & 0 & 1\end{array}\right]^{\top}\\
 C &= \left[\begin{array}{ccc}
 b_{n}-b_{0}a_{n} & \cdots & b_{1}-b_{0}a_{1}\end{array}\right]\\
 D &= b_{0}
@@ -982,7 +989,7 @@ Firstly, show the identity
 \begin{align*}
 \left(zI-A\right)\Psi\left(z\right) &= \hat{a}\left(z\right)B
 \end{align*}
-with $\Psi\left(z\right)=\left[\begin{array}{cccc} 1 & z & \cdots & z^{n-1}\end{array}\right]^{T}$ uniquely defines the matrix:
+with $\Psi\left(z\right)=\left[\begin{array}{cccc} 1 & z & \cdots & z^{n-1}\end{array}\right]^{\top}$ uniquely defines the matrix:
 \begin{align*}
   A&=\left[\begin{array}{cccc}
 \alpha_{1,1} & \alpha_{1,2} & \cdots & \alpha_{1,n}\\
@@ -992,7 +999,7 @@ with $\Psi\left(z\right)=\left[\begin{array}{cccc} 1 & z & \cdots & z^{n-1}\end{
            \end{array}\right]
 \end{align*}
 and the column vector:
-$B=\left[\begin{array}{ccc}\beta_{1} & \cdots &\beta_{n}\end{array}\right]^{T}$.
+$B=\left[\begin{array}{ccc}\beta_{1} & \cdots &\beta_{n}\end{array}\right]^{\top}$.
 For row $i$:
 \begin{align*}
   z^{i}-\beta_{i}\left(z^{n}+\sum_{j=1}^{n}a_{i}z^{n-j}\right)
@@ -1332,7 +1339,7 @@ perform the following recursion:
 \begin{algorithmic}
 \State $a_{0}=1$ , $\bar{A}_{0}=I$
 \For{$k=1,\hdots,n$}
-  \State $a_{k}= -\frac{1}{k}\text{trace}\left(A\bar{A}_{k-1}\right)$
+  \State $a_{k}= -\frac{1}{k}\mathtrace\left(A\bar{A}_{k-1}\right)$
   \vspace{1.5mm}
   \State $\bar{A}_{k}=A\bar{A}_{k-1}+a_{k}I$
 \EndFor
@@ -2272,13 +2279,13 @@ replaced with the all-pass filter $\left[F\left(z\right)\right]^{-1}$. For IIR
 filter design $F\left(z\right)$ must be a rational function. A first order
 frequency transformation has the form: 
 \begin{align*}
-F\left(z\right) &= \pm\frac{z-\alpha}{1-\alpha^{*}z}\quad\left|\alpha\right|^{2}<1
+F\left(z\right) &= \pm\frac{z-\alpha}{1-\alpha^{\dagger}z}\quad\left|\alpha\right|^{2}<1
 \end{align*}
 This is a frequency transformation since
 \begin{align*}
-\left|F\left(z\right)\right|^{2} &= \frac{\left(z-\alpha\right)\left(z^{*}-\alpha^{*}\right)}{\left(1-\alpha^{*}z\right)\left(1-\alpha z^{*}\right)}\\
- &= 1+\frac{zz^{*}-1+\alpha\alpha^{*}-\alpha\alpha^{*}zz^{*}}{1-\alpha z^{*}-\alpha^{*}z+\alpha\alpha^{*}zz^{*}}\\
- &= 1+\frac{\left[\left|z\right|^{2}-1\right]\left[1-\left|\alpha\right|^{2}\right]}{\left|1-\alpha^{*}z\right|^{2}}
+\left|F\left(z\right)\right|^{2} &= \frac{\left(z-\alpha\right)\left(z^{*}-\alpha^{\dagger}\right)}{\left(1-\alpha^{\dagger}z\right)\left(1-\alpha z^{*}\right)}\\
+ &= 1+\frac{zz^{*}-1+\alpha\alpha^{\dagger}-\alpha\alpha^{\dagger}zz^{*}}{1-\alpha z^{*}-\alpha^{\dagger}z+\alpha\alpha^{\dagger}zz^{*}}\\
+ &= 1+\frac{\left[\left|z\right|^{2}-1\right]\left[1-\left|\alpha\right|^{2}\right]}{\left|1-\alpha^{\dagger}z\right|^{2}}
 \end{align*}
 Order $n$ frequency transformations are known as \emph{Blaschke products}
 \begin{align*}
@@ -2392,16 +2399,16 @@ Given a (usually low-pass) prototype filter $H\left(z\right)$ parameterised
 by the state variable description $\left\{ A,b,c,d\right\}$ construct the 
 filter $G\left(z\right)=H\left(F\left(z\right)\right)$ where 
 \begin{align*}
-F\left(z\right) &= \pm\prod_{i=1}^{m}\left(\frac{z-\alpha_{i}^{*}}{1-\alpha_{i}z}\right),\quad\left|\alpha_{i}\right|<1
+F\left(z\right) &= \pm\prod_{i=1}^{m}\left(\frac{z-\alpha_{i}^{\dagger}}{1-\alpha_{i}z}\right),\quad\left|\alpha_{i}\right|<1
 \end{align*}
-
+(here $\dagger$ means complex conjugate).
 
 If the order of $H\left(z\right)$ is $n$ then the order of $G\left(z\right)$
 is $mn$. The map $z\rightarrow F\left(z\right)$ preserves the disk
 $\left|z\right|<1$, the circle $\left|z\right|=1$ and the set $\left|z\right|>1$
 since
 \begin{align*}
-1-\left|\frac{z-\alpha^{*}}{1-\alpha z}\right|^{2} &= \frac{\left(1-\left|z\right|^{2}\right)\left(1-\left|\alpha\right|^{2}\right)}{\left|1-\alpha z\right|^{2}}
+1-\left|\frac{z-\alpha^{\dagger}}{1-\alpha z}\right|^{2} &= \frac{\left(1-\left|z\right|^{2}\right)\left(1-\left|\alpha\right|^{2}\right)}{\left|1-\alpha z\right|^{2}}
 \end{align*}
 Therefore if $H\left(z\right)$ is stable (minimum phase) then $G\left(z\right)$
 is stable (minimum phase). We want to find the matrices $\mathfrak{A},\mathfrak{B},\mathfrak{C},\mathfrak{D}$
@@ -2422,24 +2429,24 @@ The filter $1/F\left(z\right)$ replaces each delay branch in in the
 original filter, $H\left(z\right)$, so for a $m\times n$ matrix
 $S\left(k\right)$
 \begin{align*}
-S\left(k+1\right) &= \alpha S\left(k\right)+\beta\left[Ax\left(k\right)+bu\left(k\right)\right]^{T}\\
-x\left(k\right) &= S^{T}\left(k\right)\gamma^{T}+\delta\left[Ax\left(k\right)+bu\left(k\right)\right]\\
+S\left(k+1\right) &= \alpha S\left(k\right)+\beta\left[Ax\left(k\right)+bu\left(k\right)\right]^{\top}\\
+x\left(k\right) &= S^{\top}\left(k\right)\gamma^{\top}+\delta\left[Ax\left(k\right)+bu\left(k\right)\right]\\
 y\left(k\right) &= cx\left(k\right)+du\left(k\right)
 \end{align*}
 Eliminating $x\left(k\right)$ gives
 \begin{align*}
-S\left(k+1\right) &= \alpha S\left(k\right)+\beta\gamma S\left(k\right)\left[A\left(I-\delta A\right)^{-1}\right]^{T}+\beta\left[\left(I-\delta A\right)^{-1}\right]^{T}u\left(k\right)\\
-y\left(k\right) &= \gamma S\left(k\right)\left[c\left(I-\delta A\right)^{-1}\right]^{T}+\left[d+\delta c\left(I-\delta A\right)^{-1}b\right]u\left(k\right)
+S\left(k+1\right) &= \alpha S\left(k\right)+\beta\gamma S\left(k\right)\left[A\left(I-\delta A\right)^{-1}\right]^{\top}+\beta\left[\left(I-\delta A\right)^{-1}\right]^{\top}u\left(k\right)\\
+y\left(k\right) &= \gamma S\left(k\right)\left[c\left(I-\delta A\right)^{-1}\right]^{\top}+\left[d+\delta c\left(I-\delta A\right)^{-1}b\right]u\left(k\right)
 \end{align*}
 
 Define $V\left(X\right)$ as the vector formed by stacking the columns
 of $X$ and define $G\otimes F$ as the \emph{Kronecker product}\footnote{
 Define $V\left(X\right)$ as the vector formed by stacking the columns
-of $X$. Suppose the matrix product $FXG^{T}$is defined. This represents
+of $X$. Suppose the matrix product $FXG^{\top}$is defined. This represents
 a linear transformation applied to X. When this transformation is
 arranged as a vector
 \begin{align*}
-V\left(FXG^{T}\right) &= \left[G\otimes F\right]V\left(X\right)
+V\left(FXG^{\top}\right) &= \left[G\otimes F\right]V\left(X\right)
 \end{align*}
 where $G\otimes F$ is defined as the \emph{Kronecker product}, 
 $\left\{ G_{ij}F\right\} $, of matrices $G$ and $F$. 
@@ -2449,7 +2456,7 @@ following:
 \left[A\otimes B\right]\left[C\otimes D\right] &= \left(AC\right)\otimes\left(BD\right)\\
 \left(A+B\right)\otimes\left(C+D\right) &= A\otimes C+A\otimes D+B\otimes C+B\otimes D\\
 \left[A\otimes B\right]^{-1} &= A^{-1}\otimes B^{-1}\\
-\left[A\otimes B\right]^{T} &= A^{T}\otimes B^{T}
+\left[A\otimes B\right]^{\top} &= A^{\top}\otimes B^{\top}
 \end{align*}
 By convention Kronecker products are performed \emph{after} ordinary
 matrix products and \emph{before} matrix addition.}, 
@@ -2643,11 +2650,11 @@ Assume a causal filter $H\left(z\right)$ driven by white, wide-sense stationary
 unit variance white noise inputs, $u\left(k\right)$. The covariance matrix of 
 the filter state is:
 \begin{align*}
-K &= E\left\{x\left(k\right)x^{T}\left(k\right)\right\}\\
- &= E\left\{x\left(k+1\right)x^{T}\left(k+1\right)\right\}\\
- &= E\left\{\left(Ax\left(k\right)+Bu\left(k\right)\right)\left(Ax\left(k\right)+Bu\left(k\right)\right)^{T}\right\}\\
- &= E\left\{Ax\left(k\right)x^{T}\left(k\right)A^{T}+Bu\left(k\right)u^{T}\left(k\right)B^{T}\right\}\\
- &= AKA^{T}+BB^{T}
+K &= E\left\{x\left(k\right)x^{\top}\left(k\right)\right\}\\
+ &= E\left\{x\left(k+1\right)x^{\top}\left(k+1\right)\right\}\\
+ &= E\left\{\left(Ax\left(k\right)+Bu\left(k\right)\right)\left(Ax\left(k\right)+Bu\left(k\right)\right)^{\top}\right\}\\
+ &= E\left\{Ax\left(k\right)x^{\top}\left(k\right)A^{\top}+Bu\left(k\right)u^{\top}\left(k\right)B^{\top}\right\}\\
+ &= AKA^{\top}+BB^{\top}
 \end{align*}
 This is known as a \emph{discrete Lyapunov equation}. Alternatively, since
 \begin{align*}
@@ -2655,11 +2662,11 @@ x\left(k\right) = \sum_{l=0}^{\infty}A^{l}Bu\left(k-l-1\right)
 \end{align*}
 the state covariance matrix is
 \begin{align*}
-K = \sum_{m=0}^{\infty}\sum_{l=0}^{\infty}A^{l}Br_{uu}\left(l-m\right)\left(A^{m}B\right)^{T}
+K = \sum_{m=0}^{\infty}\sum_{l=0}^{\infty}A^{l}Br_{uu}\left(l-m\right)\left(A^{m}B\right)^{\top}
 \end{align*}
 For unit variance white inputs
 \begin{align*}
-K = \sum_{l=0}^{\infty}\left(A^{l}B\right)\left(A^{l}B\right)^{T}
+K = \sum_{l=0}^{\infty}\left(A^{l}B\right)\left(A^{l}B\right)^{\top}
 \end{align*}
 Algorithm~\ref{alg:Recursive-calculation-of-the-covariance-matrix} is a 
 simple recursive calculation of the covariance matrix implemented in 
@@ -2667,9 +2674,9 @@ the Octave function \emph{dlyap\_recursive}.
 \begin{algorithm}
 \begin{algorithmic}
 \State $F \leftarrow A$
-\State $K \leftarrow BB^{T}$
+\State $K \leftarrow BB^{\top}$
 \Repeat
-  \State $K \leftarrow FKF^{T}+K$
+  \State $K \leftarrow FKF^{\top}+K$
   \State $F \leftarrow F^{2}$
 \Until $F=0$
 \end{algorithmic}
@@ -2720,19 +2727,19 @@ we can express the output autocorrelation sequence directly from
 $\left\{A,B,C,D\right\}$.
 The output autocorrelation sequence is
 \begin{align*}
-r_{yy}\left(k\right) &= E\left\{y\left(k+l\right)y^{T}\left(l\right)\right\}\\
- &= E\left\{\left(Cx\left(k+l\right)+Du\left(k+l\right)\right)\left(Cx\left(l\right)+Du\left(l\right)\right)^{T}\right\}\\
- &= E\left\{Cx\left(k+l\right)x^{T}\left(l\right)C^{T}+Du\left(k+l\right)x^{T}\left(l\right)C^{T}+Cx\left(k+l\right)u^{T}\left(l\right)D^{T}+Du\left(k+l\right)u^{T}\left(l\right)D^{T}\right\}
+r_{yy}\left(k\right) &= E\left\{y\left(k+l\right)y^{\top}\left(l\right)\right\}\\
+ &= E\left\{\left(Cx\left(k+l\right)+Du\left(k+l\right)\right)\left(Cx\left(l\right)+Du\left(l\right)\right)^{\top}\right\}\\
+ &= E\left\{Cx\left(k+l\right)x^{\top}\left(l\right)C^{\top}+Du\left(k+l\right)x^{\top}\left(l\right)C^{\top}+Cx\left(k+l\right)u^{\top}\left(l\right)D^{\top}+Du\left(k+l\right)u^{\top}\left(l\right)D^{\top}\right\}
 \end{align*}
 The first term is
 \begin{align*}
-E\left\{x\left(k+l\right)x^{T}\left(l\right)\right\} &= 
+E\left\{x\left(k+l\right)x^{\top}\left(l\right)\right\} &= 
 E\left\{\left(\sum_{m=0}^{\infty}A^{m}Bu\left(k+l-m-1\right)\right)
 \left(\sum_{m^{\prime}=0}^{\infty}A^{m^{\prime}}
-Bu\left(l-m^{\prime}-1\right)\right)^{T}\right\}\\
+Bu\left(l-m^{\prime}-1\right)\right)^{\top}\right\}\\
  &= \sum_{m=0}^{\infty}\sum_{m^{\prime}=0}^{\infty}
-\left(A^{m}B\right)\left(A^{m^{\prime}}B\right)^{T}r_{uu}\left(k-m-m^{\prime}\right)\\
- &= \sum_{m=0}^{\infty}A^{k}A^{m}B\left(A^{m}B\right)^{T}\\
+\left(A^{m}B\right)\left(A^{m^{\prime}}B\right)^{\top}r_{uu}\left(k-m-m^{\prime}\right)\\
+ &= \sum_{m=0}^{\infty}A^{k}A^{m}B\left(A^{m}B\right)^{\top}\\
  &= A^{k}K
 \end{align*}
 where we have used the fact that 
@@ -2749,11 +2756,11 @@ A^{k-1}B & k>0\\
 \end{align*}
 (This is also the unit-pulse response from the input to internal states.)
 The present state is uncorrelated with future inputs so the term containing
-is $u\left(k+l\right)x^{T}\left(k\right)$ is zero. Finally,
+is $u\left(k+l\right)x^{\top}\left(k\right)$ is zero. Finally,
 \begin{align*}
 r_{yy}\left(k\right) 
-&= CA^{k}KC^{T}+CA^{k-1}BD^{T}\\
-&= CA^{k}KC^{T}+h\left(k\right)D^{T}
+&= CA^{k}KC^{\top}+CA^{k-1}BD^{\top}\\
+&= CA^{k}KC^{\top}+h\left(k\right)D^{\top}
 \end{align*}
 The energy in the unit-pulse response is given by
 \begin{align*}
@@ -2761,7 +2768,7 @@ r_{yy}\left(0\right) &= E\left\{y^{2}\left(k\right)\right\}\\
 &= \sum_{l=0}^{\infty}h^{2}\left(l\right)\\
 &= \frac{1}{2\pi}\int_{-\pi}^{\pi}\left|H\left(e^{\imath\theta}\right)^{2}
 \right|d\theta\\
-&= D^{2}+CKC^{T}
+&= D^{2}+CKC^{\top}
 \end{align*}
 \subsection{Scaling State Variable Filters To Avoid Overflow\label{sec:Scaling-State-Variable-Filters-To-Avoid-Overflow}}
 Round off noise is the dominant component of output error
@@ -2840,7 +2847,7 @@ t_{i}=\delta\sqrt{K_{ii}} \; , \; i=1\;,\;2\;,\;\;\cdots\;\;,\; n
 \end{align*}
 A geometric interpretation of scaling is as follows: For unit
 variance stationary Gaussian inputs the set of values of the state
-variables $\left\{ x\;:\; x^{{T}}K^{{-1}}x\le\;1\;\right\}$ represents
+variables $\left\{ x\;:\; x^{\top}K^{-1}x\le\;1\;\right\}$ represents
 the \emph{``one standard deviation error ellipsoid''} in the filter state
 \section{Estimation of output round-off noise in state variable filters\label{sec:Estimation-of-output-round-off-noise-in-state-variable-filters}}
 The z-domain state variable equations with round off noise
@@ -2896,9 +2903,9 @@ after accumulation (ie: a double length accumulator is used).
 In a similar fashion to the covariance matrix, $K$, of the state vector, the 
 energy in the sequence $g_{i}$ can be characterised by the matrix, $W$:
 \begin{align*}
-W &= E\left\{g_{i}\left(k\right)g_{i}\left(k\right)^{T}\right\}\\
-  &= \sum^{\infty}_{k=0}\left(CA^{k}\right)^{T}\left(CA^{k}\right)\\
-  &=A^{T}WA+C^{T}C
+W &= E\left\{g_{i}\left(k\right)g_{i}\left(k\right)^{\top}\right\}\\
+  &= \sum^{\infty}_{k=0}\left(CA^{k}\right)^{\top}\left(CA^{k}\right)\\
+  &=A^{\top}WA+C^{\top}C
 \end{align*}
 This is also a discrete \emph{Lyapunov} equation and can be solved in the
 same manner as the equation for the state covariance matrix, $K$. The matrixes
@@ -2926,7 +2933,7 @@ the filter realization. It is invariant under a diagonal (or scaling)
 coordinate transformation. Under a general coordinate transform, $T$:
 \begin{align*}
 \left\{A\;,\ B\;,\ C\;,\;D,\;K,\;W\right\}\quad&\leftarrow\quad 
-\left\{T^{-1}AT\;,\; T^{-1}B\;,\;CT\;,\; T^{-1}KT^{-T}\;,\; T^{T}WT\right\}
+\left\{T^{-1}AT\;,\; T^{-1}B\;,\;CT\;,\;T^{-1}K{T^{-1}}^{\top}\;,\;T^{\top}WT\right\}
 \end{align*}
 The other sources of output noise variance are those due to the
 input quantization and the round off in calculating the output. Neither
@@ -2945,7 +2952,7 @@ function, $H\left(z\right)$, with unit pulse response $h\left(k\right)$ and stat
 variable representation $\left\{A,B,C,D\right\}$:
 \begin{align}
 \label{eqn:Transfer-function-l2-norm-from-unit-pulse-response}
-\|h\|_{2}^{2}=D^{2}+CKC^{T}
+\|h\|_{2}^{2}=D^{2}+CKC^{\top}
 \end{align}
 \subsection{Rounding-to-minus-infinity quantisation noise}
 As stated in Section~\ref{Quantisation-noise-in-digital-filters}, the results
@@ -3014,27 +3021,27 @@ Octave function \emph{optKW.m}.
 \begin{enumerate}
 \item Diagonalise $K$ and $W$:\\
 Since $K$ and $W$ are real, symmetric and positive definite, a decomposition
-into $W=U_{1}D_{1}U_{1}^{T}$ exists. Here $U_{1}$ is real and unitary (ie:
+into $W=U_{1}D_{1}U_{1}^{\top}$ exists. Here $U_{1}$ is real and unitary (ie:
 $U_{1}^{\dagger} U_{1}=I$, where $\dagger$ means conjugate transpose) 
 and $D_{1}$ is diagonal with real, positive elements. Recall that for
 non-singular matrices $\left(AB\right)^{-1}=B^{-1}A^{-1}$ and 
-$\left(AB\right)^{T}=B^{T}A^{T}$. Let $T_{1}=U_{1}D_{1}^{-\frac{1}{2}}$
+$\left(AB\right)^{\top}=B^{\top}A^{\top}$. Let $T_{1}=U_{1}D_{1}^{-\frac{1}{2}}$
 then
 \begin{align*}
-  W_{1}&=T_{1}^{T}WT_{1}=I \\
-  K_{1}&=T_{1}^{-1}K\left(T_{1}^{-1}\right)^{T}=U_{2}D_{2}U_{2}^{T}
+  W_{1}&=T_{1}^{\top}WT_{1}=I \\
+  K_{1}&=T_{1}^{-1}K\left(T_{1}^{-1}\right)^{\top}=U_{2}D_{2}U_{2}^{\top}
 \end{align*}
 where $U_{2}$ is real and unitary and $D_{2}$ is diagonal
 with real, positive elements. Let $T_{2}=T_{1}U_{2}D_{2}^{\frac{1}{4}}$
 then
 \begin{align*}
-W_{2}&=T_{2}^{T}WT_{2}=D_{2}^{\frac{1}{2}} \\
-K_{2}&=T_{2}^{-1}K\left(T_{2}^{-1}\right)^{T}=D_{2}^{\frac{1}{2}}
+W_{2}&=T_{2}^{\top}WT_{2}=D_{2}^{\frac{1}{2}} \\
+K_{2}&=T_{2}^{-1}K\left(T_{2}^{-1}\right)^{\top}=D_{2}^{\frac{1}{2}}
 \end{align*}
 
 \item Balance $D_{2}^{\frac{1}{2}}$:\\
 Now find a unitary transformation, $U_{3}$, for which
-the diagonal elements of $U_{3}^{T}D_{2}^{\frac{1}{2}}U_{3}$
+the diagonal elements of $U_{3}^{\top}D_{2}^{\frac{1}{2}}U_{3}$
 are nearly equal. $U_{3}$ can be found as a sequence of rotations
 that replace the largest and smallest diagonal elements of $D_{2}^{\frac{1}{2}}$
 with their average. In two dimensions:
@@ -3135,10 +3142,10 @@ u\left(k\right)
 \end{align*}
 then the covariance matrix for $q_{0}\left(k\right)$ is 
 \begin{align*}
-E\left\{q_{0}\left(k\right)q_{0}^{T}\left(k\right)\right\} &= 
+E\left\{q_{0}\left(k\right)q_{0}^{\top}\left(k\right)\right\} &= 
 \left[\begin{array}{cc}
-E\left\{x\left(k\right)x^{T}\left(k\right)\right\} & E\left\{x\left(k\right)u\left(k\right)\right\}\\
-E\left\{u\left(k\right)x^{T}\left(k\right)\right\} & E\left\{u^{2}\left(k\right)\right\}
+E\left\{x\left(k\right)x^{\top}\left(k\right)\right\} & E\left\{x\left(k\right)u\left(k\right)\right\}\\
+E\left\{u\left(k\right)x^{\top}\left(k\right)\right\} & E\left\{u^{2}\left(k\right)\right\}
 \end{array}\right]\\
  &= \left[\begin{array}{cc}
 K & 0\\
@@ -3153,8 +3160,8 @@ q_{l+1}^{\left(k\right)} = F_{l+1}q_{l}^{\left(k\right)},\,0\leq l\leq L-1
 leading to
 \begin{align*}
 \tilde{K}_{l+1} &= E\left\{q_{l+1}^{\left(k\right)}\left(k+1\right)
-\left(q_{l+1}^{\left(k\right)}\left(k+1\right)\right)^{T}\right\}\\
- &= F_{l+1}\tilde{K_{l}}F_{l+1}^{T}
+\left(q_{l+1}^{\left(k\right)}\left(k+1\right)\right)^{\top}\right\}\\
+ &= F_{l+1}\tilde{K_{l}}F_{l+1}^{\top}
 \end{align*}
 Since the corresponding state variable description is
 \begin{align*}
@@ -3165,26 +3172,26 @@ C & D
 \end{align*}
 we have
 \begin{align*}
-\tilde{K}_{L} &= E\left\{q_{L}\left(k\right)q_{L}^{T}\left(k\right)\right\}\\
+\tilde{K}_{L} &= E\left\{q_{L}\left(k\right)q_{L}^{\top}\left(k\right)\right\}\\
  &= E\left\{ \left[\begin{array}{c}
 x\left(k+1\right)\\
 y\left(k\right)
 \end{array}\right]\left[\begin{array}{cc}
-x^{T}\left(k+1\right) & y\left(k\right)\end{array}\right]\right\} \\
+x^{\top}\left(k+1\right) & y\left(k\right)\end{array}\right]\right\} \\
  &= \left[\begin{array}{cc}
 A & B\\
 C & D
 \end{array}\right]\tilde{K_{0}}\left[\begin{array}{cc}
-A^{T} & B^{T}\\
-C^{T} & D^{T}
+A^{\top} & B^{\top}\\
+C^{\top} & D^{\top}
 \end{array}\right]\\
  &= \left[\begin{array}{cc}
-AKA^{T}+BB^{T} & AKC^{T}+BD^{T}\\
-CKA^{T}+DB^{T} & CKC^{T}+D^{2}
+AKA^{\top}+BB^{\top} & AKC^{\top}+BD^{\top}\\
+CKA^{\top}+DB^{\top} & CKC^{\top}+D^{2}
 \end{array}\right]\\
  &= \left[\begin{array}{cc}
-K & AKC^{T}+BD^{T}\\
-CKA^{T}+DB^{T} & r_{yy}\left(0\right)
+K & AKC^{\top}+BD^{\top}\\
+CKA^{\top}+DB^{\top} & r_{yy}\left(0\right)
 \end{array}\right]
 \end{align*}
 \section{\label{sec:Frequency-transformations-and-round-off-noise}Frequency transformations and round-off noise}
@@ -3208,22 +3215,22 @@ consider the state and output covariance matrixes, (also called the
 controllability and observability Gramians) $\mathfrak{K}$ and $\mathfrak{W}$ of
 the transformed filter:
 \begin{align*}
-\mathfrak{K}&=\mathfrak{A}\mathfrak{K}\mathfrak{A}^{T}+
-              \mathfrak{B}\mathfrak{B}^{T}\\
-\mathfrak{W}&=\mathfrak{A}\mathfrak{W}\mathfrak{A}^{T}+
-              \mathfrak{C}^{T}\mathfrak{C}
+\mathfrak{K}&=\mathfrak{A}\mathfrak{K}\mathfrak{A}^{\top}+
+              \mathfrak{B}\mathfrak{B}^{\top}\\
+\mathfrak{W}&=\mathfrak{A}\mathfrak{W}\mathfrak{A}^{\top}+
+              \mathfrak{C}^{\top}\mathfrak{C}
 \end{align*}
 They prove that if $1/F\left(z\right)$ is a stable $m$th
 degree all-pass filter, then there is a positive-definite $m\times{}m$
 symmetric matrix $Q$ for which:
 \begin{align*}
-Q&=\alpha{}Q\alpha^{T}+\beta\beta^{T}\\
-Q^{-1}&=\alpha{}Q^{-1}\alpha^{T}+\gamma^{T}\gamma\\
+Q&=\alpha{}Q\alpha^{\top}+\beta\beta^{\top}\\
+Q^{-1}&=\alpha{}Q^{-1}\alpha^{\top}+\gamma^{\top}\gamma\\
 \end{align*}
 Consequently, if
 \begin{align*}
-K&=AKA^{T}+BB^{T}\\
-W&=AWA^{T}+C^{T}C
+K&=AKA^{\top}+BB^{\top}\\
+W&=AWA^{\top}+C^{\top}C
 \end{align*}
 then
 \begin{align}
@@ -3290,14 +3297,14 @@ T_{c} & =  \left[\begin{array}{cc}
 \end{align*}
  so 
 \begin{align*}
-K^{\prime} & =  T_{c}^{-1}KT_{c}^{-T}=\left[\begin{array}{cc}
+K^{\prime} & =  T_{c}^{-1}K{T_{c}^{-1}}^{\top}=\left[\begin{array}{cc}
 1 & 0\\
 0 & 1
 \end{array}\right]
 \end{align*}
  and 
 \begin{align*}
-W^{\prime} & =  T_{c}^{T}WT_{c}=\left[\begin{array}{cc}
+W^{\prime} & =  T_{c}^{\top}WT_{c}=\left[\begin{array}{cc}
 w_{11}^{\prime} & w_{12}^{\prime}\\
 w_{21}^{\prime} & w_{22}^{\prime}
 \end{array}\right]
@@ -3654,7 +3661,7 @@ of section $A_{l}$, then the squared-amplitude and group delay sensitivities wit
     \frac{\sin\left(\phi_{A}\left(\omega\right)-
                     \phi_{B}\left(\omega\right)\right)}{2}
     \frac{\partial\phi_{A_{l}}\left(\omega\right)}{\partial{}x} \\  
-  S^{T}_{x}\left(\omega\right)
+  S^{\top}_{x}\left(\omega\right)
   &=-\frac{1}{T\left(\omega\right)}\frac{1}{2}
     \frac{\partial^{2}\phi_{A_{l}}\left(\omega\right)}{\partial\omega\partial{}x}
 \end{align*}
@@ -6055,27 +6062,27 @@ power at each lattice node of the unscaled one multiplier lattice.
 Recall that this follows from the definition of the inner product
 of Schur polynomials and Parseval's equality:
 \begin{align*}
-\left\Vert g_{i}\right\Vert _{2}^{2} & = \frac{1}{2\pi \imath}\oint G\left(z\right)G_{i}\left(z^{-1}\right)\frac{dz}{z}
+\| g_{i}\| _{2}^{2} & = \frac{1}{2\pi \imath}\oint G\left(z\right)G_{i}\left(z^{-1}\right)\frac{dz}{z}
 \end{align*}
 where $G_{i}\left(z\right)$ is the $z$-transform of $g_{i}$, the
 unit-impulse response from internal node $i$ to the output. Similarly,
 for the scaled filter with unit-impulse response from the input to
 internal node $i$, $f_{i}(k)$, the $\ell_{2}$ scaling rule gives
 \begin{align*}
-\left\Vert f_{i}\right\Vert ^{2} & = \sum_{k=0}^{\infty}f_{i}^{2}\left(k\right)=1
+\| f_{i}\| ^{2} & = \sum_{k=0}^{\infty}f_{i}^{2}\left(k\right)=1
 \end{align*}
 The noise gain calculation assumes that there is an equivalent white
 noise input at the $i$-th node of variance $q^{2}/12$ where $q$
 is the quantisation step size. The noise at the output is due to this
-node is $q\left\Vert g_{i}\right\Vert ^{2}/12$. If the filter is
+node is $q\| g_{i}\| ^{2}/12$. If the filter is
 not scaled then the unit impulse response from the input to internal
 node $i$ is not unity. The filter is scaled by dividing coefficients
-on branches entering node $i$ by $\left\Vert f_{i}\right\Vert $
+on branches entering node $i$ by $\| f_{i}\| $
 and multiplying coefficients on branches leaving the $i$-th node
-by $\left\Vert f_{i}\right\Vert $. Therefore the output noise variance
+by $\| f_{i}\| $. Therefore the output noise variance
 for scaled filters is 
 \begin{align*}
-\sigma^{2} & = \frac{q^{2}}{12}\sum_{i}\left\Vert f_{i}\right\Vert ^{2}\left\Vert g_{i}\right\Vert ^{2}
+\sigma^{2} & = \frac{q^{2}}{12}\sum_{i}\| f_{i}\| ^{2}\| g_{i}\| ^{2}
 \end{align*}
 The Octave function \emph{schurOneMlatticeFilter} implements this scaling.
 
@@ -6577,7 +6584,7 @@ for decomposing an odd-order transfer function into the sum of two all-pass
 filters}.
 
 \section{Definition of orthogonal state variable filters}
-If, for matrix $O$, $OO^T=I$, then $O \in \mathcal{O}$, the group of
+If, for matrix $O$, $OO^{\top}=I$, then $O \in \mathcal{O}$, the group of
 \emph{orthogonal} matrixes. If $U$ has \emph{complex} elements and
 $UU^{\dagger}=I$ then $U \in \mathcal{U}$, where $\dagger$ is the 
 \emph{conjugate transpose} matrix operator, and $\mathcal{U}$ is the group of 
@@ -6598,7 +6605,7 @@ C & D
 \end{array}\right]$ belongs to the set of orthogonal, all-pass filters 
 $\mathcal{F}\left(m,n\right)$ if 
 \begin{enumerate}
-\item $AA^{T}+BB^{T}=I_{(n\times{}n)}$
+\item $AA^{\top}+BB^{\top}=I_{(n\times{}n)}$
 \item $H\left(e^{\imath\theta}\right)=D+C\left(e^{\imath\theta}I-A\right)^{-1}B\,\,\in\mathcal{U}\left(m\right)~\forall{} \;\text{real} \; \theta$
 \end{enumerate}
 In addition, $F$ belongs to the sub-set $\mathcal{F}_{0}\left(m,n\right)$
@@ -6635,13 +6642,13 @@ A^{\prime} & B^{\prime}\\
 C^{\prime} & D^{\prime}
 \end{array}\right]\\
  &= \left[\begin{array}{l|l}
-T^{T}AT & T^{T}B\\ \hline
+T^{\top}AT & T^{\top}B\\ \hline
 CT & D
 \end{array}\right]\\
  &= \left[\begin{array}{cc}
 T & 0\\
 0 & I
-\end{array}\right]^{T}\left[\begin{array}{cc}
+\end{array}\right]^{\top}\left[\begin{array}{cc}
 A & B\\
 C & D
 \end{array}\right]\left[\begin{array}{cc}
@@ -6714,7 +6721,7 @@ C_{1} & D_{1}
 \end{align*}
 is an orthogonal filter implementation with
 \begin{align*}
-K &= AA^{T}+BB^{T} = I
+K &= AA^{\top}+BB^{\top} = I
 \end{align*}
 The first $n$ rows of $G$ are orthonormal, but have dimension $n+1$
 so there exist $C$ and $D$ for which 
@@ -6730,10 +6737,10 @@ corresponding to $F$. The conversion from $F$ to $G$ can be found from
 G &= \left[\begin{array}{ll}
 A & B\\
 C_{1} & D_{1}
-\end{array}\right]F^{T}F\\
+\end{array}\right]F^{\top}F\\
  &= \left[\begin{array}{cc}
 I & 0\\
-C_{1}A^{T}+D_{1}B^{T} & C_{1}C^{T}+D_{1}D^{T}
+C_{1}A^{\top}+D_{1}B^{\top} & C_{1}C^{\top}+D_{1}D^{\top}
 \end{array}\right]F\\
  &= G_{0}F
 \end{align*}
@@ -6741,7 +6748,7 @@ where
 \begin{align*}
 \left[\begin{array}{cc}\Gamma & \delta\end{array}\right] &= 
 \left[\begin{array}{cc}
-C_{1} & D_{1}\end{array}\right]F^{T}\\
+C_{1} & D_{1}\end{array}\right]F^{\top}\\
 G_{0} &= \left[\begin{array}{cc}
 I & 0\\
 \Gamma & \delta
@@ -6837,7 +6844,7 @@ X & X & X & X & X & X\\
 0_{6} & X & X & X & X & X\\
 0_{4} & 0_{5} & X & X & X & X\\
 0_{1} & 0_{2} & 0_{3} & X & X & X
-\end{array}\right]=T_{6}^{T}T_{5}^{T}T_{4}^{T}T_{3}^{T}T_{2}^{T}T_{1}^{T}FT_{1}T_{2}T_{3}T_{4}T_{5}T_{6}
+\end{array}\right]=T_{6}^{\top}T_{5}^{\top}T_{4}^{\top}T_{3}^{\top}T_{2}^{\top}T_{1}^{\top}FT_{1}T_{2}T_{3}T_{4}T_{5}T_{6}
 \end{align*}
 The indexes on the sub-diagonal zeros indicate the order of construction. The
 transformations $T_{i}$ are constructed in the same manner as those that zero
@@ -6847,7 +6854,7 @@ the leftmost elements of $\Gamma$. In the example:
 I_{4\times4} & 0 & 0 \\
 0 & \phantom{-}\cos\theta & \sin\theta \\
 0 &           -\sin\theta & \cos\theta 
-\end{array}\right]^{T}
+\end{array}\right]^{\top}
 \left[\begin{array}{cccccc}
 X & X & X & X & X & X\\
 X & X & X & X & X & X\\
@@ -6882,7 +6889,7 @@ $F^{\prime\prime}$ being upper-triangular and
 $F^{\prime\prime} \in \mathcal{O}\left(n+1\right)$.}. The diagonal elements
  can be included in the rotations so that:
 \begin{align*}
-F^{\prime} &= F_{q}^{T}\cdots F_{1}^{T}
+F^{\prime} &= F_{q}^{\top}\cdots F_{1}^{\top}
 \end{align*}
 For example:
 \begin{align*}
@@ -6902,8 +6909,8 @@ a tapped lattice filter requires, as a starting point, an orthogonal state
 variable representation of $G\left(z\right)$ with $K=I$. The \emph{singular
 value decomposition}~\cite[Theorem 2.5.2]{GolubVanLoan_MatrixComputations} 
 provides the required similarity transform\footnote{The SVD of $K$ gives
-$U^{T}KV=diag\left(\sigma_{1},\ldots,\sigma_{n}\right)$ where $U$ and $V$
-are orthogonal $n\times{}n$ matrixes (ie: $U^{T}U=I$)}. Alternatively, 
+$U^{\top}KV=\mathdiag\left(\sigma_{1},\ldots,\sigma_{n}\right)$ where $U$ and
+$V$ are orthogonal $n\times{}n$ matrixes (ie: $U^{\top}U=I$)}. Alternatively, 
 the Schur decomposition of a transfer function (reviewed in
 Chapter~\ref{sec:Schur-decomposition}, based on 
 \emph{Parhi}~\cite[Chapter 12]{Parhi_VLSIDigitalSignalProcessingSystems}) 
@@ -7051,7 +7058,7 @@ Q\left[\tilde{x}\left(k\right)\right] \\
 The roundoff residue sequence, $e\left(k\right)$, is modelled as
 a zero-mean noise process with covariance
 \begin{align*}
-\sigma_{e}&=E\left\{e\left(k\right)e^{T}\left(k\right)\right\}\\
+\sigma_{e}&=E\left\{e\left(k\right)e^{\top}\left(k\right)\right\}\\
 &=\frac{q^{2}}{12}I
 \end{align*}
 where $q=2^{-B}$. When the state variables are quantised, the 
@@ -7086,13 +7093,13 @@ unit variance, then the steady-state covariance of the state variables is,
 since $\tilde{x}\left(k\right)$ and $e\left(k\right)$
 are uncorrelated
 \begin{align*}
-K&=AKA^{T} +BB^{T}+q^{2}\left(A-\delta\right)\left(A-\delta\right)^{T}
+K&=AKA^{\top} +BB^{\top}+q^{2}\left(A-\delta\right)\left(A-\delta\right)^{\top}
 \end{align*}
 If $q^{2}\ll 1$ then
 \begin{align*}
-K&\approx AKA^{T} + BB^{T}
+K&\approx AKA^{\top} + BB^{\top}
 \end{align*}
-For optimum $l_{2}$-norm scaling $\text{diag}\left\{K\right\}=I$.
+For optimum $l_{2}$-norm scaling $\mathdiag\left\{K\right\}=I$.
 As shown in Section~\ref{sec:Unit-pulse-response}, for 
 $\Delta y\left(0\right)=0$, the output roundoff noise error is
 \begin{align*}
@@ -7105,26 +7112,26 @@ Section~\ref{sec:Estimation-of-output-round-off-noise-in-state-variable-filters}
 the output roundoff noise variance due to truncation of each state is 
 $\sigma_{e}^{2}\sigma^{2}$, where
 \begin{align*}
-\sigma^{2}&=\text{trace}\left\{\left(A-\delta\right)\left(A-\delta\right)^{T}W+
-\left(C-\eta\right)\left(C-\eta\right)^{T}\right\}\\
-W&=AWA^{T}+CC^{T}
+\sigma^{2}&=\mathtrace\left\{\left(A-\delta\right)\left(A-\delta\right)^{\top}W+
+\left(C-\eta\right)\left(C-\eta\right)^{\top}\right\}\\
+W&=AWA^{\top}+CC^{\top}
 \end{align*}
 Williamson considers the noise minimisation problem of finding a realisation 
 $\left\{A,B,C,D\right\}$ of $H\left(z\right)$ and integer-valued feedback
 gains $\left\{\delta,\eta\right\}$ such that the output noise gain, $g$,
 is minimised, subject to the state scaling constraint,
-$\text{diag}\left\{K\right\}=I$.
+$\mathdiag\left\{K\right\}=I$.
 
 Given an initial realisation, $\left\{A_{0},B_{0},C_{0},D\right\}$, of 
 $H\left(z\right)$, Williamson~\cite[Section III]
 {Williamson_RoundoffNoiseMinimizationUsingResidueFeedback} defines the 
 \emph{residue matrix} as
 \begin{align*}
-P_{0}=\left(I-A\right)^{T}W_{0}+W_{0}\left(I-A\right)
+P_{0}=\left(I-A\right)^{\top}W_{0}+W_{0}\left(I-A\right)
 \end{align*}
 where
 \begin{align*}
-W_{0}&=A_{0}W_{0}A_{0}^{T}+C_{0}C_{0}^{T}
+W_{0}&=A_{0}W_{0}A_{0}^{\top}+C_{0}C_{0}^{\top}
 \end{align*}
 He shows that the eigenvalues, $\left\{\mu^{2}_{i}\right\}$ of $K_{0}W_{0}$,
 and $\left\{\rho^{2}_{i}\right\}$ of $K_{0}P_{0}$, are invariant under a 
@@ -7134,7 +7141,7 @@ $\left\{\mu^{2}_{i}\right\}$ are referred to as the \emph{second-order modes} of
 $H\left(z\right)$. Williamson calls $\left\{\rho^{2}_{i}\right\}$ the 
 \emph{residue modes}. Further, he calls a realisation
 $\left\{A_{0},B_{0},C_{0},D\right\}$ \emph{input balanced} if $K_{0}=I$ and
-$W_{0}=M^{2}=\text{diag}\left\{\mu_{1}^{2},\hdots,\mu_{N}^{2}\right\}$, where
+$W_{0}=M^{2}=\mathdiag\left\{\mu_{1}^{2},\hdots,\mu_{N}^{2}\right\}$, where
 $N$ is the order of $H\left(z\right)$\footnote{If $K=I$, then the
 filter is \emph{orthogonal}. See 
 Part~\ref{sec:Orthogonal-state-variable-filters}. An SVD transformation of the
@@ -7162,13 +7169,13 @@ Let $M$ define the second-order modes of a stable $N$th order filter,
 $H\left(z\right)$, with an input-balanced realisation, 
 $\left\{A_{0},B_{0},C_{0},D\right\}$. Consider the finite word length 
 implementation 
-$\left\{A_{T}=T^{-1}A_{0}T,B_{T}=T^{-1}B_{0},C_{T}=T^{T}C_{0},D\right\}$. Then 
+$\left\{A_{T}=T^{-1}A_{0}T,B_{T}=T^{-1}B_{0},C_{T}=T^{\top}C_{0},D\right\}$. Then 
 subject to the $l_{2}$-norm scaling constraint, the identity state residue
 correction, $\delta_{T}=I$, and the zero output residue correction,
 $\eta_{T}=0$, the minimum noise filter is defined by
 \begin{align*}
-T &= R_{1}\Pi R_{0}^{T}\\
-\Pi &= \text{diag}\left\{ \pi_{1},\ldots,\pi_{N}\right\}\\
+T &= R_{1}\Pi R_{0}^{\top}\\
+\Pi &= \mathdiag\left\{ \pi_{1},\ldots,\pi_{N}\right\}\\
 \end{align*}
 where
 \begin{align*}
@@ -7176,12 +7183,12 @@ where
 \end{align*}
 and for unitary matrixes $R_{0}$ and $R_{1}$
 \begin{align*}
-\text{diag}\left\{R_{0}\Pi^{-1}R_{0}^{T}\right\}&=I\\
-R_{1}^{T}P_{0}R_{1} & \quad\text{is}\quad\text{diagonal}
+\mathdiag\left\{R_{0}\Pi^{-1}R_{0}^{\top}\right\}&=I\\
+R_{1}^{\top}P_{0}R_{1} & \quad\text{is}\quad\text{diagonal}
 \end{align*}
 where
 \begin{align*}
-P_{0}=\left(I-A_{0}\right)^{T}M^{2}+M^{2}\left(I-A_{0}\right)
+P_{0}=\left(I-A_{0}\right)^{\top}M^{2}+M^{2}\left(I-A_{0}\right)
 \end{align*}
 The residue modes $\left\{\rho_{k}\right\}$ are the square roots of the
 eigenvalues of $P_{0}$. The corresponding minimum noise gain, $g_{I}$ is
@@ -7315,7 +7322,7 @@ actual group delay response, $T$, and the desired group delay response, $T_{D}$.
 
 The optimal filter design minimises the total weighted squared response error, 
 $\mathcal{E}=\mathcal{E}_{A}+\mathcal{E}_{T}$, subject to constraints 
-$g_{i}\left(x\right)\ge 0$ where $x\in\mathcal{D}\subset\mathbb{R}_{N}$ and the
+$g_{i}\left(x\right)\ge 0$ where $x\in\mathcal{D}\subset\mathbb{R}^{N}$ and the
 filter is stable for $x\in\mathcal{D}$. The method of 
 \emph{Lagrange multipliers} minimises the \emph{Lagrangian} function:
 \begin{align*}
@@ -7376,7 +7383,7 @@ the IIR design problem can be approximated by
 \mathcal{W}_{k}d^{k}-\mathcal{B}_{k}\lambda^{k} &= 
 -\nabla_{x}\mathcal{E}\left(x^{k}\right)
 \label{eqn:IIR-SQP-system}\\
--\mathcal{B}_{k}^{T}d^{k} &= g\left(x^{k}\right)\nonumber 
+-\mathcal{B}_{k}^{\top}d^{k} &= g\left(x^{k}\right)\nonumber 
 \end{align}
 where $\mathcal{W}_{k}$ is a positive-definite approximation to the true Hessian
 matrix derived using the \emph{Broyden-Fletcher-Goldfarb-Shanno} formula (see 
@@ -7386,9 +7393,9 @@ matrix equation that can be solved for the Lagrange multipliers $\lambda^{k}$
 and the direction vector $d^{k}$:
 \begin{align*}
 \lambda^{k} &= 
--\left(\mathcal{B}_{k}^{T}\mathcal{W}_{k}^{-1}\mathcal{B}_{k}\right)^{-1}
+-\left(\mathcal{B}_{k}^{\top}\mathcal{W}_{k}^{-1}\mathcal{B}_{k}\right)^{-1}
 \left[g\left(x^{k}\right)- 
-\mathcal{B}_{k}^{T}\mathcal{W}_{k}^{-1}\nabla_{x}\mathcal{E}
+\mathcal{B}_{k}^{\top}\mathcal{W}_{k}^{-1}\nabla_{x}\mathcal{E}
 \left(x^{k}\right)\right]\\
 d^{k} &= -\mathcal{W}_{k}^{-1}\left[\nabla_{x}\mathcal{E}\left(x^{k}\right)-
 \mathcal{B}_{k}\lambda^{k}\right]
@@ -7674,7 +7681,7 @@ constraints given by \emph{Sullivan}
 ~\cite[p.2855]{SullivanAdams_PCLS_IIRDigitalFilters}. The linearised 
 magnitude response is:
 \begin{align*}
-\hat{A}\left(x\right) &= A\left(x^{k}\right)+\nabla_{x}A\left(x^{k}\right)^{T}\left(x-x^{k}\right)
+\hat{A}\left(x\right) &= A\left(x^{k}\right)+\nabla_{x}A\left(x^{k}\right)^{\top}\left(x-x^{k}\right)
 \end{align*}
 The frequency response magnitude inequality constraints are, in the
 pass band
@@ -7690,13 +7697,13 @@ where $\Delta_{A_{p}}$ is the pass band ripple for the desired gain
 $A_{D}$ and $\Delta_{A_{S}}$ is the stop band ripple. After linearising
 about $x^{k}$ these constraints become
 \begin{align*}
-A_{D}-A\left(x^{k}\right)-\nabla_{x}A\left(x^{k}\right)^{T}\left(x-x^{k}\right) & \ge 0\\
-A\left(x^{k}\right)+\nabla_{x}A\left(x^{k}\right)^{T}\left(x-x^{k}\right)-\left[A_{D}-\Delta_{A_{P}}\right] & \ge 0\\
-\Delta_{A_{S}}-A\left(x^{k}\right)-\nabla_{x}A\left(x^{k}\right)^{T}\left(x-x^{k}\right) & \ge 0
+A_{D}-A\left(x^{k}\right)-\nabla_{x}A\left(x^{k}\right)^{\top}\left(x-x^{k}\right) & \ge 0\\
+A\left(x^{k}\right)+\nabla_{x}A\left(x^{k}\right)^{\top}\left(x-x^{k}\right)-\left[A_{D}-\Delta_{A_{P}}\right] & \ge 0\\
+\Delta_{A_{S}}-A\left(x^{k}\right)-\nabla_{x}A\left(x^{k}\right)^{\top}\left(x-x^{k}\right) & \ge 0
 \end{align*}
 Similarly, the linearised group-delay is 
 \begin{align*}
-\hat{T}\left(x\right) &= T\left(x^{k}\right)+\nabla_{x}T\left(x^{k}\right)^{T}\left(x-x^{k}\right)
+\hat{T}\left(x\right) &= T\left(x^{k}\right)+\nabla_{x}T\left(x^{k}\right)^{\top}\left(x-x^{k}\right)
 \end{align*}
 and the group-delay inequality constraints in the pass band are
 \begin{align*}
@@ -7708,8 +7715,8 @@ the group-delay error compared with the desired group-delay $T_{D}$.
 As before, the two corresponding linearised constraints on the 
 group-delay in the pass band are
 \begin{align*}
-\left[T_{D}+\Delta_{T}\right]-T\left(x^{k}\right)-\nabla_{x}T\left(x^{k}\right)^{T}\left(x-x^{k}\right) & \ge 0\\
-T\left(x^{k}\right)+\nabla_{x}T\left(x^{k}\right)^{T}\left(x-x^{k}\right)-\left[T_{D}-\Delta_{T}\right] & \ge 0
+\left[T_{D}+\Delta_{T}\right]-T\left(x^{k}\right)-\nabla_{x}T\left(x^{k}\right)^{\top}\left(x-x^{k}\right) & \ge 0\\
+T\left(x^{k}\right)+\nabla_{x}T\left(x^{k}\right)^{\top}\left(x-x^{k}\right)-\left[T_{D}-\Delta_{T}\right] & \ge 0
 \end{align*}
 The frequency response inequality constraints are calculated at a
 grid of frequency points. For a low-pass filter there are two amplitude
@@ -7833,7 +7840,7 @@ A &= \left[\begin{array}{cccc}
 0 & 0 & \cdots & 1\\
 -d_{N_{d}} & -d_{N_{d}-1} & \cdots & -d_{1}
 \end{array}\right]\\
-B &= \left[\begin{array}{ccccc}0 & 0 & \cdots & 0 & 1\end{array}\right]^{T}\\
+B &= \left[\begin{array}{ccccc}0 & 0 & \cdots & 0 & 1\end{array}\right]^{\top}\\
 C &= \left[\begin{array}{ccc}-d_{N_{d}} & \cdots & -d_{1}\end{array}\right]\\
 D &= 1
 \end{align*}
@@ -7862,7 +7869,7 @@ p_{1}\rho^{-1} & 0             & 0      & \cdots & 0\\
 \vdots        & \vdots        & \vdots & \ddots & \vdots\\
 0             & 0             & \hdots & 1      & p_{N_{d}}\rho^{-1}
 \end{array}\right]\\
-B &= \left[\begin{array}{ccccc}1 & 0 & \cdots & 0 & 0\end{array}\right]^{T}\\
+B &= \left[\begin{array}{ccccc}1 & 0 & \cdots & 0 & 0\end{array}\right]^{\top}\\
 C &= \left[\begin{array}{ccccc}0 & 0 & \cdots & 0 & 1\end{array}\right]\\
 D &= 0\\
 \end{align*} 
@@ -9189,11 +9196,11 @@ Following \emph{Alizadeh} and \emph{Goldfarb}~\cite
 Programming (SOCP) is a class of convex optimisation problems in which a linear
 function is minimised subject to a set of conic constraints
 \begin{align*}
-\textbf{minimise}\quad& \boldsymbol{f}^{T}\boldsymbol{x}\\
+\textbf{minimise}\quad& \boldsymbol{f}^{\top}\boldsymbol{x}\\
 \textbf{subject to}\quad & \| A_{i}\boldsymbol{x}+b_{i}\| 
-\le c_{i}^{T}\boldsymbol{x}+h_{i} \quad i=1,\hdots,N
+\le c_{i}^{\top}\boldsymbol{x}+h_{i} \quad i=1,\hdots,N
 \end{align*}
-where $\|u\|=\sqrt{u^{T}u}$ is the Euclidean norm of the vector $u$, 
+where $\|u\|=\sqrt{u^{\top}u}$ is the Euclidean norm of the vector $u$, 
 $\boldsymbol{x}\in\mathfrak{\mathbb{R}}^{p\times 1}$, 
 $\boldsymbol{f}\in\mathfrak{\mathbb{R}}^{p\times 1}$, 
 $A_{i}\in\mathfrak{\mathbb{R}}^{\left(p-1\right)\times p}$, 
@@ -9202,7 +9209,7 @@ $c_{i}\in\mathfrak{\mathbb{R}}^{p\times 1}$ and $h_{i}\in\mathfrak{\mathbb{R}}$.
 Each constraint is equivalent to:
 \begin{align*}
 \left[\begin{array}{c}
-c_{i}^{T}\\
+c_{i}^{\top}\\
 A_{i}
 \end{array}\right] \boldsymbol{x} + \left[\begin{array}{c}
 h_{i}\\
@@ -9246,16 +9253,16 @@ $\|\boldsymbol{x}-\boldsymbol{x}_{k}\|$, is small, then a useful
 \begin{align*}
 H\left(\boldsymbol{x},\omega\right) &\approx 
 H\left(\boldsymbol{x}_{k},\omega\right) + 
-\nabla_{x}H\left(\boldsymbol{x}_{k},\omega\right)^{T}
+\nabla_{x}H\left(\boldsymbol{x}_{k},\omega\right)^{\top}
 \left(\boldsymbol{x}-\boldsymbol{x}_{k}\right)
 \end{align*}
 so that
 \begin{align*}
 W\left(\omega\right)\left|H\left(\boldsymbol{x},\omega\right)-H_{d}\left(\omega\right)\right| &\approx W\left(\omega\right)\left|
-\nabla_{x}H\left(\boldsymbol{x}_{k},\omega\right)^{T}
+\nabla_{x}H\left(\boldsymbol{x}_{k},\omega\right)^{\top}
 \left(\boldsymbol{x}-\boldsymbol{x}_{k}\right) +
 H\left(\boldsymbol{x}_{k},\omega\right)-H_{d}\left(\omega\right)\right| \\
-&= W\left(\omega\right)\left|\nabla_{x}H\left(\boldsymbol{x}_{k},\omega\right)^{T}
+&= W\left(\omega\right)\left|\nabla_{x}H\left(\boldsymbol{x}_{k},\omega\right)^{\top}
 \left(\boldsymbol{x}-\boldsymbol{x}_{k}\right) + \boldsymbol{e}_{k}\right|
 \end{align*}
 where $\boldsymbol{e}_{k}=H\left(\boldsymbol{x}_{k},\omega\right)-
@@ -9266,9 +9273,9 @@ $H\left(\boldsymbol{x},\omega\right)$ is:
 \begin{align*}
 H\left(\boldsymbol{x},\omega\right) &\approx 
 H\left(\boldsymbol{x}_{k},\omega\right) + 
-\nabla_{x}H\left(\boldsymbol{x}_{k},\omega\right)^{T}
+\nabla_{x}H\left(\boldsymbol{x}_{k},\omega\right)^{\top}
 \left(\boldsymbol{x}-\boldsymbol{x}_{k}\right)+ 
-\frac{1}{2}\left(\boldsymbol{x}-\boldsymbol{x}_{k}\right)^{T}
+\frac{1}{2}\left(\boldsymbol{x}-\boldsymbol{x}_{k}\right)^{\top}
 \nabla_{xx}^{2}H\left(\boldsymbol{x}_{k},\omega\right)
 \left(\boldsymbol{x}-\boldsymbol{x}_{k}\right)
 \end{align*}
@@ -9280,7 +9287,7 @@ Lu and Hinamoto~\cite{LuHinamoto_IIRFrequencyMaskingFiltersConeProgramming} add
 linear constraints on the maximum filter response in the transition band, 
 $\Omega_{t}$:
 \begin{align*}
-\|\nabla_{x}H\left(\boldsymbol{x}_{k},\omega_{t}\right)^{T}
+\|\nabla_{x}H\left(\boldsymbol{x}_{k},\omega_{t}\right)^{\top}
 \left(\boldsymbol{x}-\boldsymbol{x}_{k}\right) +
 H\left(\boldsymbol{x}_{k},\omega_{t}\right)\| &\le 
 \gamma\quad \text{for }\omega_{t}\in\Omega_{t}
@@ -9292,10 +9299,10 @@ The linearised SOCP optimisation problem is
 \begin{align*}
 \textbf{minimise}\quad & \epsilon \\
 \textbf{subject to}\quad &\|W\left(\omega_{i}\right)\left[\nabla_{x}
-H\left(\boldsymbol{x}_{k},\omega_{i}\right)^{T}
+H\left(\boldsymbol{x}_{k},\omega_{i}\right)^{\top}
 \left(\boldsymbol{x}-\boldsymbol{x}_{k}\right) + \boldsymbol{e}_{k}\right]\|
 \le \epsilon\quad \text{for }\omega_{i}\in\Omega\\
-&\|\nabla_{x}H\left(\boldsymbol{x}_{k},\omega_{t}\right)^{T}
+&\|\nabla_{x}H\left(\boldsymbol{x}_{k},\omega_{t}\right)^{\top}
 \left(\boldsymbol{x}-\boldsymbol{x}_{k}\right) +
 H\left(\boldsymbol{x}_{k},\omega_{t}\right)\| \le 
 \gamma\quad \text{for }\omega_{t}\in\Omega_{t}\\
@@ -9360,11 +9367,11 @@ The squared-magnitude response can be used in linear constraints on the
 upper and lower peaks of the pass-band and stop-band magnitude responses
 \begin{align*}
 \left|H\left(\boldsymbol{x}_{k},\omega_{i}\right)\right|^{2} +
-\left(\boldsymbol{x}-\boldsymbol{x}_{k}\right)^{T}
+\left(\boldsymbol{x}-\boldsymbol{x}_{k}\right)^{\top}
 \nabla_{x}\left|H\left(\boldsymbol{x}_{k},\omega_{i}\right)\right|^{2}
 &\ge H_{d,l}^{2}\left(\omega_{i}\right) \\
 \left|H\left(\boldsymbol{x}_{k},\omega_{i}\right)\right|^{2} +
-\left(\boldsymbol{x}-\boldsymbol{x}_{k}\right)^{T}
+\left(\boldsymbol{x}-\boldsymbol{x}_{k}\right)^{\top}
 \nabla_{x}\left|H\left(\boldsymbol{x}_{k},\omega_{i}\right)\right|^{2}
 &\le H_{d,u}^{2}\left(\omega_{i}\right)
 \end{align*}
@@ -9394,13 +9401,13 @@ an optimisation problem in the form accepted by SeDuMi. In \emph{Lu}'s notation
 the problem is:
 \begin{subequations}
 \begin{align}
-\textbf{minimise}  \quad&\boldsymbol{b}^{T}\boldsymbol{x}
+\textbf{minimise}  \quad&\boldsymbol{b}^{\top}\boldsymbol{x}
 \label{eqn:Lu-SeDuMi-Remarks-problem-format}\\
-\textbf{subject to}\quad&\|\boldsymbol{A}_{i}^{T}\boldsymbol{x}+
-\boldsymbol{c}_{i}\| \le \boldsymbol{b}_{i}^{T}\boldsymbol{x}+d_{i}
+\textbf{subject to}\quad&\|\boldsymbol{A}_{i}^{\top}\boldsymbol{x}+
+\boldsymbol{c}_{i}\| \le \boldsymbol{b}_{i}^{\top}\boldsymbol{x}+d_{i}
 \quad \text{for}\;i=1,\hdots,q
 \label{eqn:Lu-SeDuMi-Remarks-problem-format-conic-constraints}\\
-&\boldsymbol{D}^{T}\boldsymbol{x}+\boldsymbol{f}\ge\boldsymbol{0}
+&\boldsymbol{D}^{\top}\boldsymbol{x}+\boldsymbol{f}\ge\boldsymbol{0}
 \label{eqn:Lu-SeDuMi-Remarks-problem-format-linear-constraints}
 \end{align}
 \end{subequations}
@@ -9482,7 +9489,7 @@ pass-band amplitude response, $A$, stop-band amplitude response, $S$, and
 group-delay response, $T$. In this example I do not attempt to control the
 transition band amplitude response. In \emph{SeDuMi} format
 \begin{align*}
-\boldsymbol{A}_{i}^{T} &= \left[\begin{array}{cc}
+\boldsymbol{A}_{i}^{\top} &= \left[\begin{array}{cc}
 \boldsymbol{0} & W_{a}\left(\omega_{s}\right) 
 \nabla_{x}A\left(\boldsymbol{x}_{k},\omega_{a}\right) \\
 \boldsymbol{0} & W_{t}\left(\omega_{t}\right) 
@@ -9490,7 +9497,7 @@ transition band amplitude response. In \emph{SeDuMi} format
 \boldsymbol{0} & W_{s}\left(\omega_{s}\right)
 \nabla_{x}S\left(\boldsymbol{x}_{k},\omega_{s}\right)
 \end{array}\right] \\
-\boldsymbol{b}_{i}^{T} &= \left[\begin{array}{ccc} 
+\boldsymbol{b}_{i}^{\top} &= \left[\begin{array}{ccc} 
 1 & 0 & \boldsymbol{0} \end{array}\right] \\
 \boldsymbol{c}_{i} &= \left[\begin{array}{c}
 W_{a}\left(\omega_{a}\right)\;
@@ -9524,7 +9531,7 @@ with
 
 The stability constraint is a linear constraint on the coefficients
 \begin{align*}
-\boldsymbol{D}^{T} &= \left[\begin{array}{cc} \boldsymbol{0} & \boldsymbol{-I}\\
+\boldsymbol{D}^{\top} &= \left[\begin{array}{cc} \boldsymbol{0} & \boldsymbol{-I}\\
 \boldsymbol{0} & \boldsymbol{\phantom{-}I} \end{array}\right] \\
 \boldsymbol{f} &= \left[\begin{array}{c}
 -\left(\boldsymbol{x}_{k}-\boldsymbol{x}_{u}\right) \\
@@ -9539,11 +9546,11 @@ response upper and lower constraints are
 \begin{align*}
 \mathbin{\phantom{-}}A_{du}\left(\boldsymbol{x}_{k},\omega_{au}\right) 
 - \left[A\left(\boldsymbol{x}_{k},\omega_{au}\right) + 
-\nabla_{x}A\left(\boldsymbol{x}_{k},\omega_{au}\right)^{T}
+\nabla_{x}A\left(\boldsymbol{x}_{k},\omega_{au}\right)^{\top}
 \boldsymbol{\delta}\right]&\ge 0\\
 -A_{dl}\left(\boldsymbol{x}_{k},\omega_{al}\right) + 
 \left[A\left(\boldsymbol{x}_{k},\omega_{al}\right) + 
-\nabla_{x} A\left(\boldsymbol{x}_{k},\omega_{al}\right)^{T}
+\nabla_{x} A\left(\boldsymbol{x}_{k},\omega_{al}\right)^{\top}
 \boldsymbol{\delta}\right]&\ge 0
 \end{align*}
 where $\omega_{au}\in\Omega_{au}$ and $\omega_{al}\in\Omega_{al}$ are the upper
@@ -9635,8 +9642,8 @@ In Section~\ref{sub:Solution-quasi-Newton-optimisation}, I expressed the filter
 design problem as a \emph{sequential quadratic programming}, or SQP, problem:
 \begin{align*}
 \textbf{minimise}\quad&q\left(\boldsymbol{x}\right)=
-\frac{1}{2}\boldsymbol{x}^{T}\boldsymbol{Q}\boldsymbol{x}+
-\boldsymbol{a}^{T}\boldsymbol{x}+\beta
+\frac{1}{2}\boldsymbol{x}^{\top}\boldsymbol{Q}\boldsymbol{x}+
+\boldsymbol{a}^{\top}\boldsymbol{x}+\beta
 \end{align*}
 where $\boldsymbol{Q}$ is positive definite and symmetric and linear constraints
 are neglected for clarity. This SQP optimisation problem can be converted to 
@@ -9645,7 +9652,7 @@ an SOCP problem by rearranging $q\left(\boldsymbol{x}\right)$:
 q\left(\boldsymbol{x}\right)&=
 \frac{1}{2}\|\boldsymbol{Q}^{\frac{1}{2}}\boldsymbol{x}+
 \boldsymbol{Q}^{-\frac{1}{2}}\boldsymbol{a}\|^{2}+
-\beta-\frac{1}{2}\boldsymbol{a}^{T}\boldsymbol{Q}^{-1}\boldsymbol{a}
+\beta-\frac{1}{2}\boldsymbol{a}^{\top}\boldsymbol{Q}^{-1}\boldsymbol{a}
 \end{align*}
 See \emph{Alizadeh} and 
 \emph{Goldfarb}~\cite[Section 2.1]{AlizadehGoldfarb_SecondOrderCone} or
@@ -10047,7 +10054,7 @@ Define the two filter coefficient vectors as
 \begin{align*}
 \boldsymbol{a}&=\left[\begin{array}{cccc}
 a_{0} & a_{1} & \hdots & a_{n}\\
-\end{array}\right]^{T}
+\end{array}\right]^{\top}
 \end{align*}
 and
 \begin{align*}
@@ -10068,7 +10075,7 @@ L&=\begin{cases}
 \end{align*}
 The frequency response of the filter is 
 \begin{align*}
-H\left(\omega\right) &=\frac{\boldsymbol{a}^{T}\boldsymbol{v}\left(\omega\right)}
+H\left(\omega\right) &=\frac{\boldsymbol{a}^{\top}\boldsymbol{v}\left(\omega\right)}
 {d\left(\omega\right)}\\
 \end{align*}
 where
@@ -10077,10 +10084,10 @@ where
 \boldsymbol{c}\left(\omega\right) - \imath\boldsymbol{s}\left(\omega\right)\\ 
 \boldsymbol{c}\left(\omega\right) &= \left[\begin{array}{ccc}
 1 & \hdots & \cos n\omega
-\end{array}\right]^{T}\\
+\end{array}\right]^{\top}\\
 \boldsymbol{s}\left(\omega\right) &= \left[\begin{array}{ccc}
 0 & \hdots & -\sin n\omega
-\end{array}\right]^{T}\\
+\end{array}\right]^{\top}\\
 v_{1}\left(\omega\right) &= \cos \omega - \imath \sin\omega \\
 \boldsymbol{v}_{2}\left(\omega\right) &= \left[\begin{array}{c}
 \cos \omega\\
@@ -10094,9 +10101,9 @@ and
 \begin{align*}
 d\left(\omega\right) &= \begin{cases}
 \left[1 + d_{0}v_{1}\left(\omega\right)\right]
-\prod^{L}_{i=1}\left[1 + \boldsymbol{d}_{i}^{T}
+\prod^{L}_{i=1}\left[1 + \boldsymbol{d}_{i}^{\top}
 \boldsymbol{v}_{2}\left(\omega\right)\right],&\text{if $r$ odd} \\
-\prod^{L}_{i=1}\left[1 + \boldsymbol{d}_{i}^{T}
+\prod^{L}_{i=1}\left[1 + \boldsymbol{d}_{i}^{\top}
 \boldsymbol{v}_{2}\left(\omega\right)\right],&\text{if $r$ even}
 \end{cases}\\
 \end{align*}
@@ -10109,17 +10116,17 @@ The gradients of $H\left(\omega\right)$ with respect to the coefficients are
 {1+d_{0}v_{1}\left(\omega\right)}\\
 \frac{\partial H\left(\omega\right)}{\partial \boldsymbol{d}_{i}}&=
 -H\left(\omega\right)\frac{\boldsymbol{v}_{2}\left(\omega\right)}
-{1+\boldsymbol{d}_{i}^{T}\boldsymbol{v}_{2}\left(\omega\right)}\quad
+{1+\boldsymbol{d}_{i}^{\top}\boldsymbol{v}_{2}\left(\omega\right)}\quad
 \text{for $1\le i \le L$}
 \end{align*}
 In this case we optimise the complex frequency response (gain and delay).
 For each of the response frequencies the format for solution by \emph{SeDuMi} is
 \begin{align*}
-\boldsymbol{A}_{i}^{T} &= W\left(\omega_{i}\right)\left[\begin{array}{cc}
-0 & \Re\nabla_{x}H\left(\omega_{i}\right)^{T} \\
-0 & \Im\nabla_{x}H\left(\omega_{i}\right)^{T} \\
+\boldsymbol{A}_{i}^{\top} &= W\left(\omega_{i}\right)\left[\begin{array}{cc}
+0 & \Re\nabla_{x}H\left(\omega_{i}\right)^{\top} \\
+0 & \Im\nabla_{x}H\left(\omega_{i}\right)^{\top} \\
 \end{array}\right] \\
-\boldsymbol{b}_{i}^{T} &= \left[\begin{array}{cc} 
+\boldsymbol{b}_{i}^{\top} &= \left[\begin{array}{cc} 
 1 & \boldsymbol{0} \end{array}\right] \\
 \boldsymbol{c}_{i} &= W\left(\omega_{i}\right)\left[
 \begin{array}{cc}
@@ -10305,9 +10312,9 @@ the parallel allpass filter design problem can be expressed in SOCP form as
 \textbf{subject to}\quad&
 \|W\left(\omega_{i}\right)\left[\begin{array}{c}
 \Re\nabla 
-H\left(\boldsymbol{a}_{k},\boldsymbol{b}_{k},\omega_{i}\right)^{T}\\
+H\left(\boldsymbol{a}_{k},\boldsymbol{b}_{k},\omega_{i}\right)^{\top}\\
 \Im\nabla 
-H\left(\boldsymbol{a}_{k},\boldsymbol{b}_{k},\omega_{i}\right)^{T}
+H\left(\boldsymbol{a}_{k},\boldsymbol{b}_{k},\omega_{i}\right)^{\top}
 \end{array}\right]\;\boldsymbol{\delta} + 
 W\left(\omega_{i}\right)\left[\begin{array}{c}
 \Re H\left(\boldsymbol{a}_{k},\boldsymbol{b}_{k},\omega_{i}\right)-
@@ -10333,7 +10340,7 @@ B\left(\boldsymbol{b}_{k},\omega_{i}\right)\right]\\
 A quadratic constraint on the squared-magnitude response at the stop-band
 frequencies is
 \begin{align*}
-\|\nabla H^{2}\left( \boldsymbol{a}_{k},\boldsymbol{b}_{k},\omega_{i}\right)^{T}
+\|\nabla H^{2}\left( \boldsymbol{a}_{k},\boldsymbol{b}_{k},\omega_{i}\right)^{\top}
 \boldsymbol{\delta} + 
 H^{2}\left( \boldsymbol{a}_{k},\boldsymbol{b}_{k}, \omega_{i} \right) \| & 
 \le \left|H_{d}\left(\omega_{i}\right)\right|^{2}
@@ -11943,7 +11950,7 @@ Define the two model filter coefficient vectors as
 \begin{align*}
 \boldsymbol{a}&=\left[\begin{array}{cccc}
 a_{0} & a_{1} & \hdots & a_{n}\\
-\end{array}\right]^{T}
+\end{array}\right]^{\top}
 \end{align*}
 and
 \begin{align*}
@@ -11996,21 +12003,21 @@ e^{-\imath D_{s} \omega}H\left(\boldsymbol{x},\omega\right)
 where
 \begin{align*}
 H\left(\boldsymbol{x},\omega\right) &= \tilde{H}_{a}\left(M\omega\right)
-\left[\boldsymbol{a}_{a}^{T}\boldsymbol{c}_{a}\left(\omega\right)-
-\boldsymbol{a}_{c}^{T}\boldsymbol{c}_{c}\left(\omega\right)\right]+
-\boldsymbol{a}_{c}^{T}\boldsymbol{c}_{c}\left(\omega\right)\\
+\left[\boldsymbol{a}_{a}^{\top}\boldsymbol{c}_{a}\left(\omega\right)-
+\boldsymbol{a}_{c}^{\top}\boldsymbol{c}_{c}\left(\omega\right)\right]+
+\boldsymbol{a}_{c}^{\top}\boldsymbol{c}_{c}\left(\omega\right)\\
 \tilde{H}_{a}\left(\omega\right) &= e^{\imath D\omega}
 \frac{a\left(\omega\right)}{d\left(\omega\right)} = 
-\frac{\boldsymbol{a}^{T}\boldsymbol{v}\left(\omega\right)}
+\frac{\boldsymbol{a}^{\top}\boldsymbol{v}\left(\omega\right)}
 {d\left(\omega\right)}\\
 \boldsymbol{v}\left(\omega\right) &= 
 \boldsymbol{c}\left(\omega\right) + \imath\boldsymbol{s}\left(\omega\right)\\ 
 \boldsymbol{c}\left(\omega\right) &= \left[\begin{array}{ccc}
 \cos D\omega & \hdots & \cos \left(D-n\right)\omega
-\end{array}\right]^{T}\\
+\end{array}\right]^{\top}\\
 \boldsymbol{s}\left(\omega\right) &= \left[\begin{array}{ccc}
 \sin D\omega & \hdots & \sin \left(D-n\right)\omega
-\end{array}\right]^{T}\\
+\end{array}\right]^{\top}\\
 v_{1}\left(\omega\right) &= \cos \omega - \imath \sin\omega \\
 \boldsymbol{v}_{2}\left(\omega\right) &= \left[\begin{array}{c}
 \cos \omega\\
@@ -12024,42 +12031,42 @@ and
 \begin{align*}
 d\left(\omega\right) &= \begin{cases}
 \left[1 + d_{0}v_{1}\left(\omega\right)\right]
-\prod^{L}_{k=1}\left[1 + \boldsymbol{d}_{k}^{T}
+\prod^{L}_{k=1}\left[1 + \boldsymbol{d}_{k}^{\top}
 \boldsymbol{v}_{2}\left(\omega\right)\right],&\text{if $r$ odd} \\
-\prod^{L}_{k=1}\left[1 + \boldsymbol{d}_{k}^{T}
+\prod^{L}_{k=1}\left[1 + \boldsymbol{d}_{k}^{\top}
 \boldsymbol{v}_{2}\left(\omega\right)\right],&\text{if $r$ even}
 \end{cases}\\
 \boldsymbol{a}_{a}&=\begin{cases}
 \left[ \begin{array}{cccc}
 p_{\frac{n_{a}-1}{2}} & p_{\frac{n_{a}+1}{2}} & \hdots & p_{n_{a}-1}
-\end{array}\right]^{T}, &  \text{if $n_{a}$ odd} \\
+\end{array}\right]^{\top}, &  \text{if $n_{a}$ odd} \\
 \left[ \begin{array}{cccc}
 p_{\frac{n_{a}}{2}} & p_{\frac{n_{a}}{2}+1} & \hdots & p_{n_{a}-1}
-\end{array}\right]^{T}, &  \text{if $n_{a}$ even} 
+\end{array}\right]^{\top}, &  \text{if $n_{a}$ even} 
 \end{cases}\\
 \boldsymbol{c}_{a}\left(\omega\right) &= \begin{cases}
 \left[\begin{array}{cccc}
 1 & 2 \cos \omega & \hdots & 2 \cos \frac{\left(n_{a}-1\right)}{2}\omega
-\end{array}\right]^{T}, &  \text{if $n_{a}$ odd} \\
+\end{array}\right]^{\top}, &  \text{if $n_{a}$ odd} \\
 \left[\begin{array}{ccc}
 2 \cos \frac{1}{2}\omega & \hdots & 2 \cos \frac{\left(n_{a}-1\right)}{2}\omega
-\end{array}\right]^{T}, &  \text{if $n_{a}$ even} \\
+\end{array}\right]^{\top}, &  \text{if $n_{a}$ even} \\
 \end{cases}\\
 \boldsymbol{a}_{c}&=\begin{cases}
 \left[ \begin{array}{cccc}
 q_{\frac{n_{c}-1}{2}} & q_{\frac{n_{c}+1}{2}} & \hdots & q_{n_{c}-1}
-\end{array}\right]^{T}, &  \text{if $n_{c}$ odd} \\
+\end{array}\right]^{\top}, &  \text{if $n_{c}$ odd} \\
 \left[ \begin{array}{cccc}
 q_{\frac{n_{c}}{2}} & q_{\frac{n_{c}}{2}+1} & \hdots & q_{n_{c}-1}
-\end{array}\right]^{T}, &  \text{if $n_{c}$ even} 
+\end{array}\right]^{\top}, &  \text{if $n_{c}$ even} 
 \end{cases}\\
 \boldsymbol{c}_{c}\left(\omega\right) &= \begin{cases}
 \left[\begin{array}{cccc}
 1 & 2 \cos \omega & \hdots & 2 \cos \frac{\left(n_{c}-1\right)}{2}\omega
-\end{array}\right]^{T}, &  \text{if $n_{c}$ odd} \\
+\end{array}\right]^{\top}, &  \text{if $n_{c}$ odd} \\
 \left[\begin{array}{ccc}
 2 \cos \frac{1}{2}\omega & \hdots & 2 \cos \frac{\left(n_{c}-1\right)}{2}\omega
-\end{array}\right]^{T}, &  \text{if $n_{c}$ even} \\
+\end{array}\right]^{\top}, &  \text{if $n_{c}$ even} \\
 \end{cases}
 \end{align*}
 The gradient of $H\left(\boldsymbol{x},\omega\right)$ is
@@ -12073,12 +12080,12 @@ y\left(\omega\right)\frac{\partial \tilde{H}_{a}\left(M\omega\right)}
 \tilde{H}_{a}\left(M\omega\right)\boldsymbol{c}_{a}\left(\omega\right)\\
 \left[ 1-\tilde{H}_{a}\left(M\omega\right)\right]
 \boldsymbol{c}_{c}\left(\omega\right)\\
-\end{array}\right]^{T}
+\end{array}\right]^{\top}
 \end{align*}
 where
 \begin{align*}
-y\left(\omega\right)&=\boldsymbol{a}_{a}^{T}\boldsymbol{c}_{a}\left(\omega\right)-
-\boldsymbol{a}_{c}^{T}\boldsymbol{c}_{c}\left(\omega\right)\\
+y\left(\omega\right)&=\boldsymbol{a}_{a}^{\top}\boldsymbol{c}_{a}\left(\omega\right)-
+\boldsymbol{a}_{c}^{\top}\boldsymbol{c}_{c}\left(\omega\right)\\
 \frac{\partial \tilde{H}_{a}\left(\omega\right)}{\partial\boldsymbol{a}}&=
 \frac{\boldsymbol{v}\left(\omega\right)}{d\left(\omega\right)}\\
 \frac{\partial \tilde{H}_{a}\left(\omega\right)}{\partial\boldsymbol{d}}&=
@@ -12096,7 +12103,7 @@ with
 {1+d_{0}v_{1}\left(\omega\right)}\\
 \frac{\partial \tilde{H}_{a}\left(\omega\right)}{\partial \boldsymbol{d}_{k}}&=
 -\tilde{H}_{a}\left(\omega\right)\frac{\boldsymbol{v}_{2}\left(\omega\right)}
-{1+\boldsymbol{d}_{k}^{T}\boldsymbol{v}_{2}\left(\omega\right)},\quad
+{1+\boldsymbol{d}_{k}^{\top}\boldsymbol{v}_{2}\left(\omega\right)},\quad
 \text{for $1\le k \le L$}
 \end{align*}
 The overall parameter vector is
@@ -12226,10 +12233,10 @@ where
 \begin{align*}
 \phi_{Z}\left(\omega\right)&= D\omega + \phi_{R}\left(\omega\right)\\
 A\left(\omega\right) &=
-\boldsymbol{a}_{a}^{T}\boldsymbol{c}_{a}\left(\omega\right)-
-\boldsymbol{a}_{c}^{T}\boldsymbol{c}_{c}\left(\omega\right) \\
+\boldsymbol{a}_{a}^{\top}\boldsymbol{c}_{a}\left(\omega\right)-
+\boldsymbol{a}_{c}^{\top}\boldsymbol{c}_{c}\left(\omega\right) \\
 B\left(\omega\right) &=
-\boldsymbol{a}_{c}^{T}\boldsymbol{c}_{c}\left(\omega\right)
+\boldsymbol{a}_{c}^{\top}\boldsymbol{c}_{c}\left(\omega\right)
 \end{align*}
 
 The squared-magnitude and phase responses of the zero phase response of the 
@@ -12265,29 +12272,29 @@ where
 \frac{\partial \phi_{Z}\left(M\omega\right)}{\partial\omega} &=
 DM+\frac{\partial \phi_{R}\left(M\omega\right)}{\partial\omega}\\
 \frac{\partial A\left(\omega\right)}{\partial\omega} &=
-\boldsymbol{a}_{a}^{T}\boldsymbol{s}_{a}\left(\omega\right)-
-\boldsymbol{a}_{c}^{T}\boldsymbol{s}_{c}\left(\omega\right) \\
+\boldsymbol{a}_{a}^{\top}\boldsymbol{s}_{a}\left(\omega\right)-
+\boldsymbol{a}_{c}^{\top}\boldsymbol{s}_{c}\left(\omega\right) \\
 \frac{\partial B\left(\omega\right)}{\partial\omega} &=
-\boldsymbol{a}_{c}^{T}\boldsymbol{s}_{c}\left(\omega\right) \\
+\boldsymbol{a}_{c}^{\top}\boldsymbol{s}_{c}\left(\omega\right) \\
 \boldsymbol{s}_{a}\left(\omega\right) &= \begin{cases}
 -2\left[\begin{array}{cccc}
 0 & \sin \omega & \hdots & \frac{\left(n_{a}-1\right)}{2}
                            \sin\frac{\left(n_{a}-1\right)}{2}\omega
-\end{array}\right]^{T}, & \text{if $n_{a}$ odd} \\
+\end{array}\right]^{\top}, & \text{if $n_{a}$ odd} \\
 -2\left[\begin{array}{ccc}
 \sin \frac{1}{2}\omega & \hdots & \frac{\left(n_{a}-1\right)}{2}
                            \sin\frac{\left(n_{a}-1\right)}{2}\omega
-\end{array}\right]^{T}, & \text{if $n_{a}$ even} \\
+\end{array}\right]^{\top}, & \text{if $n_{a}$ even} \\
 \end{cases}\\
 \boldsymbol{s}_{c}\left(\omega\right) &= \begin{cases}
 -2\left[\begin{array}{cccc}
 0 & \sin \omega & \hdots & \frac{\left(n_{c}-1\right)}{2}
                            \sin\frac{\left(n_{c}-1\right)}{2}\omega
-\end{array}\right]^{T}, & \text{if $n_{c}$ odd} \\
+\end{array}\right]^{\top}, & \text{if $n_{c}$ odd} \\
 -2\left[\begin{array}{ccc}
 \sin \frac{1}{2}\omega & \hdots & \frac{\left(n_{c}-1\right)}{2}
                                   \sin\frac{\left(n_{c}-1\right)}{2}\omega
-\end{array}\right]^{T}, & \text{if $n_{c}$ even} \\
+\end{array}\right]^{\top}, & \text{if $n_{c}$ even} \\
 \end{cases}
 \end{align*}
 The gradients of $\left|H\left(\omega\right)\right|^{2}$ with respect to the 
@@ -12488,11 +12495,11 @@ where $\phi_{R}\left(\omega\right)$ is the phase response of the allpass branch
 of the model filter and:
 \begin{align*}
 A\left(\omega\right) &=
-\frac{\boldsymbol{a}_{a}^{T}\boldsymbol{c}_{a}\left(\omega\right)+
-\boldsymbol{a}_{c}^{T}\boldsymbol{c}_{c}\left(\omega\right)}{2} \\
+\frac{\boldsymbol{a}_{a}^{\top}\boldsymbol{c}_{a}\left(\omega\right)+
+\boldsymbol{a}_{c}^{\top}\boldsymbol{c}_{c}\left(\omega\right)}{2} \\
 B\left(\omega\right) &=
-\frac{\boldsymbol{a}_{a}^{T}\boldsymbol{c}_{a}\left(\omega\right)-
-\boldsymbol{a}_{c}^{T}\boldsymbol{c}_{c}\left(\omega\right)}{2}
+\frac{\boldsymbol{a}_{a}^{\top}\boldsymbol{c}_{a}\left(\omega\right)-
+\boldsymbol{a}_{c}^{\top}\boldsymbol{c}_{c}\left(\omega\right)}{2}
 \end{align*}
 
 The squared-magnitude and phase responses of the zero phase response of the 
@@ -12525,21 +12532,21 @@ where:
 \frac{\partial \phi_{Z}\left(M\omega\right)}{\partial\omega} &=
 DM+\frac{\partial \phi_{R}\left(M\omega\right)}{\partial\omega}\\
 \frac{\partial A\left(\omega\right)}{\partial\omega} &=
-\frac{\boldsymbol{a}_{a}^{T}\boldsymbol{s}_{a}\left(\omega\right)+
-\boldsymbol{a}_{c}^{T}\boldsymbol{s}_{c}\left(\omega\right)}{2} \\
+\frac{\boldsymbol{a}_{a}^{\top}\boldsymbol{s}_{a}\left(\omega\right)+
+\boldsymbol{a}_{c}^{\top}\boldsymbol{s}_{c}\left(\omega\right)}{2} \\
 \frac{\partial B\left(\omega\right)}{\partial\omega} &=
-\frac{\boldsymbol{a}_{a}^{T}\boldsymbol{s}_{a}\left(\omega\right)-
-\boldsymbol{a}_{c}^{T}\boldsymbol{s}_{c}\left(\omega\right)}{2} \\
+\frac{\boldsymbol{a}_{a}^{\top}\boldsymbol{s}_{a}\left(\omega\right)-
+\boldsymbol{a}_{c}^{\top}\boldsymbol{s}_{c}\left(\omega\right)}{2} \\
 \boldsymbol{s}_{a}\left(\omega\right) &= 
 -2\left[\begin{array}{cccc}
 0 & \sin \omega & \hdots & \frac{\left(n_{a}-1\right)}{2}
                            \sin \frac{\left(n_{a}-1\right)}{2}\omega
-\end{array}\right]^{T} \\
+\end{array}\right]^{\top} \\
 \boldsymbol{s}_{c}\left(\omega\right) &= 
 -2\left[\begin{array}{cccc}
 0 & \sin \omega & \hdots & \frac{\left(n_{c}-1\right)}{2}
                            \sin \frac{\left(n_{c}-1\right)}{2}\omega
-\end{array}\right]^{T}
+\end{array}\right]^{\top}
 \end{align*}
 The gradients of $\left|H\left(\omega\right)\right|^{2}$ with respect to the 
 coefficients are:
@@ -12744,8 +12751,8 @@ e^{\imath\phi_{S}\left(M\omega\right)}
 \end{align*}
 where
 \begin{align*}
-\boldsymbol{a}&=\left[a_{0} ... a_{n_{m}-1}\right]^{T}\\
-\boldsymbol{b}&=\left[b_{0} ... b_{n_{m}-1}\right]^{T}\\
+\boldsymbol{a}&=\left[a_{0} ... a_{n_{m}-1}\right]^{\top}\\
+\boldsymbol{b}&=\left[b_{0} ... b_{n_{m}-1}\right]^{\top}\\
 \boldsymbol{v}&=\left[0 ... n_{m}-1\right]\\
 \boldsymbol{c}_{R}&=\cos\left[ \boldsymbol{v}\omega - 
                                \phi_{R}\left(M\omega\right)\right]\\
@@ -16669,11 +16676,11 @@ as a \emph{polynomial optimisation problem} (POP) in SOCP form as:
 \begin{align*}
 \textbf{minimise}\quad&
 \mathcal{E}\left(\boldsymbol{x_{k}}\right)+
-\nabla_{x}\mathcal{E}\left(\boldsymbol{x_{k}}\right)^{T}\Delta\boldsymbol{x}+
-\frac{1}{2}\Delta\boldsymbol{x}^{T}
+\nabla_{x}\mathcal{E}\left(\boldsymbol{x_{k}}\right)^{\top}\Delta\boldsymbol{x}+
+\frac{1}{2}\Delta\boldsymbol{x}^{\top}
 \nabla^{2}_{xx}\mathcal{E}\left(\boldsymbol{x_{k}}\right)\Delta\boldsymbol{x} \\
 \textbf{subject to}\quad&
-\left(\boldsymbol{x_{k}}+\Delta\boldsymbol{x}-\boldsymbol{x}_{u}\right)^{T}
+\left(\boldsymbol{x_{k}}+\Delta\boldsymbol{x}-\boldsymbol{x}_{u}\right)^{\top}
 \left(\boldsymbol{x_{k}}+\Delta\boldsymbol{x}-\boldsymbol{x}_{l}\right)
 =\boldsymbol{0}
 \end{align*}
@@ -16980,35 +16987,20 @@ approximately:
 \label{eqn:integer-programming-coefficient-truncation}
 \mathcal{E} &\approx
     \mathcal{E}\left(\hat{\boldsymbol{x}}\right)+
-    \nabla_{x}\mathcal{E}\left(\hat{\boldsymbol{x}}\right)^{T}
+    \nabla_{x}\mathcal{E}\left(\hat{\boldsymbol{x}}\right)^{\top}
     \left(\boldsymbol{y}\circ\boldsymbol{\delta}\right) + 
-    \frac{1}{2}\left(\boldsymbol{y}\circ\boldsymbol{\delta}\right)^{T}
+    \frac{1}{2}\left(\boldsymbol{y}\circ\boldsymbol{\delta}\right)^{\top}
     \nabla_{x}^{2}\mathcal{E}\left(\hat{\boldsymbol{x}}\right)
     \left(\boldsymbol{y}\circ\boldsymbol{\delta}\right)
 \end{align}
 
-If $\boldsymbol{Y}=\boldsymbol{y}\boldsymbol{y}^{T}$ and
-$\boldsymbol{\Delta}=\boldsymbol{\delta}\boldsymbol{\delta}^{T}$, then
-mean-squared-error can be expressed in the form\footnote{ 
-  The elements of the product of two matrixes, $\boldsymbol{R}$ and
-  $\boldsymbol{S}$, of equal size, are:
-  \begin{align*}
-  [RS]_{kl} &= \sum_{m}R_{km}S_{ml}
-  \end{align*}
-  The \emph{trace} of a matrix is the sum of the diagonal elements:
-  \begin{align*}
-    \text{trace}\left(\boldsymbol{T}\right) &= \sum_{n}T_{nn}
-  \end{align*}
-  For a column vector, $\boldsymbol{y}$ and a matrix, $\boldsymbol{Q}$:
-  \begin{align*}
-  \boldsymbol{y}^{T}\boldsymbol{Q}\boldsymbol{y}&=\sum_{k}\sum_{l}Q_{kl}y_{k}y_{l}\\
-  &=\sum_{k}\sum_{l}Q_{kl}Y_{kl} \\
-  &=\text{trace}\left(\boldsymbol{QY}\right)
-  \end{align*}
-  where $\boldsymbol{Y}=\boldsymbol{y}\boldsymbol{y}^{T}$ is symmetric.}:
+If $\boldsymbol{Y}=\boldsymbol{y}\boldsymbol{y}^{\top}$ and
+$\boldsymbol{\Delta}=\boldsymbol{\delta}\boldsymbol{\delta}^{\top}$, then
+mean-squared-error can be expressed in the form\footnote{The \emph{trace} of
+a matrix is defined in Appendix~\ref{app:Linear-algebra-trace-of-matrix}).}:
 \begin{align*}
   \mathcal{E}&\approx
-               \frac{1}{2}\text{trace}\left(
+               \frac{1}{2}\mathtrace\left(
                \left(\boldsymbol{Q}\circ\boldsymbol{\Delta}\right)
                \boldsymbol{Y}\right)+
   \left(\boldsymbol{q}\circ\boldsymbol{\delta}\right)\boldsymbol{y}+\text{const}
@@ -17019,7 +17011,7 @@ optimisation:
 \begin{align*}
   \begin{split}
   \textbf{minimise}\quad&
-  \text{trace}\left(\hat{\boldsymbol{Q}}\boldsymbol{Y}\right)+
+  \mathtrace\left(\hat{\boldsymbol{Q}}\boldsymbol{Y}\right)+
   2\hat{\boldsymbol{q}}\boldsymbol{y}\\
   \textbf{subject to}\quad& y_{i}\in \left\{-1,1\right\}
   \end{split}
@@ -17027,13 +17019,13 @@ optimisation:
 The integer programming constraints are equivalent to:
 \begin{align*}
   Y_{ii}=1 \text{,}\quad
-  \text{rank}\left[\begin{array}{cc}
+  \mathrank\left[\begin{array}{cc}
                      \boldsymbol{Y} & \boldsymbol{y} \\
-                     \boldsymbol{y}^{T} & 1\\
+                     \boldsymbol{y}^{\top} & 1\\
                    \end{array}\right]=1 \text{,}\quad
   \left[\begin{array}{cc}
           \boldsymbol{Y} & \boldsymbol{y} \\
-          \boldsymbol{y}^{T} & 1\\
+          \boldsymbol{y}^{\top} & 1\\
         \end{array}\right]\succeq \boldsymbol{0}
 \end{align*}
 where $\succeq 0$ means that the array is \emph{positive semidefinite}.
@@ -17044,13 +17036,13 @@ matrix $\hat{\boldsymbol{Y}}$ with ones on the diagonal:
 \begin{align*}
   \begin{split}
   \textbf{minimise}\quad
-  & \text{trace}\left(\hat{\boldsymbol{Q}}\hat{\boldsymbol{Y}}\right)+
+  & \mathtrace\left(\hat{\boldsymbol{Q}}\hat{\boldsymbol{Y}}\right)+
   2\hat{\boldsymbol{q}}\boldsymbol{y}\\
   \textbf{subject to}\quad&
   \bar{\boldsymbol{Y}}=
   \left[\begin{array}{cc}
           \hat{\boldsymbol{Y}} & \boldsymbol{y} \\
-          \boldsymbol{y}^{T} & 1
+          \boldsymbol{y}^{\top} & 1
         \end{array}\right]\succeq \boldsymbol{0}
   \end{split}
 \end{align*}
@@ -17060,7 +17052,7 @@ and the $\frac{N\left(N-1\right)}{2}$ distinct off-diagonal elements of
 $\hat{\boldsymbol{Y}}$. The relaxed optimisation problem becomes:
 \begin{align*}
   \begin{split}
-  \textbf{minimise}\quad & \boldsymbol{c}^{T}\bar{\boldsymbol{y}} \\
+  \textbf{minimise}\quad & \boldsymbol{c}^{\top}\bar{\boldsymbol{y}} \\
   \textbf{subject to}\quad &
   \bar{\boldsymbol{Y}} \succeq \boldsymbol{0}
   \end{split}
@@ -17101,7 +17093,7 @@ for $0\le i<j<k<N$.
 form:
 \begin{align*}
   \begin{split}
-  \textbf{minimise}\quad & \boldsymbol{c}^{T}\bar{\boldsymbol{y}} \\
+  \textbf{minimise}\quad & \boldsymbol{c}^{\top}\bar{\boldsymbol{y}} \\
   \textbf{subject to}\quad&\boldsymbol{A}\bar{\boldsymbol{y}}\ge\boldsymbol{b}\\
   & \bar{\boldsymbol{Y}}=\boldsymbol{F}_{0} +
   \bar{y}_{1}\boldsymbol{F}_{1}
@@ -17109,7 +17101,7 @@ form:
   \end{split}
 \end{align*}
 where $P=\frac{N\left(N+1\right)}{2}$,
-$\bar{\boldsymbol{y}}=\left[\bar{y}_{1} \hdots \bar{y}_{P}\right]^{T}$ and the
+$\bar{\boldsymbol{y}}=\left[\bar{y}_{1} \hdots \bar{y}_{P}\right]^{\top}$ and the
 $\boldsymbol{F}_{k}$ are the symmetric matrixes that select the two
 off-diagonal elements of $\bar{\boldsymbol{Y}}$ corresponding to $\bar{y}_{k}$.
 If the SDP solution is $\boldsymbol{y}^{*}$ and $\hat{\boldsymbol{Y}}^{*}$, then
@@ -17120,14 +17112,14 @@ that, given the singular-value decomposition
 \begin{align*}
   Z^{*} =  \left[\begin{array}{cc}
           \hat{\boldsymbol{Y}}^{*}&\boldsymbol{y}^{*} \\
-          \boldsymbol{y}^{*T}  & 1
-        \end{array}\right]=U\Sigma U^{T}
+          {\boldsymbol{y}^{*}}^{\top}  & 1
+        \end{array}\right]=U\Sigma U^{\top}
 \end{align*}
 an alternative solution is $\text{sign}\left(u_{N+1,l}u_{1\hdots N,l}\right)$,
 where $u_{1\hdots N,l}$ is the first column vector in $U$ that corresponds to
 the largest singular value, $\sigma_{l}$. ``\emph{The motivation ... is that a
   perfect solution $\boldsymbol{Y}^{*}$ ... would imply that matrix $Z^{*}$
-  has rank one, hence $\sigma_{l}u_{1\hdots N+1,l}u_{1\hdots N+1,l}^{T}$ is
+  has rank one, hence $\sigma_{l}u_{1\hdots N+1,l}u_{1\hdots N+1,l}^{\top}$ is
   the best rank-one approximation of $Z^{*}$ in the 2-norm sense.}''
 
 \begin{comment}
@@ -17159,12 +17151,12 @@ allowing the $y_{i}$ to be replaced by $N$-dimensional vectors
 $\boldsymbol{v_{i}}$ lying on the $N$-dimensional unit sphere, $\mathcal{S}_{N}$:
 \begin{align*}
 \textbf{maximise}\quad&
-\frac{1}{2}\sum_{i<j}w_{ij}\left(1-\boldsymbol{v}_{i}^{T}\boldsymbol{v}_{j}\right)\\
+\frac{1}{2}\sum_{i<j}w_{ij}\left(1-\boldsymbol{v}_{i}^{\top}\boldsymbol{v}_{j}\right)\\
 \textbf{subject to}\quad&\boldsymbol{v}_{i}\in \mathcal{S}_{N}\quad\forall i \in V
 \end{align*}
 Given a set of solution vectors, $\boldsymbol{v}_{i}$, and a vector, 
 $\boldsymbol{r}$, uniformly distributed on $\mathcal{S}_{N}$, set 
-$S=\left\{i|\boldsymbol{v}_{i}^{T}\boldsymbol{r}\ge 0\right\}$. 
+$S=\left\{i|\boldsymbol{v}_{i}^{\top}\boldsymbol{r}\ge 0\right\}$. 
 The cut, $W$, defined by the random hyperplane with normal $\boldsymbol{r}$, 
 has the expected weight $E[W]\ge\alpha W_{MC}$ where:
 \begin{align*}
@@ -19054,6 +19046,287 @@ contour $C$, and $\left|g\left(z\right)\right| < \left|f\left(z\right)\right|$
 on $C$, then $f\left(z\right)$ and $f\left(z\right)+g\left(z\right)$ have the
 same number of zeros inside $C$.
 \cleardoublepage{}
+\chapter{\label{app:Review-of-topics-in-linear-algebra}Review of selected results from linear algebra}
+This appendix collects some results from linear algebra used in convex
+optimization. See, for example, \emph{Golub and Van
+  Loan}~\cite{GolubVanLoan_MatrixComputations}, \emph{Boyd} and
+\emph{Vandenberghe}~\cite[Appendixes A, B and
+C]{BoydVandenberghe_ConvexOptimization}, \emph{Antoniou} and 
+\emph{Lu}~\cite[Appendix A]{AntoniouLu_PracticalOptimization},
+\emph{Gallier}~\cite{Gallier_SchurComplement} and many, many other on-line
+resources.
+
+\section{\label{app:Linear-algebra-norm-of-matrix}Norm of a matrix}
+The vector norms are:
+\begin{align*}
+\| x\| _{p} &= \left(\left|x_{1}\right|^{p}+\cdots+\left|x_{n}\right|^{p}\right)^{\frac{1}{p}}\quad p\ge1\\
+\| x\|_{\infty} &= \max_{1\le i\le n}\left|x_{i}\right|
+\end{align*}
+$\| x\| $ is assumed to mean $\| x\| _{2}$. 
+
+The matrix norm, $\|{}A\|_{\alpha,\beta}$, is:
+\begin{align*}
+  \|{}A\|_{\alpha,\beta}
+  &=\sup_{x\ne{}0}\frac{\|{}Ax\|_{\beta}}
+    {\|{}x\|_{\alpha}}
+\end{align*}
+
+\emph{Golub and Van Loan} 
+~\cite[Section 2.3.1, Section 2.2.1]{GolubVanLoan_MatrixComputations}
+define the \emph{Frobenius norm} (also called the \emph{Euclidean norm}) of a
+matrix, $A$, as
+\begin{align*}
+\| A\| _{F} &= \sqrt{\sum_{i=1}^{m}\sum_{j=1}^{n}\left|a_{ij}\right|^{2}}
+\end{align*}
+
+The Octave manual defines the Frobenius norm of a matrix, $A$, as:
+\begin{small}
+\begin{verbatim}
+norm(A,"fro") = sqrt(sum(diag(A'*A))
+\end{verbatim}
+\end{small}
+
+\section{\label{app:Linear-algebra-trace-of-matrix}Trace of a matrix}
+The elements of the product of two matrixes, $\boldsymbol{R}$ and
+$\boldsymbol{S}$, of equal size, are:
+\begin{align*}
+  [RS]_{kl} &= \sum_{m}R_{km}S_{ml}
+\end{align*}
+The \emph{trace} of a matrix is the sum of the diagonal elements:
+\begin{align*}
+  \mathtrace\left(\boldsymbol{T}\right) &= \sum_{n}T_{nn}
+\end{align*}
+For a column vector, $\boldsymbol{y}$, and a matrix, $\boldsymbol{Q}$:
+\begin{align*}
+  \boldsymbol{y}^{\top}\boldsymbol{Q}\boldsymbol{y}
+  &=\sum_{k}\sum_{l}Q_{kl}y_{k}y_{l}\\
+  &=\sum_{k}\sum_{l}Q_{kl}Y_{kl} \\
+  &=\mathtrace\left(\boldsymbol{QY}\right)
+\end{align*}
+where $\boldsymbol{Y}=\boldsymbol{y}\boldsymbol{y}^{\top}$ is symmetric.
+  
+\section{\label{app:Linear-algebra-range-and-null-space-of-matrix}Rank, range, span and null-space of a matrix}
+\emph{Golub and Van Loan}~\cite[Section
+2.1.2]{GolubVanLoan_MatrixComputations} define the \emph{range} and
+\emph{null-space} or \emph{kernel} of a matrix, $B$,  as
+\begin{align*}
+\mathrange\left(B\right) &= \left\{ y\in\mathbb{R}^{n}\mid y=Bx\;,\; x\in\mathbb{R}^{n}\right\}\\
+\mathnull\left(B\right) &= \left\{ x\in\mathbb{R}^{n}\mid Bx=0\right\} 
+\end{align*}
+If $B=\left[b_{1},\ldots,b_{n}\right]$ is a column vector partitioning
+then the \emph{span} of $B$ is the set of all linear combinations
+of those column vectors
+\begin{align*}
+\mathspan\left\{ b_{1},\ldots,b_{n}\right\}&=\left\{ \sum_{j=1}^{n}\beta_{j}b_{j}\mid\beta_{j}\in\mathbb{R}\right\} 
+\end{align*}
+\emph{Golub and Van Loan}~\cite[Theorem
+2.5.2]{GolubVanLoan_MatrixComputations} show that if $A$ is a real $m$-by-$n$
+matrix then there exist orthogonal matrixes:
+\begin{align*}
+  U&=\left[ u_{1},\ldots,u_{m}\right]\in\mathbb{R}^{m\times{}m} \\
+  V&=\left[ v_{1},\ldots,v_{n}\right]\in\mathbb{R}^{n\times{}n}
+\end{align*}
+such that:
+\begin{align*}
+  U^{\top}AV&=\mathdiag\left[\sigma_{1},\hdots,\sigma_{p}\right]\in\mathbb{R}^{m\times{}n}\quad p=\min\left(m,n\right)
+\end{align*}
+where $\sigma_{1}\ge\sigma_{1}\ge\hdots\ge\sigma_{p}\ge{}0$. The $\sigma_{k}$
+are called the \emph{singular values} of $A$. Define $r$ by:
+\begin{align*}
+\sigma_{1}\ge\sigma_{1}\ge\hdots\ge\sigma_{r}>\sigma_{r+1}=\hdots\sigma_{p}=0
+\end{align*}
+then, given the singular value decomposition (SVD) of a
+matrix, $A$:
+\begin{align*}
+\mathrank\left(A\right)&=r \\
+\mathnull\left(A\right) &= \mathspan\left\{ v_{r+1},\ldots,v_{n}\right\} \\
+\mathrange\left(A\right) &= \mathspan\left\{ u_{1},\ldots,u_{r}\right\} \\
+A&=\sum_{k=1}^{r}\sigma_{k}u_{k}v_{k}^{\top} =U\Sigma{}V^{\top}
+\end{align*}
+
+\section{\label{app:Linear-algebra-positive-definite-matrixes}Positive definite matrixes}
+A matrix, $Q \in \mathbb{R}^{n\times n}$, is positive-definite if 
+$x^{\top}Qx>0$ for all nonzero $x \in \mathbb{R}^{n}$.
+\section{\label{app:Linear-algebra-Schur-complement}Schur complement}
+This section follows \emph{Gallier}~\cite{Gallier_SchurComplement}.
+\subsection{Schur complement of a matrix}
+
+The \emph{Schur complement} appears in the decomposition of a matrix
+$M=\left[\begin{array}{cc} 
+            A & B \\
+            C & D \end{array}\right]$ when solving the linear system:
+\begin{align*}
+  \left[\begin{array}{cc}
+           A & B \\
+           C & D \end{array}\right]          
+  \left[\begin{array}{c}
+           x \\
+           y \end{array}\right] &=
+  \left[\begin{array}{c}
+           c \\
+           d \end{array}\right]          
+\end{align*}
+If $D$ is invertible:
+\begin{align*}
+  y &= D^{-1}\left(d-Cx\right)
+\end{align*}
+Substituting:
+\begin{align*}
+  Ax+BD^{-1}\left(d-Cx\right)&=c \\
+  \left(A-BD^{-1}C\right)x&=c-BD^{-1}d
+\end{align*}
+If $A-BD^{-1}C$ is invertible, then:
+\begin{align*}
+  x &=\left(A-BD^{-1}C\right)^{-1}c-\left(A-BD^{-1}C\right)^{-1}BD^{-1}d \\
+  y &=D^{-1}\left(d-C\left(A-BD^{-1}C\right)^{-1}\left(c-BD^{-1}d\right)\right)
+\end{align*}
+so that:
+\begin{align*}
+  \left[\begin{array}{cc}
+          A & B \\
+          C & D \end{array}\right]^{-1}
+  &=\left[\begin{array}{cc}
+          \left(A-BD^{-1}C\right)^{-1}
+          & -\left(A-BD^{-1}C\right)^{-1}BD^{-1} \\
+          -D^{-1}C\left(A-BD^{-1}C\right)^{-1}
+          & D^{-1}+D^{-1}C\left(A-BD^{-1}C\right)^{-1}BD^{-1}\end{array}\right]\\
+  &=\left[\begin{array}{cc}
+          \left(A-BD^{-1}C\right)^{-1} & 0 \\
+          -D^{-1}C\left(A-BD^{-1}C\right)^{-1} & D^{-1}\end{array}\right]   
+    \left[\begin{array}{cc}
+            I & -BD^{-1} \\
+            0 & I\end{array}\right]\\
+  &=\left[\begin{array}{cc}
+          I & 0\\
+          -D^{-1}C & I \end{array}\right]   
+     \left[\begin{array}{cc}
+          \left(A-BD^{-1}C\right)^{-1} & 0 \\
+          0 & D^{-1}\end{array}\right]   
+    \left[\begin{array}{cc}
+            I & -BD^{-1} \\
+            0 & I\end{array}\right]
+\end{align*}
+Since:
+\begin{align*}
+    \left[\begin{array}{cc}
+            I & -BD^{-1} \\
+            0 & I\end{array}\right]^{-1}
+                &=
+    \left[\begin{array}{cc}
+            I & BD^{-1} \\
+            0 & I\end{array}\right]
+\end{align*}
+then:
+\begin{align*}
+  \left[\begin{array}{cc}
+          A & B \\
+          C & D \end{array}\right]
+            &=
+    \left[\begin{array}{cc}
+            I & BD^{-1} \\
+            0 & I\end{array}\right]
+    \left[\begin{array}{cc}
+            A-BD^{-1}C & 0 \\
+            0 & D \end{array}\right]   
+    \left[\begin{array}{cc}
+            I & 0 \\
+            D^{-1}C & I \end{array}\right]
+\end{align*}
+$A-BD^{-1}C$ is called the \emph{Schur complement of $D$ in $M$}. 
+
+Alternatively, if $A$ and $D-CA^{-1}B$ are invertible, and with
+$x=A^{-1}\left(c-By\right)$:  
+\begin{align*}
+  \left[\begin{array}{cc}
+          A & B \\
+          C & D \end{array}\right]^{-1}
+  &=\left[\begin{array}{cc}
+            A^{-1}+A^{-1}B\left(D-CA^{-1}B\right)^{-1}CA^{-1}
+            & -A^{-1}B\left(D-CA^{-1}B\right)^{-1} \\
+            -\left(D-CA^{-1}B\right)^{-1}CA^{-1}
+            & \left(D-CA^{-1}B\right)^{-1} \end{array}\right]\\
+  &=\left[\begin{array}{cc}
+          A^{-1} & -A^{-1}B\left(D-CA^{-1}B\right)^{-1} \\
+          0     & \left(D-CA^{-1}B\right)^{-1} \end{array}\right]
+  \left[\begin{array}{cc}
+          I & 0\\
+          -CA^{-1} & I \end{array}\right] \\
+  &=  \left[\begin{array}{cc}
+            I & -A^{-1}B \\
+              0 & I\end{array}\right]
+  \left[\begin{array}{cc}
+          A^{-1} & 0 \\
+          0 & \left(D-CA^{-1}B\right)^{-1}\end{array}\right]   
+  \left[\begin{array}{cc}
+          I & 0\\
+          -CA^{-1} & I \end{array}\right]\\
+  \left[\begin{array}{cc}
+          A & B \\
+          C & D \end{array}\right]
+  &=\left[\begin{array}{cc}
+          I & 0\\
+          CA^{-1} & I \end{array}\right]   
+     \left[\begin{array}{cc}
+          A & 0 \\
+          0 & D-CA^{-1}B\end{array}\right]   
+    \left[\begin{array}{cc}
+            I & A^{-1}B \\
+            0 & I\end{array}\right]
+\end{align*}
+$D-CA^{-1}B$ is the \emph{Schur complement of $A$ in $M$}.
+
+Comparing the two decompositions of $M$:
+\begin{align*}
+  \left(A-BD^{-1}C\right)^{-1}&=A^{-1}+A^{-1}B\left(D-CA^{-1}B\right)^{-1}CA^{-1}
+\end{align*}
+so that:
+\begin{align*}
+  \left[\begin{array}{cc}
+          A & B \\
+          C & D \end{array}\right]^{-1}
+  &=\left[\begin{array}{cc}
+  \left(A-BD^{-1}C\right)^{-1}&-A^{-1}B\left(D-CA^{-1}B\right)^{-1} \\
+ -\left(D-CA^{-1}B\right)^{-1}CA^{-1}&\left(D-CA^{-1}B\right)^{-1}\end{array}\right]
+\end{align*}
+\subsection{Schur complement of a positive definite matrix}
+If $M$ is symmetric ($A$ and $D$ are symmetric and $C=B^{\top}$) then if $D$ is
+invertible:
+\begin{enumerate}
+  \item $M\succ{}0\Leftrightarrow D\succeq{}0$ and $A-BD^{-1}B^{\top}\succ{}0$
+  \item If $D\succ{}0$, then $M\succeq{}0\Leftrightarrow A-BD^{-1}B^{\top}\succeq{}0$
+\end{enumerate}
+Similarly, if $A$ is invertible, then:
+\begin{enumerate}
+  \item $M\succ{}0\Leftrightarrow A\succeq{}0$ and $D-B^{\top}A^{-1}B\succ{}0$
+  \item If $A\succ{}0$, then $M\succeq{}0\Leftrightarrow D-B^{\top}A^{-1}B\succeq{}0$
+\end{enumerate}
+These results follow from:
+\begin{enumerate}
+  \item a block diagonal matrix, $M$, is positive definite, $M\succ{}0$,
+    $\Leftrightarrow$  each diagonal block is positive definite
+  \item if matrix $T$ is symmetric and matrix $N$ is invertible then
+    $T\succ{}0 \Leftrightarrow NTN^{\top}\succ{}0$
+  \item the block decomposition of $M$ with $\left[\begin{array}{cc}
+          A & B \\
+          B^{\top} & D \end{array}\right]\succ{}0
+ \Leftrightarrow
+  \left[\begin{array}{cc}
+          D & B^{\top} \\
+          B & A \end{array}\right]\succ{}0$
+\end{enumerate}
+
+Given the quadratic constraint:
+\begin{align*}
+  \left(Ax+b\right)^{\top}  \left(Ax+b\right)\le c^{\top}x+d
+\end{align*}
+the equivalent positive semi-definite condition:
+\begin{align*}
+  \left[\begin{array}{cc}
+          I &  \left(Ax+b\right)\\
+          \left(Ax+b\right)^{\top} & c^{\top}x+d \end{array}\right]\succeq{}0
+\end{align*}
+follows from the properties of the \emph{Schur complement}.
+\cleardoublepage{}
 \chapter{\label{app:Review-of-elliptic-integrals-and-functions}Review of Legendre's elliptic integrals and Jacobi's elliptic functions}
 This appendix reviews the notation for \emph{Legendre's elliptic
   integrals} and \emph{Jacobi's elliptic functions}. See \emph{Whittaker} and
@@ -19731,7 +20004,7 @@ Function & Octave implementation\\
 See \emph{Golub and Van Loan} 
 \cite[Section 9.4.3]{GolubVanLoan_MatrixComputations}. The \emph{Lanczos} 
 tridiagonalisation calculates an orthogonal similarity transform, $T$, that
-reduces a matrix $A\in\mathbb{R}_{N\times{}N}$ to tridiagonal form, $\mathcal{A}$:
+reduces a matrix $A\in\mathbb{R}^{N\times{}N}$ to tridiagonal form, $\mathcal{A}$:
 \begin{align*}
 T^{-1}AT &= \mathcal{A} = \left[\begin{array}{cccccc}
 \alpha_{0} & \beta_{1} & 0 & 0 & \cdots & 0\\
@@ -19746,55 +20019,55 @@ The \emph{Lanczos} tridiagonalisation calculates the column partitionings:
 \begin{align*}
 T &= 
 \left[\begin{array}{ccc} t_{1} & \cdots & t_{N} \end{array}\right]\\
-T^{-T} = P &= 
+{T^{-1}}^{\top} = P &= 
 \left[\begin{array}{ccc} p_{1} & \cdots & p_{N} \end{array}\right]
 \end{align*}
-Comparing columns in $AT=T\mathcal{A}$ and $A^{T}P=P\mathcal{A}^{T}$, for 
+Comparing columns in $AT=T\mathcal{A}$ and $A^{\top}P=P\mathcal{A}^{\top}$, for 
 $k\in\left[1,N-1\right]$:
 \begin{align*}
 At_{k} &= \beta_{k-1} t_{k-1} + \alpha_{k-1}t_{k} + \gamma_{k}t_{k+1}
 & \text{with}\;\beta_{0}t_{0} \equiv 0\\
-A^{T}p_{k} &= \gamma_{k-1}p_{k-1} + \alpha_{k-1}p_{k} + \beta_{k}p_{k+1}
+A^{\top}p_{k} &= \gamma_{k-1}p_{k-1} + \alpha_{k-1}p_{k} + \beta_{k}p_{k+1}
 & \text{with}\;\gamma_{0}p_{0} \equiv 0
 \end{align*}
-In addition, since $T$ is orthogonal and $P^{T}T=I_{N\times{}N}$:
+In addition, since $T$ is orthogonal and $P^{\top}T=I_{N\times{}N}$:
 \begin{align*}
-\alpha_{k-1} &= p_{k}^{T}At_{k}\\
+\alpha_{k-1} &= p_{k}^{\top}At_{k}\\
 \beta_{k}p_{k+1}\equiv r_{k} &=
-\left(A-\alpha_{k-1}I\right)^{T}p_{k}-\gamma_{k-1}p_{k-1}\\
+\left(A-\alpha_{k-1}I\right)^{\top}p_{k}-\gamma_{k-1}p_{k-1}\\
 \gamma_{k}t_{k+1}\equiv s_{k} &=
 \left(A-\alpha_{k-1}I\right)t_{k}-\beta_{k-1}t_{k-1}\\
 \end{align*}
 Note that:
 \begin{align}
-1 = p_{k+1}^{T}t_{k+1}&=\left(\frac{r_{k}}{\beta_{k}}\right)^{T}
+1 = p_{k+1}^{\top}t_{k+1}&=\left(\frac{r_{k}}{\beta_{k}}\right)^{\top}
                       \left(\frac{s_{k}}{\gamma_{k}}\right)
 \end{align}
 and so if $\gamma_{k}$ is specified in advance:
 \begin{align}
-\beta_{k}&=\frac{r_{k}^{T}s_{k}}{\gamma_{k}}
+\beta_{k}&=\frac{r_{k}^{\top}s_{k}}{\gamma_{k}}
 \end{align}
 A common choice is $\gamma_{k} = \|s_{k}\|_{2}$\footnote{Recall that 
-$\|s_{k}\|_{2}=\left(s_{k}^{T}s_{k}\right)^{\frac{1}{2}}$.}.
+$\|s_{k}\|_{2}=\left(s_{k}^{\top}s_{k}\right)^{\frac{1}{2}}$.}.
 Algorithm~\ref{alg:Unsymmetric-Lanczos-tridiagonalisation} calculates the
 \emph{Lanczos tridiagonalisation} of an unsymmetric matrix.
 \clearpage
 \begin{algorithm}[htbp]
 Convert the matrix $A$ to \emph{tri-diagonal} form:
 \begin{algorithmic}
-\State $r_{0}$ and $s_{0}$ are given unit 2-norm vectors with $r_{0}^{T}s_{0} \ne 0$
+\State $r_{0}$ and $s_{0}$ are given unit 2-norm vectors with $r_{0}^{\top}s_{0} \ne 0$
 \State $t_{0}=0$
 \State $p_{0}=0$. 
 \State $k=0$ 
 
-\While {$r_{k}\ne 0 \land s_{k}\ne 0 \land r_{k}^{T}s_{k}\ne 0$}
+\While {$r_{k}\ne 0 \land s_{k}\ne 0 \land r_{k}^{\top}s_{k}\ne 0$}
 \State $\gamma_{k} = \|s_{k}\|_{2}$
-\State $\beta_{k} = \frac{r_{k}^{T}s_{k}}{\gamma_{k}}$
+\State $\beta_{k} = \frac{r_{k}^{\top}s_{k}}{\gamma_{k}}$
 \State $t_{k+1} = \frac{s_{k}}{\gamma_{k}}$
 \State $p_{k+1} = \frac{r_{k}}{\beta_{k}}$
 \State $k = k+1$
-\State $\alpha_{k-1} = p_{k}^{T}At_{k}$
-\State $r_{k} = \left(A-\alpha_{k-1}I\right)^{T}p_{k}-\gamma_{k-1}p_{k-1}$
+\State $\alpha_{k-1} = p_{k}^{\top}At_{k}$
+\State $r_{k} = \left(A-\alpha_{k-1}I\right)^{\top}p_{k}-\gamma_{k-1}p_{k-1}$
 \State $s_{k} = \left(A-\alpha_{k-1}I\right)t_{k}-\beta_{k-1}t_{k-1}$
 \EndWhile
 \end{algorithmic}
@@ -19815,19 +20088,19 @@ If
 then, when the loop of Algorithm 
 \ref{alg:Unsymmetric-Lanczos-tridiagonalisation} terminates:
 \begin{align*}
-A^{T}\left[\begin{array}{ccc} p_{1} & \cdots & p_{k}\end{array}\right] &=
-\left[\begin{array}{ccc} p_{1}&\cdots&p_{k}\end{array}\right]\mathcal{A}^{T}_{k}
-+r_{k}e_{k}^{T}\\
+A^{\top}\left[\begin{array}{ccc} p_{1} & \cdots & p_{k}\end{array}\right] &=
+\left[\begin{array}{ccc} p_{1}&\cdots&p_{k}\end{array}\right]\mathcal{A}^{\top}_{k}
++r_{k}e_{k}^{\top}\\
 A\left[\begin{array}{ccc} t_{1} & \cdots & t_{k}\end{array}\right] &=
 \left[\begin{array}{ccc} t_{1} & \cdots & t_{k}\end{array}\right]\mathcal{A}_{k}
-+s_{k}e_{k}^{T}\\
++s_{k}e_{k}^{\top}\\
 \end{align*}
 If $r_{k}=0$ when the iteration terminates then
-$\text{span}\left\{\begin{array}{ccc}p_{1} & \cdots & p_{k}\end{array}\right\}$
+$\mathspan\left\{\begin{array}{ccc}p_{1} & \cdots & p_{k}\end{array}\right\}$
 is a subspace for $A$. If $s_{k}=0$ when the iteration terminates then
-$\text{span}\left\{\begin{array}{ccc}t_{1} & \cdots & t_{k}\end{array}\right\}$
+$\mathspan\left\{\begin{array}{ccc}t_{1} & \cdots & t_{k}\end{array}\right\}$
 is a subspace for $A$. If neither of these conditions is true and 
-$r^{T}_{k}s_{k}=0$, then the tridiagonalisation process has failed. \emph{Golub
+$r^{\top}_{k}s_{k}=0$, then the tridiagonalisation process has failed. \emph{Golub
 and Van Loan}~\cite[Section 9.4.4]{GolubVanLoan_MatrixComputations}
 give a brief review of the \emph{Look-Ahead} technique for solving this 
 problem. The Octave function \emph{lanczos\_tridiag} implements 
@@ -20941,18 +21214,18 @@ The following largely follows \emph{Ruszczynski}
 ~\cite{Ruszczynski_NonlinearOptimization} with some contributions concerning 
 heuristics from \emph{Powell}
 ~\cite{Powell_FastNonlinearConstrainedOptimization} and 
-\emph{Nocedal and Wright}~\cite{NocedalWright_NumericalOptimization}.
+\emph{Nocedal} and \emph{Wright}~\cite{NocedalWright_NumericalOptimization}.
 \section{\label{app:Newtons-method-quadratic-function}Newton's method for a quadratic function}
 Consider a quadratic approximation, $f^{k}\left(x\right)$, to a function
 $f\left(x\right)$ evaluated at a point $x^{k}$ 
 \begin{align*}
 f^{k}\left(x\right) &= f\left(x^{k}\right)+
 \nabla_{x}f\left(x^{k}\right)\left(x-x^{k}\right)+
-\frac{1}{2}\left(x-x^{k}\right)^{T}\nabla_{xx}^{2}f\left(x^{k}\right)\left(x-x^{k}\right)
+\frac{1}{2}\left(x-x^{k}\right)^{\top}\nabla_{xx}^{2}f\left(x^{k}\right)\left(x-x^{k}\right)
 \end{align*}
 where $\nabla_{xx}^{2}f\left(x^{k}\right)$ is a positive-definite
 matrix\footnote{$Q \in \mathbb{R}^{n\times n}$ is positive-definite if 
-$x^{T}Qx>0$ for all nonzero $x \in \mathbb{R}^{n}$}
+$x^{\top}Qx>0$ for all nonzero $x \in \mathbb{R}^{n}$}
 (the Hessian matrix). At an optimum point $\nabla_{x}f^{k}\left(x\right)=0$ so,
 approximating the gradient with the first two terms of $f^{k}\left(x\right)$:
 \begin{align*}
@@ -21007,26 +21280,26 @@ The \emph{dual problem} is:
 \emph{Wright}~\cite[Example 12.12]{NocedalWright_NumericalOptimization} give
 an example of the dual problem of a quadratic programming problem:
 \begin{align*}
-\textbf{minimise}   \quad & a^{T}x+\frac{1}{2}x^{T}Hx\\
+\textbf{minimise}   \quad & a^{\top}x+\frac{1}{2}x^{\top}Hx\\
 \textbf{subject to} \quad & Gx-b\ge0
 \end{align*}
 where $H$ is a symmetric positive-definite matrix. The Lagrangian function of
 the dual problem is:
 \begin{align*}
-  q\left(\lambda\right) &= a^{T}x+\frac{1}{2}x^{T}Hx-
-                \lambda^{T}\left(Gx-b\right)
+  q\left(\lambda\right) &= a^{\top}x+\frac{1}{2}x^{\top}Hx-
+                \lambda^{\top}\left(Gx-b\right)
 \end{align*}
 Since $H$ is positive definite and the Lagrangian is a strictly
 \emph{convex}\footnote{A function, $f\left(x\right)$, is convex if
   $f\left(\alpha{}x+\left(1-\alpha\right)y\right)\le{}\alpha{}f\left(x\right)+\left(1-\alpha\right)f\left(y\right),\;\forall\alpha\in\left[0,1\right]$} quadratic
 function, the minimum occurs at $\nabla{}q\left(\lambda\right)=0$:
 \begin{align*}
-  a+Hx-G^{T}\lambda=0
+  a+Hx-G^{\top}\lambda=0
 \end{align*}
 Substituting for $x$:
 \begin{align*}
-  q\left(\lambda\right)&=-\frac{1}{2}\left(G^{T}\lambda-a\right)^{T}H^{-1}
-                \left(G^{T}\lambda-a\right)+b^{T}\lambda
+  q\left(\lambda\right)&=-\frac{1}{2}\left(G^{\top}\lambda-a\right)^{\top}H^{-1}
+                \left(G^{\top}\lambda-a\right)+b^{\top}\lambda
 \end{align*}
 
 \emph{Bertsekas}~\cite[Proposition 3.4.2]{Bertsekas_NonlinearProgramming}
@@ -21157,7 +21430,7 @@ the tangent quadratic programming problem:
 \begin{align*}
 \textbf{minimise} \quad & 
 \left\langle \nabla_x f\left(x^{k}\right),d^{k}\right\rangle 
-+\frac{1}{2}\left\langle {d^{k}}^T,\nabla_{xx}^{2}
++\frac{1}{2}\left\langle {d^{k}}^{\top},\nabla_{xx}^{2}
 \mathcal{L}\left(x^{k},\lambda^{k},\mu^{k}\right),d^{k}\right\rangle \\
 \textbf{subject to} \quad & g\left(x^{k}\right)
 +\nabla_{x}g\left(x^{k}\right)d^{k}\le0\\
@@ -21203,7 +21476,7 @@ correspond to the gradient vectors. When the above equations are linearised,
 Newton's method takes the form:
 \begin{align*}
 \left[\nabla_{x}f\left(x^{k}\right)-\mathcal{B}_{k}\lambda^{k+1}\right]+\mathcal{H}_{k}d^{k} &= 0\\
-g_{i}\left(x^{k}\right)+\mathcal{B}_{k}^{T}d^{k} &= 0
+g_{i}\left(x^{k}\right)+\mathcal{B}_{k}^{\top}d^{k} &= 0
 \end{align*}
 where $\lambda^{k+1}$ and $g\left(x^{k}\right)$ are the vectors
 with coordinates $\lambda_{i}$ and $g_{i}\left(x^{k}\right)$, for
@@ -21211,11 +21484,11 @@ $i\in\mathcal{A}\left(x^{k}\right)$. This system can be simplified
 to:
 \begin{align*}
 \mathcal{H}_{k}d^{k}-\mathcal{B}_{k}\lambda^{k+1} &= -\nabla_{x}f\left(x^{k}\right)\\
--\mathcal{B}_{k}^{T}d^{k} &= g\left(x^{k}\right)
+-\mathcal{B}_{k}^{\top}d^{k} &= g\left(x^{k}\right)
 \end{align*}
 which can be solved for the direction $d^{k}$ and the multipliers $\lambda^{k+1}$:
 \begin{align}
-\lambda^{k+1} &= -\left(\mathcal{B}_{k}^{T}\mathcal{H}_{k}^{-1}\mathcal{B}_{k}\right)^{-1}\left[g\left(x^{k}\right)-\mathcal{B}_{k}^{T}\mathcal{H}_{k}^{-1}\nabla_{x}f\left(x^{k}\right)\right]\\
+\lambda^{k+1} &= -\left(\mathcal{B}_{k}^{\top}\mathcal{H}_{k}^{-1}\mathcal{B}_{k}\right)^{-1}\left[g\left(x^{k}\right)-\mathcal{B}_{k}^{\top}\mathcal{H}_{k}^{-1}\nabla_{x}f\left(x^{k}\right)\right]\\
 d^{k} &= -\mathcal{H}_{k}^{-1}\left[\nabla_{x}f\left(x^{k}\right)-\mathcal{B}_{k}\lambda^{k+1}\right]
 \label{eqn:local-convergence-system-of-equations}
 \end{align}
@@ -21223,7 +21496,7 @@ d^{k} &= -\mathcal{H}_{k}^{-1}\left[\nabla_{x}f\left(x^{k}\right)-\mathcal{B}_{k
 Consider a modified version of the tangent quadratic programming problem
 \begin{align*}
 \textbf{minimise} \quad &  \nabla_{x}f\left(x^{k}\right)d^{k} +
-\frac{1}{2}{d^{k}}^T\mathcal{W}_{k} d^{k} \\
+\frac{1}{2}{d^{k}}^{\top}\mathcal{W}_{k} d^{k} \\
 \textbf{subject to} \quad & g\left(x^{k}\right)+\nabla_{x}g\left(x^{k}\right)d^{k}\le0\\
  & h\left(x^{k}\right)+\nabla_{x}h\left(x^{k}\right)d^{k}=0
 \end{align*}
@@ -21244,9 +21517,9 @@ in gradients of the Lagrangian
 \gamma_{k} &= \nabla_{x}\mathcal{L}\left(x^{k}+\delta_{k},\lambda^{k},\mu^{k}\right)-\nabla_{x}\mathcal{L}\left(x^{k},\lambda^{k},\mu^{k}\right)
 \end{align*}
 When there are no constraints it is possible to choose the step-length,
-$\tau^{k}$, so that the scalar product $\delta_{k}^{T}\gamma_{k}$
+$\tau^{k}$, so that the scalar product $\delta_{k}^{\top}\gamma_{k}$
 is positive. On the other hand, when there are constraints, it can
-happen that $\delta_{k}^{T}\gamma_{k}$ is negative for all non-zero
+happen that $\delta_{k}^{\top}\gamma_{k}$ is negative for all non-zero
 values of $\tau^{k}$. In this case the usual methods for updating
 $\mathcal{W}_{k}$ would fail to make the update positive definite. \emph{Powell} 
 ~\cite[p.148]{Powell_FastNonlinearConstrainedOptimization}
@@ -21258,25 +21531,25 @@ with
 where 
 \begin{align}
 \theta_{k} &= \begin{cases}
-1 & \delta_{k}^{T}\gamma_{k}\ge0.2\delta_{k}^{T}\mathcal{W}_{k}\delta_{k}\\
-\frac{0.8\delta_{k}^{T}\mathcal{W}_{k}\delta_{k}}{\delta_{k}^{T}\mathcal{W}_{k}\delta_{k}-\delta_{k}^{T}\gamma_{k}} & \delta_{k}^{T}\gamma_{k}<0.2\delta_{k}^{T}\mathcal{W}_{k}\delta_{k}
+1 & \delta_{k}^{\top}\gamma_{k}\ge0.2\delta_{k}^{\top}\mathcal{W}_{k}\delta_{k}\\
+\frac{0.8\delta_{k}^{\top}\mathcal{W}_{k}\delta_{k}}{\delta_{k}^{\top}\mathcal{W}_{k}\delta_{k}-\delta_{k}^{\top}\gamma_{k}} & \delta_{k}^{\top}\gamma_{k}<0.2\delta_{k}^{\top}\mathcal{W}_{k}\delta_{k}
 \end{cases}
 \label{eqn:damped-BFGS-formula}
 \end{align}
 The factor of $0.2$ was chosen empirically. Now update $\mathcal{W}_{k}$ with
 the \emph{Broyden-Fletcher-Goldfarb-Shanno} (BFGS) formula 
 \begin{align*}
-W_{k+1} &= \mathcal{W}_{k}-\frac{\mathcal{W}_{k}\delta_{k}\left(\mathcal{W}_{k}\delta_{k}\right)^{T}}{\delta_{k}^{T}\mathcal{W}_{k}\delta_{k}}+\frac{\eta_{k}\eta_{k}^{T}}{\delta_{k}^{T}\eta_{k}}
+W_{k+1} &= \mathcal{W}_{k}-\frac{\mathcal{W}_{k}\delta_{k}\left(\mathcal{W}_{k}\delta_{k}\right)^{\top}}{\delta_{k}^{\top}\mathcal{W}_{k}\delta_{k}}+\frac{\eta_{k}\eta_{k}^{\top}}{\delta_{k}^{\top}\eta_{k}}
 \end{align*}
 and update $\mathcal{W}_{k}^{-1}$ with the \emph{Sherman-Morrison} formula
 \begin{align*}
-W_{k+1}^{-1} &= \mathcal{W}_{k}^{-1}+\left[1+\frac{\eta_{k}^{T}\mathcal{W}_{k}^{-1}\eta_{k}}{\delta_{k}^{T}\eta_{k}}\right]\left(\frac{\delta_{k}\delta_{k}^{T}}{\delta_{k}^{T}\eta_{k}}\right)-\left[\frac{\mathcal{W}_{k}^{-1}\eta_{k}\delta_{k}^{T}+\delta_{k}\eta_{k}^{T}\mathcal{W}_{k}^{-1}}{\delta_{k}^{T}\eta_{k}}\right]
+W_{k+1}^{-1} &= \mathcal{W}_{k}^{-1}+\left[1+\frac{\eta_{k}^{\top}\mathcal{W}_{k}^{-1}\eta_{k}}{\delta_{k}^{\top}\eta_{k}}\right]\left(\frac{\delta_{k}\delta_{k}^{\top}}{\delta_{k}^{\top}\eta_{k}}\right)-\left[\frac{\mathcal{W}_{k}^{-1}\eta_{k}\delta_{k}^{\top}+\delta_{k}\eta_{k}^{\top}\mathcal{W}_{k}^{-1}}{\delta_{k}^{\top}\eta_{k}}\right]
 \end{align*}
-Note that  $\eta$ and $\delta$ are column vectors and $\delta\eta^{T}$
+Note that  $\eta$ and $\delta$ are column vectors and $\delta\eta^{\top}$
 is a \emph{dyadic} or \emph{Kronecker }product also written $\delta\otimes\eta$.
-\emph{Nocedal and Wright} 
-~\cite[Procedure 18.2]{NocedalWright_NumericalOptimization} refer to Equation
-~\ref{eqn:damped-BFGS-formula} as \emph{damped BFGS updating}.
+\emph{Nocedal} and
+\emph{Wright}~\cite[Procedure 18.2]{NocedalWright_NumericalOptimization} refer
+to Equation~\ref{eqn:damped-BFGS-formula} as \emph{damped BFGS updating}.
 
 \subsection{A modified Cholesky factorisation of the Hessian}
 \emph{Bertsekas}~\cite[Appendix D]{Bertsekas_NonlinearProgramming} describes
@@ -21285,7 +21558,7 @@ approximation to the Hessian, $\nabla_{xx}^{2}\mathcal{L}(x^{k})+\Delta_{k}$,
 that is positive definite.
 
 Algorithm~\ref{alg:Cholesky-factorisation} shows the Cholesky factorisation
-of a positive definite symmetric matrix, $W$, as $LL^{T}$ where $L$ is lower 
+of a positive definite symmetric matrix, $W$, as $LL^{\top}$ where $L$ is lower 
 triangular. Firstly, define $W_{i}$ to be the $i$-th leading principal 
 submatrix of $W$:
 \begin{align*}
@@ -21299,8 +21572,8 @@ w_{i,1} & w_{i,2} & \cdots & w_{i,i}
 This matrix is positive definite since, for any $y\in\mathbb{R}^{i}$,
 $y\neq0$
 \[
-y^{T}W_{i}y=\left[\begin{array}{cc}
-y^{T} & 0\end{array}\right]W\left[\begin{array}{c}
+y^{\top}W_{i}y=\left[\begin{array}{cc}
+y^{\top} & 0\end{array}\right]W\left[\begin{array}{c}
 y\\
 0
 \end{array}\right]>0
@@ -21309,12 +21582,12 @@ y\\
 \begin{algorithm}
 \begin{algorithmic}
 \State $L_{1}=\sqrt{w_{1,1}}$
-\State $W_{1}=L_{1}L_{1}^{T}$
+\State $W_{1}=L_{1}L_{1}^{\top}$
 
 \For{$i=2,\hdots,n$}
   \State $W_{i} = \left[\begin{array}{cc}
 W_{i-1} & \beta_{i}\\
-\beta_{i}^{T} & w_{i,i}
+\beta_{i}^{\top} & w_{i,i}
 \end{array}\right]$
 where 
 $\beta_{i} = \left[\begin{array}{c}
@@ -21322,38 +21595,38 @@ w_{1,i}\\
 \vdots\\
 w_{i-1,i}
 \end{array}\right]$
-  \State $W_{i} = L_{i}L_{i}^{T}$ where
+  \State $W_{i} = L_{i}L_{i}^{\top}$ where
 $L_{i} = \left[\begin{array}{cc}
 L_{i-1} & 0\\
-l_{i}^{T} & \lambda_{ii}
+l_{i}^{\top} & \lambda_{ii}
 \end{array}\right]$, $l_{i} = L_{i-1}^{-1}\beta_{i}$ and 
-$\lambda_{i,i} = \sqrt{w_{i,i}-l_{i}^{T}l_{i}}$
+$\lambda_{i,i} = \sqrt{w_{i,i}-l_{i}^{\top}l_{i}}$
 \EndFor
-\State $W=L_{n}L_{n}^{T}$
+\State $W=L_{n}L_{n}^{\top}$
 \end{algorithmic}
 \caption{\label{alg:Cholesky-factorisation}Cholesky factorisation of an
 $n\times{}n$ positive-definite symmetric matrix, $W$}
 \end{algorithm}
 
 The scalar $\lambda_{ii}$ can be seen to be well-defined by setting
-$b=W_{i-1}^{T}\beta_{i}$ and recalling that $W_{i}$ is positive
+$b=W_{i-1}^{\top}\beta_{i}$ and recalling that $W_{i}$ is positive
 definite:
 \begin{align*}
 0<\left[\begin{array}{cc}
-b^{T} & -1\end{array}\right]W_{i}\left[\begin{array}{c}
+b^{\top} & -1\end{array}\right]W_{i}\left[\begin{array}{c}
 b\\
 -1
-\end{array}\right] &= b^{T}W_{i-1}b-2b^{T}\beta_{i}+w_{ii}\\
- &= w_{ii}-b^{T}\beta_{i}\\
- &= w_{ii}-\beta_{i}^{T}W_{i-1}^{-1}\beta_{i}\\
- &= w_{ii}-\left(L_{i-1}^{-1}\beta_{i}\right)^{T}\left(L_{i-1}^{-1}\beta_{i}\right)\\
- &= w_{ii}-l_{i}^{T}l_{i}
+\end{array}\right] &= b^{\top}W_{i-1}b-2b^{\top}\beta_{i}+w_{ii}\\
+ &= w_{ii}-b^{\top}\beta_{i}\\
+ &= w_{ii}-\beta_{i}^{\top}W_{i-1}^{-1}\beta_{i}\\
+ &= w_{ii}-\left(L_{i-1}^{-1}\beta_{i}\right)^{\top}\left(L_{i-1}^{-1}\beta_{i}\right)\\
+ &= w_{ii}-l_{i}^{\top}l_{i}
 \end{align*}
 
 Note that matrix inversion of an arbitrary matrix is an 
 $\mathcal{O}\left(n^{3}\right)$ operation whereas matrix inversion of a 
 triangular matrix via backward or forward substitution is an 
-$\mathcal{O}\left(n^{2}\right)$ operation\footnote{The $LDL^{T}$ factorisation
+$\mathcal{O}\left(n^{2}\right)$ operation\footnote{The $LDL^{\top}$ factorisation
 of a symmetric matrix avoids taking the square-root. 
 See~\cite[Algorithm 4.1.2]{GolubVanLoan_MatrixComputations}.}.
 
@@ -21385,7 +21658,7 @@ obtain a Cholesky factorisation of $\nabla_{xx}^{2}\mathcal{L}\left(x^{k}\right)
 The direction vector, $d^{k}$, is found by solving the triangular systems
 \begin{align*}
 L_{k}y &= -\nabla_{x}f\left(x^{k}\right)\\
-L_{k}^{T}d^{k} &= y
+L_{k}^{\top}d^{k} &= y
 \end{align*}
 The next point is found by 
 \begin{align*}
@@ -21413,74 +21686,38 @@ orthogonal matrices $U=\left[u_{1},\ldots,u_{m}\right]\in\mathbb{R}^{m\times m}$
 and $V=\left[v_{1},\ldots,v_{n}\right]\in\mathbb{R}^{n\times n}$
 such that 
 \begin{align*}
-U^{T}BV &= diag\left(\sigma_{1},\ldots,\sigma_{p}\right)\in\mathbb{R}^{m\times n}
+U^{\top}BV &=\mathdiag\left(\sigma_{1},\ldots,\sigma_{p}\right)\in\mathbb{R}^{m\times n}
 \end{align*}
 where $\left[u_{1},\ldots,u_{m}\right]$ is a column partitioning of
 $U$, $p=\min\left(m,n\right)$ and $\sigma_{1}\ge\sigma_{2}\ge\cdots\ge\sigma_{p}\ge0$.
 From \emph{Golub and Van Loan}
 ~\cite[Section 5.5.4]{GolubVanLoan_MatrixComputations},
-the \emph{pseudo-inverse} of $B$ is defined to be $B^{*}=V\Sigma U^{T}$
+the \emph{pseudo-inverse} of $B$ is defined to be $B^{*}=V\Sigma U^{\top}$
 where 
 \begin{align*}
-\Sigma &= diag\left(\frac{1}{\sigma_{1}},\cdots,\frac{1}{\sigma_{r}},0,\ldots,0\right)\in\mathbb{R}^{n\times m}
+\Sigma &=\mathdiag\left(\frac{1}{\sigma_{1}},\cdots,\frac{1}{\sigma_{r}},0,\ldots,0\right)\in\mathbb{R}^{n\times m}
 \end{align*}
- and $rank\left(B\right)=r$. It is the unique minimal Frobenius
-\footnote{\emph{Golub and Van Loan} 
-~\cite[Section 2.3.1, Section 2,2,1]{GolubVanLoan_MatrixComputations}
-define the Frobenius norm (also called the Euclidean norm) of a matrix
-$A$ as
+and $\mathrank\left(B\right)=r$. It is the unique minimal Frobenius
+norm\footnote{See Appendix~\ref{app:Linear-algebra-norm-of-matrix}.} solution to
+the problem:
 \begin{align*}
-\left\Vert A\right\Vert _{F} &= \sqrt{\sum_{i=1}^{m}\sum_{j=1}^{n}\left|a_{ij}\right|^{2}}
+\min_{X\in\mathbb{R}^{n\times m}} & \| BX-I_{m}\| _{F}
 \end{align*}
-and the set of vector norms
-\begin{align*}
-\left\Vert x\right\Vert _{p} &= \left(\left|x_{1}\right|^{p}+\cdots+\left|x_{n}\right|^{p}\right)^{\frac{1}{p}}\quad p\ge1\\
-\left\Vert x\right\Vert _{\infty} &= \max_{1\le i\le n}\left|x_{i}\right|
-\end{align*}
-$\left\Vert x\right\Vert $ is assumed to mean $\left\Vert x\right\Vert _{2}$. 
-
-On the other hand, the Octave manual defines the Frobenius
-norm of a matrix as
-\begin{align*}
-norm\left(A,"fro"\right) &= sqrt\left(sum\left(diag\left(A^{T}A\right)\right)\right)
-\end{align*}
-%
-} norm solution to the problem 
-\begin{align*}
-\min_{X\in\mathbb{R}^{n\times m}} & \left\Vert BX-I_{m}\right\Vert _{F}
-\end{align*}
-If $rank\left(B\right)=n$, then $B^{*}=\left(B^{T}B\right)^{-1}B^{T}$,
-while if $m=n=rank\left(B\right)$, then $B^{*}=B^{-1}$. Typically,
+If $\mathrank\left(B\right)=n$, then $B^{*}=\left(B^{\top}B\right)^{-1}B^{\top}$,
+while if $m=n=\mathrank\left(B\right)$, then $B^{*}=B^{-1}$. Typically,
 $B^{*}$ is defined to be the unique matrix $X\in\mathbb{R}^{n\times m}$
 that satisfies the four \emph{Moore-Penrose conditions}:
 \begin{align*}
 BXB &= B\\
 XBX &= X\\
-\left(BX\right)^{T} &= BX\\
-\left(XB\right)^{T} &= XB
+\left(BX\right)^{\top} &= BX\\
+\left(XB\right)^{\top} &= XB
 \end{align*}
 These conditions amount to the requirement that $BB^{*}$ and $B^{*}B$
-be orthogonal projections onto $\text{range}\left(B\right)$ and 
-$\text{range}\left(B^{T}\right)$ respectively\footnote{\emph{Golub and Van Loan} 
-~\cite[Section 2.1.2]{GolubVanLoan_MatrixComputations}
-define the \emph{range} and \emph{null space} or \emph{kernel} of $B$ as
-\begin{align*}
-range\left(B\right) &= \left\{ y\in\mathbb{R}^{n}\mid y=Bx\;,\; x\in\mathbb{R}^{n}\right\}\\
-null\left(A\right) &= \left\{ x\in\mathbb{R}^{n}\mid Bx=0\right\} 
-\end{align*}
-If $B=\left[b_{1},\ldots,b_{n}\right]$ is a column vector partitioning
-then the \emph{span} of $B$ is the set of all linear combinations
-of those column vectors
-\begin{align*}
-span\left\{ b_{1},\ldots,b_{n}\right\}  &= \left\{ \sum_{j=1}^{n}\beta_{j}b_{j}\mid\beta_{j}\in\mathbb{R}\right\} 
-\end{align*}
-Consequently, given the SVD of a matrix $B$ with $rank\left(B\right)=r$
-\begin{align*}
-null\left(B\right) &= span\left\{ v_{r+1},\ldots,v_{n}\right\} \\
-range\left(B\right) &= span\left\{ u_{1},\ldots,u_{r}\right\} 
-\end{align*}
-
-}.
+be orthogonal projections onto $\mathrange\left(B\right)$ and 
+$\mathrange\left(B^{\top}\right)$
+respectively\footnote{See
+  Appendix~\ref{app:Linear-algebra-range-and-null-space-of-matrix}.}.
 
 \emph{Wright}~\cite{Wright_SuperLinearConvergenceSQPDegenerateSolution} points
 out that the existence of linearly dependent constraint gradients
@@ -21489,20 +21726,20 @@ programming problem (SQP) and provides a stabilised algorithm
 for which super-linear convergence is still possible. Given a set of
 active constraints $\mathcal{A}\left(x\right)\subset\mathcal{K}$
 at a point $x$ and the complement $\mathcal{N}\left(x\right)=\mathcal{K}\setminus\mathcal{A}\left(x\right)$,
-Wright defines $g_{\mathcal{A}}\left(x\right)=\left\{ g_{i}\left(x\right)\mid i\in\mathcal{A}\left(x\right)\right\} $,
+\emph{Wright} defines $g_{\mathcal{A}}\left(x\right)=\left\{ g_{i}\left(x\right)\mid i\in\mathcal{A}\left(x\right)\right\} $,
 $g_{\mathcal{N}}\left(x\right)=\left\{ g_{i}\left(x\right)\mid i\in\mathcal{N}\left(x\right)\right\} $,
 $\lambda_{\mathcal{A}}\left(x\right)=\left\{ \lambda_{i}\left(x\right)\mid i\in\mathcal{A}\left(x\right)\right\} $,
 $\lambda_{\mathcal{N}}\left(x\right)=\left\{ \lambda_{i}\left(x\right)\mid i\in\mathcal{N}\left(x\right)\right\} $.
-Wright considers the usual SQP problem and makes the following assumptions 
+\emph{Wright} considers the usual SQP problem and makes the following assumptions 
 \begin{enumerate}
 \item a primal-dual solution point $\left(\tilde{x},\tilde{\lambda}\right)$
 exists
 \item for at least one of the active constraints, $\tilde{\lambda_{i}}>0$
 where $i\in\mathcal{A}\left(\tilde{x}\right)$
 \item $\tilde{\lambda}_{i} = 0 ~ \forall i\in\mathcal{N}\left(\tilde{x}\right)$ 
-\item there exists a $\sigma>0$ such that $w^{T}\nabla_{xx}\mathcal{L}\left(\tilde{x},\tilde{\lambda}\right)w\ge\sigma\left\Vert w\right\Vert ^{2}$
+\item there exists a $\sigma>0$ such that $w^{\top}\nabla_{xx}\mathcal{L}\left(\tilde{x},\tilde{\lambda}\right)w\ge\sigma\| w\| ^{2}$
 for all $\tilde{\lambda}$ such that $\left(\tilde{x},\tilde{\lambda}\right)$
-satisfies the \emph{Karush-Kuhn-Tucker} conditions and all $w \in null\left(\nabla g_{\mathcal{A}}\left(\tilde{x}\right)\right)$
+satisfies the \emph{Karush-Kuhn-Tucker} conditions and all $w \in \mathnull\left(\nabla g_{\mathcal{A}}\left(\tilde{x}\right)\right)$
 \item $\nabla g_{\mathcal{A}}\left(\tilde{x}\right)d<0$ for some $d\in\mathbb{R}^{n}$ 
 \end{enumerate}
 The latter assumption (known as the \emph{Mangasarian-Fromovitz }constraint
@@ -21519,29 +21756,29 @@ $\nabla_{xx}\mathcal{L}$$\left(x,\lambda_{\mathcal{A}}\right)$
 may not be uniquely defined at the next SQP iteration. He proposes
 a stabilised version of the SQP algorithm 
 \[
-\min_{x}\max_{\lambda_{\mathcal{A}}\ge0}\left\langle \nabla f\left(\overline{x}\right),x-\overline{x}\right\rangle -\left\langle \lambda_{\mathcal{A}},g\left(\bar{x}\right)+\nabla_{x}^{T}g\left(\bar{x}\right)\left(x-\bar{x}\right)\right\rangle +\frac{1}{2}\left\langle x-\overline{x},\left[\nabla_{xx}^{2}\mathcal{L}\left(\overline{x},\overline{\lambda}_{\mathcal{A}}\right)\right]\left(x-\overline{x}\right)\right\rangle -\frac{1}{2}\nu\left\Vert \lambda_{\mathcal{A}}-\bar{\lambda}_{\mathcal{A}}\right\Vert ^{2}
+\min_{x}\max_{\lambda_{\mathcal{A}}\ge0}\left\langle \nabla f\left(\overline{x}\right),x-\overline{x}\right\rangle -\left\langle \lambda_{\mathcal{A}},g\left(\bar{x}\right)+\nabla_{x}^{\top}g\left(\bar{x}\right)\left(x-\bar{x}\right)\right\rangle +\frac{1}{2}\left\langle x-\overline{x},\left[\nabla_{xx}^{2}\mathcal{L}\left(\overline{x},\overline{\lambda}_{\mathcal{A}}\right)\right]\left(x-\overline{x}\right)\right\rangle -\frac{1}{2}\nu\| \lambda_{\mathcal{A}}-\bar{\lambda}_{\mathcal{A}}\| ^{2}
 \]
 where $\nu$ is defined as 
 \begin{align*}
-\nu\left(x,\lambda_{\mathcal{A}}\right) &= \left\Vert \left(\nabla_{x}\mathcal{L}\left(x,\lambda_{\mathcal{A}}\right),g_{\mathcal{A}}\left(x\right),\left\langle \lambda_{\mathcal{A}},g_{\mathcal{A}}\left(x\right)\right\rangle \right)\right\Vert 
+\nu\left(x,\lambda_{\mathcal{A}}\right) &= \| \left(\nabla_{x}\mathcal{L}\left(x,\lambda_{\mathcal{A}}\right),g_{\mathcal{A}}\left(x\right),\left\langle \lambda_{\mathcal{A}},g_{\mathcal{A}}\left(x\right)\right\rangle \right)\| 
 \end{align*}
 The optimality conditions for a candidate solution $\left(\tilde{x},\tilde{\lambda}_{\mathcal{A}}\right)$
 are likewise similar
 \begin{align*}
 \nabla_{x}f\left(\bar{x}\right)-\nabla g_{\mathcal{A}}\left(\bar{x}\right)\tilde{\lambda}_{\mathcal{A}}+\nabla_{xx}\mathcal{L}\left(\bar{x},\bar{\lambda}_{\mathcal{A}}\right)\left(\tilde{x}-\bar{x}\right) &= 0\\
-g_{\mathcal{A}}\left(\bar{x}\right)+\nabla_{x}^{T}g_{\mathcal{A}}\left(\bar{x}\right)\left(\tilde{x}-\bar{x}\right)-\nu\left(\tilde{\lambda}_{\mathcal{A}}-\bar{\lambda}_{\mathcal{A}}\right) & \ge 0\\
+g_{\mathcal{A}}\left(\bar{x}\right)+\nabla_{x}^{\top}g_{\mathcal{A}}\left(\bar{x}\right)\left(\tilde{x}-\bar{x}\right)-\nu\left(\tilde{\lambda}_{\mathcal{A}}-\bar{\lambda}_{\mathcal{A}}\right) & \ge 0\\
 \tilde{\lambda}_{\mathcal{A}} & \ge 0\\
-\left\langle \tilde{\lambda}_{\mathcal{A}},g_{\mathcal{A}}\left(\bar{x}\right)+\nabla g_{\mathcal{A}}^{T}\left(\bar{x}\right)\left(\tilde{x}-\bar{x}\right)-\nu\left(\tilde{\lambda}_{\mathcal{A}}-\bar{\lambda}_{\mathcal{A}}\right)\right\rangle  &= 0
+\left\langle \tilde{\lambda}_{\mathcal{A}},g_{\mathcal{A}}\left(\bar{x}\right)+\nabla g_{\mathcal{A}}^{\top}\left(\bar{x}\right)\left(\tilde{x}-\bar{x}\right)-\nu\left(\tilde{\lambda}_{\mathcal{A}}-\bar{\lambda}_{\mathcal{A}}\right)\right\rangle  &= 0
 \end{align*}
-Wright shows that for $\left(\bar{x},\bar{\lambda}_{\mathcal{A}}\right)$
+\emph{Wright} shows that for $\left(\bar{x},\bar{\lambda}_{\mathcal{A}}\right)$
 sufficiently close to a primal-dual solution $\left(x,\lambda_{\mathcal{A}}\right)$
 there is a unique solution $\left(\tilde{x},\tilde{\lambda}_{\mathcal{A}}\right)$
-for which $\left\Vert \left(\tilde{x}-\bar{x},\tilde{\lambda}_{\mathcal{A}}-\bar{\lambda}_{\mathcal{A}}\right)\right\Vert =\mathcal{O}\left(\nu\right)$.
+for which $\| \left(\tilde{x}-\bar{x},\tilde{\lambda}_{\mathcal{A}}-\bar{\lambda}_{\mathcal{A}}\right)\| =\mathcal{O}\left(\nu\right)$.
 This solution satisfies the following linear system 
 \begin{align*}
 \left[\begin{array}{cc}
 \nabla_{xx}\mathcal{L}\left(\bar{x},\bar{\lambda}_{\mathcal{A}}\right) & -\nabla_{x}g_{\mathcal{A}}\left(\bar{x}\right)\\
--\nabla_{x}g_{\mathcal{A}}^{T}\left(\bar{x}\right) & \nu I
+-\nabla_{x}g_{\mathcal{A}}^{\top}\left(\bar{x}\right) & \nu I
 \end{array}\right]\left[\begin{array}{c}
 x-\bar{x}\\
 \lambda_{\mathcal{A}}-\bar{\lambda}_{\mathcal{A}}
@@ -21559,41 +21796,41 @@ that the Hessian is positive definite and invertible. From the usual
 Newton system
 \begin{align*}
 \mathcal{H}_{k}d^{k}-\mathcal{B}_{k}\lambda^{k+1} &= -\nabla_{x}f\left(x^{k}\right)\\
--\mathcal{B}_{k}^{T}d^{k} &= g\left(x^{k}\right)
+-\mathcal{B}_{k}^{\top}d^{k} &= g\left(x^{k}\right)
 \end{align*}
 define a new matrix:
 \begin{align*}
-\bar{\mathcal{H}_{k}}&=\mathcal{H}_{k}+c^{k}\mathcal{B}_{k}\mathcal{B}_{k}^{T}
+\bar{\mathcal{H}_{k}}&=\mathcal{H}_{k}+c^{k}\mathcal{B}_{k}\mathcal{B}_{k}^{\top}
 \end{align*}
 where the scalar, $c^{k}$, is chosen so that $\bar{\mathcal{H}_{k}}$ is
 positive definite. \emph{Bertsekas} points out that
 \begin{align*}
-{d^{k}}^{T}\mathcal{B}_{k}\mathcal{B}_{k}^{T}d^{k}&=\|g\left(x^{k}\right)\|^{2}
+{d^{k}}^{\top}\mathcal{B}_{k}\mathcal{B}_{k}^{\top}d^{k}&=\|g\left(x^{k}\right)\|^{2}
 \end{align*}
 is a constant for \emph{equality} constraints. Consequently, the modified 
 optimisation problem
 \begin{align*}
 \textbf{minimise} \quad &\nabla_{x}f\left(x^{k}\right)d^{k}+
-\frac{1}{2}{d^{k}}^{T}\left(\mathcal{H}_{k}+
-c^{k}\mathcal{B}_{k}\mathcal{B}_{k}^{T}\right)d^{k}\\
-\textbf{subject to} \quad & -\mathcal{B}_{k}^{T}d^{k} = g\left(x^{k}\right)
+\frac{1}{2}{d^{k}}^{\top}\left(\mathcal{H}_{k}+
+c^{k}\mathcal{B}_{k}\mathcal{B}_{k}^{\top}\right)d^{k}\\
+\textbf{subject to} \quad & -\mathcal{B}_{k}^{\top}d^{k} = g\left(x^{k}\right)
 \end{align*}
 has a larger minimum value but the location of that minimum is unchanged.
 
 Given the scalar, $c^{k}$, write:
 \begin{align*}
-c^{k}\mathcal{B}_{k}\mathcal{B}_{k}^{T}d^{k} &= -c^{k}\mathcal{B}_{k}g\left(x^{k}\right)
+c^{k}\mathcal{B}_{k}\mathcal{B}_{k}^{\top}d^{k} &= -c^{k}\mathcal{B}_{k}g\left(x^{k}\right)
 \end{align*}
 Adding:
 \begin{align*}
-\left(\mathcal{H}_{k}+c^{k}\mathcal{B}_{k}\mathcal{B}_{k}^{T}\right)d^{k}-
+\left(\mathcal{H}_{k}+c^{k}\mathcal{B}_{k}\mathcal{B}_{k}^{\top}\right)d^{k}-
 \mathcal{B}_{k}\lambda^{k+1} &= 
 -\left[\nabla_{x}f\left(x^{k}\right)+c^{k}\mathcal{B}_{k}g\left(x^{k}\right)\right]
 \end{align*}
 As in Section~\ref{sub:Local-Convergence}:
 \begin{align*}
-\lambda^{k+1} &= -\left(\mathcal{B}_{k}^{T}\left(\mathcal{H}_{k}+c^{k}\mathcal{B}_{k}\mathcal{B}_{k}^{T}\right)^{-1}\mathcal{B}_{k}\right)^{-1}\left[g\left(x^{k}\right)-\mathcal{B}_{k}^{T}\left(\mathcal{H}_{k}+c^{k}\mathcal{B}_{k}\mathcal{B}_{k}^{T}\right)^{-1}\left(\nabla_{x}f\left(x^{k}\right)+c^{k}\mathcal{B}_{k}g\left(x^{k}\right)\right)\right]\\
-d^{k} &= -\left(\mathcal{H}_{k}+c^{k}\mathcal{B}_{k}\mathcal{B}_{k}^{T}\right)^{-1}\left[\left(\nabla_{x}f\left(x^{k}\right)+c^{k}\mathcal{B}_{k}g\left(x^{k}\right)\right)-\mathcal{B}_{k}\lambda^{k+1}\right]
+\lambda^{k+1} &= -\left(\mathcal{B}_{k}^{\top}\left(\mathcal{H}_{k}+c^{k}\mathcal{B}_{k}\mathcal{B}_{k}^{\top}\right)^{-1}\mathcal{B}_{k}\right)^{-1}\left[g\left(x^{k}\right)-\mathcal{B}_{k}^{\top}\left(\mathcal{H}_{k}+c^{k}\mathcal{B}_{k}\mathcal{B}_{k}^{\top}\right)^{-1}\left(\nabla_{x}f\left(x^{k}\right)+c^{k}\mathcal{B}_{k}g\left(x^{k}\right)\right)\right]\\
+d^{k} &= -\left(\mathcal{H}_{k}+c^{k}\mathcal{B}_{k}\mathcal{B}_{k}^{\top}\right)^{-1}\left[\left(\nabla_{x}f\left(x^{k}\right)+c^{k}\mathcal{B}_{k}g\left(x^{k}\right)\right)-\mathcal{B}_{k}\lambda^{k+1}\right]
 \end{align*}
 \section{Penalty and barrier methods}
 From \emph{Bertsekas}~\cite[Section 4.2]{Bertsekas_NonlinearProgramming},
@@ -21675,12 +21912,12 @@ The Quadratic Penalty Function method (\emph{Bertsekas}
 ~\cite[Section 4.2.1]{Bertsekas_NonlinearProgramming}
 gives a series of unconstrained minimisations of the form
 \begin{align*}
-\min_{x,z}\bar{\mathcal{L}}_{c^{k}}\left(x,z,\mu^{k},\lambda^{k}\right) &= f\left(x\right)+\left\{ \frac{c^{k}}{2}\left\Vert h\left(x\right)\right\Vert ^{2}-\left(\mu^{k}\right)^{T}h\left(x\right)\right\} +\sum_{i=1}^{m}\left\{ \frac{c^{k}}{2}\left|g_{i}\left(x\right)-z_{i}^{2}\right|^{2}-\lambda_{i}^{k}\left(g_{i}\left(x\right)-z_{i}^{2}\right)\right\} 
+\min_{x,z}\bar{\mathcal{L}}_{c^{k}}\left(x,z,\mu^{k},\lambda^{k}\right) &= f\left(x\right)+\left\{ \frac{c^{k}}{2}\| h\left(x\right)\| ^{2}-\left(\mu^{k}\right)^{\top}h\left(x\right)\right\} +\sum_{i=1}^{m}\left\{ \frac{c^{k}}{2}\left|g_{i}\left(x\right)-z_{i}^{2}\right|^{2}-\lambda_{i}^{k}\left(g_{i}\left(x\right)-z_{i}^{2}\right)\right\} 
 \end{align*}
 where $c^{k}<c^{k+1}$ and $c^{k}\rightarrow\infty$. Minimising the
 sum with respect to $z$ is equivalent to
 \begin{align*}
-\mathcal{L}_{c^{k}}\left(x,v,\mu^{k},\lambda^{k}\right) &= f\left(x\right)+\left\{ \frac{c^{k}}{2}\left\Vert h\left(x\right)\right\Vert -\left(\mu^{k}\right)^{T}h\left(x\right)\right\} +\min_{v_{i}\ge0}\sum_{i=1}^{m}\left\{ \frac{c^{k}}{2}\left|g_{i}\left(x\right)-v_{i}\right|^{2}-\lambda_{i}^{k}\left(g_{i}\left(x\right)-v_{i}\right)\right\} 
+\mathcal{L}_{c^{k}}\left(x,v,\mu^{k},\lambda^{k}\right) &= f\left(x\right)+\left\{ \frac{c^{k}}{2}\| h\left(x\right)\| -\left(\mu^{k}\right)^{\top}h\left(x\right)\right\} +\min_{v_{i}\ge0}\sum_{i=1}^{m}\left\{ \frac{c^{k}}{2}\left|g_{i}\left(x\right)-v_{i}\right|^{2}-\lambda_{i}^{k}\left(g_{i}\left(x\right)-v_{i}\right)\right\} 
 \end{align*}
 If the constrained minimum of the second term is at $v_{i}^{*}=\max\left\{ 0,\bar{v}_{i}\right\} $
 (where $\bar{v}_{i}\ge0$ is the unconstrained minimum at which $\lambda_{i}+c^{k}\left(g_{i}\left(x\right)-\bar{v}_{i}\right)$
@@ -21705,7 +21942,7 @@ The Lagrangian summation term becomes
 \end{align*}
 Substituting into the Lagrangian
 \begin{align*}
-\mathcal{L}_{c^{k}}\left(x,\mu^{k},\lambda^{k}\right) &= f\left(x\right)+\left\{ \frac{c^{k}}{2}\left\Vert h\left(x\right)\right\Vert -\left(\mu^{k}\right)^{T}h\left(x\right)\right\} +\frac{1}{2c^{k}}\sum_{i=1}^{m}\left\{ \min\left[0,\left(\lambda_{i}^{k}+c^{k}g_{i}\left(x\right)\right)\right]^{2}-\lambda_{i}^{2}\right\} 
+\mathcal{L}_{c^{k}}\left(x,\mu^{k},\lambda^{k}\right) &= f\left(x\right)+\left\{ \frac{c^{k}}{2}\| h\left(x\right)\| -\left(\mu^{k}\right)^{\top}h\left(x\right)\right\} +\frac{1}{2c^{k}}\sum_{i=1}^{m}\left\{ \min\left[0,\left(\lambda_{i}^{k}+c^{k}g_{i}\left(x\right)\right)\right]^{2}-\lambda_{i}^{2}\right\} 
 \end{align*}
 The penalty term for the inequality constraints is continuously differentiable
 in $x$ if $g_{i}\left(x\right)$ is continuously differentiable.
@@ -21995,9 +22232,9 @@ is expressed as:
 \mathcal{W}_{k+1}=\mathcal{W}_{k}+\rho_{k}\Delta{}\mathcal{W}_{k}
 \end{align*}
 Since $\mathcal{W}_{k}$ is symmetric and positive-definite, it has a Cholesky 
-factorisation $\mathcal{W}_{k}=L_{k}^{T}L_{k}$. Let
+factorisation $\mathcal{W}_{k}=L_{k}^{\top}L_{k}$. Let
 \begin{align*}
-\mathcal{B}_{k} &= -L_{k}^{-T}\Delta{}\mathcal{W}_{k}L_{k}^{-1}
+\mathcal{B}_{k} &= -{L_{k}^{-1}}^{\top}\Delta{}\mathcal{W}_{k}L_{k}^{-1}
 \end{align*}
 then the condition that $\mathcal{W}_{k+1} \succeq 0$ is equivalent to
 $I-\rho_{k}\mathcal{B}_{k} \succeq 0$. In other words
@@ -22033,7 +22270,7 @@ the tangent quadratic problem with linear constraints.
 \begin{enumerate}[start=0]
   \item \emph{Find the unconstrained minimum of $f\left(x\right)$, then:}
 
-  Set $x\leftarrow H^{-1}a$, $f\leftarrow\frac{1}{2}a^{T}x$, $E\leftarrow H^{-1}$,
+  Set $x\leftarrow H^{-1}a$, $f\leftarrow\frac{1}{2}a^{\top}x$, $E\leftarrow H^{-1}$,
   $\mathcal{A}\leftarrow\emptyset$, $q\leftarrow0$
 
   \item \label{itm:Choose-constraint}\emph{Choose the most violated constraint,
@@ -22091,7 +22328,7 @@ the tangent quadratic problem with linear constraints.
         If $\left|d\right|=0$ then set $\tau_{2}\leftarrow\infty$. 
 
         Otherwise, set 
-        $\tau_{2}\leftarrow-\frac{g_{p}\left(x\right)}{d^{T}n^{+}}$.
+        $\tau_{2}\leftarrow-\frac{g_{p}\left(x\right)}{d^{\top}n^{+}}$.
 
       \item \emph{Step length, $\tau$:} 
 
@@ -22122,7 +22359,7 @@ the tangent quadratic problem with linear constraints.
     \item \emph{Step in primal and dual space:} 
 
       Set $x\leftarrow x+\tau d$, 
-      $f\leftarrow f+\tau d^{T}n^{+}\left(\frac{1}{2}\tau+\lambda_{q+1}^{+}\right)$,
+      $f\leftarrow f+\tau d^{\top}n^{+}\left(\frac{1}{2}\tau+\lambda_{q+1}^{+}\right)$,
       $\lambda^{+}\leftarrow\lambda^{+}+\tau\left(\begin{array}{c}
                                                     -r\\
                                                     1\end{array}\right)$.
@@ -22151,8 +22388,8 @@ the tangent quadratic problem with linear constraints.
 
 Some explanation of the notation is required. The problem statement is:
 \begin{align*}
-\textbf{minimise}   \quad & f\left(x\right) = a^{T}x+\frac{1}{2}x^{T}Hx\\
-\textbf{subject to} \quad & g\left(x\right) \equiv G^{T}x-b\ge0
+\textbf{minimise}   \quad & f\left(x\right) = a^{\top}x+\frac{1}{2}x^{\top}Hx\\
+\textbf{subject to} \quad & g\left(x\right) \equiv G^{\top}x-b\ge0
 \end{align*}
 
 This is equivalent to the linearised optimisation problem defined
@@ -22180,7 +22417,7 @@ $k\times k$ identity matrix and $e_{j}$ represents the $j$th column of $I_{k}$.
 When the constraint gradients (columns of $B$) are linearly independent
 one can define the operators
 \begin{align*}
-B^{*} &= \left(B^{T}H^{-1}B\right)^{-1}B^{T}H^{-1}\\
+B^{*} &= \left(B^{\top}H^{-1}B\right)^{-1}B^{\top}H^{-1}\\
 E &= H^{-1}\left(I-BB^{*}\right)
 \end{align*}
 where $B^{*}$ is the \emph{pseudo-inverse} or \emph{Moore-Penrose}
@@ -22189,7 +22426,7 @@ operator for the quadratic $f\left(x\right)$ subject to the active
 set of constraints. In particular, as in 
 ~\cite{GoldfarbIdnani_NumericallyStableDualQuadraticPrograms},
 if $\hat{x}$ is a point in the $\left(n-q\right)$ dimensional manifold
-$\mathcal{M}=\left\{ x\in\mathfrak{\mathbb{R}}^{n}\mid n_{i}^{T}x=b_{i},i\in\mathcal{A}\right\}$
+$\mathcal{M}=\left\{ x\in\mathfrak{\mathbb{R}}^{n}\mid n_{i}^{\top}x=b_{i},i\in\mathcal{A}\right\}$
 and $\nabla_{x}f\left(\hat{x}\right)=H\hat{x}+a$ is the gradient
 of $f\left(x\right)$ at $\hat{x}$ then the minimum of $f\left(x\right)$
 over $\mathcal{M}$ is attained at
@@ -22252,7 +22489,7 @@ is the optimal solution to the subproblem obtained by replacing the
 constraint $g_{p}\left(x\right) \ge 0$ in $P\left(\mathcal{A}^{+}\right)$
 by$g_{p}\left(x\right)\ge g_{p}\left(\hat{x}\right)$ i.e. by a parallel
 constraint which passes through $\hat{x}$. Let $x^{*}$ be the point
-on the manifold $\mathcal{M}^{+}=\left\{ x\in\mathbb{R}^{n}\mid n_{i}^{T}x=b_{i},i\in\mathcal{A}^{+}\right\} $
+on the manifold $\mathcal{M}^{+}=\left\{ x\in\mathbb{R}^{n}\mid n_{i}^{\top}x=b_{i},i\in\mathcal{A}^{+}\right\} $
 at which $f(x)$ is minimized. The following lemma shows how to move
 to such a point from a point $x$ corresponding to a V-triple $(x,\mathcal{A},p)$.
 
@@ -22269,7 +22506,7 @@ g_{i}\left(\tilde{x}\right) &= 0 ~ \forall i \in \mathcal{A}\\
 1
 \end{array}\right]\label{eqn:Lemma1_lambda}
 \end{align}
-where $r=B^{*}n^{+}$and $g_{p}\left(\tilde{x}\right)=g_{p}\left(x\right)+\tau d^{T}n^{+}$.
+where $r=B^{*}n^{+}$and $g_{p}\left(\tilde{x}\right)=g_{p}\left(x\right)+\tau d^{\top}n^{+}$.
 
 \emph{Proof : }The lemma follows from the properties of the V-triple
 $(x,\mathcal{A},p)$ and
@@ -22296,7 +22533,7 @@ from multiplying Equation~\ref{eqn:Lemma1_gradf} on the left by $E^{+}$
 and $B^{+}$.\end{framed}
 
 It follows from this lemma that the point $\tilde{x}=x+\tau_{2}d$,
-where $\tau_{2}=-\frac{g_{p}\left(x\right)}{d^{T}n^{+}}$, minimises
+where $\tau_{2}=-\frac{g_{p}\left(x\right)}{d^{\top}n^{+}}$, minimises
 the quadratic function $f\left(x\right)$ over $\mathcal{M}^{+}$
 (since then $g_{p}\left(\tilde{x}\right)=0$). If $\lambda^{+}\left(\tilde{x}\right)\ge0$
 as well, then $\tilde{x}$ is an optimal solution to $P\left(\mathcal{A}^{+}\right)$
@@ -22316,12 +22553,12 @@ if $\tilde{x}$ is defined as in Lemma 1 with $\tau=\min\left\{ \tau_{1},\tau_{2}
 where 
 \begin{align*}
 \tau_{1} &= min\left\{ \min_{r_{j}>0\;,\;1\le j\le q}\left\{ \frac{\lambda_{j}^{+}\left(x\right)}{r_{j}^{+}\left(x\right)}\right\} ,\infty\right\} \\
-\tau_{2} &= -\frac{g_{p}\left(x\right)}{d^{T}n^{+}}
+\tau_{2} &= -\frac{g_{p}\left(x\right)}{d^{\top}n^{+}}
 \end{align*}
 then 
 \begin{align*}
 g_{P}\left(\tilde{x}\right) & \ge g_{p}\left(x\right)\\
-f\left(\tilde{x}\right)-f\left(x\right) &= \tau d^{T}n^{+}\left(\frac{1}{2}\tau+\lambda_{q+1}^{+}\left(x\right)\right) \ge 0
+f\left(\tilde{x}\right)-f\left(x\right) &= \tau d^{\top}n^{+}\left(\frac{1}{2}\tau+\lambda_{q+1}^{+}\left(x\right)\right) \ge 0
 \end{align*}
 Moreover, if $\tau=\tau_{1}=\frac{\lambda_{l}^{+}\left(x\right)}{r_{l}}$,
 then $\left(\tilde{x},\mathcal{A}\setminus\left\{ k\right\} ,p\right)$
@@ -22332,18 +22569,18 @@ an S-pair.
 
 \emph{Proof: }Since $\left(x,\mathcal{A},p\right)$ is a V-triple,
 \[
-d^{T}n^{+}=n^{+T}En^{+}=n^{+T}EHEn^{+}=d^{T}Hd>0
+d^{\top}n^{+}=n^{+T}En^{+}=n^{+T}EHEn^{+}=d^{\top}Hd>0
 \]
 and $\tau\ge0$. Hence, from Lemma 1, $g_{P}\left(\tilde{x}\right)\ge g_{p}\left(x\right)$.
 Also, from Taylor's theorem 
 \begin{align*}
-f\left(\tilde{x}\right)-f\left(x\right) &= \tau d^{T}\nabla_{x}f\left(x\right)+\frac{1}{2}\tau^{2}d^{T}Hd
+f\left(\tilde{x}\right)-f\left(x\right) &= \tau d^{\top}\nabla_{x}f\left(x\right)+\frac{1}{2}\tau^{2}d^{\top}Hd
 \end{align*}
 Since $E^{+}\nabla_{x}f\left(x\right)=0$ implies that $\nabla_{x}f\left(x\right)=B^{+}\lambda^{+}\left(x\right)$,
 it follows that $E\nabla_{x}f\left(x\right)=En^{+}\lambda_{q+1}^{+}\left(x\right)$
 and
 \[
-d^{T}\nabla_{x}f\left(x\right)=n^{+T}E\nabla_{x}f\left(x\right)=d^{T}n^{+}\lambda_{q+1}^{+}\left(x\right)\ge0
+d^{\top}\nabla_{x}f\left(x\right)=n^{+T}E\nabla_{x}f\left(x\right)=d^{\top}n^{+}\lambda_{q+1}^{+}\left(x\right)\ge0
 \]
 The result follows by substitution. Moreover, as long as $\tau>0$,
 $f\left(\tilde{x}\right)>f\left(x\right)$. From the definition of
@@ -22391,7 +22628,7 @@ and the V-triple $\left(x,\mathcal{A}^{-},p\right)$.
 
 \emph{Proof: }If there is a feasible solution $\tilde{x}=x+d$ satisfying
 the constraints $\mathcal{A}\cup\left\{ p\right\} $, it is necessary
-that $n^{+T}d=r^{T}B^{T}d>0$ and $B^{T}d \ge 0$ since $g_{i}\left(x\right)=0$
+that $n^{+T}d=r^{\top}B^{\top}d>0$ and $B^{\top}d \ge 0$ since $g_{i}\left(x\right)=0$
 for all $i\in\mathcal{A}$. But if $r \le 0$, the two requirements
 in the theorem cannot be simultaneously satisfied; hence in this case
 $P\left(\mathcal{A}\cup\left\{ p\right\} \right)$ is infeasible.
@@ -22426,7 +22663,7 @@ and hence that $\left(x,\mathcal{A}^{-},p\right)$ is a V-triple.
 ~\cite[Section 4]{GoldfarbIdnani_NumericallyStableDualQuadraticPrograms}
 base their implementation on the \emph{Cholesky} factorisation
 \begin{align*}
-H &= LL^{T}
+H &= LL^{\top}
 \end{align*}
  of the positive definite symmetric Hessian matrix $H$ and the \emph{QR}
 factorisation 
@@ -22448,28 +22685,28 @@ $R$ is a $\left(q\times q\right)$ upper triangular matrix and $Q=\left[Q_{1}\mid
 is a $\left(n\times n\right)$ orthogonal matrix partitioned so that
 $Q_{1}$ has $q$ columns. By substitution, 
 \begin{align*}
-B^{*} &= \left(B^{T}L^{-T}L^{-1}B\right)^{-1}B^{T}L^{-T}L^{-1}\\
- &= \left(C^{T}C\right)^{-1}C^{T}L^{-1}\\
- &= R^{-1}R^{-T}C^{T}L^{-1}\\
- &= R^{-1}Q_{1}^{T}L^{-1}\\
- &= R^{-1}J_{1}^{T}
+B^{*} &= \left(B^{\top}{L^{-1}}^{\top}L^{-1}B\right)^{-1}B^{\top}{L^{-1}}^{\top}L^{-1}\\
+ &= \left(C^{\top}C\right)^{-1}C^{\top}L^{-1}\\
+ &= R^{-1}{R^{-1}}^{\top}C^{\top}L^{-1}\\
+ &= R^{-1}Q_{1}^{\top}L^{-1}\\
+ &= R^{-1}J_{1}^{\top}
 \end{align*}
 and
 \begin{align*}
-E &= L^{-T}L^{-1}-L^{-T}C\left(C^{T}C\right)^{-1}C^{T}L^{-1}\\
- &= L^{-T}L^{-1}-L^{-T}CR^{-1}R^{-T}C^{T}L^{-1}\\
- &= L^{-T}QQ^{T}L^{-1}-L^{-T}Q_{1}Q_{1}^{T}L^{-1}\\
- &= L^{-T}Q_{2}Q_{2}^{T}L^{-1}\\
- &= J_{2}J_{2}^{T}
+E &= {L^{-1}}^{\top}L^{-1}-{L^{-1}}^{\top}C\left(C^{\top}C\right)^{-1}C^{\top}L^{-1}\\
+ &= {L^{-1}}^{\top}L^{-1}-{L^{-1}}^{\top}CR^{-1}{R^{-1}}^{\top}C^{\top}L^{-1}\\
+ &= {L^{-1}}^{\top}QQ^{\top}L^{-1}-{L^{-1}}^{\top}Q_{1}Q_{1}^{\top}L^{-1}\\
+ &= {L^{-1}}^{\top}Q_{2}Q_{2}^{\top}L^{-1}\\
+ &= J_{2}J_{2}^{\top}
 \end{align*}
 where
 \begin{align*}
-C^{T}C &= \left[\begin{array}{cc}
-R^{T} & 0\end{array}\right]Q^{T}Q\left[\begin{array}{c}
+C^{\top}C &= \left[\begin{array}{cc}
+R^{\top} & 0\end{array}\right]Q^{\top}Q\left[\begin{array}{c}
 R\\
 0
 \end{array}\right]\\
- &= R^{T}R
+ &= R^{\top}R
 \end{align*}
 and
 \begin{align*}
@@ -22485,16 +22722,16 @@ and
 J &= \left[\begin{array}{cc}
 J_{1} & J_{2}\end{array}\right]\\
  &= \left[\begin{array}{cc}
-L^{-T}Q_{1} & L^{-T}Q_{2}\end{array}\right]\\
- &= L^{-T}Q
+{L^{-1}}^{\top}Q_{1} & {L^{-1}}^{\top}Q_{2}\end{array}\right]\\
+ &= {L^{-1}}^{\top}Q
 \end{align*}
 In the dual algorithm the vectors $d=En^{+}$ and $r=B^{*}n^{+}$
 are required. Compute the intermediate vector 
 \begin{align*}
-v &= J^{T}n^{+}\\
+v &= J^{\top}n^{+}\\
  &= \left[\begin{array}{c}
-J_{1}^{T}\\
-J_{2}^{T}
+J_{1}^{\top}\\
+J_{2}^{\top}
 \end{array}\right]n^{+}\\
  &= \left[\begin{array}{c}
 v_{1}\\
@@ -24645,10 +24882,10 @@ complementary FIR filter transfer function polynomials of order $m+1$:
   H_{m+1}\left(z\right) &= \sum_{n=0}^{m+1}h_{m+1,n}z^{-n} \label{eq:comp_FIR_H}\\
   G_{m+1}\left(z\right) &= \sum_{n=0}^{m+1}g_{m+1,n}z^{-n} \label{eq:comp_FIR_G}
 \end{align}
-and write $\tilde{H}_{m+1}\left(z\right)=H^{T}_{m+1}\left(z^{-1}\right)$, where
-$^{T}$ denotes transpose.
+and write $\tilde{H}_{m+1}\left(z\right)=H^{\top}_{m+1}\left(z^{-1}\right)$, where
+$^{\top}$ denotes transpose.
 
-$A_{m+1}\left(z\right)=\left[H_{m+1}\left(z\right)~G_{m+1}\left(z\right)\right]^{T}$
+$A_{m+1}\left(z\right)=\left[H_{m+1}\left(z\right)~G_{m+1}\left(z\right)\right]^{\top}$
 represents the corresponding all-pass filter:
 \begin{align*}
   \tilde{A}_{m+1}\left(z\right)A_{m+1}\left(z\right)=1
@@ -24750,9 +24987,9 @@ shows that transfer function of the complementary FIR lattice is
 the result of $N$ orthogonal transformations:
 \begin{align*}
   \left[\begin{array}{cc}
-    H_{N}&  G_{N}\end{array}\right]^{T}&=\tau_{N}\cdots\tau_{1}
+    H_{N}&  G_{N}\end{array}\right]^{\top}&=\tau_{N}\cdots\tau_{1}
   \left[\begin{array}{cc}
-          H_{0}& G_{0} \end{array}\right]^{T}
+          H_{0}& G_{0} \end{array}\right]^{\top}
 \end{align*}
       where the $\tau_{m}$ are orthogonal matrixes:
 \begin{align*}
@@ -24778,14 +25015,14 @@ filter:
   \begin{align*}
     \frac{\partial}{\partial k_{m}}
     \left[\begin{array}{cc}
-    H_{N}&G_{N}\end{array}\right]^{T}
+    H_{N}&G_{N}\end{array}\right]^{\top}
  &=\tau_{N}\cdots\tau_{m+1}
    \left[\begin{array}{cc}
            1 & 0 \\
            0 & z^{-1}
          \end{array}\right]\tau_{m-1}\cdots\tau_{1}
     \left[\begin{array}{cc}
-    H_{0}&G_{0}\end{array}\right]^{T}
+    H_{0}&G_{0}\end{array}\right]^{\top}
   \end{align*}
   so the coefficient sensitivities of the FIR lattice are bounded:
   \begin{align*} 
@@ -25359,7 +25596,7 @@ and, for an even-order, symmetric, FIR filter:
 The minimisation problem can be written in matrix form as:
 \begin{align}
 \left[\begin{array}{cc}
-\boldsymbol{R} & \boldsymbol{G}^{T}\\
+\boldsymbol{R} & \boldsymbol{G}^{\top}\\
 \boldsymbol{G} & \boldsymbol{0}
 \end{array}\right] 
 \left[\begin{array}{c}
@@ -25375,11 +25612,11 @@ The minimisation problem can be written in matrix form as:
 where $\boldsymbol{R}$ is a symmetric matrix. The solution is:
 \begin{align*}
   \boldsymbol{\lambda}
-  &= \left(\boldsymbol{G}\boldsymbol{R^{-1}}\boldsymbol{G}^{T}\right)^{-1}
+  &= \left(\boldsymbol{G}\boldsymbol{R^{-1}}\boldsymbol{G}^{\top}\right)^{-1}
     \left(\boldsymbol{G}\boldsymbol{R^{-1}}\boldsymbol{C}-\boldsymbol{D}\right)\\
   \boldsymbol{h}
   &= \boldsymbol{R^{-1}} 
-     \left(\boldsymbol{C}-\boldsymbol{G^{T}}\boldsymbol{\lambda}\right)
+     \left(\boldsymbol{C}-\boldsymbol{G^{\top}}\boldsymbol{\lambda}\right)
 \end{align*}
 
 When the Lagrange multipliers are non-negative,
@@ -25396,7 +25633,7 @@ This section shows an example of the design of an even-order, symmetric, FIR
 filter by the exchange algorithm described by \emph{Selesnick et 
 al.}~\cite[p.498]{SelesnickLangBurrus_ConstrainedLeastSquareMultiBandFIRFilters}
 and summarised in Section~\ref{sub:Choice-of-Active-Constraints}.
-The impulse response is $\boldsymbol{h}=\left[h_{0}, \ldots ,h_{M}\right]^{T}$
+The impulse response is $\boldsymbol{h}=\left[h_{0}, \ldots ,h_{M}\right]^{\top}$
 with piece-wise constant desired amplitude, $A_{d}\left(k\right)$, and
 weight, $W\left(k\right)$, over contiguous regions
 $\Omega_{k}\subset\left[0,\pi\right]$.
@@ -25553,7 +25790,7 @@ constraint relaxed.
 \label{fig:Symmetric_FIR_bandpass_truncated}
 \end{figure}
 \clearpage
-\section{\label{app:Constrained-opt-FIR-Hilbert-digital-filters}Constrained least-mean-squared error optimisation of direct-form FIR Hilbert digital filters}
+\section{\label{app:Constrained-opt-FIR-Hilbert-digital-filters}Constrained least-mean-squared error optimisation of FIR Hilbert digital filters}
 \subsection{Frequency response of a Hilbert filter}
 The frequency response of an ideal Hilbert transform filter
 is~\cite[pp.790-792]{OppenheimSchafer_DiscreteTimeSignalProcessing}:
@@ -27518,28 +27755,28 @@ describe the closed form design of maximally-flat Hilbert, differentiator
 and fractional-delay FIR filters by truncation of a power series. Here I follow
 their derivation of a closed form expression for a maximally-flat FIR Hilbert
 filter~\cite[Section II.A]{PeiWang_ClosedFormMaximallyFlatFIRHilbert}. The
-Hilbert filter frequency response is $H\left(\omega\right)=-\imath\sgn\omega$
-where $-\pi<\omega<\pi$ and $\sgn$ is the \emph{sign} function: 
+Hilbert filter frequency response is $H\left(\omega\right)=-\imath\sign\omega$
+where $-\pi<\omega<\pi$ and $\sign$ is the \emph{sign} function: 
 \begin{align*}
-  \sgn{}\omega &=\begin{cases}
+  \sign{}\omega &=\begin{cases}
     -1 & \omega < 0\\
     \phantom{-}0 & \omega = 0 \\
     \phantom{-}1 & \omega > 0
    \end{cases}
 \end{align*}
-\emph{Pei} and \emph{Wang} choose to represent $\sgn{}x$ by:
+\emph{Pei} and \emph{Wang} choose to represent $\sign{}x$ by:
 \begin{align*}
-  \sgn{}x&=\frac{x}{\sqrt{x^{2}}}\quad x\ne 0
+  \sign{}x&=\frac{x}{\sqrt{x^{2}}}\quad x\ne 0
 \end{align*}
 If $f\left(u\right)=u^{-\frac{1}{2}}$ then:
 \begin{align*}
-  \sgn{}x&=xf\left(x^{2}\right)\quad x\ne 0
+  \sign{}x&=xf\left(x^{2}\right)\quad x\ne 0
 \end{align*}
-The Taylor series expansion of this representation of the $\sgn{}x$ function at
+The Taylor series expansion of this representation of the $\sign{}x$ function at
 $x=c$ is: 
 \begin{align}
   \label{eqn:Pei-Wang-sgn-Taylor-series}
-  \sgn{}x &=\frac{x}{\sqrt{c}}\left[1+\sum^{\infty}_{k=1}
+  \sign{}x &=\frac{x}{\sqrt{c}}\left[1+\sum^{\infty}_{k=1}
             \frac{\left(2k-1\right)!!}{\left(2k\right)!!}
             \left(1-\frac{x^{2}}{c}\right)^{k}\right]
 \end{align}
@@ -27553,9 +27790,9 @@ $c>\frac{1}{2}x^{2}$.
 
 \emph{Pei} and \emph{Wang} observe that:
 \begin{align*}
-  \sgn{}\omega &= \sgn\sin\omega = \sgn\sin\frac{\omega}{2}
+  \sign{}\omega &= \sign\sin\omega = \sign\sin\frac{\omega}{2}
 \end{align*}
-where $-\pi<\omega<\pi$. Consequently, if $\sgn{}x$ is approximated by a
+where $-\pi<\omega<\pi$. Consequently, if $\sign{}x$ is approximated by a
 polynomial in $x$, then $\sin\omega$ or $\sin\frac{\omega}{2}$ can be
 substituted for $x$. Subsituting $x=\sin\omega$ and using the first $M$ terms
 of the power series, the frequency response of the Hilbert filter is
@@ -30848,23 +31085,24 @@ The $M+1$ distinct coefficients of the sub-filter are:
 \end{figure}
 
 \cleardoublepage
-\chapter{\label{app:Kalman-Yakubovic-Popov-Lemma-IIR-Filter-Design}Application of the \emph{Kalman-Yakubovi\u{c}-Popov} lemma to IIR filter design}
-The \emph{Kalman-Yakubovi\u{c}-Popov} (KYP) lemma~\cite{Kalman_LyapunovFunctions}
-is a fundamental result from the theory of control systems. The continuous time
-KYP states that, for a state-variable system with $A\in\mathbb{C}_{n\times{}n}$
-and $\left(A,B\right)$ controllable, the frequency domain inequality(FDI):
+\chapter{\label{app:Kalman-Yakubovic-Popov-Lemma-IIR-Filter-Design}Application of the \emph{Kalman-Yakubovi\u{c}-Popov} lemma to digital filter design}
+The \emph{Kalman-Yakubovi\u{c}-Popov} (KYP)
+lemma~\cite{Kalman_LyapunovFunctions} is a fundamental result from the theory of
+control systems. The continuous time KYP states that, for a state-variable
+system with $A\in\mathbb{C}^{n\times{}n}$ and $\left(A,B\right)$ controllable,
+the frequency domain inequality(FDI): 
 \begin{align}
-   \label{eqn:KYPlemmaFDI}
+  \label{eqn:KYPlemmaFDI}
+  \sigma\left(H\left(\omega\right),\Pi\right)&=
   \left[\begin{array}{c}
   \left(\imath\omega{}I-A\right)^{-1}B \\
   I\end{array}\right]^{\dagger}\Theta\left[\begin{array}{c}
   \left(\imath\omega{}I-A\right)^{-1}B \\
   I\end{array}\right]\le{}0\quad\omega\in\mathbb{R}\cup\left\{\infty\right\} 
 \end{align}
- holds if and only if the
+ (where $M^{\dagger}$ means conjugate transpose of $M$) holds if and only if the
  following linear matrix inequality(LMI) is feasible for a solution
- $P\in{}\boldsymbol{H}_{n}$, the set of Hermitian $n\times{}n$
- matrixes:  
+ $P\in{}\mathbb{H}^{n}$, the set of Hermitian $n\times{}n$ matrixes:  
  \begin{align}
    \label{eqn:KYPlemmaLMI}
    \left[\begin{array}{cc}
@@ -30872,75 +31110,86 @@ and $\left(A,B\right)$ controllable, the frequency domain inequality(FDI):
           B^{\dagger}P    & 0\end{array}\right]+\Theta\preceq{}0
 \end{align}
 
-For the purposes of filter design, the lemma states that an infinite dimension
-frequency response constraint is equivalent to a constraint on the coefficients
-of the state space description. If 
-$H\left(\omega\right)=C\left(\imath\omega{}I-A\right)^{-1}B+D$ is the transfer
-function of the filter with $A\in\mathbb{R}_{n\times{}n}$, then we can
-write:
+For the purposes of filter design, the lemma states that an infinite
+dimension frequency response constraint is equivalent to a constraint on
+the coefficients of the state variable description. If 
+$H\left(\omega\right)=C\left(\imath\omega{}I-A\right)^{-1}B+D$ is the
+transfer function of the filter with $A\in\mathbb{R}^{n\times{}n}$, then we
+can write:
 \begin{align*}
   \Theta&=\left[\begin{array}{cc}
                   C & D \\
-                  0 & I \end{array}\right]^{T}
+                  0 & I \end{array}\right]^{\top}
                       \Pi
                   \left[\begin{array}{cc}
                   C & D \\
                   0 & I \end{array}\right]
 \end{align*}
 For example, if $\Pi=\left[\begin{array}{cc} I & 0 \\
- 0 &-\gamma^{2}I\end{array}\right]$ then the corresponding frequency domain
-constraint is $\left|H\left(\omega\right)\right|^{2}\le\gamma^{2}$
-\footnote{If $H\left(\omega\right)$ is single-input-single-output, the
-  desired frequency response is $H_{D}\left(\omega\right)$ and if
+0 &-\varepsilon^{2}I\end{array}\right]$ then the corresponding frequency
+domain constraint is
+$\left|H\left(\omega\right)\right|^{2}\le\varepsilon^{2}$.
+If $H\left(\omega\right)$ is single-input-single-output, the desired frequency
+response is $H_{D}\left(\omega\right)$ and if
 \begin{align*}
   \Pi=\left[\begin{array}{cc}
  1 & -H_{D}\left(\omega\right) \\
- -H^{\dagger}_{D}\left(\omega\right) &\left|H_{D}\left(\omega\right)\right|^{2}-
-                                 \gamma^{2}\end{array}\right]
+              -H^{\dagger}_{D}\left(\omega\right)
+              &\left|H_{D}\left(\omega\right)\right|^{2}-
+                                 \varepsilon^{2}\end{array}\right]
 \end{align*}
 then the corresponding frequency domain constraint is
-$\left|H\left(\omega\right)-H_{D}\left(\omega\right)\right|^{2}\le\gamma^{2}$.
+$\left|H\left(\omega\right)-H_{D}\left(\omega\right)\right|^{2}\le\varepsilon^{2}$.
 Similarly, if
 \begin{align*}
   \Pi=\left[\begin{array}{cc}
  1 & 0 \\
- 0 & -\left|H_{D}\left(\omega\right)\right|^{2}-\gamma^{2}\end{array}\right]
+ 0 & -\left|H_{D}\left(\omega\right)\right|^{2}-\varepsilon^{2}\end{array}\right]
 \end{align*}
-then $\left|H\left(\omega\right)\right|^{2}-\left|H_{D}\left(\omega\right)\right|^{2}\le\gamma^{2}$.}.
+then
+$\left|H\left(\omega\right)\right|^{2}-\left|H_{D}\left(\omega\right)\right|^{2}\le\varepsilon^{2}$
+and if
+\begin{align*}
+  \Pi=\left[\begin{array}{cc}
+ -1 & 0 \\
+ 0 & \left|H_{D}\left(\omega\right)\right|^{2}-\varepsilon^{2}\end{array}\right]
+\end{align*}
+then $\left|H\left(\omega\right)\right|^{2}-\left|H_{D}\left(\omega\right)\right|^{2}\ge-\varepsilon^{2}$.
+
 The KYP lemma has been generalised to discrete time state variable systems and
 to unions of frequency domain
 inequalities~\cite{Pipeleers_GeneralisedKYPRealData,  
 Iwasaki_GeneralizedKYPFrequencyDomainInequalities,
 Davidson_LMISpectralConstraints,
 Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}.
-If the filter parameter vector is $\rho\in\mathbb{R}_{p}$, then the LMI
+If the filter parameter vector is $\rho\in\mathbb{R}^{p}$, then the LMI
 of Equation~\ref{eqn:KYPlemmaLMI} corresponds to an SDP optimisation problem
 with $p+\frac{n\left(n+1\right)}{2}$ variables. \emph{Vandenburghe et al.}~\cite
 {VandenbergheBalakrishnan_ImplementationInteriorPointKYPlemma}
 show that it is more efficient to solve the \emph{dual} or \emph{primal-dual}
-SDP problems. In the following three sections I follow \emph{Iwasaki} and
+SDP problems. I follow \emph{Iwasaki} and
 \emph{Hara}~\cite{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}.
-
+\begin{comment}
 \section{The S-procedure}
-The so-called \emph{S-procedure} forms the basis of proofs of the KYP lemma. It
-``converts a constrained inequality to an unconstrained inequality with
-multipliers''. The classic version of the S-procedure asserts that, given
-matrixes $\Theta,M\in{}\boldsymbol{H}_{n}$, the following statements
+The so-called \emph{S-procedure} forms the basis of proofs of the KYP lemma.
+It ``converts a constrained inequality to an unconstrained inequality with
+multipliers''. The classical version of the S-procedure asserts that, given
+matrixes $\Theta,M\in{}\mathbb{H}^{n}$, the following statements
 are equivalent:
 \begin{subequations} \label{eqn:ClassicSProcedure}
 \begin{alignat}{3}
-\xi^{*}\Theta\xi\preceq{}0\quad&\forall\xi\in\mathbb{C}_{n}&\text{  such that  }
+\xi^{*}\Theta\xi\preceq{}0\quad&\forall\xi\in\mathbb{C}^{n}&\text{  such that  }
 &\xi^{*}M\xi\succeq{}0 & \label{eqn:ClassicSProcedure_constrained}\\
 &\exists\tau\in\mathbb{R}&\text{  such that  } &\tau\geq{}0\text{  and  }
 \Theta{}+\tau{}M\preceq{}0 \label{eqn:ClassicSProcedure_unconstrained}
 \end{alignat}
 \end{subequations}
 where $\xi^{*}$ is the \emph{Moore-Penrose} inverse. The S-procedure replaces
-the condition of Equation~\ref{eqn:ClassicSProcedure_constrained} with that of
-Equation~\ref{eqn:ClassicSProcedure_unconstrained}. The latter condition is
-easier to satisfy as it is a search for the scalar multiplier, $\tau$, satisfying
-convex constraints. \emph{Iwasaki} and \emph{Hara}~\cite[Section II.A]
-{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} write an alternative
+the condition of Equation~\ref{eqn:ClassicSProcedure_constrained} with that
+of Equation~\ref{eqn:ClassicSProcedure_unconstrained}. The latter condition
+is easier to satisfy as it is a search for the scalar multiplier, $\tau$,
+satisfying convex constraints. \emph{Iwasaki} and
+\emph{Hara}~\cite[Section II.A]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} write an alternative
 definition of the S-procedure:
 \begin{framed}
 \begin{align*}
@@ -30949,19 +31198,19 @@ definition of the S-procedure:
   \boldsymbol{N} & \coloneq \left\{N\; : \; N=N^{*}\preceq{}0\right\}\\
     \mathcal{S} & \coloneq \xi\xi^{*}\\ 
   \boldsymbol{S}\left(\boldsymbol{M}\right)&\coloneq
-    \left\{\mathcal{S}\in\boldsymbol{H}_{n}\; : \;\mathcal{S}\neq{}0,\;
+    \left\{\mathcal{S}\in\mathbb{H}^{n}\; : \;\mathcal{S}\neq{}0,\;
     \mathcal{S}\succeq{}0,\;
-    \text{trace}\left(\boldsymbol{M}\mathcal{S}\right)\geq{}0\right\}\\
+    \mathtrace\left(\boldsymbol{M}\mathcal{S}\right)\geq{}0\right\}\\
   \boldsymbol{S}_{1}&\coloneq
                                 \left\{\mathcal{S}\in\boldsymbol{S}
                                 \left(\boldsymbol{M}\right)
-     \; :\;\text{rank}\left(\mathcal{S}\right)=1\right\} \\
-  \text{trace}\left(\Theta\boldsymbol{S}_{1}\right)\leq{}0,\;
+     \; :\;\mathrank\left(\mathcal{S}\right)=1\right\} \\
+  \mathtrace\left(\Theta\boldsymbol{S}_{1}\right)\leq{}0,\;
     \forall\mathcal{S}\in\boldsymbol{S}_{1} 
       &\Leftrightarrow
       \left(\Theta{}+\boldsymbol{M}\right)\cap\boldsymbol{N}
       \neq\emptyset \\
-  \text{trace}\left(\Theta\boldsymbol{S}_{1}\right)\leq{}0,\;
+  \mathtrace\left(\Theta\boldsymbol{S}_{1}\right)<{}0,\;
     \forall\mathcal{S}\in\boldsymbol{S}_{1}
       &\Leftrightarrow
     \left(\Theta{}+\boldsymbol{M}\right)\cap\text{interior}
@@ -30969,12 +31218,12 @@ definition of the S-procedure:
 \end{align*}
 \end{framed}
 
-The S-procedure is said to be \emph{loss-less} if the equivalence holds in both
-directions. \emph{Iwasaki} and \emph{Hara}~\cite[Section II.B]
+The S-procedure is said to be \emph{loss-less} if the equivalence holds in
+both directions. \emph{Iwasaki} and \emph{Hara}~\cite[Section II.B]
 {Iwasaki_GeneralizedKYPFrequencyDomainInequalities} make the following
 definitions: 
 \begin{framed}
-  \emph{Definition 1}: A set $\boldsymbol{M}\subset\boldsymbol{H}_{n}$ is:
+  \emph{Definition 1}: A set $\boldsymbol{M}\subset\mathbb{H}^{n}$ is:
   \begin{itemize}
   \item \emph{admissible} if it is a non-empty closed convex cone and
 $\text{interior}\left(\boldsymbol{N}\right)\cap\boldsymbol{M}=\emptyset$
@@ -30988,29 +31237,29 @@ $\text{interior}\left(\boldsymbol{N}\right)\cap\boldsymbol{M}=\emptyset$
 and prove the following theorem:
 \begin{framed}
   \emph{Theorem 1 (S-procedure)}: Let an admissible and regular set
-  $\boldsymbol{M}\subset\boldsymbol{H}_{n}$ be given then
-  the S-procedure is lossless for arbitrary
-  $\Theta\in\boldsymbol{H}_{n}$, 
+  $\boldsymbol{M}\subset\mathbb{H}^{n}$ be given. The S-procedure is lossless
+  for arbitrary $\Theta\in\mathbb{H}^{n}$
   if-and-only-if $\boldsymbol{M}$ is rank-one-separable.
 \end{framed}
 
 and lemma:
 \begin{framed}
   \emph{Lemma 1}: Let
-  $\boldsymbol{M}\subset\boldsymbol{H}_{n}$ be a 
+  $\boldsymbol{M}\subset\mathbb{H}^{n}$ be a 
   rank-one-separable set. Then the set
   $F^{*}\boldsymbol{M}F+\boldsymbol{P}$ is 
-  rank-one-separable for any matrix $F\in\mathbb{C}_{n\times{}m}$ and subset
-  $\boldsymbol{P}\subset\boldsymbol{H}_{n}$ of positive-semidefinite
+  rank-one-separable for any matrix $F\in\mathbb{C}^{n\times{}m}$ and subset
+  $\boldsymbol{P}\subset\mathbb{H}^{n}$ of positive-semidefinite
   matrixes containing the origin.
 \end{framed}
+\end{comment}
 
 \section{Frequency ranges as curves in the complex plane}
-The frequency response constraint example in the previous section applies to the
-whole of the positive $\imath\omega$ axis in the continuous-time
-\emph{s-plane}. For a discrete-time filter, the frequency response constraints
-are defined over a union of frequencies on the unit-circle in the
-\emph{z-plane}. \emph{Iwasaki} and \emph{Hara}~\cite[Section IV]
+The frequency response constraint examples shown above apply
+to the whole of the positive $\imath\omega$ axis in the continuous-time
+\emph{s-plane}. For a discrete-time filter, the frequency response
+constraints are defined over a union of frequencies on the unit-circle in
+the \emph{z-plane}. \emph{Iwasaki} and \emph{Hara}~\cite[Section IV]
 {Iwasaki_GeneralizedKYPFrequencyDomainInequalities} define a curve in the
 complex plane as: 
 \begin{framed}
@@ -31025,29 +31274,28 @@ complex plane as:
   \left\{\lambda\in\mathbb{C}:\sigma\left(\lambda,\Phi\right)=0,
                               \sigma\left(\lambda,\Psi\right)\ge{}0\right\}
 \end{align*}
-where $\Phi,\Psi\in\boldsymbol{H}_{2}$. If $G\in\mathbb{C}_{n\times{}m}$ and
-$\Pi\in\boldsymbol{H}_{n+m}$, then \emph{Iwasaki} and \emph{Hara} define the
+where $\Phi,\Psi\in\mathbb{H}^{2}$. If $G\in\mathbb{C}^{n\times{}m}$ and
+$\Pi\in\mathbb{H}^{n+m}$, then \emph{Iwasaki} and \emph{Hara} define the
 function 
-$\sigma:\mathbb{C}_{n\times{}m}\times\boldsymbol{H}_{n+m}\mapsto\boldsymbol{H}_{m}$
+$\sigma:\mathbb{C}^{n\times{}m}\times\mathbb{H}^{n+m}\mapsto\mathbb{H}^{m}$
 by:
 \begin{align*}
   \sigma\left(G,\Pi\right)\coloneqq\left[
   \begin{array}{c}
     G \\
     I_{m}\end{array}
-  \right]^{*}\Pi\left[\begin{array}{c}
+  \right]^{\dagger}\Pi\left[\begin{array}{c}
     G \\
     I_{m}\end{array} \right]
 \end{align*}
-In this case $n=m=1$.
 
 The set $\boldsymbol{\Lambda}\left(\Phi,0\right)$ represents a curve
-if-and-only-if $det\left(\Phi\right)<0$. For example,
+if-and-only-if $\det\left(\Phi\right)<0$. For example,
 \begin{align*}
   \sigma\left(\lambda,\left[
   \begin{array}{cc}
     1 & -\lambda_{c} \\
-    -\lambda^{*}_{c} & \left|\lambda_{c}\right|^{2}-r^{2}
+    -\lambda^{\dagger}_{c} & \left|\lambda_{c}\right|^{2}-r^{2}
   \end{array}\right]\right) &=\left|\lambda-\lambda_{c}\right|^{2}-r^{2}=0
 \end{align*}
 defines a circle with radius $r$ centred at $\lambda_{c}$ and
@@ -31062,7 +31310,7 @@ defines a circle with radius $r$ centred at $\lambda_{c}$ and
 defines a straight line with the normal vector $a+\imath{}b\ne{} 0$. The set
 $\boldsymbol{\Lambda}\left(0,\Psi\right)$ represents a region in the complex
 plane with boundary $\boldsymbol{\Lambda}\left(\Psi,0\right)$ whenever
-$det\left(\Psi\right)<0$.
+$\det\left(\Psi\right)<0$.
 
 \section{A generalised KYP lemma}
 \section{Efficient solution of SDP problems arising from the KYP lemma} 

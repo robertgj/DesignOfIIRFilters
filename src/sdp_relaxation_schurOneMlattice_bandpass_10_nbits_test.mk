@@ -21,7 +21,7 @@ sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_adders.tab
 sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_FILES = \
 sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.m \
 test_common.m \
-schurOneMlattice_sdp_mmse.m \
+sdp_relaxation_schurOneMlattice_mmse.m \
 schurOneMlattice_socp_mmse.m \
 schurOneMlattice_allocsd_Lim.m \
 schurOneMlattice_allocsd_Ito.m \

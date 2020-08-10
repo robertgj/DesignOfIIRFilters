@@ -38,9 +38,9 @@ Useful *Makefile* targets are *octfiles*, *batchtest*, *cleanall*, *backup*,
 *test* directory assume that the *octfiles* targets exist.
 
 ### Dependencies
-I use the [Fedora 27](https://getfedora.org/en/workstation/) operating system
-with the *octave-4.4.0*, *lapack-3.8.0*, *gcc-8.1.1-1*, *dia-0.97.3* and
-*texlive-2016* packages installed from the Fedora 28 repository. I use the
+I use the [Fedora 32](https://getfedora.org/en/workstation/) operating system
+with the *octave-5.2.0*, *lapack-3.8.0*, *gcc-10.1.1*, *dia-0.97.3* and
+*texlive-2019-19* packages installed from the Fedora 32 repository. I use the
 [Octave-forge](https://octave.sourceforge.io) *struct*, *optim*, *control*,
 *signal* and *parallel* Octave packages and the Octave *gnuplot* graphics
 toolkit. The *texlive* packages used are listed in *DesignOfIIRFilters.tex*. 

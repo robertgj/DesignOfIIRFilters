@@ -3,7 +3,7 @@
 prog=sdp_relaxation_directFIRhilbert_12_nbits_test.m
 depends="sdp_relaxation_directFIRhilbert_12_nbits_test.m \
 test_common.m \
-directFIRhilbert_sdp_mmsePW.m \
+sdp_relaxation_directFIRhilbert_mmsePW.m \
 directFIRhilbert_socp_mmsePW.m \
 directFIRhilbert_allocsd_Ito.m \
 directFIRhilbert_slb.m \

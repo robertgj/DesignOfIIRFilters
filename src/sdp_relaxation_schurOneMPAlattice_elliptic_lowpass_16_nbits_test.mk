@@ -22,7 +22,7 @@ sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_kmin_adders.tab
 sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_FILES = \
 sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m \
 test_common.m \
-schurOneMPAlattice_sdp_mmse.m \
+sdp_relaxation_schurOneMPAlattice_mmse.m \
 schurOneMPAlattice_socp_mmse.m \
 schurOneMPAlattice_allocsd_Ito.m \
 schurOneMPAlattice_allocsd_Lim.m \

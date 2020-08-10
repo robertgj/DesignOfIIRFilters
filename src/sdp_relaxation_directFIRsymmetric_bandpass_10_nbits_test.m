@@ -1,5 +1,5 @@
 % sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 % SDP relaxation optimisation of a symmetric direct-form FIR
 % bandpass filter with 10-bit signed-digit coefficients
@@ -102,10 +102,10 @@ endif
 
 % Run the SeDuMi problem
 [hM1_sd_sdp,socp_iter,func_iter,feasible] = ...
-directFIRsymmetric_sdp_mmsePW([],hM1_sd_x,hM1_sd_delta,na, ...
-                              wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose);
+sdp_relaxation_directFIRsymmetric_mmsePW([],hM1_sd_x,hM1_sd_delta,na, ...
+                                         wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose);
 if feasible==false
-  error("directFIRsymmetric_sdp_mmsePW failed!");
+  error("sdp_relaxation_directFIRsymmetric_mmsePW failed!");
 endif
 print_polynomial(hM1_sd_sdp,"hM1_sd_sdp",nscale);
 print_polynomial(hM1_sd_sdp,"hM1_sd_sdp", ...
