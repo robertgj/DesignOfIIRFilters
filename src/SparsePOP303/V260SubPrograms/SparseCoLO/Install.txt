@@ -1,0 +1,226 @@
+Installation Guide for SparseCoLO111
+
+M. Kojima Group
+Department of Mathematical and Computing Sciences
+Tokyo Institute of Technology
+
+September 2009
+
+--- Index  ----
+1. System Requirements
+2. Quick Installation Guide for MacOSX 10.4.8 or later
+3. Quick Installation Guide for Linux
+4. Quick Installation Guide for Windows XP and Vista
+--------------
+
+1. System Requirements
+
+The following softwares is the minimum requirement:
+
+  i.   MATLAB 7 or later.
+	 -- available from Mathworks inc.
+  ii. C++ compilers, compatible with MATLAB, to compile 
+       C++ codes. 
+  iii. SeDuMi 1.1R3 or later
+	-- available from http://sedumi.ie.lehigh.edu/ 
+	to call sedumi.m from sparseCoLO for solving an SDP
+  and/or
+  iv. sdpa.7.3.1 or later  
+	-- available from http://sdpa.indsys.chuo-u.ac.jp/sdpa/
+	to call sedumiwrap.m from sparseCoLO for solving an SDP
+  and/or
+  v. SDPT3-4.0-beta or later
+	-- available from http://www.math.nus.edu.sg/~mattohkc/sdpt3.html
+	to call sqlp.m from sparseCoLO for solving an SDP
+
+NOTE1: Be sure that you have an appropriate version of SeDuMi
+for your MATLAB. For example, if you are using
+SeDuMi 1.2 64bit version, then you need Matlab R2007b or later.
+
+NOTE2: In the case of iv, sdpa.7.3.1 does not work in Matlab R2009a, so  
+use Matlab R2006b --- R2008b. Add a path to sedumiwrap (SDPAM),  
+       ~/sdpa/sdpa.7.3.1/mex/
+in Matlab.
+
+2. Quick Installation Guide for MacOSX 10.4.8 or later
+
+You need Xcode, distributed by Apple. Be sure that you have an 
+appropriate version of Xcode. See:
+   http://www.mathworks.com/support/tech-notes/1600/1601.html
+For example, if you are using MATLAB 7.4 or later,
+then you must use:
+   Xcode 2.4.1 or later
+	--available from http://developer.apple.com/tools/xcode/
+
+  Installation steps:
+
+  2.1 Download SparseCoLO111 
+
+  2.2 Unpack it by either:
+	double-clicking the icon, or typing on the Terminal:
+	% tar zxvf SparseCoLO111.tar.gz
+
+	You will get a folder named SparseCoLO111
+
+  2.3 Move the folder to any place you like, say, to
+	/Users/smith/matlab/SparseCoLO111 (if your account name is smith),
+	or, if you want to install SparseCoLO machine-wide, to
+	/Applications/MATLAB74/toolbox/shared/SparseCoLO111
+
+  2.4 Invoke MATLAB, and cd to the folder of SparseCoLO111.
+	>> cd /Users/smith/matlab/SparseCoLO111
+
+  2.5 Compile C++ codes from MATLAB window:
+	>> compileSparseCoLO
+
+  2.6 Set MATLAB-path to SparseCoLO111. Specifically,
+	Choose: File->Set Path
+	Push 'Add with Subfolders...' bottun, and 
+	Select the folder SparseCoLO111.
+	Finally, Save it by pushing 'Save' bottun.
+
+  2.7 Set MATLAB-path to SeDuMi 1.1R3 (or later) and/or sdpa.7.3.1 (or later) and/or 
+      SDPT3-4.0-beta (or later). For the path to sdpa.7.3.1, add a path to sedumiwrap,  
+       ~/sdpa/sdpa.7.3.1/mex/  in Matlab.
+
+  2.8 Now you are ready to use SparseCoLO.
+	Test it by typing
+	>> [A,b,c,K,J] = maxCutSDP(1,50,4,2009);
+	>> parCoLO.domain = 1; parCoLO.range = 0; parCoLO.EQorLMI = 1;
+	>> [x,y,infoCoLO,cliqueDomain,cliqueRange,LOP] = sparseCoLO(A,b,c,K,J,parCoLO);
+
+NOTE1: If you want to use MATLAB in the mode matlab -nodisply, 
+it is useful to add the path of the directory of SparseCoLO in 
+your startup.m. If your SparseCoLO is installed in 
+/home/smith/matlab/SparseCoLO111, write the following command in your 
+startup.m:
+	addpath(genpath('/home/smith/matlab/SparseCoLO111'));
+If your SeDuMi_1_1 is installed in /home/smith/matlab/SeDuMi_1_1, 
+write the following command in your startup.m:
+	addpath(genpath('/home/smith/matlab/SeDuMi_1_1'));
+If your sdpa is installed in /home/smith/sdpa, write the following command 
+in your startup.m:
+	addpath(genpath('/home/smith/sdpa/sdpa.7.3.1/mex'));
+If your SDPT3-4.0-beta is installed in /home/smith/matlab/SDPT3-4.0-beta, 
+write the following command in your startup.m:
+	addpath(genpath('/home/smith/matlab/SDPT3-4.0-beta'));
+
+3. Quick Installation Guide for Linux
+
+You need gcc compilers, a free software
+distributed by GNU. Be sure that you have an appropriate
+version of gcc. See:
+   http://www.mathworks.com/support/tech-notes/1600/1601.html
+For example, if you are using MATLAB R2007a or later, then
+you must have:
+	gcc/g++ version 4.1.1 or later, and
+	appropriate kernel and glibc.
+
+  Installation steps
+
+  3.1 Download SparseCoLO111
+
+  3.2 Unpack it by either:
+	double-clicking the icon, or typing on the terminal:
+	% tar zxvf SparseCoLO111.tar.gz
+
+	You will get a directory named SparseCoLO111
+
+  3.3 Move the directory to any place you like, say, to
+	/home/smith/matlab/SparseCoLO111 (if you account name is smith),
+	or, if you want to install SparseCoLO machine-widely, to
+	/usr/matlab2007a/toolbox/shared/SparseCoLO111
+
+  3.4 Invoke MATLAB, and cd to the directory of SparseCoLO111.
+	>> cd /home/smith/matlab/SparseCoLO111
+
+  3.5 Compile C++ codes from MATLAB window:
+	>> compileSparseCoLO
+
+  3.6 Set MATLAB-path to SparseCoLO111. Specifically,
+	Choose: File->Set Path
+	Push 'Add with Subfolders...' bottun, and 
+	Select the folder SparseCoLO111.
+	Finally, Save it by pushing 'Save' bottun.
+
+  3.7 Set MATLAB-path to SeDuMi 1.1R3 (or later) and/or sdpa.7.3.1 (or later) and/or 
+      SDPT3-4.0-beta (or later). For the path to sdpa.7.3.1, add a path to sedumiwrap,  
+       ~/sdpa/sdpa.7.3.1/mex/  in Matlab.
+
+  3.8 Now you are ready to use SparseCoLO.
+	Test it by typing
+	>> [A,b,c,K,J] = maxCutSDP(1,50,4,2009);
+	>> parCoLO.domain = 1; parCoLO.range = 0; parCoLO.EQorLMI = 1;
+	>> [x,y,infoCoLO,cliqueDomain,cliqueRange,LOP] = sparseCoLO(A,b,c,K,J,parCoLO);
+
+NOTE1: If you want to use MATLAB in the mode matlab -nodisply, 
+it is useful to add the path of the directory of SparseCoLO in 
+your startup.m. If your SparseCoLO is installed in 
+/home/smith/matlab/SparseCoLO111, write the following command in your 
+startup.m:
+	addpath(genpath('/home/smith/matlab/SparseCoLO111'));
+If your SeDuMi_1_1 is installed in /home/smith/matlab/SeDuMi_1_1, 
+write the following command in your startup.m:
+	addpath(genpath('/home/smith/matlab/SeDuMi_1_1'));
+If your sdpa is installed in /home/smith/sdpa, write the following command 
+in your startup.m:
+	addpath(genpath('/home/smith/sdpa/sdpa.7.3.1/mex'));
+If your SDPT3-4.0-beta is installed in /home/smith/matlab/SDPT3-4.0-beta, 
+write the following command in your startup.m:
+	addpath(genpath('/home/smith/matlab/SDPT3-4.0-beta'));
+
+4. Quick Installation Guide for Windows XP and Vista
+
+You need an appropriate C++ compilers. See:
+   http://www.mathworks.com/support/tech-notes/1600/1601.html
+We have tested it by Microsoft Visual C++ 2008 Express Edition.
+
+  Installation steps:
+
+  4.1 Download  SparseCoLO111
+
+  4.2 Unpack it double-clicking the icon.
+      You may need an appropriate software for unpacking the
+      tar.gz file. You will get a folder named  SparseCoLO111.
+
+  4.3 Move the folder to, say,
+      C:\Documents and Settings\smith\MATLAB\SparseCoLO111
+      if your account name is smith.
+
+  4.4 Choose Compiler. In the MATLAB, type:
+	> mex -setup
+	and follow the message to choose a compiler.
+
+  4.6 Invoke MATLAB, and cd to the above folder.
+	>> cd C:\Documents and Settings\smith\MATLAB\SparseCoLO111
+
+  4.7 Compile C++ codes from MATLAB window:
+	>> compileSparseCoLO
+
+  4.6 Set MATLAB-path to SparseCoLO111. Specifically,
+	Choose: File->Set Path
+	Push 'Add with Subfolders...' bottun, and 
+	Select the folder SparseCoLO111.
+	Finally, Save it by pushing 'Save' bottun.
+
+  4.7 Set MATLAB-path to SeDuMi 1.1R3 (or later) and/or SDPT3-4.0-beta (or later). 
+       For the path to sdpa.7.3.1, add a path to sedumiwrap,  
+       ~/sdpa/sdpa.7.3.1/mex/  in Matlab.
+
+  4.8 Now you are ready to use SparsePOP.
+	Test it by typing
+	>> [A,b,c,K,J] = maxCutSDP(1,50,4,2009);
+	>> parCoLO.domain = 1; parCoLO.range = 0; parCoLO.EQorLMI = 1;
+	>> [x,y,infoCoLO,cliqueDomain,cliqueRange,LOP] = sparseCoLO(A,b,c,K,J,parCoLO);
+
+NOTE1: If you want to use MATLAB in the mode matlab -nodisply, 
+it is useful to add the path of the directory of SparseCoLO in 
+your startup.m. If your SparseCoLO is installed in 
+/home/smith/matlab/SparseCoLO111, write the following command in your 
+startup.m:
+	addpath(genpath('/home/smith/matlab/SparseCoLO111'));
+If your SeDuMi_1_1 is installed in /home/smith/matlab/SeDuMi_1_1, 
+write the following command in your startup.m:
+	addpath(genpath('/home/smith/matlab/SeDuMi_1_1'));
+
+NOTE2: In Window's version of SparseCoLO111, SDPA now can not be used. 

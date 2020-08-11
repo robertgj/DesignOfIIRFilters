@@ -2,7 +2,7 @@
 
 prog=sparsePOP_test.m
 
-depends="sparsePOP_test.m test_common.m SparsePOP302/ SeDuMi_1_3/"
+depends="sparsePOP_test.m test_common.m SparsePOP303/ SeDuMi_1_3/"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

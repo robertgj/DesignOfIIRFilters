@@ -1,0 +1,153 @@
+Files ./compileSparsePOP.m and ../SparsePOP303/./compileSparsePOP.m differ
+--- ./compileSparsePOP.m	2018-09-11 11:35:46.000000000 +1000
++++ ../SparsePOP303/./compileSparsePOP.m	2020-08-11 22:00:06.000000000 +1000
+@@ -20,33 +20,15 @@
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %
+ 
+-if exist('verLessThan') ~= 2
+-	error('Get verLessThan.m');
+-end
+-
+-
+-if verLessThan('matlab', '7.3') 
+-	MexFlags = ' -O -Dlinux=0 ';
+-elseif strcmp(computer, 'GLNXA64') || strcmp(computer, 'MACI64')
+-	MexFlags = ' -O -Dlinux=1 -largeArrayDims ';
+-elseif strcmp(computer, 'GLNX86')  || strcmp(computer, 'MACI')
+-	MexFlags = ' -O -Dlinux=0 ';
+-elseif strcmp(computer, 'PCWIN64') 
+-	MexFlags = ' -O -Dlinux=1 -largeArrayDims ';
+-elseif strcmp(computer, 'PXWIN') 
+-	MexFlags = ' -O -Dlinux=0 ';
+-else 
+-	MexFlags = ' -O -Dlinux=0 ';
+-end
++MexFlags = ' -O -Dlinux=1 -DMATLAB_MEX_FILE ';
+ 
+ LIBfiles = ' conversion.cpp spvec.cpp polynomials.cpp sup.cpp clique.cpp mysdp.cpp Parameters.cpp ';
+-if ispc % Windows family create .obj files
+-        OBJfiles = strrep(LIBfiles,'.cpp','.obj');
+-else
+         OBJfiles = strrep(LIBfiles,'.cpp','.o');
+-end
+ 
+-eval('cd subPrograms/Mex');
++mpwd=pwd;
++mpath=mfilename("fullpath");
++mpath=mpath(1:strchr(mpath,filesep,1,'last'));
++cd(strcat(mpath,filesep,'subPrograms',filesep,'Mex'));
+ fprintf('Compiling Libraries...');
+ command = ['mex -c ' MexFlags LIBfiles];
+ eval(command);
+@@ -59,54 +41,6 @@
+ command = ['mex ' MexFlags ' mexconv2.cpp ' OBJfiles ];
+ eval(command);
+ fprintf('done\n');
+-eval('cd ../../');
+-
+-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-% mex files of SparseCoLO
+-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-
+-if verLessThan('matlab', '7.3') 
+-	MexFlags = ' -O -Dlinux=0 ';
+-elseif strcmp(computer, 'GLNXA64') || strcmp(computer, 'MACI64')  
+-	MexFlags = ' -O -Dlinux=1 -largeArrayDims ';
+-elseif strcmp(computer, 'GLNX86')  || strcmp(computer, 'MACI')
+-	MexFlags = ' -O -Dlinux=0 ';
+-elseif strcmp(computer, 'PCWIN64')
+-	MexFlags = ' -O -Dlinux=1 -largeArrayDims ';
+-elseif strcmp(computer, 'PCWIN')
+-	MexFlags = ' -O -Dlinux=0 ';
+-else
+-	MexFlags = ' -O -Dlinux=0 ';
+-end
+-
+-LIBfiles = [' ccputime.cpp'];
+-if ispc % Windows family create .obj files
+-        OBJfiles = strrep(LIBfiles,'.cpp','.obj');
+-else
+-        OBJfiles = strrep(LIBfiles,'.cpp','.o');
+-end
+-
+-eval('cd V260SubPrograms/SparseCoLO/mex'); 
+-fprintf('Compiling Libraries...');
+-command = ['mex -c ' MexFlags LIBfiles];
+-eval(command);
+-fprintf('done\n');
+-
+-clear mexFiles
+-
+-mexFiles{1} = 'mexForestConvert.cpp';
+-mexFiles{2} = 'mexMaxSpanningTree2.cpp';
+-mexFiles{3} = 'mexPrimalOneSDP2.cpp';
+-% mexFiles{4} = 'mexArrowTriDQOP.cpp';
+-% mexFiles{5} = 'mexDiagTriDQOP.cpp';
+-for i=1:length(mexFiles)
+-    mexFileName = mexFiles{i};
+-    fprintf('Compiling %s...',mexFileName);
+-    command = ['mex ' MexFlags mexFileName OBJfiles];
+-    eval(command);
+-    fprintf('done\n');
+-end
+-
+-eval('cd ../../../');
++cd(mpwd);
+ 
+ fprintf('Compilation finished successfully.\n');
+Files ./readGMS.m and ../SparsePOP303/./readGMS.m differ
+--- ./readGMS.m	2018-09-18 14:41:11.000000000 +1000
++++ ../SparsePOP303/./readGMS.m	2020-08-11 22:15:40.145460546 +1000
+@@ -434,7 +434,7 @@
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ function allStatements = fromFile(fileName)
+ fileIDX = fopen(fileName, 'r');
+-allStatements = [];
++allStatements = '';
+ nextSW = 0;
+ while 1
+     oneLine = fgetl(fileIDX);
+@@ -460,7 +460,7 @@
+ return
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ function [nextSW, statements] = fromOneLine(oneLine, nextSW)
+-statements = [];
++statements = '';
+ if nextSW == 0
+     oneLine = deblank(oneLine);
+     oneLine = strtrim(oneLine);
+@@ -546,7 +546,7 @@
+ elseif idx(end) ~= length(allStatements)
+     error('## '';'' does not exist at the end of the last statement of ''%s''.', fileName);
+ end
+-NewAllStatements = [];
++NewAllStatements = '';
+ sidx = 1;
+ for i=1:length(idx)
+     eidx = idx(i);
+Files ./subPrograms/Mfiles/my_unique.m and ../SparsePOP303/./subPrograms/Mfiles/my_unique.m differ
+--- ./subPrograms/Mfiles/my_unique.m	2018-09-11 11:35:47.000000000 +1000
++++ ../SparsePOP303/./subPrograms/Mfiles/my_unique.m	2020-08-11 22:00:06.000000000 +1000
+@@ -2,12 +2,19 @@
+ if ~strcmp(msg, 'rows');
+ 	error('msg should be rows in my_unique.');
+ end
++
++% For Octave:
++[C, ia, ic] = unique(A,msg);
++
++% For matlab:
++%{ 
+ if verLessThan('matlab', '8.0.1')
+ 	% This part is the same as unique in R2012b or earlier version
+ 	[C, ia, ic] = unique(A, msg);
+-else
+-	% This part is for unique in R2013a or later version
++@@ -10,4 +16,6 @@
+ 	% We use legacy mode of unique.
+ 	[C, ia, ic] = unique(A, msg, 'last', 'legacy');
+ end
++%}
++
+ return

@@ -58,7 +58,7 @@ warning ("off","Octave:latex-markup-not-supported-for-tick-marks");
 warning ("off","Octave:delete-no-such-file");
 
 % Add third party optimisers to the path
-name_strs={"SeDuMi_1_3","SparsePOP302"};
+name_strs={"SeDuMi_1_3","SparsePOP303"};
 mpath=mfilename("fullpath");
 mpath=mpath(1:strchr(mpath,filesep,1,'last'));
 for k=1:length(name_strs)
