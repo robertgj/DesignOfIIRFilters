@@ -1,4 +1,3 @@
-Files ./compileSparsePOP.m and ../SparsePOP303/./compileSparsePOP.m differ
 --- ./compileSparsePOP.m	2018-09-11 11:35:46.000000000 +1000
 +++ ../SparsePOP303/./compileSparsePOP.m	2020-08-11 22:00:06.000000000 +1000
 @@ -20,33 +20,15 @@
@@ -96,7 +95,6 @@ Files ./compileSparsePOP.m and ../SparsePOP303/./compileSparsePOP.m differ
 +cd(mpwd);
  
  fprintf('Compilation finished successfully.\n');
-Files ./readGMS.m and ../SparsePOP303/./readGMS.m differ
 --- ./readGMS.m	2018-09-18 14:41:11.000000000 +1000
 +++ ../SparsePOP303/./readGMS.m	2020-08-11 22:15:40.145460546 +1000
 @@ -434,7 +434,7 @@
@@ -126,7 +124,6 @@ Files ./readGMS.m and ../SparsePOP303/./readGMS.m differ
  sidx = 1;
  for i=1:length(idx)
      eidx = idx(i);
-Files ./subPrograms/Mfiles/my_unique.m and ../SparsePOP303/./subPrograms/Mfiles/my_unique.m differ
 --- ./subPrograms/Mfiles/my_unique.m	2018-09-11 11:35:47.000000000 +1000
 +++ ../SparsePOP303/./subPrograms/Mfiles/my_unique.m	2020-08-11 22:00:06.000000000 +1000
 @@ -2,12 +2,19 @@
