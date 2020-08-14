@@ -31716,10 +31716,44 @@ The \emph{SeDuMi} source depends on the OpenBLAS \emph{f77blas.h} and
 
 \pdfbookmark[0]{SparsePOP}{sparsepop}
 \section*{SparsePOP}
-\emph{SparsePOP303}~\cite{SparsePOP} compiles and runs on Octave with the
-minor modifications to \emph{subPrograms/Mfiles/my\_unique.m}, 
-\emph{readGMS.m} and \emph{compileSparsePOP.m} shown in 
-\emph{SparsePOP303.patch}.
+\emph{SparsePOP}~\cite{SparsePOP} is a semidefinite relaxations package for
+polynomial programming. \emph{SparsePOP303} compiles and runs under Octave with
+the minor modifications to \emph{my\_unique.m}, \emph{convert2.m},
+\emph{readGMS.m}, and \emph{compileSparsePOP.m} shown in
+\emph{SparsePOP303.patch}. \emph{convert2.m} is altered to support the
+Octave-Forge \emph{symbolic} package~\cite{OctaveForge_SymbolicPackage}. The
+latter is based on \emph{SymPy}~\cite{SymPy}, a Python library for symbolic
+mathematics.
+
+\pdfbookmark[0]{SDPT3}{sdpt3}
+\section*{SDPT3}
+\emph{SDPT3}~\cite{TohTutuncuTodd_SDPT3,TohToddTutuncu_SDPT3,
+  TutuncuTohTodd_SDPT3} is a MATLAB software for semidefinite-quadratic-linear
+programming. The version used in this project is based on an ``unofficial''
+GitHub repository~\cite{Unofficial_SDPT3} with the modifications shown in
+\emph{sdpt3-master.patch}.
+
+\pdfbookmark[0]{YALMIP}{yalmip}
+\section*{YALMIP}
+\emph{YALMIP}~\cite{Lofberg_YALMIP,Lofberg2004} is a toolbox for modelling and
+optimisation in MATLAB. It runs without modification under Octave. \emph{YALMIP}
+calls semi-definite programming (SDP) solvers such as \emph{SeDuMi} and
+\emph{SDPT3}. 
+
+\pdfbookmark[0]{BMIsolver}{bmisolver}
+\section*{BMIsolver}
+\emph{BMIsolver}~\cite{BMIsolver,Dinh_BMIsolver} is a MATLAB package for solving
+optimization problems with BMI (bilinear matrix inequality) constraints. The
+current version requires YALMIP as a modeling language. \emph{BMIsolver} runs
+under Octave with the minor modification shown in \emph{BMIsolver\_2013.patch}.
+
+\pdfbookmark[0]{COMPleib}{compleib}
+\section*{COMPLeib}
+\emph{COMPleib}~\cite{Leibfritz_COMPleib,LeibfritzLipinski_COMPleibManual,
+  Leibfritz_COMPleibPaper} is a collection of non-linear 
+semi-definite test examples referenced by \emph{BMIsolver}. The \emph{COMPleib}
+function runs under Octave with the minor modifications shown in
+\emph{COMPlib\_r1\_1.patch}.
 
 \pdfbookmark[0]{MPSolve}{mpsolve}
 \section*{MPSolve}

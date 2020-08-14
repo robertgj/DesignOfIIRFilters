@@ -1,0 +1,1514 @@
+--- COMPlib.old/COMPleib.m	2020-08-13 11:55:32.420562588 +1000
++++ COMPlib/COMPleib.m	2020-08-13 11:49:17.713431239 +1000
+@@ -63,7 +63,7 @@
+ %              "Lecture Notes in Control and Information Sciences",
+ %              1982  
+ %------------------------------------------------------------------
+-if(strmatch('AC1',ex,'exact'))
++if strcmp('AC1',ex)
+  nx=5;nu=3;ny=3; 
+  A=[0,0,1.132,0,-1; 0,-0.0538,-0.1712,0,0.0705;
+     0,0,0,1,0; 0,0.0485,0,-0.8556,-1.013; 0,-0.2909,0,1.0532,-0.6859];
+@@ -80,7 +80,7 @@
+ %------------------------------------------------------------------
+ % (AC2): like (AC1) with changed C1, D11, D12
+ %------------------------------------------------------------------
+-if(strmatch('AC2',ex,'exact'))
++if strcmp('AC2',ex)
+  nx=5;nu=3;ny=3; 
+  A=[0,0,1.132,0,-1; 0,-0.0538,-0.1712,0,0.0705;
+     0,0,0,1,0; 0,0.0485,0,-0.8556,-1.013; 0,-0.2909,0,1.0532,-0.6859];
+@@ -100,7 +100,7 @@
+ %       On the development of discontinuous observers",
+ %       IJOC, Vol. 59, Nr. 5, pp. 1211-1229, 1994
+ %------------------------------------------------------------------
+-if(strmatch('AC3',ex,'exact'))
++if strcmp('AC3',ex)
+  nx=5;nu=2;ny=4;
+  A=[0 0 1 0 0;0 -0.154 -0.0042 1.54 0;0 0.249 -1 -5.2 0;
+     0.0386 -0.996 -0.0003 -0.117 0;0 0.5 0 0 -0.5];
+@@ -115,7 +115,7 @@
+ %        Problems in Robust Control Theory",
+ %        IJOC, Vol. 74, Nr. 4, pp. 348-360
+ %------------------------------------------------------------------
+-if(strmatch('AC4',ex,'exact')) 
++if strcmp('AC4',ex) 
+  A=[-0.876 1 -0.1209 0; 8.9117 0 -130.75 0; 0 0 -150 0; -1 0 0 -0.05];
+  B=[0;0;150;0];
+  C=[-1 0 0 0;0 -1 0 0];
+@@ -131,7 +131,7 @@
+ %       Computation Delays via Loop Transfer Recovery",
+ %       AUTO, Vol. 28, Nr. 3, pp. 599-603, 1992
+ %------------------------------------------------------------------
+-if(strmatch('AC5',ex,'exact'))
++if strcmp('AC5',ex)
+  nx=4;nu=2;ny=2;
+  A=[0.9801  0.0003 -0.0980  0.0038;
+    -0.3868  0.9071  0.0471 -0.0008;
+@@ -144,7 +144,7 @@
+ %------------------------------------------------------------------
+ % (AC6): THE AIRCRAFT L- 1011 MODEL ???
+ %------------------------------------------------------------------
+-if(strmatch('AC6',ex,'exact'))
++if strcmp('AC6',ex)
+  nx=7;nu=2;ny=4;
+  A=[0 0 1 0 0 0 0;
+     0 -0.154 -0.0042 1.54 0 -0.744 -0.032;
+@@ -167,7 +167,7 @@
+ %        Three Case Studies", TOAC, Vol.31, Nr.11, pp.995-1014, 1986
+ %        Case study III 2)
+ %------------------------------------------------------------------
+-if(strmatch('AC7',ex,'exact'))
++if strcmp('AC7',ex)
+  nx=9;nu=1;ny=2;
+  A=[-0.06254, 0.01888,      0,-0.56141,-0.02751,  0, 0.06254,-0.00123, 0;
+      0.01089,-0.99280, 0.99795, 0.00097,-0.07057,  0,-0.01089, 0.06449, 0;
+@@ -195,7 +195,7 @@
+ %        (see (AC7)!)
+ %        Case study II, p.1001/1012
+ %------------------------------------------------------------------
+-if(strmatch('AC8',ex,'exact'))
++if strcmp('AC8',ex)
+  nx=9;nu=1;ny=5;
+  A=[-0.01365,0.17800, 0.00017,-0.56100,-0.03726,    0, 0.01365,-0.01311,       0;
+    -0.01516,-0.75200, 1.00100, 0.00127,-0.06311,    0, 0.01516, 0.05536,       0;
+@@ -236,7 +236,7 @@
+ % (AC9): Transport Aircraft model (Boing flight condition CRUISE); %%ehemals (AC12)
+ %        (see (AC7)!)     
+ %------------------------------------------------------------------
+-if(strmatch('AC9',ex,'exact'))
++if strcmp('AC9',ex)
+  nx=10;
+  A=[-0.01365,0.17800, 0.00017,-0.56100,-0.03726,    0, 0.01365,-0.01311,       0 -1;
+    -0.01516,-0.75200, 1.00100, 0.00127,-0.06311,    0, 0.01516, 0.05536,       0  0 ;
+@@ -282,7 +282,7 @@
+ %         E. J. Davison, "Benchmark Problems for Control System Design",
+ %         "Report of the IFAC Theory Comittee", 1990 
+ %------------------------------------------------------------------
+-if(strmatch('AC10',ex,'exact'))
++if strcmp('AC10',ex)
+  nx=55;nu=2;ny=2;
+  load ac10; % .mat file containing A, B, C, C1, B1, D12, D21
+  [nx,nw]=size(B1); [nz,nx]=size(C1);
+@@ -295,7 +295,7 @@
+ %         to Eigenstructure Assignment by Output Feedback",
+ %         TOAC, Vol. 41, Nr. 7, pp. 1046-1050, 1996; Example 2 
+ %------------------------------------------------------------------
+-if(strmatch('AC11',ex,'exact'))
++if strcmp('AC11',ex)
+  A=[-1.3410  0.9933 0 -0.1689 -0.2518;
+     43.2230 -0.8693 0 -17.251 -1.5766;
+     1.34100  0.0067 0  0.1689  0.2518;
+@@ -311,7 +311,7 @@
+ %         A Case Study Approach", Springer-Verlag,
+ %         "Advances in Industrial Conrol", 1996; p. 274         
+ %------------------------------------------------------------------ 
+-if(strmatch('AC12',ex,'exact'))
++if strcmp('AC12',ex)
+  nx=4;nu=3;ny=4;
+  A=[-0.0017, 0.0413,-5.3257,-9.7565;
+     -0.0721,-0.3393,49.5146,-1.0097;
+@@ -341,7 +341,7 @@
+ %         save ASTOVL_aug A B1 B2 C1 C2 D11 D12 D21 D22 Ag Bg Cg Dg
+ %            in ASTOVL.m /export/home/leibfr/Lipinski/matlab
+ %------------------------------------------------------------------
+-if(strmatch('AC13',ex,'exact'))
++if strcmp('AC13',ex)
+  nx=28;nu=3;ny=4;
+  load ac13_14; %% ehemals "ASTOVL_aug.mat"
+  % .mat file containing Ag, Bg, Cg -> A, B, C
+@@ -353,7 +353,7 @@
+ %         save ASTOVL_aug A B1 B2 C1 C2 D11 D12 D21 D22 Ag Bg Cg Dg
+ %            in ASTOVL.m /export/home/leibfr/Lipinski/matlab
+ %------------------------------------------------------------------ 
+-if(strmatch('AC14',ex,'exact'))
++if strcmp('AC14',ex)
+  nx=40;nu=3;ny=4;
+  load ac13_14; %% ehemals "ASTOVL_aug.mat"
+  % .mat file containing A, B, C, C1, B1, D12, D21
+@@ -365,7 +365,7 @@
+ %        "Computation of Optimal Output Feedback Gains for Linear
+ %        Multivariable Systems", TOAC, Vol. 19, pp. 257-258, 1974
+ %-------------------------------------------------------------------- 
+-if(strmatch('AC15',ex,'exact'))
++if strcmp('AC15',ex)
+  A=[-.037 .0123 .00055 -1;0 0 1 0;-6.37 0 -.23 .0618;1.25 0 .016 -.0457];
+  B=[.00084 .000236;0 0;.08 .804;-.0862 -.0665];
+  C=[0 1 0 0;0 0 1 0;0 0 0 1];
+@@ -380,7 +380,7 @@
+ %--------------------------------------------------------------------
+ % (AC16)  like (AC15) with changed C and D21  %%ehemals(NN3) 	 
+ %-------------------------------------------------------------------- 
+-if(strmatch('AC16',ex,'exact'))
++if strcmp('AC16',ex)
+  A=[-.037 .0123 .00055 -1;0 0 1 0;-6.37 0 -.23 .0618;1.25 0 .016 -.0457];
+  B=[.00084 .000236;0 0;.08 .804;-.0862 -.0665];
+  C=eye(size(A));
+@@ -399,7 +399,7 @@
+ %          to robust output feedback stabilization"
+ %         TOAC Vol. 31,Nr. 5, pp.410-419, 1986
+ %------------------------------------------------------------------
+-if(strmatch('AC17',ex,'exact'))
++if strcmp('AC17',ex)
+  nx=4;nu=1;ny=2;
+  A=[-2.98 , 0.93  , 0     ,-0.034 ;
+     -0.99 ,-0.21  , 0.035 ,-0.0011;
+@@ -416,7 +416,7 @@
+ %         reduced order system generated by
+ %            /export/home/leibfr/bsp37/bsp37bal.m 
+ %------------------------------------------------------------------
+-if(strmatch('AC18',ex,'exact'))
++if strcmp('AC18',ex)
+  n=10;nu=2;ny=2;
+  load ac18; % .mat file containing A, B, C, C1, B1, D12, D21
+  [nx,nw]=size(B1); [nz,nx]=size(C1);
+@@ -431,7 +431,7 @@
+ %        Journal of Dynamic Systems, Measurement and Control, Vol. 106,
+ %        pp. 203-210, 1984
+ %------------------------------------------------------------------
+-if(strmatch('HE1',ex,'exact'))
++if strcmp('HE1',ex)
+  nx=4;nu=2;ny=1;
+  A=[-0.0366 0.0271 0.0188 -0.4555;0.0482 -1.01 0.0024 -4.0208;
+     0.1002 0.3681 -0.7070 1.42;0 0 1 0];
+@@ -450,7 +450,7 @@
+ %        Ph. M. Fitzsimons, "Reducing the computation required to solve
+ %        a standard minimax problem", AUTO, Vol.31, pp.1885-1887, 1995
+ %------------------------------------------------------------------
+-if(strmatch('HE2',ex,'exact'))
++if strcmp('HE2',ex)
+  nx=4;nu=2;ny=2;
+  A=[-0.0649 0.0787 0.1705 -0.5616;0.0386 -0.939 4.2277 0.0198;
+      0.1121 -0.4254 -0.7968 0;0 0 1 0];
+@@ -466,7 +466,7 @@
+ %        available via ftp: wgs.esat.kuleuven.ac.be/ 
+ %                           pub/WGS/REPORTS/SLWN1999-12.ps.Z
+ %------------------------------------------------------------------
+-if(strmatch('HE3',ex,'exact'))
++if strcmp('HE3',ex)
+  nx=8;nu=4;ny=6;
+  A=[-0.0046 , 0.038  , 0.3259 ,-0.0045 ,-0.402  ,-0.073  ,-9.81 , 0   ;
+     -0.1978 ,-0.5667 , 0.357  ,-0.0378 ,-0.2149 , 0.5683 , 0    , 0   ;
+@@ -511,7 +511,7 @@
+ %        Data matrices unscaled in Sec12_2.m (in directory above)
+ %        cf. page 472
+ %------------------------------------------------------------------
+-if(strmatch('HE4',ex,'exact'))
++if strcmp('HE4',ex)
+  nx=8;nu=4;ny=6;
+  a01 = [          0                  0                  0   0.99857378005981;
+                   0                  0   1.00000000000000  -0.00318221934140;
+@@ -555,7 +555,7 @@
+ %        measurement and four control variables. The matrices A and B
+ %        are the same as in (HE4).
+ %------------------------------------------------------------------
+-if(strmatch('HE5',ex,'exact'))
++if strcmp('HE5',ex)
+  nx=8; nu=4; ny=2; nz=4; nw=3;
+  a01 = [          0                  0                  0   0.99857378005981;
+                   0                  0   1.00000000000000  -0.00318221934140;
+@@ -610,7 +610,7 @@
+ %        cf. page 474, 475
+ %        save Heli_Sec12_2_3_Hinf A B1 B2 C1 C2 D11 D12 D21 D22
+ %------------------------------------------------------------------
+-if(strmatch('HE6',ex,'exact'))
++if strcmp('HE6',ex)
+  nx=20; nu=4; ny=6; nw=6; nz=16; 
+  load he6  % ehemals: "Heli_Sec12_2_3_Hinf.mat"
+  % .mat file containing A, B1, B2, C1, C2, D11, D12, D21, D22
+@@ -624,7 +624,7 @@
+ %        John Wiley and Sons, 1996, Section 12.2.4
+ %        difference: nw=9 --> B1, D11, D21,  rest like in (HE6)
+ %------------------------------------------------------------------
+-if(strmatch('HE7',ex,'exact'))
++if strcmp('HE7',ex)
+  nx=20; nu=4; ny=6; nw=9; nz=16; 
+  load he7  % ehemals: "Heli_Sec12_2_4_dist_rejec.mat"
+  % .mat file containing A, B1, B2, C1, C2, D11, D12, D21, D22
+@@ -638,7 +638,7 @@
+ %        Nat. Eng. Consortium Inc., Chicago,
+ %        "Alternatives for Linear Multivariable Control", 1978 
+ %------------------------------------------------------------------
+-if(strmatch('JE1',ex,'exact')) 
++if strcmp('JE1',ex) 
+  nx=30; nu=3; ny=5;
+  load je1;  % .mat file containing A, B, C
+  C1=sqrt(0.5)*[C; zeros(nu,nx)]; D12=sqrt(0.5)*[zeros(ny,nu); eye(nu)];
+@@ -663,7 +663,7 @@
+ %        F. Leibfritz, 07.03.2005
+ %        renamed to A_je2=a; B_je2=b; C_je2=c; D_je2=d 
+ %------------------------------------------------------------------
+-if(strmatch('JE2',ex,'exact'))
++if strcmp('JE2',ex)
+  nx=21; nu=3; ny=3;
+  load je2_3 
+   % .mat file containing A_je2, B_je2, C_je2 --> A, B, C
+@@ -685,7 +685,7 @@
+ %        A_Hinf B1 B2 C1 C2 D11 D12 D21 D22 -- data set G5 for H_inf design
+ %              ==> A_Hinf := A in Sec12_33.m
+ %------------------------------------------------------------------
+-if(strmatch('JE3',ex,'exact'))
++if strcmp('JE3',ex)
+  nx=24; nu=3; ny=6; nw=6; nz=9;
+  load je2_3 %%ehemals: "Aero_Engine.mat"
+  % .mat file containing A_Hinf, B2, C2 (--> A, B, C) and C1, B1, D11, D12, D21
+@@ -698,7 +698,7 @@
+ %         A  quasi-classical approach", Springer-Verlag,
+ %         "Lecture Notes in Control and Information Sciences", 1982
+ %------------------------------------------------------------------
+-if(strmatch('REA1',ex,'exact')) 
++if strcmp('REA1',ex) 
+  nx=4;nu=2;ny=2;
+  A=[1.38 -0.2077 6.715 -5.676;-0.5814 -4.29 0 0.675;1.067 4.273 -6.654 5.893;
+     0.048 4.273 1.343 -2.104];
+@@ -710,7 +710,7 @@
+ % (REA2): Obtained from (REA1) by leaving out the last row of the
+ %         matrix C                                   %%ehemals (CHR1)
+ %------------------------------------------------------------------
+-if(strmatch('REA2',ex,'exact')) 
++if strcmp('REA2',ex) 
+  nx=4;nu=2;ny=3;
+  A=[1.4 -0.208 6.715 -5.676;-0.581 -4.29 0 .675;1.067 4.273 -6.654 5.893;
+     .048 4.273 1.343 -2.104];
+@@ -723,7 +723,7 @@
+ %         "Computation of Optimal Output Feedback Gains for Linear
+ %         Multivariable Systems", TOAC, Vol. 19, pp. 257--258, 1974
+ %------------------------------------------------------------------
+-if(strmatch('REA3',ex,'exact')) 
++if strcmp('REA3',ex) 
+  nx=4;nu=2;ny=3;
+  A=[-0.4044 , 0     , 0     , 0.4044, 0     , 0     , 0     , 0  , 0     , 0    , 0    , 0    ;
+      0      ,-0.4044, 0     , 0     , 0.4044, 0     , 0     , 0  , 0     , 0    , 0    , 0    ;
+@@ -748,7 +748,7 @@
+ %         Control", IJOC, Vol. 41, Nr. 6, pp. 1413-1428, 1985 
+ %         (discrete modell)
+ %------------------------------------------------------------------
+-if(strmatch('REA4',ex,'exact'))
++if strcmp('REA4',ex)
+  nx=8;nu=1;ny=1;
+  A=[0.5623 ,-0.01642, 0.01287,-0.0161 , 0.02094,-0.02988, 0.0183 , 0.008743;
+     0.102  , 0.6114 ,-0.02468, 0.02468,-0.03005, 0.04195,-0.02559, 0.03889 ;
+@@ -773,7 +773,7 @@
+ %         linear quadrtic regulator with time-scale property",
+ %         Optimal Control Applications and Methods, Vol.22, pp.1-16, 2001      
+ %------------------------------------------------------------------
+-if(strmatch('DIS1',ex,'exact'))
++if strcmp('DIS1',ex)
+  A11=[0.144 -0.058 0.056 0.042; -0.506 -0.236 -0.020 -0.012;
+      0 0 -0.278 0.291;0 0 0 -0.330];
+  A12=[0.120 2.1454 0 0.080;-0.06 -0.909 1.093 -0.040; 0 0 0 0.580; 0 0 0 0]; 
+@@ -800,7 +800,7 @@
+ %         Suboptimal Output Feedback Gains of Decentralized Control
+ %         Systems", JOTA, Vol. 93   
+ %------------------------------------------------------------------
+-if(strmatch('DIS2',ex,'exact'))
++if strcmp('DIS2',ex)
+  A=[-4 2 1;3 -2 5;-7 0 3];
+  Bb1=[1;1;0]; Bb2=[0;0;1];
+  B=[Bb1 Bb2];
+@@ -813,7 +813,7 @@
+ %         Large-Scale Interconnected Dynamical Systems",
+ %         AUTO, Vol. 28, Nr. 1, pp. 215-219 
+ %------------------------------------------------------------------
+-if(strmatch('DIS3',ex,'exact'))
++if strcmp('DIS3',ex)
+  A=[-1.0 0.0 0.0 0.0 0.0 0.0;-1.0 1.0 1.0 0.0 0.0 0.0;
+     1.0 -2.0 -1.0 -1.0 1.0 1.0;0.0 0.0 0.0 -1.0 0.0 0.0;
+    -8.0 1.0 -1.0 -1.0 -2.0 0.0;4.0 -0.5 0.5 0.0 0.0 -4.0];
+@@ -826,7 +826,7 @@
+ %         Moore algorithm for optimal decentralized control",
+ %         AUTO, Vol. 21, Nr. 6, pp.743-744, 1985 
+ %------------------------------------------------------------------
+-if(strmatch('DIS4',ex,'exact'))
++if strcmp('DIS4',ex)
+  A=[0 1 0.5 1   0.6  0  ;-2 -3 1 0 0 1; 0  2 0.5 1   1   0.5;
+     1 3 0   0.5 0   -0.5; 0  1 1 0 1 0;-3 -4 0   0.5 0.5 0  ];
+  B=[1 0 0 0;1 0 0 0;0 3 0 0;0 0 4 0;0 0 0 2;0 0 0 3]; 
+@@ -839,7 +839,7 @@
+ %         Tech. Report, FAPESP and CAPES, Brazil
+ %         (discrete model)
+ %------------------------------------------------------------------
+-if(strmatch('DIS5',ex,'exact'))
++if strcmp('DIS5',ex)
+  A=[0.8189  0.0863 0.09    0.0813;
+     0.2524  1.0033 0.0313  0.2004;
+    -0.0545  0.0102 0.7901 -0.258 ;
+@@ -866,7 +866,7 @@
+ %        "Lecture Notes in Control and Information Sciences", 1982
+ %        p. 117/167
+ %------------------------------------------------------------------
+-if(strmatch('TG1',ex,'exact')) 
++if strcmp('TG1',ex) 
+  nx=10;nu=2;ny=2;
+  A=[0 1 0 0 0 0 0 0 0 0;
+     0 -0.11323 -.98109 -11.847 -11.847 -63.08 -34.339 -34.339 -27.645 0;
+@@ -889,7 +889,7 @@
+ %        "Lecture Notes in Control and Information Sciences", 1982
+ %        p. 27/163
+ %------------------------------------------------------------------
+-if(strmatch('AGS',ex,'exact'))
++if strcmp('AGS',ex)
+  nx=12;nu=2;ny=2;
+  A=[0 1 0 0 0 0 0 0 0 0 0 0;
+    -0.202 -1.15 0 0 0 0 0 0 0 0 0 0;
+@@ -917,7 +917,7 @@
+ %         Appendix A.5: Linear models 
+ %         operation point v=12 m/s (v : wind speed)
+ %------------------------------------------------------------------
+-if(strmatch('WEC1',ex,'exact'))
++if strcmp('WEC1',ex)
+  A=zeros(10,10); 
+  A(1,1)=-5.0e0; 
+  A(2,3)=1.0e0;
+@@ -949,7 +949,7 @@
+ %------------------------------------------------------------------
+ % (WEC2): like (WEC1) at an operation point of v=16m/s (v: wind speed)
+ %------------------------------------------------------------------
+-if(strmatch('WEC2',ex,'exact'))
++if strcmp('WEC2',ex)
+  A=zeros(10,10); 
+  A(1,1)=-5.0e0; 
+  A(2,3)=1.0e0;
+@@ -981,7 +981,7 @@
+ %------------------------------------------------------------------
+ % (WEC3): like (WEC1) at an operation point of v=20m/s (v: wind speed)
+ %------------------------------------------------------------------
+-if(strmatch('WEC3',ex,'exact'))
++if strcmp('WEC3',ex)
+  A=zeros(10,10); 
+  A(1,1)=-5.0e0; 
+  A(2,3)=1.0e0;
+@@ -1016,7 +1016,7 @@
+ %        of the Lyapunpv Equation by Approximate Power Iteration",
+ %        Linear Algebra Appl., Vol. 236, pp. 205-230, 1996
+ %------------------------------------------------------------------
+-if(strmatch('HF1',ex,'exact'))
++if strcmp('HF1',ex)
+  nx=130;nu=1;ny=2;
+  h=1/(nx+1);
+  ad=-2*ones(nx,1); ad(1)=-1.0; an=ones(nx,1);
+@@ -1035,7 +1035,7 @@
+ %         E. J. Davison, "Benchmark Problems for Control System Design",
+ %         "Report of the IFAC Theory Comittee", 1990 
+ %------------------------------------------------------------------
+-if(strmatch('BDT1',ex,'exact'))
++if strcmp('BDT1',ex)
+  nx=11;nu=3;ny=3;
+  A=[-0.014 0.0043 0 0 0 0 0 0 0 0 0;
+     0.0095 -0.0138 0.0046 0 0 0 0 0 0 0 0.0005;
+@@ -1072,7 +1072,7 @@
+ %         F. Leibfritz, 29.10.2003
+ %         save Dist_Column_82 A B B1 C C1 D12
+ %------------------------------------------------------------------
+-if(strmatch('BDT2',ex,'exact'))
++if strcmp('BDT2',ex)
+  nx=82; nu=4; ny=4; nz=4; nw=2;
+  load bdt2 %-- generated by test_cola_lin.m (in directory above)
+            % ehemals: "Dist_Column_82.mat"
+@@ -1086,7 +1086,7 @@
+ %        Feedback Control via LMI Optimization",
+ %        TOAC, Vol. 42, Nr. 7, pp. 896-911, 1997    
+ %------------------------------------------------------------------
+-if(strmatch('MFP',ex,'exact'))
++if strcmp('MFP',ex)
+  nx=4;nu=3;ny=2;
+  A=[0 0 1 0;0 0 0 1;-0.101 -0.1681 -0.04564 -0.01075;
+     0.06082 -2.1407 -0.05578 -0.1273];
+@@ -1099,7 +1099,7 @@
+ %         E. J. Davison, "Benchmark Problems for Control System Design",
+ %         "Report of the IFAC Theory Comittee", 1990; p.32
+ %------------------------------------------------------------------
+-if(strmatch('UWV',ex,'exact'))
++if strcmp('UWV',ex)
+  nx=8;nu=2;ny=2;nw=2;nz=1;
+  A=[  0   , 850 , 0    , 0   , 0    , 0  , 0   , 0  ;
+      -850 ,-120 ,-4100 , 0   , 0    , 0  , 0   , 0  ;
+@@ -1129,7 +1129,7 @@
+ %       available via ftp: wgs.esat.kuleuven.ac.be/
+ %                          pub/WGS/REPORTS/SLWN1999-14.ps.Z",
+ %------------------------------------------------------------------
+-if(strmatch('IH',ex,'exact'))
++if strcmp('IH',ex)
+   nx=21; nu=11; ny=10;
+   load ih;
+   C1=sqrt(5)*[C;zeros(1,nx)]; D12=sqrt(0.5)*eye(nu);
+@@ -1146,7 +1146,7 @@
+ %         available via ftp: wgs.esat.kuleuven.ac.be/
+ %                          pub/WGS/REPORTS/SLWN1999-14.ps.Z",
+ %------------------------------------------------------------------
+-if(strmatch('CSE1',ex,'exact'))
++if strcmp('CSE1',ex)
+  l=10; 
+  mu=4.0e0; delta=mu; kappa=1.0e0;
+  nx=2*l; nu=2; ny=l;
+@@ -1174,7 +1174,7 @@
+ %         available via ftp: wgs.esat.kuleuven.ac.be/
+ %                          pub/WGS/REPORTS/SLWN1999-14.ps.Z",
+ %------------------------------------------------------------------
+-if(strmatch('CSE2',ex,'exact'))
++if strcmp('CSE2',ex)
+  l=30; 
+  mu=4.0e0; delta=mu; kappa=1.0e0;
+  nx=2*l; nu=2; ny=l;
+@@ -1201,7 +1201,7 @@
+ %        low damping --> xi=1e-2
+ %        s_max=5 --> nx=10 
+ %------------------------------------------------------------------
+-if(strmatch('EB1',ex,'exact'))
++if strcmp('EB1',ex)
+  nx=10;nu=1;ny=1;
+  O=zeros(2,2); xi=0.01;
+  s=1; w=s^2; A1=[0, 1; -w^2 -2*xi*w];
+@@ -1227,7 +1227,7 @@
+ %        low damping --> xi=1e-2
+ %        s_max=5 --> nx=10  
+ %------------------------------------------------------------------
+-if(strmatch('EB2',ex,'exact'))
++if strcmp('EB2',ex)
+  nx=10;nu=1;ny=1;
+  O=zeros(2,2); xi=0.01;
+  s=1; w=s^2; A1=[0, 1; -w^2 -2*xi*w];
+@@ -1252,7 +1252,7 @@
+ %        very low damping --> xi=1e-7  
+ %        s_max=5 --> nx=10
+ %------------------------------------------------------------------
+-if(strmatch('EB3',ex,'exact'))
++if strcmp('EB3',ex)
+  xi=1e-7; %1e-2; 1e-5
+  s_max=5; % 5; 10; 20; 80
+  s=(1:s_max)'; %-- no. of modal coordinates q_r, r=1,..,s_max
+@@ -1290,7 +1290,7 @@
+ %        very low damping --> xi=1e-7
+ %        higher dimension:  s_max=10 --> nx=20
+ %------------------------------------------------------------------
+-if(strmatch('EB4',ex,'exact'))
++if strcmp('EB4',ex)
+  xi=1e-7; %1e-2; 1e-5
+  s_max=10; % 5; 10; 20; 80 
+  s=(1:s_max)'; %-- no. of modal coordinates q_r, r=1,..,s_max
+@@ -1328,7 +1328,7 @@
+ %        very low damping --> xi=1e-7  
+ %        higher dimension:  s_max=20 --> nx=40
+ %------------------------------------------------------------------
+-if(strmatch('EB5',ex,'exact'))
++if strcmp('EB5',ex)
+  xi=1e-7; %1e-2; 1e-5
+  s_max=20;%5; 10; 20; 80
+  s=(1:s_max)'; %-- no. of modal coordinates q_r, r=1,..,s_max
+@@ -1366,7 +1366,7 @@
+ %        very low damping --> xi=1e-7  
+ %        higher dimension:  s_max=80 --> nx=160
+ %------------------------------------------------------------------
+-if(strmatch('EB6',ex,'exact'))
++if strcmp('EB6',ex)
+  xi=1e-7; %1e-2; 1e-5
+  s_max=80;%5; 10; 20; 80 
+  s=(1:s_max)'; %-- no. of modal coordinates q_r, r=1,..,s_max
+@@ -1405,7 +1405,7 @@
+ %        Springer-Verlag, "Lecture Notes in Control and Information Sciences",
+ %        Vol.235, 1998; p.283
+ %------------------------------------------------------------------
+-if(strmatch('PAS',ex,'exact'))
++if strcmp('PAS',ex)
+  nx=5;nu=1;ny=3;
+  A=[         0,       1,         0,0,0;
+     -274921.63,-73.2915,-274921.63,0,0;
+@@ -1429,7 +1429,7 @@
+ % Note: This is not a classical SOF control design --> special ROC
+ % Q: Is the problem SOF stabilizable too ?
+ %------------------------------------------------------------------
+-if(strmatch('TF1',ex,'exact'))
++if strcmp('TF1',ex)
+  beta=1/20; eps2=-1e-5;
+  A=[-1 0 0 0  0 0 0; 1 0 0 0 0 0 0; 0 1 0 0 0 0 0; 0 0 0 0 0 0 0;
+      0 0 0 1 -1 0 0; -0.088 0.0345 0 0 1 -0.0032 0;
+@@ -1447,7 +1447,7 @@
+ %------------------------------------------------------------------
+ % (TF2): Like (TF1) with a different sensor matrix C.
+ %------------------------------------------------------------------
+-if(strmatch('TF2',ex,'exact'))
++if strcmp('TF2',ex)
+  beta=1/20; eps2=-1e-5;
+  A=[-1 0 0 0  0 0 0; 1 0 0 0 0 0 0; 0 1 0 0 0 0 0; 0 0 0 0 0 0 0;
+      0 0 0 1 -1 0 0; -0.088 0.0345 0 0 1 -0.0032 0;
+@@ -1464,7 +1464,7 @@
+ %------------------------------------------------------------------
+ % (TF3): Another sensor matrix $C$ for the terrain following model.
+ %------------------------------------------------------------------
+-if(strmatch('TF3',ex,'exact'))
++if strcmp('TF3',ex)
+  beta=1/20; eps2=-1e-5;
+  A=[-1 0 0 0  0 0 0; 1 0 0 0 0 0 0; 0 1 0 0 0 0 0; 0 0 0 0 0 0 0;
+      0 0 0 1 -1 0 0; -0.088 0.0345 0 0 1 -0.0032 0;
+@@ -1487,7 +1487,7 @@
+ %        problem: a new approach via optimal control theory",
+ %        IEEE Trans. on Power Apparatus and Systems,Vol.89,pp.563-571,1970
+ %------------------------------------------------------------------
+-if(strmatch('PSM',ex,'exact'))
++if strcmp('PSM',ex)
+   nx=7; nu=2; ny=3;
+   A=[-0.04165, 0   , 4.92,-4.92, 0      , 0   , 0   ;
+      -5.21   ,-12.5, 0   , 0   , 0      , 0   , 0   ;
+@@ -1517,7 +1517,7 @@
+ %       0-7803-5832-5/99, 1999
+ %       Note: Ex'=Ax+Bu; y=Cx given
+ %------------------------------------------------------------------
+-if(strmatch('TL',ex,'exact'))
++if strcmp('TL',ex)
+   nx=256; nu=2; ny=2;
+   load tl; invE=inv(E);
+   A=invE*A; B=invE*B; B1=invE*eye(nx);
+@@ -1534,7 +1534,7 @@
+ %       "Adaptive control of the radial servo system of a compact disc player"
+ %        Automatica, Vol. 28, No. 3, pp. 455-462, 1992 
+ %------------------------------------------------------------------
+-if(strmatch('CDP',ex,'exact'))
++if strcmp('CDP',ex)
+   nx=120; nu=2; ny=2;
+   load cdp;
+   A=full(A);
+@@ -1548,7 +1548,7 @@
+ %        "Output feedback stabilization of a spectral radius functional", 
+ %        IJOC, Vol. 27, pp. 455-462, 1978 
+ %--------------------------------------------------------------------
+-if(strmatch('NN1',ex,'exact'))
++if strcmp('NN1',ex)
+  nx=3;nu=1;ny=2;
+  A=[0 1 0;0 0 1;0 13 0];B=[0;0;1];C=[0 5 -1;-1 -1 0];
+ end
+@@ -1559,7 +1559,7 @@
+ %        constant output feedback gains for linear multivariable systems",
+ %        TOAC, Vol. 15, Nr. 8, pp. 44-48 
+ %--------------------------------------------------------------------
+-if(strmatch('NN2',ex,'exact'))
++if strcmp('NN2',ex)
+  A=[0,1;-1,0];
+  B1=[1,0;0,1]; B=[0;1];
+  C1=[1,0;0,0]; C=[0,1];
+@@ -1575,7 +1575,7 @@
+ %        Control Problems with LMI Objectives",
+ %        Delft University of Technology, The Netherlands, 2000
+ %--------------------------------------------------------------------
+-if(strmatch('NN3',ex,'exact'))
++if strcmp('NN3',ex)
+  A=[0.5 1 1.5 1; -1 3 2.1 2; 1 -1 -0.6 1; -2 2 -1 1];
+  B1=[0; 0; 1;0];
+  B=[0;0;0;1];
+@@ -1593,7 +1593,7 @@
+ %        "Output feedback stabilization of a spectral radius functional", 
+ %        IJOC, Vol. 27, pp. 455-462, 1978 
+ %--------------------------------------------------------------------
+-if(strmatch('NN4',ex,'exact'))
++if strcmp('NN4',ex)
+  nx=4;nu=2;ny=3;
+  A=[0 1 0 0;0 -2.93 -4.75 -0.78;0.086 0 -0.11 -1;0 -0.042 2.59 -0.39];
+  B=[0 0;0 -3.91;0.035 0;-2.53 0.31];
+@@ -1606,7 +1606,7 @@
+ %        "Output feedback stabilization of a spectral radius functional", 
+ %        IJOC, Vol. 27, pp. 455-462, 1978
+ %--------------------------------------------------------------------
+-if(strmatch('NN5',ex,'exact'))
++if strcmp('NN5',ex)
+  nx=7;nu=1;ny=2;
+  A=[0 1 0 0 0 0 0;0 0 .2 -.65 -.002 2.6 0;-.014 1 -.041 .0002 -.015 -.033 0;
+     0 0 0 0 1 0 0;0 0 0 -45 -.13 255 0;0 0 0 0 0 0 1;0 0 0 0 0 -50 -10];
+@@ -1619,7 +1619,7 @@
+ %        Constant Output Feedback Problem by Conjugate Gradients",
+ %        TOAC, Vol. 19, pp. 434-435, 1974   %%%ehemals (HB1)
+ %--------------------------------------------------------------------
+-if(strmatch('NN6',ex,'exact'))
++if strcmp('NN6',ex)
+  nx=9;nu=1;ny=4;
+  A=[0,1,0,0,0,0,0,0,0;0,-20,-4.2,0,4.45,12.5,0,100,0;0,0,0,1,0,0,0,0,0;
+     0,4.7,8.35,0,-1.1,0,0,0,0;0,0,0,0,-3.3,0,0,0,0;0,0,0,0,0,0,1,0,0;
+@@ -1636,7 +1636,7 @@
+ %--------------------------------------------------------------------
+ % (NN7): like (NN6) with changed B1, C1, D11, D12 and D21 %%%ehemals (HB2)
+ %--------------------------------------------------------------------
+-if(strmatch('NN7',ex,'exact'))
++if strcmp('NN7',ex)
+  nx=9;nu=1;ny=4;
+  A=[0,1,0,0,0,0,0,0,0;0,-20,-4.2,0,4.45,12.5,0,100,0;0,0,0,1,0,0,0,0,0;
+     0,4.7,8.35,0,-1.1,0,0,0,0;0,0,0,0,-3.3,0,0,0,0;0,0,0,0,0,0,1,0,0;
+@@ -1656,7 +1656,7 @@
+ %--------------------------------------------------------------------
+ % (NN8)
+ %--------------------------------------------------------------------
+-if(strmatch('NN8',ex,'exact'))
++if strcmp('NN8',ex)
+  nx=3;nu=2;ny=2;
+  A=[-0.2 0.1 1;-0.05 0 0;0 0 -1];
+  B=[0 1; 0 0.7;1 0];
+@@ -1668,7 +1668,7 @@
+ %        Springer-Verlag, "Lecture Notes in Control and Information Sciences",
+ %        Vol.235, 1998; p. 110
+ %--------------------------------------------------------------------
+-if(strmatch('NN9',ex,'exact'))
++if strcmp('NN9',ex)
+  nx=5; nu=3; ny=2;
+  A=[1 1 1 0 1;0 1 0 0 1;0 1 1 0 1;1 1 1 1 1;1 1 1 1 0];
+  B=[0 0 0;0 0 0;1 0 0;0 0 1;0 1 0];
+@@ -1687,7 +1687,7 @@
+ %         Feedback Pole Assignment of Linear Systems", TOAC, Vol. 41, 
+ %         Nr. 6, pp. 786-794, 1996; Example 3.7
+ %--------------------------------------------------------------------
+-if(strmatch('NN10',ex,'exact'))
++if strcmp('NN10',ex)
+  A=[0,-1, 0, 0, 0, 0, 0, 1;
+     1, 2, 0, 0, 1, 0, 0,-2;
+     0,-1, 0, 0, 5, 0, 0, 0;
+@@ -1712,7 +1712,7 @@
+ %         Minimization, Local and Global Algorithms", TOAC, Vol. 45, 
+ %         Nr. 2, pp. 299-305, 2000 
+ %--------------------------------------------------------------------
+-if(strmatch('NN11',ex,'exact'))
++if strcmp('NN11',ex)
+  A1=[-101 -99.9 0 0 0 0 0 0;
+       0 -101 0 0 0 0 0 0;
+       0 0 -101 -99.9 0 0 0 0;
+@@ -1772,7 +1772,7 @@
+ %         with Dynamic Compensators", TOAC, Vol. 41, Nr. 6, 
+ %         pp.830-843, 1996, Example 3.14
+ %--------------------------------------------------------------------
+-if(strmatch('NN12',ex,'exact'))
++if strcmp('NN12',ex)
+   A=[0,0,0,0,0,0;1,0,0,0,0,-1;0,1,0,0,0,0;
+      0,0,0,0,0,0;0,0,0,1,0,0;0,0,-1,0,1,0];
+   B=-[1,3;0,0;0,-1;0,1;0,1;0,0];
+@@ -1786,7 +1786,7 @@
+ %         available via ftp: wgs.esat.kuleuven.ac.be/
+ %                            pub/WGS/REPORTS/SLWN1999-12.ps.Z
+ %--------------------------------------------------------------------
+-if(strmatch('NN13',ex,'exact'))
++if strcmp('NN13',ex)
+  A=[-1 0 4 5 -3 -2;-2 4 -7 -2 0 3; -6 9 -5 0 2 -1;-8 4 7 -1 -3 0;
+     2 5 8 -9 1 -4; 3 -5 8 0 2 -6];
+  B=[1 0;-5 2; 7 -2; 1 -2;0 5;-6 -2];
+@@ -1806,7 +1806,7 @@
+ %         available via ftp: wgs.esat.kuleuven.ac.be/
+ %                            pub/WGS/REPORTS/SLWN1999-12.ps.Z
+ %--------------------------------------------------------------------
+-if(strmatch('NN14',ex,'exact'))
++if strcmp('NN14',ex)
+   A=[-1 0 4 5 -3 -2;-2 4 -7 -2 0 3; -6 9 -5 0 2 -1;-8 4 7 -1 -3 0;
+     2 5 8 -9 1 -4; 3 -5 8 0 2 -6];
+  B=[1 0;-5 2; 7 -2; 1 -2;0 5;-6 -2];
+@@ -1823,7 +1823,7 @@
+ %         "An Alternate Numerical Solution to the Linear Quadratic Problem",
+ %         TOAC, Vol. 39, Nr. 1, pp. 198-202, 1994
+ %--------------------------------------------------------------------
+-if(strmatch('NN15',ex,'exact'))
++if strcmp('NN15',ex)
+  A=[0,1,0;-79.285,-0.113,0;28.564,0.041,0];
+  %B1=eye(size(A));
+  B1=[0;0.041;-0.03];
+@@ -1843,7 +1843,7 @@
+ %         Design of Systems with Ill-conditioned Dynamics",
+ %         AUTO, Vol. 21, Nr. 3, pp. 271-276, 1985
+ %------------------------------------------------------------------
+-if(strmatch('NN16',ex,'exact'))
++if strcmp('NN16',ex)
+   nx=8;nu=4;ny=4;
+   A=[ 0    , 1 , 0      , 0 , 0    , 0 , 0    , 0;
+      -0.42 , 0 , 0      , 0 , 0    , 0 , 0    , 0;
+@@ -1878,7 +1878,7 @@
+ %         singular H_inf control", SIOPT, Vol. 35, Nr. 5,
+ %         pp. 1690-1710, 1997
+ %--------------------------------------------------------------------
+-if(strmatch('NN17',ex,'exact'))
++if strcmp('NN17',ex)
+  A=[0,-1,2; 1,-2,3; 0,1,0];
+  B1=[1; -1; 0];
+  B=[1,0; 0,0; 0,-1];
+@@ -1897,7 +1897,7 @@
+ %         Dynamical Systems", Technische Universitaet Chemnitz, SFB 393,
+ %         Preprint SFB393/99-40, 1999
+ %------------------------------------------------------------------
+-if(strmatch('NN18',ex,'exact'))
++if strcmp('NN18',ex)
+   nx=1006; nu=1; ny=1;
+   d=[1;1;1;1;1;1;[1:1000]'];
+   sd=[  -100;0;-200;0;-400;zeros(1001,1)];
+@@ -1915,7 +1915,7 @@
+ % (HF2D1): 2D heat flow example, HF2D_JetControlExamples
+ %          thermal properties of copper, sd:=0.3825
+ %------------------------------------------------------------------
+-if(strmatch('HF2D1',ex,'exact'))
++if strcmp('HF2D1',ex)
+  nx=3796; nu=2; ny=3;
+  load hf2d1;
+  invE=inv(E);
+@@ -1927,7 +1927,7 @@
+ %------------------------------------------------------------------
+ % (HF2D1_M316): medium scale version of (HF2D1), sd:=0.615
+ %------------------------------------------------------------------
+-if(strmatch('HF2D1_M316',ex,'exact'))
++if strcmp('HF2D1_M316',ex)
+  nx=316; nu=2; ny=3;
+  load hf2d1_m316;
+  invE=inv(E);
+@@ -1939,7 +1939,7 @@
+ %------------------------------------------------------------------
+ % (HF2D1_M541): medium scale version of (HF2D1), sd:=0.615
+ %------------------------------------------------------------------
+-if(strmatch('HF2D1_M541',ex,'exact'))
++if strcmp('HF2D1_M541',ex)
+  nx=541; nu=2; ny=3;
+  load hf2d1_m541;
+  invE=inv(E);
+@@ -1952,7 +1952,7 @@
+ % (HF2D2): 2D heat flow example, HF2D_JetControlExamples
+ %          thermal properties of platinum, sd:=0.5325
+ %------------------------------------------------------------------
+-if(strmatch('HF2D2',ex,'exact'))
++if strcmp('HF2D2',ex)
+  nx=3796; nu=2; ny=3;
+  load hf2d2;
+  invE=inv(E);
+@@ -1964,7 +1964,7 @@
+ %------------------------------------------------------------------
+ % (HF2D2_M316): medium scale version of (HF2D2), sd:=0.72
+ %------------------------------------------------------------------
+-if(strmatch('HF2D2_M316',ex,'exact'))
++if strcmp('HF2D2_M316',ex)
+  nx=316; nu=2; ny=3;
+  load hf2d2_m316;
+  invE=inv(E);
+@@ -1976,7 +1976,7 @@
+ %------------------------------------------------------------------
+ % (HF2D2_M541): medium scale version of (HF2D2), sd:=0.72
+ %------------------------------------------------------------------
+-if(strmatch('HF2D2_M541',ex,'exact'))
++if strcmp('HF2D2_M541',ex)
+  nx=541; nu=2; ny=3;
+  load hf2d2_m541;
+  invE=inv(E);
+@@ -1990,7 +1990,7 @@
+ % (HF2D3): 2D heat flow example, rectangular domain
+ %          thermal properties of copper
+ %------------------------------------------------------------------
+-if(strmatch('HF2D3',ex,'exact'))
++if strcmp('HF2D3',ex)
+  nx=4489; nu=2; ny=4;
+  load hf2d3;
+  invE=inv(E);
+@@ -2003,7 +2003,7 @@
+ % (HF2D4): 2D heat flow example, rectangular domain 
+ %          thermal properties of platinum
+ %------------------------------------------------------------------
+-if(strmatch('HF2D4',ex,'exact'))
++if strcmp('HF2D4',ex)
+  nx=2025; nu=2; ny=4;
+  load hf2d4;
+  invE=inv(E);
+@@ -2017,7 +2017,7 @@
+ %          operator added
+ %          thermal properties of copper, sd=0.3825
+ %------------------------------------------------------------------
+-if(strmatch('HF2D5',ex,'exact'))
++if strcmp('HF2D5',ex)
+  nx=4489; nu=2; ny=4;
+  load hf2d5;
+  invE=inv(E);
+@@ -2029,7 +2029,7 @@
+ %------------------------------------------------------------------
+ % (HF2D5_M289): medium scale version of (HF2D5), sd:=?
+ %------------------------------------------------------------------
+-if(strmatch('HF2D5_M289',ex,'exact'))
++if strcmp('HF2D5_M289',ex)
+  nx=289; nu=2; ny=4;
+  load hf2d5_m289;
+  invE=inv(E);
+@@ -2041,7 +2041,7 @@
+ %------------------------------------------------------------------
+ % (HF2D5_M529): medium scale version of (HF2D5), sd:=?
+ %------------------------------------------------------------------
+-if(strmatch('HF2D5_M529',ex,'exact'))
++if strcmp('HF2D5_M529',ex)
+  nx=529; nu=2; ny=4;
+  load hf2d5_m529;
+  invE=inv(E);
+@@ -2056,7 +2056,7 @@
+ %          operator added
+ %          thermal properties of of platinum, sd:=1.725
+ %------------------------------------------------------------------
+-if(strmatch('HF2D6',ex,'exact'))
++if strcmp('HF2D6',ex)
+  nx=2025; nu=2; ny=4;
+  load hf2d6;
+  invE=inv(E);
+@@ -2068,7 +2068,7 @@
+ %------------------------------------------------------------------
+ % (HF2D6_M289): medium scale version of (HF2D6), sd:=0.9825
+ %------------------------------------------------------------------
+-if(strmatch('HF2D6_M289',ex,'exact'))
++if strcmp('HF2D6_M289',ex)
+  nx=289; nu=2; ny=4;
+  load hf2d6_m289;
+  invE=inv(E);
+@@ -2080,7 +2080,7 @@
+ %------------------------------------------------------------------
+ % (HF2D6_M529): medium scale version of (HF2D6), sd:=1.8825
+ %------------------------------------------------------------------
+-if(strmatch('HF2D6_M529',ex,'exact'))
++if strcmp('HF2D6_M529',ex)
+  nx=529; nu=2; ny=4;
+  load hf2d6_m529;
+  invE=inv(E);
+@@ -2095,7 +2095,7 @@
+ %          operator added and extended to a nonlinear model
+ %          thermal properties of copper
+ %------------------------------------------------------------------
+-if(strmatch('HF2D7',ex,'exact'))
++if strcmp('HF2D7',ex)
+  nx=4489; nu=2; ny=4;
+  load hf2d7;
+  invE=inv(E);
+@@ -2109,7 +2109,7 @@
+ %          operator added and extended to a nonlinear model
+ %          thermal properties of of platinum
+ %------------------------------------------------------------------
+-if(strmatch('HF2D8',ex,'exact'))
++if strcmp('HF2D8',ex)
+  nx=2025; nu=2; ny=4;
+  load hf2d8;
+  invE=inv(E);
+@@ -2122,7 +2122,7 @@
+ % (HF2D9): 2D heat flow example, Distributed control of a perturbed
+ %          linear heat flow model 
+ %------------------------------------------------------------------
+-if(strmatch('HF2D9',ex,'exact'))
++if strcmp('HF2D9',ex)
+  nx=3481; nu=2; ny=2;
+  load hf2d9;
+  [nx,nw]=size(B1); [nz,nx]=size(C1);  
+@@ -2132,7 +2132,7 @@
+ %------------------------------------------------------------------
+ % (HF2D9_M256): medium scale version of (HF2D9), sd:=0.4829 
+ %------------------------------------------------------------------
+-if(strmatch('HF2D9_M256',ex,'exact'))
++if strcmp('HF2D9_M256',ex)
+  nx=256; nu=2; ny=2;
+  load hf2d9_m256;
+  [nx,nw]=size(B1); [nz,nx]=size(C1);  
+@@ -2142,7 +2142,7 @@
+ %------------------------------------------------------------------
+ % (HF2D9_M484): medium scale version of (HF2D9), sd:=? 
+ %------------------------------------------------------------------
+-if(strmatch('HF2D9_M484',ex,'exact'))
++if strcmp('HF2D9_M484',ex)
+  nx=484; nu=2; ny=2;
+  load hf2d9_m484;
+  [nx,nw]=size(B1); [nz,nx]=size(C1);  
+@@ -2154,7 +2154,7 @@
+ %------------------------------------------------------------------
+ % (HF2D10): reduced version of (HF2D1)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D10',ex,'exact'))
++if strcmp('HF2D10',ex)
+  nx=5; nu=2; ny=3;
+  load hf2d10;
+  invE=inv(E);
+@@ -2166,7 +2166,7 @@
+ %------------------------------------------------------------------
+ % (HF2D11): reduced version of (HF2D2)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D11',ex,'exact'))
++if strcmp('HF2D11',ex)
+  nx=5; nu=2; ny=3;
+  load hf2d11;
+  invE=inv(E);
+@@ -2178,7 +2178,7 @@
+ %------------------------------------------------------------------
+ % (HF2D12): reduced version of (HF2D3)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D12',ex,'exact'))
++if strcmp('HF2D12',ex)
+  nx=5; nu=2; ny=4;
+  load hf2d12;
+  invE=inv(E);
+@@ -2190,7 +2190,7 @@
+ %------------------------------------------------------------------
+ % (HF2D13): reduced version of (HF2D4)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D13',ex,'exact'))
++if strcmp('HF2D13',ex)
+  nx=5; nu=2; ny=4;
+  load hf2d13;
+  invE=inv(E);
+@@ -2202,7 +2202,7 @@
+ %------------------------------------------------------------------
+ % (HF2D14): reduced version of (HF2D5)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D14',ex,'exact'))
++if strcmp('HF2D14',ex)
+  nx=5; nu=2; ny=4;
+  load hf2d14;
+  invE=inv(E);
+@@ -2214,7 +2214,7 @@
+ %------------------------------------------------------------------
+ % (HF2D15): reduced version of (HF2D6)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D15',ex,'exact'))
++if strcmp('HF2D15',ex)
+  nx=5; nu=2; ny=4;
+  load hf2d15;
+  invE=inv(E);
+@@ -2226,7 +2226,7 @@
+ %------------------------------------------------------------------
+ % (HF2D16): reduced version of (HF2D7)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D16',ex,'exact'))
++if strcmp('HF2D16',ex)
+  nx=5; nu=2; ny=4;
+  load hf2d16;
+  invE=inv(E);
+@@ -2238,7 +2238,7 @@
+ %------------------------------------------------------------------
+ % (HF2D17): reduced version of (HF2D8)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D17',ex,'exact'))
++if strcmp('HF2D17',ex)
+  nx=5; nu=2; ny=4;
+  load hf2d17; 
+  invE=inv(E);
+@@ -2250,7 +2250,7 @@
+ %------------------------------------------------------------------
+ % (HF2D18): reduced version of (HF2D9)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D18',ex,'exact'))
++if strcmp('HF2D18',ex)
+  nx=5; nu=2; ny=2;
+  load hf2d18;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2269,7 +2269,7 @@
+ %               using model reduction: techniques and case studies"
+ %               TR 2004, submitted)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_CD1',ex,'exact'))
++if strcmp('HF2D_CD1',ex)
+  nx=3600; nu=2; ny=2;
+  load hf2d_cd1;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2280,7 +2280,7 @@
+ % (HF2D_CD1_M256): medium scale version of (HF2D_CD1), 
+ %                  eps1=0.29555, eps2=2.9555
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_CD1_M256',ex,'exact'))
++if strcmp('HF2D_CD1_M256',ex)
+  nx=256; nu=2; ny=2;
+  load hf2d_cd1_m256;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2291,7 +2291,7 @@
+ % (HF2D_CD1_M484): medium scale version of (HF2D_CD1), 
+ %                  eps1=0.29555, eps2=2.9555
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_CD1_M484',ex,'exact'))
++if strcmp('HF2D_CD1_M484',ex)
+  nx=484; nu=2; ny=2;
+  load hf2d_cd1_m484;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2310,7 +2310,7 @@
+ %               using model reduction: techniques and case studies"
+ %               TR 2004, submitted)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_CD2',ex,'exact'))
++if strcmp('HF2D_CD2',ex)
+  nx=3600; nu=2; ny=2;
+  load hf2d_cd2;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2321,7 +2321,7 @@
+ % (HF2D_CD2_M256): medium scale version of (HF2D_CD2), 
+ %                  eps1=0.29555, eps2=2.1755
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_CD2_M256',ex,'exact'))
++if strcmp('HF2D_CD2_M256',ex)
+  nx=256; nu=2; ny=2;
+  load hf2d_cd2_m256;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2332,7 +2332,7 @@
+ % (HF2D_CD2_M484): medium scale version of (HF2D_CD2), 
+ %                  eps1=0.29555, eps2=2.1755
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_CD2_M484',ex,'exact'))
++if strcmp('HF2D_CD2_M484',ex)
+  nx=484; nu=2; ny=2;
+  load hf2d_cd2_m484;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2351,7 +2351,7 @@
+ %               using model reduction: techniques and case studies"
+ %               TR 2004, submitted)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_CD3',ex,'exact'))
++if strcmp('HF2D_CD3',ex)
+  nx=4096; nu=2; ny=2;
+  load hf2d_cd3;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2362,7 +2362,7 @@
+ % (HF2D_CD3_M324): medium scale version of (HF2D_CD3), 
+ %                  eps1=0.29555, eps2=4.35
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_CD3_M324',ex,'exact'))
++if strcmp('HF2D_CD3_M324',ex)
+  nx=324; nu=2; ny=2;
+  load hf2d_cd3_m324;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2373,7 +2373,7 @@
+ % (HF2D_CD3_M576): medium scale version of (HF2D_CD3), 
+ %                  eps1=0.29555, eps2=4.35
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_CD3_M576',ex,'exact'))
++if strcmp('HF2D_CD3_M576',ex)
+  nx=576; nu=2; ny=2;
+  load hf2d_cd3_m576;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2385,7 +2385,7 @@
+ % (HF2D_CD4): POD version of (HF2D_CD1), dense 
+ %             eps1=0.29555, eps2=2.9555
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_CD4',ex,'exact'))
++if strcmp('HF2D_CD4',ex)
+  nx=7; nu=2; ny=2;
+  load hf2d_cd4;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2396,7 +2396,7 @@
+ % (HF2D_CD5): POD version of (HF2D_CD2), dense 
+ %             eps1=0.29555, eps2=2.1755
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_CD5',ex,'exact'))
++if strcmp('HF2D_CD5',ex)
+  nx=7; nu=2; ny=2;
+  load hf2d_cd5;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2407,7 +2407,7 @@
+ % (HF2D_CD6): POD version of (HF2D_CD3), dense 
+ %             eps1=0.29555, eps2=4.35
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_CD6',ex,'exact'))
++if strcmp('HF2D_CD6',ex)
+  nx=7; nu=2; ny=2;
+  load hf2d_cd6;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2426,7 +2426,7 @@
+ %               using model reduction: techniques and case studies"
+ %               TR 2004, submitted)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS1',ex,'exact'))
++if strcmp('HF2D_IS1',ex)
+  nx=4489; nu=2; ny=4;
+  load hf2d_is1;
+  invE=inv(E);
+@@ -2439,7 +2439,7 @@
+ % (HF2D_IS1_M361): medium scale version of (HF2D_IS1), 
+ %                  eps2=0.735
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS1_M361',ex,'exact'))
++if strcmp('HF2D_IS1_M361',ex)
+  nx=361; nu=2; ny=4;
+  load hf2d_is1_m361;
+  invE=inv(E);
+@@ -2452,7 +2452,7 @@
+ % (HF2D_IS1_M529): medium scale version of (HF2D_IS1), 
+ %                  eps2=0.635
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS1_M529',ex,'exact'))
++if strcmp('HF2D_IS1_M529',ex)
+  nx=529; nu=2; ny=4;
+  load hf2d_is1_m529;
+  invE=inv(E);
+@@ -2473,7 +2473,7 @@
+ %               using model reduction: techniques and case studies"
+ %               TR 2004, submitted)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS2',ex,'exact'))
++if strcmp('HF2D_IS2',ex)
+  nx=4489; nu=2; ny=4;
+  load hf2d_is2;
+  invE=inv(E);
+@@ -2486,7 +2486,7 @@
+ % (HF2D_IS2_M361): medium scale version of (HF2D_IS2), 
+ %                  eps2=1.9
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS2_M361',ex,'exact'))
++if strcmp('HF2D_IS2_M361',ex)
+  nx=361; nu=2; ny=4;
+  load hf2d_is2_m361;
+  invE=inv(E);
+@@ -2499,7 +2499,7 @@
+ % (HF2D_IS2_M529): medium scale version of (HF2D_IS2), 
+ %                  eps2=1.9
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS2_M529',ex,'exact'))
++if strcmp('HF2D_IS2_M529',ex)
+  nx=529; nu=2; ny=4;
+  load hf2d_is2_m529; 
+  invE=inv(E);
+@@ -2520,7 +2520,7 @@
+ %               using model reduction: techniques and case studies"
+ %               TR 2004, submitted)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS3',ex,'exact'))
++if strcmp('HF2D_IS3',ex)
+  nx=3600; nu=2; ny=2;
+  load hf2d_is3;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2531,7 +2531,7 @@
+ % (HF2D_IS3_M256): medium scale version of (HF2D_IS3), 
+ %                  eps2=2.5
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS3_M256',ex,'exact'))
++if strcmp('HF2D_IS3_M256',ex)
+  nx=256; nu=2; ny=2;
+  load hf2d_is3_m256;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2542,7 +2542,7 @@
+ % (HF2D_IS3_M484): medium scale version of (HF2D_IS3), 
+ %                  eps2=2.5
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS3_M484',ex,'exact'))
++if strcmp('HF2D_IS3_M484',ex)
+  nx=484; nu=2; ny=2;
+  load hf2d_is3_m484;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2561,7 +2561,7 @@
+ %               using model reduction: techniques and case studies"
+ %               TR 2004, submitted)
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS4',ex,'exact'))
++if strcmp('HF2D_IS4',ex)
+  nx=3600; nu=2; ny=2;
+  load hf2d_is4;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2572,7 +2572,7 @@
+ % (HF2D_IS4_M256): medium scale version of (HF2D_IS4), 
+ %                  eps2=1.0
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS4_M256',ex,'exact'))
++if strcmp('HF2D_IS4_M256',ex)
+  nx=256; nu=2; ny=2;
+  load hf2d_is4_m256;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2583,7 +2583,7 @@
+ % (HF2D_IS4_M484): medium scale version of (HF2D_IS4), 
+ %                  eps2=1.0
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS4_M484',ex,'exact'))
++if strcmp('HF2D_IS4_M484',ex)
+  nx=484; nu=2; ny=2;
+  load hf2d_is4_m484;
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2594,7 +2594,7 @@
+ %------------------------------------------------------------------
+ % (HF2D_IS5): POD version of (HF2D_IS1), dense 
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS5',ex,'exact'))
++if strcmp('HF2D_IS5',ex)
+  nx=5; nu=2; ny=4;
+  load hf2d_is5; invE=inv(E_pod);
+  A=invE*A; B1=invE*B1; B=invE*B;
+@@ -2605,7 +2605,7 @@
+ %------------------------------------------------------------------
+ % (HF2D_IS6): POD version of (HF2D_IS2), dense 
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS6',ex,'exact'))
++if strcmp('HF2D_IS6',ex)
+  nx=5; nu=2; ny=4;
+  load hf2d_is6; invE=inv(E_pod);
+  A=invE*A; B1=invE*B1; B=invE*B;
+@@ -2616,7 +2616,7 @@
+ %------------------------------------------------------------------
+ % (HF2D_IS7): POD version of (HF2D_IS3), dense 
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS7',ex,'exact'))
++if strcmp('HF2D_IS7',ex)
+  nx=5; nu=2; ny=2;
+  load hf2d_is7; 
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2626,7 +2626,7 @@
+ %------------------------------------------------------------------
+ % (HF2D_IS8): POD version of (HF2D_IS4), dense 
+ %------------------------------------------------------------------
+-if(strmatch('HF2D_IS8',ex,'exact'))
++if strcmp('HF2D_IS8',ex)
+  nx=5; nu=2; ny=2;
+  load hf2d_is8; 
+  [nx,nw]=size(B1); [nz,nx]=size(C1); 
+@@ -2644,7 +2644,7 @@
+ %        Note: System matrix A is Hurwitz, but
+ %              max. real part of eig(A) is close to zero
+ %------------------------------------------------------------------
+-if(strmatch('CM1',ex,'exact'))
++if strcmp('CM1',ex)
+   nx=40; nu=1; ny=2;
+  load cm1;    
+ end
+@@ -2652,7 +2652,7 @@
+ %------------------------------------------------------------------
+ % (CM2): To (CM1) corresponding example of order 60.
+ %------------------------------------------------------------------
+-if(strmatch('CM2',ex,'exact'))
++if strcmp('CM2',ex)
+  nx=60; nu=1; ny=2;
+  load cm2;    
+ end
+@@ -2660,7 +2660,7 @@
+ %------------------------------------------------------------------
+ % (CM3): To (CM1) corresponding example of order 120.
+ %------------------------------------------------------------------
+-if(strmatch('CM3',ex,'exact'))
++if strcmp('CM3',ex)
+  nx=120; nu=1; ny=2;
+  load cm3;    
+ end
+@@ -2668,7 +2668,7 @@
+ %------------------------------------------------------------------
+ % (CM4): To (CM1) corresponding example of order 240.
+ %------------------------------------------------------------------
+-if(strmatch('CM4',ex,'exact'))
++if strcmp('CM4',ex)
+  nx=240; nu=1; ny=2;
+  load cm4;    
+ end
+@@ -2676,7 +2676,7 @@
+ %------------------------------------------------------------------
+ % (CM5): To (CM1) corresponding example of order 480.
+ %------------------------------------------------------------------
+-if(strmatch('CM5',ex,'exact'))
++if strcmp('CM5',ex)
+  nx=480; nu=1; ny=2;
+  load cm5;    
+ end
+@@ -2684,7 +2684,7 @@
+ %------------------------------------------------------------------
+ % (CM6): To (CM1) corresponding example of order 960.
+ %------------------------------------------------------------------
+-if(strmatch('CM6',ex,'exact'))
++if strcmp('CM6',ex)
+  nx=960; nu=1; ny=2;
+  load cm6;    
+ end
+@@ -2703,7 +2703,7 @@
+ %              Max. real part of eig(A) > 0,
+ %              sd:=9.5825e-003
+ %------------------------------------------------------------------
+-if(strmatch('CM1_IS',ex,'exact'))
++if strcmp('CM1_IS',ex)
+   nx=40; nu=1; ny=2;
+  load cm1_is;    
+ end
+@@ -2712,7 +2712,7 @@
+ % (CM2_IS): To (CM1_IS) corresponding example of order 60,
+ %           sd:=9.5825e-003
+ %------------------------------------------------------------------
+-if(strmatch('CM2_IS',ex,'exact'))
++if strcmp('CM2_IS',ex)
+  nx=60; nu=1; ny=2;
+  load cm2_is;    
+ end
+@@ -2721,7 +2721,7 @@
+ % (CM3_IS): To (CM1_IS) corresponding example of order 120,
+ %           sd:=9.5825e-003
+ %------------------------------------------------------------------
+-if(strmatch('CM3_IS',ex,'exact'))
++if strcmp('CM3_IS',ex)
+  nx=120; nu=1; ny=2;
+  load cm3_is;    
+ end
+@@ -2730,7 +2730,7 @@
+ % (CM4_IS): To (CM1_IS) corresponding example of order 240,
+ %           sd:=4.79125e-002
+ %------------------------------------------------------------------
+-if(strmatch('CM4_IS',ex,'exact'))
++if strcmp('CM4_IS',ex)
+  nx=240; nu=1; ny=2;
+  load cm4_is;    
+ end
+@@ -2739,7 +2739,7 @@
+ % (CM5_IS): To (CM1_IS) corresponding example of order 480,
+ %           sd:=9.5825e-002
+ %------------------------------------------------------------------
+-if(strmatch('CM5_IS',ex,'exact'))
++if strcmp('CM5_IS',ex)
+  nx=480; nu=1; ny=2;
+  load cm5_is;    
+ end
+@@ -2748,7 +2748,7 @@
+ % (CM6_IS): To (CM1_IS) corresponding example of order 960,
+ %           sd:=1.72485e-001
+ %------------------------------------------------------------------
+-if(strmatch('CM6_IS',ex,'exact'))
++if strcmp('CM6_IS',ex)
+  nx=960; nu=1; ny=2;
+  load cm6_is;    
+ end
+@@ -2761,7 +2761,7 @@
+ %        Massachusetts Institute of Technology, Cambridge, Massachusetts 02139,
+ %        Draft for 2003 ASME Design Engineering Technical Conferences",
+ %------------------------------------------------------------------
+-if(strmatch('TMD',ex,'exact'))
++if strcmp('TMD',ex)
+ md=2; ms=5; cs=0.05; ks=3.0; d=0.6; rho=0.4;
+  Mp=[ 0.5*[md md; -md md] zeros(2,1); zeros(1,2) ms ];
+  Cp=zeros(3,3); Cp(3,3)=cs;
+@@ -2784,7 +2784,7 @@
+ %       Buschek, Calise: "mu-controllers: mixed and fixed"
+ %       Proc. AIAA Guidance, Nav. and Control Conf. Baltimore, 1995
+ %------------------------------------------------------------------
+-if(strmatch('FS',ex,'exact'))
++if strcmp('FS',ex)
+  M=[77511 248.1; 248.1 1]; D=[0 0; 0 0.002288]; K=[0 0; 0 0.098696];
+  Bh=[1;0];
+ 
+@@ -2803,7 +2803,7 @@
+ %         Germany, 1989
+ %         reduced system
+ %------------------------------------------------------------------
+-if(strmatch('DLR1',ex,'exact'))
++if strcmp('DLR1',ex)
+  nx=10;nu=2;ny=2;
+  A=[0,0,0,0,0,1,0,0,0,0;
+     0,0,0,0,0,0,1,0,0,0;
+@@ -2832,7 +2832,7 @@
+ %         .mat file generated by
+ %         /export/home/leibfr/tankred/work/DLR_40_data.m  on msun10
+ %------------------------------------------------------------------
+-if(strmatch('DLR2',ex,'exact'))
++if strcmp('DLR2',ex)
+  n=40; nu=2; ny=2;
+  load dlr2_3;  %% ehemals "DLR_Order40.mat"  
+ end
+@@ -2840,7 +2840,7 @@
+ %------------------------------------------------------------------
+ % (DLR3): like (DLR2), change in matrix C
+ %------------------------------------------------------------------
+-if(strmatch('DLR3',ex,'exact'))
++if strcmp('DLR3',ex)
+  nx=40; nu=2; ny=2;
+  load dlr2_3;  %% ehemals "DLR_Order40.mat"
+  C=C_2;  
+@@ -2855,7 +2855,7 @@
+ %        flex models",
+ %        S. Gugercin, A. C. Antoulas and N. Bedrossian , 2001
+ %------------------------------------------------------------------
+-if(strmatch('ISS1',ex,'exact'))
++if strcmp('ISS1',ex)
+   nx=270; nu=3; ny=3;
+   load iss1_2;
+   A=full(A); B=full(B); C=full(C);
+@@ -2867,7 +2867,7 @@
+ % (ISS2): like (ISS1) with a change in the sensor matrix C in the
+ %         first row.
+ %------------------------------------------------------------------
+-if(strmatch('ISS2',ex,'exact'))
++if strcmp('ISS2',ex)
+   nx=270; nu=3; ny=3;
+   load iss1_2;
+   A=full(A); B=full(B); C=full(C);
+@@ -2886,7 +2886,7 @@
+ %        "A survey of model reduction methods for large--scale systems"
+ %        A. C. Antoulas, D. C. Sorensen and S. Gugercin, 2000   --> Ex. 4.5
+ %------------------------------------------------------------------
+-if(strmatch('CBM',ex,'exact'))
++if strcmp('CBM',ex)
+  nx=348; nu=1; ny=1; 
+  load cbm;
+  A=full(A);
+@@ -2902,7 +2902,7 @@
+ %        "A survey of model reduction methods for large--scale systems"
+ %        A. C. Antoulas, D. C. Sorensen and S. Gugercin, 2000
+ %------------------------------------------------------------------
+-if(strmatch('LAH',ex,'exact'))
++if strcmp('LAH',ex)
+   nx=48; nu=1; ny=1;
+   load lah;
+   A=full(A);
+@@ -2915,7 +2915,7 @@
+ %         K. Zhou, J. C. Doyle, K. Glover, "Robust and optimal control",
+ %         Prentice Hall, 1996; p. 517, nc=1
+ %------------------------------------------------------------------
+-if(strmatch('ROC1',ex,'exact'))
++if strcmp('ROC1',ex)
+  A=[-0.161,-6.004,-0.58215,-9.9835,-0.40727,-3.982, 0, 0;
+         1,     0,       0,      0,       0,     0, 0, 0;
+         0,     1,       0,      0,       0,     0, 0, 0;
+@@ -2949,7 +2949,7 @@
+ %         Three Case Studies", TOAC, Vol.31, Nr.11, pp.995-1014, 1986        
+ %         Case study III 1), nc=1
+ %------------------------------------------------------------------
+-if(strmatch('ROC2',ex,'exact'))
++if strcmp('ROC2',ex)
+  A=[-0.00702, 0.06339, 0.00518,-0.55566,-0.06112,  0, 0.00712,-0.00566, 0;
+     -0.01654,-0.38892, 1.00570, 0.00591,-0.04632,  0, 0.01654, 0.04018, 0;
+      0.00061, 0.35210,-0.47381,       0, 1.78620,  0,-0.00061,-0.03638, 0;
+@@ -2985,7 +2985,7 @@
+ %         "Output feedback pole placemant with dynamic compensatores" 
+ %         TOAC, vol.41, Nr. 6, pp. 830-843, 1996;  Example 3.21, nc=2
+ %--------------------------------------------------------------------
+-if(strmatch('ROC3',ex,'exact'))
++if strcmp('ROC3',ex)
+   A=[0,0,0,0,0,0,0,0,-1;1,0,0,0,0,0,0,0,0;0,1,0,0,0,0,0,0,-1;
+      0,0,1,0,0,0,0,0,0;0,0,0,1,0,0,0,0,0;0,0,0,0,-1,0,0,0,0;
+      0,0,0,0,0,1,0,0,0;0,0,0,0,0,0,1,0,0;0,0,0,0,0,0,0,1,0];
+@@ -3005,7 +3005,7 @@
+ %         performance bound: A Riccati equation approach",
+ %         TOAC, Vol. 34, Nr. 3, pp. 293-305, 1989;   nc=1 
+ %------------------------------------------------------------------
+-if(strmatch('ROC4',ex,'exact'))
++if strcmp('ROC4',ex)
+   A=[-0.1610 1 0 0 0 0 0 0;
+      -6.0040 0 1 0 0 0 0 0;
+      -0.5822 0 0 1 0 0 0 0;
+@@ -3039,7 +3039,7 @@
+ %         Springer-Verlag, "Lecture Notes in Control and Information Sciences",
+ %         Vol.235, 1998; p. 310,  nc=1
+ %------------------------------------------------------------------
+-if(strmatch('ROC5',ex,'exact'))
++if strcmp('ROC5',ex)
+  ab=0.004; bb=0.00128; cb=0.00098; db=0.02;
+  eb=0.0049; fb=0.0025; gb=0.00125; lb=0.0032;
+  kb=0.0025;
+@@ -3074,7 +3074,7 @@
+ %         en Informatique et en Automatique, INRIA, Rocquencourt,
+ %         1992; Example 7.3,   nc=2 
+ %------------------------------------------------------------------
+-if(strmatch('ROC6',ex,'exact'))
++if strcmp('ROC6',ex)
+  A=[1 -1 0;1 1 -1; 0 1 -2];
+  B=[1; 0; 1];
+  C=[0 -1 1];
+@@ -3101,7 +3101,7 @@
+ %         Problems in Robust Control Theory",
+ %         IJOC, Vol. 74, Nr. 4, pp. 348-360;  nc=1
+ %------------------------------------------------------------------
+-if(strmatch('ROC7',ex,'exact'))
++if strcmp('ROC7',ex)
+  A=[0 1 0 0; -1 0 0 0; 0 0 0 1.02; 0.2 0 0 0];
+  B=[0;-0.2;0;1];
+  C=[1 0 0 0;0 0 1 0];
+@@ -3128,7 +3128,7 @@
+ %         output feedback and related problems",
+ %         TOAC, Vol. 42, Nr. 8, pp. 1171-1176, 1997;   nc=3
+ %------------------------------------------------------------------
+-if(strmatch('ROC8',ex,'exact'))
++if strcmp('ROC8',ex)
+  k=1;
+  A=[0 1 0 0 0 0;-k 0 k 0 0 0;0 0 0 1 0 0;
+     k 0 -2*k 0 k 0;0 0 0 0 0 1;0 0 k 0 -k 0];
+@@ -3155,7 +3155,7 @@
+ %         M. Chilali and P. Gahinet, "H_inf design with pole placement
+ %         constraints: An LMI approach", TOAC, Vol.41, Nr.3, pp.358-367
+ %--------------------------------------------------------------------
+-if(strmatch('ROC9',ex,'exact'))
++if strcmp('ROC9',ex)
+  k=1; % spring constant 
+  A=[0 1 0 0;-k 0 k 0;0 0 0 1;k 0 -k 0];
+  B1=[0;0;0;1];
+@@ -3183,7 +3183,7 @@
+ %          Minimization, Local and Global Algorithms", TOAC, Vol. 45, 
+ %          Nr. 2, pp. 299-305, 2000; Ex. 1
+ %----------------------------------------------------------------------
+-if(strmatch('ROC10',ex,'exact'))
++if strcmp('ROC10',ex)
+  A=[0, 1, 0, 0, 0; 48.9844, 0, -48.9844, 0, 0; 0, 0, 0, 0.18494, 0; 0, 0, 0, -50.0, 0; 0, 0, -0.5, 0, 0];
+  B1=[0,0;0,0;0,0;0,0;0,0.5];
+  B=[0;0;50;0;0];

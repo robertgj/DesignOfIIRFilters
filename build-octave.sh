@@ -124,6 +124,13 @@ if ! test -f $PARALLEL_ARCHIVE; then
     wget -c $PARALLEL_URL 
 fi
 
+SYMBOLIC_VER=${SYMBOLIC_VER:-2.9.0}
+SYMBOLIC_ARCHIVE=symbolic-$SYMBOLIC_VER".tar.gz"
+SYMBOLIC_URL=$OCTAVE_FORGE_URL$SYMBOLIC_ARCHIVE
+if ! test -f $SYMBOLIC_ARCHIVE; then
+    wget -c $SYMBOLIC_URL 
+fi
+
 #
 # Octave directories
 #
@@ -631,6 +638,7 @@ $OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$STRUCT_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$STATISTICS_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$OPTIM_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$CONTROL_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$SYMBOLIC_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg install signal-1.4.1.new.tar.gz"
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg install parallel-3.1.3.new.tar.gz"
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg list"

@@ -1,0 +1,13 @@
+--- BMIsolver.old/common/BMI_optcheck.m	2020-08-13 11:57:08.667825198 +1000
++++ BMIsolver/common/BMI_optcheck.m	2020-08-13 11:26:33.243870929 +1000
+@@ -42,8 +42,8 @@
+ end
+ 
+ defopt = BMI_defopt;
+-if isempty(opts) names2 = ''; else names2 = fieldnames(opts, '-full'); end
+-names  = fieldnames(defopt, '-full');
++if isempty(opts) names2 = ''; else names2 = fieldnames(opts); end
++names  = fieldnames(defopt);
+ for k = 1:length(names)
+     yes = false;
+     xx  = names(k); xx = xx{:};

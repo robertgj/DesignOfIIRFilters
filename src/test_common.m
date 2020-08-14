@@ -1,11 +1,18 @@
 % test_common.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 % Normally these would be in .octaverc or ~/.octaverc
 
 clear all
+
 more off
+page_screen_output(false);
+suppress_verbose_help_message(true);
+output_precision(5)
+format compact
+
 pkg load signal optim;
+
 graphics_toolkit("gnuplot");
 if getenv("OCTAVE_ENABLE_PLOT_TO_SCREEN")
   % Enabling plotting to the screen causes difficulties when building the
@@ -29,12 +36,6 @@ endif
 clf
 close
 
-page_screen_output(false);
-suppress_verbose_help_message(true);
-output_precision(5)
-format short
-format compact
-
 warning("error","Octave:assign-as-truth-value");
 warning("error","Octave:associativity-change");
 warning("error","Octave:broadcast");
@@ -57,13 +58,8 @@ warning ("off","Octave:latex-markup-not-supported-for-tick-marks");
 % See octave-5.2.0/scripts/miscellaneous/delete.m
 warning ("off","Octave:delete-no-such-file");
 
-% Add third party optimisers to the path
-name_strs={"SeDuMi_1_3","SparsePOP303"};
+% Add src paths
 mpath=mfilename("fullpath");
 mpath=mpath(1:strchr(mpath,filesep,1,'last'));
-for k=1:length(name_strs)
-  mname=strcat(mpath,name_strs{k});
-  if exist(mname) == 7
-    addpath(mname);
-  endif
-endfor
+addpath(genpath(mpath));
+clear mpath 

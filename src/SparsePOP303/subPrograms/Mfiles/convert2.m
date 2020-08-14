@@ -122,8 +122,10 @@ else
         objPoly.coef = [];
         for i=1:objPoly0.noTerms          
             pp = objPoly0.supports(i,j); 
-            if pp >= 1 
-                cc = sym2poly((trans.Amat(j,j)*y+trans.bVect(j,1))^pp)';
+            if pp >= 1
+                cc = sym2poly((sym(full(trans.Amat(j,j)))*y ...
+                               + sym(full(trans.bVect(j,1)))) ...
+                              ^sym(full(pp)))';
                 supSet = objPoly0.supports(i*ones(pp+1,1),:);
                 supSet(:,j) = (pp:-1:0)';
 %                
@@ -177,7 +179,9 @@ if ~isempty(ineqPolySys0)
                 for i=1:ineqPolySys0{k}.noTerms
                     pp = ineqPolySys0{k}.supports(i,j); 
                     if pp >= 1 
-                        cc = sym2poly((trans.Amat(j,j)*y+trans.bVect(j,1))^pp)';
+                        cc = sym2poly((sym(full(trans.Amat(j,j)))*y ...
+                                       + sym(full(trans.bVect(j,1)))) ...
+                                      ^sym(full(pp)))';
                         supSet = ineqPolySys0{k}.supports(i*ones(pp+1,1),:);
                         supSet(:,j) = (pp:-1:0)';
 %                

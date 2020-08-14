@@ -1,5 +1,5 @@
---- ./compileSparsePOP.m	2018-09-11 11:35:46.000000000 +1000
-+++ ../SparsePOP303/./compileSparsePOP.m	2020-08-11 22:00:06.000000000 +1000
+--- SparsePOP303.old/compileSparsePOP.m	2020-08-13 19:32:05.919566471 +1000
++++ SparsePOP303/compileSparsePOP.m	2020-08-12 00:08:14.000000000 +1000
 @@ -20,33 +20,15 @@
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %
@@ -95,8 +95,17 @@
 +cd(mpwd);
  
  fprintf('Compilation finished successfully.\n');
---- ./readGMS.m	2018-09-18 14:41:11.000000000 +1000
-+++ ../SparsePOP303/./readGMS.m	2020-08-11 22:15:40.145460546 +1000
+--- SparsePOP303.old/readGMS.m	2020-08-13 19:32:05.924566426 +1000
++++ SparsePOP303/readGMS.m	2020-08-12 00:08:14.000000000 +1000
+@@ -109,7 +109,7 @@
+ % 
+ allStatements = fromFile(fileName);
+ %allStatements
+-minOrmaxIdx = strfind(allStatements, 'maximizing objvar');
++minOrmaxIdx = findstr(allStatements, 'maximizing objvar');
+ if ~isempty(minOrmaxIdx)
+ 	fprintf('## The inputted problem is the maximization problem.\n');
+ 	fprintf('## We multiply -1 into the objective fuction for \n');
 @@ -434,7 +434,7 @@
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  function allStatements = fromFile(fileName)
@@ -115,6 +124,24 @@
  if nextSW == 0
      oneLine = deblank(oneLine);
      oneLine = strtrim(oneLine);
+@@ -471,7 +471,7 @@
+ if nextSW == 0 && ~isempty(oneLine) && strcmp(oneLine(1), '*')
+     return
+ end
+-idx = strfind(oneLine, ';');
++idx = findstr(oneLine, ';');
+ disp(statements);
+ if isempty(idx)
+     statements = [statements, oneLine];
+@@ -516,7 +516,7 @@
+ return
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ function allStatements = removeStar(allStatements)
+-idx = strfind(allStatements, ';');
++idx = findstr(allStatements, ';');
+ sidx = 1;
+ removeIdx = [];
+ for i=1:length(idx)
 @@ -546,7 +546,7 @@
  elseif idx(end) ~= length(allStatements)
      error('## '';'' does not exist at the end of the last statement of ''%s''.', fileName);
@@ -124,8 +151,210 @@
  sidx = 1;
  for i=1:length(idx)
      eidx = idx(i);
---- ./subPrograms/Mfiles/my_unique.m	2018-09-11 11:35:47.000000000 +1000
-+++ ../SparsePOP303/./subPrograms/Mfiles/my_unique.m	2020-08-11 22:00:06.000000000 +1000
+@@ -559,11 +559,11 @@
+ allStatements = NewAllStatements;
+ % Remove lines which are undefined in SparsePOP.
+ %
+-idx = strfind(allStatements, 'Model');
++idx = findstr(allStatements, 'Model');
+ if ~isempty(idx)
+     Lines = allStatements(idx(1):end);
+-    aidx = strfind(Lines, 'all');
+-    sidx = strfind(Lines, '/');
++    aidx = findstr(Lines, 'all');
++    sidx = findstr(Lines, '/');
+     if ~isempty(aidx) && ~isempty(sidx)
+         allStatements(idx(1):end) = [];
+     end
+@@ -584,12 +584,12 @@
+     eidx = idx(i);
+     oneLine = allStatements(sidx:eidx);
+     %oneLine
+-    Vidx = strfind(oneLine, 'Variables');
++    Vidx = findstr(oneLine, 'Variables');
+     if ~isempty(Vidx) && length(Vidx) == 1 && Vidx(1) == 1
+         [tmp,oneLine] = strtok(oneLine);
+         
+         if ~isempty(oneLine)
+-            wsidx = strfind(oneLine, ' ');
++            wsidx = findstr(oneLine, ' ');
+             oneLine(wsidx) = [];
+             %oneLine
+             p = 0;
+@@ -627,11 +627,11 @@
+ for i=1:length(idx)
+     eidx = idx(i);
+     oneLine = allStatements(sidx:eidx);
+-    Pidx = strfind(oneLine, 'Positive');
++    Pidx = findstr(oneLine, 'Positive');
+     if ~isempty(Pidx)
+         [tmp,oneLine] = strtok(oneLine);
+         oneLine = strtrim(oneLine);
+-        Vidx = strfind(oneLine, 'Variables');
++        Vidx = findstr(oneLine, 'Variables');
+         if ~isempty(Vidx)
+ 		oneLine = oneLine(Vidx+9:end);
+ 		while true
+@@ -643,7 +643,7 @@
+ 		end
+             %[tmp,oneLine] = strtok(oneLine);
+             if ~isempty(oneLine)
+-                wsidx = strfind(oneLine, ' ');
++                wsidx = findstr(oneLine, ' ');
+                 oneLine(wsidx) = [];
+                 p = 0;
+                 [posVarNames,p,moreSW] = getListOfNames(oneLine,posVarNames,p);
+@@ -685,16 +685,16 @@
+ for i=1:length(idx)
+     eidx = idx(i);
+     oneLine = allStatements(sidx:eidx);
+-    Pidx = strfind(oneLine, 'Binary');
++    Pidx = findstr(oneLine, 'Binary');
+ 	if isempty(Pidx)
+-    		Pidx = strfind(oneLine, 'Binaries');
++    		Pidx = findstr(oneLine, 'Binaries');
+ 	end
+     if ~isempty(Pidx)
+         [tmp,oneLine] = strtok(oneLine);
+         oneLine = strtrim(oneLine);
+-        Vidx = strfind(oneLine, 'Variables');
++        Vidx = findstr(oneLine, 'Variables');
+ 	if isempty(Vidx)
+-        	Vidx = strfind(oneLine, 'variables');
++        	Vidx = findstr(oneLine, 'variables');
+ 	end
+         if ~isempty(Vidx)
+ 		oneLine = oneLine(Vidx+9:end);
+@@ -706,7 +706,7 @@
+ 			end
+ 		end
+             if ~isempty(oneLine)
+-                wsidx = strfind(oneLine, ' ');
++                wsidx = findstr(oneLine, ' ');
+                 oneLine(wsidx) = [];
+                 p = 0;
+                 [binVarNames,p,moreSW] = getListOfNames(oneLine,binVarNames,p);
+@@ -753,11 +753,11 @@
+ for i=1:length(idx)
+     eidx = idx(i);
+     oneLine = allStatements(sidx:eidx);
+-    Eidx = strfind(oneLine, 'Equations');
++    Eidx = findstr(oneLine, 'Equations');
+     if ~isempty(Eidx)
+         [tmp,oneLine] = strtok(oneLine);
+         if ~isempty(oneLine)
+-            wsidx = strfind(oneLine, ' ');
++            wsidx = findstr(oneLine, ' ');
+             oneLine(wsidx) = [];
+             p = 0;
+             [equationNames,p,moreSW] = getListOfNames(oneLine,equationNames,p);
+@@ -792,7 +792,7 @@
+ for i=1:length(idx)
+     eidx = idx(i);
+     oneLine = allStatements(sidx:eidx); 
+-    eNameidx = strfind(oneLine, '..');
++    eNameidx = findstr(oneLine, '..');
+     usedflag = 0;
+     if ~isempty(eNameidx)
+         if eNameidx(1) == 1
+@@ -810,7 +810,7 @@
+         for j=1:size(equationNames,2)
+             if strcmp(equationNames{j}, eName)
+ 		%oneLine
+-		tmpidx = strfind(oneLine, '..');
++		tmpidx = findstr(oneLine, '..');
+ 		tmpidx = tmpidx + 1;
+ 		%equationNames{j}
+                 %tmpidx = length(eName) + 2;
+@@ -855,8 +855,8 @@
+     eidx = idx(i);
+     oneLine = allStatements(sidx:eidx);
+     sidx = eidx + 1;
+-    pidx = strfind(oneLine, '.');
+-    dpidx= strfind(oneLine,'..');
++    pidx = findstr(oneLine, '.');
++    dpidx= findstr(oneLine,'..');
+     usedflag = 0;
+     if ~isempty(pidx) && isempty(dpidx)
+         if pidx(1) == 1
+@@ -869,8 +869,8 @@
+         bound = oneLine(pidx(1)+1:end);
+         for j=1:noOfVariables
+             if strcmp(oneVar, varNames{j})
+-                eqidx = strfind(bound, '=');
+-                scidx = strfind(bound,';');
++                eqidx = findstr(bound, '=');
++                scidx = findstr(bound,';');
+                 if isempty(eqidx)
+                     error('## The line ''%s'' does not have ''=''.', oneLine);
+                 elseif eqidx(1) >= length(bound)
+@@ -926,12 +926,12 @@
+ oneLine(idx) = [];
+ if symbolicMath == 1	
+ 	% new version
+-	if ~isempty(strfind(oneLine,'('))
++	if ~isempty(findstr(oneLine,'('))
+ 		%x1 = sym('x1');
+ 		%x1 = sym('objvar');
+-		%loca = strfind(oneLine,'objvar');
++		%loca = findstr(oneLine,'objvar');
+ 		%if isempty(loca)
+-			loca = strfind(oneLine,'=');
++			loca = findstr(oneLine,'=');
+ 			loca = loca(1) -1;
+ 		%else
+ 			%loca = loca(1) -3; % for objvar
+@@ -950,12 +950,12 @@
+ 	end
+ 	% old version
+ 	%{
+-	if ~isempty(strfind(oneLine,'('))
++	if ~isempty(findstr(oneLine,'('))
+ 		%x1 = sym('x1');
+ 		x1 = sym('objvar');
+-		%loca = strfind(oneLine,'objvar');
++		%loca = findstr(oneLine,'objvar');
+ 		%if isempty(loca)
+-			loca = strfind(oneLine,'=');
++			loca = findstr(oneLine,'=');
+ 			loca = loca(1) -1;
+ 		%else
+ 			%loca = loca(1) -3; % for objvar
+@@ -967,7 +967,7 @@
+ 	end
+ 	%}
+ else
+-	if ~isempty(strfind(oneLine,'('))
++	if ~isempty(findstr(oneLine,'('))
+ 		error('Please expand parenthesises by your hand.');
+ 	end
+ end
+--- SparsePOP303.old/subPrograms/Mfiles/convert2.m	2020-08-13 19:32:05.926566408 +1000
++++ SparsePOP303/subPrograms/Mfiles/convert2.m	2020-08-13 19:30:00.000000000 +1000
+@@ -123,7 +123,9 @@
+         for i=1:objPoly0.noTerms          
+             pp = objPoly0.supports(i,j); 
+             if pp >= 1 
+-                cc = sym2poly((trans.Amat(j,j)*y+trans.bVect(j,1))^pp)';
++                cc = sym2poly((sym(full(trans.Amat(j,j)))*y ...
++                               + sym(full(trans.bVect(j,1)))) ...
++                              ^sym(full(pp)))';
+                 supSet = objPoly0.supports(i*ones(pp+1,1),:);
+                 supSet(:,j) = (pp:-1:0)';
+ %                
+@@ -177,7 +179,9 @@
+                 for i=1:ineqPolySys0{k}.noTerms
+                     pp = ineqPolySys0{k}.supports(i,j); 
+                     if pp >= 1 
+-                        cc = sym2poly((trans.Amat(j,j)*y+trans.bVect(j,1))^pp)';
++                        cc = sym2poly((sym(full(trans.Amat(j,j)))*y ...
++                                       + sym(full(trans.bVect(j,1)))) ...
++                                      ^sym(full(pp)))';
+                         supSet = ineqPolySys0{k}.supports(i*ones(pp+1,1),:);
+                         supSet(:,j) = (pp:-1:0)';
+ %                
+--- SparsePOP303.old/subPrograms/Mfiles/my_unique.m	2020-08-13 19:32:05.926566408 +1000
++++ SparsePOP303/subPrograms/Mfiles/my_unique.m	2020-08-12 00:08:14.000000000 +1000
 @@ -2,12 +2,19 @@
  if ~strcmp(msg, 'rows');
  	error('msg should be rows in my_unique.');
