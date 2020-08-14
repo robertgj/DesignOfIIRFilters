@@ -3,9 +3,6 @@
 
 test_common;
 
-  set(0,'DefaultFigureVisible','on');
-  set(0,"defaultlinelinewidth",2);
-
 delete("xfr2tf_test.diary");
 delete("xfr2tf_test.diary.tmp");
 diary xfr2tf_test.diary.tmp
