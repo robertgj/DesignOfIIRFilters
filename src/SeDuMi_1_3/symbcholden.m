@@ -53,4 +53,3 @@ LAD = [symbfwblk(L,dense.A(:,1:i1-1)), symbfwblk(L,DAt.denq),...
 % Lorentz-block columns
 % ------------------------------------------------------------
 Lden = finsymbden(LAD,perm,dz,i1);
-

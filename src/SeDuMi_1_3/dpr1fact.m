@@ -47,4 +47,3 @@ function [Lden,Ld] = dpr1fact(x, d, Lsym, smult, maxu) %#ok
 
 %Indicate to the user Matlab cannot find the SeDuMi binaries
 sedumi_binary_error();
-

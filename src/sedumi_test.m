@@ -7,8 +7,8 @@ delete("sedumi_test.diary");
 delete("sedumi_test.diary.tmp");
 diary sedumi_test.diary.tmp
 
-% Build SeDuMi oct files (add '-address_sanitize' for sanitizer)
-install_sedumi -rebuild
+% Build SeDuMi mex files
+install_sedumi("-rebuild","-nopath");
 
 % Run some examples
 fhandle=fopen("test.results","wt");

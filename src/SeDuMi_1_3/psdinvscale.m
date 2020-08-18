@@ -81,5 +81,3 @@ for i = 1 : nc,
         yi = yi+qi;
     end
 end
-
-

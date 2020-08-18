@@ -113,7 +113,12 @@ void cholonBlk(double *x, double *d, mwIndex m, const mwIndex ncols, const mwInd
    ------------------------------------------------------- */
     xkk = x[inz];
     if(xkk > lb[k]){ /* now xkk > 0 */
-      if((m>1) && (xkk < ub)){
+/* ------------------------------------------------------------
+   maxabs is a wrapper for the BLAS IDAMAX Fortran function.
+   IDAMAX finds the first element having maximum absolute
+   value in an array. Only call maxabs with m>1. 
+   ------------------------------------------------------------ */
+      if ((m>1) && (xkk < ub)){
         ubk = maxabs(x+inz+1,m-1) / maxu;
         if(xkk < ubk){
 /* ------------------------------------------------------------

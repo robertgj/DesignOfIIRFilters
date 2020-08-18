@@ -40,5 +40,3 @@ function Ad = adendotd(dense, d, sparAd, Ablk, blkstart) %#ok
 
 %Indicate to the user Matlab cannot find the SeDuMi binaries
 sedumi_binary_error();
-
-

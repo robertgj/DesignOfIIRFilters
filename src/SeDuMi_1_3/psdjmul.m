@@ -71,5 +71,3 @@ for i = 1 : nc,
         zi = zi + qi;
     end
 end
-
-

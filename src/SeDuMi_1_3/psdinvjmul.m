@@ -38,4 +38,3 @@ function z = psdinvjmul(xlab,xfrm, y, K) %#ok
 
 %Indicate to the user Matlab cannot find the SeDuMi binaries
 sedumi_binary_error();
-

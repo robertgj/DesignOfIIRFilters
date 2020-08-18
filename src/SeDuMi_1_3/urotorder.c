@@ -79,7 +79,7 @@ function [u,perm,gjc,g] = urotorder(u,K, maxu,permIN)
 void rotorder(mwIndex *perm, double *u, mwIndex *gjc, twodouble *g, double *d,
               const double maxusqr, const mwIndex n)
 {
-  mwIndex i,j,k,inz, pivk=0, m;
+  mwIndex i,j,k,inz, pivk, m;
   double *uj, *rowuk;
   double dk,y,nexty, h, uki,ukmax;
   twodouble gi;
@@ -90,6 +90,7 @@ void rotorder(mwIndex *perm, double *u, mwIndex *gjc, twodouble *g, double *d,
    ------------------------------------------------------------ */
   for(j = 0; j < n; j++)
     perm[j] = j;
+  pivk = 0;
   inz = 0;
   d[0] = 0.0; h = 1.0;
   for(k = 0, rowuk = u; k < n-1; k++, rowuk++){
@@ -197,7 +198,7 @@ void prpirotorder(mwIndex *perm, double *u,double *upi, mwIndex *gjc,
                   tridouble *g, double *d,
                   const double maxusqr, const mwIndex n)
 {
-  mwIndex i,j,k,inz, pivk=0, m;
+  mwIndex i,j,k,inz, pivk, m;
   double *uj,*ujpi, *rowuk, *rowukpi;
   double dk,y,nexty, h, uki,ukiim,ukmax;
   tridouble gi;
@@ -208,6 +209,7 @@ void prpirotorder(mwIndex *perm, double *u,double *upi, mwIndex *gjc,
    ------------------------------------------------------------ */
   for(j = 0; j < n; j++)
     perm[j] = j;
+  pivk = 0;
   inz = 0;
   d[0] = 0.0; h = 1.0;
   for(k = 0, rowuk = u, rowukpi = upi; k < n-1; k++, rowuk++, rowukpi++){
@@ -311,7 +313,7 @@ void mexFunction(const int nlhs, mxArray *plhs[],
   const int nrhs, const mxArray *prhs[])
 {
   mxArray *myplhs[NPAROUT];
-  mwIndex i,j,k, nk, nksqr, lenud, sdplen, gnnz, inz, maxKs,maxKssqr, rgnnz, hgnnz;
+  mwIndex i, k, nk, nksqr, lenud, sdplen, gnnz, inz, maxKs,maxKssqr, rgnnz, hgnnz;
   const double *uOld, *permOld=NULL;
   double *u, *d, *gjcPr, *permPr, *fwork, *fworkpi;
   mwIndex *perm, *gjc;

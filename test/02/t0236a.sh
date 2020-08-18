@@ -2,7 +2,7 @@
 
 prog=sparsePOP_test.m
 
-depends="sparsePOP_test.m test_common.m SparsePOP303/ SeDuMi_1_3/"
+depends="sparsePOP_test.m test_common.m SeDuMi_1_3/ SparsePOP303/"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -24,6 +24,12 @@ pass()
 }
 
 trap "fail" 1 2 3 15
+
+# If SparsePOP303 does not exist then return the aet code for "pass"
+if ! test -d src/SparsePOP303; then 
+    echo SKIPPED $prog SparsePOP303 not found! ; exit 0; 
+fi
+
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
 for file in $depends;do \

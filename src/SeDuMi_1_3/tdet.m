@@ -42,4 +42,3 @@ else
     ix = K.mainblks;
     tdetx = x(ix(1):ix(2)-1).^2 - ddot(x(ix(2):ix(3)-1),x,K.qblkstart);
 end
-

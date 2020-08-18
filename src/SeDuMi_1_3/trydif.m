@@ -70,4 +70,3 @@ if wr.delta > pars.beta
     w = wIN; 
     wr = wrIN;
 end
-

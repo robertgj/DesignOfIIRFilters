@@ -1,37 +1,54 @@
---- sedumi-master/blkchol2.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/blkchol2.c	2018-11-01 11:58:47.721663331 +1100
-@@ -53,7 +53,7 @@ mwIndex blkLDL(const mwIndex neqns, cons
- void isscalarmul(double *x, double alpha, mwIndex n)
+--- sedumi/dpr1fact.c	2020-08-18 22:17:25.372614035 +1000
++++ SeDuMi_1_3/dpr1fact.c	2020-08-18 22:17:42.069477450 +1000
+@@ -365,6 +365,7 @@
+    ------------------------------------------------------------ */
+   else{
+     psqrdep = 0.0;
++    j = 0;
+     for(i = 0; dep[i] < m; i++)
+       if(psqr[dep[i]] > psqrdep){
+         j = i;
+--- sedumi/vecsym.c	2020-08-18 22:17:25.421613634 +1000
++++ SeDuMi_1_3/vecsym.c	2020-08-18 22:17:42.069477450 +1000
+@@ -139,10 +139,8 @@
+ void mexFunction(const int nlhs, mxArray *plhs[],
+   const int nrhs, const mxArray *prhs[])
  {
-     blasint one=1,nn=n;
--    FORT(dscal)(&n,&alpha,x,&one);
-+    FORT(dscal)(&nn,&alpha,x,&one);
- }
+- mxArray *output_array[1], *Xk;
+-
+  coneK cK;
+- mwIndex k, nk, nksqr, lqDim,lenfull;
++ mwIndex lqDim,lenfull;
+  const double *x;
+  double *y;
  
- /* ************************************************************
-@@ -113,7 +113,7 @@ void cholonBlk(double *x, double *d, mwI
-    ------------------------------------------------------- */
-     xkk = x[inz];
-     if(xkk > lb[k]){ /* now xkk > 0 */
--      if(xkk < ub){
-+      if((m>1) && (xkk < ub)){
-         ubk = maxabs(x+inz+1,m-1) / maxu;
-         if(xkk < ubk){
- /* ------------------------------------------------------------
---- sedumi-master/blkchol.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/blkchol.c	2018-11-01 11:58:47.721663331 +1100
-@@ -243,7 +243,7 @@ void mexFunction(int nlhs, mxArray *plhs
-   mxArray *myplhs[NPAROUT];
-   mwIndex    m, i, j, iwsiz, nsuper, tmpsiz, fwsiz, nskip, nadd, m1;
-   double *fwork, *d, *skipPr, *orgd;
--  const double *permPr,*xsuperPr,*Ppr,*absd;
-+  const double *permPr,*xsuperPr,*Ppr,*absd=NULL;
-   mwIndex    *perm, *snode, *xsuper, *iwork, *xlindx, *skip, *skipJc;
-   const mwIndex *LINir, *Pjc, *Pir;
-   double canceltol, maxu, abstol;
---- sedumi-master/bwblkslv.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/bwblkslv.c	2018-11-01 11:58:47.722663322 +1100
-@@ -186,7 +186,7 @@ void mexFunction(const int nlhs, mxArray
+--- sedumi/adendotd.c	2020-08-18 22:17:25.357614158 +1000
++++ SeDuMi_1_3/adendotd.c	2020-08-18 22:17:42.070477442 +1000
+@@ -136,7 +136,10 @@
+   int nrhs, const mxArray *prhs[])
+ {
+   const mxArray *MY_FIELD;
+-  mwIndex i,j,firstQ, m,nden, nl, nq, lorN;
++  mwIndex i,j,firstQ, m,nden, nl, nq;
++#ifdef MEX_DEBUG
++  mwIndex lorN;
++#endif
+   mwIndex *q, *dencols, *blkend;
+   const double *d1, *d2, *qPr, *dencolsPr, *blkstartPr;
+   double *fwork;
+@@ -176,7 +179,9 @@
+   mxAssert(mxIsStruct(D_IN), "d should be a structure.");
+   MY_FIELD = mxGetField(D_IN,(mwIndex)0,"q1");         /* d.q1 */
+   mxAssert( MY_FIELD != NULL, "Missing field d.q1.");
++#ifdef MEX_DEBUG
+   lorN = mxGetM(MY_FIELD) * mxGetN(MY_FIELD);
++#endif
+   d1 = mxGetPr(MY_FIELD);
+   MY_FIELD = mxGetField(D_IN,(mwIndex)0,"q2");        /* d.q2 */
+   mxAssert( MY_FIELD != NULL, "Missing field d.q2.");
+--- sedumi/bwblkslv.c	2020-08-18 22:17:25.361614125 +1000
++++ SeDuMi_1_3/bwblkslv.c	2020-08-18 22:17:42.070477442 +1000
+@@ -186,7 +186,7 @@
   mwIndex m,n, j, k, nsuper, inz;
   double *y, *fwork;
   const double *permPr, *b, *xsuperPr;
@@ -40,42 +57,230 @@
   mwIndex *perm, *xsuper, *iwork, *snode;
   jcir L;
   char bissparse;
---- sedumi-master/dpr1fact.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/dpr1fact.c	2018-11-01 11:58:47.723663312 +1100
-@@ -365,7 +365,7 @@ char dodpr1fact(double *beta, mwIndex *p
-    ------------------------------------------------------------ */
-   else{
-     psqrdep = 0.0;
--    for(i = 0; dep[i] < m; i++)
-+    for(i = 0, j=0; dep[i] < m; i++)
-       if(psqr[dep[i]] > psqrdep){
-         j = i;
-         psqrdep = psqr[dep[i]];
---- sedumi-master/eigK.m	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/eigK.m	2018-11-01 11:58:47.723663312 +1100
-@@ -74,7 +74,7 @@ end
- li = 0;
- xi = nf;
- lab = zeros(N,1);
--li(li+1:li+nl) = x(xi+1:xi+nl);
-+lab(li+1:li+nl) = x(xi+1:xi+nl);
- xi = xi + nl;
- li = li + nl;
- if nq,
---- sedumi-master/extractA.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/extractA.c	2018-11-01 11:58:47.727663276 +1100
-@@ -98,7 +98,7 @@ void mexFunction(int nlhs, mxArray *plhs
-                  int nrhs, const mxArray *prhs[])
+--- sedumi/givensrot.c	2020-08-18 22:17:25.407613749 +1000
++++ SeDuMi_1_3/givensrot.c	2020-08-18 22:17:42.070477442 +1000
+@@ -93,7 +93,10 @@
+ void mexFunction(const int nlhs, mxArray *plhs[],
+   const int nrhs, const mxArray *prhs[])
  {
-   jcir At, Apart;
--  mwIndex i, m, njc, ifirst, n, ynnz, blk0,blk1;
-+  mwIndex i, m, njc, ifirst=0, n=0, ynnz, blk0,blk1;
-   mwIndex *Ajc;
-   const double *blkstartPr, *AjcPr;
-   bool isblk0negative;
---- sedumi-master/fwblkslv.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/fwblkslv.c	2018-11-01 11:58:47.727663276 +1100
-@@ -197,7 +197,7 @@ void mexFunction(const int nlhs, mxArray
+-  mwIndex inz, i, k, nk, nksqr, lenud, sdplen, gnnz;
++  mwIndex inz, i, k, nk, nksqr, lenud, sdplen;
++#ifdef MEX_DEBUG
++  mwIndex gnnz;
++#endif
+   mwIndex *gjc, *iwork;
+   const double *gjcPr;
+   const double *g, *gk;
+@@ -118,7 +121,9 @@
+    ------------------------------------------------------------ */
+   gjcPr = mxGetPr(GJC_IN);
+   g = (double *) mxGetPr(G_IN);
++#ifdef MEX_DEBUG
+   gnnz = mxGetM(G_IN) * mxGetN(G_IN);
++#endif
+   mxAssert(mxGetM(X_IN) == lenud && ( lenud == 0 || mxGetN(X_IN) == 1 ), "x size mismatch");
+ /* ------------------------------------------------------------
+    Allocate output y(lenud), and let y = x.
+--- sedumi/blkchol2.c	2020-08-18 22:17:25.361614125 +1000
++++ SeDuMi_1_3/blkchol2.c	2020-08-18 22:17:42.071477434 +1000
+@@ -113,7 +113,12 @@
+    ------------------------------------------------------- */
+     xkk = x[inz];
+     if(xkk > lb[k]){ /* now xkk > 0 */
+-      if(xkk < ub){
++/* ------------------------------------------------------------
++   maxabs is a wrapper for the BLAS IDAMAX Fortran function.
++   IDAMAX finds the first element having maximum absolute
++   value in an array. Only call maxabs with m>1. 
++   ------------------------------------------------------------ */
++      if ((m>1) && (xkk < ub)){
+         ubk = maxabs(x+inz+1,m-1) / maxu;
+         if(xkk < ubk){
+ /* ------------------------------------------------------------
+--- sedumi/psdinvjmul.c	2020-08-18 22:17:25.413613700 +1000
++++ SeDuMi_1_3/psdinvjmul.c	2020-08-18 22:17:42.071477434 +1000
+@@ -165,7 +165,10 @@
+ void mexFunction(const int nlhs, mxArray *plhs[],
+   const int nrhs, const mxArray *prhs[])
+ {
+- mwIndex i, lenfull, lendiag, lenud, qsize;
++ mwIndex i, lenud;
++#ifdef MEX_DEBUG
++ mwIndex lenfull, lendiag, qsize;
++#endif
+  double *z, *fwork;
+  const double *x,*y, *frms;
+  mwIndex *sdpNL;
+@@ -183,9 +186,11 @@
+    Get statistics of cone K structure
+    ------------------------------------------------------------ */
+  lenud = cK.rDim + cK.hDim;
++#ifdef MEX_DEBUG
+  qsize = lenud + cK.hLen;
+  lenfull = cK.lpN +  cK.qDim + lenud;
+  lendiag = cK.lpN + 2 * cK.lorN + cK.rLen + cK.hLen;
++#endif
+ /* ------------------------------------------------------------
+    Get inputs x, frm, y.
+    ------------------------------------------------------------ */
+--- sedumi/sdmauxCone.c	2020-08-18 22:17:25.417613667 +1000
++++ SeDuMi_1_3/sdmauxCone.c	2020-08-18 22:17:42.071477434 +1000
+@@ -49,7 +49,10 @@
+ {
+  const mxArray *K_FIELD;
+  const double *blkstartPr;
+- mwIndex idummy, nblk;
++ mwIndex idummy;
++#ifdef MEX_DEBUG
++ mwIndex nblk;
++#endif
+  char gotthem;
+ 
+  mxAssert(mxIsStruct(mxK), "Parameter `K' should be a structure.");
+@@ -110,7 +113,9 @@
+ 	   pK->hMaxn = (mwSize) mxGetScalar(K_FIELD);
+ 	   if( (K_FIELD = mxGetField(mxK,(mwIndex)0,"blkstart"))!=NULL){ /*K.blkstart*/
+ 	     mxAssert(!mxIsSparse(K_FIELD), "K.blkstart must be a full vector.");
++#ifdef MEX_DEBUG         
+          nblk = 1 + pK->lorN + pK->sdpN;
++#endif
+          mxAssert(mxGetM(K_FIELD) * mxGetN(K_FIELD) == nblk + 1, "Size mismatch K.blkstart.");
+ 	     blkstartPr = mxGetPr(K_FIELD);
+ 	     pK->qDim = (mwSize) blkstartPr[pK->lorN+1] - (mwSize) blkstartPr[0];
+--- sedumi/sedumi.m	2020-08-18 22:17:25.417613667 +1000
++++ SeDuMi_1_3/sedumi.m	2020-08-18 22:17:42.071477434 +1000
+@@ -264,7 +264,11 @@
+ if N*m<100000
+     %Test if Ax=b is feasible at all
+     %turn off the rank deficient warning for now
++    if (exist ('OCTAVE_VERSION', 'builtin') == 5)
++      s = warning('off','Octave:singular-matrix');
++    else
+     s = warning('off','MATLAB:singularMatrix');
++    endif
+     y=[A;b']\[zeros(N,1);1];
+     if abs(y'*b-1) < 1e-10 && norm(A*y) < 1e-10
+         %Infeasibility certificate found
+@@ -778,8 +782,6 @@
+     info.err(1)=norm(x'*(origcoeff.At)-(origcoeff.b)',2)/(1+normb);
+     %Let us get rid of the K.f part, since the free variables don't make
+     %any difference in the cone infeasibility.
+-    %origcoeff.K.f=0;
+-
+     if origcoeff.K.f<length(origcoeff.c)
+         %not all primal variables are free
+         %     Primal cone infeasibility
+@@ -788,13 +790,9 @@
+         info.err(2)=max(0,-min(eigK(full(x(origcoeff.K.f+1:end)),tempK)/(1+normb)));
+         %     Dual cone infeasibility
+         info.err(4)=max(0,-min(eigK(full(s(origcoeff.K.f+1:end)),tempK)/(1+normc)));
+-        
+-    else
+-        info.err(2)=0;
+-        info.err(4)=0;
+     end
+     %     Dual infeasibility
+-    %info.err(3)=0.0; %s is not maintained explicitely
++    info.err(3)=0.0; % not maintained explicitly
+         %     Relative duality gap
+     info.err(5)=(cx-by)/(1+abs(cx)+abs(by));
+     %     Relative complementarity
+--- sedumi/sqrtinv.c	2020-08-18 22:17:25.418613659 +1000
++++ SeDuMi_1_3/sqrtinv.c	2020-08-18 22:17:42.072477426 +1000
+@@ -95,7 +95,10 @@
+ void mexFunction(const int nlhs, mxArray *plhs[],
+   const int nrhs, const mxArray *prhs[])
+ {
+-  mwIndex i,k, nk, nksqr, lenud, lendiag, diagskip;
++  mwIndex k, nk, nksqr, lenud, diagskip;
++#ifdef MEX_DEBUG
++  mwIndex lendiag;
++#endif
+   double *y;
+   const double *q,*v;
+   coneK cK;
+@@ -113,7 +116,9 @@
+    ------------------------------------------------------------ */
+   lenud = cK.rDim + cK.hDim;
+   diagskip = cK.lpN + 2 * cK.lorN;         /* diag for LP and Lorentz */
++#ifdef MEX_DEBUG
+   lendiag = diagskip + cK.rLen + cK.hLen;
++#endif
+ /* ------------------------------------------------------------
+    Get inputs v, q
+    ------------------------------------------------------------ */
+--- sedumi/spscale.c	2020-08-18 22:17:25.418613659 +1000
++++ SeDuMi_1_3/spscale.c	2020-08-18 22:17:42.072477426 +1000
+@@ -76,6 +76,7 @@
+ {
+   mwIndex knz, jfirst, jlast, inz, i, j;
+   knz = 0;        /* length(ycols) */
++  jfirst = 0;
+   jlast = 0;      /* index right after last activated column */
+   y -= n;         /* point to dummy column, which will be skipped */
+ /* ------------------------------------------------------------
+@@ -133,6 +134,7 @@
+   const double *dpi;
+   char found;
+   knz = 0;        /* length(ycols) */
++  jfirst = 0;
+   jlast = 0;      /* index right after last activated column */
+   nsqr = SQR(n);
+   dpi = d + nsqr;
+@@ -251,7 +253,7 @@
+ {
+   mwIndex inz, i, icol, j, jfirst, jlast, m;
+   double *xd;
+-  const double *dj, *xdj;
++  const double *dj=NULL, *xdj=NULL;
+ /* ------------------------------------------------------------
+    Partition 2*n^2 WORKING array fwork into [fwork(n^2), xd(n^2)].
+    ------------------------------------------------------------ */
+@@ -276,6 +278,7 @@
+    zij = (D*sym(X)*D)_ij = [ DXD_ij + DXD_ji ] /2.
+    Note that DXD_ij = xd(:,i)' * fwork(:,j).   (m mults)
+    ------------------------------------------------------------ */
++  jfirst = 0;
+   jlast = 0;      /* index right after last activated column */
+   for(inz = 0; inz < znnz; inz++){
+     if((i = zir[inz]) >= jlast){      /* move to new z-column */
+@@ -334,7 +337,8 @@
+   mwIndex inz, i, icol, j, jfirst, jlast, m, nsqr, imgfirst;
+   double *dx, *dxpi, *fworkpi;
+   double zi;
+-  const double *dj, *djpi, *djx, *djxpi;
++  const double *dj=NULL, *djpi=NULL, *djx=NULL, *djxpi=NULL;
++  jfirst = 0;
+   nsqr = SQR(n);
+ /* ------------------------------------------------------------
+    Partition 4*n^2 WORKING array fwork into [fwork(2*n^2), dxRows(2*n^2)].
+--- sedumi/adenscale.c	2020-08-18 22:17:25.358614149 +1000
++++ SeDuMi_1_3/adenscale.c	2020-08-18 22:17:42.073477417 +1000
+@@ -88,7 +88,10 @@
+   int nrhs, const mxArray *prhs[])
+ {
+   const mxArray *MY_FIELD;
+-  mwIndex i, j, nden, nl, nq, lorN;
++  mwIndex i, j, nden, nl, nq;
++#ifdef MEX_DEBUG
++  mwIndex lorN;
++#endif
+   mwIndex *q, *dencols, *blkend;
+   const double *qPr, *dencolsPr, *detd, *blkstartPr;
+ /* ------------------------------------------------------------
+@@ -119,7 +122,9 @@
+   MY_FIELD = mxGetField(D_IN,(mwIndex)0,"det");           /* d.det */
+   mxAssert( MY_FIELD != NULL, "Missing field d.det.");
+   detd = mxGetPr(MY_FIELD);
++#ifdef MEX_DEBUG
+   lorN = (mwIndex) (mxGetM(MY_FIELD) * mxGetN(MY_FIELD));
++#endif
+ /* ------------------------------------------------------------
+    Get INPUTS blkstart
+    ------------------------------------------------------------ */
+--- sedumi/fwblkslv.c	2020-08-18 22:17:25.403613781 +1000
++++ SeDuMi_1_3/fwblkslv.c	2020-08-18 22:17:42.073477417 +1000
+@@ -197,7 +197,7 @@
   mwIndex m,n, j, k, nsuper, inz;
   double *y,*fwork;
   const double *permPr, *b, *xsuperPr;
@@ -84,241 +289,67 @@
   mwIndex *perm, *invperm, *snode, *xsuper, *iwork;
   jcir L;
   char bissparse;
---- sedumi-master/install_sedumi.m	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/install_sedumi.m	2018-11-01 11:58:47.728663266 +1100
-@@ -36,6 +36,8 @@ function install_sedumi( varargin )
- 
- need_rebuild = any( strcmp( varargin, '-rebuild' ) );
- no_path = any( strcmp( varargin, '-nopath' ) );
-+address_sanitize = any( strcmp( varargin, '-address_sanitize' ) );
-+enable_64bits = any( strcmp( varargin, '-enable_64bits' ) );
- 
- targets64={...
-     'bwblkslv.c sdmauxFill.c sdmauxRdot.c',...
-@@ -163,9 +165,24 @@ if need_rebuild,
-         if VERSION < 3.08,
-             flags{end+1} = '-DmwSignedIndex=int';
-         end
--        flags{end+1} = '-O';
-+        if address_sanitize
-+          flags{end+1} = '-fsanitize=address';
-+          flags{end+1} = '-fsanitize=undefined';
-+          flags{end+1} = '-fsanitize=leak';
-+          flags{end+1} = '-fsanitize-address-use-after-scope';
-+          flags{end+1} = '-fno-sanitize=vptr';
-+          flags{end+1} = '-fno-omit-frame-pointer';
-+          flags{end+1} = '-ggdb3 -Og';
-+        else
-+          flags{end+1} = '-O3';
-+        endif
-+        if enable_64bits
-+          flags{end+1} = '-DOPENBLAS_USE64BITINT'
-+        endif
-         flags{end+1} = '-DOCTAVE';
--        libs{end+1} = '-lblas';
-+        flags{end+1} = '-Wall'
-+        flags{end+1} = '-Wno-unused-variable';
-+        flags{end+1} = '-Wno-unused-but-set-variable';
-     else
-         flags{end+1} = '-O';
-         if IS64BIT && ( VERSION >= 7.03 ),
-@@ -209,6 +227,7 @@ if need_rebuild,
-         mfile = [ targ(1:min(strfind(targ,'.'))), mext ];
-         temp = [ 'mex ', flags, ' ', targets64{i}, libs ];
-         fprintf( '   %s: %s\n', mfile, targ );
-+	disp( temp );
-         eval( temp, 'failed=true;' ); %#ok
-     end
-     cd( olddir );
---- sedumi-master/makereal.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/makereal.c	2018-11-01 11:58:47.729663257 +1100
-@@ -370,7 +370,7 @@ void mexFunction(const int nlhs, mxArray
-   mwIndex i,j,jnz,MAXN, m,dimflqr,lenfull,reallength, nf,nx,ns, iwsize;
-   mwIndex *iwork, *sdpNL, *cpxf, *cpxx, *cpxs, *cpxsi;
-   bool *cwork;
--  const double *cpxfPr, *cpxxPr, *cpxsPr, *xpi;
-+  const double *cpxfPr=NULL, *cpxxPr=NULL, *cpxsPr=NULL, *xpi;
-   mxArray *MY_FIELD;
+--- sedumi/extractA.c	2020-08-18 22:17:25.401613798 +1000
++++ SeDuMi_1_3/extractA.c	2020-08-18 22:17:42.074477409 +1000
+@@ -115,6 +115,8 @@
+   At.ir = mxGetIr(AT_IN);
+   At.pr = mxGetPr(AT_IN);
+   m = mxGetN(AT_IN);
++  ifirst = 0;
++  n = 0;
+   if(nrhs >=  NPARIN){
+     n = (mwIndex) mxGetScalar(BLKSTART2_IN);
+     ifirst = (mwIndex) mxGetScalar(BLKSTART_IN);
+--- sedumi/getada3.c	2020-08-18 22:17:25.406613757 +1000
++++ SeDuMi_1_3/getada3.c	2020-08-18 22:17:42.074477409 +1000
+@@ -373,7 +373,10 @@
+   mxArray *myplhs[NPAROUT];
    coneK cK;
-   jcir x,y;
---- sedumi-master/ordmmdmex.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/ordmmdmex.c	2018-11-01 11:58:47.729663257 +1100
-@@ -39,6 +39,12 @@
- 
- #include "mex.h"
- 
-+/* Prototype from ordmmd.c */
-+typedef mwSignedIndex integer;                  /* removed "long" */
-+extern int ordmmd_(integer *neqns, integer *xadj, integer *adjncy,
-+                   integer *invp, integer *perm, integer *iwsiz,
-+                   integer *iwork, integer *nofsub, integer *iflag);
-+
- #define PERM_OUT plhs[0]
- 
- #define X_IN prhs[0]
---- sedumi-master/sdmauxRdot.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/sdmauxRdot.c	2018-11-01 11:58:47.730663248 +1100
-@@ -53,6 +53,6 @@ double realdot(const double *x, const do
-    ************************************************************ */
- double realssqr(const double *x, const mwIndex n)
- {
--    mwIndex one=1,nn=n;
-+    blasint one=1,nn=n;
-     return FORT(ddot)(&nn,(double*)x,&one,(double*)x,&one);
- }
---- sedumi-master/sedumi.m	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/sedumi.m	2018-11-01 11:58:47.730663248 +1100
-@@ -805,7 +805,7 @@ if ~isempty(origcoeff)
-         info.err(4)=0;
-     end
-     %     Dual infeasibility
--    %info.err(3)=0.0; %s is not maintained explicitely
-+    info.err(3)=0.0; %s is not maintained explicitely
-         %     Relative duality gap
-     info.err(5)=(cx-by)/(1+abs(cx)+abs(by));
-     %     Relative complementarity
---- sedumi-master/spscale.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/spscale.c	2018-11-01 11:58:47.731663239 +1100
-@@ -74,7 +74,7 @@ mwIndex realdmulx(double *y, mwIndex *yc
-               const double *xpr, const mwIndex *xir, mwIndex *pxjc0, const mwIndex xjc1,
-               const mwIndex first, const mwIndex n)
- {
--  mwIndex knz, jfirst, jlast, inz, i, j;
-+  mwIndex knz, jfirst=0, jlast, inz, i, j;
-   knz = 0;        /* length(ycols) */
-   jlast = 0;      /* index right after last activated column */
-   y -= n;         /* point to dummy column, which will be skipped */
-@@ -128,7 +128,7 @@ mwIndex cpxdmulx(double *y, mwIndex *yco
-              const double *xpr, const mwIndex *xir, mwIndex *pxjc0, const mwIndex xjc1,
-              const mwIndex first, const mwIndex n)
- {
--  mwIndex jfirst, jlast, inz, jnz, knz, i, j, icol, imgfirst, nsqr, ncols;
-+  mwIndex jfirst=0, jlast, inz, jnz, knz, i, j, icol, imgfirst, nsqr, ncols;
-   double *ypr, *ypi;
-   const double *dpi;
-   char found;
-@@ -249,9 +249,9 @@ void sprealdxd(double *z, const mwIndex
-                const double *xpr, const mwIndex *xir, mwIndex *pxjc0, const mwIndex xjc1,
-                const mwIndex first, const mwIndex n, double *fwork, mwIndex *dxcols)
- {
--  mwIndex inz, i, icol, j, jfirst, jlast, m;
-+  mwIndex inz, i, icol, j, jfirst=0, jlast, m;
-   double *xd;
--  const double *dj, *xdj;
-+  const double *dj=NULL, *xdj=NULL;
- /* ------------------------------------------------------------
-    Partition 2*n^2 WORKING array fwork into [fwork(n^2), xd(n^2)].
+   const mxArray *MY_FIELD;
+-  mwIndex lenfull, lenud, m, i, j, k, fwsiz, iwsiz, dznnz, maxadd;
++  mwIndex lenud, m, i, j, k, fwsiz, iwsiz, dznnz, maxadd;
++#ifdef MEX_DEBUG
++  mwIndex lenfull;
++#endif
+   const double *permPr, *Ajc1Pr, *blkstartPr, *udsqr;
+   const mwIndex *dzstructjc, *dzstructir;
+   double *fwork, *absd;
+@@ -393,7 +396,9 @@
+    Compute some statistics based on cone K structure
     ------------------------------------------------------------ */
-@@ -331,10 +331,10 @@ void spcpxdxd(double *z, const mwIndex *
-               const double *xpr, const mwIndex *xir, mwIndex *pxjc0, const mwIndex xjc1,
-               const mwIndex first, const mwIndex n, double *fwork, mwIndex *dxcols)
- {
--  mwIndex inz, i, icol, j, jfirst, jlast, m, nsqr, imgfirst;
-+  mwIndex inz, i, icol, j, jfirst=0, jlast, m, nsqr, imgfirst;
-   double *dx, *dxpi, *fworkpi;
-   double zi;
--  const double *dj, *djpi, *djx, *djxpi;
-+  const double *dj=NULL, *djpi=NULL, *djx=NULL, *djxpi=NULL;
-   nsqr = SQR(n);
+   lenud = cK.rDim + cK.hDim;                  /* for PSD */
++#ifdef MEX_DEBUG
+   lenfull = cK.lpN +  cK.qDim + lenud;
++#endif
  /* ------------------------------------------------------------
-    Partition 4*n^2 WORKING array fwork into [fwork(2*n^2), dxRows(2*n^2)].
---- sedumi-master/statsK.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/statsK.c	2018-11-01 11:58:47.731663239 +1100
-@@ -126,6 +126,7 @@ void mexFunction(int nlhs, mxArray *plhs
-   conepars(K_IN, &cK);
-   if( (K_FIELD = mxGetField(K_IN,(mwIndex)0,"ycomplex")) == NULL){  /* K.ycomplex */
-     nycomplex = 0;
-+    ycomplexPr = 0;
-   }
-   else{
-     nycomplex = mxGetM(K_FIELD) * mxGetN(K_FIELD);
---- sedumi-master/symfctmex.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/symfctmex.c	2018-11-01 11:58:47.731663239 +1100
-@@ -40,6 +40,18 @@
- 
- #include "mex.h"
- 
-+/* Prototypes from symfct.c */
-+typedef mwSignedIndex integer;                  /* removed "long" */
-+int sfinit_(integer *neqns, integer *nnza, integer *xadj, integer *adjncy,
-+            integer *perm, integer *invp, integer *colcnt, integer *nnzl,
-+            integer *nsub, integer *nsuper, integer *snode, integer *xsuper,
-+            integer *iwsiz, integer *iwork, integer *iflag);
-+int symfct_(integer *neqns, integer *adjlen, integer *xadj, integer *adjncy,
-+            integer *perm, integer *invp, integer *colcnt, integer *nsuper,
-+            integer *xsuper, integer *snode, integer *nofsub, integer *xlindx,
-+            integer *lindx, integer *xlnz, integer *iwsiz, integer *iwork,
-+            integer *flag__);
-+
- #define L_OUT plhs[0]
- #define NPAROUT 1
- 
---- sedumi-master/urotorder.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/urotorder.c	2018-11-01 11:58:47.731663239 +1100
-@@ -79,7 +79,7 @@ function [u,perm,gjc,g] = urotorder(u,K,
- void rotorder(mwIndex *perm, double *u, mwIndex *gjc, twodouble *g, double *d,
-               const double maxusqr, const mwIndex n)
- {
--  mwIndex i,j,k,inz, pivk, m;
-+  mwIndex i,j,k,inz, pivk=0, m;
-   double *uj, *rowuk;
-   double dk,y,nexty, h, uki,ukmax;
-   twodouble gi;
-@@ -197,7 +197,7 @@ void prpirotorder(mwIndex *perm, double
-                   tridouble *g, double *d,
-                   const double maxusqr, const mwIndex n)
- {
--  mwIndex i,j,k,inz, pivk, m;
-+  mwIndex i,j,k,inz, pivk=0, m;
-   double *uj,*ujpi, *rowuk, *rowukpi;
-   double dk,y,nexty, h, uki,ukiim,ukmax;
-   tridouble gi;
-@@ -312,7 +312,7 @@ void mexFunction(const int nlhs, mxArray
+    Allocate working array blkstart(|K.s|+1).
+    ------------------------------------------------------------ */
+--- sedumi/urotorder.c	2020-08-18 22:17:25.421613634 +1000
++++ SeDuMi_1_3/urotorder.c	2020-08-18 22:17:42.074477409 +1000
+@@ -90,6 +90,7 @@
+    ------------------------------------------------------------ */
+   for(j = 0; j < n; j++)
+     perm[j] = j;
++  pivk = 0;
+   inz = 0;
+   d[0] = 0.0; h = 1.0;
+   for(k = 0, rowuk = u; k < n-1; k++, rowuk++){
+@@ -208,6 +209,7 @@
+    ------------------------------------------------------------ */
+   for(j = 0; j < n; j++)
+     perm[j] = j;
++  pivk = 0;
+   inz = 0;
+   d[0] = 0.0; h = 1.0;
+   for(k = 0, rowuk = u, rowukpi = upi; k < n-1; k++, rowuk++, rowukpi++){
+@@ -311,8 +313,8 @@
+   const int nrhs, const mxArray *prhs[])
  {
    mxArray *myplhs[NPAROUT];
-   mwIndex i,j,k, nk, nksqr, lenud, sdplen, gnnz, inz, maxKs,maxKssqr, rgnnz, hgnnz;
+-  mwIndex i,j,k, nk, nksqr, lenud, sdplen, gnnz, inz, maxKs,maxKssqr, rgnnz, hgnnz;
 -  const double *uOld, *permOld;
++  mwIndex i, k, nk, nksqr, lenud, sdplen, gnnz, inz, maxKs,maxKssqr, rgnnz, hgnnz;
 +  const double *uOld, *permOld=NULL;
    double *u, *d, *gjcPr, *permPr, *fwork, *fworkpi;
    mwIndex *perm, *gjc;
    double *g, *gk;
---- sedumi-master/vectril.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/vectril.c	2018-11-01 11:58:47.732663229 +1100
-@@ -65,7 +65,7 @@
- mwIndex sptriujcT(mwIndex *triujc, const mwIndex *xir, const mwIndex xjc0, const mwIndex xjc1,
-               const mwIndex first,const mwIndex n)
- {
--  mwIndex i,j,inz,jnz,jfirst,jlast;
-+  mwIndex i,j=0,inz,jnz,jfirst=0,jlast;
- /* ------------------------------------------------------------
-    Observe that triu(X(n,:))=[] and hence only use triujc[0:n-2].
-    ------------------------------------------------------------ */
-@@ -137,7 +137,7 @@ mwIndex sptrilandtriu(mwIndex *yir, doub
-                    const double *xpr, const mwIndex xjc0, const mwIndex xjc1,
-                    const mwIndex first, const mwIndex n, bool skew)
- {
--  mwIndex i,j,inz,jnz,knz,jfirst,jlast;
-+  mwIndex i,j=0,inz,jnz,knz,jfirst=0,jlast;
- /* ------------------------------------------------------------
-    Store [tril(X); triu(X,1)'] into y,
-    using the column pointers of triu(X,1)' as computed in triujc.
---- sedumi-master/whichcpx.c	2015-06-08 05:24:25.000000000 +1000
-+++ SeDuMi_1_3/whichcpx.c	2018-11-01 11:58:47.732663229 +1100
-@@ -67,7 +67,7 @@ mwIndex whichcpx(mwIndex *ifr, mwIndex *
- 	     const mwIndex nxcomplex, const mwIndex frlpN, const mwIndex lorN,
- 	     const mwIndex rconeN)
- {
--  mwIndex n, ix, i,j,k,lastj, ixOld;
-+  mwIndex n, ix, i,j=0,k,lastj, ixOld;
-   if(nxcomplex <= 0)
-     return 0;
-   n = 0; ix = 0;   /* target index into ifr, xcomplex */
-@@ -141,7 +141,7 @@ void mexFunction( int nlhs, mxArray *plh
-   int nrhs, const mxArray *prhs[])
- {
-   mwIndex i,j,iwsiz, nxcomplex, cpxf;
--  mwIndex *iwork, *lorNL, *rconeNL, *xcomplex;
-+  mwIndex *iwork=NULL, *lorNL, *rconeNL=NULL, *xcomplex=NULL;
-   double *myPr;
-   const double *xcomplexPr;
-   mxArray *MY_FIELD;

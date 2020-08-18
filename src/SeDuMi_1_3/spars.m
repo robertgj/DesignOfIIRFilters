@@ -38,4 +38,3 @@ if ~isempty(x)
 else
     sparsity=0;
 end
-

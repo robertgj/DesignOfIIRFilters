@@ -43,4 +43,3 @@ if nargin < 2
     end
 end
 X = reshape(x,n,n);
-

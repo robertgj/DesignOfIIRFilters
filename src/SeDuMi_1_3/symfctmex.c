@@ -39,18 +39,7 @@
 */
 
 #include "mex.h"
-
-/* Prototypes from symfct.c */
-typedef mwSignedIndex integer;                  /* removed "long" */
-int sfinit_(integer *neqns, integer *nnza, integer *xadj, integer *adjncy,
-            integer *perm, integer *invp, integer *colcnt, integer *nnzl,
-            integer *nsub, integer *nsuper, integer *snode, integer *xsuper,
-            integer *iwsiz, integer *iwork, integer *iflag);
-int symfct_(integer *neqns, integer *adjlen, integer *xadj, integer *adjncy,
-            integer *perm, integer *invp, integer *colcnt, integer *nsuper,
-            integer *xsuper, integer *snode, integer *nofsub, integer *xlindx,
-            integer *lindx, integer *xlnz, integer *iwsiz, integer *iwork,
-            integer *flag__);
+#include "symfct.h"
 
 #define L_OUT plhs[0]
 #define NPAROUT 1
@@ -98,7 +87,7 @@ void getadj(mwIndex *forjc,mwIndex *forir,const mwIndex *cjc,const mwIndex *cir,
 /* ------------------------------------------------------------
    EXPANDSUB -
    ------------------------------------------------------------ */
-void expandsub( mwSize n, mwSize nsuper, 
+void expandsub( mwSize n, mwSize nsuper,
                 const mwIndex* xsuper, const mwIndex* xlindx,
                 mwIndex *Ljc, mwIndex *Lir )
 {
@@ -147,7 +136,6 @@ void mexFunction(const int nlhs, mxArray *plhs[],
     *invp, *colcnt;
   mxArray *L_FIELD;
   const char *LFieldnames[] = {"L", "perm", "xsuper"};
-  mwIndex *mwXjc, *mwXir, *mwLjc, *mwLir;
 /* ------------------------------------------------------------
    Check for proper number of arguments
    ------------------------------------------------------------ */

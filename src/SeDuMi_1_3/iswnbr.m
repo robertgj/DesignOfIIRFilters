@@ -112,4 +112,3 @@ h = sqrt(hSQR);
 alpha = sumdifv/ (r*h);
 deltaSQR = alpha*(2-alpha) - (1-alpha)^2 * sumdifw/gap;
 delta = sqrt(r*deltaSQR);
-

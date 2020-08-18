@@ -168,4 +168,3 @@ end
 if isstruct(y)
     y = y.hi;
 end
-

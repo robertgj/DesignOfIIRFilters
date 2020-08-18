@@ -191,4 +191,3 @@ else
     cgpars.refine = 1;
 end
 pars.cg = cgpars;
-

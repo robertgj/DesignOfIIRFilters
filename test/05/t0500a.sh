@@ -24,6 +24,20 @@ pass()
 }
 
 trap "fail" 1 2 3 15
+
+# If YALMIP does not exist then return the aet code for "pass"
+if ! test -d src/YALMIP; then 
+    echo SKIPPED $prog YALMIP not found! ; exit 0; 
+fi
+# If BMIsolver does not exist then return the aet code for "pass"
+if ! test -d src/BMIsolver; then 
+    echo SKIPPED $prog BMIsolver not found! ; exit 0; 
+fi
+# If COMPlib does not exist then return the aet code for "pass"
+if ! test -d src/COMPlib; then 
+    echo SKIPPED $prog COMPlib not found! ; exit 0; 
+fi
+
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
 for file in $depends;do \

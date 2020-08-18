@@ -44,4 +44,3 @@ function [perm, dz] = incorder(At,Ajc1,ifirst) %#ok
 
 %Indicate to the user Matlab cannot find the SeDuMi binaries
 sedumi_binary_error();
-

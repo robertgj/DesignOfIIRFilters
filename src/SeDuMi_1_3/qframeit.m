@@ -40,4 +40,3 @@ if length(lab) > 2*lorN
 end
 x = [(lab(1:lorN) + lab(lorN+1:end))/sqrt(2);...
      qblkmul(lab(lorN+1:end) - lab(1:lorN),frmq,K.qblkstart)];
-

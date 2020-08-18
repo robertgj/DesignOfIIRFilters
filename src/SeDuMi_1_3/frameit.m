@@ -37,4 +37,3 @@ function x = frameit(lab,frmq,frms,K)
 % 02110-1301, USA
 
 x = [lab(1:K.l); qframeit(lab,frmq,K); psdframeit(lab,frms,K)];
-

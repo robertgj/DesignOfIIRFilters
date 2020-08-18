@@ -49,6 +49,7 @@ warning("error","Octave:noninteger-range-as-index");
 warning("error","Octave:possible-matlab-short-circuit-operator");
 warning("error","Octave:precedence-change");
 warning("error","Octave:singular-matrix");
+warning("error","Octave:nearly-singular-matrix");
 warning("error","Octave:undefined-return-values");
 
 % Disable some noisy warnings

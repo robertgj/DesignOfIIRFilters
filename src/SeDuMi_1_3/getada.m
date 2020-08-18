@@ -38,5 +38,3 @@ ADA_sedumi_ = ADA_sedumi_+Alq'*diag(sparse(scalingvector))*Alq;
 clear Alq
 ADA_sedumi_ = sparse(ADA_sedumi_);
 absd = full(diag(ADA_sedumi_));
-
-

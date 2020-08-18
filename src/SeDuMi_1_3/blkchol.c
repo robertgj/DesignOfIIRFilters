@@ -243,7 +243,7 @@ void mexFunction(int nlhs, mxArray *plhs[],
   mxArray *myplhs[NPAROUT];
   mwIndex    m, i, j, iwsiz, nsuper, tmpsiz, fwsiz, nskip, nadd, m1;
   double *fwork, *d, *skipPr, *orgd;
-  const double *permPr,*xsuperPr,*Ppr,*absd=NULL;
+  const double *permPr,*xsuperPr,*Ppr,*absd;
   mwIndex    *perm, *snode, *xsuper, *iwork, *xlindx, *skip, *skipJc;
   const mwIndex *LINir, *Pjc, *Pir;
   double canceltol, maxu, abstol;

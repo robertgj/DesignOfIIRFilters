@@ -60,4 +60,3 @@ y1 = y1./(sqrt(2)*detx);
 % ------------------------------------------------------------
 y = [y1; qblkmul(sqrt(2)./x(1:lorN),b,K.qblkstart)...
     - qblkmul(y1./x(1:lorN),x(lorN+1:end),K.qblkstart)];
-

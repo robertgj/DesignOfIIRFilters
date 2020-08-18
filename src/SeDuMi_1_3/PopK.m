@@ -53,4 +53,3 @@ end
 if nargout >= 4
     xTy = x(1:K.lq)'*y(1:K.lq) + sum(ddotx.^2) + sum(Dx.^2);
 end
-

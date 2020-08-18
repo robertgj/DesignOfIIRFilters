@@ -67,4 +67,3 @@ else
         y = y + [t.*d.q1; qblkmul(t,d.q2,K.qblkstart)];
     end
 end
-

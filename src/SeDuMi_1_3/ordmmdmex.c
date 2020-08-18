@@ -38,12 +38,7 @@
 */
 
 #include "mex.h"
-
-/* Prototype from ordmmd.c */
-typedef mwSignedIndex integer;                  /* removed "long" */
-extern int ordmmd_(integer *neqns, integer *xadj, integer *adjncy,
-                   integer *invp, integer *perm, integer *iwsiz,
-                   integer *iwork, integer *nofsub, integer *iflag);
+#include "ordmmd.h"
 
 #define PERM_OUT plhs[0]
 
@@ -92,7 +87,7 @@ void mexFunction(const int nlhs, mxArray *plhs[],
   mxAssert(nrhs == 1, "ordmmd requires 1 input argument.");
   mxAssert(nlhs == 1, "ordmmd generates 1 output argument.");
 /* ------------------------------------------------------------
-   Check input X 
+   Check input X
    ------------------------------------------------------------ */
   mxAssert(mxIsSparse(X_IN), "Input matrix must be sparse");
   m = (int) mxGetM(X_IN);

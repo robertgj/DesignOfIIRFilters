@@ -125,4 +125,3 @@ if t == 0
     wr.delta=deltaM;
 end
 wr.desc = 1;       % always descent direction.
-

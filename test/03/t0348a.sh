@@ -27,9 +27,10 @@ pass()
 trap "fail" 1 2 3 15
 
 # If package mpsolve is not found then return the aet code for "pass"
-octave-cli -q $prog >test.out 2>&1
+LD_LIBRARY_PATH=/usr/local/octave/lib \
+               octave-cli -q --eval "pkg load mpsolve" >/dev/null 2>&1
 if test $? -ne 0; then 
-    echo SKIPPED $descr "octave mpsolve package not found!" ; exit 0; 
+    echo SKIPPED $prog "octave mpsolve package not found!" ; exit 0; 
 fi
 
 mkdir $tmp

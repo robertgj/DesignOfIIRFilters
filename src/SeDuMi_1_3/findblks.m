@@ -43,4 +43,3 @@ function Ablk = findblks(At,Ablkjc,blk0,blk1,blkstart) %#ok
 
 %Indicate to the user Matlab cannot find the SeDuMi binaries
 sedumi_binary_error();
-

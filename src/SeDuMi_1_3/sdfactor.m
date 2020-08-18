@@ -56,4 +56,3 @@ Lsd.x = Lsd.x + v;
 % Compute denom = norm(xsd)^2
 % ------------------------------------------------------------
 Lsd.denom = norm(Lsd.x)^2 + Lsd.b'*Lsd.y;
-

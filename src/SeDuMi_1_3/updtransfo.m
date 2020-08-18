@@ -106,4 +106,3 @@ vinv = sqrtinv(q,vfrm.lab,K);
 % ------------------------------------------------------------
 [vfrm.s, r] = qrK(vinv,K);
 d.u = triumtriu(r, d.u, K);
-

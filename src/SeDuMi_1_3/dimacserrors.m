@@ -24,5 +24,3 @@ err(4)=max(0,-min(eigK(full(s(K.f+1:end)),K))/(1+normc));
 err(5)=(cx-by)/(1+abs(cx)+abs(by));
 %     Relative complementarity
 err(6)=xs/(1+abs(cx)+abs(by));
-
-

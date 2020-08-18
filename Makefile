@@ -147,8 +147,7 @@ testvars :
 	@echo "deczky3_socp_test_FILES=" ${deczky3_socp_test_FILES}
 
 .PHONY: octfiles
-octfiles: $(OCT_FILES:%=src/%.oct) \
-          sedumi_test.diary sparsePOP_test.diary sdpt3_test.diary 
+octfiles: $(OCT_FILES:%=src/%.oct) sedumi_test.diary sparsePOP_test.diary
 
 .PHONY: batchtest
 batchtest: octfiles

@@ -46,4 +46,3 @@ DAt.denq = adendotd(dense,d,DAt.q(dense.q,:)',DAtdenq,K.qblkstart);
 if ~isempty(dense.q)
     DAt.q(dense.q,:) = 0.0;
 end
-

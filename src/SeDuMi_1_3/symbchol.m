@@ -81,4 +81,3 @@ end
 % ----------------------------------------
 L.tmpsiz = choltmpsiz(L);
 L.split = cholsplit(L,cachsz);
-

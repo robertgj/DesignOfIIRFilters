@@ -69,5 +69,3 @@ if isfield(K,'s') && ~isempty(K.s),
     end
 end
 
-
-

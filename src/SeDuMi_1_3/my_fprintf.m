@@ -36,4 +36,3 @@ function my_fprintf(fid, varargin)
 if fid,
     fprintf(fid, varargin{:});
 end
-

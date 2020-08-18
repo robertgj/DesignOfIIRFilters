@@ -44,4 +44,3 @@ function [L,perm,xsuper,split,tmpsiz] = symfctmex(adjncy, perm, cachsz) %#ok
 
 %Indicate to the user Matlab cannot find the SeDuMi binaries
 sedumi_binary_error();
-

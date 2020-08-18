@@ -42,4 +42,3 @@ function [ADA,absd] = getada3(ADA, A,Ajc1,Aord, udsqr,K) %#ok
 
 %Indicate to the user Matlab cannot find the SeDuMi binaries
 sedumi_binary_error();
-

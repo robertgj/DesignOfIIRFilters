@@ -173,5 +173,3 @@ if y0+t*dy0 <= 0
     t = -y0/dy0;        % For simplicity, we don't search beyond break point.
 end
 rcdx = y0*rcdx;
-
-

@@ -212,5 +212,3 @@ if STOP == -1
     err.db0 = 0;
     err.g = 0;
 end
-
-

@@ -77,5 +77,3 @@ err.b = rdx0 * Lsd.b - err.b;       % ... + err.b
 err.maxb = norm(err.b,inf);
 dx(1) = rdx0 * v(1);
 dz = pv - dx;
-
-

@@ -60,4 +60,3 @@ else
     z = [z1; qblkmul(x(ix(1):ix(2)-1),y,K.qblkstart)...
         + qblkmul(y(ix(1):ix(2)-1),x,K.qblkstart)] / sqrt(2);
 end
-

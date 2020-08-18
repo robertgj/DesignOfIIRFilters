@@ -74,5 +74,3 @@ for i = 1 : nc,
     end
 end
 mineig = min(eigv) / 2;
-
-

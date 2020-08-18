@@ -103,4 +103,3 @@ R.maxRb = max(1e-6, norm(R.b,inf));
 R.maxRc = max(1e-6, norm(R.c,inf));
 R.norm = max([R.maxRb, R.maxRc, R.sd]);
 R.w = 2 * pars.w .* [R.maxRb;R.maxRc] ./ [1+R.maxb;1+R.maxc];
-

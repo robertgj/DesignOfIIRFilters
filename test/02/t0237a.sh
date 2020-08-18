@@ -41,6 +41,12 @@ pass()
 }
 
 trap "fail" 1 2 3 15
+
+# If SparsePOP303 does not exist then return the aet code for "pass"
+if ! test -d src/SparsePOP303; then 
+    echo SKIPPED $prog SparsePOP303 not found! ; exit 0; 
+fi
+
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
 for file in $depends;do \

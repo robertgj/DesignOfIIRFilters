@@ -46,4 +46,3 @@ function Apart = extractA(At,Ajc,blk0,blk1,blkstart,blkstart2) %#ok
 
 %Indicate to the user Matlab cannot find the SeDuMi binaries
 sedumi_binary_error();
-

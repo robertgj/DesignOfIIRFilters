@@ -65,4 +65,3 @@ if ~isempty(K.s)
     mindx = min(mindx, mindxs);
 end
 tp = 1 / max(-mindx, 1E-16);
-

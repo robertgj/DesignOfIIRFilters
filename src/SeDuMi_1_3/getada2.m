@@ -40,4 +40,3 @@ function ADA = getada2(ADA, DAt,Aord, K) %#ok
 
 %Indicate to the user Matlab cannot find the SeDuMi binaries
 sedumi_binary_error();
-

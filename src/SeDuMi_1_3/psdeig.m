@@ -91,5 +91,3 @@ for i = 1 : nc,
         end
     end
 end
-
-
