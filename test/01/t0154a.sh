@@ -45,7 +45,6 @@ Butterworth low-pass filter with N=20, fc=0.100000
 xbits =
    1   1   1   1   1   1  -0  -0   0   0
 
-parcellfun: 0/5 jobs doneparcellfun: 0/5 jobs doneparcellfun: 0/5 jobs doneparcellfun: 0/5 jobs doneparcellfun: 0/5 jobs doneparcellfun: 1/5 jobs doneparcellfun: 2/5 jobs doneparcellfun: 3/5 jobs doneparcellfun: 4/5 jobs doneparcellfun: 5/5 jobs done
 stdydirf =
  Columns 1 through 8:
    350.30   676.11   915.00   900.59   760.01   532.86   352.74   231.00
@@ -122,7 +121,6 @@ Butterworth high-pass filter with N=20, fc=0.100000
 xbits =
    1   1   1   1   1   1  -0  -0   0   0
 
-parcellfun: 0/5 jobs doneparcellfun: 0/5 jobs doneparcellfun: 0/5 jobs doneparcellfun: 0/5 jobs doneparcellfun: 0/5 jobs doneparcellfun: 1/5 jobs doneparcellfun: 2/5 jobs doneparcellfun: 3/5 jobs doneparcellfun: 4/5 jobs doneparcellfun: 5/5 jobs done
 stdydirf =
  Columns 1 through 8:
    416.66   724.34   940.75   981.65   804.54   612.41   452.57   339.10

@@ -1,23 +1,25 @@
 #!/bin/bash
 
 # Assume these packages are installed:
-#  atlas.x86_64            3.10.3-5.fc27
-#  blas.x86_64             3.8.0-8.fc27
-#  lapack.x86_64           3.8.0-8.fc27
-#  gsl.x86_64              2.4-3.fc27
-#  gsl-devel.x86_64        2.4-3.fc27
-#  openblas.x86_64         0.2.20-10.fc27
-#  openblas-threads.x86_64 0.2.20-10.fc27
+#  atlas.x86_64            3.10.3-10.fc32
+#  blas.x86_64             3.9.0-3.fc32
+#  lapack.x86_64           3.9.0-3.fc32
+#  gsl.x86_64              2.6-2.fc32
+#  gsl-devel.x86_64        2.6-2.fc32
+#  openblas.x86_64         0.3.9-3.fc32
+#  openblas-threads.x86_64 0.3.9-3.fc32
 # eg:
 #  dnf install atlas blas lapack gsl gsl-devel openblas openblas-threads
 
 # Assume these archive files are present:
-#  lapack-3.8.0.tar.gz
-#  SuiteSparse-4.5.6.tar.gz
+#  lapack-3.9.0.tar.gz
+#  SuiteSparse-5.1.2.tar.gz
 #  arpack-ng-master.zip
 #  fftw-3.3.8.tar.gz
 #  qrupdate-1.1.2.tar.gz
 #  octave-5.2.0.tar.lz
+#  io-?.?.?.tar.gz
+#  statistics-?.?.?.tar.gz
 #  struct-?.?.?.tar.gz
 #  optim-?.?.?.tar.gz
 #  control-?.?.?.tar.gz
@@ -38,6 +40,7 @@ dnf list installed kernel* gcc* atlas* openblas* gsl* blas* lapack* \
 
 # Build local versions of the lapack and blas libraries
 export LOCAL_PREFIX=`pwd`
+export LPVER=3.9.0
 source ./build-lapack.sh
 
 # Build local versions of the other libraries used by octave
@@ -86,8 +89,8 @@ export OCTAVE_VER=5.2.0
 rm -Rf octave-$OCTAVE_VER
 tar -xf octave-$OCTAVE_VER".tar.lz"
 # Patch
-cat > octave-$OCTAVE_VER".patch.uue" << 'EOF'
-begin-base64 644 octave-5.2.0.patch
+cat > octave.patch.uue << 'EOF'
+begin-base64 644 octave.patch
 LS0tIC4vc2NyaXB0cy9wbG90L3V0aWwvcHJpdmF0ZS9fX2dudXBsb3RfZHJh
 d19heGVzX18ubQkyMDIwLTAxLTI4IDEyOjU3OjM1LjAwMDAwMDAwMCArMTEw
 MAorKysgLi4vb2N0YXZlLTUuMi4wLm5ldy8uL3NjcmlwdHMvcGxvdC91dGls
@@ -113,9 +116,9 @@ IGFyZ3sxfSk7CiAgICAgICBlbmRpZgogICAgICAgZm9yIGkgPSAxOmxlbmd0
 aCAoZmlsZXMpCiAgICAgICAgIGZpbGUgPSBmaWxlc3tpfTsK
 ====
 EOF
-uudecode octave-$OCTAVE_VER.patch.uue > octave-$OCTAVE_VER.patch
+uudecode octave.patch.uue > octave.patch
 pushd octave-$OCTAVE_VER
-patch -p1 < ../octave-$OCTAVE_VER.patch
+patch -p1 < ../octave.patch
 popd
 # Build the benchmark versions
 for BUILD in dbg shared shared-lto shared-pgo shared-lto-pgo ;
@@ -141,7 +144,11 @@ do
     echo "pkg prefix $OCTAVE_PACKAGE_DIR $OCTAVE_PACKAGE_DIR ; \
           pkg local_list $OCTAVE_PACKAGES ;" > .octaverc
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../struct-1.0.16.tar.gz'
+                                       'pkg install ../io-2.6.1.tar.gz' 
+    $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
+                                       'pkg install ../struct-1.0.16.tar.gz' 
+    $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
+                                       'pkg install ../statistics-1.4.2.tar.gz'
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
                                        'pkg install ../optim-1.6.0.tar.gz'
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \

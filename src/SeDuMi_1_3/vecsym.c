@@ -140,7 +140,7 @@ void mexFunction(const int nlhs, mxArray *plhs[],
   const int nrhs, const mxArray *prhs[])
 {
  coneK cK;
- mwIndex lqDim,lenfull;
+ mwIndex lqDim, lenfull;
  const double *x;
  double *y;
 

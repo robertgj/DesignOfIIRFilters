@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Assume these files are present:
-#  SuiteSparse-4.5.6.tar.gz
+#  SuiteSparse-5.1.2.tar.gz
 #  arpack-ng-master.zip
 #  fftw-3.3.8.tar.gz
 #  qrupdate-1.1.2.tar.gz
@@ -12,7 +12,7 @@ export LDFLAGS="-L"$LAPACK_DIR
 # Build arpack-ng
 #
 rm -Rf arpack-ng-master
-unzip master.zip
+unzip arpack-ng-master.zip
 pushd arpack-ng-master
 sh ./bootstrap
 ./configure --prefix=$LOCAL_PREFIX --with-blas=-lblas --with-lapack=-llapack
@@ -23,7 +23,7 @@ popd
 # Build SuiteSparse
 #
 rm -Rf SuiteSparse
-tar -xf SuiteSparse-4.5.6.tar.gz
+tar -xf SuiteSparse-5.1.2.tar.gz
 pushd SuiteSparse
 make INSTALL=$LOCAL_PREFIX OPTIMIZATION=-O2 BLAS=-lblas install
 popd

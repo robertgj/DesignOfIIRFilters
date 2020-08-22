@@ -27,6 +27,16 @@ function Txy = crossWelch(x,y,m)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+if nargin~=3 || nargout>1
+  print_usage("Txy = crossWelch(x,y,m)");
+endif
+if size(x)~=size(y)
+  error("size(x)~=size(y)");
+endif
+if m>max(size(x))
+  error("m>max(size(x))");
+endif
+
 % Make sure x and y are column vectors
 x = x(:);		
 y = y(:);

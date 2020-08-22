@@ -13,7 +13,7 @@ sqp_common;
 
 global fiter;
 
-function [tau,iter]=nosearch(x,d,fx,gxf,tol,maxiter)
+function [tau,iter]=nosearch(pf,x,d,fx,gxf,W,tol,maxiter,verbose)
   tau=1;
   iter=0;
 endfunction

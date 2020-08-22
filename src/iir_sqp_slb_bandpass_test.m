@@ -1,5 +1,5 @@
 % iir_sqp_slb_bandpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -9,18 +9,17 @@ diary iir_sqp_slb_bandpass_test.diary.tmp
 
 tic;
 
-
 verbose=false
 tol=5e-4
 ctol=tol/100
-maxiter=5000
+maxiter=20000
 
 % Bandpass filter specification
 % (frequencies are normalised to sample rate)
 fapl=0.1,fapu=0.2,dBap=1,Wap=1
 fasl=0.05,fasu=0.25,dBas=35,Wasl=2,Wasu=4
 ftpl=0.09,ftpu=0.21,tp=16,tpr=0.08,Wtp=1
-% Also:tol=maxiter=10000,dBap=2,dBas=40.1,Wasl=10,Wasu=20,tpr=0.1,Wtp=2
+% Also: dBap=2,dBas=40.5,tpr=0.16
 
 % Strings
 strI=sprintf("x0:fapl=%g,fapu=%g,tp=%g,fasl=%g,fasu=%g,Wasl=%g,Wasu=%g", ...
