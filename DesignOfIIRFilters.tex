@@ -31608,8 +31608,20 @@ The shell script \emph{library-benchmark.sh} benchmarks the shared library
 benchmark script. The \emph{linpack.m} script was modified to produce
 repeatable residuals. The alternative \emph{blas} and \emph{lapack} library
 versions used are local builds of \emph{blas-3.9.0} and \emph{lapack-3.9.0} and
-the Fedora 32 \emph{lapack}, \emph{blas}, \emph{atlas}\cite{ATLAS_website},
-\emph{gsl}\cite{GNU_GSL} and \emph{openblas}\cite{OpenBLAS_website} packages:
+the Fedora 32 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
+\emph{gsl}~\cite{GNU_GSL} and \emph{openblas}~\cite{OpenBLAS_website}
+packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
+  of \emph{DGESVD} for a problematic matrix and the \emph{libtatlas}, system
+  \emph{libblas} and ``local'' \emph{libblas} libraries:\\
+\begin{texttt}
+  > ./dgesvd\_test\_atlas\\
+   0.14709002182061762\\
+  > ./dgesvd\_test\_sysblas\\
+   0.14709002182060069\\
+   Note: The following floating-point exceptions are signalling: IEEE\_DENORMAL\\
+  > LD\_LIBRARY\_PATH=/usr/local/octave-5.2.0/lib ./dgesvd\_test\_blas\\
+   0.14709002182060069
+\end{texttt}}
 \begin{small}
 \begin{verbatim}
 atlas.x86_64               3.10.3-10.fc32
@@ -31677,7 +31689,6 @@ libopenblasp (4 threads)   & 56496  & 10.8                &  39.6 \\
 \label{tab:benchmark-octave-blas-libraries}
 \end{table}
 
- \clearpage
 \pdfbookmark[0]{SeDuMi}{sedumi}
 \section*{SeDuMi}
 The SeDuMi source is available from \emph{LeHigh University} as

@@ -31,6 +31,10 @@ fi
 if ! test -f /usr/lib64/liblapack.so.3 ; then 
     echo SKIPPED $prog /usr/lib64/liblapack.so.3 not found! ; exit 0; 
 fi
+# If /usr/lib64/libblas.so.3 does not exist then return the aet code for "pass"
+if ! test -f /usr/lib64/libblas.so.3 ; then 
+    echo SKIPPED $prog /usr/lib64/libblas.so.3 not found! ; exit 0; 
+fi
 
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
@@ -119,36 +123,83 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat dgesvd_test.f"; fail; fi
 
 #
-# Compile
+# Previously, with atlas-3.10.2-16.fc26, lapack-3.6.1-4.fc26 and
+# gfortran from gcc-7.1.1-3.fc26, the libtatlas output varied randomly
+# as either 0.14709002182060249 or 0.14709002182060266.
+# This appears to be fixed with the current atlas-3.10.3-10.fc32,
+# lapack-3.9.0-3.fc32 and gfortran from gcc-10.2.1-1.fc32.
 #
-gfortran -Wall -o dgesvd_test dgesvd_test.f /usr/lib64/atlas/libtatlas.so.3
-if [ $? -ne 0 ]; then echo "Failed to compile dgesvd_test.f"; fail; fi
 
 #
-# run
+# the ATLAS output should look like this
 #
-# tatlas output varies randomly as either 0.14709002182060249 or
-# 0.14709002182060266
-#
-# Current atlas is : atlas-3.10.2-16.fc26
-# Current lapack is : lapack-3.6.1-4.fc26
-# Current gfortran is : gcc-7.1.1-3.fc26
+cat > test.atlas.ok << 'EOF'
+ 0.14709002182061762
+EOF
 
-./dgesvd_test
-if [ $? -ne 0 ]; then echo "Failed running with libtatlas"; fail; fi
+gfortran -Wall -o dgesvd_test_atlas dgesvd_test.f /usr/lib64/atlas/libtatlas.so.3
+if [ $? -ne 0 ]; then \
+    echo "Failed to compile dgesvd_test.f with libtatlas"; fail; fi
 
-LD_PRELOAD="/usr/lib64/libblas.so.3:/usr/lib64/liblapack.so.3" \
-./dgesvd_test | tee test.out
-if [ $? -ne 0 ]; then echo "Failed running with libblas,liblapack"; fail; fi
+echo "ldd dgesvd_test_atlas" > test.atlas.ldd
+ldd dgesvd_test_atlas >> test.atlas.ldd
+
+for k in `seq 1 100`;do \
+              ./dgesvd_test_atlas >test.atlas.out.$k ; \
+    if [ $? -ne 0 ]; then echo "Failed running with libtatlas "$k; fail; fi ; \
+
+    diff -Bb test.atlas.ok test.atlas.out.$k ; \
+    if [ $? -ne 0 ]; then echo "Failed diff -Bb test.atlas.ok "$k ; fail ; fi ; \
+done
+
 
 #
-# the output should look like this
+# the system BLAS output should look like this
 #
-cat > test.ok << 'EOF'
+cat > test.sysblas.ok << 'EOF'
  0.14709002182060069
 EOF
-diff -Bb test.ok test.out
-if [ $? -ne 0 ]; then echo "Failed diff -Bb" ; fail ; fi
+
+gfortran -Wall -o dgesvd_test_sysblas dgesvd_test.f \
+         /usr/lib64/libblas.so.3 /usr/lib64/liblapack.so.3
+if [ $? -ne 0 ]; then \
+    echo "Failed to compile dgesvd_test.f with system libblas"; fail; fi
+
+echo "ldd dgesvd_test_sysblas" > test.sysblas.ldd 
+ldd dgesvd_test_sysblas >> test.sysblas.ldd
+
+for k in `seq 1 100`;do \
+    ./dgesvd_test_sysblas 2&>/dev/null >test.sysblas.out.$k;\
+    if [ $? -ne 0 ]; then echo "Failed running with system libblas "$k;fail;fi;\
+
+    diff -Bb test.sysblas.ok test.sysblas.out.$k ; \
+    if [ $? -ne 0 ]; then echo "Failed diff -Bb test.sysblas.ok "$k;fail;fi;\
+done
+
+#
+# the octave-5.2.0 BLAS output should look like this
+#
+cat > test.blas.ok << 'EOF'
+ 0.14709002182060069
+EOF
+
+gfortran -Wall -o dgesvd_test_blas dgesvd_test.f \
+         -L/usr/local/octave-5.2.0/lib -lblas -llapack
+if [ $? -ne 0 ]; then \
+    echo "Failed to compile dgesvd_test.f with libblas"; fail; fi
+
+echo "LD_LIBRARY_PATH=/usr/local/octave-5.2.0/lib ldd dgesvd_test_blas" \
+     > test.blas.ldd
+LD_LIBRARY_PATH=/usr/local/octave-5.2.0/lib ldd dgesvd_test_blas >> test.blas.ldd
+
+for k in `seq 1 100`;do \
+    LD_LIBRARY_PATH=/usr/local/octave-5.2.0/lib \
+                   ./dgesvd_test_blas >test.blas.out.$k ; \
+    if [ $? -ne 0 ]; then echo "Failed running with libblas "$k; fail; fi ; \
+
+    diff -Bb test.blas.ok test.blas.out.$k ; \
+    if [ $? -ne 0 ]; then echo "Failed diff -Bb test.blas.ok "$k ; fail ; fi ; \
+done
 
 #
 # this much worked
