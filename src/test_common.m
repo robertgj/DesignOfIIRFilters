@@ -36,6 +36,8 @@ endif
 clf
 close
 
+warning("off","Octave:data-file-in-path");
+
 warning("error","Octave:assign-as-truth-value");
 warning("error","Octave:associativity-change");
 warning("error","Octave:broadcast");

@@ -379,7 +379,7 @@ for startIndex=1:nDim
     same = 0; 
     i=1;
     sparseZeros = sparse(zeros(1,nDim-startIndex+1)); 
-    while (same==0) & (i <= noOfCliques)
+    while (same==0) && (i <= noOfCliques)
       diff = oneClique(1,startIndex:nDim) - cliqueSet(i,startIndex:nDim); 
       diff = max(diff,sparseZeros); 
       if length(find(diff)) == 0

@@ -64,11 +64,18 @@ TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
 %.pdf : %.eps
 	epstopdf $< 
 
+# To test an octfile with valgrind and gdb:
+#   1. XCXXFLAGS=-ggdb3 -O0
+#   2. Run "valgrind --vgdb=yes --vgdb-error=0 octave-cli -p src"
+#   3. Run "gdb octave-cli" in a separate shell and then issue the gdb commands:
+#      target remote | vgdb
+#      continue
+#
 # To test an octfile with address-sanitizer add these flags:
 #   XCXXFLAGS=-g -fsanitize=undefined -fsanitize=address \
 #                -fno-sanitize=vptr -fno-omit-frame-pointer
 # and run with:
-#   LD_PRELOAD=/usr/lib64/libasan.so.5 octave --eval "expr"
+#   LD_PRELOAD=/usr/lib64/libasan.so.6 octave-cli --eval "expr"
 #
 # Apparently, if the AddressSanitizer library is built without RTTI then
 # there are many "vptr" false-positives.
@@ -147,7 +154,7 @@ testvars :
 	@echo "deczky3_socp_test_FILES=" ${deczky3_socp_test_FILES}
 
 .PHONY: octfiles
-octfiles: $(OCT_FILES:%=src/%.oct) sedumi_test.diary sparsePOP_test.diary
+octfiles: $(OCT_FILES:%=src/%.oct) sedumi_test.diary
 
 .PHONY: batchtest
 batchtest: octfiles

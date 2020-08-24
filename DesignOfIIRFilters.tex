@@ -31727,14 +31727,37 @@ The \emph{SeDuMi} source file \emph{vec.m} shadows a built-in Octave function.
 
 \pdfbookmark[0]{SparsePOP}{sparsepop}
 \section*{SparsePOP}
-\emph{SparsePOP}~\cite{SparsePOP} is a semidefinite relaxations package for
-polynomial programming. \emph{SparsePOP303} compiles and runs under Octave with
-the minor modifications to \emph{my\_unique.m}, \emph{convert2.m},
-\emph{readGMS.m}, and \emph{compileSparsePOP.m} shown in
-\emph{SparsePOP303.patch}. \emph{convert2.m} is altered to support the
+\emph{SparsePOP}~\cite{SparsePOP} is ``a semidefinite relaxations package for
+polynomial programming''. \emph{SparsePOP303} runs under Octave with the
+modifications shown in \emph{SparsePOP303.patch}.
+
+The \emph{readGMS.m} and \emph{convert2.m} functions are altered to support the
 Octave-Forge \emph{symbolic} package~\cite{OctaveForge_SymbolicPackage}. The
 latter is based on \emph{SymPy}~\cite{SymPy}, a Python library for symbolic
-mathematics.
+mathematics. The Octave \emph{sparsePOP\_test.m} script shows an example of
+\emph{sparsePOP} reading the \emph{Bex5\_2\_5.gms} GAMS format example with the
+Octave-Forge \emph{symbolic} package. Note that the current \emph{symbolic}
+package does not support the SymPy \emph{collect} function. Instead the
+SparsePOP \emph{readGMS>getlistOfEquations} function is modified to call
+\emph{collect} through the \emph{symbolic} package \emph{pycall\_sympy\_\_}
+interface function. 
+
+I run \emph{sparsePOP} with \emph{param.mex=0}. The \emph{mexconv1} mex-file
+occasionally causes a \emph{valgrind} warning when \emph{make\_mexdata}
+incorrectly calculates the size of \emph{objPoly.supports}. For example, when
+running the SparsePOP \emph{solveExample} function with \emph{valgrind}: 
+\begin{small}
+\begin{verbatim}
+85: randomwithEQ(20,2,4,4,3201)
+
+SparsePOP 3.03
+by H.Waki, S.Kim, M.Kojima, M.Muramatsu,
+   H.Sugimoto and M.Yamashita, September 2018
+
+==66559== Invalid read of size 8
+==66559==    at 0xC346D21: mexFunction (mexconv1.cpp:180)
+\end{verbatim}
+\end{small}
 
 \pdfbookmark[0]{SDPT3}{sdpt3}
 \section*{SDPT3}

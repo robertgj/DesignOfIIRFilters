@@ -207,27 +207,25 @@ function [k,c,pop_iter,func_iter,feasible]= ...
   param.SDPsolver='sedumi';
   param.eqTolerance=1e-6;
   param.SDPsolverEpsilon=1e-6;
-  param.mex=1;
+  param.mex=0;
   param.symbolicMath=0;
   
   %
   % Objective function (must be positive!)
   %
-  % Minimise the estimated error:
-  %  0.5*deltaxl'*diag(diagHessEsql*deltaxl)+gradEsql*deltaxl+Esq0
+  % Minimise the estimated error (ignoring the constant term):
+  %  0.5*deltaxl'*diag(diagHessEsql*deltaxl)+gradEsql*deltaxl
   % with l=1..Nkc_active
   objPoly.typeCone = 1;
   objPoly.dimVar   = Nkc_active;
   objPoly.degree   = 2;
-  objPoly.noTerms  = Nkc_active+Nkc_active+1;
-  % Order of supports: delta_l^2, delta_l, Esq0
-  objPoly.supports = [2*speye(Nkc_active); ...
-                      speye(Nkc_active); ...
-                      sparse(1,Nkc_active)];
+  objPoly.noTerms  = Nkc_active+Nkc_active;
+  % Order of supports: delta_l^2, delta_l
+  objPoly.supports = [2*speye(Nkc_active); speye(Nkc_active)];
   % objPoly coefficients
   gradEsq_active=gradEsq0(kc_active);
   diagHessEsq_active=diagHessEsq0(kc_active);
-  objPoly.coef=[0.5*diagHessEsq_active(:); gradEsq_active(:);Esq0];
+  objPoly.coef=[0.5*diagHessEsq_active(:); gradEsq_active(:)];
   
   %
   % Constraints

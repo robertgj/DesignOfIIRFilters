@@ -27,4 +27,4 @@ schurOneMlatticeFilter.m tf2schurOneMlattice.m local_max.m print_polynomial.m \
 Abcd2tf.m x2nextra.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m SDadders.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct \
-sedumi_test.diary sparsePOP_test.diary
+sedumi_test.diary

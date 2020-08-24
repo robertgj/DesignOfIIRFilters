@@ -20,9 +20,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 
-MexFlags = ' -O -Dlinux=1 -DMATLAB_MEX_FILE ';
-
-LIBfiles = ' conversion.cpp spvec.cpp polynomials.cpp sup.cpp clique.cpp mysdp.cpp Parameters.cpp ';
+MexFlags = ' -O2 -Dlinux=1 -DMATLAB_MEX_FILE -DOCTAVE ';
+LIBfiles = strcat(' conversion.cpp spvec.cpp polynomials.cpp sup.cpp ', ...
+                  ' clique.cpp mysdp.cpp Parameters.cpp ');
 OBJfiles = strrep(LIBfiles,'.cpp','.o');
 
 mpwd=pwd;
@@ -30,7 +30,7 @@ mpath=mfilename("fullpath");
 mpath=mpath(1:strchr(mpath,filesep,1,'last'));
 cd(strcat(mpath,filesep,'subPrograms',filesep,'Mex'));
 fprintf('Compiling Libraries...');
-command = ['mex -c ' MexFlags LIBfiles];
+command = ['mex -c ' MexFlags LIBfiles ];
 eval(command);
 fprintf('done\n');
 fprintf('Generating mexconv1...');

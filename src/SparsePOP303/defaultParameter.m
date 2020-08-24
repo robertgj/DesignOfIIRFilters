@@ -460,18 +460,26 @@ end
 % 5. Parameters to use Symbolic Math Toolbox and C++ subrouties
 
 if ~isfield(param,'symbolicMath')
-	%   Default:
-	A = ver('Symbolic');
-	if ~isempty(A)
-		x = strfind(A.Name, 'Symbolic Math Toolbox');
-		if ~isempty(x)
-			param.symbolicMath = 1;
-		else
-			param.symbolicMath = 0;
-		end
+  %   Default:
+  if exist('OCTAVE_VERSION','builtin')
+    pkg_id = 'symbolic';
+    pkg_name = pkg_id;
+  else
+    pkg_id = 'Symbolic';
+    pkg_name = 'Symbolic Math Toolbox';
+  endif
+  
+  A = ver(pkg_id);
+  if ~isempty(A)
+	x = strfind(A.Name, pkg_name);
+	if ~isempty(x)
+	  param.symbolicMath = 1;
 	else
-			param.symbolicMath = 0;
+	  param.symbolicMath = 0;
 	end
+  else
+	param.symbolicMath = 0;
+  end
 end
 
 if ~isfield(param,'POPsolver')

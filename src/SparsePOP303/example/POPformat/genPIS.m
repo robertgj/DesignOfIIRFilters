@@ -23,24 +23,30 @@ function [objPoly, ineqPolySys, lbd, ubd] = genPIS(nDim)
 % 2011-06-22 H.Waki
 %
 
-mv= ver('matlab');
-mv = str2num(mv.Version);
-
-if mv > 7.7
-	s = RandStream('mt19937ar','Seed', 3201);
-else
-	rand('twister',3201);
-end
 u = 10; % given integer
 k = ceil(2*nDim/3);
 if nDim - k < 1
-	error('nDim should be more than 1.');
+  error('nDim should be more than 1.');
 end
-if mv > 7.7
-	rvec = rand(s, nDim, 1);
+
+if exist('OCTAVE_VERSION','builtin')
+  rand('state', 3201);
+  rvec = rand(nDim, 1);
 else
+  mv= ver('matlab');
+  mv = str2num(mv.Version);
+  if mv > 7.7
+	s = RandStream('mt19937ar','Seed', 3201);
+  else
+	rand('twister',3201);
+  end
+  if mv > 7.7
+	rvec = rand(s, nDim, 1);
+  else
 	rvec = rand(nDim, 1);
-end
+  end
+endif
+
 for i=1:k
 	a(i, 1) = ceil(u*rvec(i)); 
 end

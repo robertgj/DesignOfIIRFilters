@@ -2041,7 +2041,10 @@ void get_allsups(int dim, class poly_info & polyinfo_obj, int stsize, vector<cla
                     + bassinfo_st[infolist[k]].sup.vap_size * polyinfo_st[infolist[k]].sup.pnz_size;
             numele += polyinfo_st[infolist[k]].sup.pnz_size * bassinfo_st[infolist[k]].sup.pnz_size;
             k++;
-		cVec = InfoTable[k];
+            if(k == stsize){
+              break;
+            }
+            cVec = InfoTable[k];
         }
         int bpsize, bvsize;
         while(k<stsize){
@@ -2054,10 +2057,10 @@ void get_allsups(int dim, class poly_info & polyinfo_obj, int stsize, vector<cla
             numele += polyinfo_st[infolist[k]].sup.pnz_size * bpsize;
             
             k++;
-		if(k == stsize){
-			break;
-		}
-		cVec = InfoTable[k];
+            if(k == stsize){
+              break;
+            }
+            cVec = InfoTable[k];
         }
 	//printf("numele*2 = %d\n", numele*2);
 	//printf("nzele*2  = %d\n", nzele*2);
@@ -2069,12 +2072,15 @@ void get_allsups(int dim, class poly_info & polyinfo_obj, int stsize, vector<cla
 		cVec = InfoTable[k];
         //while(k < stsize && InfoTable[infolist[k]].vec[0] == EQU){
         //while(k < stsize && InfoTable[k].typeCone == EQU){
-	while(k < stsize && cVec->typeCone == EQU){
-		minkovsum(polyinfo_st[infolist[k]].sup, bassinfo_st[infolist[k]].sup, minsups);
-		pushsups(minsups, allsups);
-		k++;
-		cVec = InfoTable[k];
-	}
+        while(k < stsize && cVec->typeCone == EQU){
+          minkovsum(polyinfo_st[infolist[k]].sup, bassinfo_st[infolist[k]].sup, minsups);
+          pushsups(minsups, allsups);
+          k++;
+          if(k == stsize){
+            break;
+          }
+          cVec = InfoTable[k];
+        }
         
         class spvec_array lexallsups;
         

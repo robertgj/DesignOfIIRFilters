@@ -152,20 +152,23 @@ while controlSW == 1
             % columns
             toBecheckedColumns = toBecheckedColumns(nzColumns);
             % Apply the LU factorization
-			%
-			% 2012-01-11 H.Waki
-			% lu(mat, 'vector') is not implemented in 7.3 or earlier. 
-			if exist('verLessThan') ~= 2
+			if exist('OCTAVE_VERSION','builtin')
+              [L,U,PVect,Q] = lu(U, 'vector');
+            else
+              % 2012-01-11 H.Waki
+              % lu(mat, 'vector') is not implemented in 7.3 or earlier. 
+			  if exist('verLessThan') ~= 2
 				error('Download verLessThan.m from http://www.mathworks.com/support/solutions/en/data/1-38LI61/?solution=1-38LI61');
-			end
-			if verLessThan('matlab', '7.3')
+			  end
+			  if verLessThan('matlab', '7.3')
 				mDimU = size(U, 1);
 				[L, U, P] = lu(U);
 				idx = (1:mDimU)';
 				PVect = P*idx;
-			else
+			  else
 				[L,U,PVect] = lu(U,'vector');
-			end
+			  end
+            endif
             %->
             if debugSW == 1
                 fprintf('Apply the LU factorization to update the candidate column indices of linearly independent columns; U = \n');

@@ -55,10 +55,13 @@ while ~isempty(kc_active)
                          wt,Td,Tdu,Tdl,Wt, ...
                          wp,Pd,Pdu,Pdl,Wp, ...
                          maxiter,tol,ctol,verbose);
-    if ~feasible
-      error("SOCP PCLS problem infeasible!");
+    if feasible
+      kc=[k1(:);c1(:)];
+    else
+      if length(kc_active)>1
+        error("SOCP PCLS problem infeasible!");
+      endif
     endif
-    kc=[k1(:);c1(:)];
     % Find the POP SOCP MMSE solution with an equality constraint on kc_fixed
     [~,kc_sdu,kc_sdl]=flt2SD(kc,nbits,ndigits_alloc);
     [k2,c2,opt_iter,func_iter,feasible] = ...
