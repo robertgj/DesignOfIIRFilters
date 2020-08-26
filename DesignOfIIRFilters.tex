@@ -287,7 +287,7 @@ review articles by \emph{Alizadeh} and
 for a description of applications of SOCP. Unlike SQP, SOCP optimisation does not
 require the the Hessian of the response. In this report I use the public domain
 \emph{SeDuMi} SOCP solver originally written by 
-\emph{Jos Sturm}~\cite{Sturm_SeDuMi_1_3}. 
+\emph{Jos Sturm}~\cite{Sturm_SeDuMi_GitHub}. 
 
 Chapter~\ref{sec:IIR-Filter-Design-With-Predefined-Structure} considers 
 optimisation of the filter transfer function of several filter structures.
@@ -9392,7 +9392,7 @@ response. A similar linear constraint on the phase response uses
 \section{Using the \emph{SeDuMi} SOCP solver}
 In the following I use the \emph{SeDuMi}
 (\emph{Se}lf-\emph{Du}al-\emph{Mi}nimisation) SOCP solver originally written
-by \emph{Jos Sturm}~\cite{Sturm_SeDuMi_1_3}. 
+by \emph{Jos Sturm}~\cite{Sturm_SeDuMi_GitHub}. 
 The~\hyperlink{sec:Colophon}{Colophon} shows construction of a \emph{patch}
 file that makes \emph{SeDuMi v1.3} compatible with Octave.
 
@@ -17089,7 +17089,7 @@ for $0\le i<j<k<N$.
 
 \emph{Lu}~\cite[Section V]{Lu_SedumiRemarks} shows how to solve this
 \emph{semidefinite programming} optimisation problem with the
-\emph{SeDuMi}~\cite{Sturm_SeDuMi_1_3} SOCP solver by representing it in the
+\emph{SeDuMi}~\cite{Sturm_SeDuMi_GitHub} SOCP solver by representing it in the
 form:
 \begin{align*}
   \begin{split}
@@ -31695,46 +31695,22 @@ The SeDuMi source is available from \emph{LeHigh University} as
 \emph{SeDuMi\_1\_3.zip}~\cite{Sturm_SeDuMi_1_3}. Unfortunately, this version
 does not seem to be actively maintained. An ``unofficial''
 \emph{GitHub}~\cite{Sturm_SeDuMi_GitHub} fork is compatible with Octave and is
-the version used in this project. The \emph{sedumi\_master.patch} patch-file
-suppresses compiler warnings of use of uninitialised variables and
-makes the following change to \emph{blkchol2.c}~\cite{SeDuMi_BugReport}:
-\begin{small}
-\begin{verbatim}
---- sedumi/blkchol2.c	2020-08-22 00:32:28.637167289 +1000
-+++ SeDuMi_1_3/blkchol2.c	2020-08-22 00:32:43.901019397 +1000
-@@ -113,7 +113,12 @@
-    ------------------------------------------------------- */
-     xkk = x[inz];
-     if(xkk > lb[k]){ /* now xkk > 0 */
--      if(xkk < ub){
-+/* ------------------------------------------------------------
-+   maxabs is a wrapper for the BLAS IDAMAX Fortran function.
-+   IDAMAX finds the first element having maximum absolute
-+   value in an array. Only call maxabs with m>1. 
-+   ------------------------------------------------------------ */
-+      if ((m>1) && (xkk < ub)){
-         ubk = maxabs(x+inz+1,m-1) / maxu;
-         if(xkk < ubk){
- /* ------------------------------------------------------------
-\end{verbatim}
-\end{small}
+the version used in this project. It runs without modification under
+Octave\footnote{The \emph{SeDuMi-1.3} source file \emph{vec.m}
+shadows a built-in Octave function.}.
 
-The \emph{install\_sedumi.m} script can be called with a \emph{mex} template.
-For example, to enable the \emph{mxAssert} checks:
+The \emph{SeDuMi} source depends on the OpenBLAS \emph{f77blas.h} and
+\emph{openblas\_config.h} headers. \emph{install\_sedumi.m} assumes they are
+present in \emph{/usr/include/openblas}. A 64-bit version of \emph{SeDuMi}
+requires \emph{-DOPENBLAS\_USE64BITINT}. The \emph{install\_sedumi.m} script can
+be called with a \emph{mex} template. For example, to enable the \emph{mxAssert}
+checks: 
 \begin{small}
 \begin{verbatim}
 octave:1> mexcmd = ['mex -O2 -DMEX_DEBUG -DOCTAVE -I/usr/include/openblas %s '];
 octave:2> install_sedumi ('-rebuild', mexcmd);
 \end{verbatim}
 \end{small}
-
-The \emph{SeDuMi} source depends on the OpenBLAS \emph{f77blas.h} and
-\emph{openblas\_config.h} headers. \emph{install\_sedumi.m} assumes they are
-present in \emph{/usr/include/openblas}.
-
-A 64-bit version of \emph{SeDuMi} requires \emph{-DOPENBLAS\_USE64BITINT}. 
-
-The \emph{SeDuMi} source file \emph{vec.m} shadows a built-in Octave function.
 
 \pdfbookmark[0]{SparsePOP}{sparsepop}
 \section*{SparsePOP}
