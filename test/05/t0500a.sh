@@ -51,7 +51,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-# Created by Octave 5.2.0, Fri Aug 14 13:33:18 2020 AEST <robj@morgawr.localdomain>
+# Created by Octave
 # name: result
 # type: cell
 # rows: 1
@@ -135,7 +135,7 @@ cat > test.ok << 'EOF'
 # type: scalar
 0.0034346281352422041
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_x5.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 
 #
 # run and see if the results match. 
