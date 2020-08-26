@@ -31723,11 +31723,27 @@ Octave-Forge \emph{symbolic} package~\cite{OctaveForge_SymbolicPackage}. The
 latter is based on \emph{SymPy}~\cite{SymPy}, a Python library for symbolic
 mathematics. The Octave \emph{sparsePOP\_test.m} script shows an example of
 \emph{sparsePOP} reading the \emph{Bex5\_2\_5.gms} GAMS format example with the
-Octave-Forge \emph{symbolic} package. Note that the current \emph{symbolic}
-package does not support the SymPy \emph{collect} function. Instead the
-SparsePOP \emph{readGMS>getlistOfEquations} function is modified to call
-\emph{collect} through the \emph{symbolic} package \emph{pycall\_sympy\_\_}
-interface function. 
+Octave-Forge \emph{symbolic} package. Note that the \emph{symbolic-2.9.0}
+package does not support the SymPy \emph{collect} function. I have added a
+version of \emph{collect.m} based on
+\emph{octave/packages/symbolic-2.9.0/@sym/factor.m}.
+
+The \emph{sparsePOP\_solveExample\_test.m} script runs the SparsePOP
+\emph{solveExample.m} function, with the \emph{'sedumi'} solver, excluding
+problems $k\_exclude=[36,45,46,54,70,71,88,92]$. For those $k$ I catch
+exceptions like:
+\begin{small}
+\begin{verbatim}
+   Caught exception at k=36!
+   ## '2' is not defined in the line of 'Variables'.
+   ## Should check the line of the objective function in 'Babel.gms'.
+   warning: Called readGMS>getObjPoly at line 1306
+   warning: Called readGMS at line 341
+   warning: Called sparsePOP at line 324
+   warning: Called solveExample at line 263
+   warning: Called solveExample_test at line 27
+\end{verbatim}
+\end{small}
 
 I run \emph{sparsePOP} with \emph{param.mex=0}. The \emph{mexconv1} mex-file
 occasionally causes a \emph{valgrind} warning when \emph{make\_mexdata}

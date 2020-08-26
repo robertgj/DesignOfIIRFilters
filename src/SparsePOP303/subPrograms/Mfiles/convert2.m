@@ -129,7 +129,7 @@ else
                               ^sym(full(pp)))';
               else
                 cc = sym2poly((trans.Amat(j,j)*y+trans.bVect(j,1))^pp)';
-              endif
+              end
                 supSet = objPoly0.supports(i*ones(pp+1,1),:);
                 supSet(:,j) = (pp:-1:0)';
 %                
@@ -189,7 +189,7 @@ if ~isempty(ineqPolySys0)
                                       ^sym(full(pp)))';
                       else
                         cc = sym2poly((trans.Amat(j,j)*y+trans.bVect(j,1))^pp)';
-                      endif
+                      end
                         supSet = ineqPolySys0{k}.supports(i*ones(pp+1,1),:);
                         supSet(:,j) = (pp:-1:0)';
 %                

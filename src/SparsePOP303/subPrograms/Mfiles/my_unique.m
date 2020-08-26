@@ -4,7 +4,7 @@ if ~strcmp(msg, 'rows');
 	error('msg should be rows in my_unique.');
 end
 
-if exist("OCTAVE_VERSION","builtin")
+if exist('OCTAVE_VERSION','builtin')
   [C, ia, ic] = unique(A, msg);
 else
   if verLessThan('matlab', '8.0.1')
@@ -15,6 +15,6 @@ else
     % We use legacy mode of unique.
     [C, ia, ic] = unique(A, msg, 'last', 'legacy');
   end
-endif
+end
 
 return

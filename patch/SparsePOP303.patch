@@ -1,5 +1,5 @@
---- SparsePOP303.original/defaultParameter.m	2018-09-18 13:19:23.000000000 +1000
-+++ SparsePOP303/defaultParameter.m	2020-08-24 11:45:03.141532353 +1000
+--- SparsePOP303.original/defaultParameter.m	2020-08-26 22:01:07.047993373 +1000
++++ SparsePOP303/defaultParameter.m	2020-08-26 21:52:24.000000000 +1000
 @@ -461,9 +461,17 @@
  
  if ~isfield(param,'symbolicMath')
@@ -11,7 +11,7 @@
 +  else
 +    pkg_id = 'Symbolic';
 +    pkg_name = 'Symbolic Math Toolbox';
-+  endif
++  end
 +  
 +  A = ver(pkg_id);
  	if ~isempty(A)
@@ -20,8 +20,8 @@
  		if ~isempty(x)
  			param.symbolicMath = 1;
  		else
---- SparsePOP303.original/compileSparsePOP.m	2018-09-11 11:35:46.000000000 +1000
-+++ SparsePOP303/compileSparsePOP.m	2020-08-24 11:45:03.141532353 +1000
+--- SparsePOP303.original/compileSparsePOP.m	2020-08-26 22:01:07.048993364 +1000
++++ SparsePOP303/compileSparsePOP.m	2020-08-26 21:52:24.000000000 +1000
 @@ -20,33 +20,15 @@
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %
@@ -57,7 +57,7 @@
  
 -eval('cd subPrograms/Mex');
 +mpwd=pwd;
-+mpath=mfilename("fullpath");
++mpath=mfilename('fullpath');
 +mpath=mpath(1:strchr(mpath,filesep,1,'last'));
 +cd(strcat(mpath,filesep,'subPrograms',filesep,'Mex'));
  fprintf('Compiling Libraries...');
@@ -119,8 +119,8 @@
 +cd(mpwd);
  
  fprintf('Compilation finished successfully.\n');
---- SparsePOP303.original/readGMS.m	2018-09-18 14:41:11.000000000 +1000
-+++ SparsePOP303/readGMS.m	2020-08-24 11:45:03.141532353 +1000
+--- SparsePOP303.original/readGMS.m	2020-08-26 22:01:07.046993382 +1000
++++ SparsePOP303/readGMS.m	2020-08-26 21:59:18.117949496 +1000
 @@ -189,8 +189,7 @@
  eqOrIneq = cell(1,noOfEquations);
  rightValue = cell(1,noOfEquations);
@@ -292,28 +292,25 @@
  sidx = 1;
  noOfVariables = size(varNames,2);
  lbd = -1.0e10* ones(1,noOfVariables);
-@@ -938,6 +937,12 @@
+@@ -938,6 +937,9 @@
  		%	loca = loca(1) -2; % for objvar
  		%end
  		%oneLine(1:loca)
 +      if exist('OCTAVE_VERSION','builtin');
-+        % The symbolic-2.9.0 package does not support the SymPy collect function.
-+        % This code is copied from octave/packages/symbolic-2.9.0/@sym/factor.m
-+        tempf = pycall_sympy__ ('return collect(*_ins)', ...
-+                                sym(oneLine(1:loca)), 'objvar');
++        tempf = collect(sym(oneLine(1:loca)), 'objvar');
 +      else
  		%20180911 H. Waki modified
  		if verLessThan('matlab','9.4')
  			tempf = collect(sym(oneLine(1:loca)), 'objvar');
-@@ -945,6 +950,7 @@
+@@ -945,6 +947,7 @@
  			syms objvar
  			tempf = collect(str2sym(oneLine(1:loca)), objvar);
  		end
-+      endif
++      end
  		oneLinetmp = char(vpa(expand(tempf),20));
  		oneLine = strcat(oneLinetmp, oneLine(loca+1:end));
  	end
-@@ -1003,7 +1009,7 @@
+@@ -1003,7 +1006,7 @@
  function objRow = getObeRow(listOfEquations, noOfEquations)
  objRow = [];
  for i=1:noOfEquations
@@ -322,7 +319,7 @@
      if isempty(temp) ~= 1
          objRow = [objRow,i];
      end
-@@ -1065,7 +1071,7 @@
+@@ -1065,7 +1068,7 @@
      else
          k = k+1;
          ii = 1;
@@ -331,7 +328,7 @@
          while 1
              if (formerPart(1) == '-') || (formerPart(1) == '+')
                  SignVec(ii) = formerPart(1);
-@@ -1079,7 +1085,7 @@
+@@ -1079,7 +1082,7 @@
                  break;
              end
          end
@@ -340,7 +337,7 @@
          if ~isempty(SignVec) && mod(minus_num, 2) == 1
              listOfTerms{k} = '-';
          elseif ~isempty(SignVec) && mod(minus_num, 2) == 0
-@@ -1093,7 +1099,7 @@
+@@ -1093,7 +1096,7 @@
          ll = length(formerPart);
          lenOneTerm = length(oneTerm);
          if (lenOneTerm > 0) && ((oneTerm(lenOneTerm) == 'e') || (oneTerm(lenOneTerm) == 'E')) ...
@@ -349,7 +346,7 @@
              signE = formerPart(1);
              if (signE == '+') || (signE == '-')
                  [oneTerm1,formerPart] = strtok(formerPart,'-+;');
-@@ -1172,7 +1178,7 @@
+@@ -1172,7 +1175,7 @@
  while isempty(oneTerm) ~= 1
      [oneVariable,oneTerm] = strtok(oneTerm,'*');
      kk = length(oneVariable);
@@ -358,7 +355,7 @@
      powerPart = 1;
      if isempty(pp) ~= 1
          powerPart = str2num(oneVariable(pp+1:kk));
-@@ -1196,27 +1202,27 @@
+@@ -1196,27 +1199,27 @@
  end
  return
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -399,7 +396,7 @@
  end
  for p=1:noOfTerms
      oneTerm = listOfTerms{p};
-@@ -1224,33 +1230,33 @@
+@@ -1224,33 +1227,33 @@
      if statusSW ~= 0
         return 
      end
@@ -446,8 +443,8 @@
          lbd(i) = max(lbd(i),0);
          break;
          %i = noOfVariables + 1;
---- SparsePOP303.original/example/POPformat/randomwithEQ.m	2018-09-11 11:35:47.000000000 +1000
-+++ SparsePOP303/example/POPformat/randomwithEQ.m	2020-08-24 11:45:03.143532335 +1000
+--- SparsePOP303.original/example/POPformat/randomwithEQ.m	2020-08-26 22:01:07.075993129 +1000
++++ SparsePOP303/example/POPformat/randomwithEQ.m	2020-08-24 15:10:44.000000000 +1000
 @@ -409,7 +409,7 @@
      same = 0; 
      i=1;
@@ -457,8 +454,8 @@
        diff = oneClique(1,startIndex:nDim) - cliqueSet(i,startIndex:nDim); 
        diff = max(diff,sparseZeros); 
        if length(find(diff)) == 0
---- SparsePOP303.original/example/POPformat/randomUnconst.m	2018-09-11 11:35:47.000000000 +1000
-+++ SparsePOP303/example/POPformat/randomUnconst.m	2020-08-24 11:45:03.143532335 +1000
+--- SparsePOP303.original/example/POPformat/randomUnconst.m	2020-08-26 22:01:07.074993137 +1000
++++ SparsePOP303/example/POPformat/randomUnconst.m	2020-08-24 15:10:44.000000000 +1000
 @@ -379,7 +379,7 @@
      same = 0; 
      i=1;
@@ -468,8 +465,8 @@
        diff = oneClique(1,startIndex:nDim) - cliqueSet(i,startIndex:nDim); 
        diff = max(diff,sparseZeros); 
        if length(find(diff)) == 0
---- SparsePOP303.original/example/POPformat/randomConst.m	2018-09-11 11:35:47.000000000 +1000
-+++ SparsePOP303/example/POPformat/randomConst.m	2020-08-24 11:45:03.143532335 +1000
+--- SparsePOP303.original/example/POPformat/randomConst.m	2020-08-26 22:01:07.075993129 +1000
++++ SparsePOP303/example/POPformat/randomConst.m	2020-08-24 15:10:44.000000000 +1000
 @@ -380,7 +380,7 @@
      same = 0; 
      i=1;
@@ -479,8 +476,8 @@
        diff = oneClique(1,startIndex:nDim) - cliqueSet(i,startIndex:nDim); 
        diff = max(diff,sparseZeros); 
        if length(find(diff)) == 0
---- SparsePOP303.original/example/POPformat/genPIS.m	2018-09-11 11:35:47.000000000 +1000
-+++ SparsePOP303/example/POPformat/genPIS.m	2020-08-24 11:45:03.143532335 +1000
+--- SparsePOP303.original/example/POPformat/genPIS.m	2020-08-26 22:01:07.074993137 +1000
++++ SparsePOP303/example/POPformat/genPIS.m	2020-08-26 21:52:24.000000000 +1000
 @@ -23,24 +23,30 @@
  % 2011-06-22 H.Waki
  %
@@ -513,13 +510,48 @@
  else
  	rvec = rand(nDim, 1);
  end
-+endif
++end
 +
  for i=1:k
  	a(i, 1) = ceil(u*rvec(i)); 
  end
---- SparsePOP303.original/subPrograms/Mex/conversion.cpp	2018-09-11 11:35:47.000000000 +1000
-+++ SparsePOP303/subPrograms/Mex/conversion.cpp	2020-08-24 11:45:03.161532172 +1000
+--- SparsePOP303.original/solveExample.m	2020-08-26 22:01:07.048993364 +1000
++++ SparsePOP303/solveExample.m	2020-08-26 21:52:24.000000000 +1000
+@@ -189,11 +189,7 @@
+ param0.printLevel = [2,2];
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ if nargin == 0
+-    %    if strcmp(param0.SDPsolver,'sdpa')
+-    %        probNumbers = [1:12,14:72, 74:85];
+-    %    else
+-    probNumbers = [1:72 ,74:81, 83:95];
+-    %    end
++    probNumbers = [1:95];
+     if param0.symbolicMath == 0
+         if ~isfield(param0, 'SDPsolver') || strcmp(param0.SDPsolver,'sedumi')
+             probNumbers = [1:12, 14:34, 37, 43:44, 47:53, 55:62, 64:69, 74:81, 83:87, 89:90, 93:95];
+@@ -201,19 +197,6 @@
+             probNumbers = [1:12, 14:34, 37, 43:44, 47:53, 55:62, 64:69, 74:87, 89:90, 93:95];
+         end
+     end
+-else
+-    if ~isfield(param0, 'SDPsolver') || strcmp(param0.SDPsolver,'sedumi')
+-        %
+-        % 2010-01-08 H. Waki
+-        %
+-        % SeDuMi_1_21 can not solve SDP relaxation problems
+-        % generated from qp3.gms and optControl2(200).
+-        % So, we skip these problems if 'probNumbers' contains them.
+-        idx73 = find(probNumbers == 73);
+-        idx82 = find(probNumbers == 82);
+-        idx = [idx73, idx82];
+-        probNumbers(idx) = [];
+-    end
+ end
+ % for my macbook
+ %idx6 = find(probNumbers == 6);
+--- SparsePOP303.original/subPrograms/Mex/conversion.cpp	2020-08-26 22:01:07.075993129 +1000
++++ SparsePOP303/subPrograms/Mex/conversion.cpp	2020-08-24 15:10:44.000000000 +1000
 @@ -2041,6 +2041,9 @@
                      + bassinfo_st[infolist[k]].sup.vap_size * polyinfo_st[infolist[k]].sup.pnz_size;
              numele += polyinfo_st[infolist[k]].sup.pnz_size * bassinfo_st[infolist[k]].sup.pnz_size;
@@ -540,8 +572,8 @@
  		cVec = InfoTable[k];
  	}
          
---- SparsePOP303.original/subPrograms/Mfiles/removeDependColumns1.m	2018-09-11 11:35:47.000000000 +1000
-+++ SparsePOP303/subPrograms/Mfiles/removeDependColumns1.m	2020-08-24 11:45:03.164532144 +1000
+--- SparsePOP303.original/subPrograms/Mfiles/removeDependColumns1.m	2020-08-26 22:01:07.079993094 +1000
++++ SparsePOP303/subPrograms/Mfiles/removeDependColumns1.m	2020-08-26 21:52:24.000000000 +1000
 @@ -152,7 +152,9 @@
              % columns
              toBecheckedColumns = toBecheckedColumns(nzColumns);
@@ -557,12 +589,12 @@
  			else
  				[L,U,PVect] = lu(U,'vector');
  			end
-+            endif
++            end
              %->
              if debugSW == 1
                  fprintf('Apply the LU factorization to update the candidate column indices of linearly independent columns; U = \n');
---- SparsePOP303.original/subPrograms/Mfiles/my_unique.m	2018-09-11 11:35:47.000000000 +1000
-+++ SparsePOP303/subPrograms/Mfiles/my_unique.m	2020-08-24 11:45:03.164532144 +1000
+--- SparsePOP303.original/subPrograms/Mfiles/my_unique.m	2020-08-26 22:01:07.078993102 +1000
++++ SparsePOP303/subPrograms/Mfiles/my_unique.m	2020-08-26 21:52:24.000000000 +1000
 @@ -1,7 +1,12 @@
  function [C, ia, ic] = my_unique(A, msg)
 +
@@ -570,7 +602,7 @@
  	error('msg should be rows in my_unique.');
  end
 +
-+if exist("OCTAVE_VERSION","builtin")
++if exist('OCTAVE_VERSION','builtin')
 +  [C, ia, ic] = unique(A, msg);
 +else
  if verLessThan('matlab', '8.0.1')
@@ -580,11 +612,11 @@
  	% We use legacy mode of unique.
  	[C, ia, ic] = unique(A, msg, 'last', 'legacy');
  end
-+endif
++end
 +
  return
---- SparsePOP303.original/subPrograms/Mfiles/convert2.m	2018-09-11 11:35:47.000000000 +1000
-+++ SparsePOP303/subPrograms/Mfiles/convert2.m	2020-08-24 11:45:03.164532144 +1000
+--- SparsePOP303.original/subPrograms/Mfiles/convert2.m	2020-08-26 22:01:07.080993085 +1000
++++ SparsePOP303/subPrograms/Mfiles/convert2.m	2020-08-26 21:52:24.000000000 +1000
 @@ -123,7 +123,13 @@
          for i=1:objPoly0.noTerms          
              pp = objPoly0.supports(i,j); 
@@ -595,7 +627,7 @@
 +                              ^sym(full(pp)))';
 +              else
                  cc = sym2poly((trans.Amat(j,j)*y+trans.bVect(j,1))^pp)';
-+              endif
++              end
                  supSet = objPoly0.supports(i*ones(pp+1,1),:);
                  supSet(:,j) = (pp:-1:0)';
  %                
@@ -609,7 +641,7 @@
 +                                      ^sym(full(pp)))';
 +                      else
                          cc = sym2poly((trans.Amat(j,j)*y+trans.bVect(j,1))^pp)';
-+                      endif
++                      end
                          supSet = ineqPolySys0{k}.supports(i*ones(pp+1,1),:);
                          supSet(:,j) = (pp:-1:0)';
  %                

@@ -189,30 +189,13 @@ end
 param0.printLevel = [2,2];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if nargin == 0
-    %    if strcmp(param0.SDPsolver,'sdpa')
-    %        probNumbers = [1:12,14:72, 74:85];
-    %    else
-    probNumbers = [1:72 ,74:81, 83:95];
-    %    end
+    probNumbers = [1:95];
     if param0.symbolicMath == 0
         if ~isfield(param0, 'SDPsolver') || strcmp(param0.SDPsolver,'sedumi')
             probNumbers = [1:12, 14:34, 37, 43:44, 47:53, 55:62, 64:69, 74:81, 83:87, 89:90, 93:95];
         else
             probNumbers = [1:12, 14:34, 37, 43:44, 47:53, 55:62, 64:69, 74:87, 89:90, 93:95];
         end
-    end
-else
-    if ~isfield(param0, 'SDPsolver') || strcmp(param0.SDPsolver,'sedumi')
-        %
-        % 2010-01-08 H. Waki
-        %
-        % SeDuMi_1_21 can not solve SDP relaxation problems
-        % generated from qp3.gms and optControl2(200).
-        % So, we skip these problems if 'probNumbers' contains them.
-        idx73 = find(probNumbers == 73);
-        idx82 = find(probNumbers == 82);
-        idx = [idx73, idx82];
-        probNumbers(idx) = [];
     end
 end
 % for my macbook

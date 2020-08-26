@@ -168,7 +168,7 @@ while controlSW == 1
 			  else
 				[L,U,PVect] = lu(U,'vector');
 			  end
-            endif
+            end
             %->
             if debugSW == 1
                 fprintf('Apply the LU factorization to update the candidate column indices of linearly independent columns; U = \n');

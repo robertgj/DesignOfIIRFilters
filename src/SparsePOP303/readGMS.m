@@ -938,10 +938,7 @@ if symbolicMath == 1
       %end
       %oneLine(1:loca)
       if exist('OCTAVE_VERSION','builtin');
-        % The symbolic-2.9.0 package does not support the SymPy collect function.
-        % This code is copied from octave/packages/symbolic-2.9.0/@sym/factor.m
-        tempf = pycall_sympy__ ('return collect(*_ins)', ...
-                                sym(oneLine(1:loca)), 'objvar');
+        tempf = collect(sym(oneLine(1:loca)), 'objvar');
       else
         %20180911 H. Waki modified
 		if verLessThan('matlab','9.4')
@@ -950,7 +947,7 @@ if symbolicMath == 1
 		  syms objvar
 		  tempf = collect(str2sym(oneLine(1:loca)), objvar);
 		end
-      endif
+      end
 	  oneLinetmp = char(vpa(expand(tempf),20));
 	  oneLine = strcat(oneLinetmp, oneLine(loca+1:end));
 	end
@@ -1037,8 +1034,8 @@ if isempty(tmpstr)
 	if symbolicMath == 0
 		error('Need SymbolicMath Toolbox.');
 	end
-	%20161018 H. Waki modified
-	tempf = collect(sym(formerPart), sym('x1'));
+    %20161018 H. Waki modified
+    tempf = collect(sym(formerPart), sym('x1'));
 	formerPart = char(vpa(expand(tempf),50));
 	rightValue = 0;
 	% old version

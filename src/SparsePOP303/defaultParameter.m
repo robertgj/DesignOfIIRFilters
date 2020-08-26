@@ -467,7 +467,7 @@ if ~isfield(param,'symbolicMath')
   else
     pkg_id = 'Symbolic';
     pkg_name = 'Symbolic Math Toolbox';
-  endif
+  end
   
   A = ver(pkg_id);
   if ~isempty(A)

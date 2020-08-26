@@ -26,7 +26,7 @@ LIBfiles = strcat(' conversion.cpp spvec.cpp polynomials.cpp sup.cpp ', ...
 OBJfiles = strrep(LIBfiles,'.cpp','.o');
 
 mpwd=pwd;
-mpath=mfilename("fullpath");
+mpath=mfilename('fullpath');
 mpath=mpath(1:strchr(mpath,filesep,1,'last'));
 cd(strcat(mpath,filesep,'subPrograms',filesep,'Mex'));
 fprintf('Compiling Libraries...');

@@ -45,7 +45,7 @@ else
   else
 	rvec = rand(nDim, 1);
   end
-endif
+end
 
 for i=1:k
 	a(i, 1) = ceil(u*rvec(i)); 

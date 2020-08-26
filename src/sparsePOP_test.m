@@ -19,6 +19,7 @@ param.mex=0;
 param.symbolicMath=1;
 
 solvernames={'sedumi','sdpt3'};
+
 prname={'example1', ...
         'Rosenbrock(40,-1)', ...
         'randomwithEQ(20,2,4,4,3201)', ...
@@ -40,7 +41,11 @@ for l=1:length(solvernames)
         sparsePOP(prname{k},param);
     catch
       err=lasterror();
-      fprintf(fid, "%s\n", err.message);
+      warning("\nCaught exception for %s!\n",prname{k});
+      for e=1:length(err.stack)
+        warning("Called %s at line %d\n",err.stack(e).name,err.stack(e).line);
+      endfor
+      error(err.message);
     end_try_catch
    
     if strcmp(param.SDPsolver,'sedumi')
