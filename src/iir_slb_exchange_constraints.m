@@ -30,7 +30,7 @@ function [next_vR,next_vS,exchanged] = ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
  
-if (nargin != 21) || (nargout != 3)
+if (nargin ~= 21) || (nargout ~= 3)
   print_usage("[next_vR,next_vS,exchanged]=...\n\
          iir_slb_exchange_constraints(vS,vR, ...\n\
          x,U,V,M,Q,R,wa,Adu,Adl,ws,Sdu,Sdl,wt,Tdu,Tdl,wp,Pdu,Pdl,tol)");
@@ -50,10 +50,10 @@ vPu_max=-inf;
 
 % Amplitude lower constraint
 vAl=[];Al=[];
-if !isempty(vR.al)
+if ~isempty(vR.al)
   Al=iirA(wa(vR.al),x,U,V,M,Q,R);
   vAl=find((Adl(vR.al)-tol)>Al);
-  if !isempty(vAl)
+  if ~isempty(vAl)
     exchanged = true;
     [vAl_max,vAl_maxi]=max((Adl(vR.al)-tol)-Al);
   endif
@@ -61,10 +61,10 @@ endif
 
 % Amplitude upper constraint
 vAu=[];Au=[];
-if !isempty(vR.au)
+if ~isempty(vR.au)
   Au=iirA(wa(vR.au),x,U,V,M,Q,R);
   vAu=find(Au>(Adu(vR.au)+tol));
-  if !isempty(vAu)
+  if ~isempty(vAu)
     exchanged = true;
     [vAu_max,vAu_maxi]=max(Au-(Adu(vR.au)+tol));
   endif
@@ -72,10 +72,10 @@ endif
 
 % Amplitude stop-band lower constraint
 vSl=[];Sl=[];
-if !isempty(vR.sl)
+if ~isempty(vR.sl)
   Sl=iirA(ws(vR.sl),x,U,V,M,Q,R);
   vSl=find((Sdl(vR.sl)-tol)>Sl);
-  if !isempty(vSl)
+  if ~isempty(vSl)
     exchanged = true;
     [vSl_max,vSl_maxi]=max((Sdl(vR.sl)-tol)-Sl);
   endif
@@ -83,10 +83,10 @@ endif
 
 % Amplitude stop-band upper constraint
 vSu=[];Su=[];
-if !isempty(vR.su)
+if ~isempty(vR.su)
   Su=iirA(ws(vR.su),x,U,V,M,Q,R);
   vSu=find(Su>(Sdu(vR.su)+tol));
-  if !isempty(vSu)
+  if ~isempty(vSu)
     exchanged = true;
     [vSu_max,vSu_maxi]=max(Su-(Sdu(vR.su)+tol));
   endif
@@ -94,10 +94,10 @@ endif
 
 % Group delay lower constraint
 vTl=[];Tl=[];
-if !isempty(vR.tl)
+if ~isempty(vR.tl)
   Tl=iirT(wt(vR.tl),x,U,V,M,Q,R);
   vTl=find((Tdl(vR.tl)-tol)>Tl);
-  if !isempty(vTl)
+  if ~isempty(vTl)
     exchanged = true;
     [vTl_max,vTl_maxi]=max((Tdl(vR.tl)-tol)-Tl);
   endif 
@@ -105,10 +105,10 @@ endif
 
 % Group delay upper constraint
 vTu=[];Tu=[];
-if !isempty(vR.tu)
+if ~isempty(vR.tu)
   Tu=iirT(wt(vR.tu),x,U,V,M,Q,R);
   vTu=find(Tu>(Tdu(vR.tu)+tol));
-  if !isempty(vTu)
+  if ~isempty(vTu)
     exchanged = true;
     [vTu_max,vTu_maxi]=max(Tu-(Tdu(vR.tu)+tol));
   endif
@@ -116,10 +116,10 @@ endif
 
 % Phase response lower constraint
 vPl=[];Pl=[];
-if !isempty(vR.pl)
+if ~isempty(vR.pl)
   Pl=iirP(wp(vR.pl),x,U,V,M,Q,R);
   vPl=find((Pdl(vR.pl)-tol)>Pl);
-  if !isempty(vPl)
+  if ~isempty(vPl)
     exchanged = true;
     [vPl_max,vPl_maxi]=max((Pdl(vR.pl)-tol)-Pl);
   endif 
@@ -127,10 +127,10 @@ endif
 
 % Phase response upper constraint
 vPu=[];Pu=[];
-if !isempty(vR.pu)
+if ~isempty(vR.pu)
   Pu=iirP(wp(vR.pu),x,U,V,M,Q,R);
   vPu=find(Pu>(Pdu(vR.pu)+tol));
-  if !isempty(vPu)
+  if ~isempty(vPu)
     exchanged = true;
     [vPu_max,vPu_maxi]=max(Pu-(Pdu(vR.pu)+tol));
   endif

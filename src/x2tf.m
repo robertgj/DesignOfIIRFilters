@@ -42,7 +42,7 @@ function [b,a]=x2tf(x,U,V,M,Q,R)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 % Sanity checks
-if (nargout>2) || (nargin!=6)
+if (nargout>2) || (nargin~=6)
   print_usage("[b,a]=x2tf(x,U,V,M,Q,R)");
 endif
 if R<=0
@@ -50,15 +50,15 @@ if R<=0
 endif
 x=x(:)';
 N=1+U+V+M+Q;
-if (length(x) != N)
+if (length(x) ~= N)
   error("Expected length(x)==1+U+V+M+Q");
 endif
 Mon2=floor(M/2);
-if (Mon2!=M/2)
+if (Mon2~=M/2)
   error("Expected M even");
 endif
 Qon2=floor(Q/2);
-if (Qon2!=Q/2)
+if (Qon2~=Q/2)
   error("Expected Q even");
 endif
 

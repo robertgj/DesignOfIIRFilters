@@ -21,7 +21,7 @@ function showResponsePassBands(fmin,fmax,dBmin,dBmax,x,U,V,M,Q,R,str)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if (nargin != 10) && (nargin != 11)
+if (nargin ~= 10) && (nargin ~= 11)
   print_usage("showResponsePassBands(fmin,fmax,dBmin,dBmax,x,U,V,M,Q,R,str)");
 endif
 

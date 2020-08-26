@@ -43,14 +43,14 @@ function [Asq,T,gradAsq,gradT]=iir_frm(w,xk,U,V,M,Q,na,nc,Mmodel,Dmodel)
   %
   % Sanity checks
   %
-  if (nargin != 10) || (nargout > 4)
+  if (nargin ~= 10) || (nargout > 4)
     print_usage("[Asq,T,gradAsq,gradT]=\
 iir_frm(w,xk,U,V,M,Q,na,nc,Mmodel,Dmodel);");
   endif
   na_is_odd=(mod(na,2)==1);
   nc_is_odd=(mod(nc,2)==1);
-  if na_is_odd != nc_is_odd
-    error("na_is_odd != nc_is_odd");
+  if na_is_odd ~= nc_is_odd
+    error("na_is_odd ~= nc_is_odd");
   endif
   %  una - the number of unique masking filter coefficients
   if na_is_odd

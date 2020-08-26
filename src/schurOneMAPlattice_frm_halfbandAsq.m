@@ -47,7 +47,7 @@ function [Asq,gradAsq] = ...
   %
   % Sanity checks
   %
-  if (nargin != 8) || (nargout > 2)
+  if (nargin ~= 8) || (nargout > 2)
     print_usage("[Asq,gradAsq]= ...\n\
   schurOneMAPlattice_frm_halfbandAsq(w,k,epsilon,p,u,v,Mmodel,Dmodel);");
   endif

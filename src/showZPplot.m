@@ -22,16 +22,16 @@ function showZPplot(x,U,V,M,Q,R,title_str)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if nargin!=7
+  if nargin~=7
     print_usage("showZPplot(x,U,V,M,Q,R,title_str)")
   endif
-  if length(x) != (1+U+V+M+Q)
-    error("length(x) != (1+U+V+M+Q)");
+  if length(x) ~= (1+U+V+M+Q)
+    error("length(x) ~= (1+U+V+M+Q)");
   endif
-  if rem(M,2) != 0
+  if rem(M,2) ~= 0
     error("Expected M(%d) even!",M);
   endif
-  if rem(Q,2) != 0
+  if rem(Q,2) ~= 0
     error("Expected Q(%d) even!",Q);
   endif
   

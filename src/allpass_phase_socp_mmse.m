@@ -58,7 +58,7 @@ function [ak,socp_iter,func_iter,feasible]= ...
 %
 % Sanity checks
 %
-if (nargout > 4) || (nargin != 15)
+if (nargout > 4) || (nargin ~= 15)
   print_usage("[ak,socp_iter,func_iter,feasible]= ...\n\
   allpass_phase_socp_mmse(vS,a0,au,al,Va,Qa,Ra, ...\n\
                           wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)");

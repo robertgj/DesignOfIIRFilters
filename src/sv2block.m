@@ -28,7 +28,7 @@ function [Ad,Bd,Cd,Dd] = sv2block(p,A,B,C,D)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if nargin  != 5 
+if nargin  ~= 5 
   error("Sorry, expected five input arguments");
 end 
 

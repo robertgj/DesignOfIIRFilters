@@ -58,7 +58,7 @@ function [ak,socp_iter,func_iter,feasible]= ...
 %
 % Sanity checks
 %
-if nargin != 10
+if nargin ~= 10
   print_usage("[ak,socp_iter,func_iter,feasible]= ...\n\
   allpass2ndOrderCascadeDelay_socp(a0,D,tau,wa,Ad,Wa,resp,maxiter,tol,verbose)");
 endif
@@ -66,10 +66,10 @@ if isempty(wa)
   error("wa is emtpy");
 endif
 Nwa=length(wa);
-if Nwa != length(Ad)
+if Nwa ~= length(Ad)
   error("Expected length(wa)(%d) == length(Ad)(%d)",Nwa,length(Ad));
 endif  
-if Nwa != length(Wa)
+if Nwa ~= length(Wa)
   error("Expected length(wa)(%d) == length(Wa)(%d)",Nwa,length(Wa));
 endif
 if tau<0 || tau>=1

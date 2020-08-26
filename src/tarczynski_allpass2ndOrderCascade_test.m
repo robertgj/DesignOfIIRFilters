@@ -29,22 +29,22 @@ function E=WISEJ_AB(ab,_flat_delay,_ma,_mb, ...
     wt=_wt;Td=_Td;Wt=_Wt;
     verbose=_verbose;
     % Sanity checks
-    if (length(wa) != length(Ad))
+    if (length(wa) ~= length(Ad))
       error("Expected length(Ad) == length(Ad)!");
     endif
-    if (length(wa) != length(Wa))
+    if (length(wa) ~= length(Wa))
       error("Expected length(wa) == length(Wa)!");
     endif
-    if (length(ws) != length(Sd))
+    if (length(ws) ~= length(Sd))
       error("Expected length(Sd) == length(Sd)!");
     endif
-    if (length(ws) != length(Ws))
+    if (length(ws) ~= length(Ws))
       error("Expected length(ws) == length(Ws)!");
     endif
-    if (length(wt) != length(Td))
+    if (length(wt) ~= length(Td))
       error("Expected length(wt) == length(Td)!");
     endif
-    if (length(wt) != length(Wt))
+    if (length(wt) ~= length(Wt))
       error("Expected length(wt) == length(Wt)!");
     endif
     % Initialise
@@ -59,7 +59,7 @@ function E=WISEJ_AB(ab,_flat_delay,_ma,_mb, ...
   if init_done == false
     error("init_done==false");
   endif
-  if (length(ab) != (ma+mb))
+  if (length(ab) ~= (ma+mb))
     error("Expected length(ab) == (ma+mb)!");
   endif
   if verbose

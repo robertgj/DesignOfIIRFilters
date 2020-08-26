@@ -77,12 +77,12 @@ function [hM,slb_iter,socp_iter,func_iter,feasible] = ...
   %
   % Sanity checks
   %
-  if (nargin != 13) || (nargout != 5)
+  if (nargin ~= 13) || (nargout ~= 5)
     print_usage("[hM,slb_iter,socp_iter,func_iter,feasible] = ...\n\
       directFIRhilbert_slb(pfx,hM0,hM_active,na,wa,Ad,Adu,Adl,Wa, ...\n\
                            maxiter,tol,ctol,verbose)");
   endif
-  if !is_function_handle(pfx)
+  if ~is_function_handle(pfx)
     feasible=false;
     error("Expected pfx to be a function handle!");
   endif

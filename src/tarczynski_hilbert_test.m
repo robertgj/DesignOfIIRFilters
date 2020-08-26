@@ -28,7 +28,7 @@ function E=WISEJ_HILBERT(ND,_nN,_nD,_R,_wd,_Hd,_Wd,_td)
       return;
     endif
   endif
-  if (length(ND) != (1+nN+nD))
+  if (length(ND) ~= (1+nN+nD))
     error("Expected length(ND) == (1+nN+nD)!");
   endif
   % Decimate the denominator

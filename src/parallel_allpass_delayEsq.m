@@ -46,7 +46,7 @@ function [Esq,gradEsq,diagHessEsq]=...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if nargout>3 || ((nargin!=8)&&(nargin!=11))
+  if nargout>3 || ((nargin~=8)&&(nargin~=11))
     print_usage("[Esq,gradEsq,diagHessEsq] = ...\n\
       parallel_allpass_delayEsq(a,V,Q,R,DD,wa,Asqd,Wa,wt,Td,Wt)");
   endif

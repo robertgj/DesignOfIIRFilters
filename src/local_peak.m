@@ -30,7 +30,7 @@ function [xpeak,ypeak,ipeak] = local_peak(x,y)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 % Sanity checks
-if ((nargin != 1) && (nargin != 2)) || ((nargout != 2) && (nargout !=3))
+if ((nargin ~= 1) && (nargin ~= 2)) || ((nargout ~= 2) && (nargout ~=3))
   print_usage("[xpeak,ypeak,ipeak] = local_peak(x,y)");
 endif
 if isvector(x) == false
@@ -44,7 +44,7 @@ if nargin == 1
   y=x;
   x=1:length(y);
 else
-  if (s(1) != rows(y)) || (s(2) != columns(y))
+  if (s(1) ~= rows(y)) || (s(2) ~= columns(y))
     error("x and y data vectors must have the same shape");
   endif
 endif

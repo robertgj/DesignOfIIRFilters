@@ -10,7 +10,7 @@ diary tf2schurNSlattice_test.diary.tmp
 
 % No filter
 [s10,s11,s20,s00,s02,s22]=tf2schurNSlattice(1,1);
-if (s10!=1) || (s11!=0) || (s20!=1) || (s00!=0) || (s02!=-1) || (s22!=0)
+if (s10~=1) || (s11~=0) || (s20~=1) || (s00~=0) || (s02~=-1) || (s22~=0)
   error("Unexpected result for n=1,d=1!");
 endif
 

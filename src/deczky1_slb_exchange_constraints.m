@@ -30,7 +30,7 @@ function [next_vR,next_vS,exchanged] = ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
  
-if (nargin != 16) || (nargout != 3)
+if (nargin ~= 16) || (nargout ~= 3)
   print_usage("[next_vR,next_vS,exchanged]=...\n\
          deczky1_slb_exchange_constraints(vS,vR, ...\n\
            x,U,V,M,Q,R,wa,Adu,Adl,wt,Tdu,Tdl,wx,tol)");
@@ -47,10 +47,10 @@ vAx_max=-inf;
 
 % Amplitude lower constraint
 vAl=[];Al=[];
-if !isempty(vR.al)
+if ~isempty(vR.al)
   Al=iirA(wa(vR.al),x,U,V,M,Q,R);
   vAl=find((Adl(vR.al)-tol)>Al);
-  if !isempty(vAl)
+  if ~isempty(vAl)
     exchanged = true;
     [vAl_max,vAl_maxi]=max((Adl(vR.al)-tol)-Al);
   endif
@@ -58,10 +58,10 @@ endif
 
 % Amplitude upper constraint
 vAu=[];Au=[];
-if !isempty(vR.au)
+if ~isempty(vR.au)
   Au=iirA(wa(vR.au),x,U,V,M,Q,R);
   vAu=find(Au>(Adu(vR.au)+tol));
-  if !isempty(vAu)
+  if ~isempty(vAu)
     exchanged = true;
     [vAu_max,vAu_maxi]=max(Au-(Adu(vR.au)+tol));
   endif
@@ -69,10 +69,10 @@ endif
 
 % Group delay lower constraint
 vTl=[];Tl=[];
-if !isempty(vR.tl)
+if ~isempty(vR.tl)
   Tl=iirT(wt(vR.tl),x,U,V,M,Q,R);
   vTl=find((Tdl(vR.tl)-tol)>Tl);
-  if !isempty(vTl)
+  if ~isempty(vTl)
     exchanged = true;
     [vTl_max,vTl_maxi]=max((Tdl(vR.tl)-tol)-Tl);
   endif 
@@ -80,10 +80,10 @@ endif
 
 % Group delay upper constraint
 vTu=[];Tu=[];
-if !isempty(vR.tu)
+if ~isempty(vR.tu)
   Tu=iirT(wt(vR.tu),x,U,V,M,Q,R);
   vTu=find(Tu>(Tdu(vR.tu)+tol));
-  if !isempty(vTu)
+  if ~isempty(vTu)
     exchanged = true;
     [vTu_max,vTu_maxi]=max(Tu-(Tdu(vR.tu)+tol));
   endif
@@ -91,10 +91,10 @@ endif
 
 % Amplitude transition band derivative constraint
 vAx=[];
-if !isempty(vR.ax)
+if ~isempty(vR.ax)
   delAdelw=iirdelAdelw(wx(vR.ax),x,U,V,M,Q,R);
   vAx=find(delAdelw>tol);
-  if !isempty(vAx)
+  if ~isempty(vAx)
     exchanged = true;
     [vAx_max,vAx_maxi]=max(delAdelw-tol);
   endif

@@ -48,7 +48,7 @@ function [Asq,P,T,gradAsq,gradP,gradT] = ...
   %
   % Sanity checks
   %
-  if (nargin != 8) || (nargout > 6)
+  if (nargin ~= 8) || (nargout > 6)
     print_usage("[Asq,P,T,gradAsq,gradP,gradT]= ...\n\
       schurOneMAPlattice_frm(w,k,epsilon,p,u,v,Mmodel,Dmodel);")
   endif

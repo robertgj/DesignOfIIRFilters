@@ -21,7 +21,7 @@ function showResponseBands(fap,ftp,fas,x,U,V,M,Q,R,str)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if (nargin != 9) && (nargin != 10)
+if (nargin ~= 9) && (nargin ~= 10)
   print_usage("showResponseBands(fap,ftp,fas,x,U,V,M,Q,R,str)";
 endif
 L=512;

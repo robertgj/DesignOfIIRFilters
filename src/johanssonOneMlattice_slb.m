@@ -90,13 +90,13 @@ function [fM,k0,k1,slb_iter,opt_iter,func_iter,feasible] = ...
   %
   % Sanity checks
   %
-  if (nargin != 19) || (nargout !=7)
+  if (nargin ~= 19) || (nargout ~=7)
     print_usage("[fM,k0,k1,slb_iter,opt_iter,func_iter,feasible] = ...\n\
     johanssonOneMlattice_slb(pfx,fM_0,k0_0,epsilon0,k1_0,epsilon1, ...\n\
                              fMk_u,fMk_l,fMk_active,dmax,wa,Ad,Adu,Adl,Wa, ...\n\
                              maxiter,tol,ctol,verbose)");
   endif
-  if !is_function_handle(pfx)
+  if ~is_function_handle(pfx)
     error("Expected pfx to be a function handle!");
   endif
 

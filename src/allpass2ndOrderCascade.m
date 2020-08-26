@@ -33,7 +33,7 @@ function [H,gradH]=allpass2ndOrderCascade(a,w)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 % Sanity checks
-if nargin !=2 
+if nargin ~=2 
   print_usage("[H,gradH]=allpass2ndOrderCascade(a,w)");
 endif
 if isempty(a)

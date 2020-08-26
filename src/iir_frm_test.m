@@ -56,16 +56,16 @@ catch
   endfor
   error("iir_frm() failed");
 end_try_catch
-if !isempty(Asq)
+if ~isempty(Asq)
   error("Expected Asq=[]");
 endif
-if !isempty(T)
+if ~isempty(T)
   error("Expected T=[]");
 endif
-if !isempty(gradAsq)
+if ~isempty(gradAsq)
   error("Expected gradAsq=[]");
 endif
-if !isempty(gradT)
+if ~isempty(gradT)
   error("Expected gradT=[]");
 endif
 try
@@ -724,7 +724,7 @@ for k=1:length(xk)
 endfor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Repeat with mn!=mr with delay
+% Repeat with mn~=mr with delay
 %
 clear all
 verbose=false;

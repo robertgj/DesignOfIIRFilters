@@ -57,7 +57,7 @@ function [x,E,sqp_iter,func_iter,feasible] = ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if (nargin!=15) || (nargout != 5)
+if (nargin~=15) || (nargout ~= 5)
   print_usage("[x,E,sqp_iter,func_iter,feasible] = ...\n\
         iir_sqp_octave(x0,U,V,M,Q,R,wa,Ad,Wa,wt,Td,Wt,maxiter,tol,verbose)");
 endif
@@ -104,7 +104,7 @@ endfunction
 
 function E = iir_E(x,_U,_V,_M,_Q,_R,_wa,_Ad,_Wa,_wt,_Td,_Wt)
   persistent U V M Q R wa Ad Wa wt Td Wt
-  if nargin!=1 && nargin!=12
+  if nargin~=1 && nargin~=12
     print_usage("E=iir_E(x[,_U,_V,_M,_Q,_R,_wa,_Ad,_Wa,_wt,_Td,_Wt])");
   elseif nargin == 12
     E=inf;
@@ -112,7 +112,7 @@ function E = iir_E(x,_U,_V,_M,_Q,_R,_wa,_Ad,_Wa,_wt,_Td,_Wt)
     wa=_wa;Ad=_Ad;Wa=_Wa;wt=_wt;Td=_Td;Wt=_Wt;
   else
     EA = Aerror(x,U,V,M,Q,R,wa,Ad,Wa);
-    if !isempty(wt)
+    if ~isempty(wt)
       ET = Terror(x,U,V,M,Q,R,wt,Td,Wt);
     else
       ET = 0;
@@ -123,7 +123,7 @@ endfunction
 
 function gradE = iir_gradE(x,_U,_V,_M,_Q,_R,_wa,_Ad,_Wa,_wt,_Td,_Wt)
   persistent U V M Q R wa Ad Wa wt Td Wt 
-  if nargin!=1 && nargin!=12
+  if nargin~=1 && nargin~=12
     print_usage("gradE=iir_gradE(x[,_U,_V,_M,_Q,_R,_wa,_Ad,_Wa,_wt,_Td,_Wt])");
   elseif nargin == 12
     E=inf;
@@ -131,7 +131,7 @@ function gradE = iir_gradE(x,_U,_V,_M,_Q,_R,_wa,_Ad,_Wa,_wt,_Td,_Wt)
     wa=_wa;Ad=_Ad;Wa=_Wa;wt=_wt;Td=_Td;Wt=_Wt;
   else
     [EA,gradEA] = Aerror(x,U,V,M,Q,R,wa,Ad,Wa);
-    if !isempty(wt)
+    if ~isempty(wt)
       [ET,gradET] = Terror(x,U,V,M,Q,R,wt,Td,Wt);
     else
       ET = 0;
@@ -144,7 +144,7 @@ endfunction
 
 function hessE = iir_hessE(x,_U,_V,_M,_Q,_R,_wa,_Ad,_Wa,_wt,_Td,_Wt)
   persistent U V M Q R wa Ad Wa wt Td Wt
-  if nargin!=1 && nargin!=12
+  if nargin~=1 && nargin~=12
     print_usage("hessE=iir_hessE(x[,_U,_V,_M,_Q,_R,_wa,_Ad,_Wa,_wt,_Td,_Wt,_tol])");
   elseif nargin == 12
     E=inf;
@@ -152,7 +152,7 @@ function hessE = iir_hessE(x,_U,_V,_M,_Q,_R,_wa,_Ad,_Wa,_wt,_Td,_Wt)
     wa=_wa;Ad=_Ad;Wa=_Wa;wt=_wt;Td=_Td;Wt=_Wt;
   else
     [EA,gradEA,hessEA] = Aerror(x,U,V,M,Q,R,wa,Ad,Wa);
-    if !isempty(wt)
+    if ~isempty(wt)
       [ET,gradET,hessET] = Terror(x,U,V,M,Q,R,wt,Td,Wt);
     else
       ET = 0;

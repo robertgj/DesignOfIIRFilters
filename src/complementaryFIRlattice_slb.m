@@ -97,7 +97,7 @@ function [k,khat,slb_iter,opt_iter,func_iter,feasible] = ...
   %
   % Sanity checks
   %
-  if (nargin != 26) || (nargout !=6)
+  if (nargin ~= 26) || (nargout ~=6)
     print_usage("[k,khat,slb_iter,opt_iter,func_iter,feasible] = ...\n\
        complementaryFIRlattice_slb(pfx,k0,khat0, ...\n\
                             kkhat_u,kkhat_l,kkhat_active,dmax, ...\n\
@@ -106,7 +106,7 @@ function [k,khat,slb_iter,opt_iter,func_iter,feasible] = ...
                             wp,Pd,Pdu,Pdl,Wp, ...\n\
                             maxiter,tol,ctol,verbose)");
   endif
-  if !is_function_handle(pfx)
+  if ~is_function_handle(pfx)
     error("Expected pfx to be a function handle!");
   endif
 

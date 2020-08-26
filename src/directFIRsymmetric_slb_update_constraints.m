@@ -22,7 +22,7 @@ function vS=directFIRsymmetric_slb_update_constraints(A,Adu,Adl,tol)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if (nargin != 4) || (nargout != 1)
+  if (nargin ~= 4) || (nargout ~= 1)
     print_usage ...
       ("vS=directFIRsymmetric_slb_update_constraints(A,Adu,Adl,tol)");
   endif

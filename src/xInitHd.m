@@ -59,21 +59,21 @@ function [X0,FVEC]=xInitHd(XI,U,V,M,Q,R, ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if nargin!=20
+if nargin~=20
   print_usage("[X0,FVEC]=xInitHd(XI,U,V,M,Q,R, ..\n\
     wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,maxiter,tol)");
 endif
 % Sanity checks
-if ((length(wa) != length(Ad)) || (length(wa) != length(Wa)))
+if ((length(wa) ~= length(Ad)) || (length(wa) ~= length(Wa)))
   error("Expect wa, Ad and Wa to have equal length!");
 endif
-if ((length(ws) != length(Sd)) || (length(ws) != length(Ws)))
+if ((length(ws) ~= length(Sd)) || (length(ws) ~= length(Ws)))
   error("Expect ws, Sd and Ws to have equal length!");
 endif
-if ((length(wt) != length(Td)) || (length(wt) != length(Wt)))
+if ((length(wt) ~= length(Td)) || (length(wt) ~= length(Wt)))
   error("Expect wt, Td and Wt to have equal length!");
 endif
-if ((length(wp) != length(Pd)) || (length(wp) != length(Wp)))
+if ((length(wp) ~= length(Pd)) || (length(wp) ~= length(Wp)))
   error("Expect wp, Pd and Wp to have equal length!");
 endif
 
@@ -121,7 +121,7 @@ if (nargin == 18)
 endif
 
 % Sanity check
-if (length(X) != (1+U+V+M+Q))
+if (length(X) ~= (1+U+V+M+Q))
   error("Expected length(X) == (1+U+V+M+Q)!");
 endif
 % Find the error of the amplitude response 

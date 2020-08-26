@@ -92,13 +92,13 @@ function [ak,slb_iter,opt_iter,func_iter,feasible] = ...
   %
   % Sanity checks
   %
-  if (nargin != 23) || (nargout != 5)
+  if (nargin ~= 23) || (nargout ~= 5)
     print_usage("[ak,slb_iter,opt_iter,func_iter,feasible] = ...\n\
       parallel_allpass_delay_slb(pfx,a0,au,al,dmax,V,Q,R,DD, ...\n\
                                  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
                                  maxiter,tol,ctol,verbose)");
   endif
-  if !is_function_handle(pfx)
+  if ~is_function_handle(pfx)
     error("Expected pfx to be a function handle!");
   endif
 

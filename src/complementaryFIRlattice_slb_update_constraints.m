@@ -24,7 +24,7 @@ function vS=complementaryFIRlattice_slb_update_constraints ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if (nargin != 13) || (nargout != 1)
+  if (nargin ~= 13) || (nargout ~= 1)
     print_usage("vS=complementaryFIRlattice_slb_update_constraints ...\n\
       (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,tol)");
   endif
@@ -61,30 +61,30 @@ function vS=complementaryFIRlattice_slb_update_constraints ...
   % Find amplitude constraint violations
   if ~isempty(Asq)
     % Find amplitude lower constraint violations
-    vAsql=local_max((Asqdl-Asq).*(Wa!=0));
+    vAsql=local_max((Asqdl-Asq).*(Wa~=0));
     vS.al=vAsql(find((Asqdl(vAsql)-Asq(vAsql))>tol));
     % Find amplitude upper constraint violations
-    vAsqu=local_max((Asq-Asqdu).*(Wa!=0));
+    vAsqu=local_max((Asq-Asqdu).*(Wa~=0));
     vS.au=vAsqu(find((Asq(vAsqu)-Asqdu(vAsqu))>tol));
   endif
 
   % Find group delay constraint violations
   if ~isempty(T)
     % Find group delay lower constraint violations
-    vTl=local_max((Tdl-T).*(Wt!=0));
+    vTl=local_max((Tdl-T).*(Wt~=0));
     vS.tl=vTl(find((Tdl(vTl)-T(vTl))>tol));
     % Find group delay upper constraint violations
-    vTu=local_max((T-Tdu).*(Wt!=0));
+    vTu=local_max((T-Tdu).*(Wt~=0));
     vS.tu=vTu(find((T(vTu)-Tdu(vTu))>tol));
   endif
 
   % Find phase constraint violations
   if ~isempty(P)
     % Find phase lower constraint violations
-    vPl=local_max((Pdl-P).*(Wp!=0));
+    vPl=local_max((Pdl-P).*(Wp~=0));
     vS.pl=vPl(find((Pdl(vPl)-P(vPl))>tol));
     % Find phase upper constraint violations
-    vPu=local_max((P-Pdu).*(Wp!=0));
+    vPu=local_max((P-Pdu).*(Wp~=0));
     vS.pu=vPu(find((P(vPu)-Pdu(vPu))>tol));
   endif
 

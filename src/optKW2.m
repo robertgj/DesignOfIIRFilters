@@ -27,15 +27,15 @@ function [T,Kopt,Wopt]=optKW2(K,W,delta)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % First check the input arguments
-  if (nargin != 3)
+  if (nargin ~= 3)
     print_usage("[T,Kopt,Wopt]=optKW2(K,W,delta)");
   end 
   [m,n]=size(K);
-  if ((m!=n) || (m!=2))
+  if ((m~=n) || (m~=2))
     error("K must be 2 by 2");
   end 
   [m,n]=size(W);
-  if ((m!=n) || (m!=2))
+  if ((m~=n) || (m~=2))
     error("W must be 2 by 2");
   end 
   

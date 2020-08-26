@@ -46,7 +46,7 @@ function [x,W,invW,iter,feasible]=goldfarb_idnani(x0,pfx,pgx,tol,maxiter,verbose
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if nargin != 6 || nargout != 5
+if nargin ~= 6 || nargout ~= 5
   print_usage(...
     "[x,W,invW,iter,feasible]=goldfarb_idnani(x0,pfx,pgx,tol,maxiter,verbose)");
 endif

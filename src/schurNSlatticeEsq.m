@@ -36,7 +36,7 @@ function [Esq,gradEsq,diagHessEsq]=...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if nargout>3 || nargin!=12
+  if nargout>3 || nargin~=12
     print_usage("[Esq,gradEsq,diagHessEsq] = ...\n\
       schurNSlatticeEsq(s10,s11,s20,s00,s02,s22,wa,Asqd,Wa,wt,Td,Wt)");
   endif

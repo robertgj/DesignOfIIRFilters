@@ -22,7 +22,7 @@ function vS=johanssonOneMlattice_slb_update_constraints(A,Adu,Adl,Wa,tol)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if (nargin != 5) || (nargout != 1)
+  if (nargin ~= 5) || (nargout ~= 1)
     print_usage ...
       ("vS=johanssonOneMlattice_slb_update_constraints(A,Adu,Adl,Wa,tol)");
   endif
@@ -41,10 +41,10 @@ function vS=johanssonOneMlattice_slb_update_constraints(A,Adu,Adl,Wa,tol)
   % Find amplitude constraint violations
   if ~isempty(A)
     % Find amplitude lower constraint violations
-    vAl=local_max((Adl-A).*(Wa!=0));
+    vAl=local_max((Adl-A).*(Wa~=0));
     vS.al=vAl(find((Adl(vAl)-A(vAl))>tol));
     % Find amplitude upper constraint violations
-    vAu=local_max((A-Adu).*(Wa!=0));
+    vAu=local_max((A-Adu).*(Wa~=0));
     vS.au=vAu(find((A(vAu)-Adu(vAu))>tol));
   endif
 

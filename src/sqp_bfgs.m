@@ -75,7 +75,7 @@ function [x,fx,lm,iter,liter,feasible] = ...
 global sqp_pfx sqp_pgx sqp_liter sqp_lm sqp_xub sqp_xlb
 
 % Check input argument list
-if (nargin != 12) && (nargout != 5)
+if (nargin ~= 12) && (nargout ~= 5)
   print_usage(strcat("[x fx lm iterliter]= ...\nsqp_bfgs(x0,pfx,pgx",
                "linesearchName,xlb,xub,dmax,",
                "H0,hessianType,tol,maxiter,verbose"));
@@ -85,8 +85,8 @@ endif
 if (tol > 0.5)
   error("expected tol < 0.5!");
 endif
-if (!isempty(xlb) && (length(xlb) != length(x0)))
-  error("length(xlb) != length(x0)!");
+if (~isempty(xlb) && (length(xlb) ~= length(x0)))
+  error("length(xlb) ~= length(x0)!");
 endif
 if (length(xlb) == length(x0))
   if any(x0(:)<(xlb(:)-tol))
@@ -95,8 +95,8 @@ if (length(xlb) == length(x0))
     error("x0 < lower bound !");
   endif
 endif
-if (!isempty(xub) && (length(xub) != length(x0)))
-  error("length(xub) != length(x0)!");
+if (~isempty(xub) && (length(xub) ~= length(x0)))
+  error("length(xub) ~= length(x0)!");
 endif
 if (length(xub) == length(x0))
   if any(x0(:)>(xub(:)+tol))
@@ -132,7 +132,7 @@ if iscell(H0) && ...
   [fx,gxf]=feval(sqp_pfx, x);
   hxxf=eye(N,N);
 elseif ismatrix(H0) && size(H0)==[length(x0),length(x0)]
-  if rank(H0)!=length(x0)
+  if rank(H0)~=length(x0)
     error("H0 is singular");
   endif
   W=H0;

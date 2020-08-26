@@ -240,7 +240,7 @@ endif
 
 % For real poles create Nw-by-V-by-R 3-D arrays then sum over R
 if V > 0
-  iRpnz=find(Rp!=0);
+  iRpnz=find(Rp~=0);
   Rpsm1=zeros(size(Rp));
   Rpsm1(iRpnz)=Rp(iRpnz).^(s-1);
   kRpsm1=reshape(kron(ones(1,R),kron(ones(Nw,1),Rpsm1)),Nw,V,R);
@@ -281,7 +281,7 @@ endif
 
 % For conjugate poles create Nw-by-Qon2-by-R 3-D arrays then sum over R
 if Q > 0
-  irpnz=find(rp!=0);
+  irpnz=find(rp~=0);
   rpsm1=zeros(1,Qon2);
   rpsm1(irpnz)=rp(irpnz).^(s-1);
   rp2sm1=zeros(1,Qon2);

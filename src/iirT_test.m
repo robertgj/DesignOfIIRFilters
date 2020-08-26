@@ -32,7 +32,7 @@ wc=w(1:nc);
 
 % Simple cases
 T=iirT([],x0,U,V,M,Q,R);
-if !isempty(T)
+if ~isempty(T)
   error("Expected T=[]");
 endif
 [T,gradT]=iirT([],x0,U,V,M,Q,R);

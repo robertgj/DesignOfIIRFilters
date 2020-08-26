@@ -41,7 +41,7 @@ function [P, gradP]=parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb, ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin != 8) && (nargin != 9) && (nargin != 10)
+  if (nargin ~= 8) && (nargin ~= 9) && (nargin ~= 10)
     print_usage("[P,gradP]= ...\n\
       parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference)");
   endif
@@ -51,11 +51,11 @@ function [P, gradP]=parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb, ...
   elseif nargin == 9
     difference = false;
   endif
-  if polyphase && (Ra != 2) && (Rb != 2)
+  if polyphase && (Ra ~= 2) && (Rb ~= 2)
     error("For polyphase combination Ra=2 and Rb=2 only!");
   endif
-  if length(ab) != (Va+Qa+Vb+Qb)
-    error("length(ab) != (Va+Qa+Vb+Qb)");
+  if length(ab) ~= (Va+Qa+Vb+Qb)
+    error("length(ab) ~= (Va+Qa+Vb+Qb)");
   endif
   if isempty(w)
     P=[];

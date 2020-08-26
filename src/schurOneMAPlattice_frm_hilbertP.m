@@ -47,7 +47,7 @@ function [P,gradP] = ...
   %
   % Sanity checks
   %
-  if (nargin != 8) || (nargout > 2)
+  if (nargin ~= 8) || (nargout > 2)
     print_usage("[P,gradP]= ...\n\
   schurOneMAPlattice_frm_hilbertP(w,k,epsilon,p,u,v,Mmodel,Dmodel);");
   endif

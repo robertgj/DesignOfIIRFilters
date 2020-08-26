@@ -28,7 +28,7 @@ function [next_vR,next_vS,exchanged] = ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if (nargin != 9) || (nargout != 3)
+  if (nargin ~= 9) || (nargout ~= 3)
     print_usage("[next_vR,next_vS,exchanged]= ...\n\
   parallel_allpass_delay_slb_exchange_constraints ...\n\
     (vS,vR,A2,A2du,A2dl,T,Tdu,Tdl,tol)");
@@ -62,9 +62,9 @@ function [next_vR,next_vS,exchanged] = ...
   A2dl=A2dl(vR.al);  
   vA2l=[];
   vA2l_max=-inf;
-  if !isempty(vR.al)
+  if ~isempty(vR.al)
     vA2l=find((A2dl-tol)>A2l);
-    if !isempty(vA2l)
+    if ~isempty(vA2l)
       exchanged = true;
       [vA2l_max,vA2l_maxi]=max((A2dl-tol)-A2l);
     endif
@@ -75,9 +75,9 @@ function [next_vR,next_vS,exchanged] = ...
   A2du=A2du(vR.au); 
   vA2u=[];
   vA2u_max=-inf;
-  if !isempty(vR.au)
+  if ~isempty(vR.au)
     vA2u=find(A2u>(A2du+tol));
-    if !isempty(vA2u)
+    if ~isempty(vA2u)
       exchanged = true;
       [vA2u_max,vA2u_maxi]=max(A2u-(A2du+tol));
     endif
@@ -88,9 +88,9 @@ function [next_vR,next_vS,exchanged] = ...
   Tdl=Tdl(vR.tl);  
   vTl=[];
   vTl_max=-inf;
-  if !isempty(vR.tl)
+  if ~isempty(vR.tl)
     vTl=find((Tdl-tol)>Tl);
-    if !isempty(vTl)
+    if ~isempty(vTl)
       exchanged = true;
       [vTl_max,vTl_maxi]=max((Tdl-tol)-Tl);
     endif 
@@ -101,9 +101,9 @@ function [next_vR,next_vS,exchanged] = ...
   Tdu=Tdu(vR.tu); 
   vTu_max=-inf;
   vTu=[];
-  if !isempty(vR.tu)
+  if ~isempty(vR.tu)
     vTu=find(Tu>(Tdu+tol));
-    if !isempty(vTu)
+    if ~isempty(vTu)
       exchanged = true;
       [vTu_max,vTu_maxi]=max(Tu-(Tdu+tol));
     endif

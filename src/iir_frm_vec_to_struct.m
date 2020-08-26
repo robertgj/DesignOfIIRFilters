@@ -45,8 +45,8 @@ function x0=iir_frm_vec_to_struct(xk,Uad,Vad,Mad,Qad,na,nc)
   % Check lengths of aa and ac
   na_is_odd=(mod(na,2)==1);
   nc_is_odd=(mod(nc,2)==1);
-  if na_is_odd != nc_is_odd
-    error("na_is_odd != nc_is_odd");
+  if na_is_odd ~= nc_is_odd
+    error("na_is_odd ~= nc_is_odd");
   endif
   % Check length of xk
   if na_is_odd

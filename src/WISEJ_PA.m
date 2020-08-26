@@ -28,7 +28,7 @@ function E=WISEJ_PA(ab,_ma,_mb,_R,_poly,_w,_Ad,_Wa,_Td,_Wt)
   persistent ma mb R polyphase w Ad Wa Td Wt
   persistent init_done=false
 
-  if (nargin != 1) && (nargin != 10)
+  if (nargin ~= 1) && (nargin ~= 10)
     print_usage("E=WISEJ_PA(ab[,ma,mb,R,poly,w,Ad,Wa,Td,Wt])");
   endif
   if nargin==10
@@ -43,22 +43,22 @@ function E=WISEJ_PA(ab,_ma,_mb,_R,_poly,_w,_Ad,_Wa,_Td,_Wt)
   endif
   
   % Sanity checks
-  if (length(ab) != (ma+mb))
+  if (length(ab) ~= (ma+mb))
     error("Expected length(ab) == (ma+mb)!");
   endif
   if (polyphase == true) && (R > 2)
     error("Expected ((polyphase == true) && (R <= 2))!");
   endif
-  if (length(w) != length(Ad))
+  if (length(w) ~= length(Ad))
     error("Expected length(w) == length(Ad)!");
   endif
-  if (length(w) != length(Wa))
+  if (length(w) ~= length(Wa))
     error("Expected length(w) == length(Wa)!");
   endif 
-  if (length(w) != length(Td))
+  if (length(w) ~= length(Td))
     error("Expected length(w) == length(Td)!");
   endif
-  if (length(w) != length(Wt))
+  if (length(w) ~= length(Wt))
     error("Expected length(w) == length(Wt)!");
   endif
   

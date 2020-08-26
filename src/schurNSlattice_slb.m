@@ -94,7 +94,7 @@ function [s10,s11,s20,s00,s02,s22,slb_iter,opt_iter,func_iter,feasible] = ...
   %
   % Sanity checks
   %
-  if (nargin != 26) || (nargout !=10)
+  if (nargin ~= 26) || (nargout ~=10)
     print_usage...
       ("[s10,s11,s20,s00,s02,s22,slb_iter,opt_iter,func_iter,feasible] = ...\n\
   schurNSlattice_slb(pfx,s10_0,s11_0,s20_0,s00_0,s02_0,s22_0, ...\n\
@@ -102,7 +102,7 @@ function [s10,s11,s20,s00,s02,s22,slb_iter,opt_iter,func_iter,feasible] = ...
                      wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
                      maxiter,tol,ctol,verbose)");
   endif
-  if !is_function_handle(pfx)
+  if ~is_function_handle(pfx)
     error("Expected pfx to be a function handle!");
   endif
 

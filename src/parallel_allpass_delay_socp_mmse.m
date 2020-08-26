@@ -71,7 +71,7 @@ function [ak,socp_iter,func_iter,feasible]= ...
 %
 % Sanity checks
 %
-if nargin != 23
+if nargin ~= 23
   print_usage("[ak,socp_iter,func_iter,feasible]= ...\n\
     parallel_allpass_delay_socp_mmse(vS,a0,au,al,dmax,V,Q,R,DD, ...\n\
                                      wa,Asqd,Asqdu,Asqdl,Wa, ...\n\
@@ -148,7 +148,7 @@ while 1
   endif
 
   % Parallel allpass filter amplitude pass-band squared-magnitude response
-  if !isempty(wa)
+  if ~isempty(wa)
     [Asqwa,gradAsqwa]=parallel_allpass_delayAsq(wa,ak,V,Q,R,DD);
     func_iter = func_iter+1;
   else
@@ -157,7 +157,7 @@ while 1
   endif;
   
   % Parallel allpass filter phase pass-band phase response
-  if !isempty(wt)
+  if ~isempty(wt)
     [Twt,gradTwt]=parallel_allpass_delayT(wt,ak,V,Q,R,DD);
     func_iter = func_iter+1;
   else

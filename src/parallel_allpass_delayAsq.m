@@ -41,18 +41,18 @@ function [Asq, gradAsq,diagHessAsq]=parallel_allpass_delayAsq(w,a,V,Q,R,D, ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
- if (nargin != 6) && (nargin != 7)
+ if (nargin ~= 6) && (nargin ~= 7)
     print_usage...
 ("[Asq,gradAsq,diagHessAsq]=parallel_allpass_delayAsq(w,a,V,Q,R,D,polyphase)");
   endif
   if nargin == 6
     polyphase = false;
   endif
-  if polyphase && (R != 2)
+  if polyphase && (R ~= 2)
     error("For polyphase combination R=2 only!");
   endif
-  if length(a) != (V+Q)
-    error("length(a) != (V+Q)");
+  if length(a) ~= (V+Q)
+    error("length(a) ~= (V+Q)");
   endif
   if isempty(w)
     Asq=[];

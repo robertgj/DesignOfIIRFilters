@@ -99,13 +99,13 @@ function [xk,slb_iter,opt_iter,func_iter,feasible] = ...
   %
   % Sanity checks
   %
-  if (nargin != 25) || (nargout != 5)
+  if (nargin ~= 25) || (nargout ~= 5)
     print_usage("[xk,slb_iter,opt_iter,func_iter,feasible] = ...\n\
          iir_frm_slb(pfx,x0k,xu,xl,U,V,M,Q,na,nc,Mmodel,Dmodel, ...\n\
                      w,Asqd,Asqdu,Asqdl,Wa,Td,Tdu,Tdl,Wt, ...\n\
                      maxiter,tol,verbose)");
   endif
-  if !is_function_handle(pfx)
+  if ~is_function_handle(pfx)
     error("Expected pfx to be a function handle!");
   endif
 

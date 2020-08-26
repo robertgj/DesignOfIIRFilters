@@ -103,7 +103,7 @@ function [xk,socp_iter,func_iter,feasible]= ...
     unc=nc/2;
   endif 
   Nfir=una+unc;
-  if (Niir+Nfir != Nxk)
+  if (Niir+Nfir ~= Nxk)
     error("Expected Niir+Nfir == Nxk");
   endif
   Nw=length(w);

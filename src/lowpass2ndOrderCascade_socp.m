@@ -65,7 +65,7 @@ function [x1,socp_iter,feasible]=lowpass2ndOrderCascade_socp ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 % Sanity checks
-if nargin != 12
+if nargin ~= 12
   print_usage("[x1,E,socp_iter,feasible]= ...\n\
   lowpass2ndOrderCascade_socp(x0,tau,w,Hd,W,npass,nstop,resp,limit_cycle, ...\n\
                               maxiter,tol,verbose)");
@@ -73,10 +73,10 @@ endif
 if all(isfield(x0,{"a","d"}))==false
   error("field missing from x0");
 endif
-if length(w) != length(Hd)
+if length(w) ~= length(Hd)
   error("Expect length(w) == length(Hd)");
 endif
-if length(w) != length(W)
+if length(w) ~= length(W)
   error("Expect length(w) == length(W)");
 endif
 if (0 > npass) || (npass > nstop) || (nstop>length(w))

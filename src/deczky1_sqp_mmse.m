@@ -75,7 +75,7 @@ function [x,E,sqp_iter,func_iter,feasible] = ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if (nargin != 24) || (nargout != 5)
+if (nargin ~= 24) || (nargout ~= 5)
   print_usage("[x,E,sqp_iter,func_iter,feasible] = ...\n\
          deczky1_sqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...\n\
          wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx, ...\n\
@@ -87,43 +87,43 @@ N=1+U+V+M+Q;
 Nwa=length(wa);
 Nwt=length(wt);
 Nwx=length(wx);
-if length(x0) != N
+if length(x0) ~= N
   error("Expected length(x)(%d) == 1+U+V+M+Q(%d)",length(x),N);
 endif
-if length(xu) != N
+if length(xu) ~= N
   error("Expected length(xu)(%d) == 1+U+V+M+Q(%d)",length(xu),N);
 endif
-if length(xl) != N
+if length(xl) ~= N
   error("Expected length(xl)(%d) == 1+U+V+M+Q(%d)",length(xl),N);
 endif
-if Nwa != length(Ad)
+if Nwa ~= length(Ad)
   error("Expected length(wa)(%d) == length(Ad)(%d)",Nwa,length(Ad));
 endif  
-if !isempty(Adu) && Nwa != length(Adu)
+if ~isempty(Adu) && Nwa ~= length(Adu)
   error("Expected length(wa)(%d) == length(Adu)(%d)",Nwa,length(Adu));
 endif
-if !isempty(Adl) && Nwa != length(Adl)
+if ~isempty(Adl) && Nwa ~= length(Adl)
   error("Expected lenth(wa)(%d) == length(Adl)(%d)",Nwa,length(Adl));
 endif
-if Nwa != length(Wa)
+if Nwa ~= length(Wa)
   error("Expected length(wa)(%d) == length(Wa)(%d)",Nwa,length(Wa));
 endif
-if Nwt != length(Td)
+if Nwt ~= length(Td)
   error("Expected length(wt)(%d) == length(Td)(%d)",Nwt,length(Td));
 endif  
-if !isempty(Tdu) && Nwt != length(Tdu)
+if ~isempty(Tdu) && Nwt ~= length(Tdu)
   error("Expected length(wt)(%d) == length(Tdu)(%d)",Nwt,length(Tdu));
 endif
-if !isempty(Tdl) && Nwt != length(Tdl)
+if ~isempty(Tdl) && Nwt ~= length(Tdl)
   error("Expected length(wt)(%d) == length(Tdl)(%d)",Nwt,length(Tdl));
 endif
-if Nwt != length(Wt)
+if Nwt ~= length(Wt)
   error("Expected length(wt)(%d) == length(Wt)(%d)",Nwt,length(Wt));
 endif
 if isempty(vS)
   vS=deczky1_slb_set_empty_constraints();
 endif
-if numfields(vS) != 5
+if numfields(vS) ~= 5
   error("numfields(vS)=%d, expected 5(al,au,tl,tu and ax)!",numfields(vS));
 endif
 

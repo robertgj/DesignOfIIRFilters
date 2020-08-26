@@ -102,7 +102,7 @@ function [A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...
   %
   % Sanity checks
   %
-  if (nargin != 31) || (nargout !=6)
+  if (nargin ~= 31) || (nargout ~=6)
     print_usage("[A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...\n\
        schurOneMPAlattice_slb(pfx, ...\n\
                               A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...\n\
@@ -111,7 +111,7 @@ function [A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...
                               wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
                               wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose)");
   endif
-  if !is_function_handle(pfx)
+  if ~is_function_handle(pfx)
     error("Expected pfx to be a function handle!");
   endif
 

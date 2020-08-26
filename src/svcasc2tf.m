@@ -23,7 +23,7 @@ function [B,A]=svcasc2tf(a11,a12,a21,a22,b1,b2,c1,c2,dd)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if nargin != 9
+if nargin ~= 9
   print_usage("[B,A]=svcasc2tf(a11,a12,a21,a22,b1,b2,c1,c2,dd");
 end
 

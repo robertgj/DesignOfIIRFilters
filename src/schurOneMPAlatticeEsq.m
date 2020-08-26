@@ -44,7 +44,7 @@ function [Esq,gradEsq,diagHessEsq]=...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if nargout>3 || ((nargin!=10)&&(nargin!=13)&&(nargin!=16))
+  if nargout>3 || ((nargin~=10)&&(nargin~=13)&&(nargin~=16))
     print_usage("[Esq,gradEsq,diagHessEsq] = ...\n\
       schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...\n\
                             difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp) \n\

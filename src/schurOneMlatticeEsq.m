@@ -42,7 +42,7 @@ function [Esq,gradEsq,diagHessEsq]=...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if nargout>3 || ((nargin!=7)&&(nargin!=10)&&(nargin!=13))
+  if nargout>3 || ((nargin~=7)&&(nargin~=10)&&(nargin~=13))
     print_usage("[Esq,gradEsq,diagHessEsq] = ...\n\
       schurOneMlatticeEsq(k,epsilon,p,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)");
   endif

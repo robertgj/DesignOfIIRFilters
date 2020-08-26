@@ -34,15 +34,15 @@ function [E gradE]=...
     wa=_wa;Asqd=_Asqd;Wa=_Wa;
     wt=_wt;Td=_Td;Wt=_Wt;
     init_done=true;
-  elseif nargin != 1
+  elseif nargin ~= 1
     print_usage("[E gradE]= parallel_allpass_mmse_error...\n\
     (abk,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,wa,Asqd,Wa,wt,Td,Wt)");
   endif
   if init_done==false
     error("init_done==false");
   endif
-  if length(abk) != (Va+Qa+Vb+Qb)
-    error("length(abk) != (Va+Qa+Vb+Qb)");
+  if length(abk) ~= (Va+Qa+Vb+Qb)
+    error("length(abk) ~= (Va+Qa+Vb+Qb)");
   endif
 
   Nab=length(abk);
@@ -51,7 +51,7 @@ function [E gradE]=...
 
   Ewa=0;
   gradEwa=zeros(1,Nab);
-  if !isempty(wa)
+  if ~isempty(wa)
     [Asqwa,gradAsqwa]=parallel_allpassAsq(wa,abk,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
     AsqwaMAsqd=Asqwa-Asqd;
     NwaM1=Nwa-1;
@@ -64,7 +64,7 @@ function [E gradE]=...
 
   Ewt=0;
   gradEwt=zeros(1,Nab);
-  if !isempty(wt)
+  if ~isempty(wt)
     [Twt,gradTwt]=parallel_allpassT(wt,abk,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
     TwtMTd=Twt-Td;
     NwtM1=Nwt-1;

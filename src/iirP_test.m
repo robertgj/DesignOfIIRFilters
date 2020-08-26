@@ -32,7 +32,7 @@ wc=w(1:nc);
 
 % Simple cases
 P=iirP([],x0,U,V,M,Q,R);
-if !isempty(P)
+if ~isempty(P)
   error("Expected P=[]");
 endif
 [P,gradP]=iirP([],x0,U,V,M,Q,R);

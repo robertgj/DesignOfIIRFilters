@@ -30,7 +30,7 @@ function E=WISEJ_PhaseEq(a,_Va,_Qa,_Ra,_x,_Ux,_Vx,_Mx,_Qx,_Rx,_w,_tp)
   persistent Va Qa Ra x Ux Vx Mx Qx Rx w tp
   persistent Px init_done=false
 
-  if (nargin != 1) && (nargin != 12)
+  if (nargin ~= 1) && (nargin ~= 12)
     print_usage("E=WISEJ_PhaseEq(a[,Va,Qa,Ra,x,Ux,Vx,Mx,Qx,Rx,w,tp])");
   elseif nargin==12
     Va=_Va;Qa=_Qa;Ra=_Ra;

@@ -67,13 +67,13 @@ function [E,gradE,hessE]=iirE(x,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if nargout>3 || nargin!=18
+if nargout>3 || nargin~=18
   print_usage ...
     ("[E,gradE,hessE]=iirE(x,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp)");
 endif
 
 N=1+U+V+M+Q;
-if N!=length(x)
+if N~=length(x)
   error("Expected length(x)==(1+U+V+M+Q)!");
 endif
 

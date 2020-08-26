@@ -48,7 +48,7 @@ function [Asq,T,gradAsq,gradT]= ...
   %
   % Sanity checks
   %
-  if (nargin != 9) || (nargout > 4)
+  if (nargin ~= 9) || (nargout > 4)
     print_usage("[Asq,T,gradAsq,gradT]= ...\n\
   iir_frm_allpass(w,xk,Vr,Qr,Rr,na,nc,Mmodel,Dmodel);");
   endif

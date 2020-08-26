@@ -29,18 +29,18 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt)
   persistent ma mb Ad Wa Td Wt
   persistent init_done=false
 
-  if (nargin != 1) && (nargin != 7)
+  if (nargin ~= 1) && (nargin ~= 7)
     print_usage("E=WISEJ_PAB(ab[,ma,mb,Ad,Wa,Td,Wt])");
   endif
   if nargin==7
     ma=_ma; mb=_mb; Ad=_Ad; Wa=_Wa; Td=_Td; Wt=_Wt;
-    if (length(Ad) != length(Wa))
+    if (length(Ad) ~= length(Wa))
       error("Expected length(Ad) == length(Wa)!");
     endif
-    if (length(Ad) != length(Td))
+    if (length(Ad) ~= length(Td))
       error("Expected length(Ad) == length(Td)!");
     endif 
-    if (length(Td) != length(Wt))
+    if (length(Td) ~= length(Wt))
       error("Expected length(Td) == length(Wt)!");
     endif
     init_done=true;
@@ -53,7 +53,7 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt)
   endif
   
   % Sanity checks
-  if (length(ab) != (ma+mb))
+  if (length(ab) ~= (ma+mb))
     error("Expected length(ab) == (ma+mb)!");
   endif
   

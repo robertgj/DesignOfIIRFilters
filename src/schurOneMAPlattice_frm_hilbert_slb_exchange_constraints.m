@@ -28,7 +28,7 @@ function [next_vR,next_vS,exchanged] = ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if (nargin != 12) || (nargout != 3)
+  if (nargin ~= 12) || (nargout ~= 3)
     print_usage("[next_vR,next_vS,exchanged]= ...\n\
   schurOneMAPlattice_frm_hilbert_slb_exchange_constraints ...\n\
     (vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,P,Pdu,Pdl,tol)");
@@ -76,9 +76,9 @@ function [next_vR,next_vS,exchanged] = ...
     Asqdl=Asqdl(vR.al);  
     vAsql=[];
     vAsql_max=-inf;
-    if !isempty(vR.al)
+    if ~isempty(vR.al)
       vAsql=find((Asqdl-Asql)>tol);
-      if !isempty(vAsql)
+      if ~isempty(vAsql)
         exchanged = true;
         [vAsql_max,vAsql_maxi]=max(Asqdl-Asql-tol);
       endif
@@ -88,9 +88,9 @@ function [next_vR,next_vS,exchanged] = ...
     Asqdu=Asqdu(vR.au); 
     vAsqu=[];
     vAsqu_max=-inf;
-    if !isempty(vR.au)
+    if ~isempty(vR.au)
       vAsqu=find((Asqu-Asqdu)>tol);
-      if !isempty(vAsqu)
+      if ~isempty(vAsqu)
         exchanged = true;
         [vAsqu_max,vAsqu_maxi]=max(Asqu-Asqdu-tol);
       endif
@@ -107,9 +107,9 @@ function [next_vR,next_vS,exchanged] = ...
     Tdl=Tdl(vR.tl);  
     vTl=[];
     vTl_max=-inf;
-    if !isempty(vR.tl)
+    if ~isempty(vR.tl)
       vTl=find((Tdl-Tl)>tol);
-      if !isempty(vTl)
+      if ~isempty(vTl)
         exchanged = true;
         [vTl_max,vTl_maxi]=max(Tdl-Tl-tol);
       endif 
@@ -119,9 +119,9 @@ function [next_vR,next_vS,exchanged] = ...
     Tdu=Tdu(vR.tu); 
     vTu_max=-inf;
     vTu=[];
-    if !isempty(vR.tu)
+    if ~isempty(vR.tu)
       vTu=find((Tu-Tdu)>tol);
-      if !isempty(vTu)
+      if ~isempty(vTu)
         exchanged = true;
         [vTu_max,vTu_maxi]=max(Tu-Tdu-tol);
       endif
@@ -138,9 +138,9 @@ function [next_vR,next_vS,exchanged] = ...
     Pdl=Pdl(vR.pl);  
     vPl=[];
     vPl_max=-inf;
-    if !isempty(vR.pl)
+    if ~isempty(vR.pl)
       vPl=find((Pdl-Pl)>tol);
-      if !isempty(vPl)
+      if ~isempty(vPl)
         exchanged = true;
         [vPl_max,vPl_maxi]=max(Pdl-Pl-tol);
       endif 
@@ -150,9 +150,9 @@ function [next_vR,next_vS,exchanged] = ...
     Pdu=Pdu(vR.pu); 
     vPu_max=-inf;
     vPu=[];
-    if !isempty(vR.pu)
+    if ~isempty(vR.pu)
       vPu=find((Pu-Pdu)>tol);
-      if !isempty(vPu)
+      if ~isempty(vPu)
         exchanged = true;
         [vPu_max,vPu_maxi]=max(Pu-Pdu-tol);
       endif

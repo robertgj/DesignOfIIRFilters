@@ -96,14 +96,14 @@ function [k,c,slb_iter,opt_iter,func_iter,feasible] = ...
   %
   % Sanity checks
   %
-  if (nargin != 28) || (nargout !=6)
+  if (nargin ~= 28) || (nargout ~=6)
     print_usage("[k,c,slb_iter,opt_iter,func_iter,feasible] = ...\n\
        schurOneMlattice_slb(pfx,k0,epsilon0,p0,c0, ...\n\
                             kc_u,kc_l,kc_active,dmax, ...\n\
                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
                             wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose)");
   endif
-  if !is_function_handle(pfx)
+  if ~is_function_handle(pfx)
     error("Expected pfx to be a function handle!");
   endif
 

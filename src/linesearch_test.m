@@ -35,7 +35,7 @@ function doSQP(searchType)
   do
     % Sanity check
     iter=iter+1;
-    if isdefinite(W)!=1
+    if isdefinite(W)~=1
       error("W not positive definite");
     elseif iter>=maxiter
       error("Iteration limit exceeded. Bailing out!");

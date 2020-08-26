@@ -61,7 +61,7 @@ function [P,gradP,diagHessP]=allpassP(w,a,V,Q,R)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if nargin!=5 || nargout>3
+  if nargin~=5 || nargout>3
     print_usage ("[P,gradP,diagHessP]=allpassP(w,a,V,Q,R)");
   endif
   if length(a) ~= V+Q
@@ -72,7 +72,7 @@ function [P,gradP,diagHessP]=allpassP(w,a,V,Q,R)
   endif
 
   % Sanity checks on a
-  if iscomplex(a) != 0
+  if iscomplex(a) ~= 0
     error("Complex coefficient found in a!");
   endif
 

@@ -28,7 +28,7 @@ x0=[  0.0089234, ...
 
 % Check empty frequency
 delAdelw=iirdelAdelw([],x0,U,V,M,Q,R);
-if !isempty(delAdelw)
+if ~isempty(delAdelw)
   error("Expected delAdelw=[]");
 endif
 

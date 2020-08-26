@@ -61,7 +61,7 @@ function [a11,a12,a21,a22,b1,b2,c1,c2]=pq2blockKWopt(dd,p1,p2,q1,q2,delta)
   [A,B,C,D]=svcasc2Abcd(a11,a12,a21,a22,b1,b2,c1,c2,dd);
 
   % Sanity check for removal of an unused state variable
-  if last_section_is_first_order && (rows(A) != (2*second_order_sections)+1)
+  if last_section_is_first_order && (rows(A) ~= (2*second_order_sections)+1)
     error("Expected (rows(A) == (2*second_order_sections)+1)!");
   endif
 

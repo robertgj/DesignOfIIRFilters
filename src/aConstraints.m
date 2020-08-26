@@ -21,7 +21,7 @@ function [lb, ub]=aConstraints(V,Q,rho)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if (nargin!=3) || (nargout!=2)
+if (nargin~=3) || (nargout~=2)
   print_usage("[lb,ub]=aConstraints(V,Q,rho)");
 endif
 

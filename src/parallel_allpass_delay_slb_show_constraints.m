@@ -22,25 +22,25 @@ function parallel_allpass_delay_slb_show_constraints(vS,wa,A2u,A2l,wt,Tu,Tl)
 
   printf("Current constraints:\n");
 
-  if !isempty(vS.al)
+  if ~isempty(vS.al)
     printf("al=[ ");printf("%d ",vS.al');printf("]\n");
     printf("f(al)=[ ");printf("%f ",wa(vS.al)'*0.5/pi);printf("](fs=1)\n");
     printf("A2l=[ ");printf("%f ",10*log10(abs(A2l(vS.al))));printf("](dB)\n");
   endif
 
-  if !isempty(vS.au)
+  if ~isempty(vS.au)
     printf("au=[ ");printf("%d ",vS.au');printf("]\n");
     printf("f(au)=[ ");printf("%f ",wa(vS.au)'*0.5/pi);printf("](fs=1)\n");
     printf("A2u=[ ");printf("%f ",10*log10(abs(A2u(vS.au))));printf("](dB)\n");
   endif
 
-  if !isempty(vS.tl)
+  if ~isempty(vS.tl)
     printf("tl=[ ");printf("%d ",vS.tl');printf("]\n");
     printf("f(tl)=[ ");printf("%f ",wt(vS.tl)'*0.5/pi);printf("](fs=1)\n");
     printf("Tl=[ ");printf("%f ",Tl(vS.tl));printf("](Samples)\n");
   endif
 
-  if !isempty(vS.tu)
+  if ~isempty(vS.tu)
     printf("tu=[ ");printf("%d ",vS.tu');printf("]\n");
     printf("f(tu)=[ ");printf("%f ",wt(vS.tu)'*0.5/pi);printf("](fs=1)\n");
     printf("Tu=[ ");printf("%f ",Tu(vS.tu));printf("](Samples)\n");

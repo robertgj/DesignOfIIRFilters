@@ -19,37 +19,37 @@ function schurOneMAPlattice_frm_hilbert_slb_show_constraints(vS,wa,Asq,wt,T,wp,P
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if !isempty(vS.al)
+  if ~isempty(vS.al)
     printf("al=[ ");printf("%d ",vS.al');printf("]\n");
     printf("f(al)=[ ");printf("%f ",wa(vS.al)'*0.5/pi);printf("](fs=1)\n");
     printf("Asql=[ ");printf("%f ",10*log10(abs(Asq(vS.al))));printf("](dB)\n");
   endif
 
-  if !isempty(vS.au)
+  if ~isempty(vS.au)
     printf("au=[ ");printf("%d ",vS.au');printf("]\n");
     printf("f(au)=[ ");printf("%f ",wa(vS.au)'*0.5/pi);printf("](fs=1)\n");
     printf("Asqu=[ ");printf("%f ",10*log10(abs(Asq(vS.au))));printf("](dB)\n");
   endif
 
-  if !isempty(vS.tl)
+  if ~isempty(vS.tl)
     printf("tl=[ ");printf("%d ",vS.tl');printf("]\n");
     printf("f(tl)=[ ");printf("%f ",wt(vS.tl)'*0.5/pi);printf("](fs=1)\n");
     printf("Tl=[ ");printf("%f ",T(vS.tl));printf("](Samples)\n");
   endif
 
-  if !isempty(vS.tu)
+  if ~isempty(vS.tu)
     printf("tu=[ ");printf("%d ",vS.tu');printf("]\n");
     printf("f(tu)=[ ");printf("%f ",wt(vS.tu)'*0.5/pi);printf("](fs=1)\n");
     printf("Tu=[ ");printf("%f ",T(vS.tu));printf("](Samples)\n");
   endif
 
-  if !isempty(vS.pl)
+  if ~isempty(vS.pl)
     printf("pl=[ ");printf("%d ",vS.pl');printf("]\n");
     printf("f(pl)=[ ");printf("%f ",wp(vS.pl)'*0.5/pi);printf("](fs=1)\n");
     printf("Pl=[ ");printf("%f ",P(vS.pl)/pi);printf("](rad./pi)\n");
   endif
 
-  if !isempty(vS.pu)
+  if ~isempty(vS.pu)
     printf("pu=[ ");printf("%d ",vS.pu');printf("]\n");
     printf("f(pu)=[ ");printf("%f ",wp(vS.pu)'*0.5/pi);printf("](fs=1)\n");
     printf("Pu=[ ");printf("%f ",P(vS.pu)/pi);printf("](rad/pi)\n");

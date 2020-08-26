@@ -29,24 +29,24 @@ function E=WISEJ_PAB_Hilbert(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt,_Pd,_Wp)
   persistent ma mb Ad Wa Td Wt Pd Wp
   persistent init_done=false
 
-  if (nargin != 1) && (nargin != 9)
+  if (nargin ~= 1) && (nargin ~= 9)
     print_usage("E=WISEJ_PAB(ab[,ma,mb,Ad,Wa,Td,Wt,Pd,Wp])");
   endif
   if nargin==9
     ma=_ma; mb=_mb; Ad=_Ad; Wa=_Wa; Td=_Td; Wt=_Wt; Pd=_Pd; Wp=_Wp;
-    if (length(Ad) != length(Wa))
+    if (length(Ad) ~= length(Wa))
       error("Expected length(Ad) == length(Wa)!");
     endif
-    if (length(Ad) != length(Td))
+    if (length(Ad) ~= length(Td))
       error("Expected length(Ad) == length(Td)!");
     endif 
-    if (length(Td) != length(Wt))
+    if (length(Td) ~= length(Wt))
       error("Expected length(Td) == length(Wt)!");
     endif
-    if (length(Ad) != length(Pd))
+    if (length(Ad) ~= length(Pd))
       error("Expected length(Ad) == length(Pd)!");
     endif 
-    if (length(Pd) != length(Wp))
+    if (length(Pd) ~= length(Wp))
       error("Expected length(Pd) == length(Wp)!");
     endif
     init_done=true;
@@ -59,7 +59,7 @@ function E=WISEJ_PAB_Hilbert(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt,_Pd,_Wp)
   endif
   
   % Sanity checks
-  if (length(ab) != (ma+mb))
+  if (length(ab) ~= (ma+mb))
     error("Expected length(ab) == (ma+mb)!");
   endif
   

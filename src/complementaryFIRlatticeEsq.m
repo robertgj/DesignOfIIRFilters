@@ -43,7 +43,7 @@ function [Esq,gradEsq]=...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if nargout>2 || ((nargin!=5)&&(nargin!=8)&&(nargin!=11))
+  if nargout>2 || ((nargin~=5)&&(nargin~=8)&&(nargin~=11))
     print_usage("[Esq,gradEsq] = ...\n\
       complementaryFIRlatticeEsq(k,khat,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)");
   endif

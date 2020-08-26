@@ -82,7 +82,7 @@ function [x,E,sqp_iter,func_iter,feasible] = ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if (nargin != 33) || (nargout != 5)
+if (nargin ~= 33) || (nargout ~= 5)
   print_usage("[x,E,sqp_iter,func_iter,feasible] = ...\n\
          iir_sqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...\n\
          wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt, ...\n\
@@ -95,67 +95,67 @@ Nwa=length(wa);
 Nws=length(ws);
 Nwt=length(wt);
 Nwp=length(wp);
-if length(x0) != N
+if length(x0) ~= N
   error("Expected length(x)(%d) == 1+U+V+M+Q(%d)",length(x),N);
 endif
-if length(xu) != N
+if length(xu) ~= N
   error("Expected length(xu)(%d) == 1+U+V+M+Q(%d)",length(xu),N);
 endif
-if length(xl) != N
+if length(xl) ~= N
   error("Expected length(xl)(%d) == 1+U+V+M+Q(%d)",length(xl),N);
 endif
-if Nwa != length(Ad)
+if Nwa ~= length(Ad)
   error("Expected length(wa)(%d) == length(Ad)(%d)",Nwa,length(Ad));
 endif  
-if !isempty(Adu) && Nwa != length(Adu)
+if ~isempty(Adu) && Nwa ~= length(Adu)
   error("Expected length(wa)(%d) == length(Adu)(%d)",Nwa,length(Adu));
 endif
-if !isempty(Adl) && Nwa != length(Adl)
+if ~isempty(Adl) && Nwa ~= length(Adl)
   error("Expected lenth(wa)(%d) == length(Adl)(%d)",Nwa,length(Adl));
 endif
-if Nwa != length(Wa)
+if Nwa ~= length(Wa)
   error("Expected length(wa)(%d) == length(Wa)(%d)",Nwa,length(Wa));
 endif
-if Nws != length(Sd)
+if Nws ~= length(Sd)
   error("Expected length(ws)(%d) == length(Sd)(%d)",Nws,length(Sd));
 endif  
-if !isempty(Sdu) && Nws != length(Sdu)
+if ~isempty(Sdu) && Nws ~= length(Sdu)
   error("Expected length(ws)(%d) == length(Sdu)(%d)",Nws,length(Sdu));
 endif
-if !isempty(Sdl) && Nws != length(Sdl)
+if ~isempty(Sdl) && Nws ~= length(Sdl)
   error("Expected lenth(ws)(%d) == length(Sdl)(%d)",Nws,length(Sdl));
 endif
-if Nws != length(Ws)
+if Nws ~= length(Ws)
   error("Expected length(ws)(%d) == length(Ws)(%d)",Nws,length(Ws));
 endif
-if Nwt != length(Td)
+if Nwt ~= length(Td)
   error("Expected length(wt)(%d) == length(Td)(%d)",Nwt,length(Td));
 endif  
-if !isempty(Tdu) && Nwt != length(Tdu)
+if ~isempty(Tdu) && Nwt ~= length(Tdu)
   error("Expected length(wt)(%d) == length(Tdu)(%d)",Nwt,length(Tdu));
 endif
-if !isempty(Tdl) && Nwt != length(Tdl)
+if ~isempty(Tdl) && Nwt ~= length(Tdl)
   error("Expected length(wt)(%d) == length(Tdl)(%d)",Nwt,length(Tdl));
 endif
-if Nwt != length(Wt)
+if Nwt ~= length(Wt)
   error("Expected length(wt)(%d) == length(Wt)(%d)",Nwt,length(Wt));
 endif
-if Nwp != length(Pd)
+if Nwp ~= length(Pd)
   error("Expected length(wp)(%d) == length(Pd)(%d)",Nwp,length(Pd));
 endif  
-if !isempty(Pdu) && Nwp != length(Pdu)
+if ~isempty(Pdu) && Nwp ~= length(Pdu)
   error("Expected length(wp)(%d) == length(Pdu)(%d)",Nwp,length(Pdu));
 endif
-if !isempty(Pdl) && Nwp != length(Pdl)
+if ~isempty(Pdl) && Nwp ~= length(Pdl)
   error("Expected length(wp)(%d) == length(Pdl)(%d)",Nwp,length(Pdl));
 endif
-if Nwp != length(Wp)
+if Nwp ~= length(Wp)
   error("Expected length(wp)(%d) == length(Wp)(%d)",Nwp,length(Wp));
 endif
 if isempty(vS)
   vS=iir_slb_set_empty_constraints();
 endif
-if numfields(vS) != 8
+if numfields(vS) ~= 8
   error("numfields(vS)=%d, expected 8(al,au,sl,su,tl,tu,pl and pu)!",
         numfields(vS));
 endif

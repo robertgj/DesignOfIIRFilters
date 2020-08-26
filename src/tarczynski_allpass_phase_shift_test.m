@@ -27,7 +27,7 @@ function E=WISEJ_PS(a,_w,_td,_D,_Pd,_Wp)
   persistent w td D Pd Wp
   persistent init_done=false
 
-  if (nargin != 1) && (nargin != 6)
+  if (nargin ~= 1) && (nargin ~= 6)
     print_usage("E=WISEJ_PS(a[,w,td,D,Pd,Wp])");
   endif
   if nargin==6
@@ -42,10 +42,10 @@ function E=WISEJ_PS(a,_w,_td,_D,_Pd,_Wp)
   endif
   
   % Sanity checks
-  if (length(w) != length(Pd))
+  if (length(w) ~= length(Pd))
     error("Expected length(w) == length(Pd)!");
   endif
-  if (length(w) != length(Wp))
+  if (length(w) ~= length(Wp))
     error("Expected length(w) == length(Wp)!");
   endif 
   

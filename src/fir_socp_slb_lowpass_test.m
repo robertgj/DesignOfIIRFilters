@@ -86,10 +86,10 @@ function intEH=ERROR_FIR(b,_wd,_Hd,_Wd)
   endif
   if nargin == 4
     wd=_wd;Hd=_Hd;Wd=_Wd;
-    if (length(wd) != length(Hd))
+    if (length(wd) ~= length(Hd))
       error("Expected length(wd) == length(Hd)!");
     endif
-    if (length(wd) != length(Wd))
+    if (length(wd) ~= length(Wd))
       error("Expected length(wd) == length(Wd)!");
     endif
     init_done=true;

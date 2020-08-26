@@ -47,7 +47,7 @@ function [T,gradT] = ...
   %
   % Sanity checks
   %
-  if (nargin != 8) || (nargout > 2)
+  if (nargin ~= 8) || (nargout > 2)
     print_usage("[T,gradT]= ...\n\
   schurOneMAPlattice_frm_hilbertT(w,k,epsilon,p,u,v,Mmodel,Dmodel);");
   endif

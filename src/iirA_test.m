@@ -32,7 +32,7 @@ wc=w(1:nc);
 
 % Simple cases
 A=iirA([],x0,U,V,M,Q,R);
-if !isempty(A)
+if ~isempty(A)
   error("Expected A=[]");
 endif
 [A,gradA]=iirA([],x0,U,V,M,Q,R);

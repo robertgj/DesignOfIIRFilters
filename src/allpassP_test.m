@@ -16,10 +16,10 @@ a0=[  0.7500000, -0.5000000,  0.2000000,  0.3000000,  0.1000000, ...
 
 % Check empty frequency
 [P,gradP]=allpassP([],a0,V,Q,R);
-if !isempty(P)
+if ~isempty(P)
   error("Expected P=[]");
 endif
-if !isempty(gradP)
+if ~isempty(gradP)
   error("Expected gradP=[]");
 endif
 

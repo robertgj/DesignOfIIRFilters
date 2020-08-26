@@ -44,7 +44,7 @@ function [Esq,gradEsq]=schurOneMAPlattice_frm_halfbandEsq ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargout > 2) || ((nargin != 10) && (nargin != 13))
+  if (nargout > 2) || ((nargin ~= 10) && (nargin ~= 13))
     print_usage("[Esq,gradEsq] = schurOneMAPlattice_frm_halfbandEsq ...\n\
       (k,epsilon,p,u,v,Mmodel,Dmodel,wa,Asqd,Wa,wt,Td,Wt)");
   endif

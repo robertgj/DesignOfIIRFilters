@@ -247,7 +247,7 @@ endif
 %
 
 % For real poles
-iRpnz=find(Rp!=0);
+iRpnz=find(Rp~=0);
 Rps1=zeros(size(Rp));
 Rps1(iRpnz)=Rp(iRpnz).^(s-1);
 kRps1=kron(ones(Nw,1),Rps1);
@@ -259,7 +259,7 @@ sinw0Mtheta0=sin(w0-theta0);
 
 % For conjugate poles
 rps1=zeros(size(rp));
-irpnz=find(rp!=0);
+irpnz=find(rp~=0);
 rps1(irpnz)=rp(irpnz).^(s-1);
 krps1=kron(ones(Nw,1),rps1);
 krps1=reshape(kron(ones(1,R),krps1),Nw,Qon2,R);

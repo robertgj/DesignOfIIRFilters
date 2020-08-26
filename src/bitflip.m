@@ -61,7 +61,7 @@ function [cof,cost,fiter] = ...
   elseif nargin == 7
     do_testcof=true;
   endif
-  if !is_function_handle(pcostfun)
+  if ~is_function_handle(pcostfun)
     error("Expected function handle");
   endif
   max_nbits=floor(log2(flintmax()));

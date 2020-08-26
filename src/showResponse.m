@@ -21,7 +21,7 @@ function showResponse(x,U,V,M,Q,R,str)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   
-if (nargin != 6) && (nargin != 7)
+if (nargin ~= 6) && (nargin ~= 7)
   print_usage("showResponse(x,U,V,M,Q,R,str)");
 endif
 

@@ -52,7 +52,7 @@ function [Hw,gradHw]=frm2ndOrderCascade(w,xk,mn,mr,na,nc,M,td)
   % Check length of na and nc
   na_is_odd=(mod(na,2)==1);
   nc_is_odd=(mod(nc,2)==1);
-  if na_is_odd != nc_is_odd
+  if na_is_odd ~= nc_is_odd
     error("Expected na_is_odd == nc_is_odd");
   endif
   % Check length of xk

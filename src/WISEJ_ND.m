@@ -56,7 +56,7 @@ function E=WISEJ_ND(ND,_nN,_nD,_R,_wd,_Ad,_Wa,_Td,_Wt)
     error("init_done==false");
   endif
   % Sanity check
-  if (length(ND) != (1+nN+nD))
+  if (length(ND) ~= (1+nN+nD))
     error("Expected length(ND) == (1+nN+nD)!");
   endif
   

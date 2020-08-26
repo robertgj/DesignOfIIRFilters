@@ -26,7 +26,7 @@ function [next_vR,next_vS,exchanged] = ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if (nargin != 6) || (nargout != 3)
+  if (nargin ~= 6) || (nargout ~= 3)
     print_usage("[next_vR,next_vS,exchanged]= ...\n\
       directFIRsymmetric_slb_exchange_constraints(vS,vR,A,Adu,Adl,tol)");
   endif
@@ -61,9 +61,9 @@ function [next_vR,next_vS,exchanged] = ...
     Adl=Adl(vR.al);  
     vAl=[];
     vAl_max=-inf;
-    if !isempty(vR.al)
+    if ~isempty(vR.al)
       vAl=find((Adl-Al)>tol);
-      if !isempty(vAl)
+      if ~isempty(vAl)
         exchanged = true;
         [vAl_max,vAl_maxi]=max(Adl-Al-tol);
       endif
@@ -73,9 +73,9 @@ function [next_vR,next_vS,exchanged] = ...
     Adu=Adu(vR.au); 
     vAu=[];
     vAu_max=-inf;
-    if !isempty(vR.au)
+    if ~isempty(vR.au)
       vAu=find((Au-Adu)>tol);
-      if !isempty(vAu)
+      if ~isempty(vAu)
         exchanged = true;
         [vAu_max,vAu_maxi]=max(Au-Adu-tol);
       endif

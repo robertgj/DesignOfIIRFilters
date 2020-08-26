@@ -62,10 +62,10 @@ catch
   endfor
   error("frm2ndOrderCascade() failed");
 end_try_catch
-if !isempty(Hw)
+if ~isempty(Hw)
   error("Expected Hw=[]");
 endif
-if !isempty(gradHw)
+if ~isempty(gradHw)
   error("Expected gradHw=[]");
 endif
 try
@@ -260,7 +260,7 @@ endfor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Repeat with mn!=mr
+% Repeat with mn~=mr
 %
 clear all
 tol=21*eps;

@@ -22,7 +22,7 @@ function vS=schurOneMAPlattice_frm_halfband_slb_update_constraints ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if (nargin != 9) || (nargout != 1)
+  if (nargin ~= 9) || (nargout ~= 1)
     print_usage("vS=schurOneMAPlattice_frm_halfband_slb_update_constraints ...\n\
       (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,tol)");
   endif
@@ -50,20 +50,20 @@ function vS=schurOneMAPlattice_frm_halfband_slb_update_constraints ...
   % Find amplitude constraint violations
   if ~isempty(Asq)
     % Find amplitude lower constraint violations
-    vAsql=local_max((Asqdl-Asq).*(Wa!=0));
+    vAsql=local_max((Asqdl-Asq).*(Wa~=0));
     vS.al=vAsql(find((Asqdl(vAsql)-Asq(vAsql))>tol));
     % Find amplitude upper constraint violations
-    vAsqu=local_max((Asq-Asqdu).*(Wa!=0));
+    vAsqu=local_max((Asq-Asqdu).*(Wa~=0));
     vS.au=vAsqu(find((Asq(vAsqu)-Asqdu(vAsqu))>tol));
   endif
 
   % Find group delay constraint violations
   if ~isempty(T)
     % Find group delay lower constraint violations
-    vTl=local_max((Tdl-T).*(Wt!=0));
+    vTl=local_max((Tdl-T).*(Wt~=0));
     vS.tl=vTl(find((Tdl(vTl)-T(vTl))>tol));
     % Find group delay upper constraint violations
-    vTu=local_max((T-Tdu).*(Wt!=0));
+    vTu=local_max((T-Tdu).*(Wt~=0));
     vS.tu=vTu(find((T(vTu)-Tdu(vTu))>tol));
   endif
 

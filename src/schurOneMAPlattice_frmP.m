@@ -43,7 +43,7 @@ function [P,gradP]=schurOneMAPlattice_frmP(w,k,epsilon,p,u,v,Mmodel,Dmodel)
   %
   % Sanity checks
   %
-  if (nargin != 8) || (nargout > 2)
+  if (nargin ~= 8) || (nargout > 2)
     print_usage ...
       ("[P,gradP]=shurOneMAPlattice_frmP(w,k,epsilon,p,u,v,Mmodel,Dmodel);");
   endif

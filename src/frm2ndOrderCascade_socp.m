@@ -62,18 +62,18 @@ function [x1,E,socp_iter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if nargin != 10
+  if nargin ~= 10
     print_usage("[x1,E,socp_iter,feasible]= ...\n\
     frm2ndOrderCascade_socp(x0,M,td,tau,w,Hd,Wd,maxiter,tol,verbose)");
   endif
   if all(isfield(x0,{"a","d","aa","ac"}))==false
     error("field missing from x0");
   endif
-  if length(w) != length(Hd)
-    error("length(w) != length(Hd)");
+  if length(w) ~= length(Hd)
+    error("length(w) ~= length(Hd)");
   endif
-  if length(w) != length(Wd)
-    error("length(w) != length(Wd)");
+  if length(w) ~= length(Wd)
+    error("length(w) ~= length(Wd)");
   endif
   % Sanity checks on xk
   [xk,mn,mr,na,nc]=frm2ndOrderCascade_struct_to_vec(x0);
@@ -81,7 +81,7 @@ function [x1,E,socp_iter,feasible]= ...
   Nxk=length(xk);
   na_is_odd=(mod(na,2)==1);
   nc_is_odd=(mod(nc,2)==1);
-  if na_is_odd != nc_is_odd
+  if na_is_odd ~= nc_is_odd
     error("Expected na_is_odd == nc_is_odd");
   endif
   mnp1=mn+1;

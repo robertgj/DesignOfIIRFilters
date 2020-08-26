@@ -54,7 +54,7 @@ if R<=0
 endif
 x=x(:);
 N=1+U+V+M+Q;
-if (length(x) != N)
+if (length(x) ~= N)
   error("Expected length(x)==1+U+V+M+Q");
 endif
 if mod(M,2)~=0

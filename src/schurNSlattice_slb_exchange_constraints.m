@@ -26,7 +26,7 @@ function [next_vR,next_vS,exchanged] = ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if (nargin != 9) || (nargout != 3)
+  if (nargin ~= 9) || (nargout ~= 3)
     print_usage("[next_vR,next_vS,exchanged]= ...\n\
 schurNSlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,tol)");
   endif
@@ -68,9 +68,9 @@ schurNSlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,tol)");
     Asqdl=Asqdl(vR.al);  
     vAsql=[];
     vAsql_max=-inf;
-    if !isempty(vR.al)
+    if ~isempty(vR.al)
       vAsql=find((Asqdl-Asql)>tol);
-      if !isempty(vAsql)
+      if ~isempty(vAsql)
         exchanged = true;
         [vAsql_max,vAsql_maxi]=max(Asqdl-Asql-tol);
       endif
@@ -80,9 +80,9 @@ schurNSlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,tol)");
     Asqdu=Asqdu(vR.au); 
     vAsqu=[];
     vAsqu_max=-inf;
-    if !isempty(vR.au)
+    if ~isempty(vR.au)
       vAsqu=find((Asqu-Asqdu)>tol);
-      if !isempty(vAsqu)
+      if ~isempty(vAsqu)
         exchanged = true;
         [vAsqu_max,vAsqu_maxi]=max(Asqu-Asqdu-tol);
       endif
@@ -96,9 +96,9 @@ schurNSlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,tol)");
     Tdl=Tdl(vR.tl);  
     vTl=[];
     vTl_max=-inf;
-    if !isempty(vR.tl)
+    if ~isempty(vR.tl)
       vTl=find((Tdl-Tl)>tol);
-      if !isempty(vTl)
+      if ~isempty(vTl)
         exchanged = true;
         [vTl_max,vTl_maxi]=max(Tdl-Tl-tol);
       endif 
@@ -108,9 +108,9 @@ schurNSlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,tol)");
     Tdu=Tdu(vR.tu); 
     vTu_max=-inf;
     vTu=[];
-    if !isempty(vR.tu)
+    if ~isempty(vR.tu)
       vTu=find((Tu-Tdu)>tol);
-      if !isempty(vTu)
+      if ~isempty(vTu)
         exchanged = true;
         [vTu_max,vTu_maxi]=max(Tu-Tdu-tol);
       endif

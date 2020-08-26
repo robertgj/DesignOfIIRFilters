@@ -22,7 +22,7 @@ function vS=iir_frm_parallel_allpass_slb_update_constraints ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if (nargin != 9) || (nargout != 1)
+  if (nargin ~= 9) || (nargout ~= 1)
     print_usage("vS=iir_frm_parallel_allpass_slb_update_constraints ...\n\
       (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,tol)");
   endif
@@ -49,7 +49,7 @@ function vS=iir_frm_parallel_allpass_slb_update_constraints ...
   if isempty(Asqdl)
     vS.al=[];
   else
-    vAsql=local_max((Asqdl-Asq).*(Wa!=0));
+    vAsql=local_max((Asqdl-Asq).*(Wa~=0));
     vS.al=vAsql(find((Asqdl(vAsql)-Asq(vAsql))>tol));
   endif
 
@@ -57,7 +57,7 @@ function vS=iir_frm_parallel_allpass_slb_update_constraints ...
   if isempty(Asqdu)
     vS.au=[];
   else
-    vAsqu=local_max((Asq-Asqdu).*(Wa!=0));
+    vAsqu=local_max((Asq-Asqdu).*(Wa~=0));
     vS.au=vAsqu(find((Asq(vAsqu)-Asqdu(vAsqu))>tol));
   endif
 
@@ -65,7 +65,7 @@ function vS=iir_frm_parallel_allpass_slb_update_constraints ...
   if isempty(Tdl)
     vS.tl=[];
   else
-    vTl=local_max((Tdl-T(1:length(Wt))).*(Wt!=0));
+    vTl=local_max((Tdl-T(1:length(Wt))).*(Wt~=0));
     vS.tl=vTl(find((Tdl(vTl)-T(vTl))>tol));
   endif
   
@@ -73,7 +73,7 @@ function vS=iir_frm_parallel_allpass_slb_update_constraints ...
   if isempty(Tdu)
     vS.tu=[];
   else
-    vTu=local_max((T(1:length(Wt))-Tdu).*(Wt!=0));
+    vTu=local_max((T(1:length(Wt))-Tdu).*(Wt~=0));
     vS.tu=vTu(find((T(vTu)-Tdu(vTu))>tol));
   endif
 

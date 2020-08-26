@@ -43,7 +43,7 @@ function [Esq,gradEsq]=schurOneMAPlattice_frmEsq ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargout > 2) || ((nargin != 10) && (nargin != 13) && (nargin != 16))
+  if (nargout > 2) || ((nargin ~= 10) && (nargin ~= 13) && (nargin ~= 16))
     print_usage("[Esq,gradEsq] = schurOneMAPlattice_frmEsq ...\n\
       (k,epsilon,p,u,v,Mmodel,Dmodel,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)");
   endif

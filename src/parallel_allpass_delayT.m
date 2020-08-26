@@ -37,18 +37,18 @@ function [T,gradT,diagHessT]=parallel_allpass_delayT(w,a,V,Q,R,D,polyphase)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if ((nargin != 6) && (nargin != 7)) || (nargout > 3)
+  if ((nargin ~= 6) && (nargin ~= 7)) || (nargout > 3)
     print_usage...
     ("[T,gradT,diagHessT]=parallel_allpass_delayT(w,a,V,Q,R,D,polyphase)");
   endif
   if nargin == 6
     polyphase = false;
   endif
-  if polyphase && (R != 2)
+  if polyphase && (R ~= 2)
     error("For polyphase combination R only!");
   endif
-  if length(a) != (V+Q)
-    error("length(a) != (V+Q)");
+  if length(a) ~= (V+Q)
+    error("length(a) ~= (V+Q)");
   endif
   if isempty(w)
     T=[];

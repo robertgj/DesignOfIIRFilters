@@ -71,7 +71,7 @@ function [ak,sqp_iter,func_iter,feasible]= ...
 %
 % Sanity checks
 %
-if nargin != 23
+if nargin ~= 23
   print_usage("[ak,sqp_iter,func_iter,feasible]= ...\n\
     parallel_allpass_delay_sqp_mmse(vS,a0,au,al,dmax,V,Q,R,DD, ...\n\
                                     wa,Asqd,Asqdu,Asqdl,Wa, ...\n\

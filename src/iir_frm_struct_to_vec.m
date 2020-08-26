@@ -48,8 +48,8 @@ function [xk,Uad,Vad,Mad,Qad,na,nc]=iir_frm_struct_to_vec(x0)
   na_is_odd=(mod(na,2)==1);
   nc=length(x0.ac);
   nc_is_odd=(mod(nc,2)==1);
-  if na_is_odd != nc_is_odd
-    error("na_is_odd != nc_is_odd");
+  if na_is_odd ~= nc_is_odd
+    error("na_is_odd ~= nc_is_odd");
   endif
 
   % Only copy the unique coefficients of the FIR masking filters

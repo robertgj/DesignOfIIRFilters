@@ -102,7 +102,7 @@ function [x,E,slb_iter,opt_iter,func_iter,feasible] = ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if (nargin != 25) || (nargout != 6)
+if (nargin ~= 25) || (nargout ~= 6)
   print_usage("[x,E,slb_iter,opt_iter,func_iter,feasible] = ...\n\
   deczky1_slb(pfx,x0,xu,xl,dmax,U,V,M,Q,R, ...\n\
     wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx,maxiter,tol,ctol,verbose)");
@@ -111,14 +111,14 @@ endif
 %
 % Sanity checks
 %
-if !is_function_handle(pfx)
+if ~is_function_handle(pfx)
   error("Expected pfx to be a function handle!");
 endif
-if (length(x0) != length(xu)) 
-  error("length(x0)(%d) != length(xu)(%d)",length(x0),length(xu));
+if (length(x0) ~= length(xu)) 
+  error("length(x0)(%d) ~= length(xu)(%d)",length(x0),length(xu));
 endif
-if (length(x0) != length(xl)) 
-  error("length(x0)(%d) != length(xl)(%d)",length(x0),length(xl));
+if (length(x0) ~= length(xl)) 
+  error("length(x0)(%d) ~= length(xl)(%d)",length(x0),length(xl));
 
 endif
 

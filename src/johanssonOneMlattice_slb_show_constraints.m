@@ -20,13 +20,13 @@ function johanssonOneMlattice_slb_show_constraints(vS,wa,A)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if !isempty(vS.al)
+  if ~isempty(vS.al)
     printf("al=[ ");printf("%d ",vS.al');printf("]\n");
     printf("f(al)=[ ");printf("%f ",wa(vS.al)'*0.5/pi);printf("](fs=1)\n");
     printf("Al=[ ");printf("%f ",A(vS.al));printf("]\n");
   endif
 
-  if !isempty(vS.au)
+  if ~isempty(vS.au)
     printf("au=[ ");printf("%d ",vS.au');printf("]\n");
     printf("f(au)=[ ");printf("%f ",wa(vS.au)'*0.5/pi);printf("](fs=1)\n");
     printf("Au=[ ");printf("%f ",A(vS.au));printf("]\n");
