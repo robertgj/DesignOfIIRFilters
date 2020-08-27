@@ -31767,8 +31767,9 @@ by H.Waki, S.Kim, M.Kojima, M.Muramatsu,
 \emph{SDPT3}~\cite{TohTutuncuTodd_SDPT3,TohToddTutuncu_SDPT3,
   TutuncuTohTodd_SDPT3} is a MATLAB software for semidefinite-quadratic-linear
 programming. The version used in this project is based on an ``unofficial''
-GitHub repository~\cite{Unofficial_SDPT3}. It runs without modification under
-Octave.
+GitHub repository~\cite{Unofficial_SDPT3}. The \emph{sdpt3.patch} file
+shows a modification that suppresses a divide-by-zero warning when running
+the \emph{maxcut} example from \emph{sqlpdemo} with a feasible initial solution.
 
 \pdfbookmark[0]{YALMIP}{yalmip}
 \section*{YALMIP}
