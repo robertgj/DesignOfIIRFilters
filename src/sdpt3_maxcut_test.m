@@ -1,19 +1,22 @@
-% sdpt3_maxcut_test.m.m
+% sdpt3_maxcut_test.m
 % The existing sqlpdemo.m fails for maxcut with feas=1. Check the fix.
 % Copyright (C) 2020 Robert G. Jenssen
 
 test_common;
 
-delete("sdpt3_maxcut_test.m.diary");
-delete("sdpt3_maxcut_test.m.diary.tmp");
-diary sdpt3_maxcut_test.m.diary.tmp
+delete("sdpt3_maxcut_test.diary");
+delete("sdpt3_maxcut_test.diary.tmp");
+diary sdpt3_maxcut_test.diary.tmp
 
 install_sdpt3;
 
+% Initialise the rand generator used by graph.m for consistent results
+rand ("state", 0xDEADBEEF)
+N = 10;
+B = graph(N);
+
 for feas=0:1
-  N = 10;
-  B = graph(N);
-  [blk,At,C,b,X0,y0,Z0] = maxcut(B,1);
+  [blk,At,C,b,X0,y0,Z0] = maxcut(B,feas,1);
   for vers = [1 2];
     printf('Running maxcut with vers=%d, feas=%d\n',vers,feas);
     OPTIONS.vers = vers;
@@ -27,4 +30,4 @@ endfor
 
 % Done
 diary off
-movefile sdpt3_maxcut_test.m.diary.tmp sdpt3_maxcut_test.m.diary;
+movefile sdpt3_maxcut_test.diary.tmp sdpt3_maxcut_test.diary;

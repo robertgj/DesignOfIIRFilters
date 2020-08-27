@@ -36,15 +36,14 @@ endif
 clf
 close
 
-warning("off","Octave:data-file-in-path");
-
+% Make warnings into errors
 warning("error","Octave:assign-as-truth-value");
 warning("error","Octave:associativity-change");
 warning("error","Octave:broadcast");
 warning("error","Octave:deprecated-keyword");
 warning("error","Octave:divide-by-zero");
 warning("error","Octave:function-name-clash");
-warning("error","Octave:nearly-singular-matrix");
+warning("error","Octave:shadowed-function");
 warning("error","Octave:neg-dim-as-zero");
 warning("error","Octave:nonconformant-args");
 warning("error","Octave:noninteger-range-as-index");
@@ -55,11 +54,17 @@ warning("error","Octave:nearly-singular-matrix");
 warning("error","Octave:undefined-return-values");
 
 % Disable some noisy warnings
-warning ("off","signal:grpdelay-singularity");
-% See octave-5.2.0/scripts/plot/util/private/__gnuplot_draw_axes__.m:2257
-warning ("off","Octave:latex-markup-not-supported-for-tick-marks");
-% See octave-5.2.0/scripts/miscellaneous/delete.m
-warning ("off","Octave:delete-no-such-file");
+warning("off","signal:grpdelay-singularity");
+warning("off","Octave:data-file-in-path");
+if strcmp("5.2.0-robj",OCTAVE_VERSION)
+  % See octave-5.2.0/scripts/plot/util/private/__gnuplot_draw_axes__.m
+  warning("off","Octave:latex-markup-not-supported-for-tick-marks");
+  % See octave-5.2.0/scripts/miscellaneous/delete.m
+  warning("off","Octave:delete-no-such-file");
+  % See octave-5.2.0/libinterp/corefcn/load-path.cc
+  warning("off","Octave:load-path-update-failed");
+  warning("off","Octave:load-path-dir-info-update");
+endif
 
 % Add src paths
 mpath=mfilename("fullpath");
