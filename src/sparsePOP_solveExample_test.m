@@ -1,4 +1,4 @@
-% solveExample_test.m
+% sparsePOP_solveExample_test.m
 % Copyright (C) 2020 Robert G. Jenssen
 %
 % Run the SparsePOP solveExample function.
@@ -15,9 +15,9 @@
 
 test_common;
 
-delete("solveExample_test.diary");
-delete("solveExample_test.diary.tmp");
-diary solveExample_test.diary.tmp
+delete("sparsePOP_solveExample_test.diary");
+delete("sparsePOP_solveExample_test.diary.tmp");
+diary sparsePOP_solveExample_test.diary.tmp
 
 pkg load symbolic;
 
@@ -46,4 +46,4 @@ endfor
 
 % Done
 diary off
-movefile solveExample_test.diary.tmp solveExample_test.diary;
+movefile sparsePOP_solveExample_test.diary.tmp sparsePOP_solveExample_test.diary;
