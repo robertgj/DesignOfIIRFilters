@@ -1,8 +1,7 @@
 #!/bin/sh
 
 prog=Lu_remarks_example_4_test.m
-depends="Lu_remarks_example_4_test.m \
-test_common.m print_polynomial.m SeDuMi_1_3/"
+depends="Lu_remarks_example_4_test.m test_common.m print_polynomial.m"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -9,11 +9,6 @@ diary yalmip_test.diary.tmp
 
 pkg load symbolic
 
-% Build mex files 
-install_sedumi;
-install_sdpt3;
-compileSparsePOP;
-
 % Define variables
 x = sdpvar(10,1);
 

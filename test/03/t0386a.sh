@@ -6,7 +6,7 @@ surmaahoFAvLogNewton.m local_max.m print_polynomial.m print_pole_zero.m \
 print_allpass_pole.m x2tf.m x2zp.m zp2x.m a2p.m p2a.m tf2a.m x2pa.m \
 iirA.m iirP.m fixResultNaN.m aConstraints.m allpassP.m parallel_allpassAsq.m \
 parallel_allpassP.m allpass_phase_socp_mmse.m \
-qroots.m qzsolve.oct spectralfactor.oct SeDuMi_1_3/"
+qroots.m qzsolve.oct spectralfactor.oct"
 
 tmp=/tmp/$$
 here=`pwd`

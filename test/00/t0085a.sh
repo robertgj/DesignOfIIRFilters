@@ -12,7 +12,7 @@ parallel_allpass_slb_show_constraints.m \
 parallel_allpass_slb_update_constraints.m \
 parallel_allpass_socp_mmse.m allpassP.m allpassT.m tf2a.m a2tf.m local_max.m \
 aConstraints.m print_polynomial.m print_allpass_pole.m \
-qroots.m qzsolve.oct SeDuMi_1_3/"
+qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

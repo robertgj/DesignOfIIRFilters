@@ -24,7 +24,7 @@ schurOneMscale.m \
 H2Asq.m H2T.m H2P.m tf2pa.m qroots.m local_max.m \
 complex_zhong_inverse.oct qzsolve.oct Abcd2H.oct \
 schurdecomp.oct schurexpand.oct schurOneMlattice2Abcd.oct \
-schurOneMAPlattice2H.oct schurOneMlattice2H.oct SeDuMi_1_3/"
+schurOneMAPlattice2H.oct schurOneMlattice2H.oct"
 
 tmp=/tmp/$$
 here=`pwd`

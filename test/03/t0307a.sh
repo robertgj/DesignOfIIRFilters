@@ -16,7 +16,7 @@ directFIRsymmetricEsqPW.m \
 directFIRsymmetricA.m \
 print_polynomial.m \
 local_max.m flt2SD.m SDadders.m x2nextra.m bin2SDul.m \
-bin2SD.oct bin2SPT.oct SeDuMi_1_3/"
+bin2SD.oct bin2SPT.oct"
 
 tmp=/tmp/$$
 here=`pwd`

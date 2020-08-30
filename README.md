@@ -11,30 +11,27 @@ welcome!
 * *Makefile*
 * *DesignOfIIRFilters.tex* and *DesignOfIIRFilters.bib* are the TeX source
   files.
-* *build-octave.sh* builds a local version of
+* *build-octave.sh* builds a patched local version of
   [Octave](https://www.gnu.org/software/octave) and the required numerical
-  libraries. 
-* *batchtest.sh* runs the regression tests. It is intended to be used by the
- [aegis](http://aegis.sourceforge.net) software configuration management system
- and the output of the script is in aegis format.
+  libraries and installs forks of the [SeDuMi](https://github.com/sqlp/sedumi),
+  [SparsePOP](http://sparsepop.sourceforge.net),
+  [SDPT3](https://github.com/sqlp/sdpt3)
+  and [YALMIP](https://yalmip.github.io/) solvers from my GitHub
+  [repository](https://github.com/robertgj).
+* *patch* contains the patch files that have been applied to create forks
+ of [SparsePOP](http://sparsepop.sourceforge.net) and
+ [SDPT3](https://github.com/sqlp/sdpt3). 
+* *batchtest.sh* runs the regression tests. It be run standalone but is intended to be used by
+  the [aegis](https://sourceforge.net/projects/aegis/files/aegis/4.24/aegis-4.24.tar.gz/download)
+ software configuration management system  and the output of the script is in aegis format.
 * *fig* contains the [dia](https://wiki.gnome.org/Apps/Dia) files for
   the line drawings included in *DesignOfIIRFilters.tex*.
 * *src* contains the Octave m-files and C++ source required to create the
   figures and results included in *DesignOfIIRFilters.tex*. 
-* *patch* contains the patch files that have been applied to create local forks
- of Octave, [SeDuMi](https://github.com/sqlp/sedumi),
- [SparsePOP](http://sparsepop.sourceforge.net), 
- [SDPT3](https://github.com/sqlp/sdpt3), 
- [BMIsolver](https://sourceforge.net/projects/self-concordant-optimization/files/BMISolver-v1.0/), 
- [COMPlib](http://www.complib.de). (BMIsolver requires
- [YALMIP](https://yalmip.github.io/) which runs without modification under
- Octave).
 * *test* contains regression test shell scripts for the Octave scripts in *src*.
- The test shell scripts assume that the necessary Octave oct- and mex-files
- exist.
 * *benchmark* contains the shell scripts used to run the benchmarks referred to
  in *DesignOfIIRFilters.pdf*.
-* *docs* contains the source for the repository web page.
+* *docs* contains the source for the web page.
 
 ### Building *DesignOfIIRFilters.pdf*
 To build *DesignOfIIRFilters.pdf*, run *make* in the root directory. The
@@ -64,8 +61,6 @@ optimised result or changing the relative weights on the filter bands.
 ### External source code and licensing
 The *src* directory contains the following files included from
 external sources as-is or with modifications:
-* a fork of [SeDuMi](https://github.com/sqlp/sedumi)
-* a fork of [SparsePOP](http://sparsepop.sourceforge.net)
 * *faffine.m*, *local_max.m*, *cl2lp.m* and *cl2bp.m* by
  [Selesnick et al.](http://www.ece.rice.edu/dsp/software/rufilter.shtml)
 * *minphase.m* by Orchard and Willson from "On the Computation of a 

@@ -12,9 +12,6 @@ diary sparsePOP_test.diary.tmp
 
 pkg load symbolic;
 
-install_sedumi;
-install_sdpt3;
-
 param.mex=0;
 param.symbolicMath=1;
 

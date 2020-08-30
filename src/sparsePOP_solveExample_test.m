@@ -21,8 +21,6 @@ diary sparsePOP_solveExample_test.diary.tmp
 
 pkg load symbolic;
 
-install_sedumi;
-
 param.mex=0;
 param.symbolicMath=1;
 param.SDPsolver='sedumi';

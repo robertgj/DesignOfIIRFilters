@@ -16,7 +16,7 @@ iir_frm_parallel_allpass_struct_to_vec.m \
 iir_frm_parallel_allpass_vec_to_struct.m \
 allpassP.m allpassT.m tf2a.m a2tf.m \
 aConstraints.m print_polynomial.m \
-local_max.m qroots.m qzsolve.oct SeDuMi_1_3/"
+local_max.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

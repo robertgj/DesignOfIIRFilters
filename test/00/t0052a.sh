@@ -5,7 +5,8 @@ prog=allpass2ndOrderCascade_socp_test.m
 depends="allpass2ndOrderCascade_socp_test.m \
 test_common.m stability2ndOrderCascade.m print_polynomial.m \
 allpass2ndOrderCascade.m allpass2ndOrderCascade_socp.m \
-casc2tf.m tf2casc.m qroots.m qzsolve.oct SeDuMi_1_3/"
+casc2tf.m tf2casc.m qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

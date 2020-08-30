@@ -38,4 +38,4 @@ print_polynomial.m local_max.m flt2SD.m SDadders.m x2nextra.m bin2SDul.m \
 schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m schurOneMscale.m \
 schurdecomp.oct schurexpand.oct schurOneMAPlattice2H.oct \
 schurOneMlattice2Abcd.oct complex_zhong_inverse.oct bin2SD.oct bin2SPT.oct \
-sedumi_test.diary
+

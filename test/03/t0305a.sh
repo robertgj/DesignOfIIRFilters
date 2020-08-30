@@ -12,8 +12,7 @@ directFIRsymmetric_socp_mmsePW.m \
 directFIRsymmetricEsqPW.m \
 directFIRsymmetricA.m \
 local_max.m \
-print_polynomial.m \
-SeDuMi_1_3/"
+print_polynomial.m"
 
 tmp=/tmp/$$
 here=`pwd`

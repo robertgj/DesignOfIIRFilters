@@ -13,7 +13,7 @@ directFIRsymmetricA.m \
 directFIRsymmetricEsq.m \
 johansson_cascade_allpassAzp.m \
 phi2p.m tfp2g.m tf2pa.m local_max.m print_polynomial.m qroots.m \
-qzsolve.oct spectralfactor.oct SeDuMi_1_3/"
+qzsolve.oct spectralfactor.oct"
 
 tmp=/tmp/$$
 here=`pwd`

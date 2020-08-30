@@ -16,8 +16,7 @@ schurOneMlattice_sqp_slb_hilbert_plot.m \
 schurOneMscale.m tf2schurOneMlattice.m \
 schurOneMlattice2tf.m local_max.m print_polynomial.m Abcd2tf.m \
 H2Asq.m H2T.m H2P.m spectralfactor.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2H.oct schurOneMlattice2Abcd.oct \
-SeDuMi_1_3/"
+complex_zhong_inverse.oct schurOneMlattice2H.oct schurOneMlattice2Abcd.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -7,11 +7,6 @@ delete("sedumi_test.diary");
 delete("sedumi_test.diary.tmp");
 diary sedumi_test.diary.tmp
 
-% Build SeDuMi mex files
-mexcmd = ['mex -O2 -DOCTAVE -I/usr/include/openblas -Wall -Werror ' ...
-          '-Wno-unused-variable -Wno-unused-but-set-variable %s '];
-install_sedumi ('-rebuild', '-nopath', mexcmd);
-
 % Run some examples
 fhandle=fopen("test.results","wt");
 %

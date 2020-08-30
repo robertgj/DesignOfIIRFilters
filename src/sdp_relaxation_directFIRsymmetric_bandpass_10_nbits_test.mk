@@ -24,4 +24,4 @@ directFIRsymmetricEsqPW.m \
 directFIRsymmetricA.m \
 print_polynomial.m \
 local_max.m flt2SD.m SDadders.m x2nextra.m bin2SDul.m \
-bin2SD.oct bin2SPT.oct sedumi_test.diary
+bin2SD.oct bin2SPT.oct 

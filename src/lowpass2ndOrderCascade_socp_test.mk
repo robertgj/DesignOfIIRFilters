@@ -15,4 +15,4 @@ lowpass2ndOrderCascade_socp_test_FILES = \
 lowpass2ndOrderCascade_socp_test.m \
 test_common.m stability2ndOrderCascade.m print_polynomial.m print_pole_zero.m \
 lowpass2ndOrderCascade_socp.m x2tf.m casc2tf.m tf2casc.m qroots.m qzsolve.oct \
-sedumi_test.diary
+

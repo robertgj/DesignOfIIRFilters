@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=sdpt3_test.m
-depends="sdpt3_test.m test_common.m SeDuMi_1_3/ SDPT3/"
+depends="sdpt3_test.m test_common.m"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -24,11 +24,6 @@ pass()
 }
 
 trap "fail" 1 2 3 15
-
-# If SDPT3 does not exist then return the aet code for "pass"
-if ! test -d src/SDPT3; then 
-    echo SKIPPED $prog SDPT3 not found! ; exit 0; 
-fi
 
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi

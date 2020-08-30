@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=yalmip_test.m
-depends="yalmip_test.m test_common.m SeDuMi_1_3/ SparsePOP303/ SDPT3/ YALMIP/"
+depends="yalmip_test.m test_common.m"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -24,25 +24,6 @@ pass()
 }
 
 trap "fail" 1 2 3 15
-
-# If package symbolic is not found then return the aet code for "pass"
-octave-cli -q --eval "pkg load symbolic" >/dev/null 2>&1
-if test $? -ne 0; then 
-    echo SKIPPED $prog "octave symbolic package not found!" ; exit 0; 
-fi
-# If SparsePOP303 does not exist then return the aet code for "pass"
-if ! test -d src/SparsePOP303; then 
-    echo SKIPPED $prog SparsePOP303 not found! ; exit 0; 
-fi
-# If SDPT3 does not exist then return the aet code for "pass"
-if ! test -d src/SDPT3; then 
-    echo SKIPPED $prog SDPT3 not found! ; exit 0; 
-fi
-# If YALMIP does not exist then return the aet code for "pass"
-if ! test -d src/YALMIP; then 
-    echo SKIPPED $prog YALMIP not found! ; exit 0; 
-fi
-
 
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi

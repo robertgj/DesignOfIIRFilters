@@ -478,11 +478,22 @@ popd
 rm -Rf build octave-$OCTAVE_VER octave.patch.uue octave.patch
 
 #
-# Done
+# Compiling octave is done
 #
 
 #
-# Fix signal package zplane function
+# Install Octave-Forge packages
+#
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$IO_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$STRUCT_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$STATISTICS_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$OPTIM_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$CONTROL_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$PARALLEL_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$SYMBOLIC_ARCHIVE
+
+#
+# Fix signal package zplane function and install the signal package
 #
 cat > zplane.m.patch.uue << 'EOF'
 begin-base64 644 zplane.m.patch
@@ -510,21 +521,67 @@ popd
 tar -czf $NEW_SIGNAL_ARCHIVE signal-$SIGNAL_VER
 rm -Rf signal-$SIGNAL_VER zplane.m.patch.uue zplane.m.patch
 
-#
-# Install packages
-#
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$IO_ARCHIVE
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$STRUCT_ARCHIVE
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$STATISTICS_ARCHIVE
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$OPTIM_ARCHIVE
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$CONTROL_ARCHIVE
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$PARALLEL_ARCHIVE
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$SYMBOLIC_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$NEW_SIGNAL_ARCHIVE
+rm -f $NEW_SIGNAL_ARCHIVE
+
+#
+# Installing Octave-Forge packages is done
+#
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg list"
 
 #
-# Cleanup
+# Install solver packages from GitHub
 #
-rm -f $NEW_SIGNAL_ARCHIVE
 
+GITHUB_URL="https://github.com/robertgj"
+
+OCTAVE_LOCAL_VERSION=\
+"`$OCTAVE_BIN_DIR/octave-cli -q --eval 'disp(OCTAVE_VERSION);'`"
+OCTAVE_SHARE_DIR=$OCTAVE_DIR"/share/octave"
+OCTAVE_SITE_M_DIR=$OCTAVE_SHARE_DIR/$OCTAVE_LOCAL_VERSION/site/m
+
+# Install SeDuMi
+if ! test -f sedumi-master.zip ; then
+    wget -c $GITHUB_URL/sedumi/archive/master.zip
+    mv -f master.zip sedumi-master.zip
+fi
+rm -Rf sedumi-master $OCTAVE_SITE_M_DIR/SeDuMi
+unzip sedumi-master.zip
+rm -f sedumi-master/vec.m
+rm -f sedumi-master/*.mex*
+mv -f sedumi-master $OCTAVE_SITE_M_DIR/SeDuMi
+$OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SeDuMi/install_sedumi.m
+
+# Install SDPT3
+if ! test -f sdpt3-master.zip ; then
+   wget -c $GITHUB_URL/sdpt3/archive/master.zip
+   mv master.zip sdpt3-master.zip
+fi
+rm -Rf sdpt3-master $OCTAVE_SITE_M_DIR/SDPT3
+unzip sdpt3-master.zip 
+rm -f sdpt3-master/Solver/Mexfun/*.mex*
+rm -Rf sdpt3-master/Solver/Mexfun/o_win
+mv sdpt3-master $OCTAVE_SITE_M_DIR/SDPT3
+$OCTAVE_BIN_DIR/octave-cli -q $OCTAVE_SITE_M_DIR/SDPT3/install_sdpt3.m
+
+# Install YALMIP
+if ! test -f YALMIP-develop.zip ; then
+   wget -c $GITHUB_URL/YALMIP/archive/develop.zip
+   mv develop.zip YALMIP-develop.zip
+fi
+rm -Rf YALMIP-develop $OCTAVE_SITE_M_DIR/YALMIP
+unzip YALMIP-develop.zip 
+mv YALMIP-develop $OCTAVE_SITE_M_DIR/YALMIP
+
+# Install SparsePOP
+if ! test -f SparsePOP-master.zip ; then
+   wget -c $GITHUB_URL/SparsePOP/archive/master.zip
+   mv master.zip SparsePOP-master.zip
+fi
+rm -Rf SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP
+unzip SparsePOP-master.zip
+mv SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP
+
+#
+# Solver installation done
+#

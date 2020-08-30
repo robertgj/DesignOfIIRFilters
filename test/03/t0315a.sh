@@ -12,8 +12,7 @@ directFIRhilbert_slb_update_constraints.m \
 directFIRhilbertEsqPW.m \
 directFIRhilbertA.m \
 print_polynomial.m \
-local_max.m \
-SeDuMi_1_3/"
+local_max.m"
 
 tmp=/tmp/$$
 here=`pwd`

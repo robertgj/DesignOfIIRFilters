@@ -20,4 +20,4 @@ local_max.m iir_slb.m iir_socp_mmse.m iir_slb_exchange_constraints.m \
 iir_slb_constraints_are_empty.m iir_slb_set_empty_constraints.m \
 iir_slb_show_constraints.m iir_slb_update_constraints.m xConstraints.m \
 showResponseBands.m showResponse.m showResponsePassBands.m showZPplot.m x2tf.m \
-sedumi_test.diary
+

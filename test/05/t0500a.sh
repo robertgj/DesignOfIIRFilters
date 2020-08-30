@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=bmisolver_test.m
-depends="bmisolver_test.m test_common.m SeDuMi_1_3/ YALMIP/ BMIsolver/ COMPlib/"
+depends="bmisolver_test.m test_common.m"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -25,17 +25,13 @@ pass()
 
 trap "fail" 1 2 3 15
 
-# If YALMIP does not exist then return the aet code for "pass"
-if ! test -d src/YALMIP; then 
-    echo SKIPPED $prog YALMIP not found! ; exit 0; 
-fi
 # If BMIsolver does not exist then return the aet code for "pass"
-if ! test -d src/BMIsolver; then 
-    echo SKIPPED $prog BMIsolver not found! ; exit 0; 
+if ! test -f src/BMIsolver/BMI_config.m; then 
+    echo SKIPPED $prog BMI_config not found! ; exit 0; 
 fi
 # If COMPlib does not exist then return the aet code for "pass"
-if ! test -d src/COMPlib; then 
-    echo SKIPPED $prog COMPlib not found! ; exit 0; 
+if ! test -f src/COMPlib/COMPleib.m; then 
+    echo SKIPPED $prog COMPleib.m not found! ; exit 0; 
 fi
 
 mkdir $tmp

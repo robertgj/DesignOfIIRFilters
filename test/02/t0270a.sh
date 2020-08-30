@@ -18,7 +18,7 @@ bin2SDul.m Abcd2tf.m schurOneMscale.m H2Asq.m H2T.m H2P.m flt2SD.m \
 x2nextra.m local_max.m print_polynomial.m SDadders.m \
 schurOneMAPlattice2H.oct schurdecomp.oct schurexpand.oct \
 bin2SD.oct bitflip.oct bin2SPT.oct schurOneMlattice2Abcd.oct \
-schurOneMlattice2H.oct complex_zhong_inverse.oct SeDuMi_1_3/"
+schurOneMlattice2H.oct complex_zhong_inverse.oct"
 
 tmp=/tmp/$$
 here=`pwd`

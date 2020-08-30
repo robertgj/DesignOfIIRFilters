@@ -31358,9 +31358,10 @@ version of \emph{octave-5.2.0} avoiding the vagaries of the Fedora packagers
   depends on the OpenBLAS versions of the \emph{blas} and \emph{lapack}
   libraries.}. The patch file, \emph{octave.patch}, is a \emph{here document}
 within \emph{build-octave.sh}. The \emph{octave-5.2.0/configure} script is
-patched so that \emph{OCTAVE\_VERSION} is \texttt{5.2.0-robj}. Other files are
-patched to add Octave warning ids and to prevent a valgrind warning. The local
-build of Octave links to locally built versions of the following libraries: 
+patched so that the Octave ``\emph{OCTAVE\_VERSION}'' command returns
+\texttt{5.2.0-robj}. Other files are patched to add Octave warning ids and to
+prevent a valgrind warning. The local build of Octave links to locally built
+versions of the following libraries:  
 \emph{arpack-ng-master}~\cite{ARPACKNG_website},
 \emph{fftw-3.3.8}~\cite{FFTW_website},
 \emph{glpk-4.65}~\cite{GNU_GLPK},
@@ -31372,13 +31373,16 @@ The \emph{build-octave.sh} script assumes that the \emph{wget, gnuplot-latex,
 readline-devel, lzip, sharutils, gfortran} and \emph{cmake} utilities are
 installed.
 
-The Octave version and list of installed Octave Forge packages used to build this
-document are:
+The \emph{build-octave.sh} script installs the following Octave Forge packages:
 \begin{small}
 \verbatiminput{octave_info_test.diary}
 \end{small}
 The \emph{signal-1.4.1} package \emph{zplane.m} function is patched to avoid a
 \LaTeX error.
+
+The \emph{build-octave.sh} script installs the \emph{SeDuMi}, \emph{SDPT3},
+\emph{YALMIP} and \emph{SparsePOP} SDP solvers from the forked repositories at
+\url{https://github.com/robertgj}.
 
 The section \emph{Summary of important user-visible changes for version 4.0} in 
 the $NEWS$ file of the Octave source distribution includes the following comment:
@@ -31697,8 +31701,8 @@ libopenblasp (4 threads)   & 56496  & 10.8                &  39.6 \\
 The SeDuMi source is available from \emph{LeHigh University} as
 \emph{SeDuMi\_1\_3.zip}~\cite{Sturm_SeDuMi_1_3}. Unfortunately, this version
 does not seem to be actively maintained. An ``unofficial''
-\emph{GitHub}~\cite{Sturm_SeDuMi_GitHub} fork is compatible with Octave and is
-the version used in this project. It runs without modification under
+\emph{GitHub}~\cite{Sturm_SeDuMi_GitHub} fork is compatible with Octave. A fork
+of this version is used in this project. It runs without modification under
 Octave\footnote{The \emph{SeDuMi-1.3} source file \emph{vec.m}
 shadows a built-in Octave function.}.
 
@@ -31714,6 +31718,33 @@ octave:1> mexcmd = ['mex -O2 -DMEX_DEBUG -DOCTAVE -I/usr/include/openblas %s '];
 octave:2> install_sedumi ('-rebuild', mexcmd);
 \end{verbatim}
 \end{small}
+
+Unfortunately, the current version of OpenBlas installed on my system by Fedora
+32, \emph{openblas-0.3.10-4.fc32.x86\_64}, causes an error when compiling
+\emph{SeDuMi}:
+\begin{small}
+\begin{verbatim}
+---------------------------------------------------------------------------
+SeDuMi installation script
+   Directory: /usr/local/octave-5.2.0/share/octave/5.2.0-robj/site/m/SeDuMi
+   Octave 5.2.0-robj on x86_64-pc-linux-gnu
+---------------------------------------------------------------------------
+Looking for existing binaries...none found; building...
+Attempting to recompile the SeDuMi binaries:
+Template: mex -O2 -DOCTAVE -Wall -I/usr/include/openblas %s 
+   bwblkslv.mex:   bwblkslv.c sdmauxFill.c sdmauxRdot.c
+In file included from blksdp.h:41,
+                 from bwblkslv.c:45:
+/usr/include/openblas/f77blas.h:476:5: error: unknown type name ‘bfloat16’; 
+did you mean ‘_Float16’?
+  476 |     bfloat16 *, blasint *, bfloat16 *, blasint *, float *, float *, blasint *);
+      |     ^~~~~~~~
+      |     _Float16
+\end{verbatim}
+\end{small}
+The \emph{bfloat16} is a  ``Brain floating-point format'' that is defined for
+GCC ARM compilers. My solution is to downgrade to the
+\emph{openblas-0.3.9-2.fc32.x86\_64} package.
 
 \pdfbookmark[0]{SparsePOP}{sparsepop}
 \section*{SparsePOP}
@@ -31769,7 +31800,7 @@ by H.Waki, S.Kim, M.Kojima, M.Muramatsu,
 \section*{SDPT3}
 \emph{SDPT3}~\cite{TohTutuncuTodd_SDPT3,TohToddTutuncu_SDPT3,
   TutuncuTohTodd_SDPT3} is a MATLAB software for semidefinite-quadratic-linear
-programming. The version used in this project is based on an ``unofficial''
+programming. The version used in this project is a fork of the ``unofficial''
 GitHub repository~\cite{Unofficial_SDPT3}. The \emph{sdpt3.patch} file
 shows a modification that suppresses a divide-by-zero warning when running
 the \emph{maxcut} example from \emph{sqlpdemo} with a feasible initial solution.
@@ -31781,6 +31812,7 @@ optimisation in MATLAB. It runs without modification under Octave. \emph{YALMIP}
 calls semi-definite programming (SDP) solvers such as \emph{SeDuMi} and
 \emph{SDPT3}. 
 
+\begin{comment}
 \pdfbookmark[0]{BMIsolver}{bmisolver}
 \section*{BMIsolver}
 \emph{BMIsolver}~\cite{BMIsolver,Dinh_BMIsolver} is a MATLAB package for solving
@@ -31795,6 +31827,7 @@ under Octave with the minor modification shown in \emph{BMIsolver\_2013.patch}.
 semi-definite test examples referenced by \emph{BMIsolver}. The \emph{COMPleib}
 function runs under Octave with the minor modifications shown in
 \emph{COMPlib\_r1\_1.patch}.
+\end{comment}
 
 \pdfbookmark[0]{MPSolve}{mpsolve}
 \section*{MPSolve}

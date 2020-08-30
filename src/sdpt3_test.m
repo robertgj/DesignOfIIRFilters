@@ -7,9 +7,6 @@ delete("sdpt3_test.diary");
 delete("sdpt3_test.diary.tmp");
 diary sdpt3_test.diary.tmp
 
-% Build SDPT3 oct files 
-install_sdpt3;
-
 % Run some examples
 fhandle=fopen("test.results","wt");
 

@@ -23,4 +23,4 @@ directFIRsymmetric_slb_constraints_are_empty.m \
 directFIRsymmetric_slb_show_constraints.m \
 directFIRsymmetricA.m directFIRsymmetricEsq.m \
 phi2p.m tfp2g.m tf2pa.m local_max.m print_polynomial.m qroots.m \
-qzsolve.oct spectralfactor.oct sedumi_test.diary
+qzsolve.oct spectralfactor.oct 

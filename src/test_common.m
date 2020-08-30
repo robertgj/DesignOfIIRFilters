@@ -66,8 +66,3 @@ if strcmp("5.2.0-robj",OCTAVE_VERSION)
   warning("off","Octave:load-path-dir-info-update");
 endif
 
-% Add src paths
-mpath=mfilename("fullpath");
-mpath=mpath(1:strchr(mpath,filesep,1,'last'));
-addpath(genpath(mpath));
-clear mpath 

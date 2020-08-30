@@ -27,4 +27,4 @@ directFIRhilbert_slb_update_constraints.m \
 directFIRhilbertEsqPW.m \
 directFIRhilbertA.m \
 print_polynomial.m local_max.m flt2SD.m SDadders.m x2nextra.m bin2SDul.m \
-bin2SD.oct bin2SPT.oct sedumi_test.diary
+bin2SD.oct bin2SPT.oct 

@@ -2,7 +2,7 @@
 
 prog=Lu_remarks_examples_5_and_6_test.m
 depends="Lu_remarks_examples_5_and_6_test.m \
-test_common.m print_polynomial.m SeDuMi_1_3/"
+test_common.m print_polynomial.m"
 
 tmp=/tmp/$$
 here=`pwd`

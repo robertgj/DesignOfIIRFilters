@@ -2,7 +2,7 @@
 
 prog=sedumi_hash_test.m
 
-depends="sedumi_hash_test.m test_common.m SeDuMi_1_3/"
+depends="sedumi_hash_test.m test_common.m"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -45,11 +45,6 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 # run and see if the results match
 #
 
-echo "Building SeDuMi_1_3"
-cd SeDuMi_1_3
-
-octave-cli -q $prog >test.out 2>&1
-cd ..
 echo "Running $prog"
 octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi

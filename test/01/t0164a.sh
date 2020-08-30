@@ -10,7 +10,7 @@ iir_slb_constraints_are_empty.m iir_slb_set_empty_constraints.m \
 fixResultNaN.m iirA.m iirE.m iirP.m iirT.m \
 showResponseBands.m showResponse.m showResponsePassBands.m showZPplot.m \
 local_max.m tf2x.m x2tf.m xConstraints.m \
-qroots.m qzsolve.oct SeDuMi_1_3/"
+qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

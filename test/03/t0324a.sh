@@ -19,7 +19,7 @@ schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
 Abcd2tf.m H2Asq.m H2T.m H2P.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
-qroots.m qzsolve.oct SeDuMi_1_3/"
+qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
