@@ -27,10 +27,6 @@
 *.synctex.gz
 *,D
 *,B
-SDPT3
-YALMIP
-BMIsolver
-COMPlib
 aegis.conf
 octave-workspace
 /DesignOfIIRFilters.pdf

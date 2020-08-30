@@ -3,7 +3,7 @@
 prog=sedumi_test.m
 
 depends="sedumi_test.m \
-test_common.m print_polynomial.m print_pole_zero.m SeDuMi_1_3"
+test_common.m print_polynomial.m print_pole_zero.m"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

@@ -12,7 +12,6 @@ fail()
 {
         echo FAILED ${0#$here"/"} $prog 1>&2
         cd $here
-        rm -rf $tmp/SeDuMi_1_3
         rm -rf $tmp
         exit 1
 }
