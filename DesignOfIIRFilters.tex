@@ -31831,35 +31831,47 @@ function runs under Octave with the minor modifications shown in
 
 \pdfbookmark[0]{MPSolve}{mpsolve}
 \section*{MPSolve}
-Install \emph{MPSolve}~\cite{BiniFiorentinoRobol_mpsolve} as follows:
+The \emph{MPSolve}~\cite{BiniFiorentinoRobol_mpsolve} is a high precsion
+root-finder with an oct-file implementation. Examples of using
+the built-in Octave \emph{roots}, the quad-float implementation in \emph{qroots}
+and \emph{mps\_roots}:
 \begin{small}
 \begin{verbatim}
-tar -xf mpsolve-3.1.5.tar.bz2
-cd mpsolve-3.1.5
-./configure --prefix=/usr/local/octave --enable-octave
-make 
-make install
-octave-cli --eval 'pkg install examples/octave/mpsolve.tar.gz'
-\end{verbatim}
-\end{small}
-
-An example of using \emph{mps\_roots}, the quad-float implementation in
-\emph{qroots} and the built-in Octave \emph{roots}:
-\begin{small}
-\begin{verbatim}
-LD_LIBRARY_PATH=/usr/local/octave/lib/ octave-cli \
---eval 'pkg load mpsolve;norm(mps_roots(bincoeff(20,0:20))+1)'
-ans =    1.1939e-13
+octave-cli --eval 'norm(roots(bincoeff(20,0:20))+1)'
+ans =  1.4835
 
 octave-cli -p src --eval 'norm(qroots(bincoeff(20,0:20))+1)'
 ans =  0.19206
 
-octave-cli --eval 'norm(roots(bincoeff(20,0:20))+1)'
-ans =  1.4835
+octave-cli --eval 'pkg load mpsolve;norm(mps_roots(bincoeff(20,0:20))+1)'
+ans =    1.0819e-13
+
+octave-cli --eval 'pkg load mpsolve;norm(mps_roots(bincoeff(20,0:20))+1)'
+ans =    1.1108e-13
+
+octave-cli --eval 'pkg load mpsolve;norm(mps_roots(bincoeff(20,0:20))+1)'
+ans =    1.0910e-13
 \end{verbatim}
 \end{small}
-Unfortunately, I found that the results of \emph{mps\_roots} are not
-repeatable. 
+Unfortunately, there are bugs:
+\begin{small}
+\begin{verbatim}
+octave:1> pkg load mpsolve 
+octave:2> pkg list mpsolve
+Package Name  | Version | Installation directory
+--------------+---------+-----------------------
+     mpsolve *|   3.1.7 | .../octave-5.2.0/share/octave/packages/mpsolve-3.1.7
+octave:3> mps_roots([1 0 0 0 0 0 0],'u')
+ans =
+
+   1.1840e-316 +  0.0000e+00i
+    2.1322e-81 + 2.8664e+161i
+   1.9253e+161 + 7.3681e+228i
+    3.4546e-86 +  3.5641e-57i
+   4.5663e+257 + 2.1335e+233i
+   3.6247e+233 +  6.2591e-85i
+\end{verbatim}
+\end{small}
 
 \pdfbookmark[0]{Testing}{testing}
 \section*{Testing}

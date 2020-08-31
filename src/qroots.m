@@ -2,7 +2,7 @@ function r = qroots(p)
 % r = qroots(p);
 % qroots is a wrapper function that calls qzsolve.oct if it exists
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -22,12 +22,12 @@ function r = qroots(p)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (length(p)>1) && (exist("mps_roots")==3)
-    r=mps_roots(p,'u');
+  if (length(p)>1) && (exist("qzsolve")==3)
+    r=qzsolve(p);
     [~,k]=sort(abs(r),'descend');
     r=r(k);
-  elseif (length(p)>1) && (exist("qzsolve")==3)
-    r=qzsolve(p);
+  elseif (length(p)>1) && (exist("mps_roots")==3)
+    r=mps_roots(p,'u');
     [~,k]=sort(abs(r),'descend');
     r=r(k);
   else
