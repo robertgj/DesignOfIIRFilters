@@ -2401,7 +2401,7 @@ filter $G\left(z\right)=H\left(F\left(z\right)\right)$ where
 \begin{align*}
 F\left(z\right) &= \pm\prod_{i=1}^{m}\left(\frac{z-\alpha_{i}^{\dagger}}{1-\alpha_{i}z}\right),\quad\left|\alpha_{i}\right|<1
 \end{align*}
-(here $\dagger$ means complex conjugate).
+(here $\dagger$ means complex conjugate transpose).
 
 If the order of $H\left(z\right)$ is $n$ then the order of $G\left(z\right)$
 is $mn$. The map $z\rightarrow F\left(z\right)$ preserves the disk
@@ -3022,7 +3022,7 @@ Octave function \emph{optKW.m}.
 \item Diagonalise $K$ and $W$:\\
 Since $K$ and $W$ are real, symmetric and positive definite, a decomposition
 into $W=U_{1}D_{1}U_{1}^{\top}$ exists. Here $U_{1}$ is real and unitary (ie:
-$U_{1}^{\dagger} U_{1}=I$, where $\dagger$ means conjugate transpose) 
+$U_{1}^{\dagger} U_{1}=I$, where $\dagger$ means complex conjugate transpose) 
 and $D_{1}$ is diagonal with real, positive elements. Recall that for
 non-singular matrices $\left(AB\right)^{-1}=B^{-1}A^{-1}$ and 
 $\left(AB\right)^{\top}=B^{\top}A^{\top}$. Let $T_{1}=U_{1}D_{1}^{-\frac{1}{2}}$
@@ -6587,7 +6587,7 @@ filters}.
 If, for matrix $O$, $OO^{\top}=I$, then $O \in \mathcal{O}$, the group of
 \emph{orthogonal} matrixes. If $U$ has \emph{complex} elements and
 $UU^{\dagger}=I$ then $U \in \mathcal{U}$, where $\dagger$ is the 
-\emph{conjugate transpose} matrix operator, and $\mathcal{U}$ is the group of 
+complex conjugate transpose matrix operator, and $\mathcal{U}$ is the group of 
 \emph{unitary} matrixes. An all pass filter has magnitude response 
 $\left|H\left(e^{\imath\theta}\right)\right|=1$ for all real $\theta$. The 
 $m \times m$ matrix transfer function $H\left(z\right)$ of $m$ inputs and 
@@ -9362,7 +9362,7 @@ H\left(\boldsymbol{x}_{k},\omega_{i}\right)
 2\Im\nabla_{x}H\left(\boldsymbol{x}_{k},\omega_{i}\right)
 \Im H\left(\boldsymbol{x}_{k},\omega_{i}\right)
 \end{align*}
-where $\dagger$ represents the element-wise complex conjugate.
+where $\dagger$ represents the complex conjugate transpose.
 The squared-magnitude response can be used in linear constraints on the 
 upper and lower peaks of the pass-band and stop-band magnitude responses
 \begin{align*}
@@ -19144,9 +19144,31 @@ matrix, $A$:
 A&=\sum_{k=1}^{r}\sigma_{k}u_{k}v_{k}^{\top} =U\Sigma{}V^{\top}
 \end{align*}
 
-\section{\label{app:Linear-algebra-positive-definite-matrixes}Positive definite matrixes}
+\section{\label{app:Linear-algebra-positive-definite-matrixes}Positive-definite matrixes}
 A matrix, $Q \in \mathbb{R}^{n\times n}$, is positive-definite if 
 $x^{\top}Qx>0$ for all nonzero $x \in \mathbb{R}^{n}$.
+
+A complex matrix can be expressed in terms of the real and imaginary parts
+as $Z=X+\imath{}Y$. The matrix $Z$ is positive-definite if, for all complex
+vectors $z$, $z^{\dagger}Zz$ is real and greater than $0$ ($\dagger$ represents
+the complex conjugate transpose operation). If $z=x+\imath{}y$, then:
+\begin{align*}
+  z^{\dagger}Zz
+  &= \left(x^{\top}-\imath{} y^{\top}\right)
+    \left(X+\imath{}Y\right)
+    \left(x+\imath{}y\right) \\
+  &= \left(x^{\top}X-\imath{}y^{\top}X+\imath{}x^{\top}Y+y^{\top}Y\right)
+    \left(x+\imath{}y\right) \\
+  &= x^{\top}Xx-\imath{}y^{\top}Xx+\imath{}x^{\top}Yx+y^{\top}Yx
+    +\imath{}x^{\top}y+y^{\top}Xy-x^{\top}Yy+\imath{}y^{\top}Yy \\
+  &=\left(x^{\top}Xx+y^{\top}Xy\right)+\imath{}\left(x^{\top}Yx+y^{\top}Yy\right)
+\end{align*}
+$Z\succ{}0$ if-and-only-if $x^{\top}Yx+y^{\top}Yy=0$ and$\left[\begin{array}{cc}
+  \phantom{-} X & Y \\
+             -Y & X\end{array}\right] \succ{}0$. Alternatively, $Z\succ{}0$
+if-and-only-if $Z$ is \emph{Hermitian}, that is $Z^{\top} = \bar{Z}$, where
+$\bar{Z}$ means the element-wise conjugate of $Z$.
+
 \section{\label{app:Linear-algebra-Schur-complement}Schur complement}
 This section follows \emph{Gallier}~\cite{Gallier_SchurComplement}.
 \subsection{Schur complement of a matrix}
@@ -22905,7 +22927,7 @@ plane, $\lambda_{k}$:
 \end{align*}
 For each conjugate pole pair the corresponding low-pass filter second-order
 section with unity DC gain has transfer
-function\footnote{$\dagger$ denotes complex conjugate}:
+function\footnote{$\dagger$ denotes complex conjugate transpose}:
 \begin{align*}
 \hat{H}_{k}\left(s\right)&=\frac{\lambda_{k}\lambda_{k}^{\dagger}}
 {\left(s-\lambda_{k}\right)\left(s-\lambda_{k}^{\dagger}\right)}\\
@@ -25203,7 +25225,8 @@ simpler and more accurate than the cepstral method of \emph{Mian} and
 If an order $N$ FIR filter $H\left(z\right)$ is bounded-real then
 $\left|H\left(e^{\imath\omega}\right)\right|\le 1$. The magnitude-squared
 complementary filter $1-H^{\dagger}\left(z\right)H\left(z\right)$, where
-$\dagger$ means \emph{conjugate}, is linear-phase and has double zeros on the
+$\dagger$ means \emph{complex conjugate transpose}, is linear-phase and has
+double zeros on the 
 unit-circle when $\left|H\left(e^{\imath\omega}\right)\right|=1$.
 \emph{Orchard} and
 \emph{Willson}~\cite{OrchardWillson_ComputationMinimumPhaseSpectralFactor}
@@ -25384,7 +25407,7 @@ z-transform of the magnitude-squared complementary filter is:
   F\left(z\right)&=1-\left|H\left(z\right)\right|^{2}
   =1-H^{\dagger}\left(z\right)H\left(z\right)
 \end{align*}
-where $\dagger$ means \emph{conjugate}.
+where $\dagger$ means \emph{complex conjugate transpose}.
 By construction, $F\left(z\right)$ is real, even,
 $0\le F\left(e^{\imath\omega}\right) \le 1$ and any zeros of $F\left(z\right)$ 
 on the unit circle are double zeros. If $F\left(z\right)$ has zeros on the unit
@@ -25445,7 +25468,7 @@ endfor
 h=ha.*(alpha.^[0:Na]);
 \end{verbatim}
 \end{small}
-\paragraph{Example: the minium-phase complementary filter of an FIR bandpass filter}
+\subsection{Example: the minium-phase complementary filter of an FIR bandpass filter}
 The Octave script \emph{minphase\_test.m} compares the use of 
 \emph{Orchard} and \emph{Willson}'s Newton-Raphson method with the cepstral
 method of \emph{Mian} and \emph{Nainer}. The script uses both methods to find
@@ -29605,7 +29628,7 @@ Equation~\ref{eqn:Whittaker-Watson-Jacobi-Eta-definition}:
      \end{cases}
 \label{eqn:Jacobi-Eta-conjugate-function-values}
 \end{align}
-where $H^{\dagger}$ is the complex-conjugate of $H$. The
+where $H^{\dagger}$ is the complex conjugate transpose of $H$. The
 $\Phi\left(u,\kappa\right)$ function of
 Equation~\ref{eqn:Zolotarev-Chebyshev-first-kind} becomes:  
 \begin{align*}
@@ -31100,8 +31123,8 @@ the frequency domain inequality(FDI):
   \left(\imath\omega{}I-A\right)^{-1}B \\
   I\end{array}\right]\le{}0\quad\omega\in\mathbb{R}\cup\left\{\infty\right\} 
 \end{align}
- (where $M^{\dagger}$ means conjugate transpose of $M$) holds if and only if the
- following linear matrix inequality(LMI) is feasible for a solution
+ (where $M^{\dagger}$ means complex conjugate transpose of $M$) holds if and
+ only if the following linear matrix inequality(LMI) is feasible for a solution
  $P\in{}\mathbb{H}^{n}$, the set of Hermitian $n\times{}n$ matrixes:  
  \begin{align}
    \label{eqn:KYPlemmaLMI}
@@ -31718,6 +31741,18 @@ octave:1> mexcmd = ['mex -O2 -DMEX_DEBUG -DOCTAVE -I/usr/include/openblas %s '];
 octave:2> install_sedumi ('-rebuild', mexcmd);
 \end{verbatim}
 \end{small}
+
+The SeDuMi User Guide~\cite[Section 4]{Sturm_SeDuMiUserGuide_GitHub} shows
+an example of optimising a complex valued Toeplitz matrix. The Octave script
+\emph{sedumi\_toepest\_test.m} runs this example. Unfortunately, the $Z$ matrix
+found by this script is different to that shown in the User Guide.
+\emph{L\"{o}fberg}~\cite{Lofberg_YALMIP_complex_example} shows five different
+YALMIP solutions for this problem, reproduced in the Octave script
+\emph{yalmip\_complex\_test.m}. The $Z$ matrixes found by that script 
+agree with that shown in the SeDuMi User Guide. YALMIP supports complex-valued
+constraints for all solvers by automatically converting complex-valued problems
+to real-valued problems. See
+Appendix~\ref{app:Linear-algebra-positive-definite-matrixes}.
 
 Unfortunately, the current version of OpenBlas installed on my system by Fedora
 32, \emph{openblas-0.3.10-4.fc32.x86\_64}, causes an error when compiling

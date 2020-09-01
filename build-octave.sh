@@ -580,6 +580,7 @@ if ! test -f SparsePOP-master.zip ; then
 fi
 rm -Rf SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP
 unzip SparsePOP-master.zip
+find SparsePOP-master -name \*.mex* -exec rm -f {} ';'
 mv SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP
 
 #
