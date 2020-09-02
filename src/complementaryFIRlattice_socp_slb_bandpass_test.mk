@@ -1,0 +1,34 @@
+complementaryFIRlattice_socp_slb_bandpass_test_FIGURES = \
+complementaryFIRlattice_socp_slb_bandpass_test_pcls_response \
+complementaryFIRlattice_socp_slb_bandpass_test_pcls_Nh2_pz \
+complementaryFIRlattice_socp_slb_bandpass_test_pcls_Ng2_pz \
+complementaryFIRlattice_socp_slb_bandpass_test_initial_b0_pz \
+complementaryFIRlattice_socp_slb_bandpass_test_initial_bc0_pz
+
+complementaryFIRlattice_socp_slb_bandpass_test_COEFS = \
+complementaryFIRlattice_socp_slb_bandpass_test.mat \
+complementaryFIRlattice_socp_slb_bandpass_test.spec \
+complementaryFIRlattice_socp_slb_bandpass_test_k2_coef.m \
+complementaryFIRlattice_socp_slb_bandpass_test_khat2_coef.m \
+complementaryFIRlattice_socp_slb_bandpass_test_std_xxk2.m \
+complementaryFIRlattice_socp_slb_bandpass_test_Nh2_coef.m \
+complementaryFIRlattice_socp_slb_bandpass_test_Ng2_coef.m 
+
+complementaryFIRlattice_socp_slb_bandpass_test_FILES = \
+complementaryFIRlattice_socp_slb_bandpass_test.m test_common.m \
+complementaryFIRlatticeAsq.m \
+complementaryFIRlatticeT.m \
+complementaryFIRlatticeP.m \
+complementaryFIRlatticeEsq.m \
+complementaryFIRlattice_slb.m \
+complementaryFIRlattice_slb_constraints_are_empty.m \
+complementaryFIRlattice_socp_mmse.m \
+complementaryFIRlattice_slb_exchange_constraints.m \
+complementaryFIRlattice_slb_set_empty_constraints.m \
+complementaryFIRlattice_slb_show_constraints.m \
+complementaryFIRlattice_slb_update_constraints.m \
+complementaryFIRlattice.m \
+complementaryFIRlattice2Abcd.m \
+complementaryFIRlatticeFilter.m \
+minphase.m local_max.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
+Abcd2H.oct complementaryFIRdecomp.oct qroots.m qzsolve.oct

@@ -14,8 +14,10 @@ complementaryFIRlattice_slb_exchange_constraints.m \
 complementaryFIRlattice_slb_set_empty_constraints.m \
 complementaryFIRlattice_slb_show_constraints.m \
 complementaryFIRlattice_slb_update_constraints.m \
-complementaryFIRlattice.m complementaryFIRlattice2Abcd.m minphase.m \
-local_max.m tf2pa.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
+complementaryFIRlattice.m \
+complementaryFIRlattice2Abcd.m \
+complementaryFIRlatticeFilter.m \
+minphase.m local_max.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
 Abcd2H.oct complementaryFIRdecomp.oct qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
@@ -51,39 +53,20 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test.ok.k2 << 'EOF'
-k2 = [   0.9969831139,   0.9969895357,   0.9970315994,   0.9970118953, ... 
-         0.9969788826,   0.9969480091,   0.9968839642,   0.9969770914, ... 
-         0.9882152183,   0.9308844640,   0.9759336628,   0.9802783953, ... 
-         0.8896151485,   0.9639768857,   0.9969829907,   0.9839228777, ... 
-         0.0903565889 ]';
+cat > test.ok << 'EOF'
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.ok.k2"; fail; fi
-
-cat > test.ok.khat2 << 'EOF'
-khat2 = [  -0.0021120379,   0.0094498350,   0.0344582322,   0.0297338835, ... 
-           -0.0012620299,   0.0207739541,   0.0908277627,   0.0566317682, ... 
-           -0.1728219186,  -0.3743031067,  -0.2321810109,   0.2134347967, ... 
-            0.4637645738,   0.2776739384,  -0.0785613137,  -0.1960779182, ... 
-            0.9968663442 ]';
-EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.ok.khat2"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 
 #
 # run and see if the results match. 
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave-cli -q $prog > test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.ok.k2 complementaryFIRlattice_socp_slb_bandpass_test_k2_coef.m
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok.k2"; fail; fi
-
-diff -Bb test.ok.khat2 \
-     complementaryFIRlattice_socp_slb_bandpass_test_khat2_coef.m
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok.khat2"; fail; fi
-
+grep error test.out
+if [ $? -ne 1 ]; then echo "Failed grep error test.ok"; fail; fi
 
 #
 # this much worked

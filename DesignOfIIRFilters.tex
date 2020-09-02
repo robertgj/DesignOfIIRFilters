@@ -9797,7 +9797,6 @@ symmetric FIR filter is not shown).
 \caption{Comparison of FIR and IIR low-pass filters : Group delay responses}
 \label{fig:FIR-IIR-low-pass-filter-gain-zero-pole-with-SeDuMi-delay}
 \end{figure}
-
 \clearpage
 \section{\label{sec:Bandpass-R-2-IIR-filter-gain-zero-pole-with-SeDuMi}SOCP MMSE design of a bandpass R=2 filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
 The Octave script \emph{iir\_socp\_slb\_bandpass\_test.m} uses the \emph{SeDuMi}
@@ -25504,6 +25503,84 @@ minimum-phase complementary filter found with \emph{Mian} and \emph{Nainer}'s
 cepstral method}
 \label{fig:minphase-cepstral-combined-response}
 \end{figure}
+\clearpage
+\section{\label{sec:FIR-lattice-bandpass-Hilbert-filter}Design of anFIR lattice band-pass Hilbert filter}
+The Octave script \emph{complementaryFIRlattice\_socp\_slb\_bandpass\_test.m}
+designs a PCLS optimised FIR lattice Hilbert band-pass filter with order
+$16$. The filter specification is:
+\begin{small}
+\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_test.spec}
+\end{small}
+The initial filter is the band-pass filter designed by the Octave script
+\emph{iir\_sqp\_slb\_fir\_17\_bandpass\_test.m}. The initial filter in
+gain-pole-zero form. The corresponding initial minimum-phase FIR lattice filters
+were calculated by the Octave function \emph{complementaryFIRlattice}.
+Figure~\ref{fig:Zeros-initial-band-pass-FIR-lattice-and-complementary-filter}
+shows the zeros of the initial FIR lattice band-pass and complementary filters.
+
+\begin{figure}
+\begin{subfigure}[b]{\textwidth}
+\centering
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{complementaryFIRlattice_socp_slb_bandpass_test_initial_b0_pz}
+\caption{Zeros of the initial FIR lattice band-pass filter}
+\vspace{1cm}
+\end{subfigure}
+\begin{subfigure}[b]{\textwidth}
+\centering
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{complementaryFIRlattice_socp_slb_bandpass_test_initial_bc0_pz}
+\caption{Zeros of the initial FIR lattice band-pass complementary filter}
+\end{subfigure}
+\caption{Zeros of the initial band-pass FIR lattice filter and the complementary
+ filter}
+\label{fig:Zeros-initial-band-pass-FIR-lattice-and-complementary-filter}
+\end{figure}
+
+The PCLS optimised filter lattice coefficients are:
+\begin{small}
+\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_test_k2_coef.m}
+\end{small}
+and:
+\begin{small}
+\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_test_khat2_coef.m}
+\end{small}
+The corresponding direct-form FIR band-pass Hilbert filter coefficients are:
+\begin{small}
+\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_test_Nh2_coef.m}
+\end{small}
+Figure~\ref{fig:Response-PCLS-optimised-FIR-lattice-band-pass-Hilbert-filter}
+shows the amplitude, delay and phase responses of the PCLS optimised FIR lattice
+band-pass Hilbert filter.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_test_pcls_response}}
+\caption{Response of the PCLS optimised FIR lattice band-pass Hilbert filter}
+\label{fig:Response-PCLS-optimised-FIR-lattice-band-pass-Hilbert-filter}
+\end{figure}
+The FIR lattice band-pass Hilbert filter was simulated with a uniformly
+distributed random noise input. The standard-deviations of the $16$ states are: 
+\begin{small}
+\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_test_std_xxk2.m}
+\end{small}
+Figure~\ref{fig:Zeros-PCLS-band-pass-FIR-lattice-and-complementary-filter}
+shows the zeros of the PCLS optimised FIR lattice band-pass and complementary
+filters. The FIR lattice filters need not be minimum-phase.
+\begin{figure}
+\begin{subfigure}[b]{\textwidth}
+\centering
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{complementaryFIRlattice_socp_slb_bandpass_test_pcls_Nh2_pz}
+\caption{Zeros of the PCLS optimised FIR lattice band-pass filter}
+\vspace{1cm}
+\end{subfigure}
+\begin{subfigure}[b]{\textwidth}
+\centering
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{complementaryFIRlattice_socp_slb_bandpass_test_pcls_Ng2_pz}
+\caption{Zeros of the PCLS optimised FIR lattice band-pass complementary filter}
+\end{subfigure}
+\caption{Zeros of the PCLS optimised band-pass FIR lattice filter and the complementary
+ filter}
+\label{fig:Zeros-PCLS-band-pass-FIR-lattice-and-complementary-filter}
+\end{figure}
+
 \clearpage
 \section{\label{app:Constrained-opt-FIR-digital-filters}Constrained
   least-squared error optimisation of FIR digital filters}
