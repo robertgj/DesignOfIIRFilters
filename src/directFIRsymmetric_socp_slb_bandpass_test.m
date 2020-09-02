@@ -1,9 +1,6 @@
 % directFIRsymmetric_socp_slb_bandpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
-
-% Optimisation of Schur one-multiplier lattice bandpass filter response with
-% 10-bit signed-digit coefficients having Ito et al. allocation and SOCP
-% relaxation solution.
+% Optimisation of direct-form symmetric FIR bandpass filter response
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
