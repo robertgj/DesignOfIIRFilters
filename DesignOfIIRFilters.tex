@@ -31798,7 +31798,7 @@ libopenblasp (4 threads)   & 56496  & 10.8                &  39.6 \\
 
 \pdfbookmark[0]{SeDuMi}{sedumi}
 \section*{SeDuMi}
-The SeDuMi source is available from \emph{LeHigh University} as
+The \emph{SeDuMi} source is available from \emph{LeHigh University} as
 \emph{SeDuMi\_1\_3.zip}~\cite{Sturm_SeDuMi_1_3}. Unfortunately, this version
 does not seem to be actively maintained. An ``unofficial''
 \emph{GitHub}~\cite{Sturm_SeDuMi_GitHub} fork is compatible with Octave. A fork
@@ -31806,7 +31806,7 @@ of this version is used in this project. It runs without modification under
 Octave\footnote{The \emph{SeDuMi-1.3} source file \emph{vec.m}
 shadows a built-in Octave function.}.
 
-The \emph{SeDuMi} source depends on the OpenBLAS \emph{f77blas.h} and
+The \emph{SeDuMi} source depends on the \emph{OpenBLAS} \emph{f77blas.h} and
 \emph{openblas\_config.h} headers. \emph{install\_sedumi.m} assumes they are
 present in \emph{/usr/include/openblas}. A 64-bit version of \emph{SeDuMi}
 requires \emph{-DOPENBLAS\_USE64BITINT}. The \emph{install\_sedumi.m} script can
@@ -31819,17 +31819,24 @@ octave:2> install_sedumi ('-rebuild', mexcmd);
 \end{verbatim}
 \end{small}
 
-The SeDuMi User Guide~\cite[Section 4]{Sturm_SeDuMiUserGuide_GitHub} shows
+The \emph{SeDuMi} User Guide~\cite[Section 4]{Sturm_SeDuMiUserGuide_GitHub} shows
 an example of optimising a complex valued Toeplitz matrix. The Octave script
 \emph{sedumi\_toepest\_test.m} runs this example. Unfortunately, the $Z$ matrix
 found by this script is different to that shown in the User Guide.
 \emph{L\"{o}fberg}~\cite{Lofberg_YALMIP_complex_example} shows five different
-YALMIP solutions for this problem, reproduced in the Octave script
+\emph{YALMIP} solutions for this problem, reproduced in the Octave script
 \emph{yalmip\_complex\_test.m}. The $Z$ matrixes found by that script 
-agree with that shown in the SeDuMi User Guide. YALMIP supports complex-valued
-constraints for all solvers by automatically converting complex-valued problems
-to real-valued problems. See
+agree with that shown in the \emph{SeDuMi} User Guide. \emph{YALMIP} supports
+complex-valued constraints for all solvers by automatically converting
+complex-valued problems to real-valued problems. See
 Appendix~\ref{app:Linear-algebra-positive-definite-matrixes}.
+
+The Octave script \emph{sedumi\_profiler\_test.m} profiles the
+\emph{SeDuMi/examples/test\_sedumi.m} script:
+\begin{small}
+\verbatiminput{sedumi_profiler_test.info}
+\end{small}
+The \emph{SeDuMi} m-file \emph{SeDuMi/psdscale.m} is complex and has no comments.
 
 \pdfbookmark[0]{SparsePOP}{sparsepop}
 \section*{SparsePOP}
@@ -31902,8 +31909,9 @@ calls semi-definite programming (SDP) solvers such as \emph{SeDuMi} and
 \section*{BMIsolver}
 \emph{BMIsolver}~\cite{BMIsolver,Dinh_BMIsolver} is a MATLAB package for solving
 optimization problems with BMI (bilinear matrix inequality) constraints. The
-current version requires YALMIP as a modeling language. \emph{BMIsolver} runs
-under Octave with the minor modification shown in \emph{BMIsolver\_2013.patch}.
+current version requires \emph{YALMIP} as a modeling language. \emph{BMIsolver}
+runs under Octave with the minor modification shown in
+\emph{BMIsolver\_2013.patch}.
 
 \pdfbookmark[0]{COMPleib}{compleib}
 \section*{COMPLeib}
