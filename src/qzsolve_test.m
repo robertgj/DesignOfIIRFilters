@@ -9,6 +9,20 @@ diary qzsolve_test.diary.tmp
 
 check_octave_file("qzsolve");
 
+% Sanity checks
+r=qzsolve([]);
+if ~isempty(r)
+  error("Expected isempty(r) for []");
+endif
+r=qzsolve(1);
+if ~isempty(r)
+  error("Expected isempty(r) for 1");
+endif
+r=qzsolve([1]);
+if ~isempty(r)
+  error("Expected isempty(r) for [1]");
+endif
+
 % Binomial coefficients
 N=6;
 rr=roots(bincoeff(N,0:N));
@@ -67,9 +81,6 @@ endif
 D = [  1.0000000000,  -2.2443545374,   3.6828563678,  -3.7424738257, ... 
        2.9806683357,  -1.5676125569,   0.6649693575,  -0.1388429847, ... 
        0.0238205598,   0.0129159293,   0.0006995335 ]';
-if exist("mps_roots") == 3
-  error("mps_roots() found!");
-endif
 [x,U,V,M,Q]=tf2x(1,D);
 R=1;
 if any(abs(x((1+1):(1+U)))>=1) || ...

@@ -592,6 +592,14 @@ DEFUN_DLD(qzsolve, args, nargout, "r=qzsolve(p)")
   ColumnVector p = args(0).column_vector_value();
   octave_idx_type N=p.numel();
   
+  if (N<=1)
+    {
+      Matrix r;
+      octave_value_list retval(1);
+      retval(0)=r;
+      return retval;
+    }
+
   // Initialise arguments
   __float128 a[N];
   for(auto row=0;row<N;row++)

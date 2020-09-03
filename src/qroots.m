@@ -22,15 +22,14 @@ function r = qroots(p)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (length(p)>1) && (exist("qzsolve")==3)
+  if exist("qzsolve")==3
     r=qzsolve(p);
-    [~,k]=sort(abs(r),'descend');
-    r=r(k);
-  elseif (length(p)>1) && (exist("mps_roots")==3)
-    r=mps_roots(p,'u');
-    [~,k]=sort(abs(r),'descend');
-    r=r(k);
+    if ~isempty(r)
+      [~,k]=sort(abs(r),'descend');
+      r=r(k);
+    endif
   else
+    warning("Using Octave built-in roots()!")
     r=roots(p);
   endif
 
