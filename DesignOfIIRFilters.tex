@@ -8953,20 +8953,20 @@ plotted as a proportion of the frequency.}
 \end{figure}
 \clearpage
 \subsection{Pink noise filter}
-Pink noise has equal noise power per octave. A pink noise filter has transfer
-function
-$H_{d}\left(\omega\right)=\frac{K}{\sqrt{\omega}}e ^{-\imath\omega t_{d}}$ where
+Pink noise has equal noise power per octave. A ideal pink noise filter has
+the transfer function
+$H_{d}\left(\omega\right)=\frac{K}{\sqrt{\omega}}e^{-\imath\omega{}t_{d}}$ where
 $K$ is a constant and $t_{d}$ is the nominal filter group delay. The Octave
-script \emph{iir\_sqp\_slb\_pink\_test.m} designs an $11$th order IIR pink 
-noise filter with the specification:
+script \emph{iir\_sqp\_slb\_pink\_test.m} designs an $11$th order IIR pink noise
+filter with the specification:
 \begin{small}
 \verbatiminput{iir_sqp_slb_pink_test.spec}
 \end{small}
 The script defines a ``don't-care'' transition band from $f=0$ to $fat=0.005$
-for the amplitude response and $ftt=0.02$ for the group delay response.
-An initial filter was designed by the method of \emph{Tarczynski et al.} in
-the Octave script \emph{tarczynski\_pink\_test.m}. The initial filter 
-coefficients are, in gain-pole-zero form:
+for the amplitude response and from $f=0$ to $ftt=0.025$ for the group delay
+response. An initial filter was designed by the method of
+\emph{Tarczynski et al.} in the Octave script \emph{tarczynski\_pink\_test.m}.
+The initial filter coefficients are, in gain-pole-zero form:
 \begin{small}
 \verbatiminput{iir_sqp_slb_pink_test_x0_coef.m}
 \end{small}
@@ -8979,14 +8979,23 @@ response of the initial filter to the desired response.
 \emph{tarczynski\_pink\_test.m}}
 \label{fig:iir-sqp-slb-pink-initial-response}
 \end{figure}
-Figure~\ref{fig:iir-sqp-slb-pink-pcls-response} shows the amplitude response
-error and group delay of the filter after MMSE and PCLS optimisation.
+Figure~\ref{fig:iir-sqp-slb-pink-pcls-response} shows the amplitude and
+group delay responses of the filter after MMSE and PCLS optimisation.
+Figure~\ref{fig:iir-sqp-slb-pink-pcls-error-response} shows the errors of the
+amplitude and group delay responses of the filter after MMSE and PCLS
+optimisation. 
 Figure~\ref{fig:iir-sqp-slb-pink-pcls-pz} shows the pole-zero plot of the filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_pink_test_pcls_d1}}
-\caption{Response error of the pink noise filter after PCLS optimisation}
+\caption{Amplitude and group-delay responses of the pink noise filter after PCLS optimisation}
 \label{fig:iir-sqp-slb-pink-pcls-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_pink_test_pcls_error_d1}}
+\caption{Errors of the amplitude and group-delay responses of the pink noise filter after PCLS optimisation}
+\label{fig:iir-sqp-slb-pink-pcls-error-response}
 \end{figure}
 \begin{figure}
 \centering

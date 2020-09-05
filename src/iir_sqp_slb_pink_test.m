@@ -1,5 +1,5 @@
 % iir_sqp_slb_pink_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -8,7 +8,6 @@ delete("iir_sqp_slb_pink_test.diary.tmp");
 diary iir_sqp_slb_pink_test.diary.tmp
 
 tic;
-
 
 tol_mmse=2e-5
 tol_pcls=2e-5
@@ -100,10 +99,11 @@ if 0
   close
 else
   subplot(111);
-  A0=iirA(wa,x0,U,V,M,Q,R);
-  semilogx(wa*0.5/pi,20*log10(A0),'linestyle','-', ...
+  ni=floor(0.002*n/0.5);
+  A0=iirA(wd(ni:end),x0,U,V,M,Q,R);
+  semilogx(wd(ni:end)*0.5/pi,20*log10(A0),'linestyle','-', ...
            wa*0.5/pi,20*log10(Ad),'linestyle','-.');
-  axis([0.003 0.6 -20 5]);
+  axis([0.001 0.6 -20 5]);
   strt=sprintf("Pink noise filter initial amplitude response : \
 fat=%g,ftt=%g,tp=%g",fat,ftt,tp);
   title(strt);
@@ -147,7 +147,7 @@ axis([0 0.5 tp-tpr tp+tpr]);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 grid("on");
-print(strcat(strf,"_mmse_x1"),"-dpdflatex");
+print(strcat(strf,"_mmse_error_x1"),"-dpdflatex");
 close
 showZPplot(x1,U,V,M,Q,R,strt);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
@@ -163,13 +163,35 @@ printf("\nPCLS pass:\n");
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
+[N1,D1]=x2tf(d1,U,V,M,Q,R);
+
+% Plot results
+subplot(211);
+[H,w]=freqz(N1,D1,n);
+ni=floor(0.002*n/0.5);
+semilogx(w(ni:end)*0.5/pi,20*log10(abs(H(ni:end))));
+axis([0.001 0.6 -20 10]);
+strt=sprintf("Pink noise filter response : \
+fat=%g,AdBr=%g,ftt=%g,tp=%g,tpr=%g",fat,AdBr,ftt,tp,tpr);
+title(strt);
+ylabel("Amplitude(dB)");
+grid("on");
+subplot(212);
+T=grpdelay(N1,D1,n);
+semilogx(w(ni:end)*0.5/pi,T(ni:end));
+axis([0.001 0.6 0 30]);
+ylabel("Group delay(samples)");
+xlabel("Frequency");
+grid("on");
+print(strcat(strf,"_pcls_d1"),"-dpdflatex");
+close
+
+% Plot amplitude and group delay error
 subplot(211);
 Ad1=iirA(wa,d1,U,V,M,Q,R);
 plot(wa*0.5/pi,20*log10([Ad1 Adu Adl])-20*log10([Ad Ad Ad]));
 axis([0 0.5 -AdBr AdBr]);
 grid("on");
-strt=sprintf("Pink noise filter PCLS response : \
-fat=%g,AdBr=%g,ftt=%g,tp=%g,tpr=%g",fat,AdBr,ftt,tp,tpr);
 title(strt);
 ylabel("Amplitude error(dB)");
 subplot(212);
@@ -179,7 +201,7 @@ axis([0 0.5 tp-tpr tp+tpr]);
 ylabel("Group delay(samples)");
 xlabel("Frequency");
 grid("on");
-print(strcat(strf,"_pcls_d1"),"-dpdflatex");
+print(strcat(strf,"_pcls_error_d1"),"-dpdflatex");
 close
 showZPplot(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
@@ -192,7 +214,6 @@ print_pole_zero(x1,U,V,M,Q,R,"x1");
 print_pole_zero(x1,U,V,M,Q,R,"x1",strcat(strf,"_x1_coef.m"));
 print_pole_zero(d1,U,V,M,Q,R,"d1");
 print_pole_zero(d1,U,V,M,Q,R,"d1",strcat(strf,"_d1_coef.m"));
-[N1,D1]=x2tf(d1,U,V,M,Q,R);
 print_polynomial(N1,"N1");
 print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
