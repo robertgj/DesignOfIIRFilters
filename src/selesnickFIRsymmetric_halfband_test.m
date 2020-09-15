@@ -115,7 +115,7 @@ title(strt);
 subplot(212)
 plot(F,mod((unwrap(angle(Hhilbert))+(wa*(M)))/pi,2));
 axis([0 0.5 1.49 1.51]);
-ylabel("Phase\n(in units of $\pi$ adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_hilbert_response"),"-dpdflatex");

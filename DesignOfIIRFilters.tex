@@ -25476,6 +25476,81 @@ endfor
 h=ha.*(alpha.^[0:Na]);
 \end{verbatim}
 \end{small}
+\clearpage
+\subsubsection{Calculating the minimum-phase complementary filter of an FIR filter with Semi-Definite Programming}
+\paragraph{Calculation of the expectation of the mean of the autocorrelation
+  sequence of a random variable} Suppose we have $N+1$ samples,
+$\hat{x}_{k}$ of a real valued stationary random time series,
+$x_{k}$, with autocorrelation function, $r_{k}$.
+\begin{align*}
+  \hat{x}_{k}&=\begin{cases}
+    x_{k} & 0\le k \le N \\
+    0 & \text{otherwise} \\
+  \end{cases}
+\end{align*}
+
+An estimate of the autocorrelation of $\hat{x}_{k}$ is:
+\begin{align*}
+  \hat{r}_{k}
+  &=\frac{1}{N+1}\sum_{l=0}^{N}\hat{x}_{l}\hat{x}_{l+k}\\
+  &=\begin{cases}
+    \frac{1}{N+1}\sum_{l=0}^{N-k}
+    x_{l}x_{l+k} & 0\le k \le N\\
+    0 & \text{otherwise}\\
+    \end{cases}
+\end{align*}
+
+The expectation, or mean, of this estimate is:
+\begin{align*}
+  \mathcal{E}\left\{\hat{r}_{k}\right\}
+  &=\frac{1}{N+1}\sum_{l=0}^{N}\mathcal{E}\left\{
+    \hat{x}_{l}\hat{x}_{l+k}\right\} \\
+  &=\frac{1}{N+1}\sum_{l=0}^{N-\mathabs{k}}r_{\mathabs{k}} \\
+  &=\begin{cases}
+    \frac{N+1-\mathabs{k}}{N+1}r_{\mathabs{k}} & \mathabs{k}\le N \\
+    0 & \text{otherwise} \\
+    \end{cases}
+\end{align*}
+This definition of the mean of the estimation of the autocorrelation,
+ $\hat{r}_{k}$, is biased because:
+$\mathcal{E}\left\{\hat{r}_{k}\right\} \ne r_{k}$.
+An unbiased estimator is:
+\begin{align*}
+  \check{r}_{k}&= \frac{1}{N+1-\mathabs{k}}\sum_{l=0}^{N-\mathabs{k}}
+\hat{x}_{l}\hat{x}_{l+k}\quad\mathabs{k}\le N
+\end{align*}
+This corresponds to an upper-triangular matrix equation.
+\paragraph{Minimum phase sequence corresponding to a given autocorrelation
+  sequence}
+\emph{Sturm}~\cite[Section 3.2]{Sturm_SeDuMiUserGuide_GitHub} states the
+following semi-definite programming problem:
+\begin{align*}
+  \textbf{minimise}   \quad & \sum_{k=0}^{N}\left(N+1-k\right)
+                              x_{k}^{2}\\
+  \textbf{subject to} \quad & \sum_{l=0}^{N-k}
+   x_{l}x_{l+k}=r_{k}\quad k=0,\hdots,N\\
+                            & \boldsymbol{X}\succ 0
+\end{align*}
+where $\boldsymbol{X}$ is the matrix corresponding to 
+$x_{l}x_{l+k}$. \emph{Sturm} claims that the solution
+to this problem is a minimum phase spectral factorisation, $x_{k}$,
+of an autocorrelation sequence, $r_{k}$. An SDP relaxation of this
+problem is:
+\begin{align*}
+  \textbf{minimise}   \quad & \sum_{k=0}^{N}\left(N+1-k\right)
+                              x_{k}^{2}\\
+  \textbf{subject to} \quad & \sum_{l=0}^{N-k}
+   x_{l}x_{l+k}\ge r_{k}\quad k=0,\hdots,N\\
+                 & \left[\begin{array}{cc}
+                           \boldsymbol{X} & \boldsymbol{x} \\
+                           \boldsymbol{x}^{\top} & 1 \end{array}\right]\succ 0
+\end{align*}
+
+\paragraph{Calculation of the minimum phase sequence with \emph{SeDuMi}}
+The Octave script \\
+\emph{directFIRnonsymmetric\_sdp\_minimum\_phase\_test.m} attempts
+unsuccessfully to find a minimum phase FIR low-pass filter impulse response.
+\clearpage
 \subsection{Example: the minium-phase complementary filter of an FIR bandpass filter}
 The Octave script \emph{minphase\_test.m} compares the use of 
 \emph{Orchard} and \emph{Willson}'s Newton-Raphson method with the cepstral
@@ -25513,7 +25588,7 @@ cepstral method}
 \label{fig:minphase-cepstral-combined-response}
 \end{figure}
 \clearpage
-\section{\label{sec:FIR-lattice-bandpass-Hilbert-filter}Design of anFIR lattice band-pass Hilbert filter}
+\section{\label{sec:FIR-lattice-bandpass-Hilbert-filter}Design of an FIR lattice band-pass Hilbert filter}
 The Octave script \emph{complementaryFIRlattice\_socp\_slb\_bandpass\_test.m}
 designs a PCLS optimised FIR lattice Hilbert band-pass filter with order
 $16$. The filter specification is:
@@ -25521,22 +25596,21 @@ $16$. The filter specification is:
 \verbatiminput{complementaryFIRlattice_socp_slb_bandpass_test.spec}
 \end{small}
 The initial filter is the band-pass filter designed by the Octave script
-\emph{iir\_sqp\_slb\_fir\_17\_bandpass\_test.m}. The initial filter in
-gain-pole-zero form. The corresponding initial minimum-phase FIR lattice filters
-were calculated by the Octave function \emph{complementaryFIRlattice}.
+\emph{iir\_sqp\_slb\_fir\_17\_bandpass\_test.m} in gain-pole-zero form. The
+corresponding initial minimum-phase FIR lattice filters  were calculated by the
+Octave function \emph{complementaryFIRlattice}.
 Figure~\ref{fig:Zeros-initial-band-pass-FIR-lattice-and-complementary-filter}
 shows the zeros of the initial FIR lattice band-pass and complementary filters.
 
 \begin{figure}
 \begin{subfigure}[b]{\textwidth}
 \centering
-\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{complementaryFIRlattice_socp_slb_bandpass_test_initial_b0_pz}
+\includegraphics[scale=\DesignOfIIRFiltersPdfScale]{complementaryFIRlattice_socp_slb_bandpass_test_initial_b0_pz}
 \caption{Zeros of the initial FIR lattice band-pass filter}
-\vspace{1cm}
 \end{subfigure}
 \begin{subfigure}[b]{\textwidth}
 \centering
-\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{complementaryFIRlattice_socp_slb_bandpass_test_initial_bc0_pz}
+\includegraphics[scale=\DesignOfIIRFiltersPdfScale]{complementaryFIRlattice_socp_slb_bandpass_test_initial_bc0_pz}
 \caption{Zeros of the initial FIR lattice band-pass complementary filter}
 \end{subfigure}
 \caption{Zeros of the initial band-pass FIR lattice filter and the complementary
@@ -25571,22 +25645,20 @@ distributed random noise input. The standard-deviations of the $16$ states are:
 \verbatiminput{complementaryFIRlattice_socp_slb_bandpass_test_std_xxk2.m}
 \end{small}
 Figure~\ref{fig:Zeros-PCLS-band-pass-FIR-lattice-and-complementary-filter}
-shows the zeros of the PCLS optimised FIR lattice band-pass and complementary
-filters. The FIR lattice filters need not be minimum-phase.
+shows the zeros of the PCLS optimised FIR lattice band-pass Hilbert filter and
+the complementary filter. The FIR lattice filters need not be minimum-phase.
 \begin{figure}
 \begin{subfigure}[b]{\textwidth}
 \centering
-\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{complementaryFIRlattice_socp_slb_bandpass_test_pcls_Nh2_pz}
-\caption{Zeros of the PCLS optimised FIR lattice band-pass filter}
-\vspace{1cm}
+\includegraphics[scale=\DesignOfIIRFiltersPdfScale]{complementaryFIRlattice_socp_slb_bandpass_test_pcls_Nh2_pz}
+\caption{Zeros of the PCLS optimised FIR lattice band-pass Hilbert filter}
 \end{subfigure}
 \begin{subfigure}[b]{\textwidth}
 \centering
-\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{complementaryFIRlattice_socp_slb_bandpass_test_pcls_Ng2_pz}
-\caption{Zeros of the PCLS optimised FIR lattice band-pass complementary filter}
+\includegraphics[scale=\DesignOfIIRFiltersPdfScale]{complementaryFIRlattice_socp_slb_bandpass_test_pcls_Ng2_pz}
+\caption{Zeros of the PCLS optimised FIR lattice complementary filter}
 \end{subfigure}
-\caption{Zeros of the PCLS optimised band-pass FIR lattice filter and the complementary
- filter}
+\caption{Zeros of the PCLS optimised FIR lattice band-pass Hilbert filter and the complementary filter}
 \label{fig:Zeros-PCLS-band-pass-FIR-lattice-and-complementary-filter}
 \end{figure}
 

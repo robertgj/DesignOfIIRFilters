@@ -1,0 +1,12 @@
+directFIRnonsymmetric_sdp_minimum_phase_test_FIGURES = \
+directFIRnonsymmetric_sdp_minimum_phase_test_h_response \
+directFIRnonsymmetric_sdp_minimum_phase_test_g_response
+
+directFIRnonsymmetric_sdp_minimum_phase_test_COEFS = \
+directFIRnonsymmetric_sdp_minimum_phase_test.mat \
+directFIRnonsymmetric_sdp_minimum_phase_test.spec \
+directFIRnonsymmetric_sdp_minimum_phase_test_h_coef.m \
+directFIRnonsymmetric_sdp_minimum_phase_test_g_coef.m
+
+directFIRnonsymmetric_sdp_minimum_phase_test_FILES = \
+test_common.m directFIRnonsymmetric_sdp_minimum_phase_test.m print_polynomial.m
