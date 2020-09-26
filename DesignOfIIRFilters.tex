@@ -19171,7 +19171,7 @@ the complex conjugate transpose operation). If $z=x+\imath{}y$, then:
     +\imath{}x^{\top}y+y^{\top}Xy-x^{\top}Yy+\imath{}y^{\top}Yy \\
   &=\left(x^{\top}Xx+y^{\top}Xy\right)+\imath{}\left(x^{\top}Yx+y^{\top}Yy\right)
 \end{align*}
-$Z\succ{}0$ if-and-only-if $x^{\top}Yx+y^{\top}Yy=0$ and$\left[\begin{array}{cc}
+$Z\succ{}0$ if-and-only-if $x^{\top}Yx+y^{\top}Yy=0$ and $\left[\begin{array}{cc}
   \phantom{-} X & Y \\
              -Y & X\end{array}\right] \succ{}0$. Alternatively, $Z\succ{}0$
 if-and-only-if $Z$ is \emph{Hermitian}, that is $Z^{\top} = \bar{Z}$, where
@@ -31899,18 +31899,21 @@ octave:1> mexcmd = ['mex -O2 -DMEX_DEBUG -DOCTAVE -I/usr/include/openblas %s '];
 octave:2> install_sedumi ('-rebuild', mexcmd);
 \end{verbatim}
 \end{small}
-
+\subsection*{Problems with SeDuMi}
 The \emph{SeDuMi} User Guide~\cite[Section 4]{Sturm_SeDuMiUserGuide_GitHub} shows
 an example of optimising a complex valued Toeplitz matrix. The Octave script
 \emph{sedumi\_toepest\_test.m} runs this example. Unfortunately, the $Z$ matrix
-found by this script is different to that shown in the User Guide.
+found by this script is different to that shown in the \emph{SeDuMi} User Guide.
+The Octave script \emph{sedumi\_real\_toepest\_test.m} expresses the $Z$ and $P$
+matrixes in terms of the real and imaginary parts of the matrix elements (see
+Appendix~\ref{app:Linear-algebra-positive-definite-matrixes}). The $Z$ matrix
+found by that script agrees with that shown in the \emph{SeDuMi} User Guide.
 \emph{L\"{o}fberg}~\cite{Lofberg_YALMIP_complex_example} shows five different
 \emph{YALMIP} solutions for this problem, reproduced in the Octave script
-\emph{yalmip\_complex\_test.m}. The $Z$ matrixes found by that script 
-agree with that shown in the \emph{SeDuMi} User Guide. \emph{YALMIP} supports
+\emph{yalmip\_complex\_test.m}. The $Z$ matrixes found by that script agree with
+the $Z$ matrix shown in the \emph{SeDuMi} User Guide. \emph{YALMIP} supports
 complex-valued constraints for all solvers by automatically converting
-complex-valued problems to real-valued problems. See
-Appendix~\ref{app:Linear-algebra-positive-definite-matrixes}.
+complex-valued problems to real-valued problems.
 
 The Octave script \emph{sedumi\_profiler\_test.m} profiles the
 \emph{SeDuMi/examples/test\_sedumi.m} script:
@@ -31935,6 +31938,7 @@ package does not support the SymPy \emph{collect} function. I have added a
 version of \emph{collect.m} based on
 \emph{octave/packages/symbolic-2.9.0/@sym/factor.m}.
 
+\subsection*{Problems with SparsePOP}
 The \emph{sparsePOP\_solveExample\_test.m} script runs the SparsePOP
 \emph{solveExample.m} function, with the \emph{'sedumi'} solver, excluding
 problems $k\_exclude=[36,45,46,54,70,71,88,92]$. For those $k$ I catch
@@ -31974,9 +31978,12 @@ by H.Waki, S.Kim, M.Kojima, M.Muramatsu,
 \emph{SDPT3}~\cite{TohTutuncuTodd_SDPT3,TohToddTutuncu_SDPT3,
   TutuncuTohTodd_SDPT3} is a MATLAB software for semidefinite-quadratic-linear
 programming. The version used in this project is a fork of the ``unofficial''
-GitHub repository~\cite{Unofficial_SDPT3}. The \emph{sdpt3.patch} file
-shows a modification that suppresses a divide-by-zero warning when running
-the \emph{maxcut} example from \emph{sqlpdemo} with a feasible initial solution.
+GitHub repository~\cite{Unofficial_SDPT3}.
+
+\subsection*{Problems with SDPT3}
+The \emph{sdpt3.patch} file shows a modification that suppresses a
+divide-by-zero warning when running the \emph{maxcut} example from
+\emph{sqlpdemo} with a feasible initial solution. 
 
 \pdfbookmark[0]{YALMIP}{yalmip}
 \section*{YALMIP}
