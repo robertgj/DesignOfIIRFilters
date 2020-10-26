@@ -1,5 +1,6 @@
 purczynskiFIRantisymmetric_flat_differentiator_test_FIGURES = \
 purczynskiFIRantisymmetric_flat_differentiator_test_response \
+purczynskiFIRantisymmetric_flat_differentiator_test_error
 
 purczynskiFIRantisymmetric_flat_differentiator_test_COEFS = \
 purczynskiFIRantisymmetric_flat_differentiator_test.mat \
