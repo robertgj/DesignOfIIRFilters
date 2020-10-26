@@ -99,7 +99,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
 \DeclarePairedDelimiter{\nint}{\lfloor}{\rceil}
 \DeclarePairedDelimiter{\mathabs}{\lvert}{\rvert}
-\DeclarePairedDelimiter{\mathnorm}{\Lvert}{\Rvert}
+\DeclarePairedDelimiter{\mathnorm}{\lVert}{\rVert}
 \DeclareMathOperator{\mathnull}{null}
 \DeclareMathOperator{\mathspan}{span}
 \DeclareMathOperator{\mathrank}{rank}
@@ -31518,13 +31518,13 @@ $\det\left(\Psi\right)<0$.
 \section*{Software requirements}
 I currently use the Fedora 32 distribution of Linux with:
 \begin{itemize}
-\item \emph{gcc version 10.2.1 20200723 (Red Hat 10.2.1-1)}
+\item \emph{gcc version 10.2.1 20201016 (Red Hat 10.2.1-6)}
 \item a local build of \emph{octave-5.2.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic} and \emph{parallel} Octave-Forge packages
 \item the \emph{octave} scripts use the \emph{gnuplot} graphics toolkit and
   \emph{gnuplot-5.2.8}
-\item \emph{texlive-2019-19} and various packages are installed
+\item \emph{texlive-2019-21} and various packages are installed
 \item \emph{dia-0.97.3} is used for line drawings
 \end{itemize}
 
@@ -32139,6 +32139,22 @@ make && make install
 \end{verbatim}
 \end{small}
 \emph{fhist} requires the \emph{libexplain}\cite{Miller_libexplain} library.
+
+I use this \emph{~/.aegisrc}:
+\begin{small}
+\begin{verbatim} 
+default_development_directory = "CHANGES";
+default_project_directory = "AEGIS";
+\end{verbatim}
+\end{small}
+and add to \emph{~/.bashrc}:
+\begin{small}
+\begin{verbatim} 
+if [ -f /usr/local/etc/profile.d/aegis.sh ]; then
+  . /usr/local/etc/profile.d/aegis.sh
+fi
+\end{verbatim}
+\end{small}
 
 \pdfbookmark[0]{GitHub jekyll}{jekyll}
 \section*{GitHub jekyll}
