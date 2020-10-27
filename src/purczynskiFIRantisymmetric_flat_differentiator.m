@@ -64,7 +64,7 @@ function h=purczynskiFIRantisymmetric_flat_differentiator(N,p)
   % Build filter impulse response
   d(1:2:(2*m)-1)=d(1:2:(2*m)-1)*(pi/p);
   d(2:2:(2*m))=d(2:2:(2*m))/p;
-  h=[flipud(d);0;-d];
+  h=[flipud(d);0;-d]/2;
   h=kron(h,[1;zeros((p/2)-1,1)]);
   h=h(1:(((N-1)*p/2)+1));
 

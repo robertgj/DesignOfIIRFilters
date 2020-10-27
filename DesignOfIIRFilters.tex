@@ -28234,9 +28234,9 @@ the amplitude response of an FIR differentiator that is maximally-linear at
 $\omega=\frac{\pi}{p}$ by:
 \begin{align*}
   \left|H\left(\omega\right)\right|
-  &=\frac{\pi}{p}\sum_{k=1}^{m}d_{2k-1}
+  &=\frac{\pi}{2p}\sum_{k=1}^{m}d_{2k-1}
     \sin\left(\left(2k-1\right)\cdot\frac{p}{2}\cdot\omega\right)
- +\frac{1}{p}\sum_{k=1}^{m}d_{2k}\sin\left(2k\cdot\frac{p}{2}\cdot\omega\right)
+ +\frac{1}{2p}\sum_{k=1}^{m}d_{2k}\sin\left(2k\cdot\frac{p}{2}\cdot\omega\right)
 \end{align*}
 where $p$ is a positive integer, $m=\frac{n}{2}$, $n=\frac{N-1}{2}$, $n$ is
 even, and $N$ is the length of the filter, assumed to be
@@ -28267,7 +28267,7 @@ Figure~\ref{fig:purczynskiFIRantisymmetric-flat-differentiator-test-response}
 shows the amplitude responses of the differentiators for $p=2,4,8$ and $16$.
 Figure~\ref{fig:purczynskiFIRantisymmetric-flat-differentiator-test-error}
 shows the corresponding amplitude errors,
-$\left|H_{p}\left(\omega\right)\right|-2\omega$, of the differentiators.
+$\left|H_{p}\left(\omega\right)\right|-\omega$, of the differentiators.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{purczynskiFIRantisymmetric_flat_differentiator_test_response}}
@@ -28285,7 +28285,7 @@ $\left|H_{p}\left(\omega\right)\right|-2\omega$, of the differentiators.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{purczynskiFIRantisymmetric_flat_differentiator_test_error}}
 \caption{Amplitude response errors,
-  $\left|H_{p}\left(\omega\right)\right|-2\omega$, of FIR differentiators that
+  $\left|H_{p}\left(\omega\right)\right|-\omega$, of FIR differentiators that
   are maximally-linear at $\frac{\pi}{p}$ with length $N=101$ and $p=2,4,8$ and
   $16$ designed by the method of \emph{Kumar et
     al.}~\cite{KumarRoyShah_FIRDifferentiatorMaxLinearPionP} and with the 
