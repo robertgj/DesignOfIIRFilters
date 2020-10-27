@@ -28264,10 +28264,10 @@ function \emph{purczynskiFIRantisymmetric\_flat\_differentiator} to design
 FIR differentiators that are maximally flat at $\omega=\frac{\pi}{p}$ where $p$
 is a multiple of $2$.
 Figure~\ref{fig:purczynskiFIRantisymmetric-flat-differentiator-test-response}
-shows the amplitude responses of the differentiators,
-$\left|H_{p}\left(\omega\right)\right|-2\omega$, for $p=2,4,8$ and $16$.
+shows the amplitude responses of the differentiators for $p=2,4,8$ and $16$.
 Figure~\ref{fig:purczynskiFIRantisymmetric-flat-differentiator-test-error}
-shows the corresponding amplitude errors of the differentiators.
+shows the corresponding amplitude errors,
+$\left|H_{p}\left(\omega\right)\right|-2\omega$, of the differentiators.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{purczynskiFIRantisymmetric_flat_differentiator_test_response}}
@@ -28284,10 +28284,11 @@ shows the corresponding amplitude errors of the differentiators.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{purczynskiFIRantisymmetric_flat_differentiator_test_error}}
-\caption{Amplitude response errors of FIR differentiators that are
-  maximally-linear at $\frac{\pi}{p}$ with length $N=101$ and $p=2,4,8$ and $16$
-  designed by the method of \emph{Kumar et
-    al.}~\cite{KumarRoyShah_FIRDifferentiatorMaxLinearPionP} and with the
+\caption{Amplitude response errors,
+  $\left|H_{p}\left(\omega\right)\right|-2\omega$, of FIR differentiators that
+  are maximally-linear at $\frac{\pi}{p}$ with length $N=101$ and $p=2,4,8$ and
+  $16$ designed by the method of \emph{Kumar et
+    al.}~\cite{KumarRoyShah_FIRDifferentiatorMaxLinearPionP} and with the 
   recursive calculation of the $d_{k}$ performed by the method of
   \emph{Purczy\'{n}ski} and \emph{Pawelczak}~\cite[Equation 
   7]{PurczynskiPawelczak_MaxLinearDifferentiatorFrequenciesP}} 
