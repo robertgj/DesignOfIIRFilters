@@ -1,5 +1,5 @@
---- fhist-1.21.D001/common/output.h	2012-07-13 14:47:15.000000000 +1000
-+++ fhist-1.21.D001.NEW/common/output.h	2015-06-02 13:05:43.000000000 +1000
+--- fhist-1.21/common/output.h	2012-07-13 14:47:15.000000000 +1000
++++ fhist-1.21.new/common/output.h	2020-11-05 12:54:19.073075689 +1100
 @@ -72,7 +72,7 @@
  
  #ifndef DEBUG
@@ -18,8 +18,51 @@
  #else /* !__GNUC__ */
  
  #define output_filename(fp) ((fp)->vptr->filename(fp))
---- fhist-1.21.D001/common/input.h	2012-07-13 14:47:15.000000000 +1000
-+++ fhist-1.21.D001.NEW/common/input.h	2015-06-02 13:05:09.000000000 +1000
+--- fhist-1.21/common/config.messy.h	2012-07-13 14:47:15.000000000 +1000
++++ fhist-1.21.new/common/config.messy.h	2020-11-05 12:54:19.073075689 +1100
+@@ -78,6 +78,9 @@
+ #ifndef _BSD_SOURCE
+ #define _BSD_SOURCE
+ #endif
++#ifndef _DEFAULT_SOURCE
++#define _DEFAULT_SOURCE
++#endif
+ #endif
+ 
+ #endif /* COMMON_CONFIG_MESSY_H */
+--- fhist-1.21/common/sub/expr_gram.y	2012-07-13 14:47:15.000000000 +1000
++++ fhist-1.21.new/common/sub/expr_gram.y	2020-11-05 12:56:38.925884448 +1100
+@@ -35,21 +35,21 @@
+ 
+ %}
+ 
++%union
++{
++        long    lv_number;
++}
++
+ %token DIV
+ %token JUNK
+ %token LP
+ %token MINUS
+ %token MUL
+-%token NUMBER
++%token <lv_number> NUMBER
+ %token PLUS
+ %token RP
+ 
+-%union
+-{
+-        long    lv_number;
+-}
+-
+-%type <lv_number> NUMBER expr
++%type <lv_number> expr
+ 
+ %left PLUS MINUS
+ %left MUL DIV
+--- fhist-1.21/common/input.h	2012-07-13 14:47:15.000000000 +1000
++++ fhist-1.21.new/common/input.h	2020-11-05 12:54:19.073075689 +1100
 @@ -65,6 +65,7 @@
  struct string_ty *input_one_line(input_ty *);
  
@@ -36,15 +79,23 @@
  #else /* !__GNUC__ */
  #ifndef DEBUG
  #define input_name(fp) ((fp)->vptr->name(fp))
---- fhist-1.21.D001/common/config.messy.h	2012-07-13 14:47:15.000000000 +1000
-+++ fhist-1.21.D001.NEW/common/config.messy.h	2015-06-02 13:03:23.000000000 +1000
-@@ -78,6 +78,9 @@
- #ifndef _BSD_SOURCE
- #define _BSD_SOURCE
- #endif
-+#ifndef _DEFAULT_SOURCE
-+#define _DEFAULT_SOURCE
-+#endif
- #endif
+--- fhist-1.21/Makefile.in	2012-07-13 14:47:15.000000000 +1000
++++ fhist-1.21.new/Makefile.in	2020-11-05 12:57:23.649503511 +1100
+@@ -474,6 +474,8 @@
  
- #endif /* COMMON_CONFIG_MESSY_H */
+ common/sub/expr_gram.yacc.c common/sub/expr_gram.yacc.h: common/sub/expr_gram.y
+ 	$(YACC) -d common/sub/expr_gram.y
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.c
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.h
+ 	sed -e 's/[yY][yY]/sub_expr_gram_/g' -e '/<stdio.h>/d' -e \
+ 		'/<stdlib.h>/d' -e '/<stddef.h>/d' y.tab.c > \
+ 		common/sub/expr_gram.yacc.c
+@@ -481,6 +483,8 @@
+ 		's/Y_TAB_H/SUB_EXPR_GRAM_TAB_H/g' y.tab.h > \
+ 		common/sub/expr_gram.yacc.h
+ 	rm y.tab.c y.tab.h
++	sed -i -e 's/yacc_error_tmp/YYerror/g' common/sub/expr_gram.yacc.c
++	sed -i -e 's/yacc_error_tmp/YYerror/g' common/sub/expr_gram.yacc.h
+ 
+ common/sub/expr_gram.yacc.$(OBJEXT): common/sub/expr_gram.yacc.c \
+ 		common/ac/libintl.h common/ac/stdarg.h common/ac/stddef.h \

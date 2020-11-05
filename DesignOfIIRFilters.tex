@@ -31517,21 +31517,21 @@ $\det\left(\Psi\right)<0$.
 \addcontentsline{toc}{part}{Colophon}
 \pdfbookmark[0]{Requirements}{requirements}
 \section*{Software requirements}
-I currently use the Fedora 32 distribution of Linux with:
+I currently use the Fedora 33 distribution of Linux with:
 \begin{itemize}
 \item \emph{gcc version 10.2.1 20201016 (Red Hat 10.2.1-6)}
 \item a local build of \emph{octave-5.2.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic} and \emph{parallel} Octave-Forge packages
 \item the \emph{octave} scripts use the \emph{gnuplot} graphics toolkit and
-  \emph{gnuplot-5.2.8}
-\item \emph{texlive-2019-21} and various packages are installed
-\item \emph{dia-0.97.3} is used for line drawings
+  \emph{gnuplot-5.2.8-6}
+\item \emph{texlive-2020-28} and various packages are installed
+\item \emph{dia-0.97.3-15} is used for line drawings
 \end{itemize}
 
 \pdfbookmark[0]{Makefile}{makefile}
 \section*{\emph{Makefile}}
-This document is built with \emph{GNU make-4.2.1}. The \emph{Makefile} in the
+This document is built with \emph{GNU make-4.3}. The \emph{Makefile} in the
 project archive builds the PDF version of this document from the \LaTeX source
 in \emph{DesignOfIIRFilters.tex}. The project archive contains the files
 required to generate the figures shown in this document. The line diagrams are
@@ -31576,6 +31576,9 @@ The \emph{build-octave.sh} script installs the following Octave Forge packages:
 \end{small}
 The \emph{signal-1.4.1} package \emph{zplane.m} function is patched to avoid a
 \LaTeX error.
+The \emph{symbolic-2.9.0} package is patched with \emph{sympy-1.6.patch} from
+\emph{octave-symbolic\_2.9.0-3.debian.tar.xz} to update to \emph{sympy-1.6}
+provided with Fedora 33.
 
 The \emph{build-octave.sh} script installs the \emph{SeDuMi}, \emph{SDPT3},
 \emph{YALMIP} and \emph{SparsePOP} SDP solvers from the forked repositories at
@@ -31633,20 +31636,6 @@ The \emph{fftw-3.3.8} release notes (May 28th, 2018-2019) state:
 
 \pdfbookmark[1]{Building Octave}{building-octave}
 \subsection*{Building Octave}
-\begin{comment}
-\subsubsection*{Cloning the Octave Mercurial repository}
-The latest development sources for Octave can be obtained as follows:
-\begin{small}
-\begin{verbatim}
-cd /usr/local/src/octave
-hg clone http://www.octave.org/hg/octave
-cd octave
-hg -v pull
-hg -v update
-./bootstrap
-\end{verbatim}
-\end{small}
-\end{comment}
 \subsubsection*{Building Octave with LTO and PGO}
 The following commands build Octave linked with the system \emph{lapack} and
 \emph{blas} shared libraries with link-time-optimisation (LTO) and
@@ -31716,9 +31705,9 @@ be installed with this work-around:
 This section shows the results of benchmarking various builds of Octave
 and benchmarking \emph{blas} and \emph{lapack} libraries with a shared library
 \emph{LTO} and \emph{PGO} build of Octave. The Linux kernel used is
-\emph{5.6.8-300.fc32.x86\_64} from the RedHat Fedora 32 Linux
+\emph{5.8.17-300.fc33.x86\_64} from the RedHat Fedora 33 Linux
 distribution. The system compiler is
-\emph{gcc version 10.0.1 20200430 (Red Hat 10.0.1-0.14)}.
+\emph{gcc version 10.2.1 20201016 (Red Hat 10.2.1-6)}.
 The CPU is an Intel i7-7700K for which the number of CPU cores 
 is $4$ ($8$ hyper-threaded). During the benchmark the CPU frequency was fixed
 at $4.5GHz$.  To do this, as the \emph{root} user:
@@ -31792,11 +31781,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 129.9 \\
-Generic, shared reference lapack and blas            &  42.9 \\
-Generic, shared reference lapack and blas, LTO       &  42.6 \\
-Generic, shared reference lapack and blas, PGO       &  42.0 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  41.4 \\
+Debug, shared reference lapack and blas              & 130.3 \\
+Generic, shared reference lapack and blas            &  43.0 \\
+Generic, shared reference lapack and blas, LTO       &  42.9 \\
+Generic, shared reference lapack and blas, PGO       &  42.4 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  41.2 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -31828,13 +31817,13 @@ packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
 \end{texttt}}
 \begin{small}
 \begin{verbatim}
-atlas.x86_64               3.10.3-10.fc32
-blas.x86_64                3.9.0-3.fc32  
-lapack.x86_64              3.9.0-3.fc32  
-gsl.x86_64                 2.6-2.fc32    
-gsl-devel.x86_64           2.6-2.fc32    
-openblas.x86_64            0.3.9-2.fc32  
-openblas-threads.x86_64    0.3.9-2.fc32  
+atlas.x86_64               3.10.3-12.fc33
+blas.x86_64                3.9.0-5.fc33
+lapack.x86_64              3.9.0-5.fc33
+gsl.x86_64                 2.6-3.fc33
+gsl-devel.x86_64           2.6-3.fc33
+openblas.x86_64            0.3.10-6.fc33
+openblas-threads.x86_64    0.3.10-6.fc33
 \end{verbatim}
 \end{small}
 
@@ -31870,19 +31859,19 @@ and \emph{LTO} build of Octave.
 \cmidrule{2-4}             & MFLOPS & Normalised          & Execution time \\
                            &        & residual            & (seconds) \\
 \midrule
-Generic libblas/liblapack  &  3933  & 21.3                &  41.3 \\
-Intel libblas/liblapack    &  3910  & 21.3                &  41.3 \\
-Haswell libblas/liblapack  &  4763  & 18.5                &  41.0 \\
-Nehalem libblas/liblapack  &  3940  & 21.3                &  41.3 \\
-Skylake libblas/liblapack  &  4728  & 18.5                &  40.9 \\
-Fedora 32 libblas/liblapack&  3938  & 21.3                &  41.3 \\
-libgslcblas                &  3938  & 21.3                &  41.3 \\
-libsatlas                  & 13526  & 12.2                &  41.6 \\
-libtatlas                  & 20911  & 11.4                &  40.5 \\
-libopenblas                & 33884  &  9.9                &  39.7 \\
-libopenblasp (1 thread)    & 33873  &  9.9                &  39.7 \\
-libopenblasp (2 threads)   & 46904  & 12.1                &  39.6 \\
-libopenblasp (4 threads)   & 56496  & 10.8                &  39.6 \\
+Generic libblas/liblapack  &  3883  & 21.3                &  41.5 \\
+Intel libblas/liblapack    &  3855  & 21.3                &  41.5 \\
+Haswell libblas/liblapack  &  4627  & 18.5                &  41.1 \\
+Nehalem libblas/liblapack  &  3883  & 21.3                &  41.3 \\
+Skylake libblas/liblapack  &  4630  & 18.5                &  41.3 \\
+Fedora 32 libblas/liblapack&  3890  & 21.3                &  41.4 \\
+libgslcblas                &  3883  & 21.3                &  41.5 \\
+libsatlas                  & 13473  & 12.2                &  41.7 \\
+libtatlas                  & 20823  & 12.8                &  41.1 \\
+libopenblas                & 33792  &  9.9                &  39.8 \\
+libopenblasp (1 thread)    & 33811  &  9.9                &  39.8 \\
+libopenblasp (2 threads)   & 47312  & 12.1                &  39.6 \\
+libopenblasp (4 threads)   & 57254  & 10.8                &  39.4 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -32139,7 +32128,9 @@ patch -p1 < ../fhist-1.21.D001.patch
 make && make install
 \end{verbatim}
 \end{small}
-\emph{fhist} requires the \emph{libexplain}\cite{Miller_libexplain} library.
+\emph{fhist} requires the \emph{libexplain}\cite{Miller_libexplain} library. The
+patch to \emph{libexplain} provided in this project is based on that for the
+\emph{Debian} package and is applied similarly to the patch for \emph{fhist}.
 
 I use this \emph{~/.aegisrc}:
 \begin{small}

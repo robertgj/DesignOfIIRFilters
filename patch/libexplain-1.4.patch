@@ -1,0 +1,649 @@
+--- libexplain-1.4/test/00/t0047a.sh	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/test/00/t0047a.sh	2020-11-05 12:37:29.866690284 +1100
+@@ -23,12 +23,12 @@
+ 
+ cat > test.ok << 'fubar'
+ read(fildes = 42, data = 0x00000100, data_size = 100) failed, Invalid
+-argument (EINVAL) because the file desriptor is attached to an object which
+-is unsuitable for reading; or, the file was opened with the O_DIRECT flag,
+-and either the address specified in data, the value specified in data_size,
+-or the current file offset is notsuitably aligned; or, the file descriptor
+-was created via a call to timerfd_create(2) and the wrong size buffer was
+-given
++argument (EINVAL) because the file descriptor is attached to an object
++which is unsuitable for reading; or, the file was opened with the O_DIRECT
++flag, and either the address specified in data, the value specified in
++data_size, or the current file offset is notsuitably aligned; or, the file
++descriptor was created via a call to timerfd_create(2) and the wrong size
++buffer was given
+ fubar
+ test $? -eq 0 || no_result
+ 
+--- libexplain-1.4/test/06/t0652a.sh	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/test/06/t0652a.sh	2020-11-05 12:37:29.856690369 +1100
+@@ -34,9 +34,9 @@
+ # There is an alternative result, depending on the testing enviroment,
+ # because stdin may actually be closed.
+ fmt > test.ok.2 << 'fubar'
+-fputs(s = "yuck", fp = stdin) failed, Bad file descriptor (EBADF)
+-because fildes does not refer to an open file; this is more likely to
+-be a software error (a bug) than it is to be a user error
++fputs(s = "yuck", fp = stdin) failed, Bad file descriptor (EBADF) because
++the fildes argument does not refer to an object that is open for writing
++(O_RDONLY | O_LARGEFILE)
+ fubar
+ test $? -eq 0 || no_result
+ 
+--- libexplain-1.4/test/04/t0461a.sh	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/test/04/t0461a.sh	2020-11-05 12:37:29.856690369 +1100
+@@ -32,7 +32,7 @@
+ 
+ fmt -w 800 test.out.4 > test.out.3
+ test $? -eq 0 || no_result
+-sed -e 's|(42 ".*",|(42,|' test.out.3 > test.out.2
++sed -e 's|(pid = 42 ".*",|(pid = 42,|' test.out.3 > test.out.2
+ test $? -eq 0 || no_result
+ fmt test.out.2 > test.out
+ test $? -eq 0 || no_result
+--- libexplain-1.4/test/04/t0463a.sh	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/test/04/t0463a.sh	2020-11-05 12:37:29.856690369 +1100
+@@ -32,7 +32,7 @@
+ 
+ fmt -w 800 test.out.4 > test.out.3
+ test $? -eq 0 || no_result
+-sed -e 's|(42 ".*",|(42,|' test.out.3 > test.out.2
++sed -e 's|(pid = 42 ".*",|(pid = 42,|' test.out.3 > test.out.2
+ test $? -eq 0 || no_result
+ fmt test.out.2 > test.out
+ test $? -eq 0 || no_result
+--- libexplain-1.4/test/02/t0274a.sh	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/test/02/t0274a.sh	2020-11-05 12:37:29.851690412 +1100
+@@ -22,13 +22,13 @@
+ . test_prelude
+ 
+ cat > test.ok << 'fubar'
+-socket(family = PF_INET, type = SOCK_STREAM, protocol = 32767) failed,
+-Protocol not supported (EPROTONOSUPPORT) because the protocol type or the
+-specified protocol is not supported within this address family
++socket(family = PF_INET, type = SOCK_STREAM, protocol = IPPROTO_RAW)
++failed, Protocol not supported (EPROTONOSUPPORT) because the protocol type
++or the specified protocol is not supported within this address family
+ fubar
+ test $? -eq 0 || no_result
+ 
+-test_socket af_inet SOCK_STREAM 32767 > test.out 2>&1
++test_socket af_inet SOCK_STREAM IPPROTO_RAW > test.out 2>&1
+ if test $? -ne 1
+ then
+     exho expected to fail
+--- libexplain-1.4/man/man1/explain_lca2010.1	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/man/man1/explain_lca2010.1	2020-11-05 12:37:29.866690284 +1100
+@@ -988,7 +988,7 @@
+ .E(
+ open_max = sysconf(_SC_OPEN_MAX);
+ .E)
+-This one wan't so difficult, there is a \f[I]sysconf\fP(3) way of
++This one wasn't so difficult, there is a \f[I]sysconf\fP(3) way of
+ obtaining the limit.
+ .SS ENFILE, Too many open files in system
+ This error occurs when the system limit on the total number of open files
+@@ -1242,7 +1242,7 @@
+ \[bu]
+ the cause of each error.
+ .PP
+-Because of the OO nature of function call dispatching withing the
++Because of the OO nature of function call dispatching within the
+ kernel, you need to read \f[I]all\fP sources implementing that
+ \f[I]ioctl\fP(2) request, not just the generic implementation.
+ It is to be expected that different kernels will have different error
+--- libexplain-1.4/man/man1/explain.1	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/man/man1/explain.1	2020-11-05 12:37:29.865690292 +1100
+@@ -41,7 +41,7 @@
+ .SH DESCRIPTION
+ The \*(n) command is used to decode an error return read from an
+ \f[I]strace\fP(1) listing, or silimar.  Because this is being
+-deciphered in a different process than the orginal, the results
++deciphered in a different process than the original, the results
+ will be less accurate than if the program itself were to use
+ \f[I]libexplain\fP(3).
+ .SS Functions
+--- libexplain-1.4/man/man3/explain_write.3	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/man/man3/explain_write.3	2020-11-05 12:37:29.866690284 +1100
+@@ -121,7 +121,7 @@
+ value of \f[I]errno\fP.
+ .TP 8n
+ \f[I]fildes\fP
+-The orginal fildes, exactly as passed to the \f[I]write\fP(2) system call.
++The original fildes, exactly as passed to the \f[I]write\fP(2) system call.
+ .TP 8n
+ \f[I]data\fP
+ The original data, exactly as passed to the \f[I]write\fP(2) system call.
+--- libexplain-1.4/man/man3/explain_lseek.3	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/man/man3/explain_lseek.3	2020-11-05 12:37:29.866690284 +1100
+@@ -233,7 +233,7 @@
+ The original fildes, exactly as passed to the \f[I]lseek\fP(2) system call.
+ .TP 8n
+ \f[I]offset\fP
+-The orginal offset,
++The original offset,
+ exactly as passed to the \f[I]lseek\fP(2) system call.
+ .TP 8n
+ \f[I]whence\fP
+--- libexplain-1.4/man/man3/explain_chmod_or_die.3	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/man/man3/explain_chmod_or_die.3	2020-11-05 12:37:29.866690284 +1100
+@@ -31,7 +31,7 @@
+ void explain_chmod_or_die(const char *pathname, int mode);
+ .SH DESCRIPTION
+ The explain_chmod_or_die function is used to call the
+-\f[I]chmod\fP(2) system call.  On failure an explanation wiil be printed
++\f[I]chmod\fP(2) system call.  On failure an explanation will be printed
+ to stderr, obtained from \f[I]explain_chmod\fP(3), and the the
+ process terminates by calling \f[CW]exit(EXIT_FAILURE)\fP.
+ .PP
+--- libexplain-1.4/man/man3/explain.3	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/man/man3/explain.3	2020-11-05 12:37:29.866690284 +1100
+@@ -137,8 +137,8 @@
+ .TP 8n
+ internal\[hy]strerror
+ This option controls the source of
+-system eror message texts.
+-If false, it uses \f[I]streror\P(3) for the text.
++system error message texts.
++If false, it uses \f[I]strerror\P(3) for the text.
+ If true, it uses internal string for the text.
+ This is mostly of use for automated testing, to avoid false negatives
+ induced by inconsistencies across Unix implementations.
+--- libexplain-1.4/codegen/gram.y	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/codegen/gram.y	2020-11-05 12:37:29.859690343 +1100
+@@ -17,6 +17,8 @@
+  * with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
++%define api.prefix {gram_}
++
+ %{
+ 
+ #include <libexplain/ac/stdio.h>
+--- libexplain-1.4/etc/configure.ac	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/etc/configure.ac	2020-11-05 12:37:29.848690437 +1100
+@@ -17,7 +17,7 @@
+ dnl! along with this program. If not, see <http://www.gnu.org/licenses/>.
+ dnl!
+ AC_INIT(install-sh)
+-AC_CONFIG_HEADER(libexplain/config.h)
++AC_CONFIG_HEADER(../libexplain/config.h)
+ AC_USE_SYSTEM_EXTENSIONS
+ AC_LANG_C
+ AC_LANG_ASSERT(C)
+--- libexplain-1.4/libexplain/mktemp_on_error.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/mktemp_on_error.c	2020-11-05 12:37:29.865690292 +1100
+@@ -39,7 +39,7 @@
+      *     made an empty string."
+      *
+      * So, instead of returning a NULL pointer like the vast majority of libc
+-     * functions, this one returns the orginal string, but sets the first byte
++     * functions, this one returns the original string, but sets the first byte
+      * to '\0'.  Sheesh!  This makes our job much harder.
+      */
+     first = templat[0];
+--- libexplain-1.4/libexplain/acl_grammar.y	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/acl_grammar.y	2020-11-05 12:37:29.859690343 +1100
+@@ -17,6 +17,8 @@
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
++%define api.prefix {acl_grammar_}
++
+ %{
+ 
+ #include <libexplain/ac/ctype.h>
+--- libexplain-1.4/libexplain/parse_bits/print.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/parse_bits/print.c	2020-11-05 12:37:29.855690378 +1100
+@@ -26,7 +26,7 @@
+     const explain_parse_bits_table_t *table, int table_size)
+ {
+     int             first;
+-    int             other;
++    int             i;
+ 
+     if (value == 0)
+     {
+@@ -34,32 +34,26 @@
+         return;
+     }
+     first = 1;
+-    other = 0;
+-    for (;;)
+-    {
+-        int             bit;
+-        const explain_parse_bits_table_t *tp;
+ 
+-        bit = value & -value;
+-        value -= bit;
+-        tp = explain_parse_bits_find_by_value(bit, table, table_size);
+-        if (tp)
++    // Iterate over entire table checking value against each flag
++    for (i = 0; i < table_size && value != 0; i++)
++    {
++        int flag = table[i].value;
++        if (flag != 0 && (flag & value) == flag)
+         {
++            value -= flag;
++
+             if (!first)
+                 explain_string_buffer_puts(sb, " | ");
+-            explain_string_buffer_puts(sb, tp->name);
++            explain_string_buffer_puts(sb, table[i].name);
+             first = 0;
+         }
+-        else
+-            other |= bit;
+-        if (!value)
+-            break;
+     }
+-    if (other)
++    if (value != 0)
+     {
+         if (!first)
+             explain_string_buffer_puts(sb, " | ");
+-        explain_string_buffer_printf(sb, "0x%X", other);
++        explain_string_buffer_printf(sb, "0x%X", value);
+     }
+ }
+ 
+--- libexplain-1.4/libexplain/printf_format.y	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/printf_format.y	2020-11-05 12:37:29.859690343 +1100
+@@ -17,6 +17,8 @@
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
++%define api.prefix {printf_format_}
++
+ %{
+ 
+ #include <libexplain/ac/assert.h>
+--- libexplain-1.4/libexplain/output/stderr.h	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/output/stderr.h	2020-11-05 12:37:29.857690360 +1100
+@@ -22,7 +22,7 @@
+ 
+ #include <libexplain/output.h>
+ 
+-explain_output_t explain_output_static_stderr;
++extern explain_output_t explain_output_static_stderr;
+ 
+ #endif /* LIBEXPLAIN_OUTPUT_STDERR_H */
+ /* vim: set ts=8 sw=4 et : */
+--- libexplain-1.4/libexplain/ac/linux/net_tstamp.h	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/ac/linux/net_tstamp.h	2020-11-05 12:37:29.858690352 +1100
+@@ -28,6 +28,7 @@
+ #include <libexplain/config.h>
+ 
+ #ifdef HAVE_LINUX_NET_TSTAMP_H
++#include <sys/types.h> /* clockid_t */
+ #include <linux/net_tstamp.h>
+ #endif
+ 
+--- libexplain-1.4/libexplain/ac/fcntl.h	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/ac/fcntl.h	2020-11-05 12:37:29.852690403 +1100
+@@ -28,14 +28,7 @@
+ #include <libexplain/config.h>
+ 
+ #ifdef HAVE_FCNTL_H
+-#if defined(__alpha__) && defined(HAVE_LINUX_FCNTL_H)
+-#include <libexplain/ac/linux/types.h> /* Ubuntu Hardy needs this first */
+-/* This is very strange, but numerous tests fail if we use <fcntl.h>
+-   because it appears to have several incorrect macro definitions */
+-#include <libexplain/ac/linux/fcntl.h>
+-#else
+ #include <fcntl.h>
+-#endif
+ #else
+ #include <libexplain/ac/sys/file.h>
+ #endif
+@@ -60,12 +53,25 @@
+ #endif
+ 
+ /*
+- * Even when O_LARGEFILE is not necessary, glibc adds one in for free.
+- * The trouble is, this make things interesting when decoding
+- * flags values returned by the kernel.
++ * On 64-bit linux, fcntl(F_GETFL) always returns O_LARGEFILE even if we don't
++ * request it. Unfortunately glibc does not expose this value so we have to
++ * handle it ourselves. Also the value changes across arches *sigh*.
++ *
++ * These values were taken from the asm/fcntl.h kernel header for each arch.
++ * We can't include this header because it conflicts with glibc's fcntl.h.
+  */
+ #if defined(__linux__) && (O_LARGEFILE == 0)
+-#define O_LARGEFILE_HIDDEN 0100000
++# if defined(__aarch64__) || defined(__alpha__)
++#  define O_LARGEFILE_HIDDEN 0400000
++# elif defined(__mips64)
++#  define O_LARGEFILE_HIDDEN 0x2000
++# elif defined(__PPC64__)
++#  define O_LARGEFILE_HIDDEN 0200000
++# elif defined(__sparc__) && defined(__arch64__)
++#  define O_LARGEFILE_HIDDEN 0x40000
++# else
++#  define O_LARGEFILE_HIDDEN 0100000
++# endif
+ #endif
+ 
+ 
+--- libexplain-1.4/libexplain/buffer/enomedium.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/enomedium.c	2020-11-05 12:37:29.865690292 +1100
+@@ -339,7 +339,7 @@
+         sb,
+         /*
+          * xgettext:  This error message is issued to explain an
+-         * ENOMEDIUM error, when a more specific explaination is not
++         * ENOMEDIUM error, when a more specific explanation is not
+          * available.
+          */
+         i18n("the disk drive is a type that has removable disks, and there "
+--- libexplain-1.4/libexplain/buffer/hstrerror.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/hstrerror.c	2020-11-05 12:37:29.865690292 +1100
+@@ -115,7 +115,7 @@
+         sb,
+ 
+         /*
+-         * xgettext: This message is used when hstreror is unable to translate
++         * xgettext: This message is used when hstrerror is unable to translate
+          * an h_errno value, in which causes this fall-back message to be used.
+          */
+         i18n("unknown <netdb.h> error")
+--- libexplain-1.4/libexplain/buffer/file_inode_flags.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/file_inode_flags.c	2020-11-05 12:37:29.850690420 +1100
+@@ -44,7 +44,7 @@
+         { "FS_DIRTY_FL", FS_DIRTY_FL },
+         { "FS_COMPRBLK_FL", FS_COMPRBLK_FL },
+         { "FS_NOCOMP_FL", FS_NOCOMP_FL },
+-        { "FS_ECOMPR_FL", FS_ECOMPR_FL },
++        { "FS_ENCRYPT_FL", FS_ENCRYPT_FL },
+         { "FS_BTREE_FL", FS_BTREE_FL },
+         { "FS_INDEX_FL", FS_INDEX_FL },
+         { "FS_IMAGIC_FL", FS_IMAGIC_FL },
+@@ -52,8 +52,13 @@
+         { "FS_NOTAIL_FL", FS_NOTAIL_FL },
+         { "FS_DIRSYNC_FL", FS_DIRSYNC_FL },
+         { "FS_TOPDIR_FL", FS_TOPDIR_FL },
++        { "FS_HUGE_FILE_FL", FS_HUGE_FILE_FL },
+         { "FS_EXTENT_FL", FS_EXTENT_FL },
+-        { "FS_DIRECTIO_FL", FS_DIRECTIO_FL },
++        { "FS_EA_INODE_FL", FS_EA_INODE_FL },
++        { "FS_EOFBLOCKS_FL", FS_EOFBLOCKS_FL },
++        { "FS_NOCOW_FL", FS_NOCOW_FL },
++        { "FS_INLINE_DATA_FL", FS_INLINE_DATA_FL },
++        { "FS_PROJINHERIT_FL", FS_PROJINHERIT_FL },
+         { "FS_RESERVED_FL", FS_RESERVED_FL },
+     };
+ 
+--- libexplain-1.4/libexplain/buffer/eisdir.h	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/eisdir.h	2020-11-05 12:37:29.865690292 +1100
+@@ -25,7 +25,7 @@
+ 
+ /**
+   * The explain_buffer_eisdir function may be used to print an
+-  * explainaton for an EISDIR error, in the case where a file was to be
++  * explanation for an EISDIR error, in the case where a file was to be
+   * opened for writing.
+   *
+   * @param sb
+--- libexplain-1.4/libexplain/buffer/enametoolong.h	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/enametoolong.h	2020-11-05 12:37:29.865690292 +1100
+@@ -69,7 +69,7 @@
+ 
+ /**
+   * The explain_buffer_enametoolong_gethostname function is sued to
+-  * print an explaination for an ENAMETOOLONG error reported by the
++  * print an explanation for an ENAMETOOLONG error reported by the
+   * gethostname, getdomainname (etc) functions.
+   *
+   * @param sb
+--- libexplain-1.4/libexplain/buffer/ehostunreach.h	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/ehostunreach.h	2020-11-05 12:37:29.865690292 +1100
+@@ -23,7 +23,7 @@
+ 
+ /**
+   * The explain_buffer_ehostunreach function may be used
+-  * to print an explaination of an EHOSTUNREACH error.
++  * to print an explanation of an EHOSTUNREACH error.
+   *
+   * @param sb
+   *     The string buffer to print into.
+--- libexplain-1.4/libexplain/buffer/enfile.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/enfile.c	2020-11-05 12:37:29.853690395 +1100
+@@ -38,7 +38,7 @@
+ {
+     if (explain_option_dialect_specific())
+     {
+-#ifdef __linux__
++#if defined(__linux__) && defined(SYS__sysctl)
+         /*
+          * In the linux kernel, if get_empty_filp() returns NULL, the open
+          * system call (and others) will return ENFILE.
+--- libexplain-1.4/libexplain/buffer/open_flags.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/open_flags.c	2020-11-05 12:37:29.855690378 +1100
+@@ -158,7 +158,7 @@
+ explain_buffer_open_flags(explain_string_buffer_t *sb, int flags)
+ {
+     int             low_bits;
+-    int             other;
++    int             i;
+ 
+     low_bits = flags & O_ACCMODE;
+     flags &= ~O_ACCMODE;
+@@ -194,25 +194,21 @@
+         explain_string_buffer_printf(sb, "%d", low_bits);
+         break;
+     }
+-    other = 0;
+-    while (flags != 0)
+-    {
+-        int             bit;
+-        const explain_parse_bits_table_t *tp;
+ 
+-        bit = (flags & -flags);
+-        flags &= ~bit;
+-        tp = explain_parse_bits_find_by_value(bit, table, SIZEOF(table));
+-        if (tp)
++    // Iterate over entire table checking flags against each flag
++    for (i = 0; i < SIZEOF(table) && flags != 0; i++)
++    {
++        int curr_flag = table[i].value;
++        if (curr_flag != 0 && (curr_flag & flags) == curr_flag)
+         {
++            flags -= curr_flag;
++
+             explain_string_buffer_puts(sb, " | ");
+-            explain_string_buffer_puts(sb, tp->name);
++            explain_string_buffer_puts(sb, table[i].name);
+         }
+-        else
+-            other |= bit;
+     }
+-    if (other != 0)
+-        explain_string_buffer_printf(sb, " | %#o", other);
++    if (flags != 0)
++        explain_string_buffer_printf(sb, " | %#o", flags);
+ }
+ 
+ 
+--- libexplain-1.4/libexplain/buffer/access_mode.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/access_mode.c	2020-11-05 12:37:29.855690378 +1100
+@@ -27,10 +27,10 @@
+ 
+ static const explain_parse_bits_table_t table[] =
+ {
+-    { "F_OK", F_OK },
+-    { "R_OK", R_OK },
+-    { "W_OK", W_OK },
+     { "X_OK", X_OK },
++    { "W_OK", W_OK },
++    { "R_OK", R_OK },
++    { "F_OK", F_OK },
+ };
+ 
+ 
+--- libexplain-1.4/libexplain/buffer/ehostunreach.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/ehostunreach.c	2020-11-05 12:37:29.864690301 +1100
+@@ -27,7 +27,7 @@
+     (
+         sb,
+         /*
+-         * xgettext: This eror message is issued to explain an
++         * xgettext: This error message is issued to explain an
+          * EHOSTUNREACH error.
+          */
+         i18n("the remote host does not appear to be connected to the "
+--- libexplain-1.4/libexplain/buffer/strerror.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/strerror.c	2020-11-05 12:37:29.865690292 +1100
+@@ -42,7 +42,7 @@
+             explain_gettext
+             (
+                 /*
+-                 * xgettext: This message is used when streror (or strerror_r)
++                 * xgettext: This message is used when strerror (or strerror_r)
+                  * is unable to translate an errno value, in which ase this
+                  * fall-back message is used.  This does not occur with glibc,
+                  * but other libc implemntations are more flakey.
+--- libexplain-1.4/libexplain/buffer/errno/listen.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/errno/listen.c	2020-11-05 12:37:29.853690395 +1100
+@@ -72,7 +72,7 @@
+ static int
+ get_somaxconn(void)
+ {
+-#ifdef __linux__
++#if defined(__linux__) && defined(SYS__sysctl)
+     struct __sysctl_args args;
+     long somaxconn;
+     size_t somaxconn_size = sizeof(somaxconn);
+--- libexplain-1.4/libexplain/buffer/errno/mount.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/errno/mount.c	2020-11-05 12:37:29.865690292 +1100
+@@ -540,7 +540,7 @@
+             (
+                 sb,
+                 /* FIXME: i18n */
+-                "target is still busy with open files or working diretories "
++                "target is still busy with open files or working directories "
+             );
+             return;
+         }
+--- libexplain-1.4/libexplain/buffer/errno/read.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/errno/read.c	2020-11-05 12:37:29.865690292 +1100
+@@ -159,7 +159,7 @@
+                 (
+                     sb,
+                     /* FIXME: i18n */
+-                    "the file desriptor is attached to an object "
++                    "the file descriptor is attached to an object "
+                     "which is unsuitable for reading; or, the file was "
+                     "opened with the O_DIRECT flag, and either the "
+                     "address specified in data, the value specified "
+--- libexplain-1.4/libexplain/buffer/errno/acl_set_file.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/errno/acl_set_file.c	2020-11-05 12:37:29.865690292 +1100
+@@ -224,7 +224,7 @@
+          * new ACL cannot be extended or the file system is out
+          * of file allocation resources.
+          */
+-        explain_buffer_enospc(sb, pathname, "pathnme");
++        explain_buffer_enospc(sb, pathname, "pathname");
+         break;
+ 
+     case ENOTDIR:
+--- libexplain-1.4/libexplain/parse_bits.y	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/parse_bits.y	2020-11-05 12:37:29.859690343 +1100
+@@ -17,6 +17,8 @@
+  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
++%define api.prefix {parse_bits_}
++
+ %{
+ 
+ #include <libexplain/ac/ctype.h>
+--- libexplain-1.4/explain/syscall/ustat.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/explain/syscall/ustat.c	2020-11-05 12:37:29.854690386 +1100
+@@ -30,26 +30,15 @@
+ #include <explain/syscall/ustat.h>
+ 
+ 
+-#ifndef HAVE_USTAT
+-
+-struct ustat
+-{
+-    int dummy;
+-};
+-
+-#endif
+-
+-
+ void
+ explain_syscall_ustat(int errnum, int argc, char **argv)
+ {
+     dev_t           dev;
+-    struct ustat    ubuf;
+     struct ustat    *ubuf_p;
+     struct stat     st;
+ 
+     dev = 0;
+-    ubuf_p = &ubuf;
++    ubuf_p = NULL;
+     switch (argc)
+     {
+     case 2:
+--- libexplain-1.4/Makefile.in	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/Makefile.in	2020-11-05 12:37:29.863690309 +1100
+@@ -357,9 +357,9 @@
+ 
+ codegen/gram.yacc.c codegen/gram.yacc.h: codegen/gram.y
+ 	$(YACC) -d $(YFLAGS) codegen/gram.y
+-	sed -e 's/[yY][yY]/gram_/g' -e '/<stdio.h>/d' -e '/<stdlib.h>/d' -e \
++	sed -e '/<stdio.h>/d' -e '/<stdlib.h>/d' -e \
+ 		'/<stddef.h>/d' y.tab.c > codegen/gram.yacc.c
+-	sed -e 's/[yY][yY]/gram_/g' -e 's/Y_TAB_H/codegen_gram_YACC_H/g' \
++	sed -e '' \
+ 		y.tab.h > codegen/gram.yacc.h
+ 	test -f y.output && mv y.output codegen/gram.output || true
+ 	rm -f y.tab.c y.tab.h y.output || true
+@@ -4016,11 +4016,10 @@
+ libexplain/acl_grammar.yacc.c libexplain/acl_grammar.yacc.h: \
+ 		libexplain/acl_grammar.y
+ 	$(YACC) -d $(YFLAGS) libexplain/acl_grammar.y
+-	sed -e 's/[yY][yY]/acl_grammar_/g' -e '/<stdio.h>/d' -e \
++	sed -e '/<stdio.h>/d' -e \
+ 		'/<stdlib.h>/d' -e '/<stddef.h>/d' y.tab.c > \
+ 		libexplain/acl_grammar.yacc.c
+-	sed -e 's/[yY][yY]/acl_grammar_/g' -e \
+-		's/Y_TAB_H/libexplain_acl_grammar_YACC_H/g' y.tab.h > \
++	sed -e '' y.tab.h > \
+ 		libexplain/acl_grammar.yacc.h
+ 	test -f y.output && mv y.output libexplain/acl_grammar.output || true
+ 	rm -f y.tab.c y.tab.h y.output || true
+@@ -31058,10 +31057,9 @@
+ libexplain/parse_bits.yacc.c libexplain/parse_bits.yacc.h: \
+ 		libexplain/parse_bits.y
+ 	$(YACC) -d $(YFLAGS) libexplain/parse_bits.y
+-	sed -e 's/[yY][yY]/parse_bits_/g' -e '/<stdio.h>/d' -e '/<stdlib.h>/d' \
++	sed -e '/<stdio.h>/d' -e '/<stdlib.h>/d' \
+ 		-e '/<stddef.h>/d' y.tab.c > libexplain/parse_bits.yacc.c
+-	sed -e 's/[yY][yY]/parse_bits_/g' -e \
+-		's/Y_TAB_H/libexplain_parse_bits_YACC_H/g' y.tab.h > \
++	sed -e '' y.tab.h > \
+ 		libexplain/parse_bits.yacc.h
+ 	test -f y.output && mv y.output libexplain/parse_bits.output || true
+ 	rm -f y.tab.c y.tab.h y.output || true
+@@ -31418,11 +31416,10 @@
+ libexplain/printf_format.yacc.c libexplain/printf_format.yacc.h: \
+ 		libexplain/printf_format.y
+ 	$(YACC) -d $(YFLAGS) libexplain/printf_format.y
+-	sed -e 's/[yY][yY]/printf_format_/g' -e '/<stdio.h>/d' -e \
++	sed -e '/<stdio.h>/d' -e \
+ 		'/<stdlib.h>/d' -e '/<stddef.h>/d' y.tab.c > \
+ 		libexplain/printf_format.yacc.c
+-	sed -e 's/[yY][yY]/printf_format_/g' -e \
+-		's/Y_TAB_H/libexplain_printf_format_YACC_H/g' y.tab.h > \
++	sed -e '' y.tab.h > \
+ 		libexplain/printf_format.yacc.h
+ 	test -f y.output && mv y.output libexplain/printf_format.output || true
+ 	rm -f y.tab.c y.tab.h y.output || true

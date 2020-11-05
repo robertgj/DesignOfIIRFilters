@@ -1,5 +1,412 @@
---- aegis-4.24/./common/config.messy.h	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/./common/config.messy.h	2018-10-31 15:32:37.995133044 +1100
+--- aegis-4.24.old/aefind/cmdline.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/aefind/cmdline.y	2020-11-05 12:19:03.209118584 +1100
+@@ -71,6 +71,17 @@
+ 
+ %}
+ 
++%union
++{
++    struct string_ty *lv_string;
++    struct string_list_ty *lv_string_list;
++    tree::pointer *lv_tree;
++    class tree_list *lv_tree_list;
++    long lv_number;
++    double lv_real;
++    diadic_t comparator;
++}
++
+ %token AMIN
+ %token ANDAND
+ %token ATIME
+@@ -112,7 +123,7 @@
+ %token NEWER
+ %token NOT
+ %token NOW
+-%token NUMBER
++%token <lv_number> NUMBER
+ %token OROR
+ %token PATH
+ %token PERM
+@@ -120,7 +131,7 @@
+ %token PRINT
+ %token PROJECT
+ %token QUESTION
+-%token REAL
++%token <lv_real> REAL
+ %token RESOLVE
+ %token RESOLVE_NOT
+ %token RPAREN
+@@ -128,9 +139,9 @@
+ %token SHIFT_LEFT
+ %token SHIFT_RIGHT
+ %token SSIZE
+-%token STRING
++%token <lv_string> STRING
+ %token STRINGIZE
+-%token THIS
++%token <lv_number> THIS
+ %token TILDE
+ %token TRACE
+ %token TRUE_keyword
+@@ -138,21 +149,7 @@
+ %token TYPE
+ %token VERSION
+ 
+-%union
+-{
+-    struct string_ty *lv_string;
+-    struct string_list_ty *lv_string_list;
+-    tree::pointer *lv_tree;
+-    class tree_list *lv_tree_list;
+-    long lv_number;
+-    double lv_real;
+-    diadic_t comparator;
+-}
+-
+ %type <comparator>  comparator
+-%type <lv_number>   NUMBER THIS
+-%type <lv_real>     REAL
+-%type <lv_string>   STRING
+ %type <lv_string>   number_or_string
+ %type <lv_string_list> strings strings_or_dot
+ %type <lv_tree>     tree1 tree2 tree3 tree4 tree5 tree6 tree7
+--- aegis-4.24.old/aeimport/format/rcs/gram.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/aeimport/format/rcs/gram.y	2020-11-05 12:19:03.209118584 +1100
+@@ -32,6 +32,12 @@
+ 
+ %}
+ 
++%union
++{
++    string_ty       *lv_string;
++    string_list_ty  *lv_string_list;
++}
++
+ %token ACCESS
+ %token AUTHOR
+ %token BRANCH
+@@ -41,27 +47,21 @@
+ %token DESC
+ %token EXPAND
+ %token HEAD
+-%token IDENTIFIER
++%token <lv_string> IDENTIFIER
+ %token JUNK
+ %token LOCKS
+ %token LOG
+ %token NEXT
+-%token NUMBER
++%token <lv_string> NUMBER
+ %token SEMI
+ %token STATE
+ %token STRICT
+-%token STRING
++%token <lv_string> STRING
+ %token SUFFIX
+ %token SYMBOLS
+ %token TEXT
+ 
+-%union
+-{
+-    string_ty       *lv_string;
+-    string_list_ty  *lv_string_list;
+-}
+-
+-%type <lv_string> NUMBER STRING IDENTIFIER date author next log state
++%type <lv_string> date author next log state
+ %type <lv_string_list> strings_opt branch branch_opt identifiers_opt numbers_opt
+ 
+ %{
+--- aegis-4.24.old/aeimport/format/sccs/gram.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/aeimport/format/sccs/gram.y	2020-11-05 12:19:03.209118584 +1100
+@@ -39,7 +39,12 @@
+ 
+ %}
+ 
+-%token COMMENT
++%union {
++    string_ty       *lv_string;
++    long            lv_long;
++}
++
++%token <lv_string> COMMENT
+ %token DELTA_BEGIN
+ %token DELTA_END
+ %token D_KEYWORD
+@@ -52,21 +57,15 @@
+ %token MR_EXCLUDE
+ %token MR_IGNORE
+ %token MR_INCLUDE
+-%token STRING
++%token <lv_string> STRING
+ %token SUMMARY
+-%token TEXTLINE
++%token <lv_string> TEXTLINE
+ %token TITLE_BEGIN
+ %token TITLE_END
+ %token USERS_BEGIN
+ %token USERS_END
+ 
+-%union {
+-    string_ty       *lv_string;
+-    long            lv_long;
+-}
+-
+ %type <lv_long> date_and_time number
+-%type <lv_string> COMMENT STRING TEXTLINE
+ 
+ %{
+ 
+--- aegis-4.24.old/libaegis/http.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/libaegis/http.cc	2020-11-05 12:19:03.209118584 +1100
+@@ -404,7 +404,7 @@
+ emit_change_href(change::pointer cp, const char *modifier)
+ {
+     if (cp->bogus)
+-        emit_project_href(cp->pp, modifier);
++        emit_project_href(cp->pp,"%s", modifier);
+     else
+         emit_change_href_n(cp->pp, magic_zero_decode(cp->number), modifier);
+ }
+--- aegis-4.24.old/libaegis/sub/plural_gram.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/libaegis/sub/plural_gram.y	2020-11-05 12:19:03.209118584 +1100
+@@ -38,6 +38,11 @@
+ 
+ %}
+ 
++%union
++{
++    unsigned        lv_number;
++}
++
+ %token ANDAND
+ %token BITAND
+ %token BITOR
+@@ -48,7 +53,7 @@
+ %token EQU
+ %token GE
+ %token GT
+-%token INTEGER
++%token <lv_number> INTEGER
+ %token JUNK
+ %token LE
+ %token LP
+@@ -67,12 +72,7 @@
+ %token RP
+ %token SEMI
+ 
+-%union
+-{
+-    unsigned        lv_number;
+-}
+-
+-%type <lv_number> INTEGER expr
++%type <lv_number> expr
+ 
+ %right EQU
+ %right QUEST COLON
+--- aegis-4.24.old/libaegis/sub/expr_gram.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/libaegis/sub/expr_gram.y	2020-11-05 12:19:03.210118576 +1100
+@@ -38,6 +38,13 @@
+ 
+ %}
+ 
++%union
++{
++	long	lv_number;
++}
++
++%type <lv_number> expr
++
+ %token DIV
+ %token EQ
+ %token GE
+@@ -51,17 +58,10 @@
+ %token MUL
+ %token NE
+ %token NOT
+-%token NUMBER
++%token <lv_number> NUMBER
+ %token PLUS
+ %token RP
+ 
+-%union
+-{
+-	long	lv_number;
+-}
+-
+-%type <lv_number> NUMBER expr
+-
+ %left NE EQ
+ %left LT LE GT GE
+ %left PLUS MINUS
+--- aegis-4.24.old/libaegis/project/file/roll_forward.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/libaegis/project/file/roll_forward.cc	2020-11-05 12:24:08.101547793 +1100
+@@ -1045,17 +1045,19 @@
+                 //
+                 file_event_list::pointer felp2 =
+                     uuid_to_felp.get(nstring(filename));
+-                assert(felp2);
+-                felp2->push_back(*result);
++                if (felp2)
++                {
++                    felp2->push_back(*result);
+ 
+-                //
+-                // Make sure the by-uuid and by-filename lookups will
+-                // both be the same from now on.
+-                //
+-                uuid_to_felp.assign(uuid, felp2);
+-                result = uuid_to_felp.get(uuid);
+-                assert(result);
+-                assert(result == felp2);
++                    //
++                    // Make sure the by-uuid and by-filename lookups will
++                    // both be the same from now on.
++                    //
++                    uuid_to_felp.assign(uuid, felp2);
++                    result = uuid_to_felp.get(uuid);
++                    assert(result);
++                    assert(result == felp2);
++                }
+             }
+         }
+ 
+--- aegis-4.24.old/libaegis/aer/report.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/libaegis/aer/report.y	2020-11-05 12:19:03.210118576 +1100
+@@ -120,6 +120,15 @@
+ 
+ %}
+ 
++%union
++{
++    long lv_number;
++    nstring *lv_string;
++    rpt_value::pointer *lv_value;
++    rpt_stmt::pointer *lv_stmt;
++    rpt_expr::pointer *lv_expr;
++}
++
+ %token AND_BIT
+ %token AND_LOGICAL
+ %token ASSIGN
+@@ -141,7 +150,7 @@
+ %token CATCH
+ %token COLON
+ %token COMMA
+-%token CONSTANT
++%token <lv_value> CONSTANT
+ %token CONTINUE
+ %token DECR
+ %token DEFAULT
+@@ -170,7 +179,7 @@
+ %token MINUS
+ %token MOD
+ %token MUL
+-%token NAME
++%token <lv_string> NAME
+ %token NE
+ %token NMATCH
+ %token NOT_BIT
+@@ -192,19 +201,8 @@
+ %token WHILE
+ %token XOR_BIT
+ 
+-%union
+-{
+-    long lv_number;
+-    nstring *lv_string;
+-    rpt_value::pointer *lv_value;
+-    rpt_stmt::pointer *lv_stmt;
+-    rpt_expr::pointer *lv_expr;
+-}
+-
+ %type <lv_expr> expr
+-%type <lv_value> CONSTANT
+ %type <lv_stmt> stmt stmt_list compound_stmt
+-%type <lv_string> NAME
+ %type <lv_expr> expr_list struct_list expr_list_opt struct_assign
+ %type <lv_stmt> declaration decl_name_list decl_name
+ 
+--- aegis-4.24.old/libaegis/change/file/name_check.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/libaegis/change/file/name_check.cc	2020-11-05 12:24:19.650450410 +1100
+@@ -279,17 +279,12 @@
+ 	    }
+ 	}
+     }
+-    else
+-    {
+-	//
+-	// exclude control characters, space characters
+-	// and high-bit-on characters
+-	// (This is a "C" locale test.)
+-	//
+-	for (s = fn->str_text; *s; ++s)
+-	    if (!isgraph((unsigned char)*s))
+-		return 0;
+-    }
++    //
++    // Avoid doing more checks using isgraph/isprint or similar
++    // functions, since they can be too strict with respect to other
++    // option selected by the user: allow_white_space_in_filenames,
++    // allow_non_ascii_filenames.
++    //
+     return 1;
+ }
+ 
+--- aegis-4.24.old/libaegis/gram.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/libaegis/gram.y	2020-11-05 12:19:03.210118576 +1100
+@@ -34,11 +34,6 @@
+ 
+ %}
+ 
+-%token INTEGER
+-%token NAME
+-%token REAL
+-%token STRING
+-
+ %union
+ {
+ 	string_ty	*lv_string;
+@@ -46,9 +41,14 @@
+ 	double		lv_real;
+ }
+ 
+-%type <lv_string> NAME STRING string
+-%type <lv_integer> INTEGER integer
+-%type <lv_real> REAL real
++%token <lv_integer> INTEGER
++%token <lv_string> NAME
++%token <lv_real> REAL
++%token <lv_string> STRING
++
++%type <lv_string> string
++%type <lv_integer> integer
++%type <lv_real> real
+ 
+ %%
+ 
+--- aegis-4.24.old/aeget/get/project/integr_histo.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/aeget/get/project/integr_histo.cc	2020-11-05 12:19:03.210118576 +1100
+@@ -189,14 +189,14 @@
+     if (recursive)
+     {
+ 	printf("faster ");
+-	emit_project_href(pp, ref.c_str());
++	emit_project_href(pp,"%s", ref.c_str());
+ 	printf("non-");
+     }
+     else
+     {
+ 	printf("slower ");
+ 	ref += "+recursive";
+-	emit_project_href(pp, ref.c_str());
++	emit_project_href(pp,"%s", ref.c_str());
+     }
+     printf("recursive</a> listing available.</p>\n");
+ 
+--- aegis-4.24.old/common/config.messy.h	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/common/config.messy.h	2020-11-05 12:19:03.210118576 +1100
 @@ -99,6 +99,7 @@
  #endif
  #ifndef _BSD_SOURCE
@@ -8,8 +415,8 @@
  #endif
  #endif
  
---- aegis-4.24/./common/mem.h	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/./common/mem.h	2018-10-31 15:42:11.900540196 +1100
+--- aegis-4.24.old/common/mem.h	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/common/mem.h	2020-11-05 12:19:03.210118576 +1100
 @@ -124,11 +124,7 @@
     dmem_copy_string(__FILE__, __LINE__, (p), ## __VA_ARGS__)
  #endif
@@ -22,8 +429,8 @@
  
  #ifndef DMALLOC
  void *operator new(size_t nbytes) THROW_BAD_ALLOC;
---- aegis-4.24/./common/stack.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/./common/stack.cc	2018-10-31 15:32:37.995133044 +1100
+--- aegis-4.24.old/common/stack.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/common/stack.cc	2020-11-05 12:19:03.210118576 +1100
 @@ -24,7 +24,7 @@
  find_stack_direction ()
  {
@@ -42,8 +449,8 @@
      char *cp = (char *)p;
      return (stack_direction < 0 ?  (&dummy < cp) : (&dummy > cp));
  }
---- aegis-4.24/./common/ac/unistd.h	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/./common/ac/unistd.h	2018-10-31 15:32:37.994133054 +1100
+--- aegis-4.24.old/common/ac/unistd.h	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/common/ac/unistd.h	2020-11-05 12:19:03.210118576 +1100
 @@ -29,6 +29,7 @@
  #ifdef __linux__
  #ifndef _BSD_SOURCE
@@ -52,8 +459,8 @@
  #endif
  #ifndef __USE_BSD
  #define __USE_BSD
---- aegis-4.24/./common/ac/string/memmem.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/./common/ac/string/memmem.cc	2018-10-31 15:32:37.994133054 +1100
+--- aegis-4.24.old/common/ac/string/memmem.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/common/ac/string/memmem.cc	2020-11-05 12:19:03.210118576 +1100
 @@ -182,7 +182,7 @@
  
      // Use optimizations in memchr when possible.
@@ -63,9 +470,221 @@
  
      // Minimizing the worst-case complexity:
      // Let n = haystack_len, m = needle_len.
---- aegis-4.24/./Makefile.in	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/./Makefile.in	2018-10-31 15:32:37.999133004 +1100
-@@ -37493,7 +37493,6 @@
+--- aegis-4.24.old/fmtgen/parse.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/fmtgen/parse.y	2020-11-05 12:19:03.210118576 +1100
+@@ -54,30 +54,29 @@
+ 
+ %}
+ 
++%union
++{
++    string_ty       *lv_string;
++    long            lv_integer;
++    type *lv_type;
++}
++
+ %token	BOOLEAN
+ %token	BOOLEAN_CONSTANT
+ %token	HIDE_IF_DEFAULT
+ %token	INCLUDE
+ %token	INTEGER
+-%token	INTEGER_CONSTANT
+-%token	NAME
++%token	<lv_integer> INTEGER_CONSTANT
++%token	<lv_string> NAME
+ %token	REAL
+ %token	REDEFINITION_OK
+ %token	SHOW_IF_DEFAULT
+ %token	STRING
+-%token	STRING_CONSTANT
++%token	<lv_string> STRING_CONSTANT
+ %token	TIME
+ %token	TYPE
+ 
+-%union
+-{
+-    string_ty       *lv_string;
+-    long            lv_integer;
+-    type *lv_type;
+-}
+-
+-%type <lv_string> NAME STRING_CONSTANT
+-%type <lv_integer> INTEGER_CONSTANT attributes
++%type <lv_integer> attributes
+ %type <lv_type> type structure list enumeration enum_list_begin
+ 
+ %{
+--- aegis-4.24.old/Makefile.in	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24/Makefile.in	2020-11-05 12:24:19.649450419 +1100
+@@ -4007,12 +4007,16 @@
+ aefind/cmdline.gen.cc aefind/cmdline.gen.h: aefind/cmdline.y
+ 	@echo Expect 5 shift/reduce, 23 reduce/reduce conflicts.
+ 	$(YACC) -d aefind/cmdline.y
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.c
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.h
+ 	sed -e 's/[yY][yY]/cmdline_/g' -e '/<stdio.h>/d' -e \
+ 		'/<stdlib.h>/d' -e '/<stddef.h>/d' y.tab.c > \
+ 		aefind/cmdline.gen.cc
+ 	sed -e 's/[yY][yY]/cmdline_/g' -e 's/Y_TAB_H/cmdline_TAB_H/g' \
+ 		y.tab.h > aefind/cmdline.gen.h
+ 	rm -f y.tab.c y.tab.h
++	sed -i -e 's/yacc_error_tmp/YYerror/g' aefind/cmdline.gen.cc
++	sed -i -e 's/yacc_error_tmp/YYerror/g' aefind/cmdline.gen.h
+ 
+ aefind/descend.$(OBJEXT): aefind/descend.cc common/ac/errno.h \
+ 		common/config.h common/config.messy.h \
+@@ -7378,6 +7382,8 @@
+ 		aeimport/format/rcs/gram.y
+ 	@echo Expect no conflicts.
+ 	$(YACC) -d aeimport/format/rcs/gram.y
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.c
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.h
+ 	sed -e 's/[yY][yY]/format_rcs_gram_/g' -e '/<stdio.h>/d' -e \
+ 		'/<stdlib.h>/d' -e '/<stddef.h>/d' y.tab.c > \
+ 		aeimport/format/rcs/gram.gen.cc
+@@ -7385,6 +7391,8 @@
+ 		's/Y_TAB_H/format_rcs_gram_TAB_H/g' y.tab.h > \
+ 		aeimport/format/rcs/gram.gen.h
+ 	rm -f y.tab.c y.tab.h
++	sed -i -e 's/yacc_error_tmp/YYerror/g' aeimport/format/rcs/gram.gen.cc
++	sed -i -e 's/yacc_error_tmp/YYerror/g' aeimport/format/rcs/gram.gen.h
+ 
+ aeimport/format/rcs/lex.$(OBJEXT): aeimport/format/rcs/lex.cc \
+ 		aeimport/format/rcs/lex.h common/str.h common/ac/stddef.h \
+@@ -7435,6 +7443,8 @@
+ 		aeimport/format/sccs/gram.y
+ 	@echo Expect no conflicts.
+ 	$(YACC) -d aeimport/format/sccs/gram.y
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.c
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.h
+ 	sed -e 's/[yY][yY]/format_sccs_gram_/g' -e '/<stdio.h>/d' -e \
+ 		'/<stdlib.h>/d' -e '/<stddef.h>/d' y.tab.c > \
+ 		aeimport/format/sccs/gram.gen.cc
+@@ -7442,6 +7452,8 @@
+ 		's/Y_TAB_H/format_sccs_gram_TAB_H/g' y.tab.h > \
+ 		aeimport/format/sccs/gram.gen.h
+ 	rm -f y.tab.c y.tab.h
++	sed -i -e 's/yacc_error_tmp/YYerror/g' aeimport/format/sccs/gram.gen.cc
++	sed -i -e 's/yacc_error_tmp/YYerror/g' aeimport/format/sccs/gram.gen.h
+ 
+ aeimport/format/sccs/lex.$(OBJEXT): aeimport/format/sccs/lex.cc \
+ 		common/ac/ctype.h common/config.h common/config.messy.h \
+@@ -8992,12 +9004,16 @@
+ common/gettime.gen.cc common/gettime.gen.h: common/gettime.y
+ 	@echo Expect 8 shift/reduce conflicts.
+ 	$(YACC) -d common/gettime.y
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.c
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.h
+ 	sed -e 's/[yY][yY]/gettime_/g' -e '/<stdio.h>/d' -e \
+ 		'/<stdlib.h>/d' -e '/<stddef.h>/d' y.tab.c > \
+ 		common/gettime.gen.cc
+ 	sed -e 's/[yY][yY]/gettime_/g' -e 's/Y_TAB_H/gettime_TAB_H/g' \
+ 		y.tab.h > common/gettime.gen.h
+ 	rm -f y.tab.c y.tab.h
++	sed -i -e 's/yacc_error_tmp/YYerror/g' common/gettime.gen.cc
++	sed -i -e 's/yacc_error_tmp/YYerror/g' common/gettime.gen.h
+ 
+ common/gmatch.$(OBJEXT): common/gmatch.cc common/ac/string.h \
+ 		common/config.h common/config.messy.h common/gmatch.h \
+@@ -10087,11 +10103,15 @@
+ fmtgen/parse.gen.cc fmtgen/parse.gen.h: fmtgen/parse.y
+ 	@echo Expect no conflicts.
+ 	$(YACC) -d fmtgen/parse.y
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.c
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.h
+ 	sed -e 's/[yY][yY]/parse_/g' -e '/<stdio.h>/d' -e '/<stdlib.h>/d' \
+ 		-e '/<stddef.h>/d' y.tab.c > fmtgen/parse.gen.cc
+ 	sed -e 's/[yY][yY]/parse_/g' -e 's/Y_TAB_H/parse_TAB_H/g' y.tab.h \
+ 		> fmtgen/parse.gen.h
+ 	rm -f y.tab.c y.tab.h
++	sed -i -e 's/yacc_error_tmp/YYerror/g' fmtgen/parse.gen.cc
++	sed -i -e 's/yacc_error_tmp/YYerror/g' fmtgen/parse.gen.h
+ 
+ fmtgen/type.$(OBJEXT): fmtgen/type.cc common/error.h common/main.h \
+ 		common/mem.h common/ac/stddef.h common/config.h \
+@@ -16642,6 +16662,8 @@
+ 		libaegis/aer/report.y
+ 	@echo Expect 2 reduce/reduce conflicts.
+ 	$(YACC) -d libaegis/aer/report.y
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.c
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.h
+ 	sed -e 's/[yY][yY]/aer_report_/g' -e '/<stdio.h>/d' -e \
+ 		'/<stdlib.h>/d' -e '/<stddef.h>/d' y.tab.c > \
+ 		libaegis/aer/report.gen.cc
+@@ -16649,6 +16671,9 @@
+ 		's/Y_TAB_H/aer_report_TAB_H/g' y.tab.h > \
+ 		libaegis/aer/report.gen.h
+ 	rm -f y.tab.c y.tab.h
++	sed -i -e 's/yacc_error_tmp/YYerror/g' libaegis/aer/report.gen.cc
++	sed -i -e 's/yacc_error_tmp/YYerror/g' libaegis/aer/report.gen.h
++
+ 
+ libaegis/aer/stmt.$(OBJEXT): libaegis/aer/stmt.cc common/error.h \
+ 		common/main.h common/mem.h common/ac/stddef.h \
+@@ -23743,11 +23768,15 @@
+ libaegis/gram.gen.cc libaegis/gram.gen.h: libaegis/gram.y
+ 	@echo Expect no conflicts.
+ 	$(YACC) -d libaegis/gram.y
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.c
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.h
+ 	sed -e 's/[yY][yY]/gram_/g' -e '/<stdio.h>/d' -e '/<stdlib.h>/d' \
+ 		-e '/<stddef.h>/d' y.tab.c > libaegis/gram.gen.cc
+ 	sed -e 's/[yY][yY]/gram_/g' -e 's/Y_TAB_H/gram_TAB_H/g' y.tab.h > \
+ 		libaegis/gram.gen.h
+ 	rm -f y.tab.c y.tab.h
++	sed -i -e 's/yacc_error_tmp/YYerror/g' libaegis/gram.gen.cc
++	sed -i -e 's/yacc_error_tmp/YYerror/g' libaegis/gram.gen.h
+ 
+ libaegis/gstate.$(OBJEXT): libaegis/gstate.cc common/ac/stddef.h \
+ 		common/config.h common/config.messy.h common/ac/stdio.h \
+@@ -28731,6 +28760,8 @@
+ 		libaegis/sub/expr_gram.y
+ 	@echo Expect no conflicts.
+ 	$(YACC) -d libaegis/sub/expr_gram.y
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.c
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.h
+ 	sed -e 's/[yY][yY]/sub_expr_gram_/g' -e '/<stdio.h>/d' -e \
+ 		'/<stdlib.h>/d' -e '/<stddef.h>/d' y.tab.c > \
+ 		libaegis/sub/expr_gram.gen.cc
+@@ -28738,6 +28769,8 @@
+ 		's/Y_TAB_H/sub_expr_gram_TAB_H/g' y.tab.h > \
+ 		libaegis/sub/expr_gram.gen.h
+ 	rm -f y.tab.c y.tab.h
++	sed -i -e 's/yacc_error_tmp/YYerror/g' libaegis/sub/expr_gram.gen.cc
++	sed -i -e 's/yacc_error_tmp/YYerror/g' libaegis/sub/expr_gram.gen.h
+ 
+ libaegis/sub/expr_lex.$(OBJEXT): libaegis/sub/expr_lex.cc \
+ 		common/nstring.h common/str.h common/ac/stddef.h \
+@@ -29045,6 +29078,8 @@
+ 		libaegis/sub/plural_gram.y
+ 	@echo Expect no conflicts.
+ 	$(YACC) -d libaegis/sub/plural_gram.y
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.c
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.h
+ 	sed -e 's/[yY][yY]/sub_plural_gram_/g' -e '/<stdio.h>/d' -e \
+ 		'/<stdlib.h>/d' -e '/<stddef.h>/d' y.tab.c > \
+ 		libaegis/sub/plural_gram.gen.cc
+@@ -29052,6 +29087,8 @@
+ 		's/Y_TAB_H/sub_plural_gram_TAB_H/g' y.tab.h > \
+ 		libaegis/sub/plural_gram.gen.h
+ 	rm -f y.tab.c y.tab.h
++	sed -i -e 's/yacc_error_tmp/YYerror/g' libaegis/sub/plural_gram.gen.cc
++	sed -i -e 's/yacc_error_tmp/YYerror/g' libaegis/sub/plural_gram.gen.h
+ 
+ libaegis/sub/plural_lex.$(OBJEXT): libaegis/sub/plural_lex.cc \
+ 		common/ac/string.h common/config.h common/config.messy.h \
+@@ -32081,6 +32118,10 @@
+ 	CXX="$(CXX)" $(SH) etc/test.sh -shell $(SH) -run \
+ 		test/02/t0266a-walt.sh test/02/t0266a-walt.ES
+ 
++test/02/t0289a-walt.ES: test/02/t0289a-walt.sh all-bin etc/test.sh
++	CXX="$(CXX)" $(SH) etc/test.sh -shell $(SH) -run \
++		test/02/t0289a-walt.sh test/02/t0289a-walt.ES
++
+ test_base64/main.$(OBJEXT): test_base64/main.cc common/ac/stdio.h \
+ 		common/config.h common/config.messy.h common/ac/stdlib.h \
+ 		common/arglex.h common/main.h common/error.h \
+@@ -37493,7 +37534,6 @@
  	-$(INSTALL) -m 0755 -d $(RPM_BUILD_ROOT)$(comdir)
  	-chown $(AEGIS_UID) $(RPM_BUILD_ROOT)$(comdir) && chgrp \
  		$(AEGIS_GID) $(RPM_BUILD_ROOT)$(comdir)

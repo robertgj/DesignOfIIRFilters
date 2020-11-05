@@ -144,7 +144,7 @@ do
     echo "pkg prefix $OCTAVE_PACKAGE_DIR $OCTAVE_PACKAGE_DIR ; \
           pkg local_list $OCTAVE_PACKAGES ;" > .octaverc
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../io-2.6.1.tar.gz' 
+                                       'pkg install ../io-2.6.2.tar.gz' 
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
                                        'pkg install ../struct-1.0.16.tar.gz' 
     $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
