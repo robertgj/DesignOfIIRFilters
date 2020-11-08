@@ -32112,25 +32112,13 @@ cd /usr/local/src/aegis
 tar -xf aegis-4.24.tar.gz
 cd aegis-4.24
 patch -p1 < ../aegis-4.24.patch
-./configure CXXFLAGS="-fpermissive -std=c++98" CFLAGS="-std=c99"
-make && make install
-\end{verbatim}
-\end{small}
-To build \emph{fhist}~\cite{Miller_fhist} with the patch provided in this 
-project:
-\begin{small}
-\begin{verbatim} 
-cd /usr/local/src/fhist
-tar -xf fhist-1.21.D001.tar.gz
-cd fhist-1.21
-patch -p1 < ../fhist-1.21.D001.patch
 ./configure 
 make && make install
 \end{verbatim}
 \end{small}
-\emph{fhist} requires the \emph{libexplain}\cite{Miller_libexplain} library. The
-patch to \emph{libexplain} provided in this project is based on that for the
-\emph{Debian} package and is applied similarly to the patch for \emph{fhist}.
+The \emph{fhist}~\cite{Miller_fhist} program and
+\emph{libexplain}\cite{Miller_libexplain} library are compiled similarly to
+\emph{aegis} with the patches provided in this project.
 
 I use this \emph{~/.aegisrc}:
 \begin{small}
