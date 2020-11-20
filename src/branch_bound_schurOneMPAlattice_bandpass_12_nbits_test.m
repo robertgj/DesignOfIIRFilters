@@ -370,135 +370,133 @@ endif
   
   % Show results
 if ~improved_solution_found
-  printf("Did not find an improved solution!\n");
-else
-  A1k_min=k_min(R1); 
-  A1epsilon_min=schurOneMscale(A1k_min);
-  A2k_min=k_min(R2);
-  A2epsilon_min=schurOneMscale(A2k_min);
-  Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon_min,A1p_ones, ...
-                                A2k_min,A2epsilon_min,A2p_ones, ...
-                                difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-  printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
-  print_polynomial(A1k_min,"A1k_min",nscale);
-  print_polynomial(A1k_min,"A1k_min",strcat(strf,"_A1k_min_coef.m"),nscale);
-  printf("A1epsilon_min=[ ");printf("%d ",A1epsilon_min);printf("]';\n");
-  print_polynomial(A2k_min,"A2k_min",nscale);
-  print_polynomial(A2k_min,"A2k_min",strcat(strf,"_A2k_min_coef.m"),nscale);
-  printf("A2epsilon_min=[ ");printf("%d ",A2epsilon_min);printf("]';\n");
-  % Find the number of signed-digits and adders used
-  [kmin_digits,kmin_adders]=SDadders(k_min,nbits);
-  printf("%d signed-digits used\n",kmin_digits);
-  printf("%d %d-bit adders used for coefficient multiplications\n",
-         kmin_adders,nbits);
-  fid=fopen(strcat(strf,"_kmin_digits.tab"),"wt");
-  fprintf(fid,"$%d$",kmin_digits);
-  fclose(fid);
-  fid=fopen(strcat(strf,"_kmin_adders.tab"),"wt");
-  fprintf(fid,"$%d$",kmin_adders);
-  fclose(fid);
-
-  % Amplitude,delay and phase at local peaks
-  Asq=schurOneMPAlatticeAsq(wa,A1k_min,A1epsilon_min,A1p_ones, ...
-                            A2k_min,A2epsilon_min,A2p_ones,difference);
-  vAl=local_max(Asqdl-Asq);
-  vAu=local_max(Asq-Asqdu);
-  wAsqS=unique([wa(vAl);wa(vAu);wa([1,end])]);
-  AsqS=schurOneMPAlatticeAsq(wAsqS,A1k_min,A1epsilon_min,A1p_ones, ...
-                             A2k_min,A2epsilon_min,A2p_ones,difference);
-  printf("kmin:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
-  printf("kmin:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
-  T=schurOneMPAlatticeT(wt,A1k_min,A1epsilon_min,A1p_ones, ...
-                        A2k_min,A2epsilon_min,A2p_ones,difference);
-  vTl=local_max(Tdl-T);
-  vTu=local_max(T-Tdu);
-  wTS=sort(unique([wt(vTl);wt(vTu);wt([1,end])]));
-  TS=schurOneMPAlatticeT(wTS,A1k_min,A1epsilon_min,A1p_ones, ...
-                         A2k_min,A2epsilon_min,A2p_ones,difference);
-  printf("kmin:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
-  printf("kmin:TS=[ ");printf("%f ",TS');printf("] (Samples)\n")
-  
-  % Make a LaTeX table for cost
-  fid=fopen(strcat(strf,"_kmin_cost.tab"),"wt");
-  fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-  fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n",
-          nbits,ndigits,Esq0_sd,k0_sd_digits,k0_sd_adders);
-  fprintf(fid,"%d-bit %d-signed-digit(SOCP b-and-b) & %8.6f & %d & %d \\\\\n",
-          nbits,ndigits,Esq_min,kmin_digits,kmin_adders);
-  fclose(fid);
-
-  %
-  % Plot response
-  %
-
-  % Find squared-magnitude and group-delay
-  Asq_k0=schurOneMPAlatticeAsq(wa,A1k0,A1epsilon0,A1p0, ...
-                               A2k0,A2epsilon0,A2p0,difference);
-  Asq_k0_sd=schurOneMPAlatticeAsq(wa,A1k0_sd,A1epsilon0,A1p_ones, ...
-                                  A2k0_sd,A2epsilon0,A2p_ones,difference);
-  Asq_kmin=schurOneMPAlatticeAsq(wa,A1k_min,A1epsilon_min,A1p_ones, ...
-                                 A2k_min,A2epsilon_min,A2p_ones,difference);
-  T_k0=schurOneMPAlatticeT(wt,A1k0,A1epsilon0,A1p0, ...
-                           A2k0,A2epsilon0,A2p0,difference);
-  T_k0_sd=schurOneMPAlatticeT(wt,A1k0_sd,A1epsilon0,A1p_ones, ...
-                              A2k0_sd,A2epsilon0,A2p_ones,difference);
-  T_kmin=schurOneMPAlatticeT(wt,A1k_min,A1epsilon_min,A1p_ones, ...
-                             A2k_min,A2epsilon_min,A2p_ones,difference);
-
-  % Plot stop-band amplitude
-  plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
-       wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
-       wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-  legend("exact","s-d(Lim)","s-d(SOCP b-and-b)");
-  legend("location","northeast");
-  legend("boxoff");
-  legend("left");
-  ylabel("Amplitude(dB)");
-  xlabel("Frequency");
-  strt=sprintf("Parallel one-multplier allpass lattice bandpass filter stop-band\
-(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,ndigits,fasl,fasu,dBas);
-  title(strt);
-  axis([0, 0.5, -70, -20]);
-  grid("on");
-  print(strcat(strf,"_kmin_stop"),"-dpdflatex"); 
-  close
-
-  % Plot pass-band amplitude
-  plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
-       wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
-       wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-  ylabel("Amplitude(dB)");
-  strt=sprintf("Parallel one-multplier allpass lattice bandpass filter pass-band\
-(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,ndigits,fapl,fapu,dBap);
-  title(strt);
-  axis([fapl fapu -3, 1]);
-  legend("exact","s-d(Lim)","s-d(b-and-b)");
-  legend("location","northeast");
-  legend("boxoff");
-  legend("left");
-  grid("on");
-  print(strcat(strf,"_kmin_pass"),"-dpdflatex");
-  close
-
-  % Plot pass-band delay
-  plot(wt*0.5/pi,T_k0,"linestyle","-", ...
-       wt*0.5/pi,T_k0_sd,"linestyle","--", ...
-       wt*0.5/pi,T_kmin,"linestyle","-.");
-  ylabel("Delay(Samples)");
-  xlabel("Frequency");
-  strt=sprintf("Parallel one-multplier allpass lattice bandpass filter pass-band\
-(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g,tdr=%g",nbits,ndigits,ftpl,ftpu,tdr);
-  title(strt);
-  axis([ftpl ftpu, td-tdr, td+tdr]);
-  legend("exact","s-d(Lim)","s-d(b-and-b)");
-  legend("location","northeast");
-  legend("boxoff");
-  legend("left");
-  grid("on");
-  print(strcat(strf,"_kmin_delay"),"-dpdflatex");
-  close
-
+  error("Did not find an improved solution!\n");
 endif
+A1k_min=k_min(R1); 
+A1epsilon_min=schurOneMscale(A1k_min);
+A2k_min=k_min(R2);
+A2epsilon_min=schurOneMscale(A2k_min);
+Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon_min,A1p_ones, ...
+                              A2k_min,A2epsilon_min,A2p_ones, ...
+                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
+print_polynomial(A1k_min,"A1k_min",nscale);
+print_polynomial(A1k_min,"A1k_min",strcat(strf,"_A1k_min_coef.m"),nscale);
+printf("A1epsilon_min=[ ");printf("%d ",A1epsilon_min);printf("]';\n");
+print_polynomial(A2k_min,"A2k_min",nscale);
+print_polynomial(A2k_min,"A2k_min",strcat(strf,"_A2k_min_coef.m"),nscale);
+printf("A2epsilon_min=[ ");printf("%d ",A2epsilon_min);printf("]';\n");
+% Find the number of signed-digits and adders used
+[kmin_digits,kmin_adders]=SDadders(k_min,nbits);
+printf("%d signed-digits used\n",kmin_digits);
+printf("%d %d-bit adders used for coefficient multiplications\n",
+       kmin_adders,nbits);
+fid=fopen(strcat(strf,"_kmin_digits.tab"),"wt");
+fprintf(fid,"$%d$",kmin_digits);
+fclose(fid);
+fid=fopen(strcat(strf,"_kmin_adders.tab"),"wt");
+fprintf(fid,"$%d$",kmin_adders);
+fclose(fid);
+
+% Amplitude,delay and phase at local peaks
+Asq=schurOneMPAlatticeAsq(wa,A1k_min,A1epsilon_min,A1p_ones, ...
+                          A2k_min,A2epsilon_min,A2p_ones,difference);
+vAl=local_max(Asqdl-Asq);
+vAu=local_max(Asq-Asqdu);
+wAsqS=unique([wa(vAl);wa(vAu);wa([1,end])]);
+AsqS=schurOneMPAlatticeAsq(wAsqS,A1k_min,A1epsilon_min,A1p_ones, ...
+                           A2k_min,A2epsilon_min,A2p_ones,difference);
+printf("kmin:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("kmin:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
+T=schurOneMPAlatticeT(wt,A1k_min,A1epsilon_min,A1p_ones, ...
+                      A2k_min,A2epsilon_min,A2p_ones,difference);
+vTl=local_max(Tdl-T);
+vTu=local_max(T-Tdu);
+wTS=sort(unique([wt(vTl);wt(vTu);wt([1,end])]));
+TS=schurOneMPAlatticeT(wTS,A1k_min,A1epsilon_min,A1p_ones, ...
+                       A2k_min,A2epsilon_min,A2p_ones,difference);
+printf("kmin:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("kmin:TS=[ ");printf("%f ",TS');printf("] (Samples)\n")
+
+% Make a LaTeX table for cost
+fid=fopen(strcat(strf,"_kmin_cost.tab"),"wt");
+fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
+fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n",
+        nbits,ndigits,Esq0_sd,k0_sd_digits,k0_sd_adders);
+fprintf(fid,"%d-bit %d-signed-digit(SOCP b-and-b) & %8.6f & %d & %d \\\\\n",
+        nbits,ndigits,Esq_min,kmin_digits,kmin_adders);
+fclose(fid);
+
+%
+% Plot response
+%
+
+% Find squared-magnitude and group-delay
+Asq_k0=schurOneMPAlatticeAsq(wa,A1k0,A1epsilon0,A1p0, ...
+                             A2k0,A2epsilon0,A2p0,difference);
+Asq_k0_sd=schurOneMPAlatticeAsq(wa,A1k0_sd,A1epsilon0,A1p_ones, ...
+                                A2k0_sd,A2epsilon0,A2p_ones,difference);
+Asq_kmin=schurOneMPAlatticeAsq(wa,A1k_min,A1epsilon_min,A1p_ones, ...
+                               A2k_min,A2epsilon_min,A2p_ones,difference);
+T_k0=schurOneMPAlatticeT(wt,A1k0,A1epsilon0,A1p0, ...
+                         A2k0,A2epsilon0,A2p0,difference);
+T_k0_sd=schurOneMPAlatticeT(wt,A1k0_sd,A1epsilon0,A1p_ones, ...
+                            A2k0_sd,A2epsilon0,A2p_ones,difference);
+T_kmin=schurOneMPAlatticeT(wt,A1k_min,A1epsilon_min,A1p_ones, ...
+                           A2k_min,A2epsilon_min,A2p_ones,difference);
+
+% Plot stop-band amplitude
+plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
+     wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
+     wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
+legend("exact","s-d(Lim)","s-d(SOCP b-and-b)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+ylabel("Amplitude(dB)");
+xlabel("Frequency");
+strt=sprintf("Parallel one-multplier allpass lattice bandpass filter stop-band\
+(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,ndigits,fasl,fasu,dBas);
+title(strt);
+axis([0, 0.5, -70, -20]);
+grid("on");
+print(strcat(strf,"_kmin_stop"),"-dpdflatex"); 
+close
+
+% Plot pass-band amplitude
+plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
+     wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
+     wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
+ylabel("Amplitude(dB)");
+strt=sprintf("Parallel one-multplier allpass lattice bandpass filter pass-band\
+(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,ndigits,fapl,fapu,dBap);
+title(strt);
+axis([fapl fapu -3, 1]);
+legend("exact","s-d(Lim)","s-d(b-and-b)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_kmin_pass"),"-dpdflatex");
+close
+
+% Plot pass-band delay
+plot(wt*0.5/pi,T_k0,"linestyle","-", ...
+     wt*0.5/pi,T_k0_sd,"linestyle","--", ...
+     wt*0.5/pi,T_kmin,"linestyle","-.");
+ylabel("Delay(Samples)");
+xlabel("Frequency");
+strt=sprintf("Parallel one-multplier allpass lattice bandpass filter pass-band\
+(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g,tdr=%g",nbits,ndigits,ftpl,ftpu,tdr);
+title(strt);
+axis([ftpl ftpu, td-tdr, td+tdr]);
+legend("exact","s-d(Lim)","s-d(b-and-b)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_kmin_delay"),"-dpdflatex");
+close
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");

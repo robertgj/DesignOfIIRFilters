@@ -196,9 +196,7 @@ printf("Branch-and-bound search completed with %d branches\n",n_branch);
 
 % Show results
 if ~improved_solution_found
-  printf("Did not find an improved solution over hM_sd!\n");
-  Esq_min=Esq_sd;
-  hM_min=hM_sd;
+  error("Did not find an improved solution over hM_sd!\n");
 endif
 
 printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);

@@ -393,188 +393,186 @@ else
 endif
 
 % Show results
-if improved_solution_found
-  printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
-  print_polynomial(k_min,"k_min",nscale);
-  print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
-  printf("epsilon0=[ ");printf("%d ",epsilon0');printf("]';\n");
-  printf("p0=[ ");printf("%g ",p0');printf("]';\n");
-  print_polynomial(u_min,"u_min",nscale);
-  print_polynomial(u_min,"u_min",strcat(strf,"_u_min_coef.m"),nscale);
-  print_polynomial(v_min,"v_min",nscale);
-  print_polynomial(v_min,"v_min",strcat(strf,"_v_min_coef.m"),nscale);
-  print_polynomial(k_allocsd_digits,"k_allocsd_digits", ...
-                   strcat(strf,"_k_allocsd_digits.m"),"%2d");
-  print_polynomial(u_allocsd_digits,"u_allocsd_digits", ...
-                   strcat(strf,"_u_allocsd_digits.m"),"%2d");
-  print_polynomial(v_allocsd_digits,"v_allocsd_digits", ...
-                   strcat(strf,"_v_allocsd_digits.m"),"%2d");
-  % Find the number of signed-digits adders used
-  [kuv_digits,kuv_adders]=SDadders(kuv_min(kuv0_active),nbits);
-  printf("%d signed-digits used\n",kuv_digits);
-  printf("%d %d-bit adders used for coefficient multiplications\n",
-         kuv_adders,nbits);
-  
-  % Amplitude,delay and phase at local peaks
-  Asq=schurOneMAPlattice_frm_hilbertAsq ...
-        (wa,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
-  vAl=local_max(Asqdl-Asq);
-  vAu=local_max(Asq-Asqdu);
-  wAsqS=unique([wa(vAl);wa(vAu);wa([1,end])]);
-  AsqS=schurOneMAPlattice_frm_hilbertAsq ...
-         (wAsqS,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
-  printf("k,u,v_min:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ](fs==1)\n");
-  printf("k,u,v_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ](dB)\n");
-  T=schurOneMAPlattice_frm_hilbertT ...
-      (wt,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
-  vTl=local_max(Tdl-T);
-  vTu=local_max(T-Tdu);
-  wTS=sort(unique([wt(vTl);wt(vTu);wt([1,end])]));
-  TS=schurOneMAPlattice_frm_hilbertT ...
-       (wTS,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
-  printf("k,u,v_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ](fs==1)\n");
-  printf("k,u,v_min:TS=[ ");printf("%f ",TS'+tp);
-  printf("] (Samples)\n")
-  P=schurOneMAPlattice_frm_hilbertP ...
-      (wp,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
-  vPl=local_max(Pdl-P);
-  vPu=local_max(P-Pdu);
-  wPS=sort(unique([wp(vPl);wp(vPu);wp([1,end])]));
-  PS=schurOneMAPlattice_frm_hilbertP ...
-       (wPS,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
-  printf("k,u,v_min:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ](fs==1)\n");
-  printf("k,u,v_min:PS=[ ");printf("%f ",PS'/pi);
-  printf("] (rad./pi) adjusted for delay\n");
-
-  %
-  % Compare with remez
-  %
-  b=remez(2*tp,2*[fap fas],[1 1],1,"hilbert");
-  b_sd=flt2SD(b,nbits,ndigits);
-  Afir_sd=freqz(b_sd,1,wa);
-  Pfir_sd=freqz(b_sd,1,w);
-  Pfir_sd=unwrap(arg(Pfir_sd))+(w*tp);
-  Pfir_sd=Pfir_sd(npp:nps);
-  Asq_kuv_min=schurOneMAPlattice_frm_hilbertAsq ...
-                (wa,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
-  P_kuv_min=schurOneMAPlattice_frm_hilbertP ...
-              (wp,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
-  subplot(211);
-  plot(wa*0.5/pi,20*log10(abs(Afir_sd)),"-", ...
-       wa*0.5/pi,10*log10(Asq_kuv_min),"-.");
-  legend("s-d(remez)","s-d(SOCP-bb)");
-  legend("location","north");
-  legend("boxoff");
-  legend("left");
-  ylabel("Amplitude(dB)");
-  xlabel("Frequency");
-  axis([0 0.5 -0.5 0.5]);
-  grid("on");
-  subplot(212);
-  plot(wp*0.5/pi,Pfir_sd/pi,"-",wp*0.5/pi,P_kuv_min/pi,"-.");
-  ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
-  xlabel("Frequency");
-  axis([0 0.5 -0.502 -0.498]);
-  grid("on");
-  print(strcat(strf,"_remez"),"-dpdflatex");
-  close
-  % Find the number of signed-digits used
-  [b_digits,b_adders]=SDadders(b_sd(1:(tp+1)),nbits);
-  printf("%d signed-digits used by remez\n",b_digits);
-  printf("%d %d-bit adders used for coefficient multiplications\n",
-         b_adders,nbits);
-
-  % Calculate the FIR cost
-  Err_fir_sd=((abs(Afir_sd).^2)-Asqd).^2;
-  Na=length(wa);
-  Esq_fir_sd=sum(diff(wa).*(Err_fir_sd(1:(Na-1)+Err_fir_sd(2:Na))))/2;
-
-  %
-  % Make a LaTeX table for cost
-  %
-  fid=fopen(strcat(strf,"_cost.tab"),"wt");
-  fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-  fprintf(fid,"%d-bit %d-signed-digit&%8.6f & %d & %d \\\\\n",
-          nbits,ndigits,Esq0_sd,kuv0_digits,kuv0_adders);
-  fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%8.6f & %d & %d \\\\\n",
-          nbits,ndigits,Esq_min,kuv_digits,kuv_adders);
-  fprintf(fid,"%d-bit %d-signed-digit(remez)&%8.6f & %d & %d \\\\\n",
-          nbits,ndigits,Esq_fir_sd,b_digits,b_adders);
-  fclose(fid);
-
-  %
-  % Plot response
-  %
-
-  % Plot amplitude
-  Asq_kuv0=schurOneMAPlattice_frm_hilbertAsq ...
-             (wa,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
-  Asq_kuv0_sd=schurOneMAPlattice_frm_hilbertAsq ...
-                (wa,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
-  Asq_kuv_min=schurOneMAPlattice_frm_hilbertAsq ...
-                (wa,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
-  plot(wa*0.5/pi,10*log10(Asq_kuv0),"linestyle","-", ...
-       wa*0.5/pi,10*log10(Asq_kuv0_sd),"linestyle","--", ...
-       wa*0.5/pi,10*log10(Asq_kuv_min),"linestyle","-.");
-  legend("exact","s-d","s-d(SOCP-bb)");
-  legend("location","north");
-  legend("boxoff");
-  legend("left");
-  ylabel("Amplitude(dB)");
-  xlabel("Frequency");
-  strt=sprintf("FRM Hilbert filter (nbits=12) : \
-fap=%g,fas=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g,Wpp=%g",fap,fas,dBap,Wap,tp,Wtp,Wpp);
-  title(strt);
-  axis([0  0.5 -0.2 0.2]);
-  grid("on");
-  print(strcat(strf,"_kuv_minAsq"),"-dpdflatex");
-  close
-  % Plot phase
-  P_kuv0=schurOneMAPlattice_frm_hilbertP ...
-           (wp,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
-  P_kuv0_sd=schurOneMAPlattice_frm_hilbertP ...
-              (wp,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
-  P_kuv_min=schurOneMAPlattice_frm_hilbertP ...
-              (wp,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
-  plot(wp*0.5/pi,P_kuv0/pi,"linestyle","-", ...
-       wp*0.5/pi,P_kuv0_sd/pi,"linestyle","--", ...
-       wp*0.5/pi,P_kuv_min/pi,"linestyle","-.");
-  legend("exact","s-d","s-d(SOCP-bb)");
-  legend("location","north");
-  legend("boxoff");
-  legend("left");
-  ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
-  xlabel("Frequency");
-  title(strt);
-  axis([0 0.5 -0.505 -0.495]);
-  grid("on");
-  print(strcat(strf,"_kuv_minP"),"-dpdflatex");
-  close
-  % Plot delay
-  T_kuv0=schurOneMAPlattice_frm_hilbertT ...
-           (wt,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
-  T_kuv0_sd=schurOneMAPlattice_frm_hilbertT ...
-              (wt,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
-  T_kuv_min=schurOneMAPlattice_frm_hilbertT ...
-              (wt,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
-  plot(wt*0.5/pi,T_kuv0+tp,"linestyle","-", ...
-       wt*0.5/pi,T_kuv0_sd+tp,"linestyle","--", ...
-       wt*0.5/pi,T_kuv_min+tp,"linestyle","-.");
-  ylabel("Delay(Samples)");
-  xlabel("Frequency");
-  title(strt);
-  axis([0 0.5 78 80]);
-  legend("exact","s-d","s-d(SOCP-bb)");
-  legend("location","north");
-  legend("boxoff");
-  legend("left");
-  grid("on");
-  print(strcat(strf,"_kuv_minT"),"-dpdflatex");
-  close
-
-else
-  printf("Did not find an improved solution!\n");
+if ~improved_solution_found
+  error("Did not find an improved solution!\n");
 endif
+printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
+print_polynomial(k_min,"k_min",nscale);
+print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
+printf("epsilon0=[ ");printf("%d ",epsilon0');printf("]';\n");
+printf("p0=[ ");printf("%g ",p0');printf("]';\n");
+print_polynomial(u_min,"u_min",nscale);
+print_polynomial(u_min,"u_min",strcat(strf,"_u_min_coef.m"),nscale);
+print_polynomial(v_min,"v_min",nscale);
+print_polynomial(v_min,"v_min",strcat(strf,"_v_min_coef.m"),nscale);
+print_polynomial(k_allocsd_digits,"k_allocsd_digits", ...
+                 strcat(strf,"_k_allocsd_digits.m"),"%2d");
+print_polynomial(u_allocsd_digits,"u_allocsd_digits", ...
+                 strcat(strf,"_u_allocsd_digits.m"),"%2d");
+print_polynomial(v_allocsd_digits,"v_allocsd_digits", ...
+                 strcat(strf,"_v_allocsd_digits.m"),"%2d");
+% Find the number of signed-digits adders used
+[kuv_digits,kuv_adders]=SDadders(kuv_min(kuv0_active),nbits);
+printf("%d signed-digits used\n",kuv_digits);
+printf("%d %d-bit adders used for coefficient multiplications\n",
+       kuv_adders,nbits);
+
+% Amplitude,delay and phase at local peaks
+Asq=schurOneMAPlattice_frm_hilbertAsq ...
+      (wa,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+vAl=local_max(Asqdl-Asq);
+vAu=local_max(Asq-Asqdu);
+wAsqS=unique([wa(vAl);wa(vAu);wa([1,end])]);
+AsqS=schurOneMAPlattice_frm_hilbertAsq ...
+       (wAsqS,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+printf("k,u,v_min:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ](fs==1)\n");
+printf("k,u,v_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ](dB)\n");
+T=schurOneMAPlattice_frm_hilbertT ...
+    (wt,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+vTl=local_max(Tdl-T);
+vTu=local_max(T-Tdu);
+wTS=sort(unique([wt(vTl);wt(vTu);wt([1,end])]));
+TS=schurOneMAPlattice_frm_hilbertT ...
+     (wTS,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+printf("k,u,v_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ](fs==1)\n");
+printf("k,u,v_min:TS=[ ");printf("%f ",TS'+tp);
+printf("] (Samples)\n")
+P=schurOneMAPlattice_frm_hilbertP ...
+    (wp,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+vPl=local_max(Pdl-P);
+vPu=local_max(P-Pdu);
+wPS=sort(unique([wp(vPl);wp(vPu);wp([1,end])]));
+PS=schurOneMAPlattice_frm_hilbertP ...
+     (wPS,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+printf("k,u,v_min:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ](fs==1)\n");
+printf("k,u,v_min:PS=[ ");printf("%f ",PS'/pi);
+printf("] (rad./pi) adjusted for delay\n");
+
+%
+% Compare with remez
+%
+b=remez(2*tp,2*[fap fas],[1 1],1,"hilbert");
+b_sd=flt2SD(b,nbits,ndigits);
+Afir_sd=freqz(b_sd,1,wa);
+Pfir_sd=freqz(b_sd,1,w);
+Pfir_sd=unwrap(arg(Pfir_sd))+(w*tp);
+Pfir_sd=Pfir_sd(npp:nps);
+Asq_kuv_min=schurOneMAPlattice_frm_hilbertAsq ...
+              (wa,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+P_kuv_min=schurOneMAPlattice_frm_hilbertP ...
+            (wp,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+subplot(211);
+plot(wa*0.5/pi,20*log10(abs(Afir_sd)),"-", ...
+     wa*0.5/pi,10*log10(Asq_kuv_min),"-.");
+legend("s-d(remez)","s-d(SOCP-bb)");
+legend("location","north");
+legend("boxoff");
+legend("left");
+ylabel("Amplitude(dB)");
+xlabel("Frequency");
+axis([0 0.5 -0.5 0.5]);
+grid("on");
+subplot(212);
+plot(wp*0.5/pi,Pfir_sd/pi,"-",wp*0.5/pi,P_kuv_min/pi,"-.");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+xlabel("Frequency");
+axis([0 0.5 -0.502 -0.498]);
+grid("on");
+print(strcat(strf,"_remez"),"-dpdflatex");
+close
+% Find the number of signed-digits used
+[b_digits,b_adders]=SDadders(b_sd(1:(tp+1)),nbits);
+printf("%d signed-digits used by remez\n",b_digits);
+printf("%d %d-bit adders used for coefficient multiplications\n",
+       b_adders,nbits);
+
+% Calculate the FIR cost
+Err_fir_sd=((abs(Afir_sd).^2)-Asqd).^2;
+Na=length(wa);
+Esq_fir_sd=sum(diff(wa).*(Err_fir_sd(1:(Na-1)+Err_fir_sd(2:Na))))/2;
+
+%
+% Make a LaTeX table for cost
+%
+fid=fopen(strcat(strf,"_cost.tab"),"wt");
+fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
+fprintf(fid,"%d-bit %d-signed-digit&%8.6f & %d & %d \\\\\n",
+        nbits,ndigits,Esq0_sd,kuv0_digits,kuv0_adders);
+fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%8.6f & %d & %d \\\\\n",
+        nbits,ndigits,Esq_min,kuv_digits,kuv_adders);
+fprintf(fid,"%d-bit %d-signed-digit(remez)&%8.6f & %d & %d \\\\\n",
+        nbits,ndigits,Esq_fir_sd,b_digits,b_adders);
+fclose(fid);
+
+%
+% Plot response
+%
+
+% Plot amplitude
+Asq_kuv0=schurOneMAPlattice_frm_hilbertAsq ...
+           (wa,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
+Asq_kuv0_sd=schurOneMAPlattice_frm_hilbertAsq ...
+              (wa,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
+Asq_kuv_min=schurOneMAPlattice_frm_hilbertAsq ...
+              (wa,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+plot(wa*0.5/pi,10*log10(Asq_kuv0),"linestyle","-", ...
+     wa*0.5/pi,10*log10(Asq_kuv0_sd),"linestyle","--", ...
+     wa*0.5/pi,10*log10(Asq_kuv_min),"linestyle","-.");
+legend("exact","s-d","s-d(SOCP-bb)");
+legend("location","north");
+legend("boxoff");
+legend("left");
+ylabel("Amplitude(dB)");
+xlabel("Frequency");
+strt=sprintf("FRM Hilbert filter (nbits=12) : \
+fap=%g,fas=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g,Wpp=%g",fap,fas,dBap,Wap,tp,Wtp,Wpp);
+title(strt);
+axis([0  0.5 -0.2 0.2]);
+grid("on");
+print(strcat(strf,"_kuv_minAsq"),"-dpdflatex");
+close
+% Plot phase
+P_kuv0=schurOneMAPlattice_frm_hilbertP ...
+         (wp,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
+P_kuv0_sd=schurOneMAPlattice_frm_hilbertP ...
+            (wp,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
+P_kuv_min=schurOneMAPlattice_frm_hilbertP ...
+            (wp,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+plot(wp*0.5/pi,P_kuv0/pi,"linestyle","-", ...
+     wp*0.5/pi,P_kuv0_sd/pi,"linestyle","--", ...
+     wp*0.5/pi,P_kuv_min/pi,"linestyle","-.");
+legend("exact","s-d","s-d(SOCP-bb)");
+legend("location","north");
+legend("boxoff");
+legend("left");
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+xlabel("Frequency");
+title(strt);
+axis([0 0.5 -0.505 -0.495]);
+grid("on");
+print(strcat(strf,"_kuv_minP"),"-dpdflatex");
+close
+% Plot delay
+T_kuv0=schurOneMAPlattice_frm_hilbertT ...
+         (wt,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
+T_kuv0_sd=schurOneMAPlattice_frm_hilbertT ...
+            (wt,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
+T_kuv_min=schurOneMAPlattice_frm_hilbertT ...
+            (wt,k_min,epsilon0,p0,u_min,v_min,Mmodel,Dmodel);
+plot(wt*0.5/pi,T_kuv0+tp,"linestyle","-", ...
+     wt*0.5/pi,T_kuv0_sd+tp,"linestyle","--", ...
+     wt*0.5/pi,T_kuv_min+tp,"linestyle","-.");
+ylabel("Delay(Samples)");
+xlabel("Frequency");
+title(strt);
+axis([0 0.5 78 80]);
+legend("exact","s-d","s-d(SOCP-bb)");
+legend("location","north");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_kuv_minT"),"-dpdflatex");
+close
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");

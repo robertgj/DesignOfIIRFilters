@@ -183,79 +183,77 @@ until (isempty(hM_active)||(branch_tree==false)) && (hM_depth==0)
 printf("Branch-and-bound search completed with %d branches\n",n_branch);
 
 % Show results
-if improved_solution_found
-  print_polynomial(hM1,"hM1",strcat(strf,"_hM1_coef.m"));
-  printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
-  print_polynomial(hM_min/escale,"hM_min",enscale);
-  print_polynomial(hM_min/escale,"hM_min",strcat(strf,"_hM_min_coef.m"),enscale);
-  % Find the number of signed-digits and adders used
-  [hM_min_digits,hM_min_adders]=SDadders(hM_min(hM1_active),nbits);
-  printf("%d signed-digits used\n",hM_min_digits);
-  printf("%d %d-bit adders used for coefficient multiplications\n", ...
-         hM_min_adders,nbits);
-  fname=strcat(strf,"_hM_min_adders.tab");
-  fid=fopen(fname,"wt");
-  fprintf(fid,"$%d$",hM_min_adders);
-  fclose(fid);
-
-  % Make a LaTeX table for cost
-  fid=fopen(strcat(strf,"_cost.tab"),"wt");
-  fprintf(fid,"Exact & %7.5f \\\\\n",Esq1);
-  fprintf(fid,"%d-bit %d-signed-digit & %7.5f & %d & %d \\\\\n", ...
-          nbits,ndigits,Esq1_sd,hM1_sd_digits,hM1_sd_adders);
-  fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)& %7.5f & %d & %d \\\\\n",
-          nbits,ndigits,Esq_min,hM_min_digits,hM_min_adders);
-  fclose(fid);
-
-  % Amplitude and delay at local peaks
-  A=directFIRsymmetricA(wa,hM_min/escale);
-  vAl=local_max(-A);
-  vAu=local_max(A);
-  wAS=unique([wa(vAl);wa(vAu);wa([nasl,napl,napu,nasu])]);
-  AS=directFIRsymmetricA(wAS,hM_min/escale);
-  wAS=wAS(find(abs(AS)>0));
-  AS=AS(find(abs(AS)>0));
-  printf("hM_min:fAS=[ ");printf("%f ",wAS'*0.5/pi);printf(" ] (fs==1)\n");
-  printf("hM_min:AS=[ ");printf("%f ",20*log10(abs(AS)'));printf(" ] (dB)\n");
-
-  % Calculate response
-  nplot=2048;
-  wplot=(0:(nplot-1))'*pi/nplot;
-  A_hM1=directFIRsymmetricA(wplot,hM1);
-  A_hM1_sd=directFIRsymmetricA(wplot,hM1_sd/escale);
-  A_hM_min=directFIRsymmetricA(wplot,hM_min/escale);
-
-  % Plot amplitude response
-  subplot(211)
-  plot(wplot*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
-       wplot*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle","--", ...
-       wplot*0.5/pi,20*log10(abs(A_hM_min)),"linestyle","-.");
-  xlabel("Frequency");
-  ylabel("Amplitude(dB)");
-  axis([0.1 0.2 -1.5 0.5]);
-  strt=sprintf("Direct-form symmetric bandpass filter response \
-(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,fasl=%g,fasu=%g", ...
-               nbits,ndigits,fapl,fapu,fasl,fasu);
-  title(strt);
-  legend("exact","s-d","s-d(BandB)");
-  legend("location","north");
-  legend("boxoff");
-  legend("left");
-  grid("on");
-  subplot(212);
-  plot(wplot*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
-       wplot*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle","--", ...
-       wplot*0.5/pi,20*log10(abs(A_hM_min)),"linestyle","-.");
-  xlabel("Frequency");
-  ylabel("Amplitude(dB)");
-  axis([0 0.5 -50 -30]);
-  grid("on");
-  print(strcat(strf,"_response"),"-dpdflatex");
-  close
-
-else
-  printf("Did not find an improved solution!\n");
+if ~improved_solution_found
+  error("Did not find an improved solution!\n");
 endif
+print_polynomial(hM1,"hM1",strcat(strf,"_hM1_coef.m"));
+printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
+print_polynomial(hM_min/escale,"hM_min",enscale);
+print_polynomial(hM_min/escale,"hM_min",strcat(strf,"_hM_min_coef.m"),enscale);
+% Find the number of signed-digits and adders used
+[hM_min_digits,hM_min_adders]=SDadders(hM_min(hM1_active),nbits);
+printf("%d signed-digits used\n",hM_min_digits);
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
+       hM_min_adders,nbits);
+fname=strcat(strf,"_hM_min_adders.tab");
+fid=fopen(fname,"wt");
+fprintf(fid,"$%d$",hM_min_adders);
+fclose(fid);
+
+% Make a LaTeX table for cost
+fid=fopen(strcat(strf,"_cost.tab"),"wt");
+fprintf(fid,"Exact & %7.5f \\\\\n",Esq1);
+fprintf(fid,"%d-bit %d-signed-digit & %7.5f & %d & %d \\\\\n", ...
+        nbits,ndigits,Esq1_sd,hM1_sd_digits,hM1_sd_adders);
+fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)& %7.5f & %d & %d \\\\\n",
+        nbits,ndigits,Esq_min,hM_min_digits,hM_min_adders);
+fclose(fid);
+
+% Amplitude and delay at local peaks
+A=directFIRsymmetricA(wa,hM_min/escale);
+vAl=local_max(-A);
+vAu=local_max(A);
+wAS=unique([wa(vAl);wa(vAu);wa([nasl,napl,napu,nasu])]);
+AS=directFIRsymmetricA(wAS,hM_min/escale);
+wAS=wAS(find(abs(AS)>0));
+AS=AS(find(abs(AS)>0));
+printf("hM_min:fAS=[ ");printf("%f ",wAS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("hM_min:AS=[ ");printf("%f ",20*log10(abs(AS)'));printf(" ] (dB)\n");
+
+% Calculate response
+nplot=2048;
+wplot=(0:(nplot-1))'*pi/nplot;
+A_hM1=directFIRsymmetricA(wplot,hM1);
+A_hM1_sd=directFIRsymmetricA(wplot,hM1_sd/escale);
+A_hM_min=directFIRsymmetricA(wplot,hM_min/escale);
+
+% Plot amplitude response
+subplot(211)
+plot(wplot*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
+     wplot*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle","--", ...
+     wplot*0.5/pi,20*log10(abs(A_hM_min)),"linestyle","-.");
+xlabel("Frequency");
+ylabel("Amplitude(dB)");
+axis([0.1 0.2 -1.5 0.5]);
+strt=sprintf("Direct-form symmetric bandpass filter response \
+(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,fasl=%g,fasu=%g", ...
+             nbits,ndigits,fapl,fapu,fasl,fasu);
+title(strt);
+legend("exact","s-d","s-d(BandB)");
+legend("location","north");
+legend("boxoff");
+legend("left");
+grid("on");
+subplot(212);
+plot(wplot*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
+     wplot*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle","--", ...
+     wplot*0.5/pi,20*log10(abs(A_hM_min)),"linestyle","-.");
+xlabel("Frequency");
+ylabel("Amplitude(dB)");
+axis([0 0.5 -50 -30]);
+grid("on");
+print(strcat(strf,"_response"),"-dpdflatex");
+close
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");

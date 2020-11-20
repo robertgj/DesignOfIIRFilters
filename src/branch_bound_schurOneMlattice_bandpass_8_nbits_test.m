@@ -238,111 +238,110 @@ until (isempty(kc_active)||(branch_tree==false)) && (kc_depth==0)
 printf("Branch-and-bound search completed with %d branches\n",n_branch);
 
 % Show results
-if improved_solution_found
-  printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
-  print_polynomial(k_min,"k_min",nscale);
-  print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
-  print_polynomial(epsilon0,"epsilon0");
-  print_polynomial(p0,"p0");
-  print_polynomial(c_min,"c_min",cnscale);
-  print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),cnscale);
-  % Find the number of signed-digits and adders used
-  [kc_digits,kc_adders]=SDadders(kc_min(kc0_active),nbits);
-  printf("%d signed-digits used\n",kc_digits);
-  printf("%d %d-bit adders used for coef. multiplications\n",kc_adders,nbits);
-  
-  % Amplitude and delay at local peaks
-  Asq=schurOneMlatticeAsq(wa,k_min,epsilon0,p0,c_min);
-  vAl=local_max(-Asq);
-  vAu=local_max(Asq);
-  wAsqS=unique([wa(vAl);wa(vAu);wa([1,nasl,napl,napu,nasu,end])]);
-  AsqS=schurOneMlatticeAsq(wAsqS,k_min,epsilon0,p0,c_min);
-  printf("k,c_min:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
-  printf("k,c_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
-  T=schurOneMlatticeT(wt,k_min,epsilon0,p0,c_min);
-  vTl=local_max(-T);
-  vTu=local_max(T);
-  wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
-  TS=schurOneMlatticeT(wTS,k_min,epsilon0,p0,c_min);
-  printf("k,c_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
-  printf("k,c_min:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
-
-  % Make a LaTeX table for cost
-  fid=fopen(strcat(strf,"_cost.tab"),"wt");
-  fprintf(fid,"Exact & %6.4f & & \\\\\n",Esq0);
-  fprintf(fid,"%d-bit %d-signed-digit&%6.4f & %d & %d \\\\\n",
-          nbits,ndigits,Esq0_sd,kc0_digits,kc0_adders);
-  fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%6.4f & %d & %d \\\\\n",
-          nbits,ndigits,Esq_min,kc_digits,kc_adders);
-  fclose(fid);
-
-  % Calculate response
-  nplot=2048;
-  wplot=(0:(nplot-1))'*pi/nplot;
-  Asq_kc0=schurOneMlatticeAsq(wplot,k0,epsilon0,p0,c0);
-  Asq_kc0_sd=schurOneMlatticeAsq(wplot,k0_sd,epsilon0,p0,c0_sd);
-  Asq_kc_min=schurOneMlatticeAsq(wplot,k_min,epsilon0,p0,c_min);
-  T_kc0=schurOneMlatticeT(wplot,k0,epsilon0,p0,c0);
-  T_kc0_sd=schurOneMlatticeT(wplot,k0_sd,epsilon0,p0,c0_sd);
-  T_kc_min=schurOneMlatticeT(wplot,k_min,epsilon0,p0,c_min);
-
-  % Plot amplitude stop-band response
-  strt=sprintf("Schur one-multiplier lattice bandpass filter %%s \
-(nbits=%d) :\nfasl=%g,fapl=%g,fapu=%g,fasu=%g,Wasl=%g,Wasu=%g", ...
-nbits,fasl,fapl,fapu,fasu,Wasl,Wasu);
-  plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
-       wplot*0.5/pi,10*log10(abs(Asq_kc0_sd)),"linestyle","--", ...
-       wplot*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","-.");
-  xlabel("Frequency");
-  ylabel("Amplitude(dB)");
-  axis([0 0.5 -50 -30]);
-  strt=sprintf(strt,"stop-band");
-  title(strt);
-  legend("exact","s-d","s-d(BandB)");
-  legend("location","northeast");
-  legend("boxoff");
-  legend("left");
-  grid("on");
-  print(strcat(strf,"_stop"),"-dpdflatex");
-  close
-
-  % Plot amplitude pass-band response
-  plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
-       wplot*0.5/pi,10*log10(abs(Asq_kc0_sd)),"linestyle","--", ...
-       wplot*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","-.");
-  xlabel("Frequency");
-  ylabel("Amplitude(dB)");
-  axis([0.1 0.2 -2 1]);
-  strt=sprintf(strt,"pass-band");
-  title(strt);
-  legend("exact","s-d","s-d(BandB)");
-  legend("location","northeast");
-  legend("boxoff");
-  legend("left");
-  grid("on");
-  print(strcat(strf,"_pass"),"-dpdflatex");
-  close
-
-  % Plot group-delay pass-band response
-  plot(wplot*0.5/pi,T_kc0,"linestyle","-", ...
-       wplot*0.5/pi,T_kc0_sd,"linestyle","--", ...
-       wplot*0.5/pi,T_kc_min,"linestyle","-.");
-  xlabel("Frequency");
-  ylabel("Group delay(samples)");
-  axis([0.09 0.21 15.6 16.4]);
-  strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
-(nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,Wtp=%g",nbits,ftpl,ftpu,tp,Wtp);
-  title(strt);
-  legend("exact","s-d","s-d(BandB)");
-  legend("location","northeast");
-  legend("boxoff");
-  legend("left");
-  grid("on");
-  print(strcat(strf,"_delay"),"-dpdflatex");
-  close
-else
-  printf("Did not find an improved solution!\n");
+if ~improved_solution_found
+  error("Did not find an improved solution!\n");
 endif
+printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
+print_polynomial(k_min,"k_min",nscale);
+print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
+print_polynomial(epsilon0,"epsilon0");
+print_polynomial(p0,"p0");
+print_polynomial(c_min,"c_min",cnscale);
+print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),cnscale);
+% Find the number of signed-digits and adders used
+[kc_digits,kc_adders]=SDadders(kc_min(kc0_active),nbits);
+printf("%d signed-digits used\n",kc_digits);
+printf("%d %d-bit adders used for coef. multiplications\n",kc_adders,nbits);
+
+% Amplitude and delay at local peaks
+Asq=schurOneMlatticeAsq(wa,k_min,epsilon0,p0,c_min);
+vAl=local_max(-Asq);
+vAu=local_max(Asq);
+wAsqS=unique([wa(vAl);wa(vAu);wa([1,nasl,napl,napu,nasu,end])]);
+AsqS=schurOneMlatticeAsq(wAsqS,k_min,epsilon0,p0,c_min);
+printf("k,c_min:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("k,c_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
+T=schurOneMlatticeT(wt,k_min,epsilon0,p0,c_min);
+vTl=local_max(-T);
+vTu=local_max(T);
+wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
+TS=schurOneMlatticeT(wTS,k_min,epsilon0,p0,c_min);
+printf("k,c_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("k,c_min:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
+
+% Make a LaTeX table for cost
+fid=fopen(strcat(strf,"_cost.tab"),"wt");
+fprintf(fid,"Exact & %6.4f & & \\\\\n",Esq0);
+fprintf(fid,"%d-bit %d-signed-digit&%6.4f & %d & %d \\\\\n",
+        nbits,ndigits,Esq0_sd,kc0_digits,kc0_adders);
+fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%6.4f & %d & %d \\\\\n",
+        nbits,ndigits,Esq_min,kc_digits,kc_adders);
+fclose(fid);
+
+% Calculate response
+nplot=2048;
+wplot=(0:(nplot-1))'*pi/nplot;
+Asq_kc0=schurOneMlatticeAsq(wplot,k0,epsilon0,p0,c0);
+Asq_kc0_sd=schurOneMlatticeAsq(wplot,k0_sd,epsilon0,p0,c0_sd);
+Asq_kc_min=schurOneMlatticeAsq(wplot,k_min,epsilon0,p0,c_min);
+T_kc0=schurOneMlatticeT(wplot,k0,epsilon0,p0,c0);
+T_kc0_sd=schurOneMlatticeT(wplot,k0_sd,epsilon0,p0,c0_sd);
+T_kc_min=schurOneMlatticeT(wplot,k_min,epsilon0,p0,c_min);
+
+% Plot amplitude stop-band response
+strt=sprintf("Schur one-multiplier lattice bandpass filter %%s \
+(nbits=%d) :\nfasl=%g,fapl=%g,fapu=%g,fasu=%g,Wasl=%g,Wasu=%g", ...
+             nbits,fasl,fapl,fapu,fasu,Wasl,Wasu);
+plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
+     wplot*0.5/pi,10*log10(abs(Asq_kc0_sd)),"linestyle","--", ...
+     wplot*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","-.");
+xlabel("Frequency");
+ylabel("Amplitude(dB)");
+axis([0 0.5 -50 -30]);
+strt=sprintf(strt,"stop-band");
+title(strt);
+legend("exact","s-d","s-d(BandB)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_stop"),"-dpdflatex");
+close
+
+% Plot amplitude pass-band response
+plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
+     wplot*0.5/pi,10*log10(abs(Asq_kc0_sd)),"linestyle","--", ...
+     wplot*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","-.");
+xlabel("Frequency");
+ylabel("Amplitude(dB)");
+axis([0.1 0.2 -2 1]);
+strt=sprintf(strt,"pass-band");
+title(strt);
+legend("exact","s-d","s-d(BandB)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_pass"),"-dpdflatex");
+close
+
+% Plot group-delay pass-band response
+plot(wplot*0.5/pi,T_kc0,"linestyle","-", ...
+     wplot*0.5/pi,T_kc0_sd,"linestyle","--", ...
+     wplot*0.5/pi,T_kc_min,"linestyle","-.");
+xlabel("Frequency");
+ylabel("Group delay(samples)");
+axis([0.09 0.21 15.6 16.4]);
+strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
+(nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,Wtp=%g",nbits,ftpl,ftpu,tp,Wtp);
+title(strt);
+legend("exact","s-d","s-d(BandB)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_delay"),"-dpdflatex");
+close
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");

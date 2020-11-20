@@ -177,71 +177,69 @@ until (isempty(hM_active)||(branch_tree==false)) && (hM_depth==0)
 printf("Branch-and-bound search completed with %d branches\n",n_branch);
 
 % Show results
-if improved_solution_found
-  printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
-  print_polynomial(hM_min,"hM_min",nscale);
-  % Find the number of signed-digits and adders used
-  [hM_min_digits,hM_min_adders]=SDadders(hM_min(hM0_active)*nscale,nbits);
-  printf("%d signed-digits used\n",hM_min_digits);
-  printf("%d %d-bit adders used for coefficient multiplications\n", ...
-         hM_min_adders,nbits);
-  fname=strcat(strf,"_hM_min_adders.tab");
-  fid=fopen(fname,"wt");
-  fprintf(fid,"$%d$",hM_min_adders);
-  fclose(fid);
-
-  % Make a LaTeX table for cost
-  fid=fopen(strcat(strf,"_cost.tab"),"wt");
-  fprintf(fid,"Exact & %10.2e & & \\\\\n",Esq0);
-  fprintf(fid,"%d-bit %d-signed-digit & %10.2e & %d & %d \\\\\n", ...
-          nbits,ndigits,Esq0_sd,hM0_sd_digits,hM0_sd_adders);  
-  fprintf(fid,"%d-bit %d-signed-digit(Ito) & %10.2e & %d & %d \\\\\n", ...
-          nbits,ndigits,Esq_sd,hM_sd_digits,hM_sd_adders);
-  fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.2e & %d & %d \\\\\n",
-          nbits,ndigits,Esq_min,hM_min_digits,hM_min_adders);
-  fclose(fid);
-
-  % Amplitude and delay at local peaks
-  A=directFIRhilbertA(wa(1:(npoints/2)),hM_min);
-  vAl=local_max(-A);
-  vAu=local_max(A);
-  wAS=unique([wa(vAl);wa(vAu);wa(napl)]);
-  AS=directFIRhilbertA(wAS,hM_min);
-  wAS=wAS(find(abs(AS)>0));
-  AS=AS(find(abs(AS)>0));
-  printf("hM_min:fAS=[ ");printf("%f ",wAS'*0.5/pi);printf(" ] (fs==1)\n");
-  printf("hM_min:AS=[ ");printf("%f ",20*log10(abs(AS)'));printf(" ] (dB)\n");
-
-  % Calculate response
-  nplot=2048;
-  wplot=(0:(nplot-1))'*pi/nplot;
-  A_hM0=directFIRhilbertA(wplot,hM0);
-  A_hM0_sd=directFIRhilbertA(wplot,hM0_sd);
-  A_hM_sd=directFIRhilbertA(wplot,hM_sd);
-  A_hM_min=directFIRhilbertA(wplot,hM_min);
-
-  % Plot amplitude response
-  plot(wplot*0.5/pi,20*log10(abs(A_hM0)),"linestyle","-", ...
-       wplot*0.5/pi,20*log10(abs(A_hM0_sd)),"linestyle",":", ...
-       wplot*0.5/pi,20*log10(abs(A_hM_sd)),"linestyle","--", ...
-       wplot*0.5/pi,20*log10(abs(A_hM_min)),"linestyle","-.");
-  xlabel("Frequency");
-  ylabel("Amplitude(dB)");
-  axis([0 0.5 -0.2 0.2]);
-  strt=sprintf("Direct-form FIR Hilbert filter (nbits=%d,ndigits=%d) : \
-fapl=%g,fapu=%g,Wap=%g,Was=%g",nbits,ndigits,fapl,fapu,Wap,Was);
-  title(strt);
-  legend("exact","s-d","s-d(Ito)","s-d(BandB)");
-  legend("location","southeast");
-  legend("boxoff");
-  legend("left");
-  grid("on");
-  print(strcat(strf,"_response"),"-dpdflatex");
-  close
-
-else
-  printf("Did not find an improved solution!\n");
+if ~improved_solution_found
+  error("Did not find an improved solution!\n");
 endif
+printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
+print_polynomial(hM_min,"hM_min",nscale);
+% Find the number of signed-digits and adders used
+[hM_min_digits,hM_min_adders]=SDadders(hM_min(hM0_active)*nscale,nbits);
+printf("%d signed-digits used\n",hM_min_digits);
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
+       hM_min_adders,nbits);
+fname=strcat(strf,"_hM_min_adders.tab");
+fid=fopen(fname,"wt");
+fprintf(fid,"$%d$",hM_min_adders);
+fclose(fid);
+
+% Make a LaTeX table for cost
+fid=fopen(strcat(strf,"_cost.tab"),"wt");
+fprintf(fid,"Exact & %10.2e & & \\\\\n",Esq0);
+fprintf(fid,"%d-bit %d-signed-digit & %10.2e & %d & %d \\\\\n", ...
+        nbits,ndigits,Esq0_sd,hM0_sd_digits,hM0_sd_adders);  
+fprintf(fid,"%d-bit %d-signed-digit(Ito) & %10.2e & %d & %d \\\\\n", ...
+        nbits,ndigits,Esq_sd,hM_sd_digits,hM_sd_adders);
+fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.2e & %d & %d \\\\\n",
+        nbits,ndigits,Esq_min,hM_min_digits,hM_min_adders);
+fclose(fid);
+
+% Amplitude and delay at local peaks
+A=directFIRhilbertA(wa(1:(npoints/2)),hM_min);
+vAl=local_max(-A);
+vAu=local_max(A);
+wAS=unique([wa(vAl);wa(vAu);wa(napl)]);
+AS=directFIRhilbertA(wAS,hM_min);
+wAS=wAS(find(abs(AS)>0));
+AS=AS(find(abs(AS)>0));
+printf("hM_min:fAS=[ ");printf("%f ",wAS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("hM_min:AS=[ ");printf("%f ",20*log10(abs(AS)'));printf(" ] (dB)\n");
+
+% Calculate response
+nplot=2048;
+wplot=(0:(nplot-1))'*pi/nplot;
+A_hM0=directFIRhilbertA(wplot,hM0);
+A_hM0_sd=directFIRhilbertA(wplot,hM0_sd);
+A_hM_sd=directFIRhilbertA(wplot,hM_sd);
+A_hM_min=directFIRhilbertA(wplot,hM_min);
+
+% Plot amplitude response
+plot(wplot*0.5/pi,20*log10(abs(A_hM0)),"linestyle","-", ...
+     wplot*0.5/pi,20*log10(abs(A_hM0_sd)),"linestyle",":", ...
+     wplot*0.5/pi,20*log10(abs(A_hM_sd)),"linestyle","--", ...
+     wplot*0.5/pi,20*log10(abs(A_hM_min)),"linestyle","-.");
+xlabel("Frequency");
+ylabel("Amplitude(dB)");
+axis([0 0.5 -0.2 0.2]);
+strt=sprintf("Direct-form FIR Hilbert filter (nbits=%d,ndigits=%d) : \
+fapl=%g,fapu=%g,Wap=%g,Was=%g",nbits,ndigits,fapl,fapu,Wap,Was);
+title(strt);
+legend("exact","s-d","s-d(Ito)","s-d(BandB)");
+legend("location","southeast");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_response"),"-dpdflatex");
+close
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");

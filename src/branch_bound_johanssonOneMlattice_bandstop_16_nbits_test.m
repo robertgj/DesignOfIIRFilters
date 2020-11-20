@@ -223,77 +223,76 @@ until (isempty(fMk_active)||(branch_tree==false)) && (fMk_depth==0)
 printf("Branch-and-bound search completed with %d branches\n",n_branch);
 
 % Show results
-if improved_solution_found
-  printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
-  print_polynomial(f_min,"f_min",nscale);
-  print_polynomial(f_min,"f_min",strcat(strf,"_f_min_coef.m"),nscale);
-  print_polynomial(k0_min,"k0_min",nscale);
-  print_polynomial(k0_min,"k0_min",strcat(strf,"_k0_min_coef.m"),nscale);
-  print_polynomial(k1_min,"k1_min",nscale);
-  print_polynomial(k1_min,"k1_min",strcat(strf,"_k1_min_coef.m"),nscale);
-  % Find the number of signed-digits and adders used
-  [fMk_digits,fMk_adders]=SDadders(fMk_min(fMk0k1_active),nbits);
-  printf("%d signed-digits used\n",fMk_digits);
-  printf("%d %d-bit adders used for coef. multiplications\n",fMk_adders,nbits);
-  
-  % Amplitude and delay at local peaks
-  Azp=johanssonOneMlatticeAzp(wa,fM_min,k0_min,epsilon0,k1_min,epsilon1);
-  vAl=local_max(-Azp);
-  vAu=local_max(Azp);
-  wAzpS=unique([wa(vAl);wa(vAu);wa([1,nasl,napl,napu,nasu,end])]);
-  AzpS=johanssonOneMlatticeAzp(wAzpS,fM_min,k0_min,epsilon0,k1_min,epsilon1);
-  printf("fM,k0,k1_min:fAzpS=[ ");printf("%f ",wAzpS'*0.5/pi);
-  printf(" ] (fs==1)\n");
-  printf("fM,k0,k1_min:AzpS=[ ");printf("%f ",20*log10(AzpS'));
-  printf(" ] (dB)\n");
-
-  % Make a LaTeX table for cost
-  fid=fopen(strcat(strf,"_cost.tab"),"wt");
-  fprintf(fid,"Exact & %10.4g & & \\\\\n",Esq0);
-  fprintf(fid,"%d-bit %d-signed-digit&%10.4g & %d & %d \\\\\n",
-          nbits,ndigits,Esq0_sd,fMk_digits,fMk_adders);
-  fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.4g & %d & %d \\\\\n",
-          nbits,ndigits,Esq_min,fMk_digits,fMk_adders);
-  fclose(fid);
-
-  % Calculate response
-  nplot=2048;
-  wplot=(0:(nplot-1))'*pi/nplot;
-  Azp_fMk=johanssonOneMlatticeAzp(wplot,fM,k0,epsilon0,k1,epsilon1);
-  Azp_fMk_sd= ...
-    johanssonOneMlatticeAzp(wplot,fM_sd,k0_sd,epsilon0,k1_sd,epsilon1);
-  Azp_fMk_min= ...
-    johanssonOneMlatticeAzp(wplot,fM_min,k0_min,epsilon0,k1_min,epsilon1);
-
-  % Plot amplitude stop-band response
-subplot(211)
-  % Plot amplitude pass-band response
-  plot(wplot*0.5/pi,20*log10(abs(Azp_fMk)),"linestyle","-", ...
-       wplot*0.5/pi,20*log10(abs(Azp_fMk_sd)),"linestyle","--", ...
-       wplot*0.5/pi,20*log10(abs(Azp_fMk_min)),"linestyle","-.");
-  ylabel("Amplitude(dB)");
-  axis([0 0.5 -0.0001 0.0004]);
-  strt=sprintf("Johansson-and-Saram\\\"{a}ki cascade all-pass band-stop \
-response after branch-and-bound search (nbits=%d)",nbits);
-  title(strt);
-  grid("on");
-  subplot(212)
-  plot(wplot*0.5/pi,20*log10(abs(Azp_fMk)),"linestyle","-", ...
-       wplot*0.5/pi,20*log10(abs(Azp_fMk_sd)),"linestyle","--", ...
-       wplot*0.5/pi,20*log10(abs(Azp_fMk_min)),"linestyle","-.");
-  xlabel("Frequency");
-  ylabel("Amplitude(dB)");
-  axis([0 0.5 -120 -80]);
-  legend("exact","s-d","s-d(BandB)");
-  legend("location","northeast");
-  legend("boxoff");
-  legend("left");
-  grid("on");
-  print(strcat(strf,"_resp"),"-dpdflatex");
-  close
-else
-  printf("Did not find an improved solution!\n");
+if ~improved_solution_found
+  error("Did not find an improved solution!\n");
 endif
+printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
+print_polynomial(f_min,"f_min",nscale);
+print_polynomial(f_min,"f_min",strcat(strf,"_f_min_coef.m"),nscale);
+print_polynomial(k0_min,"k0_min",nscale);
+print_polynomial(k0_min,"k0_min",strcat(strf,"_k0_min_coef.m"),nscale);
+print_polynomial(k1_min,"k1_min",nscale);
+print_polynomial(k1_min,"k1_min",strcat(strf,"_k1_min_coef.m"),nscale);
+% Find the number of signed-digits and adders used
+[fMk_digits,fMk_adders]=SDadders(fMk_min(fMk0k1_active),nbits);
+printf("%d signed-digits used\n",fMk_digits);
+printf("%d %d-bit adders used for coef. multiplications\n",fMk_adders,nbits);
+
+% Amplitude and delay at local peaks
+Azp=johanssonOneMlatticeAzp(wa,fM_min,k0_min,epsilon0,k1_min,epsilon1);
+vAl=local_max(-Azp);
+vAu=local_max(Azp);
+wAzpS=unique([wa(vAl);wa(vAu);wa([1,nasl,napl,napu,nasu,end])]);
+AzpS=johanssonOneMlatticeAzp(wAzpS,fM_min,k0_min,epsilon0,k1_min,epsilon1);
+printf("fM,k0,k1_min:fAzpS=[ ");printf("%f ",wAzpS'*0.5/pi);
+printf(" ] (fs==1)\n");
+printf("fM,k0,k1_min:AzpS=[ ");printf("%f ",20*log10(AzpS'));
+printf(" ] (dB)\n");
+
+% Make a LaTeX table for cost
+fid=fopen(strcat(strf,"_cost.tab"),"wt");
+fprintf(fid,"Exact & %10.4g & & \\\\\n",Esq0);
+fprintf(fid,"%d-bit %d-signed-digit&%10.4g & %d & %d \\\\\n",
+        nbits,ndigits,Esq0_sd,fMk_digits,fMk_adders);
+fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.4g & %d & %d \\\\\n",
+        nbits,ndigits,Esq_min,fMk_digits,fMk_adders);
+fclose(fid);
+
+% Calculate response
+nplot=2048;
+wplot=(0:(nplot-1))'*pi/nplot;
+Azp_fMk=johanssonOneMlatticeAzp(wplot,fM,k0,epsilon0,k1,epsilon1);
+Azp_fMk_sd= ...
+  johanssonOneMlatticeAzp(wplot,fM_sd,k0_sd,epsilon0,k1_sd,epsilon1);
+Azp_fMk_min= ...
+  johanssonOneMlatticeAzp(wplot,fM_min,k0_min,epsilon0,k1_min,epsilon1);
+
+% Plot amplitude stop-band response
+subplot(211)
+% Plot amplitude pass-band response
+plot(wplot*0.5/pi,20*log10(abs(Azp_fMk)),"linestyle","-", ...
+     wplot*0.5/pi,20*log10(abs(Azp_fMk_sd)),"linestyle","--", ...
+     wplot*0.5/pi,20*log10(abs(Azp_fMk_min)),"linestyle","-.");
+ylabel("Amplitude(dB)");
+axis([0 0.5 -0.0001 0.0004]);
+strt=sprintf("Johansson-and-Saram\\\"{a}ki cascade all-pass band-stop \
+response after branch-and-bound search (nbits=%d)",nbits);
+title(strt);
+grid("on");
+subplot(212)
+plot(wplot*0.5/pi,20*log10(abs(Azp_fMk)),"linestyle","-", ...
+     wplot*0.5/pi,20*log10(abs(Azp_fMk_sd)),"linestyle","--", ...
+     wplot*0.5/pi,20*log10(abs(Azp_fMk_min)),"linestyle","-.");
+xlabel("Frequency");
+ylabel("Amplitude(dB)");
+axis([0 0.5 -120 -80]);
+legend("exact","s-d","s-d(BandB)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_resp"),"-dpdflatex");
+close
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");

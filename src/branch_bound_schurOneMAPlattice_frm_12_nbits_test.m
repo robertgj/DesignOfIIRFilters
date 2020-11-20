@@ -445,155 +445,155 @@ else
 endif
 
 % Show results
-if improved_solution_found
-  printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
-  print_polynomial(k_min,"k_min",nscale);
-  print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
-  print_polynomial(epsilon_min,"epsilon_min");
-  print_polynomial(epsilon_min,"epsilon_min", ...
-                   strcat(strf,"_epsilon_min_coef.m"),"%2d");
-  print_polynomial(p_min,"p_min");
-  print_polynomial(p_min,"p_min",strcat(strf,"_p_min_coef.m"));
-  print_polynomial(u_min,"u_min",nscale);
-  print_polynomial(u_min,"u_min",strcat(strf,"_u_min_coef.m"),nscale);
-  print_polynomial(v_min,"v_min",nscale);
-  print_polynomial(v_min,"v_min",strcat(strf,"_v_min_coef.m"),nscale);
-  print_polynomial(k_allocsd_digits,"k_allocsd_digits", ...
-                   strcat(strf,"_k_allocsd_digits.m"),"%2d");
-  print_polynomial(u_allocsd_digits,"u_allocsd_digits", ...
-                   strcat(strf,"_u_allocsd_digits.m"),"%2d");
-  print_polynomial(v_allocsd_digits,"v_allocsd_digits", ...
-                   strcat(strf,"_v_allocsd_digits.m"),"%2d");
-  % Find the number of signed-digits adders used
-  [kuv_digits,kuv_adders]=SDadders(kuv_min(kuv0_active),nbits);
-  printf("%d signed-digits used\n",kuv_digits);
-  printf("%d %d-bit adders used for coefficient multiplications\n",
-         kuv_adders,nbits);
-  
-  % Amplitude,delay and phase at local peaks
-  Asq=schurOneMAPlattice_frmAsq ...
-        (wa,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
-  vAl=local_max(Asqdl-Asq);
-  vAu=local_max(Asq-Asqdu);
-  wAsqS=unique([wa(vAl);wa(vAu);wa([1,end])]);
-  AsqS=schurOneMAPlattice_frmAsq ...
-         (wAsqS,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
-  printf("k,u,v_min:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ](fs==1)\n");
-  printf("k,u,v_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ](dB)\n");
-  T=schurOneMAPlattice_frmT ...
-      (wt,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
-  vTl=local_max(Tdl-T);
-  vTu=local_max(T-Tdu);
-  wTS=sort(unique([wt(vTl);wt(vTu);wt([1,end])]));
-  TS=schurOneMAPlattice_frmT ...
-       (wTS,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
-  printf("k,u,v_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ](fs==1)\n");
-  printf("k,u,v_min:TS=[ ");printf("%f ",TS'+tp);
-  printf("] (Samples)\n")
-  P=schurOneMAPlattice_frmP ...
-      (wp,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
-  vPl=local_max(Pdl-P);
-  vPu=local_max(P-Pdu);
-  wPS=sort(unique([wp(vPl);wp(vPu);wp([1,end])]));
-  PS=schurOneMAPlattice_frmP ...
-       (wPS,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
-  printf("k,u,v_min:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ](fs==1)\n");
-  printf("k,u,v_min:PS=[ ");printf("%f ",PS'/pi);
-  printf("] (rad./pi) adjusted for delay\n");
-
-  %
-  % Make a LaTeX table for cost
-  %
-  fid=fopen(strcat(strf,"_cost.tab"),"wt");
-  fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-  fprintf(fid,"%d-bit %d-signed-digit(Ito)&%8.6f & %d & %d \\\\\n",
-          nbits,ndigits,Esq0_sd,kuv0_digits,kuv0_adders);
-  fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%8.6f & %d & %d \\\\\n",
-          nbits,ndigits,Esq_min,kuv_digits,kuv_adders);
-  fclose(fid);
-
-  %
-  % Plot response
-  %
-  % Plot amplitude
-  AsqP_kuv0=schurOneMAPlattice_frmAsq ...
-              (wap,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
-  AsqP_kuv0_sd=schurOneMAPlattice_frmAsq ...
-                 (wap,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
-  AsqP_kuv_min=schurOneMAPlattice_frmAsq ...
-                 (wap,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
-  AsqS_kuv0=schurOneMAPlattice_frmAsq ...
-              (was,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
-  AsqS_kuv0_sd=schurOneMAPlattice_frmAsq ...
-                 (was,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
-  AsqS_kuv_min=schurOneMAPlattice_frmAsq ...
-                 (was,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
-  subplot(311);
-  [ax,h1,h2]= ...
-    plotyy(wap*0.5/pi,10*log10([AsqP_kuv0,AsqP_kuv0_sd,AsqP_kuv_min]), ...
-           was*0.5/pi,10*log10([AsqS_kuv0,AsqS_kuv0_sd,AsqS_kuv_min]));
-  % Hack to set line colour and style 
-  h1c=get(h1,"color");
-  for k=1:3
-    set(h2(k),"color",h1c{k});
-  endfor
-  set(h1(1),"linestyle","--");
-  set(h1(2),"linestyle","-.");
-  set(h1(3),"linestyle","-");
-  set(h2(1),"linestyle","--");
-  set(h2(2),"linestyle","-.");
-  set(h2(3),"linestyle","-");
-  set(ax(1),'ycolor','black');
-  set(ax(2),'ycolor','black');
-  ylabel(ax(1),"Amplitude(dB)");
-  set(ax(1),'ycolor','black');
-  set(ax(2),'ycolor','black');
-  % End of hack
-  axis(ax(1),[0 0.5 -dBap dBap]);
-  axis(ax(2),[0 0.5 -50 -30]);
-  ylabel("Amplitude(dB)");
-  strt=sprintf("FRM filter (nbits=%d,ndigits=%d) : fap=%g,fas=%g,\
-dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g",nbits,ndigits,fap,fas,dBap,dBas,tp,tpr,ppr);
-  title(strt);
-  grid("on");
-  % Plot delay
-  T_kuv0=schurOneMAPlattice_frmT ...
-           (wt,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
-  T_kuv0_sd=schurOneMAPlattice_frmT ...
-              (wt,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
-  T_kuv_min=schurOneMAPlattice_frmT ...
-              (wt,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
-  subplot(312);
-  plot(wt*0.5/pi,T_kuv0+tp,"linestyle","--", ...
-       wt*0.5/pi,T_kuv0_sd+tp,"linestyle","-.", ...
-       wt*0.5/pi,T_kuv_min+tp,"linestyle","-");
-  axis([0 0.5 tp-tpr tp+tpr]);
-  ylabel("Delay(Samples)");
-  grid("on");
-  % Plot phase
-  subplot(313);
-  P_kuv0=schurOneMAPlattice_frmP ... 
-           (wp,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
-  P_kuv0_sd=schurOneMAPlattice_frmP ...
-              (wp,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
-  P_kuv_min=schurOneMAPlattice_frmP ...
-              (wp,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
-  plot(wp*0.5/pi,P_kuv0/pi,"linestyle","--", ...
-       wp*0.5/pi,P_kuv0_sd/pi,"linestyle","-.", ...
-       wp*0.5/pi,P_kuv_min/pi,"linestyle","-");
-  axis([0 0.5 (pp-ppr)/pi (pp+ppr)/pi]);
-  ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
-  xlabel("Frequency");
-  legend("exact","s-d(Ito)","s-d(SOCP-relax)");
-  legend("location","northeast");
-  legend("boxoff");
-  legend("left");
-  grid("on");
-  print(strcat(strf,"_response"),"-dpdflatex");
-  close
-else
+if ~improved_solution_found
   error("Did not find an improved solution!");
 endif
+printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
+print_polynomial(k_min,"k_min",nscale);
+print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
+print_polynomial(epsilon_min,"epsilon_min");
+print_polynomial(epsilon_min,"epsilon_min", ...
+                 strcat(strf,"_epsilon_min_coef.m"),"%2d");
+print_polynomial(p_min,"p_min");
+print_polynomial(p_min,"p_min",strcat(strf,"_p_min_coef.m"));
+print_polynomial(u_min,"u_min",nscale);
+print_polynomial(u_min,"u_min",strcat(strf,"_u_min_coef.m"),nscale);
+print_polynomial(v_min,"v_min",nscale);
+print_polynomial(v_min,"v_min",strcat(strf,"_v_min_coef.m"),nscale);
+print_polynomial(k_allocsd_digits,"k_allocsd_digits", ...
+                 strcat(strf,"_k_allocsd_digits.m"),"%2d");
+print_polynomial(u_allocsd_digits,"u_allocsd_digits", ...
+                 strcat(strf,"_u_allocsd_digits.m"),"%2d");
+print_polynomial(v_allocsd_digits,"v_allocsd_digits", ...
+                 strcat(strf,"_v_allocsd_digits.m"),"%2d");
+% Find the number of signed-digits adders used
+[kuv_digits,kuv_adders]=SDadders(kuv_min(kuv0_active),nbits);
+printf("%d signed-digits used\n",kuv_digits);
+printf("%d %d-bit adders used for coefficient multiplications\n",
+       kuv_adders,nbits);
+
+% Amplitude,delay and phase at local peaks
+Asq=schurOneMAPlattice_frmAsq ...
+      (wa,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
+vAl=local_max(Asqdl-Asq);
+vAu=local_max(Asq-Asqdu);
+wAsqS=unique([wa(vAl);wa(vAu);wa([1,end])]);
+AsqS=schurOneMAPlattice_frmAsq ...
+       (wAsqS,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
+printf("k,u,v_min:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ](fs==1)\n");
+printf("k,u,v_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ](dB)\n");
+T=schurOneMAPlattice_frmT ...
+    (wt,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
+vTl=local_max(Tdl-T);
+vTu=local_max(T-Tdu);
+wTS=sort(unique([wt(vTl);wt(vTu);wt([1,end])]));
+TS=schurOneMAPlattice_frmT ...
+     (wTS,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
+printf("k,u,v_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ](fs==1)\n");
+printf("k,u,v_min:TS=[ ");printf("%f ",TS'+tp);
+printf("] (Samples)\n")
+P=schurOneMAPlattice_frmP ...
+    (wp,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
+vPl=local_max(Pdl-P);
+vPu=local_max(P-Pdu);
+wPS=sort(unique([wp(vPl);wp(vPu);wp([1,end])]));
+PS=schurOneMAPlattice_frmP ...
+     (wPS,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
+printf("k,u,v_min:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ](fs==1)\n");
+printf("k,u,v_min:PS=[ ");printf("%f ",PS'/pi);
+printf("] (rad./pi) adjusted for delay\n");
+
+%
+% Make a LaTeX table for cost
+%
+fid=fopen(strcat(strf,"_cost.tab"),"wt");
+fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
+fprintf(fid,"%d-bit %d-signed-digit(Ito)&%8.6f & %d & %d \\\\\n",
+        nbits,ndigits,Esq0_sd,kuv0_digits,kuv0_adders);
+fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%8.6f & %d & %d \\\\\n",
+        nbits,ndigits,Esq_min,kuv_digits,kuv_adders);
+fclose(fid);
+
+%
+% Plot response
+%
+% Plot amplitude
+AsqP_kuv0=schurOneMAPlattice_frmAsq ...
+            (wap,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
+AsqP_kuv0_sd=schurOneMAPlattice_frmAsq ...
+               (wap,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
+AsqP_kuv_min=schurOneMAPlattice_frmAsq ...
+               (wap,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
+AsqS_kuv0=schurOneMAPlattice_frmAsq ...
+            (was,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
+AsqS_kuv0_sd=schurOneMAPlattice_frmAsq ...
+               (was,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
+AsqS_kuv_min=schurOneMAPlattice_frmAsq ...
+               (was,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
+subplot(311);
+[ax,h1,h2]= ...
+  plotyy(wap*0.5/pi,10*log10([AsqP_kuv0,AsqP_kuv0_sd,AsqP_kuv_min]), ...
+         was*0.5/pi,10*log10([AsqS_kuv0,AsqS_kuv0_sd,AsqS_kuv_min]));
+% Hack to set line colour and style 
+h1c=get(h1,"color");
+for k=1:3
+  set(h2(k),"color",h1c{k});
+endfor
+set(h1(1),"linestyle","--");
+set(h1(2),"linestyle","-.");
+set(h1(3),"linestyle","-");
+set(h2(1),"linestyle","--");
+set(h2(2),"linestyle","-.");
+set(h2(3),"linestyle","-");
+set(ax(1),'ycolor','black');
+set(ax(2),'ycolor','black');
+ylabel(ax(1),"Amplitude(dB)");
+set(ax(1),'ycolor','black');
+set(ax(2),'ycolor','black');
+% End of hack
+axis(ax(1),[0 0.5 -dBap dBap]);
+axis(ax(2),[0 0.5 -50 -30]);
+ylabel("Amplitude(dB)");
+strt=sprintf("FRM filter (nbits=%d,ndigits=%d) : fap=%g,fas=%g,\
+dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g",
+             nbits,ndigits,fap,fas,dBap,dBas,tp,tpr,ppr);
+title(strt);
+grid("on");
+% Plot delay
+T_kuv0=schurOneMAPlattice_frmT ...
+         (wt,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
+T_kuv0_sd=schurOneMAPlattice_frmT ...
+            (wt,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
+T_kuv_min=schurOneMAPlattice_frmT ...
+            (wt,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
+subplot(312);
+plot(wt*0.5/pi,T_kuv0+tp,"linestyle","--", ...
+     wt*0.5/pi,T_kuv0_sd+tp,"linestyle","-.", ...
+     wt*0.5/pi,T_kuv_min+tp,"linestyle","-");
+axis([0 0.5 tp-tpr tp+tpr]);
+ylabel("Delay(Samples)");
+grid("on");
+% Plot phase
+subplot(313);
+P_kuv0=schurOneMAPlattice_frmP ... 
+         (wp,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
+P_kuv0_sd=schurOneMAPlattice_frmP ...
+            (wp,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
+P_kuv_min=schurOneMAPlattice_frmP ...
+            (wp,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
+plot(wp*0.5/pi,P_kuv0/pi,"linestyle","--", ...
+     wp*0.5/pi,P_kuv0_sd/pi,"linestyle","-.", ...
+     wp*0.5/pi,P_kuv_min/pi,"linestyle","-");
+axis([0 0.5 (pp-ppr)/pi (pp+ppr)/pi]);
+ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+xlabel("Frequency");
+legend("exact","s-d(Ito)","s-d(SOCP-relax)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_response"),"-dpdflatex");
+close
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");

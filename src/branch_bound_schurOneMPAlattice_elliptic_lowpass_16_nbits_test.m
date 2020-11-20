@@ -329,169 +329,166 @@ endif
   
   % Show results
 if ~improved_solution_found
-  A1k_min=[];
-  A2k_min=[];
-  printf("Did not find an improved solution!\n");
-else
-  A1k_min=k_min(R1);
-  A2k_min=k_min(R2);
-  Esq_min=schurOneMPAlatticeEsq ...
-            (A1k_min,A1epsilon0,A1p_ones,A2k_min,A2epsilon0,A2p_ones, ...
-             difference,wa,Asqd,Wa);
-  printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
-  print_polynomial(A1k_min,"A1k_min",nscale);
-  print_polynomial(A1k_min,"A1k_min",strcat(strf,"_A1k_min_coef.m"),nscale);
-  printf("A1epsilon0=[ ");printf("%d ",A1epsilon0);printf("]';\n");
-  print_polynomial(A2k_min,"A2k_min",nscale);
-  print_polynomial(A2k_min,"A2k_min",strcat(strf,"_A2k_min_coef.m"),nscale);
-  printf("A2epsilon0=[ ");printf("%d ",A2epsilon0);printf("]';\n");
-  % Find the number of signed-digits and adders used
-  [kmin_digits,kmin_adders]=SDadders(k_min,nbits);
-  printf("%d signed-digits used\n",kmin_digits);
-  printf("%d %d-bit adders used for coefficient multiplications\n",
-         kmin_adders,nbits);
-  fid=fopen(strcat(strf,"_kmin_digits.tab"),"wt");
-  fprintf(fid,"$%d$",kmin_digits);
-  fclose(fid);
-  fid=fopen(strcat(strf,"_kmin_adders.tab"),"wt");
-  fprintf(fid,"$%d$",kmin_adders);
-  fclose(fid);
-
-  % Find squared-magnitude
-  Asq_k0=schurOneMPAlatticeAsq(wa,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
-                               difference);
-  Asq_k0_sd=schurOneMPAlatticeAsq ...
-              (wa,A1k0_sd,A1epsilon0,A1p_ones,A2k0_sd,A2epsilon0,A2p_ones,...
-               difference);
-  Asq_kmin=schurOneMPAlatticeAsq ...
-             (wa,A1k_min,A1epsilon0,A1p_ones,A2k_min,A2epsilon0,A2p_ones,...
-               difference);
-
-  % Amplitude,delay and phase at local peaks
-  vAl=local_max(Asqdl-Asq_kmin);
-  vAu=local_max(Asq_kmin-Asqdu);
-  wAsqS=wa(unique([vAl;vAu;1;end]));
-  AsqS=Asq_kmin(unique([vAl;vAu;1;end]));
-  printf("kmin:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
-  printf("kmin:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
-
-  % Find maximum stop band response
-  rsb=[nas:n];
-  max_sb_Asq_k0=10*log10(max(abs(Asq_k0(rsb))))
-  max_sb_Asq_k0_sd=10*log10(max(abs(Asq_k0_sd(rsb))))
-  max_sb_Asq_kmin=10*log10(max(abs(Asq_kmin(rsb))))
-
-  % Make a LaTeX table for cost
-  fid=fopen(strcat(strf,"_kmin_cost.tab"),"wt");
-  fprintf(fid,"Initial & %7.2e & & \\\\\n",Esq0);
-  fprintf(fid,"%d-bit %d-signed-digit(Ito)& %7.2e & %d & %d \\\\\n",
-          nbits,ndigits,Esq0_sd,k0_sd_digits,k0_sd_adders);
-  fprintf(fid,"%d-bit %d-signed-digit(SOCP b-and-b) & %7.2e & %d & %d \\\\\n",
-          nbits,ndigits,Esq_min,kmin_digits,kmin_adders);
-  fclose(fid);
-
-  %
-  % Plot response
-  %
-
-  % Plot amplitude
-  plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
-       wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
-       wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-  legend("Initial","s-d(Ito)","s-d(SOCP b-and-b)");
-  legend("location","northeast");
-  legend("boxoff");
-  legend("left");
-  ylabel("Amplitude(dB)");
-  xlabel("Frequency");
-  strt=sprintf("Parallel one-multplier allpass lattice lowpass filter \
-(nbits=%d,ndigits=%d) : fap=%g,fas=%g,dBap=%g,dBas=%g", ...
-               nbits,ndigits,fap,fas,dBap,dBas);
-  title(strt);
-  axis([0, 0.5, -100, 5]);
-  grid("on");
-  print(strcat(strf,"_kmin"),"-dpdflatex");
-  close
- 
-  % Plot stop-band amplitude
-  plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
-       wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
-       wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-  legend("Initial","s-d(Ito)","s-d(SOCP b-and-b)");
-  legend("location","northeast");
-  legend("boxoff");
-  legend("left");
-  ylabel("Amplitude(dB)");
-  xlabel("Frequency");
-  title(strt);
-  axis([fap, 0.5, -100, -40]);
-  grid("on");
-  print(strcat(strf,"_kmin_stop"),"-dpdflatex"); 
-  close
-
-  % Plot pass-band amplitude
-  plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
-       wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
-       wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-  ylabel("Amplitude(dB)");
-  title(strt);
-  axis([0, fas, -0.05, 0.01]);
-  legend("Initial","s-d(Ito)","s-d(b-and-b)");
-  legend("location","southwest");
-  legend("boxoff");
-  legend("left");
-  grid("on");
-  print(strcat(strf,"_kmin_pass"),"-dpdflatex"); 
-  close
-  
-  % Dual plot of amplitude response
-  Rfap=1:(nap+50);
-  wap=wa(Rfap);
-  Asq_k0_wap=Asq_k0(Rfap);
-  Asq_k0_sd_wap=Asq_k0_sd(Rfap);
-  Asq_kmin_wap=Asq_kmin(Rfap);
-  Rfas=(nas-50):n;
-  was=wa(Rfas);
-  Asq_k0_was=Asq_k0(Rfas);
-  Asq_k0_sd_was=Asq_k0_sd(Rfas);
-  Asq_kmin_was=Asq_kmin(Rfas);
-  [ax,h1,h2]=plotyy(wap*0.5/pi, ...
-                    10*log10([Asq_k0_wap,Asq_k0_sd_wap,Asq_kmin_wap]), ...
-                    was*0.5/pi, ...
-                    10*log10([Asq_k0_was,Asq_k0_sd_was,Asq_kmin_was]));
-  [ax,h1,h2]=plotyy(wap*0.5/pi, ...
-                    10*log10([Asq_k0_wap,Asq_k0_sd_wap,Asq_kmin_wap]), ...
-                    was*0.5/pi, ...
-                    10*log10([Asq_k0_was,Asq_k0_sd_was,Asq_kmin_was]));
-  % Hack to set line colour and style 
-  h1c=get(h1,"color");
-  for k=1:3
-    set(h2(k),"color",h1c{k});
-  endfor
-  set(h1(1),"linestyle","-");
-  set(h1(2),"linestyle","--");
-  set(h1(3),"linestyle","-.");
-  set(h2(1),"linestyle","-");
-  set(h2(2),"linestyle","--");
-  set(h2(3),"linestyle","-.");
-  set(ax(1),'ycolor','black');
-  set(ax(2),'ycolor','black');
-  axis(ax(1),[0, 0.5, -0.05, 0.01]);
-  axis(ax(2),[0, 0.5, -100, -40]);
-  ylabel(ax(1),"Amplitude(dB)");
-  ylabel(ax(2),"Amplitude(dB)");
-  % End of hack
-  xlabel("Frequency");
-  grid("on");
-  legend("Initial","s-d(Ito)","s-d(b-and-b)");
-  legend("location","northeast");
-  legend("boxoff");
-  legend("left");
-  title(strt);
-  grid("on");
-  print(strcat(strf,"_kmin_dual"),"-dpdflatex"); 
-  close
+  error("Did not find an improved solution!\n");
 endif
+A1k_min=k_min(R1);
+A2k_min=k_min(R2);
+Esq_min=schurOneMPAlatticeEsq ...
+          (A1k_min,A1epsilon0,A1p_ones,A2k_min,A2epsilon0,A2p_ones, ...
+           difference,wa,Asqd,Wa);
+printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
+print_polynomial(A1k_min,"A1k_min",nscale);
+print_polynomial(A1k_min,"A1k_min",strcat(strf,"_A1k_min_coef.m"),nscale);
+printf("A1epsilon0=[ ");printf("%d ",A1epsilon0);printf("]';\n");
+print_polynomial(A2k_min,"A2k_min",nscale);
+print_polynomial(A2k_min,"A2k_min",strcat(strf,"_A2k_min_coef.m"),nscale);
+printf("A2epsilon0=[ ");printf("%d ",A2epsilon0);printf("]';\n");
+% Find the number of signed-digits and adders used
+[kmin_digits,kmin_adders]=SDadders(k_min,nbits);
+printf("%d signed-digits used\n",kmin_digits);
+printf("%d %d-bit adders used for coefficient multiplications\n",
+       kmin_adders,nbits);
+fid=fopen(strcat(strf,"_kmin_digits.tab"),"wt");
+fprintf(fid,"$%d$",kmin_digits);
+fclose(fid);
+fid=fopen(strcat(strf,"_kmin_adders.tab"),"wt");
+fprintf(fid,"$%d$",kmin_adders);
+fclose(fid);
+
+% Find squared-magnitude
+Asq_k0=schurOneMPAlatticeAsq(wa,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
+                             difference);
+Asq_k0_sd=schurOneMPAlatticeAsq ...
+            (wa,A1k0_sd,A1epsilon0,A1p_ones,A2k0_sd,A2epsilon0,A2p_ones,...
+             difference);
+Asq_kmin=schurOneMPAlatticeAsq ...
+           (wa,A1k_min,A1epsilon0,A1p_ones,A2k_min,A2epsilon0,A2p_ones,...
+             difference);
+
+% Amplitude,delay and phase at local peaks
+vAl=local_max(Asqdl-Asq_kmin);
+vAu=local_max(Asq_kmin-Asqdu);
+wAsqS=wa(unique([vAl;vAu;1;end]));
+AsqS=Asq_kmin(unique([vAl;vAu;1;end]));
+printf("kmin:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("kmin:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
+
+% Find maximum stop band response
+rsb=[nas:n];
+max_sb_Asq_k0=10*log10(max(abs(Asq_k0(rsb))))
+max_sb_Asq_k0_sd=10*log10(max(abs(Asq_k0_sd(rsb))))
+max_sb_Asq_kmin=10*log10(max(abs(Asq_kmin(rsb))))
+
+% Make a LaTeX table for cost
+fid=fopen(strcat(strf,"_kmin_cost.tab"),"wt");
+fprintf(fid,"Initial & %7.2e & & \\\\\n",Esq0);
+fprintf(fid,"%d-bit %d-signed-digit(Ito)& %7.2e & %d & %d \\\\\n",
+        nbits,ndigits,Esq0_sd,k0_sd_digits,k0_sd_adders);
+fprintf(fid,"%d-bit %d-signed-digit(SOCP b-and-b) & %7.2e & %d & %d \\\\\n",
+        nbits,ndigits,Esq_min,kmin_digits,kmin_adders);
+fclose(fid);
+
+%
+% Plot response
+%
+
+% Plot amplitude
+plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
+     wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
+     wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
+legend("Initial","s-d(Ito)","s-d(SOCP b-and-b)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+ylabel("Amplitude(dB)");
+xlabel("Frequency");
+strt=sprintf("Parallel one-multplier allpass lattice lowpass filter \
+(nbits=%d,ndigits=%d) : fap=%g,fas=%g,dBap=%g,dBas=%g", ...
+             nbits,ndigits,fap,fas,dBap,dBas);
+title(strt);
+axis([0, 0.5, -100, 5]);
+grid("on");
+print(strcat(strf,"_kmin"),"-dpdflatex");
+close
+
+% Plot stop-band amplitude
+plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
+     wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
+     wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
+legend("Initial","s-d(Ito)","s-d(SOCP b-and-b)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+ylabel("Amplitude(dB)");
+xlabel("Frequency");
+title(strt);
+axis([fap, 0.5, -100, -40]);
+grid("on");
+print(strcat(strf,"_kmin_stop"),"-dpdflatex"); 
+close
+
+% Plot pass-band amplitude
+plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
+     wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
+     wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
+ylabel("Amplitude(dB)");
+title(strt);
+axis([0, fas, -0.05, 0.01]);
+legend("Initial","s-d(Ito)","s-d(b-and-b)");
+legend("location","southwest");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_kmin_pass"),"-dpdflatex"); 
+close
+
+% Dual plot of amplitude response
+Rfap=1:(nap+50);
+wap=wa(Rfap);
+Asq_k0_wap=Asq_k0(Rfap);
+Asq_k0_sd_wap=Asq_k0_sd(Rfap);
+Asq_kmin_wap=Asq_kmin(Rfap);
+Rfas=(nas-50):n;
+was=wa(Rfas);
+Asq_k0_was=Asq_k0(Rfas);
+Asq_k0_sd_was=Asq_k0_sd(Rfas);
+Asq_kmin_was=Asq_kmin(Rfas);
+[ax,h1,h2]=plotyy(wap*0.5/pi, ...
+                  10*log10([Asq_k0_wap,Asq_k0_sd_wap,Asq_kmin_wap]), ...
+                  was*0.5/pi, ...
+                  10*log10([Asq_k0_was,Asq_k0_sd_was,Asq_kmin_was]));
+[ax,h1,h2]=plotyy(wap*0.5/pi, ...
+                  10*log10([Asq_k0_wap,Asq_k0_sd_wap,Asq_kmin_wap]), ...
+                  was*0.5/pi, ...
+                  10*log10([Asq_k0_was,Asq_k0_sd_was,Asq_kmin_was]));
+% Hack to set line colour and style 
+h1c=get(h1,"color");
+for k=1:3
+  set(h2(k),"color",h1c{k});
+endfor
+set(h1(1),"linestyle","-");
+set(h1(2),"linestyle","--");
+set(h1(3),"linestyle","-.");
+set(h2(1),"linestyle","-");
+set(h2(2),"linestyle","--");
+set(h2(3),"linestyle","-.");
+set(ax(1),'ycolor','black');
+set(ax(2),'ycolor','black');
+axis(ax(1),[0, 0.5, -0.05, 0.01]);
+axis(ax(2),[0, 0.5, -100, -40]);
+ylabel(ax(1),"Amplitude(dB)");
+ylabel(ax(2),"Amplitude(dB)");
+% End of hack
+xlabel("Frequency");
+grid("on");
+legend("Initial","s-d(Ito)","s-d(b-and-b)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+title(strt);
+grid("on");
+print(strcat(strf,"_kmin_dual"),"-dpdflatex"); 
+close
   
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");
