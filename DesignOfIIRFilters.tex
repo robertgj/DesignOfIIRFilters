@@ -31566,9 +31566,13 @@ versions of the following libraries:
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website} and
 \emph{SuiteSparse-5.1.2}~\cite{SUITESPARSE_website}.
 
-The \emph{build-octave.sh} script assumes that the \emph{wget, gnuplot-latex,
-readline-devel, lzip, sharutils, gfortran} and \emph{cmake} utilities are
-installed.
+The \emph{build-octave.sh} script assumes that the following packages are
+installed: \emph{wget, readline-devel,
+  lzip, sharutils, gcc, gcc-c++, gcc-gfortran, gmp-devel, mpfr-devel, cmake,
+  gnuplot-latex, m4, gperf, bison, flex, openblas-devel, patch, texinfo,
+  texinfo-tex, icoutils, librsvg2-tools, librsvg2} and
+\emph{librsvg2-devel}\footnote{In addition, the \emph{dia} and \emph{epstool}
+  packages are required to build this document.}.
 
 The \emph{build-octave.sh} script installs the following Octave Forge packages:
 \begin{small}

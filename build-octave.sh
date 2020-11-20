@@ -2,8 +2,12 @@
 
 # Build a local version of octave-cli
 #
-# Requires wget, gnuplot-latex, readline-devel, lzip, sharutils, gfortran
-# cmake and ???
+# Requires Fedora packages: wget readline-devel lzip sharutils gcc gcc-c++
+# gcc-gfortran gmp-devel mpfr-devel cmake gnuplot-latex m4 gperf bison flex
+# openblas-devel patch texinfo texinfo-tex librsvg2 librsvg2-devel
+# librsvg2-tools icoutils 
+#
+# To build the pdf document install Fedora packages: dia epstool
 #
 # From the fftw-3.3.8 release notes (May 28th, 2018):
 #    Fixed AVX, AVX2 for gcc-8.
@@ -34,15 +38,15 @@
 #
 LAPACK_VER=${LAPACK_VER:-3.9.0}
 LAPACK_ARCHIVE=lapack-$LAPACK_VER".tar.gz"
-LAPACK_URL=http://www.netlib.org/lapack/$LAPACK_ARCHIVE
+LAPACK_URL=http://github.com/Reference-LAPACK/lapack/archive/v$LAPACK_VER.tar.gz
 if ! test -f $LAPACK_ARCHIVE; then
-  wget -c $LAPACK_URL
+  wget -c $LAPACK_URL -O $LAPACK_ARCHIVE
 fi
 
 ARPACK_ARCHIVE=arpack-ng-master.zip
-ARPACK_URL=https://github.com/opencollab/arpack-ng/archive/$ARPACK_ARCHIVE
+ARPACK_URL=https://github.com/opencollab/arpack-ng/archive/master.zip
 if ! test -f $ARPACK_ARCHIVE; then
-  wget -c $ARPACK_URL
+  wget -c $ARPACK_URL -O $ARPACK_ARCHIVE
 fi
 
 SUITESPARSE_VER=${SUITESPARSE_VER:-5.1.2}
@@ -249,7 +253,7 @@ popd
 rm -Rf lapack-$LAPACK_VER lapack.patch.uue lapack.patch
 
 #
-# Build arpack-ng
+# Build arpack
 #
 rm -Rf arpack-ng-master
 unzip $ARPACK_ARCHIVE
