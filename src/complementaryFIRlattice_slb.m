@@ -175,11 +175,11 @@ function [k,khat,slb_iter,opt_iter,func_iter,feasible] = ...
         printf("k=[ ");printf("%f ",k');printf("]';\n");
         printf("khat=[ ");printf("%f ",khat');printf("]';\n");
         warning("No change to solution after %d PCLS iterations\n",slb_iter);
-        for [v,k]=vR
-          printf("vR.%s=[ ",k);printf("%d ",v);printf("]\n");
+        for [v,m]=vR
+          printf("vR.%s=[ ",m);printf("%d ",v);printf("]\n");
         endfor
-        for [v,k]=vS
-          printf("vS.%s=[ ",k);printf("%d ",v);printf("]\n");
+        for [v,m]=vS
+          printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
         endfor
         if complementaryFIRlattice_slb_constraints_are_empty(vR)
           break;

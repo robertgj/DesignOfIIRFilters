@@ -162,11 +162,11 @@ function [fM,k0,k1,slb_iter,opt_iter,func_iter,feasible] = ...
         printf("k0=[ ");printf("%f ",k0');printf("]';\n");
         printf("k1=[ ");printf("%f ",k1');printf("]';\n");
         warning("No change to solution after %d PCLS iterations\n",slb_iter);
-        for [v,k]=vR
-          printf("vR.%s=[ ",k);printf("%d ",v);printf("]\n");
+        for [v,m]=vR
+          printf("vR.%s=[ ",m);printf("%d ",v);printf("]\n");
         endfor
-        for [v,k]=vS
-          printf("vS.%s=[ ",k);printf("%d ",v);printf("]\n");
+        for [v,m]=vS
+          printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
         endfor
         if johanssonOneMlattice_slb_constraints_are_empty(vR)
           break;

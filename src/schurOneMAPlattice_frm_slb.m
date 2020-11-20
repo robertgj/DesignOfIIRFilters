@@ -174,11 +174,11 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
     if feasible
       if (k==nextk) && (u==nextu) && (v==nextv)
         warning("No change to solution after %d PCLS iterations\n",slb_iter);
-        for [v,k]=vR
-          printf("vR.%s=[ ",k);printf("%d ",v);printf("]\n");
+        for [vv,mm]=vR
+          printf("vR.%s=[ ",mm);printf("%d ",vv);printf("]\n");
         endfor
-        for [v,k]=vS
-          printf("vS.%s=[ ",k);printf("%d ",v);printf("]\n");
+        for [vv,mm]=vS
+          printf("vS.%s=[ ",mm);printf("%d ",vv);printf("]\n");
         endfor
         if schurOneMAPlattice_frm_slb_constraints_are_empty(vR)
           break;

@@ -176,11 +176,11 @@ function [s10,s11,s20,s00,s02,s22,slb_iter,opt_iter,func_iter,feasible] = ...
         printf("s02=[ ");printf("%f ",s02(:)');printf("];\n");
         printf("s22=[ ");printf("%f ",s22(:)');printf("];\n");
         warning("No change to solution after %d PCLS iterations\n",slb_iter);
-        for [v,k]=vR
-          printf("vR.%s=[ ",k);printf("%d ",v);printf("]\n");
+        for [v,m]=vR
+          printf("vR.%s=[ ",m);printf("%d ",v);printf("]\n");
         endfor
-        for [v,k]=vS
-          printf("vS.%s=[ ",k);printf("%d ",v);printf("]\n");
+        for [v,m]=vS
+          printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
         endfor
         if schurNSlattice_slb_constraints_are_empty(vR)
           break;
