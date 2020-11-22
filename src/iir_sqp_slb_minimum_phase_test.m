@@ -7,19 +7,19 @@ delete("iir_sqp_slb_minimum_phase_test.diary");
 delete("iir_sqp_slb_minimum_phase_test.diary.tmp");
 diary iir_sqp_slb_minimum_phase_test.diary.tmp
 
-tol=2e-4
-ctol=tol
+tol=1e-4
+ctol=tol/100
 maxiter=2000
 verbose=false
 
 % Filter specifications
 U=2,V=1,M=8,Q=4,R=2
 fap=0.15
-dBap=0.2
+dBap=0.05
 Wap=1
 fas=0.25
 dBas=50
-Was=2
+Was=5
 
 % Frequency vectors
 n=1000;
@@ -94,16 +94,31 @@ if !feasible
   error("d1 infeasible");
 endif
 strt=sprintf(strP,"d1(pcls)");
-showZPplot(d1,U,V,M,Q,R,strt);
-print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
-close
-showResponse(d1,U,V,M,Q,R,strt);
+nplot=n*2;
+w=(0:nplot)'*pi/nplot;
+A=iirA(w,d1,U,V,M,Q,R);
+T=iirT(w,d1,U,V,M,Q,R);
+subplot(211);
+plot(0.5*w/pi,20*log10(A));
+axis([0, 0.5, -80, 10]);
+xlabel("Frequency");
+ylabel("Amplitude(dB)");
+grid("on");
+title(strt);
+subplot(212);
+plot(0.5*w/pi,T);
+axis([0, 0.5 0 2*(U+M)]);
+xlabel("Frequency");
+ylabel("Delay(samples)");
+grid("on");
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
-hold off
 close
-showResponsePassBands(0,fap,-2*dBap,dBap,d1,U,V,M,Q,R,strt);
+showResponsePassBands(0,fap,-0.06,0.01,d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 hold off
+close
+showZPplot(d1,U,V,M,Q,R,strt);
+print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
 
 % Final amplitude at constraints

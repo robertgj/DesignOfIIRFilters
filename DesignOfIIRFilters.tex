@@ -9036,10 +9036,18 @@ bandpass filter specified by:
 The initial filter coefficients are, in gain-pole-zero form:
 \begin{small}
 \begin{verbatim}
-x0=[0.002;-1;-1;0.7;ones(4,1);pi*(12:15)'/16;0.7;0.7;2*pi/3;pi/2];
+x0=[ 0.004; ...
+    -127/128;-127/128; ...
+     0.6; ...
+     127/128*ones(4,1); ...
+     pi*(9:12)'/16; ...
+     0.6;0.6; ...
+     2*pi/3;pi/2 ];
 \end{verbatim}
 \end{small}
 The inital filter is optimised with the PCLS algorithm.
+The PCLS optimised pole and zero radiuses are contrained to be less than
+$\frac{255}{256}$.
 Figure~\ref{fig:iir-sqp-slb-minimum-phase-pcls-response} shows the response of
 the PCLS optimised filter.
 Figure~\ref{fig:iir-sqp-slb-minimum-phase-pcls-passband-response} shows the
