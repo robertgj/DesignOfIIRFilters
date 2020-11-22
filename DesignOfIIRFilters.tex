@@ -394,11 +394,13 @@ library\cite{GNU_GSL}\footnote{The \emph{MPSolve} multi-precision polynomial
   includes an Octave interface.}.
 
 \vspace*{5cm}
-\textsc{\textbf{The results shown in this report were obtained on my system
+\textbf{\textsc{The results shown in this report were obtained on my system
     running with a particular combination of CPU architecture, operating system,
     library versions, compiler version and Octave version. Your system will
     almost certainly be different. You may need to modify a script to run on
-    your system}}. 
+    your system. Try changing the band weights and loosening the constraints.
+    Run the} \emph{build-octave.sh} \textsc{script to build a local, patched
+    version of Octave and the required numerical libraries.}}
 \clearpage
 \begin{figure}
 \centering
@@ -31564,9 +31566,12 @@ Building this document may take a long time. I run \emph{make -j 6}.
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
 version of \emph{octave-5.2.0} avoiding the vagaries of the Fedora packagers
-\footnote{The Fedora 33 \emph{octave-5.2.0-7.fc33} package
-  depends on the OpenBLAS versions of the \emph{blas} and \emph{lapack}
-  libraries.}. The patch file, \emph{octave.patch}, is a \emph{here document}
+\footnote{The Fedora 33 \emph{octave-5.2.0} package
+  depends on the FlexiBLAS~\cite{FlexiBLAS_website} wrapper library for the
+  \emph{blas} and \emph{lapack} libraries. Also install the Fedora
+  redhat-rpm-config, octave-devel, octave-io, octave-struct, octave-statistics,
+  octave-parallel, octave-optim, octave-control and octave-signal packages.}.
+The patch file, \emph{octave.patch}, is a \emph{here document} 
 within \emph{build-octave.sh}. The \emph{octave-5.2.0/configure} script is
 patched so that the Octave ``\emph{OCTAVE\_VERSION}'' command returns
 \texttt{5.2.0-robj}. Other files are patched to add Octave warning ids and to
@@ -31578,6 +31583,7 @@ versions of the following libraries:
 \emph{lapack-3.9.0}~\cite{LAPACK_website},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website} and
 \emph{SuiteSparse-5.1.2}~\cite{SUITESPARSE_website}.
+The local build of the \emph{LAPACK} library includes the deprecated routines.
 
 The \emph{build-octave.sh} script assumes that the following packages are
 installed: \emph{wget, readline-devel,

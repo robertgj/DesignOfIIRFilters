@@ -624,7 +624,7 @@ rm -f $NEW_SYMBOLIC_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg list"
 
 #
-# Install solver packages from GitHub
+# Install solver packages from the GitHub forked repositories
 #
 
 GITHUB_URL="https://github.com/robertgj"
@@ -676,6 +676,8 @@ rm -Rf SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP
 unzip SparsePOP-master.zip
 find SparsePOP-master -name \*.mex* -exec rm -f {} ';'
 mv SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP
+# !! Do not build the SparsePOP .mex files !!
+# $OCTAVE_BIN_DIR/octave-cli -q $OCTAVE_SITE_M_DIR/SparsePOP/compileSparsePOP.m
 
 #
 # Solver installation done
