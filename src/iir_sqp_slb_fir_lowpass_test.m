@@ -24,10 +24,10 @@ Wat=0.01
 ftp=0.15
 td=15
 tdr=0.3
-Wtp=0.1
+Wtp=0.05
 fas=0.2
 dBas=40
-Was=10
+Was=50
 
 % Frequency vectors
 n=1000;

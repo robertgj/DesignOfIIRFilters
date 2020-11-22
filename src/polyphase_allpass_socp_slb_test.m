@@ -1,5 +1,5 @@
 % polyphase_allpass_socp_slb_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -23,6 +23,8 @@ Db0 = [   1.0000000000,  -0.2572430673,  -1.3794429373,   0.2449685167, ...
          -0.2044227076,   0.0818098649,  -0.0099547947,  -0.0042961347 ]';
 
 % Lowpass filter specification for polyphase combination of all-pass filters
+% fap=0.24,fas=0.26 for Netlib reference libblas/liblapack
+% fap=0.239,fas=0.261 for libopenblas
 tol=1e-4
 ctol=1e-9
 n=500;
@@ -36,10 +38,10 @@ Ra=R
 Rb=R
 ma=length(Da0)-1
 mb=length(Db0)-1
-fap=0.24
+fap=0.239
 dBap=0.001
 Wap=1
-fas=0.26
+fas=0.261
 dBas=80
 Was=1e-2
 

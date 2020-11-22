@@ -111,10 +111,10 @@ fas2l=0.125;fas2u=0.15;
 fap2l=0.175;fap2u=0.225;
 ftp2l=0.185;ftp2u=0.215;
 fas3l=0.25;
-dBas1=26;dBap1=0.65;dBas2=26;dBap2=0.65;dBas3=26;
+dBas1=20;dBap1=1;dBas2=20;dBap2=1;dBas3=20;
 Was1=1;Wap1=1;Was2=1;Wap2=1;Was3=1;
 tp1=23;tpr1=2;tp2=13;tpr2=2;
-Wtp1=0.002;Wtp2=0.002;
+Wtp1=0.005;Wtp2=0.005;
 
 % Amplitude mask
 fa=0.5*(0:(npoints-1))'/npoints;

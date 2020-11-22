@@ -22,7 +22,7 @@ maxiter=10000
 % Filter specifications (frequencies are normalised to the sample rate)
 U=0,V=0,M=10,Q=6,R=2
 fap=0.10,dBap=0.2,Wap=1
-fas=0.25,dBas=40,Was=4
+fas=0.25,dBas=40,Was=3
 ftp=0.125,tp=8,tpr=0.008,Wtp=0.25
 
 % Initial filter guess

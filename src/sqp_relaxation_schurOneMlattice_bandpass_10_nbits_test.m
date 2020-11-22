@@ -1,5 +1,5 @@
 % sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 % Optimisation of Schur one-multiplier lattice bandpass filter response with
 % 10-bit signed-digit coefficients having Ito et al. allocation and SQP
@@ -16,6 +16,7 @@ tic;
 maxiter=2000
 verbose=false;
 
+dBass=37;
 schurOneMlattice_bandpass_10_nbits_common;
 
 strf="sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test";

@@ -1,5 +1,5 @@
 % schurNSlattice2Abcd_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -34,20 +34,20 @@ for x=1:3
 
   % Check [A,B,C,D]
   [check_n,check_d]=Abcd2tf(A,B,C,D);
-  if max(abs(check_n-n))/eps > 102.13
-    error("max(abs(check_n-n))/eps > 102.13");
+  if max(abs(check_n-n)) > 200*eps
+    error("max(abs(check_n-n)) > 200*eps");
   endif
-  if max(abs(check_d-d))/eps > 4096
-    error("max(abs(check_d-d))/eps > 4096");
+  if max(abs(check_d-d)) > 5000*eps
+    error("max(abs(check_d-d)) > 5000*eps");
   endif
 
   % Check [A,B,Cap,Dap]
   [check_nap,check_dap]=Abcd2tf(A,B,Cap,Dap);
-  if max(abs(fliplr(check_nap)-d))/eps > 2048
-    error("max(abs(fliplr(check_nap)-d))/eps > 2048");
+  if max(abs(fliplr(check_nap)-d)) > 2500*eps
+    error("max(abs(fliplr(check_nap)-d)) > 2500*eps");
   endif
-  if max(abs(check_dap-d))/eps > 4096
-    error("max(abs(check_dap-d))/eps > 4096");
+  if max(abs(check_dap-d)) > 5000*eps
+    error("max(abs(check_dap-d)) > 5000*eps");
   endif
 
   % Calculate differentials of A,B,C,D,Cap,Dap with respect to s
@@ -393,20 +393,20 @@ for x=1:3
 
   % Check [A,B,C,D]
   [check_n,check_d]=Abcd2tf(A,B,C,D);
-  if max(abs(check_n-n))/eps > 102.13
-    error("max(abs(check_n-n))/eps > 102.13");
+  if max(abs(check_n-n)) > 200*eps
+    error("max(abs(check_n-n)) > 200*eps");
   endif
-  if max(abs(check_d-d))/eps > 4096
-    error("max(abs(check_d-d))/eps > 4096");
+  if max(abs(check_d-d)) > 5000*eps
+    error("max(abs(check_d-d)) > 5000*eps");
   endif
 
   % Check [A,B,Cap,Dap]
   [check_nap,check_dap]=Abcd2tf(A,B,Cap,Dap);
-  if max(abs(fliplr(check_nap)-d))/eps > 2048
-    error("max(abs(fliplr(check_nap)-d))/eps > 2048");
+  if max(abs(fliplr(check_nap)-d)) > 2500*eps
+    error("max(abs(fliplr(check_nap)-d)) > 2500*eps");
   endif
-  if max(abs(check_dap-d))/eps > 4096
-    error("max(abs(check_dap-d))/eps > 4096");
+  if max(abs(check_dap-d)) > 5000*eps
+    error("max(abs(check_dap-d)) > 5000*eps");
   endif
 
   % Calculate differentials of A,B,C,D,Cap,Dap with respect to s

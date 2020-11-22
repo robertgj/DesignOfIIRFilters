@@ -1,5 +1,5 @@
 % johanssonOneMlattice_socp_slb_bandstop_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 
 test_common;
 
@@ -9,10 +9,9 @@ diary johanssonOneMlattice_socp_slb_bandstop_test.diary.tmp
 
 script_id=tic;
 
-
 maxiter=2000
-tol=1e-6
-ctol=2e-8
+tol=1e-7
+ctol=5e-8
 verbose=false
 
 % Band-stopfilter specification

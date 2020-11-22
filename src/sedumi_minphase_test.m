@@ -35,8 +35,8 @@ X=mat(x);
 [U,S,V]=svd(X);
 h=V(:,1)/2;
 % Sanity check
-if abs(S(1)-(4*h'*X*h))>2*eps
-  error("abs(S(1)-(4*h'*X*h))(%g)>2*eps",abs(S(1)-(4*h'*X*h)));
+if abs(S(1)-(4*h'*X*h))>4*eps
+  error("abs(S(1)-(4*h'*X*h))(%g*eps)>4*eps",abs(S(1)-(4*h'*X*h))/eps);
 endif
 
 % Check that the inverse filter 1/H(z) is stable

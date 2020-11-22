@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -46,7 +46,7 @@ ftp=0
 td=0
 tdr=0
 Wtp=0
-fas=0.17075
+fas=0.171
 fase=0.18
 dBas=84.02
 Was_mmse=5e5

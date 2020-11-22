@@ -7,7 +7,7 @@ delete("ellip20OneMPAMB_test.diary");
 delete("ellip20OneMPAMB_test.diary.tmp");
 diary ellip20OneMPAMB_test.diary.tmp
 
-tol=25e-7;
+tol=4e-6;
 nplot=1024;
 strf="ellip20OneMPAMB_test";
 

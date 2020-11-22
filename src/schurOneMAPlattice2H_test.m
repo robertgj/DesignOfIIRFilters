@@ -1,5 +1,5 @@
 % schurOneMAPlattice2H_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -87,8 +87,8 @@ for l=1:length(A1k)
   diff_A1Hk(l)=(A1HkPdel2-A1HkMdel2)/del;
   delA1k=shift(delA1k,1);
 endfor
-if max(abs(diff_A1Hk-A1dHdk(npass,1:length(A1k)))) > del/1807.1
-  error("max(abs(diff_A1Hk-A1dHdk(npass,1:length(A1k)))) > del/1807.1");
+if max(abs(diff_A1Hk-A1dHdk(npass,1:length(A1k)))) > del/1000
+  error("max(abs(diff_A1Hk-A1dHdk(npass,1:length(A1k)))) > del/1000");
 endif
 
 % Check the gradients of A2H wrt A2k
@@ -254,8 +254,8 @@ diff_A2diagd2Hdk2=zeros(1,columns(A2diagd2Hdk2));
   schurOneMAPlattice2H(wpass-(delw/2),A2A,A2B,A2Cap,A2Dap, ...
                        A2dAdkc,A2dBdkc,A2dCapdkc,A2dDapdkc);
 diff_A2diagd2Hdk2=(A2diagd2Hdk2P-A2diagd2Hdk2M)/delw;
-if max(abs(diff_A2diagd2Hdk2-A2diagd3Hdwdk2(npass,:))) > delw/1.506
-  error("max(abs(diff_A2diagd2Hdk2-A2diagd3Hdwdk2(npass,:))) > delw/1.506");
+if max(abs(diff_A2diagd2Hdk2-A2diagd3Hdwdk2(npass,:))) > delw
+  error("max(abs(diff_A2diagd2Hdk2-A2diagd3Hdwdk2(npass,:))) > delw");
 endif
 
 % Done

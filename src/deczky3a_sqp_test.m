@@ -1,5 +1,5 @@
 % deczky3a_sqp_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -18,9 +18,9 @@ strf="deczky3a_sqp_test";
 
 % Deczky3 Lowpass filter specification
 U=0,V=0,Q=6,M=10,R=1
-fap=0.15,dBap=0.1,Wap=1
+fap=0.15,dBap=0.2,Wap=1
 fas=0.3,dBas=50,Was=4
-ftp=0.25,tp=9.35,tpr=0.3,Wtp=0.0001
+ftp=0.25,tp=9.35,tpr=0.3,Wtp=0.0002
 
 % Initial coefficients
 z=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...

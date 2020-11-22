@@ -3,7 +3,7 @@
 % P. Zahradnik and M. Vlcek, IEEE Transactions on Circuits and Systems - II:
 % Express Briefs, Vol. 56, No. 12, December 2009, pp. 941-945
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 
 test_common;
 
@@ -264,9 +264,10 @@ as=-60;
 [G,Q,h]=zahradnik_halfband_G(n,kp,A,B);
 % Compare h from zahradnik_halfband_G and h from zahradnik_halfband 
 hnnm1=zahradnik_halfband_h(fp,n,kp,A,B);
-Gtol=1e-6;
-if max(abs(h-hnnm1))>Gtol
-  error("max(abs(h-hnnm1))>%g",Gtol);
+Gtol=2.5e-6;
+Gerr=max(abs(h-hnnm1));
+if Gerr>Gtol
+  error("max(abs(h-hnnm1))(%g)>%g",Gerr,Gtol);
 endif
 % Plot
 [H,w]=freqz(h,1,nplot);

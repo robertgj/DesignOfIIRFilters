@@ -18,8 +18,7 @@ maxiter=20000
 % (frequencies are normalised to sample rate)
 fapl=0.1,fapu=0.2,dBap=1,Wap=1
 fasl=0.05,fasu=0.25,dBas=35,Wasl=2,Wasu=4
-ftpl=0.09,ftpu=0.21,tp=16,tpr=0.08,Wtp=1
-% Also: dBap=2,dBas=40.5,tpr=0.16
+ftpl=0.09,ftpu=0.21,tp=16,tpr=0.08,Wtp=1.25
 
 % Strings
 strI=sprintf("x0:fapl=%g,fapu=%g,tp=%g,fasl=%g,fasu=%g,Wasl=%g,Wasu=%g", ...

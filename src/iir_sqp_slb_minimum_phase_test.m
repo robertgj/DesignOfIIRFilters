@@ -1,5 +1,5 @@
 % iir_sqp_slb_minimum_phase_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -17,9 +17,9 @@ U=2,V=1,M=8,Q=4,R=2
 fap=0.15
 dBap=0.2
 Wap=1
-fas=0.2
-dBas=46
-Was=5
+fas=0.25
+dBas=50
+Was=2
 
 % Frequency vectors
 n=1000;
@@ -60,7 +60,13 @@ strP=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g",
 strf="iir_sqp_slb_minimum_phase_test";
 
 % Initial coefficients
-x0=[0.002;-1;-1;0.7;ones(4,1);pi*(12:15)'/16;0.7;0.7;2*pi/3;pi/2];
+x0=[ 0.004; ...
+    -127/128;-127/128; ...
+     0.6; ...
+     127/128*ones(4,1); ...
+     pi*(9:12)'/16; ...
+     0.6;0.6; ...
+     2*pi/3;pi/2];
 strt=sprintf(strP,"x0");
 showZPplot(x0,U,V,M,Q,R,strt);
 print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
@@ -75,7 +81,7 @@ hold off
 close
             
 % Coefficient constraints
-[xl,xu]=xConstraints(U,V,M,Q,31/32,1);
+[xl,xu]=xConstraints(U,V,M,Q,255/256,255/256);
 dmax=0.005;
 
 % PCLS

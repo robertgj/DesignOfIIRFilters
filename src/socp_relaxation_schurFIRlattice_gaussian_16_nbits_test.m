@@ -4,7 +4,7 @@
 % lattice Gaussian filter with 16-bit 3-signed-digit coefficients
 % allocated with the algorithm of Lim et al.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -243,8 +243,6 @@ while ~isempty(kkhat_active)
   % If this problem was not solved then give up
   if ~feasible
     print_polynomial(kkhat_active,"kkhat_active");
-    print_polynomial(kkhat_b(1:Nk),"k_fail",nscale);
-    print_polynomial(kkhat_b((Nk+1):end),"khat_fail",nscale);
     error("SOCP problem infeasible!");
   endif
 

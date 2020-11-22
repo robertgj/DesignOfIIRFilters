@@ -50,17 +50,17 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test_a1_coef.m.ok << 'EOF'
 % All-pass single-vector representation
 Va1=1,Qa1=4,Ra1=1
-a1 = [   0.6341464791, ...
-         0.7954095994,   0.9453327204, ...
-         0.7203006666,   0.9306474808 ]';
+a1 = [   0.6241290273, ...
+         0.7917592320,   0.9445962032, ...
+         0.7178069848,   0.9305350017 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m.ok"; fail; fi
 
 cat > test_b1_coef.m.ok << 'EOF'
 % All-pass single-vector representation
 Vb1=0,Qb1=6,Rb1=1
-b1 = [   0.6886981948,   0.8859007621,   0.9839604444, ...
-         0.4416237088,   0.8631696721,   0.9573186394 ]';
+b1 = [   0.6810597290,   0.8842238954,   0.9837497309, ...
+         0.4379600585,   0.8622542160,   0.9575238482 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_b1_coef.m.ok"; fail; fi
 

@@ -1,5 +1,5 @@
 % deczky3a_socp_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -19,7 +19,7 @@ verbose=false
 U=0,V=0,Q=6,M=10,R=1
 fap=0.15,dBap=0.2,Wap=1
 fas=0.3,dBas=50,Was=2
-ftp=0.25,tp=10,tpr=0.5,Wtp=0.1 
+ftp=0.25,tp=10,tpr=0.8,Wtp=0.1
 
 % Deczky example 3 initial coefficients
 z=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...

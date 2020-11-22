@@ -15,7 +15,6 @@ script_id=tic;
 
 tol=1e-6;
 ctol=tol;
-exptol=tol/1e2;
 maxiter=2000;
 verbose=false;
 
@@ -115,8 +114,8 @@ endif
 Hh2=freqz(Nh2,Dh2,wplot);
 Hg2=freqz(Ng2,Dg2,wplot);
 stdK2=std((Hg2.*conj(Hg2))+(Hh2.*conj(Hh2)));
-if stdK2 > exptol
-  error("stdK2(%g*exptol) > exptol",stdK2/exptol);
+if stdK2 > ctol/100
+  error("stdK2(%g*ctol/100) > ctol/100",100*stdK2/ctol);
 endif
 
 % Compare to expected
@@ -125,32 +124,32 @@ k2exp = [   0.9843737242,   0.9841867648,   0.9841429684,   0.9839804102, ...
             0.9843746979,   0.9629684164,   0.9666949443,   0.9843739765, ... 
             0.9234826024,   0.9571339447,   0.9842698881,   0.9843185716, ... 
             0.1408380456 ]';
-if norm(k2exp-k2)>exptol
-  error("norm(k2exp-k2)(%g*exptol) > exptol",norm(k2exp-k2)/exptol);
+if norm(k2exp-k2)>ctol
+  error("norm(k2exp-k2)(%g*ctol) > ctol",norm(k2exp-k2)/ctol);
 endif
 khat2exp = [  -0.0204337457,  -0.0252342132,   0.0172871552,   0.0618210478, ... 
                0.0549686528,   0.0431589176,   0.0826067627,   0.0901262325, ... 
               -0.1107303490,  -0.4501326504,  -0.4480180626,   0.0503961185, ... 
                0.5258041229,   0.4614365718,   0.0540761666,  -0.1628553470, ... 
                0.9837324061 ]';
-if norm(khat2exp-khat2)>exptol
-  error("norm(khat2exp-khat2)(%g*exptol) > exptol",norm(khat2exp-khat2)/exptol);
+if norm(khat2exp-khat2)>ctol
+  error("norm(khat2exp-khat2)(%g*ctol) > ctol",norm(khat2exp-khat2)/ctol);
 endif
 Nh2exp = [   0.0957863656,   0.0556424771,  -0.0647286225,  -0.2071819392, ... 
             -0.2067699420,  -0.0120677003,   0.1927519452,   0.2087919832, ... 
              0.0525065055,  -0.0879281690,  -0.0896047523,  -0.0252302452, ... 
              0.0002184713,  -0.0185153572,  -0.0164098736,   0.0088505616, ... 
              0.0138882862 ];
-if norm(Nh2exp-Nh2)>exptol
-  error("norm(Nh2exp-Nh2)(%g*exptol) > exptol",norm(Nh2exp-Nh2)/exptol);
+if norm(Nh2exp-Nh2)>ctol
+  error("norm(Nh2exp-Nh2)(%g*ctol) > ctol",norm(Nh2exp-Nh2)/ctol);
 endif
 Ng2exp = [   0.6690532473,  -0.4003796331,   0.2705539964,   0.4629766233, ... 
              0.2658539238,   0.0146999751,  -0.0880025939,  -0.0702364458, ... 
             -0.0356404332,  -0.0232361897,  -0.0133823107,   0.0052219660, ... 
              0.0173559277,   0.0129662088,   0.0015994535,  -0.0036120212, ... 
             -0.0019883447 ];
-if norm(Ng2exp-Ng2)>exptol
-  error("norm(Ng2exp-Ng2)(%g*exptol) > exptol",norm(Ng2exp-Ng2)/exptol);
+if norm(Ng2exp-Ng2)>ctol
+  error("norm(Ng2exp-Ng2)(%g*ctol) > ctol",norm(Ng2exp-Ng2)/ctol);
 endif
 
 %
@@ -173,11 +172,11 @@ yNg2=filter(Ng2,1,u);
 yNg2=yNg2(:);
 
 % Compare
-if max(abs(yk2-yNh2)) > exptol
-  error("max(abs(yk2-yNh2)) (%g) > %g", max(abs(yk2-yNh2)), exptol);
+if max(abs(yk2-yNh2)) > ctol/100
+  error("max(abs(yk2-yNh2)) (%g) > %g", max(abs(yk2-yNh2)), ctol/100);
 endif
-if max(abs(ykhat2-yNg2)) > exptol
-  error("max(abs(ykhat2-yNg2)) (%g) > %g", max(abs(ykhat2-yNg2)), exptol);
+if max(abs(ykhat2-yNg2)) > ctol/100
+  error("max(abs(ykhat2-yNg2)) (%g) > %g", max(abs(ykhat2-yNg2)), ctol/100);
 endif
 
 %

@@ -30,7 +30,7 @@ fas3l=0.25;
 dBas1=20;dBap1=1;dBas2=20;dBap2=1;dBas3=20;
 Was1=1;Wap1=1;Was2=1;Wap2=1;Was3=1;
 tp1=30;tpr1=10;tp2=15;tpr2=10;
-Wtp1=0.001;Wtp2=0.001;
+Wtp1=0.0001;Wtp2=0.0001;
 
 % Initial elliptic filter with lowpass to double bandpass transformation
 n=5;fc=0.25;dBap=0.5;dBas=20;

@@ -1,5 +1,5 @@
 % fir_socp_slb_lowpass_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2020 Robert G. Jenssen
 
 test_common;
 
@@ -23,8 +23,8 @@ Wap=1
 Wat=0.0001
 ftp=0.15
 td=10
-tdr=0.6
-Wtp=0.01
+tdr=0.8
+Wtp=0.002
 fas=0.2
 dBas=40
 Was=50

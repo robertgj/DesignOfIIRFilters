@@ -1,5 +1,5 @@
 % error_feedback_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -55,10 +55,10 @@ Corth=Gdoubleprime(N+1,1:N);
 Dorth=Gdoubleprime(N+1,N+1);
 [qorth,porth]=Abcd2tf(Aorth,Borth,Corth,Dorth);
 if max(abs(qorth-q)) > 2*eps
-error("max(abs(qorth-q)) > 2*eps");
+  error("max(abs(qorth-q)) > 2*eps");
 endif
-if max(abs(porth-p)) > 50*eps
-error("max(abs(porth-p)) > 50*eps");
+if max(abs(porth-p)) > 100*eps
+  error("max(abs(porth-p)) > 100*eps");
 endif
 [Korth,Worth]=KW(Aorth,Borth,Corth,Dorth);
 ngorth=diag(Korth)'*diag(Worth)
@@ -77,15 +77,15 @@ Cib=Corth*U;
 Dib=Dorth;
 [qib,pib]=Abcd2tf(Aib,Bib,Cib,Dib);
 if max(abs(qib-q)) > 2*eps
-error("max(abs(qib-q)) > 2*eps");
+  error("max(abs(qib-q)) > 2*eps");
 endif
 if max(abs(pib-p)) > 300*eps
-error("max(abs(pib-p)) > 300*eps");
+  error("max(abs(pib-p)) > 300*eps");
 endif
 Kib=diag(diag(U'*Korth*U));
 Wib=diag(diag(U'*Worth*U));
-if max(max(abs(Aib*Kib*Aib'+Bib*Bib'-Kib))) > 60*eps
-  error("max(max(abs(Aib*Kib*Aib'+Bib*Bib'-Kib))) > 60*eps");
+if max(max(abs(Aib*Kib*Aib'+Bib*Bib'-Kib))) > 100*eps
+  error("max(max(abs(Aib*Kib*Aib'+Bib*Bib'-Kib))) > 100*eps");
 endif
 if max(max(abs(Aib'*Wib*Aib+Cib'*Cib-Wib))) > 50*eps
   error("max(max(abs(Aib'*Wib*Aib+Cib'*Cib-Wib))) > 50*eps");
@@ -131,10 +131,10 @@ Cpi=Cib*Tpi;
 Dpi=Dib;
 [qpi,ppi]=Abcd2tf(Api,Bpi,Cpi,Dpi);
 if max(abs(qpi-q)) > 3*eps
-error("max(abs(qpi-q)) > 3*eps");
+  error("max(abs(qpi-q)) > 3*eps");
 endif
 if max(abs(ppi-p)) > 300*eps
-error("max(abs(ppi-p)) > 300*eps");
+  error("max(abs(ppi-p)) > 300*eps");
 endif
 Kpi=inv(Tpi)*Kib*inv(Tpi');
 Wpi=Tpi'*Wib*Tpi;

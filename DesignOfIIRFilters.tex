@@ -370,8 +370,11 @@ package~\cite{OctaveForge_OptimPackage}.
 
 \paragraph{\label{sec:Introduction-reproducting-results}Reproducing my results}
 The Octave scripts referred to in this report generate long sequences of floating
-point operations. I recommend reading \emph{``What Every Computer Scientist
-  Should Know About Floating-point Arithmetic''} by
+point operations. I endeavour to succeed in running those Octave scripts with
+both the (preferred) local build of the Netlib BLAS and LAPACK
+libraries~\cite{LAPACK_website} and the Fedora system build of the OpenBLAS
+library~\cite{OpenBLAS_website}. I recommend reading \emph{``What Every Computer
+  Scientist Should Know About Floating-point Arithmetic''} by
 \emph{Goldberg}~\cite{Goldberg_FloatingPoint} and \emph{``The perfidious
   polynomial''} by \emph{Wilkinson}~\cite{Wilkinson_PerfidiousPolynomial}. In
 the latter, Wilkinson reminisces about programming polynomial root finding on
@@ -383,6 +386,20 @@ shows the results of calling the Octave \emph{roots} function to find the
 roots of the binomial polynomial of order $20$ with the expression
 \texttt{roots(bincoeff(20,0:20))}. In fact, by definition, the roots are all
 $-1$.
+Figure~\ref{fig:bincoeff-test-qzsolve} repeats the example with the oct-file
+\emph{qzsolve}, an implementation using 128-bit floating-point numbers based
+on the function \emph{gsl\_poly\_complex\_solve} from the GNU GSL
+library\cite{GNU_GSL}\footnote{The \emph{MPSolve} multi-precision polynomial
+  solver~\cite{BiniFiorentinoRobol_mpsolve} finds the expected roots. The package
+  includes an Octave interface.}.
+
+\vspace*{5cm}
+\textsc{\textbf{The results shown in this report were obtained on my system
+    running with a particular combination of CPU architecture, operating system,
+    library versions, compiler version and Octave version. Your system will
+    almost certainly be different. You may need to modify a script to run on
+    your system}}. 
+\clearpage
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{bincoeff_test_roots}}
@@ -390,12 +407,6 @@ $-1$.
   $20$ calculated by the Octave \emph{roots} function}
 \label{fig:bincoeff-test-roots}
 \end{figure}
-Figure~\ref{fig:bincoeff-test-qzsolve} repeats the example with the oct-file
-\emph{qzsolve}, an implementation using 128-bit floating-point numbers based
-on the function \emph{gsl\_poly\_complex\_solve} from the GNU GSL
-library\cite{GNU_GSL}\footnote{The \emph{MPSolve} multi-precision polynomial
-  solver~\cite{BiniFiorentinoRobol_mpsolve} finds the expected roots. The package
-  includes an Octave interface.}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{bincoeff_test_qzsolve}}
@@ -405,12 +416,6 @@ library\cite{GNU_GSL}\footnote{The \emph{MPSolve} multi-precision polynomial
 \label{fig:bincoeff-test-qzsolve}
 \end{figure}
 
-\vspace*{5cm}
-\textsc{\textbf{The results shown in this report were obtained on my system
-    running with a particular combination of CPU architecture, operating system,
-    library versions, compiler version and Octave version. Your system will
-    almost certainly be different. You may need to modify a script to run on
-    your system}}. 
 \cleardoublepage{}
 \part{\label{part:State-Variable-digital-filters}State Variable description of digital filters}
 \cleardoublepage{}
@@ -27354,7 +27359,7 @@ The coefficients of the odd-length, even-order, anti-symmetric, FIR
 differentiator filter are\footnote{This truncation introduces ripple of about
   $\pm{}1e-7$ into the maximally-linear low-pass differentiator response.}:  
 \begin{small} 
-\verbatiminput{mcclellanFIRantisymmetric_flat_differentiator_test_hA59_coef.m}
+\verbatiminput{mcclellanFIRantisymmetric_flat_differentiator_test_hA57_coef.m}
 \end{small}
 Figure~\ref{fig:mcclellanFIRantisymmetric-flat-differentiator-test-dual}
 shows the pass-band and stop-band amplitude responses of the odd-length
@@ -31551,7 +31556,7 @@ Building this document may take a long time. I run \emph{make -j 6}.
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
 version of \emph{octave-5.2.0} avoiding the vagaries of the Fedora packagers
-\footnote{The Fedora 31 \emph{octave-5.1.0-3.fc31} package
+\footnote{The Fedora 33 \emph{octave-5.2.0-7.fc33} package
   depends on the OpenBLAS versions of the \emph{blas} and \emph{lapack}
   libraries.}. The patch file, \emph{octave.patch}, is a \emph{here document}
 within \emph{build-octave.sh}. The \emph{octave-5.2.0/configure} script is

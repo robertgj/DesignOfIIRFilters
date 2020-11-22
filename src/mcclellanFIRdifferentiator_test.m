@@ -1,5 +1,5 @@
 % mcclellanFIRdifferentiator_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 %
 % See: "Chebyshev Approximation for Nonrecursive Digital Filters with
 % Linear Phase", T. W. Parks and J. H. McClellan, IEEE Transactions
@@ -28,7 +28,7 @@ nf=5000;
 %
 
 % Specification: low pass filter order is 2*M, length is 2*M+1
-M=500;fap=0.246;fas=0.25;Kp=0.75;Kt=10;
+M=500;fap=0.247;fas=0.25;Kp=0.75;Kt=10;
 
 % Constants 
 f=(0:nf)'*0.5/nf;

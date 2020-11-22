@@ -48,7 +48,7 @@ function [ak,sqp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - abk satisfies the constraints 
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -214,7 +214,7 @@ function [Esq,gradEsq,diagHessEsq,func_iter] = ...
     Esq=inf;gradEsq=[];diagHessEsq=[];func_iter=iter;
     return;
   elseif nargin == 11
-    V=_V;Q=_Q;R=_R;DD=_DD
+    V=_V;Q=_Q;R=_R;DD=_DD;
     N=V+Q;
     wa=_wa;Asqd=_Asqd;Wa=_Wa;
     wt=_wt;Td=_Td;Wt=_Wt;

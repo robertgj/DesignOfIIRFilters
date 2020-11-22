@@ -40,8 +40,8 @@ for M=18:19,
     AM=directFIRsymmetricA(w,hM);
     xx=x.^(0:M);
     Aa=xx*a';
-    if norm(AM-Aa)>20*tol
-      error("M=%d,K=%d,norm(AM-Aa)(%g)>20*tol(%g)",M,K,norm(AM-Aa),tol);
+    if norm(AM-Aa)>40*tol
+      error("M=%d,K=%d,norm(AM-Aa)(%g)>40*tol(%g)",M,K,norm(AM-Aa),40*tol);
     endif
 
     [~,ar]=herrmannFIRsymmetric_flat_lowpass(M,K,"rajagopal");

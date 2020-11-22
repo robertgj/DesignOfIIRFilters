@@ -1,5 +1,5 @@
 % iir_frm_socp_slb_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 % Design an FRM filter having an IIR model filter expressed in
 % gain-pole-zero form and linear phase (ie: symmetric) masking filters.
 % The squared-magnitude and group delay responses are PCLS optimised.
@@ -63,11 +63,11 @@ fap=0.3 % Pass band edge
 dBap=0.2 % Pass band amplitude ripple
 Wap=1 % Pass band amplitude weight
 tpr=1 % Peak-to-peak pass band delay ripple
-Wtp=0.01 % Pass band delay weight
+Wtp=0.001 % Pass band delay weight
 Wat=tol*tol; % Transition band weight
 fas=0.31125 % Stop band edge
-dBas=45 % Stop band amplitude ripple
-Was=100 % Stop band amplitude weight
+dBas=40 % Stop band amplitude ripple
+Was=20 % Stop band amplitude weight
 
 %
 % Convert x0 to vector form
