@@ -11,12 +11,12 @@ script_id=tic;
 
 maxiter=2000
 tol=1e-7
-ctol=5e-8
+ctol=2e-8
 verbose=false
 
 % Band-stopfilter specification
 fapl=0.15,fasl=0.2,fasu=0.25,fapu=0.3
-Wap=1,Was=10,delta_p=1e-3,delta_s=2e-6
+Wap=1,Was=10,delta_p=1e-3,delta_s=1e-6
 
 % Common strings
 strf="johanssonOneMlattice_socp_slb_bandstop_test";
@@ -26,9 +26,9 @@ strt=sprintf...
 
 % Band-stop filter from johansson_cascade_allpass_bandstop_test.m
 fM_0 = [ -0.0314881200,  -0.0000085599,   0.2814857078,   0.5000169443 ];
-a0 = [    1.0000000000,  -0.5650802796,   1.6504647259,  -0.4790659039, ... 
-          0.7284633026 ];
-a1 = [    1.0000000000,  -0.2594839587,   0.6383172372 ];
+a0 =   [  1.0000000000,  -0.5650807120,   1.6504676367,  -0.4790677580, ... 
+          0.7284677906 ];
+a1 =   [  1.0000000000,  -0.2594846657,   0.6383217013 ];
 
 % Convert all-pass filter transfer functions to Schur 1-multiplier lattice
 [k0_0,epsilon0,~,~]=tf2schurOneMlattice(fliplr(a0),a0);

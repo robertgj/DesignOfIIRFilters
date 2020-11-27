@@ -57,19 +57,19 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test_16_nbits_cost.ok << 'EOF'
 Initial & 7.49e-06 & & \\
 16-bit 4-signed-digit(Ito)& 1.67e-04 & 44 & 33 \\
-16-bit 4-signed-digit(SOCP b-and-b) & 8.25e-06 & 44 & 33 \\
+16-bit 4-signed-digit(SOCP b-and-b) & 9.46e-06 & 44 & 33 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_16_nbits_cost.ok"; fail; fi
 
 cat > test_16_nbits_A1k_min.ok << 'EOF'
-A1k_min = [   -19584,    32384,   -25760,    28304, ... 
-              -23551,    11840 ]'/32768;
+A1k_min = [   -19584,    32384,   -25648,    28180, ... 
+              -23296,    11328 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_16_nbits_A1k_min.ok"; fail; fi
 
 cat > test_16_nbits_A2k_min.ok << 'EOF'
-A2k_min = [   -22528,    30736,   -26768,    23904, ... 
-              -11776 ]'/32768;
+A2k_min = [   -22528,    30722,   -26544,    23684, ... 
+              -11264 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_16_nbits_A2k_min.ok"; fail; fi
 

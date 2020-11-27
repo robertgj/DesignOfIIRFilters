@@ -35,7 +35,7 @@ CLEAN_AEGIS_SUFFIXES= \,D \,B
 OCTAVE_FLAGS=-q -p src
 OCTAVE=octave-cli
 MKOCTFILE=mkoctfile
-MKOCTFILE_FLAGS=-v -o $@ -march=native -O2 -Wall -lgmp -lmpfr
+MKOCTFILE_FLAGS=-v -o $@ -Wall -lgmp -lmpfr
 PDF_MONO_FLAGS='\newcommand\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
 PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1
 BIBTEX=bibtex
@@ -49,7 +49,7 @@ JEKYLL_OPTS=--config docs/_config.yml --source docs --destination docs/_site
 # A list of all the dependencies of $(TARGET).pdf
 #
 TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
-                    $(EXTRA_DIARY_FILES) $(TARGET).bib $(TARGET).tex
+                    $(EXTRA_DIARY_FILES) $(TARGET).bib $(TARGET).tex Makefile
 
 
 #
@@ -83,8 +83,10 @@ TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
 # To test an octfile with oprofile, compile the octfile with '-g' then run:
 #   operf octave file_test.m
 #   opannotate --source file.oct
-%.oct : %.cc
-	$(MKOCTFILE) $(MKOCTFILE_FLAGS) $(XCXXFLAGS) $^
+#
+# %.oct depends on Makefile in case MKOCTFILE_FLAGS changes behaviour
+%.oct : %.cc Makefile
+	$(MKOCTFILE) $(MKOCTFILE_FLAGS) $(XCXXFLAGS) $<
 
 
 #
@@ -152,6 +154,7 @@ $(TARGET).pdf: $(TARGET_DEPENDENCIES)
 testvars :
 	@echo "OCTAVE_SCRIPTS=" $(OCTAVE_SCRIPTS)
 	@echo "deczky3_socp_test_FILES=" ${deczky3_socp_test_FILES}
+	@echo $(OCT_FILES:%=src/%.oct)
 
 .PHONY: octfiles
 octfiles: $(OCT_FILES:%=src/%.oct)

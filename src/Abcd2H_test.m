@@ -190,9 +190,9 @@ for l=1:Nkc
     diff_dHdw(l)=max(abs((dHdwP-dHdwM)/del));
   endif
 endfor
-if max(diff_dHdw) > 200*tol
+if max(diff_dHdw) > 300*tol
     error("max(abs(((dHdwP-dHdwM)/del)-d2Hdwdkc(nc,l))./abs(d2Hdwdkc(nc,l)))\n\
-(%g*tol) > 200*tol",max(diff_dHdw)/tol);
+(%g*tol) > 300*tol",max(diff_dHdw)/tol);
 endif
 if diff_dHdw(end)>eps
  error("diff_dHdw(end)(%g)>eps",diff_dHdw(end));

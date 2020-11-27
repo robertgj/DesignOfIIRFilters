@@ -14,14 +14,14 @@ tic;
 
 maxiter=2000
 verbose=false;
-tol=2e-5;
+tol=1e-4;
 ctol=tol;
 strf="sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test";
 
 % Bandpass R=2 filter specification
 fapl=0.1,fapu=0.2,dBap=2,Wap=1
-fasl=0.05,fasu=0.25,dBas=33,Wasl=5e5,Wasu=1e6
-ftpl=0.09,ftpu=0.21,tp=16,tpr=0.20,Wtp=1
+fasl=0.05,fasu=0.25,dBas=30,Wasl=5e5,Wasu=1e6
+ftpl=0.09,ftpu=0.21,tp=16,tpr=0.32,Wtp=2
 
 % Initial filter (found by schurOneMlattice_sqp_slb_bandpass_test.m)
 k0= [    0.0000000000,   0.6672941040,   0.0000000000,   0.4964339512, ... 

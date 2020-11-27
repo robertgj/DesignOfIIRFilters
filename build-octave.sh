@@ -3,11 +3,15 @@
 # Build a local version of octave-cli
 #
 # Requires Fedora packages: wget readline-devel lzip sharutils gcc gcc-c++
-# gcc-gfortran gmp-devel mpfr-devel cmake gnuplot-latex m4 gperf bison flex
-# openblas-devel patch texinfo texinfo-tex librsvg2 librsvg2-devel
-# librsvg2-tools icoutils 
+# gcc-gfortran gmp-devel mpfr-devel make cmake gnuplot-latex m4 gperf 
+# bison flex openblas-devel patch texinfo texinfo-tex librsvg2 librsvg2-devel
+# librsvg2-tools icoutils autoconf automake libtool
 #
 # To build the pdf document install Fedora packages: dia epstool
+#
+# SuiteSparse requires extra definitions to install other than at /usr/local
+#
+# Octave-forge packages don't install at the prefix when the user is not root.
 #
 # From the fftw-3.3.8 release notes (May 28th, 2018):
 #    Fixed AVX, AVX2 for gcc-8.
@@ -34,7 +38,38 @@
 # Warning: Array reference at (1) out of bounds (0 < 1) in loop beginning at (2)
 
 #
+# Produce code for Intel nehalem CPU. If necessary replace with mtune=generic
+#
+OPTFLAGS="-m64 -march=nehalem -O2"
+
+#
 # Assume these files are present. Get them if they are not.
+#
+
+#
+# Get Octave archive
+#
+OCTAVE_VER=${OCTAVE_VER:-5.2.0}
+OCTAVE_ARCHIVE=octave-$OCTAVE_VER".tar.lz"
+OCTAVE_URL=https://ftp.gnu.org/gnu/octave/$OCTAVE_ARCHIVE
+if ! test -f $OCTAVE_ARCHIVE; then
+  wget -c $OCTAVE_URL
+fi
+
+#
+# Set Octave directories
+#
+OCTAVE_DIR="/usr/local/octave-"$OCTAVE_VER
+OCTAVE_INCLUDE_DIR=$OCTAVE_DIR/include
+OCTAVE_LIB_DIR=$OCTAVE_DIR/lib
+OCTAVE_BIN_DIR=$OCTAVE_DIR/bin
+OCTAVE_SHARE_DIR=$OCTAVE_DIR/share/octave
+export LD_LIBRARY_PATH=$OCTAVE_LIB_DIR
+export LDFLAGS=-L$OCTAVE_LIB_DIR
+export PATH=$PATH:$OCTAVE_BIN_DIR
+
+#
+# Get library archives
 #
 LAPACK_VER=${LAPACK_VER:-3.9.0}
 LAPACK_ARCHIVE=lapack-$LAPACK_VER".tar.gz"
@@ -75,13 +110,6 @@ GLPK_ARCHIVE=glpk-$GLPK_VER".tar.gz"
 GLPK_URL=https://ftp.gnu.org/gnu/glpk/$GLPK_ARCHIVE
 if ! test -f $GLPK_ARCHIVE; then
   wget -c $GLPK_URL
-fi
-
-OCTAVE_VER=${OCTAVE_VER:-5.2.0}
-OCTAVE_ARCHIVE=octave-$OCTAVE_VER".tar.lz"
-OCTAVE_URL=https://ftp.gnu.org/gnu/octave/$OCTAVE_ARCHIVE
-if ! test -f $OCTAVE_ARCHIVE; then
-  wget -c $OCTAVE_URL
 fi
 
 #
@@ -147,17 +175,6 @@ if ! test -f $SYMBOLIC_ARCHIVE; then
 fi
 
 #
-# Octave directories
-#
-OCTAVE_DIR="/usr/local/octave"-$OCTAVE_VER
-OCTAVE_INCLUDE_DIR=$OCTAVE_DIR/include
-OCTAVE_LIB_DIR=$OCTAVE_DIR/lib
-OCTAVE_BIN_DIR=$OCTAVE_DIR/bin
-export LD_LIBRARY_PATH=$OCTAVE_LIB_DIR
-export LDFLAGS=-L$OCTAVE_LIB_DIR
-export PATH=$PATH:$OCTAVE_BIN_DIR
-
-#
 # !?!WARNING!?!
 #
 # Starting from scratch!
@@ -178,7 +195,7 @@ L21ha2UuaW5jLmV4YW1wbGUJMjAyMC0wOC0yMSAxMzowMzo0Mi4xNzU0MDg1
 MzUgKzEwMDAKQEAgLTksNyArOSw4IEBACiAjICBDQyBpcyB0aGUgQyBjb21w
 aWxlciwgbm9ybWFsbHkgaW52b2tlZCB3aXRoIG9wdGlvbnMgQ0ZMQUdTLgog
 IwogQ0MgPSBnY2MKLUNGTEFHUyA9IC1PMworQkxET1BUUyA9IC1mUElDIC1t
-NjQgLW10dW5lPWdlbmVyaWMKK0NGTEFHUyA9IC1PMyAkKEJMRE9QVFMpCiAK
+NjQgLW1hcmNoPW5laGFsZW0KK0NGTEFHUyA9IC1PMyAkKEJMRE9QVFMpCiAK
 ICMgIE1vZGlmeSB0aGUgRkMgYW5kIEZGTEFHUyBkZWZpbml0aW9ucyB0byB0
 aGUgZGVzaXJlZCBjb21waWxlcgogIyAgYW5kIGRlc2lyZWQgY29tcGlsZXIg
 b3B0aW9ucyBmb3IgeW91ciBtYWNoaW5lLiAgTk9PUFQgcmVmZXJzIHRvCkBA
@@ -259,6 +276,7 @@ rm -Rf arpack-ng-master
 unzip $ARPACK_ARCHIVE
 pushd arpack-ng-master
 sh ./bootstrap
+CFLAGS=$OPTFLAGS CXXFLAGS=$OPTFLAGS FFLAGS=$OPTFLAGS \
 ./configure --prefix=$OCTAVE_DIR --with-blas=-lblas --with-lapack=-llapack
 make && make install
 popd
@@ -270,6 +288,7 @@ rm -Rf arpack-ng-master
 rm -Rf SuiteSparse
 tar -xf $SUITESPARSE_ARCHIVE
 pushd SuiteSparse
+CFLAGS=$OPTFLAGS CXXFLAGS=$OPTFLAGS FFLAGS=$OPTFLAGS \
 make -j 6 INSTALL=$OCTAVE_DIR OPTIMIZATION=-O2 BLAS=-lblas install
 popd
 rm -Rf SuiteSparse
@@ -283,7 +302,7 @@ pushd qrupdate-$QRUPDATE_VER
 rm -f Makeconf
 cat > Makeconf << 'EOF'
 FC=gfortran
-FFLAGS=-fimplicit-none -O2 -funroll-loops 
+FFLAGS=-fimplicit-none -funroll-loops -m64 -march=nehalem -O2
 FPICFLAGS=-fPIC
 
 ifeq ($(strip $(PREFIX)),)
@@ -308,6 +327,7 @@ rm -Rf qrupdate-$QRUPDATE_VER
 rm -Rf glpk-$GLPK_VER
 tar -xf $GLPK_ARCHIVE
 pushd glpk-$GLPK_VER
+CFLAGS=$OPTFLAGS CXXFLAGS=$OPTFLAGS FFLAGS=$OPTFLAGS \
 ./configure --prefix=$OCTAVE_DIR
 make -j 6 && make install
 popd
@@ -319,6 +339,7 @@ rm -Rf glpk-$GLPK_VER
 rm -Rf fftw-$FFTW_VER
 tar -xf $FFTW_ARCHIVE
 pushd fftw-$FFTW_VER
+CFLAGS=$OPTFLAGS CXXFLAGS=$OPTFLAGS FFLAGS=$OPTFLAGS \
 ./configure --prefix=$OCTAVE_DIR --enable-shared \
             --with-combined-threads --enable-threads
 make -j 6 && make install
@@ -331,6 +352,7 @@ rm -Rf fftw-$FFTW_VER
 rm -Rf fftw-$FFTW_VER
 tar -xf $FFTW_ARCHIVE
 pushd fftw-$FFTW_VER
+CFLAGS=$OPTFLAGS CXXFLAGS=$OPTFLAGS FFLAGS=$OPTFLAGS \
 ./configure --prefix=$OCTAVE_DIR --enable-shared \
             --with-combined-threads --enable-threads --enable-single
 make -j 6 && make install
@@ -418,7 +440,6 @@ popd
 rm -Rf build
 mkdir build
 pushd build
-OPTFLAGS="-m64 -mtune=generic -O2"
 export CFLAGS=$OPTFLAGS" -std=c11 -I"$OCTAVE_INCLUDE_DIR
 export CXXFLAGS=$OPTFLAGS" -std=c++11 -I"$OCTAVE_INCLUDE_DIR
 export FFLAGS=$OPTFLAGS
@@ -488,12 +509,12 @@ rm -Rf build octave-$OCTAVE_VER octave.patch.uue octave.patch
 #
 # Install Octave-Forge packages
 #
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$IO_ARCHIVE
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$STRUCT_ARCHIVE
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$STATISTICS_ARCHIVE
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$OPTIM_ARCHIVE
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$CONTROL_ARCHIVE
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$PARALLEL_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$IO_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$STRUCT_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$STATISTICS_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$OPTIM_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$CONTROL_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$PARALLEL_ARCHIVE
 
 #
 # Fix signal package zplane function and install the signal package
@@ -524,7 +545,7 @@ popd
 tar -czf $NEW_SIGNAL_ARCHIVE signal-$SIGNAL_VER
 rm -Rf signal-$SIGNAL_VER zplane.m.patch.uue zplane.m.patch
 
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$NEW_SIGNAL_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$NEW_SIGNAL_ARCHIVE
 rm -f $NEW_SIGNAL_ARCHIVE
 
 #
@@ -615,7 +636,7 @@ popd
 tar -czf $NEW_SYMBOLIC_ARCHIVE symbolic-$SYMBOLIC_VER
 rm -Rf symbolic-$SYMBOLIC_VER sympy-1.6.patch.uue sympy-1.6.patch
 
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg install "$NEW_SYMBOLIC_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$NEW_SYMBOLIC_ARCHIVE
 rm -f $NEW_SYMBOLIC_ARCHIVE
 
 #
@@ -630,8 +651,7 @@ $OCTAVE_BIN_DIR/octave-cli --eval "pkg list"
 GITHUB_URL="https://github.com/robertgj"
 
 OCTAVE_LOCAL_VERSION=\
-"`$OCTAVE_BIN_DIR/octave-cli -q --eval 'disp(OCTAVE_VERSION);'`"
-OCTAVE_SHARE_DIR=$OCTAVE_DIR"/share/octave"
+"`$OCTAVE_BIN_DIR/octave-cli --eval 'disp(OCTAVE_VERSION);'`"
 OCTAVE_SITE_M_DIR=$OCTAVE_SHARE_DIR/$OCTAVE_LOCAL_VERSION/site/m
 
 # Install SeDuMi
@@ -644,6 +664,7 @@ unzip sedumi-master.zip
 rm -f sedumi-master/vec.m
 rm -f sedumi-master/*.mex*
 mv -f sedumi-master $OCTAVE_SITE_M_DIR/SeDuMi
+if test $? -ne 0;then rm -Rf sedumi-master; exit -1; fi
 $OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SeDuMi/install_sedumi.m
 
 # Install SDPT3
@@ -656,7 +677,8 @@ unzip sdpt3-master.zip
 rm -f sdpt3-master/Solver/Mexfun/*.mex*
 rm -Rf sdpt3-master/Solver/Mexfun/o_win
 mv sdpt3-master $OCTAVE_SITE_M_DIR/SDPT3
-$OCTAVE_BIN_DIR/octave-cli -q $OCTAVE_SITE_M_DIR/SDPT3/install_sdpt3.m
+if test $? -ne 0;then rm -Rf sdpt3-master; exit -1; fi
+$OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SDPT3/install_sdpt3.m
 
 # Install YALMIP
 if ! test -f YALMIP-develop.zip ; then
@@ -666,6 +688,7 @@ fi
 rm -Rf YALMIP-develop $OCTAVE_SITE_M_DIR/YALMIP
 unzip YALMIP-develop.zip 
 mv YALMIP-develop $OCTAVE_SITE_M_DIR/YALMIP
+if test $? -ne 0;then rm -Rf YALMIP-develop; exit -1; fi
 
 # Install SparsePOP
 if ! test -f SparsePOP-master.zip ; then
@@ -676,8 +699,9 @@ rm -Rf SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP
 unzip SparsePOP-master.zip
 find SparsePOP-master -name \*.mex* -exec rm -f {} ';'
 mv SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP
+if test $? -ne 0;then rm -Rf SparsePOP-master; exit -1; fi
 # !! Do not build the SparsePOP .mex files !!
-# $OCTAVE_BIN_DIR/octave-cli -q $OCTAVE_SITE_M_DIR/SparsePOP/compileSparsePOP.m
+# $OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SparsePOP/compileSparsePOP.m
 
 #
 # Solver installation done

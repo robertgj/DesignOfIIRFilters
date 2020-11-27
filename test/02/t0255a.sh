@@ -54,7 +54,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_k2_coef.m << 'EOF'
-k2 = [   0.5530908702,  -0.1250393727,   0.0415215054,  -0.0135148726, ... 
+k2 = [   0.5530908702,  -0.1250393726,   0.0415215055,  -0.0135148726, ... 
          0.0023471213 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k2_coef.m"; fail; fi
@@ -66,7 +66,7 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_epsilon2_coef.m"; fail; fi
 
 cat > test_u2_coef.m << 'EOF'
-u2 = [  -0.0004880213,   0.0023491483,  -0.0070017092,   0.0130026516, ... 
+u2 = [  -0.0004880213,   0.0023491484,  -0.0070017092,   0.0130026516, ... 
         -0.0309751474,   0.0346130567,  -0.0508817539,   0.0580181001, ... 
          0.4385471578 ]';
 EOF
@@ -74,7 +74,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_u2_coef.m"; fail; fi
 
 cat > test_v2_coef.m << 'EOF'
 v2 = [   0.0066015766,  -0.0044701172,   0.0066994268,  -0.0031082142, ... 
-        -0.0069727257,   0.0306836611,  -0.0815291960,   0.3141854206 ]';
+        -0.0069727257,   0.0306836611,  -0.0815291960,   0.3141854205 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_v2_coef.m"; fail; fi
 

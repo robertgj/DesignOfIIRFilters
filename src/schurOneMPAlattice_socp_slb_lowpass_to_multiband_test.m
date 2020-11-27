@@ -12,13 +12,26 @@ tic;
 tol=1e-4;
 mtol=1e-4;
 ptol=1e-4;
-ctol=1e-6;
+ctol=1e-5;
 maxiter=2000;
 verbose=false;
 nplot=1000;
 npoints=nplot;
 difference=true;
 strf="schurOneMPAlattice_socp_slb_lowpass_to_multiband_test";
+
+% Desired frequency response specification
+fas1u=0.05;
+fap1l=0.075;fap1u=0.1;
+ftp1l=0.08;ftp1u=0.095;
+fas2l=0.125;fas2u=0.15;
+fap2l=0.175;fap2u=0.225;
+ftp2l=0.185;ftp2u=0.215;
+fas3l=0.25;
+dBas1=20;dBap1=1;dBas2=20;dBap2=1;dBas3=20;
+Was1=1;Wap1=1;Was2=1;Wap2=1;Was3=1;
+tp1=23;tpr1=2;tp2=13;tpr2=2;
+Wtp1=0.004;Wtp2=0.002;
 
 % Prototype lowpass (fc=0.5 corresponds to 0.5*Fs/2)
 n=5;fc=0.25;dBap=0.5;dBas=40;
@@ -102,19 +115,6 @@ xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_initial"),"-dpdflatex");
 close
-
-% Desired frequency response specification
-fas1u=0.05;
-fap1l=0.075;fap1u=0.1;
-ftp1l=0.08;ftp1u=0.095;
-fas2l=0.125;fas2u=0.15;
-fap2l=0.175;fap2u=0.225;
-ftp2l=0.185;ftp2u=0.215;
-fas3l=0.25;
-dBas1=20;dBap1=1;dBas2=20;dBap2=1;dBas3=20;
-Was1=1;Wap1=1;Was2=1;Wap2=1;Was3=1;
-tp1=23;tpr1=2;tp2=13;tpr2=2;
-Wtp1=0.005;Wtp2=0.005;
 
 % Amplitude mask
 fa=0.5*(0:(npoints-1))'/npoints;
@@ -306,7 +306,7 @@ close
 % Passband
 subplot(211)
 plot(w*0.5/pi,10*log10(Asq))
-axis([0 0.5 -0.8 0.2])
+axis([0 0.5 -2*dBap dBap])
 ylabel("Amplitude (dB)");
 grid("on");
 subplot(212)

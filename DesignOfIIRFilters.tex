@@ -370,7 +370,7 @@ package~\cite{OctaveForge_OptimPackage}.
 
 \paragraph{\label{sec:Introduction-reproducting-results}Reproducing my results}
 The Octave scripts referred to in this report generate long sequences of floating
-point operations. I endeavour to succeed in running those Octave scripts with
+point operations. I endeavour to successfully run those Octave scripts with
 both the (preferred) local build of the Netlib BLAS and LAPACK
 libraries~\cite{LAPACK_website} and the Fedora system build of the OpenBLAS
 library~\cite{OpenBLAS_website}. I recommend reading \emph{``What Every Computer
@@ -31568,15 +31568,18 @@ The \emph{build-octave.sh} script builds a patched, local, command-line only,
 version of \emph{octave-5.2.0} avoiding the vagaries of the Fedora packagers
 \footnote{The Fedora 33 \emph{octave-5.2.0} package
   depends on the FlexiBLAS~\cite{FlexiBLAS_website} wrapper library for the
-  \emph{blas} and \emph{lapack} libraries. Also install the Fedora
-  redhat-rpm-config, octave-devel, octave-io, octave-struct, octave-statistics,
-  octave-parallel, octave-optim, octave-control and octave-signal packages.}.
-The patch file, \emph{octave.patch}, is a \emph{here document} 
-within \emph{build-octave.sh}. The \emph{octave-5.2.0/configure} script is
-patched so that the Octave ``\emph{OCTAVE\_VERSION}'' command returns
+  \emph{blas} and \emph{lapack} libraries. If installing this package then
+  also install the Fedora \emph{redhat-rpm-config}, \emph{octave-devel},
+  \emph{octave-io}, \emph{octave-struct}, \emph{octave-statistics},
+  \emph{octave-parallel}, \emph{octave-optim}, \emph{octave-control} and
+  \emph{octave-signal} packages.}. The patch file, \emph{octave.patch}, is a
+\emph{here document} within \emph{build-octave.sh}. The \emph{build-octave.sh}
+script builds Octave and the associated numerical libraries with the \emph{g++}
+option \texttt{-march=nehalem}. The \emph{octave-5.2.0/configure} script is 
+patched so that the Octave \texttt{OCTAVE\_VERSION} command returns
 \texttt{5.2.0-robj}. Other files are patched to add Octave warning ids and to
-prevent a valgrind warning. The local build of Octave links to locally built
-versions of the following libraries:  
+prevent a \emph{valgrind} warning. The local build of Octave links to locally
+built versions of the following libraries:  
 \emph{arpack-ng-master}~\cite{ARPACKNG_website},
 \emph{fftw-3.3.8}~\cite{FFTW_website},
 \emph{glpk-4.65}~\cite{GNU_GLPK},
@@ -31586,12 +31589,12 @@ versions of the following libraries:
 The local build of the \emph{LAPACK} library includes the deprecated routines.
 
 The \emph{build-octave.sh} script assumes that the following packages are
-installed: \emph{wget, readline-devel,
+installed: \emph{wget, readline-devel, make, 
   lzip, sharutils, gcc, gcc-c++, gcc-gfortran, gmp-devel, mpfr-devel, cmake,
   gnuplot-latex, m4, gperf, bison, flex, openblas-devel, patch, texinfo,
-  texinfo-tex, icoutils, librsvg2-tools, librsvg2} and
-\emph{librsvg2-devel}\footnote{In addition, the \emph{dia} and \emph{epstool}
-  packages are required to build this document.}.
+  texinfo-tex, librsvg2,librsvg2-devel, librsvg2-tools, icoutils, autoconf,
+  automake} and \emph{libtool}\footnote{In addition, the \emph{dia} and
+  \emph{epstool} packages are required to build this document.}.
 
 The \emph{build-octave.sh} script installs the following Octave Forge packages:
 \begin{small}
@@ -32130,19 +32133,19 @@ I use the \emph{aegis} software change management system written by
 Peter Miller~\cite{Miller_Wikipedia,Miller_aegis}. To build \emph{aegis} with
 the patch provided in this project:
 \begin{small}
-\begin{verbatim} 
-cd /usr/local/src/aegis
+\begin{verbatim}
 tar -xf aegis-4.24.tar.gz
 cd aegis-4.24
 patch -p1 < ../aegis-4.24.patch
-./configure 
+CXXFLAGS=-O2 ./configure 
 make && make install
 \end{verbatim}
 \end{small}
-The \emph{fhist}~\cite{Miller_fhist} program and
-\emph{libexplain}\cite{Miller_libexplain} library are compiled similarly to
-\emph{aegis} with the patches provided in this project.
-
+The \emph{aegis-4.24-solib.patch} patch builds binaries linked to a shared
+library.
+The \emph{/usr/local/com/aegis/state} file lists existing Aegis projects.
+The \emph{/usr/local/com/aegis/user} directory contains files listing the
+per-user state of existing Aegis projects.
 I use this \emph{~/.aegisrc}:
 \begin{small}
 \begin{verbatim} 
@@ -32152,12 +32155,16 @@ default_project_directory = "AEGIS";
 \end{small}
 and add to \emph{~/.bashrc}:
 \begin{small}
-\begin{verbatim} 
+\begin{verbatim}
 if [ -f /usr/local/etc/profile.d/aegis.sh ]; then
   . /usr/local/etc/profile.d/aegis.sh
 fi
 \end{verbatim}
 \end{small}
+
+The \emph{fhist}~\cite{Miller_fhist} program and
+\emph{libexplain}\cite{Miller_libexplain} library are compiled similarly to
+\emph{aegis} with the patches provided in this project.
 
 \pdfbookmark[0]{GitHub jekyll}{jekyll}
 \section*{GitHub jekyll}
