@@ -32103,7 +32103,8 @@ ans =
 \pdfbookmark[0]{QEMU emulation}{qemu}
 \section*{QEMU emulation}
 I endeavour to ensure that the Octave scripts required to build this document
-run successfully under the QEMU emulation of an Intel Nehalem CPU.
+run successfully under the QEMU emulation of an Intel Nehalem CPU. The following
+is a general indication of how to set up QEMU emulation to achieve this.
 
 \subsection*{QEMU user-mode emulation}
 To run an Octave script with the QEMU user-mode emulation, run, for example:
@@ -32112,6 +32113,8 @@ To run an Octave script with the QEMU user-mode emulation, run, for example:
 qemu-x86_64 -cpu Nehalem `which octave-cli` -p src src/butt3NS_test.m
 \end{verbatim}
 \end{small}
+This runs the \texttt{octave-cli} binary and associated dynamic linker in the
+QEMU x86\_64 user-mode emulation of an Intel Nehalem CPU.
 
 To build this document with the QEMU user-mode emulation, run:
 \begin{small}
@@ -32119,9 +32122,6 @@ To build this document with the QEMU user-mode emulation, run:
 make OCTAVE="qemu-x86_64 -cpu Nehalem `which octave-cli`"
 \end{verbatim}
 \end{small}
-This runs the \texttt{octave-cli} binary and associated dynamic linker in the
-QEMU x86\_64 user-mode emulation.
-
 \subsection*{QEMU virtual machine emulation}
 Unfortunately, user-mode QEMU emulation only uses one thread and is is not
 completely portable. I build \texttt{octave-cli} and the associated linear
@@ -32133,8 +32133,7 @@ Running \texttt{gcc -v} shows that the system compiler is itself compiled with
 \texttt{-mtune=generic}. I believe that, currently, this is equivalent to
 \texttt{-march=nehalem} but it may change in future. QEMU emulation on a
 virtual machine allows use of known libraries, multiple CPUs, and builds this
-document much more quickly than user-mode emulation.
-
+document much more quickly than user-mode emulation. 
 \subsubsection*{Create the VM}
 \emph{Buettner}~\cite{Buettner_ConfigureQEMU} describes configuration of a
 QEMU~\cite{QEMU_website} based virtual machine with the RedHat
@@ -32147,30 +32146,33 @@ image~\cite{Fedora33Server_iso} with 4GB RAM, 10GB disk, 8 Nehalem
 CPUs, bridged networking on device \texttt{virbr0}, root password
 \texttt{password} and SSH root access with password. Following \emph{Buettner}'s
 advice I removed the tablet, sound, display spice, serial port 1, channel
-qemu-ga, channel spice, video QXL, RNG and USB redirector 1 and 2.
+qemu-ga, channel spice, video QXL, RNG and USB redirector 1 and 2. In the
+following the IPv4 address, \texttt{w.x.y.z}, will be determined by your network
+settings.
 
 \subsubsection*{Set up the VM}
 I did not attempt to set up a shared directory or file server. I communicate
-with the VM through \texttt{ssh} and transfer files with \texttt{scp}:
+with the VM through \texttt{ssh} and transfer files with \texttt{scp}.
+
 \begin{small}
 \begin{verbatim}
 $ virsh start Fedora33Server
-$ ssh root@192.168.122.105
-The authenticity of host '192.168.122.105 (192.168.122.105)' can't be established.
+$ ssh root@w.x.y.z
+The authenticity of host 'w.x.y.z (w.x.y.z)' can't be established.
 ECDSA key fingerprint is SHA256:###########################################.
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added '192.168.122.105' (ECDSA) to the list of known hosts.
-root@192.168.122.105's password: 
-Web console: https://localhost:9090/ or https://192.168.122.105:9090/
+Warning: Permanently added 'w.x.y.z' (ECDSA) to the list of known hosts.
+root@w.x.y.z's password: 
+Web console: https://localhost:9090/ or https://w.x.y.z:9090/
 
-Last login: Sun Nov 29 22:09:47 2020
-[root@localhost ~]# uname -rs
-Linux 5.9.10-200.fc33.x86_64
+Last login: 
 [root@localhost ~]# dnf update
-Last metadata expiration check: 0:25:12 ago on Sun 29 Nov 2020 10:11:02 PM AEDT.
+Last metadata expiration check: 0:25:12 ago on 
 Dependencies resolved.
 Nothing to do.
 Complete!
+[root@localhost ~]# uname -rs
+Linux 5.9.10-200.fc33.x86_64
 [root@localhost ~] dnf install wget readline-devel lzip sharutils gcc gcc-c++ \
 gcc-gfortran gmp-devel mpfr-devel make cmake gnuplot-latex m4 gperf bison flex \
 openblas-devel patch texinfo texinfo-tex icoutils librsvg2-tools librsvg2 \
@@ -32201,18 +32203,26 @@ texlive-type1cm texlive-upquote texlive-wrapfig
 [root@localhost ~]# cd
 [root@localhost ~]# echo "export PATH=$PATH:/usr/local/octave-5.2.0/bin" >> .bashrc 
 [root@localhost ~]# shutdown -h now
-Connection to 192.168.122.105 closed by remote host.
-Connection to 192.168.122.105 closed.
+Connection to w.x.y.z closed by remote host.
+Connection to w.x.y.z closed.
 $
 \end{verbatim}
 \end{small}
-Note that here \texttt{localhost} refers to the VM.
+This edited example session shows:
+\begin{itemize}
+\item starting the VM with \emph{virsh}
+\item logging into the VM with \emph{ssh}
+\item system update with \emph{dnf}
+\item installation of the Fedora packages required to build this document
+\item download of the source for this document from \emph{GitHub}
+\item building a local version of Octave with the \emph{build-octave.sh} script
+\end{itemize}
 
 \subsubsection*{Build this document on the VM}
 \begin{small}
 \begin{verbatim}
 $ virsh start Fedora33Server
-$ ssh root@192.168.122.105
+$ ssh root@w.x.y.z
 [root@localhost ~]# cd DesignOfIIRFilters-master
 [root@localhost DesignOfIIRFilters-master]# make -Bkj 8 
 \end{verbatim}
@@ -32222,7 +32232,7 @@ $ ssh root@192.168.122.105
 \begin{small}
 \begin{verbatim}
 $ virsh start Fedora33Server
-$ scp root@192.168.122.105:/root/DesignOfIIRFilters-master/DesignOfIIRFilters.pdf \
+$ scp root@w.x.y.z:/root/DesignOfIIRFilters-master/DesignOfIIRFilters.pdf \
   DesignOfIIRFilters.pdf
 \end{verbatim}
 \end{small}
@@ -32232,7 +32242,7 @@ $ scp root@192.168.122.105:/root/DesignOfIIRFilters-master/DesignOfIIRFilters.pd
 \begin{small}
 \begin{verbatim}
 $ virsh start Fedora33Server
-$ ssh root@192.168.122.105
+$ ssh root@w.x.y.z
 [root@localhost ~]# cd DesignOfIIRFilters-master
 [root@localhost DesignOfIIRFilters-master]# make batchtest
 .
@@ -32261,7 +32271,7 @@ Shut down the VM and, on the host, run:
 \begin{small}
 \begin{verbatim}
 $ sudo virsh shutdown Fedora33Server
-$ virt-sparsify --in-place $QEMU_DIR/Fedora33Server.img
+$ virt-sparsify --in-place your-image-file
 \end{verbatim}
 \end{small}
 
@@ -32269,7 +32279,7 @@ Alternatively, fill unused VM disc sectors with $0$:
 \begin{small}
 \begin{verbatim}
 $ virsh start Fedora33Server
-$ ssh root@192.168.122.105
+$ ssh root@w.x.y.z
 [root@localhost ~]# cd /boot
 [root@localhost ~]# dd if=/dev/zero of=zerofile
 [root@localhost ~]# sync
@@ -32291,7 +32301,8 @@ $ sudo virsh domxml-to-native qemu-argv --domain Fedora33Server
 \end{small}
 Edit the command line as suggested by
 \emph{Buettner}~\cite{Buettner_ConfigureQEMU} (with help from StackExchange).
-Shut down the VM and, on the host, run:
+It should look like this, with \emph{uuid} and \emph{filename} set to your
+values:
 \begin{small}
 \begin{verbatim}
 #!/bin/sh
@@ -32305,7 +32316,7 @@ export LC_ALL=C
     -m 4096 \
     -overcommit mem-lock=off \
     -smp 8,sockets=8,cores=1,threads=1 \
-    -uuid 07e77f88-e8ce-424f-80f3-b731f1e354c6 \
+    -uuid your-uuid \
     -display none \
     -no-user-config \
     -nodefaults \
@@ -32326,7 +32337,7 @@ bus=pcie.0,multifunction=on,addr=0x2 \
     -device qemu-xhci,p2=15,p3=15,id=usb,bus=pci.2,addr=0x0 \
     -device virtio-serial-pci,id=virtio-serial0,bus=pci.3,addr=0x0 \
     -blockdev '{"driver":"file",
-                "filename":"$QEMU_DIR/Fedora33Server.img",
+                "filename":"your-image-file",
                 "node-name":"libvirt-2-storage",
                 "auto-read-only":true,
                 "discard":"unmap"}' \
@@ -32352,13 +32363,12 @@ Login in to the VM with:
 \begin{verbatim}
 $ ssh root@localhost -p10022
 The authenticity of host '[localhost]:10022 ([127.0.0.1]:10022)' can't be established.
-ECDSA key fingerprint is SHA256:gpivehP+o/aJKKAGH/LxMZ+FVWu5dwxplsdUEi13qMQ.
+ECDSA key fingerprint is SHA256:###########################################.
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 Warning: Permanently added '[localhost]:10022' (ECDSA) to the list of known hosts.
 root@localhost's password: 
-Web console: https://localhost:9090/ or https://192.168.122.106:9090/
+Web console: https://localhost:9090/ or https://w.x.y.z:9090/
 
-Last login: Mon Nov 30 08:02:39 2020 from 192.168.122.1
 [root@localhost ~]#
 \end{verbatim}
 \end{small}
