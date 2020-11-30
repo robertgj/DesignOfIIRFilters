@@ -49,7 +49,7 @@ Wtp=0
 fas=0.171
 fase=0.18
 dBas=84.02
-Was_mmse=5e5
+Was_mmse=1e4
 Wase=Was_mmse/4 % Extra passband weight decreasing linearly from fas to fase
 Was_pcls=1e-6 % Do not attempt to minimise MMSE squared error
 

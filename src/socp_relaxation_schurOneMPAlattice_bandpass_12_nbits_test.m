@@ -18,7 +18,7 @@ socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito=false
 
 tic;
 
-maxiter=2000
+maxiter=5000
 verbose=false
 strf="socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test";
 
@@ -55,7 +55,7 @@ R2=(NA1+1):(NA1+NA2);
 % Band pass filter specification
 difference=true
 tol=1e-4
-ctol=1e-5
+ctol=tol/10
 rho=127/128
 m1=length(A1k);
 m2=length(A2k);
@@ -65,16 +65,16 @@ fapu=0.2
 fasu=0.25
 dBap=2
 Wap=1
-Watl=0.0001
-Watu=0.0001
+Watl=0.001
+Watu=0.001
 dBas=40
-Wasl=2e3
-Wasu=1e3
+Wasl=200
+Wasu=100
 ftpl=0.09
 ftpu=0.21
 td=16
 tdr=0.2
-Wtp=2
+Wtp=1
 
 %
 % Frequency vectors

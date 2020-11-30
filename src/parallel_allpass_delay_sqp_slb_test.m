@@ -16,7 +16,7 @@ strf="parallel_allpass_delay_sqp_slb_test";
 % Lowpass filter specification for parallel all-pass filters
 tol=1e-5
 ctol=1e-7
-n=500;
+n=1000;
 R=1
 DD=11
 m=12
@@ -24,7 +24,7 @@ fap=0.15
 dBap=0.04
 Wap=1
 fas=0.2
-dBas=43
+dBas=40
 Was=50
 
 % Initial coefficients found by tarczynski_parallel_allpass_delay_test.m

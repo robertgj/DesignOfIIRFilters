@@ -5,9 +5,8 @@
 # Requires Fedora packages: wget readline-devel lzip sharutils gcc gcc-c++
 # gcc-gfortran gmp-devel mpfr-devel make cmake gnuplot-latex m4 gperf 
 # bison flex openblas-devel patch texinfo texinfo-tex librsvg2 librsvg2-devel
-# librsvg2-tools icoutils autoconf automake libtool
-#
-# To build the pdf document install Fedora packages: dia epstool
+# librsvg2-tools icoutils autoconf automake libtool pcre pcre-devel freetype
+# freetype-devel
 #
 # SuiteSparse requires extra definitions to install other than at /usr/local
 #

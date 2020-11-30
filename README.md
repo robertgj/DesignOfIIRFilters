@@ -21,9 +21,9 @@ welcome!
 * *patch* contains the patch files that have been applied to create forks
  of [SparsePOP](http://sparsepop.sourceforge.net) and
  [SDPT3](https://github.com/sqlp/sdpt3). 
-* *batchtest.sh* runs the regression tests. It be run standalone but is intended to be used by
-  the [aegis](https://sourceforge.net/projects/aegis/files/aegis/4.24/aegis-4.24.tar.gz/download)
- software configuration management system  and the output of the script is in aegis format.
+* *batchtest.sh* runs the regression tests. It can be run standalone but is intended to be used by the
+[aegis](https://sourceforge.net/projects/aegis/files/aegis/4.24/aegis-4.24.tar.gz/download)
+ software configuration management system and the output of the script is in aegis format.
 * *fig* contains the [dia](https://wiki.gnome.org/Apps/Dia) files for
   the line drawings included in *DesignOfIIRFilters.tex*.
 * *src* contains the Octave m-files and C++ source required to create the
@@ -56,11 +56,14 @@ The Octave on-line FAQ
 [discusses](https://wiki.octave.org/FAQ#Why_is_Octave.27s_floating-point_computation_wrong.3F)
 this. You may need to modify an Octave script to run on your system. Try
 relaxing the constraints on the filter design, relaxing the tolerance on the
-optimised result or changing the relative weights on the filter bands. 
+optimised result or changing the relative weights on the filter bands. I
+endeavour to build the *DesignOfIIRFilters.pdf* document with user-mode
+virtual machine QEMU emulation of an Intel Nehalem CPU.
 
 ### External source code and licensing
 The *src* directory contains the following files included from
 external sources as-is or with modifications:
+
 * *faffine.m*, *local_max.m*, *cl2lp.m* and *cl2bp.m* by
  [Selesnick et al.](http://www.ece.rice.edu/dsp/software/rufilter.shtml)
 * *minphase.m* by Orchard and Willson from "On the Computation of a 
@@ -74,6 +77,7 @@ external sources as-is or with modifications:
 
 The *src* directory contains C++ files that use the Octave *octfile* interface.
 The Octave on-line FAQ [states](https://wiki.octave.org/FAQ#If_I_write_code_using_Octave_do_I_have_to_release_it_under_the_GPL.3F):
+
 >  Code written using Octave's native plug-in interface (also known as a .oct
 >  file) necessarily links with Octave internals and is considered a derivative
 >  work of Octave and therefore must be released under terms that are

@@ -19,7 +19,7 @@ verbose=false
 % Bandpass filter specification
 % (frequencies are normalised to sample rate)
 fapl=0.1,fapu=0.2,dBap=1,Wap=1
-fasl=0.05,fasu=0.25,dBas=36,Wasl=8,Wasu=2
+fasl=0.05,fasu=0.25,dBas=36,Wasl=10,Wasu=5
 
 % Initialise strings
 strM=sprintf(
