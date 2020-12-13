@@ -1,7 +1,7 @@
 function [y,ssp,iter] = minphase(h);
 % [y,ssp,iter] = minphase(h);
 % minphase.m m-file for extracting the minimum phase factor from the 
-% linear-phase filter h. Input: h = (h(0) h(1)...h(N)] (row vector) 
+% linear-phase filter h. Input: h = [h(0) h(1)...h(N)] (row vector) 
 % where the h vector is the right half of a linear-phase FIR filter.
 % It is presumed that any unit-circle zeros of h are of even multiplicity. 
 % Copyright (c) January 2002  by  H. J. Orchard and A. N. Willson, Jr.

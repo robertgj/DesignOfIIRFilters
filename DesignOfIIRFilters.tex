@@ -25238,7 +25238,7 @@ is known. This section shows two methods for finding that filter. The first,
 solution~\cite{OrchardWillson_ComputationMinimumPhaseSpectralFactor}, is
 simpler and more accurate than the cepstral method of \emph{Mian} and
 \emph{Nainer}~\cite{MianNainer_FastDesignEquiRippleMinimumPhaseFIR}.
-\subsubsection{\emph{Orchard} and \emph{Willson}'s Newton-Raphson solution}
+\subsubsection{\label{app:Orchard-Willson-Newton-Raphson-solution}\emph{Orchard} and \emph{Willson}'s Newton-Raphson solution}
 If an order $N$ FIR filter $H\left(z\right)$ is bounded-real then
 $\left|H\left(e^{\imath\omega}\right)\right|\le 1$. The magnitude-squared
 complementary filter $1-H^{\dagger}\left(z\right)H\left(z\right)$, where
@@ -25588,6 +25588,319 @@ resulting combined response.
   method.}
 \label{fig:direct-FIR-sdp-combined-response}
 \end{figure}
+\clearpage
+\subsection{Estimating the MA coefficients of a filtered noise sequence}
+This Section follows the description by \emph{Dumitrescu et
+  al}~\cite{DumitrescuTabusStoica_PositiveRealSequenceMAParameter} of the
+estimation of the MA (or FIR) coefficients of a filtered noise sequence. It is
+intended to provide some justification for \emph{Sturm}'s spectral
+factorisation example shown in
+Section~\ref{app:Minimum-phase-complementary-filter-semidefinite-duality}.
+
+\subsubsection{Autocovariance of a noise sequence}
+Suppose we have $N$ samples, $\hat{x}_{l}$ of a real valued
+stationary random time series, $x_{l}$:
+\begin{align*}
+  \hat{x}_{l}&=\begin{cases}
+    x_{l} & 1\le l \le N \\
+    0 & \text{otherwise} \\
+  \end{cases}
+\end{align*}
+An estimate of the autocovariance\footnote{\emph{covariance} and
+  \emph{correlation} are similar concepts. \emph{correlation} is unit-less and
+  varies between $-1$ and $1$.} of $\hat{x}_{l}$ is\footnote{Note that for
+  $0\le k<N$:
+  \begin{align*}
+  \hat{r}_{-k} &=\frac{1}{N}\sum_{l=1}^{N}\hat{x}_{l}\hat{x}_{l-k}
+               =\frac{1}{N}\sum_{l=1-k}^{N-k}\hat{x}_{l+k}\hat{x}_{l}
+               =\frac{1}{N}\sum_{l=1}^{N-k}x_{l+k}x_{l}
+  \end{align*}
+  }:
+\begin{align*}
+  \hat{r}_{k}
+  &=\frac{1}{N}\sum_{l=1}^{N}\hat{x}_{l}\hat{x}_{l+\mathabs{k}}\\
+  &=\begin{cases}
+    \frac{1}{N}\sum_{l=1}^{N-\mathabs{k}}
+    x_{l}x_{l+\mathabs{k}} & \mathabs{k} < N\\
+    0 & \text{otherwise}\\
+    \end{cases}
+\end{align*}
+
+The expectation, or mean, of this estimate is:
+\begin{align*}
+  \mathcal{E}\left\{\hat{r}_{k}\right\}
+  &=\frac{1}{N}\sum_{l=1}^{N-\mathabs{k}}
+    \mathcal{E}\left\{x_{l}x_{l+\mathabs{k}}\right\} \\
+  &=\begin{cases}
+    \left(N-\mathabs{k}\right)r_{k} & \mathabs{k} < N \\
+    0 & \text{otherwise} \\
+    \end{cases}
+\end{align*}
+where $r_{k}$ is the autocovariance function of $x_{l}$.
+This definition of the estimator of the autocovariance, $\hat{r}_{k}$, is
+biased because $\mathcal{E}\left\{\hat{r}_{k}\right\} \ne r_{k}$.
+An unbiased estimator is:
+\begin{align*}
+  \check{r}_{k}&= \frac{1}{N-\mathabs{k}}\sum_{l=1}^{N-\mathabs{k}}
+                 x_{l}x_{l+\mathabs{k}}\quad\mathabs{k} < N
+\end{align*}
+\subsubsection{Autocovariance of the response of an FIR filter to white noise}
+Given an FIR filter transfer function,
+$H\left(z\right)=\sum_{k=0}^{n}h_{k}z^{-k}$, with
+$y_{k}=\sum_{l=0}^{n}h_{l}e_{k-l}$ where $e_{k}$ is zero mean, unit variance,
+white Gaussian noise, then the autocovariance sequence of $y_{k}$
+is~\cite[Equation 2 II]{DumitrescuTabusStoica_PositiveRealSequenceMAParameter}:
+\begin{align*}
+r_{k} &= \mathcal{E}\left\{y_{m}y_{m-k}\right\} \\
+&=\mathcal{E}\left\{\sum_{l=0}^{n}h_{l}e_{m-l}\sum_{p=0}^{n}h_{p}e_{m-k-p}\right\}\\
+&=\mathcal{E}\left\{\sum_{l=0}^{n}\sum_{p=0}^{n}h_{l}h_{p}e_{m-l}e_{m-k-p}\right\}\\
+&=\sum_{l=0}^{n}\sum_{p=-k}^{n-k}h_{l}h_{p+k}\mathcal{E}\left\{e_{m-l}e_{m-p}\right\}\\
+&= \sum_{l=0}^{n-k}h_{l}h_{l+k} \\
+&= \sum_{l=k}^{n}h_{l}h_{l-k} \\
+&= h^{\top}A_{k}h \\
+&= \mathtrace{A_{k}hh^{\top}}
+\end{align*}
+for $k=0,\hdots,n$, $r_{-k}=r_{k}$, $r_{k}=0$ for $\mathabs{k}>n$,
+$h=\left[h_{0},h_{1},\hdots,h_{n}\right]$ and $A_{k}$ denotes the matrix with
+unit entries on the $k$th diagonal.
+
+\subsubsection{Spectral factorisation of the autocovariance sequence}
+The following constraints on the polynomial
+$R\left(z\right)=\sum_{k=-n}^{n}r_{k}z^{-k}$ are equivalent~\cite[Section
+II]{DumitrescuTabusStoica_PositiveRealSequenceMAParameter}: 
+\begin{itemize}
+\item $R\left(z\right)$ has a spectral factorisation
+  $R\left(z\right)=H\left(z\right)H\left(-z\right)$ 
+\item the positiveness of $R\left(e^{\imath\omega}\right)$ is equivalent to
+  the real positiveness of
+  \begin{align*}
+    R_{+}\left(e^{\imath\omega}\right)=\Re\left\{\frac{r_{0}}{2}+
+    \sum_{k=1}^{n}r_{k}e^{-\imath{}k\omega}\right\}\ge 0
+  \end{align*}
+\item the \emph{positive real} condition on a polynomial
+\begin{align*}
+R_{+}\left(z\right) = \frac{r_{0}}{2}+\sum_{k=1}^{n}r_{k}z^{-k}
+\end{align*}
+is defined, for the trace parameterisation, as $r_{k}=\mathtrace{A_{k}Q}$ where
+$Q$ is an $\left(n+1\right)\times\left(n+1\right)$ positive semi-definite
+matrix.
+\end{itemize}
+\emph{Dumitrescu et al.} remark that, since $Q$ is positive semidefinite, it
+may be expressed as $Q=GG^{\top}$ where
+$G\in\mathbb{R}^{\left(n+1\right)\times\nu}$, $\nu=\mathrank{Q}$ and 
+$G\left(z\right)$ represents an infinite family of SIMO spectral factors of
+$R\left(z\right)$. 
+
+\subsubsection{Primal formulation of the covariance estimation problem}
+\emph{Dumitrescu et
+  al.}~\cite{DumitrescuTabusStoica_PositiveRealSequenceMAParameter} show 
+algorithms for estimating the MA (or FIR) parameters of a noisy 
+sequence. In this Section I follow \emph{Dumitrescu et al.}'s treatment of the,
+so-called, \emph{trace parameterisation}\footnote{The main purpose of their
+  paper is to show that the trace parameterisation is equivalent to a
+  \emph{Kalman-Yakubovich-Popov} lemma parameterisation. In addition they
+  describe the \emph{primal} and \emph{dual} solutions for each
+  parameterisation.}. \emph{Dumitrescu et al.} begin by defining a
+\emph{positive real} sequence $r_{k}$:
+\begin{align*}
+  r_{0}+\sum_{k=1}^{n}r_{k}\cos k\omega \ge 0
+\end{align*}
+for all $\omega\in\left[0,\pi\right]$ and $r_{k}\in\mathbb{R}$.
+Given $N$ samples of the filter output $y_{1},\hdots,y_{N}$, the covariance
+estimates
+\begin{align*}
+  \hat{r}_{k} = \frac{1}{N}\sum_{l=k+1}^{N}y_{l}y_{l-k}
+\end{align*}
+have variance-covariances~\cite[Section II]{Stoica_MAEstimationPolynomialTime}
+$\mathcal{E}\left\{\left[\hat{r}_{k}-r_{k}\right]
+  \left[\hat{r}_{l}-r_{l}\right]\right\}$,
+which can be approximated by~\cite[Equation
+B.48]{SoderstromStoica_SystemIdentification}:
+\begin{align}
+  \label{eqn:Dumitrescu-variance-covariance-estimation}
+  \hat{W}_{kl} \approx \frac{1}{N^{2}}\sum_{m=-n}^{n}\left(N-\mathabs{m}\right)
+  \left[\hat{r}_{m}\hat{r}_{m+k-l}+\hat{r}_{m-l}\hat{r}_{m+k}\right]
+\end{align}
+where $k,l=0,1,\hdots$ and $N\gg n$.
+
+\emph{Dumitrescu et al.}~\cite[Section
+III]{DumitrescuTabusStoica_PositiveRealSequenceMAParameter} define the
+$\left(n+n_{\gamma}+1\right)\times\left(n+n_{\gamma}+1\right)$ matrix $\hat{W}$
+with entries $\hat{W}_{kl}$ and the vectors
+$\hat{r}=\left[\hat{r}_{0},\hdots,\hat{r}_{n}\right]$ and
+$\hat{\gamma}=\left[\hat{r}_{n+1},\hdots,\hat{r}_{n+n_{\gamma}}\right]$. Following
+\emph{Stoica et al.}~\cite[Equation 7]{Stoica_MAEstimationPolynomialTime},
+they propose the weighted least squares fitting criterion:
+\begin{align*}
+  f=\frac{1}{2}\left[\begin{array}{c}
+                       \hat{r}-r \\
+                       \hat{\gamma}\end{array}\right]^{\top}
+  \hat{W}^{-1}\left[\begin{array}{c}
+                      \hat{r}-r \\
+                      \hat{\gamma}\end{array}\right]
+\end{align*}
+and suggest that $n_{\gamma}=\sqrt{N}$. If $\hat{W}$ is partitioned as
+\begin{align*}
+  \hat{W}&=\left[\begin{array}{cc}
+                      \hat{W}_{11}       & \hat{W}_{12} \\
+                      \hat{W}_{12}^{\top} & \hat{W}_{22} \end{array}\right]
+\end{align*}
+where $\hat{W}_{11}$ is $\left(n+1\right)\times\left(n+1\right)$, then the
+fitting criterion becomes:
+\begin{align*}
+  f&=\frac{1}{2}\left(r-\tilde{r}\right)^{\top}\Gamma^{-1}\left(r-\tilde{r}\right)
+     + \text{ const.}
+\end{align*}
+where
+\begin{align*}
+  \tilde{r}&=\hat{r}-\hat{W}_{12}\hat{W}_{22}^{-1}\hat{\gamma} \\
+  \Gamma &= \hat{W}_{11}-\hat{W}_{12}\hat{W}_{22}^{-1}\hat{W}_{12}^{\top}
+\end{align*}
+In the trace parameterisation, the problem of estimating the covariances
+becomes~\cite[Equation
+17]{DumitrescuTabusStoica_PositiveRealSequenceMAParameter}:
+\begin{align}
+  \label{eqn:Covariance-esimation-trace-param-primal}
+  \begin{split}
+  \textbf{minimise}  \quad& 
+  \frac{1}{2}\left(r-\tilde{r}\right)^{\top}\Gamma^{-1}\left(r-\tilde{r}\right)\\ 
+  \textbf{subject to}\quad& r_{k}=\mathtrace{A_{k}Q},\quad k=0,\hdots,n\\
+                     \quad& Q \succ 0
+  \end{split}
+\end{align}
+
+\subsubsection{Dual formulation of the covariance estimation problem}
+The Lagrangian of the primal problem is
+\begin{align*}
+  L\left(r,Q,\mu,X\right)
+  &=f\left(r\right)-\mathtrace{XQ}+
+    \sum_{k=0}^{n}\mu_{k}\left(\mathtrace{A_{k}Q}-r_{k}\right) \\
+  &=f\left(r\right)+
+    \mathtrace{\left[-X+
+    \left(\sum_{k=0}^{n}\mu_{k}A_{k}\right)Q\right]}-\mu^{\top}r\\
+  &=f\left(r\right)+
+    \frac{1}{2}\mathtrace{\left[-2X+
+    \left(\sum_{k=0}^{n}\mu_{k}\left(A_{k}+A_{k}^{\top}\right)\right)Q\right]}
+    -\mu^{\top}r
+\end{align*}
+where the positive semidefinite symmetric matrix, $X$, is the Lagrange
+multiplier for the linear matrix inequality $Q\succeq{}0$. Differentiating
+the Lagrangian with respect to $r$:
+\begin{align*}
+  \frac{\partial{}L\left(r,Q,\mu,X\right)}{\partial{}r}
+  &= \Gamma^{-1}\left(r-\tilde{r}\right)-\mu
+\end{align*}
+so that the solution to the primal problem is $r^{\star}=\tilde{r}+\Gamma\mu$.
+The terms of the Lagrangian in $r$ are bounded from below by
+\begin{align*}
+  f\left(r^{\star}\right)
+  &=\frac{1}{2}\mu^{\top}\Gamma\mu - \mu^{\top}\left(\Gamma\mu+\tilde{r}\right)\\
+  &=-\frac{1}{2}\mu^{\top}\Gamma\mu - \mu^{\top}\tilde{r}
+\end{align*}
+The Lagrangian is affine in the elements of $Q$ so that the dual function
+is defined to be
+\begin{align*}
+  g\left(X,\mu\right)
+  &=\inf_{r,Q} L\left(r,Q,\mu,X\right) \\
+  &=\begin{cases}
+    -\frac{1}{2}\mu^{\top}\Gamma\mu - \mu^{\top}\tilde{r} &
+    \text{if } X=\frac{1}{2}\sum_{k=0}^{n}\mu_{k}\left(A_{k}+A_{k}^{\top}\right)\\
+    -\infty & \text{otherwise}
+                 \end{cases}
+\end{align*}
+If $\Gamma$ has the Cholesky decomposition $\Gamma=G^{\top}G$, then
+\begin{align*}
+  \frac{1}{2}\mu^{\top}\Gamma\mu+\mu^{\top}\tilde{r}
+  &=\frac{1}{2}\left(G\mu+G^{-\top}\tilde{r}\right)^{\top}
+    \left(G\mu+G^{-\top}\tilde{r}\right)
+    -\frac{1}{2}\tilde{r}^{\top}\Gamma^{-1}\tilde{r}
+\end{align*}
+The dual problem is~\cite[Equations 24 and
+47]{DumitrescuTabusStoica_PositiveRealSequenceMAParameter}: 
+\begin{align}
+  \label{eqn:Covariance-esimation-trace-param-dual}
+  \begin{split}
+  \textbf{minimise}  \quad& \eta\\
+  \textbf{subject to}\quad& \mathnorm{G\mu+G^{-\top}\tilde{r}}\le\eta \\
+  \quad& X\left(\mu\right)=\mathtpltz{
+    \left[\mu_{0},\frac{1}{2}\mu_{1},\hdots,\frac{1}{2}\mu_{n}\right]}\succeq 0
+  \end{split}
+\end{align}
+The sign of the objective is reversed to get a minimisation problem.
+
+\begin{comment}
+\emph{Dumitrescu et al.} refer to an approach for fast solutions of SDP problems
+with Toeplitz 
+LMIs~\cite{GeninNesterovVanDooren_OptimizationOverPositivePolyMatrices}.
+\emph{Dumitrescu et al.} suggest spectral factorisation of $r^{\star}$
+  by solving a Ricatti equation. This appears to refer to the method proposed by
+  \emph{Tuqan} and \emph{Vaidyanathan}~\cite[Theorem
+  3]{TuqanVaidyanathan_StateSpaceFIREnergyCompaction}.
+
+\emph{Dumitrescu et al.}~\cite[Theorem
+2 and Section IV]{DumitrescuTabusStoica_PositiveRealSequenceMAParameter} show
+that the primal solution pair $\left\{r^{\star},Q^{\star}\right\}$ and the
+dual solution $\mu^{\star}$ have the following strong duality properties
+\begin{align}
+  \label{eqn:Covariance-estimation-primal-dual-properties}
+  \begin{split}
+  \frac{1}{2}\left(\tilde{r}-r^{\star}\right)^{\top}\Gamma^{-1}
+  \left(\tilde{r}-r^{\star}\right)
+  &= -\frac{1}{2}\mu^{\star\top}\Gamma\mu^{\star}-\mu^{\star\top}\tilde{r}\\
+  r^{\star}&=\Gamma\mu^{\star}+\tilde{r}\\
+  X\left(\mu^{\star}\right)Q^{\star}&=0 \\
+  \mu^{\star\top}r^{\star}&=0
+  \end{split}
+\end{align}
+\emph{Dumitrescu et al.}~ note that the FIR parameter vector, $h^{\star}$, is an
+eigenvector of $X\left(\mu^{\star}\right)$, corresponding to the eigenvalue $0$.
+\end{comment}
+
+\subsubsection{An example}
+The Octave script \emph{dumitrescu\_MA\_estimation\_test.m}
+attempts to implement the, so-called, CFD solution of \emph{Dumitrescu et
+ al.}~\cite[Equation 47]{DumitrescuTabusStoica_PositiveRealSequenceMAParameter}
+described above. The specifications of the original filter and estimation
+procedure are:
+\begin{small}
+\verbatiminput{dumitrescu_MA_estimation_test.spec}
+\end{small}
+Figures~\ref{fig:dumitrescu-MA-estimation-response}
+and~\ref{fig:dumitrescu-MA-estimation-zeros} show the
+amplitude responses and zeros, respectively, of the original FIR filter and the
+estimated filter found by the CFD semi-definite programming method. The
+minimum-phase filter was calculated with the method of \emph{Orchard} and
+\emph{Willson} shown previously in
+Section~\ref{app:Orchard-Willson-Newton-Raphson-solution}.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{dumitrescu_MA_estimation_test_response}}
+\caption{Amplitude responses of the example FIR filter and the estimated
+  filter found with \emph{Dumitrescu et al.}'s CFD semi-definite programming
+  method.}
+\label{fig:dumitrescu-MA-estimation-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{dumitrescu_MA_estimation_test_zeros}}
+\caption{Zeros of the example FIR filter and the estimated filter found with
+  \emph{Dumitrescu et al.}'s CFD semi-definite programming method.}
+\label{fig:dumitrescu-MA-estimation-zeros}
+\end{figure}
+I found that:
+\begin{itemize}
+\item for zero radiuses $Rz=0.9$, $\tilde{r}$ is positive and $r^{\star}=\tilde{r}$
+\item for zero radiuses $Rz=0.98$:
+  \begin{itemize}
+  \item $\tilde{r}$ is not positive
+  \item the limits on $l$ in
+    Equation~\ref{eqn:Dumitrescu-variance-covariance-estimation} are widened to
+    $l=\pm{}\left(n+n_{\gamma}\right)$ so that $\hat{W}_{kl}$ is
+    positive-definite and SOCP estimation is possible 
+  \end{itemize}
+\item for zero radiuses $Rz=0.99$ $r^{\star}$ has zeros very close to the
+  unit-circle and \emph{minphase} fails
+\end{itemize}
 \clearpage
 \section{\label{sec:FIR-lattice-bandpass-Hilbert-filter}Design of an FIR lattice band-pass Hilbert filter}
 The Octave script \emph{complementaryFIRlattice\_socp\_slb\_bandpass\_test.m}
