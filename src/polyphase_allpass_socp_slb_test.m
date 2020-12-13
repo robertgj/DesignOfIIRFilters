@@ -24,7 +24,7 @@ Db0 = [   1.0000000000,  -0.2572430673,  -1.3794429373,   0.2449685167, ...
 
 % Lowpass filter specification for polyphase combination of all-pass filters
 tol=1e-4
-ctol=1e-9
+ctol=1e-7
 n=500;
 polyphase=true
 difference=false

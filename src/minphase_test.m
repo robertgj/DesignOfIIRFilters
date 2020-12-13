@@ -1,5 +1,5 @@
 % minphase_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -7,47 +7,35 @@ delete("minphase_test.diary");
 delete("minphase_test.diary.tmp");
 diary minphase_test.diary.tmp
 
-
 strf="minphase_test";
 
 %
 % Using remez.m and Orchard's minphase.m
 %
-fapl=0.1;fapu=0.2;dBap=1;Wap=1;
-fasl=0.05;fasu=0.25;dBas=36;Wasl=2;Wasu=2;
+fapl=0.1;fapu=0.2;Wap=1;
+fasl=0.05;fasu=0.25;Wasl=2;Wasu=2;
 M=15;N=(2*M)+1;
 brz=remez(2*M,2*[0 fasl fapl fapu fasu 0.5],[0 0 1 1 0 0],...
           [Wasl Wap Wasu],'bandpass');
 brz=brz(:);
+
 % Brute force scaling of brz so that max(abs(Hbrz))==1
 Nw=2^16;
-[Hbrz,w]=freqz(brz,1,Nw);
-[~,ibrz]=max(abs(Hbrz));
-if ibrz==1
-  ibrz=2;
-endif
-if ibrz==Nw
-  ibrz=Nw-1;
-endif
-Nwi=16;
-delw=(w(ibrz+1)-w(ibrz-1))/(2*Nwi);
-w=w(ibrz)+(((-Nwi):Nwi)*delw);
-Hbrz=freqz(brz,1,w);
-[mbrz,ibrz]=max(abs(Hbrz));
-if ibrz~=1 && ibrz ~= length(w)
-  % Quadratic interpolation to the maximum
-  bp=polyfit(w((ibrz-1):(ibrz+1)),abs(Hbrz((ibrz-1):(ibrz+1))),2);
-  mbrz=bp(3)-(0.25*bp(2)*bp(2)/bp(1));
-endif
-brz=brz/mbrz;
+brz=direct_form_scale(brz,1,Nw);
+
 % Find the filter corresponding to |H|^2
 bbrz=conv(brz(:),flipud(brz(:)));
+
 % Find the filter corresponding to 1-|H|^2.
 bbrzc=[zeros(2*M,1); 1; zeros(2*M,1)]-bbrz;
+
 % By construction, bbrzc has double zeros on the unit circle.
 % Use Orchard's routine to find the minimum-phase component of 1-|H|^2
 [brzc,ssp,iter]=minphase(bbrzc(N:end));
 brzc=brzc(:);
+% Find the lattice coefficients
+[k,khat] = complementaryFIRdecomp(brz,brzc);
+
 % Sanity checks
 tol=10*eps;
 if abs(((brz(:)')*brz(:))+((brzc(:)')*brzc(:))-1)>tol
@@ -58,6 +46,7 @@ endif
 if max(abs(abs(Hbrz).^2+abs(Hbrzc).^2-1))>tol
   error("max(abs(abs(Hbrz).^2+abs(Hbrzc).^2-1))>(%g*eps)",tol/eps);
 endif
+
 % Plot
 plot(w*0.5/pi,20*log10(abs(Hbrz)),"linestyle","-", ...
      w*0.5/pi,20*log10(abs(Hbrzc)),"linestyle","-.")
@@ -70,12 +59,41 @@ legend("boxoff");
 legend("left");
 print(strcat(strf,"_brz_brzc_response"),"-dpdflatex");
 close
+zplane(qroots(brzc));
+title("Minimum phase complementary filter zeros");
+print(strcat(strf,"_brzc_zeros"),"-dpdflatex");
+close
+
+% Simulate FIR lattice filter
+nbits=10;
+scale=2^(nbits-1);
+nsamples=2^14;
+rand("seed",0xdeadbeef);
+u=rand(nsamples,1)-0.5;
+u=0.25*u/std(u);
+[y yc]=complementaryFIRlatticeFilter(k,khat,u);
+% Plot frequency response
+nfpts=1024;
+nppts=(0:511);
+H=crossWelch(u,y,nfpts);
+Hc=crossWelch(u,yc,nfpts);
+subplot(111);
+plot(nppts/nfpts,20*log10(abs(H)),...
+     nppts/nfpts,20*log10(abs(Hc)))
+xlabel("Frequency")
+ylabel("Amplitude(dB)")
+axis([0 0.5 -50 5]);
+grid("on");
+print(strcat(strf,"_simulated_response"),"-dpdflatex");
+close
 
 %
 % Print results
 %
 print_polynomial(brz,"brz",strcat(strf,"_brz_coef.m"),"%15.12f");
 print_polynomial(brzc,"brzc",strcat(strf,"_brzc_coef.m"),"%15.12f");
+print_polynomial(k,"k",strcat(strf,"_k_coef.m"),"%15.12f");
+print_polynomial(khat,"khat",strcat(strf,"_khat_coef.m"),"%15.12f");
 
 %
 % A simple example of using the cepstrum to find the
@@ -145,6 +163,19 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 print(strcat(strf,"_cepstral_combined_response"),"-dpdflatex");
 close
+
+% Save the filter specification
+fid=fopen(strcat(strf,".spec"),"wt");
+fprintf(fid,"tol=%g %% tolerance on results\n",tol);
+fprintf(fid,"N=%d %% filter order\n",N);
+fprintf(fid,"fasl=%g %% Stop band amplitude response lower edge\n",fasl);
+fprintf(fid,"fapl=%g %% Pass band amplitude response lower edge\n",fapl);
+fprintf(fid,"fapu=%g %% Pass band amplitude response upper edge\n",fapu);
+fprintf(fid,"fasu=%g %% Stop band amplitude response upper edge\n",fasu);
+fprintf(fid,"Wasl=%g %% Stop band amplitude response lower weight\n",Wasl);
+fprintf(fid,"Wap=%g %% Pass band amplitude response weight\n",Wap);
+fprintf(fid,"Wasu=%g %% Stop band amplitude response upper weight\n",Wasu);
+fclose(fid);
 
 % Done
 diary off

@@ -2,7 +2,9 @@
 
 prog=minphase_test.m
 descr="minphase_test.m (octfile)"
-depends="minphase_test.m test_common.m print_polynomial.m minphase.oct"
+depends="minphase_test.m test_common.m print_polynomial.m direct_form_scale.m \
+complementaryFIRlatticeFilter.m crossWelch.m qroots.m \
+qzsolve.oct complementaryFIRdecomp.oct minphase.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -70,7 +72,31 @@ brzc = [  0.702278455215, -0.284747150129,  0.195991006193,  0.310333248284, ...
           0.000733967870,  0.000312597850,  0.000190007105, -0.000036513338, ... 
          -0.000173379619,  0.000038188995, -0.000037157731 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.brzc.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.bzrc.ok"; fail; fi
+
+cat > test.k.ok << 'EOF'
+k = [  0.999973545923,  0.999997439113,  0.999892198494,  0.999912068377, ... 
+       0.999560459113,  0.996590306135,  0.997582105161,  0.999848632328, ... 
+       0.997255806728,  0.999503325335,  0.999993493601,  0.993567986530, ... 
+       0.962834847253,  0.987076261596,  0.964636965465,  0.863342901979, ... 
+       0.964636965465,  0.987076261596,  0.962834847253,  0.993567986530, ... 
+       0.999993493601,  0.999503325335,  0.997255806728,  0.999848632328, ... 
+       0.997582105161,  0.996590306135,  0.999560459113,  0.999912068377, ... 
+       0.999892198494,  0.999997439113, -0.007273751038 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
+
+cat > test.khat.ok << 'EOF'
+khat = [  0.007273751038, -0.002263132144,  0.014683030693,  0.013261052524, ... 
+         -0.029646055024, -0.082509161420, -0.069497794666,  0.017398633028, ... 
+          0.074032803180,  0.031513531122, -0.003607319616,  0.113237167670, ... 
+          0.270090830860,  0.160251220879, -0.263582102690, -0.504617710353, ... 
+         -0.263582102690,  0.160251220879,  0.270090830860,  0.113237167670, ... 
+         -0.003607319616,  0.031513531122,  0.074032803180,  0.017398633028, ... 
+         -0.069497794666, -0.082509161420, -0.029646055024,  0.013261052524, ... 
+          0.014683030693, -0.002263132144,  0.999973545923 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.khat.ok"; fail; fi
 
 #
 # run and see if the results match. 
@@ -88,6 +114,12 @@ if [ $? -ne 0 ]; then echo "Failed diff -Bb test.brz.ok"; fail; fi
 
 diff -Bb test.brzc.ok minphase_test_brzc_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.brzc.ok"; fail; fi
+
+diff -Bb test.k.ok minphase_test_k_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test.k.ok"; fail; fi
+
+diff -Bb test.khat.ok minphase_test_khat_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test.khat.ok"; fail; fi
 
 #
 # this much worked

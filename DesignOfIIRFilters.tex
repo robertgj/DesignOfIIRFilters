@@ -106,6 +106,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \DeclareMathOperator{\mathrange}{range}
 \DeclareMathOperator{\mathtrace}{trace}
 \DeclareMathOperator{\mathdiag}{diag}
+\DeclareMathOperator{\mathtpltz}{Toeplitz}
 
 \allowdisplaybreaks % For page breaks in long \align{} equations
 
@@ -6693,6 +6694,7 @@ z^{-1}\cos\theta & z^{-1}\sin\theta\\
 \caption{Lattice section}
 \label{fig:Lattice-section}
 \end{figure}
+
 \section{Noise gain of orthogonal filters\label{sec:Noise-gain-of-orthogonal-filters}}
 For an orthogonal state variable structure, $K=I$, and the noise
 gain is
@@ -25483,98 +25485,76 @@ endfor
 h=ha.*(alpha.^[0:Na]);
 \end{verbatim}
 \end{small}
-\clearpage
-\subsubsection{Calculating the minimum-phase complementary filter of an FIR filter with Semi-Definite Programming}
-\paragraph{Calculation of the expectation of the mean of the autocorrelation
-  sequence of a random variable} Suppose we have $N+1$ samples,
-$\hat{x}_{k}$ of a real valued stationary random time series,
-$x_{k}$, with autocorrelation function, $r_{k}$.
+\subsubsection{\label{app:Minimum-phase-complementary-filter-semidefinite-duality}\emph{Sturm}'s example of minimum phase spectral factorisation by semi-definite programming}
+\emph{Sturm}~\cite[Equation 13, Section 3.2]{Sturm_SeDuMiUserGuide_GitHub} claims
+that the solution to the following semi-definite programming problem is a
+minimum phase spectral factorisation, $x_{k}$, of an autocovariance sequence,
+$r_{k}$:
 \begin{align*}
-  \hat{x}_{k}&=\begin{cases}
-    x_{k} & 0\le k \le N \\
-    0 & \text{otherwise} \\
-  \end{cases}
+  \textbf{minimise}  \quad& \sum_{l=1}^{m}\left(m-l\right)x_{l,l} \\
+  \textbf{subject to}\quad& \sum_{l=1}^{m-k}x_{l,l+k}=r_{k}\quad k=0,\hdots,m-1\\
+                     \quad& X \succ 0
 \end{align*}
+where $X$ is a symmetric matrix with elements $x_{k,l}$.
+Unfortunately, \emph{Sturm}'s reference justifying this statement is not
+accessible but the associated website states that similar work is described by
+\emph{Dumitrescu et
+  al.}~\cite{DumitrescuTabusStoica_PositiveRealSequenceMAParameter} and 
+\emph{Dumitrescu}~\cite{Dumitrescu_BoundedRealLemma_FIR}.
 
-An estimate of the autocorrelation of $\hat{x}_{k}$ is:
+\emph{Sturm} contributed a spectral factorisation example to the 7'th DIMACS
+challenge~\cite{DIMACS_7_FILTER_minphase}. It is reproduced as the Octave script
+\emph{sedumi\_minphase\_test.m} which solves the following problem:
 \begin{align*}
-  \hat{r}_{k}
-  &=\frac{1}{N+1}\sum_{l=0}^{N}\hat{x}_{l}\hat{x}_{l+k}\\
-  &=\begin{cases}
-    \frac{1}{N+1}\sum_{l=0}^{N-k}
-    x_{l}x_{l+k} & 0\le k \le N\\
-    0 & \text{otherwise}\\
-    \end{cases}
+  \begin{split}
+    \textbf{minimise}  \quad& \sum_{l=1}^{n}r_{l}y_{l} \\
+    \textbf{subject to}\quad&  
+    \mathtpltz{\left[y_{1},\frac{1}{2}y_{2},\hdots,\frac{1}{2}y_{n}\right]}
+    - \mathdiag{\left[n-1,\hdots,1,0\right]} \succeq 0
+  \end{split}
 \end{align*}
+I have reversed the sign of the term in $\left[n-1,\hdots,1,0\right]$ so that the
+zeros of the complementary filter are inside the unit-circle.
 
-The expectation, or mean, of this estimate is:
-\begin{align*}
-  \mathcal{E}\left\{\hat{r}_{k}\right\}
-  &=\frac{1}{N+1}\sum_{l=0}^{N}\mathcal{E}\left\{
-    \hat{x}_{l}\hat{x}_{l+k}\right\} \\
-  &=\frac{1}{N+1}\sum_{l=0}^{N-\mathabs{k}}r_{\mathabs{k}} \\
-  &=\begin{cases}
-    \frac{N+1-\mathabs{k}}{N+1}r_{\mathabs{k}} & \mathabs{k}\le N \\
-    0 & \text{otherwise} \\
-    \end{cases}
-\end{align*}
-This definition of the mean of the estimation of the autocorrelation,
- $\hat{r}_{k}$, is biased because:
-$\mathcal{E}\left\{\hat{r}_{k}\right\} \ne r_{k}$.
-An unbiased estimator is:
-\begin{align*}
-  \check{r}_{k}&= \frac{1}{N+1-\mathabs{k}}\sum_{l=0}^{N-\mathabs{k}}
-\hat{x}_{l}\hat{x}_{l+k}\quad\mathabs{k}\le N
-\end{align*}
-This corresponds to an upper-triangular matrix equation.
-\paragraph{Minimum phase sequence corresponding to a given autocorrelation
-  sequence}
-\emph{Sturm}~\cite[Section 3.2]{Sturm_SeDuMiUserGuide_GitHub} states the
-following semi-definite programming problem:
-\begin{align*}
-  \textbf{minimise}   \quad & \sum_{k=0}^{N}\left(N+1-k\right)
-                              x_{k}^{2}\\
-  \textbf{subject to} \quad & \sum_{l=0}^{N-k}
-   x_{l}x_{l+k}=r_{k}\quad k=0,\hdots,N\\
-                            & \boldsymbol{X}\succ 0
-\end{align*}
-where $\boldsymbol{X}$ is the matrix corresponding to 
-$x_{l}x_{l+k}$. \emph{Sturm} claims that the solution
-to this problem is a minimum phase spectral factorisation, $x_{k}$,
-of an autocorrelation sequence, $r_{k}$. An SDP relaxation of this
-problem is:
-\begin{align*}
-  \textbf{minimise}   \quad & \sum_{k=0}^{N}\left(N+1-k\right)
-                              x_{k}^{2}\\
-  \textbf{subject to} \quad & \sum_{l=0}^{N-k}
-   x_{l}x_{l+k}\ge r_{k}\quad k=0,\hdots,N\\
-                 & \left[\begin{array}{cc}
-                           \boldsymbol{X} & \boldsymbol{x} \\
-                           \boldsymbol{x}^{\top} & 1 \end{array}\right]\succ 0
-\end{align*}
-
-\paragraph{Calculation of the minimum phase sequence with \emph{SeDuMi}}
-The Octave script \\
-\emph{directFIRnonsymmetric\_sdp\_minimum\_phase\_test.m} attempts
-unsuccessfully to find a minimum phase FIR low-pass filter impulse response.
-\clearpage
 \subsection{Example: the minium-phase complementary filter of an FIR bandpass filter}
 The Octave script \emph{minphase\_test.m} compares the use of 
 \emph{Orchard} and \emph{Willson}'s Newton-Raphson method with the cepstral
 method of \emph{Mian} and \emph{Nainer}. The script uses both methods to find
 the minimum-phase complementary filter for an FIR bandpass filter designed with
-the Octave \emph{remez} function. The combined response of the bandpass filter
+the Octave \emph{remez} function. The filter specification is:
+\begin{small}
+\verbatiminput{minphase_test.spec}
+\end{small}
+The combined response of the bandpass filter
 and the complementary filter found by the Newton-Raphson method is allpass to 
-within an order of magnitude of the machine precision ($eps=2.2204e-16$). The
-bandpass and complementary filter magnitude responses are shown in 
-Figure~\ref{fig:minphase-brz-brzc-response}.
+within an order of magnitude of the machine precision ($eps=2.2204e-16$).
+The bandpass and complementary filters are:
+\begin{small}
+  \verbatiminput{minphase_test_brz_coef.m}
+  \verbatiminput{minphase_test_brzc_coef.m}
+\end{small}
+The reflection coefficients of the bandpass and complementary filters are:
+\begin{small}
+  \verbatiminput{minphase_test_k_coef.m}
+  \verbatiminput{minphase_test_khat_coef.m}
+\end{small}
+Figure~\ref{fig:minphase-simulated-response} shows the simulated FIR lattice 
+bandpass and complementary filter amplitude responses.
+Figure~\ref{fig:minphase-brzc-zeros} shows the zeros of the complementary filter.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{minphase_test_brz_brzc_response}}
-\caption{Amplitude responses of the FIR band-pass filter and the minimum-phase
-complementary filter found with \emph{Orchard} and \emph{Willson}'s 
-Newton-Raphson method}
-\label{fig:minphase-brz-brzc-response}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{minphase_test_simulated_response}}
+\caption{Simulated amplitude responses of the FIR lattice band-pass filter and
+  the minimum-phase complementary filter found with \emph{Orchard} and
+  \emph{Willson}'s Newton-Raphson method.}
+\label{fig:minphase-simulated-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{minphase_test_brzc_zeros}}
+\caption{Zeros of the complementary filter found with \emph{Orchard} and
+  \emph{Willson}'s Newton-Raphson method.}
+\label{fig:minphase-brzc-zeros}
 \end{figure}
 
 Unfortunately, in the case of the cepstral method, $F\left(\alpha z\right)$
@@ -25583,7 +25563,7 @@ using $\alpha=1$ with a long FFT the sampling grid did not include the filter
 zeros. Response aliasing due to the discontinuities in
 $\log F\left(\alpha z\right)$ gave a result that was less accurate than that
 obtained with \emph{minphase.m} but was still acceptable. The combined amplitude
-response found with the cepstral method is shown in 
+response found with the cepstral method is shown in
 Figure~\ref{fig:minphase-cepstral-combined-response}.
 
 \begin{figure}
@@ -25591,8 +25571,22 @@ Figure~\ref{fig:minphase-cepstral-combined-response}.
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{minphase_test_cepstral_combined_response}}
 \caption{Combined amplitude responses of the FIR band-pass filter and the
 minimum-phase complementary filter found with \emph{Mian} and \emph{Nainer}'s 
-cepstral method}
+cepstral method.}
 \label{fig:minphase-cepstral-combined-response}
+\end{figure}
+
+The Octave script \emph{directFIRnonsymmetric\_sdp\_minimum\_phase\_test.m}
+finds the complementary filter by following \emph{Sturm}'s semi-definite
+programming method. Figure~\ref{fig:direct-FIR-sdp-combined-response} shows the
+resulting combined response. 
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_sdp_minimum_phase_test_hg_response}}
+\caption{Combined amplitude responses of the FIR band-pass filter and the
+  complementary filter found with \emph{Sturm}'s semi-definite programming
+  method.}
+\label{fig:direct-FIR-sdp-combined-response}
 \end{figure}
 \clearpage
 \section{\label{sec:FIR-lattice-bandpass-Hilbert-filter}Design of an FIR lattice band-pass Hilbert filter}
@@ -30455,7 +30449,7 @@ polynomial $S_{4,11}\left(w,0.75\right)$.
 
 I am not sure what \emph{Vl\v{c}ek} and
 \emph{Zahradn\'{i}k}~\cite[p.747]{VlcekZahradnik_AlmostEquirippleLowPassFIR}
-mean by `` the second solution of $\left(14\right)$ in the form
+mean by ``the second solution of $\left(14\right)$ in the form
  $\sqrt{1-w^{2}}S_{p,q}\left(w,\kappa\right)$''. Initially, I assumed that
  they are referring to the possibility of a second, linearly independent
  solution of

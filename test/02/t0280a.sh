@@ -4,7 +4,7 @@ prog=complementaryFIRlatticeEsq_test.m
 depends="complementaryFIRlatticeEsq_test.m test_common.m \
 complementaryFIRlatticeEsq.m complementaryFIRlatticeAsq.m \
 complementaryFIRlatticeT.m complementaryFIRlatticeP.m \
-complementaryFIRlattice2Abcd.m complementaryFIRlattice.m \
+complementaryFIRlattice2Abcd.m complementaryFIRlattice.m direct_form_scale.m \
 x2tf.m minphase.m H2Asq.m H2T.m H2P.m Abcd2H.oct complementaryFIRdecomp.oct"
 
 tmp=/tmp/$$

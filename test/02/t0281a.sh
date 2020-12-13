@@ -10,7 +10,7 @@ complementaryFIRlatticeAsq.m complementaryFIRlatticeT.m \
 complementaryFIRlatticeP.m complementaryFIRlatticeEsq.m \
 complementaryFIRlattice2Abcd.m complementaryFIRlattice.m \
 local_max.m x2tf.m print_polynomial.m H2Asq.m H2T.m H2P.m minphase.m \
-Abcd2H.oct complementaryFIRdecomp.oct"
+direct_form_scale.m Abcd2H.oct complementaryFIRdecomp.oct"
 
 tmp=/tmp/$$
 here=`pwd`

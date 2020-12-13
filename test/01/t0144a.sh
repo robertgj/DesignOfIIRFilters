@@ -2,7 +2,9 @@
 
 prog=minphase_test.m
 descr="minphase_test.m (mfile)"
-depends="minphase_test.m test_common.m print_polynomial.m minphase.m"
+depends="minphase_test.m test_common.m print_polynomial.m direct_form_scale.m \
+complementaryFIRlatticeFilter.m crossWelch.m minphase.m qroots.m \
+qzsolve.oct complementaryFIRdecomp.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -65,6 +67,30 @@ brzc = [  0.702278455158, -0.284747150190,  0.195991006199,  0.310333248307, ...
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.brzc.ok"; fail; fi
 
+cat > test.k.ok << 'EOF'
+k = [  0.999973545923,  0.999997439113,  0.999892198494,  0.999912068377, ... 
+       0.999560459113,  0.996590306134,  0.997582105159,  0.999848632328, ... 
+       0.997255806727,  0.999503325334,  0.999993493602,  0.993567986529, ... 
+       0.962834847250,  0.987076261596,  0.964636965455,  0.863342901944, ... 
+       0.964636965455,  0.987076261596,  0.962834847250,  0.993567986529, ... 
+       0.999993493602,  0.999503325334,  0.997255806727,  0.999848632328, ... 
+       0.997582105159,  0.996590306134,  0.999560459113,  0.999912068377, ... 
+       0.999892198494,  0.999997439113, -0.007273751039 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
+
+cat > test.khat.ok << 'EOF'
+khat = [  0.007273751039, -0.002263132143,  0.014683030694,  0.013261052526, ... 
+         -0.029646055025, -0.082509161431, -0.069497794685,  0.017398633019, ... 
+          0.074032803197,  0.031513531157, -0.003607319586,  0.113237167684, ... 
+          0.270090830870,  0.160251220882, -0.263582102727, -0.504617710413, ... 
+         -0.263582102727,  0.160251220882,  0.270090830870,  0.113237167684, ... 
+         -0.003607319586,  0.031513531157,  0.074032803197,  0.017398633019, ... 
+         -0.069497794685, -0.082509161431, -0.029646055025,  0.013261052526, ... 
+          0.014683030694, -0.002263132143,  0.999973545923 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.khat.ok"; fail; fi
+
 #
 # run and see if the results match. 
 #
@@ -81,6 +107,12 @@ if [ $? -ne 0 ]; then echo "Failed diff -Bb test.brz.ok"; fail; fi
 
 diff -Bb test.brzc.ok minphase_test_brzc_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.brzc.ok"; fail; fi
+
+diff -Bb test.k.ok minphase_test_k_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test.k.ok"; fail; fi
+
+diff -Bb test.khat.ok minphase_test_khat_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test.khat.ok"; fail; fi
 
 #
 # this much worked

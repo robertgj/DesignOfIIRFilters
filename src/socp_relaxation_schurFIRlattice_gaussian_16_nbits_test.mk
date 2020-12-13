@@ -33,7 +33,7 @@ complementaryFIRlattice_slb_show_constraints.m \
 complementaryFIRlattice_slb_update_constraints.m \
 complementaryFIRlattice.m \
 complementaryFIRlattice2Abcd.m \
-minphase.m local_max.m tf2pa.m x2tf.m print_polynomial.m Abcd2tf.m \
-H2Asq.m H2T.m H2P.m flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
+minphase.m local_max.m tf2pa.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m \
+H2T.m H2P.m flt2SD.m x2nextra.m bin2SDul.m SDadders.m direct_form_scale.m \
 bin2SD.oct bin2SPT.oct Abcd2H.oct complementaryFIRdecomp.oct \
 qroots.m qzsolve.oct 

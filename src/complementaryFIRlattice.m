@@ -40,25 +40,7 @@ function [hm,g,k,khat] = complementaryFIRlattice(h,tol,Nw)
   %
   % Scale h to have a maximum response of 1
   %
-  [H,w]=freqz(h,1,Nw);
-  [~,ih]=max(abs(H));
-  if ih==1
-    ih=2;
-  endif
-  if ih==Nw
-    ih=Nw-1;
-  endif
-  Nwi=16;
-  delw=(w(ih+1)-w(ih-1))/(2*Nwi);
-  w=w(ih)+(((-Nwi):Nwi)*delw);
-  H=freqz(h,1,w);
-  [mh,ih]=max(abs(H));
-  if ih~=1 && ih ~= length(w)
-    % Quadratic interpolation to the maximum
-    bp=polyfit(w((ih-1):(ih+1)),abs(H((ih-1):(ih+1))),2);
-    mh=bp(3)-(0.25*bp(2)*bp(2)/bp(1));
-  endif
-  hm=h/mh;
+  hm=direct_form_scale(h,1,Nw);
   
   %
   % Find the complementary filter, g

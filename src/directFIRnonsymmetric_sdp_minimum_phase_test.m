@@ -1,36 +1,10 @@
 % directFIRnonsymmetric_sdp_minimum_phase_test.m
+% Copyright (C) 2020 Robert G. Jenssen
 %
-%                  !!!WARNING!!!
-%
-%   I DO NOT GET SENSIBLE RESULTS FROM THIS SCRIPT
-%
-%                  !!!WARNING!!!
-%
-% See Section 3.2 of SeDuMi_1_3/doc/SeDuMi_Guide_105R5.pdf
-% This script solves the SDP relaxation problem:
-%   minimise     sum((N+2-k)*(x(k)^2)        for k=1:(N+1)
-%   subject to   sum(x(l)*x(l+k-1)) >= r(k)  for l=1:(N+2-k)
-%                XX=[X x; x' 1] > 0          for X=x*(x')
-% For example, with N=2 and k=1:(N+1), the function to be minimised is:
-%   sum(((N+1):-1:1).*(x(1:N+1).^2))
-% and the inequality constraints are:
-%   ones(1,3)*[x(1)*x(1) x(1)*x(2) x(1)*x(3); ... 
-%              x(2)*x(2) x(2)*x(3) 0        ; ... 
-%              x(3)*x(3) 0         0        ;] >= [r(3) r(2) r(1)]
-% and the vectorised SDP constraint is applied to:
-%   XX = [1     x(1)      x(2)      x(3)      ; ...
-%         x(1)  x(1)*x(1) x(1)*x(2) x(1)*x(3) ; ...
-%         x(2)  x(2)*x(1) x(2)*x(2) x(2)*x(3) ; ...
-%         x(3)  x(3)*x(1) x(3)*x(2) x(3)*x(3) ;]
-% The corresponding vector of unknowns is:
-%   [x(1)      x(2)      x(3)       ...
-%    x(1)*x(1) x(2)*x(2) x(3)*x(3)  ...
-%    x(1)*x(2) x(2)*x(3)            ...
-%    x(1)*x(3)]'
-% Section V of "Use SeDuMi to Solve LP, SDP and SCOP Problems: Remarks
-% and Examples" by W. S. Lu (available at
-% http://www.ece.uvic.ca/~wslu/Talk/SeDuMi-Remarks.pdf ) show how to
-% set up this problem for solution with SeDuMi. 
+% See Section 3.2 of SeDuMi_1_3/doc/SeDuMi_Guide_105R5.pdf and
+% sedumi_minphase_test as well as Section V of "Use SeDuMi to Solve LP, SDP
+% and SCOP Problems: Remarks % and Examples" by W. S. Lu (available at
+% http://www.ece.uvic.ca/~wslu/Talk/SeDuMi-Remarks.pdf
 
 test_common;
 
@@ -41,148 +15,126 @@ diary directFIRnonsymmetric_sdp_minimum_phase_test.diary.tmp
 strf="directFIRnonsymmetric_sdp_minimum_phase_test";
 
 % Design a low-pass filter
-N=20;fap=0.1;fas=0.15;
-h=remez(N,[0 fap fas 0.5]*2,[1 1 0 0]);
+fapl=0.1;fapu=0.2;Wap=1;
+fasl=0.05;fasu=0.25;Wasl=2;Wasu=2;
+M=15;N=(2*M)+1;
+h=remez(2*M,2*[0 fasl fapl fapu fasu 0.5],[0 0 1 1 0 0],...
+        [Wasl Wap Wasu],'bandpass');
 h=h(:);
-rh=conv(h,flipud(h));
 
-nplot=1024;
-[H,w]=freqz(h,1,nplot);
-plot(w*0.5/pi,20*log10(abs(H)));
-ylabel("Amplitude(dB)");
-xlabel("Frequency");
-grid("on");
-print(strcat(strf,"_h_response"),"-dpdflatex");
-close();
+% Brute force scaling of h so that max(abs(Hbrz))==1
+Nw=2^16;
+[h,w,H]=direct_form_scale(h,1,Nw);
 
-option_SDP_relaxation=false;
-if option_SDP_relaxation
-  
-  % Set up SeDuMi linear constraints
-  N1N4=(N+1)*(N+4)/2;
-  A=zeros(N+1,N1N4);
-  NS=N+2;
-  for k=1:(N+1)
-    A(k,(NS:(NS+N+1-k)))=ones(N+2-k,1);
-    NS=NS+N+1-k+1;
-  endfor
-  b=rh((N+1):-1:1);
+% Find the filter corresponding to |H|^2
+bbrz=conv(h(:),flipud(h(:)));
+% Find the filter corresponding to 1-|H|^2.
+bbrzc=[zeros(2*M,1); 1; zeros(2*M,1)]-bbrz;
+b=bbrzc(N:end);
 
-  % Set up SeDuMi SDP constraints
-  F=zeros(N+2,N+2);
-  F0=F;
-  F0(1,1)=1;
-  ct=vec(F0);
-  At=zeros((N+2)^2,N1N4);
-  for k=1:(N+1)
-    Fk=F;
-    Fk(1,k+1)=1;
-    Fk(k+1,1)=1;
-    At(:,k)=vec(Fk);
-  endfor
-  for k=1:(N+1)
-    for l=1:(N+2-k);
-      Fk=F;
-      Fk(l+k,l+1)=1;
-      Fk(l+1,l+k)=1;
-      At(:,N+k+l)=vec(Fk);
-    endfor
-  endfor
-
-  % Call SeDuMi
-  Att=-[A;At];
-  btt=-[zeros(1,N+1),((N+1):-1:1),zeros(1,N*(N+1)/2)]';
-  ctt=-[b;ct]';
-  K.l=N+1;
-  K.s=N+2;
-  pars.fid = 0;
-  [x,y,info] = sedumi(Att,btt,ctt,K,pars);
-
-  % Recover the positive definite matrix
-  XX=diag(x(1:(N+1)));
-  NS=N+2;
-  for k=1:N
-    XX=XX+diag(x(NS:(NS+N-k)),k)+diag(x(NS:(NS+N-k)),-k);
-    NS=NS+N-k+1;
-  endfor
-  XX=[1 x(1:N+1)';x(1:N+1) XX];
-  printf("isdefinite(XX)=%d\n",isdefinite(XX));
-  
-else
-
-  % Set up SeDuMi linear constraints
-  N1N2=(N+1)*(N+2)/2;
-  A=zeros(N+1,N1N2);
-  NS=1;
-  for k=1:(N+1)
-    A(k,(NS:(NS+N+1-k)))=ones(N+2-k,1);
-    NS=NS+N+1-k+1;
-  endfor
-  b=rh((N+1):-1:1);
-
-  % Set up SeDuMi SDP constraints
-  F=zeros(N+1,N+1);
-  ct=vec(F);
-  At=zeros((N+1)^2,N1N2);
-  for k=1:(N+1)
-    for l=1:(N+2-k);
-      Fk=F;
-      Fk(l+k-1,l)=1;
-      Fk(l,l+k-1)=1;
-      At(:,k+l-1)=vec(Fk);
-    endfor
-  endfor
-
-  % Call SeDuMi
-  Att=-[A;At];
-  btt=-[((N+1):-1:1),zeros(1,N*(N+1)/2)]';
-  ctt=-[b;ct]';
-  K.l=N+1;
-  K.s=N+1;
-  pars.fid = 0;
-  [x,y,info] = sedumi(Att,btt,ctt,K,pars);
-
-  % Recover the positive definite matrix
-  XX=diag(x(1:(N+1)));
-  NS=N+2;
-  for k=1:N
-    XX=XX+diag(x(NS:(NS+N-k)),k)+diag(x(NS:(NS+N-k)),-k);
-    NS=NS+N-k+1;
-  endfor
-  printf("isdefinite(XX)=%d\n",isdefinite(XX));
-  
+% Set up and solve the SeDuMi problem
+n=length(b);
+c=-vec(diag([(n-1):-1:0]));
+At=zeros(n*n,n);
+At(:,1)=vec(diag(ones(n,1)));
+K.s=n;
+for k=2:n,
+  At(:,k)=vec(diag(0.5*ones(n-k+1,1),k-1)+diag(0.5*ones(n-k+1,1),-k+1));
+endfor
+[x,y,info] = sedumi(At,b,c,K);
+printf("info.numerr = %d\n",info.numerr);
+printf("info.dinf = %d\n",info.dinf);
+printf("info.pinf = %d\n",info.pinf);
+if info.numerr==2
+  error("info.numerr == 2");
+endif
+% Check x and y
+tol=2e-6;
+if abs((c'*x)-(y'*b))>tol
+  error("abs((c'*x)-(y'*b))(%g)>tol(%g)",abs((c'*x)-(y'*b)),tol);
 endif
 
-% Compare solutions
-printf("info.numerr = %d\n",info.numerr);
-printf("info.dinf   = %d\n",info.dinf);
-printf("info.pinf   = %d\n",info.pinf);
-printf("btt'*y=%g\n",btt'*y);
-printf("ctt(:)'*x=%g\n",ctt(:)'*x);
+% Calculate the complementary minimum phase filter impulse response
+X=mat(x);
+[U,S,V]=svd(X);
+g=V(:,1);
+% Sanity check
+if abs(S(1)-(g'*X*g))>2*eps
+  error("abs(S(1)-(g'*X*g))(%g*eps)>2*eps",abs(S(1)-(g'*X*g))/eps);
+endif
 
-% Plot solution
-g=x(1:(N+1));
-g=g/sum(g);
-nplot=1024;
-[G,w]=freqz(g,1,nplot);
-plot(w*0.5/pi,20*log10(abs(G)));
-ylabel("Amplitude(dB)");
+% Brute force scaling of g so that max(abs(Gbrz))==1
+Nw=2^16;
+[g,w,G]=direct_form_scale(g,1,Nw);
+% Sanity check on roots of complementary minimum phase filter
+if max(abs(roots(g))) >= 1
+  error("max(abs(roots(g)))(%g) >= 1",max(abs(roots(g))));
+endif
+
+% Plot h response
+plot(w*0.5/pi,20*log10(abs(H)))
+title("Filter response");
 xlabel("Frequency");
+ylabel("Amplitude(dB)");
 grid("on");
+axis([0 0.5 -40 5])
+print(strcat(strf,"_h_response"),"-dpdflatex");
+close
+zplane(roots(h));
+title("Initial filter zeros");
+print(strcat(strf,"_h_zeros"),"-dpdflatex");
+close
+
+% Plot complementary minimum phase response
+plot(w*0.5/pi,20*log10(abs(G)))
+title("Complementary filter response");
+xlabel("Frequency");
+ylabel("Amplitude(dB)");
+grid("on");
+axis([0 0.5 -40 5])
 print(strcat(strf,"_g_response"),"-dpdflatex");
-close();
+close
+zplane(roots(g));
+title("Complementary filter zeros");
+print(strcat(strf,"_g_zeros"),"-dpdflatex");
+close
+
+% Plot combined response
+plot(w*0.5/pi,10*log10((abs(G).^2)+(abs(H).^2)))
+title("Combined filter response");
+xlabel("Frequency");
+ylabel("Amplitude(dB)");
+grid("on");
+axis([0 0.5 -0.000010 0.000002])
+print(strcat(strf,"_hg_response"),"-dpdflatex");
+close
+
+% Sanity check on combined response
+if max(abs((abs(G).^2)+(abs(H).^2)-1)) > 2*tol
+  error("max(abs((abs(G).^2)+(abs(H).^2)-1))(%g) > 2*tol(%g)",
+        max(abs((abs(G).^2)+(abs(H).^2)-1)),2*tol);
+endif
 
 % Save the filter specification
 fid=fopen(strcat(strf,".spec"),"wt");
+fprintf(fid,"tol=%g %% tolerance on results\n",tol);
 fprintf(fid,"N=%d %% filter order\n",N);
-fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
-fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
+fprintf(fid,"fasl=%g %% Stop band amplitude response lower edge\n",fasl);
+fprintf(fid,"fapl=%g %% Pass band amplitude response lower edge\n",fapl);
+fprintf(fid,"fapu=%g %% Pass band amplitude response upper edge\n",fapu);
+fprintf(fid,"fasu=%g %% Stop band amplitude response upper edge\n",fasu);
+fprintf(fid,"Wasl=%g %% Stop band amplitude response lower weight\n",Wasl);
+fprintf(fid,"Wap=%g %% Pass band amplitude response weight\n",Wap);
+fprintf(fid,"Wasu=%g %% Stop band amplitude response upper weight\n",Wasu);
 fclose(fid);
 
 % Save results
+print_polynomial(h,"h");
 print_polynomial(h,"h",strcat(strf,"_h_coef.m"));
+print_polynomial(g,"g");
 print_polynomial(g,"g",strcat(strf,"_g_coef.m"));
-save directFIRnonsymmetric_sdp_minimum_phase_test.mat N fap fas h g
+save directFIRnonsymmetric_sdp_minimum_phase_test.mat ...
+     N fasl fapl fapu fasu Wasl Wap Wasu h g
 
 % Done
 diary off

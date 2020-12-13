@@ -5,7 +5,7 @@ depends="complementaryFIRlattice_bandpass_test.m test_common.m \
 print_polynomial.m x2tf.m complementaryFIRlattice.m \
 complementaryFIRlatticeFilter.m crossWelch.m \
 complementaryFIRlattice2Abcd.m Abcd2tf.m KW.m \
-minphase.m complementaryFIRdecomp.oct"
+minphase.m direct_form_scale.m complementaryFIRdecomp.oct"
 
 tmp=/tmp/$$
 here=`pwd`
