@@ -85,7 +85,7 @@ strM1=sprintf(strM,"before exchange");
 title(strM1);
 ylabel("Amplitude");
 xlabel("Frequency");
-legend("A0","A1","Adu","Adl")
+legend("A0","A1","Adu","Adl");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -113,7 +113,7 @@ strM1=sprintf(strM,"after exchange");
 title(strM1);
 ylabel("Amplitude");
 xlabel("Frequency");
-legend("A0","A1","Adu","Adl")
+legend("A0","A1","Adu","Adl");
 legend("location","northeast");
 legend("boxoff");
 legend("left");

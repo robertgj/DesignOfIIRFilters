@@ -41,13 +41,13 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 verbose = 1
-fap =  0.22000
-Wap =  1
-fas =  0.28000
-Was =  1000
-ftp =  0.22000
-Wtp =  10
-td =  22
+fap = 0.2200
+Wap = 1
+fas = 0.2800
+Was = 1000
+ftp = 0.2200
+Wtp = 10
+td = 22
 Filter a: real pole/zero 1
 delEdelRpa=1.62535, approx=1.62535, diff=-6.05742e-07
 Filter a: conjugate pole/zero 1 radius

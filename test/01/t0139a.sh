@@ -40,9 +40,9 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test.ok << 'EOF'
 k =
  Columns 1 through 8:
-  -0.95026   0.99999  -0.95071   0.99987  -0.95354   0.99851  -0.96607   0.98925
+  -0.9503   1.0000  -0.9507   0.9999  -0.9535   0.9985  -0.9661   0.9893
  Columns 9 through 13:
-  -0.97526   0.97221  -0.94763   0.82399  -0.35017
+  -0.9753   0.9722  -0.9476   0.8240  -0.3502
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

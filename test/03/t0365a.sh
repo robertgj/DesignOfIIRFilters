@@ -42,13 +42,13 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test.ok << 'EOF'
 rank([A,B])~=rows(A) (2)
 rank([A,B])~=rows(A) (2)
-ngdir1_retimed =  1.0000
-est_varyd =  0.16667
-varyd =  0.16736
+ngdir1_retimed = 1.0000
+est_varyd = 0.1667
+varyd = 0.1674
 rank([A,B])~=rows(A) (2)
-ngdir1_retimed =  1.0000
-est_varyd =  0.16667
-varyd =  0.16736
+ngdir1_retimed = 1.0000
+est_varyd = 0.1667
+varyd = 0.1674
 rank([A,B])~=rows(A) (2)
 r1=0.090000,ngdir1_retimed=1.000000,est_varyd=0.166667,varyd=0.164384
 rank([A,B])~=rows(A) (2)

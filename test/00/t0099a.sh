@@ -43,38 +43,38 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-fc =  0.25000
+fc = 0.2500
 n =
-   0.16667   0.50000   0.50000   0.16667
+   0.1667   0.5000   0.5000   0.1667
 
 d =
    1.0000e+00  -3.0531e-16   3.3333e-01  -1.8504e-17
 
 p =
-   1.00000  -0.27346   0.72654
+   1.0000  -0.2735   0.7265
 
 A1BPStar =
-   1.36549  -0.78886   2.36549  -0.67309   1.00000
+   1.3655  -0.7889   2.3655  -0.6731   1.0000
 
 A1BP =
-   1.00000  -0.67309   2.36549  -0.78886   1.36549
+   1.0000  -0.6731   2.3655  -0.7889   1.3655
 
 A2BPStar =
-  -1.37638   0.37638  -1.00000
+  -1.3764   0.3764  -1.0000
 
 A2BP =
-   1.00000  -0.37638   1.37638
+   1.0000  -0.3764   1.3764
 
-A1ng =  7.0000
-A2ng =  3.0000
-A1ngABCD =  7.0000
-A1ngapABCD =  7.0000
-A2ngABCD =  3.0000
-A2ngapABCD =  3.0000
+A1ng = 7.0000
+A2ng = 3.0000
+A1ngABCD = 7.0000
+A1ngapABCD = 7.0000
+A2ngABCD = 3.0000
+A2ngapABCD = 3.0000
 use_exact_coefficients = 0
-nbits =  10
-scale =  512
-ndigits =  3
+nbits = 10
+scale = 512
+ndigits = 3
 A1s10f = [      -84,      488,      -76,      376 ]/512;
 A1s11f = [      505,      158,      506,      352 ]/512;
 A1s20f = [      -84,      488,      -76,      376 ]/512;
@@ -87,22 +87,22 @@ A2s20f = [      -81,      368 ]/512;
 A2s00f = [      506,      352 ]/512;
 A2s02f = [       81,     -368 ]/512;
 A2s22f = [      506,      352 ]/512;
-A1ngABCDf =  7.5062
-A1ngapABCDf =  7.5062
-A2ngABCDf =  2.8995
-A2ngapABCDf =  2.8995
-est_varA1yd =  0.70885
-varA1yd =  0.68465
-est_varA2yd =  0.32496
-varA2yd =  0.33069
-est_varyd =  0.38345
-varyd =  0.38520
-est_varA1yapd =  0.70885
-varA1yapd =  0.68465
-est_varA2yapd =  0.32496
-varA2yapd =  0.33069
-est_varyapd =  0.38345
-varyapd =  0.38520
+A1ngABCDf = 7.5062
+A1ngapABCDf = 7.5062
+A2ngABCDf = 2.8995
+A2ngapABCDf = 2.8995
+est_varA1yd = 0.7088
+varA1yd = 0.6846
+est_varA2yd = 0.3250
+varA2yd = 0.3307
+est_varyd = 0.3835
+varyd = 0.3852
+est_varA1yapd = 0.7088
+varA1yapd = 0.6846
+est_varA2yapd = 0.3250
+varA2yapd = 0.3307
+est_varyapd = 0.3835
+varyapd = 0.3852
 A1stdxf =
    128.67   128.65   129.28   129.37
 

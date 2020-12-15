@@ -42,73 +42,73 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-fc =  0.050000
+fc = 0.050000
 k =
-  -0.97432   0.92923  -0.53208
+  -0.9743   0.9292  -0.5321
 
 epsilon =
   -1  -1  -1
 
 p =
-   3.03862   0.34657   1.80947
+   3.0386   0.3466   1.8095
 
 c =
-   0.1005013   0.2986163   0.0101661   0.0028982
+   1.0050e-01   2.9862e-01   1.0166e-02   2.8982e-03
 
 A =
-   0.97432   0.22518   0.00000
-  -0.20925   0.90536   0.36951
-   0.04427  -0.19156   0.49442
+   0.9743   0.2252        0
+  -0.2092   0.9054   0.3695
+   0.0443  -0.1916   0.4944
 
 B =
-   0.00000
-   0.00000
-   0.84670
+        0
+        0
+   0.8467
 
 C =
    0.305385   0.103493   0.018395
 
-D =  0.0028982
+D = 2.8982e-03
 Cap =
    0.070452  -0.304829   0.786773
 
-Dap = -0.53208
-ng =  0.98228
-ngap =  5.0000
-ngABCD =  0.75000
-ngABCDap =  3.0000
-ngDecim =  1.1906
-ngDecimap =  5.0000
-ngPipe =  0.75000
-ngPipeap =  3.0000
-ngopt =  0.47049
-ngoptap =  3.0000
-nbits =  10
-scale =  512
-ndigits =  3
+Dap = -0.5321
+ng = 0.9823
+ngap = 5.0000
+ngABCD = 0.7500
+ngABCDap = 3.0000
+ngDecim = 1.1906
+ngDecimap = 5.0000
+ngPipe = 0.7500
+ngPipeap = 3.0000
+ngopt = 0.4705
+ngoptap = 3.0000
+nbits = 10
+scale = 512
+ndigits = 3
 kf =
-  -0.97656   0.92969  -0.53125
+  -0.9766   0.9297  -0.5312
 
 cf =
-   0.1015625   0.2968750   0.0097656   0.0019531
+   1.0156e-01   2.9688e-01   9.7656e-03   1.9531e-03
 
-ngf =  1.1019
-ngfap =  5.0000
-ngABCDf =  0.84725
-ngABCDfap =  3.0000
-ngPipef =  0.84725
-ngPipefap =  3.0000
-est_varyd =  0.17516
-varyd =  0.17410
-est_varyapd =  0.50000
-varyapd =  0.49283
+ngf = 1.1019
+ngfap = 5.0000
+ngABCDf = 0.8472
+ngABCDfap = 3.0000
+ngPipef = 0.8472
+ngPipefap = 3.0000
+est_varyd = 0.1752
+varyd = 0.1741
+est_varyapd = 0.5000
+varyapd = 0.4928
 stdxf =
    137.06   129.04   127.82
 
-est_varyABCDd =  0.15394
-varyABCDd =  0.15147
-est_varyABCDapd =  0.33333
-varyABCDapd =  0.32012
+est_varyABCDd = 0.1539
+varyABCDd = 0.1515
+est_varyABCDapd = 0.3333
+varyABCDapd = 0.3201
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

@@ -1,5 +1,14 @@
---- SparsePOP303.original/defaultParameter.m	2020-08-26 22:01:07.047993373 +1000
-+++ SparsePOP303/defaultParameter.m	2020-08-26 21:52:24.000000000 +1000
+--- SparsePOP303/defaultParameter.m	2018-09-18 13:19:23.000000000 +1000
++++ SparsePOP/defaultParameter.m	2020-12-14 09:00:49.654639906 +1100
+@@ -246,7 +246,7 @@
+ if ~isfield(param,'relaxOrder')
+     param.relaxOrder = 1; 
+ %   param.relaxOrder will be updated to
+-%       max{the minimum relaxation order ?½omega_{?½max}, param.relaxOrder}.
++%       max{the minimum relaxation order ? omega_{?max}, param.relaxOrder}.
+ end
+ 
+ if ~isfield(param,'sparseSW')
 @@ -461,9 +461,17 @@
  
  if ~isfield(param,'symbolicMath')
@@ -20,8 +29,8 @@
  		if ~isempty(x)
  			param.symbolicMath = 1;
  		else
---- SparsePOP303.original/compileSparsePOP.m	2020-08-26 22:01:07.048993364 +1000
-+++ SparsePOP303/compileSparsePOP.m	2020-08-26 21:52:24.000000000 +1000
+--- SparsePOP303/compileSparsePOP.m	2018-09-11 11:35:46.000000000 +1000
++++ SparsePOP/compileSparsePOP.m	2020-12-14 09:00:49.646639970 +1100
 @@ -20,33 +20,15 @@
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %
@@ -119,8 +128,8 @@
 +cd(mpwd);
  
  fprintf('Compilation finished successfully.\n');
---- SparsePOP303.original/readGMS.m	2020-08-26 22:01:07.046993382 +1000
-+++ SparsePOP303/readGMS.m	2020-08-26 21:59:18.117949496 +1000
+--- SparsePOP303/readGMS.m	2018-09-18 14:41:11.000000000 +1000
++++ SparsePOP/readGMS.m	2020-12-14 09:00:49.652639922 +1100
 @@ -189,8 +189,7 @@
  eqOrIneq = cell(1,noOfEquations);
  rightValue = cell(1,noOfEquations);
@@ -382,14 +391,13 @@
 -    poly.noTerms = noOfTerms + 1;
 -    poly.supports = sparse(1,poly.dimVar);
 -    poly.coef = -rightValue;
--else
--    poly.noTerms = noOfTerms;
--    poly.supports = [];
--    poly.coef = [];
 +    Poly.noTerms = noOfTerms + 1;
 +    Poly.supports = sparse(1,Poly.dimVar);
 +    Poly.coef = -rightValue;
-+else
+ else
+-    poly.noTerms = noOfTerms;
+-    poly.supports = [];
+-    poly.coef = [];
 +    Poly.noTerms = noOfTerms;
 +    Poly.supports = [];
 +    Poly.coef = [];
@@ -443,8 +451,8 @@
          lbd(i) = max(lbd(i),0);
          break;
          %i = noOfVariables + 1;
---- SparsePOP303.original/example/POPformat/randomwithEQ.m	2020-08-26 22:01:07.075993129 +1000
-+++ SparsePOP303/example/POPformat/randomwithEQ.m	2020-08-24 15:10:44.000000000 +1000
+--- SparsePOP303/example/POPformat/randomwithEQ.m	2018-09-11 11:35:47.000000000 +1000
++++ SparsePOP/example/POPformat/randomwithEQ.m	2020-12-14 09:00:49.652639922 +1100
 @@ -409,7 +409,7 @@
      same = 0; 
      i=1;
@@ -454,8 +462,8 @@
        diff = oneClique(1,startIndex:nDim) - cliqueSet(i,startIndex:nDim); 
        diff = max(diff,sparseZeros); 
        if length(find(diff)) == 0
---- SparsePOP303.original/example/POPformat/randomUnconst.m	2020-08-26 22:01:07.074993137 +1000
-+++ SparsePOP303/example/POPformat/randomUnconst.m	2020-08-24 15:10:44.000000000 +1000
+--- SparsePOP303/example/POPformat/randomUnconst.m	2018-09-11 11:35:47.000000000 +1000
++++ SparsePOP/example/POPformat/randomUnconst.m	2020-12-14 09:00:49.652639922 +1100
 @@ -379,7 +379,7 @@
      same = 0; 
      i=1;
@@ -465,8 +473,8 @@
        diff = oneClique(1,startIndex:nDim) - cliqueSet(i,startIndex:nDim); 
        diff = max(diff,sparseZeros); 
        if length(find(diff)) == 0
---- SparsePOP303.original/example/POPformat/randomConst.m	2020-08-26 22:01:07.075993129 +1000
-+++ SparsePOP303/example/POPformat/randomConst.m	2020-08-24 15:10:44.000000000 +1000
+--- SparsePOP303/example/POPformat/randomConst.m	2018-09-11 11:35:47.000000000 +1000
++++ SparsePOP/example/POPformat/randomConst.m	2020-12-14 09:00:49.651639930 +1100
 @@ -380,7 +380,7 @@
      same = 0; 
      i=1;
@@ -476,8 +484,8 @@
        diff = oneClique(1,startIndex:nDim) - cliqueSet(i,startIndex:nDim); 
        diff = max(diff,sparseZeros); 
        if length(find(diff)) == 0
---- SparsePOP303.original/example/POPformat/genPIS.m	2020-08-26 22:01:07.074993137 +1000
-+++ SparsePOP303/example/POPformat/genPIS.m	2020-08-26 21:52:24.000000000 +1000
+--- SparsePOP303/example/POPformat/genPIS.m	2018-09-11 11:35:47.000000000 +1000
++++ SparsePOP/example/POPformat/genPIS.m	2020-12-14 09:00:49.651639930 +1100
 @@ -23,24 +23,30 @@
  % 2011-06-22 H.Waki
  %
@@ -515,8 +523,8 @@
  for i=1:k
  	a(i, 1) = ceil(u*rvec(i)); 
  end
---- SparsePOP303.original/solveExample.m	2020-08-26 22:01:07.048993364 +1000
-+++ SparsePOP303/solveExample.m	2020-08-26 21:52:24.000000000 +1000
+--- SparsePOP303/solveExample.m	2018-09-24 15:59:49.000000000 +1000
++++ SparsePOP/solveExample.m	2020-12-14 09:00:49.652639922 +1100
 @@ -189,11 +189,7 @@
  param0.printLevel = [2,2];
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -550,8 +558,8 @@
  end
  % for my macbook
  %idx6 = find(probNumbers == 6);
---- SparsePOP303.original/subPrograms/Mex/conversion.cpp	2020-08-26 22:01:07.075993129 +1000
-+++ SparsePOP303/subPrograms/Mex/conversion.cpp	2020-08-24 15:10:44.000000000 +1000
+--- SparsePOP303/subPrograms/Mex/conversion.cpp	2018-09-11 11:35:47.000000000 +1000
++++ SparsePOP/subPrograms/Mex/conversion.cpp	2020-12-14 09:00:49.652639922 +1100
 @@ -2041,6 +2041,9 @@
                      + bassinfo_st[infolist[k]].sup.vap_size * polyinfo_st[infolist[k]].sup.pnz_size;
              numele += polyinfo_st[infolist[k]].sup.pnz_size * bassinfo_st[infolist[k]].sup.pnz_size;
@@ -572,8 +580,8 @@
  		cVec = InfoTable[k];
  	}
          
---- SparsePOP303.original/subPrograms/Mfiles/removeDependColumns1.m	2020-08-26 22:01:07.079993094 +1000
-+++ SparsePOP303/subPrograms/Mfiles/removeDependColumns1.m	2020-08-26 21:52:24.000000000 +1000
+--- SparsePOP303/subPrograms/Mfiles/removeDependColumns1.m	2018-09-11 11:35:47.000000000 +1000
++++ SparsePOP/subPrograms/Mfiles/removeDependColumns1.m	2020-12-14 09:00:49.654639906 +1100
 @@ -152,7 +152,9 @@
              % columns
              toBecheckedColumns = toBecheckedColumns(nzColumns);
@@ -593,8 +601,8 @@
              %->
              if debugSW == 1
                  fprintf('Apply the LU factorization to update the candidate column indices of linearly independent columns; U = \n');
---- SparsePOP303.original/subPrograms/Mfiles/my_unique.m	2020-08-26 22:01:07.078993102 +1000
-+++ SparsePOP303/subPrograms/Mfiles/my_unique.m	2020-08-26 21:52:24.000000000 +1000
+--- SparsePOP303/subPrograms/Mfiles/my_unique.m	2018-09-11 11:35:47.000000000 +1000
++++ SparsePOP/subPrograms/Mfiles/my_unique.m	2020-12-14 09:00:49.654639906 +1100
 @@ -1,7 +1,12 @@
  function [C, ia, ic] = my_unique(A, msg)
 +
@@ -615,8 +623,8 @@
 +end
 +
  return
---- SparsePOP303.original/subPrograms/Mfiles/convert2.m	2020-08-26 22:01:07.080993085 +1000
-+++ SparsePOP303/subPrograms/Mfiles/convert2.m	2020-08-26 21:52:24.000000000 +1000
+--- SparsePOP303/subPrograms/Mfiles/convert2.m	2018-09-11 11:35:47.000000000 +1000
++++ SparsePOP/subPrograms/Mfiles/convert2.m	2020-12-14 09:00:49.653639914 +1100
 @@ -123,7 +123,13 @@
          for i=1:objPoly0.noTerms          
              pp = objPoly0.supports(i,j); 

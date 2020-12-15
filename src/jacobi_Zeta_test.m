@@ -1,5 +1,5 @@
 % jacobi_Zeta_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 
 test_common;
 
@@ -90,15 +90,15 @@ x=10*pi*(1:nf)'/nf;
 for n=1:length(k),
   jz(:,n)=jacobi_Zeta(x,k(n));
 endfor
-plot(x/pi,jz(:,1),":",x/pi,jz(:,2),"-.",x/pi,jz(:,3),"--",x/pi,jz(:,4),"-")
-axis([0 10 -0.8 0.8])
+plot(x/pi,jz(:,1),":",x/pi,jz(:,2),"-.",x/pi,jz(:,3),"--",x/pi,jz(:,4),"-");
+axis([0 10 -0.8 0.8]);
 grid("on");
 title("Jacobi's Zeta function, Z(x,k) (DLMF Figure 22.16.3)");
 xlabel("x/$\\pi$")
 legend(sprintf("k=%3.1f",k(1)),sprintf("k=%3.1f",k(2)), ...
        sprintf("k=%4.2f",k(3)),sprintf("k=%8.6f",k(4)));
-legend("boxoff")
-legend("location","southwest")
+legend("boxoff");
+legend("location","southwest");
 print("jacobi_Zeta_test_DLMF_Figure_22_16_3","-dpdflatex");
 close
 

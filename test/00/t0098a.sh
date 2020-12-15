@@ -43,35 +43,35 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-fc =  0.050000
+fc = 0.050000
 n =
-   0.0028982   0.0086946   0.0086946   0.0028982
+   2.8982e-03   8.6946e-03   8.6946e-03   2.8982e-03
 
 d =
-   1.00000  -2.37409   1.92936  -0.53208
+   1.0000  -2.3741   1.9294  -0.5321
 
 A1Star =
-   1.00000  -1.64755   0.73234
+   1.0000  -1.6476   0.7323
 
 A2Star =
-   1.00000  -0.72654
+   1.0000  -0.7265
 
 A1 =
-   0.73234  -1.64755   1.00000
+   0.7323  -1.6476   1.0000
 
 A2 =
-  -0.72654   1.00000
+  -0.7265   1.0000
 
-A1ng =  3.0000
-A2ng =  1
-A1ngABCD =  3.0000
-A1ngapABCD =  3.0000
-A2ngABCD =  1.0000
-A2ngapABCD =  1.0000
+A1ng = 3.0000
+A2ng = 1
+A1ngABCD = 3.0000
+A1ngapABCD = 3.0000
+A2ngABCD = 1.0000
+A2ngapABCD = 1.0000
 use_exact_coefficients = 0
-nbits =  10
-scale =  512
-ndigits =  3
+nbits = 10
+scale = 512
+ndigits = 3
 A1s10f = [     -488,      376 ]/512;
 A1s11f = [      158,      352 ]/512;
 A1s20f = [     -488,      376 ]/512;
@@ -84,27 +84,27 @@ A2s20f = [     -368 ]/512;
 A2s00f = [      352 ]/512;
 A2s02f = [      368 ]/512;
 A2s22f = [      352 ]/512;
-A1ngABCDf =  3.2501
-A1ngapABCDf =  3.1899
-A2ngABCDf =  0.95605
-A2ngapABCDf =  0.95500
-nsamples =  16384
-est_varA1yd =  0.35418
-varA1yd =  0.34396
-est_varA2yd =  0.16300
-varA2yd =  0.16222
-est_varyd =  0.25430
-varyd =  0.26062
-est_varA1yapd =  0.34916
-varA1yapd =  0.34396
-est_varA2yapd =  0.16292
-varA2yapd =  0.16222
-est_varyapd =  0.25302
-varyapd =  0.26062
+A1ngABCDf = 3.2501
+A1ngapABCDf = 3.1899
+A2ngABCDf = 0.9560
+A2ngapABCDf = 0.9550
+nsamples = 16384
+est_varA1yd = 0.3542
+varA1yd = 0.3440
+est_varA2yd = 0.1630
+varA2yd = 0.1622
+est_varyd = 0.2543
+varyd = 0.2606
+est_varA1yapd = 0.3492
+varA1yapd = 0.3440
+est_varA2yapd = 0.1629
+varA2yapd = 0.1622
+est_varyapd = 0.2530
+varyapd = 0.2606
 A1stdxf =
    133.64   130.73
 
-A2stdxf =  128.18
+A2stdxf = 128.18
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

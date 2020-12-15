@@ -1,0 +1,12 @@
+--- YALMIP/@sdpvar/mtimes.m	2020-12-14 12:48:21.510920879 +1100
++++ YALMIP-develop/@sdpvar/mtimes.m	2020-12-14 12:47:49.410187697 +1100
+@@ -354,7 +354,8 @@
+                 if prod(size(mt_x))==1 % Bug in Solaris and Linux, ML 6.X
+                     allmt_xplusy = local_mt(:,testthese) + sparse(repmat(full(mt_x),1,nyvars));
+                 else
+-                    allmt_xplusy = bsxfun(@plus,local_mt(:,testthese),mt_x);
++                    allmt_xplusy = bsxfun("plus",local_mt(:,testthese),mt_x);
++                 %   allmt_xplusy = bsxfun(@plus,local_mt(:,testthese),mt_x);
+                  %   allmt_xplusy = local_mt(:,testthese) + repmat(mt_x,1,nyvars);
+                 end
+                 allhash = allmt_xplusy'*hash;

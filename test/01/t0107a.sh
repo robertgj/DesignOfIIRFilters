@@ -41,8 +41,9 @@ warning: Using Octave version of function spectralfactor()!
 warning: called from
     spectralfactor at line 33 column 3
     spectralfactor_mfile_test at line 14 column 2
+
 q =
-   0.83433  -4.05685   8.00238  -8.00238   4.05685  -0.83433
+   0.8343  -4.0569   8.0024  -8.0024   4.0569  -0.8343
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

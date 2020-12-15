@@ -37,9 +37,9 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-dBpass =  1
-dBstop =  40
-fc =  0.12500
+dBpass = 1
+dBstop = 40
+fc = 0.1250
 Testing ellip. LP,fc=0.125000,dBpass=1.000000,dBstop=40.000000
 Testing N=1
 Testing N=2

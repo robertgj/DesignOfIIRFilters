@@ -43,13 +43,13 @@ cat > test.ok << 'EOF'
 rank([A,B])~=rows(A) (3)
 rank([A,B])~=rows(A) (3)
 rank([A,B])~=rows(A) (3)
-ngMH3dt =  12.795
-est_varyd =  1.1496
-varyd =  0.72576
+ngMH3dt = 12.795
+est_varyd = 1.1496
+varyd = 0.7258
 rank([A,B])~=rows(A) (3)
-ngMH3dt =  24.763
-est_varyd =  2.1469
-varyd =  0.16584
+ngMH3dt = 24.763
+est_varyd = 2.1469
+varyd = 0.1658
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

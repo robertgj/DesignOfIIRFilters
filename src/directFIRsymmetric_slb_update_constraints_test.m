@@ -63,9 +63,9 @@ axis([0 0.5 0.8 1.2]);
 title(strM);
 ylabel("Amplitude");
 legend("A","Adu","Adl");
-legend("boxoff")
-legend("left")
-legend("location","northeast")
+legend("boxoff");
+legend("left");
+legend("location","northeast");
 subplot(212);
 plot(fa,A,fa,Adu,fa,Adl,fa(vS.al),Al,"x",fa(vS.au),Au,"+");
 axis([0 0.5 -0.02 0.02]);

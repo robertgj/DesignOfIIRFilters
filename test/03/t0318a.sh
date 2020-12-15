@@ -39,32 +39,29 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-npoints =  10000
+npoints = 10000
 nchk=[nasl,nasl+1,napl-1,napl,napu,napu+1,nasu-1,nasu];
 nchk=[ 1001 1002 2000 2001 4001 4002 5000 5001 ];
 wa(nchk)*0.5/pi=[  0.05 0.05005 0.09995    0.1    0.2    0.2 0.2499   0.25 ];
 Ad(nchk)=[      0      0      0      1      1      0      0      0 ];
 Wa(nchk)=[     30      0      0      1      1      0      0     30 ];
-tol =  0.000000010000
-EsqPW =  0.00051993
-Esq =  0.00052043
-Esq_T =  0.00052043
-Esq_Q =  0.00052042
+tol = 1.0000e-08
+EsqPW = 5.1993e-04
+Esq = 5.2043e-04
+Esq_T = 5.2043e-04
+Esq_Q = 5.2042e-04
 IER_Q = 0
-NFUN_Q =  2037
-ERR_Q =  0.0000000039791
-Esq_V =  0.00052043
-NFUN_V =  421
-warning: A single tolerance input now sets AbsTol, not RelTol
-warning: called from
-    directFIRsymmetricSqErr_test at line 65 column 23
-Esq_CC =  0.00052043
-ERR_CC =  0.0000000091266
-NR_CC =  1367
-Esq_GK =  0.00052041
-ERR_GK =  0.0000000082074
-Esq_L =  0.00052043
-NFUN_L =  182
+NFUN_Q = 2037
+ERR_Q = 3.9791e-09
+Esq_V = 5.0893e-04
+NFUN_V = 237
+Esq_CC = 5.2043e-04
+ERR_CC = 9.1266e-09
+NR_CC = 1367
+Esq_GK = 5.2041e-04
+ERR_GK = 8.2074e-09
+Esq_L = 5.2043e-04
+NFUN_L = 182
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

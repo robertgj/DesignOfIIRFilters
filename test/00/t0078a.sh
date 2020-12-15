@@ -46,22 +46,22 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-maxiter =  2000
+maxiter = 2000
 verbose = 1
-tol =  0.0000050000
-Mmodel =  9
-Dmodel =  9.5000
-dmask =  8.5000
-Tnominal =  94
-fap =  0.30000
-dBap =  0.10000
-Wap =  1
-tpr =  2
-Wtp =  1
-fas =  0.31000
-dBas =  50
-Was =  10
-rho =  0.96875
+tol = 5.0000e-06
+Mmodel = 9
+Dmodel = 9.5000
+dmask = 8.5000
+Tnominal = 94
+fap = 0.3000
+dBap = 0.1000
+Wap = 1
+tpr = 2
+Wtp = 1
+fas = 0.3100
+dBas = 50
+Was = 10
+rho = 0.9688
 vRx0 before exchange constraints:
 Current constraints:
 al=[ 74 150 177 270 296 400 519 585 601 ]

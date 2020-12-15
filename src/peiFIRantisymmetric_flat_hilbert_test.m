@@ -25,9 +25,9 @@ tstr=sprintf("Amplitude responses of Pei and Wang maximally flat at \
 $\\omega=\\frac{\\pi}{2}$ Hilbert filters for M=5,10,...,%d",M);
 title(tstr);
 text(0.18,-0.002,"M=5")
-text(0.04,-0.002,"M=25")
+text(0.02,-0.002,"M=25")
 legend("M=5","M=10","M=15","M=20","M=25");
-legend("location","northeast");
+legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");

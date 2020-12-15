@@ -5,6 +5,9 @@
 
 test_common;
 
+% Suppress YALMIP warning from norm method in @sdpvar class
+% warning("off","Octave:colon-nonscalar-argument");
+                                  
 delete("yalmip_complex_test.diary");
 delete("yalmip_complex_test.diary.tmp");
 diary yalmip_complex_test.diary.tmp
@@ -68,6 +71,16 @@ for k = 1:length(solvernames)
   e = Z(:)-P(:)
   F = [Z>=0];
   diagnostics = optimize(F,e'*e,options);
+  % Fails with YALMIP R20200930 and octave-6.1.0 :
+  %  error: octave_base_value::function_value(): wrong type argument
+  %                                              '<unknown type>'
+  %  error: called from
+  %      mtimes at line 524 column 13
+  %
+  % I replaced @sdpar/mtimes.m line 357 :
+  %  allmt_xplusy = bsxfun(@plus,local_mt(:,testthese),mt_x);
+  % with :
+  %  allmt_xplusy = bsxfun("plus",local_mt(:,testthese),mt_x);
   diagnostics.info
   diagnostics.problem
   Z4 = value(Z)

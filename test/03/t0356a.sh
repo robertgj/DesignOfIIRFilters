@@ -40,12 +40,12 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-ngMH3d =  7.2444
-est_varyd =  0.68703
-varyd =  0.70929
-ngMH3d =  11.881
-est_varyd =  1.0734
-varyd =  1.0813
+ngMH3d = 7.2444
+est_varyd = 0.6870
+varyd = 0.7093
+ngMH3d = 11.881
+est_varyd = 1.0734
+varyd = 1.0813
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

@@ -71,9 +71,9 @@ title(strM);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 legend("A0","Adu","Adl");
-legend("boxoff")
-legend("left")
-legend("location","northeast")
+legend("boxoff");
+legend("left");
+legend("location","northeast");
 print("directFIRhilbert_slb_update_constraints_test_hM0","-dpdflatex");
 close
 

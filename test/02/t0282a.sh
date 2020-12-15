@@ -47,8 +47,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-maxiter =  2000
-tol =  0.00010000
+maxiter = 2000
+tol = 1.0000e-04
 verbose = 1
 vR0 before exchange constraints:
 al=[ 206 411 ]

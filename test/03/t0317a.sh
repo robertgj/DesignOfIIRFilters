@@ -39,32 +39,29 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-npoints =  10000
+npoints = 10000
 nchk=[nasl,nasl+1,napl-1,napl,napu,napu+1,nasu-1,nasu];
 nchk=[ 1001 1002 2000 2001 4001 4002 5000 5001 ];
 wa(nchk)*0.5/pi=[  0.05 0.05005 0.09995    0.1    0.2    0.2 0.2499   0.25 ];
 Ad(nchk)=[      0      0      0      1      1      0      0      0 ];
 Wa(nchk)=[     30      0      0      1      1      0      0     30 ];
-tol =  0.000000010000
-EsqPW =  0.00051993
-Esq =  0.00052043
-Esq_A =  0.00052043
-Esq_Q =  0.00051993
+tol = 1.0000e-08
+EsqPW = 5.1993e-04
+Esq = 5.2043e-04
+Esq_A = 5.2043e-04
+Esq_Q = 5.1993e-04
 IER_Q = 0
-NFUN_Q =  1575
-ERR_Q =  0.0000000012347
-Esq_V =  0.00051996
-NFUN_V =  421
-warning: A single tolerance input now sets AbsTol, not RelTol
-warning: called from
-    directFIRsymmetricSqErr_bandpass_test at line 64 column 28
-Esq_CC =  0.00012683
-ERR_CC =  0.000083049
-NR_CC =  27089
-Esq_GK =  0.000048235
-ERR_GK =  0.0000000062573
-Esq_L =  0.00011167
-NFUN_L =  9158
+NFUN_Q = 1575
+ERR_Q = 1.2347e-09
+Esq_V = 5.0873e-04
+NFUN_V = 237
+Esq_CC = 1.2683e-04
+ERR_CC = 8.3049e-05
+NR_CC = 27089
+Esq_GK = 4.8235e-05
+ERR_GK = 6.2573e-09
+Esq_L = 1.1167e-04
+NFUN_L = 9158
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

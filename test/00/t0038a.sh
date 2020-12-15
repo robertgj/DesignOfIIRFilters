@@ -42,11 +42,11 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 verbose = 1
-fap =  0.15000
+fap =  0.1500
 Wap =  1
-fas =  0.20000
+fas =  0.2000
 Was =  400
-ftp =  0.17500
+ftp =  0.1750
 Wtp =  100
 tp =  28.750
 Filter a: real pole/zero 1

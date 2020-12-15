@@ -42,8 +42,9 @@ warning: Using Octave m-file version of function schurFIRdecomp()!
 warning: called from
     schurFIRdecomp at line 29 column 3
     schurFIRdecomp_mfile_test at line 12 column 2
+
 k =
-  -0.93857   0.96699  -0.92513   0.77087  -0.29478
+  -0.9386   0.9670  -0.9251   0.7709  -0.2948
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

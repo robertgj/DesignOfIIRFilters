@@ -46,18 +46,18 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-maxiter =  2000
-tol =  0.0000050000
+maxiter = 2000
+tol = 5.0000e-06
 verbose = 0
-fapl =  0.15000
-fasl =  0.17500
-fasu =  0.27250
-fapu =  0.30000
-Wap =  1
-Was =  1
-delta_p =  0.0000010000
-delta_s =  0.0000010000
-nf =  2000
+fapl = 0.1500
+fasl = 0.1750
+fasu = 0.2725
+fapu = 0.3000
+Wap = 1
+Was = 1
+delta_p = 1.0000e-06
+delta_s = 1.0000e-06
+nf = 2000
 al=[ 408 601 799 877 1018 1334 ]
 au=[ 701 1091 ]
 al=[ 408 601 799 877 1018 1334 ]

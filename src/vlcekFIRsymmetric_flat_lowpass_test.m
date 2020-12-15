@@ -37,7 +37,7 @@ plot(f,Av)
 axis([-0.05 0.55 -0.05 1.05])
 grid("on");
 text(0.45,0.9,sprintf("K=%d",K(1)));
-text(0.01,0.9,sprintf("K=%d",K(end)));
+text(-0.02,0.9,sprintf("K=%d",K(end)));
 xlabel("Frequency");
 ylabel("Amplitude");
 title(sprintf("Vlcek maximally-flat low-pass filter responses for \

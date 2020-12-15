@@ -44,7 +44,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 verbose = 1
-tol =  0.000010000
+tol = 1.0000e-05
 al=[ 601 ]
 au=[ 1 60 106 161 209 276 303 367 412 487 516 581 621 626 ]
 tl=[ 558 585 ]

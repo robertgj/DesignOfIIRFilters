@@ -48,19 +48,19 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-maxiter =  2000
-tol =  0.0000050000
+maxiter = 2000
+tol = 5.0000e-06
 verbose = 1
-fap =  0.15000
-dBap =  0.10000
-Wap =  1
-fas =  0.30000
-dBas =  50
-Was =  10
-ftp =  0.25000
-tp =  6
-tpr =  0.010000
-Wtp =  0.10000
+fap = 0.1500
+dBap = 0.1000
+Wap = 1
+fas = 0.3000
+dBas = 50
+Was = 10
+ftp = 0.2500
+tp = 6
+tpr = 0.010000
+Wtp = 0.1000
 vR2 before exchange constraints:
 al=[ 301 ]
 f(al)=[ 0.150000 ](fs=1)

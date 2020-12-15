@@ -5,7 +5,7 @@
 % P.Zahradnik, M.Susta, B.Simak and M.Vlcek, IEEE Transactions on Circuits
 % and Systems-II:Express Briefs, Vol. 64, No. 4, April 2017, pp. 407-411
 % 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 
 test_common;
 
@@ -202,9 +202,11 @@ for l=1:4,
 
   figure(1,"visible","off");
   subplot(2,2,l)
-  plot(w,Q,wdr,Qdr,"or");
+  plot(w,Q,wdr,Qdr,"or","markersize",4);
   axis([-1.05 1.05 -0.05 1.05]);
-  xlabel("$w$");
+  if l>=3
+    xlabel("$w$");
+  endif
   ylabel(sprintf("$Q_{%d,%d}(w,%4.2f)$",p(l),q(l),k));
   strt=sprintf("q=%d and p=%d",q(l),p(l));
   title(strt);
@@ -212,9 +214,11 @@ for l=1:4,
 
   figure(2,"visible","off");
   subplot(2,2,l)
-  h=plot(w,twoargHp*n/pi,wdr,twoargHpdr*n/pi,"or");
+  h=plot(w,twoargHp*n/pi,wdr,twoargHpdr*n/pi,"or","markersize",4);
   axis([-1.05 1.05 -9 5]);
-  xlabel("$w$");
+  if l>=3
+    xlabel("$w$");
+  endif
   ylabel(sprintf("$2\\arg H(u+u_{0},%4.2f)(%d/\\pi)$",k,n));
   title(strt);
   grid("on");
@@ -250,16 +254,16 @@ close
 
 % Show detailed response at either end
 subplot(311)
-plot(w,Q,wdr,Qdr,"or")
+plot(w,Q,wdr,Qdr,"or","markersize",4)
 axis([-1 -0.95 -0.01 0.11]);
 title(sprintf("$Q_{%d,%d}(w,%10.8f)$",p,q,k));
 grid("on");
 subplot(312)
-plot(w,Q,wdr,Qdr,"or"); 
+plot(w,Q,wdr,Qdr,"or","markersize",4); 
 axis([ws-0.05 wp+0.05 -0.05 1.05]);
 grid("on");
 subplot(313)
-plot(w,Q,wdr,Qdr,"or");
+plot(w,Q,wdr,Qdr,"or","markersize",4);
 axis([0.95 1 -0.01 0.11]);
 xlabel("$w$");
 grid("on");
@@ -314,30 +318,37 @@ print_polynomial(havu,"h",sprintf("%s_h_%d_%d_coef.m",strf,p,q),"%13.10f");
 for l=1:m,
   subplot(m,2,(2*l)-1);
   plot(wHazs*0.5/pi,abs(Hazs{l}));
+  if l==1 || l==3
+    axis([0 0.5 0 2]);
+  endif
   title(sprintf("Subfilter m=%d",rho(l)));
   if l==m
     xlabel("Frequency");
+    ylabel("Amplitude");
+  else
+    axis("tic","labely");
   endif
-  ylabel("Amplitude");
   grid("on");
-
+  
   if l==1
     strt_start=sprintf("%%s cascade m=%d",rho(l));
     continue;
+  endif
+  strt_start=strcat(strt_start,sprintf(",%d",rho(l)));
+  subplot(m,2,(2*l));
+  plot(wHazs*0.5/pi,abs(Hazsc{l}));
+  if l==1 || l==3
+    axis([0 0.5 0 2]);
+  endif
+  if l==m
+    strt=sprintf(strt_start,"Full");
+    xlabel("Frequency");
   else
-    subplot(m,2,(2*l));
-    plot(wHazs*0.5/pi,abs(Hazsc{l}));
-    strt_start=strcat(strt_start,sprintf(",%d",rho(l)));
-    if l==m
-      xlabel("Frequency");
-      strt=sprintf(strt_start,"Full");
-    else
-      strt=sprintf(strt_start,"Partial");
-    endif
-  endif 
-  grid("on");
+    strt=sprintf(strt_start,"Partial");
+    axis("tic","labely");
+  endif
   title(strt);
-  ylabel("Amplitude");
+  grid("on");
 endfor
 print(sprintf("%s_Q_%d_%d_subfilters",strf,p,q),"-dpdflatex");
 close
@@ -394,15 +405,16 @@ del=1e-4;
 dr=[-0.05 1.05];
 clf
 subplot(311)
-plot(w,Q,wdr,Qdr,"or")
+plot(w,Q,wdr,Qdr,"or","markersize",4)
 axis([-1 -1+del del*dr]);
 title(sprintf("$Q_{%d,%d}(w,%10.8f)$",p,q,k));
 grid("on");
 subplot(312)
-plot(w,Q,wdr,Qdr,"or");
+plot(w,Q,wdr,Qdr,"or","markersize",4);
 axis([ws-5*del wp+5*del dr]);
+grid("on");
 subplot(313)
-plot(w,Q,wdr,Qdr,"or");
+plot(w,Q,wdr,Qdr,"or","markersize",4);
 axis([1-del 1 del*dr]);
 xlabel("$w$");
 grid("on");
@@ -452,7 +464,6 @@ subplot(2,2,1);
 plot(wHazs*0.5/pi,20*log10(abs(Hazs{1})));
 axis([0 0.5 -100 20])
 title("Subfilter m=1");
-xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 subplot(2,2,2);
@@ -460,7 +471,6 @@ plot(wHazs*0.5/pi,20*log10(abs(Hazs{2})));
 axis([0 0.5 -100 20])
 title("Subfilter m=2");
 grid("on");
-xlabel("Frequency");
 ylabel("Amplitude(dB)");
 subplot(2,2,3);
 plot(wHazs*0.5/pi,20*log10(abs(Hazs{3})));

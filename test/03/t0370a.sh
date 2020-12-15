@@ -41,15 +41,15 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-ngMH2d_retimed =  22.871
-est_varyd =  1.9892
-varyd =  1.9811
-ngMH2d_retimed =  36.636
-est_varyd =  3.1363
-varyd =  3.4086
-ngMH2d_retimed =  96959.36149
-est_varyd =  8080.0
-varyd =  7654.9
+ngMH2d_retimed = 22.871
+est_varyd = 1.9892
+varyd = 1.9811
+ngMH2d_retimed = 36.636
+est_varyd = 3.1363
+varyd = 3.4086
+ngMH2d_retimed = 9.6959e+04
+est_varyd = 8080.0
+varyd = 7654.9
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

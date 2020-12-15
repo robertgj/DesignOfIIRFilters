@@ -44,21 +44,21 @@ cat > test.ok << 'EOF'
 rank([A,B])~=rows(A) (4)
 rank([A,B])~=rows(A) (4)
 rank([A,B])~=rows(A) (4)
-ngAL7c_retimed =  2.8352
-est_varyd =  0.31960
-varyd =  0.33836
+ngAL7c_retimed = 2.8352
+est_varyd = 0.3196
+varyd = 0.3384
 rank([A,B])~=rows(A) (4)
-ngAL7c_retimed =  1.0000
-est_varyd =  0.16667
-varyd =  0.17139
+ngAL7c_retimed = 1.0000
+est_varyd = 0.1667
+varyd = 0.1714
 rank([A,B])~=rows(A) (4)
-ngAL7c_retimed =  1.3322
-est_varyd =  0.19435
-varyd =  0.19837
+ngAL7c_retimed = 1.3322
+est_varyd = 0.1943
+varyd = 0.1984
 rank([A,B])~=rows(A) (4)
-ngAL7c_retimed =  9900.8
-est_varyd =  825.15
-varyd =  800.90
+ngAL7c_retimed = 9900.8
+est_varyd = 825.15
+varyd = 800.90
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

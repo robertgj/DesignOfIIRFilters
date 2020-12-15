@@ -38,12 +38,10 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 q =
- Columns 1 through 6:
-     0.59180    -7.43485    43.36201  -155.44139   382.09147  -680.07524
- Columns 7 through 12:
-   901.68996  -901.68996   680.07524  -382.09147   155.44139   -43.36201
- Columns 13 and 14:
-     7.43485    -0.59180
+ Columns 1 through 7:
+     0.5918    -7.4348    43.3620  -155.4414   382.0915  -680.0752   901.6900
+ Columns 8 through 14:
+  -901.6900   680.0752  -382.0915   155.4414   -43.3620     7.4348    -0.5918
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

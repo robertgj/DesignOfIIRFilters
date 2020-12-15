@@ -40,15 +40,15 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-maxiter =  5000
-tol =  0.0000010000
+maxiter = 5000
+tol = 1.0000e-06
 verbose = 0
-fap =  0.10000
-fas =  0.12500
-dBap =  0.10000
-dBas =  50
-fpp =  0.080000
-tp =  20
+fap = 0.1000
+fas = 0.1250
+dBap = 0.1000
+dBas = 50
+fpp = 0.080000
+tp = 20
 norm(delta)/norm(ak) < tol
 Solution is feasible!
 abs_min_z = [   1.0000000000,   1.0000000000,   1.0000000000,   1.0000000000, ... 

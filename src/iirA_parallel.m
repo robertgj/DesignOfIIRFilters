@@ -1,7 +1,7 @@
-function [A,gradA,hessA]=iirA_parallel(w,x,U,V,M,Q,R,tol,Np,parallel_threshold)
-% [A,gradA,hessA]=iirA_parallel(w,x,U,V,M,Q,R,tol,Np,parallel_threshold)
+function [A,gradA]=iirA_parallel(w,x,U,V,M,Q,R,tol,Np,parallel_threshold)
+% [A,gradA]=iirA_parallel(w,x,U,V,M,Q,R,tol,Np,parallel_threshold)
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -74,20 +74,16 @@ function [A,gradA,hessA]=iirA_parallel(w,x,U,V,M,Q,R,tol,Np,parallel_threshold)
   tolc=mat2cell(kron(ones(1,Nwc),tol),1,ones(1,Nwc));
 
   % Call iirA (size(xc)~=size(U) etc. means I can't use pararrayfun())
-  if nargout == 1
-    Ac=parcellfun(Np,@iirA,...
-                  wc,xc,Uc,Vc,Mc,Qc,Rc,tolc, ...
-                  "VerboseLevel",0, ...
-                  "ChunksPerProc", parallel_threshold, ...
-                  "UniformOutput",false,
-                  "ErrorHandler",@iirA_parallel_error_handler);
-  else
-    [Ac,gradAc]=parcellfun(Np,@iirA,...
-                           wc,xc,Uc,Vc,Mc,Qc,Rc,tolc, ...
-                           "VerboseLevel",0, ...
-                           "ChunksPerProc", parallel_threshold, ...
-                           "UniformOutput",false, ...
-                           "ErrorHandler",@iirA_parallel_error_handler);
+  if exist("src","dir")
+    cd_to_src=true;
+    cd("src"); % parcellfun is broken under Octave-6.1.0
+  endif
+  [Ac,gradAc] = ...
+  parcellfun(Np,@iirA,wc,xc,Uc,Vc,Mc,Qc,Rc,tolc, ...
+             "VerboseLevel",0,"ChunksPerProc", parallel_threshold, ...
+             "UniformOutput",false,"ErrorHandler",@iirA_parallel_error_handler);
+  if exist("cd_to_src")
+    cd("..");
   endif
   
   % Rearrange the outputs

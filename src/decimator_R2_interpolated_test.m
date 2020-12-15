@@ -151,7 +151,7 @@ ylabel("Amplitude(dB)")
 xlabel("Frequency");
 title(sprintf("R=%d IIR filter interpolated by P=%d and \
 FIR anti-aliasing filter",R,P));
-legend("Interpolated IIR","Anti-aliasing FIR")
+legend("Interpolated IIR","Anti-aliasing FIR");
 legend("location","northeast");
 legend("boxoff");
 legend("left");

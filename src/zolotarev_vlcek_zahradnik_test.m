@@ -122,14 +122,13 @@ ZSwx=Swx.*sqrt(1-(wx.^2));
 subplot(211);
 plot(wx,ZSwx,'-',wx,Zwx,'--');
 axis([-1.1 1.1 -2 8]);
-xlabel("$w$");
 ylabel("Amplitude");
 grid("on");
 legend_ZSwx=sprintf("$(1-w^{2})^{1/2}S_{%d,%d}(u,%4.2f)$",p,q,k);
 legend_Zwx=sprintf("$Z_{%d,%d}(u,%4.2f)$",p,q,k);
-legend(legend_ZSwx,legend_Zwx)
+legend(legend_ZSwx,legend_Zwx);
 hlegend = findobj(gcf(),"type","axes","Tag","legend");
-set(hlegend, "FontSize", 10)
+set(hlegend, "FontSize", 10);
 legend("location","north");
 legend("boxoff");
 legend("left");
@@ -143,7 +142,7 @@ xlabel("$w$");
 ylabel("Amplitude");
 legend_Swx=sprintf("$S_{%d,%d}(u,%4.2f)$",p,q,k);
 legend_SZwx=sprintf("$Z_{%d,%d}(u,%4.2f)/(1-w^{2})^{1/2}$",p,q,k);
-legend(legend_Swx,legend_SZwx)
+legend(legend_Swx,legend_SZwx);
 legend("location","north");
 legend("boxoff");
 legend("left");

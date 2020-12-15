@@ -1,5 +1,5 @@
 % svcasc2noise_example_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -13,7 +13,6 @@ try
 catch
   warning("Loading the parallel package failed!");
 end_try_catch
- 
 
 N=20;
 fc=0.1;
@@ -285,6 +284,10 @@ filter}\n", N, pass);
 
   % Run svcascf for direct-form and block optimised coefficients
   if exist("parcellfun")
+    if exist("src","dir")
+      cd_to_src=true;
+      cd("src"); % parcellfun is broken under Octave-6.1.0
+    endif
     [y,xx1,xx2] = ...
     parcellfun(5,@svcascf, ...
                {a11dirf,a11dirf,a11boptf,a11boptf,a11boptf}, ...
@@ -301,6 +304,9 @@ filter}\n", N, pass);
                {zeros(size(dddirf)),zeros(size(dddirf)), ...
                 zeros(size(ddboptf)),zeros(size(ddboptf)),xbits}, ...
                "UniformOutput", false);
+    if exist("cd_to_src")
+      cd("..");
+    endif
     ydir=y{1};    xx1dir=xx1{1};    xx2dir=xx2{1};
     ydirf=y{2};   xx1dirf=xx1{2};   xx2dirf=xx2{2};
     ybopt=y{3};   xx1bopt=xx1{3};   xx2bopt=xx2{3};

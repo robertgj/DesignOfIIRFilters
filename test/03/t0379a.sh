@@ -38,11 +38,11 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-n =  6
-m =  9
-fp =  0.20000
-fs =  0.35000
-dBap =  0.10000
+n = 6
+m = 9
+fp = 0.2000
+fs = 0.3500
+dBap = 0.1000
 n= 6,m=7,max_dBap=0.000593,min_dBap=-0.099421,max_dBas=-104.43
 n= 6,m=8,max_dBap=0.000307,min_dBap=-0.099446,max_dBas=-115.82
 n= 6,m=9,max_dBap=0.000265,min_dBap=-0.099418,max_dBas=-127.29

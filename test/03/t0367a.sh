@@ -41,26 +41,26 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-ngGM2_retimed =  3.0000
-est_varyd =  0.33333
-varyd =  0.33011
-ngGM2_retimed =  1.0000
+ngGM2_retimed = 3.0000
+est_varyd = 0.3333
+varyd = 0.3301
+ngGM2_retimed = 1.0000
 ep1=-1,ep2=-1,est_varyd=0.166667,varyd=0.167990
-ngGM2_retimed =  1.0000
+ngGM2_retimed = 1.0000
 ep1=-1,ep2=1,est_varyd=0.166667,varyd=0.167990
-ngGM2_retimed =  1.0000
+ngGM2_retimed = 1.0000
 ep1=1,ep2=-1,est_varyd=0.166667,varyd=0.167990
-ngGM2_retimed =  1.0000
+ngGM2_retimed = 1.0000
 ep1=1,ep2=1,est_varyd=0.166667,varyd=0.167990
-ngGM2_retimed =  3.0000
-est_varyd =  0.33333
-varyd =  0.33376
-ngGM2_retimed =  3.0000
-est_varyd =  0.33333
-varyd =  0.33450
-ngGM2_retimed =  3.0000
-est_varyd =  0.33333
-varyd =  0.33989
+ngGM2_retimed = 3.0000
+est_varyd = 0.3333
+varyd = 0.3338
+ngGM2_retimed = 3.0000
+est_varyd = 0.3333
+varyd = 0.3345
+ngGM2_retimed = 3.0000
+est_varyd = 0.3333
+varyd = 0.3399
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

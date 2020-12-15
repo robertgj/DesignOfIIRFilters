@@ -43,24 +43,24 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-maxiter =  2000
-tol =  0.000010000
+maxiter = 2000
+tol = 1.0000e-05
 verbose = 1
-tol =  0.0000010000
-constraints_tol =  0.00000010000
-maxiter =  5000
+tol = 1.0000e-06
+constraints_tol = 1.0000e-07
+maxiter = 5000
 verbose = 1
-Mmodel =  9
-Dmodel =  7
-dmask =  20
-fap =  0.30000
-dBap =  0.10000
-Wap =  1
-tpr =  1
-Wtp =  0.050000
-fas =  0.31000
-dBas =  40
-Was =  50
+Mmodel = 9
+Dmodel = 7
+dmask = 20
+fap = 0.3000
+dBap = 0.1000
+Wap = 1
+tpr = 1
+Wtp = 0.050000
+fas = 0.3100
+dBas = 40
+Was = 50
 vS =
   scalar structure containing the fields:
     al =
@@ -148,7 +148,7 @@ vS =
        274
        290
     tl = [](0x1)
-    tu =  241
+    tu = 241
 
 vR before exchange constraints:
 Current constraints:
@@ -262,7 +262,7 @@ vSx1k =
        274
        290
     tl = [](0x0)
-    tu =  241
+    tu = 241
 
 exchanged = 1
 vR after exchange constraints:

@@ -122,7 +122,7 @@ plot(Fapmin_remez,(Fasmin_remez-Fapmin_remez),"--",Fapmin,(Fasmin-Fapmin),"-");
 axis([0 0.35 0.16 0.24]);
 xlabel("Pass-band edge($\\Omega_{p}/2\\pi$)");
 ylabel("Transition width($\\Delta\\Omega/2\\pi$)");
-legend("remez","selesnickFIRsymmetric\\_lowpass")
+legend("remez","selesnickFIRsymmetric\\_lowpass");
 legend("location","south");
 legend("boxoff");
 legend("left");

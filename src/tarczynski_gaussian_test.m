@@ -73,8 +73,8 @@ plot(wplot*0.5/pi,20*log10(abs(H)),"-",wplot*0.5/pi,20*log10(abs(Hd)),"--");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -100 10]);
 legend("WISE","Gaussian");
-legend("boxoff")
-legend("location","northeast")
+legend("boxoff");
+legend("location","northeast");
 grid("on");
 s=sprintf("Tarczynski et al. gaussian : nN=%d,nD=%d,R=%d,td=%g",nN,nD,R,td);
 title(s);

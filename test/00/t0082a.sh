@@ -44,27 +44,27 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-maxiter =  2000
+maxiter = 2000
 verbose = 1
-tol =  0.0000010000
-maxiter =  2000
+tol = 1.0000e-06
+maxiter = 2000
 polyphase = 0
-Ra =  1
-ma =  11
-mb =  12
-Rb =  1
-td =  11.500
-tdr =  0.040000
-fap =  0.17500
-Wap =  1
-dBap =  1
-ftp =  0.20000
-Wtp =  100
-fas =  0.25000
-Was =  10000
-dBas =  50
-fpp =  0.18000
-Wpp =  1000
+Ra = 1
+ma = 11
+mb = 12
+Rb = 1
+td = 11.500
+tdr = 0.040000
+fap = 0.1750
+Wap = 1
+dBap = 1
+ftp = 0.2000
+Wtp = 100
+fas = 0.2500
+Was = 10000
+dBas = 50
+fpp = 0.1800
+Wpp = 1000
 vRab0 before exchange constraints:
 Current constraints:
 al=[ 351 ]

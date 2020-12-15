@@ -46,33 +46,25 @@ warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 32 column 1
     schurexpand_test at line 16 column 6
+
 k =
-  -0.81674   0.99818  -0.88440   0.96513  -0.92990   0.88687  -0.56357
+  -0.8167   0.9982  -0.8844   0.9651  -0.9299   0.8869  -0.5636
 
 S =
- Columns 1 through 7:
-    0.00060    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
-   -0.00085    0.00104    0.00000    0.00000    0.00000    0.00000    0.00000
-    0.01712   -0.02799    0.01715    0.00000    0.00000    0.00000    0.00000
-   -0.03250    0.08972   -0.09241    0.03675    0.00000    0.00000    0.00000
-    0.13548   -0.46485    0.67350   -0.47283    0.14038    0.00000    0.00000
-   -0.35491    1.56379   -2.96665    3.00641   -1.62808    0.38166    0.00000
-    0.73261   -3.89335    9.15564  -12.11566    9.50888   -4.20510    0.82607
-   -0.56357    3.75572  -11.20037   19.34908  -20.91292   14.16718   -5.59032
- Column 8:
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-    1.00000
+    0.0006         0         0         0         0         0         0         0
+   -0.0008    0.0010         0         0         0         0         0         0
+    0.0171   -0.0280    0.0172         0         0         0         0         0
+   -0.0325    0.0897   -0.0924    0.0367         0         0         0         0
+    0.1355   -0.4649    0.6735   -0.4728    0.1404         0         0         0
+   -0.3549    1.5638   -2.9666    3.0064   -1.6281    0.3817         0         0
+    0.7326   -3.8934    9.1556  -12.1157    9.5089   -4.2051    0.8261         0
+   -0.5636    3.7557  -11.2004   19.3491  -20.9129   14.1672   -5.5903    1.0000
 
 warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 17 column 2
+
 c =
  Columns 1 through 7:
   -0.055418   0.137744   0.200439   0.244231   0.218092   0.090615   0.039148
@@ -83,43 +75,36 @@ warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 18 column 3
+
 dc =
  Columns 1 through 6:
-   0.00059755  -0.00084580   0.01712032  -0.03250033   0.13548061  -0.35490685
+   5.9755e-04  -8.4580e-04   1.7120e-02  -3.2500e-02   1.3548e-01  -3.5491e-01
  Columns 7 and 8:
-   0.73261494  -0.56356990
+   7.3261e-01  -5.6357e-01
 
 warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 32 column 1
     schurexpand_test at line 19 column 9
+
 km =
-  -0.81674   0.99818  -0.88440   0.96513  -0.92990   0.88687  -0.56357
+  -0.8167   0.9982  -0.8844   0.9651  -0.9299   0.8869  -0.5636
 
 Sm =
- Columns 1 through 7:
-   -0.00060    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
-    0.00085   -0.00104    0.00000    0.00000    0.00000    0.00000    0.00000
-   -0.01712    0.02799   -0.01715    0.00000    0.00000    0.00000    0.00000
-    0.03250   -0.08972    0.09241   -0.03675    0.00000    0.00000    0.00000
-   -0.13548    0.46485   -0.67350    0.47283   -0.14038    0.00000    0.00000
-    0.35491   -1.56379    2.96665   -3.00641    1.62808   -0.38166    0.00000
-   -0.73261    3.89335   -9.15564   12.11566   -9.50888    4.20510   -0.82607
-    0.56357   -3.75572   11.20037  -19.34908   20.91292  -14.16718    5.59032
- Column 8:
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-   -1.00000
+   -0.0006         0         0         0         0         0         0         0
+    0.0008   -0.0010         0         0         0         0         0         0
+   -0.0171    0.0280   -0.0172         0         0         0         0         0
+    0.0325   -0.0897    0.0924   -0.0367         0         0         0         0
+   -0.1355    0.4649   -0.6735    0.4728   -0.1404         0         0         0
+    0.3549   -1.5638    2.9666   -3.0064    1.6281   -0.3817         0         0
+   -0.7326    3.8934   -9.1556   12.1157   -9.5089    4.2051   -0.8261         0
+    0.5636   -3.7557   11.2004  -19.3491   20.9129  -14.1672    5.5903   -1.0000
 
 warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 20 column 3
+
 cm =
  Columns 1 through 7:
    0.055418  -0.137744  -0.200439  -0.244231  -0.218092  -0.090615  -0.039148
@@ -130,21 +115,23 @@ warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 21 column 4
+
 dcm =
  Columns 1 through 6:
-  -0.00059755   0.00084580  -0.01712032   0.03250033  -0.13548061   0.35490685
+  -5.9755e-04   8.4580e-04  -1.7120e-02   3.2500e-02  -1.3548e-01   3.5491e-01
  Columns 7 and 8:
-  -0.73261494   0.56356990
+  -7.3261e-01   5.6357e-01
 
 warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 22 column 5
+
 dcmm =
  Columns 1 through 6:
-   0.00059755  -0.00084580   0.01712032  -0.03250033   0.13548061  -0.35490685
+   5.9755e-04  -8.4580e-04   1.7120e-02  -3.2500e-02   1.3548e-01  -3.5491e-01
  Columns 7 and 8:
-   0.73261494  -0.56356990
+   7.3261e-01  -5.6357e-01
 
 ans = 0
 ans = 0
@@ -154,33 +141,25 @@ warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 32 column 1
     schurexpand_test at line 30 column 6
+
 k =
   -0.805776   0.999210  -0.785551   0.976849  -0.679467   0.609371  -0.028265
 
 S =
- Columns 1 through 7:
-    0.00181    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
-   -0.00247    0.00306    0.00000    0.00000    0.00000    0.00000    0.00000
-    0.07692   -0.12401    0.07698    0.00000    0.00000    0.00000    0.00000
-   -0.09773    0.28173   -0.29805    0.12440    0.00000    0.00000    0.00000
-    0.56805   -1.81777    2.60337   -1.83945    0.58151    0.00000    0.00000
-   -0.53852    2.47769   -4.88844    5.23164   -3.03312    0.79257    0.00000
-    0.60913   -3.01029    7.14567   -9.92237    8.50245   -4.23930    0.99960
-   -0.02826    0.72924   -3.25191    7.42909  -10.12839    8.59097   -4.25822
- Column 8:
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-    1.00000
+    0.0018         0         0         0         0         0         0         0
+   -0.0025    0.0031         0         0         0         0         0         0
+    0.0769   -0.1240    0.0770         0         0         0         0         0
+   -0.0977    0.2817   -0.2981    0.1244         0         0         0         0
+    0.5680   -1.8178    2.6034   -1.8394    0.5815         0         0         0
+   -0.5385    2.4777   -4.8884    5.2316   -3.0331    0.7926         0         0
+    0.6091   -3.0103    7.1457   -9.9224    8.5025   -4.2393    0.9996         0
+   -0.0283    0.7292   -3.2519    7.4291  -10.1284    8.5910   -4.2582    1.0000
 
 warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 31 column 2
+
 c =
  Columns 1 through 7:
    0.090791   0.087717  -0.186099  -0.095525   0.287667   0.161757  -0.660897
@@ -191,43 +170,36 @@ warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 32 column 3
+
 dc =
  Columns 1 through 6:
-   0.0018123  -0.0024658   0.0769199  -0.0977256   0.5680494  -0.5385246
+   1.8123e-03  -2.4658e-03   7.6920e-02  -9.7726e-02   5.6805e-01  -5.3852e-01
  Columns 7 and 8:
-   0.6091272  -0.0282647
+   6.0913e-01  -2.8265e-02
 
 warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 32 column 1
     schurexpand_test at line 33 column 8
+
 km =
   -0.805776   0.999210  -0.785551   0.976849  -0.679467   0.609371  -0.028265
 
 Sm =
- Columns 1 through 7:
-   -0.00181    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
-    0.00247   -0.00306    0.00000    0.00000    0.00000    0.00000    0.00000
-   -0.07692    0.12401   -0.07698    0.00000    0.00000    0.00000    0.00000
-    0.09773   -0.28173    0.29805   -0.12440    0.00000    0.00000    0.00000
-   -0.56805    1.81777   -2.60337    1.83945   -0.58151    0.00000    0.00000
-    0.53852   -2.47769    4.88844   -5.23164    3.03312   -0.79257    0.00000
-   -0.60913    3.01029   -7.14567    9.92237   -8.50245    4.23930   -0.99960
-    0.02826   -0.72924    3.25191   -7.42909   10.12839   -8.59097    4.25822
- Column 8:
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-    0.00000
-   -1.00000
+   -0.0018         0         0         0         0         0         0         0
+    0.0025   -0.0031         0         0         0         0         0         0
+   -0.0769    0.1240   -0.0770         0         0         0         0         0
+    0.0977   -0.2817    0.2981   -0.1244         0         0         0         0
+   -0.5680    1.8178   -2.6034    1.8394   -0.5815         0         0         0
+    0.5385   -2.4777    4.8884   -5.2316    3.0331   -0.7926         0         0
+   -0.6091    3.0103   -7.1457    9.9224   -8.5025    4.2393   -0.9996         0
+    0.0283   -0.7292    3.2519   -7.4291   10.1284   -8.5910    4.2582   -1.0000
 
 warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 34 column 3
+
 cm =
  Columns 1 through 7:
    0.090791   0.087717  -0.186099  -0.095525   0.287667   0.161757  -0.660897
@@ -238,21 +210,23 @@ warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 35 column 4
+
 dcm =
  Columns 1 through 6:
-  -0.0018123   0.0024658  -0.0769199   0.0977256  -0.5680494   0.5385246
+  -1.8123e-03   2.4658e-03  -7.6920e-02   9.7726e-02  -5.6805e-01   5.3852e-01
  Columns 7 and 8:
-  -0.6091272   0.0282647
+  -6.0913e-01   2.8265e-02
 
 warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 36 column 5
+
 dcmm =
  Columns 1 through 6:
-   0.0018123  -0.0024658   0.0769199  -0.0977256   0.5680494  -0.5385246
+   1.8123e-03  -2.4658e-03   7.6920e-02  -9.7726e-02   5.6805e-01  -5.3852e-01
  Columns 7 and 8:
-   0.6091272  -0.0282647
+   6.0913e-01  -2.8265e-02
 
 ans = 0
 ans = 0
@@ -262,21 +236,23 @@ warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 32 column 1
     schurexpand_test at line 46 column 6
+
 k =
-  -0.39699   0.93499  -0.65887   0.62581  -0.31213
+  -0.3970   0.9350  -0.6589   0.6258  -0.3121
 
 S =
-   0.18146   0.00000   0.00000   0.00000   0.00000   0.00000
-  -0.07849   0.19771   0.00000   0.00000   0.00000   0.00000
-   0.52119  -0.42820   0.55743   0.00000   0.00000   0.00000
-  -0.48823   1.06788  -1.02571   0.74101   0.00000   0.00000
-   0.59455  -1.44893   2.22593  -1.70679   0.95004   0.00000
-  -0.31213   1.18656  -2.25644   2.81902  -1.99188   1.00000
+   0.1815        0        0        0        0        0
+  -0.0785   0.1977        0        0        0        0
+   0.5212  -0.4282   0.5574        0        0        0
+  -0.4882   1.0679  -1.0257   0.7410        0        0
+   0.5945  -1.4489   2.2259  -1.7068   0.9500        0
+  -0.3121   1.1866  -2.2564   2.8190  -1.9919   1.0000
 
 warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 47 column 2
+
 c =
   -0.225839   0.158736   0.362673   0.353330   0.171004   0.049343
 
@@ -284,6 +260,7 @@ warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 48 column 3
+
 dc =
    0.181460  -0.078488   0.521186  -0.488228   0.594547  -0.312129
 
@@ -291,21 +268,23 @@ warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 32 column 1
     schurexpand_test at line 49 column 8
+
 km =
-  -0.39699   0.93499  -0.65887   0.62581  -0.31213
+  -0.3970   0.9350  -0.6589   0.6258  -0.3121
 
 Sm =
-  -0.18146   0.00000   0.00000   0.00000   0.00000   0.00000
-   0.07849  -0.19771   0.00000   0.00000   0.00000   0.00000
-  -0.52119   0.42820  -0.55743   0.00000   0.00000   0.00000
-   0.48823  -1.06788   1.02571  -0.74101   0.00000   0.00000
-  -0.59455   1.44893  -2.22593   1.70679  -0.95004   0.00000
-   0.31213  -1.18656   2.25644  -2.81902   1.99188  -1.00000
+  -0.1815        0        0        0        0        0
+   0.0785  -0.1977        0        0        0        0
+  -0.5212   0.4282  -0.5574        0        0        0
+   0.4882  -1.0679   1.0257  -0.7410        0        0
+  -0.5945   1.4489  -2.2259   1.7068  -0.9500        0
+   0.3121  -1.1866   2.2564  -2.8190   1.9919  -1.0000
 
 warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 50 column 3
+
 cm =
   -0.225839   0.158736   0.362673   0.353330   0.171004   0.049343
 
@@ -313,6 +292,7 @@ warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 51 column 4
+
 dcm =
   -0.181460   0.078488  -0.521186   0.488228  -0.594547   0.312129
 
@@ -320,6 +300,7 @@ warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 52 column 5
+
 dcmm =
    0.181460  -0.078488   0.521186  -0.488228   0.594547  -0.312129
 
@@ -331,21 +312,23 @@ warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 32 column 1
     schurexpand_test at line 60 column 6
+
 k =
   -0.269728   0.952677   0.055805   0.450264   0.155925
 
 S =
-   0.25777   0.00000   0.00000   0.00000   0.00000   0.00000
-  -0.07220   0.26769   0.00000   0.00000   0.00000   0.00000
-   0.83893  -0.46380   0.88060   0.00000   0.00000   0.00000
-   0.04922   0.81431  -0.41764   0.88197   0.00000   0.00000
-   0.44476  -0.15548   1.32263  -0.44292   0.98777   0.00000
-   0.15592   0.38035   0.05138   1.31446  -0.37819   1.00000
+   0.2578        0        0        0        0        0
+  -0.0722   0.2677        0        0        0        0
+   0.8389  -0.4638   0.8806        0        0        0
+   0.0492   0.8143  -0.4176   0.8820        0        0
+   0.4448  -0.1555   1.3226  -0.4429   0.9878        0
+   0.1559   0.3803   0.0514   1.3145  -0.3782   1.0000
 
 warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 61 column 2
+
 c =
    0.108554  -0.272622  -0.050916   0.499813  -0.430072   0.139910
 
@@ -353,6 +336,7 @@ warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 62 column 3
+
 dc =
    0.257767  -0.072203   0.838927   0.049219   0.444757   0.155925
 
@@ -360,21 +344,23 @@ warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 32 column 1
     schurexpand_test at line 63 column 8
+
 km =
   -0.269728   0.952677   0.055805   0.450264   0.155925
 
 Sm =
-  -0.25777   0.00000   0.00000   0.00000   0.00000   0.00000
-   0.07220  -0.26769   0.00000   0.00000   0.00000   0.00000
-  -0.83893   0.46380  -0.88060   0.00000   0.00000   0.00000
-  -0.04922  -0.81431   0.41764  -0.88197   0.00000   0.00000
-  -0.44476   0.15548  -1.32263   0.44292  -0.98777   0.00000
-  -0.15592  -0.38035  -0.05138  -1.31446   0.37819  -1.00000
+  -0.2578        0        0        0        0        0
+   0.0722  -0.2677        0        0        0        0
+  -0.8389   0.4638  -0.8806        0        0        0
+  -0.0492  -0.8143   0.4176  -0.8820        0        0
+  -0.4448   0.1555  -1.3226   0.4429  -0.9878        0
+  -0.1559  -0.3803  -0.0514  -1.3145   0.3782  -1.0000
 
 warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 64 column 3
+
 cm =
    0.108554  -0.272622  -0.050916   0.499813  -0.430072   0.139910
 
@@ -382,6 +368,7 @@ warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 65 column 4
+
 dcm =
   -0.257767   0.072203  -0.838927  -0.049219  -0.444757  -0.155925
 
@@ -389,6 +376,7 @@ warning: Using Octave m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
     schurexpand_test at line 66 column 5
+
 dcmm =
    0.257767  -0.072203   0.838927   0.049219   0.444757   0.155925
 

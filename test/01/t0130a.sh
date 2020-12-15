@@ -41,24 +41,24 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-ng =  19733626174.06045
-ngopt =  1.3329
-ngorth =  2.0865
-ngib =  2.0865
-est_nvib =  0.50715
-nvibf =  0.51108
+ng = 1.9734e+10
+ngopt = 1.3329
+ngorth = 2.0865
+ngib = 2.0865
+est_nvib = 0.5072
+nvibf = 0.5111
 rho =
-   0.2685608
-   0.1416492
-   0.1270416
-   0.0582988
-   0.0212510
-   0.0055120
+   2.6856e-01
+   1.4165e-01
+   1.2704e-01
+   5.8299e-02
+   2.1251e-02
+   5.5120e-03
 
-ngpi =  2.0865
-gI =  0.25406
-est_nvgI =  0.32327
-nvpilpef =  0.30792
+ngpi = 2.0865
+gI = 0.2541
+est_nvgI = 0.3233
+nvpilpef = 0.3079
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

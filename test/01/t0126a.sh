@@ -41,15 +41,15 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-norder =  5
-dBpass =  1
-dBstop =  40
-fpass =  0.12500
-fstop =  0.15000
-nbits =  6
-ndigits =  2
-bitstart =  4
-msize =  3
+norder = 5
+dBpass = 1
+dBstop = 40
+fpass = 0.1250
+fstop = 0.1500
+nbits = 6
+ndigits = 2
+bitstart = 4
+msize = 3
 cost_ex= 1.00080
 cost_rd= 1.52987
 cost_bf= 1.52987

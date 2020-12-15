@@ -43,7 +43,7 @@ cat > test.ok << 'EOF'
 
 Butterworth low-pass filter with N=20, fc=0.100000
 xbits =
-   1   1   1   1   1   1  -0  -0   0   0
+   1   1   1   1   1   1   0   0   0   0
 
 stdydirf =
  Columns 1 through 8:
@@ -63,8 +63,8 @@ stdxx2dirf =
  Columns 9 and 10:
    65.606   66.593
 
-varyddirf =  65.502
-est_varyddirf =  90.674
+varyddirf = 65.502
+est_varyddirf = 90.674
 stdyboptf =
  Columns 1 through 8:
    350.90   682.65   908.47   911.26   760.12   545.83   361.62   236.50
@@ -83,8 +83,8 @@ stdxx2boptf =
  Columns 9 and 10:
    66.384   67.126
 
-varydboptf =  20.351
-est_varydboptf =  21.937
+varydboptf = 20.351
+est_varydboptf = 21.937
 stdyboptfx =
  Columns 1 through 8:
    351.00   682.79   908.57   911.35   760.18   545.89   361.70   236.56
@@ -103,11 +103,11 @@ stdxx2boptfx =
  Columns 9 and 10:
     66.388    67.139
 
-varydboptfx =  6.3163
-est_varydboptfx =  7.4054
-est_varydGoptf =  2.2740
-varydGoptf =  2.3447
-stdyGoptf =  113.94
+varydboptfx = 6.3163
+est_varydboptfx = 7.4054
+est_varydGoptf = 2.2740
+varydGoptf = 2.3447
+stdyGoptf = 113.94
 stdxxGoptf =
  Columns 1 through 8:
    64.044   63.685   63.943   61.626   61.488   63.515   63.726   63.838
@@ -119,7 +119,7 @@ stdxxGoptf =
 
 Butterworth high-pass filter with N=20, fc=0.100000
 xbits =
-   1   1   1   1   1   1  -0  -0   0   0
+   1   1   1   1   1   1   0   0   0   0
 
 stdydirf =
  Columns 1 through 8:
@@ -139,8 +139,8 @@ stdxx2dirf =
  Columns 9 and 10:
    65.004   64.857
 
-varyddirf =  61.327
-est_varyddirf =  81.968
+varyddirf = 61.327
+est_varyddirf = 81.968
 stdyboptf =
  Columns 1 through 8:
    417.18   750.87   984.71   984.38   837.66   630.23   461.24   344.44
@@ -159,8 +159,8 @@ stdxx2boptf =
  Columns 9 and 10:
    65.551   65.050
 
-varydboptf =  20.341
-est_varydboptf =  21.574
+varydboptf = 20.341
+est_varydboptf = 21.574
 stdyboptfx =
  Columns 1 through 8:
    416.84   749.99   983.52   983.29   836.94   629.77   461.04   344.37
@@ -179,11 +179,11 @@ stdxx2boptfx =
  Columns 9 and 10:
     65.523    65.036
 
-varydboptfx =  7.2464
-est_varydboptfx =  7.5025
-est_varydGoptf =  2.3417
-varydGoptf =  2.2568
-stdyGoptf =  228.44
+varydboptfx = 7.2464
+est_varydboptfx = 7.5025
+est_varydGoptf = 2.3417
+varydGoptf = 2.2568
+stdyGoptf = 228.44
 stdxxGoptf =
  Columns 1 through 8:
    63.789   63.956   63.776   63.797   64.070   64.045   63.827   63.397

@@ -19,7 +19,7 @@ if getenv("OCTAVE_ENABLE_PLOT_TO_SCREEN")
   % entire project: the plots capture the screen focus.
   set(0,'DefaultFigureVisible','on');
   % Choose the appropriate linewidth for the svg file format.
-  % See :https://savannah.gnu.org/bugs/?43552
+  % See: https://savannah.gnu.org/bugs/?43552
   set(0,"defaultlinelinewidth",4);
 else
   % Disable plotting to the screen.
@@ -53,15 +53,15 @@ warning("error","Octave:singular-matrix");
 warning("error","Octave:nearly-singular-matrix");
 warning("error","Octave:undefined-return-values");
 
-% Disable some noisy warnings
+% Disable some noisy warnings (note patches to octave-6.1.0 source files)
 warning("off","signal:grpdelay-singularity");
 warning("off","Octave:data-file-in-path");
-if strcmp("5.2.0-robj",OCTAVE_VERSION)
-  % See octave-5.2.0/scripts/plot/util/private/__gnuplot_draw_axes__.m
+if strcmp("6.1.0-robj",OCTAVE_VERSION)
+  % See octave-6.1.0/scripts/plot/util/private/__gnuplot_draw_axes__.m
   warning("off","Octave:latex-markup-not-supported-for-tick-marks");
-  % See octave-5.2.0/scripts/miscellaneous/delete.m
+  % See octave-6.1.0/scripts/miscellaneous/delete.m
   warning("off","Octave:delete-no-such-file");
-  % See octave-5.2.0/libinterp/corefcn/load-path.cc
+  % See octave-6.1.0/libinterp/corefcn/load-path.cc
   warning("off","Octave:load-path-update-failed");
   warning("off","Octave:load-path-dir-info-update");
 endif

@@ -159,7 +159,7 @@ ma=%d,mb=%d,tp1=%g,tp2=%g",ma,mb,tp1,tp2);
 title(strt);
 ylabel("Linear phase error(rad./$\\pi$)");
 xlabel("Frequency");
-legend("Filter A","Filter B")
+legend("Filter A","Filter B");
 legend("location","northwest");
 legend("boxoff");
 grid("on");
