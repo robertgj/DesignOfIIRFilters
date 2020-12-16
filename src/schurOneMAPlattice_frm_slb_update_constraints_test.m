@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_slb_update_constraints_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 
 test_common;
 
@@ -139,7 +139,7 @@ plot(f(1:nap),Tk(1:nap),f(1:nap),Tdu,":",f(1:nap),Tdl,"-.", ...
      f(vS.tl),Tk(vS.tl),"x",f(vS.tu),Tk(vS.tu),"+");
 axis([0 fap -(tpr*2) +(tpr*2)]);
 title(strM0);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"x0T"),"-dpdflatex");
 close
@@ -150,7 +150,7 @@ plot(f(1:nap),Pk(1:nap),f(1:nap),Pdu,":",f(1:nap),Pdl,"-.", ...
      f(vS.pl),Pk(vS.pl),"x",f(vS.pu),Pk(vS.pu),"+");
 axis([0 fap -(ppr*2) +(ppr*2)]);
 title(strM0);
-ylabel("Phase");
+ylabel("Phase(rad.)");
 xlabel("Frequency")
 print(sprintf(strd,"x0P"),"-dpdflatex");
 close

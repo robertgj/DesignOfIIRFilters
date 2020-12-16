@@ -1,5 +1,5 @@
 % schurOneMlattice_pop_socp_mmse_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -206,7 +206,7 @@ plot(wplot*0.5/pi,T_kc0,"linestyle","-", ...
      wplot*0.5/pi,T_kc0_sd,"linestyle","--", ...
      wplot*0.5/pi,T_kc_min,"linestyle","-.");
 xlabel("Frequency");
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 axis([0.09 0.21 15.9 16.2]);
 strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
 nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g",nbits,ftpl,ftpu,tp,tpr);

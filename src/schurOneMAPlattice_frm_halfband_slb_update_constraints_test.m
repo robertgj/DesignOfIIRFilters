@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_halfband_slb_update_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -113,7 +113,7 @@ plot(ft,T1,ft,Tdu,":",ft,Tdl,"-.",ft(vS.tl),Tl,"x",ft(vS.tu),Tu,"+");
 axis([0 ftp -(tpr*2) +(tpr*2)]);
 strM1=sprintf(strM,"T(k1)");
 title(strM1);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"T1"),"-dpdflatex");
 close

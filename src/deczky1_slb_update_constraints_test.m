@@ -1,5 +1,5 @@
 % deczky1_slb_update_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -95,7 +95,7 @@ subplot(111);
 plot(ft,T,ft,Tdu,":",ft,Tdl,"-.",ft(vS.tl),T(vS.tl),"x",ft(vS.tu),T(vS.tu),"+");
 axis([0 ftp tp-(tpr*0.6) tp+(tpr*0.6)]);
 title(strM7);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"x7T"),"-dpdflatex");
 print(sprintf(strd,"x7T"),"-dsvg");

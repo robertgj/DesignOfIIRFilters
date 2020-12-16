@@ -1,5 +1,5 @@
 % branch_bound_directFIRsymmetric_bandpass_8_nbits_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 % Branch-and-bound search of direct-form symmetric bandpass filter
 % response with 8-bit signed-digit coefficients
@@ -232,7 +232,6 @@ subplot(211)
 plot(wplot*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle","--", ...
      wplot*0.5/pi,20*log10(abs(A_hM_min)),"linestyle","-.");
-xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0.1 0.2 -1.5 0.5]);
 strt=sprintf("Direct-form symmetric bandpass filter response \

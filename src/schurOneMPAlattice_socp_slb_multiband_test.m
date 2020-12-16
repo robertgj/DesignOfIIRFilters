@@ -43,12 +43,12 @@ T=schurOneMPAlatticeT(w,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
 subplot(211)
 plot(w*0.5/pi,10*log10(Asq))
 axis([0 0.5 -50 1])
-ylabel("Amplitude (dB)");
+ylabel("Amplitude(dB)");
 grid("on");
 subplot(212)
 plot(w(10:end)*0.5/pi,T(10:end))
 axis([0 0.5 0 40])
-ylabel("Delay (samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_initial"),"-dpdflatex");
@@ -210,12 +210,12 @@ T=schurOneMPAlatticeT(w,A1kmmse,A1epsilon0,A1p0,A2kmmse,A2epsilon0,A2p0, ...
 subplot(211)
 plot(w*0.5/pi,10*log10(Asq))
 axis([0 0.5 -50 1])
-ylabel("Amplitude (dB)");
+ylabel("Amplitude(dB)");
 grid("on");
 subplot(212)
 plot(w*0.5/pi,T)
 axis([0 0.5 0 40])
-ylabel("Delay (samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_mmse"),"-dpdflatex");
@@ -244,12 +244,12 @@ T=schurOneMPAlatticeT(w,A1kpcls,A1epsilon0,A1p0,A2kpcls,A2epsilon0,A2p0, ...
 subplot(211)
 plot(w*0.5/pi,10*log10(Asq))
 axis([0 0.5 -40 1])
-ylabel("Amplitude (dB)");
+ylabel("Amplitude(dB)");
 grid("on");
 subplot(212)
 plot(w(10:end)*0.5/pi,T(10:end))
 axis([0 0.5 0 50])
-ylabel("Delay (samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls"),"-dpdflatex");
@@ -258,7 +258,7 @@ close
 subplot(211)
 plot(w*0.5/pi,10*log10(Asq))
 axis([0 0.5 -1.5 0.5])
-ylabel("Amplitude (dB)");
+ylabel("Amplitude(dB)");
 grid("on");
 subplot(212)
 ax=plotyy(w(1+(ntp1l:ntp1u))*0.5/pi,T(1+(ntp1l:ntp1u)), ...
@@ -267,7 +267,7 @@ set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 tp1-tpr1 tp1+tpr1]);
 axis(ax(2),[0 0.5 tp2-tpr2 tp2+tpr2]);
-ylabel("Delay (samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_pass"),"-dpdflatex");

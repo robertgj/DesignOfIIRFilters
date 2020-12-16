@@ -1,5 +1,5 @@
 % frm2ndOrderCascade_socp_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -98,7 +98,7 @@ subplot(212);
 plot(wplot*0.5/pi,Tw_frm)
 axis([0, 0.5, 60, 100]);
 xlabel("Frequency");
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 grid("on");
 print(strcat(strf,"_x1"),"-dpdflatex");
 close
@@ -114,7 +114,7 @@ subplot(212);
 plot(wplot*0.5/pi,Tw_frm)
 axis([0, 0.3, 76, 84]);
 xlabel("Frequency");
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 grid("on");
 print(strcat(strf,"_x1pass"),"-dpdflatex");
 close
@@ -125,7 +125,6 @@ Tw_model=grpdelay(aM,dM,nplot);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hw_model)))
 axis([0, 0.5, -15, 15]);
-xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf(strM,"FRM model filter");
@@ -134,7 +133,7 @@ subplot(212);
 plot(wplot*0.5/pi,Tw_model)
 axis([0, 0.5, 0, 200]);
 xlabel("Frequency");
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 grid("on");
 print(strcat(strf,"_x1model"),"-dpdflatex");
 close

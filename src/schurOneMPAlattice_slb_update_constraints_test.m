@@ -1,5 +1,5 @@
 % schurOneMPAlattice_slb_update_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -102,7 +102,7 @@ plot(fa(1:nap),10*log10([Asq0(1:nap),Asqdu(1:nap),Asqdl(1:nap)]), ...
 axis([0,fap,-4,1]);
 strM0=sprintf(strM,"0");
 title(strM0);
-ylabel("Amplitude");
+ylabel("Amplitude(dB)");
 subplot(212);
 plot(fa(nas:end),10*log10([Asq0(nas:end),Asqdu(nas:end)]), ...
      fa(vR0.al),10*log10(Asq0(vR0.al)),'*', ...
@@ -119,7 +119,7 @@ plot(ft,[T0,Tdu,Tdl], ...
      ft(vR0.tl),T0(vR0.tl),'*', ...
      ft(vR0.tu),T0(vR0.tu),'+');
 title(strM0);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"0T"),"-dpdflatex");
 close
@@ -130,7 +130,7 @@ plot(fp,[P0-Pd,Pdu-Pd,Pdl-Pd], ...
      fp(vR0.pl),P0(vR0.pl)-Pd(vR0.pl),'*', ...
      fp(vR0.pu),P0(vR0.pu)-Pd(vR0.pu),'+');
 title(strM0);
-ylabel("Phase");
+ylabel("Phase(rad.)");
 xlabel("Frequency")
 print(sprintf(strd,"0P"),"-dpdflatex");
 close

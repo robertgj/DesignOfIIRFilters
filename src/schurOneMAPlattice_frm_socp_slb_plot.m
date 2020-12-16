@@ -3,7 +3,7 @@ function schurOneMAPlattice_frm_socp_slb_plot ...
 % schurOneMAPlattice_frm_socp_slb_plot ...
 %  (k,epsilon,p,u,v,Mmodel,Dmodel,fap,fas,strT,strF,strOpt)
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -64,7 +64,7 @@ function schurOneMAPlattice_frm_socp_slb_plot ...
   subplot(312);
   plot(wt*0.5/pi,T_frm+tp)
   axis([0, 0.5, tp-1, tp+1]);
-  ylabel("Group delay(samples)");
+  ylabel("Delay(samples)");
   grid("on");
   % Plot pass-band phase response
   subplot(313);
@@ -84,7 +84,6 @@ function schurOneMAPlattice_frm_socp_slb_plot ...
   subplot(211);
   plot(w*0.5/pi,10*log10(abs(Asq_model)))
   axis([0, 0.5, -60, 5]);
-  xlabel("Frequency");
   ylabel("Amplitude(dB)");
   grid("on");
   tstr=sprintf(strT,strOpt,"model filter");
@@ -93,7 +92,7 @@ function schurOneMAPlattice_frm_socp_slb_plot ...
   plot(w*0.5/pi,T_model+(Dmodel*Mmodel))
   axis([0, 0.5, 50, 150]);
   xlabel("Frequency");
-  ylabel("Group delay(samples)");
+  ylabel("Delay(samples)");
   grid("on");
   print(sprintf(strF,lower(strOpt),"model_response"),"-dpdflatex");
   close

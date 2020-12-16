@@ -1,5 +1,5 @@
 % polyphase_allpass_socp_mmse_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -116,7 +116,7 @@ grid("on");
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-0.5 td+0.5]);
 grid("on");
@@ -132,7 +132,7 @@ grid("on");
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 max(fap,ftp) td-0.2 td+0.2]);
 grid("on");

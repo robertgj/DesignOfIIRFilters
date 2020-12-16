@@ -4,7 +4,7 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -348,7 +348,7 @@ subplot(212)
 plot(wt*0.5/pi,T_k,"linestyle","-", ...
      wt*0.5/pi,T_k_sd,"linestyle","--", ...
      wt*0.5/pi,T_kmin,"linestyle","-.");
-ylabel("Delay(Samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 max(fap,ftp) td-tdr td+tdr]);
 grid("on");
@@ -392,7 +392,7 @@ endif
 subplot(312)
 plot(wt*0.5/pi,T_k,"linestyle","-", ...
      wt*0.5/pi,T_kmin,"linestyle","-.");
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 11.46 11.54]);
 legend("exact","3-s-d Lim and SOCP");

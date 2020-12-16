@@ -1,5 +1,5 @@
 % allpass2ndOrderCascade_socp_sqmag_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -73,7 +73,7 @@ ma=%d,mb=%d",ma,mb);
 title(s);
 subplot(212);
 plot(wplot*0.5/pi,Tab0);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_ab0"),"-dpdflatex");
@@ -114,7 +114,7 @@ s=sprintf ...
 title(s);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_ab1"),"-dpdflatex");
@@ -128,7 +128,7 @@ grid("on");
 title(s);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 fp]);
 grid("on");
@@ -146,7 +146,7 @@ nsp=floor(fs*nplot/0.5)+1;
 clf
 subplot(212);
 plot(wplot*0.5/pi,Tab1)
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 subplot(211);

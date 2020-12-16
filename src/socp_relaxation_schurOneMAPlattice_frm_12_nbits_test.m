@@ -4,7 +4,7 @@
 % with 12-bit 3-signed-digit coefficients and an allpass model filter
 % implemented as a Schur one-multiplier lattice.
 
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -405,7 +405,7 @@ plot(wt*0.5/pi,T_kuv0+tp,"linestyle","--", ...
      wt*0.5/pi,T_kuv0_sd+tp,"linestyle","-.", ...
      wt*0.5/pi,T_kuv_min+tp,"linestyle","-");
 axis([0 0.5 tp-tpr tp+tpr]);
-ylabel("Delay(Samples)");
+ylabel("Delay(samples)");
 grid("on");
 % Plot phase
 subplot(313);

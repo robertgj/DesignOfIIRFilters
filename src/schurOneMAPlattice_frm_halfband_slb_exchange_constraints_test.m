@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_halfband_slb_exchange_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -135,7 +135,7 @@ plot(ft,[T0,Tdu,Tdl], ...
      ft(vR0.tu),T0(vR0.tu),'+');
 strM0=sprintf(strM,"T0");
 title(strM0);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"T0"),"-dpdflatex");
 close
@@ -170,7 +170,7 @@ plot(fa(nas:end), ...
      fa(vS1.al),10*log10(Asq1(vS1.al)),'*', ...
      fa(vS1.au),10*log10(Asq1(vS1.au)),'+');
 axis([fas 0.5 -60 -20]);
-ylabel("Amplitude");
+ylabel("Amplitude(dB)");
 xlabel("Frequency")
 legend("Asq0","Asq1","Asqdu","Asqdu+tol","location","northeast");
 legend("boxoff");
@@ -184,7 +184,7 @@ plot(ft,[T0,T1,Tdu,Tdl], ...
 axis([0 0.25 -(tpr*2) +(tpr*4)]);
 strM1=sprintf(strM,"T1");
 title(strM1);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 legend("T0","T1","Tdu","Tdl","location","northeast");
 legend("boxoff");

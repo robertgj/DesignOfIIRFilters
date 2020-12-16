@@ -1,5 +1,5 @@
 % freq_transform_structure_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -55,6 +55,7 @@ pA=phi2p([0.1 0.25]);
 [hftA,w]=freqz(nftA,dRftA,1024);
 plot(0.5*w/pi,20*log10(abs(hftA)));
 ylabel("Amplitude(dB)")
+xlabel("Frequency");
 axis([0 0.5 -50 5]);
 strt=sprintf("pA=phi2p([0.1 0.25])=[%1.2f %1.2f %1.2f]",pA(1),pA(2),pA(3));
 title(strt);
@@ -68,7 +69,7 @@ pB=phi2p([0.2 0.3]);
 [hftB,w]=freqz(nftB,dRftB,1024);
 plot(0.5*w/pi,20*log10(abs(hftB)))
 ylabel("Amplitude(dB)")
-xlabel("Normalised Frequency")
+xlabel("Frequency")
 axis([0 0.5 -50 5]);
 strt=sprintf("pB=phi2p([0.2 0.3])=[%1.2f %1.2f %1.2f]",pB(1),pB(2),pB(3));
 title(strt);

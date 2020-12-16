@@ -183,7 +183,7 @@ plot(wa*0.5/pi,T1P);
 tpP=(tp*P)+(N/2);
 axis([0 0.04 tpP+(2*tpr*[-1 1])])
 grid("on");
-ylabel("Group delay(samples)")
+ylabel("Delay(samples)")
 xlabel("Frequency");
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
@@ -193,6 +193,8 @@ subplot(411)
 ax=plotyy(fa,20*log10(abs(H1P)),fa,20*log10(abs(H1P)));
 axis(ax(1),[0 0.1 -0.4 0.4])
 axis(ax(2),[0 0.1 -45 -25])
+axis(ax(1),"tic","labely");
+axis(ax(2),"tic","labely");
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 grid("on");
@@ -214,6 +216,8 @@ subplot(412)
 ax=plotyy(fa,20*log10(abs(Hbbeq)),fa,20*log10(abs(Hbbeq)));
 axis(ax(1),[0 0.1 -0.4 0.4])
 axis(ax(2),[0 0.1 -45 -25])
+axis(ax(1),"tic","labely");
+axis(ax(2),"tic","labely");
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 grid("on");
@@ -228,6 +232,8 @@ subplot(413)
 ax=plotyy(fa,20*log10(abs(Hbb)),fa,20*log10(abs(Hbb)));
 axis(ax(1),[0 0.1 -0.4 0.4])
 axis(ax(2),[0 0.1 -45 -25])
+axis(ax(1),"tic","labely");
+axis(ax(2),"tic","labely");
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 grid("on");

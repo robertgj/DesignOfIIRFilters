@@ -101,15 +101,14 @@ T=iirT(w,d1,U,V,M,Q,R);
 subplot(211);
 plot(0.5*w/pi,20*log10(A));
 axis([0, 0.5, -80, 10]);
-xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 title(strt);
 subplot(212);
 plot(0.5*w/pi,T);
 axis([0, 0.5 0 2*(U+M)]);
-xlabel("Frequency");
 ylabel("Delay(samples)");
+xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close

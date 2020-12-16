@@ -1,5 +1,5 @@
 % spectralfactor_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Test case for the spectral factor 
 
@@ -24,7 +24,7 @@ legend("boxoff");
 legend("left");
 axis([0 0.5 -50 2]);
 grid("on");
-xlabel("Normalised Frequency")
+xlabel("Frequency")
 ylabel("Amplitude(dB)")
 print(strcat(strf,"_ellip13_0_05"),"-dpdflatex");
 close
@@ -36,7 +36,7 @@ legend("boxoff");
 legend("left");
 axis([0.046 0.054 -3 3]);
 grid("on");
-xlabel("Normalised Frequency")
+xlabel("Frequency")
 ylabel("Amplitude(dB)")
 print(strcat(strf,"_ellip13_0_05_detail"),"-dpdflatex");
 close

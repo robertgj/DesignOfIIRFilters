@@ -1,5 +1,5 @@
 % butt3NS_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Test case for the 3rd order Butterworth lattice filter with
 % scaled-normalised form. Use the transposed transfer function to
@@ -32,7 +32,7 @@ grid("on");
 subplot(212);
 plot(0.5*w/pi,T);
 xlabel("Frequency")
-ylabel("Group Delay(Samples)")
+ylabel("Delay(samples)")
 axis([0 0.5 0 10]);
 grid("on");
 print("butt3NS_test_expected_response","-dpdflatex");

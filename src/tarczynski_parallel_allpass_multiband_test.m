@@ -119,7 +119,7 @@ strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,tp1=%g,tp2=%g", ...
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,T);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 (ceil(max(tp1,tp2)/10)+1)*10]);
 grid("on");
@@ -135,7 +135,7 @@ grid("on");
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,T);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 (floor(min(tp1,tp2)/10)-1)*10 (ceil(max(tp1,tp2)/10)+1)*10]);
 grid("on");

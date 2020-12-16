@@ -3,7 +3,7 @@
 % SQP-relaxation optimisation of the response of a Schur one-multiplier
 % lattice lowpass filter with 10-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -284,7 +284,7 @@ title(strt);
 subplot(212);
 plot(wa*0.5/pi,T0,"-",wa*0.5/pi,T_sd,"--",wa*0.5/pi,T_min,"-.");
 axis([0 0.5 0 25]);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_kc_min"),"-dpdflatex");
@@ -305,7 +305,7 @@ legend("left");
 title(strt);
 subplot(212);
 plot(wa*0.5/pi,T0,"-",wa*0.5/pi,T_sd,"--",wa*0.5/pi,T_min,"-.");
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 fap tp-tpr tp+tpr]);
 grid("on");

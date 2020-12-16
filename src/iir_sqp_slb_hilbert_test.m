@@ -1,5 +1,5 @@
 % iir_sqp_slb_hilbert_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 % Note that with the SOCP solver this test fails to find and satisfy
 % phase constraints near w=0 because the phase response has inflexions
@@ -107,8 +107,7 @@ axis([-0.5 0.5 -1.2 -0.6]);
 grid("on");
 subplot(312);
 plot(w*0.5/pi,T0);
-ylabel("Group Delay(samples)");
-xlabel("Frequency");
+ylabel("Delay(samples)");
 axis([-0.5 0.5 0 10*td]);
 grid("on");
 subplot(313);
@@ -175,7 +174,7 @@ axis([-0.5 0.5 -1.02 -0.98]);
 grid("on");
 subplot(312);
 h312=plot(w*0.5/pi,[Tx1 Tdl Tdu]);
-ylabel("Group Delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([-0.5 0.5 td-tdr td+tdr]);
 grid("on");
@@ -226,11 +225,10 @@ h311=plot(w*0.5/pi,[Ad1 Adl Adu]);
 title(strt);
 ylabel("Amplitude");
 grid("on");
-axis([-0.5 0.5 -1.02 -0.98]);
+axis([-0.5 0.5 -1.002 -0.998]);
 subplot(312);
 plot(w*0.5/pi,[Td1 Tdl Tdu]);
-ylabel("Group Delay(samples)");
-xlabel("Frequency");
+ylabel("Delay(samples)");
 grid("on");
 axis([-0.5 0.5 td-tdr td+tdr]);
 Pplot=[Pd1+w*td Pdl+w*td Pdu+w*td]+4*pi;

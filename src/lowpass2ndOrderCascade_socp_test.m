@@ -1,5 +1,5 @@
 % lowpass2ndOrderCascade_socp_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -65,15 +65,14 @@ strt=sprintf("Deczky ex.3,SOCP,td=%d,fpass=%g,fstop=%g,Wstop=%d,dBstop=%d",
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(h)))
 axis([0, 0.5, -80, 10]);
-xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,t)
 axis([0, 0.5, 0, 20]);
+ylabel("Delay(samples)");
 xlabel("Frequency");
-ylabel("Group delay(samples)");
 grid("on");
 print(strcat(strf,"_x1"),"-dpdflatex");
 close
@@ -81,15 +80,14 @@ close
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(h)))
 axis([0, fpass, -1, 1]);
-xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,t)
 axis([0, fpass, td-0.25, td+0.25]);
+ylabel("Delay(samples)");
 xlabel("Frequency");
-ylabel("Group delay(samples)");
 grid("on");
 print(strcat(strf,"_x1pass"),"-dpdflatex");
 close
@@ -117,15 +115,14 @@ sprintf("Deczky ex.3,SOCP Sq.Mag.,td=%d,fpass=%g,fstop=%g,Wstop=%d,dBstop=%d",
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(h_sqm)))
 axis([0, 0.5, -80, 10]);
-xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 title(sqm_strt);
 subplot(212);
 plot(wplot*0.5/pi,t_sqm)
 axis([0, 0.5, 0, 20]);
+ylabel("Delay(samples)");
 xlabel("Frequency");
-ylabel("Group delay(samples)");
 grid("on");
 print(strcat(strf,"_x1sqm"),"-dpdflatex");
 close
@@ -133,15 +130,14 @@ close
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(h_sqm)))
 axis([0, fpass, -0.01, 0.01]);
-xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 title(sqm_strt);
 subplot(212);
 plot(wplot*0.5/pi,t_sqm)
 axis([0, fpass, td-1, td+1]);
+ylabel("Delay(samples)");
 xlabel("Frequency");
-ylabel("Group delay(samples)");
 grid("on");
 print(strcat(strf,"_x1sqmpass"),"-dpdflatex");
 close

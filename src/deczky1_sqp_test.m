@@ -1,5 +1,5 @@
 % deczky1_sqp_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -113,7 +113,7 @@ close
 showResponse(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
-showResponsePassBands(0,max(ftp,fap),-2*dBap,dBap,d1,U,V,M,Q,R,strt);
+showResponsePassBands(0,max(ftp,fap),-0.6,0.2,d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 close
 

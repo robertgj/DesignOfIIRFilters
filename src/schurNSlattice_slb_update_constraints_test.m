@@ -1,5 +1,5 @@
 % schurNSlattice_slb_update_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -99,7 +99,7 @@ subplot(111);
 plot(ft,T,ft,Tdu,":",ft,Tdl,"-.",ft(vS.tl),Tl,"x",ft(vS.tu),Tu,"+");
 axis([0 ftp tp-(tpr*2) tp+(tpr*2)]);
 title(strM7);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"T7"),"-dpdflatex");
 close

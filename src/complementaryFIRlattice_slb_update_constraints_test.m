@@ -1,5 +1,5 @@
 % complementaryFIRlattice_slb_update_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -127,7 +127,7 @@ plot(ft,[T0,T1,Tdu,Tdl], ...
      ft(vS1.tl),T1(vS1.tl),'s', ...
      ft(vS1.tu),T1(vS1.tu),'d');
 title(strM);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"T"),"-dpdflatex");
 close
@@ -140,7 +140,7 @@ plot(fp,[P0,P1,Pdu,Pdl], ...
      fp(vS1.pl),P1(vS1.pl),'s', ...
      fp(vS1.pu),P1(vS1.pu),'d');
 title(strM);
-ylabel("Phase");
+ylabel("Phase(rad.)");
 xlabel("Frequency")
 print(sprintf(strd,"P"),"-dpdflatex");
 close

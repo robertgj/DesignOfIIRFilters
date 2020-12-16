@@ -98,11 +98,13 @@ plot(f,AA,f,AAdu,f,AAdl,fa(vS.al),A(vS.al),"x",fa(vS.au),A(vS.au),"+");
 axis([0 0.5 0.9 1.02]);
 title(strM7);
 ylabel("Amplitude");
+grid("on");
 subplot(212);
 plot(f,AA,f,AAdu,f,AAdl,fs(vS.sl),S(vS.sl),"x",fs(vS.su),S(vS.su),"+");
 axis([0 0.5 0 2e-2]);
 ylabel("Amplitude");
 xlabel("Frequency")
+grid("on");
 print(sprintf(strd,"x7A"),"-dpdflatex");
 close
 
@@ -112,8 +114,9 @@ subplot(111);
 plot(ft,T,ft,Tdu,":",ft,Tdl,"-.",ft(vS.tl),T(vS.tl),"x",ft(vS.tu),T(vS.tu),"+");
 axis([0 ftp tp-(tpr*0.6) tp+(tpr*0.6)]);
 title(strM7);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
+grid("on");
 print(sprintf(strd,"x7T"),"-dpdflatex");
 close
 
@@ -126,6 +129,7 @@ axis([0 fpp -ppr ppr]);
 title(strM7);
 ylabel("Phase(rad.)\n(Corrected for delay)");
 xlabel("Frequency")
+grid("on");
 print(sprintf(strd,"x7P"),"-dpdflatex");
 close
 

@@ -168,8 +168,9 @@ Esq0_sd=complementaryFIRlatticeEsq(k0_sd,khat0_sd,wa,Asqd,Wa,wt,Td,Wt);
 [kkhat0_digits,kkhat0_adders]=SDadders(kkhat0_sd(kkhat0_active),nbits);
 
 % Plot initial filter response
-strt=sprintf("Gaussian filter: BTs=%g,R=%d,Ns=%d",BTs,R,Ns);
+strt=sprintf("Gaussian filter impulse response : BTs=%g,R=%d,Ns=%d",BTs,R,Ns);
 plot((0:(Ns*R))/R,g0);
+ylabel("Amplitude")
 xlabel("Symbols")
 title(strt);
 grid("on");
@@ -368,7 +369,7 @@ plot(ft,T_kkhat0_sd,"linestyle","--", ...
      ft,Tdu,"linestyle","-", ...
      ft,Tdl,"linestyle","-");
 axis([0 ft(end) tp-tpr tp+tpr]);
-ylabel("Delay(Samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency(Units of 1/Ts)");
 legend("s-d(Lim)","s-d(SOCP-relax)","Tdu","Tdl");
 legend("location","southwest");

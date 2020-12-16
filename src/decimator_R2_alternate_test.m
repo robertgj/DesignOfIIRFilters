@@ -171,7 +171,7 @@ grid("on");
 subplot(212);
 plot(wt*0.5/pi,T)
 axis([0 0.5 9.98 10.02]);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_d1dual"),"-dpdflatex");

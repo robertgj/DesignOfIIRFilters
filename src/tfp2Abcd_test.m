@@ -1,5 +1,5 @@
 % tfp2Abcd_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Script for testing frequency transformations by tfp2Abcd.m
 
@@ -22,7 +22,7 @@ function plot_response(n,d,fname)
   axis([0 0.5 -1 0.5]);
   grid("on");
   ylabel("Amplitude(dB)");
-  xlabel("Normalised Frequency");
+  xlabel("Frequency");
   print(fname,"-dpdflatex");
   close
 endfunction

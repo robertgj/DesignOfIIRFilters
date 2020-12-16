@@ -149,6 +149,7 @@ plot(wa*0.5/pi,20*log10(abs(A_hM2)),"linestyle","-", ...
      wa*0.5/pi,20*log10(abs(A_hM2_sd_Ito)),"linestyle","--", ...
      wa*0.5/pi,20*log10(abs(A_hM2_sd_sdp)),"linestyle","-.");
 ylabel("Amplitude(dB)");
+xlabel("Frequency");
 axis([0 0.25 -40 10]);
 strt=sprintf("Direct-form Hilbert filter (nbits=%d,ndigits=%d) : \
 fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
@@ -167,6 +168,7 @@ plot(wa*0.5/pi,20*log10(abs(A_hM2)),"linestyle","-", ...
      wa*0.5/pi,20*log10(abs(A_hM2_sd_Ito)),"linestyle","--", ...
      wa*0.5/pi,20*log10(abs(A_hM2_sd_sdp)),"linestyle","-.");
 ylabel("Amplitude(dB)");
+xlabel("Frequency");
 axis([0.15 0.25 -0.2 0.2]);
 strt=sprintf("Direct-form Hilbert filter (nbits=%d,ndigits=%d) : \
 fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);

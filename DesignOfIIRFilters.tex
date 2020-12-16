@@ -5869,13 +5869,15 @@ signal with variance $0.5$ of full-scale. The filter outputs were
 calculated with floating point arithmetic and again with rounding-to-nearest
 truncation and $10$ bit word storage. 
 
-Figure~\ref{fig:Freq-response-butt3NS} shows the frequency response of the 
-Schur lattice implementation of the Butterworth filter and all-pass filter 
-determined from the cross-correlation of the filter input and outputs.
+Figure~\ref{fig:Freq-response-butt3NS} shows the amplitude response of the 
+Schur normalised-scaled lattice implementation of the Butterworth filter and
+all-pass filter determined from the cross-correlation of the filter input and
+outputs.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{butt3NS_test_response}}
-\caption{Frequency response of the 3rd order Butterworth filter implemented with a normalised-scaled lattice structure}
+\caption{Amplitude response of the 3rd order Butterworth filter implemented with
+  a Schur normalised-scaled lattice structure}
 \label{fig:Freq-response-butt3NS}
 \end{figure}
 
@@ -5920,7 +5922,7 @@ implementation to that of the globally optimised filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{butt3NS_test_response_direct_form_noise}}
-\caption{Comparison of the frequency response of the output noise of the 3rd order Butterworth filter when implemented with a scaled direct-form and globally optimised state variable structure}
+\caption{Comparison of the amplitude response of the output noise of the 3rd order Butterworth filter when implemented with a scaled direct-form and globally optimised state variable structure}
 \label{fig:Freq-response-butt3NS-direct-form-noise}
 \end{figure}
 
@@ -6005,13 +6007,13 @@ approximates an integer by adding successive signed-digits\footnote{
 shows an algorithm that calculates the complete signed-digit representation.
 The Octave function \emph{bin2SPT} and \emph{oct}-file \emph{bin2SPT.cc}
 implement this algorithm.}. The \emph{oct}-file \emph{bin2SD.cc} implements a 
-C++ version of \emph{bin2SD}. The filter responses for the corresponding 
-Butterworth and all-pass filters with $10$-bit $2$-signed-digit coefficients 
-are shown in Figure~\ref{fig:Freq-response-butt3NSSV}.
+C++ version of \emph{bin2SD}. The filter amplitude responses for the
+corresponding Butterworth and all-pass filters with $10$-bit $2$-signed-digit
+coefficients are shown in Figure~\ref{fig:Freq-response-butt3NSSV}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{butt3NSSV_test_response}}
-\caption{Frequency response of the 3rd order Butterworth filter implemented with a normalised-scaled lattice structure and 10-bit 2 signed-digit coefficients}
+\caption{Amplitude response of the 3rd order Butterworth filter implemented with a normalised-scaled lattice structure and 10-bit 2 signed-digit coefficients}
 \label{fig:Freq-response-butt3NSSV}
 \end{figure}
 The response demonstrates a drawback of the normalised-scaled lattice filters:
@@ -6246,7 +6248,7 @@ stdxf = 137.06   129.04   127.82
 \end{verbatim}
 \end{small}
 
-Figure~\ref{fig:Butt3OneMSV-Resp-Schur-lattice} shows the transfer function of
+Figure~\ref{fig:Butt3OneMSV-Resp-Schur-lattice} shows the amplitude responses of
 the filter found by cross-correlation of the input and Butterworth and all-pass
 filter outputs when the filter is calculated as a Schur scaled one multiplier
 lattice with 10-bit 3-signed-digit truncated coefficients in the Octave 
@@ -6254,7 +6256,7 @@ function \emph{schurOneMlatticeFilter}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{butt3OneMSV_test_response_schur_lattice}}
-\caption{Transfer function of the slowed and retimed single-multiplier lattice 3rd order Butterworth filter implemented in Schur lattice form with 10-bit 3-signed-digit truncated coefficients}
+\caption{Amplitude responses of the slowed and retimed single-multiplier lattice 3rd order Butterworth filter implemented in Schur lattice form with 10-bit 3-signed-digit truncated coefficients}
 \label{fig:Butt3OneMSV-Resp-Schur-lattice}
 \end{figure}
 \subsection{\label{sec:Frequency-transformations-and-normalised-scaled-lattice-filter-round-off-noise}Frequency transformations and Schur normalised-scaled lattice filter round-off noise}
@@ -8889,7 +8891,7 @@ negative, cancelling out the nominal phase of $\frac{3\pi}{2}$.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_initial_x0phase}}
-\caption{Response of the initial R=2 differentiator filter calculated by
+\caption{Response of the initial $R=2$ differentiator filter calculated by
 \emph{iirA()}, \emph{iirT()} and \emph{iirP()}}
 \label{fig:iir-sqp-slb-differentiator-initial-response}
 \end{figure}
@@ -8903,19 +8905,21 @@ $W_{pp}=0.1$ respectively.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_mmse_x1phase}}
-\caption{Response error of the R=2 differentiator filter after MMSE optimisation
-with $W_{ap}=1$, $W_{tp}=0.001$ and $W_{pp}=0.1$}
+\caption{Response error of the $R=2$ differentiator filter after MMSE
+  optimisation with $W_{ap}=1$, $W_{tp}=0.001$ and $W_{pp}=0.1$}
 \label{fig:iir-sqp-slb-differentiator-mmse-response}
 \end{figure}
 \subsubsection{PCLS optimisation of the R=2 differentiator filter}
-Figure~\ref{fig:iir-sqp-slb-differentiator-pcls-response} shows the response
-after PCLS optimisation of the MMSE optimised filter of
+Figure~\ref{fig:iir-sqp-slb-differentiator-pcls-response} shows the frequency
+response after PCLS optimisation of the MMSE optimised filter of
 Figure~\ref{fig:iir-sqp-slb-differentiator-mmse-response}.
+Figure~\ref{fig:iir-sqp-slb-differentiator-pcls-amplitude-response} shows the
+amplitude response of the PCLS optimised $R=2$ differentiator filter.
 Figure~\ref{fig:iir-sqp-slb-differentiator-pcls-pz} shows the pole-zero plot
-for the PCLS filter. The peak-to-peak amplitude, group delay and phase ripple
-outside the transition bands are $A_{r}=\pm 0.0025$, $t_{dr}=\pm 0.1$ samples and
-$p_{r}=\pm 0.004\pi$ respectively.  The PCLS optimised filter coefficients are,
-in gain-pole-zero form:
+for the PCLS optimised $R=2$ differentiator filter. The peak-to-peak amplitude,
+group delay and phase ripple outside the transition bands are $A_{r}=\pm
+0.0025$, $t_{dr}=\pm 0.1$ samples and $p_{r}=\pm 0.004\pi$ respectively.  The
+PCLS optimised filter coefficients are, in gain-pole-zero form:
 \begin{small}
 \verbatiminput{iir_sqp_slb_differentiator_test_d1_coef.m}
 \end{small}
@@ -8931,16 +8935,23 @@ and
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_pcls_d1phase}}
-\caption{Response of the R=2 differentiator filter after PCLS optimisation
-with $A_{r}=\pm 0.002$, $t_{dr}=\pm 0.1$ and $p_{r}=\pm 0.004\pi$}
+\caption{Frequency response of the $R=2$ differentiator filter after PCLS
+  optimisation with $A_{r}=\pm 0.002$, $t_{dr}=\pm 0.1$ and $p_{r}=\pm 0.004\pi$}
 \label{fig:iir-sqp-slb-differentiator-pcls-response}
 \end{figure}
 \begin{figure}
 \centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_pcls_d1}}
+\caption{Amplitude response of the $R=2$ differentiator filter after PCLS
+  optimisation with $A_{r}=\pm 0.002$, $t_{dr}=\pm 0.1$ and $p_{r}=\pm 0.004\pi$}
+\label{fig:iir-sqp-slb-differentiator-pcls-amplitude-response}
+\end{figure}
+\begin{figure}
+\centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_pcls_d1pz}}
-\caption{Pole-zero plot of the R=2 differentiator filter after PCLS optimisation
-with $A_{r}=\pm 0.002$, $t_{dr}=\pm 0.1$, $p_{r}=\pm 0.004\pi$, $W_{ap}=1$, 
-$W_{tp}=0.001$ and $W_{pp}=0.1$}
+\caption{Pole-zero plot of the $R=2$ differentiator filter after PCLS
+  optimisation with $A_{r}=\pm 0.002$, $t_{dr}=\pm 0.1$, $p_{r}=\pm 0.004\pi$,
+  $W_{ap}=1$, $W_{tp}=0.001$ and $W_{pp}=0.1$}
 \label{fig:iir-sqp-slb-differentiator-pcls-pz}
 \end{figure}
 As a check, Figure~\ref{fig:iir-sqp-slb-differentiator-pcls-freqz} shows the
@@ -8950,9 +8961,9 @@ as a proportion of the frequency.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_pcls_d1freqz}}
-\caption{Response of the R=2 differentiator filter after PCLS optimisation
-calculated with \emph{freqz} and \emph{grpdelay}. The amplitude response is
-plotted as a proportion of the frequency.}
+\caption{Amplitude response of the $R=2$ differentiator filter after PCLS
+  optimisation calculated with \emph{freqz} and \emph{grpdelay}. The amplitude
+  response is plotted as a proportion of the frequency.}
 \label{fig:iir-sqp-slb-differentiator-pcls-freqz}
 \end{figure}
 \clearpage
@@ -12134,11 +12145,11 @@ The overall parameter vector is
 \end{align*}
 The calculation of the FRM zero-phase frequency response,
 $H\left(\boldsymbol{x},\omega\right)$, and its gradient with respect to the 
-coefficients is implemented in the Octave function \emph{frm2ndOrderCascade()}.
+coefficients is implemented in the Octave function \emph{frm2ndOrderCascade}.
 
 The SOCP optimisation of an FRM filter is implemented in the Octave function
-\emph{frm2ndOrderCascade\_socp()}. The Octave script
-\emph{frm2ndOrderCascade\_socp\_test()} designs a FRM filter similar to that
+\emph{frm2ndOrderCascade\_socp}. The Octave script
+\emph{frm2ndOrderCascade\_socp\_test.m} designs a FRM filter similar to that
 of the example shown by Lu and 
 Hinamoto~\cite[Section V.E]{LuHinamoto_IIRFrequencyMaskingFiltersConeProgramming}.
 The specification of the FRM filter is:
@@ -16837,7 +16848,7 @@ the sampled filter coefficients of an odd length filter are:
     e^{-\left[\left(\frac{\pi{}BT_{S}}{T_{S}}\sqrt{\frac{2}{\ln{}2}}\right)
     \frac{T_{S}}{R}\left(k-\frac{RN_{S}}{2}\right)\right]^{2}}
 \end{align*}
-where $k=0\ldots{}RN_{S}$.  Assume that the modulation scheme uses
+where $k=0,\ldots{},RN_{S}$.  Assume that the modulation scheme uses
 $BT_{S}=0.3$, that the Gaussian filter has a length of $N_{S}=4$ symbols and
 that the over-sampling rate is $R=8$ samples per symbol. The filter
 coefficients are:
@@ -23309,9 +23320,9 @@ where $\left|G\left(e^{\imath\omega}\right)\right|=1$
 \end{enumerate}
 Other filter pass-bands are obtained by frequency transformation.
 
-The Octave script \emph{vaidyanathan\_allpass\_example.m} implements the example
-transfer function shown 
-in~\cite[Section V]{VaidyanathanMitraNuevo_LowSensitivityIIRDigitalFilters}.
+The Octave script \emph{vaidyanathan\_allpass\_example\_test.m} implements the
+example transfer function shown in~\cite[Section
+V]{VaidyanathanMitraNuevo_LowSensitivityIIRDigitalFilters}.
 
 \subsection{A note on the numerical calculation of the spectral factor}
 The Octave implementation of the calculation of the spectral factor is in the
@@ -27903,11 +27914,13 @@ The latter were adjusted ``by-eye''. The resulting filter has a model filter
 with length $39$ and an overall filter length of $325$. The model filter has
 $20$ distinct coefficients and the interpolator filter requires $8$ distinct
 non-power-of-two
-multipliers. Figure~\ref{fig:nuevoFIRsymmetric-flat-bandpass-test-response} 
-shows the overall response of the interpolated filter.
+multipliers. 
 Figure~\ref{fig:nuevoFIRsymmetric-flat-bandpass-test-interpolator} shows the
 responses of the interpolated maximally-flat model filter and the
-interpolator filter. The distinct coefficients of the model filter are:
+interpolator filter.
+Figure~\ref{fig:nuevoFIRsymmetric-flat-bandpass-test-response} 
+shows the overall response of the interpolated filter.
+The distinct coefficients of the model filter are:
 \begin{small} 
 \verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hM_coef.m}
 \end{small}
@@ -27922,17 +27935,18 @@ and
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{nuevoFIRsymmetric_flat_bandpass_test_response}}
-\caption{Amplitude response of an interpolated maximally-flat band-pass filter
-with $P=8$, $M=19$, $fc=0.2$, $K=12$.}
-\label{fig:nuevoFIRsymmetric-flat-bandpass-test-response}
-\end{figure}
-\begin{figure}
-\centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{nuevoFIRsymmetric_flat_bandpass_test_interpolator}}
 \caption{Amplitude response of the interpolated maximally-flat model filter and
   interpolator filter with $P=8$, $M=19$, $fc=0.2$, $K=12$.}
 \label{fig:nuevoFIRsymmetric-flat-bandpass-test-interpolator}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{nuevoFIRsymmetric_flat_bandpass_test_response}}
+\caption{Amplitude response of an interpolated maximally-flat band-pass filter
+with $P=8$, $M=19$, $fc=0.2$, $K=12$.}
+\label{fig:nuevoFIRsymmetric-flat-bandpass-test-response}
 \end{figure}
 
 Figure~\ref{fig:nuevoFIRsymmetric-flat-bandpass-test-16bit-response} shows the
@@ -31906,9 +31920,10 @@ version of \emph{octave-6.1.0} avoiding the vagaries of the Fedora packagers
 script builds Octave and the associated numerical libraries with the \emph{g++}
 option \texttt{-march=nehalem}. The \emph{octave-6.1.0/configure} script is 
 patched so that the Octave \texttt{OCTAVE\_VERSION} command returns
-\texttt{6.1.0-robj}. Other files are patched to add Octave warning ids and to
-prevent a \emph{valgrind} warning. The local build of Octave links to locally
-built versions of the following libraries:  
+\texttt{6.1.0-robj}. Other files are patched to add Octave warning ids, to
+set the default \emph{markersize} to $4$, and to prevent a \emph{valgrind}
+warning. The local build of Octave links to locally built versions of the
+following libraries:
 \emph{arpack-ng-master}~\cite{ARPACKNG_website},
 \emph{fftw-3.3.8}~\cite{FFTW_website},
 \emph{glpk-4.65}~\cite{GNU_GLPK},
@@ -31969,7 +31984,7 @@ C++. The Octave on-line FAQ states:
   are compatible with the GPL.
 \end{quote}
 
-The \emph{fftw-3.3.8} release notes (May 28th, 2018-2019) state:
+The \emph{fftw-3.3.8} release notes (May 28th, 2018-2019-2020) state:
 \begin{quote}
     Fixed AVX, AVX2 for gcc-8.
       By default, FFTW 3.3.7 was broken with gcc-8. AVX and AVX2 code

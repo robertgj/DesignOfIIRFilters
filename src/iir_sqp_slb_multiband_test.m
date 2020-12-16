@@ -175,12 +175,12 @@ T0=iirT(wa(10:end),x0,U,V,M,Q,R);
 subplot(211)
 plot(wa*0.5/pi,20*log10(A0))
 axis([0 0.5 -40 5])
-ylabel("Amplitude (dB)");
+ylabel("Amplitude(dB)");
 grid("on");
 subplot(212)
 plot(wa(10:end)*0.5/pi,T0);
 axis([0 0.5 0 40]);
-ylabel("Delay (samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_initial"),"-dpdflatex");
@@ -207,12 +207,12 @@ T1=iirT(wa(10:end),x1,U,V,M,Q,R);
 subplot(211)
 plot(wa*0.5/pi,20*log10(A1))
 axis([0 0.5 -40 5])
-ylabel("Amplitude (dB)");
+ylabel("Amplitude(dB)");
 grid("on");
 subplot(212)
 plot(wa(10:end)*0.5/pi,T1);
 axis([0 0.5 0 40]);
-ylabel("Delay (samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_mmse"),"-dpdflatex");
@@ -236,12 +236,12 @@ else
   subplot(211)
   plot(wa*0.5/pi,20*log10(A2))
   axis([0 0.5 -40 5])
-  ylabel("Amplitude (dB)");
+  ylabel("Amplitude(dB)");
   grid("on");
   subplot(212)
   plot(wa(10:end)*0.5/pi,T2);
   axis([0 0.5 0 40]);
-  ylabel("Delay (samples)");
+  ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
   print(strcat(strf,"_pcls"),"-dpdflatex");
@@ -250,7 +250,7 @@ else
   subplot(211)
   plot(wa*0.5/pi,20*log10(A2))
   axis([0 0.5 -3 1])
-  ylabel("Amplitude (dB)");
+  ylabel("Amplitude(dB)");
   grid("on");
   subplot(212)
   T2=iirT(wt,x2,U,V,M,Q,R);
@@ -260,7 +260,7 @@ else
   set(ax(2),'ycolor','black');
   axis(ax(1),[0 0.5 28 32]);
   axis(ax(2),[0 0.5 14 16]);
-  ylabel("Delay (samples)");
+  ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
   print(strcat(strf,"_pcls_pass"),"-dpdflatex");

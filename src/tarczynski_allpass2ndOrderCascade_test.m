@@ -1,5 +1,5 @@
 % tarczynski_allpass2ndOrderCascade_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Design a lowpass filter that is the parallel combination of two 2nd order
 % cascade allpass filters using the method of Tarczynski et al. 
@@ -229,7 +229,7 @@ endif
 title(s);
 subplot(212);
 plot(wplot*0.5/pi,T);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print("tarczynski_allpass2ndOrderCascade_response","-dpdflatex");
@@ -244,7 +244,7 @@ grid("on");
 title(s);
 subplot(212);
 plot(wplot*0.5/pi,T);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 if flat_delay
   axis([0 max(ftp,fap) td-0.5 td+0.5]);
@@ -271,7 +271,7 @@ subplot(212);
 ax=plotyy(wplot(1:np)*0.5/pi,T(1:np),wplot(ns:end)*0.5/pi,T(ns:end));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print("tarczynski_allpass2ndOrderCascade_response_pass_stop","-dpdflatex");

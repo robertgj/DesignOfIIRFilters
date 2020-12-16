@@ -1,5 +1,5 @@
 % schurNSlattice_slb_exchange_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -120,7 +120,7 @@ plot(ft,[T2,Tdu,Tdl], ...
      ft(vR2.tl),T2(vR2.tl),'*', ...
      ft(vR2.tu),T2(vR2.tu),'+');
 title(strM2);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"2T"),"-dpdflatex");
 close
@@ -167,7 +167,7 @@ plot(ft,[T2,T7,Tdu,Tdl], ...
      ft(vS7.tl),T7(vS7.tl),'*',ft(vS7.tu),T7(vS7.tu),'+');
 axis([0 ftp tp-(tpr*2) tp+(tpr*4)]);
 title(strM7);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 legend("T2","T7","Tdu","Tdl","location","northwest");
 legend("boxoff");

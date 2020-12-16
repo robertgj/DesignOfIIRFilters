@@ -374,7 +374,7 @@ subplot(212)
 plot(wt*0.5/pi,T_k,"linestyle","-", ...
      wt*0.5/pi,T_k_sd,"linestyle","--", ...
      wt*0.5/pi,T_kmin,"linestyle","-.");
-ylabel("Delay(Samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([min(fapl,ftpl) max(fapu,ftpu) td-0.2 td+0.2]);
 grid("on");

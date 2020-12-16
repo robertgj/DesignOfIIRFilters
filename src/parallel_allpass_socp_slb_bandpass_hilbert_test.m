@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_bandpass_hilbert_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -139,7 +139,7 @@ strt=sprintf("Initial parallel allpass bandpass Hilbert : ma=%d,mb=%d",ma,mb);
 title(strt);
 subplot(312);
 plot(wa*0.5/pi,T0);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 axis([0 0.5 0 20]);
 grid("on");
 subplot(313);
@@ -203,7 +203,7 @@ strt=sprintf ...
 title(strt);
 subplot(312);
 plot(wplot*0.5/pi,Tab1);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 axis([0 0.5 10 30]);
 grid("on");
 subplot(313);
@@ -224,7 +224,7 @@ grid("on");
 title(strt);
 subplot(312);
 plot(wplot*0.5/pi,Tab1);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 axis([min([fapl,ftpl,fppl]) max([fapu,ftpu,fppl]) td-tdr td+tdr]);
 grid("on");
 subplot(313);

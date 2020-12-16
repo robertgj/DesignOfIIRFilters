@@ -1,5 +1,5 @@
 % schurOneMlattice_slb_exchange_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -111,7 +111,7 @@ plot(fa(1:nap),10*log10([Asq2(1:nap),Asqdu(1:nap),Asqdl(1:nap)]), ...
 axis([0,fap,-0.25,0.25]);
 strM2=sprintf(strM,"2");
 title(strM2);
-ylabel("Amplitude");
+ylabel("Amplitude(dB)");
 subplot(212);
 plot(fa(nas:end),10*log10([Asq2(nas:end),Asqdu(nas:end)]), ...
      fa(vR2.al),10*log10(Asq2(vR2.al)),'*', ...
@@ -128,7 +128,7 @@ plot(ft,[T2,Tdu,Tdl], ...
      ft(vR2.tl),T2(vR2.tl),'*', ...
      ft(vR2.tu),T2(vR2.tu),'+');
 title(strM2);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"2T"),"-dpdflatex");
 close
@@ -152,7 +152,7 @@ plot(fa(1:nap),10*log10([Asq2(1:nap),Asq7(1:nap), ...
 axis([0,fap,-0.25,0.25]);
 strM7=sprintf(strM,"7");
 title(strM7);
-ylabel("Amplitude");
+ylabel("Amplitude(dB)");
 subplot(212);
 plot(fa(nas:end), ...
      10*log10([Asq2(nas:end),Asq7(nas:end),Asqdu(nas:end), ...
@@ -162,7 +162,7 @@ plot(fa(nas:end), ...
      fa(vS7.al),10*log10(Asq7(vS7.al)),'*', ...
      fa(vS7.au),10*log10(Asq7(vS7.au)),'+');
 axis([fas 0.5 -60 -30]);
-ylabel("Amplitude");
+ylabel("Amplitude(dB)");
 xlabel("Frequency")
 legend("Asq2","Asq7","Asqdu","Asqdu+tol","location","north");
 legend("boxoff");
@@ -175,7 +175,7 @@ plot(ft,[T2,T7,Tdu,Tdl], ...
      ft(vS7.tl),T7(vS7.tl),'*',ft(vS7.tu),T7(vS7.tu),'+');
 axis([0 ftp tp-(tpr*2) tp+(tpr*4)]);
 title(strM7);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 legend("T2","T7","Tdu","Tdl","location","northwest");
 legend("boxoff");

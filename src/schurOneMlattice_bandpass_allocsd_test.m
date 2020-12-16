@@ -1,5 +1,5 @@
 % schurOneMlattice_bandpass_allocsd_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Test Lims and Itos signed-digit allocation algorithms with
 % coefficents of a band-pass one-multiplier lattice filter.
@@ -175,7 +175,6 @@ for ndigits=2:3
          wa*0.5/pi,10*log10(Asq_Lim),"linestyle","--", ...
          wa*0.5/pi,10*log10(Asq_Ito),"linestyle","-")
     title(strt);
-    xlabel("Frequency");
     ylabel("Amplitude(dB)");
     legend("exact","round","signed-digit","Lim","Ito");
     legend("location","northeast");
@@ -190,7 +189,7 @@ for ndigits=2:3
          wt*0.5/pi,T_Lim,"linestyle","--", ...
          wt*0.5/pi,T_Ito,"linestyle","-");
     xlabel("Frequency");
-    ylabel("Group delay(samples)");
+    ylabel("Delay(samples)");
     axis([0.05 0.25 15 17]);
     grid("on");
     print(strcat(nbits_strf,"_passband_response"),"-dpdflatex");

@@ -1,5 +1,5 @@
 % tarczynski_frm_parallel_allpass_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Design an FRM filter from a parallel allpass IIR model filter
 % and FIR masking filters using the method of Tarczynski et al.
@@ -214,7 +214,7 @@ title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm,'linestyle','-');
 axis([0 0.5 0 120]);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
@@ -230,7 +230,7 @@ title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm,'linestyle','-');
 axis([0 fpass 90 100]);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_passband_response"),"-dpdflatex");
@@ -255,7 +255,7 @@ subplot(212);
 plot(wplot*0.5/pi,Tw_aa,'linestyle','-', ...
      wplot*0.5/pi,Tw_ac,'linestyle','--');
 axis([0 0.5 0 30]);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_masking_response"),"-dpdflatex");
@@ -281,7 +281,7 @@ title(s);
 subplot(212);
 plot(wplot*0.5/pi,Tw_ad,'linestyle','-');
 axis([0 0.5 60 100]);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_model_response"),"-dpdflatex");

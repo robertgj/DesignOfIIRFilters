@@ -130,7 +130,7 @@ plot(ft,[Tx2,Tdu,Tdl], ...
      ft(vRx2.tu),Tx2(vRx2.tu),'+', ...
      ft(vRx2.tl),Tx2(vRx2.tl),'*');
 title(strM2);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"x2T"),"-dpdflatex");
 close
@@ -184,7 +184,7 @@ plot(ft,[Tx2,Tx7,Tdu,Tdl], ...
      ft(vSx7.tl),Tx7(vSx7.tl),'*',ft(vSx7.tu),Tx7(vSx7.tu),'+');
 axis([0 ftp tp-(2*tpr) tp+(2*tpr)]);
 title(strM7);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"x7T"),"-dpdflatex");
 close

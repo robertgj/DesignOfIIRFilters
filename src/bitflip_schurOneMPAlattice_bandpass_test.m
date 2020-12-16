@@ -1,5 +1,5 @@
 % bitflip_schurOneMPAlattice_bandpass_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass lattice filter in one multiplier parallel allpass form.
@@ -205,7 +205,6 @@ plot(wplot*0.5/pi,20*log10(abs(    h0)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(  h_bf)),"linestyle","--", ...
      wplot*0.5/pi,20*log10(abs(  h_sd)),"linestyle","-.", ... 
      wplot*0.5/pi,20*log10(abs(h_bfsd)),"linestyle","-")
-xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
@@ -224,7 +223,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 xlabel("Frequency");
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
@@ -243,7 +242,6 @@ plot(wplot*0.5/pi,20*log10(abs(    h0)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(h_bfsdl)),"linestyle","--", ...
      wplot*0.5/pi,20*log10(abs(  h_sdi)),"linestyle","-.", ...  
      wplot*0.5/pi,20*log10(abs(h_bfsdi)),"linestyle","-")
-xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
@@ -263,7 +261,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 xlabel("Frequency");
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
 print(strcat(strf,"_response_allocsd"),"-dpdflatex");

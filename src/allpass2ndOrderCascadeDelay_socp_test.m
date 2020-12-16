@@ -1,5 +1,5 @@
 % allpass2ndOrderCascadeDelay_socp_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -64,7 +64,7 @@ s=sprintf ...
 title(s);
 subplot(212);
 plot(wplot*0.5/pi,Tab0);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-1 td+1]);
 grid("on");
@@ -109,7 +109,7 @@ s=sprintf("Parallel delay and 2nd order all-pass : ma=%d,D=%d,td=%g",
 title(s);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 25]);
 grid("on");
@@ -124,7 +124,7 @@ grid("on");
 title(s);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 fap td-2 td+2]);
 grid("on");
@@ -166,7 +166,7 @@ title(s);
 subplot(212);
 plot(wplot*0.5/pi,Tab1sqm);
 axis([0 0.5 0 25]);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_a1sqm"),"-dpdflatex");
@@ -180,7 +180,7 @@ grid("on");
 title(s);
 subplot(212);
 plot(wplot*0.5/pi,Tab1sqm);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 fap 0 25]);
 grid("on");

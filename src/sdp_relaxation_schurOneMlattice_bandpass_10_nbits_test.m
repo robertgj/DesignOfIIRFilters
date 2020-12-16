@@ -391,7 +391,7 @@ if ~print_for_web_page
 endif
 subplot(312)
 plot(wt*0.5/pi,T_kc0,"linestyle","-",wt*0.5/pi,T_kc0_sd_min,"linestyle","--");
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 axis([0 0.5 15.9 16.1]);
 grid("on");
 subplot(313)

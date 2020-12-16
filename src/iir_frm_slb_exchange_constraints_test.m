@@ -1,5 +1,5 @@
 % iir_frm_slb_exchange_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -167,7 +167,7 @@ plot(f(1:nap),[Tx0k(1:nap),Tdu,Tdl], ...
      f(vRx0k.tl),Tx0k(vRx0k.tl),'*', ...
      f(vRx0k.tu),Tx0k(vRx0k.tu),'+');
 title(strM0);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"x0kT"),"-dpdflatex");
 close
@@ -206,7 +206,7 @@ plot(f(1:nap),[Tx0k(1:nap),Tx1k(1:nap),Tdu,Tdl], ...
      f(vRx0k.tl),Tx0k(vRx0k.tl),'*', f(vRx0k.tu),Tx0k(vRx0k.tu),'+', ...
      f(vSx1k.tl),Tx1k(vSx1k.tl),'*', f(vSx1k.tu),Tx1k(vSx1k.tu),'+');
 title(strM1);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"x1kT"),"-dpdflatex");
 close

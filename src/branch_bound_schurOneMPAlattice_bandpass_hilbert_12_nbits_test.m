@@ -4,7 +4,7 @@
 % filter composed of parallel Schur one-multiplier all-pass lattice
 % filters with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -485,6 +485,7 @@ plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
 ylabel("Amplitude(dB)");
+xlabel("Frequency");
 strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
 pass-band(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
 title(strt);
@@ -501,14 +502,14 @@ close
 plot(wt*0.5/pi,T_k0,"linestyle","-", ...
      wt*0.5/pi,T_k0_sd,"linestyle","--", ...
      wt*0.5/pi,T_kmin,"linestyle","-.");
-ylabel("Delay(Samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
 pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
 title(strt);
 axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), td-0.04, td+0.04]);
 legend("exact","s-d(Ito)","s-d(b-and-b)");
-legend("location","south");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");

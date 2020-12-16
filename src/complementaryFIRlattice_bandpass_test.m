@@ -1,5 +1,5 @@
 % complementaryFIRlattice_bandpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -168,7 +168,7 @@ plot(wplot*0.5/pi,Tb17b,"linestyle","-", ...
 axis([0 0.5 0 16])
 grid("on");
 xlabel("Frequency");
-ylabel("Group delay (samples");
+ylabel("Delay(samples)");
 legend("Tb17b","Tpbk17b");
 legend("location","west");
 legend("boxoff");

@@ -1,5 +1,5 @@
 % iir_frm_parallel_allpass_slb_update_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -101,14 +101,14 @@ plot(f(1:nap),10*log10([Asq(1:nap),Asqdu(1:nap),Asqdl(1:nap)]), ...
      f(vS.al),10*log10(Asql),"x", ...
      f(vS.au),10*log10(Asqu),"+");
 axis([0 fap -1 1]);
-ylabel("Pass band");
+ylabel("Pass band(dB)");
 title(sprintf(strM,"x0k amplitude"));
 subplot(212)
 plot(f(nas:end),10*log10([Asq(nas:end),Asqdu(nas:end)]), ...
      f(vS.al),10*log10(Asql),"x", ...
      f(vS.au),10*log10(Asqu),"+");
 axis([fas 0.5 -60 -20]);
-ylabel("Stop band");
+ylabel("Stop band(dB)");
 xlabel("Frequency");
 print(sprintf(strd,"amplitude"),"-dpdflatex");
 close
@@ -117,7 +117,7 @@ close
 fp=f(1:nap);
 subplot(111),plot(fp,T,fp,Tdu,fp,Tdl,fp(vS.tl),Tl,"x",fp(vS.tu),Tu,"+");
 axis([0 fap 60 75]);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 strMdelay=sprintf(strM,"x0k delay");
 title(strMdelay);

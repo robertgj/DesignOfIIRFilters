@@ -202,7 +202,7 @@ for l=1:4,
 
   figure(1,"visible","off");
   subplot(2,2,l)
-  plot(w,Q,wdr,Qdr,"or","markersize",4);
+  plot(w,Q,wdr,Qdr,"or");
   axis([-1.05 1.05 -0.05 1.05]);
   if l>=3
     xlabel("$w$");
@@ -214,7 +214,7 @@ for l=1:4,
 
   figure(2,"visible","off");
   subplot(2,2,l)
-  h=plot(w,twoargHp*n/pi,wdr,twoargHpdr*n/pi,"or","markersize",4);
+  h=plot(w,twoargHp*n/pi,wdr,twoargHpdr*n/pi,"or");
   axis([-1.05 1.05 -9 5]);
   if l>=3
     xlabel("$w$");
@@ -254,16 +254,16 @@ close
 
 % Show detailed response at either end
 subplot(311)
-plot(w,Q,wdr,Qdr,"or","markersize",4)
+plot(w,Q,wdr,Qdr,"or")
 axis([-1 -0.95 -0.01 0.11]);
 title(sprintf("$Q_{%d,%d}(w,%10.8f)$",p,q,k));
 grid("on");
 subplot(312)
-plot(w,Q,wdr,Qdr,"or","markersize",4); 
+plot(w,Q,wdr,Qdr,"or"); 
 axis([ws-0.05 wp+0.05 -0.05 1.05]);
 grid("on");
 subplot(313)
-plot(w,Q,wdr,Qdr,"or","markersize",4);
+plot(w,Q,wdr,Qdr,"or");
 axis([0.95 1 -0.01 0.11]);
 xlabel("$w$");
 grid("on");
@@ -405,18 +405,21 @@ del=1e-4;
 dr=[-0.05 1.05];
 clf
 subplot(311)
-plot(w,Q,wdr,Qdr,"or","markersize",4)
+plot(w,Q,wdr,Qdr,"or")
 axis([-1 -1+del del*dr]);
 title(sprintf("$Q_{%d,%d}(w,%10.8f)$",p,q,k));
+ylabel("Amplitude");
 grid("on");
 subplot(312)
-plot(w,Q,wdr,Qdr,"or","markersize",4);
+plot(w,Q,wdr,Qdr,"or");
 axis([ws-5*del wp+5*del dr]);
+ylabel("Amplitude");
 grid("on");
 subplot(313)
-plot(w,Q,wdr,Qdr,"or","markersize",4);
+plot(w,Q,wdr,Qdr,"or");
 axis([1-del 1 del*dr]);
 xlabel("$w$");
+ylabel("Amplitude");
 grid("on");
 print(sprintf("%s_Q_%d_%d_detail",strf,p,q),"-dpdflatex");
 close

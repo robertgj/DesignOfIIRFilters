@@ -1,5 +1,5 @@
 % tarczynski_schurOneMlattice_lowpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Design a Schur one-multiplier lattice lowpass filter using the method
 % of Tarczynski et al. to optimise the lattice coefficients directly.
@@ -169,7 +169,7 @@ grid("on");
 subplot(212);
 plot(wplot*0.5/pi,T);
 axis([0 0.5 0 20]);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print("tarczynski_schurOneMlattice_lowpass_response","-dpdflatex");
@@ -184,7 +184,7 @@ grid("on");
 subplot(212);
 plot(wplot*0.5/pi,T);
 axis([0 fap 5 15]);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print("tarczynski_schurOneMlattice_lowpass_passband_response","-dpdflatex");

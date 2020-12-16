@@ -1,5 +1,5 @@
 % bitflip_schurNSlattice_bandpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass lattice filter in normalised-scaled form.
@@ -108,7 +108,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 xlabel("Frequency");
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");

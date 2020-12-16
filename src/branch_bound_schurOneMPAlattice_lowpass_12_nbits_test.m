@@ -4,7 +4,7 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -42,7 +42,7 @@ A1epsilon0 = [  1,  1,  1,  1, ...
                 1, -1,  1,  1, ... 
                 1,  1, -1 ];
 A1p0 = [  1.0938657112,   0.3933295006,   0.4295694505,   0.5651063443, ... 
-          0.6022897168,   0.6389229440,   0.8201908883,   0.9481112658, ... 
+          0.6022897168,   0.6389229440,   0.82019-202008883,   0.9481112658, ... 
           0.9521042183,   0.8064271015,   0.9471553835 ];
 A1p_ones=ones(size(A1k0));
 
@@ -453,11 +453,12 @@ grid("on");
 print(strcat(strf,"_kmin_stop"),"-dpdflatex");
 close
 
-% Plot pass-band amplitude and delay
+% Plot pass-band amplitude
 plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
 ylabel("Amplitude(dB)");
+xlabel("Frequency");
 title(strt);
 axis([0, max(fap,ftp), -0.15, 0.05]);
 legend("exact","s-d(Ito)","s-d(b-and-b)");
@@ -472,7 +473,7 @@ close
 plot(wt*0.5/pi,T_k0,"linestyle","-", ...
      wt*0.5/pi,T_k0_sd,"linestyle","--", ...
      wt*0.5/pi,T_kmin,"linestyle","-.");
-ylabel("Delay(Samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 title(strt);
 axis([0, max(fap,ftp), td-tdr, td+tdr]);
@@ -525,7 +526,7 @@ fap=%g,dBap=%g,fas=%g,dBas=%g,td=%g,tdr=%g",nbits,fap,dBap,fas,dBas,td,tdr);
 endif
 subplot(312)
 plot(wt*0.5/pi,T_k0,"linestyle","-",wt*0.5/pi,T_kmin,"linestyle","-.");
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0, 0.5, td-(tdr/2), td+(tdr/2)]);
 grid("on");

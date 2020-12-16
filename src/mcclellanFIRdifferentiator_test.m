@@ -67,7 +67,7 @@ grid("on");
 title(strt);
 subplot(212)
 plot(wa*0.5/pi,mod((P+(wa*M))/pi,2))
-axis([0 0.5 0 2]);
+axis([0 0.5 1.499 1.501]);
 ylabel("Phase/$\\pi$ (Adjusted for delay)");
 xlabel("Frequency");
 grid("on");

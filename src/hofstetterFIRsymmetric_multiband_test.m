@@ -111,13 +111,8 @@ set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 1+1.1*[-1,1]*max([deltap1,deltap2])]);
 axis(ax(2),[0 0.5 1.1*[-1,1]*max([deltas1,deltas2,deltas3])]);
 title(strt);
-ylabel(ax(1),"Pass-band amplitude");
-ylabel(ax(2),"Stop-band amplitude");
+ylabel(ax(1),"Amplitude");
 xlabel("Frequency");
-legend("Pass-band","Stop-band");
-legend("boxoff");
-legend("left");
-legend("location","southwest");
 grid("on");
 print(strcat(strf,"_dual"),"-dpdflatex");
 close

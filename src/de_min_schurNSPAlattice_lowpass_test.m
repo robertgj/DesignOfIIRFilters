@@ -1,5 +1,5 @@
 % de_min_schurNSPAlattice_lowpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Test case for the de_min differential evolution algorithm with
 % coefficents of a 5th order elliptic filter implemented as the sum of two 
@@ -164,7 +164,7 @@ ylabel("Amplitude(dB)");
 axis([0 fpass*1.1 -3 3]);
 title(strt);
 legend("exact","round","de\\_min(round)","signed-digit","de\\_min(s-d)");
-legend("location","northwest");
+legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");

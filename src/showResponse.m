@@ -1,7 +1,7 @@
 function showResponse(x,U,V,M,Q,R,str)
 % showResponse(x,U,V,M,Q,R,str)
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -32,7 +32,6 @@ T=iirT(w,x,U,V,M,Q,R);
 subplot(211);
 plot(0.5*w/pi,20*log10(A));
 axis([0, 0.5, -60, 10]);
-xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 if nargin==7

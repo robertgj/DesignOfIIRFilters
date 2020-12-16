@@ -68,14 +68,15 @@ close
 
 % Dual plot
 nat=ceil(nplot*ft/0.5)+1;
-ax=plotyy(F(1:nat),A(1:nat),F(nat:end),A(nat:end));
+ax=plotyy(F(1:nat),20*log10(abs(A(1:nat))), ...
+          F(nat:end),20*log10(abs(A(nat:end))));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
-axis(ax(1),[0 0.5 1-(2*delta) 1+(2*delta)]);
-axis(ax(2),[0 0.5 -2*delta 2*delta]);
-title(strt);
-ylabel("Amplitude");
+ylabel(ax(1),"Amplitude(dB)");
 xlabel("Frequency");
+axis(ax(1),[0 0.5 -1e-5 1e-5]);
+axis(ax(2),[0 0.5 -130 -110]);
+title(strt);
 grid("on");
 print(strcat(strf,"_dual"),"-dpdflatex");
 close
@@ -106,9 +107,9 @@ if norm(real(Hhilbert.*exp(j*wa*M)))>tol
   error("norm(real(Hhilbert.*exp(j*wa*M)))>tol");
 endif
 subplot(211)
-plot(F,imag(Hhilbert.*exp(j*wa*M)));
-axis([0 0.5 (-1-(4*delta)) (-1+(4*delta))]);
-ylabel("Amplitude");
+plot(F,20*log10(imag(Hhilbert.*exp(j*wa*M))));
+axis([0 0.5 -2e-5 2e-5]);
+ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf("Selesnick-Burrus Hofstetter Hilbert : M=%d,delta=%g",M,delta);
 title(strt);

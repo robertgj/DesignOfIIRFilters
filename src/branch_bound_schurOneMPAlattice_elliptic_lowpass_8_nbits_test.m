@@ -4,7 +4,7 @@
 % filter composed of parallel Schur one-multiplier all-pass lattice
 % filters with 16-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -374,6 +374,7 @@ plot(wplot*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
      wplot*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
      wplot*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
 ylabel("Amplitude(dB)");
+xlabel("Frequency");
 title(strt);
 axis([0, fas, -2*dBap, dBap]);
 legend("exact","s-d","s-d(b-and-b)");

@@ -1,5 +1,5 @@
 % directFIRsymmetric_bandpass_allocsd_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Test Lims and Itos signed-digit allocation algorithms with
 % coefficients of a band-pass, symmetric, even-order FIR filter
@@ -145,7 +145,6 @@ for ndigits=2:3
          wa*0.5/pi,20*log10(abs(A_sd)),"linestyle","-.", ... 
          wa*0.5/pi,20*log10(abs(A_Lim)),"linestyle","--", ...
          wa*0.5/pi,20*log10(abs(A_Ito)),"linestyle","-")
-    xlabel("Frequency");
     ylabel("Amplitude(dB)");
     legend("exact","round","signed-digit","Lim","Ito");
     legend("location","northeast");

@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Design a lowpass filter from two parallel allpass filters using
 % the method of Tarczynski et al. 
@@ -103,7 +103,7 @@ s=sprintf("Parallel all-pass filters : ma=%d,mb=%d,td=%g",ma,mb,td);
 title(s);
 subplot(212);
 plot(wplot*0.5/pi,T);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 if flat_delay
   axis([0 0.5 (td-1) (td+1)]);
@@ -121,7 +121,7 @@ grid("on");
 title(s);
 subplot(212);
 plot(wplot*0.5/pi,T);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 if flat_delay
   axis([0 max(fap,ftp) (td-0.1) (td+0.1)]);

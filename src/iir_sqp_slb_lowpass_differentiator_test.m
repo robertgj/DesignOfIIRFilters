@@ -106,7 +106,7 @@ ylabel("Amplitude error");
 grid("on");
 subplot(312);
 plot(wt*0.5/pi,T0);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 grid("on");
 subplot(313);
 plot(wp*0.5/pi,(P0+(wp*td))/pi);
@@ -139,7 +139,7 @@ grid("on");
 subplot(312);
 plot(wt*0.5/pi,[Tx1 Tdl Tdu])
 axis([0 0.5 td-tdr td+tdr]);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 grid("on");
 subplot(313);
 plot(wp*0.5/pi,([Px1 Pdl Pdu]+(wp*td))/pi);
@@ -175,7 +175,7 @@ ylabel("Amplitude error");
 subplot(312);
 plot(wt*0.5/pi,[Td1 Tdl Tdu])
 axis([0 0.5 td-tdr td+tdr]);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 grid("on");
 subplot(313);
 plot(wp*0.5/pi,([Pd1 Pdl Pdu]+(wp*td))/pi);

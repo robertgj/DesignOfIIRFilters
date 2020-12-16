@@ -328,7 +328,6 @@ axis([min(f) max(f) min(f) max(f)]);
 grid("on");
 strt=sprintf("Sub-filter : M=%d,$F_{p}$=%g,$F_{s}$=%g",M,Fap,Fas);
 title(strt);
-ylabel("Frequency($\\Omega/2\\pi$)")
 subplot(224)
 plot(f,20*log10(abs(ANM)), ...
      fasu1_line,Amp_line,"linewidth",line_linewidth,"color",line_colour, ...

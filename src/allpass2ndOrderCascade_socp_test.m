@@ -1,5 +1,5 @@
 % allpass2ndOrderCascade_socp_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -8,7 +8,6 @@ delete("allpass2ndOrderCascade_socp_test.diary.tmp");
 diary allpass2ndOrderCascade_socp_test.diary.tmp
 
 tic;
-
 
 verbose=false
 tol=1e-6
@@ -75,7 +74,7 @@ strt=sprintf ...
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tab0);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-1 td+1]);
 grid("on");
@@ -116,7 +115,7 @@ strt=sprintf("Parallel all-pass 2nd order cascade : ma=%d,mb=%d",ma,mb);
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_ab1"),"-dpdflatex");
@@ -125,14 +124,14 @@ close
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hab1)));
 ylabel("Amplitude(dB)");
-axis([0 fp -0.2 0.05]);
+axis([0 0.2 -0.3 0.1]);
 grid("on");
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 fp td-1 td+1]);
+axis([0 0.2 td-1 td+1]);
 grid("on");
 print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close

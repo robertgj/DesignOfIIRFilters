@@ -224,7 +224,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 5]);
 title("Comparison of IIR PCLS and FIR cl2bp() and remez() bandpass \
-filter magnitude responses");
+filter amplitude responses");
 legend("IIR PCLS","FIR cl2bp","FIR remez");
 legend("location","northeast");
 legend("boxoff");

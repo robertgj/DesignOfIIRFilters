@@ -2,7 +2,7 @@ function schurOneMPAlattice_socp_slb_lowpass_plot ...
            (A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference, ...
             fap,dBap,ftp,td,tdr,fas,dBas,strF)
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -46,7 +46,7 @@ fap=%g,dBap=%g,fas=%g,dBas=%g,ftp=%g,td=%g",fap,dBap,fas,dBas,ftp,td);
   title(strT);
   subplot(212);
   plot(wplot*0.5/pi,T);
-  ylabel("Group delay(samples)");
+  ylabel("Delay(samples)");
   xlabel("Frequency");
   axis([0 0.5 0 2*td]);
   grid("on");
@@ -64,7 +64,7 @@ fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g",fap,dBap,ftp,td,tdr);
   title(strT);
   subplot(212);
   plot(wplot*0.5/pi,T);
-  ylabel("Group delay(samples)");
+  ylabel("Delay(samples)");
   xlabel("Frequency");
   axis([0, max(fap,ftp), td-tdr td+tdr]);
   grid("on");

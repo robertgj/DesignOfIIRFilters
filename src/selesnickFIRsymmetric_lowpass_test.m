@@ -1,5 +1,5 @@
 % selesnickFIRsymmetric_lowpass_test.m
-% Copyright (C) 2019,2020 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 
 test_common;
 
@@ -90,14 +90,15 @@ nf=%d,M=%d,deltap=%g,deltas=%g,ft=%g,At=%s",typef,nf,M,deltap,deltas,ft,typeAt);
 
   % Dual plot
   nat=ceil(nplot*ft/0.5)+1;
-  ax=plotyy(F(1:nat),A(1:nat),F(nat:end),A(nat:end));
+  ax=plotyy(F(1:nat),20*log10(abs(A(1:nat))), ...
+            F(nat:end),20*log10(abs(A(nat:end))));
+  axis(ax(1),[0 0.5 -1e-5 1e-5]);
+  axis(ax(2),[0 0.5 -170 -150]);
   set(ax(1),'ycolor','black');
   set(ax(2),'ycolor','black');
-  axis(ax(1),[0 0.5 1-(2*deltap) 1+(2*deltap)]);
-  axis(ax(2),[0 0.5 -2*deltas 2*deltas]);
-  title(strt);
-  ylabel("Amplitude");
+  ylabel(ax(1),"Amplitude(dB)");
   xlabel("Frequency");
+  title(strt);
   grid("on");
   print(sprintf("%s_hM%s_dual",strf,k),"-dpdflatex");
   close

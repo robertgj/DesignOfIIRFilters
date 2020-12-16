@@ -1,7 +1,7 @@
 function showResponsePassBands(fmin,fmax,dBmin,dBmax,x,U,V,M,Q,R,str)
 % showResponsePassBands(fmin,fmax,dBmin,dBmax,x,U,V,M,Q,R,str)
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -32,7 +32,6 @@ subplot(211);
 Ap=iirA(wp,x,U,V,M,Q,R);
 plot(0.5*wp/pi,20*log10(Ap));
 axis([fmin, fmax, dBmin, dBmax]);
-xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 if nargin==11

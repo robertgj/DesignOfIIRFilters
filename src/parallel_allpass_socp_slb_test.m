@@ -129,7 +129,7 @@ strt=sprintf("Parallel allpass initial response : ma=%d,mb=%d,fap=%g,fas=%g", ..
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tab0);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_ab0"),"-dpdflatex");
@@ -162,8 +162,8 @@ ax=plotyy(wa(1:nap)*0.5/pi,10*log10(Asq_mmse(1:nap)), ...
           wa(nas:end)*0.5/pi,10*log10(Asq_mmse(nas:end)));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
-axis(ax(1),[0 0.5 -0.05 0]);
-axis(ax(2),[0 0.5 -100 -75]);
+axis(ax(1),[0 0.5 -0.4 0]);
+axis(ax(2),[0 0.5 -80 -40]);
 strt=sprintf("Parallel allpass MMSE response : ma=%d,mb=%d,fap=%g,fas=%g", ...
              ma,mb,fap,fas);
 title(strt);
@@ -213,7 +213,7 @@ title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
 axis([0 0.5 0 100]);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_ab1"),"-dpdflatex");
@@ -228,7 +228,7 @@ grid("on");
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 max(fap,ftp) 0 50]);
 grid("on");

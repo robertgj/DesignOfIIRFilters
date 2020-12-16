@@ -2,7 +2,7 @@ function schurOneMlattice_sqp_slb_hilbert_plot ...
            (k,epsilon,p,c,wa,wt,wp,dBap,tp,tpr,pr, ...
             Asqdu,Asqdl,Tdu,Tdl,Pdu,Pdl,strF,strT)
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -39,8 +39,7 @@ function schurOneMlattice_sqp_slb_hilbert_plot ...
   subplot(312);
   T=schurOneMlatticeT(wt,k,epsilon,p,c);
   plot(wp*0.5/pi,[T Tdu Tdl]);
-  ylabel("Group delay(samples)");
-  xlabel("Frequency");
+  ylabel("Delay(samples)");
   axis([0 0.5 tp-(tpr*2) tp+(tpr*2)]);
   grid("on");
   subplot(313);

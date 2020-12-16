@@ -7,7 +7,7 @@
 % P. Zahradnik, 2013 European Conference on Circuit Theory and Design,
 % DOI: 10.1109/ECCTD.2013.6662301
 % 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 
 test_common;
 
@@ -345,7 +345,7 @@ wm=ws+(2*(snu0*cnu0)*Zu0/dnu0);
 printf("p=%2d,q=%1d,k=%12.10f,actual_fp=%10.8f,actual_fs=%10.8f\n",
        p,q,k,acos(wp)*0.5/pi,acos(ws)*0.5/pi);
 % Step 5
-h=zolotarev_vlcek_zahradnik(p,q,k);
+h=zolotarev_vlcek_zahradnik(p,q,k,2e-10);
 
 % Show results
 nplot=10000;

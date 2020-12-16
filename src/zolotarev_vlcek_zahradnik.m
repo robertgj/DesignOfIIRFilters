@@ -1,5 +1,5 @@
-function [h,wp,wm,ws,a,aplus]=zolotarev_vlcek_zahradnik(p,q,k)
-% [h,wp,wm,ws,a,aplus]=zolotarev_vlcek_zahradnik(p,q,k)
+function [h,wp,wm,ws,a,aplus]=zolotarev_vlcek_zahradnik(p,q,k,tol)
+% [h,wp,wm,ws,a,aplus]=zolotarev_vlcek_zahradnik(p,q,k,tol)
 % For the modified Zolotarev function, Spq(w,k), defined by Vlcek and
 % Zahradnik, calculate the coefficients of the expansion of that function in
 % Chebyshev polynomials of the second kind.
@@ -7,6 +7,7 @@ function [h,wp,wm,ws,a,aplus]=zolotarev_vlcek_zahradnik(p,q,k)
 % Inputs:
 %   p,q - order of the Zolotarev function Zpq(w,k)
 %   k - elliptic function modulus
+%   tol - optional tolerance (default is 5e-12)
 %
 % Outputs:
 %   h - FIR filter impulse response
@@ -26,7 +27,7 @@ function [h,wp,wm,ws,a,aplus]=zolotarev_vlcek_zahradnik(p,q,k)
 % P. Zahradnik, Circuits Syst Signal Process (2013) 32:743–757,
 % DOI 10.1007/s00034-012-9484-0
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -47,8 +48,8 @@ function [h,wp,wm,ws,a,aplus]=zolotarev_vlcek_zahradnik(p,q,k)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if nargin~=3 || nargout>6
-    print_usage("[h,wp,wm,ws,a,aplus]=zolotarev_vlcek_zahradnik(p,q,k)");
+  if (nargin~=3 && nargin~=4) || nargout>6
+    print_usage("[h,wp,wm,ws,a,aplus]=zolotarev_vlcek_zahradnik(p,q,k,tol)");
   endif
   if ~isscalar(p)
     error("Expect p a scalar!")
@@ -70,6 +71,9 @@ function [h,wp,wm,ws,a,aplus]=zolotarev_vlcek_zahradnik(p,q,k)
   endif
   if k<=0 || k>=1
     error("Expect 0<k<1!")
+  endif
+  if nargin==3
+    tol=5e-12;
   endif
 
   % Initialisation
@@ -140,8 +144,8 @@ n^2+2*n-2*(m-3)-(m-3)^2; ...
   % Use the fast algorithm in freqz to calculate the zero-phase response
   wN=[0,(pi/(n+1)),(n*pi/(n+1)),pi];
   HN=freqz(h,1,wN).*(e.^(j*(n+1)*wN));
-  if max(abs(imag(HN))>2e4*eps)
-    warning("max(abs(imag(HN)))(%g)>2e4*eps",max(abs(imag(HN))));
+  if max(abs(imag(HN))>tol)
+    warning("max(abs(imag(HN)))(%g)>%g",max(abs(imag(HN))),tol);
   endif
   HN=real(HN);
   if mod(q,2)

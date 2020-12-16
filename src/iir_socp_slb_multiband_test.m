@@ -180,7 +180,7 @@ grid("on");
 subplot(212)
 plot(wa(10:end)*0.5/pi,T0);
 axis([0 0.5 0 40]);
-ylabel("Delay (samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_initial"),"-dpdflatex");
@@ -212,7 +212,7 @@ grid("on");
 subplot(212)
 plot(wa(10:end)*0.5/pi,T1);
 axis([0 0.5 0 40]);
-ylabel("Delay (samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_mmse"),"-dpdflatex");
@@ -242,7 +242,7 @@ grid("on");
 subplot(212)
 plot(wa(10:end)*0.5/pi,T2);
 axis([0 0.5 0 40]);
-ylabel("Delay (samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls"),"-dpdflatex");
@@ -261,7 +261,7 @@ set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 20 40]);
 axis(ax(2),[0 0.5 10 30]);
-ylabel("Delay (samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_pass"),"-dpdflatex");

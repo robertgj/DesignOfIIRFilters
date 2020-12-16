@@ -1,5 +1,5 @@
 % tarczynski_phase_equaliser_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2020 Robert G. Jenssen
 
 test_common;
 
@@ -74,7 +74,7 @@ nh=%d,na=%d,ftp=%g,tp=%g",nh,na,ftp,tp);
     subplot(212)
     plot(w*0.5/pi,T1(:)-tp);
     axis([0 0.5 -2 2]);
-    ylabel("Group delay error(samples)");
+    ylabel("Delay error(samples)");
     xlabel("Frequency");
     grid("on");
     strf=sprintf("tarczynski_phase_equaliser_test_nh%d_na%d_%%s",nh,na);

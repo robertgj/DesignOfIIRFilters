@@ -1,6 +1,6 @@
 function iir_frm_socp_slb_plot(x,na,nc,Mmodel,Dmodel, ...
                                nplot,fpass,strT,strF,strOpt)
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -67,7 +67,7 @@ function iir_frm_socp_slb_plot(x,na,nc,Mmodel,Dmodel, ...
   plot(wplot*0.5/pi,Tw_frm)
   axis([0, 0.5, 60, 100]);
   xlabel("Frequency");
-  ylabel("Group delay(samples)");
+  ylabel("Delay(samples)");
   grid("on");
   print(sprintf(strF,lower(strOpt),"response"),"-dpdflatex");
   close
@@ -84,7 +84,7 @@ function iir_frm_socp_slb_plot(x,na,nc,Mmodel,Dmodel, ...
   plot(wplot*0.5/pi,Tw_frm)
   axis([0, fpass, td-1, td+1]);
   xlabel("Frequency");
-  ylabel("Group delay(samples)");
+  ylabel("Delay(samples)");
   grid("on");
   print(sprintf(strF,lower(strOpt),"passband_response"),"-dpdflatex");
   close
@@ -97,7 +97,6 @@ function iir_frm_socp_slb_plot(x,na,nc,Mmodel,Dmodel, ...
   subplot(211);
   plot(wplot*0.5/pi,20*log10(abs(Hw_model)))
   axis([0, 0.5, -40, 10]);
-  xlabel("Frequency");
   ylabel("Amplitude(dB)");
   grid("on");
   tstr=sprintf(strT,strOpt,"model filter");
@@ -106,7 +105,7 @@ function iir_frm_socp_slb_plot(x,na,nc,Mmodel,Dmodel, ...
   plot(wplot*0.5/pi,Tw_model)
   axis([0, 0.5, 50, 100]);
   xlabel("Frequency");
-  ylabel("Group delay(samples)");
+  ylabel("Delay(samples)");
   grid("on");
   print(sprintf(strF,lower(strOpt),"model_response"),"-dpdflatex");
   close

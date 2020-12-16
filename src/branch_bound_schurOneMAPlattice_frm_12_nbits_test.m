@@ -1,5 +1,5 @@
 % branch_bound_schurOneMAPlattice_frm_12_nbits_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 
 % Branch-and-bound search of an FRM low-pass filter response with 12-bit
 % signed-digit coefficients. The model filter is a Schur one-multiplier
@@ -571,7 +571,7 @@ plot(wt*0.5/pi,T_kuv0+tp,"linestyle","--", ...
      wt*0.5/pi,T_kuv0_sd+tp,"linestyle","-.", ...
      wt*0.5/pi,T_kuv_min+tp,"linestyle","-");
 axis([0 0.5 tp-tpr tp+tpr]);
-ylabel("Delay(Samples)");
+ylabel("Delay(samples)");
 grid("on");
 % Plot phase
 subplot(313);

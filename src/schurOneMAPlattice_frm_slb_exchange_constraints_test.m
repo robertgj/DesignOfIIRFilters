@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_slb_exchange_constraints_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2020 Robert G. Jenssen
 
 test_common;
 
@@ -154,7 +154,7 @@ plot(f(1:nap),10*log10([Asq0(1:nap),Asqdu(1:nap),Asqdl(1:nap)]), ...
 axis([0,fap,-1,1]);
 strM0=sprintf(strM,"Asq0");
 title(strM0);
-ylabel("Amplitude");
+ylabel("Amplitude(dB)");
 subplot(212);
 plot(f(nas:end),10*log10([Asq0(nas:end),Asqdu(nas:end)]), ...
      f(vR0.al),10*log10(Asq0(vR0.al)),'*', ...
@@ -170,7 +170,7 @@ ft=wt*0.5/pi;
 plot(ft,[T0,Tdu,Tdl],ft(vR0.tl),T0(vR0.tl),'*',ft(vR0.tu),T0(vR0.tu),'+');
 axis([0 fap -(tpr*10) +(tpr*10)]);
 title(strM0);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"T0"),"-dpdflatex");
 close
@@ -180,7 +180,7 @@ fp=wp*0.5/pi;
 plot(fp,[P0,Pdu,Pdl],fp(vR0.pl),P0(vR0.pl),'*',fp(vR0.pu),P0(vR0.pu),'+');
 axis([0 fap [-1 1]*(ppr*40/pi)]);
 title(strM0);
-ylabel("Phase");
+ylabel("Phase(rad.)");
 xlabel("Frequency")
 print(sprintf(strd,"P0"),"-dpdflatex");
 close
@@ -205,7 +205,7 @@ plot(f(1:nap),10*log10([Asq0(1:nap),Asq1(1:nap), ...
 axis([0,fap,-1,1]);
 strM1=sprintf(strM,"Asq1");
 title(strM1);
-ylabel("Amplitude");
+ylabel("Amplitude(dB)");
 subplot(212);
 plot(f(nas:end), ...
      10*log10([Asq0(nas:end),Asq1(nas:end),Asqdu(nas:end), ...
@@ -215,7 +215,7 @@ plot(f(nas:end), ...
      f(vS1.al),10*log10(Asq1(vS1.al)),'s', ...
      f(vS1.au),10*log10(Asq1(vS1.au)),'d');
 axis([fas 0.5 -60 -20]);
-ylabel("Amplitude");
+ylabel("Amplitude(dB)");
 xlabel("Frequency")
 legend("Asq0","Asq1","Asqdu","Asqdu+tol");
 legend("location","north");
@@ -229,7 +229,7 @@ plot(ft,[T0,T1,Tdu,Tdl], ...
      ft(vS1.tl),T1(vS1.tl),'s',f(vS1.tu),T1(vS1.tu),'d');
 axis([0 fap -(tpr*10) +(tpr*10)]);
 title(strM1);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 legend("T0","T1","Tdu","Tdl");
 legend("location","northwest");
@@ -243,7 +243,7 @@ plot(fp,[P0,P1,Pdu,Pdl], ...
      fp(vS1.pl),P1(vS1.pl),'s',f(vS1.pu),P1(vS1.pu),'d');
 axis([0 fap [-1 1]*(ppr*40/pi)]);
 title(strM1);
-ylabel("Phase");
+ylabel("Phase(rad.)");
 xlabel("Frequency")
 legend("P0","P1","Pdu","Pdl");
 legend("location","northwest");

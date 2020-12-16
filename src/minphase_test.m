@@ -52,7 +52,7 @@ plot(w*0.5/pi,20*log10(abs(Hbrz)),"linestyle","-", ...
      w*0.5/pi,20*log10(abs(Hbrzc)),"linestyle","-.")
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([0 0.5 -50 1]);
+axis([0 0.5 -40 1]);
 legend("Hbrz","Hbrzc");
 legend("location","east");
 legend("boxoff");
@@ -82,7 +82,7 @@ plot(nppts/nfpts,20*log10(abs(H)),...
      nppts/nfpts,20*log10(abs(Hc)))
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
-axis([0 0.5 -50 5]);
+axis([0 0.5 -40 5]);
 grid("on");
 print(strcat(strf,"_simulated_response"),"-dpdflatex");
 close

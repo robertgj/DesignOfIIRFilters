@@ -234,7 +234,7 @@ plot(wplot*0.5/pi,T_kc0,"linestyle","-", ...
      wplot*0.5/pi,T_kc0_sd,"linestyle","--", ...
      wplot*0.5/pi,T_kc_min,"linestyle","-.");
 xlabel("Frequency");
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 axis([0.09 0.21 15.8 16.2]);
 strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
 (nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g",nbits,ftpl,ftpu,tp,tpr);
@@ -255,7 +255,7 @@ endif
 subplot(311)
 plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
      wplot*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","--");
-ylabel("Passband amplitude(dB)");
+ylabel("Passband(dB)");
 axis([0 0.5 -2 0.5]);
 legend("exact","3-s-d Ito and SQP");
 legend("location","northeast");
@@ -271,13 +271,13 @@ subplot(312)
 Trange=floor(nplot*ftpl/0.5):ceil(nplot*ftpu/0.5);
 plot(wplot(Trange)*0.5/pi,T_kc0(Trange),"linestyle","-", ...
      wplot(Trange)*0.5/pi,T_kc_min(Trange),"linestyle","--");
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 axis([0 0.5 15.9 16.1]);
 grid("on");
 subplot(313)
 plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ... 
      wplot*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","--");
-ylabel("Stopband amplitude(dB)");
+ylabel("Stopband(dB)");
 xlabel("Frequency");
 axis([0 0.5 -50 -36]);
 grid("on");

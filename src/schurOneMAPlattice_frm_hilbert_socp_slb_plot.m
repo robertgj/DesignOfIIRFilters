@@ -2,7 +2,7 @@ function schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
            (k,epsilon,p,u,v,Mmodel,Dmodel,nplot,strT,strF,strOpt, ...
             wa,Asqdu,Asqdl,wt,Tdu,Tdl,wp,Pdu,Pdl)
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -72,7 +72,7 @@ function schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
          wt*0.5/pi,Tdl+td,"--")
   endif
   axis([0, 0.5, td-1, td+1]);
-  ylabel("Group delay(samples)");
+  ylabel("Delay(samples)");
   grid("on");
   subplot(313);
   if nargin == 11

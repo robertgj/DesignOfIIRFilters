@@ -1,5 +1,5 @@
 % parallel_allpass_slb_exchange_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -152,7 +152,7 @@ plot(wt*0.5/pi,[Tab0,Tdu,Tdl], ...
      wt(vRab0.tu)*0.5/pi,Tab0(vRab0.tu),'+');
 title(strMab0);
 axis([0,ftp,11.4 11.6])
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"ab0T"),"-dpdflatex");
 close
@@ -215,7 +215,7 @@ plot(wt*0.5/pi,[Tab0,Tab1,Tdu,Tdl], ...
      wt(vSab1.tu)*0.5/pi,Tab1(vSab1.tu),'+');
 axis([0,ftp,11.4,11.6])
 title(strMab1);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 legend("Tab0","Tab1","Tdu","Tdl","location","southwest");
 legend("boxoff");

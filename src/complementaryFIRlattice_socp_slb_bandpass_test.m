@@ -196,7 +196,7 @@ strt=sprintf ...
 title(strt);
 subplot(312);
 plot(wplot*0.5/pi,T_plot);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 axis([0 0.5 tp-tpr tp+tpr]);
 grid("on");
 subplot(313);

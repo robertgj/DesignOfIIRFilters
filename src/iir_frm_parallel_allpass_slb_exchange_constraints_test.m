@@ -1,5 +1,5 @@
 % iir_frm_parallel_allpass_slb_exchange_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -128,7 +128,7 @@ plot(f(1:nap),10*log10([Asqx0(1:nap),Asqdu(1:nap),Asqdl(1:nap)]), ...
 axis([0,fas,-1,1]);
 strMx0=sprintf(strM,"x0");
 title(strMx0);
-ylabel("Amplitude");
+ylabel("Amplitude(dB)");
 subplot(212);
 plot(f(nas:end),10*log10([Asqx0(nas:end),Asqdu(nas:end), ...
                             Asqdu(nas:end)+tol*ones(n-nas+1,1)]), ...
@@ -149,7 +149,7 @@ plot(ft,[Tx0(1:nap),Tdu,Tdl], ...
      ft(vRx0.tu),Tx0(vRx0.tu),'+');
 title(strMx0);
 axis([0,fap,90,100])
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"x0T"),"-dpdflatex");
 close
@@ -174,7 +174,7 @@ plot(f(1:nap),10*log10([Asqx0(1:nap),Asqx1(1:nap), ...
 axis([0,fas,-1,1]);
 strMx1=sprintf(strM,"x1");
 title(strMx1);
-ylabel("Amplitude");
+ylabel("Amplitude(dB)");
 subplot(212);
 plot(f(nas:end), ...
      10*log10([Asqx0(nas:end),Asqx1(nas:end),Asqdu(nas:end), ...
@@ -184,7 +184,7 @@ plot(f(nas:end), ...
      f(vSx1.al),10*log10(Asqx1(vSx1.al)),'*', ...
      f(vSx1.au),10*log10(Asqx1(vSx1.au)),'+');
 axis([fap 0.5 -60 -10]);
-ylabel("Amplitude");
+ylabel("Amplitude(dB)");
 xlabel("Frequency")
 legend("Asqx0","Asqx1","Asqdu","tol","location","northeast");
 legend("boxoff");
@@ -197,7 +197,7 @@ plot(ft,[Tx0(1:nap),Tx1(1:nap),Tdu,Tdl], ...
      ft(vSx1.tl),Tx1(vSx1.tl),'*',f(vSx1.tu),Tx1(vSx1.tu),'+');
 axis([0 fap 90 100])
 title(strMx1);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 legend("Tx0","Tx1","Tdu","Tdl","location","northeast");
 legend("boxoff");

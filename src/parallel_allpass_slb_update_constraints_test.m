@@ -1,5 +1,5 @@
 % parallel_allpass_slb_update_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -155,7 +155,7 @@ plot(wt*0.5/pi,[Tab0,Tdu,Tdl], ...
      wt(vS.tl)*0.5/pi,Tl,"x",
      wt(vS.tu)*0.5/pi,Tu,"+");
 axis([ftpl ftpu td-(2*tdr) td+(2*tdr)]);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 strMdelay=sprintf(strM,"ab0 group delay");
 title(strMdelay);

@@ -1,7 +1,7 @@
 function schurOneMAPlattice_frm_halfband_socp_slb_plot ...
            (k,epsilon,p,u,v,Mmodel,Dmodel,nplot,strT,strF,strOpt)
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -71,7 +71,7 @@ function schurOneMAPlattice_frm_halfband_socp_slb_plot ...
   plot(wplot*0.5/pi,Tw_frm)
   axis([0, 0.5, td-10, td+10]);
   xlabel("Frequency");
-  ylabel("Group delay(samples)");
+  ylabel("Delay(samples)");
   grid("on");
   print(sprintf(strF,lower(strOpt),"response"),"-dpdflatex"); 
   close
@@ -89,7 +89,7 @@ function schurOneMAPlattice_frm_halfband_socp_slb_plot ...
   td=(Dmodel*Mmodel)+dmask;
   axis([0, 0.25, td-0.4, td+0.4]);
   xlabel("Frequency");
-  ylabel("Group delay(samples)");
+  ylabel("Delay(samples)");
   grid("on");
   print(sprintf(strF,lower(strOpt),"passband_response"),"-dpdflatex");  
   close
@@ -98,7 +98,6 @@ function schurOneMAPlattice_frm_halfband_socp_slb_plot ...
   subplot(211);
   plot(wplot*0.5/pi,20*log10(abs(Hw_model)))
   axis([0, 0.5, -60, 5]);
-  xlabel("Frequency");
   ylabel("Amplitude(dB)");
   grid("on");
   tstr=sprintf(strT,strOpt,"model filter");
@@ -107,7 +106,7 @@ function schurOneMAPlattice_frm_halfband_socp_slb_plot ...
   plot(wplot*0.5/pi,Tw_model)
   axis([0, 0.5, (Dmodel*Mmodel)-50, (Dmodel*Mmodel)+50]);
   xlabel("Frequency");
-  ylabel("Group delay(samples)");
+  ylabel("Delay(samples)");
   grid("on");
   print(sprintf(strF,lower(strOpt),"model_response"),"-dpdflatex");
   close

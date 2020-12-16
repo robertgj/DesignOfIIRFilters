@@ -1,5 +1,5 @@
 % complementaryFIRlattice_slb_exchange_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -124,7 +124,7 @@ plot(ft,[T0,Tdu,Tdl], ...
      ft(vR0.tl),T0(vR0.tl),'*', ...
      ft(vR0.tu),T0(vR0.tu),'+');
 title(strM0);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"0T"),"-dpdflatex");
 close
@@ -165,7 +165,7 @@ plot(ft,[T1,Tdu,Tdl], ...
      ft(vS1.tl),T1(vS1.tl),'*', ...
      ft(vS1.tu),T1(vS1.tu),'+');
 title(strM1);
-ylabel("Group delay");
+ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"1T"),"-dpdflatex");
 close

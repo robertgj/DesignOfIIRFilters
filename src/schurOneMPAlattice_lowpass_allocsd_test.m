@@ -1,5 +1,5 @@
 % schurOneMPAlattice_lowpass_allocsd_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Test Lims and Itos signed-digit allocation algorithms with the coefficents
 % of a parallel one-multiplier all-pass lattice low-pass filter.
@@ -241,7 +241,7 @@ for ndigits=2:3
          wt*0.5/pi,T_Lim,"linestyle","--", ...
          wt*0.5/pi,T_Ito,"linestyle","-");
     xlabel("Frequency");
-    ylabel("Group delay(samples)");
+    ylabel("Delay(samples)");
     axis([0 max(fap,ftp) td-(2*tdr) td+(2*tdr)]);
     grid("on");
     print(strcat(nbits_strf,"_passband_response"),"-dpdflatex");

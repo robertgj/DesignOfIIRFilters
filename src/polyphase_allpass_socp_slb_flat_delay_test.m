@@ -1,5 +1,5 @@
 % polyphase_allpass_socp_slb_flat_delay_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -103,7 +103,7 @@ strt=sprintf("Initial polyphase allpass : ma=%d,mb=%d", ma,mb);
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tab0);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-0.5 td+0.5]);
 grid("on");
@@ -144,7 +144,7 @@ strt=sprintf("Polyphase allpass : ma=%d,mb=%d,dBap=%g,dBas=%d,td=%g,tdr=%g",
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_ab1"),"-dpdflatex");
@@ -159,7 +159,7 @@ grid("on");
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
-ylabel("Group delay(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 max(fap,ftp) td-tdr td+tdr]);
 grid("on");

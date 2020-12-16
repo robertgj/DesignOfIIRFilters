@@ -1,7 +1,7 @@
 function schurOneMlattice_sqp_slb_bandpass_plot ...
   (k,epsilon,p,c,fapl,fapu,dBap,ftpl,ftpu,tp,tpr,fasl,fasu,dBas,strF,strT)
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -41,7 +41,7 @@ function schurOneMlattice_sqp_slb_bandpass_plot ...
   title(strT);
   subplot(212);
   plot(wplot*0.5/pi,T);
-  ylabel("Group delay(samples)");
+  ylabel("Delay(samples)");
   xlabel("Frequency");
   axis([0 0.5 0 2*tp]);
   grid("on");
@@ -57,7 +57,7 @@ function schurOneMlattice_sqp_slb_bandpass_plot ...
   title(strT);
   subplot(212);
   plot(wplot*0.5/pi,T);
-  ylabel("Group delay(samples)");
+  ylabel("Delay(samples)");
   xlabel("Frequency");
   axis([ftpl, ftpu, tp-tpr tp+tpr]);
   grid("on");
