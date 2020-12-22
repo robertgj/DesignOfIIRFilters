@@ -4,7 +4,8 @@ prog=svcasc2noise_example_test.m
 
 depends="svcasc2noise_example_test.m test_common.m \
 svcasc2noise.m butter2pq.m pq2svcasc.m pq2blockKWopt.m \
-svcasc2Abcd.m KW.m optKW2.m optKW.m svcascf.m svf.m crossWelch.m"
+svcasc2Abcd.m KW.m optKW2.m optKW.m svcascf.m svf.m crossWelch.m \
+p2n60.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -41,156 +42,156 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 
-Butterworth low-pass filter with N=20, fc=0.100000
+Butterworth low-pass filter with N=20, fc=0.100000, n60=311
 xbits =
    1   1   1   1   1   1   0   0   0   0
 
 stdydirf =
  Columns 1 through 8:
-   350.30   676.11   915.00   900.59   760.01   532.86   352.74   231.00
+   351.15   677.66   916.88   902.34   761.64   533.99   353.34   231.13
  Columns 9 and 10:
-   159.57   119.32
+   159.38   119.02
 
 stdxx1dirf =
  Columns 1 through 8:
-   63.838   64.133   66.489   66.030   68.010   65.967   65.025   64.667
+   64.009   64.287   66.630   66.161   68.158   66.111   65.145   64.721
  Columns 9 and 10:
-   65.595   66.575
+   65.538   66.424
 
 stdxx2dirf =
  Columns 1 through 8:
-   63.839   64.136   66.490   66.031   68.015   65.967   65.031   64.667
+   64.009   64.293   66.631   66.161   68.152   66.110   65.143   64.719
  Columns 9 and 10:
-   65.606   66.593
+   65.538   66.425
 
-varyddirf = 65.502
+varyddirf = 65.307
 est_varyddirf = 90.674
 stdyboptf =
  Columns 1 through 8:
-   350.90   682.65   908.47   911.26   760.12   545.83   361.62   236.50
+   351.75   684.24   910.32   913.07   761.84   547.06   362.29   236.67
  Columns 9 and 10:
-   161.40   120.24
+   161.19   119.90
 
 stdxx1boptf =
  Columns 1 through 8:
-   63.834   64.837   65.687   67.650   67.485   69.474   67.229   66.440
+   64.067   65.027   65.844   67.799   67.630   69.644   67.376   66.539
  Columns 9 and 10:
-   66.252   66.591
+   66.238   66.457
 
 stdxx2boptf =
  Columns 1 through 8:
-   63.898   64.753   65.938   66.939   67.925   67.807   66.755   66.271
+   64.095   64.920   66.077   67.075   68.069   67.963   66.879   66.328
  Columns 9 and 10:
-   66.384   67.126
+   66.302   66.939
 
-varydboptf = 20.351
+varydboptf = 19.937
 est_varydboptf = 21.937
 stdyboptfx =
  Columns 1 through 8:
-   351.00   682.79   908.57   911.35   760.18   545.89   361.70   236.56
+   351.82   684.30   910.39   913.11   761.85   547.06   362.33   236.70
  Columns 9 and 10:
-   161.41   120.26
+   161.22   119.96
 
 stdxx1boptfx =
  Columns 1 through 8:
-   127.694   129.685   131.373   135.320   134.984   138.968    67.252    66.445
+   128.150   130.053   131.684   135.611   135.269   139.298    67.387    66.540
  Columns 9 and 10:
-    66.262    66.596
+    66.245    66.476
 
 stdxx2boptfx =
  Columns 1 through 8:
-   127.824   129.532   131.891   133.894   135.864   135.629    66.773    66.289
+   128.207   129.854   132.165   134.157   136.143   135.926    66.887    66.338
  Columns 9 and 10:
-    66.388    67.139
+    66.314    66.974
 
-varydboptfx = 6.3163
+varydboptfx = 6.4295
 est_varydboptfx = 7.4054
 est_varydGoptf = 2.2740
-varydGoptf = 2.3447
-stdyGoptf = 113.94
+varydGoptf = 2.3385
+stdyGoptf = 113.79
 stdxxGoptf =
  Columns 1 through 8:
-   64.044   63.685   63.943   61.626   61.488   63.515   63.726   63.838
+   63.937   63.643   63.804   61.767   61.510   63.469   63.794   63.705
  Columns 9 through 16:
-   62.331   64.453   64.243   62.790   63.669   62.624   62.608   63.724
+   62.241   64.295   64.118   62.677   63.726   62.526   62.716   63.608
  Columns 17 through 20:
-   64.064   63.038   64.052   65.497
+   63.864   62.960   63.930   65.244
 
 
-Butterworth high-pass filter with N=20, fc=0.100000
+Butterworth high-pass filter with N=20, fc=0.100000, n60=279
 xbits =
    1   1   1   1   1   1   0   0   0   0
 
 stdydirf =
  Columns 1 through 8:
-   416.66   724.34   940.75   981.65   804.54   612.41   452.57   339.10
+   417.59   726.29   943.50   984.52   807.15   614.30   453.79   339.75
  Columns 9 and 10:
-   270.54   230.61
+   270.89   230.80
 
 stdxx1dirf =
  Columns 1 through 8:
-   63.838   62.562   62.796   65.297   62.861   63.224   64.225   64.630
+   63.949   62.710   62.947   65.460   63.046   63.422   64.453   64.868
  Columns 9 and 10:
-   65.003   64.855
+   65.235   65.056
 
 stdxx2dirf =
  Columns 1 through 8:
-   63.839   62.564   62.796   65.297   62.861   63.225   64.225   64.631
+   63.949   62.715   62.947   65.465   63.046   63.422   64.454   64.867
  Columns 9 and 10:
-   65.004   64.857
+   65.233   65.051
 
-varyddirf = 61.327
+varyddirf = 61.497
 est_varyddirf = 81.968
 stdyboptf =
  Columns 1 through 8:
-   417.18   750.87   984.71   984.38   837.66   630.23   461.24   344.44
+   418.25   753.23   988.09   987.71   840.65   632.34   462.57   345.15
  Columns 9 and 10:
-   272.38   231.62
+   272.75   231.82
 
 stdxx1boptf =
  Columns 1 through 8:
-   63.973   65.177   65.832   65.745   66.306   65.530   65.750   65.883
+   64.148   65.386   66.044   65.975   66.542   65.783   65.998   66.112
  Columns 9 and 10:
-   65.366   65.252
+   65.542   65.377
 
 stdxx2boptf =
  Columns 1 through 8:
-   63.954   65.119   64.774   66.748   66.601   66.472   65.240   65.876
+   64.104   65.316   64.973   66.967   66.833   66.721   65.490   66.119
  Columns 9 and 10:
-   65.551   65.050
+   65.756   65.203
 
-varydboptf = 20.341
+varydboptf = 20.499
 est_varydboptf = 21.574
 stdyboptfx =
  Columns 1 through 8:
-   416.84   749.99   983.52   983.29   836.94   629.77   461.04   344.37
+   417.91   752.39   986.87   986.60   839.88   631.85   462.36   345.07
  Columns 9 and 10:
-   272.37   231.62
+   272.72   231.81
 
 stdxx1boptfx =
  Columns 1 through 8:
-   127.808   130.166   131.476   131.320   132.467   130.909    65.697    65.853
+   128.152   130.590   131.898   131.773   132.927   131.404    65.940    66.076
  Columns 9 and 10:
-    65.342    65.248
+    65.517    65.368
 
 stdxx2boptfx =
  Columns 1 through 8:
-   127.766   130.040   129.344   133.307   133.035   132.786    65.166    65.841
+   128.059   130.439   129.743   133.733   133.498   133.267    65.414    66.076
  Columns 9 and 10:
-    65.523    65.036
+    65.723    65.184
 
-varydboptfx = 7.2464
+varydboptfx = 7.2192
 est_varydboptfx = 7.5025
 est_varydGoptf = 2.3417
-varydGoptf = 2.2568
-stdyGoptf = 228.44
+varydGoptf = 2.3880
+stdyGoptf = 228.54
 stdxxGoptf =
  Columns 1 through 8:
-   63.789   63.956   63.776   63.797   64.070   64.045   63.827   63.397
+   64.141   64.017   63.887   64.039   64.141   64.110   63.898   63.583
  Columns 9 through 16:
-   63.762   64.063   63.817   63.968   64.211   63.996   64.142   64.220
+   64.015   64.065   63.926   64.103   64.330   64.194   64.480   64.345
  Columns 17 through 20:
-   63.889   63.702   64.019   63.800
+   64.136   63.980   64.137   63.801
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi

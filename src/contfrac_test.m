@@ -13,6 +13,7 @@ fc=0.05
 dBap=0.1;
 dBas=40;
 [b,a]=ellip(N,dBap,dBas,2*fc);
+n60=p2n60(a)
 
 [Acf,Bcf,Ccf,Dcf]=contfrac(b,a)
 
@@ -44,7 +45,7 @@ nbits=10;
 scale=2^(nbits-1);
 nsamples=2^14;
 rand("seed",0xdeadbeef);
-u=rand(nsamples,1)-0.5;
+u=rand(n60+nsamples,1)-0.5;
 u=u/std(u);
 u=u/delta;
 u=round(u*scale);
@@ -52,6 +53,12 @@ u=round(u*scale);
 % Filter
 ycf=svf(Acf,Bcf,Ccf,Dcf,u,"none");
 ycf_f=svf(Acf,Bcf,Ccf,Dcf,u,"round");
+
+% Remove initial transient
+Rn60=(n60+1):length(u);
+u=u(Rn60);
+ycf=ycf(Rn60);
+ycf_f=ycf_f(Rn60);
 
 % Plot frequency response
 nfpts=1024;

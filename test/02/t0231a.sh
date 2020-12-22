@@ -3,7 +3,8 @@
 prog=schurOneMR2lattice2Abcd_test.m
 depends="schurOneMR2lattice2Abcd_test.m test_common.m schurOneMR2lattice2Abcd.m \
 tf2schurOneMlattice.m Abcd2tf.m schurOneMscale.m schurdecomp.oct \
-schurexpand.oct svf.m KW.m crossWelch.m reprand.oct"
+schurexpand.oct svf.m KW.m crossWelch.m reprand.oct \
+p2n60.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -65,15 +66,16 @@ Cap =
 Dap = -0.3874
 ng = 0.1956
 ngap = 1.0000
+n60 = 15
 est_varyd = 0.099634
-varyd = 0.1008
+varyd = 0.1009
 stdxx =
-   128.60   128.60
+   128.58   128.57
 
 est_varydap = 0.1667
 varydap = 0.1701
 stdxxap =
-   128.60   128.60
+   128.58   128.57
 
 indexABCap =
    1   2   3   5
@@ -114,15 +116,16 @@ Cap =
 Dap = 0.4863
 ng = 0.4813
 ngap = 3.0000
+n60 = 39
 est_varyd = 0.1234
-varyd = 0.1233
+varyd = 0.1228
 stdxx =
-   129.42   129.43   128.27   130.50   128.28
+   129.45   129.44   128.29   130.43   128.27
 
 est_varydap = 0.3333
-varydap = 0.3327
+varydap = 0.3328
 stdxxap =
-   129.42   129.43   128.27   128.28
+   129.45   129.44   128.29   128.27
 
 indexABCap =
    1   2   3   5   6   8
@@ -173,15 +176,16 @@ Cap =
 Dap = -0.4480
 ng = 0.7790
 ngap = 5.0000
+n60 = 98
 est_varyd = 0.1482
-varyd = 0.1466
+varyd = 0.1478
 stdxx =
-   129.64   129.64   129.10   130.58   129.11   128.45   131.00   128.48
+   129.64   129.65   129.14   130.33   129.15   128.48   130.72   128.49
 
 est_varydap = 0.5000
-varydap = 0.4980
+varydap = 0.4997
 stdxxap =
-   129.64   129.64   129.10   129.11   128.45   128.48
+   129.64   129.65   129.14   129.15   128.48   128.49
 
 indexABCap =
     1    2    3    5    6    8    9   11   12   14   15   17
@@ -316,23 +320,24 @@ Cap =
 Dap = 5.3802e-03
 ng = 3.4586
 ngap = 11.000
+n60 = 25
 est_varyd = 0.3715
-varyd = 0.3726
+varyd = 0.3744
 stdxx =
  Columns 1 through 8:
-   127.85   127.86   127.50   128.06   127.50   128.05   128.63   128.06
+   127.88   127.88   127.52   128.07   127.53   128.08   128.62   128.09
  Columns 9 through 16:
-   128.04   128.36   128.06   127.99   128.17   128.02   127.97   128.20
+   128.06   128.36   128.07   128.01   128.18   128.03   128.00   128.21
  Column 17:
-   128.00
+   128.01
 
 est_varydap = 1.0000
-varydap = 0.9971
+varydap = 0.9948
 stdxxap =
  Columns 1 through 8:
-   127.85   127.86   127.50   127.50   128.05   128.06   128.04   128.06
+   127.88   127.88   127.52   127.53   128.08   128.09   128.06   128.07
  Columns 9 through 12:
-   127.99   128.02   127.97   128.00
+   128.01   128.03   128.00   128.01
 
 indexABCap =
  Columns 1 through 16:
@@ -602,27 +607,28 @@ Cap =
 Dap = 0.015043
 ng = 3.5706
 ngap = 19.000
+n60 = 47
 est_varyd = 0.3809
-varyd = 0.3876
+varyd = 0.3763
 stdxx =
  Columns 1 through 8:
-   127.61   127.61   127.30   127.60   127.31   127.02   127.78   127.03
+   127.69   127.69   127.39   127.67   127.38   127.10   127.88   127.10
  Columns 9 through 16:
-   127.33   128.29   127.35   127.71   127.93   127.74   127.66   128.29
+   127.39   128.36   127.40   127.75   128.03   127.77   127.71   128.37
  Columns 17 through 24:
-   127.69   127.78   128.24   127.81   127.95   128.25   128.00   127.92
+   127.72   127.84   128.33   127.84   128.01   128.34   128.01   127.98
  Columns 25 through 29:
-   128.23   127.97   127.97   128.26   128.02
+   128.30   127.98   128.02   128.33   128.02
 
 est_varydap = 1.6667
-varydap = 1.6607
+varydap = 1.6375
 stdxxap =
  Columns 1 through 8:
-   127.61   127.61   127.30   127.31   127.02   127.03   127.33   127.35
+   127.69   127.69   127.39   127.38   127.10   127.10   127.39   127.40
  Columns 9 through 16:
-   127.71   127.74   127.66   127.69   127.78   127.81   127.95   128.00
+   127.75   127.77   127.71   127.72   127.84   127.84   128.01   128.01
  Columns 17 through 20:
-   127.92   127.97   127.97   128.02
+   127.98   127.98   128.02   128.02
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

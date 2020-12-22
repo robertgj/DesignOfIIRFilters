@@ -21,11 +21,16 @@ for t=1:2
   if t==1
     pass="low";
     [dd,p1,p2,q1,q2]=butter2pq(N,fc);
+    [~,d]=butter(N,fc);
+    n60=p2n60(d);
   else
     pass="high";
     [dd,p1,p2,q1,q2]=butter2pq(N,fc,pass);
+    [~,d]=butter(N,fc,pass);
+    n60=p2n60(d);
   endif
-  printf("\nButterworth %s-pass filter with N=%d, fc=%f\n",pass,N,fc);
+  printf("\nButterworth %s-pass filter with N=%d, fc=%f, n60=%d\n", ...
+         pass,N,fc,n60);
 
   % Direct form sections
   [a11dir,a12dir,a21dir,a22dir,b1dir,b2dir,c1dir,c2dir] = ...
@@ -278,8 +283,9 @@ filter}\n", N, pass);
   %xbits=round(xbitsboptf);
   
   % Input waveform
+  nsamples=2^14;
   rand("seed",0xdeadbeef)
-  u=rand(2^14,1)-0.5;
+  u=rand(n60+nsamples,1)-0.5;
   u=round(u*(2^bits)/(std(u)*delta));
 
   % Run svcascf for direct-form and block optimised coefficients
@@ -329,7 +335,26 @@ filter}\n", N, pass);
       svcascf(a11boptf,a12boptf,a21boptf,a22boptf, ...
               b1boptf,b2boptf,c1boptf,c2boptf,ddboptf,u,"round",xbits);
   endif
- 
+
+  % Remove initial transient
+  Rn60=(n60+1):length(u);
+  ub=u(Rn60);
+  ydir=ydir(Rn60,:);
+  xx1dir=xx1dir(Rn60,:);
+  xx2dir=xx2dir(Rn60,:);
+  ydirf=ydirf(Rn60,:);
+  xx1dirf=xx1dirf(Rn60,:);
+  xx2dirf=xx2dirf(Rn60,:);
+  ybopt=ybopt(Rn60,:);
+  xx1bopt=xx1bopt(Rn60,:);
+  xx2bopt=xx2bopt(Rn60,:);
+  yboptf=yboptf(Rn60,:);
+  xx1boptf=xx1boptf(Rn60,:);
+  xx2boptf=xx2boptf(Rn60,:);
+  yboptfx=yboptfx(Rn60,:);
+  xx1boptfx=xx1boptfx(Rn60,:);
+  xx2boptfx=xx2boptfx(Rn60,:);
+  
   % Check state and output variances for the direct-form filter
   stdydirf=std(ydirf)
   stdxx1dirf=std(xx1dirf)
@@ -370,7 +395,7 @@ filter}\n", N, pass);
   % Plot the simulated response
   nfpts=1024;
   nppts=(0:511);
-  Hf=crossWelch(u,yboptf(:,end),nfpts);
+  Hf=crossWelch(ub,yboptf(:,end),nfpts);
   subplot(111);
   plot(nppts/nfpts,20*log10(abs(Hf)));
   xlabel("Frequency")

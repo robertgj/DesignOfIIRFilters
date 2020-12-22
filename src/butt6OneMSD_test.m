@@ -1,5 +1,5 @@
 % butt6OneMSD_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Test case for a 5th order Butterworth lattice filter with 
 % single multiplier form and truncated coefficients. 
@@ -15,6 +15,7 @@ fc=0.05
 [n,d]=butter(5,2*fc);
 n=n(:)';
 d=d(:)';
+n60=p2n60(d)
 [Aap1,Aap2]=tf2pa(n,d);
 sgma=1;
 
@@ -46,7 +47,7 @@ nbits=10;
 scale=2^(nbits-1);
 nsamples=2^14;
 rand("seed",0xdeadbeef);
-u=rand(nsamples,1)-0.5;
+u=rand(n60+nsamples,1)-0.5;
 u=0.25*u/std(u); 
 u=round(u*scale);
 
@@ -55,9 +56,18 @@ u=round(u*scale);
 [A2yapf,A2yf,A2xxf]=schurOneMlatticeFilter(A2ksd,A2epsilon,A2p,A2csd,u,"round");
 yapf=round(0.5*(A1yapf+(sgma*A2yapf)));
 
+% Remove initial transient
+Rn60=(n60+1):length(u);
+A1yapf=A1yapf(Rn60);
+A1yf=A1yf(Rn60);
+A1xxf=A1xxf(Rn60,:);
+A2yapf=A2yapf(Rn60);
+A2yf=A2yf(Rn60);
+A2xxf=A2xxf(Rn60,:);
+
 % Show the state variances
-std(A1xxf)
-std(A2xxf)
+A1stdxf=std(A1xxf)
+A2stdxf=std(A2xxf)
 
 % Plot frequency response
 nfpts=1024;

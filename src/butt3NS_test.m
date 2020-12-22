@@ -4,7 +4,7 @@
 % Test case for the 3rd order Butterworth lattice filter with
 % scaled-normalised form. Use the transposed transfer function to
 % estimate the noise gain. Note that this method does not really apply
-% for quantised lattice coefficients becausee the corresponding Schur 
+% for quantised lattice coefficients because the corresponding Schur 
 % basis is not quantised. 
 
 test_common;
@@ -19,6 +19,7 @@ fc=0.05
 [n,d]=butter(3,2*fc);
 n=n(:)'
 d=d(:)'
+n60=p2n60(d);
 
 % Expected response
 [H,w]=freqz(n,d,512);
@@ -87,7 +88,7 @@ nbits=10;
 scale=2^(nbits-1);
 nsamples=2^14;
 rand("seed",0xdeadbeef);
-u=rand(nsamples,1)-0.5;
+u=rand(n60+nsamples,1)-0.5;
 u=0.25*u/std(u);
 dir_extra_bits=0;
 u_dir_scaled=round(u*scale*(2^dir_extra_bits));
@@ -102,6 +103,18 @@ u=round(u*scale);
 [yoptf,xxoptf]=svf(Aopt,Bopt,Copt,Dopt,u,"round");
 [ydir,xxdir]=svf(Adir,Bdir,Cdir,Ddir,u_dir_scaled,"none");
 [ydirf,xxdirf]=svf(Adir,Bdir,Cdir,Ddir,u_dir_scaled,"round");
+
+% Remove initial transient
+Rn60=(n60+1):length(u);
+u=u(Rn60);
+yap=yap(Rn60);y=y(Rn60);xx=xx(Rn60,:);
+yapf=yapf(Rn60);yf=yf(Rn60);xxf=xxf(Rn60,:);
+yABCD=yABCD(Rn60);xxABCD=xxABCD(Rn60,:);
+yABCDf=yABCDf(Rn60);xxABCDf=xxABCDf(Rn60,:);
+yopt=yopt(Rn60);xxopt=xxopt(Rn60,:);
+yoptf=yoptf(Rn60);xxoptf=xxoptf(Rn60,:);
+ydir=ydir(Rn60);xxdir=xxdir(Rn60,:);
+ydirf=ydirf(Rn60);xxdirf=xxdirf(Rn60,:);
 
 % Plot frequency response
 nfpts=1024;
@@ -139,33 +152,39 @@ stdxxdir=std(xxdirf)
 
 % Plot state variables
 nstates=1000;
-svk=(nsamples/2):((nsamples/2)+nstates);
+svk=1:nstates;
 subplot(211);
 plot(xxf(svk,1), xxf(svk,2));
+axis([-600 600 -600 600]);
 xlabel("State variable x1");
 ylabel("State variable x2");
 subplot(212);
 plot(xxf(svk,1), xxf(svk,3));
+axis([-600 600 -600 600]);
 xlabel("State variable x1");
 ylabel("State variable x3");
 print("butt3NS_test_sv_noise_schur_lattice","-dpdflatex");
 close
 subplot(211);
 plot(xxdirf(svk,1), xxdirf(svk,2));
+axis([-600 600 -600 600]);
 xlabel("State variable x1");
 ylabel("State variable x2");
 subplot(212);
 plot(xxdirf(svk,1), xxdirf(svk,3));
+axis([-600 600 -600 600]);
 xlabel("State variable x1");
 ylabel("State variable x3");
 print("butt3NS_test_sv_noise_direct_form","-dpdflatex");
 close
 subplot(211);
 plot(xxoptf(svk,1), xxoptf(svk,2));
+axis([-600 600 -600 600]);
 xlabel("State variable x1");
 ylabel("State variable x2");
 subplot(212);
 plot(xxoptf(svk,1), xxoptf(svk,3));
+axis([-600 600 -600 600]);
 xlabel("State variable x1");
 ylabel("State variable x3");
 print("butt3NS_test_sv_noise_global_optimum","-dpdflatex");
@@ -179,10 +198,6 @@ Hoptdiff=filter(ones(box,1)/box,1,crossWelch(u,yoptf-yopt,nfpts));
 subplot(211);
 plot(nppts/nfpts,20*log10(abs(Hoptdiff)));
 title("Optimum filter output noise response")
-%Hdiff=filter(ones(box,1)/box,1,crossWelch(u,yf-y,nfpts));
-%subplot(211);
-%plot(nppts/nfpts,20*log10(abs(Hdiff)));
-%title("Schur lattice filter output noise response")
 ylabel("Amplitude(dB)")
 axis([0 0.5 -100 -60]);
 grid("on");
@@ -198,16 +213,18 @@ print("butt3NS_test_response_direct_form_noise","-dpdflatex");
 close
 
 % Filter a quantised sine wave
-usin=round(0.5*sin(2*pi*0.0125*(1:128))*scale);
+usin=round(0.25*sin(2*pi*0.0125*(1:128))*scale);
 usin=usin(:);
 [ysinap,ysin,xxsin]=schurNSlatticeFilter(s10,s11,s20,s00,s02,s22,usin,"none");
 % Plot state variables for the sine wave
 subplot(211);
 plot(xxsin(:,1), xxsin(:,2))
+axis([-600 600 -600 600]);
 xlabel("State variable x1")
 ylabel("State variable x2")
 subplot(212);
 plot(xxsin(:,1), xxsin(:,3))
+axis([-600 600 -600 600]);
 xlabel("State variable x1")
 ylabel("State variable x3")
 print("butt3NS_test_sv_sine_schur_lattice","-dpdflatex");

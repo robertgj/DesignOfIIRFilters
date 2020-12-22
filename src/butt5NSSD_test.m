@@ -1,5 +1,5 @@
 % butt5NSSD_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Test case for the 5th order Butterworth lattice filter with
 % scaled-normalised exact and truncated coefficients.
@@ -10,12 +10,14 @@ delete("butt5NSSD_test.diary");
 delete("butt5NSSD_test.diary.tmp");
 diary butt5NSSD_test.diary.tmp
 
+output_precision(10)
 
 % fc is the filter cutoff as a fraction of the sampling frequency
 fc=0.05
 [n,d]=butter(5,2*fc);
 n=n(:)'
 d=d(:)'
+n60=p2n60(d)
 [Aap1,Aap2]=tf2pa(n,d)
 
 % Lattice decomposition of transfer function
@@ -45,7 +47,7 @@ A2s22f = flt2SD(A2s22, nbits, ndigits)
 % Make a quantised noise signal with standard deviation 0.25
 nsamples=2^14;
 rand("seed",0xdeadbeef);
-u=rand(nsamples,1)-0.5;
+u=rand(n60+nsamples,1)-0.5;
 u=0.25*u/std(u); 
 u=round(u*scale);
 
@@ -56,9 +58,20 @@ u=round(u*scale);
   schurNSlatticeFilter(A2s10f,A2s11f,A2s20f,A2s00f,A2s02f,A2s22f,u,"round");
 yapf=round(0.5*(A1yapf+A2yapf));
 
+% Remove initial transient
+Rn60=(n60+1):length(u);
+u=u(Rn60);
+A1yapf=A1yapf(Rn60);
+A1yf=A1yf(Rn60);
+A1xxf=A1xxf(Rn60,:);
+A2yapf=A2yapf(Rn60);
+A2yf=A2yf(Rn60);
+A2xxf=A2xxf(Rn60,:);
+yapf=yapf(Rn60);
+
 % Show the state variances
-std(A1xxf)
-std(A2xxf)
+stdA1xxf=std(A1xxf)
+stdA2xxf=std(A2xxf)
 
 % Plot frequency response
 nfpts=1024;

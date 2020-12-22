@@ -3,9 +3,6 @@
 
 test_common;
 
-set(0,'DefaultFigureVisible','on');
-set(0,"defaultlinelinewidth",4);
-
 delete("direct_form_scale_test.diary");
 delete("direct_form_scale_test.diary.tmp");
 diary direct_form_scale_test.diary.tmp

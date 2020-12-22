@@ -4,7 +4,9 @@ prog=schur_retimed_test.m
 
 depends="schur_retimed_test.m test_common.m \
 schurdecomp.oct schurNSscale.oct schurexpand.oct \
-tf2Abcd.m Abcd2tf.m WISEJ.m tf2schurNSlattice.m KW.m svf.m crossWelch.m"
+tf2Abcd.m Abcd2tf.m WISEJ.m tf2schurNSlattice.m KW.m svf.m crossWelch.m \
+p2n60.m qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -74,14 +76,14 @@ max(abs(sdR(1:5)-dR'))=0.000000
 ngABCD = 0.7089
 ngABCDap = 3.0000
 est_varyd = 0.1424
-varyd = 0.1426
+varyd = 0.1424
 est_varydap = 0.3333
-varydap = 0.3300
-stdxx =
+varydap = 0.3309
+stdxxABCD =
  Columns 1 through 8:
-   129.42   130.39   129.43   128.28   128.28   130.50   128.27   130.63
+   129.45   130.32   129.44   128.27   128.27   130.43   128.29   130.56
  Columns 9 through 11:
-   128.28   128.00   128.00
+   128.27   128.01   128.00
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

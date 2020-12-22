@@ -1,0 +1,65 @@
+#!/bin/sh
+
+prog=p2n60_test.m
+depends="p2n60_test.m test_common.m p2n60.m local_max.m qroots.m qzsolve.oct"
+
+tmp=/tmp/$$
+here=`pwd`
+if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
+
+fail()
+{
+        echo FAILED ${0#$here"/"} $prog 1>&2
+        cd $here
+        rm -rf $tmp
+        exit 1
+}
+
+pass()
+{
+        echo PASSED ${0#$here"/"} $prog
+        cd $here
+        rm -rf $tmp
+        exit 0
+}
+
+trap "fail" 1 2 3 15
+mkdir $tmp
+if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
+for file in $depends;do \
+  cp -R src/$file $tmp; \
+  if [ $? -ne 0 ]; then echo "Failed cp "$file; fail; fi \
+done
+cd $tmp
+if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
+
+#
+# the output should look like this
+#
+cat > test.ok << 'EOF'
+Caught problem in p2n60 : amax(1.1)>=(1-tol(1e-06))
+n60 = 99
+n60min = 102
+n60 = 38
+n60min = 44
+n60 = 48
+n60min = 48
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
+
+#
+# run and see if the results match. 
+#
+echo "Running $prog"
+
+octave-cli -q $prog >test.out 2>&1
+if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
+
+diff -Bb test.ok test.out
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok"; fail; fi
+
+#
+# this much worked
+#
+pass
+

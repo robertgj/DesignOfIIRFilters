@@ -1,5 +1,5 @@
 % schurOneMR2lattice2Abcd_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -102,13 +102,22 @@ for l=1:length(f)
   scale=2^(nbits-1);
   nsamples=2^14;
   rand("seed",0xdeadbeef);
-  u=rand(nsamples,1)-0.5;
+  n60=p2n60(f{l}.dR)
+  u=rand(n60+nsamples,1)-0.5;
   u=0.25*u/std(u);
   u=round(u*scale);
 
   % Filter
   [yABCD,xxABCD]=svf(inv(T)*A*T,inv(T)*B,C*T,D,u,"none");
   [yABCDf,xxABCDf]=svf(inv(T)*A*T,inv(T)*B,C*T,D,u,"round");
+
+  % Remove initial transient
+  Rn60=(n60+1):length(u);
+  ub=u(Rn60);
+  yABCD=yABCD(Rn60);
+  xxABCD=xxABCD(Rn60,:);
+  yABCDf=yABCDf(Rn60);
+  xxABCDf=xxABCDf(Rn60,:);
 
   % Check output round-off noise variance
   est_varyd=(1+ng)/12
@@ -120,7 +129,7 @@ for l=1:length(f)
   % Plot frequency response
   nfpts=2048;
   nppts=(0:1023);
-  HABCDf=crossWelch(u,yABCDf,nfpts);
+  HABCDf=crossWelch(ub,yABCDf,nfpts);
   plot(nppts/nfpts,20*log10(abs(HABCDf)));
   xlabel("Frequency");
   ylabel("Amplitude(dB)");
@@ -133,6 +142,12 @@ for l=1:length(f)
   [yABCDap,xxABCDap]=svf(inv(Tap)*Aap*Tap,inv(Tap)*Bap,Cap*Tap,Dap,u,"none");
   [yABCDapf,xxABCDapf]=svf(inv(Tap)*Aap*Tap,inv(Tap)*Bap,Cap*Tap,Dap,u,"round");
 
+  % Remove initial transient
+  yABCDap=yABCDap(Rn60);
+  xxABCDap=xxABCDap(Rn60,:);
+  yABCDapf=yABCDapf(Rn60);
+  xxABCDapf=xxABCDapf(Rn60,:);
+
   % Check output round-off noise variance
   est_varydap=(1+ngap)/12
   varydap=var(yABCDap-yABCDapf)
@@ -143,7 +158,7 @@ for l=1:length(f)
   % Plot frequency response
   nfpts=2048;
   nppts=(0:1023);
-  HABCDapf=crossWelch(u,yABCDapf,nfpts);
+  HABCDapf=crossWelch(ub,yABCDapf,nfpts);
   plot(nppts/nfpts,20*log10(abs(HABCDapf)));
   xlabel("Frequency");
   ylabel("Amplitude(dB)");

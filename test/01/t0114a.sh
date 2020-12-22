@@ -3,7 +3,8 @@
 prog=contfrac_test.m
 
 depends="contfrac_test.m test_common.m contfrac.m \
-Abcd2tf.m tf2Abcd.m KW.m optKW.m svf.m crossWelch.m"
+Abcd2tf.m tf2Abcd.m KW.m optKW.m svf.m crossWelch.m p2n60.m qroots.m \
+qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -41,6 +42,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test.ok << 'EOF'
 N = 5
 fc = 0.050000
+n60 = 211
 Acf =
    1.1807   0.3007        0        0        0
    1.0000   0.1114  -0.7030        0        0
@@ -66,7 +68,7 @@ ngdir = 5.8334e+05
 ngoptdir = 0.9282
 ngopt = 0.9282
 est_varydcf = 42.312
-varydcf = 45.528
+varydcf = 47.585
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

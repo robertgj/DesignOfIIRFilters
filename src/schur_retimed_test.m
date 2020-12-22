@@ -1,5 +1,5 @@
 % schur_retimed_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -96,7 +96,8 @@ nbits=10;
 scale=2^(nbits-1);
 nsamples=2^14;
 rand("seed",0xdeadbeef);
-u=rand(nsamples,1)-0.5;
+n60=p2n60(sdR);
+u=rand(n60+nsamples,1)-0.5;
 u=0.25*u/std(u);
 u=round(u*scale);
 
@@ -104,16 +105,28 @@ u=round(u*scale);
 [yABCD,xxABCD]=svf(sA,sB,sC,sD,u,"none");
 [yABCDf,xxABCDf]=svf(sA,sB,sC,sD,u,"round");
 [yABCDap,xxABCDap]=svf(sA,sB,sCap,sDap,u,"none");
-[yABCDfap,xxABCDfap]=svf(sA,sB,sCap,sDap,u,"round");
+[yABCDapf,xxABCDapf]=svf(sA,sB,sCap,sDap,u,"round");
+
+% Remove initial transient
+Rn60=(n60+1):length(u);
+u=u(Rn60);
+yABCD=yABCD(Rn60);
+xxABCD=xxABCD(Rn60,:);
+yABCDf=yABCDf(Rn60);
+xxABCDf=xxABCDf(Rn60,:);
+yABCDap=yABCDap(Rn60);
+xxABCDap=xxABCDap(Rn60,:);
+yABCDapf=yABCDapf(Rn60);
+xxABCDapf=xxABCDapf(Rn60,:);
 
 % Check output round-off noise variance
 est_varyd=(1+ngABCD)/12
 varyd=var(yABCD-yABCDf)
 est_varydap=(1+ngABCDap)/12
-varydap=var(yABCDap-yABCDfap)
+varydap=var(yABCDap-yABCDapf)
 
 % Check state variable std. deviation
-stdxx=std(xxABCD)
+stdxxABCD=std(xxABCD)
 
 % Plot frequency response
 nfpts=1024;
@@ -127,5 +140,6 @@ grid("on");
 print(strcat(strf,"_output_response"),"-dpdflatex");
 close
 
+% Done
 diary off
 movefile schur_retimed_test.diary.tmp schur_retimed_test.diary;

@@ -1,5 +1,5 @@
 % schurOneMlatticeRetimed2Abcd_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Test cases for the retimed Schur one-multiplier lattice filter 
 
@@ -8,16 +8,6 @@ test_common;
 delete("schurOneMlatticeRetimed2Abcd_test.diary");
 delete("schurOneMlatticeRetimed2Abcd_test.diary.tmp");
 diary schurOneMlatticeRetimed2Abcd_test.diary.tmp
-
-
-% Make a quantised noise signal
-nbits=10;
-scale=2^(nbits-1);
-delta=1;
-nsamples=2^14;
-u=reprand(nsamples,1)-0.5;
-u=0.25*u/std(u);
-u=round(u*scale);
 
 % k empty
 k=epsilon=p=c=[];
@@ -95,6 +85,17 @@ for Nk=1:9
     error("abs(ngap-ngPipeap) > 40*tol");
   endif
 
+
+  % Make a quantised noise signal
+  nbits=10;
+  scale=2^(nbits-1);
+  delta=1;
+  nsamples=2^14;
+  n60=p2n60(d);
+  u=reprand(n60+nsamples,1)-0.5;
+  u=0.25*u/std(u);
+  u=round(u*scale);
+
   % Simulate noise gain
   kf = round(k*scale)/scale;
   cf = round(c*scale)/scale;
@@ -104,13 +105,22 @@ for Nk=1:9
   [Kapf,Wapf]=KW(Af,Bf,Capf,ddapf);
   ngABCDapf=sum(diag(Kapf).*diag(Wapf));
   % Butterworth output
-  [yABCD,xxABCD]=svf(Af,Bf,Cf,ddf,u,"none");
-  [yABCDf,xxABCDf]=svf(Af,Bf,Cf,ddf,u,"round");
+  yABCD=svf(Af,Bf,Cf,ddf,u,"none");
+  yABCDf=svf(Af,Bf,Cf,ddf,u,"round");
+  % All-pass output
+  yABCDap=svf(Af,Bf,Capf,ddapf,u,"none");
+  yABCDapf=svf(Af,Bf,Capf,ddapf,u,"round");
+  % Remove initial transient
+  Rn60=(n60+1):length(u);
+  u=u(Rn60);
+  yABCD=yABCD(Rn60);
+  yABCDf=yABCDf(Rn60);
+  yABCDap=yABCDap(Rn60);
+  yABCDapf=yABCDapf(Rn60);
+  % Butterworth variance
   est_varyABCDd=(1+(ngABCDf*delta*delta))/12
   varyABCDd=var(yABCD-yABCDf)
-  % All-pass output
-  [yABCDap,xxABCDap]=svf(Af,Bf,Capf,ddapf,u,"none");
-  [yABCDapf,xxABCDapf]=svf(Af,Bf,Capf,ddapf,u,"round");
+  % All-pass variance
   est_varyABCDapd=(1+(ngABCDapf*delta*delta))/12
   varyABCDapd=var(yABCDap-yABCDapf)
   

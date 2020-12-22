@@ -1,5 +1,5 @@
 % sv2block_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -20,6 +20,7 @@ fc=0.05;
 [n,d]=ellip(N,dbap,dbas,2*fc);
 n=n(:)';
 d=d(:)';
+n60=p2n60(d);
 [A,B,C,D]=tf2Abcd(n,d);
 [K,W]=KW(A,B,C,D);
 [Topt,Kopt,Wopt]=optKW(K,W,delta);
@@ -43,13 +44,20 @@ est_nvABCDoptf=sqrt((1+(delta*delta*ngABCDoptf))/12)
 % Make a quantised noise signal with standard deviation 0.25*2^nbits
 nsamples=2^14;
 rand("seed",0xdeadbeef);
-u=rand(nsamples,1)-0.5;
+u=rand(n60+nsamples,1)-0.5;
 u=0.25*u/std(u);
 u=round(u*scale);
 
 % Run the block 1 filter
 [yopt,xxopt]=svf(Aoptf,Boptf,Coptf,Doptf,u,"none");
 [yoptf,xxoptf]=svf(Aoptf,Boptf,Coptf,Doptf,u,"round");
+
+% Remove the initial transient
+Rn60=(n60+1):length(u);
+yopt=yopt(Rn60);
+xxopt=xxopt(Rn60,:);
+yoptf=yoptf(Rn60);
+xxoptf=xxoptf(Rn60,:);
 
 % Check the RMS roundoff noise in bits for the block 1 filter
 nvABCDoptf=std(yoptf-yopt)
@@ -70,11 +78,19 @@ ngABCDbf=ngABCDopt/mblock
 est_nvABCDbf=sqrt((1+(delta*delta*ngABCDbf))/12)
 
 % Run the block filter
-ub=reshape(u(:)',mblock,floor(nsamples/mblock))';
-[yb,xxb]=svf(Abf,Bbf,Cbf,Dbf,ub,"none");
+ub=reshape(u(1:(mblock*floor(length(u)/mblock)))', ...
+           mblock,floor(length(u)/mblock))';
+yb=svf(Abf,Bbf,Cbf,Dbf,ub,"none");
 yb=yb'(:);
-[ybf,xxbf]=svf(Abf,Bbf,Cbf,Dbf,ub,"round");
+ybf=svf(Abf,Bbf,Cbf,Dbf,ub,"round");
 ybf=ybf'(:);
+
+% Remove the initial transient
+u=ub'(:);
+Rn60=(n60+1):length(u);
+u=u(Rn60);
+yb=yb(Rn60);
+ybf=ybf(Rn60);
 
 % Check the RMS roundoff noise in bits for the block filter
 nvABCDbf=std(ybf-yb)

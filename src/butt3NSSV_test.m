@@ -14,6 +14,7 @@ diary butt3NSSV_test.diary.tmp
 % fc is the filter cutoff as a fraction of the sampling frequency
 fc=0.05
 [n,d]=butter(3,2*fc)
+n60=p2n60(d);
 
 % Lattice decomposition
 [s10,s11,s20,s00,s02,s22] = tf2schurNSlattice(n,d)
@@ -56,13 +57,23 @@ ngfap
 % Make a quantised noise signal
 nsamples=2^14;
 rand("seed",0xdeadbeef);
-u=rand(nsamples,1)-0.5;
+u=rand(n60+nsamples,1)-0.5;
 u=0.25*u/std(u);
 u=round(u*scale);
 
 % Filter
 [yap,y,xx]=schurNSlatticeFilter(s10f,s11f,s20f,s00f,s02f,s22f,u,"none");
 [yapf,yf,xxf]=schurNSlatticeFilter(s10f,s11f,s20f,s00f,s02f,s22f,u,"round");
+
+% Remove initial transient
+Rn60=(n60+1):length(u);
+u=u(Rn60);
+yap=yap(Rn60);
+y=y(Rn60);
+xx=xx(Rn60,:);
+yapf=yapf(Rn60);
+yf=yf(Rn60);
+xxf=xxf(Rn60,:);
 
 % Check output round-off noise variance
 est_varyd=(1+ngf)/12

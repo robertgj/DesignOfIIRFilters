@@ -5,7 +5,8 @@ prog=ellip5NS_test.m
 depends="ellip5NS_test.m test_common.m \
 schurexpand.oct schurdecomp.oct schurNSscale.oct \
 tf2schurNSlattice.m schurNSlatticeNoiseGain.m schurNSlattice2Abcd.oct \
-schurNSlatticeFilter.m KW.m optKW.m tf2Abcd.m svf.m bin2SD.oct crossWelch.m"
+schurNSlatticeFilter.m KW.m optKW.m tf2Abcd.m svf.m bin2SD.oct crossWelch.m \
+p2n60.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -51,6 +52,7 @@ n =
 d =
     1.0000   -6.4328   17.9479  -28.1369   26.7559  -15.4281    4.9940   -0.7000
 
+n60 = 1391
 s10 =
  Columns 1 through 6:
    7.7668e-01   8.4822e-01   3.6434e-01   3.8757e-01   8.9744e-02   5.8424e-02
@@ -124,24 +126,24 @@ ngoptap = 7.0000
 ngdir = 2.4159e+11
 ngdirap = 1.8058e+12
 est_varyd = 0.4398
-varyd = 0.4664
+varyd = 0.4353
 est_varyoptd = 0.2082
-varyoptd = 0.2132
+varyoptd = 0.2043
 est_varydird = 2.0132e+10
-varydird = 3.4465e+07
+varydird = 3.5378e+07
 est_varyapd = 1.1667
-varyapd = 1.2239
+varyapd = 1.1536
 stdxx =
-   123.13   122.69   130.24   129.99   130.70   130.78   128.44
+   121.13   120.71   128.78   129.06   130.18   129.96   128.18
 
 stdxxopt =
-   130.56   126.84   124.61   129.21   129.37   127.07   130.04
+   129.45   125.47   122.84   128.17   127.93   125.65   128.59
 
 stdxxdir =
  Columns 1 through 6:
-   2.0636e+09   2.0639e+09   2.0640e+09   2.0641e+09   2.0641e+09   2.0641e+09
+   2.0367e+09   2.0367e+09   2.0367e+09   2.0367e+09   2.0367e+09   2.0367e+09
  Column 7:
-   2.0641e+09
+   2.0368e+09
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

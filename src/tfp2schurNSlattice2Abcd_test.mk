@@ -10,4 +10,5 @@ tfp2schurNSlattice2Abcd.m tf2schurNSlattice.m tf2schurOneMlattice.m \
 schurNSlattice2Abcd.oct schurOneMlattice2Abcd.oct KW.m optKW.m phi2p.m \
 Abcd2tf.m schurNSlatticeNoiseGain.m schurOneMlatticeNoiseGain.m \
 schurNSlatticeFilter.m schurOneMlatticeFilter.m crossWelch.m \
-schurdecomp.oct schurexpand.oct schurNSscale.oct schurOneMscale.m
+schurdecomp.oct schurexpand.oct schurNSscale.oct schurOneMscale.m \
+p2n60.m qroots.m qzsolve.oct 

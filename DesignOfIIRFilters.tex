@@ -5885,23 +5885,23 @@ The estimated and simulated round-off noise variances are for the Schur lattice
 implementation of the Butterworth filter ($\sigma^{2}=\left(1+ng\right)/12$):
 \begin{small}
 \begin{verbatim}
-est_varyd =  0.18255
-varyd =  0.18266
+est_varyd =  0.1825
+varyd =  0.1819
 \end{verbatim}
 \end{small}
 and for the Schur lattice all-pass filter
 \begin{small}
 \begin{verbatim}
-est_varyapd =  0.50000
-varyapd =  0.49645
+est_varyapd =  0.5000
+varyapd =  0.4913
 \end{verbatim}
 \end{small}
 Similarly, the estimated and simulated round-off noise variances for the
 globally optimised Butterworth filter are:
 \begin{small}
 \begin{verbatim}
-est_varyoptd =  0.12254
-varyoptd =  0.12191
+est_varyoptd =  0.1225
+varyoptd =  0.1228
 \end{verbatim}
 \end{small}
 and the estimated and simulated round-off noise variances for the scaled 
@@ -5909,7 +5909,7 @@ direct-form Butterworth filter are:
 \begin{small}
 \begin{verbatim}
 est_varydird =  5.8317
-varydird =  1.8078
+varydird =  1.8148
 \end{verbatim}
 \end{small}
 The factor of about $3$ discrepancy between the estimated and measured
@@ -5929,7 +5929,7 @@ implementation to that of the globally optimised filter.
 The standard deviations of the internal states of the Schur lattice filter are
 \begin{small}
 \begin{verbatim}
-stdxx =  131.32   129.47   127.97
+stdxx =  131.21   129.39   127.97
 \end{verbatim}
 \end{small}
 The standard deviations of the internal states of the globally-optimum and
@@ -6132,21 +6132,21 @@ round-off noise variance at the Butterworth output is
 \begin{small}
 \begin{verbatim}
 est_varyd =  0.16519
-varyd =  0.16571
+varyd =  0.1654
 \end{verbatim}
 \end{small}
 and at the all-pass output the estimated and measured round-off noise variance is
 \begin{small}
 \begin{verbatim}
 est_varyapd = 0.50000
-varyapd = 0.49645
+varyapd = 0.4913
 \end{verbatim}
 \end{small}
 For the scaled filter, the signal at each internal unit delay storage
 element has standard deviation 
 \begin{small}
 \begin{verbatim}
-stdxf =   131.32   129.47   127.97
+stdxf =   131.21   129.39   127.96
 \end{verbatim}
 \end{small}
 Note that the noise gain for the low-pass filter is slightly smaller than
@@ -6230,21 +6230,21 @@ lattice filter with 10-bit 3-signed-digit truncated coefficients are, for
 the Butterworth filter:
 \begin{small}
 \begin{verbatim}
-est_varyd =  0.17516
-varyd =  0.17410
+est_varyd =  0.1752
+varyd =  0.1740
 \end{verbatim}
 \end{small}
 and for the allpass filter:
 \begin{small}
 \begin{verbatim}
-est_varyapd =  0.50000
-varyapd =  0.49283
+est_varyapd =  0.5000
+varyapd =  0.4931
 \end{verbatim}
 \end{small}
 The standard deviations of the internal states of the filter are
 \begin{small}
 \begin{verbatim}
-stdxf = 137.06   129.04   127.82
+stdxf = 137.07   129.01   127.79
 \end{verbatim}
 \end{small}
 
@@ -20300,7 +20300,7 @@ partial derivatives are:
 \item numerical differentiation by evaluation of the function at a perturbed
 input coefficent vector
 \item symbolic differentiation by a symbolic algebra package. For example, 
-\emph{Maxima}~\cite{Maxima_website} or the \emph{OctaveForge} symbolic
+\emph{Maxima}~\cite{Maxima_website} or the Octave-Forge \emph{symbolic}
 calculation toolbox~\cite{OctaveForge_SymbolicPackage}
 \item differentiation by hand
 \item so-called \emph{automatic differentiation}: ``a technology
@@ -23426,19 +23426,19 @@ The estimated and measured round-off noise variances at the combined all-pass
 output are:
 \begin{small}
 \begin{verbatim}
-est_varA1yapd =  0.34916
-varA1yapd =  0.34396
-est_varA2yapd =  0.16292
-varA2yapd =  0.16222
-est_varyapd =  0.25302
-varyapd =  0.26062
+est_varA1yapd =  0.3492
+varA1yapd =  0.3451
+est_varA2yapd =  0.1629
+varA2yapd =  0.1632
+est_varyapd =  0.2530
+varyapd =  0.2597
 \end{verbatim}
 \end{small}
 The standard deviations of the internal state delay storage elements are:
 \begin{small}
 \begin{verbatim}
-A1stdxf =  133.64   130.73
-A2stdxf =  128.18
+A1stdxf =  133.51   130.68
+A2stdxf =  128.10
 \end{verbatim}
 \end{small}
 The amplitude response found from the cross-correlation of the input
@@ -23548,19 +23548,19 @@ The estimated and measured round-off noise variances at the combined all-pass
 output are:
 \begin{small}
 \begin{verbatim}
-est_varA1yapd =  7.0885e-01
-varA1yapd =  6.8465e-01
-est_varA2yapd =  3.2496e-01
-varA2yapd =  3.3069e-01
-est_varyapd =  3.8345e-01
-varyapd =  3.8520e-01
+est_varA1yapd =  7.088e-01
+varA1yapd =  6.891e-01
+est_varA2yapd =  3.250e-01
+varA2yapd =  3.305e-01
+est_varyapd =  3.835e-01
+varyapd =  3.889e-01
 \end{verbatim}
 \end{small}
 The standard deviations of the internal state delay storage elements are:
 \begin{small}
 \begin{verbatim}
-A1stdxf =  1.2867e+02  1.2865e+02  1.2928e+02  1.2937e+02
-A2stdxf =  1.2674e+02  1.2657e+02
+A1stdxf =  128.73  128.70  129.30  129.40
+A2stdxf =  126.75  126.58
 \end{verbatim}
 \end{small}
 The amplitude response found from the cross-correlation of the input
@@ -23665,8 +23665,8 @@ The estimated and simulated round-off noise variances at the combined all-pass
 output are (again with exact state scaling):
 \begin{small}
 \begin{verbatim}
-est_varysd =  0.95833
-varyapsd =  0.98377
+est_varysd =  0.9583
+varyapsd =  0.9602
 \end{verbatim}
 \end{small}
 
@@ -25527,6 +25527,97 @@ challenge~\cite{DIMACS_7_FILTER_minphase}. It is reproduced as the Octave script
 I have reversed the sign of the term in $\left[n-1,\hdots,1,0\right]$ so that the
 zeros of the complementary filter are inside the unit-circle.
 
+\subsubsection{\label{app:Tuqan-Vaidyanathan-SDP-solution}\emph{Tuqan} and \emph{Vaidyanathan}'s semi-definite programming solution}
+\emph{Tuqan} and
+\emph{Vaidyanathan}~\cite{TuqanVaidyanathan_StateSpaceFIREnergyCompaction}
+propose a state-space approach to solving the optimisation problem:
+\begin{align*}
+  \begin{split}
+    \textbf{maximise}  \quad&
+    \int_{-\pi}^{\pi}\mathabs{H\left(e^{\imath\omega}\right)}^{2}
+    W\left(e^{\imath\omega}\right) \\
+    \textbf{subject to}\quad&  
+    \frac{1}{M}\sum_{k=0}^{M-1}
+    \mathabs{H\left(e^{\imath\left(\omega-2\pi{}k\right)/M}\right)}^{2}
+    = \mathabs{H\left(e^{\imath\omega}\right)}^{2}\rvert_{\downarrow{}M}
+  \end{split}
+\end{align*}
+$H\left(\omega\right)$ is an order $N$ FIR filter, known as the \emph{compaction
+  filter}, and $W\left(\omega\right)$ is a weighting function. $M$ is the
+decimation factor applied to the output of the filter $H\left(z\right)$.
+$H\left(z\right)$ is to be used in an orthonormal filter-bank with
+$H_{k}\left(e^{\imath\omega}\right)H_{l}\left(e^{\imath\omega}\right)=\delta_{k-l}$.
+Assume that the input to the filter is a zero-mean Gaussian noise sequence,
+$x_{n}$, with power spectrum $S_{xx}\left(e^{\imath\omega}\right)$,
+autocorrelation sequence, $r_{n}$, that the output sequence is $y_{n}$ and that
+$F\left(z\right)=H\left(z\right)H\left(z^{-1}\right)$.
+Setting $W\left(\omega\right)=S_{xx}\left(\omega\right)$, the objective
+function is the variance of the output sequence:
+\begin{align*}
+  \sigma_{y}^{2}&= r_{0}+2\sum_{n=1}^{N}f_{n}r_{n}
+\end{align*}
+and the constraints are:
+\begin{align*}
+  f_{Mn} &= \delta_{n} \\
+  F\left(\omega\right) &= 1+2\sum_{n=1}^{N}f_{n}\cos\omega{}n \; \ge 0 \;
+                         \forall \omega
+\end{align*}
+
+Suppose $D\left(z\right)$ is implemented as a direct form FIR filter with the
+state space representation:
+\begin{align*}
+  A_{d} &=\left[\begin{array}{cc}
+          0 & I \\
+          0 & 0 \end{array}\right] \\
+  B_{d} &= \left[\begin{array}{cccc}
+                   0 & 0 & \cdots & 1 \end{array}\right]^{\top} \\
+  C_{d} &= \left[\begin{array}{ccc}
+                   f_{N} & \cdots & f_{1} \end{array}\right] \\
+  D_{d} &= \frac{1}{2}
+\end{align*}
+
+The \emph{discrete time positive real lemma}, a corollary of the
+\emph{Kalman-Yakubovitch-Popov lemma}, states that $D\left(z\right)$ is positive
+real if-and-only-if there exists a real, symmetric, positive definite matrix,
+$P_{d}$, and real matrixes $W_{d}$ and $L_{d}$ such that:
+\begin{align*}
+  P_{d}-A_{d}^{\top}P_{d}A_{d} &= L_{d}^{\top}L_{d} \\
+  C_{d}-A_{d}^{\top}P_{d}B_{d} &= L_{d}^{\top}W_{d} \\
+  D_{d}+D_{d}^{\top}-B_{d}^{\top}P_{d}B_{d} &= W_{d}^{\top}W_{d} \\
+\end{align*}
+
+By substitution~\cite[Theorem 1]{TuqanVaidyanathan_StateSpaceFIREnergyCompaction}
+$H\left(z\right)=W_{d}+L_{d}\left(zI-A_{d}^{-1}\right)B_{d}$ is seen to be a
+spectral factor of $F\left(z\right)$. The minimum phase solution,
+$H_{min}\left(z\right)$, is that for which $P _{d_{min}}$ is the minimum element
+of the convex set of symmetric positive definite matrixes satisfying the
+LMI. \emph{Tuqan} and \emph{Vaidyanathan} show \cite[Theorem 
+3]{TuqanVaidyanathan_StateSpaceFIREnergyCompaction} that, if
+$D_{d}+D_{d}^{\top}-B_{d}^{\top}P_{d}B_{d}\ne{}0$, then $P_{d_{min}}$ is the
+unique solution of the following \emph{algebraic Riccati equation}:
+\begin{align*}
+  P_{d}&=A_{d}^{\top}P_{d}A_{d}+\left(C_{d}^{\top}-A_{d}^{\top}P_{d}B_{d}\right)
+         \left(D_{d}+D_{d}^{\top}-B_{d}^{\top}P_{d}B_{d}\right)^{-1}
+         \left(C_{d}^{\top}-A_{d}^{\top}P_{d}B_{d}\right)^{\top}
+\end{align*}
+or:
+\begin{align*}
+  P_{d}&=A_{1}^{\top}P_{d}A_{1}+
+A_{1}^{\top}P_{d}B_{d}\left(R-B_{d}^{\top}P_{d}B_{d}\right)^{-1}B_{d}^{\top}P_{d}A_{1} +
+         C_{d}^{\top}R^{-1}C_{d} \\
+  A_{1}&=A_{d}-B_{d}R^{-1}C_{d} \\
+  R &= D_{d}+D_{d}^{\top} \succ 0
+\end{align*}
+In this case, the autocorrelation function, $\left\{D_{d},C_{d}\right\}$, of the
+complementary filter is known in advance and the initial semi-definite
+programming solution for $P_{d}$ and $C_{d}$ is not required. In addition, the
+filter is known to be SISO so that, for the minimum phase
+solution, $H_{min}\left(z\right)$: 
+\begin{align*}
+  W_{d}&=\left(D_{d}+D_{d}^{\top}-B_{d}^{\top}P_{d_{min}}B_{d}\right)^{\frac{1}{2}}  \\
+  L_{d}&=W_{d}^{-1}\left(C_{d}-B_{d}^{\top}P_{d_{min}}A_{d}\right)
+\end{align*}
+\clearpage
 \subsection{Example: the minium-phase complementary filter of an FIR bandpass filter}
 The Octave script \emph{minphase\_test.m} compares the use of 
 \emph{Orchard} and \emph{Willson}'s Newton-Raphson method with the cepstral
@@ -25556,18 +25647,20 @@ Figure~\ref{fig:minphase-brzc-zeros} shows the zeros of the complementary filter
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{minphase_test_simulated_response}}
 \caption{Simulated amplitude responses of the FIR lattice band-pass filter and
-  the minimum-phase complementary filter found with \emph{Orchard} and
-  \emph{Willson}'s Newton-Raphson method.}
+  the minimum-phase complementary filter found with the Newton-Raphson method
+  of \emph{Orchard} and
+  \emph{Willson}~\cite{OrchardWillson_ComputationMinimumPhaseSpectralFactor}.} 
 \label{fig:minphase-simulated-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{minphase_test_brzc_zeros}}
-\caption{Zeros of the complementary filter found with \emph{Orchard} and
-  \emph{Willson}'s Newton-Raphson method.}
+\caption{Zeros of the complementary filter found with the Newton-Raphson method
+  of \emph{Orchard} and
+  \emph{Willson}~\cite{OrchardWillson_ComputationMinimumPhaseSpectralFactor}.}
 \label{fig:minphase-brzc-zeros}
 \end{figure}
-
+\clearpage
 Unfortunately, in the case of the cepstral method, $F\left(\alpha z\right)$
 with $\alpha \approx 1.15$ is real and even but not positive. Fortuitously, when
 using $\alpha=1$ with a long FFT the sampling grid did not include the filter
@@ -25575,30 +25668,50 @@ zeros. Response aliasing due to the discontinuities in
 $\log F\left(\alpha z\right)$ gave a result that was less accurate than that
 obtained with \emph{minphase.m} but was still acceptable. The combined amplitude
 response found with the cepstral method is shown in
-Figure~\ref{fig:minphase-cepstral-combined-response}.
+Figure~\ref{fig:Mian-Nainer-cepstral-combined-response}.
 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{minphase_test_cepstral_combined_response}}
 \caption{Combined amplitude responses of the FIR band-pass filter and the
-minimum-phase complementary filter found with \emph{Mian} and \emph{Nainer}'s 
-cepstral method.}
-\label{fig:minphase-cepstral-combined-response}
+minimum-phase complementary filter found with the cepstral method of \emph{Mian}
+and \emph{Nainer}~\cite{MianNainer_FastDesignEquiRippleMinimumPhaseFIR}}
+\label{fig:Mian-Nainer-cepstral-combined-response}
 \end{figure}
 
 The Octave script \emph{directFIRnonsymmetric\_sdp\_minimum\_phase\_test.m}
-finds the complementary filter by following \emph{Sturm}'s semi-definite
-programming method. Figure~\ref{fig:direct-FIR-sdp-combined-response} shows the
-resulting combined response. 
+finds the complementary filter by following the semi-definite programming
+method of \emph{Sturm}~\cite[Section 3.2]{Sturm_SeDuMiUserGuide_GitHub}.
+Figure~\ref{fig:Sturm-FIR-sdp-combined-response} shows the resulting combined
+response.
 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_sdp_minimum_phase_test_hg_response}}
 \caption{Combined amplitude responses of the FIR band-pass filter and the
-  complementary filter found with \emph{Sturm}'s semi-definite programming
-  method.}
-\label{fig:direct-FIR-sdp-combined-response}
+  complementary filter found with the semi-definite programming method of
+  \emph{Sturm}~\cite[Section 3.2]{Sturm_SeDuMiUserGuide_GitHub}.}
+\label{fig:Sturm-FIR-sdp-combined-response}
 \end{figure}
+
+The Octave script \emph{tuqanFIRnonsymmetric\_dare\_minimum\_phase\_test.m}
+attempts to find the complementary filter by following the Riccati equation
+method of \emph{Tuqan} and \emph{Vaidyanathan}~\cite[Equation
+38]{TuqanVaidyanathan_StateSpaceFIREnergyCompaction}. 
+The Riccati equation is solved with the \emph{dare} function from the
+Octave-Forge \emph{control} toolbox~\cite{OctaveForge_ControlPackage}.
+Figure~\ref{fig:tuqan-FIR-dare-g-response} shows the resulting complementary
+filter response.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{tuqanFIRnonsymmetric_dare_minimum_phase_test_g_response}}
+\caption{Response of the complementary FIR filter found with the Riccati
+  equation method of \emph{Tuqan} and \emph{Vaidyanathan}~\cite[Equation
+38]{TuqanVaidyanathan_StateSpaceFIREnergyCompaction}}
+\label{fig:tuqan-FIR-dare-g-response}
+\end{figure}
+
 \clearpage
 \subsection{Estimating the MA coefficients of a filtered noise sequence}
 This Section follows the description by \emph{Dumitrescu et

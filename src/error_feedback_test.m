@@ -16,6 +16,7 @@ Z=[0.8919-i*0.3918 0.7572-i*0.6666 1.0167-i*0.0404];
 q=[0.0047079 -0.0251014 0.0584417 -0.0760820 0.0584417 -0.0251014 0.0047079];
 p=[1 -5.6526064 13.3817570 -16.9792460 12.1764710 -4.6789191 0.7525573];
 N=length(p)-1;
+n60=p2n60(p);
 
 % Plot response
 [H,w]=freqz(q,p,1024);
@@ -95,17 +96,30 @@ est_nvib=sqrt((1+(delta*delta*ngib))/12)
 
 % Simulate input balanced structure
 rand("seed",0xdeadbeef);
-u=rand(2^14,1)-0.5;
+nsamples=2^14;
+u=rand(n60+nsamples,1)-0.5;
 u=u/(std(u)*delta);
 bits=8;
 scale=2^(bits-1);
 u=round(u*scale);
 [yib,xxib]=svf(Aib,Bib,Cib,Dib,u,"none");
 [yibf,xxibf]=svf(Aib,Bib,Cib,Dib,u,"round");
+
+% Remove initial transient
+Rn60=(n60+1):length(u);
+ub=u(Rn60);
+yib=yib(Rn60);
+xxib=xxib(Rn60,:);
+yibf=yibf(Rn60);
+xxibf=xxibf(Rn60,:);
+
+% Noise std
 nvibf=std(yibf-yib)
+
+% Plot response
 nfpts=4096;
 nppts=(0:((nfpts/2)-1));
-Hibf=crossWelch(u,yibf,nfpts);
+Hibf=crossWelch(ub,yibf,nfpts);
 plot(nppts/nfpts,20*log10(abs(Hibf)));
 axis([0 0.5 -60 3]);
 xlabel("Frequency");
@@ -149,10 +163,18 @@ gI=sum(rho)/sqrt(N)
 est_nvgI=sqrt((1+(delta*delta*gI))/12)
 
 % Simulate input balanced error feedback structure
-[ypilpe,xxpilpe]=svf(Api,Bpi,Cpi,Dpi,u,"none");
-[ypilpef,xxpilpef]=svf(Api,Bpi,Cpi,Dpi,u,"lpe",2);
+ypilpe=svf(Api,Bpi,Cpi,Dpi,u,"none");
+ypilpef=svf(Api,Bpi,Cpi,Dpi,u,"lpe",2);
+
+% Remove initial transient
+ypilpe=ypilpe(Rn60);
+ypilpef=ypilpef(Rn60);
+
+% Noise std
 nvpilpef=std(ypilpef-ypilpe)
-Hpif=crossWelch(u,ypilpef,nfpts);
+
+% Plot response
+Hpif=crossWelch(ub,ypilpef,nfpts);
 plot(nppts/nfpts,20*log10(abs(Hpif)));
 axis([0 0.5 -60 3]);
 xlabel("Frequency");

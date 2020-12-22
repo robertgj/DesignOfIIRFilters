@@ -5,7 +5,8 @@ prog=butt3OneM_test.m
 depends="butt3OneM_test.m test_common.m \
 schurexpand.oct schurdecomp.oct bin2SD.oct \
 schurOneMscale.m tf2schurOneMlattice.m schurOneMlatticeNoiseGain.m \
-schurOneMlattice2Abcd.oct schurOneMlatticeFilter.m KW.m crossWelch.m"
+schurOneMlattice2Abcd.oct schurOneMlatticeFilter.m KW.m crossWelch.m \
+p2n60.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -69,11 +70,11 @@ S =
 ng = 0.9823
 ngap = 5.0000
 est_varyd = 0.1652
-varyd = 0.1657
+varyd = 0.1654
 est_varyapd = 0.5000
-varyapd = 0.4964
+varyapd = 0.4913
 stdxf =
-   131.32   129.47   127.97
+   131.21   129.39   127.96
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

@@ -1,5 +1,5 @@
 % ellip5OneM_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Test case for the 5th order elliptic lattice filter with 
 % single multiplier form. Use the transposed transfer function to
@@ -17,6 +17,7 @@ diary ellip5OneM_test.diary.tmp
 % fc is the filter cutoff as a fraction of the sampling frequency
 fc=0.05
 [n,d]=ellip(5,0.5,40,2*fc);
+n60=p2n60(d)
 
 % Lattice decomposition
 [k,epsilon,p,c,S] = tf2schurOneMlattice(n,d)
@@ -34,13 +35,23 @@ nbits=10;
 scale=2^(nbits-1);
 nsamples=2^14;
 rand("seed",0xdeadbeef);
-u=rand(nsamples,1)-0.5;
+u=rand(n60+nsamples,1)-0.5;
 u=0.25*u/std(u); 
 u=round(u*scale);
 
 % Filter
 [yap,y,xx]=schurOneMlatticeFilter(k,epsilon,p,c,u,"none");
 [yapf,yf,xxf]=schurOneMlatticeFilter(k,epsilon,p,c,u,"round");
+
+% Remove initial transient
+Rn60=(n60+1):length(u);
+u=u(Rn60);
+yap=yap(Rn60);
+y=y(Rn60);
+xx=xx(Rn60,:);
+yapf=yapf(Rn60);
+yf=yf(Rn60);
+xxf=xxf(Rn60,:);
 
 % Check output round-off noise variance
 est_varyd=(1+ng)/12
@@ -51,7 +62,7 @@ est_varyapd=(1+ngap)/12
 varyapd=var(yap-yapf)
 
 % Check state variable std. deviation
-stdxf=std(xxf)
+stdxxf=std(xxf)
 
 % Plot frequency response
 nfpts=1024;
@@ -70,7 +81,7 @@ close
 
 % Plot state variables
 nstates=1000;
-svk=(nsamples/2):((nsamples/2)+nstates);
+svk=(n60+(nsamples/2)):(n60+(nsamples/2)+nstates);
 subplot(211);
 plot(xxf(svk,1), xxf(svk,2))
 xlabel("State variable x1")

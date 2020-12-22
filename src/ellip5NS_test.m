@@ -1,5 +1,5 @@
 % ellip5NS_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Test case for the 5th order elliptic lattice filter with
 % scaled-normalised form. Use the transposed transfer function to
@@ -17,6 +17,7 @@ diary ellip5NS_test.diary.tmp
 % fc is the filter cutoff as a fraction of the sampling frequency
 fc=0.05
 [n,d]=ellip(7,0.5,40,2*fc)
+n60=p2n60(d)
 
 % Lattice decomposition
 [s10,s11,s20,s00,s02,s22,c,S] = tf2schurNSlattice(n,d)
@@ -63,7 +64,7 @@ nbits=10;
 scale=2^(nbits-1);
 nsamples=2^14;
 rand("seed",0xdeadbeef);
-u=rand(nsamples,1)-0.5;
+u=rand(n60+nsamples,1)-0.5;
 u=0.25*u/std(u);
 u=round(u*scale);
 u_dir_scaled=u*(2^24);
@@ -75,6 +76,24 @@ u_dir_scaled=u*(2^24);
 [yoptf,xxoptf]=svf(Aopt,Bopt,Copt,Dopt,u,"round");
 [ydir,xxdir]=svf(Adir,Bdir,Cdir,Ddir,u_dir_scaled,"none");
 [ydirf,xxdirf]=svf(Adir,Bdir,Cdir,Ddir,u_dir_scaled,"round");
+
+% Remove initial transient
+Rn60=(n60+1):length(u);
+u=u(Rn60);
+yap=yap(Rn60);
+y=y(Rn60);
+xx=xx(Rn60,:);
+yapf=yapf(Rn60);
+yf=yf(Rn60);
+xxf=xxf(Rn60,:);
+yopt=yopt(Rn60);
+xxopt=xxopt(Rn60,:);
+yoptf=yoptf(Rn60);
+xxoptf=xxoptf(Rn60,:);
+ydir=ydir(Rn60);
+xxdir=xxdir(Rn60,:);
+ydirf=ydirf(Rn60);
+xxdirf=xxdirf(Rn60,:);
 
 % Plot frequency response
 nfpts=1024;
@@ -110,7 +129,7 @@ stdxxdir=std(xxdirf)
 
 % Plot state variables
 nstates=1000;
-svk=(nsamples/2):((nsamples/2)+nstates);
+svk=(n60+(nsamples/2)):(n60+(nsamples/2)+nstates);
 subplot(211);
 plot(xxf(svk,1), xxf(svk,2));
 xlabel("State variable x1");

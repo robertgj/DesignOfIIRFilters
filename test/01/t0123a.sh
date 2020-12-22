@@ -5,7 +5,8 @@ prog=ellip5OneM_test.m
 depends="ellip5OneM_test.m test_common.m \
 schurexpand.oct schurdecomp.oct schurOneMscale.m \
 tf2schurOneMlattice.m schurOneMlatticeNoiseGain.m schurOneMlattice2Abcd.oct \
-schurOneMlatticeFilter.m KW.m bin2SD.oct crossWelch.m"
+schurOneMlatticeFilter.m KW.m bin2SD.oct crossWelch.m p2n60.m qroots.m \
+qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -42,6 +43,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 fc = 0.050000
+n60 = 339
 k =
   -0.9657   0.9906  -0.9805   0.9620  -0.6961
 
@@ -65,11 +67,11 @@ S =
 ng = 2.5504
 ngap = 9.0000
 est_varyd = 0.2959
-varyd = 0.2871
+varyd = 0.3006
 est_varyapd = 0.8333
-varyapd = 0.7947
-stdxf =
-   129.83   128.86   130.16   130.37   128.52
+varyapd = 0.7960
+stdxxf =
+   129.01   128.33   129.65   129.36   128.47
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

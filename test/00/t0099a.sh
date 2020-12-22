@@ -7,7 +7,7 @@ schurNSlatticeNoiseGain.m schurNSlatticeFilter.m \
 schurNSlatticeRetimedNoiseGain.m phi2p.m tfp2g.m Abcd2tf.m \
 flt2SD.m x2nextra.m KW.m crossWelch.m tf2pa.m print_polynomial.m \
 bin2SD.oct schurexpand.oct schurdecomp.oct schurNSscale.oct spectralfactor.oct \
-schurNSlattice2Abcd.oct qroots.m qzsolve.oct"
+schurNSlattice2Abcd.oct p2n60.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -50,6 +50,7 @@ n =
 d =
    1.0000e+00  -3.0531e-16   3.3333e-01  -1.8504e-17
 
+n60 = 13
 p =
    1.0000  -0.2735   0.7265
 
@@ -92,22 +93,22 @@ A1ngapABCDf = 7.5062
 A2ngABCDf = 2.8995
 A2ngapABCDf = 2.8995
 est_varA1yd = 0.7088
-varA1yd = 0.6846
+varA1yd = 0.6892
 est_varA2yd = 0.3250
-varA2yd = 0.3307
+varA2yd = 0.3305
 est_varyd = 0.3835
-varyd = 0.3852
+varyd = 0.3889
 est_varA1yapd = 0.7088
-varA1yapd = 0.6846
+varA1yapd = 0.6892
 est_varA2yapd = 0.3250
-varA2yapd = 0.3307
+varA2yapd = 0.3305
 est_varyapd = 0.3835
-varyapd = 0.3852
+varyapd = 0.3889
 A1stdxf =
-   128.67   128.65   129.28   129.37
+   128.73   128.70   129.30   129.40
 
 A2stdxf =
-   126.74   126.57
+   126.75   126.58
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

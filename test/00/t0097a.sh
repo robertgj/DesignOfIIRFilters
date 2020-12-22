@@ -6,7 +6,8 @@ depends="butt3OneMSV_test.m test_common.m \
 schurexpand.oct schurdecomp.oct bin2SD.oct x2nextra.m flt2SD.m \
 schurOneMscale.m tf2schurOneMlattice.m schurOneMlatticeNoiseGain.m \
 schurOneMlattice2Abcd.oct schurOneMlatticeRetimedNoiseGain.m \
-schurOneMlatticeFilter.m KW.m optKW.m svf.m crossWelch.m"
+schurOneMlatticeFilter.m KW.m optKW.m svf.m crossWelch.m \
+p2n60.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -99,16 +100,16 @@ ngABCDfap = 3.0000
 ngPipef = 0.8472
 ngPipefap = 3.0000
 est_varyd = 0.1752
-varyd = 0.1741
+varyd = 0.1740
 est_varyapd = 0.5000
-varyapd = 0.4928
-stdxf =
-   137.06   129.04   127.82
+varyapd = 0.4931
+stdxxfb =
+   137.07   129.01   127.79
 
 est_varyABCDd = 0.1539
 varyABCDd = 0.1515
 est_varyABCDapd = 0.3333
-varyABCDapd = 0.3201
+varyABCDapd = 0.3200
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

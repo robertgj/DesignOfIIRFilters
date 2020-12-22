@@ -3,7 +3,8 @@
 prog=sv2block_test.m
 
 depends="sv2block_test.m test_common.m \
-sv2block.m KW.m tf2Abcd.m optKW.m svf.m crossWelch.m"
+sv2block.m KW.m tf2Abcd.m optKW.m svf.m crossWelch.m \
+p2n60.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -42,7 +43,7 @@ cat > test.ok << 'EOF'
 ngABCDopt = 1.4657
 ngABCDoptf = 1.6750
 est_nvABCDoptf = 0.4721
-nvABCDoptf = 0.4628
+nvABCDoptf = 0.4581
 Ab =
  Columns 1 through 6:
    3.6494e-01  -2.2072e-01  -5.7976e-02   5.4253e-01   8.9163e-03   2.0993e-01
@@ -131,7 +132,7 @@ Dbf =
 
 ngABCDbf = 0.3664
 est_nvABCDbf = 0.3374
-nvABCDbf = 0.3389
+nvABCDbf = 0.3348
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

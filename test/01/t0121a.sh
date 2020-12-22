@@ -4,7 +4,7 @@ prog=butt6OneMSD_test.m
 
 depends="butt6OneMSD_test.m test_common.m print_polynomial.m \
 schurOneMscale.m tf2schurOneMlattice.m schurOneMlatticeFilter.m \
-flt2SD.m x2nextra.m crossWelch.m tf2pa.m qroots.m \
+flt2SD.m x2nextra.m crossWelch.m tf2pa.m qroots.m p2n60.m \
 qzsolve.oct spectralfactor.oct schurexpand.oct schurdecomp.oct bin2SD.oct"
 
 tmp=/tmp/$$
@@ -41,10 +41,11 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-fc =  0.050000
-nbits =  8
-scale =  128
-ndigits =  2
+fc = 0.050000
+n60 = 73
+nbits = 8
+scale = 128
+ndigits = 2
 n = [  0.0000597958,  0.0002989789,  0.0005979578,  0.0005979578, ... 
        0.0002989789,  0.0000597958 ];
 d = [  1.0000000000, -3.9845431196,  6.4348670903, -5.2536151704, ... 
@@ -54,11 +55,11 @@ A1ksd = [  -0.93750000,   0.62500000 ];
 A1csd = [   0.07812500,  -1.50000000,   0.62500000 ];
 A2ksd = [  -0.93750000,   0.62500000 ];
 A2csd = [  -0.93750000,   0.62500000 ];
-ans =
-   110.52   123.00
+A1stdxf =
+   110.27   122.99
 
-ans =
-   157.10   154.72   133.31
+A2stdxf =
+   156.68   154.54   133.27
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

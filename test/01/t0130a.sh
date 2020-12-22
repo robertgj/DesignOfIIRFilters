@@ -6,7 +6,9 @@ depends="error_feedback_test.m test_common.m \
 optKW.m KW.m Abcd2tf.m tf2Abcd.m \
 factorFdoubleprime.m FprimeToFdoubleprime.m orthogonaliseTF.m \
 tf2schurOneMlattice.m schurdecomp.oct schurOneMscale.m schurexpand.oct \
-schurOneMlattice2Abcd.oct C1D1FToG0primeFprime.m svf.m crossWelch.m"
+schurOneMlattice2Abcd.oct C1D1FToG0primeFprime.m svf.m crossWelch.m \
+p2n60.m qroots.m qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -46,7 +48,7 @@ ngopt = 1.3329
 ngorth = 2.0865
 ngib = 2.0865
 est_nvib = 0.5072
-nvibf = 0.5111
+nvibf = 0.4959
 rho =
    2.6856e-01
    1.4165e-01
@@ -58,7 +60,7 @@ rho =
 ngpi = 2.0865
 gI = 0.2541
 est_nvgI = 0.3233
-nvpilpef = 0.3079
+nvpilpef = 0.3094
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

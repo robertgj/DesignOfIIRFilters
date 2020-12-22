@@ -6,7 +6,8 @@ tfp2schurNSlattice2Abcd.m tf2schurNSlattice.m tf2schurOneMlattice.m \
 schurNSlattice2Abcd.oct schurOneMlattice2Abcd.oct KW.m optKW.m phi2p.m \
 Abcd2tf.m schurNSlatticeNoiseGain.m schurOneMlatticeNoiseGain.m \
 schurNSlatticeFilter.m schurOneMlatticeFilter.m crossWelch.m \
-schurdecomp.oct schurexpand.oct schurNSscale.oct schurOneMscale.m"
+schurdecomp.oct schurexpand.oct schurNSscale.oct schurOneMscale.m \
+p2n60.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -226,10 +227,10 @@ ABCDopt_nz_coefs = 961
 NG_ABCDopt = 6.4380
 NG_schurNS = 18.883
 est_varyd = 1.6570
-varyd = 1.6792
+varyd = 1.7615
 NG_schurOneM = 13.603
 est_varyd = 1.2169
-varyd = 1.1941
+varyd = 1.3363
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

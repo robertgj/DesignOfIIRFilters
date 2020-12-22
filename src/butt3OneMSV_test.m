@@ -1,5 +1,5 @@
 % butt3OneMSV_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 %
 % Test case for the 3rd order Butterworth lattice filter 
 
@@ -13,6 +13,7 @@ diary butt3OneMSV_test.diary.tmp
 % fc is the filter cutoff as a fraction of the sampling frequency
 fc=0.05
 [n,d]=butter(3,2*fc);
+n60=p2n60(d);
 
 % Lattice decomposition
 [k,epsilon,p,c] = tf2schurOneMlattice(n,d)
@@ -90,27 +91,37 @@ u=round(u*scale);
 [yap,y,xx]=schurOneMlatticeFilter(kf,epsilon,p,cf,u,"none");
 [yapf,yf,xxf]=schurOneMlatticeFilter(kf,epsilon,p,cf,u,"round");
 
+% Remove initial transient
+Rn60=(n60+1):length(u);
+ub=u(Rn60);
+yapb=yap(Rn60);
+yb=y(Rn60);
+xxb=xx(Rn60,:);
+yapfb=yapf(Rn60);
+yfb=yf(Rn60);
+xxfb=xxf(Rn60,:);
+
 % Check output round-off noise variance
 delta=1;
 est_varyd=(1+(ngf*delta*delta))/12
-varyd=var(y-yf)
+varyd=var(yb-yfb)
 
 % Check all-pass output round-off noise variance
 delta=1;
 est_varyapd=(1+(ngfap*delta*delta))/12
-varyapd=var(yap-yapf)
+varyapd=var(yapb-yapfb)
 
 % Check state variable std. deviation
-stdxf=std(xxf)
+stdxxfb=std(xxfb)
 
 % Plot frequency response for the Schur lattice implemetation
 nfpts=1024;
 nppts=(0:511);
-Hf=crossWelch(u,yf,nfpts);
-Hapf=crossWelch(u,yapf,nfpts);
+Hfb=crossWelch(ub,yfb,nfpts);
+Hapfb=crossWelch(ub,yapfb,nfpts);
 subplot(111);
-plot(nppts/nfpts,20*log10(abs(Hf)),...
-     nppts/nfpts,20*log10(abs(Hapf)));
+plot(nppts/nfpts,20*log10(abs(Hfb)),...
+     nppts/nfpts,20*log10(abs(Hapfb)));
 axis([0 0.5 -50 5])
 grid("on");
 xlabel("Frequency")
@@ -121,24 +132,28 @@ close
 % Check state-variable implementation with truncated coefficients
 [Af,Bf,Cf,Df,Cfap,Dfap]=schurOneMlattice2Abcd(kf,epsilon,p,cf);
 % Butterworth output
-[yABCD,xxABCD]=svf(Af,Bf,Cf,Df,u,"none");
-[yABCDf,xxABCDf]=svf(Af,Bf,Cf,Df,u,"round");
+yABCD=svf(Af,Bf,Cf,Df,u,"none");
+yABCDb=yABCD(Rn60);
+yABCDf=svf(Af,Bf,Cf,Df,u,"round");
+yABCDfb=yABCDf(Rn60);
 est_varyABCDd=(1+(ngABCDf*delta*delta))/12
-varyABCDd=var(yABCD-yABCDf)
+varyABCDd=var(yABCDb-yABCDfb)
 % All-pass output
-[yABCDap,xxABCDap]=svf(Af,Bf,Cfap,Dfap,u,"none");
-[yABCDapf,xxABCDapf]=svf(Af,Bf,Cfap,Dfap,u,"round");
+yABCDap=svf(Af,Bf,Cfap,Dfap,u,"none");
+yABCDapb=yABCDap(Rn60);
+yABCDapf=svf(Af,Bf,Cfap,Dfap,u,"round");
+yABCDapfb=yABCDapf(Rn60);
 est_varyABCDapd=(1+(ngABCDfap*delta*delta))/12
-varyABCDapd=var(yABCDap-yABCDapf)
+varyABCDapd=var(yABCDapb-yABCDapfb)
 
 % Plot frequency response for the state-variable implementation
 nfpts=1024;
 nppts=(0:511);
-HABCD=crossWelch(u,yABCD,nfpts);
-HABCDap=crossWelch(u,yABCDap,nfpts);
+HABCDfb=crossWelch(ub,yABCDfb,nfpts);
+HABCDapfb=crossWelch(ub,yABCDapfb,nfpts);
 subplot(111);
-plot(nppts/nfpts,20*log10(abs(HABCD)), ...
-     nppts/nfpts,20*log10(abs(HABCDap)));
+plot(nppts/nfpts,20*log10(abs(HABCDfb)), ...
+     nppts/nfpts,20*log10(abs(HABCDapfb)));
 axis([0 0.5 -50 5])
 grid("on");
 xlabel("Frequency")

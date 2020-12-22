@@ -4,7 +4,7 @@ prog=butt3NSPA_test.m
 
 depends="butt3NSPA_test.m test_common.m tf2pa.m tf2schurNSlattice.m \
 schurNSlatticeNoiseGain.m schurNSlatticeFilter.m \
-schurNSlatticeRetimedNoiseGain.m \
+schurNSlatticeRetimedNoiseGain.m p2n60.m \
 svf.m flt2SD.m x2nextra.m optKW.m tf2Abcd.m crossWelch.m print_polynomial.m \
 KW.m schurexpand.oct schurdecomp.oct schurNSlattice2Abcd.oct schurNSscale.oct \
 spectralfactor.oct bin2SD.oct qroots.m qzsolve.oct"
@@ -50,6 +50,7 @@ n =
 d =
    1.0000  -2.3741   1.9294  -0.5321
 
+n60 = 45
 A1Star =
    1.0000  -1.6476   0.7323
 
@@ -90,21 +91,21 @@ A2ngABCDf = 0.9560
 A2ngapABCDf = 0.9550
 nsamples = 16384
 est_varA1yd = 0.3542
-varA1yd = 0.3440
+varA1yd = 0.3451
 est_varA2yd = 0.1630
-varA2yd = 0.1622
+varA2yd = 0.1632
 est_varyd = 0.2543
-varyd = 0.2606
+varyd = 0.2597
 est_varA1yapd = 0.3492
-varA1yapd = 0.3440
+varA1yapd = 0.3451
 est_varA2yapd = 0.1629
-varA2yapd = 0.1622
+varA2yapd = 0.1632
 est_varyapd = 0.2530
-varyapd = 0.2606
+varyapd = 0.2597
 A1stdxf =
-   133.64   130.73
+   133.51   130.68
 
-A2stdxf = 128.18
+A2stdxf = 128.10
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

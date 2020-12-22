@@ -18,6 +18,7 @@ phi=[0.05 0.125 0.175 0.225];
 print_polynomial(phi,"phi",strcat(strf,"_phi_coef.m"),"%5.3f");
 p=phi2p(phi);
 [B,A]=tfp2g(b,a,p,-1);
+n60=p2n60(A);
 % Ensure that all zeros are on the unit circle
 [x,U,V,M,Q]=tf2x(B,A);
 x(1+(1:U))=x(1+(1:U))./abs(x(1+(1:U)));
@@ -98,7 +99,7 @@ Hapsd=(Hap1sd-Hap2sd)/2;
 % Make a quantised noise signal with standard deviation 0.25*2^nbits
 nsamples=2^14;
 rand("seed",0xdeadbeef);
-u=rand(nsamples,1)-0.5;
+u=rand(n60+nsamples,1)-0.5;
 u=0.25*u/std(u);
 u=round(u*scale);
 
@@ -111,6 +112,18 @@ u=round(u*scale);
                      (k1sd,epsilon1,p1,zeros(size(c1)),u,"round");
 [yap2sdf,~,xx2sdf]=schurOneMlatticeFilter ...
                      (k2sd,epsilon2,p2,zeros(size(c2)),u,"round");
+
+% Remove initial transient
+Rn60=(n60+1):length(u);
+u=u(Rn60);
+yap1sd=yap1sd(Rn60);
+xx1sd=xx1sd(Rn60,:);
+yap2sd=yap2sd(Rn60);
+xx2sd=xx2sd(Rn60,:);
+yap1sdf=yap1sdf(Rn60);
+xx1sdf=xx1sdf(Rn60,:);
+yap2sdf=yap2sdf(Rn60);
+xx2sdf=xx2sdf(Rn60,:);
 
 % Round the summed outputs
 yapsd=0.5*(yap1sd-yap2sd);

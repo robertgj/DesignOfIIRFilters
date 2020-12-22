@@ -1,5 +1,5 @@
 % butt3NSPA_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 % 
 % Test case for the 3rd order Butterworth lattice filter
 % implemented as the parallel combination of two allpass
@@ -15,6 +15,7 @@ diary butt3NSPA_test.diary.tmp
 % fc is the filter cutoff as a fraction of the sampling frequency
 fc=0.05
 [n,d]=butter(3,2*fc)
+n60=p2n60(d)
 [A1Star,A2Star]=tf2pa(n,d)
 A1=fliplr(A1Star)
 A2=fliplr(A2Star)
@@ -142,9 +143,9 @@ A2ngABCDf
 A2ngapABCDf
 
 % Make a quantised noise signal with standard deviation 0.25*2^nbits
-nsamples=2^14
+nsamples=(2^14)
 rand("seed",0xdeadbeef);
-u=rand(nsamples,1)-0.5;
+u=rand(n60+nsamples,1)-0.5;
 u=0.25*u/std(u);
 u=round(u*scale);
 
@@ -158,6 +159,15 @@ yap=0.5*(A1yap+A2yap);
 schurNSlatticeFilter(A1s10f,A1s11f,A1s20f,A1s00f,A1s02f,A1s22f,u,"round");
 [A2yapf, A2yf, A2xxf]=...
 schurNSlatticeFilter(A2s10f,A2s11f,A2s20f,A2s00f,A2s02f,A2s22f,u,"round");
+
+% Remove initial transient
+Rn60=(n60+1):length(u);
+u=u(Rn60);
+A1yap=A1yap(Rn60);A1y=A1y(Rn60);A1xx=A1xx(Rn60,:);
+A2yap=A2yap(Rn60);A2y=A2y(Rn60);A2xx=A2xx(Rn60,:);
+A1yapf=A1yapf(Rn60);A1yf=A1yf(Rn60);A1xxf=A1xxf(Rn60,:);
+A2yapf=A2yapf(Rn60);A2yf=A2yf(Rn60);A2xxf=A2xxf(Rn60,:);
+
 
 % Round the summed outputs. Fudge factor to make noise gains match the
 % measured noise power

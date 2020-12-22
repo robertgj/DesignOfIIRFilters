@@ -1,5 +1,5 @@
 % schurNSlattice_sqp_mmse_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
@@ -96,7 +96,9 @@ nbits=10;
 scale=2^(nbits-1);
 nsamples=2^12;
 rand("seed",0xdeadbeef);
-u=rand(nsamples,1)-0.5;
+[~,dNS]=schurNSlattice2tf(s10_1,s11_1,s20_1,s00_1,s02_1,s22_1);
+n60=p2n60(dNS);
+u=rand(n60+nsamples,1)-0.5;
 u=0.25*u/std(u);
 dir_extra_bits=0;
 u_dir_scaled=round(u*scale*(2^dir_extra_bits));
@@ -104,6 +106,12 @@ u=round(u*scale);
 % Simulate
 [yapf,yf,xxf]= ...
   schurNSlatticeFilter(s10_1,s11_1,s20_1,s00_1,s02_1,s22_1,u,"round");
+% Remove initial transient
+Rn60=(n60+1):length(u);
+u=u(Rn60);
+yapf=yapf(Rn60);
+yf=yf(Rn60);
+xxf=xxf(Rn60,:);
 % Plot frequency response
 nfpts=1024;
 nppts=(0:511);

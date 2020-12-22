@@ -6,7 +6,8 @@ depends="butt3NSSV_test.m test_common.m \
 schurexpand.oct schurdecomp.oct schurNSscale.oct \
 tf2schurNSlattice.m schurNSlatticeNoiseGain.m \
 schurNSlatticeRetimedNoiseGain.m \
-schurNSlatticeFilter.m KW.m flt2SD.m x2nextra.m bin2SD.oct crossWelch.m"
+schurNSlatticeFilter.m KW.m flt2SD.m x2nextra.m crossWelch.m \
+p2n60.m qroots.m qzsolve.oct bin2SD.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -93,11 +94,11 @@ s22f =
 ngf = 1.1334
 ngfap = 5.6989
 est_varyd = 0.1778
-varyd = 0.1763
+varyd = 0.1771
 est_varyapd = 0.5582
-varyapd = 0.5531
+varyapd = 0.5518
 stdxf =
-   134.21   135.04   132.49
+   134.10   134.97   132.49
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

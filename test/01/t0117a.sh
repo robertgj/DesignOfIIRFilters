@@ -3,7 +3,8 @@
 prog=Abcd2cc_test.m
 
 depends="Abcd2cc_test.m test_common.m \
-Abcd2cc.m KW.m tf2Abcd.m optKW.m sv2block.m svf.m crossWelch.m"
+Abcd2cc.m KW.m tf2Abcd.m optKW.m sv2block.m svf.m crossWelch.m \
+p2n60.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -62,7 +63,7 @@ d =
 ngABCDopt = 1.4657
 ngABCDoptf = 1.8223
 est_nvABCDoptf = 0.4850
-nvABCDoptf = 0.4505
+nvABCDoptf = 0.4687
 Ab =
  Columns 1 through 6:
   -5.3517e-01  -2.0388e-01   6.9798e-02  -1.2387e-01   5.4265e-03   3.9617e-02
@@ -161,8 +162,9 @@ Db =
 
 ngABCDbf = 0.1221
 est_nvABCDbf = 0.3058
-nvbf = 0.3051
-nvccbf = 0.3051
+ans = 0
+nvbf = 0.3066
+nvccbf = 0.3066
 N=8,P=12
 For block length 1, multipliers/output=81.000000
 For block length 12, multipliers/output=27.833333

@@ -1,0 +1,16 @@
+tuqanFIRnonsymmetric_dare_minimum_phase_test_FIGURES = \
+tuqanFIRnonsymmetric_dare_minimum_phase_test_h_response \
+tuqanFIRnonsymmetric_dare_minimum_phase_test_h_zeros \
+tuqanFIRnonsymmetric_dare_minimum_phase_test_g_response \
+tuqanFIRnonsymmetric_dare_minimum_phase_test_g_zeros \
+tuqanFIRnonsymmetric_dare_minimum_phase_test_hg_response 
+
+tuqanFIRnonsymmetric_dare_minimum_phase_test_COEFS = \
+tuqanFIRnonsymmetric_dare_minimum_phase_test.mat \
+tuqanFIRnonsymmetric_dare_minimum_phase_test.spec \
+tuqanFIRnonsymmetric_dare_minimum_phase_test_h_coef.m \
+tuqanFIRnonsymmetric_dare_minimum_phase_test_g_coef.m \
+
+tuqanFIRnonsymmetric_dare_minimum_phase_test_FILES = \
+tuqanFIRnonsymmetric_dare_minimum_phase_test.m test_common.m \
+print_polynomial.m direct_form_scale.m qroots.m qzsolve.oct 

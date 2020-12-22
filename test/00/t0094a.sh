@@ -3,9 +3,10 @@
 prog=butt3NS_test.m
 
 depends="butt3NS_test.m test_common.m \
+tf2schurNSlattice.m schurNSlatticeNoiseGain.m schurNSlatticeFilter.m \
+svf.m KW.m optKW.m tf2Abcd.m crossWelch.m p2n60.m qroots.m \
 schurexpand.oct schurdecomp.oct schurNSscale.oct \
-tf2schurNSlattice.m schurNSlatticeNoiseGain.m schurNSlattice2Abcd.oct \
-schurNSlatticeFilter.m svf.m KW.m optKW.m tf2Abcd.m crossWelch.m"
+schurNSlattice2Abcd.oct qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -122,23 +123,23 @@ ngoptap = 3.0000
 ngdir = 68.980
 ngdirap = 818.90
 est_varyd = 0.1825
-varyd = 0.1827
+varyd = 0.1819
 est_varyABCDd = 0.1458
-varyABCDd = 0.1445
+varyABCDd = 0.1450
 est_varyoptd = 0.1225
-varyoptd = 0.1219
+varyoptd = 0.1228
 est_varydird = 5.8317
-varydird = 1.8078
+varydird = 1.8148
 est_varyapd = 0.5000
-varyapd = 0.4964
+varyapd = 0.4913
 stdxx =
-   131.32   129.47   127.97
+   131.21   129.39   127.97
 
 stdxxopt =
-   130.39   129.57   131.00
+   130.30   129.48   130.88
 
 stdxxdir =
-   131.32   131.32   131.32
+   131.34   131.34   131.33
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

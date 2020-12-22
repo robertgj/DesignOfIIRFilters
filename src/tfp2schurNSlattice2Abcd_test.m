@@ -89,19 +89,30 @@ NG_schurNS=schurNSlatticeNoiseGain(SS,S10,S11,S20,S00,S02,S22, ...
 nbits=16;
 scale=2^(nbits-1);
 nsamples=2^12;
+n60=p2n60(D1);
 rand("seed",0xdeadbeef);
-u=rand(nsamples,1)-0.5;
+u=rand(n60+nsamples,1)-0.5;
 u=0.25*u/std(u);
 u=round(u*scale);
 % Simulate filter
 [yap,y,xx]=schurNSlatticeFilter(S10,S11,S20,S00,S02,S22,u,"none");
 [yapf,yf,xxf]=schurNSlatticeFilter(S10,S11,S20,S00,S02,S22,u,"round");
+% Remove initial transient
+Rn60=(n60+1):length(u);
+ub=u(Rn60);
+yap=yap(Rn60);
+y=y(Rn60);
+xx=xx(Rn60,:);
+yapf=yapf(Rn60);
+yf=yf(Rn60);
+xxf=xxf(Rn60,:);
+% Variance
 est_varyd=(1+NG_schurNS)/12
 varyd=var(y-yf)
 % Plot frequency response
 nfpts=1024;
 nppts=(0:511);
-Hf=crossWelch(u,yf,nfpts);
+Hf=crossWelch(ub,yf,nfpts);
 subplot(111);
 plot(nppts/nfpts,20*log10(abs(Hf)));
 xlabel("Frequency")
@@ -117,12 +128,20 @@ NG_schurOneM=schurOneMlatticeNoiseGain(SS,KK,EE,PP,CC,D1,N1,zeros(size(D1)))
 % Simulate filter
 [yap,y,xx]=schurOneMlatticeFilter(KK,EE,PP,CC,u,"none");
 [yapf,yf,xxf]=schurOneMlatticeFilter(KK,EE,PP,CC,u,"round");
+% Remove initial transient
+yap=yap(Rn60);
+y=y(Rn60);
+xx=xx(Rn60,:);
+yapf=yapf(Rn60);
+yf=yf(Rn60);
+xxf=xxf(Rn60,:);
+% Variance
 est_varyd=(1+NG_schurOneM)/12
 varyd=var(y-yf)
 % Plot frequency response
 nfpts=1024;
 nppts=(0:511);
-Hf=crossWelch(u,yf,nfpts);
+Hf=crossWelch(ub,yf,nfpts);
 H=freqz(N1,D1,nfpts/2);
 subplot(111);
 plot(nppts/nfpts,20*log10(abs(Hf)));

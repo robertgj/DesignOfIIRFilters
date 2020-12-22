@@ -1,12 +1,11 @@
 % Abcd2cc_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2020 Robert G. Jenssen
 
 test_common;
 
 delete("Abcd2cc_test.diary");
 delete("Abcd2cc_test.diary.tmp");
 diary Abcd2cc_test.diary.tmp
-
 
 % Design a filter
 bits=8
@@ -20,6 +19,7 @@ fc=0.05
 [n,d]=ellip(N,dbap,dbas,2*fc)
 n=n(:)';
 d=d(:)';
+n60=p2n60(d);
 [A,B,C,D]=tf2Abcd(n,d);
 [K,W]=KW(A,B,C,D);
 [Topt,Kopt,Wopt]=optKW(K,W,delta);
@@ -36,7 +36,7 @@ strf=sprintf("Abcd2cc_test_%s",name);
 % Generate a random input signal
 nsamples=2^14;
 rand("seed",0xdeadbeef);
-u=rand(nsamples,1)-0.5;
+u=rand(n60+nsamples,1)-0.5;
 u=0.25*u/std(u);
 u=round(u*scale);
 
@@ -52,8 +52,14 @@ ngABCDoptf=diag(Koptf)'*diag(Woptf)
 est_nvABCDoptf=sqrt((1+(delta*delta*ngABCDoptf))/12)
 
 % Run the block 1 truncated optimum noise filter
-[yopt,xxopt]=svf(Aoptf,Boptf,Coptf,Doptf,u,"none");
-[yoptf,xxoptf]=svf(Aoptf,Boptf,Coptf,Doptf,u,"round");
+yopt=svf(Aoptf,Boptf,Coptf,Doptf,u,"none");
+yoptf=svf(Aoptf,Boptf,Coptf,Doptf,u,"round");
+
+% Remove initial transient
+Rn60=(n60+1):length(u);
+un60=u(Rn60);
+yopt=yopt(Rn60);
+yoptf=yoptf(Rn60);
 
 % Check the roundoff noise for the block 1 truncated optimum noise filter
 nvABCDoptf=std(yoptf-yopt)
@@ -87,23 +93,31 @@ endif
 %    LD_PRELOAD=/usr/lib64/libasan.so.5 octave-cli
 
 % Run the block processing filters
-ub=u(1:(floor(nsamples/P)*P));
-ub=reshape(ub(:)',P,floor(nsamples/P))';
-[yb,xxb]=svf(Abf,Bbf,Cbf,Dbf,ub,"none");
-yb=yb'(:);
-[ybf,xxbf]=svf(Abf,Bbf,Cbf,Dbf,ub,"round");
-ybf=ybf'(:);
+nblocks=floor(length(u)/P);
+ub=reshape(u(1:(P*nblocks)),P,nblocks)';
+yb=svf(Abf,Bbf,Cbf,Dbf,ub,"none");
+yb=(yb')(:);
+ybf=svf(Abf,Bbf,Cbf,Dbf,ub,"round");
+ybf=(ybf')(:);
 yccbf=feval(name,u);
 
+% Remove initial transient
+Rn60b=(n60+1):length(yb);
+un60b=u(Rn60b);
+yb=yb(Rn60b);
+ybf=ybf(Rn60b);
+yccbf=yccbf(Rn60b);
+
 % Check the roundoff noise for the block processing filter
+std(ybf-yccbf)
 nvbf=std(ybf-yb)
-nvccbf=std(yccbf(1:length(yb))-yb)
+nvccbf=std(yccbf-yb)
 
 % Plot the transfer function of the filter
 nfpts=8192;
 nppts=(0:((nfpts/2)-1));
-Hoptf=crossWelch(u,yoptf,nfpts);
-Hccbf=crossWelch(u,yccbf,nfpts);
+Hoptf=crossWelch(un60,yoptf,nfpts);
+Hccbf=crossWelch(un60b,yccbf,nfpts);
 plot(nppts/nfpts,20*log10(abs(Hoptf)),"linestyle","--", ...
      nppts/nfpts,20*log10(abs(Hccbf)),"linestyle","-");
 legend("Block length 1", sprintf("Block length %d",P));
@@ -115,17 +129,7 @@ ylabel("Amplitude(dB)");
 axis([0 0.5 -50 10]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
-close
-plot(nppts/nfpts,20*log10(abs(Hoptf)),"linestyle","--", ...
-     nppts/nfpts,20*log10(abs(Hccbf)),"linestyle","-");
-legend("Block length 1", sprintf("Block length %d",P));
-legend("boxoff");
-legend("left");
-legend("location","northwest");
-xlabel("Frequency");
-ylabel("Amplitude(dB)");
 axis([0 0.06 -1 3]);
-grid("on");
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
