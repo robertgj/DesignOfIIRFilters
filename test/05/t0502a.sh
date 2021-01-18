@@ -68,12 +68,6 @@ t2 = 1.4508
 Linear matrix variable 9x1 (full, complex, 5 variables)
 Values in range [0.28269,0.78269]
 Coeffiecient range: 0.8 to 4
-warning: colon arguments should be scalars
-warning: called from
-    yalmip at line 512 column 17
-    norm at line 46 column 34
-    yalmip_complex_test at line 64 column 15
-
 ans = Successfully solved (SeDuMi-1.3)
 ans = 0
 Z3 =
@@ -93,12 +87,6 @@ Z4 =
    2.5574 + 0.7937i   0.8079 - 1.7341i   4.2826 +      0i
 
 t4 = 2.1048
-warning: colon arguments should be scalars
-warning: called from
-    yalmip at line 512 column 17
-    norm at line 46 column 34
-    yalmip_complex_test at line 92 column 15
-
 ans = Successfully solved (SeDuMi-1.3)
 ans = 0
 Z5 =

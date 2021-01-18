@@ -32021,22 +32021,23 @@ corresponding \emph{Makefile} fragment, \emph{butt3NS\_test.mk}:
 \pdfbookmark[0]{Octave}{octave}
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
-version of \emph{octave-6.1.0} avoiding the vagaries of the Fedora packagers
-\footnote{The Fedora 33 \emph{octave-5.2.0} package
+version of \emph{octave-6.1.0} avoiding the vagaries of the Fedora
+packagers\footnote{The Fedora 33 \emph{octave-5.2.0} package
   depends on the FlexiBLAS~\cite{FlexiBLAS_website} wrapper library for the
   \emph{blas} and \emph{lapack} libraries. If installing this package then
   also install the Fedora \emph{redhat-rpm-config}, \emph{octave-devel},
   \emph{octave-io}, \emph{octave-struct}, \emph{octave-statistics},
-  \emph{octave-parallel}, \emph{octave-optim}, \emph{octave-control} and
-  \emph{octave-signal} packages.}. The patch file, \emph{octave.patch}, is a
-\emph{here document} within \emph{build-octave.sh}. The \emph{build-octave.sh}
-script builds Octave and the associated numerical libraries with the \emph{g++}
-option \texttt{-march=nehalem}. The \emph{octave-6.1.0/configure} script is 
-patched so that the Octave \texttt{OCTAVE\_VERSION} command returns
-\texttt{6.1.0-robj}. Other files are patched to add Octave warning ids, to
-set the default \emph{markersize} to $4$, and to prevent a \emph{valgrind}
-warning. The local build of Octave links to locally built versions of the
-following libraries:
+  \emph{octave-parallel}, \emph{octave-optim}, \emph{octave-control},
+  \emph{octave-symbolic} and \emph{octave-signal} packages.}.
+
+The \emph{build-octave.sh} script builds Octave and the associated numerical
+libraries with the \emph{g++} option \texttt{-march=nehalem}. The patch file,
+\emph{octave.patch}, is a \emph{here document} within \emph{build-octave.sh}.
+The \emph{octave-6.1.0/configure} script is patched so that the Octave
+\texttt{OCTAVE\_VERSION} command returns \texttt{6.1.0-robj}.
+
+The local build of Octave links to locally built versions of the following
+libraries: 
 \emph{arpack-ng-master}~\cite{ARPACKNG_website},
 \emph{fftw-3.3.8}~\cite{FFTW_website},
 \emph{glpk-4.65}~\cite{GNU_GLPK},
@@ -32045,19 +32046,14 @@ following libraries:
 \emph{SuiteSparse-5.1.2}~\cite{SUITESPARSE_website}.
 The local build of the \emph{LAPACK} library includes the deprecated routines.
 
-The \emph{build-octave.sh} script installs the following Octave Forge packages:
-\begin{small}
-\verbatiminput{octave_info_test.diary}
-\end{small}
-The \emph{signal-1.4.1} package \emph{zplane.m} function is patched to avoid a
-\LaTeX error.
-The \emph{symbolic-2.9.0} package is patched with \emph{sympy-1.6.patch} from
-\emph{octave-symbolic\_2.9.0-3.debian.tar.xz} to update to \emph{sympy-1.6}
-provided with Fedora 33.
-
-The \emph{build-octave.sh} script installs the \emph{SeDuMi}, \emph{SDPT3},
-\emph{YALMIP} and \emph{SparsePOP} SDP solvers from the forked repositories at
-\url{https://github.com/robertgj}.
+This project includes a number of Octave \emph{oct-file} extensions written in
+C++. The Octave on-line FAQ states:
+\begin{quote}
+  Code written using Octave's native plug-in interface (also known as a
+  \emph{.oct} file) necessarily links with Octave internals and is considered
+  a derivative work of Octave and therefore must be released under terms that
+  are compatible with the GPL.
+\end{quote}
 
 The section \emph{Summary of important user-visible changes for version 4.0} in 
 the $NEWS$ file of the Octave source distribution includes the following comment:
@@ -32074,6 +32070,31 @@ the $NEWS$ file of the Octave source distribution includes the following comment
   if desired.
 \end{quote}
 
+The \emph{fftw-3.3.8} release notes (May 28th, 2018-2019-2020) state:
+\begin{quote}
+    Fixed AVX, AVX2 for gcc-8.
+      By default, FFTW 3.3.7 was broken with gcc-8. AVX and AVX2 code
+      assumed that the compiler honors the distinction between +0 and -0,
+      but gcc-8 -ffast-math does not. The default CFLAGS included
+      -ffast-math . This release ensures that FFTW works with gcc-8
+      -ffast-math , and removes -ffast-math from the default CFLAGS for
+      good measure.
+\end{quote}
+
+\subsubsection*{Octave packages and solvers}
+The \emph{build-octave.sh} script installs the following Octave Forge packages:
+\begin{small}
+\verbatiminput{octave_info_test.diary}
+\end{small}
+The \emph{build-octave.sh} script installs the \emph{SeDuMi}, \emph{SDPT3},
+\emph{YALMIP} and \emph{SparsePOP} SDP solvers from the forked repositories at
+\url{https://github.com/robertgj}.
+
+\subsubsection*{Problems with Octave}
+The \emph{octave.patch} here document within \emph{build-octave.sh}
+patches files to add Octave warning ids, to set the default \texttt{markersize}
+to $4$, and to prevent a \emph{valgrind} warning.
+
 Unfortunately, \emph{octave-6.1.0} does not print with the correct precision:
 \begin{small}
 \begin{verbatim}
@@ -32088,25 +32109,18 @@ ans = 0.3333
 \end{verbatim}
 \end{small}
 
-This project includes a number of Octave \emph{oct-file} extensions written in
-C++. The Octave on-line FAQ states:
-\begin{quote}
-  Code written using Octave's native plug-in interface (also known as a
-  \emph{.oct} file) necessarily links with Octave internals and is considered
-  a derivative work of Octave and therefore must be released under terms that
-  are compatible with the GPL.
-\end{quote}
+\subsubsection*{Problems with Octave-Forge packages}
+The \emph{signal-1.4.1} package \texttt{zplane} function is patched to avoid a
+\LaTeX~error.
 
-The \emph{fftw-3.3.8} release notes (May 28th, 2018-2019-2020) state:
-\begin{quote}
-    Fixed AVX, AVX2 for gcc-8.
-      By default, FFTW 3.3.7 was broken with gcc-8. AVX and AVX2 code
-      assumed that the compiler honors the distinction between +0 and -0,
-      but gcc-8 -ffast-math does not. The default CFLAGS included
-      -ffast-math . This release ensures that FFTW works with gcc-8
-      -ffast-math , and removes -ffast-math from the default CFLAGS for
-      good measure.
-\end{quote}
+The \emph{optim-1.6.0} package is patched to fix a problem with a missing
+argument to \texttt{\_\_qp\_\_} when called from \texttt{quadprog}, to remove
+remove references to the deprecated global variable \texttt{error\_state} and to
+fix a problem with \texttt{optim\_doc} when \texttt{local\_list} is empty.
+
+The \emph{symbolic-2.9.0} package is patched with \emph{sympy-1.6.patch} from
+\emph{octave-symbolic\_2.9.0-3.debian.tar.xz} to update to \emph{sympy-1.6}
+provided with Fedora 33.
 
 \pdfbookmark[1]{Building Octave}{building-octave}
 \subsection*{Building Octave}
@@ -32472,9 +32486,18 @@ divide-by-zero warning when running the \emph{maxcut} example from
 optimisation in MATLAB and Octave. \emph{YALMIP} calls semi-definite programming
 (SDP) solvers such as \emph{SeDuMi} and \emph{SDPT3}. 
 \subsubsection*{Problems with YALMIP}
-After upgrading to \emph{octave-6.1.0}, the Octave test script
-\emph{yalmip\_complex\_test.m} triggers the following problems:
+The patch file \emph{YALMIP.patch} fixes the following problems:
 \begin{itemize}
+\item an Octave error when calling the \texttt{bsxfun} builtin function with
+  function handle \texttt{@plus}:
+\begin{small}
+\begin{verbatim}
+  error: octave_base_value::function_value(): wrong type argument '<unknown type>'
+  error: called from
+    mtimes at line 525 column 13
+    yalmip_complex_test at line 87 column 6
+\end{verbatim}
+\end{small}
 \item a warning about arguments to the colon operator:
 \begin{small}
 \begin{verbatim}
@@ -32492,21 +32515,11 @@ nout =
    1   1
 \end{verbatim}
 \end{small}
-\item an error when calling the \texttt{bsxfun} builtin function with function
-  handle \texttt{@plus}:
-\begin{small}
-\begin{verbatim}
-  error: octave_base_value::function_value(): wrong type argument '<unknown type>'
-  error: called from
-    mtimes at line 525 column 13
-    yalmip_complex_test at line 87 column 6
-\end{verbatim}
-\end{small}
-\emph{YALMIP.patch} shows a fix to this problem: call the \texttt{bsxfun}
-builtin function with \texttt{``plus''}.
+\item warnings about filenames not matching function names
+\item warnings about the presence of non-ASCII characters such as \texttt{\"{o}}
 \end{itemize}
+
 \begin{comment}
-  
 \pdfbookmark[1]{BMIsolver}{bmisolver}
 \subsection*{BMIsolver}
 \emph{BMIsolver}~\cite{BMIsolver,Dinh_BMIsolver} is a MATLAB package for solving
