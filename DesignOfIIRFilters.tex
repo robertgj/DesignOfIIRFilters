@@ -18321,9 +18321,9 @@ Cost&Normalised-scaled&One-multiplier&Normalised-scaled&One-multiplier&2nd Order
 \midrule
 Exact                   & 1.0008 & 1.0008 & 1.0008 & 1.0008 & 1.0008 \\
 Rounded                 & 1.5432 & 1.5299 & 1.2459 & 1.1097 & 1.2362 \\
-Rounded with samin      & 0.7882 & 0.9516 & 0.9171 & 0.8803 & 0.6625 \\
+Rounded with samin      & 0.7574 & 0.9516 & 0.8295 & 0.8803 & 0.6588 \\
 Signed-digit            & 2.3373 & 2.7157 & 3.6059 & 3.9013 & $\infty$ \\
-Signed-digit with samin & 0.7532 & 1.7492 & 0.9371 & 1.3505 & 0.7473 \\ 
+Signed-digit with samin & 0.7536 & 1.7492 & 0.8436 & 1.3505 & 0.7083 \\ 
 \bottomrule
 \end{tabular}
 \end{threeparttable}
@@ -18341,37 +18341,37 @@ The lowest cost 6 bit 2 signed-digit coefficients of the normalised-scaled
 lattice filter found with the simulated annealing algorithm are:
 \begin{small}
 \begin{verbatim}
-s10_sasd = [  0.625000,  0.531250,  0.187500,  0.062500,  0.000000 ]';
-s11_sasd = [  0.250000,  0.750000,  0.750000,  1.000000,  0.375000 ]';
-s20_sasd = [ -0.750000,  0.625000, -0.968750,  0.968750, -0.625000 ]';
-s00_sasd = [  0.625000,  0.531250,  0.500000,  0.750000,  0.968750 ]';
-s02_sasd = [  0.750000, -0.968750,  1.000000, -1.000000,  0.375000 ]';
-s22_sasd = [  0.625000,  0.156250,  0.093750,  0.875000, -0.375000 ]';
+s10_sasd = [   0.875000,   0.531250,   0.187500,   0.031250,   0.000000 ]';
+s11_sasd = [   0.625000,   0.875000,   0.875000,   1.125000,   0.437500 ]';
+s20_sasd = [  -0.750000,   0.937500,  -0.875000,   0.875000,  -0.750000 ]';
+s00_sasd = [   0.531250,   0.281250,   0.625000,   0.437500,   0.875000 ]';
+s02_sasd = [   0.750000,  -0.937500,   0.968750,  -0.750000,   0.531250 ]';
+s22_sasd = [   0.750000,   0.187500,   0.375000,   0.375000,  -0.312500 ]';
 \end{verbatim}
 \end{small}
 The lowest cost 6 bit rounded coefficients of the parallel-allpass
 one-multiplier lattice filter found with the simulated annealing algorithm 
 are\footnote{These coefficient multiplications can be implemented with a total 
-of 14 signed-digits}.
+of 13 signed-digits and 8 adders}.
 \begin{small}
 \begin{verbatim}
-A1k_sa = [  -0.812500  0.625000 ]';
-A2k_sa = [  -0.781250  0.906250 -0.593750 ]';
+A1k_sa = [  -0.812500,   0.625000 ];
+A2k_sa = [  -0.781250,   0.906250,  -0.593750 ];
 \end{verbatim}
 \end{small}
 The lowest cost 6 bit 2 signed-digit coefficients of the cascade of 2nd
 order sections found with the simulated annealing algorithm are:
 \begin{small}
 \begin{verbatim}
-a11_sasd = [  0.750000,  0.750000,  0.000000 ];
-a12_sasd = [ -0.500000, -0.468750, -1.500000 ];
-a21_sasd = [  0.312500,  0.937500,  0.000000 ];
-a22_sasd = [  0.562500,  0.625000,  0.562500 ];
- b1_sasd = [  0.500000,  0.500000,  0.000000 ];
- b2_sasd = [ -0.093750, -0.875000,  0.625000 ];
- c1_sasd = [  0.156250,  0.625000,  0.000000 ];
- c2_sasd = [  0.468750, -0.031250,  1.000000 ];
- dd_sasd = [  0.156250,  0.281250,  0.437500 ];
+a11_sasd = [   0.500000,   0.562500,   0.000000 ];
+a12_sasd = [  -0.750000,  -0.187500,  -1.875000 ];
+a21_sasd = [   0.625000,   0.937500,   0.000000 ];
+a22_sasd = [   0.875000,   0.750000,   0.625000 ];
+ b1_sasd = [   0.625000,   0.437500,   0.000000 ];
+ b2_sasd = [   0.000000,  -0.062500,   1.250000 ];
+ c1_sasd = [   0.218750,   0.375000,   0.000000 ];
+ c2_sasd = [   0.437500,   0.375000,   0.375000 ];
+ dd_sasd = [   0.500000,   0.125000,   0.250000 ];
 \end{verbatim}
 \end{small}
 \begin{figure}
@@ -18718,12 +18718,12 @@ Exact                          & 1.0008 & 1.0008 & 1.0008 & 1.0008 & 1.0008 \\
 Rounded                        & 1.5432 & 1.5299 & 1.2459 & 1.1097 & 1.2362 \\
 Rounded with bit-flipping      & 1.1289 & 1.5299 & 0.9861 & 1.1097 & 0.9929 \\
 Rounded with simplex           & 1.0397 & 1.4617 & 0.9861 & 1.1097 & 0.8395 \\
-Rounded with samin             & 0.7882 & 0.9516 & 0.9171 & 0.8803 & 0.6625 \\
+Rounded with samin             & 0.7574 & 0.9516 & 0.8295 & 0.8803 & 0.6588 \\
 Rounded with de\_min           & 0.7931 & 1.2547 & 0.8669 & 0.8803 & 0.6571 \\
 Signed-digit                   & 2.3373 & 2.7157 & 3.6059 & 3.9013 & $\infty$ \\
 Signed-digit with bit-flipping & 0.8744 & 2.1571 & 1.3824 & 3.1746 & 1.1334 \\
 Signed-digit with simplex      & 1.6581 & 2.3918 & 3.2559 & 3.1746 & 3.2134 \\
-Signed-digit with samin        & 0.7532 & 1.7492 & 0.9371 & 1.3505 & 0.7473 \\ 
+Signed-digit with samin        & 0.7536 & 1.7492 & 0.8436 & 1.3505 & 0.7083 \\ 
 Signed-digit with de\_min      & 0.8539 & 1.4949 & 1.2004 & 2.2915 & 0.7047 \\ 
 \bottomrule
 \end{tabular}
@@ -18757,7 +18757,7 @@ Number of filter coefficients    & 20(30) & 11 & 10(20) & 5 & 23 \\
 elliptic low-pass filter synthesised as a normalised-scaled or one-multiplier 
 lattice filter or as a cascade of 2nd order state variable sections. The
 figure in parentheses for the normalised-scaled filters is the number of 
-signed-digit coefficients that are optimised.}
+signed-digit coefficients that are optimised assuming symmetry is not required.}
 \label{tab:filter-implementation-number-coef-summary}
 \end{table}
 \cleardoublepage

@@ -1,14 +1,12 @@
 % samin_schurOneMlattice_lowpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Test case for the simulated annealing algorithm with coefficents of
 % a 5th order elliptic lattice filter in one multiplier form.
 %
 % Notes:
-%  1. The samin function from the OctaveForge optim package adds to the end of
-%     the vector of coefficients being optimised!
-%  2. Unfortunately samin is not repeatable. The minimum cost found varies.
-%  3. Change use_best_samin_found to false to run samin
+%  1. Unfortunately samin is not repeatable. The minimum cost found varies.
+%  2. Change use_best_samin_found to false to run samin
 
 test_common;
 
@@ -21,7 +19,7 @@ truncation_test_common;
 use_best_samin_found=true
 if use_best_samin_found
   warning("Using the best filter found so far. \n\
-           Set \"use_best_samin_found\"=false to re-run samin.");
+Set \"use_best_samin_found\"=false to re-run samin.");
 endif
 
 strf="samin_schurOneMlattice_lowpass_test";
@@ -43,30 +41,27 @@ nplot=1024;
 [cost_rd,k_rd,c_rd,svec_rd] = ...
   schurOneMlattice_cost([],Ad,Wa,Td,Wt,k0,epsilon0,p0,c0,nbits,0);
 printf("cost_rd=%8.5f\n",cost_rd);
+[svec_rd_digits,svec_rd_adders]=SDadders(svec_rd,nbits);
+printf("svec_rd_digits=%d,svec_rd_adders=%d\n",svec_rd_digits,svec_rd_adders);
 [n_rd,d_rd]=schurOneMlattice2tf(k_rd,epsilon0,ones(size(p0)),c_rd);
 h_rd=freqz(n_rd,d_rd,nplot);
 % Find optimised rounded lattice coefficients with samin
 if use_best_samin_found
-  svec_sa_exact = [ -26,  30, -28,  24, -10,  1,  4, 20,  3,  3,  1 ]';
+  svec_sa_exact = [ -26,  30, -28,  24, -10,   1,   4,  20,  3,   3,   1 ]';
 else
-  % See /usr/local/share/octave/packages/optim-1.4.1/samin_example.m
-  ub=nshift*ones(length(k0)+length(c0),1);
+  ub=nshift*ones(length(svec_rd),1);
   lb=-ub;
-  nt=20;
-  ns=5;
-  rt=0.5;
-  maxevals=2e4;
-  neps=5;
-  functol=1e-3;
-  paramtol=1e-3;
-  verbosity=2;
-  minarg=1;
-  control={lb,ub,nt,ns,rt,maxevals,neps,functol,paramtol,verbosity,minarg};
+  samin_opt=optimset("Display","iter", "Algorithm","samin", "MaxIter",1000, ...
+                     "TolX",max(ub-lb), "lbound",lb,"ubound",ub);
+  svec_sa_exact=[];
   [svec_sa_exact,cost_sa,conv,details_sa] = ...
-    samin("schurOneMlattice_cost",{svec_rd(:)},control)
+    nonlin_min("schurOneMlattice_cost",svec_rd(:),samin_opt);
 endif
 [cost_sa,k_sa,c_sa,svec_sa]=schurOneMlattice_cost(svec_sa_exact);
 printf("cost_sa=%8.5f\n",cost_sa);
+print_polynomial(svec_sa,"svec_sa","%3d");
+[svec_sa_digits,svec_sa_adders]=SDadders(svec_sa,nbits);
+printf("svec_sa_digits=%d,svec_sa_adders=%d\n",svec_sa_digits,svec_sa_adders);
 [n_sa,d_sa]=schurOneMlattice2tf(k_sa,epsilon0,ones(size(p0)),c_sa);
 h_sa=freqz(n_sa,d_sa,nplot);
 
@@ -74,17 +69,29 @@ h_sa=freqz(n_sa,d_sa,nplot);
 [cost_sd,k_sd,c_sd,svec_sd] = ...
    schurOneMlattice_cost([],Ad,Wa,Td,Wt,k0,epsilon0,p0,c0,nbits,ndigits);
 printf("cost_sd=%8.5f\n",cost_sd);
+[svec_sd_digits,svec_sd_adders]=SDadders(svec_sd,nbits);
+printf("svec_sd_digits=%d,svec_sd_adders=%d\n", ...
+       svec_sd_digits,svec_sd_adders);
 [n_sd,d_sd]=schurOneMlattice2tf(k_sd,epsilon0,ones(size(p0)),c_sd);
 h_sd=freqz(n_sd,d_sd,nplot);
 % Find optimised signed-digit lattice coefficients with samin
 if use_best_samin_found
-  svec_sasd_exact = [  -24,  31, -28,  24,  -8,  0,  2,  20,  3,  4,  1 ]';
+  svec_sasd_exact = [ -24,  31, -28,  24,  -8,   0,   2,  20,   3,   4,   1 ]';
 else
+  ub=nshift*ones(length(svec_sd),1);
+  lb=-ub;
+  samin_opt=optimset("Display","iter", "Algorithm","samin", "MaxIter",1000, ...
+                     "TolX",max(ub-lb), "lbound",lb,"ubound",ub);
+  svec_sasd_exact=[];
   [svec_sasd_exact,cost_sasd,conv,details_sasd] = ...
-    samin("schurOneMlattice_cost",{svec_sd(:)},control)
+    nonlin_min("schurOneMlattice_cost",svec_rd(:),samin_opt);
 endif
 [cost_sasd,k_sasd,c_sasd,svec_sasd]=schurOneMlattice_cost(svec_sasd_exact);
 printf("cost_sasd=%8.5f\n",cost_sasd);
+print_polynomial(svec_sasd,"svec_sasd","%3d");
+[svec_sasd_digits,svec_sasd_adders]=SDadders(svec_sasd,nbits);
+printf("svec_sasd_digits=%d,svec_sasd_adders=%d\n", ...
+       svec_sasd_digits,svec_sasd_adders);
 [n_sasd,d_sasd]=schurOneMlattice2tf(k_sasd,epsilon0,ones(size(p0)),c_sasd);
 h_sasd=freqz(n_sasd,d_sasd,nplot);
 
@@ -127,14 +134,14 @@ print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Results
-print_polynomial(k_rd,"k_rd");
-print_polynomial(c_rd,"c_rd");
-print_polynomial(k_sa,"k_sa");
-print_polynomial(c_sa,"c_sa");
-print_polynomial(k_sd,"k_sd");
-print_polynomial(c_sd,"c_sd");
-print_polynomial(k_sasd,"k_sasd");
-print_polynomial(c_sasd,"c_sasd");
+print_polynomial(k_rd,"k_rd","%9.6f");
+print_polynomial(c_rd,"c_rd","%9.6f");
+print_polynomial(k_sa,"k_sa","%9.6f");
+print_polynomial(c_sa,"c_sa","%9.6f");
+print_polynomial(k_sd,"k_sd","%9.6f");
+print_polynomial(c_sd,"c_sd","%9.6f");
+print_polynomial(k_sasd,"k_sasd","%9.6f");
+print_polynomial(c_sasd,"c_sasd","%9.6f");
 save samin_schurOneMlattice_lowpass_test.mat ...
      k_rd c_rd k_sa c_sa k_sd c_sd k_sasd c_sasd
 
