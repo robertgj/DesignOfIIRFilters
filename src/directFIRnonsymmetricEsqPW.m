@@ -18,7 +18,7 @@ function [Esq,gradEsq,Q,q]=directFIRnonsymmetricEsqPW(h,waf,Adf,Tdf,Waf)
 %   gradEsq - gradient of the squared error value at h, a row vector
 %   Q,q - gradEsq=2*h'*Q+2*q. h is (N+1)x1, q is 1x(N+1) and Q is (N+1)x(N+1)
   
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2021 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -83,12 +83,9 @@ function [Esq,gradEsq,Q,q]=directFIRnonsymmetricEsqPW(h,waf,Adf,Tdf,Waf)
   def_intHH=intHH(2:end,:,:)-intHH(1:(end-1),:,:);
   % Sum over the bands
   Q=reshape(sum(Waf.*def_intHH,1)/pi,[N+1,N+1]);
-  % Check that Q is positive definite
+  % Check that Q is symmetric
   if ~issymmetric(Q)
     error("~issymmetric(Q)");
-  endif
-  if ~isdefinite(Q) 
-    error("~isdefinite(Q)");
   endif
 
   % Find q
@@ -109,6 +106,9 @@ function [Esq,gradEsq,Q,q]=directFIRnonsymmetricEsqPW(h,waf,Adf,Tdf,Waf)
 
   % Find Esq
   Esq=(h'*Q*h)+(2*q*h)+intc;
+  if Esq<0
+    error("Esq<0");
+  endif
 
   % Find gradEsq
   gradEsq=(2*(h')*Q)+(2*q);
