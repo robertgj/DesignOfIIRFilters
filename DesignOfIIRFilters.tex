@@ -105,8 +105,12 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \DeclareMathOperator{\mathrank}{rank}
 \DeclareMathOperator{\mathrange}{range}
 \DeclareMathOperator{\mathtrace}{trace}
+\DeclareMathOperator{\mathadj}{adj}
 \DeclareMathOperator{\mathdiag}{diag}
 \DeclareMathOperator{\mathtpltz}{Toeplitz}
+\DeclareMathOperator{\mathcohull}{cohull}
+\DeclareMathOperator{\mathri}{ri}
+\DeclareMathOperator{\mathaff}{aff}
 
 \allowdisplaybreaks % For page breaks in long \align{} equations
 
@@ -131,7 +135,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \end{center}
 
 \vspace*{11cm}
-Copyright \copyright\; 2017-2020 Robert G. Jenssen
+Copyright \copyright\; 2017-2021 Robert G. Jenssen
 
 This work is licensed under the Creative Commons Attribution 4.0 International
 License.\\ View a copy of the license at:
@@ -919,8 +923,9 @@ system of linear equations. This system of equations is invertible if the
 controllability matrix 
 $\left[\begin{array}{cccc}B & AB & \cdots & A^{n-1}B\end{array}\right]$ 
 is non-singular. The term $\left(zI-A\right)^{-1}$ is called the
-\emph{matrix resolvent}. The determinant $p\left(z\right)=det\left(zI-A\right)$ 
-is called the \emph{characteristic polynomial} of $A$. 
+\emph{matrix resolvent}. The determinant
+$p\left(z\right)=\det\left(zI-A\right)$  is called the \emph{characteristic
+ polynomial} of $A$.  
 
 The transfer function can be written
 \begin{align}
@@ -1176,7 +1181,7 @@ If
 \begin{enumerate}
 \item the matrix pair $\left(A,B\right)$ is controllable so that $\det\left[\begin{array}{ccccc}
 B & AB & A^{2}B & \cdots & A^{n-1}B\end{array}\right]\neq0$.
-\item the characteristic function of the state transition matrix, A,
+\item the characteristic function of the state transition matrix, $A$,
   is $\det\left(zI-A\right)=a_{0}z^{n}+a_{1}z^{n-1}+\ldots+a_{n}$ with $a_{0}=1$.
 \item the state vectors are: $\begin{cases}
 x\left(0\right)=0\\
@@ -2187,7 +2192,6 @@ number of multipliers-per-output is reduced accordingly.
 \begin{threeparttable}
 \centering
 \bgroup{}
-%\newcommand\arraystretch{2}
 \begin{tabular}{lll}
 \hline
 Filter structure & Number of multipliers per output & Optimal block length, P\\
@@ -19171,6 +19175,68 @@ matrix, $A$:
 \mathrange\left(A\right) &= \mathspan\left\{ u_{1},\ldots,u_{r}\right\} \\
 A&=\sum_{k=1}^{r}\sigma_{k}u_{k}v_{k}^{\top} =U\Sigma{}V^{\top}
 \end{align*}
+\section{\label{app:Linear-algebra-determinants}Matrix determinants}
+\subsection{Definitions}
+The following definitions of the determinant of a matrix are equivalent:
+\begin{enumerate}
+\item The determinant is a function of a square matrix
+  $A\in\mathbb{R}^{n\times{}n}$, $\det : \left\{A\mapsto\mathbb{R}\right\}$,
+  with the following properties: 
+  \begin{itemize}
+  \item row replacement on row $r_{k}$ (ie: $r_{k}=r_{k}+m\times r_{l}$)
+    does not change $\det A$
+  \item scaling a row by a scalar $p$ multiplies $\det A$ by $p$
+  \item swapping adjacent rows of $A$ multiplies $\det A$ by $-1$
+  \item the determinant of the identity matrix $I_{n}$ is $1$
+  \end{itemize}
+
+\item Suppose a square matrix, $A$, is reduced to row-echelon form, $B$, by
+  Gaussian elimination. Then:
+  \begin{align*}
+    \det A &= -1^{s}\times\frac{\text{product of the diagonal entries of }B}
+             {\text{product of the scaling factors used}}
+  \end{align*}
+  where $s$ is the number of row swaps performed. This is often the most
+  efficient means of calculating $\det{A}$.
+
+\item The parallelpiped determined by $n$ vectors
+  $r_{1},\hdots,r_{n}\in\mathbb{R}^{n}$ is the set
+  $P=\left\{p_{1}r_{1}+\hdots+p_{n}r_{n}\;\vert\;0\le p_{1},\hdots,
+    p_{n}\le 1\right\}$. If $A$ is the matrix formed from the rows, $r_{k}$,
+  then the volume of the parallelpiped is $\mathabs{\det A}$. If the unit
+  cube is transformed by the affine transformation corresponding to matrix $A$
+  and then by that for matrix $B$ it follows that
+  $\det{AB}=\det{A}\times\det{B}$ and that
+  $\det{A^{-1}}=\left[\det{A}\right]^{-1}$.
+
+\item The \emph{$\left(k,l\right)$-minor} of $A\in\mathbb{R}^{n\times{}n}$,
+  $M_{kl}$, is the determinant of the $\left(n-1\right)\times\left(n-1\right)$
+  matrix formed by deleting row $k$ and column $l$ of $A$. The \emph{cofactor}
+  matrix of $A$ is $C=\left(\left(-1\right)^{k+l}M_{kl}\right)$. The
+  \emph{adjugate} matrix of $A$ is $\mathadj{A}=C^{\top}$. The adjugate matrix
+  is defined so that $A\mathadj{A}=\mathadj{A}A=\det{A}I_{n}$ and
+  $A^{-1}=\left[\det A\right]^{-1}\mathadj{A}$. If the entries of $A$ are
+  $a_{kl}$ and the entries of $C$ are $c_{kl}=\left(-1\right)^{k+l}M_{kl}$, then
+  the \emph{cofactor expansion alongthe $k$'th row} is
+  $\det{A}=\sum_{l=1}^{n}a_{kl}C_{kl}$. The \emph{cofactor expansion along the
+    $l$'th column} is similar.
+\end{enumerate}
+
+\subsection{Matrix exponential}
+The \emph{matrix exponential} is given by the power series:
+\begin{align*}
+  e^{A}&=\sum_{k=0}^{\infty}\frac{1}{k!}A^{k}
+\end{align*}
+\emph{Jacobi}'s formula for the derivative of the determinant of a matrix, $A$,
+is:
+\begin{align*}
+  \frac{d}{dt}\det{A\left(t\right)}
+  &= \mathtrace\left(\mathadj{A\left(t\right)}\frac{d}{dt}A\left(t\right)\right)
+\end{align*}
+The following corollory is obtained by substituting $A\left(t\right)=e^{tB}$:
+\begin{align*}
+  \det{e^{tB}} &= e^{\mathtrace{tB}}
+\end{align*}
 
 \section{\label{app:Linear-algebra-positive-definite-matrixes}Positive-definite matrixes}
 A matrix, $Q \in \mathbb{R}^{n\times n}$, is positive-definite if 
@@ -19198,7 +19264,10 @@ if-and-only-if $Z$ is \emph{Hermitian}, that is $Z^{\top} = \bar{Z}$, where
 $\bar{Z}$ means the element-wise conjugate of $Z$.
 
 \section{\label{app:Linear-algebra-Schur-complement}Schur complement}
-This section follows \emph{Gallier}~\cite{Gallier_SchurComplement}.
+This section follows \emph{Gallier}~\cite{Gallier_SchurComplement}. See also
+\emph{J\"{o}nsson}~\cite[Section 2.1]{Jonsson_LectureOnSProcedure}. The
+\emph{Schur} complement is often used to convert non-linear matrix inequalities
+into linear matrix inequalities.
 \subsection{Schur complement of a matrix}
 
 The \emph{Schur complement} appears in the decomposition of a matrix
@@ -19282,7 +19351,11 @@ then:
             I & 0 \\
             D^{-1}C & I \end{array}\right]
 \end{align*}
-$A-BD^{-1}C$ is called the \emph{Schur complement of $D$ in $M$}. 
+$A-BD^{-1}C$ is called the \emph{Schur complement of $D$ in $M$}\footnote{A
+corollary is:
+$\det{\left[\begin{array}{cc}
+      A & B \\
+      C & D \end{array}\right]} =\det\left[A-BD^{-1}C\right]\times\det{D}$.}.
 
 Alternatively, if $A$ and $D-CA^{-1}B$ are invertible, and with
 $x=A^{-1}\left(c-By\right)$:  
@@ -19376,6 +19449,230 @@ the equivalent positive semi-definite condition:
           \left(Ax+b\right)^{\top} & c^{\top}x+d \end{array}\right]\succeq{}0
 \end{align*}
 follows from the properties of the \emph{Schur complement}.
+\clearpage
+\section{\label{app:Linear-algebra-convex-vector-space}Convex vector spaces}
+
+See, for example, \emph{J\"{o}nsson}~\cite[Section
+2]{Jonsson_LectureOnSProcedure}.
+
+\subsection{Definitions on convex sets}
+
+A set, $\mathcal{C}$, in a linear vector space is \emph{convex} if
+$\alpha{}x_{1}+\left(1-\alpha\right)x_{2}\in\mathcal{C}$ for all
+$x_{1},x_{2}\in\mathcal{C}$ and $\alpha\in\left[0,1\right]$.
+
+A set, $\mathcal{C}$, is a \emph{convex cone} if it is convex and
+$\alpha{}x\in\mathcal{C}$ for all $x\in\mathcal{C}$ and all $\alpha{}>0$.
+
+A \emph{convex polytope}, $\mathcal{C}$, with vertices at
+$x_{1},\hdots,x_{n}\in\mathbb{R}^{m}$ is defined as the convex hull of those
+points:
+\begin{align*}
+  \mathcal{C}
+  &= \mathcohull\left\{x_{1} , \hdots , x_{n}\right\}
+    =\left\{\sum_{k=0}^{n}\alpha_{k}x_{k} :
+     \alpha_{k}\ge{}0, \;\sum_{1}^{n}\alpha_{k}=1\right\}
+\end{align*}
+
+An \emph{ellipsoid}, $\mathcal{E}$, with centre $m$, can be defined by:
+\begin{align*}
+  \mathcal{E}
+  &= \left\{x : \left(x-m\right)^{\top}Q^{-1}\left(x-m\right)\le 1\right\} \\
+  &= \left\{x : x^{\top}Px+2x^{\top}b+c\le 0\right\}
+\end{align*}
+where $Q$ is positive definite and symmetric. In the second characterisation
+$P=Q^{-1}$, $b=-Q^{-1}m$ and $c=m^{\top}Q^{-1}m-1$. The size, shape and location
+of the ellipsoid are determined by $m$ and $Q$. The orientation of $\mathcal{E}$
+is determined by the eigenvectors of $Q$ and the lengths of the semi-axes of
+$\mathcal{E}$ are defined by the eigenvalues of $Q$. The volume of an ellipsoid
+is: 
+\begin{align*}
+  V\left(\mathcal{E}\right)
+  &= k\left(n\right)\det\left(Q\right)^{\frac{1}{2}}
+    =k\left(n\right)\det
+    \left(\left(b^{\top}P^{-1}b-c\right)P^{-1}\right)^{\frac{1}{2}}
+\end{align*}
+where $k\left(n\right)$ is a dimension-dependent constraint.
+A linear transformation of the ellipsoid, $\mathcal{E}$, changes the centre,
+shape and location:
+\begin{align*}
+  \tilde{\mathcal{E}}
+  &=A\mathcal{E}+b \\
+  &= \left\{y : y=Ax+b : x\in\mathcal{E}\right\} \\
+  &= \left\{y : \left(y-b-Am\right)^{\top}
+    \left(AQA^{\top}\right)^{-1}
+    \left(y-b-Am\right)\le{} 1\right\} \\
+\end{align*}
+
+\subsection{The separating hyperplane theorem}
+The \emph{separating hyperplane theorem} is an important result in convex
+optimisation. I follow the finite dimensional proof of
+\emph{J\"{o}nsson}~\cite[Section 3]{Jonsson_LectureOnSProcedure}. Also see
+\emph{Rockafellar}~\cite[Section 11]{Rockafellar_ConvexAnalysis}.
+
+\emph{J\"{o}nsson} makes  the following definitions relating to a \emph{linear
+  vector space}, $V$, over the real numbers, $\mathbb{R}$: 
+\begin{itemize}
+\item a \emph{linear functional} on $V$ is a function
+  $f : V\mapsto\mathbb{R}$, which is linear,
+  i.e. $f\left(\alpha_{1}v_{1}+\alpha_{2}v_{2}\right)=
+  \alpha_{1}f\left(v_{1}\right)+\alpha_{2}f\left(v_{2}\right)$
+  for all $v_{1},v_{2}\in{}V$ and $\alpha_{1},\alpha_{2}\in\mathbb{R}$ 
+\item the continuous linear functions on $V$ also make a vector space, called
+  the \emph{dual} of $V$, denoted $V^{*}$ 
+\item in applications considering a finite dimensional Hilbert space over
+  $\mathbb{R}$, the dual space is $V^{*}=V$, and the linear functional
+  $v^{*}=\langle v,v^{*}\rangle$ is the inner product
+\item the \emph{affine hull} of $S$ is defined as the set of all linear
+  combinations of the form $\sum\alpha_{k}x_{k}$ where $x_{k}\in S$ and
+  $\sum\alpha_{k}=1$
+\item the \emph{relative interior} of a set $S\subset\mathbb{R}$, denoted by
+  $\mathri S$, is the set of points of $S$ which are interior relative to
+  $\mathaff S$. This means that for any $x\in S$, there exists an
+  $\varepsilon >0$ such that all $y\in \mathaff S$ with
+  $\mathabs{x-y}<\varepsilon$ are also members of $S$
+\item a \emph{hyperplane} is an affine subset of $V$ with maximal dimension. In
+  other words, if $V$ has dimension $n$, then every hyperplane is a translation
+  of an $n-1$ dimensional subspace of $V$. A hyperplane can be represented as
+  $H=\left\{x\in V : \langle v,z\rangle = c \right\}$ for $z\in V^{*}$ and
+    $c\in\mathbb{R}$.
+  The sets $H=\left\{x\in V : \langle v,z\rangle\ge c \right\}$ and
+    $H=\left\{x\in V : \langle v,z\rangle\le c \right\}$ are closed half-spaces
+    of $V$
+\end{itemize}
+
+\emph{J\"{o}nsson} states the following lemma:
+
+\framebox{\begin{minipage}[t]{0.9\columnwidth}
+    \emph{The separation lemma: } Let $C\subset{}V$ be a relatively open convex
+    set (ie: $\mathri{}C=C$) in a finite dimensional vector space, $V$, and let
+    $V_{1}$ be a linear subspace of $V$ such that $C\cap{}V_{1}=\emptyset$. Then
+    there exists a hyperplane containing $V_{1}$ such that one of the open
+    half-spaces associated with the hyperplane contains $C$, ie:
+    $\exists z\in V^{\star}\setminus{}0 \text{ such that }
+   \langle x,z \rangle >0 \;     \forall x\in C \text{ and }
+   \langle x,z \rangle \le 0 \;  \forall x\in V_{1}$.
+  \end{minipage}}
+
+\emph{J\"{o}nsson} applies this lemma to prove the following theorem:
+
+\framebox{\begin{minipage}[t]{0.9\columnwidth}
+\emph{Theorem: } Let $C_{1}$ be an open convex cone and $C_{2}$ be a convex
+set. If these sets are disjoint, $C_{1}\cap C_{2}=\emptyset$, then there exists
+a separating hyperplane, ie: $\exists z\in V^{\star}\setminus 0 \text{ such that }
+   \langle x_{1},z \rangle >0 \;     \forall x_{1}\in C_{1} \text{ and }
+   \langle x_{2},z \rangle \le 0 \;  \forall x_{2}\in C_{2}$.
+ \end{minipage}}
+
+\subsection{\label{app:Jonsson-S-procedure}The S-procedure}
+\emph{J\"{o}nsson}~\cite[Section 4]{Jonsson_LectureOnSProcedure}\footnote{See
+  also, for example, \emph{P\'{o}lik} and
+  \emph{Terlaky}~\cite{PolikTerlaky_SurveySLemma}.} describes the
+S-procedure as follows: let $\sigma_{k}:V\mapsto\mathbb{R}$, $k=0,\hdots,N$,
+be real valued functionals on a linear vector space $V$ and consider the
+following two conditions:
+
+$S_{1}:\sigma_{0}\ge \; \forall\; y\in V \text{ such that }
+\sigma_{k}\left(y\right)\ge 0,\;k=1,\hdots,N$
+
+$S_{2}:\exists\;\tau_{k}\ge 0,\;k=1,\hdots,N\text{ such that }
+\sigma_{0}\left(y\right)-\sum_{k=1}^{N}\tau_{k}\sigma_{k}\left(y\right)\ge 0$
+
+Clearly $S_{2}\Rightarrow S_{1}$. The S-procedure is the method of verifying
+that $S_{1}\Rightarrow S_{2}$.
+
+Suppose that the functionals are quadratic,
+$\sigma_{k}\left(y\right)=y^{\top}Q_{k}y+2s_{k}^{\top}y+r_{k},\; k=0,\hdots,N$,
+where $Q_{k}=Q_{k}^{\top}\in\mathbb{R}^{m\times m}$, $s_{k}\in\mathbb{R}^{m}$
+and $r_{k}\in\mathbb{R}$. In general, $\sigma_{0}$ is not convex and, likewise,
+the set of constraints, $\left\{y\in\mathbb{R}^{m} : \sigma_{k}\left(y\right)\ge
+  0,\; k=1,\hdots,N\right\}$ is not convex. On the other hand, $S_{2}$
+corresponds to a linear matrix inequality:
+\begin{align*}
+  S_{2}
+  &\Leftrightarrow \exists\;\tau_{k}\ge 0\text{ such that }
+\sigma_{0}\left(y\right)-\sum_{k=1}^{N}\tau_{k}\sigma_{k}\left(y\right)\ge
+          0,\;\forall\; y\in\mathbb{R}^{m}\\
+  &\Leftrightarrow \exists\;\tau_{k}\ge 0\text{ such that }
+    \left[\begin{array}{cc}
+            Q_{0} & s_{0}\\
+            s_{0}^{\top} & r_{0}\end{array}\right]
+    -\sum_{k=1}^{N}\tau_{k}
+    \left[\begin{array}{cc}
+            Q_{k} & s_{k}\\
+            s_{k}^{\top} & r_{k}\end{array}\right] \succeq 0
+\end{align*}
+
+If the conditions $S_{1}$ and $S_{2}$ are equivalent, then the S-procedure is
+said to be \emph{lossless}. The constraints $\sigma_{k}\left(y\right)\ge 0$
+for $k=1,\hdots,N$ are said to be \emph{regular} if $\exists\; y^{\star}\in V$
+such that $\sigma_{k}\left(y^{\star}\right)\ge 0$.
+
+\emph{J\"{o}nsson}~\cite{Jonsson_LectureOnSProcedure} gives the following
+example of the application of the S-procedure to a quadratic programming problem
+with one quadratic constraint:
+\begin{align*}
+\textbf{minimise}   \quad & y^{\top}Q_{0}y+2s_{0}^{\top}y+r_{0}\\
+\textbf{subject to} \quad & y^{\top}Q_{1}y+2s_{1}^{\top}y+r_{k1}\ge 0
+\end{align*}
+A lower bound is obtained by the semi-definite relaxation:
+\begin{align*}
+\textbf{minimise}   \quad & \mathtrace{Q_{0}Y}+2s_{0}^{\top}y+r_{0}\\
+\textbf{subject to} \quad & \mathtrace{Q_{1}Y}+2s_{1}^{\top}y+r_{1}\\
+   & \left[\begin{array}{cc}
+          Y & y \\
+          y^{\top} & 1\end{array}\right]\succeq 0
+\end{align*}
+The dual problem of the semi-definite relaxation is:
+\begin{align*}
+\textbf{maximise}   \quad & \gamma \\
+\textbf{subject to} \quad & \left[\begin{array}{cc}
+          Q_{0}-\lambda Q_{1} & s_{0}-\lambda s_{1} \\
+          s_{0}^{\top}-\lambda s_{1}^{\top} & r_{0}-\lambda r_{1}-\gamma
+                                  \end{array}\right]\succeq 0 \\
+  & \lambda \ge 0 \\
+  & \gamma \in \mathbb{R}
+\end{align*}
+
+\subsection{The \emph{log det A} penalty function}
+This $\log\det A$ function is widely used as a penalty function in convex
+optimisation. \emph{VanAntwerp} and
+\emph{Braatz}~\cite[Appendix]{VanAntwerpBraatz_LinearBilinearMatrixInequalities} 
+show that the function $-\log\det A$ is convex if $A=A^{\top}\succ 0$.
+Their proof uses the following lemma:
+
+\emph{Lemma: } A function $f\left(x\right)$ is convex in $x\in S$
+if-and-only-if $f\left(t\right)=f\left(x_{0}+th\right)$ is convex in t
+for all $x_{0}$, $h$ and $t$ such that $x_{0}+th\in S$ and $x_{0}\in S$.
+
+The proof begins by defining $S=\left\{A \vert A=A^{\top}\succ 0\right\}$. The
+lemma implies that $-\log\det A$ is convex in $A$ on $A=A^{\top}\succ 0$
+if-and-only-if $-\log\det \left(A_{0}+tH\right)$ is convex in $t$ for all  
+$A_{0}=A_{0}^{\top}\succ 0$ and $H$ which satisfy
+$A_{0}+tH =\left(A_{0}+tH\right)^{\top} \succ 0$. The latter condition is
+equivalent to $I+tA_{0}^{-\frac{1}{2}}HA_{0}^{-\frac{1}{2}} \succ 0$. Also,
+if $\lambda_{k}$ are the eigenvalues\footnote{The eigenvalues,
+  $\lambda_{k}$, of $A$ are the solutions of
+  $\det\left(\lambda I -A\right)$. Also $\det A =\prod_{k}\lambda_{k}$.}
+ of $A_{0}^{-\frac{1}{2}}HA_{0}^{-\frac{1}{2}}$,
+then $1+t\lambda_{k}$ are the eigenvalues of
+$I+tA_{0}^{-\frac{1}{2}}HA_{0}^{-\frac{1}{2}}$. Combining these:
+\begin{align*}
+-\log\det \left(A_{0}+tH\right)
+&= -\log\det A_{0}-\log\det\left(I+tA_{0}^{-\frac{1}{2}}HA_{0}^{-\frac{1}{2}}\right)\\
+&= -\log\det A_{0}-\sum_{k}\log\left(1+t\lambda_{k}\right)
+\end{align*}
+
+The first and second derivatives of the summand are:
+\begin{align*}
+  -\frac{d}{dt}\log\left(1+t\lambda_{k}\right)
+  &=-\frac{\lambda_{k}}{1+t\lambda_{k}} \\
+  -\frac{d^{2}}{dt^{2}}\log\left(1+t\lambda_{k}\right)
+  &=\frac{\lambda_{k}^{2}}{\left(1+t\lambda_{k}\right)^{2}} \\
+\end{align*}
+The second derivative is positive implying that
+$-\log\det\left(A_{0}+tH\right)$ is convex in $t$ for all $t$.
+
 \cleardoublepage{}
 \chapter{\label{app:Review-of-elliptic-integrals-and-functions}Review of Legendre's elliptic integrals and Jacobi's elliptic functions}
 This appendix reviews the notation for \emph{Legendre's elliptic
@@ -19809,7 +20106,6 @@ periods, pole locations and zero locations of the Jacobian elliptic functions.
 \centering
 \begin{threeparttable}
 \bgroup{}
-%\newcommand\arraystretch{2}
 \begin{tabular}{lccccccccc} \toprule
 \multirow{3}{*}
 {Periods}         &\multicolumn{4}{c}{z-poles}&  &\multicolumn{4}{c}{z-zeros} \\
@@ -21375,8 +21671,9 @@ multipliers to handle inequality constraints. Consider the minimisation problem:
 \textbf{subject to} \quad & g_{i}\left(x\right) \ge 0 , \quad i=1,\ldots,m\\
 \textbf{and}        \quad & h_{j}\left(x\right) = 0 , \quad j=1,\ldots,p
 \end{align*}
-where $f:\mathbb{R}^{n}\rightarrow\mathbb{R}$ , $g_{i}:\mathbb{R}^{n}\rightarrow\mathbb{R}$
-and $h_{j}:\mathbb{R}^{n}\rightarrow\mathbb{R}$ are continuous differentiable
+where $f:\mathbb{R}^{n}\mapsto\mathbb{R}$ ,
+$g_{i}:\mathbb{R}^{n}\mapsto\mathbb{R}$
+and $h_{j}:\mathbb{R}^{n}\mapsto\mathbb{R}$ are continuous differentiable
 functions. Define the Lagrangian of the problem as:
 \begin{align*}
 \mathcal{L}\left(x,\lambda,\mu\right) &= f\left(x\right)-\sum_{i=1}^{m}\lambda_{i}g_{i}\left(x\right)-\sum_{j=1}^{p}\mu_{j}h_{j}\left(x\right)\triangleq f\left(x\right)-\left\langle \lambda,g\right\rangle -\left\langle \mu,h\right\rangle 
@@ -22061,7 +22358,9 @@ x^{k} & \in \arg\min_{x\in S}\left\{ f\left(x\right)+\epsilon^{k}B\left(x\right)
 \end{align*}
 where the sequence $\left\{ \epsilon^{k}\right\} $ is defined by
 \begin{align*}
-0 < \epsilon^{k+1} < \epsilon^{k} \quad k=0,1,\ldots \quad \epsilon^{k}\rightarrow 0
+  0 < \epsilon^{k+1} < \epsilon^{k}
+  \quad k=0,1,\ldots
+  \quad \epsilon^{k}\rightarrow 0
 \end{align*}
 
 \section{\label{sub:Finding-the-step}Finding the step size}
@@ -22320,8 +22619,8 @@ the tangent quadratic problem with linear constraints.
 \begin{enumerate}[start=0]
   \item \emph{Find the unconstrained minimum of $f\left(x\right)$, then:}
 
-  Set $x\leftarrow H^{-1}a$, $f\leftarrow\frac{1}{2}a^{\top}x$, $E\leftarrow H^{-1}$,
-  $\mathcal{A}\leftarrow\emptyset$, $q\leftarrow0$
+    Set $x\leftarrow H^{-1}a$, $f\leftarrow\frac{1}{2}a^{\top}x$,
+    $E\leftarrow H^{-1}$, $\mathcal{A}\leftarrow\emptyset$, $q\leftarrow0$
 
   \item \label{itm:Choose-constraint}\emph{Choose the most violated constraint,
       if any:}
@@ -25952,14 +26251,14 @@ The dual problem is~\cite[Equations 24 and
 \end{align}
 The sign of the objective is reversed to get a minimisation problem.
 
-\begin{comment}
 \emph{Dumitrescu et al.} refer to an approach for fast solutions of SDP problems
 with Toeplitz 
 LMIs~\cite{GeninNesterovVanDooren_OptimizationOverPositivePolyMatrices}.
 \emph{Dumitrescu et al.} suggest spectral factorisation of $r^{\star}$
   by solving a Ricatti equation. This appears to refer to the method proposed by
   \emph{Tuqan} and \emph{Vaidyanathan}~\cite[Theorem
-  3]{TuqanVaidyanathan_StateSpaceFIREnergyCompaction}.
+  3]{TuqanVaidyanathan_StateSpaceFIREnergyCompaction}. Also see \emph{Sayed} and
+  \emph{Kailath}~\cite[Section 5]{SayedKailath_SurveySpectralFactorization}.
 
 \emph{Dumitrescu et al.}~\cite[Theorem
 2 and Section IV]{DumitrescuTabusStoica_PositiveRealSequenceMAParameter} show
@@ -25978,7 +26277,6 @@ dual solution $\mu^{\star}$ have the following strong duality properties
 \end{align}
 \emph{Dumitrescu et al.}~ note that the FIR parameter vector, $h^{\star}$, is an
 eigenvector of $X\left(\mu^{\star}\right)$, corresponding to the eigenvalue $0$.
-\end{comment}
 
 \subsubsection{An example}
 The Octave script \emph{dumitrescu\_MA\_estimation\_test.m}
@@ -31725,8 +32023,8 @@ The $M+1$ distinct coefficients of the sub-filter are:
 \cleardoublepage
 \chapter{\label{app:Kalman-Yakubovic-Popov-Lemma-IIR-Filter-Design}Application of the \emph{Kalman-Yakubovi\u{c}-Popov} lemma to digital filter design}
 The \emph{Kalman-Yakubovi\u{c}-Popov} (KYP)
-lemma~\cite{Kalman_LyapunovFunctions} is a fundamental result from the theory of
-control systems. The continuous time KYP states that, for a state-variable
+lemma~\cite{Kalman_LyapunovFunctions} is a fundamental result from the theory
+of control systems. The continuous time KYP states that, for a state-variable
 system with $A\in\mathbb{C}^{n\times{}n}$ and $\left(A,B\right)$ controllable,
 the frequency domain inequality(FDI): 
 \begin{align}
@@ -31796,8 +32094,9 @@ then $\left|H\left(\omega\right)\right|^{2}-\left|H_{D}\left(\omega\right)\right
 
 The KYP lemma has been generalised to discrete time state variable systems and
 to unions of frequency domain
-inequalities~\cite{Pipeleers_GeneralisedKYPRealData,  
+inequalities~\cite{Pipeleers_GeneralisedKYPRealData,
 Iwasaki_GeneralizedKYPFrequencyDomainInequalities,
+Iwasaki_GeneralizedKYPFrequencyDomainInequalitiesReport,
 Davidson_LMISpectralConstraints,
 Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}.
 If the filter parameter vector is $\rho\in\mathbb{R}^{p}$, then the LMI
@@ -31807,13 +32106,12 @@ with $p+\frac{n\left(n+1\right)}{2}$ variables. \emph{Vandenburghe et al.}~\cite
 show that it is more efficient to solve the \emph{dual} or \emph{primal-dual}
 SDP problems. I follow \emph{Iwasaki} and
 \emph{Hara}~\cite{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}.
-\begin{comment}
 \section{The S-procedure}
-The so-called \emph{S-procedure} forms the basis of proofs of the KYP lemma.
-It ``converts a constrained inequality to an unconstrained inequality with
-multipliers''. The classical version of the S-procedure asserts that, given
-matrixes $\Theta,M\in{}\mathbb{H}^{n}$, the following statements
-are equivalent:
+The so-called \emph{S-procedure}\footnote{Also see
+  Section~\ref{app:Jonsson-S-procedure}} forms the basis of proofs of the KYP
+lemma. It ``converts a constrained inequality to an unconstrained inequality
+with multipliers''. The classical version of the S-procedure asserts that, given
+matrixes $\Theta,M\in{}\mathbb{H}^{n}$, the following statements are equivalent:
 \begin{subequations} \label{eqn:ClassicSProcedure}
 \begin{alignat}{3}
 \xi^{*}\Theta\xi\preceq{}0\quad&\forall\xi\in\mathbb{C}^{n}&\text{  such that  }
@@ -31823,11 +32121,14 @@ are equivalent:
 \end{alignat}
 \end{subequations}
 where $\xi^{*}$ is the \emph{Moore-Penrose} inverse. The S-procedure replaces
-the condition of Equation~\ref{eqn:ClassicSProcedure_constrained} with that
-of Equation~\ref{eqn:ClassicSProcedure_unconstrained}. The latter condition
+the non-linear condition of Equation~\ref{eqn:ClassicSProcedure_constrained}
+with the linear condition of
+Equation~\ref{eqn:ClassicSProcedure_unconstrained}. The latter condition 
 is easier to satisfy as it is a search for the scalar multiplier, $\tau$,
-satisfying convex constraints. \emph{Iwasaki} and
-\emph{Hara}~\cite[Section II.A]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} write an alternative
+satisfying convex constraints.
+
+\emph{Iwasaki} and \emph{Hara}~\cite[Section
+II.A]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} write an alternative 
 definition of the S-procedure:
 \begin{framed}
 \begin{align*}
@@ -31864,11 +32165,11 @@ definitions:
   \emph{Definition 1}: A set $\boldsymbol{M}\subset\mathbb{H}^{n}$ is:
   \begin{itemize}
   \item \emph{admissible} if it is a non-empty closed convex cone and
-$\text{interior}\left(\boldsymbol{N}\right)\cap\boldsymbol{M}=\emptyset$
+    $\text{interior}\left(\boldsymbol{N}\right)\cap\boldsymbol{M}=\emptyset$
   \item \emph{regular} if
-  $\boldsymbol{N}\cap\boldsymbol{M}=\left\{0\right\}$
+    $\boldsymbol{N}\cap\boldsymbol{M}=\left\{0\right\}$
   \item \emph{rank-one-separable} if $\boldsymbol{S}=
-    \text{convexhull}\left(\boldsymbol{S}_{1}\right)$
+    \mathcohull{\boldsymbol{S}_{1}}$
   \end{itemize}
 \end{framed}
 
@@ -31890,8 +32191,6 @@ and lemma:
   $\boldsymbol{P}\subset\mathbb{H}^{n}$ of positive-semidefinite
   matrixes containing the origin.
 \end{framed}
-\end{comment}
-
 \section{Frequency ranges as curves in the complex plane}
 The frequency response constraint examples shown above apply
 to the whole of the positive $\imath\omega$ axis in the continuous-time
@@ -31913,10 +32212,9 @@ complex plane as:
                               \sigma\left(\lambda,\Psi\right)\ge{}0\right\}
 \end{align*}
 where $\Phi,\Psi\in\mathbb{H}^{2}$. If $G\in\mathbb{C}^{n\times{}m}$ and
-$\Pi\in\mathbb{H}^{n+m}$, then \emph{Iwasaki} and \emph{Hara} define the
-function 
+$\Pi\in\mathbb{H}^{n+m}$ then the function 
 $\sigma:\mathbb{C}^{n\times{}m}\times\mathbb{H}^{n+m}\mapsto\mathbb{H}^{m}$
-by:
+is defined by:
 \begin{align*}
   \sigma\left(G,\Pi\right)\coloneqq\left[
   \begin{array}{c}
@@ -31950,8 +32248,450 @@ $\boldsymbol{\Lambda}\left(0,\Psi\right)$ represents a region in the complex
 plane with boundary $\boldsymbol{\Lambda}\left(\Psi,0\right)$ whenever
 $\det\left(\Psi\right)<0$.
 
-\section{A generalised KYP lemma}
-\section{Efficient solution of SDP problems arising from the KYP lemma} 
+\emph{Iwasaki} and \emph{Hara} prove the following lemma~\cite[Lemma
+2, Appendix 1]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}:
+
+\begin{framed}
+\emph{Lemma 2}: Let $\Phi\text{,}\Psi\in\mathbb{H}^{2}$ be given. Suppose
+$\det\left(\Psi\right)<0$.  Then there exists a transformation, $T$, such that:  
+\begin{align*}
+  \Phi &= T^{\dagger}\Phi_{0}T\\
+  \Phi_{0} &= \left[\begin{array}{cc}
+                      0 & 1 \\
+                      1 & 0 \\
+                    \end{array}\right] \\
+  \Psi &= T^{\dagger}\Psi_{0}T \\
+  \Psi_{0} &= \left[\begin{array}{cc}
+                     \alpha & \beta \\
+                     \beta & \gamma \\
+                   \end{array}\right]
+\end{align*}
+where $\alpha,\beta,\gamma\in\mathbb{R}$ and $T\in\mathbb{C}^{2\times{}2}$.  In particular, $\alpha$ and $\gamma$ can be ordered so that $\alpha<\gamma$.
+\end{framed}
+
+\emph{Iwasaki} and \emph{Hara} state the following proposition~\cite[Proposition
+1]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}:
+\begin{framed}
+\emph{Proposition 1}: Let $\Phi\text{,}\Psi\in\mathbb{H}^{2}$ be given and
+define the set $\boldsymbol{\Lambda}\left(\Phi,\Psi\right)$ as above. Then the
+set $\boldsymbol{\Lambda}\left(\Phi,0\right)$ represents curves
+on the complex plane if and only if the following two conditions
+hold:
+\begin{itemize}
+\item $\det\left(\Phi\right)<0$ 
+\item either $0\le\alpha\le\gamma$ or $\alpha<0<\gamma$
+\end{itemize}
+
+If $0\le\alpha\le\gamma$, then $\boldsymbol{\Lambda}\left(\Phi,\Psi\right)$ is a
+circle or a line specified by $\boldsymbol{\Lambda}\left(\Phi,0\right)$ since
+$\boldsymbol{\Lambda}\left(\Phi,0\right)\subseteq\boldsymbol{\Lambda}\left(0,\Psi\right)$. Alternatively,
+if $\alpha<0<\gamma$, then $\boldsymbol{\Lambda}\left(\Phi,\Psi\right)$ is a
+partial segment (or segments) of a circle or line specified by
+$\boldsymbol{\Lambda}\left(\Phi,0\right)\cap\boldsymbol{\Lambda}\left(0,\Psi\right)$.
+\end{framed}
+
+By an appropriate choice of $\Phi$ and $\Psi$ the set
+$\boldsymbol{\Lambda}$ can be specialised to define a range of the
+frquency variable $\lambda$. For the discrete-time frequency on the unit circle
+in the $z$-plane:
+\begin{align*}
+ \boldsymbol{\Lambda}
+  &=\left\{z=e^{\imath\omega}:\omega\in\boldsymbol{\Theta}\right\} \\
+  \sigma\left(z,\Phi\right) &= 0 \\
+  \Phi&=\left[\begin{array}{cc}
+                -1 & 0 \\
+                0 & 1 \\
+              \end{array}\right]
+\end{align*}
+where $\boldsymbol{\Theta}$ is a subset of the real numbers specified by $\Psi$
+as shown in Table~\ref{tab:Iwasaki-Hara-discrete-time-frequency-ranges}.
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lccc} \toprule
+           &LF&MF&HF\\
+\midrule
+  $\boldsymbol{\Theta}$ & $\mathabs{\omega}\le\omega_{l}$
+           & $\omega_{1}\le\omega\le\omega_{2}$
+                 & $\omega_{h}\le\mathabs{\omega}$ \\
+  $\Psi$ & $\left[\begin{array}{cc}
+                    0 & 1\\
+                    1 & -2\cos\omega_{l}\\
+                  \end{array}\right]$
+          & $\left[\begin{array}{cc}
+                    0 & e^{\imath\omega_{c}}\\
+                     e^{-\imath\omega_{c}} & -2\cos\omega_{w}\\
+                   \end{array}\right] $
+          & $\left[\begin{array}{cc}
+                    0 & -1\\
+                    -1 & 2\cos\omega_{h}\\
+                   \end{array}\right]$ \\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Iwasaki and Hara discrete-time frequency ranges]
+{$\Psi$ matrixes for distrete-time frequency ranges $\boldsymbol{\Theta}$ given
+  by \emph{Iwasaki} and
+  \emph{Hara}~\cite[p.47]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}.   $\omega_{c}=\left(\omega_{1}+\omega_{2}\right)/2$
+  and $\omega_{w}=\left(\omega_{1}-\omega_{2}\right)/2$.}
+\label{tab:Iwasaki-Hara-discrete-time-frequency-ranges}
+\end{table}
+
+\emph{Iwasaki} and \emph{Hara}~\cite[Section
+3.2]{Iwasaki_GeneralizedKYPFrequencyDomainInequalitiesReport} justify the low
+frequency case by noting that $z+z^{\dagger}\ge 2\cos\omega_{l}$ and choose $\Psi$
+accordingly. Similarly, for the band pass case, the frequency interval condition
+can be written as $\mathabs{\omega-\omega_{c}}\le\omega_{w}$ or
+$\cos\left(\omega-\omega_{c}\right)\ge\cos\omega_{w}$ where
+$0\le\omega_{w}\le\pi$. This condition can be written as
+$\sigma\left(e^{\imath\omega},\Psi\right)\ge 0$, again with $\Psi$ as shown in
+Table~\ref{tab:Iwasaki-Hara-discrete-time-frequency-ranges}.
+
+\section{\emph{Iwasaki} and \emph{Hara}'s generalised KYP lemma}
+\emph{Iwasaki} and \emph{Hara}~\cite[Section V.B,
+p.49]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} prove the following
+\emph{generalised} KYP lemma for state variable systems:
+\begin{framed}
+\emph{Theorem 4(State variable, nonstrict inequality version): }Let matrixes
+$A\in\mathbb{C}^{n\times{}n}$, $B\in\mathbb{C}^{n\times{}m}$,
+$\Theta\in\mathbb{H}^{n+m}$ and $\Phi\text{,}\Psi\in\mathbb{H}^{2}$ be
+given and the pair $\left(A,B\right)$ is controllable. $\boldsymbol{\Lambda}$ is
+the set of curves in the complex plane. $\boldsymbol{\Omega}$ is the set of
+eigenvalues of $A$ in $\boldsymbol{\Lambda}$. The following statements are
+equivalent: 
+\begin{enumerate}
+  \item For each
+    $\lambda\in\boldsymbol{\Lambda}\setminus\boldsymbol{\Omega}$:
+    \begin{align*}
+      \left[\begin{array}{c}
+              \left(\lambda{}I-A\right)^{-1}B \\
+              I\end{array}\right]^{\dagger}
+      \Theta
+      \left[\begin{array}{c}
+              \left(\lambda{}I-A\right)^{-1}B\\
+              I\end{array}\right]\le{}0
+    \end{align*}
+  \item There exist $P,Q\in\mathbb{H}^{n}$ such that $Q\succeq{}0$ and:
+    \begin{align*}
+      \left[\begin{array}{cc}
+              A & B \\
+              I& 0 \end{array}\right]^{\dagger}
+      \left(\Phi\otimes P + \Psi\otimes Q\right)
+      \left[\begin{array}{cc}
+              A & B \\
+              I& 0 \end{array}\right]
+       + \Theta \preceq{} 0
+    \end{align*}
+\end{enumerate}
+\end{framed}
+
+\emph{Iwasaki} and \emph{Hara}~\cite[Section VII,
+p.52]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} add a lemma:
+\begin{framed}
+  \emph{Lemma 8: }For a transfer function
+  $H\left(\lambda\right)=C\left(\lambda{}I-A\right)^{-1}B+D$, with $m$ inputs
+  and $p$ outputs, the condition
+  $\sigma\left(H\left(\lambda\right),\Pi\right)\le{}0\;\forall\lambda\in\boldsymbol{\Lambda}$
+holds if and only if there exist Hermitian matrices $P$ and $Q\succeq{}0$ such
+that
+\begin{align*}
+  \left[\begin{array}{cc}
+          \Gamma\left(P,Q,A,B,C,D\right) & \left[C\;D\right]^{\dagger}\Pi_{11}\\
+          \Pi_{11}\left[C\;D\right]       & -\Pi_{11}\end{array}\right] \preceq 0
+\end{align*}
+holds, where the matrix $\Pi\in\mathbb{H}^{m+p}$ is such that
+\begin{align*}
+  \Pi &= \left[\begin{array}{cc}
+             \Pi_{11} & \Pi_{12} \\
+                 \Pi_{12}^{\dagger}& \Pi_{22} \end{array}\right] \text{, }
+               \Pi_{11}\in \mathbb{H}^{p} \text{ and } \Pi_{11}\succeq 0
+\end{align*}
+and
+\begin{align*}
+  \Gamma\left(P,Q,A,B,C,D\right)
+  &= \left[\begin{array}{cc}
+             A & B \\
+             I& 0 \end{array}\right]^{\dagger}
+                \left(\Phi\otimes P + \Psi\otimes Q\right)
+      \left[\begin{array}{cc}
+              A & B \\
+              I& 0 \end{array}\right]
+       + \left[\begin{array}{cc}
+0 & C^{\dagger}\Pi_{12} \\
+\Pi_{12}^{\dagger}C & D^{\dagger}\Pi_{12}+\Pi_{12}^{\dagger}D+\Pi_{22}\end{array}\right]
+\end{align*}
+\end{framed}
+This lemma follows from the theorem, the expansion of $\Theta$ and from the
+properties of the \emph{Schur complement}\footnote{See
+  Appendix~\ref{app:Linear-algebra-Schur-complement}.}. The expansion of
+$\Theta$ is bi-linear in the FIR filter coefficients. Application of the Schur
+complement linearises this expansion.
+\clearpage
+\section{Examples of FIR filter design with the generalised KYP lemma}
+As an example, \emph{Iwasaki} and \emph{Hara}~\cite[Section
+VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} describe
+the design of a low-pass FIR filter with order $n=30$ and a nominal pass-band
+group delay of $d=10$ samples. They compare the performance of symmetric FIR
+filters with order $20$ and $10$ samples delay and order $30$ and $15$ samples
+delay. The pass-band and stop-band errors are: 
+\begin{align*}
+  \mathabs{H\left(e^{\imath\omega}\right)-e^{-\imath{}d\omega}}
+       &<\varepsilon_{p} \quad \mathabs{\omega}\le\omega_{p}\\
+  \mathabs{H\left(e^{\imath\omega}\right)}
+       &<\varepsilon_{s} \quad \mathabs{\omega}\ge\omega_{s}
+\end{align*}
+where $d=10$, $\varepsilon_{s}=0.01$, $\omega_{p}=0.3\pi$ and $\omega_{s}=0.4\pi$.
+
+An additional specification prevents over-shoot in the transition band:
+\begin{align*}
+  \mathabs{H\left(e^{\imath\omega}\right)} & < 1+\varepsilon_{t}
+                         \quad \omega_{p}\le\omega\le\omega_{s}
+\end{align*}
+
+The example produces an approximately flat pass band delay by subtracting a
+delay of $d$ samples in the pass band giving the pass-band transfer function
+$\hat{H}\left(e^{\imath\omega}\right)$. The following frequency domain
+inequalities specify the $\Pi$ matrixes in the pass-band, stop-band and
+transition band respectively\footnote{Alternatively, for the  transition band,
+apply an overall maximum amplitude constraint:
+  $-\mathabs{H\left(e^{\imath\omega}\right)}>
+  -1-\varepsilon_{t}\quad -\pi<\omega<\pi$}
+\begin{align*}
+  -\mathabs{\hat{H}\left(e^{\imath\omega}\right)}
+   &> -\varepsilon_{p} \quad\quad\quad \mathabs{\omega}\le\omega_{p} \\
+  -\mathabs{H\left(e^{\imath\omega}\right)}
+   &> -\varepsilon_{s} \quad\quad\quad \mathabs{\omega}\ge\omega_{s}\\
+  -\mathabs{H\left(e^{\imath\omega}\right)}
+   &> -1-\varepsilon_{t} \;\;\quad \omega_{p}<\omega<\omega_{s}
+\end{align*}
+The corresponding $\Pi$ matrixes are positive definite.
+
+\paragraph{Frequency response}
+The frequency response of an order $n$ single-input-single-output FIR filter is:
+\begin{align*}
+  H\left(\omega\right)&=\sum_{k=0}^{n}h_{k}e^{-\imath{}k\omega}
+\end{align*}
+
+\paragraph{State variable description}
+For direct-form FIR filter implementations, the $A$ and $B$ matrixes are constant
+representations of the successive delays and the $C$ and $D$ matrixes represent
+the impulse response response coefficients. The state variable description is:
+\begin{align*}
+  \left[\begin{array}{cc}
+A & B \\
+C & D\end{array}\right]
+  &=\left[\begin{array}{cc}
+            \left[\begin{array}{cc}
+            \boldsymbol{0}_{\left(n-1\right)\times{}1} & \boldsymbol{I}_{n-1} \\
+            0 & \boldsymbol{0}_{1\times{}\left(n-1\right)}\end{array}\right]
+                      &
+            \left[\begin{array}{c}
+                    \boldsymbol{0}_{\left(n-1\right)\times{}1}\\
+                    1\end{array}\right] \\
+& \\
+            \left[\begin{array}{ccccc}
+                    h_{n}&\hdots&h_{d}-\Delta&\hdots&h_{1}\end{array}\right]
+                          & 
+                            \left[h_{0} \right]\end{array}\right]              
+\end{align*}
+where $\Delta=1$ in the pass-band and $\Delta=0$ otherwise.
+
+\paragraph{Squared error calculation}
+The Octave function \emph{directFIRnonsymmetricEsqPW.m} calculates the
+piece-wise weighted mean-squared-error of the response. Over each piece, $p$,
+for frequency range $\left[\omega_{pl},\omega_{pu}\right]$:
+\begin{align*}
+  \mathcal{E}_{p}^{2}
+  &=\frac{1}{\pi}\int_{\omega_{pl}}^{\omega_{pu}}
+    |H\left(\omega\right)-R_{p}e^{-\imath{}d_{p}\omega}|^{2}d\omega\\
+  &=\frac{1}{\pi}\int_{\omega_{pl}}^{\omega_{pu}}
+    \left[\sum_{k=0}^{n}h_{k}e^{-\imath{}k\omega}-R_{p}e^{-\imath{}d_{p}\omega}\right]
+    \left[\sum_{k=0}^{n}h_{k}e^{\imath{}k\omega}-R_{p}e^{\imath{}d_{p}\omega}\right]
+    d\omega\\
+  &=\frac{1}{\pi}\int_{\omega_{pl}}^{\omega_{pu}}\left[
+    \sum_{k=0}^{n}\sum_{l=0}^{n}h_{k}h_{l}\cos \left(k-l\right)\omega
+-2R_{p}\sum_{k=0}^{n}h_{k}\cos\left(k-d_{p}\right)\omega + R_{p}^{2}\right]d\omega\\
+  &=\frac{1}{\pi}\left[\omega\sum_{k=0}^{n}h_{k}^{2}
+ + \sum_{k=0}^{n}\sum_{l=0,l\ne{}k}^{n}h_{k}h_{l}
+    \frac{\sin\left(k-l\right)\omega}{k-l}
+ -2 R_{p}h_{d_{p}}\omega
+ -2R_{p}\sum_{k=0,k\ne{}d_{p}}^{n}h_{k}\frac{\sin\left(k-d_{p}\right)\omega}{k-d_{p}}
+ +R_{p}^{2}\omega\right]_{\omega_{pl}}^{\omega_{pu}}
+\end{align*}
+where, in each piece, $R_{p}$ is the desired amplitude and $d_{p}$ is the
+nominal delay in samples. The weighted sum of the piece-wise mean-squared-errors,
+$\mathcal{E}^{2}$, is a quadratic form:
+\begin{align*}
+  \mathcal{E}^{2}&=\boldsymbol{h}^{\top}\boldsymbol{S}\boldsymbol{h}+
+                   2\boldsymbol{h}^{\top}\boldsymbol{s}+c
+\end{align*}
+where $\boldsymbol{h}$ is the filter impulse response and $\boldsymbol{S}$ is
+real, symmetric and positive definite. $\boldsymbol{S}$ has a \emph{Cholesky
+  decomposition} into lower and upper triangular matrixes,
+$\boldsymbol{S}=\boldsymbol{L}\boldsymbol{U}$, where 
+$\boldsymbol{L}^{\top}=\boldsymbol{U}$. The SOCP minimisation problem
+is~\cite[Section 14.7.3(i)]{AntoniouLu_PracticalOptimization}:
+\begin{align*} 
+  \textbf{minimise}   \quad & \delta \\
+  \textbf{subject to} \quad &
+\|\boldsymbol{U}\boldsymbol{h}+\boldsymbol{L}^{-1}\boldsymbol{s}\|\le\delta
+\end{align*}
+
+\paragraph{SDP constraints}
+Assuming $\Psi_{11}=0$ and $\Psi_{21}^{\dagger}=\Psi_{12}$, for each constraint:
+\begin{align*}
+  \left[\begin{array}{cc}
+          A & B \\
+          I & 0 \end{array}\right]^{\dagger}
+  \left[\begin{array}{cc}
+            -P & \Psi_{12}Q \\
+             \Psi_{12}^{\dagger}Q & P+\Psi_{22}Q \end{array}\right]
+  \left[\begin{array}{cc}
+          A & B \\
+          I & 0 \end{array}\right]
+  + \left[\begin{array}{cc}
+          C & D \end{array}\right]^{\dagger}
+    \Pi
+    \left[\begin{array}{cc}
+          C & D \end{array}\right] &\preceq 0
+\end{align*}
+where $P$ and $Q$ are Hermitian and $Q\succeq{}0$.
+
+\subsection{Design of a nonsymmetric low pass FIR filter with given pass band delay}
+The Octave script \emph{directFIRnonsymmetric\_kyp\_lowpass\_test.m} uses
+the state-variable version of \emph{Iwasaki} and \emph{Hara}'s generalised KYP
+lemma to design a low pass FIR filter with the following specification: 
+\begin{small}
+\verbatiminput{directFIRnonsymmetric_kyp_lowpass_test.spec}
+\end{small}
+In fact this example does not optimise the squared-error of the amplitude
+response. Instead it finds a solution that satisfies the SDP constraints. This
+example does not constrain the maximum amplitude response in the transition
+band. Instead it applies a constraint, $Esq\_max$, to the maximum overall
+squared-amplitude response.  Here is
+the \emph{YALMIP}~\cite{Lofberg_YALMIP,Lofberg2004} code for this example:
+\begin{small}
+\begin{verbatim}
+pkg load symbolic optim
+% Constants
+A=[zeros(N-1,1),eye(N-1);zeros(1,N)];
+B=[zeros(N-1,1);1];
+AB=[A,B;eye(N),zeros(N,1)];
+C_d=zeros(1,N);
+C_d(N-d+1)=1;
+c_p=2*cos(2*pi*fap);
+c_s=2*cos(2*pi*fas);
+% Set up constraints
+C=sdpvar(1,N); 
+D=sdpvar(1,1);
+% Maximum amplitude constraint
+P_max=sdpvar(N,N,"symmetric"); 
+Q_max=sdpvar(N,N,"symmetric");
+F_max=sdpvar(N+2,N+2,"symmetric");
+F_max=[[((AB')*[-P_max,Q_max;Q_max,P_max+(2*Q_max)]*AB)+ ...
+        [zeros(N,N+1);[zeros(1,N),-Esq_max]],[C,D]']; [C,D,-1]];
+% Pass band constraint on the error |H(w)-e^(-j*w*d)|
+P_z=sdpvar(N,N,'symmetric');
+Q_z=sdpvar(N,N,'symmetric');
+F_z=sdpvar(N+2,N+2,'symmetric');
+F_z=[[((AB')*[-P_z, Q_z; Q_z,P_z-(c_p*Q_z)]*AB)+ ...
+      [zeros(N,N+1);[zeros(1,N),-Esq_z]],[C-C_d,D]']; [C-C_d,D,-1]];
+% Stop band constraint 
+P_s=sdpvar(N,N,'symmetric');
+Q_s=sdpvar(N,N,'symmetric');
+F_s=sdpvar(N+2,N+2,'symmetric');
+F_s=[[((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB)+ ...
+      [zeros(N,N+1);[zeros(1,N),-Esq_s]],[C,D]']; [C,D,-1]];
+% Solve with YALMIP
+Constraints=[F_max<=0,Q_max>=0,F_z<=0,Q_z>=0,F_s<=0,Q_s>=0];
+Options=sdpsettings('solver','sedumi');
+sol=optimize(Constraints,[],Options);
+h=value(fliplr([C,D]));
+\end{verbatim}
+\end{small}
+
+The resulting FIR impulse response is:
+\begin{small}
+\verbatiminput{directFIRnonsymmetric_kyp_lowpass_test_h_coef.m}
+\end{small}
+
+Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-lowpass-response} shows the
+amplitude response.
+Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-lowpass-passband} shows the pass
+band amplitude, phase error and delay responses. The pass band phase error is
+adjusted for the nominal delay.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_lowpass_test_response}}
+\caption{Amplitude response of a non-symmetric FIR low pass filter designed with
+the KYP lemma.} 
+\label{fig:Direct-FIR-nonsymmetric-KYP-lowpass-response}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_lowpass_test_passband}}
+\caption{Pass band amplitude, phase error and delay responses of a non-symmetric
+FIR low pass filter designed with the KYP lemma. The pass band phase error is
+adjusted for the nominal delay.} 
+\label{fig:Direct-FIR-nonsymmetric-KYP-lowpass-passband}
+\end{figure}
+
+\subsection{Design of a nonsymmetric band pass FIR filter with given pass band
+delay} 
+The Octave script \emph{directFIRnonsymmetric\_kyp\_bandpass\_test.m} uses
+the state-variable version of \emph{Iwasaki} and \emph{Hara}'s generalised KYP
+lemma to design a band pass FIR filter with the following specification: 
+\begin{small}
+\verbatiminput{directFIRnonsymmetric_kyp_bandpass_test.spec}
+\end{small}
+In fact this example does not optimise the squared-error of the amplitude
+response. Instead it finds a solution that satisfies the SDP constraints. This
+example does not constrain the maximum amplitude response in the transition
+band. Instead it applies a constraint, $Esq\_max$, to the maximum overall
+squared-amplitude response. Here is the \emph{YALMIP} code for the pass band
+constraint in this example:
+\begin{small}
+\begin{verbatim}
+e_c=e^(j*pi*(fapu+fapl));
+c_h=2*cos(pi*(fapu-fapl));
+P_z=sdpvar(N,N,'hermitian','complex');
+Q_z=sdpvar(N,N,'hermitian','complex');
+F_z=sdpvar(N+2,N+2,'hermitian','complex');
+F_z=[[((AB')*[-P_z,Q_z/e_c;e_c*Q_z,P_z-(c_h*Q_z)]*AB)+ ...
+      [zeros(N,N+1);[zeros(1,N),-Esq_z]],[C-C_d,D]']; [C-C_d,D,-1]];
+\end{verbatim}
+\end{small}
+
+The resulting FIR impulse response is:
+\begin{small}
+\verbatiminput{directFIRnonsymmetric_kyp_bandpass_test_h_coef.m}
+\end{small}
+
+Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-response} shows the
+pass band amplitude response.
+Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-passband} 
+shows the pass band amplitude, phase error and delay responses. The pass band
+phase error is adjusted for the nominal delay.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_bandpass_test_response}}
+\caption{Amplitude response of a non-symmetric band pass FIR filter designed
+with the KYP lemma.}
+\label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-response}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_bandpass_test_passband}}
+\caption{Pass band amplitude, phase error and delay responses of a non-symmetric
+band pass FIR filter designed with the KYP lemma. The pass band phase error is
+adjusted for the nominal delay.} 
+\label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-passband}
+\end{figure}
 
 \cleardoublepage
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}
@@ -31960,14 +32700,14 @@ $\det\left(\Psi\right)<0$.
 \section*{Software requirements}
 I currently use the Fedora 33 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{5.9.13-200.fc33.x86\_64}
+\item \texttt{uname -r} is \emph{5.10.13-200.fc33.x86\_64}
 \item \emph{gcc} version \emph{10.2.1 20201125 (Red Hat 10.2.1-9)}
 \item a local build of \emph{octave-6.1.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic} and \emph{parallel} Octave-Forge packages
 \item the Octave scripts use the \emph{gnuplot} graphics toolkit and
   \emph{gnuplot-5.2.8-6}
-\item \emph{texlive-2020-33} and various packages are installed
+\item \emph{texlive-2020-34} and various packages are installed
 \item \emph{dia-0.97.3-15} is used for line drawings
 \end{itemize}
 
@@ -32265,7 +33005,6 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \centering
 \begin{threeparttable}
 \bgroup{}
-%\newcommand\arraystretch{2}
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule

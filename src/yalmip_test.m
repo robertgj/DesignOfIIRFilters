@@ -1,5 +1,5 @@
 % yalmip_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2021 Robert G. Jenssen
 
 test_common;
 
@@ -7,6 +7,15 @@ delete("yalmip_test.diary");
 delete("yalmip_test.diary.tmp");
 diary yalmip_test.diary.tmp
 
+pkg load optim
+
+% Run YALMIP yalmiptest.m script
+solvers={'','sedumi','sdpt3'};
+for k=1:length(solvers)
+  yalmiptest(solvers{k},true);
+endfor
+
+% Required by SparsePOP
 pkg load symbolic
 
 % Define variables
@@ -23,8 +32,12 @@ Objective = x'*x+norm(x,1);
 
 % Run some examples
 fhandle=fopen("test.results","wt");
-solvers={'sedumi','sparsepop','sdpt3'};
+solvers={'sdpt3','sedumi','sparsepop'};
 for k=1:length(solvers)
+  if strcmp(solvers{k},'sparsepop')
+    pkg('load','symbolic');
+  endif
+  
   % Set some options for YALMIP and solver
   options = sdpsettings('verbose',1,'solver',solvers{k});
 
@@ -52,7 +65,7 @@ for k=1:length(solvers)
     display('Something went wrong!');
     sol.info
     yalmiperror(sol.problem)
-  end
+  endif
 endfor
 fclose(fhandle);
 

@@ -5,9 +5,6 @@
 
 test_common;
 
-% Suppress YALMIP warning from norm method in @sdpvar class
-% warning("off","Octave:colon-nonscalar-argument");
-                                  
 delete("yalmip_complex_test.diary");
 delete("yalmip_complex_test.diary.tmp");
 diary yalmip_complex_test.diary.tmp
