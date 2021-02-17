@@ -26,7 +26,7 @@ strf="directFIRnonsymmetric_kyp_bandpass_test";
 N=30;
 d=10;
 fasl=0.10;fapl=0.175;fapu=0.225;fasu=0.30;
-Esq_z=(0.01)^2;
+Esq_z=(0.01/sqrt(2))^2;
 Esq_s=(0.01)^2;
 Esq_max=1;
 
@@ -66,8 +66,8 @@ F_sl=[[((AB')*[-P_sl,Q_sl;Q_sl,P_sl-(c_sl*Q_sl)]*AB)+ ...
       [zeros(N,N+1);[zeros(1,N),-Esq_s]],[C,D]']; ...
      [C,D,-1]];
 % Pass band constraint on the error |H(w)-e^(-j*w*d)|
-P_z=sdpvar(N,N,'hermitian','complex');
-Q_z=sdpvar(N,N,'hermitian','complex');
+P_z=sdpvar(N,N,'symmetric');
+Q_z=sdpvar(N,N,'symmetric');
 F_z=sdpvar(N+2,N+2,'hermitian','complex');
 F_z=[[((AB')*[-P_z,Q_z/e_c;e_c*Q_z,P_z-(c_h*Q_z)]*AB)+ ...
       [zeros(N,N+1);[zeros(1,N),-Esq_z]],[C-C_d,D]']; ...

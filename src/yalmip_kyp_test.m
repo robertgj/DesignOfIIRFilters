@@ -230,8 +230,8 @@ for use_AB_plus_Theta=1:1
 
   % Transition band constraints
   printf("\nChecking transition band constraints\n");
-  P_tu=sdpvar(N,N,"hermitian","complex");
-  Q_tu=sdpvar(N,N,"hermitian","complex");
+  P_tu=sdpvar(N,N,"symmetric");
+  Q_tu=sdpvar(N,N,"symmetric");
   if use_AB_plus_Theta
     F_tu=sdpvar(N+1,N+1,"hermitian","complex");
     F_tu=((AB')*[-P_tu,e_c*Q_tu;Q_tu/e_c,P_tu-(c_h*Q_tu)]*AB)+ ...
@@ -242,8 +242,8 @@ for use_AB_plus_Theta=1:1
            [zeros(N,N+1);[zeros(1,N),-Asq_tu]],[C,D]']; ...
           [C,D,-1]];
   endif
-  P_tl=sdpvar(N,N,"hermitian","complex");
-  Q_tl=sdpvar(N,N,"hermitian","complex");
+  P_tl=sdpvar(N,N,"symmetric");
+  Q_tl=sdpvar(N,N,"symmetric");
   if 1 || use_AB_plus_Theta
     F_tl=sdpvar(N+1,N+1,"hermitian","complex");
     F_tl=((AB')*[-P_tl,e_c*Q_tl;Q_tl/e_c,P_tl-(c_h*Q_tl)]*AB)+ ...

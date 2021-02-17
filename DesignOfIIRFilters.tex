@@ -32427,8 +32427,8 @@ properties of the \emph{Schur complement}\footnote{See
   Appendix~\ref{app:Linear-algebra-Schur-complement}.}. The expansion of
 $\Theta$ is bi-linear in the FIR filter coefficients. Application of the Schur
 complement linearises this expansion.
-\clearpage
-\section{Examples of FIR filter design with the generalised KYP lemma}
+
+\subsection{Examples of FIR filter design with the generalised KYP lemma}
 As an example, \emph{Iwasaki} and \emph{Hara}~\cite[Section
 VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} describe
 the design of a low-pass FIR filter with order $n=30$ and a nominal pass-band
@@ -32556,9 +32556,12 @@ Assuming $\Psi_{11}=0$ and $\Psi_{21}^{\dagger}=\Psi_{12}$, for each constraint:
     \left[\begin{array}{cc}
           C & D \end{array}\right] &\preceq 0
 \end{align*}
-where $P$ and $Q$ are Hermitian and $Q\succeq{}0$.
+where $P$ and $Q$ are Hermitian and $Q\succeq{}0$. \emph{Pipeleers}
+and \emph{Vandeberghe}~\cite{Pipeleers_GeneralisedKYPRealData} show that if the
+$A$, $B$ and $\Theta$ matrixes are real valued then the $P$ and $Q$
+matrixes can be constrained to be real and symmetric.
 
-\subsection{Design of a nonsymmetric low pass FIR filter with given pass band delay}
+\subsubsection{Design of a nonsymmetric low pass FIR filter with given pass band delay}
 The Octave script \emph{directFIRnonsymmetric\_kyp\_lowpass\_test.m} uses
 the state-variable version of \emph{Iwasaki} and \emph{Hara}'s generalised KYP
 lemma to design a low pass FIR filter with the following specification: 
@@ -32639,7 +32642,7 @@ adjusted for the nominal delay.}
 \label{fig:Direct-FIR-nonsymmetric-KYP-lowpass-passband}
 \end{figure}
 
-\subsection{Design of a nonsymmetric band pass FIR filter with given pass band
+\subsubsection{Design of a nonsymmetric band pass FIR filter with given pass band
 delay} 
 The Octave script \emph{directFIRnonsymmetric\_kyp\_bandpass\_test.m} uses
 the state-variable version of \emph{Iwasaki} and \emph{Hara}'s generalised KYP
@@ -32657,8 +32660,8 @@ constraint in this example:
 \begin{verbatim}
 e_c=e^(j*pi*(fapu+fapl));
 c_h=2*cos(pi*(fapu-fapl));
-P_z=sdpvar(N,N,'hermitian','complex');
-Q_z=sdpvar(N,N,'hermitian','complex');
+P_z=sdpvar(N,N,'symmetric');
+Q_z=sdpvar(N,N,'symmetric');
 F_z=sdpvar(N+2,N+2,'hermitian','complex');
 F_z=[[((AB')*[-P_z,Q_z/e_c;e_c*Q_z,P_z-(c_h*Q_z)]*AB)+ ...
       [zeros(N,N+1);[zeros(1,N),-Esq_z]],[C-C_d,D]']; [C-C_d,D,-1]];
