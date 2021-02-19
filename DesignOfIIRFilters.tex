@@ -32075,22 +32075,15 @@ response is $H_{D}\left(\omega\right)$ and if
                                  \varepsilon^{2}\end{array}\right]
 \end{align*}
 then the corresponding frequency domain constraint is
-$\left|H\left(\omega\right)-H_{D}\left(\omega\right)\right|^{2}\le\varepsilon^{2}$.
-Similarly, if
+$\left|H\left(\omega\right)
+-H_{D}\left(\omega\right)\right|^{2}\le\varepsilon^{2}$. Similarly, if
 \begin{align*}
   \Pi=\left[\begin{array}{cc}
  1 & 0 \\
  0 & -\left|H_{D}\left(\omega\right)\right|^{2}-\varepsilon^{2}\end{array}\right]
 \end{align*}
 then
-$\left|H\left(\omega\right)\right|^{2}-\left|H_{D}\left(\omega\right)\right|^{2}\le\varepsilon^{2}$
-and if
-\begin{align*}
-  \Pi=\left[\begin{array}{cc}
- -1 & 0 \\
- 0 & \left|H_{D}\left(\omega\right)\right|^{2}-\varepsilon^{2}\end{array}\right]
-\end{align*}
-then $\left|H\left(\omega\right)\right|^{2}-\left|H_{D}\left(\omega\right)\right|^{2}\ge-\varepsilon^{2}$.
+$\left|H\left(\omega\right)\right|^{2}-\left|H_{D}\left(\omega\right)\right|^{2}\le\varepsilon^{2}$.
 
 The KYP lemma has been generalised to discrete time state variable systems and
 to unions of frequency domain
@@ -32443,30 +32436,17 @@ delay. The pass-band and stop-band errors are:
 \end{align*}
 where $d=10$, $\varepsilon_{s}=0.01$, $\omega_{p}=0.3\pi$ and $\omega_{s}=0.4\pi$.
 
-An additional specification prevents over-shoot in the transition band:
+An additional specification prevents over-shoot in the transition
+band:
 \begin{align*}
-  \mathabs{H\left(e^{\imath\omega}\right)} & < 1+\varepsilon_{t}
-                         \quad \omega_{p}\le\omega\le\omega_{s}
+  \mathabs{H\left(e^{\imath\omega}\right)} &< 1+\varepsilon_{t}
+  \quad \omega_{p}\le\omega\le\omega_{s}
 \end{align*}
-
-The example produces an approximately flat pass band delay by subtracting a
-delay of $d$ samples in the pass band giving the pass-band transfer function
-$\hat{H}\left(e^{\imath\omega}\right)$. The following frequency domain
-inequalities specify the $\Pi$ matrixes in the pass-band, stop-band and
-transition band respectively\footnote{Alternatively, for the  transition band,
-apply an overall maximum amplitude constraint:
-  $-\mathabs{H\left(e^{\imath\omega}\right)}>
-  -1-\varepsilon_{t}\quad -\pi<\omega<\pi$}
+Alternatively apply an overall maximum amplitude constraint:
 \begin{align*}
-  -\mathabs{\hat{H}\left(e^{\imath\omega}\right)}
-   &> -\varepsilon_{p} \quad\quad\quad \mathabs{\omega}\le\omega_{p} \\
-  -\mathabs{H\left(e^{\imath\omega}\right)}
-   &> -\varepsilon_{s} \quad\quad\quad \mathabs{\omega}\ge\omega_{s}\\
-  -\mathabs{H\left(e^{\imath\omega}\right)}
-   &> -1-\varepsilon_{t} \;\;\quad \omega_{p}<\omega<\omega_{s}
+  \mathabs{H\left(e^{\imath\omega}\right)} &< 1+\varepsilon_{t}
+  \quad -\pi<\omega<\pi
 \end{align*}
-The corresponding $\Pi$ matrixes are positive definite.
-
 \paragraph{Frequency response}
 The frequency response of an order $n$ single-input-single-output FIR filter is:
 \begin{align*}
