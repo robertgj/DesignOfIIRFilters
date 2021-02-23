@@ -32422,31 +32422,27 @@ $\Theta$ is bi-linear in the FIR filter coefficients. Application of the Schur
 complement linearises this expansion.
 
 \subsection{Examples of FIR filter design with the generalised KYP lemma}
-As an example, \emph{Iwasaki} and \emph{Hara}~\cite[Section
-VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} describe
-the design of a low-pass FIR filter with order $n=30$ and a nominal pass-band
-group delay of $d=10$ samples. They compare the performance of symmetric FIR
-filters with order $20$ and $10$ samples delay and order $30$ and $15$ samples
-delay. The pass-band and stop-band errors are: 
+\paragraph{Amplitude constraints}
+The pass-band and stop-band errors are: 
 \begin{align*}
   \mathabs{H\left(e^{\imath\omega}\right)-e^{-\imath{}d\omega}}
        &<\varepsilon_{p} \quad \mathabs{\omega}\le\omega_{p}\\
   \mathabs{H\left(e^{\imath\omega}\right)}
        &<\varepsilon_{s} \quad \mathabs{\omega}\ge\omega_{s}
 \end{align*}
-where $d=10$, $\varepsilon_{s}=0.01$, $\omega_{p}=0.3\pi$ and $\omega_{s}=0.4\pi$.
-
-An additional specification prevents over-shoot in the transition
-band:
+where $d$ is the desired pass band delay in samples and $\omega_{p}$ and
+$\omega_{s}$ are the pass band and stop band angular frequencies respectively.
+An additional specification prevents over-shoot in the transition band:
 \begin{align*}
   \mathabs{H\left(e^{\imath\omega}\right)} &< 1+\varepsilon_{t}
   \quad \omega_{p}\le\omega\le\omega_{s}
 \end{align*}
 Alternatively apply an overall maximum amplitude constraint:
 \begin{align*}
-  \mathabs{H\left(e^{\imath\omega}\right)} &< 1+\varepsilon_{t}
+  \mathabs{H\left(e^{\imath\omega}\right)} &< 1+\varepsilon_{max}
   \quad -\pi<\omega<\pi
 \end{align*}
+
 \paragraph{Frequency response}
 The frequency response of an order $n$ single-input-single-output FIR filter is:
 \begin{align*}
@@ -32475,7 +32471,8 @@ C & D\end{array}\right]
                           & 
                             \left[h_{0} \right]\end{array}\right]              
 \end{align*}
-where $\Delta=1$ in the pass-band and $\Delta=0$ otherwise.
+where, if the desired pass band delay is $d$ samples, $\Delta=1$ in the
+pass-band and $\Delta=0$ otherwise.
 
 \paragraph{Squared error calculation}
 The Octave function \emph{directFIRnonsymmetricEsqPW.m} calculates the
@@ -32542,18 +32539,35 @@ $A$, $B$ and $\Theta$ matrixes are real valued then the $P$ and $Q$
 matrixes can be constrained to be real and symmetric.
 
 \subsubsection{Design of a nonsymmetric low pass FIR filter with given pass band delay}
+As an example, \emph{Iwasaki} and \emph{Hara}~\cite[Section
+VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} describe
+the design of a low-pass FIR filter with order $n=30$ and a nominal pass-band
+group delay of $d=10$ samples, $\varepsilon_{s}=0.01$, $\omega_{p}=0.3\pi$ and
+$\omega_{s}=0.4\pi$. They optimised the pass band sqared-error,
+$\mathabs{H\left(w\right)-e^{-j\omega{}d}}^{2}<\varepsilon_{p}^{2}$ and found
+$\varepsilon_{p}=0.0569$. \emph{Iwasaki} and \emph{Hara} compare the performance
+of symmetric FIR filters with order $20$ and $10$ samples delay and order $30$
+and $15$ samples delay. The Octave script
+\emph{directFIRnonsymmetric\_kyp\_lowpass\_alternate\_test.m} unsuccessfully
+attempts to reproduce this filter design example with 
+\emph{YALMIP}~\cite{Lofberg_YALMIP,Lofberg2004} and SeDuMi. I found that I could
+not obtain the combination of band edges and amplitude responses given in the
+example. In addition, I found that if I used the $\varepsilon_{p}^{2}$
+constraint as the YALMIP objective function then SeDuMi failed with numerical
+problems.
+
 The Octave script \emph{directFIRnonsymmetric\_kyp\_lowpass\_test.m} uses
-the state-variable version of \emph{Iwasaki} and \emph{Hara}'s generalised KYP
-lemma to design a low pass FIR filter with the following specification: 
+\emph{Iwasaki} and \emph{Hara}'s generalised KYP lemma to design a low pass FIR
+filter with the following specification:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_lowpass_test.spec}
 \end{small}
-In fact this example does not optimise the squared-error of the amplitude
-response. Instead it finds a solution that satisfies the SDP constraints. This
-example does not constrain the maximum amplitude response in the transition
-band. Instead it applies a constraint, $Esq\_max$, to the maximum overall
-squared-amplitude response.  Here is
-the \emph{YALMIP}~\cite{Lofberg_YALMIP,Lofberg2004} code for this example:
+This script does not optimise the squared-error of the amplitude response or
+maximum squared-error of the pass band response. Instead it finds a solution
+that satisfies the SDP constraints. Also, this example does not constrain the
+maximum amplitude response in the transition band. Instead it applies a
+constraint, $\varepsilon_{max}^{2}$, to the maximum overall squared-amplitude
+response. Here is the Octave code for this example:
 \begin{small}
 \begin{verbatim}
 pkg load symbolic optim
@@ -32572,20 +32586,20 @@ D=sdpvar(1,1);
 P_max=sdpvar(N,N,"symmetric"); 
 Q_max=sdpvar(N,N,"symmetric");
 F_max=sdpvar(N+2,N+2,"symmetric");
-F_max=[[((AB')*[-P_max,Q_max;Q_max,P_max+(2*Q_max)]*AB)+ ...
-        [zeros(N,N+1);[zeros(1,N),-Esq_max]],[C,D]']; [C,D,-1]];
+F_max=[[((AB')*[-P_max,Q_max;Q_max,P_max+(2*Q_max)]*AB) + ...
+        diag([zeros(1,N),-Esq_max]),[C,D]']; [C,D,-1]];
 % Pass band constraint on the error |H(w)-e^(-j*w*d)|
 P_z=sdpvar(N,N,'symmetric');
 Q_z=sdpvar(N,N,'symmetric');
 F_z=sdpvar(N+2,N+2,'symmetric');
-F_z=[[((AB')*[-P_z, Q_z; Q_z,P_z-(c_p*Q_z)]*AB)+ ...
-      [zeros(N,N+1);[zeros(1,N),-Esq_z]],[C-C_d,D]']; [C-C_d,D,-1]];
+F_z=[[((AB')*[-P_z, Q_z; Q_z,P_z-(c_p*Q_z)]*AB) + ...
+      diag([zeros(1,N),-Esq_z]),[C-C_d,D]']; [C-C_d,D,-1]];
 % Stop band constraint 
 P_s=sdpvar(N,N,'symmetric');
 Q_s=sdpvar(N,N,'symmetric');
 F_s=sdpvar(N+2,N+2,'symmetric');
-F_s=[[((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB)+ ...
-      [zeros(N,N+1);[zeros(1,N),-Esq_s]],[C,D]']; [C,D,-1]];
+F_s=[[((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB) + ...
+      diag([zeros(1,N),-Esq_s]),[C,D]']; [C,D,-1]];
 % Solve with YALMIP
 Constraints=[F_max<=0,Q_max>=0,F_z<=0,Q_z>=0,F_s<=0,Q_s>=0];
 Options=sdpsettings('solver','sedumi');
@@ -32625,17 +32639,17 @@ adjusted for the nominal delay.}
 \subsubsection{Design of a nonsymmetric band pass FIR filter with given pass band
 delay} 
 The Octave script \emph{directFIRnonsymmetric\_kyp\_bandpass\_test.m} uses
-the state-variable version of \emph{Iwasaki} and \emph{Hara}'s generalised KYP
-lemma to design a band pass FIR filter with the following specification: 
+the \emph{Iwasaki} and \emph{Hara}'s generalised KYP lemma to design a band pass
+FIR filter with the following specification:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_bandpass_test.spec}
 \end{small}
-In fact this example does not optimise the squared-error of the amplitude
-response. Instead it finds a solution that satisfies the SDP constraints. This
-example does not constrain the maximum amplitude response in the transition
-band. Instead it applies a constraint, $Esq\_max$, to the maximum overall
-squared-amplitude response. Here is the \emph{YALMIP} code for the pass band
-constraint in this example:
+This example does not minimise the pass band squared-error,
+$\varepsilon_{p}^{2}$. Instead it finds a solution that satisfies the SDP
+constraints. This example does not constrain the maximum amplitude response in
+the transition band. Instead it applies a constraint, $\varepsilon_{max}^{2}$, to
+the maximum overall squared-amplitude response. Here is the Octave code for the
+pass band constraint in this example:
 \begin{small}
 \begin{verbatim}
 e_c=e^(j*pi*(fapu+fapl));
@@ -32643,8 +32657,8 @@ c_h=2*cos(pi*(fapu-fapl));
 P_z=sdpvar(N,N,'symmetric');
 Q_z=sdpvar(N,N,'symmetric');
 F_z=sdpvar(N+2,N+2,'hermitian','complex');
-F_z=[[((AB')*[-P_z,Q_z/e_c;e_c*Q_z,P_z-(c_h*Q_z)]*AB)+ ...
-      [zeros(N,N+1);[zeros(1,N),-Esq_z]],[C-C_d,D]']; [C-C_d,D,-1]];
+F_z=[[((AB')*[-P_z,Q_z/e_c;e_c*Q_z,P_z-(c_h*Q_z)]*AB) + ...
+      diag([zeros(1,N),-Esq_z]),[C-C_d,D]']; [C-C_d,D,-1]];
 \end{verbatim}
 \end{small}
 

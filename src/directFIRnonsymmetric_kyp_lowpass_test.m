@@ -23,7 +23,23 @@ tic;
 strf="directFIRnonsymmetric_kyp_lowpass_test";
 
 % Low-pass filter specification
-N=30;fap=0.1;d=10;Esq_z=1e-6;fas=0.2;Esq_s=1e-4;Esq_max=1;
+N=30;fap=0.1;d=10;fas=0.2;
+Esq_max=1;Esq_z=1e-6;Esq_s=1e-4;
+
+% Alternative specifications
+optimise_Esq=false;
+if optimise_Esq
+  Esq_max=1.02;Esq_z=1e-2;Esq_s=1e-5;Wap=1;Wat=0.0001;Was=1000;
+  [~,~,G,g]=directFIRnonsymmetricEsqPW ...
+              (zeros(N+1,1),[0,fap,fas,0.5]*2*pi,[1,0,0],[d,0,0],[Wap,Wat,Was]);
+  L=chol(G)';
+  l=(g*inv(L'));
+elseif 0
+  % Match Iwasaki and Hara example. They report epsilon_p=0.0569 !!??!!
+  fap=0.15;Esq_max=1.1;Esq_z=0.07598^2;Esq_s=0.01^2;
+endif
+
+% Squared error calculation
 
 % Common constants
 nplot=1000;
@@ -46,28 +62,33 @@ D=sdpvar(1,1);
 P_max=sdpvar(N,N,"symmetric");
 Q_max=sdpvar(N,N,"symmetric");
 F_max=sdpvar(N+2,N+2,"symmetric");
-F_max=[[((AB')*[-P_max,Q_max;Q_max,P_max+(2*Q_max)]*AB)+ ...
-        [zeros(N,N+1);[zeros(1,N),-Esq_max]],[C,D]']; ...
+F_max=[[((AB')*[-P_max,Q_max;Q_max,P_max+(2*Q_max)]*AB) + ...
+        diag([zeros(1,N),-Esq_max]),[C,D]']; ...
        [C,D,-1]];
 % Pass band constraint on the error |H(w)-e^(-j*w*d)|
 P_z=sdpvar(N,N,'symmetric');
 Q_z=sdpvar(N,N,'symmetric');
 F_z=sdpvar(N+2,N+2,'symmetric');
-F_z=[[((AB')*[-P_z, Q_z; Q_z,P_z-(c_p*Q_z)]*AB)+ ...
-      [zeros(N,N+1);[zeros(1,N),-Esq_z]],[C-C_d,D]']; ...
+F_z=[[((AB')*[-P_z, Q_z; Q_z,P_z-(c_p*Q_z)]*AB) + ...
+      diag([zeros(1,N),-Esq_z]),[C-C_d,D]']; ...
      [C-C_d,D,-1]];
 % Stop band constraint 
 P_s=sdpvar(N,N,'symmetric');
 Q_s=sdpvar(N,N,'symmetric');
 F_s=sdpvar(N+2,N+2,'symmetric');
-F_s=[[((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB)+ ...
-      [zeros(N,N+1);[zeros(1,N),-Esq_s]],[C,D]']; ...
+F_s=[[((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB) + ...
+      diag([zeros(1,N),-Esq_s]),[C,D]']; ...
      [C,D,-1]];
 
 % Solve with YALMIP
 Constraints=[F_max<=0,Q_max>=0,F_z<=0,Q_z>=0,F_s<=0,Q_s>=0];
+if optimise_Esq
+  Objective=norm((fliplr([C,D])*L)+l);
+else
+  Objective=[];
+endif
 Options=sdpsettings('solver','sedumi');
-sol=optimize(Constraints,[],Options);
+sol=optimize(Constraints,Objective,Options);
 if sol.problem
   error("YALMIP failed : %s",sol.info);
 endif
@@ -135,22 +156,66 @@ close
 
 % Check maximum squared-amplitude response
 printf("Esq_max=%8.6f\n",Esq_max);
+printf("Esq_z=%8.6g\n",Esq_z);
+printf("Esq_s=%8.6g\n",Esq_s);
 printf("max(abs(H).^2)=%8.6f\n",max(abs(H).^2));
 printf("max(abs(H(1:nap)).^2)=%8.6f\n",max(abs(H(1:nap)).^2));
 printf("min(abs(H(1:nap)).^2)=%8.6f\n",min(abs(H(1:nap)).^2));
 printf("max(abs(H(nap:nas)).^2)=%8.6f\n",max(abs(H(nap:nas)).^2));
-printf("min(abs(H(nap:nas)).^2)=%8.6f\n",min(abs(H(nap:nas)).^2));
-printf("max(abs(H(nas:end)).^2)=%13.6g\n",max(abs(H(nas:end)).^2));
+printf("min(abs(H(nap:nas)).^2)=%11.6g\n",min(abs(H(nap:nas)).^2));
+printf("max(abs(H(nas:end)).^2)=%11.6g\n",max(abs(H(nas:end)).^2));
+printf("sqrt(max(Asq_z))=%11.6g\n",max(abs(H(1:nap)-e.^(-j*w(1:nap)*d))));
+printf("sqrt(max(Asq_s))=%11.6g\n",max(abs(H(nas:end))));
+if optimise_Esq
+  printf("Esq=%11.6g\n",norm((h*L)+l));
+endif
+
+% Sanity check on maximum squared-amplitude response using KYP
+vP_max=value(P_max);
+vQ_max=value(Q_max);
+vF_max_a=[[((AB')*[-vP_max,vQ_max;vQ_max,vP_max+(2*vQ_max)]*AB)+ ...
+           [zeros(N,N+1);[zeros(1,N),-Esq_max]],(fliplr(h))']; ...
+          [fliplr(h),-1]];
+if ~isdefinite(-vF_max_a)
+  error("vF_max_a not negative semi-definite");
+endif
+if norm(vF_max_a-value(F_max))>2*eps
+  error("norm(vF_max_a-value(F_max))>2*eps");
+endif
+CD=[fliplr(h);zeros(1,N),1];
+vF_max_b=[((AB')*[-vP_max,vQ_max;vQ_max,vP_max+(2*vQ_max)]*AB)]+ ...
+         [(CD')*[1 0;0 -Esq_max]*CD];
+if ~isdefinite(-vF_max_b)
+  error("vF_max_b not negative semi-definite");
+endif
+% Sanity check on pass band minus delay squared-amplitude response using KYP
+vP_z=value(P_z);
+vQ_z=value(Q_z);
+vF_z_a=[[((AB')*[-vP_z,vQ_z;vQ_z,vP_z-(c_p*vQ_z)]*AB)+ ...
+           [zeros(N,N+1);[zeros(1,N),-Esq_z]],(fliplr(h-hz))']; ...
+          [fliplr(h-hz),-1]];
+if ~isdefinite(-vF_z_a)
+  error("vF_z_a not negative semi-definite");
+endif
+if norm(vF_z_a-value(F_z))>eps
+  error("norm(vF_z_a-value(F_z))>eps");
+endif
+CDd=[fliplr(h-hz);zeros(1,N),1];
+vF_z_b=[((AB')*[-vP_z,vQ_z;vQ_z,vP_z-(c_p*vQ_z)]*AB)]+ ...
+         [(CDd')*[1 0;0 -Esq_z]*CDd];
+if ~isdefinite(-vF_z_b)
+  error("vF_z_b not negative semi-definite");
+endif
 
 % Save results
 fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"N=%d %% FIR filter order\n",N);
 fprintf(fid,"d=%d %% Nominal FIR filter delay\n",d);
+fprintf(fid,"Esq_max=%g %% Overall maximum squared amplitude\n",Esq_max);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
 fprintf(fid,"Esq_z=%g %% Squared amplitude pass band - delay error\n",Esq_z);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
 fprintf(fid,"Esq_s=%g %% Squared amplitude stop band error\n",Esq_s);
-fprintf(fid,"Esq_max=%g %% Overall maximum squared amplitude\n",Esq_max);
 fclose(fid);
 
 print_polynomial(h,"h","%13.10f");

@@ -46,33 +46,33 @@ D=sdpvar(1,1);
 P_max=sdpvar(N,N,"symmetric");
 Q_max=sdpvar(N,N,"symmetric");
 F_max=sdpvar(N+2,N+2,"symmetric");
-G_max=((AB')*[-P_max,Q_max;Q_max,P_max+(2*Q_max)]*AB)+ ...
-     [zeros(N,N+1);[zeros(1,N),-Esq_max]];
-F_max=[[G_max,[C,D]'];[[C,D],-1]];
+G_max=((AB')*[-P_max,Q_max;Q_max,P_max+(2*Q_max)]*AB) + ...
+      diag([zeros(1,N),-Esq_max]);
+F_max=[[G_max,[C,D]'];[C,D,-1]];
 
 % Constraint on maximum pass band amplitude
 P_pu=sdpvar(N,N,"symmetric");
 Q_pu=sdpvar(N,N,"symmetric");
 F_pu=sdpvar(N+2,N+2,"symmetric");
-G_pu=((AB')*[-P_pu,Q_pu;Q_pu,P_pu-(c_p*Q_pu)]*AB)+ ...
-     [zeros(N,N+1);[zeros(1,N),-Esq_pu]];
-F_pu=[[G_pu,[C,D]'];[[C,D],-1]];
+G_pu=((AB')*[-P_pu,Q_pu;Q_pu,P_pu-(c_p*Q_pu)]*AB) + ...
+     diag([zeros(1,N),-Esq_pu]);
+F_pu=[[G_pu,[C,D]'];[C,D,-1]];
 
 % Constraint on maximum transition band amplitude
 P_t=sdpvar(N,N,"symmetric");
 Q_t=sdpvar(N,N,"symmetric");
 F_t=sdpvar(N+2,N+2,"hermitian","complex");
-G_t=((AB')*[-P_t,Q_t/e_c;e_c*Q_t,P_t-(c_h*Q_t)]*AB)+ ...
-     [zeros(N,N+1);[zeros(1,N),-Esq_t]];
-F_t=[[G_t,[C,D]'];[[C,D],-1]];
+G_t=((AB')*[-P_t,Q_t/e_c;e_c*Q_t,P_t-(c_h*Q_t)]*AB) + ...
+    diag([zeros(1,N),-Esq_t]);
+F_t=[[G_t,[C,D]'];[C,D,-1]];
 
 % Constraint on maximum stop band amplitude
 P_s=sdpvar(N,N,'symmetric');
 Q_s=sdpvar(N,N,'symmetric');
 F_s=sdpvar(N+2,N+2,'symmetric');
-G_s=((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB)+ ...
-    [zeros(N,N+1);[zeros(1,N),-Esq_s]];
-F_s=[[G_s,[C,D]'];[[C,D],-1]];
+G_s=((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB) + ...
+    diag([zeros(1,N),-Esq_s]);
+F_s=[[G_s,[C,D]'];[C,D,-1]];
 
 % Solve
 Constraints=[F_max<=0,Q_max>=0,F_pu<=0,Q_pu>=0,F_t<=0,Q_t>=0,F_s<=0,Q_s>=0];
