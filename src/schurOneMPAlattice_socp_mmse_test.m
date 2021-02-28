@@ -7,14 +7,15 @@ delete("schurOneMPAlattice_socp_mmse_test.diary");
 delete("schurOneMPAlattice_socp_mmse_test.diary.tmp");
 diary schurOneMPAlattice_socp_mmse_test.diary.tmp
 
+strf="schurOneMPAlattice_socp_mmse_test";
 
 maxiter=2000
 tol=1e-9
 verbose=false
 
 % Low pass filter specification 
-ma=11 % Allpass model filter A denominator order
-mb=12 % Allpass model filter B denominator order
+ma=11 % Allpass filter A denominator order
+mb=12 % Allpass filter B denominator order
 difference=false % Use sum of allpass filter ouptuts
 fap=0.1 % Pass band amplitude response edge
 dBap=0.5 % Pass band amplitude response ripple
@@ -104,7 +105,6 @@ P=schurOneMPAlatticeP(wp,A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,difference);
 strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,",fap,dBap,Wap);
 strM=strcat(strM, sprintf("fas=%g,dBas=%g,Was=%g,",fas,dBas,Was));
 strM=strcat(strM, sprintf("td=%d,tdr=%g,Wtp=%g",td,tdr,Wtp));
-strd=sprintf("schurOneMPAlattice_socp_mmse_test_%%s");
 
 % Plot response
 subplot(311);
@@ -125,7 +125,7 @@ ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([0 0.5 -ppr ppr]);
 grid("on");
-print(sprintf(strd,"A12"),"-dpdflatex");
+print(strcat(strf,"_A12"),"-dpdflatex");
 close
 
 % Plot passband response
@@ -146,7 +146,7 @@ ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 axis([0 max([fap,ftp,fpp]) -ppr ppr]);
 grid("on");
-print(sprintf(strd,"A12pass"),"-dpdflatex");
+print(strcat(strf,"_A12pass"),"-dpdflatex");
 close
 
 % Plot poles and zeros
@@ -155,19 +155,19 @@ close
 subplot(111);
 zplane(roots(N12),roots(D12));
 title(s);
-print(sprintf(strd,"A12pz"),"-dpdflatex");
+print(strcat(strf,"_A12pz"),"-dpdflatex");
 close
-A1d=schurOneMAPlattice2tf(A1k,A1epsilon0,A1p0)
+A1d=schurOneMAPlattice2tf(A1k,A1epsilon0,A1p0);
 subplot(111);
 zplane(roots(flipud(A1d(:))),roots(A1d(:)));
 title(s);
-print(sprintf(strd,"A1pz"),"-dpdflatex");
+print(strcat(strf,"_A1pz"),"-dpdflatex");
 close
 subplot(111);
-A2d=schurOneMAPlattice2tf(A2k,A2epsilon0,A2p0)
+A2d=schurOneMAPlattice2tf(A2k,A2epsilon0,A2p0);
 zplane(roots(flipud(A2d(:))),roots(A2d(:)));
 title(s);
-print(sprintf(strd,"A2pz"),"-dpdflatex");
+print(strcat(strf,"_A2pz"),"-dpdflatex");
 close
 
 % Plot phase response of parallel filters
@@ -185,15 +185,15 @@ xlabel("Frequency");
 legend("A","B","location","northwest");
 legend("boxoff");
 grid("on");
-print(sprintf(strd,"A1A2phase"),"-dpdflatex");
+print(strcat(strf,"_A1A2phase"),"-dpdflatex");
 close
 
 % Save the filter specification
-fid=fopen("schurOneMPAlattice_socp_mmse_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"nplot=%d %% Frequency points across the band\n",nplot);
-fprintf(fid,"ma=%d %% Allpass model filter A denominator order\n",ma);
-fprintf(fid,"mb=%d %% Allpass model filter B denominator order\n",mb);
+fprintf(fid,"ma=%d %% Allpass filter A denominator order\n",ma);
+fprintf(fid,"mb=%d %% Allpass filter B denominator order\n",mb);
 fprintf(fid,"fap=%f %% Pass band amplitude response edge\n",fap);
 fprintf(fid,"dBap=%f %% Pass band amplitude response ripple\n",dBap);
 fprintf(fid,"Wap=%f %% Pass band amplitude response weight\n",Wap);
@@ -212,9 +212,9 @@ fclose(fid);
 
 % Save results
 print_polynomial(D1,"D1");
-print_polynomial(D1,"D1","schurOneMPAlattice_socp_mmse_test_D1_coef.m");
+print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 print_polynomial(D2,"D2");
-print_polynomial(D2,"D2","schurOneMPAlattice_socp_mmse_test_D2_coef.m");
+print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
 % Done 
 save schurOneMPAlattice_socp_mmse_test.mat ...

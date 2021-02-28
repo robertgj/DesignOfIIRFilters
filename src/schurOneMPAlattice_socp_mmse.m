@@ -15,7 +15,7 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
 % constraints on the amplitude, and low pass group delay responses. 
 %
 % Inputs:
-%   vS - structure of peak constraint frequencies {al,au,tl,tu}
+%   vS - structure of peak constraint frequencies {al,au,tl,tu,pl,pu}
 %   A1k0,A2k0 - initial allpass filter multipliers
 %   A1epsilon0,A2epsilon0, - initial allpass filter multiplier signs
 %   A1p0,A2p0 - state scaling coefficients. These have no effect on the

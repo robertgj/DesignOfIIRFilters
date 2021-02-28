@@ -26902,6 +26902,167 @@ optimised filter coefficients are:
   multipliers and the exchange algorithm of \emph{Selesnick et al.}\;.}
 \label{fig:Symmetric_FIR_Hilbert_bandpass_passband_response}
 \end{figure}
+\cleardoublepage{}
+\section{\label{app:PCLS-design-non-symmetric-FIR-filters}Peak-constrained-least-squares design of non-symmetric FIR filters}
+This section describes peak-constrained-least-squares (PCLS) design of
+non-symmetric FIR filters with SOCP optimisation and the exchange algorithm
+of \emph{Selesnick}, \emph{Lang} and
+\emph{Burrus}~\cite{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters}. 
+\subsection{\label{app:Frequency-response-gradients-nonsymmetric-FIR}Frequency
+response and gradients of a non-symmetric FIR filter}
+The complex frequency response of an order $N$ non-symmetric FIR filter with
+coefficients $h_{k}$ is:
+\begin{align*}
+H\left(\omega\right)&=\sum_{k=0}^{N}h_{k}e^{-\imath{}k\omega}
+\end{align*}
+\subsubsection{Squared magnitude response of a non-symmetric FIR filter}
+The squared magnitude response is differentiable. The squared magnitude response
+of a non-symmetric FIR filter is:
+\begin{align*}
+\mathabs{H\left(\omega\right)}^{2}
+&=H\left(\omega\right)^{\dagger}H\left(\omega\right)\\
+&= \left(\sum_{l=0}^{N}h_{l}e^{\imath{}l\omega}\right) 
+   \left(\sum_{k=0}^{N}h_{k}e^{-\imath{}k\omega}\right) \\
+&= \sum_{l=0}^{N}\sum_{k=0}^{N}h_{l}h_{k}\left(\cos{}l\omega\cos{}k\omega+
+                                           \sin{}l\omega\sin{}k\omega\right) \\
+&= \sum_{l=0}^{N}\sum_{k=0}^{N}h_{l}h_{k}\cos\left(l-k\right)\omega
+\end{align*}
+The gradient with respect to $h_{k}$ of the squared magnitude of a non-symmetric
+FIR filter is:
+\begin{align*}
+\frac{\partial\mathabs{H\left(\omega\right)}^{2}}{\partial h_{k}}
+  &= e^{\imath{}k\omega}\sum_{l=0}^{N}h_{l}e^{-\imath{}l\omega}
+  + e^{-\imath{}k\omega}\sum_{l=0}^{N}h_{l}e^{\imath{}l\omega} \\
+  &=2\sum_{l=0}^{N}h_{l}\cos\left(l-k\right)\omega
+\end{align*}
+The calculation of the squared magnitude response of a non-symmetric FIR filter
+is implemented in the Octave function \emph{directFIRnonsymmetricAsq.m}
+exercised by the Octave script \emph{directFIRnonsymmetricAsq\_test.m}.
+
+\subsubsection{Phase response of a non-symmetric FIR filter}
+The phase response of a non-symmetric FIR filter is:
+\begin{align*}
+\arg{}H\left(\omega\right)
+&=\arctan\frac{\Im H\left(\omega\right)}{\Re H\left(\omega\right)} \\
+&=-\arctan\frac{\sum_{k=0}^{N}h_{k}\sin{}k\omega}{\sum_{k=0}^{N}h_{k}\cos{}k\omega}
+\end{align*}
+The gradient with respect to $h_{k}$ of the phase response of a non-symmetric
+FIR filter is:
+\begin{align*}
+\mathabs{H\left(\omega\right)}^{2}
+\frac{\partial\arg{}H\left(\omega\right)}{\partial h_{k}}
+&=\Re H\left(w\right)\frac{\partial\Im H\left(w\right)}{\partial h_{k}}
+ -\Im H\left(w\right)\frac{\partial\Re H\left(w\right)}{\partial h_{k}} \\
+&=-\sin{}k\omega\sum_{l=0}^{N}h_{l}\cos{}l\omega
+  +\cos{}k\omega\sum_{l=0}^{N}h_{l}\sin{}l\omega \\ 
+&=\sum_{l=0}^{N}h_{l}\sin{}\left(l-k\right)\omega
+\end{align*}
+The calculation of the phase response of a non-symmetric FIR filter
+is implemented in the Octave function \emph{directFIRnonsymmetricP.m}
+exercised by the Octave script \emph{directFIRnonsymmetricP\_test.m}.
+\subsubsection{Group delay response of a non-symmetric FIR filter}
+The group delay response, $T\left(\omega\right)$, of a non-symmetric FIR filter
+is:
+\begin{align*}
+T\left(\omega\right)
+&=-\frac{\partial\arg{}H\left(\omega\right)}{\partial\omega}\\
+\mathabs{H\left(\omega\right)}^{2}T\left(\omega\right)
+&=\sum_{l=0}^{N}h_{l}\cos{}l\omega\sum_{k=0}^{N}kh_{k}\cos{}k\omega
++\sum_{l=0}^{N}h_{l}\sin{}l\omega\sum_{k=0}^{N}kh_{k}\sin{}k\omega\\
+&=\sum_{k=0}^{N}\sum_{l=0}^{N}kh_{k}h_{l}\cos\left(l-k\right)\omega
+\end{align*}
+The gradient with respect to $h_{k}$ of the group delay response of a
+non-symmetric FIR filter is:
+\begin{align*}
+\frac{\partial\mathabs{H\left(\omega\right)}^{2}}{\partial h_{k}}
+T\left(\omega\right)
++\mathabs{H\left(\omega\right)}^{2}
+\frac{\partial T\left(\omega\right)}{\partial h_{k}}
+&=\sum_{k=0}^{N}\sum_{l=0}^{N}h_{l}\cos\left[\left(l-k\right)\omega\right]
+    \frac{\partial}{\partial{}h_{k}} kh_{k}+
+      \sum_{k=0}^{N}\sum_{l=0}^{N}lh_{l}\frac{\partial}{\partial{}h_{k}}
+      h_{k}\cos\left(k-l\right)\omega\\
+&=\sum_{l=0}^{N}\left(l+k\right)h_{l}\cos\left(l-k\right)\omega
+\end{align*}
+The calculation of the group delay response of a non-symmetric FIR filter
+is implemented in the Octave function \emph{directFIRnonsymmetricT.m}
+exercised by the Octave script \emph{directFIRnonsymmetricT\_test.m}.
+\subsection{\label{app:Examples-PCLS-design-nonsymmetric-FIR}Examples of the PCLS
+design of non-symmetric FIR filters}
+\subsubsection{\label{app:Design-socp-slb-non-symmetric-FIR-low-pass-filter}Design of a non-symmetric FIR low pass filter}
+The Octave script \emph{directFIRnonsymmetric\_socp\_slb\_lowpass\_test.m}
+designs a low pass non-symmetric FIR filter with a nominal pass band delay using
+SOCP optimisation and the PCLS exchange algorithm of \emph{Selesnick},
+\emph{Lang} and \emph{Burrus}. The FIR filter specification is:
+\begin{small}
+\verbatiminput{directFIRnonsymmetric_socp_slb_lowpass_test.spec}
+\end{small}
+The resulting FIR impulse response is:
+\begin{small}
+\verbatiminput{directFIRnonsymmetric_socp_slb_lowpass_test_h_coef.m}
+\end{small}
+
+Figure~\ref{fig:Direct-FIR-nonsymmetric-socp-slb-lowpass-response} shows the
+amplitude response.
+Figure~\ref{fig:Direct-FIR-nonsymmetric-socp-slb-lowpass-passband} 
+shows the pass band amplitude, phase error and delay responses. The pass band
+phase error is adjusted for the nominal delay.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_socp_slb_lowpass_test_response}}
+\caption{Amplitude response of a non-symmetric low pass FIR filter designed
+with SOCP and PCLS.}
+\label{fig:Direct-FIR-nonsymmetric-socp-slb-lowpass-response}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_socp_slb_lowpass_test_passband}}
+\caption{Pass band amplitude, phase error and delay responses of a non-symmetric
+low pass FIR filter designed with SOCP and PCLS. The pass band phase error is
+adjusted for the nominal delay.} 
+\label{fig:Direct-FIR-nonsymmetric-socp-slb-lowpass-passband}
+\end{figure}
+
+\subsubsection{Design of a non-symmetric FIR band pass Hilbert filter}
+The Octave script
+\emph{directFIRnonsymmetric\_socp\_slb\_bandpass\_hilbert\_test.m}
+designs a band pass non-symmetric FIR Hilbert filter with a nominal pass band
+delay using SOCP optimisation and the PCLS exchange algorithm
+of \emph{Selesnick}, \emph{Lang} and \emph{Burrus}.
+The FIR filter specification is: 
+\begin{small}
+\verbatiminput{directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.spec}
+\end{small}
+The resulting FIR impulse response is:
+\begin{small}
+\verbatiminput{directFIRnonsymmetric_socp_slb_bandpass_hilbert_test_h_coef.m}
+\end{small}
+
+Figure~\ref{fig:Direct-FIR-nonsymmetric-socp-slb-bandpass-hilbert-response}
+shows the amplitude response.
+Figure~\ref{fig:Direct-FIR-nonsymmetric-socp-slb-bandpass-hilbert-passband} 
+shows the pass band amplitude, phase error and delay responses. The pass band
+phase error is adjusted for the nominal delay. (In fact the response requires an
+additional $\pi$ radians phase shift or multiplication of the amplitude by $-1$).
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_socp_slb_bandpass_hilbert_test_response}}
+\caption{Amplitude response of a non-symmetric band pass FIR Hilbert filter
+designed with SOCP and PCLS.}
+\label{fig:Direct-FIR-nonsymmetric-socp-slb-bandpass-hilbert-response}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_socp_slb_bandpass_hilbert_test_passband}}
+\caption{Pass band amplitude, phase error and delay responses of a non-symmetric
+band pass FIR Hilbert filter designed with SOCP and PCLS. The pass band phase
+error is adjusted for the nominal delay.} 
+\label{fig:Direct-FIR-nonsymmetric-socp-slb-bandpass-hilbert-passband}
+\end{figure}
 \clearpage
 \section{\label{app:Minimax-error-design-FIR-filters}Constrained
   mini-max error optimisation of FIR digital filters}
@@ -32548,66 +32709,22 @@ $\mathabs{H\left(w\right)-e^{-j\omega{}d}}^{2}<\varepsilon_{p}^{2}$ and found
 $\varepsilon_{p}=0.0569$. \emph{Iwasaki} and \emph{Hara} compare the performance
 of symmetric FIR filters with order $20$ and $10$ samples delay and order $30$
 and $15$ samples delay. The Octave script
-\emph{directFIRnonsymmetric\_kyp\_lowpass\_alternate\_test.m} unsuccessfully
+\emph{directFIRnonsymmetric\_kyp\_lowpass\_test.m} unsuccessfully
 attempts to reproduce this filter design example with 
-\emph{YALMIP}~\cite{Lofberg_YALMIP,Lofberg2004} and SeDuMi. I found that I could
-not obtain the combination of band edges and amplitude responses given in the
-example. In addition, I found that if I used the $\varepsilon_{p}^{2}$
-constraint as the YALMIP objective function then SeDuMi failed with numerical
-problems.
-
-The Octave script \emph{directFIRnonsymmetric\_kyp\_lowpass\_test.m} uses
-\emph{Iwasaki} and \emph{Hara}'s generalised KYP lemma to design a low pass FIR
-filter with the following specification:
+\emph{YALMIP}~\cite{Lofberg_YALMIP,Lofberg2004} and SeDuMi\footnote{The Octave
+script \emph{directFIRnonsymmetric\_socp\_slb\_lowpass\_test.m}, described in
+Section~\ref{app:Design-socp-slb-non-symmetric-FIR-low-pass-filter}, designs a similar filter using SOCP PCLS optimisation.}. 
+This script optimises the maximum squared-error of the pass band minus delay
+response and applies a constraint, $\varepsilon_{max}^{2}$, to the maximum
+overall squared-amplitude response. I found that I could not obtain the
+combination of band edges and amplitude responses given in the example. In
+addition, I found that when I use the $\varepsilon_{p}^{2}$ constraint as the
+YALMIP objective function, SeDuMi gives the message ``numerical problems'',
+meaning that the result is only accurate to \texttt{pars.bigeps}. The filter
+specification is:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_lowpass_test.spec}
 \end{small}
-This script does not optimise the squared-error of the amplitude response or
-maximum squared-error of the pass band response. Instead it finds a solution
-that satisfies the SDP constraints. Also, this example does not constrain the
-maximum amplitude response in the transition band. Instead it applies a
-constraint, $\varepsilon_{max}^{2}$, to the maximum overall squared-amplitude
-response. Here is the Octave code for this example:
-\begin{small}
-\begin{verbatim}
-pkg load symbolic optim
-% Constants
-A=[zeros(N-1,1),eye(N-1);zeros(1,N)];
-B=[zeros(N-1,1);1];
-AB=[A,B;eye(N),zeros(N,1)];
-C_d=zeros(1,N);
-C_d(N-d+1)=1;
-c_p=2*cos(2*pi*fap);
-c_s=2*cos(2*pi*fas);
-% Set up constraints
-C=sdpvar(1,N); 
-D=sdpvar(1,1);
-% Maximum amplitude constraint
-P_max=sdpvar(N,N,"symmetric"); 
-Q_max=sdpvar(N,N,"symmetric");
-F_max=sdpvar(N+2,N+2,"symmetric");
-F_max=[[((AB')*[-P_max,Q_max;Q_max,P_max+(2*Q_max)]*AB) + ...
-        diag([zeros(1,N),-Esq_max]),[C,D]']; [C,D,-1]];
-% Pass band constraint on the error |H(w)-e^(-j*w*d)|
-P_z=sdpvar(N,N,'symmetric');
-Q_z=sdpvar(N,N,'symmetric');
-F_z=sdpvar(N+2,N+2,'symmetric');
-F_z=[[((AB')*[-P_z, Q_z; Q_z,P_z-(c_p*Q_z)]*AB) + ...
-      diag([zeros(1,N),-Esq_z]),[C-C_d,D]']; [C-C_d,D,-1]];
-% Stop band constraint 
-P_s=sdpvar(N,N,'symmetric');
-Q_s=sdpvar(N,N,'symmetric');
-F_s=sdpvar(N+2,N+2,'symmetric');
-F_s=[[((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB) + ...
-      diag([zeros(1,N),-Esq_s]),[C,D]']; [C,D,-1]];
-% Solve with YALMIP
-Constraints=[F_max<=0,Q_max>=0,F_z<=0,Q_z>=0,F_s<=0,Q_s>=0];
-Options=sdpsettings('solver','sedumi');
-sol=optimize(Constraints,[],Options);
-h=value(fliplr([C,D]));
-\end{verbatim}
-\end{small}
-
 The resulting FIR impulse response is:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_lowpass_test_h_coef.m}
@@ -32617,7 +32734,15 @@ Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-lowpass-response} shows the
 amplitude response.
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-lowpass-passband} shows the pass
 band amplitude, phase error and delay responses. The pass band phase error is
-adjusted for the nominal delay.
+adjusted for the nominal delay. The overall maximum amplitude response is
+$\varepsilon_{max}=$
+\input{directFIRnonsymmetric_kyp_lowpass_test_max_abs_H.tab}.
+The maximum error in the pass band compared with a pure delay of $d$ samples is 
+$\varepsilon_{p}=$
+\input{directFIRnonsymmetric_kyp_lowpass_test_max_passband_error.tab}. The
+maximum stop band amplitude is
+$\varepsilon_{s}=$
+\input{directFIRnonsymmetric_kyp_lowpass_test_max_stopband_error.tab}.
 
 \begin{figure}
 \centering
@@ -32632,7 +32757,7 @@ the KYP lemma.}
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_lowpass_test_passband}}
 \caption{Pass band amplitude, phase error and delay responses of a non-symmetric
 FIR low pass filter designed with the KYP lemma. The pass band phase error is
-adjusted for the nominal delay.} 
+adjusted for the nominal delay.}
 \label{fig:Direct-FIR-nonsymmetric-KYP-lowpass-passband}
 \end{figure}
 
@@ -32648,27 +32773,14 @@ This example does not minimise the pass band squared-error,
 $\varepsilon_{p}^{2}$. Instead it finds a solution that satisfies the SDP
 constraints. This example does not constrain the maximum amplitude response in
 the transition band. Instead it applies a constraint, $\varepsilon_{max}^{2}$, to
-the maximum overall squared-amplitude response. Here is the Octave code for the
-pass band constraint in this example:
-\begin{small}
-\begin{verbatim}
-e_c=e^(j*pi*(fapu+fapl));
-c_h=2*cos(pi*(fapu-fapl));
-P_z=sdpvar(N,N,'symmetric');
-Q_z=sdpvar(N,N,'symmetric');
-F_z=sdpvar(N+2,N+2,'hermitian','complex');
-F_z=[[((AB')*[-P_z,Q_z/e_c;e_c*Q_z,P_z-(c_h*Q_z)]*AB) + ...
-      diag([zeros(1,N),-Esq_z]),[C-C_d,D]']; [C-C_d,D,-1]];
-\end{verbatim}
-\end{small}
-
-The resulting FIR impulse response is:
+the maximum overall squared-amplitude response. The resulting FIR impulse
+response is:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_bandpass_test_h_coef.m}
 \end{small}
 
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-response} shows the
-pass band amplitude response.
+amplitude response.
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-passband} 
 shows the pass band amplitude, phase error and delay responses. The pass band
 phase error is adjusted for the nominal delay.

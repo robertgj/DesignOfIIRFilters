@@ -171,7 +171,7 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
   % Initialise
   socp_iter=0;func_iter=0;loop_iter=0;feasible=false;
   xk=x0(:);  
-  [Ek,gradEk]=iirE(xk,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp);
+  [Ek,gradEk]=iirE(xk,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,verbose);
   if verbose
     printf("Initial Ek=%g\n",Ek);
     printf("Initial gradEk=[");printf("%g ",gradEk);printf("]\n");
@@ -332,7 +332,7 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
     beta=ys(2);
     delta=ys(3:end);
     xk=xk+delta;
-    [Ek,gradEk]=iirE(xk,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp);
+    [Ek,gradEk]=iirE(xk,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,verbose);
     socp_iter=socp_iter+info.iter;
     if verbose
       printf("epsilon=%g\n",epsilon);

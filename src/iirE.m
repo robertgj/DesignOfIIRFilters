@@ -1,5 +1,6 @@
-function [E,gradE,hessE]=iirE(x,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp)
-% [E,gradE,hessE]=iirE(x,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp)
+function [E,gradE,hessE]=...
+            iirE(x,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,verbose)
+% [E,gradE,hessE]=iirE(x,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,verbose)
 %
 % Inputs:
 %   x - coefficient vector in the form:
@@ -27,6 +28,7 @@ function [E,gradE,hessE]=iirE(x,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp)
 %   wp - angular frequencies of the desired phase response
 %   Pd - desired phase response 
 %   Wp - phase response weight vector
+%   verbose -
 %   
 % Outputs:
 %   E - the error value at x
@@ -67,10 +69,14 @@ function [E,gradE,hessE]=iirE(x,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if nargout>3 || nargin~=18
+if nargout>3 || (nargin~=18 && nargin~=19)
   print_usage ...
     ("[E,gradE,hessE]=iirE(x,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp)");
 endif
+if nargin==18
+  verbose=false;
+endif
+
 
 N=1+U+V+M+Q;
 if N~=length(x)
@@ -160,6 +166,10 @@ elseif nargout==3
   gradE = gradEA + gradES + gradET + gradEP;
   gradE = gradE(:);
   hessE = hessEA + hessES + hessET + hessEP;
+endif
+
+if verbose
+  printf("E=%g,EA=%g,ES=%g,ET=%g,EP=%g\n",E,EA,ES,ET,EP);
 endif
 
 endfunction
