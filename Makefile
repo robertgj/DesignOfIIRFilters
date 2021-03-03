@@ -44,7 +44,6 @@ PDFGREP=/usr/bin/pdfgrep
 GREP=/usr/bin/grep -Hi
 JEKYLL_OPTS=--config docs/_config.yml --source docs --destination docs/_site
 
-
 #
 # A list of all the dependencies of $(TARGET).pdf
 #
@@ -79,10 +78,6 @@ TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
 #
 # Apparently, if the AddressSanitizer library is built without RTTI then
 # there are many "vptr" false-positives.
-#
-# To test an octfile with oprofile, compile the octfile with '-g' then run:
-#   operf octave file_test.m
-#   opannotate --source file.oct
 #
 # %.oct depends on Makefile in case MKOCTFILE_FLAGS changes behaviour
 %.oct : %.cc Makefile
