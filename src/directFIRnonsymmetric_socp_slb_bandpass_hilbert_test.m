@@ -13,33 +13,33 @@ strf="directFIRnonsymmetric_socp_slb_bandpass_hilbert_test";
 
 maxiter=2000
 tol=1e-4
-ctol=tol
+ctol=tol/100
 verbose=false
 n=500
 
 % Band-pass filter specification 
-N=30
+N=60
 fasl=0.05
 fapl=0.1
 fapu=0.2
 fasu=0.25
-dBap=1
-dBas=30
+dBap=0.25
+dBas=40
 Wap=1
-Watl=1e-3
-Watu=1e-3
+Watl=1e-2
+Watu=1e-2
 Wasl=1000
 Wasu=1000
 ftpl=0.11
 ftpu=0.19
 td=10
-tdr=td/10
+tdr=td/25
 Wtp=0.5
 fppl=0.11
 fppu=0.19
 pd=2.5 % Initial phase offset in multiples of pi radians
 ppr=1/50 % Peak-to-peak phase ripple in multiples of pi radians
-Wpp=0.2
+Wpp=2
 
 % Desired squared magnitude response
 nasl=ceil(n*fasl/0.5)+1;
@@ -91,15 +91,57 @@ printf("0.5*wa(nchkt)'/pi=[ ");printf("%6.4g ",0.5*wa(nchkt)'/pi);printf("];\n")
 nchkp=[nppl-1,nppl,nppl+1,nppu-1,nppu,nppu+1];
 printf("0.5*wa(nchkp)'/pi=[ ");printf("%6.4g ",0.5*wa(nchkp)'/pi);printf("];\n");
 
-% Initial coefficients
-h0=remez(N,[0 fasl fapl fapu fasu 0.5]*2,[0 0 1 1 0 0],[Wasl Wap Wasu]);
-h0=h0;
+% Find initial coefficients with hofstetterFIRsymmetric
+M=floor(N/2);
+deltap=1-(10^(-dBap/20));
+deltas=10^(-dBas/20);
+% Place 1+deltap at fapl,fapu and -deltas at fasl,fasu
+sumfbands=fasl+(fapu-fapl)+(0.5-fasu);
+nMp=ceil((M+1)*(fapu-fapl)/sumfbands);
+if mod(nMp,2)==1
+  nMp=nMp+1;
+endif
+f0p=linspace(fapl,fapu,nMp+1);
+a0p=1+(((-1).^(0:nMp))*deltap);
+nMsl=ceil((M+1)*fasl/sumfbands);
+f0sl=linspace(0,fasl,nMsl);
+a0sl=fliplr(((-1).^(1:nMsl))*deltas);
+nMsu=M-nMp-nMsl;
+f0su=linspace(fasu,0.5,nMsu);
+a0su=((-1).^(1:nMsu))*deltas;
+f0=[f0sl,f0p,f0su];
+a0=[a0sl,a0p,a0su];
+% Filter design
+[hM,fext,fiter,feasible]=hofstetterFIRsymmetric(f0,a0,n,maxiter,tol);
+if feasible==false
+  error("hM not feasible");
+endif
+h0=[hM(1:end);hM((end-1):-1:1)]';
 h_active=find(h0~=0);
+
+% SOCP MMSE optimisation
+try
+  [h1,opt_iter,func_iter,feasible]= ...
+  directFIRnonsymmetric_socp_mmse([],h0,h_active,wa,Asqd,Asqdu,Asqdl,Wa,...
+                                  wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+                                  maxiter,tol,verbose);
+catch
+  feasible=false;
+  err=lasterror();
+  fprintf(stderr,"%s\n", err.message);
+  for e=1:length(err.stack)
+    fprintf(stderr,"Called %s at line %d\n", ...
+            err.stack(e).name,err.stack(e).line);
+  endfor
+end_try_catch
+if !feasible
+  error("h1 infeasible");
+endif
 
 % SOCP PCLS optimisation
 try
   [h,slb_iter,opt_iter,func_iter,feasible]=directFIRnonsymmetric_slb ...
-   (@directFIRnonsymmetric_socp_mmse,h0,h_active,wa,Asqd,Asqdu,Asqdl,Wa,...
+   (@directFIRnonsymmetric_socp_mmse,h1,h_active,wa,Asqd,Asqdu,Asqdl,Wa,...
     wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
 catch
   feasible=false;
@@ -121,7 +163,7 @@ P=directFIRnonsymmetricP(wp,h);
 
 % Plot response
 plot(wa*0.5/pi,10*log10(Asq));
-axis([0 0.5 -40 5]);
+axis([0 0.5 -dBas-10 5]);
 grid("on");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
@@ -134,19 +176,19 @@ close
 subplot(311);
 plot(wa(napl:napu)*0.5/pi,10*log10(Asq(napl:napu)));
 ylabel("Amplitude(dB)");
-axis([fapl fapu -2 1]);
+axis([fapl fapu -dBap*3/2 dBap/2]);
 grid("on");
 title(s);
 subplot(312);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");
-axis([ftpl ftpu td-tdr td+tdr]);
+axis([ftpl ftpu td-(tdr/2) td+(tdr/2)]);
 grid("on");
 subplot(313);
 plot(wp*0.5/pi,mod(P+(wp*td),2*pi)/pi);
 ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
-axis([fppl fppu mod(pd-ppr,2) mod(pd+ppr,2)]);
+axis([fppl fppu mod(pd-(ppr/5),2) mod(pd+(ppr/5),2)]);
 grid("on");
 print(strcat(strf,"_passband"),"-dpdflatex");
 close
@@ -191,7 +233,7 @@ print_polynomial(h,"h",strcat(strf,"_h_coef.m"));
 
 save directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.mat tol n ...
      N fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu td tdr Wtp ...
-     fppl fppu ppr Wpp h0 h
+     fppl fppu ppr Wpp h0 h1 h
 
 % Done
 toc;

@@ -10,7 +10,8 @@ directFIRnonsymmetric_socp_slb_bandpass_hilbert_test_h_coef.m
 
 directFIRnonsymmetric_socp_slb_bandpass_hilbert_test_FILES = \
 directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.m test_common.m \
-print_polynomial.m local_max.m \
+print_polynomial.m local_max.m lagrange_interp.m xfr2tf.m \
+hofstetterFIRsymmetric.m \
 directFIRnonsymmetricAsq.m \
 directFIRnonsymmetricEsq.m \
 directFIRnonsymmetricP.m \
@@ -21,4 +22,4 @@ directFIRnonsymmetric_slb_exchange_constraints.m \
 directFIRnonsymmetric_slb_set_empty_constraints.m \
 directFIRnonsymmetric_slb_show_constraints.m \
 directFIRnonsymmetric_slb_update_constraints.m \
-directFIRnonsymmetric_socp_mmse.m
+directFIRnonsymmetric_socp_mmse.m 
