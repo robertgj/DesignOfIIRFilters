@@ -26902,7 +26902,7 @@ optimised filter coefficients are:
   multipliers and the exchange algorithm of \emph{Selesnick et al.}\;.}
 \label{fig:Symmetric_FIR_Hilbert_bandpass_passband_response}
 \end{figure}
-\cleardoublepage{}
+\clearpage{}
 \section{\label{app:PCLS-design-non-symmetric-FIR-filters}Peak-constrained-least-squares design of non-symmetric FIR filters}
 This section describes peak-constrained-least-squares (PCLS) design of
 non-symmetric FIR filters with SOCP optimisation and the exchange algorithm
@@ -27360,7 +27360,29 @@ zeros of the filter. The distinct filter coefficients are:
   \emph{Burrus}}
 \label{fig:selesnickFIRsymmetric-lowpass-test-zeros}
 \end{figure}
-\clearpage
+
+The Octave script \emph{selesnickFIRsymmetric\_lowpass\_alternate\_test.m}
+calls the Octave function \emph{selesnickFIRsymmetric\_lowpass} to design an FIR
+filter with the specification of the example of \emph{Tuan et
+al.}~\cite[Figure 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}:
+\begin{small}
+\verbatiminput{selesnickFIRsymmetric_lowpass_alternate_test.spec}
+\end{small}
+Figure~\ref{fig:selesnickFIRsymmetric-lowpass-alternate-test-dual} shows the
+pass band and stop band responses. The transition frequency is set
+to $fas$. The actual pass band edge frequency is
+$fap=$\input{selesnickFIRsymmetric_lowpass_alternate_test_fapx.tab}.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{selesnickFIRsymmetric_lowpass_alternate_test_dual}}
+\caption{Pass band and stop band responses of a mini-max FIR low-pass filter
+designed with \emph{Selesnick} and \emph{Burrus} modification
+  to \emph{Hofstetter}'s algorithm. The filter specification is similar to the
+  example of \emph{Tuan et
+  al.}~\cite[Figure 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}}
+\label{fig:selesnickFIRsymmetric-lowpass-alternate-test-dual}
+\end{figure}
 
 The Octave script \emph{selesnickFIRsymmetric\_halfband\_test.m} calls the
 Octave function \emph{selesnickFIRsymmetric\_lowpass} to design a half-band
@@ -27374,6 +27396,7 @@ amplitude response of the half-band filter. The distinct filter coefficients are
 \begin{small}
 \verbatiminput{selesnickFIRsymmetric_halfband_test_hM_coef.m}
 \end{small}
+
 \clearpage
 
 Assuming $M$ is odd, the following Octave code converts an even-order half-band
@@ -27423,7 +27446,7 @@ zeros of the Hilbert filter.
 \label{fig:selesnickFIRsymmetric-halfband-test-hilbert-zeros}
 \end{figure}
 \clearpage
-\subsubsection{\emph{Selesnick-Burrus} modification to  \emph{Hofstetter}'s
+\subsubsection{\emph{Selesnick-Burrus} modification to \emph{Hofstetter}'s
   algorithm for band-pass filters}
 \emph{Selesnick} and 
 \emph{Burrus}~\cite[Section
@@ -27497,6 +27520,7 @@ of the filter. The distinct filter coefficients are:
   \emph{Burrus}}
 \label{fig:selesnickFIRsymmetric-bandpass-test-hMc-zeros}
 \end{figure}
+
 \clearpage
 \subsection{\label{sec:Parks-McClellan-mini-max-FIR}\emph{Parks-McClellan} algorithm for mini-max FIR filter approximation}
 \emph{Parks} and
@@ -27643,7 +27667,27 @@ filter coefficients are:
   I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
 \label{fig:mcclellanFIRsymmetric-lowpass-test-zeros}
 \end{figure}
+\clearpage
+The Octave script \emph{mcclellanFIRsymmetric\_lowpass\_alternate\_test.m}
+calls the Octave function \emph{mcclellanFIRsymmetric} to design an FIR
+filter with the specification of the example of \emph{Tuan et
+al.}~\cite[Figure 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}:
+\begin{small}
+\verbatiminput{mcclellanFIRsymmetric_lowpass_alternate_test.spec}
+\end{small}
+Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-alternate-test-dual} shows the
+pass band and stop band responses.
 
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_lowpass_alternate_test_dual}}
+\caption{Pass band and stop band responses of a mini-max FIR low-pass filter
+designed with the \emph{Parks} and \emph{McClellan} algorithm. The filter
+  specification is similar to the example of \emph{Tuan et
+  al.}~\cite[Figure 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}}
+\label{fig:mcclellanFIRsymmetric-lowpass-alternate-test-dual}
+\end{figure}
+\clearpage
 \paragraph{Design of a band-pass FIR filter with the \emph{Parks-McClellan}
   algorithm} The Octave script \newline
 \emph{mcclellanFIRsymmetric\_bandpass\_test.m} designs the
@@ -27686,15 +27730,15 @@ filter coefficients are:
 \clearpage
 \paragraph{Design of a multi-band FIR filter with the \emph{Parks-McClellan}
   algorithm} The Octave script \newline
-\emph{mcclellanFIRsymmetric\_multi\_band\_test.m} calls the
+\emph{mcclellanFIRsymmetric\_multiband\_test.m} calls the
 Octave function \emph{mcclellanFIRsymmetric} to design a multi-band filter with
 the specification:
 \begin{small}
 \verbatiminput{mcclellanFIRsymmetric_multiband_test.spec}
 \end{small}
-Figure~\ref{fig:mcclellanFIRsymmetric-multi-band-test-response} shows the
+Figure~\ref{fig:mcclellanFIRsymmetric-multiband-test-response} shows the
 amplitude response of the filter.
-Figure~\ref{fig:mcclellanFIRsymmetric-multi-band-test-zeros} shows the zeros of
+Figure~\ref{fig:mcclellanFIRsymmetric-multiband-test-zeros} shows the zeros of
 the filter. The pass-band ripple found is
 $\rho=$\input{mcclellanFIRsymmetric_multiband_test_rho.tab} and the distinct
 filter coefficients are:
@@ -27708,7 +27752,7 @@ filter coefficients are:
 \caption{Response of a mini-max FIR multi-band filter designed with
   the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
   I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
-\label{fig:mcclellanFIRsymmetric-multi-band-test-response}
+\label{fig:mcclellanFIRsymmetric-multiband-test-response}
 \end{figure}
 \begin{figure}
 \centering
@@ -27716,7 +27760,7 @@ filter coefficients are:
 \caption{Zeros of a mini-max FIR multi-band filter designed with
   the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
   I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
-\label{fig:mcclellanFIRsymmetric-multi-band-test-zeros}
+\label{fig:mcclellanFIRsymmetric-multiband-test-zeros}
 \end{figure}
 \clearpage
 \paragraph{Design of a low-pass differentiator FIR filter with the
@@ -27850,6 +27894,7 @@ filter coefficients are:
   II.A]{SelesnickBurrus_ExchangeAlgorithmsParksMcClellanAlgorithm}.} 
 \label{fig:affineFIRsymmetric-lowpass-test-dual}
 \end{figure}
+
 \clearpage
 \section{Design of FIR filters with maximally-linear pass-bands and equi-ripple stop-bands using the \emph{Parks-Mcclellan} algorithm}
 \emph{Vaidyanathan}~\cite{Vaidyanathan_DesignFIRFlatPassbandEquirippleStopband}
@@ -32260,7 +32305,8 @@ with $p+\frac{n\left(n+1\right)}{2}$ variables. \emph{Vandenburghe et al.}~\cite
 show that it is more efficient to solve the \emph{dual} or \emph{primal-dual}
 SDP problems. I follow \emph{Iwasaki} and
 \emph{Hara}~\cite{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}.
-\section{The S-procedure}
+\section{\emph{Iwasaki} and \emph{Hara}'s generalised KYP lemma}
+\subsection{The generalised S-procedure}
 The so-called \emph{S-procedure}\footnote{Also see
   Section~\ref{app:Jonsson-S-procedure}} forms the basis of proofs of the KYP
 lemma. It ``converts a constrained inequality to an unconstrained inequality
@@ -32345,7 +32391,7 @@ and lemma:
   $\boldsymbol{P}\subset\mathbb{H}^{n}$ of positive-semidefinite
   matrixes containing the origin.
 \end{framed}
-\section{Frequency ranges as curves in the complex plane}
+\subsection{Frequency ranges as curves in the complex plane}
 The frequency response constraint examples shown above apply
 to the whole of the positive $\imath\omega$ axis in the continuous-time
 \emph{s-plane}. For a discrete-time filter, the frequency response
@@ -32420,7 +32466,8 @@ $\det\left(\Psi\right)<0$.  Then there exists a transformation, $T$, such that:
                      \beta & \gamma \\
                    \end{array}\right]
 \end{align*}
-where $\alpha,\beta,\gamma\in\mathbb{R}$ and $T\in\mathbb{C}^{2\times{}2}$.  In particular, $\alpha$ and $\gamma$ can be ordered so that $\alpha<\gamma$.
+where $\alpha,\beta,\gamma\in\mathbb{R}$ and $T\in\mathbb{C}^{2\times{}2}$. In
+particular, $\alpha$ and $\gamma$ can be ordered so that $\alpha<\gamma$.
 \end{framed}
 
 \emph{Iwasaki} and \emph{Hara} state the following proposition~\cite[Proposition
@@ -32502,7 +32549,7 @@ $0\le\omega_{w}\le\pi$. This condition can be written as
 $\sigma\left(e^{\imath\omega},\Psi\right)\ge 0$, again with $\Psi$ as shown in
 Table~\ref{tab:Iwasaki-Hara-discrete-time-frequency-ranges}.
 
-\section{\emph{Iwasaki} and \emph{Hara}'s generalised KYP lemma}
+\subsection{The generalised KYP lemma}
 \emph{Iwasaki} and \emph{Hara}~\cite[Section V.B,
 p.49]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} prove the following
 \emph{generalised} KYP lemma for state variable systems:
@@ -32517,7 +32564,8 @@ equivalent:
 \begin{enumerate}
   \item For each
     $\lambda\in\boldsymbol{\Lambda}\setminus\boldsymbol{\Omega}$:
-    \begin{align*}
+    \begin{align}
+    \label{eqn:Iwasaki-Hara-Generalised-KYP-FDI}
       \left[\begin{array}{c}
               \left(\lambda{}I-A\right)^{-1}B \\
               I\end{array}\right]^{\dagger}
@@ -32525,9 +32573,10 @@ equivalent:
       \left[\begin{array}{c}
               \left(\lambda{}I-A\right)^{-1}B\\
               I\end{array}\right]\le{}0
-    \end{align*}
+    \end{align}
   \item There exist $P,Q\in\mathbb{H}^{n}$ such that $Q\succeq{}0$ and:
-    \begin{align*}
+    \begin{align}
+    \label{eqn:Iwasaki-Hara-Generalised-KYP-LMI}
       \left[\begin{array}{cc}
               A & B \\
               I& 0 \end{array}\right]^{\dagger}
@@ -32536,7 +32585,7 @@ equivalent:
               A & B \\
               I& 0 \end{array}\right]
        + \Theta \preceq{} 0
-    \end{align*}
+    \end{align}
 \end{enumerate}
 \end{framed}
 
@@ -32582,6 +32631,145 @@ properties of the \emph{Schur complement}\footnote{See
 $\Theta$ is bi-linear in the FIR filter coefficients. Application of the Schur
 complement linearises this expansion.
 
+The proposition that Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI} (LMI)
+implies Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-FDI} (FDI) can be
+justified in the discrete time case as
+follows~\cite[A.14]{Bliman_AdvancedAnalysisDesignLMI}. Firstly note that:   
+\begin{align*}
+\left[\begin{array}{cc}
+        A & B \\
+        I & 0 \end{array}\right]
+\left[\begin{array}{c}
+        \left(e^{\imath\omega}I-A\right)^{-1}B \\
+        I\end{array}\right] &=
+\left[\begin{array}{c}
+        A\left(e^{\imath\omega}I-A\right)^{-1}B +B \\
+        \left(e^{\imath\omega}I-A\right)^{-1}B\end{array}\right]\\
+        &=\left[\begin{array}{c}
+        A\left(e^{\imath\omega}I-A\right)^{-1}B
+        +\left(e^{\imath\omega}I-A\right)\left(e^{\imath\omega}I-A\right)^{-1}B \\
+        \left(e^{\imath\omega}I-A\right)^{-1}B\end{array}\right] \\
+        &=\left[\begin{array}{c}
+        e^{\imath\omega}I\\
+        I\end{array}\right]\left(e^{\imath\omega}I-A\right)^{-1}B
+\end{align*}
+For the low pass case, $\mathabs{\omega}\le\omega_{l}\le\pi$:
+\begin{align*}
+\begin{split}
+&\left[\begin{array}{c}
+        \left(e^{\imath\omega}I-A\right)^{-1}B \\
+        I\end{array}\right]^{\dagger}
+\left[\begin{array}{cc}
+        A & B \\
+        I & 0 \end{array}\right]^{\dagger}
+\left(\Phi\otimes P + \Psi\otimes Q\right)
+\left[\begin{array}{cc}
+        A & B \\
+        I & 0 \end{array}\right]
+\left[\begin{array}{c}
+        \left(e^{\imath\omega}I-A\right)^{-1}B \\
+        I\end{array}\right] \\
+&\quad=B^{\dagger}\left(e^{\imath\omega}I-A\right)^{-\dagger}
+        \left[\begin{array}{c}
+        e^{\imath\omega}I\\
+        I\end{array}\right]^{\dagger}
+        \left[\begin{array}{cc}
+       -P & Q \\
+        Q & P-2Q\cos\omega_{l} \end{array}\right]
+        \left[\begin{array}{c}
+        e^{\imath\omega}I\\
+        I\end{array}\right]\left(e^{\imath\omega}I-A\right)B
+        \end{split} \\
+&\quad= 2\left[\cos\omega-\cos\omega_{l}\right]B^{\dagger}
+        \left(e^{\imath\omega}I-A\right)^{-\dagger}Q
+        \left(e^{\imath\omega}I-A\right)^{-1}B \\
+&\quad \ge 0
+\end{align*}
+
+For the band pass case, $\omega_{1}\le\mathabs{\omega}\le\omega_{2}\le\pi$:
+\begin{align*}
+\begin{split}
+&B^{\dagger}\left(e^{\imath\omega}I-A\right)^{-\dagger}
+        \left[\begin{array}{c}
+        e^{\imath\omega}I\\
+        I\end{array}\right]^{\dagger}
+        \left[\begin{array}{cc}
+       -P & e^{\imath\frac{\omega_{2}+\omega_{1}}{2}}Q \\
+        e^{-\imath\frac{\omega_{2}+\omega_{1}}{2}}Q &
+        P-2Q\cos\frac{\omega_{2}-\omega_{1}}{2}
+        \end{array}\right]
+        \left[\begin{array}{c}
+        e^{\imath\omega}I\\
+        I\end{array}\right]\left(e^{\imath\omega}I-A\right)B \\
+&\quad= 2\left[\cos\left(\omega-\frac{\omega_{2}+\omega_{1}}{2}\right)-
+         \cos\left(\frac{\omega_{2}-\omega_{1}}{2}\right)\right]B^{\dagger}
+        \left(e^{\imath\omega}I-A\right)^{-\dagger}Q
+        \left(e^{\imath\omega}I-A\right)^{-1}B \\
+\end{split} \\
+&\quad \ge 0
+\end{align*}
+
+For the high pass case, $\omega_{h}\le\mathabs{\omega}\le\pi$:
+\begin{align*}
+\begin{split}
+&B^{\dagger}\left(e^{\imath\omega}I-A\right)^{-\dagger}
+        \left[\begin{array}{c}
+        e^{\imath\omega}I\\
+        I\end{array}\right]^{\dagger}
+        \left[\begin{array}{cc}
+       -P & -Q \\
+       -Q & P+2Q\cos\omega_{h} \end{array}\right]
+        \left[\begin{array}{c}
+        e^{\imath\omega}I\\
+        I\end{array}\right]\left(e^{\imath\omega}I-A\right)B \\
+&\quad= 2\left(\cos\omega_{h}-\cos\omega\right)B^{\dagger}
+        \left(e^{\imath\omega}I-A\right)^{-\dagger}Q
+        \left(e^{\imath\omega}I-A\right)^{-1}B \\
+\end{split} \\
+&\quad\ge 0
+\end{align*}
+
+If $Q\succeq 0$ and the LMI,
+Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}, holds, then in each of the
+three cases:
+\begin{align*}
+\begin{split}
+& \left[\begin{array}{c}
+          \left(e^{\imath\omega}I-A\right)^{-1}B \\
+          I\end{array}\right]^{\dagger}
+  \Theta
+  \left[\begin{array}{c}
+        \left(e^{\imath\omega}I-A\right)^{-1}B \\
+        I\end{array}\right] \\
+& \quad = \left[\begin{array}{c}
+          \left(e^{\imath\omega}I-A\right)^{-1}B \\
+          I\end{array}\right]^{\dagger}
+        \left(\left[\begin{array}{cc}
+        A & B \\
+        I & 0 \end{array}\right]^{\dagger}
+        \left(\Phi\otimes P + \Psi\otimes Q\right)
+        \left[\begin{array}{cc}
+        A & B \\
+        I & 0 \end{array}\right]+\Theta\right)
+        \left[\begin{array}{c}
+        \left(e^{\imath\omega}I-A\right)^{-1}B \\
+        I\end{array}\right] \;\hdots \\
+&\quad\quad- \left[\begin{array}{c}
+        \left(e^{\imath\omega}I-A\right)^{-1}B \\
+        I\end{array}\right]^{\dagger}
+        \left[\begin{array}{cc}
+        A & B \\
+        I & 0 \end{array}\right]^{\dagger}
+        \left(\Phi\otimes P + \Psi\otimes Q\right)
+        \left[\begin{array}{cc}
+        A & B \\
+        I & 0 \end{array}\right]
+        \left[\begin{array}{c}
+        \left(e^{\imath\omega}I-A\right)^{-1}B \\
+        I\end{array}\right] \\
+&\quad  \preceq 0
+\end{split}
+\end{align*}
 \subsection{Examples of FIR filter design with the generalised KYP lemma}
 \paragraph{Amplitude constraints}
 The pass-band and stop-band errors are: 
@@ -32801,7 +32989,7 @@ band pass FIR filter designed with the KYP lemma. The pass band phase error is
 adjusted for the nominal delay.} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-passband}
 \end{figure}
-
+ 
 \cleardoublepage
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}
 \addcontentsline{toc}{part}{Colophon}

@@ -1,7 +1,7 @@
 function [hM,rho,fext,fiter,feasible]= ...
          mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol,verbose)
 % [hM,rho,fext,fiter,feasible]= ...
-%   mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)
+%   mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol,verbose)
 % Implement Park and McClellans' algorithm for the design of an even-order,
 % odd-length, symmetric, linear-phase FIR filter.
 %
@@ -43,9 +43,8 @@ function [hM,rho,fext,fiter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin < 4) || (nargin > 8) || (nargout>5)
-    print_usage("hM=mcclellanFIRsymmetric(M,F,D,W)\n\
-[hM,rho,fext,fiter,feasible]= ...\n\
-  mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol)");
+    print_usage("[hM,rho,fext,fiter,feasible]= ...\n\
+mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol,verbose)");
   endif
 
   % Sanity checks
