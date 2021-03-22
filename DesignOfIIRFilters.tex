@@ -109,6 +109,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \DeclareMathOperator{\mathdiag}{diag}
 \DeclareMathOperator{\mathtpltz}{Toeplitz}
 \DeclareMathOperator{\mathcohull}{cohull}
+\DeclareMathOperator{\mathcone}{cone}
 \DeclareMathOperator{\mathri}{ri}
 \DeclareMathOperator{\mathaff}{aff}
 
@@ -807,7 +808,7 @@ x\left(k+1\right) &= Ax\left(k\right)+Bu\left(k\right)
 \end{align*}
 can be driven to any specified vector $x\left(n\right)$.
 
-\textsc{Proof}: From above
+\emph{Proof}: From above
 \begin{align*}
 x\left(n\right) &= \sum_{l=1}^{n}A^{l-1}Bu\left(n-l\right)\\
  &= \left[\begin{array}{cccc}
@@ -831,7 +832,7 @@ If the matrix pair $\left(A,C\right)$ is observable then the state
 $x\left(0\right)$ can be uniquely determined from
 $\left(u\left(k\right),y\left(k\right)\right)$ for $0\leq{} k<n$.
 
-\textsc{Proof} : From the matrix equations for $x\left(k\right)$and
+\emph{Proof} : From the matrix equations for $x\left(k\right)$and
 $y (k)$
 \begin{align*}
 \left[\begin{array}{c}
@@ -1020,13 +1021,11 @@ and
 -\sum_{j=1}^{n}a_{j}z^{n-j} &= \sum_{j=1}^{n}\alpha_{n,j}z^{j-1}
 \end{align*}
 so
-\begin{samepage}
 \begin{align*}
 \alpha_{n,1} &= -a_{n}\\
  & \vdots\\
 \alpha_{n,n} &= -a_{1}
 \end{align*}
-\end{samepage}
 Now find vector $C=\left[\begin{array}{cccc}
 c_{1} & c_{2} & \cdots & c_{n}\end{array}\right]$ and scalar $D=\delta$ that satisfy
 \begin{align*}
@@ -3096,7 +3095,8 @@ coefficients. An alternative structure such as a lattice filter or a cascade of
 lower-order filters has fewer coefficients, $\mathcal{O}\left(n\right)$, but
 will have a larger than optimal noise gain. The noise gain for a non-optimal
 filter may be improved by distributing bits unevenly between the states.
-\emph{Mullis} and \emph{Roberts}~\cite[Section IV]{MullisRoberts_SynthesisMinimumRoundoffNoiseDigitalFilters}
+\emph{Mullis} and \emph{Roberts}~\cite[Section
+IV]{MullisRoberts_SynthesisMinimumRoundoffNoiseDigitalFilters} 
 show that if the state wordlengths are $B_{i}$ with
 \begin{align*}
 \sum^{n}_{i=1}B_{i} &= nB
@@ -26897,12 +26897,13 @@ optimised filter coefficients are:
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRhilbert_bandpass_slb_test_passband_response}}
-\caption{Pass-band amplitude response of the initial FIR Hilbert bandpass filter and the
-  optimised FIR Hilbert bandpass filter designed with the method of Lagrange
-  multipliers and the exchange algorithm of \emph{Selesnick et al.}\;.}
+\caption{Pass-band amplitude response of the initial FIR Hilbert bandpass filter
+  and the optimised FIR Hilbert bandpass filter designed with the method of
+  Lagrange multipliers and the exchange algorithm of \emph{Selesnick et al.}\;.}
 \label{fig:Symmetric_FIR_Hilbert_bandpass_passband_response}
 \end{figure}
-\clearpage{}
+
+\clearpage
 \section{\label{app:PCLS-design-non-symmetric-FIR-filters}Peak-constrained-least-squares design of non-symmetric FIR filters}
 This section describes peak-constrained-least-squares (PCLS) design of
 non-symmetric FIR filters with SOCP optimisation and the exchange algorithm
@@ -27654,7 +27655,7 @@ filter coefficients are:
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_lowpass_test_dual}}
 \caption{Response of a mini-max FIR low-pass filter designed with
-  the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
+  the \emph{Parks-McClellan} algorithm~\cite[Table
   I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
 \label{fig:mcclellanFIRsymmetric-lowpass-test-dual}
 \end{figure}
@@ -27663,29 +27664,9 @@ filter coefficients are:
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_lowpass_test_zeros}}
 \caption{Zeros of a mini-max FIR low-pass filter designed with
-  the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
+  the \emph{Parks-McClellan} algorithm~\cite[Table
   I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
 \label{fig:mcclellanFIRsymmetric-lowpass-test-zeros}
-\end{figure}
-\clearpage
-The Octave script \emph{mcclellanFIRsymmetric\_lowpass\_alternate\_test.m}
-calls the Octave function \emph{mcclellanFIRsymmetric} to design an FIR
-filter with the specification of the example of \emph{Tuan et
-al.}~\cite[Figure 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}:
-\begin{small}
-\verbatiminput{mcclellanFIRsymmetric_lowpass_alternate_test.spec}
-\end{small}
-Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-alternate-test-dual} shows the
-pass band and stop band responses.
-
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_lowpass_alternate_test_dual}}
-\caption{Pass band and stop band responses of a mini-max FIR low-pass filter
-designed with the \emph{Parks} and \emph{McClellan} algorithm. The filter
-  specification is similar to the example of \emph{Tuan et
-  al.}~\cite[Figure 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}}
-\label{fig:mcclellanFIRsymmetric-lowpass-alternate-test-dual}
 \end{figure}
 \clearpage
 \paragraph{Design of a band-pass FIR filter with the \emph{Parks-McClellan}
@@ -27714,7 +27695,7 @@ filter coefficients are:
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_bandpass_test_dual}}
 \caption{Response of a mini-max FIR band-pass filter designed with
-  the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
+  the \emph{Parks-McClellan} algorithm~\cite[Table
   I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
 \label{fig:mcclellanFIRsymmetric-bandpass-test-dual}
 \end{figure}
@@ -27723,7 +27704,7 @@ filter coefficients are:
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_bandpass_test_zeros}}
 \caption{Zeros of a mini-max FIR band-pass filter designed with
-  the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
+  the \emph{Parks-McClellan} algorithm~\cite[Table
   I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
 \label{fig:mcclellanFIRsymmetric-bandpass-test-zeros}
 \end{figure}
@@ -27750,7 +27731,7 @@ filter coefficients are:
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_multiband_test_response}}
 \caption{Response of a mini-max FIR multi-band filter designed with
-  the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
+  the \emph{Parks-McClellan} algorithm~\cite[Table
   I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
 \label{fig:mcclellanFIRsymmetric-multiband-test-response}
 \end{figure}
@@ -27758,7 +27739,7 @@ filter coefficients are:
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_multiband_test_zeros}}
 \caption{Zeros of a mini-max FIR multi-band filter designed with
-  the \emph{Parks} and \emph{McClellan} algorithm~\cite[Table
+  the \emph{Parks-McClellan} algorithm~\cite[Table
   I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}} 
 \label{fig:mcclellanFIRsymmetric-multiband-test-zeros}
 \end{figure}
@@ -27781,7 +27762,7 @@ amplitude error responses of the filter.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRdifferentiator_test_response}}
 \caption{Amplitude and phase responses of a mini-max FIR differentiator
-  filter designed with the \emph{Parks} and \emph{McClellan}
+  filter designed with the \emph{Parks-McClellan}
   algorithm.}  
 \label{fig:mcclellanFIRdifferentiator-test-response}
 \end{figure}
@@ -27789,7 +27770,7 @@ amplitude error responses of the filter.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRdifferentiator_test_dual}}
 \caption{Amplitude error of a mini-max FIR differentiator
-  filter designed with the \emph{Parks} and \emph{McClellan}
+  filter designed with the \emph{Parks-McClellan}
   algorithm.}
 \label{fig:mcclellanFIRdifferentiator-test-dual}
 \end{figure}
@@ -27889,14 +27870,14 @@ filter coefficients are:
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{affineFIRsymmetric_lowpass_test_dual}}
 \caption{Response of a mini-max FIR low-pass filter designed with the
-  \emph{Parks} and \emph{McClellan} algorithm modified by \emph{Selesnick} and
+  \emph{Parks-McClellan} algorithm modified by \emph{Selesnick} and
   \emph{Burrus}~\cite[Section
   II.A]{SelesnickBurrus_ExchangeAlgorithmsParksMcClellanAlgorithm}.} 
 \label{fig:affineFIRsymmetric-lowpass-test-dual}
 \end{figure}
 
 \clearpage
-\section{Design of FIR filters with maximally-linear pass-bands and equi-ripple stop-bands using the \emph{Parks-Mcclellan} algorithm}
+\section{Design of FIR filters with maximally-linear pass-bands and equi-ripple stop-bands using the \emph{Parks-McClellan} algorithm}
 \emph{Vaidyanathan}~\cite{Vaidyanathan_DesignFIRFlatPassbandEquirippleStopband}
 and \emph{Selesnick} and 
 \emph{Burrus}~\cite{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}
@@ -27998,7 +27979,7 @@ The distinct filter coefficients of the overall filter, $H\left(z\right)$, are:
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_flat_lowpass_test_dual}}
 \caption{Response of a mini-max FIR maximally-flat pass-band low-pass filter
-  with fixed $\omega_{s}$ designed with the \emph{Parks} and \emph{McClellan}
+  with fixed $\omega_{s}$ designed with the \emph{Parks-McClellan}
   algorithm~\cite[Section 
   II.A]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.} 
 \label{fig:mcclellanFIRsymmetric-flat-lowpass-test-dual}
@@ -29238,6 +29219,450 @@ $\left|H_{p}\left(\omega\right)\right|-\omega$, of the differentiators.
   \emph{Purczy\'{n}ski} and \emph{Pawelczak}~\cite[Equation 
   7]{PurczynskiPawelczak_MaxLinearDifferentiatorFrequenciesP}} 
 \label{fig:purczynskiFIRantisymmetric-flat-differentiator-test-error}
+\end{figure}
+
+\clearpage
+\section{\label{app:LMI-design-symmetric-FIR-filters}LMI design of symmetric FIR filters}
+This section describes peak-constrained LMI (Linear Matrix Inequality) design of
+even-order symmetric FIR filters described by \emph{Tuan et
+al.}~\cite{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}. They use
+arguments from convex optimisation to derive results similar to those of
+\emph{Davidson et al.}~\cite{Davidson_LMISpectralConstraints}. In particular,
+they derive a version of the \emph{Markov-Lukacs} theorem for trigonometric
+curves. The primal form of the SDP solution of the LMI FIR frequency constraints
+requires $\mathcal{O}\left(n^{2}\right)$ variables. \emph{Tuan et al.} derive
+a dual form of the SDP with $\mathcal{O}\left(n\right)$ variables. 
+
+\subsection{The \emph{Markov-Lukacs} theorem}
+\emph{Despr\'{e}s}~\cite{Despres_PositivePolynomials}
+shows the following version of the \emph{Markov-Lukacs} theorem:
+\begin{framed}
+$P_{n}$ is the set of $n$th order polynomials. The convex set
+$P^{+}_{n}=\left\{p\left(x\right)\in P_{n}\;:\;
+p\left(x\right)\ge0\;\forall\;x\in\left[0,1\right]\right\}$.
+\begin{align*}
+&p\left(x\right)\in P^{+}_{n} \Leftrightarrow 
+\begin{cases}
+\exists\; a\left(x\right)\in P_{k}, b\left(x\right)\in P_{k-1}\text{ such that }
+p\left(x\right) =a\left(x\right)^{2}+x\left(1-x\right)b\left(x\right)^{2},&n=2k\\
+\exists\; a\left(x\right)\in P_{k}, b\left(x\right)\in P_{k\phantom{-1}}\text{ such that }
+p\left(x\right)=xa\left(x\right)^{2}+\left(1-x\right)b\left(x\right)^{2},&n=2k+1
+\end{cases}
+\end{align*}
+\end{framed}
+\emph{Proof}: By induction:
+
+$n=2$:
+\begin{align*}
+p\left(x\right)&=\left(\left(1-x\right)\sqrt{p\left(0\right)}
+-x\sqrt{p\left(1\right)}\right)^{2}+x\left(1-x\right)b^{2}
+\end{align*}
+
+$n\in 2\mathbb{N}$:
+\begin{align*}
+p\left(x\right)&=\prod^{\frac{n}{2}}_{k=1}p_{k}\left(x\right),\;
+p_{k}\in P^{+}_{2}\\
+&=\prod^{\frac{n}{2}}_{k=1}\left|a_{k}\left(x\right)+
+\imath\;b_{k}\sqrt{x\left(1-x\right)}\right|^{2} \\
+&=\left|\prod^{\frac{n}{2}}_{k=1}\left(a_{k}\left(x\right)+
+\imath\;b_{k}\sqrt{x\left(1-x\right)}\right)\right|^{2} \\
+&=\left|a\left(x\right)+
+\imath b\left(x\right)\sqrt{x\left(1-x\right)}\right|^{2} \\
+&=a\left(x\right)^{2}+x\left(1-x\right)b\left(x\right)
+\end{align*}
+
+$n\in 2\mathbb{N}+1$:
+\begin{align*}
+xp\left(x\right)=\hat{p}\left(x\right)
+&=\hat{a}\left(x\right)^{2}+x\left(1-x\right)\hat{b}\left(x\right)^{2}\\
+&=\left(xa\left(x\right)\right)^{2}+x\left(1-x\right)b\left(x\right)^{2}\\
+p\left(x\right)&=xa\left(x\right)^{2}+\left(1-x\right)b\left(x\right)^{2}
+\end{align*}
+
+Note that $p\left(x\right)$ is not unique:
+\begin{align*}
+1 &= 1^{2}+x\left(1-x\right)0^{2}=\left(1-2x\right)^{2}+x\left(1-x\right)2^{2}
+\end{align*}
+
+\subsection{Trigonometric curves}
+\emph{Tuan et al.}~\cite[Section
+I]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric} define the
+trigonometric curve, $C_{a,b}$:
+\begin{align*}
+\varphi\left(\omega\right)&=\left(1,\cos\omega,\hdots,\cos n\omega\right)^{\top}\\
+C_{a,b}&\coloneq\left\{\varphi\left(\omega\right)\; :\;
+\cos\omega\in\left[\cos a,\cos b\right]\right\}\subset\mathbb{R}^{n+1}
+\end{align*}
+and its polar, $C^{\star}_{a,b}$:
+\begin{align*}
+C^{\star}_{a,b}&=\left\{u\in\mathbb{R}^{n+1}\; :\;
+\langle u,v\rangle\ge 0\;\forall\;v\in C_{a,b}\right\}
+\end{align*}
+A linear constraint on the variable $x\in\mathbb{R}^{m}$ is: 
+\begin{align*}
+Ax+d\in C^{\star}_{a,b}, \;
+A\in\mathbb{R}^{\left(n+1\right)\times m},\; d\in\mathbb{R}^{n+1}
+\end{align*}
+or:
+\begin{align*}
+\langle Ax+d,\varphi_{n}\left(\omega\right)\rangle\ge 0,\;
+\cos\omega\in\left[\cos a,\cos b\right]
+\end{align*}
+
+\subsection{Moment matrix of trigonometric curves}
+Let $\phi_{k}\left(t\right)=\left(1,t,\hdots,t^{k}\right)^{\top}$. The $k$-th
+order moment matrix of $\phi_{k}\left(t\right)$ is:
+\begin{align*}
+\mathcal{M}_{k}\left(t\right)&=
+\phi_{k}\left(t\right)\phi^{\top}_{k}\left(t\right)\\
+&=\left[\begin{array}{cccc}
+1 & t & \cdots & t^{k} \\
+t & t^{2} & \cdots & t^{k+1} \\
+\cdots &\cdots &\cdots & \cdots \\
+t^{k} & t^{k+1} & \cdots & t^{2k}\end{array}\right]
+\end{align*}
+
+Similarly, define the matrix $\mathcal{T}_{k}\left(\omega\right)$:
+\begin{align*}
+\mathcal{T}_{k}\left(\omega\right)
+&=\varphi_{k}\left(\omega\right)\varphi^{\top}_{k}\left(\omega\right)\\
+&=\left[\begin{array}{cccc}
+1 & \cos\omega & \cdots & \cos k\omega \\
+\cos\omega & \frac{1}{2}\left(1+\cos 2\omega\right) & \cdots &
+\frac{1}{2}\left(\cos\left(k-1\right)\omega+\cos\left(k+1\right)\omega\right) \\
+\cdots &\cdots &\cdots & \cdots \\
+\cos k\omega &
+\frac{1}{2}\left(\cos\left(k-1\right)\omega+\cos\left(k+1\right)\omega\right) &
+\cdots & \frac{1}{2}\left(1+\cos 2k\omega\right)\end{array}\right]
+\end{align*}
+
+The matrix $T_{k}\left(y\right)$ is created from
+$\mathcal{T}_{k}\left(\omega\right)$ with a change of variable,
+$\cos l\omega\rightarrow y_{l}$:
+\begin{align*}
+T_{k}\left(y\right)&=\left[\begin{array}{cccc}
+y_{0} & y_{1} & \cdots & y_{k} \\
+y_{1} & \frac{1}{2}\left(y_{0}+y_{2}\right) & \cdots &
+\frac{1}{2}\left(y_{k-1}+y_{k+1}\right)\\
+\cdots &\cdots &\cdots & \cdots \\
+y_{k} & \frac{1}{2}\left(y_{k-1}+y_{k+1}\right)
+ & \cdots & \frac{1}{2}\left(y_{0}+y_{2k}\right)\end{array}\right]
+\end{align*}
+For convenience, also define:
+\begin{align*}
+\mathcal{T}_{l,k}\left(\omega\right)&=
+\cos l\omega\;\mathcal{T}_{k}\left(\omega\right) \\
+T_{l,k}\left(y\right)&=T_{k}\left(y_{l},y_{l+1},\hdots,y_{l+2k}\right) \\
+&=\left[\begin{array}{cccc}
+y_{l} & \cdots & & \\
+\frac{1}{2}\left(y_{\mathabs{l-1}}+y_{l+1}\right) &
+\frac{1}{4}\left(y_{\mathabs{l-2}}+2y_{l}+y_{l+2}\right) & \cdots & \\
+\cdots & \cdots & \cdots & \cdots \\
+\frac{1}{2}\left(y_{\mathabs{l-k}}+y_{l+k}\right) &
+\frac{1}{4}\left(y_{\mathabs{l-k-1}}+y_{\mathabs{l-k+1}}+y_{\mathabs{l+k-1}}
++y_{l+k+1}\right) & \cdots &
+\frac{1}{4}\left(y_{\mathabs{l-2k}}+2y_{l}+y_{l+2k}\right)\end{array}\right]
+\end{align*}
+
+\emph{Tuan et
+al}~\cite[Appendix I]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}
+give a basis for $T_{l,k}\left(y\right)$ comprised of symmetric matrixes:
+\begin{align*}
+\left[\mathcal{E}^{m}_{l,k}\right]_{i,j} &=
+\frac{1}{4}\left(\delta_{m-\mathabs{i+j-l-2}}+\delta_{m-\mathabs{i+j+l-2}}+
+\delta_{m-\mathabs{i-j-l}}+\delta_{m-\mathabs{i-j+l}}\right)
+\end{align*}
+where $\delta_{m}$ is the \emph{Kronecker delta
+function}. Thus:
+\begin{align*}
+T_{l,k}\left(y\right) &=\sum^{l+2k}_{m=0}y_{m}\mathcal{E}^{m}_{l,k} 
+\end{align*}
+
+\subsection{A \emph{Markov-Lukacs} theorem for trigonometric curves}
+\emph{Tuan et
+al}~\cite[Appendix 1]{TuanHoangNgoTuyVo_DualFrequencySelectiveBoundedRealLemma}
+prove the following version of the \emph{Markov-Lukacs} theorem:
+\begin{framed}
+Any algebraic polynomial, $P\left(t\right)=\phi^{\top}_{n}\left(t\right)x$, that
+is non-negative on $\left[a,b\right]\subset \left(-\infty,\infty\right)$ can
+be written as:
+\begin{align}
+\label{eqn:Markov-Lukacs}
+P\left(t\right)&=\begin{cases}
+\langle X,\mathcal{M}_{k}\left(t\right)\rangle+
+\left(b-t\right)\left(t-a\right)\langle Z,\mathcal{M}_{k-1}\left(t\right)\rangle,
+ & n=2k \\
+\left(t-a\right)\langle X,\mathcal{M}_{k}\left(t\right)\rangle+
+\left(b-t\right)\langle Z,\mathcal{M}_{k-1}\left(t\right)\rangle, & n=2k+1
+\end{cases}
+\end{align}
+where there exist $X,Z\succeq 0$.
+\end{framed}
+\emph{Tuan et
+al}~\cite[Theorem 2]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}
+prove the following version of the \emph{Markov-Lukacs} theorem for
+trigonometric polynomials:
+\begin{framed}
+Any algebraic polynomial,
+$P\left(\omega\right)=\varphi^{\top}_{n}\left(\omega\right)x$, that is
+non-negative on $\left[\cos a,\cos b\right]$ can be written as:
+\begin{align}
+\label{eqn:Markov-Lukacs-trigonometric}
+P\left(\omega\right)&=\begin{cases}
+\langle X,\mathcal{T}_{k}\left(\omega\right)\rangle+
+\langle Z,\mathcal{F}^{a,b}_{k}\left(\omega\right)\rangle, & n=2k \\
+\langle \cos b\;Z -\cos a\;X,\mathcal{T}_{k}\left(\omega\right)\rangle+
+\langle X-Z,\mathcal{T}_{1,k1}\left(\omega\right)\rangle, & n=2k+1
+\end{cases}
+\end{align}
+where there exist $X,Z\succeq 0$ and
+\begin{align*}
+\mathcal{F}^{a,b}_{k}\left(\omega\right)&=
+\left(\cos b +\cos a\right)\mathcal{T}_{1,k-1}\left(\omega\right)
+-\frac{1}{2}\mathcal{T}_{2,k-1}\left(\omega\right)
+-\left(\frac{1}{2}+\cos a\cos b\right)\mathcal{T}_{k-1}\left(\omega\right)
+\end{align*}
+\end{framed}
+The Chebyshev polynomials of the first kind are:
+\begin{align*}
+\cos l\omega&=\sum^{l}_{m=0}b_{lm}\cos^{m}\omega
+\end{align*}
+Hence there is a triangular, non-singular transformation, $B_{k}$, such that:
+\begin{align*}
+\varphi_{k}\left(\omega\right)&=B_{k}\phi_{k}\left(\cos\omega\right)
+\end{align*}
+and:
+\begin{align*}
+\mathcal{M}_{k}\left(\cos\omega\right)
+&=B^{-1}_{k}\mathcal{T}_{k}\left(\omega\right)B^{-\top}_{k}
+\end{align*}
+Equation~\ref{eqn:Markov-Lukacs-trigonometric} is found by substitution of
+$\mathcal{M}_{k}\left(\cos\omega\right)$ into Equation~\ref{eqn:Markov-Lukacs}.
+
+\emph{Tuan et
+al}~\cite[Lemma 1]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}
+prove the following lemma:
+\begin{framed}
+If $P\left(\omega\right)=\varphi^{\top}_{n}\left(\omega\right)x$
+can be represented as shown in Equation~\ref{eqn:Markov-Lukacs-trigonometric},
+then for every $y=\left(y_{0},y_{1},\hdots,y_{n}\right)^{\top}\in\mathbb{R}^{n+1}$:
+\begin{align*}
+y^{\top}x&=\begin{cases}
+\langle X,T_{k}\left(y\right)\rangle+\langle Z,F^{a,b}_{k}\left(y\right)\rangle,
+&n=2k \\
+\langle X,T_{1,k}\left(y\right)-\cos a\;T_{k}\left(y\right)\rangle+
+\langle Z,\cos b\;T_{k}\left(y\right)-T_{1,k}\left(y\right)\rangle, &n=2k+1
+\end{cases}
+\end{align*}
+where $X,Z\succeq 0$ and:
+\begin{align*}
+F^{a,b}_{k}\left(y\right)=\left(\cos b+\cos a\right)T_{1,k-1}\left(y\right)
+-\frac{1}{2}T_{2,k-1}\left(y\right)
+-\left(\frac{1}{2}+\cos a\cos b\right)T_{k-1}\left(y\right)
+\end{align*}
+\end{framed}
+
+\subsection{The conic hull of \texorpdfstring{$C_{a,b}$}{Cab}}
+The \emph{convex hull} of a set $C\subset\mathbb{R}^{n}$ is the smallest convex
+set in $\mathbb{R}^{n}$ that contains $C$. Likewise, The \emph{conic hull} of a
+set $C\subset\mathbb{R}^{n}$ is the smallest cone in $\mathbb{R}^{n}$ that
+contains $C$. The polar set of $C$ is the
+cone $C^{\star}=\left\{x\;:\:\langle x,y\rangle\ge 0\;\forall\;y\in C\right\}$.
+\emph{Tuan et
+al}~\cite[Theorem 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}
+prove the following version of the \emph{Markov-Lukacs} theorem for the conic
+hull of trigonometric polynomials:
+\begin{framed}
+For the variables $y=\left(y_{0},y_{1},\hdots,y_{2k}\right)\in\mathbb{R}^{n+1}$
+define the following LMI constraints:
+\begin{align}
+\label{eqn:Markov-Lukacs-trigonometric-LMI}
+&\begin{cases}
+T_{k}\left(y\right)\succeq 0, F^{a,b}_{k}\left(y\right)\succeq 0, & n=2k \\
+\cos b\;T_{k}\left(y\right)\succeq T_{1,k}\left(y\right)\succeq
+\cos a\;T_{k}\left(y\right), & n=2k+1 \\
+\end{cases}
+\end{align}
+The convex hull of the set $C_{a,b}$ is characterised by the LMI constraints:
+\begin{align*}
+\mathcohull{C_{a,b}}&=\left\{\left(y_{0},y_{1},\cdots,y_{n}\right)\; :\;
+\text{Equation }\ref{eqn:Markov-Lukacs-trigonometric-LMI},\; y_{0}=1\right\}
+\end{align*}
+The conic hull of $C_{a,b}$ is defined by:
+\begin{align*}
+\mathcone{C_{a,b}}&=\left\{\left(y_{0},y_{1},\cdots,y_{n}\right)\; :\;
+\text{Equation }\ref{eqn:Markov-Lukacs-trigonometric-LMI}\right\}
+\end{align*}
+\end{framed}
+Substituting the $\mathcal{E}^{m}_{l,k}$ basis matrixes~\cite[Theorem
+4]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}:
+\begin{framed}
+The trigonometric polynomial,
+$P\left(\omega\right)=\sum^{n}_{m=0}x_{m}\cos m\omega$ is non-negative on
+$\left[\cos a,\cos b\right]$ if-and-only-if there are positive semi-definite
+matrixes $X$ and $Z$ such that:
+\begin{align}
+\label{eqn:Markov-Lukacs-trigonometric-LMI-basis-x-m}
+x_{m}&=\begin{cases}
+\langle X,\mathcal{E}^{m}_{0,k}\rangle+\langle Z,\mathcal{F}^{a,b}_{m,k}\rangle,
+& n=2k \\
+\langle X,\mathcal{E}^{m}_{1,k}\rangle-\cos a\;\mathcal{E}^{m}_{0,k}+
+\langle Z,\cos b\;\mathcal{E}^{m}_{0,k}-\mathcal{E}^{m}_{1,k}\rangle,& n=2k+1
+\end{cases}
+\end{align}
+When $n=2k$:
+\begin{align*}
+\mathcal{F}^{a,b}_{m,k}&=\left(\cos b+\cos a\right)\mathcal{E}^{m}_{1,k-1}
+-\frac{1}{2}\mathcal{E}^{m}_{2,k-1}
+-\left(\frac{1}{2}+\cos a\cos b\right)\mathcal{E}^{m}_{0,k-1} \\
+F^{a,b}_{k}\left(y\right)&=\sum^{2k}_{m=0}y_{m}\mathcal{F}^{a,b}_{m,k}
+\end{align*}
+\end{framed}
+
+If $e_m$ is the unit vector in $\mathbb{R}^{n+1}$ with $1$ at the $m$-th
+component, then the LMI constraint over $\left[\cos a_{i},\cos b_{i}\right]$ is:
+\begin{align}
+\label{eqn:Markov-Lukacs-trigonometric-LMI-basis-constraint}
+e^{\top}_{m+1}\left(A_{i}x+d_{i}\right)&=\begin{cases}
+\langle X_{i},\mathcal{E}^{m}_{0,k}\rangle+
+\langle Z_{i},\mathcal{F}^{a_{i},b_{i}}_{m,k}\rangle,& n=2k \\
+\langle X_{i},\mathcal{E}^{m}_{1,k}-\cos a_{i}\;\mathcal{E}^{m}_{0,k}\rangle+
+\langle Z_{i},\cos b_{i}\;\mathcal{E}^{m}_{0,k}-\mathcal{E}^{m}_{1,k}\rangle,& n
+=2k=1
+\end{cases}
+\end{align}
+where $X_{i},Z_{i}\succeq 0$.
+
+\subsection{Optimisation of the dual of a convex quadratic objective function}
+The convex quadratic optimisation problem over a set of trigonometric
+polynomials is:
+\begin{align*}
+\textbf{minimise}\quad &x^{\top}Qx+q^{\top}x \\
+\textbf{subject to}\quad &
+\text{Equation }\ref{eqn:Markov-Lukacs-trigonometric-LMI-basis-constraint}
+\end{align*}
+where $Q\succeq 0$. The dual problem is
+\begin{comment}
+\footnote{Suppose the primal problem is:
+\begin{align*}
+\textbf{minimise}\quad & \langle C,X\rangle \\
+\textbf{subject to}\quad & X\succ 0,\;\langle A_{i},X\rangle=b_{i} 
+\end{align*}
+where $\langle C,X\rangle = \sum_{i,j}C_{i,j}X^{\top}_{i,j}$. If $C\succeq 0$
+and $X=xx^{\top}$ then $\langle C,X\rangle=x^{\top}Cx$. The Lagrangian function is:
+\begin{align*}
+L\left(X,y\right)&=
+\langle C,X\rangle -\sum_{i}y_{i}\left(\langle A_{i},X\rangle-b_{i}\right)\\
+&=\langle C-\sum_{i}y_{i}A_{i},X\rangle+y^{\top}b
+\end{align*}
+The dual problem is:
+\begin{align*}
+\textbf{maximise}\quad & y^{\top}b \\
+\textbf{subject to}\quad & C-\sum_{i}y_{i}A_{i}\succeq 0
+\end{align*}
+}
+\end{comment}
+:
+\begin{align*}
+\max_{y^{i}\in C_{i}}\min_{x}\left[x^{\top}Qx+q^{\top}x-
+\sum_{i}\left(A_{i}x+d_{i}\right)^{\top}y^{i}\right]
+&=\max_{y^{i}\in C_{i}}\min_{x}\left[x^{\top}Qx+
+x^{\top}\left(q-\sum_{i}A_{i}^{\top}y^{i}\right)
+-\sum_{i}d_{i}^{\top}y^{i}\right]\\
+&=\max_{y^{i}\in C_{i}}\left[-\sum_{i}d_{i}^{\top}y^{i}
+-\frac{1}{4}\left(q-\sum_{i}A_{i}^{\top}y^{i}\right)^{\top}Q^{-1}
+\left(q-\sum_{i}A_{i}^{\top}y^{i}\right)\right] 
+\end{align*}
+
+\begin{samepage}
+Using Equation~\ref{eqn:Markov-Lukacs-trigonometric-LMI} the dual problem
+becomes:
+\begin{align}
+\textbf{maximise}\quad & \left[-\sum_{i}d_{i}^{\top}y^{i}
+-\frac{1}{4}\left(q-\sum_{i}A_{i}^{\top}y^{i}\right)^{\top}Q^{-1}
+\left(q-\sum_{i}A_{i}^{\top}y^{i}\right)\right] \nonumber \\
+\label{eqn:Markov-Lukacs-trigonometric-LMI-constraints}
+\textbf{subject to}\quad & 
+\begin{cases}
+T_{k}\left(y^{i}\right)\succeq 0, F^{a_{i},b_{i}}_{k}\left(y^{i}\right)\succeq 0,
+ & n=2k \\
+\cos b_{i}\;T_{k}\left(y^{i}\right)\succeq T_{1,k}\left(y^{i}\right)\succeq
+\cos a_{i}\;T_{k}\left(y^{i}\right), & n=2k+1
+\end{cases}
+\end{align}
+\end{samepage}
+
+In SDP form:
+\begin{align*}
+\textbf{maximise}\quad & -\nu-\sum_{i}d_{i}^{\top}y^{i} \\
+\textbf{subject to}\quad &\left[\begin{array}{cc}
+\nu & \left(q-\sum_{i}A_{i}^{\top}y^{i}\right)^{\top} \\
+\left(q-\sum_{i}A_{i}^{\top}y^{i}\right) & 4Q\end{array}\right] \succeq 0\\
+&\text{Equation }\ref{eqn:Markov-Lukacs-trigonometric-LMI-constraints}
+\end{align*}
+
+The optimal solution of the dual problem, $x_{\star}$ and $y^{i}_{\star}$, requires
+finding the $n+1$ scalar variables for each constraint, $y^{i}_{\star}$, that
+satisfy:
+\begin{align*}
+&\sum_{i}\left(A_{i}x_{\star}+d_{i}\right)^{\top}y^{i}_{\star}=0\\
+& x_{\star}=-\frac{1}{2}Q^{-1}\left(q-\sum_{i}A^{\top}_{i}y^{i}_{\star}\right)
+\end{align*}
+
+\subsection{Example of LMI design of a low pass symmetric FIR filter}
+The low pass filter design primal problem is:
+\begin{align*}
+\textbf{minimise}\quad x^{\top}Qx+q^{\top}x \;\;\; & \\
+\textbf{subject to}\quad 
+ x+\left(\delta_{p}-1\right)e_{1} &\in C^{\star}_{\omega_{p},0} \\
+-x+\left(\delta_{p}+1\right)e_{1}&\in C^{\star}_{\omega_{p},0} \\
+ x+\delta_{s}e_{1}&\in C^{\star}_{\pi,\omega_{s}} \\
+-x+\delta_{s}e_{1}&\in C^{\star}_{\pi,\omega_{s}}
+\end{align*}
+
+The Octave script \emph{directFIRsymmetric\_sdp\_lowpass\_test.m} uses
+YALMIP to solve the dual problem of designing a low pass filter with a
+specification similar to that of the example of \emph{Tuan et al.}~\cite[Figure
+3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}:
+\begin{small}
+\verbatiminput{directFIRsymmetric_sdp_lowpass_test_hM200.spec}
+\end{small}
+Figure~\ref{fig:Direct-FIR-symmetric-SDP-hM200-low-pass-response}
+shows the zero-phase amplitude responses in the pass band and the stop band.
+The response shown by \emph{Tuan et al.} appears to have been obtained by
+a more ``aggressive'' specification and ignoring the numerical errors reported by
+SeDuMi (SDPT3 fails with both specifications). In addition, I found that
+calculating $x_{\star}$ with the Octave left division operator failed. 
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_sdp_lowpass_test_hM200_response}}
+\caption{Pass band and stop band zero-phase amplitude responses of an order
+$M=200$ symmetric low pass FIR filter designed with the LMI procedure
+of \emph{Tuan et 
+al.}~\cite[Figure 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}.}
+\label{fig:Direct-FIR-symmetric-SDP-hM200-low-pass-response}
+\end{figure}
+
+The Octave script \emph{mcclellanFIRsymmetric\_lowpass\_alternate\_test.m}
+uses the \emph{Parks-McClellan} algorithm to design a similar filter
+with the specification:
+\begin{small}
+\verbatiminput{mcclellanFIRsymmetric_lowpass_alternate_test.spec}
+\end{small}
+Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-alternate-test-dual} shows the
+zero-phase pass band and stop band amplitude responses.
+The \emph{Parks-McClellan} algorithm implemented in the Octave function
+\emph{mcclellanFIRsymmetric} is much faster and more stable than \emph{Tuan et
+al.}'s LMI design technique implemented in the Octave
+script \emph{directFIRsymmetric\_sdp\_lowpass\_test.m}.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_lowpass_alternate_test_dual}}
+\caption{Pass band and stop band responses of a mini-max FIR low-pass filter
+designed with the \emph{Parks-McClellan} algorithm. The filter
+  specification is similar to the example of \emph{Tuan et
+  al.}~\cite[Figure 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}}
+\label{fig:mcclellanFIRsymmetric-lowpass-alternate-test-dual}
 \end{figure}
 
 \clearpage
@@ -32989,7 +33414,7 @@ band pass FIR filter designed with the KYP lemma. The pass band phase error is
 adjusted for the nominal delay.} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-passband}
 \end{figure}
- 
+
 \cleardoublepage
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}
 \addcontentsline{toc}{part}{Colophon}
