@@ -27362,29 +27362,6 @@ zeros of the filter. The distinct filter coefficients are:
 \label{fig:selesnickFIRsymmetric-lowpass-test-zeros}
 \end{figure}
 
-The Octave script \emph{selesnickFIRsymmetric\_lowpass\_alternate\_test.m}
-calls the Octave function \emph{selesnickFIRsymmetric\_lowpass} to design an FIR
-filter with the specification of the example of \emph{Tuan et
-al.}~\cite[Figure 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}:
-\begin{small}
-\verbatiminput{selesnickFIRsymmetric_lowpass_alternate_test.spec}
-\end{small}
-Figure~\ref{fig:selesnickFIRsymmetric-lowpass-alternate-test-dual} shows the
-pass band and stop band responses. The transition frequency is set
-to $fas$. The actual pass band edge frequency is
-$fap=$\input{selesnickFIRsymmetric_lowpass_alternate_test_fapx.tab}.
-
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{selesnickFIRsymmetric_lowpass_alternate_test_dual}}
-\caption{Pass band and stop band responses of a mini-max FIR low-pass filter
-designed with \emph{Selesnick} and \emph{Burrus} modification
-  to \emph{Hofstetter}'s algorithm. The filter specification is similar to the
-  example of \emph{Tuan et
-  al.}~\cite[Figure 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}}
-\label{fig:selesnickFIRsymmetric-lowpass-alternate-test-dual}
-\end{figure}
-
 The Octave script \emph{selesnickFIRsymmetric\_halfband\_test.m} calls the
 Octave function \emph{selesnickFIRsymmetric\_lowpass} to design a half-band
 filter with the specification:
@@ -27397,8 +27374,6 @@ amplitude response of the half-band filter. The distinct filter coefficients are
 \begin{small}
 \verbatiminput{selesnickFIRsymmetric_halfband_test_hM_coef.m}
 \end{small}
-
-\clearpage
 
 Assuming $M$ is odd, the following Octave code converts an even-order half-band
 filter with $M+1$ distinct coefficients, $h_{M}$, into a Hilbert filter (see
@@ -29629,10 +29604,11 @@ specification similar to that of the example of \emph{Tuan et al.}~\cite[Figure
 \end{small}
 Figure~\ref{fig:Direct-FIR-symmetric-SDP-hM200-low-pass-response}
 shows the zero-phase amplitude responses in the pass band and the stop band.
-The response shown by \emph{Tuan et al.} appears to have been obtained by
-a more ``aggressive'' specification and ignoring the numerical errors reported by
-SeDuMi (SDPT3 fails with both specifications). In addition, I found that
-calculating $x_{\star}$ with the Octave left division operator failed. 
+I suspect that the response shown by \emph{Tuan et al.} was obtained by using
+a more ``aggressive'' specification and by ignoring the consequent numerical
+problems reported by SeDuMi (SDPT3 fails with both specifications). In addition,
+I found that calculating $x_{\star}$ with the Octave left division operator
+failed.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_sdp_lowpass_test_hM200_response}}
@@ -29644,26 +29620,54 @@ al.}~\cite[Figure 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}.}
 \end{figure}
 
 The Octave script \emph{mcclellanFIRsymmetric\_lowpass\_alternate\_test.m}
-uses the \emph{Parks-McClellan} algorithm to design a similar filter
-with the specification:
+uses the \emph{Parks-McClellan}
+algorithm~\cite{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}
+implemented in the Octave function \emph{mcclellanFIRsymmetric} to design a
+filter similar to that of \emph{Tuan et al.}'s Figure 3: 
 \begin{small}
 \verbatiminput{mcclellanFIRsymmetric_lowpass_alternate_test.spec}
 \end{small}
 Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-alternate-test-dual} shows the
 zero-phase pass band and stop band amplitude responses.
-The \emph{Parks-McClellan} algorithm implemented in the Octave function
-\emph{mcclellanFIRsymmetric} is much faster and more stable than \emph{Tuan et
-al.}'s LMI design technique implemented in the Octave
-script \emph{directFIRsymmetric\_sdp\_lowpass\_test.m}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_lowpass_alternate_test_dual}}
 \caption{Pass band and stop band responses of a mini-max FIR low-pass filter
 designed with the \emph{Parks-McClellan} algorithm. The filter
-  specification is similar to the example of \emph{Tuan et
+  specification is similar to that of the example of \emph{Tuan et
   al.}~\cite[Figure 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}}
 \label{fig:mcclellanFIRsymmetric-lowpass-alternate-test-dual}
 \end{figure}
+
+The Octave script \emph{selesnickFIRsymmetric\_lowpass\_alternate\_test.m}
+uses \emph{Hofstetter}'s
+algorithm~\cite{Hofstetter_DesignNonRecursiveDigitalFilters}
+with the \emph{Selesnick-Burrus}
+modification~\cite{SelesnickBurrus_ExchangeAlgorithmsParksMcClellanAlgorithm}
+implemented in the Octave function \emph{selesnickFIRsymmetric\_lowpass} to
+design an FIR filter similar to that of \emph{Tuan et al.}'s Figure 4:
+\begin{small}
+\verbatiminput{selesnickFIRsymmetric_lowpass_alternate_test.spec}
+\end{small}
+Figure~\ref{fig:selesnickFIRsymmetric-lowpass-alternate-test-dual} shows the
+zero-phase pass band and stop band amplitude responses. The transition frequency
+is set to $f_{as}$. The actual pass band edge frequency is
+$f_{ap}=$\input{selesnickFIRsymmetric_lowpass_alternate_test_fapx.tab}.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{selesnickFIRsymmetric_lowpass_alternate_test_dual}}
+\caption{Pass band and stop band responses of a mini-max FIR low-pass filter
+designed with the \emph{Selesnick-Burrus} modification
+  to \emph{Hofstetter}'s algorithm. The filter specification is similar to the
+  example of \emph{Tuan et
+  al.}~\cite[Figure 4]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}}
+\label{fig:selesnickFIRsymmetric-lowpass-alternate-test-dual}
+\end{figure}
+
+The \emph{Parks-McClellan} algorithm and  \emph{Hofstetter}'s algorithm with
+the \emph{Selesnick-Burrus} modification are much faster and more stable
+than \emph{Tuan et al.}'s LMI design technique.
 
 \clearpage
 \section{\label{app:Design-of-FIR-half-band-filters}Design of half-band FIR filters}

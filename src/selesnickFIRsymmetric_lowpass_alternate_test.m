@@ -1,7 +1,8 @@
 % selesnickFIRsymmetric_lowpass_alternate_test.m
 % Copyright (C) 2021 Robert G. Jenssen
-%
-% [1] "Efficient Large-Scale Filter/Filterbank Design via LMI
+% Use the Selesnick-Burrus modification to Hofsteter's algorithm to design
+% a linear-phase FIR filter with the stop band specifications of Tuan et al.
+% Figure 4 in "Efficient Large-Scale Filter/Filterbank Design via LMI
 % Characterization of Trigonometric Curves", H. D. Tuan, T. T. Son,
 % B. Vo and T. Q. Nguyen, IEEE Transactions on Signal Processing,
 % Vol. 55, No. 9, September 2007, pp. 4393--4404
@@ -17,17 +18,19 @@ diary selesnickFIRsymmetric_lowpass_alternate_test.diary.tmp
 strf="selesnickFIRsymmetric_lowpass_alternate_test";
 
 % Specification: low passfilter order is 2*M, length is 2*M+1
-if 1
+if 0
   % Filter design from [1,Figure 3]
-  M=200;fap=0.03;fas=0.0358;deltap=1e-3;deltas=1e-3;ft=fas;At=deltas;
-
-else
+  M=200;fap=0.03;fas=0.0358;deltap=2.6725e-2;deltas=1e-3;ft=fas;At=deltas;
+elseif 1
   % Filter design from [1,Figure 4]
-  M=600;fap=0.1;fas=0.105;deltap=1e-2;deltas=1e-6;ft=fas;At=deltas;
+  M=600;fap=0.1;fas=0.105;deltap=4e-4;deltas=2e-7;ft=fas;At=deltas;
+elseif 1
+  % Filter design from [1,Figure 4] with M=750
+  M=750;fap=0.1;fas=0.105;deltap=2e-4;deltas=2e-7;ft=fas;At=deltas;
 endif
 
 % Filter design
-ngrid=4000;maxiter=100;tol=1e-12;
+ngrid=7250;maxiter=100;tol=1e-12;
 [hM,fext,fiter,feasible]= ...
   selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,At,ngrid,maxiter,tol);
 if feasible==false
@@ -65,10 +68,11 @@ pnas=floor(nplot*fas/0.5)+1;
 ax=plotyy(fa(1:pnap),A(1:pnap),fa(pnas:end),A(pnas:end));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
-axis(ax(1),[0 0.5 1-2*deltap 1+2*deltap]);
+%axis(ax(1),[0 0.5 1-2*deltap 1+2*deltap]);
+axis(ax(1),[0 0.5 1+0.001*[-1,1]]);
 axis(ax(2),[0 0.5 -2*deltas 2*deltas]);
 title(strt);
-ylabel("Amplitude(dB)");
+ylabel("Amplitude");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_dual"),"-dpdflatex");
@@ -78,7 +82,7 @@ close
 k=min(find(A<(1-deltap)));
 fapx=(((1-deltap)-A(k-1))*(fa(k)-fa(k-1))/(A(k)-A(k-1)))+fa(k-1);
 fid=fopen(strcat(strf,"_fapx.tab"),"wt");
-fprintf(fid,"%6.4f",fapx);
+fprintf(fid,"%8.6f",fapx);
 fclose(fid);
 
 %
@@ -91,6 +95,7 @@ fprintf(fid,"deltap=%g %% Amplitude pass band ripple\n",deltap);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
 fprintf(fid,"deltas=%g %% Amplitude stop band ripple\n",deltas);
 fprintf(fid,"ngrid=%d %% Number of frequency grid points in [0,0.5]\n",ngrid);
+fprintf(fid,"maxiter=%g %% Maximum number of iterations\n",maxiter);
 fprintf(fid,"tol=%g %% Tolerance on convergence\n",tol);
 fclose(fid);
 
