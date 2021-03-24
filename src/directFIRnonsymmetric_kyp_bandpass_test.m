@@ -175,6 +175,21 @@ printf("max(abs(H(napu:nasu)).^2)=%8.6f\n",max(abs(H(napu:nasu)).^2));
 printf("min(abs(H(napu:nasu)).^2)=%13.6g\n",min(abs(H(napu:nasu)).^2));
 printf("max(abs(H(nasu:end)).^2)=%13.6g\n",max(abs(H(nasu:end)).^2));
 
+% Find complementary FIR lattice coefficients
+hs=direct_form_scale(h(:),1,nplot);
+[Hs,w]=freqz(hs,1,nplot);
+[hm,g,k,kc]=complementaryFIRlattice(hs);
+Asqc=complementaryFIRlatticeAsq(w,k,kc);
+max_Asqc_err=max(abs(Asqc(:)-(abs(Hs(:).^2))));
+if max_Asqc_err>5000*eps
+  error("max(abs(Asqc-(abs(Hs.^2))))(%g)>5000*eps",max_Asqc_err);
+endif
+Tc=complementaryFIRlatticeT(w,k,kc);
+max_Tc_err=max(abs(Tc(napl:napu)-T(napl:napu)));
+if max_Tc_err>100*eps
+  error("Passband max(abs(Tc-T))(%g)>100*eps",max_Tc_err);
+endif
+
 % Save results
 fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"N=%d %% FIR filter order\n",N);
@@ -189,9 +204,19 @@ fclose(fid);
 
 print_polynomial(h,"h","%13.10f");
 print_polynomial(h,"h",strcat(strf,"_h_coef.m"),"%13.10f");
+print_polynomial(k,"k","%11.8f");
+print_polynomial(k,"k",strcat(strf,"_k_coef.m"),"%11.8f");
+print_polynomial(kc,"kc","%11.8f");
+print_polynomial(kc,"kc",strcat(strf,"_kc_coef.m"),"%11.8f");
 
 save directFIRnonsymmetric_kyp_bandpass_test.mat ...
-     N d fasl fapl fapu fasu Esq_z Esq_s Esq_max h
+     N d fasl fapl fapu fasu Esq_z Esq_s Esq_max h k kc
+
+% Done
+toc;
+diary off
+movefile directFIRnonsymmetric_kyp_bandpass_test.diary.tmp ...
+         directFIRnonsymmetric_kyp_bandpass_test.diary;
 
 % Alternative designs:
 %{
@@ -238,9 +263,3 @@ h = [ -0.0026948092, -0.0023808381,  0.0083110207,  0.0130500037, ...
 
 % d=20;N=80
 %}
-
-% Done
-toc;
-diary off
-movefile directFIRnonsymmetric_kyp_bandpass_test.diary.tmp ...
-         directFIRnonsymmetric_kyp_bandpass_test.diary;

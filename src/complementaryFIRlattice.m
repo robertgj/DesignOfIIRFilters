@@ -1,12 +1,10 @@
 function [hm,g,k,khat] = complementaryFIRlattice(h,tol,Nw)
-% [hm,g,k,khat]=complementaryFIRdecomp(h,[tol,Nw])
+% [hm,g,k,khat]=complementaryFIRlattice(h,[tol,Nw])
 % Find the FIR filter, g, with a complementary response, G, to that of
 % h, H, ie: |H|^2+|G|^2=1, and the FIR lattice coefficients, k and khat.
 % h is scaled so that max|H|=1.
-%
-% This is a helper function for complementaryFIRdecomp.
   
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -40,6 +38,7 @@ function [hm,g,k,khat] = complementaryFIRlattice(h,tol,Nw)
   %
   % Scale h to have a maximum response of 1
   %
+  h=h(:);
   hm=direct_form_scale(h,1,Nw);
   
   %
