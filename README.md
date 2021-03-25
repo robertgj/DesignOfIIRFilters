@@ -17,9 +17,10 @@ welcome!
   [SparsePOP](http://sparsepop.sourceforge.net),
   [SDPT3](https://github.com/sqlp/sdpt3)
   and [YALMIP](https://yalmip.github.io/) solvers from my GitHub
-  [repository](https://github.com/robertgj).
+  [repository](https://github.com/robertgj). 
 * *patch* contains the patch files that have been applied to create forks
- of [SparsePOP](http://sparsepop.sourceforge.net) and
+ of [YALMIP](https://yalmip.github.io),
+ [SparsePOP](http://sparsepop.sourceforge.net) and
  [SDPT3](https://github.com/sqlp/sdpt3). 
 * *batchtest.sh* runs the regression tests. It can be run standalone but is intended to be used by the
 [aegis](https://sourceforge.net/projects/aegis/files/aegis/4.24/aegis-4.24.tar.gz/download)
@@ -61,6 +62,14 @@ endeavour to build the *DesignOfIIRFilters.pdf* document with user-mode
 virtual machine QEMU emulation of an Intel Nehalem CPU.
 
 ### External source code and licensing
+
+**Read the licences!**
+
+* Octave, SeDuMi, SparsePOP and SDPT3 have a GPL licence.
+
+* The YALMIP licence is MIT-style for non-commercial use with an
+attribution clause. 
+  
 The *src* directory contains the following files included from
 external sources as-is or with modifications:
 
@@ -86,4 +95,4 @@ The Octave on-line FAQ [states](https://wiki.octave.org/FAQ#If_I_write_code_usin
 The *docs* directory contains a fork of the [Poole](http://getpoole.com)
 theme for the [Jekyll](http://jekyllrb.com) static web page generator.
 
-All other code is licenced under the [MIT license](LICENSE).
+All other code is licensed under the [MIT licence](LICENCE).
