@@ -5,7 +5,7 @@ prog=directFIRnonsymmetric_kyp_bandpass_test.m
 depends="directFIRnonsymmetric_kyp_bandpass_test.m test_common.m \
 direct_form_scale.m complementaryFIRlattice.m complementaryFIRlatticeAsq.m \
 complementaryFIRlatticeT.m minphase.m complementaryFIRlattice2Abcd.m \
-H2Asq.m H2T.m print_polynomial.m \
+H2Asq.m H2T.m print_polynomial.m complementaryFIRlatticeFilter.m crossWelch.m \
 complementaryFIRdecomp.oct Abcd2H.oct"
 
 tmp=/tmp/$$
@@ -82,7 +82,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_kc_coef.m "; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave-cli -q $prog #>test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_h_coef.ok directFIRnonsymmetric_kyp_bandpass_test_h_coef.m

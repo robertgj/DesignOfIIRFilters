@@ -1,6 +1,7 @@
 directFIRnonsymmetric_kyp_bandpass_test_FIGURES = \
 directFIRnonsymmetric_kyp_bandpass_test_response \
-directFIRnonsymmetric_kyp_bandpass_test_passband
+directFIRnonsymmetric_kyp_bandpass_test_passband \
+directFIRnonsymmetric_kyp_bandpass_test_k_kc_response
 
 directFIRnonsymmetric_kyp_bandpass_test_COEFS = \
 directFIRnonsymmetric_kyp_bandpass_test.mat \
@@ -13,5 +14,5 @@ directFIRnonsymmetric_kyp_bandpass_test_FILES = \
 directFIRnonsymmetric_kyp_bandpass_test.m test_common.m \
 direct_form_scale.m complementaryFIRlattice.m complementaryFIRlatticeAsq.m \
 complementaryFIRlatticeT.m minphase.m complementaryFIRlattice2Abcd.m \
-H2Asq.m H2T.m print_polynomial.m \
+H2Asq.m H2T.m print_polynomial.m complementaryFIRlatticeFilter.m crossWelch.m \
 complementaryFIRdecomp.oct Abcd2H.oct

@@ -29596,8 +29596,8 @@ The low pass filter design primal problem is:
 \end{align*}
 
 The Octave script \emph{directFIRsymmetric\_sdp\_lowpass\_test.m} uses
-YALMIP to solve the dual problem of designing a low pass filter with a
-specification similar to that of the example of \emph{Tuan et al.}~\cite[Figure
+YALMIP and SeDuMi to solve the dual problem of designing a low pass filter with
+a specification similar to that of the example of \emph{Tuan et al.}~\cite[Figure
 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}:
 \begin{small}
 \verbatiminput{directFIRsymmetric_sdp_lowpass_test_hM200.spec}
@@ -29612,7 +29612,7 @@ failed.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_sdp_lowpass_test_hM200_response}}
-\caption{Pass band and stop band zero-phase amplitude responses of an order
+\caption{Pass band and stop band zero-phase amplitude responses of an
 $M=200$ symmetric low pass FIR filter designed with the LMI procedure
 of \emph{Tuan et 
 al.}~\cite[Figure 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}.}
@@ -29668,6 +29668,30 @@ designed with the \emph{Selesnick-Burrus} modification
 The \emph{Parks-McClellan} algorithm and  \emph{Hofstetter}'s algorithm with
 the \emph{Selesnick-Burrus} modification are much faster and more stable
 than \emph{Tuan et al.}'s LMI design technique.
+
+\subsection{Example of LMI design of a band pass symmetric FIR filter}
+The Octave script \emph{directFIRsymmetric\_sdp\_bandpass\_test.m} uses the LMI
+procedure of \emph{Tuan et al.} to design a band pass filter with 
+a specification similar to that of the example of \emph{Pipeleers et
+al.}~\cite[Figure 4]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}:
+\begin{small}
+\verbatiminput{directFIRsymmetric_sdp_bandpass_test_hM15.spec}
+\end{small}
+The distinct filter coeficients are:
+\begin{small}
+\verbatiminput{directFIRsymmetric_sdp_bandpass_test_hM15_coef.m}
+\end{small}
+Figure~\ref{fig:Direct-FIR-symmetric-SDP-hM15-band-pass-response}
+shows the zero-phase amplitude responses in the pass band and the stop bands.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_sdp_bandpass_test_hM15_pass_stop}}
+\caption{Pass band and stop band zero-phase amplitude responses of an
+$M=15$ symmetric band pass FIR filter designed with the LMI procedure
+of \emph{Tuan et 
+al.}~\cite{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}.}
+\label{fig:Direct-FIR-symmetric-SDP-hM15-band-pass-response}
+\end{figure}
 
 \clearpage
 \section{\label{app:Design-of-FIR-half-band-filters}Design of half-band FIR filters}

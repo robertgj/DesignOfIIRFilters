@@ -1,0 +1,18 @@
+directFIRsymmetric_sdp_bandpass_test_FIGURES = \
+directFIRsymmetric_sdp_bandpass_test_hM15_response \
+directFIRsymmetric_sdp_bandpass_test_hM15_pass_stop \
+directFIRsymmetric_sdp_bandpass_test_hM16_response \
+directFIRsymmetric_sdp_bandpass_test_hM16_pass_stop 
+
+directFIRsymmetric_sdp_bandpass_test_COEFS = \
+directFIRsymmetric_sdp_bandpass_test_hM15.mat \
+directFIRsymmetric_sdp_bandpass_test_hM15.spec \
+directFIRsymmetric_sdp_bandpass_test_hM15_coef.m \
+directFIRsymmetric_sdp_bandpass_test_hM16.mat \
+directFIRsymmetric_sdp_bandpass_test_hM16.spec \
+directFIRsymmetric_sdp_bandpass_test_hM16_coef.m 
+
+directFIRsymmetric_sdp_bandpass_test_FILES = \
+directFIRsymmetric_sdp_bandpass_test.m test_common.m \
+print_polynomial.m directFIRsymmetricA.m directFIRsymmetric_sdp_basis.m \
+directFIRsymmetricEsqPW.m

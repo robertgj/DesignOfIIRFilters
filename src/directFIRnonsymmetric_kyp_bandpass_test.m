@@ -190,6 +190,41 @@ if max_Tc_err>100*eps
   error("Passband max(abs(Tc-T))(%g)>100*eps",max_Tc_err);
 endif
 
+% Make a quantised noise signal with standard deviation 0.25
+nsamples=2^16;
+rand("seed",0xdeadbeef);
+u=rand(nsamples,1)-0.5;
+u=0.25*u/std(u); 
+
+% Filter
+[y yc xxk]=complementaryFIRlatticeFilter(k,kc,u);
+nfpts=2048;
+nppts=(0:1023);
+H=crossWelch(u,y,nfpts);
+Hc=crossWelch(u,yc,nfpts);
+subplot(211);
+plot(nppts/nfpts,20*log10(abs(H)),"linestyle","-", ...
+     nppts/nfpts,20*log10(abs(Hc)),"linestyle","-.");
+axis([0 0.5 -50 10])
+grid("on");
+xlabel("Frequency")
+ylabel("Amplitude(dB)")
+legend("H","Hc");
+legend("location","east");
+legend("boxoff");
+legend("left");
+strt=sprintf("KYP FIR lattice filter simulated response : \
+N=%d,d=%d,fasu=%d,fapl=%g,fapu=%g,fasu=%g",N,d,fasl,fapl,fapu,fasu);
+title(strt);
+subplot(212);
+plot(nppts/nfpts,abs(abs(H).^2+abs(Hc).^2));
+axis([0 0.5 0.99 1.01])
+grid("on");
+xlabel("Frequency")
+ylabel("|H|^2+|Hc|^2");
+print(strcat(strf,"_k_kc_response"),"-dpdflatex");
+close
+
 % Save results
 fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"N=%d %% FIR filter order\n",N);
@@ -237,7 +272,6 @@ h = [ -0.0101524800, -0.0045820085,  0.0060020090, -0.0019523710, ...
       -0.0048063157, -0.0032980779,  0.0009832650,  0.0001794255, ... 
       -0.0005743571,  0.0015155068,  0.0015629505, -0.0005108670, ... 
       -0.0008307858 ];
-
 % Time taken : 536 seconds
 % eqs m = 14701, order n = 551, dim = 41309, blocks = 9
 % nnz(A) = 60157 + 0, nnz(ADA) = 55372201, nnz(L) = 27693451
