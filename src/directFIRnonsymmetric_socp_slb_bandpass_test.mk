@@ -1,0 +1,23 @@
+directFIRnonsymmetric_socp_slb_bandpass_test_FIGURES = \
+directFIRnonsymmetric_socp_slb_bandpass_test_initial \
+directFIRnonsymmetric_socp_slb_bandpass_test_response \
+directFIRnonsymmetric_socp_slb_bandpass_test_pass_stop \
+directFIRnonsymmetric_socp_slb_bandpass_test_pz
+
+directFIRnonsymmetric_socp_slb_bandpass_test_COEFS = \
+directFIRnonsymmetric_socp_slb_bandpass_test.mat \
+directFIRnonsymmetric_socp_slb_bandpass_test.spec \
+directFIRnonsymmetric_socp_slb_bandpass_test_h_coef.m 
+
+directFIRnonsymmetric_socp_slb_bandpass_test_FILES = \
+directFIRnonsymmetric_socp_slb_bandpass_test.m test_common.m \
+directFIRnonsymmetric_socp_mmse.m directFIRnonsymmetricEsq.m \
+directFIRnonsymmetricAsq.m directFIRnonsymmetricP.m directFIRnonsymmetricT.m \
+directFIRsymmetricA.m directFIRnonsymmetric_slb.m \
+directFIRnonsymmetric_slb_constraints_are_empty.m \
+directFIRnonsymmetric_slb_exchange_constraints.m \
+directFIRnonsymmetric_slb_set_empty_constraints.m \
+directFIRnonsymmetric_slb_show_constraints.m \
+directFIRnonsymmetric_slb_update_constraints.m \
+hofstetterFIRsymmetric.m lagrange_interp.m xfr2tf.m \
+local_max.m print_polynomial.m

@@ -29677,7 +29677,7 @@ al.}~\cite[Figure 4]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}:
 \begin{small}
 \verbatiminput{directFIRsymmetric_sdp_bandpass_test_hM15.spec}
 \end{small}
-The distinct filter coeficients are:
+The distinct filter coefficients are:
 \begin{small}
 \verbatiminput{directFIRsymmetric_sdp_bandpass_test_hM15_coef.m}
 \end{small}
@@ -29691,6 +29691,50 @@ $M=15$ symmetric band pass FIR filter designed with the LMI procedure
 of \emph{Tuan et 
 al.}~\cite{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}.}
 \label{fig:Direct-FIR-symmetric-SDP-hM15-band-pass-response}
+\end{figure}
+
+For comparison, the Octave script
+\emph{directFIRsymmetric\_socp\_slb\_bandpass\_test.m} designs a symmetric FIR
+filter using the PCLS algorithm of \emph{Selesnick et al.} with the
+specification:
+\begin{small}
+\verbatiminput{directFIRsymmetric_socp_slb_bandpass_test.spec}
+\end{small}
+The distinct coefficients of this filter are:
+\begin{small}
+\verbatiminput{directFIRsymmetric_socp_slb_bandpass_test_hM1_coef.m}
+\end{small}
+Figure~\ref{fig:Direct-FIR-symmetric-SOCP-SLB-band-pass-response}
+shows the zero-phase amplitude response.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_socp_slb_bandpass_test_response}}
+\caption{Zero-phase amplitude response of an $M=15$ symmetric band pass FIR
+filter designed with the PCLS optimisation procedure of \emph{Selesnick et al.}}
+\label{fig:Direct-FIR-symmetric-SOCP-SLB-band-pass-response}
+\end{figure}
+
+Similarly, the Octave script
+\emph{directFIRnonsymmetric\_socp\_slb\_bandpass\_test.m} designs a
+non-symmetric FIR filter using the PCLS algorithm of \emph{Selesnick et al.}
+with the specification:
+\begin{small}
+\verbatiminput{directFIRnonsymmetric_socp_slb_bandpass_test.spec}
+\end{small}
+The coefficients of this filter are:
+\begin{small}
+\verbatiminput{directFIRnonsymmetric_socp_slb_bandpass_test_h_coef.m}
+\end{small}
+Figure~\ref{fig:Direct-FIR-non-symmetric-SOCP-SLB-band-pass-pass-stop-response}
+shows the amplitude and delay responses in the pass band and the stop band
+amplitude response.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_socp_slb_bandpass_test_pass_stop}}
+\caption{Pass band amplitude and delay responses and stop band amplitude
+response of an $M=15$ non-symmetric band pass FIR filter designed with the PCLS
+optimisation procedure of \emph{Selesnick et al.}}
+\label{fig:Direct-FIR-non-symmetric-SOCP-SLB-band-pass-pass-stop-response}
 \end{figure}
 
 \clearpage

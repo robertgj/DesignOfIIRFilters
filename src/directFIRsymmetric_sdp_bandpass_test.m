@@ -23,7 +23,7 @@ strf="directFIRsymmetric_sdp_bandpass_test";
 
 for M=15:16,
   fasl=0.05;fapl=0.15;fapu=0.25;fasu=0.35;
-  deltap=2.5e-4;deltas=5e-3;
+  deltap=1.6e-4;deltas=5e-3;
   Wap=1;Wat=0;Was=1;
   % Alternatively:
   %  deltap=1e-2;deltas=1e-3;

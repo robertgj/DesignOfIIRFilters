@@ -82,7 +82,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_kc_coef.m "; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog #>test.out 2>&1
+octave-cli -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_h_coef.ok directFIRnonsymmetric_kyp_bandpass_test_h_coef.m

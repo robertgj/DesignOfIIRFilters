@@ -1,6 +1,11 @@
 % directFIRsymmetric_socp_slb_bandpass_test.m
-% Optimisation of direct-form symmetric FIR bandpass filter response
-% Copyright (C) 2017-2020 Robert G. Jenssen
+%
+% Optimisation of direct-form symmetric FIR bandpass filter response.
+% See Figure 4 of: "GENERALIZING THE KYP LEMMA TO MULTIPLE
+% FREQUENCY INTERVALS", GOELE PIPELEERS, TETSUYA IWASAKI, AND SHINJI HARA, 
+% SIAM J. CONTROL OPTIM., Vol. 52, No. 6, pp. 3618–3638
+%
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -12,17 +17,26 @@ tic;
 
 maxiter=5000
 verbose=false;
-tol=1e-5;
-ctol=tol;
+tol=1e-6;
+ctol=tol/10;
 strf="directFIRsymmetric_socp_slb_bandpass_test";
 
 % Band pass filter
 M=15;
-fapl=0.1;fapu=0.2;Wap=1;dBap=2;
-fasl=0.05;fasu=0.25;Wasl=20;Wasu=40;dBas=47;
+fasl=0.05;
+fapl=0.15;
+fapu=0.25;
+fasu=0.35;
+deltap=3.07e-4
+dBap=20*log10(1+deltap);
+deltas=5e-3;
+dBas=-20*log10(deltas);
+Wap=1;
+Wasl=1000;
+Wasu=1000;
 
 % Desired magnitude response
-npoints=1000;
+npoints=500;
 wa=(0:npoints)'*pi/npoints;
 nasl=ceil(npoints*fasl/0.5)+1;
 napl=floor(npoints*fapl/0.5)+1;
@@ -69,10 +83,6 @@ if feasible==false
   error("directFIRsymmetric_slb failed!");
 endif
 
-% Show results
-printf("hM1=[ ");printf("%g ",hM1');printf("]';\n");
-print_polynomial(hM1,"hM1",strcat(strf,"_hM1_coef.m"),"%12.8f");
-
 % Amplitude and delay at local peaks
 A=directFIRsymmetricA(wa,hM1);
 vAl=local_max(Adl-A);
@@ -83,27 +93,28 @@ printf("hM1:fAS=[ ");printf("%f ",wAS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("hM1:AS=[ ");printf("%f ",20*log10(AS'));printf(" ] (dB)\n");
 
 % Calculate response
-nplot=1001;
-wplot=(0:(nplot-1))'*pi/nplot;
-A_hM1=directFIRsymmetricA(wplot,hM1);
+A_hM1=directFIRsymmetricA(wa,hM1);
 
 % Plot amplitude response
-subplot(211)
-plot(wplot*0.5/pi,20*log10(abs(A_hM1)));
-ylabel("Amplitude(dB)");
-axis([0 0.5 -2 1]);
-strt=sprintf("Direct-form symmetric bandpass filter pass-band : \
-fapl=%g,fapu=%g,dBap=%g,Wap=1",fapl,fapu,dBap,Wap);
+subplot(311)
+plot(wa(1:nasl)*0.5/pi,A_hM1(1:nasl));
+ylabel("Amplitude");
+axis([0 fasl -0.01 0.01]);
+strt=sprintf("Direct-form symmetric bandpass filter : \
+fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g", ...
+             fasl,fapl,fapu,fasu,deltap,deltas);
 title(strt);
 grid("on");
-subplot(212)
-plot(wplot*0.5/pi,20*log10(abs(A_hM1)));
+subplot(312)
+plot(wa(napl:napu)*0.5/pi,A_hM1(napl:napu));
+ylabel("Amplitude");
+axis([fapl fapu 0.9996 1.0001]);
+grid("on");
+subplot(313)
+plot(wa(nasu:end)*0.5/pi,A_hM1(nasu:end));
+ylabel("Amplitude");
 xlabel("Frequency");
-ylabel("Amplitude(dB)");
-axis([0 0.5 -60 -30]);
-strt=sprintf("Direct-form symmetric bandpass filter stop-band : \
-fasl=%g,fasu=%g,dBas=%g,Wasl=%g,Wasu=%g",fasl,fasu,dBas,Wasl,Wasu);
-title(strt);
+axis([fasu 0.5 -0.01 0.01]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
@@ -116,18 +127,22 @@ fprintf(fid,"maxiter=%d %% SOCP iteration limit\n",maxiter);
 fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
+fprintf(fid,"deltap=%d %% Amplitude pass band peak-to-peak ripple\n",deltap);
 fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"fasl=%g %% Amplitude stop band lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Amplitude stop band upper edge\n",fasu);
-fprintf(fid,"dBas=%d %% Amplitude stop band peak-to-peak ripple\n",dBas);
+fprintf(fid,"deltas=%d %% Amplitude stop band peak-to-peak ripple\n",deltas);
 fprintf(fid,"Wasl=%d %% Amplitude lower stop band weight\n",Wasl);
 fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
+% Show results
+printf("hM1=[ ");printf("%g ",hM1');printf("]';\n");
+print_polynomial(hM1,"hM1",strcat(strf,"_hM1_coef.m"),"%12.8f");
+
 % Save results
 save directFIRsymmetric_socp_slb_bandpass_test.mat ...
-     tol ctol npoints hM0 fapl fapu dBap Wap fasl fasu dBas Wasl Wasu hM1
+     tol ctol npoints hM0 fapl fapu deltap Wap fasl fasu deltas Wasl Wasu hM1
        
 % Done
 toc;
