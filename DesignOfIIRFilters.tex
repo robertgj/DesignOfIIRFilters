@@ -29695,7 +29695,8 @@ al.}~\cite{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}.}
 
 For comparison, the Octave script
 \emph{directFIRsymmetric\_socp\_slb\_bandpass\_test.m} designs a symmetric FIR
-filter using the PCLS algorithm of \emph{Selesnick et al.} with the
+filter using the PCLS algorithm of \emph{Selesnick et
+al.}~\cite{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters} with the
 specification:
 \begin{small}
 \verbatiminput{directFIRsymmetric_socp_slb_bandpass_test.spec}
@@ -29710,7 +29711,8 @@ shows the zero-phase amplitude response.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_socp_slb_bandpass_test_response}}
 \caption{Zero-phase amplitude response of an $M=15$ symmetric band pass FIR
-filter designed with the PCLS optimisation procedure of \emph{Selesnick et al.}}
+filter designed with the PCLS optimisation procedure of \emph{Selesnick et
+al.}~\cite{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters}}
 \label{fig:Direct-FIR-symmetric-SOCP-SLB-band-pass-response}
 \end{figure}
 
@@ -29733,10 +29735,14 @@ amplitude response.
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_socp_slb_bandpass_test_pass_stop}}
 \caption{Pass band amplitude and delay responses and stop band amplitude
 response of an $M=15$ non-symmetric band pass FIR filter designed with the PCLS
-optimisation procedure of \emph{Selesnick et al.}}
+optimisation procedure of \emph{Selesnick et
+al.}~\cite{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters}} 
 \label{fig:Direct-FIR-non-symmetric-SOCP-SLB-band-pass-pass-stop-response}
 \end{figure}
 
+For this example the LMI optimisation procedure of \emph{Tuan et al.} is much
+faster than the PCLS design procedure of \emph{Selesnick et
+al.}~\cite{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters}.
 \clearpage
 \section{\label{app:Design-of-FIR-half-band-filters}Design of half-band FIR filters}
 \subsection{\label{app:Vaidyanathan-FIR-half-band-trick}Vaidyanathan's ``TRICK'' for the design of FIR half-band filters}

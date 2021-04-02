@@ -23,7 +23,7 @@ strf="directFIRsymmetric_sdp_bandpass_test";
 
 for M=15:16,
   fasl=0.05;fapl=0.15;fapu=0.25;fasu=0.35;
-  deltap=1.6e-4;deltas=5e-3;
+  deltap=1.54e-4;deltas=5e-3;
   Wap=1;Wat=0;Was=1;
   % Alternatively:
   %  deltap=1e-2;deltas=1e-3;
@@ -280,8 +280,8 @@ M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g", ...
   close
 
   subplot(311)
-  plot(wa*0.5/pi,A,wa*0.5/pi,A);
-  axis([0 fasl (deltas*(6/5)*[-1 1])]);
+  plot(wa(1:nasl)*0.5/pi,A(1:nasl));
+  axis([0 fasl 0.01*[-1 1]]);
   grid("on");
   ylabel("Amplitude");
   strt=sprintf("Tuan band pass FIR : \
@@ -289,13 +289,13 @@ M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g", ...
                M,fasl,fapl,fapu,fasu,deltap,deltas);
   title(strt);
   subplot(312)
-  plot(wa*0.5/pi,A,wa*0.5/pi,A);
-  axis([fapl fapu 1+(deltap*(6/5)*[-1 1])]);
+  plot(wa(napl:napu)*0.5/pi,A(napl:napu));
+  axis([fapl fapu 1+(0.0002*[-1 1])]);
   grid("on");
   ylabel("Amplitude");
   subplot(313)
-  plot(wa*0.5/pi,A,wa*0.5/pi,A);
-  axis([fasu 0.5 (deltas*(6/5)*[-1 1])]);
+  plot(wa(nasu:end)*0.5/pi,A(nasu:end));
+  axis([fasu 0.5 0.01*[-1 1]]);
   grid("on");
   ylabel("Amplitude");
   xlabel("Frequency");

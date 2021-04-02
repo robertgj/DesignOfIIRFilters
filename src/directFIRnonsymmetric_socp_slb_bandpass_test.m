@@ -191,7 +191,7 @@ close
 % Plot combined passband and stopband response
 subplot(411);
 plot(wa(1:nasl)*0.5/pi,sqrt(abs(Asq(1:nasl))));
-axis([0 fasl 0 0.006]);
+axis([0 fasl 0 0.01]);
 ylabel("Amplitude");
 grid("on");
 title(strt);
@@ -207,7 +207,7 @@ ylabel("Delay(samples)");
 grid("on");
 subplot(414);
 plot(wa(nasu:end)*0.5/pi,sqrt(Asq(nasu:end)));
-axis([fasu 0.5 0 0.006]);
+axis([fasu 0.5 0 0.01]);
 ylabel("Amplitude");
 grid("on");
 xlabel("Frequency");
