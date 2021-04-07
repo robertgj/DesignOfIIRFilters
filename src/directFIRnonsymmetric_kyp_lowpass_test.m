@@ -31,11 +31,10 @@ N=30,d=10,fap=0.15,fas=0.2,Esq_s=1e-4,Esq_max=1.1
 nplot=1000;
 nap=(fap*nplot/0.5)+1;
 nas=(fas*nplot/0.5)+1;
-hz=zeros(1,N+1);
-hz(d+1)=1;
 A=[zeros(N-1,1),eye(N-1);zeros(1,N)];
 B=[zeros(N-1,1);1];
 AB=[A,B;eye(N),zeros(N,1)];
+Phi=[-1,0;0,1];
 C_d=zeros(1,N);
 C_d(N-d+1)=1;
 c_p=2*cos(2*pi*fap);
@@ -49,21 +48,21 @@ D=sdpvar(1,1);
 P_max=sdpvar(N,N,"symmetric");
 Q_max=sdpvar(N,N,"symmetric");
 F_max=sdpvar(N+2,N+2,"symmetric");
-F_max=[[((AB')*[-P_max,Q_max;Q_max,P_max+(2*Q_max)]*AB) + ...
+F_max=[[((AB')*(kron(P_max,Phi)+kron(Q_max,[0,1;1,2]))*AB) + ...
         diag([zeros(1,N),-Esq_max]),[C,D]']; ...
        [C,D,-1]];
 % Pass band constraint on the error |H(w)-e^(-j*w*d)|
 P_z=sdpvar(N,N,'symmetric');
 Q_z=sdpvar(N,N,'symmetric');
 F_z=sdpvar(N+2,N+2,'symmetric');
-F_z=[[((AB')*[-P_z, Q_z; Q_z,P_z-(c_p*Q_z)]*AB) + ...
+F_z=[[((AB')*(kron(P_z,Phi)+kron(Q_z,[0,1;1,-c_p]))*AB) + ...
       diag([zeros(1,N),-Esq_z]),[C-C_d,D]']; ...
      [C-C_d,D,-1]];
 % Stop band constraint 
 P_s=sdpvar(N,N,'symmetric');
 Q_s=sdpvar(N,N,'symmetric');
 F_s=sdpvar(N+2,N+2,'symmetric');
-F_s=[[((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB) + ...
+F_s=[[((AB')*(kron(P_s,Phi)+kron(Q_s,[0,-1;-1,c_s]))*AB) + ...
       diag([zeros(1,N),-Esq_s]),[C,D]']; ...
      [C,D,-1]];
 

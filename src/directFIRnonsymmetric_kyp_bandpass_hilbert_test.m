@@ -35,6 +35,7 @@ Esq_max=1;
 A=[zeros(N-1,1),eye(N-1);zeros(1,N)];
 B=[zeros(N-1,1);1];
 AB=[A,B;eye(N),zeros(N,1)];
+Phi=[-1,0;0,1];
 C_d=zeros(1,N);
 C_d(N-d+1)=-j;
 c_sl=2*cos(2*pi*fasl);
@@ -49,28 +50,28 @@ D=sdpvar(1,1);
 P_max=sdpvar(N,N,"symmetric");
 Q_max=sdpvar(N,N,"symmetric");
 F_max=sdpvar(N+2,N+2,"symmetric");
-F_max=[[((AB')*[-P_max,Q_max;Q_max,P_max+(2*Q_max)]*AB) + ...
+F_max=[[((AB')*(kron(P_max,Phi)+kron(Q_max,[0,1;1,2]))*AB) + ...
         diag([zeros(1,N),-Esq_max]),[C,D]']; ...
        [C,D,-1]];
 % Lower stop band constraint 
 P_sl=sdpvar(N,N,'symmetric');
 Q_sl=sdpvar(N,N,'symmetric');
 F_sl=sdpvar(N+2,N+2,'symmetric');
-F_sl=[[((AB')*[-P_sl,Q_sl;Q_sl,P_sl-(c_sl*Q_sl)]*AB) + ...
+F_sl=[[((AB')*(kron(P_sl,Phi)+kron(Q_sl,[0,1;1,-c_sl]))*AB) + ...
        diag([zeros(1,N),-Esq_s]),[C,D]']; ...
       [C,D,-1]];
 % Pass band constraint on the error |H(w)-e^(-j*w*d)|
 P_z=sdpvar(N,N,'hermitian','complex');
 Q_z=sdpvar(N,N,'hermitian','complex');
 F_z=sdpvar(N+2,N+2,'hermitian','complex');
-F_z=[[((AB')*[-P_z,Q_z/e_c;e_c*Q_z,P_z-(c_h*Q_z)]*AB) + ...
+F_z=[[((AB')*(kron(P_z,Phi)+kron(Q_z,[0,1/e_c;e_c,-c_h]))*AB) + ...
       diag([zeros(1,N),-Esq_z]),[C-C_d,D]']; ...
      [C-C_d,D,-1]];
 % Upper stop band constraint 
 P_su=sdpvar(N,N,'symmetric');
 Q_su=sdpvar(N,N,'symmetric');
 F_su=sdpvar(N+2,N+2,'symmetric');
-F_su=[[((AB')*[-P_su,-Q_su;-Q_su,P_su+(c_su*Q_su)]*AB) + ...
+F_su=[[((AB')*(kron(P_su,Phi)+kron(Q_su,[0,-1;-1,c_su]))*AB) + ...
        diag([zeros(1,N),-Esq_s]),[C,D]']; ...
       [C,D,-1]];
 
@@ -119,7 +120,7 @@ title(strt);
 subplot(312)
 plot(w(napl:napu)*0.5/pi, ...
      mod(((w(napl:napu)*d)+unwrap(arg(H(napl:napu)))),2*pi)/pi)
-axis([fapl fapu 0.5+0.002*[-1 1]]);
+axis([fapl fapu 1.5+0.002*[-1 1]]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 subplot(313)

@@ -25,6 +25,7 @@ hz(d+1)=1;
 A=[zeros(N-1,1),eye(N-1);zeros(1,N)];
 B=[zeros(N-1,1);1];
 AB=[A,B;eye(N),zeros(N,1)];
+Phi=[-1,0;0,1];
 C_d=zeros(1,N);
 C_d(N-d+1)=1;
 c_p=2*cos(2*pi*fap);
@@ -262,7 +263,7 @@ D=sdpvar(1,1);
 P_s=sdpvar(N,N,'symmetric');
 Q_s=sdpvar(N,N,'symmetric');
 F_s=sdpvar(N+2,N+2,'symmetric');
-F_s=[[((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB) + ...
+F_s=[[((AB')*(kron(P_s,Phi)+kron(Q_s,[0,-1;-1,c_s]))*AB) + ...
       diag([zeros(1,N),-Esq_s]),[C,D]']; ...
      [C,D,-1]];
 % Solve
@@ -307,22 +308,33 @@ close
 % response constraint |H(w)-e^(-j*w*d)|^2<Esq_z.
 %
 printf("\nUsing YALMIP to design filter with generalised KYP\n");
+use_kron=true;
+if use_kron
+  Esq_z=1.02e-5;
+  else
+    Esq_z=1e-5;
+endif
 Esq_s=1e-5;
-Esq_z=1e-5;
 C=sdpvar(1,N);
 D=sdpvar(1,1);
 P_z=sdpvar(N,N,'symmetric');
 Q_z=sdpvar(N,N,'symmetric');
 F_z=sdpvar(N+2,N+2,'symmetric');
-F_z=[[((AB')*[-P_z, Q_z; Q_z,P_z-(c_p*Q_z)]*AB) + ...
+F_z=[[((AB')*(kron(P_z,Phi)+kron(Q_z,[0,1;1,-c_p]))*AB) + ...
       diag([zeros(1,N),-Esq_z]),[C-C_d,D]']; ...
      [C-C_d,D,-1]];
 P_s=sdpvar(N,N,'symmetric');
 Q_s=sdpvar(N,N,'symmetric');
 F_s=sdpvar(N+2,N+2,'symmetric');
-F_s=[[((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB) + ...
-      diag([zeros(1,N),-Esq_s]),[C,D]']; ...
-     [C,D,-1]];
+if use_kron
+  F_s=[[((AB')*(kron(P_s,Phi)+kron(Q_s,[0,-1;-1,c_s]))*AB) + ...
+        diag([zeros(1,N),-Esq_s]),[C,D]']; ...
+       [C,D,-1]];
+else
+  F_s=[[((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB) + ...
+        diag([zeros(1,N),-Esq_s]),[C,D]']; ...
+       [C,D,-1]];
+endif
 Constraints=[F_z<=0;Q_z>=0,F_s<=0,Q_s>=0];
 Options=sdpsettings('solver','sedumi');
 sol=optimize(Constraints,[],Options);
