@@ -33142,7 +33142,7 @@ properties of the \emph{Schur complement}\footnote{See
 $\Theta$ is bi-linear in the FIR filter coefficients. Application of the Schur
 complement linearises this expansion:
 \begin{align*}
-\left[\begin{array}{cc}
+\Theta=\left[\begin{array}{cc}
 C & D \\
 0 & I \end{array}\right]^{\dagger}\Pi\left[\begin{array}{cc}
 C & D \\
@@ -33581,6 +33581,438 @@ FIR band pass Hilbert filter designed with the KYP lemma. The pass band phase
 error is adjusted for the nominal delay.} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-passband}
 \end{figure}
+\clearpage
+\section{Generalisation of the KYP lemma to a union of frequency intervals}
+\emph{Pipeleers}, \emph{Iwasaki}
+and \emph{Hara}~\cite{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}
+describe the generalisation of the KYP lemma to a union of frequency intervals.
+\subsection{Union of frequency intervals}
+\emph{Pipeleers}, \emph{Iwasaki} and \emph{Hara} generalise
+$\boldsymbol{\Lambda}\left(\Phi,\Psi\right)$, to a union of $l\in\mathbb{I}$
+curves with Hermitian matrixes $\Phi,\Psi\in\mathbb{H}^{l+1}$ and a mapping 
+$L_{l}\left(\lambda\right)\;:\;\mathbb{C}\rightarrow\mathbb{C}^{l+1}$
+defined as:
+\begin{align*}
+L_{l}\left(\lambda\right) &=
+\left[\lambda^{l},\;\lambda^{l-1},\;\cdots,\;\lambda,\;1\right]^{\top},
+\; l\in\mathbb{I} \\
+L_{0}\left(\lambda\right)&=1
+\end{align*}
+If $\boldsymbol{\Lambda}\left(\Phi,\Psi\right)$ is unbounded then it is extended
+with
+\begin{align*}
+L_{l}\left(\infty\right)&=\left[1\; 0_{1,l}\right]^{\top}
+\end{align*}
+\emph{Assumption 1}: Similarly to \emph{Lemma 2} above, a similarity
+transformation  $T\in\mathbb{C}^{2\times\left(l+1\right)}$ with full row rank of
+$\Phi_{o}$ and $\Psi_{o}$ is assumed to exist. For each
+$s\in\boldsymbol{\Lambda}\left(\Phi_{o},\Psi_{o}\right)$, the $l$-th degree
+polynomial in $\lambda$ is:
+\begin{align*}
+\left[1\; -s\right]\;T\;L_{l}\left(\lambda\right)&=0,\quad\text{for }s\ne\infty\\
+\left[0\;  1\right]\;T\;L_{l}\left(\lambda\right)&=0,\quad\text{for }s=\infty
+\end{align*}
+has $l$ distinct roots grouped in the set $\in\mathcal{R}_{T}\left(s\right)$.
+
+\emph{Assumption 2}: When $l\ge 2$ we assume that there exists a Hermitian
+matrix $R\in\mathbb{H}^{l}$ such that:
+\begin{align*}
+L_{l-1}\left(\lambda\right)^{\dagger}R\;L_{l-1}\left(\lambda\right)&>0
+\;\forall\lambda\in\Lambda\left(\Phi_{o},\Psi_{o}\right) \\
+L_{l-1}\left(\lambda_{i}\right)^{\dagger}R\;L_{l-1}\left(\lambda_{j}\right)&=0
+\;\forall\lambda_{i},\lambda_{j}\in\mathcal{R}_{T}\left(s\right),\; i\ne j,\;
+\forall s\in\Lambda\left(\Phi_{o},\Psi_{o}\right) 
+\end{align*}
+Assumption $1$ allows a large variety of curves in $\mathbb{C}$ but only the
+union of segments of a circle or straight line has been found to also comply
+with Assumption $2$. The similarity transformation defines a mapping between the
+curves $\boldsymbol{\Lambda}\left(\Phi,\Psi\right)$ and
+$\boldsymbol{\Lambda}\left(\Phi_{o},\Psi_{o}\right)$, which corresponds to a
+segment of the imaginary axis. Each
+$s\in\boldsymbol{\Lambda}\left(\Phi_{o},\Psi_{o}\right)$ is mapped onto the
+$l$ roots grouped in
+$\mathcal{R}_{T}\left(s\right)\subset\boldsymbol{\Lambda}\left(\Phi,\Psi\right)$,
+while all $\lambda\in\mathcal{R}_{T}\left(s\right)$ are mapped into the same
+$s$:
+\begin{align*}
+s&=\begin{cases}\frac{\left[1\;0\right]\;TL_{l}\left(\lambda\right)}
+{\left[0\;1\right]\;TL_{l}\left(\lambda\right)}=
+\frac{t_{1}\left(\lambda\right)}{t_{2}\left(\lambda\right)} & \text{if }
+t_{2}\left(\lambda\right)\ne 0 \\
+\infty & \text{otherwise}
+\end{cases}
+\end{align*}
+The similarity transformation can be reformulated as:
+\begin{align*}
+1-s\frac{t_{2}\left(\lambda\right)}{t_{1}\left(\lambda\right)}&=0
+\end{align*}
+The curve $\boldsymbol{\Lambda}\left(\Phi,\Psi\right)$ corresponds to the set of
+complex numbers $\lambda$ that solve this root locus equation for some
+$s\in\boldsymbol{\Lambda}\left(\Phi_{o},\Psi_{o}\right)$. As for every such $s$
+the roots in $\mathcal{R}_{T}\left(s\right)$ must be distinct, only root locuses
+without branching points are allowed.
+
+\emph{Pipeleers}, \emph{Iwasaki}
+and \emph{Hara}~\cite[Section
+3]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals} describe the
+construction of the matrixes $\Phi,\Psi$ and $R$ over a union of segments
+of the real axis. The extension of this mapping to the imaginary axis or unit
+circle in the complex plane is obtained by a M\"{o}bius transformation.
+Firstly, on the real axis $\Phi_{r}$ and $\Psi_{r}$ are defined by:
+\begin{align*}
+\Phi_{r} &= \left[\begin{array}{cc}
+0 & \imath\\
+-\imath & 0\end{array}\right]\\
+\Psi_{r} &= \left[\begin{array}{cc}
+0 & 1\\
+1 & 0\end{array}\right]
+\end{align*}
+such that
+$\boldsymbol{\Lambda}\left(\Phi_{r},\Psi_{r}\right)=\mathbb{R}_{+}\cup\left\{\infty\right\}$. In
+addition, for $l\in\mathbb{I}$, the matrix
+$J_{l}\in\mathbb{R}^{2l\times\left(l+1\right)}$ is defined as:
+\begin{align*}
+J_{l}&=\left[\begin{array}{cc}
+I_{l} & 0_{l,1} \\
+0_{l,1} & I_{l}\end{array}\right]
+\end{align*}
+\begin{framed}
+\emph{Lemma}~\cite[Lemma
+3.1]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}: Let $2l$ scalars
+$\alpha_{k},\beta_{k}\in\mathbb{R}\cup\left\{\infty\right\}$,
+$k\in\mathbb{I_{l}}$, be given that satisfy
+\begin{align*}
+\alpha_{1}<\beta_{1}<\alpha_{2}<\cdots <\beta_{l-1}<\alpha_{l}<\beta_{l}
+\end{align*}
+Let the vectors $a,b\in\mathbb{R}^{l+1}$ be defined by:
+\begin{align*}
+\prod^{l}_{k=1}\left(\lambda-\alpha_{k}\right)&=a^{\top}L_{l}\left(\lambda\right) \\
+\prod^{l}_{k=1}\left(\lambda-\beta_{k}\right)&=b^{\top}L_{l}\left(\lambda\right)
+\end{align*}
+where $\left(\lambda-\alpha_{1}\right)=1$ for $\alpha_{1}=-\infty$ and
+$\left(\lambda-\beta_{l}\right)=1$ for $\beta_{l}=\infty$ and set
+$\tilde{T}=\left[-a\;b\right]^{\top}$. Then the matrixes
+$\Phi,\Psi\in\mathbb{H}^{l+1}$ given by:
+\begin{align*}
+\Phi=\tilde{T}^{\dagger}\Phi_{r}\tilde{T}\\
+\Psi=\tilde{T}^{\dagger}\Psi_{r}\tilde{T}
+\end{align*}
+satisfy Assumptions $1$ and $2$, and
+\begin{align*}
+\boldsymbol{\Lambda}\left(\Phi,\Psi\right)&=
+\bigcup^{l}_{k=1}\left[\alpha_{k},\beta_{k}\right]
+\end{align*}
+In particular, a matrix $R\in\mathbb{S}^{l}$ satisfying Assumption $2$ is
+given by the unique solution of:
+\begin{align*}
+\Phi&=J^{\dagger}_{l}\left(\Phi_{r}\otimes R\right)J_{l}
+\end{align*}
+\end{framed}
+
+\emph{Pipeleers}, \emph{Iwasaki} and \emph{Hara}~\cite[Example
+2]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals} show an example of the
+union of two discrete time frequency intervals on the unit circle:
+\begin{align*}
+\boldsymbol{\Lambda}\left(\Phi,\Psi\right)&=\left\{\lambda =e^{\imath\theta}\;
+:\; \theta\in\left[\eta_{1},\zeta_{1}\right]\cup
+\left[\eta_{2},\zeta_{2}\right]\right\}
+\end{align*}
+with $-\pi < \eta_{1} < \zeta_{1} < \eta_{2} < \zeta_{2} < \pi$. A M\"{o}bius
+transform that maps the unit circle to the real axis is:
+\begin{align*}
+\mu\left(\lambda\right)&=-\imath\frac{\lambda-1}{\lambda+1}
+\quad \rightarrow \quad M=\left[\begin{array}{cc}
+0 & c \\
+\bar{c} & 0 \end{array}\right]
+\end{align*}
+The two frequency intervals are mapped into the real intervals
+$\left[\begin{array}{cc}\alpha_{k} & \beta_{k}\end{array}\right]$ with
+$\alpha_{k}=\mu\left(e^{\imath\eta_{k}}\right)$ and
+$\beta_{k}=\mu\left(e^{\imath\zeta_{k}}\right)$. The corresponding matrixes
+$\Phi$ and $\Psi$ are:
+\begin{align*}
+\Phi&=\tilde{T}^{\dagger}\left[\begin{array}{cc}
+\phantom{-}0 & \imath c \\
+-\imath \bar{c} & 0\end{array}\right]\tilde{T} \\
+\Psi&=\tilde{T}^{\dagger}\left[\begin{array}{cc}
+0 & c \\
+\bar{c} & 0\end{array}\right]\tilde{T}
+\end{align*}
+with:
+\begin{align*}
+\tilde{T}&=\left[\begin{array}{ccc}
+-1&\phantom{-}e^{\imath\eta_{1}}+e^{\imath\eta_{2}}&-e^{\imath\eta_{1}}e^{\imath\eta_{2}}\\
+\phantom{-}1&-e^{\imath\zeta_{1}}-e^{\imath\zeta_{2}} &
+\phantom{-}e^{\imath\zeta_{1}}e^{\imath\zeta_{2}}\end{array}\right] \\
+c&=\left(1+\imath\alpha_{1}\right)\left(1+\imath\alpha_{2}\right)
+\left(1-\imath\beta_{1}\right)\left(1-\imath\beta_{2}\right) \\
+R&=M^{\dagger}\left[\begin{array}{cc}
+\beta_{1}+\beta_{2}-\alpha_{1}-\alpha_{2}&\alpha_{1}\alpha_{2}-\beta_{1}\beta_{2}\\
+\alpha_{1}\alpha_{2}-\beta_{1}\beta_{2}&
+\beta_{1}\beta_{2}\left(\alpha_{1}+\alpha_{2}\right)-
+\alpha_{1}\alpha_{2}\left(\beta_{1}+\beta_{2}\right)\end{array}\right]M
+\end{align*}
+\subsection{Generalised KYP lemma over a union of frequency intervals}
+For $A\in\mathbb{C}^{n\times n}$, $B\in\mathbb{C}^{n\times m}$ and
+$l\in\mathbb{I}$, define
+$F_{l}\left(A,B\right)\in\mathbb{C}^{\left(l+1\right)n\times\left(n+ml\right)}$:
+\begin{align*}
+F_{l}\left(A,B\right)&=\left[\begin{array}{ccccc}
+A^{l} & A^{l-1}B & A^{l-2}B & \cdots & B \\
+A^{l-1} & A^{l-2}B & \cdots & B & 0 \\
+\hdots & \hdots & \hdots & \hdots & \hdots \\
+A & B & 0 & \hdots & 0 \\
+I & 0 & \hdots & \hdots & 0\\
+\end{array}\right]
+\end{align*}
+Similarly, define $G_{l}\left(A,B\right)
+\in\mathbb{C}^{\left(n+m\right)\times\left(n+ml\right)}$\footnote{\emph{Pipeleers
+et al.}~\cite[Equation 2.8]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}
+show the last term as $F_{l}\left(0_{m,m},I_{m}\right)$.}: 
+\begin{align*}
+G_{l}\left(A,B\right)&=\left(I_{l}\otimes\left[\begin{array}{c}
+I_{n}\\
+0_{m,n}\end{array}\right]\right)\left[\begin{array}{cc}
+F_{l-1}\left(A,B\right) & 0_{nl,m}\end{array}\right]
++\left(I_{l}\otimes\left[\begin{array}{c}
+0_{n,m}\\
+I_{m}\end{array}\right]\right)\left[\begin{array}{cc}
+0_{ml,n} & F_{l-1}\left(0_{m,m},I_{m}\right)\end{array}\right]
+\end{align*}
+For example:
+\begin{align*}
+G_{2}\left(A,B\right)&=\left[\begin{array}{ccc}
+A & B & 0_{n,m} \\
+0_{m,n} & 0_{m,m} & I_{m} \\
+I_{n} & 0_{n,m} & 0_{n,m} \\
+0_{m,n} & I_{m} & 0_{m,m}\end{array}\right]
+\end{align*}
+
+In addition, for $\lambda\in\mathbb{C}$ define the set
+$\mathcal{N}_{A,B}\left(\lambda\right)$ as:
+\begin{align*}
+\mathcal{N}_{A,B}\left(\lambda\right)&=\begin{cases}
+\left(x,u\right)\in \mathbb{C}^{n}\times\mathbb{C}^{m}\; :\; \left(\lambda
+I-A\right)x=Bu & \text{for }\lambda\ne\infty \\
+\left\{0\right\}\times\mathbb{C}^{m} & \text{for }\lambda = \infty
+\end{cases}
+\end{align*}
+Note the if $\det\left(\lambda I-A\right)\ne 0$, every element of
+$\mathcal{N}_{A,B}\left(\lambda\right)$ is of the form:
+\begin{align*}
+\left[\begin{array}{c}
+\left(\lambda I-A\right)^{-1}B \\
+I\end{array}\right] u
+\end{align*}
+for some $u\in\mathbb{C}^{m}$.
+
+\begin{framed}
+\emph{Theorem}~\cite[Theorem
+2.2]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}: Let Hermitian
+matrixes $\Phi,\;\Psi\in\mathbb{H}^{l+1}$ and $\Theta\in\mathbb{H}^{m+n}$,
+and matrixes $A\in\mathbb{C}^{n\times n}$ and $B\in\mathbb{C}^{n\times m}$, be
+given, with $B$ of full column rank and $\left(A,B\right)$ controllable.
+Suppose $\Phi$ and $\Psi$ satisfy Assumptions 1 and 2, and let
+$R\in\mathbb{H}^{l}$ be a matrix satisfying Assumption 2. Then the following
+statements are equivalent:
+\begin{enumerate}
+\item The inequality:
+\begin{align*}
+\left[\begin{array}{c}
+x \\
+u
+\end{array}\right]^{\dagger}\Theta\left[\begin{array}{c}
+x \\
+u
+\end{array}\right]\le 0
+\end{align*}
+holds for all $\left(x,u\right)\in\mathcal{N}_{A,B}\left(\lambda\right)$
+\item There exist $P,Q\in\mathbb{H}^{n}$ that satisfy $Q\succeq 0$ and
+\begin{align*}
+F_{l}\left(A,B\right)^{\dagger}\left(\Phi\otimes P+\Psi\otimes Q\right)
+F_{l}\left(A,B\right) +
+G_{l}\left(A,B\right)^{\dagger}\left(R\otimes\Theta\right)
+G_{l}\left(A,B\right)\preceq 0
+\end{align*}
+\end{enumerate}
+\end{framed}
+\subsection{Example of design of a non-symmetric band pass FIR filter with the union of the upper and lower stop bands}
+Section~\ref{app:LMI-design-symmetric-FIR-filters} shows examples of the design
+of the band pass filter example shown by \emph{Pipeleers et
+al.}~\cite[Figure 4]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}. The
+Octave script \emph{directFIRnonsymmetric\_kyp\_union\_bandpass\_test.m}
+designs a band pass filter with the stop band LMI expressed as the
+union of the upper and lower stop band frequency intervals, 
+specified as $\left[0,\;f_{asl}\right]\cup\left[f_{asu},\;\pi\right]$, so that
+$0 = \eta_{1}<\zeta_{1}<\eta_{2}<\zeta_{2}=\pi$. In this case, the example of
+the union of two frequency intervals provided by \emph{Pipeleers et al.} does
+not apply and the M\"{o}bius transformation must be constructed with 
+$\alpha_{1}=0$ and $\beta_{2}=\infty$ since:
+\begin{align*}
+\mu\left(e^{\imath\theta}\right)&=-\imath\frac{e^{\imath\theta}-1}{e^{\imath\theta}+1}\\
+&=\tan\frac{\theta}{2}
+\end{align*}
+and:
+\begin{align*}
+\lim_{\theta\rightarrow\pi -}\tan\frac{\theta}{2}&=+\infty
+\end{align*}
+In this case:
+\begin{align*}
+a&=\left[\begin{array}{ccc}
+1 & -\alpha_{2} & 0 \end{array}\right]^{\top} \\
+b&=\left[\begin{array}{ccc}
+0 & -1 & \beta_{1}\end{array}\right]^{\top} \\
+\tilde{T}&=\left[\begin{array}{ccc}
+-1           & \phantom{-}\alpha_{2} & 0 \\
+\phantom{-}0 & -1                   & \beta_{1}\end{array}\right]\\
+\Phi&=\left[\begin{array}{cc}
+-1                   &\phantom{-}0  \\
+\phantom{-}\alpha_{2} & -1 \\
+\phantom{-}0          & \phantom{-}\beta_{1}\end{array}\right]
+\left[\begin{array}{cc}
+\phantom{-}0     & \imath \\
+-\imath          & 0 \end{array}\right]\left[\begin{array}{ccc}
+-1           & \phantom{-}\alpha_{2}  & 0 \\
+\phantom{-}0 & -1                    & \beta_{1} \end{array}\right]\\
+&=\left[\begin{array}{cc}
+-1                    &\phantom{-}0  \\
+\phantom{-}\alpha_{2} & -1 \\
+\phantom{-}0          & \phantom{-}\beta_{1}\end{array}\right]
+\left[\begin{array}{ccc} 
+0      & -\imath          & \imath\beta_{1} \\
+\imath & -\imath\alpha_{2} & 0\end{array}\right]\\
+&=\left[\begin{array}{ccc}
+\phantom{-}0  & \phantom{-}\imath & -\imath\beta_{1} \\
+-\imath       & \phantom{-}0      & \phantom{-}\imath\alpha_{2}\beta_{1}\\
+\phantom{-}\imath\beta_{1} & -\imath\alpha_{2}\beta_{1} & \phantom{-}0
+\end{array}\right]\\
+\Psi&=\left[\begin{array}{cc}
+-1 &\phantom{-}0  \\
+\phantom{-}\alpha_{2} & -1 \\
+\phantom{-}0 & \phantom{-}\beta_{1}\end{array}\right]\left[\begin{array}{cc}
+0 & 1 \\
+1 & 0\end{array}\right]\left[\begin{array}{ccc}
+-1 & \phantom{-}\alpha_{2} & 0 \\
+\phantom{-}0 & -1 & \beta_{1}\end{array}\right]\\
+&=\left[\begin{array}{cc}
+-1 &\phantom{-}0  \\
+\phantom{-}\alpha_{2} & -1 \\
+\phantom{-}0 & \phantom{-}\beta_{1}\end{array}\right]\left[\begin{array}{ccc}
+\phantom{-}0 & -1 & \beta_{1} \\
+-1 & \phantom{-}\alpha_{2} & 0\end{array}\right]\\
+&=\left[\begin{array}{ccc}
+\phantom{-}0 & \phantom{-}1                  & -\beta_{1} \\
+\phantom{-}1 & -2\alpha_{2}                   & \phantom{-}\alpha_{2}\beta_{1}\\
+-\beta_{1}    & \phantom{-}\alpha_{2}\beta_{1} & \phantom{-}0\end{array}\right]
+\end{align*}
+
+$R$ is the solution of:
+\begin{align*}
+\Phi&=\left[\begin{array}{cccc}
+1 & 0 & 0 & 0 \\
+0 & 1 & 1 & 0 \\
+0 & 0 & 0 & 1\end{array}\right]\left[\begin{array}{cccc}
+\phantom{-}0  & \imath r_{11} & \phantom{-}0  & \imath r_{12} \\
+-\imath r_{11} & 0            & -\imath r_{12} & 0\\
+\phantom{-}0  & \imath r_{12} & \phantom{-}0 & \imath r_{22} \\
+-\imath r_{12} & 0            & -\imath r_{22} & 0\end{array}\right]
+\left[\begin{array}{ccc}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1 \end{array}\right]\\
+&=\left[\begin{array}{cccc}
+1 & 0 & 0 & 0 \\
+0 & 1 & 1 & 0 \\
+0 & 0 & 0 & 1\end{array}\right]\left[\begin{array}{ccc}
+\phantom{-}0  & \phantom{-}\imath r_{11} & \imath r_{12} \\
+-\imath r_{11} & -\imath r_{12}           & 0 \\
+\phantom{-}0  & \phantom{-}\imath r_{12} & \imath r_{22} \\
+-\imath r_{12} & -\imath r_{22}           & 0 \end{array}\right]\\
+&=\left[\begin{array}{ccc}
+\phantom{-}0  & \phantom{-}\imath r_{11} & \imath r_{12} \\
+-\imath r_{11} & \phantom{-}0            & \imath r_{22} \\
+-\imath r_{12} & -\imath r_{22}           & 0 \end{array}\right]
+\end{align*}
+
+Thus:
+\begin{align*}
+R&=\left[\begin{array}{cc}
+\phantom{-}1 & -\beta_{1} \\
+-\beta_{1}    & \phantom{-}\alpha_{2}\beta_{1} \end{array}\right]
+\end{align*}
+
+For the stop band, $\mathabs{H}^{2}\le\varepsilon_{s}^{2}$, and:
+\begin{align*}
+\Pi=\left[\begin{array}{cc}
+1 & 0\\
+0 & -\varepsilon_{s}^{2}\end{array}\right]
+\end{align*}
+
+The terms in $\left[\begin{array}{cc}C & D\end{array}\right]$ are
+linearised by applying the Schur complement to $R\otimes\Theta$:
+\begin{align*}
+R\otimes\Theta &= R\otimes\left(\left[\begin{array}{cc}
+C & D\\
+0 & I\end{array}\right]^{\dagger}\left[\begin{array}{cc}
+\Pi_{11} & \Pi_{12} \\
+\Pi_{12}^{\dagger} & \Pi_{22}\end{array}\right]\left[\begin{array}{cc}
+C & D \\
+0 & I\end{array}\right]\right)\\
+&=R\otimes\left[\begin{array}{cc}
+0 & C^{\dagger}\Pi_{12} \\
+\Pi_{12}^{\dagger}C & D^{\dagger}\Pi_{12}+\Pi_{12}^{\dagger}D+\Pi_{22}\end{array}\right]
++ R\otimes\left(\left[\begin{array}{cc}
+C & D\end{array}\right]^{\dagger}\Pi_{11}\left[\begin{array}{cc}
+C & D \end{array}\right]\right)\\
+&=R\otimes\left[\begin{array}{cc}
+0 & C^{\dagger}\Pi_{12} \\
+\Pi_{12}^{\dagger}C & D^{\dagger}\Pi_{12}+\Pi_{12}^{\dagger}D+\Pi_{22}\end{array}\right]
++ \left(I_{2}\otimes\left[\begin{array}{cc}
+C & D\end{array}\right]\right)^{\dagger}\left(R\otimes\Pi_{11}\right)
+\left(I_{2}\otimes\left[\begin{array}{cc}
+C & D \end{array}\right]\right)
+\end{align*}
+where I have made repeated use of the mixed product rule,
+$\left(A\otimes B\right)\left(C\otimes D\right)=
+\left(AC\right)\otimes\left(BD\right)$.
+
+The Octave script \emph{directFIRnonsymmetric\_kyp\_union\_bandpass\_test.m} uses
+\emph{Pipeleer et al.}'s generalised KYP lemma to design a band pass FIR filter
+with the following specification, similar to that of their
+example~\cite[Figure 4]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}:  
+\begin{small}
+\verbatiminput{directFIRnonsymmetric_kyp_union_bandpass_test.spec}
+\end{small}
+The resulting FIR impulse response is:
+\begin{small}
+\verbatiminput{directFIRnonsymmetric_kyp_union_bandpass_test_h_coef.m}
+\end{small}
+Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-response} shows the
+amplitude response.
+Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-passband} 
+shows the pass band amplitude, phase error and delay responses. The pass band
+phase error is adjusted for the nominal delay. 
+
+\textbf{Unfortunately, this implementation does not succeed in finding a correct
+solution for the stop band attenuation.} 
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_union_bandpass_test_response}}
+\caption{Amplitude response of a non-symmetric FIR band pass filter designed
+with the generalised KYP lemma over a union of stop band regions.}
+\label{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-response}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_union_bandpass_test_passband}}
+\caption{Pass band amplitude, phase error and delay responses of a non-symmetric
+FIR band pass filter designed with the generalised KYP lemma over a union of
+stop band regions. The pass band phase error is adjusted for the nominal delay.} 
+\label{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-passband}
+\end{figure}
 
 \cleardoublepage
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}
@@ -33685,7 +34117,8 @@ C++. The Octave on-line FAQ states:
 \end{quote}
 
 The section \emph{Summary of important user-visible changes for version 4.0} in 
-the $NEWS$ file of the Octave source distribution includes the following comment:
+the \emph{NEWS} file of the Octave source distribution includes the following
+comment: 
 \begin{quote}
   Octave now automatically truncates intermediate calculations done with
   floating point values to 64 bits.  Some hardware math co-processors, such
@@ -34348,7 +34781,6 @@ $ scp root@w.x.y.z:/root/DesignOfIIRFilters-master/DesignOfIIRFilters.pdf \
 
 
 \subsubsection*{Run the test scripts on the VM}
-
 \begin{small}
 \begin{verbatim}
 $ virsh start Fedora33Server
