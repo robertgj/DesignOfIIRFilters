@@ -1,5 +1,5 @@
 % sos2pq_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -16,8 +16,8 @@ fc=0.125
 
 % Check sos2pq (the errors were found by experiment)
 printf("Testing ellip. LP,fc=%f,dBpass=%f,dBstop=%f\n",fc,dBpass,dBstop);
-b_err=[0,0.25,0.375,0.2657,0.44,0.82,2.2,4.125,7.250,14,14,52];
-a_err=[0,0.25,6,23,36,28,256,544,640,896,3712,1792];
+b_err=[0,0.25,0.375,0.40,0.44,0.82,2.2,4.125,7.250,14,16,52];
+a_err=[0,0.25,6,23,36,28,256,544,710,1540,3712,1792];
 
 for N=1:12
 

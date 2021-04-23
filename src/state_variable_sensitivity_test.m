@@ -1,5 +1,5 @@
 % state_variable_sensitivity_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -215,8 +215,8 @@ for k=1:norder
     endif
   endfor
 endfor
-if max(max(abs(diff_dHdaw-d2Hdadw))) > del/3.27
-  error("max(max(abs(diff_dHdaw-d2Hdadw))) > del/3.27");
+if max(max(abs(diff_dHdaw-d2Hdadw))) > del/3.04
+  error("max(max(abs(diff_dHdaw-d2Hdadw))) > del/3.04");
 endif
 
 % Sensitivity of dH/dw wrt B
@@ -228,8 +228,8 @@ for k=1:norder
            k,real(d2Hdbdw(k)),imag(d2Hdbdw(k)),abs(diff_dHdbw(k)-d2Hdbdw(k)));
   endif
 endfor
-if max(max(abs(diff_dHdbw-d2Hdbdw))) > del/46.9
-  error("max(max(abs(diff_dHdbw-d2Hdbdw))) > del/46.9");
+if max(max(abs(diff_dHdbw-d2Hdbdw))) > del/42
+  error("max(max(abs(diff_dHdbw-d2Hdbdw))) > del/42");
 endif
 
 % Sensitivity of dH/dw wrt C
@@ -241,8 +241,8 @@ for k=1:norder
            k,real(d2Hdcdw(k)),imag(d2Hdcdw(k)),abs(diff_dHdcw(k)-d2Hdcdw(k)));
   endif
 endfor
-if max(max(abs(diff_dHdcw-d2Hdcdw))) > del/22.09
-  error("max(max(abs(diff_dHdcw-d2Hdcdw))) > del/22.09");
+if max(max(abs(diff_dHdcw-d2Hdcdw))) > del/19.4
+  error("max(max(abs(diff_dHdcw-d2Hdcdw))) > del/19.4");
 endif
 
 %
@@ -260,8 +260,8 @@ else
   diff_T=-(atan2(imag(HRpdel2),real(HRpdel2))- ...
            atan2(imag(HRmdel2),real(HRmdel2)))/del;
   T=-((real(H)*imag(dHdw))-(imag(H)*real(dHdw)))/(abs(H)^2);
-  if abs(T-diff_T)>del/172
-    error("abs(T-diff_T)>del/172");
+  if abs(T-diff_T)>del/169
+    error("abs(T-diff_T)>del/169");
   endif
 endif
 

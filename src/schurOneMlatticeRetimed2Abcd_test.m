@@ -1,5 +1,5 @@
 % schurOneMlatticeRetimed2Abcd_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Test cases for the retimed Schur one-multiplier lattice filter 
 
@@ -81,8 +81,8 @@ for Nk=1:9
   endif
   [Kap,Wap]=KW(A,B,Cap,ddap);
   ngap=sum(diag(Kap).*diag(Wap));
-  if abs(ngap-ngPipeap) > 40*tol
-    error("abs(ngap-ngPipeap) > 40*tol");
+  if abs(ngap-ngPipeap) > 50*tol
+    error("abs(ngap-ngPipeap) > 50*tol");
   endif
 
 

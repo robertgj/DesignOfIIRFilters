@@ -1,5 +1,5 @@
 % Abcd2H_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -651,9 +651,9 @@ diff_dHoptdx=zeros(1,nplot);
 [HoptM,dHoptdwM,dHoptdxM,d2HoptdwdxM,diagd2Hoptdx2M]=...
   Abcd2H(wplot(nc)-delw,Aopt,Bopt,Copt,Dopt,dAoptdx,dBoptdx,dCoptdx,dDoptdx);
 diff_diagd2Hoptdx2=abs(((diagd2Hoptdx2P-diagd2Hoptdx2M)/del)-diagd3Hoptdwdx2);
-if max(diff_diagd2Hoptdx2) > 20000*tol
+if max(diff_diagd2Hoptdx2) > 25000*tol
   error("max(abs(((diagd2Hoptdx2P-diagd2Hoptdx2M)/del)-\
-diagd3Hoptdwdx2(nc,:)))(%g*tol) > 20000*tol",
+diagd3Hoptdwdx2(nc,:)))(%g*tol) > 25000*tol",
         max(max(diff_diagd2Hoptdx2))/tol);
 endif
 

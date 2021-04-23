@@ -106,16 +106,16 @@ stdxx2boptfx =
 
 varydboptfx = 6.4295
 est_varydboptfx = 7.4054
-est_varydGoptf = 2.2740
-varydGoptf = 2.3385
-stdyGoptf = 113.79
+est_varydGoptf = 2.3298
+varydGoptf = 2.2604
+stdyGoptf = 115.38
 stdxxGoptf =
  Columns 1 through 8:
-   63.937   63.643   63.804   61.767   61.510   63.469   63.794   63.705
+   64.247   64.663   64.053   62.004   62.185   63.916   64.021   64.211
  Columns 9 through 16:
-   62.241   64.295   64.118   62.677   63.726   62.526   62.716   63.608
+   62.659   65.276   64.329   63.176   64.179   62.983   63.250   64.151
  Columns 17 through 20:
-   63.864   62.960   63.930   65.244
+   64.905   63.629   64.094   65.920
 
 
 Butterworth high-pass filter with N=20, fc=0.100000, n60=279
@@ -182,16 +182,16 @@ stdxx2boptfx =
 
 varydboptfx = 7.2192
 est_varydboptfx = 7.5025
-est_varydGoptf = 2.3417
-varydGoptf = 2.3880
-stdyGoptf = 228.54
+est_varydGoptf = 2.3268
+varydGoptf = 2.3423
+stdyGoptf = 229.10
 stdxxGoptf =
  Columns 1 through 8:
-   64.141   64.017   63.887   64.039   64.141   64.110   63.898   63.583
+   64.086   64.037   63.986   63.944   64.368   64.056   63.689   63.524
  Columns 9 through 16:
-   64.015   64.065   63.926   64.103   64.330   64.194   64.480   64.345
+   64.132   64.271   64.242   64.172   64.273   64.172   64.188   64.082
  Columns 17 through 20:
-   64.136   63.980   64.137   63.801
+   64.168   64.054   64.355   63.944
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
