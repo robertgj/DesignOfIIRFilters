@@ -34021,15 +34021,15 @@ stop band regions. The pass band phase error is adjusted for the nominal delay.}
 \section*{Software requirements}
 I currently use the Fedora 33 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{5.10.13-200.fc33.x86\_64}
+\item \texttt{uname -r} is \emph{5.11.14-200.fc33.x86\_64}
 \item \emph{gcc} version \emph{10.2.1 20201125 (Red Hat 10.2.1-9)}
 \item a local build of \emph{octave-6.1.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic} and \emph{parallel} Octave-Forge packages
 \item the Octave scripts use the \emph{gnuplot} graphics toolkit and
   \emph{gnuplot-5.2.8-6}
-\item \emph{texlive-2020-34} and various packages are installed
-\item \emph{dia-0.97.3-15} is used for line drawings
+\item \emph{texlive-2020-35} and various packages are installed
+\item \emph{dia-0.97.3-16} is used for line drawings
 \end{itemize}
 
 The local build of \emph{octave-6.1.0} assumes that the following packages are
@@ -34064,7 +34064,7 @@ texlive-trimspaces texlive-type1cm texlive-upquote texlive-wrapfig
   
 \pdfbookmark[0]{Makefile}{makefile}
 \section*{\emph{Makefile}}
-This document is built with \emph{GNU make-4.3}. The \emph{Makefile} in the
+This document is built with \emph{GNU make-4.3-2}. The \emph{Makefile} in the
 project archive builds the PDF version of this document from the \LaTeX source
 in \emph{DesignOfIIRFilters.tex}. The project archive contains the files
 required to generate the figures shown in this document. The line diagrams are
@@ -34173,16 +34173,18 @@ ans = 0.3333
 \end{small}
 
 \subsubsection*{Problems with Octave-Forge packages}
-The \emph{signal-1.4.1} package \texttt{zplane} function is patched to avoid a
-\LaTeX~error.
-
-The \emph{optim-1.6.1} package is patched to 
+The following packages are patched with here documents
+within \emph{build-octave.sh}:
+\begin{itemize}
+\item the \emph{signal-1.4.1} package \texttt{zplane} function is patched to
+avoid a \LaTeX~error.
+\item the \emph{optim-1.6.1} package is patched to 
 remove references to the deprecated global variable \texttt{error\_state} and to
 fix a problem with \texttt{optim\_doc} when \texttt{local\_list} is empty.
-
-The \emph{symbolic-2.9.0} package is patched with \emph{sympy-1.6.patch} from
-\emph{octave-symbolic\_2.9.0-3.debian.tar.xz} to update to \emph{sympy-1.6}
-provided with Fedora 33.
+\item the \emph{symbolic-2.9.0} package is patched with \emph{sympy-1.6.patch}
+from \emph{octave-symbolic\_2.9.0-3.debian.tar.xz} to update to the
+\emph{python3-sympy-1.7.1} package provided with Fedora 33.
+\end{itemize}
 
 \pdfbookmark[1]{Building Octave}{building-octave}
 \subsection*{Building Octave}
