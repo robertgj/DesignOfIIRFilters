@@ -1,5 +1,5 @@
 % test_common.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 % Normally these would be in .octaverc or ~/.octaverc
 
@@ -53,15 +53,15 @@ warning("error","Octave:singular-matrix");
 warning("error","Octave:nearly-singular-matrix");
 warning("error","Octave:undefined-return-values");
 
-% Disable some noisy warnings (note patches to octave-6.1.0 source files)
+% Disable some noisy warnings (note patches to octave-6.2.0 source files)
 warning("off","signal:grpdelay-singularity");
 warning("off","Octave:data-file-in-path");
-if strcmp("6.1.0-robj",OCTAVE_VERSION)
-  % See octave-6.1.0/scripts/plot/util/private/__gnuplot_draw_axes__.m
+if strcmp("6.2.0-robj",OCTAVE_VERSION)
+  % See octave-6.2.0/scripts/plot/util/private/__gnuplot_draw_axes__.m
   warning("off","Octave:latex-markup-not-supported-for-tick-marks");
-  % See octave-6.1.0/scripts/miscellaneous/delete.m
+  % See octave-6.2.0/scripts/miscellaneous/delete.m
   warning("off","Octave:delete-no-such-file");
-  % See octave-6.1.0/libinterp/corefcn/load-path.cc
+  % See octave-6.2.0/libinterp/corefcn/load-path.cc
   warning("off","Octave:load-path-update-failed");
   warning("off","Octave:load-path-dir-info-update");
 endif
