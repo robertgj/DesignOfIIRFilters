@@ -34040,7 +34040,7 @@ dnf install \
 readline-devel make lzip sharutils gcc gcc-c++ gcc-gfortran gmp-devel \
 mpfr-devel cmake gnuplot-latex m4 gperf bison flex openblas-devel patch \
 texinfo texinfo-tex librsvg2librsvg2-devel librsvg2-tools icoutils autoconf \
-automake libtool pcre pcre-devel freetype freetype-devel
+automake libtool pcre pcre-devel freetype freetype-devel gnupg2
 \end{verbatim}
 \end{small}
 
@@ -34170,7 +34170,11 @@ remove references to the deprecated global variable \texttt{error\_state} and to
 fix a problem with \texttt{optim\_doc} when \texttt{local\_list} is empty.
 \item the \emph{symbolic-2.9.0} package is patched with \emph{sympy-1.6.patch}
 from \emph{octave-symbolic\_2.9.0-3.debian.tar.xz} to update to the
-\emph{python3-sympy-1.7.1} package provided with Fedora 33.
+\emph{python3-sympy-1.7.1} package provided with Fedora 33. \emph{SparsePOP}
+uses the \texttt{collect} function from \emph{SymPy}. This is not included in
+the \emph{symbolic-2.9.0} package. I add a version of \emph{collect.m}
+based on \emph{octave/packages/symbolic-2.9.0/@sym/factor.m} to the \emph{@sym}
+directory. 
 \end{itemize}
 
 \pdfbookmark[1]{Building Octave}{building-octave}
@@ -34479,9 +34483,10 @@ latter is based on \emph{SymPy}~\cite{SymPy}, a Python library for symbolic
 mathematics. The Octave \emph{sparsePOP\_test.m} script shows an example of
 \emph{sparsePOP} reading the \emph{Bex5\_2\_5.gms} GAMS format example with the
 Octave-Forge \emph{symbolic} package. Note that the \emph{symbolic-2.9.0}
-package does not support the SymPy \emph{collect} function. I have added a
-version of \emph{collect.m} based on
-\emph{octave/packages/symbolic-2.9.0/@sym/factor.m}.
+package does not support the SymPy \emph{collect} function. I add a version
+of \emph{collect.m} based on 
+\emph{octave/packages/symbolic-2.9.0/@sym/factor.m} to the \emph{@sym}
+directory.
 
 \subsubsection*{Problems with SparsePOP}
 The \emph{sparsePOP\_solveExample\_test.m} script runs the SparsePOP
