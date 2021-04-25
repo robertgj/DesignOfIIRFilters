@@ -1,11 +1,13 @@
 % tarczynski_lowpass_differentiator_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2021 Robert G. Jenssen
 %
 % Design a lowpass differentiator using the method of Tarczynski et al. 
 % See "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
 % IEEE Transactions on Signal Processing, Vol. 49, No. 7, pp. 1421-1432
 
 test_common;
+
+pkg load optim;
 
 delete("tarczynski_lowpass_differentiator_test.diary");
 delete("tarczynski_lowpass_differentiator_test.diary.tmp");

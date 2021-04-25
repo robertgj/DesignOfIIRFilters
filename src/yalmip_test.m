@@ -1,18 +1,18 @@
 % yalmip_test.m
 % Copyright (C) 2020-2021 Robert G. Jenssen
 
+% YALMIP assumes MATLAB linprog. OctaveForge optim linprog is not compatible.
+
 test_common;
 
 delete("yalmip_test.diary");
 delete("yalmip_test.diary.tmp");
 diary yalmip_test.diary.tmp
 
-pkg load optim
-
 % Run YALMIP yalmiptest.m script
 solvers={'','sedumi','sdpt3'};
 for k=1:length(solvers)
-  yalmiptest(solvers{k},true);
+  yalmiptest(sdpsettings('solver',solvers{k}),true);
 endfor
 
 % Required by SparsePOP

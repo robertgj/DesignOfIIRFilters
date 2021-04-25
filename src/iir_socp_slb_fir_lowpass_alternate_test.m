@@ -3,6 +3,8 @@
 
 test_common;
 
+pkg load optim;
+
 delete("iir_socp_slb_fir_lowpass_alternate_test.diary");
 delete("iir_socp_slb_fir_lowpass_alternate_test.diary.tmp");
 diary iir_socp_slb_fir_lowpass_alternate_test.diary.tmp

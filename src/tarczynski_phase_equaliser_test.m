@@ -1,14 +1,15 @@
 % tarczynski_phase_equaliser_test.m
-% Copyright (C) 2018-2020 Robert G. Jenssen
+% Copyright (C) 2018-2021 Robert G. Jenssen
 
 test_common;
+
+pkg load optim;
 
 delete("tarczynski_phase_equaliser_test.diary");
 delete("tarczynski_phase_equaliser_test.diary.tmp");
 diary tarczynski_phase_equaliser_test.diary.tmp
 
 tic;
-
 
 tol=1e-3
 maxiter=1000

@@ -1,5 +1,5 @@
 % tarczynski_allpass2ndOrderCascade_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Design a lowpass filter that is the parallel combination of two 2nd order
 % cascade allpass filters using the method of Tarczynski et al. 
@@ -7,6 +7,8 @@
 % IEEE Transactions on Signal Processing, Vol. 49, No. 7, pp. 1421-1432
 
 test_common;
+
+pkg load optim;
 
 delete("tarczynski_allpass2ndOrderCascade_test.diary");
 delete("tarczynski_allpass2ndOrderCascade_test.diary.tmp");

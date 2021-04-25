@@ -1,7 +1,9 @@
 % directFIRhilbert_bandpass_slb_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2021 Robert G. Jenssen
 
 test_common;
+
+pkg load optim;
 
 delete("directFIRhilbert_bandpass_slb_test.diary");
 delete("directFIRhilbert_bandpass_slb_test.diary.tmp");

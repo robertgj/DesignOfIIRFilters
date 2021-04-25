@@ -5,9 +5,11 @@
 %      P.Zahradnik, M.Susta, B.Simak and M.Vlcek, IEEE Transactions on Circuits
 %      and Systems-II:Express Briefs, Vol. 64, No. 4, April 2017, pp 407-411
 %
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2021 Robert G. Jenssen
 
 test_common;
+
+pkg load optim;
 
 delete("zolotarev_zahradnik_degree_test.diary");
 delete("zolotarev_zahradnik_degree_test.diary.tmp");

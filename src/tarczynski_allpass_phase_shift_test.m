@@ -1,5 +1,5 @@
 % tarczynski_allpass_phase_shift_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Design an allpass filter with a phase shift of pi over a transition
 % band using the method of Tarczynski et al.
@@ -8,12 +8,13 @@
 
 test_common;
 
+pkg load optim;
+
 delete("tarczynski_allpass_phase_shift_test.diary");
 delete("tarczynski_allpass_phase_shift_test.diary.tmp");
 diary tarczynski_allpass_phase_shift_test.diary.tmp
 
 tic;
-
 
 function E=WISEJ_PS(a,_w,_td,_D,_Pd,_Wp)
 % E=WISEJ_PS(a,[w,td,D,Pd,Wp])

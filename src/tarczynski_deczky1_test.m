@@ -1,14 +1,15 @@
 % tarczynski_deczky1_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
+
+pkg load optim;
 
 delete("tarczynski_deczky1_test.diary");
 delete("tarczynski_deczky1_test.diary.tmp");
 diary tarczynski_deczky1_test.diary.tmp
 
 tic;
-
 
 % Initial filter
 R=1;

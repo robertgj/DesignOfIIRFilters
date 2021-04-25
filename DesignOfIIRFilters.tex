@@ -34168,13 +34168,15 @@ avoid a \LaTeX~error.
 \item the \emph{optim-1.6.1} package is patched to 
 remove references to the deprecated global variable \texttt{error\_state} and to
 fix a problem with \texttt{optim\_doc} when \texttt{local\_list} is empty.
+\item the \emph{optim-1.6.1} package \emph{linprog} function is only compatible
+with the MATLAB equivalent for calls like \texttt{[X, FVAL] = linprog (F, A, B,
+AEQ, BEQ, LB, UB)}.
 \item the \emph{symbolic-2.9.0} package is patched with \emph{sympy-1.6.patch}
 from \emph{octave-symbolic\_2.9.0-3.debian.tar.xz} to update to the
 \emph{python3-sympy-1.7.1} package provided with Fedora 33. \emph{SparsePOP}
 uses the \texttt{collect} function from \emph{SymPy}. This is not included in
 the \emph{symbolic-2.9.0} package. I add a version of \emph{collect.m}
-based on \emph{octave/packages/symbolic-2.9.0/@sym/factor.m} to the \emph{@sym}
-directory. 
+based on \emph{factor.m}. 
 \end{itemize}
 
 \pdfbookmark[1]{Building Octave}{building-octave}
@@ -34541,28 +34543,17 @@ divide-by-zero warning when running the \emph{maxcut} example from
 optimisation in MATLAB and Octave. \emph{YALMIP} calls semi-definite programming
 (SDP) solvers such as \emph{SeDuMi} and \emph{SDPT3}. 
 \subsubsection*{Problems with YALMIP}
-The patch file \emph{YALMIP.patch} fixes the following problems:
+The patch file \emph{YALMIP.patch} fixes the following minor problems 
+causing Octave warnings:
 \begin{itemize}
-\item a warning about arguments to the colon operator:
-\begin{small}
-\begin{verbatim}
-warning: colon arguments should be scalars
-warning: called from
-    yalmip at line 512 column 17
-    norm at line 46 column 34
-    yalmip_complex_test at line 64 column 15
-
-stopped in yalmip at line 512 
-[/usr/local/octave-6.1.0/share/octave/6.1.0-robj/site/m/YALMIP/extras/yalmip.m] 
-512:                 for i = 1:nout
-debug> nout
-nout =
-   1   1
-\end{verbatim}
-\end{small}
 \item warnings about filenames not matching function names
 \item warnings about the presence of non-ASCII characters such as \texttt{\"{o}}
 \end{itemize}
+
+\emph{YALMIP} calls the MATLAB \emph{linprog} function with input and output
+argument lists that are not compatible with that in the
+Octave-Forge \emph{optim-1.6.1} package. \emph{YALMIP} calls \emph{glpk} if that
+package is not loaded.
 
 Octave version \texttt{6.1.0} fails when calling the \texttt{bsxfun} builtin
 function with function handle \texttt{@plus}:
@@ -34574,8 +34565,8 @@ function with function handle \texttt{@plus}:
     yalmip_complex_test at line 87 column 6
 \end{verbatim}
 \end{small}
-Using the ``stringified'' function, \texttt{'plus'}, works. This problem is fixed
-in Octave version \texttt{6.2.0}: \url{https://savannah.gnu.org/bugs/?59661}. 
+Using the ``stringified'' \texttt{plus} function works. This problem is fixed in
+Octave version \texttt{6.2.0}: \url{https://savannah.gnu.org/bugs/?59661}.
 
 \begin{comment}
 \pdfbookmark[1]{BMIsolver}{bmisolver}

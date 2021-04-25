@@ -1,8 +1,10 @@
 % tarczynski_bandpass_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 
 test_common;
+
+pkg load optim;
 
 delete("tarczynski_bandpass_test.diary");
 delete("tarczynski_bandpass_test.diary.tmp");

@@ -1,5 +1,5 @@
 % tarczynski_ex2_standalone_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Design a filter implementing the response of Example 2 of Tarczynski et al. 
 % See "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
@@ -8,6 +8,8 @@
 % This standalone version only uses Octave functions
 
 test_common;
+
+pkg load optim;
 
 delete("tarczynski_ex2_standalone_test.diary");
 delete("tarczynski_ex2_standalone_test.diary.tmp");

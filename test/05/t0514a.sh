@@ -48,8 +48,8 @@ value(-t)=-2.5000
 
 YALMIP nonconvexquadraticprogramming bmibnb example
 For bmibnb : 
-value(x) = [  0.2353 -1.0000 -1.0000  1.0000  1.0000 ]
-value(x'*Q*x) = -80.9412
+value(x) = [ -0.2734  1.0000  1.0000 -1.0000 -1.0000 ]
+value(x'*Q*x) = -80.9164
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

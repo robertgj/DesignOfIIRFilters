@@ -2,10 +2,12 @@
 % See: "Equiripple Approximation of Half-Band FIR Filters",
 % P. Zahradnik and M. Vlcek, IEEE Transactions on Circuits and Systems - II:
 % Express Briefs, Vol. 56, No. 12, December 2009, pp. 941-945
-
-% Copyright (C) 2019-2020 Robert G. Jenssen
+%
+% Copyright (C) 2019-2021 Robert G. Jenssen
 
 test_common;
+
+pkg load optim;
 
 delete("zahradnik_halfband_test.diary");
 delete("zahradnik_halfband_test.diary.tmp");

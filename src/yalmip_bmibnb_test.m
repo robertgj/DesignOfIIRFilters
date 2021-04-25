@@ -8,8 +8,6 @@ delete("yalmip_bmibnb_test.diary");
 delete("yalmip_bmibnb_test.diary.tmp");
 diary yalmip_bmibnb_test.diary.tmp
 
-pkg load optim
-
 fhandle=fopen("test.results","wt");
 
 %
@@ -104,8 +102,6 @@ end_try_catch
 
 % Analyze error flags
 if sol.problem ~= 0
-  fprintf(stderr,"\nSomething went wrong with %s! : %s \n", ...
-          Options.solver, sol.info); 
   fprintf(fhandle,"\nSomething went wrong with %s! : %s \n", ...
           Options.solver, sol.info); 
 endif

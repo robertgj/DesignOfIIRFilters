@@ -1,12 +1,13 @@
 % freq_transform_structure_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
+
+pkg load optim;
 
 delete("freq_transform_structure_test.diary");
 delete("freq_transform_structure_test.diary.tmp");
 diary freq_transform_structure_test.diary.tmp
-
 
 strf="freq_transform_structure_test";
 

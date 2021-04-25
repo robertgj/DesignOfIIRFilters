@@ -1,5 +1,5 @@
 % tarczynski_frm_allpass_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Design an FRM filter from IIR allpass model in parallel with a delay
 % and FIR masking filters using the method of Tarczynski et al. The 
@@ -7,6 +7,8 @@
 % (ie: linear phase).
 
 test_common;
+
+pkg load optim;
 
 delete("tarczynski_frm_allpass_test.diary");
 delete("tarczynski_frm_allpass_test.diary.tmp");

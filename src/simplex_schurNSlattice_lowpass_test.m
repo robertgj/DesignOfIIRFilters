@@ -1,10 +1,12 @@
 % simplex_schurNSlattice_lowpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Test case for the simplex algorithm with coefficents of
 % a 5th order elliptic lattice filter in normalised-scaled form.
 
 test_common;
+
+pkg load optim;
 
 delete("simplex_schurNSlattice_lowpass_test.diary");
 delete("simplex_schurNSlattice_lowpass_test.diary.tmp");

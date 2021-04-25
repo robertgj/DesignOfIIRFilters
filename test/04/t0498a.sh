@@ -45,14 +45,14 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 
 cat > yalmiptest.ok << 'EOF'
-|       Searching for installed solvers       |
-|        Solver|   Version/module|      Status|
+|      Searching for installed solvers       |
+|       Solver|   Version/module|      Status|
 |                   Test|    Solution|                       Solver message|
 |   Core functionalities|         N/A|         Successfully solved (YALMIP)|
 |                     LP|     Correct|   Successfully solved (GLPK-GLPKMEX)|
 |                     LP|     Correct|   Successfully solved (GLPK-GLPKMEX)|
-|                     QP|     Correct|       Successfully solved (QUADPROG)|
-|                     QP|     Correct|       Successfully solved (QUADPROG)|
+|                     QP|     Correct|     Successfully solved (SeDuMi-1.3)|
+|                     QP|     Correct|     Successfully solved (SeDuMi-1.3)|
 |                   SOCP|     Correct|     Successfully solved (SeDuMi-1.3)|
 |                   SOCP|     Correct|     Successfully solved (SeDuMi-1.3)|
 |                   SOCP|     Correct|     Successfully solved (SeDuMi-1.3)|
@@ -63,13 +63,13 @@ cat > yalmiptest.ok << 'EOF'
 |                 MAXDET|     Correct|     Successfully solved (SeDuMi-1.3)|
 |                 MAXDET|     Correct|     Successfully solved (SeDuMi-1.3)|
 |          Infeasible LP|         N/A|    Infeasible problem (GLPK-GLPKMEX)|
-|          Infeasible QP|         N/A|        Infeasible problem (QUADPROG)|
+|          Infeasible QP|         N/A|      Infeasible problem (SeDuMi-1.3)|
 |         Infeasible SDP|         N/A|      Infeasible problem (SeDuMi-1.3)|
 |      Moment relaxation|     Correct|     Successfully solved (SeDuMi-1.3)|
 |         Sum-of-squares|     Correct|     Successfully solved (SeDuMi-1.3)|
 |           Bilinear SDP|   Incorrect|         Successfully solved (BMIBNB)|
-|       Searching for installed solvers       |
-|        Solver|   Version/module|      Status|
+|      Searching for installed solvers       |
+|       Solver|   Version/module|      Status|
 |                   Test|   Solution|                                                                       Solver message|
 |   Core functionalities|        N/A|                                                         Successfully solved (YALMIP)|
 |                     LP|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
@@ -91,8 +91,8 @@ cat > yalmiptest.ok << 'EOF'
 |      Moment relaxation|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
 |         Sum-of-squares|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
 |           Bilinear SDP|        N/A|   Solver not applicable (sedumi does not support quadratic semidefinite constraints)|
-|       Searching for installed solvers       |
-|        Solver|   Version/module|      Status|
+|      Searching for installed solvers       |
+|       Solver|   Version/module|      Status|
 |                   Test|   Solution|                                                                      Solver message|
 |   Core functionalities|        N/A|                                                        Successfully solved (YALMIP)|
 |                     LP|    Correct|                                                       Successfully solved (SDPT3-4)|

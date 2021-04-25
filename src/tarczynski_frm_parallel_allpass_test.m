@@ -1,11 +1,13 @@
 % tarczynski_frm_parallel_allpass_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Design an FRM filter from a parallel allpass IIR model filter
 % and FIR masking filters using the method of Tarczynski et al.
 % Masking filters are not assumed to be symmetric.
 
 test_common;
+
+pkg load optim;
 
 delete("tarczynski_frm_parallel_allpass_test.diary");
 delete("tarczynski_frm_parallel_allpass_test.diary.tmp");

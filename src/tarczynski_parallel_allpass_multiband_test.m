@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_multiband_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2021 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a multi-band-pass filter as the
 % difference of two parallel allpass filters. See:
@@ -7,6 +7,8 @@
 % IEEE Transactions on Signal Processing, Vol. 49, No. 7, pp. 1421-1432
 
 test_common;
+
+pkg load optim;
 
 delete("tarczynski_parallel_allpass_multiband_test.diary");
 delete("tarczynski_parallel_allpass_multiband_test.diary.tmp");

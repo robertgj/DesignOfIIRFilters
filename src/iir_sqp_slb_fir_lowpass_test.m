@@ -1,7 +1,9 @@
 % iir_sqp_slb_fir_lowpass_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2021 Robert G. Jenssen
 
 test_common;
+
+pkg load optim;
 
 delete("iir_sqp_slb_fir_lowpass_test.diary");
 delete("iir_sqp_slb_fir_lowpass_test.diary.tmp");

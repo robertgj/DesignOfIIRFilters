@@ -1,11 +1,13 @@
 % tarczynski_gaussian_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Design a Gaussian filter using the method of Tarczynski et al. 
 % See "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
 % IEEE Transactions on Signal Processing, Vol. 49, No. 7, pp. 1421-1432
 
 test_common;
+
+pkg load optim;
 
 delete("tarczynski_gaussian_test.diary");
 delete("tarczynski_gaussian_test.diary.tmp");

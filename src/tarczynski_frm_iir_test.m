@@ -1,11 +1,13 @@
 % tarczynski_frm_iir_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Design an FRM filter from IIR model and FIR masking filters using
 % the method of Tarczynski et al. The masking filters have odd lengths
 % (ie: even order) and are symmetric (ie: linear phase).
 
 test_common;
+
+pkg load optim;
 
 delete("tarczynski_frm_iir_test.diary");
 delete("tarczynski_frm_iir_test.diary.tmp");

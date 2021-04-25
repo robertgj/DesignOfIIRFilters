@@ -1,5 +1,5 @@
 % tarczynski_frm_halfband_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Design an FRM filter from IIR halfband model in parallel with a delay
 % and FIR masking filters using the method of Tarczynski et al. The 
@@ -8,6 +8,8 @@
 % applications in half-band filters and Hilbert transformers", L. Milić et al.
 
 test_common;
+
+pkg load optim;
 
 delete("tarczynski_frm_halfband_test.diary");
 delete("tarczynski_frm_halfband_test.diary.tmp");

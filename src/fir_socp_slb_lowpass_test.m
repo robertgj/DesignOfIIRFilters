@@ -1,12 +1,13 @@
 % fir_socp_slb_lowpass_test.m
-% Copyright (C) 2018-2020 Robert G. Jenssen
+% Copyright (C) 2018-2021 Robert G. Jenssen
 
 test_common;
+
+pkg load optim;
 
 delete("fir_socp_slb_lowpass_test.diary");
 delete("fir_socp_slb_lowpass_test.diary.tmp");
 diary fir_socp_slb_lowpass_test.diary.tmp
-
 
 tic
 

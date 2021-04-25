@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_bandpass_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a bandpass filter as the
 % difference of two parallel allpass filters. See:
@@ -7,6 +7,8 @@
 % IEEE Transactions on Signal Processing, Vol. 49, No. 7, pp. 1421-1432
 
 test_common;
+
+pkg load optim;
 
 % Disable group delay warnings
 warning("off");

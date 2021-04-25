@@ -11,7 +11,7 @@ suppress_verbose_help_message(true);
 output_precision(5)
 format compact
 
-pkg load signal optim;
+pkg load signal;
 
 graphics_toolkit("gnuplot");
 if getenv("OCTAVE_ENABLE_PLOT_TO_SCREEN")

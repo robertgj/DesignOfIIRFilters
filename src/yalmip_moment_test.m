@@ -12,8 +12,6 @@ delete("yalmip_moment_test.diary");
 delete("yalmip_moment_test.diary.tmp");
 diary yalmip_moment_test.diary.tmp
 
-pkg load optim
-
 fhandle=fopen("test.results","wt");
 
 %
