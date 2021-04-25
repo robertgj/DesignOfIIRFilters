@@ -34248,9 +34248,9 @@ be installed with this work-around:
 This section shows the results of benchmarking various builds of Octave
 and benchmarking \emph{blas} and \emph{lapack} libraries with a shared library
 \emph{LTO} and \emph{PGO} build of Octave. The Linux kernel used is
-\emph{5.8.17-300.fc33.x86\_64} from the RedHat Fedora 33 Linux
+\emph{5.11.15-200.fc33.x86\_64} from the RedHat Fedora 33 Linux
 distribution. The system compiler is
-\emph{gcc version 10.2.1 20201016 (Red Hat 10.2.1-6)}.
+\emph{gcc version 10.2.1 20201125 (Red Hat 10.2.1-9)}.
 The CPU is an Intel i7-7700K for which the number of CPU cores 
 is $4$ ($8$ hyper-threaded). During the benchmark the CPU frequency was fixed
 at $4.5GHz$.  To do this, as the \emph{root} user:
@@ -34323,11 +34323,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 129.5 \\
-Generic, shared reference lapack and blas            &  41.9 \\
-Generic, shared reference lapack and blas, LTO       &  42.5 \\
+Debug, shared reference lapack and blas              & 128.1 \\
+Generic, shared reference lapack and blas            &  42.1 \\
+Generic, shared reference lapack and blas, LTO       &  42.0 \\
 Generic, shared reference lapack and blas, PGO       &  42.1 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  40.9 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  40.8 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -34342,8 +34342,8 @@ The shell script \emph{library-benchmark.sh} benchmarks the shared library
 \emph{linpack.m}~\cite{Rutter_LinpackBenchmark} script and the previous IIR
 benchmark script. The \emph{linpack.m} script was modified to produce
 repeatable residuals. The alternative \emph{blas} and \emph{lapack} library
-versions used are local builds of \emph{blas-3.9.0} and \emph{lapack-3.9.0} and
-the Fedora 32 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
+versions used are local builds of \emph{blas-3.9.1} and \emph{lapack-3.9.1} and
+the Fedora 33 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
 \emph{gsl}~\cite{GNU_GSL} and \emph{openblas}~\cite{OpenBLAS_website}
 packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
   of \emph{DGESVD} for a problematic matrix and the \emph{libtatlas}, system
@@ -34354,7 +34354,7 @@ packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
   > ./dgesvd\_test\_sysblas\\
    0.14709002182060069\\
    Note: The following floating-point exceptions are signalling: IEEE\_DENORMAL\\
-  > LD\_LIBRARY\_PATH=/usr/local/octave-5.2.0/lib ./dgesvd\_test\_blas\\
+  > LD\_LIBRARY\_PATH=/usr/local/octave-6.2.0/lib ./dgesvd\_test\_blas\\
    0.14709002182060069
 \end{texttt}}
 \begin{small}
@@ -34401,19 +34401,19 @@ and \emph{LTO} build of Octave.
 \cmidrule{2-4}             & MFLOPS & Normalised          & Execution time \\
                            &        & residual            & (seconds) \\
 \midrule
-Generic libblas/liblapack  &  3905  & 21.3                &  40.5 \\
-Intel libblas/liblapack    &  3883  & 21.3                &  40.8 \\
-Haswell libblas/liblapack  &  4750  & 18.5                &  40.5 \\
-Nehalem libblas/liblapack  &  3921  & 21.3                &  40.7 \\
-Skylake libblas/liblapack  &  4657  & 18.5                &  40.5 \\
-Fedora 33 libblas/liblapack&  3905  & 21.3                &  41.0 \\
-libgslcblas                &  3937  & 21.3                &  40.9 \\
-libsatlas                  & 13488  & 12.2                &  41.2 \\
-libtatlas                  & 20800  & 12.8                &  40.3 \\
-libopenblas                & 33617  &  9.9                &  39.4 \\
-libopenblasp (1 thread)    & 33787  &  9.9                &  38.9 \\
-libopenblasp (2 threads)   & 47253  & 12.1                &  39.2 \\
-libopenblasp (4 threads)   & 57606  & 10.8                &  38.9 \\
+Generic libblas/liblapack  &  3939  & 21.3                &  40.9 \\
+Intel libblas/liblapack    &  3913  & 21.3                &  40.8 \\
+Haswell libblas/liblapack  &  4786  & 18.5                &  40.4 \\
+Nehalem libblas/liblapack  &  3934  & 21.3                &  40.8 \\
+Skylake libblas/liblapack  &  3990  & 18.5                &  40.8 \\
+Fedora 33 libblas/liblapack&  3931  & 21.3                &  40.9 \\
+libgslcblas                &  3932  & 21.3                &  40.8 \\
+libsatlas                  & 13369  & 12.2                &  41.1 \\
+libtatlas                  & 20846  & 12.8                &  40.4 \\
+libopenblas                & 35154  &  9.9                &  39.2 \\
+libopenblasp (1 thread)    & 33802  &  9.9                &  39.2 \\
+libopenblasp (2 threads)   & 47186  & 12.1                &  39.3 \\
+libopenblasp (4 threads)   & 56916  & 10.8                &  39.1 \\
 \bottomrule
 \end{tabular}
 \egroup{}
