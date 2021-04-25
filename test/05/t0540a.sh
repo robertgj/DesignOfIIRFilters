@@ -39,6 +39,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 sol.problem=0,result=Correct,value(alpha) = 2.49265
+P(:)'=[61.7052 30.9078 30.9078 41.2870 ]
+(A'*P)+(P*A)+(2*alpha*P)(:)'=[-1.2375 -0.9046 -0.9046 -0.8365 ]
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 
