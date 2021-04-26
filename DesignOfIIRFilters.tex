@@ -34913,7 +34913,7 @@ Alternatively, run \texttt{make batchtest}.
 
 \pdfbookmark[0]{Aegis}{aegis}
 \section*{Aegis}
-I use the \emph{aegis} software change management system written by
+I use the \emph{aegis} software change management system written by the late
 Peter Miller~\cite{Miller_aegis}. To build \emph{aegis} with
 the patch provided in this project:
 \begin{small}
@@ -34945,9 +34945,11 @@ fi
 \end{verbatim}
 \end{small}
 
-The \emph{fhist}~\cite{Miller_fhist} project and
-\emph{libexplain}\cite{Miller_libexplain} library are compiled similarly to
-\emph{aegis} with the patches provided in this project.
+\emph{aegis.conf} configures \emph{aegis} to use the file comparison functions
+from Miller's \emph{fhist}~\cite{Miller_fhist} project. \emph{fhist} depends on
+the \emph{libexplain}\cite{Miller_libexplain} library. \emph{fhist}
+and \emph{libexplain} are compiled similarly to \emph{aegis} with the patches 
+provided in this project. 
 
 \pdfbookmark[0]{Monochrome printing}{monochrome-printing}
 \section*{Monochrome printing}

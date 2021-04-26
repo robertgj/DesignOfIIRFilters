@@ -27,7 +27,6 @@
 *.synctex.gz
 *,D
 *,B
-aegis.conf
 octave-workspace
 /DesignOfIIRFilters.pdf
 _site
