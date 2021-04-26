@@ -94,9 +94,9 @@ fi
 
 SUITESPARSE_VER=${SUITESPARSE_VER:-5.9.0}
 SUITESPARSE_ARCHIVE=SuiteSparse-$SUITESPARSE_VER".tar.gz"
-SUITESPARSE_URL=http://people.engr.tamu.edu/davis/SuiteSparse/$SUITESPARSE_ARCHIVE
+SUITESPARSE_URL=https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v$SUITESPARSE_VER".tar.gz"
 if ! test -f $SUITESPARSE_ARCHIVE; then
-  wget -c $SUITESPARSE_URL
+  wget -c $SUITESPARSE_URL -O $SUITESPARSE_ARCHIVE
 fi
 
 QRUPDATE_VER=${QRUPDATE_VER:-1.1.2}
