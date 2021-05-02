@@ -98,7 +98,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_hN31K25.ok"; fail; fi
 #
 echo "Running $prog" 
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="selesnickFIRantisymmetric_flat_differentiator_test"

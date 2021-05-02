@@ -83,7 +83,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_v2_coef.m"; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_k2_coef.m schurOneMAPlattice_frm_hilbert_socp_slb_test_k2_coef.m

@@ -56,7 +56,7 @@ if [ $? -ne 0 ]; then echo "Failed cat test_a_3_6.ok"; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_a_3_6.ok zolotarev_vlcek_unbehauen_table_v_test_a_3_6_coef.m

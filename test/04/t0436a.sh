@@ -372,7 +372,7 @@ if [ $? -ne 0 ]; then echo "Failed cat test_as_120_fp_0_15_h_coef.ok"; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="zolotarev_vlcek_zahradnik_test"

@@ -181,7 +181,7 @@ while 1
     error("feval(pfx,...) failure!");
   end_try_catch
   if feasible
-    if x==nextx
+    if all(x==nextx)
       printf("E=%f\n",E);
       printf("x=[ ");printf("%f ",x);printf("]';\n");
       warning("No change to solution after %d PCLS iterations\n",slb_iter);

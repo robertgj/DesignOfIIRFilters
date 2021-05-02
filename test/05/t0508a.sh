@@ -67,7 +67,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_g.ok"; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 name_str="directFIRnonsymmetric_sdp_minimum_phase_test"

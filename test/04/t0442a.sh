@@ -1996,7 +1996,7 @@ if [ $? -ne 0 ]; then echo "Failed cat test_fmax_275_asdB_140.ok"; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="zolotarev_zahradnik_degree_test"

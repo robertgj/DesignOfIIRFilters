@@ -227,7 +227,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.kclhat.ok"; fail; fi
 # run and see if the results match
 #
 echo "Running $descr"
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $descr"; fail; fi
 
 diff -Bb test.brz.ok complementaryFIRdecomp_test_brz_coef.m

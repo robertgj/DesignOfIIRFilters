@@ -74,7 +74,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 # run and see if the results match
 #
 echo "Running $prog"
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.ok test.out

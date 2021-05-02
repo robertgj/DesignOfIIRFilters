@@ -134,7 +134,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat dgesvd_test.f"; fail; fi
 # the ATLAS output should look like this
 #
 cat > test.atlas.ok << 'EOF'
- 0.14709002182061762
+ 0.14709002182061767
 EOF
 
 gfortran -Wall -o dgesvd_test_atlas dgesvd_test.f /usr/lib64/atlas/libtatlas.so.3

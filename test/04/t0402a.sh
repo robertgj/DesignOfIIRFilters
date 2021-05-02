@@ -80,7 +80,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_v1_coef.m"; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_k1_coef.m schurOneMAPlattice_frm_socp_mmse_test_k1_coef.m

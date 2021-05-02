@@ -107,7 +107,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_x2.ok"; fail; fi
 #
 echo "Running $prog" 
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_N0.ok iir_socp_slb_multiband_test_N0_coef.m

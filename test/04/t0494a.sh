@@ -72,7 +72,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.d1.ok"; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.d1.ok iir_sqp_slb_fir_lowpass_test_d1_coef.m

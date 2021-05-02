@@ -102,7 +102,7 @@ if [ $? -ne 0 ]; then echo "Failed cat test_fp_0_225_as_140.ok"; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_fp_0_225_as_60.ok zahradnik_halfband_test_fp_0_225_as_60_coef.m 

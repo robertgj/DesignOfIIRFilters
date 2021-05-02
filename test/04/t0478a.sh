@@ -115,7 +115,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_aM19K12.ok"; fail; fi
 #
 echo "Running $prog" 
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_hM18K11.ok herrmannFIRsymmetric_flat_lowpass_test_hM18K11_coef.m

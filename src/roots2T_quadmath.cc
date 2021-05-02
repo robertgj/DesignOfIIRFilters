@@ -57,6 +57,7 @@ DEFUN_DLD(roots2T_quadmath, args, nargout, "a=roots2T_quadmath(r)")
   
   // Initialise arguments
   __float128 r[N];
+  memset(r, 0, N*sizeof(__float128));
   for(octave_idx_type col=0;col<N;col++)
     {
       r[col]=rarg(col);

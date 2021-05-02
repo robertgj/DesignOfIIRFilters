@@ -12,25 +12,21 @@ output_precision(5)
 format compact
 
 pkg load signal;
+try
+  graphics_toolkit("qt");
+catch
+  graphics_toolkit("gnuplot");
+end_try_catch
 
-graphics_toolkit("gnuplot");
 if getenv("OCTAVE_ENABLE_PLOT_TO_SCREEN")
-  % Enabling plotting to the screen causes difficulties when building the
-  % entire project: the plots capture the screen focus.
   set(0,'DefaultFigureVisible','on');
-  % Choose the appropriate linewidth for the svg file format.
-  % See: https://savannah.gnu.org/bugs/?43552
-  set(0,"defaultlinelinewidth",4);
 else
-  % Disable plotting to the screen.
+  % Disable plotting to the screen. It captures the screen focus.
   set(0,'DefaultFigureVisible','off');
-  % Choose the appropriate linewidth for the pdf file format.
-  set(0,"defaultlinelinewidth",8);
 endif
-% Comment the following line for octave-4.0.3
-set(0,"defaultaxestitlefontweight","normal");
-% For monochrome printing
+
 if getenv("OCTAVE_ENABLE_MONOCHROME")
+  % For monochrome printing
   set(0,"defaultaxescolororder",zeros(size(get(0,"defaultaxescolororder"))));
 endif
 clf
@@ -53,15 +49,15 @@ warning("error","Octave:singular-matrix");
 warning("error","Octave:nearly-singular-matrix");
 warning("error","Octave:undefined-return-values");
 
-% Disable some noisy warnings (note patches to octave-6.2.0 source files)
+% Disable some noisy warnings (note patches to octave source files)
 warning("off","signal:grpdelay-singularity");
 warning("off","Octave:data-file-in-path");
 if strcmp("6.2.0-robj",OCTAVE_VERSION)
-  % See octave-6.2.0/scripts/plot/util/private/__gnuplot_draw_axes__.m
+  % See scripts/plot/util/private/__gnuplot_draw_axes__.m
   warning("off","Octave:latex-markup-not-supported-for-tick-marks");
-  % See octave-6.2.0/scripts/miscellaneous/delete.m
+  % See scripts/miscellaneous/delete.m
   warning("off","Octave:delete-no-such-file");
-  % See octave-6.2.0/libinterp/corefcn/load-path.cc
+  % See libinterp/corefcn/load-path.cc
   warning("off","Octave:load-path-update-failed");
   warning("off","Octave:load-path-dir-info-update");
 endif

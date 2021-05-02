@@ -68,7 +68,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_b_coef.m "; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_d1_coef.ok decimator_R2_interpolated_test_d1_coef.m

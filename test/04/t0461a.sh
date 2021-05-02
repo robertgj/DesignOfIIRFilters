@@ -176,7 +176,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_hMd.ok"; fail; fi
 #
 echo "Running $prog" 
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_hMa.ok selesnickFIRsymmetric_lowpass_test_hMa_coef.m

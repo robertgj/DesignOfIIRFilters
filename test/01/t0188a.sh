@@ -94,7 +94,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.k2.ok schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m

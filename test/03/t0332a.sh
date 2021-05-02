@@ -67,7 +67,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_y6.ok"; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_x5.ok Lu_remarks_examples_5_and_6_test_x5_coef.m

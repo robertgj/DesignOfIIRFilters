@@ -143,7 +143,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.d_bfsd.ok"; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.n_ex.ok bitflip_directIIR_bandpass_test_n_ex_coef.m

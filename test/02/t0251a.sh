@@ -61,7 +61,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.aa1.ok"; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.r1.ok tarczynski_frm_halfband_test_r1_coef.m

@@ -21,6 +21,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \usepackage[T1]{fontenc}
 \usepackage{framed}
 \usepackage[utf8]{inputenc}
+\usepackage{lmodern}
 \usepackage{mathtools}
 \usepackage{multirow}
 \usepackage{nag}
@@ -26335,24 +26336,26 @@ The initial filter is the band-pass filter designed by the Octave script
 \emph{iir\_sqp\_slb\_fir\_17\_bandpass\_test.m} in gain-pole-zero form. The
 corresponding initial minimum-phase FIR lattice filters  were calculated by the
 Octave function \emph{complementaryFIRlattice}.
+
 Figure~\ref{fig:Zeros-initial-band-pass-FIR-lattice-and-complementary-filter}
 shows the zeros of the initial FIR lattice band-pass and complementary filters.
 
 \begin{figure}
 \begin{subfigure}[b]{\textwidth}
 \centering
-\includegraphics[scale=\DesignOfIIRFiltersPdfScale]{complementaryFIRlattice_socp_slb_bandpass_test_initial_b0_pz}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_test_initial_b0_pz}}
 \caption{Zeros of the initial FIR lattice band-pass filter}
 \end{subfigure}
 \begin{subfigure}[b]{\textwidth}
 \centering
-\includegraphics[scale=\DesignOfIIRFiltersPdfScale]{complementaryFIRlattice_socp_slb_bandpass_test_initial_bc0_pz}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_test_initial_bc0_pz}}
 \caption{Zeros of the initial FIR lattice band-pass complementary filter}
 \end{subfigure}
 \caption{Zeros of the initial band-pass FIR lattice filter and the complementary
  filter}
 \label{fig:Zeros-initial-band-pass-FIR-lattice-and-complementary-filter}
 \end{figure}
+
 
 The PCLS optimised filter lattice coefficients are:
 \begin{small}
@@ -26386,12 +26389,12 @@ the complementary filter. The FIR lattice filters need not be minimum-phase.
 \begin{figure}
 \begin{subfigure}[b]{\textwidth}
 \centering
-\includegraphics[scale=\DesignOfIIRFiltersPdfScale]{complementaryFIRlattice_socp_slb_bandpass_test_pcls_Nh2_pz}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_test_pcls_Nh2_pz}}
 \caption{Zeros of the PCLS optimised FIR lattice band-pass Hilbert filter}
 \end{subfigure}
 \begin{subfigure}[b]{\textwidth}
 \centering
-\includegraphics[scale=\DesignOfIIRFiltersPdfScale]{complementaryFIRlattice_socp_slb_bandpass_test_pcls_Ng2_pz}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_test_pcls_Ng2_pz}}
 \caption{Zeros of the PCLS optimised FIR lattice complementary filter}
 \end{subfigure}
 \caption{Zeros of the PCLS optimised FIR lattice band-pass Hilbert filter and the complementary filter}
@@ -34019,17 +34022,17 @@ stop band regions. The pass band phase error is adjusted for the nominal delay.}
 \addcontentsline{toc}{part}{Colophon}
 \pdfbookmark[0]{Requirements}{requirements}
 \section*{Software requirements}
-I currently use the Fedora 33 distribution of Linux~\cite{Fedora_website} with:
+I currently use the Fedora 34 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{5.11.14-200.fc33.x86\_64}
-\item \emph{gcc} version \emph{10.2.1 20201125 (Red Hat 10.2.1-9)}
+\item \texttt{uname -r} is \emph{5.11.16-300.fc34.x86\_64}
+\item \emph{gcc} version \emph{11.0.1 20210324 (Red Hat 11.0.1-0)}
 \item a local build of \emph{octave-6.2.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic} and \emph{parallel} Octave-Forge packages
-\item the Octave scripts use the \emph{gnuplot} graphics toolkit and
-  \emph{gnuplot-5.2.8-6}
-\item \emph{texlive-2020-35} and various packages are installed
-\item \emph{dia-0.97.3-16} is used for line drawings
+\item the Octave scripts use the \emph{qt} graphics toolkit and
+  \emph{qt6-6.0.3-1}
+\item \emph{texlive-2020-38} and various packages are installed
+\item \emph{dia-0.97.3-17} is used for line drawings
 \end{itemize}
 
 The local build of \emph{octave-6.2.0} assumes that the following packages are
@@ -34040,7 +34043,7 @@ dnf install \
 readline-devel make lzip sharutils gcc gcc-c++ gcc-gfortran gmp-devel \
 mpfr-devel cmake gnuplot-latex m4 gperf bison flex openblas-devel patch \
 texinfo texinfo-tex librsvg2librsvg2-devel librsvg2-tools icoutils autoconf \
-automake libtool pcre pcre-devel freetype freetype-devel gnupg2
+automake libtool pcre pcre-devel freetype freetype-devel gnupg2 \
 \end{verbatim}
 \end{small}
 
@@ -34049,10 +34052,10 @@ The following packages are required to build this document:
 \begin{verbatim}
 dnf install dia epstool \
 texlive-algorithmicx texlive-appendix texlive-boondox \
-texlive-calculator texlive-chngcntr texlive-dvipng texlive-environ \
-texlive-epstopdf texlive-esint texlive-esint-type1 texlive-fontaxes \
-texlive-fouriernc texlive-fourier texlive-framed texlive-gsftopk \
-texlive-kpfonts texlive-latex-base-dev texlive-latex-bin-dev \
+texlive-calculator texlive-chngcntr texlive-dvipng texlive-dvisvgm \
+texlive-environ texlive-epstopdf texlive-esint texlive-esint-type1 \
+texlive-fontaxes texlive-fouriernc texlive-fourier texlive-framed \
+texlive-gsftopk texlive-kpfonts texlive-latex-base-dev texlive-latex-bin-dev \
 texlive-latex-graphics-dev texlive-ly1 texlive-mathdesign \
 texlive-multirow texlive-nag texlive-needspace texlive-newpx \
 texlive-newtx texlive-obsolete texlive-pdfcrop texlive-powerdot \
@@ -34064,7 +34067,7 @@ texlive-trimspaces texlive-type1cm texlive-upquote texlive-wrapfig
   
 \pdfbookmark[0]{Makefile}{makefile}
 \section*{\emph{Makefile}}
-This document is built with \emph{GNU make-4.3-2}. The \emph{Makefile} in the
+This document is built with \emph{GNU make-4.3-5}. The \emph{Makefile} in the
 project archive builds the PDF version of this document from the \LaTeX source
 in \emph{DesignOfIIRFilters.tex}. The project archive contains the files
 required to generate the figures shown in this document. The line diagrams are
@@ -34250,9 +34253,9 @@ be installed with this work-around:
 This section shows the results of benchmarking various builds of Octave
 and benchmarking \emph{blas} and \emph{lapack} libraries with a shared library
 \emph{LTO} and \emph{PGO} build of Octave. The Linux kernel used is
-\emph{5.11.15-200.fc33.x86\_64} from the RedHat Fedora 33 Linux
+\emph{5.11.16-300.fc33.x86\_64} from the RedHat Fedora 34 Linux
 distribution. The system compiler is
-\emph{gcc version 10.2.1 20201125 (Red Hat 10.2.1-9)}.
+\emph{gcc version 11.0.1 20210324 (Red Hat 11.0.1-0)}.
 The CPU is an Intel i7-7700K for which the number of CPU cores 
 is $4$ ($8$ hyper-threaded). During the benchmark the CPU frequency was fixed
 at $4.5GHz$.  To do this, as the \emph{root} user:
@@ -34325,11 +34328,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 128.1 \\
-Generic, shared reference lapack and blas            &  42.1 \\
-Generic, shared reference lapack and blas, LTO       &  42.0 \\
-Generic, shared reference lapack and blas, PGO       &  42.1 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  40.8 \\
+Debug, shared reference lapack and blas              & 127.2 \\
+Generic, shared reference lapack and blas            &  41.2 \\
+Generic, shared reference lapack and blas, LTO       &  41.7 \\
+Generic, shared reference lapack and blas, PGO       &  41.7 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  41.2 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -34345,14 +34348,14 @@ The shell script \emph{library-benchmark.sh} benchmarks the shared library
 benchmark script. The \emph{linpack.m} script was modified to produce
 repeatable residuals. The alternative \emph{blas} and \emph{lapack} library
 versions used are local builds of \emph{blas-3.9.1} and \emph{lapack-3.9.1} and
-the Fedora 33 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
+the Fedora 34 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
 \emph{gsl}~\cite{GNU_GSL} and \emph{openblas}~\cite{OpenBLAS_website}
 packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
   of \emph{DGESVD} for a problematic matrix and the \emph{libtatlas}, system
   \emph{libblas} and ``local'' \emph{libblas} libraries:\\
 \begin{texttt}
   > ./dgesvd\_test\_atlas\\
-   0.14709002182061762\\
+   0.14709002182061767\\
   > ./dgesvd\_test\_sysblas\\
    0.14709002182060069\\
    Note: The following floating-point exceptions are signalling: IEEE\_DENORMAL\\
@@ -34361,13 +34364,13 @@ packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
 \end{texttt}}
 \begin{small}
 \begin{verbatim}
-atlas.x86_64               3.10.3-12.fc33
-blas.x86_64                3.9.0-5.fc33
-lapack.x86_64              3.9.0-5.fc33
-gsl.x86_64                 2.6-3.fc33
-gsl-devel.x86_64           2.6-3.fc33
-openblas.x86_64            0.3.12-1.fc33
-openblas-threads.x86_64    0.3.12-1.fc33
+atlas.x86_64               3.10.3-15.fc34
+blas.x86_64                3.9.0-6.fc34
+lapack.x86_64              3.9.0-6.fc34
+gsl.x86_64                 2.6-4.fc34
+gsl-devel.x86_64           2.6-4.fc34
+openblas.x86_64            0.3.12-2.fc34
+openblas-threads.x86_64    0.3.12-2.fc34
 \end{verbatim}
 \end{small}
 
@@ -34403,19 +34406,19 @@ and \emph{LTO} build of Octave.
 \cmidrule{2-4}             & MFLOPS & Normalised          & Execution time \\
                            &        & residual            & (seconds) \\
 \midrule
-Generic libblas/liblapack  &  3939  & 21.3                &  40.9 \\
-Intel libblas/liblapack    &  3913  & 21.3                &  40.8 \\
-Haswell libblas/liblapack  &  4786  & 18.5                &  40.4 \\
-Nehalem libblas/liblapack  &  3934  & 21.3                &  40.8 \\
-Skylake libblas/liblapack  &  3990  & 18.5                &  40.8 \\
-Fedora 33 libblas/liblapack&  3931  & 21.3                &  40.9 \\
-libgslcblas                &  3932  & 21.3                &  40.8 \\
-libsatlas                  & 13369  & 12.2                &  41.1 \\
-libtatlas                  & 20846  & 12.8                &  40.4 \\
-libopenblas                & 35154  &  9.9                &  39.2 \\
-libopenblasp (1 thread)    & 33802  &  9.9                &  39.2 \\
-libopenblasp (2 threads)   & 47186  & 12.1                &  39.3 \\
-libopenblasp (4 threads)   & 56916  & 10.8                &  39.1 \\
+Generic libblas/liblapack  &  3933  & 21.3                &  41.2 \\
+Intel libblas/liblapack    &  3922  & 21.3                &  41.2 \\
+Haswell libblas/liblapack  &  4780  & 18.5                &  40.8 \\
+Nehalem libblas/liblapack  &  3951  & 21.3                &  41.2 \\
+Skylake libblas/liblapack  &  4687  & 18.5                &  40.9 \\
+Fedora 34 libblas/liblapack&  3940  & 21.3                &  41.2 \\
+libgslcblas                &  3935  & 21.3                &  41.2 \\
+libsatlas                  & 13623  & 12.2                &  41.5 \\
+libtatlas                  & 20927  & 11.4                &  41.3 \\
+libopenblas                & 34190  &  9.9                &  39.5 \\
+libopenblasp (1 thread)    & 34159  &  9.9                &  39.6 \\
+libopenblasp (2 threads)   & 47344  & 12.1                &  39.7 \\
+libopenblasp (4 threads)   & 57639  & 10.8                &  39.6 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -34671,13 +34674,13 @@ QEMU~\cite{QEMU_website} based virtual machine with the RedHat
 machines I found it necessary to also install the Fedora \emph{acpid} and
 \emph{qemu-guest-agent} packages and enable the associated services. 
 
-I created a QEMU VM from the Fedora 33 Server ISO
-image~\cite{Fedora33Server_iso} with 4GB RAM, 10GB disk, 8 Nehalem
+I created a QEMU VM from the Fedora 34 Server net install ISO
+image~\cite{Fedora34Server_iso} with 4GB RAM, 10GB disk, 8 Nehalem 
 CPUs, bridged networking on device \texttt{virbr0}, root password
 \texttt{password} and SSH root access with password. Following \emph{Buettner}'s
 advice I removed the tablet, sound, display spice, serial port 1, channel
 qemu-ga, channel spice, video QXL, RNG and USB redirector 1 and 2. In the
-following the IPv4 address, \texttt{w.x.y.z}, will be determined by your network
+following the IPv4 address will be determined by your network
 settings.
 
 \subsubsection*{Set up the VM}
@@ -34686,14 +34689,14 @@ with the VM through \texttt{ssh} and transfer files with \texttt{scp}.
 
 \begin{small}
 \begin{verbatim}
-$ virsh start Fedora33Server
-$ ssh root@w.x.y.z
-The authenticity of host 'w.x.y.z (w.x.y.z)' can't be established.
+$ virsh start Fedora34Server
+$ ssh root@192.168.122.7
+The authenticity of host '192.168.122.7 (192.168.122.7)' can't be established.
 ECDSA key fingerprint is SHA256:###########################################.
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added 'w.x.y.z' (ECDSA) to the list of known hosts.
-root@w.x.y.z's password: 
-Web console: https://localhost:9090/ or https://w.x.y.z:9090/
+Warning: Permanently added '192.168.122.7' (ECDSA) to the list of known hosts.
+root@192.168.122.7's password: 
+Web console: https://localhost:9090/ or https://192.168.122.7:9090/
 
 Last login: 
 [root@localhost ~]# dnf update
@@ -34702,7 +34705,7 @@ Dependencies resolved.
 Nothing to do.
 Complete!
 [root@localhost ~]# uname -rs
-Linux 5.9.13-200.fc33.x86_64
+Linux 5.11.16-300.fc34.x86_64
 [root@localhost ~] dnf install wget readline-devel lzip sharutils gcc gcc-c++ \
 gcc-gfortran gmp-devel mpfr-devel make cmake gnuplot-latex m4 gperf bison flex \
 openblas-devel patch texinfo texinfo-tex icoutils librsvg2-tools librsvg2 \
@@ -34713,11 +34716,13 @@ texlive-epstopdf texlive-esint texlive-esint-type1 texlive-fontaxes \
 texlive-fouriernc texlive-fourier texlive-framed texlive-gsftopk \
 texlive-kpfonts texlive-latex-base-dev texlive-latex-bin-dev \
 texlive-latex-graphics-dev texlive-ly1 texlive-mathdesign texlive-multirow \
-texlive-nag texlive-needspace texlive-newpx texlive-newtx texlive-obsolete \
+texlive-nag texlive-needspace texlive-newpx texlive-newtx \
 texlive-pdfcrop texlive-powerdot texlive-pst-blur texlive-pst-pdf \
 texlive-pst-slpe texlive-rotfloat texlive-scheme-basic \
 texlive-threeparttable texlive-tocbibind texlive-trimspaces \
-texlive-type1cm texlive-upquote texlive-wrapfig 
+texlive-type1cm texlive-upquote texlive-wrapfig texlive-dvisvgm \
+hdf5 hdf5-devel qt qscintilla-qt5 qscintilla-qt5-devel \
+qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel
 .
 .
 .
@@ -34731,10 +34736,10 @@ texlive-type1cm texlive-upquote texlive-wrapfig
 .
 .
 [root@localhost ~]# cd
-[root@localhost ~]# echo "export PATH=$PATH:/usr/local/octave-6.1.0/bin" >> .bashrc 
+[root@localhost ~]# echo "export PATH=$PATH:/usr/local/octave-6.2.0/bin" >> .bashrc 
 [root@localhost ~]# shutdown -h now
-Connection to w.x.y.z closed by remote host.
-Connection to w.x.y.z closed.
+Connection to 192.168.122.7 closed by remote host.
+Connection to 192.168.122.7 closed.
 $
 \end{verbatim}
 \end{small}
@@ -34751,8 +34756,8 @@ This edited example session shows:
 \subsubsection*{Build this document on the VM}
 \begin{small}
 \begin{verbatim}
-$ virsh start Fedora33Server
-$ ssh root@w.x.y.z
+$ virsh start Fedora34Server
+$ ssh root@192.168.122.7
 [root@localhost ~]# cd DesignOfIIRFilters-master
 [root@localhost DesignOfIIRFilters-master]# make -Bkj 8 
 \end{verbatim}
@@ -34761,8 +34766,8 @@ $ ssh root@w.x.y.z
 \subsubsection*{Copy this document from the VM}
 \begin{small}
 \begin{verbatim}
-$ virsh start Fedora33Server
-$ scp root@w.x.y.z:/root/DesignOfIIRFilters-master/DesignOfIIRFilters.pdf \
+$ virsh start Fedora34Server
+$ scp root@192.168.122.7:/root/DesignOfIIRFilters-master/DesignOfIIRFilters.pdf \
   DesignOfIIRFilters.pdf
 \end{verbatim}
 \end{small}
@@ -34771,8 +34776,8 @@ $ scp root@w.x.y.z:/root/DesignOfIIRFilters-master/DesignOfIIRFilters.pdf \
 \subsubsection*{Run the test scripts on the VM}
 \begin{small}
 \begin{verbatim}
-$ virsh start Fedora33Server
-$ ssh root@w.x.y.z
+$ virsh start Fedora34Server
+$ ssh root@192.168.122.7
 [root@localhost ~]# cd DesignOfIIRFilters-master
 [root@localhost DesignOfIIRFilters-master]# make batchtest
 .
@@ -34784,15 +34789,16 @@ $ ssh root@w.x.y.z
 \subsubsection*{Export the VM to libvirt}
 \begin{small}
 \begin{verbatim}
-$ virsh dumpxml Fedora33Server 
+$ virsh start Fedora34Server
+$ virsh dumpxml Fedora34Server 
 \end{verbatim}
 \end{small}
 
 \subsubsection*{Remove an existing VM}
 \begin{small}
 \begin{verbatim}
-$ sudo virsh shutdown Fedora33Server
-$ sudo virsh undefine Fedora33Server
+$ sudo virsh shutdown Fedora34Server
+$ sudo virsh undefine Fedora34Server
 \end{verbatim}
 \end{small}
 
@@ -34800,7 +34806,7 @@ $ sudo virsh undefine Fedora33Server
 Shut down the VM and, on the host, run:
 \begin{small}
 \begin{verbatim}
-$ sudo virsh shutdown Fedora33Server
+$ sudo virsh shutdown Fedora34Server
 $ virt-sparsify --in-place your-image-file
 \end{verbatim}
 \end{small}
@@ -34808,8 +34814,8 @@ $ virt-sparsify --in-place your-image-file
 Alternatively, fill unused VM disc sectors with $0$:
 \begin{small}
 \begin{verbatim}
-$ virsh start Fedora33Server
-$ ssh root@w.x.y.z
+$ virsh start Fedora34Server
+$ ssh root@192.168.122.7
 [root@localhost ~]# cd /boot
 [root@localhost ~]# dd if=/dev/zero of=zerofile
 [root@localhost ~]# sync
@@ -34819,87 +34825,6 @@ $ ssh root@w.x.y.z
 [root@localhost ~]# sync
 [root@localhost ~]# rm -f zerofile
 [root@localhost ~]# shutdown -h now
-\end{verbatim}
-\end{small}
-
-\subsubsection*{Create a QEMU command line for the VM}
-Create a QEMU command line:
-\begin{small}
-\begin{verbatim}
-$ sudo virsh domxml-to-native qemu-argv --domain Fedora33Server 
-\end{verbatim}
-\end{small}
-Edit the command line as suggested by
-\emph{Buettner}~\cite{Buettner_ConfigureQEMU} (with help from StackExchange).
-It should look like this, with \emph{uuid} and \emph{filename} set to your
-values:
-\begin{small}
-\begin{verbatim}
-#!/bin/sh
-
-export LC_ALL=C 
-
-/usr/bin/qemu-system-x86_64 \
-    -name guest=Fedora33Server,debug-threads=on \
-    -machine pc-q35-5.1,accel=kvm,usb=off,vmport=off,dump-guest-core=off \
-    -cpu Nehalem,ibpb=on,md-clear=on,spec-ctrl=on,ssbd=on \
-    -m 4096 \
-    -overcommit mem-lock=off \
-    -smp 8,sockets=8,cores=1,threads=1 \
-    -uuid your-uuid \
-    -display none \
-    -no-user-config \
-    -nodefaults \
-    -rtc base=utc,driftfix=slew \
-    -global kvm-pit.lost_tick_policy=delay \
-    -no-hpet \
-    -no-shutdown \
-    -global ICH9-LPC.disable_s3=1 \
-    -global ICH9-LPC.disable_s4=1 \
-    -boot strict=on -device pcie-root-port,port=0x10,chassis=1,id=pci.1,\
-bus=pcie.0,multifunction=on,addr=0x2 \
-    -device pcie-root-port,port=0x11,chassis=2,id=pci.2,bus=pcie.0,addr=0x2.0x1 \
-    -device pcie-root-port,port=0x12,chassis=3,id=pci.3,bus=pcie.0,addr=0x2.0x2 \
-    -device pcie-root-port,port=0x13,chassis=4,id=pci.4,bus=pcie.0,addr=0x2.0x3 \
-    -device pcie-root-port,port=0x14,chassis=5,id=pci.5,bus=pcie.0,addr=0x2.0x4 \
-    -device pcie-root-port,port=0x15,chassis=6,id=pci.6,bus=pcie.0,addr=0x2.0x5 \
-    -device pcie-root-port,port=0x16,chassis=7,id=pci.7,bus=pcie.0,addr=0x2.0x6 \
-    -device qemu-xhci,p2=15,p3=15,id=usb,bus=pci.2,addr=0x0 \
-    -device virtio-serial-pci,id=virtio-serial0,bus=pci.3,addr=0x0 \
-    -blockdev '{"driver":"file",
-                "filename":"your-image-file",
-                "node-name":"libvirt-2-storage",
-                "auto-read-only":true,
-                "discard":"unmap"}' \
-    -blockdev '{"node-name":"libvirt-2-format",
-                "read-only":false,
-                "driver":"qcow2",
-                "file":"libvirt-2-storage"}' \
-    -device virtio-blk-pci,bus=pci.4,addr=0x0,drive=libvirt-2-format,\
-id=virtio-disk0,bootindex=1 \
-    -device ide-cd,bus=ide.0,id=sata0-0-0 \
-    -netdev bridge,id=hostnet0,br=virbr0 \
-    -device virtio-net-pci,netdev=hostnet0,id=net0,\
-mac=52:54:00:b5:db:39,bus=pci.1,addr=0x0 \
-    -device virtio-balloon-pci,id=balloon0,bus=pci.5,addr=0x0 \
-    -msg timestamp=on \
-    -net user,hostfwd=tcp::10022-:22 \
-    -net nic 
-\end{verbatim}
-\end{small}
-
-Login in to the VM with:
-\begin{small}
-\begin{verbatim}
-$ ssh root@localhost -p10022
-The authenticity of host '[localhost]:10022 ([127.0.0.1]:10022)' can't be established.
-ECDSA key fingerprint is SHA256:###########################################.
-Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added '[localhost]:10022' (ECDSA) to the list of known hosts.
-root@localhost's password: 
-Web console: https://localhost:9090/ or https://w.x.y.z:9090/
-
-[root@localhost ~]#
 \end{verbatim}
 \end{small}
 
@@ -34986,60 +34911,6 @@ The following command enables both these changes:
 make cleanall && OCTAVE_ENABLE_MONOCHROME=1 make -j 6 monochrome
 \end{verbatim}
 \end{small}
-
-\pdfbookmark[0]{GitHub jekyll}{jekyll}
-\section*{GitHub jekyll}
-A \emph{GitHub} repository for this project is at
-\url{https://www.github.com/robertgj/DesignOfIIRFilters}. To test the
-\emph{github-pages} documentation for the project, install a local version
-of \emph{jekyll} as follows:
-\begin{enumerate}
-\item Install ruby:
-\begin{small}
-\begin{verbatim} 
-dnf install ruby ruby-devel
-\end{verbatim}
-\end{small}
-
-\item Install RPM macros:
-\begin{small}
-\begin{verbatim} 
-dnf install redhat-rpm-config
-\end{verbatim}
-\end{small}
-
-\item Set the installation location for GitHub jekyll:
-\begin{small}
-\begin{verbatim} 
-echo '# Install Ruby Gems to ~/.gem' >> ~/.bashrc
-echo 'export GEM_HOME=$HOME/.gem' >> ~/.bashrc
-echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
-source ~/.bashrc
-\end{verbatim}
-\end{small}
-
-\item Install GitHub jekyll:
-\begin{small}
-\begin{verbatim} 
-wget https://github.com/jekyll/jekyll/archive/master.zip
-unzip master.zip
-pushd jekyll-master
-gem install jekyll bundler
-popd
-\end{verbatim}
-\end{small}
-
-\item Install GitHub jekyll-paginate:
-\begin{small}
-\begin{verbatim} 
-wget https://github.com/jekyll/jekyll-paginate/archive/master.zip
-unzip master.zip
-pushd jekyll-paginate-master
-gem install jekyll-paginate
-popd
-\end{verbatim}
-\end{small}
-\end{enumerate}
 
 \cleardoublepage
 \phantomsection

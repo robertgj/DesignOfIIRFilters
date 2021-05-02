@@ -59,7 +59,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.ok.N0"; fail; fi
 #
 echo "Running $prog"
 
-octave-cli -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.ok.D0 tarczynski_ex2_standalone_test_D0_coef.m

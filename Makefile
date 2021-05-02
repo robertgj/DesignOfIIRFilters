@@ -32,9 +32,9 @@ CLEAN_TEX_SUFFIXES= .aux .bbl .blg .brf .dvi .out .toc .lof .lot .loa \
 CLEAN_AEGIS_SUFFIXES= \,D \,B
 
 # Command definitions
-OCTAVE_FLAGS=-q -p src
-OCTAVE=octave-cli
-MKOCTFILE=mkoctfile
+OCTAVE_FLAGS=--no-gui -q -p src
+OCTAVE=/usr/local/octave-6.2.0/bin/octave
+MKOCTFILE=/usr/local/octave-6.2.0/bin/mkoctfile
 MKOCTFILE_FLAGS=-v -o $@ -Wall -lgmp -lmpfr
 PDF_MONO_FLAGS='\newcommand\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
 PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1
@@ -42,7 +42,6 @@ BIBTEX=bibtex
 QPDF=/usr/bin/qpdf
 PDFGREP=/usr/bin/pdfgrep
 GREP=/usr/bin/grep -Hi
-JEKYLL_OPTS=--config docs/_config.yml --source docs --destination docs/_site
 
 #
 # A list of all the dependencies of $(TARGET).pdf
@@ -161,7 +160,7 @@ batchtest: octfiles
 .PHONY: clean
 clean: 
 	-rm -f $(test_FIGURES:%=%.tex)
-	-rm -f $(test_FIGURES:%=%.pdf)
+	-rm -f $(test_FIGURES:%=%-inc.pdf)
 	-rm -f $(test_COEFS)
 	-rm -f $(EXTRA_DIARY_FILES)
 	-rm -f $(DIA_FILES:%=%.pdf)
@@ -178,12 +177,8 @@ cleantex:
 	$(call clean_macro,$(CLEAN_TEX_SUFFIXES))
 	-rm -f $(TARGET).pdf
 
-.PHONY: cleanjekyll
-cleanjekyll:	
-	jekyll clean $(JEKYLL_OPTS)
-
 .PHONY: cleanall
-cleanall: clean cleantex cleanaegis cleanjekyll
+cleanall: clean cleantex cleanaegis
 
 .PHONY: backup
 backup: cleanall
@@ -191,8 +186,8 @@ backup: cleanall
 
 .PHONY: help
 help: 
-	@echo "Targets: all octfiles clean cleantex cleanall backup"
-	@echo "         batchtest gitignore jekyll"
+	@echo \
+"Targets: all octfiles clean cleantex cleanall backup batchtest gitignore"
 
 .PHONY: gitignore
 gitignore:
@@ -200,21 +195,17 @@ gitignore:
 	echo $(CLEAN_SUFFIXES:%="*"%) > .gitignore
 	echo $(CLEAN_TEX_SUFFIXES:%="*"%) >> .gitignore
 	echo $(CLEAN_AEGIS_SUFFIXES:%="*"%) >> .gitignore
-	echo aegis.conf octave-workspace /$(TARGET).pdf >> .gitignore
+	echo octave-workspace /$(TARGET).pdf >> .gitignore
 	echo _site .sass-cache .jekyll-metadata >> .gitignore
 	sed -i -e "s/\ /\n/g" .gitignore
 	echo $(test_FIGURES:%=%.tex) > gitignore.tmp
-	echo $(test_FIGURES:%=%.pdf) >> gitignore.tmp
+	echo $(test_FIGURES:%=%-inc.pdf) >> gitignore.tmp
 	echo $(test_COEFS) >> gitignore.tmp
 	echo $(EXTRA_DIARY_FILES) >> gitignore.tmp
 	echo $(DIA_FILES:%=%.pdf) >> gitignore.tmp
 	sed -i -e "s/\ /\n/g" gitignore.tmp
 	cat gitignore.tmp | sort >> .gitignore
 	rm gitignore.tmp
-
-.PHONY: jekyll
-jekyll: $(TARGET).pdf cleanjekyll
-	jekyll serve $(JEKYLL_OPTS)
 
 .PHONY: monochrome
 monochrome: $(TARGET_DEPENDENCIES)
