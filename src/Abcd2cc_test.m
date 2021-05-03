@@ -126,9 +126,20 @@ legend("left");
 legend("location","northwest");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([0 0.5 -50 10]);
 grid("on");
+axis([0 0.5 -50 10]);
 print(strcat(strf,"_response"),"-dpdflatex");
+close
+% Re-plot for the passband (?!?!?)
+plot(nppts/nfpts,20*log10(abs(Hoptf)),"linestyle","--", ...
+     nppts/nfpts,20*log10(abs(Hccbf)),"linestyle","-");
+legend("Block length 1", sprintf("Block length %d",P));
+legend("boxoff");
+legend("left");
+legend("location","northwest");
+xlabel("Frequency");
+ylabel("Amplitude(dB)");
+grid("on");
 axis([0 0.06 -1 3]);
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close

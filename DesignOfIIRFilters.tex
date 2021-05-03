@@ -34672,16 +34672,16 @@ document much more quickly than user-mode emulation.
 QEMU~\cite{QEMU_website} based virtual machine with the RedHat
 \emph{virt-manager} application. In order to be able to shut down the virtual
 machines I found it necessary to also install the Fedora \emph{acpid} and
-\emph{qemu-guest-agent} packages and enable the associated services. 
+\emph{qemu-guest-agent} packages and enable the associated services on the host. 
 
 I created a QEMU VM from the Fedora 34 Server net install ISO
 image~\cite{Fedora34Server_iso} with 4GB RAM, 10GB disk, 8 Nehalem 
 CPUs, bridged networking on device \texttt{virbr0}, root password
 \texttt{password} and SSH root access with password. Following \emph{Buettner}'s
-advice I removed the tablet, sound, display spice, serial port 1, channel
-qemu-ga, channel spice, video QXL, RNG and USB redirector 1 and 2. In the
-following the IPv4 address will be determined by your network
-settings.
+advice I removed the tablet, sound, serial port 1, channel qemu-ga, channel
+spice and USB redirector 1 and 2. In the following the IPv4 address will be
+determined by your network settings. The host firewall is set to allow trusted
+access by the \emph{ssh} service. 
 
 \subsubsection*{Set up the VM}
 I did not attempt to set up a shared directory or file server. I communicate
@@ -34722,7 +34722,10 @@ texlive-pst-slpe texlive-rotfloat texlive-scheme-basic \
 texlive-threeparttable texlive-tocbibind texlive-trimspaces \
 texlive-type1cm texlive-upquote texlive-wrapfig texlive-dvisvgm \
 hdf5 hdf5-devel qt qscintilla-qt5 qscintilla-qt5-devel \
-qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel
+qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel \
+GraphicsMagick-c++ GraphicsMagick-c++-devel libcurl libcurl-devel \
+gl2ps gl2ps-devel fontconfig-devel mesa-libGLU mesa-libGLU-devel \
+qt5-qttools qt5-qttools-common qt5-qttools-devel
 .
 .
 .
@@ -34730,6 +34733,8 @@ qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel
 [root@localhost ~]# unzip master.zip
 [root@localhost ~]# mkdir -p /usr/local/src/octave
 [root@localhost ~]# cp DesignOfIIRFilters-master/build-octave.sh /usr/local/src/octave
+[root@localhost ~]# wget https://ftp.gnu.org/gnu/gnu-keyring.gpg
+[root@localhost ~]# gpg2 --import gnu-keyring.gpg
 [root@localhost ~]# cd /usr/local/src/octave
 [root@localhost octave]# sh ./build-octave.sh 
 .
@@ -34757,9 +34762,35 @@ This edited example session shows:
 \begin{small}
 \begin{verbatim}
 $ virsh start Fedora34Server
-$ ssh root@192.168.122.7
+$ ssh -Y root@192.168.122.7
 [root@localhost ~]# cd DesignOfIIRFilters-master
 [root@localhost DesignOfIIRFilters-master]# make -Bkj 8 
+\end{verbatim}
+\end{small}
+
+Octave will only use the \emph{qt} graphics toolkit if it finds an X
+display. Otherwise it uses the \emph{gnuplot} graphics toolkit. Use
+\emph{virt-manager} to set the display to \emph{Type} 'VNC server',
+\emph{Listen type} 'Address' and \emph{Address} 'All interfaces'.
+\begin{small}
+\begin{verbatim}
+$ virsh start Fedora34Server
+$ ssh -Y root@192.168.122.7
+[root@localhost ~]# dnf install xorg-x11-xauth xorg-x11-xserver-Xspice \
+xorg-x11-xinit xorg-x11-drv-qxl xrdb xmodmap xorg-x11-utils \
+xorg-x11-xinit-session
+[root@localhost ~]# echo "X11Forwarding yes" >>/etc/ssh/sshd_config
+[root@localhost ~]# echo "X11UseLocalhost no" >>/etc/ssh/sshd_config
+[root@localhost ~]# echo "AddressFamily inet" >>/etc/ssh/sshd_config
+[root@localhost ~]# systemctl restart sshd.service
+[root@localhost ~]# octave --no-gui --eval "available_graphics_toolkits"
+ans =
+{
+  [1,1] = gnuplot
+  [1,2] = qt
+}
+
+[root@Fedora34Server ~]#
 \end{verbatim}
 \end{small}
 
@@ -34777,7 +34808,7 @@ $ scp root@192.168.122.7:/root/DesignOfIIRFilters-master/DesignOfIIRFilters.pdf 
 \begin{small}
 \begin{verbatim}
 $ virsh start Fedora34Server
-$ ssh root@192.168.122.7
+$ ssh -Y root@192.168.122.7
 [root@localhost ~]# cd DesignOfIIRFilters-master
 [root@localhost DesignOfIIRFilters-master]# make batchtest
 .
@@ -34815,7 +34846,7 @@ Alternatively, fill unused VM disc sectors with $0$:
 \begin{small}
 \begin{verbatim}
 $ virsh start Fedora34Server
-$ ssh root@192.168.122.7
+$ ssh -Y root@192.168.122.7
 [root@localhost ~]# cd /boot
 [root@localhost ~]# dd if=/dev/zero of=zerofile
 [root@localhost ~]# sync

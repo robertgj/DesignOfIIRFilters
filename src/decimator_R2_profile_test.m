@@ -3,6 +3,7 @@
 
 clear all
 more off
+set(0,'DefaultFigureVisible','off');
 clf
 close
 page_screen_output(false);

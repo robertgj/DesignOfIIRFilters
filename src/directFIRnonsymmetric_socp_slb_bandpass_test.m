@@ -29,7 +29,7 @@ fasl=0.05
 fapl=0.15
 fapu=0.25
 fasu=0.35
-deltap=2.5e-4
+deltap=5e-4
 dBap=-20*log10(1-deltap)
 deltas=5e-3
 dBas=-20*log10(deltas)
@@ -40,9 +40,9 @@ Wasl=1000
 Wasu=1000
 ftpl=0.15
 ftpu=0.25
-td=M
-tdr=td/750
-Wtp=1
+td=14
+tdr=0.02
+Wtp=0.1
       
 % Desired squared magnitude response
 nasl=ceil(n*fasl/0.5)+1;
@@ -117,7 +117,7 @@ A0=directFIRsymmetricA(wa,hM);
 ax=plotyy(wa(napl:napu)*0.5/pi,A0(napl:napu),wa*0.5/pi,A0);
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
-axis(ax(1),[0 0.5 0.9996 1.0004]);
+axis(ax(1),[0 0.5 0.9992 1.0008]);
 axis(ax(2),[0 0.5 -0.01 0.01]);
 grid("on");
 ylabel("Amplitude");
@@ -191,13 +191,13 @@ close
 % Plot combined passband and stopband response
 subplot(411);
 plot(wa(1:nasl)*0.5/pi,sqrt(abs(Asq(1:nasl))));
-axis([0 fasl 0 0.01]);
+axis([0 fasl 0 0.008]);
 ylabel("Amplitude");
 grid("on");
 title(strt);
 subplot(412);
 plot(wa(napl:napu)*0.5/pi,sqrt(abs(Asq(napl:napu))));
-axis([fapl fapu 0.9997 1.0001]);
+axis([fapl fapu 0.9994 1.0002]);
 ylabel("Amplitude");
 grid("on");
 subplot(413);
@@ -207,7 +207,7 @@ ylabel("Delay(samples)");
 grid("on");
 subplot(414);
 plot(wa(nasu:end)*0.5/pi,sqrt(Asq(nasu:end)));
-axis([fasu 0.5 0 0.01]);
+axis([fasu 0.5 0 0.008]);
 ylabel("Amplitude");
 grid("on");
 xlabel("Frequency");

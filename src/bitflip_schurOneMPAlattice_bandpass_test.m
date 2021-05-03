@@ -227,10 +227,35 @@ ylabel("Delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
-% Re-display plots
-subplot(211);
+close
+% Re-plot for the passband (!?!?!?)
+subplot(211)
+plot(wplot*0.5/pi,20*log10(abs(    h0)),"linestyle","-", ...
+     wplot*0.5/pi,20*log10(abs(  h_rd)),"linestyle",":", ...
+     wplot*0.5/pi,20*log10(abs(  h_bf)),"linestyle","--", ...
+     wplot*0.5/pi,20*log10(abs(  h_sd)),"linestyle","-.", ... 
+     wplot*0.5/pi,20*log10(abs(h_bfsd)),"linestyle","-")
+ylabel("Amplitude(dB)");
+strt=sprintf("Bandpass OneM PA lattice, nbits=%d,bitstart=%d,\
+msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
+title(strt);
+grid("on");
 axis([0 0.5 -3 1]);
-subplot(212);
+subplot(212)
+iplot=1:(0.7*nplot); % Avoid overlap with legend
+plot(wplot(iplot)*0.5/pi,    t0(iplot),"linestyle","-", ...
+     wplot(iplot)*0.5/pi,  t_rd(iplot),"linestyle",":", ...
+     wplot(iplot)*0.5/pi,  t_bf(iplot),"linestyle","--", ... 
+     wplot(iplot)*0.5/pi,  t_sd(iplot),"linestyle","-.", ... 
+     wplot(iplot)*0.5/pi,t_bfsd(iplot),"linestyle","-");
+legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+xlabel("Frequency");
+ylabel("Delay(samples)");
+grid("on");
+title(strt);
 axis([0 0.5 14 18]);
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close

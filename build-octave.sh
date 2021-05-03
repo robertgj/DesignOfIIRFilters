@@ -9,6 +9,9 @@
 # freetype-devel gnupg2 texlive-dvisvgm
 # hdf5 hdf5-devel qt qscintilla-qt5 qscintilla-qt5-devel
 # qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel
+# GraphicsMagick-c++ GraphicsMagick-c++-devel libcurl libcurl-devel
+# gl2ps gl2ps-devel fontconfig-devel mesa-libGLU mesa-libGLU-devel
+# qt5-qttools qt5-qttools-common qt5-qttools-devel
 #
 # SuiteSparse requires extra definitions to install other than at /usr/local
 #

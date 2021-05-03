@@ -24,13 +24,13 @@ if 0
 elseif 1
   % Filter design from [1,Figure 4]
   M=600;fap=0.1;fas=0.105;deltap=4e-4;deltas=2e-7;ft=fas;At=deltas;
-elseif 1
+elseif 0
   % Filter design from [1,Figure 4] with M=750
   M=750;fap=0.1;fas=0.105;deltap=2e-4;deltas=2e-7;ft=fas;At=deltas;
 endif
 
 % Filter design
-ngrid=7250;maxiter=100;tol=1e-12;
+ngrid=7250;maxiter=200;tol=1e-12;
 [hM,fext,fiter,feasible]= ...
   selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,At,ngrid,maxiter,tol);
 if feasible==false
