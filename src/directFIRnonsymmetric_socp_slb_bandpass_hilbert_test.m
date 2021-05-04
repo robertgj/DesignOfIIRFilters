@@ -12,13 +12,13 @@ tic;
 strf="directFIRnonsymmetric_socp_slb_bandpass_hilbert_test";
 
 maxiter=2000
-tol=1e-4
+tol=1e-3
 ctol=tol/100
 verbose=false
 n=500
 
 % Band-pass filter specification 
-N=60
+N=50
 fasl=0.05
 fapl=0.1
 fapu=0.2
@@ -33,7 +33,7 @@ Wasu=1000
 ftpl=0.11
 ftpu=0.19
 td=10
-tdr=td/25
+tdr=td/20
 Wtp=0.5
 fppl=0.11
 fppu=0.19
@@ -176,19 +176,19 @@ close
 subplot(311);
 plot(wa(napl:napu)*0.5/pi,10*log10(Asq(napl:napu)));
 ylabel("Amplitude(dB)");
-axis([fapl fapu -dBap*3/2 dBap/2]);
+axis([fapl fapu -0.3 0.1]);
 grid("on");
 title(s);
 subplot(312);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");
-axis([ftpl ftpu td-(tdr/2) td+(tdr/2)]);
+axis([ftpl ftpu td-0.4 td+0.4]);
 grid("on");
 subplot(313);
 plot(wp*0.5/pi,mod(P+(wp*td),2*pi)/pi);
 ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
-axis([fppl fppu mod(pd-(ppr/5),2) mod(pd+(ppr/5),2)]);
+axis([fppl fppu mod(pd-0.01,2) mod(pd+0.01,2)]);
 grid("on");
 print(strcat(strf,"_passband"),"-dpdflatex");
 close
