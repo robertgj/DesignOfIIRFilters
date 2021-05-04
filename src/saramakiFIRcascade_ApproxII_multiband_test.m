@@ -299,8 +299,8 @@ fasu2_line=fasu2*ones(size(f));
 fapl2_line=fapl2*ones(size(f));
 fapu2_line=fapu2*ones(size(f));
 fasl3_line=fasl3*ones(size(f));
-line_linewidth=2;
-line_colour=[0,0,0];
+line_linewidth=0.5;
+line_colour='red';
 subplot(221)
 plot(20*log10(abs(AN)),f, ...
      Amp_line,Fap_line,"linewidth",line_linewidth,"color",line_colour, ...
@@ -326,7 +326,7 @@ plot(f,Omega/(2*pi), ...
      fasl3_line,f,"linewidth",line_linewidth,"color",line_colour);
 axis([min(f) max(f) min(f) max(f)]);                      
 grid("on");
-strt=sprintf("Sub-filter : M=%d,$F_{p}$=%g,$F_{s}$=%g",M,Fap,Fas);
+strt=sprintf("Sub-filter : M=%d,$F_{p}$=%5.3f,$F_{s}$=%5.3f",M,Fap,Fas);
 title(strt);
 subplot(224)
 plot(f,20*log10(abs(ANM)), ...
