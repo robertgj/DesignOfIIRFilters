@@ -4,7 +4,7 @@
 % with 12-bit 3-signed-digit coefficients and an allpass model filter
 % implemented as a Schur one-multiplier lattice.
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -385,7 +385,7 @@ legend("exact","s-d(Lim)","s-d(SOCP-relax)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 title(strt);
 axis([0 0.5 -0.505 -0.495]);

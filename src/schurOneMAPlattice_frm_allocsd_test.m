@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_allocsd_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2021 Robert G. Jenssen
 %
 % Test the Ito and Lim signed-digit allocation algorithms with the
 % coefficents of an FRM low-pass filter with a model filter implemented
@@ -127,10 +127,10 @@ for ndigits=2:3
          wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
     Asq_rd=schurOneMAPlattice_frmAsq ...
              (wa,k_rd,epsilon0,ones(size(p0)),u_rd,v_rd,Mmodel,Dmodel);
-    T_rd=schurOneMAPlattice_frmT ...
-             (wt,k_rd,epsilon0,ones(size(p0)),u_rd,v_rd,Mmodel,Dmodel);
     P_rd=schurOneMAPlattice_frmP ...
              (wp,k_rd,epsilon0,ones(size(p0)),u_rd,v_rd,Mmodel,Dmodel);
+    T_rd=schurOneMAPlattice_frmT ...
+             (wt,k_rd,epsilon0,ones(size(p0)),u_rd,v_rd,Mmodel,Dmodel);
     % Find the actual number of signed digits used
     kuv_rd=[k_rd(:);u_rd(:);v_rd(:)];
     nbits_kuv_rd_digits(l)=SDadders(kuv_rd,nbits);
@@ -145,10 +145,10 @@ for ndigits=2:3
        wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
     Asq_sd=schurOneMAPlattice_frmAsq ...
              (wa,k_sd,epsilon0,ones(size(p0)),u_sd,v_sd,Mmodel,Dmodel);
-    T_sd=schurOneMAPlattice_frmT ...
-             (wt,k_sd,epsilon0,ones(size(p0)),u_sd,v_sd,Mmodel,Dmodel);
     P_sd=schurOneMAPlattice_frmP ...
              (wp,k_sd,epsilon0,ones(size(p0)),u_sd,v_sd,Mmodel,Dmodel);
+    T_sd=schurOneMAPlattice_frmT ...
+             (wt,k_sd,epsilon0,ones(size(p0)),u_sd,v_sd,Mmodel,Dmodel);
     % Find the actual number of signed digits used
     kuv_sd=[k_sd(:);u_sd(:);v_sd(:)];
     nbits_kuv_sd_digits(l)=SDadders(kuv_sd,nbits);
@@ -229,8 +229,8 @@ for ndigits=2:3
          wa*0.5/pi,10*log10(Asq_Lim),"linestyle","--",...
          wa*0.5/pi,10*log10(Asq_Ito),"linestyle","-")
     axis([0 0.5 -0.4 1.2])
-    xlabel("Frequency");
     ylabel("Amplitude(dB)");
+    xlabel("Frequency");
     grid("on");
     legend("exact","round","signed-digit","Lim","Ito");
     legend("location","northeast");
@@ -240,22 +240,22 @@ for ndigits=2:3
                  nbits,ndigits);
     title(strt);
     subplot(312)
-    plot(wt*0.5/pi,T_ex+tp,"linestyle","-", ...
-         wt*0.5/pi,T_rd+tp,"linestyle",":", ...
-         wt*0.5/pi,T_sd+tp,"linestyle","-.", ... 
-         wt*0.5/pi,T_Lim+tp,"linestyle","--",...
-         wt*0.5/pi,T_Ito+tp,"linestyle","-")
-    xlabel("Frequency");
-    ylabel("Delay(Samples)");
-    grid("on");
-    subplot(313)
     plot(wp*0.5/pi,P_ex/pi,"linestyle","-", ...
          wp*0.5/pi,P_rd/pi,"linestyle",":", ...
          wp*0.5/pi,P_sd/pi,"linestyle","-.", ... 
          wp*0.5/pi,P_Lim/pi,"linestyle","--",...
          wp*0.5/pi,P_Ito/pi,"linestyle","-")
+    ylabel("Phase error(rad./$\\pi$)");
     xlabel("Frequency");
-    ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+    grid("on");
+    subplot(313)
+    plot(wt*0.5/pi,T_ex+tp,"linestyle","-", ...
+         wt*0.5/pi,T_rd+tp,"linestyle",":", ...
+         wt*0.5/pi,T_sd+tp,"linestyle","-.", ... 
+         wt*0.5/pi,T_Lim+tp,"linestyle","--",...
+         wt*0.5/pi,T_Ito+tp,"linestyle","-")
+    ylabel("Delay(Samples)");
+    xlabel("Frequency");
     grid("on");
     print(strcat(nbits_strf,"_response"),"-dpdflatex");
     close

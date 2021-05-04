@@ -8811,13 +8811,15 @@ vector for which the response is calculated.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_hilbert_test_initial_x0phase}}
 \caption{Response of the initial Hilbert filter designed by 
-\emph{tarczynski\_hilbert\_test.m} with $R=2$ and $t_{d}=5.5$}
+\emph{tarczynski\_hilbert\_test.m} with $R=2$ and $t_{d}=5.5$. The phase
+response shown is adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-hilbert-initial-response}
 \end{figure}
 \subsubsection{\label{sub:MMSE-optimisation-of-the-Hilbert-transform-R2-decimator}MMSE optimisation of the Hilbert transform  R=2 decimator}
 Figure~\ref{fig:iir-sqp-slb-hilbert-mmse-response} shows the response 
-after MMSE optimisation of the initial filter. The relative weights of the
-amplitude, group delay and phase errors were $W_{ap}=1$, $W_{tp}=0.00001$ and 
+after MMSE optimisation of the initial filter. The phase
+response shown is adjusted for the nominal delay. The relative weights of the
+amplitude, group delay and phase were $W_{ap}=1$, $W_{tp}=0.00001$ and 
 $W_{pp}=0.001$ respectively. The desired PCLS constraints are superimposed on 
 the figure. The \emph{iirP} function does not calculate the Hessian of the
 phase response. In the previous
@@ -8829,7 +8831,8 @@ phase response is approximated with the Octave function
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_hilbert_test_mmse_x1phase}}
 \caption{Response of the Hilbert filter after MMSE optimisation with
-$R=2$, $W_{ap}=1$, $W_{tp}=0.00001$ and $W_{pp}=0.001$}
+$R=2$, $W_{ap}=1$, $W_{tp}=0.00001$ and $W_{pp}=0.001$. The phase
+response shown is adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-hilbert-mmse-response}
 \end{figure}
 \subsubsection{PCLS optimisation of the Hilbert transform R=2 decimator}
@@ -8837,7 +8840,8 @@ Figure~\ref{fig:iir-sqp-slb-hilbert-pcls-response} shows the response
 after PCLS optimisation of the MMSE optimised filter of
 Figure~\ref{fig:iir-sqp-slb-hilbert-mmse-response}.
 Figure~\ref{fig:iir-sqp-slb-hilbert-pcls-pz} shows the pole-zero plot for the
-PCLS optimised filter. The peak-to-peak amplitude, group delay and phase
+PCLS optimised filter. The phase response shown is adjusted for the nominal
+delay. The peak-to-peak amplitude, group delay and phase
 ripple outside the transition band are $A_{r}=0.002$, $t_{dr}=0.4$ and 
 $p_{r}=0.1\frac{\pi}{2}$ respectively. The PCLS optimised filter coefficients
 are, in gain-pole-zero form
@@ -8857,14 +8861,15 @@ and
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_hilbert_test_pcls_d1phase}}
 \caption{Response of the Hilbert filter after PCLS optimisation with 
-$R=2$, $A_{r}=0.002$, $t_{dr}=0.4$ and $p_{r}=0.16\frac{\pi}{2}$}
+$R=2$, $A_{r}=0.002$, $t_{dr}=0.4$ and $p_{r}=0.16\frac{\pi}{2}$. The phase
+response shown is adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-hilbert-pcls-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_hilbert_test_pcls_d1pz}}
 \caption{Pole-zero plot of the Hilbert filter after PCLS optimisation with 
-$R=2$, $A_{r}=0.002$, $t_{dr}=0.4$ and $p_{r}=0.16\frac{\pi}{2}$}
+$R=2$, $A_{r}=0.002$, $t_{dr}=0.4$ and $p_{r}=0.16\frac{\pi}{2}$.}
 \label{fig:iir-sqp-slb-hilbert-pcls-pz}
 \end{figure}
 \clearpage
@@ -8897,21 +8902,22 @@ negative, cancelling out the nominal phase of $\frac{3\pi}{2}$.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_initial_x0phase}}
 \caption{Response of the initial $R=2$ differentiator filter calculated by
-\emph{iirA()}, \emph{iirT()} and \emph{iirP()}}
+\emph{iirA()}, \emph{iirT()} and \emph{iirP()}. The phase response shown is
+adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-differentiator-initial-response}
 \end{figure}
 
 \subsubsection{\label{sub:MMSE-optimisation-of-the-R2-differentiator}MMSE optimisation of the R=2 differentiator filter}
 Figure~\ref{fig:iir-sqp-slb-differentiator-mmse-response} shows the response
-after MMSE optimisation of the initial filter. The relative weights of
-the amplitude, group delay and phase error are $W_{ap}=1$, $W_{tp}=0.001$ and
-$W_{pp}=0.1$ respectively.
-
+after MMSE optimisation of the initial filter. The phase response shown is
+adjusted for the nominal delay. The relative weights of the amplitude, group
+delay and phase are $W_{ap}=1$, $W_{tp}=0.001$ and $W_{pp}=0.1$ respectively.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_mmse_x1phase}}
-\caption{Response error of the $R=2$ differentiator filter after MMSE
-  optimisation with $W_{ap}=1$, $W_{tp}=0.001$ and $W_{pp}=0.1$}
+\caption{Response of the $R=2$ differentiator filter after MMSE
+  optimisation with $W_{ap}=1$, $W_{tp}=0.001$ and $W_{pp}=0.1$. The phase
+  response shown is adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-differentiator-mmse-response}
 \end{figure}
 \subsubsection{PCLS optimisation of the R=2 differentiator filter}
@@ -8941,7 +8947,8 @@ and
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_pcls_d1phase}}
 \caption{Frequency response of the $R=2$ differentiator filter after PCLS
-  optimisation with $A_{r}=\pm 0.002$, $t_{dr}=\pm 0.1$ and $p_{r}=\pm 0.004\pi$}
+  optimisation with $A_{r}=\pm 0.002$, $t_{dr}=\pm 0.1$ and $p_{r}=\pm
+  0.004\pi$. The phase response shown is adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-differentiator-pcls-response}
 \end{figure}
 \begin{figure}
@@ -10943,14 +10950,14 @@ Figure~\ref{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-ab1phase}.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_test_ab1pass}}
 \caption{Band-pass filter implemented as the difference of two all-pass filters
-  : Pass-band response after PCLS SOCP optimisation}
+  : Pass-band response after PCLS SOCP optimisation.}
 \label{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-pass-band-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_test_ab1phase}}
 \caption{Band-pass filter implemented as the difference of two all-pass filters
-  : Comparison of all-pass filter phase responses after PCLS SOCP optimisation}
+  : Comparison of all-pass filter phase responses after PCLS SOCP optimisation.}
 \label{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-ab1phase}
 \end{figure}
 \clearpage
@@ -10983,18 +10990,22 @@ filter are:
 The final filter response is shown in
 Figure~\ref{fig:Parallel-allpass-bandpass-Hilbert-filter-PCLS-SOCP-response} and
 Figure~\ref{fig:Parallel-allpass-bandpass-Hilbert-filter-PCLS-SOCP-pass-band-response}.
+The phase response shown is adjusted for the nominal delay.
 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_hilbert_test_ab1}}
-\caption{Band-pass Hilbert filter implemented as the difference of two all-pass filters : Response after PCLS SOCP optimisation}
+\caption{Band-pass Hilbert filter implemented as the difference of two all-pass
+filters : Response after PCLS SOCP optimisation. The phase response shown is
+adjusted for the nominal delay.} 
 \label{fig:Parallel-allpass-bandpass-Hilbert-filter-PCLS-SOCP-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_hilbert_test_ab1pass}}
 \caption{Band-pass Hilbert filter implemented as the difference of two
-  all-pass filters : Pass-band response after PCLS SOCP optimisation}
+  all-pass filters : Pass-band response after PCLS SOCP optimisation. The
+  phase response shown is adjusted for the nominal delay.}
 \label{fig:Parallel-allpass-bandpass-Hilbert-filter-PCLS-SOCP-pass-band-response}
 \end{figure}
 \clearpage
@@ -11700,7 +11711,8 @@ The initial parallel all-pass filters were designed by the Octave script
 Figures~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS} 
 and~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS-pass}
 show the overall and passband responses of the filter after SOCP PCLS
-optimisation. The band-pass filter SOCP PCLS optimised Schur one-multiplier
+optimisation. The phase response shown is adjusted for the nominal delay.
+The band-pass filter SOCP PCLS optimised Schur one-multiplier
 all-pass lattice coefficients are: 
 \begin{small}
 \verbatiminput{schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A1k_coef.m}
@@ -11712,14 +11724,17 @@ all-pass lattice coefficients are:
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_bandpass_hilbert_test_response}}
-\caption{Parallel Schur one-multiplier all-pass lattice band-pass Hilbert filter : response after SOCP PCLS optimisation}
+\caption{Parallel Schur one-multiplier all-pass lattice band-pass Hilbert filter
+: response after SOCP PCLS optimisation. The phase response shown is adjusted
+for the nominal delay.} 
 \label{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_bandpass_hilbert_test_passband_response}}
-\caption{Parallel Schur one-multiplier all-pass lattice band-pass Hilbert filter :
-  passband response after SOCP PCLS optimisation}
+\caption{Parallel Schur one-multiplier all-pass lattice band-pass Hilbert filter
+: passband response after SOCP PCLS optimisation. The phase response shown is
+adjusted for the nominal delay.}
 \label{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS-pass}
 \end{figure}
 \clearpage
@@ -15107,7 +15122,7 @@ allocation heuristic of \emph{Ito et al.} with the branch-and-bound search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_kmin_pass}}
-\caption{Amplitude pass-band response for a parallel Schur
+\caption{Pass band amplitude response for a parallel Schur
   one-multiplier all-pass lattice low-pass filter with 12 bit integer
   coefficients found by allocating an average of 3-signed-digits to each
   coefficient using the heuristic of \emph{Ito et al.} and performing
@@ -15117,7 +15132,7 @@ allocation heuristic of \emph{Ito et al.} with the branch-and-bound search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_kmin_delay}}
-\caption{Group-delay pass-band response for a parallel Schur
+\caption{Pass band group delay response for a parallel Schur
   one-multiplier all-pass lattice low-pass filter with 12 bit integer
   coefficients found by allocating an average of 3-signed-digits to each
   coefficient using the heuristic of \emph{Ito et al.} and performing
@@ -15127,7 +15142,7 @@ allocation heuristic of \emph{Ito et al.} with the branch-and-bound search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_kmin_stop}}
-\caption{Amplitude stop-band response for a parallel Schur one-multiplier
+\caption{Stop band amplitude response for a parallel Schur one-multiplier
   all-pass lattice low-pass filter with 12 bit integer coefficients found by
   allocating an average of 3-signed-digits to each coefficient using the
   heuristic of \emph{Ito et al.} and performing branch-and-bound search.}
@@ -15209,7 +15224,7 @@ search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test_kmin_pass}}
-\caption{Amplitude pass-band response for a parallel Schur one-multiplier
+\caption{Pass band amplitude response for a parallel Schur one-multiplier
   all-pass lattice elliptic approximation low-pass filter with 8 bit, 2
   signed-digit integer coefficients found by performing branch-and-bound search.}
 \label{fig:branch-bound-schurOneMPAlattice-elliptic-lowpass-8-nbits-pass-response}
@@ -15287,7 +15302,7 @@ allocation heuristic of \emph{Ito et al.} with the branch-and-bound search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_kmin_pass}}
-\caption{Amplitude pass-band response of a parallel Schur one-multiplier
+\caption{Pass band amplitude response of a parallel Schur one-multiplier
   all-pass lattice elliptic approximation low-pass filter with 16 bit integer
   coefficients found by allocating an average of 4-signed-digits to each
   coefficient using the heuristic of \emph{Ito et al.} and performing
@@ -15298,7 +15313,7 @@ allocation heuristic of \emph{Ito et al.} with the branch-and-bound search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_kmin_stop}}
-\caption{Amplitude stop-band response of a parallel Schur one-multiplier
+\caption{Stop band amplitude response of a parallel Schur one-multiplier
   all-pass lattice elliptic approximation low-pass filter with 16 bit integer
   coefficients found by allocating an average of 4-signed-digits to each
   coefficient using the heuristic of \emph{Ito et al.} and performing
@@ -15383,7 +15398,7 @@ allocation heuristic of \emph{Lim et al.} with the branch-and-bound search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_kmin_pass}}
-\caption{Amplitude pass-band response for a parallel Schur
+\caption{Pass band amplitude response for a parallel Schur
   one-multiplier all-pass lattice band-pass filter with 12 bit integer
   coefficients found by allocating an average of 3-signed-digits to each
   coefficient using the heuristic of \emph{Lim et al.} and performing
@@ -15393,7 +15408,7 @@ allocation heuristic of \emph{Lim et al.} with the branch-and-bound search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_kmin_delay}}
-\caption{Group-delay pass-band response for a parallel Schur
+\caption{Pass band group delay response for a parallel Schur
   one-multiplier all-pass lattice band-pass filter with 12 bit integer
   coefficients found by allocating an average of 3-signed-digits to each
   coefficient using the heuristic of \emph{Lim et al.} and performing
@@ -15403,7 +15418,7 @@ allocation heuristic of \emph{Lim et al.} with the branch-and-bound search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_kmin_stop}}
-\caption{Amplitude stop-band response for a parallel Schur one-multiplier
+\caption{Stop band amplitude response for a parallel Schur one-multiplier
   all-pass lattice band-pass filter with 12 bit integer coefficients found by
   allocating an average of 3-signed-digits to each coefficient using the
   heuristic of \emph{Lim et al.} and performing branch-and-bound search.}
@@ -15464,11 +15479,11 @@ shift-and-add operations.
 Figure~\ref{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-pass-response}
 shows the amplitude pass-band response of the filter with
 $10$-bit, $3$-signed-digit coefficients. 
-Figure~\ref{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-delay-response}
-shows the corresponding filter pass-band group-delay response.
 Figure~\ref{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-phase-response}
 shows the corresponding filter pass-band phase response (in multiples of $\pi$
-and corrected for delay).
+and adjusted for the nominal delay).
+Figure~\ref{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-delay-response}
+shows the corresponding filter pass-band group-delay response.
 Figure~\ref{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-stop-response}
 shows the corresponding filter stop-band amplitude response.
 Table~\ref{tab:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-cost-summary}
@@ -15478,31 +15493,32 @@ search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_kmin_pass}}
-\caption{Amplitude pass-band response for a parallel Schur
+\caption{Pass band amplitude response for a parallel Schur
   one-multiplier all-pass lattice band-pass Hilbert filter with 10 bit 
   3-signed-digit coefficients found by branch-and-bound search.}
 \label{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-pass-response}
 \end{figure}
 \begin{figure}
 \centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_kmin_phase}}
+\caption{Pass band phase response for a parallel
+  Schur one-multiplier all-pass lattice band-pass Hilbert filter with 10 bit 
+  3-signed-digit coefficients found by performing branch-and-bound search. The
+  phase response shown is adjusted for the nominal delay.}
+\label{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-phase-response}
+\end{figure}
+\begin{figure}
+\centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_kmin_delay}}
-\caption{Group-delay pass-band response for a parallel Schur
+\caption{Pass band group delay response for a parallel Schur
   one-multiplier all-pass lattice band-pass Hilbert filter with 10 bit 
   3-signed-digit coefficients found by branch-and-bound search.}
 \label{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-delay-response}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_kmin_phase}}
-\caption{Phase pass-band response for a parallel Schur
-  one-multiplier all-pass lattice band-pass Hilbert filter with 10 bit 
-  3-signed-digit coefficients found by performing branch-and-bound search.}
-\label{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-phase-response}
-\end{figure}
-\begin{figure}
-\centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_kmin_stop}}
-\caption{Amplitude stop-band response for a parallel Schur
+\caption{Stop band amplitude response for a parallel Schur
   one-multiplier all-pass lattice band-pass Hilbert filter with 10 bit 
   3-signed-digit coefficients found by branch-and-bound search.}
 \label{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-10-nbits-stop-response}
@@ -15567,11 +15583,11 @@ Figure~\ref{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-12-nbits-pass-
 shows the amplitude pass-band response of the filter with
 $12$-bits $3$-signed-digit coefficients allocated with the
 algorithm of \emph{Ito et al.} and branch-and-bound search.
-Figure~\ref{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-12-nbits-delay-response}
-shows the corresponding filter pass-band group-delay response.
 Figure~\ref{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-12-nbits-phase-response}
 shows the corresponding filter pass-band phase response (in multiples of $\pi$
-and corrected for delay).
+and adjusted for the nominal delay).
+Figure~\ref{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-12-nbits-delay-response}
+shows the corresponding filter pass-band group-delay response.
 Figure~\ref{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-12-nbits-stop-response}
 shows the corresponding filter stop-band amplitude response.
 Table~\ref{tab:branch-bound-schurOneMPAlattice-band-pass-Hilbert-12-nbits-cost-summary}
@@ -15581,7 +15597,7 @@ allocation heuristic of \emph{Ito et al.} with the branch-and-bound search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_kmin_pass}}
-\caption{Amplitude pass-band response for a parallel Schur
+\caption{Pass band amplitude response for a parallel Schur
   one-multiplier all-pass lattice band-pass Hilbert filter with 12 bit integer
   coefficients found by allocating an average of 3-signed-digits to each
   coefficient using the heuristic of \emph{Ito et al.} and performing
@@ -15590,8 +15606,19 @@ allocation heuristic of \emph{Ito et al.} with the branch-and-bound search.
 \end{figure}
 \begin{figure}
 \centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_kmin_phase}}
+\caption{Pass band phase response for a parallel
+  Schur one-multiplier all-pass lattice band-pass Hilbert filter with 12 bit
+  integer coefficients found by allocating an average of 3-signed-digits to each
+  coefficient using the heuristic of \emph{Ito et al.} and performing
+  branch-and-bound search. The phase response shown is adjusted for the nominal
+  delay.}
+\label{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-12-nbits-phase-response}
+\end{figure}
+\begin{figure}
+\centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_kmin_delay}}
-\caption{Group-delay pass-band response for a parallel Schur
+\caption{Pass band group-delay response for a parallel Schur
   one-multiplier all-pass lattice band-pass Hilbert filter with 12 bit integer
   coefficients found by allocating an average of 3-signed-digits to each
   coefficient using the heuristic of \emph{Ito et al.} and performing
@@ -15600,18 +15627,8 @@ allocation heuristic of \emph{Ito et al.} with the branch-and-bound search.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_kmin_phase}}
-\caption{Phase pass-band response for a parallel Schur
-  one-multiplier all-pass lattice band-pass Hilbert filter with 12 bit integer
-  coefficients found by allocating an average of 3-signed-digits to each
-  coefficient using the heuristic of \emph{Ito et al.} and performing
-  branch-and-bound search.}
-\label{fig:branch-bound-schurOneMPAlattice-band-pass-Hilbert-12-nbits-phase-response}
-\end{figure}
-\begin{figure}
-\centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_kmin_stop}}
-\caption{Amplitude stop-band response for a parallel Schur one-multiplier
+\caption{Stop band amplitude response for a parallel Schur one-multiplier
   all-pass lattice band-pass Hilbert filter with 12 bit integer coefficients
   found by allocating an average of 3-signed-digits to each coefficient using the
   heuristic of \emph{Ito et al.} and performing branch-and-bound search.}
@@ -15731,14 +15748,16 @@ the PCLS specifications. The filter coefficients found by the branch-and-bound s
 Figures~\ref{fig:branch-bound-schurOneMAPlattice-frm-Hilbert-12-nbits-A},
 \ref{fig:branch-bound-schurOneMAPlattice-frm-Hilbert-12-nbits-P}
 and~\ref{fig:branch-bound-schurOneMAPlattice-frm-Hilbert-12-nbits-T} compare
-the amplitude, phase and delay responses of the FRM Hilbert filter with exact
+the amplitude, phase
+and delay responses of the FRM Hilbert filter with exact 
 and 12-bit 2-signed-digit coefficients and with the 12-bit 2-signed-digit
 coefficients found by branch-and-bound search.
 Figure~\ref{fig:branch-bound-schurOneMAPlattice-frm-Hilbert-12-nbits-remez}
 compares the amplitude and phase responses of a linear phase FIR Hilbert
 filter with 12-bit 2-signed-digit coefficients and the FRM Hilbert filter with
 12 bit 2-signed digit integer coefficients found by branch-and-bound
-search. The group delay of the FIR Hilbert filter is the nominal delay of the
+search. The phase responses shown are adjusted for the nominal delay. The group
+delay of the FIR Hilbert filter is the nominal delay of the 
 FRM Hilbert filter:
 \begin{small}
 \begin{verbatim}
@@ -15760,22 +15779,27 @@ search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test_kuv_minP}}
-\caption{Comparison of the phase response of an FRM Hilbert filter with
-  exact and 12 bit 2-signed digit integer coefficients found by branch-and-bound search}
+\caption{Comparison of the phase response of an
+FRM Hilbert filter with exact and 12 bit 2-signed digit integer coefficients
+found by branch-and-bound search. The phase response shown is adjusted for the
+nominal delay.}
 \label{fig:branch-bound-schurOneMAPlattice-frm-Hilbert-12-nbits-P}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test_kuv_minT}}
 \caption{Comparison of the delay response of an FRM Hilbert filter with
-  exact and 12 bit 2-signed digit integer coefficients found by branch-and-bound search}
+  exact and 12 bit 2-signed digit integer coefficients found by branch-and-bound search.}
 \label{fig:branch-bound-schurOneMAPlattice-frm-Hilbert-12-nbits-T}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test_remez}}
-\caption{Comparison of the amplitude and phase responses of an FIR Hilbert filter with 12-bit 2-signed-digit coefficients and an FRM Hilbert filter with
-12 bit 2-signed digit integer coefficients found by branch-and-bound search}
+\caption{Comparison of the amplitude and phase
+responses of an FIR Hilbert filter with 12-bit 2-signed-digit coefficients and
+an FRM Hilbert filter with 12 bit 2-signed digit integer coefficients found by
+branch-and-bound search. The phase response shown is adjusted for the nominal
+delay.} 
 \label{fig:branch-bound-schurOneMAPlattice-frm-Hilbert-12-nbits-remez}
 \end{figure}
 \begin{table}[htbp]
@@ -16242,7 +16266,7 @@ allocation heuristic of \emph{Lim et al.} with the SOCP-relaxation search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_kmin_stop}}
-\caption{Amplitude stop-band responses for a parallel Schur one-multiplier
+\caption{Stop band amplitude responses for a parallel Schur one-multiplier
   all-pass lattice low-pass filter with 12 bit integer coefficients found by
   allocating an average of 3-signed-digits to each coefficient using the
   heuristic of \emph{Lim et al.} and performing SOCP-relaxation search.}
@@ -16336,7 +16360,7 @@ allocation heuristic of \emph{Lim et al.} with the SOCP-relaxation search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_kmin_stop}}
-\caption{Amplitude stop-band responses for a parallel Schur one-multiplier
+\caption{Stop band amplitude responses for a parallel Schur one-multiplier
   all-pass lattice band-pass filter with 12 bit integer coefficients found by
   allocating an average of 3-signed-digits to each coefficient using the
   heuristic of \emph{Lim et al.} and performing SOCP-relaxation search.}
@@ -16407,12 +16431,11 @@ The signed-digit filter coefficients found by the SOCP-relaxation search are:
 \end{small}
 
 Figure~\ref{fig:socp-relax-hilbert-schurOneMlattice-10-nbits-response}
-compares the amplitude, group delay and phase responses of the filter with
+compares the amplitude and phase responses of the filter with
 exact, 10-bit signed-digit coefficients allocated with the algorithm of
 \emph{Lim et al.} and 10-bit signed-digit coefficients allocated with the
-algorithm of \emph{Lim et al.} and SOCP-relaxation search. The phase response
-shown is adjusted to allow for the filter group-delay and then scaled by
-$\pi$.
+algorithm of \emph{Lim et al.} and SOCP-relaxation search. The phase responses
+shown are adjusted for the nominal filter delay.
 Table~\ref{tab:socp-relax-hilbert-schurOneMlattice-10-nbits-cost-summary}
 compares the cost, the number of signed-digits and the number of $10$-bit
 shift-and-add operations required to implement the coefficient multiplications
@@ -16422,12 +16445,11 @@ SOCP-relaxation search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_kc_min}}
-\caption{Comparison of the amplitude, group delay and phase responses for a
+\caption{Comparison of the amplitude and phase responses for a
   Schur one-multiplier lattice Hilbert filter with 10-bit integer coefficients
   found by allocating an average of 3-signed-digits to each coefficient using
   the heuristic of \emph{Lim et al.} and performing SOCP-relaxation
-  search. The phase response shown is adjusted to allow for the filter
-  group-delay and then scaled by $\pi$.}
+  search. The phase responses shown are adjusted for the nominal delay.}
 \label{fig:socp-relax-hilbert-schurOneMlattice-10-nbits-response}
 \end{figure}
 
@@ -16475,20 +16497,22 @@ The filter coefficients found by the socp-relaxation search are:
   {socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_v_min_coef.m}
 \end{small}
 Figure~\ref{fig:socp-relaxation-schurOneMAPlattice-frm-12-nbits-response},
-compares the amplitude, delay and phase responses of the FRM low-pass
+compares the amplitude, phase and delay responses of the FRM low-pass
 filter with exact and 12-bit coefficients with an average of 3-signed-digits
 allocated by the method of \emph{Ito et al.} and with the coefficients
-found by SOCP-relaxation search. 
+found by SOCP-relaxation search. The phase response shown is adjusted for the
+nominal delay.
 Table~\ref{tab:socp-relaxation-schurOneMAPlattice-frm-12-nbits-cost}
 compares the cost and the number of $12$ bit shift-and-add operations required
 to implement the coefficient multiplications found by SOCP-relaxation search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_response}}
-\caption{Comparison of the amplitude, delay and phase responses of an FRM
+\caption{Comparison of the amplitude, phase and delay responses of an FRM
   low-pass filter with exact and 12 bit coefficients with an average of
   3-signed-digits allocated by the method of \emph{Ito et al.} and with the 
-  coefficients found by SOCP-relaxation search}
+  coefficients found by SOCP-relaxation search. The phase response shown is
+  adjusted for the nominal delay.}
 \label{fig:socp-relaxation-schurOneMAPlattice-frm-12-nbits-response}
 \end{figure}
 \begin{table}[htbp]
@@ -16517,7 +16541,7 @@ The Octave script
 performs successive SOCP relaxations to optimise the response of the FRM
 Hilbert filter of
 Section~\ref{sec:Design-Hilbert-FRM-allpass-model-filter-Schur-lattice} with
-$12$-bit integer coefficients. The FRM model model filter is implemented as a
+$12$-bit integer coefficients. The FRM model filter is implemented as a
 Schur one-multiplier all-pass lattice filter. The filter specification is:
 \begin{small}
 \verbatiminput{socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test.spec}
@@ -16566,7 +16590,7 @@ compare the amplitude, delay and phase responses of the filter with exact, 12
 bit 2 signed-digit coefficients allocated with the algorithm of \emph{Lim et
   al.} and 12-bit 2-signed-digit coefficients allocated with the algorithm of
 \emph{Lim et al.} and optimised by SOCP-relaxation search. The phase response
-is adjusted for the nominal delay and normalised to $\pi$ radians. 
+shown is adjusted for the nominal delay and normalised to $\pi$ radians. 
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
@@ -16582,7 +16606,7 @@ Hilbert filter SOCP-relaxation example with 12 bit 2 signed digit coefficients]
   to implement the coefficient multiplications for an FRM Hilbert filter with
   with 12 bit integer coefficients found by allocating an average of 2
   signed-digits to each coefficient using the heuristic of \emph{Lim et al.}
-  and performing SOCP-relaxation search. The FRM model model filter is
+  and performing SOCP-relaxation search. The FRM model filter is
   implemented as a Schur one-multiplier all-pass lattice filter.}
 \label{tab:socp-relax-FRM-hilbert-schurOneMAPlattice-12-nbits-cost-summary}
 \end{table}
@@ -16593,32 +16617,32 @@ Hilbert filter SOCP-relaxation example with 12 bit 2 signed digit coefficients]
 \caption{Comparison of the amplitude responses for an FRM Hilbert filter with
   with 12 bit integer coefficients found by allocating an average of 2
   signed-digits to each coefficient using the heuristic of \emph{Lim et al.}
-  and performing SOCP-relaxation search. The FRM model model filter is
+  and performing SOCP-relaxation search. The FRM model filter is
   implemented as a Schur one-multiplier all-pass lattice filter.}
 \label{fig:socp-relax-FRM-hilbert-schurOneMAPlattice-12-nbits-amplitude-response}
 \end{figure}
-
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test_kuv_minT}}
-\caption{Comparison of the delay responses for an FRM Hilbert filter with
-  with 12 bit integer coefficients found by allocating an average of 2
-  signed-digits to each coefficient using the heuristic of \emph{Lim et al.}
-  and performing SOCP-relaxation search. The FRM model model filter is
-  implemented as a Schur one-multiplier all-pass lattice filter.}
-\label{fig:socp-relax-FRM-hilbert-schurOneMAPlattice-12-nbits-delay-response}
-\end{figure}
-
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test_kuv_minP}}
 \caption{Comparison of the phase responses for an FRM Hilbert filter with
   with 12 bit integer coefficients found by allocating an average of 2
   signed-digits to each coefficient using the heuristic of \emph{Lim et al.}
-  and performing SOCP-relaxation search. The FRM model model filter is
-  implemented as a Schur one-multiplier all-pass lattice filter.}
+  and performing SOCP-relaxation search. The phase response shown is adjusted
+  for the nominal delay and normalised to $\pi$ radians. The FRM model
+  filter is implemented as a Schur one-multiplier all-pass lattice filter.}
 \label{fig:socp-relax-FRM-hilbert-schurOneMAPlattice-12-nbits-phase-response}
 \end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test_kuv_minT}}
+\caption{Comparison of the delay responses for an FRM Hilbert filter with
+  with 12 bit integer coefficients found by allocating an average of 2
+  signed-digits to each coefficient using the heuristic of \emph{Lim et al.}
+  and performing SOCP-relaxation search. The FRM model filter is
+  implemented as a Schur one-multiplier all-pass lattice filter.}
+\label{fig:socp-relax-FRM-hilbert-schurOneMAPlattice-12-nbits-delay-response}
+\end{figure}
+
 \clearpage
 \section{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-FIR_Hilbert}SOCP-relaxation search for the signed-digit coefficients of a direct-form FIR Hilbert filter}
 The Octave script \emph{socp\_relaxation\_directFIRhilbert\_12\_nbits\_test.m}
@@ -17708,16 +17732,16 @@ The filter coefficients found by the SDP-relaxation search are:
 \end{small}
 
 Figures~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-pass},
-Figure~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-delay}
-and
 Figure~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-phase}
-compare the pass-band responses of the filter with exact, 13-bit signed-digit
+and
+Figure~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-delay}
+compare the pass band responses of the filter with exact, 13-bit signed-digit
 coefficients allocated with the algorithm of \emph{Lim et al.} and 13-bit
 signed-digit coefficients allocated with the algorithm of \emph{Lim et al.}
-and SDP-relaxation search.
-Likewise,
+and SDP-relaxation search. The pass band phase response shown is adjusted for
+the nominal delay. Likewise,
 Figure~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-stop}
-shows the filter stop-band response.
+shows the filter stop band response.
 Table~\ref{tab:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-cost}
 compares the cost and the number of $13$ bit shift-and-add operations required
 to implement the $20$ coefficient multiplications found by the signed-digit
@@ -17734,6 +17758,17 @@ allocation heuristic of \emph{Lim et al.} with the SDP-relaxation search.
 \end{figure}
 \begin{figure}
 \centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_phase}}
+\caption{Comparison of the pass-band phase responses for a parallel
+  all-pass Schur one-multiplier lattice bandpass Hilbert filter with 13-bit
+  integer coefficients found by allocating an average of 3-signed-digits to
+  each coefficient using the heuristic of \emph{Lim et al.} and performing
+  SDP-relaxation search. The phase responses shown are adjusted for the nominal
+  delay.}
+\label{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-phase}
+\end{figure}
+\begin{figure}
+\centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_delay}}
 \caption{Comparison of the pass-band group delay responses for a parallel
   all-pass Schur one-multiplier lattice bandpass Hilbert filter with 13-bit
@@ -17741,16 +17776,6 @@ allocation heuristic of \emph{Lim et al.} with the SDP-relaxation search.
   each coefficient using the heuristic of \emph{Lim et al.} and performing
   SDP-relaxation search}
 \label{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-delay}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_phase}}
-\caption{Comparison of the pass-band phase responses for a parallel
-  all-pass Schur one-multiplier lattice bandpass Hilbert filter with 13-bit
-  integer coefficients found by allocating an average of 3-signed-digits to
-  each coefficient using the heuristic of \emph{Lim et al.} and performing
-  SDP-relaxation search}
-\label{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-phase}
 \end{figure}
 \begin{figure}
 \centering
@@ -26370,12 +26395,14 @@ The corresponding direct-form FIR band-pass Hilbert filter coefficients are:
 \verbatiminput{complementaryFIRlattice_socp_slb_bandpass_test_Nh2_coef.m}
 \end{small}
 Figure~\ref{fig:Response-PCLS-optimised-FIR-lattice-band-pass-Hilbert-filter}
-shows the amplitude, delay and phase responses of the PCLS optimised FIR lattice
-band-pass Hilbert filter.
+shows the amplitude, phase and delay responses of the PCLS optimised FIR lattice
+band-pass Hilbert filter. The phase response shown is adjusted for the nominal
+delay.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_test_pcls_response}}
-\caption{Response of the PCLS optimised FIR lattice band-pass Hilbert filter}
+\caption{Response of the PCLS optimised FIR lattice band-pass Hilbert
+filter. The phase response shown is adjusted for the nominal delay.}
 \label{fig:Response-PCLS-optimised-FIR-lattice-band-pass-Hilbert-filter}
 \end{figure}
 The FIR lattice band-pass Hilbert filter was simulated with a uniformly
@@ -27047,8 +27074,9 @@ The resulting FIR impulse response is:
 Figure~\ref{fig:Direct-FIR-nonsymmetric-socp-slb-bandpass-hilbert-response}
 shows the amplitude response.
 Figure~\ref{fig:Direct-FIR-nonsymmetric-socp-slb-bandpass-hilbert-passband} 
-shows the pass band amplitude, phase error and delay responses. The pass band
-phase error is adjusted for the nominal delay. (In fact the response requires an
+shows the pass band amplitude, phase and delay responses. The pass band
+phase response shown is adjusted for the nominal delay. (In fact the response
+requires an 
 additional $\pi$ radians phase shift or multiplication of the amplitude by $-1$).
 
 \begin{figure}
@@ -27058,13 +27086,12 @@ additional $\pi$ radians phase shift or multiplication of the amplitude by $-1$)
 designed with SOCP and PCLS.}
 \label{fig:Direct-FIR-nonsymmetric-socp-slb-bandpass-hilbert-response}
 \end{figure}
-
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_socp_slb_bandpass_hilbert_test_passband}}
-\caption{Pass band amplitude, phase error and delay responses of a non-symmetric
+\caption{Pass band amplitude, phase and delay responses of a non-symmetric
 band pass FIR Hilbert filter designed with SOCP and PCLS. The pass band phase
-error is adjusted for the nominal delay.} 
+response shown is adjusted for the nominal delay.} 
 \label{fig:Direct-FIR-nonsymmetric-socp-slb-bandpass-hilbert-passband}
 \end{figure}
 \clearpage
@@ -27396,7 +27423,8 @@ plot(w*0.5/pi,mod((unwrap(angle(Hhilbert))+(w*(M)))/pi,2));
 \end{small}
 Figure~\ref{fig:selesnickFIRsymmetric-halfband-test-hilbert-response} shows the
 amplitude and phase responses of the Hilbert filter derived from the half-band
-filter shown in Figure~\ref{fig:selesnickFIRsymmetric-halfband-test-dual}.
+filter shown in Figure~\ref{fig:selesnickFIRsymmetric-halfband-test-dual}. The
+phase response shown is adjusted for the nominal delay.
 Figure~\ref{fig:selesnickFIRsymmetric-halfband-test-hilbert-zeros} shows the
 zeros of the Hilbert filter.
 
@@ -27413,7 +27441,8 @@ zeros of the Hilbert filter.
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{selesnickFIRsymmetric_halfband_test_hilbert_response}}
 \caption{Amplitude response of a mini-max FIR Hilbert filter derived from the
   half-band filter designed with \emph{Hofstetter}'s algorithm and the
-  modifications of \emph{Selesnick} and \emph{Burrus}} 
+  modifications of \emph{Selesnick} and \emph{Burrus}. The phase response shown
+  is adjusted for the nominal delay.}
 \label{fig:selesnickFIRsymmetric-halfband-test-hilbert-response}
 \end{figure}
 \begin{figure}
@@ -33472,8 +33501,8 @@ The resulting FIR impulse response is:
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-lowpass-response} shows the
 amplitude response.
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-lowpass-passband} shows the pass
-band amplitude, phase error and delay responses. The pass band phase error is
-adjusted for the nominal delay. The overall maximum amplitude response is
+band amplitude, phase error and delay responses. The pass band phase error shown
+is adjusted for the nominal delay. The overall maximum amplitude response is
 $\varepsilon_{max}=$
 \input{directFIRnonsymmetric_kyp_lowpass_test_max_abs_H.tab}.
 The maximum error in the pass band compared with a pure delay of $d$ samples is 
@@ -33495,8 +33524,8 @@ the KYP lemma.}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_lowpass_test_passband}}
 \caption{Pass band amplitude, phase error and delay responses of a non-symmetric
-FIR low pass filter designed with the KYP lemma. The pass band phase error is
-adjusted for the nominal delay.}
+FIR low pass filter designed with the KYP lemma. The pass band phase error
+shown is adjusted for the nominal delay.}
 \label{fig:Direct-FIR-nonsymmetric-KYP-lowpass-passband}
 \end{figure}
 
@@ -33530,7 +33559,7 @@ Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-response} shows the
 amplitude response.
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-passband} 
 shows the pass band amplitude, phase error and delay responses. The pass band
-phase error is adjusted for the nominal delay.
+phase error shown is adjusted for the nominal delay.
 
 \begin{figure}
 \centering
@@ -33544,8 +33573,8 @@ with the KYP lemma.}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_bandpass_test_passband}}
 \caption{Pass band amplitude, phase error and delay responses of a non-symmetric
-FIR band pass filter designed with the KYP lemma. The pass band phase error is
-adjusted for the nominal delay.} 
+FIR band pass filter designed with the KYP lemma. The pass band phase error
+shown is adjusted for the nominal delay.} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-passband}
 \end{figure}
 
@@ -33565,8 +33594,8 @@ resulting FIR impulse response is:
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-response} shows the
 amplitude response.
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-passband} 
-shows the pass band amplitude, phase error and delay responses. The pass band
-phase error is adjusted for the nominal delay.
+shows the pass band amplitude, phase and delay responses. The pass band phase
+shown is adjusted for the nominal delay. 
 
 \begin{figure}
 \centering
@@ -33579,9 +33608,9 @@ designed with the KYP lemma.}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_bandpass_hilbert_test_passband}}
-\caption{Pass band amplitude, phase error and delay responses of a non-symmetric
+\caption{Pass band amplitude, phase and delay responses of a non-symmetric
 FIR band pass Hilbert filter designed with the KYP lemma. The pass band phase
-error is adjusted for the nominal delay.} 
+shown is adjusted for the nominal delay.} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-passband}
 \end{figure}
 \clearpage

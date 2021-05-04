@@ -2,7 +2,7 @@ function schurOneMlattice_sqp_slb_hilbert_plot ...
            (k,epsilon,p,c,wa,wt,wp,dBap,tp,tpr,pr, ...
             Asqdu,Asqdl,Tdu,Tdl,Pdu,Pdl,strF,strT)
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -37,17 +37,17 @@ function schurOneMlattice_sqp_slb_hilbert_plot ...
   grid("on");
   title(strT);
   subplot(312);
+  P=schurOneMlatticeP(wp,k,epsilon,p,c);
+  plot(wp*0.5/pi,([P Pdu Pdl]+(wp*tp))/pi);
+  ylabel("Phase(rad./$\\pi$)");
+  axis([0 0.5 (-0.5-(pr*2)) (-0.5+(pr*2))]);
+  grid("on");
+  subplot(313);
   T=schurOneMlatticeT(wt,k,epsilon,p,c);
   plot(wp*0.5/pi,[T Tdu Tdl]);
   ylabel("Delay(samples)");
-  axis([0 0.5 tp-(tpr*2) tp+(tpr*2)]);
-  grid("on");
-  subplot(313);
-  P=schurOneMlatticeP(wp,k,epsilon,p,c);
-  plot(wp*0.5/pi,([P Pdu Pdl]+(wp*tp))/pi);
-  ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
   xlabel("Frequency");
-  axis([0 0.5 (-0.5-(pr*2)) (-0.5+(pr*2))]);
+  axis([0 0.5 tp-(tpr*2) tp+(tpr*2)]);
   grid("on");
   print(strF,"-dpdflatex");
   close

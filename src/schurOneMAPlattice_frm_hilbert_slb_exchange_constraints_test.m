@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_hilbert_slb_exchange_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -172,7 +172,7 @@ plot(fp,[P0,Pdu,Pdl]/pi, ...
      fp(vR0.pu),P0(vR0.pu)/pi,'+');
 strMp0=sprintf(strMp,"P0");
 title(strMp0);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency")
 grid("on");
 print(sprintf(strd,"P0"),"-dpdflatex");

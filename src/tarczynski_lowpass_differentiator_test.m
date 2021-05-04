@@ -81,7 +81,7 @@ subplot(212);
 % plot(wplot*0.5/pi,T-td); ylabel("Delay error(samples)");
 plot(wplot*0.5/pi,(unwrap(arg(H))-(pi/2)+(wplot*td))/pi);
 %axis([0 0.5 -0.01 0.01 ]);
-ylabel("Phase error(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
 grid("on");
 print("tarczynski_lowpass_differentiator_response",  "-dpdflatex");

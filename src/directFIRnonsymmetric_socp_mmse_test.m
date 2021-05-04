@@ -141,7 +141,7 @@ axis([ftpl ftpu td-tdr td+tdr]);
 grid("on");
 subplot(313);
 plot(wp*0.5/pi,(P+(wp*td))/pi);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
 axis([fppl fppu pd-ppr pd+ppr]);
 grid("on");

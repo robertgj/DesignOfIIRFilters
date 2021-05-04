@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_hilbert_slb_update_constraints_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -149,7 +149,7 @@ plot(fp,P1/pi, ...
 %axis([0 0.5 [pp-(ppr*2) pp+(ppr*2)]/pi]);
 strMp=sprintf("P(k1):fpp=%g,fps=%g,ppr=%g*pi,Wpp=%g,",fpp,fps,ppr/pi,Wpp);
 title(strMp);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency")
 grid("on");
 print(sprintf(strd,"P1"),"-dpdflatex");

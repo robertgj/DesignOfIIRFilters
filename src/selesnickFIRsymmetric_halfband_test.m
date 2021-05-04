@@ -1,5 +1,5 @@
 % selesnickFIRsymmetric_halfband_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2021 Robert G. Jenssen
 
 test_common;
 
@@ -116,7 +116,7 @@ title(strt);
 subplot(212)
 plot(F,mod((unwrap(angle(Hhilbert))+(wa*(M)))/pi,2));
 axis([0 0.5 1.49 1.51]);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_hilbert_response"),"-dpdflatex");

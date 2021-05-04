@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_bandpass_hilbert_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -170,15 +170,15 @@ grid("on");
 strt=sprintf("Initial parallel all-pass bandpass Hilbert");
 title(strt);
 subplot(312);
-plot(wa*0.5/pi,T0);
-ylabel("Delay(samples)");
-axis([0 0.5 15.5 16.5]);
+plot(wa*0.5/pi,mod((P0+(td*wa))/pi,2));
+ylabel("Phase(rad./$\\pi$)");
+axis([0 0.5 1.498 1.502]);
 grid("on");
 subplot(313);
-plot(wa*0.5/pi,mod((P0+(td*wa))/pi,2));
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+plot(wa*0.5/pi,T0);
+ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 1.498 1.502]);
+axis([0 0.5 15.5 16.5]);
 grid("on");
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
@@ -218,15 +218,15 @@ strt=sprintf("Parallel all-pass bandpass Hilbert : m1=%d,m2=%d,dBap=%g,dBas=%g",
              m1,m2,dBap,dBas);
 title(strt);
 subplot(312);
-plot(wa*0.5/pi,T12);
-ylabel("Delay(samples)");
-axis([0 0.5 0 20]);
+plot(wa*0.5/pi,mod((P12+(td*wa))/pi,2));
+ylabel("Phase(rad./$\\pi$)");
+axis([0 0.5 0 2]);
 grid("on");
 subplot(313);
-plot(wa*0.5/pi,mod((P12+(td*wa))/pi,2));
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+plot(wa*0.5/pi,T12);
+ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 0 2]);
+axis([0 0.5 0 20]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
@@ -241,15 +241,15 @@ axis([minf maxf -2*dBap dBap]);
 grid("on");
 title(strt);
 subplot(312);
-plot(wa*0.5/pi,T12);
-ylabel("Delay(samples)");
-axis([minf maxf td-tdr td+tdr]);
+plot(wa*0.5/pi,mod((P12+(td*wa))/pi,2));
+ylabel("Phase(rad./$\\pi$)");
+axis([minf maxf mod(pd-pdr,2) mod(pd+pdr,2)]);
 grid("on");
 subplot(313);
-plot(wa*0.5/pi,mod((P12+(td*wa))/pi,2));
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+plot(wa*0.5/pi,T12);
+ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([minf maxf mod(pd-pdr,2) mod(pd+pdr,2)]);
+axis([minf maxf td-tdr td+tdr]);
 grid("on");
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close

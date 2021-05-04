@@ -122,7 +122,7 @@ plot(w(napl:napu)*0.5/pi, ...
      mod(((w(napl:napu)*d)+unwrap(arg(H(napl:napu)))),2*pi)/pi)
 axis([fapl fapu 1.5+0.002*[-1 1]]);
 grid("on");
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)");
 subplot(313)
 [T,w]=grpdelay(h,1,nplot);
 plot(w(napl:napu)*0.5/pi,T(napl:napu));

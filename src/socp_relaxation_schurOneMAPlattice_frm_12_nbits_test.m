@@ -4,7 +4,7 @@
 % with 12-bit 3-signed-digit coefficients and an allpass model filter
 % implemented as a Schur one-multiplier lattice.
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -393,22 +393,8 @@ strt=sprintf("FRM filter (nbits=%d,ndigits=%d) : fap=%g,fas=%g,dBap=%g,dBas=%g,\
 tp=%g,tpr=%g,ppr=%g*$\\pi$",nbits,ndigits,fap,fas,dBap,dBas,tp,tpr,ppr/pi);
 title(strt);
 grid("on");
-% Plot delay
-T_kuv0=schurOneMAPlattice_frmT ...
-         (wt,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
-T_kuv0_sd=schurOneMAPlattice_frmT ...
-            (wt,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
-T_kuv_min=schurOneMAPlattice_frmT ...
-            (wt,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
-subplot(312);
-plot(wt*0.5/pi,T_kuv0+tp,"linestyle","--", ...
-     wt*0.5/pi,T_kuv0_sd+tp,"linestyle","-.", ...
-     wt*0.5/pi,T_kuv_min+tp,"linestyle","-");
-axis([0 0.5 tp-tpr tp+tpr]);
-ylabel("Delay(samples)");
-grid("on");
 % Plot phase
-subplot(313);
+subplot(312);
 P_kuv0=schurOneMAPlattice_frmP ... 
          (wp,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
 P_kuv0_sd=schurOneMAPlattice_frmP ...
@@ -418,13 +404,27 @@ P_kuv_min=schurOneMAPlattice_frmP ...
 plot(wp*0.5/pi,P_kuv0/pi,"linestyle","--", ...
      wp*0.5/pi,P_kuv0_sd/pi,"linestyle","-.", ...
      wp*0.5/pi,P_kuv_min/pi,"linestyle","-");
-axis([0 0.5 (pp-ppr)/pi (pp+ppr)/pi]);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
-xlabel("Frequency");
+axis([0 0.5 (pp-(ppr/2))/pi (pp+(ppr/2))/pi]);
+ylabel("Phase error(rad./$\\pi$)");
 legend("exact","s-d(Ito)","s-d(SOCP-relax)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+grid("on");
+% Plot delay
+T_kuv0=schurOneMAPlattice_frmT ...
+         (wt,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
+T_kuv0_sd=schurOneMAPlattice_frmT ...
+            (wt,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
+T_kuv_min=schurOneMAPlattice_frmT ...
+            (wt,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
+subplot(313);
+plot(wt*0.5/pi,T_kuv0+tp,"linestyle","--", ...
+     wt*0.5/pi,T_kuv0_sd+tp,"linestyle","-.", ...
+     wt*0.5/pi,T_kuv_min+tp,"linestyle","-");
+axis([0 0.5 tp-tpr tp+tpr]);
+ylabel("Delay(samples)");
+xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
 close

@@ -3,7 +3,7 @@ function schurOneMAPlattice_frm_socp_slb_plot ...
 % schurOneMAPlattice_frm_socp_slb_plot ...
 %  (k,epsilon,p,u,v,Mmodel,Dmodel,fap,fas,strT,strF,strOpt)
 
-% Copyright (C) 2019-2020 Robert G. Jenssen
+% Copyright (C) 2019-2021 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -60,17 +60,17 @@ function schurOneMAPlattice_frm_socp_slb_plot ...
   grid("on");
   tstr=sprintf(strT,strOpt,"response");
   title(tstr);
-  % Plot pass-band group delay response
+  % Plot pass-band phase response
   subplot(312);
+  plot(wp*0.5/pi,P_frm/pi)
+  axis([0, 0.5, -0.01, 0.01]);
+  ylabel("Phase error(radians/$\\pi$)");
+  grid("on");
+  % Plot pass-band group delay response
+  subplot(313);
   plot(wt*0.5/pi,T_frm+tp)
   axis([0, 0.5, tp-1, tp+1]);
   ylabel("Delay(samples)");
-  grid("on");
-  % Plot pass-band phase response
-  subplot(313);
-  plot(wp*0.5/pi,P_frm/pi)
-  axis([0, 0.5, -0.01, 0.01]);
-  ylabel("Phase(radians/$\\pi$)\n(Adjusted for delay)");
   xlabel("Frequency");
   grid("on");
   print(sprintf(strF,lower(strOpt),"response"),"-dpdflatex"); 

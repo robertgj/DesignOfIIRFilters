@@ -4,7 +4,7 @@
 % filter composed of parallel Schur one-multiplier all-pass lattice
 % filters with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -520,7 +520,7 @@ close
 plot(wp*0.5/pi,mod((P_k0+(wp*td))/pi,2),"linestyle","-", ...
      wp*0.5/pi,mod((P_k0_sd+(wp*td))/pi,2),"linestyle","--", ...
      wp*0.5/pi,mod((P_kmin+(wp*td))/pi,2),"linestyle","-.");
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
 pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);

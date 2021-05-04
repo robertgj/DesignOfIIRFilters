@@ -1,5 +1,5 @@
 % parallel_allpass_slb_update_constraints_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -169,7 +169,7 @@ plot(wp*0.5/pi,mod(([Pab0,Pdu,Pdl]+(td*wp))/pi,2), ...
      wp(vS.pl)*0.5/pi,mod((Pl+(td*wp(vS.pl)))/pi,2),"x",
      wp(vS.pu)*0.5/pi,mod((Pu+(td*wp(vS.pu)))/pi,2),"+");
 axis([fppl fppu mod(pd-(5*pdr),2) mod(pd+(5*pdr),2)]);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency")
 strMdelay=sprintf(strM,"ab0 phase");
 title(strMdelay);

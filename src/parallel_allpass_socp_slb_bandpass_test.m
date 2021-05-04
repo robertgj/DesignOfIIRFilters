@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_bandpass_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -206,7 +206,7 @@ plot(wplot*0.5/pi,(Pa+(wplot*td))/pi,"-",wplot*0.5/pi,(Pb+(wplot*td))/pi,"--");
 strt=sprintf("Parallel allpass bandpass filter : all-pass filter phase \
 responses adjusted for linear phase (w*td): ma=%d,mb=%d,td=%g",ma,mb,td);
 title(strt);
-ylabel("All-pass filter phase (rad./$\\pi$)\n(Adjusted for linear phase.)");
+ylabel("All-pass filter phase (rad./$\\pi$)");
 xlabel("Frequency");
 legend("Filter A","Filter B","location","northwest");
 legend("boxoff");

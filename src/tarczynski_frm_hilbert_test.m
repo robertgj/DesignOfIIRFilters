@@ -179,7 +179,7 @@ strt=sprintf("Initial FRM Hilbert filter:mr=%d,na=%d,Mmodel=%d,Dmodel=%d,td=%d",
 title(strt);
 subplot(312);
 plot(wplot*0.5/pi,(unwrap(arg(Hw_init))+(wplot*td))/pi);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 -0.6 -0.4]);
 grid("on");
 subplot(313);
@@ -245,7 +245,7 @@ strt=sprintf("FRM Hilbert filter:mr=%d,na=%d,Mmodel=%d,Dmodel=%d,td=%d",
 title(strt);
 subplot(312);
 plot(wplot*0.5/pi,(unwrap(arg(Hw_hilbert))+(wplot*td))/pi);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 -0.6 -0.4]);
 grid("on");
 subplot(313);

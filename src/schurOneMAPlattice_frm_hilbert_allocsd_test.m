@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_hilbert_allocsd_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Test case for Lims signed-digit allocation algorithm with coefficents of
 % a bandpass lattice filter in one multiplier form.
@@ -144,10 +144,10 @@ for ndigits=2:3
          wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
     Asq_rd=schurOneMAPlattice_frm_hilbertAsq ...
              (wa,k_rd,epsilon0,ones(size(p0)),u_rd,v_rd,Mmodel,Dmodel);
-    T_rd=schurOneMAPlattice_frm_hilbertT ...
-             (wt,k_rd,epsilon0,ones(size(p0)),u_rd,v_rd,Mmodel,Dmodel);
     P_rd=schurOneMAPlattice_frm_hilbertP ...
              (wp,k_rd,epsilon0,ones(size(p0)),u_rd,v_rd,Mmodel,Dmodel);
+    T_rd=schurOneMAPlattice_frm_hilbertT ...
+             (wt,k_rd,epsilon0,ones(size(p0)),u_rd,v_rd,Mmodel,Dmodel);
     % Find the actual number of signed digits used
     kuv_rd=[k_rd(:);u_rd(:);v_rd(:)];
     nbits_kuv_rd_digits(l)=SDadders(kuv_rd,nbits);
@@ -162,10 +162,10 @@ for ndigits=2:3
        wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
     Asq_sd=schurOneMAPlattice_frm_hilbertAsq ...
              (wa,k_sd,epsilon0,ones(size(p0)),u_sd,v_sd,Mmodel,Dmodel);
-    T_sd=schurOneMAPlattice_frm_hilbertT ...
-             (wt,k_sd,epsilon0,ones(size(p0)),u_sd,v_sd,Mmodel,Dmodel);
     P_sd=schurOneMAPlattice_frm_hilbertP ...
              (wp,k_sd,epsilon0,ones(size(p0)),u_sd,v_sd,Mmodel,Dmodel);
+    T_sd=schurOneMAPlattice_frm_hilbertT ...
+             (wt,k_sd,epsilon0,ones(size(p0)),u_sd,v_sd,Mmodel,Dmodel);
     % Find the actual number of signed digits used
     kuv_sd=[k_sd(:);u_sd(:);v_sd(:)];
     nbits_kuv_sd_digits(l)=SDadders(kuv_sd,nbits);
@@ -194,10 +194,10 @@ for ndigits=2:3
        wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
     Asq_Lim=schurOneMAPlattice_frm_hilbertAsq ...
               (wa,k_Lim,epsilon0,ones(size(p0)),u_Lim,v_Lim,Mmodel,Dmodel);
-    T_Lim=schurOneMAPlattice_frm_hilbertT ...
-              (wt,k_Lim,epsilon0,ones(size(p0)),u_Lim,v_Lim,Mmodel,Dmodel);
     P_Lim=schurOneMAPlattice_frm_hilbertP ...
               (wp,k_Lim,epsilon0,ones(size(p0)),u_Lim,v_Lim,Mmodel,Dmodel);
+    T_Lim=schurOneMAPlattice_frm_hilbertT ...
+              (wt,k_Lim,epsilon0,ones(size(p0)),u_Lim,v_Lim,Mmodel,Dmodel);
     % Find the actual number of signed digits used
     kuv_Lim=[k_Lim(:);u_Lim(:);v_Lim(:)];
     [nbits_kuv_digits_Lim(l),kuv_adders_Lim]=SDadders(kuv_Lim,nbits);
@@ -227,10 +227,10 @@ for ndigits=2:3
        wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
     Asq_Ito=schurOneMAPlattice_frm_hilbertAsq ...
               (wa,k_Ito,epsilon0,ones(size(p0)),u_Ito,v_Ito,Mmodel,Dmodel);
-    T_Ito=schurOneMAPlattice_frm_hilbertT ...
-              (wt,k_Ito,epsilon0,ones(size(p0)),u_Ito,v_Ito,Mmodel,Dmodel);
     P_Ito=schurOneMAPlattice_frm_hilbertP ...
               (wp,k_Ito,epsilon0,ones(size(p0)),u_Ito,v_Ito,Mmodel,Dmodel);
+    T_Ito=schurOneMAPlattice_frm_hilbertT ...
+              (wt,k_Ito,epsilon0,ones(size(p0)),u_Ito,v_Ito,Mmodel,Dmodel);
     % Find the actual number of signed digits and adders used
     kuv_Ito=[k_Ito(:);u_Ito(:);v_Ito(:)];
     [nbits_kuv_digits_Ito(l),kuv_adders_Ito]=SDadders(kuv_Ito,nbits);
@@ -257,6 +257,15 @@ for ndigits=2:3
                  nbits,ndigits);
     title(strt);
     subplot(312)
+    plot(wp*0.5/pi,P_ex/pi,"linestyle","-", ...
+         wp*0.5/pi,P_rd/pi,"linestyle",":", ...
+         wp*0.5/pi,P_sd/pi,"linestyle","-.", ... 
+         wp*0.5/pi,P_Lim/pi,"linestyle","--",...
+         wp*0.5/pi,P_Ito/pi,"linestyle","-")
+    xlabel("Frequency");
+    ylabel("Phase(rad./$\\pi$)");
+    grid("on");
+    subplot(313)
     plot(wt*0.5/pi,T_ex+tp,"linestyle","-", ...
          wt*0.5/pi,T_rd+tp,"linestyle",":", ...
          wt*0.5/pi,T_sd+tp,"linestyle","-.", ... 
@@ -264,15 +273,6 @@ for ndigits=2:3
          wt*0.5/pi,T_Ito+tp,"linestyle","-")
     xlabel("Frequency");
     ylabel("Delay(Samples)");
-    grid("on");
-    subplot(313)
-    plot(wp*0.5/pi,P_ex/pi,"linestyle","-", ...
-         wp*0.5/pi,P_rd/pi,"linestyle",":", ...
-         wp*0.5/pi,P_sd/pi,"linestyle","-.", ... 
-         wp*0.5/pi,P_Lim/pi,"linestyle","--",...
-         wp*0.5/pi,P_Ito/pi,"linestyle","-")
-    xlabel("Frequency");
-    ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
     grid("on");
     print(strcat(nbits_strf,"_response"),"-dpdflatex");
     close

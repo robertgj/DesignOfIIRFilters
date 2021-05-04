@@ -110,7 +110,7 @@ plot(w(1:nap)*0.5/pi, ...
      unwrap(mod((w(1:nap)*d)+unwrap(arg(H(1:nap))),2*pi))/(pi))
 axis([0 fap]);
 grid("on");
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase error(rad./$\\pi$)");
 subplot(313)
 [T,w]=grpdelay(h,1,nplot);
 plot(w*0.5/pi,T);

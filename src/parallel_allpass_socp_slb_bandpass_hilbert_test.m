@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_bandpass_hilbert_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -138,15 +138,15 @@ grid("on");
 strt=sprintf("Initial parallel allpass bandpass Hilbert : ma=%d,mb=%d",ma,mb);
 title(strt);
 subplot(312);
-plot(wa*0.5/pi,T0);
-ylabel("Delay(samples)");
-axis([0 0.5 0 20]);
+plot(wa*0.5/pi,(P0+(wa*td))/pi);
+ylabel("Phase(rad./$\\pi$)");
+axis([0 0.5 0 2]);
 grid("on");
 subplot(313);
-plot(wa*0.5/pi,(P0+(wa*td))/pi);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+plot(wa*0.5/pi,T0);
+ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 0 2]);
+axis([0 0.5 0 20]);
 grid("on");
 print(strcat(strf,"_ab0"),"-dpdflatex");
 close
@@ -202,15 +202,15 @@ strt=sprintf ...
         ma,mb,dBap,dBas,td);
 title(strt);
 subplot(312);
-plot(wplot*0.5/pi,Tab1);
-ylabel("Delay(samples)");
-axis([0 0.5 10 30]);
+plot(wplot*0.5/pi,mod((Pab1+(wplot*td))/pi,2));
+ylabel("Phase(rad./$\\pi$)");
+axis([0 0.5 0 2]);
 grid("on");
 subplot(313);
-plot(wplot*0.5/pi,mod((Pab1+(wplot*td))/pi,2));
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+plot(wplot*0.5/pi,Tab1);
+ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 0 2]);
+axis([0 0.5 10 30]);
 grid("on");
 print(strcat(strf,"_ab1"),"-dpdflatex");
 close
@@ -229,7 +229,7 @@ axis([min([fapl,ftpl,fppl]) max([fapu,ftpu,fppl]) td-tdr td+tdr]);
 grid("on");
 subplot(313);
 plot(wplot*0.5/pi,mod((Pab1+(wplot*td))/pi,2));
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 axis([min([fapl,ftpl,fppl]) max([fapu,ftpu,fppl]) pd-pdr pd+pdr]);
 grid("on");
@@ -254,7 +254,7 @@ plot(wplot*0.5/pi,(Pa+(wplot*td))/pi,"-", ...
 strt=sprintf("Parallel allpass bandpass Hilbert : all-pass filter phase \
 responses : ma=%d,mb=%d,td=%g",ma,mb,td);
 title(strt);
-ylabel("All-pass filter phase (rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("All-pass filter phase(rad./$\\pi$)");
 xlabel("Frequency");
 legend("Filter A","Filter B","location","northwest");
 legend("boxoff");

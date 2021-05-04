@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_mmse_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -115,15 +115,15 @@ grid("on");
 s=sprintf("Parallel Schur one-multiplier allpass : ma=%d,mb=%d,td=%g", ma,mb,td);
 title(s);
 subplot(312);
-plot(wt*0.5/pi,T);
-ylabel("Delay(samples)");
-axis([0 0.5 td-tdr td+tdr]);
+plot(wp*0.5/pi,(P+(wp*td))/pi);
+ylabel("Phase error(rad./$\\pi$)");
+axis([0 0.5 -ppr ppr]);
 grid("on");
 subplot(313);
-plot(wp*0.5/pi,(P+(wp*td))/pi);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+plot(wt*0.5/pi,T);
+ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 -ppr ppr]);
+axis([0 0.5 td-tdr td+tdr]);
 grid("on");
 print(strcat(strf,"_A12"),"-dpdflatex");
 close
@@ -136,15 +136,15 @@ axis([0 max([fap,ftp,fpp]) -3 1]);
 grid("on");
 title(s);
 subplot(312);
-plot(wt*0.5/pi,T);
-ylabel("Delay(samples)");
-axis([0 max([fap,ftp,fpp]) td-tdr td+tdr]);
+plot(wp*0.5/pi,(P+(wp*td))/pi);
+ylabel("Phase error(rad./$\\pi$)");
+axis([0 max([fap,ftp,fpp]) -ppr ppr]);
 grid("on");
 subplot(313);
-plot(wp*0.5/pi,(P+(wp*td))/pi);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+plot(wt*0.5/pi,T);
+ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 max([fap,ftp,fpp]) -ppr ppr]);
+axis([0 max([fap,ftp,fpp]) td-tdr td+tdr]);
 grid("on");
 print(strcat(strf,"_A12pass"),"-dpdflatex");
 close

@@ -1,5 +1,5 @@
 % iir_sqp_slb_hilbert_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 % Note that with the SOCP solver this test fails to find and satisfy
 % phase constraints near w=0 because the phase response has inflexions
@@ -106,15 +106,15 @@ ylabel("Amplitude");
 axis([-0.5 0.5 -1.2 -0.6]);
 grid("on");
 subplot(312);
-plot(w*0.5/pi,T0);
-ylabel("Delay(samples)");
-axis([-0.5 0.5 0 10*td]);
+plot(w*0.5/pi,(P0+w*td+4*pi)/pi);
+ylabel("Phase(rad./$\\pi$)");
+axis([-0.5 0.5 -2 0]);
 grid("on");
 subplot(313);
-plot(w*0.5/pi,(P0+w*td+4*pi)/pi);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+plot(w*0.5/pi,T0);
+ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([-0.5 0.5 -2 0]);
+axis([-0.5 0.5 0 10*td]);
 grid("on");
 print(strcat(strf,"_initial_x0phase"),"-dpdflatex");
 close
@@ -136,7 +136,7 @@ title(strt);
 ylabel("Amplitude");
 subplot(212);
 plot(w*0.5/pi,4+([P0b+w*td Pdl+w*td Pdu+w*td]/pi));
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 axis([-0.5 0.5 -5 -1]);
 grid("on");
@@ -173,12 +173,6 @@ ylabel("Amplitude");
 axis([-0.5 0.5 -1.02 -0.98]);
 grid("on");
 subplot(312);
-h312=plot(w*0.5/pi,[Tx1 Tdl Tdu]);
-ylabel("Delay(samples)");
-xlabel("Frequency");
-axis([-0.5 0.5 td-tdr td+tdr]);
-grid("on");
-subplot(313);
 Px1_plot=[Px1+w*td Pdl+w*td Pdu+w*td]+4*pi;
 [ax,h1,h2]=plotyy(w(1:(n-npt))*0.5/pi,      Px1_plot(1:(n-npt),:)/pi, ...
                   w((n+npt+1):(2*n))*0.5/pi,Px1_plot((n+npt+1):(2*n),:)/pi);
@@ -192,8 +186,13 @@ set(ax(2),'ycolor','black');
 % End of hack
 axis(ax(1),[-0.5 0.5 -0.5-(pr/2) -0.5+(pr/2)]);
 axis(ax(2),[-0.5 0.5 -1.5-(pr/2) -1.5+(pr/2)]);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)");
+grid("on");
+subplot(313);
+h312=plot(w*0.5/pi,[Tx1 Tdl Tdu]);
+ylabel("Delay(samples)");
 xlabel("Frequency");
+axis([-0.5 0.5 td-tdr td+tdr]);
 grid("on");
 print(strcat(strf,"_mmse_x1phase"),"-dpdflatex");
 close
@@ -227,12 +226,7 @@ ylabel("Amplitude");
 grid("on");
 axis([-0.5 0.5 -1.002 -0.998]);
 subplot(312);
-plot(w*0.5/pi,[Td1 Tdl Tdu]);
-ylabel("Delay(samples)");
-grid("on");
-axis([-0.5 0.5 td-tdr td+tdr]);
 Pplot=[Pd1+w*td Pdl+w*td Pdu+w*td]+4*pi;
-subplot(313);
 [ax,h1,h2]=plotyy(w(1:(n-npt))*0.5/pi,      Pplot(1:(n-npt),:)/pi, ...
                   w((n+npt+1):(2*n))*0.5/pi,Pplot((n+npt+1):(2*n),:)/pi);
 % Hack to match colours. Is there an easier way with colormap?
@@ -245,9 +239,14 @@ set(ax(2),'ycolor','black');
 % End of hack
 axis(ax(1),[-0.5 0.5 -0.5-(pr/2) -0.5+(pr/2)]);
 axis(ax(2),[-0.5 0.5 -1.5-(pr/2) -1.5+(pr/2)]); 
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)");
+grid("on");
+subplot(313);
+plot(w*0.5/pi,[Td1 Tdl Tdu]);
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+axis([-0.5 0.5 td-tdr td+tdr]);
 print(strcat(strf,"_pcls_d1phase"),"-dpdflatex");
 close
 

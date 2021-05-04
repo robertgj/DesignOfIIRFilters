@@ -1,5 +1,5 @@
 % iir_sqp_slb_lowpass_differentiator_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2021 Robert G. Jenssen
 
 test_common;
 
@@ -105,12 +105,12 @@ title(strt);
 ylabel("Amplitude error");
 grid("on");
 subplot(312);
-plot(wt*0.5/pi,T0);
-ylabel("Delay(samples)");
+plot(wp*0.5/pi,(P0+(wp*td))/pi);
+ylabel("Phase error(rad./$\\pi$)");
 grid("on");
 subplot(313);
-plot(wp*0.5/pi,(P0+(wp*td))/pi);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+plot(wt*0.5/pi,T0);
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_initial_x0phase"),"-dpdflatex");
@@ -137,14 +137,14 @@ title(strt);
 ylabel("Amplitude error");
 grid("on");
 subplot(312);
+plot(wp*0.5/pi,([Px1 Pdl Pdu]+(wp*td))/pi);
+axis([0 0.5 0.5-pr 0.5+pr]);
+ylabel("Phase error(rad./$\\pi$)");
+grid("on");
+subplot(313);
 plot(wt*0.5/pi,[Tx1 Tdl Tdu])
 axis([0 0.5 td-tdr td+tdr]);
 ylabel("Delay(samples)");
-grid("on");
-subplot(313);
-plot(wp*0.5/pi,([Px1 Pdl Pdu]+(wp*td))/pi);
-axis([0 0.5 0.5-pr 0.5+pr]);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_mmse_x1phase"),"-dpdflatex");
@@ -173,14 +173,14 @@ strt=sprintf(strP,"d1(pcls)");
 title(strt);
 ylabel("Amplitude error");
 subplot(312);
+plot(wp*0.5/pi,([Pd1 Pdl Pdu]+(wp*td))/pi);
+axis([0 0.5 0.5-pr 0.5+pr]);
+ylabel("Phase error(rad./$\\pi$)");
+grid("on");
+subplot(313);
 plot(wt*0.5/pi,[Td1 Tdl Tdu])
 axis([0 0.5 td-tdr td+tdr]);
 ylabel("Delay(samples)");
-grid("on");
-subplot(313);
-plot(wp*0.5/pi,([Pd1 Pdl Pdu]+(wp*td))/pi);
-axis([0 0.5 0.5-pr 0.5+pr]);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_d1phase"),"-dpdflatex");

@@ -1,7 +1,7 @@
 % complementaryFIRlattice_socp_slb_bandpass_test.m
 % Design of an FIR lattice filter using SOCP. Neither the filter or the
 % complementary filter is constrained to be minimum-phase.
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -195,17 +195,17 @@ strt=sprintf ...
         fsl,fpl,fpu,fsu,dBap,dBas,tp,tpr,pp/pi,ppr/pi);
 title(strt);
 subplot(312);
-plot(wplot*0.5/pi,T_plot);
-ylabel("Delay(samples)");
-axis([0 0.5 tp-tpr tp+tpr]);
-grid("on");
-subplot(313);
 plot(wplot*0.5/pi,(P_plot+(wplot*tp))/pi);
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
-xlabel("Frequency");
+ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 (pp-ppr)/pi (pp+ppr)/pi]);
 grid("on");
 print(strcat(strf,"_pcls_response"),"-dpdflatex");
+subplot(313);
+plot(wplot*0.5/pi,T_plot);
+ylabel("Delay(samples)");
+xlabel("Frequency");
+axis([0 0.5 tp-tpr tp+tpr]);
+grid("on");
 close
 zplane(qroots(Nh2));
 print(strcat(strf,"_pcls_Nh2_pz"),"-dpdflatex");

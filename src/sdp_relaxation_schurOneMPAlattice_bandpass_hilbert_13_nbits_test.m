@@ -1,5 +1,5 @@
 % sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 % SDP relaxation optimisation of a Schur parallel one-multiplier allpass
 % lattice bandpass filter with 12-bit signed-digit coefficients having
@@ -474,7 +474,7 @@ plot(wp*0.5/pi,mod((P_k0+(wp*td))/pi,2),"linestyle","-", ...
      wp*0.5/pi,mod((P_k0_sd_sdp+(wp*td))/pi,2),"linestyle","-", ...
      wp*0.5/pi,mod((P_k0_sd_min+(wp*td))/pi,2),"linestyle","-.");
 xlabel("Frequency");
-ylabel("Phase(rad./$\\pi$)\n(Adjusted for delay)");
+ylabel("Phase(rad./$\\pi$)");
 axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), ...
       mod(pd-(pdr/2),2),     mod(pd+(pdr/2),2)]);
 strt=sprintf("Parallel allpass lattice bandpass Hilbert filter pass-band phase \
