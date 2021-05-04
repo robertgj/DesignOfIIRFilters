@@ -27,9 +27,10 @@
 #      good measure.
 #
 # Get the GNU octave public keys with:
-#   gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 5D36644B
+#    wget https://ftp.gnu.org/gnu/gnu-keyring.gpg
+#    gpg2 --import gnu-keyring.gpg
 # then verify the .sig file with (for example):
-#   gpg2 --verify octave-5.2.0.tar.lz.sig
+#   gpg2 --verify octave-6.2.0.tar.lz.sig
 #
 # Note the worrying error from Octave-forge package control-3.2.0.tar.gz in
 # the FORTRAN file from slicot.tar.gz, MA02ID.f at lines 188 and 230:
