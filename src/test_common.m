@@ -56,9 +56,9 @@ if strcmp("6.2.0-robj",OCTAVE_VERSION)
   % See scripts/plot/util/private/__gnuplot_draw_axes__.m
   warning("off","Octave:latex-markup-not-supported-for-tick-marks");
   % See scripts/miscellaneous/delete.m
-  warning("off","Octave:delete-no-such-file");
+  warning("off","Octave:delete:no-such-file");
   % See libinterp/corefcn/load-path.cc
-  warning("off","Octave:load-path-update-failed");
-  warning("off","Octave:load-path-dir-info-update");
+  warning("off","Octave:load-path:update-failed");
+  warning("off","Octave:load-path:dir-info:update-failed");
 endif
 
