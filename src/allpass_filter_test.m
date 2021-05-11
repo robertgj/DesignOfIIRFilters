@@ -30,13 +30,13 @@ for nm=first,
   semilogy(rR,PS);
   xlabel("Pole radius");
   ylabel("Maximum phase gradient");
-  axis([0 1 10^0 10^2]);
+  axis([0 1 1 100]);
   print(sprintf("allpass_filter_test_%s_pgrad",nm{1}),"-dpdflatex");
   close
   semilogy(rR,ng1);
   xlabel("Pole radius");
   ylabel("Noise gain");
-  axis([0 1 10^-1 10^2]);
+  axis([0 1 0.1 100]);
   print(sprintf("allpass_filter_test_%s_ng",nm{1}),"-dpdflatex");
   close
 endfor
@@ -68,7 +68,7 @@ for nm=1:length(second),
            realR,PSR(:,4),'linestyle','--');
   xlabel("Pole radius r1");
   ylabel("Maximum phase gradient");
-  axis([0 1 10^0 10^3]);
+  axis([0 1 1 1000]);
   grid("on");
   legend("r2=0.99","r2=0.75","r2=0.50","r2=0.25");
   legend("location","northwest");
@@ -81,7 +81,7 @@ for nm=1:length(second),
            realR,ng2R(:,4),'linestyle','--');
   xlabel("Pole radius r1");
   ylabel("Noise gain");
-  axis([0 1 10^-1 10^2]);
+  axis([0 1 0.1 100]);
   grid("on");
   legend("r2=0.99","r2=0.75","r2=0.50","r2=0.25");
   legend("location","northwest");
@@ -108,7 +108,7 @@ for nm=1:length(second),
            thetaR/pi,PStheta(:,4),'linestyle','--');
   xlabel("Pole angle(rad./$\\pi$)");
   ylabel("Maximum phase gradient");
-  axis([0 1 10^0 10^3]);
+  axis([0 1 1 1000]);
   grid("on");
   legend("r=0.99","r=0.75","r=0.50","r=0.25");
   legend("location","north");
@@ -121,7 +121,7 @@ for nm=1:length(second),
            thetaR/pi,ng2C(:,4),'linestyle','--');
   xlabel("Pole angle(rad./$\\pi$)");
   ylabel("Noise gain");
-  axis([0 1 10^-1 10^2]);
+  axis([0 1 0.1 100]);
   grid("on");
   legend("r=0.99","r=0.75","r=0.50","r=0.25");
   legend("location","north");
