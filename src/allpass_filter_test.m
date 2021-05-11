@@ -31,12 +31,14 @@ for nm=first,
   xlabel("Pole radius");
   ylabel("Maximum phase gradient");
   axis([0 1 1 100]);
+  grid("on");
   print(sprintf("allpass_filter_test_%s_pgrad",nm{1}),"-dpdflatex");
   close
   semilogy(rR,ng1);
   xlabel("Pole radius");
   ylabel("Noise gain");
   axis([0 1 0.1 100]);
+  grid("on");
   print(sprintf("allpass_filter_test_%s_ng",nm{1}),"-dpdflatex");
   close
 endfor
