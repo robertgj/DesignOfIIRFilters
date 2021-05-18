@@ -318,16 +318,19 @@ print_polynomial(havu,"h",sprintf("%s_h_%d_%d_coef.m",strf,p,q),"%13.10f");
 for l=1:m,
   subplot(m,2,(2*l)-1);
   plot(wHazs*0.5/pi,abs(Hazs{l}));
+  fs=get(gca,"fontsize");
   if l==1 || l==3
     axis([0 0.5 0 2]);
   endif
-  title(sprintf("Subfilter m=%d",rho(l)));
+  set (gca, "fontsize", 7);
+  title(sprintf("Subfilter m=%d",rho(l)),"fontsize",10);
   if l==m
-    xlabel("Frequency");
-    ylabel("Amplitude");
+    xlabel("Frequency","fontsize",10);
+    ylabel("Amplitude","fontsize",10); 
   else
     axis("tic","labely");
   endif
+  set (gca, "fontsize", 7);
   grid("on");
   
   if l==1
@@ -340,14 +343,16 @@ for l=1:m,
   if l==1 || l==3
     axis([0 0.5 0 2]);
   endif
+  set (gca, "fontsize", 7);
   if l==m
     strt=sprintf(strt_start,"Full");
-    xlabel("Frequency");
+    xlabel("Frequency","fontsize",10);
   else
     strt=sprintf(strt_start,"Partial");
     axis("tic","labely");
   endif
-  title(strt);
+  set (gca, "fontsize", 7);
+  title(strt,"fontsize",10);
   grid("on");
 endfor
 print(sprintf("%s_Q_%d_%d_subfilters",strf,p,q),"-dpdflatex");

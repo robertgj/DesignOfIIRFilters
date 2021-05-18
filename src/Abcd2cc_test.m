@@ -123,7 +123,7 @@ plot(nppts/nfpts,20*log10(abs(Hoptf)),"linestyle","--", ...
 legend("Block length 1", sprintf("Block length %d",P));
 legend("boxoff");
 legend("left");
-legend("location","northwest");
+legend("location","northeast");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
@@ -140,7 +140,7 @@ legend("location","northwest");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
-axis([0 0.06 -1 3]);
+axis([0 0.06 -2 5]);
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 

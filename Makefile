@@ -48,7 +48,7 @@ GREP=/usr/bin/grep -Hi
 # A list of all the dependencies of $(TARGET).pdf
 #
 TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
-                    $(EXTRA_DIARY_FILES) $(TARGET).bib $(TARGET).tex Makefile
+                    $(EXTRA_DIARY_FILES) $(TARGET).bib $(TARGET).tex 
 
 
 #
@@ -140,7 +140,6 @@ $(TARGET).pdf: $(TARGET_DEPENDENCIES)
 	-@$(GREP) "warning" DesignOfIIRFilters.blg | sort | uniq ; 
 	echo "Build complete" ;
 
-
 #
 # PHONY targets
 #
@@ -150,6 +149,13 @@ testvars :
 	@echo "OCTAVE_SCRIPTS=" $(OCTAVE_SCRIPTS)
 	@echo "deczky3_socp_test_FILES=" ${deczky3_socp_test_FILES}
 	@echo $(OCT_FILES:%=src/%.oct)
+
+.PHONY: chktex
+chktex:
+	if [[ -x /usr/bin/chktex ]] ; then \
+	  /usr/bin/chktex -n 3 -n 1 -n 7 -n 24 -n 13 -n 17 -n 8 -n 26 -n 32 -n 11 \
+	                  -n 9 -n 10 -n 36 -n 25 $(TARGET).tex; \
+	fi	
 
 .PHONY: octfiles
 octfiles: $(OCT_FILES:%=src/%.oct)

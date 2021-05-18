@@ -114,7 +114,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \DeclareMathOperator{\mathri}{ri}
 \DeclareMathOperator{\mathaff}{aff}
 
-\allowdisplaybreaks % For page breaks in long \align{} equations
+\allowdisplaybreaks{} % For page breaks in long \align{} equations
 
 \renewcommand{\thefootnote}{\alph{footnote}}
 
@@ -137,19 +137,19 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \end{center}
 
 \vspace*{11cm}
-Copyright \copyright\; 2017-2021 Robert G. Jenssen
+Copyright \copyright\; 2017--2021 Robert G. Jenssen
 
 This work is licensed under the Creative Commons Attribution 4.0 International
 License.\\ View a copy of the license at:
 \url{https://creativecommons.org/licenses/by/4.0/legalcode}
-\cleardoublepage
+\cleardoublepage{}
 \tableofcontents
-\cleardoublepage
-\listofalgorithms
+\cleardoublepage{}
+\listofalgorithms{}
 \chapter*{\hypertarget{sec:Introduction}{Introduction}}
 An IIR filter can approximate a desired amplitude response with fewer
-coefficients than an FIR filter\footnote
-{Section~\ref{sec:Comparison-FIR-IIR-low-pass-filter-gain-zero-pole-with-SeDuMi}
+coefficients than an FIR
+filter\footnote{Section~\ref{sec:Comparison-FIR-IIR-low-pass-filter-gain-zero-pole-with-SeDuMi}
 compares the frequency responses of FIR and IIR implementations of a low-pass
 filter with approximately flat pass-band group delay.}.
 The design of IIR filters is more difficult
@@ -208,7 +208,7 @@ filter. Chapter~\ref{sec:Schur-decomposition} shows the state variable
 description of the tapped all-pass lattice filter. This part summarises
 chapters $8$ to $10$ of the book \emph{``Digital Signal Processing''} by
 \emph{Roberts} and \emph{Mullis}~\cite{RobertsMullis_DigitalSignalProcessing}
-and chapter $12$ of \emph{``VLSI Digital Signal Processing Systems : Design
+and chapter $12$ of \emph{``VLSI Digital Signal Processing Systems:Design
   and Implementation''} by
 \emph{Parhi}~\cite{Parhi_VLSIDigitalSignalProcessingSystems}.
 
@@ -267,7 +267,7 @@ extensive use of the books by \emph{Nocedal} and
 \emph{Ruszczynski}~\cite{Ruszczynski_NonlinearOptimization} and
 \emph{Bertsekas}~\cite{Bertsekas_NonlinearProgramming}.  I chose to write my
 own SQP solver in Octave.  In
-chapter~\ref{sec:Constrained-Optimisation-of-IIR-by-Quadratic-Programming-Pole-Zero-Location},
+Chapter~\ref{sec:Constrained-Optimisation-of-IIR-by-Quadratic-Programming-Pole-Zero-Location},
 I follow \emph{Deczky}~\cite{Deczky_MinPSynthesisIIRDigitalFilters} and
 \emph{Richards}~\cite{Richards_DeczkyRecursiveDecimator} and optimise the
 filter response with respect to the gain and pole and zero locations of the
@@ -292,7 +292,7 @@ SOCP is a subclass of
 review articles by \emph{Alizadeh} and 
 \emph{Goldfarb}~\cite{AlizadehGoldfarb_SecondOrderCone} and 
 \emph{Lobo et al.}~\cite{LoboVandenbergheBoydLebret_ApplicationsSecondOrderConeProgramming} 
-for a description of applications of SOCP. Unlike SQP, SOCP optimisation does not
+for a description of applications of SOCP.\@ Unlike SQP, SOCP optimisation does not
 require the the Hessian of the response. In this report I use the public domain
 \emph{SeDuMi} SOCP solver originally written by 
 \emph{Jos Sturm}~\cite{Sturm_SeDuMi_GitHub}. 
@@ -358,12 +358,11 @@ multiplications.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test_intro}}
-\caption{Comparison of the pass-band and stop-band amplitude responses and
+\caption{\label{fig:sqp-relax-schurOneMlattice-bandpass-10-nbits-intro-response}Comparison of the pass-band and stop-band amplitude responses and 
   group delay responses for a Schur one-multiplier lattice bandpass filter
   with exact coefficients and with 10 bit integer coefficients found by
   allocating an average of 3-signed-digits to each coefficient using the
   heuristic of \emph{Ito et al.} and performing SQP-relaxation optimisation.}
-\label{fig:sqp-relax-schurOneMlattice-bandpass-10-nbits-intro-response}
 \end{figure}
 Chapter~\ref{sec:Comparison-filter-search-fifth-order-elliptic-filter}, 
 shows the results of searching for the truncated coefficients of a $5$th order 
@@ -387,7 +386,7 @@ early computers. He comments that \emph{``explicit polynomial equations with
   loss of accuracy.''} As an example, Figure~\ref{fig:bincoeff-test-roots}
 shows the results of calling the Octave \emph{roots} function to find the
 roots of the binomial polynomial of order $20$ with the expression
-\texttt{roots(bincoeff(20,0:20))}. In fact the roots are all $-1$.
+\texttt{roots (bincoeff (20,0:20))}. In fact the roots are all $-1$.
 Figure~\ref{fig:bincoeff-test-qzsolve} repeats the example with the oct-file
 \emph{qzsolve}, an implementation using 128-bit floating-point numbers based
 on \emph{gsl\_poly\_complex\_solve} from the GNU GSL
@@ -404,17 +403,15 @@ library\cite{GNU_GSL}\footnote{The \emph{MPSolve} multi-precision polynomial
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{bincoeff_test_roots}}
-\caption{Plot of the roots of the binomial polynomial of order
-  $20$ calculated by the Octave \emph{roots} function}
-\label{fig:bincoeff-test-roots}
+\caption{\label{fig:bincoeff-test-roots}Plot of the roots of the binomial
+  polynomial of order $20$ calculated by the Octave \emph{roots} function}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{bincoeff_test_qzsolve}}
-\caption{Plot of the roots of the binomial polynomial of order
-  $20$ calculated by the \emph{qzsolve} oct-file function using 128-bit
-  floating point numbers}
-\label{fig:bincoeff-test-qzsolve}
+\caption{\label{fig:bincoeff-test-qzsolve}Plot of the roots of the binomial
+  polynomial of order $20$ calculated by the \emph{qzsolve} oct-file function
+  using 128-bit floating point numbers}
 \end{figure}
 
 \cleardoublepage{}
@@ -445,7 +442,7 @@ F\left(z\right) &= \sum_{k=0}^{\infty} f\left(k\right)z^{-k}
 The \emph{Cauchy integral theorem}, shown in 
 Appendix~\ref{app:Cauchys-Integral-Theorem}, can be used to invert the 
 z-transform. Start by selecting a circular contour, $C$, centred at the origin
-and lying in the ROC. Multiply each side of the z-transform by $z^{n-1}$ and
+and lying in the ROC.\@ Multiply each side of the z-transform by $z^{n-1}$ and
 integrate along $C$:
 \begin{align*}
 \ointctrclockwise_{C}z^{n-1}F\left(z\right)dz &= 
@@ -530,7 +527,7 @@ homogenous equation (HE), $\boldsymbol{y}\star\boldsymbol{a} = 0$, then
  \boldsymbol{b}\star\boldsymbol{u}
 \end{align*}
 The polynomial $a\left(z\right)$ is known as the \emph{characteristic}
-polynomial of the HE. The $n$ roots $\lambda_{1},\hdots,\lambda_{n}$ of 
+polynomial of the HE.\@ The $n$ roots $\lambda_{1},\hdots,\lambda_{n}$ of 
 $\boldsymbol{a}$ define the solutions of the HE since
 \begin{align*}
 \sum^{n}_{l=0}a_{l}z^{k-l}&=z^{k}a\left(z\right)
@@ -635,8 +632,8 @@ until all nodes are labelled
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{reorder}
-\caption{Isolating a unit delay from an incoming branch}
-\label{fig:Isolating-a-unit}
+\caption{\label{fig:Isolating-a-unit}Isolating a unit delay from an incoming
+  branch} 
 \end{figure}
 For example Figure~\ref{fig:Second-order-direct} shows the signal flow graph of
 a second order \emph{direct form }filter. The nodes are labelled according to 
@@ -644,8 +641,7 @@ Algorithm~\ref{alg:Primitive-signal-flow}.
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{direct2}
-\caption{Second order direct form filter}
-\label{fig:Second-order-direct}
+\caption{\label{fig:Second-order-direct}Second order direct form filter}
 \end{figure}
 The labelled nodes are:
 \begin{itemize}
@@ -698,8 +694,8 @@ See Figure~\ref{fig:Recursive-generation-of}.
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{directR}
 \caption{$k_{th}$ internal section}
 \end{subfigure}
-\caption{Recursive generation of direct form filters}
-\label{fig:Recursive-generation-of}
+\caption{\label{fig:Recursive-generation-of}Recursive generation of direct form
+  filters} 
 \end{figure}
 
 \section{State variable description of a signal flow graph\label{sec:State-variable-description-of-a-signal-flow-graph}}
@@ -722,8 +718,7 @@ $x_{i}^{\prime}\left(k\right)\triangleq x_{i}\left(k+1\right)$
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{delay}
-\caption{Unit delay equivalent}
-\label{fig:Unit-delay-equivalent}
+\caption{\label{fig:Unit-delay-equivalent}Unit delay equivalent}
 \end{figure}
 
 Figure~\ref{fig:Second-order-direct} shows the signal flow graph
@@ -780,8 +775,7 @@ filter of Equation~\ref{eq:StateVarZdom}. The matrix $A$ is called the
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{svfg}
-\caption{Signal flow graph of a state variable filter}
-\label{fig:SVFG-PSFG}
+\caption{\label{fig:SVFG-PSFG}Signal flow graph of a state variable filter}
 \end{figure}
 
 If the arrows in Figure~\ref{fig:SVFG-PSFG} are reversed and the inputs to each
@@ -956,9 +950,9 @@ b_{1}\\
 b_{n}
 \end{array}\right]
 \end{align*}
-\subsection{Transformation of a transfer function to a state variable 
+\subsection{\label{sec:transform-transform-function-to-state-variable}
+Transformation of a transfer function to a state variable 
 description}
-\label{sec:transform-transform-function-to-state-variable}
 Algorithm~\ref{alg:Transformation-transfer-to-SV} converts a rational transfer
 function to the equivalent direct form state variable
 description\footnote{Appendix~\ref{app:Continued-fraction-expansion} shows the
@@ -990,8 +984,8 @@ C &= \left[\begin{array}{ccc}
 b_{n}-b_{0}a_{n} & \cdots & b_{1}-b_{0}a_{1}\end{array}\right]\\
 D &= b_{0}
 \end{align*}
-\caption{Transformation of a transfer function to a state variable description}
-\label{alg:Transformation-transfer-to-SV}
+\caption{\label{alg:Transformation-transfer-to-SV}Transformation of a transfer
+  function to a state variable description}
 \end{algorithm}
 
 \textsc{PROOF} of Algorithm~\ref{alg:Transformation-transfer-to-SV}:
@@ -1055,17 +1049,17 @@ $H\left(z\right) = \frac{\hat{b}\left(z\right)}{\hat{a}\left(z\right)} =
 \frac{\sum^{N}_{j=0}b_{j}z^{N-j}}{z^{N}+\sum^{N}_{j=1}a_{j}z^{N-j}}$ find the
 continued fraction expansion:
 \begin{algorithmic}
-\State $\hat{a}_{1}\left(z\right) = \hat{a}\left(z\right)$
-\State $\hat{b}_{1}\left(z\right) = \hat{b}\left(z\right) - b_{0}\hat{a}_{1}\left(z\right)$
-\For {$k=1,\hdots,N$}
-  \State Find $q_{k}\left(z\right)$ and $\hat{b}_{k+1}\left(z\right)$ so that
+\State{} $\hat{a}_{1}\left(z\right) = \hat{a}\left(z\right)$
+\State{} $\hat{b}_{1}\left(z\right) = \hat{b}\left(z\right) - b_{0}\hat{a}_{1}\left(z\right)$
+\For{} {$k=1,\hdots,N$}
+  \State{} Find $q_{k}\left(z\right)$ and $\hat{b}_{k+1}\left(z\right)$ so that
      $\hat{a}_{k}\left(z\right) = 
        q_{k}\left(z\right)\hat{b}_{k}\left(z\right)-\hat{b}_{k+1}\left(z\right)$
-  \State $\hat{a}_{k+1}\left(z\right) = \hat{b}_{k}\left(z\right)$
-\EndFor
+  \State{} $\hat{a}_{k+1}\left(z\right) = \hat{b}_{k}\left(z\right)$
+\EndFor{}
 \end{algorithmic}
-\caption{Continued fraction expansion of a rational transfer function}
-\label{alg:continued-fraction-expansion}
+\caption{\label{alg:continued-fraction-expansion} Continued fraction expansion
+  of a rational transfer function}
 \end{algorithm}
 
 \begin{figure}
@@ -1352,8 +1346,9 @@ perform the following recursion:
   \State $\bar{A}_{k}=A\bar{A}_{k-1}+a_{k}I$
 \EndFor
 \end{algorithmic}
-\caption{Leverrier's algorithm for finding the resolvent of the state transition matrix, A~\cite[Algorithm 8A.12]{RobertsMullis_DigitalSignalProcessing}}
-\label{alg:Leverriers-algorithm-characteristic-polynomial}
+\caption{\label{alg:Leverriers-algorithm-characteristic-polynomial}Leverrier's
+  algorithm for finding the resolvent of the state transition matrix,
+  A~\cite[Algorithm 8A.12]{RobertsMullis_DigitalSignalProcessing}} 
 \end{algorithm}
 Note that Leverrier's algorithm calculates the characteristic polynomial of $A$
 as a by-product. In this case the characteristic polynomial of the 
@@ -1371,8 +1366,8 @@ equating coefficients of $z$:
 
 \subsubsection{\emph{La Budde}'s algorithm for finding the 
 characteristic polynomial of an upper Hessenberg matrix}
-\emph{Wilkinson}~\cite[Section 57, Chapter 6]
-{Wilkinson_AlgebraicEigenvalueProblem} ,
+\emph{Wilkinson}~\cite[Section 57, Chapter
+6]{Wilkinson_AlgebraicEigenvalueProblem}, 
 \emph{Rehman}~\cite[Chapter 6]{Rehman_ComputationCharacteristicPolynomial},
 and \emph{Rehman} and \emph{Ipsen}~\cite{RehmanIpsen_BuddeCharacteristicPoly}
 describe \emph{La Budde}'s algorithm for the calculation of the characteristic 
@@ -1415,7 +1410,7 @@ find $a_{1}\hdots{}a_{n}$:
 -\sum_{m=1}^{k-2}h_{k-m,k}\beta_{k}\cdots\beta_{k-m+1}a_{k-m-1}^{\left(k-m-1\right)}
 -h_{1,k}\beta_{k}\cdots\beta_{2}$
 \EndFor\
-\State $a_{k}=a_{k}^{\left(n\right)} ,\;1\le{}k\le{}n$
+\State $a_{k}=a_{k}^{\left(n\right)},\;1\le{}k\le{}n$
 \end{algorithmic}
 \caption{\emph{La Budde}'s algorithm for finding the characteristic polynomial of A~\cite[Algorithm 2]{RehmanIpsen_BuddeCharacteristicPoly}}
 \label{alg:La-Budde-characteristic-polynomial}
@@ -1571,8 +1566,8 @@ The longest delay free path is now $1$.
 \begin{subfigure}{\textwidth}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{factoredsvfg}
-\caption{Signal flow graph of a factored state variable filter}
-\label{subfig:Factored-SVFG}
+\caption{\label{subfig:Factored-SVFG}Signal flow graph of a factored state
+  variable filter} 
 \vspace{1cm}
 \end{subfigure}
 \begin{subfigure}{\textwidth}
@@ -1581,8 +1576,8 @@ The longest delay free path is now $1$.
 \caption{Signal flow graph of a retimed factored state variable filter}
 \label{subfig:Retimed-Factored-SVFG}
 \end{subfigure}
-\caption{Factored state variable filters (See~\cite[Figure 8.4.6]{RobertsMullis_DigitalSignalProcessing}.)}
-\label{fig:Factored-state-variable-filters}
+\caption{\label{fig:Factored-state-variable-filters}Factored state variable
+  filters (See~\cite[Figure 8.4.6]{RobertsMullis_DigitalSignalProcessing}.)}
 \end{figure}
 
 The factored and retimed filter has a reduced delay free path at the
@@ -2183,30 +2178,30 @@ u \left( k+1 \right)
 \emph{Roberts} and
 \emph{Mullis}~\cite[Table 10.2.1]{RobertsMullis_DigitalSignalProcessing}
 list the number of multipliers-per-output for three classes of $N$-th order,
-block length $P$ block processing state variable filters, reproduced in Table 
-\ref{tab:block-filter-multipliers-per-output}. If the filter is decimating then
+block length $P$ block processing state variable filters, reproduced in
+Table~\ref{tab:block-filter-multipliers-per-output}. If the filter is decimating
+then 
 only a single output, $y(k)$, needs to be calculated in each block and the
 number of multipliers-per-output is reduced accordingly.
 
 \begin{table}
-\begin{threeparttable}
 \centering
+\begin{threeparttable}
 \bgroup{}
-\begin{tabular}{lll}
-\hline
+\begin{tabular}{lll} \\ \toprule
 Filter structure & Number of multipliers per output & Optimal block length, P\\
-\hline
+\midrule
 Full state variable filter & $\frac{N^{2}}{P}+2N+\frac{P+1}{2}$ & $N\sqrt{2}$ \\
 $m$-th order cascaded sections & $\left(\frac{m}{P}+2+\frac{P+1}{2m}\right)N$ & $m\sqrt{2}$ \\
 $m$-th order parallel sections & $\left(\frac{m}{P}+2+\frac{P-1}{2m}\right)N+1$ & $m\sqrt{2}$ \\
-\hline
+\bottomrule
 \end{tabular}
 \egroup{}
-\caption[The number of multipliers for three classes of block filters]{
-The number of multipliers for three classes of $N$-th order block processing
-filters. (See~\cite[Table 10.2.1]{RobertsMullis_DigitalSignalProcessing}).}
-\label{tab:block-filter-multipliers-per-output}
 \end{threeparttable}
+\caption[The number of multipliers for three classes of block filters]{
+\label{tab:block-filter-multipliers-per-output}The number of multipliers for
+three classes of $N$-th order block processing filters. (See~\cite[Table
+10.2.1]{RobertsMullis_DigitalSignalProcessing}).} 
 \end{table}
 
 The Octave function \emph{sv2block} converts a block length $1$ state variable
@@ -2235,7 +2230,7 @@ the block length $12$ filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{Abcd2cc_test_ellip8ABCD12_response}}
-\caption{Simulated response of a $8$-th order elliptic filter with $8$-bit
+\caption{Simulated response of an $8$-th order elliptic filter with $8$-bit
 precision coefficients for block lengths of $1$ and $12$. The block length
 $12$ filter is implemented as an \emph{oct}-file.}
 \label{fig:response-of-8th-order-block-length-12-filter}
@@ -2243,10 +2238,10 @@ $12$ filter is implemented as an \emph{oct}-file.}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{Abcd2cc_test_ellip8ABCD12_passband_response}}
-\caption{Simulated passband response of a $8$-th order elliptic filter with 
-$8$-bit precision coefficients for block lengths of $1$ and $12$. The block
-length $12$ filter is implemented as an \emph{oct}-file.}
-\label{fig:passband-response-of-8th-order-block-length-12-filter}
+\caption{\label{fig:passband-response-of-8th-order-block-length-12-filter}Simulated
+  passband response of a $8$-th order elliptic filter with $8$-bit precision
+  coefficients for block lengths of $1$ and $12$. The block length $12$ filter
+  is implemented as an \emph{oct}-file.}
 \end{figure}
 \cleardoublepage{}
 \chapter{Frequency transformations of state variable filters}
@@ -2321,14 +2316,14 @@ Figure~\ref{fig:Frequency-warping-function}
 $F\left(z\right)$ must map the band edges as shown by the frequency
 warp $\theta\left(\phi\right)$. There are two cases:
 \begin{align*}
-\text{low-pass :} & \begin{cases}
+\text{low-pass:} & \begin{cases}
 F\left(1\right)=1\\
 \theta\left(0\right)=0\\
 \theta_{k}=\theta\left(\phi_{k}\right)=\left(k-\frac{1}{2}\right)\pi
 \end{cases}
 \end{align*}
 \begin{align*}
-\text{low-stop :} & \begin{cases}
+\text{low-stop:} & \begin{cases}
 F\left(1\right)=-1\\
 \theta\left(0\right)=\pi\\
 \theta_{k}=\theta\left(\phi_{k}\right)=\left(k+\frac{1}{2}\right)\pi
@@ -2483,9 +2478,9 @@ where
 \begin{align}
 H\left(F\left(z\right)\right) &= \mathfrak{D}+\mathfrak{C}\left(zI-\mathfrak{A}\right)^{-1}\mathfrak{B}\label{eq:FreqTransHofF}
 \end{align}
-\emph{Mullis and Roberts} 
-\cite{MullisRoberts_RoundoffNoiseInDigitalFiltersFrequencyTransformations} give
-a direct proof. Start with the identity:
+\emph{Mullis and
+  Roberts}~\cite{MullisRoberts_RoundoffNoiseInDigitalFiltersFrequencyTransformations}
+give a direct proof. Start with the identity:
 \begin{align*}
 \left(fI-A\right)b\otimes\beta &= f\left[b\otimes\beta-Ab\otimes\beta\left(\frac{1}{f}\right)\right]
 \end{align*}
@@ -2527,47 +2522,41 @@ shows examples of frequency transformations of a 5th order
 elliptic low-pass filter. Figure~\ref{fig:tfp2g-lpproto} shows
 the prototype filter. Figure~\ref{fig:tfp2g-lp} shows the result of a 
 low-pass to low-pass transformation. Figure~\ref{fig:tfp2g-hp} shows the
-result of a low-pass to high-pass transformation. Figure 
-\ref{fig:tfp2g-bp} shows the result of a low-pass to 
-band-pass transformation. Figure~\ref{fig:tfp2g-bs} shows the 
-result of a low-pass to triple band-stop
-transformation.
+result of a low-pass to high-pass transformation. Figure~\ref{fig:tfp2g-bp}
+shows the result of a low-pass to band-pass
+transformation. Figure~\ref{fig:tfp2g-bs} shows the result of a low-pass to
+triple band-stop transformation.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{tfp2g_test_lpproto}}
-\caption{Prototype 5-th order elliptic low-pass filter}
-\label{fig:tfp2g-lpproto}
+\caption{\label{fig:tfp2g-lpproto}Prototype 5-th order elliptic low-pass filter}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{tfp2g_test_lp}}
-\caption{Low-pass to low-pass transformation of a 
+\caption{\label{fig:tfp2g-lp}Low-pass to low-pass transformation of a 
 5-th order elliptic low-pass filter}
-\label{fig:tfp2g-lp}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{tfp2g_test_hp}}
-\caption{Low-pass to high-pass transformation of a 
+\caption{\label{fig:tfp2g-hp}Low-pass to high-pass transformation of a 
 5-th order elliptic low-pass filter}
-\label{fig:tfp2g-hp}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{tfp2g_test_bp}}
-\caption{Low-pass to band-pass transformation of a 
+\caption{\label{fig:tfp2g-bp}Low-pass to band-pass transformation of a 
 5-th order elliptic low-pass filter}
-\label{fig:tfp2g-bp}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{tfp2g_test_bs}}
-\caption{Low-pass to triple band-stop transformation
+\caption{\label{fig:tfp2g-bs}Low-pass to triple band-stop transformation
 of a 5-th order elliptic low-pass filter}
-\label{fig:tfp2g-bs}
 \end{figure}
 \cleardoublepage{}
-\chapter{Round-off noise in state variable filters\label{sec:Round-off-noise-in-state-variable-filters}}
+\chapter{\label{sec:Round-off-noise-in-state-variable-filters}Round-off noise in state variable filters}
 This chapter is based on Chapter 9 of \emph{Roberts} and
 \emph{Mullis}~\cite{RobertsMullis_DigitalSignalProcessing}. 
 \section{\label{Quantisation-noise-in-digital-filters}Quantisation noise in digital filters}
@@ -2698,11 +2687,12 @@ of the state transition matrix with the inverse-Levinson recursion. See
 \emph{Roberts} and
 \emph{Mullis}~\cite[Section 9.11, p. 393]{RobertsMullis_DigitalSignalProcessing}.
 The Octave function \emph{dlyap\_levinson} implements this solution.
-\item use \emph{Hammarling}'s solution of the discrete \emph{Lyapunov} equation
-\cite{Hammarling_SolutionDiscreteLyapunov}. The Octave \emph{Control} package
-contains the \emph{dlyap} function that calls functions from an open-source 
-version of the \emph{SLICOT} library~\cite{Slicot_ControlSystemsLibrary} to
-implement \emph{Hammarling}'s algorithm. 
+\item use \emph{Hammarling}'s solution of the discrete \emph{Lyapunov}
+  equation~\cite{Hammarling_SolutionDiscreteLyapunov}. The Octave \emph{Control}
+  package contains the \emph{dlyap} function that calls functions from an
+  open-source version of the \emph{SLICOT}
+  library~\cite{Slicot_ControlSystemsLibrary} to implement \emph{Hammarling}'s
+  algorithm.
 \end{itemize}
 
 \subsection{The output response to white noise in a state variable}
@@ -2863,8 +2853,8 @@ Figure~\ref{fig:SVFG-noise}.
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{svfg_noise}
-\caption{Signal flow graph of round-off noise of the state variable}
-\label{fig:SVFG-noise}
+\caption{\label{fig:SVFG-noise}Signal flow graph of round-off noise of the state
+  variable} 
 \end{figure}
 Where $e$ models the round off noise due to calculation of the state vector,
 $x$, and $n$ models the round off noise due to calculation of the output, $y$.
@@ -2880,8 +2870,8 @@ as shown in Figure~\ref{fig:Output-noise}.
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{output_noise}
-\caption{Signal flow graph of round-off noise at the filter output}
-\label{fig:Output-noise}
+\caption{\label{fig:Output-noise}Signal flow graph of round-off noise at the
+  filter output} 
 \end{figure}
 Where:
 \begin{align*}
@@ -3086,8 +3076,8 @@ x^{\prime}=z^{\prime}&=\frac{x+z}{2}
 T&=U_{1}D_{1}^{-\frac{1}{2}}U_{2}D_{2}^{\frac{1}{4}}U_{3}
 \end{align*}
 \end{enumerate}
-\caption{Optimisation of the noise gain}
-\label{alg:Optimisation-of-the-noise-gain}
+\caption{\label{alg:Optimisation-of-the-noise-gain}Optimisation of the noise
+  gain} 
 \end{algorithm}
 
 The globally optimised state variable filter has
@@ -3284,8 +3274,8 @@ which case ${\|g_{m}\|_{2}^{2}=1}$.
 \emph{Roberts} and
 \emph{Mullis}~\cite[Figure 9.14.1 with corrections]{RobertsMullis_DigitalSignalProcessing}
 give the construction of the transformation matrix required to optimise a 
-second order state variable filter, shown as Algorithm 
-\ref{alg:Construction-optimised-second-order-state-variable-filters}.
+second order state variable filter, shown as
+Algorithm~\ref{alg:Construction-optimised-second-order-state-variable-filters}.
 
 \begin{algorithm}
 Given $K=\left[\begin{array}{cc}
@@ -3367,8 +3357,10 @@ W^{\prime\prime\prime} & = \delta^{2}\left[\begin{array}{cc}
 \end{align*}
 \item The optimising transform is $T_{c}R\left(\theta\right)T$.
 \end{enumerate}
-\caption{Construction of optimised second order state variable filters\cite[Figure 9.14.1]{RobertsMullis_DigitalSignalProcessing}.}
-\label{alg:Construction-optimised-second-order-state-variable-filters}
+\caption{\label{alg:Construction-optimised-second-order-state-variable-filters}Construction
+  of optimised second order state variable 
+  filters\cite[Figure
+  9.14.1]{RobertsMullis_DigitalSignalProcessing}.}
 \end{algorithm}
 
 \emph{Bomar}~\cite{Bomar_NewSecondOrderStateSpaceStructures} gives design 
@@ -3405,8 +3397,11 @@ A_{12} &= \frac{v_{8}}{A_{21}}\\
 c_{1} &= \frac{q_{1}}{2b_{1}}\\
 c_{2} &= \frac{q_{1}}{2b_{2}}
 \end{align*}
-\caption{Bomar second order optimised state variable filter sections~\cite[Equation 17]{Bomar_NewSecondOrderStateSpaceStructures}. (See also~\cite[Figure 9.12.1]{RobertsMullis_DigitalSignalProcessing})}
-\label{alg:Bomar-optimised-second-order-state-variable-filter-sections}
+\caption{\label{alg:Bomar-optimised-second-order-state-variable-filter-sections}Bomar
+  second order optimised state variable filter sections~\cite[Equation
+  17]{Bomar_NewSecondOrderStateSpaceStructures}. (See also~\cite[Figure
+  9.12.1]{RobertsMullis_DigitalSignalProcessing})} 
+
 \end{algorithm}
 
 \emph{Bomar}~\cite{Bomar_NewSecondOrderStateSpaceStructures} also gives design
@@ -3431,8 +3426,9 @@ b_{2} &= \sqrt{
 c_{1} &= \frac{q_{2}+A_{11}q_{1}}{A_{12}b_{2}}\\
 c_{2} &= \frac{q_{1}}{b_{2}}
 \end{align*}
-\caption{Bomar Type III second order optimised state variable filter sections~\cite[Equation 23]{Bomar_NewSecondOrderStateSpaceStructures}}
-\label{alg:Bomar-Type-III-optimised-second-order-state-variable-filter-sections}
+\caption{\label{alg:Bomar-Type-III-optimised-second-order-state-variable-filter-sections}Bomar
+  Type III second order optimised state variable filter sections~\cite[Equation
+  23]{Bomar_NewSecondOrderStateSpaceStructures}} 
 \end{algorithm}
 The Octave function \emph{pq2svcasc}
 converts the 2nd-order sections from the \emph{d-p-q} format of 
@@ -3474,13 +3470,13 @@ scaling of $\delta=4$. The Octave function \emph{butter2pq} calculates the
 coefficients of a highpass or lowpass Butterworth filter with second order 
 sections in the form of the rational transfer function shown in
 Equation~\ref{eqn:Second-order-section-transfer-function}. The sections are
-ordered with increasing pole angle. \footnote{The Octave function \emph{sos2pq} 
+ordered with increasing pole angle\footnote{The Octave function \emph{sos2pq} 
 converts the output of the Octave-Forge \emph{signal} 
 package~\cite{OctaveForge_SignalPackage} \emph{tf2sos} function to \emph{p-q} 
 format}. The Octave function \emph{pq2svcasc} converts these coefficients to 
-second-order direct-form, Bomar Type III or minimum-noise state variable sections.
-The \emph{pq2blockKWopt} function block-optimises the second-order direct-form
-cascade realisation. If the transfer function has odd order then 
+second-order direct-form, Bomar Type III or minimum-noise state variable
+sections. The \emph{pq2blockKWopt} function block-optimises the second-order
+direct-form cascade realisation. If the transfer function has odd order then 
 \emph{pq2blockKWopt} makes the final section a direct-form first-order section 
 with an unused state variable. Note that, to avoid numerical problems, the 
 \emph{svcasc2Abcd} function will quietly remove an obviously unused state 
@@ -3544,8 +3540,8 @@ agree with those calculated following the general method shown in
 Algorithm~\ref{alg:Construction-optimised-second-order-state-variable-filters},
 although the state variable coefficients found by the two methods are different.
 
-Tables~\ref{tab:Overall-noise-gain-20-order-Butterworth-low-pass} and
-\ref{tab:Overall-noise-gain-20-order-Butterworth-high-pass} show the
+Tables~\ref{tab:Overall-noise-gain-20-order-Butterworth-low-pass} 
+and~\ref{tab:Overall-noise-gain-20-order-Butterworth-high-pass} show the
 overall noise gains for each filter realisation with sections ranked
 in order of increasing and decreasing pole angle for the lowpass and highpass
 filters respectively. For the block optimised
@@ -3577,8 +3573,8 @@ highpass filter.
   $10$-bit coefficents and state storage} 
 \label{fig:order-20-high-butterworth-second-order-cascade-output-response}
 \end{figure}
-Tables~\ref{tab:Simulated-noise-20-order-Butterworth-low-pass} and
-\ref{tab:Simulated-noise-20-order-Butterworth-high-pass} show the
+Tables~\ref{tab:Simulated-noise-20-order-Butterworth-low-pass}
+and~\ref{tab:Simulated-noise-20-order-Butterworth-high-pass} show the
 simulated and estimated output roundoff noise variance for the $20$th order
 Butterworth lowpass and highpass filter respectively.
 \input{svcasc2noise_butterworth_20_low_noise_simulation.tab}
@@ -3610,7 +3606,7 @@ simulation results obtained by setting $N=10$ in
 \begin{table}
 \centering
 \begin{threeparttable}
-\begin{tabular}{lrrr}  \toprule
+\begin{tabular}{lrrr}  \\ \toprule
 & Estimated & Estimated & Simulated \\ 
 & noise gain & noise variance & noise variance\\ 
 \midrule
@@ -3778,7 +3774,7 @@ multipliers in the realisation. They show 37 realisations\footnote{Note the
   complexity of the classification map shown in Figure 2!}.
 
 \emph{Szczupak
-  et. al}~\cite{SzczupakMitraFardavi_ComputerBasedSynthesisAllpassNetworks}
+  et.\ al}~\cite{SzczupakMitraFardavi_ComputerBasedSynthesisAllpassNetworks}
 describe a computer based search for realisations in which the two coefficients
 of the second order all-pass filter transfer function are themselves functions
 of two multipliers. They find $646$ distinct realisations. 
@@ -3835,7 +3831,7 @@ realisation has low sensitivity for filter poles near $z=1$.
 \begin{subfigure}{\textwidth}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{allpass_LS1}
-\caption{Stoyanov et al. low sensitvity first order all-pass filter section}
+\caption{Stoyanov et al.\ low sensitvity first order all-pass filter section}
 \label{fig:LS1-first-order-all-pass-filter-section}
 \vspace{1cm}
 \end{subfigure}
@@ -4027,7 +4023,7 @@ realisation has low sensitivity for filter poles near $z=0$.
 \begin{subfigure}{\textwidth}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{allpass_LS2a}
-\caption{Stoyanov et al. low sensitvity near $z=1$ second order all-pass filter
+\caption{Stoyanov et al.\ low sensitvity near $z=1$ second order all-pass filter
   section}
 \label{fig:LS2a-second-order-all-pass-filter-section}
 \vspace{1cm}
@@ -4453,10 +4449,10 @@ in the matrix:
 The Schur decomposition of a polynomial is implemented in the Octave function
 \emph{schurdecomp}. 
 The C++ file \emph{schurdecomp.cc} implements \emph{schurdecomp} as an
-\emph{oct}-file using the \emph{MPFR} abitrary precision floating point library 
-\cite{Fousse_MPFR, GNU_GMP} written by \emph{Fousse et al.}
-\cite{Fousse:2007:MMB:1236463.1236468}. The mantissa precision is set to 
-$256$ bits.
+\emph{oct}-file using the \emph{MPFR} abitrary precision floating point
+library~\cite{Fousse_MPFR, GNU_GMP} written by
+\emph{Fousse et al.}~\cite{Fousse:2007:MMB:1236463.1236468}. The mantissa
+precision is set to $256$ bits.
 
 \subsection{Orthonormality of Schur Polynomials}
 \begin{figure}
@@ -4580,8 +4576,8 @@ where $0\leq j\leq i\leq N$. Therefore the polynomials
 \left\{ \Phi_{N}^{*}\left(z\right),z\Phi_{N-1}^{*}\left(z\right),z^{2}\Phi_{N-2}^{*}\left(z\right),\ldots,z^{N}\Phi_{0}^{*}\left(z\right)\right\}
 \end{align*}
 also form an orthonormal basis. This basis can be used to synthesise
-an alternative lattice structure. \emph{Parhi} 
-\cite[Section 12.7.2]{Parhi_VLSIDigitalSignalProcessingSystems}
+an alternative lattice structure. \emph{Parhi}~\cite[Section
+12.7.2]{Parhi_VLSIDigitalSignalProcessingSystems} 
 shows that the reverse polynomial structure has inferior round off
 noise performance when compared with the forward polynomial structure
 described later in this summary.
@@ -4619,10 +4615,10 @@ synthesised using the polynomial expansion algorithm with the orthonormal
 functions obtained from the denominator. The Schur expansion of a polynomial
 is implemented in the Octave function \emph{schurexpand}. The C++ 
 \emph{oct}-file \emph{schurexpand.cc} implements \emph{schurexpand} with the
-\emph{MPFR} abitrary precision floating point library 
-\cite{Fousse_MPFR, GNU_GMP} written by 
-\emph{Fousse et al.}~\cite{Fousse:2007:MMB:1236463.1236468}. The mantissa 
-precision is set to $256$ bits.
+\emph{MPFR} abitrary precision floating point
+library written by \emph{Fousse et
+  al.}~\cite{Fousse:2007:MMB:1236463.1236468}. The mantissa precision is set to
+$256$ bits.
 
 \subsection{Power calculation using the Schur algorithm}
 For the lattice filter structure in Figure~\ref{fig:A-filter-structure},
@@ -5725,11 +5721,10 @@ description of a normalised-scaled lattice filter (including the all-pass
 filter $Cap$ and $Dap$ output matrixes).
 
 \section{Roundoff Noise Calculation in Schur Lattice Filters}
-In the following I rely on the analysis of round-off noise in the
-state variable description presented by \emph{Roberts} and
-\emph{Mullis}~\cite{RobertsMullis_DigitalSignalProcessing}, 
-\cite{MullisRoberts_RoundoffNoiseInDigitalFiltersFrequencyTransformations}, 
-\cite{MullisRoberts_SynthesisMinimumRoundoffNoiseDigitalFilters}.
+In this section I rely on the analysis of round-off noise presented by
+\emph{Roberts} and 
+\emph{Mullis}~\cite{RobertsMullis_DigitalSignalProcessing},~\cite{MullisRoberts_RoundoffNoiseInDigitalFiltersFrequencyTransformations},~\cite{MullisRoberts_SynthesisMinimumRoundoffNoiseDigitalFilters}.
+
 Lattice filter roundoff noise can be calculated by the $K$ and $W$
 matrices derived from the state variable description of the filter.
 An alternative method uses the Schur polynomials and the transposed
@@ -5818,6 +5813,7 @@ The Schur expansion of the numerator polynomial is
 c =  0.3053850  0.1034929  0.0183952  0.0028982
 \end{verbatim}
 \end{small}
+
 The coefficients of filter sections (input/output at the right end
 of each vector) are
 \begin{small}
@@ -5840,8 +5836,8 @@ The nodes corresponding to $D_{0}\left(z\right)$ and $E_{0}\left(z\right)$,
 that is at the output of state $x_{1}$, make no contribution to round-off
 noise and are omitted from the noise gain. The noise gain can be reduced
 slightly by summing the output in one pass (assuming a double-length
-accumulator holds the intermediate sums along the top edge of Figure
-\ref{fig:Butterworth-3rd-order}).
+accumulator holds the intermediate sums along the top edge of
+Figure~\ref{fig:Butterworth-3rd-order}).
 
 The noise gain of the associated all-pass filter is
 \begin{small}
@@ -5938,19 +5934,18 @@ stdxx =  131.21   129.39   127.97
 \end{verbatim}
 \end{small}
 The standard deviations of the internal states of the globally-optimum and
-scaled direct-form filters are similar. Figures 
-\ref{fig:State-variables-butt3NS-noise-schur-lattice},
-\ref{fig:State-variables-butt3NS-noise-global-optimum} and
-\ref{fig:State-variables-butt3NS-noise-direct-form} show part of the state
+scaled direct-form filters are
+similar. Figures~\ref{fig:State-variables-butt3NS-noise-schur-lattice},~\ref{fig:State-variables-butt3NS-noise-global-optimum}
+and~\ref{fig:State-variables-butt3NS-noise-direct-form} show part of the state 
 trajectories for the Schur lattice, globally-optimised and direct-form
 state variable versions of the Butterworth filter with a random noise input.
-
+ 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{butt3NS_test_sv_noise_schur_lattice}}
-\caption{Internal states in the 3rd order Butterworth filter implemented 
-in a normalised-scaled Schur lattice structure with a random noise input}
-\label{fig:State-variables-butt3NS-noise-schur-lattice}
+\caption{\label{fig:State-variables-butt3NS-noise-schur-lattice}Internal states
+  in the 3rd order Butterworth filter implemented in a normalised-scaled Schur
+  lattice structure with a random noise input}
 \end{figure}
 \begin{figure}
 \centering
@@ -6022,12 +6017,11 @@ coefficients are shown in Figure~\ref{fig:Freq-response-butt3NSSV}.
 \label{fig:Freq-response-butt3NSSV}
 \end{figure}
 The response demonstrates a drawback of the normalised-scaled lattice filters:
-they are not \emph{structurally loss-less} in the sense of Vaidyanathan et al.
-\cite{VaidyanathanMitraNuevo_LowSensitivityIIRDigitalFilters, 
-VaidyanathanMitra_LowPassbandSensitivityDigitalFilters} (see Appendix
-\ref{app:Low-passband-sensitivity-IIR-digital-filters}). The normalised-scaled
-lattice does not preserve the all-pass characteristic when its coefficients
-are truncated.
+they are not \emph{structurally loss-less} in the sense of Vaidyanathan et
+al.~\cite{VaidyanathanMitraNuevo_LowSensitivityIIRDigitalFilters,VaidyanathanMitra_LowPassbandSensitivityDigitalFilters}
+(see Appendix~\ref{app:Low-passband-sensitivity-IIR-digital-filters}). The
+normalised-scaled lattice does not preserve the all-pass characteristic when its
+coefficients are truncated.
 \clearpage
 \subsection{Round-off noise of the one multiplier lattice filter}
 \subsubsection{Calculation of the one multiplier lattice filter round-off noise with the transposed signal flow graph}
@@ -6193,15 +6187,15 @@ noise gain for three different one multiplier lattice filter implementations by
 selecting the states included through the \emph{filterStr} argument:
 \begin{itemize}
 \item For ``\textbf{schur}'' \emph{schurOneMlatticeFilter} calculates the 
-Butterworth  output (the upper row of Figure 
-\ref{fig:Slowed-and-retimed-3rdButt-Single-Mult}) in a single
+  Butterworth  output (the upper row of
+  Figure~\ref{fig:Slowed-and-retimed-3rdButt-Single-Mult}) in a single
 wide accumulator and ignores the states on the top edge 
 \item For ``\textbf{ABCD}'' \emph{svf} calculates both the Butterworth output 
 and the all-pass output in wide accumulators and ignores the states on both
 the top and bottom edges
 \end{itemize}
-In both these cases, states $x_{1}$ and $x_{2}$ in Figure 
-\ref{fig:Slowed-and-retimed-3rdButt-Single-Mult} do not contribute to the
+In both these cases, states $x_{1}$ and $x_{2}$ in
+Figure~\ref{fig:Slowed-and-retimed-3rdButt-Single-Mult} do not contribute to the
 round-off noise. (In the case of $x_{2}$, $c_{0}$ is included in the 
 calculation of state $x_{5}$).
 
@@ -6225,8 +6219,8 @@ After truncating the $k$ and $c$ coefficients to $10$ bit 3-signed-digits the
 Butterworth and all-pass noise gains were $ngf=1.1019$ and $ngfap=5.0000$
 respectively. Note that the state scaling factors, $p$, are not truncated. 
 With $10$ bit 2 signed-digit coefficients (as used for the normalised-scaled 
-lattice in Section 
-\ref{sec:Calc-normalised-scaled-round-off-noise-retimed-state-variable})
+lattice in
+Section~\ref{sec:Calc-normalised-scaled-round-off-noise-retimed-state-variable})
 the passband response of the filter was unacceptable.
 
 With rounding-to-nearest arithmetic truncation in the accumulator, the 
@@ -6473,9 +6467,9 @@ transformations on such a filter transfer function. The Octave script
 low-pass filter prototype with a denominator polynomial having
 coefficients only in powers of $z^{-2}$. The script minimises the amplitude 
 response error with the Octave \emph{fminunc} function. The barrier function 
-of \emph{Tarczynski et al.} 
-\cite{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters} is added
-to the response error to constrain the locations of the roots of the 
+of \emph{Tarczynski et
+  al.}~\cite{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters} is
+added to the response error to constrain the locations of the roots of the 
 denominator polynomial and ensure that the filter is stable. The barrier 
 function is implemented in Octave function \emph{WISEJ.m}. The relative weights
 of the pass-band and stop-band response
@@ -6550,9 +6544,7 @@ for the normalised-scaled lattice filter is:
 \item Compute the parameters $k_{i}$ for $i=N,N-1,\cdots1$
 \item Expand the numerator $N_{N}\left(z\right)$ in the Schur polynomial basis by
 the polynomial expansion algorithm
-\item Synthesise the filter by Equations~\ref{eq:ScaleNormS10}, 
-\ref{eq:ScaleNormS11},~\ref{eq:ScaleNormS10other},~\ref{eq:ScaleNormS11other}, 
-\ref{eq:ScaleNormS20}~and~\ref{eq:ScaleNormS00}
+\item Synthesise the filter by Equations~\ref{eq:ScaleNormS10},~\ref{eq:ScaleNormS11},~\ref{eq:ScaleNormS10other},~\ref{eq:ScaleNormS11other},~\ref{eq:ScaleNormS20}~and~\ref{eq:ScaleNormS00}
 \end{enumerate}
 
 Given a transfer function $H\left(z\right)=N_{N}\left(z\right)/D_{N}\left(z\right)$ the design procedure
@@ -6698,8 +6690,7 @@ z^{-1}\cos\theta & z^{-1}\sin\theta\\
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{lattice}
-\caption{Lattice section}
-\label{fig:Lattice-section}
+\caption{\label{fig:Lattice-section}Lattice section}
 \end{figure}
 
 \section{Noise gain of orthogonal filters\label{sec:Noise-gain-of-orthogonal-filters}}
@@ -6815,8 +6806,8 @@ I & 0 & 0\\
 \end{align*}
 In other words, $F^{\prime}\in\mathcal{F}\left(2,n-1\right)$ is a two-input,
 two-output all-pass filter and one of the all-pass outputs of $F^{\prime}$ 
-becomes a state of $G\left(z\right)$. Figure 
-\ref{fig:Arbitrary-transfer-function-from-two-input-two-output-allpass} is
+becomes a state of $G\left(z\right)$.
+Figure~\ref{fig:Arbitrary-transfer-function-from-two-input-two-output-allpass} is
 a representation of the corresponding implementation of $G\left(z\right)$
 (see~\cite[Figure 10.4.5]{RobertsMullis_DigitalSignalProcessing}).
 
@@ -6954,8 +6945,8 @@ The structure shown in
 Figure~\ref{subfig:Orthogonal-filter-as-depth-10-pipeline}
 uses a single rotation time multiplexed across $9$ matrixes
 (plus $G_{0}^{\prime}$, although that matrix is not orthogonal).
-The orthogonal matrixes above the arrow in Figure 
-\ref{subfig:Orthogonal-filter-as-depth-10-pipeline}
+The orthogonal matrixes above the arrow in
+Figure~\ref{subfig:Orthogonal-filter-as-depth-10-pipeline}
 can be combined into a single similarity transform, $T$, and applied
 to $G_{0}F$ to form a new filter factorisation: 
 \begin{align*}
@@ -7027,8 +7018,8 @@ by
 \emph{Williamson}~\cite{Williamson_RoundoffNoiseMinimizationUsingResidueFeedback}
 .
 \section{Problem formulation}
-Figure~\ref{fig:error-feedback-in-state-variable-digital-filter}
-\cite[Figure 2]{LuHinamoto_JointlyOptimizedErrorFeedbackStateSpaceFilters}
+Figure~\ref{fig:error-feedback-in-state-variable-digital-filter}~\cite[Figure
+2]{LuHinamoto_JointlyOptimizedErrorFeedbackStateSpaceFilters} 
 shows a block diagram of a state variable digital filter with feedback and 
 feed-forward of the state quantisation error $e$. The state variable quantiser 
 is $Q$, the feedback error transfer function is $\delta$ and the feed-forward
@@ -7242,8 +7233,8 @@ Figure~\ref{fig:Simulated-response-of-6th-order-filter-with-error-feedback}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{error_feedback_test_simulated_error_feedback_response}}
-\caption{Simulated response of a 6-th order filter with 8 bit coefficients and
-a 2 bit mantissa (for error feedback) in the state variables. (After 
+\caption{Simulated response of a $6$-th order filter with $8$ bit coefficients
+  and a $2$ bit mantissa (for error feedback) in the state variables. (After 
 \emph{Williamson}~\cite[Example 6.3]
 {Williamson_RoundoffNoiseMinimizationUsingResidueFeedback}).}
 \label{fig:Simulated-response-of-6th-order-filter-with-error-feedback}
@@ -7489,8 +7480,8 @@ A\left(x,f_{i}\right) & \le U\left(f_{i}\right)\quad\text{for}\quad q+1\le i\le 
 
 \emph{Selesnick et al.} 
 ~\cite[p.498]{SelesnickLangBurrus_ConstrainedLeastSquareMultiBandFIRFilters}
-modify the algorithm of \emph{Selesnick et al.}~
-\cite{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters}
+modify the algorithm of \emph{Selesnick et
+  al.}~\cite{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters} 
 so that it can be used in the design of multiband FIR filters, as
 shown in Algorithm~\ref{alg:Exchange-algorithm-for-multi-band-FIR-filters}. 
 In the following, this algorithm is referred to as the 
@@ -7498,8 +7489,8 @@ Peak-Constrained-Least-Square (PCLS) error algorithm. The modification referred
 to is the addition of a second set of constraints. It avoids the cycling of 
 constraint sets that otherwise occurs with multi-band filter designs.
  
-\emph{Selesnick et al.}~
-\cite[Section IV.A]{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters}
+\emph{Selesnick et al.}~\cite[Section
+IV.A]{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters} 
 justify the removal of the most negative Lagrange multiplier as follows:
 
 \begin{quotation}
@@ -7749,16 +7740,16 @@ denominator polynomial.
 \emph{Tarczynski et al.}~\cite{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters} 
 ensure stability by adding a \emph{barrier} function to the squared error based
 on the impulse response of the digital filter that corresponds to the denominator
-polynomial of the filter transfer function being optimised. \emph{Lang}~
-\cite{Lang_LSDesignIIRDigitalFiltersPoleRadiusConstraint} describes a method
-for finding successive coefficient vectors based on Rouch\'{e}'s theorem.
-\emph{Dumitrescu and Niemist\"\o}~
-\cite{DumitrescuNiemisto_IIRFilterPositiveRealness} compare Lang's
-method with one that ensures that the updated denominator polynomial remains
-a Schur polynomial in the vicinity of the current coefficient vector.
-\emph{Lu and Hinamoto} 
-~\cite{LuHinamoto_IIRFrequencyMaskingFiltersConeProgramming} express the
-denominator polynomial as a product of second-order sections and derive a
+polynomial of the filter transfer function being optimised.
+\emph{Lang}~\cite{Lang_LSDesignIIRDigitalFiltersPoleRadiusConstraint} describes
+a method for finding successive coefficient vectors based on Rouch\'{e}'s
+theorem. \emph{Dumitrescu and
+  Niemist\"\o}~\cite{DumitrescuNiemisto_IIRFilterPositiveRealness} compare
+Lang's method with one that ensures that the updated denominator polynomial
+remains a Schur polynomial in the vicinity of the current coefficient vector.
+\emph{Lu and
+  Hinamoto}~\cite{LuHinamoto_IIRFrequencyMaskingFiltersConeProgramming} express
+the denominator polynomial as a product of second-order sections and derive a
 linear inequality stability constraint on the denominator coefficients.
 \emph{Lu}~\cite{Lu_ArgumentPrincipleIIRFilterStability} describes a 
 stability test based on Cauchy's Argument Principle.
@@ -7926,22 +7917,23 @@ expansion $s=\sum_{k=0}^{K}{\beta_{k}2^{k}}$.
 \end{algorithm}
 
 The Octave script \emph{tarczynski\_ex2\_standalone\_test.m}, designs a filter 
-for the specifications of \emph{Tarczynski et a.l} Example 2
-\cite{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters} with 
-$nN=24$, $nD=2$ and $R=2$ by unconstrained minimisation of Equation 
-\ref{eqn:WISE-barrier-function} with \emph{fminunc}. The resulting response
-is shown in Figure~\ref{fig:tarczynski-ex2-standalone-response} and the pole-zero
-plot of the filter is shown in Figure~\ref{fig:tarczynski-ex2-standalone-pz}.
+for the specifications of \emph{Tarczynski et a.l} Example
+2~\cite{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters} with 
+$nN=24$, $nD=2$ and $R=2$ by unconstrained minimisation of
+Equation~\ref{eqn:WISE-barrier-function} with \emph{fminunc}. The resulting
+response is shown in Figure~\ref{fig:tarczynski-ex2-standalone-response} and the
+pole-zero plot of the filter is shown in
+Figure~\ref{fig:tarczynski-ex2-standalone-pz}. 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{tarczynski_ex2_standalone_test_response}}
-\caption{Tarczynski et al. Example 2 : Response for nN=24, nD=2 and R=2}
+\caption{Tarczynski et al.\ Example 2:Response for nN=24, nD=2 and R=2}
 \label{fig:tarczynski-ex2-standalone-response} with 
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{tarczynski_ex2_standalone_test_pz}}
-\caption{Tarczynski et al. Example 2 : Pole-zero plot for nN=24, nD=2 and R=2}
+\caption{Tarczynski et al.\ Example 2:Pole-zero plot for nN=24, nD=2 and R=2}
 \label{fig:tarczynski-ex2-standalone-pz}
 \end{figure}
 
@@ -7969,9 +7961,9 @@ This section considers examples of IIR filter design. The design procedure is:
 \begin{itemize} 
 \item find a valid initial design
 \item iteratively reduce the mean-square-error (MMSE) with the procedure
-described in Section ~\ref{sub:Solution-quasi-Newton-optimisation}. 
+described in Section~\ref{sub:Solution-quasi-Newton-optimisation}. 
 \item iteratively apply constraints with the peak-constrained-least-square-error
-(PCLS) algorithm described in Section ~\ref{sub:Choice-of-Active-Constraints}.
+(PCLS) algorithm described in Section~\ref{sub:Choice-of-Active-Constraints}.
 \end{itemize}
 For the filter design examples in this section, the filter amplitude, phase and
 group delay responses and their gradients are calculated by the Octave 
@@ -8032,12 +8024,12 @@ $\left|r\right|<rho<1$.
 The other parts of the coefficient vector (scale factor, zero radiuses and 
 pole and zero angles) are not constrained. The \emph{vS} argument to
 \emph{iir\_sqp\_mmse} specifies the indexes into the frequency vectors
-$\omega_{a}$ etc. of linear constraints at the corresponding index into
-$A_{du}$ or $A_{dl}$ etc. Function \emph{iir\_sqp\_mmse()}
+$\omega_{a}$ etc.\ of linear constraints at the corresponding index into
+$A_{du}$ or $A_{dl}$ etc. Function \emph{iir\_sqp\_mmse ()}
 calls \emph{sqp\_bfgs} to minimise the objective function 
-\emph{iir\_sqp\_mmse\_fx()} with linear constraints calculated by
-\emph{iir\_sqp\_mmse\_gx()}. These functions calculate the squared-error in the
-response amplitude and delay and linear constraints by calls to \emph{iirE()}.
+\emph{iir\_sqp\_mmse\_fx ()} with linear constraints calculated by
+\emph{iir\_sqp\_mmse\_gx ()}. These functions calculate the squared-error in the
+response amplitude and delay and linear constraints by calls to \emph{iirE ()}.
 That function calculates the error
 with trapezoidal integration. If the frequency bands are not contiguous then
 zeros in the weight vector can make frequency transition bands.
@@ -8049,7 +8041,7 @@ I found by trial-and-error when running \emph{iir\_sqp\_mmse} that the SQP
 Hessian matrix can be initialised with the diagonal elements of the amplitude
 squared error Hessian. Similarly, the current SQP search point can be updated
 with the \emph{Armijo-Kim} line-search algorithm and the 
-\emph{Broyden-Fletcher-Goldfarb-Shanno}(BFGS) Hessian matrix update algorithm 
+\emph{Broyden-Fletcher-Goldfarb-Shanno} (BFGS) Hessian matrix update algorithm 
 (see Appendix~\ref{Inexact-step-size-selection} and
 Appendix~\ref{Updating-with-the-BFGS-formula} respectively). The error surface
 is not quadratic and has many, many local minima. The SQP loop is more stable
@@ -8115,7 +8107,7 @@ When switching from MMSE to PCLS optimisation, the introduction of constraints
 on the response peaks alters the Lagrangian and the pass-band and stop-band
 weights must be modified by trial-and-error. 
 \clearpage
-\subsection{Tarczynski et al. Example 2}
+\subsection{Tarczynski et al.\ Example 2}
 Figure~\ref{fig:tarczynski-ex2-standalone-response} shows the response of a
 filter designed with the ``WISE'' method of \emph{Tarczynski et al.} 
 ~\cite{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters}. The
@@ -8135,7 +8127,7 @@ filter to:
 \end{small}
 In this case there are three real zeros. The Octave script
 \emph{iir\_sqp\_mmse\_tarczynski\_ex2\_test.m} calls the
-\emph{iir\_sqp\_mmse()} function to MMSE optimise this filter. The optimised
+\emph{iir\_sqp\_mmse ()} function to MMSE optimise this filter. The optimised
 filter is:
 \begin{small}
 \verbatiminput{iir_sqp_mmse_tarczynski_ex2_test_x1_coef.m}
@@ -8156,19 +8148,19 @@ plot.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_mmse_tarczynski_ex2_test_x1}}
-\caption{Tarczynski et al. Example 2 : Response after MMSE optimisation}
+\caption{Tarczynski et al.\ Example 2:Response after MMSE optimisation}
 \label{fig:Tarczynski-ex2-mmse-x1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_mmse_tarczynski_ex2_test_x1pass}}
-\caption{Tarczynski et al. Example 2 : Pass-band response after MMSE optimisation}
+\caption{Tarczynski et al.\ Example 2:Pass-band response after MMSE optimisation}
 \label{fig:Tarczynski-ex2-mmse-x1pass}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_mmse_tarczynski_ex2_test_x1pz}}
-\caption{Tarczynski et al. Example 2 : Pole-zero plot after MMSE optimisation}
+\caption{Tarczynski et al.\ Example 2:Pole-zero plot after MMSE optimisation}
 \label{fig:Tarczynski-ex2-mmse-x1pz}
 \end{figure}
 \clearpage
@@ -8214,13 +8206,13 @@ Figure~\ref{fig:Deczky-Ex3-Initial-x0-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_sqp_test_initial_x0}}
-\caption{Deczky Example 3 : Response for initial coefficients}
+\caption{Deczky Example 3:Response for initial coefficients}
 \label{fig:Deczky-Ex3-Initial-x0}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_sqp_test_initial_x0pz}}
-\caption{Deczky Example 3 : Pole-zero plot for initial coefficients}
+\caption{Deczky Example 3:Pole-zero plot for initial coefficients}
 \label{fig:Deczky-Ex3-Initial-x0-pz}
 \end{figure}
 \subsubsection{MMSE optimisation of Deczky's Example 3}
@@ -8229,7 +8221,7 @@ pass gives the response shown in Figure~\ref{fig:Deczky-Example-3-MMSE-x1}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_sqp_test_mmse_x1}}
-\caption{Deczky Example 3 MMSE pass 1 : Optimised response with Wap=1, Wtp=0.25, Was=1}
+\caption{Deczky Example 3 MMSE pass 1:Optimised response with Wap=1, Wtp=0.25, Was=1}
 \label{fig:Deczky-Example-3-MMSE-x1}
 \end{figure}
 After some experimentation, the second iteration, with $W_{tp}=0.5$, gives the 
@@ -8267,19 +8259,19 @@ pole-zero plot is shown in Figure~\ref{fig:Deczky-Example-3-PCLS-d1-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_sqp_test_pcls_d1}}
-\caption{Deczky Example 3 PCLS : Optimised response with dBap=0.1, tp=10, tpr=0.0035, dBas=30}
+\caption{Deczky Example 3 PCLS:Optimised response with dBap=0.1, tp=10, tpr=0.0035, dBas=30}
 \label{fig:Deczky-Example-3-PCLS-d1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_sqp_test_pcls_d1pass}}
-\caption{Deczky Example 3 PCLS : Optimised passband response with dBap=0.1, tp=10, tpr=0.0035, dBas=30}
+\caption{Deczky Example 3 PCLS:Optimised passband response with dBap=0.1, tp=10, tpr=0.0035, dBas=30}
 \label{fig:Deczky-Example-3-PCLS-d1-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_sqp_test_pcls_d1pz}}
-\caption{Deczky Example 3 PCLS : Pole-zero plot after optimisation with dBap=0.1,tp=10, tpr=0.0035, dBas=30}
+\caption{Deczky Example 3 PCLS:Pole-zero plot after optimisation with dBap=0.1,tp=10, tpr=0.0035, dBas=30}
 \label{fig:Deczky-Example-3-PCLS-d1-pz}
 \end{figure}
 The optimised filter vector is, in the gain, zeros and 
@@ -8309,19 +8301,19 @@ Figure~\ref{fig:Deczky-Example-3a-PCLS-d1-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3a_sqp_test_pcls_d1}}
-\caption{Deczky Example 3a PCLS : Optimised response with dBap=0.2, dBas=51, Was=10, tp=9.35, tpr=0.3}
+\caption{Deczky Example 3a PCLS:Optimised response with dBap=0.2, dBas=51, Was=10, tp=9.35, tpr=0.3}
 \label{fig:Deczky-Example-3a-PCLS-d1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3a_sqp_test_pcls_d1pass}}
-\caption{Deczky Example 3a PCLS : Optimised passband response with dBap=0.2, dBas=51, Was=10, tp=9.35, tpr=0.3}
+\caption{Deczky Example 3a PCLS:Optimised passband response with dBap=0.2, dBas=51, Was=10, tp=9.35, tpr=0.3}
 \label{fig:Deczky-Example-3a-PCLS-d1-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3a_sqp_test_pcls_d1pz}}
-\caption{Deczky Example 3a PCLS : Pole-zero plot after optimisation with dBap=0.2, dBas=51, Was=10, tp=9.35, tpr=0.3}
+\caption{Deczky Example 3a PCLS:Pole-zero plot after optimisation with dBap=0.2, dBas=51, Was=10, tp=9.35, tpr=0.3}
 \label{fig:Deczky-Example-3a-PCLS-d1-pz}
 \end{figure}
 The PCLS optimised filter vector is, in gain-zero-pole form:
@@ -8358,7 +8350,7 @@ Figure~\ref{fig:Deczky-Ex1-Initial-x0}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky1_sqp_test_initial_x0}}
-\caption{Deczky Example 1 : Response for initial coefficients}
+\caption{Deczky Example 1:Response for initial coefficients}
 \label{fig:Deczky-Ex1-Initial-x0}
 \end{figure}
 
@@ -8369,13 +8361,13 @@ Figure~\ref{fig:Deczky-Ex1-MMSE-x1-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky1_sqp_test_mmse_x1}}
-\caption{Deczky Example 1 : MMSE optimised response with Wap=1, Wtp=0.01, Was=1}
+\caption{Deczky Example 1:MMSE optimised response with Wap=1, Wtp=0.01, Was=1}
 \label{fig:Deczky-Ex1-MMSE-x1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky1_sqp_test_mmse_x1pz}}
-\caption{Deczky Example 1 : MMSE pole-zero plot after optimisation with Wap=1, Wtp=0.01, Was=1}
+\caption{Deczky Example 1:MMSE pole-zero plot after optimisation with Wap=1, Wtp=0.01, Was=1}
 \label{fig:Deczky-Ex1-MMSE-x1-pz}
 \end{figure}
 \subsubsection{PCLS optimisation of Deczky's Example 1}
@@ -8399,19 +8391,19 @@ and
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky1_sqp_test_pcls_d1}}
-\caption{Deczky Example 1 : PCLS optimised response with dBap=1, tp=8, tpr=2, dBas=36}
+\caption{Deczky Example 1:PCLS optimised response with dBap=1, tp=8, tpr=2, dBas=36}
 \label{fig:Deczky-Ex1-PCLS-d1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky1_sqp_test_pcls_d1pass}}
-\caption{Deczky Example 1 : PCLS optimised passband response with dBap=1, tp=8, tpr=2, dBas=36}
+\caption{Deczky Example 1:PCLS optimised passband response with dBap=1, tp=8, tpr=2, dBas=36}
 \label{fig:Deczky-Ex1-PCLS-d1-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky1_sqp_test_pcls_d1pz}}
-\caption{Deczky Example 1 : PCLS pole-zero plot after optimisation with dBap=1,tp=8, tpr=2, dBas=36}
+\caption{Deczky Example 1:PCLS pole-zero plot after optimisation with dBap=1,tp=8, tpr=2, dBas=36}
 \label{fig:Deczky-Ex1-PCLS-d1-pz}
 \end{figure}
 \clearpage
@@ -8459,7 +8451,7 @@ Figure~\ref{fig:Decimator-R-2-Initial-x0}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_test_initial_x0}}
-\caption{Low-pass decimator R=2 : Response for initial coefficients}
+\caption{Low-pass decimator R=2:Response for initial coefficients}
 \label{fig:Decimator-R-2-Initial-x0}
 \end{figure}
 \subsubsection{MMSE optimisation of the low-pass R=2 decimator}
@@ -8471,19 +8463,19 @@ pole-zero plot is shown in Figure~\ref{fig:Decimator-R-2-MMSE-x1-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_test_mmse_x1}}
-\caption{Low-pass decimator R=2 MMSE : Optimised response with Wap=1, Was=4, Wtp=0.25}
+\caption{Low-pass decimator R=2 MMSE:Optimised response with Wap=1, Was=4, Wtp=0.25}
 \label{fig:Decimator-R-2-MMSE-x1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_test_mmse_x1pass}}
-\caption{Low-pass decimator R=2 MMSE : Optimised passband response with Wap=1, Was=4, Wtp=0.25}
+\caption{Low-pass decimator R=2 MMSE:Optimised passband response with Wap=1, Was=4, Wtp=0.25}
 \label{fig:Decimator-R-2-MMSE-x1-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_test_mmse_x1pz}}
-\caption{Low-pass decimator R=2 MMSE : Pole-zero plot after optimisation with Wap=1, Was=4, Wtp=0.25}
+\caption{Low-pass decimator R=2 MMSE:Pole-zero plot after optimisation with Wap=1, Was=4, Wtp=0.25}
 \label{fig:Decimator-R-2-MMSE-x1-pz}
 \end{figure}
 
@@ -8511,19 +8503,19 @@ and
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_test_pcls_d1}}
-\caption{Low-pass decimator R=2 PCLS : Optimised response with Wap=1, Was=4, Wtp=0.25, dBap=0.2, dBas=40, tpr=0.008}
+\caption{Low-pass decimator R=2 PCLS:Optimised response with Wap=1, Was=4, Wtp=0.25, dBap=0.2, dBas=40, tpr=0.008}
 \label{fig:Decimator-R-2-PCLS-d1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_test_pcls_d1pass}}
-\caption{Low-pass decimator R=2 PCLS : Optimised passband response with Wap=1, Was=4, Wtp=0.25, dBap=0.2, dBas=40, tpr=0.008}
+\caption{Low-pass decimator R=2 PCLS:Optimised passband response with Wap=1, Was=4, Wtp=0.25, dBap=0.2, dBas=40, tpr=0.008}
 \label{fig:Decimator-R-2-PCLS-d1-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_test_pcls_d1pz}}
-\caption{Low-pass decimator R=2 PCLS : Optimised pole-zero plot with Wap=1, Was=4, Wtp=0.25, dBap=0.2, dBas=40, tpr=0.008}
+\caption{Low-pass decimator R=2 PCLS:Optimised pole-zero plot with Wap=1, Was=4, Wtp=0.25, dBap=0.2, dBas=40, tpr=0.008}
 \label{fig:Decimator-R-2-PCLS-d1-pz}
 \end{figure}
 \clearpage
@@ -8540,7 +8532,7 @@ resulting filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_alternate_test_pcls_d1dual}}
-\caption{Alternative low-pass decimator R=2 : PCLS optimised response with
+\caption{Alternative low-pass decimator R=2:PCLS optimised response with
   Wap=1, Was=5, Wtp=0.1, dBap=0.35, dBas=50, tp=10, tpr=0.016}
 \label{fig:Alternate_decimator-R-2-PCLS-d1}
 \end{figure}
@@ -8665,7 +8657,7 @@ Figure~\ref{fig:iir-sqp-slb-bandpass-test-initial-x0}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_bandpass_test_initial_x0}}
-\caption{IIR band-pass R=2 decimation filter : response of the initial filter}
+\caption{IIR band-pass R=2 decimation filter:response of the initial filter}
 \label{fig:iir-sqp-slb-bandpass-test-initial-x0}
 \end{figure}
 \subsubsection{\label{sub:MMSE-optimisation-of-the-band-pass-R2-decimator}MMSE optimisation of the band-pass  R=2 decimator}
@@ -8681,19 +8673,19 @@ Figure~\ref{fig:iir-sqp-slb-bandpass-test-mmse-x1-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_bandpass_test_mmse_x1}}
-\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples : response of the filter after MMSE optimisation}
+\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples:response of the filter after MMSE optimisation}
 \label{fig:iir-sqp-slb-bandpass-test-mmse-x1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_bandpass_test_mmse_x1pass}}
-\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples : passband response of the filter after MMSE optimisation}
+\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples:passband response of the filter after MMSE optimisation}
 \label{fig:iir-sqp-slb-bandpass-test-mmse-x1-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_bandpass_test_mmse_x1pz}}
-\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples : pole-zero plot of the filter after MMSE optimisation}
+\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples:pole-zero plot of the filter after MMSE optimisation}
 \label{fig:iir-sqp-slb-bandpass-test-mmse-x1-pz}
 \end{figure}
 \clearpage
@@ -8723,19 +8715,19 @@ and
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_bandpass_test_pcls_d1}}
-\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples : response of the filter after PCLS optimisation}
+\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples:response of the filter after PCLS optimisation}
 \label{fig:iir-sqp-slb-bandpass-test-pcls-d1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_bandpass_test_pcls_d1pass}}
-\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples : passband response of the filter after PCLS optimisation}
+\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples:passband response of the filter after PCLS optimisation}
 \label{fig:iir-sqp-slb-bandpass-test-pcls-d1-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_bandpass_test_pcls_d1pz}}
-\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples : pole-zero plot of the filter after PCLS optimisation}
+\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples:pole-zero plot of the filter after PCLS optimisation}
 \label{fig:iir-sqp-slb-bandpass-test-pcls-d1-pz}
 \end{figure}
 \clearpage
@@ -8788,7 +8780,7 @@ H_{d}\left(\omega\right)=-\imath sign\left(\omega\right)e^{-\imath\omega t_{d}}
 The Octave script \emph{iir\_sqp\_slb\_hilbert\_test.m} designs a Hilbert
 transform filter with $U=7,\;V=2,\;M=4,\;Q=4,\;R=2$ and the group-delay of the
 filter is $t_{d}=\frac{U+M}{2}=5.5$ samples. An initial filter was designed by
-the method of Tarczynski et. al. with the Octave script 
+the method of Tarczynski et al.\ with the Octave script 
 \emph{tarczynski\_hilbert\_test.m}. The initial filter coefficients are, in 
 gain-pole-zero form:
 \begin{small}
@@ -9232,7 +9224,7 @@ can be derived from the real cepstrum method of
  directly by \emph{Orchard} and \emph{Willson}'s Newton-Raphson
 solution~\cite{OrchardWillson_ComputationMinimumPhaseSpectralFactor}. See
 Appendix~\ref{app:Design-of-complementary-FIR-digital-filter}.
-\cleardoublepage
+\cleardoublepage{}
 \chapter{\label{sec:IIR-Design-Using-SOCP}IIR filter design using Second Order Cone Programming}
 \section{Second Order Cone Programming}
 Following \emph{Alizadeh} and \emph{Goldfarb}~\cite
@@ -9265,7 +9257,7 @@ where $\mathcal{C}_{i}$ is a cone in $\mathfrak{\mathbb{R}}^{p}$
 \mathcal{C}_{i} = \left\{\left[\begin{array}{c}
 t\\
 u
-\end{array}\right]\; : \; u \in \mathfrak{\mathbb{R}}^{\left(p-1\right)\times 1},\;
+\end{array}\right]\;:\; u \in \mathfrak{\mathbb{R}}^{\left(p-1\right)\times 1},\;
  t\ge 0,\; \| u \| \le t \right\}
 \end{align*}
 
@@ -9614,19 +9606,19 @@ pole-zero plot shown in Figure~\ref{fig:SOCP-Deczky-Example-3-PCLS-d2-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_socp_test_pcls_d2}}
-\caption{Deczky Example 3 PCLS : Response after SOCP optimisation}
+\caption{Deczky Example 3 PCLS:Response after SOCP optimisation}
 \label{fig:SOCP-Deczky-Example-3-PCLS-d2}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_socp_test_pcls_d2pass}}
-\caption{Deczky Example 3 PCLS : Passband response after SOCP optimisation}
+\caption{Deczky Example 3 PCLS:Passband response after SOCP optimisation}
 \label{fig:SOCP-Deczky-Example-3-PCLS-d2-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_socp_test_pcls_d2pz}}
-\caption{Deczky Example 3 PCLS : Pole-zero plot after SOCP optimisation}
+\caption{Deczky Example 3 PCLS:Pole-zero plot after SOCP optimisation}
 \label{fig:SOCP-Deczky-Example-3-PCLS-d2-pz}
 \end{figure}
 
@@ -9658,19 +9650,19 @@ pole-zero plot shown in Figure~\ref{fig:SOCP-Deczky-Example-3a-PCLS-d2-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3a_socp_test_pcls_d2}}
-\caption{Deczky Example 3 PCLS : Response after SOCP optimisation, alternative specification}
+\caption{Deczky Example 3 PCLS:Response after SOCP optimisation, alternative specification}
 \label{fig:SOCP-Deczky-Example-3a-PCLS-d2}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3a_socp_test_pcls_d2pass}}
-\caption{Deczky Example 3 PCLS : Passband response after SOCP optimisation, alternative specification}
+\caption{Deczky Example 3 PCLS:Passband response after SOCP optimisation, alternative specification}
 \label{fig:SOCP-Deczky-Example-3a-PCLS-d2-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3a_socp_test_pcls_d2pz}}
-\caption{Deczky Example 3 PCLS : Pole-zero plot after SOCP optimisation, alternative specification}
+\caption{Deczky Example 3 PCLS:Pole-zero plot after SOCP optimisation, alternative specification}
 \label{fig:SOCP-Deczky-Example-3a-PCLS-d2-pz}
 \end{figure}
 The estimate of the SOCP PCLS optimised filter vector is, in the gain,
@@ -9724,20 +9716,20 @@ pole-zero plot shown in Figure~\ref{fig:SOCP-BFGS-Deczky-Example-3-PCLS-d2-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_socp_bfgs_test_pcls_d2}}
-\caption{Deczky Example 3 PCLS : Response after SOCP optimisation with BFGS
+\caption{Deczky Example 3 PCLS:Response after SOCP optimisation with BFGS
   update of the Hessian}
 \label{fig:SOCP-BFGS-Deczky-Example-3-PCLS-d2}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_socp_bfgs_test_pcls_d2pass}}
-\caption{Deczky Example 3 PCLS : Passband response after SOCP optimisation with BFGS update of the Hessian}
+\caption{Deczky Example 3 PCLS:Passband response after SOCP optimisation with BFGS update of the Hessian}
 \label{fig:SOCP-BFGS-Deczky-Example-3-PCLS-d2-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_socp_bfgs_test_pcls_d2pz}}
-\caption{Deczky Example 3 PCLS : Pole-zero plot after SOCP optimisation with BFGS update of the Hessian}
+\caption{Deczky Example 3 PCLS:Pole-zero plot after SOCP optimisation with BFGS update of the Hessian}
 \label{fig:SOCP-BFGS-Deczky-Example-3-PCLS-d2-pz}
 \end{figure}
 
@@ -9828,14 +9820,14 @@ symmetric FIR filter is not shown).
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{compare_fir_iir_socp_slb_lowpass_test_A}}
-\caption{Comparison of FIR and IIR low-pass filters : Amplitude responses}
+\caption{Comparison of FIR and IIR low-pass filters:Amplitude responses}
 \label{fig:FIR-IIR-low-pass-filter-gain-zero-pole-with-SeDuMi-amplitude}
 \end{figure}
 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{compare_fir_iir_socp_slb_lowpass_test_T}}
-\caption{Comparison of FIR and IIR low-pass filters : Group delay responses}
+\caption{Comparison of FIR and IIR low-pass filters:Group delay responses}
 \label{fig:FIR-IIR-low-pass-filter-gain-zero-pole-with-SeDuMi-delay}
 \end{figure}
 \clearpage
@@ -9855,7 +9847,7 @@ Figure~\ref{fig:iir-socp-slb-bandpass-test-initial-x0}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_bandpass_test_initial_x0}}
-\caption{IIR band-pass R=2 decimation filter : response of the initial filter
+\caption{IIR band-pass R=2 decimation filter:response of the initial filter
 calculated with the WISE method of \emph{Tarcynzki et al.}}
 \label{fig:iir-socp-slb-bandpass-test-initial-x0}
 \end{figure}
@@ -9881,14 +9873,14 @@ and
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_bandpass_test_pcls_d1}}
-\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples : response
+\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples:response
 of the filter after PCLS SOCP optimisation}
 \label{fig:iir-socp-slb-bandpass-test-pcls-d1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_bandpass_test_pcls_d1pass}}
-\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples : passband
+\caption{IIR band-pass R=2 decimation filter with delay tp=16 samples:passband
   response of the filter after PCLS SOCP optimisation}
 \label{fig:iir-socp-slb-bandpass-test-pcls-d1-passband}
 \end{figure}
@@ -9925,13 +9917,13 @@ the filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_multiband_test_pcls}}
-\caption{IIR multi-band filter : response after SOCP PCLS optimisation}
+\caption{IIR multi-band filter:response after SOCP PCLS optimisation}
 \label{fig:IIR-multiband-SOCP-PCLS}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_multiband_test_pcls_pass}}
-\caption{IIR multi-band filter : pass-band response after SOCP PCLS optimisation}
+\caption{IIR multi-band filter:pass-band response after SOCP PCLS optimisation}
 \label{fig:IIR-multiband-SOCP-PCLS-pass}
 \end{figure}
 
@@ -10210,19 +10202,19 @@ Figure~\ref{fig:Deczky-Example-3-2ndOrder-MMSE-SOCP-x1-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{lowpass2ndOrderCascade_socp_test_x1}}
-\caption{Deczky Example 3 : Response with 2nd order sections and MMSE SOCP optimisation}
+\caption{Deczky Example 3:Response with 2nd order sections and MMSE SOCP optimisation}
 \label{fig:Deczky-Example-3-2ndOrder-MMSE-SOCP-x1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{lowpass2ndOrderCascade_socp_test_x1pass}}
-\caption{Deczky Example 3 : Passband response with 2nd order sections and MMSE SOCP optimisation}
+\caption{Deczky Example 3:Passband response with 2nd order sections and MMSE SOCP optimisation}
 \label{fig:Deczky-Example-3-2ndOrder-MMSE-SOCP-x1-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{lowpass2ndOrderCascade_socp_test_x1pz}}
-\caption{Deczky Example 3 : Pole-zero plot with 2nd order sections and MMSE SOCP optimisation}
+\caption{Deczky Example 3:Pole-zero plot with 2nd order sections and MMSE SOCP optimisation}
 \label{fig:Deczky-Example-3-2ndOrder-MMSE-SOCP-x1-pz}
 \end{figure}
 
@@ -10236,19 +10228,19 @@ plot is shown in Figure~\ref{fig:Deczky-Example-3-2ndOrder-MMSE-SOCP-x1sqm-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{lowpass2ndOrderCascade_socp_test_x1sqm}}
-\caption{Deczky Example 3 : Response with 2nd order sections and MMSE SOCP optimisation of the squared-magnitude response}
+\caption{Deczky Example 3:Response with 2nd order sections and MMSE SOCP optimisation of the squared-magnitude response}
 \label{fig:Deczky-Example-3-2ndOrder-MMSE-SOCP-x1sqm}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{lowpass2ndOrderCascade_socp_test_x1sqmpass}}
-\caption{Deczky Example 3 : Passband response with 2nd order sections and MMSE SOCP optimisation of the squared-magnitude response}
+\caption{Deczky Example 3:Passband response with 2nd order sections and MMSE SOCP optimisation of the squared-magnitude response}
 \label{fig:Deczky-Example-3-2ndOrder-MMSE-SOCP-x1sqmpass}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{lowpass2ndOrderCascade_socp_test_x1sqmpz}}
-\caption{Deczky Example 3 : Pole-zero plot with 2nd order sections and MMSE SOCP optimisation of the squared-magnitude response}
+\caption{Deczky Example 3:Pole-zero plot with 2nd order sections and MMSE SOCP optimisation of the squared-magnitude response}
 \label{fig:Deczky-Example-3-2ndOrder-MMSE-SOCP-x1sqm-pz}
 \end{figure}
 \clearpage
@@ -10436,7 +10428,7 @@ Figure~\ref{fig:Parallel-2nd-order-cascade-allpass-initial-response}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass2ndOrderCascade_socp_test_ab0}}
-\caption{Parallel 2nd order cascaded allpass filters : initial response found with the WISE barrier function}
+\caption{Parallel 2nd order cascaded allpass filters:initial response found with the WISE barrier function}
 \label{fig:Parallel-2nd-order-cascade-allpass-initial-response}
 \end{figure}
 
@@ -10449,19 +10441,19 @@ Figure~\ref{fig:Parallel-2nd-order-cascade-allpass-filter-SOCP-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass2ndOrderCascade_socp_test_ab1}}
-\caption{Parallel 2nd order cascade allpass filters : response after SOCP optimisation}
+\caption{Parallel 2nd order cascade allpass filters:response after SOCP optimisation}
 \label{fig:Parallel-2nd-order-cascade-allpass-filter-SOCP-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass2ndOrderCascade_socp_test_ab1pass}}
-\caption{Parallel 2nd order cascade allpass filters : pass-band response after SOCP optimisation}
+\caption{Parallel 2nd order cascade allpass filters:pass-band response after SOCP optimisation}
 \label{fig:Parallel-2nd-order-cascade-allpass-filter-SOCP-passband-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass2ndOrderCascade_socp_test_ab1pz}}
-\caption{Parallel 2nd order cascade allpass filters : pole-zero plot after SOCP optimisation}
+\caption{Parallel 2nd order cascade allpass filters:pole-zero plot after SOCP optimisation}
 \label{fig:Parallel-2nd-order-cascade-allpass-filter-SOCP-pz}
 \end{figure}
 The second-order section coefficients are
@@ -10497,7 +10489,7 @@ Figure~\ref{fig:Parallel-2nd-order-cascade-allpass-sqmag-initial-response}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass2ndOrderCascade_socp_sqmag_test_ab0}}
-\caption{Parallel 2nd order allpass cascade filters (squared magnitude) : Initial response found with the WISE barrier function}
+\caption{Parallel 2nd order allpass cascade filters (squared magnitude):Initial response found with the WISE barrier function}
 \label{fig:Parallel-2nd-order-cascade-allpass-sqmag-initial-response}
 \end{figure}
 
@@ -10508,13 +10500,13 @@ Figure~\ref{fig:Parallel-2nd-order-cascade-allpass-sqmag-SOCP-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass2ndOrderCascade_socp_sqmag_test_ab1dual}}
-\caption{Parallel 2nd order cascade allpass filters (squared magnitude) : response after SOCP optimisation}
+\caption{Parallel 2nd order cascade allpass filters (squared magnitude):response after SOCP optimisation}
 \label{fig:Parallel-2nd-order-cascade-allpass-sqmag-SOCP-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass2ndOrderCascade_socp_sqmag_test_ab1pz}}
-\caption{Parallel 2nd order cascade allpass filters (squared magnitude) : pole-zero plot after SOCP optimisation}
+\caption{Parallel 2nd order cascade allpass filters (squared magnitude):pole-zero plot after SOCP optimisation}
 \label{fig:Parallel-2nd-order-cascade-allpass-sqmag-SOCP-pz}
 \end{figure}
 The second-order section coefficients are
@@ -10534,8 +10526,8 @@ and
 \verbatiminput{allpass2ndOrderCascade_socp_sqmag_test_Db1_coef.m}
 \end{small}
 
-For comparison, Figures~\ref{fig:Parallel-2nd-order-allpass-elliptic-filter} and
-\ref{fig:Parallel-2nd-order-allpass-elliptic-filter-pz} show the response and
+For comparison, Figures~\ref{fig:Parallel-2nd-order-allpass-elliptic-filter}
+and~\ref{fig:Parallel-2nd-order-allpass-elliptic-filter-pz} show the response and
 pole-zero plot of an elliptic filter designed with a similar specification:
 \begin{small}
 \begin{verbatim}
@@ -10588,7 +10580,7 @@ in the pure delay branch.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass2ndOrderCascadeDelay_socp_test_a0phase}}
-\caption{Parallel all-pass 2nd order cascade filter and delay : phase response
+\caption{Parallel all-pass 2nd order cascade filter and delay:phase response
   of the initial all-pass filter adjusted for the group delay of the fixed
   delay branch}
 \label{fig:Allpass-2nd-order-cascade-delay-initial-phase-response}
@@ -10603,7 +10595,7 @@ Figure~\ref{fig:Allpass-2nd-order-cascade-delay-flat-delay-response}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass2ndOrderCascadeDelay_socp_test_a1}}
-\caption{Parallel all-pass 2nd order cascade filter and delay : Overall response optimised for flat pass band group delay}
+\caption{Parallel all-pass 2nd order cascade filter and delay:Overall response optimised for flat pass band group delay}
 \label{fig:Allpass-2nd-order-cascade-delay-flat-delay-response}
 \end{figure}
 
@@ -10616,7 +10608,7 @@ Figure~\ref{fig:Allpass-2nd-order-cascade-delay-squared-magnitude-response}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass2ndOrderCascadeDelay_socp_test_a1sqm}}
-\caption{Parallel all-pass 2nd order cascade filter and delay : Overall response optimised for squared-magnitude}
+\caption{Parallel all-pass 2nd order cascade filter and delay:Overall response optimised for squared-magnitude}
 \label{fig:Allpass-2nd-order-cascade-delay-squared-magnitude-response}
 \end{figure}
 At the filter band edges the change in phase of the allpass branch produces a 
@@ -10715,13 +10707,13 @@ Figure~\ref{fig:Parallel-allpass-filter-initial-response-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_test_ab0}}
-\caption{Parallel all-pass filters : Initial response found with the WISE barrier function}
+\caption{Parallel all-pass filters:Initial response found with the WISE barrier function}
 \label{fig:Parallel-allpass-filter-initial-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_test_ab0pz}}
-\caption{Parallel all-pass filters : Pole zero plot of the initial response found with the WISE barrier function}
+\caption{Parallel all-pass filters:Pole zero plot of the initial response found with the WISE barrier function}
 \label{fig:Parallel-allpass-filter-initial-response-pz}
 \end{figure}
 
@@ -10732,7 +10724,7 @@ Figure~\ref{fig:Parallel-allpass-filter-MMSE-SOCP-response}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_test_abmdual}}
-\caption{Parallel all-pass filters : Response found with MMSE SOCP optimisation}
+\caption{Parallel all-pass filters:Response found with MMSE SOCP optimisation}
 \label{fig:Parallel-allpass-filter-MMSE-SOCP-response}
 \end{figure}
 
@@ -10772,25 +10764,25 @@ Figure~\ref{fig:Parallel-allpass-filter-PCLS-SOCP-b1pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_test_ab1dual}}
-\caption{Parallel all-pass filters : Response after PCLS SOCP optimisation}
+\caption{Parallel all-pass filters:Response after PCLS SOCP optimisation}
 \label{fig:Parallel-allpass-filter-PCLS-SOCP-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_test_ab1pz}}
-\caption{Parallel all-pass filters : Pole-zero plot after PCLS SOCP optimisation}
+\caption{Parallel all-pass filters:Pole-zero plot after PCLS SOCP optimisation}
 \label{fig:Parallel-allpass-filter-PCLS-SOCP-pz}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_test_a1pz}}
-\caption{Parallel all-pass filters : Pole-zero plot of the A allpass filter branch after PCLS SOCP optimisation}
+\caption{Parallel all-pass filters:Pole-zero plot of the A allpass filter branch after PCLS SOCP optimisation}
 \label{fig:Parallel-allpass-filter-PCLS-SOCP-a1pz}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_test_b1pz}}
-\caption{Parallel all-pass filters : Pole-zero plot of the B allpass filter branch after PCLS SOCP optimisation}
+\caption{Parallel all-pass filters:Pole-zero plot of the B allpass filter branch after PCLS SOCP optimisation}
 \label{fig:Parallel-allpass-filter-PCLS-SOCP-b1pz}
 \end{figure}
 \clearpage
@@ -10817,15 +10809,15 @@ Figure~\ref{fig:Parallel-allpass-filter-flat-delay-initial-response}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_flat_delay_test_ab0}}
-\caption{Parallel all-pass filters with flat pass-band delay : Initial response found with the WISE barrier function}
+\caption{Parallel all-pass filters with flat pass-band delay:Initial response found with the WISE barrier function}
 \label{fig:Parallel-allpass-filter-flat-delay-initial-response}
 \end{figure}
 The final filter response is shown in
 Figure~\ref{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-response} with 
 passband detail shown in 
 Figure~\ref{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-pass-band-response}.The pole-zero plots of the branch allpass filters are shown in 
-Figures~\ref{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-a1pz} and 
-\ref{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-b1pz}. 
+Figures~\ref{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-a1pz}
+and~\ref{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-b1pz}.
 The denominator polynomials of the two all-pass filters are
 \begin{small}
 \verbatiminput{parallel_allpass_socp_slb_flat_delay_test_Da1_coef.m}
@@ -10852,25 +10844,25 @@ Figure~\ref{fig:Parallel-2nd-order-allpass-elliptic-filter-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_flat_delay_test_ab1}}
-\caption{Parallel all-pass filters with flat pass-band delay : Response after PCLS SOCP optimisation}
+\caption{Parallel all-pass filters with flat pass-band delay:Response after PCLS SOCP optimisation}
 \label{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_flat_delay_test_ab1pass}}
-\caption{Parallel all-pass filters with flat pass-band delay : Pass-band response after PCLS SOCP optimisation}
+\caption{Parallel all-pass filters with flat pass-band delay:Pass-band response after PCLS SOCP optimisation}
 \label{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-pass-band-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_flat_delay_test_a1pz}}
-\caption{Parallel all-pass filters : Pole-zero plot of the A allpass filter branch after PCLS SOCP optimisation}
+\caption{Parallel all-pass filters:Pole-zero plot of the A allpass filter branch after PCLS SOCP optimisation}
 \label{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-a1pz}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_flat_delay_test_b1pz}}
-\caption{Parallel all-pass filters with flat pass-band delay : Pole-zero plot of the B allpass filter branch after PCLS SOCP optimisation}
+\caption{Parallel all-pass filters with flat pass-band delay:Pole-zero plot of the B allpass filter branch after PCLS SOCP optimisation}
 \label{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-b1pz}
 \end{figure}
 \clearpage
@@ -10924,7 +10916,7 @@ Figure~\ref{fig:Parallel-allpass-bandpass-filter-initial-response}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_test_ab0}}
-\caption{Band-pass filter implemented as the difference of two all-pass filters : Initial response found with the WISE barrier function}
+\caption{Band-pass filter implemented as the difference of two all-pass filters:Initial response found with the WISE barrier function}
 \label{fig:Parallel-allpass-bandpass-filter-initial-response}
 \end{figure}
 
@@ -10943,21 +10935,21 @@ Figure~\ref{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-ab1phase}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_test_ab1}}
-\caption{Band-pass filter implemented as the difference of two all-pass filters : Response after PCLS SOCP optimisation}
+\caption{Band-pass filter implemented as the difference of two all-pass filters:Response after PCLS SOCP optimisation}
 \label{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_test_ab1pass}}
 \caption{Band-pass filter implemented as the difference of two all-pass filters
-  : Pass-band response after PCLS SOCP optimisation.}
+ :Pass-band response after PCLS SOCP optimisation.}
 \label{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-pass-band-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_test_ab1phase}}
 \caption{Band-pass filter implemented as the difference of two all-pass filters
-  : Comparison of all-pass filter phase responses after PCLS SOCP optimisation.}
+ :Comparison of all-pass filter phase responses after PCLS SOCP optimisation.}
 \label{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-ab1phase}
 \end{figure}
 \clearpage
@@ -10996,7 +10988,7 @@ The phase response shown is adjusted for the nominal delay.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_hilbert_test_ab1}}
 \caption{Band-pass Hilbert filter implemented as the difference of two all-pass
-filters : Response after PCLS SOCP optimisation. The phase response shown is
+filters:Response after PCLS SOCP optimisation. The phase response shown is
 adjusted for the nominal delay.} 
 \label{fig:Parallel-allpass-bandpass-Hilbert-filter-PCLS-SOCP-response}
 \end{figure}
@@ -11004,7 +10996,7 @@ adjusted for the nominal delay.}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_hilbert_test_ab1pass}}
 \caption{Band-pass Hilbert filter implemented as the difference of two
-  all-pass filters : Pass-band response after PCLS SOCP optimisation. The
+  all-pass filters:Pass-band response after PCLS SOCP optimisation. The
   phase response shown is adjusted for the nominal delay.}
 \label{fig:Parallel-allpass-bandpass-Hilbert-filter-PCLS-SOCP-pass-band-response}
 \end{figure}
@@ -11043,13 +11035,13 @@ Figure~\ref{fig:Parallel-allpass-delay-filter-initial-response-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_delay_socp_slb_test_a0}}
-\caption{Parallel delay and all-pass filter : Initial response found with the WISE barrier function}
+\caption{Parallel delay and all-pass filter:Initial response found with the WISE barrier function}
 \label{fig:Parallel-allpass-delay-filter-initial-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_delay_socp_slb_test_a0pz}}
-\caption{Parallel delay and all-pass filter : Pole zero plot of the initial filter found with the WISE barrier function}
+\caption{Parallel delay and all-pass filter:Pole zero plot of the initial filter found with the WISE barrier function}
 \label{fig:Parallel-allpass-delay-filter-initial-response-pz}
 \end{figure}
 
@@ -11067,20 +11059,20 @@ The denominator polynomial of the final all-pass filter is
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_delay_socp_slb_test_a1}}
-\caption{Parallel delay and all-pass filter : Response after PCLS SOCP optimisation}
+\caption{Parallel delay and all-pass filter:Response after PCLS SOCP optimisation}
 \label{fig:Parallel-allpass-delay-filter-PCLS-SOCP-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_delay_socp_slb_test_a1dual}}
-\caption{Parallel delay and all-pass filter : Detail of the pass-band and
+\caption{Parallel delay and all-pass filter:Detail of the pass-band and
   stop-band responses after PCLS SOCP optimisation}
 \label{fig:Parallel-allpass-delay-filter-PCLS-SOCP-detail-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_delay_socp_slb_test_a1pz}}
-\caption{Parallel delay and all-pass filter : Pole-zero plot of the all-pass filter branch after PCLS SOCP optimisation}
+\caption{Parallel delay and all-pass filter:Pole-zero plot of the all-pass filter branch after PCLS SOCP optimisation}
 \label{fig:Parallel-allpass-delay-filter-PCLS-SOCP-a1pz}
 \end{figure}
 \clearpage
@@ -11114,20 +11106,20 @@ The denominator polynomial of the final all-pass filter is
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_delay_sqp_slb_test_a1}}
-\caption{Parallel delay and all-pass filter : Response after PCLS SQP optimisation}
+\caption{Parallel delay and all-pass filter:Response after PCLS SQP optimisation}
 \label{fig:Parallel-allpass-delay-filter-PCLS-SQP-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_delay_sqp_slb_test_a1dual}}
-\caption{Parallel delay and all-pass filter : Detail of the pass-band and
+\caption{Parallel delay and all-pass filter:Detail of the pass-band and
   stop-band responses after PCLS SQP optimisation}
 \label{fig:Parallel-allpass-delay-filter-PCLS-SQP-detail-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_delay_sqp_slb_test_a1phase}}
-\caption{Parallel delay and all-pass filter : phase response of the all-pass
+\caption{Parallel delay and all-pass filter:phase response of the all-pass
   filter branch after PCLS SQP optimisation. The response has been adjusted
   for the group delay of the fixed delay branch}
 \label{fig:Parallel-allpass-delay-filter-PCLS-SQP-a1phase}
@@ -11182,20 +11174,20 @@ and
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{polyphase_allpass_socp_slb_test_ab0}}
-\caption{Polyphase combination of allpass filters : Initial response found
+\caption{Polyphase combination of allpass filters:Initial response found
 with the WISE barrier function}
 \label{fig:Polyphase-allpass-filter-initial-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{polyphase_allpass_socp_slb_test_ab1}}
-\caption{Polyphase combination of two allpass filters : Response after PCLS SOCP optimisation}
+\caption{Polyphase combination of two allpass filters:Response after PCLS SOCP optimisation}
 \label{fig:Polyphase-allpass-filter-PCLS-SOCP-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{polyphase_allpass_socp_slb_test_ab1dual}}
-\caption{Polyphase combination of two allpass filters : Detail of response after PCLS SOCP optimisation}
+\caption{Polyphase combination of two allpass filters:Detail of response after PCLS SOCP optimisation}
 \label{fig:Polyphase-allpass-filter-PCLS-SOCP-detail-response}
 \end{figure}
 \clearpage
@@ -11234,19 +11226,19 @@ and
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{polyphase_allpass_socp_slb_flat_delay_test_ab0}}
-\caption{Polyphase combination of all-pass filters with flat pass-band delay : Initial response found with the WISE barrier function}
+\caption{Polyphase combination of all-pass filters with flat pass-band delay:Initial response found with the WISE barrier function}
 \label{fig:Polyphase-allpass-filter-flat-delay-initial-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{polyphase_allpass_socp_slb_flat_delay_test_ab1}}
-\caption{Polyphase combination of two all-pass filters with flat pass-band delay : Response after PCLS SOCP optimisation}
+\caption{Polyphase combination of two all-pass filters with flat pass-band delay:Response after PCLS SOCP optimisation}
 \label{fig:Polyphase-allpass-filter-flat-delay-PCLS-SOCP-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{polyphase_allpass_socp_slb_flat_delay_test_ab1pass}}
-\caption{Polyphase combination of two all-pass filters with flat pass-band delay : Pass-band response after PCLS SOCP optimisation}
+\caption{Polyphase combination of two all-pass filters with flat pass-band delay:Pass-band response after PCLS SOCP optimisation}
 \label{fig:Polyphase-allpass-filter-flat-delay-PCLS-SOCP-passband-response}
 \end{figure}
 \clearpage
@@ -11314,8 +11306,8 @@ The Octave script \emph{schurOneMlattice\_socp\_slb\_lowpass\_test.m} implements
 the design of a lowpass IIR one-multiplier Schur lattice filter using the 
 \emph{SeDuMi} SOCP solver with PCLS constraints. The filter specification is 
 similar to that of the \emph{Deczky3} gain-pole-zero SQP and SOCP optimisation
-examples in Sections~\ref{sub:Deczkys-Example-3} and
-\ref{sec:Deczky3-IIR-filter-gain-zero-pole-with-SeDuMi}:
+examples in Sections~\ref{sub:Deczkys-Example-3}
+and~\ref{sec:Deczky3-IIR-filter-gain-zero-pole-with-SeDuMi}:
 \begin{small}
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_test.spec}
 \end{small}
@@ -11330,19 +11322,19 @@ the pole-zero plot of the resulting filter after SOCP PCLS optimisation.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_test_pcls_k2c2}}
-\caption{Schur one-multiplier lattice lowpass filter : response after PCLS SOCP optimisation}
+\caption{Schur one-multiplier lattice lowpass filter:response after PCLS SOCP optimisation}
 \label{fig:Schur-one-multiplier-lattice-lowpass-filter-SOCP-PCLS}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_test_pcls_k2c2pass}}
-\caption{Schur one-multiplier lattice lowpass filter : passband response after PCLS SOCP optimisation}
+\caption{Schur one-multiplier lattice lowpass filter:passband response after PCLS SOCP optimisation}
 \label{fig:Schur-one-multiplier-lattice-lowpass-filter-SOCP-PCLS-pass}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_test_pcls_k2c2pz}}
-\caption{Schur one-multiplier lattice lowpass filter : pole-zero plot after PCLS SOCP optimisation}
+\caption{Schur one-multiplier lattice lowpass filter:pole-zero plot after PCLS SOCP optimisation}
 \label{fig:Schur-one-multiplier-lattice-lowpass-filter-SOCP-PCLS-pz}
 \end{figure}
 
@@ -11378,19 +11370,19 @@ the pole-zero plot of the filter after SQP PCLS optimisation.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_lowpass_test_pcls_k2c2}}
-\caption{Schur one-multiplier lattice lowpass filter : response after SQP PCLS optimisation}
+\caption{Schur one-multiplier lattice lowpass filter:response after SQP PCLS optimisation}
 \label{fig:Schur-one-multiplier-lattice-lowpass-filter-SQP-PCLS}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_lowpass_test_pcls_k2c2pass}}
-\caption{Schur one-multiplier lattice lowpass filter : passband response after SQP PCLS optimisation}
+\caption{Schur one-multiplier lattice lowpass filter:passband response after SQP PCLS optimisation}
 \label{fig:Schur-one-multiplier-lattice-lowpass-filter-SQP-PCLS-pass}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_lowpass_test_pcls_k2c2pz}}
-\caption{Schur one-multiplier lattice lowpass filter : pole-zero plot after SQP PCLS optimisation}
+\caption{Schur one-multiplier lattice lowpass filter:pole-zero plot after SQP PCLS optimisation}
 \label{fig:Schur-one-multiplier-lattice-lowpass-filter-SQP-PCLS-pz}
 \end{figure}
 
@@ -11427,25 +11419,25 @@ the pole-zero plot of the band-pass filter after SQP PCLS optimisation.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_mmse_k1c1}}
-\caption{Schur one-multiplier lattice band-pass filter : response after SQP MMSE optimisation}
+\caption{Schur one-multiplier lattice band-pass filter:response after SQP MMSE optimisation}
 \label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-MMSE}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_pcls_k2c2}}
-\caption{Schur one-multiplier lattice band-pass filter : response after SQP PCLS optimisation}
+\caption{Schur one-multiplier lattice band-pass filter:response after SQP PCLS optimisation}
 \label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_pcls_k2c2pass}}
-\caption{Schur one-multiplier lattice band-pass filter : passband response after SQP PCLS optimisation}
+\caption{Schur one-multiplier lattice band-pass filter:passband response after SQP PCLS optimisation}
 \label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS-pass}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_pcls_k2c2pz}}
-\caption{Schur one-multiplier lattice band-pass filter : pole-zero plot after SQP PCLS optimisation}
+\caption{Schur one-multiplier lattice band-pass filter:pole-zero plot after SQP PCLS optimisation}
 \label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS-pz}
 \end{figure}
 
@@ -11469,13 +11461,13 @@ optimisation.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_test_pcls_k3c3}}
-\caption{Schur one-multiplier lattice band-pass filter : response after SOCP PCLS optimisation}
+\caption{Schur one-multiplier lattice band-pass filter:response after SOCP PCLS optimisation}
 \label{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_test_pcls_k3c3pass}}
-\caption{Schur one-multiplier lattice band-pass filter : passband response after SOCP PCLS optimisation}
+\caption{Schur one-multiplier lattice band-pass filter:passband response after SOCP PCLS optimisation}
 \label{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS-pass}
 \end{figure}
 
@@ -11497,7 +11489,7 @@ PCLS. The specification of the filter is:
 \end{small}
 The initial filter is that of the Octave script 
 \emph{iir\_sqp\_slb\_hilbert\_test.m} designed by
-the method of \emph{Tarczynski et. al.} with the Octave script 
+the method of \emph{Tarczynski et al.} with the Octave script 
 \emph{tarczynski\_hilbert\_test.m}, as shown in 
 Section~\ref{sec:Hilbert-transform-R-2-decimation-filter}.
 The denominator polynomial of the filter has coefficients in $z^{2}$ only.
@@ -11511,13 +11503,13 @@ the pole-zero plot of the Hilbert filter after SQP PCLS optimisation.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_hilbert_test_pcls_k2c2}}
-\caption{Schur one-multiplier lattice Hilbert filter : response after SQP PCLS optimisation}
+\caption{Schur one-multiplier lattice Hilbert filter:response after SQP PCLS optimisation}
 \label{fig:Schur-one-multiplier-lattice-hilbert-filter-SQP-PCLS}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_hilbert_test_pcls_k2c2pz}}
-\caption{Schur one-multiplier lattice Hilbert filter : pole-zero plot after SQP PCLS optimisation}
+\caption{Schur one-multiplier lattice Hilbert filter:pole-zero plot after SQP PCLS optimisation}
 \label{fig:Schur-one-multiplier-lattice-hilbert-filter-SQP-PCLS-pz}
 \end{figure}
 
@@ -11558,19 +11550,19 @@ the pole-zero plot of the filter after SQP PCLS optimisation.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurNSlattice_sqp_slb_lowpass_test_pcls_sxx_2}}
-\caption{Schur normalised-scaled lattice lowpass filter : response after SQP PCLS optimisation}
+\caption{Schur normalised-scaled lattice lowpass filter:response after SQP PCLS optimisation}
 \label{fig:Schur-normalised-scaled-lattice-lowpass-filter-SQP-PCLS}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurNSlattice_sqp_slb_lowpass_test_pcls_sxx_2pass}}
-\caption{Schur normalised-scaled lattice lowpass filter : passband response after SQP PCLS optimisation}
+\caption{Schur normalised-scaled lattice lowpass filter:passband response after SQP PCLS optimisation}
 \label{fig:Schur-normalised-scaled-lattice-lowpass-filter-SQP-PCLS-pass}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurNSlattice_sqp_slb_lowpass_test_pcls_sxx_2pz}}
-\caption{Schur normalised-scaled lattice lowpass filter : pole-zero plot after SQP PCLS optimisation}
+\caption{Schur normalised-scaled lattice lowpass filter:pole-zero plot after SQP PCLS optimisation}
 \label{fig:Schur-normalised-scaled-lattice-lowpass-filter-SQP-PCLS-pz}
 \end{figure}
 
@@ -11634,7 +11626,7 @@ coefficients are:
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_lowpass_test_response}}
-\caption{Parallel Schur one-multiplier all-pass lattice low-pass filter : response after SOCP PCLS optimisation}
+\caption{Parallel Schur one-multiplier all-pass lattice low-pass filter:response after SOCP PCLS optimisation}
 \label{fig:Parallel-Schur-OneMPA-lattice-lowpass-filter-SOCP-PCLS}
 \end{figure}
 \begin{figure}
@@ -11687,7 +11679,7 @@ all-pass lattice coefficients are:
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_bandpass_test_response}}
-\caption{Parallel Schur one-multiplier all-pass lattice band-pass filter : response after SOCP PCLS optimisation}
+\caption{Parallel Schur one-multiplier all-pass lattice band-pass filter:response after SOCP PCLS optimisation}
 \label{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-filter-SOCP-PCLS}
 \end{figure}
 \begin{figure}
@@ -11804,7 +11796,7 @@ the pass-band response of the filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_multiband_test_pcls}}
-\caption{Schur one-multiplier parallel all-pass lattice multi-band filter : response after SOCP PCLS optimisation.}
+\caption{Schur one-multiplier parallel all-pass lattice multi-band filter:response after SOCP PCLS optimisation.}
 \label{fig:Schur-one-multiplier-parallel-allpass-multiband-PCLS}
 \end{figure}
 \begin{figure}
@@ -11869,8 +11861,8 @@ if approximately linear phase response is desired.
 
 In the following I use Lim's description of frequency response masking for the
 two cases shown in 
-Figure~\ref{fig:Frequency-response-masking-with-Lims-filter-structure}~
-\cite[Section III, Figure 4]{Lim_FrequencyResponseMaskingSharpDigitalFilters}.
+Figure~\ref{fig:Frequency-response-masking-with-Lims-filter-structure}~\cite[Section
+III, Figure 4]{Lim_FrequencyResponseMaskingSharpDigitalFilters}.
 Figure~\ref{fig:Frequency-response-masking-with-Lims-filter-structure_a} shows
 the response of a prototype filter a with frequency response,
 $F_{a}\left(\omega\right)$, having
@@ -11899,8 +11891,8 @@ The resulting frequency response masking filter, shown in
 Figure~\ref{fig:Frequency-response-masking-with-Lims-filter-structure_e}, has 
 passband edge $\omega_{p}=\frac{2m\pi+\theta}{M}$ and stopband edge 
 $\omega_{s}=\frac{2m\pi+\phi}{M}$. Alternatively,  
-Figures~\ref{fig:Frequency-response-masking-with-Lims-filter-structure_f} and
-\ref{fig:Frequency-response-masking-with-Lims-filter-structure_g} show the
+Figures~\ref{fig:Frequency-response-masking-with-Lims-filter-structure_f}
+and~\ref{fig:Frequency-response-masking-with-Lims-filter-structure_g} show the 
 frequency response masking filter for which the passband edge is 
 $\omega_{p}=\frac{2m\pi-\phi}{M}$ and the stopband edge is
 $\omega_{s}=\frac{2m\pi-\theta}{M}$. In this case the filter includes $m-1$
@@ -12465,7 +12457,7 @@ the initial FRM filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_socp_slb_test_initial_response}}
-\caption{FRM gain-pole-zero format IIR model filter with WISE optimisation : initial response}
+\caption{FRM gain-pole-zero format IIR model filter with WISE optimisation:initial response}
 \label{fig:iir-frm-initial-response}
 \end{figure}
 After SOCP and PCLS optimisation of the initial response
@@ -12496,25 +12488,25 @@ shows the decimated response of the resulting FRM model filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_socp_slb_test_pcls_response}}
-\caption{FRM gain-pole-zero format IIR model filter with SOCP and PCLS optimisation : overall response}
+\caption{FRM gain-pole-zero format IIR model filter with SOCP and PCLS optimisation:overall response}
 \label{fig:iir-frm-socp-pcls-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_socp_slb_test_pcls_passband_response}}
-\caption{FRM gain-pole-zero format IIR model filter with SOCP and PCLS optimisation : passband response}
+\caption{FRM gain-pole-zero format IIR model filter with SOCP and PCLS optimisation:passband response}
 \label{fig:iir-frm-socp-pcls-passband-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_socp_slb_test_pcls_mask_response}}
-\caption{FRM gain-pole-zero format IIR model filter with SOCP and PCLS optimisation : masking filter responses}
+\caption{FRM gain-pole-zero format IIR model filter with SOCP and PCLS optimisation:masking filter responses}
 \label{fig:iir-frm-socp-pcls-mask-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_socp_slb_test_pcls_model_response}}
-\caption{FRM gain-pole-zero format IIR model filter with SOCP and PCLS optimisation : model filter response}
+\caption{FRM gain-pole-zero format IIR model filter with SOCP and PCLS optimisation:model filter response}
 \label{fig:iir-frm-socp-pcls-model-response}
 \end{figure}
 \clearpage
@@ -12700,7 +12692,7 @@ the initial FRM filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_allpass_socp_slb_test_initial_response}}
-\caption{FRM gain-pole-zero format allpass model filter with WISE optimisation : initial response}
+\caption{FRM gain-pole-zero format allpass model filter with WISE optimisation:initial response}
 \label{fig:iir-frm-allpass-initial-response}
 \end{figure}
 After SOCP and PCLS optimisation of the initial filter the resulting
@@ -12728,25 +12720,25 @@ shows the response of the resulting FRM model filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_allpass_socp_slb_test_pcls_response}}
-\caption{FRM gain-pole-zero format allpass model filter with SOCP and PCLS optimisation : overall response}
+\caption{FRM gain-pole-zero format allpass model filter with SOCP and PCLS optimisation:overall response}
 \label{fig:iir-frm-allpass-socp-pcls-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_allpass_socp_slb_test_pcls_passband_response}}
-\caption{FRM gain-pole-zero format allpass model filter : passband response with SOCP and PCLS optimisation}
+\caption{FRM gain-pole-zero format allpass model filter:passband response with SOCP and PCLS optimisation}
 \label{fig:iir-frm-allpass-socp-pcls-passband-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_allpass_socp_slb_test_pcls_mask_response}}
-\caption{FRM gain-pole-zero format allpass model filter with SOCP and PCLS optimisation : masking filter responses}
+\caption{FRM gain-pole-zero format allpass model filter with SOCP and PCLS optimisation:masking filter responses}
 \label{fig:iir-frm-allpass-socp-pcls-mask-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_allpass_socp_slb_test_pcls_model_response}}
-\caption{FRM gain-pole-zero format allpass model filter with SOCP and PCLS optimisation : model filter response}
+\caption{FRM gain-pole-zero format allpass model filter with SOCP and PCLS optimisation:model filter response}
 \label{fig:iir-frm-allpass-socp-pcls-model-response}
 \end{figure}
 \clearpage
@@ -13010,14 +13002,14 @@ the Octave function \emph{iir\_frm\_parallel\_allpass\_socp\_mmse} to minimise
 the response error and the coefficient step size with the SeDuMi SOCP solver. 
 The initial filter was calculated by the Octave script 
 \emph{tarczynski\_frm\_parallel\_allpass\_test.m} with the WISE method of
-Tarczynski et al. (see
+Tarczynski et al.\ (see
 Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}). 
 The response of the initial filter is shown in 
 Figure~\ref{fig:iir-frm-parallel-allpass-initial-response}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_parallel_allpass_socp_slb_test_initial_response}}
-\caption{FRM filter with gain-pole-zero format parallel allpass model filter : initial response with WISE optimisation}
+\caption{FRM filter with gain-pole-zero format parallel allpass model filter:initial response with WISE optimisation}
 \label{fig:iir-frm-parallel-allpass-initial-response}
 \end{figure}
 The initial filter was SOCP and PCLS optimised with the Octave function
@@ -13053,31 +13045,31 @@ gain-pole-zero form.}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_parallel_allpass_socp_slb_test_pcls_response}}
-\caption{FRM filter with gain-pole-zero format parallel allpass model filter : SOCP PCLS optimised overall response}
+\caption{FRM filter with gain-pole-zero format parallel allpass model filter:SOCP PCLS optimised overall response}
 \label{fig:iir-frm-parallel-allpass-socp-slb-pcls-overall-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_parallel_allpass_socp_slb_test_pcls_passband_response}}
-\caption{FRM filter with gain-pole-zero format parallel allpass model filter : SOCP PCLS optimised passband response}
+\caption{FRM filter with gain-pole-zero format parallel allpass model filter:SOCP PCLS optimised passband response}
 \label{fig:iir-frm-parallel-allpass-socp-slb-pcls-passband-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_parallel_allpass_socp_slb_test_pcls_mask_filters}}
-\caption{FRM filter with gain-pole-zero format parallel allpass model filter : SOCP PCLS optimised FIR masking filters}
+\caption{FRM filter with gain-pole-zero format parallel allpass model filter:SOCP PCLS optimised FIR masking filters}
 \label{fig:iir-frm-parallel-allpass-socp-slb-pcls-masking-filters}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_parallel_allpass_socp_slb_test_pcls_mask_response}}
-\caption{FRM filter with gain-pole-zero format parallel allpass model filter : SOCP PCLS optimised FIR masking filter responses}
+\caption{FRM filter with gain-pole-zero format parallel allpass model filter:SOCP PCLS optimised FIR masking filter responses}
 \label{fig:iir-frm-parallel-allpass-socp-slb-pcls-masking-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_frm_parallel_allpass_socp_slb_test_pcls_model_response}}
-\caption{FRM filter with gain-pole-zero format parallel allpass model filter : SOCP PCLS optimised model filter response}
+\caption{FRM filter with gain-pole-zero format parallel allpass model filter:SOCP PCLS optimised model filter response}
 \label{fig:iir-frm-parallel-allpass-socp-slb-pcls-model-response}
 \end{figure}
 \clearpage
@@ -13145,7 +13137,7 @@ and FRM low-pass filters have a similar number of distinct coefficients.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMAPlattice_frm_socp_slb_test_pcls_response}}
 \caption{FRM filter with Schur one-multiplier lattice filter allpass
-  model filter : amplitude, delay and phase responses after SOCP and
+  model filter:amplitude, delay and phase responses after SOCP and
   PCLS optimisation }
 \label{fig:schurOneMAPlattice-frm-socp-pcls-response}
 \end{figure}
@@ -13153,14 +13145,14 @@ and FRM low-pass filters have a similar number of distinct coefficients.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMAPlattice_frm_socp_slb_test_pcls_mask_response}}
 \caption{FRM filter with Schur one-multiplier lattice allpass model
-  filter : masking filter responses after SOCP and PCLS optimisation }
+  filter:masking filter responses after SOCP and PCLS optimisation }
 \label{fig:schurOneMAPlattice-frm-socp-pcls-mask-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMAPlattice_frm_socp_slb_test_pcls_model_response}}
 \caption{FRM filter with Schur one-multiplier lattice allpass model
-  filter : model filter response after SOCP and PCLS optimisation }
+  filter:model filter response after SOCP and PCLS optimisation }
 \label{fig:schurOneMAPlattice-frm-socp-pcls-model-response}
 \end{figure}
 \begin{figure}
@@ -13174,7 +13166,7 @@ and FRM low-pass filters have a similar number of distinct coefficients.
 
 \clearpage
 \subsection{\label{sec:Design-half-band-FRM-allpass-model-filter-Schur-lattice}Design of an FRM half-band digital filter with an allpass Schur lattice model filter using SOCP and PCLS optimisation}
-\emph{Mili\'{c}} et al. describe the design of an FRM half-band filter with
+\emph{Mili\'{c}} et al.\ describe the design of an FRM half-band filter with
 the structure shown in
 Figure~\ref{fig:Johansson-and-Wanhammar-frequency-response-masking-structure}.
 In this case the model filters are synthesised as the parallel combination of
@@ -13416,7 +13408,7 @@ overall response of the initial FRM filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMAPlattice_frm_halfband_socp_slb_test_initial_response}}
-\caption{FRM half-band filter : initial response}
+\caption{FRM half-band filter:initial response}
 \label{fig:schurOneMAPlattice-frm-half-band-initial-response}
 \end{figure}
 
@@ -13443,25 +13435,25 @@ shows the response of the resulting FRM model filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMAPlattice_frm_halfband_socp_slb_test_pcls_response}}
-\caption{FRM half-band filter : overall response after SOCP and PCLS optimisation }
+\caption{FRM half-band filter:overall response after SOCP and PCLS optimisation }
 \label{fig:schurOneMAPlattice-frm-half-band-socp-pcls-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMAPlattice_frm_halfband_socp_slb_test_pcls_passband_response}}
-\caption{FRM half-band filter : passband response after SOCP and PCLS optimisation}
+\caption{FRM half-band filter:passband response after SOCP and PCLS optimisation}
 \label{fig:schurOneMAPlattice-frm-half-band-socp-pcls-passband-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMAPlattice_frm_halfband_socp_slb_test_pcls_mask_response}}
-\caption{FRM half-band filter with SOCP and PCLS optimisation : masking filter responses}
+\caption{FRM half-band filter with SOCP and PCLS optimisation:masking filter responses}
 \label{fig:schurOneMAPlattice-frm-half-band-socp-pcls-mask-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMAPlattice_frm_halfband_socp_slb_test_pcls_model_response}}
-\caption{FRM half-band filter with SOCP and PCLS optimisation : model filter response}
+\caption{FRM half-band filter with SOCP and PCLS optimisation:model filter response}
 \label{fig:schurOneMAPlattice-frm-half-band-socp-pcls-model-response}
 \end{figure}
 \clearpage
@@ -13721,19 +13713,19 @@ response of the FRM Hilbert filter after SOCP and PCLS optimisation.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMAPlattice_frm_hilbert_socp_slb_test_initial_response}}
-\caption{FRM Hilbert filter : initial response}
+\caption{FRM Hilbert filter:initial response}
 \label{fig:schurOneMAPlattice-frm-Hilbert-initial-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMAPlattice_frm_hilbert_socp_slb_test_pcls_response}}
-\caption{FRM Hilbert filter : response after SOCP and PCLS optimisation}
+\caption{FRM Hilbert filter:response after SOCP and PCLS optimisation}
 \label{fig:schurOneMAPlattice-frm-Hilbert-pcls-response}
 \end{figure}
 
-\cleardoublepage
+\cleardoublepage{}
 \part{\label{part:IIR-filters-fixed-point-coefficients}Design of IIR filters with integer coefficients}
-\cleardoublepage
+\cleardoublepage{}
 
 This part describes the results of my experiments in optimising the response
 of digital filters with integer  coefficients expressed in \emph{signed-digit}
@@ -13991,12 +13983,8 @@ responses for $10$-bit coefficients and
 Figure~\ref{fig:schurOneMlattice-bandpass-allocsd-2-10-passband-response}
 compares the passband responses for $10$-bit $2$-signed-digit coefficients.
 
-Figures~\ref{fig:schurOneMlattice-bandpass-3-allocsd-cost},
-\ref{fig:schurOneMlattice-bandpass-3-allocsd-sidelobe},
-\ref{fig:schurOneMlattice-bandpass-3-allocsd-used},
-\ref{fig:schurOneMlattice-bandpass-3-allocsd-noise-gain},
-\ref{fig:schurOneMlattice-bandpass-allocsd-3-10-response} and
-\ref{fig:schurOneMlattice-bandpass-allocsd-3-10-passband-response} show the 
+Figures~\ref{fig:schurOneMlattice-bandpass-3-allocsd-cost},~\ref{fig:schurOneMlattice-bandpass-3-allocsd-sidelobe},~\ref{fig:schurOneMlattice-bandpass-3-allocsd-used},~\ref{fig:schurOneMlattice-bandpass-3-allocsd-noise-gain},~\ref{fig:schurOneMlattice-bandpass-allocsd-3-10-response}
+and~\ref{fig:schurOneMlattice-bandpass-allocsd-3-10-passband-response} show the  
 corresponding results for an allocation of $3$ signed-digits to each non-zero 
 $10$-bit coefficient. For the heuristic of \emph{Ito et al.}, when $3$ bits are 
 allocated to each non-zero coefficient approximately $2$ signed-digits per
@@ -14157,10 +14145,8 @@ number of signed-digits required to implement the coefficient multipliers for
 $2$ signed-digits allocated to each non-zero coefficient and
 Figure~\ref{fig:directFIRsymmetric-bandpass-allocsd-2-10-response} compares
 the responses for $10$-bit $2$-signed-digit coefficients.
-Figures~\ref{fig:directFIRsymmetric-bandpass-3-allocsd-cost},
-\ref{fig:directFIRsymmetric-bandpass-3-allocsd-sidelobe},
-\ref{fig:directFIRsymmetric-bandpass-3-allocsd-used} and
-\ref{fig:directFIRsymmetric-bandpass-allocsd-3-10-response} show the
+Figures~\ref{fig:directFIRsymmetric-bandpass-3-allocsd-cost},~\ref{fig:directFIRsymmetric-bandpass-3-allocsd-sidelobe},~\ref{fig:directFIRsymmetric-bandpass-3-allocsd-used}
+and~\ref{fig:directFIRsymmetric-bandpass-allocsd-3-10-response} show the 
 corresponding results for an allocation of $3$ signed-digits to each non-zero
 $10$-bit coefficient.
 
@@ -14790,8 +14776,8 @@ Given the $K$ coefficients, $x_{k}$, of a filter, an exhaustive search of the
 upper and lower bounds on the integer or signed-digit approximations to these
 coefficients would require $\mathcal{O}\left(2^{K}\right)$ comparisons of the
 corresponding filter approximation error.
-\emph{Branch-and-bound}~\cite{LandDoig_AutomaticMethodSolvingDiscreteProgrammingProblems},
-\cite[p.627]{Sedgewick_AlgorithmsInCPlusPlus} is a heuristic for reducing the
+\emph{Branch-and-bound}~\cite{LandDoig_AutomaticMethodSolvingDiscreteProgrammingProblems},~\cite[p.627]{Sedgewick_AlgorithmsInCPlusPlus}
+is a heuristic for reducing the 
 number of branches searched in a binary decision tree. At each branch of the
 binary tree the solution is compared to the estimated lower bounds on the cost
 of the full path proceeding from that branch. If the cost of that full path is
@@ -14904,7 +14890,7 @@ found by the branch-and-bound search are:
 \verbatiminput{branch_bound_schurOneMlattice_bandpass_8_nbits_test_k_min_coef.m}
 \verbatiminput{branch_bound_schurOneMlattice_bandpass_8_nbits_test_c_min_coef.m}
 \end{small}
-The $c\_min$ tap coefficients have been scaled to make full use of the range
+The $c_{min}$ tap coefficients have been scaled to make full use of the range
 of integers available. I assume that the internal filter state scaling is
 approximated by bit-shifts. The $\epsilon$ one-multiplier lattice cofficients
 are not recalculated since that would require rescaling the $c_{min}$ tap
@@ -15745,8 +15731,7 @@ the PCLS specifications. The filter coefficients found by the branch-and-bound s
   \verbatiminput
   {branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test_v_min_coef.m}
 \end{small}
-Figures~\ref{fig:branch-bound-schurOneMAPlattice-frm-Hilbert-12-nbits-A},
-\ref{fig:branch-bound-schurOneMAPlattice-frm-Hilbert-12-nbits-P}
+Figures~\ref{fig:branch-bound-schurOneMAPlattice-frm-Hilbert-12-nbits-A},~\ref{fig:branch-bound-schurOneMAPlattice-frm-Hilbert-12-nbits-P}
 and~\ref{fig:branch-bound-schurOneMAPlattice-frm-Hilbert-12-nbits-T} compare
 the amplitude, phase
 and delay responses of the FRM Hilbert filter with exact 
@@ -17054,7 +17039,7 @@ approximately:
 If $\boldsymbol{Y}=\boldsymbol{y}\boldsymbol{y}^{\top}$ and
 $\boldsymbol{\Delta}=\boldsymbol{\delta}\boldsymbol{\delta}^{\top}$, then
 mean-squared-error can be expressed in the form\footnote{The \emph{trace} of
-a matrix is defined in Appendix~\ref{app:Linear-algebra-trace-of-matrix}).}:
+a matrix is defined in Appendix~\ref{app:Linear-algebra-trace-of-matrix}.}:
 \begin{align*}
   \mathcal{E}&\approx
                \frac{1}{2}\mathtrace\left(
@@ -17859,8 +17844,8 @@ The Octave script \emph{bitflip\_schurNSlattice\_lowpass\_test.m} implements
 the prototype elliptic filter as a normalised-scaled lattice and optimises the
 truncated coefficients with the bit-flipping algorithm using $nbits=6$,
 $bitstart=4$ and
-$msize=3$. Figures~\ref{fig:bitflip_schurNSlattice_lowpass_response} and
-\ref{fig:bitflip_schurNSlattice_lowpass_passband_response} show the overall
+$msize=3$. Figures~\ref{fig:bitflip_schurNSlattice_lowpass_response} 
+and~\ref{fig:bitflip_schurNSlattice_lowpass_passband_response} show the overall
 and passband responses of the prototype elliptic filter with exact
 coefficients, 6 bit rounded coefficients, 6 bit rounded coefficients optimised
 with the bit-flipping algorithm, 6 bit 2 signed-digit coefficients and 6 bit 2
@@ -17872,10 +17857,10 @@ The Octave script \emph{bitflip\_schurOneMlattice\_lowpass\_test.m} implements
 the prototype elliptic filter as a one-multiplier lattice and optimises the
 truncated coefficients with the bit-flipping algorithm using $nbits=6$,
 $bitstart=4$ and
-$msize=3$. Figures~\ref{fig:bitflip_schurOneMlattice_lowpass_response} and
-\ref{fig:bitflip_schurOneMlattice_lowpass_passband_response} show the overall
-and passband responses of the filter with exact coefficients, 6 bit rounded
-coefficients, 6 bit rounded coefficients optimised with the bit-flipping
+$msize=3$. Figures~\ref{fig:bitflip_schurOneMlattice_lowpass_response}
+and~\ref{fig:bitflip_schurOneMlattice_lowpass_passband_response} show the
+overall and passband responses of the filter with exact coefficients, 6 bit
+rounded coefficients, 6 bit rounded coefficients optimised with the bit-flipping
 algorithm, 6 bit 2 signed-digit coefficients and 6 bit 2 signed-digit
 coefficients optimised with the bit-flipping algorithm. The one-multiplier
 lattice state scaling coefficients are not truncated.
@@ -17887,8 +17872,8 @@ as the sum of two parallel all-pass filters. The Octave script
 elliptic filter as the sum of two normalised-scaled all-pass lattice filters
 and optimises the truncated coefficients with the bit-flipping algorithm using
 $nbits=6$, $bitstart=4$ and
-$msize=3$. Figures~\ref{fig:bitflip_schurNSPAlattice_lowpass_response} and
-\ref{fig:bitflip_schurNSPAlattice_lowpass_passband_response} show the overall
+$msize=3$. Figures~\ref{fig:bitflip_schurNSPAlattice_lowpass_response}
+and~\ref{fig:bitflip_schurNSPAlattice_lowpass_passband_response} show the overall
 and passband responses of the parallel all-pass filter with exact
 coefficients, 6 bit rounded coefficients, 6 bit rounded coefficients optimised
 with the bit-flipping algorithm, 6 bit 2 signed-digit coefficients and 2
@@ -17900,8 +17885,8 @@ The Octave script \emph{bitflip\_schurOneMPAlattice\_lowpass\_test.m}
 implements the 5th order elliptic filter as the sum of two one-multiplier
 all-pass lattice filters and optimises the truncated coefficients with the
 bit-flipping algorithm using $nbits=6$, $bitstart=4$ and $msize=3$.
-Figures~\ref{fig:bitflip_schurOneMPAlattice_lowpass_response} and
-\ref{fig:bitflip_schurOneMPAlattice_lowpass_passband_response} show the
+Figures~\ref{fig:bitflip_schurOneMPAlattice_lowpass_response}
+and~\ref{fig:bitflip_schurOneMPAlattice_lowpass_passband_response} show the 
 overall and passband responses of the parallel all-pass filter with exact
 coefficients, 6 bit rounded coefficients, 6 bit rounded coefficients optimised
 with the bit-flipping algorithm and 6 bit 2 signed-digit coefficients and 6
@@ -17915,13 +17900,14 @@ order elliptic filter as a pair of 2nd order minimum-noise state variable
 sections followed by a 1st order state variable section. (See
 Section~\ref{sec:Second-order-cascade}). The script optimises the truncated
 coefficients with the bit-flipping algorithm using $nbits=6$, $bitstart=4$ and
-$msize=3$. Figures~\ref{fig:bitflip_svcasc_lowpass_response} and
-\ref{fig:bitflip_svcasc_lowpass_passband_response} show the overall and passband
-responses of the filter with exact coefficients, 6 bit rounded coefficients, 6
-bit rounded coefficients optimised with the bit-flipping algorithm and 6 bit 2
-signed-digit coefficients optimised with the bit-flipping algorithm. Note that
-the 2nd order state variable cascade filter obtained by simply converting the
-exact coefficients to 6 bit 2 signed-digit coefficients is unstable.
+$msize=3$. Figures~\ref{fig:bitflip_svcasc_lowpass_response}
+and~\ref{fig:bitflip_svcasc_lowpass_passband_response} show the overall and
+passband responses of the filter with exact coefficients, 6 bit rounded
+coefficients, 6 bit rounded coefficients optimised with the bit-flipping
+algorithm and 6 bit 2 signed-digit coefficients optimised with the bit-flipping
+algorithm. Note that the 2nd order state variable cascade filter obtained by
+simply converting the exact coefficients to 6 bit 2 signed-digit coefficients is
+unstable. 
 
 Table~\ref{tab:bitflip-algorithm-cost-summary} compares the cost result for
 each test of the bit-flipping algorithm.
@@ -18079,8 +18065,8 @@ The Octave script \emph{simplex\_schurNSlattice\_lowpass\_test.m} implements
 the prototype elliptic filter as a normalised-scaled lattice and optimises the
 truncated coefficients with the \emph{nelder\_mead\_min} simplex algorithm
 from the Octave-Forge \emph{optim} package~\cite{OctaveForge_OptimPackage}.
-Figures~\ref{fig:simplex_schurNSlattice_lowpass_response} and
-\ref{fig:simplex_schurNSlattice_lowpass_passband_response} show the overall
+Figures~\ref{fig:simplex_schurNSlattice_lowpass_response}
+and~\ref{fig:simplex_schurNSlattice_lowpass_passband_response} show the overall 
 and passband responses of the prototype elliptic filter with exact
 coefficients, 6 bit rounded coefficients, 6 bit rounded coefficients optimised
 with the simplex algorithm, 6 bit 2 signed-digit coefficients and 6 bit 2
@@ -18091,20 +18077,20 @@ normalised-scaled orthogonal symmetry of $s_{00}=s_{22}$ and $s_{02}=-s_{20}$.
 The Octave script \emph{simplex\_schurOneMlattice\_lowpass\_test.m} implements
 the 5th order elliptic filter as a one-multiplier lattice and optimises the
 truncated coefficients with the simplex algorithm.
-Figures~\ref{fig:simplex_schurOneMlattice_lowpass_response} and
-\ref{fig:simplex_schurOneMlattice_lowpass_passband_response} show the overall
-and passband responses of the filter with exact coefficients, 6 bit rounded
-coefficients, 6 bit rounded coefficients optimised with the simplex algorithm,
-6 bit 2 signed-digit coefficients and 6 bit 2 signed-digit coefficients
-optimised with the simplex algorithm. The one-multiplier lattice state scaling
-coefficients are not truncated.
+Figures~\ref{fig:simplex_schurOneMlattice_lowpass_response}
+and~\ref{fig:simplex_schurOneMlattice_lowpass_passband_response} show the
+overall and passband responses of the filter with exact coefficients, 6 bit
+rounded coefficients, 6 bit rounded coefficients optimised with the simplex
+algorithm, 6 bit 2 signed-digit coefficients and 6 bit 2 signed-digit
+coefficients optimised with the simplex algorithm. The one-multiplier lattice
+state scaling coefficients are not truncated.
 
 The Octave script \emph{simplex\_schurNSPAlattice\_lowpass\_test.m} implements
 the 5th order elliptic filter as the sum of two normalised scaled all-pass
 lattice filters and optimises the truncated coefficients with the simplex
-algorithm. Figures~\ref{fig:simplex_schurNSPAlattice_lowpass_response} and
-\ref{fig:simplex_schurNSPAlattice_lowpass_passband_response} show the overall
-and passband responses of the parallel all-pass filter with exact
+algorithm. Figures~\ref{fig:simplex_schurNSPAlattice_lowpass_response}
+and~\ref{fig:simplex_schurNSPAlattice_lowpass_passband_response} show the
+overall and passband responses of the parallel all-pass filter with exact
 coefficients, 6 bit rounded coefficients, 6 bit rounded coefficients optimised
 with the simplex algorithm, 6 bit 2 signed-digit coefficients and 6 bit 2
 signed-digit coefficients optimised with the simplex algorithm. The cost
@@ -18115,8 +18101,8 @@ The Octave script \emph{simplex\_schurOneMPAlattice\_lowpass\_test.m}
 implements the 5th order elliptic filter as the sum of two one-multiplier
 all-pass lattice filters and optimises the truncated coefficients with the
 simplex algorithm.
-Figures~\ref{fig:simplex_schurOneMPAlattice_lowpass_response} and
-\ref{fig:simplex_schurOneMPAlattice_lowpass_passband_response} show the
+Figures~\ref{fig:simplex_schurOneMPAlattice_lowpass_response}
+and~\ref{fig:simplex_schurOneMPAlattice_lowpass_passband_response} show the 
 overall and passband responses of the parallel all-pass filter with exact
 coefficients, 6 bit rounded coefficients, 6 bit rounded coefficients optimised
 with the simplex algorithm, 6 bit 2 signed-digit coefficients and 6 bit 2
@@ -18128,8 +18114,8 @@ the 5th order elliptic filter as a pair of 2nd order minimum-noise state
 variable sections followed by a 1st order state variable section. (See
 Section~\ref{sec:Second-order-cascade}). The script optimises the truncated
 coefficients with the simplex algorithm.
-Figures~\ref{fig:simplex_svcasc_lowpass_response} and
-\ref{fig:simplex_svcasc_lowpass_passband_response} show the overall and
+Figures~\ref{fig:simplex_svcasc_lowpass_response}
+and~\ref{fig:simplex_svcasc_lowpass_passband_response} show the overall and 
 passband responses of the filter with exact coefficients, 6 bit rounded
 coefficients, 6 bit rounded coefficients optimised with the bit-flipping
 algorithm and 6 bit 2 signed-digit coefficients optimised with the simplex
@@ -18290,9 +18276,9 @@ orthogonal symmetry of $s_{00}=s_{22}$ and $s_{02}=-s_{20}$.
 The Octave script \emph{samin\_schurOneMlattice\_lowpass\_test.m} implements
 the prototype elliptic filter as a one-multiplier lattice and optimises the
 truncated coefficients with the simulated annealing algorithm.
-Figures~\ref{fig:samin_schurOneMlattice_lowpass_response} and
-\ref{fig:samin_schurOneMlattice_lowpass_passband_response} show, for the best
-results from $10$ runs, the overall and passband responses of the prototype
+Figures~\ref{fig:samin_schurOneMlattice_lowpass_response}
+and~\ref{fig:samin_schurOneMlattice_lowpass_passband_response} show, for the
+best results from $10$ runs, the overall and passband responses of the prototype
 elliptic filter with exact coefficients, 6 bit rounded coefficients, 6 bit
 rounded coefficients optimised with the simulated annealing algorithm, 6 bit 2
 signed-digit coefficients and 6 bit 2 signed-digit coefficients optimised with
@@ -18303,9 +18289,9 @@ The Octave script \emph{samin\_schurNSPAlattice\_lowpass\_test.m} implements
 the 5th order elliptic filter as the sum of two normalised-scaled all-pass
 lattice filters and optimises the truncated coefficients with the simulated
 annealing algorithm.
-Figures~\ref{fig:samin_schurNSPAlattice_lowpass_response} and
-\ref{fig:samin_schurNSPAlattice_lowpass_passband_response} show, for the best
-results from $10$ runs, the overall and passband responses of the prototype
+Figures~\ref{fig:samin_schurNSPAlattice_lowpass_response}
+and~\ref{fig:samin_schurNSPAlattice_lowpass_passband_response} show, for the
+best results from $10$ runs, the overall and passband responses of the prototype
 elliptic filter with exact coefficients, 6 bit rounded coefficients, 6 bit
 rounded coefficients optimised with the simulated annealing algorithm, 6 bit 2
 signed-digit coefficients and 6 bit 2 signed-digit coefficients optimised with
@@ -18317,8 +18303,8 @@ The Octave script \emph{samin\_schurOneMPAlattice\_lowpass\_test.m} implements
 the 5th order elliptic filter as the sum of two one-multiplier all-pass
 lattice filters and optimises the truncated coefficients with the simulated
 annealing algorithm.
-Figures~\ref{fig:samin_schurOneMPAlattice_lowpass_response} and
-\ref{fig:samin_schurOneMPAlattice_lowpass_passband_response} show, for the
+Figures~\ref{fig:samin_schurOneMPAlattice_lowpass_response}
+and~\ref{fig:samin_schurOneMPAlattice_lowpass_passband_response} show, for the 
 best results from $10$ runs, the overall and passband responses of the
 prototype elliptic filter with exact coefficients, 6 bit rounded coefficients,
 6 bit rounded coefficients optimised with the simulated annealing algorithm, 6
@@ -18331,14 +18317,14 @@ the 5th order elliptic filter as a pair of 2nd order minimum-noise state
 variable sections followed by a 1st order state variable section. (See
 Section~\ref{sec:Second-order-cascade}). The script optimises the truncated
 coefficients with the simulated annealing algorithm.
-Figures~\ref{fig:samin_svcasc_lowpass_response} and
-\ref{fig:samin_svcasc_lowpass_passband_response} show the overall and passband
-responses of the filter with exact coefficients, 6 bit rounded coefficients, 6
-bit rounded coefficients optimised with the bit-flipping algorithm and 6 bit 2
-signed-digit coefficients optimised with the simulated annealing
-algorithm. Note that the 2nd order state variable cascade filter obtained by
-simply converting the exact coefficients to 6 bit 2 signed-digit coefficients
-is unstable.
+Figures~\ref{fig:samin_svcasc_lowpass_response}
+and~\ref{fig:samin_svcasc_lowpass_passband_response} show the overall and
+passband responses of the filter with exact coefficients, 6 bit rounded
+coefficients, 6 bit rounded coefficients optimised with the bit-flipping
+algorithm and 6 bit 2 signed-digit coefficients optimised with the simulated
+annealing algorithm. Note that the 2nd order state variable cascade filter
+obtained by simply converting the exact coefficients to 6 bit 2 signed-digit
+coefficients is unstable.
 
 Table~\ref{tab:samin-algorithm-cost-summary} shows the minimum cost result for
 $10$ runs of each test. 
@@ -18541,9 +18527,9 @@ normalised-scaled orthogonal symmetry of $s_{00}=s_{22}$ and $s_{02}=-s_{20}$.
 The Octave script \emph{de\_min\_schurOneMlattice\_lowpass\_test.m} implements
 the prototype elliptic filter as a one-multiplier lattice and optimises the
 truncated coefficients with the differential evolution algorithm.
-Figures~\ref{fig:de_min_schurOneMlattice_lowpass_response} and
-\ref{fig:de_min_schurOneMlattice_lowpass_passband_response} show, for the best
-results from $10$ runs, the overall and passband responses of the prototype
+Figures~\ref{fig:de_min_schurOneMlattice_lowpass_response}
+and~\ref{fig:de_min_schurOneMlattice_lowpass_passband_response} show, for the
+best results from $10$ runs, the overall and passband responses of the prototype
 elliptic filter with exact coefficients, 6 bit rounded coefficients, 6 bit
 rounded coefficients optimised with the differential evolution algorithm, 6
 bit 2 signed-digit coefficients and 6 bit 2 signed-digit coefficients
@@ -18554,9 +18540,9 @@ The Octave script \emph{de\_min\_schurNSPAlattice\_lowpass\_test.m} implements
 the 5th order elliptic filter as the sum of two normalised-scaled all-pass
 lattice filters and optimises the truncated coefficients with the differential
 evolution algorithm.
-Figures~\ref{fig:de_min_schurNSPAlattice_lowpass_response} and
-\ref{fig:de_min_schurNSPAlattice_lowpass_passband_response} show, for the best
-results from $10$ runs, the overall and passband responses of the prototype
+Figures~\ref{fig:de_min_schurNSPAlattice_lowpass_response}
+and~\ref{fig:de_min_schurNSPAlattice_lowpass_passband_response} show, for the
+best results from $10$ runs, the overall and passband responses of the prototype
 elliptic filter with exact coefficients, 6 bit rounded coefficients, 6 bit
 rounded coefficients optimised with the differential evolution algorithm, 6
 bit 2 signed-digit coefficients and 6 bit 2 signed-digit coefficients
@@ -18568,8 +18554,8 @@ The Octave script \emph{de\_min\_schurOneMPAlattice\_lowpass\_test.m}
 implements the 5th order elliptic filter as the sum of two one-multiplier
 all-pass lattice filters and optimises the truncated coefficients with the
 differential evolution
-algorithm. Figures~\ref{fig:de_min_schurOneMPAlattice_lowpass_response} and
-\ref{fig:de_min_schurOneMPAlattice_lowpass_passband_response} show, for the
+algorithm. Figures~\ref{fig:de_min_schurOneMPAlattice_lowpass_response}
+and~\ref{fig:de_min_schurOneMPAlattice_lowpass_passband_response} show, for the 
 best results from $10$ runs, the overall and passband responses of the
 prototype elliptic filter with exact coefficients, 6 bit rounded coefficients,
 6 bit rounded coefficients optimised with the differential evolution
@@ -18577,19 +18563,19 @@ algorithm, 6 bit 2 signed-digit coefficients and 6 bit 2 signed-digit
 coefficients optimised with the differential evolution algorithm. The one
 multiplier lattice state scaling coefficients are not truncated.
 
-Finally, the Octave script \emph{de\_min\_svcasc\_lowpass\_test.m} implements the 5th
-order elliptic filter as a pair of 2nd order minimum-noise state variable
+Finally, the Octave script \emph{de\_min\_svcasc\_lowpass\_test.m} implements
+the 5th order elliptic filter as a pair of 2nd order minimum-noise state variable
 sections followed by a 1st order state variable section. (See
 Section~\ref{sec:Second-order-cascade}). The script optimises the truncated
 coefficients with the differential evolution algorithm.
-Figures~\ref{fig:de_min_svcasc_lowpass_response} and
-\ref{fig:de_min_svcasc_lowpass_passband_response} show the overall and passband
-responses of the filter with exact coefficients, 6 bit rounded coefficients, 6
-bit rounded coefficients optimised with the bit-flipping algorithm and 6 bit 2
-signed-digit coefficients optimised with the differential evolution
-algorithm. Note that the 2nd order state variable cascade filter obtained by
-simply converting the exact coefficients to 6 bit 2 signed-digit coefficients
-is unstable.
+Figures~\ref{fig:de_min_svcasc_lowpass_response}
+and~\ref{fig:de_min_svcasc_lowpass_passband_response} show the overall and
+passband responses of the filter with exact coefficients, 6 bit rounded
+coefficients, 6 bit rounded coefficients optimised with the bit-flipping
+algorithm and 6 bit 2 signed-digit coefficients optimised with the differential
+evolution algorithm. Note that the 2nd order state variable cascade filter
+obtained by simply converting the exact coefficients to 6 bit 2 signed-digit
+coefficients is unstable.
 
 Table~\ref{tab:de_min-algorithm-cost-summary} shows the minimum cost result for
 $10$ runs of each test. 
@@ -18790,10 +18776,10 @@ figure in parentheses for the normalised-scaled filters is the number of
 signed-digit coefficients that are optimised assuming symmetry is not required.}
 \label{tab:filter-implementation-number-coef-summary}
 \end{table}
-\cleardoublepage
+\cleardoublepage{}
 \appendix
 \part{Appendixes}
-\cleardoublepage
+\cleardoublepage{}
 \chapter{\label{app:Review-of-complex-variables}Review of Complex Variables} 
 This chapter summarises 
 \emph{Kreyszig}~\cite[Chapter 12(Sections 4 and 5), Chapter
@@ -19027,8 +19013,8 @@ from the given annulus by continuously increasing the circle $C_{1}$ and
 decreasing $C_{2}$ until each if the two circles reaches a point where 
 $f\left(z\right)$ is singular. 
 
-For a proof see \emph{Kreyszig} 
-\cite[Section 16.7]{Kreyszig_AdvancedEngineeringMathematics}. A common case
+For a proof see \emph{Kreyszig}~\cite[Section
+16.7]{Kreyszig_AdvancedEngineeringMathematics}. A common case 
 occurs when $z=a$ is the only singular point of $f\left(z\right)$ in $C_{2}$.
 Then the Laurent expansion converges for all $z$ in $C_{1}$ except at $z=a$.
 
@@ -19206,7 +19192,7 @@ A&=\sum_{k=1}^{r}\sigma_{k}u_{k}v_{k}^{\top} =U\Sigma{}V^{\top}
 The following definitions of the determinant of a matrix are equivalent:
 \begin{enumerate}
 \item The determinant is a function of a square matrix
-  $A\in\mathbb{R}^{n\times{}n}$, $\det : \left\{A\mapsto\mathbb{R}\right\}$,
+  $A\in\mathbb{R}^{n\times{}n}$, $\det:\left\{A\mapsto\mathbb{R}\right\}$,
   with the following properties: 
   \begin{itemize}
   \item row replacement on row $r_{k}$ (ie: $r_{k}=r_{k}+m\times r_{l}$)
@@ -19503,8 +19489,8 @@ points:
 An \emph{ellipsoid}, $\mathcal{E}$, with centre $m$, can be defined by:
 \begin{align*}
   \mathcal{E}
-  &= \left\{x : \left(x-m\right)^{\top}Q^{-1}\left(x-m\right)\le 1\right\} \\
-  &= \left\{x : x^{\top}Px+2x^{\top}b+c\le 0\right\}
+  &= \left\{x:\left(x-m\right)^{\top}Q^{-1}\left(x-m\right)\le 1\right\} \\
+  &= \left\{x:x^{\top}Px+2x^{\top}b+c\le 0\right\}
 \end{align*}
 where $Q$ is positive definite and symmetric. In the second characterisation
 $P=Q^{-1}$, $b=-Q^{-1}m$ and $c=m^{\top}Q^{-1}m-1$. The size, shape and location
@@ -19524,8 +19510,8 @@ shape and location:
 \begin{align*}
   \tilde{\mathcal{E}}
   &=A\mathcal{E}+b \\
-  &= \left\{y : y=Ax+b : x\in\mathcal{E}\right\} \\
-  &= \left\{y : \left(y-b-Am\right)^{\top}
+  &= \left\{y:y=Ax+b:x\in\mathcal{E}\right\} \\
+  &= \left\{y:\left(y-b-Am\right)^{\top}
     \left(AQA^{\top}\right)^{-1}
     \left(y-b-Am\right)\le{} 1\right\} \\
 \end{align*}
@@ -19540,8 +19526,8 @@ optimisation. I follow the finite dimensional proof of
   vector space}, $V$, over the real numbers, $\mathbb{R}$: 
 \begin{itemize}
 \item a \emph{linear functional} on $V$ is a function
-  $f : V\mapsto\mathbb{R}$, which is linear,
-  i.e. $f\left(\alpha_{1}v_{1}+\alpha_{2}v_{2}\right)=
+  $f:V\mapsto\mathbb{R}$, which is linear,
+  i.e.\ $f\left(\alpha_{1}v_{1}+\alpha_{2}v_{2}\right)=
   \alpha_{1}f\left(v_{1}\right)+\alpha_{2}f\left(v_{2}\right)$
   for all $v_{1},v_{2}\in{}V$ and $\alpha_{1},\alpha_{2}\in\mathbb{R}$ 
 \item the continuous linear functions on $V$ also make a vector space, called
@@ -19560,10 +19546,10 @@ optimisation. I follow the finite dimensional proof of
 \item a \emph{hyperplane} is an affine subset of $V$ with maximal dimension. In
   other words, if $V$ has dimension $n$, then every hyperplane is a translation
   of an $n-1$ dimensional subspace of $V$. A hyperplane can be represented as
-  $H=\left\{x\in V : \langle v,z\rangle = c \right\}$ for $z\in V^{*}$ and
+  $H=\left\{x\in V:\langle v,z\rangle = c \right\}$ for $z\in V^{*}$ and
     $c\in\mathbb{R}$.
-  The sets $H=\left\{x\in V : \langle v,z\rangle\ge c \right\}$ and
-    $H=\left\{x\in V : \langle v,z\rangle\le c \right\}$ are closed half-spaces
+  The sets $H=\left\{x\in V:\langle v,z\rangle\ge c \right\}$ and
+    $H=\left\{x\in V:\langle v,z\rangle\le c \right\}$ are closed half-spaces
     of $V$
 \end{itemize}
 
@@ -19611,7 +19597,7 @@ Suppose that the functionals are quadratic,
 $\sigma_{k}\left(y\right)=y^{\top}Q_{k}y+2s_{k}^{\top}y+r_{k},\; k=0,\hdots,N$,
 where $Q_{k}=Q_{k}^{\top}\in\mathbb{R}^{m\times m}$, $s_{k}\in\mathbb{R}^{m}$
 and $r_{k}\in\mathbb{R}$. In general, $\sigma_{0}$ is not convex and, likewise,
-the set of constraints, $\left\{y\in\mathbb{R}^{m} : \sigma_{k}\left(y\right)\ge
+the set of constraints, $\left\{y\in\mathbb{R}^{m}:\sigma_{k}\left(y\right)\ge
   0,\; k=1,\hdots,N\right\}$ is not convex. On the other hand, $S_{2}$
 corresponds to a linear matrix inequality:
 \begin{align*}
@@ -20149,9 +20135,8 @@ periods, pole locations and zero locations of the Jacobian elliptic functions.
 \end{tabular}
 \egroup{}
 \end{threeparttable}
-\caption{Periods, pole locations and zero locations of the Jacobian elliptic
-functions}
-\label{tab:Jacobian-elliptic-function-poles-and-zeros}
+\caption{\label{tab:Jacobian-elliptic-function-poles-and-zeros}Periods, pole
+  locations and zero locations of the Jacobian elliptic functions}
 \end{table}
 
 \emph{Glaisher's} notation for the Jacobian elliptic functions is~\cite[Equation
@@ -20373,8 +20358,8 @@ Function & Octave implementation\\
 \label{tab:Octave-implementation-of-elliptic-functions}
 \end{table}
 \chapter{\label{app:Unsymmetric-Lanczos-tridiagonalisation}Review of \emph{Lanczos} tridiagonalisation of an unsymmetric matrix}
-See \emph{Golub and Van Loan} 
-\cite[Section 9.4.3]{GolubVanLoan_MatrixComputations}. The \emph{Lanczos} 
+See \emph{Golub and Van Loan}~\cite[Section
+9.4.3]{GolubVanLoan_MatrixComputations}. The \emph{Lanczos}  
 tridiagonalisation calculates an orthogonal similarity transform, $T$, that
 reduces a matrix $A\in\mathbb{R}^{N\times{}N}$ to tridiagonal form, $\mathcal{A}$:
 \begin{align*}
@@ -20457,8 +20442,8 @@ If
 0 & 0 & \cdots & 0 & \gamma_{k-1} & \alpha_{k-1}
 \end{array}\right] 
 \end{align*}
-then, when the loop of Algorithm 
-\ref{alg:Unsymmetric-Lanczos-tridiagonalisation} terminates:
+then, when the loop of
+Algorithm~\ref{alg:Unsymmetric-Lanczos-tridiagonalisation} terminates: 
 \begin{align*}
 A^{\top}\left[\begin{array}{ccc} p_{1} & \cdots & p_{k}\end{array}\right] &=
 \left[\begin{array}{ccc} p_{1}&\cdots&p_{k}\end{array}\right]\mathcal{A}^{\top}_{k}
@@ -20655,8 +20640,8 @@ the phase of the gain coefficient is not included in the phase response listed
 below. If $R\ge{}2$, the gradients of the amplitude response are undefined for
 real and complex poles with radius $0$.
 
-For convenience in the following, rewrite Equation~
-\ref{eqn:Transfer-function} as:
+For convenience in the following, rewrite Equation~\ref{eqn:Transfer-function}
+as: 
 \begin{align*}
 \label{eqn:Transfer-function-with-delay}
 H\left(z\right) = K\frac{z^{-J}}{z^{-RL}} 
@@ -22375,7 +22360,7 @@ S &= \left\{ x\in X\mid g_{j}\left(x\right)\ge 0,\; j=1,\ldots,m\right\}
 \end{align*}
 The two most common barrier functions are 
 \begin{align*}
-B\left(x\right) &= -\sum_{i=1}^{m}ln\left\{ g_{i}\left(x\right)\right\} \\
+B\left(x\right) &= -\sum_{i=1}^{m}\ln\left\{ g_{i}\left(x\right)\right\} \\
 B\left(x\right) &= \sum_{i=0}^{m}\frac{1}{g_{i}\left(x\right)}
 \end{align*}
 The barrier method consists of finding
@@ -22727,7 +22712,7 @@ the tangent quadratic problem with linear constraints.
                     1
                   \end{array}\right)$, and drop constraint $k$; 
 
-        \hspace{5mm}i.e. set $\mathcal{A}\leftarrow\mathcal{A}\setminus
+        \hspace{5mm}i.e.\ set $\mathcal{A}\leftarrow\mathcal{A}\setminus
         \left\{k\right\}$, $q\leftarrow q-1$, update $E$ and $B^{*}$, and go to 
         \emph{Step~\ref{itm:Determine-step-direction}}.
 
@@ -22742,14 +22727,14 @@ the tangent quadratic problem with linear constraints.
       If $\tau=\tau_{2}$ (a full step) then set $\lambda\leftarrow\lambda^{+}$ 
       and add constraint $p$; 
 
-      \hspace{5mm}i.e. set 
+      \hspace{5mm}i.e.\ set 
       $\mathcal{A}\leftarrow\mathcal{A}\cup\left\{p\right\}$,
       $q\leftarrow q+1$, update $E$ and $B^{*}$ and go to
       \emph{Step~\ref{itm:Choose-constraint}}.
 
       If $\tau=\tau_{1}$ (partial step) then drop constraint $k$; 
 
-      \hspace{5mm}i.e. set
+      \hspace{5mm}i.e.\ set
       $\mathcal{A}\leftarrow\mathcal{A}\setminus\left\{ k\right\} $, 
       $q\leftarrow q-1$, update $E$ and $B^{*}$, and go to
       \emph{Step~\ref{itm:Determine-step-direction}}.
@@ -22862,7 +22847,7 @@ conditions apply.%
 The point $\hat{x}$ corresponding to the V-triple $(\hat{x},\mathcal{A},p)$
 is the optimal solution to the subproblem obtained by replacing the
 constraint $g_{p}\left(x\right) \ge 0$ in $P\left(\mathcal{A}^{+}\right)$
-by$g_{p}\left(x\right)\ge g_{p}\left(\hat{x}\right)$ i.e. by a parallel
+by $g_{p}\left(x\right)\ge g_{p}\left(\hat{x}\right)$ i.e.\ by a parallel
 constraint which passes through $\hat{x}$. Let $x^{*}$ be the point
 on the manifold $\mathcal{M}^{+}=\left\{ x\in\mathbb{R}^{n}\mid n_{i}^{\top}x=b_{i},i\in\mathcal{A}^{+}\right\} $
 at which $f(x)$ is minimized. The following lemma shows how to move
@@ -22883,7 +22868,7 @@ g_{i}\left(\tilde{x}\right) &= 0 ~ \forall i \in \mathcal{A}\\
 \end{align}
 where $r=B^{*}n^{+}$and $g_{p}\left(\tilde{x}\right)=g_{p}\left(x\right)+\tau d^{\top}n^{+}$.
 
-\emph{Proof : }The lemma follows from the properties of the V-triple
+\emph{Proof:}The lemma follows from the properties of the V-triple
 $(x,\mathcal{A},p)$ and
 \begin{align}
 \nabla_{x}f\left(\tilde{x}\right) &= \nabla_{x}f\left(x\right)+\tau Hd\label{eqn:Lemma1_gradf}
@@ -22927,7 +22912,7 @@ theorems.
 if $\tilde{x}$ is defined as in Lemma 1 with $\tau=\min\left\{ \tau_{1},\tau_{2}\right\} $
 where 
 \begin{align*}
-\tau_{1} &= min\left\{ \min_{r_{j}>0\;,\;1\le j\le q}\left\{ \frac{\lambda_{j}^{+}\left(x\right)}{r_{j}^{+}\left(x\right)}\right\} ,\infty\right\} \\
+\tau_{1} &= \min\left\{ \min_{r_{j}>0\;,\;1\le j\le q}\left\{ \frac{\lambda_{j}^{+}\left(x\right)}{r_{j}^{+}\left(x\right)}\right\} ,\infty\right\} \\
 \tau_{2} &= -\frac{g_{p}\left(x\right)}{d^{\top}n^{+}}
 \end{align*}
 then 
@@ -23157,7 +23142,7 @@ filtered for \emph{``SQP''} is:
 \begin{small}
 \verbatiminput{sqp_bfgs_test.diary.SQP}
 \end{small}
-\cleardoublepage
+\cleardoublepage{}
 \chapter{\label{app:Fourier-transform-of-the-Gaussian-function}Fourier transform of the Gaussian function}  
 See \emph{NIST Digital Library of Mathematical Functions}~\cite[Sections 7.2.1
 and 1.14.1]{NIST_DigitalLibraryMathematicalFunctions}
@@ -23246,7 +23231,7 @@ where:
                    \int_{0}^{\infty}e^{-\omega^{2}}d\omega \\ 
                  &= \frac{\alpha}{\sqrt{2}}
 \end{align*}
-\cleardoublepage
+\cleardoublepage{}
 \chapter{Design of IIR digital filter transfer functions}
 This chapter reviews methods of constructing IIR digital filter transfer
 functions. The first section reviews the analogue-to-digital transformation of
@@ -23601,8 +23586,8 @@ H\left(z\right) &= \frac{1}{2}\left[A_{1}\left(z\right)-A_{2}\left(z\right)\righ
 and $G\left(z\right)$ is implemented as the parallel combination
 of two all-pass functions.
 
-This low-sensitivity realisation is summarised in Algorithm 
-\ref{alg:Filter-realisation-sum-of-all-pass-functions}.
+This low-sensitivity realisation is summarised in
+Algorithm~\ref{alg:Filter-realisation-sum-of-all-pass-functions}. 
 \begin{algorithm}[htbp]
 Let $G\left(z\right)=P\left(z\right)/D\left(z\right)$ be a bounded
 real function of order $N$ and let $P\left(z\right)$ be symmetric
@@ -24110,7 +24095,7 @@ The normalized $n$-th order Chebyshev Type 1 filter with pass-band peak-to-peak
 ripple $\alpha_{p}=10\log_{10}\left(1+\varepsilon^{2}\right)$~dB is defined by the
 parametric equations for the squared-magnitude of the filter
 attenuation\footnote{\emph{Orchard} prefers the convention that
-  $A\left(s\right)$ represents the filter attenuation, i.e.: the ratio of
+  $A\left(s\right)$ represents the filter attenuation, i.e.:\ the ratio of
   \emph{input} to \emph{output}.}:
 \begin{align*}
   A\left(s\right)A\left(-s\right) &= 1+\varepsilon^{2}\cos^{2}\frac{nu\pi}{2}\\
@@ -24768,7 +24753,7 @@ stable all-pass equalizer with a transfer function
 $H^{k}_{all}\left(e^{\imath\omega}\right)$ of order $n_{all}$. Determine the
 adjustable  parameters of $H^{k}_{all}\left(z\right)$ and $\psi^{k}$ such that
 the maximum deviation of
-$arg\left[H^{k}_{all}\left(z\right)H^{k}_{min}\left(z\right)\right]$ from the
+$\arg\left[H^{k}_{all}\left(z\right)H^{k}_{min}\left(z\right)\right]$ from the
 average slope $\phi_{ave}\left(\omega\right)=\psi^{k}\omega$ is
 minimized in the specified passband region, $\left[0,\omega_{p}\right]$. Let the
 poles of the all-pass filter be located at
@@ -24786,7 +24771,7 @@ extremal points, instead of $n_{min}+1$ points.
 stable all-pass filter transfer function $H^{k}_{all}\left(z\right)$ of order
 $n_{all}$ and determine its adjustable parameters and $\psi^{k}$ such that the
 maximum of
-$\left|arg\left[H^{k}_{all}\left(z\right)H^{k}_{min}\left(z\right)\right]-\psi^{k}\omega\right|$
+$\left|\arg\left[H^{k}_{all}\left(z\right)H^{k}_{min}\left(z\right)\right]-\psi^{k}\omega\right|$
   is minimized in $\left[0,\omega_{p}\right]$. Let the poles of the all-pass
   filter be  located at $z=z^{k}_{1},z^{k}_{2},\hdots,z^{k}_{n_{all}}$.
 
@@ -25241,7 +25226,7 @@ pass-band and stop-band responses of the filter.
 \label{fig:Johansson-OneM-lattice-bandstop-16-nbits-resp}
 \end{figure}
 
-\cleardoublepage
+\cleardoublepage{}
 \chapter{\label{app:Design-of-FIR-digital-filter-transfer-functions}Design of FIR digital filter transfer functions}
 This chapter reviews methods of designing FIR digital filter transfer functions.
 \section{\label{app:Low-passband-sensitivity-FIR-digital-filters}Low passband sensitivity FIR lattice filters}
@@ -25916,7 +25901,7 @@ $H\left(z\right)=W_{d}+L_{d}\left(zI-A_{d}^{-1}\right)B_{d}$ is seen to be a
 spectral factor of $F\left(z\right)$. The minimum phase solution,
 $H_{min}\left(z\right)$, is that for which $P _{d_{min}}$ is the minimum element
 of the convex set of symmetric positive definite matrixes satisfying the
-LMI. \emph{Tuqan} and \emph{Vaidyanathan} show \cite[Theorem 
+LMI. \emph{Tuqan} and \emph{Vaidyanathan} show~\cite[Theorem 
 3]{TuqanVaidyanathan_StateSpaceFIREnergyCompaction} that, if
 $D_{d}+D_{d}^{\top}-B_{d}^{\top}P_{d}B_{d}\ne{}0$, then $P_{d_{min}}$ is the
 unique solution of the following \emph{algebraic Riccati equation}:
@@ -26301,7 +26286,7 @@ dual solution $\mu^{\star}$ have the following strong duality properties
   \mu^{\star\top}r^{\star}&=0
   \end{split}
 \end{align}
-\emph{Dumitrescu et al.}~ note that the FIR parameter vector, $h^{\star}$, is an
+\emph{Dumitrescu et al.}\ note that the FIR parameter vector, $h^{\star}$, is an
 eigenvector of $X\left(\mu^{\star}\right)$, corresponding to the eigenvalue $0$.
 
 \subsubsection{An example}
@@ -27185,7 +27170,7 @@ algorithm is to locate the frequencies at which the extrema of the first
 Lagrange interpolation polynomial occur. These frequencies are taken to be a
 second, hopefully improved, guess as to the frequencies at which the extrema of
 the filter response will achieve the desired ripple values. ... The algorithm
-now "closes the loop" by using these new frequencies to construct a Lagrange
+now ``closes the loop'' by using these new frequencies to construct a Lagrange
 interpolation polynomial that achieves the desired ripple values at these
 frequencies. The extrema of this new polynomial are then located and used to
 start the next cycle of the algorithm. The algorithm is reminiscent of, but
@@ -27208,9 +27193,8 @@ where $c$ is chosen to be $0$ or $1$. These equations can be solved efficiently
 by \emph{barycentric Lagrange interpolation}\footnote{The
   Octave \emph{polyfit} built-in function inverts the corresponding
   \emph{Vandermonde} matrix}~\cite[Page
-5]{Hofstetter_DesignNonRecursiveDigitalFilters}\cite[Page 
-192]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}
-\cite{BerrutTrefethen_BarycentricLagrangeInterpolation}.
+5]{Hofstetter_DesignNonRecursiveDigitalFilters}~\cite[Page 
+192]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}~\cite{BerrutTrefethen_BarycentricLagrangeInterpolation}.
 
 The Octave script \emph{hofstetterFIRsymmetric\_lowpass\_test.m} uses an
 implementation of \emph{Hofstetter}'s algorithm in the Octave function
@@ -27337,7 +27321,7 @@ $A\left(\omega_{q-1}\right)=1+\delta_{p}$.
 The exchange algorithm is described as follows:
 \begin{quotation}
   Let \emph{S} be the set obtained by appending $\omega_{t}$ to the set of
-  extrema of $A\left(\omega\right)$ in $[0,\pi]$ : \emph{S} will have either
+  extrema of $A\left(\omega\right)$ in $[0,\pi]$:\emph{S} will have either
   $M+1$  or $M+2$ frequencies and will include both $0$ and $\pi$. If \emph{S}
   has $M+1$ frequencies, then take the new reference set to be \emph{S}. If
   \emph{S} has $M+2$ frequencies, then remove either $0$ or $\pi$ from \emph{S}
@@ -27632,9 +27616,7 @@ coefficients of $A\left(x\right)$ by left-division.}.
       FIR filter and $W_{K}=e^{\frac{2\pi\imath}{K}}$. 
 \end{enumerate}
 \caption{Parks-McClellan FIR filter design~\cite[Section
-  7.4.3]{OppenheimSchafer_DiscreteTimeSignalProcessing}
-\cite{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters,
-  McClellanParks_ComputerProgramFIRLinearPhaseFilters}}
+  7.4.3]{OppenheimSchafer_DiscreteTimeSignalProcessing}~\cite{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters,McClellanParks_ComputerProgramFIRLinearPhaseFilters}} 
 \label{alg:Parks-McClellan-FIR-filter-design}
 \end{algorithm}
 \paragraph{Design of a low-pass FIR filter with the \emph{Parks-McClellan} algorithm}
@@ -28249,8 +28231,9 @@ stop-band amplitude response.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_flat_differentiator_fail_test_hM_dual}}
-\caption{Response of the $A_{M}$ filter of an odd-length, even-order, maximally-linear
-  pass-band, equi-ripple stop-band, FIR differentiator ~\cite[Section   
+\caption{Response of the $A_{M}$ filter of an odd-length, even-order,
+  maximally-linear pass-band, equi-ripple stop-band, FIR
+  differentiator~\cite[Section
   IV]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.} 
 \label{fig:mcclellanFIRsymmetric-flat-differentiator-fail-test-hM-dual}
 \end{figure}
@@ -28258,8 +28241,9 @@ stop-band amplitude response.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_flat_differentiator_fail_test_response}}
-\caption{Response of the failed design of an odd-length, even-order, maximally-linear
-  pass-band, equi-ripple stop-band, FIR differentiator ~\cite[Section   
+\caption{Response of the failed design of an odd-length, even-order,
+  maximally-linear pass-band, equi-ripple stop-band, FIR
+  differentiator~\cite[Section
   IV]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.}
 \label{fig:mcclellanFIRsymmetric-flat-differentiator-fail-test-response}
 \end{figure}
@@ -28303,7 +28287,7 @@ filter.
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRantisymmetric_flat_differentiator_test_dual}}
 \caption{Pass-band and stop-band amplitude responses of an odd-length,
   even-order, maximally-linear pass-band, equi-ripple stop-band, FIR
-  differentiator ~\cite[Section
+  differentiator~\cite[Section
   IV]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.}  
 \label{fig:mcclellanFIRantisymmetric-flat-differentiator-test-dual}
 \end{figure}
@@ -28312,7 +28296,7 @@ filter.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRantisymmetric_flat_differentiator_test_zeros}}
 \caption{Zeros of an odd-length, even-order, maximally-linear
-  pass-band, equi-ripple stop-band, FIR differentiator ~\cite[Section   
+  pass-band, equi-ripple stop-band, FIR differentiator~\cite[Section   
   IV]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.} 
 \label{fig:mcclellanFIRantisymmetric-flat-differentiator-test-zeros}
 \end{figure}
@@ -28361,7 +28345,7 @@ the low-pass filter coefficients are:
   \left. \frac{d^{q}}{d\omega^{q}}A\left(\omega\right)\right\vert_{\omega=\pi}&=0 
   \quad q=1,2,\hdots,2K-1
 \end{align*}
-where $M=L+K-1$ and $L$ and $K$ represent the required degrees of "flatness" at
+where $M=L+K-1$ and $L$ and $K$ represent the required degrees of ``flatness'' at
 $\omega=0$ and $\omega=\pi$. \emph{Herrmann} defines a transformation
 $\cos\omega =1-2x$ on the interval $\left[0,1\right]$ by which
 $A\left(\omega\right)$ is transformed into: 
@@ -28891,13 +28875,13 @@ $x=c$ is:
 \begin{align}
   \label{eqn:Pei-Wang-sgn-Taylor-series}
   \sign{}x &=\frac{x}{\sqrt{c}}\left[1+\sum^{\infty}_{k=1}
-            \frac{\left(2k-1\right)!!}{\left(2k\right)!!}
+            \frac{\left(2k-1\right){!}{!}}{\left(2k\right){!}{!}}
             \left(1-\frac{x^{2}}{c}\right)^{k}\right]
 \end{align}
-where $2k!!$ and $\left(2k-1\right)!!$ are the double factorial:
+where $2k{!}{!}$ and $\left(2k-1\right){!}{!}$ are the double factorial:
 \begin{align*}
-  \left(2k-1\right)!! &= 1\cdot{}3\cdot{}5\cdot\hdots\cdot\left(2k-1\right) \\
-  \left(2k\right)!!   &= 2\cdot{}4\cdot{}6\cdot\hdots\cdot\left(2k\right)
+  \left(2k-1\right){!}{!} &= 1\cdot{}3\cdot{}5\cdot\hdots\cdot\left(2k-1\right) \\
+  \left(2k\right){!}{!}   &= 2\cdot{}4\cdot{}6\cdot\hdots\cdot\left(2k\right)
 \end{align*}
 This series converges for $-1<\left(1-\frac{x^{2}}{c}\right)<1$ or
 $c>\frac{1}{2}x^{2}$.
@@ -28914,7 +28898,7 @@ approximated by:
 \begin{align*}
   H\left(\omega,c\right)
   &=-\imath\frac{\sin\omega}{\sqrt{c}}\left[1+\sum^{M}_{k=1}
-    \frac{\left(2k-1\right)!!}{\left(2k\right)!!}
+    \frac{\left(2k-1\right){!}{!}}{\left(2k\right){!}{!}}
     \left(1-\frac{\sin^{2}\omega}{c}\right)^{k}\right]
 \end{align*}
 In the $z$-plane, substituting $\frac{\imath}{2}\left(z^{-1}-z\right)$ for
@@ -28923,7 +28907,7 @@ approximates a Hilbert filter is:
 \begin{align*}
   H\left(z,c\right)
   &= -\frac{1-z^{-2}}{2\sqrt{c}}\left[z^{-2M}+\sum^{M}_{k=1}
-    \frac{\left(2k-1\right)!!}{\left(2k\right)!!}z^{-2\left(M-k\right)}
+    \frac{\left(2k-1\right){!}{!}}{\left(2k\right){!}{!}}z^{-2\left(M-k\right)}
     \left(z^{-2}+\frac{1}{c}\left(\frac{1-z^{-2}}{2}\right)^{2}\right)^{k}\right]
 \end{align*}
 In particular, if $c=1$, then $H\left(\omega\right)$ is maximally flat at
@@ -28931,7 +28915,7 @@ $\omega=\frac{\pi}{2}$ and:
 \begin{align*}
   H\left(z\right)
   &= -\frac{1-z^{-2}}{2}\left[z^{-2M}+\sum^{M}_{k=1}
-    \frac{\left(2k-1\right)!!}{\left(2k\right)!!}z^{-2\left(M-k\right)}
+    \frac{\left(2k-1\right){!}{!}}{\left(2k\right){!}{!}}z^{-2\left(M-k\right)}
     \left(\frac{1+z^{-2}}{2}\right)^{2k}\right]
 \end{align*}
 \emph{Pei} and \emph{Wang}~\cite[Figure
@@ -28984,7 +28968,7 @@ The derivatives of $f\left(x\right)$ are:
   &=\left(-1\right)^{k}\frac{1}{2}\cdot\frac{3}{2}\cdot\hdots\cdot\frac{2k-1}{2}
     \cdot x^{-k-\frac{1}{2}}
 \end{align*}
-Since $k!\cdot{}2^{k}=\left(2k\right)!!\;$,
+Since $k!\cdot{}2^{k}=\left(2k\right){!}{!}\;$,
 Equation~\ref{eqn:Pei-Wang-sgn-Taylor-series} follows. 
 
 \clearpage
@@ -30284,7 +30268,7 @@ Collecting terms in $U_{2l+3}\left(v\right)$ from Equation 25:
 \end{align*}
 Giving:
 \begin{align*}
-  U_{2l+3}\left(v\right) \text{ : }
+  U_{2l+3}\left(v\right) \text{:}
   \frac{1}{2}\left[n\left(n+2\right)-l\left(l+2\right)\right]\alpha_{2l}
 \end{align*}
 \paragraph{Working for Equation 27}
@@ -30304,7 +30288,7 @@ Collecting terms in $U_{2l+1}\left(v\right)$ from Equation 25:
 \end{align*}
 Giving:
 \begin{align*}
-  U_{2l+1}\left(v\right) \text{ : }
+  U_{2l+1}\left(v\right) \text{:}
   \frac{1}{2}\left[3\left(n\left(n+2\right)-l\left(l+2\right)\right)+2l+1
   \right]\alpha_{2l}+
   l\left(2l+1\right)\kappa^{\prime{}2}\alpha_{2l}
@@ -30327,7 +30311,7 @@ Collecting terms in $U_{2l-1}\left(v\right)$ from Equation 25:
 \end{align*}
 Giving:
 \begin{align*}
-  U_{2l-1}\left(v\right) \text{ : }
+  U_{2l-1}\left(v\right) \text{:}
   \frac{1}{2}\left[3\left(n\left(n+2\right)-l\left(l+2\right)\right)+
   2\left(2l+1\right)\right]\alpha_{2l}+
   \left(l+1\right)\left(2l+1\right)\kappa^{\prime{}2}\alpha_{2l}
@@ -30348,7 +30332,7 @@ Collecting terms in $U_{2l-3}\left(v\right)$ from Equation 25:
 \end{align*}
 Giving:
 \begin{align*}
-  U_{2l-3}\left(v\right) \text{ : }
+  U_{2l-3}\left(v\right) \text{:}
   \frac{1}{2}\left[n\left(n+2\right)-\left(l-1\right)\left(l+1\right)\right]
   \alpha_{2l}
 \end{align*}
@@ -30404,14 +30388,14 @@ recurrence for $l=n,n-1,\hdots,3$.
 Equation~\ref{eqn:Zahradnik-half-band-recurrence-summation} is implemented in
 the \emph{body} of Table 1.
 \paragraph{Working for Equations 34 and 35}
-The $n+3$ term in \ref{eqn:Zahradnik-half-band-recurrence-summation} gives:
+The $n+3$ term in~\ref{eqn:Zahradnik-half-band-recurrence-summation} gives:
 \begin{align*}
   \left[n\left(n+2\right)-l\left(l+2\right)\right]\alpha_{2n}=0
 \end{align*}
 $\alpha_{2n}$ is a free variable. \emph{Zahradn\'{i}k} and
 \emph{Vl\v{c}ek} choose $\alpha_{2n}=\left(1-\kappa^{\prime{}2}\right)^{-n}$.
 \paragraph{Working for Equation 36}
-The $n+2$ term in \ref{eqn:Zahradnik-half-band-recurrence-summation} gives:
+The $n+2$ term in~\ref{eqn:Zahradnik-half-band-recurrence-summation} gives:
 \begin{align*}
   \frac{1}{2}\left[n\left(n+2\right)-
   \left(n-1\right)\left(n+1\right)\right]\alpha_{2n-2}+
@@ -30426,7 +30410,7 @@ The $n+2$ term in \ref{eqn:Zahradnik-half-band-recurrence-summation} gives:
   \alpha_{2n-2}+\left[1+2n\kappa^{\prime{}2}\right]\alpha_{2n}&=0\\
 \end{align*}
 \paragraph{Working for Equation 37}
-The $n+1$ term in \ref{eqn:Zahradnik-half-band-recurrence-summation} gives:
+The $n+1$ term in~\ref{eqn:Zahradnik-half-band-recurrence-summation} gives:
 \begin{align*}
      \frac{1}{2}\left[n\left(n+2\right)- \left(n-2\right)n\right]
   &\alpha_{2n-4} +\quad\hdots \\
@@ -31068,7 +31052,7 @@ The stop-band degree equation becomes~\cite[Equation
 \emph{Zahradn\'{i}k et al.}~\cite{ZahradnikSusta_DegreeEquirippleBandpassFIR}
 derive a degree equation for narrow band-pass Zolotarev polynomial FIR filters
 in terms of the pass-band attenuation specification,
-$a_{p_{dB}}=20log_{10}a_{p}<0$ and the pass-band bandwidth,
+$a_{p_{dB}}=20\log_{10}a_{p}<0$ and the pass-band bandwidth,
 $\Delta_{p}T=\omega_{p2}T-\omega_{p1}T$. Their procedure selects the elliptic
 function modulus, $\kappa$, by setting~\cite[Equation 
 13]{ZahradnikSusta_DegreeEquirippleBandpassFIR}:
@@ -31475,7 +31459,7 @@ Example 2~\cite{ZahradnikSusta_CascadeNarrowEquirippleFIR}}
 
 \subsubsection{Addendum}
 \paragraph{Working for Equation~\ref{eqn:Jacobi-Eta-conjugate-function-values}}
-Substituting $u=-u_{0}+\imath{}yK^{\prime}$, where $y\in\left[0,1\right]$. into
+Substituting $u=-u_{0}+\imath{}yK^{\prime}$, where $y\in\left[0,1\right]$, into
 Equation~\ref{eqn:Whittaker-Watson-Jacobi-Eta-definition}:
 \begin{align*}
   H^{\dagger}\left(-u_{0}+\imath{}yK^{\prime},\kappa\right)
@@ -32762,7 +32746,7 @@ The $M+1$ distinct coefficients of the sub-filter are:
 \label{fig:Saramaki-FIR-cascade-Approx-II-response-detail}
 \end{figure}
 
-\cleardoublepage
+\cleardoublepage{}
 \chapter{\label{app:Kalman-Yakubovic-Popov-Lemma-IIR-Filter-Design}Application of the \emph{Kalman-Yakubovi\u{c}-Popov} lemma to digital filter design}
 The \emph{Kalman-Yakubovi\u{c}-Popov} (KYP)
 lemma~\cite{Kalman_LyapunovFunctions} is a fundamental result from the theory
@@ -32869,11 +32853,11 @@ definition of the S-procedure:
 \begin{framed}
 \begin{align*}
   \boldsymbol{M}  &\coloneq
-    \left\{\tau{}M\; : \;\tau\in\mathbb{R},\;\tau\geq{}0\right\} \\
-  \boldsymbol{N} & \coloneq \left\{N\; : \; N=N^{*}\preceq{}0\right\}\\
+    \left\{\tau{}M\;:\;\tau\in\mathbb{R},\;\tau\geq{}0\right\} \\
+  \boldsymbol{N} & \coloneq \left\{N\;:\; N=N^{*}\preceq{}0\right\}\\
     \mathcal{S} & \coloneq \xi\xi^{*}\\ 
   \boldsymbol{S}\left(\boldsymbol{M}\right)&\coloneq
-    \left\{\mathcal{S}\in\mathbb{H}^{n}\; : \;\mathcal{S}\neq{}0,\;
+    \left\{\mathcal{S}\in\mathbb{H}^{n}\;:\;\mathcal{S}\neq{}0,\;
     \mathcal{S}\succeq{}0,\;
     \mathtrace\left(\boldsymbol{M}\mathcal{S}\right)\geq{}0\right\}\\
   \boldsymbol{S}_{1}&\coloneq
@@ -34046,7 +34030,7 @@ stop band regions. The pass band phase error is adjusted for the nominal delay.}
 \label{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-passband}
 \end{figure}
 
-\cleardoublepage
+\cleardoublepage{}
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}
 \addcontentsline{toc}{part}{Colophon}
 \pdfbookmark[0]{Requirements}{requirements}
@@ -34973,7 +34957,7 @@ make cleanall && OCTAVE_ENABLE_MONOCHROME=1 make -j 6 monochrome
 \end{verbatim}
 \end{small}
 
-\cleardoublepage
+\cleardoublepage{}
 \phantomsection
 \addcontentsline{toc}{part}{Bibliography}
 \bibliographystyle{plain}
