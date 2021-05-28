@@ -52,10 +52,10 @@ A57=2*sin(w.*((((N-1)/2):-1:0)))*hA57(1:((N+1)/2));
 %
 
 % Plot the overall response (allow for -j)
-plot(w*0.5/pi,-A57);
-axis([0 0.5 -0.2 1.2]);
+plot(w*0.5/pi,-A57/(2*pi));
+axis([0 0.5 -0.05 0.2]);
 xlabel("Frequency");
-ylabel("Amplitude");
+ylabel("Amplitude/2$\\pi$");
 grid("on");
 title(strt);
 print(strcat(strf,"_response"),"-dpdflatex");
