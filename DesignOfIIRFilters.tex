@@ -19684,6 +19684,378 @@ The first and second derivatives of the summand are:
 \end{align*}
 The second derivative is positive implying that
 $-\log\det\left(A_{0}+tH\right)$ is convex in $t$ for all $t$.
+\cleardoublepage{}
+\chapter{\label{app:Review-of-Chebyshev-polynomials}Review of Chebyshev's polynomials}
+This appendix gathers together results for
+\emph{Chebyshev's polynomials of the first and second kind}.
+
+An FIR filter approximation function is generally written as:
+\begin{align*}
+  H\left(z\right) &= \sum ^{N}_{k=0}h_{k}z^{-k}
+\end{align*}
+If $N=2M$ and the filter is symmetric, $h_{k}=h_{N-k}$, then the amplitude
+response is: 
+\begin{align*}
+  A\left(\omega\right) &= a_{0}+\sum ^{M}_{k=1}2 a_{k}\cos k\omega
+\end{align*}
+where $a_{k}=h_{k+M}$. The \emph{Chebyshev polynomials of the first kind} are:
+\begin{align}
+  T_{k}\left(\cos\omega\right) &= \cos k\omega
+\label{eqn:Chebyshev-type-1-trigonmetric}
+\end{align}
+
+The Octave function \emph{chebyshevT(k)} returns the coefficients of the $k$'th
+Chebyshev polynomial of the first kind.
+Figure~\ref{fig:Chebyshev-polynomials-first-kind} plots the first $7$ Chebyshev
+polynomials of the first kind. 
+\begin{figure}
+\centering
+\scalebox\DesignOfIIRFiltersPdfScale]{\input{chebyshevT_test_Tk}}
+\caption{Chebyshev polynomials of the first kind}
+\label{fig:Chebyshev-polynomials-first-kind}
+\end{figure}
+
+Similarly, the \emph{Chebyshev polynomials of the second kind} are:
+\begin{align*}
+  U_{k}\left(\cos\omega\right)\sin\omega &= \sin \left(k+1\right)\omega
+\end{align*}
+
+The \emph{Chebyshev polynomials of the second kind} are related to the
+\emph{Dirichlet kernel}
+\footnote{The convolution of the $k$'th Dirichlet kernel,
+  $D_{k}\left(x\right)$, with a function, $f$, of period $2\pi$, is the $k$'th
+  degree Fourier series approximation to $f$: 
+  \begin{align*}
+    \left(D\star f\right)\left(x\right)
+    &=\int^{\pi}_{-\pi}f\left(y\right) D_{k}\left(x-y\right)dy
+      =\sum^{k}_{l=-k}\hat{f}\left(l\right)e^{\imath lx}
+  \end{align*}
+  where:
+  \begin{align*}
+    \hat{f}\left(l\right)
+    &=\frac{1}{2\pi}\int^{\pi}_{-\pi}f\left(x\right)e^{-\imath lx}dx
+  \end{align*}
+}, $D_{k}\left(x\right)$:
+\begin{comment}
+\begin{align*}
+  2\pi D_{k}\left(x\right)
+  &=\sum^{k}_{l=-k}e^{\imath lx} \\
+  &=e^{-\imath kx}\sum^{2k}_{l=0}e^{\imath lx} \\
+  &=e^{-\imath kx}\frac{e^{\imath\left(2k+1\right)\frac{x}{2}}}{e^{\imath\frac{x}{2}}}
+    \frac{e^{\imath\left(2k+1\right)\frac{x}{2}}-e^{-\imath\left(2k+1\right)\frac{x}{2}}}
+    {e^{\imath\frac{x}{2}}-e^{-\imath\frac{x}{2}}} \\
+  
+  &= \frac{\sin \left(2k+1\right)\frac{x}{2}}{\sin\frac{x}{2}} \\
+  &= U_{2k}\left(\cos\frac{x}{2}\right)
+\end{align*}
+\end{comment}
+\begin{align*}
+  2\pi D_{k}\left(x\right)  &= 1+2\sum^{k}_{l=1}\cos lx  \\
+  &=\sum^{k}_{l=-k}e^{\imath lx}\\
+  &= \frac{\sin \left(2k+1\right)\frac{x}{2}}{\sin\frac{x}{2}} \\
+  &= U_{2k}\left(\cos\frac{x}{2}\right)
+\end{align*}
+
+The Octave function \emph{chebyshevU(k)} returns the coefficients of the $k$'th
+Chebyshev polynomial of the second kind.
+Figure~\ref{fig:Chebyshev-polynomials-second-kind} plots the first $7$ Chebyshev
+polynomials of the second kind. 
+\begin{figure}
+\centering
+\scalebox\DesignOfIIRFiltersPdfScale]{\input{chebyshevU_test_Uk}}
+\caption{Chebyshev polynomials of the second kind}
+\label{fig:Chebyshev-polynomials-second-kind}
+\end{figure}
+
+\section{Recurrence relations}
+The Chebyshev polynomials of the first kind have the recurrence relation:
+\begin{align}
+\begin{split}
+  T_{0}\left(x\right)&= 1 \\
+  T_{1}\left(x\right)&= x \\
+  T_{k+1}\left(x\right)&= 2xT_{k}\left(x\right)-T_{k-1}\left(x\right)
+\end{split}
+\label{eqn:Chebyshev-polynomial-first-kind-recurrence}
+\end{align}
+The recurrence follows from the trigonometric definition:
+\begin{align*}
+  T_{k+1}\left(\cos\omega\right) &= \cos\omega\; T_{k}\left(\cos\omega\right)
+                                   -\sin\omega\sin k\omega \\
+  T_{k-1}\left(\cos\omega\right) &= \cos\omega\; T_{k}\left(\cos\omega\right)
+                                   +\sin\omega\sin k\omega
+\end{align*}
+
+The Chebyshev polynomials of the second kind have the recurrence relation:
+\begin{align*}
+  U_{0}\left(x\right)&= 1 \\
+  U_{1}\left(x\right)&= 2x \\
+  U_{k+1}\left(x\right)&= 2xU_{k}\left(x\right)-U_{k-1}\left(x\right)
+\end{align*}
+The recurrence follows from the trigonometric definition:
+\begin{align*}
+  U_{k+1}\left(\cos\omega\right)\sin\omega
+  &=\cos\omega\sin\left(k+1\right)\omega
+    +\sin\omega\cos\left(k+1\right)\omega \\
+  U_{k-1}\left(\cos\omega\right)\sin\omega
+   &=\cos\omega\sin\left(k+1\right)\omega
+     -\sin\omega\cos\left(k+1\right)\omega
+\end{align*}
+
+Again, by substitution of the trigonometric definitions, the Chebyshev
+polynomials of the first and second kinds are related by the recurrence
+relations:
+\begin{align*}
+  T_{k+1}\left(x\right)&=
+       \frac{1}{2}\left(U_{k+1}\left(x\right)-U_{k-1}\left(x\right)\right) \\
+  T_{k}\left(x\right)&= U_{k}\left(x\right)-xU_{k-1}\left(x\right)
+\end{align*}
+
+\section{Differentiation and integration of the Chebyshev polynomials}
+Differentiating  the trigonometric definition of $T_{k}\left(\cos\omega\right)$
+with respect to $\omega$ gives: 
+\begin{align*}
+  \frac{dT_{k}\left(\cos\omega\right)}{d\omega}&=-k\sin k\omega
+\end{align*}                                        
+
+Substituting $x=\cos\omega$:
+\begin{align*}
+  \frac{dT_{k}\left(x\right)}{dx}
+  = \frac{dT_{k}\left(\cos\omega\right)}{d\omega}\frac{d\omega}{dx}
+  &=k\frac{\sin k\omega}{\sin\omega}\\
+  &=kU_{k-1}\left(x\right)
+\end{align*}
+
+Consequently:
+\begin{align*}
+  T_{k+1}\left(x\right)&=\left(k+1\right)\int U_{k}\left(x\right) dx
+\end{align*}
+
+Similarly:                         
+\begin{align*}
+\frac{dU_{k}\left(x\right)}{dx}
+  =\frac{dU_{k}\left(\cos\omega\right)}{d\omega}\frac{d\omega}{dx}
+    &=\frac{-1}{\sin\omega}\frac{d}{d\omega}
+      \frac{\sin\left(k+1\right)\omega}{\sin\omega}\\
+    &=\frac{\left(k+1\right)T_{k+1}\left(x\right)-xU_{k}\left(x\right)}{x^{2}-1}
+\end{align*}                                        
+
+Finally, integrate $T_{k}\left(x\right)$ with the recurrence relation:
+\begin{align*}
+\int T_{k}\left(x\right)dx
+  &=\frac{1}{2}\left[\int U_{k}\left(x\right)dx-
+  \int U_{k-2}\left(x\right)dx\right]\\
+  &=\frac{1}{2}\left[\frac{T_{k+1}\left(x\right)}{k+1}
+    -\frac{T_{k-1}\left(x\right)}{k-1}\right]
+\end{align*}
+
+\section{Chebyshev differential equations}
+The Chebyshev polynomials of the first kind satisfy the second order
+differential equation: 
+\begin{align*}
+  \left(1-x^{2}\right)y^{\prime\prime}-xy^{\prime}+k^{2}y&=0
+\end{align*}
+since, from the previous section:
+\begin{align*}
+  \frac{dT_{k}\left(x\right)}{dx}-kU_{k-1}\left(x\right)&=0\\
+  \frac{d^{2}T_{k}\left(x\right)}{dx^{2}}-k\frac{dU_{k-1}\left(x\right)}{dx}&=0\\
+  \left(1-x^{2}\right)\frac{d^{2}T_{k}\left(x\right)}{dx^{2}}
+  -kxU_{k-1}\left(x\right)+k^{2}T_{k}\left(x\right)&=0\\
+  \left(1-x^{2}\right)\frac{d^{2}T_{k}\left(x\right)}{dx^{2}}
+  -x\frac{dT_{k}\left(x\right)}{dx}+k^{2}T_{k}\left(x\right)&=0  
+\end{align*}
+
+The Chebyshev polynomials of the second kind satisfy the second order
+differential equation: 
+\begin{align*}
+  \left(1-x^{2}\right)y^{\prime\prime}-3xy^{\prime}+k\left(k+2\right)y&=0
+\end{align*}
+since, similarly:
+\begin{align*}
+  \left(1-x^{2}\right)\frac{dU_{k}\left(x\right)}{dx}
+  -xU_{k}\left(x\right)+\left(k+1\right)T_{k+1}\left(x\right)&=0\\
+  \left(1-x^{2}\right)\frac{d^{2}U_{k}\left(x\right)}{dx^{2}}
+  -3x\frac{dU_{k}\left(x\right)}{dx}-U_{k}\left(x\right)
+  +\left(k+1\right)^{2}U_{k}\left(x\right)&=0\\
+  \left(1-x^{2}\right)\frac{d^{2}U_{k}\left(x\right)}{dx^{2}}
+  -3x\frac{dU_{k}\left(x\right)}{dx} +k\left(k+2\right)U_{k}\left(x\right)&=0
+\end{align*}
+\section{Orthogonality of the Chebyshev polynomials}
+The Chebyshev polynomials of the first kind are orthogonal at the
+\emph{Chebyshev nodes}, $x_{k}$: 
+\begin{align}
+  \sum^{n-1}_{k=0}T_{l}\left(x_{k}\right)T_{m}\left(x_{k}\right) &=\begin{cases}
+    0 & \text{if } l\ne m \\
+    n & \text{if } l = m = 0 \\
+    \frac{n}{2} & \text{if } l = m \ne 0
+  \end{cases}
+  \label{eqn:Chebyshev-type-1-discrete-orthogonality}
+\end{align}
+where $n\ge\max\left(l,m\right)$ and $x_{k}$ are the $n$ zeros of
+$T_{n}\left(x\right)$ in the interval $[-1,1]$:
+\begin{align*}
+  x_{k}=\cos\pi\frac{2k+1}{2n}\quad \text{for } k=0,1,\hdots,n-1
+\end{align*}
+
+\begin{comment}
+The Chebyshev polynomials of the first kind, $T_{k}\left(x\right)$, are
+solutions of the differential equation:
+\begin{align*}
+  \left(1-x^{2}\right)y^{\prime\prime}-xy^{\prime}+k^{2}y=0 \\
+\end{align*}
+
+\begin{align*}
+  \left(1-x^{2}\right)y^{\prime\prime}-3xy^{\prime}+k\left(k+2\right)y=0 
+\end{align*}
+
+Consequently, the Chebyshev polynomials are orthogonal:
+\begin{align*}
+  \int^{1}_{-1}T_{l}\left(x\right)T_{m}\left(x\right)\frac{dx}{\sqrt{1-x^{2}}}
+  &=\begin{cases}
+    0 & \text{if }l \ne m \\
+    \pi & \text{if }l=m=0 \\
+    \frac{\pi}{2} & \text{if }l=m\ne 0
+  \end{cases}
+\end{align*}
+and:
+\begin{align*}
+  \int^{1}_{-1}U_{l}\left(x\right)U_{m}\left(x\right)\sqrt{1-x^{2}}dx
+  &=\begin{cases}
+    0 & \text{if }l \ne m \\
+    \frac{\pi}{2} & \text{if }l=m
+  \end{cases}
+\end{align*}
+
+
+The weighted Chebyshev polynomials of the second kind are orthogonal
+at the Chebyshev nodes.
+\begin{align*}
+  \sum^{n-1}_{k=0}U_{l}\left(x_{k}\right)U_{m}\left(x_{k}\right)
+  \left(1-x_{k}^{2}\right) &=\begin{cases}
+    0 & \text{if } l\ne m \\
+    \frac{n}{2} & \text{if } l = m
+    \end{cases}\\
+\end{align*}
+
+\section{Relations between the Chebyshev functions of the first and second kind}
+The integral relations are:
+\begin{align*}
+  T_{k}\left(x\right) &= -\frac{1}{\pi}
+                         \int^{1}_{-1}\frac{U_{k-1}\left(y\right)\sqrt{1-y^{2}}}
+                        {\left(y-x\right)}dy \\
+  U_{k-1}\left(x\right) &= \phantom{-}\frac{1}{\pi}
+                          \int^{1}_{-1}\frac{T_{k}\left(y\right)}
+                          {\left(y-x\right)\sqrt{1-y^{2}}}dy
+\end{align*}
+\end{comment}
+
+\section{Approximation of functions by Clenshaw's recurrence}
+The \emph{Clenshaw} algorithm~\cite[Sections 5.4 and
+5.8]{Press_NumericalRecipesInC} calculates the weighted sum:
+\begin{align*}
+  S\left(x\right) &= \sum_{k=0}^{n}a_{k}\phi_{k}\left(x\right)
+\end{align*}
+where $\phi_{k}$, $k=0,1,\hdots$\;, is a sequence of functions that satisfy the
+recurrence relation:
+\begin{align*}
+  \phi_{k+1}\left(x\right)&=\alpha_{k}\left(x\right)\phi_{k}\left(x\right)+
+                            \beta_{k}\left(x\right)\phi_{k-1}\left(x\right)
+\end{align*}
+If the coefficients, $a_{k}$, are known in advance then the \emph{Clenshaw
+  recurrence} calculates auxilliary values, $b_{k}\left(x\right)$, as follows:
+\begin{align*}
+  b_{n+1}\left(x\right)&=0 \\
+  b_{n}\left(x\right)&=0 \\
+  b_{k}\left(x\right)&=a_{k}+ b_{k+1}\left(x\right)\alpha_{k}\left(x\right)+
+                        b_{k+2}\left(x\right)\beta_{k+1}\left(x\right)
+\end{align*}
+By induction:
+\begin{align*}
+  b_{k}\phi_{k}+ b_{k+1}\beta_{k}\phi_{k-1}
+  &=a_{k}\phi_{k}+ b_{k+1}\alpha_{k}\phi_{k}+ b_{k+2}\beta_{k+1}\phi_{k}+
+    b_{k+1}\beta_{k}\phi_{k-1}\\
+  &=a_{k}\phi_{k}+ b_{k+1}\phi_{k+1}+ b_{k+2}\beta_{k+1}\phi_{k}
+\end{align*}
+so that:
+\begin{align*}
+  S\left(x\right)
+  &=a_{0}\phi_{0}\left(x\right)+
+    b_{1}\left(x\right)\phi_{1}\left(x\right)+
+    b_{2}\left(x\right)\beta_{1}\left(x\right)\phi_{0}\left(x\right)
+\end{align*}
+
+The Chebyshev approximation to an arbitrary function, $f\left(x\right)$, on the
+interval $[-1,1]$\footnote{Use the following change of 
+  variables for a function defined on the interval $[a,b]$:
+\begin{align*}
+y \equiv \frac{x - \frac{1}{2}(b+a)}{\frac{1}{2}(b-a)}
+\end{align*}} is:   
+\begin{align*}
+  f(x) \approx  - \frac{a_{0}}{2}+ \sum_{k=0}^{n-1 } a_{k}T_{k}(x)
+\end{align*}
+With the orthogonality of the Chebyshev polynomials at the Chebyshev nodes:
+\begin{align*}
+  \sum_{l=0}^{n-1}f\left(x_{k}\right)T_{l}\left(x_{k}\right)
+  &=\sum_{l=0}^{n-1}\left[-\frac{a_{0}}{2}+
+    \sum_{k=0}^{n-1}a_{k}T_{k}\left(x_{k}\right)\right]T_{l}\left(x_{k}\right) \\
+  &=-\sum_{l=0}^{n-1}\frac{a_{0}}{2}T_{l}\left(x_{k}\right)+
+    \sum_{l=0}^{n-1}\sum_{k=0}^{n-1}a_{k}T_{k}\left(x_{k}\right)
+    T_{l}\left(x_{k}\right) \\
+  &=\frac{n}{2}a_{k}
+\end{align*}
+and:
+\begin{align*}
+  a_{k} = \frac{2}{n} \sum_{l=0}^{n-1}
+  f\left(\cos\pi\frac{2k+1}{2n}\right)\cos\pi l \frac{2k+1}{2n} 
+\end{align*}
+
+Now I can use Clenshaw's recurrence to approximate $f\left(x\right)$ with the
+Chebyshev polynomials of the first kind, for which, from
+Equation~\ref{eqn:Chebyshev-polynomial-first-kind-recurrence},
+$\alpha\left(x\right)=2x$ and $\beta\left(x\right)=-1$:
+\begin{align*}
+b_{n+1} & = 0 \\
+b_{n} & = 0 \\
+  b_{k} & = a_{k} + 2xb_{k+1} - b_{k+2} \quad  k= n-1,n-2,\hdots,1 \\
+  b_{0} &= 2a_{0}+ 2xb_{1} - b_{2} \\
+f(x) & \approx \frac{1}{2}\left(b_{0} - b_{2}\right)
+\end{align*}
+
+
+The Octave script \emph{clenshaw\_gaussian\_test.m} calculates the Chebychev
+polynomial expansion coefficients of an approximation to the Gaussian 
+function, $e^{-2x^2}$. The exact approximation coefficients are:
+\begin{small}
+\verbatiminput{clenshaw_gaussian_test_ak_coef.m}
+\end{small}
+Figure~\ref{fig:Chebyshev-Gaussian-approximation-error} shows the Chebyshev
+approximation and error with exact coefficients. The approximation is close
+to mini-max.
+The approximation coefficients rounded to
+\input{clenshaw_gaussian_test_bits.tab}-bits are:
+\begin{small}
+\verbatiminput{clenshaw_gaussian_test_ak_fixed_point_coef.m}
+\end{small}
+Figure~\ref{fig:Chebyshev-Gaussian-approximation-error-fixed-point} shows the
+Chebyshev approximation and error with coefficients rounded
+to \input{clenshaw_gaussian_test_bits.tab}-bits and 
+the Clenshaw recurrence calculated with a
+\input{clenshaw_gaussian_test_bits_acc.tab}-bit accumulator. 
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{clenshaw_gaussian_test_approx}}
+\caption{Chebychev polynomial approximation to a Gaussian}
+\label{fig:Chebyshev-Gaussian-approximation-error}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{clenshaw_gaussian_test_approx_fixed_point}}
+\caption{Chebychev polynomial approximation to a Gaussian with coefficients and
+  fixed-point arithmetic}
+\label{fig:Chebyshev-Gaussian-approximation-error-fixed-point}
+\end{figure}
+
 
 \cleardoublepage{}
 \chapter{\label{app:Review-of-elliptic-integrals-and-functions}Review of Legendre's elliptic integrals and Jacobi's elliptic functions}
@@ -23238,13 +23610,59 @@ functions. The first section reviews the analogue-to-digital transformation of
 $s$-plane Butterworth filters to the $z$-plane. The subsequent
 sections review methods of designing \emph{equi-ripple} amplitude response
 IIR filters. 
-\section{Design of Butterworth IIR filters}
+\section{Design of discrete time filters with the bilinear transform}
+Various methods can be used to transform an analog filter prototype
+response to the discrete time domain. The ``bi-linear'' transform is:
+\begin{align*}
+H\left(z\right)&=\hat{H}\left(\frac{1-z^{-1}}{1+z^{-1}}\right)\\
+\end{align*}
+The bi-linear transform has the following 
+properties:
+\begin{itemize}
+\item the $s$-plane $\imath\omega$ axis maps to the $z$-plane unit circle
+  $z=e^{\imath\Omega T}$, where $T$ is the sampling interval, and the $s$-plane
+  left-half plane maps to the $z$-plane unit disc, $\left|z\right|\le 1$.
+\item if the analog response is stable, the transformed response
+is also stable
+\item the zero frequency response is the same in both domains
+\end{itemize}
+The bilinear transform, $H\left(z\right)$ of the analog frequency response, 
+$\hat{H}\left(s\right)$ is
+\begin{align*}
+H\left(e^{\imath\Omega T}\right)&=
+\hat{H}\left(\imath\tan\frac{\Omega T}{2}\right)
+\end{align*}
+The design frequencies of the analog prototype filter on the $s$-plane
+$\imath\omega$ axis must be ``pre-warped'' to the $z$-plane unit circle by the
+mapping $\tan\frac{\Omega T}{2}\rightarrow\omega$. In other words, the
+discrete-time filter behaves at frequency $\Omega$ in the same way that the
+continuous-time filter behaves at frequency $\omega=\tan\frac{\Omega T}{2}$.
+For example, if the desired cut-off frequency in the z-domain is
+$\Omega_{c} T=\frac{\pi}{2}$, then we choose the cutoff frequency of the
+$s$-plane prototype filter to be:
+\begin{align*}
+  \omega_{c}&=\tan\frac{\Omega_{c} T}{2} = \tan\frac{\pi}{4} = 1
+\end{align*}
+In this work I have assumed that the sampling interval, $T$, is $1$.
+Alternatively, one can choose that the \emph{Nyquist} frequency
+corresponds to $1$ so that the sampling frequency is $2$. The Octave
+\emph{signal} toolbox filter design functions use the latter convention.
+
+Filter design using analog prototypes proceeds as follows:
+\begin{itemize}
+\item the critical frequencies in the $z$-plane are determined
+\item the critical frequencies are mapped to the $s$-plane and used
+to design the $s$-plane prototype
+\item the bi-linear transform is used to convert that prototype to the $z$-plane
+\end{itemize}
+
+\subsection{Design of Butterworth IIR filters}
 The Butterworth filter transfer function is described in many textbooks (for
 example, \emph{Roberts} and 
 \emph{Mullis}~\cite[Chapter 6]{RobertsMullis_DigitalSignalProcessing}). I have
 included it here to justify the implementation in
 \emph{butter2pq.m}.
-\subsection{Continuous Time Second Order Butterworth Filter Prototypes}
+\subsubsection{Continuous Time Second Order Butterworth Filter Prototypes}
 In the continuous time $s$-plane a low-pass Butterworth filter 
 has, by definition, a squared magnitude frequency response of:
 \begin{align*}
@@ -23293,53 +23711,7 @@ and, if $n$ is odd, the first order high-pass section is:
 \hat{H}_{k}\left(s\right)&=\frac{s}{\omega_{c} + s}
 \end{align*}
 
-\subsection{Design of discrete time filters with the bilinear transform}
-Various methods can be used to transform the analog prototype
-response to the discrete time domain. The ``bi-linear'' transform is:
-\begin{align*}
-H\left(z\right)&=\hat{H}\left(\frac{1-z^{-1}}{1+z^{-1}}\right)\\
-\end{align*}
-The bi-linear transform has the following 
-properties:
-\begin{itemize}
-\item the $s$-plane $\imath\omega$ axis maps to the $z$-plane unit circle
-  $z=e^{\imath\Omega T}$, where $T$ is the sampling interval, and the $s$-plane
-  left-half plane maps to the $z$-plane unit disc, $\left|z\right|\le 1$.
-\item if the analog response is stable, the transformed response
-is also stable
-\item the zero frequency response is the same in both domains
-\end{itemize}
-The bilinear transform, $H\left(z\right)$ of the analog frequency response, 
-$\hat{H}\left(s\right)$ is
-\begin{align*}
-H\left(e^{\imath\Omega T}\right)&=
-\hat{H}\left(\imath\tan\frac{\Omega T}{2}\right)
-\end{align*}
-The design frequencies of the analog prototype filter on the $s$-plane
-$\imath\omega$ axis must be ``pre-warped'' to the $z$-plane unit circle by the
-mapping $\tan\frac{\Omega T}{2}\rightarrow\omega$. In other words, the
-discrete-time filter behaves at frequency $\Omega$ in the same way that the
-continuous-time filter behaves at frequency $\omega=\tan\frac{\Omega T}{2}$.
-For example, if the desired cut-off frequency in the z-domain is
-$\Omega_{c} T=\frac{\pi}{2}$, then we choose the cutoff frequency of the
-$s$-plane prototype filter to be:
-\begin{align*}
-  \omega_{c}&=\tan\frac{\Omega_{c} T}{2} = \tan\frac{\pi}{4} = 1
-\end{align*}
-In this work I have assumed that the sampling interval, $T$, is $1$.
-Alternatively, one can choose that the \emph{Nyquist} frequency
-corresponds to $1$ so that the sampling frequency is $2$. The Octave
-\emph{signal} toolbox filter design functions use the latter convention.
-
-Filter design using analog prototypes proceeds as follows:
-\begin{itemize}
-\item the critical frequencies in the $z$-plane are determined
-\item the critical frequencies are mapped to the $s$-plane and used
-to design the $s$-plane prototype
-\item the bi-linear transform is used to convert that prototype to the $z$-plane
-\end{itemize}
-
-\subsection{Design of  second order Butterworth digital filters with the bilinear transform}
+\subsubsection{Design of  second order Butterworth digital filters with the bilinear transform}
 For the Butterworth first order low-pass section:
 \begin{align*}
 H_{\frac{n+1}{2}}\left(z\right)&=\frac{\omega_{c}\left(1+z^{-1}\right)}
@@ -29808,13 +30180,13 @@ closed-form design of almost-equiripple half-band FIR filters. The impulse
 response, $h$, of a length $4n+3$ half-band FIR filter is defined by the
 transfer function: 
 \begin{align}
-  H\left(z\right)&=\sum_{l=0}^{4n+2}h_{l}z^{-l}
+  H\left(z\right)&=\sum_{k=0}^{4n+2}h_{k}z^{-k}
 \label{eqn:Zahradnik-half-band-impulse-response-definition}
 \end{align}
 where:
 \begin{align*}
   h_{2n+1}&=\frac{1}{2}\\
-  h_{2n+1\pm2l}&=0\;\text{,}\quad{}l=1,\hdots,n
+  h_{2n+1\pm 2k}&=0\;\text{,}\quad{}k=1,\hdots,n
 \end{align*}
 Substituting $v=\frac{1}{2}\left(z+\frac{1}{z}\right)$, the frequency response
 is:
@@ -29826,37 +30198,15 @@ In particular, the pass-band edge is at $v_{p}=\cos\omega_{p}T$. Here
 $Q\left(v\right)$, the \emph{zero-phase frequency response}, is:
 \begin{align}
   Q\left(v\right)
-  &=\frac{1}{2}+\sum_{l=0}^{n}c\left(2l+1\right)T_{2l+1}\left(v\right)
+  &=\frac{1}{2}+\sum_{k=0}^{n}c_{2k+1}T_{2k+1}\left(v\right)
     \label{eqn:Q-zero-phase-T-expansion}
 \end{align}
-$T_{l}\left(x\right)$ is the \emph{Chebyshev polynomial of the first kind}. Some
-properties of $T_{l}\left(x\right)$ are:
-\begin{enumerate}
-\item $T_{l}\left(\cos\theta\right)=\cos\left(l\theta\right)$
-\item $T_{0}\left(x\right)=1$, $T_{1}\left(x\right)=x$,
-  $T_{l+1}\left(x\right)=2xT_{l}\left(x\right)-T_{l-1}\left(x\right)$
-\item $\frac{dT_{l}\left(x\right)}{dx}=lU_{l-1}\left(x\right)$
-\end{enumerate}
-where $U_{l}\left(v\right)$ is the
-\emph{Chebyshev polynomial of the second kind}. The coefficients, $c$, of the
-expansion of $Q$ are the distinct symmetric FIR coefficients of the impulse
-response of $H$. Some properties of $U_{l}\left(x\right)$ are: 
-\begin{enumerate}
-\item
-  $U_{l}\left(\cos\theta\right)=\frac{\sin\left(l+1\right)\theta}{\sin\theta}$
-  \item $U_{2l}\left(\cos\theta\right)=U_{l}\left(\cos2\theta\right)+U_{l-1}\left(\cos2\theta\right)=U_{l}\left(2\cos^{2}\theta-1\right)+U_{l-1}\left(2\cos^{2}\theta-1\right)$\footnote{
-  \begin{align*}
-    U_{2l}\left(\cos\theta\right)
-  &=\frac{\sin\left[\left(2l+1\right)\theta\right]\cos\theta+
-    \sin\theta\cos\left[\left(2l+1\right)\theta\right]}
-    {2\sin\theta\cos\theta}+
-    \frac{\sin\left[\left(2l+1\right)\theta\right]\cos\theta-
-    \sin\theta\cos\left[\left(2l+1\right)\theta\right]}
-  {2\sin\theta\cos\theta}
-  \end{align*}}
-    \item $U_{0}\left(x\right)=1$, $U_{1}\left(x\right)=2x$,
-    $U_{l+1}\left(x\right)=2xU_{l}\left(x\right)-U_{l-1}\left(x\right)$
-\end{enumerate} 
+Where the $T_{k}\left(v\right)$ are the Chebyshev polynomials of the first kind
+and the coefficients, $c_{2k+1}$, of the expansion of $Q$ are the distinct
+symmetric FIR coefficients of the impulse response of
+$H$. Appendix~\ref{app:Review-of-Chebyshev-polynomials} reviews the
+  properties of the Chebyshev polynomials of the first and second kinds. The
+  latter are written $U_{k}\left(v\right)$. 
 
 \emph{Vl\v{c}ek} and \emph{Unbehauen}~\cite[Section
 IV]{Vlcek_AnalyticalSolutionsIIRFilter} show that the equivalent zero-phase
@@ -29890,8 +30240,12 @@ to give:
 
 Returning to the case of an almost-equiripple half-band FIR filter,
 \emph{Zahradn\'{i}k et al.}~\cite[Section
-II]{Zahradnik_AlmostEquirippleApproxHalfBandFIR} define 
-$G\left(v\right)=U_{2n}\left(v\right)$ as the generating function for
+II]{Zahradnik_AlmostEquirippleApproxHalfBandFIR} use the relation
+ between the Chebyshev polynomials of the first and second kinds:
+\begin{align*}
+\frac{dT_{2n+1}\left(v\right)}{dv} &=\left(2n+1\right)U_{2n}\left(v\right)
+\end{align*}
+to define $G\left(v\right)=U_{2n}\left(v\right)$ as the generating function for
 $Q\left(v\right)$: 
 \begin{align*}
   Q\left(v\right)
@@ -29900,8 +30254,17 @@ $Q\left(v\right)$:
 where $\mathcal{N}$ is a normalising factor. Apparently by analogy with the
 equiripple IIR filter, \emph{Zahradn\'{i}k et al.}~\cite[Equation
 13]{Zahradnik_AlmostEquirippleApproxHalfBandFIR}  substitute $x$ into the double
-angle identity for $U_{2n}\left(\cos\theta\right)$ and redefine the generating
-function as: 
+angle identity for $U_{2n}\left(\cos\omega\right)$\footnote{\begin{align*}
+    U_{2n}\left(\cos\omega\right)
+  &=\frac{\sin\left[\left(2n+1\right)\omega\right]\cos\omega+
+    \sin\omega\cos\left[\left(2n+1\right)\omega\right]}
+    {2\sin\omega\cos\omega}+
+    \frac{\sin\left[\left(2n+1\right)\omega\right]\cos\omega-
+    \sin\omega\cos\left[\left(2n+1\right)\omega\right]}
+    {2\sin\omega\cos\omega} \\
+  &=U_{n}\left(\cos2\omega\right)+ U_{n-1}\left(\cos2\omega\right)\\
+  &=U_{n}\left(2\cos^{2}\omega-1\right)+U_{n-1}\left(2\cos^{2}\omega-1\right)
+  \end{align*}} and redefine the generating function as: 
 \begin{align*}
   G\left(v\right)
   &=U_{n}\left(\frac{2v^{2}-1-\kappa^{\prime{}2}}{1-\kappa^{\prime{}2}}\right)+
@@ -29975,7 +30338,7 @@ The normalisation factor $\mathcal{N}$ is~\cite[Equation
 2]{Zahradnik_EquirippleApproxHalfBandFIR} show plots of the generating function,
 $G\left(v\right)$ and zero-phase frequency response, $Q\left(v\right)$ for
 $n=20$, $\kappa^{\prime}=0.03922835$, $A=1.08532371$, $B=0.95360863$ and
-$N=0.55091994$. 
+$\mathcal{N}=0.55091994$. 
 The Octave script \emph{zahradnik\_halfband\_test.m} an reproduces these as
 Figure~\ref{fig:Zahradnik-Vlcek-halfband-Figure-1} and
 Figure~\ref{fig:Zahradnik-Vlcek-halfband-Figure-2}.
@@ -30010,11 +30373,10 @@ corresponding frequency response.
 \label{fig:Zahradnik-Vlcek-halfband-frequency-response}
 \end{figure}
 
-The Chebyshev polynomial of the second kind satisfies the
-differential equation:
+The Chebyshev polynomials of the second kind satisfy the differential equation:
 \begin{align}
-  \left(1-x^{2}\right)\frac{d^{2}U_{n}\left(x\right)}{dx^{2}}-
-  3x\frac{dU_{n}\left(x\right)}{dx}+n\left(n+2\right)U_{n}\left(x\right)&=0
+  \left(1-v^{2}\right)\frac{d^{2}U_{n}\left(v\right)}{dv^{2}}-
+  3v\frac{dU_{n}\left(v\right)}{dv}+n\left(n+2\right)U_{n}\left(v\right)&=0
 \label{eqn:Zahradnik-half-band-Chebyshev-type2-in-x}
 \end{align}
 Substituting $x$~\cite[Equation 8]{Zahradnik_EquirippleApproxHalfBandFIR}:
@@ -30913,11 +31275,10 @@ Rearranging:
 \end{align*}
 \paragraph{Working for Equation 73~\cite{Vlcek_ZolotarevOptimalFIR}}
 The Chebyshev polynomial of the first kind satisfies the differential equation:
-\begin{align}
-  \left(1-x^{2}\right)\frac{d^{2}T_{n}\left(x\right)}{dx^{2}}-
-  x\frac{dT_{n}\left(x\right)}{dx}+n^{2}T_{n}\left(x\right)&=0
-\label{eqn:Zahradnik-half-band-Chebyshev-type1-in-x}
-\end{align}
+\begin{align*}
+  \left(1-w^{2}\right)\frac{d^{2}T_{n}\left(w\right)}{dw^{2}}-
+  w\frac{dT_{n}\left(w\right)}{dw}+n^{2}T_{n}\left(w\right)&=0
+\end{align*}
 Equation~\ref{eqn:Zolotarev-linear-second-order-differential-equation} is
 deliberately written in a form that can be solved with an expansion of
 $Z_{p,q}\left(w\right)$ in Chebyshev polynomials of the first kind,
