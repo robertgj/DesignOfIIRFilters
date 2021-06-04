@@ -27,7 +27,8 @@ strf="directFIRnonsymmetric_kyp_bandpass_hilbert_test";
 N=40;
 d=10;
 fasl=0.10;fapl=0.175;fapu=0.225;fasu=0.30;
-Esq_z=2.27e-5;
+%Esq_z=2.27e-5;
+Esq_z=2.3e-5;
 Esq_s=1e-4;
 Esq_max=1;
 

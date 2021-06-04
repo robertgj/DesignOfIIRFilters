@@ -55,7 +55,7 @@ Wtp=0 % Pass band delay weight
 Wat=1e-6 % Small transition band weight enables constraints
 fas=0.31 % Stop band edge
 dBas=40 % Stop band attenuation
-Was=100 % Stop band amplitude weight
+Was=20 % Stop band amplitude weight
 rho=31/32 % Stability constraint on pole radius
 
 % Convert x0 to vector form

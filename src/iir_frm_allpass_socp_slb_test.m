@@ -59,7 +59,7 @@ tpr=1 % Peak-to-peak pass band delay ripple
 Wtp=0.02 % Pass band delay weight
 fas=0.3105 % Stop band edge
 dBas=40 % Stop band amplitude ripple
-Was=100 % Stop band amplitude weight
+Was=20 % Stop band amplitude weight
 rho=31/32 % Stability constraint on pole radius
 
 % Convert x0 to vector form
