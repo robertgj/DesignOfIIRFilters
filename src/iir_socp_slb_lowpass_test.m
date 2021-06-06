@@ -16,12 +16,12 @@ ctol=1e-6
 maxiter=2000
 verbose=false
 
-% Filter specifications
+% Filter specifications % dBap=1.8,dBas=47 is not repeatable ?!?
 rho=127/128;
 R=1;
 N=15
 fap=0.15
-dBap=3
+dBap=2
 Wap=1
 Wat=0.001
 ftp=0.155
@@ -30,8 +30,8 @@ tdr=0.2
 Wtp=0.01
 Wtt=0.001
 fas=0.2
-dBas=45
-Was=20
+dBas=46
+Was=50
 
 % Frequency vectors
 n=1000;
