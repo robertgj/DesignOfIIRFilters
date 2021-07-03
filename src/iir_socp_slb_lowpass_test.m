@@ -30,7 +30,7 @@ tdr=0.2
 Wtp=0.01
 Wtt=0.001
 fas=0.2
-dBas=46
+dBas=43
 Was=50
 
 % Frequency vectors

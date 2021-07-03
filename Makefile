@@ -167,6 +167,7 @@ batchtest: octfiles
 .PHONY: clean
 clean: 
 	-rm -f $(test_FIGURES:%=%.tex)
+	-rm -f $(test_FIGURES:%=%.pdf)
 	-rm -f $(test_FIGURES:%=%-inc.pdf)
 	-rm -f $(test_COEFS)
 	-rm -f $(EXTRA_DIARY_FILES)
@@ -206,6 +207,7 @@ gitignore:
 	echo _site .sass-cache .jekyll-metadata >> .gitignore
 	sed -i -e "s/\ /\n/g" .gitignore
 	echo $(test_FIGURES:%=%.tex) > gitignore.tmp
+	echo $(test_FIGURES:%=%.pdf) >> gitignore.tmp
 	echo $(test_FIGURES:%=%-inc.pdf) >> gitignore.tmp
 	echo $(test_COEFS) >> gitignore.tmp
 	echo $(EXTRA_DIARY_FILES) >> gitignore.tmp
