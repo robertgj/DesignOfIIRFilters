@@ -188,9 +188,11 @@ cleantex:
 .PHONY: cleanall
 cleanall: clean cleantex cleanaegis
 
+# Could use tarname=$$AEGIS_PROJECT".C"$$AEGIS_CHANGE 
 .PHONY: backup
 backup: cleanall
-	dir=`pwd` && tar -chjvf ~/`basename $$dir`.`date +%d%b%y`.tbz *
+	(tarname=`basename $$PWD` && cd .. && \
+	 tar -chjvf ~/$$tarname"."`date +%I%M%p%d%b%y`.tbz $$tarname)
 
 .PHONY: help
 help: 

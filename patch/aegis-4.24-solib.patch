@@ -1,5 +1,5 @@
---- aegis-4.24.orig/aefind/cmdline.y	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/aefind/cmdline.y	2020-11-24 20:29:12.960149558 +1100
+--- aegis-4.24/aefind/cmdline.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/aefind/cmdline.y	2021-08-27 01:16:41.991259386 +1000
 @@ -71,6 +71,17 @@
  
  %}
@@ -70,8 +70,8 @@
  %type <lv_string>   number_or_string
  %type <lv_string_list> strings strings_or_dot
  %type <lv_tree>     tree1 tree2 tree3 tree4 tree5 tree6 tree7
---- aegis-4.24.orig/aeimport/format/rcs/gram.y	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/aeimport/format/rcs/gram.y	2020-11-24 20:29:12.960149558 +1100
+--- aegis-4.24/aeimport/format/rcs/gram.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/aeimport/format/rcs/gram.y	2021-08-27 01:16:41.992259376 +1000
 @@ -32,6 +32,12 @@
  
  %}
@@ -117,8 +117,8 @@
  %type <lv_string_list> strings_opt branch branch_opt identifiers_opt numbers_opt
  
  %{
---- aegis-4.24.orig/aeimport/format/sccs/gram.y	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/aeimport/format/sccs/gram.y	2020-11-24 20:29:12.960149558 +1100
+--- aegis-4.24/aeimport/format/sccs/gram.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/aeimport/format/sccs/gram.y	2021-08-27 01:16:41.992259376 +1000
 @@ -39,7 +39,12 @@
  
  %}
@@ -157,8 +157,70 @@
  
  %{
  
---- aegis-4.24.orig/libaegis/http.cc	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/libaegis/http.cc	2020-11-24 20:29:12.960149558 +1100
+--- aegis-4.24/libaegis/interrupt.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/libaegis/interrupt.cc	2021-08-27 01:16:08.402572233 +1000
+@@ -26,11 +26,9 @@
+ 
+ static int depth;
+ 
+-#if !defined (HAVE_SIGHOLD) || !defined (HAVE_SIGRELSE)
+ #ifdef HAVE_SIGPROCMASK
+ static sigset_t oldsigs;
+ #endif
+-#endif
+ 
+ 
+ void
+@@ -42,12 +40,6 @@
+     if (++depth > 1)
+ 	return;
+ 
+-#if defined (HAVE_SIGHOLD) && defined (HAVE_SIGRELSE)
+-    sighold(SIGHUP);
+-    sighold(SIGINT);
+-    sighold(SIGQUIT);
+-    sighold(SIGTERM);
+-#else
+ #ifdef HAVE_SIGPROCMASK
+     {
+ 	sigset_t        set;
+@@ -59,8 +51,14 @@
+ 	sigaddset(&set, SIGTERM);
+ 	sigprocmask(SIG_BLOCK, &set, &oldsigs);
+     }
+-#endif // HAVE_SIGPROCMASK
++#else
++#if defined (HAVE_SIGHOLD) && defined (HAVE_SIGRELSE)
++    sighold(SIGHUP);
++    sighold(SIGINT);
++    sighold(SIGQUIT);
++    sighold(SIGTERM);
+ #endif // !HAVE_SIGHOLD
++#endif // HAVE_SIGPROCMASK
+ }
+ 
+ 
+@@ -76,14 +74,14 @@
+     if (--depth > 0)
+ 	return;
+ 
++#ifdef HAVE_SIGPROCMASK
++    sigprocmask(SIG_SETMASK, &oldsigs, (sigset_t *)0);
++#else
+ #if defined (HAVE_SIGHOLD) && defined (HAVE_SIGRELSE)
+     sigrelse(SIGHUP);
+     sigrelse(SIGINT);
+     sigrelse(SIGQUIT);
+     sigrelse(SIGTERM);
+-#else
+-#ifdef HAVE_SIGPROCMASK
+-    sigprocmask(SIG_SETMASK, &oldsigs, (sigset_t *)0);
+-#endif // HAVE_SIGPROCMASK
+ #endif // !HAVE_SIGHOLD
++#endif // HAVE_SIGPROCMASK
+ }
+--- aegis-4.24/libaegis/http.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/libaegis/http.cc	2021-08-27 01:16:41.993259367 +1000
 @@ -404,7 +404,7 @@
  emit_change_href(change::pointer cp, const char *modifier)
  {
@@ -168,8 +230,8 @@
      else
          emit_change_href_n(cp->pp, magic_zero_decode(cp->number), modifier);
  }
---- aegis-4.24.orig/libaegis/sub/plural_gram.y	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/libaegis/sub/plural_gram.y	2020-11-24 20:29:12.961149544 +1100
+--- aegis-4.24/libaegis/sub/plural_gram.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/libaegis/sub/plural_gram.y	2021-08-27 01:16:41.994259358 +1000
 @@ -38,6 +38,11 @@
  
  %}
@@ -205,8 +267,8 @@
  
  %right EQU
  %right QUEST COLON
---- aegis-4.24.orig/libaegis/sub/expr_gram.y	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/libaegis/sub/expr_gram.y	2020-11-24 20:29:12.961149544 +1100
+--- aegis-4.24/libaegis/sub/expr_gram.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/libaegis/sub/expr_gram.y	2021-08-27 01:16:41.994259358 +1000
 @@ -38,6 +38,13 @@
  
  %}
@@ -240,40 +302,28 @@
  %left NE EQ
  %left LT LE GT GE
  %left PLUS MINUS
---- aegis-4.24.orig/libaegis/project/file/roll_forward.cc	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/libaegis/project/file/roll_forward.cc	2020-11-24 20:29:12.961149544 +1100
-@@ -1045,17 +1045,19 @@
+--- aegis-4.24/libaegis/project/file/roll_forward.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/libaegis/project/file/roll_forward.cc	2021-08-27 01:16:41.995259348 +1000
+@@ -1045,7 +1045,8 @@
                  //
                  file_event_list::pointer felp2 =
                      uuid_to_felp.get(nstring(filename));
 -                assert(felp2);
--                felp2->push_back(*result);
 +                if (felp2)
 +                {
-+                    felp2->push_back(*result);
+                 felp2->push_back(*result);
  
--                //
--                // Make sure the by-uuid and by-filename lookups will
--                // both be the same from now on.
--                //
--                uuid_to_felp.assign(uuid, felp2);
--                result = uuid_to_felp.get(uuid);
--                assert(result);
--                assert(result == felp2);
-+                    //
-+                    // Make sure the by-uuid and by-filename lookups will
-+                    // both be the same from now on.
-+                    //
-+                    uuid_to_felp.assign(uuid, felp2);
-+                    result = uuid_to_felp.get(uuid);
-+                    assert(result);
-+                    assert(result == felp2);
-+                }
+                 //
+@@ -1058,6 +1059,7 @@
+                 assert(result == felp2);
              }
          }
++        }
  
---- aegis-4.24.orig/libaegis/aer/report.y	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/libaegis/aer/report.y	2020-11-24 20:29:12.961149544 +1100
+ #ifdef DEBUG
+ 	for (size_t j = 0; j < result->size(); ++j)
+--- aegis-4.24/libaegis/aer/report.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/libaegis/aer/report.y	2021-08-27 01:16:41.996259339 +1000
 @@ -120,6 +120,15 @@
  
  %}
@@ -328,34 +378,32 @@
  %type <lv_expr> expr_list struct_list expr_list_opt struct_assign
  %type <lv_stmt> declaration decl_name_list decl_name
  
---- aegis-4.24.orig/libaegis/change/file/name_check.cc	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/libaegis/change/file/name_check.cc	2020-11-24 20:29:12.961149544 +1100
+--- aegis-4.24/libaegis/change/file/name_check.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/libaegis/change/file/name_check.cc	2021-08-27 01:16:41.996259339 +1000
 @@ -279,17 +279,12 @@
  	    }
  	}
      }
 -    else
 -    {
--	//
+ 	//
 -	// exclude control characters, space characters
 -	// and high-bit-on characters
 -	// (This is a "C" locale test.)
--	//
--	for (s = fn->str_text; *s; ++s)
--	    if (!isgraph((unsigned char)*s))
--		return 0;
--    }
-+    //
 +    // Avoid doing more checks using isgraph/isprint or similar
 +    // functions, since they can be too strict with respect to other
 +    // option selected by the user: allow_white_space_in_filenames,
 +    // allow_non_ascii_filenames.
-+    //
+ 	//
+-	for (s = fn->str_text; *s; ++s)
+-	    if (!isgraph((unsigned char)*s))
+-		return 0;
+-    }
      return 1;
  }
  
---- aegis-4.24.orig/libaegis/gram.y	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/libaegis/gram.y	2020-11-24 20:29:12.962149530 +1100
+--- aegis-4.24/libaegis/gram.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/libaegis/gram.y	2021-08-27 01:16:41.996259339 +1000
 @@ -34,11 +34,6 @@
  
  %}
@@ -386,8 +434,8 @@
  
  %%
  
---- aegis-4.24.orig/aeget/get/project/integr_histo.cc	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/aeget/get/project/integr_histo.cc	2020-11-24 20:29:12.962149530 +1100
+--- aegis-4.24/aeget/get/project/integr_histo.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/aeget/get/project/integr_histo.cc	2021-08-27 01:16:41.996259339 +1000
 @@ -189,14 +189,14 @@
      if (recursive)
      {
@@ -405,18 +453,21 @@
      }
      printf("recursive</a> listing available.</p>\n");
  
---- aegis-4.24.orig/common/config.messy.h	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/common/config.messy.h	2020-11-24 20:29:12.962149530 +1100
-@@ -99,6 +99,7 @@
+--- aegis-4.24/common/config.messy.h	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/common/config.messy.h	2021-08-27 01:16:41.996259339 +1000
+@@ -97,8 +97,8 @@
+ #ifndef _GNU_SOURCE
+ #define _GNU_SOURCE
  #endif
- #ifndef _BSD_SOURCE
- #define _BSD_SOURCE
+-#ifndef _BSD_SOURCE
+-#define _BSD_SOURCE
++#ifndef _DEFAULT_SOURCE
 +#define _DEFAULT_SOURCE
  #endif
  #endif
  
---- aegis-4.24.orig/common/mem.h	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/common/mem.h	2020-11-24 20:29:12.962149530 +1100
+--- aegis-4.24/common/mem.h	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/common/mem.h	2021-08-27 01:16:41.996259339 +1000
 @@ -124,11 +124,7 @@
     dmem_copy_string(__FILE__, __LINE__, (p), ## __VA_ARGS__)
  #endif
@@ -429,8 +480,8 @@
  
  #ifndef DMALLOC
  void *operator new(size_t nbytes) THROW_BAD_ALLOC;
---- aegis-4.24.orig/common/stack.cc	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/common/stack.cc	2020-11-24 20:29:12.962149530 +1100
+--- aegis-4.24/common/stack.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/common/stack.cc	2021-08-27 01:16:41.997259330 +1000
 @@ -24,7 +24,7 @@
  find_stack_direction ()
  {
@@ -449,18 +500,21 @@
      char *cp = (char *)p;
      return (stack_direction < 0 ?  (&dummy < cp) : (&dummy > cp));
  }
---- aegis-4.24.orig/common/ac/unistd.h	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/common/ac/unistd.h	2020-11-24 20:29:12.962149530 +1100
-@@ -29,6 +29,7 @@
+--- aegis-4.24/common/ac/unistd.h	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/common/ac/unistd.h	2021-08-27 01:16:41.997259330 +1000
+@@ -27,8 +27,8 @@
+ // and readlink functions.
+ //
  #ifdef __linux__
- #ifndef _BSD_SOURCE
- #define _BSD_SOURCE
+-#ifndef _BSD_SOURCE
+-#define _BSD_SOURCE
++#ifndef _DEFAULT_SOURCE
 +#define _DEFAULT_SOURCE
  #endif
  #ifndef __USE_BSD
  #define __USE_BSD
---- aegis-4.24.orig/common/ac/string/memmem.cc	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/common/ac/string/memmem.cc	2020-11-24 20:29:12.962149530 +1100
+--- aegis-4.24/common/ac/string/memmem.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/common/ac/string/memmem.cc	2021-08-27 01:16:41.997259330 +1000
 @@ -182,7 +182,7 @@
  
      // Use optimizations in memchr when possible.
@@ -470,8 +524,19 @@
  
      // Minimizing the worst-case complexity:
      // Let n = haystack_len, m = needle_len.
---- aegis-4.24.orig/fmtgen/parse.y	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/fmtgen/parse.y	2020-11-24 20:29:12.962149530 +1100
+--- aegis-4.24/common/nstring/accumulator.h	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/common/nstring/accumulator.h	2021-08-27 01:16:41.997259330 +1000
+@@ -161,7 +161,7 @@
+       * \note
+       *     Please use this methdo as little as possible.
+       */
+-    const char *get_data() const { return (buffer ? buffer : ""); }
++    const char *get_data() const { return (length ? buffer : ""); }
+ 
+     /**
+       * The array index operator is used to obtain thr nth character in
+--- aegis-4.24/fmtgen/parse.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/fmtgen/parse.y	2021-08-27 01:16:41.997259330 +1000
 @@ -54,30 +54,29 @@
  
  %}
@@ -514,8 +579,8 @@
  %type <lv_type> type structure list enumeration enum_list_begin
  
  %{
---- aegis-4.24.orig/Makefile.in	2008-03-10 09:08:17.000000000 +1100
-+++ aegis-4.24/Makefile.in	2020-11-24 20:29:17.880082174 +1100
+--- aegis-4.24/Makefile.in	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24-solib.new/Makefile.in	2021-08-27 01:16:42.000259302 +1000
 @@ -228,6 +228,7 @@
  # This is the file extension of library files.  NO DOT.
  #

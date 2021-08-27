@@ -1,5 +1,5 @@
 --- fhist-1.21/common/output.h	2012-07-13 14:47:15.000000000 +1000
-+++ fhist-1.21.new/common/output.h	2020-11-05 12:54:19.073075689 +1100
++++ fhist-1.21.new/common/output.h	2021-08-27 09:26:53.391344970 +1000
 @@ -72,7 +72,7 @@
  
  #ifndef DEBUG
@@ -19,7 +19,7 @@
  
  #define output_filename(fp) ((fp)->vptr->filename(fp))
 --- fhist-1.21/common/config.messy.h	2012-07-13 14:47:15.000000000 +1000
-+++ fhist-1.21.new/common/config.messy.h	2020-11-05 12:54:19.073075689 +1100
++++ fhist-1.21.new/common/config.messy.h	2021-08-27 09:26:53.392344961 +1000
 @@ -78,6 +78,9 @@
  #ifndef _BSD_SOURCE
  #define _BSD_SOURCE
@@ -31,7 +31,7 @@
  
  #endif /* COMMON_CONFIG_MESSY_H */
 --- fhist-1.21/common/sub/expr_gram.y	2012-07-13 14:47:15.000000000 +1000
-+++ fhist-1.21.new/common/sub/expr_gram.y	2020-11-05 12:56:38.925884448 +1100
++++ fhist-1.21.new/common/sub/expr_gram.y	2021-08-27 09:26:53.392344961 +1000
 @@ -35,21 +35,21 @@
  
  %}
@@ -62,7 +62,7 @@
  %left PLUS MINUS
  %left MUL DIV
 --- fhist-1.21/common/input.h	2012-07-13 14:47:15.000000000 +1000
-+++ fhist-1.21.new/common/input.h	2020-11-05 12:54:19.073075689 +1100
++++ fhist-1.21.new/common/input.h	2021-08-27 09:26:53.393344951 +1000
 @@ -65,6 +65,7 @@
  struct string_ty *input_one_line(input_ty *);
  
@@ -79,8 +79,71 @@
  #else /* !__GNUC__ */
  #ifndef DEBUG
  #define input_name(fp) ((fp)->vptr->name(fp))
+--- fhist-1.21/fhist/breaks.c	2012-07-13 14:47:15.000000000 +1000
++++ fhist-1.21.new/fhist/breaks.c	2021-08-27 09:27:33.310960027 +1000
+@@ -27,11 +27,9 @@
+ 
+ static int breakflag;           /* TRUE if breaks are disabled */
+ 
+-#ifndef HAVE_SIGHOLD
+ #ifdef HAVE_SIGPROCMASK
+ static sigset_t oldsigs;
+ #endif
+-#endif
+ 
+ 
+ /*
+@@ -45,12 +43,6 @@
+     if (breakflag)
+         return;
+     breakflag = 1;
+-#ifdef HAVE_SIGHOLD
+-    sighold(SIGHUP);
+-    sighold(SIGINT);
+-    sighold(SIGQUIT);
+-    sighold(SIGTERM);
+-#else
+ #ifdef HAVE_SIGPROCMASK
+     {
+         sigset_t        set;
+@@ -62,8 +54,14 @@
+         sigaddset(&set, SIGTERM);
+         sigprocmask(SIG_BLOCK, &set, &oldsigs);
+     }
+-#endif /* HAVE_SIGPROCMASK */
++#else
++#ifdef HAVE_SIGHOLD
++    sighold(SIGHUP);
++    sighold(SIGINT);
++    sighold(SIGQUIT);
++    sighold(SIGTERM);
+ #endif /* !HAVE_SIGHOLD */
++#endif /* HAVE_SIGPROCMASK */
+ }
+ 
+ 
+@@ -76,15 +74,15 @@
+ {
+     if (!breakflag)
+         return;
++#ifdef HAVE_SIGPROCMASK
++    sigprocmask(SIG_SETMASK, &oldsigs, (sigset_t *)0);
++#else
+ #ifdef HAVE_SIGHOLD
+     sigrelse(SIGHUP);
+     sigrelse(SIGINT);
+     sigrelse(SIGQUIT);
+     sigrelse(SIGTERM);
+-#else
+-#ifdef HAVE_SIGPROCMASK
+-    sigprocmask(SIG_SETMASK, &oldsigs, (sigset_t *)0);
+-#endif /* HAVE_SIGPROCMASK */
+ #endif /* !HAVE_SIGHOLD */
++#endif /* HAVE_SIGPROCMASK */
+     breakflag = 0;
+ }
 --- fhist-1.21/Makefile.in	2012-07-13 14:47:15.000000000 +1000
-+++ fhist-1.21.new/Makefile.in	2020-11-05 12:57:23.649503511 +1100
++++ fhist-1.21.new/Makefile.in	2021-08-27 09:26:53.394344941 +1000
 @@ -474,6 +474,8 @@
  
  common/sub/expr_gram.yacc.c common/sub/expr_gram.yacc.h: common/sub/expr_gram.y

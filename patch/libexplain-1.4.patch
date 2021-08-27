@@ -1,5 +1,5 @@
 --- libexplain-1.4/test/00/t0047a.sh	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/test/00/t0047a.sh	2021-04-26 09:03:28.761320720 +1000
++++ libexplain-1.4.new/test/00/t0047a.sh	2021-08-27 11:43:32.181408489 +1000
 @@ -23,12 +23,12 @@
  
  cat > test.ok << 'fubar'
@@ -20,7 +20,7 @@
  test $? -eq 0 || no_result
  
 --- libexplain-1.4/test/06/t0652a.sh	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/test/06/t0652a.sh	2021-04-26 09:03:28.762320711 +1000
++++ libexplain-1.4.new/test/06/t0652a.sh	2021-08-27 11:43:32.181408489 +1000
 @@ -34,9 +34,9 @@
  # There is an alternative result, depending on the testing enviroment,
  # because stdin may actually be closed.
@@ -34,8 +34,41 @@
  fubar
  test $? -eq 0 || no_result
  
+--- libexplain-1.4/test/ioctl_coverage/main.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/test/ioctl_coverage/main.c	2021-08-27 11:43:32.182408479 +1000
+@@ -609,7 +609,7 @@
+      */
+     if (generate >= 2)
+     {
+-        char            command[1000];
++        char            command[10000];
+ 
+         /*
+          * We could equally look for .svn and use svn add instead,
+--- libexplain-1.4/test/bind/main.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/test/bind/main.c	2021-08-27 11:43:32.183408469 +1000
+@@ -104,7 +104,8 @@
+         fildes = explain_socket_or_die(AF_UNIX, SOCK_STREAM, 0);
+ 
+         sadr.sun_family = AF_UNIX;
+-        strncpy(sadr.sun_path, pathname, sizeof(sadr.sun_path));
++        strncpy(sadr.sun_path, pathname, sizeof(sadr.sun_path)-1);
++	sadr.sun_path[sizeof(sadr.sun_path)-1]='\0';
+         explain_connect_or_die(fildes, (struct sockaddr *)&sadr, sizeof(sadr));
+         n = explain_read_or_die(fildes, buf, sizeof(buf));
+         explain_fwrite_or_die(buf, 1, n, stdout);
+@@ -123,7 +124,8 @@
+         fildes = explain_socket_or_die(AF_UNIX, SOCK_STREAM, 0);
+ 
+         sadr.sun_family = AF_UNIX;
+-        strncpy(sadr.sun_path, pathname, sizeof(sadr.sun_path));
++        strncpy(sadr.sun_path, pathname, sizeof(sadr.sun_path)-1);
++	sadr.sun_path[sizeof(sadr.sun_path)-1]='\0';
+         explain_bind_or_die(fildes, (struct sockaddr *)&sadr, sizeof(sadr));
+ 
+         /*
 --- libexplain-1.4/test/04/t0461a.sh	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/test/04/t0461a.sh	2021-04-26 09:03:28.762320711 +1000
++++ libexplain-1.4.new/test/04/t0461a.sh	2021-08-27 11:43:32.183408469 +1000
 @@ -32,7 +32,7 @@
  
  fmt -w 800 test.out.4 > test.out.3
@@ -46,7 +79,7 @@
  fmt test.out.2 > test.out
  test $? -eq 0 || no_result
 --- libexplain-1.4/test/04/t0463a.sh	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/test/04/t0463a.sh	2021-04-26 09:03:28.762320711 +1000
++++ libexplain-1.4.new/test/04/t0463a.sh	2021-08-27 11:43:32.183408469 +1000
 @@ -32,7 +32,7 @@
  
  fmt -w 800 test.out.4 > test.out.3
@@ -57,7 +90,7 @@
  fmt test.out.2 > test.out
  test $? -eq 0 || no_result
 --- libexplain-1.4/test/02/t0274a.sh	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/test/02/t0274a.sh	2021-04-26 09:03:28.762320711 +1000
++++ libexplain-1.4.new/test/02/t0274a.sh	2021-08-27 11:43:32.183408469 +1000
 @@ -22,13 +22,13 @@
  . test_prelude
  
@@ -77,7 +110,7 @@
  then
      exho expected to fail
 --- libexplain-1.4/man/man1/explain_lca2010.1	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/man/man1/explain_lca2010.1	2021-04-26 09:03:28.762320711 +1000
++++ libexplain-1.4.new/man/man1/explain_lca2010.1	2021-08-27 11:43:32.183408469 +1000
 @@ -988,7 +988,7 @@
  .E(
  open_max = sysconf(_SC_OPEN_MAX);
@@ -97,7 +130,7 @@
  \f[I]ioctl\fP(2) request, not just the generic implementation.
  It is to be expected that different kernels will have different error
 --- libexplain-1.4/man/man1/explain.1	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/man/man1/explain.1	2021-04-26 09:03:28.762320711 +1000
++++ libexplain-1.4.new/man/man1/explain.1	2021-08-27 11:43:32.184408459 +1000
 @@ -41,7 +41,7 @@
  .SH DESCRIPTION
  The \*(n) command is used to decode an error return read from an
@@ -108,7 +141,7 @@
  \f[I]libexplain\fP(3).
  .SS Functions
 --- libexplain-1.4/man/man3/explain_write.3	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/man/man3/explain_write.3	2021-04-26 09:03:28.762320711 +1000
++++ libexplain-1.4.new/man/man3/explain_write.3	2021-08-27 11:43:32.184408459 +1000
 @@ -121,7 +121,7 @@
  value of \f[I]errno\fP.
  .TP 8n
@@ -119,7 +152,7 @@
  \f[I]data\fP
  The original data, exactly as passed to the \f[I]write\fP(2) system call.
 --- libexplain-1.4/man/man3/explain_lseek.3	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/man/man3/explain_lseek.3	2021-04-26 09:03:28.762320711 +1000
++++ libexplain-1.4.new/man/man3/explain_lseek.3	2021-08-27 11:43:32.184408459 +1000
 @@ -233,7 +233,7 @@
  The original fildes, exactly as passed to the \f[I]lseek\fP(2) system call.
  .TP 8n
@@ -130,7 +163,7 @@
  .TP 8n
  \f[I]whence\fP
 --- libexplain-1.4/man/man3/explain_chmod_or_die.3	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/man/man3/explain_chmod_or_die.3	2021-04-26 09:03:28.763320702 +1000
++++ libexplain-1.4.new/man/man3/explain_chmod_or_die.3	2021-08-27 11:43:32.184408459 +1000
 @@ -31,7 +31,7 @@
  void explain_chmod_or_die(const char *pathname, int mode);
  .SH DESCRIPTION
@@ -141,7 +174,7 @@
  process terminates by calling \f[CW]exit(EXIT_FAILURE)\fP.
  .PP
 --- libexplain-1.4/man/man3/explain.3	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/man/man3/explain.3	2021-04-26 09:03:28.763320702 +1000
++++ libexplain-1.4.new/man/man3/explain.3	2021-08-27 11:43:32.184408459 +1000
 @@ -137,8 +137,8 @@
  .TP 8n
  internal\[hy]strerror
@@ -154,7 +187,7 @@
  This is mostly of use for automated testing, to avoid false negatives
  induced by inconsistencies across Unix implementations.
 --- libexplain-1.4/codegen/gram.y	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/codegen/gram.y	2021-04-26 09:03:28.763320702 +1000
++++ libexplain-1.4.new/codegen/gram.y	2021-08-27 11:43:32.184408459 +1000
 @@ -17,6 +17,8 @@
   * with this program. If not, see <http://www.gnu.org/licenses/>.
   */
@@ -165,7 +198,7 @@
  
  #include <libexplain/ac/stdio.h>
 --- libexplain-1.4/etc/configure.ac	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/etc/configure.ac	2021-04-26 09:03:28.763320702 +1000
++++ libexplain-1.4.new/etc/configure.ac	2021-08-27 11:43:32.184408459 +1000
 @@ -17,7 +17,7 @@
  dnl! along with this program. If not, see <http://www.gnu.org/licenses/>.
  dnl!
@@ -176,7 +209,7 @@
  AC_LANG_C
  AC_LANG_ASSERT(C)
 --- libexplain-1.4/libexplain/mktemp_on_error.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/mktemp_on_error.c	2021-04-26 09:03:28.763320702 +1000
++++ libexplain-1.4.new/libexplain/mktemp_on_error.c	2021-08-27 11:43:32.184408459 +1000
 @@ -39,7 +39,7 @@
       *     made an empty string."
       *
@@ -187,7 +220,7 @@
       */
      first = templat[0];
 --- libexplain-1.4/libexplain/acl_grammar.y	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/acl_grammar.y	2021-04-26 09:03:28.763320702 +1000
++++ libexplain-1.4.new/libexplain/acl_grammar.y	2021-08-27 11:43:32.185408449 +1000
 @@ -17,6 +17,8 @@
   * along with this program. If not, see <http://www.gnu.org/licenses/>.
   */
@@ -198,7 +231,7 @@
  
  #include <libexplain/ac/ctype.h>
 --- libexplain-1.4/libexplain/parse_bits/print.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/parse_bits/print.c	2021-04-26 09:03:28.763320702 +1000
++++ libexplain-1.4.new/libexplain/parse_bits/print.c	2021-08-27 11:43:32.185408449 +1000
 @@ -26,7 +26,7 @@
      const explain_parse_bits_table_t *table, int table_size)
  {
@@ -252,7 +285,7 @@
  }
  
 --- libexplain-1.4/libexplain/printf_format.y	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/printf_format.y	2021-04-26 09:03:28.763320702 +1000
++++ libexplain-1.4.new/libexplain/printf_format.y	2021-08-27 11:43:32.185408449 +1000
 @@ -17,6 +17,8 @@
   * along with this program. If not, see <http://www.gnu.org/licenses/>.
   */
@@ -262,8 +295,30 @@
  %{
  
  #include <libexplain/ac/assert.h>
+--- libexplain-1.4/libexplain/realloc.h	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/realloc.h	2021-08-27 11:45:00.357554160 +1000
+@@ -224,8 +224,7 @@
+   *     system call.
+   */
+ void explain_message_realloc(char *message, int message_size, void *ptr,
+-    size_t size)
+-                                             LIBEXPLAIN_ATTRIBUTE_ALLOC_SIZE(4);
++			     size_t size);
+ 
+ /**
+   * The explain_message_errno_realloc function is used to obtain an
+@@ -271,8 +270,7 @@
+   *     system call.
+   */
+ void explain_message_errno_realloc(char *message, int message_size, int errnum,
+-    void *ptr, size_t size)
+-                                             LIBEXPLAIN_ATTRIBUTE_ALLOC_SIZE(5);
++				   void *ptr, size_t size);
+ 
+ #ifdef __cplusplus
+ }
 --- libexplain-1.4/libexplain/output/stderr.h	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/output/stderr.h	2021-04-26 09:03:28.763320702 +1000
++++ libexplain-1.4.new/libexplain/output/stderr.h	2021-08-27 11:43:32.185408449 +1000
 @@ -22,7 +22,7 @@
  
  #include <libexplain/output.h>
@@ -274,7 +329,7 @@
  #endif /* LIBEXPLAIN_OUTPUT_STDERR_H */
  /* vim: set ts=8 sw=4 et : */
 --- libexplain-1.4/libexplain/ac/linux/net_tstamp.h	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/ac/linux/net_tstamp.h	2021-04-26 09:03:28.764320693 +1000
++++ libexplain-1.4.new/libexplain/ac/linux/net_tstamp.h	2021-08-27 11:43:32.185408449 +1000
 @@ -28,6 +28,7 @@
  #include <libexplain/config.h>
  
@@ -283,8 +338,21 @@
  #include <linux/net_tstamp.h>
  #endif
  
+--- libexplain-1.4/libexplain/ac/unistd.h	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/ac/unistd.h	2021-08-27 11:43:32.185408449 +1000
+@@ -32,8 +32,8 @@
+  * and readlink functions.
+  */
+ #ifdef __linux__
+-#ifndef _BSD_SOURCE
+-#define _BSD_SOURCE 1
++#ifndef _DEFAULT_SOURCE
++#define _DEFAULT_SOURCE 1
+ #endif
+ #ifndef __USE_BSD
+ #define __USE_BSD 1
 --- libexplain-1.4/libexplain/ac/fcntl.h	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/ac/fcntl.h	2021-04-26 09:03:28.764320693 +1000
++++ libexplain-1.4.new/libexplain/ac/fcntl.h	2021-08-27 11:43:32.185408449 +1000
 @@ -28,14 +28,7 @@
  #include <libexplain/config.h>
  
@@ -300,7 +368,7 @@
  #else
  #include <libexplain/ac/sys/file.h>
  #endif
-@@ -60,12 +53,25 @@
+@@ -60,13 +53,26 @@
  #endif
  
  /*
@@ -315,7 +383,6 @@
 + * We can't include this header because it conflicts with glibc's fcntl.h.
   */
  #if defined(__linux__) && (O_LARGEFILE == 0)
--#define O_LARGEFILE_HIDDEN 0100000
 +# if defined(__aarch64__) || defined(__alpha__)
 +#  define O_LARGEFILE_HIDDEN 0400000
 +# elif defined(__mips64)
@@ -325,13 +392,69 @@
 +# elif defined(__sparc__) && defined(__arch64__)
 +#  define O_LARGEFILE_HIDDEN 0x40000
 +# else
-+#  define O_LARGEFILE_HIDDEN 0100000
-+# endif
+ #define O_LARGEFILE_HIDDEN 0100000
  #endif
++#endif
  
  
+ /*
+--- libexplain-1.4/libexplain/malloc.h	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/malloc.h	2021-08-27 11:45:01.796540218 +1000
+@@ -207,8 +207,7 @@
+   *     The original size, exactly as passed to the <i>malloc</i>(3) system
+   *     call.
+   */
+-void explain_message_malloc(char *message, int message_size, size_t size)
+-                                             LIBEXPLAIN_ATTRIBUTE_ALLOC_SIZE(3);
++void explain_message_malloc(char *message, int message_size, size_t size);
+ 
+ /**
+   * The explain_message_errno_malloc function is used to obtain an
+@@ -251,8 +250,7 @@
+   *     call.
+   */
+ void explain_message_errno_malloc(char *message, int message_size, int errnum,
+-    size_t size)
+-                                             LIBEXPLAIN_ATTRIBUTE_ALLOC_SIZE(4);
++				  size_t size);
+ 
+ #ifdef __cplusplus
+ }
+--- libexplain-1.4/libexplain/iocontrol/tcsetx.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/iocontrol/tcsetx.c	2021-08-27 11:43:32.185408449 +1000
+@@ -50,7 +50,7 @@
+     print_data,
+     0, /* print_explanation */
+     0, /* print_data_returned */
+-    sizeof(struct termiox), /* data_size */
++    sizeof(struct termiox *), /* data_size */
+     "struct termiox *", /* data_type */
+     IOCONTROL_FLAG_SIZE_DOES_NOT_AGREE, /* flags */
+     __FILE__,
+--- libexplain-1.4/libexplain/iocontrol/tcgetx.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/iocontrol/tcgetx.c	2021-08-27 11:43:32.185408449 +1000
+@@ -44,7 +44,7 @@
+     explain_iocontrol_generic_print_data_pointer, /* print_data */
+     0, /* print_explanation */
+     print_data_returned,
+-    sizeof(struct termiox), /* data_size */
++    sizeof(struct termiox *), /* data_size */
+     "struct termiox *", /* data_type */
+     IOCONTROL_FLAG_NON_META, /* flags */
+     __FILE__,
+--- libexplain-1.4/libexplain/iocontrol/tcsetxf.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/iocontrol/tcsetxf.c	2021-08-27 11:43:32.185408449 +1000
+@@ -47,7 +47,7 @@
+     print_data,
+     0, /* print_explanation */
+     0, /* print_data_returned */
+-    sizeof(struct termiox), /* data_size */
++    sizeof(struct termiox *), /* data_size */
+     "struct termiox *", /* data_type */
+     IOCONTROL_FLAG_NON_META, /* flags */
+     __FILE__,
 --- libexplain-1.4/libexplain/iocontrol/siocdeldlci.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/iocontrol/siocdeldlci.c	2021-04-26 09:10:45.809466891 +1000
++++ libexplain-1.4.new/libexplain/iocontrol/siocdeldlci.c	2021-08-27 11:43:32.186408440 +1000
 @@ -49,7 +49,7 @@
      print_data,
      0, /* print_explanation */
@@ -341,8 +464,19 @@
      "struct dlci_add *", /* data_type */
      IOCONTROL_FLAG_NON_META, /* flags */
      __FILE__,
+--- libexplain-1.4/libexplain/iocontrol/tcsetxw.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/iocontrol/tcsetxw.c	2021-08-27 11:43:32.186408440 +1000
+@@ -46,7 +46,7 @@
+     print_data,
+     0, /* print_explanation */
+     0, /* print_data_returned */
+-    sizeof(struct termiox), /* data_size */
++    sizeof(struct termiox *), /* data_size */
+     "struct termiox *", /* data_type */
+     IOCONTROL_FLAG_NON_META, /* flags */
+     __FILE__,
 --- libexplain-1.4/libexplain/iocontrol/siocadddlci.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/iocontrol/siocadddlci.c	2021-04-26 09:10:15.136737441 +1000
++++ libexplain-1.4.new/libexplain/iocontrol/siocadddlci.c	2021-08-27 11:43:32.186408440 +1000
 @@ -48,7 +48,7 @@
      print_data,
      0, /* print_explanation */
@@ -353,7 +487,7 @@
      IOCONTROL_FLAG_NON_META, /* flags */
      __FILE__,
 --- libexplain-1.4/libexplain/buffer/enomedium.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/buffer/enomedium.c	2021-04-26 09:03:28.764320693 +1000
++++ libexplain-1.4.new/libexplain/buffer/enomedium.c	2021-08-27 11:43:32.186408440 +1000
 @@ -339,7 +339,7 @@
          sb,
          /*
@@ -363,8 +497,33 @@
           * available.
           */
          i18n("the disk drive is a type that has removable disks, and there "
+--- libexplain-1.4/libexplain/buffer/stat_mode.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/stat_mode.c	2021-08-27 11:43:32.186408440 +1000
+@@ -96,6 +96,7 @@
+ {
+     const explain_parse_bits_table_t *lo_table;
+     const explain_parse_bits_table_t *tp;
++    const explain_parse_bits_table_t *endof_lo_table;
+     int             first;
+ 
+     if (mode == 0)
+@@ -116,11 +117,13 @@
+     }
+ 
+     lo_table = lo_table_short;
++    endof_lo_table = ENDOF(lo_table_short);
+     if (explain_option_symbolic_mode_bits())
+     {
+         lo_table = lo_table_long;
++	endof_lo_table = ENDOF(lo_table_long);
+     }
+-    for (tp = lo_table; tp < ENDOF(lo_table); ++tp)
++    for (tp = lo_table; tp < endof_lo_table; ++tp)
+     {
+         if (tp->value != 0 && (int)(mode & tp->value) == tp->value)
+         {
 --- libexplain-1.4/libexplain/buffer/hstrerror.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/buffer/hstrerror.c	2021-04-26 09:03:28.764320693 +1000
++++ libexplain-1.4.new/libexplain/buffer/hstrerror.c	2021-08-27 11:43:32.186408440 +1000
 @@ -115,7 +115,7 @@
          sb,
  
@@ -375,7 +534,7 @@
           */
          i18n("unknown <netdb.h> error")
 --- libexplain-1.4/libexplain/buffer/file_inode_flags.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/buffer/file_inode_flags.c	2021-04-26 09:03:28.764320693 +1000
++++ libexplain-1.4.new/libexplain/buffer/file_inode_flags.c	2021-08-27 11:43:32.186408440 +1000
 @@ -44,7 +44,7 @@
          { "FS_DIRTY_FL", FS_DIRTY_FL },
          { "FS_COMPRBLK_FL", FS_COMPRBLK_FL },
@@ -400,8 +559,55 @@
          { "FS_RESERVED_FL", FS_RESERVED_FL },
      };
  
+--- libexplain-1.4/libexplain/buffer/v4l2_framebuffer.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/v4l2_framebuffer.c	2021-08-27 12:24:26.925565155 +1000
+@@ -21,8 +21,11 @@
+ #include <libexplain/buffer/v4l2_framebuffer.h>
+ #include <libexplain/buffer/v4l2_framebuffer_capability.h>
+ #include <libexplain/buffer/v4l2_framebuffer_flags.h>
+-#include <libexplain/buffer/v4l2_pix_format.h>
+ #include <libexplain/buffer/pointer.h>
++#include <libexplain/buffer/int32_t.h>
++#include <libexplain/buffer/v4l2_colorspace.h>
++#include <libexplain/buffer/v4l2_field.h>
++#include <libexplain/buffer/v4l2_pixel_format.h>
+ #include <libexplain/is_efault.h>
+ 
+ 
+@@ -45,7 +48,30 @@
+     explain_string_buffer_puts(sb, ", base = ");
+     explain_buffer_pointer(sb, data->base);
+     explain_string_buffer_puts(sb, ", fmt = ");
+-    explain_buffer_v4l2_pix_format(sb, &data->fmt);
++    
++    explain_string_buffer_puts(sb, "{ width = ");
++    explain_buffer_uint32_t(sb, data->fmt.width);
++    explain_string_buffer_puts(sb, ", height = ");
++    explain_buffer_uint32_t(sb, data->fmt.height);
++    explain_string_buffer_puts(sb, ", pixelformat = ");
++    explain_buffer_v4l2_pixel_format(sb, data->fmt.pixelformat);
++    explain_string_buffer_puts(sb, ", field = ");
++    explain_buffer_v4l2_field(sb, data->fmt.field);
++    if (data->fmt.bytesperline)
++    {
++        explain_string_buffer_puts(sb, ", bytesperline = ");
++        explain_buffer_int32_t(sb, data->fmt.bytesperline);
++    }
++    explain_string_buffer_puts(sb, ", sizeimage = ");
++    explain_buffer_uint32_t(sb, data->fmt.sizeimage);
++    explain_string_buffer_puts(sb, ", colorspace = ");
++    explain_buffer_v4l2_colorspace(sb, data->fmt.colorspace);
++    if (data->fmt.priv != 0)
++    {
++        explain_string_buffer_puts(sb, ", priv = ");
++        explain_buffer_uint32_t(sb, data->fmt.priv);
++    }
++
+     explain_string_buffer_puts(sb, " }");
+ }
+ 
 --- libexplain-1.4/libexplain/buffer/eisdir.h	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/buffer/eisdir.h	2021-04-26 09:03:28.764320693 +1000
++++ libexplain-1.4.new/libexplain/buffer/eisdir.h	2021-08-27 11:43:32.186408440 +1000
 @@ -25,7 +25,7 @@
  
  /**
@@ -412,7 +618,7 @@
    *
    * @param sb
 --- libexplain-1.4/libexplain/buffer/enametoolong.h	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/buffer/enametoolong.h	2021-04-26 09:03:28.764320693 +1000
++++ libexplain-1.4.new/libexplain/buffer/enametoolong.h	2021-08-27 11:43:32.186408440 +1000
 @@ -69,7 +69,7 @@
  
  /**
@@ -422,8 +628,29 @@
    * gethostname, getdomainname (etc) functions.
    *
    * @param sb
+--- libexplain-1.4/libexplain/buffer/int8.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/int8.c	2021-08-27 11:51:10.985963199 +1000
+@@ -94,4 +94,18 @@
+ }
+ 
+ 
++int
++explain_uint8_array_all_zero(const unsigned char *data, size_t data_size)
++{
++    while (data_size > 0)
++    {
++        if (*data)
++            return 0;
++        ++data;
++        --data_size;
++    }
++    return 1;
++}
++
++
+ /* vim: set ts=8 sw=4 et : */
 --- libexplain-1.4/libexplain/buffer/ehostunreach.h	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/buffer/ehostunreach.h	2021-04-26 09:03:28.764320693 +1000
++++ libexplain-1.4.new/libexplain/buffer/ehostunreach.h	2021-08-27 11:43:32.186408440 +1000
 @@ -23,7 +23,7 @@
  
  /**
@@ -434,7 +661,7 @@
    * @param sb
    *     The string buffer to print into.
 --- libexplain-1.4/libexplain/buffer/enfile.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/buffer/enfile.c	2021-04-26 09:03:28.764320693 +1000
++++ libexplain-1.4.new/libexplain/buffer/enfile.c	2021-08-27 11:43:32.187408430 +1000
 @@ -38,7 +38,7 @@
  {
      if (explain_option_dialect_specific())
@@ -445,13 +672,13 @@
           * In the linux kernel, if get_empty_filp() returns NULL, the open
           * system call (and others) will return ENFILE.
 --- libexplain-1.4/libexplain/buffer/open_flags.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/buffer/open_flags.c	2021-04-26 09:03:28.764320693 +1000
++++ libexplain-1.4.new/libexplain/buffer/open_flags.c	2021-08-27 11:43:32.187408430 +1000
 @@ -158,7 +158,7 @@
  explain_buffer_open_flags(explain_string_buffer_t *sb, int flags)
  {
      int             low_bits;
 -    int             other;
-+    int             i;
++    unsigned int           i;
  
      low_bits = flags & O_ACCMODE;
      flags &= ~O_ACCMODE;
@@ -491,8 +718,42 @@
  }
  
  
+--- libexplain-1.4/libexplain/buffer/v4l2_bt_timings.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/v4l2_bt_timings.c	2021-08-27 11:54:28.102053361 +1000
+@@ -18,6 +18,7 @@
+ 
+ #include <libexplain/ac/linux/videodev2.h>
+ 
++#include <libexplain/buffer/int8.h>
+ #include <libexplain/buffer/int32_t.h>
+ #include <libexplain/buffer/int64_t.h>
+ #include <libexplain/buffer/v4l2_bt_timings.h>
+@@ -99,10 +100,10 @@
+         explain_string_buffer_puts(sb, ", il_vbackporch = ");
+         explain_buffer_uint32_t(sb, data->il_vbackporch);
+     }
+-    if (!explain_uint32_array_all_zero(data->reserved, SIZEOF(data->reserved)))
++    if (!explain_uint8_array_all_zero(data->reserved, SIZEOF(data->reserved)))
+     {
+         explain_string_buffer_puts(sb, ", reserved = ");
+-        explain_buffer_uint32_array(sb, data->reserved, SIZEOF(data->reserved));
++        explain_buffer_uint8_star(sb, data->reserved, SIZEOF(data->reserved));
+     }
+     explain_string_buffer_puts(sb, " }");
+ }
+--- libexplain-1.4/libexplain/buffer/path_to_pid.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/path_to_pid.c	2021-08-27 11:43:32.187408430 +1000
+@@ -116,7 +116,7 @@
+         struct dirent   *dep2;
+         char            *ep2;
+         int             fd;
+-        char            path3[100];
++        char            path3[200];
+ 
+         dep2 = readdir(dp2);
+         if (!dep2)
 --- libexplain-1.4/libexplain/buffer/access_mode.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/buffer/access_mode.c	2021-04-26 09:03:28.764320693 +1000
++++ libexplain-1.4.new/libexplain/buffer/access_mode.c	2021-08-27 11:43:32.187408430 +1000
 @@ -27,10 +27,10 @@
  
  static const explain_parse_bits_table_t table[] =
@@ -508,7 +769,7 @@
  
  
 --- libexplain-1.4/libexplain/buffer/ehostunreach.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/buffer/ehostunreach.c	2021-04-26 09:03:28.764320693 +1000
++++ libexplain-1.4.new/libexplain/buffer/ehostunreach.c	2021-08-27 11:43:32.187408430 +1000
 @@ -27,7 +27,7 @@
      (
          sb,
@@ -518,8 +779,52 @@
           * EHOSTUNREACH error.
           */
          i18n("the remote host does not appear to be connected to the "
+--- libexplain-1.4/libexplain/buffer/eacces/shm.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/eacces/shm.c	2021-08-27 11:43:32.187408430 +1000
+@@ -419,19 +419,19 @@
+         return 0;
+     if (proc_uid == ipc_uid)
+     {
+-        int mode2 = mode & S_IRWXU;
++        unsigned int mode2 = mode & S_IRWXU;
+         if ((perm->mode & mode2) == mode2)
+             return 0;
+     }
+     else if (proc_gid == ipc_gid)
+     {
+-        int mode2 = mode & S_IRWXG;
++        unsigned int mode2 = mode & S_IRWXG;
+         if ((perm->mode & mode2) == mode2)
+             return 0;
+     }
+     else
+     {
+-        int mode2 = mode & S_IRWXO;
++        unsigned int mode2 = mode & S_IRWXO;
+         if ((perm->mode & mode2) == mode2)
+             return 0;
+     }
+--- libexplain-1.4/libexplain/buffer/int8.h	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/int8.h	2021-08-27 11:50:35.087311017 +1000
+@@ -73,5 +73,16 @@
+ void explain_buffer_uint8_star(explain_string_buffer_t *sb,
+     const unsigned char *data, size_t data_size);
+ 
++/**
++  * The explain_uint8_array_all_zero function may be used to
++  * test an unsigned char array, to see if all the values are zero.
++  *
++  * @param data
++  *     The unsigned char array to be tested.
++  * @param data_size
++  *     The number of elements in the array to be tested.
++  */
++int explain_uint8_array_all_zero(const unsigned char *data, size_t data_size);
++
+ #endif /* LIBEXPLAIN_BUFFER_INT8_H */
+ /* vim: set ts=8 sw=4 et : */
 --- libexplain-1.4/libexplain/buffer/strerror.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/buffer/strerror.c	2021-04-26 09:03:28.765320685 +1000
++++ libexplain-1.4.new/libexplain/buffer/strerror.c	2021-08-27 11:43:32.187408430 +1000
 @@ -42,7 +42,7 @@
              explain_gettext
              (
@@ -530,7 +835,7 @@
                   * fall-back message is used.  This does not occur with glibc,
                   * but other libc implemntations are more flakey.
 --- libexplain-1.4/libexplain/buffer/errno/listen.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/buffer/errno/listen.c	2021-04-26 09:03:28.765320685 +1000
++++ libexplain-1.4.new/libexplain/buffer/errno/listen.c	2021-08-27 11:43:32.187408430 +1000
 @@ -72,7 +72,7 @@
  static int
  get_somaxconn(void)
@@ -541,7 +846,7 @@
      long somaxconn;
      size_t somaxconn_size = sizeof(somaxconn);
 --- libexplain-1.4/libexplain/buffer/errno/mount.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/buffer/errno/mount.c	2021-04-26 09:03:28.765320685 +1000
++++ libexplain-1.4.new/libexplain/buffer/errno/mount.c	2021-08-27 11:43:32.187408430 +1000
 @@ -540,7 +540,7 @@
              (
                  sb,
@@ -552,7 +857,7 @@
              return;
          }
 --- libexplain-1.4/libexplain/buffer/errno/read.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/buffer/errno/read.c	2021-04-26 09:03:28.765320685 +1000
++++ libexplain-1.4.new/libexplain/buffer/errno/read.c	2021-08-27 11:43:32.187408430 +1000
 @@ -159,7 +159,7 @@
                  (
                      sb,
@@ -562,8 +867,29 @@
                      "which is unsuitable for reading; or, the file was "
                      "opened with the O_DIRECT flag, and either the "
                      "address specified in data, the value specified "
+--- libexplain-1.4/libexplain/buffer/errno/lchownat.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/errno/lchownat.c	2021-08-27 11:43:32.188408420 +1000
+@@ -53,6 +53,7 @@
+ is_a_directory(int fildes)
+ {
+     struct stat st;
++    fstat(fildes, &st);
+     if (fildes == AT_FDCWD)
+         return 1;
+     return S_ISDIR(st.st_mode);
+--- libexplain-1.4/libexplain/buffer/errno/generic.c	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/buffer/errno/generic.c	2021-08-27 11:43:32.188408420 +1000
+@@ -166,7 +166,7 @@
+          */
+         if (explain_option_debug())
+         {
+-            char            src[100];
++            char            src[200];
+ 
+             explain_string_buffer_printf
+             (
 --- libexplain-1.4/libexplain/buffer/errno/acl_set_file.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/buffer/errno/acl_set_file.c	2021-04-26 09:03:28.765320685 +1000
++++ libexplain-1.4.new/libexplain/buffer/errno/acl_set_file.c	2021-08-27 11:43:32.188408420 +1000
 @@ -224,7 +224,7 @@
           * new ACL cannot be extended or the file system is out
           * of file allocation resources.
@@ -573,8 +899,30 @@
          break;
  
      case ENOTDIR:
+--- libexplain-1.4/libexplain/calloc.h	2014-03-03 21:00:52.000000000 +1100
++++ libexplain-1.4.new/libexplain/calloc.h	2021-08-27 11:45:23.372331172 +1000
+@@ -237,8 +237,7 @@
+   * #explain_calloc_or_die function.
+   */
+ void explain_message_calloc(char *message, int message_size, size_t nmemb,
+-    size_t size)
+-                                         LIBEXPLAIN_ATTRIBUTE_ALLOC_SIZE2(2, 3);
++			    size_t size);
+ 
+ /**
+   * The explain_message_errno_calloc function is used to obtain an
+@@ -287,8 +286,7 @@
+   * #explain_calloc_or_die function.
+   */
+ void explain_message_errno_calloc(char *message, int message_size, int errnum,
+-    size_t nmemb, size_t size)
+-                                         LIBEXPLAIN_ATTRIBUTE_ALLOC_SIZE2(4, 5);
++				  size_t nmemb, size_t size);
+ 
+ #ifdef __cplusplus
+ }
 --- libexplain-1.4/libexplain/parse_bits.y	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/libexplain/parse_bits.y	2021-04-26 09:03:28.765320685 +1000
++++ libexplain-1.4.new/libexplain/parse_bits.y	2021-08-27 11:43:32.188408420 +1000
 @@ -17,6 +17,8 @@
   along with this program. If not, see <http://www.gnu.org/licenses/>.
   */
@@ -585,7 +933,7 @@
  
  #include <libexplain/ac/ctype.h>
 --- libexplain-1.4/explain/syscall/ustat.c	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/explain/syscall/ustat.c	2021-04-26 09:03:28.765320685 +1000
++++ libexplain-1.4.new/explain/syscall/ustat.c	2021-08-27 11:43:32.188408420 +1000
 @@ -30,26 +30,15 @@
  #include <explain/syscall/ustat.h>
  
@@ -615,7 +963,7 @@
      {
      case 2:
 --- libexplain-1.4/Makefile.in	2014-03-03 21:00:52.000000000 +1100
-+++ libexplain-1.4.new/Makefile.in	2021-04-26 09:03:28.769320649 +1000
++++ libexplain-1.4.new/Makefile.in	2021-08-27 11:43:32.192408381 +1000
 @@ -357,9 +357,9 @@
  
  codegen/gram.yacc.c codegen/gram.yacc.h: codegen/gram.y
