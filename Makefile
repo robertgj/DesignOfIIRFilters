@@ -43,6 +43,7 @@ BIBTEX=bibtex
 QPDF=/usr/bin/qpdf
 PDFGREP=/usr/bin/pdfgrep
 GREP=/usr/bin/grep -Hi
+JEKYLL_OPTS=--config docs/_config.yml --source docs --destination docs/_site
 
 #
 # A list of all the dependencies of $(TARGET).pdf
@@ -185,8 +186,12 @@ cleantex:
 	$(call clean_macro,$(CLEAN_TEX_SUFFIXES))
 	-rm -f $(TARGET).pdf
 
+.PHONY: cleanjekyll
+cleanjekyll:	
+	jekyll clean $(JEKYLL_OPTS)
+
 .PHONY: cleanall
-cleanall: clean cleantex cleanaegis
+cleanall: clean cleantex cleanaegis cleanjekyll
 
 # Could use tarname=$$AEGIS_PROJECT".C"$$AEGIS_CHANGE 
 .PHONY: backup
@@ -217,6 +222,10 @@ gitignore:
 	sed -i -e "s/\ /\n/g" gitignore.tmp
 	cat gitignore.tmp | sort >> .gitignore
 	rm gitignore.tmp
+
+.PHONY: jekyll
+jekyll: $(TARGET).pdf cleanjekyll
+	jekyll serve $(JEKYLL_OPTS)
 
 .PHONY: monochrome
 monochrome: $(TARGET_DEPENDENCIES)
