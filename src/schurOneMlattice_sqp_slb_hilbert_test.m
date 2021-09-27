@@ -1,5 +1,5 @@
 % schurOneMlattice_sqp_slb_hilbert_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -25,16 +25,12 @@ n=400;
 w=pi*(0:(n-1))'/n;
 
 % Initial filter from tarczynski_hilbert_test.m
+tarczynski_hilbert_test_N0_coef;
+tarczynski_hilbert_test_D0_coef;
 R=2;
-n0 = [ -0.0579063991,  -0.0707490525,  -0.0092677810,  -0.0274919718, ... 
-       -0.1104277026,  -0.4894105730,   0.8948745630,   1.0527570805, ... 
-       -0.8678508170,  -0.4990735123,   0.1861313381,   0.0311088704, ...
-        0.0000000000 ]';
-d0 = [  1.0000000000,   0.0000000000,  -1.4110993644,   0.0000000000, ...
-        0.4589810713,   0.0000000000,  -0.0092017575,   0.0000000000, ... 
-        0.0011255865,   0.0000000000,   0.0014507700,   0.0000000000, ...
-       -0.0018420748 ]';
-[k0,epsilon0,p0,c0]=tf2schurOneMlattice(n0,d0);
+D0R=zeros(size([N0;0]));
+D0R(1:2:end)=D0;
+[k0,epsilon0,p0,c0]=tf2schurOneMlattice([N0;0],D0R);
 Asq0=schurOneMlatticeAsq(w,k0,epsilon0,p0,c0);
 T0=schurOneMlatticeT(w,k0,epsilon0,p0,c0);
 P0=schurOneMlatticeP(w,k0,epsilon0,p0,c0);
@@ -175,7 +171,7 @@ print_polynomial(d2,"d2",strcat(strf,"_d2_coef.m"));
 % Save results
 %
 save schurOneMlattice_sqp_slb_hilbert_test.mat ...
-     tol ctol n w n0 d0 k0 epsilon0 p0 c0 dmax rho ...
+     tol ctol n w k0 epsilon0 p0 c0 dmax rho ...
      dBap Wat Wap tp tpr Wtp pr Wpp ...
      k1 epsilon1 p1 c1 k2 epsilon2 p2 c2 n2 d2
 

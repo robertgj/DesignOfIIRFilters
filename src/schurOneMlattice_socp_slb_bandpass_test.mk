@@ -32,3 +32,6 @@ schurOneMlattice2tf.m \
 local_max.m tf2pa.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2H.oct qroots.m qzsolve.oct 
+
+schurOneMlattice_socp_slb_bandpass_test.diary : \
+schurOneMlattice_sqp_slb_bandpass_test.diary

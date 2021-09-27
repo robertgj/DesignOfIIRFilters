@@ -36,11 +36,11 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test_Da1_coef.m << 'EOF'
-Da1 = [   1.0000000000,  -0.5220973842,   0.3616272734,   0.1867311869, ... 
-          0.0318266239,  -0.0498503285,  -0.0543925688,  -0.0165336258, ... 
-          0.0215871327,   0.0367003807,   0.0300048879,   0.0153328172, ... 
-          0.0043648415 ]';
+cat > test_Da0_coef.m << 'EOF'
+Da0 = [   1.0000000000,  -0.5220966564,   0.3616274121,   0.1867305290, ... 
+          0.0318254621,  -0.0498514036,  -0.0543930474,  -0.0165333545, ... 
+          0.0215879166,   0.0367012865,   0.0300055775,   0.0153331903, ... 
+          0.0043649745 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Da0_coef.m"; fail; fi
 
@@ -52,7 +52,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_Da1_coef.m tarczynski_parallel_allpass_delay_test_Da1_coef.m
+diff -Bb test_Da0_coef.m tarczynski_parallel_allpass_delay_test_Da0_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Da0_coef.m"; fail; fi
 
 #

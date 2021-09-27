@@ -1,0 +1,14 @@
+tarczynski_frm_halfband_test_FIGURES = \
+tarczynski_frm_halfband_test_masking_response \
+tarczynski_frm_halfband_test_model_response \
+tarczynski_frm_halfband_test_passband_response \
+tarczynski_frm_halfband_test_response
+
+tarczynski_frm_halfband_test_COEFS = \
+tarczynski_frm_halfband_test.mat \
+tarczynski_frm_halfband_test_r0_coef.m \
+tarczynski_frm_halfband_test_aa0_coef.m
+
+tarczynski_frm_halfband_test_FILES = tarczynski_frm_halfband_test.m \
+test_common.m print_polynomial.m frm_lowpass_vectors.m
+

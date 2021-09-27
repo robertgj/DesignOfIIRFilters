@@ -18,3 +18,6 @@ schurOneMscale.m schurOneMAPlattice2Abcd.m H2P.m \
 bin2SD.oct bin2SPT.oct qzsolve.oct schurOneMlattice2Abcd.oct \
 complex_zhong_inverse.oct schurOneMAPlattice2H.oct schurdecomp.oct \
 schurexpand.oct spectralfactor.oct
+
+branch_bound_johanssonOneMlattice_bandstop_16_nbits_test.diary : \
+johansson_cascade_allpass_bandstop_test.diary

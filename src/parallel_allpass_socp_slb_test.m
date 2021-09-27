@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -14,10 +14,10 @@ maxiter=1000
 strf="parallel_allpass_socp_slb_test";
 
 % Initial filter from tarczynski_parallel_allpass_test.m with flat_delay=false
-Da0 = [   1.0000000000,   0.0383139516,  -0.7379675259,   0.6798819157, ... 
-          0.2906617987,  -0.3309151528 ]';
-Db0 = [   1.0000000000,  -0.5407235177,  -0.4267754532,   1.3161083283, ... 
-         -0.2730463206,  -0.4219527723,   0.3475140567 ]';
+Da0 = [   1.0000000000,   0.0383730052,  -0.7380064322,   0.6798273463, ... 
+          0.2907072669,  -0.3309156666 ]';
+Db0 = [   1.0000000000,  -0.5406251070,  -0.4268116544,   1.3160945180, ... 
+         -0.2729526389,  -0.4219796451,   0.3475155857 ]';
 
 % Lowpass filter specification
 tol=1e-4

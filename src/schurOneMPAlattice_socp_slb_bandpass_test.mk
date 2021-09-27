@@ -34,3 +34,6 @@ Abcd2tf.m H2Asq.m H2T.m H2P.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
 qroots.m qzsolve.oct 
+
+schurOneMPAlattice_socp_slb_bandpass_test.diary : \
+tarczynski_parallel_allpass_bandpass_test.diary

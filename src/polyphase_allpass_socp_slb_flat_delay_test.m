@@ -1,5 +1,5 @@
 % polyphase_allpass_socp_slb_flat_delay_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -14,12 +14,13 @@ maxiter=2000
 strf="polyphase_allpass_socp_slb_flat_delay_test";
 
 % Initial coefficients found by tarczynski_polyphase_allpass_test.m
-Da0 = [   1.0000000000,  -0.0002134684,   0.0001195228,  -0.0000935678, ... 
-          0.0000830182,  -0.0000775801,   0.0000737027,  -0.0000701139, ... 
-          0.0000667257,  -0.0000646266,   0.0000698038,  -0.0001413185 ]';
-Db0 = [   1.0000000000,   0.4963321183,  -0.1198743497,   0.0562545677, ... 
-         -0.0320258832,   0.0197800504,  -0.0126415950,   0.0081402307, ... 
-         -0.0051808458,   0.0032049109,  -0.0019028095,   0.0011977711 ]';
+% with flat_delay=true
+Da0 = [   1.0000000000,  -0.0002151568,   0.0001164129,  -0.0000936417, ... 
+          0.0000823630,  -0.0000783070,   0.0000737583,  -0.0000690069, ... 
+          0.0000671874,  -0.0000646893,   0.0000691140,  -0.0001413237 ]';
+Db0 = [   1.0000000000,   0.4963307358,  -0.1198781164,   0.0562525770, ... 
+         -0.0320266069,   0.0197792582,  -0.0126423500,   0.0081396004, ... 
+         -0.0051807086,   0.0032047412,  -0.0019021388,   0.0011981651 ]';
 
 % Lowpass filter specification for polyphase combination of all-pass filters
 tol=1e-4
@@ -34,14 +35,14 @@ Rb=R
 ma=length(Da0)-1
 mb=length(Db0)-1
 fap=0.22
-dBap=5e-6
+dBap=1e-5
 Wap=0
 ftp=0.22
 td=22.02 %(R*(ma+mb))/2
 tdr=0.08
 Wtp=1
 fas=0.28
-dBas=62
+dBas=60
 Was=500
 
 % Convert coefficients to a vector
@@ -154,7 +155,7 @@ close
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hab1)));
 ylabel("Amplitude(dB)");
-axis([0 max(fap,ftp) -dBap 0]);
+axis([0 max(fap,ftp) -0.6*dBap 0.2*dBap]);
 grid("on");
 title(strt);
 subplot(212);

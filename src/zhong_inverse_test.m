@@ -1,5 +1,5 @@
 % zhong_inverse_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -59,8 +59,8 @@ if err_AB > 40*eps
   error("err_AB > 40*eps")
 endif
 err_BA=max(max(abs((B*A)-eye(N))));
-if err_BA > 300*eps
-  error("err_BA > 300*eps")
+if err_BA > 500*eps
+  error("err_BA > 500*eps")
 endif
 
 % Done

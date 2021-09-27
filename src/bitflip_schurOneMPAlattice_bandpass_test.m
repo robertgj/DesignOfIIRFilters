@@ -1,5 +1,5 @@
 % bitflip_schurOneMPAlattice_bandpass_test.m
-% Copyright (C) 2019-2020 Robert G. Jenssen
+% Copyright (C) 2019-2021 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass lattice filter in one multiplier parallel allpass form.
@@ -16,24 +16,19 @@ strf="bitflip_schurOneMPAlattice_bandpass_test";
 bitflip_bandpass_test_common;
 
 % All-pass filters from schurOneMPAlattice_socp_slb_bandpass_test.m
-A1k0 = [ -0.7666764069,   0.8667580461,   0.0251123747,  -0.3719620095, ... 
-          0.5653810219,  -0.1071974150,  -0.1374040687,   0.4284719201, ... 
-         -0.3106387594,   0.1518029005 ];
-A1epsilon0 = [  1,  1, -1,  1, ... 
-               -1,  1,  1,  1, ... 
-                1, -1 ];
-A1p0 = [  0.3638747446,   1.0012697380,   0.2675023310,   0.2743064566, ... 
-          0.4054283512,   0.7694312203,   0.8568496353,   0.9839166330, ... 
-          0.6223593733,   0.8581422953 ];
-A2k0 = [ -0.4417660596,   0.8256217994,   0.0572232297,  -0.3257725377, ... 
-          0.5451606568,  -0.1928408211,  -0.1833000243,   0.4375351850, ... 
-         -0.2828674128,   0.1649464735 ];
-A2epsilon0 = [  1,  1, -1,  1, ... 
-               -1, -1,  1,  1, ... 
-                1, -1 ];
-A2p0 = [  0.7518342062,   1.2082626781,   0.3734238483,   0.3954403322, ... 
-          0.5545136644,   1.0220451025,   0.8407336107,   1.0119861651, ... 
-          0.6330135608,   0.8466505049 ];
+schurOneMPAlattice_socp_slb_bandpass_test_A1k_coef;
+schurOneMPAlattice_socp_slb_bandpass_test_A1p_coef;
+schurOneMPAlattice_socp_slb_bandpass_test_A1epsilon_coef;
+schurOneMPAlattice_socp_slb_bandpass_test_A2k_coef;
+schurOneMPAlattice_socp_slb_bandpass_test_A2epsilon_coef;
+schurOneMPAlattice_socp_slb_bandpass_test_A2p_coef;
+
+A1k0=A1k;
+A1p0=A1p;
+A1epsilon0=A1epsilon;
+A2k0=A2k;
+A2epsilon0=A2epsilon;
+A2p0=A2p;
 difference=true;
 
 % Find vector of exact lattice coefficients

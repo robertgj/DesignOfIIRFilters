@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_bandpass_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -19,12 +19,8 @@ strf="schurOneMPAlattice_socp_slb_bandpass_test";
 %
 % Initial coefficients found by tarczynski_parallel_allpass_bandpass_test.m
 %
-Da0 = [   1.0000000000,  -1.8973150269,   1.2642558998,   0.9180982400, ... 
-         -2.2325999512,   1.7468966414,  -0.1256228968,  -0.9677806380, ... 
-          1.0525981896,  -0.5245983396,   0.1304756216 ]';
-Db0 = [   1.0000000000,  -1.3313250884,   0.9709608648,   0.7128573966, ... 
-         -1.6815516926,   1.4133922361,  -0.1433260786,  -0.7254905194, ... 
-          0.8538839663,  -0.4392568120,   0.1374006920 ]';
+tarczynski_parallel_allpass_bandpass_test_Da0_coef;
+tarczynski_parallel_allpass_bandpass_test_Db0_coef;
 
 % Lattice decomposition of Da0, Db0
 [A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(Da0),Da0);

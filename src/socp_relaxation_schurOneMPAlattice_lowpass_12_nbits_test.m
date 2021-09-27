@@ -4,7 +4,7 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -18,7 +18,6 @@ socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_allocsd_Ito=false
 
 tic;
 
-
 tol=1e-4
 ctol=5e-7
 maxiter=2000
@@ -26,24 +25,12 @@ verbose=false
 strf="socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test";
 
 % Initial coefficients found by schurOneMPAlattice_socp_slb_lowpass_test.m
-A1k = [   0.7710148931,  -0.0879082413,  -0.2675569191,  -0.0636385348, ... 
-         -0.0589767502,   0.2446866951,  -0.1439283785,  -0.0042026127, ... 
-          0.1645512018,  -0.1594766619,   0.0542388379 ];
-A1epsilon = [  1,  1,  1,  1, ... 
-               1, -1,  1,  1, ... 
-               1,  1, -1 ];
-A1p = [   1.0938657112,   0.3933295006,   0.4295694505,   0.5651063443, ... 
-          0.6022897168,   0.6389229440,   0.8201908883,   0.9481112658, ... 
-          0.9521042183,   0.8064271015,   0.9471553835 ];
-A2k = [   0.3880312216,  -0.2734888919,   0.1864488795,   0.1636111104, ... 
-         -0.0463361738,   0.0417241579,  -0.2011467442,   0.1798135928, ... 
-          0.0053789583,  -0.1784404051,   0.1504522278,  -0.0552341933 ];
-A2epsilon = [  1,  1,  1, -1, ... 
-               1, -1, -1, -1, ... 
-              -1, -1, -1,  1 ];
-A2p = [   1.0560423644,   0.7012071828,   0.9283736540,   0.7687598897, ... 
-          0.9067561668,   0.9497919471,   0.9902835868,   0.8075976593, ... 
-          0.9686022321,   0.9738263911,   0.8131061832,   0.9462102660 ];
+schurOneMPAlattice_socp_slb_lowpass_test_A1k_coef;
+schurOneMPAlattice_socp_slb_lowpass_test_A1epsilon_coef;
+schurOneMPAlattice_socp_slb_lowpass_test_A1p_coef;
+schurOneMPAlattice_socp_slb_lowpass_test_A2k_coef;
+schurOneMPAlattice_socp_slb_lowpass_test_A2epsilon_coef;
+schurOneMPAlattice_socp_slb_lowpass_test_A2p_coef;
 
 % Low pass filter specification
 n=1000
@@ -59,7 +46,7 @@ dBas=50 % Stop band amplitude response ripple
 Was=100 % Stop band amplitude response weight
 ftp=0.175 % Pass band group delay response edge
 td=(m1+m2)/2 % Pass band nominal group delay
-tdr=0.06 % Pass band group delay response ripple
+tdr=0.08 % Pass band group delay response ripple
 Wtp=2 % Pass band group delay response weight
 
 % This works with Wa, Wt and Wp passed to schurOneMPAlattice_allocsd_Lim:

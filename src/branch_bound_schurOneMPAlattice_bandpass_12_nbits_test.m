@@ -4,7 +4,7 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -19,11 +19,10 @@ if use_best_branch_and_bound_found
            Set \"use_best_branch_and_bound_found\"=false to re-run.");
 endif
 enforce_pcls_constraints_on_final_filter=true
-branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim=true
-branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito=false
+branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim=false
+branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito=true
 
 tic;
-
 
 maxiter=500
 verbose=false
@@ -32,25 +31,20 @@ strf="branch_bound_schurOneMPAlattice_bandpass_12_nbits_test";
 %
 % Initial coefficients found by schurOneMPAlattice_socp_slb_bandpass_test.m
 %
-A1k0 = [ -0.7666764069,   0.8667580461,   0.0251123747,  -0.3719620095, ... 
-          0.5653810219,  -0.1071974150,  -0.1374040687,   0.4284719201, ... 
-         -0.3106387594,   0.1518029005 ];
-A1epsilon0 = [  1,  1, -1,  1, ... 
-               -1,  1,  1,  1, ... 
-                1, -1 ];
-A1p0 = [  0.3638747446,   1.0012697380,   0.2675023310,   0.2743064566, ... 
-          0.4054283512,   0.7694312203,   0.8568496353,   0.9839166330, ... 
-          0.6223593733,   0.8581422953 ];
+schurOneMPAlattice_socp_slb_bandpass_test_A1k_coef;
+schurOneMPAlattice_socp_slb_bandpass_test_A1epsilon_coef;
+schurOneMPAlattice_socp_slb_bandpass_test_A1p_coef;
+schurOneMPAlattice_socp_slb_bandpass_test_A2k_coef;
+schurOneMPAlattice_socp_slb_bandpass_test_A2epsilon_coef;
+schurOneMPAlattice_socp_slb_bandpass_test_A2p_coef;
+
+A1k0=A1k;
+A1epsilon0=A1epsilon;
+A1p0=A1p;
 A1p_ones=ones(size(A1p0));
-A2k0 = [ -0.4417660596,   0.8256217994,   0.0572232297,  -0.3257725377, ... 
-          0.5451606568,  -0.1928408211,  -0.1833000243,   0.4375351850, ... 
-         -0.2828674128,   0.1649464735 ];
-A2epsilon0 = [  1,  1, -1,  1, ... 
-               -1, -1,  1,  1, ... 
-                1, -1 ];
-A2p0 = [  0.7518342062,   1.2082626781,   0.3734238483,   0.3954403322, ... 
-          0.5545136644,   1.0220451025,   0.8407336107,   1.0119861651, ... 
-          0.6330135608,   0.8466505049 ];
+A2k0=A2k;
+A2epsilon0=A2epsilon;
+A2p0=A2p;
 A2p_ones=ones(size(A2p0));
 
 % Initialise coefficient range vectors
@@ -193,30 +187,30 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 if use_best_branch_and_bound_found
   if branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim
     % Lim
-    branches_min=171; % 2767 seconds, Esq_min=0.0114555
-    A1k_min = [    -1564,     1732,      160,     -832, ... 
-                    1287,     -504,        0,      736, ... 
-                    -560,      312 ]'/2048;
-    A2k_min = [     -924,     1632,      224,     -752, ... 
-                    1250,     -636,      -58,      752, ... 
-                    -540,      320 ]'/2048;
+    branches_min=352; % 2869 seconds, Esq_min=0.0112244
+    A1k_min = [  -1575,     1832,     -940,      384, ... 
+                   816,     -864,     1004,     -544, ... 
+                   224,       -3 ]'/2048;
+    A2k_min = [   -946,     1782,     -901,      480, ... 
+                   736,     -976,      962,     -526, ... 
+                   256,        0 ]'/2048;    
   elseif branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito
     % Ito
-    branches_min=209; % 3830 seconds, Esq_min=0.0132206    
-    A1k_min = [    -1571,     1760,       64,     -768, ... 
-                    1168,     -196,     -320,      880, ... 
-                    -608,      304 ]'/2048;
-    A2k_min = [     -928,     1660,      130,     -688, ... 
-                    1120,     -352,     -392,      896, ... 
-                    -576,      324 ]'/2048;
+    branches_min=391; % 4612 seconds, Esq_min=0.0102733
+    A1k_min = [  -1576,     1840,     -960,      416, ... 
+                   834,     -784,      832,     -192, ... 
+                   -48,      130 ]'/2048;
+    A2k_min = [   -953,     1787,     -898,      480, ... 
+                   771,     -900,      784,     -161, ... 
+                   -32,      136 ]'/2048;
   else
-    branches_min=424; % 5404 seconds, Esq_min=0.0119785
-    A1k_min = [    -1568,     1760,       30,     -752, ... 
-                    1184,     -240,     -274,      864, ... 
-                    -608,      316 ]'/2048;
-    A2k_min = [     -928,     1664,      104,     -672, ... 
-                    1144,     -383,     -352,      888, ... 
-                    -575,      316 ]'/2048;
+    branches_min=554; % 5207 seconds, Esq_min=0.0127851
+    A1k_min = [  -1600,     1856,    -1030,      400, ... 
+                   864,     -832,      864,     -236, ... 
+                   -55,      144 ]'/2048;
+    A2k_min = [   -984,     1776,     -968,      432, ... 
+                   767,     -956,      832,     -184, ... 
+                   -27,      156 ]'/2048;
   endif 
   A1epsilon_min=schurOneMscale(A1k_min);
   A2epsilon_min=schurOneMscale(A2k_min);
@@ -421,7 +415,7 @@ printf("kmin:TS=[ ");printf("%f ",TS');printf("] (Samples)\n")
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_kmin_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Ito)& %8.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd,k0_sd_digits,k0_sd_adders);
 fprintf(fid,"%d-bit %d-signed-digit(SOCP b-and-b) & %8.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq_min,kmin_digits,kmin_adders);
@@ -449,7 +443,7 @@ T_kmin=schurOneMPAlatticeT(wt,A1k_min,A1epsilon_min,A1p_ones, ...
 plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-legend("exact","s-d(Lim)","s-d(SOCP b-and-b)");
+legend("exact","s-d(Ito)","s-d(SOCP b-and-b)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -473,7 +467,7 @@ strt=sprintf("Parallel one-multplier allpass lattice bandpass filter pass-band\
 (nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,ndigits,fapl,fapu,dBap);
 title(strt);
 axis([fapl fapu -3, 1]);
-legend("exact","s-d(Lim)","s-d(b-and-b)");
+legend("exact","s-d(Ito)","s-d(b-and-b)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -491,7 +485,7 @@ strt=sprintf("Parallel one-multplier allpass lattice bandpass filter pass-band\
 (nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g,tdr=%g",nbits,ndigits,ftpl,ftpu,tdr);
 title(strt);
 axis([ftpl ftpu, td-tdr, td+tdr]);
-legend("exact","s-d(Lim)","s-d(b-and-b)");
+legend("exact","s-d(Ito)","s-d(b-and-b)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");

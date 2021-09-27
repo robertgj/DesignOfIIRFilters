@@ -34,3 +34,6 @@ armijo_kim.m updateWbfgs.m invSVD.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m \
 SDadders.m schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct \
 qroots.m qzsolve.oct 
+
+branch_bound_schurOneMlattice_bandpass_10_nbits_test.diary : \
+schurOneMlattice_sqp_slb_bandpass_test.diary

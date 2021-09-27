@@ -290,7 +290,7 @@ print(strcat(strf,"_model_response"),"-dpdflatex");
 close
 
 % Save the results
-fid=fopen(strcat(strf,"_test.spec"),"wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%4.1g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"mr=%d %% Model filter numerator order (mn+1 coefficients)\n",mr);
@@ -313,13 +313,13 @@ fprintf(fid,"edge_ramp=%d %% Linear change in extra weights over edge region\n",
         edge_ramp);
 fclose(fid);
 print_polynomial(r1,"x0.r");
-print_polynomial(r1,"r",strcat(strf,"_test_r_coef.m"));
+print_polynomial(r1,"r",strcat(strf,"_r_coef.m"));
 print_polynomial(s1,"x0.s");
-print_polynomial(s1,"s",strcat(strf,"_test_s_coef.m"));
+print_polynomial(s1,"s",strcat(strf,"_s_coef.m"));
 print_polynomial(aa1,"x0.aa");
-print_polynomial(aa1,"aa",strcat(strf,"_test_aa_coef.m"));
+print_polynomial(aa1,"aa",strcat(strf,"_aa_coef.m"));
 print_polynomial(ac1,"x0.ac");
-print_polynomial(ac1,"ac",strcat(strf,"_test_ac_coef.m"));
+print_polynomial(ac1,"ac",strcat(strf,"_ac_coef.m"));
 
 save tarczynski_frm_parallel_allpass_test.mat ...
      nfrm dfrm r1 s1 aa1 ac1 Mmodel Dmodel dmask mr ms na nc ...

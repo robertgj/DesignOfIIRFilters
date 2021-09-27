@@ -19,12 +19,8 @@ strf="schurOneMPAlattice_socp_slb_bandpass_hilbert_test";
 %
 % Initial coefficients from tarczynski_parallel_allpass_bandpass_hilbert_test.m
 %
-Da0 = [   1.0000000000,  -1.3420348529,   0.9476408004,   0.8924339392, ... 
-         -1.9566456567,   1.7230582345,  -0.3125109409,  -0.6221973493, ... 
-          0.7605942655,  -0.3624502969,   0.0926731060 ]';
-Db0 = [   1.0000000000,  -1.9568937354,   1.2936834023,   1.1283899984, ... 
-         -2.6900919871,   2.1584733783,  -0.3119350555,  -0.8689577257, ... 
-          0.9367692460,  -0.4306409818,   0.1000235909 ]';
+tarczynski_parallel_allpass_bandpass_hilbert_test_Da0_coef;
+tarczynski_parallel_allpass_bandpass_hilbert_test_Db0_coef;
 
 % Lattice decomposition of D1_0, D2_0
 [A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(Da0),Da0);

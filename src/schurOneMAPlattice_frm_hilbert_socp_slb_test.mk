@@ -31,3 +31,6 @@ schurOneMscale.m local_max.m print_polynomial.m print_pole_zero.m \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct spectralfactor.oct \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 qroots.m qzsolve.oct 
+
+schurOneMAPlattice_frm_hilbert_socp_slb_test.diary : \
+tarczynski_frm_halfband_test.diary

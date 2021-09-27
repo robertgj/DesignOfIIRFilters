@@ -3,6 +3,7 @@
 prog=allpass2ndOrderCascadeDelay_socp_test.m
 
 depends="allpass2ndOrderCascadeDelay_socp_test.m \
+../tarczynski_allpass_phase_shift_test_Da0_coef.m \
 test_common.m stability2ndOrderCascade.m print_polynomial.m \
 allpass2ndOrderCascade.m allpass2ndOrderCascadeDelay_socp.m \
 local_max.m fixResultNaN.m casc2tf.m tf2casc.m qroots.m qzsolve.oct"
@@ -41,16 +42,16 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_a1_coef.m << 'EOF'
-a1 = [  -0.4212475191,   1.0771982506,   0.3177671212,  -1.0446316296, ... 
-         0.3104468932,   0.7163932591,   0.3312240914,   0.0836798442, ... 
-         0.3761881148,  -0.9054554964,   0.8005915009 ]';
+a1 = [  -0.4212475164,   1.0771982496,   0.3177671206,  -1.0446316317, ... 
+         0.3104468943,   0.7163932591,   0.3312240911,   0.0836798444, ... 
+         0.3761881147,  -0.9054554964,   0.8005915008 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m"; fail; fi
 
 cat > test_a1sqm_coef.m << 'EOF'
-a1sqm = [  -0.8079712556,   0.7379074511,   0.1462308074,  -0.1919638180, ... 
-            0.2801222740,   0.5463645207,   0.1500432850,   0.2645641440, ... 
-            0.1733748910,  -1.0781165851,   0.8564450529 ]';
+a1sqm = [  -0.8079712490,   0.7379074513,   0.1462308085,  -0.1919638059, ... 
+            0.2801222715,   0.5463644948,   0.1500432772,   0.2645641497, ... 
+            0.1733748807,  -1.0781165833,   0.8564450511 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1sqm_coef.m"; fail; fi
 

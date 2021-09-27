@@ -13,16 +13,16 @@ tic;
 
 % Initial filter
 R=1;
-[N0,D0]=butter(12, 0.25*2);
-N0=N0(:);
-N0=N0/D0(1);
-nN=length(N0)-1;
-D0=D0(:);
-D0=D0/D0(1);
-nD=length(D0)-1;
+[Ni,Di]=butter(12, 0.25*2);
+Ni=Ni(:);
+Ni=Ni/Di(1);
+nN=length(Ni)-1;
+Di=Di(:);
+Di=Di/Di(1);
+nD=length(Di)-1;
 % Truncate Butterworth denominator to order 6
-D0=D0(1:7);
-nD=length(D0)-1;
+Di=Di(1:7);
+nD=length(Di)-1;
 
 % Frequency points
 td=9,fap=0.25,fas=0.3,ftp=0.25
@@ -42,9 +42,9 @@ Wt=[Wtp*ones(ntp,1); zeros(n-ntp,1)];
 WISEJ_ND([],nN,nD,R,wd,Ad,Wa,Td,Wt);
 tol=1e-6;
 maxiter=10000;
-ND0=[N0;D0(2:end)];
+NDi=[Ni;Di(2:end)];
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[ND,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_ND,ND0,opt);
+[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_ND,NDi,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -64,47 +64,47 @@ printf("fminunc successful=%d??\n", OUTPUT.successful);
 printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 
 % Create the output polynomials
-ND=ND(:);
-N=ND(1:(nN+1));
-D=[1; ND((nN+2):end)];
+ND0=ND0(:);
+N0=ND0(1:(nN+1));
+D0=[1; ND0((nN+2):end)];
 
 % Plot results
 nplot=512;
-[H,wplot]=freqz(N,D,nplot);
-T=grpdelay(N',D',nplot);
+[H0,wplot]=freqz(N0,D0,nplot);
+T0=grpdelay(N0',D0',nplot);
 subplot(211);
-plot(wplot*0.5/pi,20*log10(abs(H)));
+plot(wplot*0.5/pi,20*log10(abs(H0)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
 s=sprintf("Tarczynski deczky1 example : nN=%d,nD=%d",nN,nD);
 title(s);
 subplot(212);
-plot(wplot*0.5/pi,T);
+plot(wplot*0.5/pi,T0);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 25]);
 grid("on");
-print("tarczynski_deczky1_response", "-dpdflatex");
+print("tarczynski_deczky1_test_response", "-dpdflatex");
 close
 
 subplot(111);
-zplane(roots(N),roots(D))
+zplane(roots(N0),roots(D0))
 title(s);
-print("tarczynski_deczky1_pz", "-dpdflatex");
+print("tarczynski_deczky1_test_pz", "-dpdflatex");
 close
 
 % Print results
-print_polynomial(N,"N");
-print_polynomial(N,"N","tarczynski_deczky1_test_N_coef.m");
-print_polynomial(D,"D");
-print_polynomial(D,"D","tarczynski_deczky1_test_D_coef.m");
-[x,Ux,Vx,Mx,Qx]=tf2x(N,D);
-print_pole_zero(x,Ux,Vx,Mx,Qx,R,"x");
-print_pole_zero(x,Ux,Vx,Mx,Qx,R,"x","tarczynski_deczky1_test_x_coef.m")
+print_polynomial(N0,"N0");
+print_polynomial(N0,"N0","tarczynski_deczky1_test_N0_coef.m");
+print_polynomial(D0,"D0");
+print_polynomial(D0,"D0","tarczynski_deczky1_test_D0_coef.m");
+[x0,U,V,M,Q]=tf2x(N0,D0);
+print_pole_zero(x0,U,V,M,Q,R,"x0");
+print_pole_zero(x0,U,V,M,Q,R,"x0","tarczynski_deczky1_test_x0_coef.m")
                                                       
 % Save the result
-save tarczynski_deczky1_test.mat fap fas Wap Was td n nN nD N0 D0 N D 
+save tarczynski_deczky1_test.mat fap fas Wap Was td n nN nD Ni Di N0 D0 
 
 % Done
 toc

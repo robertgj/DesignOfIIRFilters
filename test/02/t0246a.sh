@@ -2,8 +2,9 @@
 
 prog=parallel_allpass_delay_sqp_slb_test.m
 
-depends="parallel_allpass_delay_sqp_slb_test.m test_common.m \
-parallel_allpass_delay_sqp_mmse.m parallel_allpass_delay_slb.m \
+depends="parallel_allpass_delay_sqp_slb_test.m \
+../tarczynski_parallel_allpass_delay_test_Da0_coef.m \
+test_common.m parallel_allpass_delay_sqp_mmse.m parallel_allpass_delay_slb.m \
 parallel_allpass_delay_slb_show_constraints.m \
 parallel_allpass_delay_slb_exchange_constraints.m \
 parallel_allpass_delay_slb_update_constraints.m \
@@ -50,10 +51,10 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test_a1_coef.m.ok << 'EOF'
 % All-pass single-vector representation
 Va1=0,Qa1=12,Ra1=1
-a1 = [   0.0432410833,   0.4494624492,   0.5533277975,   0.6224909879, ... 
-         0.6890178568,   0.9063402659, ...
-         0.7867125053,   2.9870690504,   2.3415884724,   1.6538379531, ... 
-         0.3604163883,   1.0533531407 ]';
+a1 = [   0.0388843899,   0.4506745153,   0.5565756339,   0.6234946108, ... 
+         0.6881673412,   0.9063096027, ...
+         0.4384326718,   2.9976934863,   2.3404966401,   1.6536135931, ... 
+         0.3608947539,   1.0534840529 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m.ok"; fail; fi
 

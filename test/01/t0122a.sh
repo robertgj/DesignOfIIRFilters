@@ -124,20 +124,20 @@ Dap = -0.7000
 ngopt = 1.4987
 ngoptap = 7.0000
 ngdir = 2.4159e+11
-ngdirap = 1.8053e+12
+ngdirap = 1.8054e+12
 est_varyd = 0.4398
 varyd = 0.4353
 est_varyoptd = 0.2082
-varyoptd = 0.2043
+varyoptd = 0.2110
 est_varydird = 2.0132e+10
-varydird = 3.4946e+07
+varydird = 3.5149e+07
 est_varyapd = 1.1667
 varyapd = 1.1536
 stdxx =
    121.13   120.71   128.78   129.06   130.18   129.96   128.18
 
 stdxxopt =
-   129.45   125.47   122.84   128.17   127.93   125.65   128.59
+   126.38   127.83   125.55   127.10   128.51   130.08   122.91
 
 stdxxdir =
  Columns 1 through 6:

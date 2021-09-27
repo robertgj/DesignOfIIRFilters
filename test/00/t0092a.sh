@@ -2,7 +2,9 @@
 
 prog=parallel_allpass_delay_socp_slb_test.m
 
-depends="parallel_allpass_delay_socp_slb_test.m test_common.m \
+depends="parallel_allpass_delay_socp_slb_test.m \
+../tarczynski_parallel_allpass_delay_test_Da0_coef.m \
+test_common.m \
 parallel_allpass_delayAsq.m \
 parallel_allpass_delayT.m \
 parallel_allpass_delay_slb.m \
@@ -52,10 +54,10 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test_a1_coef.m.ok << 'EOF'
 % All-pass single-vector representation
 Va1=0,Qa1=12,Ra1=1
-a1 = [   0.5316405017,   0.5398202393,   0.5614243416,   0.6187175840, ... 
-         0.7248003461,   0.9258450551, ...
-         2.8852658056,   2.3751023899,   1.8730720048,   1.3846291152, ... 
-         0.2701802361,   0.9710210883 ]';
+a1 = [   0.5320019361,   0.5401266887,   0.5616558081,   0.6188842534, ... 
+         0.7258013690,   0.9257982544, ...
+         2.8852013437,   2.3749594455,   1.8729657023,   1.3846721430, ... 
+         0.2723232192,   0.9711065735 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m.ok"; fail; fi
 

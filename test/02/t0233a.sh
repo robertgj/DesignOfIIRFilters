@@ -3,6 +3,10 @@
 prog=branch_bound_schurOneMlattice_bandpass_6_nbits_test.m
 
 depends="branch_bound_schurOneMlattice_bandpass_6_nbits_test.m test_common.m \
+../schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_test_c2_coef.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
 schurOneMlatticeEsq.m schurOneMscale.m tf2schurOneMlattice.m \
 schurOneMlattice2tf.m local_max.m x2tf.m tf2pa.m print_polynomial.m \

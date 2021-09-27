@@ -21,15 +21,7 @@ dBap=1,dBas=36,tp=8,tpr=2
 Wap=1,Wat=0.01,Was=1,Wtp=0.01
 
 % Initial filter from tarczynski_deczky1_test.m
-U=2,V=0,M=10,Q=6,R=1
-x0 = [  0.0095377735, ...
-       -2.3534528836,  -0.7656995132, ...
-        0.8134550416,   0.8901331226,   0.9700178111,   1.5552659293, ... 
-        1.6712916315, ...
-        2.5091243129,   2.1065386797,   1.9141468740,   1.0029585790, ... 
-        0.3215244138, ...
-        0.4636962702,   0.6933056003,   0.8789741853, ...
-        0.5711991836,   1.4853187193,   1.7963769022 ]';
+tarczynski_deczky1_test_x0_coef;
 
 % Strings
 strM=sprintf("%%s:fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g",
@@ -43,7 +35,7 @@ n=400;
 
 % Coefficient constraints
 dmax=0.05;
-[xl,xu]=xConstraints(U,V,M,Q);
+[xl,xu]=xConstraints(Ux0,Vx0,Mx0,Qx0);
 
 % Amplitude constraints
 wa=(0:(n-1))'*pi/n;
@@ -67,11 +59,12 @@ Tdl=(tp-(tpr/2))*ones(ntp,1);
 Wt=Wtp*ones(ntp,1);
 
 % Initial response
-strt=sprintf("Initial Deczky Ex. 1 : U=%d,V=%d,M=%d,Q=%d,R=%d", U,V,M,Q,R);
-showResponse(x0,U,V,M,Q,R,strt);
+strt=sprintf("Initial Deczky Ex. 1 : Ux0=%d,V=%d,M=%d,Q=%d,R=%d",
+             Ux0,Vx0,Mx0,Qx0,Rx0);
+showResponse(x0,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
 print(strcat(strf,"_initial_x0"),"-dpdflatex");
 close
-showZPplot(x0,U,V,M,Q,R,strt)
+showZPplot(x0,Ux0,Vx0,Mx0,Qx0,Rx0,strt)
 print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
 close
 
@@ -80,64 +73,64 @@ printf("\nMMSE pass 1:\n");
 vS=deczky1_slb_set_empty_constraints();
 [x1,E,sqp_iter,func_iter,feasible] = ...
   deczky1_sqp_mmse(vS, ...
-                   x0,xu,xl,dmax,U,V,M,Q,R, ...
+                   x0,xu,xl,dmax,Ux0,Vx0,Mx0,Qx0,Rx0, ...
                    wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx, ...
                    maxiter,tol,verbose)
 if feasible == 0 
   error("x1(mmse) infeasible");
 endif
 strt=sprintf(strM,"x1(mmse)");
-showZPplot(x1,U,V,M,Q,R,strt);
+showZPplot(x1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
-showResponse(x1,U,V,M,Q,R,strt);
+showResponse(x1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
 print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
-showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,x1,U,V,M,Q,R,strt);
+showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,x1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
 print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 close
 
 % PCLS pass 1
 printf("\nPCLS pass 1:\n");
 [d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
-  deczky1_slb(@deczky1_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
+  deczky1_slb(@deczky1_sqp_mmse,x1,xu,xl,dmax,Ux0,Vx0,Mx0,Qx0,Rx0, ...
               wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx, ...
               maxiter,tol,ctol,verbose)
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
 strt=sprintf(strP,"d1(pcls)");
-showZPplot(d1,U,V,M,Q,R,strt);
+showZPplot(d1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
-showResponse(d1,U,V,M,Q,R,strt);
+showResponse(d1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
-showResponsePassBands(0,max(ftp,fap),-0.6,0.2,d1,U,V,M,Q,R,strt);
+showResponsePassBands(0,max(ftp,fap),-0.6,0.2,d1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 close
 
 % Final amplitude and delay at constraints
-A=iirA(wa,d1,U,V,M,Q,R);
+A=iirA(wa,d1,Ux0,Vx0,Mx0,Qx0,Rx0);
 vAl=local_max(Adl-A);
 vAu=local_max(A-Adu);
 wAS=unique([wa(vAl);wa(vAu);wa(nap);wa(nas)]);
-AS=iirA(wAS,d1,U,V,M,Q,R);
+AS=iirA(wAS,d1,Ux0,Vx0,Mx0,Qx0,Rx0);
 printf("d1:fAS=[ ");printf("%f ",wAS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:AS=[ ");printf("%f ",20*log10(AS'));printf(" ] (dB)\n");
 
-delAdelw=iirdelAdelw(wx,d1,U,V,M,Q,R);
+delAdelw=iirdelAdelw(wx,d1,Ux0,Vx0,Mx0,Qx0,Rx0);
 vAx=local_max(delAdelw);
 wAx=unique([wx(vAx);wa(nap);wa(nas)]);
 printf("d1:fAx=[ ");printf("%f ",wAx'*0.5/pi);printf(" ] (fs==1)\n");
 delAdelwx=delAdelw([vAx;1;length(wx)]);
 printf("d1:delAdelw=[ ");printf("%f ",delAdelwx);printf(" ]\n");
 
-T=iirT(wt,d1,U,V,M,Q,R);
+T=iirT(wt,d1,Ux0,Vx0,Mx0,Qx0,Rx0);
 vTl=local_max(Tdl-T);
 vTu=local_max(T-Tdu);
 wTS=unique([wt(vTl);wt(vTu);wt(ntp)]);
-TS=iirT(wTS,d1,U,V,M,Q,R);
+TS=iirT(wTS,d1,Ux0,Vx0,Mx0,Qx0,Rx0);
 printf("d1:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 
@@ -157,21 +150,21 @@ fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
 fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
 fprintf(fid,"dBas=%d %% Stop band minimum attenuation\n",dBas);
 fprintf(fid,"Was=%d %% Stop band amplitude weight\n",Was);
-fprintf(fid,"U=%d %% Number of real zeros\n",U);
-fprintf(fid,"V=%d %% Number of real poles\n",V);
-fprintf(fid,"M=%d %% Number of complex zeros\n",M);
-fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
-fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
+fprintf(fid,"Ux0=%d %% Number of real zeros\n",Ux0);
+fprintf(fid,"Vx0=%d %% Number of real poles\n",Vx0);
+fprintf(fid,"Mx0=%d %% Number of complex zeros\n",Mx0);
+fprintf(fid,"Qx0=%d %% Number of complex poles\n",Qx0);
+fprintf(fid,"Rx0=%d %% Denominator polynomial decimation factor\n",Rx0);
 fclose(fid);
-print_pole_zero(d1,U,V,M,Q,R,"d1");
-print_pole_zero(d1,U,V,M,Q,R,"d1",strcat(strf,"_d1_coef.m"));
-[N1,D1]=x2tf(d1,U,V,M,Q,R);
+print_pole_zero(d1,Ux0,Vx0,Mx0,Qx0,Rx0,"d1");
+print_pole_zero(d1,Ux0,Vx0,Mx0,Qx0,Rx0,"d1",strcat(strf,"_d1_coef.m"));
+[N1,D1]=x2tf(d1,Ux0,Vx0,Mx0,Qx0,Rx0);
 print_polynomial(N1,"N1");
 print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
-save deczky1_sqp_test.mat U V M Q R ...
+save deczky1_sqp_test.mat Ux0 Vx0 Mx0 Qx0 Rx0 ...
      tol ctol fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp x0 x1 d1
 
 % Done

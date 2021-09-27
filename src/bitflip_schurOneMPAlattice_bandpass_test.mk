@@ -42,3 +42,6 @@ schurOneMPAlatticeEsq.m schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m \
 schurdecomp.oct schurexpand.oct bitflip.oct bin2SD.oct spectralfactor.oct \
 schurOneMlattice2Abcd.oct qzsolve.oct complex_zhong_inverse.oct bin2SPT.oct \
 schurOneMAPlattice2H.oct
+
+bitflip_schurOneMPAlattice_bandpass_test.diary : \
+schurOneMPAlattice_socp_slb_bandpass_test.diary iir_sqp_slb_bandpass_test.diary

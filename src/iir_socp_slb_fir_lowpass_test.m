@@ -12,7 +12,7 @@ diary iir_socp_slb_fir_lowpass_test.diary.tmp
 tic
 
 tol=1e-4
-ctol=1e-4
+ctol=tol/100
 maxiter=10000
 verbose=false
 
@@ -20,13 +20,13 @@ verbose=false
 R=1;
 N=56
 fap=0.15
-dBap=1
+dBap=0.5
 Wap=1
 Wat=0.0001
 ftp=0.15
 td=15
-tdr=1
-Wtp=0.001
+tdr=0.3
+Wtp=0.01
 fas=0.2
 dBas=50
 Was=1

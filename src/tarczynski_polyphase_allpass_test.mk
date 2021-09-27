@@ -1,0 +1,13 @@
+tarczynski_polyphase_allpass_test_FIGURES = \
+tarczynski_polyphase_allpass_test_response \
+tarczynski_polyphase_allpass_test_response_passband \
+tarczynski_polyphase_allpass_test_phase
+
+tarczynski_polyphase_allpass_test_COEFS = \
+tarczynski_polyphase_allpass_test_Da0_coef.m \
+tarczynski_polyphase_allpass_test_Db0_coef.m \
+tarczynski_polyphase_allpass_test.mat
+
+tarczynski_polyphase_allpass_test_FILES = tarczynski_polyphase_allpass_test.m \
+test_common.m print_polynomial.m print_pole_zero.m WISEJ_PA.m
+

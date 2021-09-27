@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_lowpass_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -9,24 +9,18 @@ diary schurOneMPAlattice_socp_slb_lowpass_test.diary.tmp
 
 tic;
 
-
 tol=1e-7
 ctol=tol
 maxiter=2000
 verbose=false
 
 % Initial coefficients found by tarczynski_parallel_allpass_test.m
-D1_0 = [  1.0000000000,   0.6973425948,  -0.2974024148,  -0.3128925551, ... 
-         -0.1821524719,   0.0543108182,   0.0871833752,  -0.1041702621, ... 
-          0.1847084712,   0.0438908732,  -0.1319942205,   0.0451686628 ]';
-D2_0 = [  1.0000000000,   0.1562068572,  -0.3135072879,   0.3175766446, ... 
-          0.1302357502,   0.0786472594,  -0.0643214506,  -0.1837724376, ... 
-          0.2692150636,  -0.0895879415,  -0.1359940537,   0.1338215440, ... 
-         -0.0581963010 ]';
+tarczynski_parallel_allpass_test_Da0_coef;
+tarczynski_parallel_allpass_test_Db0_coef;
 
-% Lattice decomposition of D1_0, D2_0
-[A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(D1_0),D1_0);
-[A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(D2_0),D2_0);
+% Lattice decomposition of Da0, Db0
+[A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(Da0),Da0);
+[A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(Db0),Db0);
 
 % Low pass filter specification
 n=400
@@ -150,9 +144,9 @@ print_polynomial(A1epsilon,"A1epsilon",strcat(strf,"_A1epsilon_coef.m"),"%2d");
 print_polynomial(A1p,"A1p");
 print_polynomial(A1p,"A1p",strcat(strf,"_A1p_coef.m"));
 
-D1_1=schurOneMAPlattice2tf(A1k,A1epsilon,A1p);
-print_polynomial(D1_1,"D1_1");
-print_polynomial(D1_1,"D1_1",strcat(strf,"_D1_1_coef.m"));
+Da1=schurOneMAPlattice2tf(A1k,A1epsilon,A1p);
+print_polynomial(Da1,"Da1");
+print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 
 print_polynomial(A2k,"A2k");
 print_polynomial(A2k,"A2k",strcat(strf,"_A2k_coef.m"));
@@ -161,14 +155,14 @@ print_polynomial(A2epsilon,"A2epsilon",strcat(strf,"_A2epsilon_coef.m"),"%2d");
 print_polynomial(A2p,"A2p");
 print_polynomial(A2p,"A2p",strcat(strf,"_A2p_coef.m"));
 
-D2_1=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
-print_polynomial(D2_1,"D2_1");
-print_polynomial(D2_1,"D2_1",strcat(strf,"_D2_1_coef.m"));
+Db1=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
+print_polynomial(Db1,"Db1");
+print_polynomial(Db1,"Db1",strcat(strf,"_Db1_coef.m"));
 
 save schurOneMPAlattice_socp_slb_lowpass_test.mat ...
      rho tol ctol difference n m1 m2 ...
      fap dBap Wap Wat fas dBas Was ftp td tdr Wtp ...
-     D1_0 D2_0 A1k A1epsilon A1p D1_1 A2k A2epsilon A2p D2_1
+     Da0 Db0 A1k A1epsilon A1p Da1 A2k A2epsilon A2p Db1
 
 % Done
 toc;

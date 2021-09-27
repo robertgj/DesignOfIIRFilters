@@ -2,6 +2,9 @@
 
 prog=branch_bound_johanssonOneMlattice_bandstop_16_nbits_test.m
 depends="branch_bound_johanssonOneMlattice_bandstop_16_nbits_test.m \
+../johansson_cascade_allpass_bandstop_test_bsA0_coef.m \
+../johansson_cascade_allpass_bandstop_test_bsA1_coef.m \
+../johansson_cascade_allpass_bandstop_test_f1_coef.m \
 test_common.m johanssonOneMlatticeAzp.m johanssonOneMlatticeEsq.m \
 tf2schurOneMlattice.m phi2p.m tfp2g.m tf2pa.m local_max.m print_polynomial.m \
 flt2SD.m x2nextra.m bin2SDul.m SDadders.m qroots.m schurOneMAPlatticeP.m \

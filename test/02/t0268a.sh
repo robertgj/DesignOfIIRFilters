@@ -3,6 +3,8 @@
 prog=schurOneMAPlattice_frm_hilbert_socp_slb_test.m
 
 depends="schurOneMAPlattice_frm_hilbert_socp_slb_test.m test_common.m \
+../tarczynski_frm_halfband_test_r0_coef.m \
+../tarczynski_frm_halfband_test_aa0_coef.m \
 schurOneMAPlattice_frm_hilbert_socp_mmse.m \
 schurOneMAPlattice_frm_hilbert_slb.m \
 schurOneMAPlattice_frm_hilbert_slb_constraints_are_empty.m \
@@ -54,8 +56,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_k2_coef.m << 'EOF'
-k2 = [  -0.5737726298,  -0.1357954240,  -0.0532684516,  -0.0211111235, ... 
-        -0.0087703126 ]';
+k2 = [  -0.5737700904,  -0.1357936389,  -0.0532667565,  -0.0211103749, ... 
+        -0.0087691295 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k2_coef.m"; fail; fi
 
@@ -66,15 +68,15 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_epsilon2_coef.m"; fail; fi
 
 cat > test_u2_coef.m << 'EOF'
-u2 = [  -0.0009207330,  -0.0025408772,  -0.0071034731,  -0.0128187644, ... 
-        -0.0309895964,  -0.0342924460,  -0.0517579913,  -0.0570036999, ... 
-         0.4398918391 ]';
+u2 = [  -0.0009116767,  -0.0025366902,  -0.0071006338,  -0.0128161237, ... 
+        -0.0309820091,  -0.0342998806,  -0.0517606174,  -0.0570241929, ... 
+         0.4398775695 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_u2_coef.m"; fail; fi
 
 cat > test_v2_coef.m << 'EOF'
-v2 = [   0.0065494606,   0.0043721486,   0.0072055070,   0.0020700954, ... 
-        -0.0078782694,  -0.0311739891,  -0.0808661252,  -0.3144277686 ]';
+v2 = [   0.0065472605,   0.0043740675,   0.0072050484,   0.0020896152, ... 
+        -0.0078673822,  -0.0311651096,  -0.0808627975,  -0.3144157088 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_v2_coef.m"; fail; fi
 

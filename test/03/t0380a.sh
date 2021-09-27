@@ -43,12 +43,12 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_nh4_na4.ok"; fail; fi
 
 cat > test_nh4_na3.ok << 'EOF'
-a1 = [   0.66091529,   0.93352733,   0.92391228 ]';
+a1 = [   0.66091528,   0.93352733,   0.92391228 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_nh4_na3.ok"; fail; fi
 
 cat > test_nh3_na4.ok << 'EOF'
-a1 = [   0.92358863,   0.51356932,   0.76805895,   0.25759056 ]';
+a1 = [   0.92358863,   0.51356932,   0.76805895,   0.25759057 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_nh3_na4.ok"; fail; fi
 

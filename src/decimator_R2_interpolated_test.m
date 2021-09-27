@@ -189,18 +189,21 @@ print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Plot the response of the interpolated IIR filter ...
-subplot(411)
-ax=plotyy(fa,20*log10(abs(H1P)),fa,20*log10(abs(H1P)));
-axis(ax(1),[0 0.1 -0.4 0.4])
-axis(ax(2),[0 0.1 -45 -25])
-axis(ax(1),"tic","labely");
-axis(ax(2),"tic","labely");
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
+ax1=plotyy(fa,20*log10(abs(H1P)),fa,20*log10(abs(H1P)));
+axis(ax1(1),[0 0.1 -0.4 0.4])
+axis(ax1(2),[0 0.1 -45 -25])
+axis(ax1(1),"tic","labely");
+axis(ax1(2),"tic","labely");
+set(ax1(1),'ycolor','black');
+set(ax1(2),'ycolor','black');
 grid("on");
 ylabel("Amplitude(dB)")
+%{
 title(sprintf("Interpolated and anti-aliased IIR filter : \
 %d multipliers and %g samples nominal delay",N1D1_mult,tpP));
+%}
+print(strcat(strf,"_remez_comparison_interpolated_IIR"),"-dpdflatex");
+close
 % ... against that of:
 %  1. an equivalent interpolated anti-aliased FIR
 baa=remez(N,[0 (fap/P) ((1-fas)/P) 0.5]*2,[1 1 0 0]);
@@ -212,48 +215,55 @@ beq=remez(Neq,[0 fap fas 0.5]*2,[1 1 0 0]);
 beq=beq(:)';
 bbeq=conv(baa,[beq(1),kron(beq(2:end),[zeros(1,P-1),1])]);
 Hbbeq=freqz(bbeq,1,wa);
-subplot(412)
-ax=plotyy(fa,20*log10(abs(Hbbeq)),fa,20*log10(abs(Hbbeq)));
-axis(ax(1),[0 0.1 -0.4 0.4])
-axis(ax(2),[0 0.1 -45 -25])
-axis(ax(1),"tic","labely");
-axis(ax(2),"tic","labely");
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
+ax2=plotyy(fa,20*log10(abs(Hbbeq)),fa,20*log10(abs(Hbbeq)));
+axis(ax2(1),[0 0.1 -0.4 0.4])
+axis(ax2(2),[0 0.1 -45 -25])
+axis(ax2(1),"tic","labely");
+axis(ax2(2),"tic","labely");
+set(ax2(1),'ycolor','black');
+set(ax2(2),'ycolor','black');
 grid("on");
 ylabel("Amplitude(dB)")
-title(sprintf("Equivalent interpolated and anti-aliased FIR filter : \
+%{
+title(sprintf("Interpolated and anti-aliased FIR filter : \
 %d distinct multipliers and %g samples delay",bbeq_mult,tdeq));
+%}
+print(strcat(strf,"_remez_comparison_interpolated_FIR"),"-dpdflatex");
+close
 %  2. an FIR filter with the same number of distinct multipliers
 Nbb=2*(N1D1_mult-1);
 bb=remez(Nbb,[0 fap/P fas/P 0.5]*2,[1 1 0 0]);
 Hbb=freqz(bb,1,wa);
-subplot(413)
-ax=plotyy(fa,20*log10(abs(Hbb)),fa,20*log10(abs(Hbb)));
-axis(ax(1),[0 0.1 -0.4 0.4])
-axis(ax(2),[0 0.1 -45 -25])
-axis(ax(1),"tic","labely");
-axis(ax(2),"tic","labely");
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
+ax3=plotyy(fa,20*log10(abs(Hbb)),fa,20*log10(abs(Hbb)));
+axis(ax3(1),[0 0.1 -0.4 0.4])
+axis(ax3(2),[0 0.1 -45 -25])
+axis(ax3(1),"tic","labely");
+axis(ax3(2),"tic","labely");
+set(ax3(1),'ycolor','black');
+set(ax3(2),'ycolor','black');
 grid("on");
 ylabel("Amplitude(dB)")
-title(sprintf("Direct-form FIR filter : %d distinct multipliers",(Nbb/2)+1));
+%{
+title(sprintf("Direct-form FIR filter : %d multipliers",(Nbb/2)+1));
+%}
+print(strcat(strf,"_remez_comparison_direct_FIR_multipliers"),"-dpdflatex");
+close
 %  3. an FIR filter with the same nominal delay
 Nbbb=round(2*tpP);
 bbb=remez(Nbbb,[0 fap/P fas/P 0.5]*2,[1 1 0 0]);
 Hbbb=freqz(bbb,1,wa);
-subplot(414)
-ax=plotyy(fa,20*log10(abs(Hbbb)),fa,20*log10(abs(Hbbb)));
-axis(ax(1),[0 0.1 -0.4 0.4])
-axis(ax(2),[0 0.1 -45 -25])
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
+ax4=plotyy(fa,20*log10(abs(Hbbb)),fa,20*log10(abs(Hbbb)));
+axis(ax4(1),[0 0.1 -0.4 0.4])
+axis(ax4(2),[0 0.1 -45 -25])
+set(ax4(1),'ycolor','black');
+set(ax4(2),'ycolor','black');
 grid("on");
 ylabel("Amplitude(dB)")
 xlabel("Frequency");
+%{
 title(sprintf("Direct-form FIR filter : %g samples delay",(Nbbb/2)));
-print(strcat(strf,"_remez_comparison"),"-dpdflatex");
+%}
+print(strcat(strf,"_remez_comparison_direct_FIR"),"-dpdflatex");
 close
 
 % Save results

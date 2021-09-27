@@ -178,10 +178,10 @@ Sd=zeros(n-nas,1);
 Ws=Was*ones(n-nas,1);
 
 % Unconstrained minimisation
-ab0=0.1*ones(ma+mb,1);
+abi=0.1*ones(ma+mb,1);
 WISEJ_AB([],flat_delay,ma,mb,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,verbose);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[ab1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_AB,ab0,opt);
+[ab0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_AB,abi,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -201,21 +201,21 @@ printf("fminunc successful=%d??\n", OUTPUT.successful);
 printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 
 % Create the output polynomials
-Da1=casc2tf(ab1(1:ma));
-Da1=Da1(:)';
-Na1=fliplr(Da1);
-Db1=casc2tf(ab1((ma+1):(ma+mb)));
-Db1=Db1(:)';
-Nb1=fliplr(Db1);
-N1=0.5*(conv(Na1,Db1)+conv(Nb1,Da1));
-D1=conv(Da1,Db1);
+Da0=casc2tf(ab0(1:ma));
+Da0=Da0(:)';
+Na0=fliplr(Da0);
+Db0=casc2tf(ab0((ma+1):(ma+mb)));
+Db0=Db0(:)';
+Nb0=fliplr(Db0);
+N0=0.5*(conv(Na0,Db0)+conv(Nb0,Da0));
+D0=conv(Da0,Db0);
 
 % Plot results
 nplot=512;
 
 % Overall frequency response
-[H,wplot]=freqz(N1,D1,nplot);
-T=grpdelay(N1,D1,nplot);
+[H,wplot]=freqz(N0,D0,nplot);
+T=grpdelay(N0,D0,nplot);
 clf();
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(H)));
@@ -234,7 +234,7 @@ plot(wplot*0.5/pi,T);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
-print("tarczynski_allpass2ndOrderCascade_response","-dpdflatex");
+print("tarczynski_allpass2ndOrderCascade_test_response","-dpdflatex");
 close
 % Plot passband response
 clf();
@@ -254,7 +254,7 @@ else
   axis([0 max(ftp,fap) 0 40]);
 endif
 grid("on");
-print("tarczynski_allpass2ndOrderCascade_response_passband","-dpdflatex");
+print("tarczynski_allpass2ndOrderCascade_test_response_passband","-dpdflatex");
 close
 % Plot passband and stopband response (fails with gnuplot graphics toolkit)
 np=ceil(fap*nplot/0.5)+1;
@@ -276,13 +276,13 @@ set(ax(2),'ycolor','black');
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
-print("tarczynski_allpass2ndOrderCascade_response_pass_stop","-dpdflatex");
+print("tarczynski_allpass2ndOrderCascade_test_response_pass_stop","-dpdflatex");
 close
 % Plot the relative phase response of the parallel filters
 clf();
 subplot(111);
-Ha=freqz(Na1,Da1,nplot);
-Hb=freqz(Nb1,Db1,nplot);
+Ha=freqz(Na0,Da0,nplot);
+Hb=freqz(Nb0,Db0,nplot);
 plot(wplot*0.5/pi,[unwrap(arg(Ha)),unwrap(arg(Hb))]+wplot*td)
 title(s);
 ylabel("Zero-phase response(rad.)");
@@ -290,7 +290,7 @@ xlabel("Frequency");
 legend("A","B","location","southwest");
 legend("boxoff");
 grid("on");
-print("tarczynski_allpass2ndOrderCascade_ABphase","-dpdflatex");
+print("tarczynski_allpass2ndOrderCascade_test_ABphase","-dpdflatex");
 close
 % Plot phase response error
 clf();
@@ -304,23 +304,23 @@ ylabel("Allpass filter phase difference(rad)");
 xlabel("Frequency");
 grid("on");
 title(s);
-print("tarczynski_allpass2ndOrderCascade_phase_error","-dpdflatex");
+print("tarczynski_allpass2ndOrderCascade_test_phase_error","-dpdflatex");
 close
 % Plot poles and zeros
-zplane(roots(Na1),roots(Da1))
+zplane(roots(Na0),roots(Da0))
 s=sprintf("All-pass 2nd order cascade A : ma=%d",ma);
 title(s);
-print("tarczynski_allpass2ndOrderCascade_Apz","-dpdflatex");
+print("tarczynski_allpass2ndOrderCascade_test_Apz","-dpdflatex");
 close
-zplane(roots(Nb1),roots(Db1))
+zplane(roots(Nb0),roots(Db0))
 s=sprintf("All-pass 2nd order cascade B : mb=%d",mb);
 title(s);
-print("tarczynski_allpass2ndOrderCascade_Bpz","-dpdflatex");
+print("tarczynski_allpass2ndOrderCascade_test_Bpz","-dpdflatex");
 close
 subplot(111);
-zplane(roots(N1),roots(D1))
+zplane(roots(N0),roots(D0))
 title(s);
-print("tarczynski_allpass2ndOrderCascade_pz","-dpdflatex");
+print("tarczynski_allpass2ndOrderCascade_test_pz","-dpdflatex");
 close
 
 % Save the filter specification
@@ -341,17 +341,18 @@ fprintf(fid,"Was=%d %% Stop band amplitude response weight\n",Was);
 fclose(fid);
 
 % Save the result
-print_polynomial(ab1,"ab1");
-print_polynomial(ab1,"ab1","tarczynski_allpass2ndOrderCascade_test_ab1_coef.m");
-print_polynomial(Da1,"Da1");
-print_polynomial(Da1,"Da1","tarczynski_allpass2ndOrderCascade_test_Da1_coef.m");
-print_polynomial(Db1,"Db1");
-print_polynomial(Db1,"Db1","tarczynski_allpass2ndOrderCascade_test_Db1_coef.m");
+print_polynomial(ab0,"ab0");
+print_polynomial(ab0,"ab0","tarczynski_allpass2ndOrderCascade_test_ab0_coef.m");
+print_polynomial(Da0,"Da0");
+print_polynomial(Da0,"Da0","tarczynski_allpass2ndOrderCascade_test_Da0_coef.m");
+print_polynomial(Db0,"Db0");
+print_polynomial(Db0,"Db0","tarczynski_allpass2ndOrderCascade_test_Db0_coef.m");
 
-save tarczynski_allpass2ndOrderCascade.mat ...
-     tol maxiter n flat_delay ma mb td fap Wap ftp Wtp fas Was ab0 ab1
+save tarczynski_allpass2ndOrderCascade_test.mat ...
+     tol maxiter n flat_delay ma mb td fap Wap ftp Wtp fas Was abi ab0
 
 % Done
 toc;
 diary off
-movefile tarczynski_allpass2ndOrderCascade_test.diary.tmp tarczynski_allpass2ndOrderCascade_test.diary;
+movefile tarczynski_allpass2ndOrderCascade_test.diary.tmp ...
+         tarczynski_allpass2ndOrderCascade_test.diary;

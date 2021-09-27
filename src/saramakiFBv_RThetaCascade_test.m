@@ -1,5 +1,5 @@
 % saramakiFBv_RThetaCascade_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018,2021 Robert G. Jenssen
 
 test_common;
 
@@ -58,7 +58,7 @@ for m=5:6,
     endif
 
     % Check delFdelbeta
-    tol=5e-9;
+    tol=1e-8;
     del=1e-6;
     delk=[del,zeros(1,n-1)];
     [~,delFdelbeta]=saramakiFBv_RThetaCascade(beta,n,m,v);

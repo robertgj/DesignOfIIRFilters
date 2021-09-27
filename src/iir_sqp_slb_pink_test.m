@@ -1,5 +1,5 @@
 % iir_sqp_slb_pink_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -17,12 +17,10 @@ verbose=false
 strf="iir_sqp_slb_pink_test";
 
 % Initial pink noise filter from tarczynski_pink_test.m
-N0 = [   0.0255459662,   0.0269736316,   0.0295493475,   0.0314939183, ... 
-         0.0596527509,   0.2240662308,   0.0174942232,  -0.0489009505, ... 
-        -0.0647646959,  -0.0502065090,  -0.0245054024,   0.0357782540 ]';
-D0 = [   1.0000000000,  -0.1243860183,  -0.2257053221,  -0.2517078756, ... 
-        -0.1613690470,  -0.1035971313,   0.2070769160,  -0.0314625645, ... 
-        -0.0009048289,  -0.0058396626,  -0.0018478509,  -0.0060197822 ]';
+tarczynski_pink_test_D0_coef;
+tarczynski_pink_test_N0_coef;
+[x0,U,V,M,Q]=tf2x(N0,D0);
+R=1;
 
 % Filter specifications
 fat=0.005;
@@ -32,8 +30,6 @@ ftt=0.025;
 tp=4.77;
 tpr=0.02;
 Wtp=1;
-[x0,U,V,M,Q]=tf2x(N0,D0);
-R=1;
 
 % Frequency vector
 n=1000;

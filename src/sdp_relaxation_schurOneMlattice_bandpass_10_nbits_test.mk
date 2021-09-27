@@ -38,4 +38,7 @@ schurOneMlatticeT.m \
 H2Asq.m H2P.m H2T.m \
 print_polynomial.m local_max.m flt2SD.m SDadders.m x2nextra.m bin2SDul.m \
 schurOneMlattice2H.oct schurOneMlattice2Abcd.oct complex_zhong_inverse.oct \
-bin2SD.oct bin2SPT.oct 
+bin2SD.oct bin2SPT.oct
+
+sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary : \
+schurOneMlattice_sqp_slb_bandpass_test.diary

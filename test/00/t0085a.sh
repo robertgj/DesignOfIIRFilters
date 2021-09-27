@@ -2,7 +2,10 @@
 
 prog=polyphase_allpass_socp_slb_test.m
 
-depends="polyphase_allpass_socp_slb_test.m test_common.m \
+depends="polyphase_allpass_socp_slb_test.m \
+../tarczynski_polyphase_allpass_test_Da0_coef.m \
+../tarczynski_polyphase_allpass_test_Db0_coef.m \
+test_common.m \
 parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \
 parallel_allpass_slb.m \
 parallel_allpass_slb_constraints_are_empty.m \
@@ -50,18 +53,18 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test_a1_coef.m.ok << 'EOF'
 % All-pass single-vector representation
 Va1=3,Qa1=8,Ra1=2
-a1 = [  -0.7086484339,  -0.0799399677,   0.6528507755, ...
-         0.1527825352,   0.1652271778,   0.4803303278,   0.8837842069, ...
-         2.3172287745,   1.7534220972,   0.3470462799,   3.1415925977 ]';
+a1 = [  -0.7157129283,  -0.3474972023,   0.7341779764, ...
+         0.1808739598,   0.6178225230,   0.6575034148,   0.9246022033, ...
+         1.6762793502,   0.1996995396,   0.8706261820,   3.1415882987 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m.ok"; fail; fi
 
 cat > test_b1_coef.m.ok << 'EOF'
 % All-pass single-vector representation
 Vb1=3,Qb1=8,Rb1=2
-b1 = [  -0.9677941139,  -0.5370682514,   0.6556768274, ...
-         0.2395694210,   0.3045540872,   0.4929559198,   0.8443399860, ...
-         1.1860354202,   2.1529937155,   0.3511067621,   3.1415926495 ]';
+b1 = [  -0.8282192352,  -0.5611054983,   0.7320395468, ...
+         0.1740755488,   0.6140100267,   0.6567358745,   0.9555585008, ...
+         1.9856733084,   0.1922184208,   0.8712883948,   3.1415002854 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_b1_coef.m.ok"; fail; fi
 

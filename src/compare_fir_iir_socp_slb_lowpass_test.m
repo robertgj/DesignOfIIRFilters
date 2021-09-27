@@ -105,7 +105,7 @@ xlabel("Frequency");
 grid("on");
 legend("FIR","IIR","Symmetric FIR(21 coef.)");
 legend("boxoff");
-legend("location","southwest");
+legend("location","northwest");
 print(strcat(strf,"_T"),"-dpdflatex");
 close
 

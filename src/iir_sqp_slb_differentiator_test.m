@@ -13,42 +13,15 @@ ctol=tol
 maxiter=2000
 verbose=false
 
-% Full band differentiator filter specification
-% From tarczynski_differentiator_test.m:
-% R=2;nN=12;nD=6;td=(nN-1)/2;tol=1e-9;
-% n=1024;
-% wd=pi*(0:(n-1))'/n;
-% Hd=(j*wd/pi).*exp(-j*td*wd);
-% Wd=ones(n,1);
-% Notes:
-%   1. If I use td==U+M then I get at least one very large real zero
-%   2. The filter from tarczynski_differentiator_test.m has poles and
-%      zeros that cancel. With tol=1e-4, PCLS optimisation fails. The
-%      initial filter used removes the poles and zeros that cancel.
-if 0
-% Polynomials from tarczynski_differentiator_test.m
-  N0 = [  -0.0033301006,   0.0049841797,  -0.0073919085,   0.0149051187, ... 
-          -0.0412856655,   0.3986958729,  -0.3898632907,  -0.0671281845, ... 
-           0.1095830959,  -0.1967255803,   0.1910381393,   0.0009415971, ... 
-          -0.0147769262 ]';
-  D0 = [   1.0000000000,  -0.2582075296,  -0.4792470831,   0.0526057610, ... 
-           0.0016903440,   0.0009546646,   0.0003777705 ]';
-  R=2;
-  D0R=[1;kron(D0(2:end),[zeros(R-1,1);1])];
-  [x0,U,V,M,Q]=tf2x(N0,D0)
-  td=(length(N0)-2)/2
-else
-  % Remove zeros and poles that cancel
-  U=4;V=2;M=4;Q=2;R=2;
-  x0=[  -0.0033301625, ...
-         2.4432889231,  1.0036639004,   0.3309893840,  -0.2476976266, ...
-         0.2283263247, -0.1370501745, ...
-         2.5725431250,  2.6080098957, ...
-         2.3928644449,  1.2330172843, ...
-         0.1584621214, ...
-         1.5131179592 ]';
-  td=5.5;
-endif
+% From tarczynski_differentiator_test.m
+tarczynski_differentiator_test_D0_coef; 
+tarczynski_differentiator_test_N0_coef;
+
+% Find pole-zero form of initial filter 
+R=2;
+D0R=[1;kron(D0(2:end),[zeros(R-1,1);1])];
+[x0,U,V,M,Q]=tf2x(N0,D0);
+td=5.5;
 n=1000;
 ft=0.05;
 ntl=ft*n;
@@ -62,7 +35,7 @@ dmax=0.05;
 % Amplitude
 wa=w;
 Ad=-wa/pi;
-Ar=0.005;
+Ar=0.004;
 Adu=-wa/pi+(Ar/2);
 Adl=-wa/pi-(Ar/2);
 Wap=1;
@@ -126,16 +99,17 @@ grid("on");
 print(strcat(strf,"_initial_x0phase"),"-dpdflatex");
 close
 
-% MMSE pass 1
+% MMSE pass
 printf("\nMMSE pass 1:\n");
-[x1,E,sqp_iter,func_iter,feasible] = ...
+[x1,Emmse,sqp_iter,func_iter,feasible] = ...
   iir_sqp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R, ...
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-               maxiter,tol,verbose);
+               maxiter,tol,verbose)
 if feasible == 0 
   error("x1(mmse) infeasible");
 endif
+
 Ax1=iirA(wa,x1,U,V,M,Q,R);
 Tx1=iirT(wt,x1,U,V,M,Q,R);
 Px1=iirP(wp,x1,U,V,M,Q,R);
@@ -165,14 +139,15 @@ close
 
 % PCLS pass
 printf("\nPCLS pass :\n");
-[d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
-  iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
-          wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
-          wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol,ctol,verbose)
+[d1,Epcls,slb_iter,sqp_iter,func_iter,feasible] = ...
+iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
+        wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
+        wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+        maxiter,tol,ctol,verbose)
 if feasible == 0 
-  error("d1 (pcls) infeasible");
+  error("d1 (pcls) infeasible\n");
 endif
+
 Ad1=iirA(wa,d1,U,V,M,Q,R);
 Td1=iirT(wt,d1,U,V,M,Q,R);
 Pd1=iirP(wp,d1,U,V,M,Q,R);

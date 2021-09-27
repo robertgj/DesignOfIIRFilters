@@ -34,3 +34,5 @@ H2Asq.m H2P.m H2T.m local_max.m \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
 spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 print_polynomial.m print_pole_zero.m qroots.m qzsolve.oct 
+
+schurOneMAPlattice_frm_socp_slb_test.diary : iir_frm_allpass_socp_slb_test.diary

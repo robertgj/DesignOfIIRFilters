@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_multiband_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2021 Robert G. Jenssen
 
 test_common;
 
@@ -21,14 +21,8 @@ difference=true;
 strf="schurOneMPAlattice_socp_slb_multiband_test";
 
 % From tarczynski_parallel_allpass_multiband_test.m:
-Da0 = [   1.0000000000,  -0.0843617653,   0.3718175094,   0.8525282013, ... 
-         -0.1690942815,   0.2911381975,   0.4612879091,  -0.0015542485, ... 
-          0.4894561423,   0.3261828195,  -0.0368168319,   0.3218938944, ... 
-         -0.0823328537 ]';
-Db0 = [   1.0000000000,   0.1992508988,   0.6322714450,   0.9692661219, ... 
-          0.0734010927,   0.5136872253,   0.6493622016,   0.2196559576, ... 
-          0.5571223462,   0.3077330992,  -0.0425977260,   0.2158948645, ... 
-         -0.1557843895 ]';
+tarczynski_parallel_allpass_multiband_test_Da0_coef;
+tarczynski_parallel_allpass_multiband_test_Db0_coef;
 
 % Implement the all-pass filters as Schur one-multiplier lattice filters
 [A1k0,A1epsilon0,A1p0,A1c0]=tf2schurOneMlattice(fliplr(Da0),Da0);
@@ -62,7 +56,7 @@ fas2l=0.125;fas2u=0.150;
 fap2l=0.175;fap2u=0.225;
 ftp2l=0.175;ftp2u=0.225;
 fas3l=0.25;
-dBas1=20;dBap1=1;dBas2=20;dBap2=1;dBas3=30;
+dBas1=20;dBap1=1;dBas2=20;dBap2=1;dBas3=26;
 Was1=1;Wap1=2;Was2=1;Wap2=1;Was3=1;
 tp1=22;tpr1=2;tp2=22;tpr2=2;
 Wtp1=0.01;Wtp2=0.01;

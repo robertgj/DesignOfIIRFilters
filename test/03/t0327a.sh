@@ -2,6 +2,12 @@
 
 prog=branch_bound_schurOneMPAlattice_lowpass_12_nbits_test.m
 depends="branch_bound_schurOneMPAlattice_lowpass_12_nbits_test.m test_common.m \
+../schurOneMPAlattice_socp_slb_lowpass_test_A1k_coef.m \
+../schurOneMPAlattice_socp_slb_lowpass_test_A1p_coef.m \
+../schurOneMPAlattice_socp_slb_lowpass_test_A1epsilon_coef.m \
+../schurOneMPAlattice_socp_slb_lowpass_test_A2k_coef.m \
+../schurOneMPAlattice_socp_slb_lowpass_test_A2epsilon_coef.m \
+../schurOneMPAlattice_socp_slb_lowpass_test_A2p_coef.m \
 schurOneMPAlattice_allocsd_Lim.m \
 schurOneMPAlattice_allocsd_Ito.m \
 schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m \
@@ -53,23 +59,23 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_12_nbits_cost.ok << 'EOF'
-Exact & 0.000192 & & \\
-12-bit 3-signed-digit(Ito)& 0.000709 & 63 & 40 \\
-12-bit 3-signed-digit(SOCP b-and-b) & 0.000175 & 61 & 38 \\
+Exact & 0.000194 & & \\
+12-bit 3-signed-digit(Ito)& 0.000320 & 62 & 39 \\
+12-bit 3-signed-digit(SOCP b-and-b) & 0.000158 & 62 & 39 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_cost.ok"; fail; fi
 
 cat > test_12_nbits_A1k_min.ok << 'EOF'
-A1k_min = [     1584,     -184,     -544,     -128, ... 
-                -128,      488,     -296,        1, ... 
+A1k_min = [     1584,     -168,     -536,     -128, ... 
+                -128,      480,     -280,       -4, ... 
                  336,     -316,      112 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_A1k_min.ok"; fail; fi
 
 cat > test_12_nbits_A2k_min.ok << 'EOF'
-A2k_min = [      784,     -584,      384,      336, ... 
-                 -96,       88,     -404,      368, ... 
-                   4,     -360,      300,     -113 ]'/2048;
+A2k_min = [      784,     -576,      384,      336, ... 
+                 -96,       84,     -398,      352, ... 
+                  12,     -360,      298,     -115 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_A2k_min.ok"; fail; fi
 

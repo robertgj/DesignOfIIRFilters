@@ -2,6 +2,8 @@
 
 prog=branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test.m
 depends="branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test.m \
+../parallel_allpass_socp_slb_bandpass_hilbert_test_Da1_coef.m \
+../parallel_allpass_socp_slb_bandpass_hilbert_test_Db1_coef.m \
 test_common.m \
 schurOneMPAlattice_allocsd_Lim.m \
 schurOneMPAlattice_allocsd_Ito.m \
@@ -54,23 +56,23 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_12_nbits_cost.ok << 'EOF'
-Exact & 0.016879 & & \\
-12-bit 3-signed-digit(Ito)& 0.072263 & 60 & 40 \\
-12-bit 3-signed-digit(SOCP b-and-b) & 0.000960 & 59 & 39 \\
+Exact & 0.017044 & & \\
+12-bit 3-signed-digit(Ito)& 0.140309 & 60 & 40 \\
+12-bit 3-signed-digit(SOCP b-and-b) & 0.001232 & 60 & 40 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_cost.ok"; fail; fi
 
 cat > test_12_nbits_A1k_min.ok << 'EOF'
 A1k_min = [     -976,     1736,     -704,      384, ... 
                 1288,     -886,      576,      368, ... 
-                -290,      176 ]'/2048;
+                -287,      176 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_A1k_min.ok"; fail; fi
 
 cat > test_12_nbits_A2k_min.ok << 'EOF'
-A2k_min = [    -1632,     1824,     -832,      304, ... 
-                1344,     -832,      572,      386, ... 
-                -258,      192 ]'/2048;
+A2k_min = [    -1632,     1826,     -832,      312, ... 
+                1344,     -832,      572,      388, ... 
+                -257,      192 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_A2k_min.ok"; fail; fi
 

@@ -14,8 +14,8 @@ iir_sqp_slb_differentiator_test_D1_coef.m \
 iir_sqp_slb_differentiator_test_N1_coef.m \
 iir_sqp_slb_differentiator_test_x0_coef.m
 
-iir_sqp_slb_differentiator_test_FILES = \
-iir_sqp_slb_differentiator_test.m test_common.m print_polynomial.m \
+iir_sqp_slb_differentiator_test_FILES = iir_sqp_slb_differentiator_test.m \
+test_common.m print_polynomial.m \
 print_pole_zero.m armijo_kim.m fixResultNaN.m \
 iirA.m iirE.m iirP.m iirT.m invSVD.m \
 local_max.m iir_sqp_mmse.m iir_slb.m iir_slb_exchange_constraints.m \
@@ -24,3 +24,5 @@ iir_slb_set_empty_constraints.m iir_slb_update_constraints.m \
 showResponseBands.m showResponse.m showResponsePassBands.m showZPplot.m \
 sqp_bfgs.m updateWchol.m updateWbfgs.m xConstraints.m tf2x.m zp2x.m x2tf.m \
 qroots.m qzsolve.oct 
+
+iir_sqp_slb_differentiator_test.diary : tarczynski_differentiator_test.diary

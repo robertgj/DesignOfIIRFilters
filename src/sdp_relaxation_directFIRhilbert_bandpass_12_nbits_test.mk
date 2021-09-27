@@ -27,3 +27,6 @@ directFIRhilbertA.m \
 print_polynomial.m \
 local_max.m flt2SD.m SDadders.m x2nextra.m bin2SDul.m \
 bin2SD.oct bin2SPT.oct 
+
+sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.diary : \
+directFIRhilbert_bandpass_slb_test.diary

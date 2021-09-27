@@ -1,5 +1,5 @@
 % branch_bound_johanssonOneMlattice_bandstop_16_nbits_test.m
-% Copyright (C) 2019-2020 Robert G. Jenssen
+% Copyright (C) 2019-2021 Robert G. Jenssen
 
 % Branch-and-bound search of Johansson and Saramaki cascade all-pass band-stop
 % filter response with 16-bit 3-signed-digit coefficients
@@ -23,14 +23,14 @@ verbose=false
 fapl=0.15,fasl=0.2,fasu=0.25,fapu=0.3,Wap=1,Was=1
 
 % Band-stop filter from johansson_cascade_allpass_bandstop_test.m
-fM =   [ -0.0314881200,  -0.0000085599,   0.2814857078,   0.5000169443 ];
-a0 =   [  1.0000000000,  -0.5650807120,   1.6504676367,  -0.4790677580, ... 
-          0.7284677906 ];
-a1 =   [  1.0000000000,  -0.2594846657,   0.6383217013 ];
+johansson_cascade_allpass_bandstop_test_bsA0_coef;
+johansson_cascade_allpass_bandstop_test_bsA1_coef;
+johansson_cascade_allpass_bandstop_test_f1_coef;
+fM=f1(1:(length(f1)+1)/2);
 
 % Convert all-pass filter transfer functions to Schur 1-multiplier lattice
-[k0,epsilon0,~,~]=tf2schurOneMlattice(fliplr(a0),a0);
-[k1,epsilon1,~,~]=tf2schurOneMlattice(fliplr(a1),a1);
+[k0,epsilon0,~,~]=tf2schurOneMlattice(fliplr(bsA0),bsA0);
+[k1,epsilon1,~,~]=tf2schurOneMlattice(fliplr(bsA1),bsA1);
 
 % Frequencies
 nf=5000;
@@ -309,7 +309,7 @@ fclose(fid);
 
 % Save results
 save branch_bound_johanssonOneMlattice_bandstop_16_nbits_test.mat ...
-     fM a0 a1 k0 epsilon0 k1 epsilon1 nbits ndigits nf ...
+     fM k0 epsilon0 k1 epsilon1 nbits ndigits nf ...
      fapl fasl fasu fapu Wap Was ...
      improved_solution_found f_min k0_min k1_min
        

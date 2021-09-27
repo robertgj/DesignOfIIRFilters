@@ -145,16 +145,16 @@ edge_ramp=0 % Linear change of extra weights
                       fpass,fstop,dBas,Wap,Wapextra,Wasextra,Was, ...
                       edge_factor,edge_ramp);
 % Initial model filter
-r0=[1;zeros(mr,1)];
+ri=[1;zeros(mr,1)];
 % Initial masking filter
-aa0=remez(na-1,2*[0 faap faas 0.5],[1 1 0 0]);
+aai=remez(na-1,2*[0 faap faas 0.5],[1 1 0 0]);
 % Initial filter vector
-ra0=[r0(2:end);aa0(1:((na+1)/2))];
+rai=[ri(2:end);aai(1:((na+1)/2))];
 
 % Unconstrained minimisation of zero phase response
 WISEJ_FRM_HB([],mr,na,Mmodel,Dmodel,wpass,Hpass,Wpass,wstop,Hstop,Wstop);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[ra1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_FRM_HB,ra0,opt);
+[ra0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_FRM_HB,rai,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -176,18 +176,18 @@ printf("fminunc successful=%d??\n", OUTPUT.successful);
 printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 
 % Create the output polynomials
-[n1,r2M1,r1,aa1,ac1,au1,av1,q1]=vec2frm_halfband(ra1,mr,na,Mmodel,Dmodel);
+[n0,r2M0,r0,aa0,ac0,au0,av0,q0]=vec2frm_halfband(ra0,mr,na,Mmodel,Dmodel);
 
 % Calculate filter response
 nplot=512;
-[Hw_frm,wplot]=freqz(n1,r2M1,nplot);
-Tw_frm=grpdelay(n1,r2M1,nplot);
-Hw_aa=freqz(aa1,1,nplot);
-Hw_ac=freqz(ac1,1,nplot);
-n_model=([flipud(r2M1);zeros(Mmodel*Dmodel,1)] + ...
-         conv([zeros(Mmodel*Dmodel,1);1],r2M1))/2;
-Hw_model=freqz(n_model,r2M1,nplot);
-Tw_model=grpdelay(n_model,r2M1,nplot);
+[Hw_frm,wplot]=freqz(n0,r2M0,nplot);
+Tw_frm=grpdelay(n0,r2M0,nplot);
+Hw_aa=freqz(aa0,1,nplot);
+Hw_ac=freqz(ac0,1,nplot);
+n_model=([flipud(r2M0);zeros(Mmodel*Dmodel,1)] + ...
+         conv([zeros(Mmodel*Dmodel,1);1],r2M0))/2;
+Hw_model=freqz(n_model,r2M0,nplot);
+Tw_model=grpdelay(n_model,r2M0,nplot);
 
 % Plot overall response
 subplot(211);
@@ -263,8 +263,8 @@ qm1(3:4:end)=-1;
 rm1=zeros((2*mr*Mmodel)+1,1);
 rm1(1:(4*Mmodel):end)=1;
 rm1(((2*Mmodel)+1):(4*Mmodel):end)=-1;
-Hw_hilbert=freqz(q1.*qm1,r2M1.*rm1,wplot);
-Tw_hilbert=grpdelay(q1.*qm1,r2M1.*rm1,nplot);
+Hw_hilbert=freqz(q0.*qm1,r2M0.*rm1,wplot);
+Tw_hilbert=grpdelay(q0.*qm1,r2M0.*rm1,nplot);
 subplot(311);
 plot(wplot*0.5/pi,20*log10(abs(Hw_hilbert)))
 ylabel("Amplitude(dB)");
@@ -288,13 +288,13 @@ print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Save the results
-print_polynomial(r1,"r1");
-print_polynomial(r1,"r1",strcat(strf,"_r1_coef.m"));
-print_polynomial(aa1,"aa1");
-print_polynomial(aa1,"aa1",strcat(strf,"_aa1_coef.m"));
+print_polynomial(r0,"r0");
+print_polynomial(r0,"r0",strcat(strf,"_r0_coef.m"));
+print_polynomial(aa0,"aa0");
+print_polynomial(aa0,"aa0",strcat(strf,"_aa0_coef.m"));
 
 save tarczynski_frm_halfband_test.mat ...
-     n1 r1 r2M1 aa1 q1 au1 av1 Mmodel Dmodel dmask mr na fpass fstop ...
+     n0 r0 r2M0 aa0 q0 au0 av0 Mmodel Dmodel dmask mr na fpass fstop ...
      dBas Wap Wapextra Was Wasextra edge_factor edge_ramp n tol nplot wplot
 
 % Done

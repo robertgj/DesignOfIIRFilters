@@ -2,6 +2,11 @@
 
 prog=branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test.m
 depends="branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test.m \
+../schurOneMAPlattice_frm_hilbert_socp_slb_test_k2_coef.m \
+../schurOneMAPlattice_frm_hilbert_socp_slb_test_epsilon2_coef.m \
+../schurOneMAPlattice_frm_hilbert_socp_slb_test_p2_coef.m \
+../schurOneMAPlattice_frm_hilbert_socp_slb_test_u2_coef.m \
+../schurOneMAPlattice_frm_hilbert_socp_slb_test_v2_coef.m \
 test_common.m schurOneMAPlattice_frm_hilbert_socp_mmse.m \
 schurOneMAPlattice_frm_hilbert_slb_set_empty_constraints.m \
 schurOneMAPlattice_frm_hilbert_slb_constraints_are_empty.m \
@@ -57,7 +62,7 @@ cat > test_12_nbits_cost.ok << 'EOF'
 Exact & 0.000656 & & \\
 12-bit 2-signed-digit&0.001686 & 40 & 18 \\
 12-bit 2-signed-digit(branch-and-bound)&0.001387 & 40 & 19 \\
-12-bit 2-signed-digit(remez)&0.002565 & 73 & 33 \\
+12-bit 2-signed-digit(remez)&0.005131 & 73 & 33 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_cost.ok"; fail; fi
 

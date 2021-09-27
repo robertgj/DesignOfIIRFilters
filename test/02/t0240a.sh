@@ -2,6 +2,10 @@
 
 prog=socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.m
 depends="socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.m \
+../schurOneMlattice_sqp_slb_hilbert_test_k2_coef.m \
+../schurOneMlattice_sqp_slb_hilbert_test_epsilon2_coef.m \
+../schurOneMlattice_sqp_slb_hilbert_test_p2_coef.m \
+../schurOneMlattice_sqp_slb_hilbert_test_c2_coef.m \
 test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \

@@ -160,10 +160,10 @@ Td=td*ones(n,1);
 Wt=[Wtp*ones(ntp,1);zeros(n-ntp,1)];
 
 % Unconstrained minimisation
-a0=[ -0.9;zeros(m-1,1)];
+ai=[-0.9;zeros(m-1,1)];
 WISEJ_DA([],R,D,polyphase,w,Ad,Wa,Td,Wt);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[a1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_DA,a0,opt);
+[a0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_DA,ai,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -185,68 +185,68 @@ printf("fminunc successful=%d??\n", OUTPUT.successful);
 printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 
 % Create the output polynomials
-a1=a1(:);
-Da1=[1;kron(a1,[zeros(R-1,1);1])];
-Na1=0.5*(conv([zeros((D*R),1);1],Da1)+[flipud(Da1);zeros((D*R),1)]);
+a0=a0(:);
+Da0=[1;kron(a0,[zeros(R-1,1);1])];
+Na0=0.5*(conv([zeros((D*R),1);1],Da0)+[flipud(Da0);zeros((D*R),1)]);
 
 % Calculate response
 nplot=512;
-[Ha1,wplot]=freqz(Na1,Da1,nplot);
-Ta1=grpdelay(Na1,Da1,nplot);
+[Ha0,wplot]=freqz(Na0,Da0,nplot);
+Ta0=grpdelay(Na0,Da0,nplot);
 
 % Plot response
 subplot(211);
-plot(wplot*0.5/pi,20*log10(abs(Ha1)));
+plot(wplot*0.5/pi,20*log10(abs(Ha0)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
-s=sprintf("Parallel all-pass filter and delay : m=%d,td=%g",length(a1),td);
+s=sprintf("Parallel all-pass filter and delay : m=%d,td=%g",length(a0),td);
 title(s);
 subplot(212);
-plot(wplot*0.5/pi,Ta1);
+plot(wplot*0.5/pi,Ta0);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 if tarczynski_parallel_allpass_delay_flat_delay
   axis([0 0.5 (td-1) (td+1)]);
 endif
 grid("on");
-print("tarczynski_parallel_allpass_delay_response","-dpdflatex");
+print("tarczynski_parallel_allpass_delay_test_response","-dpdflatex");
 close
 
 % Plot passband response
 subplot(211);
-plot(wplot*0.5/pi,20*log10(abs(Ha1)));
+plot(wplot*0.5/pi,20*log10(abs(Ha0)));
 ylabel("Amplitude(dB)");
 axis([0 max(fap,ftp) -3 1]);
 grid("on");
 title(s);
 subplot(212);
-plot(wplot*0.5/pi,Ta1);
+plot(wplot*0.5/pi,Ta0);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 if tarczynski_parallel_allpass_delay_flat_delay
   axis([0 max(fap,ftp) (td-1) (td+1)]);
 endif
 grid("on");
-print("tarczynski_parallel_allpass_delay_response_passband","-dpdflatex");
+print("tarczynski_parallel_allpass_delay_test_response_passband","-dpdflatex");
 close
 
 % Plot poles and zeros
 subplot(111);
-zplane(roots(Na1),roots(Da1));
+zplane(roots(Na0),roots(Da0));
 title(s);
-print("tarczynski_parallel_allpass_delay_pz","-dpdflatex");
+print("tarczynski_parallel_allpass_delay_test_pz","-dpdflatex");
 close
 
 % Save the result
-print_polynomial(Da1,"Da1");
-print_polynomial(Da1,"Da1","tarczynski_parallel_allpass_delay_test_Da1_coef.m");
-print_polynomial(Na1,"Na1");
-print_polynomial(Na1,"Na1","tarczynski_parallel_allpass_delay_test_Na1_coef.m");
-save tarczynski_parallel_allpass_delay_test.mat R a0 a1 Da1 Na1
+print_polynomial(Da0,"Da0");
+print_polynomial(Da0,"Da0","tarczynski_parallel_allpass_delay_test_Da0_coef.m");
+print_polynomial(Na0,"Na0");
+print_polynomial(Na0,"Na0","tarczynski_parallel_allpass_delay_test_Na0_coef.m");
+save tarczynski_parallel_allpass_delay_test.mat R ai a0 Da0 Na0
 
 % Done
 toc;
 diary off
 movefile tarczynski_parallel_allpass_delay_test.diary.tmp ...
-       tarczynski_parallel_allpass_delay_test.diary;
+         tarczynski_parallel_allpass_delay_test.diary;

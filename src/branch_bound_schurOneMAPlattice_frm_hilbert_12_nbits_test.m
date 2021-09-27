@@ -32,16 +32,16 @@ branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test_allocsd_Ito=false
 %
 % Initial filter from schurOneMAPlattice_frm_hilbert_socp_slb_test.m
 %
-k0 = [  -0.5737726298,  -0.1357954240,  -0.0532684516,  -0.0211111235, ... 
-        -0.0087703126 ];
-epsilon0 = [  -1,  1,  1,  1,  1 ];
-p0 = [   1.5423169594,   0.8026446354,   0.9201636732,   0.9705573372, ... 
-         0.9912678115 ];
-u0 = [  -0.0009207330,  -0.0025408772,  -0.0071034731,  -0.0128187644, ... 
-        -0.0309895964,  -0.0342924460,  -0.0517579913,  -0.0570036999, ... 
-         0.4398918391 ]';
-v0 = [   0.0065494606,   0.0043721486,   0.0072055070,   0.0020700954, ... 
-        -0.0078782694,  -0.0311739891,  -0.0808661252,  -0.3144277686 ]';
+schurOneMAPlattice_frm_hilbert_socp_slb_test_k2_coef;
+k0=k2;
+schurOneMAPlattice_frm_hilbert_socp_slb_test_epsilon2_coef;
+epsilon0=epsilon2;
+schurOneMAPlattice_frm_hilbert_socp_slb_test_p2_coef;
+p0=p2;
+schurOneMAPlattice_frm_hilbert_socp_slb_test_u2_coef;
+u0=u2;
+schurOneMAPlattice_frm_hilbert_socp_slb_test_v2_coef;
+v0=v2;
 
 %
 % Filter specification
@@ -246,7 +246,7 @@ if use_best_branch_and_bound_found
     k_min=[ -1152 -264 -96 -36 -12 ]'/nscale;
     u_min=[ 0 -3 -16 -24 -63 -72 -112 -120 896 ]'/nscale;
     v_min=[ 14 9 18 8 -12 -63 -160 -640 ]'/nscale;
-    branches_min=75 % 1170 seconds
+    branches_min=75 % 993 seconds
   endif
   kuv_min=[k_min(:);u_min(:);v_min(:)];
   Esq_min=schurOneMAPlattice_frm_hilbertEsq ...
@@ -488,7 +488,7 @@ printf("%d %d-bit adders used for coefficient multiplications\n",
 % Calculate the FIR cost
 Err_fir_sd=((abs(Afir_sd).^2)-Asqd).^2;
 Na=length(wa);
-Esq_fir_sd=sum(diff(wa).*(Err_fir_sd(1:(Na-1)+Err_fir_sd(2:Na))))/2;
+Esq_fir_sd=sum(diff(wa).*(Err_fir_sd(1:(Na-1))+Err_fir_sd(2:Na)))/2;
 
 %
 % Make a LaTeX table for cost

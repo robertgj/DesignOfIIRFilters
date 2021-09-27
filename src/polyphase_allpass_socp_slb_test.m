@@ -1,5 +1,5 @@
 % polyphase_allpass_socp_slb_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -13,14 +13,9 @@ verbose=false
 maxiter=5000
 strf="polyphase_allpass_socp_slb_test";
 
-% Initial coefficients found by tarczynski_polyphase_allpass_test.m (with
-% flat_delay=false)
-Da0 = [   1.0000000000,  -0.7563838184,  -0.8780497340,   0.5287088754, ... 
-         -0.1070822723,   0.3115189385,   0.2940547034,  -0.3497051868, ... 
-         -0.0249801159,   0.0533567966,  -0.0214071626,   0.0023696498 ]';
-Db0 = [   1.0000000000,  -0.2572430673,  -1.3794429373,   0.2449685167, ... 
-          0.1823178021,   0.1928699155,   0.4901486805,  -0.2627322043, ... 
-         -0.2044227076,   0.0818098649,  -0.0099547947,  -0.0042961347 ]';
+% Initial coefficients found by tarczynski_polyphase_allpass_test.m 
+tarczynski_polyphase_allpass_test_Da0_coef;
+tarczynski_polyphase_allpass_test_Db0_coef;
 
 % Lowpass filter specification for polyphase combination of all-pass filters
 tol=1e-4
@@ -29,7 +24,7 @@ n=500;
 polyphase=true
 difference=false
 rho=0.999
-K=2e2
+K=100
 Ksq=K^2;
 R=2
 Ra=R
@@ -40,7 +35,7 @@ fap=0.24
 dBap=0.001
 Wap=1
 fas=0.26
-dBas=80
+dBas=81
 Was=1e-2
 
 % Convert coefficients to a vector

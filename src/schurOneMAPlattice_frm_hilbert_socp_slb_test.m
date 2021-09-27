@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_hilbert_socp_slb_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -18,19 +18,11 @@ maxiter=2000
 verbose=false
 
 % Initial filter from tarczynski_frm_halfband_test.m
+tarczynski_frm_halfband_test_r0_coef;
+tarczynski_frm_halfband_test_aa0_coef;
+
 tol=75e-6
 ctol=tol
-r0 = [   1.0000000000,   0.4650421403,  -0.0756662210,   0.0125742228, ... 
-         0.0030944722,  -0.0100384056 ]';
-aa0 = [ -0.0022730568,   0.0037199326,   0.0049034950,  -0.0046329239, ... 
-        -0.0086841885,   0.0062298648,   0.0122190261,   0.0017956534, ... 
-        -0.0266708058,  -0.0137096895,   0.0360235999,   0.0362740186, ... 
-        -0.0501721957,  -0.0810254219,   0.0522745514,   0.3115883684, ... 
-         0.4475813048,   0.3115883684,   0.0522745514,  -0.0810254219, ... 
-        -0.0501721957,   0.0362740186,   0.0360235999,  -0.0137096895, ... 
-        -0.0266708058,   0.0017956534,   0.0122190261,   0.0062298648, ... 
-        -0.0086841885,  -0.0046329239,   0.0049034950,   0.0037199326, ... 
-        -0.0022730568 ]';
 Mmodel=7; % Model filter decimation
 Dmodel=9; % Desired model filter passband delay
 dBap=0.1 % Pass band amplitude ripple

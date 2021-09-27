@@ -34,3 +34,6 @@ iir_frm_parallel_allpass_vec_to_struct.m \
 allpassP.m allpassT.m tf2a.m a2tf.m \
 aConstraints.m print_polynomial.m \
 local_max.m qroots.m qzsolve.oct 
+
+iir_frm_parallel_allpass_socp_slb_test.diary : \
+tarczynski_frm_parallel_allpass_test.diary

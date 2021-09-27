@@ -52,7 +52,7 @@ warning("error","Octave:undefined-return-values");
 % Disable some noisy warnings (note patches to octave source files)
 warning("off","signal:grpdelay-singularity");
 warning("off","Octave:data-file-in-path");
-if strcmp("6.2.0-robj",OCTAVE_VERSION)
+if strcmp("6.3.0-robj",OCTAVE_VERSION)
   % See scripts/plot/util/private/__gnuplot_draw_axes__.m
   warning("off","Octave:latex-markup-not-supported-for-tick-marks");
   % See scripts/miscellaneous/delete.m

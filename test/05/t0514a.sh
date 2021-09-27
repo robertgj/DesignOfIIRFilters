@@ -40,7 +40,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test.ok << 'EOF'
 
 YALMIP globaloptimization examples
-value(trace(P))= 0.4839
+value(trace(P))= 0.4980
 value(-t)=-2.5000
 value(-t)=-2.5000
 value(-t)=-2.5000

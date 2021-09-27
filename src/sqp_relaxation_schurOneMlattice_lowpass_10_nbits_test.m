@@ -3,7 +3,7 @@
 % SQP-relaxation optimisation of the response of a Schur one-multiplier
 % lattice lowpass filter with 10-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -27,20 +27,14 @@ ndigits=3
 strf="sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test";
 
 % Coefficients found by schurOneMlattice_sqp_slb_lowpass_test.m
-k0 = [  -0.7375771181,   0.7329492530,  -0.6489740765,   0.4943363006, ... 
-        -0.2824593372,   0.0878212134,  -0.0000000000,  -0.0000000000, ... 
-         0.0000000000,   0.0000000000 ]';
-epsilon0 = [ -1, -1, -1, -1, ... 
-             -1, -1,  1, -1, ... 
-             -1, -1 ]';
-p0 = [   1.5591179441,   0.6059095195,   1.5434899280,   0.7121418051, ... 
-         1.2242208323,   0.9157168850,   1.0000000000,   1.0000000000, ... 
-         1.0000000000,   1.0000000000 ]';
-c0 = [   0.2287455707,   0.7274997803,   0.1030199742,  -0.0659731942, ... 
-        -0.0487519200,  -0.0063882219,   0.0239044428,   0.0157765877, ... 
-        -0.0023124161,  -0.0090627662,  -0.0052625492 ]';
-k0=k0(:);
-c0=c0(:);
+schurOneMlattice_sqp_slb_lowpass_test_k2_coef;
+schurOneMlattice_sqp_slb_lowpass_test_c2_coef;
+schurOneMlattice_sqp_slb_lowpass_test_epsilon2_coef;
+schurOneMlattice_sqp_slb_lowpass_test_p2_coef;
+k0=k2(:);
+c0=c2(:);
+epsilon0=epsilon2(:);
+p0=p2(:);
 kc0=[k0;c0];
 Nk=length(k0);
 Nc=length(c0);

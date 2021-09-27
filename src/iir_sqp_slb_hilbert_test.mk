@@ -25,3 +25,5 @@ iir_slb_set_empty_constraints.m iir_slb_update_constraints.m \
 showResponseBands.m showResponse.m showResponsePassBands.m showZPplot.m \
 sqp_bfgs.m updateWchol.m updateWbfgs.m xConstraints.m tf2x.m zp2x.m x2tf.m \
 qroots.m qzsolve.oct 
+
+iir_sqp_slb_hilbert_test.diary : tarczynski_hilbert_test.diary

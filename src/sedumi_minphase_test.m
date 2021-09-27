@@ -30,7 +30,7 @@ if info.numerr==2
   error("info.numerr==2");
 endif
 % Check x and y
-tol=2e-4;
+tol=6e-4;
 if abs((c'*x)-(y'*b))>tol
   error("abs((c'*x)-(y'*b))(%g)>tol(%g)",abs((c'*x)-(y'*b)),tol);
 endif

@@ -87,16 +87,16 @@ Wd=ones(2*n,1);
 
 % Initial filter
 if 0
-  b0=remez(nN,[0.1 0.9],[1 1],'hilbert');
-  N0=[b0;zeros(nD,1)];
+  bi=remez(nN,[0.1 0.9],[1 1],'hilbert');
+  Ni=[bi;zeros(nD,1)];
 else
-  N0=[1;zeros(nN+nD,1)];
+  Ni=[1;zeros(nN+nD,1)];
 endif
 
 % Unconstrained minimisation
 WISEJ_HILBERT([],nN,nD,R,wd,Hd,Wd,td);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[ND,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_HILBERT,N0,opt);
+[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_HILBERT,Ni,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -116,63 +116,62 @@ printf("fminunc successful=%d??\n", OUTPUT.successful);
 printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 
 % Create the output polynomials
-ND=ND(:);
-N=ND(1:(nN+1));
-D=[1; ND((nN+2):(nN+1+nD))];
-DR=[D(1);kron(D(2:length(D)), [zeros(R-1,1);1])];
+ND0=ND0(:);
+N0=ND0(1:(nN+1));
+D0=[1; ND0((nN+2):(nN+1+nD))];
+D0R=[D0(1);kron(D0(2:length(D0)), [zeros(R-1,1);1])];
 
 % Plot results
-H=freqz(N,DR,wd);
+H0=freqz(N0,D0R,wd);
 subplot(111);
-zplane(roots(N),roots(DR));
+zplane(roots(N0),roots(D0R));
 s=sprintf("Tarczynski nN=%d,nD=%d,R=%d,td=%g IIR Hilbert filter",nN,nD,R,td);
 title(s);
-print("tarczynski_hilbert_pz",  "-dpdflatex");
+print("tarczynski_hilbert_test_pz",  "-dpdflatex");
 close
 
 subplot(211);
-plot(wd*0.5/pi,abs(H));
+plot(wd*0.5/pi,abs(H0));
 axis([-0.5 0.5 0.6 1.2]);
 grid("on");
 title(s);
 ylabel("Amplitude");
 subplot(212);
-plot(wd*0.5/pi,unwrap(mod(arg(H)+(wd*td),2*pi)))
+plot(wd*0.5/pi,unwrap(mod(arg(H0)+(wd*td),2*pi)))
 axis([-0.5 0.5 -pi pi]);
 grid("on");
 ylabel("Phase(rad.)\n(less delay)");
 xlabel("Frequency");
-print("tarczynski_hilbert_response",  "-dpdflatex");
+print("tarczynski_hilbert_test_response",  "-dpdflatex");
 close
 
 % Compare with remez
 b0=remez(nN,[0.1 0.9],[1 1],'hilbert');
-h=freqz(b0,1,wd);
-t=grpdelay(b0,1,wd);
+H=freqz(b0,1,wd);
 subplot(211);
-plot(wd*0.5/pi,abs(h))
+plot(wd*0.5/pi,abs(H))
 axis([-0.5 0.5 0 1.2])
 grid("on");
 title("Remez nN=11 FIR Hilbert filter");
 ylabel("Amplitude");
 subplot(212);
-plot(wd*0.5/pi,unwrap(mod(arg(h)+(wd*td),2*pi)));
+plot(wd*0.5/pi,unwrap(mod(arg(H)+(wd*td),2*pi)));
 axis([-0.5 0.5 0 2*pi])
 grid("on");
 ylabel("Phase(rad.)\n(less delay)");
 xlabel("Frequency");
-print("remez_hilbert_response",  "-dpdflatex");
+print("tarczynski_hilbert_test_remez_response",  "-dpdflatex");
 close
 
 % Save the result
-sort(roots(N))
-sort(roots(DR))
+sort(roots(N0))
+sort(roots(D0R))
 printf("R=%d\n",R);
-print_polynomial(N,"N");
-print_polynomial(N,"N","tarczynski_hilbert_test_N_coef.m");
-print_polynomial(D,"D");
-print_polynomial(D,"D","tarczynski_hilbert_test_D_coef.m");
-save tarczynski_hilbert_test.mat nN nD R N D DR
+print_polynomial(N0,"N0");
+print_polynomial(N0,"N0","tarczynski_hilbert_test_N0_coef.m");
+print_polynomial(D0,"D0");
+print_polynomial(D0,"D0","tarczynski_hilbert_test_D0_coef.m");
+save tarczynski_hilbert_test.mat nN nD R N0 D0 D0R
 
 diary off
 movefile tarczynski_hilbert_test.diary.tmp tarczynski_hilbert_test.diary;

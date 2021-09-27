@@ -8612,14 +8612,34 @@ with \input{decimator_R2_interpolated_test_fir_delay.tab} samples delay.
 \end{figure}
 
 \begin{figure}
+\begin{subfigure}[b]{\textwidth}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_interpolated_test_remez_comparison}}
+\scalebox{0.45\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_interpolated_test_remez_comparison_interpolated_IIR}}
+\caption{Response of an interpolated IIR filter with 25 multipliers and 34
+  samples nominal delay}
+\end{subfigure}
+\begin{subfigure}[b]{\textwidth}
+\centering
+\scalebox{0.45\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_interpolated_test_remez_comparison_interpolated_FIR}}
+\caption{Response of an equivalent interpolated anti-aliased symmetric FIR
+  filter with 17 distinct multipliers and 35 samples delay}
+\end{subfigure}
+\begin{subfigure}[b]{\textwidth}
+\centering
+\scalebox{0.45\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_interpolated_test_remez_comparison_direct_FIR_multipliers}}
+\caption{Response of a symmetric direct-form FIR filter with 25 distinct multipliers}
+\end{subfigure}
+\begin{subfigure}[b]{\textwidth}
+\centering
+\scalebox{0.45\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_interpolated_test_remez_comparison_direct_FIR}}
+\caption{Response of a symmetric direct-form FIR filter with 35 samples nominal delay}
+\end{subfigure}
 \caption{Comparison of the amplitude response of the interpolated and
-  anti-aliased IIR filter with that of three FIR filters: firstly an
-  interpolated and anti-aliased FIR filter having the same frequency
-  specifications as the IIR filter; secondly, a direct-form FIR filter
-  having the same number of distinct multipliers; thirdly, a direct form
-  FIR filter having the same nominal delay.} 
+  anti-aliased IIR filter with that of three FIR filters designed with the
+  \emph{remez} function : firstly an interpolated and anti-aliased FIR filter
+  having the same frequency specifications as the IIR filter; secondly, a
+  direct-form FIR filter having the same number of distinct multipliers;
+  thirdly, a direct form FIR filter having the same nominal delay.} 
 \label{fig:decimator-R2-interpolated-test-remez-comparison}
 \end{figure}
 \clearpage
@@ -11395,137 +11415,6 @@ coefficients of the low-pass filter are:
 \verbatiminput{schurOneMlattice_sqp_slb_lowpass_test_c2_coef.m}
 \end{small}
 \clearpage
-\subsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP}Design of an IIR one-multiplier Schur lattice band-pass filter using SQP}
-The Octave script \emph{schurOneMlattice\_sqp\_slb\_bandpass\_test.m} implements
-the design of a band-pass IIR one-multiplier Schur lattice filter with SQP and 
-PCLS. The specification of the filter is:
-\begin{small}
-\verbatiminput{schurOneMlattice_sqp_slb_bandpass_test.spec}
-\end{small}
-The initial filter is that of the Octave script 
-\emph{iir\_sqp\_slb\_bandpass\_test.m}, as shown in 
-Section~\ref{sec:Band-pass-R-2-decimation-filter}.
-The denominator polynomial of the filter has coefficients in $z^{2}$ only.
-
-Figure~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-MMSE} 
-shows the overall response of the band-pass filter after SQP MMSE optimisation.
-Figures~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS} 
-and~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS-pass} 
-show the overall and passband response of the band-pass filter after SQP PCLS
-optimisation.
-Figure~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS-pz} shows
-the pole-zero plot of the band-pass filter after SQP PCLS optimisation.
-
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_mmse_k1c1}}
-\caption{Schur one-multiplier lattice band-pass filter : response after SQP MMSE optimisation}
-\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-MMSE}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_pcls_k2c2}}
-\caption{Schur one-multiplier lattice band-pass filter : response after SQP PCLS optimisation}
-\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_pcls_k2c2pass}}
-\caption{Schur one-multiplier lattice band-pass filter : passband response after SQP PCLS optimisation}
-\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS-pass}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_pcls_k2c2pz}}
-\caption{Schur one-multiplier lattice band-pass filter:pole-zero plot after SQP PCLS optimisation}
-\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS-pz}
-\end{figure}
-
-The SQP PCLS optimised Schur one-multiplier allpass lattice and numerator tap 
-coefficients of the band-pass filter are:
-\begin{small}
-\verbatiminput{schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m}
-\verbatiminput{schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m}
-\verbatiminput{schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m}
-\verbatiminput{schurOneMlattice_sqp_slb_bandpass_test_c2_coef.m}
-\end{small}
-
-The Octave script \emph{schurOneMlattice\_socp\_slb\_bandpass\_test.m} runs a
-PCLS SOCP pass starting with the $k2$, $epsilon2$, $p2$ and $c2$ found above
-and the constraint $tpr=tp/400$.
-Figures~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS} 
-and~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS-pass} 
-show the overall and passband response of the band-pass filter after SOCP PCLS
-optimisation.
-
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_test_pcls_k3c3}}
-\caption{Schur one-multiplier lattice band-pass filter : response after SOCP PCLS optimisation}
-\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_test_pcls_k3c3pass}}
-\caption{Schur one-multiplier lattice band-pass filter : passband response after SOCP PCLS optimisation}
-\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS-pass}
-\end{figure}
-
-The SOCP PCLS optimised Schur one-multiplier
-allpass lattice and numerator tap coefficients of the band-pass filter are:
-\begin{small}
-\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_k3_coef.m}
-\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_epsilon3_coef.m}
-\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_p3_coef.m}
-\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_c3_coef.m}
-\end{small}
-\clearpage
-\subsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-hilbert-SQP}Design of an IIR one-multiplier Schur lattice Hilbert filter using SQP}
-The Octave script \emph{schurOneMlattice\_sqp\_slb\_hilbert\_test.m} implements
-the design of an IIR one-multiplier Schur lattice Hilbert filter with SQP and 
-PCLS. The specification of the filter is:
-\begin{small}
-\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test.spec}
-\end{small}
-The initial filter is that of the Octave script 
-\emph{iir\_sqp\_slb\_hilbert\_test.m} designed by
-the method of \emph{Tarczynski et al.} with the Octave script 
-\emph{tarczynski\_hilbert\_test.m}, as shown in 
-Section~\ref{sec:Hilbert-transform-R-2-decimation-filter}.
-The denominator polynomial of the filter has coefficients in $z^{2}$ only.
-Figure~\ref{fig:Schur-one-multiplier-lattice-hilbert-filter-SQP-PCLS} 
-shows the response of the Hilbert filter after SQP PCLS optimisation. The phase
-response shown has been adjusted by the nominal group delay, $\omega{}\tau_{p}$.
-The values shown on the phase axis of the phase response plot are multiples of
-$\frac{\pi}{2}$.
-Figure~\ref{fig:Schur-one-multiplier-lattice-hilbert-filter-SQP-PCLS-pz} shows
-the pole-zero plot of the Hilbert filter after SQP PCLS optimisation.
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_hilbert_test_pcls_k2c2}}
-\caption{Schur one-multiplier lattice Hilbert filter : response after SQP PCLS optimisation}
-\label{fig:Schur-one-multiplier-lattice-hilbert-filter-SQP-PCLS}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_hilbert_test_pcls_k2c2pz}}
-\caption{Schur one-multiplier lattice Hilbert filter:pole-zero plot after SQP PCLS optimisation}
-\label{fig:Schur-one-multiplier-lattice-hilbert-filter-SQP-PCLS-pz}
-\end{figure}
-
-The SQP PCLS optimised Schur one-multiplier all-pass lattice and numerator tap 
-coefficients of the Hilbert filter are:
-\begin{small}
-\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test_k2_coef.m}
-\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test_epsilon2_coef.m}
-\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test_p2_coef.m}
-\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test_c2_coef.m}
-\end{small}
-
-Alternatively, the Octave script 
-\emph{schurOneMlattice\_socp\_slb\_hilbert\_test.m} implements the design of an 
-IIR one-multiplier Schur lattice Hilbert filter with SOCP and PCLS.
-\clearpage
 \subsection{Design of an IIR Schur normalised-scaled lattice low-pass filter using SQP}
 The Octave script \emph{schurNSlattice\_sqp\_slb\_lowpass\_test.m} implements
 the design of a lowpass IIR normalised-scaled structure Schur lattice filter
@@ -11690,6 +11579,236 @@ all-pass lattice coefficients are:
 \label{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-filter-SOCP-PCLS-pass}
 \end{figure}
 \clearpage
+\subsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP}Design of an IIR one-multiplier Schur lattice band-pass filter using SQP}
+The Octave script \emph{schurOneMlattice\_sqp\_slb\_bandpass\_test.m} implements
+the design of a band-pass IIR one-multiplier Schur lattice filter with SQP and 
+PCLS. The specification of the filter is:
+\begin{small}
+\verbatiminput{schurOneMlattice_sqp_slb_bandpass_test.spec}
+\end{small}
+The initial filter is that of the Octave script 
+\emph{iir\_sqp\_slb\_bandpass\_test.m}, as shown in 
+Section~\ref{sec:Band-pass-R-2-decimation-filter}.
+The denominator polynomial of the filter has coefficients in $z^{2}$ only.
+
+Figure~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-MMSE} 
+shows the overall response of the band-pass filter after SQP MMSE optimisation.
+Figures~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS} 
+and~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS-pass} 
+show the overall and passband response of the band-pass filter after SQP PCLS
+optimisation.
+Figure~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS-pz} shows
+the pole-zero plot of the band-pass filter after SQP PCLS optimisation.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_mmse_k1c1}}
+\caption{Schur one-multiplier lattice band-pass filter : response after SQP MMSE optimisation}
+\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-MMSE}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_pcls_k2c2}}
+\caption{Schur one-multiplier lattice band-pass filter : response after SQP PCLS optimisation}
+\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_pcls_k2c2pass}}
+\caption{Schur one-multiplier lattice band-pass filter : passband response after SQP PCLS optimisation}
+\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS-pass}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_pcls_k2c2pz}}
+\caption{Schur one-multiplier lattice band-pass filter:pole-zero plot after SQP PCLS optimisation}
+\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS-pz}
+\end{figure}
+
+The SQP PCLS optimised Schur one-multiplier allpass lattice and numerator tap 
+coefficients of the band-pass filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m}
+\verbatiminput{schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m}
+\verbatiminput{schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m}
+\verbatiminput{schurOneMlattice_sqp_slb_bandpass_test_c2_coef.m}
+\end{small}
+
+The Octave script \emph{schurOneMlattice\_socp\_slb\_bandpass\_test.m} runs a
+PCLS SOCP pass starting with the $k2$, $epsilon2$, $p2$ and $c2$ found above
+and the constraint $tpr=tp/400$.
+Figures~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS} 
+and~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS-pass} 
+show the overall and passband response of the band-pass filter after SOCP PCLS
+optimisation.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_test_pcls_k3c3}}
+\caption{Schur one-multiplier lattice band-pass filter : response after SOCP PCLS optimisation}
+\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_test_pcls_k3c3pass}}
+\caption{Schur one-multiplier lattice band-pass filter : passband response after SOCP PCLS optimisation}
+\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS-pass}
+\end{figure}
+
+The SOCP PCLS optimised Schur one-multiplier
+allpass lattice and numerator tap coefficients of the band-pass filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_k3_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_epsilon3_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_p3_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_c3_coef.m}
+\end{small}
+\clearpage
+\subsection{\label{sec:Design-IIR-noralised-scaled-Schur-lattice-band-pass-SQP}Design of an IIR normalised-scaled Schur lattice band-pass filter using SQP}
+The Octave script \emph{schurNSlattice\_sqp\_slb\_bandpass\_test.m} implements
+the design of a band-pass IIR normalised-scaled Schur lattice filter with SQP
+and PCLS. The specification of the filter is:
+\begin{small}
+\verbatiminput{schurNSlattice_sqp_slb_bandpass_test.spec}
+\end{small}
+The initial filter is that of the Octave script 
+\emph{iir\_sqp\_slb\_bandpass\_test.m}, as shown in 
+Section~\ref{sec:Band-pass-R-2-decimation-filter}.
+The denominator polynomial of the filter has coefficients in $z^{2}$ only.
+
+Figures~\ref{fig:Schur-normalised-scaled-lattice-band-pass-filter-SQP-PCLS} 
+and~\ref{fig:Schur-normalised-scaled-lattice-band-pass-filter-SQP-PCLS-pass} 
+show the overall and passband response of the band-pass filter after SQP PCLS
+optimisation.
+Figure~\ref{fig:Schur-normalised-scaled-lattice-band-pass-filter-SQP-PCLS-pz}
+shows the pole-zero plot of the band-pass filter after SQP PCLS optimisation.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurNSlattice_sqp_slb_bandpass_test_pcls_sxx_2}}
+\caption{Schur normalised-scaled lattice band-pass filter : response after SQP
+  PCLS optimisation} 
+\label{fig:Schur-normalised-scaled-lattice-band-pass-filter-SQP-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurNSlattice_sqp_slb_bandpass_test_pcls_sxx_2pass}}
+\caption{Schur normalised-scaled lattice band-pass filter : passband response after SQP PCLS optimisation}
+\label{fig:Schur-normalised-scaled-lattice-band-pass-filter-SQP-PCLS-pass}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurNSlattice_sqp_slb_bandpass_test_pcls_sxx_2pz}}
+\caption{Schur normalised-scaled lattice band-pass filter:pole-zero plot after SQP PCLS optimisation}
+\label{fig:Schur-normalised-scaled-lattice-band-pass-filter-SQP-PCLS-pz}
+\end{figure}
+
+The SQP PCLS optimised Schur normalised-scaled allpass lattice and numerator tap 
+coefficients of the band-pass filter are:
+\begin{small}
+\verbatiminput{schurNSlattice_sqp_slb_bandpass_test_s00_2_coef.m}
+\verbatiminput{schurNSlattice_sqp_slb_bandpass_test_s02_2_coef.m}
+\verbatiminput{schurNSlattice_sqp_slb_bandpass_test_s22_2_coef.m}
+\verbatiminput{schurNSlattice_sqp_slb_bandpass_test_s20_2_coef.m}
+\verbatiminput{schurNSlattice_sqp_slb_bandpass_test_s10_2_coef.m}
+\verbatiminput{schurNSlattice_sqp_slb_bandpass_test_s11_2_coef.m}
+\end{small}
+
+\clearpage
+\subsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-hilbert-SOCP}Design of an IIR one-multiplier Schur lattice Hilbert filter using SOCP}
+The Octave script \emph{schurOneMlattice\_socp\_slb\_hilbert\_test.m} implements
+the design of an IIR one-multiplier Schur lattice Hilbert filter with SOCP and 
+PCLS. The specification of the filter is:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_hilbert_test.spec}
+\end{small}
+The initial filter is that of the Octave script 
+\emph{iir\_sqp\_slb\_hilbert\_test.m} designed by
+the method of \emph{Tarczynski et al.} with the Octave script 
+\emph{tarczynski\_hilbert\_test.m}, as shown in 
+Section~\ref{sec:Hilbert-transform-R-2-decimation-filter}.
+The denominator polynomial of the filter has coefficients in $z^{2}$ only.
+Figure~\ref{fig:Schur-one-multiplier-lattice-hilbert-filter-SOCP-PCLS} 
+shows the response of the Hilbert filter after SOCP PCLS optimisation. The phase
+response shown has been adjusted by the nominal group delay, $\omega{}\tau_{p}$.
+The values shown on the phase axis of the phase response plot are multiples of
+$\pi$ radians.
+Figure~\ref{fig:Schur-one-multiplier-lattice-hilbert-filter-SOCP-PCLS-pz} shows
+the pole-zero plot of the Hilbert filter after SOCP PCLS optimisation.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_hilbert_test_pcls_k2c2}}
+\caption{Schur one-multiplier lattice Hilbert filter : response after SOCP PCLS optimisation}
+\label{fig:Schur-one-multiplier-lattice-hilbert-filter-SOCP-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_hilbert_test_pcls_k2c2pz}}
+\caption{Schur one-multiplier lattice Hilbert filter:pole-zero plot after SOCP PCLS optimisation}
+\label{fig:Schur-one-multiplier-lattice-hilbert-filter-SOCP-PCLS-pz}
+\end{figure}
+
+The SOCP PCLS optimised Schur one-multiplier all-pass lattice and numerator tap 
+coefficients of the Hilbert filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_hilbert_test_k2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_hilbert_test_epsilon2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_hilbert_test_p2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_hilbert_test_c2_coef.m}
+\end{small}
+The corresponding denominator and numerator transfer function polynomials are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_hilbert_test_d2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_hilbert_test_n2_coef.m}
+\end{small}
+\clearpage
+\subsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-hilbert-SQP}Design of an IIR one-multiplier Schur lattice Hilbert filter using SQP}
+The Octave script \emph{schurOneMlattice\_sqp\_slb\_hilbert\_test.m} implements
+the design of an IIR one-multiplier Schur lattice Hilbert filter with SQP and 
+PCLS. The specification of the filter is:
+\begin{small}
+\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test.spec}
+\end{small}
+The initial filter is that of the Octave script 
+\emph{iir\_sqp\_slb\_hilbert\_test.m} designed by
+the method of \emph{Tarczynski et al.} with the Octave script 
+\emph{tarczynski\_hilbert\_test.m}, as shown in 
+Section~\ref{sec:Hilbert-transform-R-2-decimation-filter}.
+The denominator polynomial of the filter has coefficients in $z^{2}$ only.
+Figure~\ref{fig:Schur-one-multiplier-lattice-hilbert-filter-SQP-PCLS} 
+shows the response of the Hilbert filter after SQP PCLS optimisation. The phase
+response shown has been adjusted by the nominal group delay, $\omega{}\tau_{p}$.
+The values shown on the phase axis of the phase response plot are multiples of
+$\pi$ radians.
+Figure~\ref{fig:Schur-one-multiplier-lattice-hilbert-filter-SQP-PCLS-pz} shows
+the pole-zero plot of the Hilbert filter after SQP PCLS optimisation.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_hilbert_test_pcls_k2c2}}
+\caption{Schur one-multiplier lattice Hilbert filter : response after SQP PCLS optimisation}
+\label{fig:Schur-one-multiplier-lattice-hilbert-filter-SQP-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_hilbert_test_pcls_k2c2pz}}
+\caption{Schur one-multiplier lattice Hilbert filter:pole-zero plot after SQP PCLS optimisation}
+\label{fig:Schur-one-multiplier-lattice-hilbert-filter-SQP-PCLS-pz}
+\end{figure}
+
+The SQP PCLS optimised Schur one-multiplier all-pass lattice and numerator tap 
+coefficients of the Hilbert filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test_k2_coef.m}
+\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test_epsilon2_coef.m}
+\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test_p2_coef.m}
+\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test_c2_coef.m}
+\end{small}
+The corresponding denominator and numerator transfer function polynomials are:
+\begin{small}
+\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test_d2_coef.m}
+\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test_n2_coef.m}
+\end{small}
+\clearpage
 \subsection{\label{sec:Design-parallel-Schur-one-mult-all-pass-lattice-band-pass-Hilbert-SOCP}Design of a parallel IIR Schur one-multiplier all-pass lattice band-pass Hilbert filter using SOCP}
 The Octave script \emph{schurOneMPAlattice\_socp\_slb\_bandpass\_hilbert\_test.m}
 implements the design of a band-pass IIR Hilbert filter composed of the
@@ -11753,7 +11872,7 @@ shows the amplitude and delay response of the PCLS SOCP optimised parallel
 all-pass filter.
 Figure~\ref{fig:Schur-one-multiplier-parallel-allpass-low-multiband-PCLS-pass}
 shows the pass-band response of the filter.
-\clearpage
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_lowpass_to_multiband_test_pcls}}
@@ -11770,7 +11889,7 @@ low-pass to multi-band frequency transformation.}
   designed by a low-pass to multi-band frequency transformation.}
 \label{fig:Schur-one-multiplier-parallel-allpass-low-multiband-PCLS-pass}
 \end{figure}
-\clearpage
+
 The Octave script
 \emph{schurOneMPAlattice\_socp\_slb\_multiband\_test.m}
 implements the design of a multi-band-pass IIR filter composed of the difference
@@ -11792,7 +11911,7 @@ Figure~\ref{fig:Schur-one-multiplier-parallel-allpass-multiband-PCLS} shows the
 amplitude and delay response of the PCLS SOCP optimised parallel all-pass filter.
 Figure~\ref{fig:Schur-one-multiplier-parallel-allpass-multiband-PCLS-pass} shows
 the pass-band response of the filter. 
-\clearpage
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_multiband_test_pcls}}
@@ -15342,8 +15461,8 @@ with $12$-bit integer coefficients. The filter specification is:
 \end{small} 
 
 The filter coefficients are truncated to $12$ bits allocated with an average
-of $3$ signed-digits by the heuristic of \emph{Lim et al.} as shown in
-Section~\ref{sec:Lim-allocation-signed-digits}.
+of $3$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
+Section~\ref{sec:Ito-allocation-signed-digits}.
 At each branch the script fixes the coefficient with the largest difference
 between upper and lower $3$ signed-digit approximations to the floating-point
 value. For each sub-problem the coefficients ``higher-up-the-tree'' are fixed
@@ -15373,7 +15492,7 @@ shift-and-add operations.
 Figure~\ref{fig:branch-bound-schurOneMPAlattice-bandpass-12-nbits-pass-response}
 shows the amplitude pass-band response of the filter with
 $12$-bit $3$-signed-digit coefficients allocated with the algorithm of
-\emph{Lim et al.} and branch-and-bound search.
+\emph{Ito et al.} and branch-and-bound search.
 Figure~\ref{fig:branch-bound-schurOneMPAlattice-bandpass-12-nbits-delay-response}
 shows the corresponding filter pass-band group-delay response.
 Figure~\ref{fig:branch-bound-schurOneMPAlattice-bandpass-12-nbits-stop-response}
@@ -15381,14 +15500,14 @@ shows the corresponding filter stop-band amplitude response.
 Table~\ref{tab:branch-bound-schurOneMPAlattice-bandpass-12-nbits-cost-summary}
 compares the cost and the number of $12$ bit shift-and-add operations required
 to implement the coefficient multiplications found by the signed-digit
-allocation heuristic of \emph{Lim et al.} with the branch-and-bound search.
+allocation heuristic of \emph{Ito et al.} with the branch-and-bound search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_kmin_pass}}
 \caption{Pass band amplitude response for a parallel Schur
   one-multiplier all-pass lattice band-pass filter with 12 bit integer
   coefficients found by allocating an average of 3-signed-digits to each
-  coefficient using the heuristic of \emph{Lim et al.} and performing
+  coefficient using the heuristic of \emph{Ito et al.} and performing
   branch-and-bound search.}
 \label{fig:branch-bound-schurOneMPAlattice-bandpass-12-nbits-pass-response}
 \end{figure}
@@ -15398,7 +15517,7 @@ allocation heuristic of \emph{Lim et al.} with the branch-and-bound search.
 \caption{Pass band group delay response for a parallel Schur
   one-multiplier all-pass lattice band-pass filter with 12 bit integer
   coefficients found by allocating an average of 3-signed-digits to each
-  coefficient using the heuristic of \emph{Lim et al.} and performing
+  coefficient using the heuristic of \emph{Ito et al.} and performing
   branch-and-bound search.}
 \label{fig:branch-bound-schurOneMPAlattice-bandpass-12-nbits-delay-response}
 \end{figure}
@@ -15408,7 +15527,7 @@ allocation heuristic of \emph{Lim et al.} with the branch-and-bound search.
 \caption{Stop band amplitude response for a parallel Schur one-multiplier
   all-pass lattice band-pass filter with 12 bit integer coefficients found by
   allocating an average of 3-signed-digits to each coefficient using the
-  heuristic of \emph{Lim et al.} and performing branch-and-bound search.}
+  heuristic of \emph{Ito et al.} and performing branch-and-bound search.}
 \label{fig:branch-bound-schurOneMPAlattice-bandpass-12-nbits-stop-response}
 \end{figure}
 \begin{table}[htbp]
@@ -15426,7 +15545,7 @@ coefficients] {Comparison of the cost and number of 12-bit shift-and-add
   operations required to implement the coefficient multiplications for a
   parallel Schur one-multiplier all-pass lattice band-pass filter with 12 bit
   integer coefficients found by allocating an average of 3-signed-digits to
-  each coefficient using the heuristic of \emph{Lim et al.} and performing
+  each coefficient using the heuristic of \emph{Ito et al.} and performing
   branch-and-bound search.}
 \label{tab:branch-bound-schurOneMPAlattice-bandpass-12-nbits-cost-summary}
 \end{table}
@@ -15647,7 +15766,7 @@ The Octave script
 the branch-and-bound heuristic to optimise the response of the FRM low-pass
 filter of Section~\ref{sec:FRM-low-pass-Schur-lattice} with
 $12$-bit coefficients each having an average of $3$ signed-digits allocated by
-the method of \emph{Ito et al.}. The number of signed-digits allocated to the
+the method of \emph{Lim et al.}. The number of signed-digits allocated to the
 coefficients of the all-pass lattice filter are:
 \begin{small}
   \verbatiminput{branch_bound_schurOneMAPlattice_frm_12_nbits_test_k_allocsd_digits.m}
@@ -15678,7 +15797,7 @@ was stopped after about $36$ hours.} are:
 Figure~\ref{fig:branch-bound-schurOneMAPlattice-frm-12-nbits-response},
 compares the amplitude, delay and phase responses of the FRM low-pass
 filter with exact and 12-bit coefficients with an average of 3-signed-digits
-allocated by the method of \emph{Ito et al.} and with the coefficients
+allocated by the method of \emph{Lim et al.} and with the coefficients
 found by branch-and-bound search. 
 Table~\ref{tab:branch-bound-schurOneMAPlattice-frm-12-nbits-cost}
 compares the cost and the number of $12$ bit shift-and-add operations required
@@ -15688,7 +15807,7 @@ to implement the coefficient multiplications found by branch-and-bound search.
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMAPlattice_frm_12_nbits_test_response}}
 \caption{Comparison of the amplitude, delay and phase responses of an FRM
   low-pass filter with exact and 12 bit coefficients with an average of
-  3-signed-digits allocated by the method of \emph{Ito et al.} and with the 
+  3-signed-digits allocated by the method of \emph{Lim et al.} and with the 
   coefficients found by branch-and-bound search}
 \label{fig:branch-bound-schurOneMAPlattice-frm-12-nbits-response}
 \end{figure}
@@ -15706,7 +15825,7 @@ to implement the coefficient multiplications found by branch-and-bound search.
 {Comparison of the cost and number of 12-bit shift-and-add operations required 
   to implement the coefficient multiplications for an FRM low-pass filter
   with 12-bit coefficients with an average of 3-signed-digits allocated by the
-  method of \emph{Ito et al.} and with the coefficients found by
+  method of \emph{Lim et al.} and with the coefficients found by
   branch-and-bound search} 
 \label{tab:branch-bound-schurOneMAPlattice-frm-12-nbits-cost}
 \end{table}
@@ -16485,7 +16604,7 @@ The filter coefficients found by the socp-relaxation search are:
 Figure~\ref{fig:socp-relaxation-schurOneMAPlattice-frm-12-nbits-response},
 compares the amplitude, phase and delay responses of the FRM low-pass
 filter with exact and 12-bit coefficients with an average of 3-signed-digits
-allocated by the method of \emph{Ito et al.} and with the coefficients
+allocated by the method of \emph{Lim et al.} and with the coefficients
 found by SOCP-relaxation search. The phase response shown is adjusted for the
 nominal delay.
 Table~\ref{tab:socp-relaxation-schurOneMAPlattice-frm-12-nbits-cost}
@@ -16496,7 +16615,7 @@ to implement the coefficient multiplications found by SOCP-relaxation search.
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_response}}
 \caption{Comparison of the amplitude, phase and delay responses of an FRM
   low-pass filter with exact and 12 bit coefficients with an average of
-  3-signed-digits allocated by the method of \emph{Ito et al.} and with the 
+  3-signed-digits allocated by the method of \emph{Lim et al.} and with the 
   coefficients found by SOCP-relaxation search. The phase response shown is
   adjusted for the nominal delay.}
 \label{fig:socp-relaxation-schurOneMAPlattice-frm-12-nbits-response}
@@ -16515,7 +16634,7 @@ to implement the coefficient multiplications found by SOCP-relaxation search.
 {Comparison of the cost and number of 12-bit shift-and-add operations required 
   to implement the coefficient multiplications for an FRM low-pass filter
   with 12-bit coefficients with an average of 3-signed-digits allocated by the
-  method of \emph{Ito et al.} and with the coefficients found by
+  method of \emph{Lim et al.} and with the coefficients found by
   SOCP-relaxation search} 
 \label{tab:socp-relaxation-schurOneMAPlattice-frm-12-nbits-cost}
 \end{table}
@@ -31950,8 +32069,8 @@ $\sqrt{1-w^{2}}S_{p,q}\left(w,\kappa\right)$\footnote{See
   of designing for equal-ripple performance reduces to finding even and odd
   polynomials $P_{n}\left(x\right)$ so that $P_{n}\left(x\right)/\sqrt{1-x^{2}}$
   oscillates between $\pm{}1$   exactly $n+1$ times in a prescribed interval
-  $-1<-x_{c}\le{}x\le{}x_{c}<1$. ...  $P_{n}\left(\right)$ is given then by
-  $2P_{n}\left(\right)=\left(1+\sqrt{1-x_{c}^{2}}\right)T_{n}\left(\frac{x}{x_{c}}\right)-\left(1-\sqrt{1-x_{c}^{2}}\right)T_{n-2}\left(\frac{x}{x_{c}}\right)$''}
+  $-1<-x_{c}\le{}x\le{}x_{c}<1$. ...  $P_{n}\left(x\right)$ is given then by
+  $2P_{n}\left(x\right)=\left(1+\sqrt{1-x_{c}^{2}}\right)T_{n}\left(\frac{x}{x_{c}}\right)-\left(1-\sqrt{1-x_{c}^{2}}\right)T_{n-2}\left(\frac{x}{x_{c}}\right)$''}
 and use $S_{p,q}\left(w,\kappa\right)$ as the generating polynomial of a low-pass FIR
 filter\footnote{The normalisation is shown in \emph{Vl\v{c}ek} and
   \emph{Zahradn\'{i}k}~\cite{VlcekZahradnik_AlmostEquirippleLowPassFIR,
@@ -34454,25 +34573,25 @@ stop band regions. The pass band phase error is adjusted for the nominal delay.}
 \section*{Software requirements}
 I currently use the Fedora 34 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{5.11.16-300.fc34.x86\_64}
-\item \emph{gcc} version \emph{11.0.1 20210324 (Red Hat 11.0.1-0)}
-\item a local build of \emph{octave-6.2.0} with the \emph{struct}, \emph{io},
+\item \texttt{uname -r} is \emph{5.13.16-200.fc34.x86\_64}
+\item \emph{gcc} version \emph{11.1.1 20210728 (Red Hat 11.2.1-0)}
+\item a local build of \emph{octave-6.3.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic} and \emph{parallel} Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit and
-  \emph{qt6-6.0.3-1}
-\item \emph{texlive-2020-38} and various packages are installed
+  \emph{qt-4.8.7-60}
+\item \emph{texlive-2020-39} and various packages are installed
 \item \emph{dia-0.97.3-17} is used for line drawings
 \end{itemize}
 
-The local build of \emph{octave-6.2.0} assumes that the following packages are
+The local build of \emph{octave-6.3.0} assumes that the following packages are
 installed in addition to the base Fedora distribution:
 \begin{small}
 \begin{verbatim}
 dnf install \
 readline-devel make lzip sharutils gcc gcc-c++ gcc-gfortran gmp-devel \
 mpfr-devel cmake gnuplot-latex m4 gperf bison flex openblas-devel patch \
-texinfo texinfo-tex librsvg2librsvg2-devel librsvg2-tools icoutils autoconf \
+texinfo texinfo-tex librsvg2 librsvg2-devel librsvg2-tools icoutils autoconf \
 automake libtool pcre pcre-devel freetype freetype-devel gnupg2 \
 \end{verbatim}
 \end{small}
@@ -34516,7 +34635,7 @@ corresponding \emph{Makefile} fragment, \emph{butt3NS\_test.mk}:
 \pdfbookmark[0]{Octave}{octave}
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
-version of \emph{octave-6.2.0} avoiding the vagaries of the Fedora
+version of \emph{octave-6.3.0} avoiding the vagaries of the Fedora
 packagers\footnote{The Fedora 33 \emph{octave-5.2.0} package
   depends on the FlexiBLAS~\cite{FlexiBLAS_website} wrapper library for the
   \emph{blas} and \emph{lapack} libraries. If installing this package then
@@ -34528,18 +34647,18 @@ packagers\footnote{The Fedora 33 \emph{octave-5.2.0} package
 The \emph{build-octave.sh} script builds Octave and the associated numerical
 libraries with the \emph{g++} option \texttt{-march=nehalem}. The patch file,
 \emph{octave.patch}, is a shell \emph{here} document
-within \emph{build-octave.sh}. The \emph{octave-6.2.0/configure} script is
+within \emph{build-octave.sh}. The \emph{octave-6.3.0/configure} script is
 patched so that the Octave \texttt{OCTAVE\_VERSION} command
-returns \texttt{6.2.0-robj}.
+returns \texttt{6.3.0-robj}.
 
 The local build of Octave links to locally built versions of the following
 libraries: 
 \emph{arpack-ng-master}~\cite{ARPACKNG_website},
-\emph{fftw-3.3.9}~\cite{FFTW_website},
+\emph{fftw-3.3.10}~\cite{FFTW_website},
 \emph{glpk-5.0}~\cite{GNU_GLPK},
-\emph{lapack-3.9.1}~\cite{LAPACK_website},
+\emph{lapack-3.10.0}~\cite{LAPACK_website},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website} and
-\emph{SuiteSparse-5.9.0}~\cite{SUITESPARSE_website}.
+\emph{SuiteSparse-5.10.1}~\cite{SUITESPARSE_website}.
 The local build of the \emph{LAPACK} library includes the deprecated routines.
 
 This project includes a number of Octave \emph{oct-file} extensions written in
@@ -34685,9 +34804,9 @@ be installed with this work-around:
 This section shows the results of benchmarking various builds of Octave
 and benchmarking \emph{blas} and \emph{lapack} libraries with a shared library
 \emph{LTO} and \emph{PGO} build of Octave. The Linux kernel used is
-\emph{5.11.16-300.fc33.x86\_64} from the RedHat Fedora 34 Linux
+\emph{5.13.16-200.fc33.x86\_64} from the RedHat Fedora 34 Linux
 distribution. The system compiler is
-\emph{gcc version 11.0.1 20210324 (Red Hat 11.0.1-0)}.
+\emph{gcc version 11.2.1 20210728 (Red Hat 11.2.1-1)}.
 The CPU is an Intel i7-7700K for which the number of CPU cores 
 is $4$ ($8$ hyper-threaded). During the benchmark the CPU frequency was fixed
 at $4.5GHz$.  To do this, as the \emph{root} user:
@@ -34760,11 +34879,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 127.2 \\
-Generic, shared reference lapack and blas            &  41.2 \\
-Generic, shared reference lapack and blas, LTO       &  41.7 \\
-Generic, shared reference lapack and blas, PGO       &  41.7 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  41.2 \\
+Debug, shared reference lapack and blas              & 127.1 \\
+Generic, shared reference lapack and blas            &  41.9 \\
+Generic, shared reference lapack and blas, LTO       &  41.8 \\
+Generic, shared reference lapack and blas, PGO       &  41.9 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  41.7 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -34779,7 +34898,7 @@ The shell script \emph{library-benchmark.sh} benchmarks the shared library
 \emph{linpack.m}~\cite{Rutter_LinpackBenchmark} script and the previous IIR
 benchmark script. The \emph{linpack.m} script was modified to produce
 repeatable residuals. The alternative \emph{blas} and \emph{lapack} library
-versions used are local builds of \emph{blas-3.9.1} and \emph{lapack-3.9.1} and
+versions used are local builds of \emph{blas-3.10.0} and \emph{lapack-3.10.0} and
 the Fedora 34 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
 \emph{gsl}~\cite{GNU_GSL} and \emph{openblas}~\cite{OpenBLAS_website}
 packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
@@ -34791,8 +34910,8 @@ packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
   > ./dgesvd\_test\_sysblas\\
    0.14709002182060069\\
    Note: The following floating-point exceptions are signalling: IEEE\_DENORMAL\\
-  > LD\_LIBRARY\_PATH=/usr/local/octave-6.2.0/lib ./dgesvd\_test\_blas\\
-   0.14709002182060069
+  > LD\_LIBRARY\_PATH=/usr/local/octave-6.3.0/lib ./dgesvd\_test\_blas\\
+   0.14709002182060862
 \end{texttt}}
 \begin{small}
 \begin{verbatim}
@@ -34801,8 +34920,8 @@ blas.x86_64                3.9.0-6.fc34
 lapack.x86_64              3.9.0-6.fc34
 gsl.x86_64                 2.6-4.fc34
 gsl-devel.x86_64           2.6-4.fc34
-openblas.x86_64            0.3.12-2.fc34
-openblas-threads.x86_64    0.3.12-2.fc34
+openblas.x86_64            0.3.17-1.fc34
+openblas-threads.x86_64    0.3.17-1.fc34
 \end{verbatim}
 \end{small}
 
@@ -34838,19 +34957,19 @@ and \emph{LTO} build of Octave.
 \cmidrule{2-4}             & MFLOPS & Normalised          & Execution time \\
                            &        & residual            & (seconds) \\
 \midrule
-Generic libblas/liblapack  &  3933  & 21.3                &  41.2 \\
-Intel libblas/liblapack    &  3922  & 21.3                &  41.2 \\
-Haswell libblas/liblapack  &  4780  & 18.5                &  40.8 \\
-Nehalem libblas/liblapack  &  3951  & 21.3                &  41.2 \\
-Skylake libblas/liblapack  &  4687  & 18.5                &  40.9 \\
-Fedora 34 libblas/liblapack&  3940  & 21.3                &  41.2 \\
-libgslcblas                &  3935  & 21.3                &  41.2 \\
-libsatlas                  & 13623  & 12.2                &  41.5 \\
-libtatlas                  & 20927  & 11.4                &  41.3 \\
-libopenblas                & 34190  &  9.9                &  39.5 \\
-libopenblasp (1 thread)    & 34159  &  9.9                &  39.6 \\
-libopenblasp (2 threads)   & 47344  & 12.1                &  39.7 \\
-libopenblasp (4 threads)   & 57639  & 10.8                &  39.6 \\
+Generic libblas/liblapack  &  3946  & 21.3                &  41.8 \\
+Intel libblas/liblapack    &  3925  & 21.3                &  41.8 \\
+Haswell libblas/liblapack  &  4710  & 18.5                &  41.5 \\
+Nehalem libblas/liblapack  &  3949  & 21.3                &  41.8 \\
+Skylake libblas/liblapack  &  4030  & 18.5                &  41.8 \\
+Fedora 34 libblas/liblapack&  3946  & 21.3                &  41.8 \\
+libgslcblas                &  3935  & 21.3                &  41.8 \\
+libsatlas                  & 13632  & 12.2                &  42.1 \\
+libtatlas                  & 21011  & 11.4                &  41.6 \\
+libopenblas                & 34300  &  9.9                &  40.2 \\
+libopenblasp (1 thread)    & 34189  &  9.9                &  40.2 \\
+libopenblasp (2 threads)   & 47453  & 12.1                &  40.3 \\
+libopenblasp (4 threads)   & 57770  & 10.8                &  40.2 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -35000,7 +35119,7 @@ function with function handle \texttt{@plus}:
     yalmip_complex_test at line 87 column 6
 \end{verbatim}
 \end{small}
-Using the ``stringified'' \texttt{plus} function works. This problem is fixed in
+Using the ``stringified'' \texttt{plus} function works. This problem was fixed in
 Octave version \texttt{6.2.0}: \url{https://savannah.gnu.org/bugs/?59661}.
 
 \begin{comment}
@@ -35175,7 +35294,7 @@ qt5-qttools qt5-qttools-common qt5-qttools-devel
 .
 .
 [root@localhost ~]# cd
-[root@localhost ~]# echo "export PATH=$PATH:/usr/local/octave-6.2.0/bin" >> .bashrc 
+[root@localhost ~]# echo "export PATH=$PATH:/usr/local/octave-6.3.0/bin" >> .bashrc 
 [root@localhost ~]# shutdown -h now
 Connection to 192.168.122.7 closed by remote host.
 Connection to 192.168.122.7 closed.

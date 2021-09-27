@@ -2,6 +2,10 @@
 
 prog=sdp_relaxation_schurOneMlattice_bandpass_12_nbits_test.m
 depends="sdp_relaxation_schurOneMlattice_bandpass_12_nbits_test.m \
+../schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_test_c2_coef.m \
 test_common.m \
 sdp_relaxation_schurOneMlattice_mmse.m \
 schurOneMlattice_socp_mmse.m \

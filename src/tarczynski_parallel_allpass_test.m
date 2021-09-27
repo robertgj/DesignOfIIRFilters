@@ -55,10 +55,10 @@ Td=td*ones(n,1);
 Wt=[Wtp*ones(ntp,1);zeros(n-ntp,1)];
 
 % Unconstrained minimisation
-ab0=[1;zeros(ma-1,1);1;zeros(mb-1,1)];
+abi=[1;zeros(ma-1,1);1;zeros(mb-1,1)];
 WISEJ_PA([],ma,mb,R,polyphase,w,Ad,Wa,Td,Wt);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[ab1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PA,ab0,opt);
+[ab0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PA,abi,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -80,19 +80,19 @@ printf("fminunc successful=%d??\n", OUTPUT.successful);
 printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 
 % Create the output polynomials
-ab1=ab1(:);
-Da=[1;kron(ab1(1:ma),[zeros(R-1,1);1])];
-Db=[1;kron(ab1((ma+1):end),[zeros(R-1,1);1])];
-D=conv(Da,Db);
-N=0.5*(conv(Db,flipud(Da))+conv(Da,flipud(Db)));
+ab0=ab0(:);
+Da0=[1;kron(ab0(1:ma),[zeros(R-1,1);1])];
+Db0=[1;kron(ab0((ma+1):end),[zeros(R-1,1);1])];
+D0=conv(Da0,Db0);
+N0=0.5*(conv(Db0,flipud(Da0))+conv(Da0,flipud(Db0)));
 
 % Calculate response
 nplot=512;
-[Ha,wplot]=freqz(flipud(Da),Da,nplot);
-Hb=freqz(flipud(Db),Db,nplot);
+[Ha,wplot]=freqz(flipud(Da0),Da0,nplot);
+Hb=freqz(flipud(Db0),Db0,nplot);
 H=0.5*(Ha+Hb);
-Ta=grpdelay(flipud(Da),Da,nplot);
-Tb=grpdelay(flipud(Db),Db,nplot);
+Ta=grpdelay(flipud(Da0),Da0,nplot);
+Tb=grpdelay(flipud(Db0),Db0,nplot);
 T=0.5*(Ta+Tb);
 
 % Plot response
@@ -111,7 +111,7 @@ if flat_delay
   axis([0 0.5 (td-1) (td+1)]);
 endif
 grid("on");
-print("tarczynski_parallel_allpass_response","-dpdflatex");
+print("tarczynski_parallel_allpass_test_response","-dpdflatex");
 close
 
 % Plot passband response
@@ -129,21 +129,21 @@ if flat_delay
   axis([0 max(fap,ftp) (td-0.1) (td+0.1)]);
 endif
 grid("on");
-print("tarczynski_parallel_allpass_response_passband","-dpdflatex");
+print("tarczynski_parallel_allpass_test_response_passband","-dpdflatex");
 close
 
 % Plot poles and zeros
 subplot(111);
-zplane(roots(N),roots(D));
+zplane(roots(N0),roots(D0));
 title(s);
-print("tarczynski_parallel_allpass_pz","-dpdflatex");
+print("tarczynski_parallel_allpass_test_pz","-dpdflatex");
 close
 
 % Plot phase response
 if flat_delay
   % Plot phase response of parallel filters
-  Ha=freqz(flipud(Da),Da,nplot);
-  Hb=freqz(flipud(Db),Db,nplot);
+  Ha=freqz(flipud(Da0),Da0,nplot);
+  Hb=freqz(flipud(Db0),Db0,nplot);
   plot(wplot*0.5/pi,unwrap(arg(Ha))+(wplot*td), ...
        wplot*0.5/pi,unwrap(arg(Hb))+(wplot*td));
   strt=sprintf("Allpass phase response error from linear phase (-w*td): \
@@ -154,18 +154,18 @@ ma=%d,mb=%d,td=%g",ma,mb,td);
   legend("Filter A","Filter B","location","northwest");
   legend("boxoff");
   grid("on");
-  print("tarczynski_parallel_allpass_phase","-dpdflatex");
+  print("tarczynski_parallel_allpass_test_phase","-dpdflatex");
   close
 endif
 
 % Save the result
-print_polynomial(Da,"Da0");
-print_polynomial(Da,"Da0","tarczynski_parallel_allpass_test_Da0_coef.m");
-print_polynomial(Db,"Db0");
-print_polynomial(Db,"Db0","tarczynski_parallel_allpass_test_Db0_coef.m");
-print_polynomial(N,"N");
-print_polynomial(D,"D");
-save tarczynski_parallel_allpass_test.mat R ma mb ab0 ab1 Da Db N D
+print_polynomial(Da0,"Da0");
+print_polynomial(Da0,"Da0","tarczynski_parallel_allpass_test_Da0_coef.m");
+print_polynomial(Db0,"Db0");
+print_polynomial(Db0,"Db0","tarczynski_parallel_allpass_test_Db0_coef.m");
+print_polynomial(N0,"N0");
+print_polynomial(D0,"D0");
+save tarczynski_parallel_allpass_test.mat R ma mb abi ab0 Da0 Db0 N0 D0
 
 % Done
 toc;

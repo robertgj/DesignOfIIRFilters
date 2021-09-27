@@ -13,8 +13,8 @@ delete("socp_relaxation_schurOneMAPlattice_frm_12_nbits_test.diary.tmp");
 diary socp_relaxation_schurOneMAPlattice_frm_12_nbits_test.diary.tmp
 
 % Options
-socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Lim=false
-socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Ito=true
+socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Lim=true
+socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Ito=false
 
 tic;
 
@@ -22,31 +22,23 @@ tic;
 %
 % Initial filter from schurOneMAPlattice_frm_socp_slb_test.m
 %
-k0 = [  -0.0146211106,   0.5777414027,   0.0181702261,  -0.1428708243, ... 
-        -0.0045559735,   0.0545939011,   0.0099115903,  -0.0279491983, ... 
-        -0.0043777543,   0.0086675795 ]';
-epsilon0 = [  1,  1, -1,  1, ... 
-              1, -1, -1,  1, ... 
-              1, -1 ]';
-p0 = ones(size(k0));
-u0 = [   0.5698720310,   0.3066139370,  -0.0622874460,  -0.0846974802, ... 
-         0.0503130252,   0.0341474095,  -0.0429614935,  -0.0058587109, ... 
-         0.0349980389,  -0.0115266842,  -0.0173788251,   0.0128969260, ... 
-         0.0100895313,  -0.0087030450,  -0.0047145346,   0.0083435145, ... 
-        -0.0004541138,  -0.0075994376,   0.0045979132,   0.0025210304, ... 
-        -0.0039022018 ]';
-v0 = [  -0.6661044946,  -0.2735403306,   0.1346966860,   0.0031754878, ... 
-        -0.0651379084,   0.0491337252,   0.0028885497,  -0.0337456463, ... 
-         0.0281133985,  -0.0004993262,  -0.0182710308,   0.0157696235, ... 
-         0.0015726826,  -0.0101280774,   0.0079311008,   0.0013575676, ... 
-        -0.0066956214,   0.0060711378,  -0.0010413743,  -0.0025151577, ... 
-         0.0030291400 ]';
+schurOneMAPlattice_frm_socp_slb_test_k1_coef;
+schurOneMAPlattice_frm_socp_slb_test_epsilon1_coef;
+schurOneMAPlattice_frm_socp_slb_test_p1_coef;
+schurOneMAPlattice_frm_socp_slb_test_u1_coef;
+schurOneMAPlattice_frm_socp_slb_test_v1_coef;
+
+k0=k1;
+epsilon0=epsilon1;
+p0=p1;
+u0=u1;
+v0=v1;
 
 %
 % Filter specification
 %
 n=1000;
-tol=1e-4
+tol=5e-4
 ctol=tol/10
 maxiter=2000
 verbose=false
@@ -58,21 +50,21 @@ Dmodel=9 % Desired model filter passband delay
 dmask=length(u0)-1 % FIR masking filter delay
 mr=length(k0) % Model filter order
 fap=0.3 % Pass band edge
-dBap=0.1 % Pass band amplitude ripple
+dBap=1 % Pass band amplitude ripple
 Wap=1 % Pass band amplitude weight
 Wat=0 % Transition band amplitude weight
 fas=0.3105 % Stop band edge
-dBas=37 % Stop band amplitude ripple
+dBas=38 % Stop band amplitude ripple
 Was=10 % Stop band amplitude weight
 ftp=fap % Delay pass band edge
 tp=(Mmodel*Dmodel)+dmask;
-tpr=1 % Peak-to-peak pass band delay ripple
+tpr=0.8 % Peak-to-peak pass band delay ripple
 Wtp=0.1 % Pass band delay weight
 fpp=fap % Phase pass band edge
 pp=0 % Pass band zero-phase phase
-ppr=0.02*pi % Peak-to-peak pass band phase ripple
-Wpp=0.1 % Pass band phase weight
-rho=31/32 % Stability constraint on pole radius
+ppr=0.04 % Peak-to-peak pass band phase ripple (rad./pi)
+Wpp=0.01 % Pass band phase weight
+rho=127/128 % Stability constraint on pole radius
 
 %
 % Frequency vectors
@@ -100,12 +92,11 @@ Wt=Wtp*ones(nap,1);
 % Phase constraints
 wp=w(1:nap);
 Pd=zeros(nap,1);
-Pdu=(ppr/2)*ones(nap,1);
+Pdu=(ppr/2)*pi*ones(nap,1);
 Pdl=-Pdu;
 Wp=Wpp*ones(nap,1);
 
 % Coefficient constraints
-rho=127/128;
 kuv0_u=[rho*ones(size(k0(:)));10*ones(size(u0(:)));10*ones(size(v0(:)))];
 kuv0_l=-kuv0_u;
 kuv0_active=(1:(length(k0)+length(u0)+length(v0)))';
@@ -343,7 +334,7 @@ printf("] (rad./pi) adjusted for delay\n");
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_kuv_min_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit(Ito)& %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd,kuv0_digits,kuv0_adders);
 fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq_min,kuv_digits,kuv_adders);
@@ -386,11 +377,11 @@ ylabel(ax(1),"Amplitude(dB)");
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 % End of hack
-axis(ax(1),[0 0.5 -dBap dBap]);
+axis(ax(1),[0 0.5 -dBap/10 dBap/10]);
 axis(ax(2),[0 0.5 -50 -30]);
 ylabel("Amplitude(dB)");
 strt=sprintf("FRM filter (nbits=%d,ndigits=%d) : fap=%g,fas=%g,dBap=%g,dBas=%g,\
-tp=%g,tpr=%g,ppr=%g*$\\pi$",nbits,ndigits,fap,fas,dBap,dBas,tp,tpr,ppr/pi);
+tp=%g,tpr=%g,ppr=%g*$\\pi$",nbits,ndigits,fap,fas,dBap,dBas,tp,tpr,ppr);
 title(strt);
 grid("on");
 % Plot phase
@@ -404,9 +395,9 @@ P_kuv_min=schurOneMAPlattice_frmP ...
 plot(wp*0.5/pi,P_kuv0/pi,"linestyle","--", ...
      wp*0.5/pi,P_kuv0_sd/pi,"linestyle","-.", ...
      wp*0.5/pi,P_kuv_min/pi,"linestyle","-");
-axis([0 0.5 (pp-(ppr/2))/pi (pp+(ppr/2))/pi]);
+axis([0 0.5 (pp-(ppr/10)) (pp+(ppr/10))]);
 ylabel("Phase error(rad./$\\pi$)");
-legend("exact","s-d(Ito)","s-d(SOCP-relax)");
+legend("exact","s-d(Lim)","s-d(SOCP-relax)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -422,7 +413,7 @@ subplot(313);
 plot(wt*0.5/pi,T_kuv0+tp,"linestyle","--", ...
      wt*0.5/pi,T_kuv0_sd+tp,"linestyle","-.", ...
      wt*0.5/pi,T_kuv_min+tp,"linestyle","-");
-axis([0 0.5 tp-tpr tp+tpr]);
+axis([0 0.5 tp-1 tp+1]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
@@ -450,7 +441,7 @@ fprintf(fid,"tp=%d %% Pass band nominal delay\n",tp);
 fprintf(fid,"tpr=tp/%g %% Pass band delay peak-to-peak ripple\n",tp/tpr);
 fprintf(fid,"Wtp=%g %% Pass band magnitude-squared weight\n",Wap);
 fprintf(fid,"fpp=%g %% Phase pass band edge\n",fpp);
-fprintf(fid,"ppr=%g*pi %% Pass band phase peak-to-peak ripple (rad.)\n",ppr/pi);
+fprintf(fid,"ppr=%g*pi %% Pass band phase peak-to-peak ripple (rad.)\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fclose(fid);

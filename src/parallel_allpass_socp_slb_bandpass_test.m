@@ -16,12 +16,8 @@ strf="parallel_allpass_socp_slb_bandpass_test";
 %
 % Initial coefficients found by tarczynski_parallel_allpass_bandpass_test.m
 %
-Da0 = [   1.0000000000,  -1.8973150269,   1.2642558998,   0.9180982400, ... 
-         -2.2325999512,   1.7468966414,  -0.1256228968,  -0.9677806380, ... 
-          1.0525981896,  -0.5245983396,   0.1304756216 ]';
-Db0 = [   1.0000000000,  -1.3313250884,   0.9709608648,   0.7128573966, ... 
-         -1.6815516926,   1.4133922361,  -0.1433260786,  -0.7254905194, ... 
-          0.8538839663,  -0.4392568120,   0.1374006920 ]';
+tarczynski_parallel_allpass_bandpass_test_Da0_coef;
+tarczynski_parallel_allpass_bandpass_test_Db0_coef;
 
 % Convert coefficients to a vector
 [a0,Va,Qa]=tf2a(Da0);
@@ -49,7 +45,7 @@ dBap=2
 Wap=1
 Watl=0.01
 Watu=0.01
-dBas=53
+dBas=50
 Wasl=10000
 Wasu=10000
 ftpl=0.09

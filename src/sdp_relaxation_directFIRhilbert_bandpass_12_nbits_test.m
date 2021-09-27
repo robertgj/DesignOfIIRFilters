@@ -1,5 +1,5 @@
 % sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 % SDP relaxation optimisation of a direct-form FIR Hilbert filter
 % with 12-bit signed-digit coefficients
@@ -59,8 +59,7 @@ printf("Adl=[ ");printf("%d ",Adl(nch));printf("]\n");
 printf("Wa=[ ");printf("%d ",Wa(nch));printf("]\n");
 
 % Hilbert band-pass filter from directFIRhilbert_bandpass_slb_test.m
-hM2 = [  -0.0104589390,   0.0031738998,   0.0291468051,  -0.0144604946, ... 
-         -0.0629162600,   0.0550052923,   0.1596092306,  -0.4239235327 ]';
+directFIRhilbert_bandpass_slb_test_hM2_coef;
 
 % Find the exact coefficient error
 waf=2*pi*[0 fasl fapl fapu fasu 0.5];

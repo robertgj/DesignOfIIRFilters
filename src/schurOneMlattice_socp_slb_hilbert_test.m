@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_hilbert_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -16,23 +16,21 @@ maxiter=2000
 verbose=false
 
 % Hilbert filter specification
-ft=0.05 % Transition bandwidth [0 ft]
-tp=5.5
+ft=0.08 % Transition bandwidth [0 ft]
+tp=1+(5.5)
 
 % Frequency points
 n=256;
 w=pi*(0:(n-1))'/n;
 
 % Initial filter from tarczynski_hilbert_test.m
-n0=[  -0.0579063991,  -0.0707490525,  -0.0092677810,  -0.0274919718, ... 
-      -0.1104277026,  -0.4894105730,   0.8948745630,   1.0527570805, ... 
-      -0.8678508170,  -0.4990735123,   0.1861313381,   0.0311088704, ...
-       0.0000000000 ]';
-d0=[   1.0000000000,   0.0000000000,  -1.4110993644,   0.0000000000, ...
-       0.4589810713,   0.0000000000,  -0.0092017575,   0.0000000000, ... 
-       0.0011255865,   0.0000000000,   0.0014507700,   0.0000000000, ...
-      -0.0018420748 ]';
-[k0,epsilon0,p0,c0]=tf2schurOneMlattice(n0,d0);
+tarczynski_hilbert_test_D0_coef;
+tarczynski_hilbert_test_N0_coef;
+
+D0R2=zeros(1,(length(D0)*2)-1);
+D0R2(1:2:end)=D0;
+
+[k0,epsilon0,p0,c0]=tf2schurOneMlattice(N0,D0R2);
 Asq0=schurOneMlatticeAsq(w,k0,epsilon0,p0,c0);
 T0=schurOneMlatticeT(w,k0,epsilon0,p0,c0);
 P0=schurOneMlatticeP(w,k0,epsilon0,p0,c0);
@@ -40,9 +38,9 @@ P0=schurOneMlatticeP(w,k0,epsilon0,p0,c0);
 % Amplitude constraints
 wa=w;
 Asqd=ones(n,1);
-dBap=0.5
+dBap=0.12
 nt=ceil(ft*n/0.5);
-dBapmask=dBap*[2*ones(nt,1);ones(nt,1);ones(n-(2*nt),1)/2];
+dBapmask=dBap*[2*ones(nt,1);ones(n-nt,1)/2];
 Asqdu=10.^(dBapmask/10);
 Asqdl=10.^(-dBapmask/10);
 Wat=10*tol
@@ -54,20 +52,19 @@ Wa_pcls=Wap_pcls*[Wat*ones(nt,1);ones(n-nt,1)];
 % Group delay constraints
 wt=w;
 Td=tp*ones(n,1);
-tpr=0.2;
-ntt=floor(nt*1.5);
-trmask=[100*tpr*ones(ntt,1);0.5*tpr*ones(n-ntt,1)];
+tpr=0.08;
+trmask=[100*tpr*ones(nt,1);0.5*tpr*ones(n-nt,1)];
 Tdu=Td+trmask;
 Tdl=Td-trmask;
 Wtt=0
 Wtp=0.1
-Wt=[Wtt*ones(ntt,1);Wtp*ones(n-ntt,1)];
+Wt=[Wtt*ones(nt,1);Wtp*ones(n-nt,1)];
 
 % Phase constraints
 wp=w;
 Pd=-(wp*tp)-(pi/2);
 pr=0.02
-prmask=(pi/2)*[2*ones(nt,1);1.5*pr*ones(nt,1);0.5*pr*ones(n-(2*nt),1)];
+prmask=(pi/2)*[2*ones(nt,1);0.5*pr*ones(n-nt,1)];
 Pdu=Pd+prmask;
 Pdl=Pd-prmask;
 Wpt=10*tol
@@ -173,7 +170,7 @@ print_polynomial(d2,"d2",strcat(strf,"_d2_coef.m"));
 % Save results
 %
 save schurOneMlattice_socp_slb_hilbert_test.mat ...
-     tol ctol n w n0 d0 k0 epsilon0 p0 c0 rho Asqd dBap tp Pd pr ...
+     tol ctol n w N0 D0 k0 epsilon0 p0 c0 rho Asqd dBap tp Pd pr ...
      k1 epsilon1 p1 c1 k2 epsilon2 p2 c2 n2 d2
 
 % Done

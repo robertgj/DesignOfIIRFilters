@@ -1,5 +1,5 @@
 % schurOneMPAlatticeT_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -19,8 +19,8 @@ for m=1:2
   % Check the group delay response
   Tab1=grpdelay(Nab1,Dab1,wa);
   Tab1=Tab1(Trng);
-  if max(abs(Tab1-T)) > 4*tol
-    error("max(abs(Tab1-T)) > 4*tol");
+  if max(abs(Tab1-T)) > 16*tol
+    error("max(abs(Tab1-T)) > 16*tol");
   endif
 
   % Find the gradients of T
@@ -78,8 +78,8 @@ for m=1:2
     delk=shift(delk,1);
     diff_gradTk(:,l)=(gradTkPdel2(:,l)-gradTkMdel2(:,l))/del;
   endfor
-  if max(max(abs(diff_gradTk-diagHessT(:,A1rng)))) > 40*tol
-    error("max(max(abs(diff_gradTk-diagHessT(,A1rng)))) > 40*tol");
+  if max(max(abs(diff_gradTk-diagHessT(:,A1rng)))) > 50*tol
+    error("max(max(abs(diff_gradTk-diagHessT(,A1rng)))) > 50*tol");
   endif
 
   % Check the Hessian of the group delay response wrt A2k

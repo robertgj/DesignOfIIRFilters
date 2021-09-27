@@ -41,3 +41,6 @@ x2nextra.m local_max.m print_polynomial.m SDadders.m \
 schurOneMAPlattice2H.oct schurdecomp.oct schurexpand.oct \
 bin2SD.oct bitflip.oct bin2SPT.oct schurOneMlattice2Abcd.oct \
 schurOneMlattice2H.oct complex_zhong_inverse.oct 
+
+socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test.diary : \
+schurOneMAPlattice_frm_hilbert_socp_slb_test.diary

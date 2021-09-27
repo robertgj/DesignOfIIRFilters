@@ -2,6 +2,12 @@
 
 prog=socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.m
 depends="socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.m \
+../schurOneMPAlattice_socp_slb_lowpass_test_A1k_coef.m \
+../schurOneMPAlattice_socp_slb_lowpass_test_A1epsilon_coef.m \
+../schurOneMPAlattice_socp_slb_lowpass_test_A1p_coef.m \
+../schurOneMPAlattice_socp_slb_lowpass_test_A2k_coef.m \
+../schurOneMPAlattice_socp_slb_lowpass_test_A2epsilon_coef.m \
+../schurOneMPAlattice_socp_slb_lowpass_test_A2p_coef.m \
 test_common.m \
 schurOneMPAlattice_allocsd_Lim.m \
 schurOneMPAlattice_allocsd_Ito.m \
@@ -54,16 +60,16 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k_coef.m << 'EOF'
-A1k_min = [     1576,     -184,     -548,     -133, ... 
-                -111,      494,     -296,       -6, ... 
-                 337,     -328,      128 ]'/2048;
+A1k_min = [     1576,     -176,     -546,     -134, ... 
+                -116,      508,     -292,       -5, ... 
+                 336,     -322,      112 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_D1_coef.m"; fail; fi
 
 cat > test_A2k_coef.m << 'EOF'
-A2k_min = [      792,     -558,      380,      330, ... 
-                 -94,       80,     -400,      368, ... 
-                   4,     -368,      312,     -125 ]'/2048;
+A2k_min = [      792,     -556,      380,      335, ... 
+                 -96,       80,     -416,      368, ... 
+                   8,     -368,      304,     -112 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_D2_coef.m"; fail; fi
 

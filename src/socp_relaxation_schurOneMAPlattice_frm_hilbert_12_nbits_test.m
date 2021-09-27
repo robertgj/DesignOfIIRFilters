@@ -22,16 +22,12 @@ tic;
 %
 % Initial filter from schurOneMAPlattice_frm_hilbert_socp_slb_test.m
 %
-k0 = [  -0.5737726298,  -0.1357954240,  -0.0532684516,  -0.0211111235, ... 
-        -0.0087703126 ];
-epsilon0 = [  -1,  1,  1,  1,  1 ];
-p0 = [   1.5423169594,   0.8026446354,   0.9201636732,   0.9705573372, ... 
-         0.9912678115 ];
-u0 = [  -0.0009207330,  -0.0025408772,  -0.0071034731,  -0.0128187644, ... 
-        -0.0309895964,  -0.0342924460,  -0.0517579913,  -0.0570036999, ... 
-         0.4398918391 ]';
-v0 = [   0.0065494606,   0.0043721486,   0.0072055070,   0.0020700954, ... 
-        -0.0078782694,  -0.0311739891,  -0.0808661252,  -0.3144277686 ]';
+schurOneMAPlattice_frm_hilbert_socp_slb_test_k2_coef;
+schurOneMAPlattice_frm_hilbert_socp_slb_test_p2_coef;
+schurOneMAPlattice_frm_hilbert_socp_slb_test_epsilon2_coef;
+schurOneMAPlattice_frm_hilbert_socp_slb_test_u2_coef;
+schurOneMAPlattice_frm_hilbert_socp_slb_test_v2_coef;
+k0=k2;epsilon0=epsilon2;p0=p2;u0=u2;v0=v2;
 
 %
 % Filter specification

@@ -3,6 +3,8 @@
 prog=schurOneMPAlattice_socp_slb_multiband_test.m
 
 depends="schurOneMPAlattice_socp_slb_multiband_test.m \
+../tarczynski_parallel_allpass_multiband_test_Da0_coef.m \
+../tarczynski_parallel_allpass_multiband_test_Db0_coef.m \
 test_common.m print_polynomial.m \
 schurOneMPAlattice_slb.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
@@ -60,30 +62,30 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1kpcls.ok << 'EOF'
-A1kpcls = [  -0.3571411942,   0.6406138654,   0.6587934451,  -0.3653053163, ... 
-              0.1856679828,   0.3342044392,  -0.1637699402,   0.1830185162, ... 
-              0.4458081926,  -0.0930051847,   0.2564508624,   0.0817664826 ]';
+A1kpcls = [  -0.3075039900,   0.5121557690,   0.7065182037,  -0.3007682594, ... 
+              0.0310154477,   0.3410365977,   0.0255118193,   0.0098189506, ... 
+              0.4099163006,   0.1222117275,   0.0689816125,   0.1435440976 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1kpcls.ok"; fail; fi
 
 cat > test_A1epsilon0.ok << 'EOF'
 A1epsilon0 = [ -1, -1,  1,  1, ... 
-               -1, -1, -1, -1, ... 
-                1, -1,  1,  1 ];
+                1, -1, -1, -1, ... 
+                1, -1, -1, -1 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1epsilon0.ok"; fail; fi
 
 cat > test_A2kpcls.ok << 'EOF'
-A2kpcls = [  -0.1249868379,   0.6497204047,   0.6161901287,  -0.3292992722, ... 
-              0.3155323319,   0.4113243765,  -0.0914359646,   0.2591481490, ... 
-              0.4778216904,  -0.1079488822,   0.2154356508,   0.0890503535 ]';
+A2kpcls = [  -0.0604568966,   0.5127717821,   0.6710054621,  -0.2633607554, ... 
+              0.1592014860,   0.4231455193,   0.0935883608,   0.0806697501, ... 
+              0.4462575577,   0.1155045486,   0.0140429533,   0.1552920065 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2kpcls.ok"; fail; fi
 
 cat > test_A2epsilon0.ok << 'EOF'
-A2epsilon0 = [  1,  1, -1, -1, ... 
-               -1,  1, -1, -1, ... 
-                1,  1, -1, -1 ];
+A2epsilon0 = [ -1, -1,  1,  1, ... 
+               -1, -1, -1,  1, ... 
+                1, -1, -1,  1 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2epsilon0.ok"; fail; fi
 

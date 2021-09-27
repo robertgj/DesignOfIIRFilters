@@ -1,0 +1,21 @@
+tarczynski_allpass2ndOrderCascade_test_FIGURES = \
+tarczynski_allpass2ndOrderCascade_test_ABphase \
+tarczynski_allpass2ndOrderCascade_test_Apz \
+tarczynski_allpass2ndOrderCascade_test_Bpz \
+tarczynski_allpass2ndOrderCascade_test_phase_error \
+tarczynski_allpass2ndOrderCascade_test_pz \
+tarczynski_allpass2ndOrderCascade_test_response \
+tarczynski_allpass2ndOrderCascade_test_response_passband \
+tarczynski_allpass2ndOrderCascade_test_response_pass_stop 
+
+tarczynski_allpass2ndOrderCascade_test_COEFS = \
+tarczynski_allpass2ndOrderCascade_test.mat \
+tarczynski_allpass2ndOrderCascade_test.spec \
+tarczynski_allpass2ndOrderCascade_test_ab0_coef.m \
+tarczynski_allpass2ndOrderCascade_test_Da0_coef.m \
+tarczynski_allpass2ndOrderCascade_test_Db0_coef.m
+
+tarczynski_allpass2ndOrderCascade_test_FILES = \
+tarczynski_allpass2ndOrderCascade_test.m test_common.m \
+allpass2ndOrderCascade.m casc2tf.m print_polynomial.m
+

@@ -1,5 +1,5 @@
 % qzsolve_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -36,8 +36,8 @@ endif
 
 N=20;
 rr=roots(bincoeff(N,0:N));
-if max(abs(rr+1)) > 0.3934
-  error("rr=roots(bincoeff(20,0:20)) : max(abs(rr+1)) > 0.3934");
+if max(abs(rr+1)) > 0.4032
+  error("rr=roots(bincoeff(20,0:20)) : max(abs(rr+1)) > 0.4032");
 endif
 r=qzsolve(bincoeff(N,0:N));
 if max(abs(r+1)) > 4.46e-2
@@ -63,11 +63,11 @@ endif
 
 N=20;
 rr=roots([1,zeros(1,N-1),1]);
-if max(abs(abs(rr)-1)) > 4*eps
-  error("rr=roots([1,zeros(1,19),1]) : max(abs(abs(rr)-1)) > 4*eps");
+if max(abs(abs(rr)-1)) > 6*eps
+  error("rr=roots([1,zeros(1,19),1]) : max(abs(abs(rr)-1)) > 6*eps");
 endif
-if max(abs((sort((arg(rr')/pi)))-(-(N-1):2:(N-1))/N))>eps
-  error("rr=roots([1,zeros(1,19),1]) : angle failed! > eps");
+if max(abs((sort((arg(rr')/pi)))-(-(N-1):2:(N-1))/N))>2*eps
+  error("rr=roots([1,zeros(1,19),1]) : angle failed! > 2*eps");
 endif
 r=qzsolve([1,zeros(1,N-1),1]);
 if max(abs(abs(r)-1)) > eps

@@ -4,7 +4,7 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -25,25 +25,13 @@ strf="socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test";
 %
 % Initial coefficients found by schurOneMPAlattice_socp_slb_bandpass_test.m
 %
-A1k = [  -0.7666597804,   0.8667401054,   0.0252095961,  -0.3718472889, ... 
-          0.5652033325,  -0.1071060380,  -0.1373512436,   0.4282945944, ... 
-         -0.3103535415,   0.1515745427 ];
-A1epsilon = [  1,  1, -1,  1, ... 
-              -1,  1,  1,  1, ... 
-               1, -1 ];
-A1p = [   0.3641454523,   1.0019742264,   0.2677098521,   0.2745459635, ... 
-          0.4057283252,   0.7697994683,   0.8571804817,   0.9842435480, ... 
-          0.6227013820,   0.8583428975 ];
+schurOneMPAlattice_socp_slb_bandpass_test_A1k_coef;
+schurOneMPAlattice_socp_slb_bandpass_test_A1epsilon_coef;
+schurOneMPAlattice_socp_slb_bandpass_test_A1p_coef;
 A1p_ones=ones(size(A1p));
-A2k = [  -0.4417700339,   0.8255993520,   0.0573543439,  -0.3256363836, ... 
-          0.5450440870,  -0.1927089741,  -0.1833550314,   0.4373452222, ... 
-         -0.2825856868,   0.1647448391 ];
-A2epsilon = [  1,  1, -1,  1, ... 
-              -1, -1,  1,  1, ... 
-               1, -1 ];
-A2p = [   0.7519814809,   1.2085053288,   0.3735251772,   0.3955996713, ... 
-          0.5546526142,   1.0221316716,   0.8409199665,   1.0122680973, ... 
-          0.6333386770,   0.8468260055 ];
+schurOneMPAlattice_socp_slb_bandpass_test_A2k_coef;
+schurOneMPAlattice_socp_slb_bandpass_test_A2epsilon_coef;
+schurOneMPAlattice_socp_slb_bandpass_test_A2p_coef;
 A2p_ones=ones(size(A2p));
 
 % Initialise coefficient range vectors
@@ -65,15 +53,15 @@ fapu=0.2
 fasu=0.25
 dBap=2
 Wap=1
-Watl=0.001
-Watu=0.001
+Watl=0.01
+Watu=0.01
 dBas=40
-Wasl=200
-Wasu=100
-ftpl=0.09
-ftpu=0.21
+Wasl=1
+Wasu=2
+ftpl=0.1
+ftpu=0.2
 td=16
-tdr=0.2
+tdr=0.32
 Wtp=1
 
 %
@@ -379,7 +367,6 @@ xlabel("Frequency");
 axis([min(fapl,ftpl) max(fapu,ftpu) td-0.2 td+0.2]);
 grid("on");
 print(strcat(strf,"_kmin_pass"),"-dpdflatex");
-close
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");

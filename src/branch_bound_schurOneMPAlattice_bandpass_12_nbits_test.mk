@@ -32,3 +32,6 @@ SDadders.m Abcd2tf.m H2Asq.m H2T.m H2P.m tf2schurOneMlattice.m schurOneMscale.m 
 bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
 complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
 qroots.m qzsolve.oct 
+
+branch_bound_schurOneMPAlattice_bandpass_12_nbits_test.diary : \
+schurOneMPAlattice_socp_slb_bandpass_test.diary

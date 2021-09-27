@@ -2,8 +2,10 @@
 
 prog=parallel_allpass_socp_slb_bandpass_hilbert_test.m
 
-depends="parallel_allpass_socp_slb_bandpass_hilbert_test.m test_common.m \
-parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \
+depends="parallel_allpass_socp_slb_bandpass_hilbert_test.m \
+../tarczynski_parallel_allpass_bandpass_hilbert_test_Da0_coef.m \
+../tarczynski_parallel_allpass_bandpass_hilbert_test_Db0_coef.m \
+test_common.m parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \
 parallel_allpass_slb.m \
 parallel_allpass_slb_constraints_are_empty.m \
 parallel_allpass_slb_exchange_constraints.m \
@@ -50,20 +52,20 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test_a1_coef.m.ok << 'EOF'
 % All-pass single-vector representation
 Va1=0,Qa1=10,Ra1=1
-a1 = [   0.6886854483,   0.7245983760,   0.7729428236,   0.8327120419, ... 
-         0.9312151045, ...
-         1.1116676990,   0.8649817386,   0.6699467579,   3.1027164958, ... 
-         1.3418396839 ]';
+a1 = [   0.6885188940,   0.7244743151,   0.7727307122,   0.8359036281, ... 
+         0.9311886721, ...
+         1.1108037610,   0.8647414541,   0.6700408411,   3.0933802138, ... 
+         1.3414746037 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m.ok"; fail; fi
 
 cat > test_b1_coef.m.ok << 'EOF'
 % All-pass single-vector representation
 Vb1=0,Qb1=10,Rb1=1
-b1 = [   0.7105486451,   0.7251719824,   0.7624583730,   0.8307598819, ... 
-         0.9304607597, ...
-         0.7824161112,   1.0650328246,   1.2110819485,   3.1154430537, ... 
-         0.5357329264 ]';
+b1 = [   0.7102995616,   0.7247635023,   0.7625982994,   0.8339834375, ... 
+         0.9304239388, ...
+         0.7822332071,   1.0649074601,   1.2101156867,   3.1024933548, ... 
+         0.5358075064 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_b1_coef.m.ok"; fail; fi
 

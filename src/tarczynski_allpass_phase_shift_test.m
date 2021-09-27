@@ -110,10 +110,10 @@ Pd=[zeros(np,1);zeros(ns-np-1,1);-pi*ones(n-ns+1,1)];
 W=[Wp*ones(np,1);zeros(ns-np-1,1);Ws*ones(n-ns+1,1)];
 
 % Unconstrained minimisation
-a0=[-0.9;zeros(m-1,1)];
+ai=[-0.9;zeros(m-1,1)];
 WISEJ_PS([],w,td,D,Pd,W);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[a1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PS,a0,opt);
+[a0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PS,ai,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -135,12 +135,12 @@ printf("fminunc successful=%d??\n", OUTPUT.successful);
 printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 
 % Create the denominator polynomial
-Da1=[1;a1(:)];
+Da0=[1;a0(:)];
 
 % Calculate response
 nplot=n;
-[Ha1,wplot]=freqz(flipud(Da1),Da1,nplot);
-Ta1=grpdelay(flipud(Da1),Da1,nplot);
+[Ha1,wplot]=freqz(flipud(Da0),Da0,nplot);
+Ta1=grpdelay(flipud(Da0),Da0,nplot);
 
 % Plot delay/allpass lowpass response
 subplot(211);
@@ -156,15 +156,15 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 %axis([0 max(fp,fp) (td-1) (td+1)]);
 grid("on");
-print("tarczynski_allpass_phase_shift_lowpass_response","-dpdflatex");
+print("tarczynski_allpass_phase_shift_test_lowpass_response","-dpdflatex");
 close
 
 % Plot poles and zeros
 subplot(111);
-zplane(roots(flipud(Da1)),roots(Da1));
+zplane(roots(flipud(Da0)),roots(Da0));
 s=sprintf("All-pass/delay lowpass filter pole-zero : fp=%g,fs=%g,D=%d",fp,fs,D);
 title(s);
-print("tarczynski_allpass_phase_shift_pz","-dpdflatex");
+print("tarczynski_allpass_phase_shift_test_pz","-dpdflatex");
 close
 
 % Plot phase response error
@@ -175,7 +175,7 @@ axis([0 0.5 -0.2 0.2]);
 grid("on");
 s=sprintf("All-pass filter phase response error : m=%d,td=%g,D=%d",m,td,D);
 title(s);
-print("tarczynski_allpass_phase_shift_phase_error","-dpdflatex");
+print("tarczynski_allpass_phase_shift_test_phase_error","-dpdflatex");
 close
 
 % Save the filter specification
@@ -192,9 +192,10 @@ fprintf(fid,"Ws=%d %% Stop band amplitude response weight\n",Ws);
 fclose(fid);
 
 % Save the result
-print_polynomial(Da1,"Da1");
-print_polynomial(Da1,"Da1","tarczynski_allpass_phase_shift_test_Da1_coef.m");
-save tarczynski_allpass_phase_shift_test.mat m td D fp Wp fs Ws a0 Da1 
+print_polynomial(Da0,"Da0");
+print_polynomial(Da0,"Da0","tarczynski_allpass_phase_shift_test_Da0_coef.m");
+
+save tarczynski_allpass_phase_shift_test.mat m td D fp Wp fs Ws ai a0 Da0 
 
 % Done
 toc;

@@ -3,6 +3,8 @@
 prog=schurOneMlattice_sqp_slb_hilbert_test.m
 
 depends="schurOneMlattice_sqp_slb_hilbert_test.m test_common.m \
+../tarczynski_hilbert_test_N0_coef.m \
+../tarczynski_hilbert_test_D0_coef.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_sqp_mmse.m \
@@ -67,14 +69,14 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon2.ok"; fail; fi
 
 cat > test.p2.ok << 'EOF'
-p2 = [   2.2748006743,   2.2748006743,   0.4836328777,   0.4836328777, ... 
-         0.9036013963,   0.9036013963,   0.9956211211,   0.9956211211, ... 
+p2 = [   2.2748006749,   2.2748006749,   0.4836328777,   0.4836328777, ... 
+         0.9036013963,   0.9036013963,   0.9956211212,   0.9956211212, ... 
          0.9963643653,   0.9963643653,   0.9984172142,   0.9984172142 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.p2.ok"; fail; fi
 
 cat > test.c2.ok << 'EOF'
-c2 = [   0.0435189928,   0.0508921401,   0.2428519502,   0.2882277493, ... 
+c2 = [   0.0435189928,   0.0508921401,   0.2428519501,   0.2882277493, ... 
          0.1877845014,   0.2854412266,   0.6862739758,  -0.5909939644, ... 
         -0.1639093080,  -0.0790058477,  -0.0435858016,  -0.0252833113, ... 
         -0.0155222724 ];

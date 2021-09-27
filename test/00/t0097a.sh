@@ -94,7 +94,7 @@ cf =
    1.0156e-01   2.9688e-01   9.7656e-03   1.9531e-03
 
 ngf = 1.1019
-ngfap = 5.0000
+ngfap = 5
 ngABCDf = 0.8472
 ngABCDfap = 3.0000
 ngPipef = 0.8472

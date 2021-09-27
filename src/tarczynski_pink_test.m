@@ -74,13 +74,13 @@ ylabel("Delay(samples)");
 axis([0 0.5 0 10 ]);
 xlabel("Frequency");
 grid("on");
-print("tarczynski_pink_response",  "-dpdflatex");
+print("tarczynski_pink_test_response",  "-dpdflatex");
 close
 
 subplot(111);
 zplane(roots(N0),roots(D0R));
 title(s);
-print("tarczynski_pink_pz",  "-dpdflatex");
+print("tarczynski_pink_test_pz",  "-dpdflatex");
 close
 
 % Save the result

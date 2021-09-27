@@ -15,3 +15,6 @@ branch_bound_directFIRhilbert_bandpass_12_nbits_test_FILES = \
 branch_bound_directFIRhilbert_bandpass_12_nbits_test.m test_common.m \
 directFIRhilbertA.m directFIRhilbertEsqPW.m local_max.m print_polynomial.m \
 flt2SD.m SDadders.m x2nextra.m bin2SDul.m bin2SD.oct bin2SPT.oct
+
+branch_bound_directFIRhilbert_bandpass_12_nbits_test.diary : \
+directFIRhilbert_bandpass_slb_test.diary

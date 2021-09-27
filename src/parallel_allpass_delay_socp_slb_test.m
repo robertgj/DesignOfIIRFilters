@@ -1,5 +1,5 @@
 % parallel_allpass_delay_socp_slb_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -13,7 +13,22 @@ verbose=false
 maxiter=2000
 strf="parallel_allpass_delay_socp_slb_test";
 
-parallel_allpass_delay_flat_delay=false
+%{
+% Initial coefficients found by tarczynski_parallel_allpass_delay_test.m
+% with tarczynski_parallel_allpass_delay_flat_delay=true
+parallel_allpass_delay_flat_delay=true;
+Da0 = [  1.0000000000,  -0.1379453584,   0.6508743430,   0.3435819047, ... 
+         0.0871269429,  -0.0354838969,  -0.0404116404,  -0.0013534974, ... 
+         0.0198878376,   0.0102221662,  -0.0088816435,  -0.0168523004, ... 
+        -0.0040320884 ]';
+Wtp=10
+dBas=43
+%}
+
+% Initial coefficients found by tarczynski_parallel_allpass_delay_test.m
+% with tarczynski_parallel_allpass_delay_flat_delay=false
+parallel_allpass_delay_flat_delay=false;
+tarczynski_parallel_allpass_delay_test_Da0_coef;
 
 % Lowpass filter specification for parallel all-pass filters
 tol=1e-5
@@ -28,25 +43,10 @@ Wap=1
 ftp=0.15
 td=10.7
 tdr=1
+Wtp=0
 fas=0.2
+dBas=66
 Was=100000
-
-% Initial coefficients found by tarczynski_parallel_allpass_delay_test.m
-if parallel_allpass_delay_flat_delay
-  Wtp=10
-  dBas=43
-  Da0 = [  1.0000000000,  -0.1379461810,   0.6508711210,   0.3435786241, ... 
-           0.0871260134,  -0.0354868923,  -0.0404095573,  -0.0013519392, ... 
-           0.0198920703,   0.0102236269,  -0.0088821745,  -0.0168506164, ... 
-          -0.0040333833 ]';
-else
-  Wtp=0
-  dBas=66
-  Da0 = [  1.0000000000,  -0.5293611377,   0.3581368348,   0.1868795745, ... 
-           0.0310949260,  -0.0570094736,  -0.0702446896,  -0.0383080635, ... 
-          -0.0002494299,   0.0199925321,   0.0203357943,   0.0113714592, ... 
-           0.0034482822 ]';
-endif
 
 % Coefficient constraints
 rho=127/128
@@ -181,6 +181,8 @@ fprintf(fid,"Wap=%d %% Pass band amplitude response weight\n",Wap);
 fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
 fprintf(fid,"dBas=%f %% Stop band amplitude response ripple\n",dBas);
 fprintf(fid,"Was=%d %% Stop band amplitude response weight\n",Was);
+fprintf(fid,"parallel_allpass_delay_flat_delay=%d\n",
+        parallel_allpass_delay_flat_delay);
 if parallel_allpass_delay_flat_delay
   fprintf(fid,"ftp=%g %% Pass band group delay response edge\n",ftp);
   fprintf(fid,"td=%g %% Pass band nominal group delay\n",td);
@@ -198,8 +200,10 @@ print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 
 % Done 
 save parallel_allpass_delay_socp_slb_test.mat ...
+     parallel_allpass_delay_flat_delay ...
      rho tol ctol n fap Wap ftp Wtp fas Was td tdr m DD R Da0 a1 Da1
+
 toc;
 diary off
 movefile parallel_allpass_delay_socp_slb_test.diary.tmp ...
-         parallel_allpass_delay_socp_slb_test.diary;
+         parallel_allpass_delay_socp_slb_test.diary

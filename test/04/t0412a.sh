@@ -1,7 +1,9 @@
 #!/bin/sh
 
 prog=branch_bound_directFIRhilbert_bandpass_12_nbits_test.m
-depends="branch_bound_directFIRhilbert_bandpass_12_nbits_test.m test_common.m \
+depends="branch_bound_directFIRhilbert_bandpass_12_nbits_test.m \
+../directFIRhilbert_bandpass_slb_test_hM2_coef.m \
+test_common.m \
 directFIRhilbertA.m directFIRhilbertEsqPW.m directFIRhilbert_allocsd_Ito.m \
 local_max.m print_polynomial.m flt2SD.m SDadders.m x2nextra.m bin2SDul.m \
 bin2SD.oct bin2SPT.oct"

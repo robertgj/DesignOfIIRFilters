@@ -2,6 +2,11 @@
 
 prog=socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test.m
 depends="socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test.m \
+../schurOneMAPlattice_frm_hilbert_socp_slb_test_k2_coef.m \
+../schurOneMAPlattice_frm_hilbert_socp_slb_test_p2_coef.m \
+../schurOneMAPlattice_frm_hilbert_socp_slb_test_epsilon2_coef.m \
+../schurOneMAPlattice_frm_hilbert_socp_slb_test_u2_coef.m \
+../schurOneMAPlattice_frm_hilbert_socp_slb_test_v2_coef.m \
 test_common.m schurOneMAPlattice_frm_hilbert_socp_mmse.m \
 schurOneMAPlattice_frm_hilbert_slb_set_empty_constraints.m \
 schurOneMAPlattice_frm_hilbert_slb_constraints_are_empty.m \

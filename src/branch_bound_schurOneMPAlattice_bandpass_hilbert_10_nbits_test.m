@@ -29,19 +29,15 @@ maxiter=1000
 verbose=false
 
 % Initial coefficients from parallel_allpass_socp_slb_bandpass_hilbert_test.m
-D1_0 = [  1.0000000000,  -1.5207168576,   1.4772785874,   0.2106644494, ... 
-         -1.4548171202,   1.7802899389,  -0.6831207482,  -0.1952652684, ... 
-          0.5272277016,  -0.2856484231,   0.0894583695 ]';
-D2_0 = [  1.0000000000,  -2.1865418367,   1.9999831203,   0.1941161051, ... 
-         -2.1402328643,   2.2863210903,  -0.8186440335,  -0.3631317922, ... 
-          0.6572469636,  -0.3409987375,   0.0922250919 ]';
+parallel_allpass_socp_slb_bandpass_hilbert_test_Da1_coef;
+parallel_allpass_socp_slb_bandpass_hilbert_test_Db1_coef;
 
-% Lattice decomposition of D1_0, D2_0
-[A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(D1_0),D1_0);
+% Lattice decomposition of Da1,Db1
+[A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(Da1),Da1);
 A1p_ones = ones(size(A1k0));
 print_polynomial(A1k0,"A1k0");
 printf("A1epsilon0=[ ");printf("%d ",A1epsilon0);printf("]';\n");
-[A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(D2_0),D2_0);
+[A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(Db1),Db1);
 A2p_ones = ones(size(A2k0));
 print_polynomial(A2k0,"A2k0");
 printf("A2epsilon0=[ ");printf("%d ",A2epsilon0);printf("]';\n");
@@ -179,13 +175,14 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 
 % Fix one coefficient at each iteration 
 if use_best_branch_and_bound_found
-  branches_min=280; % 3139 seconds
-  A1k_min = [     -240,      432,     -188,       88, ... 
-                   328,     -232,      138,       88, ... 
-                   -78,       46 ]'/512;
-  A2k_min = [     -400,      452,     -216,       73, ... 
-                   336,     -216,      140,       92, ... 
-                   -74,       50 ]'/512;
+  branches_min=340; % 1555 seconds
+  A1k_min = [   -242,      432,     -188,       88, ... 
+                 321,     -232,      134,       88, ... 
+                 -80,       47 ]'/512;
+  A2k_min = [   -400,      452,     -220,       78, ... 
+                 328,     -216,      138,       88, ... 
+                 -72,       50 ]'/512;
+
   k_min=[A1k_min(:);A2k_min(:)];
   Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon0,A1p_ones, ...
                                 A2k_min,A2epsilon0,A2p_ones, ...

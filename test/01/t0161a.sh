@@ -3,6 +3,7 @@
 prog=allpass2ndOrderCascade_socp_sqmag_test.m
 
 depends="allpass2ndOrderCascade_socp_sqmag_test.m \
+../tarczynski_allpass2ndOrderCascade_test_ab0_coef.m \
 test_common.m stability2ndOrderCascade.m print_polynomial.m \
 allpass2ndOrderCascade.m allpass2ndOrderCascade_socp.m \
 casc2tf.m tf2casc.m qroots.m qzsolve.oct"
@@ -41,13 +42,13 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_a1_coef.m << 'EOF'
-a1 = [  -0.6213602510,  -1.1447331694,   0.8971339377,  -1.2186074024, ... 
-         0.6264446514 ]';
+a1 = [  -0.6617171381,  -1.2448543842,   0.6535586323,  -1.1491824911, ... 
+         0.9018812221 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m"; fail; fi
 cat > test_b1_coef.m << 'EOF'
-b1 = [  -1.1417688731,   0.9698861081,  -1.1753899632,   0.7861255542, ... 
-        -1.2421568387,   0.4598952357 ]';
+b1 = [  -1.1856445706,   0.7985807076,  -1.3010057862,   0.5044788782, ... 
+        -1.1439652479,   0.9710926035 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_b1_coef.m"; fail; fi
 

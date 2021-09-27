@@ -13,3 +13,6 @@ branch_bound_directFIRsymmetric_bandpass_8_nbits_test_FILES = \
 branch_bound_directFIRsymmetric_bandpass_8_nbits_test.m test_common.m \
 directFIRsymmetricA.m directFIRsymmetricEsqPW.m local_max.m print_polynomial.m \
 flt2SD.m SDadders.m x2nextra.m bin2SDul.m bin2SD.oct bin2SPT.oct
+
+branch_bound_directFIRsymmetric_bandpass_8_nbits_test.diary : \
+directFIRsymmetric_slb_bandpass_test.diary

@@ -1,5 +1,5 @@
 % schurOneMPAlatticeP_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -78,8 +78,8 @@ for m=1:2
     delk=shift(delk,1);
     diff_gradPk(:,l)=(gradPkPdel2(:,l)-gradPkMdel2(:,l))/del;
   endfor
-  if max(max(abs(diff_gradPk-diagHessP(:,A1rng)))) > 2*tol
-    error("max(max(abs(diff_gradPk-diagHessP(,A1rng)))) > 2*tol");
+  if max(max(abs(diff_gradPk-diagHessP(:,A1rng)))) > 3*tol
+    error("max(max(abs(diff_gradPk-diagHessP(,A1rng)))) > 3*tol");
   endif
 
   % Check the Hessian of the phase response wrt A2k

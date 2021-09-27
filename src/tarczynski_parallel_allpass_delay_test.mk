@@ -1,0 +1,13 @@
+tarczynski_parallel_allpass_delay_test_FIGURES = \
+tarczynski_parallel_allpass_delay_test_response \
+tarczynski_parallel_allpass_delay_test_response_passband \
+tarczynski_parallel_allpass_delay_test_pz
+
+tarczynski_parallel_allpass_delay_test_COEFS = \
+tarczynski_parallel_allpass_delay_test_Da0_coef.m \
+tarczynski_parallel_allpass_delay_test_Na0_coef.m \
+tarczynski_parallel_allpass_delay_test.mat
+
+tarczynski_parallel_allpass_delay_test_FILES = \
+tarczynski_parallel_allpass_delay_test.m \
+test_common.m print_polynomial.m print_pole_zero.m

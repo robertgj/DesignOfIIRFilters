@@ -14,10 +14,10 @@ delete("tarczynski_differentiator_test.diary.tmp");
 diary tarczynski_differentiator_test.diary.tmp
 
 % Filter specification
-R=2;nN=12;nD=6;td=(nN-1)/2;tol=1e-9;maxiter=5000;
+R=2;nN=8;nD=4;td=5.5;tol=1e-5;maxiter=5000;
 
 % Frequency points
-n=1024;
+n=200;
 wd=pi*(0:(n-1))'/n;
 
 % Frequency vectors
@@ -25,10 +25,10 @@ Hd=(wd/pi).*exp(-j*td*wd)*exp(j*pi/2);
 Wd=ones(n,1);
 
 % Unconstrained minimisation
-NI=[1;zeros(nN+nD,1)];
+NDi=[1;zeros(nN+nD,1)];
 WISEJ([],nN,nD,R,wd,Hd,Wd);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,NI,opt);
+[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,NDi,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -71,13 +71,13 @@ axis([0 0.5 -0.01 0.01 ]);
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
 grid("on");
-print("tarczynski_differentiator_response",  "-dpdflatex");
+print("tarczynski_differentiator_test_response",  "-dpdflatex");
 close
 
 subplot(111);
 zplane(roots(N0),roots(D0R));
 title(s);
-print("tarczynski_differentiator_pz",  "-dpdflatex");
+print("tarczynski_differentiator_test_pz",  "-dpdflatex");
 close
 
 % Save the result
@@ -86,7 +86,7 @@ print_polynomial(N0,"N0","tarczynski_differentiator_test_N0_coef.m");
 print_polynomial(D0,"D0");
 print_polynomial(D0,"D0","tarczynski_differentiator_test_D0_coef.m");
 
-save tarczynski_differentiator_test.mat nN nD R N0 D0 D0R
+save tarczynski_differentiator_test.mat nN nD R NDi N0 D0 D0R
 
 diary off
 movefile tarczynski_differentiator_test.diary.tmp ...

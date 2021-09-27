@@ -2,6 +2,10 @@
 
 prog=sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.m
 depends="sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.m \
+../schurOneMlattice_sqp_slb_lowpass_test_k2_coef.m \
+../schurOneMlattice_sqp_slb_lowpass_test_c2_coef.m \
+../schurOneMlattice_sqp_slb_lowpass_test_epsilon2_coef.m \
+../schurOneMlattice_sqp_slb_lowpass_test_p2_coef.m \
 schurOneMlattice_bandpass_10_nbits_common.m test_common.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
 schurOneMlatticeEsq.m \

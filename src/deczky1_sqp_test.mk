@@ -25,3 +25,5 @@ iirA.m iirE.m iirT.m iirP.m iirdelAdelw.m \
 invSVD.m armijo_kim.m fixResultNaN.m sqp_bfgs.m updateWchol.m local_max.m \
 updateWbfgs.m xConstraints.m x2tf.m print_polynomial.m print_pole_zero.m \
 showResponseBands.m showResponse.m showResponsePassBands.m showZPplot.m
+
+deczky1_sqp_test.diary : tarczynski_deczky1_test.diary

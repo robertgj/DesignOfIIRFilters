@@ -1,5 +1,5 @@
 % branch_bound_directFIRsymmetric_bandpass_8_nbits_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 % Branch-and-bound search of direct-form symmetric bandpass filter
 % response with 8-bit signed-digit coefficients
@@ -17,11 +17,7 @@ tol=1e-4
 strf="branch_bound_directFIRsymmetric_bandpass_8_nbits_test";
 
 % Coefficients found by directFIRsymmetric_slb_bandpass_test.m
-hM1 = [  -0.0058181010,   0.0017787857,  -0.0047084625,  -0.0143846688, ... 
-         -0.0077550125,   0.0219788564,   0.0432578789,   0.0247317110, ... 
-         -0.0077853817,  -0.0010276677,   0.0304650309,   0.0009925325, ... 
-         -0.1110651112,  -0.1806101683,  -0.0725659905,   0.1536437055, ... 
-          0.2719559562 ]';
+directFIRsymmetric_slb_bandpass_test_hM1_coef;
 
 % Scale the rounded coefficients to use all the bits 
 nbits=8

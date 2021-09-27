@@ -23,3 +23,5 @@ allpass2ndOrderCascade_socp_sqmag_test.m test_common.m \
 stability2ndOrderCascade.m print_polynomial.m allpass2ndOrderCascade.m \
 allpass2ndOrderCascade_socp.m casc2tf.m tf2casc.m qroots.m qzsolve.oct \
 
+allpass2ndOrderCascade_socp_sqmag_test.diary : \
+tarczynski_allpass2ndOrderCascade_test.diary

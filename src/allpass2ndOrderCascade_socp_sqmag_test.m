@@ -1,5 +1,5 @@
 % allpass2ndOrderCascade_socp_sqmag_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -24,9 +24,7 @@ Wp=1
 fs=0.17
 Ws=1000
 % Initial coefficients found by tarczynski_allpass2ndOrderCascade_test.m
-ab0 = [  -0.5491144871,  -0.9438148829,   0.6933469959,  -0.9089283344, ... 
-          0.6000684256,  -1.1049657444,   0.8936801186,  -1.1260755205, ... 
-          0.4169280694,  -0.8116034213,   0.6198702579 ]';
+tarczynski_allpass2ndOrderCascade_test_ab0_coef;
 a0=ab0(1:ma);
 b0=ab0((ma+1):end);
 

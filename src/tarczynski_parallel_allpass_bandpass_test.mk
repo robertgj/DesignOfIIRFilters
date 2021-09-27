@@ -1,0 +1,14 @@
+tarczynski_parallel_allpass_bandpass_test_FIGURES = \
+tarczynski_parallel_allpass_bandpass_test_response \
+tarczynski_parallel_allpass_bandpass_test_response_passband \
+tarczynski_parallel_allpass_bandpass_test_pz \
+tarczynski_parallel_allpass_bandpass_test_phase
+
+tarczynski_parallel_allpass_bandpass_test_COEFS = \
+tarczynski_parallel_allpass_bandpass_test_Da0_coef.m \
+tarczynski_parallel_allpass_bandpass_test_Db0_coef.m \
+tarczynski_parallel_allpass_bandpass_test.mat
+
+tarczynski_parallel_allpass_bandpass_test_FLES = \
+tarczynski_parallel_allpass_bandpass_test.m \
+WISEJ_PAB.m test_common.m print_polynomial.m print_pole_zero.m

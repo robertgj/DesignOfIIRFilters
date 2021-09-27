@@ -39,3 +39,5 @@ schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m schurOneMscale.m \
 schurdecomp.oct schurexpand.oct schurOneMAPlattice2H.oct \
 schurOneMlattice2Abcd.oct complex_zhong_inverse.oct bin2SD.oct bin2SPT.oct \
 
+sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.diary : \
+tarczynski_parallel_allpass_bandpass_hilbert_test.diary

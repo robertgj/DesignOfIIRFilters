@@ -3,6 +3,10 @@
 prog=schurOneMlattice_pop_socp_mmse_test.m
 
 depends="schurOneMlattice_pop_socp_mmse_test.m \
+../schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_test_c2_coef.m \
 schurOneMlattice_pop_socp_mmse.m \
 schurOneMlattice_bandpass_10_nbits_common.m test_common.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \

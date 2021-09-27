@@ -2,6 +2,10 @@
 
 prog=schurOneMlattice_bandpass_allocsd_test.m
 depends="schurOneMlattice_bandpass_allocsd_test.m test_common.m \
+../schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_test_c2_coef.m \
 schurOneMlattice_bandpass_10_nbits_common.m \
 schurOneMlattice_allocsd_Ito.m schurOneMlattice_allocsd_Lim.m bin2SDul.m \
 schurOneMlatticeEsq.m H2Asq.m schurOneMlatticeAsq.m schurOneMlatticeT.m \

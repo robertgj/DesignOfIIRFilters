@@ -1,5 +1,5 @@
 % parallel_allpass_delay_sqp_slb_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -28,10 +28,8 @@ dBas=40
 Was=50
 
 % Initial coefficients found by tarczynski_parallel_allpass_delay_test.m
-Da0 = [   1.0000000000,  -0.5220973842,   0.3616272734,   0.1867311869, ... 
-          0.0318266239,  -0.0498503285,  -0.0543925688,  -0.0165336258, ... 
-          0.0215871327,   0.0367003807,   0.0300048879,   0.0153328172, ... 
-          0.0043648415 ]';
+% with tarczynski_parallel_allpass_delay_flat_delay=false
+tarczynski_parallel_allpass_delay_test_Da0_coef;
 
 % Coefficient constraints
 rho=0.99

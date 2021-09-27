@@ -36,12 +36,12 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test_ab1_coef.m << 'EOF'
-ab1 = [  -0.5491144871,  -0.9438148829,   0.6933469959,  -0.9089283344, ... 
-          0.6000684256,  -1.1049657444,   0.8936801186,  -1.1260755205, ... 
-          0.4169280694,  -0.8116034213,   0.6198702579 ]';
+cat > test_ab0_coef.m << 'EOF'
+ab0 = [  -0.5164914994,  -0.8856511874,   0.6117748641,  -0.9844970259, ... 
+          0.8018848765,  -0.8762599214,   0.6844422630,  -1.1340041252, ... 
+          0.4320188712,  -1.0771249952,   0.8803695792 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_ab1_coef.m"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_ab0_coef.m"; fail; fi
 
 #
 # run and see if the results match
@@ -51,8 +51,8 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_ab1_coef.m tarczynski_allpass2ndOrderCascade_test_ab1_coef.m
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_ab1_coef.m"; fail; fi
+diff -Bb test_ab0_coef.m tarczynski_allpass2ndOrderCascade_test_ab0_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_ab0_coef.m"; fail; fi
 
 #
 # this much worked

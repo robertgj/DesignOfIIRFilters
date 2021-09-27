@@ -35,12 +35,12 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test_Da1_coef.m << 'EOF'
-Da1 = [   1.0000000000,  -0.4600541695,   0.3895171299,   0.1750041350, ... 
-          0.0054307844,  -0.0609663815,  -0.0421198300,   0.0019489050, ... 
-          0.0237825454,   0.0162336873,  -0.0003436750,  -0.0109619832 ]';
+cat > test_Da0_coef.m << 'EOF'
+Da0 = [   1.0000000000,  -0.4600541691,   0.3895171301,   0.1750041352, ... 
+          0.0054307840,  -0.0609663816,  -0.0421198297,   0.0019489058, ... 
+          0.0237825452,   0.0162336875,  -0.0003436750,  -0.0109619831 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_Da1_coef.m"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_Da0_coef.m"; fail; fi
 
 #
 # run and see if the results match
@@ -50,8 +50,8 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_Da1_coef.m tarczynski_allpass_phase_shift_test_Da1_coef.m
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Da1_coef.m"; fail; fi
+diff -Bb test_Da0_coef.m tarczynski_allpass_phase_shift_test_Da0_coef.m
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Da0_coef.m"; fail; fi
 
 #
 # this much worked

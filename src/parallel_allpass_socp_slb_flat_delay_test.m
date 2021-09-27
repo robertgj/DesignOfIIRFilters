@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_flat_delay_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -14,13 +14,8 @@ maxiter=2000
 strf="parallel_allpass_socp_slb_flat_delay_test";
 
 % Initial coefficients found by tarczynski_parallel_allpass_test.m
-Da0 = [   1.0000000000,   0.6973425948,  -0.2974024148,  -0.3128925551, ... 
-         -0.1821524719,   0.0543108182,   0.0871833752,  -0.1041702621, ... 
-          0.1847084712,   0.0438908732,  -0.1319942205,   0.0451686628 ]';
-Db0 = [   1.0000000000,   0.1562068572,  -0.3135072879,   0.3175766446, ... 
-          0.1302357502,   0.0786472594,  -0.0643214506,  -0.1837724376, ... 
-          0.2692150636,  -0.0895879415,  -0.1359940537,   0.1338215440, ... 
-         -0.0581963010 ]';
+tarczynski_parallel_allpass_test_Da0_coef;
+tarczynski_parallel_allpass_test_Db0_coef;
 
 % Lowpass filter specification for parallel all-pass filters
 tol=1e-4
