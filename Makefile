@@ -211,7 +211,7 @@ gitignore:
 	echo $(CLEAN_TEX_SUFFIXES:%="*"%) >> .gitignore
 	echo $(CLEAN_AEGIS_SUFFIXES:%="*"%) >> .gitignore
 	echo octave-workspace /$(TARGET).pdf >> .gitignore
-	echo _site .sass-cache .jekyll-metadata >> .gitignore
+	echo _site .sass-cache .jekyll-cache .jekyll-metadata >> .gitignore
 	sed -i -e "s/\ /\n/g" .gitignore
 	echo $(test_FIGURES:%=%.tex) > gitignore.tmp
 	echo $(test_FIGURES:%=%.pdf) >> gitignore.tmp

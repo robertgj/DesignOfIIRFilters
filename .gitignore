@@ -31,6 +31,7 @@ octave-workspace
 /DesignOfIIRFilters.pdf
 _site
 .sass-cache
+.jekyll-cache
 .jekyll-metadata
 Abcd2cc_test_ellip8ABCD12_passband_response-inc.pdf
 Abcd2cc_test_ellip8ABCD12_passband_response.pdf
