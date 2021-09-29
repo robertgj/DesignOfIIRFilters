@@ -504,24 +504,6 @@ grid("on");
 print(strcat(strf,"_kmin_pass"),"-dpdflatex");
 close
 
-% Plot pass-band delay
-plot(wt*0.5/pi,T_k0,"linestyle","-", ...
-     wt*0.5/pi,T_k0_sd,"linestyle","--", ...
-     wt*0.5/pi,T_kmin,"linestyle","-.");
-ylabel("Delay(samples)");
-xlabel("Frequency");
-strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
-pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
-title(strt);
-axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), td-0.04, td+0.04]);
-legend("exact","s-d(Ito)","s-d(b-and-b)");
-legend("location","southwest");
-legend("boxoff");
-legend("left");
-grid("on");
-print(strcat(strf,"_kmin_delay"),"-dpdflatex");
-close
-
 % Plot pass-band phase
 plot(wp*0.5/pi,mod((P_k0+(wp*td))/pi,2),"linestyle","-", ...
      wp*0.5/pi,mod((P_k0_sd+(wp*td))/pi,2),"linestyle","--", ...
@@ -534,11 +516,29 @@ title(strt);
 axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), ...
       mod(pd-(pdr/20),2), mod(pd+(pdr/20),2)]);
 legend("exact","s-d(Ito)","s-d(b-and-b)");
-legend("location","northeast");
+legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
 print(strcat(strf,"_kmin_phase"),"-dpdflatex"); 
+close
+
+% Plot pass-band delay
+plot(wt*0.5/pi,T_k0,"linestyle","-", ...
+     wt*0.5/pi,T_k0_sd,"linestyle","--", ...
+     wt*0.5/pi,T_kmin,"linestyle","-.");
+ylabel("Delay(samples)");
+xlabel("Frequency");
+strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
+pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
+title(strt);
+axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), td-0.04, td+0.04]);
+legend("exact","s-d(Ito)","s-d(b-and-b)");
+legend("location","southeast");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_kmin_delay"),"-dpdflatex");
 close
 
 % Filter specification

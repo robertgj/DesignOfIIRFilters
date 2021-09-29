@@ -1,5 +1,5 @@
 % decimator_R2_alternate_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2021 Robert G. Jenssen
 %
 % Example of low-pass IIR decimator filter design using quasi-Newton
 % optimisation with constraints on the coefficients.
@@ -162,12 +162,15 @@ printf("d1:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 %
 subplot(211);
 ax=plotyy(wa*0.5/pi,20*log10(A),wa*0.5/pi,20*log10(A));
-axis(ax(1),[0 0.5 -0.3 0]);
+axis(ax(1),[0 0.5 -0.3 0.1]);
 axis(ax(2),[0 0.5 -60 -40]);
 set(ax(1),"ycolor",'black');
 set(ax(2),"ycolor",'black');
 ylabel("Amplitude(dB)");
 grid("on");
+tstr=sprintf("R=2 decimator alt. response : \
+Wap=%d,dBap=%g,Was=%d,dBas=%d,tp=%d,tpr=%g,Wtp=%d",Wap,dBap,Was,dBas,tp,tpr,Wtp);
+title(tstr);
 subplot(212);
 plot(wt*0.5/pi,T)
 axis([0 0.5 9.98 10.02]);

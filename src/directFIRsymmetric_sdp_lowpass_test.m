@@ -21,7 +21,7 @@ strf="directFIRsymmetric_sdp_lowpass_test";
 % numerical problems and use M=200,dBap=0.3,Was=200,dBas=65 then the
 % result resembles Tuan et al. Figure 3.
 for M=200:201,
-  fap=0.03;Wap=1;dBap=0.95;
+  fap=0.03;Wap=1;dBap=1;
   Wat=0;
   fas=0.0358;Was=100;dBas=60;
 

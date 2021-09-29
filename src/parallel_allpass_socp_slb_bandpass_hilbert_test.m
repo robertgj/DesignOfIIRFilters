@@ -128,22 +128,22 @@ P0=parallel_allpassP(wa,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 % Plot initial response
 subplot(311);
 plot(wa*0.5/pi,10*log10(Asq0));
-ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
+ylabel("Amplitude(dB)");
 strt=sprintf("Initial parallel allpass bandpass Hilbert : ma=%d,mb=%d",ma,mb);
 title(strt);
 subplot(312);
-plot(wa*0.5/pi,(P0+(wa*td))/pi);
-ylabel("Phase(rad./$\\pi$)");
-axis([0 0.5 0 2]);
-grid("on");
-subplot(313);
 plot(wa*0.5/pi,T0);
-ylabel("Delay(samples)");
-xlabel("Frequency");
 axis([0 0.5 0 20]);
 grid("on");
+ylabel("Delay(samples)");
+subplot(313);
+plot(wa*0.5/pi,(P0+(wa*td))/pi);
+axis([0 0.5 0 2]);
+grid("on");
+ylabel("Phase(rad./$\\pi$)");
+xlabel("Frequency");
 print(strcat(strf,"_ab0"),"-dpdflatex");
 close
 
@@ -205,9 +205,9 @@ grid("on");
 subplot(313);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");
-xlabel("Frequency");
 axis([0 0.5 10 30]);
 grid("on");
+xlabel("Frequency");
 print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 
@@ -219,16 +219,16 @@ axis([min([fapl,ftpl,fppl]) max([fapu,ftpu,fppl]) -0.06 0.02]);
 grid("on");
 title(strt);
 subplot(312);
+plot(wplot*0.5/pi,mod((Pab1+(wplot*td))/pi,2));
+ylabel("Phase(rad./$\\pi$)");
+axis([min([fapl,ftpl,fppl]) max([fapu,ftpu,fppl]) pd-pdr pd+pdr]);
+grid("on");
+subplot(313);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");
 axis([min([fapl,ftpl,fppl]) max([fapu,ftpu,fppl]) td-tdr td+tdr]);
 grid("on");
-subplot(313);
-plot(wplot*0.5/pi,mod((Pab1+(wplot*td))/pi,2));
-ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
-axis([min([fapl,ftpl,fppl]) max([fapu,ftpu,fppl]) pd-pdr pd+pdr]);
-grid("on");
 print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 

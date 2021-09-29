@@ -5902,7 +5902,7 @@ globally optimised Butterworth filter are:
 \begin{small}
 \begin{verbatim}
 est_varyoptd =  0.1225
-varyoptd =  0.1228
+varyoptd =  0.1215
 \end{verbatim}
 \end{small}
 and the estimated and simulated round-off noise variances for the scaled 
@@ -8148,19 +8148,19 @@ plot.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_mmse_tarczynski_ex2_test_x1}}
-\caption{Tarczynski et al.\ Example 2:Response after MMSE optimisation}
+\caption{Tarczynski et al.\ Example 2 response after MMSE optimisation}
 \label{fig:Tarczynski-ex2-mmse-x1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_mmse_tarczynski_ex2_test_x1pass}}
-\caption{Tarczynski et al.\ Example 2:Pass-band response after MMSE optimisation}
+\caption{Tarczynski et al.\ Example 2 pass-band response after MMSE optimisation}
 \label{fig:Tarczynski-ex2-mmse-x1pass}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_mmse_tarczynski_ex2_test_x1pz}}
-\caption{Tarczynski et al.\ Example 2:Pole-zero plot after MMSE optimisation}
+\caption{Tarczynski et al.\ Example 2 pole-zero plot after MMSE optimisation}
 \label{fig:Tarczynski-ex2-mmse-x1pz}
 \end{figure}
 \clearpage
@@ -8216,12 +8216,12 @@ Figure~\ref{fig:Deczky-Ex3-Initial-x0-pz}.
 \label{fig:Deczky-Ex3-Initial-x0-pz}
 \end{figure}
 \subsubsection{MMSE optimisation of Deczky's Example 3}
-With weights $W_{ap}=W_{as}=1$ and $W_{tp}=0.25$ the first MMSE optimisation
+With weights $W_{ap}=W_{as}=1$ and $W_{tp}=0.125$ the first MMSE optimisation
 pass gives the response shown in Figure~\ref{fig:Deczky-Example-3-MMSE-x1}. 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_sqp_test_mmse_x1}}
-\caption{Deczky Example 3 MMSE pass 1:Optimised response with Wap=1, Wtp=0.25, Was=1}
+\caption{Deczky Example 3 MMSE optimised response after pass 1}
 \label{fig:Deczky-Example-3-MMSE-x1}
 \end{figure}
 After some experimentation, the second iteration, with $W_{tp}=0.5$, gives the 
@@ -8231,19 +8231,19 @@ pole-zero plot shown in Figure~\ref{fig:Deczky-Example-3-MMSE-x2-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_sqp_test_mmse_x2}}
-\caption{Deczky Example 3 MMSE pass 2: Optimised response with Wap=1, Wtp=0.5, Was=1}
+\caption{Deczky Example 3 MMSE optimised response after pass 2}
 \label{fig:Deczky-Example-3-MMSE-x2}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_sqp_test_mmse_x2pass}}
-\caption{Deczky Example 3 MMSE pass 2: Optimised passband response with Wap=1, Wtp=0.5, Was=1}
+\caption{Deczky Example 3 MMSE optimised passband response after pass 2}
 \label{fig:Deczky-Example-3-MMSE-x2-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_sqp_test_mmse_x2pz}}
-\caption{Deczky Example 3 MMSE pass 2: Pole-zero plot after optimisation with Wap=1, Wtp=0.5, Was=1}
+\caption{Deczky Example 3 MMSE optimised pole-zero plot after pass 2}
 \label{fig:Deczky-Example-3-MMSE-x2-pz}
 \end{figure}
 \clearpage
@@ -8251,7 +8251,7 @@ pole-zero plot shown in Figure~\ref{fig:Deczky-Example-3-MMSE-x2-pz}.
 The test script \emph{deczky3\_sqp\_test.m} now switches to PCLS optimisation of
 the MMSE filter. After some experimentation, the final specification becomes
 $fap=0.15$, $dBap=0.1dB$, $Wap=1$, $fas=0.30$, $dBas=30dB$, $Was=1$, $ftp=0.25$,
-$Wtp=3$, $tp=10$ samples group delay and $tpr=0.0035$ samples 
+$Wtp=2$, $tp=10$ samples group delay and $tpr=0.004$ samples 
 of peak-to-peak group delay ripple. The resulting amplitude and delay responses 
 are shown in Figure~\ref{fig:Deczky-Example-3-PCLS-d1} with pass-band detail 
 shown in Figure~\ref{fig:Deczky-Example-3-PCLS-d1-passband}. The corresponding 
@@ -8259,19 +8259,19 @@ pole-zero plot is shown in Figure~\ref{fig:Deczky-Example-3-PCLS-d1-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_sqp_test_pcls_d1}}
-\caption{Deczky Example 3 PCLS:Optimised response with dBap=0.1, tp=10, tpr=0.0035, dBas=30}
+\caption{Deczky Example 3 PCLS optimised response}
 \label{fig:Deczky-Example-3-PCLS-d1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_sqp_test_pcls_d1pass}}
-\caption{Deczky Example 3 PCLS:Optimised passband response with dBap=0.1, tp=10, tpr=0.0035, dBas=30}
+\caption{Deczky Example 3 PCLS optimised passband response}
 \label{fig:Deczky-Example-3-PCLS-d1-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_sqp_test_pcls_d1pz}}
-\caption{Deczky Example 3 PCLS:Pole-zero plot after optimisation with dBap=0.1,tp=10, tpr=0.0035, dBas=30}
+\caption{Deczky Example 3 PCLS optimised pole-zero plot}
 \label{fig:Deczky-Example-3-PCLS-d1-pz}
 \end{figure}
 The optimised filter vector is, in the gain, zeros and 
@@ -8291,29 +8291,30 @@ and
 \clearpage
 \subsubsection{An alternative implementation of Deczky's Example 3}
 The test script \emph{deczky3a\_sqp\_test.m} is an alternative implementation
-of \emph{Deczky}'s Example 3 with $fap=0.15$, $dBap=0.1dB$, $Wap=1$, $fas=0.30$,
-$dBas=50dB$, $Was=4$, $ftp=0.25$, $Wtp=0.0001$, $tp=9.35$ samples group delay and
-$tpr=0.3$ samples of peak-to-peak group delay ripple. The resulting amplitude 
-and delay responses are shown in Figure~\ref{fig:Deczky-Example-3a-PCLS-d1} with 
-pass-band detail shown in Figure~\ref{fig:Deczky-Example-3a-PCLS-d1-passband}. 
-The corresponding pole-zero plot is shown in 
-Figure~\ref{fig:Deczky-Example-3a-PCLS-d1-pz}. 
+of \emph{Deczky}'s Example 3 with filter specification:
+\begin{small}
+\verbatiminput{deczky3a_sqp_test.spec}
+\end{small}
+The resulting amplitude  and delay responses are shown in
+Figure~\ref{fig:Deczky-Example-3a-PCLS-d1} with pass-band detail shown in
+Figure~\ref{fig:Deczky-Example-3a-PCLS-d1-passband}. The corresponding pole-zero
+plot is shown in  Figure~\ref{fig:Deczky-Example-3a-PCLS-d1-pz}. 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3a_sqp_test_pcls_d1}}
-\caption{Deczky Example 3a PCLS:Optimised response with dBap=0.2, dBas=51, Was=10, tp=9.35, tpr=0.3}
+\caption{Deczky Example 3a PCLS optimised response}
 \label{fig:Deczky-Example-3a-PCLS-d1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3a_sqp_test_pcls_d1pass}}
-\caption{Deczky Example 3a PCLS:Optimised passband response with dBap=0.2, dBas=51, Was=10, tp=9.35, tpr=0.3}
+\caption{Deczky Example 3a PCLS optimised passband response}
 \label{fig:Deczky-Example-3a-PCLS-d1-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3a_sqp_test_pcls_d1pz}}
-\caption{Deczky Example 3a PCLS:Pole-zero plot after optimisation with dBap=0.2, dBas=51, Was=10, tp=9.35, tpr=0.3}
+\caption{Deczky Example 3a PCLS optimised pole-zero plot}
 \label{fig:Deczky-Example-3a-PCLS-d1-pz}
 \end{figure}
 The PCLS optimised filter vector is, in gain-zero-pole form:
@@ -8361,13 +8362,13 @@ Figure~\ref{fig:Deczky-Ex1-MMSE-x1-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky1_sqp_test_mmse_x1}}
-\caption{Deczky Example 1:MMSE optimised response with Wap=1, Wtp=0.01, Was=1}
+\caption{Deczky Example 1 MMSE optimised response}
 \label{fig:Deczky-Ex1-MMSE-x1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky1_sqp_test_mmse_x1pz}}
-\caption{Deczky Example 1:MMSE pole-zero plot after optimisation with Wap=1, Wtp=0.01, Was=1}
+\caption{Deczky Example 1 MMSE optimised pole-zero plot}
 \label{fig:Deczky-Ex1-MMSE-x1-pz}
 \end{figure}
 \subsubsection{PCLS optimisation of Deczky's Example 1}
@@ -8391,19 +8392,19 @@ and
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky1_sqp_test_pcls_d1}}
-\caption{Deczky Example 1:PCLS optimised response with dBap=1, tp=8, tpr=2, dBas=36}
+\caption{Deczky Example 1 PCLS optimised response}
 \label{fig:Deczky-Ex1-PCLS-d1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky1_sqp_test_pcls_d1pass}}
-\caption{Deczky Example 1:PCLS optimised passband response with dBap=1, tp=8, tpr=2, dBas=36}
+\caption{Deczky Example 1 PCLS optimised passband response}
 \label{fig:Deczky-Ex1-PCLS-d1-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky1_sqp_test_pcls_d1pz}}
-\caption{Deczky Example 1:PCLS pole-zero plot after optimisation with dBap=1,tp=8, tpr=2, dBas=36}
+\caption{Deczky Example 1 PCLS optimised pole-zero plot}
 \label{fig:Deczky-Ex1-PCLS-d1-pz}
 \end{figure}
 \clearpage
@@ -8463,25 +8464,25 @@ pole-zero plot is shown in Figure~\ref{fig:Decimator-R-2-MMSE-x1-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_test_mmse_x1}}
-\caption{Low-pass decimator R=2 MMSE:Optimised response with Wap=1, Was=4, Wtp=0.25}
+\caption{Low-pass decimator R=2 MMSE optimised response}
 \label{fig:Decimator-R-2-MMSE-x1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_test_mmse_x1pass}}
-\caption{Low-pass decimator R=2 MMSE:Optimised passband response with Wap=1, Was=4, Wtp=0.25}
+\caption{Low-pass decimator R=2 MMSE optimised passband response}
 \label{fig:Decimator-R-2-MMSE-x1-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_test_mmse_x1pz}}
-\caption{Low-pass decimator R=2 MMSE:Pole-zero plot after optimisation with Wap=1, Was=4, Wtp=0.25}
+\caption{Low-pass decimator R=2 MMSE optimised pole-zero plot}
 \label{fig:Decimator-R-2-MMSE-x1-pz}
 \end{figure}
 
 \subsubsection{PCLS optimisation of the low-pass R=2 decimator}
 Starting with the MMSE filter of Figure~\ref{fig:Decimator-R-2-MMSE-x1},
-the weights $Wap=1$, $Was=4$ and $Wtp=0.25$ and the constraints $dBap=0.2$, 
+the weights $Wap=1$, $Was=3$ and $Wtp=0.25$ and the constraints $dBap=0.2$, 
 $dBas=40$, $tp=8$ and $tpr=0.008$ give the response shown in
 Figure~\ref{fig:Decimator-R-2-PCLS-d1} with pass-band detail 
 shown in Figure~\ref{fig:Decimator-R-2-PCLS-d1-passband}. The corresponding 
@@ -8503,19 +8504,19 @@ and
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_test_pcls_d1}}
-\caption{Low-pass decimator R=2 PCLS:Optimised response with Wap=1, Was=4, Wtp=0.25, dBap=0.2, dBas=40, tpr=0.008}
+\caption{Low-pass decimator R=2 PCLS optimised response}
 \label{fig:Decimator-R-2-PCLS-d1}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_test_pcls_d1pass}}
-\caption{Low-pass decimator R=2 PCLS:Optimised passband response with Wap=1, Was=4, Wtp=0.25, dBap=0.2, dBas=40, tpr=0.008}
+\caption{Low-pass decimator R=2 PCLS optimised passband response}
 \label{fig:Decimator-R-2-PCLS-d1-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_test_pcls_d1pz}}
-\caption{Low-pass decimator R=2 PCLS:Optimised pole-zero plot with Wap=1, Was=4, Wtp=0.25, dBap=0.2, dBas=40, tpr=0.008}
+\caption{Low-pass decimator R=2 PCLS optimised pole-zero plot}
 \label{fig:Decimator-R-2-PCLS-d1-pz}
 \end{figure}
 \clearpage
@@ -8532,8 +8533,7 @@ resulting filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_alternate_test_pcls_d1dual}}
-\caption{Alternative low-pass decimator R=2:PCLS optimised response with
-  Wap=1, Was=5, Wtp=0.1, dBap=0.35, dBas=50, tp=10, tpr=0.016}
+\caption{Alternative low-pass decimator R=2 PCLS optimised response}
 \label{fig:Alternate_decimator-R-2-PCLS-d1}
 \end{figure}
 \clearpage
@@ -8557,6 +8557,15 @@ filter are:
 \begin{small}
 \verbatiminput{decimator_R2_interpolated_test_D1_coef.m}
 \end{small}
+Figure~\ref{fig:decimator-R2-interpolated-test-IIR-prototype} shows the
+amplitude and delay responses of the prototype IIR filter.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_interpolated_test_prototype_response}}
+\caption{Amplitude and delay responses of PCLS optimised prototype R=2 IIR filter}
+\label{fig:decimator-R2-interpolated-test-IIR-prototype}
+\end{figure}
+
 Next, an anti-aliasing filter is designed with the \emph{remez} function from
 the Octave-Forge \emph{signal} package using the actual pass-band
 edge, \input{decimator_R2_interpolated_test_actual_passband.tab},
@@ -8831,7 +8840,7 @@ response shown is adjusted for the nominal delay.}
 Figure~\ref{fig:iir-sqp-slb-hilbert-mmse-response} shows the response 
 after MMSE optimisation of the initial filter. The phase
 response shown is adjusted for the nominal delay. The relative weights of the
-amplitude, group delay and phase were $W_{ap}=1$, $W_{tp}=0.00001$ and 
+amplitude, group delay and phase were $W_{ap}=1$, $W_{tp}=0.0001$ and 
 $W_{pp}=0.001$ respectively. The desired PCLS constraints are superimposed on 
 the figure. The \emph{iirP} function does not calculate the Hessian of the
 phase response. In the previous
@@ -8842,8 +8851,7 @@ phase response is approximated with the Octave function
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_hilbert_test_mmse_x1phase}}
-\caption{Response of the Hilbert filter after MMSE optimisation with
-$R=2$, $W_{ap}=1$, $W_{tp}=0.00001$ and $W_{pp}=0.001$. The phase
+\caption{Response of the Hilbert filter after MMSE optimisation. The phase
 response shown is adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-hilbert-mmse-response}
 \end{figure}
@@ -8872,16 +8880,14 @@ and
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_hilbert_test_pcls_d1phase}}
-\caption{Response of the Hilbert filter after PCLS optimisation with 
-$R=2$, $A_{r}=0.002$, $t_{dr}=0.4$ and $p_{r}=0.16\frac{\pi}{2}$. The phase
+\caption{Response of the Hilbert filter after PCLS optimisation. The phase
 response shown is adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-hilbert-pcls-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_hilbert_test_pcls_d1pz}}
-\caption{Pole-zero plot of the Hilbert filter after PCLS optimisation with 
-$R=2$, $A_{r}=0.002$, $t_{dr}=0.4$ and $p_{r}=0.16\frac{\pi}{2}$.}
+\caption{Pole-zero plot of the Hilbert filter after PCLS optimisation.}
 \label{fig:iir-sqp-slb-hilbert-pcls-pz}
 \end{figure}
 \clearpage
@@ -8928,8 +8934,7 @@ delay and phase are $W_{ap}=1$, $W_{tp}=0.001$ and $W_{pp}=0.1$ respectively.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_mmse_x1phase}}
 \caption{Response of the $R=2$ differentiator filter after MMSE
-  optimisation with $W_{ap}=1$, $W_{tp}=0.001$ and $W_{pp}=0.1$. The phase
-  response shown is adjusted for the nominal delay.}
+  optimisation. The phase response shown is adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-differentiator-mmse-response}
 \end{figure}
 \subsubsection{PCLS optimisation of the R=2 differentiator filter}
@@ -8941,7 +8946,7 @@ amplitude response of the PCLS optimised $R=2$ differentiator filter.
 Figure~\ref{fig:iir-sqp-slb-differentiator-pcls-pz} shows the pole-zero plot
 for the PCLS optimised $R=2$ differentiator filter. The peak-to-peak amplitude,
 group delay and phase ripple outside the transition bands are $A_{r}=\pm
-0.0025$, $t_{dr}=\pm 0.1$ samples and $p_{r}=\pm 0.004\pi$ respectively.  The
+0.002$, $t_{dr}=\pm 0.1$ samples and $p_{r}=\pm 0.004\pi$ respectively.  The
 PCLS optimised filter coefficients are, in gain-pole-zero form:
 \begin{small}
 \verbatiminput{iir_sqp_slb_differentiator_test_d1_coef.m}
@@ -8959,23 +8964,21 @@ and
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_pcls_d1phase}}
 \caption{Frequency response of the $R=2$ differentiator filter after PCLS
-  optimisation with $A_{r}=\pm 0.002$, $t_{dr}=\pm 0.1$ and $p_{r}=\pm
-  0.004\pi$. The phase response shown is adjusted for the nominal delay.}
+  optimisation. The phase response shown is adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-differentiator-pcls-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_pcls_d1}}
 \caption{Amplitude response of the $R=2$ differentiator filter after PCLS
-  optimisation with $A_{r}=\pm 0.002$, $t_{dr}=\pm 0.1$ and $p_{r}=\pm 0.004\pi$}
+  optimisation.}
 \label{fig:iir-sqp-slb-differentiator-pcls-amplitude-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_pcls_d1pz}}
 \caption{Pole-zero plot of the $R=2$ differentiator filter after PCLS
-  optimisation with $A_{r}=\pm 0.002$, $t_{dr}=\pm 0.1$, $p_{r}=\pm 0.004\pi$,
-  $W_{ap}=1$, $W_{tp}=0.001$ and $W_{pp}=0.1$}
+  optimisation.}
 \label{fig:iir-sqp-slb-differentiator-pcls-pz}
 \end{figure}
 As a check, Figure~\ref{fig:iir-sqp-slb-differentiator-pcls-freqz} shows the
@@ -8986,8 +8989,8 @@ as a proportion of the frequency.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_pcls_d1freqz}}
 \caption{Amplitude response of the $R=2$ differentiator filter after PCLS
-  optimisation calculated with \emph{freqz} and \emph{grpdelay}. The amplitude
-  response is plotted as a proportion of the frequency.}
+  optimisation. The amplitude response is plotted as a proportion of the
+  frequency.}
 \label{fig:iir-sqp-slb-differentiator-pcls-freqz}
 \end{figure}
 \clearpage
@@ -14615,9 +14618,7 @@ one-multiplier state scaling coefficients are not truncated. The IIR filter in
 Section~\ref{sec:bit-flip-signed-digit-one-m-lattice-bandpass} has a denominator
 polynomial decimated with $R=2$. The initial IIR filter in this example
 is that designed by the Octave script
-\emph{schurOneMPAlattice\_socp\_slb\_bandpass\_test.m} with the same filter
-order and frequency bands but different band weights and amplitude
-specifications, $dBap=2$ and $dBas=53$. 
+\emph{schurOneMPAlattice\_socp\_slb\_bandpass\_test.m}. 
 
 The filter responses with exact coefficients, 8-bit rounded coefficients, 8-bit
 rounded coefficients optimised with the bit-flipping algorithm, 8-bit
@@ -35346,6 +35347,17 @@ ans =
 [root@Fedora34Server ~]#
 \end{verbatim}
 \end{small}
+
+\subsubsection*{Copy a file to  the VM}
+\begin{small}
+\begin{verbatim}
+$ virsh start Fedora34Server
+$ scp Makefile scp://root@192.168.122.7//root/Makefile
+\end{verbatim}
+\end{small}
+
+
+\subsubsection*{Run the test scripts on the VM}
 
 \subsubsection*{Copy this document from the VM}
 \begin{small}

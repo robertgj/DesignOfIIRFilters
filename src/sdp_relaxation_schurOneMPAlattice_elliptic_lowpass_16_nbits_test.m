@@ -1,5 +1,5 @@
 % sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m
-% Copyright (C) 2019-2020 Robert G. Jenssen
+% Copyright (C) 2019-2021 Robert G. Jenssen
 
 % SDP relaxation optimisation of a Schur parallel one-multiplier allpass
 % lattice elliptic lowpass filter with 16-bit signed-digit coefficients having
@@ -336,7 +336,7 @@ strt=sprintf("Parallel allpass lattice elliptic lowpass filter pass-band \
 amplitude nbits=%d,ndigits=%d) : fap=%g",nbits,ndigits,fap);
 title(strt);
 legend("Initial","s-d(Ito)","s-d(SDP)","s-d(min)");
-legend("location","northeast");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -403,9 +403,9 @@ for n=2:length(k_active_max_n_hist)
   str_active=sprintf("%s, %d",str_active,k_active_max_n_hist(n));
 endfor
 title(sprintf("Parallel allpass lattice elliptic lowpass filter : %d bit %d \
-signed-digit coefficient difference from the exact values\n as SDP-relaxation \
-proceeds. The coefficients were fixed in the order : %s", ...
-              nbits,ndigits,str_active));
+signed-digit coefficient change from exact values", nbits,ndigits));
+text(0.5,-140,
+     sprintf("The coefficients were fixed in the order : %s",str_active));
 xlabel("Relaxation step");
 ylabel("Bits difference from exact");
 print(strcat(strf,"_coef_hist"),"-dpdflatex"); 

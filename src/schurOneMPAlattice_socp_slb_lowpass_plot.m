@@ -75,6 +75,8 @@ fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g",fap,dBap,ftp,td,tdr);
   d1=schurOneMAPlattice2tf(A1k,A1epsilon,A1p);
   subplot(111);
   zplane(qroots(flipud(d1(:))),qroots(d1(:)));
+  strT=sprintf("Parallel Schur one-multiplier lattice pole zero plot : \
+fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g",fap,dBap,ftp,td,tdr);
   title(strT);
   print(strcat(strF,"_A1pz"),"-dpdflatex");
   close
@@ -103,10 +105,10 @@ fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g",fap,dBap,ftp,td,tdr);
   ylabel(ax(1),"Passband squared amplitude sensitivity");
   ylabel(ax(2),"Stopband squared amplitude sensitivity");
   grid("on");
-  title("Parallel Schur one-multiplier lattice : sensitivity responses");
+  title("Parallel Schur one-multiplier lattice : coefficient sensitivity responses");
   subplot(212);
   plot(wplot(1:nas)*0.5/pi,gradT(1:nas,:));
-  ylabel("Passband group delay sensitivity");
+  ylabel("Passband delay sensitivity");
   xlabel("Frequency");
   axis([0 0.5]);
   grid("on"); 

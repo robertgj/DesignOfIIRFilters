@@ -16,8 +16,6 @@ tic;
 
 maxiter=2000
 verbose=false;
-tol=1e-5;
-ctol=tol/10;
 strf="sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test";
 
 %
@@ -34,7 +32,7 @@ tarczynski_parallel_allpass_bandpass_hilbert_test_Db0_coef;
 % Band-pass filter specification for parallel all-pass filters
 %
 tol=1e-4
-ctol=1e-6
+ctol=1e-5
 difference=true
 rho=0.999 
 ma=length(A1k0)
@@ -436,7 +434,7 @@ strt=sprintf("Parallel allpass lattice bandpass Hilbert filter pass-band \
 amplitude nbits=%d,ndigits=%d) : fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
 title(strt);
 legend("initial","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
-legend("location","north");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -477,7 +475,7 @@ strt=sprintf("Parallel allpass lattice bandpass Hilbert filter pass-band phase \
 (nbits=%d,ndigits=%d) : fppl=%g,fppu=%g",nbits,ndigits,fppl,fppu);
 title(strt);
 legend("initial","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
-legend("location","southeast");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");

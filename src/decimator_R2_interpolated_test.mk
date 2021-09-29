@@ -1,4 +1,5 @@
 decimator_R2_interpolated_test_FIGURES = \
+decimator_R2_interpolated_test_prototype_response \
 decimator_R2_interpolated_test_fir_antialiasing \
 decimator_R2_interpolated_test_response \
 decimator_R2_interpolated_test_passband_response \

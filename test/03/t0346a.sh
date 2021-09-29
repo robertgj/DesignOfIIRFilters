@@ -86,15 +86,15 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd_sdp.ok"; fail; fi
 
 cat > test_A1k0_sd_min.ok << 'EOF'
-A1k0_sd_min = [    -1792,     2528,     1952,    -2172, ... 
+A1k0_sd_min = [    -1791,     2528,     1936,    -2178, ... 
                     2816,    -1152,     -256,     1568, ... 
                     -960,      448 ]'/4096;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sd_min.ok"; fail; fi
 
 cat > test_A2k0_sd_min.ok << 'EOF'
-A2k0_sd_min = [    -3109,     3016,     1880,    -2301, ... 
-                    2912,     -992,     -192,     1536, ... 
+A2k0_sd_min = [    -3105,     3016,     1864,    -2304, ... 
+                    2912,     -991,     -192,     1536, ... 
                     -928,      448 ]'/4096;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd_min.ok"; fail; fi
@@ -104,7 +104,7 @@ Exact & 0.001402 & -35.2 & & \\
 13-bit 3-signed-digit & 0.279008 & -30.7 & 60 & 40 \\
 13-bit 3-signed-digit(Lim) & 0.109525 & -34.3 & 59 & 39 \\
 13-bit 3-signed-digit(SDP) & 0.415553 & -28.1 & 59 & 39 \\
-13-bit 3-signed-digit(min) & 0.002466 & -35.0 & 56 & 36 \\
+13-bit 3-signed-digit(min) & 0.005296 & -34.9 & 55 & 35 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 

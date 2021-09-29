@@ -24,7 +24,7 @@ R=2;
 [x0,U,V,M,Q]=tf2x(N0,D0);
 
 % Frequency points
-n=1000;
+n=800;
 w=pi*(-n:(n-1))'/n;
 
 % Hilbert filter specification

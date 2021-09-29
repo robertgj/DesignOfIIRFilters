@@ -1,5 +1,5 @@
 % decimator_R2_interpolated_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2021 Robert G. Jenssen
 %
 % Example of an interpolated low-pass IIR decimator filter design using
 % quasi-Newton optimisation with constraints on the coefficients.
@@ -114,6 +114,31 @@ if feasible == 0
 endif
 print_pole_zero(d1,U,V,M,Q,R,"d1");
 
+% Plot prototype IIR filter
+subplot(211);
+A1=iirA(wa,d1,U,V,M,Q,R);
+ax1=plotyy(wa*0.5/pi,20*log10(abs(A1)),wa*0.5/pi,20*log10(abs(A1)));
+axis(ax1(1),[0 0.5 -0.4 0.4])
+axis(ax1(2),[0 0.5 -50 -30])
+axis(ax1(1),"tic","labely");
+axis(ax1(2),"tic","labely");
+set(ax1(1),'ycolor','black');
+set(ax1(2),'ycolor','black');
+grid("on");
+ylabel("Amplitude(dB)")
+title(sprintf
+        ("IIR filter : R=%d,fap=%g,dBap=%g,fas=%g,dBas=%d,ftp=%g,tp=%d,tpr=%g",
+         R,fap,dBap,fas,dBas,ftp,tp,tpr));
+subplot(212);
+T1=iirT(wt,d1,U,V,M,Q,R);
+plot(wt*0.5/pi,T1);
+axis([0 0.5 10-tpr 10+tpr])
+grid("on");
+ylabel("Delay(samples)")
+xlabel("Frequency");
+print(strcat(strf,"_prototype_response"),"-dpdflatex");
+close
+
 % Find the actual band edges
 A1=iirA(wa,d1,U,V,M,Q,R);
 [~,ifap_actual]=max(find(A1>((10^(-dBap/20))-(10*ctol))));
@@ -127,7 +152,6 @@ b=remez(N,[0 (fap_actual/P) (fap_actual/P)+delf 0.5]*2,[1 1 0 0]);
 b=b(:)';
 % Scale the anti-aliasing filter
 [N1,D1]=x2tf(d1,U,V,M,Q,R);
-N1=N1;
 H1=freqz(N1,D1,wa*P);
 Hb=freqz(b,1,wa);
 b_scale=max(abs(Hb.*H1));
