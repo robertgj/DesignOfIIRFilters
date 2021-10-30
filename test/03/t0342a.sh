@@ -37,15 +37,16 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_Da0_coef.m << 'EOF'
-Da0 = [   1.0000000000,  -1.3419821401,   0.9477547245,   0.8923688868, ... 
-         -1.9563907955,   1.7230783048,  -0.3123526387,  -0.6222499179, ... 
-          0.7608881756,  -0.3626047561,   0.0927971553 ]';
+Da0 = [   1.0000000000,  -1.3412921211,   0.9463621563,   0.8935366601, ... 
+         -1.9564292475,   1.7224050654,  -0.3124222408,  -0.6211089430, ... 
+          0.7593804917,  -0.3617306623,   0.0925143018 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Da0_coef.m"; fail; fi
+
 cat > test_Db0_coef.m << 'EOF'
-Db0 = [   1.0000000000,  -1.9568484988,   1.2937724825,   1.1282334445, ... 
-         -2.6898580390,   2.1584162332,  -0.3118403071,  -0.8691157053, ... 
-          0.9371109623,  -0.4308835432,   0.1001440687 ]';
+Db0 = [   1.0000000000,  -1.9561812074,   1.2919814472,   1.1299281281, ... 
+         -2.6898941225,   2.1573517316,  -0.3118182868,  -0.8675026448, ... 
+          0.9351685166,  -0.4298356711,   0.0998802036 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Db0_coef.m"; fail; fi
 
@@ -60,6 +61,7 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 diff -Bb test_Da0_coef.m \
      tarczynski_parallel_allpass_bandpass_hilbert_test_Da0_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Da0_coef.m"; fail; fi
+
 diff -Bb test_Db0_coef.m \
      tarczynski_parallel_allpass_bandpass_hilbert_test_Db0_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Db0_coef.m"; fail; fi

@@ -14427,7 +14427,6 @@ optimised with the bit-flipping algorithm. The cost function weights the
 stop-band amplitude error by $W_{asl}=W_{asu}=30$. Bit-flipping starts at bit
 6 of 8 bits and uses a mask size of 3 bits. 
 
-
 \section{Bit-flipping search for the signed-digit coefficients of a
   direct-form bandpass IIR filter}
 The Octave script \emph{bitflip\_directIIR\_bandpass\_test.m} applies the
@@ -14458,10 +14457,9 @@ result for each test.
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
-\begin{tabular}{lr}  \\ \toprule
-Band-pass direct form IIR & Cost \\ \midrule
-\input{bitflip_directIIR_bandpass_test_cost.tab}
-\bottomrule
+  \begin{tabular}{lr}  \\ \toprule
+    Band-pass direct form IIR & Cost \\ \midrule
+    \input{bitflip_directIIR_bandpass_test_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the direct form bandpass filter
@@ -14507,8 +14505,7 @@ result for each test.
 \begin{threeparttable}
 \begin{tabular}{lr}  \\ \toprule
 Band-pass Schur normalised-scaled & Cost \\ \midrule
-\input{bitflip_schurNSlattice_bandpass_test_cost.tab}
-\bottomrule
+\input{bitflip_schurNSlattice_bandpass_test_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the normalised-scaled bandpass
@@ -14575,8 +14572,7 @@ result for each test.
 \begin{threeparttable}
 \begin{tabular}{lr}  \\ \toprule
 Band-pass Schur one-multiplier & Cost \\ \midrule
-\input{bitflip_schurOneMlattice_bandpass_test_cost.tab}
-\bottomrule
+\input{bitflip_schurOneMlattice_bandpass_test_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the one-multiplier bandpass
@@ -14691,8 +14687,7 @@ result for each test.
 \begin{threeparttable}
 \begin{tabular}{lr}  \\ \toprule
 Band-pass Schur parallel-allpass one-multiplier & Cost \\ \midrule
-\input{bitflip_schurOneMPAlattice_bandpass_test_cost.tab}
-\bottomrule
+\input{bitflip_schurOneMPAlattice_bandpass_test_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the parallel-allpass one-multiplier bandpass
@@ -14774,8 +14769,7 @@ cost results for each truncation method.
 \begin{threeparttable}
 \begin{tabular}{lr}  \\ \toprule
 Band-pass Schur FIR & Cost \\ \midrule
-\input{bitflip_schurFIRlattice_bandpass_test_cost.tab}
-\bottomrule
+\input{bitflip_schurFIRlattice_bandpass_test_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the Schur FIR minimum-phase 
@@ -14854,8 +14848,7 @@ compares the cost results for each truncation method.
  \begin{threeparttable}
 \begin{tabular}{lr}  \\ \toprule
 Band-pass direct-form symmetric FIR & Cost \\ \midrule
-\input{bitflip_directFIRsymmetric_bandpass_test_cost.tab}
-\bottomrule
+\input{bitflip_directFIRsymmetric_bandpass_test_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the direct-form symmetric FIR bandpass
@@ -14980,8 +14973,7 @@ is required to implement these signed-digit coefficient multiplications.
  \begin{threeparttable}
 \begin{tabular}{lrcc}  \\ \toprule
 Band-pass direct-form symmetric FIR & Cost & Signed-digits & Additions\\\midrule
-\input{branch_bound_directFIRsymmetric_bandpass_8_nbits_test_cost.tab}
-\bottomrule
+\input{branch_bound_directFIRsymmetric_bandpass_8_nbits_test_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the direct-form symmetric FIR bandpass
@@ -15067,8 +15059,7 @@ are not used.
 \begin{threeparttable}
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Additions\\ \midrule
-\input{branch_bound_schurOneMlattice_bandpass_8_nbits_test_cost.tab}
-\bottomrule
+\input{branch_bound_schurOneMlattice_bandpass_8_nbits_test_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the Schur one-multiplier lattice 
@@ -15160,8 +15151,7 @@ final set of coefficients may not meet the PCLS specifications.
 \begin{threeparttable}
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
-\input{branch_bound_schurOneMlattice_bandpass_10_nbits_test_cost.tab}
-\bottomrule
+\input{branch_bound_schurOneMlattice_bandpass_10_nbits_test_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the Schur one-multiplier lattice 
@@ -15260,8 +15250,7 @@ allocation heuristic of \emph{Ito et al.} with the branch-and-bound search.
 \begin{threeparttable}
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
-\input{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_kmin_cost.tab}
-\bottomrule
+\input{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_kmin_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the parallel Schur one-multiplier
@@ -15341,8 +15330,7 @@ search.
 \begin{threeparttable}
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
-\input{branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test_kmin_cost.tab}
-\bottomrule
+\input{branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test_kmin_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the parallel Schur one-multiplier
@@ -15433,8 +15421,7 @@ allocation heuristic of \emph{Ito et al.} with the branch-and-bound search.
 \begin{threeparttable}
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
-\input{branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_kmin_cost.tab}
-\bottomrule
+\input{branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_kmin_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results of a parallel all-pass Schur one-multiplier
@@ -15536,8 +15523,7 @@ allocation heuristic of \emph{Ito et al.} with the branch-and-bound search.
 \begin{threeparttable}
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
-\input{branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_kmin_cost.tab}
-\bottomrule
+\input{branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_kmin_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the parallel Schur one-multiplier
@@ -15635,8 +15621,7 @@ search.
 \begin{threeparttable}
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
-\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_kmin_cost.tab}
-\bottomrule
+\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_kmin_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption{Summary of cost results for the parallel Schur
@@ -15746,8 +15731,7 @@ allocation heuristic of \emph{Ito et al.} with the branch-and-bound search.
 \begin{threeparttable}
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
-\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_kmin_cost.tab}
-\bottomrule
+\input{branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_kmin_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the parallel Schur one-multiplier
@@ -15817,8 +15801,7 @@ to implement the coefficient multiplications found by branch-and-bound search.
 \begin{threeparttable}
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
-\input{branch_bound_schurOneMAPlattice_frm_12_nbits_test_cost.tab}
-\bottomrule
+\input{branch_bound_schurOneMAPlattice_frm_12_nbits_test_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the FRM low-pass filter with exact and
@@ -15914,7 +15897,7 @@ delay.}
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
 \input{branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the FRM Hilbert filter with exact and
@@ -15972,7 +15955,7 @@ search. The FIR filter structure requires an extra $80$ additions.
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
 \input{branch_bound_directFIRhilbert_12_nbits_test_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the direct-form FIR Hilbert filter with
@@ -16033,7 +16016,7 @@ search. The FIR filter structure requires an extra $16$ additions.
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
 \input{branch_bound_directFIRhilbert_bandpass_12_nbits_test_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the direct-form FIR Hilbert band-pass
@@ -16107,7 +16090,7 @@ SOCP-relaxation search.
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
 \input{socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the direct-form symmetric FIR 
@@ -16199,7 +16182,7 @@ further $51$ additions are required by the lattice filter structure.
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
 \input{sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the Schur one-multiplier lattice 
@@ -16289,7 +16272,7 @@ allocation heuristic of \emph{Lim et al.} with the SQP-relaxation search.
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
 \input{sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the Schur one-multiplier lattice 
@@ -16384,7 +16367,7 @@ allocation heuristic of \emph{Lim et al.} with the SOCP-relaxation search.
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
 \input{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_kmin_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the parallel Schur one-multiplier
@@ -16478,7 +16461,7 @@ allocation heuristic of \emph{Lim et al.} with the SOCP-relaxation search.
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
 \input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_kmin_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the parallel Schur one-multiplier
@@ -16565,7 +16548,7 @@ SOCP-relaxation search.
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
 \input{socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_kc_min_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the Schur one-multiplier lattice 
@@ -16627,7 +16610,7 @@ to implement the coefficient multiplications found by SOCP-relaxation search.
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
 \input{socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_kuv_min_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the FRM low-pass filter with exact and
@@ -16703,7 +16686,7 @@ shown is adjusted for the nominal delay and normalised to $\pi$ radians.
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
 \input{socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test_kuv_min_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the FRM Schur one-multiplier lattice 
@@ -16816,7 +16799,7 @@ additions.
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
 \input{socp_relaxation_directFIRhilbert_12_nbits_test_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the direct-form FIR Hilbert filter
@@ -16913,7 +16896,7 @@ shows the filter pass-band group delay response.
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
 \input{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the Schur one-multiplier lattice bandpass
@@ -17055,7 +17038,7 @@ implementation (though a number of the latter multipliers are $1$ or $0$).
 \begin{tabular}{lcc}  \\ \toprule
 &Signed-digits&Shift-and-adds\\ \midrule
 \input{socp_relaxation_schurFIRlattice_gaussian_16_nbits_test_kkhat_min_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Comparison of signed-digit and shift-and-add requirements for a
@@ -17390,7 +17373,7 @@ SDP optimisation and triangle inequalities.
 \begin{tabular}{lcccc}  \\ \toprule
 & Cost&Stop-band response&Signed-digits&Shift-and-adds\\ \midrule
 \input{sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the direct-form symmetric FIR bandpass
@@ -17462,7 +17445,7 @@ multiplications found by the signed-digit allocation heuristic of \emph{Ito et
 \begin{tabular}{lcccc}  \\ \toprule
 & Cost&Pass-band response&Signed-digits&Shift-and-adds\\ \midrule
 \input{sdp_relaxation_directFIRhilbert_12_nbits_test_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the direct-form Hilbert FIR filter SDP
@@ -17541,7 +17524,7 @@ multiplications found by the signed-digit allocation heuristic of \emph{Ito et
 \begin{tabular}{lcccc}  \\ \toprule
 & Cost&Stop-band response&Signed-digits&Shift-and-adds\\ \midrule
 \input{sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the direct-form Hilbert band-pass FIR filter SDP
@@ -17660,7 +17643,7 @@ coefficients from the initial exact values.}
 \begin{tabular}{lcccc}  \\ \toprule
 & Cost&Stop-band response&Signed-digits&Shift-and-adds\\ \midrule
 \input{sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the Schur one-multiplier lattice 
@@ -17779,7 +17762,7 @@ coefficients from the initial exact values}
 \begin{tabular}{lcccc}  \\ \toprule
 & Cost&Stop-band response&Signed-digits&Shift-and-adds\\ \midrule
 \input{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the parallel all-pass Schur
@@ -17900,7 +17883,7 @@ allocation heuristic of \emph{Lim et al.} with the SDP-relaxation search.
 \begin{tabular}{lcccc}  \\ \toprule
 & Cost&Stop-band response&Signed-digits&Shift-and-adds\\ \midrule
 \input{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_cost.tab}
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the parallel all-pass Schur
@@ -18044,7 +18027,7 @@ Rounded                        & 1.5432 & 1.5299 & 1.2459 & 1.1097 & 1.2362 \\
 Rounded with bit-flipping      & 1.1289 & 1.5299 & 0.9861 & 1.1097 & 0.9929 \\
 Signed-digit                   & 2.3373 & 2.7157 & 3.6059 & 3.9013 & $\infty$ \\
 Signed-digit with bit-flipping & 0.8744 & 2.1571 & 1.3824 & 3.1746 & 1.1334 \\ 
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for each bit-flipping algorithm example]
@@ -18258,7 +18241,7 @@ Rounded                       & 1.5432 & 1.5299 & 1.2459 & 1.1097 & 1.2362 \\
 Rounded with simplex          & 1.0397 & 1.4617 & 0.9861 & 1.1097 & 0.8395 \\
 Signed-digit                  & 2.3373 & 2.7157 & 3.6059 & 3.9013 & $\infty$ \\
 Signed-digit with simplex     & 1.6581 & 2.3918 & 3.2559 & 3.1746 & 3.2134 \\
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for each simplex algorithm example]
@@ -18461,7 +18444,7 @@ Rounded                 & 1.5432 & 1.5299 & 1.2459 & 1.1097 & 1.2362 \\
 Rounded with samin      & 0.7574 & 0.9516 & 0.8295 & 0.8803 & 0.6588 \\
 Signed-digit            & 2.3373 & 2.7157 & 3.6059 & 3.9013 & $\infty$ \\
 Signed-digit with samin & 0.7536 & 1.7492 & 0.8436 & 1.3505 & 0.7083 \\ 
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for each simulated annealing algorithm example]
@@ -18712,7 +18695,7 @@ Rounded                   & 1.5432 & 1.5299 & 1.2459 & 1.1097 & 1.2362 \\
 Rounded with de\_min      & 0.7931 & 1.2547 & 0.8669 & 0.8803 & 0.6571 \\
 Signed-digit              & 2.3373 & 2.7157 & 3.6059 & 3.9013 & $\infty$ \\
 Signed-digit with de\_min & 0.8539 & 1.4949 & 1.2004 & 2.2915 & 0.7047 \\ 
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for each differential evolution algorithm example]
@@ -18862,7 +18845,7 @@ Signed-digit with bit-flipping & 0.8744 & 2.1571 & 1.3824 & 3.1746 & 1.1334 \\
 Signed-digit with simplex      & 1.6581 & 2.3918 & 3.2559 & 3.1746 & 3.2134 \\
 Signed-digit with samin        & 0.7536 & 1.7492 & 0.8436 & 1.3505 & 0.7083 \\ 
 Signed-digit with de\_min      & 0.8539 & 1.4949 & 1.2004 & 2.2915 & 0.7047 \\ 
-\bottomrule
+\\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Comparison of cost results for each algorithm]
@@ -34572,17 +34555,17 @@ stop band regions. The pass band phase error is adjusted for the nominal delay.}
 \addcontentsline{toc}{part}{Colophon}
 \pdfbookmark[0]{Requirements}{requirements}
 \section*{Software requirements}
-I currently use the Fedora 34 distribution of Linux~\cite{Fedora_website} with:
+I currently use the Fedora 35 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{5.13.16-200.fc34.x86\_64}
-\item \emph{gcc} version \emph{11.1.1 20210728 (Red Hat 11.2.1-0)}
+\item \texttt{uname -r} is \emph{5.14.10-300.fc35.x86\_64}
+\item \emph{gcc} version \emph{11.2.1 20210728 (Red Hat 11.2.1-1)}
 \item a local build of \emph{octave-6.3.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic} and \emph{parallel} Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit and
-  \emph{qt-4.8.7-60}
-\item \emph{texlive-2020-39} and various packages are installed
-\item \emph{dia-0.97.3-17} is used for line drawings
+  \emph{qt-4.8.7-62}
+\item \emph{texlive-2021-45} and various packages are installed
+\item \emph{dia-0.97.3-18} is used for line drawings
 \end{itemize}
 
 The local build of \emph{octave-6.3.0} assumes that the following packages are
@@ -34618,7 +34601,7 @@ texlive-dvisvgm
   
 \pdfbookmark[0]{Makefile}{makefile}
 \section*{\emph{Makefile}}
-This document is built with \emph{GNU make-4.3-5}. The \emph{Makefile} in the
+This document is built with \emph{GNU make-4.3-6}. The \emph{Makefile} in the
 project archive builds the PDF version of this document from the \LaTeX source
 in \emph{DesignOfIIRFilters.tex}. The project archive contains the files
 required to generate the figures shown in this document. The line diagrams are
@@ -34637,13 +34620,7 @@ corresponding \emph{Makefile} fragment, \emph{butt3NS\_test.mk}:
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
 version of \emph{octave-6.3.0} avoiding the vagaries of the Fedora
-packagers\footnote{The Fedora 33 \emph{octave-5.2.0} package
-  depends on the FlexiBLAS~\cite{FlexiBLAS_website} wrapper library for the
-  \emph{blas} and \emph{lapack} libraries. If installing this package then
-  also install the Fedora \emph{redhat-rpm-config}, \emph{octave-devel},
-  \emph{octave-io}, \emph{octave-struct}, \emph{octave-statistics},
-  \emph{octave-parallel}, \emph{octave-optim}, \emph{octave-control},
-  \emph{octave-symbolic} and \emph{octave-signal} packages.}.
+packagers.
 
 The \emph{build-octave.sh} script builds Octave and the associated numerical
 libraries with the \emph{g++} option \texttt{-march=nehalem}. The patch file,
@@ -34805,7 +34782,7 @@ be installed with this work-around:
 This section shows the results of benchmarking various builds of Octave
 and benchmarking \emph{blas} and \emph{lapack} libraries with a shared library
 \emph{LTO} and \emph{PGO} build of Octave. The Linux kernel used is
-\emph{5.13.16-200.fc33.x86\_64} from the RedHat Fedora 34 Linux
+\emph{5.14.10-300.fc35.x86\_64} from the RedHat Fedora 34 Linux
 distribution. The system compiler is
 \emph{gcc version 11.2.1 20210728 (Red Hat 11.2.1-1)}.
 The CPU is an Intel i7-7700K for which the number of CPU cores 
@@ -34880,11 +34857,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 127.1 \\
-Generic, shared reference lapack and blas            &  41.9 \\
-Generic, shared reference lapack and blas, LTO       &  41.8 \\
-Generic, shared reference lapack and blas, PGO       &  41.9 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  41.7 \\
+Debug, shared reference lapack and blas              & 128.3 \\
+Generic, shared reference lapack and blas            &  40.5 \\
+Generic, shared reference lapack and blas, LTO       &  42.4 \\
+Generic, shared reference lapack and blas, PGO       &  42.9 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  41.9 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -34907,22 +34884,22 @@ packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
   \emph{libblas} and ``local'' \emph{libblas} libraries:\\
 \begin{texttt}
   > ./dgesvd\_test\_atlas\\
-   0.14709002182061767\\
+   0.14709002182061778\\
   > ./dgesvd\_test\_sysblas\\
-   0.14709002182060069\\
+   0.14709002182060862\\
    Note: The following floating-point exceptions are signalling: IEEE\_DENORMAL\\
   > LD\_LIBRARY\_PATH=/usr/local/octave-6.3.0/lib ./dgesvd\_test\_blas\\
    0.14709002182060862
 \end{texttt}}
 \begin{small}
 \begin{verbatim}
-atlas.x86_64               3.10.3-15.fc34
-blas.x86_64                3.9.0-6.fc34
-lapack.x86_64              3.9.0-6.fc34
-gsl.x86_64                 2.6-4.fc34
-gsl-devel.x86_64           2.6-4.fc34
-openblas.x86_64            0.3.17-1.fc34
-openblas-threads.x86_64    0.3.17-1.fc34
+atlas.x86_64               3.10.3-15.fc35
+blas.x86_64                3.10.0-3.fc35
+lapack.x86_64              3.10.0-3.fc35
+gsl.x86_64                 2.6-5.fc35
+gsl-devel.x86_64           2.6-5.fc35
+openblas.x86_64            0.3.17-2.fc35
+openblas-threads.x86_64    0.3.17-2.fc35
 \end{verbatim}
 \end{small}
 
@@ -34958,19 +34935,19 @@ and \emph{LTO} build of Octave.
 \cmidrule{2-4}             & MFLOPS & Normalised          & Execution time \\
                            &        & residual            & (seconds) \\
 \midrule
-Generic libblas/liblapack  &  3946  & 21.3                &  41.8 \\
-Intel libblas/liblapack    &  3925  & 21.3                &  41.8 \\
-Haswell libblas/liblapack  &  4710  & 18.5                &  41.5 \\
-Nehalem libblas/liblapack  &  3949  & 21.3                &  41.8 \\
-Skylake libblas/liblapack  &  4030  & 18.5                &  41.8 \\
-Fedora 34 libblas/liblapack&  3946  & 21.3                &  41.8 \\
-libgslcblas                &  3935  & 21.3                &  41.8 \\
-libsatlas                  & 13632  & 12.2                &  42.1 \\
-libtatlas                  & 21011  & 11.4                &  41.6 \\
-libopenblas                & 34300  &  9.9                &  40.2 \\
-libopenblasp (1 thread)    & 34189  &  9.9                &  40.2 \\
-libopenblasp (2 threads)   & 47453  & 12.1                &  40.3 \\
-libopenblasp (4 threads)   & 57770  & 10.8                &  40.2 \\
+Generic libblas/liblapack  &  3941  & 21.3                &  41.8 \\
+Intel libblas/liblapack    &  3931  & 21.3                &  41.9 \\
+Haswell libblas/liblapack  &  4685  & 18.5                &  41.7 \\
+Nehalem libblas/liblapack  &  3943  & 21.3                &  41.8 \\
+Skylake libblas/liblapack  &  4023  & 18.5                &  41.8 \\
+Fedora 35 libblas/liblapack&  3935  & 21.3                &  41.7 \\
+libgslcblas                &  3943  & 21.3                &  41.7 \\
+libsatlas                  & 13569  & 12.2                &  42.0 \\
+libtatlas                  & 20992  & 11.4                &  41.3 \\
+libopenblas                & 34332  &  9.9                &  40.1 \\
+libopenblasp (1 thread)    & 34245  &  9.9                &  40.1 \\
+libopenblasp (2 threads)   & 47478  & 12.1                &  40.1 \\
+libopenblasp (4 threads)   & 57675  & 10.8                &  40.1 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -35239,11 +35216,22 @@ access by the \emph{ssh} service. Recover the pointer from the
 
 \subsubsection*{Set up the VM}
 I did not attempt to set up a shared directory or file server. I communicate
-with the VM through \texttt{ssh} and transfer files with \texttt{scp}.
+with the VM through \texttt{ssh} and transfer files with \texttt{scp}. A vertical
+ellipsis indicates discarded output.
 
 \begin{small}
 \begin{verbatim}
 $ virsh start Fedora34Server
+Domain 'Fedora34Server' started
+
+$ virsh net-list
+Name      State    Autostart   Persistent
+--------------------------------------------
+ default   active   yes         yes
+
+$ virsh net-dhcp-leases default
+.
+.
 $ ssh root@192.168.122.7
 The authenticity of host '192.168.122.7 (192.168.122.7)' can't be established.
 ECDSA key fingerprint is SHA256:###########################################.
@@ -35291,7 +35279,6 @@ qt5-qttools qt5-qttools-common qt5-qttools-devel
 [root@localhost ~]# gpg2 --import gnu-keyring.gpg
 [root@localhost ~]# cd /usr/local/src/octave
 [root@localhost octave]# sh ./build-octave.sh 
-.
 .
 .
 [root@localhost ~]# cd
@@ -35355,9 +35342,6 @@ $ virsh start Fedora34Server
 $ scp Makefile scp://root@192.168.122.7//root/Makefile
 \end{verbatim}
 \end{small}
-
-
-\subsubsection*{Run the test scripts on the VM}
 
 \subsubsection*{Copy this document from the VM}
 \begin{small}
@@ -35446,8 +35430,8 @@ CXXFLAGS=-O2 ./configure
 make && make install
 \end{verbatim}
 \end{small}
-The \emph{aegis-4.24-solib.patch} patch builds binaries linked to a shared
-library.
+Replacing \emph{Makefile.in} with \emph{Makefile.in.solib} builds binaries
+linked to a shared library.
 The \emph{/usr/local/com/aegis/state} file lists existing Aegis projects.
 The \emph{/usr/local/com/aegis/user} directory contains files listing the
 per-user state of existing Aegis projects. I use this \emph{~/.aegisrc}:

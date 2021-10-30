@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Assume these packages are installed:
-#  atlas.x86_64            3.10.3-15.fc34
-#  blas.x86_64             3.9.0-6.fc34
-#  lapack.x86_64           3.9.0-6.fc34
-#  gsl.x86_64              2.6-4.fc34
-#  gsl-devel.x86_64        2.6-4.fc34
-#  openblas.x86_64         0.3.17-1.fc34
-#  openblas-threads.x86_64 0.3.17-1.fc34
+#  atlas.x86_64            3.10.3-18.fc35
+#  blas.x86_64             3.10.0-3.fc35
+#  lapack.x86_64           3.10.0-3.fc35
+#  gsl.x86_64              2.6-5.fc35
+#  gsl-devel.x86_64        2.6-5.fc35
+#  openblas.x86_64         0.3.17-2.fc35
+#  openblas-threads.x86_64 0.3.17-2.fc35
 # eg:
 #  dnf install atlas blas lapack gsl gsl-devel openblas openblas-threads
 
@@ -26,10 +26,10 @@
 #  signal-?.?.?.tar.gz
 
 # Disable CPU frequency scaling:
-# for c in `seq 0 7` ; do
-#   echo "4500000">/sys/devices/system/cpu/cpu$c/cpufreq/scaling_min_freq ;
-#   echo "performance">/sys/devices/system/cpu/cpu$c/cpufreq/scaling_governor ;
-# done ; 
+ for c in `seq 0 7` ; do
+   echo "4500000">/sys/devices/system/cpu/cpu$c/cpufreq/scaling_min_freq ;
+   echo "performance">/sys/devices/system/cpu/cpu$c/cpufreq/scaling_governor ;
+ done ; 
 
 # Show system information
 uname -r

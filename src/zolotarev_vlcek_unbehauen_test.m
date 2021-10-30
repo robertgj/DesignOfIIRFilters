@@ -405,7 +405,7 @@ endfor
 hb(c)=hb(c)+1;
 hb=hb/(1+fm);
 % Compare the two
-tol=4e-8;
+tol=6.5e-8;
 if max(abs(ha-hb))>tol
   error("max(abs(ha-hb))>%g",tol);
 endif

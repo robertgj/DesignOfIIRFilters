@@ -42,8 +42,8 @@ dBas=30
 Wap=1
 Watl=1e-3
 Watu=1e-3
-Wasl=1000
-Wasu=1000
+Wasl=100
+Wasu=100
 ftpl=0.11
 ftpu=0.19
 td=16
@@ -53,7 +53,7 @@ fppl=0.11
 fppu=0.19
 pd=3.5 % Initial phase offset in multiples of pi radians
 pdr=1/500 % Peak-to-peak phase ripple in multiples of pi radians
-Wpp=2000
+Wpp=200
 
 %
 % Frequency vectors

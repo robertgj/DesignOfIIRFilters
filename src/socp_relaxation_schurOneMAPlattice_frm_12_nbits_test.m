@@ -54,16 +54,16 @@ dBap=1 % Pass band amplitude ripple
 Wap=1 % Pass band amplitude weight
 Wat=0 % Transition band amplitude weight
 fas=0.3105 % Stop band edge
-dBas=38 % Stop band amplitude ripple
-Was=10 % Stop band amplitude weight
+dBas=40 % Stop band amplitude ripple
+Was=1 % Stop band amplitude weight
 ftp=fap % Delay pass band edge
 tp=(Mmodel*Dmodel)+dmask;
-tpr=0.8 % Peak-to-peak pass band delay ripple
+tpr=1 % Peak-to-peak pass band delay ripple
 Wtp=0.1 % Pass band delay weight
 fpp=fap % Phase pass band edge
 pp=0 % Pass band zero-phase phase
 ppr=0.04 % Peak-to-peak pass band phase ripple (rad./pi)
-Wpp=0.01 % Pass band phase weight
+Wpp=0.1 % Pass band phase weight
 rho=127/128 % Stability constraint on pole radius
 
 %

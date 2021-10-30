@@ -329,3 +329,5 @@ KW.m SDadders.m \
 schurdecomp.oct schurexpand.oct bin2SD.oct bitflip.oct bin2SPT.oct \
 schurOneMlattice2Abcd.oct schurOneMlattice2H.oct complex_zhong_inverse.oct
 
+schurOneMlattice_bandpass_allocsd_test.diary : \
+schurOneMlattice_sqp_slb_bandpass_test.diary
