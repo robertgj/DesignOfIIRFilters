@@ -8527,14 +8527,34 @@ pass-band amplitude response. The alternative filter specification is:
 \begin{small}
 \verbatiminput{decimator_R2_alternate_test.spec}
 \end{small}
-Figure~\ref{fig:Alternate_decimator-R-2-PCLS-d1} shows the response of the
-resulting filter.
+Figure~\ref{fig:Alternate-decimator-R-2-PCLS-d1} shows the response of the
+resulting filter. The corresponding pole-zero plot is shown in
+Figure~\ref{fig:Alternate-decimator-R-2-PCLS-d1-pz}. 
+
+The  gain, zeros and poles of the optimised filter are:
+\begin{small}
+\verbatiminput{decimator_R2_alternate_test_d1_coef.m}
+\end{small}
+
+The numerator and denominator polynomials of the PCLS optimised filter are: 
+\begin{small}
+\verbatiminput{decimator_R2_alternate_test_N1_coef.m}
+\end{small}
+\begin{small}
+\verbatiminput{decimator_R2_alternate_test_D1_coef.m}
+\end{small}
 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_alternate_test_pcls_d1dual}}
 \caption{Alternative low-pass decimator R=2 PCLS optimised response}
-\label{fig:Alternate_decimator-R-2-PCLS-d1}
+\label{fig:Alternate-decimator-R-2-PCLS-d1}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{decimator_R2_alternate_test_pcls_d1pz}}
+\caption{Alternative low-pass decimator R=2 PCLS optimised pole-zero plot}
+\label{fig:Alternate-decimator-R-2-PCLS-d1-pz}
 \end{figure}
 \clearpage
 \subsubsection{An interpolated low-pass R=2 decimator}
@@ -35203,14 +35223,13 @@ QEMU~\cite{QEMU_website} based virtual machine with the RedHat
 machines I found it necessary to also install the Fedora \emph{acpid} and
 \emph{qemu-guest-agent} packages and enable the associated services on the host. 
 
-I created a QEMU VM from the Fedora 34 Server net install ISO
-image~\cite{Fedora34Server_iso} with 4GB RAM, 10GB disk, 8 Nehalem 
-CPUs, bridged networking on device \texttt{virbr0}, root password
-\texttt{password} and SSH root access with password. Following \emph{Buettner}'s
-advice I removed the tablet, sound, serial port 1, channel qemu-ga, channel
-spice and USB redirector 1 and 2. In the following the IPv4 address will be
-determined by your network settings. The host firewall is set to allow trusted
-access by the \emph{ssh} service. Recover the pointer from the
+I created a QEMU VM from the Fedora 35 Server net install ISO image with 4GB
+RAM, 10GB disk, 8 Nehalem CPUs, bridged networking on device \texttt{virbr0},
+root password \texttt{password} and SSH root access with password. Following
+\emph{Buettner}'s advice I removed the tablet, sound, serial port 1, channel
+qemu-ga, channel spice and USB redirector 1 and 2. In the following the IPv4
+address will be determined by your network settings. The host firewall is set to
+allow trusted access by the \emph{ssh} service. Recover the pointer from the
 \emph{virt-manager} terminal by depressing the \texttt{left-Ctrl} and
 \texttt{left-Alt} keys.
 
@@ -35221,8 +35240,8 @@ ellipsis indicates discarded output.
 
 \begin{small}
 \begin{verbatim}
-$ virsh start Fedora34Server
-Domain 'Fedora34Server' started
+$ virsh start Fedora35Server
+Domain 'Fedora35Server' started
 
 $ virsh net-list
 Name      State    Autostart   Persistent
@@ -35232,13 +35251,13 @@ Name      State    Autostart   Persistent
 $ virsh net-dhcp-leases default
 .
 .
-$ ssh root@192.168.122.7
-The authenticity of host '192.168.122.7 (192.168.122.7)' can't be established.
+$ ssh root@192.168.122.100
+The authenticity of host '192.168.122.100 (192.168.122.100)' can't be established.
 ECDSA key fingerprint is SHA256:###########################################.
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added '192.168.122.7' (ECDSA) to the list of known hosts.
-root@192.168.122.7's password: 
-Web console: https://localhost:9090/ or https://192.168.122.7:9090/
+Warning: Permanently added '192.168.122.100' (ECDSA) to the list of known hosts.
+root@192.168.122.100's password: 
+Web console: https://localhost:9090/ or https://192.168.122.100:9090/
 
 Last login: 
 [root@localhost ~]# dnf update
@@ -35247,7 +35266,7 @@ Dependencies resolved.
 Nothing to do.
 Complete!
 [root@localhost ~]# uname -rs
-Linux 5.11.16-300.fc34.x86_64
+Linux 5.14.14-300.fc35.x86_64
 [root@localhost ~] dnf install wget readline-devel lzip sharutils gcc gcc-c++ \
 gcc-gfortran gmp-devel mpfr-devel make cmake gnuplot-latex m4 gperf bison flex \
 openblas-devel patch texinfo texinfo-tex icoutils librsvg2-tools librsvg2 \
@@ -35284,8 +35303,8 @@ qt5-qttools qt5-qttools-common qt5-qttools-devel
 [root@localhost ~]# cd
 [root@localhost ~]# echo "export PATH=$PATH:/usr/local/octave-6.3.0/bin" >> .bashrc 
 [root@localhost ~]# shutdown -h now
-Connection to 192.168.122.7 closed by remote host.
-Connection to 192.168.122.7 closed.
+Connection to 192.168.122.100 closed by remote host.
+Connection to 192.168.122.100 closed.
 $
 \end{verbatim}
 \end{small}
@@ -35302,8 +35321,8 @@ This edited example session shows:
 \subsubsection*{Build this document on the VM}
 \begin{small}
 \begin{verbatim}
-$ virsh start Fedora34Server
-$ ssh -Y root@192.168.122.7
+$ virsh start Fedora35Server
+$ ssh -Y root@192.168.122.100
 [root@localhost ~]# cd DesignOfIIRFilters-master
 [root@localhost DesignOfIIRFilters-master]# make -Bkj 8 
 \end{verbatim}
@@ -35315,8 +35334,8 @@ display. Otherwise it uses the \emph{gnuplot} graphics toolkit. Use
 \emph{Listen type} 'Address' and \emph{Address} 'All interfaces'.
 \begin{small}
 \begin{verbatim}
-$ virsh start Fedora34Server
-$ ssh -Y root@192.168.122.7
+$ virsh start Fedora35Server
+$ ssh -Y root@192.168.122.100
 [root@localhost ~]# dnf install xorg-x11-xauth xorg-x11-xserver-Xspice \
 xorg-x11-xinit xorg-x11-drv-qxl xrdb xmodmap xorg-x11-utils \
 xorg-x11-xinit-session
@@ -35331,23 +35350,23 @@ ans =
   [1,2] = qt
 }
 
-[root@Fedora34Server ~]#
+[root@Fedora35Server ~]#
 \end{verbatim}
 \end{small}
 
 \subsubsection*{Copy a file to  the VM}
 \begin{small}
 \begin{verbatim}
-$ virsh start Fedora34Server
-$ scp Makefile scp://root@192.168.122.7//root/Makefile
+$ virsh start Fedora35Server
+$ scp Makefile scp://root@192.168.122.100//root/Makefile
 \end{verbatim}
 \end{small}
 
 \subsubsection*{Copy this document from the VM}
 \begin{small}
 \begin{verbatim}
-$ virsh start Fedora34Server
-$ scp root@192.168.122.7:/root/DesignOfIIRFilters-master/DesignOfIIRFilters.pdf \
+$ virsh start Fedora35Server
+$ scp root@192.168.122.100:/root/DesignOfIIRFilters-master/DesignOfIIRFilters.pdf \
   DesignOfIIRFilters.pdf
 \end{verbatim}
 \end{small}
@@ -35356,8 +35375,8 @@ $ scp root@192.168.122.7:/root/DesignOfIIRFilters-master/DesignOfIIRFilters.pdf 
 \subsubsection*{Run the test scripts on the VM}
 \begin{small}
 \begin{verbatim}
-$ virsh start Fedora34Server
-$ ssh -Y root@192.168.122.7
+$ virsh start Fedora35Server
+$ ssh -Y root@192.168.122.100
 [root@localhost ~]# cd DesignOfIIRFilters-master
 [root@localhost DesignOfIIRFilters-master]# make batchtest
 .
@@ -35369,16 +35388,16 @@ $ ssh -Y root@192.168.122.7
 \subsubsection*{Export the VM to libvirt}
 \begin{small}
 \begin{verbatim}
-$ virsh start Fedora34Server
-$ virsh dumpxml Fedora34Server 
+$ virsh start Fedora35Server
+$ virsh dumpxml Fedora35Server 
 \end{verbatim}
 \end{small}
 
 \subsubsection*{Remove an existing VM}
 \begin{small}
 \begin{verbatim}
-$ sudo virsh shutdown Fedora34Server
-$ sudo virsh undefine Fedora34Server
+$ sudo virsh shutdown Fedora35Server
+$ sudo virsh undefine Fedora35Server
 \end{verbatim}
 \end{small}
 
@@ -35386,7 +35405,7 @@ $ sudo virsh undefine Fedora34Server
 Shut down the VM and, on the host, run:
 \begin{small}
 \begin{verbatim}
-$ sudo virsh shutdown Fedora34Server
+$ sudo virsh shutdown Fedora35Server
 $ virt-sparsify --in-place your-image-file
 \end{verbatim}
 \end{small}
@@ -35394,8 +35413,8 @@ $ virt-sparsify --in-place your-image-file
 Alternatively, fill unused VM disc sectors with $0$:
 \begin{small}
 \begin{verbatim}
-$ virsh start Fedora34Server
-$ ssh -Y root@192.168.122.7
+$ virsh start Fedora35Server
+$ ssh -Y root@192.168.122.100
 [root@localhost ~]# cd /boot
 [root@localhost ~]# dd if=/dev/zero of=zerofile
 [root@localhost ~]# sync

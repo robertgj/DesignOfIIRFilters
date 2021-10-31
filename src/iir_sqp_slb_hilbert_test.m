@@ -24,7 +24,7 @@ R=2;
 [x0,U,V,M,Q]=tf2x(N0,D0);
 
 % Frequency points
-n=800;
+n=1000;
 w=pi*(-n:(n-1))'/n;
 
 % Hilbert filter specification
@@ -57,7 +57,7 @@ Ws=[];
 % Group delay constraints
 wt=w;
 Td=td*ones(2*n,1);
-tdr=0.4;
+tdr=0.3;
 Tdu=[(td+(tdr/2))*ones(n-ntt,1);10*td*ones(2*ntt,1);(td+(tdr/2))*ones(n-ntt,1)];
 Tdl=[(td-(tdr/2))*ones(n-ntt,1);     zeros(2*ntt,1);(td-(tdr/2))*ones(n-ntt,1)];
 Wtp=1e-4;
@@ -66,7 +66,7 @@ Wt=Wtp*[ones(n-ntt,1);zeros(2*ntt,1);ones(n-ntt,1)];
 % Phase constraints
 wp=w;
 Pd=-wp*td-(5*pi)+[0.5*pi*ones(n,1);0;-0.5*pi*ones(n-1,1)];
-pr=0.16;
+pr=0.15;
 Pdu=-w*td-(5*pi)+[0.5*pi*ones(n+npt,1);-0.5*pi*ones(n-npt,1)]+(pr*0.5*pi/2);
 Pdl=-w*td-(5*pi)+[0.5*pi*ones(n-npt,1);-0.5*pi*ones(n+npt,1)]-(pr*0.5*pi/2);
 Wpp=1e-3;

@@ -17,11 +17,11 @@ tol_wise=1e-7
 tol_mmse=1e-5
 tol_pcls=5e-4
 ctol=1e-7
-maxiter=8000
+maxiter=10000
 
 % Filter specifications (frequencies are normalised to the sample rate)
 fap=0.10,dBap=0.35,Wap=1
-fas=0.25,dBas=50,Was=2
+fas=0.25,dBas=50,Was=1.5
 ftp=0.125,tp=10,tpr=0.016,Wtp=1
 
 % Initial filter guess
@@ -162,18 +162,18 @@ printf("d1:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 %
 subplot(211);
 ax=plotyy(wa*0.5/pi,20*log10(A),wa*0.5/pi,20*log10(A));
-axis(ax(1),[0 0.5 -0.3 0.1]);
-axis(ax(2),[0 0.5 -60 -40]);
+axis(ax(1),[0 0.5 -0.4 0.1]);
+axis(ax(2),[0 0.5 -65 -40]);
 set(ax(1),"ycolor",'black');
 set(ax(2),"ycolor",'black');
 ylabel("Amplitude(dB)");
 grid("on");
 tstr=sprintf("R=2 decimator alt. response : \
-Wap=%d,dBap=%g,Was=%d,dBas=%d,tp=%d,tpr=%g,Wtp=%d",Wap,dBap,Was,dBas,tp,tpr,Wtp);
+fap=%g,dBap=%g,fas=%g,dBas=%d,tp=%d,tpr=%g",fap,dBap,fas,dBas,tp,tpr);
 title(tstr);
 subplot(212);
 plot(wt*0.5/pi,T)
-axis([0 0.5 9.98 10.02]);
+axis([0 0.5 9.99 10.01]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
