@@ -54,7 +54,7 @@ OPTFLAGS="-m64 -march=nehalem -O2"
 #
 # Get Octave archive
 #
-OCTAVE_VER=6.3.0
+OCTAVE_VER=6.4.0
 OCTAVE_ARCHIVE=octave-$OCTAVE_VER".tar.lz"
 OCTAVE_URL=https://ftp.gnu.org/gnu/octave/$OCTAVE_ARCHIVE
 if ! test -f $OCTAVE_ARCHIVE; then
@@ -124,6 +124,13 @@ GLPK_ARCHIVE=glpk-$GLPK_VER".tar.gz"
 GLPK_URL=https://ftp.gnu.org/gnu/glpk/$GLPK_ARCHIVE
 if ! test -f $GLPK_ARCHIVE; then
   wget -c $GLPK_URL
+fi
+
+SUNDIALS_VER=${SUNDIALS_VER:-5.8.0}
+SUNDIALS_ARCHIVE=sundials-$SUNDIALS_VER".tar.gz"
+SUNDIALS_URL=https://github.com/LLNL/sundials/releases/download/v$SUNDIALS_VER/$SUNDIALS_ARCHIVE
+if ! test -f $SUNDIALS_ARCHIVE; then
+  wget -c $SUNDIALS_URL
 fi
 
 #
@@ -429,87 +436,104 @@ popd
 rm -Rf fftw-$FFTW_VER
 
 #
+# Build sundials
+#
+rm -Rf sundials-$SUNDIALS_VER
+tar -xf $SUNDIALS_ARCHIVE
+mkdir -p build-sundials-$SUNDIALS_VER
+pushd build-sundials-$SUNDIALS_VER
+CFLAGS=$OPTFLAGS CXXFLAGS=$OPTFLAGS FFLAGS=$OPTFLAGS \
+echo " c \n g \n q \n" | \
+    ccmake -DENABLE_KLU=ON -DKLU_LIBRARY_DIR:PATH=$OCTAVE_LIB_DIR \
+	   -DCMAKE_INSTALL_LIBDIR=lib --install-prefix $OCTAVE_DIR \
+	   ../sundials-$SUNDIALS_VER
+cmake ../sundials-$SUNDIALS_VER
+make -j 6 && make install
+popd
+rm -Rf build-sundials-$SUNDIALS_VER sundials-$SUNDIALS_VER
+
+#
 # Build octave
 #
 rm -Rf octave-$OCTAVE_VER
 tar -xf $OCTAVE_ARCHIVE
 # Patch
 cat > octave-$OCTAVE_VER.patch.uue << 'EOF'
-begin-base64 644 octave-6.3.0.patch
-LS0tIG9jdGF2ZS02LjMuMC5vcmlnL2xpYm9jdGF2ZS91dGlsL2FjdGlvbi1j
-b250YWluZXIuaAkyMDIxLTA3LTEyIDAzOjE5OjMyLjAwMDAwMDAwMCArMTAw
-MAorKysgb2N0YXZlLTYuMy4wL2xpYm9jdGF2ZS91dGlsL2FjdGlvbi1jb250
-YWluZXIuaAkyMDIxLTA5LTIyIDEyOjE4OjQyLjU2Nzk1NDQwNiArMTAwMApA
-QCAtMjksNiArMjksNyBAQAogI2luY2x1ZGUgIm9jdGF2ZS1jb25maWcuaCIK
-IAogI2luY2x1ZGUgPGZ1bmN0aW9uYWw+CisjaW5jbHVkZSA8Y3N0ZGRlZj4K
-IAogLy8gVGhpcyBjbGFzcyBhbGxvd3MgcmVnaXN0ZXJpbmcgYWN0aW9ucyBp
-biBhIGxpc3QgZm9yIGxhdGVyCiAvLyBleGVjdXRpb24sIGVpdGhlciBleHBs
-aWNpdGx5IG9yIHdoZW4gdGhlIGNvbnRhaW5lciBnb2VzIG91dCBvZgotLS0g
-b2N0YXZlLTYuMy4wLm9yaWcvbGliaW50ZXJwL2NvcmVmY24vbG9hZC1wYXRo
-LmNjCTIwMjEtMDctMTIgMDM6MTk6MzIuMDAwMDAwMDAwICsxMDAwCisrKyBv
-Y3RhdmUtNi4zLjAvbGliaW50ZXJwL2NvcmVmY24vbG9hZC1wYXRoLmNjCTIw
-MjEtMDktMjIgMTI6MTg6NDIuNTY4OTU0Mzk2ICsxMDAwCkBAIC00MDcsOCAr
-NDA3LDggQEAKICAgICAgICAgYm9vbCBvayA9IGRpLnVwZGF0ZSAoKTsKIAog
-ICAgICAgICBpZiAoISBvaykKLSAgICAgICAgICB3YXJuaW5nICgibG9hZC1w
-YXRoOiB1cGRhdGUgZmFpbGVkIGZvciAnJXMnLCByZW1vdmluZyBmcm9tIHBh
-dGgiLAotICAgICAgICAgICAgICAgICAgIGRpLmRpcl9uYW1lLmNfc3RyICgp
-KTsKKyAgICAgICAgICB3YXJuaW5nX3dpdGhfaWQgKCJPY3RhdmU6bG9hZC1w
-YXRoOnVwZGF0ZS1mYWlsZWQiLAorCQkJICAgImxvYWQtcGF0aDogdXBkYXRl
-IGZhaWxlZCBmb3IgJyVzJywgcmVtb3ZpbmcgZnJvbSBwYXRoIiwgICAgICAg
-ICAgICAgICAgICAgZGkuZGlyX25hbWUuY19zdHIgKCkpOwogICAgICAgICBl
-bHNlCiAgICAgICAgICAgYWRkIChkaSwgdHJ1ZSwgIiIsIHRydWUpOwogICAg
-ICAgfQpAQCAtMTI1OSw3ICsxMjU5LDggQEAKICAgICBpZiAoISBmcykKICAg
-ICAgIHsKICAgICAgICAgc3RkOjpzdHJpbmcgbXNnID0gZnMuZXJyb3IgKCk7
-Ci0gICAgICAgIHdhcm5pbmcgKCJsb2FkX3BhdGg6ICVzOiAlcyIsIGRpcl9u
-YW1lLmNfc3RyICgpLCBtc2cuY19zdHIgKCkpOworICAgICAgICB3YXJuaW5n
-X3dpdGhfaWQgKCJPY3RhdmU6bG9hZC1wYXRoOmRpci1pbmZvOnVwZGF0ZS1m
-YWlsZWQiLAorCQkJICJsb2FkX3BhdGg6ICVzOiAlcyIsIGRpcl9uYW1lLmNf
-c3RyICgpLCBtc2cuY19zdHIgKCkpOwogICAgICAgICByZXR1cm4gZmFsc2U7
-CiAgICAgICB9CiAKLS0tIG9jdGF2ZS02LjMuMC5vcmlnL2xpYmludGVycC9j
-b3JlZmNuL2xvYWQtc2F2ZS5jYwkyMDIxLTA3LTEyIDAzOjE5OjMyLjAwMDAw
-MDAwMCArMTAwMAorKysgb2N0YXZlLTYuMy4wL2xpYmludGVycC9jb3JlZmNu
-L2xvYWQtc2F2ZS5jYwkyMDIxLTA5LTIyIDEyOjE4OjQyLjU2OTk1NDM4NyAr
-MTAwMApAQCAtMTI4LDggKzEyOCw4IEBACiAgIHsKICAgICBjb25zdCBpbnQg
-bWFnaWNfbGVuID0gMTA7CiAgICAgY2hhciBtYWdpY1ttYWdpY19sZW4rMV07
-Ci0gICAgaXMucmVhZCAobWFnaWMsIG1hZ2ljX2xlbik7CiAgICAgbWFnaWNb
-bWFnaWNfbGVuXSA9ICdcMCc7CisgICAgaXMucmVhZCAobWFnaWMsIG1hZ2lj
-X2xlbik7CiAKICAgICBpZiAoc3RybmNtcCAobWFnaWMsICJPY3RhdmUtMS1M
-IiwgbWFnaWNfbGVuKSA9PSAwKQogICAgICAgc3dhcCA9IG1hY2hfaW5mbzo6
-d29yZHNfYmlnX2VuZGlhbiAoKTsKLS0tIG9jdGF2ZS02LjMuMC5vcmlnL3Nj
-cmlwdHMvcGxvdC91dGlsL3ByaXZhdGUvX19nbnVwbG90X2RyYXdfYXhlc19f
-Lm0JMjAyMS0wNy0xMiAwMzoxOTozMi4wMDAwMDAwMDAgKzEwMDAKKysrIG9j
-dGF2ZS02LjMuMC9zY3JpcHRzL3Bsb3QvdXRpbC9wcml2YXRlL19fZ251cGxv
-dF9kcmF3X2F4ZXNfXy5tCTIwMjEtMDktMjIgMTI6MTg6NDIuNTcwOTU0Mzc4
-ICsxMDAwCkBAIC0yMjcwLDcgKzIyNzAsNyBAQAogICAgIGlmICghIHdhcm5l
-ZF9sYXRleCkKICAgICAgIGRvX3dhcm4gPSAod2FybmluZyAoInF1ZXJ5Iiwg
-Ik9jdGF2ZTp0ZXh0X2ludGVycHJldGVyIikpLnN0YXRlOwogICAgICAgaWYg
-KHN0cmNtcCAoZG9fd2FybiwgIm9uIikpCi0gICAgICAgIHdhcm5pbmcgKCJP
-Y3RhdmU6dGV4dF9pbnRlcnByZXRlciIsCisgICAgICAgIHdhcm5pbmcgKCJP
-Y3RhdmU6bGF0ZXgtbWFya3VwLW5vdC1zdXBwb3J0ZWQtZm9yLXRpY2stbWFy
-a3MiLAogICAgICAgICAgICAgICAgICAibGF0ZXggbWFya3VwIG5vdCBzdXBw
-b3J0ZWQgZm9yIHRpY2sgbWFya3MiKTsKICAgICAgICAgd2FybmVkX2xhdGV4
-ID0gdHJ1ZTsKICAgICAgIGVuZGlmCi0tLSBvY3RhdmUtNi4zLjAub3JpZy9z
-Y3JpcHRzL21pc2NlbGxhbmVvdXMvZGVsZXRlLm0JMjAyMS0wNy0xMiAwMzox
-OTozMi4wMDAwMDAwMDAgKzEwMDAKKysrIG9jdGF2ZS02LjMuMC9zY3JpcHRz
-L21pc2NlbGxhbmVvdXMvZGVsZXRlLm0JMjAyMS0wOS0yMiAxMjoxODo0Mi41
-NzA5NTQzNzggKzEwMDAKQEAgLTQ5LDcgKzQ5LDggQEAKICAgICBmb3IgYXJn
-ID0gdmFyYXJnaW4KICAgICAgIGZpbGVzID0gZ2xvYiAoYXJnezF9KTsKICAg
-ICAgIGlmIChpc2VtcHR5IChmaWxlcykpCi0gICAgICAgIHdhcm5pbmcgKCJk
-ZWxldGU6IG5vIHN1Y2ggZmlsZTogJXMiLCBhcmd7MX0pOworICAgICAgICB3
-YXJuaW5nICgiT2N0YXZlOmRlbGV0ZTpuby1zdWNoLWZpbGUiLAorCQkgImRl
-bGV0ZTogbm8gc3VjaCBmaWxlOiAlcyIsIGFyZ3sxfSk7CiAgICAgICBlbmRp
-ZgogICAgICAgZm9yIGkgPSAxOmxlbmd0aCAoZmlsZXMpCiAgICAgICAgIGZp
-bGUgPSBmaWxlc3tpfTsKLS0tIG9jdGF2ZS02LjMuMC5vcmlnL2NvbmZpZ3Vy
-ZQkyMDIxLTA3LTEyIDAzOjE5OjMyLjAwMDAwMDAwMCArMTAwMAorKysgb2N0
-YXZlLTYuMy4wL2NvbmZpZ3VyZQkyMDIxLTA5LTIyIDEyOjE5OjE2LjM5MDYz
-NzUxNiArMTAwMApAQCAtNTkwLDggKzU5MCw4IEBACiAjIElkZW50aXR5IG9m
-IHRoaXMgcGFja2FnZS4KIFBBQ0tBR0VfTkFNRT0nR05VIE9jdGF2ZScKIFBB
-Q0tBR0VfVEFSTkFNRT0nb2N0YXZlJwotUEFDS0FHRV9WRVJTSU9OPSc2LjMu
-MCcKLVBBQ0tBR0VfU1RSSU5HPSdHTlUgT2N0YXZlIDYuMy4wJworUEFDS0FH
-RV9WRVJTSU9OPSc2LjMuMC1yb2JqJworUEFDS0FHRV9TVFJJTkc9J0dOVSBP
-Y3RhdmUgNi4zLjAtcm9iaicKIFBBQ0tBR0VfQlVHUkVQT1JUPSdodHRwczov
-L29jdGF2ZS5vcmcvYnVncy5odG1sJwogUEFDS0FHRV9VUkw9J2h0dHBzOi8v
-d3d3LmdudS5vcmcvc29mdHdhcmUvb2N0YXZlLycKIAo=
+begin-base64 644 octave-6.4.0.patch
+LS0tIG9jdGF2ZS02LjQuMC9saWJvY3RhdmUvdXRpbC9hY3Rpb24tY29udGFp
+bmVyLmgJMjAyMS0xMC0zMSAwMToyMDoyNC4wMDAwMDAwMDAgKzExMDAKKysr
+IG9jdGF2ZS02LjQuMC5uZXcvbGlib2N0YXZlL3V0aWwvYWN0aW9uLWNvbnRh
+aW5lci5oCTIwMjEtMTEtMjAgMTA6MjI6MDYuOTE3NDIxODIxICsxMTAwCkBA
+IC0yOSw2ICsyOSw3IEBACiAjaW5jbHVkZSAib2N0YXZlLWNvbmZpZy5oIgog
+CiAjaW5jbHVkZSA8ZnVuY3Rpb25hbD4KKyNpbmNsdWRlIDxjc3RkZGVmPgog
+CiAvLyBUaGlzIGNsYXNzIGFsbG93cyByZWdpc3RlcmluZyBhY3Rpb25zIGlu
+IGEgbGlzdCBmb3IgbGF0ZXIKIC8vIGV4ZWN1dGlvbiwgZWl0aGVyIGV4cGxp
+Y2l0bHkgb3Igd2hlbiB0aGUgY29udGFpbmVyIGdvZXMgb3V0IG9mCi0tLSBv
+Y3RhdmUtNi40LjAvbGliaW50ZXJwL2NvcmVmY24vbG9hZC1wYXRoLmNjCTIw
+MjEtMTAtMzEgMDE6MjA6MjQuMDAwMDAwMDAwICsxMTAwCisrKyBvY3RhdmUt
+Ni40LjAubmV3L2xpYmludGVycC9jb3JlZmNuL2xvYWQtcGF0aC5jYwkyMDIx
+LTExLTIwIDEwOjIyOjA2LjkxODQyMTgxMiArMTEwMApAQCAtNDA3LDggKzQw
+Nyw4IEBACiAgICAgICAgIGJvb2wgb2sgPSBkaS51cGRhdGUgKCk7CiAKICAg
+ICAgICAgaWYgKCEgb2spCi0gICAgICAgICAgd2FybmluZyAoImxvYWQtcGF0
+aDogdXBkYXRlIGZhaWxlZCBmb3IgJyVzJywgcmVtb3ZpbmcgZnJvbSBwYXRo
+IiwKLSAgICAgICAgICAgICAgICAgICBkaS5kaXJfbmFtZS5jX3N0ciAoKSk7
+CisgICAgICAgICAgd2FybmluZ193aXRoX2lkICgiT2N0YXZlOmxvYWQtcGF0
+aDp1cGRhdGUtZmFpbGVkIiwKKwkJCSAgICJsb2FkLXBhdGg6IHVwZGF0ZSBm
+YWlsZWQgZm9yICclcycsIHJlbW92aW5nIGZyb20gcGF0aCIsICAgICAgICAg
+ICAgICAgICAgIGRpLmRpcl9uYW1lLmNfc3RyICgpKTsKICAgICAgICAgZWxz
+ZQogICAgICAgICAgIGFkZCAoZGksIHRydWUsICIiLCB0cnVlKTsKICAgICAg
+IH0KQEAgLTEyNTksNyArMTI1OSw4IEBACiAgICAgaWYgKCEgZnMpCiAgICAg
+ICB7CiAgICAgICAgIHN0ZDo6c3RyaW5nIG1zZyA9IGZzLmVycm9yICgpOwot
+ICAgICAgICB3YXJuaW5nICgibG9hZF9wYXRoOiAlczogJXMiLCBkaXJfbmFt
+ZS5jX3N0ciAoKSwgbXNnLmNfc3RyICgpKTsKKyAgICAgICAgd2FybmluZ193
+aXRoX2lkICgiT2N0YXZlOmxvYWQtcGF0aDpkaXItaW5mbzp1cGRhdGUtZmFp
+bGVkIiwKKwkJCSAibG9hZF9wYXRoOiAlczogJXMiLCBkaXJfbmFtZS5jX3N0
+ciAoKSwgbXNnLmNfc3RyICgpKTsKICAgICAgICAgcmV0dXJuIGZhbHNlOwog
+ICAgICAgfQogCi0tLSBvY3RhdmUtNi40LjAvbGliaW50ZXJwL2NvcmVmY24v
+bG9hZC1zYXZlLmNjCTIwMjEtMTAtMzEgMDE6MjA6MjQuMDAwMDAwMDAwICsx
+MTAwCisrKyBvY3RhdmUtNi40LjAubmV3L2xpYmludGVycC9jb3JlZmNuL2xv
+YWQtc2F2ZS5jYwkyMDIxLTExLTIwIDEwOjIyOjA2LjkxODQyMTgxMiArMTEw
+MApAQCAtMTI4LDggKzEyOCw4IEBACiAgIHsKICAgICBjb25zdCBpbnQgbWFn
+aWNfbGVuID0gMTA7CiAgICAgY2hhciBtYWdpY1ttYWdpY19sZW4rMV07Ci0g
+ICAgaXMucmVhZCAobWFnaWMsIG1hZ2ljX2xlbik7CiAgICAgbWFnaWNbbWFn
+aWNfbGVuXSA9ICdcMCc7CisgICAgaXMucmVhZCAobWFnaWMsIG1hZ2ljX2xl
+bik7CiAKICAgICBpZiAoc3RybmNtcCAobWFnaWMsICJPY3RhdmUtMS1MIiwg
+bWFnaWNfbGVuKSA9PSAwKQogICAgICAgc3dhcCA9IG1hY2hfaW5mbzo6d29y
+ZHNfYmlnX2VuZGlhbiAoKTsKLS0tIG9jdGF2ZS02LjQuMC9zY3JpcHRzL3Bs
+b3QvdXRpbC9wcml2YXRlL19fZ251cGxvdF9kcmF3X2F4ZXNfXy5tCTIwMjEt
+MTAtMzEgMDE6MjA6MjQuMDAwMDAwMDAwICsxMTAwCisrKyBvY3RhdmUtNi40
+LjAubmV3L3NjcmlwdHMvcGxvdC91dGlsL3ByaXZhdGUvX19nbnVwbG90X2Ry
+YXdfYXhlc19fLm0JMjAyMS0xMS0yMCAxMDoyMjowNi45MTk0MjE4MDQgKzEx
+MDAKQEAgLTIyNzAsNyArMjI3MCw3IEBACiAgICAgaWYgKCEgd2FybmVkX2xh
+dGV4KQogICAgICAgZG9fd2FybiA9ICh3YXJuaW5nICgicXVlcnkiLCAiT2N0
+YXZlOnRleHRfaW50ZXJwcmV0ZXIiKSkuc3RhdGU7CiAgICAgICBpZiAoc3Ry
+Y21wIChkb193YXJuLCAib24iKSkKLSAgICAgICAgd2FybmluZyAoIk9jdGF2
+ZTp0ZXh0X2ludGVycHJldGVyIiwKKyAgICAgICAgd2FybmluZyAoIk9jdGF2
+ZTpsYXRleC1tYXJrdXAtbm90LXN1cHBvcnRlZC1mb3ItdGljay1tYXJrcyIs
+CiAgICAgICAgICAgICAgICAgICJsYXRleCBtYXJrdXAgbm90IHN1cHBvcnRl
+ZCBmb3IgdGljayBtYXJrcyIpOwogICAgICAgICB3YXJuZWRfbGF0ZXggPSB0
+cnVlOwogICAgICAgZW5kaWYKLS0tIG9jdGF2ZS02LjQuMC9zY3JpcHRzL21p
+c2NlbGxhbmVvdXMvZGVsZXRlLm0JMjAyMS0xMC0zMSAwMToyMDoyNC4wMDAw
+MDAwMDAgKzExMDAKKysrIG9jdGF2ZS02LjQuMC5uZXcvc2NyaXB0cy9taXNj
+ZWxsYW5lb3VzL2RlbGV0ZS5tCTIwMjEtMTEtMjAgMTA6MjI6MDYuOTE5NDIx
+ODA0ICsxMTAwCkBAIC00OSw3ICs0OSw4IEBACiAgICAgZm9yIGFyZyA9IHZh
+cmFyZ2luCiAgICAgICBmaWxlcyA9IGdsb2IgKGFyZ3sxfSk7CiAgICAgICBp
+ZiAoaXNlbXB0eSAoZmlsZXMpKQotICAgICAgICB3YXJuaW5nICgiZGVsZXRl
+OiBubyBzdWNoIGZpbGU6ICVzIiwgYXJnezF9KTsKKyAgICAgICAgd2Fybmlu
+ZyAoIk9jdGF2ZTpkZWxldGU6bm8tc3VjaC1maWxlIiwKKwkJICJkZWxldGU6
+IG5vIHN1Y2ggZmlsZTogJXMiLCBhcmd7MX0pOwogICAgICAgZW5kaWYKICAg
+ICAgIGZvciBpID0gMTpsZW5ndGggKGZpbGVzKQogICAgICAgICBmaWxlID0g
+ZmlsZXN7aX07Ci0tLSBvY3RhdmUtNi40LjAvY29uZmlndXJlCTIwMjEtMTAt
+MzEgMDE6MjA6MjQuMDAwMDAwMDAwICsxMTAwCisrKyBvY3RhdmUtNi40LjAu
+bmV3L2NvbmZpZ3VyZQkyMDIxLTExLTIwIDEwOjIzOjM4Ljk2MzYzMzkyNSAr
+MTEwMApAQCAtNTkwLDggKzU5MCw4IEBACiAjIElkZW50aXR5IG9mIHRoaXMg
+cGFja2FnZS4KIFBBQ0tBR0VfTkFNRT0nR05VIE9jdGF2ZScKIFBBQ0tBR0Vf
+VEFSTkFNRT0nb2N0YXZlJwotUEFDS0FHRV9WRVJTSU9OPSc2LjQuMCcKLVBB
+Q0tBR0VfU1RSSU5HPSdHTlUgT2N0YXZlIDYuNC4wJworUEFDS0FHRV9WRVJT
+SU9OPSc2LjQuMC1yb2JqJworUEFDS0FHRV9TVFJJTkc9J0dOVSBPY3RhdmUg
+Ni40LjAtcm9iaicKIFBBQ0tBR0VfQlVHUkVQT1JUPSdodHRwczovL29jdGF2
+ZS5vcmcvYnVncy5odG1sJwogUEFDS0FHRV9VUkw9J2h0dHBzOi8vd3d3Lmdu
+dS5vcmcvc29mdHdhcmUvb2N0YXZlLycKIAo=
 ====
 EOF
 uudecode octave-$OCTAVE_VER.patch.uue
@@ -526,36 +550,44 @@ export FFLAGS=$OPTFLAGS
 export LDFLAGS="-L"$OCTAVE_LIB_DIR
 # Add --enable-address-sanitizer-flags for address sanitizer build
 ../octave-$OCTAVE_VER/configure --prefix=$OCTAVE_DIR \
-                          --disable-java \
-                          --without-fltk \
-                          --with-blas=-lblas \
-                          --with-lapack=-llapack \
-                          --with-qt=5 \
-                          --with-magick=GraphicsMagick \
-                          --with-arpack-includedir=$OCTAVE_INCLUDE_DIR \
-                          --with-arpack-libdir=$OCTAVE_LIB_DIR \
-                          --with-qrupdate-includedir=$OCTAVE_INCLUDE_DIR \
-                          --with-qrupdate-libdir=$OCTAVE_LIB_DIR \
-                          --with-amd-includedir=$OCTAVE_INCLUDE_DIR \
-                          --with-amd-libdir=$OCTAVE_LIB_DIR \
-                          --with-camd-includedir=$OCTAVE_INCLUDE_DIR \
-                          --with-camd-libdir=$OCTAVE_LIB_DIR \
-                          --with-colamd-includedir=$OCTAVE_INCLUDE_DIR \
-                          --with-colamd-libdir=$OCTAVE_LIB_DIR \
-                          --with-ccolamd-includedir=$OCTAVE_INCLUDE_DIR \
-                          --with-ccolamd-libdir=$OCTAVE_LIB_DIR \
-                          --with-cholmod-includedir=$OCTAVE_INCLUDE_DIR \
-                          --with-cholmod-libdir=$OCTAVE_LIB_DIR \
-                          --with-cxsparse-includedir=$OCTAVE_INCLUDE_DIR \
-                          --with-cxsparse-libdir=$OCTAVE_LIB_DIR \
-                          --with-umfpack-includedir=$OCTAVE_INCLUDE_DIR \
-                          --with-umfpack-libdir=$OCTAVE_LIB_DIR \
-                          --with-glpk-includedir=$OCTAVE_INCLUDE_DIR \
-                          --with-glpk-libdir=$OCTAVE_LIB_DIR \
-                          --with-fftw3-includedir=$OCTAVE_INCLUDE_DIR \
-                          --with-fftw3-libdir=$OCTAVE_LIB_DIR \
-                          --with-fftw3f-includedir=$OCTAVE_INCLUDE_DIR \
-                          --with-fftw3f-libdir=$OCTAVE_LIB_DIR
+         --disable-java \
+         --without-fltk \
+         --with-blas=-lblas \
+         --with-lapack=-llapack \
+         --with-qt=5 \
+         --with-magick=GraphicsMagick \
+         --with-arpack-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-arpack-libdir=$OCTAVE_LIB_DIR \
+         --with-qrupdate-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-qrupdate-libdir=$OCTAVE_LIB_DIR \
+         --with-amd-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-amd-libdir=$OCTAVE_LIB_DIR \
+         --with-camd-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-camd-libdir=$OCTAVE_LIB_DIR \
+         --with-colamd-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-colamd-libdir=$OCTAVE_LIB_DIR \
+         --with-ccolamd-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-ccolamd-libdir=$OCTAVE_LIB_DIR \
+         --with-cholmod-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-cholmod-libdir=$OCTAVE_LIB_DIR \
+         --with-cxsparse-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-cxsparse-libdir=$OCTAVE_LIB_DIR \
+         --with-umfpack-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-umfpack-libdir=$OCTAVE_LIB_DIR \
+         --with-glpk-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-glpk-libdir=$OCTAVE_LIB_DIR \
+         --with-fftw3-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-fftw3-libdir=$OCTAVE_LIB_DIR \
+         --with-fftw3f-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-fftw3f-libdir=$OCTAVE_LIB_DIR \
+		 --with-klu-includedir=$OCTAVE_INCLUDE_DIR \
+		 --with-klu-libdir=$OCTAVE_LIB_DIR \
+		 --with-sundials_nvecserial-includedir=$OCTAVE_INCLUDE_DIR \
+		 --with-sundials_nvecserial-libdir=$OCTAVE_LIB_DIR \
+		 --with-sundials_ida-includedir=$OCTAVE_INCLUDE_DIR \
+		 --with-sundials_ida-libdir=$OCTAVE_LIB_DIR \
+		 --with-sundials_sunlinsolklu-includedir=$OCTAVE_INCLUDE_DIR \
+		 --with-sundials_sunlinsolklu-libdir=$OCTAVE_LIB_DIR 
 
 #
 # Generate profile

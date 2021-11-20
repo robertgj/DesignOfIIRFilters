@@ -34577,9 +34577,9 @@ stop band regions. The pass band phase error is adjusted for the nominal delay.}
 \section*{Software requirements}
 I currently use the Fedora 35 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{5.14.10-300.fc35.x86\_64}
+\item \texttt{uname -r} is \emph{5.14.18-300.fc35.x86\_64}
 \item \emph{gcc} version \emph{11.2.1 20210728 (Red Hat 11.2.1-1)}
-\item a local build of \emph{octave-6.3.0} with the \emph{struct}, \emph{io},
+\item a local build of \emph{octave-6.4.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic} and \emph{parallel} Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit and
@@ -34588,7 +34588,7 @@ I currently use the Fedora 35 distribution of Linux~\cite{Fedora_website} with:
 \item \emph{dia-0.97.3-18} is used for line drawings
 \end{itemize}
 
-The local build of \emph{octave-6.3.0} assumes that the following packages are
+The local build of \emph{octave-6.4.0} assumes that the following packages are
 installed in addition to the base Fedora distribution:
 \begin{small}
 \begin{verbatim}
@@ -34655,8 +34655,9 @@ libraries:
 \emph{fftw-3.3.10}~\cite{FFTW_website},
 \emph{glpk-5.0}~\cite{GNU_GLPK},
 \emph{lapack-3.10.0}~\cite{LAPACK_website},
-\emph{qrupdate-1.1.2}~\cite{QRUPDATE_website} and
-\emph{SuiteSparse-5.10.1}~\cite{SUITESPARSE_website}.
+\emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
+\emph{SuiteSparse-5.10.1}~\cite{SUITESPARSE_website} and
+\emph{sundials-5.8.0}~\cite{SUNDIALS_website}.
 The local build of the \emph{LAPACK} library includes the deprecated routines.
 
 This project includes a number of Octave \emph{oct-file} extensions written in
@@ -34801,8 +34802,8 @@ be installed with this work-around:
 \subsection*{Benchmarking Octave}
 This section shows the results of benchmarking various builds of Octave
 and benchmarking \emph{blas} and \emph{lapack} libraries with a shared library
-\emph{LTO} and \emph{PGO} build of Octave. The Linux kernel used is
-\emph{5.14.10-300.fc35.x86\_64} from the RedHat Fedora 34 Linux
+\emph{LTO} and \emph{PGO} build of Octave. The Linux kernel used was
+\emph{5.14.10-300.fc35.x86\_64} from the RedHat Fedora 35 Linux
 distribution. The system compiler is
 \emph{gcc version 11.2.1 20210728 (Red Hat 11.2.1-1)}.
 The CPU is an Intel i7-7700K for which the number of CPU cores 

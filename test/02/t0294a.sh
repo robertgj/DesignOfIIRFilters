@@ -184,16 +184,16 @@ cat > test.blas.ok << 'EOF'
 EOF
 
 gfortran -Wall -o dgesvd_test_blas dgesvd_test.f \
-         -L/usr/local/octave-6.3.0/lib -lblas -llapack
+         -L/usr/local/octave-6.4.0/lib -lblas -llapack
 if [ $? -ne 0 ]; then \
     echo "Failed to compile dgesvd_test.f with libblas"; fail; fi
 
-echo "LD_LIBRARY_PATH=/usr/local/octave-6.3.0/lib ldd dgesvd_test_blas" \
+echo "LD_LIBRARY_PATH=/usr/local/octave-6.4.0/lib ldd dgesvd_test_blas" \
      > test.blas.ldd
-LD_LIBRARY_PATH=/usr/local/octave-6.3.0/lib ldd dgesvd_test_blas >> test.blas.ldd
+LD_LIBRARY_PATH=/usr/local/octave-6.4.0/lib ldd dgesvd_test_blas >> test.blas.ldd
 
 for k in `seq 1 100`;do \
-    LD_LIBRARY_PATH=/usr/local/octave-6.3.0/lib \
+    LD_LIBRARY_PATH=/usr/local/octave-6.4.0/lib \
                    ./dgesvd_test_blas >test.blas.out.$k ; \
     if [ $? -ne 0 ]; then echo "Failed running with libblas "$k; fail; fi ; \
 
