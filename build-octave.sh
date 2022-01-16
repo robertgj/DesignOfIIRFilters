@@ -30,7 +30,7 @@
 #    wget https://ftp.gnu.org/gnu/gnu-keyring.gpg
 #    gpg2 --import gnu-keyring.gpg
 # then verify the .sig file with (for example):
-#   gpg2 --verify octave-6.2.0.tar.lz.sig
+#    gpg2 --verify octave-6.2.0.tar.lz.sig
 #
 # Note the worrying error from Octave-forge package control-3.2.0.tar.gz in
 # the FORTRAN file from slicot.tar.gz, MA02ID.f at lines 188 and 230:
@@ -139,14 +139,14 @@ fi
 OCTAVE_FORGE_URL=https://sourceforge.net/projects/octave/files/\
 Octave%20\Forge%20Packages/Individual%20Package%20Releases/
 
-IO_VER=${IO_VER:-2.6.3}
+IO_VER=${IO_VER:-2.6.4}
 IO_ARCHIVE=io-$IO_VER".tar.gz"
 IO_URL=$OCTAVE_FORGE_URL$IO_ARCHIVE
 if ! test -f $IO_ARCHIVE; then
     wget -c $IO_URL
 fi
 
-STATISTICS_VER=${STATISTICS_VER:-1.4.2}
+STATISTICS_VER=${STATISTICS_VER:-1.4.3}
 STATISTICS_ARCHIVE=statistics-$STATISTICS_VER".tar.gz"
 STATISTICS_URL=$OCTAVE_FORGE_URL$STATISTICS_ARCHIVE
 if ! test -f $STATISTICS_ARCHIVE; then
@@ -303,6 +303,7 @@ unzip $ARPACK_ARCHIVE
 pushd arpack-ng-master
 sh ./bootstrap
 CFLAGS=$OPTFLAGS CXXFLAGS=$OPTFLAGS FFLAGS=$OPTFLAGS \
+LDFLAGS=-L$OCTAVE_LIB_DIR F77=gfortran \
 ./configure --prefix=$OCTAVE_DIR --with-blas=-lblas --with-lapack=-llapack
 make && make install
 popd
