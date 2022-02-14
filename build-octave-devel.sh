@@ -1,13 +1,19 @@
 #!/bin/sh
 
-# Build a local version of octave-cli
+# Build a local version of octave-cli from the development sources:
+#   hg clone https://www.octave.org/hg/octave
+#   pushd octave
+#   hg pull
+#   hg update
+#   ./bootstrap
+#   popd
 #
 # Require Fedora packages: wget readline-devel lzip sharutils gcc gcc-c++
 # gcc-gfortran gmp-devel mpfr-devel make cmake gnuplot-latex m4 gperf 
 # bison flex openblas-devel patch texinfo texinfo-tex librsvg2 librsvg2-devel
 # librsvg2-tools icoutils autoconf automake libtool pcre pcre-devel freetype
 # freetype-devel gnupg2 texlive-dvisvgm
-# hdf5 hdf5-devel qt qscintilla-qt5 qscintilla-qt5-devel
+# hdf5 hdf5-devel qt qscintilla-qt5 qscintilla-qt5-devel rapidjson-devel
 # qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel
 # libcurl libcurl-devel gl2ps gl2ps-devel fontconfig-devel mesa-libGLU
 # mesa-libGLU-devel qt5-qttools qt5-qttools-common qt5-qttools-devel
@@ -55,21 +61,7 @@ OPTFLAGS="-m64 -march=nehalem -O2"
 #
 # Get Octave archive
 #
-OCTAVE_VER=6.4.0
-OCTAVE_ARCHIVE=octave-$OCTAVE_VER".tar.lz"
-OCTAVE_URL=https://ftp.gnu.org/gnu/octave/$OCTAVE_ARCHIVE
-if ! test -f $OCTAVE_ARCHIVE; then
-  wget -c $OCTAVE_URL
-fi
-# Check signature
-if ! test -f $OCTAVE_ARCHIVE.sig; then
-  wget -c $OCTAVE_URL.sig
-fi
-gpg2 --verify $OCTAVE_ARCHIVE.sig
-if test $? -ne 0;then 
-    echo Bad GPG signature on $OCTAVE_ARCHIVE ;
-    exit -1;
-fi
+OCTAVE_VER=8.0.0
 
 #
 # Set Octave directories
@@ -152,56 +144,56 @@ IO_VER=${IO_VER:-2.6.4}
 IO_ARCHIVE=io-$IO_VER".tar.gz"
 IO_URL=$OCTAVE_FORGE_URL$IO_ARCHIVE
 if ! test -f $IO_ARCHIVE; then
-  wget -c $IO_URL
+    wget -c $IO_URL
 fi
 
 STATISTICS_VER=${STATISTICS_VER:-1.4.3}
 STATISTICS_ARCHIVE=statistics-$STATISTICS_VER".tar.gz"
 STATISTICS_URL=$OCTAVE_FORGE_URL$STATISTICS_ARCHIVE
 if ! test -f $STATISTICS_ARCHIVE; then
-  wget -c $STATISTICS_URL
+    wget -c $STATISTICS_URL
 fi
 
 STRUCT_VER=${STRUCT_VER:-1.0.17}
 STRUCT_ARCHIVE=struct-$STRUCT_VER".tar.gz"
 STRUCT_URL=$OCTAVE_FORGE_URL$STRUCT_ARCHIVE
 if ! test -f $STRUCT_ARCHIVE; then
-  wget -c $STRUCT_URL 
+    wget -c $STRUCT_URL 
 fi
 
 OPTIM_VER=${OPTIM_VER:-1.6.1}
 OPTIM_ARCHIVE=optim-$OPTIM_VER".tar.gz"
 OPTIM_URL=$OCTAVE_FORGE_URL$OPTIM_ARCHIVE
 if ! test -f $OPTIM_ARCHIVE; then
-  wget -c $OPTIM_URL 
+    wget -c $OPTIM_URL 
 fi
 
 CONTROL_VER=${CONTROL_VER:-3.3.1}
 CONTROL_ARCHIVE=control-$CONTROL_VER".tar.gz"
 CONTROL_URL=$OCTAVE_FORGE_URL$CONTROL_ARCHIVE
 if ! test -f $CONTROL_ARCHIVE; then
-  wget -c $CONTROL_URL 
+    wget -c $CONTROL_URL 
 fi
 
 SIGNAL_VER=${SIGNAL_VER:-1.4.1}
 SIGNAL_ARCHIVE=signal-$SIGNAL_VER".tar.gz"
 SIGNAL_URL=$OCTAVE_FORGE_URL$SIGNAL_ARCHIVE
 if ! test -f $SIGNAL_ARCHIVE; then
-  wget -c $SIGNAL_URL 
+    wget -c $SIGNAL_URL 
 fi
 
 PARALLEL_VER=${PARALLEL_VER:-4.0.1}
 PARALLEL_ARCHIVE=parallel-$PARALLEL_VER".tar.gz"
 PARALLEL_URL=$OCTAVE_FORGE_URL$PARALLEL_ARCHIVE
 if ! test -f $PARALLEL_ARCHIVE; then
-  wget -c $PARALLEL_URL 
+    wget -c $PARALLEL_URL 
 fi
 
 SYMBOLIC_VER=${SYMBOLIC_VER:-2.9.0}
 SYMBOLIC_ARCHIVE=symbolic-$SYMBOLIC_VER".tar.gz"
 SYMBOLIC_URL=$OCTAVE_FORGE_URL$SYMBOLIC_ARCHIVE
 if ! test -f $SYMBOLIC_ARCHIVE; then
-  wget -c $SYMBOLIC_URL 
+    wget -c $SYMBOLIC_URL 
 fi
 
 #
@@ -440,7 +432,7 @@ tar -xf $FFTW_ARCHIVE
 pushd fftw-$FFTW_VER
 CFLAGS=$OPTFLAGS CXXFLAGS=$OPTFLAGS FFLAGS=$OPTFLAGS \
 ./configure --prefix=$OCTAVE_DIR --enable-shared \
-           --with-combined-threads --enable-threads --enable-single
+            --with-combined-threads --enable-threads --enable-single
 make -j 6 && make install
 popd
 rm -Rf fftw-$FFTW_VER
@@ -454,9 +446,9 @@ mkdir -p build-sundials-$SUNDIALS_VER
 pushd build-sundials-$SUNDIALS_VER
 CFLAGS=$OPTFLAGS CXXFLAGS=$OPTFLAGS FFLAGS=$OPTFLAGS \
 echo " c \n g \n q \n" | \
-ccmake -DENABLE_KLU=ON -DKLU_LIBRARY_DIR:PATH=$OCTAVE_LIB_DIR \
-       -DCMAKE_INSTALL_LIBDIR=lib --install-prefix $OCTAVE_DIR \
-       ../sundials-$SUNDIALS_VER
+    ccmake -DENABLE_KLU=ON -DKLU_LIBRARY_DIR:PATH=$OCTAVE_LIB_DIR \
+	   -DCMAKE_INSTALL_LIBDIR=lib --install-prefix $OCTAVE_DIR \
+	   ../sundials-$SUNDIALS_VER
 cmake ../sundials-$SUNDIALS_VER
 make -j 6 && make install
 popd
@@ -480,92 +472,6 @@ rm -Rf build-GraphicsMagick-$GRAPHICSMAGICK_VER \
 #
 # Build octave
 #
-rm -Rf octave-$OCTAVE_VER
-tar -xf $OCTAVE_ARCHIVE
-# Patch
-cat > octave-$OCTAVE_VER.patch.uue << 'EOF'
-begin-base64 644 octave-6.4.0.patch
-LS0tIG9jdGF2ZS02LjQuMC9saWJvY3RhdmUvdXRpbC9hY3Rpb24tY29udGFp
-bmVyLmgJMjAyMS0xMC0zMSAwMToyMDoyNC4wMDAwMDAwMDAgKzExMDAKKysr
-IG9jdGF2ZS02LjQuMC5uZXcvbGlib2N0YXZlL3V0aWwvYWN0aW9uLWNvbnRh
-aW5lci5oCTIwMjEtMTEtMjAgMTA6MjI6MDYuOTE3NDIxODIxICsxMTAwCkBA
-IC0yOSw2ICsyOSw3IEBACiAjaW5jbHVkZSAib2N0YXZlLWNvbmZpZy5oIgog
-CiAjaW5jbHVkZSA8ZnVuY3Rpb25hbD4KKyNpbmNsdWRlIDxjc3RkZGVmPgog
-CiAvLyBUaGlzIGNsYXNzIGFsbG93cyByZWdpc3RlcmluZyBhY3Rpb25zIGlu
-IGEgbGlzdCBmb3IgbGF0ZXIKIC8vIGV4ZWN1dGlvbiwgZWl0aGVyIGV4cGxp
-Y2l0bHkgb3Igd2hlbiB0aGUgY29udGFpbmVyIGdvZXMgb3V0IG9mCi0tLSBv
-Y3RhdmUtNi40LjAvbGliaW50ZXJwL2NvcmVmY24vbG9hZC1wYXRoLmNjCTIw
-MjEtMTAtMzEgMDE6MjA6MjQuMDAwMDAwMDAwICsxMTAwCisrKyBvY3RhdmUt
-Ni40LjAubmV3L2xpYmludGVycC9jb3JlZmNuL2xvYWQtcGF0aC5jYwkyMDIx
-LTExLTIwIDEwOjIyOjA2LjkxODQyMTgxMiArMTEwMApAQCAtNDA3LDggKzQw
-Nyw4IEBACiAgICAgICAgIGJvb2wgb2sgPSBkaS51cGRhdGUgKCk7CiAKICAg
-ICAgICAgaWYgKCEgb2spCi0gICAgICAgICAgd2FybmluZyAoImxvYWQtcGF0
-aDogdXBkYXRlIGZhaWxlZCBmb3IgJyVzJywgcmVtb3ZpbmcgZnJvbSBwYXRo
-IiwKLSAgICAgICAgICAgICAgICAgICBkaS5kaXJfbmFtZS5jX3N0ciAoKSk7
-CisgICAgICAgICAgd2FybmluZ193aXRoX2lkICgiT2N0YXZlOmxvYWQtcGF0
-aDp1cGRhdGUtZmFpbGVkIiwKKwkJCSAgICJsb2FkLXBhdGg6IHVwZGF0ZSBm
-YWlsZWQgZm9yICclcycsIHJlbW92aW5nIGZyb20gcGF0aCIsICAgICAgICAg
-ICAgICAgICAgIGRpLmRpcl9uYW1lLmNfc3RyICgpKTsKICAgICAgICAgZWxz
-ZQogICAgICAgICAgIGFkZCAoZGksIHRydWUsICIiLCB0cnVlKTsKICAgICAg
-IH0KQEAgLTEyNTksNyArMTI1OSw4IEBACiAgICAgaWYgKCEgZnMpCiAgICAg
-ICB7CiAgICAgICAgIHN0ZDo6c3RyaW5nIG1zZyA9IGZzLmVycm9yICgpOwot
-ICAgICAgICB3YXJuaW5nICgibG9hZF9wYXRoOiAlczogJXMiLCBkaXJfbmFt
-ZS5jX3N0ciAoKSwgbXNnLmNfc3RyICgpKTsKKyAgICAgICAgd2FybmluZ193
-aXRoX2lkICgiT2N0YXZlOmxvYWQtcGF0aDpkaXItaW5mbzp1cGRhdGUtZmFp
-bGVkIiwKKwkJCSAibG9hZF9wYXRoOiAlczogJXMiLCBkaXJfbmFtZS5jX3N0
-ciAoKSwgbXNnLmNfc3RyICgpKTsKICAgICAgICAgcmV0dXJuIGZhbHNlOwog
-ICAgICAgfQogCi0tLSBvY3RhdmUtNi40LjAvbGliaW50ZXJwL2NvcmVmY24v
-bG9hZC1zYXZlLmNjCTIwMjEtMTAtMzEgMDE6MjA6MjQuMDAwMDAwMDAwICsx
-MTAwCisrKyBvY3RhdmUtNi40LjAubmV3L2xpYmludGVycC9jb3JlZmNuL2xv
-YWQtc2F2ZS5jYwkyMDIxLTExLTIwIDEwOjIyOjA2LjkxODQyMTgxMiArMTEw
-MApAQCAtMTI4LDggKzEyOCw4IEBACiAgIHsKICAgICBjb25zdCBpbnQgbWFn
-aWNfbGVuID0gMTA7CiAgICAgY2hhciBtYWdpY1ttYWdpY19sZW4rMV07Ci0g
-ICAgaXMucmVhZCAobWFnaWMsIG1hZ2ljX2xlbik7CiAgICAgbWFnaWNbbWFn
-aWNfbGVuXSA9ICdcMCc7CisgICAgaXMucmVhZCAobWFnaWMsIG1hZ2ljX2xl
-bik7CiAKICAgICBpZiAoc3RybmNtcCAobWFnaWMsICJPY3RhdmUtMS1MIiwg
-bWFnaWNfbGVuKSA9PSAwKQogICAgICAgc3dhcCA9IG1hY2hfaW5mbzo6d29y
-ZHNfYmlnX2VuZGlhbiAoKTsKLS0tIG9jdGF2ZS02LjQuMC9zY3JpcHRzL3Bs
-b3QvdXRpbC9wcml2YXRlL19fZ251cGxvdF9kcmF3X2F4ZXNfXy5tCTIwMjEt
-MTAtMzEgMDE6MjA6MjQuMDAwMDAwMDAwICsxMTAwCisrKyBvY3RhdmUtNi40
-LjAubmV3L3NjcmlwdHMvcGxvdC91dGlsL3ByaXZhdGUvX19nbnVwbG90X2Ry
-YXdfYXhlc19fLm0JMjAyMS0xMS0yMCAxMDoyMjowNi45MTk0MjE4MDQgKzEx
-MDAKQEAgLTIyNzAsNyArMjI3MCw3IEBACiAgICAgaWYgKCEgd2FybmVkX2xh
-dGV4KQogICAgICAgZG9fd2FybiA9ICh3YXJuaW5nICgicXVlcnkiLCAiT2N0
-YXZlOnRleHRfaW50ZXJwcmV0ZXIiKSkuc3RhdGU7CiAgICAgICBpZiAoc3Ry
-Y21wIChkb193YXJuLCAib24iKSkKLSAgICAgICAgd2FybmluZyAoIk9jdGF2
-ZTp0ZXh0X2ludGVycHJldGVyIiwKKyAgICAgICAgd2FybmluZyAoIk9jdGF2
-ZTpsYXRleC1tYXJrdXAtbm90LXN1cHBvcnRlZC1mb3ItdGljay1tYXJrcyIs
-CiAgICAgICAgICAgICAgICAgICJsYXRleCBtYXJrdXAgbm90IHN1cHBvcnRl
-ZCBmb3IgdGljayBtYXJrcyIpOwogICAgICAgICB3YXJuZWRfbGF0ZXggPSB0
-cnVlOwogICAgICAgZW5kaWYKLS0tIG9jdGF2ZS02LjQuMC9zY3JpcHRzL21p
-c2NlbGxhbmVvdXMvZGVsZXRlLm0JMjAyMS0xMC0zMSAwMToyMDoyNC4wMDAw
-MDAwMDAgKzExMDAKKysrIG9jdGF2ZS02LjQuMC5uZXcvc2NyaXB0cy9taXNj
-ZWxsYW5lb3VzL2RlbGV0ZS5tCTIwMjEtMTEtMjAgMTA6MjI6MDYuOTE5NDIx
-ODA0ICsxMTAwCkBAIC00OSw3ICs0OSw4IEBACiAgICAgZm9yIGFyZyA9IHZh
-cmFyZ2luCiAgICAgICBmaWxlcyA9IGdsb2IgKGFyZ3sxfSk7CiAgICAgICBp
-ZiAoaXNlbXB0eSAoZmlsZXMpKQotICAgICAgICB3YXJuaW5nICgiZGVsZXRl
-OiBubyBzdWNoIGZpbGU6ICVzIiwgYXJnezF9KTsKKyAgICAgICAgd2Fybmlu
-ZyAoIk9jdGF2ZTpkZWxldGU6bm8tc3VjaC1maWxlIiwKKwkJICJkZWxldGU6
-IG5vIHN1Y2ggZmlsZTogJXMiLCBhcmd7MX0pOwogICAgICAgZW5kaWYKICAg
-ICAgIGZvciBpID0gMTpsZW5ndGggKGZpbGVzKQogICAgICAgICBmaWxlID0g
-ZmlsZXN7aX07Ci0tLSBvY3RhdmUtNi40LjAvY29uZmlndXJlCTIwMjEtMTAt
-MzEgMDE6MjA6MjQuMDAwMDAwMDAwICsxMTAwCisrKyBvY3RhdmUtNi40LjAu
-bmV3L2NvbmZpZ3VyZQkyMDIxLTExLTIwIDEwOjIzOjM4Ljk2MzYzMzkyNSAr
-MTEwMApAQCAtNTkwLDggKzU5MCw4IEBACiAjIElkZW50aXR5IG9mIHRoaXMg
-cGFja2FnZS4KIFBBQ0tBR0VfTkFNRT0nR05VIE9jdGF2ZScKIFBBQ0tBR0Vf
-VEFSTkFNRT0nb2N0YXZlJwotUEFDS0FHRV9WRVJTSU9OPSc2LjQuMCcKLVBB
-Q0tBR0VfU1RSSU5HPSdHTlUgT2N0YXZlIDYuNC4wJworUEFDS0FHRV9WRVJT
-SU9OPSc2LjQuMC1yb2JqJworUEFDS0FHRV9TVFJJTkc9J0dOVSBPY3RhdmUg
-Ni40LjAtcm9iaicKIFBBQ0tBR0VfQlVHUkVQT1JUPSdodHRwczovL29jdGF2
-ZS5vcmcvYnVncy5odG1sJwogUEFDS0FHRV9VUkw9J2h0dHBzOi8vd3d3Lmdu
-dS5vcmcvc29mdHdhcmUvb2N0YXZlLycKIAo=
-====
-EOF
-uudecode octave-$OCTAVE_VER.patch.uue
-pushd octave-$OCTAVE_VER
-patch -p1 < ../octave-$OCTAVE_VER.patch
-popd
-# Build
 rm -Rf build
 mkdir build
 pushd build
@@ -575,66 +481,50 @@ export FFLAGS=$OPTFLAGS
 export LDFLAGS="-L$OCTAVE_LIB_DIR"
 # Add --enable-address-sanitizer-flags for address sanitizer build
 PKG_CONFIG_PATH=$OCTAVE_LIB_DIR/pkgconfig \
-../octave-$OCTAVE_VER/configure \
-    --prefix=$OCTAVE_DIR \
-    --disable-java \
-    --without-fltk \
-    --with-blas=-lblas \
-    --with-lapack=-llapack \
-    --with-qt=5 \
-    --with-magick=GraphicsMagick \
-    --with-arpack-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-arpack-libdir=$OCTAVE_LIB_DIR \
-    --with-qrupdate-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-qrupdate-libdir=$OCTAVE_LIB_DIR \
-    --with-amd-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-amd-libdir=$OCTAVE_LIB_DIR \
-    --with-camd-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-camd-libdir=$OCTAVE_LIB_DIR \
-    --with-colamd-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-colamd-libdir=$OCTAVE_LIB_DIR \
-    --with-ccolamd-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-ccolamd-libdir=$OCTAVE_LIB_DIR \
-    --with-cholmod-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-cholmod-libdir=$OCTAVE_LIB_DIR \
-    --with-cxsparse-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-cxsparse-libdir=$OCTAVE_LIB_DIR \
-    --with-umfpack-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-umfpack-libdir=$OCTAVE_LIB_DIR \
-    --with-glpk-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-glpk-libdir=$OCTAVE_LIB_DIR \
-    --with-fftw3-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-fftw3-libdir=$OCTAVE_LIB_DIR \
-    --with-fftw3f-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-fftw3f-libdir=$OCTAVE_LIB_DIR \
-    --with-klu-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-klu-libdir=$OCTAVE_LIB_DIR \
-    --with-sundials_nvecserial-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-sundials_nvecserial-libdir=$OCTAVE_LIB_DIR \
-    --with-sundials_ida-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-sundials_ida-libdir=$OCTAVE_LIB_DIR \
-    --with-sundials_sunlinsolklu-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-sundials_sunlinsolklu-libdir=$OCTAVE_LIB_DIR 
+../octave/configure --prefix=$OCTAVE_DIR \
+         --disable-java \
+         --without-fltk \
+         --with-blas=-lblas \
+         --with-lapack=-llapack \
+         --with-qt=5 \
+         --with-magick=GraphicsMagick++ \
+         --with-arpack-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-arpack-libdir=$OCTAVE_LIB_DIR \
+         --with-qrupdate-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-qrupdate-libdir=$OCTAVE_LIB_DIR \
+         --with-amd-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-amd-libdir=$OCTAVE_LIB_DIR \
+         --with-camd-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-camd-libdir=$OCTAVE_LIB_DIR \
+         --with-colamd-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-colamd-libdir=$OCTAVE_LIB_DIR \
+         --with-ccolamd-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-ccolamd-libdir=$OCTAVE_LIB_DIR \
+         --with-cholmod-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-cholmod-libdir=$OCTAVE_LIB_DIR \
+         --with-cxsparse-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-cxsparse-libdir=$OCTAVE_LIB_DIR \
+         --with-umfpack-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-umfpack-libdir=$OCTAVE_LIB_DIR \
+         --with-glpk-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-glpk-libdir=$OCTAVE_LIB_DIR \
+         --with-fftw3-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-fftw3-libdir=$OCTAVE_LIB_DIR \
+         --with-fftw3f-includedir=$OCTAVE_INCLUDE_DIR \
+         --with-fftw3f-libdir=$OCTAVE_LIB_DIR \
+	 --with-klu-includedir=$OCTAVE_INCLUDE_DIR \
+	 --with-klu-libdir=$OCTAVE_LIB_DIR \
+	 --with-sundials_nvecserial-includedir=$OCTAVE_INCLUDE_DIR \
+	 --with-sundials_nvecserial-libdir=$OCTAVE_LIB_DIR \
+	 --with-sundials_ida-includedir=$OCTAVE_INCLUDE_DIR \
+	 --with-sundials_ida-libdir=$OCTAVE_LIB_DIR \
+	 --with-sundials_sunlinsolklu-includedir=$OCTAVE_INCLUDE_DIR \
+	 --with-sundials_sunlinsolklu-libdir=$OCTAVE_LIB_DIR 
 
-#
-# Generate profile
-#
-export PGO_GEN_FLAGS="-pthread -fopenmp -fprofile-generate"
-make XTRA_CFLAGS="$PGO_GEN_FLAGS" XTRA_CXXFLAGS="$PGO_GEN_FLAGS" V=1 -j6
-find . -name \*.gcda -exec rm -f {} ';'
-make V=1 check
-
-#
-# Use profile
-#
-find . -name \*.o -exec rm -f {} ';'
-find . -name \*.lo -exec rm -f {} ';'
-find . -name \*.la -exec rm -f {} ';'
-export PGO_LTO_FLAGS="-pthread -fopenmp -flto=6 -ffat-lto-objects -fprofile-use"
-make XTRA_CFLAGS="$PGO_LTO_FLAGS" XTRA_CXXFLAGS="$PGO_LTO_FLAGS" V=1 -j6
+make V=1 -j6
 make install
 popd
-rm -Rf build octave-$OCTAVE_VER
+#rm -Rf build
 rm -f octave-$OCTAVE_VER.patch.uue octave-$OCTAVE_VER.patch
 
 #
@@ -644,56 +534,265 @@ rm -f octave-$OCTAVE_VER.patch.uue octave-$OCTAVE_VER.patch
 #
 # Install Octave-Forge packages
 #
+#
+# Fix struct package error_helpers.h  and install the struct package
+#
+cat > struct-$STRUCT_VER".patch.uue" << 'EOF'
+begin-base64 644 struct-1.0.17.patch
+RmlsZXMgc3RydWN0LTEuMC4xNy9zcmMvZXJyb3ItaGVscGVycy5oIGFuZCBz
+dHJ1Y3QtMS4wLjE3Lm5ldy9zcmMvZXJyb3ItaGVscGVycy5oIGRpZmZlcgot
+LS0gc3RydWN0LTEuMC4xNy9zcmMvZXJyb3ItaGVscGVycy5oCTIwMjEtMDIt
+MTcgMDY6MDM6MzguMDAwMDAwMDAwICsxMTAwCisrKyBzdHJ1Y3QtMS4wLjE3
+Lm5ldy9zcmMvZXJyb3ItaGVscGVycy5oCTIwMjItMDItMTQgMTQ6NTQ6NTIu
+MzQ5NTAwODY1ICsxMTAwCkBAIC00NCwxMyArNDQsNiBAQAogICAgIHRyeSBc
+CiAgICAgICB7IFwKICAgICAgICAgY29kZSA7IFwKLSBcCi0gICAgICAgIGlm
+IChlcnJvcl9zdGF0ZSkgXAotICAgICAgICAgIHsgXAotICAgICAgICAgICAg
+ZXJyb3IgKF9fVkFfQVJHU19fKTsgXAotIFwKLSAgICAgICAgICAgIHJldHVy
+biByZXR2YWw7IFwKLSAgICAgICAgICB9IFwKICAgICAgIH0gXAogICAgIGNh
+dGNoIChPQ1RBVkVfX0VYRUNVVElPTl9FWENFUFRJT04mIGUpIFwKICAgICAg
+IHsgXApAQCAtNjQsNyArNTcsOSBAQAogICAgICAgfSBcCiAgICAgY2F0Y2gg
+KE9DVEFWRV9fRVhFQ1VUSU9OX0VYQ0VQVElPTiYgZSkgXAogICAgICAgeyBc
+Ci0gICAgICAgIHZlcnJvciAoZSwgX19WQV9BUkdTX18pOyBcCisgICAgICAg
+IF9wX2Vycm9yIChfX1ZBX0FSR1NfXyk7IFwKKyBcCisgICAgICAgIGV4aXQg
+KDEpOyBcCiAgICAgICB9CiAjZW5kaWYKIApAQCAtNzcsMTMgKzcyLDYgQEAK
+ICAgICB0cnkgXAogICAgICAgeyBcCiAgICAgICAgIGNvZGUgOyBcCi0gXAot
+ICAgICAgICBpZiAoZXJyb3Jfc3RhdGUpIFwKLSAgICAgICAgICB7IFwKLSAg
+ICAgICAgICAgIF9wX2Vycm9yIChfX1ZBX0FSR1NfXyk7IFwKLSBcCi0gICAg
+ICAgICAgICBleGl0ICgxKTsgXAotICAgICAgICAgIH0gXAogICAgICAgfSBc
+CiAgICAgY2F0Y2ggKE9DVEFWRV9fRVhFQ1VUSU9OX0VYQ0VQVElPTiYpIFwK
+ICAgICAgIHsgXApAQCAtMTE2LDExICsxMDQsNiBAQAogICAgIHRyeSBcCiAg
+ICAgICB7IFwKICAgICAgICAgY29kZSA7IFwKLSAgICAgICAgaWYgKGVycm9y
+X3N0YXRlKSBcCi0gICAgICAgICAgeyBcCi0gICAgICAgICAgICBlcnJvcl9z
+dGF0ZSA9IDA7IFwKLSAgICAgICAgICAgIGVyciA9IHRydWU7IFwKLSAgICAg
+ICAgICB9IFwKICAgICAgIH0gXAogICAgIGNhdGNoIChPQ1RBVkVfX0VYRUNV
+VElPTl9FWENFUFRJT04mKSBcCiAgICAgICB7IFwK
+====
+EOF
+uudecode struct-$STRUCT_VER".patch.uue" > struct-$STRUCT_VER".patch"
+tar -xf $STRUCT_ARCHIVE
+NEW_STRUCT_ARCHIVE=struct-$STRUCT_VER".new.tar.gz"
+pushd struct-$STRUCT_VER
+patch -p1 < ../struct-$STRUCT_VER".patch"
+popd
+tar -czf $NEW_STRUCT_ARCHIVE struct-$STRUCT_VER
+rm -Rf struct-$STRUCT_VER struct-$STRUCT_VER".patch.uue" struct-$STRUCT_VER".patch"
+
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$NEW_STRUCT_ARCHIVE
+rm -f $NEW_STRUCT_ARCHIVE
+
+#
+# Other packages
+#
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$IO_ARCHIVE
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$STRUCT_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$STATISTICS_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$CONTROL_ARCHIVE
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$PARALLEL_ARCHIVE
+
+#
+# Fix parallel package pserver.cc and install the parallel package
+#
+cat > parallel-$PARALLEL_VER".patch.uue" << 'EOF'
+begin-base64 644 parallel-4.0.1.patch
+RmlsZXMgcGFyYWxsZWwtNC4wLjEvc3JjL2Vycm9yLWhlbHBlcnMuaCBhbmQg
+cGFyYWxsZWwtNC4wLjEubmV3L3NyYy9lcnJvci1oZWxwZXJzLmggZGlmZmVy
+Ci0tLSBwYXJhbGxlbC00LjAuMS9zcmMvZXJyb3ItaGVscGVycy5oCTIwMjEt
+MDMtMTcgMDU6MDM6MDkuMDAwMDAwMDAwICsxMTAwCisrKyBwYXJhbGxlbC00
+LjAuMS5uZXcvc3JjL2Vycm9yLWhlbHBlcnMuaAkyMDIyLTAyLTE0IDIxOjI0
+OjMyLjY2NDQ1NjYwNyArMTEwMApAQCAtMSwxMCArMSwxMCBAQAogLyoKIAot
+Q29weXJpZ2h0IChDKSAyMDE2LTIwMTggT2xhZiBUaWxsIDxpN3Rpb2xAdC1v
+bmxpbmUuZGU+CitDb3B5cmlnaHQgKEMpIDIwMTYtMjAxOSBPbGFmIFRpbGwg
+PGk3dGlvbEB0LW9ubGluZS5kZT4KIAogVGhpcyBwcm9ncmFtIGlzIGZyZWUg
+c29mdHdhcmU7IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vciBtb2Rp
+ZnkKIGl0IHVuZGVyIHRoZSB0ZXJtcyBvZiB0aGUgR05VIEdlbmVyYWwgUHVi
+bGljIExpY2Vuc2UgYXMgcHVibGlzaGVkIGJ5Ci10aGUgRnJlZSBTb2Z0d2Fy
+ZSBGb3VuZGF0aW9uOyBlaXRoZXIgdmVyc2lvbiAzIG9mIHRoZSBMaWNlbnNl
+LCBvcgordGhlIEZyZWUgU29mdHdhcmUgRm91bmRhdGlvbjsgZWl0aGVyIHZl
+cnNpb24gMiBvZiB0aGUgTGljZW5zZSwgb3IKIChhdCB5b3VyIG9wdGlvbikg
+YW55IGxhdGVyIHZlcnNpb24uCiAKIFRoaXMgcHJvZ3JhbSBpcyBkaXN0cmli
+dXRlZCBpbiB0aGUgaG9wZSB0aGF0IGl0IHdpbGwgYmUgdXNlZnVsLApAQCAt
+NDQsMTMgKzQ0LDYgQEAKICAgICB0cnkgXAogICAgICAgeyBcCiAgICAgICAg
+IGNvZGUgOyBcCi0gXAotICAgICAgICBpZiAoZXJyb3Jfc3RhdGUpIFwKLSAg
+ICAgICAgICB7IFwKLSAgICAgICAgICAgIGVycm9yIChfX1ZBX0FSR1NfXyk7
+IFwKLSBcCi0gICAgICAgICAgICByZXR1cm4gcmV0dmFsOyBcCi0gICAgICAg
+ICAgfSBcCiAgICAgICB9IFwKICAgICBjYXRjaCAoT0NUQVZFX19FWEVDVVRJ
+T05fRVhDRVBUSU9OJiBlKSBcCiAgICAgICB7IFwKQEAgLTY0LDcgKzU3LDkg
+QEAKICAgICAgIH0gXAogICAgIGNhdGNoIChPQ1RBVkVfX0VYRUNVVElPTl9F
+WENFUFRJT04mIGUpIFwKICAgICAgIHsgXAotICAgICAgICB2ZXJyb3IgKGUs
+IF9fVkFfQVJHU19fKTsgXAorICAgICAgICBfcF9lcnJvciAoX19WQV9BUkdT
+X18pOyBcCisgXAorICAgICAgICBleGl0ICgxKTsgXAogICAgICAgfQogI2Vu
+ZGlmCiAKQEAgLTc3LDEzICs3Miw2IEBACiAgICAgdHJ5IFwKICAgICAgIHsg
+XAogICAgICAgICBjb2RlIDsgXAotIFwKLSAgICAgICAgaWYgKGVycm9yX3N0
+YXRlKSBcCi0gICAgICAgICAgeyBcCi0gICAgICAgICAgICBfcF9lcnJvciAo
+X19WQV9BUkdTX18pOyBcCi0gXAotICAgICAgICAgICAgZXhpdCAoMSk7IFwK
+LSAgICAgICAgICB9IFwKICAgICAgIH0gXAogICAgIGNhdGNoIChPQ1RBVkVf
+X0VYRUNVVElPTl9FWENFUFRJT04mKSBcCiAgICAgICB7IFwKQEAgLTExNiwx
+MSArMTA0LDYgQEAKICAgICB0cnkgXAogICAgICAgeyBcCiAgICAgICAgIGNv
+ZGUgOyBcCi0gICAgICAgIGlmIChlcnJvcl9zdGF0ZSkgXAotICAgICAgICAg
+IHsgXAotICAgICAgICAgICAgZXJyb3Jfc3RhdGUgPSAwOyBcCi0gICAgICAg
+ICAgICBlcnIgPSB0cnVlOyBcCi0gICAgICAgICAgfSBcCiAgICAgICB9IFwK
+ICAgICBjYXRjaCAoT0NUQVZFX19FWEVDVVRJT05fRVhDRVBUSU9OJikgXAog
+ICAgICAgeyBcCkZpbGVzIHBhcmFsbGVsLTQuMC4xL3NyYy9wLWNvbnRyb2wu
+Y2MgYW5kIHBhcmFsbGVsLTQuMC4xLm5ldy9zcmMvcC1jb250cm9sLmNjIGRp
+ZmZlcgotLS0gcGFyYWxsZWwtNC4wLjEvc3JjL3AtY29udHJvbC5jYwkyMDIx
+LTAzLTE3IDA1OjAzOjA5LjAwMDAwMDAwMCArMTEwMAorKysgcGFyYWxsZWwt
+NC4wLjEubmV3L3NyYy9wLWNvbnRyb2wuY2MJMjAyMi0wMi0xNCAyMTo1Mzox
+Ni40MDYyNjQ0MTAgKzExMDAKQEAgLTI4Niw3ICsyODYsNyBAQAogICAgICAg
+ICB9CiAgICAgICBlbHNlCiAgICAgICAgIHsKLSAgICAgICAgICBucHJvY19t
+YXggPSBudW1fcHJvY2Vzc29ycyAoTlBST0NfQ1VSUkVOVCk7CisgICAgICAg
+ICAgbnByb2NfbWF4ID0gb2N0YXZlX251bV9wcm9jZXNzb3JzX3dyYXBwZXIg
+KE5QUk9DX0NVUlJFTlQpOwogCiAgICAgICAgICAgZ251bGliX3BvbGxmZHMg
+PSBnbnVsaWJfYWxsb2NfcG9sbGZkcyAobnByb2NfbWF4KTsKICAgICAgICAg
+fQpGaWxlcyBwYXJhbGxlbC00LjAuMS9zcmMvcGFyYWxsZWwtZ251dGxzLmgg
+YW5kIHBhcmFsbGVsLTQuMC4xLm5ldy9zcmMvcGFyYWxsZWwtZ251dGxzLmgg
+ZGlmZmVyCi0tLSBwYXJhbGxlbC00LjAuMS9zcmMvcGFyYWxsZWwtZ251dGxz
+LmgJMjAyMS0wMy0xNyAwNTowMzowOS4wMDAwMDAwMDAgKzExMDAKKysrIHBh
+cmFsbGVsLTQuMC4xLm5ldy9zcmMvcGFyYWxsZWwtZ251dGxzLmgJMjAyMi0w
+Mi0xNCAyMTo1MzoxMC45ODMyOTAyMzMgKzExMDAKQEAgLTQ0LDcgKzQ0LDcg
+QEAKIAogI2luY2x1ZGUgPHN0ZGludC5oPgogCi0vLyBXZSBsaW5rIGFnYWlu
+c3QgdGhlIGdudWxpYiBudW1fcHJvY2Vzc29ycygpIHVzZWQgYnkgT2N0YXZl
+LiBucHJvYy5oCisvLyBXZSBsaW5rIGFnYWluc3QgdGhlIGdudWxpYiBvY3Rh
+dmVfbnVtX3Byb2Nlc3NvcnNfd3JhcHBlcigpIHVzZWQgYnkgT2N0YXZlLiBu
+cHJvYy5oCiAvLyB1c2VkIGJ5IE9jdGF2ZSBpcyBub3QgYWNjZXNzaWJsZS4g
+SWYgdGhlIGludGVyZmFjZSBjaGFuZ2VzLCB0aGlzCiAvLyB3aWxsIHN0b3Ag
+d29ya2luZy4KIGV4dGVybiAiQyIgewpAQCAtNTgsNyArNTgsNyBAQAogCiAv
+KiBSZXR1cm4gdGhlIHRvdGFsIG51bWJlciBvZiBwcm9jZXNzb3JzLiAgVGhl
+IHJlc3VsdCBpcyBndWFyYW50ZWVkIHRvCiAgICBiZSBhdCBsZWFzdCAxLiAg
+Ki8KLWV4dGVybiB1bnNpZ25lZCBsb25nIGludCBudW1fcHJvY2Vzc29ycyAo
+ZW51bSBucHJvY19xdWVyeSBxdWVyeSk7CitleHRlcm4gdW5zaWduZWQgbG9u
+ZyBpbnQgb2N0YXZlX251bV9wcm9jZXNzb3JzX3dyYXBwZXIgKGVudW0gbnBy
+b2NfcXVlcnkgcXVlcnkpOwogfQogCiAKRmlsZXMgcGFyYWxsZWwtNC4wLjEv
+c3JjL3Bjb25uZWN0LmNjIGFuZCBwYXJhbGxlbC00LjAuMS5uZXcvc3JjL3Bj
+b25uZWN0LmNjIGRpZmZlcgotLS0gcGFyYWxsZWwtNC4wLjEvc3JjL3Bjb25u
+ZWN0LmNjCTIwMjEtMDMtMTcgMDU6MDM6MDkuMDAwMDAwMDAwICsxMTAwCisr
+KyBwYXJhbGxlbC00LjAuMS5uZXcvc3JjL3Bjb25uZWN0LmNjCTIwMjItMDIt
+MTQgMjE6NTQ6MjQuMzg5OTQwNjg1ICsxMTAwCkBAIC00MDcsNyArNDA3LDcg
+QEAKICAgbmV0d29yay0+aW5zZXJ0X2Nvbm5lY3Rpb24gKGNvbm4sIDApOwog
+CiAgIC8vIHN0b3JlIG51bWJlciBvZiBwcm9jZXNzb3IgY29yZXMgYXZhaWxh
+YmxlIGluIGNsaWVudAotICBjb25uLT5zZXRfbnByb2MgKG51bV9wcm9jZXNz
+b3JzIChOUFJPQ19DVVJSRU5UKSk7CisgIGNvbm4tPnNldF9ucHJvYyAob2N0
+YXZlX251bV9wcm9jZXNzb3JzX3dyYXBwZXIgKE5QUk9DX0NVUlJFTlQpKTsK
+IAogICBmb3IgKHVpbnQzMl90IGkgPSAwOyBpIDwgbmhvc3RzOyBpKyspCiAg
+ICAgewpGaWxlcyBwYXJhbGxlbC00LjAuMS9zcmMvY29uZmlndXJlIGFuZCBw
+YXJhbGxlbC00LjAuMS5uZXcvc3JjL2NvbmZpZ3VyZSBkaWZmZXIKLS0tIHBh
+cmFsbGVsLTQuMC4xL3NyYy9jb25maWd1cmUJMjAyMS0wMy0xNyAwNTowMzo0
+NC43NjY3Mzc4MTcgKzExMDAKKysrIHBhcmFsbGVsLTQuMC4xLm5ldy9zcmMv
+Y29uZmlndXJlCTIwMjItMDItMTQgMjE6MjQ6MzIuNjY3NDU2NTkyICsxMTAw
+CkBAIC0yMzQ4MiwxMSArMjM0ODIsMTEgQEAKIF9BQ0VPRgogaWYgYWNfZm5f
+Y3h4X3RyeV9jb21waWxlICIkTElORU5PIjsgdGhlbiA6CiAKLSRhc19lY2hv
+ICIjZGVmaW5lIE9DVEFWRV9fSU5URVJQUkVURVJfX1NZTUJPTF9UQUJMRV9f
+QVNTSUdOIG9jdGF2ZTo6aW50ZXJwcmV0ZXI6OnRoZV9pbnRlcnByZXRlciAo
+KSAtPiBnZXRfc3ltYm9sX3RhYmxlICgpLmFzc2lnbiIgPj5jb25mZGVmcy5o
+CiskYXNfZWNobyAiI2RlZmluZSBPQ1RBVkVfX0lOVEVSUFJFVEVSX19TWU1C
+T0xfVEFCTEVfX0FTU0lHTiBvY3RhdmU6OmludGVycHJldGVyOjp0aGVfaW50
+ZXJwcmV0ZXIgKCkgLT4gYXNzaWduIiA+PmNvbmZkZWZzLmgKIAogCi0gICAg
+IHsgJGFzX2VjaG8gIiRhc19tZToke2FzX2xpbmVuby0kTElORU5PfTogcmVz
+dWx0OiBvY3RhdmU6OmludGVycHJldGVyOjp0aGVfaW50ZXJwcmV0ZXIgKCkg
+LT4gZ2V0X3N5bWJvbF90YWJsZSAoKS5hc3NpZ24iID4mNQotJGFzX2VjaG8g
+Im9jdGF2ZTo6aW50ZXJwcmV0ZXI6OnRoZV9pbnRlcnByZXRlciAoKSAtPiBn
+ZXRfc3ltYm9sX3RhYmxlICgpLmFzc2lnbiIgPiY2OyB9CisgICAgIHsgJGFz
+X2VjaG8gIiRhc19tZToke2FzX2xpbmVuby0kTElORU5PfTogcmVzdWx0OiBv
+Y3RhdmU6OmludGVycHJldGVyOjp0aGVfaW50ZXJwcmV0ZXIgKCkgLT4gYXNz
+aWduIiA+JjUKKyRhc19lY2hvICJvY3RhdmU6OmludGVycHJldGVyOjp0aGVf
+aW50ZXJwcmV0ZXIgKCkgLT4gYXNzaWduIiA+JjY7IH0KICAgICAgZWNobyAn
+CiAnID4+IG9jdC1hbHQtaW5jbHVkZXMuaAogZWxzZQpGaWxlcyBwYXJhbGxl
+bC00LjAuMS9zcmMvX19vY3RhdmVfc2VydmVyX18uY2MgYW5kIHBhcmFsbGVs
+LTQuMC4xLm5ldy9zcmMvX19vY3RhdmVfc2VydmVyX18uY2MgZGlmZmVyCi0t
+LSBwYXJhbGxlbC00LjAuMS9zcmMvX19vY3RhdmVfc2VydmVyX18uY2MJMjAy
+MS0wMy0xNyAwNTowMzowOS4wMDAwMDAwMDAgKzExMDAKKysrIHBhcmFsbGVs
+LTQuMC4xLm5ldy9zcmMvX19vY3RhdmVfc2VydmVyX18uY2MJMjAyMi0wMi0x
+NCAyMTozOTo1MC45NjgwOTg3OTMgKzExMDAKQEAgLTMxNyw3ICszMTcsNyBA
+QAogI2VuZGlmIC8vIEhBVkVfTElCR05VVExTCiAKICAgLy8gZGV0ZXJtaW5l
+IG93biBudW1iZXIgb2YgdXNhYmxlIHByb2Nlc3NvciBjb3JlcwotICB1aW50
+MzJfdCBucHJvYyA9IG51bV9wcm9jZXNzb3JzIChOUFJPQ19DVVJSRU5UKTsK
+KyAgdWludDMyX3QgbnByb2MgPSBvY3RhdmVfbnVtX3Byb2Nlc3NvcnNfd3Jh
+cHBlciAoTlBST0NfQ1VSUkVOVCk7CiAKICAgLy8gVGhlIHNlcnZlcnMgY29t
+bWFuZCBzdHJlYW0gd2lsbCBub3QgYmUgaW5zZXJ0ZWQgaW50byBhCiAgIC8v
+IGNvbm5lY3Rpb24gb2JqZWN0Lgo=
+====
+EOF
+uudecode parallel-$PARALLEL_VER".patch.uue" > parallel-$PARALLEL_VER".patch"
+tar -xf $PARALLEL_ARCHIVE
+NEW_PARALLEL_ARCHIVE=parallel-$PARALLEL_VER".new.tar.gz"
+pushd parallel-$PARALLEL_VER
+patch -p1 < ../parallel-$PARALLEL_VER".patch"
+popd
+tar -czf $NEW_PARALLEL_ARCHIVE parallel-$PARALLEL_VER
+rm -Rf parallel-$PARALLEL_VER parallel-$PARALLEL_VER".patch.uue" parallel-$PARALLEL_VER".patch"
+
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$NEW_PARALLEL_ARCHIVE
+rm -f $NEW_PARALLEL_ARCHIVE
 
 #
 # Fix optim package quadprog function and install the optim package
 #
 cat > optim-$OPTIM_VER".patch.uue" << 'EOF'
-begin-base64 664 optim-1.6.1.patch
-LS0tIG9wdGltLTEuNi4wL2luc3Qvb3B0aW1fZG9jLm0JMjAxOS0wMy0xNiAx
-NzowMzozNS44Mzg4Mjg5OTggKzExMDAKKysrIG9wdGltLTEuNi4wLm5ldy9p
-bnN0L29wdGltX2RvYy5tCTIwMjEtMDEtMTUgMjE6NDA6MzQuMjE2NjEzNzA0
-ICsxMTAwCkBAIC0zNSwxMiArMzUsMTQgQEAKICAgcGVyc2lzdGVudCBpbmZv
-cGF0aCA9ICIiOwogICBpZiAoaXNlbXB0eSAoaW5mb3BhdGgpKQogICAgIFts
-b2NhbF9saXN0LCBnbG9iYWxfbGlzdF0gPSBwa2cgKCJsaXN0Iik7Ci0gICAg
-aWYgKCEgaXNlbXB0eSAoaWR4ID0gLi4uCisgICAgaWYgKGxlbmd0aChsb2Nh
-bF9saXN0KT4wKSAmJiAuLi4KKyAgICAgICAoISBpc2VtcHR5IChpZHggPSAu
-Li4KICAgICAgICAgICAgICAgICAgICBmaW5kIChzdHJjbXAgKCJvcHRpbSIs
-CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB7c3RydWN0Y2F0
-KDEsIGxvY2FsX2xpc3R7On0pLm5hbWV9KSwKICAgICAgICAgICAgICAgICAg
-ICAgICAgICAxKSkpCi0gICAgICBpZGlyID0gbG9jYWxfbGlzdHtpZHh9LmRp
-cjsKLSAgICBlbHNlaWYgKCEgaXNlbXB0eSAoaWR4ID0gLi4uCisgICAgICBp
-ZGlyID0gbG9jYWxfbGlzdHtpZHh9LmRpcjsgCisgICAgZWxzZWlmIChsZW5n
-dGgoZ2xvYmFsX2xpc3QpPjApICYmIC4uLgorICAgICAgICAgICAoISBpc2Vt
-cHR5IChpZHggPSAuLi4KICAgICAgICAgICAgICAgICAgICAgICAgZmluZCAo
-c3RyY21wICgib3B0aW0iLAogICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIHtzdHJ1Y3RjYXQoMSwgZ2xvYmFsX2xpc3R7On0pLm5hbWV9
-KSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMSkpKQotLS0gb3B0
-aW0tMS42LjAvc3JjL2Vycm9yLWhlbHBlcnMuaAkyMDE5LTAzLTE2IDE3OjAz
-OjM1Ljg2NjgyOTQwMSArMTEwMAorKysgb3B0aW0tMS42LjAubmV3L3NyYy9l
-cnJvci1oZWxwZXJzLmgJMjAyMS0wMS0xNSAyMjowNDoxNS4yMTM3Mzk1ODgg
-KzExMDAKQEAgLTQ1LDEyICs0NSw2IEBACiAgICAgICB7IFwKICAgICAgICAg
-Y29kZSA7IFwKICBcCi0gICAgICAgIGlmIChlcnJvcl9zdGF0ZSkgXAotICAg
-ICAgICAgIHsgXAotICAgICAgICAgICAgZXJyb3IgKF9fVkFfQVJHU19fKTsg
-XAotIFwKLSAgICAgICAgICAgIHJldHVybiByZXR2YWw7IFwKLSAgICAgICAg
-ICB9IFwKICAgICAgIH0gXAogICAgIGNhdGNoIChPQ1RBVkVfX0VYRUNVVElP
-Tl9FWENFUFRJT04mIGUpIFwKICAgICAgIHsgXApAQCAtNzgsMTIgKzcyLDYg
-QEAKICAgICAgIHsgXAogICAgICAgICBjb2RlIDsgXAogIFwKLSAgICAgICAg
-aWYgKGVycm9yX3N0YXRlKSBcCi0gICAgICAgICAgeyBcCi0gICAgICAgICAg
-ICBfcF9lcnJvciAoX19WQV9BUkdTX18pOyBcCi0gXAotICAgICAgICAgICAg
-ZXhpdCAoMSk7IFwKLSAgICAgICAgICB9IFwKICAgICAgIH0gXAogICAgIGNh
+begin-base64 644 optim-1.6.1.patch
+RmlsZXMgb3B0aW0tMS42LjEvaW5zdC9sc3FsaW4ubSBhbmQgb3B0aW0tMS42
+LjEubmV3L2luc3QvbHNxbGluLm0gZGlmZmVyCi0tLSBvcHRpbS0xLjYuMS9p
+bnN0L2xzcWxpbi5tCTIwMjEtMDItMTcgMDY6MDI6MTMuMDAwMDAwMDAwICsx
+MTAwCisrKyBvcHRpbS0xLjYuMS5uZXcvaW5zdC9sc3FsaW4ubQkyMDIyLTAy
+LTE0IDE1OjA0OjQxLjk3MDUzMjg3MSArMTEwMApAQCAtMTE1LDcgKzExNSw3
+IEBACiAKICAgaWYgKG5fb3V0ID4gMikKICAgICAjIyBXZSBkb24ndCBuZWVk
+IHRvIGtub3cgaWYgb3JpZ2luYWwgbl9vdXQgd2FzIDMgb3IgMi4KLSAgICBu
+X291dCAtLTsKKyAgICBuX291dC0tOwogICBlbmRpZgogCiAgIHF1YWRwcm9n
+X291dCA9IGNlbGwgKDEsIG1heCAobl9vdXQsIDEpKTsKRmlsZXMgb3B0aW0t
+MS42LjEvaW5zdC92Znplcm8ubSBhbmQgb3B0aW0tMS42LjEubmV3L2luc3Qv
+dmZ6ZXJvLm0gZGlmZmVyCi0tLSBvcHRpbS0xLjYuMS9pbnN0L3ZmemVyby5t
+CTIwMjEtMDItMTcgMDY6MDI6MTMuMDAwMDAwMDAwICsxMTAwCisrKyBvcHRp
+bS0xLjYuMS5uZXcvaW5zdC92Znplcm8ubQkyMDIyLTAyLTE0IDE1OjA4OjQ0
+LjM5NjM4OTgwMyArMTEwMApAQCAtMjgyLDcgKzI4Miw3IEBACiAJCQkJIyBm
+dW4oKSBtaWdodCBleHBlY3QgZnVsbC1sZW5ndGgKIAkJCQkjIGFyZ3VtZW50
+CiAgICAgICBmdmFsKGlkeCwgMSkgPSBmYyhpZHgsIDEpID0gZnVuIChjKSg6
+KShpZHgsIDEpOwotICAgICAgbml0ZXIgKys7IG5mZXYgKys7CisgICAgICBu
+aXRlcisrOyBuZmV2Kys7CiAgICAgZW5kaWYKIAogICAgICMjIE1vZGlmaWNh
+dGlvbiAyOiBza2lwIGludmVyc2UgY3ViaWMgaW50ZXJwb2xhdGlvbiBpZgpG
+aWxlcyBvcHRpbS0xLjYuMS9pbnN0L29wdGltX2RvYy5tIGFuZCBvcHRpbS0x
+LjYuMS5uZXcvaW5zdC9vcHRpbV9kb2MubSBkaWZmZXIKLS0tIG9wdGltLTEu
+Ni4xL2luc3Qvb3B0aW1fZG9jLm0JMjAyMS0wMi0xNyAwNjowMjoxMy4wMDAw
+MDAwMDAgKzExMDAKKysrIG9wdGltLTEuNi4xLm5ldy9pbnN0L29wdGltX2Rv
+Yy5tCTIwMjItMDItMTQgMTQ6NTk6MTIuNDMwMTkxNjg0ICsxMTAwCkBAIC0z
+NSwxMiArMzUsMTQgQEAKICAgcGVyc2lzdGVudCBpbmZvcGF0aCA9ICIiOwog
+ICBpZiAoaXNlbXB0eSAoaW5mb3BhdGgpKQogICAgIFtsb2NhbF9saXN0LCBn
+bG9iYWxfbGlzdF0gPSBwa2cgKCJsaXN0Iik7Ci0gICAgaWYgKCEgaXNlbXB0
+eSAoaWR4ID0gLi4uCisgICAgaWYgKGxlbmd0aChsb2NhbF9saXN0KT4wKSAm
+JiAuLi4KKyAgICAgICAoISBpc2VtcHR5IChpZHggPSAuLi4KICAgICAgICAg
+ICAgICAgICAgICBmaW5kIChzdHJjbXAgKCJvcHRpbSIsCiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICB7c3RydWN0Y2F0KDEsIGxvY2FsX2xp
+c3R7On0pLm5hbWV9KSwKICAgICAgICAgICAgICAgICAgICAgICAgICAxKSkp
+Ci0gICAgICBpZGlyID0gbG9jYWxfbGlzdHtpZHh9LmRpcjsKLSAgICBlbHNl
+aWYgKCEgaXNlbXB0eSAoaWR4ID0gLi4uCisgICAgICBpZGlyID0gbG9jYWxf
+bGlzdHtpZHh9LmRpcjsgCisgICAgZWxzZWlmIChsZW5ndGgoZ2xvYmFsX2xp
+c3QpPjApICYmIC4uLgorICAgICAgICAgICAoISBpc2VtcHR5IChpZHggPSAu
+Li4KICAgICAgICAgICAgICAgICAgICAgICAgZmluZCAoc3RyY21wICgib3B0
+aW0iLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHtz
+dHJ1Y3RjYXQoMSwgZ2xvYmFsX2xpc3R7On0pLm5hbWV9KSwKICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgMSkpKQpGaWxlcyBvcHRpbS0xLjYuMS9z
+cmMvZXJyb3ItaGVscGVycy5oIGFuZCBvcHRpbS0xLjYuMS5uZXcvc3JjL2Vy
+cm9yLWhlbHBlcnMuaCBkaWZmZXIKLS0tIG9wdGltLTEuNi4xL3NyYy9lcnJv
+ci1oZWxwZXJzLmgJMjAyMS0wMi0xNyAwNjowMjoxMy4wMDAwMDAwMDAgKzEx
+MDAKKysrIG9wdGltLTEuNi4xLm5ldy9zcmMvZXJyb3ItaGVscGVycy5oCTIw
+MjItMDItMTQgMTQ6NTk6MzYuMTA2MDcyNTAzICsxMTAwCkBAIC00NCwxMyAr
+NDQsNiBAQAogICAgIHRyeSBcCiAgICAgICB7IFwKICAgICAgICAgY29kZSA7
+IFwKLSBcCi0gICAgICAgIGlmIChlcnJvcl9zdGF0ZSkgXAotICAgICAgICAg
+IHsgXAotICAgICAgICAgICAgZXJyb3IgKF9fVkFfQVJHU19fKTsgXAotIFwK
+LSAgICAgICAgICAgIHJldHVybiByZXR2YWw7IFwKLSAgICAgICAgICB9IFwK
+ICAgICAgIH0gXAogICAgIGNhdGNoIChPQ1RBVkVfX0VYRUNVVElPTl9FWENF
+UFRJT04mIGUpIFwKICAgICAgIHsgXApAQCAtNjQsNyArNTcsOSBAQAogICAg
+ICAgfSBcCiAgICAgY2F0Y2ggKE9DVEFWRV9fRVhFQ1VUSU9OX0VYQ0VQVElP
+TiYgZSkgXAogICAgICAgeyBcCi0gICAgICAgIHZlcnJvciAoZSwgX19WQV9B
+UkdTX18pOyBcCisgICAgICAgIF9wX2Vycm9yIChfX1ZBX0FSR1NfXyk7IFwK
+KyBcCisgICAgICAgIGV4aXQgKDEpOyBcCiAgICAgICB9CiAjZW5kaWYKIApA
+QCAtNzcsMTMgKzcyLDYgQEAKICAgICB0cnkgXAogICAgICAgeyBcCiAgICAg
+ICAgIGNvZGUgOyBcCi0gXAotICAgICAgICBpZiAoZXJyb3Jfc3RhdGUpIFwK
+LSAgICAgICAgICB7IFwKLSAgICAgICAgICAgIF9wX2Vycm9yIChfX1ZBX0FS
+R1NfXyk7IFwKLSBcCi0gICAgICAgICAgICBleGl0ICgxKTsgXAotICAgICAg
+ICAgIH0gXAogICAgICAgfSBcCiAgICAgY2F0Y2ggKE9DVEFWRV9fRVhFQ1VU
+SU9OX0VYQ0VQVElPTiYpIFwKICAgICAgIHsgXApAQCAtMTE2LDExICsxMDQs
+NiBAQAogICAgIHRyeSBcCiAgICAgICB7IFwKICAgICAgICAgY29kZSA7IFwK
+LSAgICAgICAgaWYgKGVycm9yX3N0YXRlKSBcCi0gICAgICAgICAgeyBcCi0g
+ICAgICAgICAgICBlcnJvcl9zdGF0ZSA9IDA7IFwKLSAgICAgICAgICAgIGVy
+ciA9IHRydWU7IFwKLSAgICAgICAgICB9IFwKICAgICAgIH0gXAogICAgIGNh
 dGNoIChPQ1RBVkVfX0VYRUNVVElPTl9FWENFUFRJT04mKSBcCiAgICAgICB7
-IFwKQEAgLTExNiwxMSArMTA0LDYgQEAKICAgICB0cnkgXAogICAgICAgeyBc
-CiAgICAgICAgIGNvZGUgOyBcCi0gICAgICAgIGlmIChlcnJvcl9zdGF0ZSkg
-XAotICAgICAgICAgIHsgXAotICAgICAgICAgICAgZXJyb3Jfc3RhdGUgPSAw
-OyBcCi0gICAgICAgICAgICBlcnIgPSB0cnVlOyBcCi0gICAgICAgICAgfSBc
-CiAgICAgICB9IFwKICAgICBjYXRjaCAoT0NUQVZFX19FWEVDVVRJT05fRVhD
-RVBUSU9OJikgXAogICAgICAgeyBcCg==
+IFwK
 ====
 EOF
 uudecode optim-$OPTIM_VER".patch.uue" > optim-$OPTIM_VER".patch"
@@ -709,33 +808,121 @@ $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$NEW_OPTIM_ARCHIVE
 rm -f $NEW_OPTIM_ARCHIVE
 
 #
-# Fix signal package zplane function and install the signal package
+# Fix signal package and install the signal package
 #
-cat > zplane.m.patch.uue << 'EOF'
-begin-base64 644 zplane.m.patch
-LS0tIHNpZ25hbC0xLjQuMS9pbnN0L3pwbGFuZS5tCTIwMTktMDItMDkgMDk6
-MDA6MzcuMDAwMDAwMDAwICsxMTAwCisrKyB6cGxhbmUubQkyMDE5LTA1LTEx
-IDE1OjAyOjQwLjM2MzE3OTI4MiArMTAwMApAQCAtMTE1LDggKzExNSw5IEBA
-CiAgICAgICBmb3IgaSA9IDE6bGVuZ3RoICh4X3UpCiAgICAgICAgIG4gPSBz
-dW0gKHhfdShpKSA9PSB4KDosYykpOwogICAgICAgICBpZiAobiA+IDEpCi0g
-ICAgICAgICAgbGFiZWwgPSBzcHJpbnRmICgiIF4lZCIsIG4pOwotICAgICAg
-ICAgIHRleHQgKHJlYWwgKHhfdShpKSksIGltYWcgKHhfdShpKSksIGxhYmVs
-LCAiY29sb3IiLCBjb2xvcik7CisgICAgICAgICAgbGFiZWwgPSBzcHJpbnRm
-ICgiJWQiLCBuKTsKKyAgICAgICAgICB0ZXh0IChyZWFsICh4X3UoaSkpLCBp
-bWFnICh4X3UoaSkpLCBsYWJlbCwgImNvbG9yIiwgY29sb3IsIC4uLgorICAg
-ICAgICAgICAgICAgICJ2ZXJ0aWNhbGFsaWdubWVudCIsICJib3R0b20iLCAi
-aG9yaXpvbnRhbGFsaWdubWVudCIsICJsZWZ0Iik7CiAgICAgICAgIGVuZGlm
-CiAgICAgICBlbmRmb3IKICAgICBlbmRmb3IK
+cat > signal-$SIGNAL_VER.patch.uue << 'EOF'
+begin-base64 644 signal-1.4.1.patch
+RmlsZXMgc2lnbmFsLTEuNC4xL2luc3QvenBsYW5lLm0gYW5kIHNpZ25hbC0x
+LjQuMS5uZXcvaW5zdC96cGxhbmUubSBkaWZmZXIKLS0tIHNpZ25hbC0xLjQu
+MS9pbnN0L3pwbGFuZS5tCTIwMTktMDItMDkgMDk6MDA6MzcuMDAwMDAwMDAw
+ICsxMTAwCisrKyBzaWduYWwtMS40LjEubmV3L2luc3QvenBsYW5lLm0JMjAy
+Mi0wMi0xNCAxNDowMzoxMy4zNjA5ODYwNjYgKzExMDAKQEAgLTExNSw4ICsx
+MTUsOSBAQAogICAgICAgZm9yIGkgPSAxOmxlbmd0aCAoeF91KQogICAgICAg
+ICBuID0gc3VtICh4X3UoaSkgPT0geCg6LGMpKTsKICAgICAgICAgaWYgKG4g
+PiAxKQotICAgICAgICAgIGxhYmVsID0gc3ByaW50ZiAoIiBeJWQiLCBuKTsK
+LSAgICAgICAgICB0ZXh0IChyZWFsICh4X3UoaSkpLCBpbWFnICh4X3UoaSkp
+LCBsYWJlbCwgImNvbG9yIiwgY29sb3IpOworICAgICAgICAgIGxhYmVsID0g
+c3ByaW50ZiAoIiVkIiwgbik7CisgICAgICAgICAgdGV4dCAocmVhbCAoeF91
+KGkpKSwgaW1hZyAoeF91KGkpKSwgbGFiZWwsICJjb2xvciIsIGNvbG9yLCAu
+Li4KKyAgICAgICAgICAgICAgICAidmVydGljYWxhbGlnbm1lbnQiLCAiYm90
+dG9tIiwgImhvcml6b250YWxhbGlnbm1lbnQiLCAibGVmdCIpOwogICAgICAg
+ICBlbmRpZgogICAgICAgZW5kZm9yCiAgICAgZW5kZm9yCkZpbGVzIHNpZ25h
+bC0xLjQuMS9pbnN0L2J1ZmZlci5tIGFuZCBzaWduYWwtMS40LjEubmV3L2lu
+c3QvYnVmZmVyLm0gZGlmZmVyCi0tLSBzaWduYWwtMS40LjEvaW5zdC9idWZm
+ZXIubQkyMDE5LTAyLTA5IDA5OjAwOjM3LjAwMDAwMDAwMCArMTEwMAorKysg
+c2lnbmFsLTEuNC4xLm5ldy9pbnN0L2J1ZmZlci5tCTIwMjItMDItMTQgMTQ6
+MTQ6MDQuOTQxMDc3OTc3ICsxMTAwCkBAIC0xMjAsNyArMTIwLDcgQEAKICAg
+ICAgICAgICBlbmR3aGlsZQogICAgICAgICAgIFtpLCBqXSA9IGluZDJzdWIo
+W24tcCwgbV0sIGwpOwogICAgICAgICAgIGlmIChhbGwgKFtpLCBqXSA9PSBb
+bi1wLCBtXSkpCi0gICAgICAgICAgICBvZmYgLS07CisgICAgICAgICAgICBv
+ZmYtLTsKICAgICAgICAgICBlbmRpZgogICAgICAgICAgIHkgKDosIGVuZCAt
+IG9mZiArIDIgOiBlbmQpID0gW107CiAgICAgICAgIGVsc2UKRmlsZXMgc2ln
+bmFsLTEuNC4xL3NyYy9jbDJicC5jYyBhbmQgc2lnbmFsLTEuNC4xLm5ldy9z
+cmMvY2wyYnAuY2MgZGlmZmVyCi0tLSBzaWduYWwtMS40LjEvc3JjL2NsMmJw
+LmNjCTIwMTktMDItMDkgMDk6MDA6MzcuMDAwMDAwMDAwICsxMTAwCisrKyBz
+aWduYWwtMS40LjEubmV3L3NyYy9jbDJicC5jYwkyMDIyLTAyLTE0IDE0OjA1
+OjQyLjg3MDMyMDk3MiArMTEwMApAQCAtODksMzAgKzg5LDEwIEBACiAgIH0K
+IAogICBjb25zdCBpbnQgbSA9IGFyZ3MoMCkuaW50X3ZhbHVlKHRydWUpOwot
+ICBpZiAoZXJyb3Jfc3RhdGUpIHsKLSAgICBlcnJfd3JvbmdfdHlwZV9hcmcg
+KCJjbDJicCIsIGFyZ3MoMCkpOwotICAgIHJldHVybiByZXR2YWw7Ci0gIH0K
+ICAgY29uc3QgZG91YmxlIHcxID0gYXJncygxKS5kb3VibGVfdmFsdWUoKTsK
+LSAgaWYgKGVycm9yX3N0YXRlKSB7Ci0gICAgZXJyX3dyb25nX3R5cGVfYXJn
+ICgiY2wyYnAiLCBhcmdzKDEpKTsKLSAgICByZXR1cm4gcmV0dmFsOwotICB9
+CiAgIGNvbnN0IGRvdWJsZSB3MiA9IGFyZ3MoMikuZG91YmxlX3ZhbHVlKCk7
+Ci0gIGlmIChlcnJvcl9zdGF0ZSkgewotICAgIGVycl93cm9uZ190eXBlX2Fy
+ZyAoImNsMmJwIiwgYXJncygyKSk7Ci0gICAgcmV0dXJuIHJldHZhbDsKLSAg
+fQogICBjb25zdCBDb2x1bW5WZWN0b3IgdXBfdmVjdG9yKGFyZ3MoMykudmVj
+dG9yX3ZhbHVlKCkpOwotICBpZiAoZXJyb3Jfc3RhdGUpIHsKLSAgICBlcnJf
+d3JvbmdfdHlwZV9hcmcgKCJjbDJicCIsIGFyZ3MoMykpOwotICAgIHJldHVy
+biByZXR2YWw7Ci0gIH0KICAgY29uc3QgQ29sdW1uVmVjdG9yIGxvX3ZlY3Rv
+cihhcmdzKDQpLnZlY3Rvcl92YWx1ZSgpKTsKLSAgaWYgKGVycm9yX3N0YXRl
+KSB7Ci0gICAgZXJyX3dyb25nX3R5cGVfYXJnICgiY2wyYnAiLCBhcmdzKDQp
+KTsKLSAgICByZXR1cm4gcmV0dmFsOwotICB9CiAgIGlmICh1cF92ZWN0b3Iu
+bnVtZWwoKSAhPSAzIHx8IGxvX3ZlY3Rvci5udW1lbCgpICE9IDMpIHsKICAg
+ICBlcnJvcigiY2wyYnA6IFRoZSB1cCBhbmQgbG8gdmVjdG9ycyBtdXN0IGNv
+bnRhaW4gMyB2YWx1ZXMiKTsKICAgICByZXR1cm4gcmV0dmFsOwpAQCAtMTI2
+LDEwICsxMDYsNiBAQAogICB9CiAKICAgY29uc3QgaW50IEwgPSBhcmdzKDUp
+LmludF92YWx1ZSh0cnVlKTsKLSAgaWYgKGVycm9yX3N0YXRlKSB7Ci0gICAg
+ZXJyX3dyb25nX3R5cGVfYXJnICgiY2wyYnAiLCBhcmdzKDUpKTsKLSAgICBy
+ZXR1cm4gcmV0dmFsOwotICB9CiAgIGlmIChMID4gMTAwMDAwMCkgewogICAg
+IGVycm9yKCJjbDJicDogVGhlIFwiZ3JpZHNpemVcIiBwYXJhbWV0ZXIgY2Fu
+bm90IGV4Y2VlZCAxMDAwMDAwIik7CiAgICAgcmV0dXJuIHJldHZhbDsKRmls
+ZXMgc2lnbmFsLTEuNC4xL3NyYy9zb3NmaWx0LmNjIGFuZCBzaWduYWwtMS40
+LjEubmV3L3NyYy9zb3NmaWx0LmNjIGRpZmZlcgotLS0gc2lnbmFsLTEuNC4x
+L3NyYy9zb3NmaWx0LmNjCTIwMTktMDItMDkgMDk6MDA6MzcuMDAwMDAwMDAw
+ICsxMTAwCisrKyBzaWduYWwtMS40LjEubmV3L3NyYy9zb3NmaWx0LmNjCTIw
+MjItMDItMTQgMTQ6MDU6MjQuMDI4NDA0ODAyICsxMTAwCkBAIC01NSwxMiAr
+NTUsNiBAQAogCiAgIE1hdHJpeCBzb3MoIGFyZ3MoMCkubWF0cml4X3ZhbHVl
+KCkgKTsKIAotICBpZiAoZXJyb3Jfc3RhdGUpCi0gICAgewotICAgICAgZXJy
+X3dyb25nX3R5cGVfYXJnICgic29zZmlsdCIsIGFyZ3MoMCkpOwotICAgICAg
+cmV0dXJuIHJldHZhbDsKLSAgICB9Ci0KICAgaWYgKHNvcy5jb2x1bW5zKCkg
+IT0gNikKICAgICB7CiAgICAgICBlcnJvcigiU2Vjb25kLW9yZGVyIHNlY3Rp
+b24gbWF0cml4IG11c3QgYmUgYSBub24tZW1wdHkgTHg2IG1hdHJpeCIpOwpA
+QCAtNjksMTIgKzYzLDYgQEAKIAogICBNYXRyaXggeCggYXJncygxKS5tYXRy
+aXhfdmFsdWUoKSApOwogCi0gIGlmIChlcnJvcl9zdGF0ZSkKLSAgICB7Ci0g
+ICAgICBlcnJfd3JvbmdfdHlwZV9hcmcgKCJzb3NmaWx0IiwgYXJncygxKSk7
+Ci0gICAgICByZXR1cm4gcmV0dmFsOwotICAgIH0KLQogICBpbnQgbj14LnJv
+d3MoKTsKICAgaW50IG09eC5jb2x1bW5zKCk7CiAKRmlsZXMgc2lnbmFsLTEu
+NC4xL3NyYy91cGZpcmRuLmNjIGFuZCBzaWduYWwtMS40LjEubmV3L3NyYy91
+cGZpcmRuLmNjIGRpZmZlcgotLS0gc2lnbmFsLTEuNC4xL3NyYy91cGZpcmRu
+LmNjCTIwMTktMDItMDkgMDk6MDA6MzcuMDAwMDAwMDAwICsxMTAwCisrKyBz
+aWduYWwtMS40LjEubmV3L3NyYy91cGZpcmRuLmNjCTIwMjItMDItMTQgMTQ6
+MDU6MDYuNzg5NDgxNDgxICsxMTAwCkBAIC0xMDgsMzcgKzEwOCwxNCBAQAog
+CiAgIENvbHVtblZlY3RvciBoIChhcmdzICgxKS52ZWN0b3JfdmFsdWUgKCkp
+OwogCi0gIGlmIChlcnJvcl9zdGF0ZSkKLSAgICB7Ci0gICAgICBlcnJfd3Jv
+bmdfdHlwZV9hcmcgKCJ1cGZpcmRuIiwgYXJncygxKSk7Ci0gICAgICByZXR1
+cm4gcmV0dmFsOwotICAgIH0KLQogICBvY3RhdmVfaWR4X3R5cGUgcCA9IGFy
+Z3MgKDIpLmlkeF90eXBlX3ZhbHVlICgpOwogCi0gIGlmIChlcnJvcl9zdGF0
+ZSkKLSAgICB7Ci0gICAgICBlcnJfd3JvbmdfdHlwZV9hcmcgKCJ1cGZpcmRu
+IiwgYXJncygyKSk7Ci0gICAgICByZXR1cm4gcmV0dmFsOwotICAgIH0KLQog
+ICBvY3RhdmVfaWR4X3R5cGUgcSA9IGFyZ3MgKDMpLmlkeF90eXBlX3ZhbHVl
+ICgpOwogCi0gIGlmIChlcnJvcl9zdGF0ZSkKLSAgICB7Ci0gICAgICBlcnJf
+d3JvbmdfdHlwZV9hcmcgKCJ1cGZpcmRuIiwgYXJncygzKSk7Ci0gICAgICBy
+ZXR1cm4gcmV0dmFsOwotICAgIH0KLQogICAvLyBEbyB0aGUgZGlzcGF0Y2hp
+bmcKICAgaWYgKG9jdGF2ZTo6c2lnbmFsOjppc3JlYWwgKGFyZ3MgKDApKSkK
+ICAgICB7CiAgICAgICBNYXRyaXggeCA9IGFyZ3MgKDApLm1hdHJpeF92YWx1
+ZSAoKTsKLSAgICAgIGlmIChlcnJvcl9zdGF0ZSkKLSAgICAgICAgewotICAg
+ICAgICAgIGVycl93cm9uZ190eXBlX2FyZyAoInVwZmlyZG4iLCBhcmdzKDAp
+KTsKLSAgICAgICAgICByZXR1cm4gcmV0dmFsOwotICAgICAgICB9CiAKICAg
+ICAgIE1hdHJpeCB5ID0gdXBmaXJkbiAoeCwgaCwgcCwgcSk7CiAgICAgICBy
+ZXR2YWwgKDApID0geTsKQEAgLTE0NiwxMSArMTIzLDYgQEAKICAgZWxzZSBp
+ZiAob2N0YXZlOjpzaWduYWw6OmlzY29tcGxleCAoYXJncyAoMCkpKQogICAg
+IHsKICAgICAgIENvbXBsZXhNYXRyaXggeCA9IGFyZ3MgKDApLmNvbXBsZXhf
+bWF0cml4X3ZhbHVlICgpOwotICAgICAgaWYgKGVycm9yX3N0YXRlKQotICAg
+ICAgICB7Ci0gICAgICAgICAgZXJyX3dyb25nX3R5cGVfYXJnICgidXBmaXJk
+biIsIGFyZ3MoMCkpOwotICAgICAgICAgIHJldHVybiByZXR2YWw7Ci0gICAg
+ICAgIH0KIAogICAgICAgQ29tcGxleE1hdHJpeCB5ID0gdXBmaXJkbiAoeCwg
+aCwgcCwgcSk7CiAgICAgICByZXR2YWwgKDApID0geTsK
 ====
 EOF
-uudecode zplane.m.patch.uue > zplane.m.patch
+uudecode signal-$SIGNAL_VER.patch.uue > signal-$SIGNAL_VER.patch
 tar -xf $SIGNAL_ARCHIVE
-NEW_SIGNAL_ARCHIVE=signal-$SIGNAL_VER".new.tar.gz"
 pushd signal-$SIGNAL_VER
-patch -p1 < ../zplane.m.patch
+patch -p1 < ../signal-$SIGNAL_VER.patch
 popd
+NEW_SIGNAL_ARCHIVE=signal-$SIGNAL_VER".new.tar.gz"
 tar -czf $NEW_SIGNAL_ARCHIVE signal-$SIGNAL_VER
-rm -Rf signal-$SIGNAL_VER zplane.m.patch.uue zplane.m.patch
+rm -Rf signal-$SIGNAL_VER signal-$SIGNAL_VER.patch.uue signal-$SIGNAL_VER.patch
 
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$NEW_SIGNAL_ARCHIVE
 rm -f $NEW_SIGNAL_ARCHIVE
@@ -911,8 +1098,8 @@ OCTAVE_SITE_M_DIR=$OCTAVE_SHARE_DIR/$OCTAVE_LOCAL_VERSION/site/m
 
 # Install SeDuMi
 if ! test -f sedumi-master.zip ; then
-  wget -c $GITHUB_URL/sedumi/archive/master.zip
-  mv -f master.zip sedumi-master.zip
+    wget -c $GITHUB_URL/sedumi/archive/master.zip
+    mv -f master.zip sedumi-master.zip
 fi
 rm -Rf sedumi-master $OCTAVE_SITE_M_DIR/SeDuMi
 unzip sedumi-master.zip
@@ -924,8 +1111,8 @@ $OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SeDuMi/install_sedumi.m
 
 # Install SDPT3
 if ! test -f sdpt3-master.zip ; then
-  wget -c $GITHUB_URL/sdpt3/archive/master.zip
-  mv master.zip sdpt3-master.zip
+   wget -c $GITHUB_URL/sdpt3/archive/master.zip
+   mv master.zip sdpt3-master.zip
 fi
 rm -Rf sdpt3-master $OCTAVE_SITE_M_DIR/SDPT3
 unzip sdpt3-master.zip 
@@ -937,8 +1124,8 @@ $OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SDPT3/install_sdpt3.m
 
 # Install YALMIP
 if ! test -f YALMIP-develop.zip ; then
-  wget -c $GITHUB_URL/YALMIP/archive/develop.zip
-  mv develop.zip YALMIP-develop.zip
+   wget -c $GITHUB_URL/YALMIP/archive/develop.zip
+   mv develop.zip YALMIP-develop.zip
 fi
 rm -Rf YALMIP-develop $OCTAVE_SITE_M_DIR/YALMIP
 unzip YALMIP-develop.zip 
@@ -947,8 +1134,8 @@ if test $? -ne 0;then rm -Rf YALMIP-develop; exit -1; fi
 
 # Install SparsePOP
 if ! test -f SparsePOP-master.zip ; then
-  wget -c $GITHUB_URL/SparsePOP/archive/master.zip
-  mv master.zip SparsePOP-master.zip
+   wget -c $GITHUB_URL/SparsePOP/archive/master.zip
+   mv master.zip SparsePOP-master.zip
 fi
 rm -Rf SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP
 unzip SparsePOP-master.zip
