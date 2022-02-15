@@ -34582,8 +34582,8 @@ I currently use the Fedora 35 distribution of Linux~\cite{Fedora_website} with:
 \item a local build of \emph{octave-6.4.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic} and \emph{parallel} Octave-Forge packages
-\item the Octave scripts use the \emph{qt} graphics toolkit and
-  \emph{qt-4.8.7-62}
+\item the Octave scripts use the \emph{qt} graphics toolkit with
+  \emph{qt-4.8.7-62} and a local build of \emph{GraphicsMagick}
 \item \emph{texlive-2021-45} and various packages are installed
 \item \emph{dia-0.97.3-18} is used for line drawings
 \end{itemize}
@@ -34596,7 +34596,7 @@ dnf install \
 readline-devel make lzip sharutils gcc gcc-c++ gcc-gfortran gmp-devel \
 mpfr-devel cmake gnuplot-latex m4 gperf bison flex openblas-devel patch \
 texinfo texinfo-tex librsvg2 librsvg2-devel librsvg2-tools icoutils autoconf \
-automake libtool pcre pcre-devel freetype freetype-devel gnupg2 \
+automake libtool pcre pcre-devel freetype freetype-devel gnupg2
 \end{verbatim}
 \end{small}
 
@@ -34656,8 +34656,9 @@ libraries:
 \emph{glpk-5.0}~\cite{GNU_GLPK},
 \emph{lapack-3.10.0}~\cite{LAPACK_website},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
-\emph{SuiteSparse-5.10.1}~\cite{SUITESPARSE_website} and
-\emph{sundials-5.8.0}~\cite{SUNDIALS_website}.
+\emph{SuiteSparse-5.10.1}~\cite{SUITESPARSE_website},
+\emph{sundials-5.8.0}~\cite{SUNDIALS_website} and
+\emph{GraphicsMagick-1.3.37}~\cite{GraphicsMagick_website}.
 The local build of the \emph{LAPACK} library includes the deprecated routines.
 
 This project includes a number of Octave \emph{oct-file} extensions written in
