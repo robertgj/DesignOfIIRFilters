@@ -46,7 +46,7 @@ diff_Af=zeros(length(wa),length(fM));
 for l=1:length(fM)
   AfPdel2=johanssonOneMlatticeAzp(wa,fM+delf,k0,epsilon0,k1,epsilon1);
   AfMdel2=johanssonOneMlatticeAzp(wa,fM-delf,k0,epsilon0,k1,epsilon1);
-  delf=shift(delf,1);
+  delf=circshift(delf,1);
   diff_Af(:,l)=(AfPdel2-AfMdel2)/del;
 endfor
 if max(max(abs(diff_Af-gradAzp(:,RfM)))) > del/3600
@@ -62,7 +62,7 @@ diff_Ak0=zeros(length(wa),length(k0));
 for l=1:length(k0)
   Ak0Pdel2=johanssonOneMlatticeAzp(wa,fM,k0+delk,epsilon0,k1,epsilon1);
   Ak0Mdel2=johanssonOneMlatticeAzp(wa,fM,k0-delk,epsilon0,k1,epsilon1);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_Ak0(:,l)=(Ak0Pdel2-Ak0Mdel2)/del;
 endfor
 if max(max(abs(diff_Ak0-gradAzp(:,Rk0)))) > del/100
@@ -78,7 +78,7 @@ diff_Ak1=zeros(length(wa),length(k1));
 for l=1:length(k1)
   Ak1Pdel2=johanssonOneMlatticeAzp(wa,fM,k0,epsilon0,k1+delk,epsilon1);
   Ak1Mdel2=johanssonOneMlatticeAzp(wa,fM,k0,epsilon0,k1-delk,epsilon1);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_Ak1(:,l)=(Ak1Pdel2-Ak1Mdel2)/del;
 endfor
 if max(max(abs(diff_Ak1-gradAzp(:,Rk1)))) > del/900
@@ -99,7 +99,7 @@ diff_gradAf=zeros(length(wa),length(fM));
 for l=1:length(fM)
   [~,gradAfPdel2]=johanssonOneMlatticeAzp(wa,fM+delf,k0,epsilon0,k1,epsilon1);
   [~,gradAfMdel2]=johanssonOneMlatticeAzp(wa,fM-delf,k0,epsilon0,k1,epsilon1);
-  delf=shift(delf,1);
+  delf=circshift(delf,1);
   diff_gradAf(:,l)=(gradAfPdel2(:,l)-gradAfMdel2(:,l))/del;
 endfor
 if max(max(abs(diff_gradAf-diagHessAzp(:,RfM)))) > eps
@@ -115,7 +115,7 @@ diff_gradAk0=zeros(length(wa),length(k0));
 for l=1:length(k0)
   [~,gradAk0Pdel2]=johanssonOneMlatticeAzp(wa,fM,k0+delk,epsilon0,k1,epsilon1);
   [~,gradAk0Mdel2]=johanssonOneMlatticeAzp(wa,fM,k0-delk,epsilon0,k1,epsilon1);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_gradAk0(:,l)=(gradAk0Pdel2(:,Rk0(l))-gradAk0Mdel2(:,Rk0(l)))/del;
 endfor
 if max(max(abs(diff_gradAk0-diagHessAzp(:,Rk0)))) > del/2
@@ -132,7 +132,7 @@ diff_gradAk1=zeros(length(wa),length(k1));
 for l=1:length(k1)
   [~,gradAk1Pdel2]=johanssonOneMlatticeAzp(wa,fM,k0,epsilon0,k1+delk,epsilon1);
   [~,gradAk1Mdel2]=johanssonOneMlatticeAzp(wa,fM,k0,epsilon0,k1-delk,epsilon1);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_gradAk1(:,l)=(gradAk1Pdel2(:,Rk1(l))-gradAk1Mdel2(:,Rk1(l)))/del;
 endfor
 if max(max(abs(diff_gradAk1-diagHessAzp(:,Rk1)))) > del/100

@@ -87,7 +87,7 @@ diff_Esqk=zeros(1,size(k));
 for l=1:Nk
   EsqkPdel2=schurOneMlatticeEsq(k+delk,epsilon,p,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
   EsqkMdel2=schurOneMlatticeEsq(k-delk,epsilon,p,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_Esqk(l)=(EsqkPdel2-EsqkMdel2)/del;
 endfor
 if max(abs(diff_Esqk-gradEsq(1:Nk))) > del/142
@@ -102,7 +102,7 @@ diff_Esqc=zeros(1,size(c));
 for l=1:Nc
   EsqcPdel2=schurOneMlatticeEsq(k,epsilon,p,c+delc,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
   EsqcMdel2=schurOneMlatticeEsq(k,epsilon,p,c-delc,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-  delc=shift(delc,1);
+  delc=circshift(delc,1);
   diff_Esqc(l)=(EsqcPdel2-EsqcMdel2)/del;
 endfor
 if max(abs(diff_Esqc-gradEsq((Nk+1):end))) > del/230.07
@@ -119,7 +119,7 @@ for l=1:Nk
     schurOneMlatticeEsq(k+delk,epsilon,p,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
   [EsqkMdel2,gradEsqkMdel2] = ...
     schurOneMlatticeEsq(k-delk,epsilon,p,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_dEsqdk(l)=(gradEsqkPdel2(l)-gradEsqkMdel2(l))/del;
 endfor
 if max(abs(diff_dEsqdk-diagHessEsq(1:Nk))) > del/0.29258
@@ -136,7 +136,7 @@ for l=1:Nc
     schurOneMlatticeEsq(k,epsilon,p,c+delc,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
   [EsqkMdel2,gradEsqkMdel2] = ...
     schurOneMlatticeEsq(k,epsilon,p,c-delc,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-  delc=shift(delc,1);
+  delc=circshift(delc,1);
   diff_dEsqdc(l)=(gradEsqkPdel2(Nk+l)-gradEsqkMdel2(Nk+l))/del;
 endfor
 if max(abs(diff_dEsqdc-diagHessEsq((Nk+1):end))) > del/0.6043

@@ -200,4 +200,5 @@ save tarczynski_allpass_phase_shift_test.mat m td D fp Wp fs Ws ai a0 Da0
 % Done
 toc;
 diary off
-movefile tarczynski_allpass_phase_shift_test.diary.tmp tarczynski_allpass_phase_shift_test.diary;
+movefile tarczynski_allpass_phase_shift_test.diary.tmp ...
+         tarczynski_allpass_phase_shift_test.diary;

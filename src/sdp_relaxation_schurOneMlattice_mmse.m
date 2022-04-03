@@ -217,7 +217,7 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
                                             wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
     [~,gradEsq_mnMdel2]=schurOneMlatticeEsq(k0-delk,epsilon0,p0,c0, ...
                                             wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
     hessEsq0(m,:)=(gradEsq_mnPdel2-gradEsq_mnMdel2)/del;
   endfor 
   % del-squared-Esq-del-k-del-c-m
@@ -228,7 +228,7 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
                                             wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
     [~,gradEsq_mnMdel2]=schurOneMlatticeEsq(k0,epsilon0,p0,c0-delc, ...
                                             wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-    delc=shift(delc,1);
+    delc=circshift(delc,1);
     hessEsq0(m+Nk,:)=(gradEsq_mnPdel2-gradEsq_mnMdel2)/del;
   endfor
   func_iter=func_iter+Nkc;

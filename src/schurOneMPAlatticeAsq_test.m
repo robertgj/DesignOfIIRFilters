@@ -37,7 +37,7 @@ for m=1:2
                                     A2k,A2epsilon,A2p,difference);
     AsqkMdel2=schurOneMPAlatticeAsq(wa,A1k-delk,A1epsilon,A1p, ...
                                     A2k,A2epsilon,A2p,difference);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
     diff_Asqk(:,l)=(AsqkPdel2-AsqkMdel2)/del;
   endfor
   if max(max(abs(diff_Asqk-gradAsq(:,A1rng)))) > tol
@@ -54,7 +54,7 @@ for m=1:2
                                     A2k+delk,A2epsilon,A2p,difference);
     AsqkMdel2=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
                                     A2k-delk,A2epsilon,A2p,difference);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
     diff_Asqk(:,l)=(AsqkPdel2-AsqkMdel2)/del;
   endfor
   if max(max(abs(diff_Asqk-gradAsq(:,A2rng)))) > tol
@@ -77,7 +77,7 @@ for m=1:2
     [AsqkMdel2,gradAsqkMdel2]=schurOneMPAlatticeAsq(wa,A1k-delk,A1epsilon,A1p,...
                                                     A2k,A2epsilon,A2p, ...
                                                     difference);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
     diff_gradAsqk(:,l)=(gradAsqkPdel2(:,l)-gradAsqkMdel2(:,l))/del;
   endfor
   if max(max(abs(diff_gradAsqk-diagHessAsq(:,A1rng)))) > tol
@@ -96,7 +96,7 @@ for m=1:2
     [AsqkMdel2,gradAsqkMdel2]=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
                                                     A2k-delk,A2epsilon,A2p, ...
                                                     difference);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
     diff_gradAsqk(:,l)=(gradAsqkPdel2(:,length(A1k)+l)-...
                         gradAsqkMdel2(:,length(A1k)+l))/del;
   endfor

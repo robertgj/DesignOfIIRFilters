@@ -85,7 +85,7 @@ for l=1:length(A1k)
     schurOneMlattice2Abcd(A1k-delA1k,A1epsilon,A1p,A1c);
   A1HkMdel2=schurOneMAPlattice2H(wpass,A1A,A1B,A1Cap,A1Dap);
   diff_A1Hk(l)=(A1HkPdel2-A1HkMdel2)/del;
-  delA1k=shift(delA1k,1);
+  delA1k=circshift(delA1k,1);
 endfor
 if max(abs(diff_A1Hk-A1dHdk(npass,1:length(A1k)))) > del/1000
   error("max(abs(diff_A1Hk-A1dHdk(npass,1:length(A1k)))) > del/1000");
@@ -110,7 +110,7 @@ for l=1:length(A2k)
     schurOneMlattice2Abcd(A2k-delA2k,A2epsilon,A2p,A2c);
   A2HkMdel2=schurOneMAPlattice2H(wpass,A2A,A2B,A2Cap,A2Dap);
   diff_A2Hk(l)=(A2HkPdel2-A2HkMdel2)/del;
-  delA2k=shift(delA2k,1);
+  delA2k=circshift(delA2k,1);
 endfor
 if max(abs(diff_A2Hk-A2dHdk(npass,1:length(A2k)))) > del/384.37
   error("max(abs(diff_A2Hk-A2dHdk(npass,1:length(A2k)))) > del/384.37");
@@ -178,7 +178,7 @@ for l=1:length(A1k)
     schurOneMAPlattice2H(wpass,A1A,A1B,A1Cap,A1Dap,...
                          A1dAdkc,A1dBdkc,A1dCapdkc,A1dDapdkc);
   diff_A1dHdk(l)=(A1dHdkP(l)-A1dHdkM(l))/del;
-  delA1k=shift(delA1k,1);
+  delA1k=circshift(delA1k,1);
 endfor
 if max(abs(diff_A1dHdk-A1diagd2Hdk2(npass,1:length(A1k)))) > del/265.6
   error("max(abs(diff_A1dHdk-A1diagd2Hdk2(npass,1:length(A1k)))) > del/265.6");
@@ -210,7 +210,7 @@ for l=1:length(A2k)
     schurOneMAPlattice2H(wpass,A2A,A2B,A2Cap,A2Dap,...
                          A2dAdkc,A2dBdkc,A2dCapdkc,A2dDapdkc);
   diff_A2dHdk(l)=(A2dHdkP(l)-A2dHdkM(l))/del;
-  delA2k=shift(delA2k,1);
+  delA2k=circshift(delA2k,1);
 endfor
 if max(abs(diff_A2dHdk-A2diagd2Hdk2(npass,1:length(A2k)))) > del/21.41
   error("max(abs(diff_A2dHdk-A2diagd2Hdk2(npass,1:length(A2k)))) > del/21.41");

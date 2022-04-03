@@ -49,7 +49,7 @@ diff_Tk=zeros(size(k));
 for l=1:Nk
   TkPdel2=schurOneMlatticeT(wtpl,k+delk,epsilon,p,c);
   TkMdel2=schurOneMlatticeT(wtpl,k-delk,epsilon,p,c);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_Tk(l)=(TkPdel2-TkMdel2)/del;
 endfor
 if max(abs(diff_Tk-gradT(ntpl,1:Nk))) > del/52.34
@@ -65,7 +65,7 @@ diff_Tc=zeros(size(c));
 for l=1:Nc
   TcPdel2=schurOneMlatticeT(wtpl,k,epsilon,p,c+delc);
   TcMdel2=schurOneMlatticeT(wtpl,k,epsilon,p,c-delc);
-  delc=shift(delc,1);
+  delc=circshift(delc,1);
   diff_Tc(l)=(TcPdel2-TcMdel2)/del;
 endfor
 if max(abs(diff_Tc-gradT(ntpl,(Nk+1):end))) > del/50
@@ -81,7 +81,7 @@ diff_dTdk=zeros(size(k));
 for l=1:Nk
   [TkPdel2,gradTkPdel2]=schurOneMlatticeT(wtpl,k+delk,epsilon,p,c);
   [TkMdel2,gradTkMdel2]=schurOneMlatticeT(wtpl,k-delk,epsilon,p,c);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_dTdk(l)=(gradTkPdel2(1,l)-gradTkMdel2(1,l))/del;
 endfor
 if max(abs(diff_dTdk-diagHessT(ntpl,1:Nk))) > del/10
@@ -97,7 +97,7 @@ diff_dTdc=zeros(size(c));
 for l=1:Nc
   [TkPdel2,gradTkPdel2]=schurOneMlatticeT(wtpl,k,epsilon,p,c+delc);
   [TkMdel2,gradTkMdel2]=schurOneMlatticeT(wtpl,k,epsilon,p,c-delc);
-  delc=shift(delc,1);
+  delc=circshift(delc,1);
   diff_dTdc(l)=(gradTkPdel2(1,Nk+l)-gradTkMdel2(1,Nk+l))/del;
 endfor
 if max(abs(diff_dTdc-diagHessT(ntpl,(Nk+1):end))) > del/30

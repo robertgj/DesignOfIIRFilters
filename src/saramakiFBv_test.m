@@ -52,7 +52,7 @@ for m=5:6,
     for k=1:n
       Fpdelk=saramakiFBv(B+(delk/2),n,m,v);
       Fmdelk=saramakiFBv(B-(delk/2),n,m,v);
-      delk=shift(delk,1);
+      delk=circshift(delk,1);
       approx_delFdelB(:,k)=(Fpdelk-Fmdelk)/del;
     endfor
     diff_approx=(approx_delFdelB-delFdelB)./delFdelB;

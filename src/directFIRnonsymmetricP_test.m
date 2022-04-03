@@ -78,7 +78,7 @@ for k=1:(N+1)
   Hhpdelh=freqz(h+delh,1,w(1:nap));
   Hhmdelh=freqz(h-delh,1,w(1:nap));
   gradargH(:,k)=(unwrap(arg(Hhpdelh)-arg(Hhmdelh)))/del;
-  delh=shift(delh,1);
+  delh=circshift(delh,1);
 endfor  
 if max(max(abs(gradargH-gradP))) > (del/800)
   error("max(max(abs(gradargH-gradP)))(%g) > (del/800)(%g)", ...

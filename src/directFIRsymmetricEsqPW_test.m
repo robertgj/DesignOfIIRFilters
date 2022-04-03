@@ -83,7 +83,7 @@ for k=1:2
   for l=1:length(hM)
     EsqPdel2=directFIRsymmetricEsqPW(hM+delhM,waf,Adf,Waf);
     EsqMdel2=directFIRsymmetricEsqPW(hM-delhM,waf,Adf,Waf);
-    delhM=shift(delhM,1);
+    delhM=circshift(delhM,1);
     diff_Esq(l)=(EsqPdel2-EsqMdel2)/del;
   endfor
   max_diff=max(abs(diff_Esq-gradEsq));

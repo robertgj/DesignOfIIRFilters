@@ -238,7 +238,7 @@ for N=2:2:10;
       warning("max(max(abs(diff_Ddd-dDdx{9+%d}))) > tol",m);
     endif
     % Shift
-    delc=shift(delc,1);
+    delc=circshift(delc,1);
   endfor
 endfor
 

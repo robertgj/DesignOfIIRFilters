@@ -69,7 +69,7 @@ for l=1:Ns
   Asqs22M=schurNSlatticeAsq(wtpl,s10,s11,s20,s00,s02,s22-dels);
   diff_Asq(6+((l-1)*6))=(Asqs22P-Asqs22M)/del;
   % Shift dels
-  dels=shift(dels,1);
+  dels=circshift(dels,1);
 endfor
 if max(abs(diff_Asq-gradAsq(ntpl,:))) > del/760.37
   error("max(abs(diff_Asq-gradAsq(ntpl,:)))(del/%g) > del/760.37", ...
@@ -114,7 +114,7 @@ for l=1:Ns
   lindex=(6+((l-1)*6));
   diff_gradAsq(lindex)=(gradAsqs22P(lindex)-gradAsqs22M(lindex))/del;
   % Shift dels
-  dels=shift(dels,1);
+  dels=circshift(dels,1);
 endfor
 if max(abs(diff_gradAsq-diagHessAsq(ntpl,:))) > del/214.82
   error("max(abs(diff_gradAsq-diagHessAsq(ntpl,:)))(del/%g) > del/214.82", ...

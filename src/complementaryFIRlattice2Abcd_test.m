@@ -91,7 +91,7 @@ for x=1:2
     dDhdk_max_err(l)=max(abs(((DhPk-DhMk)/del)-dDhdkkhat{l}));
     dCgdk_max_err(l)=max(abs(((CgPk-CgMk)/del)-dCgdkkhat{l}));
     dDgdk_max_err(l)=max(abs(((DgPk-DgMk)/del)-dDgdkkhat{l}));
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
   endfor
   if verbose
     printf("max(dAdk_max_err)=%f*del_tol\n",max(dAdk_max_err)/del_tol);
@@ -150,7 +150,7 @@ for x=1:2
     dDhdkhat_max_err(l)=max(abs(((DhPkhat-DhMkhat)/del)-dDhdkkhat{Nk+l}));
     dCgdkhat_max_err(l)=max(abs(((CgPkhat-CgMkhat)/del)-dCgdkkhat{Nk+l}));
     dDgdkhat_max_err(l)=max(abs(((DgPkhat-DgMkhat)/del)-dDgdkkhat{Nk+l}));
-    delkhat=shift(delkhat,1);
+    delkhat=circshift(delkhat,1);
   endfor
   if verbose
     printf("max(dAdkhat_max_err)=%f*del_tol\n",max(dAdkhat_max_err)/del_tol);

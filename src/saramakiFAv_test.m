@@ -38,7 +38,7 @@ for m=8:9,
   for k=1:length(alpha)
     Fpdelk=saramakiFAv(alpha+(delk/2),n,m,v(vFmin),zeta);
     Fmdelk=saramakiFAv(alpha-(delk/2),n,m,v(vFmin),zeta);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
     approx_delFdelalpha(:,k)=(Fpdelk-Fmdelk)/del;
   endfor
   diff_approx=(approx_delFdelalpha-delFdelalpha)./delFdelalpha;

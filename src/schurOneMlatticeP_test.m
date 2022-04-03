@@ -47,7 +47,7 @@ diff_Pk=zeros(size(k));
 for l=1:Nk
   PkPdel2=schurOneMlatticeP(wtpl,k+delk,epsilon,p,c);
   PkMdel2=schurOneMlatticeP(wtpl,k-delk,epsilon,p,c);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_Pk(l)=(PkPdel2-PkMdel2)/del;
 endfor
 if max(abs(diff_Pk-gradP(ntpl,1:Nk))) > del/1325.3
@@ -63,7 +63,7 @@ diff_Pc=zeros(size(c));
 for l=1:Nc
   PcPdel2=schurOneMlatticeP(wtpl,k,epsilon,p,c+delc);
   PcMdel2=schurOneMlatticeP(wtpl,k,epsilon,p,c-delc);
-  delc=shift(delc,1);
+  delc=circshift(delc,1);
   diff_Pc(l)=(PcPdel2-PcMdel2)/del;
 endfor
 if max(abs(diff_Pc-gradP(ntpl,(Nk+1):end))) > del/5357.09
@@ -79,7 +79,7 @@ diff_dPdk=zeros(size(k));
 for l=1:Nk
   [PkPdel2,gradPkPdel2]=schurOneMlatticeP(wtpl,k+delk,epsilon,p,c);
   [PkMdel2,gradPkMdel2]=schurOneMlatticeP(wtpl,k-delk,epsilon,p,c);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_dPdk(l)=(gradPkPdel2(1,l)-gradPkMdel2(1,l))/del;
 endfor
 if max(abs(diff_dPdk-diagHessP(ntpl,1:Nk))) > del/226.61
@@ -95,7 +95,7 @@ diff_dPdc=zeros(size(c));
 for l=1:Nc
   [PkPdel2,gradPkPdel2]=schurOneMlatticeP(wtpl,k,epsilon,p,c+delc);
   [PkMdel2,gradPkMdel2]=schurOneMlatticeP(wtpl,k,epsilon,p,c-delc);
-  delc=shift(delc,1);
+  delc=circshift(delc,1);
   diff_dPdc(l)=(gradPkPdel2(1,Nk+l)-gradPkMdel2(1,Nk+l))/del;
 endfor
 if max(abs(diff_dPdc-diagHessP(ntpl,(Nk+1):end))) > del/2244.9

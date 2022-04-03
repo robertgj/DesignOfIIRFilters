@@ -75,7 +75,7 @@ diff_Esqf=zeros(size(fM));
 for l=1:length(fM)
   EsqfPdel2=johanssonOneMlatticeEsq(fM+delf,k0,epsilon0,k1,epsilon1,wa,Ad,Wa);
   EsqfMdel2=johanssonOneMlatticeEsq(fM-delf,k0,epsilon0,k1,epsilon1,wa,Ad,Wa);
-  delf=shift(delf,1);
+  delf=circshift(delf,1);
   diff_Esqf(l)=(EsqfPdel2-EsqfMdel2)/del;
 endfor
 if max(abs(diff_Esqf-gradEsq(RfM))) > del/50e6
@@ -91,7 +91,7 @@ diff_Esqk0=zeros(size(k0));
 for l=1:length(k0)
   Esqk0Pdel2=johanssonOneMlatticeEsq(fM,k0+delk,epsilon0,k1,epsilon1,wa,Ad,Wa);
   Esqk0Mdel2=johanssonOneMlatticeEsq(fM,k0-delk,epsilon0,k1,epsilon1,wa,Ad,Wa);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_Esqk0(l)=(Esqk0Pdel2-Esqk0Mdel2)/del;
 endfor
 if max(abs(diff_Esqk0-gradEsq(Rk0))) > del/5e5
@@ -107,7 +107,7 @@ diff_Esqk1=zeros(size(k1));
 for l=1:length(k1)
   Esqk1Pdel2=johanssonOneMlatticeEsq(fM,k0,epsilon0,k1+delk,epsilon1,wa,Ad,Wa);
   Esqk1Mdel2=johanssonOneMlatticeEsq(fM,k0,epsilon0,k1-delk,epsilon1,wa,Ad,Wa);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_Esqk1(l)=(Esqk1Pdel2-Esqk1Mdel2)/del;
 endfor
 if max(abs(diff_Esqk1-gradEsq(Rk1))) > del/1e6
@@ -131,7 +131,7 @@ for l=1:length(fM)
     johanssonOneMlatticeEsq(fM+delf,k0,epsilon0,k1,epsilon1,wa,Ad,Wa);
   [~,gradEsqfMdel2]= ...
     johanssonOneMlatticeEsq(fM-delf,k0,epsilon0,k1,epsilon1,wa,Ad,Wa);
-  delf=shift(delf,1);
+  delf=circshift(delf,1);
   diff_gradEsqf(l)=(gradEsqfPdel2(l)-gradEsqfMdel2(l))/del;
 endfor
 if max(max(abs(diff_gradEsqf-diagHessEsq(RfM)))) > del/1e3
@@ -149,7 +149,7 @@ for l=1:length(k0)
     johanssonOneMlatticeEsq(fM,k0+delk,epsilon0,k1,epsilon1,wa,Ad,Wa);
   [~,gradEsqk0Mdel2]= ...
     johanssonOneMlatticeEsq(fM,k0-delk,epsilon0,k1,epsilon1,wa,Ad,Wa);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_gradEsqk0(l)=(gradEsqk0Pdel2(Rk0(l))-gradEsqk0Mdel2(Rk0(l)))/del;
 endfor
 if max(abs(diff_gradEsqk0-diagHessEsq(Rk0))) > del/2e3
@@ -168,7 +168,7 @@ for l=1:length(k1)
     johanssonOneMlatticeEsq(fM,k0,epsilon0,k1+delk,epsilon1,wa,Ad,Wa);
   [~,gradEsqk1Mdel2]= ...
     johanssonOneMlatticeEsq(fM,k0,epsilon0,k1-delk,epsilon1,wa,Ad,Wa);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_gradEsqk1(l)=(gradEsqk1Pdel2(Rk1(l))-gradEsqk1Mdel2(Rk1(l)))/del;
 endfor
 if max(abs(diff_gradEsqk1-diagHessEsq(Rk1))) > del/3e5

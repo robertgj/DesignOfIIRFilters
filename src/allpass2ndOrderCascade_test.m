@@ -94,7 +94,7 @@ for k=1:ma
     error("abs(gradHab(%d)-gradHab_delk(%d))/abs(gradHab(%d))(=%g) > 2e-10\n",
           k,k,k,abs(gradHaplusbt(k)-gradHaplusbt_delk(k))/abs(gradHaplusbt(k)));
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 for k=(ma+1):(ma+mb)
   HbtPdelkon2=allpass2ndOrderCascade(ab((ma+1):end)+(delk((ma+1):end)/2),wtest);
@@ -104,7 +104,7 @@ for k=(ma+1):(ma+mb)
     error("abs(gradHab(%d)-gradHab_delk(%d))/abs(gradHab(%d))(=%g) > 25e-11\n",
           k,k,k,abs(gradHaplusbt(k)-gradHaplusbt_delk(k))/abs(gradHaplusbt(k)));
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 
 % Done

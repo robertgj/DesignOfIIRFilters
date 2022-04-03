@@ -82,7 +82,7 @@ for k=1:V
   printf("delTdelRp=%f, approx=%f, diff=%f\n",...
          delTdelRp(k), (TDc-Tc)/del, delTdelRp(k)-(TDc-Tc)/del);
 
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 
 % Conjugate poles
@@ -102,7 +102,7 @@ for k=1:Qon2
   printf("delTdelthetap=%f, approx=%f, diff=%f\n",...
          delTdelthetap(k), (TDc-Tc)/del, delTdelthetap(k)-(TDc-Tc)/del);
 
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 
 %

@@ -69,11 +69,11 @@ for x=1:3
     if l <= length(k)
       [AP,BP,CP,DP,CapP,DapP]=schurOneMlattice2Abcd(k+(delk/2),epsilon,p,c);
       [AM,BM,CM,DM,CapM,DapM]=schurOneMlattice2Abcd(k-(delk/2),epsilon,p,c);
-      delk=shift(delk,1);
+      delk=circshift(delk,1);
     else
       [AP,BP,CP,DP,CapP,DapP]=schurOneMlattice2Abcd(k,epsilon,p,c+(delc/2));
       [AM,BM,CM,DM,CapM,DapM]=schurOneMlattice2Abcd(k,epsilon,p,c-(delc/2));
-      delc=shift(delc,1);
+      delc=circshift(delc,1);
     endif
     dAdkc_max_err(l)=max(max(abs(((AP-AM)/del)-dAdkc{l})));
     dBdkc_max_err(l)=max(abs(((BP-BM)/del)-dBdkc{l}));

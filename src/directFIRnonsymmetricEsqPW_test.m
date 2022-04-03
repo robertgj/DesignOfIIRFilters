@@ -65,7 +65,7 @@ diff_Esq=zeros(1,length(h));
 for l=1:length(h)
   EsqPdel2=directFIRnonsymmetricEsqPW(h+delh,waf,Adf,Tdf,Waf);
   EsqMdel2=directFIRnonsymmetricEsqPW(h-delh,waf,Adf,Tdf,Waf);
-  delh=shift(delh,1);
+  delh=circshift(delh,1);
   diff_Esq(l)=(EsqPdel2-EsqMdel2)/del;
 endfor
 max_diff=max(abs(diff_Esq-gradEsq));
@@ -195,7 +195,7 @@ for k=1:2
   for l=1:length(h)
     EsqPdel2=directFIRnonsymmetricEsqPW(h+delh,waf,Adf,Tdf,Waf);
     EsqMdel2=directFIRnonsymmetricEsqPW(h-delh,waf,Adf,Tdf,Waf);
-    delh=shift(delh,1);
+    delh=circshift(delh,1);
     diff_Esq(l)=(EsqPdel2-EsqMdel2)/del;
   endfor
   max_diff=max(abs(diff_Esq-gradEsq));

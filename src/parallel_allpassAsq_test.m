@@ -105,7 +105,7 @@ for k=1:Va
          delAsqdelRpa(k), (Asqabcd-Asqabc)/del,...
          delAsqdelRpa(k)-((Asqabcd-Asqabc)/del));
 
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 for k=1:Qaon2
   printf("Filter a: conjugate pole/zero %d radius\n", k);
@@ -116,7 +116,7 @@ for k=1:Qaon2
          delAsqdelrpa(k), (Asqabcd-Asqabc)/del, ...
          delAsqdelrpa(k)-((Asqabcd-Asqabc)/del));
 
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 for k=1:Qaon2
   printf("Filter a: conjugate pole/zero %d angle\n", k);
@@ -127,7 +127,7 @@ for k=1:Qaon2
          delAsqdelthetapa(k), (Asqabcd-Asqabc)/del,...
          delAsqdelthetapa(k)-((Asqabcd-Asqabc)/del));
 
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 
 % Filter b
@@ -140,7 +140,7 @@ for k=1:Vb
          delAsqdelRpb(k), (Asqabcd-Asqabc)/del,...
          delAsqdelRpb(k)-((Asqabcd-Asqabc)/del));
 
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 for k=1:Qbon2
   printf("Filter b: conjugate pole/zero %d radius\n", k);
@@ -151,7 +151,7 @@ for k=1:Qbon2
          delAsqdelrpb(k), (Asqabcd-Asqabc)/del, ...
          delAsqdelrpb(k)-((Asqabcd-Asqabc)/del));
 
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 for k=1:Qbon2
   printf("Filter b: conjugate pole/zero %d angle\n", k);
@@ -162,7 +162,7 @@ for k=1:Qbon2
          delAsqdelthetapb(k), (Asqabcd-Asqabc)/del,...
          delAsqdelthetapb(k)-((Asqabcd-Asqabc)/del));
 
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 
 % Done

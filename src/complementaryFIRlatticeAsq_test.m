@@ -40,7 +40,7 @@ diff_Asqk=zeros(1,Nk);
 for l=1:Nk
   AsqkPdel2=complementaryFIRlatticeAsq(wtpl,k+delk,khat);
   AsqkMdel2=complementaryFIRlatticeAsq(wtpl,k-delk,khat);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_Asqk(l)=(AsqkPdel2-AsqkMdel2)/del;
 endfor
 if max(abs(diff_Asqk-gradAsq(ntpl,1:Nk))) > del/1993
@@ -55,7 +55,7 @@ diff_Asqkhat=zeros(1,Nk);
 for l=1:Nk
   AsqkhatPdel2=complementaryFIRlatticeAsq(wtpl,k,khat+delkhat);
   AsqkhatMdel2=complementaryFIRlatticeAsq(wtpl,k,khat-delkhat);
-  delkhat=shift(delkhat,1);
+  delkhat=circshift(delkhat,1);
   diff_Asqkhat(l)=(AsqkhatPdel2-AsqkhatMdel2)/del;
 endfor
 if max(abs(diff_Asqkhat-gradAsq(ntpl,(Nk+1):(2*Nk)))) > del/2230

@@ -107,7 +107,7 @@ if max(abs(Asq-Asq_alt1)) > 87*eps
   error("max(abs(Asq-Asq_alt1))>87*eps (%d*eps)", ...
         ceil(max(abs(Asq-Asq_alt1))/eps));
 endif
-% With shift of w
+% With circshift of w
 Hr2M_alt2=freqz(flipud(r2M0),r2M0,w+(pi/2));
 Hau_alt2=freqz((2*au0)-zdmask,1,w+(pi/2));
 Hav_alt2=freqz([zDM;2*av0],1,w+(pi/2));
@@ -136,7 +136,7 @@ for l=1:Nk
   AsqM=schurOneMAPlattice_frm_hilbertAsq(w,k0-delkon2,epsilon0,p0,...
                                           u0,v0,Mmodel,Dmodel);
   approx_gradAsq(:,l)=(AsqP-AsqM)/del;
-  delkon2=shift(delkon2,1);
+  delkon2=circshift(delkon2,1);
 endfor
 diff_gradAsq=gradAsq(:,1:Nk)-approx_gradAsq;
 max_diff=del/max(max(abs(diff_gradAsq)));
@@ -165,7 +165,7 @@ for l=1:Nu
   AsqM=schurOneMAPlattice_frm_hilbertAsq(w,k0,epsilon0,p0,...
                                           u0-deluon2,v0,Mmodel,Dmodel);
   approx_gradAsq(:,l)=(AsqP-AsqM)/del;
-  deluon2=shift(deluon2,1);
+  deluon2=circshift(deluon2,1);
 endfor
 diff_gradAsq=gradAsq(:,(Nk+1):(Nk+Nu))-approx_gradAsq;
 max_diff=del/max(max(abs(diff_gradAsq)));
@@ -194,7 +194,7 @@ for l=1:Nv
   AsqM=schurOneMAPlattice_frm_hilbertAsq(w,k0,epsilon0,p0,...
                                           u0,v0-delvon2,Mmodel,Dmodel);
   approx_gradAsq(:,l)=(AsqP-AsqM)/del;
-  delvon2=shift(delvon2,1);
+  delvon2=circshift(delvon2,1);
 endfor
 diff_gradAsq=gradAsq(:,(Nk+Nu+1):(Nk+Nu+Nv))-approx_gradAsq;
 max_diff=del/max(max(abs(diff_gradAsq)));

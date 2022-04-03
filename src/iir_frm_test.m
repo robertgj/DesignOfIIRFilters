@@ -601,7 +601,7 @@ for k=1:length(xk)
            k,gradT_wp(k),approx_gradT_wp,diff_gradT_wp,tol_gradT);
   endif
   % Move to next coefficient
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -720,7 +720,7 @@ for k=1:length(xk)
            k,gradT_wp(k),approx_gradT_wp,diff_gradT_wp,tol_gradT);
   endif
   % Move to next coefficient
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -840,7 +840,7 @@ for k=1:length(xk)
            k,gradT_wp(k),approx_gradT_wp,diff_gradT_wp,tol_gradT);
   endif
   % Move to next coefficient
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -1020,7 +1020,7 @@ for k=1:length(xk)
            k,gradT_wp(k),approx_gradT_wp,diff_gradT_wp,tol_gradT);
   endif
   % Move to next coefficient
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1197,7 +1197,7 @@ for k=1:length(xk)
            k,gradT_wp(k),approx_gradT_wp,diff_gradT_wp,tol_gradT);
   endif
   % Move to next coefficient
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

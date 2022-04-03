@@ -47,7 +47,7 @@ diff_Asqk=zeros(size(k));
 for l=1:Nk
   AsqkPdel2=schurOneMlatticeAsq(wtpl,k+delk,epsilon,p,c);
   AsqkMdel2=schurOneMlatticeAsq(wtpl,k-delk,epsilon,p,c);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_Asqk(l)=(AsqkPdel2-AsqkMdel2)/del;
 endfor
 if max(abs(diff_Asqk-gradAsq(ntpl,1:Nk))) > del/1000
@@ -63,7 +63,7 @@ diff_Asqc=zeros(size(c));
 for l=1:Nc
   AsqcPdel2=schurOneMlatticeAsq(wtpl,k,epsilon,p,c+delc);
   AsqcMdel2=schurOneMlatticeAsq(wtpl,k,epsilon,p,c-delc);
-  delc=shift(delc,1);
+  delc=circshift(delc,1);
   diff_Asqc(l)=(AsqcPdel2-AsqcMdel2)/del;
 endfor
 if max(abs(diff_Asqc-gradAsq(ntpl,(Nk+1):Nkc))) > del/2500
@@ -79,7 +79,7 @@ diff_dAsqdk=zeros(size(k));
 for l=1:Nk
   [AsqkPdel2,gradAsqkPdel2]=schurOneMlatticeAsq(wtpl,k+delk,epsilon,p,c);
   [AsqkMdel2,gradAsqkMdel2]=schurOneMlatticeAsq(wtpl,k-delk,epsilon,p,c);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_dAsqdk(l)=(gradAsqkPdel2(1,l)-gradAsqkMdel2(1,l))/del;
 endfor
 if max(abs(diff_dAsqdk-diagHessAsq(ntpl,1:Nk))) > del/400
@@ -95,7 +95,7 @@ diff_dAsqdc=zeros(size(c));
 for l=1:Nc
   [AsqkPdel2,gradAsqkPdel2]=schurOneMlatticeAsq(wtpl,k,epsilon,p,c+delc);
   [AsqkMdel2,gradAsqkMdel2]=schurOneMlatticeAsq(wtpl,k,epsilon,p,c-delc);
-  delc=shift(delc,1);
+  delc=circshift(delc,1);
   diff_dAsqdc(l)=(gradAsqkPdel2(1,Nk+l)-gradAsqkMdel2(1,Nk+l))/del;
 endfor
 if max(abs(diff_dAsqdc-diagHessAsq(ntpl,(Nk+1):Nkc))) > del/2500

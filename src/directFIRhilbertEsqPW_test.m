@@ -85,7 +85,7 @@ diff_Esq=zeros(1,length(hM0));
 for l=1:length(hM0)
   EsqPdel2=directFIRhilbertEsqPW(hM0+delhM0,waf,Adf,Waf);
   EsqMdel2=directFIRhilbertEsqPW(hM0-delhM0,waf,Adf,Waf);
-  delhM0=shift(delhM0,1);
+  delhM0=circshift(delhM0,1);
   diff_Esq(l)=(EsqPdel2-EsqMdel2)/del;
 endfor
 max_diff=max(abs(diff_Esq-gradEsq));

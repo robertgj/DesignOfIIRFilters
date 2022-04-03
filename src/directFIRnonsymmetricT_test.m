@@ -83,7 +83,7 @@ for k=1:(N+1)
   Dhpdelh=grpdelay(h+delh,1,nplot);
   Dhmdelh=grpdelay(h-delh,1,nplot);
   gradD(:,k)=(Dhpdelh(1:nap)-Dhmdelh(1:nap))/del;
-  delh=shift(delh,1);
+  delh=circshift(delh,1);
 endfor  
 if max(max(abs(gradD-gradT))) > (del/100)
   error("max(max(abs(gradD-gradT)))(%g) > (del/100)(%g)", ...

@@ -119,7 +119,7 @@ for k=1:Nxk
   AsqP=iir_frm_allpass(w,xk+(delxk/2),Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
   AsqM=iir_frm_allpass(w,xk-(delxk/2),Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
   approx_gradAsq(:,k)=(AsqP-AsqM)/del;
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 diff_gradAsq=approx_gradAsq-gradAsq;
 % Pass band
@@ -147,7 +147,7 @@ for k=1:Nxk
   [~,TP]=iir_frm_allpass(w,xk+(delxk/2),Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
   [~,TM]=iir_frm_allpass(w,xk-(delxk/2),Vr,Qr,Rr,na,nc,Mmodel,Dmodel);
   approx_gradT(:,k)=(TP-TM)/del;
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 diff_gradT=approx_gradT-gradT;
 % Pass band

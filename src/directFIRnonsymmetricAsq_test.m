@@ -79,7 +79,7 @@ for k=1:(N+1)
   Hhpdelh=freqz(h+delh,1,w);
   Hhmdelh=freqz(h-delh,1,w);
   gradHdelh2(:,k)=((abs(Hhpdelh).^2)-(abs(Hhmdelh).^2))/del;
-  delh=shift(delh,1);
+  delh=circshift(delh,1);
 endfor  
 if max(max(abs(gradHdelh2-gradAsq))) > (del/100)
   error("max(max(abs(gradHdelh2-gradAsq)))(%g) > (del/100)(%g)", ...

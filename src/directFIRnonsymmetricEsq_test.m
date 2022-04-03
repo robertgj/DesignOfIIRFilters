@@ -68,7 +68,7 @@ for k=1:(N+1)
   EsqhPdel2=directFIRnonsymmetricEsq(h+delh,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
   EsqhMdel2=directFIRnonsymmetricEsq(h-delh,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
   diff_Esqh(k)=(EsqhPdel2-EsqhMdel2)/del;
-  delh=shift(delh,1);
+  delh=circshift(delh,1);
 endfor
 if max(max(abs(diff_Esqh-gradEsq))) > del/1e4
   error("max(max(abs(diff_Esqh-gradEsq))) > del/1e4");

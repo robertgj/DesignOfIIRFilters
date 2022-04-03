@@ -135,7 +135,7 @@ for l=1:Ns
   EsqM=schurNSlatticeEsq(s10,s11,s20,s00,s02,s22-dels,wa,Asqd,Wa,wt,Td,Wt);
   diff_Esq(6+((l-1)*6))=(EsqP-EsqM)/del;
   % Shift dels
-  dels=shift(dels,1);
+  dels=circshift(dels,1);
 endfor
 max_gradEsq_error=max(abs(diff_Esq-gradEsq));
 if max_gradEsq_error > tol 
@@ -196,7 +196,7 @@ for l=1:Ns
   lindex=6+((l-1)*6);
   diff_gradEsq(lindex)=(gradEsqP(lindex)-gradEsqM(lindex))/del;
   % Shift dels
-  dels=shift(dels,1);
+  dels=circshift(dels,1);
 endfor
 max_diagHessEsq_error=max(abs(diff_gradEsq-diagHessEsq));
 if max_diagHessEsq_error > tol

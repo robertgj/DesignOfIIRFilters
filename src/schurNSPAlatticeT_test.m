@@ -82,7 +82,7 @@ for l=1:A1Ns
                             A2s20,A2s00,A2s02,A2s22);
   diff_TA1(:,4+((l-1)*4))=(TA1s22P-TA1s22M)/del;
   % Shift delA1s
-  delA1s=shift(delA1s,1);
+  delA1s=circshift(delA1s,1);
 endfor
 max_gradTA1_error=max(max(abs(diff_TA1-gradT(:,1:(A1Ns*4)))));
 if max_gradTA1_error > tol
@@ -121,7 +121,7 @@ for l=1:A2Ns
                             A2s20,A2s00,A2s02,A2s22-delA2s);
   diff_TA2(:,4+((l-1)*4))=(TA2s22P-TA2s22M)/del;
   % Shift delA2s
-  delA2s=shift(delA2s,1);
+  delA2s=circshift(delA2s,1);
 endfor
 max_gradTA2_error=...
   max(max(abs(diff_TA2-gradT(:,((A1Ns*4)+1):((A1Ns+A2Ns)*4)))));
@@ -177,7 +177,7 @@ for l=1:A1Ns
   lindex=(4+((l-1)*4));
   diff_gradTA1(:,lindex)=(gradTA1s22P(:,lindex)-gradTA1s22M(:,lindex))/del;
   % Shift delA1s
-  delA1s=shift(delA1s,1);
+  delA1s=circshift(delA1s,1);
 endfor
 max_diagHessTA1_error=max(max(abs(diff_gradTA1-diagHessT(:,1:(A1Ns*4)))));
 if max_diagHessTA1_error > tol
@@ -232,7 +232,7 @@ for l=1:A2Ns
   rindex=lindex+(A1Ns*4);
   diff_gradTA2(:,lindex)=(gradTA2s22P(:,rindex)-gradTA2s22M(:,rindex))/del;
   % Shift delA2s
-  delA2s=shift(delA2s,1);
+  delA2s=circshift(delA2s,1);
 endfor
 max_diagHessTA2_error=...
   max(max(abs(diff_gradTA2-diagHessT(:,((A1Ns*4)+1):((A1Ns+A2Ns)*4)))));

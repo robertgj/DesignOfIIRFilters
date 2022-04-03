@@ -48,7 +48,7 @@ else
   Pn=[zeros(1,n-1),kind,0];
   Pnp1=zeros(1,n+1);
   for m=2:n,
-    Pnp1=2*shift(Pn,-1)-Pnm1;
+    Pnp1=2*circshift(Pn,-1)-Pnm1;
     Pnm1=Pn;
     Pn=Pnp1;
   endfor

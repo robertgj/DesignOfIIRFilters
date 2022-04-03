@@ -153,17 +153,17 @@ for m=3:n,
   Tmm3=chebyshevT(m-3);
   Tmm3=[zeros(1,columns(eqn)-columns(Tmm3)),Tmm3];
 
-  if any((Tmm3+(3*Tmm1)+(3*Tmp1)+Tmp3)-(8*shift(Tm,-3)))
-    error("any((Tmm3+(3*Tmm1)+(3*Tmp1)+Tmp3)-(8*shift(Tm,-3)))");
+  if any((Tmm3+(3*Tmm1)+(3*Tmp1)+Tmp3)-(8*circshift(Tm,-3)))
+    error("any((Tmm3+(3*Tmm1)+(3*Tmp1)+Tmp3)-(8*circshift(Tm,-3)))");
   endif
-  if any((Tmm2+(2*Tm)+Tmp2)-(4*shift(Tm,-2)))
-    error("any((Tmm2+(2*Tm)+Tmp2)-(4*shift(Tm,-2)))");
+  if any((Tmm2+(2*Tm)+Tmp2)-(4*circshift(Tm,-2)))
+    error("any((Tmm2+(2*Tm)+Tmp2)-(4*circshift(Tm,-2)))");
   endif
-  if any((Tmm1+Tmp1)-(2*shift(Tm,-1)))
-    error("any((Tmm1+Tmp1)-(2*shift(Tm,-1)))");
+  if any((Tmm1+Tmp1)-(2*circshift(Tm,-1)))
+    error("any((Tmm1+Tmp1)-(2*circshift(Tm,-1)))");
   endif
-  if any((Tmm2+Tm)-(2*shift(Tmm1,-1)))
-    error("any((Tmm2+Tm)-(2*shift(Tmm1,-1)))");
+  if any((Tmm2+Tm)-(2*circshift(Tmm1,-1)))
+    error("any((Tmm2+Tm)-(2*circshift(Tmm1,-1)))");
   endif
   
   if 0

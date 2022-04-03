@@ -80,7 +80,7 @@ for l=1:floor(n/2),
   for m=1:(l-1)
     sU2m1=sU2m1+(((2*m)+1)*(U{1+(2*m)+1}+U{1+(2*m)-1}));
   endfor
-  if any(shift(dU{1+(2*l)-1},-1)-sU2m1)
+  if any(circshift(dU{1+(2*l)-1},-1)-sU2m1)
     error("Equation 21 failed at l=%d",l);
   endif
 endfor
@@ -90,14 +90,14 @@ for l=1:floor(n/2),
   for m=1:l
     sU2m1=sU2m1+((2*m)*(U{1+(2*m)}+U{1+(2*m)-2}));
   endfor
-  if any(shift(dU{1+(2*l)},-1)-sU2m1)
+  if any(circshift(dU{1+(2*l)},-1)-sU2m1)
     error("Equation 22 failed at l=%d",l);
   endif
 endfor
 % Equation 23 (w^3 part)
 for l=2:(floor(n/2)-2),
-  if any((shift(d2U{1+(2*l)},-3)-shift(d2U{1+(2*l)},-5)- ...
-          (3*shift(dU{1+(2*l)},-4)))+ ...
+  if any((circshift(d2U{1+(2*l)},-3)-circshift(d2U{1+(2*l)},-5)- ...
+          (3*circshift(dU{1+(2*l)},-4)))+ ...
          (l*(l+1)*(U{1+(2*l)+3}+(3*U{1+(2*l)+1})+ ...
                    (3*U{1+(2*l)-1})+U{1+(2*l)-3})/2))
     error("Equation 23 (w^3 part) failed at l=%d",l);
@@ -105,22 +105,22 @@ for l=2:(floor(n/2)-2),
 endfor
 % Equation 23 (-w*kp part)
 for l=1:(floor(n/2)-1),
-  if any((shift(d2U{1+(2*l)},-3)-shift(d2U{1+(2*l)},-1)+ ...
-          (3*shift(dU{1+(2*l)},-2)))- ...
+  if any((circshift(d2U{1+(2*l)},-3)-circshift(d2U{1+(2*l)},-1)+ ...
+          (3*circshift(dU{1+(2*l)},-2)))- ...
          (2*l*(l+1)*(U{1+(2*l)+1}+U{1+(2*l)-1})))
     error("Equation 23 (kp part) failed at l=%d",l);
   endif
 endfor
 % Equation 24 (kp part)
 for l=1:(floor(n/2)-1),
-  if any(dU{1+(2*l)}-shift(dU{1+(2*l)},-2)- ...
+  if any(dU{1+(2*l)}-circshift(dU{1+(2*l)},-2)- ...
          (((l+1)*U{1+(2*l)-1})-(l*U{1+(2*l)+1})))
     error("Equation 24 (kp part) failed at l=%d",l);
   endif
 endfor
 % Equation 24 (v^2(1-v^2) part)
 for l=2:(floor(n/2)-2),
-  if any((4*shift(dU{1+(2*l)},-2))-(4*shift(dU{1+(2*l)},-4))- ...
+  if any((4*circshift(dU{1+(2*l)},-2))-(4*circshift(dU{1+(2*l)},-4))- ...
          (((l+1)*(U{1+(2*l)+1}+(2*U{1+(2*l)-1})+U{1+(2*l)-3}))- ...
           (l*(U{1+(2*l)+3}+(2*U{1+(2*l)+1})+U{1+(2*l)-1}))))
     error("Equation 24 (v^2(1-v^2) part) failed at l=%d",l);
@@ -128,7 +128,7 @@ for l=2:(floor(n/2)-2),
 endfor
 % Equation 25
 for l=2:(floor(n/2)-2),
-  if any((8*shift(U{1+(2*l)},-3))- ...
+  if any((8*circshift(U{1+(2*l)},-3))- ...
          (U{1+(2*l)+3}+(3*U{1+(2*l)+1})+(3*U{1+(2*l)-1})+U{1+(2*l)-3}))
     error("Equation 25 failed at l=%d",l);
   endif
@@ -150,17 +150,17 @@ endfor
 
 % Identities for multiplication by powers of x
 for l=1:(n-1),
-  if any((2*shift(U{1+l},-1))-(U{1+l+1}+U{1+l-1}))
+  if any((2*circshift(U{1+l},-1))-(U{1+l+1}+U{1+l-1}))
     error("Identity x*Ul failed at l=%d",l);
   endif
 endfor
 for l=2:(n-2),
-  if any((4*shift(U{1+l},-2))-(U{1+l+2}+2*U{1+l}+U{1+l-2}))
+  if any((4*circshift(U{1+l},-2))-(U{1+l+2}+2*U{1+l}+U{1+l-2}))
     error("Identity (x^2)*Ul failed at l=%d",l);
   endif
 endfor
 for l=3:(n-3),
-  if any((8*shift(U{1+l},-3))-(U{1+l+3}+3*U{1+l+1}+3*U{1+l-1}+U{1+l-3}))
+  if any((8*circshift(U{1+l},-3))-(U{1+l+3}+3*U{1+l+1}+3*U{1+l-1}+U{1+l-3}))
     error("Identity (x^3)*Ul failed at l=%d",l);
   endif
 endfor

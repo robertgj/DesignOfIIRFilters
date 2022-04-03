@@ -57,7 +57,7 @@ endif
 delk=zeros(size(x0));
 delk(end)=del/2;
 for k=1:length(x0),
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   [ErrorPpdelk, gradErrorPpdelk] = ...
     iirE(x0+delk,U,V,M,Q,R,[],[],[],[],[],[],[],[],[],wp,Pd,Wp);
   [ErrorPmdelk, gradErrorPmdelk] = ...

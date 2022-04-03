@@ -100,7 +100,7 @@ for l=1:Nk
   PP=schurOneMAPlattice_frmP(w,k0+delkon2,epsilon0,p0,u0,v0,Mmodel,Dmodel);
   PM=schurOneMAPlattice_frmP(w,k0-delkon2,epsilon0,p0,u0,v0,Mmodel,Dmodel);
   approx_gradP(:,l)=(PP-PM)/del;
-  delkon2=shift(delkon2,1);
+  delkon2=circshift(delkon2,1);
 endfor
 diff_gradP=gradP(:,1:Nk)-approx_gradP;
 % Pass band
@@ -137,7 +137,7 @@ for l=1:Nu
   PP=schurOneMAPlattice_frmP(w,k0,epsilon0,p0,u0+deluon2,v0,Mmodel,Dmodel);
   PM=schurOneMAPlattice_frmP(w,k0,epsilon0,p0,u0-deluon2,v0,Mmodel,Dmodel);
   approx_gradP(:,l)=(PP-PM)/del;
-  deluon2=shift(deluon2,1);
+  deluon2=circshift(deluon2,1);
 endfor
 diff_gradP=gradP(:,(Nk+1):(Nk+Nu))-approx_gradP;
 % Passband
@@ -174,7 +174,7 @@ for l=1:Nv
   PP=schurOneMAPlattice_frmP(w,k0,epsilon0,p0,u0,v0+delvon2,Mmodel,Dmodel);
   PM=schurOneMAPlattice_frmP(w,k0,epsilon0,p0,u0,v0-delvon2,Mmodel,Dmodel);
   approx_gradP(:,l)=(PP-PM)/del;
-  delvon2=shift(delvon2,1);
+  delvon2=circshift(delvon2,1);
 endfor
 diff_gradP=gradP(:,(Nk+Nu+1):(Nk+Nu+Nv))-approx_gradP;
 % Passband

@@ -113,11 +113,11 @@ for l=1:Nkc
   if l<=Nk
     [AP,BP,CP,DP]=schurOneMlattice2Abcd(k+delk,epsilon,p,c);
     [AM,BM,CM,DM]=schurOneMlattice2Abcd(k-delk,epsilon,p,c);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
   else
     [AP,BP,CP,DP]=schurOneMlattice2Abcd(k,epsilon,p,c+delc);
     [AM,BM,CM,DM]=schurOneMlattice2Abcd(k,epsilon,p,c-delc);
-    delc=shift(delc,1);
+    delc=circshift(delc,1);
   endif
   HP=Abcd2H(wplot(nc),AP,BP,CP,DP);
   HM=Abcd2H(wplot(nc),AM,BM,CM,DM);
@@ -142,7 +142,7 @@ diff_Hapk=zeros(1,Nk);
 for l=1:Nk
   [AP,BP,CapP,DapP]=schurOneMAPlattice2Abcd(k+delk,epsilon,p);
   [AM,BM,CapM,DapM]=schurOneMAPlattice2Abcd(k-delk,epsilon,p);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   HapP=Abcd2H(wplot(nc),AP,BP,CapP,DapP);
 HapM=Abcd2H(wplot(nc),AM,BM,CapM,DapM);
 diff_Hapk(l)=abs(((HapP-HapM)/del)-dHapdk(nc,l))./abs(dHapdk(nc,l));
@@ -175,11 +175,11 @@ for l=1:Nkc
   if l<=Nk
     [AP,BP,CP,DP]=schurOneMlattice2Abcd(k+delk,epsilon,p,c);
     [AM,BM,CM,DM]=schurOneMlattice2Abcd(k-delk,epsilon,p,c);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
   else
     [AP,BP,CP,DP]=schurOneMlattice2Abcd(k,epsilon,p,c+delc);
     [AM,BM,CM,DM]=schurOneMlattice2Abcd(k,epsilon,p,c-delc);
-    delc=shift(delc,1);
+    delc=circshift(delc,1);
   endif
   [HP,dHdwP]=Abcd2H(wplot(nc),AP,BP,CP,DP);
   [HM,dHdwM]=Abcd2H(wplot(nc),AM,BM,CM,DM);
@@ -212,7 +212,7 @@ diff_dHapdw=zeros(1,Nk);
 for l=1:Nk
   [AP,BP,CapP,DapP]=schurOneMAPlattice2Abcd(k+delk,epsilon,p);
   [AM,BM,CapM,DapM]=schurOneMAPlattice2Abcd(k-delk,epsilon,p);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   [HapP,dHapdwP]=Abcd2H(wplot(nc),AP,BP,CapP,DapP);
   [HapM,dHapdwM]=Abcd2H(wplot(nc),AM,BM,CapM,DapM);
   diff_dHapdw(l)=max(abs(((dHapdwP-dHapdwM)/del)- ...
@@ -249,13 +249,13 @@ for l=1:Nkc
       schurOneMlattice2Abcd(k+delk,epsilon,p,c);
     [AM,BM,CM,DM,CapM,DapM,dAdkcM,dBdkcM,dCdkcM,dDdkcM]= ...
       schurOneMlattice2Abcd(k-delk,epsilon,p,c);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
   else
     [AP,BP,CP,DP,CapP,DapP,dAdkcP,dBdkcP,dCdkcP,dDdkcP]= ...
       schurOneMlattice2Abcd(k,epsilon,p,c+delc);
     [AM,BM,CM,DM,CapM,DapM,dAdkcM,dBdkcM,dCdkcM,dDdkcM]= ...
       schurOneMlattice2Abcd(k,epsilon,p,c-delc);
-    delc=shift(delc,1);
+    delc=circshift(delc,1);
   endif
   [HP,dHdwP,dHdkcP]=Abcd2H(wplot(nc),AP,BP,CP,DP,dAdkcP,dBdkcP,dCdkcP,dDdkcP);
   [HM,dHdwM,dHdkcM]=Abcd2H(wplot(nc),AM,BM,CM,DM,dAdkcM,dBdkcM,dCdkcM,dDdkcM);
@@ -291,7 +291,7 @@ for l=1:Nk
     schurOneMAPlattice2Abcd(k+delk,epsilon,p);
   [AM,BM,CapM,DapM,dAdkM,dBdkM,dCapdkM,dDapdkM]= ...
     schurOneMAPlattice2Abcd(k-delk,epsilon,p);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   [HapP,dHapdwP,dHapdkP]=Abcd2H(wplot(nc),AP,BP,CapP,DapP, ...
                                 dAdkP,dBdkP,dCapdkP,dDapdkP);
   [HapM,dHapdwM,dHapdkM]=Abcd2H(wplot(nc),AM,BM,CapM,DapM, ...
@@ -362,13 +362,13 @@ for l=1:Nkc
       schurOneMlattice2Abcd(k+delk,epsilon,p,c);
     [AM,BM,CM,DM,CapM,DapM,dAdkcM,dBdkcM,dCdkcM,dDdkcM]= ...
       schurOneMlattice2Abcd(k-delk,epsilon,p,c);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
   else
     [AP,BP,CP,DP,CapP,DapP,dAdkcP,dBdkcP,dCdkcP,dDdkcP]= ...
       schurOneMlattice2Abcd(k,epsilon,p,c+delc);
     [AM,BM,CM,DM,CapM,DapM,dAdkcM,dBdkcM,dCdkcM,dDdkcM]= ...
       schurOneMlattice2Abcd(k,epsilon,p,c-delc);
-    delc=shift(delc,1);
+    delc=circshift(delc,1);
   endif
   [HP,dHdwP,dHdkcP,d2HdwdkcP]=Abcd2H(wplot(nc),AP,BP,CP,DP, ...
                                      dAdkcP,dBdkcP,dCdkcP,dDdkcP);
@@ -429,7 +429,7 @@ for l=5:Nk
     schurOneMAPlattice2Abcd(k+delk,epsilon,p);
   [AM,BM,CapM,DapM,dAdkM,dBdkM,dCapdkM,dDapdkM]= ...
     schurOneMAPlattice2Abcd(k-delk,epsilon,p);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   [HapP,dHapdwP,dHapdkP,d2HapdwdkP]=Abcd2H(wplot(nc),AP,BP,CapP,DapP, ...
                                            dAdkP,dBdkP,dCapdkP,dDapdkP);
   [HapM,dHapdwM,dHapdkM,d2HapdwdkM]=Abcd2H(wplot(nc),AM,BM,CapM,DapM, ...

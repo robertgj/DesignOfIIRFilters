@@ -77,7 +77,7 @@ for l=1:Nk
   [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc] = ...
     schurOneMlattice2Abcd(k-delk,epsilon,p,c);
   HkMdel2=schurOneMlattice2H(wtpl,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_Hk(l)=(HkPdel2-HkMdel2)/del;
 endfor
 rel_diff_Hk=(diff_Hk-dHdkc(ntpl,1:Nk))./dHdkc(ntpl,1:Nk);
@@ -98,7 +98,7 @@ for l=1:Nc
   [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc] = ...
     schurOneMlattice2Abcd(k,epsilon,p,c-delc);
   HcMdel2=schurOneMlattice2H(wtpl,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc);
-  delc=shift(delc,1);
+  delc=circshift(delc,1);
   diff_Hc(l)=(HcPdel2-HcMdel2)/del;
 endfor
 rel_diff_Hc=(diff_Hc-dHdkc(ntpl,(Nk+1):end))./dHdkc(ntpl,(Nk+1):end);
@@ -145,7 +145,7 @@ for l=1:Nk
   [HkM,dHdwM,dHdkcM]=schurOneMlattice2H(wtpl,AkM,BkM,CkM,DkM, ...
                                         dAdkcM,dBdkcM,dCdkcM,dDdkcM);
   diff_dHdkc(l)=(dHdkcP(l)-dHdkcM(l))/del;
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 rel_diff_dHdkc=(diff_dHdkc-diagd2Hdkc2(ntpl,1:Nk))./diagd2Hdkc2(ntpl,1:Nk);
 if max(abs(rel_diff_dHdkc)) > del/55.6
@@ -168,7 +168,7 @@ for l=1:Nc
   [HcM,dHdwM,dHdkcM]=schurOneMlattice2H(wtpl,AcM,BcM,CcM,DcM, ...
                                         dAdkcM,dBdkcM,dCdkcM,dDdkcM);
   diff_dHdc(l)=(dHdkcP(Nk+l)-dHdkcM(Nk+l))/del;
-  delc=shift(delc,1);
+  delc=circshift(delc,1);
 endfor
 if max(abs(diagd2Hdkc2(ntpl,(Nk+1):end))) > eps
   error("max(abs(diagd2Hdkc2(ntpl,(Nk+1):end))) > eps");
@@ -195,7 +195,7 @@ for l=1:Nk
   [HkM,dHdwM,dHdkcM,d2HdwdkcM] = ...
     schurOneMlattice2H(wtpl,AkM,BkM,CkM,DkM,dAdkcM,dBdkcM,dCdkcM,dDdkcM);
   diff_d2Hdwdkc(l)=(d2HdwdkcP(l)-d2HdwdkcM(l))/del;
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 delc=zeros(size(c));
 delc(1)=del/2;
@@ -209,7 +209,7 @@ for l=1:Nc
   [HkM,dHdwM,dHdkcM,d2HdwdkcM] = ...
     schurOneMlattice2H(wtpl,AkM,BkM,CkM,DkM,dAdkcM,dBdkcM,dCdkcM,dDdkcM);
   diff_d2Hdwdkc(Nk+l)=(d2HdwdkcP(Nk+l)-d2HdwdkcM(Nk+l))/del;
-  delc=shift(delc,1);
+  delc=circshift(delc,1);
 endfor
 rel_diff_d2Hdwdkc=(diff_d2Hdwdkc-diagd3Hdwdkc2(ntpl,:))./diagd3Hdwdkc2(ntpl,:);
 if max(abs(rel_diff_d2Hdwdkc)) > del/30.4

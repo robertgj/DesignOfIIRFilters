@@ -110,7 +110,7 @@ for l=1:Nk
   TM=schurOneMAPlattice_frm_hilbertT(w,k0-delkon2,epsilon0,p0,...
                                           u0,v0,Mmodel,Dmodel);
   approx_gradT(:,l)=(TP-TM)/del;
-  delkon2=shift(delkon2,1);
+  delkon2=circshift(delkon2,1);
 endfor
 diff_gradT=gradT(:,1:Nk)-approx_gradT;
 max_diff=del/max(max(abs(diff_gradT)));
@@ -139,7 +139,7 @@ for l=1:Nu
   TM=schurOneMAPlattice_frm_hilbertT(w,k0,epsilon0,p0,...
                                      u0-deluon2,v0,Mmodel,Dmodel);
   approx_gradT(:,l)=(TP-TM)/del;
-  deluon2=shift(deluon2,1);
+  deluon2=circshift(deluon2,1);
 endfor
 diff_gradT=gradT(:,(Nk+1):(Nk+Nu))-approx_gradT;
 max_diff=del/max(max(abs(diff_gradT)));
@@ -168,7 +168,7 @@ for l=1:Nv
   TM=schurOneMAPlattice_frm_hilbertT(w,k0,epsilon0,p0,...
                                      u0,v0-delvon2,Mmodel,Dmodel);
   approx_gradT(:,l)=(TP-TM)/del;
-  delvon2=shift(delvon2,1);
+  delvon2=circshift(delvon2,1);
 endfor
 diff_gradT=gradT(:,(Nk+Nu+1):(Nk+Nu+Nv))-approx_gradT;
 % Passband

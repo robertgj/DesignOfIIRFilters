@@ -89,7 +89,7 @@ for l=1:Nk
                                            wa,Asqd,Wa,wt,Td,Wt);
   EsqMk=schurOneMAPlattice_frm_halfbandEsq(k-delk,epsilon,p,u,v,Mmodel,Dmodel,...
                                            wa,Asqd,Wa,wt,Td,Wt);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_Esqk(l)=(EsqPk-EsqMk)/del;
 endfor
 if max(abs(diff_Esqk-gradEsq(1:Nk))) > del/46874
@@ -106,7 +106,7 @@ for l=1:Nu
                                            wa,Asqd,Wa,wt,Td,Wt);
   EsqMu=schurOneMAPlattice_frm_halfbandEsq(k,epsilon,p,u-delu,v,Mmodel,Dmodel,...
                                            wa,Asqd,Wa,wt,Td,Wt);
-  delu=shift(delu,1);
+  delu=circshift(delu,1);
   diff_Esqu(l)=(EsqPu-EsqMu)/del;
 endfor
 if max(abs(diff_Esqu-gradEsq((Nk+1):(Nk+Nu)))) > del/321538
@@ -123,7 +123,7 @@ for l=1:Nv
                                            wa,Asqd,Wa,wt,Td,Wt);
   EsqMv=schurOneMAPlattice_frm_halfbandEsq(k,epsilon,p,u,v-delv,Mmodel,Dmodel,...
                                            wa,Asqd,Wa,wt,Td,Wt);
-  delv=shift(delv,1);
+  delv=circshift(delv,1);
   diff_Esqv(l)=(EsqPv-EsqMv)/del;
 endfor
 if max(abs(diff_Esqv-gradEsq((Nk+Nu+1):end))) > del/189763

@@ -76,7 +76,7 @@ for l=1:Nk
     complementaryFIRlatticeEsq(k+delk,khat,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
   EsqkMdel2= ...
     complementaryFIRlatticeEsq(k-delk,khat,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_Esqk(l)=(EsqkPdel2-EsqkMdel2)/del;
 endfor
 if max(abs(diff_Esqk-gradEsq(1:Nk))) > del/1407
@@ -93,7 +93,7 @@ for l=1:Nk
     complementaryFIRlatticeEsq(k,khat+delkhat,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
   EsqkhatMdel2= ...
     complementaryFIRlatticeEsq(k,khat-delkhat,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-  delkhat=shift(delkhat,1);
+  delkhat=circshift(delkhat,1);
   diff_Esqkhat(l)=(EsqkhatPdel2-EsqkhatMdel2)/del;
 endfor
 if max(abs(diff_Esqkhat-gradEsq((Nk+1):(2*Nk)))) > del/1967

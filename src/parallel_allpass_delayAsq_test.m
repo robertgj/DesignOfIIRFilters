@@ -99,7 +99,7 @@ for k=1:V
           approx_delAsqdelRpak,k,delAsqdelRpa(k),tol);
   endif
   
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 for k=1:Qon2
   % delAsqdelrpa
@@ -115,7 +115,7 @@ for k=1:Qon2
     error("abs(approx_delAsqdelrpak(=%g)-delAsqdelrpa(%d)(=%g)) > %g",
           approx_delAsqdelrpak,k,delAsqdelrpa(k),tol);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 for k=1:Qon2
   % delAsqdelthetapa
@@ -131,7 +131,7 @@ for k=1:Qon2
     error("abs(approx_delAsqdelthetapak(=%g)-delAsqdelthetapa(%d)(=%g)) > %g",
           approx_delAsqdelthetapak,k,delAsqdelthetapa(k),tol);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 
 % Compare diagonal of Hessian with calculated values
@@ -151,7 +151,7 @@ for k=1:V
     error("abs(approx_del2AsqdelRpak2(=%g)-del2AsqdelRpa2(%d)(=%g)) > %g",
           approx_del2AsqdelRpak2,k,del2AsqdelRpa2(k),tol);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 tol=8e-9;
 for k=1:Qon2
@@ -170,7 +170,7 @@ for k=1:Qon2
     error("abs(approx_del2Asqdelrpak2(=%g)-del2Asqdelrpa2(%d)(=%g)) > %g",
           approx_del2Asqdelrpak2,k,del2Asqdelrpa2(k),tol);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 tol=2e-7;
 for k=1:Qon2
@@ -190,10 +190,10 @@ for k=1:Qon2
     error("abs(approx_del2Asqdelthetapak2(=%g)-del2Asqdelthetapa2(%d)(=%g))>%g",
           approx_del2Asqdelthetapak2,k,del2Asqdelthetapa2(k),tol);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 
 % Done
 diary off
 movefile parallel_allpass_delayAsq_test.diary.tmp ...
-       parallel_allpass_delayAsq_test.diary;
+         parallel_allpass_delayAsq_test.diary;

@@ -68,7 +68,7 @@ for l=1:Ns
   Ts22M=schurNSlatticeT(wtpl,s10,s11,s20,s00,s02,s22-dels);
   diff_T(6+((l-1)*6))=(Ts22P-Ts22M)/del;
   % Shift dels
-  dels=shift(dels,1);
+  dels=circshift(dels,1);
 endfor
 if max(abs(diff_T-gradT(ntpl,:))) > del/26.98
   error("max(abs(diff_T-gradT(ntpl,:))) > del/26.98");
@@ -112,7 +112,7 @@ for l=1:Ns
   lindex=(6+((l-1)*6));
   diff_gradT(lindex)=(gradTs22P(lindex)-gradTs22M(lindex))/del;
   % Shift dels
-  dels=shift(dels,1);
+  dels=circshift(dels,1);
 endfor
 if max(abs(diff_gradT-diagHessT(ntpl,:))) > del/18.6
   error("max(abs(diff_gradT-diagHessT(ntpl,:))) > del/18.6");

@@ -32,17 +32,17 @@ for l=0:n,
 endfor
 
 for l=1:(n-1),
-  if any((2*shift(T{1+l},-1))-(T{1+l-1}+T{1+l+1}))
+  if any((2*circshift(T{1+l},-1))-(T{1+l-1}+T{1+l+1}))
     error("l=1 identity failed");
   endif
 endfor
 for l=2:(n-2),
-  if any((4*shift(T{1+l},-2))-(T{1+l-2}+(2*T{1+l})+T{1+l+2}))
+  if any((4*circshift(T{1+l},-2))-(T{1+l-2}+(2*T{1+l})+T{1+l+2}))
     error("l=2 identity failed");
   endif
 endfor
 for l=3:(n-3),
-  if any((8*shift(T{1+l},-3))-(T{1+l-3}+(3*T{1+l-1})+(3*T{1+l+1})+T{1+l+3}))
+  if any((8*circshift(T{1+l},-3))-(T{1+l-3}+(3*T{1+l-1})+(3*T{1+l+1})+T{1+l+3}))
     error("l=3 identity failed");
   endif
 endfor

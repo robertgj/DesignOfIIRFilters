@@ -37,7 +37,7 @@ for m=1:2
                                 difference);
     TkMdel2=schurOneMPAlatticeT(wt,A1k-delk,A1epsilon,A1p,A2k,A2epsilon,A2p,...
                                 difference);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
     diff_Tk(:,l)=(TkPdel2-TkMdel2)/del;
   endfor
   if max(max(abs(diff_Tk-gradT(:,A1rng)))) > 3*tol
@@ -54,7 +54,7 @@ for m=1:2
                                 difference);
     TkMdel2=schurOneMPAlatticeT(wt,A1k,A1epsilon,A1p,A2k-delk,A2epsilon,A2p,...
                                 difference);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
     diff_Tk(:,l)=(TkPdel2-TkMdel2)/del;
   endfor
   if max(max(abs(diff_Tk-gradT(:,A2rng)))) > 4*tol
@@ -75,7 +75,7 @@ for m=1:2
                                               A2k,A2epsilon,A2p,difference);
     [TkMdel2,gradTkMdel2]=schurOneMPAlatticeT(wt,A1k-delk,A1epsilon,A1p, ...
                                               A2k,A2epsilon,A2p,difference);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
     diff_gradTk(:,l)=(gradTkPdel2(:,l)-gradTkMdel2(:,l))/del;
   endfor
   if max(max(abs(diff_gradTk-diagHessT(:,A1rng)))) > 50*tol
@@ -92,7 +92,7 @@ for m=1:2
                                               A2k+delk,A2epsilon,A2p,difference);
     [TkMdel2,gradTkMdel2]=schurOneMPAlatticeT(wt,A1k,A1epsilon,A1p, ...
                                               A2k-delk,A2epsilon,A2p,difference);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
     diff_gradTk(:,l)=(gradTkPdel2(:,length(A1k)+l)-...
                       gradTkMdel2(:,length(A1k)+l))/del;
   endfor

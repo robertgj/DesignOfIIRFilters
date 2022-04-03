@@ -173,7 +173,7 @@ for k=1:length(xk)
            abs(1-((abs(Hw_wpD-Hw_wp)/del)/abs(gradHw_wp(k)))));
     error("abs(1-(((Hw_wpD-Hw_wp)/del)/abs(gradHw_wp(%d)))) > %f",k,reltol);
   endif
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -255,7 +255,7 @@ for k=1:length(xk)
            abs(1-((abs(Hw_wpD-Hw_wp)/del)/abs(gradHw_wp(k)))));
     error("abs(1-(((Hw_wpD-Hw_wp)/del)/abs(gradHw_wp(%d)))) > %f",k,reltol);
   endif
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -340,7 +340,7 @@ for k=1:length(xk)
            abs(1-((abs(Hw_wpD-Hw_wp)/del)/abs(gradHw_wp(k)))));
     error("abs(1-(((Hw_wpD-Hw_wp)/del)/abs(gradHw_wp(%d)))) > %f",k,reltol);
   endif
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -427,7 +427,7 @@ for k=1:length(xk)
            abs(1-((abs(Hw_wpD-Hw_wp)/del)/abs(gradHw_wp(k)))));
     error("abs(1-(((Hw_wpD-Hw_wp)/del)/abs(gradHw_wp(%d)))) > %f",k,reltol);
   endif
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -524,7 +524,7 @@ for k=1:length(xk)
       error("abs(((Hw_wpD-Hw_wp)/del) - gradHw_wp(%d)) > %f",k,reltol);
     endif
   endif
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -621,7 +621,7 @@ for k=1:length(xk)
       error("abs(((Hw_wpD-Hw_wp)/del) - gradHw_wp(%d)) > %f",k,reltol);
     endif
   endif
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -718,7 +718,7 @@ for k=1:length(xk)
       error("abs(((Hw_wpD-Hw_wp)/del) - gradHw_wp(%d)) > %f",k,reltol);
     endif
   endif
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -815,7 +815,7 @@ for k=1:length(xk)
       error("abs(((Hw_wpD-Hw_wp)/del) - gradHw_wp(%d)) > %f",k,reltol);
     endif
   endif
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -935,7 +935,7 @@ for k=1:length(xk)
            abs(1-((abs(Hw_wpD-Hw_wp)/del)/abs(gradHw_wp(k))))); 
     error("abs(1-(((Hw_wpD-Hw_wp)/del)/abs(gradHw_wp(%d)))) > %f",k,reltol);
   endif
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1058,7 +1058,7 @@ for k=1:length(xk)
            abs(1-((abs(Hw_wpD-Hw_wp)/del)/abs(gradHw_wp(k))))); 
     error("abs(1-(((Hw_wpD-Hw_wp)/del)/abs(gradHw_wp(%d)))) > %f",k,reltol);
   endif
-  delxk=shift(delxk,1);
+  delxk=circshift(delxk,1);
 endfor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

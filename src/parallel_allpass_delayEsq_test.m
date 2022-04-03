@@ -104,7 +104,7 @@ for k=1:V
           approx_delEsqdelRpak,k,delEsqdelRpa(k),tol);
   endif
   
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 tol=1e-7;
 for k=1:Qon2
@@ -123,7 +123,7 @@ for k=1:Qon2
     error("abs(approx_delEsqdelrpak(=%g)-delEsqdelrpa(%d)(=%g)) > %g",
           approx_delEsqdelrpak,k,delEsqdelrpa(k),tol);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 for k=1:Qon2
   % delEsqdelthetapa
@@ -141,7 +141,7 @@ for k=1:Qon2
     error("abs(approx_delEsqdelthetapak(=%g)-delEsqdelthetapa(%d)(=%g)) > %g",
           approx_delEsqdelthetapak,k,delEsqdelthetapa(k),tol);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 
 % Compare diagonal of Hessian with calculated values
@@ -161,7 +161,7 @@ for k=1:V
     error("abs(approx_del2EsqdelRpak2(=%g)-del2EsqdelRpa2(%d)(=%g)) > %g",
           approx_del2EsqdelRpak2,k,del2EsqdelRpa2(k),tol);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 tol=1e-6;
 for k=1:Qon2
@@ -180,7 +180,7 @@ for k=1:Qon2
     error("abs(approx_del2Esqdelrpak2(=%g)-del2Esqdelrpa2(%d)(=%g)) > %g",
           approx_del2Esqdelrpak2,k,del2Esqdelrpa2(k),tol);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 tol=1e-6;
 for k=1:Qon2
@@ -200,7 +200,7 @@ for k=1:Qon2
     error("abs(approx_del2Esqdelthetapak2(=%g)-del2Esqdelthetapa2(%d)(=%g))>%g",
           approx_del2Esqdelthetapak2,k,del2Esqdelthetapa2(k),tol);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 
 % Done

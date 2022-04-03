@@ -44,7 +44,7 @@ wtpl=wplot(ntpl);
 for l=1:Nk
   PkPdel2=complementaryFIRlatticeP(wtpl,k+delk,khat);
   PkMdel2=complementaryFIRlatticeP(wtpl,k-delk,khat);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_Pk(l)=(PkPdel2-PkMdel2)/del;
 endfor
 if max(abs(diff_Pk-gradP(ntpl,1:Nk))) > del/2230
@@ -59,7 +59,7 @@ diff_Pkhat=zeros(1,Nk);
 for l=1:Nk
   PkhatPdel2=complementaryFIRlatticeP(wtpl,k,khat+delkhat);
   PkhatMdel2=complementaryFIRlatticeP(wtpl,k,khat-delkhat);
-  delkhat=shift(delkhat,1);
+  delkhat=circshift(delkhat,1);
   diff_Pkhat(l)=(PkhatPdel2-PkhatMdel2)/del;
 endfor
 if max(abs(diff_Pkhat-gradP(ntpl,(Nk+1):(2*Nk)))) > del/2619

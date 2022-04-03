@@ -366,7 +366,7 @@ for x=1:3
       error("dDapds22_max_err(%d) > %g",l,tol);
     endif
     % Shift dels
-    dels=shift(dels,1);
+    dels=circshift(dels,1);
   endfor
 endfor
 
@@ -631,7 +631,7 @@ for x=1:3
       error("dDapds00_max_err(%d) > %g",l,tol);
     endif
     % Shift dels
-    dels=shift(dels,1);
+    dels=circshift(dels,1);
   endfor
 endfor
 

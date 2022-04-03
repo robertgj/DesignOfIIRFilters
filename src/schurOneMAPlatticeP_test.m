@@ -56,7 +56,7 @@ diff_Pk=zeros(size(k));
 for l=1:Nk
   PkPdel2=schurOneMAPlatticeP(wtpl,k+delk,epsilon,p);
   PkMdel2=schurOneMAPlatticeP(wtpl,k-delk,epsilon,p);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_Pk(l)=(PkPdel2-PkMdel2)/del;
 endfor
 if max(abs(diff_Pk-gradP(ntpl,:))) > del/1751
@@ -72,7 +72,7 @@ diff_dPdk=zeros(size(k));
 for l=1:Nk
   [PkPdel2,gradPkPdel2]=schurOneMAPlatticeP(wtpl,k+delk,epsilon,p);
   [PkMdel2,gradPkMdel2]=schurOneMAPlatticeP(wtpl,k-delk,epsilon,p);
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
   diff_dPdk(l)=(gradPkPdel2(1,l)-gradPkMdel2(1,l))/del;
 endfor
 if max(abs(diff_dPdk-diagHessP(ntpl,:))) > del/189.2
@@ -113,7 +113,7 @@ NkR=length(kR);
 for l=1:NkR
   PkRPdel2=schurOneMAPlatticeP(wtpl,kR+delkR,epsilonR,pR,R);
   PkRMdel2=schurOneMAPlatticeP(wtpl,kR-delkR,epsilonR,pR,R);
-  delkR=shift(delkR,1);
+  delkR=circshift(delkR,1);
   diff_PkR(l)=(PkRPdel2-PkRMdel2)/del;
 endfor
 if max(abs(diff_PkR-gradPR(ntpl,:))) > del/1650
@@ -129,7 +129,7 @@ diffd_PdkR=zeros(size(kR));
 for l=1:NkR
   [PkRPdel2,gradPkRPdel2]=schurOneMAPlatticeP(wtpl,kR+delkR,epsilonR,pR,R);
   [PkRMdel2,gradPkRMdel2]=schurOneMAPlatticeP(wtpl,kR-delkR,epsilonR,pR,R);
-  delkR=shift(delkR,1);
+  delkR=circshift(delkR,1);
   diff_dPdkR(l)=(gradPkRPdel2(1,l)-gradPkRMdel2(1,l))/del;
 endfor
 if max(abs(diff_dPdkR-diagHessPR(ntpl,:))) > del/485

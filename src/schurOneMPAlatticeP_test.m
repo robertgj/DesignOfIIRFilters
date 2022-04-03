@@ -37,7 +37,7 @@ for m=1:2
                                 difference);
     PkMdel2=schurOneMPAlatticeP(wp,A1k-delk,A1epsilon,A1p,A2k,A2epsilon,A2p,...
                                 difference);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
     diff_Pk(:,l)=(PkPdel2-PkMdel2)/del;
   endfor
   if max(max(abs(diff_Pk-gradP(:,A1rng)))) > tol
@@ -54,7 +54,7 @@ for m=1:2
                                 difference);
     PkMdel2=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,A2k-delk,A2epsilon,A2p,...
                                 difference);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
     diff_Pk(:,l)=(PkPdel2-PkMdel2)/del;
   endfor
   if max(max(abs(diff_Pk-gradP(:,A2rng)))) > tol
@@ -75,7 +75,7 @@ for m=1:2
                                               A2k,A2epsilon,A2p,difference);
     [PkMdel2,gradPkMdel2]=schurOneMPAlatticeP(wp,A1k-delk,A1epsilon,A1p, ...
                                               A2k,A2epsilon,A2p,difference);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
     diff_gradPk(:,l)=(gradPkPdel2(:,l)-gradPkMdel2(:,l))/del;
   endfor
   if max(max(abs(diff_gradPk-diagHessP(:,A1rng)))) > 3*tol
@@ -92,7 +92,7 @@ for m=1:2
                                               A2k+delk,A2epsilon,A2p,difference);
     [PkMdel2,gradPkMdel2]=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p, ...
                                               A2k-delk,A2epsilon,A2p,difference);
-    delk=shift(delk,1);
+    delk=circshift(delk,1);
     diff_gradPk(:,l)=(gradPkPdel2(:,length(A1k)+l)-...
                       gradPkMdel2(:,length(A1k)+l))/del;
   endfor

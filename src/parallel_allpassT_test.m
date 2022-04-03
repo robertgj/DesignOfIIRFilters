@@ -92,7 +92,7 @@ for k=1:Va
 delTdelRpa=%g, approx=%g, diff=%g\n",
           k, delTdelRpa(k), approx_delTdelRpak, diff_delTdelRpak);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 for k=1:Qaon2
   % delTdelrpa
@@ -105,7 +105,7 @@ for k=1:Qaon2
 delTdelrpa=%g, approx=%g, diff=%g\n",
           k, delTdelrpa(k), approx_delTdelrpak, diff_delTdelrpak);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 for k=1:Qaon2
   % delTdelthetapa
@@ -118,7 +118,7 @@ for k=1:Qaon2
 delTdelthetapa=%g, approx=%g, diff=%g\n",
           k, delTdelthetapa(k), approx_delTdelthetapak, diff_delTdelthetapak);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 
 % Filter b
@@ -133,7 +133,7 @@ for k=1:Vb
 delTdelRpb=%g, approx=%g, diff=%g\n",
           k, delTdelRpb(k), approx_delTdelRpbk, diff_delTdelRpbk);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 for k=1:Qbon2
   % delTdelrpb
@@ -146,7 +146,7 @@ for k=1:Qbon2
 delTdelrpb=%g, approx=%g, diff=%g\n",
           k, delTdelrpb(k), approx_delTdelrpbk, diff_delTdelrpbk);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 for k=1:Qbon2
   % delTdelthetapb
@@ -159,7 +159,7 @@ for k=1:Qbon2
 delTdelthetapb=%g, approx=%g, diff=%g\n",
           k, delTdelthetapb(k), approx_delTdelthetapbk, diff_delTdelthetapbk);
   endif
-  delk=shift(delk,1);
+  delk=circshift(delk,1);
 endfor
 
 % Done

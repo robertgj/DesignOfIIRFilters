@@ -75,7 +75,7 @@ for l=1:A1Ns
                                 A2s20,A2s02,A2s00,A2s22);
   diff_AsqA1(:,4+((l-1)*4))=(AsqA1s22P-AsqA1s22M)/del;
   % Shift delA1s
-  delA1s=shift(delA1s,1);
+  delA1s=circshift(delA1s,1);
 endfor
 max_gradAsq_A1_error=max(max(abs(diff_AsqA1-gradAsq(:,1:(A1Ns*4)))));
 if max_gradAsq_A1_error > tol
@@ -114,7 +114,7 @@ for l=1:A2Ns
                                 A2s20,A2s02,A2s00,A2s22-delA2s);
   diff_AsqA2(:,4+((l-1)*4))=(AsqA2s22P-AsqA2s22M)/del;
   % Shift delA2s
-  delA2s=shift(delA2s,1);
+  delA2s=circshift(delA2s,1);
 endfor
 max_gradAsq_A2_error=...
   max(max(abs(diff_AsqA2-gradAsq(:,((A1Ns*4)+1):((A1Ns+A2Ns)*4)))));
@@ -170,7 +170,7 @@ for l=1:A1Ns
   lindex=(4+((l-1)*4));
   diff_gradAsqA1(:,lindex)=(gradAsqA1s22P(:,lindex)-gradAsqA1s22M(:,lindex))/del;
   % Shift delA1s
-  delA1s=shift(delA1s,1);
+  delA1s=circshift(delA1s,1);
 endfor
 max_diagHessAsq_A1_error=max(max(abs(diff_gradAsqA1-diagHessAsq(:,1:(A1Ns*4)))));
 if max_diagHessAsq_A1_error > tol
@@ -225,7 +225,7 @@ for l=1:A2Ns
   rindex=lindex+(A1Ns*4);
   diff_gradAsqA2(:,lindex)=(gradAsqA2s22P(:,rindex)-gradAsqA2s22M(:,rindex))/del;
   % Shift delA2s
-  delA2s=shift(delA2s,1);
+  delA2s=circshift(delA2s,1);
 endfor
 max_diagHessAsq_A2_error=...
   max(max(abs(diff_gradAsqA2-diagHessAsq(:,((A1Ns*4)+1):((A1Ns+A2Ns)*4)))));
