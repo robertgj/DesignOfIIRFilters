@@ -1,5 +1,5 @@
 % allpass2ndOrderCascade_socp_sqmag_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -22,7 +22,8 @@ td=(ma+mb)/2;
 fp=0.15
 Wp=1
 fs=0.17
-Ws=1000
+Ws=550
+
 % Initial coefficients found by tarczynski_allpass2ndOrderCascade_test.m
 tarczynski_allpass2ndOrderCascade_test_ab0_coef;
 a0=ab0(1:ma);
@@ -54,8 +55,9 @@ Hab0=(Ha0+Hb0)/2;
 Ha0p=allpass2ndOrderCascade(a0,wplot);
 Hb0p=allpass2ndOrderCascade(b0,wplot);
 Hab0p=(Ha0p+Hb0p)/2;
-if max(abs(Hab0-Hab0p)) > 1000*eps
-  error("max(abs(Hab0-Hab0p)) > 1000*eps");
+ max(abs(Hab0-Hab0p))/eps
+if max(abs(Hab0-Hab0p)) > 2000*eps
+  error("max(abs(Hab0-Hab0p)) > 2000*eps");
 endif
 Ta0=grpdelay(flipud(Da0),Da0,nplot);
 Tb0=grpdelay(flipud(Db0),Db0,nplot);
@@ -142,11 +144,6 @@ close
 npp=ceil(fp*nplot/0.5)+1;
 nsp=floor(fs*nplot/0.5)+1;
 clf
-subplot(212);
-plot(wplot*0.5/pi,Tab1)
-ylabel("Delay(samples)");
-xlabel("Frequency");
-grid("on");
 subplot(211);
 ax=plotyy(wplot(1:npp)*0.5/pi,20*log10(abs(Hab1(1:npp))), ...
           wplot(nsp:end)*0.5/pi,20*log10(abs(Hab1(nsp:end))));
@@ -157,6 +154,11 @@ axis(ax(2),[0 0.5 -90 -80]);
 ylabel("Amplitude(dB)");
 grid("on");
 title(s);
+subplot(212);
+plot(wplot*0.5/pi,Tab1)
+ylabel("Delay(samples)");
+xlabel("Frequency");
+grid("on");
 print(strcat(strf,"_ab1dual"),"-dpdflatex");
 close
 

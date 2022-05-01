@@ -1,5 +1,5 @@
 % schurNSlattice_sqp_mmse_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -18,8 +18,8 @@ verbose=false
 n=800
 norder=10
 fap=0.15,Wap=1,dBap=0.2
-fas=0.3,Was_mmse=1e4,dBas=30
-ftp=0.25,tp=10,tpr=0.1,Wtp_mmse=0.01
+fas=0.3,Was_mmse=4,dBas=30
+ftp=0.2,tp=10,tpr=0.1,Wtp_mmse=0.02
 
 % Initial filter from deczky3_sqp_test.m
 U=0;V=0;Q=6;M=10;R=1;

@@ -1,5 +1,5 @@
 % allpass_filter_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018,2022 Robert G. Jenssen
 
 test_common;
 
@@ -73,7 +73,7 @@ for nm=1:length(second),
   axis([0 1 1 1000]);
   grid("on");
   legend("r2=0.99","r2=0.75","r2=0.50","r2=0.25");
-  legend("location","northwest");
+  legend("location","southeast");
   legend("boxoff");
   print(sprintf("allpass_filter_test_%s_real_pgrad",second{nm}),"-dpdflatex");
   close
@@ -86,7 +86,7 @@ for nm=1:length(second),
   axis([0 1 0.1 100]);
   grid("on");
   legend("r2=0.99","r2=0.75","r2=0.50","r2=0.25");
-  legend("location","northwest");
+  legend("location","southeast");
   legend("boxoff");
   print(sprintf("allpass_filter_test_%s_real_ng",second{nm}),"-dpdflatex");
   close

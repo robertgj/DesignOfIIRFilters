@@ -42,13 +42,13 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 verbose = 1
-fap =  0.1500
-Wap =  1
-fas =  0.2000
-Was =  400
-ftp =  0.1750
-Wtp =  100
-tp =  28.750
+fap = 0.1500
+Wap = 1
+fas = 0.2000
+Was = 400
+ftp = 0.1750
+Wtp = 100
+tp = 28.750
 Filter a: real pole/zero 1
 delEdelRpa=4673.940449, approx=4673.963635, diff=-0.023186
 Filter a: real pole/zero 2
@@ -76,11 +76,11 @@ delEdelrpb=5578.027612, approx=5578.045279, diff=-0.017667
 Filter b: conjugate pole/zero 2 radius
 delEdelrpb=-6054.692939, approx=-6054.697249, diff=0.004310
 Filter b: conjugate pole/zero 3 radius
-delEdelrpb=14726.941308, approx=14726.929221, diff=0.012087
+delEdelrpb=14726.941308, approx=14726.929225, diff=0.012083
 Filter b: conjugate pole/zero 4 radius
 delEdelrpb=-5583.923578, approx=-5583.929036, diff=0.005458
 Filter b: conjugate pole/zero 5 radius
-delEdelrpb=-2157.991949, approx=-2157.988612, diff=-0.003336
+delEdelrpb=-2157.991949, approx=-2157.988616, diff=-0.003333
 Filter b: conjugate pole/zero 6 radius
 delEdelrpb=-6573.070980, approx=-6573.073100, diff=0.002121
 Filter b: conjugate pole/zero 1 angle

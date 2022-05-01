@@ -1,5 +1,5 @@
 % decimator_R2_alternate_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Example of low-pass IIR decimator filter design using quasi-Newton
 % optimisation with constraints on the coefficients.
@@ -15,18 +15,18 @@ tic;
 verbose=false
 tol_wise=1e-7
 tol_mmse=1e-5
-tol_pcls=5e-4
+tol_pcls=2e-4
 ctol=1e-7
-maxiter=10000
+maxiter=4000
 
 % Filter specifications (frequencies are normalised to the sample rate)
 fap=0.10,dBap=0.35,Wap=1
-fas=0.25,dBas=50,Was=1.5
-ftp=0.125,tp=10,tpr=0.016,Wtp=1
+fas=0.25,dBas=50,Was=1.25
+ftp=0.125,tp=10,tpr=0.02,Wtp=1
 
 % Initial filter guess
 U=0,V=0,M=12,Q=6,R=2
-xi=[0.00005, [1,1,1,1,1,1], (7:12)*pi/12, 0.75*[1,1,1], (1:3)*pi/8]';
+xi=[0.0001, [1,1,1,1,1,1], (7:12)*pi/12, 0.75*[1,1,1], (1:3)*pi/8]';
 
 % Frequency points
 n=1000;

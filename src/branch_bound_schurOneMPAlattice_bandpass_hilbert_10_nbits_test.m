@@ -2,7 +2,7 @@
 % Branch-and-bound optimisation of the response of a Hilbert band-pass filter
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 10-bit 3-signed-digit coefficients.
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 
 test_common;
@@ -175,13 +175,13 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 
 % Fix one coefficient at each iteration 
 if use_best_branch_and_bound_found
-  branches_min=340; % 1555 seconds
-  A1k_min = [   -242,      432,     -188,       88, ... 
-                 321,     -232,      134,       88, ... 
-                 -80,       47 ]'/512;
-  A2k_min = [   -400,      452,     -220,       78, ... 
-                 328,     -216,      138,       88, ... 
-                 -72,       50 ]'/512;
+  branches_min=249;
+  A1k_min = [     -250,      432,     -168,       94, ... 
+                   328,     -208,      148,      108, ... 
+                   -70,       44 ]'/512;
+  A2k_min = [     -416,      452,     -216,       88, ... 
+                   336,     -194,      152,      108, ... 
+                   -58,       50 ]'/512;
 
   k_min=[A1k_min(:);A2k_min(:)];
   Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon0,A1p_ones, ...

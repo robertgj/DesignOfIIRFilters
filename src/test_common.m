@@ -1,5 +1,5 @@
 % test_common.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 % Normally these would be in .octaverc or ~/.octaverc
 
@@ -17,6 +17,8 @@ try
 catch
   graphics_toolkit("gnuplot");
 end_try_catch
+
+set(0,"defaultaxestitlefontweight","normal");
 
 if getenv("OCTAVE_ENABLE_PLOT_TO_SCREEN")
   set(0,'DefaultFigureVisible','on');
@@ -50,9 +52,10 @@ warning("error","Octave:nearly-singular-matrix");
 warning("error","Octave:undefined-return-values");
 
 % Disable some noisy warnings (note patches to octave source files)
-warning("off","signal:grpdelay-singularity");
 warning("off","Octave:data-file-in-path");
-if strcmp("6.4.0-robj",OCTAVE_VERSION)
+warning("off","Octave:LaTeX:internal-error");
+warning("off","signal:grpdelay-singularity");
+if strcmp("7.1.0-robj",OCTAVE_VERSION)
   % See scripts/plot/util/private/__gnuplot_draw_axes__.m
   warning("off","Octave:latex-markup-not-supported-for-tick-marks");
   % See scripts/miscellaneous/delete.m

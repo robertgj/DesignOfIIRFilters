@@ -42,9 +42,9 @@ cat > test.ok << 'EOF'
 Not enough input arguments!
 print_usage: '[T,gradT]=directFIRnonsymmetricT(w,h)' not found
 Too many input arguments!
-print_usage: '[T,gradT]=directFIRnonsymmetricT(w,h)' not found
+directFIRnonsymmetricT: function called with too many inputs
 Too many output arguments!
-print_usage: '[T,gradT]=directFIRnonsymmetricT(w,h)' not found
+directFIRnonsymmetricT: function called with too many outputs
 Caught empty h!
 h is empty
 EOF

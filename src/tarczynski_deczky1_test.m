@@ -1,5 +1,5 @@
 % tarczynski_deczky1_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -39,7 +39,7 @@ Td=td*ones(n,1);
 Wt=[Wtp*ones(ntp,1); zeros(n-ntp,1)];
 
 % Unconstrained minimisation
-WISEJ_ND([],nN,nD,R,wd,Ad,Wa,Td,Wt);
+WISEJ_ND([],nN,nD,R,Ad,Wa,Td,Wt);
 tol=1e-6;
 maxiter=10000;
 NDi=[Ni;Di(2:end)];

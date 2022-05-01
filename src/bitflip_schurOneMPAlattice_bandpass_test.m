@@ -1,5 +1,5 @@
 % bitflip_schurOneMPAlattice_bandpass_test.m
-% Copyright (C) 2019-2021 Robert G. Jenssen
+% Copyright (C) 2019-2022 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass lattice filter in one multiplier parallel allpass form.
@@ -101,7 +101,7 @@ t_bfsd=grpdelay(n_bfsd,d_bfsd,nplot);
 ndigits_Lim=schurOneMPAlattice_allocsd_Lim ...
               (nbits,ndigits, ...
                A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference, ...
-               w,Ad.^2,ones(size(w)),w,Td,ones(size(w)));
+               w,Ad.^2,Wa,w,Td,Wt);
 
 % Signed-digit truncation with Lim's algorithm
 [cost_sdl,A1k_sdl,A2k_sdl,svec_sdl] = ...

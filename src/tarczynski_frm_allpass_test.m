@@ -1,5 +1,5 @@
 % tarczynski_frm_allpass_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Design an FRM filter from IIR allpass model in parallel with a delay
 % and FIR masking filters using the method of Tarczynski et al. The 
@@ -157,7 +157,7 @@ else
   dBas=40 % Stop band attenuation
   Wap=1 % Pass band weight
   Wapextra=1 % Extra pass band amplitude weight for extra points
-  Wasextra=0 % Extra stop band amplitude weight for extra points
+  Wasextra=1 % Extra stop band amplitude weight for extra points
   Was=10 % Stop band amplitude weight
   edge_factor=0.1 % Add extra frequencies near band edges
   edge_ramp=1 % Linear change of extra weights
@@ -282,11 +282,11 @@ close
 
 % Save the results
 print_polynomial(r1,"r1");
-print_polynomial(r1,"r1",strcat(strf,"_test_r1_coef.m"));
+print_polynomial(r1,"r1",strcat(strf,"_r1_coef.m"));
 print_polynomial(aa1,"aa1");
-print_polynomial(aa1,"aa1",strcat(strf,"_test_aa1_coef.m"));
+print_polynomial(aa1,"aa1",strcat(strf,"_aa1_coef.m"));
 print_polynomial(ac1,"ac1");
-print_polynomial(ac1,"ac1",strcat(strf,"_test_ac1_coef.m"));
+print_polynomial(ac1,"ac1",strcat(strf,"_ac1_coef.m"));
 
 save tarczynski_frm_allpass_test.mat ...
     r1 rRM1 aa1 ac1 R Mmodel Dmodel mr na nc fpass fstop Was

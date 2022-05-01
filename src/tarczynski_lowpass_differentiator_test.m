@@ -1,5 +1,5 @@
 % tarczynski_lowpass_differentiator_test.m
-% Copyright (C) 2020-2021 Robert G. Jenssen
+% Copyright (C) 2020-2022 Robert G. Jenssen
 %
 % Design a lowpass differentiator using the method of Tarczynski et al. 
 % See "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
@@ -14,12 +14,13 @@ delete("tarczynski_lowpass_differentiator_test.diary.tmp");
 diary tarczynski_lowpass_differentiator_test.diary.tmp
 
 % Filter specification
-fap=0.25;fas=0.3;Wap=1;Wat=0.1;Was=1;
-R=1;nN=10;nD=floor(nN/R);td=nN-1;
+fapl=0.01;fap=0.2;fas=0.25;Wap=1;Wat=0.001;Was=1;
+R=1;nN=11;nD=floor(nN/R);td=nN-2;
 tol=1e-8;maxiter=20000;
 
 % Frequency points
 n=1000;
+napl=floor(fapl*n/0.5)+1;
 nap=ceil(fap*n/0.5)+1;
 nas=ceil(fas*n/0.5)+1;
 
@@ -27,10 +28,11 @@ nas=ceil(fas*n/0.5)+1;
 wd=pi*(0:(n-1))'/n;
 Hd=[-j*(wd(1:nap)/pi).*exp(-j*td*wd(1:nap)); ...
     zeros(n-nap,1)];
-Wd=[Wap*ones(nap,1); ...
+Wd=[Wat*ones(napl-1,1); ...
+    Wap*ones(nap-napl+1,1); ...
     Wat*ones(nas-nap-1,1); ...
     Was*ones(n-nas+1,1)];
-nchk=[1,nap-1,nap,nap+1,nas-1,nas,nas+1,n];
+nchk=[1,napl-1,napl,napl+1,nap-1,nap,nap+1,nas-1,nas,nas+1,n];
 printf("nchk=[");printf("%d ",nchk);printf(" ]\n");
 printf("fd(nchk)=[");printf("%g ",wd(nchk)*0.5/pi);printf(" ]\n");
 printf("Hd(nchk)=[");printf("%g ",abs(Hd(nchk)));printf(" ]\n");
@@ -65,32 +67,52 @@ N0=ND0(1:(nN+1));
 D0=[1; ND0((nN+2):end)];
 D0R=[D0(1);kron(D0(2:end),[zeros(R-1,1);1])];
 
-% Plot results
+% Calculate response
 nplot=n;
 [H,wplot]=freqz(N0,D0R,nplot);
 T=grpdelay(N0',D0R',nplot);
+
+% Plot response
+subplot(211);
+plot(wplot*0.5/pi,abs(H));
+axis([0 0.5 0 0.5]);
+ylabel("Amplitude");
+grid("on");
+s=sprintf("Tarczynski et al. lowpass_differentiator : nN=%d,nD=%d,R=%d,td=%g",
+          nN,nD,R,td);
+title(s);
+subplot(212);
+plot(wplot*0.5/pi,T);
+axis([0 0.5 0 2*td ]);
+ylabel("Delay(samples)");
+xlabel("Frequency");
+grid("on");
+print("tarczynski_lowpass_differentiator_test_response","-dpdflatex");
+close
+
+% Plot errors
 subplot(211);
 plot(wplot*0.5/pi,abs(H)-abs(Hd));
-%axis([0 0.5 -0.01 0.01]);
+axis([0 0.5 -0.01 0.01]);
 ylabel("Amplitude error");
 grid("on");
 s=sprintf("Tarczynski et al. lowpass_differentiator : nN=%d,nD=%d,R=%d,td=%g",
           nN,nD,R,td);
 title(s);
 subplot(212);
-% plot(wplot*0.5/pi,T-td); ylabel("Delay error(samples)");
-plot(wplot*0.5/pi,(unwrap(arg(H))-(pi/2)+(wplot*td))/pi);
-%axis([0 0.5 -0.01 0.01 ]);
+plot(wplot*0.5/pi,((unwrap(arg(H))+(wplot*td))/pi)+0.5);
+axis([0 0.5 -0.01 0.01 ]);
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
 grid("on");
-print("tarczynski_lowpass_differentiator_response",  "-dpdflatex");
+print("tarczynski_lowpass_differentiator_test_error_response","-dpdflatex");
 close
 
+% Plot poles and zeros
 subplot(111);
 zplane(roots(N0),roots(D0R));
 title(s);
-print("tarczynski_lowpass_differentiator_pz",  "-dpdflatex");
+print("tarczynski_lowpass_differentiator_test_pz","-dpdflatex");
 close
 
 % Save the result

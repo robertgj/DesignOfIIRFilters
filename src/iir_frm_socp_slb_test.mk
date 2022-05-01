@@ -32,3 +32,5 @@ iir_frm_vec_to_struct.m \
 iirA.m iirP.m iirT.m iirdelAdelw.m fixResultNaN.m tf2x.m zp2x.m x2tf.m \
 xConstraints.m print_polynomial.m print_pole_zero.m \
 local_max.m qroots.m qzsolve.oct 
+
+iir_frm_socp_slb_test.diary : tarczynski_frm_iir_test.diary

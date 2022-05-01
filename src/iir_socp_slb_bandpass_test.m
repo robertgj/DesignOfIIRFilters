@@ -1,5 +1,5 @@
 % iir_socp_slb_bandpass_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -17,9 +17,9 @@ maxiter=5000
 
 % Bandpass filter specification
 % (frequencies are normalised to sample rate)
-fapl=0.1,fapu=0.2,dBap=1,Wap=1,Watl=0,Watu=0
-fasl=0.05,fasu=0.25,dBas=28,Wasl=0.5,Wasu=1
-ftpl=0.09,ftpu=0.21,tp=16,tpr=0.04,Wtp=1
+fapl=0.1,fapu=0.2,dBap=0.2,Wap=1,Watl=0.001,Watu=0.001
+fasl=0.05,fasu=0.25,dBas=30,Wasl=0.5,Wasu=1
+ftpl=0.09,ftpu=0.21,tp=16,tpr=0.032,Wtp=1
 
 strM=sprintf("%%s:fapl=%g,fapu=%g,dBap=%g,Wap=%%g,fasl=%g,fasu=%g,\
 dBas=%g,Wasl=%%g,Wasu=%%g,tp=%d,Wtp=%%g",fapl,fapu,dBap,fasl,fasu,dBas,tp);
@@ -29,19 +29,8 @@ strd=sprintf("iir_socp_slb_bandpass_test_%%s_%%s");
 n=500;
 
 % Initial filter (found by tarczynski_bandpass_test.m)
-U=2,V=0,M=18,Q=10,R=2
-x0 = [  0.0061801261, ...
-        0.9220089458,   2.6898804494, ...
-        0.7501690522,   0.8882135220,   0.9017698789,   0.9580369265, ... 
-        0.9605181736,   1.0807697407,   1.1303850942,   1.2121122076, ... 
-        1.2589695241, ...
-        2.0570928330,   1.7854951962,   2.6156201296,   1.4188209736, ... 
-        0.4813373475,   1.8841465353,   2.2676213504,   0.9423646110, ... 
-        2.6817211515, ...
-        0.7542752740,   0.7905287172,   0.7924721955,   0.9225819414, ... 
-        0.9282957086, ...
-        1.8831852647,   2.3182903862,   1.4452313934,   2.6151990500, ... 
-        1.1513936616 ]';
+tarczynski_bandpass_test_x_coef;
+U=Ux,V=Vx,M=Mx,Q=Qx,R=Rx;x0=x;
 
 % Plot initial filter
 strM0=sprintf(strM,"x0",Wap,Wasl,Wasu);

@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_socp_slb_test.m
-% Copyright (C) 2019-2021 Robert G. Jenssen
+% Copyright (C) 2019-2022 Robert G. Jenssen
 
 test_common;
 
@@ -111,15 +111,61 @@ schurOneMAPlattice_frm_socp_slb_plot ...
    strt,strcat(strf,"_%s_%s"),"PCLS");
 
 %
+% Compare to expected (allow for small variations from run to run!)
+%
+etol = 2e-10;
+k1exp = [  -0.0121468836,   0.5790957833,   0.0168575877,  -0.1439129895, ... 
+           -0.0043721524,   0.0562377167,   0.0085302320,  -0.0268776209, ... 
+           -0.0044278279,   0.0112909020 ]';
+if max(abs(k1exp-k1))>etol
+  print_polynomial(k1,"k1");
+  print_polynomial(k1exp,"k1exp");
+  error("max(abs(k1-k1exp))(%g*etol) > etol", max(abs(k1-k1exp))/etol);
+endif
+
+epsilon1exp = [  1,  1, -1,  1,  1, -1, -1,  1,  1, -1 ];
+if max(abs(epsilon1exp-epsilon1))>etol
+  print_polynomial(epsilon1,"epsilon1");
+  print_polynomial(epsilon1exp,"epsilon1exp");
+  error("max(abs(epsilon1-epsilon1exp))(%g*etol) > etol",
+        max(abs(epsilon1-epsilon1exp))/etol);
+endif
+
+u1exp = [   0.5758901065,   0.3015888882,  -0.0567294779,  -0.0857731768, ... 
+            0.0512608568,   0.0331424537,  -0.0413951614,  -0.0099741315, ... 
+            0.0388904128,  -0.0168137861,  -0.0138670813,   0.0079329199, ... 
+            0.0103266569,  -0.0088208897,  -0.0040616549,   0.0071820392, ... 
+            0.0013646935,  -0.0097370361,   0.0076903209,   0.0004045362, ... 
+           -0.0006503635 ]';
+if max(abs(u1exp-u1))>etol
+  print_polynomial(u1,"u1");
+  print_polynomial(u1exp,"u1exp");
+  error("max(abs(u1-u1exp))(%g*etol) > etol", max(abs(u1-u1exp))/etol);
+endif
+
+v1exp = [  -0.6685798645,  -0.2724341193,   0.1314647262,   0.0041918831, ... 
+           -0.0656979387,   0.0481241599,   0.0045975243,  -0.0361540141, ... 
+            0.0296288853,  -0.0034058258,  -0.0175251927,   0.0125430317, ... 
+            0.0026158676,  -0.0110444841,   0.0078744807,   0.0018934884, ... 
+           -0.0072156928,   0.0065669589,  -0.0018514169,  -0.0031492251, ... 
+            0.0011187234 ]';
+if max(abs(v1exp-v1))>etol
+  print_polynomial(v1,"v1");
+  print_polynomial(v1exp,"v1exp");
+  error("max(abs(v1-v1exp))(%g*etol) > etol", max(abs(v1-v1exp))/etol);
+endif
+
+
+%
 % Compare with remez
 %
 b=remez((2*length([k0(:);u0(:);v0(:)]))-2,2*[0 fap fas 0.5],[1 1 0 0]);
 Hfir=freqz(b,1,wa);
 Asq=schurOneMAPlattice_frmAsq(wa,k1,epsilon1,p1,u1,v1,Mmodel,Dmodel);
 subplot(111);
-plot(wa*0.5/pi,20*log10(abs(Hfir)),"--", ...
-     wa*0.5/pi,10*log10(Asq),"-");
-legend("FIR remez","FRM");
+plot(wa*0.5/pi,10*log10(Asq),"--", ...
+     wa*0.5/pi,20*log10(abs(Hfir)),"-");
+legend("FRM","FIR","FRM");
 legend("location","northeast");
 legend("boxoff");
 legend("left");

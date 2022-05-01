@@ -1,5 +1,5 @@
 % tarczynski_frm_hilbert_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Design an FRM Hilbert filter from IIR allpass model in parallel with a delay
 % and FIR masking filters using the method of Tarczynski et al. The 
@@ -290,8 +290,9 @@ Hav_alt=freqz([zDM;2*av1],1,wplot);
 % Overall response
 Hw_hilbert_alt=(Hr2M_alt.*Hau_alt)+Hav_alt;
 % Check
-if max(abs(Hw_hilbert-Hw_hilbert_alt)) > 137*eps
-  error("max(abs(Hw_hilbert-Hw_hilbert_alt)) > 137*eps")
+if max(abs(Hw_hilbert-Hw_hilbert_alt)) > 200*eps
+  error("max(abs(Hw_hilbert-Hw_hilbert_alt)) (%g*eps) > 200*eps",
+        max(abs(Hw_hilbert-Hw_hilbert_alt))/eps)
 endif
 
 % Save the results

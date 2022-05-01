@@ -4,7 +4,7 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -169,10 +169,18 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 
 % Fix one coefficient at each iteration 
 if use_best_branch_and_bound_found
-  if 0
+  if 1
+    branches_min=1623;
+    A1k_min = [     1592,     -160,     -543,     -128, ... 
+                    -128,      476,     -290,       16, ... 
+                     336,     -324,      115 ]'/2048;
+    A2k_min = [      784,     -592,      384,      352, ... 
+                     -96,       76,     -398,      368, ... 
+                      -4,     -360,      304,     -119 ]'/2048;
+  else
     % Earlier results with a different initial filter
     if 0
-    branches_min=819;  % 6235 seconds
+    branches_min=819; 
     A1k_min = [    1592,     -168,     -536,     -128, ... 
                    -129,      480,     -281,       -8, ... 
                     352,     -328,      119 ]'/2048;
@@ -181,15 +189,15 @@ if use_best_branch_and_bound_found
                      16,     -376,      312,     -123 ]'/2048;
 
     elseif 0
-      branches_min=416; % 4170 seconds 
+      branches_min=416;
       A1k_min = [  1592,     -168,     -536,     -128, ... 
                    -132,      480,     -296,       -4, ... 
                     352,     -336,      121 ]'/2048;
       A2k_min = [   800,     -580,      384,      336, ... 
                     -96,       88,     -400,      368, ... 
                      10,     -376,      320,     -124 ]'/2048;
-    else
-      branches_min=545; % 11331 seconds 
+    elseif 0
+      branches_min=545;
       A1k_min = [  1584,     -184,     -544,     -128, ... 
                    -128,      488,     -296,        1, ... 
                     336,     -316,      112 ]'/2048;
@@ -197,15 +205,6 @@ if use_best_branch_and_bound_found
                     -96,       88,     -404,      368, ... 
                       4,     -360,      300,     -113 ]'/2048;
     endif
-  else
-    branches_min=796; % 5916 seconds 
-    A1k_min = [  1584,     -168,     -536,     -128, ... 
-                 -128,      480,     -280,       -4, ... 
-                  336,     -316,      112 ]'/2048;
-    A2k_min = [   784,     -576,      384,      336, ... 
-                  -96,       84,     -398,      352, ... 
-                   12,     -360,      298,     -115 ]'/2048;
-
   endif
   k_min=[A1k_min(:);A2k_min(:)];
   Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon0,A1p_ones, ...

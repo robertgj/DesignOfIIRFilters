@@ -22,3 +22,5 @@ fixResultNaN.m iirA.m iirE.m iirP.m iirT.m \
 showResponseBands.m showResponse.m showResponsePassBands.m showZPplot.m \
 local_max.m tf2x.m zp2x.m x2tf.m xConstraints.m \
 qroots.m qzsolve.oct 
+
+iir_socp_slb_bandpass_test.diary : tarczynski_bandpass_test.diary

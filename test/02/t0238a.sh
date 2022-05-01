@@ -2,10 +2,9 @@
 
 prog=schurOneMlattice_socp_slb_hilbert_test.m
 
-depends="schurOneMlattice_socp_slb_hilbert_test.m \
+depends="schurOneMlattice_socp_slb_hilbert_test.m test_common.m \
 ../tarczynski_hilbert_test_D0_coef.m \
 ../tarczynski_hilbert_test_N0_coef.m \
-test_common.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_socp_mmse.m \
@@ -55,9 +54,9 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k2.ok << 'EOF'
-k2 = [   0.0000000000,  -0.8914517737,   0.0000000000,   0.4195579213, ... 
-         0.0000000000,  -0.0214985516,   0.0000000000,   0.0022611396, ... 
-        -0.0000000000,   0.0030754862,  -0.0000000000,  -0.0007030281 ];
+k2 = [   0.0000000000,  -0.8889925323,   0.0000000000,   0.4146297654, ... 
+         0.0000000000,  -0.0222284252,   0.0000000000,   0.0027602150, ... 
+        -0.0000000000,   0.0027380888,  -0.0000000000,  -0.0006160879 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
 
@@ -69,17 +68,17 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon2.ok"; fail; fi
 
 cat > test.p2.ok << 'EOF'
-p2 = [   2.5967373272,   2.5967373272,   0.6220735704,   0.6220735704, ... 
-         0.9728342776,   0.9728342776,   0.9939785345,   0.9939785345, ... 
-         0.9962286055,   0.9962286055,   0.9992972188,   0.9992972188 ];
+p2 = [   2.5794209272,   2.5794209272,   0.6252924663,   0.6252924663, ... 
+         0.9720514995,   0.9720514995,   0.9939042494,   0.9939042494, ... 
+         0.9966514354,   0.9966514354,   0.9993841018,   0.9993841018 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.p2.ok"; fail; fi
 
 cat > test.c2.ok << 'EOF'
-c2 = [   0.0430558780,   0.0528901479,   0.2311740085,   0.2955078991, ... 
-         0.2696090622,   0.7092943241,  -0.5860198705,  -0.1574640465, ... 
-        -0.0726540425,  -0.0377281152,  -0.0212543642,  -0.0118755876, ... 
-        -0.0067528889 ];
+c2 = [   0.0434675760,   0.0533736333,   0.2293089733,   0.2934949306, ... 
+         0.2692924433,   0.7093497276,  -0.5854091195,  -0.1568278375, ... 
+        -0.0729023818,  -0.0376923287,  -0.0206625621,  -0.0118584743, ... 
+        -0.0069806675 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
 

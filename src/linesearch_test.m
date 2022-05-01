@@ -1,5 +1,5 @@
 % Example of line search using golden section, armijo or Goldstein test
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -11,7 +11,7 @@ sqp_common;
 
 global fiter
 
-function [tau iter]=nosearch(x,d,fx,gxf,W,tol,maxiter,verbose)
+function [tau iter]=nosearch(pf,x,d,fx,gxf,W,tol,maxiter,verbose)
   tau=1;
   iter=0;
 endfunction

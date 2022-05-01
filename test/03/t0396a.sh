@@ -3,6 +3,9 @@
 prog=johanssonOneMlattice_socp_slb_bandstop_test.m
 depends="johanssonOneMlattice_socp_slb_bandstop_test.m \
 test_common.m \
+../johansson_cascade_allpass_bandstop_test_bsA0_coef.m \
+../johansson_cascade_allpass_bandstop_test_bsA1_coef.m \
+../johansson_cascade_allpass_bandstop_test_f1_coef.m \
 johanssonOneMlatticeAzp.m \
 johanssonOneMlatticeEsq.m \
 johanssonOneMlattice_socp_mmse.m \

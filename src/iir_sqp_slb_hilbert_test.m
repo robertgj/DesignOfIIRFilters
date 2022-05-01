@@ -1,5 +1,5 @@
 % iir_sqp_slb_hilbert_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 % Note that with the SOCP solver this test fails to find and satisfy
 % phase constraints near w=0 because the phase response has inflexions
@@ -57,7 +57,7 @@ Ws=[];
 % Group delay constraints
 wt=w;
 Td=td*ones(2*n,1);
-tdr=0.3;
+tdr=0.32;
 Tdu=[(td+(tdr/2))*ones(n-ntt,1);10*td*ones(2*ntt,1);(td+(tdr/2))*ones(n-ntt,1)];
 Tdl=[(td-(tdr/2))*ones(n-ntt,1);     zeros(2*ntt,1);(td-(tdr/2))*ones(n-ntt,1)];
 Wtp=1e-4;

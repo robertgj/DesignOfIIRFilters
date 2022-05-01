@@ -18,7 +18,7 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt)
 % See "A WISE Method for Designing IIR Filters", A.Tarczynski et al.,
 % IEEE Transactions on Signal Processing, Vol. 49, No. 7, pp. 1421-1432
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -76,17 +76,17 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt)
   D=conv(Da,Db);
   N=(conv(flipud(Da),Db)-conv(flipud(Db),Da))/2;
   
-  % Find the error response in the passband
-  H=freqz(N,D,length(Ad));
+  % Find the amplitude response error
+  [H,wa]=freqz(N,D,length(Ad));
   EAd = Wa.*(abs(abs(H)-Ad).^2);
 
-  % Find the error response in the passband
-  T=grpdelay(N,D,length(Ad));
+  % Find the group delay response error
+  [T,wt]=grpdelay(N,D,length(Td));
   ETd = Wt.*(abs(T-Td).^2);
 
   % Trapezoidal integration of the weighted error
-  intEd = 0.5*(sum(EAd(1:(length(EAd)-1))+EAd(2:end)) + ...
-               sum(ETd(1:(length(ETd)-1))+ETd(2:end)))*pi/length(Ad);
+  intEd = (sum(diff(wa).*(EAd(1:(length(EAd)-1))+EAd(2:end))) + ...
+           sum(diff(wt).*(ETd(1:(length(ETd)-1))+ETd(2:end))))/2;
 
   % Heuristics for the barrier function
   lambda = 0.001;

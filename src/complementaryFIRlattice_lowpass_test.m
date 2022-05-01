@@ -1,5 +1,5 @@
 % complementaryFIRlattice_lowpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -18,7 +18,7 @@ M=15;N=(2*M)+1;
 brz1=remez(2*M,2*[0 fap fas 0.5],[1 1 0 0]);
 
 % Find lattice coefficients (brz1 is scaled to |H|<=1 and returned as brz)
-[brz,brzc,krz,krzhat]=complementaryFIRlattice(brz1(:));
+[brz,brzc,krz,krzhat]=complementaryFIRlattice(brz1(:),50*eps);
 
 % Save results
 print_polynomial(brz,"brz",strcat(strf,"_brz_coef.m"),"%12.8f");
@@ -30,9 +30,10 @@ print_polynomial(krzhat,"krzhat",strcat(strf,"_krzhat_coef.m"),"%12.8f");
 nplot=1024;
 [Hbrz,wplot]=freqz(brz,1,nplot);
 Hbrzc=freqz(brzc,1,wplot);
-tol=100*eps;
+tol=200*eps;
 if max(abs(abs(Hbrz).^2+abs(Hbrzc).^2-1)) > tol
-  error("max(abs(abs(Hbrz).^2+abs(Hbrzc).^2-1)) > (%g*eps)",tol/eps);
+  error("max(abs(abs(Hbrz).^2+abs(Hbrzc).^2-1))(%g*eps) > (%g*eps)",
+        max(abs(abs(Hbrz).^2+abs(Hbrzc).^2-1))/eps, tol/eps);
 endif
 
 % Plot FIR response

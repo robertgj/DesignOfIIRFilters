@@ -4,7 +4,7 @@ function [hm,g,k,khat] = complementaryFIRlattice(h,tol,Nw)
 % h, H, ie: |H|^2+|G|^2=1, and the FIR lattice coefficients, k and khat.
 % h is scaled so that max|H|=1.
   
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -66,10 +66,12 @@ function [hm,g,k,khat] = complementaryFIRlattice(h,tol,Nw)
   % Sanity checks
   %
   if abs(((hm')*hm)+((g')*g)-1) > tol
-    error("abs(((hm')*hm)+((g')*g)-1) > (%g*eps)",tol/eps);
+    error("abs(((hm')*hm)+((g')*g)-1)(%g*eps) > (%g*eps)",
+          abs(((hm')*hm)+((g')*g)-1)/eps, tol/eps);
   endif
   if max(abs((k.^2)+(khat.^2)-ones(size(k)))) > tol
-    error("max(abs((k.^2)+(khat.^2)-ones(size(k))))>(%g*eps)",tol/eps);
+    error("max(abs((k.^2)+(khat.^2)-ones(size(k))))(%g*eps)>(%g*eps)",
+          max(abs((k.^2)+(khat.^2)-ones(size(k))))/eps,tol/eps);
   endif
 
 endfunction

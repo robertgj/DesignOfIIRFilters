@@ -1,5 +1,5 @@
 % pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 % Optimisation of Schur one-multiplier lattice bandpass filter response with
 % 10-bit signed-digit coefficients and POP relaxation solution.
@@ -15,7 +15,6 @@ tic;
 maxiter=2000
 verbose=false;
 
-dBass=36,Wasl=1e5,Wasu=1e6
 schurOneMlattice_bandpass_10_nbits_common;
 
 strf="pop_relaxation_schurOneMlattice_bandpass_10_nbits_test";

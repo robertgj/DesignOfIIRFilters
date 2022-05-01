@@ -32,7 +32,7 @@ CLEAN_TEX_SUFFIXES= .aux .bbl .blg .brf .dvi .out .toc .lof .lot .loa \
 CLEAN_AEGIS_SUFFIXES= \,D \,B
 
 # Command definitions
-OCTAVE_VER=6.4.0
+OCTAVE_VER=7.1.0
 OCTAVE=/usr/local/octave-$(OCTAVE_VER)/bin/octave
 MKOCTFILE=/usr/local/octave-$(OCTAVE_VER)/bin/mkoctfile
 OCTAVE_FLAGS=--no-gui -q -p src

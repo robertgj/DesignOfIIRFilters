@@ -81,8 +81,12 @@ for k = 1:length(solvernames)
   diagnostics.info
   diagnostics.problem
   Z4 = value(Z)
-  t4 = value(e'*e)
-
+  t4 = value(e'*e);
+  if abs(imag(t4))>10*eps
+    error("abs(imag(t4))(%g*eps)>10*eps",abs(imag(t4))/eps)
+  endif
+  t4=real(t4)
+  
   % ... or by simply using the nonlinear operator framework which supports
   % matrix norms:
   F = [Z>=0];

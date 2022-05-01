@@ -12,7 +12,7 @@ function [k,khat] = complementaryFIRdecomp(h,g,tol)
 % Vol. 33, No. 11, pp 1045-1064, November 1986.
 % 
   
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -79,10 +79,10 @@ function [k,khat] = complementaryFIRdecomp(h,g,tol)
     % Sanity checks  
     if l < N
       if abs(hm(end)) > tol
-        error("Expected m=%d : abs(hm(end)) (=%g*eps) <= tol", m,hm(end)/eps);
+        error("Expected m=%d : abs(hm(end)) (%g*eps) <= tol", m,hm(end)/eps);
       endif
       if abs(gm(1)) > tol
-        error("Expected m=%d : abs(gm(1)) (=%g*eps) <= tol", m,gm(1)/eps);
+        error("Expected m=%d : abs(gm(1)) (%g*eps) <= tol", m,gm(1)/eps);
       endif
     endif
     if abs((hm'*hm)+(gm'*gm)-1) > tol

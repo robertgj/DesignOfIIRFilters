@@ -1,5 +1,5 @@
 % allpass2ndOrderCascade_socp_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -23,13 +23,7 @@ Wp=2
 fs=0.2
 Ws=20
 % Initial coefficients found by tarczynski_allpass2ndOrderCascade_test.m
-% with flat_delay=true
-ab0 = [   0.8193172092,  -0.1817544557,  -0.3549088263,   0.2748166571, ... 
-          0.3434255107,  -1.3219045883,   0.5406905331,  -0.3391746036, ... 
-          0.5817559600,   1.3678610246,   0.4329047099,   0.0955573138, ... 
-         -0.3850253252,  -0.9776999339,   0.5416700858,  -0.4217383115, ... 
-          0.4548092367,   0.0937063911,   0.2328451034,   0.8056296825, ... 
-          0.0193470701,   0.4824650214,  -0.3503028652 ]';
+tarczynski_allpass2ndOrderCascade_test_flat_delay_ab0_coef;
 a0=ab0(1:ma);
 b0=ab0((ma+1):end);
 

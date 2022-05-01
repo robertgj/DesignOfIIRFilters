@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_delay_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Design a lowpass filter from the parallel combination of an allpass
 % filter and a delay using the method of Tarczynski et al. 
@@ -18,7 +18,7 @@ tic;
 
 tarczynski_parallel_allpass_delay_flat_delay=false
 
-function E=WISEJ_DA(a,_R,_D,_poly,_w,_Ad,_Wa,_Td,_Wt)
+function E=WISEJ_DA(a,_R,_D,_poly,_Ad,_Wa,_Td,_Wt)
 % E=WISEJ_DA(a[,R,D,poly,w,Ad,Wa,Td,Wt])
 % Objective function for minimising the response error of the parallel
 % combination of an allpass filter and a pure delay using the method of
@@ -32,14 +32,14 @@ function E=WISEJ_DA(a,_R,_D,_poly,_w,_Ad,_Wa,_Td,_Wt)
 % For the polyphase combination:
 %   H(z)=(z^(-D*R)+z^(-1)*a(z^R))/2
 
-  persistent R D polyphase w Ad Wa Td Wt
+  persistent R D polyphase Ad Wa Td Wt
   persistent init_done=false
 
-  if (nargin ~= 1) && (nargin ~= 9)
-    print_usage("E=WISEJ_DA(a[,R,D,poly,w,Ad,Wa,Td,Wt])");
+  if (nargin ~= 1) && (nargin ~= 8)
+    print_usage("E=WISEJ_DA(a[,R,D,poly,Ad,Wa,Td,Wt])");
   endif
-  if nargin==9
-    R=_R; D=_D; polyphase=_poly; w=_w; Ad=_Ad; Wa=_Wa; Td=_Td; Wt=_Wt;
+  if nargin==8
+    R=_R; D=_D; polyphase=_poly; Ad=_Ad; Wa=_Wa; Td=_Td; Wt=_Wt;
     init_done=true;
   endif
   if isempty(a)
@@ -53,17 +53,11 @@ function E=WISEJ_DA(a,_R,_D,_poly,_w,_Ad,_Wa,_Td,_Wt)
   if (polyphase == true) && (R > 2)
     error("Expected ((polyphase == true) && (R <= 2))!");
   endif
-  if (length(w) ~= length(Ad))
-    error("Expected length(w) == length(Ad)!");
-  endif
-  if (length(w) ~= length(Wa))
-    error("Expected length(w) == length(Wa)!");
+  if (length(Ad) ~= length(Wa))
+    error("Expected length(Ad) == length(Wa)!");
   endif 
-  if (length(w) ~= length(Td))
-    error("Expected length(w) == length(Td)!");
-  endif
-  if (length(w) ~= length(Wt))
-    error("Expected length(w) == length(Wt)!");
+  if (length(Td) ~= length(Wt))
+    error("Expected length(Td) == length(Wt)!");
   endif
   
   % Find the allpass denominator polynomials
@@ -75,17 +69,17 @@ function E=WISEJ_DA(a,_R,_D,_poly,_w,_Ad,_Wa,_Td,_Wt)
   endif
   
   % Find the error response in the passband
-  Ha_aR=freqz(flipud(DaR),DaR,w);
+  [Ha_aR,wa]=freqz(flipud(DaR),DaR,length(Ad));
   if polyphase
-    Ha=0.5*(exp(-j*D*R*w)+(exp(-j*w).*Ha_aR));
+    Ha=0.5*(exp(-j*D*R*wa)+(exp(-j*wa).*Ha_aR));
   else
-    Ha=0.5*(exp(-j*D*R*w)+Ha_aR);
+    Ha=0.5*(exp(-j*D*R*wa)+Ha_aR);
   endif
   EAd = Wa.*abs((abs(Ha)-abs(Ad)).^2);
 
   % Find the group delay error response
-  Ta_aR=grpdelay(flipud(DaR),DaR,length(w));
- if polyphase
+  [Ta_aR,wt]=grpdelay(flipud(DaR),DaR,length(Td));
+  if polyphase
     T=0.5*((D*R)+Ta_aR+1);
   else
     T=0.5*((D*R)+Ta_aR);
@@ -93,8 +87,8 @@ function E=WISEJ_DA(a,_R,_D,_poly,_w,_Ad,_Wa,_Td,_Wt)
   ETd = Wt.*((T-Td).^2);
 
   % Trapezoidal integration of the weighted error
-  intEd = sum(diff(w).*((EAd(1:(length(EAd)-1))+EAd(2:end))/2)) + ...
-          sum(diff(w).*((ETd(1:(length(ETd)-1))+ETd(2:end))/2));
+  intEd = sum(diff(wa).*((EAd(1:(length(EAd)-1))+EAd(2:end))/2)) + ...
+          sum(diff(wt).*((ETd(1:(length(ETd)-1))+ETd(2:end))/2));
   
   % Heuristics for the barrier function
   lambda = 0.001;
@@ -161,7 +155,7 @@ Wt=[Wtp*ones(ntp,1);zeros(n-ntp,1)];
 
 % Unconstrained minimisation
 ai=[-0.9;zeros(m-1,1)];
-WISEJ_DA([],R,D,polyphase,w,Ad,Wa,Td,Wt);
+WISEJ_DA([],R,D,polyphase,Ad,Wa,Td,Wt);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
 [a0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_DA,ai,opt);
 if (INFO == 1)

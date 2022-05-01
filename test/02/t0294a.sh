@@ -134,7 +134,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat dgesvd_test.f"; fail; fi
 # the ATLAS output should look like this
 #
 cat > test.atlas.ok << 'EOF'
- 0.14709002182061778
+ 0.14709002182058989
 EOF
 
 gfortran -Wall -o dgesvd_test_atlas dgesvd_test.f /usr/lib64/atlas/libtatlas.so.3
@@ -177,23 +177,23 @@ for k in `seq 1 100`;do \
 done
 
 #
-# the octave-6.3.0 BLAS output should look like this
+# the octave-7.1.0 BLAS output should look like this
 #
 cat > test.blas.ok << 'EOF'
  0.14709002182060862
 EOF
 
 gfortran -Wall -o dgesvd_test_blas dgesvd_test.f \
-         -L/usr/local/octave-6.4.0/lib -lblas -llapack
+         -L/usr/local/octave-7.1.0/lib -lblas -llapack
 if [ $? -ne 0 ]; then \
     echo "Failed to compile dgesvd_test.f with libblas"; fail; fi
 
-echo "LD_LIBRARY_PATH=/usr/local/octave-6.4.0/lib ldd dgesvd_test_blas" \
+echo "LD_LIBRARY_PATH=/usr/local/octave-7.1.0/lib ldd dgesvd_test_blas" \
      > test.blas.ldd
-LD_LIBRARY_PATH=/usr/local/octave-6.4.0/lib ldd dgesvd_test_blas >> test.blas.ldd
+LD_LIBRARY_PATH=/usr/local/octave-7.1.0/lib ldd dgesvd_test_blas >> test.blas.ldd
 
 for k in `seq 1 100`;do \
-    LD_LIBRARY_PATH=/usr/local/octave-6.4.0/lib \
+    LD_LIBRARY_PATH=/usr/local/octave-7.1.0/lib \
                    ./dgesvd_test_blas >test.blas.out.$k ; \
     if [ $? -ne 0 ]; then echo "Failed running with libblas "$k; fail; fi ; \
 

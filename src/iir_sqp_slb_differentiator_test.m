@@ -1,5 +1,5 @@
 % iir_sqp_slb_differentiator_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -60,7 +60,7 @@ Wt=Wtp*ones(size(wt));
 % Phase response
 wp=w;
 Pd=-(wp*td)+(3*pi/2);
-pr=0.008; % Phase peak-to-peak ripple as a proportion of pi
+pr=0.01; % Phase peak-to-peak ripple as a proportion of pi
 Pdu=Pd+(pr*pi/2);
 Pdl=Pd-(pr*pi/2);
 Wpp=0.1;

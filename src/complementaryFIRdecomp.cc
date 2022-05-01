@@ -15,7 +15,7 @@
 // Vol. 33, No. 11, pp 1045-1064, November 1986.
 
 
-// Copyright (C) 2017 Robert G. Jenssen
+// Copyright (C) 2017-2022 Robert G. Jenssen
 //
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 
@@ -56,10 +56,11 @@ DEFUN_DLD(complementaryFIRdecomp, args, nargout,
   uint64_t N = args(0).length();
   ColumnVector h = args(0).vector_value();
   ColumnVector g = args(1).vector_value();
-  double tol; 
+  double tol;
+  double eps = std::numeric_limits<double>::epsilon ();
   if (args.length() == 2)
     {
-      tol = 10*std::numeric_limits<double>::epsilon ();
+      tol = 10*eps;
     }
   else
     {
@@ -182,8 +183,8 @@ DEFUN_DLD(complementaryFIRdecomp, args, nargout,
       mpfr_abs(tmp, tmp, MPFR_RNDN);
       if (mpfr_cmp_d(tmp, tol) > 0)
         {
-          error("Expected abs(hm'*hm + gm'*gm - 1) (%g) < tol!",
-                mpfr_get_d(tmp, MPFR_RNDN));
+          error("Expected abs(hm'*hm + gm'*gm - 1) (%g*eps) < tol(%g*eps)!",
+                mpfr_get_d(tmp, MPFR_RNDN)/eps,tol/eps);
           goto done;
         }
       

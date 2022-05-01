@@ -19,7 +19,7 @@
    LD_PRELOAD=/usr/lib64/libasan.so.5 octave --eval "a=labudde(rand(4,4))"
 #endif
 
-// Copyright (C) 2017 Robert G. Jenssen
+// Copyright (C) 2017,2022 Robert G. Jenssen
 //
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 
@@ -57,7 +57,7 @@ DEFUN_DLD(labudde, args, nargout, "a=labudde(A)")
     }
 
   // Find the upper Hessenberg form of the input matrix
-  octave_value_list Harg=Fhess(args(0),1);
+  octave_value_list Harg=octave::Fhess(args(0),1);
   Matrix H = Harg(0).matrix_value();
   const uint64_t N = H.rows();
   

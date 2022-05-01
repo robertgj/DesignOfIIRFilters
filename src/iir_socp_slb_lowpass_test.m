@@ -1,5 +1,5 @@
 % iir_socp_slb_lowpass_test.m
-% Copyright (C) 2018-2021 Robert G. Jenssen
+% Copyright (C) 2018-2022 Robert G. Jenssen
 
 test_common;
 
@@ -16,22 +16,22 @@ ctol=1e-6
 maxiter=2000
 verbose=false
 
-% Filter specifications % dBap=1.8,dBas=47 is not repeatable ?!?
+% Filter specifications 
 rho=127/128;
 R=1;
 N=15
 fap=0.15
-dBap=2
+dBap=1
 Wap=1
 Wat=0.001
-ftp=0.155
+ftp=0.15
 td=10
 tdr=0.2
-Wtp=0.02
+Wtp=0.1
 Wtt=0.001
 fas=0.2
 dBas=40
-Was=50
+Was=10
 
 % Frequency vectors
 n=1000;
@@ -95,7 +95,7 @@ strf="iir_socp_slb_lowpass_test";
 
 % Use unconstrained optimisation to find an initial filter
 ndi=[ni,di(2:end)]';
-WISEJ_ND([],N,N,R,wd,Hda,Wda,Hdt,Wdt);
+WISEJ_ND([],N,N,R,Hda,Wda,Hdt,Wdt);
 [nd0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_ND,ndi);
 if (INFO == 1)
   printf("Converged to a solution point.\n");

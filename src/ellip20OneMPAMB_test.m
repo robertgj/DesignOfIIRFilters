@@ -1,5 +1,5 @@
 % ellip20OneMPAMB_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020,2022 Robert G. Jenssen
 
 test_common;
 
@@ -7,7 +7,7 @@ delete("ellip20OneMPAMB_test.diary");
 delete("ellip20OneMPAMB_test.diary.tmp");
 diary ellip20OneMPAMB_test.diary.tmp
 
-tol=4e-6;
+tol=5e-6;
 nplot=1024;
 strf="ellip20OneMPAMB_test";
 

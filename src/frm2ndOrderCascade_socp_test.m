@@ -157,15 +157,19 @@ close
 
 % Compare with remez
 br=remez(((M*Dmodel)+dmask)*2,[0 fpass fstop 0.5]*2,[1,1,0,0],[1 Was]);
-Hbr=freqz(br,1,nplot);
+Hfir=freqz(br,1,nplot);
 subplot(211);
-plot(wplot*0.5/pi,20*log10(abs([Hbr Hw_frm])))
-axis([0, fpass, -5, 5]);
+plot(wplot*0.5/pi,20*log10(abs(Hw_frm)), "--", ...
+     wplot*0.5/pi,20*log10(abs(Hfir)), "-");
+legend("FRM","FIR","location","northeast");
+legend("boxoff");
+axis([0, fpass, -3, 5]);
 ylabel("Passband amplitude(dB)");
 xlabel("Passband frequency");
 grid("on");
 subplot(212);
-plot(wplot*0.5/pi,20*log10(abs([Hbr Hw_frm])))
+plot(wplot*0.5/pi,20*log10(abs(Hw_frm)), "--", ...
+     wplot*0.5/pi,20*log10(abs(Hfir)), "-");
 axis([fstop, 0.5, -60, -30]);
 xlabel("Stopband frequency");
 ylabel("Stopband amplitude(dB)");

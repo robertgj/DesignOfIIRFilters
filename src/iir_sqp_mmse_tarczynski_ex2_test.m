@@ -116,22 +116,22 @@ close
 subplot(221);
 plot(wa*0.5/pi,20*log10(abs(A1)));
 ylabel("Amplitude(dB)");
-axis([0 0.2 -0.1 0.1]);
+axis([0 0.2 -0.2 0.2]);
 grid("on");
 subplot(222);
 plot(wa*0.5/pi,20*log10(abs(A1)));
-axis([0.3 0.5 -6.1 -5.9]);
+axis([0.3 0.5 -6.2 -5.8]);
 grid("on");
 subplot(223);
 plot(wt*0.5/pi,T1);
 xlabel("Frequency");
 ylabel("Delay(samples)");
-axis([0 0.2 14 14.5]);
+axis([0 0.2 14.2 14.4]);
 grid("on");
 subplot(224);
 plot(wt*0.5/pi,T1);
 xlabel("Frequency");
-axis([0.3 0.5 19.75 20.25]);
+axis([0.3 0.5 19.9 20.1]);
 grid("on");
 print("iir_sqp_mmse_tarczynski_ex2_test_x1pass","-dpdflatex");
 close

@@ -1,5 +1,5 @@
 % allpass_dir2_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2022 Robert G. Jenssen
 
 test_common;
 
@@ -71,16 +71,17 @@ if max(abs(aa-a)) > tol
 endif
 
 [H,dHdw] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx);
-if max(abs(H)-1) > 2*tol
-  error("max(abs(H)-1) > 2*tol");
+if max(abs(H)-1) > 5*tol
+  error("max(abs(H)-1)(%g*tol) > 5*tol",max(abs(H)-1)/tol);
 endif
 P=H2P(H);
 if max(abs(P-unwrap(arg(Hf)))) > 20*tol
-  error("max(abs(P-unwrap(arg(Hf)))) > 20*tol");
+  error("max(abs(P-unwrap(arg(Hf))))(%g*tol) > 20*tol",
+        max(abs(P-unwrap(arg(Hf))))/tol);
 endif
 T=H2T(H,dHdw);
 if max(abs(T-Tf)) > 40000*tol
-  error("max(abs(T-Tf)) > 40000*tol");
+  error("max(abs(T-Tf))(%g*tol) > 40000*tol",max(abs(T-Tf))/tol);
 endif
 allpass_filter_check_gradc1c2(@allpass_dir2_coef2Abcd,w,b1,b2,del,del/2);
 

@@ -44,15 +44,9 @@ print_usage: 'A=directFIRsymmetricA(wa,hM)
 A=directFIRsymmetricA(wa,hM,order)
 [A,gradA]=directFIRsymmetricA(wa,hM,order)' not found
 Too many input arguments!
-print_usage: 'A=directFIRsymmetricA(wa,hM)
-[A,gradA]=directFIRsymmetricA(wa,hM)
-A=directFIRsymmetricA(wa,hM,order)
-[A,gradA]=directFIRsymmetricA(wa,hM,order)' not found
+directFIRsymmetricA: function called with too many inputs
 Too many output arguments!
-print_usage: 'A=directFIRsymmetricA(wa,hM)
-[A,gradA]=directFIRsymmetricA(wa,hM)
-A=directFIRsymmetricA(wa,hM,order)
-[A,gradA]=directFIRsymmetricA(wa,hM,order)' not found
+directFIRsymmetricA: function called with too many outputs
 Caught empty hM!
 hM is empty
 Caught bad type!

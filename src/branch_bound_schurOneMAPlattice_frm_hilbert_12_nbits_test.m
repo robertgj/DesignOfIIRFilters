@@ -1,5 +1,5 @@
 % branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 % Branch-and-bound search of FRM Hilbert filter response with 12-bit
 % signed-digit coefficients. The model filter is implemented as the parallel
@@ -243,10 +243,14 @@ if use_best_branch_and_bound_found
   || branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test_allocsd_Ito 
     error("No solution found with signed digit allocation!");
   else
-    k_min=[ -1152 -264 -96 -36 -12 ]'/nscale;
-    u_min=[ 0 -3 -16 -24 -63 -72 -112 -120 896 ]'/nscale;
-    v_min=[ 14 9 18 8 -12 -63 -160 -640 ]'/nscale;
-    branches_min=75 % 993 seconds
+    branches_min=75
+    k_min = [    -1152,     -264,      -96,      -36, ...
+                   -12 ]'/nscale;
+    u_min = [        0,       -3,      -16,      -24, ... 
+                   -63,      -72,     -112,     -120, ... 
+                   896 ]'/nscale;
+    v_min = [       14,        9,       18,        8, ... 
+                   -12,      -63,     -160,     -640 ]'/nscale;
   endif
   kuv_min=[k_min(:);u_min(:);v_min(:)];
   Esq_min=schurOneMAPlattice_frm_hilbertEsq ...

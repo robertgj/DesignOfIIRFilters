@@ -37,18 +37,31 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_Da0_coef.m << 'EOF'
-Da0 = [   1.0000000000,   0.6973192999,  -0.2973781134,  -0.3128453968, ... 
-         -0.1821553213,   0.0543108161,   0.0871643697,  -0.1041571294, ... 
-          0.1846961232,   0.0438772489,  -0.1319714176,   0.0451584621 ]';
+Da0 = [   1.0000000000,   0.0375551974,  -0.7372845792,   0.6800227705, ... 
+          0.2898018050,  -0.3304510664 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Da0_coef.m"; fail; fi
+
 cat > test_Db0_coef.m << 'EOF'
-Db0 = [   1.0000000000,   0.1561656783,  -0.3135008340,   0.3175779870, ... 
-          0.1301948172,   0.0786598878,  -0.0643353042,  -0.1837476171, ... 
-          0.2691932822,  -0.0895906142,  -0.1359631568,   0.1337978460, ... 
-         -0.0581843227 ]';
+Db0 = [   1.0000000000,  -0.5413867785,  -0.4255610116,   1.3156102001, ... 
+         -0.2738537675,  -0.4207976974,   0.3470515124 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Db0_coef.m"; fail; fi
+
+cat > test_flat_Da0_coef.m << 'EOF'
+Da0 = [   1.0000000000,   0.6973275594,  -0.2974019214,  -0.3128884140, ... 
+         -0.1821617484,   0.0543143218,   0.0871736160,  -0.1041589165, ... 
+          0.1847057483,   0.0438805808,  -0.1319838714,   0.0451637843 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_flat_Da0_coef.m"; fail; fi
+
+cat > test_flat_Db0_coef.m << 'EOF'
+Db0 = [   1.0000000000,   0.1561959444,  -0.3134915058,   0.3175810981, ... 
+          0.1302261133,   0.0786604640,  -0.0643315813,  -0.1837528103, ... 
+          0.2692045262,  -0.0895927565,  -0.1359758559,   0.1338083336, ... 
+         -0.0581912477 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_flat_Db0_coef.m"; fail; fi
 
 #
 # run and see if the results match
@@ -58,10 +71,19 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_Da0_coef.m tarczynski_parallel_allpass_test_Da0_coef.m
+strn="tarczynski_parallel_allpass_test";
+
+diff -Bb test_Da0_coef.m $strn"_Da0_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Da0_coef.m"; fail; fi
-diff -Bb test_Db0_coef.m tarczynski_parallel_allpass_test_Db0_coef.m
+
+diff -Bb test_Db0_coef.m $strn"_Db0_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Db0_coef.m"; fail; fi
+
+diff -Bb test_flat_Da0_coef.m $strn"_flat_delay_Da0_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_flat_Da0_coef.m"; fail; fi
+
+diff -Bb test_flat_Db0_coef.m $strn"_flat_delay_Db0_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_flat_Db0_coef.m"; fail; fi
 
 
 #

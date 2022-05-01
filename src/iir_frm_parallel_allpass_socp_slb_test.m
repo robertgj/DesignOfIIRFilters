@@ -1,5 +1,5 @@
 % iir_frm_parallel_allpass_socp_slb_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -29,7 +29,7 @@ x0.ac = ac;
 
 n=500;
 tol=1e-3 % Tolerance on coefficient update
-ctol=tol/40 % Tolerance on constraints
+ctol=tol/50 % Tolerance on constraints
 mr=length(x0.r)-1 % Allpass model filter order 
 ms=length(x0.s)-1 % Allpass model filter order
 na=length(x0.aa) % Masking filter FIR length
@@ -39,14 +39,14 @@ Dmodel=0 % Desired model filter passband delay
 dmask=0 % Nominal masking filter delay
 Tnominal=0 % Nominal FRM filter delay
 fap=0.3 % Pass band edge
-dBap=0.02 % Pass band amplitude ripple
+dBap=0.04 % Pass band amplitude ripple
 Wap=1 % Pass band weight
 tpr=inf % Peak-to-peak pass band delay ripple
 Wtp=0 % Pass band delay weight
 Wat=1e-6 % Small transition band weight enables constraints
 fas=0.31 % Stop band edge
 dBas=40 % Stop band attenuation
-Was=20 % Stop band amplitude weight
+Was=10 % Stop band amplitude weight
 rho=31/32 % Stability constraint on pole radius
 
 % Convert x0 to vector form

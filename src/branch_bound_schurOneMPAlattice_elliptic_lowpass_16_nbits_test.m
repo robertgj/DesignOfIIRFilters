@@ -4,7 +4,7 @@
 % filter composed of parallel Schur one-multiplier all-pass lattice
 % filters with 16-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -175,11 +175,11 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 
 % Fix one coefficient at each iteration 
 if use_best_branch_and_bound_found
-  branches_min=38; % 82 seconds
-  A1k_min = [   -19584,    32384,   -25760,    28304, ... 
-                -23551,    11840 ]'/32768;
-  A2k_min = [   -22528,    30736,   -26768,    23904, ... 
-                -11776 ]'/32768;
+  branches_min=24; % 130 seconds
+  A1k_min = [   -19584,    32384,   -25648,    28180, ... 
+                -23296,    11328 ]'/32768;
+  A2k_min = [   -22528,    30722,   -26544,    23684, ... 
+                -11264 ]'/32768;
   k_min=[A1k_min(:);A2k_min(:)];
   Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon0,A1p_ones, ...
                                 A2k_min,A2epsilon0,A2p_ones, ...

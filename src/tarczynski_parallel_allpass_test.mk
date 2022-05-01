@@ -2,11 +2,16 @@ tarczynski_parallel_allpass_test_FIGURES = \
 tarczynski_parallel_allpass_test_response \
 tarczynski_parallel_allpass_test_response_passband \
 tarczynski_parallel_allpass_test_pz \
-tarczynski_parallel_allpass_test_phase
+tarczynski_parallel_allpass_test_flat_delay_response \
+tarczynski_parallel_allpass_test_flat_delay_response_passband \
+tarczynski_parallel_allpass_test_flat_delay_pz \
+tarczynski_parallel_allpass_test_flat_delay_phase 
 
 tarczynski_parallel_allpass_test_COEFS = \
 tarczynski_parallel_allpass_test_Da0_coef.m \
 tarczynski_parallel_allpass_test_Db0_coef.m \
+tarczynski_parallel_allpass_test_flat_delay_Da0_coef.m \
+tarczynski_parallel_allpass_test_flat_delay_Db0_coef.m \
 tarczynski_parallel_allpass_test.mat
 
 tarczynski_parallel_allpass_test_FILES = tarczynski_parallel_allpass_test.m \

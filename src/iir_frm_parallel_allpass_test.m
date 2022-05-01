@@ -1,5 +1,5 @@
 % iir_frm_parallel_allpass_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -113,7 +113,7 @@ endif
 nap=ceil(n*fap/0.5)+1;
 [Asqaa,Taa]=iir_frm_parallel_allpass(w(1:nap),xt,0,0,0,0,na,1,Mmodel);
 % BUG in grpdelay: grpdelay(x0.aa,1,w(1:nap)) FAILS!
-Taap=grpdelay(x0.aa(:),1,w);
+Taap=grpdelay(x0.aa(:),1,n);
 Taap=Taap(1:nap);
 tolTaa=68*eps;
 if max(abs(Taa-Taap)) > tolTaa
@@ -139,12 +139,12 @@ if max(abs(Asqm-Asqmp)) > tolAsqm
   error("max(abs(Asqm-Asqmp)) > tolAsqm (%d*eps)",
         ceil(max(abs(Asqm-Asqmp))/eps));
 endif
-Tmp=grpdelay(conv(flipud(rM),sM)+conv(flipud(sM),rM),2*conv(rM,sM),w);
+Tmp=grpdelay(conv(flipud(rM),sM)+conv(flipud(sM),rM),2*conv(rM,sM),n);
 nap=ceil(n*fap/0.5)+1;
 napM=(ceil(n*fap/0.5)/Mmodel)+1;
 Tm=Tm(1:napM);
 Tmp=Tmp(1:napM);
-tolTm=1472*eps;
+tolTm=2000*eps;
 if max(abs(Tm-Tmp)) > tolTm
   error("max(abs(Tm-Tmp)) > tolTm (%d*eps)",ceil(max(abs(Tm-Tmp))/eps));
 endif
@@ -168,7 +168,7 @@ if max(abs(Asqmc-Asqmcp)) > tolAsqmc
   error("max(abs(Asqmc-Asqmcp)) > tolAsqmc (%d*eps)",
         ceil(max(abs(Asqmc-Asqmcp))/eps));
 endif
-Tmcp=grpdelay(conv(flipud(rM),sM)-conv(flipud(sM),rM),2*conv(rM,sM),w);
+Tmcp=grpdelay(conv(flipud(rM),sM)-conv(flipud(sM),rM),2*conv(rM,sM),n);
 nap=ceil(n*fap/0.5)+1;
 napM=(ceil(n*fap/0.5)/Mmodel)+1;
 Tmc=Tmc(40:napM);
@@ -199,7 +199,7 @@ if max(abs(Asq-Asqp)) > tolAsq
   error("max(abs(Asq-Asqp)) > tolAsq (%d*eps)",ceil(max(abs(Asq-Asqp))/eps));
 endif
 % Check group delay response
-Tp=grpdelay(numfrm,denfrm,w);
+Tp=grpdelay(numfrm,denfrm,n);
 nap=ceil(n*fap/0.5)+1;
 napM=(ceil(n*fap/0.5)/Mmodel)+1;
 T=T(1:napM);
@@ -269,12 +269,12 @@ tolAsq=177*eps;
 if max(abs(Asq-Asqp)) > tolAsq
   error("max(abs(Asq-Asqp)) > tolAsq (%d*eps)",ceil(max(abs(Asq-Asqp))/eps));
 endif
-Tp=grpdelay(numfrm,denfrm,w);
+Tp=grpdelay(numfrm,denfrm,n);
 nap=ceil(n*fap/0.5)+1;
 napM=(ceil(n*fap/0.5)/Mmodel)+1;
 T=T(1:napM);
 Tp=Tp(1:napM);
-tolT=961*eps;
+tolT=1000*eps;
 if max(abs(T-Tp)) > tolT
   error("max(abs(T-Tp)) > tolT (%d*eps)",ceil(max(abs(T-Tp))/eps));
 endif
@@ -335,16 +335,16 @@ numfrm=(conv(conv(flipud(rM),aa2+x2.ac),sM) + ...
 denfrm=conv(rM,sM);
 Hp=freqz(numfrm,denfrm,w);
 Asqp=abs(Hp).^2;
-tolAsq=122*eps;
+tolAsq=1000*eps;
 if max(abs(Asq-Asqp)) > tolAsq
   error("max(abs(Asq-Asqp)) > tolAsq (%d*eps)",ceil(max(abs(Asq-Asqp))/eps));
 endif
-Tp=grpdelay(numfrm,denfrm,w);
+Tp=grpdelay(numfrm,denfrm,n);
 nap=ceil(n*fap/0.5)+1;
 napM=(ceil(n*fap/0.5)/Mmodel)+1;
 T=T(1:napM);
 Tp=Tp(1:napM);
-tolT=864*eps;
+tolT=1000*eps;
 if max(abs(T-Tp)) > tolT
   error("max(abs(T-Tp)) > tolT (%d*eps)",ceil(max(abs(T-Tp))/eps));
 endif

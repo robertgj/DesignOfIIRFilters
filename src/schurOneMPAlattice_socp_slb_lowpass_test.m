@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_lowpass_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -15,8 +15,8 @@ maxiter=2000
 verbose=false
 
 % Initial coefficients found by tarczynski_parallel_allpass_test.m
-tarczynski_parallel_allpass_test_Da0_coef;
-tarczynski_parallel_allpass_test_Db0_coef;
+tarczynski_parallel_allpass_test_flat_delay_Da0_coef;
+tarczynski_parallel_allpass_test_flat_delay_Db0_coef;
 
 % Lattice decomposition of Da0, Db0
 [A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(Da0),Da0);

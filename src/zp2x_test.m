@@ -1,5 +1,5 @@
 % zp2x_test.m
-% Copyright (C) 2018-2021 Robert G. Jenssen
+% Copyright (C) 2018-2022 Robert G. Jenssen
 
 test_common;
 
@@ -77,7 +77,7 @@ clear all
 N=20;
 fc=0.1;
 tol=1e-12;
-epstol=16;
+epstol=20;
 R=1;
 
 n1=remez(N,2*[0 0.1 0.2 0.5],[1 1 0 0]);

@@ -137,7 +137,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \end{center}
 
 \vspace*{11cm}
-Copyright \copyright\; 2017--2021 Robert G. Jenssen
+Copyright \copyright\; 2017--2022 Robert G. Jenssen
 
 This work is licensed under the Creative Commons Attribution 4.0 International
 License.\\ View a copy of the license at:
@@ -3778,7 +3778,7 @@ multipliers in the realisation. They show 37 realisations\footnote{Note the
 describe a computer based search for realisations in which the two coefficients
 of the second order all-pass filter transfer function are themselves functions
 of two multipliers. They find $646$ distinct realisations. 
-
+\clearpage
 \subsection{Maximum phase gradient and round-off noise of some first-order all-pass filter sections}
 
 Equation~\ref{eqn:Dir1-first-order-all-pass-filter-section} is the transfer
@@ -3859,20 +3859,19 @@ state variable description of each retimed filter realisation.
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass_filter_test_dir1_pgrad}}
-\caption{Maximum phase gradient with plotted against pole radius of first order
-  all-pass filter sections}
-\label{fig:dir1-all-pass-filter-phase-gradient}
-\end{figure}
-
-\begin{figure}
-\centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{allpass_dir1_retimed}
 \caption{Retimed first-order direct form all-pass filter section}
 \label{fig:Retimed-dir1-first-order-all-pass-filter-section}
 \end{figure}
  
-
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass_filter_test_dir1_pgrad}}
+\caption{Maximum phase gradient plotted against pole radius of first order
+  all-pass filter sections}
+\label{fig:dir1-all-pass-filter-phase-gradient}
+\end{figure}
+\clearpage
 \subsection{Maximum phase gradient and round-off noise of some second-order all-pass filter sections}
 Equation~\ref{eqn:Dir2-second-order-all-pass-filter-section} is the transfer
 function of the second-order direct-form all-pass filter section
@@ -4044,18 +4043,64 @@ realisation has low sensitivity for filter poles near $z=0$.
 \clearpage
 \subsubsection{Maximum phase gradient of some second-order all-pass filter sections}
 Figure~\ref{fig:dir2-all-pass-filter-phase-gradient-real-poles} shows the maximum
-of the gradient of the phase with respect to the second-order direct-form
+of the gradient of the phase plotted against the second-order direct-form
 coefficients $b_{1}$ and $b_{2}$ in
 Equation~\ref{eqn:Dir2-second-order-all-pass-filter-section} for real poles
 plotted against the real pole radius.
 Figure~\ref{fig:dir2-all-pass-filter-phase-gradient-complex-poles} shows
-the maximum of the gradient of the phase with respect to the same coefficients
+the maximum of the gradient of the phase plotted against the same coefficients
 for complex conjugate poles plotted against pole angle. 
 
+Figure~\ref{fig:GM2-all-pass-filter-phase-gradient-real-poles} shows the maximum
+of the gradient of the phase plotted against the second-order
+\emph{Gray} and \emph{Markel} and \emph{Ansari} and \emph{Lui} coefficients
+$k_{1}$ and $k_{2}$ in
+Equation~\ref{eqn:GM2-second-order-all-pass-filter-section} for real 
+poles plotted against pole
+radius. Figure~\ref{fig:GM2-all-pass-filter-phase-gradient-complex-poles} shows 
+the maximum of the gradient of the phase plotted against the same coefficients 
+for complex conjugate poles plotted against pole angle.
+
+Figure~\ref{fig:MH2d-all-pass-filter-phase-gradient-real-poles} shows the maximum
+of the gradient of the phase plotted against the \emph{Mitra} and \emph{Hirano}
+type 2d second-order all-pass filter section coefficients $b_{1}$ and $b_{2}$ in
+Equation~\ref{eqn:MH2-second-order-all-pass-filter-section} for real poles.
+Figure~\ref{fig:MH2d-all-pass-filter-phase-gradient-complex-poles} shows
+the maximum of the gradient of the phase plotted against the same coefficients
+for complex conjugate poles. The phase gradient is not defined at a pole angle
+of $\frac{\pi}{2}$. 
+
+Figure~\ref{fig:MH3d-all-pass-filter-phase-gradient-real-poles} shows the maximum
+of the gradient of the phase plotted against the \emph{Mitra} and \emph{Hirano}
+type 3d second-order all-pass filter section coefficients $b_{1}$ and $b_{2}$ in
+Equation~\ref{eqn:MH3-second-order-all-pass-filter-section} for real poles.
+Figure~\ref{fig:MH3d-all-pass-filter-phase-gradient-complex-poles} shows
+the maximum of the gradient of the phase plotted against the same coefficients
+for complex conjugate poles.  
+
+Figure~\ref{fig:LS2a-all-pass-filter-phase-gradient-real-poles} shows the maximum
+of the gradient of the phase plotted against the coefficients $c_{1}$ and
+$c_{2}$ of the second-order low-sensitivity near $z=1$ section of \emph{Stoyanov
+  et al.} having the transfer function shown in
+Equation~\ref{eqn:LS2a-second-order-all-pass-filter-section} for real poles.
+Figure~\ref{fig:LS2a-all-pass-filter-phase-gradient-complex-poles} shows
+the maximum of the gradient of the phase plotted against the same coefficients
+for complex conjugate poles.  
+
+Figure~\ref{fig:IS-all-pass-filter-phase-gradient-real-poles} shows the maximum
+of the gradient of the phase plotted against the coefficients $d_{1}$ and
+$d_{2}$ of the second-order low-sensitivity near $z=0$ section of \emph{Ivanova}
+and \emph{Stoyanov} having the transfer function shown in
+Equation~\ref{eqn:IS-second-order-all-pass-filter-section} for real poles.
+Figure~\ref{fig:IS-all-pass-filter-phase-gradient-complex-poles} shows
+the maximum of the gradient of the phase plotted against the same coefficients
+for complex conjugate poles.  
+
+\clearpage
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass_filter_test_dir2_real_pgrad}}
-\caption{Maximum phase gradient with respect to pole radius of the second-order
+\caption{Maximum phase gradient plotted against pole radius of the second-order
   direct-form all-pass filter section with real poles}
 \label{fig:dir2-all-pass-filter-phase-gradient-real-poles}
 \end{figure}
@@ -4063,20 +4108,10 @@ for complex conjugate poles plotted against pole angle.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass_filter_test_dir2_complex_pgrad}}
-\caption{Maximum phase gradient with respect to pole angle of the second-order
+\caption{Maximum phase gradient plotted against pole angle of the second-order
   direct-form all-pass filter section with complex conjugate poles }
 \label{fig:dir2-all-pass-filter-phase-gradient-complex-poles}
 \end{figure}
-
-Figure~\ref{fig:GM2-all-pass-filter-phase-gradient-real-poles} shows the maximum
-of the gradient of the phase with respect to the second-order
-\emph{Gray} and \emph{Markel} and \emph{Ansari} and \emph{Lui} coefficients
-$k_{1}$ and $k_{2}$ in
-Equation~\ref{eqn:GM2-second-order-all-pass-filter-section} for real 
-poles plotted against pole
-radius. Figure~\ref{fig:GM2-all-pass-filter-phase-gradient-complex-poles} shows 
-the maximum of the gradient of the phase with respect to the same coefficients 
-for complex conjugate poles plotted against pole angle.
 
 \begin{figure}
 \centering
@@ -4095,15 +4130,6 @@ for complex conjugate poles plotted against pole angle.
 \label{fig:GM2-all-pass-filter-phase-gradient-complex-poles}
 \end{figure}
 
-Figure~\ref{fig:MH2d-all-pass-filter-phase-gradient-real-poles} shows the maximum
-of the gradient of the phase with respect to the \emph{Mitra} and \emph{Hirano}
-type 2d second-order all-pass filter section coefficients $b_{1}$ and $b_{2}$ in
-Equation~\ref{eqn:MH2-second-order-all-pass-filter-section} for real poles.
-Figure~\ref{fig:MH2d-all-pass-filter-phase-gradient-complex-poles} shows
-the maximum of the gradient of the phase with respect to the same coefficients
-for complex conjugate poles. The phase gradient is not defined at a pole angle
-of $\frac{\pi}{2}$. 
-
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass_filter_test_MH2d_real_pgrad}}
@@ -4120,14 +4146,6 @@ of $\frac{\pi}{2}$.
   conjugate poles}
 \label{fig:MH2d-all-pass-filter-phase-gradient-complex-poles}
 \end{figure}
-
-Figure~\ref{fig:MH3d-all-pass-filter-phase-gradient-real-poles} shows the maximum
-of the gradient of the phase with respect to the \emph{Mitra} and \emph{Hirano}
-type 3d second-order all-pass filter section coefficients $b_{1}$ and $b_{2}$ in
-Equation~\ref{eqn:MH3-second-order-all-pass-filter-section} for real poles.
-Figure~\ref{fig:MH3d-all-pass-filter-phase-gradient-complex-poles} shows
-the maximum of the gradient of the phase with respect to the same coefficients
-for complex conjugate poles.  
 
 \begin{figure}
 \centering
@@ -4146,15 +4164,6 @@ for complex conjugate poles.
 \label{fig:MH3d-all-pass-filter-phase-gradient-complex-poles}
 \end{figure}
 
-Figure~\ref{fig:LS2a-all-pass-filter-phase-gradient-real-poles} shows the maximum
-of the gradient of the phase with respect to the coefficients $c_{1}$ and
-$c_{2}$ of the second-order low-sensitivity near $z=1$ section of \emph{Stoyanov
-  et al.} having the transfer function shown in
-Equation~\ref{eqn:LS2a-second-order-all-pass-filter-section} for real poles.
-Figure~\ref{fig:LS2a-all-pass-filter-phase-gradient-complex-poles} shows
-the maximum of the gradient of the phase with respect to the same coefficients
-for complex conjugate poles.  
-
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass_filter_test_LS2a_real_pgrad}}
@@ -4171,15 +4180,6 @@ for complex conjugate poles.
   conjugate poles}
 \label{fig:LS2a-all-pass-filter-phase-gradient-complex-poles}
 \end{figure}
-
-Figure~\ref{fig:IS-all-pass-filter-phase-gradient-real-poles} shows the maximum
-of the gradient of the phase with respect to the coefficients $d_{1}$ and
-$d_{2}$ of the second-order low-sensitivity near $z=0$ section of \emph{Ivanova}
-and \emph{Stoyanov} having the transfer function shown in
-Equation~\ref{eqn:IS-second-order-all-pass-filter-section} for real poles.
-Figure~\ref{fig:IS-all-pass-filter-phase-gradient-complex-poles} shows
-the maximum of the gradient of the phase with respect to the same coefficients
-for complex conjugate poles.  
 
 \begin{figure}
 \centering
@@ -4198,16 +4198,74 @@ for complex conjugate poles.
   complex conjugate poles}
 \label{fig:IS-all-pass-filter-phase-gradient-complex-poles}
 \end{figure}
-
+\clearpage
 \subsubsection{Noise gain of some second-order all-pass filter sections}
 As for the first-order direct-form section the noise gain of the scaled
 second-order direct-form section can be estimated with a slowed and retimed
 realisation. 
+
 Figure~\ref{fig:dir2-all-pass-filter-noise-gain-real-poles} shows the
 noise gain of a scaled realisation with real poles of
 Equation~\ref{eqn:Dir2-second-order-all-pass-filter-section}. Figure~\ref{fig:dir2-all-pass-filter-noise-gain-complex-poles}
 shows  the noise gain of a scaled realisation with complex conjugate poles.  
 
+As for the second-order direct-form section the noise gain of the scaled
+second-order \emph{Gray} and \emph{Markel} section can be estimated with a slowed
+and retimed realisation. As for the first-order \emph{Gray} and \emph{Markel}
+section, the $\epsilon$ coefficients do not alter the transfer function or noise
+gain but must be selected for effective internal state scaling in a fixed-point
+implementation. Figure~\ref{fig:GM2-all-pass-filter-noise-gain-real-poles} shows
+the noise gain of a scaled realisation with real poles.
+Figure~\ref{fig:GM2-all-pass-filter-noise-gain-complex-poles} shows 
+the noise gain of a scaled realisation with complex conjugate poles.  
+
+The noise gain of the scaled second-order \emph{Ansari} and \emph{Lui} section
+can be estimated with a slowed and retimed realisation. 
+Figure~\ref{fig:AL7c-all-pass-filter-noise-gain-real-poles} shows the
+noise gain of a scaled realisation with real poles.
+Figure~\ref{fig:AL7c-all-pass-filter-noise-gain-complex-poles} shows 
+the noise gain of a scaled realisation with complex conjugate poles.  
+
+The noise gain of the scaled second-order \emph{Mitra} and \emph{Hirano} type 2d
+section can be estimated with the retimed realisation shown in
+Figure~\ref{fig:Retimed-MH2d-second-order-all-pass-filter-section}. The section
+is retimed by adding a $z^{-1} $delay at the output and then redistributing
+the delay ``backwards'' until the output of the $b_{1}$ multiplier is registered.
+
+\begin{figure}
+\centering
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{allpass_MH2d_retimed}
+\caption{Retimed Mitra-and-Hirano type 2d second-order direct form all-pass
+  filter section}
+\label{fig:Retimed-MH2d-second-order-all-pass-filter-section}
+\end{figure}
+
+Figure~\ref{fig:MH2d-all-pass-filter-noise-gain-real-poles} shows the
+noise gain of a scaled realisation with real poles.
+Figure~\ref{fig:MH2d-all-pass-filter-noise-gain-complex-poles} shows 
+the noise gain of a scaled realisation with complex conjugate poles.  
+
+The noise gain of the scaled second-order \emph{Mitra} and \emph{Hirano} type 3d
+section can be estimated without slowing or retiming the retimed realisation.
+Figure~\ref{fig:MH3d-all-pass-filter-noise-gain-real-poles} shows the
+noise gain of a scaled realisation with real poles.
+Figure~\ref{fig:MH3d-all-pass-filter-noise-gain-complex-poles} shows 
+the noise gain of a scaled realisation with complex conjugate poles.  
+
+The round-off noise of the second-order Stoyanov low-sensitivity section can be
+estimated without slowing and retiming the realisation. 
+Figure~\ref{fig:LS2a-all-pass-filter-noise-gain-real-poles} shows the
+noise gain of a scaled realisation with real poles. 
+Figure~\ref{fig:LS2a-all-pass-filter-noise-gain-complex-poles} shows 
+the noise gain of a scaled realisation with complex conjugate poles.  
+
+The round-off noise of the second-order \emph{Ivanova} and \emph{Stoyanov}
+low-sensitivity near $z=0$ section can be estimated with a slowed and retimed
+realisation. Figure~\ref{fig:IS-all-pass-filter-noise-gain-real-poles} shows
+the noise gain of a scaled realisation with real poles. 
+Figure~\ref{fig:IS-all-pass-filter-noise-gain-complex-poles} shows 
+the noise gain of a scaled realisation with complex conjugate poles.  
+\clearpage
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass_filter_test_dir2_retimed_real_ng}}
@@ -4223,16 +4281,6 @@ shows  the noise gain of a scaled realisation with complex conjugate poles.
   all-pass filter section with complex conjugate poles}
 \label{fig:dir2-all-pass-filter-noise-gain-complex-poles}
 \end{figure}
-
-As for the second-order direct-form section the noise gain of the scaled
-second-order \emph{Gray} and \emph{Markel} section can be estimated with a slowed
-and retimed realisation. As for the first-order \emph{Gray} and \emph{Markel}
-section, the $\epsilon$ coefficients do not alter the transfer function or noise
-gain but must be selected for effective internal state scaling in a fixed-point
-implementation. Figure~\ref{fig:GM2-all-pass-filter-noise-gain-real-poles} shows
-the noise gain of a scaled realisation with real poles.
-Figure~\ref{fig:GM2-all-pass-filter-noise-gain-complex-poles} shows 
-the noise gain of a scaled realisation with complex conjugate poles.  
 
 \begin{figure}
 \centering
@@ -4250,13 +4298,6 @@ the noise gain of a scaled realisation with complex conjugate poles.
 \label{fig:GM2-all-pass-filter-noise-gain-complex-poles}
 \end{figure}
 
-The noise gain of the scaled second-order \emph{Ansari} and \emph{Lui} section
-can be estimated with a slowed and retimed realisation. 
-Figure~\ref{fig:AL7c-all-pass-filter-noise-gain-real-poles} shows the
-noise gain of a scaled realisation with real poles.
-Figure~\ref{fig:AL7c-all-pass-filter-noise-gain-complex-poles} shows 
-the noise gain of a scaled realisation with complex conjugate poles.  
-
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass_filter_test_AL7c_retimed_real_ng}}
@@ -4271,24 +4312,6 @@ the noise gain of a scaled realisation with complex conjugate poles.
 \caption{Noise gain of the scaled and retimed second-order Ansari-and-Lui
   all-pass filter section with complex conjugate poles}
 \label{fig:AL7c-all-pass-filter-noise-gain-complex-poles}
-\end{figure}
-
-The noise gain of the scaled second-order \emph{Mitra} and \emph{Hirano} type 2d
-section can be estimated with the retimed realisation shown in
-Figure~\ref{fig:Retimed-MH2d-second-order-all-pass-filter-section}. The section
-is retimed by adding a $z^{-1} $delay at the output and then redistributing
-the delay ``backwards'' until the output of the $b_{1}$ multiplier is registered.
-Figure~\ref{fig:MH2d-all-pass-filter-noise-gain-real-poles} shows the
-noise gain of a scaled realisation with real poles.
-Figure~\ref{fig:MH2d-all-pass-filter-noise-gain-complex-poles} shows 
-the noise gain of a scaled realisation with complex conjugate poles.  
-
-\begin{figure}
-\centering
-\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{allpass_MH2d_retimed}
-\caption{Retimed Mitra-and-Hirano type 2d second-order direct form all-pass
-  filter section}
-\label{fig:Retimed-MH2d-second-order-all-pass-filter-section}
 \end{figure}
 
 \begin{figure}
@@ -4307,13 +4330,6 @@ the noise gain of a scaled realisation with complex conjugate poles.
 \label{fig:MH2d-all-pass-filter-noise-gain-complex-poles}
 \end{figure}
 
-The noise gain of the scaled second-order \emph{Mitra} and \emph{Hirano} type 3d
-section can be estimated without slowing or retiming the retimed realisation.
-Figure~\ref{fig:MH3d-all-pass-filter-noise-gain-real-poles} shows the
-noise gain of a scaled realisation with real poles.
-Figure~\ref{fig:MH3d-all-pass-filter-noise-gain-complex-poles} shows 
-the noise gain of a scaled realisation with complex conjugate poles.  
-
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass_filter_test_MH3d_real_ng}}
@@ -4330,13 +4346,6 @@ the noise gain of a scaled realisation with complex conjugate poles.
 \label{fig:MH3d-all-pass-filter-noise-gain-complex-poles}
 \end{figure}
 
-The round-off noise of the second-order Stoyanov low-sensitivity section can be
-estimated without slowing and retiming the realisation. 
-Figure~\ref{fig:LS2a-all-pass-filter-noise-gain-real-poles} shows the
-noise gain of a scaled realisation with real poles. 
-Figure~\ref{fig:LS2a-all-pass-filter-noise-gain-complex-poles} shows 
-the noise gain of a scaled realisation with complex conjugate poles.  
-
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass_filter_test_LS2a_real_ng}}
@@ -4352,13 +4361,6 @@ the noise gain of a scaled realisation with complex conjugate poles.
   near $z=1$ all-pass filter section with complex conjugate poles}
 \label{fig:LS2a-all-pass-filter-noise-gain-complex-poles}
 \end{figure}
-
-The round-off noise of the second-order \emph{Ivanova} and \emph{Stoyanov}
-low-sensitivity near $z=0$ section can be estimated with a slowed and retimed
-realisation. Figure~\ref{fig:IS-all-pass-filter-noise-gain-real-poles} shows
-the noise gain of a scaled realisation with real poles. 
-Figure~\ref{fig:IS-all-pass-filter-noise-gain-complex-poles} shows 
-the noise gain of a scaled realisation with complex conjugate poles.  
 
 \begin{figure}
 \centering
@@ -10656,6 +10658,7 @@ Figure~\ref{fig:Allpass-2nd-order-cascade-delay-squared-magnitude-response}.
 \end{figure}
 At the filter band edges the change in phase of the allpass branch produces a 
 corresponding transient in the group delay response.
+\clearpage
 \subsection{\label{sec:Design-IIR-filter-sum-all-pass-filters-pole-zero}Design of an IIR filter as the sum of two all-pass filters each represented in pole-zero form}
 Rewriting Equation~\ref{eqn:Parallel-allpass-transfer-function} in terms of
 the phase responses of the component all-pass filters gives
@@ -10910,7 +10913,7 @@ Figure~\ref{fig:Parallel-2nd-order-allpass-elliptic-filter-pz}.
 \end{figure}
 \clearpage
 \subsubsection{\label{sec:Design-IIR-filter-difference-all-pass-filters-pole-zero-constrained-group-delay}Design
-  of an IIR filter as the difference of two all-pass filters each represented
+  of an IIR filter as the difference of two all-pass filters each represented 
   in pole-zero form with constraints on the group delay}
 If the filter of Equation~\ref{eqn:Parallel-allpass-transfer-function} is
 rewritten as the difference of two all-pass filters:
@@ -18514,6 +18517,7 @@ a22_sasd = [   0.875000,   0.750000,   0.625000 ];
  dd_sasd = [   0.500000,   0.125000,   0.250000 ];
 \end{verbatim}
 \end{small}
+\clearpage
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{samin_schurNSlattice_lowpass_test_response}}
@@ -18732,7 +18736,7 @@ The lowest cost 6 bit rounded coefficients of the parallel-allpass
 one-multiplier lattice filter found after $10$ runs of the differential 
 evolution algorithm are the same as those found with the simulated-annealing 
 algorithm in Section~\ref{sec:search-with-simulated-annealing}.
-
+\clearpage
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{de_min_schurNSlattice_lowpass_test_response}}
@@ -28863,10 +28867,11 @@ K &= M-\floor{Mx_{c} +0.5}
 \end{align*}
 \emph{Rajagopal} and \emph{Roy}~\cite{RajagopalRoy_MaxFlatFIRBernstein} derive
 $P_{M,K}\left(x\right)$ from the properties of the \emph{Bernstein
-  polynomial}\footnote{In computer graphics a two- or three-dimensional 
-  \emph{Bernstein polynomial} is called a \emph{Bezier curve}. The \emph{De
-    Casteljau recursion} is a numerically stable method for calculation of the
-  value of the Bernstein polynomial.} representation of a function
+  polynomial}\footnote{In computer graphics a two- or three-dimensional
+  \emph{Bernstein polynomial}~\cite{CargoShisha_BernsteinFormPolynomial} is
+  called a \emph{Bezier curve}. The \emph{DeCasteljau recursion} is a
+  numerically stable method for calculation of the value of the Bernstein
+  polynomial.} representation of a function 
 $f\left(x\right)$ on the interval $\left[0,1\right]$:
 \begin{align*}
   B_{M}\left(f;x\right)&=\sum_{k=0}^{M}f\left(\frac{k}{M}\right)
@@ -34575,20 +34580,20 @@ stop band regions. The pass band phase error is adjusted for the nominal delay.}
 \addcontentsline{toc}{part}{Colophon}
 \pdfbookmark[0]{Requirements}{requirements}
 \section*{Software requirements}
-I currently use the Fedora 35 distribution of Linux~\cite{Fedora_website} with:
+I currently use the Fedora 36 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{5.14.18-300.fc35.x86\_64}
-\item \emph{gcc} version \emph{11.2.1 20210728 (Red Hat 11.2.1-1)}
-\item a local build of \emph{octave-6.4.0} with the \emph{struct}, \emph{io},
+\item \texttt{uname -r} is \emph{5.17.3-302.fc36.x86\_64}
+\item \emph{gcc} version \emph{12.0.1 20220413 (Red Hat 12.0.1-0)}
+\item a local build of \emph{octave-7.1.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic} and \emph{parallel} Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit with
-  \emph{qt-4.8.7-62} and a local build of \emph{GraphicsMagick}
-\item \emph{texlive-2021-45} and various packages are installed
-\item \emph{dia-0.97.3-18} is used for line drawings
+  \emph{qt-4.8.7-67} and a local build of \emph{GraphicsMagick}
+\item \emph{texlive-2021-55} and various packages are installed
+\item \emph{dia-0.97.3-20} is used for line drawings
 \end{itemize}
 
-The local build of \emph{octave-6.4.0} assumes that the following packages are
+The local build of \emph{octave-7.1.0} assumes that the following packages are
 installed in addition to the base Fedora distribution:
 \begin{small}
 \begin{verbatim}
@@ -34599,6 +34604,9 @@ texinfo texinfo-tex librsvg2 librsvg2-devel librsvg2-tools icoutils autoconf \
 automake libtool pcre pcre-devel freetype freetype-devel gnupg2
 \end{verbatim}
 \end{small}
+
+The oct-file \emph{src/minphase.cc} assumes the \emph{eigen3-devel} package is
+installed.
 
 The following packages are required to build this document:
 \begin{small}
@@ -34639,15 +34647,15 @@ corresponding \emph{Makefile} fragment, \emph{butt3NS\_test.mk}:
 \pdfbookmark[0]{Octave}{octave}
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
-version of \emph{octave-6.3.0} avoiding the vagaries of the Fedora
+version of \emph{octave-7.1.0} avoiding the vagaries of the Fedora
 packagers.
 
 The \emph{build-octave.sh} script builds Octave and the associated numerical
 libraries with the \emph{g++} option \texttt{-march=nehalem}. The patch file,
 \emph{octave.patch}, is a shell \emph{here} document
-within \emph{build-octave.sh}. The \emph{octave-6.3.0/configure} script is
+within \emph{build-octave.sh}. The \emph{octave-7.1.0/configure} script is
 patched so that the Octave \texttt{OCTAVE\_VERSION} command
-returns \texttt{6.3.0-robj}.
+returns \texttt{7.1.0-robj}.
 
 The local build of Octave links to locally built versions of the following
 libraries: 
@@ -34658,7 +34666,7 @@ libraries:
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
 \emph{SuiteSparse-5.10.1}~\cite{SUITESPARSE_website},
 \emph{sundials-5.8.0}~\cite{SUNDIALS_website} and
-\emph{GraphicsMagick-1.3.37}~\cite{GraphicsMagick_website}.
+\emph{GraphicsMagick-1.3.38}~\cite{GraphicsMagick_website}.
 The local build of the \emph{LAPACK} library includes the deprecated routines.
 
 This project includes a number of Octave \emph{oct-file} extensions written in
@@ -34709,20 +34717,18 @@ differences between that forked repository and the ``upstream'' repository.
 
 \subsubsection*{Problems with Octave}
 The \emph{octave.patch} here document within \emph{build-octave.sh}
-patches files to add Octave warning ids and to prevent a \emph{valgrind} warning.
+patches files to add an Octave warning id and to prevent a \emph{valgrind}
+warning.
 
 \subsubsection*{Problems with Octave-Forge packages}
 The following packages are patched with shell \emph{here} documents
 within \emph{build-octave.sh}:
 \begin{itemize}
-\item the \emph{signal-1.4.1} package \texttt{zplane} function is patched to
-avoid a \LaTeX~error.
-\item the \emph{optim-1.6.1} package is patched to 
-remove references to the deprecated global variable \texttt{error\_state} and to
-fix a problem with \texttt{optim\_doc} when \texttt{local\_list} is empty.
-\item the \emph{optim-1.6.1} package \emph{linprog} function is only compatible
-with the MATLAB equivalent for calls like \texttt{[X, FVAL] = linprog (F, A, B,
-AEQ, BEQ, LB, UB)}.
+\item the \emph{signal-1.4.2} package \texttt{zplane} function is patched to
+  avoid a \LaTeX~error and the \texttt{grpdelay} function is patched to correctly
+  handle the \texttt{grpdelay(a,b,w} API.
+\item the \emph{parallel-4.0.1} package is patched to make it compatible with
+  \emph{octave-7.1.0}.
 \item the \emph{symbolic-2.9.0} package is patched with \emph{sympy-1.6.patch}
 from \emph{octave-symbolic\_2.9.0-3.debian.tar.xz} to update to the
 \emph{python3-sympy-1.7.1} package provided with Fedora 33. \emph{SparsePOP}
@@ -34779,7 +34785,7 @@ To test an oct-file with \emph{address-sanitizer} add these flags:
 and ``pre-load'' the \emph{address-sanitizer} library:
 \begin{small}
 \begin{verbatim}
-LD_PRELOAD=/usr/lib64/libasan.so.6 octave-cli --eval 'an_oct_file_test_script'
+LD_PRELOAD=/usr/lib64/libasan.so.8 octave-cli --eval 'an_oct_file_test_script'
 \end{verbatim}
 \end{small}
 
@@ -34804,9 +34810,9 @@ be installed with this work-around:
 This section shows the results of benchmarking various builds of Octave
 and benchmarking \emph{blas} and \emph{lapack} libraries with a shared library
 \emph{LTO} and \emph{PGO} build of Octave. The Linux kernel used was
-\emph{5.14.10-300.fc35.x86\_64} from the RedHat Fedora 35 Linux
+\emph{5.17.3-302.fc36.x86\_64} from the RedHat Fedora 36 Linux
 distribution. The system compiler is
-\emph{gcc version 11.2.1 20210728 (Red Hat 11.2.1-1)}.
+\emph{gcc version 12.0.1 20220413 (Red Hat 12.0.1-0)}.
 The CPU is an Intel i7-7700K for which the number of CPU cores 
 is $4$ ($8$ hyper-threaded). During the benchmark the CPU frequency was fixed
 at $4.5GHz$.  To do this, as the \emph{root} user:
@@ -34879,11 +34885,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 128.3 \\
-Generic, shared reference lapack and blas            &  40.5 \\
-Generic, shared reference lapack and blas, LTO       &  42.4 \\
-Generic, shared reference lapack and blas, PGO       &  42.9 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  41.9 \\
+Debug, shared reference lapack and blas              & 267.3 \\
+Generic, shared reference lapack and blas            &  41.9 \\
+Generic, shared reference lapack and blas, LTO       &  40.6 \\
+Generic, shared reference lapack and blas, PGO       &  43.4 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  39.7 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -34899,29 +34905,29 @@ The shell script \emph{library-benchmark.sh} benchmarks the shared library
 benchmark script. The \emph{linpack.m} script was modified to produce
 repeatable residuals. The alternative \emph{blas} and \emph{lapack} library
 versions used are local builds of \emph{blas-3.10.0} and \emph{lapack-3.10.0} and
-the Fedora 34 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
+the Fedora 36 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
 \emph{gsl}~\cite{GNU_GSL} and \emph{openblas}~\cite{OpenBLAS_website}
 packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
   of \emph{DGESVD} for a problematic matrix and the \emph{libtatlas}, system
   \emph{libblas} and ``local'' \emph{libblas} libraries:\\
 \begin{texttt}
   > ./dgesvd\_test\_atlas\\
-   0.14709002182061778\\
+   0.14709002182058989\\
   > ./dgesvd\_test\_sysblas\\
    0.14709002182060862\\
    Note: The following floating-point exceptions are signalling: IEEE\_DENORMAL\\
-  > LD\_LIBRARY\_PATH=/usr/local/octave-6.3.0/lib ./dgesvd\_test\_blas\\
+  > LD\_LIBRARY\_PATH=/usr/local/octave-7.1.0/lib ./dgesvd\_test\_blas\\
    0.14709002182060862
 \end{texttt}}
 \begin{small}
 \begin{verbatim}
-atlas.x86_64               3.10.3-15.fc35
-blas.x86_64                3.10.0-3.fc35
-lapack.x86_64              3.10.0-3.fc35
-gsl.x86_64                 2.6-5.fc35
-gsl-devel.x86_64           2.6-5.fc35
-openblas.x86_64            0.3.17-2.fc35
-openblas-threads.x86_64    0.3.17-2.fc35
+atlas.x86_64               3.10.3-19.fc36
+blas.x86_64                3.10.0-5.fc36
+lapack.x86_64              3.10.0-5.fc36
+gsl.x86_64                 2.6-6.fc36
+gsl-devel.x86_64           2.6-6.fc36
+openblas.x86_64            0.3.19-3.fc36
+openblas-threads.x86_64    0.3.19-3.fc36
 \end{verbatim}
 \end{small}
 
@@ -34944,7 +34950,8 @@ export OPENBLAS_NUM_THREADS=2
 
 Table~\ref{tab:benchmark-octave-blas-libraries} shows the average MFLOPS or
 execution time for $10$ runs of each test using the shared library \emph{PGO}
-and \emph{LTO} build of Octave.
+and \emph{LTO} build of Octave. The normalised residuals for the two ATLAS
+libraries varied between two values. The largest is shown.
 
 \begin{table}
 \centering
@@ -34957,19 +34964,19 @@ and \emph{LTO} build of Octave.
 \cmidrule{2-4}             & MFLOPS & Normalised          & Execution time \\
                            &        & residual            & (seconds) \\
 \midrule
-Generic libblas/liblapack  &  3941  & 21.3                &  41.8 \\
-Intel libblas/liblapack    &  3931  & 21.3                &  41.9 \\
-Haswell libblas/liblapack  &  4685  & 18.5                &  41.7 \\
-Nehalem libblas/liblapack  &  3943  & 21.3                &  41.8 \\
-Skylake libblas/liblapack  &  4023  & 18.5                &  41.8 \\
-Fedora 35 libblas/liblapack&  3935  & 21.3                &  41.7 \\
-libgslcblas                &  3943  & 21.3                &  41.7 \\
-libsatlas                  & 13569  & 12.2                &  42.0 \\
-libtatlas                  & 20992  & 11.4                &  41.3 \\
-libopenblas                & 34332  &  9.9                &  40.1 \\
-libopenblasp (1 thread)    & 34245  &  9.9                &  40.1 \\
-libopenblasp (2 threads)   & 47478  & 12.1                &  40.1 \\
-libopenblasp (4 threads)   & 57675  & 10.8                &  40.1 \\
+Generic libblas/liblapack  &  3911  & 21.3                &  39.6 \\
+Intel libblas/liblapack    &  3899  & 21.3                &  39.6 \\
+Haswell libblas/liblapack  &  4009  & 18.5                &  39.5 \\
+Nehalem libblas/liblapack  &  3863  & 21.3                &  39.5 \\
+Skylake libblas/liblapack  &  4738  & 18.5                &  39.2 \\
+Fedora 35 libblas/liblapack&  3952  & 21.3                &  39.5 \\
+libgslcblas                &  3937  & 21.3                &  39.5 \\
+libsatlas                  & 13508  & 14.3                &  39.2 \\
+libtatlas                  & 21280  & 14.3                &  39.8 \\
+libopenblas                & 35166  &  9.9                &  37.9 \\
+libopenblasp (1 thread)    & 35480  &  9.9                &  38.0 \\
+libopenblasp (2 threads)   & 51788  & 12.1                &  38.4 \\
+libopenblasp (4 threads)   & 67422  & 10.8                &  38.2 \\
 \bottomrule
 \end{tabular}
 \egroup{}

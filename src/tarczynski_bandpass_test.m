@@ -1,5 +1,5 @@
 % tarczynski_bandpass_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 
 test_common;
@@ -30,8 +30,8 @@ nD=length(D0R);
 % Frequency points
 td=16;
 dBas=30;
-fapl=0.09;fapu=0.21;fasl=0.05;fasu=0.25;
-Wasl=1;Watl=1;Wap=1;Watu=1;Wasu=1;
+fapl=0.1;fapu=0.2;fasl=0.05;fasu=0.25;
+Wasl=1;Watl=0.001;Wap=1;Watu=0.001;Wasu=1;
 n=500;
 wd=(0:(n-1))'*pi/n;
 nasl=ceil(n*fasl/0.5)+1;
@@ -94,13 +94,13 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 25]);
 grid("on");
-print("tarczynski_bandpass_response",  "-dpdflatex");
+print("tarczynski_bandpass_test_response","-dpdflatex");
 close
 
 subplot(111);
 zplane(roots(N),roots(DR))
 title(s);
-print("tarczynski_bandpass_pz",  "-dpdflatex");
+print("tarczynski_bandpass_test_pz","-dpdflatex");
 close
 
 % Print results

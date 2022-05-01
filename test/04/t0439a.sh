@@ -2,7 +2,8 @@
 
 prog=bitflip_schurOneMPAlattice_bandpass_test.m
 
-depends="bitflip_schurOneMPAlattice_bandpass_test.m test_common.m 
+depends="bitflip_schurOneMPAlattice_bandpass_test.m test_common.m \
+bitflip_bandpass_test_common.m \
 ../iir_sqp_slb_bandpass_test_D1_coef.m \
 ../iir_sqp_slb_bandpass_test_N1_coef.m \
 ../schurOneMPAlattice_socp_slb_bandpass_test_A1k_coef.m \
@@ -11,8 +12,7 @@ depends="bitflip_schurOneMPAlattice_bandpass_test.m test_common.m
 ../schurOneMPAlattice_socp_slb_bandpass_test_A2k_coef.m \
 ../schurOneMPAlattice_socp_slb_bandpass_test_A2epsilon_coef.m \
 ../schurOneMPAlattice_socp_slb_bandpass_test_A2p_coef.m \
-print_polynomial.m \
-bitflip_bandpass_test_common.m schurOneMPAlattice2tf.m tf2pa.m \
+print_polynomial.m schurOneMPAlattice2tf.m tf2pa.m \
 schurOneMPAlattice_cost.m tf2schurOneMlattice.m Abcd2tf.m \
 schurOneMscale.m flt2SD.m x2nextra.m qroots.m SDadders.m \
 schurOneMPAlattice_allocsd_Lim.m schurOneMPAlattice_allocsd_Ito.m \
@@ -56,29 +56,29 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k_bf.ok << 'EOF'
-A1k_bf = [      -99,      116,      -62,       27, ... 
-                 51,      -49,       54,      -14, ... 
-                 -4,        9 ]/128;
+A1k_bf = [      -56,      106,        9,      -42, ... 
+                 70,      -24,      -24,       56, ... 
+                -36,       21 ]/128;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_bf.ok"; fail; fi
 
 cat > test_A2k_bf.ok << 'EOF'
-A2k_bf = [      -58,      112,      -58,       30, ... 
-                 45,      -58,       51,      -11, ... 
-                 -1,       10 ]/128;
+A2k_bf = [      -98,      111,        4,      -48, ... 
+                 72,      -13,      -18,       55, ... 
+                -40,       19 ]/128;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_bf.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
-Exact & 1.0106\\
-8-bit rounded & 1.9861\\
-8-bit rounded with bit-flipping & 1.7761\\
-8-bit 2-signed-digit & 12.0367 \\ 
-8-bit 2-signed-digit with bit-flipping & 6.4405\\
-8-bit 2-signed-digit(Lim alloc.) & 12.0173\\
-8-bit 2-signed-digit(Lim alloc.) with bit-flipping & 9.3603\\
-8-bit 2-signed-digit(Ito alloc.) & 6.2461\\
-8-bit 2-signed-digit(Ito alloc.) with bit-flipping & 5.7213\\
+Exact & 1.0870\\
+8-bit rounded & 1.8517\\
+8-bit rounded with bit-flipping & 1.6093\\
+8-bit 2-signed-digit & 10.1625 \\ 
+8-bit 2-signed-digit with bit-flipping & 9.1437\\
+8-bit 2-signed-digit(Lim alloc.) & 16.8760\\
+8-bit 2-signed-digit(Lim alloc.) with bit-flipping & 9.8041\\
+8-bit 2-signed-digit(Ito alloc.) & 15.0589\\
+8-bit 2-signed-digit(Ito alloc.) with bit-flipping & 6.5797\\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 

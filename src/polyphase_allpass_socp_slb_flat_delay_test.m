@@ -1,5 +1,5 @@
 % polyphase_allpass_socp_slb_flat_delay_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -14,13 +14,8 @@ maxiter=2000
 strf="polyphase_allpass_socp_slb_flat_delay_test";
 
 % Initial coefficients found by tarczynski_polyphase_allpass_test.m
-% with flat_delay=true
-Da0 = [   1.0000000000,  -0.0002151568,   0.0001164129,  -0.0000936417, ... 
-          0.0000823630,  -0.0000783070,   0.0000737583,  -0.0000690069, ... 
-          0.0000671874,  -0.0000646893,   0.0000691140,  -0.0001413237 ]';
-Db0 = [   1.0000000000,   0.4963307358,  -0.1198781164,   0.0562525770, ... 
-         -0.0320266069,   0.0197792582,  -0.0126423500,   0.0081396004, ... 
-         -0.0051807086,   0.0032047412,  -0.0019021388,   0.0011981651 ]';
+tarczynski_polyphase_allpass_test_flat_delay_Da0_coef;
+tarczynski_polyphase_allpass_test_flat_delay_Db0_coef;
 
 % Lowpass filter specification for polyphase combination of all-pass filters
 tol=1e-4

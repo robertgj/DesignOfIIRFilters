@@ -43,11 +43,9 @@ Not enough input arguments!
 print_usage: 'wx=halleyFIRsymmetricA(wa,hM) (find peaks)
 wx=halleyFIRsymmetricA(wa,hM,Ax) (find wx for values Ax)' not found
 Too many input arguments!
-print_usage: 'wx=halleyFIRsymmetricA(wa,hM) (find peaks)
-wx=halleyFIRsymmetricA(wa,hM,Ax) (find wx for values Ax)' not found
+halleyFIRsymmetricA: function called with too many inputs
 Too many output arguments!
-print_usage: 'wx=halleyFIRsymmetricA(wa,hM) (find peaks)
-wx=halleyFIRsymmetricA(wa,hM,Ax) (find wx for values Ax)' not found
+halleyFIRsymmetricA: function called with too many outputs
 Caught empty hM!
 hM is empty
 use_remez_bandpass = 1

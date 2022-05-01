@@ -78,10 +78,7 @@ a =
 
 k = 6
 pp =
- Columns 1 through 7:
-     6.0000   -60.0000   252.0000  -576.0000   798.0000  -756.0000   552.0000
- Column 8:
-  -240.0000
+     6   -60   252  -576   798  -756   552  -240
 
 casc2tf_tf2casc_test.m : from frm2ndOrderCascade_socp.m
 dk =

@@ -1,5 +1,5 @@
 % parallel_allpass_delay_socp_mmse_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -81,7 +81,7 @@ Ha1=(Ha1+exp(-j*wplot*D))/2;
 Ta1=(Ta1+D)/2;
 
 % Plot response
-strd=sprintf("parallel_allpass_delay_socp_mmse_%%s");
+strd=sprintf("parallel_allpass_delay_socp_mmse_test_%%s");
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Ha1)));
 ylabel("Amplitude(dB)");
