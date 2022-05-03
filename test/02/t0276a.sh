@@ -1,7 +1,7 @@
 #!/bin/sh
 
-prog=complementaryFIRlattice_lowpass_test.m
-depends="complementaryFIRlattice_lowpass_test.m test_common.m \
+prog=complementaryFIRlattice_test.m
+depends="complementaryFIRlattice_test.m test_common.m \
 print_polynomial.m complementaryFIRlatticeFilter.m crossWelch.m KW.m \
 complementaryFIRlattice2Abcd.m Abcd2tf.m complementaryFIRlattice.m \
 minphase.m direct_form_scale.m complementaryFIRdecomp.oct"
@@ -391,34 +391,34 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.brz.ok complementaryFIRlattice_lowpass_test_brz_coef.m
+diff -Bb test.brz.ok complementaryFIRlattice_test_brz_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.brz.ok"; fail; fi
 
-diff -Bb test.brzc.ok complementaryFIRlattice_lowpass_test_brzc_coef.m
+diff -Bb test.brzc.ok complementaryFIRlattice_test_brzc_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.brzc.ok"; fail; fi
 
-diff -Bb test.krz.ok complementaryFIRlattice_lowpass_test_krz_coef.m
+diff -Bb test.krz.ok complementaryFIRlattice_test_krz_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.krz.ok"; fail; fi
 
-diff -Bb test.krzhat.ok complementaryFIRlattice_lowpass_test_krzhat_coef.m
+diff -Bb test.krzhat.ok complementaryFIRlattice_test_krzhat_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.krzhat.ok"; fail; fi
 
-diff -Bb test.ykrz.ok complementaryFIRlattice_lowpass_test_ykrz.m
+diff -Bb test.ykrz.ok complementaryFIRlattice_test_ykrz.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ykrz.ok"; fail; fi
 
-diff -Bb test.ykrzhat.ok complementaryFIRlattice_lowpass_test_ykrzhat.m
+diff -Bb test.ykrzhat.ok complementaryFIRlattice_test_ykrzhat.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ykrzhat.ok"; fail; fi
 
-diff -Bb test.stdxxkrz.ok complementaryFIRlattice_lowpass_test_stdxxkrz.m
+diff -Bb test.stdxxkrz.ok complementaryFIRlattice_test_stdxxkrz.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.stdxxkrz.ok"; fail; fi
 
-diff -Bb test.ypkrz.ok complementaryFIRlattice_lowpass_test_ypkrz.m
+diff -Bb test.ypkrz.ok complementaryFIRlattice_test_ypkrz.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ypkrz.ok"; fail; fi
 
-diff -Bb test.ypkrzhat.ok complementaryFIRlattice_lowpass_test_ypkrzhat.m
+diff -Bb test.ypkrzhat.ok complementaryFIRlattice_test_ypkrzhat.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ypkrzhat.ok"; fail; fi
 
-diff -Bb test.stdxxpkrz.ok complementaryFIRlattice_lowpass_test_stdxxpkrz.m
+diff -Bb test.stdxxpkrz.ok complementaryFIRlattice_test_stdxxpkrz.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.stdxxpkrz.ok"; fail; fi
 
 #
