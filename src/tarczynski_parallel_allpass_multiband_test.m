@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_multiband_test.m
-% Copyright (C) 2020-2021 Robert G. Jenssen
+% Copyright (C) 2020-2022 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a multi-band-pass filter as the
 % difference of two parallel allpass filters. See:
@@ -24,7 +24,7 @@ tol=1e-8
 npoints=1000;
 
 % Initial filter for parallel_allpass_multiband_test.m
-ma=mb=12;
+ma=mb=14;
 fas1u=0.05;
 fap1l=0.075;fap1u=0.1;
 ftp1l=0.075;ftp1u=0.1;
@@ -33,7 +33,7 @@ fap2l=0.175;fap2u=0.225;
 ftp2l=0.175;ftp2u=0.225;
 fas3l=0.25;
 Was1=1;Wap1=1;Was2=2;Wap2=1;Was3=1;
-tp1=tp2=24;
+tp1=tp2=20;
 Wtp1=0.02;Wtp2=0.02;
 
 % Desired amplitude response

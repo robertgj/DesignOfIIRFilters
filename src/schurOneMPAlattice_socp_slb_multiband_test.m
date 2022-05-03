@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_multiband_test.m
-% Copyright (C) 2020-2021 Robert G. Jenssen
+% Copyright (C) 2020-2022 Robert G. Jenssen
 
 test_common;
 
@@ -56,9 +56,9 @@ fas2l=0.125;fas2u=0.150;
 fap2l=0.175;fap2u=0.225;
 ftp2l=0.175;ftp2u=0.225;
 fas3l=0.25;
-dBas1=20;dBap1=1;dBas2=20;dBap2=1;dBas3=26;
-Was1=1;Wap1=2;Was2=1;Wap2=1;Was3=1;
-tp1=22;tpr1=2;tp2=22;tpr2=2;
+dBas1=30;dBap1=1;dBas2=20;dBap2=1;dBas3=30;
+Was1=1;Wap1=2;Was2=2;Wap2=1;Was3=1;
+tp1=20;tpr1=2;tp2=20;tpr2=2;
 Wtp1=0.01;Wtp2=0.01;
 
 % Amplitude mask
