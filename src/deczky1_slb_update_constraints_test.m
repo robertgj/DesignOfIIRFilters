@@ -86,7 +86,6 @@ axis([0 0.5 0 2e-2]);
 ylabel("Amplitude");
 xlabel("Frequency")
 print(sprintf(strd,"x7A"),"-dpdflatex");
-print(sprintf(strd,"x7A"),"-dsvg");
 close
 
 % Plot group delay
@@ -98,7 +97,6 @@ title(strM7);
 ylabel("Delay(samples)");
 xlabel("Frequency")
 print(sprintf(strd,"x7T"),"-dpdflatex");
-print(sprintf(strd,"x7T"),"-dsvg");
 close
 
 % Plot derivative of transition-band amplitude response
@@ -110,7 +108,6 @@ title(strM7);
 ylabel("delAdelw");
 xlabel("Frequency")
 print(sprintf(strd,"x7X"),"-dpdflatex");
-print(sprintf(strd,"x7X"),"-dsvg");
 close
 
 %
