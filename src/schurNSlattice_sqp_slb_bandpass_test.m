@@ -1,5 +1,5 @@
 % schurNSlattice_sqp_slb_bandpass_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -9,15 +9,15 @@ diary schurNSlattice_sqp_slb_bandpass_test.diary.tmp
 
 tic;
 
-tol=1e-4
-ctol=tol/10
+tol=5e-4
+ctol=tol/50
 maxiter=5000
 verbose=false
 
 % Bandpass R=2 filter specification
 fapl=0.1,fapu=0.2,dBap=1;Wap=1
-fasl=0.05,fasu=0.25,dBas=33,Wasl=100,Wasu=200
-ftpl=0.1,ftpu=0.2,tp=16,tpr=0.32,Wtp=0.1
+fasl=0.05,fasu=0.25,dBas=30,Wasl=10,Wasu=20
+ftpl=0.1,ftpu=0.2,tp=16,tpr=0.16,Wtp=0.1
 
 % Initial filter from iir_sqp_slb_bandpass_test.m
 U=2,V=0,M=18,Q=10,R=2
@@ -210,8 +210,7 @@ print_polynomial(stdxxf,"stdxxf",strcat(strf,".stdxxf.val"),"%5.1f");
 % Save the results
 %
 fid=fopen(strcat(strf,".spec"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coef. update for MMSE\n",tol);
-fprintf(fid,"tol=%g %% Tolerance on coef. update for PCLS\n",tol);
+fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"dmax=%f %% Constraint on norm of coefficient SQP step size\n",dmax);
