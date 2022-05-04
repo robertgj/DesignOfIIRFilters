@@ -1,5 +1,5 @@
 % de_min_schurNSPAlattice_lowpass_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Test case for the de_min differential evolution algorithm with
 % coefficents of a 5th order elliptic filter implemented as the sum of two 
@@ -12,6 +12,8 @@
 %  3. Change use_best_de_min_found to false to run de_min
 
 test_common;
+
+pkg load optim;
 
 delete("de_min_schurNSPAlattice_lowpass_test.diary");
 delete("de_min_schurNSPAlattice_lowpass_test.diary.tmp");
@@ -64,13 +66,17 @@ printf("cost_rd=%8.5f\n",cost_rd);
 h_rd=freqz(n_rd,d_rd,nplot);
 % Find the optimised rounded lattice coefficients with de_min
 if use_best_de_min_found
-  svec_de_exact = [ -27,  23, -16, -24, -28,  27, -23, -24, -10,  25 ]';
+  svec_de_exact = [ -25.2712,  23.2046, -17.6551,  25.0189, ... 
+                    -25.2220,  27.9835, -22.1059, -20.9353, ... 
+                     12.1287,  25.8890,   6.4542,  24.5570, ... 
+                      8.8134,  14.7333, -22.4383,  30.2752, ... 
+                      7.8040,   5.1957,  27.8437,  27.8779 ];
 else
   ctl.XVmax=nshift*ones(1,4*(length(A1s00_0)+length(A2s00_0)));
   ctl.XVmin=-ctl.XVmax;
+  ctl.NP=10*length(ctl.XVmax);
   ctl.constr=1;
   ctl.const=[];
-  ctl.NP=0;
   ctl.F=0.8;
   ctl.CR=0.9;
   ctl.strategy=12;
@@ -84,6 +90,7 @@ else
   if isempty(svec_de_exact)
     error("de_min failed!");
   endif
+  print_polynomial(svec_de_exact,"svec_de_exact","%8.4f");
 endif
 [cost_de, ...
  A1s20_de,A1s00_de,A1s02_de,A1s22_de, ...
@@ -111,16 +118,24 @@ printf("cost_sd=%8.5f\n",cost_sd);
 h_sd=freqz(n_sd,d_sd,nplot);
 % Find the optimised signed-digit lattice coefficients with de_min
 if use_best_de_min_found
-  svec_desd_exact = [  31,  10, -24, -28,  28,  24,  32,   8, -12,  28, ...
-                       -7, -18,  12,  20,  12, -20,  31, -30, -24,  28 ]';
+  svec_desd_exact = [ -28.4187,  17.3534,  25.2958, -12.0658, ... 
+                       25.6123, -30.6279,  24.5852, -25.9757, ... 
+                      -11.5191, -31.1691, -14.6264, -27.1050, ... 
+                       27.9830, -21.7968,  10.3016, -26.3685, ... 
+                      -28.4865, -15.8532,  15.1140,  21.0790, ... 
+                        4.5483,  22.0502,  24.8622,  -2.2563, ... 
+                       29.8233,   5.8455,  18.2155,  21.2676, ... 
+                       -7.4929,   0.4276 ];
 else
   ctl.XVmax=nshift*ones(1,6*(length(A1s00_0)+length(A2s00_0)));
   ctl.XVmin=-ctl.XVmax;
+  ctl.NP=10*length(ctl.XVmax);
   [svec_desd_exact,cost_desd_exact,nfeval_desd,conv_desd] = ...
     de_min("schurNSPAlattice_cost",ctl);
   if isempty(svec_desd_exact)
     error("de_min SD failed!");
   endif
+ print_polynomial(svec_desd_exact,"svec_desd_exact","%8.4f");
 endif
 [cost_desd, ...
  A1s20_desd,A1s00_desd,A1s02_desd,A1s22_desd, ...

@@ -1,14 +1,17 @@
 % samin_schurNSlattice_lowpass_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Test case for the simulated annealing algorithm with coefficents of
 % a 5th order elliptic lattice filter in normalised-scaled form.
 %
 % Notes:
-%  1. Unfortunately samin is not repeatable. The minimum cost found varies.
-%  2. Change use_best_samin_found to false to run samin
+%  1. Unfortunately the siman algorithm is not repeatable.
+%     The minimum cost found varies. 
+%  2. Change use_best_samin_found to false to run siman
 
 test_common;
+
+pkg load optim;
 
 delete("samin_schurNSlattice_lowpass_test.diary");
 delete("samin_schurNSlattice_lowpass_test.diary.tmp");
@@ -16,10 +19,10 @@ diary samin_schurNSlattice_lowpass_test.diary.tmp
 
 truncation_test_common;
 
-use_best_samin_found=true
-if use_best_samin_found
+use_best_siman_found=true
+if use_best_siman_found
   warning("Using the best filter found so far. \n\
-Set \"use_best_samin_found\"=false to re-run samin.");
+Set \"use_best_siman_found\"=false to re-run siman.");
 endif
 
 strf="samin_schurNSlattice_lowpass_test";
@@ -50,23 +53,23 @@ printf("svec_rd_digits=%d,svec_rd_adders=%d\n",svec_rd_digits,svec_rd_adders);
 [n_rd,d_rd]=schurNSlattice2tf(s10_rd,s11_rd,s20_rd,s00_rd,s02_rd,s22_rd);
 h_rd=freqz(n_rd,d_rd,nplot);
 % Find the optimised rounded lattice coefficients with samin
-if use_best_samin_found
-  svec_sa_exact = [  25,  28,  13,   6, ... 
-                      1, -19,  31,  22, ... 
-                     23,  21, -26,  30, ... 
-                    -32,  22, -15,  23, ... 
-                      7,  17,  16,  21 ]';
+if use_best_siman_found
+  svec_sa_exact = [  31.5723,  20.8859,  11.4486,   4.3140, ... 
+                      0.8580,   6.8828,  23.4279,  31.8425, ... 
+                     16.2454,  18.3559, -25.0699,  30.9593, ... 
+                    -25.8970,  24.7804, -14.9051,  19.9408, ... 
+                      9.7995,  14.8283,  16.3000,  31.0258 ]';
 else
   ub=nshift*ones(length(svec_rd),1);
   lb=-ub;
-  samin_opt=optimset("Display","iter", "Algorithm","samin", "MaxIter",1000, ...
-                     "TolX",max(ub-lb), "lbound",lb,"ubound",ub);
+  siman_opt=optimset("algorithm", "siman", "lbound", lb(:), "ubound", ub(:));
   svec_sa_exact=[];
   [svec_sa_exact,cost_sa,conv_sa,details_sa] = ...
-    nonlin_min("schurNSlattice_cost",svec_rd(:),samin_opt);
+    nonlin_min("schurNSlattice_cost",svec_rd(:),siman_opt);
   if isempty(svec_sa_exact)
     error("samin failed!");
   endif
+  print_polynomial(svec_sa_exact,"svec_sa_exact","%8.4f");
 endif
 [cost_sa,s10_sa,s11_sa,s20_sa,s00_sa,s02_sa,s22_sa,svec_sa] = ...
   schurNSlattice_cost(svec_sa_exact);
@@ -88,27 +91,27 @@ printf("cost_sd=%8.5f\n",cost_sd);
 printf("svec_sd_digits=%d,svec_sd_adders=%d\n",svec_sd_digits,svec_sd_adders);
 [n_sd,d_sd]=schurNSlattice2tf(s10_sd,s11_sd,s20_sd,s00_sd,s02_sd,s22_sd);
 h_sd=freqz(n_sd,d_sd,nplot);
-% Find the optimised signed-digit lattice coefficients with samin
-if use_best_samin_found
-  svec_sasd_exact = [  28,  17,   6,   1, ... 
-                        0,  20,  28,  28, ... 
-                       18,  14, -24,  30, ... 
-                      -28,  28, -24,  17, ... 
-                        9,  20,  14,  28, ... 
-                       24, -30,  31, -24, ... 
-                       17,  24,   6,  12, ... 
-                       12, -10 ]';
+% Find the optimised signed-digit lattice coefficients with siman
+if use_best_siman_found
+  svec_sasd_exact = [  31.4909,  24.6673,  11.8341,   5.4917, ... 
+                       0.5839,   5.4912,  21.6149,  28.1770, ... 
+                       15.7609,  16.4382, -21.9333,  30.6026, ... 
+                      -29.7778,  23.7689, -10.4945,  21.2744, ... 
+                        9.1206,  15.0092,  18.2867,  30.1403, ... 
+                       26.1109, -31.7895,  27.5807, -25.5345, ... 
+                       14.7624,  20.1942,   8.0089,  16.9046, ... 
+                       16.2166,  28.4337 ]';
 else
   ub=nshift*ones(length(svec_sd),1);
   lb=-ub;
-  samin_opt=optimset("Display","iter", "Algorithm","samin", "MaxIter",1000, ...
-                     "TolX",max(ub-lb), "lbound",lb,"ubound",ub);
+  siman_opt=optimset("algorithm", "siman", "lbound", lb(:), "ubound", ub(:));
   svec_sasd_exact=[];
   [svec_sasd_exact,cost_sasd,conv_sasd,details_sasd] = ...
-    nonlin_min("schurNSlattice_cost",svec_sd(:),samin_opt);
+    nonlin_min("schurNSlattice_cost",svec_sd(:),siman_opt);
   if isempty(svec_sasd_exact)
     error("samin SD failed!");
   endif
+  print_polynomial(svec_sasd_exact,"svec_sasd_exact","%8.4f");
 endif
 [cost_sasd,s10_sasd,s11_sasd,s20_sasd,s00_sasd,s02_sasd,s22_sasd,svec_sasd] = ...
   schurNSlattice_cost(svec_sasd_exact);
@@ -132,7 +135,7 @@ ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 strt=sprintf("5th order elliptic NS lattice: nbits=%d,ndigits=%d",nbits,ndigits);
 title(strt);
-legend("exact","round","samin(round)","signed-digit","samin(s-d)");
+legend("exact","round","siman(round)","signed-digit","siman(s-d)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -150,7 +153,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 fpass*1.1 -3 3]);
 title(strt);
-legend("exact","round","samin(round)","signed-digit","samin(s-d)");
+legend("exact","round","siman(round)","signed-digit","siman(s-d)");
 legend("location","northwest");
 legend("boxoff");
 legend("left");

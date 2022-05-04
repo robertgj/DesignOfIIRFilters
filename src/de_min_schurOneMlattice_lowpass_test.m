@@ -1,5 +1,5 @@
 % de_min_schurOneMlattice_lowpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Test case for the de_min differential evolution algorithm with coefficents
 % of a 5th order elliptic lattice filter in one multiplier form.
@@ -11,6 +11,8 @@
 %  3. Change use_best_de_min_found to false to run de_min
 
 test_common;
+
+pkg load optim;
 
 delete("de_min_schurOneMlattice_lowpass_test.diary");
 delete("de_min_schurOneMlattice_lowpass_test.diary.tmp");
@@ -48,13 +50,15 @@ printf("cost_rd=%8.5f\n",cost_rd);
 h_rd=freqz(n_rd,d_rd,nplot);
 % Find optimised rounded lattice coefficients with de_min
 if use_best_de_min_found
-  svec_de_exact = [ -7, -18,  29, -26,  14,   3,   6,   5,  15,   2,   1 ]';
+  svec_de_exact = [ -23.9777,  13.0020,  23.5183, -25.2088, ... 
+                     11.9940,   5.1277,   4.5948,   6.2305, ... 
+                     13.7066,   1.8871,   0.9340 ];
 else
   ctl.XVmax=nshift*ones(1,length(k0)+length(c0));
   ctl.XVmin=-ctl.XVmax;
+  ctl.NP=10*length(ctl.XVmax);
   ctl.constr=1;
   ctl.const=[];
-  ctl.NP=0;
   ctl.F=0.8;
   ctl.CR=0.9;
   ctl.strategy=12;
@@ -64,10 +68,11 @@ else
   ctl.maxnfe=1e6;
   ctl.maxiter=1e3;
   [svec_de_exact,cost_de_exact,nfeval_de,conv_de] = ...
-    de_min("schurOneMlattice_cost",ctl)
+    de_min("schurOneMlattice_cost",ctl);
   if isempty(svec_de_exact)
     error("de_min failed!");
   endif
+  print_polynomial(svec_de_exact,"svec_de_exact","%8.4f");
 endif
 [cost_de,k_de,c_de,svec_de]=schurOneMlattice_cost(svec_de_exact);
 printf("cost_de=%8.5f\n",cost_de);
@@ -82,13 +87,16 @@ printf("cost_sd=%8.5f\n",cost_sd);
 h_sd=freqz(n_sd,d_sd,nplot);
 % Find optimised signed-digit lattice coefficients with de_min
 if use_best_de_min_found
-  svec_desd_exact = [ -24,  12,  24, -24,  10,   5,   5,   6,  14,   2,   1 ]';
+  svec_desd_exact = [  15.7888, -22.9648,  30.3922, -28.7847, ... 
+                       20.2764,  -0.4268,  -2.8233,  -4.4347, ... 
+                      -18.0873,  -2.3943,  -0.7735 ];
 else
   [svec_desd_exact,cost_desd_exact,nfeval_desd,conv_desd] = ...
-    de_min("schurOneMlattice_cost",ctl)
+    de_min("schurOneMlattice_cost",ctl);
   if isempty(svec_desd_exact)
     error("de_min SD failed!");
   endif
+  print_polynomial(svec_desd_exact,"svec_desd_exact","%8.4f");
 endif
 [cost_desd,k_desd,c_desd,svec_desd]=schurOneMlattice_cost(svec_desd_exact);
 printf("cost_desd=%8.5f\n",cost_desd);

@@ -1,15 +1,18 @@
 % samin_svcasc_lowpass_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Test case for the simulated-annealing samin algorithm with coefficents of a
 % 5th order elliptic filter implemented as a cascade of 2nd order state variable
 % sections.
 %
 % Notes:
-%  1. Unfortunately samin is not repeatable. The minimum cost found varies.
-%  2. Change use_best_samin_found to false to run samin
+%  1. Unfortunately the siman algorithm is not repeatable.
+%     The minimum cost found varies.
+%  2. Change use_best_siman_found to false to run siman
 
 test_common;
+
+pkg load optim;
 
 delete("samin_svcasc_lowpass_test.diary");
 delete("samin_svcasc_lowpass_test.diary.tmp");
@@ -17,10 +20,10 @@ diary samin_svcasc_lowpass_test.diary.tmp
 
 truncation_test_common;
 
-use_best_samin_found=true
-if use_best_samin_found
+use_best_siman_found=true
+if use_best_siman_found
   warning("Using the best filter found so far. \n\
-Set \"use_best_samin_found\"=false to re-run samin.");
+Set \"use_best_siman_found\"=false to re-run siman.");
 endif
 
 strf="samin_svcasc_lowpass_test";
@@ -52,24 +55,24 @@ printf("svec_rd_digits=%d,svec_rd_adders=%d\n",svec_rd_digits,svec_rd_adders);
 [n_rd,d_rd]=svcasc2tf(a11_rd,a12_rd,a21_rd,a22_rd,b1_rd,b2_rd,c1_rd,c2_rd,dd_rd);
 h_rd=freqz(n_rd,d_rd,nplot);
 % Find optimised state variable coefficients with simulated annealing
-if use_best_samin_found
-  svec_sa_exact = [  21,  25, -24, -20, ... 
-                    -31,  19,  10,  23, ... 
-                     19,  22,  20,  32, ... 
-                      1, -17,  21,   6, ... 
-                      5,  11,   3,  16, ... 
-                     14,   3,  12 ]';
+if use_best_siman_found
+  svec_sa_exact = [  24.3867,  21.9366, -22.1740, -12.0831, ... 
+                     15.8383,  21.1725,  17.3108,  19.9410, ... 
+                     21.7762,  21.8095,  12.5136,  21.0909, ... 
+                      4.0427,   2.1297,  15.9911,  12.1491, ... 
+                      2.3762,  30.2050,  12.7520,  13.4953, ... 
+                      7.6093,   9.2074,   6.5839 ]';
 else
   ub=nshift*ones(length(svec_rd),1);
   lb=-ub;
-  samin_opt=optimset("Display","iter", "Algorithm","samin", "MaxIter",1000, ...
-                     "TolX",max(ub-lb), "lbound",lb,"ubound",ub); 
+  siman_opt=optimset("algorithm","siman","lbound",lb,"ubound",ub); 
   svec_sa_exact=[];
   [svec_sa_exact,cost_sa,conv_sa,details_sa] = ...
-    nonlin_min("svcasc_cost",svec_rd(:),samin_opt);
+    nonlin_min("svcasc_cost",svec_rd(:),siman_opt);
   if isempty(svec_sa_exact)
     error("samin failed!");
   endif
+  print_polynomial(svec_sa_exact,"svec_sa_exact","%8.4f");
 endif
 [cost_sa,a11_sa,a12_sa,a21_sa,a22_sa,b1_sa,b2_sa,c1_sa,c2_sa,dd_sa,svec_sa]=...
   svcasc_cost(svec_sa_exact);
@@ -90,24 +93,24 @@ printf("svec_sd_digits=%d,svec_sd_adders=%d\n",svec_sd_digits,svec_sd_adders);
 h_sd=freqz(n_sd,d_sd,nplot);
 % Find optimised state variable coefficients with
 % simulated annealing and signed-digits
-if use_best_samin_found
-  svec_sasd_exact = [  16,  18, -24,  -6, ... 
-                      -30,  20,  30,  28, ... 
-                       24,  20,  20,  14, ... 
-                        0,  -2,  20,   7, ... 
-                       12,  14,  12,  12, ... 
-                       16,   4,   8];
+if use_best_siman_found
+svec_sasd_exact = [  24.0000,  24.0000, -24.0000, -12.0000, ... 
+                     16.0000,  24.0000,  18.0000,  24.0000, ... 
+                     24.0000,  24.0000,  12.0000,  24.0000, ... 
+                      4.0000,   3.0000,  16.0000,  10.0000, ... 
+                      2.0000,  24.0000,  12.0000,  15.0000, ... 
+                      9.0000,   9.0000,   9.0000 ]';
 else
   ub=nshift*ones(length(svec_sd),1);
   lb=-ub;
-  samin_opt=optimset("Display","iter", "Algorithm","samin", "MaxIter",1000, ...
-                     "TolX",max(ub-lb), "lbound",lb,"ubound",ub); 
+  siman_opt=optimset("algorithm","siman","lbound",lb,"ubound",ub); 
   svec_sasd_exact=[];
   [svec_sasd_exact,cost_sasd,conv_sasd,details_sasd] = ...
-    nonlin_min("svcasc_cost",svec_sd(:),samin_opt);
+    nonlin_min("svcasc_cost",svec_sd(:),siman_opt);
   if isempty(svec_sasd_exact)
     error("samin SD failed!");
   endif
+  print_polynomial(svec_sasd_exact,"svec_sasd_exact","%8.4f");
 endif
 [cost_sasd,a11_sasd,a12_sasd,a21_sasd,a22_sasd,b1_sasd,b2_sasd, ...
   c1_sasd,c2_sasd,dd_sasd,svec_sasd]=svcasc_cost(svec_sasd_exact);
@@ -131,7 +134,7 @@ axis([0 0.5 -60 10]);
 strt=sprintf("5th order elliptic 2nd order cascade: nbits=%d,ndigits=%d",
              nbits,ndigits);
 title(strt);
-legend("exact","round","samin(round)","samin(s-d)");
+legend("exact","round","siman(round)","siman(s-d)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -148,7 +151,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 fpass*1.1 -3 3]);
 title(strt);
-legend("exact","round","samin(round)","samin(s-d)");
+legend("exact","round","siman(round)","siman(s-d)");
 legend("location","northwest");
 legend("boxoff");
 legend("left");

@@ -1,15 +1,17 @@
 % samin_schurOneMPAlattice_lowpass_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Test case for the simulated annealing algorithm with coefficents of
 % a 5th order elliptic filter implemented as the sum of two 
 % all-pass lattice filters in one-multiplier form.
 %
 % Notes:
-%  1. Unfortunately samin is not repeatable. The minimum cost found varies.
-%  2. Change use_best_samin_found to false to run samin
+%  1. Unfortunately siman is not repeatable. The minimum cost found varies.
+%  2. Change use_best_siman_found to false to run siman
 
 test_common;
+
+pkg load optim;
 
 delete("samin_schurOneMPAlattice_lowpass_test.diary");
 delete("samin_schurOneMPAlattice_lowpass_test.diary.tmp");
@@ -17,10 +19,10 @@ diary samin_schurOneMPAlattice_lowpass_test.diary.tmp
 
 truncation_test_common;
 
-use_best_samin_found=true
-if use_best_samin_found
+use_best_siman_found=true
+if use_best_siman_found
   warning("Using the best filter found so far. \n\
-Set \"use_best_samin_found\"=false to re-run samin.");
+Set \"use_best_siman_found\"=false to re-run siman.");
 endif
 
 strf="samin_schurOneMPAlattice_lowpass_test";
@@ -53,16 +55,16 @@ printf("svec_rd_digits=%d,svec_rd_adders=%d\n",svec_rd_digits,svec_rd_adders);
                                   A2k_rd,A2epsilon0,ones(size(A2p0)));
 h_rd=freqz(n_rd,d_rd,nplot);
 % Find optimised rounded lattice coefficients with samin
-if use_best_samin_found
-  svec_sa_exact = [ -26,  20, -25,  29, -19 ];
+if use_best_siman_found
+  svec_sa_exact = [ -26.3028,  20.4907, -25.0999,  29.1703, -19.4704 ]';
 else
   ub=nshift*ones(length(svec_rd),1);
   lb=-ub;
-  samin_opt=optimset("Display","iter", "Algorithm","samin", "MaxIter",1000, ...
-                     "TolX",max(ub-lb), "lbound",lb,"ubound",ub);
+  siman_opt=optimset("algorithm","siman","lbound",lb,"ubound",ub);
   svec_sa_exact=[];
   [svec_sa_exact,cost_sa,conv,details_sa] = ...
-    nonlin_min("schurOneMPAlattice_cost",svec_rd,samin_opt);
+    nonlin_min("schurOneMPAlattice_cost",svec_rd,siman_opt);
+  print_polynomial(svec_sa_exact,"svec_sa_exact","%8.4f");
 endif
 [cost_sa,A1k_sa,A2k_sa,svec_sa]=schurOneMPAlattice_cost(svec_sa_exact);
 printf("cost_sa=%8.5f\n",cost_sa);
@@ -84,16 +86,16 @@ printf("svec_sd_digits=%d,svec_sd_adders=%d\n",svec_sd_digits,svec_sd_adders);
                                   A2k_sd,A2epsilon0,ones(size(A2p0)));
 h_sd=freqz(n_sd,d_sd,nplot);
 % Find optimised signed-digit lattice coefficients with samin
-if use_best_samin_found
-  svec_sasd_exact = [ -24,  10, -24,  28,  -9 ]';
+if use_best_siman_found
+svec_sasd_exact = [ -26.5557,  20.5398, -23.1040,  29.5403, -20.2830 ]';
 else
   ub=nshift*ones(length(svec_sd),1);
   lb=-ub;
-  samin_opt=optimset("Display","iter", "Algorithm","samin", "MaxIter",1000, ...
-                     "TolX",max(ub-lb), "lbound",lb,"ubound",ub);
+  siman_opt=optimset("algorithm","siman","lbound",lb,"ubound",ub);
   svec_sasd_exact=[];
   [svec_sasd_exact,cost_sasd,conv,details_sasd] = ...
-    nonlin_min("schurOneMPAlattice_cost",svec_sd,samin_opt);
+    nonlin_min("schurOneMPAlattice_cost",svec_sd,siman_opt);
+  print_polynomial(svec_sasd_exact,"svec_sasd_exact","%8.4f");
 endif
 [cost_sasd,A1k_sasd,A2k_sasd,svec_sasd]=schurOneMPAlattice_cost(svec_sasd_exact);
 printf("cost_sasd=%8.5f\n",cost_sasd);
@@ -117,7 +119,7 @@ axis([0 0.5 -60 10]);
 strt=sprintf("5th order elliptic OneM PA lattice: nbits=%d,ndigits=%d",
              nbits,ndigits);
 title(strt);
-legend("exact","round","samin(round)","signed-digit","samin(s-d)");
+legend("exact","round","siman(round)","signed-digit","siman(s-d)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -135,7 +137,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 fpass*1.1 -3 3]);
 title(strt);
-legend("exact","round","samin(round)","signed-digit","samin(s-d)");
+legend("exact","round","siman(round)","signed-digit","siman(s-d)");
 legend("location","northwest");
 legend("boxoff");
 legend("left");

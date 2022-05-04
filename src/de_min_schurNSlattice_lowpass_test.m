@@ -1,5 +1,5 @@
 % de_min_schurNSlattice_lowpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Test case for the de_min differential evolution algorithm with coefficents
 % of a 5th order elliptic lattice filter in normalised-scaled form.
@@ -11,6 +11,8 @@
 %  3. Change use_best_de_min_found to false to run de_min
 
 test_common;
+
+pkg load optim;
 
 delete("de_min_schurNSlattice_lowpass_test.diary");
 delete("de_min_schurNSlattice_lowpass_test.diary.tmp");
@@ -52,14 +54,17 @@ printf("cost_rd=%8.5f\n",cost_rd);
 h_rd=freqz(n_rd,d_rd,nplot);
 % Find the optimised rounded lattice coefficients with de_min
 if use_best_de_min_found
-  svec_de_exact = [ -21, -28, -30, -17,  -1, -32, -32, -27, -31,  -7, ...
-                    -17,  31, -31,  29, -19,  12, -17, -20, -12, -20]';
+  svec_de_exact = [  31.9143,  20.2116, -24.8859,   9.3573, ... 
+                     -1.0526,  28.1140,  28.3398, -31.2047, ... 
+                     25.0644,  17.0350, -19.0379,  30.9237, ... 
+                    -27.8181,  28.8039, -20.8389,  12.8637, ... 
+                     11.8179,  20.9889,  -8.9391, -16.1991 ];
 else
   ctl.XVmax=nshift*ones(1,4*length(s00_0));
   ctl.XVmin=-ctl.XVmax;
+  ctl.NP=10*length(ctl.XVmax);
   ctl.constr=1;
   ctl.const=[];
-  ctl.NP=0;
   ctl.F=0.8;
   ctl.CR=0.9;
   ctl.strategy=12;
@@ -69,10 +74,11 @@ else
   ctl.maxnfe=1e6;
   ctl.maxiter=1e3;
   [svec_de_exact,cost_de_exact,nfeval_de,conv_de] = ...
-    de_min("schurNSlattice_cost",ctl)
+    de_min("schurNSlattice_cost",ctl);
   if isempty(svec_de_exact)
     error("de_min failed!");
   endif
+  print_polynomial(svec_de_exact,"svec_de_exact","%8.4f");
 endif
 [cost_de,s10_de,s11_de,s20_de,s00_de,s02_de,s22_de,svec_de] = ...
   schurNSlattice_cost(svec_de_exact);
@@ -91,17 +97,24 @@ printf("cost_sd=%8.5f\n",cost_sd);
 h_sd=freqz(n_sd,d_sd,nplot);
 % Find the optimised signed-digit lattice coefficients with de_min
 if use_best_de_min_found
-  svec_desd_exact = [  28,  16,  16,   8,   1,  -6, -32,  30,  24, -20, ...
-                       24,  31, -32, -28,  -3, -28, -10,  15,  12, -16, ...
-                       24,  20,  15, -24, -24,  24,  -4,  31,  12,  -1 ]';
+  svec_desd_exact = [  31.1336, -22.1643, -28.2791, -11.3497, ... 
+                        0.7380,  -4.9833, -24.5302,  30.8051, ... 
+                       19.3738, -17.4724,  17.8124,  27.2813, ... 
+                      -22.2541, -31.0684, -18.8328,  17.9034, ... 
+                       11.3425,  23.7752,  11.4993,  10.9392, ... 
+                       30.9967,  30.0503,  16.3460, -29.9215, ... 
+                      -24.2435, -31.3875, -11.9789,   3.1591, ... 
+                      -17.8316, -25.2805 ];
 else
   ctl.XVmax=nshift*ones(1,6*length(s00_0));
   ctl.XVmin=-ctl.XVmax;
+  ctl.NP=10*length(ctl.XVmax);
   [svec_desd_exact,cost_desd_exact,nfeval_desd,conv_desd,] = ...
-    de_min("schurNSlattice_cost",ctl)
+    de_min("schurNSlattice_cost",ctl);
   if isempty(svec_desd_exact)
     error("de_min SD failed!");
   endif
+  print_polynomial(svec_desd_exact,"svec_desd_exact","%8.4f");
 endif
 [cost_desd,s10_desd,s11_desd,s20_desd,s00_desd,s02_desd,s22_desd,svec_desd] = ...
   schurNSlattice_cost(svec_desd_exact);

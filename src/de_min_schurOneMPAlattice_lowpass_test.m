@@ -1,5 +1,5 @@
 % de_min_schurOneMPAlattice_lowpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Test case for the differential evolution algorithm with coefficents of
 % a 5th order elliptic filter implemented as the sum of two 
@@ -12,6 +12,8 @@
 %  3. Change use_best_de_min_found to false to run de_min
 
 test_common;
+
+pkg load optim;
 
 delete("de_min_schurOneMPAlattice_lowpass_test.diary");
 delete("de_min_schurOneMPAlattice_lowpass_test.diary.tmp");
@@ -55,13 +57,13 @@ printf("cost_rd=%8.5f\n",cost_rd);
 h_rd=freqz(n_rd,d_rd,nplot);
 % Find optimised rounded lattice coefficients with differential evolution
 if use_best_de_min_found
-  svec_de_exact = [ -26,  20, -25,  29, -19 ]';
+  svec_de_exact = [ -26.0287,  20.2071, -24.9264,  29.0766, -19.0108 ];
 else
   ctl.XVmax=nshift*ones(1,length(A1k0)+length(A2k0));
   ctl.XVmin=-ctl.XVmax;
+  ctl.NP=10*length(ctl.XVmax);
   ctl.constr=1;
   ctl.const=[];
-  ctl.NP=0;
   ctl.F=0.8;
   ctl.CR=0.9;
   ctl.strategy=12;
@@ -71,10 +73,11 @@ else
   ctl.maxnfe=1e6;
   ctl.maxiter=1e3;
   [svec_de_exact,cost_de_exact,nfeval_de,conv_de] = ...
-    de_min("schurOneMPAlattice_cost",ctl)
+    de_min("schurOneMPAlattice_cost",ctl);
   if isempty(svec_de_exact)
     error("de_min failed!");
   endif
+  print_polynomial(svec_de_exact,"svec_de_exact","%8.4f");
 endif
 [cost_de,A1k_de,A2k_de,svec_de]=schurOneMPAlattice_cost(svec_de_exact);
 printf("cost_de=%8.5f\n",cost_de);
@@ -93,13 +96,14 @@ printf("cost_sd=%8.5f\n",cost_sd);
 h_sd=freqz(n_sd,d_sd,nplot);
 % Find optimised signed-digit lattice coefficients with differential evolution
 if use_best_de_min_found
-  svec_desd_exact = [  2, -15, -20,   8,  18 ]';
+  svec_desd_exact = [ -25.4525,  10.0295, -23.9623,  27.7382, -9.2640 ];
 else
   [svec_desd_exact,cost_desd_exact,nfeval_desd,conv_desd] = ...
-    de_min("schurOneMPAlattice_cost",ctl)
+    de_min("schurOneMPAlattice_cost",ctl);
   if isempty(svec_desd_exact)
     error("de_min SD failed!");
   endif
+  print_polynomial(svec_desd_exact,"svec_desd_exact","%8.4f");
 endif
 [cost_desd,A1k_desd,A2k_desd,svec_desd]=schurOneMPAlattice_cost(svec_desd_exact);
 printf("cost_desd=%8.5f\n",cost_desd);

@@ -1,5 +1,5 @@
 % de_min_svcasc_lowpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Test case for the de_min differential evolution algorithm with coefficents
 % of a 5th order elliptic filter implemented as a cascade of 2nd order state
@@ -12,6 +12,8 @@
 %  3. Change use_best_de_min_found to false to run de_min
 
 test_common;
+
+pkg load optim;
 
 delete("de_min_svcasc_lowpass_test.diary");
 delete("de_min_svcasc_lowpass_test.diary.tmp");
@@ -57,15 +59,19 @@ printf("cost_rd=%8.5f\n",cost_rd);
 h_rd=freqz(n_rd,d_rd,nplot);
 % Find optimised state variable coefficients with differential evolution
 if use_best_de_min_found
-  svec_de_exact = [  27,  21,  30, -12,  12, -16,  16,  17,  23,  22, ...
-                      2, -11,   9, -25,  10,  18,  18,  11, -20,  11, ...
-                     15,   8,   4 ]';
+  svec_de_exact = [  22.7977,  23.0241, -14.6113,  18.6578, ... 
+                    -20.6985,  13.4383, -23.8584,  20.8037, ... 
+                     20.6648,  21.6901,  -8.3780,  21.7558, ... 
+                    -15.2276, -13.5731, -14.4033,  13.6960, ... 
+                      0.7839, -16.9549, -10.1575, -13.6444, ... 
+                      4.1261,  17.9528,   7.4589,  21.0263, ... 
+                      2.6500,  -5.1591,  31.2328 ];
 else
   ctl.XVmax=nshift*ones(1,9*length(a11_0));
   ctl.XVmin=-ctl.XVmax;
+  ctl.NP=10*length(ctl.XVmax);
   ctl.constr=1;
   ctl.const=[];
-  ctl.NP=0;
   ctl.F=0.8;
   ctl.CR=0.9;
   ctl.strategy=12;
@@ -76,13 +82,14 @@ else
   ctl.maxiter=1e3;
   try
     [svec_de_exact,cost_de_exact,nfeval_de,conv_de] = ...
-      de_min("svcasc_cost",ctl)
+      de_min("svcasc_cost",ctl);
   catch err
     error("Caught error: %s\n",err.message);
   end_try_catch
   if ~exist("svec_de_exact") || isempty(svec_de_exact)
     error("de_min failed!");
   endif
+  print_polynomial(svec_de_exact,"svec_de_exact","%8.4f");
 endif
 [cost_de,a11_de,a12_de,a21_de,a22_de,b1_de,b2_de,c1_de,c2_de,dd_de,svec_de]=...
   svcasc_cost(svec_de_exact);
@@ -100,19 +107,24 @@ h_sd=freqz(n_sd,d_sd,nplot);
 % Find optimised state variable signed-digit coefficients with differential
 % evolution
 if use_best_de_min_found
-  svec_desd_exact = [  18,  16, -10, -24,  3.5,  18,  20,  24,  28,  20, ...
-                        3, -12, -31,  -2,  -10, -18,  -9,   4, -24, -18, ...
-                       -5,  17,   7 ]';
+  svec_desd_exact = [  28.1129,  20.6398, -30.1464,  15.9308, ... 
+                       27.1540,   6.8794, -27.8147,  14.6071, ... 
+                       22.9622,  20.0151,   5.5506,  28.4896, ... 
+                      -17.0297,  14.3222,  -4.3800,  16.1505, ... 
+                       10.4777,  -8.3257,  -6.1120, -22.9707, ... 
+                        5.9236,  20.4803,   4.0623,   9.1482, ... 
+                       22.2478,  28.1791,   6.6383 ];
 else
   try
     [svec_desd_exact,cost_desd_exact,nfeval_desd,conv_desd,] = ...
-      de_min("svcasc_cost",ctl)
+      de_min("svcasc_cost",ctl);
   catch err
     error("Caught error: %s\n",err.message);
   end_try_catch
   if isempty(svec_desd_exact)
     error("de_min SD failed!");
   endif
+  print_polynomial(svec_desd_exact,"svec_desd_exact","%8.4f");
 endif
 [cost_desd,a11_desd,a12_desd,a21_desd,a22_desd,b1_desd,b2_desd, ...
   c1_desd,c2_desd,dd_desd,svec_desd]=svcasc_cost(svec_desd_exact);
