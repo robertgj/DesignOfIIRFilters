@@ -93,8 +93,9 @@ if ! test -f $LAPACK_ARCHIVE; then
   wget -c $LAPACK_URL -O $LAPACK_ARCHIVE
 fi
 
-ARPACK_ARCHIVE=arpack-ng-master.zip
-ARPACK_URL=https://github.com/opencollab/arpack-ng/archive/master.zip
+ARPACK_VER=${ARPACK_VER:-3.8.0}
+ARPACK_ARCHIVE=arpack-ng-$ARPACK_VER".tar.gz"
+ARPACK_URL=https://github.com/opencollab/arpack-ng/archive/refs/tags/$ARPACK_VER".tar.gz"
 if ! test -f $ARPACK_ARCHIVE; then
   wget -c $ARPACK_URL -O $ARPACK_ARCHIVE
 fi
@@ -307,16 +308,16 @@ rm -f lapack-$LAPACK_VER".patch" lapack-$LAPACK_VER".patch.uue"
 #
 # Build arpack
 #
-rm -Rf arpack-ng-master
-unzip $ARPACK_ARCHIVE
-pushd arpack-ng-master
+rm -Rf arpack-ng-$ARPACK_VER
+tar -xf $ARPACK_ARCHIVE
+pushd arpack-ng-$ARPACK_VER
 sh ./bootstrap
 CFLAGS=$OPTFLAGS CXXFLAGS=$OPTFLAGS FFLAGS=$OPTFLAGS \
 LDFLAGS=-L$OCTAVE_LIB_DIR F77=gfortran \
 ./configure --prefix=$OCTAVE_DIR --with-blas=-lblas --with-lapack=-llapack
 make && make install
 popd
-rm -Rf arpack-ng-master
+rm -Rf arpack-ng-$ARPACK_VER
 
 #
 # Build SuiteSparse
