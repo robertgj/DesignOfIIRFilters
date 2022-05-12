@@ -8917,64 +8917,66 @@ response shown is adjusted for the nominal delay.}
 A differentiator filter has transfer function
 $H_{d}\left(\omega\right)=\frac{\imath\omega}{\pi}e ^{-\imath\omega t_{d}}$.
 The Octave script \emph{iir\_sqp\_slb\_differentiator\_test.m} designs a
-differentiator filter with $U=4,\;V=2,\;M=4,\;Q=2,\;R=2$ and the group-delay
-of the filter is $t_{d}=5.5$ samples. An initial filter was designed by the
-method of \emph{Tarczynski et al} with the Octave script
-\emph{tarczynski\_differentiator\_test.m}. That script designs the transfer
-function polynomials of the filter and it seems to consistently find
-cancelling pairs of zeros and poles. The script gives a filter with
-$U=6,\;V=4,\;M=6,\;Q=2,\;R=2$ and a group-delay of
-$t_{d}=\frac{U+M-1}{2}=5.5$.  After removing the poles and zeros of this
-filter that almost cancel, the initial filter coefficients used in this
-example are, in gain-pole-zero form:
+differentiator filter with the specification:
+\begin{small}
+\verbatiminput{iir_sqp_slb_differentiator_test.spec}
+\end{small}
+The filter is designed with the effect of a fixed zero at $z=1$ removed from the
+desired response. That zero is added back after optimisation is complete.
+\subsubsection{\label{sub:Initial-filter-R2-differentiator}Initial filter for the R=2 differentiator filter}
+An initial filter was designed by the method of \emph{Tarczynski et al} with the
+Octave script \emph{tarczynski\_differentiator\_test.m}. The initial filter
+coefficients, in gain-pole-zero form, are:   
 \begin{small}
 \verbatiminput{iir_sqp_slb_differentiator_test_x0_coef.m}
 \end{small}
-The initial filter amplitude, group delay and phase responses, as calculated
-by the Octave functions \emph{iirA}, \emph{iirT} and \emph{iirP}, are shown in
-Figure~\ref{fig:iir-sqp-slb-differentiator-initial-response}. The script
-defines a ``don't-care'' transition band of $ft=\pm 0.05$ at $\omega=0$ and
-$0.5$. The phase response shown is adjusted for the group-delay by adding
-$w*td$ where $w$ is the angular frequency vector for which the response is
-calculated. As for the Hilbert filter example, the gain coefficient is
-negative, cancelling out the nominal phase of $\frac{3\pi}{2}$.
+Figure~\ref{fig:iir-sqp-slb-differentiator-initial-response} shows the initial
+filter amplitude, phase and group delay responses. The phase response is
+adjusted for the nominal group delay.
+Figure~\ref{fig:iir-sqp-slb-differentiator-initial-pz} shows the pole-zero plot
+of the initial filter.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_initial_x0phase}}
-\caption{Response of the initial $R=2$ differentiator filter calculated by
-\emph{iirA()}, \emph{iirT()} and \emph{iirP()}. The phase response shown is
-adjusted for the nominal delay.}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_initial_x0_response}}
+\caption{Amplitude, phase and group delay responses of the
+  initial $R=2$ differentiator filter. The phase response shown is adjusted for
+  the nominal group delay.}
 \label{fig:iir-sqp-slb-differentiator-initial-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_initial_x0_pz}}
+\caption{Pole-zero plot of the initial $R=2$ differentiator filter.}
+\label{fig:iir-sqp-slb-differentiator-initial-pz}
 \end{figure}
 
 \subsubsection{\label{sub:MMSE-optimisation-of-the-R2-differentiator}MMSE optimisation of the R=2 differentiator filter}
-Figure~\ref{fig:iir-sqp-slb-differentiator-mmse-response} shows the response
-after MMSE optimisation of the initial filter. The phase response shown is
-adjusted for the nominal delay. The relative weights of the amplitude, group
-delay and phase are $W_{ap}=1$, $W_{tp}=0.001$ and $W_{pp}=0.1$ respectively.
+Figure~\ref{fig:iir-sqp-slb-differentiator-mmse-response} shows the amplitude
+response error and the phase and group delay responses after MMSE optimisation
+of the initial filter. A zero near $z=1$ is removed from the initial filter
+and the desired responses are adjusted to allow for a zero at exactly $z=1$. The
+phase response is adjusted for the nominal group delay.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_mmse_x1phase}}
-\caption{Response of the $R=2$ differentiator filter after MMSE
-  optimisation. The phase response shown is adjusted for the nominal delay.}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_mmse_x1_error}}
+\caption{Amplitude response error and phase and group delay responses of the
+  $R=2$ differentiator filter, without a zero at $z=1$, after MMSE optimisation.
+  The phase response shown is adjusted for the nominal group delay.}  
 \label{fig:iir-sqp-slb-differentiator-mmse-response}
 \end{figure}
 \subsubsection{PCLS optimisation of the R=2 differentiator filter}
-Figure~\ref{fig:iir-sqp-slb-differentiator-pcls-response} shows the frequency
-response after PCLS optimisation of the MMSE optimised filter of
-Figure~\ref{fig:iir-sqp-slb-differentiator-mmse-response}.
-Figure~\ref{fig:iir-sqp-slb-differentiator-pcls-amplitude-response} shows the
-amplitude response of the PCLS optimised $R=2$ differentiator filter.
-Figure~\ref{fig:iir-sqp-slb-differentiator-pcls-pz} shows the pole-zero plot
-for the PCLS optimised $R=2$ differentiator filter. The peak-to-peak amplitude,
-group delay and phase ripple outside the transition bands are $A_{r}=\pm
-0.002$, $t_{dr}=\pm 0.1$ samples and $p_{r}=\pm 0.004\pi$ respectively.  The
-PCLS optimised filter coefficients are, in gain-pole-zero form:
+Figure~\ref{fig:iir-sqp-slb-differentiator-pcls-response} shows the amplitude
+response error and the phase and group delay responses after PCLS optimised
+filter. The zero at $z=1$ was added back after PCLS optimisation. The phase
+response is adjusted for the nominal group delay. 
+Figure~\ref{fig:iir-sqp-slb-differentiator-pcls-pz} shows the
+pole-zero plot for the PCLS optimised $R=2$ differentiator filter. Note the
+double poles on the real and imaginary axes. The PCLS optimised filter
+coefficients are, in gain-pole-zero form:
 \begin{small}
 \verbatiminput{iir_sqp_slb_differentiator_test_d1_coef.m}
 \end{small}
-and in transfer function form the numerator and denominator polynomials are,
-respectively
+The numerator and denominator polynomials are:
 \begin{small}
 \verbatiminput{iir_sqp_slb_differentiator_test_N1_coef.m}
 \end{small}
@@ -8982,38 +8984,21 @@ and
 \begin{small}
 \verbatiminput{iir_sqp_slb_differentiator_test_D1_coef.m}
 \end{small}
+
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_pcls_d1phase}}
-\caption{Frequency response of the $R=2$ differentiator filter after PCLS
-  optimisation. The phase response shown is adjusted for the nominal delay.}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_pcls_d1_error}}
+\caption{Amplitude response error and phase and group delay responses of the
+  $R=2$ differentiator filter after PCLS optimisation. The phase response 
+  is adjusted for the nominal group delay.} 
 \label{fig:iir-sqp-slb-differentiator-pcls-response}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_pcls_d1}}
-\caption{Amplitude response of the $R=2$ differentiator filter after PCLS
-  optimisation.}
-\label{fig:iir-sqp-slb-differentiator-pcls-amplitude-response}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_pcls_d1pz}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_pcls_d1_pz}}
 \caption{Pole-zero plot of the $R=2$ differentiator filter after PCLS
   optimisation.}
 \label{fig:iir-sqp-slb-differentiator-pcls-pz}
-\end{figure}
-As a check, Figure~\ref{fig:iir-sqp-slb-differentiator-pcls-freqz} shows the
-response of the PCLS optimised filter calculated with the Octave \emph{freqz}
-and \emph{grpdelay} functions. In this case the amplitude response is plotted
-as a proportion of the frequency.
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_differentiator_test_pcls_d1freqz}}
-\caption{Amplitude response of the $R=2$ differentiator filter after PCLS
-  optimisation. The amplitude response is plotted as a proportion of the
-  frequency.}
-\label{fig:iir-sqp-slb-differentiator-pcls-freqz}
 \end{figure}
 \clearpage
 \subsection{Low-pass differentiator filter}

@@ -7,38 +7,86 @@ delete("iir_sqp_slb_differentiator_test.diary");
 delete("iir_sqp_slb_differentiator_test.diary.tmp");
 diary iir_sqp_slb_differentiator_test.diary.tmp
 
+tic;
 
-tol=2e-4
-ctol=tol
+tol=1e-4
+ctol=tol/20
 maxiter=2000
 verbose=false
+
+% Common strings
+strf="iir_sqp_slb_differentiator_test";
 
 % From tarczynski_differentiator_test.m
 tarczynski_differentiator_test_D0_coef; 
 tarczynski_differentiator_test_N0_coef;
 
 % Find pole-zero form of initial filter 
-R=2;
-D0R=[1;kron(D0(2:end),[zeros(R-1,1);1])];
 [x0,U,V,M,Q]=tf2x(N0,D0);
-td=5.5;
+R=2;
+print_pole_zero(x0,U,V,M,Q,R,"x0");
+print_pole_zero(x0,U,V,M,Q,R,"x0",strcat(strf,"_x0_coef.m"));
+
+% Low-pass differentiator filter specification
+ft1=0.390;ft2=0.455;
+if 1
+  Ar1=0.0040;Ar2=0.0100;Wap=1;td=5.5;tdr=0.0089;Wtp=0.010;pr=0.00067;Wpp=0.010;
+elseif 0
+  Ar1=0.0040;Ar2=0.0040;Wap=1;td=5.5;tdr=0.0600;Wtp=0.001;pr=0.00800;Wpp=0.001;
+endif
+
+% Frequency points
 n=1000;
-ft=0.05;
-ntl=ft*n;
-ntu=n-ntl;
-w=(ntl:ntu)'*pi/n;
+nt1=ceil(ft1*n/0.5)+1;
+nt2=ceil(ft2*n/0.5)+1;
+w=pi*(0:(n-1))'/n;
+
+% Show initial response
+A0=iirA(w,x0,U,V,M,Q,R);
+T0=iirT(w,x0,U,V,M,Q,R);
+P0=iirP(w,x0,U,V,M,Q,R);
+subplot(311);
+plot(w*0.5/pi,A0);
+axis([0 0.5 -0.1 1.1]);
+strI=sprintf("Differentiator initial response:R=%d,td=%g",R,td);
+title(strI);
+ylabel("Amplitude");
+grid("on");
+subplot(312);
+plot(w*0.5/pi,(P0+(w*td))/pi);
+axis([0 0.5 -0.6 -0.4]);
+ylabel("Phase(rad./$\\pi$)");
+grid("on");
+subplot(313);
+plot(w*0.5/pi,T0);
+axis([0 0.5 4 7]);
+ylabel("Delay(samples)");
+xlabel("Frequency");
+grid("on");
+print(strcat(strf,"_initial_x0_response"),"-dpdflatex");
+close
+showZPplot(x0,U,V,M,Q,R,strI);
+print(strcat(strf,"_initial_x0_pz"),"-dpdflatex");
+close
+
+% Remove zero at z=1
+iz=find(abs(x0(2:(1+U))-1)<1e-2);
+if length(iz) ~= 1
+  error("Did not find single zero z==1 in x0!");
+endif
+x0(1+iz)=[];
+U=U-1;
 
 % Coefficient constraints
 dmax=0.05;
 [xl,xu]=xConstraints(U,V,M,Q);
 
-% Amplitude
-wa=w;
-Ad=-wa/pi;
-Ar=0.004;
-Adu=-wa/pi+(Ar/2);
-Adl=-wa/pi-(Ar/2);
-Wap=1;
+% Amplitude with z-1 removed
+wa=w(1:nt2);
+Azm1=[1;2*sin(wa(2:end)/2)];
+Ad=[1;wa(2:end)]./(pi*Azm1);
+Adu=Ad+([Ar1*ones(size(wa(1:nt1)));Ar2*ones(size(wa((nt1+1):end)))]./(2*Azm1));
+Adl=Ad-([Ar1*ones(size(wa(1:nt1)));Ar2*ones(size(wa((nt1+1):end)))]./(2*Azm1));
 Wa=Wap*ones(size(wa));
 
 % Stop-band Amplitude 
@@ -48,56 +96,28 @@ Sdu=[];
 Sdl=[];
 Ws=[];
 
-% Group delay
-wt=w;
-Td=td*ones(size(wt));
-tdr=0.2;
+% Group delay with z-1 removed
+wt=wa;
+Td=(td-0.5)*ones(size(wt));
 Tdu=Td+(tdr/2);
 Tdl=Td-(tdr/2);
-Wtp=0.001;
 Wt=Wtp*ones(size(wt));
 
-% Phase response
-wp=w;
-Pd=-(wp*td)+(3*pi/2);
-pr=0.01; % Phase peak-to-peak ripple as a proportion of pi
+% Phase response with z-1 removed
+wp=wa;
+Pd=pi-(wp*(td-0.5));
 Pdu=Pd+(pr*pi/2);
 Pdl=Pd-(pr*pi/2);
-Wpp=0.1;
 Wp=Wpp*ones(size(wp));
 
-% Common strings
-strM=sprintf("Differentiator %%s:R=%d,ft=%g,td=%g,Wap=%g,Wtp=%g,Wpp=%g", ...
-             R,ft,td,Wap,Wtp,Wpp);
-strP=sprintf("Differentiator %%s:\
-R=%d,ft=%g,Ar=%g,Wap=%g,td=%g,tdr=%g,Wtp=%g,pr=%g,Wpp=%g", ...
-             R,ft,Ar,Wap,td,tdr,Wtp,pr,Wpp);
-strf="iir_sqp_slb_differentiator_test";
-
-% Show initial response and constraints
-A0=iirA(wa,x0,U,V,M,Q,R);
-T0=iirT(wt,x0,U,V,M,Q,R);
-P0=iirP(wp,x0,U,V,M,Q,R);
-subplot(311);
-plot(wa*0.5/pi,A0-Ad);
-axis([0 0.5 -0.01 0.01]);
-strt=sprintf("Differentiator initial response:R=%d,ft=%g,td=%g",R,ft,td);
-title(strt);
-ylabel("Amplitude error");
-grid("on");
-subplot(312);
-plot(wp*0.5/pi,(P0+(wp*td))/pi);
-axis([0 0.5 1.49 1.51]);
-ylabel("Phase(rad./$\\pi$)");
-grid("on");
-subplot(313);
-plot(wt*0.5/pi,T0);
-axis([0 0.5 5.4 5.8]);
-ylabel("Delay(samples)");
-xlabel("Frequency");
-grid("on");
-print(strcat(strf,"_initial_x0phase"),"-dpdflatex");
-close
+% Sanity check
+nchk=[1,2,nt1-1,nt1,nt1+1,nt2-1,nt2];
+printf("nchk=[");printf("%d ",nchk);printf(" ]\n");
+printf("wa(nchk)=[");printf("%g ",wa(nchk)*0.5/pi);printf(" ]\n");
+printf("Ad(nchk)=[");printf("%g ",Ad(nchk));printf(" ]\n");
+printf("Adu(nchk)=[");printf("%g ",Adu(nchk));printf(" ]\n");
+printf("Adl(nchk)=[");printf("%g ",Adl(nchk));printf(" ]\n");
+printf("Wa(nchk)=[");printf("%g ",Wa(nchk));printf(" ]\n");
 
 % MMSE pass
 printf("\nMMSE pass 1:\n");
@@ -115,26 +135,27 @@ Tx1=iirT(wt,x1,U,V,M,Q,R);
 Px1=iirP(wp,x1,U,V,M,Q,R);
 subplot(311);
 plot(wa*0.5/pi,[Ax1 Adl Adu]-Ad)
-axis([0 0.5 -Ar Ar]);
-strt=sprintf(strM,"x1(mmse)");
-title(strt);
+axis([0 0.5 -max(Ar1,Ar2)/2 max(Ar1,Ar2)/2]);
+strM=sprintf("Differentiator MMSE response (with z-1 removed):\
+R=%d,ft1=%g,ft2=%g,td=%g",R,ft1,ft2,(td-0.5));
+title(strM);
 ylabel("Amplitude error");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,([Px1 Pdl Pdu]+(wp*td))/pi);
-axis([0 0.5 1.5-pr 1.5+pr]);
+plot(wp*0.5/pi,([Px1 Pdl Pdu]+(wp*(td-0.5)))/pi);
+axis([0 0.5 1-(2*pr) 1+(2*pr)]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,[Tx1 Tdl Tdu])
-axis([0 0.5 td-tdr td+tdr]);
+axis([0 0.5 (td-0.5)-tdr (td-0.5)+tdr]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
-print(strcat(strf,"_mmse_x1phase"),"-dpdflatex");
+print(strcat(strf,"_mmse_x1_error"),"-dpdflatex");
 close
-showZPplot(x1,U,V,M,Q,R,strt);
-print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
+showZPplot(x1,U,V,M,Q,R,strM);
+print(strcat(strf,"_mmse_x1_pz"),"-dpdflatex");
 close
 
 % PCLS pass
@@ -148,66 +169,89 @@ if feasible == 0
   error("d1 (pcls) infeasible\n");
 endif
 
-Ad1=iirA(wa,d1,U,V,M,Q,R);
-Td1=iirT(wt,d1,U,V,M,Q,R);
-Pd1=iirP(wp,d1,U,V,M,Q,R);
+% Restore z-1
+d1=d1(:);
+d1=[d1(1);1;d1(2:end)];
+U=U+1;
+Ad=w/pi;
+Ar12=[Ar1*ones(size(wa(1:nt1)));Ar2*ones(size(wa((nt1+1):nt2)))];
+Adu=[Ad(1:nt2)+(Ar12/2); +10000*ones(n-nt2,1)];
+Adl=[Ad(1:nt2)-(Ar12/2); -10000*ones(n-nt2,1)];
+Td=td*ones(size(w));
+Tdu=[(Td(1:nt2)+(tdr/2)); (Td((nt2+1):end)+10000)];
+Tdl=[(Td(1:nt2)-(tdr/2)); (Td((nt2+1):end)-10000)];
+Pd=(3*pi/2)-(w*td);
+Pdu=[(Pd(1:nt2)+(pr*pi/2)); (Pd((nt2+1):end)+10000)];
+Pdl=[(Pd(1:nt2)-(pr*pi/2)); (Pd((nt2+1):end)-10000)];
+
+% Calculate response
+Ad1=iirA(w,d1,U,V,M,Q,R);
+Td1=iirT(w,d1,U,V,M,Q,R);
+Pd1=iirP(w,d1,U,V,M,Q,R);
+
+% Plot error response
 subplot(311);
-plot(wa*0.5/pi,[Ad1 Adl Adu]-Ad)
-axis([0 0.5 -Ar +Ar]);
+plot(w*0.5/pi,[Ad1 Adl Adu]-Ad);
+axis([0 0.5 -(max(Ar1,Ar2)/2)-0.001 +(max(Ar1,Ar2)/2)+0.001]);
 grid("on");
-strt=sprintf(strP,"d1(pcls)");
-title(strt);
+strP=sprintf("Differentiator PCLS response:\
+R=%d,ft1=%g,ft2=%g,Ar1=%g,Ar2=%g,td=%g,tdr=%g,pr=%g",
+             R,ft1,ft2,Ar1,Ar2,td,tdr,pr);
+title(strP);
 ylabel("Amplitude error");
 subplot(312);
-plot(wp*0.5/pi,([Pd1 Pdl Pdu]+(wp*td))/pi);
+plot(w(2:end)*0.5/pi,([Pd1(2:end) Pdl(2:end) Pdu(2:end)]+(w(2:end)*td))/pi);
 axis([0 0.5 1.5-pr 1.5+pr]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
-plot(wt*0.5/pi,[Td1 Tdl Tdu])
+plot(w(2:end)*0.5/pi,[Td1(2:end) Tdl(2:end) Tdu(2:end)]);
 axis([0 0.5 td-tdr td+tdr]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
-print(strcat(strf,"_pcls_d1phase"),"-dpdflatex");
+print(strcat(strf,"_pcls_d1_error"),"-dpdflatex");
 close
-plot(w*0.5/pi,abs(Ad1))
-ylabel("Amplitude");
-xlabel("Frequency");
-title(sprintf(strP,"d1"));
-grid("on");
-print(strcat(strf,"_pcls_d1"),"-dpdflatex");
-close
-showZPplot(d1,U,V,M,Q,R,strt);
-print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
-close
-
-% Check results
-[N1,D1]=x2tf(d1,U,V,M,Q,R);
-h=freqz(N1,D1,w);
-t=grpdelay(N1,D1,n);
-t=t(ntl:ntu);
-plot(w*0.5/pi,abs([h Adl Adu])./(w/pi))
-axis([0 0.5 1-0.01 1+0.01]);
-ylabel("Amplitude\n(Adjusted for frequency)");
-xlabel("Frequency");
-title(sprintf(strP,"d1"));
-grid("on");
-print(strcat(strf,"_pcls_d1freqz"),"-dpdflatex");
+showZPplot(d1,U,V,M,Q,R,strP);
+print(strcat(strf,"_pcls_d1_pz"),"-dpdflatex");
 close
 
 % Coefficients
-print_pole_zero(x0,U,V,M,Q,R,"x0",strcat(strf,"_x0_coef.m"));
 print_pole_zero(d1,U,V,M,Q,R,"d1");
 print_pole_zero(d1,U,V,M,Q,R,"d1",strcat(strf,"_d1_coef.m"));
+[N1,D1]=x2tf(d1,U,V,M,Q,R);
 print_polynomial(N1,"N1");
 print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
+% Save specification
+fid=fopen(strcat(strf,".spec"),"wt");
+fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
+fprintf(fid,"U=%d %% Number of real zeros\n",U);
+fprintf(fid,"V=%d %% Number of real poles\n",V);
+fprintf(fid,"M=%d %% Number of complex zeros\n",M);
+fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
+fprintf(fid,"R=%d %% Multiplicity of real and complex poles\n",R);
+fprintf(fid,"n=%d %% Frequency points across the band\n",n);
+fprintf(fid,"ft1=%g %% Amplitude pass band first upper edge\n",ft1);
+fprintf(fid,"Ar1=%g %% Amplitude first peak-to-peak ripple\n",Ar1);
+fprintf(fid,"ft2=%g %% Amplitude pass band second upper edge\n",ft2);
+fprintf(fid,"Ar2=%g %% Amplitude second peak-to-peak ripple\n",Ar2);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"td=%g %% Pass band group delay\n",td);
+fprintf(fid,"tdr=%g %% Pass band group delay peak-to-peak ripple\n",tdr);
+fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
+fprintf(fid,"pr=%4.2f %% Phase pass band peak-to-peak ripple(rad./$\\pi$))\n",
+        pr);
+fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
+fclose(fid);
+
 % Done
+toc;
 save iir_sqp_slb_differentiator_test.mat U V M Q R x0 x1 d1 N1 D1 ...
-     tol ctol n ft Ar td tdr pr
+     tol ctol n ft1 ft2 Ar1 Ar2 Wap td tdr Wtp pr Wpp
 
 diary off
 movefile iir_sqp_slb_differentiator_test.diary.tmp ...
