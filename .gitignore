@@ -326,6 +326,13 @@ allpass_MH2dt.pdf
 allpass_MH3d.pdf
 allpass_MH3dt.pdf
 arbitrary_to_two_in_two_out_allpass.pdf
+benchmark_iirA_freqz_test.mat
+benchmark_iirA_freqz_test_n_10000-inc.pdf
+benchmark_iirA_freqz_test_n_10000.pdf
+benchmark_iirA_freqz_test_n_10000.tex
+benchmark_iirA_freqz_test_n_65536-inc.pdf
+benchmark_iirA_freqz_test_n_65536.pdf
+benchmark_iirA_freqz_test_n_65536.tex
 bincoeff_test_qzsolve-inc.pdf
 bincoeff_test_qzsolve.pdf
 bincoeff_test_qzsolve.tex

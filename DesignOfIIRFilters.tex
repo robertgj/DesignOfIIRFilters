@@ -35064,7 +35064,34 @@ libopenblasp (4 threads)   & 67422  & 10.8                &  38.2 \\
   \emph{lapack} implementations.}
 \label{tab:benchmark-octave-blas-libraries}
 \end{table}
-
+\subsubsection*{Benchmarking \emph{freqz}, \emph{iirA}  and \emph{schurOneMPAlatticeAsq}}
+The Octave script \emph{benchmark\_iirA\_freqz.sh} compares the average execution
+time of the Octave \emph{signal} package function \emph{freqz} (calculated at
+equal frequency intervals with an FFT) and the \emph{iirA} and
+\emph{schurOneMPAlatticeAsq} functions (calculated at arbitrary frequencies with
+matrix multiplication).
+Figure~\ref{fig:benchmark-iirA-freqz-test-10000} shows the mean execution times
+for frequency vectors with a length that is a multiple of $200$.
+Figure~\ref{fig:benchmark-iirA-freqz-test-65536} shows the mean execution times
+for frequency vectors with a length that is a power of $2$.
+\clearpage
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{benchmark_iirA_freqz_test_n_10000}}
+\caption{Mean execution times of \emph{freqz}, \emph{iirA} and
+\emph{schurOneMPAlatticeAsq} for frequency vectors with a length that is a
+multiple of $200$}  
+\label{fig:benchmark-iirA-freqz-test-10000}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{benchmark_iirA_freqz_test_n_65536}}
+\caption{Mean execution times of \emph{freqz}, \emph{iirA} and
+\emph{schurOneMPAlatticeAsq} for frequency vectors with a length that is a
+power of $2$}
+\label{fig:benchmark-iirA-freqz-test-65536}
+\end{figure}
+\clearpage
 \pdfbookmark[0]{Solvers}{solvers}
 \section*{Solvers}
 \pdfbookmark[1]{SeDuMi}{sedumi}
