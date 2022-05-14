@@ -35,7 +35,7 @@ function [P,gradP,hessP]=iirP(w,x,U,V,M,Q,R,tol)
 %   gradP - gradient of phase response at angular frequencies, w,
 %           with respect to x
 %   hessP - hessian of phase response at angular frequencies, w,
-%           with respect to x (NOT IMPLEMENTED!)
+%           with respect to x
 %
 % !!! NOTE WELL !!! :
 %
@@ -49,6 +49,9 @@ function [P,gradP,hessP]=iirP(w,x,U,V,M,Q,R,tol)
 %        del2fdelx1delx1  del2fdelx1delx2  del2fdelx1delx3 ...
 %        del2fdelx2delx1  del2fdelx2delx2  del2fdelx2delx3 ...
 %        etc
+%
+%   4. Do not expect sensible results when w=0 and R0j=1 or
+%      if w=0 and r0j=1 and theta0j=0
 % 
 % References:
 % [1] A.G.Deczky, "Synthesis of recusive digital filters using the
@@ -57,12 +60,8 @@ function [P,gradP,hessP]=iirP(w,x,U,V,M,Q,R,tol)
 % [2] M.A.Richards, "Applications of Deczkys Program for Recursive
 % Filter Design to the Design of Recursive Decimators" IEEE Trans.
 % ASSP-30 No. 5, pp. 811-814, October 1982
-%
-% !!! WARNING !!!
-%   hessP is not implemented
-% !!! WARNING !!!
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -325,12 +324,6 @@ endif
 %
 % Hessian or second derivatives of phase with respect to coefficients
 %
-
-% Note that the phase Hessian contains only diagonal sub-matrices
-% that are constructed in the same way as the amplitude Hessian 
-% diagonal correction matrices ie: a Nw*Qon2 or Nw*Mon2 matrix is
-% converted to an array of Nw*Qon2*Qon2 or Nw*Mon2*Mon2 diagonal
-% matrices
 
 % Initialise
 hessP=zeros(Nw,1+U+V+M+Q,1+U+V+M+Q);

@@ -7970,6 +7970,16 @@ described in Section~\ref{sub:Solution-quasi-Newton-optimisation}.
 For the filter design examples in this section, the filter amplitude, phase and
 group delay responses and their gradients are calculated by the Octave 
 functions \emph{iirA}, \emph{iirP} and \emph{iirT}, respectively.
+
+\textbf{!!! WARNING !!! The \emph{iirA}, \emph{iirP} and \emph{iirT} functions
+do not attempt to handle the discontinuity and non-differentiability of
+the properties of a zero at $z=1$ with $\omega=0$.} In general, I have found
+that this does not cause difficulties but may result in a sub-optimal
+result. The differentiator examples of
+Section~\ref{sec:iir-R-2-differentiator-filter} and   
+Section~\ref{sec:iir-sqp-slb-lowpass-differentiator} assume a zero at $z=1$ and
+design a correction filter that provides the desired combined response.
+
 \subsubsection{Finding an initial IIR filter design}
 The initial IIR filter design must be stable and bear a passing resemblance
 to the desired response. The multi-dimensional IIR filter design 
@@ -8913,7 +8923,7 @@ response shown is adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-hilbert-pcls-pz}
 \end{figure}
 \clearpage
-\subsection{R=2 differentiator filter}
+\subsection{\label{sec:iir-R-2-differentiator-filter}R=2 differentiator filter}
 A differentiator filter has transfer function
 $H_{d}\left(\omega\right)=\frac{\imath\omega}{\pi}e ^{-\imath\omega t_{d}}$.
 The Octave script \emph{iir\_sqp\_slb\_differentiator\_test.m} designs a
@@ -21328,13 +21338,13 @@ so that the group delay due to this zero is
 An alternative derivation of the group delay, $T\left(\omega\right)$, requires
 that the amplitude response, $A\left(\omega\right)$, be positive: 
 \begin{align*}
-H\left(e^{ \imath \omega T}\right) 
+H\left(e^{ \imath \omega}\right) 
  &= A \left( \omega \right) e^{ \imath \Theta \left( \omega \right)} \\
-\ln H\left( e^{ \imath \omega T}\right)
+\ln H\left( e^{ \imath \omega}\right)
  &= \ln A\left( \omega \right) + \imath \Theta \left( \omega \right) \\
 T\left( \omega \right) = - \frac{d}{d\omega} \Theta \left( \omega \right) 
- &= -\Im\left\{ \frac{H^{\prime}\left( e^{ \imath \omega T}\right)}
-   {H \left( e^{ \imath \omega T}\right)} \right\}
+ &= -\Im\left\{ \frac{H^{\prime}\left( e^{ \imath \omega}\right)}
+   {H \left( e^{ \imath \omega}\right)} \right\}
 \end{align*}
 
 In the following, the filter transfer function, $H\left(z\right)$, has
@@ -21687,6 +21697,10 @@ group delay response of an IIR filter and is exercised by the test script
 \emph{iirT\_test.m}. Again, Octave function \emph{iirP} calculates the phase, 
 partial derivatives and Hessian of the phase response of an IIR filter and is
 exercised by the test script \emph{iirP\_test.m}.
+
+\textbf{!!! WARNING !!! The \emph{iirA}, \emph{iirP} and \emph{iirT} functions
+do not attempt to handle the discontinuity and non-differentiability of
+the properties of a zero at $z=1$.}
 
 The Octave function \emph{iirA\_parallel.m} uses the \emph{parcellfun} function
 included in the Octave-Forge \emph{parallel}

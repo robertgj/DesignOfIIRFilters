@@ -53,6 +53,9 @@ function [T,gradT,hessT]=iirT(w,x,U,V,M,Q,R,tol)
 %        del2fdelx1delx1  del2fdelx1delx2  del2fdelx1delx3 ...
 %        del2fdelx2delx1  del2fdelx2delx2  del2fdelx2delx3 ...
 %        etc
+%
+%   4. Do not expect sensible results when w=0 and R0j=1 or
+%      if w=0 and r0j=1 and theta0j=0
 % 
 % References:
 % [1] A.G.Deczky, "Synthesis of recusive digital filters using the
@@ -62,7 +65,7 @@ function [T,gradT,hessT]=iirT(w,x,U,V,M,Q,R,tol)
 % Filter Design to the Design of Recursive Decimators" IEEE Trans.
 % ASSP-30 No. 5, pp. 811-814, October 1982
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -196,13 +199,16 @@ spipR=s*2*pi*kron(0:(R-1),ones(Nw,Qon2));
 kcoswpPsthetap=reshape(cos(wp+sthetap+spipR),Nw,Qon2,R);
 kcoswpMsthetap=reshape(cos(wp-sthetap-spipR),Nw,Qon2,R);
 
-numAR0=1-(2*kR0.*coswZ)+kR02;
+denomAR0=1-(2*kR0.*coswZ)+kR02;
+if any(any(denomAR0 == 0))
+  warning("denomAR0 has zero entry");
+endif
 denomARp=1-(2*kRps.*kcoswP)+kRp2s;
 if any(any(denomARp == 0))
   error("denomARp has zero entry");
 endif
-numAzplus=1-(2*kr0.*cosw0Ptheta0)+kr02;
-numAzminus=1-(2*kr0.*cosw0Mtheta0)+kr02;
+denomAzplus=1-(2*kr0.*cosw0Ptheta0)+kr02;
+denomAzminus=1-(2*kr0.*cosw0Mtheta0)+kr02;
 denomAplus=1-(2*krps.*kcoswpPsthetap)+krp2s;
 if any(any(denomAplus == 0))
   error("denomAplus has zero entry");
@@ -225,8 +231,8 @@ numTzplus=1-(kr0.*cosw0Ptheta0);
 numTzminus=1-(kr0.*cosw0Mtheta0);
 Tp=sum(sum(numTP./denomARp,3),2) + ...
     sum(sum((numTpplus./denomAplus)+(numTpminus./denomAminus),3),2);
-Tz=sum(numTZ./numAR0,2)+...
-    sum((numTzplus./numAzplus)+(numTzminus./numAzminus),2);
+Tz=sum(numTZ./denomAR0,2)+...
+    sum((numTzplus./denomAzplus)+(numTzminus./denomAzminus),2);
 T=-(((V+Q)*R)-U-M)+Tp-Tz;
 
 % Sanity checks on T
@@ -272,8 +278,8 @@ ksinwpMsthetap=reshape(sin(wp-sthetap-spipR),Nw,Qon2,R);
 delTdelK=zeros(Nw,1);
 
 % delT/delR0
-numAR02=numAR0.^2;
-delTdelR0=((2*kR0-(kR02+1).*coswZ)./numAR02);
+denomAR02=denomAR0.^2;
+delTdelR0=((2*kR0-(kR02+1).*coswZ)./denomAR02);
 
 % delT/delRp
 numdelTdelRp=kRps1.*((1+kRp2s).*kcoswP-2*kRps);
@@ -281,14 +287,14 @@ denomARp2=denomARp.^2;
 delTdelRp=s*sum(numdelTdelRp./denomARp2,3);
 
 % delT/delr0
-numAzminus2=numAzminus.^2;
-numAzplus2=numAzplus.^2;
-delTdelr0=((2*kr0-(kr02+1).*cosw0Mtheta0)./numAzminus2)+...
-          ((2*kr0-(kr02+1).*cosw0Ptheta0)./numAzplus2);
+denomAzminus2=denomAzminus.^2;
+denomAzplus2=denomAzplus.^2;
+delTdelr0=((2*kr0-(kr02+1).*cosw0Mtheta0)./denomAzminus2)+...
+          ((2*kr0-(kr02+1).*cosw0Ptheta0)./denomAzplus2);
 
 % delT/deltheta0
-delTdeltheta0=((kr0.*(kr02-1).*sinw0Mtheta0)./numAzminus2)-...
-              ((kr0.*(kr02-1).*sinw0Ptheta0)./numAzplus2);
+delTdeltheta0=((kr0.*(kr02-1).*sinw0Mtheta0)./denomAzminus2)-...
+              ((kr0.*(kr02-1).*sinw0Ptheta0)./denomAzplus2);
 
 % delT/delrp
 numdelTdelrpminus=((krps1+krp3s1).*kcoswpMsthetap)-(2*krp2s1);
@@ -351,10 +357,10 @@ kcoswpMsthetap2=kcoswpMsthetap.^2;
 kcoswpPsthetap2=kcoswpPsthetap.^2;
 
 % Common denominators
-numAR03=numAR0.^3;
+denomAR03=denomAR0.^3;
 denomARp3=denomARp.^3;
-numAzminus3=numAzminus.^3;
-numAzplus3=numAzplus.^3;
+denomAzminus3=denomAzminus.^3;
+denomAzplus3=denomAzplus.^3;
 denomAminus3=denomAminus.^3;
 denomAplus3=denomAplus.^3;
 
@@ -375,7 +381,7 @@ DQon2(1:Qon2,1:(1+Qon2):(Qon2*Qon2))=eye(Qon2);
 % matrices
 
 % hdel2TdelR02
-del2TdelR02=2*(kR03.*coswZ-3*kR02+3*kR0.*coswZ-cos(2*wZ))./numAR03;
+del2TdelR02=2*(kR03.*coswZ-3*kR02+3*kR0.*coswZ-cos(2*wZ))./denomAR03;
 hdel2TdelR02=permute(reshape((del2TdelR02*DU)',U,U,Nw),[3,1,2]);
 
 % hdel2TdelRp2
@@ -393,26 +399,26 @@ hdel2TdelRp2=permute(reshape((del2TdelRp2*DV)',V,V,Nw),[3,1,2]);
 del2Tdelr02=2*(kr03.*cosw0Mtheta0-...
                3*kr02+...
                3*kr0.*cosw0Mtheta0-...
-               cos(2*(w0-theta0)))./numAzminus3;
+               cos(2*(w0-theta0)))./denomAzminus3;
 del2Tdelr02=del2Tdelr02+2*(kr03.*cosw0Ptheta0-...
                            3*kr02+...
                            3*kr0.*cosw0Ptheta0-...
-                           cos(2*(w0+theta0)))./numAzplus3;
+                           cos(2*(w0+theta0)))./denomAzplus3;
 hdel2Tdelr02=permute(reshape((del2Tdelr02*DMon2)',Mon2,Mon2,Nw),[3,1,2]);
 
 % hdel2Tdeltheta0delr0
 del2Tdeltheta0delr0=sinw0Ptheta0.*...
-(kr04+2*kr03.*cosw0Ptheta0-6*kr02+2*kr0.*cosw0Ptheta0+1)./numAzplus3;
+(kr04+2*kr03.*cosw0Ptheta0-6*kr02+2*kr0.*cosw0Ptheta0+1)./denomAzplus3;
 del2Tdeltheta0delr0=del2Tdeltheta0delr0 - sinw0Mtheta0.*...
-(kr04+2*kr03.*cosw0Mtheta0-6*kr02+2*kr0.*cosw0Mtheta0+1)./numAzminus3;
+(kr04+2*kr03.*cosw0Mtheta0-6*kr02+2*kr0.*cosw0Mtheta0+1)./denomAzminus3;
 hdel2Tdeltheta0delr0=...
 permute(reshape((del2Tdeltheta0delr0*DMon2)',Mon2,Mon2,Nw),[3,1,2]);
 
 % hdel2Tdeltheta02
 del2Tdeltheta02=...
-    (kr02.*cosw0Mtheta0-2*kr0.*(1+sinw0Mtheta0.^2)+cosw0Mtheta0)./numAzminus3;
+    (kr02.*cosw0Mtheta0-2*kr0.*(1+sinw0Mtheta0.^2)+cosw0Mtheta0)./denomAzminus3;
 del2Tdeltheta02=del2Tdeltheta02+...
-    (kr02.*cosw0Ptheta0-2*kr0.*(1+sinw0Ptheta0.^2)+cosw0Ptheta0)./numAzplus3;
+    (kr02.*cosw0Ptheta0-2*kr0.*(1+sinw0Ptheta0.^2)+cosw0Ptheta0)./denomAzplus3;
 del2Tdeltheta02=(kr0-kr03).*del2Tdeltheta02;
 hdel2Tdeltheta02=...
 permute(reshape((del2Tdeltheta02*DMon2)',Mon2,Mon2,Nw),[3,1,2]);
@@ -455,25 +461,25 @@ hdel2Tdelthetap2=...
 % hdel2Tdelr02
 del2Tdelr02=2*(kr03.*cosw0Mtheta0-...
                3*kr02+3*kr0.*cosw0Mtheta0-...
-               cos(2*(w0-theta0)))./numAzminus3;
+               cos(2*(w0-theta0)))./denomAzminus3;
 del2Tdelr02=del2Tdelr02+2*(kr03.*cosw0Ptheta0-...
                            3*kr02+3*kr0.*cosw0Ptheta0-...
-                           cos(2*(w0+theta0)))./numAzplus3;
+                           cos(2*(w0+theta0)))./denomAzplus3;
 hdel2Tdelr02=permute(reshape((del2Tdelr02*DMon2)',Mon2,Mon2,Nw),[3,1,2]);
 
 % hdel2Tdeltheta0delr0
 del2Tdeltheta0delr0=sinw0Ptheta0.*...
-(kr04+2*kr03.*cosw0Ptheta0-6*kr02+2*kr0.*cosw0Ptheta0+1)./numAzplus3;
+(kr04+2*kr03.*cosw0Ptheta0-6*kr02+2*kr0.*cosw0Ptheta0+1)./denomAzplus3;
 del2Tdeltheta0delr0=del2Tdeltheta0delr0 - sinw0Mtheta0.*...
-(kr04+2*kr03.*cosw0Mtheta0-6*kr02+2*kr0.*cosw0Mtheta0+1)./numAzminus3;
+(kr04+2*kr03.*cosw0Mtheta0-6*kr02+2*kr0.*cosw0Mtheta0+1)./denomAzminus3;
 hdel2Tdeltheta0delr0=...
 permute(reshape((del2Tdeltheta0delr0*DMon2)',Mon2,Mon2,Nw),[3,1,2]);
 
 % hdel2Tdeltheta02
 del2Tdeltheta02=...
-    (kr02.*cosw0Mtheta0-2*kr0.*(1+sinw0Mtheta0.^2)+cosw0Mtheta0)./numAzminus3;
+    (kr02.*cosw0Mtheta0-2*kr0.*(1+sinw0Mtheta0.^2)+cosw0Mtheta0)./denomAzminus3;
 del2Tdeltheta02=del2Tdeltheta02+...
-    (kr02.*cosw0Ptheta0-2*kr0.*(1+sinw0Ptheta0.^2)+cosw0Ptheta0)./numAzplus3;
+    (kr02.*cosw0Ptheta0-2*kr0.*(1+sinw0Ptheta0.^2)+cosw0Ptheta0)./denomAzplus3;
 del2Tdeltheta02=(kr0-kr03).*del2Tdeltheta02;
 hdel2Tdeltheta02=...
 permute(reshape((del2Tdeltheta02*DMon2)',Mon2,Mon2,Nw),[3,1,2]);
