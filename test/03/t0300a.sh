@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=directFIRsymmetric_bandpass_allocsd_test.m
-depends="directFIRsymmetric_bandpass_allocsd_test.m test_common.m \
+depends="test/directFIRsymmetric_bandpass_allocsd_test.m test_common.m \
 directFIRsymmetric_allocsd_Ito.m \
 directFIRsymmetric_allocsd_Lim.m \
 directFIRsymmetric_slb.m \

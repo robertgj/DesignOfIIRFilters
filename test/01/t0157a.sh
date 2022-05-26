@@ -2,7 +2,7 @@
 
 prog=deczky3a_socp_test.m
 
-depends="deczky3a_socp_test.m \
+depends="test/deczky3a_socp_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 armijo_kim.m \
 fixResultNaN.m iirA.m iirE.m iirT.m iirP.m local_max.m iir_slb.m \

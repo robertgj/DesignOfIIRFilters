@@ -3,7 +3,7 @@
 # See: "oct-file has undefined symbol" : https://savannah.gnu.org/bugs/?60567  
 
 prog=complex_matrix_test.m
-depends=""
+depends="test/"
 
 tmp=/tmp/$$
 here=`pwd`

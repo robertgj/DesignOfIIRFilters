@@ -2,7 +2,7 @@
 
 prog=directFIRnonsymmetric_socp_mmse_test.m
 
-depends="directFIRnonsymmetric_socp_mmse_test.m \
+depends="test/directFIRnonsymmetric_socp_mmse_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 directFIRnonsymmetricAsq.m \
 directFIRnonsymmetricEsq.m \

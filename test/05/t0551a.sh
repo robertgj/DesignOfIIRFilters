@@ -2,7 +2,7 @@
 
 prog=tarczynski_frm_allpass_test.m
 
-depends="tarczynski_frm_allpass_test.m test_common.m print_polynomial.m \
+depends="test/tarczynski_frm_allpass_test.m test_common.m print_polynomial.m \
 print_pole_zero.m frm_lowpass_vectors.m"
 
 tmp=/tmp/$$

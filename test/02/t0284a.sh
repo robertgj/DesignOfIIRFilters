@@ -2,7 +2,7 @@
 
 prog=socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.m
 
-depends="socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.m \
+depends="test/socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.m \
 test_common.m \
 complementaryFIRlatticeAsq.m \
 complementaryFIRlatticeT.m \

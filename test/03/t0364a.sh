@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=Abcd2ng_test.m
-depends="Abcd2ng_test.m test_common.m Abcd2ng.m tf2Abcd.m svf.m KW.m"
+depends="test/Abcd2ng_test.m test_common.m Abcd2ng.m tf2Abcd.m svf.m KW.m"
 
 tmp=/tmp/$$
 here=`pwd`

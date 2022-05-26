@@ -2,7 +2,7 @@
 
 prog=directFIRnonsymmetricEsq_test.m
 
-depends="directFIRnonsymmetricEsq_test.m test_common.m \
+depends="test/directFIRnonsymmetricEsq_test.m test_common.m \
 directFIRnonsymmetricEsq.m directFIRnonsymmetricAsq.m \
 directFIRnonsymmetricT.m directFIRnonsymmetricP.m"
 

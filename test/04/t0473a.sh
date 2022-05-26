@@ -2,7 +2,7 @@
 
 prog=mcclellanFIRdifferentiator_test.m
 
-depends="mcclellanFIRdifferentiator_test.m test_common.m \
+depends="test/mcclellanFIRdifferentiator_test.m test_common.m \
 print_polynomial.m mcclellanFIRdifferentiator.m local_max.m"
 
 tmp=/tmp/$$

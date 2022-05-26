@@ -2,7 +2,7 @@
 
 prog=iir_sqp_slb_lowpass_differentiator_test.m
 
-depends="iir_sqp_slb_lowpass_differentiator_test.m \
+depends="test/iir_sqp_slb_lowpass_differentiator_test.m \
 ../tarczynski_lowpass_differentiator_test_N0_coef.m \
 ../tarczynski_lowpass_differentiator_test_D0_coef.m \
 test_common.m print_polynomial.m print_pole_zero.m \

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=branch_bound_directFIRsymmetric_bandpass_8_nbits_test.m
-depends="branch_bound_directFIRsymmetric_bandpass_8_nbits_test.m \
+depends="test/branch_bound_directFIRsymmetric_bandpass_8_nbits_test.m \
 ../directFIRsymmetric_slb_bandpass_test_hM1_coef.m \
 test_common.m \
 directFIRsymmetricA.m directFIRsymmetricEsqPW.m local_max.m print_polynomial.m \

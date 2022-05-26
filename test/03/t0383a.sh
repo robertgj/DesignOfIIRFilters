@@ -2,7 +2,7 @@
 
 prog=x2zp_test.m
 
-depends="x2zp_test.m test_common.m zp2x.m x2zp.m print_polynomial.m"
+depends="test/x2zp_test.m test_common.m zp2x.m x2zp.m print_polynomial.m"
 
 tmp=/tmp/$$
 here=`pwd`

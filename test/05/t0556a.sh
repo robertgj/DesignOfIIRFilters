@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=samin_schurNSPAlattice_lowpass_test.m
-depends="samin_schurNSPAlattice_lowpass_test.m test_common.m \
+depends="test/samin_schurNSPAlattice_lowpass_test.m test_common.m \
 truncation_test_common.m schurNSPAlattice2tf.m tf2schurNSlattice.m \
 schurNSPAlattice_cost.m Abcd2tf.m flt2SD.m x2nextra.m tf2pa.m \
 print_polynomial.m qroots.m SDadders.m \

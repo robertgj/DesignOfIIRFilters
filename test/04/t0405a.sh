@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=schurOneMAPlattice_frm_allocsd_test.m
-depends="schurOneMAPlattice_frm_allocsd_test.m test_common.m \
+depends="test/schurOneMAPlattice_frm_allocsd_test.m test_common.m \
 schurOneMAPlattice_frm_allocsd_Ito.m \
 schurOneMAPlattice_frm_allocsd_Lim.m bin2SDul.m \
 schurOneMAPlattice_frm.m \

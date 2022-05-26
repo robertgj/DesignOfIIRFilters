@@ -2,7 +2,7 @@
 
 prog=directFIRnonsymmetricAsq_test.m
 
-depends="directFIRnonsymmetricAsq_test.m test_common.m \
+depends="test/directFIRnonsymmetricAsq_test.m test_common.m \
 directFIRnonsymmetricAsq.m"
 
 tmp=/tmp/$$

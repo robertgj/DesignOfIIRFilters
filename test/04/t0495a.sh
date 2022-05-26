@@ -2,7 +2,7 @@
 
 prog=peiFIRantisymmetric_flat_hilbert_test.m
 
-depends="peiFIRantisymmetric_flat_hilbert_test.m test_common.m \
+depends="test/peiFIRantisymmetric_flat_hilbert_test.m test_common.m \
 print_polynomial.m"
 
 tmp=/tmp/$$

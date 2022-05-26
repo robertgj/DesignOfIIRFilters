@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=directFIRhilbert_slb_update_constraints_test.m
-depends="directFIRhilbert_slb_update_constraints_test.m test_common.m \
+depends="test/directFIRhilbert_slb_update_constraints_test.m test_common.m \
 directFIRhilbert_slb_update_constraints.m \
 directFIRhilbertA.m directFIRhilbert_slb_set_empty_constraints.m \
 directFIRhilbert_slb_show_constraints.m \

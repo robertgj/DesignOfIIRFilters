@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=clenshaw_gaussian_test.m
-depends="clenshaw_gaussian_test.m test_common.m print_polynomial.m"
+depends="test/clenshaw_gaussian_test.m test_common.m print_polynomial.m"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -2,7 +2,7 @@
 
 prog=minphase_test.m
 descr="minphase_test.m (octfile)"
-depends="minphase_test.m test_common.m print_polynomial.m direct_form_scale.m \
+depends="test/minphase_test.m test_common.m print_polynomial.m direct_form_scale.m \
 complementaryFIRlatticeFilter.m crossWelch.m qroots.m \
 qzsolve.oct complementaryFIRdecomp.oct minphase.oct"
 

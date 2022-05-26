@@ -2,7 +2,7 @@
 
 prog=zolotarev_zahradnik_degree_test.m
 
-depends="zolotarev_zahradnik_degree_test.m zolotarev_vlcek_unbehauen.m \
+depends="test/zolotarev_zahradnik_degree_test.m zolotarev_vlcek_unbehauen.m \
 test_common.m print_polynomial.m zolotarev_chen_parks.m \
 elliptic_F.m elliptic_E.m jacobi_Eta.m jacobi_Theta.m jacobi_Zeta.m \
 jacobi_theta1.m jacobi_theta1k.m jacobi_theta2.m jacobi_theta2k.m \

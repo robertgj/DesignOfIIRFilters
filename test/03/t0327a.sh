@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=branch_bound_schurOneMPAlattice_lowpass_12_nbits_test.m
-depends="branch_bound_schurOneMPAlattice_lowpass_12_nbits_test.m test_common.m \
+depends="test/branch_bound_schurOneMPAlattice_lowpass_12_nbits_test.m test_common.m \
 ../schurOneMPAlattice_socp_slb_lowpass_test_A1k_coef.m \
 ../schurOneMPAlattice_socp_slb_lowpass_test_A1p_coef.m \
 ../schurOneMPAlattice_socp_slb_lowpass_test_A1epsilon_coef.m \

@@ -2,7 +2,7 @@
 
 prog=decimator_R2_profile_test.m
 
-depends="decimator_R2_profile_test.m iir_slb.m iir_sqp_mmse.m \
+depends="test/decimator_R2_profile_test.m iir_slb.m iir_sqp_mmse.m \
 iir_slb_show_constraints.m iir_slb_update_constraints.m \
 iir_slb_exchange_constraints.m iir_slb_constraints_are_empty.m \
 iir_slb_set_empty_constraints.m armijo_kim.m cl2bp.m \

@@ -2,7 +2,7 @@
 
 prog=directFIRnonsymmetric_socp_slb_bandpass_test.m
 
-depends="directFIRnonsymmetric_socp_slb_bandpass_test.m test_common.m \
+depends="test/directFIRnonsymmetric_socp_slb_bandpass_test.m test_common.m \
 directFIRnonsymmetric_socp_mmse.m directFIRnonsymmetricEsq.m \
 directFIRnonsymmetricAsq.m directFIRnonsymmetricP.m directFIRnonsymmetricT.m \
 directFIRsymmetricA.m directFIRnonsymmetric_slb.m \

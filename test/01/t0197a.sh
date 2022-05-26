@@ -2,7 +2,7 @@
 
 prog=schurNSlattice2Abcd_test.m
 descr="schurNSlattice2Abcd_test.m (mfile)"
-depends="schurNSlattice2Abcd_test.m test_common.m check_octave_file.m \
+depends="test/schurNSlattice2Abcd_test.m test_common.m check_octave_file.m \
 schurNSlattice2Abcd.m tf2schurNSlattice.m Abcd2tf.m \
 schurNSscale.oct schurdecomp.oct schurexpand.oct"
 

@@ -2,7 +2,7 @@
 
 name=schurOneMPAlattice_socp_slb_bandpass_hilbert_test
 prog=$name".m"
-depends="schurOneMPAlattice_socp_slb_bandpass_hilbert_test.m \
+depends="test/schurOneMPAlattice_socp_slb_bandpass_hilbert_test.m \
 ../tarczynski_parallel_allpass_bandpass_hilbert_test_Da0_coef.m \
 ../tarczynski_parallel_allpass_bandpass_hilbert_test_Db0_coef.m \
 test_common.m \

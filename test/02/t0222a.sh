@@ -2,7 +2,7 @@
 
 prog=schurOneMlattice_sqp_slb_hilbert_test.m
 
-depends="schurOneMlattice_sqp_slb_hilbert_test.m test_common.m \
+depends="test/schurOneMlattice_sqp_slb_hilbert_test.m test_common.m \
 ../tarczynski_hilbert_test_N0_coef.m \
 ../tarczynski_hilbert_test_D0_coef.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \

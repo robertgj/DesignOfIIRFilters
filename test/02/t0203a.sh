@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=schurNSPAlatticeAsq_test.m
-depends="schurNSPAlatticeAsq_test.m test_common.m schurNSPAlatticeAsq.m \
+depends="test/schurNSPAlatticeAsq_test.m test_common.m schurNSPAlatticeAsq.m \
 tf2schurNSlattice.m schurNSAPlattice2Abcd.m H2Asq.m H2T.m tf2pa.m \
 schurNSlattice2Abcd.oct schurNSscale.oct schurdecomp.oct schurexpand.oct \
 Abcd2H.oct complex_zhong_inverse.oct spectralfactor.oct qroots.m qzsolve.oct"

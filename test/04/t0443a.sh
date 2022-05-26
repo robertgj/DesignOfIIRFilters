@@ -2,7 +2,7 @@
 
 prog=zolotarevFIRcascade_test.m
 
-depends="zolotarevFIRcascade_test.m zolotarevFIRcascade_Q.m \
+depends="test/zolotarevFIRcascade_test.m zolotarevFIRcascade_Q.m \
 zolotarevFIRcascade_wr2T.m zolotarev_vlcek_unbehauen.m \
 elliptic_F.m jacobi_Eta.m jacobi_Theta.m jacobi_Zeta.m \
 jacobi_theta1.m jacobi_theta1k.m jacobi_theta2.m jacobi_theta2k.m \

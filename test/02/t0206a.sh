@@ -2,7 +2,7 @@
 
 prog=spectralfactor_test.m
 descr="spectralfactor_test.m (mfile)"
-depends="spectralfactor_test.m test_common.m check_octave_file.m \
+depends="test/spectralfactor_test.m test_common.m check_octave_file.m \
 spectralfactor.m print_polynomial.m"
 
 tmp=/tmp/$$

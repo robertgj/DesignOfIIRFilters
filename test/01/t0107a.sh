@@ -2,7 +2,7 @@
 
 prog=spectralfactor_mfile_test.m
 
-depends="spectralfactor_mfile_test.m test_common.m spectralfactor.m"
+depends="test/spectralfactor_mfile_test.m test_common.m spectralfactor.m"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

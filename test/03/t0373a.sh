@@ -2,7 +2,7 @@
 
 prog=ellipMinQ_test.m
 
-depends="ellipMinQ_test.m test_common.m flt2SD.m x2nextra.m bin2SDul.m \
+depends="test/ellipMinQ_test.m test_common.m flt2SD.m x2nextra.m bin2SDul.m \
 bin2SD.oct"
 
 tmp=/tmp/$$

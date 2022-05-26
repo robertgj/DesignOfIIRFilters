@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=allpass_phase_socp_mmse_test.m
-depends="allpass_phase_socp_mmse_test.m allpass_phase_socp_mmse.m \
+depends="test/allpass_phase_socp_mmse_test.m allpass_phase_socp_mmse.m \
 test_common.m tf2x.m zp2x.m tf2a.m a2tf.m iirA.m iirT.m iirP.m fixResultNaN.m \
 allpassP.m allpassT.m print_polynomial.m print_allpass_pole.m aConstraints.m \
 qroots.m qzsolve.oct"

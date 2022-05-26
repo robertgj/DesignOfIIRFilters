@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=johanssonOneMlattice_socp_mmse_test.m
-depends="johanssonOneMlattice_socp_mmse_test.m \
+depends="test/johanssonOneMlattice_socp_mmse_test.m \
 test_common.m \
 johanssonOneMlatticeAzp.m \
 johanssonOneMlatticeEsq.m \

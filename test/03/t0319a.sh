@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=directFIRsymmetricEsq_test.m
-depends="directFIRsymmetricEsq_test.m test_common.m \
+depends="test/directFIRsymmetricEsq_test.m test_common.m \
 directFIRsymmetricA.m directFIRsymmetricEsq.m directFIRsymmetricEsqPW.m"
 
 tmp=/tmp/$$

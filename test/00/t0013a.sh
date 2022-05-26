@@ -2,7 +2,7 @@
 
 prog=sqp_gi_test.m
 
-depends="sqp_gi_test.m test_common.m sqp_common.m goldfarb_idnani.m \
+depends="test/sqp_gi_test.m test_common.m sqp_common.m goldfarb_idnani.m \
 updateWbfgs.m updateWchol.m"
 tmp=/tmp/$$
 here=`pwd`

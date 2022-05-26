@@ -4,7 +4,7 @@ prog=bitflip_test.m
 
 descr="bitflip_test.m (octfile)"
 
-depends="bitflip_test.m test_common.m check_octave_file.m \
+depends="test/bitflip_test.m test_common.m check_octave_file.m \
 tf2schurNSlattice.m truncation_test_common.m print_polynomial.m \
 schurNSlattice_cost.m  schurNSlattice2tf.m Abcd2tf.m x2nextra.m flt2SD.m \
 bitflip.oct bin2SD.oct schurNSscale.oct schurdecomp.oct schurexpand.oct \

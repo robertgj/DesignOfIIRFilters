@@ -2,7 +2,7 @@
 
 prog=SDadders_test.m
 
-depends="SDadders_test.m test_common.m SDadders.m bin2SPT.oct"
+depends="test/SDadders_test.m test_common.m SDadders.m bin2SPT.oct"
 
 tmp=/tmp/$$
 here=`pwd`

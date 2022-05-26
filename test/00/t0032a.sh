@@ -2,7 +2,7 @@
 
 prog=allpassP_test.m
 
-depends="allpassP_test.m \
+depends="test/allpassP_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 allpassP.m a2tf.m"
 tmp=/tmp/$$

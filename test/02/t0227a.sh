@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=bin2SDul_test.m
-depends="bin2SDul_test.m test_common.m bin2SDul.m bin2SD.oct bin2SPT.oct"
+depends="test/bin2SDul_test.m test_common.m bin2SDul.m bin2SD.oct bin2SPT.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.m
-depends="socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.m \
+depends="test/socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.m \
 test_common.m \
 directFIRsymmetric_mmsePW.m \
 directFIRsymmetric_socp_mmsePW.m \

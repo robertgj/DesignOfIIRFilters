@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=butterworth2ndOrderSection_test.m
-depends="butterworth2ndOrderSection_test.m test_common.m"
+depends="test/butterworth2ndOrderSection_test.m test_common.m"
 
 tmp=/tmp/$$
 here=`pwd`

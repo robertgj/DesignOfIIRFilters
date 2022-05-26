@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=complementaryFIRlatticeEsq_test.m
-depends="complementaryFIRlatticeEsq_test.m test_common.m \
+depends="test/complementaryFIRlatticeEsq_test.m test_common.m \
 complementaryFIRlatticeEsq.m complementaryFIRlatticeAsq.m \
 complementaryFIRlatticeT.m complementaryFIRlatticeP.m \
 complementaryFIRlattice2Abcd.m complementaryFIRlattice.m direct_form_scale.m \

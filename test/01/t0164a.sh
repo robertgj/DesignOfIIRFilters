@@ -2,7 +2,7 @@
 
 prog=iir_socp_slb_bandpass_test.m
 
-depends="iir_socp_slb_bandpass_test.m test_common.m \
+depends="test/iir_socp_slb_bandpass_test.m test_common.m \
 ../tarczynski_bandpass_test_x_coef.m \
 print_polynomial.m print_pole_zero.m \
 iir_slb.m iir_socp_mmse.m iir_slb_show_constraints.m \

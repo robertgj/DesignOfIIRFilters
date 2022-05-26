@@ -2,7 +2,7 @@
 
 prog=butt6OneMSD_test.m
 
-depends="butt6OneMSD_test.m test_common.m print_polynomial.m \
+depends="test/butt6OneMSD_test.m test_common.m print_polynomial.m \
 schurOneMscale.m tf2schurOneMlattice.m schurOneMlatticeFilter.m \
 flt2SD.m x2nextra.m crossWelch.m tf2pa.m qroots.m p2n60.m \
 qzsolve.oct spectralfactor.oct schurexpand.oct schurdecomp.oct bin2SD.oct"

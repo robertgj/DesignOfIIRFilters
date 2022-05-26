@@ -2,7 +2,7 @@
 
 prog=butt6NSPABP_test.m
 
-depends="butt6NSPABP_test.m test_common.m tf2schurNSlattice.m \
+depends="test/butt6NSPABP_test.m test_common.m tf2schurNSlattice.m \
 schurNSlatticeNoiseGain.m schurNSlatticeFilter.m \
 schurNSlatticeRetimedNoiseGain.m phi2p.m tfp2g.m Abcd2tf.m \
 flt2SD.m x2nextra.m KW.m crossWelch.m tf2pa.m print_polynomial.m \

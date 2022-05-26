@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=directFIRhilbertEsqPW_test.m
-depends="directFIRhilbertEsqPW_test.m test_common.m \
+depends="test/directFIRhilbertEsqPW_test.m test_common.m \
 directFIRhilbertEsqPW.m directFIRhilbertA.m"
 
 tmp=/tmp/$$

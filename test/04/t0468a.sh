@@ -2,7 +2,7 @@
 
 prog=directFIRsymmetricA_test.m
 
-depends="directFIRsymmetricA_test.m test_common.m directFIRsymmetricA.m"
+depends="test/directFIRsymmetricA_test.m test_common.m directFIRsymmetricA.m"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -2,7 +2,7 @@
 
 prog=tarczynski_frm_hilbert_test.m
 
-depends="tarczynski_frm_hilbert_test.m test_common.m print_polynomial.m"
+depends="test/tarczynski_frm_hilbert_test.m test_common.m print_polynomial.m"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

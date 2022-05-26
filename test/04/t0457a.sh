@@ -2,7 +2,7 @@
 
 prog=hofstetterFIRsymmetric_bandpass_test.m
 
-depends="hofstetterFIRsymmetric_bandpass_test.m test_common.m \
+depends="test/hofstetterFIRsymmetric_bandpass_test.m test_common.m \
 print_polynomial.m hofstetterFIRsymmetric.m local_max.m lagrange_interp.m \
 xfr2tf.m directFIRsymmetricA.m"
 

@@ -2,7 +2,7 @@
 
 prog=schurOneMAPlattice2H_test.m
 descr="schurOneMAPlattice2H_test.m (octfile)"
-depends="schurOneMAPlattice2H_test.m test_common.m check_octave_file.m \
+depends="test/schurOneMAPlattice2H_test.m test_common.m check_octave_file.m \
 tf2schurOneMlattice.m schurOneMscale.m tf2pa.m \
 schurOneMAPlattice2H.oct schurOneMlattice2Abcd.oct spectralfactor.oct \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct qroots.m qzsolve.oct"

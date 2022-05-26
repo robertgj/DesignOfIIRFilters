@@ -2,7 +2,7 @@
 
 prog=simplex_schurOneMPAlattice_lowpass_test.m
 
-depends="simplex_schurOneMPAlattice_lowpass_test.m test_common.m \
+depends="test/simplex_schurOneMPAlattice_lowpass_test.m test_common.m \
 print_polynomial.m \
 tf2schurOneMlattice.m truncation_test_common.m schurOneMPAlattice2tf.m \
 schurOneMPAlattice_cost.m schurOneMscale.m flt2SD.m x2nextra.m tf2pa.m \

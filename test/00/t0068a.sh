@@ -2,7 +2,7 @@
 
 prog=iir_frm_allpass_slb_update_constraints_test.m 
 
-depends="iir_frm_allpass_slb_update_constraints_test.m test_common.m \
+depends="test/iir_frm_allpass_slb_update_constraints_test.m test_common.m \
 iir_frm_allpass_slb_update_constraints.m \
 iir_frm_allpass_slb_show_constraints.m \
 iir_frm_allpass_struct_to_vec.m iir_frm_allpass_vec_to_struct.m \

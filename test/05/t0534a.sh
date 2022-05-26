@@ -2,7 +2,7 @@
 
 prog=yalmip_dual_test.m
 
-depends="yalmip_dual_test.m test_common.m"
+depends="test/yalmip_dual_test.m test_common.m"
 
 tmp=/tmp/$$
 here=`pwd`

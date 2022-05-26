@@ -2,7 +2,7 @@
 
 prog=butt3OneMSV_test.m
 
-depends="butt3OneMSV_test.m test_common.m \
+depends="test/butt3OneMSV_test.m test_common.m \
 schurexpand.oct schurdecomp.oct bin2SD.oct x2nextra.m flt2SD.m \
 schurOneMscale.m tf2schurOneMlattice.m schurOneMlatticeNoiseGain.m \
 schurOneMlattice2Abcd.oct schurOneMlatticeRetimedNoiseGain.m \

@@ -1,8 +1,8 @@
 #!/bin/sh
 
 prog=socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test.m
-depends=\
-"socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test.m \
+depends="\
+test/socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test.m \
 ../iir_sqp_slb_lowpass_differentiator_test_d1_coef.m \
 test_common.m \
 schurOneMlatticeAsq.m \

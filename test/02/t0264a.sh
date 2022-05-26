@@ -2,7 +2,7 @@
 
 prog=schurOneMAPlattice_frm_hilbert_slb_exchange_constraints_test.m
 
-depends="schurOneMAPlattice_frm_hilbert_slb_exchange_constraints_test.m \
+depends="test/schurOneMAPlattice_frm_hilbert_slb_exchange_constraints_test.m \
 test_common.m schurOneMAPlattice_frm_hilbert_slb_exchange_constraints.m \
 schurOneMAPlattice_frm_hilbert_slb_set_empty_constraints.m \
 schurOneMAPlattice_frm_hilbert_slb_show_constraints.m \

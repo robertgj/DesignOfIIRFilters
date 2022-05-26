@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=surmaahoFAvLogNewton_test.m
-depends="surmaahoFAvLogNewton_test.m test_common.m surmaahoFAvLogNewton.m \
+depends="test/surmaahoFAvLogNewton_test.m test_common.m surmaahoFAvLogNewton.m \
 local_max.m print_polynomial.m tf2a.m x2zp.m zp2x.m a2p.m iirP.m \
 aConstraints.m allpass_phase_socp_mmse.m allpassP.m \
 qroots.m qzsolve.oct"

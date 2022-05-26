@@ -2,7 +2,7 @@
 
 prog=local_max_test.m
 
-depends="local_max_test.m \
+depends="test/local_max_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 local_max.m"
 tmp=/tmp/$$

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=schurOneMlattice_sqp_mmse_test.m
-depends="schurOneMlattice_sqp_mmse_test.m test_common.m \
+depends="test/schurOneMlattice_sqp_mmse_test.m test_common.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_sqp_mmse.m schurOneMlattice2Abcd.oct schurOneMscale.m \

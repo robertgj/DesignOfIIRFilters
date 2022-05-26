@@ -4,7 +4,7 @@ prog=schurOneMlattice2Abcd_test.m
 
 descr="schurOneMlattice2Abcd_test.m (mfile)"
 
-depends="schurOneMlattice2Abcd_test.m test_common.m check_octave_file.m \
+depends="test/schurOneMlattice2Abcd_test.m test_common.m check_octave_file.m \
 schurOneMlattice2Abcd.m tf2schurOneMlattice.m Abcd2tf.m schurOneMscale.m \
 schurdecomp.oct schurexpand.oct reprand.oct"
 

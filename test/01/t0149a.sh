@@ -2,7 +2,7 @@
 
 prog=pq2svcasc_test.m
 
-depends="pq2svcasc_test.m test_common.m \
+depends="test/pq2svcasc_test.m test_common.m \
 pq2svcasc.m butter2pq.m svcasc2tf.m KW.m optKW2.m"
 
 tmp=/tmp/$$

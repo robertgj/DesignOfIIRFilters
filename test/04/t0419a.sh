@@ -2,7 +2,7 @@
 
 prog=elliptic_F_test.m
 
-depends="elliptic_F_test.m test_common.m elliptic_F.m carlson_RF.m"
+depends="test/elliptic_F_test.m test_common.m elliptic_F.m carlson_RF.m"
 
 tmp=/tmp/$$
 here=`pwd`

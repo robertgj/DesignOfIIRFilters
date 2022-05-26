@@ -4,7 +4,7 @@ prog=schurexpand_test.m
 
 descr="schurexpand_test.m (octfile)"
 
-depends="schurexpand_test.m test_common.m check_octave_file.m \
+depends="test/schurexpand_test.m test_common.m check_octave_file.m \
 schurdecomp.oct schurexpand.oct"
 
 tmp=/tmp/$$

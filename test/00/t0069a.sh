@@ -2,7 +2,7 @@
 
 prog=iir_frm_allpass_socp_slb_test.m
 
-depends="iir_frm_allpass_socp_slb_test.m test_common.m \
+depends="test/iir_frm_allpass_socp_slb_test.m test_common.m \
 ../tarczynski_frm_allpass_test_r1_coef.m \
 ../tarczynski_frm_allpass_test_aa1_coef.m \
 ../tarczynski_frm_allpass_test_ac1_coef.m \

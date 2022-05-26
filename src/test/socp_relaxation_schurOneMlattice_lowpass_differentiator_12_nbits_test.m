@@ -274,7 +274,7 @@ plot(wa*0.5/pi,(Azm1.*sqrt(Asq_kc0))-Ad0,"linestyle","-", ...
      wa*0.5/pi,(Azm1.*sqrt(Asq_kc0_sd))-Ad0,"linestyle","--", ...
      wa*0.5/pi,(Azm1.*sqrt(Asq_kc_min))-Ad0,"linestyle","-.")
 ylabel("Amplitude error");
-strt=sprintf("Low-pass differentiaor filter:fap=%g,Arp=%g,tds=%g,pr=%g",
+strt=sprintf("Low-pass differentiator filter:fap=%g,Arp=%g,tds=%g,pr=%g",
              fap,Arp,tds,pr);
 title(strt);
 axis([0  0.5 -0.01 0.01]);

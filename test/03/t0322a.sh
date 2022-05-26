@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=tarczynski_parallel_allpass_bandpass_test.m
-depends="tarczynski_parallel_allpass_bandpass_test.m WISEJ_PAB.m \
+depends="test/tarczynski_parallel_allpass_bandpass_test.m WISEJ_PAB.m \
 test_common.m print_polynomial.m print_pole_zero.m"
 tmp=/tmp/$$
 here=`pwd`

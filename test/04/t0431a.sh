@@ -2,7 +2,7 @@
 
 prog=vaidyanathan_trick_test.m
 
-depends="vaidyanathan_trick_test.m test_common.m print_polynomial.m"
+depends="test/vaidyanathan_trick_test.m test_common.m print_polynomial.m"
 
 tmp=/tmp/$$
 here=`pwd`

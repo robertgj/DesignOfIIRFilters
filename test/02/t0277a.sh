@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=complementaryFIRlattice_bandpass_test.m
-depends="complementaryFIRlattice_bandpass_test.m test_common.m \
+depends="test/complementaryFIRlattice_bandpass_test.m test_common.m \
 print_polynomial.m x2tf.m complementaryFIRlattice.m \
 complementaryFIRlatticeFilter.m crossWelch.m \
 complementaryFIRlattice2Abcd.m Abcd2tf.m KW.m \

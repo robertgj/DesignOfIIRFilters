@@ -13,7 +13,7 @@
 main ()
 {
     # Initialise
-    local max_tasks=6
+    local max_tasks=8
     local errors=0
     echo "test_result = [ " > $outfile
     

@@ -2,7 +2,7 @@
 
 prog=schur_retimed_test.m
 
-depends="schur_retimed_test.m test_common.m \
+depends="test/schur_retimed_test.m test_common.m \
 schurdecomp.oct schurNSscale.oct schurexpand.oct \
 tf2Abcd.m Abcd2tf.m WISEJ.m tf2schurNSlattice.m KW.m svf.m crossWelch.m \
 p2n60.m qroots.m qzsolve.oct"

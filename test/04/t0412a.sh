@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=branch_bound_directFIRhilbert_bandpass_12_nbits_test.m
-depends="branch_bound_directFIRhilbert_bandpass_12_nbits_test.m \
+depends="test/branch_bound_directFIRhilbert_bandpass_12_nbits_test.m \
 ../directFIRhilbert_bandpass_slb_test_hM2_coef.m \
 test_common.m \
 directFIRhilbertA.m directFIRhilbertEsqPW.m directFIRhilbert_allocsd_Ito.m \

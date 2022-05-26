@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=schurOneMlattice_slb_update_constraints_test.m
-depends="schurOneMlattice_slb_update_constraints_test.m test_common.m \
+depends="test/schurOneMlattice_slb_update_constraints_test.m test_common.m \
 schurOneMlattice_slb_update_constraints.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
 schurOneMlatticeEsq.m \

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=dumitrescu_MA_estimation_test.m
-depends="dumitrescu_MA_estimation_test.m test_common.m \
+depends="test/dumitrescu_MA_estimation_test.m test_common.m \
 directFIRsymmetricA.m print_polynomial.m minphase.m x2tf.m qroots.m \
 qzsolve.oct"
 

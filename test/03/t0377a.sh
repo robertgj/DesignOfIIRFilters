@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=saramakiFBv_RThetaCascade_test.m
-depends="saramakiFBv_RThetaCascade_test.m test_common.m \
+depends="test/saramakiFBv_RThetaCascade_test.m test_common.m \
 saramakiFBv_RThetaCascade.m"
 
 tmp=/tmp/$$

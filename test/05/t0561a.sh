@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=de_min_schurNSPAlattice_lowpass_test.m
-depends="de_min_schurNSPAlattice_lowpass_test.m test_common.m \
+depends="test/de_min_schurNSPAlattice_lowpass_test.m test_common.m \
 truncation_test_common.m schurNSPAlattice2tf.m tf2schurNSlattice.m \
 schurNSPAlattice_cost.m Abcd2tf.m flt2SD.m x2nextra.m tf2pa.m \
 print_polynomial.m SDadders.m qroots.m \

@@ -2,7 +2,7 @@
 
 prog=print_pole_zero_test.m
 
-depends="print_pole_zero_test.m test_common.m print_pole_zero.m"
+depends="test/print_pole_zero_test.m test_common.m print_pole_zero.m"
 
 tmp=/tmp/$$
 here=`pwd`

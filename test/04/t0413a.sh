@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.m
-depends="sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.m \
+depends="test/sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.m \
 ../directFIRhilbert_bandpass_slb_test_hM2_coef.m \
 test_common.m \
 sdp_relaxation_directFIRhilbert_mmsePW.m \

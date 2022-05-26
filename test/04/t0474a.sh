@@ -2,7 +2,7 @@
 
 prog=mcclellanFIRantisymmetric_flat_differentiator_test.m
 
-depends="mcclellanFIRantisymmetric_flat_differentiator_test.m test_common.m \
+depends="test/mcclellanFIRantisymmetric_flat_differentiator_test.m test_common.m \
 mcclellanFIRantisymmetric_flat_differentiator.m local_max.m print_polynomial.m"
 
 tmp=/tmp/$$

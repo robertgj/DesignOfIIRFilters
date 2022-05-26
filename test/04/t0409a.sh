@@ -2,7 +2,7 @@
 
 prog=svseries_test.m
 
-depends="svseries_test.m test_common.m svf.m reprand.oct"
+depends="test/svseries_test.m test_common.m svf.m reprand.oct"
 
 tmp=/tmp/$$
 here=`pwd`

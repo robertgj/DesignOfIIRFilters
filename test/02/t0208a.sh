@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=goldensection_test.m
-depends="goldensection_test.m test_common.m goldstein.m armijo.m \
+depends="test/goldensection_test.m test_common.m goldstein.m armijo.m \
 goldensection.m quadratic.m"
 
 tmp=/tmp/$$

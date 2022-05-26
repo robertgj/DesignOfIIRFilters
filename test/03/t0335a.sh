@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=sdp_relaxation_schurOneMlattice_bandpass_12_nbits_test.m
-depends="sdp_relaxation_schurOneMlattice_bandpass_12_nbits_test.m \
+depends="test/sdp_relaxation_schurOneMlattice_bandpass_12_nbits_test.m \
 ../schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m \
 ../schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m \
 ../schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m \

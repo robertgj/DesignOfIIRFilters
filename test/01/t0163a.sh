@@ -4,7 +4,7 @@ prog=labudde_test.m
 
 descr="labudde_test.m (octfile)"
 
-depends="labudde_test.m labudde.oct test_common.m check_octave_file.m tf2Abcd.m"
+depends="test/labudde_test.m labudde.oct test_common.m check_octave_file.m tf2Abcd.m"
 
 tmp=/tmp/$$
 here=`pwd`

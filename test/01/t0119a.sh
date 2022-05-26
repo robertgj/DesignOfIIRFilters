@@ -2,7 +2,7 @@
 
 prog=freq_transform_structure_test.m
 
-depends="freq_transform_structure_test.m test_common.m print_polynomial.m \
+depends="test/freq_transform_structure_test.m test_common.m print_polynomial.m \
 WISEJ.m tfp2g.m tf2Abcd.m phi2p.m"
 
 tmp=/tmp/$$

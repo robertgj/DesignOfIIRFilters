@@ -2,7 +2,7 @@
 
 prog=vlcekFIRsymmetric_flat_lowpass_test.m
 
-depends="vlcekFIRsymmetric_flat_lowpass_test.m test_common.m \
+depends="test/vlcekFIRsymmetric_flat_lowpass_test.m test_common.m \
 vlcekFIRsymmetric_flat_lowpass.m herrmannFIRsymmetric_flat_lowpass.m \
 directFIRsymmetricA.m print_polynomial.m"
 

@@ -2,7 +2,7 @@
 
 prog=allpass2ndOrderCascade_test.m
 
-depends="allpass2ndOrderCascade_test.m \
+depends="test/allpass2ndOrderCascade_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 allpass2ndOrderCascade.m casc2tf.m"
 tmp=/tmp/$$

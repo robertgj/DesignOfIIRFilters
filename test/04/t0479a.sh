@@ -2,7 +2,7 @@
 
 prog=nuevoFIRsymmetric_flat_bandpass_test.m
 
-depends="nuevoFIRsymmetric_flat_bandpass_test.m test_common.m \
+depends="test/nuevoFIRsymmetric_flat_bandpass_test.m test_common.m \
 herrmannFIRsymmetric_flat_lowpass.m directFIRsymmetricA.m print_polynomial.m"
 
 tmp=/tmp/$$

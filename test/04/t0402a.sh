@@ -2,9 +2,11 @@
 
 prog=schurOneMAPlattice_frm_socp_mmse_test.m
 
-depends=" schurOneMAPlattice_frm_socp_mmse_test.m test_common.m \
+depends="test/schurOneMAPlattice_frm_socp_mmse_test.m \
+test_common.m \
 schurOneMAPlattice_frm_socp_mmse.m \
-schurOneMAPlattice_frm_socp_slb_plot.m schurOneMAPlattice2tf.m \
+schurOneMAPlattice_frm_socp_slb_plot.m \
+schurOneMAPlattice2tf.m \
 schurOneMAPlattice_frm_slb_set_empty_constraints.m \
 schurOneMAPlattice_frm.m \
 schurOneMAPlattice_frmEsq.m schurOneMAPlattice_frmT.m \

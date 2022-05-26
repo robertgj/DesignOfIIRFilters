@@ -2,7 +2,7 @@
 
 prog=resolvent_test.m
 descr="resolvent_test.m (octfile)"
-depends="resolvent_test.m test_common.m resolvent.m \
+depends="test/resolvent_test.m test_common.m resolvent.m \
 reprand.oct tf2schurOneMlattice.m schurOneMlattice2Abcd.oct Abcd2tf.m \
 schurOneMscale.m zhong_inverse.m complex_zhong_inverse.oct \
 complex_lower_hessenberg_inverse.oct schurdecomp.oct schurexpand.oct"

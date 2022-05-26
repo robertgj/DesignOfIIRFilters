@@ -2,7 +2,7 @@
 
 prog=directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.m
 
-depends="directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.m test_common.m \
+depends="test/directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.m test_common.m \
 print_polynomial.m local_max.m lagrange_interp.m xfr2tf.m \
 hofstetterFIRsymmetric.m \
 directFIRnonsymmetricAsq.m \

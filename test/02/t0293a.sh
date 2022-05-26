@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.m
-depends="socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.m \
+depends="test/socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.m \
 ../schurOneMPAlattice_socp_slb_lowpass_test_A1k_coef.m \
 ../schurOneMPAlattice_socp_slb_lowpass_test_A1epsilon_coef.m \
 ../schurOneMPAlattice_socp_slb_lowpass_test_A1p_coef.m \

@@ -2,7 +2,7 @@
 
 prog=reprand_test.m
 
-depends="reprand_test.m test_common.m check_octave_file.m reprand.oct"
+depends="test/reprand_test.m test_common.m check_octave_file.m reprand.oct"
 
 tmp=/tmp/$$
 here=`pwd`

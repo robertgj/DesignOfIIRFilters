@@ -2,7 +2,7 @@
 
 prog=lanczos_tridiag_test.m
 
-depends="lanczos_tridiag_test.m test_common.m lanczos_tridiag.m \
+depends="test/lanczos_tridiag_test.m test_common.m lanczos_tridiag.m \
 Abcd2tf.m tf2Abcd.m"
 
 tmp=/tmp/$$

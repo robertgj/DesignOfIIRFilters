@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m
-depends="sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m \
+depends="test/sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m \
 test_common.m \
 sdp_relaxation_schurOneMPAlattice_mmse.m \
 schurOneMPAlattice_socp_mmse.m \

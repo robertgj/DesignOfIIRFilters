@@ -2,7 +2,7 @@
 
 prog=branch_bound_schurOneMlattice_bandpass_6_nbits_test.m
 
-depends="branch_bound_schurOneMlattice_bandpass_6_nbits_test.m test_common.m \
+depends="test/branch_bound_schurOneMlattice_bandpass_6_nbits_test.m test_common.m \
 ../schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m \
 ../schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m \
 ../schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m \

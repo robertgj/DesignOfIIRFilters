@@ -2,7 +2,7 @@
 
 prog=jacobi_theta_test.m
 
-depends="jacobi_theta_test.m test_common.m carlson_RF.m \
+depends="test/jacobi_theta_test.m test_common.m carlson_RF.m \
 jacobi_theta1.m jacobi_theta2.m jacobi_theta3.m jacobi_theta4.m"
 
 tmp=/tmp/$$

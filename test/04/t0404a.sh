@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=branch_bound_schurOneMAPlattice_frm_12_nbits_test.m
-depends="branch_bound_schurOneMAPlattice_frm_12_nbits_test.m \
+depends="test/branch_bound_schurOneMAPlattice_frm_12_nbits_test.m \
 ../schurOneMAPlattice_frm_socp_slb_test_k1_coef.m \
 ../schurOneMAPlattice_frm_socp_slb_test_epsilon1_coef.m \
 ../schurOneMAPlattice_frm_socp_slb_test_u1_coef.m \

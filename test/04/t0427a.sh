@@ -2,7 +2,7 @@
 
 prog=zolotarev_chen_parks_test.m
 
-depends="zolotarev_chen_parks_test.m zolotarev_chen_parks.m test_common.m \
+depends="test/zolotarev_chen_parks_test.m zolotarev_chen_parks.m test_common.m \
 elliptic_F.m elliptic_E.m jacobi_Eta.m jacobi_Zeta.m \
 jacobi_theta1.m jacobi_theta1k.m jacobi_theta2.m jacobi_theta2k.m \
 jacobi_theta3.m jacobi_theta3k.m jacobi_theta4.m jacobi_theta4k.m \

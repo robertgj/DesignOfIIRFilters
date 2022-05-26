@@ -2,7 +2,7 @@
 
 prog=svf_mimo_test.m
 
-depends="svf_mimo_test.m test_common.m svf.m reprand.oct"
+depends="test/svf_mimo_test.m test_common.m svf.m reprand.oct"
 
 tmp=/tmp/$$
 here=`pwd`

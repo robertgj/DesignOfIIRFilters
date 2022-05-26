@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=sedumi_specfac_test.m
-depends="sedumi_specfac_test.m test_common.m"
+depends="test/sedumi_specfac_test.m test_common.m"
 
 tmp=/tmp/$$
 here=`pwd`

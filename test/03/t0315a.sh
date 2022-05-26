@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=directFIRhilbert_socp_mmsePW_test.m
-depends="directFIRhilbert_socp_mmsePW_test.m test_common.m \
+depends="test/directFIRhilbert_socp_mmsePW_test.m test_common.m \
 directFIRhilbert_socp_mmsePW.m \
 directFIRhilbert_slb.m \
 directFIRhilbert_slb_constraints_are_empty.m \

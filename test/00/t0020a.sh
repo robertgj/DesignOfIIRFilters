@@ -2,7 +2,7 @@
 
 prog=iir_sqp_mmse_tarczynski_ex2_test.m
 
-depends="iir_sqp_mmse_tarczynski_ex2_test.m \
+depends="test/iir_sqp_mmse_tarczynski_ex2_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 iir_sqp_mmse.m armijo_kim.m fixResultNaN.m iirA.m iirE.m \
 iirT.m invSVD.m showZPplot.m sqp_bfgs.m tf2x.m updateWchol.m updateWbfgs.m \

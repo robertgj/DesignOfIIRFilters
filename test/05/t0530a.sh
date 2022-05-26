@@ -2,7 +2,7 @@
 
 prog=directFIRnonsymmetric_socp_slb_lowpass_test.m
 
-depends="directFIRnonsymmetric_socp_slb_lowpass_test.m \
+depends="test/directFIRnonsymmetric_socp_slb_lowpass_test.m \
 test_common.m print_polynomial.m local_max.m \
 directFIRnonsymmetricAsq.m \
 directFIRnonsymmetricEsq.m \

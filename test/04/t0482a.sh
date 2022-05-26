@@ -2,7 +2,7 @@
 
 prog=schurOneMPAlattice_socp_slb_lowpass_to_multiband_test.m
 
-depends="schurOneMPAlattice_socp_slb_lowpass_to_multiband_test.m \
+depends="test/schurOneMPAlattice_socp_slb_lowpass_to_multiband_test.m \
 test_common.m print_polynomial.m \
 schurOneMPAlattice_slb.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \

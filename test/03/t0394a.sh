@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=johanssonOneMlattice_slb_update_constraints_test.m
-depends="johanssonOneMlattice_slb_update_constraints_test.m \
+depends="test/johanssonOneMlattice_slb_update_constraints_test.m \
 johanssonOneMlattice_slb_update_constraints.m \
 johanssonOneMlattice_slb_set_empty_constraints.m \
 johanssonOneMlattice_slb_show_constraints.m \

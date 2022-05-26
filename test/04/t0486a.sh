@@ -2,7 +2,7 @@
 
 prog=iir_sqp_slb_multiband_test.m
 
-depends="iir_sqp_slb_multiband_test.m \
+depends="test/iir_sqp_slb_multiband_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 iir_slb.m iir_sqp_mmse.m iir_slb_show_constraints.m \
 iir_slb_update_constraints.m iir_slb_exchange_constraints.m \

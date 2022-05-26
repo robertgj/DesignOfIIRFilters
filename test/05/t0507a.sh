@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=sedumi_minphase_test.m
-depends="sedumi_minphase_test.m sedumi_minphase_test_data.mat \
+depends="test/sedumi_minphase_test.m sedumi_minphase_test_data.mat \
 test_common.m print_polynomial.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$

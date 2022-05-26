@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=saramakiFAvLogNewton_test.m
-depends="saramakiFAvLogNewton_test.m test_common.m saramakiFAvLogNewton.m \
+depends="test/saramakiFAvLogNewton_test.m test_common.m saramakiFAvLogNewton.m \
 local_max.m print_polynomial.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$

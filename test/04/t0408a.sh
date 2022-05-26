@@ -2,7 +2,7 @@
 
 prog=svfeedback_test.m
 
-depends="svfeedback_test.m test_common.m reprand.oct"
+depends="test/svfeedback_test.m test_common.m reprand.oct"
 
 tmp=/tmp/$$
 here=`pwd`

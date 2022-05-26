@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=sos2pq_test.m
-depends="sos2pq_test.m test_common.m sos2pq.m"
+depends="test/sos2pq_test.m test_common.m sos2pq.m"
 
 tmp=/tmp/$$
 here=`pwd`

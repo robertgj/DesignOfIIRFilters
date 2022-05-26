@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=saramakiFAv_test.m
-depends="saramakiFAv_test.m test_common.m saramakiFAv.m local_max.m"
+depends="test/saramakiFAv_test.m test_common.m saramakiFAv.m local_max.m"
 
 tmp=/tmp/$$
 here=`pwd`

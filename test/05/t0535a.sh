@@ -2,7 +2,7 @@
 
 prog=directFIRsymmetric_sdp_lowpass_test.m
 
-depends="directFIRsymmetric_sdp_lowpass_test.m test_common.m \
+depends="test/directFIRsymmetric_sdp_lowpass_test.m test_common.m \
 print_polynomial.m directFIRsymmetricA.m directFIRsymmetric_sdp_basis.m \
 directFIRsymmetricEsqPW.m"
 

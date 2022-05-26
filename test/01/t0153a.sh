@@ -2,7 +2,7 @@
 
 prog=svcasc2noise_test.m
 
-depends="svcasc2noise_test.m test_common.m \
+depends="test/svcasc2noise_test.m test_common.m \
 svcasc2noise.m butter2pq.m pq2svcasc.m svcasc2Abcd.m KW.m"
 
 tmp=/tmp/$$

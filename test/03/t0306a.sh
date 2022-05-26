@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=directFIRsymmetric_socp_mmsePW_test.m
-depends="directFIRsymmetric_socp_mmsePW_test.m test_common.m \
+depends="test/directFIRsymmetric_socp_mmsePW_test.m test_common.m \
 directFIRsymmetric_socp_mmsePW.m \
 directFIRsymmetric_slb.m \
 directFIRsymmetric_slb_constraints_are_empty.m \

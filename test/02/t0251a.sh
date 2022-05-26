@@ -2,7 +2,7 @@
 
 prog=tarczynski_frm_halfband_test.m
 
-depends="tarczynski_frm_halfband_test.m \
+depends="test/tarczynski_frm_halfband_test.m \
 test_common.m print_polynomial.m frm_lowpass_vectors.m"
 tmp=/tmp/$$
 here=`pwd`

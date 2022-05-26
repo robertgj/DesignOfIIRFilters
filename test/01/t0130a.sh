@@ -2,7 +2,7 @@
 
 prog=error_feedback_test.m
 
-depends="error_feedback_test.m test_common.m \
+depends="test/error_feedback_test.m test_common.m \
 optKW.m KW.m Abcd2tf.m tf2Abcd.m \
 factorFdoubleprime.m FprimeToFdoubleprime.m orthogonaliseTF.m \
 tf2schurOneMlattice.m schurdecomp.oct schurOneMscale.m schurexpand.oct \

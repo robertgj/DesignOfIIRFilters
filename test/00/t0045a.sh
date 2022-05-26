@@ -2,7 +2,7 @@
 
 prog=fixResultNaN_test.m
 
-depends="fixResultNaN_test.m \
+depends="test/fixResultNaN_test.m \
 test_common.m print_polynomial.m print_pole_zero.m fixResultNaN.m"
 tmp=/tmp/$$
 here=`pwd`

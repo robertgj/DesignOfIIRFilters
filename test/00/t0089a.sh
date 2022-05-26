@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=tarczynski_allpass_phase_shift_test.m
-depends="tarczynski_allpass_phase_shift_test.m test_common.m print_polynomial.m"
+depends="test/tarczynski_allpass_phase_shift_test.m test_common.m print_polynomial.m"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

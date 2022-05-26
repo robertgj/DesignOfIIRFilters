@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=branch_bound_directFIRhilbert_8_nbits_test.m
-depends="branch_bound_directFIRhilbert_8_nbits_test.m test_common.m \
+depends="test/branch_bound_directFIRhilbert_8_nbits_test.m test_common.m \
 directFIRhilbertA.m \
 directFIRhilbertEsqPW.m \
 directFIRhilbert_slb_exchange_constraints.m \

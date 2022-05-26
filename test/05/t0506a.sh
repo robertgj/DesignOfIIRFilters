@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=sedumi_real_toepest_test.m
-depends="sedumi_real_toepest_test.m test_common.m print_polynomial.m"
+depends="test/sedumi_real_toepest_test.m test_common.m print_polynomial.m"
 
 tmp=/tmp/$$
 here=`pwd`

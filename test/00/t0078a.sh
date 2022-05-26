@@ -2,7 +2,7 @@
 
 prog=iir_frm_parallel_allpass_slb_exchange_constraints_test.m
 
-depends="iir_frm_parallel_allpass_slb_exchange_constraints_test.m \
+depends="test/iir_frm_parallel_allpass_slb_exchange_constraints_test.m \
 iir_frm_parallel_allpass_slb_exchange_constraints.m \
 iir_frm_parallel_allpass_slb_show_constraints.m \
 iir_frm_parallel_allpass_slb_update_constraints.m \

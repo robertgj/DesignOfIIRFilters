@@ -2,7 +2,7 @@
 
 prog=iir_slb_update_constraints_test.m 
 
-depends="iir_slb_update_constraints_test.m \
+depends="test/iir_slb_update_constraints_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 iir_slb_update_constraints.m xConstraints.m iir_slb_show_constraints.m \
 iirA.m iirT.m iirP.m local_max.m fixResultNaN.m"

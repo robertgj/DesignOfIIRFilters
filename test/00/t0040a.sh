@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=tarczynski_polyphase_allpass_test.m
-depends="tarczynski_polyphase_allpass_test.m \
+depends="test/tarczynski_polyphase_allpass_test.m \
 test_common.m print_polynomial.m print_pole_zero.m WISEJ_PA.m"
 tmp=/tmp/$$
 here=`pwd`

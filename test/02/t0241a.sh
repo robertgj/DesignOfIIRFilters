@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.m
-depends="sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.m \
+depends="test/sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.m \
 ../schurOneMlattice_sqp_slb_lowpass_test_k2_coef.m \
 ../schurOneMlattice_sqp_slb_lowpass_test_c2_coef.m \
 ../schurOneMlattice_sqp_slb_lowpass_test_epsilon2_coef.m \

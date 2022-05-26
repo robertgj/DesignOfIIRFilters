@@ -2,7 +2,7 @@
 
 prog=chebyshevU_expand_test.m
 
-depends="chebyshevU_expand_test.m test_common.m print_polynomial.m \
+depends="test/chebyshevU_expand_test.m test_common.m print_polynomial.m \
 chebyshevU_expand.m chebyshevP.m chebyshevU.m"
 
 tmp=/tmp/$$

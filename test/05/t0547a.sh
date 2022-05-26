@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=schurNSlattice_sqp_slb_bandpass_test.m
-depends="schurNSlattice_sqp_slb_bandpass_test.m \
+depends="test/schurNSlattice_sqp_slb_bandpass_test.m \
 test_common.m \
 schurNSlatticeAsq.m \
 schurNSlatticeT.m \

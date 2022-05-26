@@ -2,7 +2,7 @@
 
 prog=saramakiFIRcascade_ApproxI_lowpass_test.m
 
-depends="saramakiFIRcascade_ApproxI_lowpass_test.m test_common.m \
+depends="test/saramakiFIRcascade_ApproxI_lowpass_test.m test_common.m \
 selesnickFIRsymmetric_lowpass.m directFIRsymmetricA.m \
 halleyFIRsymmetricA.m chebyshevT.m chebyshevP.m lagrange_interp.m \
 print_polynomial.m local_max.m local_peak.m xfr2tf.m"

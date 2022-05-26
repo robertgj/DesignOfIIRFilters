@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=directFIRhilbert_allocsd_test.m
-depends="directFIRhilbert_allocsd_test.m test_common.m \
+depends="test/directFIRhilbert_allocsd_test.m test_common.m \
 directFIRhilbert_allocsd_Ito.m directFIRhilbert_allocsd_Lim.m \
 directFIRhilbertEsqPW.m directFIRhilbertA.m \
 local_max.m print_polynomial.m flt2SD.m x2nextra.m SDadders.m bin2SDul.m \

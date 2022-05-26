@@ -2,7 +2,7 @@
 
 prog=schurOneMlatticeEsq_test.m
 
-depends="schurOneMlatticeEsq_test.m test_common.m schurOneMlatticeEsq.m \
+depends="test/schurOneMlatticeEsq_test.m test_common.m schurOneMlatticeEsq.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m H2Asq.m H2T.m \
 H2P.m tf2schurOneMlattice.m schurOneMscale.m schurOneMlattice2Abcd.oct \
 schurOneMlattice2H.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct"

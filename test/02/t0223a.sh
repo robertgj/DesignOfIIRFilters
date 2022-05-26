@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=bitflip_schurFIRlattice_bandpass_test.m
-depends="bitflip_schurFIRlattice_bandpass_test.m \
+depends="test/bitflip_schurFIRlattice_bandpass_test.m \
 ../iir_sqp_slb_bandpass_test_D1_coef.m \
 ../iir_sqp_slb_bandpass_test_N1_coef.m \
 ../iir_sqp_slb_fir_17_bandpass_test_b1_coef.m \

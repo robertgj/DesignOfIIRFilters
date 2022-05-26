@@ -2,7 +2,7 @@
 
 prog=schurOneMAPlattice_frm_halfbandP_test.m
 
-depends="schurOneMAPlattice_frm_halfbandP_test.m test_common.m \
+depends="test/schurOneMAPlattice_frm_halfbandP_test.m test_common.m \
 schurOneMAPlattice_frm_halfbandP.m schurOneMAPlatticeP.m \
 tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m tf2pa.m \
 schurOneMscale.m H2Asq.m H2P.m H2T.m schurOneMlattice2Abcd.oct \

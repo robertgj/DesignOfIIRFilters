@@ -2,7 +2,7 @@
 
 prog=iirT_test.m
 
-depends="iirT_test.m \
+depends="test/iirT_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 iirT.m x2tf.m fixResultNaN.m"
 tmp=/tmp/$$

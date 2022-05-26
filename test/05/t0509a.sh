@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=direct_form_scale_test.m
-depends="direct_form_scale_test.m test_common.m print_polynomial.m \
+depends="test/direct_form_scale_test.m test_common.m print_polynomial.m \
 direct_form_scale.m"
 
 tmp=/tmp/$$

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=socp_relaxation_schurOneMAPlattice_frm_12_nbits_test.m
-depends="socp_relaxation_schurOneMAPlattice_frm_12_nbits_test.m \
+depends="test/socp_relaxation_schurOneMAPlattice_frm_12_nbits_test.m \
 ../schurOneMAPlattice_frm_socp_slb_test_k1_coef.m \
 ../schurOneMAPlattice_frm_socp_slb_test_epsilon1_coef.m \
 ../schurOneMAPlattice_frm_socp_slb_test_p1_coef.m \

@@ -2,7 +2,7 @@
 
 prog=Abcd2cc_test.m
 
-depends="Abcd2cc_test.m test_common.m \
+depends="test/Abcd2cc_test.m test_common.m \
 Abcd2cc.m KW.m tf2Abcd.m optKW.m sv2block.m svf.m crossWelch.m \
 p2n60.m qroots.m qzsolve.oct"
 

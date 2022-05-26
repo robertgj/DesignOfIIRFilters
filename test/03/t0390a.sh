@@ -2,7 +2,7 @@
 
 prog=johanssonOneMlatticeAzp_test.m
 
-depends="johanssonOneMlatticeAzp_test.m test_common.m \
+depends="test/johanssonOneMlatticeAzp_test.m test_common.m \
 johanssonOneMlatticeAzp.m johansson_cascade_allpassAzp.m \
 tf2schurOneMlattice.m schurOneMscale.m schurOneMAPlatticeP.m \
 schurOneMAPlattice2Abcd.m H2P.m \

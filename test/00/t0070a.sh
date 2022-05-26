@@ -2,7 +2,7 @@
 
 prog=iirdelAdelw_test.m
 
-depends="iirdelAdelw_test.m test_common.m iirdelAdelw.m iirA.m fixResultNaN.m"
+depends="test/iirdelAdelw_test.m test_common.m iirdelAdelw.m iirA.m fixResultNaN.m"
 
 tmp=/tmp/$$
 here=`pwd`

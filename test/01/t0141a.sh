@@ -2,7 +2,7 @@
 
 prog=schurFIRlattice2Abcd_test.m
 
-depends="schurFIRlattice2Abcd_test.m test_common.m \
+depends="test/schurFIRlattice2Abcd_test.m test_common.m \
 schurFIRlattice2Abcd.m schurFIRdecomp.oct Abcd2tf.m"
 
 tmp=/tmp/$$

@@ -3,7 +3,7 @@
 prog=roots2T_test.m
 descr="roots2T_test.m (mfile)"
 
-depends="roots2T_test.m roots2T.m test_common.m check_octave_file.m \
+depends="test/roots2T_test.m roots2T.m test_common.m check_octave_file.m \
 chebyshevT_expand.m chebyshevT.m chebyshevP.m"
 
 tmp=/tmp/$$

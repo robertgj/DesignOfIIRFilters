@@ -2,7 +2,7 @@
 
 prog=svcascf_test.m
 
-depends="svcascf_test.m test_common.m \
+depends="test/svcascf_test.m test_common.m \
 svcascf.m pq2svcasc.m butter2pq.m pq2blockKWopt.m KW.m optKW.m optKW2.m \
 svcasc2Abcd.m svf.m svcasc2noise.m"
 

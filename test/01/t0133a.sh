@@ -4,7 +4,7 @@ prog=bin2SPT_test.m
 
 descr="bin2SPT_test.m (mfile)"
 
-depends="bin2SPT_test.m test_common.m check_octave_file.m bin2SPT.m"
+depends="test/bin2SPT_test.m test_common.m check_octave_file.m bin2SPT.m"
 
 tmp=/tmp/$$
 here=`pwd`

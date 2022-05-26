@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=yalmip_kyp_test.m
-depends="yalmip_kyp_test.m test_common.m print_polynomial.m \
+depends="test/yalmip_kyp_test.m test_common.m print_polynomial.m \
 directFIRnonsymmetricEsqPW.m"
 
 tmp=/tmp/$$

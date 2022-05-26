@@ -1,8 +1,8 @@
 #!/bin/sh
 
 prog=directFIRhilbert_slb_test.m
-depends="test_common.m \
-directFIRhilbert_slb_test.m \
+depends="test/directFIRhilbert_slb_test.m \
+test_common.m \
 directFIRhilbert_slb_exchange_constraints.m \
 directFIRhilbert_slb_update_constraints.m \
 directFIRhilbert_slb_set_empty_constraints.m \

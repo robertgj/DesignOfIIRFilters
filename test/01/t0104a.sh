@@ -2,7 +2,7 @@
 
 prog=orthogonaliseTF_test.m
 
-depends="orthogonaliseTF_test.m test_common.m \
+depends="test/orthogonaliseTF_test.m test_common.m \
 schurexpand.oct schurdecomp.oct \
 orthogonaliseTF.m tf2Abcd.m schurOneMscale.m tf2schurOneMlattice.m \
 tf2schurNSlattice.m schurNSlattice2Abcd.oct schurNSscale.oct \

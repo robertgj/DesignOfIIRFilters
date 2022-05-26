@@ -2,7 +2,7 @@
 
 prog=stability2ndOrderCascade_test.m
 
-depends="stability2ndOrderCascade_test.m \
+depends="test/stability2ndOrderCascade_test.m \
 stability2ndOrderCascade.m test_common.m"
 tmp=/tmp/$$
 here=`pwd`

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=saramakiFAvNewton_test.m
-depends="saramakiFAvNewton_test.m test_common.m saramakiFAvNewton.m \
+depends="test/saramakiFAvNewton_test.m test_common.m saramakiFAvNewton.m \
 saramakiFAv.m local_max.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$

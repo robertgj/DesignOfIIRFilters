@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=triangle_inequalities_test.m
-depends="triangle_inequalities_test.m test_common.m"
+depends="test/triangle_inequalities_test.m test_common.m"
 
 tmp=/tmp/$$
 here=`pwd`

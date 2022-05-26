@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m
-depends="branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m \
+depends="test/branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m \
 test_common.m \
 schurOneMPAlattice_allocsd_Lim.m \
 schurOneMPAlattice_allocsd_Ito.m \

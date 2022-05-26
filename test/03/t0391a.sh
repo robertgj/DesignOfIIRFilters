@@ -2,7 +2,7 @@
 
 prog=johanssonOneMlatticeEsq_test.m
 
-depends="johanssonOneMlatticeEsq_test.m test_common.m \
+depends="test/johanssonOneMlatticeEsq_test.m test_common.m \
 johanssonOneMlatticeEsq.m johanssonOneMlatticeAzp.m \
 tf2schurOneMlattice.m schurOneMscale.m schurOneMAPlatticeP.m \
 schurOneMAPlattice2Abcd.m H2P.m \

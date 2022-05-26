@@ -2,7 +2,7 @@
 
 prog=zolotarev_vlcek_unbehauen_table_v_test.m
 
-depends="zolotarev_vlcek_unbehauen_table_v_test.m \
+depends="test/zolotarev_vlcek_unbehauen_table_v_test.m \
 zolotarev_vlcek_unbehauen.m test_common.m print_polynomial.m \
 elliptic_F.m elliptic_E.m jacobi_Eta.m jacobi_Theta.m jacobi_Zeta.m \
 jacobi_theta1.m jacobi_theta1k.m jacobi_theta2.m jacobi_theta2k.m \

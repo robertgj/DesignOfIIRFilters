@@ -2,7 +2,7 @@
 
 prog=tarczynski_pink_test.m
 
-depends="tarczynski_pink_test.m test_common.m WISEJ.m tf2Abcd.m \
+depends="test/tarczynski_pink_test.m test_common.m WISEJ.m tf2Abcd.m \
 print_polynomial.m"
 tmp=/tmp/$$
 here=`pwd`

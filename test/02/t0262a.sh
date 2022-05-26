@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=schurOneMAPlattice2tf_test.m
-depends="schurOneMAPlattice2tf_test.m schurOneMAPlattice2tf.m test_common.m \
+depends="test/schurOneMAPlattice2tf_test.m schurOneMAPlattice2tf.m test_common.m \
 tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m schurOneMlattice2Abcd.oct \
 Abcd2tf.m schurOneMscale.m schurdecomp.oct schurexpand.oct"
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=x2pa_test.m
-depends="x2pa_test.m test_common.m x2tf.m x2pa.m zp2x.m x2zp.m p2a.m a2p.m \
+depends="test/x2pa_test.m test_common.m x2tf.m x2pa.m zp2x.m x2zp.m p2a.m a2p.m \
 print_pole_zero.m print_allpass_pole.m spectralfactor.oct qroots.m qzsolve.oct"
 
 tmp=/tmp/$$

@@ -2,7 +2,7 @@
 
 prog=chebyshevT_backward_recurrence_test.m
 
-depends="chebyshevT_backward_recurrence_test.m test_common.m \
+depends="test/chebyshevT_backward_recurrence_test.m test_common.m \
 chebyshevT_backward_recurrence.m chebyshevP_backward_recurrence.m \
 chebyshevT.m chebyshevP.m chebyshevT_expand.m"
 

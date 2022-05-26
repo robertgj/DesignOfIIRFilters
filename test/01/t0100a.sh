@@ -2,7 +2,7 @@
 
 prog=tfp2g_test.m
 
-depends="tfp2g_test.m test_common.m \
+depends="test/tfp2g_test.m test_common.m \
 phi2p.m tfp2g.m Abcd2tf.m tf2Abcd.m tfp2Abcd.m"
 
 tmp=/tmp/$$

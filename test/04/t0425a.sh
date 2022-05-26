@@ -2,7 +2,7 @@
 
 prog=carlson_RJ_test.m
 
-depends="carlson_RJ_test.m test_common.m carlson_RJ.m carlson_RC.m \
+depends="test/carlson_RJ_test.m test_common.m carlson_RJ.m carlson_RC.m \
 carlson_RD.m carlson_RF.m"
 
 tmp=/tmp/$$

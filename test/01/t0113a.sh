@@ -4,7 +4,7 @@ prog=schurNSscale_test.m
 
 descr="schurNSscale_test.m (octfile)"
 
-depends="schurNSscale_test.m test_common.m check_octave_file.m \
+depends="test/schurNSscale_test.m test_common.m check_octave_file.m \
 schurNSlatticeFilter.m schurdecomp.oct schurexpand.oct schurNSscale.oct"
 
 tmp=/tmp/$$

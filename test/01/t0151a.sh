@@ -2,7 +2,7 @@
 
 prog=svcasc2cc_test.m
 
-depends="svcasc2cc_test.m test_common.m \
+depends="test/svcasc2cc_test.m test_common.m \
 svcasc2cc.m butter2pq.m pq2svcasc.m svcasc2Abcd.m svf.m svcascf.m"
 
 tmp=/tmp/$$

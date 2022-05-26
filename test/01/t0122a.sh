@@ -2,7 +2,7 @@
 
 prog=ellip5NS_test.m
 
-depends="ellip5NS_test.m test_common.m \
+depends="test/ellip5NS_test.m test_common.m \
 schurexpand.oct schurdecomp.oct schurNSscale.oct \
 tf2schurNSlattice.m schurNSlatticeNoiseGain.m schurNSlattice2Abcd.oct \
 schurNSlatticeFilter.m KW.m optKW.m tf2Abcd.m svf.m bin2SD.oct crossWelch.m \

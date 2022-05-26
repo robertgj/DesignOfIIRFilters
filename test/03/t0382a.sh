@@ -2,7 +2,7 @@
 
 prog=zp2x_test.m
 
-depends="zp2x_test.m test_common.m zp2x.m x2tf.m"
+depends="test/zp2x_test.m test_common.m zp2x.m x2tf.m"
 
 tmp=/tmp/$$
 here=`pwd`

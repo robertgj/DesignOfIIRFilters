@@ -2,7 +2,7 @@
 
 prog=svcasc2tf_test.m
 
-depends="svcasc2tf_test.m test_common.m svcasc2tf.m butter2pq.m pq2svcasc.m"
+depends="test/svcasc2tf_test.m test_common.m svcasc2tf.m butter2pq.m pq2svcasc.m"
 
 tmp=/tmp/$$
 here=`pwd`

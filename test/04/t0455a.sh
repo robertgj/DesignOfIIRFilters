@@ -2,7 +2,7 @@
 
 prog=lagrange_interp_test.m
 
-depends="lagrange_interp_test.m test_common.m print_polynomial.m \
+depends="test/lagrange_interp_test.m test_common.m print_polynomial.m \
 lagrange_interp.m"
 
 tmp=/tmp/$$

@@ -1,8 +1,8 @@
 #!/bin/sh
 
 prog=schurNSlattice_sqp_mmse_test.m
-depends="test_common.m \
-schurNSlattice_sqp_mmse_test.m \
+depends="test/schurNSlattice_sqp_mmse_test.m \
+test_common.m \
 schurNSlatticeAsq.m \
 schurNSlatticeT.m \
 schurNSlatticeEsq.m \

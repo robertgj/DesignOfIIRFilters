@@ -2,7 +2,7 @@
 
 prog=selesnickFIRantisymmetric_flat_differentiator_test.m
 
-depends="selesnickFIRantisymmetric_flat_differentiator_test.m test_common.m \
+depends="test/selesnickFIRantisymmetric_flat_differentiator_test.m test_common.m \
 selesnickFIRantisymmetric_flat_differentiator.m local_max.m print_polynomial.m"
 
 tmp=/tmp/$$

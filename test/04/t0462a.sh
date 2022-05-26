@@ -2,7 +2,7 @@
 
 prog=selesnickFIRsymmetric_bandpass_test.m
 
-depends="selesnickFIRsymmetric_bandpass_test.m test_common.m \
+depends="test/selesnickFIRsymmetric_bandpass_test.m test_common.m \
 selesnickFIRsymmetric_bandpass.m lagrange_interp.m print_polynomial.m \
 local_max.m local_peak.m xfr2tf.m directFIRsymmetricA.m"
 

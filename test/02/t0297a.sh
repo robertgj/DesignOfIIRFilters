@@ -1,8 +1,8 @@
 #!/bin/sh
 
 prog=directFIRsymmetric_slb_exchange_constraints_test.m
-depends="test_common.m \
-directFIRsymmetric_slb_exchange_constraints_test.m \
+depends="test/directFIRsymmetric_slb_exchange_constraints_test.m \
+test_common.m \
 directFIRsymmetric_slb_exchange_constraints.m \
 directFIRsymmetric_slb_update_constraints.m \
 directFIRsymmetric_slb_set_empty_constraints.m \

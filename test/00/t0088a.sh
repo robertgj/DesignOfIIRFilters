@@ -2,7 +2,7 @@
 
 prog=parallel_allpass_delay_socp_mmse_test.m
 
-depends="parallel_allpass_delay_socp_mmse_test.m test_common.m \
+depends="test/parallel_allpass_delay_socp_mmse_test.m test_common.m \
 parallel_allpass_delay_socp_mmse.m \
 parallel_allpass_delay_slb_set_empty_constraints.m \
 parallel_allpass_delayAsq.m parallel_allpass_delayT.m \

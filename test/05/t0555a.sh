@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=samin_schurOneMlattice_lowpass_test.m
-depends="samin_schurOneMlattice_lowpass_test.m test_common.m \
+depends="test/samin_schurOneMlattice_lowpass_test.m test_common.m \
 truncation_test_common.m schurOneMlattice2tf.m tf2schurOneMlattice.m \
 schurOneMlattice_cost.m Abcd2tf.m print_polynomial.m schurOneMscale.m \
 SDadders.m x2nextra.m flt2SD.m \

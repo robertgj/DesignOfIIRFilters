@@ -2,7 +2,7 @@
 
 prog=linesearch_test.m
 
-depends="linesearch_test.m \
+depends="test/linesearch_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 armijo_kim.m armijo.m goldensection.m goldstein.m quadratic.m sqp_common.m \
 updateWbfgs.m updateWchol.m"

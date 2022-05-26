@@ -2,7 +2,7 @@
 
 prog=selesnickFIRsymmetric_flat_lowpass_test.m
 
-depends="selesnickFIRsymmetric_flat_lowpass_test.m test_common.m \
+depends="test/selesnickFIRsymmetric_flat_lowpass_test.m test_common.m \
 print_polynomial.m selesnickFIRsymmetric_flat_lowpass.m local_max.m \
 lagrange_interp.m xfr2tf.m directFIRsymmetricA.m"
 

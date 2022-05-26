@@ -2,7 +2,7 @@
 
 prog=octave_format_test.m
 
-depends="octave_format_test.m test_common.m"
+depends="test/octave_format_test.m test_common.m"
 
 tmp=/tmp/$$
 here=`pwd`

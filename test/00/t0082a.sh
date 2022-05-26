@@ -2,7 +2,7 @@
 
 prog=parallel_allpass_slb_exchange_constraints_test.m
 
-depends="parallel_allpass_slb_exchange_constraints_test.m \
+depends="test/parallel_allpass_slb_exchange_constraints_test.m \
 parallel_allpass_slb_exchange_constraints.m \
 parallel_allpass_slb_show_constraints.m \
 parallel_allpass_slb_update_constraints.m \

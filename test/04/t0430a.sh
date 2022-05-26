@@ -2,7 +2,7 @@
 
 prog=zahradnik_halfband_test.m
 
-depends="zahradnik_halfband_test.m test_common.m print_polynomial.m \
+depends="test/zahradnik_halfband_test.m test_common.m print_polynomial.m \
 zahradnik_halfband.m local_max.m chebyshevP.m chebyshevU.m \
 chebyshevP_backward_recurrence.m chebyshevU_backward_recurrence.m"
 

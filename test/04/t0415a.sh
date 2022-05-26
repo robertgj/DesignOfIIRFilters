@@ -2,7 +2,7 @@
 
 prog=carlson_RF_test.m
 
-depends="carlson_RF_test.m test_common.m carlson_RF.m"
+depends="test/carlson_RF_test.m test_common.m carlson_RF.m"
 
 tmp=/tmp/$$
 here=`pwd`

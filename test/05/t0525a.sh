@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=directFIRnonsymmetric_slb_update_constraints_test.m
-depends="directFIRnonsymmetric_slb_update_constraints_test.m test_common.m \
+depends="test/directFIRnonsymmetric_slb_update_constraints_test.m test_common.m \
 directFIRnonsymmetric_slb_update_constraints.m \
 directFIRnonsymmetric_slb_set_empty_constraints.m \
 directFIRnonsymmetric_slb_show_constraints.m \

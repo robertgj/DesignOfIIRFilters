@@ -2,7 +2,7 @@
 
 prog=Serror_test.m
 
-depends="Serror_test.m \
+depends="test/Serror_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 iirE.m iirA.m fixResultNaN.m"
 tmp=/tmp/$$

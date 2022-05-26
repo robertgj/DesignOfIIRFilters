@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=surmaaho_parallel_allpass_lowpass_test.m
-depends="surmaaho_parallel_allpass_lowpass_test.m test_common.m \
+depends="test/surmaaho_parallel_allpass_lowpass_test.m test_common.m \
 surmaahoFAvLogNewton.m local_max.m print_polynomial.m print_pole_zero.m \
 print_allpass_pole.m x2tf.m x2zp.m zp2x.m a2p.m p2a.m tf2a.m x2pa.m \
 iirA.m iirP.m fixResultNaN.m aConstraints.m allpassP.m parallel_allpassAsq.m \

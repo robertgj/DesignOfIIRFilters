@@ -2,7 +2,7 @@
 
 prog=gumacosFIRsymmetric_flat_halfband_test.m
 
-depends="gumacosFIRsymmetric_flat_halfband_test.m test_common.m \
+depends="test/gumacosFIRsymmetric_flat_halfband_test.m test_common.m \
 gumacosFIRsymmetric_flat_halfband.m print_polynomial.m"
 
 tmp=/tmp/$$

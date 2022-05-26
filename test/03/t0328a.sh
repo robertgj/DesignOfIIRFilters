@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=branch_bound_schurOneMPAlattice_bandpass_12_nbits_test.m
-depends="branch_bound_schurOneMPAlattice_bandpass_12_nbits_test.m test_common.m \
+depends="test/branch_bound_schurOneMPAlattice_bandpass_12_nbits_test.m test_common.m \
 ../schurOneMPAlattice_socp_slb_bandpass_test_A1k_coef.m \
 ../schurOneMPAlattice_socp_slb_bandpass_test_A1p_coef.m \
 ../schurOneMPAlattice_socp_slb_bandpass_test_A1epsilon_coef.m \

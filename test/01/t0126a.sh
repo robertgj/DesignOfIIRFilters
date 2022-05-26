@@ -2,7 +2,7 @@
 
 prog=bitflip_schurOneMlattice_lowpass_test.m
 
-depends="bitflip_schurOneMlattice_lowpass_test.m bitflip.oct test_common.m \
+depends="test/bitflip_schurOneMlattice_lowpass_test.m bitflip.oct test_common.m \
 schurOneMlattice2tf.m truncation_test_common.m schurOneMlattice_cost.m \
 tf2schurOneMlattice.m schurOneMlattice2Abcd.oct Abcd2tf.m print_polynomial.m \
 schurOneMscale.m schurdecomp.oct schurexpand.oct flt2SD.m x2nextra.m bin2SD.oct"

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=johansson_cascade_allpass_bandstop_test.m
-depends="johansson_cascade_allpass_bandstop_test.m test_common.m \
+depends="test/johansson_cascade_allpass_bandstop_test.m test_common.m \
 directFIRsymmetric_socp_mmse.m \
 directFIRsymmetric_slb.m \
 directFIRsymmetric_slb_update_constraints.m \

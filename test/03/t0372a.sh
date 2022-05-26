@@ -2,7 +2,7 @@
 
 prog=ellipap1_test.m
 
-depends="ellipap1_test.m test_common.m ellipap1.m"
+depends="test/ellipap1_test.m test_common.m ellipap1.m"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -2,7 +2,7 @@
 
 prog=schurFIRdecomp_octfile_test.m
 
-depends="schurFIRdecomp_octfile_test.m test_common.m schurFIRdecomp.oct"
+depends="test/schurFIRdecomp_octfile_test.m test_common.m schurFIRdecomp.oct"
 
 tmp=/tmp/$$
 here=`pwd`

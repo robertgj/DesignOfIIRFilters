@@ -2,7 +2,7 @@
 
 prog=ellip5OneM_test.m
 
-depends="ellip5OneM_test.m test_common.m \
+depends="test/ellip5OneM_test.m test_common.m \
 schurexpand.oct schurdecomp.oct schurOneMscale.m \
 tf2schurOneMlattice.m schurOneMlatticeNoiseGain.m schurOneMlattice2Abcd.oct \
 schurOneMlatticeFilter.m KW.m bin2SD.oct crossWelch.m p2n60.m qroots.m \

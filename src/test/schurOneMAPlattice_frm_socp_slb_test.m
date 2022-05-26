@@ -165,7 +165,7 @@ Asq=schurOneMAPlattice_frmAsq(wa,k1,epsilon1,p1,u1,v1,Mmodel,Dmodel);
 subplot(111);
 plot(wa*0.5/pi,10*log10(Asq),"--", ...
      wa*0.5/pi,20*log10(abs(Hfir)),"-");
-legend("FRM","FIR","FRM");
+legend("FRM","FIR");
 legend("location","northeast");
 legend("boxoff");
 legend("left");

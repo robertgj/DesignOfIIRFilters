@@ -2,7 +2,7 @@
 
 prog=halleyFIRsymmetricA_test.m
 
-depends="halleyFIRsymmetricA_test.m halleyFIRsymmetricA.m test_common.m \
+depends="test/halleyFIRsymmetricA_test.m halleyFIRsymmetricA.m test_common.m \
 local_max.m directFIRsymmetricA.m selesnickFIRsymmetric_flat_lowpass.m"
 
 tmp=/tmp/$$

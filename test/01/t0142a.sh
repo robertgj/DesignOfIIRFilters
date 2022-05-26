@@ -4,7 +4,7 @@ prog=complementaryFIRdecomp_test.m
 
 descr="complementaryFIRdecomp_test.m (mfile)"
 
-depends="complementaryFIRdecomp_test.m test_common.m check_octave_file.m \
+depends="test/complementaryFIRdecomp_test.m test_common.m check_octave_file.m \
 complementaryFIRdecomp.m complementaryFIRlattice.m \
 minphase.m print_polynomial.m x2tf.m cl2lp.m local_max.m direct_form_scale.m"
 

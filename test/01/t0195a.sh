@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=schurOneMscale_test.m
-depends="schurOneMscale_test.m test_common.m \
+depends="test/schurOneMscale_test.m test_common.m \
 schurdecomp.oct schurexpand.oct schurOneMscale.m schurOneMlatticeFilter.m"
 
 tmp=/tmp/$$

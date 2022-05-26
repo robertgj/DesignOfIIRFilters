@@ -2,7 +2,7 @@
 
 prog=iir_sqp_slb_minimum_phase_test.m
 
-depends="iir_sqp_slb_minimum_phase_test.m \
+depends="test/iir_sqp_slb_minimum_phase_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 iirA.m iirE.m iirT.m iirP.m \
 local_max.m iir_sqp_mmse.m iir_slb.m armijo_kim.m \

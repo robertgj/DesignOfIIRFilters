@@ -2,9 +2,9 @@
 
 prog=local_peak_test.m
 
-depends="iirA.m local_max.m \
+depends="test/local_peak_test.m iirA.m local_max.m \
 test_common.m print_polynomial.m print_pole_zero.m \
-local_peak.m local_peak_test.m fixResultNaN.m"
+local_peak.m fixResultNaN.m"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

@@ -2,7 +2,7 @@
 
 prog=sqp_bfgs_test.m
 
-depends="sqp_bfgs_test.m \
+depends="test/sqp_bfgs_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 armijo.m armijo_kim.m goldensection.m goldfarb_idnani.m \
 goldstein.m  invSVD.m quadratic.m sqp_bfgs.m \

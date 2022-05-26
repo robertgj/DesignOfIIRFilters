@@ -2,7 +2,7 @@
 
 prog=parallel_allpass_socp_slb_bandpass_test.m
 
-depends="parallel_allpass_socp_slb_bandpass_test.m \
+depends="test/parallel_allpass_socp_slb_bandpass_test.m \
 ../tarczynski_parallel_allpass_bandpass_test_Da0_coef.m \
 ../tarczynski_parallel_allpass_bandpass_test_Db0_coef.m \
 test_common.m \

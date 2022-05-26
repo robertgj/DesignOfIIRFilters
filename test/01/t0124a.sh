@@ -2,7 +2,7 @@
 
 prog=flt2SD_test.m
 
-depends="flt2SD_test.m test_common.m print_polynomial.m \
+depends="test/flt2SD_test.m test_common.m print_polynomial.m \
 flt2SD.m x2nextra.m bin2SDul.m bin2SD.oct"
 
 tmp=/tmp/$$

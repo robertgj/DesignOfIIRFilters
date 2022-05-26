@@ -4,7 +4,7 @@ prog=bin2SD_test.m
 
 descr="bin2SD_test.m (octfile)"
 
-depends="bin2SD_test.m test_common.m check_octave_file.m bin2SD.oct bin2SPT.oct"
+depends="test/bin2SD_test.m test_common.m check_octave_file.m bin2SD.oct bin2SPT.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=schurNSlattice_slb_exchange_constraints_test.m
-depends="schurNSlattice_slb_exchange_constraints_test.m test_common.m \
+depends="test/schurNSlattice_slb_exchange_constraints_test.m test_common.m \
 schurNSlattice_slb_exchange_constraints.m \
 schurNSlattice_slb_update_constraints.m \
 schurNSlatticeAsq.m schurNSlatticeT.m schurNSlatticeEsq.m \

@@ -2,7 +2,7 @@
 
 prog=Abcd2tf_test.m
 
-depends="Abcd2tf_test.m test_common.m Abcd2tf.m tf2schurOneMlattice.m \
+depends="test/Abcd2tf_test.m test_common.m Abcd2tf.m tf2schurOneMlattice.m \
 schurdecomp.oct schurexpand.oct schurOneMscale.m schurOneMlattice2Abcd.oct \
 print_polynomial.m KW.m optKW.m"
 tmp=/tmp/$$

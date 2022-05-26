@@ -2,7 +2,7 @@
 
 prog=mcclellanFIRsymmetric_flat_bandpass_test.m
 
-depends="mcclellanFIRsymmetric_flat_bandpass_test.m test_common.m \
+depends="test/mcclellanFIRsymmetric_flat_bandpass_test.m test_common.m \
 print_polynomial.m mcclellanFIRsymmetric.m local_max.m lagrange_interp.m \
 xfr2tf.m directFIRsymmetricA.m"
 

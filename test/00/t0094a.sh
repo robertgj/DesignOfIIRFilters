@@ -2,7 +2,7 @@
 
 prog=butt3NS_test.m
 
-depends="butt3NS_test.m test_common.m \
+depends="test/butt3NS_test.m test_common.m \
 tf2schurNSlattice.m schurNSlatticeNoiseGain.m schurNSlatticeFilter.m \
 svf.m KW.m optKW.m tf2Abcd.m crossWelch.m p2n60.m qroots.m \
 schurexpand.oct schurdecomp.oct schurNSscale.oct \

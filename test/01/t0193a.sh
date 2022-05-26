@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=tf2schurOneMlattice_test.m
-depends="tf2schurOneMlattice_test.m tf2schurOneMlattice.m test_common.m \
+depends="test/tf2schurOneMlattice_test.m tf2schurOneMlattice.m test_common.m \
 schurOneMlattice2Abcd.oct Abcd2tf.m schurOneMscale.m schurdecomp.oct \
 schurexpand.oct"
 

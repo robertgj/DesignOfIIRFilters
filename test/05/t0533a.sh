@@ -2,7 +2,7 @@
 
 prog=directFIRsymmetric_sdp_basis_test.m
 
-depends="directFIRsymmetric_sdp_basis_test.m directFIRsymmetric_sdp_basis.m \
+depends="test/directFIRsymmetric_sdp_basis_test.m directFIRsymmetric_sdp_basis.m \
 test_common.m"
 
 tmp=/tmp/$$

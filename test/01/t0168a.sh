@@ -2,7 +2,7 @@
 
 prog=zhong_inverse_test.m
 descr="zhong_inverse_test.m (mfile)"
-depends="zhong_inverse_test.m test_common.m zhong_inverse.m reprand.oct"
+depends="test/zhong_inverse_test.m test_common.m zhong_inverse.m reprand.oct"
 
 tmp=/tmp/$$
 here=`pwd`

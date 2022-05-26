@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=allpass_GM1_test.m
-depends="allpass_GM1_test.m test_common.m allpass_GM1.m \
+depends="test/allpass_GM1_test.m test_common.m allpass_GM1.m \
 allpass_GM1_pole2coef.m allpass_GM1_coef2Abcd.m allpass_GM1_coef2ng.m \
 allpass_filter_check_gradc1.m Abcd2tf.m H2Asq.m H2T.m H2P.m svf.m KW.m \
 Abcd2ng.m Abcd2H.oct"

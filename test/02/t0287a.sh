@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=schurOneMPAlattice_slb_exchange_constraints_test.m
-depends="schurOneMPAlattice_slb_exchange_constraints_test.m test_common.m \
+depends="test/schurOneMPAlattice_slb_exchange_constraints_test.m test_common.m \
 schurOneMPAlattice_slb_exchange_constraints.m \
 schurOneMPAlattice_slb_update_constraints.m \
 schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m schurOneMPAlatticeP.m \

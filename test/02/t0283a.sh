@@ -2,7 +2,7 @@
 
 prog=complementaryFIRlattice_socp_slb_bandpass_test.m
 
-depends="complementaryFIRlattice_socp_slb_bandpass_test.m test_common.m \
+depends="test/complementaryFIRlattice_socp_slb_bandpass_test.m test_common.m \
 ../iir_sqp_slb_fir_17_bandpass_test_d1_coef.m \
 complementaryFIRlatticeAsq.m \
 complementaryFIRlatticeT.m \

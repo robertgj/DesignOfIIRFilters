@@ -2,7 +2,7 @@
 
 prog=iirP_test.m
 
-depends="iirP_test.m test_common.m print_polynomial.m print_pole_zero.m iirP.m \
+depends="test/iirP_test.m test_common.m print_polynomial.m print_pole_zero.m iirP.m \
 x2tf.m fixResultNaN.m"
 tmp=/tmp/$$
 here=`pwd`

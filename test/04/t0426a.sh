@@ -2,7 +2,7 @@
 
 prog=elliptic_Pi_test.m
 
-depends="elliptic_Pi_test.m test_common.m elliptic_Pi.m elliptic_F.m \
+depends="test/elliptic_Pi_test.m test_common.m elliptic_Pi.m elliptic_F.m \
 carlson_RJ.m carlson_RC.m carlson_RF.m elliptic_Pi_boost.txt"
 
 tmp=/tmp/$$

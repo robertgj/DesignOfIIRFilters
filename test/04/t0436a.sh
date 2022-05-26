@@ -2,7 +2,7 @@
 
 prog=zolotarev_vlcek_zahradnik_test.m
 
-depends="zolotarev_vlcek_zahradnik_test.m zolotarev_vlcek_zahradnik.m \
+depends="test/zolotarev_vlcek_zahradnik_test.m zolotarev_vlcek_zahradnik.m \
 test_common.m zolotarev_chen_parks.m zolotarev_vlcek_unbehauen.m \
 elliptic_F.m elliptic_E.m jacobi_Eta.m jacobi_Theta.m jacobi_Zeta.m \
 jacobi_theta1.m jacobi_theta1k.m jacobi_theta2.m jacobi_theta2k.m \

@@ -4,7 +4,7 @@ prog=spectralfactor_test.m
 
 descr="spectralfactor_test.m (octfile)"
 
-depends="spectralfactor_test.m test_common.m check_octave_file.m \
+depends="test/spectralfactor_test.m test_common.m check_octave_file.m \
 print_polynomial.m spectralfactor.oct"
 
 tmp=/tmp/$$

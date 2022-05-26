@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=yalmip_bmibnb_test.m
-depends="yalmip_bmibnb_test.m test_common.m"
+depends="test/yalmip_bmibnb_test.m test_common.m"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -2,7 +2,7 @@
 
 prog=schurOneMAPlattice_frm_halfband_socp_slb_test.m
 
-depends="schurOneMAPlattice_frm_halfband_socp_slb_test.m \
+depends="test/schurOneMAPlattice_frm_halfband_socp_slb_test.m \
 ../tarczynski_frm_halfband_test_r0_coef.m \
 ../tarczynski_frm_halfband_test_aa0_coef.m \
 test_common.m \

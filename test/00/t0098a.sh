@@ -2,7 +2,7 @@
 
 prog=butt3NSPA_test.m
 
-depends="butt3NSPA_test.m test_common.m tf2pa.m tf2schurNSlattice.m \
+depends="test/butt3NSPA_test.m test_common.m tf2pa.m tf2schurNSlattice.m \
 schurNSlatticeNoiseGain.m schurNSlatticeFilter.m \
 schurNSlatticeRetimedNoiseGain.m p2n60.m \
 svf.m flt2SD.m x2nextra.m optKW.m tf2Abcd.m crossWelch.m print_polynomial.m \

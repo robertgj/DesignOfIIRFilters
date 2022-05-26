@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=socp_relaxation_directFIRhilbert_10_nbits_test.m
-depends="socp_relaxation_directFIRhilbert_10_nbits_test.m \
+depends="test/socp_relaxation_directFIRhilbert_10_nbits_test.m \
 test_common.m \
 directFIRhilbert_mmsePW.m \
 directFIRhilbert_socp_mmsePW.m \

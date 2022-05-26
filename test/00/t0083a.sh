@@ -2,7 +2,7 @@
 
 prog=parallel_allpass_slb_update_constraints_test.m 
 
-depends="parallel_allpass_slb_update_constraints_test.m test_common.m \
+depends="test/parallel_allpass_slb_update_constraints_test.m test_common.m \
 parallel_allpass_slb_update_constraints.m \
 parallel_allpass_slb_show_constraints.m \
 parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \

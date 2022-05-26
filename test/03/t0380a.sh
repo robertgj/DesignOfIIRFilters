@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=tarczynski_phase_equaliser_test.m
-depends="tarczynski_phase_equaliser_test.m test_common.m WISEJ_PhaseEq.m iirP.m \
+depends="test/tarczynski_phase_equaliser_test.m test_common.m WISEJ_PhaseEq.m iirP.m \
 allpassP.m tf2x.m zp2x.m a2tf.m tf2a.m qroots.m qzsolve.oct print_polynomial.m"
 
 tmp=/tmp/$$

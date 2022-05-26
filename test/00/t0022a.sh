@@ -2,7 +2,7 @@
 
 prog=sedumi_test.m
 
-depends="sedumi_test.m \
+depends="test/sedumi_test.m \
 test_common.m print_polynomial.m print_pole_zero.m"
 tmp=/tmp/$$
 here=`pwd`

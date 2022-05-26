@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=tf2pa_test.m
-depends="tf2pa_test.m test_common.m tf2pa.m spectralfactor.oct \
+depends="test/tf2pa_test.m test_common.m tf2pa.m spectralfactor.oct \
 qroots.m qzsolve.oct"
 
 tmp=/tmp/$$

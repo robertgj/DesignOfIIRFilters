@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=schurOneMPAlattice_socp_mmse_test.m
-depends="schurOneMPAlattice_socp_mmse_test.m test_common.m \
+depends="test/schurOneMPAlattice_socp_mmse_test.m test_common.m \
 schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m schurOneMPAlatticeP.m \
 schurOneMPAlatticeEsq.m \
 schurOneMPAlattice_socp_mmse.m \

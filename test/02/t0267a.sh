@@ -2,7 +2,7 @@
 
 prog=schurOneMAPlattice_frm_hilbert_socp_mmse_test.m
 
-depends=" schurOneMAPlattice_frm_hilbert_socp_mmse_test.m test_common.m \
+depends="test/schurOneMAPlattice_frm_hilbert_socp_mmse_test.m test_common.m \
 schurOneMAPlattice_frm_hilbert_socp_mmse.m \
 schurOneMAPlattice_frm_hilbert_socp_slb_plot.m schurOneMAPlattice2tf.m \
 schurOneMAPlattice_frm_hilbert_slb_set_empty_constraints.m \

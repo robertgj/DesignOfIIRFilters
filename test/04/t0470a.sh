@@ -2,7 +2,7 @@
 
 prog=xfr2tf_test.m
 
-depends="xfr2tf_test.m xfr2tf.m test_common.m lagrange_interp.m local_max.m \
+depends="test/xfr2tf_test.m xfr2tf.m test_common.m lagrange_interp.m local_max.m \
 print_polynomial.m directFIRsymmetricA.m"
 
 tmp=/tmp/$$

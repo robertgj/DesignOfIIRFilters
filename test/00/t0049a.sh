@@ -2,7 +2,7 @@
 
 prog=print_polynomial_test.m
 
-depends="print_polynomial_test.m test_common.m print_polynomial.m"
+depends="test/print_polynomial_test.m test_common.m print_polynomial.m"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

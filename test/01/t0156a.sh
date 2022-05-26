@@ -2,7 +2,7 @@
 
 prog=sedumi_hash_test.m
 
-depends="sedumi_hash_test.m test_common.m"
+depends="test/sedumi_hash_test.m test_common.m"
 
 tmp=/tmp/$$
 here=`pwd`

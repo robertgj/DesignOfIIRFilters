@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=schurOneMAPlattice_frm_slb_update_constraints_test.m
-depends="schurOneMAPlattice_frm_slb_update_constraints_test.m test_common.m \
+depends="test/schurOneMAPlattice_frm_slb_update_constraints_test.m test_common.m \
 schurOneMAPlattice_frm_slb_update_constraints.m \
 schurOneMAPlattice_frm_slb_set_empty_constraints.m \
 schurOneMAPlattice_frm_slb_show_constraints.m \

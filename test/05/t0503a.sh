@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=sedumi_rls_test.m
-depends="sedumi_rls_test.m test_common.m"
+depends="test/sedumi_rls_test.m test_common.m"
 
 tmp=/tmp/$$
 here=`pwd`

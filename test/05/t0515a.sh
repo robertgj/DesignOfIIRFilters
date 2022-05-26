@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=directFIRnonsymmetric_socp_lowpass_test.m
-depends="directFIRnonsymmetric_socp_lowpass_test.m test_common.m \
+depends="test/directFIRnonsymmetric_socp_lowpass_test.m test_common.m \
 directFIRnonsymmetricEsqPW.m print_polynomial.m"
 
 tmp=/tmp/$$

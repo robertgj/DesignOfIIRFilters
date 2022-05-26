@@ -2,7 +2,7 @@
 
 prog=tarczynski_bandpass_test.m
 
-depends="tarczynski_bandpass_test.m test_common.m print_polynomial.m \
+depends="test/tarczynski_bandpass_test.m test_common.m print_polynomial.m \
 print_pole_zero.m WISEJ.m x2tf.m tf2Abcd.m tf2x.m zp2x.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$

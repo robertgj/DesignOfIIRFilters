@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=tarczynski_allpass2ndOrderCascade_test.m
-depends="tarczynski_allpass2ndOrderCascade_test.m allpass2ndOrderCascade.m \
+depends="test/tarczynski_allpass2ndOrderCascade_test.m allpass2ndOrderCascade.m \
 casc2tf.m test_common.m print_polynomial.m"
 tmp=/tmp/$$
 here=`pwd`

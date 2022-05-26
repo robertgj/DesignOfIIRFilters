@@ -2,7 +2,7 @@
 
 prog=tarczynski_deczky1_test.m
 
-depends="tarczynski_deczky1_test.m \
+depends="test/tarczynski_deczky1_test.m \
 test_common.m print_polynomial.m WISEJ_ND.m tf2Abcd.m \
 print_pole_zero.m tf2x.m zp2x.m qroots.m qzsolve.oct"
 

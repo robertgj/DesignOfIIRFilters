@@ -2,7 +2,7 @@
 
 prog=KW_test.m
 
-depends="KW_test.m test_common.m \
+depends="test/KW_test.m test_common.m \
 KW.m tf2Abcd.m dlyap_levinson.m dlyap_recursive.m atog.m gtor.m"
 tmp=/tmp/$$
 here=`pwd`

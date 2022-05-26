@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=svd_test.m
-depends=""
+depends="test/"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

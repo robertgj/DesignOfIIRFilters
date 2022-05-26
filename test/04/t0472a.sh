@@ -2,7 +2,7 @@
 
 prog=affineFIRsymmetric_lowpass_test.m
 
-depends="affineFIRsymmetric_lowpass_test.m affineFIRsymmetric_lowpass.m \
+depends="test/affineFIRsymmetric_lowpass_test.m affineFIRsymmetric_lowpass.m \
 test_common.m print_polynomial.m frefine.m local_max.m directFIRsymmetricA.m"
 
 tmp=/tmp/$$

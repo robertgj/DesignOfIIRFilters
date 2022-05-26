@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=tfp2schurNSlattice2Abcd_test.m
-depends="tfp2schurNSlattice2Abcd_test.m test_common.m \
+depends="test/tfp2schurNSlattice2Abcd_test.m test_common.m \
 tfp2schurNSlattice2Abcd.m tf2schurNSlattice.m tf2schurOneMlattice.m \
 schurNSlattice2Abcd.oct schurOneMlattice2Abcd.oct KW.m optKW.m phi2p.m \
 Abcd2tf.m schurNSlatticeNoiseGain.m schurOneMlatticeNoiseGain.m \

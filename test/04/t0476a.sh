@@ -2,7 +2,7 @@
 
 prog=purczynskiFIRantisymmetric_flat_differentiator_test.m
 
-depends="purczynskiFIRantisymmetric_flat_differentiator_test.m test_common.m \
+depends="test/purczynskiFIRantisymmetric_flat_differentiator_test.m test_common.m \
 purczynskiFIRantisymmetric_flat_differentiator.m print_polynomial.m"
 
 tmp=/tmp/$$

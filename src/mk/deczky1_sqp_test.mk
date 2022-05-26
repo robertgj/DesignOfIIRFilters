@@ -20,8 +20,7 @@ deczky1_sqp_test.m \
 test_common.m deczky1_slb.m deczky1_slb_constraints_are_empty.m \
 deczky1_slb_exchange_constraints.m deczky1_slb_set_empty_constraints.m \
 deczky1_slb_show_constraints.m deczky1_slb_update_constraints.m \
-deczky1_slb_update_constraints_test.m deczky1_sqp_mmse.m \
-iirA.m iirE.m iirT.m iirP.m iirdelAdelw.m \
+deczky1_sqp_mmse.m iirA.m iirE.m iirT.m iirP.m iirdelAdelw.m \
 invSVD.m armijo_kim.m fixResultNaN.m sqp_bfgs.m updateWchol.m local_max.m \
 updateWbfgs.m xConstraints.m x2tf.m print_polynomial.m print_pole_zero.m \
 showResponseBands.m showResponse.m showResponsePassBands.m showZPplot.m

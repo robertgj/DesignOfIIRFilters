@@ -9,12 +9,12 @@
 #
 # Top-level variables
 #
-VPATH=src:fig
+VPATH=src:src/test:fig
 TARGET=DesignOfIIRFilters
 
 # Octave script files that generate figures. Each has an associated .mk file
 # and, on completion, a .diary file.
-OCTAVE_SCRIPTS:=$(notdir $(basename $(wildcard src/*.mk)))
+OCTAVE_SCRIPTS:=$(notdir $(basename $(wildcard src/mk/*.mk)))
 
 # These are all the .oct files. Some are not needed to build the pdf
 # (eg: labudde.oct and complex_lower_hessenberg_inverse.oct) but are
@@ -108,7 +108,7 @@ endef
 # Intermediate file dependencies
 # 
 $(foreach octave_script, $(OCTAVE_SCRIPTS), \
-  $(eval include src/$(octave_script).mk) \
+  $(eval include src/mk/$(octave_script).mk) \
   $(eval test_FIGURES+=$($(octave_script)_FIGURES)) \
   $(eval test_COEFS+=$($(octave_script)_COEFS)) \
   $(eval EXTRA_DIARY_FILES+=$($(octave_script)_EXTRA_DIARY_FILES)) \
@@ -197,7 +197,7 @@ cleanall: clean cleantex cleanaegis cleanjekyll
 .PHONY: backup
 backup: cleanall
 	(tarname=`basename $$PWD` && cd .. && \
-	 tar -chjvf ~/$$tarname"."`date +%I%M%p%d%b%y`.tbz $$tarname)
+	 tar -chjvf ~/$$tarname"."`date +%I%M%p%d%b%y`.tbz --exclude=.git $$tarname)
 
 .PHONY: help
 help: 

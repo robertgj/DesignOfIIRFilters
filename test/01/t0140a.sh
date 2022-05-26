@@ -2,7 +2,7 @@
 
 prog=schurFIRlatticeFilter_test.m
 
-depends="schurFIRlatticeFilter_test.m test_common.m schurFIRlatticeFilter.m \
+depends="test/schurFIRlatticeFilter_test.m test_common.m schurFIRlatticeFilter.m \
 schurFIRdecomp.oct crossWelch.m"
 
 tmp=/tmp/$$

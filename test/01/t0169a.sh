@@ -4,7 +4,7 @@ prog=complex_zhong_inverse_test.m
 
 descr="complex_zhong_inverse_test.m (octfile)"
 
-depends="complex_zhong_inverse_test.m test_common.m check_octave_file.m \
+depends="test/complex_zhong_inverse_test.m test_common.m check_octave_file.m \
 complex_zhong_inverse.oct reprand.oct"
 
 tmp=/tmp/$$

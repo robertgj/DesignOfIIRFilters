@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=directFIRsymmetricSqErr_bandpass_test.m
-depends="directFIRsymmetricSqErr_bandpass_test.m test_common.m \
+depends="test/directFIRsymmetricSqErr_bandpass_test.m test_common.m \
 directFIRsymmetricA.m directFIRsymmetricEsq.m directFIRsymmetricEsqPW.m \
 directFIRsymmetricSqErr_bandpass.m"
 

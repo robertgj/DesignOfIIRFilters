@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=saramakiFBv_test.m
-depends="saramakiFBv_test.m test_common.m saramakiFBv.m"
+depends="test/saramakiFBv_test.m test_common.m saramakiFBv.m"
 
 tmp=/tmp/$$
 here=`pwd`

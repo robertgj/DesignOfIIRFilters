@@ -2,7 +2,7 @@
 
 prog=schurOneMPAlatticeEsq_test.m
 
-depends="schurOneMPAlatticeEsq_test.m test_common.m schurOneMPAlatticeEsq.m \
+depends="test/schurOneMPAlatticeEsq_test.m test_common.m schurOneMPAlatticeEsq.m \
 schurOneMPAlattice_test_common.m \
 schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m schurOneMPAlatticeP.m \
 tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m schurOneMlattice2Abcd.oct \

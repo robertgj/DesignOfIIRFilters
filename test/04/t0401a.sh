@@ -2,7 +2,7 @@
 
 prog=schurOneMAPlattice_frmEsq_test.m
 
-depends="schurOneMAPlattice_frmEsq_test.m test_common.m \
+depends="test/schurOneMAPlattice_frmEsq_test.m test_common.m \
 schurOneMAPlattice_frmEsq.m schurOneMAPlattice_frmAsq.m \
 schurOneMAPlattice_frmT.m schurOneMAPlattice_frmP.m \
 schurOneMAPlattice_frm.m schurOneMAPlatticeP.m schurOneMAPlatticeT.m \

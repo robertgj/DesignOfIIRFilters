@@ -4,7 +4,7 @@ prog=complex_lower_hessenberg_inverse_test.m
 
 descr="complex_lower_hessenberg_inverse_test.m (octfile)"
 
-depends="complex_lower_hessenberg_inverse_test.m test_common.m \
+depends="test/complex_lower_hessenberg_inverse_test.m test_common.m \
 check_octave_file.m \
 complex_lower_hessenberg_inverse.oct reprand.oct"
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=bmisolver_test.m
-depends="bmisolver_test.m test_common.m"
+depends="test/bmisolver_test.m test_common.m"
 
 tmp=/tmp/$$
 here=`pwd`

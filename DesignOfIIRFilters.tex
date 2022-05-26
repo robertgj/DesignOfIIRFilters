@@ -34809,14 +34809,18 @@ in \emph{dia} format~\cite{Dia_DiagramEditor} in directory \emph{fig}.  The
 source code is in directory \emph{src}.  The source code languages are C++,
 Maxima and Octave. The \emph{Makefile} includes a \emph{.mk} file for each of
 the Octave test script dependencies listed in the variable
-\emph{OCTAVE\_SCRIPTS}. For example, the Octave script \emph{butt3NS\_test.m},
-referred to in Section~\ref{sec:Round-off-normalised-scaled-lattice}, has the
-corresponding \emph{Makefile} fragment, \emph{butt3NS\_test.mk}:
+\emph{OCTAVE\_SCRIPTS}. For example, the Octave script
+\emph{butt3NS\_test.m}, referred to in
+Section~\ref{sec:Round-off-normalised-scaled-lattice}, has the corresponding
+\emph{Makefile} fragment, \emph{butt3NS\_test.mk}\footnote{\emph{github.com}
+  enforces a limit of $1000$ files per directory in a repository. To conform
+  to this limit the \emph{*\_test.m} Octave scripts were moved to \emph{src/test}
+  and the \emph{*\_test.mk} Makefile fragments were moved to \emph{src/mk}.}: 
 \begin{small}
-\verbatiminput{src/butt3NS_test.mk}
+\verbatiminput{src/mk/butt3NS_test.mk}
 \end{small}
 
-\pdfbookmark[0]{Octave}{octave}
+\pdfbookmark[0]{Octave}{octave}.
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
 version of \emph{octave-7.1.0} avoiding the vagaries of the Fedora
@@ -35441,6 +35445,14 @@ allow trusted access by the \emph{ssh} service. Recover the pointer from the
 \emph{virt-manager} terminal by depressing the \texttt{left-Ctrl} and
 \texttt{left-Alt} keys.
 
+If necessary, edit the \emph{user} and \emph{group} in
+\texttt{/etc/libvirt/qemu.conf} and add the user to the \emph{qemu} group:
+\begin{small}
+\begin{verbatim}
+sudo usermod -a -G qemu your_user_name
+\end{verbatim}
+\end{small}
+
 \subsubsection*{Set up the VM}
 I did not attempt to set up a shared directory or file server. I communicate
 with the VM through \texttt{ssh} and transfer files with \texttt{scp}. A vertical
@@ -35545,8 +35557,7 @@ display. Otherwise it uses the \emph{gnuplot} graphics toolkit. Use
 $ virsh start Fedora35Server
 $ ssh -Y root@192.168.122.100
 [root@localhost ~]# dnf install xorg-x11-xauth xorg-x11-xserver-Xspice \
-xorg-x11-xinit xorg-x11-drv-qxl xrdb xmodmap xorg-x11-utils \
-xorg-x11-xinit-session
+xorg-x11-xinit xorg-x11-drv-qxl xorg-x11-xinit-session xrdb xmodmap 
 [root@localhost ~]# echo "X11Forwarding yes" >>/etc/ssh/sshd_config
 [root@localhost ~]# echo "X11UseLocalhost no" >>/etc/ssh/sshd_config
 [root@localhost ~]# echo "AddressFamily inet" >>/etc/ssh/sshd_config

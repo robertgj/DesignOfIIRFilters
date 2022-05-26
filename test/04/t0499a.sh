@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=sdpt3_test.m
-depends="sdpt3_test.m test_common.m"
+depends="test/sdpt3_test.m test_common.m"
 
 tmp=/tmp/$$
 here=`pwd`

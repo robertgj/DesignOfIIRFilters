@@ -2,7 +2,7 @@
 
 prog=schurOneMlattice_socp_slb_lowpass_test.m
 
-depends="schurOneMlattice_socp_slb_lowpass_test.m test_common.m \
+depends="test/schurOneMlattice_socp_slb_lowpass_test.m test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
 schurOneMlatticeP.m \

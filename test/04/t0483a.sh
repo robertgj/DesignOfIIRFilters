@@ -2,7 +2,7 @@
 
 prog=tarczynski_parallel_allpass_multiband_test.m
 
-depends="tarczynski_parallel_allpass_multiband_test.m \
+depends="test/tarczynski_parallel_allpass_multiband_test.m \
 test_common.m print_polynomial.m WISEJ_PAB.m"
 
 tmp=/tmp/$$

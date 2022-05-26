@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=qzsolve_test.m
-depends="qzsolve_test.m test_common.m qroots.m check_octave_file.m \
+depends="test/qzsolve_test.m test_common.m qroots.m check_octave_file.m \
  print_pole_zero.m tf2x.m zp2x.m qzsolve.oct"
 
 tmp=/tmp/$$

@@ -2,7 +2,7 @@
 
 prog=butter2pq_test.m
 
-depends="butter2pq_test.m test_common.m butter2pq.m"
+depends="test/butter2pq_test.m test_common.m butter2pq.m"
 
 tmp=/tmp/$$
 here=`pwd`

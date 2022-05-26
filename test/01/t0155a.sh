@@ -2,7 +2,7 @@
 
 prog=vaidyanathan_allpass_example_test.m
 
-depends="vaidyanathan_allpass_example_test.m test_common.m spectralfactor.oct"
+depends="test/vaidyanathan_allpass_example_test.m test_common.m spectralfactor.oct"
 
 tmp=/tmp/$$
 here=`pwd`

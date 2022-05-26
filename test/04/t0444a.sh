@@ -2,7 +2,7 @@
 
 prog=arccs_test.m
 
-depends="arccs_test.m test_common.m arccs.m carlson_RF.m"
+depends="test/arccs_test.m test_common.m arccs.m carlson_RF.m"
 
 tmp=/tmp/$$
 here=`pwd`

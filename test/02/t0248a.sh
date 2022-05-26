@@ -2,7 +2,7 @@
 
 prog=schurOneMAPlatticeT_test.m
 
-depends="schurOneMAPlatticeT_test.m test_common.m schurOneMAPlatticeT.m \
+depends="test/schurOneMAPlatticeT_test.m test_common.m schurOneMAPlatticeT.m \
 tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m schurOneMlattice2Abcd.oct \
 schurOneMAPlattice2H.oct tf2pa.m schurOneMscale.m H2Asq.m H2T.m \
 spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \

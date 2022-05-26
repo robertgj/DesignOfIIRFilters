@@ -2,7 +2,7 @@
 
 prog=directFIRhilbertA_test.m
 
-depends="directFIRhilbertA_test.m test_common.m directFIRhilbertA.m"
+depends="test/directFIRhilbertA_test.m test_common.m directFIRhilbertA.m"
 
 tmp=/tmp/$$
 here=`pwd`

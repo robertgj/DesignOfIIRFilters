@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=schurOneMlattice_bandpass_allocsd_test.m
-depends="schurOneMlattice_bandpass_allocsd_test.m test_common.m \
+depends="test/schurOneMlattice_bandpass_allocsd_test.m test_common.m \
 ../schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m \
 ../schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m \
 ../schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m \

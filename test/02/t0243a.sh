@@ -2,7 +2,7 @@
 
 prog=iir_sqp_slb_pink_test.m
 
-depends="iir_sqp_slb_pink_test.m \
+depends="test/iir_sqp_slb_pink_test.m \
 ../tarczynski_pink_test_D0_coef.m \
 ../tarczynski_pink_test_N0_coef.m \
 test_common.m print_polynomial.m \

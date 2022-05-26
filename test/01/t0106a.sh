@@ -2,7 +2,7 @@
 
 prog=schurdecomp_test.m
 descr="schurdecomp_test.m (mfile)"
-depends="schurdecomp_test.m test_common.m check_octave_file.m schurdecomp.m"
+depends="test/schurdecomp_test.m test_common.m check_octave_file.m schurdecomp.m"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -2,7 +2,7 @@
 
 prog=schurOneMlattice_sqp_slb_bandpass_test.m
 
-depends="schurOneMlattice_sqp_slb_bandpass_test.m test_common.m \
+depends="test/schurOneMlattice_sqp_slb_bandpass_test.m test_common.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_slb.m \

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=schurOneMlatticeRetimed2Abcd_test.m
-depends="schurOneMlatticeRetimed2Abcd_test.m test_common.m \
+depends="test/schurOneMlatticeRetimed2Abcd_test.m test_common.m \
 schurOneMlatticeRetimed2Abcd.m schurOneMlatticeRetimedNoiseGain.m \
 tf2schurOneMlattice.m Abcd2tf.m schurOneMscale.m KW.m svf.m crossWelch.m \
 schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct reprand.oct \

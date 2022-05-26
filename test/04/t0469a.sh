@@ -2,7 +2,7 @@
 
 prog=mcclellanFIRsymmetric_flat_differentiator_fail_test.m
 
-depends="mcclellanFIRsymmetric_flat_differentiator_fail_test.m test_common.m \
+depends="test/mcclellanFIRsymmetric_flat_differentiator_fail_test.m test_common.m \
 mcclellanFIRsymmetric.m lagrange_interp.m local_max.m directFIRsymmetricA.m \
 xfr2tf.m print_polynomial.m"
 
