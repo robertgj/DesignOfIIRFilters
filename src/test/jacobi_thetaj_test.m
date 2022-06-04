@@ -1,11 +1,11 @@
-% jacobi_theta_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% jacobi_thetaj_test.m
+% Copyright (C) 2019,2022 Robert G. Jenssen
 
 test_common;
 
-delete("jacobi_theta_test.diary");
-delete("jacobi_theta_test.diary.tmp");
-diary jacobi_theta_test.diary.tmp
+delete("jacobi_thetaj_test.diary");
+delete("jacobi_thetaj_test.diary.tmp");
+diary jacobi_thetaj_test.diary.tmp
 
 % Check identities from NIST Digital Library of Mathematical
 % Formulas, Section 20.9(i)
@@ -158,4 +158,4 @@ endfor
 
 % Done
 diary off
-movefile jacobi_theta_test.diary.tmp jacobi_theta_test.diary;
+movefile jacobi_thetaj_test.diary.tmp jacobi_thetaj_test.diary;
