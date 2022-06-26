@@ -12,18 +12,18 @@
 #  dnf install atlas blas lapack gsl gsl-devel openblas openblas-threads
 
 # Assume these archive files are present:
-#  lapack-3.10.0.tar.gz
-#  SuiteSparse-5.10.1.tar.gz
-#  arpack-ng-master.zip
+#  lapack-3.10.1.tar.gz
+#  SuiteSparse-5.12.0.tar.gz
+#  arpack-ng-3.8.0.tar.gz
 #  fftw-3.3.10.tar.gz
 #  qrupdate-1.1.2.tar.gz
 #  octave-7.1.0.tar.lz
-#  io-?.?.?.tar.gz
-#  statistics-?.?.?.tar.gz
-#  struct-?.?.?.tar.gz
-#  optim-?.?.?.tar.gz
-#  control-?.?.?.tar.gz
-#  signal-?.?.?.tar.gz
+#  io-2.6.4.tar.gz
+#  statistics-1.4.3.tar.gz
+#  struct-1.0.18.tar.gz
+#  optim-1.6.2.tar.gz
+#  control-3.4.0.tar.gz
+#  signal-1.4.2.tar.gz
 
 # Disable CPU frequency scaling:
  for c in `seq 0 7` ; do
@@ -40,7 +40,7 @@ dnf list installed kernel* gcc* atlas* openblas* gsl* blas* lapack* \
 
 # Build local versions of the lapack and blas libraries
 export LOCAL_PREFIX=`pwd`
-export LPVER=3.10.0
+export LPVER=3.10.1
 source ./build-lapack.sh
 
 # Build local versions of the other libraries used by octave

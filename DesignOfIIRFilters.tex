@@ -34754,8 +34754,8 @@ stop band regions. The pass band phase error is adjusted for the nominal delay.}
 \section*{Software requirements}
 I currently use the Fedora 36 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{5.17.3-302.fc36.x86\_64}
-\item \emph{gcc} version \emph{12.0.1 20220413 (Red Hat 12.0.1-0)}
+\item \texttt{uname -r} is \emph{5.18.6-200.fc36.x86\_64}
+\item \emph{gcc} version \emph{12.1.1 20220507 (Red Hat 12.1.1-1)}
 \item a local build of \emph{octave-7.1.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic} and \emph{parallel} Octave-Forge packages
@@ -34801,7 +34801,7 @@ texlive-dvisvgm
   
 \pdfbookmark[0]{Makefile}{makefile}
 \section*{\emph{Makefile}}
-This document is built with \emph{GNU make-4.3-6}. The \emph{Makefile} in the
+This document is built with \emph{GNU make-4.3-7}. The \emph{Makefile} in the
 project archive builds the PDF version of this document from the \LaTeX source
 in \emph{DesignOfIIRFilters.tex}. The project archive contains the files
 required to generate the figures shown in this document. The line diagrams are
@@ -34838,10 +34838,10 @@ libraries:
 \emph{arpack-ng-3.8.0}~\cite{ARPACKNG_website},
 \emph{fftw-3.3.10}~\cite{FFTW_website},
 \emph{glpk-5.0}~\cite{GNU_GLPK},
-\emph{lapack-3.10.0}~\cite{LAPACK_website},
+\emph{lapack-3.10.1}~\cite{LAPACK_website},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
-\emph{SuiteSparse-5.10.1}~\cite{SUITESPARSE_website},
-\emph{sundials-5.8.0}~\cite{SUNDIALS_website} and
+\emph{SuiteSparse-5.12.0}~\cite{SUITESPARSE_website},
+\emph{sundials-6.2.0}~\cite{SUNDIALS_website} and
 \emph{GraphicsMagick-1.3.38}~\cite{GraphicsMagick_website}.
 The local build of the \emph{LAPACK} library includes the deprecated routines.
 
@@ -34907,7 +34907,7 @@ within \emph{build-octave.sh}:
   \emph{octave-7.1.0}.
 \item the \emph{symbolic-2.9.0} package is patched with \emph{sympy-1.6.patch}
 from \emph{octave-symbolic\_2.9.0-3.debian.tar.xz} to update to the
-\emph{python3-sympy-1.7.1} package provided with Fedora 33. \emph{SparsePOP}
+\emph{python3-sympy-1.10.1-1} package provided with Fedora 36. \emph{SparsePOP}
 uses the \texttt{collect} function from \emph{SymPy}. This is not included in
 the \emph{symbolic-2.9.0} package. I add a version of \emph{collect.m}
 based on \emph{factor.m}. 
@@ -34986,9 +34986,9 @@ be installed with this work-around:
 This section shows the results of benchmarking various builds of Octave
 and benchmarking \emph{blas} and \emph{lapack} libraries with a shared library
 \emph{LTO} and \emph{PGO} build of Octave. The Linux kernel used was
-\emph{5.17.3-302.fc36.x86\_64} from the RedHat Fedora 36 Linux
+\emph{5.18.6-200.fc36.x86\_64} from the RedHat Fedora 36 Linux
 distribution. The system compiler is
-\emph{gcc version 12.0.1 20220413 (Red Hat 12.0.1-0)}.
+\emph{gcc version 12.1.1 20220507 (Red Hat 12.1.1-1)}.
 The CPU is an Intel i7-7700K for which the number of CPU cores 
 is $4$ ($8$ hyper-threaded). During the benchmark the CPU frequency was fixed
 at $4.5GHz$.  To do this, as the \emph{root} user:
@@ -35061,11 +35061,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 267.3 \\
-Generic, shared reference lapack and blas            &  41.9 \\
-Generic, shared reference lapack and blas, LTO       &  40.6 \\
-Generic, shared reference lapack and blas, PGO       &  43.4 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  39.7 \\
+Debug, shared reference lapack and blas              & 267.5 \\
+Generic, shared reference lapack and blas            &  41.4 \\
+Generic, shared reference lapack and blas, LTO       &  41.8 \\
+Generic, shared reference lapack and blas, PGO       &  43.5 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  41.0 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -35080,7 +35080,7 @@ The shell script \emph{library-benchmark.sh} benchmarks the shared library
 \emph{linpack.m}~\cite{Rutter_LinpackBenchmark} script and the previous IIR
 benchmark script. The \emph{linpack.m} script was modified to produce
 repeatable residuals. The alternative \emph{blas} and \emph{lapack} library
-versions used are local builds of \emph{blas-3.10.0} and \emph{lapack-3.10.0} and
+versions used are local builds of \emph{blas-3.10.1} and \emph{lapack-3.10.1} and
 the Fedora 36 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
 \emph{gsl}~\cite{GNU_GSL} and \emph{openblas}~\cite{OpenBLAS_website}
 packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
@@ -35098,8 +35098,8 @@ packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
 \begin{small}
 \begin{verbatim}
 atlas.x86_64               3.10.3-19.fc36
-blas.x86_64                3.10.0-5.fc36
-lapack.x86_64              3.10.0-5.fc36
+blas.x86_64                3.10.1-1.fc36
+lapack.x86_64              3.10.1-1.fc36
 gsl.x86_64                 2.6-6.fc36
 gsl-devel.x86_64           2.6-6.fc36
 openblas.x86_64            0.3.19-3.fc36
@@ -35140,19 +35140,19 @@ libraries varied between two values. The largest is shown.
 \cmidrule{2-4}             & MFLOPS & Normalised          & Execution time \\
                            &        & residual            & (seconds) \\
 \midrule
-Generic libblas/liblapack  &  3911  & 21.3                &  39.6 \\
-Intel libblas/liblapack    &  3899  & 21.3                &  39.6 \\
-Haswell libblas/liblapack  &  4009  & 18.5                &  39.5 \\
-Nehalem libblas/liblapack  &  3863  & 21.3                &  39.5 \\
-Skylake libblas/liblapack  &  4738  & 18.5                &  39.2 \\
-Fedora 35 libblas/liblapack&  3952  & 21.3                &  39.5 \\
-libgslcblas                &  3937  & 21.3                &  39.5 \\
-libsatlas                  & 13508  & 14.3                &  39.2 \\
-libtatlas                  & 21280  & 14.3                &  39.8 \\
-libopenblas                & 35166  &  9.9                &  37.9 \\
-libopenblasp (1 thread)    & 35480  &  9.9                &  38.0 \\
-libopenblasp (2 threads)   & 51788  & 12.1                &  38.4 \\
-libopenblasp (4 threads)   & 67422  & 10.8                &  38.2 \\
+Generic libblas/liblapack  &  3916  & 21.3                &  41.0 \\
+Intel libblas/liblapack    &  3891  & 21.3                &  40.8 \\
+Haswell libblas/liblapack  &  4872  & 18.5                &  40.4 \\
+Nehalem libblas/liblapack  &  3924  & 21.3                &  40.8 \\
+Skylake libblas/liblapack  &  4027  & 18.5                &  40.8 \\
+Fedora 36 libblas/liblapack&  3943  & 21.3                &  40.8 \\
+libgslcblas                &  3925  & 21.3                &  40.7 \\
+libsatlas                  & 13422  & 14.3                &  40.4 \\
+libtatlas                  & 21212  & 14.3                &  40.9 \\
+libopenblas                & 35152  &  9.9                &  39.2 \\
+libopenblasp (1 thread)    & 35111  &  9.9                &  39.2 \\
+libopenblasp (2 threads)   & 51599  & 12.1                &  39.6 \\
+libopenblasp (4 threads)   & 66818  & 10.8                &  39.6 \\
 \bottomrule
 \end{tabular}
 \egroup{}
