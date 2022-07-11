@@ -34905,12 +34905,9 @@ within \emph{build-octave.sh}:
   handle the \texttt{grpdelay(a,b,w} API.
 \item the \emph{parallel-4.0.1} package is patched to make it compatible with
   \emph{octave-7.1.0}.
-\item the \emph{symbolic-2.9.0} package is patched with \emph{sympy-1.6.patch}
-from \emph{octave-symbolic\_2.9.0-3.debian.tar.xz} to update to the
-\emph{python3-sympy-1.10.1-1} package provided with Fedora 36. \emph{SparsePOP}
-uses the \texttt{collect} function from \emph{SymPy}. This is not included in
-the \emph{symbolic-2.9.0} package. I add a version of \emph{collect.m}
-based on \emph{factor.m}. 
+\item \emph{SparsePOP} uses the \texttt{collect} function from
+  \emph{SymPy}. This is not included in the \emph{symbolic-3.0.0} package. I add
+  a version of \emph{collect.m} based on \emph{factor.m}. 
 \end{itemize}
 
 \pdfbookmark[1]{Building Octave}{building-octave}
@@ -35248,11 +35245,7 @@ Octave-Forge \emph{symbolic} package~\cite{OctaveForge_SymbolicPackage}. The
 latter is based on \emph{SymPy}~\cite{SymPy}, a Python library for symbolic
 mathematics. The Octave \emph{sparsePOP\_test.m} script shows an example of
 \emph{sparsePOP} reading the \emph{Bex5\_2\_5.gms} GAMS format example with the
-Octave-Forge \emph{symbolic} package. Note that the \emph{symbolic-2.9.0}
-package does not support the SymPy \emph{collect} function. I add a version
-of \emph{collect.m} based on 
-\emph{octave/packages/symbolic-2.9.0/@sym/factor.m} to the \emph{@sym}
-directory.
+Octave-Forge \emph{symbolic} package.
 
 \subsubsection*{Problems with SparsePOP}
 The \emph{sparsePOP\_solveExample\_test.m} script runs the SparsePOP
