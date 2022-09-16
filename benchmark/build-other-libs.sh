@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Assume these files are present:
-#  SuiteSparse-5.12.0.tar.gz
+#  SuiteSparse-5.13.0.tar.gz
 #  arpack-ng-3.8.0.tar.gz
 #  fftw-3.3.10.tar.gz
 #  qrupdate-1.1.2.tar.gz
@@ -20,7 +20,7 @@ popd
 #
 # Build SuiteSparse
 #
-SUITESPARSE_VER=5.12.0
+SUITESPARSE_VER=5.13.0
 rm -Rf SuiteSparse-$SUITESPARSE_VER
 tar -xf SuiteSparse-$SUITESPARSE_VER.tar.gz
 pushd SuiteSparse-$SUITESPARSE_VER

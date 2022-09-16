@@ -9038,7 +9038,7 @@ in Figure~\ref{fig:iir-sqp-slb-lowpass-differentiator-initial-response}.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_test_initial_x0_error}}
 \caption{Response errors of the initial low-pass differentiator filter. The
-zero at $z=1$ removed and the phase response shown is adjusted for the
+zero at $z=1$ is removed and the phase response shown is adjusted for the
 nominal delay.}
 \label{fig:iir-sqp-slb-lowpass-differentiator-initial-response}
 \end{figure}
@@ -20348,8 +20348,8 @@ the Clenshaw recurrence calculated with a
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{clenshaw_gaussian_test_approx_fixed_point}}
-\caption{Chebychev polynomial approximation to a Gaussian with coefficients and
-  fixed-point arithmetic}
+\caption{Chebychev polynomial approximation to a Gaussian with fixed-point
+  coefficients and arithmetic}
 \label{fig:Chebyshev-Gaussian-approximation-error-fixed-point}
 \end{figure}
 
@@ -32864,7 +32864,7 @@ Zolotarev differential equation.
 \section{\label{app:FIR-tapped-cascaded}Design of FIR filters as a tapped cascade of sub-filters}
 This chapter describes the design of FIR filters as a series cascade of
 sub-filters. See, for example,
-\emph{Sara\"{a}ki}~\cite{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters},
+\emph{Saram\"{a}ki}~\cite{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters},
 \emph{Shiung et al.}~\cite{Shiung_ImprovingFIRFiltersCascadeTechniques},
 \emph{Smith}~\cite{Smith_DecompositionFIRCascadeSubFilters} or
 \emph{Lim} and \emph{Liu}~\cite{LimLui_CascadeFIRDiscreteCoefficients}. The
@@ -33684,16 +33684,17 @@ $\boldsymbol{\Lambda}\left(\Phi,0\right)\cap\boldsymbol{\Lambda}\left(0,\Psi\rig
 By an appropriate choice of $\Phi$ and $\Psi$ the set
 $\boldsymbol{\Lambda}$ can be specialised to define a range of the
 frquency variable $\lambda$. For the discrete-time frequency on the unit circle
-in the $z$-plane:
-\begin{align*}
+in the complex plane:
+\begin{align}
  \boldsymbol{\Lambda}
-  &=\left\{z=e^{\imath\omega}:\omega\in\boldsymbol{\Theta}\right\} \\
-  \sigma\left(z,\Phi\right) &= 0 \\
+  &=\left\{\lambda=e^{\imath\omega}:\omega\in\boldsymbol{\Theta}\right\} \\
+  \sigma\left(\lambda,\Phi\right) &= 0 \\
   \Phi&=\left[\begin{array}{cc}
                 -1 & 0 \\
                 0 & 1 \\
               \end{array}\right]
-\end{align*}
+  \label{eqn:Lambda-sigma-unit-circle}
+\end{align}
 where $\boldsymbol{\Theta}$ is a subset of the real numbers specified by $\Psi$
 as shown in Table~\ref{tab:Iwasaki-Hara-discrete-time-frequency-ranges}.
 
@@ -34352,10 +34353,10 @@ has $l$ distinct roots grouped in the set $\in\mathcal{R}_{T}\left(s\right)$.
 matrix $R\in\mathbb{H}^{l}$ such that:
 \begin{align*}
 L_{l-1}\left(\lambda\right)^{\dagger}R\;L_{l-1}\left(\lambda\right)&>0
-\;\forall\lambda\in\Lambda\left(\Phi_{o},\Psi_{o}\right) \\
+\;\forall\lambda\in\boldsymbol{\Lambda}\left(\Phi_{o},\Psi_{o}\right) \\
 L_{l-1}\left(\lambda_{i}\right)^{\dagger}R\;L_{l-1}\left(\lambda_{j}\right)&=0
 \;\forall\lambda_{i},\lambda_{j}\in\mathcal{R}_{T}\left(s\right),\; i\ne j,\;
-\forall s\in\Lambda\left(\Phi_{o},\Psi_{o}\right) 
+\forall s\in\boldsymbol{\Lambda}\left(\Phi_{o},\Psi_{o}\right) 
 \end{align*}
 Assumption $1$ allows a large variety of curves in $\mathbb{C}$ but only the
 union of segments of a circle or straight line has been found to also comply
@@ -34755,9 +34756,9 @@ stop band regions. The pass band phase error is adjusted for the nominal delay.}
 \section*{Software requirements}
 I currently use the Fedora 36 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{5.18.6-200.fc36.x86\_64}
-\item \emph{gcc} version \emph{12.1.1 20220507 (Red Hat 12.1.1-1)}
-\item a local build of \emph{octave-7.1.0} with the \emph{struct}, \emph{io},
+\item \texttt{uname -r} is \emph{5.19.8-200.fc36.x86\_64}
+\item \emph{gcc} version \emph{12.1.1 20220819 (Red Hat 12.2.1-1)}
+\item a local build of \emph{octave-7.2.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic} and \emph{parallel} Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit with
@@ -34766,7 +34767,7 @@ I currently use the Fedora 36 distribution of Linux~\cite{Fedora_website} with:
 \item \emph{dia-0.97.3-20} is used for line drawings
 \end{itemize}
 
-The local build of \emph{octave-7.1.0} assumes that the following packages are
+The local build of \emph{octave-7.2.0} assumes that the following packages are
 installed in addition to the base Fedora distribution:
 \begin{small}
 \begin{verbatim}
@@ -34824,15 +34825,15 @@ Section~\ref{sec:Round-off-normalised-scaled-lattice}, has the corresponding
 \pdfbookmark[0]{Octave}{octave}.
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
-version of \emph{octave-7.1.0} avoiding the vagaries of the Fedora
+version of \emph{octave-7.2.0} avoiding the vagaries of the Fedora
 packagers.
 
 The \emph{build-octave.sh} script builds Octave and the associated numerical
 libraries with the \emph{g++} option \texttt{-march=nehalem}. The patch file,
 \emph{octave.patch}, is a shell \emph{here} document
-within \emph{build-octave.sh}. The \emph{octave-7.1.0/configure} script is
+within \emph{build-octave.sh}. The \emph{octave-7.2.0/configure} script is
 patched so that the Octave \texttt{OCTAVE\_VERSION} command
-returns \texttt{7.1.0-robj}.
+returns \texttt{7.2.0-robj}.
 
 The local build of Octave links to locally built versions of the following
 libraries: 
@@ -34841,8 +34842,8 @@ libraries:
 \emph{glpk-5.0}~\cite{GNU_GLPK},
 \emph{lapack-3.10.1}~\cite{LAPACK_website},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
-\emph{SuiteSparse-5.12.0}~\cite{SUITESPARSE_website},
-\emph{sundials-6.2.0}~\cite{SUNDIALS_website} and
+\emph{SuiteSparse-5.13.0}~\cite{SUITESPARSE_website},
+\emph{sundials-6.3.0}~\cite{SUNDIALS_website} and
 \emph{GraphicsMagick-1.3.38}~\cite{GraphicsMagick_website}.
 The local build of the \emph{LAPACK} library includes the deprecated routines.
 
@@ -34905,9 +34906,9 @@ within \emph{build-octave.sh}:
   avoid a \LaTeX~error and the \texttt{grpdelay} function is patched to correctly
   handle the \texttt{grpdelay(a,b,w} API.
 \item the \emph{parallel-4.0.1} package is patched to make it compatible with
-  \emph{octave-7.1.0}.
+  \emph{octave-7.2.0}.
 \item \emph{SparsePOP} uses the \texttt{collect} function from
-  \emph{SymPy}. This is not included in the \emph{symbolic-3.0.0} package. I add
+  \emph{SymPy}. This is not included in the \emph{symbolic-3.0.1} package. I add
   a version of \emph{collect.m} based on \emph{factor.m}. 
 \end{itemize}
 
@@ -34984,9 +34985,9 @@ be installed with this work-around:
 This section shows the results of benchmarking various builds of Octave
 and benchmarking \emph{blas} and \emph{lapack} libraries with a shared library
 \emph{LTO} and \emph{PGO} build of Octave. The Linux kernel used was
-\emph{5.18.6-200.fc36.x86\_64} from the RedHat Fedora 36 Linux
+\emph{5.19.8-200.fc36.x86\_64} from the RedHat Fedora 36 Linux
 distribution. The system compiler is
-\emph{gcc version 12.1.1 20220507 (Red Hat 12.1.1-1)}.
+\emph{gcc version 12.1.1 20220819 (Red Hat 12.2.1-1)}.
 The CPU is an Intel i7-7700K for which the number of CPU cores 
 is $4$ ($8$ hyper-threaded). During the benchmark the CPU frequency was fixed
 at $4.5GHz$.  To do this, as the \emph{root} user:
@@ -35059,11 +35060,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 267.5 \\
-Generic, shared reference lapack and blas            &  41.4 \\
-Generic, shared reference lapack and blas, LTO       &  41.8 \\
-Generic, shared reference lapack and blas, PGO       &  43.5 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  41.0 \\
+Debug, shared reference lapack and blas              & 272.9 \\
+Generic, shared reference lapack and blas            &  47.5 \\
+Generic, shared reference lapack and blas, LTO       &  47.8 \\
+Generic, shared reference lapack and blas, PGO       &  48.7 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  47.0 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -35138,19 +35139,19 @@ libraries varied between two values. The largest is shown.
 \cmidrule{2-4}             & MFLOPS & Normalised          & Execution time \\
                            &        & residual            & (seconds) \\
 \midrule
-Generic libblas/liblapack  &  3916  & 21.3                &  41.0 \\
-Intel libblas/liblapack    &  3891  & 21.3                &  40.8 \\
-Haswell libblas/liblapack  &  4872  & 18.5                &  40.4 \\
-Nehalem libblas/liblapack  &  3924  & 21.3                &  40.8 \\
-Skylake libblas/liblapack  &  4027  & 18.5                &  40.8 \\
-Fedora 36 libblas/liblapack&  3943  & 21.3                &  40.8 \\
-libgslcblas                &  3925  & 21.3                &  40.7 \\
-libsatlas                  & 13422  & 14.3                &  40.4 \\
-libtatlas                  & 21212  & 14.3                &  40.9 \\
-libopenblas                & 35152  &  9.9                &  39.2 \\
-libopenblasp (1 thread)    & 35111  &  9.9                &  39.2 \\
-libopenblasp (2 threads)   & 51599  & 12.1                &  39.6 \\
-libopenblasp (4 threads)   & 66818  & 10.8                &  39.6 \\
+Generic libblas/liblapack  &  3945  & 21.3                &  46.9 \\
+Intel libblas/liblapack    &  3871  & 21.3                &  46.8 \\
+Haswell libblas/liblapack  &  4737  & 18.5                &  46.4 \\
+Nehalem libblas/liblapack  &  3881  & 21.3                &  46.8 \\
+Skylake libblas/liblapack  &  4506  & 18.5                &  46.7 \\
+Fedora 36 libblas/liblapack&  3908  & 21.3                &  46.9 \\
+libgslcblas                &  3912  & 21.3                &  46.9 \\
+libsatlas                  & 13217  & 14.3                &  46.5 \\
+libtatlas                  & 20725  & 14.3                &  47.2 \\
+libopenblas                & 34054  &  9.9                &  45.3 \\
+libopenblasp (1 thread)    & 34065  &  9.9                &  45.3 \\
+libopenblasp (2 threads)   & 48710  & 12.1                &  45.8 \\
+libopenblasp (4 threads)   & 62354  & 10.8                &  45.6 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -35500,7 +35501,7 @@ hdf5 hdf5-devel qt qscintilla-qt5 qscintilla-qt5-devel \
 qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel \
 GraphicsMagick-c++ GraphicsMagick-c++-devel libcurl libcurl-devel \
 gl2ps gl2ps-devel fontconfig-devel mesa-libGLU mesa-libGLU-devel \
-qt5-qttools qt5-qttools-common qt5-qttools-devel
+qt5-qttools qt5-qttools-common qt5-qttools-devel rapidjson-devel
 .
 .
 .

@@ -137,7 +137,7 @@ cat > test.atlas.ok << 'EOF'
  0.14709002182058989
 EOF
 
-gfortran -Wall -o dgesvd_test_atlas dgesvd_test.f /usr/lib64/atlas/libtatlas.so.3
+gfortran -o dgesvd_test_atlas dgesvd_test.f /usr/lib64/atlas/libtatlas.so.3
 if [ $? -ne 0 ]; then \
     echo "Failed to compile dgesvd_test.f with libtatlas"; fail; fi
 
@@ -160,7 +160,7 @@ cat > test.sysblas.ok << 'EOF'
  0.14709002182060862
 EOF
 
-gfortran -Wall -o dgesvd_test_sysblas dgesvd_test.f \
+gfortran -o dgesvd_test_sysblas dgesvd_test.f \
          /usr/lib64/libblas.so.3 /usr/lib64/liblapack.so.3
 if [ $? -ne 0 ]; then \
     echo "Failed to compile dgesvd_test.f with system libblas"; fail; fi
@@ -177,24 +177,26 @@ for k in `seq 1 100`;do \
 done
 
 #
-# the octave-7.1.0 BLAS output should look like this
+# the octave BLAS output should look like this
 #
 cat > test.blas.ok << 'EOF'
  0.14709002182060862
 EOF
 
-gfortran -Wall -o dgesvd_test_blas dgesvd_test.f \
-         -L/usr/local/octave-7.1.0/lib -lblas -llapack
+export LD_LIBRARY_PATH=/usr/local/octave-7.2.0/lib
+
+gfortran -o dgesvd_test_blas dgesvd_test.f -L$LD_LIBRARY_PATH -lblas -llapack
 if [ $? -ne 0 ]; then \
     echo "Failed to compile dgesvd_test.f with libblas"; fail; fi
 
-echo "LD_LIBRARY_PATH=/usr/local/octave-7.1.0/lib ldd dgesvd_test_blas" \
-     > test.blas.ldd
-LD_LIBRARY_PATH=/usr/local/octave-7.1.0/lib ldd dgesvd_test_blas >> test.blas.ldd
+echo "ldd dgesvd_test_blas" > test.blas.ldd
+ldd dgesvd_test_blas >> test.blas.ldd
+grep -q $LD_LIBRARY_PATH test.blas.ldd
+if [ $? -ne 0 ]; then \
+    echo "Failed to compile dgesvd_test.f with octave local libblas"; fail; fi
 
 for k in `seq 1 100`;do \
-    LD_LIBRARY_PATH=/usr/local/octave-7.1.0/lib \
-                   ./dgesvd_test_blas >test.blas.out.$k ; \
+    ./dgesvd_test_blas >test.blas.out.$k ; \
     if [ $? -ne 0 ]; then echo "Failed running with libblas "$k; fail; fi ; \
 
     diff -Bb test.blas.ok test.blas.out.$k ; \
