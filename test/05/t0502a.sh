@@ -46,7 +46,7 @@ Using sedumi
 
 Linear matrix variable 9x1 (full, complex, 5 variables)
 Coeffiecient range: 0.8 to 4
-ans = Successfully solved (SeDuMi-1.3)
+ans = Successfully solved (SeDuMi)
 ans = 0
 Z1 =
    4.2827 +      0i   0.8079 + 1.7342i   2.5574 - 0.7938i
@@ -57,7 +57,7 @@ t1 = 2.1048
 Linear matrix variable 9x1 (full, complex, 5 variables)
 Values in range [0.28269,0.78269]
 Coeffiecient range: 0.8 to 4
-ans = Successfully solved (SeDuMi-1.3)
+ans = Successfully solved (SeDuMi)
 ans = 0
 Z2 =
    4.2827 +      0i   0.8079 + 1.7342i   2.5574 - 0.7938i
@@ -68,7 +68,7 @@ t2 = 1.4508
 Linear matrix variable 9x1 (full, complex, 5 variables)
 Values in range [0.28269,0.78269]
 Coeffiecient range: 0.8 to 4
-ans = Successfully solved (SeDuMi-1.3)
+ans = Successfully solved (SeDuMi)
 ans = 0
 Z3 =
    4.2827 +      0i   0.8079 + 1.7342i   2.5574 - 0.7938i
@@ -79,7 +79,7 @@ t3 = 1.4508
 Linear matrix variable 9x1 (full, complex, 5 variables)
 Values in range [0.28269,0.78269]
 Coeffiecient range: 0.8 to 4
-ans = Successfully solved (SeDuMi-1.3)
+ans = Successfully solved (SeDuMi)
 ans = 0
 Z4 =
    4.2826 +      0i   0.8079 + 1.7341i   2.5574 - 0.7937i
@@ -87,7 +87,7 @@ Z4 =
    2.5574 + 0.7937i   0.8079 - 1.7341i   4.2826 +      0i
 
 t4 = 2.1048
-ans = Successfully solved (SeDuMi-1.3)
+ans = Successfully solved (SeDuMi)
 ans = 0
 Z5 =
    4.2827 +      0i   0.8079 + 1.7342i   2.5574 - 0.7938i
@@ -102,7 +102,7 @@ Using sdpt3
 Linear matrix variable 9x1 (full, complex, 5 variables)
 Values in range [-0.28269,-0.78269]
 Coeffiecient range: 0.8 to 4
-ans = Successfully solved (SDPT3-4)
+ans = Successfully solved (SDPT3)
 ans = 0
 Z1 =
    4.2827 +      0i   0.8079 + 1.7342i   2.5574 - 0.7938i
@@ -113,7 +113,7 @@ t1 = 2.1048
 Linear matrix variable 9x1 (full, complex, 5 variables)
 Values in range [0.28268,0.78268]
 Coeffiecient range: 0.8 to 4
-ans = Successfully solved (SDPT3-4)
+ans = Successfully solved (SDPT3)
 ans = 0
 Z2 =
    4.2827 +      0i   0.8079 + 1.7342i   2.5574 - 0.7938i
@@ -124,7 +124,7 @@ t2 = 1.4508
 Linear matrix variable 9x1 (full, complex, 5 variables)
 Values in range [0.28268,0.78268]
 Coeffiecient range: 0.8 to 4
-ans = Successfully solved (SDPT3-4)
+ans = Successfully solved (SDPT3)
 ans = 0
 Z3 =
    4.2827 +      0i   0.8079 + 1.7342i   2.5574 - 0.7938i
@@ -135,7 +135,7 @@ t3 = 1.4508
 Linear matrix variable 9x1 (full, complex, 5 variables)
 Values in range [0.28268,0.78268]
 Coeffiecient range: 0.8 to 4
-ans = Successfully solved (SDPT3-4)
+ans = Successfully solved (SDPT3)
 ans = 0
 Z4 =
    4.2827 +      0i   0.8079 + 1.7342i   2.5574 - 0.7938i
@@ -143,7 +143,7 @@ Z4 =
    2.5574 + 0.7938i   0.8079 - 1.7342i   4.2827 +      0i
 
 t4 = 2.1048
-ans = Successfully solved (SDPT3-4)
+ans = Successfully solved (SDPT3)
 ans = 0
 Z5 =
    4.2827 +      0i   0.8079 + 1.7342i   2.5574 - 0.7938i

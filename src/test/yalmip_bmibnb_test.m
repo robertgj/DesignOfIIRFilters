@@ -1,5 +1,5 @@
 % yalmip_bmibnb_test.m
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2022 Robert G. Jenssen
 % See the examples at: https://yalmip.github.io/tutorial/globaloptimization/
 
 test_common;
@@ -26,21 +26,30 @@ F = [x>=-0.5, x<=2, y>=-3, y<=7];
 F = [F, A0+x*A1+y*A2+x*y*K12-t*eye(3)<=0];
 options = sdpsettings('solver','bmibnb');
 optimize(F,t,options);
+fprintf(fhandle,"value(t)=%7.4f\n",value(t));
 
 yalmip('clear')
 A = [-1 2;-3 -4];B = [1;1];
 P = sdpvar(2,2);
 K = sdpvar(1,2);
 F = [P>=0, (A+B*K)'*P+P*(A+B*K) <= -eye(2)-K'*K];
-F = [F, -0.1 <= K<=0.1];
-options = sdpsettings('solver','bmibnb');
-optimize(F,trace(P),options);
-% Alternatively
-F = [P>=0, [-eye(2) - ((A+B*K)'*P+P*(A+B*K)) K';K 1] >= 0];
-F = [F, K<=0.1, K>=-0.1];
+F = [F, -0.1 <= K <= 0.1];
 options = sdpsettings('solver','bmibnb');
 optimize(F,trace(P),options);
 fprintf(fhandle,"value(trace(P))=%7.4f\n",value(trace(P)));
+
+%{
+% Alternatively (Unfortunately, this causes warnings of numerical instability)
+yalmip('clear')
+A = [-1 2;-3 -4];B = [1;1];
+P = sdpvar(2,2);
+K = sdpvar(1,2);
+F = [P>=0, [(-eye(2) - ((A+B*K)'*P+P*(A+B*K))), K';K, 1] >= 0];
+F = [F, K >= -0.1 , K <= 0.1];
+options = sdpsettings('solver','bmibnb');
+optimize(F,trace(P),options);
+fprintf(fhandle,"value(trace(P))=%7.4f\n",value(trace(P)));
+%}
 
 yalmip('clear');
 A = [-1 2;-3 -4];
@@ -111,7 +120,11 @@ fprintf(fhandle,"For %s : \n",Options.solver);
 fprintf(fhandle,"value(x) = [ ");
 fprintf(fhandle,"%7.4f ",value(x)');
 fprintf(fhandle,"]\n");
-fprintf(fhandle,"value(x'*Q*x) = %7.4f\n",value(x'*Q*x));
+if abs(imag(value(x'*Q*x))) > 100*eps
+  fprintf(fhandle,"abs(imag(value(x'*Q*x))) (%g) > 100*eps\n",
+          abs(imag(value(x'*Q*x))));
+endif
+fprintf(fhandle,"real(value(x'*Q*x)) = %7.4f\n",real(value(x'*Q*x)));
 
 % Done
 fclose(fhandle);

@@ -972,7 +972,7 @@ OCTAVE_SITE_M_DIR=$OCTAVE_SHARE_DIR/$OCTAVE_LOCAL_VERSION/site/m
 
 # Install SeDuMi
 if ! test -f sedumi-master.zip ; then
-  wget -c $GITHUB_URL/sedumi/archive/master.zip
+  wget -c $GITHUB_URL/sedumi/archive/refs/heads/master.zip
   mv -f master.zip sedumi-master.zip
 fi
 rm -Rf sedumi-master $OCTAVE_SITE_M_DIR/SeDuMi
@@ -985,7 +985,7 @@ $OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SeDuMi/install_sedumi.m
 
 # Install SDPT3
 if ! test -f sdpt3-master.zip ; then
-  wget -c $GITHUB_URL/sdpt3/archive/master.zip
+  wget -c $GITHUB_URL/sdpt3/archive/refs/heads/master.zip
   mv master.zip sdpt3-master.zip
 fi
 rm -Rf sdpt3-master $OCTAVE_SITE_M_DIR/SDPT3
@@ -998,7 +998,7 @@ $OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SDPT3/install_sdpt3.m
 
 # Install YALMIP
 if ! test -f YALMIP-develop.zip ; then
-  wget -c $GITHUB_URL/YALMIP/archive/develop.zip
+  wget -c $GITHUB_URL/YALMIP/archive/refs/heads/develop.zip
   mv develop.zip YALMIP-develop.zip
 fi
 rm -Rf YALMIP-develop $OCTAVE_SITE_M_DIR/YALMIP
@@ -1008,7 +1008,7 @@ if test $? -ne 0;then rm -Rf YALMIP-develop; exit -1; fi
 
 # Install SparsePOP
 if ! test -f SparsePOP-master.zip ; then
-  wget -c $GITHUB_URL/SparsePOP/archive/master.zip
+  wget -c $GITHUB_URL/SparsePOP/archive/refs/heads/master.zip
   mv master.zip SparsePOP-master.zip
 fi
 rm -Rf SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP

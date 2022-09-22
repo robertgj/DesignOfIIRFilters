@@ -34890,8 +34890,7 @@ The \emph{build-octave.sh} script installs the following Octave Forge packages:
 \end{small}
 The \emph{build-octave.sh} script installs the \emph{SeDuMi}, \emph{SDPT3},
 \emph{YALMIP} and \emph{SparsePOP} SDP solvers from the forked repositories at
-\url{https://github.com/robertgj}. The file \emph{patch/YALMIP.patch} shows the
-differences between that forked repository and the ``upstream'' repository.
+\url{https://github.com/robertgj}. 
 
 \subsubsection*{Problems with Octave}
 The \emph{octave.patch} here document within \emph{build-octave.sh}
@@ -35301,31 +35300,6 @@ divide-by-zero warning when running the \emph{maxcut} example from
 \emph{YALMIP}~\cite{Lofberg_YALMIP,Lofberg2004} is a toolbox for modelling and
 optimisation in MATLAB and Octave. \emph{YALMIP} calls semi-definite programming
 (SDP) solvers such as \emph{SeDuMi} and \emph{SDPT3}. 
-\subsubsection*{Problems with YALMIP}
-The patch file \emph{YALMIP.patch} fixes the following minor problems 
-causing Octave warnings:
-\begin{itemize}
-\item warnings about filenames not matching function names
-\item warnings about the presence of non-ASCII characters such as \texttt{\"{o}}
-\end{itemize}
-
-\emph{YALMIP} calls the MATLAB \emph{linprog} function with input and output
-argument lists that are not compatible with that in the
-Octave-Forge \emph{optim-1.6.1} package. \emph{YALMIP} calls \emph{glpk} if that
-package is not loaded.
-
-Octave version \texttt{6.1.0} fails when calling the \texttt{bsxfun} builtin
-function with function handle \texttt{@plus}:
-\begin{small}
-\begin{verbatim}
-  error: octave_base_value::function_value(): wrong type argument '<unknown type>'
-  error: called from
-    mtimes at line 525 column 13
-    yalmip_complex_test at line 87 column 6
-\end{verbatim}
-\end{small}
-Using the ``stringified'' \texttt{plus} function works. This problem was fixed in
-Octave version \texttt{6.2.0}: \url{https://savannah.gnu.org/bugs/?59661}.
 
 \begin{comment}
 \pdfbookmark[1]{BMIsolver}{bmisolver}

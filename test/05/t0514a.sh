@@ -40,7 +40,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test.ok << 'EOF'
 
 YALMIP globaloptimization examples
-value(trace(P))= 0.4980
+value(t)=-0.9490
+value(trace(P))= 0.4834
 value(-t)=-2.5000
 value(-t)=-2.5000
 value(-t)=-2.5000
@@ -49,7 +50,7 @@ value(-t)=-2.5000
 YALMIP nonconvexquadraticprogramming bmibnb example
 For bmibnb : 
 value(x) = [ -0.2734  1.0000  1.0000 -1.0000 -1.0000 ]
-value(x'*Q*x) = -80.9164
+real(value(x'*Q*x)) = -80.9164
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

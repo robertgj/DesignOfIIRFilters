@@ -45,75 +45,72 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 
 cat > yalmiptest.ok << 'EOF'
-|      Searching for installed solvers       |
-|       Solver|   Version/module|      Status|
-|                   Test|    Solution|                       Solver message|
-|   Core functionalities|         N/A|         Successfully solved (YALMIP)|
-|                     LP|     Correct|   Successfully solved (GLPK-GLPKMEX)|
-|                     LP|     Correct|   Successfully solved (GLPK-GLPKMEX)|
-|                     QP|     Correct|     Successfully solved (SeDuMi-1.3)|
-|                     QP|     Correct|     Successfully solved (SeDuMi-1.3)|
-|                   SOCP|     Correct|     Successfully solved (SeDuMi-1.3)|
-|                   SOCP|     Correct|     Successfully solved (SeDuMi-1.3)|
-|                   SOCP|     Correct|     Successfully solved (SeDuMi-1.3)|
-|                    SDP|     Correct|     Successfully solved (SeDuMi-1.3)|
-|                    SDP|     Correct|     Successfully solved (SeDuMi-1.3)|
-|                    SDP|     Correct|     Successfully solved (SeDuMi-1.3)|
-|                    SDP|     Correct|     Successfully solved (SeDuMi-1.3)|
-|                 MAXDET|     Correct|     Successfully solved (SeDuMi-1.3)|
-|                 MAXDET|     Correct|     Successfully solved (SeDuMi-1.3)|
-|          Infeasible LP|         N/A|    Infeasible problem (GLPK-GLPKMEX)|
-|          Infeasible QP|         N/A|      Infeasible problem (SeDuMi-1.3)|
-|         Infeasible SDP|         N/A|      Infeasible problem (SeDuMi-1.3)|
-|      Moment relaxation|     Correct|     Successfully solved (SeDuMi-1.3)|
-|         Sum-of-squares|     Correct|     Successfully solved (SeDuMi-1.3)|
-|           Bilinear SDP|   Incorrect|         Successfully solved (BMIBNB)|
-|      Searching for installed solvers       |
-|       Solver|   Version/module|      Status|
-|                   Test|   Solution|                                                                       Solver message|
-|   Core functionalities|        N/A|                                                         Successfully solved (YALMIP)|
-|                     LP|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
-|                     LP|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
-|                     QP|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
-|                     QP|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
-|                   SOCP|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
-|                   SOCP|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
-|                   SOCP|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
-|                    SDP|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
-|                    SDP|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
-|                    SDP|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
-|                    SDP|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
-|                 MAXDET|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
-|                 MAXDET|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
-|          Infeasible LP|        N/A|                                                      Infeasible problem (SeDuMi-1.3)|
-|          Infeasible QP|        N/A|                                                      Infeasible problem (SeDuMi-1.3)|
-|         Infeasible SDP|        N/A|                                                      Infeasible problem (SeDuMi-1.3)|
-|      Moment relaxation|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
-|         Sum-of-squares|    Correct|                                                     Successfully solved (SeDuMi-1.3)|
-|           Bilinear SDP|        N/A|   Solver not applicable (sedumi does not support quadratic semidefinite constraints)|
-|      Searching for installed solvers       |
-|       Solver|   Version/module|      Status|
-|                   Test|   Solution|                                                                      Solver message|
-|   Core functionalities|        N/A|                                                        Successfully solved (YALMIP)|
-|                     LP|    Correct|                                                       Successfully solved (SDPT3-4)|
-|                     LP|    Correct|                                                       Successfully solved (SDPT3-4)|
-|                     QP|    Correct|                                                       Successfully solved (SDPT3-4)|
-|                     QP|    Correct|                                                       Successfully solved (SDPT3-4)|
-|                   SOCP|    Correct|                                                       Successfully solved (SDPT3-4)|
-|                   SOCP|    Correct|                                                       Successfully solved (SDPT3-4)|
-|                   SOCP|    Correct|                                                       Successfully solved (SDPT3-4)|
-|                    SDP|    Correct|                                                       Successfully solved (SDPT3-4)|
-|                    SDP|    Correct|                                                       Successfully solved (SDPT3-4)|
-|                    SDP|    Correct|                                                       Successfully solved (SDPT3-4)|
-|                    SDP|    Correct|                                                       Successfully solved (SDPT3-4)|
-|                 MAXDET|    Correct|                                                       Successfully solved (SDPT3-4)|
-|                 MAXDET|    Correct|                                                       Successfully solved (SDPT3-4)|
-|          Infeasible LP|        N/A|                                                        Numerical problems (SDPT3-4)|
-|          Infeasible QP|        N/A|                                                        Infeasible problem (SDPT3-4)|
-|         Infeasible SDP|        N/A|                                                        Infeasible problem (SDPT3-4)|
-|      Moment relaxation|    Correct|                                                       Successfully solved (SDPT3-4)|
-|         Sum-of-squares|    Correct|                                                       Successfully solved (SDPT3-4)|
-|           Bilinear SDP|        N/A|   Solver not applicable (sdpt3 does not support quadratic semidefinite constraints)|
+|   Searching for installed solvers   |
+|       Solver|   Version|      Status|
+|    BISECTION|          |    internal|
+|       BMIBNB|          |    internal|
+|          BNB|          |    internal|
+|       CUTSDP|          |    internal|
+|        KKTQP|          |    internal|
+|                                     Test|    Status|   Solver|
+|                     Core functionalities|   Success|         |
+|                  Linear programming (LP)|   Success|     GLPK|
+|               Quadratic programming (QP)|   Success|   SeDuMi|
+|     Second-order cone programming (SOCP)|   Success|   SeDuMi|
+|           Semidefinite programming (SDP)|   Success|   SeDuMi|
+|               Geometric programming (GP)|    Failed|         |
+|              Nonlinear programming (NLP)|    Failed|         |
+|                    Nonlinear SDP (NLSDP)|   Success|   BMIBNB|
+|       Exponential cone programming (ECP)|    Failed|         |
+|                  Mixed-integer LP (MIQP)|   Success|     GLPK|
+|                  Mixed-integer QP (MIQP)|   Success|      BNB|
+|              Mixed-integer SOCP (MISOCP)|   Success|      BNB|
+|   Global nonconvex quadratic programming|   Success|   BMIBNB|
+|             Global nonconvex programming|   Success|   BMIBNB|
+|   Searching for installed solvers   |
+|       Solver|   Version|      Status|
+|    BISECTION|          |    internal|
+|       BMIBNB|          |    internal|
+|          BNB|          |    internal|
+|       CUTSDP|          |    internal|
+|        KKTQP|          |    internal|
+|                                     Test|    Status|   Solver|
+|                     Core functionalities|   Success|         |
+|                  Linear programming (LP)|   Success|   SeDuMi|
+|               Quadratic programming (QP)|   Success|   SeDuMi|
+|     Second-order cone programming (SOCP)|   Success|   SeDuMi|
+|           Semidefinite programming (SDP)|   Success|   SeDuMi|
+|               Geometric programming (GP)|    Failed|         |
+|              Nonlinear programming (NLP)|    Failed|         |
+|                    Nonlinear SDP (NLSDP)|    Failed|         |
+|       Exponential cone programming (ECP)|    Failed|         |
+|                  Mixed-integer LP (MIQP)|    Failed|         |
+|                  Mixed-integer QP (MIQP)|    Failed|         |
+|              Mixed-integer SOCP (MISOCP)|    Failed|         |
+|   Global nonconvex quadratic programming|    Failed|         |
+|             Global nonconvex programming|    Failed|         |
+|   Searching for installed solvers   |
+|       Solver|   Version|      Status|
+|    BISECTION|          |    internal|
+|       BMIBNB|          |    internal|
+|          BNB|          |    internal|
+|       CUTSDP|          |    internal|
+|        KKTQP|          |    internal|
+|                                     Test|    Status|   Solver|
+|                     Core functionalities|   Success|         |
+|                  Linear programming (LP)|   Success|    SDPT3|
+|               Quadratic programming (QP)|   Success|    SDPT3|
+|     Second-order cone programming (SOCP)|   Success|    SDPT3|
+|           Semidefinite programming (SDP)|   Success|    SDPT3|
+|               Geometric programming (GP)|    Failed|         |
+|              Nonlinear programming (NLP)|    Failed|         |
+|                    Nonlinear SDP (NLSDP)|    Failed|         |
+|       Exponential cone programming (ECP)|    Failed|         |
+|                  Mixed-integer LP (MIQP)|    Failed|         |
+|                  Mixed-integer QP (MIQP)|    Failed|         |
+|              Mixed-integer SOCP (MISOCP)|    Failed|         |
+|   Global nonconvex quadratic programming|    Failed|         |
+|             Global nonconvex programming|    Failed|         |
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat yalmiptest.ok"; fail; fi
 
