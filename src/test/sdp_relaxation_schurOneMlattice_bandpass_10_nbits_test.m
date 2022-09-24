@@ -399,20 +399,21 @@ close
 kc0_active=kc0(kc0_sd_x_active);
 plot(0:length(kc0_active),([kc0_active,kc_hist]-kc0_active)'*nscale);
 axis([0 length(kc0_active)]);
-str_active="";
-for n=1:(length(kc_active_max_n_hist)-1)
-  str_active=sprintf("%s %d,",str_active,kc_active_max_n_hist(n));
-  if n==11
-    str_active=strcat(str_active,"\n");
-  endif
-endfor
-str_active=sprintf("%s %d",str_active,kc_active_max_n_hist(end));
-title(sprintf("Schur one-multiplier lattice bandpass filter : %d bit %d \
-signed-digit coefficient difference from the exact values\n as SDP-relaxation \
-proceeds. The coefficients were fixed in the order : %s", ...
-              nbits,ndigits,str_active));
+title(sprintf("Schur one-multiplier lattice bandpass filter : \
+%d bit %d signed-digit coefficients difference from exact", nbits,ndigits));
 xlabel("Relaxation step");
 ylabel("Bits difference from exact");
+% I have not worked out how to insert a line break in a text string with pdflatex
+str_active1=sprintf("The coefficients [k,c] were fixed in the order :");
+for l=1:10,
+  str_active1=strcat(str_active1,sprintf(" %d,",kc_active_max_n_hist(l)));
+endfor
+str_active2=sprintf("%d",kc_active_max_n_hist(11));
+for l=12:length(kc_active_max_n_hist)
+  str_active2=strcat(str_active2,sprintf(", %d",kc_active_max_n_hist(l)));
+endfor
+text(0.5,-2.4,str_active1,'fontsize',8);
+text(0.5,-2.7,str_active2,'fontsize',8);
 print(strcat(strf,"_coef_hist"),"-dpdflatex"); 
 close
       
