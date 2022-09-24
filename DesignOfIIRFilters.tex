@@ -34889,8 +34889,9 @@ The \emph{build-octave.sh} script installs the following Octave Forge packages:
 \verbatiminput{octave_info_test.diary}
 \end{small}
 The \emph{build-octave.sh} script installs the \emph{SeDuMi}, \emph{SDPT3},
-\emph{YALMIP} and \emph{SparsePOP} SDP solvers from the forked repositories at
-\url{https://github.com/robertgj}. 
+\emph{YALMIP} and \emph{SparsePOP} SDP solvers from the
+forked repositories at \url{https://github.com/robertgj} and an Octave version
+of \emph{gloptipoly3}. 
 
 \subsubsection*{Problems with Octave}
 The \emph{octave.patch} here document within \emph{build-octave.sh}
@@ -35301,6 +35302,14 @@ divide-by-zero warning when running the \emph{maxcut} example from
 optimisation in MATLAB and Octave. \emph{YALMIP} calls semi-definite programming
 (SDP) solvers such as \emph{SeDuMi} and \emph{SDPT3}. 
 
+\subsection*{gloptipoly3}\
+\emph{gloptipoly3}~\cite{Henrion_gloptipoly3,
+Henrion_gloptipoly3MomentsOptimizationSemiDefiniteProg,
+Lasserre_SemidefiniteProgrammingGeneralizedProblemMoments,
+Lasserre_IntroductionPolySemiAlgOptim} is ``intended to solve, or at least
+approximate, the Generalized Problem of Moments (GPM), an infinite-dimensional
+optimization problem which can be viewed as an extension of the classical
+problem of moments''. 
 \begin{comment}
 \pdfbookmark[1]{BMIsolver}{bmisolver}
 \subsection*{BMIsolver}
