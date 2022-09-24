@@ -1,5 +1,5 @@
 % sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m
-% Copyright (C) 2019-2021 Robert G. Jenssen
+% Copyright (C) 2019-2022 Robert G. Jenssen
 
 % SDP relaxation optimisation of a Schur parallel one-multiplier allpass
 % lattice elliptic lowpass filter with 16-bit signed-digit coefficients having
@@ -398,16 +398,16 @@ close
 % Plot coefficient histories
 plot(0:length(k0),([k0,k_hist]-k0)'*nscale);
 axis([0 length(k0)]);
-str_active=sprintf("%d",k_active_max_n_hist(1));
-for n=2:length(k_active_max_n_hist)
-  str_active=sprintf("%s, %d",str_active,k_active_max_n_hist(n));
-endfor
-title(sprintf("Parallel allpass lattice elliptic lowpass filter : %d bit %d \
-signed-digit coefficient change from exact values", nbits,ndigits));
-text(0.5,-140,
-     sprintf("The coefficients were fixed in the order : %s",str_active));
+title(sprintf("Parallel allpass lattice elliptic lowpass filter : \
+%d bit %d signed-digit coefficient difference from exact", nbits,ndigits));
 xlabel("Relaxation step");
 ylabel("Bits difference from exact");
+str_active=sprintf("The coefficients [A1k,A2k] were fixed in the order : %d",
+                   k_active_max_n_hist(1));
+for l=2:length(k_active_max_n_hist)
+  str_active=strcat(str_active, sprintf(", %d",k_active_max_n_hist(l)));
+endfor
+text(0.5,-140,str_active,'fontsize',8);
 print(strcat(strf,"_coef_hist"),"-dpdflatex"); 
 close
       
@@ -417,7 +417,7 @@ fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
 fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
-fprintf(fid,"n=%g %% Frequency points across the band\n",n);
+fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"difference=%d %% Use difference of all-pass filters\n",difference);
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"m1=%d %% All-pass filter 1 order\n",NA1-1);
