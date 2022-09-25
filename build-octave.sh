@@ -11,7 +11,7 @@
 # qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel
 # libcurl libcurl-devel gl2ps gl2ps-devel fontconfig-devel mesa-libGLU
 # mesa-libGLU-devel qt5-qttools qt5-qttools-common qt5-qttools-devel
-# rapidjson-devel
+# rapidjson-devel python3-sympy
 #
 # See https://wiki.octave.org/GraphicsMagick for GraphicksMagic dependencies
 #
