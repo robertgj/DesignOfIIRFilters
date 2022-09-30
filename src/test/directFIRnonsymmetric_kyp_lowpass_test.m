@@ -45,23 +45,23 @@ Esq_z=sdpvar(1,1);
 C=sdpvar(1,N);
 D=sdpvar(1,1);
 % Maximum amplitude constraint
-P_max=sdpvar(N,N,"symmetric");
-Q_max=sdpvar(N,N,"symmetric");
-F_max=sdpvar(N+2,N+2,"symmetric");
+P_max=sdpvar(N,N,'symmetric','real');
+Q_max=sdpvar(N,N,'symmetric','real');
+F_max=sdpvar(N+2,N+2,'symmetric','real');
 F_max=[[((AB')*(kron(P_max,Phi)+kron(Q_max,[0,1;1,2]))*AB) + ...
         diag([zeros(1,N),-Esq_max]),[C,D]']; ...
        [C,D,-1]];
 % Pass band constraint on the error |H(w)-e^(-j*w*d)|
-P_z=sdpvar(N,N,'symmetric');
-Q_z=sdpvar(N,N,'symmetric');
-F_z=sdpvar(N+2,N+2,'symmetric');
+P_z=sdpvar(N,N,'symmetric','real');
+Q_z=sdpvar(N,N,'symmetric','real');
+F_z=sdpvar(N+2,N+2,'symmetric','real');
 F_z=[[((AB')*(kron(P_z,Phi)+kron(Q_z,[0,1;1,-c_p]))*AB) + ...
       diag([zeros(1,N),-Esq_z]),[C-C_d,D]']; ...
      [C-C_d,D,-1]];
 % Stop band constraint 
-P_s=sdpvar(N,N,'symmetric');
-Q_s=sdpvar(N,N,'symmetric');
-F_s=sdpvar(N+2,N+2,'symmetric');
+P_s=sdpvar(N,N,'symmetric','real');
+Q_s=sdpvar(N,N,'symmetric','real');
+F_s=sdpvar(N+2,N+2,'symmetric','real');
 F_s=[[((AB')*(kron(P_s,Phi)+kron(Q_s,[0,-1;-1,c_s]))*AB) + ...
       diag([zeros(1,N),-Esq_s]),[C,D]']; ...
      [C,D,-1]];
