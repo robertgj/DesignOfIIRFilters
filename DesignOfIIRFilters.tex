@@ -14474,7 +14474,7 @@ cost function for the search calculates the weighted root-squared-error of
 the amplitude and group-delay responses of the filter when compared to an ideal
 ``brick-wall'' response. The band-pass filter has $31$ non-zero coefficients and
 each coefficient is selected from an upper and lower bound on the exact value so
-the exhaustive search will perform $2^{31}$ evaluations of the cost function.
+the exhaustive search will perform $2^{32}$ evaluations of the cost function.
 Preliminary experiments showed that this script would require about a month of
 processing time on my PC (which has an Intel i7-7700K CPU with 4 cores running
 at 4.2GHz).
@@ -25843,43 +25843,20 @@ pass-band and stop-band responses of the complementary filters.
 \label{fig:Johansson-cascade-allpass-bandstop-comp-dual}
 \end{figure}
 \clearpage
-The Octave script \emph{johanssonOneMlattice\_socp\_slb\_bandstop\_test.m}
-designs a band-stop filter with PCLS constraints. The all-pass filters are
-implemented as Schur one-multiplier lattice filters. The band-stop filter
-specification is: 
-\begin{small}
-\verbatiminput{johanssonOneMlattice_socp_slb_bandstop_test.spec}
-\end{small}
-The initial band-stop filter is that designed by the Octave script
-\emph{johansson\_cascade\_allpass\_bandstop\_test.m}. The resulting band-stop
-filter coefficients are: 
-\begin{small}
-  \verbatiminput{johanssonOneMlattice_socp_slb_bandstop_test_f_coef.m}
-  \verbatiminput{johanssonOneMlattice_socp_slb_bandstop_test_k0_coef.m}
-  \verbatiminput{johanssonOneMlattice_socp_slb_bandstop_test_k1_coef.m}
-\end{small}
-Figure~\ref{fig:Johansson-OneM-lattice-bandstop-PCLS-resp} shows the
-pass-band and stop-band responses of the filter.
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{johanssonOneMlattice_socp_slb_bandstop_test_pcls}}
-\caption{Responses of the Johansson and Saram\"{a}ki band-stop filter with
-  PCLS constraints} 
-\label{fig:Johansson-OneM-lattice-bandstop-PCLS-resp}
-\end{figure}
-
-The Octave script \emph{branch\_bound\_johanssonOneMlattice\_bandstop\_test.m}
-designs a band-stop filter having $3$-signed-digit $16$-bit coefficients with the
+The Octave script
+\emph{branch\_bound\_johanssonOneMlattice\_bandstop\_16\_bits\_test.m} designs a 
+band-stop filter having $3$-signed-digit $16$-bit coefficients with the 
 \emph{branch-and-bound} algorithm (see
-Chapter~\ref{sec:branch-bound-search-signed-digit-coefficients}). The all-pass 
-filters are implemented as Schur one-multiplier lattice filters. The band-stop
-filter specification is:
+Chapter~\ref{sec:branch-bound-search-signed-digit-coefficients}). The all-pass  
+filters are implemented as Schur one-multiplier lattice filters.
+
+The initial band-stop filter is that designed by the Octave script
+\emph{johansson\_cascade\_allpass\_bandstop\_test.m}. The band-stop filter
+specification is: 
 \begin{small}
 \verbatiminput{branch_bound_johanssonOneMlattice_bandstop_16_nbits_test.spec}
 \end{small}
-The initial band-stop filter is that designed by the Octave script
-\emph{johansson\_cascade\_allpass\_bandstop\_test.m}. The resulting band-stop
-filter $3$-signed-digit, $16$-bit coefficients are: 
+The resulting band-stop filter $3$-signed-digit, $16$-bit coefficients are: 
 \begin{small}
   \verbatiminput
   {branch_bound_johanssonOneMlattice_bandstop_16_nbits_test_f_min_coef.m}
@@ -25898,7 +25875,31 @@ pass-band and stop-band responses of the filter.
   \emph{branch-and-bound} algorithm} 
 \label{fig:Johansson-OneM-lattice-bandstop-16-nbits-resp}
 \end{figure}
-
+\clearpage
+The Octave script \emph{johanssonOneMlattice\_socp\_slb\_bandstop\_test.m}
+designs a band-stop filter with PCLS constraints. The all-pass filters are
+implemented as Schur one-multiplier lattice filters. The initial band-stop
+filter is that designed by the Octave script 
+\emph{johansson\_cascade\_allpass\_bandstop\_test.m}. The band-stop filter
+specification is: 
+\begin{small}
+\verbatiminput{johanssonOneMlattice_socp_slb_bandstop_test.spec}
+\end{small}
+The resulting band-stop filter coefficients are: 
+\begin{small}
+  \verbatiminput{johanssonOneMlattice_socp_slb_bandstop_test_f_coef.m}
+  \verbatiminput{johanssonOneMlattice_socp_slb_bandstop_test_k0_coef.m}
+  \verbatiminput{johanssonOneMlattice_socp_slb_bandstop_test_k1_coef.m}
+\end{small}
+Figure~\ref{fig:Johansson-OneM-lattice-bandstop-PCLS-resp} shows the
+pass-band and stop-band responses of the filter.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{johanssonOneMlattice_socp_slb_bandstop_test_pcls}}
+\caption{Responses of the Johansson and Saram\"{a}ki band-stop filter with
+  PCLS constraints} 
+\label{fig:Johansson-OneM-lattice-bandstop-PCLS-resp}
+\end{figure}
 \cleardoublepage{}
 \chapter{\label{app:Design-of-FIR-digital-filter-transfer-functions}Design of FIR digital filter transfer functions}
 This chapter reviews methods of designing FIR digital filter transfer functions.
