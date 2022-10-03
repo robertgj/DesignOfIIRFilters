@@ -5,7 +5,7 @@
 % FREQUENCY INTERVALS", GOELE PIPELEERS, TETSUYA IWASAKI, AND SHINJI HARA, 
 % SIAM J. CONTROL OPTIM., Vol. 52, No. 6, pp. 3618–3638
 %
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -121,17 +121,18 @@ close
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");
+fprintf(fid,"M=%d %% FIR filter order is 2*M\n",M);
 fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"maxiter=%d %% SOCP iteration limit\n",maxiter);
 fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
-fprintf(fid,"deltap=%d %% Amplitude pass band peak-to-peak ripple\n",deltap);
+fprintf(fid,"deltap=%d %% Amplitude pass band ripple\n",deltap);
 fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"fasl=%g %% Amplitude stop band lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Amplitude stop band upper edge\n",fasu);
-fprintf(fid,"deltas=%d %% Amplitude stop band peak-to-peak ripple\n",deltas);
+fprintf(fid,"deltas=%d %% Amplitude stop band ripple\n",deltas);
 fprintf(fid,"Wasl=%d %% Amplitude lower stop band weight\n",Wasl);
 fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);

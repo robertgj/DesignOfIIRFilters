@@ -1,5 +1,5 @@
 % directFIRsymmetric_sdp_bandpass_test.m
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2022 Robert G. Jenssen
 %
 % See: "Efficient Large-Scale Filter/Filterbank Design via LMI
 % Characterization of Trigonometric Curves", H. D. Tuan, T. T. Son,
@@ -21,13 +21,17 @@ diary directFIRsymmetric_sdp_bandpass_test.diary.tmp
 %
 strf="directFIRsymmetric_sdp_bandpass_test";
 
-for M=15:16,
-  fasl=0.05;fapl=0.15;fapu=0.25;fasu=0.35;
-  deltap=1.54e-4;deltas=5e-3;
-  Wap=1;Wat=0;Was=1;
-  % Alternatively:
-  %  deltap=1e-2;deltas=1e-3;
-  %  Wap=1;Wat=0.01;Was=100;
+for M=[15,30],
+
+  if M==15
+    fasl=0.05;fapl=0.15;fapu=0.25;fasu=0.35;
+    deltap=2e-4;deltas=5e-3;
+    Wap=1;Wat=0;Was=1;
+  else
+    fasl=0.10;fapl=0.15;fapu=0.25;fasu=0.30;
+    deltap=5e-3;deltas=1e-3;
+    Wap=1;Wat=100;Was=100;
+  endif
 
   %
   % Set up the YALMIP problem
@@ -220,10 +224,12 @@ for M=15:16,
     Options=sdpsettings('solver','sedumi');
     sol=optimize(Constraints,Objective,Options);
   catch
-    error("Caught YALMIP error");
+    error("Caught YALMIP error : M=%d",M);
+    continue;
   end_try_catch
   if sol.problem
-    error("YALMIP failed : %s",sol.info);
+    error("YALMIP failed : M=%d, %s",M, sol.info);
+    continue;
   endif
   % Find xs (left division fails here ?!?!?)
   xs=-0.5*inv(Q)*((2*q)-value(y1-y2+y3-y4+y5-y6));
@@ -238,16 +244,17 @@ for M=15:16,
     [-xs+[(deltap+1);zeros(M,1)]]'*value(y4) + ...
     [ xs+[deltas;zeros(M,1)]]'*value(y5) + ...
     [-xs+[deltas;zeros(M,1)]]'*value(y6);
-  printf("sum[(Ai*xs+di)*ys]=%g\n", sumAixspdiys);
-  if sumAixspdiys > 1e-5
-    error("sum[(Ai*xs+di)*ys](%g)>1e-5\n",sumAixspdiys);
+  printf("sum((Ai*xs+di)*ys)=%g\n", sumAixspdiys);
+  if sumAixspdiys > 2e-5
+    error("sum((Ai*xs+di)*ys)(%g)>2e-5\n",sumAixspdiys);
+    continue;
   endif
 
   % Extract filter impulse response
   hM=flipud([xs(1);xs(2:end)/2]);
   
   % Amplitude at local peaks
-  nplot=20000;
+  nplot=2000;
   wa=(0:nplot)'*pi/nplot;
   nasl=floor(nplot*fasl/0.5)+1;
   napl=ceil(nplot*fapl/0.5)+1;
@@ -267,52 +274,58 @@ for M=15:16,
   ax=plotyy(wa*0.5/pi,A,wa*0.5/pi,A);
   set(ax(1),'ycolor','black');
   set(ax(2),'ycolor','black');
-  axis(ax(1),[0 0.5 1+(deltap*(6/5)*[-1 1])]);
-  axis(ax(2),[0 0.5 deltas*(6/5)*[-1 1]]);
+  axis(ax(1),[0 0.5 1+(deltap*2*[-1 1])]);
+  axis(ax(2),[0 0.5 deltas*2*[-1 1]]);
   ylabel("Amplitude");
-  strt=sprintf("Tuan bandpass FIR : \
+  strt=sprintf("Tuan band-pass FIR : \
 M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g", ...
                M,fasl,fapl,fapu,fasu,deltap,deltas);
+  title(strt);
+  xlabel("Frequency");
+  grid("on");
+  print(sprintf("%s_hM%2d_dual_response",strf,M),"-dpdflatex");
+  close
+
+  subplot(311)
+  plot(wa(1:nasl)*0.5/pi,A(1:nasl));
+  axis([0 fasl deltas*2*[-1 1]]);
+  grid("on");
+  ylabel("Amplitude");
+  title(strt);
+  subplot(312)
+  plot(wa(napl:napu)*0.5/pi,A(napl:napu));
+  axis([fapl fapu 1+(deltap*2*[-1 1])]);
+  grid("on");
+  ylabel("Amplitude");
+  subplot(313)
+  plot(wa(nasu:end)*0.5/pi,A(nasu:end));
+  axis([fasu 0.5 deltas*2*[-1 1]]);
+  grid("on");
+  ylabel("Amplitude");
+  xlabel("Frequency");
+  print(sprintf("%s_hM%2d_stop_pass_stop",strf,M),"-dpdflatex");
+  close
+
+  plot(wa*0.5/pi,20*log10(abs(A)));
+  axis([0 0.5 -80 10]);
+  ylabel("Amplitude");
   title(strt);
   xlabel("Frequency");
   grid("on");
   print(sprintf("%s_hM%2d_response",strf,M),"-dpdflatex");
   close
 
-  subplot(311)
-  plot(wa(1:nasl)*0.5/pi,A(1:nasl));
-  axis([0 fasl 0.01*[-1 1]]);
-  grid("on");
-  ylabel("Amplitude");
-  strt=sprintf("Tuan band pass FIR : \
-M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g", ...
-               M,fasl,fapl,fapu,fasu,deltap,deltas);
-  title(strt);
-  subplot(312)
-  plot(wa(napl:napu)*0.5/pi,A(napl:napu));
-  axis([fapl fapu 1+(0.0002*[-1 1])]);
-  grid("on");
-  ylabel("Amplitude");
-  subplot(313)
-  plot(wa(nasu:end)*0.5/pi,A(nasu:end));
-  axis([fasu 0.5 0.01*[-1 1]]);
-  grid("on");
-  ylabel("Amplitude");
-  xlabel("Frequency");
-  print(sprintf("%s_hM%2d_pass_stop",strf,M),"-dpdflatex");
-  close
-
   %
   % Save the results
   %
   fid=fopen(sprintf("%s_hM%2d.spec",strf,M),"wt");
-  fprintf(fid,"M=%d %% M+1 distinct coefficients, order 2*M\n",M);
+  fprintf(fid,"M=%d %% M+1 distinct coefficients, FIR filter order 2*M\n",M);
   fprintf(fid,"fasl=%g %% Amplitude lower stop band edge\n",fasl);
   fprintf(fid,"fapl=%g %% Amplitude lower pass band edge\n",fapl);
   fprintf(fid,"fapu=%g %% Amplitude upper pass band edge\n",fapu);
   fprintf(fid,"fasu=%g %% Amplitude upper stop band edge\n",fasu);
-  fprintf(fid,"deltap=%g %% Amplitude pass band peak-to-peak ripple\n",deltap);
-  fprintf(fid,"deltas=%g %% Amplitude stop band peak-to-peak ripple\n",deltas);
+  fprintf(fid,"deltap=%g %% Amplitude pass band ripple\n",deltap);
+  fprintf(fid,"deltas=%g %% Amplitude stop band ripple\n",deltas);
   fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
   fprintf(fid,"Wat=%g %% Amplitude transition band weight\n",Wat);
   fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);

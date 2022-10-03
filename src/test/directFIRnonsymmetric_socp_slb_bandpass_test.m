@@ -4,7 +4,7 @@
 % FREQUENCY INTERVALS", GOELE PIPELEERS, TETSUYA IWASAKI, AND SHINJI HARA, 
 % SIAM J. CONTROL OPTIM., Vol. 52, No. 6, pp. 3618–3638
 %
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2022 Robert G. Jenssen
 
 test_common;
 
@@ -231,11 +231,11 @@ fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"N=%d %% FIR filter order\n",N);
 fprintf(fid,"fapl=%g %% Pass band squared amplitude lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Pass band squared amplitude upper edge\n",fapu);
-fprintf(fid,"deltap=%d %% Pass band squared amplitude ripple\n",deltap);
+fprintf(fid,"deltap=%d %% Pass band amplitude ripple\n",deltap);
 fprintf(fid,"Wap=%d %% Pass band squared amplitude weight\n",Wap);
 fprintf(fid,"fasl=%g %% Lower stop band squared amplitude lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Upper stop band squared amplitude upper edge\n",fasu);
-fprintf(fid,"deltas=%d %% Stop band squared amplitude response ripple\n",deltas);
+fprintf(fid,"deltas=%d %% Stop band amplitude response ripple\n",deltas);
 fprintf(fid,"Watl=%d %% Lower transition band squared amplitude weight\n",Watl);
 fprintf(fid,"Watu=%d %% Upper transition band squared amplitude weight\n",Watu);
 fprintf(fid,"Wasl=%d %% Lower stop band squared amplitude weight\n",Wasl);

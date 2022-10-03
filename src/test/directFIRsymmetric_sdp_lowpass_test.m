@@ -1,5 +1,5 @@
 % directFIRsymmetric_sdp_lowpass_test.m
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2022 Robert G. Jenssen
 %
 % See "Efficient Large-Scale Filter/Filterbank Design via LMI
 % Characterization of Trigonometric Curves", H. D. Tuan, T. T. Son,
@@ -17,14 +17,28 @@ diary directFIRsymmetric_sdp_lowpass_test.diary.tmp
 %
 strf="directFIRsymmetric_sdp_lowpass_test";
 
-% Low pass filter (See Tuan et al. Table I). If I ignore SeDuMi
-% numerical problems and use M=200,dBap=0.3,Was=200,dBas=65 then the
-% result resembles Tuan et al. Figure 3.
-for M=200:201,
-  fap=0.03;Wap=1;dBap=1;
-  Wat=0;
-  fas=0.0358;Was=100;dBas=60;
+% Low pass filter
+for p=1:2,
 
+  if p==1
+    M=31;
+    fap=0.05;fas=0.10;
+    dBap=0.1;dBas=60;
+    Wap=1;Wat=100;Was=200;
+  else
+    % See Tuan et al. Table I
+    % If I ignore SeDuMi numerical problems and use
+    % M=200,dBap=0.3,Was=200,dBas=65
+    % then the result resembles Tuan et al. Figure 3.
+    M=200;
+    fap=0.03;fas=0.0358;
+    dBap=1;dBas=60;
+    Wap=1;Wat=100;Was=200;
+  endif
+
+  deltap=((10^(dBap/20))-1)/((10^(dBap/20))+1);
+  deltas=10^(-dBas/20);
+  
   %
   % Set up the YALMIP problem
   %
@@ -43,8 +57,6 @@ for M=200:201,
   y2=sdpvar(M+1,1);
   y3=sdpvar(M+1,1);
   y4=sdpvar(M+1,1);
-  deltap=1-(10^(-dBap/20));
-  deltas=10^(-dBas/20);
   Objective= ...
   sum(nu+((deltap-1)*y1(1))+((deltap+1)*y2(1))+(deltas*y3(1))+(deltas*y4(1)));
 
@@ -172,10 +184,10 @@ for M=200:201,
     Options=sdpsettings('solver','sedumi');
     sol=optimize(Constraints,Objective,Options);
   catch
-    error("Caught YALMIP error");
+    error("Caught YALMIP error : M=%d",M);
   end_try_catch
   if sol.problem
-    error("YALMIP failed : %s",sol.info);
+    warning("YALMIP failed : M=%d, %s",M,sol.info);
   endif
   % Find xs (left division fails here ?!?!?)
   xs=-0.5*inv(Q)*((2*q)-value(y1-y2+y3-y4));
@@ -188,8 +200,8 @@ for M=200:201,
                [ xs+[deltas;zeros(M,1)]]'*value(y3) + ...
                [-xs+[deltas;zeros(M,1)]]'*value(y4);
   printf("sum[(Ai*xs+di)*ys]=%g\n", sumAixspdiys);
-  if sumAixspdiys > 1e-6
-    error("sum[(Ai*xs+di)*ys](%g)>1e-6\n",sumAixspdiys);
+  if abs(sumAixspdiys) > 2e-5
+    error("M=%d, sum(abs((Ai*xs+di)*ys))(%g)>2e-5\n",M,abs(sumAixspdiys));
   endif
 
   % Extract filter impulse response
@@ -206,35 +218,51 @@ for M=200:201,
   ax=plotyy(wa(1:nap)*0.5/pi,A(1:nap),wa(nas:end)*0.5/pi,A(nas:end));
   set(ax(1),'ycolor','black');
   set(ax(2),'ycolor','black');
-  axis(ax(1),[0 0.5 1+(0.2*[-1 1])]);
-  axis(ax(2),[0 0.5 0.001*2*[-1 1]]);
+  if p==1
+    axis(ax(1),[0 0.5 1+(0.01*[-1 1])]);
+    axis(ax(2),[0 0.5 2*0.001*[-1 1]]);
+  else
+    axis(ax(1),[0 0.5 1+(0.1*[-1 1])]);
+    axis(ax(2),[0 0.5 2*0.001*[-1 1]]);
+  endif
   ylabel("Amplitude");
   strt=sprintf("Tuan lowpass FIR : \
 M=%d,fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g",M,fap,dBap,Wap,fas,dBas,Was);
   title(strt);
   xlabel("Frequency");
   grid("on");
-  print(sprintf("%s_hM%3d_response",strf,M),"-dpdflatex");
+  print(sprintf("%s_hM%03d_dual_response",strf,M),"-dpdflatex");
+  close
+  
+  plot(wa*0.5/pi,20*log10(abs(A)));
+  axis([0 0.5 -80 10]);
+  ylabel("Amplitude");
+  title(strt);
+  xlabel("Frequency");
+  grid("on");
+  print(sprintf("%s_hM%03d_response",strf,M),"-dpdflatex");
   close
 
   %
   % Save the results
   %
-  fid=fopen(sprintf("%s_hM%3d.spec",strf,M),"wt");
+  fid=fopen(sprintf("%s_hM%03d.spec",strf,M),"wt");
   fprintf(fid,"M=%d %% M+1 distinct coefficients\n",M);
   fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
-  fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple(dB)\n",dBap);
+  fprintf(fid,"dBap=%g %% Amplitude pass band ripple(dB)\n",dBap);
+  fprintf(fid,"deltap=%g %% Amplitude pass band ripple\n",deltap);
   fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
   fprintf(fid,"Wat=%g %% Amplitude transition band weight\n",Wat);
   fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
-  fprintf(fid,"dBas=%g %% Amplitude stop band peak-to-peak ripple(dB)\n",dBas);
+  fprintf(fid,"dBas=%g %% Amplitude stop band ripple(dB)\n",dBas);
+  fprintf(fid,"deltas=%g %% Amplitude stop band ripple\n",deltas);
   fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
   fclose(fid);
 
-  print_polynomial(hM,sprintf("hM%3d",M));
-  print_polynomial(hM,sprintf("hM%3d",M),sprintf("%s_hM%3d_coef.m",strf,M));
+  print_polynomial(hM,sprintf("hM%03d",M));
+  print_polynomial(hM,sprintf("hM%03d",M),sprintf("%s_hM%03d_coef.m",strf,M));
 
-  eval(sprintf("save directFIRsymmetric_sdp_lowpass_test_hM%3d.mat ...\n\
+  eval(sprintf("save directFIRsymmetric_sdp_lowpass_test_hM%03d.mat ...\n\
          M nplot fap Wap dBap Wat fas Was dBas hM",M));
 endfor
 
