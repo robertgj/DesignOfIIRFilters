@@ -1,10 +1,9 @@
 #!/bin/sh
 
 prog=schurOneMR2lattice2Abcd_test.m
-depends="test/schurOneMR2lattice2Abcd_test.m test_common.m schurOneMR2lattice2Abcd.m \
-tf2schurOneMlattice.m Abcd2tf.m schurOneMscale.m schurdecomp.oct \
-schurexpand.oct svf.m KW.m crossWelch.m reprand.oct \
-p2n60.m qroots.m qzsolve.oct"
+depends="test/schurOneMR2lattice2Abcd_test.m test_common.m svf.m crossWelch.m \
+schurOneMR2lattice2Abcd.m tf2schurOneMlattice.m Abcd2tf.m schurOneMscale.m KW.m \
+p2n60.m qroots.m qzsolve.oct schurdecomp.oct schurexpand.oct reprand.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -77,9 +76,6 @@ varydap = 0.1701
 stdxxap =
    128.58   128.57
 
-indexABCap =
-   1   2   3   5
-
 A =
         0   1.0000        0        0        0
    0.7882        0        0        0   1.7882
@@ -126,9 +122,6 @@ est_varydap = 0.3333
 varydap = 0.3328
 stdxxap =
    129.45   129.44   128.29   128.27
-
-indexABCap =
-   1   2   3   5   6   8
 
 A =
         0   1.0000        0        0        0        0        0        0
@@ -186,9 +179,6 @@ est_varydap = 0.5000
 varydap = 0.4997
 stdxxap =
    129.64   129.65   129.14   129.15   128.48   128.49
-
-indexABCap =
-    1    2    3    5    6    8    9   11   12   14   15   17
 
 A =
  Columns 1 through 8:
@@ -338,12 +328,6 @@ stdxxap =
    127.88   127.88   127.52   127.53   128.08   128.09   128.06   128.07
  Columns 9 through 12:
    128.01   128.03   128.00   128.01
-
-indexABCap =
- Columns 1 through 16:
-    1    2    3    5    6    8    9   11   12   14   15   17   18   20   21   23
- Columns 17 through 20:
-   24   26   27   29
 
 A =
  Columns 1 through 8:

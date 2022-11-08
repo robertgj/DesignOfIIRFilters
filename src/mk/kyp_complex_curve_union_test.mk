@@ -1,0 +1,15 @@
+kyp_complex_curve_union_test_FIGURES = \
+kyp_complex_curve_union_test_Assumption1_m1 \
+kyp_complex_curve_union_test_Assumption1_m2 \
+kyp_complex_curve_union_test_Assumption1_m3
+
+kyp_complex_curve_union_test_COEFS = \
+kyp_complex_curve_union_test_alpha_m1_coef.m \
+kyp_complex_curve_union_test_beta_m1_coef.m \
+kyp_complex_curve_union_test_alpha_m2_coef.m \
+kyp_complex_curve_union_test_beta_m2_coef.m \
+kyp_complex_curve_union_test_alpha_m3_coef.m \
+kyp_complex_curve_union_test_beta_m3_coef.m
+
+kyp_complex_curve_union_test_FILES = \
+kyp_complex_curve_union_test.m test_common.m print_polynomial.m

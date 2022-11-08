@@ -87,9 +87,6 @@ function [Esq,gradEsq,Q,q]=directFIRsymmetricEsqPW(hM,waf,Adf,Waf)
   if ~issymmetric(Q)
     error("~issymmetric(Q)");
   endif
-  if ~isdefinite(Q)
-    error("~isdefinite(Q)");
-  endif
   
   % Find the constant
   intc=sum((Adf.*Adf.*Waf).*(waf(2:end)-waf(1:(end-1))),1)/pi;

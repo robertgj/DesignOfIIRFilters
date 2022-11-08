@@ -1,0 +1,13 @@
+mcclellanFIRsymmetric_linear_differentiator_fail_test_FIGURES = \
+mcclellanFIRsymmetric_linear_differentiator_fail_test_hM_dual \
+mcclellanFIRsymmetric_linear_differentiator_fail_test_response
+
+mcclellanFIRsymmetric_linear_differentiator_fail_test_COEFS = \
+mcclellanFIRsymmetric_linear_differentiator_fail_test.mat \
+mcclellanFIRsymmetric_linear_differentiator_fail_test.spec \
+mcclellanFIRsymmetric_linear_differentiator_fail_test_hM_coef.m
+
+mcclellanFIRsymmetric_linear_differentiator_fail_test_FILES = \
+mcclellanFIRsymmetric_linear_differentiator_fail_test.m test_common.m \
+mcclellanFIRsymmetric.m print_polynomial.m local_max.m lagrange_interp.m \
+directFIRsymmetricA.m

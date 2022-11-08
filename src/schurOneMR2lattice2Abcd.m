@@ -17,7 +17,7 @@ function [A,B,C,D,Aap,Bap,Cap,Dap]=schurOneMR2lattice2Abcd(k,epsilon,c)
 %  [A,B,C,D] - state variable description of the tapped lattice filter
 %  [Aap,Bap,Cap,Dap] - state variable description of the all-pass lattice filter
   
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -101,7 +101,7 @@ function [A,B,C,D,Aap,Bap,Cap,Dap]=schurOneMR2lattice2Abcd(k,epsilon,c)
   % x(3)=mek(2)*x(1)+k(2)*x(5)
   A(3,1)=mek(2);
   A(3,5)=k(2);
-
+  
   % Repeated modules
   Non2=N/2;
   for n=2:(Non2-1)
@@ -145,7 +145,7 @@ function [A,B,C,D,Aap,Bap,Cap,Dap]=schurOneMR2lattice2Abcd(k,epsilon,c)
   Cap(1,(3*Non2)-3)=mek(N);
   Dap=k(N);
   % Only use the all-pass states
-  indexABCap=sort([1,(3*(1:Non2))-1,3*(1:(Non2-1))])
+  indexABCap=sort([1,(3*(1:Non2))-1,3*(1:(Non2-1))]);
   Aap=A(indexABCap,indexABCap); 
   Bap=Bap(indexABCap);
   Cap=Cap(indexABCap);

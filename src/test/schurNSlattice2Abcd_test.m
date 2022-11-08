@@ -43,8 +43,8 @@ for x=1:3
 
   % Check [A,B,Cap,Dap]
   [check_nap,check_dap]=Abcd2tf(A,B,Cap,Dap);
-  if max(abs(fliplr(check_nap)-d)) > 2500*eps
-    error("max(abs(fliplr(check_nap)-d)) > 2500*eps");
+  if max(abs(fliplr(check_nap)-d)) > 5000*eps
+    error("max(abs(fliplr(check_nap)-d)) > 5000*eps");
   endif
   if max(abs(check_dap-d)) > 5000*eps
     error("max(abs(check_dap-d)) > 5000*eps");
@@ -402,8 +402,8 @@ for x=1:3
 
   % Check [A,B,Cap,Dap]
   [check_nap,check_dap]=Abcd2tf(A,B,Cap,Dap);
-  if max(abs(fliplr(check_nap)-d)) > 2500*eps
-    error("max(abs(fliplr(check_nap)-d)) > 2500*eps");
+  if max(abs(fliplr(check_nap)-d)) > 5000*eps
+    error("max(abs(fliplr(check_nap)-d)) > 5000*eps");
   endif
   if max(abs(check_dap-d)) > 5000*eps
     error("max(abs(check_dap-d)) > 5000*eps");

@@ -65,17 +65,19 @@ TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
 	epstopdf $< 
 
 # To test an octfile with valgrind and gdb:
-#   1. XCXXFLAGS=-ggdb3 -O0
-#   2. Run "valgrind --vgdb=yes --vgdb-error=0 octave-cli -p src"
-#   3. Run "gdb octave-cli" in a separate shell and then issue the gdb commands:
-#      target remote | vgdb
-#      continue
+#   1. XCXXFLAGS="-ggdb3 -O0"
+#   2. Run "valgrind --track-origins=yes --vgdb=yes --vgdb-error=0 \
+#           octave-cli -p src -p src/test"
+#   3. Run "gdb --args octave-cli -p src -p src/test" in a separate
+#      shell and then issue the gdb commands:
+#        target remote | vgdb
+#        continue
 #
 # To test an octfile with address-sanitizer add these flags:
-#   XCXXFLAGS=-g -fsanitize=undefined -fsanitize=address \
-#                -fno-sanitize=vptr -fno-omit-frame-pointer
+#   XCXXFLAGS="-g -fsanitize=undefined -fsanitize=address \
+#              -fno-sanitize=vptr -fno-omit-frame-pointer"
 # and run with:
-#   LD_PRELOAD=/usr/lib64/libasan.so.6 octave-cli --eval "expr"
+#   LD_PRELOAD=/usr/lib64/libasan.so.8 octave-cli --eval "expr"
 #
 # Apparently, if the AddressSanitizer library is built without RTTI then
 # there are many "vptr" false-positives.
@@ -210,7 +212,7 @@ gitignore:
 	echo $(CLEAN_SUFFIXES:%="*"%) > .gitignore
 	echo $(CLEAN_TEX_SUFFIXES:%="*"%) >> .gitignore
 	echo $(CLEAN_AEGIS_SUFFIXES:%="*"%) >> .gitignore
-	echo octave-workspace /$(TARGET).pdf >> .gitignore
+	echo octave-workspace open_useful_docs.sh $(TARGET).pdf >> .gitignore
 	echo _site .sass-cache .jekyll-cache .jekyll-metadata >> .gitignore
 	sed -i -e "s/\ /\n/g" .gitignore
 	echo $(test_FIGURES:%=%.tex) > gitignore.tmp

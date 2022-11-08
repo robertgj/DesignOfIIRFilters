@@ -1,9 +1,9 @@
 #!/bin/sh
 
-prog=selesnickFIRantisymmetric_flat_differentiator_test.m
+prog=selesnickFIRantisymmetric_linear_differentiator_test.m
 
-depends="test/selesnickFIRantisymmetric_flat_differentiator_test.m test_common.m \
-selesnickFIRantisymmetric_flat_differentiator.m local_max.m print_polynomial.m"
+depends="test/selesnickFIRantisymmetric_linear_differentiator_test.m test_common.m \
+selesnickFIRantisymmetric_linear_differentiator.m local_max.m print_polynomial.m"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -101,7 +101,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-nstr="selesnickFIRantisymmetric_flat_differentiator_test"
+nstr="selesnickFIRantisymmetric_linear_differentiator_test"
 
 diff -Bb test_cL10K3.ok $nstr"_cL10K3_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_cL10K3.ok"; fail; fi

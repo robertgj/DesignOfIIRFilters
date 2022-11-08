@@ -3,8 +3,9 @@
 prog=Abcd2tf_test.m
 
 depends="test/Abcd2tf_test.m test_common.m Abcd2tf.m tf2schurOneMlattice.m \
-schurdecomp.oct schurexpand.oct schurOneMscale.m schurOneMlattice2Abcd.oct \
-print_polynomial.m KW.m optKW.m"
+check_octave_file.m print_polynomial.m KW.m optKW.m schurOneMscale.m tf2Abcd.m \
+schurdecomp.oct schurexpand.oct schurOneMlattice2Abcd.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -39,6 +40,17 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
+Using Abcd2tf mfile
+print_usage: '[N,D,B]=Abcd2tf(A,b,c,d)' not found
+Abcd2tf: function called with too many outputs
+print_usage: '[N,D,B]=Abcd2tf(A,b,c,d)' not found
+Abcd2tf: function called with too many outputs
+A is empty
+Expect A square
+Expect b rows(A)x1 column vector
+Expect b rows(A)x1 column vector
+Expect c 1xcolumns(A) row vector
+Expect c 1xcolumns(A) row vector
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

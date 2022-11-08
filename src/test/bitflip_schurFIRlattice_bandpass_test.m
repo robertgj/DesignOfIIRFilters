@@ -1,5 +1,5 @@
 % bitflip_schurFIRlattice_bandpass_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass FIR Schurlattice filter.
@@ -17,7 +17,7 @@ function n=schurFIRlattice2tf(k,gain)
     print_usage("n=schurFIRlattice2tf(k,gain)");
   endif
   [A,B,C,D]=schurFIRlattice2Abcd(k);
-  n=Abcd2tf(A,B,C,D);
+  [n,~]=Abcd2tf(A,B,C,D);
   n=n*gain;
 endfunction
 

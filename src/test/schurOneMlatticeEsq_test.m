@@ -56,7 +56,7 @@ h=freqz(n,d,wp);
 P=unwrap(atan2(imag(h),real(h)));
 Pd=((wp-wp(1))*((P(end)-P(1))/(wp(end)-wp(1))))+P(1);
 Wpp=1e4;
-Wp=Wpp*ones(size(wp));
+Wp=Wpp*ones(length(wp),1);
 
 % Convert filter transfer function to Schur 1-multiplier lattice form
 [k,epsilon,p,c]=tf2schurOneMlattice(n,d);
@@ -81,9 +81,9 @@ endif
 
 % Check the gradients of the squared-error wrt k
 del=1e-6;
-delk=zeros(size(k));
+delk=zeros(1,length(k));
 delk(1)=del/2;
-diff_Esqk=zeros(1,size(k));
+diff_Esqk=zeros(1,length(k));
 for l=1:Nk
   EsqkPdel2=schurOneMlatticeEsq(k+delk,epsilon,p,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
   EsqkMdel2=schurOneMlatticeEsq(k-delk,epsilon,p,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
@@ -96,9 +96,9 @@ endif
 
 % Check the gradient of the squared-error response wrt c
 del=1e-6;
-delc=zeros(size(c));
+delc=zeros(1,length(c));
 delc(1)=del/2;
-diff_Esqc=zeros(1,size(c));
+diff_Esqc=zeros(1,length(c));
 for l=1:Nc
   EsqcPdel2=schurOneMlatticeEsq(k,epsilon,p,c+delc,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
   EsqcMdel2=schurOneMlatticeEsq(k,epsilon,p,c-delc,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
@@ -111,9 +111,9 @@ endif
 
 % Check the diagonal of the Hessian of the squared-error wrt k
 del=1e-6;
-delk=zeros(size(k));
+delk=zeros(1,length(k));
 delk(1)=del/2;
-diff_dEsqdk=zeros(1,size(k));
+diff_dEsqdk=zeros(1,length(k));
 for l=1:Nk
   [EsqkPdel2,gradEsqkPdel2] = ...
     schurOneMlatticeEsq(k+delk,epsilon,p,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
@@ -128,9 +128,9 @@ endif
 
 % Check the diagonal of the Hessian of the squared-error wrt c
 del=1e-6;
-delc=zeros(size(c));
+delc=zeros(1,length(c));
 delc(1)=del/2;
-diff_dEsqdc=zeros(1,size(c));
+diff_dEsqdc=zeros(1,length(c));
 for l=1:Nc
   [EsqkPdel2,gradEsqkPdel2] = ...
     schurOneMlatticeEsq(k,epsilon,p,c+delc,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);

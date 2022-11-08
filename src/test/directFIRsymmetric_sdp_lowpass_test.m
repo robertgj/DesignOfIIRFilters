@@ -8,32 +8,34 @@
 
 test_common;
 
-delete("directFIRsymmetric_sdp_lowpass_test.diary");
-delete("directFIRsymmetric_sdp_lowpass_test.diary.tmp");
-diary directFIRsymmetric_sdp_lowpass_test.diary.tmp
+strf="directFIRsymmetric_sdp_lowpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 %
 % Initialise
 %
-strf="directFIRsymmetric_sdp_lowpass_test";
+
+show_dB=false;
+ignore_numerical_problems=false;
 
 % Low pass filter
-for p=1:2,
+for M=[31,200],
 
-  if p==1
-    M=31;
-    fap=0.05;fas=0.10;
-    dBap=0.1;dBas=60;
-    Wap=1;Wat=100;Was=200;
-  else
-    % See Tuan et al. Table I
-    % If I ignore SeDuMi numerical problems and use
-    % M=200,dBap=0.3,Was=200,dBas=65
-    % then the result resembles Tuan et al. Figure 3.
-    M=200;
-    fap=0.03;fas=0.0358;
-    dBap=1;dBas=60;
-    Wap=1;Wat=100;Was=200;
+  if M==31
+    fap=0.05;fas=0.10;dBap=0.04;dBas=60;Wap=1;Wat=1;Was=1;
+  elseif M==200
+    % See Tuan et al. Table I and Figure 3.(fap=0.03,dBap=0.3,fas=0.358,dBas=60)
+    fap=0.03;dBap=0.3;fas=0.0364;dBas=60;Wap=1;Wat=1;Was=1;
+    if 0,
+      ignore_numerical_problems=true;dBap=0.5;fas=0.0358; % This works
+    elseif 0
+      ignore_numerical_problems=true;M=212;fas=0.0358;
+    elseif 0
+      M=221;fas=0.0358;
+    endif
   endif
 
   deltap=((10^(dBap/20))-1)/((10^(dBap/20))+1);
@@ -57,13 +59,16 @@ for p=1:2,
   y2=sdpvar(M+1,1);
   y3=sdpvar(M+1,1);
   y4=sdpvar(M+1,1);
-  Objective= ...
-  sum(nu+((deltap-1)*y1(1))+((deltap+1)*y2(1))+(deltas*y3(1))+(deltas*y4(1)));
+  Objective=sum(nu+((deltap-1)*y1(1))+((deltap+1)*y2(1))+ ...
+                   (deltas   *y3(1))+ (deltas   *y4(1)));
 
   % SDP constraint matrix
   [~,~,Q,q]=directFIRsymmetricEsqPW ...
               (zeros(M+1,1),2*pi*[0 fap fas 0.5],[1 0 0],[Wap,Wat,Was]);
   q=q(:);
+  if ~isdefinite(Q)
+    error("Q is not positive semi-definite")
+  endif
   FSDP=[nu, ((2*q)-y1+y2-y3+y4)' ; ((2*q)-y1+y2-y3+y4), 4*Q];
 
   % Conic constraints
@@ -181,13 +186,13 @@ for p=1:2,
   % Call YALMIP
   %
   try
-    Options=sdpsettings('solver','sedumi');
-    sol=optimize(Constraints,Objective,Options);
+    Options=sdpsettings("solver","sedumi");
+    sol=optimize(Constraints,Objective,Options)
   catch
     error("Caught YALMIP error : M=%d",M);
   end_try_catch
-  if sol.problem
-    warning("YALMIP failed : M=%d, %s",M,sol.info);
+  if sol.problem && ~((sol.problem==4) && ignore_numerical_problems)
+    error("YALMIP failed : M=%d",M);
   endif
   % Find xs (left division fails here ?!?!?)
   xs=-0.5*inv(Q)*((2*q)-value(y1-y2+y3-y4));
@@ -199,9 +204,15 @@ for p=1:2,
                [-xs+[(deltap+1);zeros(M,1)]]'*value(y2) + ...
                [ xs+[deltas;zeros(M,1)]]'*value(y3) + ...
                [-xs+[deltas;zeros(M,1)]]'*value(y4);
-  printf("sum[(Ai*xs+di)*ys]=%g\n", sumAixspdiys);
-  if abs(sumAixspdiys) > 2e-5
-    error("M=%d, sum(abs((Ai*xs+di)*ys))(%g)>2e-5\n",M,abs(sumAixspdiys));
+  printf("sum((Ai*xs+di)*ys)=%g\n", sumAixspdiys);
+  tol=2e-8;
+  if abs(sumAixspdiys) > tol
+    stre=sprintf("M=%d, abs(sum(((Ai*xs)+di)*ys))(%g)>%g\n",M,abs(sumAixspdiys),tol);
+    if ignore_numerical_problems
+      warning(stre);
+    else
+      error(stre);
+    endif
   endif
 
   % Extract filter impulse response
@@ -211,63 +222,115 @@ for p=1:2,
   % Plot 
   %
   nplot=20000;
-  wa=(0:nplot)'*pi/nplot;
   nap=ceil(nplot*fap/0.5)+1;
   nas=floor(nplot*fas/0.5)+1;
-  A=directFIRsymmetricA(wa,hM);
-  ax=plotyy(wa(1:nap)*0.5/pi,A(1:nap),wa(nas:end)*0.5/pi,A(nas:end));
-  set(ax(1),'ycolor','black');
-  set(ax(2),'ycolor','black');
-  if p==1
-    axis(ax(1),[0 0.5 1+(0.01*[-1 1])]);
-    axis(ax(2),[0 0.5 2*0.001*[-1 1]]);
+  fa=(0:nplot)'*0.5/nplot;
+  A=directFIRsymmetricA(2*pi*fa,hM);
+  if show_dB
+    ax=plotyy(fa(1:nap),  20*log10(abs(A(1:nap))), ...
+              fa(nas:end),20*log10(abs(A(nas:end))));
+    if M==31
+      axis(ax(1),[0 0.5 0.04*[-1 1]]);
+    else
+      axis(ax(1),[0 0.5 0.4*[-1 1]]);
+    endif
+    axis(ax(2),[0 0.5 -80 -40]);
+    ylabel("Amplitude(dB)");
   else
-    axis(ax(1),[0 0.5 1+(0.1*[-1 1])]);
-    axis(ax(2),[0 0.5 2*0.001*[-1 1]]);
+    ax=plotyy(fa(1:nap), A(1:nap), fa(nas:end),A(nas:end));
+    if M==31
+      axis(ax(1),[0 0.5 1+(0.004*[-1 1])]);
+      axis(ax(2),[0 0.5 0.002*[-1 1]]);
+    else
+      axis(ax(1),[0 0.5 1+(0.04*[-1 1])]);
+      axis(ax(2),[0 0.5 0.002*[-1 1]]);
+    endif
+    ylabel("Amplitude");
   endif
-  ylabel("Amplitude");
-  strt=sprintf("Tuan lowpass FIR : \
-M=%d,fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g",M,fap,dBap,Wap,fas,dBas,Was);
+  set(ax(1),"ycolor","black");
+  set(ax(2),"ycolor","black");
+  if show_dB
+    strt=sprintf("Tuan low-pass FIR : \
+M=%d,fap=%g,fas=%g,dBap=%g,dBas=%g",M,fap,fas,dBap,dBas);
+  else
+    strt=sprintf("Tuan low-pass FIR : \
+M=%d,fap=%g,fas=%g,deltap=%g,deltas=%g",M,fap,fas,deltap,deltas);
+  endif
   title(strt);
   xlabel("Frequency");
   grid("on");
-  print(sprintf("%s_hM%03d_dual_response",strf,M),"-dpdflatex");
+  print(sprintf("%s_hM%03d_dual_response",strf,M),"-dpdflatex"); 
   close
-  
-  plot(wa*0.5/pi,20*log10(abs(A)));
-  axis([0 0.5 -80 10]);
-  ylabel("Amplitude");
-  title(strt);
+
+  plot(fa, 20*log10(abs(A)));
+  axis([0,0.5,-dBas-10,10]);
   xlabel("Frequency");
+  ylabel("Amplitude");
   grid("on");
+  title(strt);
   print(sprintf("%s_hM%03d_response",strf,M),"-dpdflatex");
   close
+  
+  % Max-min amplitudes
+  [maxAp,ifmaxAp]=max(abs(A(1:nap)));           fmaxAp=fa(      ifmaxAp);
+  [minAp,ifminAp]=min(abs(A(1:nap)));           fminAp=fa(      ifminAp);
+  [maxAt,ifmaxAt]=max(abs(A((nap+1):(nas-1)))); fmaxAt=fa(nap  +ifmaxAt);
+  [minAt,ifminAt]=min(abs(A((nap+1):(nas-1)))); fminAt=fa(nap  +ifminAt);
+  [maxAs,ifmaxAs]=max(abs(A(nas:end)));         fmaxAs=fa(nas-1+ifmaxAs);
+  
+  if show_dB
+    printf("max. pass-band   amplitude %g (dB) at %g\n", 20*log10(maxAp),fmaxAp);
+    printf("min. pass-band   amplitude %g (dB) at %g\n", 20*log10(minAp),fminAp);
+    printf("max. trans.-band amplitude %g (dB) at %g\n", 20*log10(maxAt),fmaxAt);
+    printf("min. trans.-band amplitude %g (dB) at %g\n", 20*log10(minAt),fminAt);
+    printf("max. stop-band   amplitude %g (dB) at %g\n", 20*log10(maxAs),fmaxAs);
+  else
+    printf("max. pass-band   amplitude %g at %g\n", maxAp,fmaxAp);
+    printf("min. pass-band   amplitude %g at %g\n", minAp,fminAp);
+    printf("max. trans.-band amplitude %g at %g\n", maxAt,fmaxAt);
+    printf("min. trans.-band amplitude %g at %g\n", minAt,fminAt);
+    printf("max. stop-band   amplitude %g at %g\n", maxAs,fmaxAs);
+  endif
+  
+  % Sanity check
+  [Esq,~,Q,q]=directFIRsymmetricEsqPW(hM,2*pi*[0,fap,fas,0.5], ...
+                                      [1 0 0 ],[1,1,1]);
+  printf("hM%2d:Esq %g\n",M,Esq);
+  Esq_err=abs(Esq-((hM'*Q*hM)+(2*q*hM)+(2*fap)));
+  if Esq_err > eps
+    error("Esq_err(%g) > eps",Esq_err);
+  endif
+  [Esq,~,Q,q]=directFIRsymmetricEsqPW(hM,2*pi*[0,fap,fas,0.5], ...
+                                      [1 0 0 ],[Wap,Wat,Was]);
+  printf("hM%2d:Esq(weighted) %g\n",M,Esq);
+  Esq_err=abs(Esq-((hM'*Q*hM)+(2*q*hM)+(2*fap*Wap)));
+  if Esq_err > eps
+    error("Esq_err(weighted)(%g) > eps",Esq_err);
+  endif
 
   %
   % Save the results
   %
   fid=fopen(sprintf("%s_hM%03d.spec",strf,M),"wt");
-  fprintf(fid,"M=%d %% M+1 distinct coefficients\n",M);
+  fprintf(fid,"M=%d %% M+1 distinct coefficients, FIR filter order 2*M\n",M);
   fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
-  fprintf(fid,"dBap=%g %% Amplitude pass band ripple(dB)\n",dBap);
-  fprintf(fid,"deltap=%g %% Amplitude pass band ripple\n",deltap);
-  fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
-  fprintf(fid,"Wat=%g %% Amplitude transition band weight\n",Wat);
   fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
-  fprintf(fid,"dBas=%g %% Amplitude stop band ripple(dB)\n",dBas);
-  fprintf(fid,"deltas=%g %% Amplitude stop band ripple\n",deltas);
-  fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
+  fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple(dB)\n",dBap);
+  fprintf(fid,"deltap=%g %% Amplitude pass band peak ripple\n",deltap);
+  fprintf(fid,"dBas=%g %% Amplitude stop band peak ripple(dB)\n",dBas);
+  fprintf(fid,"deltas=%g %% Amplitude stop band peak ripple\n",deltas);
+  fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
+  fprintf(fid,"Wat=%g %% Amplitude trans. band weight\n",Wat);
+  fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
   fclose(fid);
 
   print_polynomial(hM,sprintf("hM%03d",M));
   print_polynomial(hM,sprintf("hM%03d",M),sprintf("%s_hM%03d_coef.m",strf,M));
 
-  eval(sprintf("save directFIRsymmetric_sdp_lowpass_test_hM%03d.mat ...\n\
-         M nplot fap Wap dBap Wat fas Was dBas hM",M));
+  eval(sprintf("save %s_hM%03d.mat M nplot fap fas dBap dBas deltap deltas \
+Wap Wat Was hM",strf,M));
 endfor
 
 % Done
 diary off
-movefile directFIRsymmetric_sdp_lowpass_test.diary.tmp ...
-         directFIRsymmetric_sdp_lowpass_test.diary;
-
+movefile(sprintf("%s.diary.tmp",strf), sprintf("%s.diary",strf));

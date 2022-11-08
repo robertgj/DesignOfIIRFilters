@@ -81,9 +81,9 @@ endif
 
 % Check the gradient of the squared-error wrt k
 del=1e-6;
-delk=zeros(size(k));
+delk=zeros(1,length(k));
 delk(1)=del/2;
-diff_Esqk=zeros(1,size(k));
+diff_Esqk=zeros(1,length(k));
 for l=1:Nk
   EsqPk=schurOneMAPlattice_frm_halfbandEsq(k+delk,epsilon,p,u,v,Mmodel,Dmodel,...
                                            wa,Asqd,Wa,wt,Td,Wt);
@@ -98,9 +98,9 @@ endif
 
 % Check the gradient of the squared-error wrt u
 del=1e-6;
-delu=zeros(size(u));
+delu=zeros(length(u),1);
 delu(1)=del/2;
-diff_Esqu=zeros(1,size(k));
+diff_Esqu=zeros(1,length(k));
 for l=1:Nu
   EsqPu=schurOneMAPlattice_frm_halfbandEsq(k,epsilon,p,u+delu,v,Mmodel,Dmodel,...
                                            wa,Asqd,Wa,wt,Td,Wt);
@@ -115,9 +115,9 @@ endif
 
 % Check the gradient of the squared-error wrt v
 del=1e-6;
-delv=zeros(size(v));
+delv=zeros(length(v),1);
 delv(1)=del/2;
-diff_Esqv=zeros(1,size(k));
+diff_Esqv=zeros(1,length(k));
 for l=1:Nv
   EsqPv=schurOneMAPlattice_frm_halfbandEsq(k,epsilon,p,u,v+delv,Mmodel,Dmodel,...
                                            wa,Asqd,Wa,wt,Td,Wt);

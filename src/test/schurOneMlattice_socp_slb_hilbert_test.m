@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_hilbert_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -38,13 +38,13 @@ P0=schurOneMlatticeP(w,k0,epsilon0,p0,c0);
 % Amplitude constraints
 wa=w;
 Asqd=ones(n,1);
-dBap=0.12
+dBap=0.1
 nt=ceil(ft*n/0.5);
 dBapmask=dBap*[2*ones(nt,1);ones(n-nt,1)/2];
 Asqdu=10.^(dBapmask/10);
 Asqdl=10.^(-dBapmask/10);
 Wat=10*tol
-Wap_mmse=1
+Wap_mmse=2
 Wa_mmse=Wap_mmse*[Wat*ones(nt,1);ones(n-nt,1)];
 Wap_pcls=1
 Wa_pcls=Wap_pcls*[Wat*ones(nt,1);ones(n-nt,1)];
@@ -63,7 +63,7 @@ Wt=[Wtt*ones(nt,1);Wtp*ones(n-nt,1)];
 % Phase constraints
 wp=w;
 Pd=-(wp*tp)-(pi/2);
-pr=0.02
+pr=0.016
 prmask=(pi/2)*[2*ones(nt,1);0.5*pr*ones(n-nt,1)];
 Pdu=Pd+prmask;
 Pdl=Pd-prmask;
@@ -132,7 +132,7 @@ endif
 [k2,epsilon2,p2,c2]=tf2schurOneMlattice(n2,d2);
 schurOneMlattice_sqp_slb_hilbert_plot ...
   (k2,epsilon2,p2,c2,wa,wt,wp, ...
-   dBap,tp,0.2,pr,Asqdu,Asqdl,Tdu,Tdl,Pdu,Pdl, ...
+   dBap,tp,0.04,0.004,Asqdu,Asqdl,Tdu,Tdl,Pdu,Pdl, ...
    strcat(strf,"_pcls_k2c2"),sprintf(strP,"PCLS",Wap_pcls));
 
 %
@@ -149,6 +149,9 @@ fprintf(fid,"Wat=%d %% Amplitude transition band weight\n",Wat);
 fprintf(fid,"Wap_mmse=%g %% Amplitude pass band weight for MMSE\n",Wap_mmse);
 fprintf(fid,"Wap_pcls=%g %% Amplitude pass band weight for PCLS\n",Wap_pcls);
 fprintf(fid,"tp=%g %% Nominal pass band filter group delay\n",tp);
+fprintf(fid,"tpr=%g %% Group delay pass band peak-to-peak ripple\n",tpr);
+fprintf(fid,"Wtt=%d %% Group delay transition band weight\n",Wtt);
+fprintf(fid,"Wtp=%g %% Group delay pass band weight\n",Wtp);
 fprintf(fid,"pr=%g pi/2 %% Phase pass band peak-to-peak ripple\n",pr);
 fprintf(fid,"Wpt=%d %% Phase transition band weight\n",Wpt);
 fprintf(fid,"Wpp=%d %% Phase pass band weight\n",Wpp);

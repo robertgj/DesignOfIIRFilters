@@ -1,10 +1,10 @@
 #!/bin/sh
 
-prog=mcclellanFIRsymmetric_flat_differentiator_fail_test.m
+prog=mcclellanFIRsymmetric_linear_differentiator_fail_test.m
 
-depends="test/mcclellanFIRsymmetric_flat_differentiator_fail_test.m test_common.m \
-mcclellanFIRsymmetric.m lagrange_interp.m local_max.m directFIRsymmetricA.m \
-xfr2tf.m print_polynomial.m"
+depends="test/mcclellanFIRsymmetric_linear_differentiator_fail_test.m \
+test_common.m mcclellanFIRsymmetric.m lagrange_interp.m local_max.m \
+directFIRsymmetricA.m xfr2tf.m print_polynomial.m"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -56,7 +56,7 @@ octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_hM.ok \
-mcclellanFIRsymmetric_flat_differentiator_fail_test_hM_coef.m
+mcclellanFIRsymmetric_linear_differentiator_fail_test_hM_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hM.ok"; fail; fi
 
 #

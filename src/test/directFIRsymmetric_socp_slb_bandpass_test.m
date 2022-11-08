@@ -9,9 +9,11 @@
 
 test_common;
 
-delete("directFIRsymmetric_socp_slb_bandpass_test.diary");
-delete("directFIRsymmetric_socp_slb_bandpass_test.diary.tmp");
-diary directFIRsymmetric_socp_slb_bandpass_test.diary.tmp
+strf="directFIRsymmetric_socp_slb_bandpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
@@ -19,7 +21,6 @@ maxiter=5000
 verbose=false;
 tol=1e-6;
 ctol=tol/10;
-strf="directFIRsymmetric_socp_slb_bandpass_test";
 
 % Band pass filter
 M=15;
@@ -27,10 +28,8 @@ fasl=0.05;
 fapl=0.15;
 fapu=0.25;
 fasu=0.35;
-deltap=3.07e-4
-dBap=20*log10(1+deltap);
+deltap=2e-4;
 deltas=5e-3;
-dBas=-20*log10(deltas);
 Wap=1;
 Wasl=1000;
 Wasu=1000;
@@ -46,12 +45,12 @@ na=[1 nasl napl napu nasu length(wa)];
 Ad=[zeros(napl-1,1); ...
     ones(napu-napl+1,1); ...
     zeros(npoints-napu+1,1)];
-Adu=[(10^(-dBas/20))*ones(nasl,1); ...
-     ones(nasu-nasl-1,1); ...
-     (10^(-dBas/20))*ones(npoints-nasu+2,1)];
-Adl=[-(10^(-dBas/20))*ones(napl-1,1); ...
-      (10^(-dBap/20))*ones(napu-napl+1,1); ...
-     -(10^(-dBas/20))*ones(npoints-napu+1,1)];
+Adu=[deltas*ones(nasl,1); ...
+     (1+deltap)*ones(nasu-nasl-1,1); ...
+     deltas*ones(npoints-nasu+2,1)];
+Adl=[-deltas*ones(napl-1,1); ...
+      (1-deltap)*ones(napu-napl+1,1); ...
+     -deltas*ones(npoints-napu+1,1)];
 Wa=[Wasl*ones(nasl,1); ...
     zeros(napl-nasl-1,1); ...
     Wap*ones(napu-napl+1,1); ...
@@ -100,15 +99,15 @@ subplot(311)
 plot(wa(1:nasl)*0.5/pi,A_hM1(1:nasl));
 ylabel("Amplitude");
 axis([0 fasl -0.01 0.01]);
-strt=sprintf("Direct-form symmetric bandpass filter : \
-fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g", ...
-             fasl,fapl,fapu,fasu,deltap,deltas);
+strt=sprintf("FIR symmetric bandpass filter : \
+M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g", ...
+             M,fasl,fapl,fapu,fasu,deltap,deltas);
 title(strt);
 grid("on");
 subplot(312)
 plot(wa(napl:napu)*0.5/pi,A_hM1(napl:napu));
 ylabel("Amplitude");
-axis([fapl fapu 0.9996 1.0001]);
+axis([fapl fapu 1+0.0002*[-1 1]]);
 grid("on");
 subplot(313)
 plot(wa(nasu:end)*0.5/pi,A_hM1(nasu:end));
@@ -119,22 +118,34 @@ grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
+ax=plotyy(wa*0.5/pi,A_hM1, wa*0.5/pi,A_hM1);
+axis(ax(1),[0 0.5 1+(0.0004*[-1 1])]);
+axis(ax(2),[0 0.5 0.01*[-1 1]]);
+set(ax(1),"ycolor","black");
+set(ax(2),"ycolor","black");
+grid("on");
+xlabel("Frequency");
+ylabel("Amplitude");
+title(strt);
+print(strcat(strf,"_dual_response"),"-dpdflatex");
+close
+
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"M=%d %% FIR filter order is 2*M\n",M);
 fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"maxiter=%d %% SOCP iteration limit\n",maxiter);
-fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
+fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
-fprintf(fid,"deltap=%d %% Amplitude pass band ripple\n",deltap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"deltap=%g %% Amplitude pass band peak ripple\n",deltap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"fasl=%g %% Amplitude stop band lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Amplitude stop band upper edge\n",fasu);
-fprintf(fid,"deltas=%d %% Amplitude stop band ripple\n",deltas);
-fprintf(fid,"Wasl=%d %% Amplitude lower stop band weight\n",Wasl);
-fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
+fprintf(fid,"deltas=%g %% Amplitude stop band peak ripple\n",deltas);
+fprintf(fid,"Wasl=%g %% Amplitude lower stop band weight\n",Wasl);
+fprintf(fid,"Wasu=%g %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Show results
@@ -142,11 +153,10 @@ printf("hM1=[ ");printf("%g ",hM1');printf("]';\n");
 print_polynomial(hM1,"hM1",strcat(strf,"_hM1_coef.m"),"%12.8f");
 
 % Save results
-save directFIRsymmetric_socp_slb_bandpass_test.mat ...
-     tol ctol npoints hM0 fapl fapu deltap Wap fasl fasu deltas Wasl Wasu hM1
+eval(sprintf("save %s.mat tol ctol npoints hM0 fapl fapu deltap Wap \
+fasl fasu deltas Wasl Wasu hM1",strf));
        
 % Done
 toc;
 diary off
-movefile directFIRsymmetric_socp_slb_bandpass_test.diary.tmp ...
-         directFIRsymmetric_socp_slb_bandpass_test.diary;
+movefile(sprintf("%s.diary.tmp",strf), sprintf("%s.diary",strf));

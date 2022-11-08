@@ -142,8 +142,8 @@ tmp=pkrz(end); pkrz(end)=pkrzhat(end); pkrzhat(end)=-tmp;
 [Ap,Bp,Cpkrz,Dpkrz,Cpkrzhat,Dpkrzhat]=complementaryFIRlattice2Abcd(pkrz,pkrzhat);
 
 % Find corresponding filter polynomials
-pbkrz=Abcd2tf(Ap,Bp,Cpkrz,Dpkrz);
-pbkrzhat=Abcd2tf(Ap,Bp,Cpkrzhat,Dpkrzhat);
+[pbkrz,~]=Abcd2tf(Ap,Bp,Cpkrz,Dpkrz);
+[pbkrzhat,~]=Abcd2tf(Ap,Bp,Cpkrzhat,Dpkrzhat);
 tol=10*eps;
 if max(abs(brz(:)-pbkrz(:))) > tol
   error("max(abs(brz(:)-pbkrz(:))) > (%g*eps)",tol/eps);

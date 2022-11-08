@@ -168,7 +168,7 @@ fprintf(fid,"Globally optimised & %d & %5.2f & %5.2f \\\\ \n",
 fprintf(fid,"Schur normalised-scaled lattice & %d & %5.2f & %5.2f \\\\ \n", ...
         6*length(S10),NG_schurNS,(1+NG_schurNS)/12);
 fprintf(fid,"Schur one-multiplier lattice & %d & %5.2f & %5.2f \\\\ \n", ...
-        2*length(KK),NG_schurOneM,(1+NG_schurOneM)/12);
+        length(KK)+length(CC),NG_schurOneM,(1+NG_schurOneM)/12);
 fprintf(fid,"\\bottomrule\n");
 fprintf(fid,"\\end{tabular}\n");
 fprintf(fid,"\\end{threeparttable}\n");

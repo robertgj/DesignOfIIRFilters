@@ -1,9 +1,9 @@
 #!/bin/sh
 
-prog=purczynskiFIRantisymmetric_flat_differentiator_test.m
+prog=purczynskiFIRantisymmetric_linear_differentiator_test.m
 
-depends="test/purczynskiFIRantisymmetric_flat_differentiator_test.m test_common.m \
-purczynskiFIRantisymmetric_flat_differentiator.m print_polynomial.m"
+depends="test/purczynskiFIRantisymmetric_linear_differentiator_test.m test_common.m \
+purczynskiFIRantisymmetric_linear_differentiator.m print_polynomial.m"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -382,7 +382,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-nstr="purczynskiFIRantisymmetric_flat_differentiator_test"
+nstr="purczynskiFIRantisymmetric_linear_differentiator_test"
 
 diff -Bb test_h2.ok $nstr"_h2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_h2.ok"; fail; fi

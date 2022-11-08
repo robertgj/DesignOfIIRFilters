@@ -1,9 +1,9 @@
 #!/bin/sh
 
-prog=mcclellanFIRantisymmetric_flat_differentiator_test.m
+prog=mcclellanFIRantisymmetric_linear_differentiator_test.m
 
-depends="test/mcclellanFIRantisymmetric_flat_differentiator_test.m test_common.m \
-mcclellanFIRantisymmetric_flat_differentiator.m local_max.m print_polynomial.m"
+depends="test/mcclellanFIRantisymmetric_linear_differentiator_test.m test_common.m \
+mcclellanFIRantisymmetric_linear_differentiator.m local_max.m print_polynomial.m"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -104,19 +104,19 @@ octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_hAM56.ok \
-mcclellanFIRantisymmetric_flat_differentiator_test_hAM56_coef.m
+mcclellanFIRantisymmetric_linear_differentiator_test_hAM56_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hAM56.ok"; fail; fi
 
 diff -Bb test_hA56.ok \
-mcclellanFIRantisymmetric_flat_differentiator_test_hA56_coef.m
+mcclellanFIRantisymmetric_linear_differentiator_test_hA56_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hA56.ok"; fail; fi
 
 diff -Bb test_hAM57.ok \
-mcclellanFIRantisymmetric_flat_differentiator_test_hAM57_coef.m
+mcclellanFIRantisymmetric_linear_differentiator_test_hAM57_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hAM57.ok"; fail; fi
 
 diff -Bb test_hA57.ok \
-mcclellanFIRantisymmetric_flat_differentiator_test_hA57_coef.m
+mcclellanFIRantisymmetric_linear_differentiator_test_hA57_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hA57.ok"; fail; fi
 
 #

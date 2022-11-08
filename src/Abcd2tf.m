@@ -10,7 +10,7 @@ function [N,D,B]=Abcd2tf(A,b,c,d)
 % "Digital Signal Processing" R.A. Roberts
 % and C.T. Mullis Addison-Wesley ISBN 0-201-16350-0
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -29,10 +29,13 @@ function [N,D,B]=Abcd2tf(A,b,c,d)
 % CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
+  
   % Sanity checks
-  if (nargin ~= 4) || (nargout>3)
+  if (nargin ~= 4) || (nargout<2) || (nargout>3)
     print_usage("[N,D,B]=Abcd2tf(A,b,c,d)");
+  endif
+  if isempty(A)
+    error("A is empty");
   endif
   if rows(A) ~= columns(A)
     error("Expect A square");
@@ -46,7 +49,7 @@ function [N,D,B]=Abcd2tf(A,b,c,d)
   if columns(d) ~= 1 || rows(d) ~= 1 
     error("Expect d a scalar");
   endif
-
+  
   % Loop columns(A)+1 times to find the characteristic polynomial, D, of A
   Abcd2tf_loop(A,b,c);
   if nargout<3

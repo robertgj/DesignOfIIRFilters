@@ -1,6 +1,9 @@
-butt6NSPABP_test_FIGURES=butt6NSPABP_test_combined_allpass_output_response \
-butt6NSPABP_test_output_response butt6NSPABP_test_allpass_response \
-butt6NSPABP_test_sv
+butt6NSPABP_test_FIGURES= \
+butt6NSPABP_test_combined_allpass_output_response \
+butt6NSPABP_test_output_response \
+butt6NSPABP_test_allpass_response \
+butt6NSPABP_test_sv \
+butt6NSPABP_test_freqz
 
 butt6NSPABP_test_FILES = \
 butt6NSPABP_test.m test_common.m tf2schurNSlattice.m schurNSlatticeNoiseGain.m \

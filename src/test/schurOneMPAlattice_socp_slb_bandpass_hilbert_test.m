@@ -81,10 +81,10 @@ Wa=[Wasl*ones(nasl,1); ...
 ntpl=floor(n*ftpl/0.5)+1;
 ntpu=ceil(n*ftpu/0.5)+1;
 wt=wa(ntpl:ntpu);
-Td=td*ones(size(wt),1);
+Td=td*ones(length(wt),1);
 Tdu=Td+(tdr/2);
 Tdl=Td-(tdr/2);
-Wt=Wtp*ones(size(wt),1);
+Wt=Wtp*ones(length(wt),1);
 
 % Desired pass-band phase response
 nppl=floor(n*fppl/0.5)+1;

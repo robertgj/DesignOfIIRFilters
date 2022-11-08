@@ -92,6 +92,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \DeclareMathOperator{\jarccd}{arccd}
 \DeclareMathOperator{\jarccs}{arccs}
 \DeclareMathOperator{\cosec}{cosec}
+\DeclareMathOperator{\cotan}{cotan}
 \DeclareMathOperator{\sech}{sech}
 \DeclareMathOperator{\arctanh}{arctanh}
 \DeclareMathOperator{\arccosh}{arccosh}
@@ -113,8 +114,11 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \DeclareMathOperator{\mathcone}{cone}
 \DeclareMathOperator{\mathri}{ri}
 \DeclareMathOperator{\mathaff}{aff}
+\DeclareMathOperator{\mathconv}{conv}
+\DeclareMathOperator{\mathconj}{\ast} % {\textsf{\tiny{H}}}
+\DeclareMathOperator{\mathreverse}{\textsf{\tiny{F}}}
 
-\allowdisplaybreaks{} % For page breaks in long \align{} equations
+\allowdisplaybreaks{} % For page breaks in long \begin{align} equations
 
 \renewcommand{\thefootnote}{\alph{footnote}}
 
@@ -950,9 +954,7 @@ b_{1}\\
 b_{n}
 \end{array}\right]
 \end{align*}
-\subsection{\label{sec:transform-transform-function-to-state-variable}
-Transformation of a transfer function to a state variable 
-description}
+\subsection{\label{sec:transform-transform-function-to-state-variable}Transformation of a transfer function to a state variable description}
 Algorithm~\ref{alg:Transformation-transfer-to-SV} converts a rational transfer
 function to the equivalent direct form state variable
 description\footnote{Appendix~\ref{app:Continued-fraction-expansion} shows the
@@ -1327,13 +1329,13 @@ a_{n} & a_{n-1} & \cdots & a_{1}
 \end{array}\right]
 \end{align*}
 The result follows.
-\subsubsection{\emph{LeVerrier}'s algorithm}
+\subsubsection{\emph{Le Verrier}'s algorithm}
 In practice, I have found that the simplest method of finding $(zI-A)^{-1}$ 
 (sometimes referred to as the matrix \emph{resolvent}) is by
 matrix inversion. An alternative, slower, but more accurate method for finding
-the resolvent of a matrix is \emph{LeVerrier}'s algorithm~\cite[Algorithm
+the resolvent of a matrix is \emph{Le Verrier}'s algorithm~\cite[Algorithm
 8A.12]{RobertsMullis_DigitalSignalProcessing} shown in
-Algorithm~\ref{alg:Leverriers-algorithm-characteristic-polynomial}.
+Algorithm~\ref{alg:LeVerriers-algorithm-characteristic-polynomial}.
 \begin{algorithm}[!pbth]
 To find $p\left(z\right)=\sum_{k=0}^{n}z^{n-k}a_{k}$ and
 $\left(zI-A\right)^{-1}=\frac{1}{p\left(z\right)}\sum_{k=0}^{n-1}z^{n-1-k}\bar{A}_{k}$
@@ -1346,16 +1348,16 @@ perform the following recursion:
   \State $\bar{A}_{k}=A\bar{A}_{k-1}+a_{k}I$
 \EndFor
 \end{algorithmic}
-\caption{\label{alg:Leverriers-algorithm-characteristic-polynomial}Leverrier's
-  algorithm for finding the resolvent of the state transition matrix,
-  A~\cite[Algorithm 8A.12]{RobertsMullis_DigitalSignalProcessing}} 
+\caption{\label{alg:LeVerriers-algorithm-characteristic-polynomial}\emph{Le
+Verrier}'s algorithm for finding the resolvent of the state transition matrix,
+  A~\cite[Algorithm 8A.12]{RobertsMullis_DigitalSignalProcessing}}
 \end{algorithm}
-Note that Leverrier's algorithm calculates the characteristic polynomial of $A$
-as a by-product. In this case the characteristic polynomial of the 
-state-transition matrix is the denominator polynomial of the transfer function, 
-which is known. The recursion in $\bar{A}_{k}$ is justified by rearranging
-the expansion of the resolvent shown in 
-Algorithm~\ref{alg:Leverriers-algorithm-characteristic-polynomial} and then 
+Note that \emph{Le Verrier}'s algorithm calculates the characteristic
+polynomial of $A$ as a by-product. In this case the characteristic polynomial
+of the state-transition matrix is the denominator polynomial of the transfer
+function, which is known. The recursion in $\bar{A}_{k}$ is justified by
+rearranging the expansion of the resolvent shown in 
+Algorithm~\ref{alg:LeVerriers-algorithm-characteristic-polynomial} and then 
 equating coefficients of $z$:
 \begin{align*}
 \sum_{k=0}^{n}z^{n-k}a_{k}I&=\left(zI-A\right)\sum_{k=0}^{n-1}z^{n-1-k}\bar{A}_{k}\\
@@ -1382,7 +1384,7 @@ the eigenvalue method,
 $p\left(z\right)=\prod_{k=1}^{n}\left(z-\lambda_{k}\right)$, where the 
 $\lambda_{k}$ are the (possibly repeated) eigenvalues of $A$. When the
 characteristic polynomial is known, the resolvent can be calculated with the
-matrix recursion of \emph{LeVerrier}'s algorithm.
+matrix recursion of \emph{Le Verrier}'s algorithm.
 
 \begin{algorithm}
 Given:
@@ -2244,8 +2246,7 @@ $12$ filter is implemented as an \emph{oct}-file.}
   is implemented as an \emph{oct}-file.}
 \end{figure}
 \cleardoublepage{}
-\chapter{Frequency transformations of state variable filters}
-\section{Frequency Transformations}
+\chapter{Frequency transformations of Digital Filters}
 See \emph{Roberts} and
 \emph{Mullis}~\cite[Section 6.7]{RobertsMullis_DigitalSignalProcessing}.
 A \emph{generalised band-pass} filter has a frequency response function
@@ -2281,17 +2282,17 @@ replaced with the all-pass filter $\left[F\left(z\right)\right]^{-1}$. For IIR
 filter design $F\left(z\right)$ must be a rational function. A first order
 frequency transformation has the form: 
 \begin{align*}
-F\left(z\right) &= \pm\frac{z-\alpha}{1-\alpha^{\dagger}z}\quad\left|\alpha\right|^{2}<1
+F\left(z\right) &= \pm\frac{z-\alpha}{1-\alpha^{\ast}z}\quad\left|\alpha\right|^{2}<1
 \end{align*}
 This is a frequency transformation since
 \begin{align*}
-\left|F\left(z\right)\right|^{2} &= \frac{\left(z-\alpha\right)\left(z^{*}-\alpha^{\dagger}\right)}{\left(1-\alpha^{\dagger}z\right)\left(1-\alpha z^{*}\right)}\\
- &= 1+\frac{zz^{*}-1+\alpha\alpha^{\dagger}-\alpha\alpha^{\dagger}zz^{*}}{1-\alpha z^{*}-\alpha^{\dagger}z+\alpha\alpha^{\dagger}zz^{*}}\\
- &= 1+\frac{\left[\left|z\right|^{2}-1\right]\left[1-\left|\alpha\right|^{2}\right]}{\left|1-\alpha^{\dagger}z\right|^{2}}
+\left|F\left(z\right)\right|^{2} &= \frac{\left(z-\alpha\right)\left(z^{\ast}-\alpha^{\ast}\right)}{\left(1-\alpha^{\ast}z\right)\left(1-\alpha z^{\ast}\right)}\\
+ &= 1+\frac{zz^{\ast}-1+\alpha\alpha^{\ast}-\alpha\alpha^{\ast}zz^{\ast}}{1-\alpha z^{\ast}-\alpha^{\ast}z+\alpha\alpha^{\ast}zz^{\ast}}\\
+ &= 1+\frac{\left[\left|z\right|^{2}-1\right]\left[1-\left|\alpha\right|^{2}\right]}{\left|1-\alpha^{\ast}z\right|^{2}}
 \end{align*}
 Order $n$ frequency transformations are known as \emph{Blaschke products}
 \begin{align*}
-F\left(z\right) &= \pm\prod_{i=1}^{m}\left(\frac{z-\alpha_{i}}{1-\alpha_{i}^{*}z}\right)=\pm\frac{p\left(z\right)}{\tilde{p}\left(z\right)}
+F\left(z\right) &= \pm\prod_{i=1}^{m}\left(\frac{z-\alpha_{i}}{1-\alpha_{i}^{\ast}z}\right)=\pm\frac{p\left(z\right)}{\tilde{p}\left(z\right)}
 \end{align*}
 where
 \begin{align*}
@@ -2401,16 +2402,16 @@ Given a (usually low-pass) prototype filter $H\left(z\right)$ parameterised
 by the state variable description $\left\{ A,b,c,d\right\}$ construct the 
 filter $G\left(z\right)=H\left(F\left(z\right)\right)$ where 
 \begin{align*}
-F\left(z\right) &= \pm\prod_{i=1}^{m}\left(\frac{z-\alpha_{i}^{\dagger}}{1-\alpha_{i}z}\right),\quad\left|\alpha_{i}\right|<1
+F\left(z\right) &= \pm\prod_{i=1}^{m}\left(\frac{z-\alpha_{i}^{\ast}}{1-\alpha_{i}z}\right),\quad\left|\alpha_{i}\right|<1
 \end{align*}
-(here $\dagger$ means complex conjugate transpose).
+where $\ast$ means complex conjugate transpose.
 
 If the order of $H\left(z\right)$ is $n$ then the order of $G\left(z\right)$
 is $mn$. The map $z\rightarrow F\left(z\right)$ preserves the disk
 $\left|z\right|<1$, the circle $\left|z\right|=1$ and the set $\left|z\right|>1$
 since
 \begin{align*}
-1-\left|\frac{z-\alpha^{\dagger}}{1-\alpha z}\right|^{2} &= \frac{\left(1-\left|z\right|^{2}\right)\left(1-\left|\alpha\right|^{2}\right)}{\left|1-\alpha z\right|^{2}}
+1-\left|\frac{z-\alpha^{\ast}}{1-\alpha z}\right|^{2} &= \frac{\left(1-\left|z\right|^{2}\right)\left(1-\left|\alpha\right|^{2}\right)}{\left|1-\alpha z\right|^{2}}
 \end{align*}
 Therefore if $H\left(z\right)$ is stable (minimum phase) then $G\left(z\right)$
 is stable (minimum phase). We want to find the matrices $\mathfrak{A},\mathfrak{B},\mathfrak{C},\mathfrak{D}$
@@ -3019,11 +3020,12 @@ Octave function \emph{optKW.m}.
 \item Diagonalise $K$ and $W$:\\
 Since $K$ and $W$ are real, symmetric and positive definite, a decomposition
 into $W=U_{1}D_{1}U_{1}^{\top}$ exists. Here $U_{1}$ is real and unitary (ie:
-$U_{1}^{\dagger} U_{1}=I$, where $\dagger$ means complex conjugate transpose) 
-and $D_{1}$ is diagonal with real, positive elements. Recall that for
-non-singular matrices $\left(AB\right)^{-1}=B^{-1}A^{-1}$ and 
-$\left(AB\right)^{\top}=B^{\top}A^{\top}$. Let $T_{1}=U_{1}D_{1}^{-\frac{1}{2}}$
-then
+$U_{1}^{\ast} U_{1}=U_{1} U_{1}^{\ast}=I$, where $\ast$ means complex
+conjugate transpose) and $D_{1}$ is diagonal with real, positive
+elements. Recall that for non-singular matrices
+$\left(AB\right)^{-1}=B^{-1}A^{-1}$ and  
+$\left(AB\right)^{\top}=B^{\top}A^{\top}$.
+Let $T_{1}=U_{1}D_{1}^{-\frac{1}{2}}$ then
 \begin{align*}
   W_{1}&=T_{1}^{\top}WT_{1}=I \\
   K_{1}&=T_{1}^{-1}K\left(T_{1}^{-1}\right)^{\top}=U_{2}D_{2}U_{2}^{\top}
@@ -4095,7 +4097,6 @@ Equation~\ref{eqn:IS-second-order-all-pass-filter-section} for real poles.
 Figure~\ref{fig:IS-all-pass-filter-phase-gradient-complex-poles} shows
 the maximum of the gradient of the phase plotted against the same coefficients
 for complex conjugate poles.  
-
 \clearpage
 \begin{figure}
 \centering
@@ -4416,19 +4417,22 @@ as:
 \end{align*}
 From $\Phi_{N}\left(z\right)$ form the polynomial $\Phi_{N-1}\left(z\right)$ by:
 \begin{align*}
-\Phi_{N-1}\left(z\right) & = \frac{z^{-1}\left\{ \phi_{N}\Phi_{N}\left(z\right)-\phi_{0}\Phi_{N}^{*}\left(z\right)\right\} }{\sqrt{\phi_{N}^{2}-\phi_{0}^{2}}}\\
- & = \frac{z^{-1}\left\{ \Phi_{N}\left(z\right)-k_{N}\Phi_{N}^{*}\left(z\right)\right\} }{\sqrt{1-k_{N}^{2}}}
+\Phi_{N-1}\left(z\right) & = \frac{z^{-1}\left\{ \phi_{N}\Phi_{N}\left(z\right)-
+\phi_{0}\tilde{\Phi}_{N}\left(z\right)\right\}}{\sqrt{\phi_{N}^{2}-
+\phi_{0}^{2}}}\\
+ & = \frac{z^{-1}\left\{ \Phi_{N}\left(z\right)-
+ k_{N}\tilde{\Phi}_{N}\left(z\right)\right\} }{\sqrt{1-k_{N}^{2}}}
 \end{align*}
-where $k_{N}=\phi_{0}/\phi_{N}$ and $\Phi_{N}^{*}\left(z\right)$
+where $k_{N}=\phi_{0}/\phi_{N}$ and $\tilde{\Phi}_{N}\left(z\right)$
 is the reverse polynomial of $\Phi_{N}\left(z\right)$ defined by:
 \begin{align*}
-\Phi_{N}^{*}\left(z\right)=z^{N}\Phi_{N}\left(z^{-1}\right)
+\tilde{\Phi}_{N}\left(z\right)=z^{N}\Phi_{N}\left(z^{-1}\right)
 \end{align*}
 The degree of $\Phi_{N-1}\left(z\right)$ is $1$ less than that of
 $\Phi_{N}\left(z\right)$ since, by a change of variables the numerator
 is:
 \begin{align*}
- z^{-1}\left\{ \phi_{N}\Phi_{N}\left(z\right)-\phi_{0}\Phi_{N}^{*}\left(z\right)\right\}
+ z^{-1}\left\{ \phi_{N}\Phi_{N}\left(z\right)-\phi_{0}\tilde{\Phi}_{N}\left(z\right)\right\}
 & = z^{-1}\sum^{N}_{i=0}\left\{\phi_{N}\phi_{i}z^{i}-\phi_{0}\phi_{N-i}z^{i}\right\}\\
 & = \sum^{N}_{i=1}\left\{\phi_{N}\phi_{i}-\phi_{0}\phi_{N-i}\right\}z^{i-1}\\
 \end{align*}
@@ -4493,9 +4497,9 @@ three properties:
 \begin{enumerate}
 \item Conjugate symmetry: 
 \begin{align*}
-\left\langle P\left(z\right),Q\left(z\right)\right\rangle  & = \left\langle Q\left(z\right),P\left(z\right)\right\rangle ^{\dagger}
+\left\langle P\left(z\right),Q\left(z\right)\right\rangle  & = \left\langle Q\left(z\right),P\left(z\right)\right\rangle ^{\ast}
 \end{align*}
-where ($\dagger$) represents the complex conjugate transpose. This can
+where $\ast$ represents the complex conjugate transpose. This can
 be verified by a change of variables. The coefficients of $P\left(z\right)$
 and $Q\left(z\right)$ are usually real.
 \item Linearity: for any real constants $\alpha$, $\beta$ and $\gamma$:
@@ -4520,10 +4524,11 @@ Some identities:
 \end{cases}
 \end{align*}
 \textsc{Proof:} Recall that 
-$\Phi_{N}^{*}\left(z\right)=z^{N}\Phi_{N}\left(z^{-1}\right)$. Then
+$\tilde{\Phi}_{N}\left(z\right)=z^{N}\Phi_{N}\left(z^{-1}\right)$. Then
 \begin{align*}
-\left\langle \Phi_{N}\left(z\right),z^{i}\right\rangle  & = \frac{1}{2\pi \imath}\ointctrclockwise_{C}\frac{\Phi_{N}\left(z\right)z^{-i}}{\Phi_{N}\left(z\right)\Phi_{N}\left(z^{-1}\right)}dz\\
- & = \frac{1}{2\pi \imath}\ointctrclockwise_{C}\frac{z^{N-i-1}}{\Phi_{N}{*}\left(z\right)}dz\\
+\left\langle \Phi_{N}\left(z\right),z^{i}\right\rangle  & = \frac{1}{2\pi\imath}
+\ointctrclockwise_{C}\frac{\Phi_{N}\left(z\right)z^{-i}}{\Phi_{N}\left(z\right)\Phi_{N}\left(z^{-1}\right)}dz\\
+ & = \frac{1}{2\pi \imath}\ointctrclockwise_{C}\frac{z^{N-i-1}}{\tilde{\Phi}_{N}\left(z\right)}dz\\
  & = \begin{cases}
 \frac{1}{\Phi_{N}} & i=N\\
 0 & otherwise
@@ -4535,7 +4540,7 @@ and Cauchy's Integral Theorem applies. The result for $i=N$ follows
 from Cauchy's Integral Formula.\bigskip{}
 Similarly:
 \begin{align*}
-\left\langle \Phi_{N}^{*}\left(z\right),z^{i}\right\rangle  & = \begin{cases}
+\left\langle \tilde{\Phi}_{N}\left(z\right),z^{i}\right\rangle  & = \begin{cases}
 \frac{1}{\phi_{N}} & i=0\\
 0 & i\geq1
 \end{cases}
@@ -4547,15 +4552,15 @@ P\left(z\right) & = \sum_{i=0}^{N}p_{i}z^{i}
 then:
 \begin{align*}
 \left\langle \Phi_{N}\left(z\right),P\left(z\right)\right\rangle  & = \frac{p_{N}}{\phi_{N}}\\
-\left\langle \Phi_{N}^{*}\left(z\right),P\left(z\right)\right\rangle  & = \frac{p_{0}}{\phi_{N}}
+\left\langle \tilde{\Phi}_{N}\left(z\right),P\left(z\right)\right\rangle  & = \frac{p_{0}}{\phi_{N}}
 \end{align*}
 Also:
 \begin{align*}
 \left\langle \Phi_{N}\left(z\right),\Phi_{N}\left(z\right)\right\rangle  & = 1\\
-\left\langle \Phi_{N}^{*}\left(z\right),\Phi_{N}^{*}\left(z\right)\right\rangle  & = 1\\
-\left\langle \Phi_{N}\left(z\right),\Phi_{N}^{*}\left(z\right)\right\rangle  & = \frac{\phi_{0}}{\phi_{N}}\\
+\left\langle \tilde{\Phi}_{N}\left(z\right),\tilde{\Phi}_{N}\left(z\right)\right\rangle  & = 1\\
+\left\langle \Phi_{N}\left(z\right),\tilde{\Phi}_{N}\left(z\right)\right\rangle  & = \frac{\phi_{0}}{\phi_{N}}\\
 \left\langle z^{-j}\Phi_{N}\left(z\right),z^{i}\right\rangle  & = \left\langle \Phi_{N}\left(z\right),z^{i+j}\right\rangle \\
-\left\langle z^{-j}\Phi_{N}^{*}\left(z\right),z^{i}\right\rangle  & = \left\langle \Phi_{N}^{*}\left(z\right),z^{i+j}\right\rangle 
+\left\langle z^{-j}\tilde{\Phi}_{N}\left(z\right),z^{i}\right\rangle  & = \left\langle \tilde{\Phi}_{N}\left(z\right),z^{i+j}\right\rangle 
 \end{align*}
 The Schur polynomials satisfy the following orthonormality condition:
 \begin{align*}
@@ -4568,14 +4573,14 @@ where $0\leq i,j\leq N$. See the proof in
 \emph{Parhi}~\cite[Appendix D]{Parhi_VLSIDigitalSignalProcessingSystems}.
 The reverse Schur polynomials are not orthonormal. However:
 \begin{align*}
-\left\langle \Phi_{i}^{*}\left(z\right),z^{i-j}\Phi_{j}^{*}\left(z\right)\right\rangle  & = \left\langle z^{j-i}\Phi_{j}^{*}\left(z^{-1}\right),\Phi_{i}^{*}\left(z^{-1}\right)\right\rangle \\
- & = \left\langle z^{j}\Phi_{j}^{*}\left(z^{-1}\right),z^{i}\Phi_{i}^{*}\left(z^{-1}\right)\right\rangle \\
+\left\langle \tilde{\Phi}_{i}\left(z\right),z^{i-j}\tilde{\Phi}_{j}\left(z\right)\right\rangle  & = \left\langle z^{j-i}\tilde{\Phi}_{j}\left(z^{-1}\right),\tilde{\Phi}_{i}\left(z^{-1}\right)\right\rangle \\
+ & = \left\langle z^{j}\tilde{\Phi}_{j}\left(z^{-1}\right),z^{i}\tilde{\Phi}_{i}\left(z^{-1}\right)\right\rangle \\
  & = \left\langle \Phi_{j}\left(z\right),\Phi_{i}\left(z\right)\right\rangle \\
  & = 0
 \end{align*}
 where $0\leq j\leq i\leq N$. Therefore the polynomials
 \begin{align*}
-\left\{ \Phi_{N}^{*}\left(z\right),z\Phi_{N-1}^{*}\left(z\right),z^{2}\Phi_{N-2}^{*}\left(z\right),\ldots,z^{N}\Phi_{0}^{*}\left(z\right)\right\}
+\left\{ \tilde{\Phi}_{N}\left(z\right),z\tilde{\Phi}_{N-1}\left(z\right),z^{2}\tilde{\Phi}_{N-2}\left(z\right),\ldots,z^{N}\tilde{\Phi}_{0}\left(z\right)\right\}
 \end{align*}
 also form an orthonormal basis. This basis can be used to synthesise
 an alternative lattice structure. \emph{Parhi}~\cite[Section
@@ -4600,12 +4605,12 @@ For any polynomial $N_{m}\left(z\right)$ of degree $m,\:(0<m\leq N)$:
 \State $Q\left(z\right)=N_{m}\left(z\right)$ 
 \State $c_{i}=0$, for $m<i\leq N$
 \For {$i=m,m-1,\hdots,0$}
-  \State $c_{i}=\frac{Q^{*}(0)}{\Phi_{i}^{*}(0)}$
+  \State $c_{i}=\frac{\tilde{Q}(0)}{\tilde{\Phi}_{i}(0)}$
   \State $Q\left(z\right)=Q\left(z\right)-c_{i}\Phi_{i}\left(z\right)$
 \EndFor
 \end{algorithmic}
-$Q^{*}\left(z\right)$ and $\Phi_{i}^{*}\left(z\right)$ are the reverse
-polynomials of $Q\left(z\right)$ and $\Phi_{i}\left(z\right)$.
+$\tilde{Q}\left(z\right)$ and $\tilde{\Phi}_{i}\left(z\right)$ are
+the reverse polynomials of $Q\left(z\right)$ and $\Phi_{i}\left(z\right)$.
 \caption{Schur polynomial expansion (see 
 \emph{Parhi}~\cite[Section 12.2.3]{Parhi_VLSIDigitalSignalProcessingSystems})}
 \label{alg:Polynomial-Expansion}
@@ -4640,9 +4645,9 @@ P_{p} & = \sum_{i}c_{i}^{2}
 \section{Derivation of Digital Lattice Filters}
 The Schur polynomials are obtained by the degree reduction procedure
 \begin{align}
-\Phi_{i-1}\left(z\right) & = \frac{z^{-1}\left\{ \Phi_{i}\left(z\right)-k_{i}\Phi_{i}^{*}\left(z\right)\right\} }{s_{i}}\label{eq:SchurDegreeReduction}
+\Phi_{i-1}\left(z\right) & = \frac{z^{-1}\left\{ \Phi_{i}\left(z\right)-k_{i}\tilde{\Phi}_{i}\left(z\right)\right\} }{s_{i}}\label{eq:SchurDegreeReduction}
 \end{align}
-where $s_{i}$ is a scaling factor and $k_{i}=\Phi_{i}\left(0\right)/\Phi_{i}^{*}\left(0\right)$. Note that the $s_{i}$ cancel out when calculating $k_{i}$ so the
+where $s_{i}$ is a scaling factor and $k_{i}=\Phi_{i}\left(0\right)/\tilde{\Phi}_{i}\left(0\right)$. Note that the $s_{i}$ cancel out when calculating $k_{i}$ so the
 $k_{i}$ are the same regardless of the choice of $s_{i}$.
 If $s_{i}=\sqrt{1-k_{i}^{2}}$ then the Schur polynomials are orthonormal.
 In the following the i-th order Schur polynomial with this choice
@@ -4652,13 +4657,13 @@ by $\Psi_{i}\left(z\right)$.
 
 Note that since 
 \begin{align*}
-\Phi_{i-1}^{*}\left(z\right) & = z^{i-1}\Phi_{i-1}\left(z^{-1}\right)\\
- & = \frac{\Phi_{i}^{*}\left(z\right)-k_{i}\Phi_{i}\left(z\right)}{s_{i}}
+\tilde{\Phi}_{i-1}\left(z\right) & = z^{i-1}\Phi_{i-1}\left(z^{-1}\right)\\
+ & = \frac{\tilde{\Phi}_{i}\left(z\right)-k_{i}\Phi_{i}\left(z\right)}{s_{i}}
 \end{align*}
 by rearranging
 \begin{align*}
-\Phi_{i}\left(z\right) & = \frac{s_{i}}{1-k_{i}^{2}}\left\{ z\Phi_{i-1}\left(z\right)+k_{i}\Phi_{i-1}^{*}\left(z\right)\right\} \\
-\Phi_{i}^{*}\left(z\right) & = \frac{s_{i}}{1-k_{i}^{2}}\left\{ zk_{i}\Phi_{i-1}\left(z\right)+\Phi_{i-1}^{*}\left(z\right)\right\} 
+\Phi_{i}\left(z\right) & = \frac{s_{i}}{1-k_{i}^{2}}\left\{ z\Phi_{i-1}\left(z\right)+k_{i}\tilde{\Phi}_{i-1}\left(z\right)\right\} \\
+\tilde{\Phi}_{i}\left(z\right) & = \frac{s_{i}}{1-k_{i}^{2}}\left\{ zk_{i}\Phi_{i-1}\left(z\right)+\tilde{\Phi}_{i-1}\left(z\right)\right\} 
 \end{align*}
 \subsection{Derivation of FIR, All-Pole and All-Pass Lattice Filters}
 Initialise an N-th order Schur polynomial as
@@ -4667,29 +4672,29 @@ Initialise an N-th order Schur polynomial as
 \end{align*}
 Form $\Psi_{N-1}\left(z\right)$ by degree reduction
 \begin{align}
-\Psi_{N-1}\left(z\right) & = \frac{z^{-1}\left\{ \Psi_{N}\left(z\right)-k_{N}\Psi_{N}^{*}\left(z\right)\right\} }{1-k_{N}^{2}}\label{eq:PsiN_1}
+\Psi_{N-1}\left(z\right) & = \frac{z^{-1}\left\{ \Psi_{N}\left(z\right)-k_{N}\tilde{\Psi}_{N}\left(z\right)\right\} }{1-k_{N}^{2}}\label{eq:PsiN_1}
 \end{align}
 The reverse Schur polynomial is
 \begin{align}
-\Psi_{N-1}^{*}\left(z\right) & = z^{N-1}\Psi_{N-1}(z^{-1})\\
- & = \frac{\Psi_{N}^{*}\left(z\right)-k_{N}\Psi_{N}\left(z\right)}{1-k_{N}^{2}}\label{eq:PsiN_1Star}
+\tilde{\Psi}_{N-1}\left(z\right) & = z^{N-1}\Psi_{N-1}(z^{-1})\\
+ & = \frac{\tilde{\Psi}_{N}\left(z\right)-k_{N}\Psi_{N}\left(z\right)}{1-k_{N}^{2}}\label{eq:PsiN_1Star}
 \end{align}
 so
 \begin{align}
-\Psi_{N}^{*}\left(z\right) & = \left(1-k_{N}^{2}\right)\Psi_{N-1}^{*}\left(z\right)+k_{N}\Psi_{N}\left(z\right)\nonumber \\
- & = \Psi_{N-1}^{*}\left(z\right)+k_{N}\left\{ \Psi_{N}-k_{N}\Psi_{N-1}^{*}\left(z\right)\right\} \label{eq:PsiStarN}
+\tilde{\Psi}_{N}\left(z\right) & = \left(1-k_{N}^{2}\right)\tilde{\Psi}_{N-1}\left(z\right)+k_{N}\Psi_{N}\left(z\right)\nonumber \\
+ & = \tilde{\Psi}_{N-1}\left(z\right)+k_{N}\left\{ \Psi_{N}-k_{N}\tilde{\Psi}_{N-1}\left(z\right)\right\} \label{eq:PsiStarN}
 \end{align}
 Substituting Equation~\ref{eq:PsiStarN} into Equation~\ref{eq:PsiN_1}
 \begin{align*}
-\Psi_{N-1}\left(z\right) & = z^{-1}\left\{ \Psi_{N}\left(z\right)-k_{N}\Psi_{N-1}^{*}\left(z\right)\right\} 
+\Psi_{N-1}\left(z\right) & = z^{-1}\left\{ \Psi_{N}\left(z\right)-k_{N}\tilde{\Psi}_{N-1}\left(z\right)\right\} 
 \end{align*}
 so
 \begin{align}
-\Psi_{N}\left(z\right) & = z\Psi_{N-1}\left(z\right)+k_{N}\Psi_{N-1}^{*}\left(z\right)\label{eq:FIRN}
+\Psi_{N}\left(z\right) & = z\Psi_{N-1}\left(z\right)+k_{N}\tilde{\Psi}_{N-1}\left(z\right)\label{eq:FIRN}
 \end{align}
 and, applying the definition of the reverse polynomial
 \begin{align}
-\Psi_{N}^{*}\left(z\right) & = zk_{N}\Psi_{N-1}\left(z\right)+\Psi_{N-1}^{*}\left(z\right)\label{eq:FIRNstar}
+\tilde{\Psi}_{N}\left(z\right) & = zk_{N}\Psi_{N-1}\left(z\right)+\tilde{\Psi}_{N-1}\left(z\right)\label{eq:FIRNstar}
 \end{align}
 Equations~\ref{eq:FIRN}~and~\ref{eq:FIRNstar} represent the FIR filter
 shown in Figure~\ref{fig:FIR-filter-structure}. This structure
@@ -4705,7 +4710,7 @@ However, the structure is useful for implementing adaptive filters.
 Equations~\ref{eq:PsiN_1}~and~\ref{eq:PsiN_1Star} represent the IIR
 filter section shown in Figure~\ref{fig:All-pass-and-all-pole}.
 This structure implements both an all-pole filter $\Psi_{0}\left(z\right)/\Psi_{N}\left(z\right)$
-and an all-pass filter $\Psi_{N}^{*}\left(z\right)/\Psi_{N}\left(z\right)$.
+and an all-pass filter $\tilde{\Psi}_{N}\left(z\right)/\Psi_{N}\left(z\right)$.
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_AllPole_filter}
@@ -4722,11 +4727,12 @@ is
 Note that $\Phi_{i}\left(z\right)$ and $\Psi_{i}\left(z\right)$
 differ only by a scale factor so the $k$-parameters are unchanged
 \begin{align*}
-k_{i}=\Psi_{i}\left(0\right)/\Psi_{i}^{*}\left(0\right)=\Phi_{i}\left(0\right)/\Phi_{i}^{*}\left(0\right)
+k_{i}=\frac{\Psi_{i}\left(0\right)}{\tilde{\Psi}_{i}\left(0\right)}
+     =\frac{\Phi_{i}\left(0\right)}{\tilde{\Phi}_{i}\left(0\right)}
 \end{align*}
  Also the $\Psi_{i}$ are orthogonal but not orthonormal since
 \begin{align*}
-\left\langle \Psi_{i}\left(z\right),\Psi_{i}\left(z\right)\right\rangle  & = \left\langle \Psi_{i}^{*}\left(z\right),\Psi_{i}^{*}\left(z\right)\right\rangle \\
+\left\langle \Psi_{i}\left(z\right),\Psi_{i}\left(z\right)\right\rangle  & = \left\langle \tilde{\Psi}_{i}\left(z\right),\tilde{\Psi}_{i}\left(z\right)\right\rangle \\
  & = \frac{1}{\left(1-k_{N}^{2}\right)\left(1-k_{N-1}^{2}\right)\cdots\left(1-k_{i+1}^{2}\right)}
 \end{align*}
 Clearly, the $\left\langle \Psi_{i}\left(z\right),\Psi_{i}\left(z\right)\right\rangle $
@@ -4739,20 +4745,20 @@ roundoff noise increases significantly.
 If $s_{i}=1-\epsilon_{i}k_{i}$ in Equation~\ref{eq:SchurDegreeReduction}
 then 
 \begin{align*}
-\Lambda_{i-1}\left(z\right) & = \frac{z^{-1}\left\{ \Lambda_{i}\left(z\right)-k_{i}\Lambda_{i}^{*}\left(z\right)\right\} }{1-\epsilon_{i}k_{i}}
+\Lambda_{i-1}\left(z\right) & = \frac{z^{-1}\left\{ \Lambda_{i}\left(z\right)-k_{i}\tilde{\Lambda}_{i}\left(z\right)\right\} }{1-\epsilon_{i}k_{i}}
 \end{align*}
 where $\epsilon_{i}=\pm1$ is a sign parameter. For an $N$-th order
 IIR transfer function, $H\left(z\right)=N_{N}\left(z\right)/D_{N}\left(z\right)$,
 initialise $\Lambda_{N}\left(z\right)=D_{N}\left(z\right)$. Then
 \begin{align*}
-\Lambda_{N-1}\left(z\right) & = \frac{z^{-1}\left\{ \Lambda_{N}\left(z\right)-k_{N}\Lambda_{N}^{*}\left(z\right)\right\} }{1-\epsilon_{N}k_{N}}\\
-\Lambda_{N-1}^{*}\left(z\right) & = \frac{\Lambda_{N}^{*}\left(z\right)-k_{N}\Lambda_{N}\left(z\right)}{1-\epsilon_{N}k_{N}}
+\Lambda_{N-1}\left(z\right) & = \frac{z^{-1}\left\{ \Lambda_{N}\left(z\right)-k_{N}\tilde{\Lambda}_{N}\left(z\right)\right\} }{1-\epsilon_{N}k_{N}}\\
+\tilde{\Lambda}_{N-1}\left(z\right) & = \frac{\tilde{\Lambda}_{N}\left(z\right)-k_{N}\Lambda_{N}\left(z\right)}{1-\epsilon_{N}k_{N}}
 \end{align*}
-where $k_{i}=\Lambda_{i}\left(0\right)/\Lambda_{i}^{*}\left(0\right)$.
+where $k_{i}=\Lambda_{i}\left(0\right)/\tilde{\Lambda}_{i}\left(0\right)$.
 Rearranging
 \begin{align}
-\Lambda_{N}^{*}\left(z\right) & = k_{N}\Lambda_{N}\left(z\right)+\left(1-\epsilon_{N}k_{N}\right)\Lambda_{N-1}^{*}\left(z\right)\label{eq:OneMultSynthesisStar}\\
-\Lambda_{N-1}\left(z\right) & = z^{-1}\left\{ \left(1+\epsilon_{N}k_{N}\right)\Lambda_{N}-k_{N}\Lambda_{N-1}^{*}\left(z\right)\right\} \label{eq:OneMultSynthesis}
+\tilde{\Lambda}_{N}\left(z\right) & = k_{N}\Lambda_{N}\left(z\right)+\left(1-\epsilon_{N}k_{N}\right)\tilde{\Lambda}_{N-1}\left(z\right)\label{eq:OneMultSynthesisStar}\\
+\Lambda_{N-1}\left(z\right) & = z^{-1}\left\{ \left(1+\epsilon_{N}k_{N}\right)\Lambda_{N}-k_{N}\tilde{\Lambda}_{N-1}\left(z\right)\right\} \label{eq:OneMultSynthesis}
 \end{align}
 By repeated application for $i=N,N-1,\cdots1$, the denominator $D_{N}\left(z\right)$
 is synthesised. The relation between $\Lambda_{i}\left(z\right)$
@@ -4764,17 +4770,17 @@ and $\Phi_{i}\left(z\right)$ is
 where $0\leq i<N$. Note that $\Phi_{i}\left(z\right)$ and $\Lambda_{i}\left(z\right)$
 differ only by a scale factor so the $k$-parameters are unchanged
 \begin{align*}
-k_{i}=\Lambda_{i}\left(0\right)/\Lambda_{i}^{*}\left(0\right)=\Phi_{i}\left(0\right)/\Phi_{i}^{*}\left(0\right)
+k_{i}=\Lambda_{i}\left(0\right)/\tilde{\Lambda}_{i}\left(0\right)=\Phi_{i}\left(0\right)/\tilde{\Phi}_{i}\left(0\right)
 \end{align*}
  Also the $\Lambda_{i}$ are orthogonal but not orthonormal since
 \begin{align}
-\left\langle \Lambda_{i}\left(z\right),\Lambda_{i}\left(z\right)\right\rangle  & = \left\langle \Lambda_{i}^{*}\left(z\right),\Lambda_{i}^{*}\left(z\right)\right\rangle \label{eq:OneMultPowerStar}\\
+\left\langle \Lambda_{i}\left(z\right),\Lambda_{i}\left(z\right)\right\rangle  & = \left\langle \tilde{\Lambda}_{i}\left(z\right),\tilde{\Lambda}_{i}\left(z\right)\right\rangle \label{eq:OneMultPowerStar}\\
  & = \frac{\left(1+\epsilon_{N}k_{N}\right)\left(1+\epsilon_{N-1}k_{N-1}\right)\cdots\left(1+\epsilon_{i+1}k_{i+1}\right)}{\left(1-\epsilon_{N}k_{N}\right)\left(1-\epsilon_{N-1}k_{N-1}\right)\cdots\left(1-\epsilon_{i+1}k_{i+1}\right)}\label{eq:OneMultAmplitude}
 \end{align}
 The magnitude of $\left\langle \Lambda_{i}\left(z\right),\Lambda_{i}\left(z\right)\right\rangle $
-can be adjusted by choosing the sign parameters so the 1-multiplier
+can be adjusted by choosing the sign parameters so that the 1-multiplier
 lattice filter can avoid the severe input scaling of the basic lattice
-filter and has better round-off noise behaviour. One criterion for
+filter and have better round-off noise behaviour. One criterion for
 choosing the sign parameters is to require that the node associated
 with the largest $k$-parameter in magnitude have the largest 
 amplitude\cite{GrayMarkel_DigitalLatticeAndLadderFilterSynthesis}.
@@ -4858,19 +4864,18 @@ and
 \end{align*}
 Form $\Phi_{N-1}\left(z\right)$ by degree reduction
 \begin{align*}
-\Phi_{N-1}\left(z\right) & = \frac{z^{-1}\left\{ \Phi_{N}\left(z\right)-k_{N}\Phi_{N}^{*}\left(z\right)\right\} }{\sqrt{1-k_{N}^{2}}}
+\Phi_{N-1}\left(z\right) & = \frac{z^{-1}\left\{ \Phi_{N}\left(z\right)-k_{N}\tilde{\Phi}_{N}\left(z\right)\right\} }{\sqrt{1-k_{N}^{2}}}
 \end{align*}
-where $k_{i}=\Phi_{i}(0)/\Phi_{i}^{*}(0)$. The reverse polynomial
-is
+where $k_{i}=\Phi_{i}(0)/\tilde{\Phi}_{i}(0)$. The reverse polynomial is
 \begin{align*}
-\Phi_{N-1}^{*}\left(z\right) & = z^{N-1}\Phi_{N-1}(z^{-1})\\
- & = \frac{\Phi_{N}^{*}\left(z\right)-k_{N}\Phi_{N}\left(z\right)}{\sqrt{1-k_{N}^{2}}}
+\tilde{\Phi}_{N-1}\left(z\right) & = z^{N-1}\Phi_{N-1}(z^{-1})\\
+ & = \frac{\tilde{\Phi}_{N}\left(z\right)-k_{N}\Phi_{N}\left(z\right)}{\sqrt{1-k_{N}^{2}}}
 \end{align*}
 So 
 \begin{align}
-\Phi_{N}^{*}\left(z\right) & = \sqrt{1-k_{N}^{2}}\Phi_{N-1}^{*}\left(z\right)+k_{N}\Phi_{N}\left(z\right)\label{eq:NormScaledPhiStarN}\\
-\Phi_{N-1}\left(z\right) & = z^{-1}\left\{ \sqrt{1-k_{N}^{2}}\Phi_{N}\left(z\right)-k_{N}\Phi_{N-1}^{*}\left(z\right)\right\} \\
-\Phi_{N}\left(z\right) & = \frac{1}{\sqrt{1-k_{N}^{2}}}\left\{ z\Phi_{N-1}\left(z\right)+k_{N}\Phi_{N-1}^{*}\left(z\right)\right\} \label{eq:NormScaledPhiN_1}
+\tilde{\Phi}_{N}\left(z\right) & = \sqrt{1-k_{N}^{2}}\tilde{\Phi}_{N-1}\left(z\right)+k_{N}\Phi_{N}\left(z\right)\label{eq:NormScaledPhiStarN}\\
+\Phi_{N-1}\left(z\right) & = z^{-1}\left\{ \sqrt{1-k_{N}^{2}}\Phi_{N}\left(z\right)-k_{N}\tilde{\Phi}_{N-1}\left(z\right)\right\} \\
+\Phi_{N}\left(z\right) & = \frac{1}{\sqrt{1-k_{N}^{2}}}\left\{ z\Phi_{N-1}\left(z\right)+k_{N}\tilde{\Phi}_{N-1}\left(z\right)\right\} \label{eq:NormScaledPhiN_1}
 \end{align}
 Figure~\ref{fig:Normalised-lattice-filter} shows an implementation
 of Equations~\ref{eq:NormScaledPhiStarN}~and~\ref{eq:NormScaledPhiN_1}. 
@@ -4984,7 +4989,7 @@ $\lambda_{k}=\omega_{c}e^{\imath\theta_{k}}$,
 $\theta_{k}=\frac{\pi}{2}\left(1+\frac{\left(2k-1\right)}{n}\right)$ with
 $1\leq k\leq n$ and:
 \begin{align*}
-\hat{H}(s) & = \frac{-\lambda_{0}\lambda_{1}\lambda_{1}^{*}}{(s-\lambda_{0})(s-\lambda_{1})(s-\lambda_{1}^{*})}
+\hat{H}(s) & = \frac{-\lambda_{0}\lambda_{1}\lambda_{1}^{\ast}}{(s-\lambda_{0})(s-\lambda_{1})(s-\lambda_{1}^{\ast})}
 \end{align*}
 where $\lambda_{0}=\Omega_{c}$, the cutoff frequency of the analog
 low pass filter, and:
@@ -5055,17 +5060,17 @@ of the normalised-scaled lattice implementation of $H\left(z\right)$.
 Figure~\ref{fig:FIR-filter-structure} shows the Schur FIR lattice structure. 
 For convenience, call $x_{n}^{\prime}$ the input to state $x_{n}$ of
 the $n$-th section, $y_{n}$ the upper output of the $n$-th section
-and $y_{n}^{*}$ the lower output of the $n$-th section. Construction of the
+and $\hat{y}_{n}$ the lower output of the $n$-th section. Construction of the
 state variable description of the Schur FIR lattice is summarised in
 Algorithm~\ref{alg:Construction-state-variable-Schur-FIR-lattice}.
 \begin{algorithm}[htbp]
 \begin{algorithmic}
 \State $y_{0} = u$
-\State $y_{0}^{*} = u$
+\State $\hat{y}_{0} = u$
 \For{$n=1,\hdots,N$}
-  \State $x_{n}^{\prime} = y_{n-1}^{*}$
+  \State $x_{n}^{\prime} = \hat{y}_{n-1}$
   \State $y_{n} = k_{n}x_{n} + y_{n-1}$
-  \State $y_{n}^{*} = x_{n}+k_{n}y_{n-1}$
+  \State $\hat{y}_{n} = x_{n}+k_{n}y_{n-1}$
 \EndFor
 \State $y = y_{N}$
 \end{algorithmic}
@@ -5080,7 +5085,7 @@ state inputs.
 \begin{align*}
 \left[\begin{array}{c}
 y_{0}\\
-y_{0}^{*}\\
+\hat{y}_{0}\\
 x_{1}\\
 \vdots\\
 x_{N}
@@ -5103,7 +5108,7 @@ u
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
 y_{1}\\
-y_{1}^{*}\\
+\hat{y}_{1}\\
 x_{2}\\
 \vdots\\
 x_{N}
@@ -5116,7 +5121,7 @@ k_{1} & 0 & 1 & 0 & \cdots & 0\\
 0 & & & & \cdots & 1
 \end{array}\right]\left[\begin{array}{c}
 y_{0}\\
-y_{0}^{*}\\
+\hat{y}_{0}\\
 x_{1}\\
 x_{2}\\
 \vdots\\
@@ -5128,7 +5133,7 @@ x_{N}
 x_{1}^{\prime}\\
 x_{2}^{\prime}\\
 y_{2}\\
-y_{2}^{*}\\
+\hat{y}_{2}\\
 x_{3}\\
 \vdots\\
 x_{N}
@@ -5143,7 +5148,7 @@ x_{N}
 \end{array}\right]\left[\begin{array}{c}
 x_{1}^{\prime} \\
 y_{1}\\
-y_{1}^{*}\\
+\hat{y}_{1}\\
 x_{2}\\
 x_{3}\\
 \vdots\\
@@ -5156,7 +5161,7 @@ x_{1}^{\prime}\\
 \vdots\\
 x_{N-1}^{\prime}\\
 y_{N-1}\\
-y_{N-1}^{*}\\
+\hat{y}_{N-1}\\
 x_{N}
 \end{array}\right] & = \left[\begin{array}{ccccccc}
 1 & \cdots & & & & \cdots & 0\\
@@ -5169,7 +5174,7 @@ x_{N}
 x_{1}^{\prime}\\
 \vdots\\
 y_{N-2}\\
-y_{N-2}^{*}\\
+\hat{y}_{N-2}\\
 x_{N-1}\\
 x_{N}
 \end{array}\right]
@@ -5180,7 +5185,7 @@ x_{1}^{\prime}\\
 \vdots\\
 x_{N}^{\prime}\\
 y_{N}\\
-y_{N}^{*}
+\hat{y}_{N}
 \end{array}\right] & = \left[\begin{array}{cccccc}
 1 & 0 & \cdots & & \cdots & 0\\
 \vdots & \ddots & & & & \vdots \\
@@ -5191,7 +5196,7 @@ y_{N}^{*}
 x_{1}^{\prime}\\
 \vdots\\
 y_{N-1}\\
-y_{N-1}^{*}\\
+\hat{y}_{N-1}\\
 x_{N}
 \end{array}\right]
 \end{align*}
@@ -5202,7 +5207,7 @@ In Figure~\ref{fig:State-variable-description-One-Multiplier-Lattice},
 Figure~\ref{fig:One-multiplier-lattice-structure} is redrawn with
 $x_{n}^{\prime}$ corresponding to the input to state $x_{n}$ of
 the $n$-th section, $y_{n}$ being the output of the $n$-th section
-and $y_{n}^{*}$ the all-pass output of the $n$-th section.
+and $\hat{y}_{n}$ the all-pass output of the $n$-th section.
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_OneMultiplier_SV_derivation}
@@ -5213,13 +5218,13 @@ Construction of the state variable description is summarised in
 Algorithm~\ref{alg:Construction-state-variable-One-Multiplier-lattice}.
 \begin{algorithm}[htbp]
 \begin{algorithmic}
-\State $y_{0}^{*} = x_{1}$
+\State $\hat{y}_{0} = x_{1}$
 \For{$n=1,\hdots,N-1$}
-  \State $x_{n}^{\prime} = -k_{n}y_{n-1}^{*}+\left(1+k_{n}\epsilon_{n}\right)x_{n+1}$
-  \State $y_{n}^{*} = \left(1-k_{n}\epsilon_{n}\right)y_{n-1}^{*}+k_{n}x_{n+1}$
+  \State $x_{n}^{\prime} = -k_{n}\hat{y}_{n-1}+\left(1+k_{n}\epsilon_{n}\right)x_{n+1}$
+  \State $\hat{y}_{n} = \left(1-k_{n}\epsilon_{n}\right)\hat{y}_{n-1}+k_{n}x_{n+1}$
 \EndFor
-\State $x_{N} = -k_{N}y_{N-1}^{*}+\left(1+k_{N}\epsilon_{N}\right)u$
-\State $y^{*} = \left(1-k_{N}\epsilon_{N}\right)y_{N-1}^{*}+k_{N}u$
+\State $x_{N} = -k_{N}\hat{y}_{N-1}+\left(1+k_{N}\epsilon_{N}\right)u$
+\State $\hat{y} = \left(1-k_{N}\epsilon_{N}\right)\hat{y}_{N-1}+k_{N}u$
 \State $y  = c_{0}x_{1}+c_{1}x_{2}+\cdots+c_{N-1}x_{N}+c_{N}u$
 \end{algorithmic}
 \caption{Construction of a state variable description of the Schur one-multiplier lattice filter}
@@ -5228,10 +5233,17 @@ Algorithm~\ref{alg:Construction-state-variable-One-Multiplier-lattice}.
 
 The state variable description can be expressed as a series of matrix
 multiplications linking the input and state outputs to the output
-and the next state inputs.
+and the next state inputs. The all-pass output of the Schur one-multiplier
+lattice filter is constructed as follows\footnote{Noting that
+$\det\left[\begin{array}{cc}
+-k_{l}&1+k_{l}\epsilon_{l}\\
+1-k_{l}\epsilon_{l} & k_{l}\end{array}\right]=-1$ and $\det{} PQ=\det{}P\det{}Q$,
+then, by inspection, $\det{}A_{1\hdots{}l,1\hdots{}l}=-1^lk_{l}$.}:
+
+
 \begin{align*}
 \left[\begin{array}{c}
-y_{0}^{*}\\
+\hat{y}_{0}\\
 x_{2}\\
 x_{3}\\
 \vdots\\
@@ -5256,7 +5268,7 @@ u
 \begin{align*}
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
-y_{1}^{*}\\
+\hat{y}_{1}\\
 x_{3}\\
 \vdots\\
 x_{N}\\
@@ -5269,7 +5281,7 @@ u
 0 &  &  &  & 1 & 0\\
 0 & \cdots &  & \cdots & 0 & 1
 \end{array}\right]\left[\begin{array}{c}
-y_{0}^{*}\\
+\hat{y}_{0}\\
 x_{2}\\
 x_{3}\\
 \vdots\\
@@ -5281,7 +5293,7 @@ u
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
 x_{2}^{\prime}\\
-y_{2}^{*}\\
+\hat{y}_{2}\\
 \vdots\\
 x_{N}\\     
 u
@@ -5294,7 +5306,7 @@ u
 0 & \cdots &  & \cdots & 0 & 1
 \end{array}\right]\left[\begin{array}{c}
 x_{1}^{\prime}\\
-y_{1}^{*}\\
+\hat{y}_{1}\\
 x_{3}\\
 \vdots\\
 x_{N}\\
@@ -5307,7 +5319,7 @@ x_{1}^{\prime}\\
 x_{2}^{\prime}\\
 \vdots\\
 x_{N-1}^{\prime}\\
-y_{N-1}^{*}\\
+\hat{y}_{N-1}\\
 u
 \end{array}\right] & = \left[\begin{array}{cccccc}
 1 & 0 & \cdots &  & \cdots & 0\\
@@ -5320,7 +5332,7 @@ u
 x_{1}^{\prime}\\
 \vdots\\
 x_{N-2}^{\prime}\\
-y_{N-2}^{*}\\
+\hat{y}_{N-2}\\
 x_{N}\\
 u
 \end{array}\right]
@@ -5332,7 +5344,7 @@ x_{2}^{\prime}\\
 x_{3}^{\prime}\\
 \vdots\\
 x_{N}^{\prime}\\
-y^{*}
+\hat{y}
 \end{array}\right] & = \left[\begin{array}{cccccc}
 1 & 0 & \cdots &  & \cdots & 0\\
 0 & 1 &  &  &  & \vdots\\
@@ -5345,14 +5357,14 @@ x_{1}^{\prime}\\
 x_{2}^{\prime}\\
 \vdots\\
 x_{N-1}^{\prime}\\
-y_{N-1}^{*}\\
+\hat{y}_{N-1}\\
 u
 \end{array}\right]
 \end{align*}
 
 The Octave function \emph{schurOneMlattice2Abcd} returns the state variable
 description of a one multiplier lattice filter (including the all-pass
-filter $Cap$ and $Dap$ output matrixes).
+filter $Cap$ and $Dap$ output matrixes). 
 
 \subsection{\label{sec:State-variable-retimed-One-multiplier-Schur-lattice-filter}State variable description of a retimed one-multiplier Schur lattice filter}
 Figure~\ref{fig:State-variable-description-retimed-One-Multiplier-Lattice} shows
@@ -5375,38 +5387,38 @@ $\left\{\epsilon_{1},\epsilon_{2}\hdots,\epsilon_{N}\right\}$ and
 $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
 \begin{algorithmic}
 \State $y_{0} = c_{0}x_{1}$
-\State $y_{0}^{*} = x_{1}$
+\State $\hat{y}_{0} = x_{1}$
 \For{$n=1,\hdots,\left\lceil\frac{N}{2}\right\rceil-1$}
-\State $x_{3n-2}^{\prime}=-k_{2n-1}y_{n-1}^{*}
+\State $x_{3n-2}^{\prime}=-k_{2n-1}\hat{y}_{n-1}
   -\left(1+k_{2n-1}\epsilon_{2n-1}\right)k_{2n}x_{3n}+
   \left(1+k_{2n-1}\epsilon_{2n-1}\right)\left(1+k_{2n}\epsilon_{2n}\right)x_{3n+1}$
   \State $x_{3n-1}^{\prime}=y_{n-1}-c_{2n-1}k_{2n}x_{3n}+
   c_{2n-1}\left(1+k_{2n}\epsilon_{2n}\right)x_{3n+1}$
-  \State $x_{3n}^{\prime}=\left(1-k_{2n-1}\epsilon_{2n-1}\right)y_{n-1}^{*}
+  \State $x_{3n}^{\prime}=\left(1-k_{2n-1}\epsilon_{2n-1}\right)\hat{y}_{n-1}
   -k_{2n-1}k_{2n}x_{3n}+
   k_{2n-1}\left(1+k_{2n}\epsilon_{2n}\right)x_{3n+1}$
   \State $y_{n} = x_{3n-1}+c_{2n}x_{3n+1}$
-  \State $y_{n}^{*}=\left(1-k_{2n}\epsilon_{2n}\right)x_{3n}+k_{2n}x_{3n+1}$
+  \State $\hat{y}_{n}=\left(1-k_{2n}\epsilon_{2n}\right)x_{3n}+k_{2n}x_{3n+1}$
 \EndFor
 \If{N is odd}
 \State $x_{3\left\lceil\frac{N}{2}\right\rceil-2}^{\prime}=
-  -k_{N}y_{\left\lceil\frac{N}{2}\right\rceil-1}^{*}+
+  -k_{N}\hat{y}_{\left\lceil\frac{N}{2}\right\rceil-1}+
   \left(1+k_{N}\epsilon_{N}\right)u$
 \State $y  = y_{\left\lceil\frac{N}{2}\right\rceil-1}+c_{N}u$
-\State $y^{*}=
-  \left(1-k_{N}\epsilon_{N}\right)y_{\left\lceil\frac{N}{2}\right\rceil-1}^{*}+k_{N}u$
+\State $\hat{y}=
+  \left(1-k_{N}\epsilon_{N}\right)\hat{y}_{\left\lceil\frac{N}{2}\right\rceil-1}+k_{N}u$
 \Else
-\State $x_{3\frac{N}{2}-2}^{\prime} = -k_{N-1}y_{\frac{N}{2}-1}^{*}
+\State $x_{3\frac{N}{2}-2}^{\prime} = -k_{N-1}\hat{y}_{\frac{N}{2}-1}
   -\left(1+k_{N-1}\epsilon_{N-1}\right)k_{N}x_{3\frac{N}{2}} +
   \left(1+k_{N-1}\epsilon_{N-1}\right)\left(1+k_{N}\epsilon_{N}\right)u$
 \State $x_{3\frac{N}{2}-1}^{\prime} = y_{\frac{N}{2}-1} -c_{N-1}k_{N}x_{3\frac{N}{2}} +
     c_{N-1}\left(1+k_{N}\epsilon_{N}\right)u$
 \State $x_{3\frac{N}{2}}^{\prime} =
-    \left(1-k_{N-1}\epsilon_{N-1}\right)y_{\frac{N}{2}-1}^{*}
+    \left(1-k_{N-1}\epsilon_{N-1}\right)\hat{y}_{\frac{N}{2}-1}
     -k_{N-1}k_{N}x_{3\frac{N}{2}}+
     k_{N-1}\left(1+k_{N}\epsilon_{N}\right)u$
 \State $y = x_{3\frac{N}{2}-1}+c_{N}u$
-\State $y^{*} = \left(1-k_{N}\epsilon_{N}\right)x_{3\frac{N}{2}}+k_{N}u$
+\State $\hat{y} = \left(1-k_{N}\epsilon_{N}\right)x_{3\frac{N}{2}}+k_{N}u$
 \EndIf
 \end{algorithmic}
 \caption{Construction of a state variable description of the retimed Schur one-multiplier lattice filter}
@@ -5420,7 +5432,7 @@ multiplications. For an even order filter:
 \begin{align*}
 \left[\begin{array}{c}
 y_{0}\\
-y_{0}^{*}\\
+\hat{y}_{0}\\
 x_{1}\\
 x_{2}\\
 x_{3}\\
@@ -5432,7 +5444,7 @@ c_{0} & 0 & \cdots & \cdots & 0 \\
 1 & 0 & \cdots & \cdots & 0 \\
 1 & 0 & \cdots & \cdots & 0 \\
 \vdots & \ddots & & & \vdots \\
- &  & \ddots &  & \vdots\\
+\vdots &  & \ddots &  & \vdots\\
 0 &  &  & 1 & 0\\
 0 & \cdots & \cdots & 0 & 1
 \end{array}\right]
@@ -5452,7 +5464,7 @@ x_{1}^{\prime}\\
 x_{2}^{\prime}\\
 x_{3}^{\prime}\\
 y_{1}\\
-y_{1}^{*}\\
+\hat{y}_{1}\\
 x_{4}\\
 \vdots\\
 x_{3\frac{N}{2}}\\
@@ -5472,7 +5484,7 @@ u
   \end{array}\right]
 \left[\begin{array}{c}
 y_{0}\\
-y_{0}^{*}\\
+\hat{y}_{0}\\
 x_{1}\\
 x_{2}\\
 x_{3}\\
@@ -5489,7 +5501,7 @@ x_{1}^{\prime}\\
 \vdots\\
 x_{3\frac{N}{2}}^{\prime}\\
 y \\
-y^{*}
+\hat{y}
 \end{array}\right] &=
 \left[\begin{array}{cccccccc}
 1 & \cdots & & & & & \cdots & 0\\
@@ -5507,7 +5519,7 @@ x_{1}^{\prime}\\
 \vdots\\
 x_{3\frac{N}{2}-3}^{\prime}\\
 y_{\frac{N}{2}-1}\\
-y_{\frac{N}{2}-1}^{*}\\
+\hat{y}_{\frac{N}{2}-1}\\
 x_{3\frac{N}{2}-2}\\
 x_{3\frac{N}{2}-1}\\
 x_{3\frac{N}{2}}\\
@@ -5522,7 +5534,7 @@ x_{1}^{\prime}\\
 \vdots\\
 x_{3\left\lceil\frac{N}{2}\right\rceil-2}^{\prime}\\
 y \\
-y^{*}
+\hat{y}
 \end{array}\right] &=
 \left[\begin{array}{cccccc}
 1  & \cdots & & & \cdots & 0\\
@@ -5536,7 +5548,7 @@ x_{1}^{\prime}\\
 \vdots\\
 x_{3\left\lceil\frac{N}{2}\right\rceil-3}^{\prime}\\
 y_{\left\lceil\frac{N}{2}\right\rceil-1}\\
-y_{\left\lceil\frac{N}{2}\right\rceil-1}^{*}\\
+\hat{y}_{\left\lceil\frac{N}{2}\right\rceil-1}\\
 x_{3\left\lceil\frac{N}{2}\right\rceil-2}\\
 u  
 \end{array}\right]
@@ -5550,7 +5562,7 @@ variable description of a retimed Schur one-multiplier lattice filter
 In Figure~\ref{fig:State-variable-description-Scaled-Normalised-lattice},
 Figure~\ref{fig:Normalised-scaled-lattice} is redrawn with $x_{n}^{\prime}$
 corresponding to the input to state $x_{n}$ of the $n$-th section,
-$y_{n}$ being the output of the $n$-th section and $y_{n}^{*}$
+$y_{n}$ being the output of the $n$-th section and $\hat{y}_{n}$
 the all-pass output of the $n$-th section. Construction of the state variable
 description is summarised in  
 Algorithm~\ref{alg:Construction-state-variable-Scaled-Normalised-lattice}
@@ -5566,15 +5578,15 @@ Algorithm~\ref{alg:Construction-state-variable-Scaled-Normalised-lattice}
 
 \begin{algorithm}[htbp]
 \begin{algorithmic}
-\State $y_{0}^{*} = x_{1}$
+\State $\hat{y}_{0} = x_{1}$
 \State $y_{0} = \sigma_{10}^{\left(0\right)}x_{1}$
 \For{$n=1,\hdots,N-1$}
-  \State $x_{n}^{\prime}=\sigma_{02}^{\left(n\right)}y_{n-1}^{*}+\sigma_{00}^{\left(n\right)}x_{n+1}$
-  \State $y_{n}^{*}=\sigma_{22}^{\left(n\right)}y_{n-1}^{*}+\sigma_{20}^{\left(n\right)}x_{n+1}$
+  \State $x_{n}^{\prime}=\sigma_{02}^{\left(n\right)}\hat{y}_{n-1}+\sigma_{00}^{\left(n\right)}x_{n+1}$
+  \State $\hat{y}_{n}=\sigma_{22}^{\left(n\right)}\hat{y}_{n-1}+\sigma_{20}^{\left(n\right)}x_{n+1}$
   \State $y_{n}=\sigma_{11}^{\left(n\right)}y_{n-1}+\sigma_{10}^{\left(n\right)}x_{n+1}$
 \EndFor
-\State $x_{N}^{\prime}=\sigma_{02}^{\left(N\right)}y_{N-1}^{*}+\sigma_{00}^{\left(N\right)}u$
-\State $y^{*}=\sigma_{22}^{\left(N\right)}y_{N-1}^{*}+\sigma_{20}^{\left(N\right)}u$
+\State $x_{N}^{\prime}=\sigma_{02}^{\left(N\right)}\hat{y}_{N-1}+\sigma_{00}^{\left(N\right)}u$
+\State $\hat{y}=\sigma_{22}^{\left(N\right)}\hat{y}_{N-1}+\sigma_{20}^{\left(N\right)}u$
 \State $y=\sigma_{11}^{\left(N\right)}y_{N-1}+\sigma_{10}^{\left(N\right)}u$
 \end{algorithmic}
 \caption{Construction of a state variable description of the Scaled-Normalised Lattice}
@@ -5586,7 +5598,7 @@ multiplications linking the input and state outputs to the output
 and the next state inputs.
 \begin{align*}
 \left[\begin{array}{c}
-y_{0}^{*}\\
+\hat{y}_{0}\\
 y_{0}\\
 x_{2}\\
 x_{3}\\
@@ -5613,7 +5625,7 @@ u
 \begin{align*}
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
-y_{1}^{*}\\
+\hat{y}_{1}\\
 y_{1}\\
 x_{3}\\
 \vdots\\
@@ -5628,7 +5640,7 @@ u
 0 &  &  &  &  & 1 & 0\\
 0 & \cdots &  &  & \cdots & 0 & 1
 \end{array}\right]\left[\begin{array}{c}
-y_{0}^{*}\\
+\hat{y}_{0}\\
 y_{0}\\
 x_{2}\\
 x_{3}\\
@@ -5642,7 +5654,7 @@ u
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
 x_{2}^{\prime}\\
-y_{2}^{*}\\
+\hat{y}_{2}\\
 y_{2}\\
 \vdots\\
 u
@@ -5656,7 +5668,7 @@ u
 0 & \cdots &  &  & \cdots & 0 & 1
 \end{array}\right]\left[\begin{array}{c}
 x_{1}^{\prime}\\
-y_{1}^{*}\\
+\hat{y}_{1}\\
 y_{1}\\
 x_{3}\\
 \vdots\\
@@ -5671,7 +5683,7 @@ x_{1}^{\prime}\\
 x_{2}^{\prime}\\
 \vdots\\
 x_{N-1}^{\prime}\\
-y_{N-1}^{*}\\
+\hat{y}_{N-1}\\
 y_{N-1}\\
 u
 \end{array}\right] & = \left[\begin{array}{ccccccc}
@@ -5685,7 +5697,7 @@ u
 \end{array}\right]\left[\begin{array}{c}
 x_{1}^{\prime}\\
 \vdots\\
-y_{N-2}^{*}\\
+\hat{y}_{N-2}\\
 y_{N-2}\\
 x_{N}\\
 u
@@ -5699,7 +5711,7 @@ x_{2}^{\prime}\\
 x_{3}^{\prime}\\
 \vdots\\
 x_{N}^{\prime}\\
-y^{*}\\
+\hat{y}\\
 y
 \end{array}\right] & =  \left[\begin{array}{ccccccc}
 1 & 0 & \cdots &  &  & \cdots & 0\\
@@ -5712,7 +5724,7 @@ y
 x_{1}^{\prime}\\
 x_{2}^{\prime}\\
 \vdots\\
-y_{N-1}^{*}\\
+\hat{y}_{N-1}\\
 y_{N-1}\\
 u
 \end{array}\right]
@@ -5856,7 +5868,7 @@ nodes at which arithmetic truncation occurs. In this case there are
 five internal nodes in the all-pass filter at which round-off occurs.
 Three of these are at the inputs to the internal delay element state
 storage and two are at calculation of the reverse Schur polynomial
-output, $\Phi_{i}^{*}\left(z\right)$. By convention the third of
+output, $\tilde{\Phi}_{i}\left(z\right)$. By convention the third of
 the reverse Schur polynomial output truncations is represented separately
 as the all-pass filter output truncation. (Truncation of the internal
 reverse Schur polynomial outputs could be avoided by storing them
@@ -5976,7 +5988,6 @@ with a Schur lattice structure with a sine wave input}
 \label{fig:State-variables-butt3NS-sine-schur-lattice}
 \end{figure}
 
-\clearpage
 \subsubsection{\label{sec:Calc-normalised-scaled-round-off-noise-retimed-state-variable}Calculation of the normalised-scaled lattice filter round-off noise with a retimed state-variable description}
 \emph{Parhi}~\cite[Chapter 12, p. 450]{Parhi_VLSIDigitalSignalProcessingSystems} 
 suggests that the normalised-scaled lattice filter round-off noise variance can
@@ -6024,7 +6035,7 @@ al.~\cite{VaidyanathanMitraNuevo_LowSensitivityIIRDigitalFilters,VaidyanathanMit
 (see Appendix~\ref{app:Low-passband-sensitivity-IIR-digital-filters}). The
 normalised-scaled lattice does not preserve the all-pass characteristic when its
 coefficients are truncated.
-\clearpage
+
 \subsection{Round-off noise of the one multiplier lattice filter}
 \subsubsection{Calculation of the one multiplier lattice filter round-off noise with the transposed signal flow graph}
 Figure~\ref{fig:Transposed-One-Multiplier} shows module $m$ of $N,\ldots,1$
@@ -6290,12 +6301,14 @@ $F\left(z\right)$
 $\left\{a,b,c,d\right\}$, of the low-pass filter prototype, $H\left(z\right)$
 \item construct the state variable implementation, $\left\{A,B,C,D\right\}$,
 of the frequency transformed filter, $H\left(F\left(z\right)\right)$
-\end{enumerate} 
+\end{enumerate}
+
 The Octave script \emph{tfp2schurNSlattice2Abcd\_test.m} exercises 
 \emph{tfp2schurNSlattice2Abcd} with the 5th order elliptic low-pass to 
 multiple stop-band filter example of 
 Section~\ref{sec:example-frequency-transformations-of-5-th-order-elliptic-filter}
-shown in Figure~\ref{fig:tfp2g-bs}. 
+shown in Figure~\ref{fig:tfp2g-bs}.
+
 Table~\ref{tab:Schur-NS-lattice-frequency-transformation-example} shows the 
 number of non-zero coefficients, the noise gain and the estimated noise variance
 in bits of the multiple band-stop filter implemented by 
@@ -6303,6 +6316,7 @@ in bits of the multiple band-stop filter implemented by
 a Schur normalised-scaled lattice filter and a Schur one-multiplier lattice 
 filter (neglecting the one-multiplier state scaling).
 \input{tfp2schurNSlattice2Abcd_test.tab}
+\clearpage
 \section{\label{sec:Examples-retiming-Schur-lattice-filters}Examples of retiming Schur lattice filters}
 \subsection{\label{sec:Retiming-3rd-order-lattice-filter}Retiming a
 3-rd order lattice filter}
@@ -6319,6 +6333,7 @@ performance of the filter\footnote{The tapped output could be retimed by
 Appendix~\ref{sec:State-variable-retimed-One-multiplier-Schur-lattice-filter}
 derives the state variable description of the retimed one-multipler Schur
 lattice filter.
+
 \begin{figure}
 \begin{subfigure}{\textwidth}
 \centering
@@ -6335,6 +6350,7 @@ lattice filter.
 \end{subfigure}
 \caption{Example of retiming a 3rd order lattice filter}
 \end{figure}
+
 \subsection{\label{sec:Retiming-NS-Schur-lattice-filter}Retiming a
 4-th order Schur normalised-scaled lattice filter}
 The normalised-scaled lattice filter of order N shown in
@@ -6357,23 +6373,6 @@ graph so that the total delay around that loop is unchanged. Each state update
 in the resulting filter has the form \emph{$pq+rs$}. In this case the filter
 group delay is increased by $2$ samples. In general, this retiming scheme
 increases the group delay by $1$ sample for each second-order section.
-
-\begin{figure}
-\begin{subfigure}{\textwidth}
-\centering
-\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Schur_retimedA}
-\caption{In original form}
-\label{subfig:example-normalised-scaled-Schur-lattice-filter}
-\vspace{1cm}
-\end{subfigure}
-\begin{subfigure}{\textwidth}
-\centering
-\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Schur_retimedB}
-\caption{After retiming}
-\label{subfig:example-normalised-scaled-Schur-lattice-filter-after-retiming}
-\end{subfigure}
-\caption{Signal flow graph of a 4th order normalised-scaled Schur lattice filter with a denominator polynomial having coefficients only in $z^{-2}$}
-\end{figure}
 
 Following the notation of 
 Figure~\ref{fig:State-variable-description-Scaled-Normalised-lattice}, the state 
@@ -6404,6 +6403,23 @@ y_{ap}\left(k\right)   &= \sigma_{22}^{\left(4\right)}x_{7}\left(k\right) +
                          \sigma_{20}^{\left(4\right)}u\left(k\right)
 \end{align*}
 
+\begin{figure}
+\begin{subfigure}{\textwidth}
+\centering
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Schur_retimedA}
+\caption{In original form}
+\label{subfig:example-normalised-scaled-Schur-lattice-filter}
+\vspace{1cm}
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+\centering
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Schur_retimedB}
+\caption{After retiming}
+\label{subfig:example-normalised-scaled-Schur-lattice-filter-after-retiming}
+\end{subfigure}
+\caption{Signal flow graph of a 4th order normalised-scaled Schur lattice filter with a denominator polynomial having coefficients only in $z^{-2}$}
+\end{figure}
+
 The Octave script \emph{schur\_retimed\_test.m} designs a $4$-th order low-pass
 filter with cutoff frequency $0.05f_{S}$ and denominator coefficients in
 $z^{-2}$. The script minimises the amplitude response error with the Octave
@@ -6422,6 +6438,7 @@ response of the retimed Schur lattice filter.
   Schur lattice filter} 
 \label{fig:schur-retimed-output-response}
 \end{figure}
+
 \subsection{\label{sec:Retiming-OneM-Schur-lattice-filter}Retiming a
 6th-order Schur one-multiplier lattice filter}
 Figure~\ref{fig:example-retiming-a-one-multplier-Schur-lattice-filter} shows the
@@ -6431,10 +6448,7 @@ implementations have the same number of delays around the corresponding loops of
 their signal flow graphs. Retiming the filter reduces the latency in the
 calculation of the outputs and does not change the amplitude and group delay
 responses. If $N$ is the filter order then the retimed filter has an additional
-$\frac{N}{2}-1$ states. The Octave function \emph{schurOneMR2lattice2Abcd},
-exercised by the Octave script \emph{schurOneMR2lattice2Abcd\_test.m},
-implements retiming of a one-multiplier Schur lattice filter with a denominator
-polynomial having coefficients in $z^{-2}$ only.
+$\frac{N}{2}-1$ states.
 
 \begin{figure}
 \centering
@@ -6454,11 +6468,47 @@ polynomial having coefficients in $z^{-2}$ only.
 \vspace{1cm}
 \caption{Original and retimed signal flow graphs of a 6th order one-multiplier
   Schur lattice filter with a denominator polynomial having coefficients in
-  $z^{-2}$. The number of delays around each loop of the signal flow
+  $z^{-2}$ only. The number of delays around each loop of the signal flow
   graph is unchanged.}
 \label{fig:example-retiming-a-one-multplier-Schur-lattice-filter}
 \end{figure}
-\clearpage
+
+Construction of a state variable description of the retimed Schur
+one-multiplier lattice filter with coefficients in $z^{-2}$ only is summarised in
+Algorithm~\ref{alg:Construction-state-variable-retimed-One-Multiplier-R2-lattice}.
+ 
+\begin{algorithm}[htbp]
+Given $N$ even, $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$,
+$\left\{\epsilon_{1},\epsilon_{2}\hdots,\epsilon_{N}\right\}$ and
+$\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
+\begin{algorithmic}
+\State $x^{\prime}_{1}=x_{2}$
+\State $x^{\prime}_{2}=-k_{2}x_{1}+\left(1+k_{2}\epsilon_{2}\right)x_{5}$
+\State $x^{\prime}_{3}=\left(1-k_{2}\epsilon_{2}\right)x_{1}+k_{2}x_{5}$
+\State $x^{\prime}_{4}=c_{0}x_{1}+c_{1}x_{2}+c_{2}x_{5}$
+
+\For{$n=2,\hdots,\frac{N}{2}-1$}
+\State $x^{\prime}_{3n-1}=-k_{2n}x_{3n-3}+
+\left(1+k_{2n}\epsilon_{2n}\right)x_{3n+2}$
+\State $x^{\prime}_{3n}=\left(1-k_{2n}\epsilon_{2n}\right)x_{3n-3}+ k_{2n}x_{3n+2}$
+\State $x^{\prime}_{3n+1}=x_{3n-2}+c_{2n-1}x_{3n-1}+c_{2n}x_{3n+2}$
+\EndFor
+
+\State $x_{3\frac{N}{2}-1}^{\prime} = -k_{N}x_{3\frac{N}{2}-3}+
+\left(1+k_{N}\epsilon_{N}\right)u$
+\State $y = x_{3\frac{N}{2}-2}+c_{N-1}x_{3\frac{N}{2}-1}+c_{N}u$
+\State $\hat{y} = \left(1-k_{N}\epsilon_{N}\right)x_{3\frac{N}{2}-3}+k_{N}u$
+\end{algorithmic}
+\caption{Construction of a state variable description of the retimed Schur
+one-multiplier lattice filter with denominator coefficients in $z^{-2}$ only}
+\label{alg:Construction-state-variable-retimed-One-Multiplier-R2-lattice}
+\end{algorithm}
+
+The Octave function \emph{schurOneMR2lattice2Abcd},
+exercised by the Octave script \emph{schurOneMR2lattice2Abcd\_test.m},
+implements retiming of a one-multiplier Schur lattice filter with a denominator
+polynomial having coefficients in $z^{-2}$ only.
+
 \subsection{Frequency transformations of retimed Schur lattice filters}
 An implementation of a rational transfer function having
 demominator coefficients only in powers of $z^{-2}$ can be retimed and
@@ -6519,6 +6569,7 @@ band-pass filter have coefficients only in powers of $z^{-2}$.
 \caption{Amplitude response of a low-pass filter prototype having denominator polynomial coefficients in $z^{-2}$}
 \label{fig:freq-transform-structure-lowpass}
 \end{figure}
+
 \begin{figure}
 \centering
 \begin{subfigure}{\textwidth}
@@ -6590,7 +6641,7 @@ filters}.
 \section{Definition of orthogonal state variable filters}
 If, for matrix $O$, $OO^{\top}=I$, then $O \in \mathcal{O}$, the group of
 \emph{orthogonal} matrixes. If $U$ has \emph{complex} elements and
-$UU^{\dagger}=I$ then $U \in \mathcal{U}$, where $\dagger$ is the 
+$UU^{\mathconj}=I$ then $U \in \mathcal{U}$, where $\mathconj$ is the 
 complex conjugate transpose matrix operator, and $\mathcal{U}$ is the group of 
 \emph{unitary} matrixes. An all pass filter has magnitude response 
 $\left|H\left(e^{\imath\theta}\right)\right|=1$ for all real $\theta$. The 
@@ -7517,10 +7568,9 @@ filter design considered here, this simple iterative technique converges in
 practice.
 \end{quotation}
 
-\emph{Selesnick and Burrus} have, in the past, published implementations of PCLS
-filter design in the files \emph{cl2lp.m} and \emph{cl2bp.m} that do not appear
-to be currently available~\cite{Selesnick_cl2lp} but are included in the source
-files for this project.
+The Octave function files \emph{cl2lp.m} and \emph{cl2bp.m}, written by
+\emph{Selesnick}~\cite{Selesnick_cl2lp}, are, respectively, low-pass and
+band-pass implementations by \emph{Selesnick} of the PCLS filter design method. 
 
 \begin{algorithm}
 \begin{enumerate}
@@ -9492,18 +9542,18 @@ on the phase of the filter response (for example in the stop band). In this case
 \begin{align*}
 \left|H\left(\boldsymbol{x}_{k},\omega_{i}\right)\right|^{2}&=
 H\left(\boldsymbol{x}_{k},\omega_{i}\right)
-H\left(\boldsymbol{x}_{k},\omega_{i}\right)^{\dagger}\\
+H\left(\boldsymbol{x}_{k},\omega_{i}\right)^{\ast}\\
 \nabla_{x}\left|H\left(\boldsymbol{x}_{k},\omega_{i}\right)\right|^{2}&=
 \left(\nabla_{x}H\left(\boldsymbol{x}_{k},\omega_{i}\right)\right)
-H\left(\boldsymbol{x}_{k},\omega_{i}\right)^{\dagger} +
+H\left(\boldsymbol{x}_{k},\omega_{i}\right)^{\ast} +
 H\left(\boldsymbol{x}_{k},\omega_{i}\right)
-\left(\nabla_{x}H\left(\boldsymbol{x}_{k},\omega_{i}\right)\right)^{\dagger}\\
+\left(\nabla_{x}H\left(\boldsymbol{x}_{k},\omega_{i}\right)\right)^{\ast}\\
 &=2\Re\nabla_{x}H\left(\boldsymbol{x}_{k},\omega_{i}\right)
 \Re H\left(\boldsymbol{x}_{k},\omega_{i}\right)+
 2\Im\nabla_{x}H\left(\boldsymbol{x}_{k},\omega_{i}\right)
 \Im H\left(\boldsymbol{x}_{k},\omega_{i}\right)
 \end{align*}
-where $\dagger$ represents the complex conjugate transpose.
+where $\ast$ represents the complex conjugate.
 The squared-magnitude response can be used in linear constraints on the 
 upper and lower peaks of the pass-band and stop-band magnitude responses
 \begin{align*}
@@ -11417,8 +11467,8 @@ $A$, generated by
 Algorithm~\ref{alg:Construction-state-variable-One-Multiplier-lattice} or
 Algorithm~\ref{alg:Construction-state-variable-Scaled-Normalised-lattice} is
 lower Hessenberg. The matrix resolvent, $\left(zI-A\right)^{-1}$ is calculated
-by direct matrix inversion rather than \emph{Leverrier's} algorithm (see
-Algorithm~\ref{alg:Leverriers-algorithm-characteristic-polynomial}).  
+by direct matrix inversion rather than \emph{Le Verrier's} algorithm (see
+Algorithm~\ref{alg:LeVerriers-algorithm-characteristic-polynomial}).  
 \emph{Xu Zhong}~\cite{Zhong_InversesOfHessenbergMatrices} gives an algorithm that
 calculates the inverse of a lower Hessenberg matrix. That algorithm is
 implemented in Octave as the function \emph{zhong\_inverse.m} and, for a matrix
@@ -17442,23 +17492,23 @@ where $P=\frac{N\left(N+1\right)}{2}$,
 $\bar{\boldsymbol{y}}=\left[\bar{y}_{1} \hdots \bar{y}_{P}\right]^{\top}$ and the
 $\boldsymbol{F}_{k}$ are the symmetric matrixes that select the two
 off-diagonal elements of $\bar{\boldsymbol{Y}}$ corresponding to $\bar{y}_{k}$.
-If the SDP solution is $\boldsymbol{y}^{*}$ and $\hat{\boldsymbol{Y}}^{*}$, then
-$\text{sign}\left(\boldsymbol{y}^{*}\right)$ is a reasonable solution to
+If the SDP solution is $\boldsymbol{y}^{\ast}$ and $\hat{\boldsymbol{Y}}^{\ast}$, then
+$\text{sign}\left(\boldsymbol{y}^{\ast}\right)$ is a reasonable solution to
 the original integer programming problem.
 \emph{Lu}~\cite{Lu_FIRDiscreteCoefficientsSemidefiniteRelaxation} points out
 that, given the singular-value decomposition
 \begin{align*}
-  Z^{*} =  \left[\begin{array}{cc}
-          \hat{\boldsymbol{Y}}^{*}&\boldsymbol{y}^{*} \\
-          {\boldsymbol{y}^{*}}^{\top}  & 1
+  Z^{\ast} =  \left[\begin{array}{cc}
+          \hat{\boldsymbol{Y}}^{\ast}&\boldsymbol{y}^{\ast} \\
+          {\boldsymbol{y}^{\ast}}^{\top}  & 1
         \end{array}\right]=U\Sigma U^{\top}
 \end{align*}
 an alternative solution is $\text{sign}\left(u_{N+1,l}u_{1\hdots N,l}\right)$,
 where $u_{1\hdots N,l}$ is the first column vector in $U$ that corresponds to
 the largest singular value, $\sigma_{l}$. ``\emph{The motivation ... is that a
-  perfect solution $\boldsymbol{Y}^{*}$ ... would imply that matrix $Z^{*}$
+  perfect solution $\boldsymbol{Y}^{\ast}$ ... would imply that matrix $Z^{\ast}$
   has rank one, hence $\sigma_{l}u_{1\hdots N+1,l}u_{1\hdots N+1,l}^{\top}$ is
-  the best rank-one approximation of $Z^{*}$ in the 2-norm sense.}''
+  the best rank-one approximation of $Z^{\ast}$ in the 2-norm sense.}''
 
 \begin{comment}
 \section{The \emph{maximum-cut} problem of graph theory}
@@ -19300,8 +19350,8 @@ f\left(z\right)&=\sum^{\infty}_{n=0}b_{n}\left(z-a\right)^{n}+\
 \end{align*}
 where
 \begin{align*}
-b_{n}&=\frac{1}{2\pi\imath}\ointctrclockwiseop_{C}\frac{f\left(z^{*}\right)}{\left(z^{*}-a\right)^{n+1}}dz^{*}\\
-c_{n}&=\frac{1}{2\pi\imath}\ointctrclockwiseop_{C}\left(z^{*}-a\right)^{n-1}f\left(z^{*}\right)dz^{*}
+b_{n}&=\frac{1}{2\pi\imath}\ointctrclockwiseop_{C}\frac{f\left(z^{\ast}\right)}{\left(z^{\ast}-a\right)^{n+1}}dz^{\ast}\\
+c_{n}&=\frac{1}{2\pi\imath}\ointctrclockwiseop_{C}\left(z^{\ast}-a\right)^{n-1}f\left(z^{\ast}\right)dz^{\ast}
 \end{align*}
 each integral being taken in the counter-clockwise direction around any simple
 closed path, $C$, which lies in the annulus and encloses the inner circle. This
@@ -19484,6 +19534,11 @@ matrix, $A$:
 \mathrange\left(A\right) &= \mathspan\left\{ u_{1},\ldots,u_{r}\right\} \\
 A&=\sum_{k=1}^{r}\sigma_{k}u_{k}v_{k}^{\top} =U\Sigma{}V^{\top}
 \end{align*}
+The columns of $U$, $U^{\mathconj}$, $V$ and $V^{\mathconj}$ each form an
+\emph{orthonormal basis}. The column vectors, $u_{k}$, are called \emph{left
+singular vectors}. Similarly, the column vectors, $v_{k}$, are called \emph{right
+singular vectors}.
+
 \section{\label{app:Linear-algebra-determinants}Matrix determinants}
 \subsection{Definitions}
 The following definitions of the determinant of a matrix are equivalent:
@@ -19553,10 +19608,10 @@ $x^{\top}Qx>0$ for all nonzero $x \in \mathbb{R}^{n}$.
 
 A complex matrix can be expressed in terms of the real and imaginary parts
 as $Z=X+\imath{}Y$. The matrix $Z$ is positive-definite if, for all complex
-vectors $z$, $z^{\dagger}Zz$ is real and greater than $0$ ($\dagger$ represents
-the complex conjugate transpose operation). If $z=x+\imath{}y$, then:
+vectors $z$, $z^{\mathconj}Zz$ is real and greater than $0$ ($\mathconj$
+represents the complex conjugate transpose operation). If $z=x+\imath{}y$, then:
 \begin{align*}
-  z^{\dagger}Zz
+  z^{\mathconj}Zz
   &= \left(x^{\top}-\imath{} y^{\top}\right)
     \left(X+\imath{}Y\right)
     \left(x+\imath{}y\right) \\
@@ -19720,7 +19775,7 @@ so that:
   \left(A-BD^{-1}C\right)^{-1}&-A^{-1}B\left(D-CA^{-1}B\right)^{-1} \\
  -\left(D-CA^{-1}B\right)^{-1}CA^{-1}&\left(D-CA^{-1}B\right)^{-1}\end{array}\right]
 \end{align*}
-\subsection{Schur complement of a positive definite matrix}
+\subsection{\label{app:Linear-algebra-Schur-complement-positive-definite}Schur complement of a positive definite matrix}
 If $M$ is symmetric ($A$ and $D$ are symmetric and $C=B^{\top}$) then if $D$ is
 invertible:
 \begin{enumerate}
@@ -19761,10 +19816,9 @@ follows from the properties of the \emph{Schur complement}.
 \clearpage
 \section{\label{app:Linear-algebra-convex-vector-space}Convex vector spaces}
 
+\subsection{Definitions on convex sets}
 See, for example, \emph{J\"{o}nsson}~\cite[Section
 2]{Jonsson_LectureOnSProcedure}.
-
-\subsection{Definitions on convex sets}
 
 A set, $\mathcal{C}$, in a linear vector space is \emph{convex} if
 $\alpha{}x_{1}+\left(1-\alpha\right)x_{2}\in\mathcal{C}$ for all
@@ -19828,13 +19882,13 @@ optimisation. I follow the finite dimensional proof of
   \alpha_{1}f\left(v_{1}\right)+\alpha_{2}f\left(v_{2}\right)$
   for all $v_{1},v_{2}\in{}V$ and $\alpha_{1},\alpha_{2}\in\mathbb{R}$ 
 \item the continuous linear functions on $V$ also make a vector space, called
-  the \emph{dual} of $V$, denoted $V^{*}$ 
+  the \emph{dual} of $V$, denoted $\hat{V}$ 
 \item in applications considering a finite dimensional Hilbert space over
-  $\mathbb{R}$, the dual space is $V^{*}=V$, and the linear functional
-  $v^{*}=\langle v,v^{*}\rangle$ is the inner product
-\item the \emph{affine hull} of $S$ is defined as the set of all linear
-  combinations of the form $\sum\alpha_{k}x_{k}$ where $x_{k}\in S$ and
-  $\sum\alpha_{k}=1$
+  $\mathbb{R}$, the dual space is $\hat{V}=V$ itself, and the linear functional
+  $\hat{v}\left(v\right)\coloneq\langle v,\hat{v}\rangle$ is the inner product
+\item the \emph{affine hull} of $S$, denoted by  $\mathaff S$, is the set of all
+      linear combinations of the form $\sum\alpha_{k}x_{k}$ where $x_{k}\in S$ and
+      $\sum\alpha_{k}=1$ 
 \item the \emph{relative interior} of a set $S\subset\mathbb{R}$, denoted by
   $\mathri S$, is the set of points of $S$ which are interior relative to
   $\mathaff S$. This means that for any $x\in S$, there exists an
@@ -19843,7 +19897,7 @@ optimisation. I follow the finite dimensional proof of
 \item a \emph{hyperplane} is an affine subset of $V$ with maximal dimension. In
   other words, if $V$ has dimension $n$, then every hyperplane is a translation
   of an $n-1$ dimensional subspace of $V$. A hyperplane can be represented as
-  $H=\left\{x\in V:\langle v,z\rangle = c \right\}$ for $z\in V^{*}$ and
+  $H=\left\{x\in V:\langle v,z\rangle = c \right\}$ for $z\in \hat{V}$ and
     $c\in\mathbb{R}$.
   The sets $H=\left\{x\in V:\langle v,z\rangle\ge c \right\}$ and
     $H=\left\{x\in V:\langle v,z\rangle\le c \right\}$ are closed half-spaces
@@ -19877,11 +19931,11 @@ a separating hyperplane, ie: $\exists z\in V^{\star}\setminus 0 \text{ such that
 \emph{J\"{o}nsson}~\cite[Section 4]{Jonsson_LectureOnSProcedure}\footnote{See
   also, for example, \emph{P\'{o}lik} and
   \emph{Terlaky}~\cite{PolikTerlaky_SurveySLemma}.} describes the
-S-procedure as follows: let $\sigma_{k}:V\mapsto\mathbb{R}$, $k=0,\hdots,N$,
+S-procedure as follows. Let $\sigma_{k}:V\mapsto\mathbb{R}$, $k=0,\hdots,N$,
 be real valued functionals on a linear vector space $V$ and consider the
 following two conditions:
 
-$S_{1}:\sigma_{0}\ge \; \forall\; y\in V \text{ such that }
+$S_{1}:\sigma_{0}\left(y\right)\ge 0\; \forall\; y\in V \text{ such that }
 \sigma_{k}\left(y\right)\ge 0,\;k=1,\hdots,N$
 
 $S_{2}:\exists\;\tau_{k}\ge 0,\;k=1,\hdots,N\text{ such that }
@@ -19927,11 +19981,14 @@ with one quadratic constraint:
 A lower bound is obtained by the semi-definite relaxation:
 \begin{align*}
 \textbf{minimise}   \quad & \mathtrace{Q_{0}Y}+2s_{0}^{\top}y+r_{0}\\
-\textbf{subject to} \quad & \mathtrace{Q_{1}Y}+2s_{1}^{\top}y+r_{1}\\
+\textbf{subject to} \quad & \mathtrace{Q_{1}Y}+2s_{1}^{\top}y+r_{1}\succeq 0\\\
    & \left[\begin{array}{cc}
           Y & y \\
           y^{\top} & 1\end{array}\right]\succeq 0
 \end{align*}
+since $\mathtrace{Q_{1}yy^{\top}}=y^{\top}Q_{1}y$ and the second constraint is
+equivalent to $Y\succeq yy^{\top}$.
+
 The dual problem of the semi-definite relaxation is:
 \begin{align*}
 \textbf{maximise}   \quad & \gamma \\
@@ -19944,7 +20001,7 @@ The dual problem of the semi-definite relaxation is:
 \end{align*}
 
 \subsection{The \emph{log det A} penalty function}
-This $\log\det A$ function is widely used as a penalty function in convex
+The $\log\det A$ function is widely used as a penalty function in convex
 optimisation. \emph{VanAntwerp} and
 \emph{Braatz}~\cite[Appendix]{VanAntwerpBraatz_LinearBilinearMatrixInequalities} 
 show that the function $-\log\det A$ is convex if $A=A^{\top}\succ 0$.
@@ -20003,7 +20060,7 @@ where $a_{k}=h_{k+M}$. The \emph{Chebyshev polynomials of the first kind} are:
 
 The Octave function \emph{chebyshevT(k)} returns the coefficients of the $k$'th
 Chebyshev polynomial of the first kind.
-Figure~\ref{fig:Chebyshev-polynomials-first-kind} plots the first $7$ Chebyshev
+Figure~\ref{fig:Chebyshev-polynomials-first-kind} plots the first seven Chebyshev
 polynomials of the first kind. 
 \begin{figure}
 \centering
@@ -20055,8 +20112,8 @@ The \emph{Chebyshev polynomials of the second kind} are related to the
 
 The Octave function \emph{chebyshevU(k)} returns the coefficients of the $k$'th
 Chebyshev polynomial of the second kind.
-Figure~\ref{fig:Chebyshev-polynomials-second-kind} plots the first $7$ Chebyshev
-polynomials of the second kind. 
+Figure~\ref{fig:Chebyshev-polynomials-second-kind} plots the first seven
+Chebyshev polynomials of the second kind. 
 \begin{figure}
 \centering
 \scalebox\DesignOfIIRFiltersPdfScale]{\input{chebyshevU_test_Uk}}
@@ -22723,7 +22780,7 @@ where $\left[u_{1},\ldots,u_{m}\right]$ is a column partitioning of
 $U$, $p=\min\left(m,n\right)$ and $\sigma_{1}\ge\sigma_{2}\ge\cdots\ge\sigma_{p}\ge0$.
 From \emph{Golub and Van Loan}
 ~\cite[Section 5.5.4]{GolubVanLoan_MatrixComputations},
-the \emph{pseudo-inverse} of $B$ is defined to be $B^{*}=V\Sigma U^{\top}$
+the \emph{pseudo-inverse} of $B$ is defined to be $B^{\dagger}=V\Sigma U^{\top}$
 where 
 \begin{align*}
 \Sigma &=\mathdiag\left(\frac{1}{\sigma_{1}},\cdots,\frac{1}{\sigma_{r}},0,\ldots,0\right)\in\mathbb{R}^{n\times m}
@@ -22734,17 +22791,21 @@ the problem:
 \begin{align*}
 \min_{X\in\mathbb{R}^{n\times m}} & \| BX-I_{m}\| _{F}
 \end{align*}
-If $\mathrank\left(B\right)=n$, then $B^{*}=\left(B^{\top}B\right)^{-1}B^{\top}$,
-while if $m=n=\mathrank\left(B\right)$, then $B^{*}=B^{-1}$. Typically,
-$B^{*}$ is defined to be the unique matrix $X\in\mathbb{R}^{n\times m}$
+If $\mathrank\left(B\right)=n$, then
+$B^{\dagger}=\left(B^{\top}B\right)^{-1}B^{\top}$, 
+while if $m=n=\mathrank\left(B\right)$, then $B^{\dagger}=B^{-1}$. Typically,
+$B^{\dagger}$ is defined to be the unique matrix $X\in\mathbb{R}^{n\times m}$
 that satisfies the four \emph{Moore-Penrose conditions}:
-\begin{align*}
+\begin{align}
+\label{eq:Moore-Penrose-conditions}
+\begin{split}
 BXB &= B\\
 XBX &= X\\
 \left(BX\right)^{\top} &= BX\\
 \left(XB\right)^{\top} &= XB
-\end{align*}
-These conditions amount to the requirement that $BB^{*}$ and $B^{*}B$
+\end{split}
+\end{align}
+These conditions amount to the requirement that $BB^{\dagger}$ and $B^{\dagger}B$
 be orthogonal projections onto $\mathrange\left(B\right)$ and 
 $\mathrange\left(B^{\top}\right)$
 respectively\footnote{See
@@ -22950,15 +23011,15 @@ sum with respect to $z$ is equivalent to
 \begin{align*}
 \mathcal{L}_{c^{k}}\left(x,v,\mu^{k},\lambda^{k}\right) &= f\left(x\right)+\left\{ \frac{c^{k}}{2}\| h\left(x\right)\| -\left(\mu^{k}\right)^{\top}h\left(x\right)\right\} +\min_{v_{i}\ge0}\sum_{i=1}^{m}\left\{ \frac{c^{k}}{2}\left|g_{i}\left(x\right)-v_{i}\right|^{2}-\lambda_{i}^{k}\left(g_{i}\left(x\right)-v_{i}\right)\right\} 
 \end{align*}
-If the constrained minimum of the second term is at $v_{i}^{*}=\max\left\{ 0,\bar{v}_{i}\right\} $
+If the constrained minimum of the second term is at $\hat{v}_{i}=\max\left\{ 0,\bar{v}_{i}\right\} $
 (where $\bar{v}_{i}\ge0$ is the unconstrained minimum at which $\lambda_{i}+c^{k}\left(g_{i}\left(x\right)-\bar{v}_{i}\right)$
 is zero) then
 \begin{align*}
-v_{i}^{*} &= \max\left\{ 0,g_{i}\left(x\right)+\frac{\lambda_{i}^{k}}{c^{k}}\right\} 
+\hat{v}_{i} &= \max\left\{ 0,g_{i}\left(x\right)+\frac{\lambda_{i}^{k}}{c^{k}}\right\} 
 \end{align*}
 and
 \begin{align*}
-g_{i}\left(x\right)-v_{i}^{*} &= \begin{cases}
+g_{i}\left(x\right)-\hat{v}_{i} &= \begin{cases}
 -\frac{\lambda_{i}^{k}}{c^{k}} & g_{i}\left(x\right)>-\frac{\lambda_{i}^{k}}{c^{k}}\\
 g_{i}\left(x\right) & g_{i}\left(x\right)\le-\frac{\lambda_{i}^{k}}{c^{k}}
 \end{cases}\\
@@ -23332,7 +23393,7 @@ the tangent quadratic problem with linear constraints.
 
     Compute $d=En^{+}$ (the step direction in the primal space).
 
-    If $q>0$ then  $r=B^{*}n^{+}$ (the negative of the step direction in the
+    If $q>0$ then  $r=B^{\dagger}n^{+}$ (the negative of the step direction in the
     dual space).
 
     \item \emph{Compute the step length:}
@@ -23386,7 +23447,7 @@ the tangent quadratic problem with linear constraints.
                   \end{array}\right)$, and drop constraint $k$; 
 
         \hspace{5mm}i.e.\ set $\mathcal{A}\leftarrow\mathcal{A}\setminus
-        \left\{k\right\}$, $q\leftarrow q-1$, update $E$ and $B^{*}$, and go to 
+        \left\{k\right\}$, $q\leftarrow q-1$, update $E$ and $B^{\dagger}$, and go to 
         \emph{Step~\ref{itm:Determine-step-direction}}.
 
     \item \emph{Step in primal and dual space:} 
@@ -23402,14 +23463,14 @@ the tangent quadratic problem with linear constraints.
 
       \hspace{5mm}i.e.\ set 
       $\mathcal{A}\leftarrow\mathcal{A}\cup\left\{p\right\}$,
-      $q\leftarrow q+1$, update $E$ and $B^{*}$ and go to
+      $q\leftarrow q+1$, update $E$ and $B^{\dagger}$ and go to
       \emph{Step~\ref{itm:Choose-constraint}}.
 
       If $\tau=\tau_{1}$ (partial step) then drop constraint $k$; 
 
       \hspace{5mm}i.e.\ set
       $\mathcal{A}\leftarrow\mathcal{A}\setminus\left\{ k\right\} $, 
-      $q\leftarrow q-1$, update $E$ and $B^{*}$, and go to
+      $q\leftarrow q-1$, update $E$ and $B^{\dagger}$, and go to
       \emph{Step~\ref{itm:Determine-step-direction}}.
     \end{enumerate}
   \end{enumerate}
@@ -23450,10 +23511,10 @@ $k\times k$ identity matrix and $e_{j}$ represents the $j$th column of $I_{k}$.
 When the constraint gradients (columns of $B$) are linearly independent
 one can define the operators
 \begin{align*}
-B^{*} &= \left(B^{\top}H^{-1}B\right)^{-1}B^{\top}H^{-1}\\
-E &= H^{-1}\left(I-BB^{*}\right)
+B^{\dagger} &= \left(B^{\top}H^{-1}B\right)^{-1}B^{\top}H^{-1}\\
+E &= H^{-1}\left(I-BB^{\dagger}\right)
 \end{align*}
-where $B^{*}$ is the \emph{pseudo-inverse} or \emph{Moore-Penrose}
+where $B^{\dagger}$ is the \emph{pseudo-inverse} or \emph{Moore-Penrose}
 \emph{generalised inverse} of $B$. $E$ is a reduced inverse Hessian
 operator for the quadratic $f\left(x\right)$ subject to the active
 set of constraints. In particular, as in 
@@ -23470,13 +23531,14 @@ $P\left(\mathcal{A}\right)$
 \nabla_{x}f\left(\tilde{x}\right) &= B\lambda\left(\tilde{x}\right)
 \end{align*}
 where the vector of Lagrange multipliers $\lambda\left(\tilde{x}\right)\ge0$.
-Multiplying both sides by $B^{*}$gives 
+Multiplying both sides by $B^{\dagger}$gives 
 \begin{align*}
-\lambda\left(\tilde{x}\right) & \equiv B^{*}\nabla_{x}f\left(\tilde{x}\right)\ge0
+\lambda\left(\tilde{x}\right) & \equiv
+B^{\dagger}\nabla_{x}f\left(\tilde{x}\right)\ge0 
 \end{align*}
 Also multiplying by $E$ gives 
 \begin{align*}
-E\nabla f\left(\tilde{x}\right) &= H^{-1}\left(I-BB^{*}\right)B\lambda\\
+E\nabla f\left(\tilde{x}\right) &= H^{-1}\left(I-BB^{\dagger}\right)B\lambda\\
  &= H^{-1}\left(B-B\right)\lambda\\
  &= 0
 \end{align*}
@@ -23485,17 +23547,18 @@ be the optimal solution to $P\left(\mathcal{A}\right)$. In addition,
 the dual algorithm makes use of a set of, so-called, \emph{infeasibility}
 multipliers
 \begin{align*}
-r &= B^{*}n^{+}
+r &= B^{\dagger}n^{+}
 \end{align*}
-Some properties of $B^{*}$ and $E$:
+Some properties of $B^{\dagger}$ and $E$:
 \begin{align*}
  & Ew=0\Leftrightarrow w=B\alpha\\
  & E ~ \textit{is positive semidefinite}\\
  & EWE=E\\
- & B^{*}WE=0\\
+ & B^{\dagger}WE=0\\
  & EE^{+}=E^{+}
 \end{align*}
 
+\clearpage
 When justifying Algorithm~\ref{alg:The-dual-algorithm}, 
 \emph{Goldfarb} and \emph{Idnani}
 ~\cite[p. 7]{GoldfarbIdnani_NumericallyStableDualQuadraticPrograms}
@@ -23506,7 +23569,7 @@ of $B$ and $n^{+}=n_{p}$) are linearly independent, then
 g_{p}\left(x\right) & < 0\\
 g_{i}\left(x\right) &= 0 ~ \forall i \in \mathcal{A}\\
 E^{+}\nabla_{x}f\left(x\right) &= 0\\
-\lambda^{+}\left(x\right)\triangleq\left(B^{+}\right)^{*}\nabla_{x}f\left(x\right) & \ge 0
+\lambda^{+}\left(x\right)\triangleq\left(B^{+}\right)^{\dagger}\nabla_{x}f\left(x\right) & \ge 0
 \end{align*}
 
 \framebox{\begin{minipage}[t]{0.9\columnwidth}%
@@ -23522,24 +23585,25 @@ is the optimal solution to the subproblem obtained by replacing the
 constraint $g_{p}\left(x\right) \ge 0$ in $P\left(\mathcal{A}^{+}\right)$
 by $g_{p}\left(x\right)\ge g_{p}\left(\hat{x}\right)$ i.e.\ by a parallel
 constraint which passes through $\hat{x}$. Let $x^{*}$ be the point
-on the manifold $\mathcal{M}^{+}=\left\{ x\in\mathbb{R}^{n}\mid n_{i}^{\top}x=b_{i},i\in\mathcal{A}^{+}\right\} $
+on the manifold $\mathcal{M}^{+}=\left\{ x\in\mathbb{R}^{n}\mid
+n_{i}^{\top}x=b_{i},i\in\mathcal{A}^{+}\right\} $  
 at which $f(x)$ is minimized. The following lemma shows how to move
 to such a point from a point $x$ corresponding to a V-triple $(x,\mathcal{A},p)$.
 
-\emph{}%
-\begin{framed}%
+\emph{}
+\begin{framed}
 \emph{Lemma 1:} Let $\left(x,\mathcal{A},p\right)$ be a V-triple
 and consider points of the form $\tilde{x}=x+\tau d$ where $d=En^{+}$.
 Then 
 \begin{align}
 E^{+}\nabla_{x}f\left(\tilde{x}\right) &= 0\\
 g_{i}\left(\tilde{x}\right) &= 0 ~ \forall i \in \mathcal{A}\\
-\lambda^{+}\left(\tilde{x}\right)\triangleq\left(B^{+}\right)^{*}\nabla_{x}f\left(\tilde{x}\right) &= \lambda^{+}\left(x\right)+\tau\left[\begin{array}{c}
+\lambda^{+}\left(\tilde{x}\right)\triangleq\left(B^{+}\right)^{\dagger}\nabla_{x}f\left(\tilde{x}\right) &= \lambda^{+}\left(x\right)+\tau\left[\begin{array}{c}
 -r\\
 1
 \end{array}\right]\label{eqn:Lemma1_lambda}
 \end{align}
-where $r=B^{*}n^{+}$and $g_{p}\left(\tilde{x}\right)=g_{p}\left(x\right)+\tau d^{\top}n^{+}$.
+where $r=B^{\dagger}n^{+}$and $g_{p}\left(\tilde{x}\right)=g_{p}\left(x\right)+\tau d^{\top}n^{+}$.
 
 \emph{Proof:}The lemma follows from the properties of the V-triple
 $(x,\mathcal{A},p)$ and
@@ -23549,7 +23613,7 @@ $(x,\mathcal{A},p)$ and
 where 
 \begin{align*}
 Hd &= HEn^{+}\\
- &= \left(I-BB^{*}\right)n^{+}\\
+ &= \left(I-BB^{\dagger}\right)n^{+}\\
  &= n^{+}-Br\\
  &= \left[\begin{array}{cc}
 B & n^{+}\end{array}\right]\left[\begin{array}{c}
@@ -23579,7 +23643,7 @@ to this component is dropped from the active set, then $\left(\tilde{x}\left(\ta
 where $\mathcal{A}^{-}=\mathcal{A}\setminus\left\{ k\right\} $, is
 again a V-triple. These remarks are formalised by the following two
 theorems.
-
+\clearpage
 \begin{framed}%
 \emph{Theorem 1:} Given a V-triple $\left(x,\mathcal{A},p\right)$
 if $\tilde{x}$ is defined as in Lemma 1 with $\tau=\min\left\{ \tau_{1},\tau_{2}\right\} $
@@ -23645,7 +23709,7 @@ so that $\left(x,\mathcal{A}^{-},p\right)$ is a V-triple. In the
 former case, the original quadratic problem must also be feasible, while in the
 latter case, one may proceed according to Theorem 1 to obtain a new
 S-pair with a higher function value.
-
+\clearpage
 \begin{framed}
 \emph{Theorem 2:} Let $\left(x,\mathcal{A}\right)$ be an S-pair and
 $p$ be an index of a constraint in $\mathcal{K}\setminus\mathcal{A}$
@@ -23683,7 +23747,7 @@ If we define $\hat{\mathcal{A}}=\mathcal{A}^{-}\cup\left\{ p\right\} $,
 then it is clear that $\hat{B}$ has full column rank, $\hat{E}\nabla_{x}f\left(x\right)=0$
 and 
 \begin{align*}
-\hat{\lambda}\left(x\right) &= \hat{B}^{*}\nabla_{x}f\left(x\right)\\
+\hat{\lambda}\left(x\right) &= \hat{B}^{\dagger}\nabla_{x}f\left(x\right)\\
  &= \begin{cases}
 \lambda_{j\left(i\right)}-\frac{\lambda_{l}}{r_{l}}r_{j\left(i\right)}\ge 0 & i\in\mathcal{A}^{-}\\
 \frac{\lambda_{l}}{r_{l}}\ge 0
@@ -23718,7 +23782,7 @@ $R$ is a $\left(q\times q\right)$ upper triangular matrix and $Q=\left[Q_{1}\mid
 is a $\left(n\times n\right)$ orthogonal matrix partitioned so that
 $Q_{1}$ has $q$ columns. By substitution, 
 \begin{align*}
-B^{*} &= \left(B^{\top}{L^{-1}}^{\top}L^{-1}B\right)^{-1}B^{\top}{L^{-1}}^{\top}L^{-1}\\
+B^{\dagger} &= \left(B^{\top}{L^{-1}}^{\top}L^{-1}B\right)^{-1}B^{\top}{L^{-1}}^{\top}L^{-1}\\
  &= \left(C^{\top}C\right)^{-1}C^{\top}L^{-1}\\
  &= R^{-1}{R^{-1}}^{\top}C^{\top}L^{-1}\\
  &= R^{-1}Q_{1}^{\top}L^{-1}\\
@@ -23758,7 +23822,7 @@ J_{1} & J_{2}\end{array}\right]\\
 {L^{-1}}^{\top}Q_{1} & {L^{-1}}^{\top}Q_{2}\end{array}\right]\\
  &= {L^{-1}}^{\top}Q
 \end{align*}
-In the dual algorithm the vectors $d=En^{+}$ and $r=B^{*}n^{+}$
+In the dual algorithm the vectors $d=En^{+}$ and $r=B^{\dagger}n^{+}$
 are required. Compute the intermediate vector 
 \begin{align*}
 v &= J^{\top}n^{+}\\
@@ -23771,7 +23835,7 @@ v_{1}\\
 v_{2}
 \end{array}\right]
 \end{align*}
-from which it follows that 
+from which it follows that
 \begin{align*}
 d &= J_{2}v_{2}
 \end{align*}
@@ -23780,7 +23844,8 @@ and
 r &= R^{-1}v_{1}
 \end{align*}
 \emph{Goldfarb} and \emph{Idnani} describe an efficient method for updating the
-factors $J$ and $R$ when a constraint is added or deleted. 
+factors $J$ and $R$ when a constraint is added or deleted.
+\clearpage
 \section{Implementation examples}
 The archive distributed with this document contains Octave functions for the
 line-search and non-linear optimisation techniques described above. 
@@ -23806,7 +23871,7 @@ in \emph{goldfarb\_idnani.m}. Sample output is:
 \begin{small}
 \verbatiminput{sqp_gi_test.diary}
 \end{small}
-\clearpage
+
 The script \emph{sqp\_bfgs\_test.m} tests constrained quasi-Newton
 optimisation with combinations of Hessian initialisation, Hessian
 update and linesearch type. Note that the \emph{goldensection} linesearch 
@@ -23984,13 +24049,13 @@ plane, $\lambda_{k}$:
 \end{align*}
 For each conjugate pole pair the corresponding low-pass filter second-order
 section with unity DC gain has transfer
-function\footnote{$\dagger$ denotes complex conjugate transpose}:
+function\footnote{$\mathconj$ denotes complex conjugate transpose}:
 \begin{align*}
-\hat{H}_{k}\left(s\right)&=\frac{\lambda_{k}\lambda_{k}^{\dagger}}
-{\left(s-\lambda_{k}\right)\left(s-\lambda_{k}^{\dagger}\right)}\\
-&=\frac{\lambda_{k}\lambda_{k}^{\dagger}}
-{s^{2}-\left(\lambda_{k}+\lambda_{k}^{\dagger}\right)s+
-  \lambda_{k}\lambda_{k}^{\dagger}}\\
+\hat{H}_{k}\left(s\right)&=\frac{\lambda_{k}\lambda_{k}^{\mathconj}}
+{\left(s-\lambda_{k}\right)\left(s-\lambda_{k}^{\mathconj}\right)}\\
+&=\frac{\lambda_{k}\lambda_{k}^{\mathconj}}
+{s^{2}-\left(\lambda_{k}+\lambda_{k}^{\mathconj}\right)s+
+  \lambda_{k}\lambda_{k}^{\mathconj}}\\
 &= \frac{\omega_{c}^{2}}{s^{2}-2\omega_{c}\cos\theta_{k} s +\omega_{c}^{2}}
 \end{align*}
 If $n$ is odd, there is a single real pole at $s=-\omega_{c}$,
@@ -26078,18 +26143,18 @@ shows the complementary FIR lattice structure.
 \end{figure}
 
 For convenience, call $x_{n}^{\prime}$ the input to state $x_{n}$ of
-the $n$-th section, $y_{n}^{*}$ the lower output of the $n$-th section
+the $n$-th section, $\hat{y}_{n}$ the lower output of the $n$-th section
 and $y_{n}$ the upper output of the $n$-th section. Construction of the
 state variable description of the complementary FIR lattice is summarised in
 Algorithm~\ref{alg:Construction-state-variable-complementary-FIR-lattice}.
 
 \begin{algorithm}[htbp]
 \begin{algorithmic}
-\State $y_{0}^{*} = \hat{k}_{0}u$
+\State $\hat{y}_{0} = \hat{k}_{0}u$
 \State $y_{0} = k_{0}u$
 \For{$n=1,\hdots,N$}
-  \State $x_{n}^{\prime} = y_{n-1}^{*}$
-  \State $y_{n}^{*} = \hat{k}_{n}y_{n-1} + k_{n}x_{n}$
+  \State $x_{n}^{\prime} = \hat{y}_{n-1}$
+  \State $\hat{y}_{n} = \hat{k}_{n}y_{n-1} + k_{n}x_{n}$
   \State $y_{n} = k_{n}y_{n-1} - \hat{k}_{n}x_{n}$
 \EndFor
 \State $y = y_{N}$
@@ -26104,7 +26169,7 @@ multiplications linking the input and state outputs to the output and the next
 state inputs.
 \begin{align*}
 \left[\begin{array}{c}
-y_{0}^{*}\\
+\hat{y}_{0}\\
 y_{0}\\
 x_{1}\\
 x_{2}\\
@@ -26129,7 +26194,7 @@ u
 \begin{align*}
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
-y_{1}^{*}\\
+\hat{y}_{1}\\
 y_{1}\\
 x_{2}\\
 \vdots\\
@@ -26142,7 +26207,7 @@ x_{N}
 \vdots &  &  & & \ddots & \vdots\\
 0 & \cdots & & & \cdots & 1
 \end{array}\right]\left[\begin{array}{c}
-y_{0}^{*}\\
+\hat{y}_{0}\\
 y_{0}\\
 x_{1}\\
 x_{2}\\
@@ -26154,7 +26219,7 @@ x_{N}
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
 x_{2}^{\prime}\\
-y_{2}^{*}\\
+\hat{y}_{2}\\
 y_{2}\\
 x_{3}\\
 \vdots\\
@@ -26169,7 +26234,7 @@ x_{N}
 0 & \cdots &  & & & \cdots & 1
 \end{array}\right]\left[\begin{array}{c}
 x_{1}^{\prime} \\
-y_{1}^{*}\\
+\hat{y}_{1}\\
 y_{1}\\
 x_{2}\\
 x_{3}\\
@@ -26182,7 +26247,7 @@ x_{N}
 x_{1}^{\prime}\\
 \vdots\\
 x_{N-1}^{\prime}\\
-y_{N-1}^{*}\\
+\hat{y}_{N-1}\\
 y_{N-1}\\
 x_{N}
 \end{array}\right] & = \left[\begin{array}{ccccccc}
@@ -26196,7 +26261,7 @@ x_{N}
 x_{1}^{\prime}\\
 \vdots\\
 x_{N-2}^{\prime}\\
-y_{N-2}^{*}\\
+\hat{y}_{N-2}\\
 y_{N-2}\\
 x_{N-1}\\
 x_{N}
@@ -26207,7 +26272,7 @@ x_{N}
 x_{1}^{\prime}\\
 \vdots\\
 x_{N}^{\prime}\\
-y_{N}^{*}\\
+\hat{y}_{N}\\
 y_{N}
 \end{array}\right] & = \left[\begin{array}{ccccc}
 1 & \cdots &  & \cdots & 0\\
@@ -26218,7 +26283,7 @@ y_{N}
 \end{array}\right]\left[\begin{array}{c}
 x_{1}^{\prime}\\
 \vdots\\
-y_{N-1}^{*}\\
+\hat{y}_{N-1}\\
 y_{N-1}\\
 x_{N}
 \end{array}\right]
@@ -26236,8 +26301,8 @@ simpler and more accurate than the cepstral method of \emph{Mian} and
 \subsubsection{\label{app:Orchard-Willson-Newton-Raphson-solution}\emph{Orchard} and \emph{Willson}'s Newton-Raphson solution}
 If an order $N$ FIR filter $H\left(z\right)$ is bounded-real then
 $\left|H\left(e^{\imath\omega}\right)\right|\le 1$. The magnitude-squared
-complementary filter $1-H^{\dagger}\left(z\right)H\left(z\right)$, where
-$\dagger$ means \emph{complex conjugate transpose}, is linear-phase and has
+complementary filter $1-H^{\mathconj}\left(z\right)H\left(z\right)$, where
+$\mathconj$ means \emph{complex conjugate transpose}, is linear-phase and has
 double zeros on the 
 unit-circle when $\left|H\left(e^{\imath\omega}\right)\right|=1$.
 \emph{Orchard} and
@@ -26417,9 +26482,9 @@ Given a bounded-real transfer function $H\left(z\right)$ of order $N$, the
 z-transform of the magnitude-squared complementary filter is:
 \begin{align*}
   F\left(z\right)&=1-\left|H\left(z\right)\right|^{2}
-  =1-H^{\dagger}\left(z\right)H\left(z\right)
+  =1-H^{\mathconj}\left(z\right)H\left(z\right)
 \end{align*}
-where $\dagger$ means \emph{complex conjugate transpose}.
+where $\mathconj$ means \emph{complex conjugate transpose}.
 By construction, $F\left(z\right)$ is real, even,
 $0\le F\left(e^{\imath\omega}\right) \le 1$ and any zeros of $F\left(z\right)$ 
 on the unit circle are double zeros. If $F\left(z\right)$ has zeros on the unit
@@ -27610,7 +27675,7 @@ The squared magnitude response is differentiable. The squared magnitude response
 of a non-symmetric FIR filter is:
 \begin{align*}
 \mathabs{H\left(\omega\right)}^{2}
-&=H\left(\omega\right)^{\dagger}H\left(\omega\right)\\
+&=H\left(\omega\right)^{\mathconj}H\left(\omega\right)\\
 &= \left(\sum_{l=0}^{N}h_{l}e^{\imath{}l\omega}\right) 
    \left(\sum_{k=0}^{N}h_{k}e^{-\imath{}k\omega}\right) \\
 &= \sum_{l=0}^{N}\sum_{k=0}^{N}h_{l}h_{k}\left(\cos{}l\omega\cos{}k\omega+
@@ -28884,7 +28949,7 @@ where $A_{M}\left(\omega\right)$ is an arbitrary cosine polynomial and:
 \subsubsection{Failed design of an odd length differentiator with
   \emph{mcclellanFIRsymmetric}}
 The Octave script
-\emph{mcclellanFIRsymmetric\_flat\_differentiator\_fail\_test.m} calls the
+\emph{mcclellanFIRsymmetric\_linear\_differentiator\_fail\_test.m} calls the
 Octave function \emph{mcclellanFIRsymmetric} to design the stop-band filter,
 $A_{M}\left(\omega\right)$, of an odd-length, even-order, maximally-linear
 pass-band, equi-ripple stop-band, FIR differentiator filter. The filter
@@ -28892,97 +28957,98 @@ specification is similar to that of the example of \emph{Selesnick} and
 \emph{Burrus}~\cite[Figure
 6]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}:   
 \begin{small}
-\verbatiminput{mcclellanFIRsymmetric_flat_differentiator_fail_test.spec}
+\verbatiminput{mcclellanFIRsymmetric_linear_differentiator_fail_test.spec}
 \end{small}
-Figure~\ref{fig:mcclellanFIRsymmetric-flat-differentiator-fail-test-hM-dual}
+Figure~\ref{fig:mcclellanFIRsymmetric-linear-differentiator-fail-test-hM-dual}
 shows the response of the length $M+1$ FIR stop-band filter,
 $A_{M}\left(\omega\right)$. The FIR stop-band filter has small errors. 
-Figure~\ref{fig:mcclellanFIRsymmetric-flat-differentiator-fail-test-response}
+Figure~\ref{fig:mcclellanFIRsymmetric-linear-differentiator-fail-test-response}
 shows the amplitude response of the differentiator filter. The small errors in
 the response of $A_{M}$ result in very large errors in the differentiator
 stop-band amplitude response.  
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_flat_differentiator_fail_test_hM_dual}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_linear_differentiator_fail_test_hM_dual}}
 \caption{Response of the $A_{M}$ filter of an odd-length, even-order,
   maximally-linear pass-band, equi-ripple stop-band, FIR
   differentiator~\cite[Section
   IV]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.} 
-\label{fig:mcclellanFIRsymmetric-flat-differentiator-fail-test-hM-dual}
+\label{fig:mcclellanFIRsymmetric-linear-differentiator-fail-test-hM-dual}
 \end{figure}
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_flat_differentiator_fail_test_response}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_linear_differentiator_fail_test_response}}
 \caption{Response of the failed design of an odd-length, even-order,
   maximally-linear pass-band, equi-ripple stop-band, FIR
   differentiator~\cite[Section
   IV]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.}
-\label{fig:mcclellanFIRsymmetric-flat-differentiator-fail-test-response}
+\label{fig:mcclellanFIRsymmetric-linear-differentiator-fail-test-response}
 \end{figure}
 \clearpage
 \subsubsection{Design of an odd length differentiator with
-  \emph{mcclellanFIRantisymmetric\_flat\_differentiator}}
-The Octave function \emph{mcclellanFIRantisymmetric\_flat\_differentiator} 
+  \emph{mcclellanFIRantisymmetric\_linear\_differentiator}}
+The Octave function \emph{mcclellanFIRantisymmetric\_linear\_differentiator} 
 designs maximally-linear pass-band, equi-ripple stop-band, FIR differentiator
 filters. It follows the MATLAB function \emph{chebdiff.m}
 of \emph{Selesnick}~\cite{Selesnick_chebdiff} for even-length filters and adds
 the odd-length case. The Octave script
-\emph{mcclellanFIRantisymmetric\_flat\_differentiator\_test.m} exercises this
+\emph{mcclellanFIRantisymmetric\_linear\_differentiator\_test.m} exercises this
 function to design an even-length, odd-order and an odd-length, even-order
 filter. The filter specification for the even-length filter is similar to that
 of the example of \emph{Selesnick} and \emph{Burrus}~\cite[Figure 
 6]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}. The specification
 of the odd-length filter is:
 \begin{small}
-\verbatiminput{mcclellanFIRantisymmetric_flat_differentiator_test.spec}
+\verbatiminput{mcclellanFIRantisymmetric_linear_differentiator_test.spec}
 \end{small}
 The coefficients of the odd-length, even-order, anti-symmetric, FIR
 differentiator filter are\footnote{This truncation introduces ripple of about
   $\pm{}1e-7$ into the maximally-linear low-pass differentiator response.}:  
 \begin{small} 
-\verbatiminput{mcclellanFIRantisymmetric_flat_differentiator_test_hA57_coef.m}
+\verbatiminput{mcclellanFIRantisymmetric_linear_differentiator_test_hA57_coef.m}
 \end{small}
-Figure~\ref{fig:mcclellanFIRantisymmetric-flat-differentiator-test-dual}
+Figure~\ref{fig:mcclellanFIRantisymmetric-linear-differentiator-test-dual}
 shows the pass-band and stop-band amplitude responses of the odd-length
 even-order FIR maximally-linear pass-band differentiator filter. The width of
 the stop-band is determined by the stop-band ripple specification. There are 
 $M=\left(N-1-L\right)/2$ stop-band extremal frequencies.
-Figure~\ref{fig:mcclellanFIRantisymmetric-flat-differentiator-test-zeros} shows  
-the zeros of the differentiator filter. There are single zeros at $z=\pm{}1$.
-Figure~\ref{fig:mcclellanFIRantisymmetric-flat-differentiator-test-feasible}
+Figure~\ref{fig:mcclellanFIRantisymmetric-linear-differentiator-test-zeros}
+shows the zeros of the differentiator filter. There are single zeros at
+$z=\pm{}1$.
+Figure~\ref{fig:mcclellanFIRantisymmetric-linear-differentiator-test-feasible}  
 shows the values of odd or even $N$ and even $L$ with \emph{deltas=1e-4} and
 \emph{tol=1e-8} for which the Octave function
-\emph{mcclellanFIRantisymmetric\_flat\_differentiator} converges to a feasible
+\emph{mcclellanFIRantisymmetric\_linear\_differentiator} converges to a feasible
 filter. 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRantisymmetric_flat_differentiator_test_dual}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRantisymmetric_linear_differentiator_test_dual}}
 \caption{Pass-band and stop-band amplitude responses of an odd-length,
   even-order, maximally-linear pass-band, equi-ripple stop-band, FIR
   differentiator~\cite[Section
   IV]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.}  
-\label{fig:mcclellanFIRantisymmetric-flat-differentiator-test-dual}
+\label{fig:mcclellanFIRantisymmetric-linear-differentiator-test-dual}
 \end{figure}
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRantisymmetric_flat_differentiator_test_zeros}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRantisymmetric_linear_differentiator_test_zeros}}
 \caption{Zeros of an odd-length, even-order, maximally-linear
   pass-band, equi-ripple stop-band, FIR differentiator~\cite[Section   
   IV]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}.} 
-\label{fig:mcclellanFIRantisymmetric-flat-differentiator-test-zeros}
+\label{fig:mcclellanFIRantisymmetric-linear-differentiator-test-zeros}
 \end{figure}
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRantisymmetric_flat_differentiator_test_feasible}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRantisymmetric_linear_differentiator_test_feasible}}
 \caption{Feasible values of odd or even $N$ and even $L$ with
   \emph{deltas=1e-4} and \emph{tol=1e-8} for the maximally-linear pass-band,
   equi-ripple stop-band, FIR differentiator designed by the Octave function
-  \emph{mcclellanFIRantisymmetric\_flat\_differentiator}}. 
-\label{fig:mcclellanFIRantisymmetric-flat-differentiator-test-feasible}
+  \emph{mcclellanFIRantisymmetric\_linear\_differentiator}}. 
+\label{fig:mcclellanFIRantisymmetric-linear-differentiator-test-feasible}
 \end{figure}
 
 \clearpage
@@ -29667,7 +29733,7 @@ the weighting coefficients of FIR differentiators that are maximally-linear at
 frequencies $\pi/p$, where $p$ is a positive integer. 
 
 The derivation of the coefficients of the maximally-linear FIR differentiator
-begins with the constraints on zero-phase amplitude response,
+begins with the constraints on the zero-phase amplitude response,
 $A\left(\omega\right)$. When the constraint is at $\omega=0$~\cite[Equations 6 to
 8]{Selesnick_MaximallyFlatLowPassDigitalDifferentiators}:
 \begin{align*}
@@ -29787,32 +29853,33 @@ The length of the impulse response is $N=K+2L+2$. When $K$ is even
 $H\left(z\right)$ is a \emph{Type IV} transfer function and when $K$ is odd
 $H\left(z\right)$ is \emph{Type III} transfer function. When $K=0$, the
 differentiator is ``full-band''. The Octave script
-\emph{selesnickFIRantisymmetric\_flat\_differentiator\_test.m} 
-calls the Octave function \emph{selesnickFIRantisymmetric\_flat\_differentiator}
-to design a series of differentiator filters.
-Figure~\ref{fig:selesnickFIRantisymmetric-flat-differentiator-test-N30-response}
+\emph{selesnickFIRantisymmetric\_linear\_differentiator\_test.m} 
+calls the Octave function
+\emph{selesnickFIRantisymmetric\_linear\_differentiator} to design a series of
+differentiator filters. 
+Figure~\ref{fig:selesnickFIRantisymmetric-linear-differentiator-test-N30-response}
 shows the differentiator filters for length $N=30$ and $K=0,4,8,12,16,20$ and
 $24$~\cite[Figure 1]{Selesnick_MaximallyFlatLowPassDigitalDifferentiators}.
-Figure~\ref{fig:selesnickFIRantisymmetric-flat-differentiator-test-N31-response}
+Figure~\ref{fig:selesnickFIRantisymmetric-linear-differentiator-test-N31-response}
 shows the differentiator filters for length $N=31$ and $K=1,5,9,13,17,21$ and
 $25$~\cite[Figure 2]{Selesnick_MaximallyFlatLowPassDigitalDifferentiators}.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{selesnickFIRantisymmetric_flat_differentiator_test_N30_response}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{selesnickFIRantisymmetric_linear_differentiator_test_N30_response}}
 \caption{Amplitude response of length $N=30$, maximally-linear
   pass-band, maximally-flat stop-band, FIR differentiators with
   $K=0,4,8,12,16,20$ and $24$~\cite[Figure
   1]{Selesnick_MaximallyFlatLowPassDigitalDifferentiators}.} 
-\label{fig:selesnickFIRantisymmetric-flat-differentiator-test-N30-response}
+\label{fig:selesnickFIRantisymmetric-linear-differentiator-test-N30-response}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{selesnickFIRantisymmetric_flat_differentiator_test_N31_response}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{selesnickFIRantisymmetric_linear_differentiator_test_N31_response}}
 \caption{Amplitude response of length $N=31$, maximally-linear
   pass-band, maximally-flat stop-band, FIR differentiators with
   $K=1,5,9,13,17,21$ and $25$~\cite[Figure
   2]{Selesnick_MaximallyFlatLowPassDigitalDifferentiators}.} 
-\label{fig:selesnickFIRantisymmetric-flat-differentiator-test-N31-response}
+\label{fig:selesnickFIRantisymmetric-linear-differentiator-test-N31-response}
 \end{figure}
 \clearpage
 \subsubsection{\emph{Kumar et al.} closed form design of FIR low-pass
@@ -29851,18 +29918,18 @@ and
   d_{2k}&=d_{2k-2}\cdot{}\frac{k-1}{k}\cdot{}\frac{m-k+1}{m+k}\quad k=2,\hdots,m
 \end{align*}
 The Octave script
-\emph{purczynskiFIRantisymmetric\_flat\_differentiator\_test.m} calls the Octave 
-function \emph{purczynskiFIRantisymmetric\_flat\_differentiator} to design
-FIR differentiators that are maximally flat at $\omega=\frac{\pi}{p}$ where $p$
-is a multiple of $2$.
-Figure~\ref{fig:purczynskiFIRantisymmetric-flat-differentiator-test-response}
+\emph{purczynskiFIRantisymmetric\_linear\_differentiator\_test.m} calls the
+Octave  function \emph{purczynskiFIRantisymmetric\_linear\_differentiator} to
+design FIR differentiators that are maximally linear at $\omega=\frac{\pi}{p}$
+where $p$ is a multiple of $2$.
+Figure~\ref{fig:purczynskiFIRantisymmetric-linear-differentiator-test-response}
 shows the amplitude responses of the differentiators for $p=2,4,8$ and $16$.
-Figure~\ref{fig:purczynskiFIRantisymmetric-flat-differentiator-test-error}
+Figure~\ref{fig:purczynskiFIRantisymmetric-linear-differentiator-test-error}
 shows the corresponding amplitude errors,
 $\left|H_{p}\left(\omega\right)\right|-\omega$, of the differentiators.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{purczynskiFIRantisymmetric_flat_differentiator_test_response}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{purczynskiFIRantisymmetric_linear_differentiator_test_response}}
 \caption{Amplitude responses of FIR differentiators that are
   maximally-linear at $\frac{\pi}{p}$ with length $N=101$ and $p=2,4,8$ and $16$
   designed by the method of \emph{Kumar et
@@ -29870,12 +29937,12 @@ $\left|H_{p}\left(\omega\right)\right|-\omega$, of the differentiators.
   recursive calculation of the $d_{k}$ performed by the method of
   \emph{Purczy\'{n}ski} and \emph{Pawelczak}~\cite[Equation 
   7]{PurczynskiPawelczak_MaxLinearDifferentiatorFrequenciesP}} 
-\label{fig:purczynskiFIRantisymmetric-flat-differentiator-test-response}
+\label{fig:purczynskiFIRantisymmetric-linear-differentiator-test-response}
 \end{figure}
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{purczynskiFIRantisymmetric_flat_differentiator_test_error}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{purczynskiFIRantisymmetric_linear_differentiator_test_error}}
 \caption{Amplitude response errors,
   $\left|H_{p}\left(\omega\right)\right|-\omega$, of FIR differentiators that
   are maximally-linear at $\frac{\pi}{p}$ with length $N=101$ and $p=2,4,8$ and
@@ -29884,12 +29951,12 @@ $\left|H_{p}\left(\omega\right)\right|-\omega$, of the differentiators.
   recursive calculation of the $d_{k}$ performed by the method of
   \emph{Purczy\'{n}ski} and \emph{Pawelczak}~\cite[Equation 
   7]{PurczynskiPawelczak_MaxLinearDifferentiatorFrequenciesP}} 
-\label{fig:purczynskiFIRantisymmetric-flat-differentiator-test-error}
+\label{fig:purczynskiFIRantisymmetric-linear-differentiator-test-error}
 \end{figure}
 
 \clearpage
 \section{\label{app:LMI-design-symmetric-FIR-filters}Linear Matrix Inequality(LMI) design of symmetric FIR filters}
-This section describes peak-constrained LMI design of even-order symmetric FIR
+This section follows the peak-constrained LMI design of even-order symmetric FIR
 filters described by \emph{Tuan et
 al.}~\cite{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}. They use 
 arguments from convex optimisation to derive results similar to those of
@@ -30274,7 +30341,7 @@ satisfy:
 &\sum_{i}\left(A_{i}x_{\star}+d_{i}\right)^{\top}y^{i}_{\star}=0\\
 & x_{\star}=-\frac{1}{2}Q^{-1}\left(q-\sum_{i}A^{\top}_{i}y^{i}_{\star}\right)
 \end{align*}
-\clearpage
+
 \subsection{Example of LMI design of a low pass symmetric FIR filter}
 The low pass filter design primal problem is:
 \begin{align*}
@@ -30289,42 +30356,46 @@ The low pass filter design primal problem is:
 The Octave script \emph{directFIRsymmetric\_sdp\_lowpass\_test.m} uses
 YALMIP and SeDuMi to solve the dual problem of designing a low pass filter
 by the method of \emph{Tuan et
-al.}~\cite{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}. The filter
-specification is\footnote{\emph{Tuan et al.} define the pass-band peak-to-peak
-ripple as:
+al.}~\cite{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}. I only
+ allow solutions for which YALMIP and SeDuMi do not report numerical
+ problems. The filter specification is\footnote{\emph{Tuan et al.} define the
+ pass-band peak-to-peak ripple as:
 \begin{align*}
 dBap &= 20\log_{10}\frac{1+\delta_{p}}{1-\delta_{p}}
 \end{align*}}: 
 \begin{small}
 \verbatiminput{directFIRsymmetric_sdp_lowpass_test_hM031.spec}
 \end{small}
+
 Figure~\ref{fig:Direct-FIR-symmetric-SDP-hM031-low-pass-response}
 shows the zero-phase amplitude responses in the pass band and the stop band.
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_sdp_lowpass_test_hM031_dual_response}}
 \caption{Pass band and stop band zero-phase amplitude responses of an
-$M=31$ symmetric low pass FIR filter designed with the LMI procedure of
+$M=31$ symmetric low pass FIR filter designed with the LMI procedure of 
 \emph{Tuan et al.}~\cite{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}.}
 \label{fig:Direct-FIR-symmetric-SDP-hM031-low-pass-response}
 \end{figure}
-\clearpage
+
 In addition, the Octave script \emph{directFIRsymmetric\_sdp\_lowpass\_test.m} 
 attempts to design a low pass filter with a specification similar to that of the
 example of \emph{Tuan et al.}~\cite[Figure
-3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}: 
+3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}:
 \begin{small}
 \verbatiminput{directFIRsymmetric_sdp_lowpass_test_hM200.spec}
 \end{small}
-This filter design has a larger pass-band ripple specification than
-the $0.3dB$ shown by \emph{Tuan et al.}~\cite[Table
-1]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}.  
+
+I could not reproduce the stop-band edge specification of $fas=0.0358$ given by
+\emph{Tuan et al.}~\cite[Table 1, Figure
+3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}. The amplitude 
+response specification $dBap=0.5,fas=0.0358$ gives a ``reasonable'' response 
+despite numerical warning messages from SeDuMi.
+
 Figure~\ref{fig:Direct-FIR-symmetric-SDP-hM200-low-pass-response}
 shows the zero-phase amplitude responses in the pass band and the stop band.
-The filter was obtained by ignoring the numerical problems reported by SeDuMi and
-YALMIP. None-the-less the filter meets the amplitude response specification.
-In addition, I found that calculating $x_{\star}$ with the Octave left division
-operator failed.
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_sdp_lowpass_test_hM200_dual_response}}
@@ -30335,7 +30406,6 @@ al.}~\cite[Figure 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}.}
 \label{fig:Direct-FIR-symmetric-SDP-hM200-low-pass-response}
 \end{figure}
 
-\clearpage
 For comparison, the Octave script
 \emph{mcclellanFIRsymmetric\_lowpass\_alternate\_test.m} uses the
 \emph{Parks-McClellan} 
@@ -30346,18 +30416,18 @@ filter similar to that of \emph{Tuan et al.}'s Figure 3:
 \verbatiminput{mcclellanFIRsymmetric_lowpass_alternate_test.spec}
 \end{small}
 Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-alternate-test-dual} shows the
-zero-phase pass band and stop band amplitude responses.
+pass band and stop band zero-phase amplitude responses.
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{mcclellanFIRsymmetric_lowpass_alternate_test_dual}}
-\caption{Pass band and stop band responses of a mini-max FIR low-pass filter
-designed with the \emph{Parks-McClellan} algorithm. The filter
-  specification is similar to that of the example of \emph{Tuan et
+\caption{Pass band and stop band zero-phase amplitude responses of a mini-max
+FIR low-pass filter designed with the \emph{Parks-McClellan} algorithm. The
+  filter specification is similar to that of the example of \emph{Tuan et
   al.}~\cite[Figure 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}}
 \label{fig:mcclellanFIRsymmetric-lowpass-alternate-test-dual}
 \end{figure}
 
-\clearpage
 As another comparison, the Octave script
 \emph{selesnickFIRsymmetric\_lowpass\_alternate\_test.m} uses \emph{Hofstetter}'s
 algorithm~\cite{Hofstetter_DesignNonRecursiveDigitalFilters}
@@ -30384,15 +30454,42 @@ designed with the \emph{Selesnick-Burrus} modification
 \label{fig:selesnickFIRsymmetric-lowpass-alternate-test-dual}
 \end{figure}
 
-\clearpage
 \subsection{Example of LMI design of a band-pass symmetric FIR filter}
 The Octave script \emph{directFIRsymmetric\_sdp\_bandpass\_test.m} uses the LMI
 procedure of \emph{Tuan et al.} to design a band-pass symmetric FIR filter with 
-a specification similar to that of the example of \emph{Pipeleers et
-al.}~\cite[Figure 4]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}:
+the specification:
+\begin{small}
+\verbatiminput{directFIRsymmetric_sdp_bandpass_test_hM80.spec}
+\end{small}
+
+In this case the frequency bands are not weighted (i.e.: $Wasl=1$, etc.).
+
+The distinct filter coefficients are:
+\begin{small}
+\verbatiminput{directFIRsymmetric_sdp_bandpass_test_hM80_coef.m}
+\end{small}
+
+Figure~\ref{fig:Direct-FIR-symmetric-SDP-hM80-band-pass-response}
+shows the zero-phase amplitude responses in the pass band and the stop bands.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_sdp_bandpass_test_hM80_dual_response}}
+\caption{Pass band and stop band zero-phase amplitude responses of an
+$M=80$ symmetric band pass FIR filter designed with the LMI procedure
+of \emph{Tuan et 
+al.}~\cite{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}.}
+\label{fig:Direct-FIR-symmetric-SDP-hM80-band-pass-response}
+\end{figure}
+
+In addition, the Octave script \emph{directFIRsymmetric\_sdp\_bandpass\_test.m}
+designs a band-pass symmetric FIR filter with a specification similar to that of
+the example of \emph{Pipeleers et al.}~\cite[Figure
+4]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}: 
 \begin{small}
 \verbatiminput{directFIRsymmetric_sdp_bandpass_test_hM15.spec}
 \end{small}
+
 The distinct filter coefficients are:
 \begin{small}
 \verbatiminput{directFIRsymmetric_sdp_bandpass_test_hM15_coef.m}
@@ -30403,7 +30500,7 @@ shows the zero-phase amplitude responses in the pass band and the stop bands.
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_sdp_bandpass_test_hM15_stop_pass_stop}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_sdp_bandpass_test_hM15_dual_response}}
 \caption{Pass band and stop band zero-phase amplitude responses of an
 $M=15$ symmetric band pass FIR filter designed with the LMI procedure
 of \emph{Tuan et 
@@ -30411,7 +30508,6 @@ al.}~\cite{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}.}
 \label{fig:Direct-FIR-symmetric-SDP-hM15-band-pass-response}
 \end{figure}
 
-\clearpage
 For comparison, the Octave script
 \emph{directFIRsymmetric\_socp\_slb\_bandpass\_test.m} designs a band-pass
 symmetric FIR filter using the PCLS algorithm of \emph{Selesnick et 
@@ -30420,6 +30516,7 @@ specification:
 \begin{small}
 \verbatiminput{directFIRsymmetric_socp_slb_bandpass_test.spec}
 \end{small}
+
 The distinct coefficients of this filter are:
 \begin{small}
 \verbatiminput{directFIRsymmetric_socp_slb_bandpass_test_hM1_coef.m}
@@ -30430,14 +30527,13 @@ shows the zero-phase amplitude response.
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_socp_slb_bandpass_test_response}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_socp_slb_bandpass_test_dual_response}}
 \caption{Zero-phase amplitude response of an $M=15$ symmetric band pass FIR
 filter designed with the PCLS optimisation procedure of \emph{Selesnick et
 al.}~\cite{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters}}
 \label{fig:Direct-FIR-symmetric-SOCP-SLB-band-pass-response}
 \end{figure}
 
-\clearpage
 Similarly, the Octave script
 \emph{directFIRnonsymmetric\_socp\_slb\_bandpass\_test.m} designs a
 non-symmetric FIR filter using the PCLS algorithm of \emph{Selesnick et al.}
@@ -30445,6 +30541,7 @@ with the specification:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_socp_slb_bandpass_test.spec}
 \end{small}
+
 The coefficients of this filter are:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_socp_slb_bandpass_test_h_coef.m}
@@ -31953,13 +32050,13 @@ of the zeros of $Q\left(w,\kappa\right)$, substituting $u-u_{0}$ into
 Equation~\ref{eqn:Whittaker-Watson-Jacobi-Eta-definition}:
 \begin{align}
   H\left(u-u_{0},\kappa\right)&=\begin{cases}
-   -H^{\dagger}\left(u+u_{0},\kappa\right)& u\in\left[0,\imath{}K^{\prime}\right]\\ 
-   \phantom{-}H^{\dagger}\left(u+u_{0},\kappa\right)
+   -H^{\mathconj}\left(u+u_{0},\kappa\right)& u\in\left[0,\imath{}K^{\prime}\right]\\ 
+   \phantom{-}H^{\mathconj}\left(u+u_{0},\kappa\right)
      & u\in\left[K+\imath{}K^{\prime},K\right]
      \end{cases}
 \label{eqn:Jacobi-Eta-conjugate-function-values}
 \end{align}
-where $H^{\dagger}$ is the complex conjugate transpose of $H$. The
+where $H^{\mathconj}$ is the complex conjugate transpose of $H$. The
 $\Phi\left(u,\kappa\right)$ function of
 Equation~\ref{eqn:Zolotarev-Chebyshev-first-kind} becomes:  
 \begin{align*}
@@ -32154,7 +32251,7 @@ Example 2~\cite{ZahradnikSusta_CascadeNarrowEquirippleFIR}}
 Substituting $u=-u_{0}+\imath{}yK^{\prime}$, where $y\in\left[0,1\right]$, into
 Equation~\ref{eqn:Whittaker-Watson-Jacobi-Eta-definition}:
 \begin{align*}
-  H^{\dagger}\left(-u_{0}+\imath{}yK^{\prime},\kappa\right)
+  H^{\mathconj}\left(-u_{0}+\imath{}yK^{\prime},\kappa\right)
   &=\imath{}q^{-\frac{1}{4}}e^{\frac{\imath\pi{}\left(u_{0}+\imath{}yK^{\prime}\right)}{2K}}
     \Theta\left(-u_{0}-\imath{}yK^{\prime}-\imath{}K^{\prime},\kappa\right)\\
   &=-H\left(u_{0}+\imath{}yK^{\prime},\kappa\right)
@@ -32163,7 +32260,7 @@ Equation~\ref{eqn:Whittaker-Watson-Jacobi-Eta-definition}:
 Substituting $u=K-u_{0}+\imath{}yK^{\prime}$, where $y\in\left[0,1\right]$, into
 Equation~\ref{eqn:Whittaker-Watson-Jacobi-Eta-definition}:
 \begin{align*}
-    H^{\dagger}\left(K-u_{0}+\imath{}yK^{\prime},\kappa\right)
+    H^{\mathconj}\left(K-u_{0}+\imath{}yK^{\prime},\kappa\right)
   &=\imath{}q^{-\frac{1}{4}}
     e^{\frac{\imath\pi{}\left(-K+u_{0}+\imath{}yK^{\prime}\right)}{2K}}
     \Theta\left(K-u_{0}-\imath{}yK^{\prime}-\imath{}K^{\prime},\kappa\right) \\
@@ -33450,18 +33547,18 @@ the frequency domain inequality(FDI):
   \sigma\left(H\left(\omega\right),\Pi\right)&=
   \left[\begin{array}{c}
   \left(\imath\omega{}I-A\right)^{-1}B \\
-  I\end{array}\right]^{\dagger}\Theta\left[\begin{array}{c}
+  I\end{array}\right]^{\mathconj}\Theta\left[\begin{array}{c}
   \left(\imath\omega{}I-A\right)^{-1}B \\
   I\end{array}\right]\le{}0\quad\omega\in\mathbb{R}\cup\left\{\infty\right\} 
 \end{align}
- (where $M^{\dagger}$ means complex conjugate transpose of $M$) holds if and
+ (where $M^{\mathconj}$ means complex conjugate transpose of $M$) holds if and
  only if the following linear matrix inequality(LMI) is feasible for a solution
  $P\in{}\mathbb{H}^{n}$, the set of Hermitian $n\times{}n$ matrixes:  
  \begin{align}
    \label{eqn:KYPlemmaLMI}
    \left[\begin{array}{cc}
-          A^{\dagger}P+PA & PB \\
-          B^{\dagger}P    & 0\end{array}\right]+\Theta\preceq{}0
+          A^{\mathconj}P+PA & PB \\
+          B^{\mathconj}P    & 0\end{array}\right]+\Theta\preceq{}0
 \end{align}
 
 For the purposes of filter design, the lemma states that an infinite
@@ -33479,29 +33576,15 @@ can write:
                   C & D \\
                   0 & I \end{array}\right]
 \end{align*}
-For example, if $\Pi=\left[\begin{array}{cc} I & 0 \\
-0 &-\varepsilon^{2}I\end{array}\right]$ then the corresponding frequency
-domain constraint is
-$\left|H\left(\omega\right)\right|^{2}\le\varepsilon^{2}$.
-If $H\left(\omega\right)$ is single-input-single-output, the desired frequency
-response is $H_{D}\left(\omega\right)$ and if
-\begin{align*}
-  \Pi=\left[\begin{array}{cc}
- 1 & -H_{D}\left(\omega\right) \\
-              -H^{\dagger}_{D}\left(\omega\right)
-              &\left|H_{D}\left(\omega\right)\right|^{2}-
-                                 \varepsilon^{2}\end{array}\right]
-\end{align*}
+
+For example, if
+\begin{align}
+\label{eqn:KYP_PI_stop_band}
+\Pi=\left[\begin{array}{cc} I & 0 \\
+0 &-\varepsilon^{2}I\end{array}\right]
+\end{align}
 then the corresponding frequency domain constraint is
-$\left|H\left(\omega\right)
--H_{D}\left(\omega\right)\right|^{2}\le\varepsilon^{2}$. Similarly, if
-\begin{align*}
-  \Pi=\left[\begin{array}{cc}
- 1 & 0 \\
- 0 & -\left|H_{D}\left(\omega\right)\right|^{2}-\varepsilon^{2}\end{array}\right]
-\end{align*}
-then
-$\left|H\left(\omega\right)\right|^{2}-\left|H_{D}\left(\omega\right)\right|^{2}\le\varepsilon^{2}$.
+$\mathabs{H\left(\omega\right)}^{2}\le\varepsilon^{2}$.
 
 The KYP lemma has been generalised to discrete time state variable systems and
 to unions of frequency domain
@@ -33526,18 +33609,18 @@ with multipliers''. The classical version of the S-procedure asserts that, given
 matrixes $\Theta,M\in{}\mathbb{H}^{n}$, the following statements are equivalent:
 \begin{subequations} \label{eqn:ClassicSProcedure}
 \begin{alignat}{3}
-\xi^{*}\Theta\xi\preceq{}0\quad&\forall\xi\in\mathbb{C}^{n}&\text{  such that  }
-&\xi^{*}M\xi\succeq{}0 & \label{eqn:ClassicSProcedure_constrained}\\
+\xi^{\dagger}\Theta\xi\preceq{}0\quad&\forall\xi\in\mathbb{C}^{n}&\text{  such that  }
+&\xi^{\dagger}M\xi\succeq{}0 & \label{eqn:ClassicSProcedure_constrained}\\
 &\exists\tau\in\mathbb{R}&\text{  such that  } &\tau\geq{}0\text{  and  }
 \Theta{}+\tau{}M\preceq{}0 \label{eqn:ClassicSProcedure_unconstrained}
 \end{alignat}
 \end{subequations}
-where $\xi^{*}$ is the \emph{Moore-Penrose} inverse. The S-procedure replaces
-the non-linear condition of Equation~\ref{eqn:ClassicSProcedure_constrained}
-with the linear condition of
-Equation~\ref{eqn:ClassicSProcedure_unconstrained}. The latter condition 
-is easier to satisfy as it is a search for the scalar multiplier, $\tau$,
-satisfying convex constraints.
+where $\xi^{\dagger}$ is the \emph{Moore-Penrose} inverse of $\xi$\footnote{See
+Equation~\ref{eq:Moore-Penrose-conditions}.}. The S-procedure replaces the
+non-linear condition of Equation~\ref{eqn:ClassicSProcedure_constrained} with
+the linear condition of Equation~\ref{eqn:ClassicSProcedure_unconstrained}. The
+latter condition is easier to satisfy as it is a search for the scalar
+multiplier, $\tau$, satisfying convex constraints.
 
 \emph{Iwasaki} and \emph{Hara}~\cite[Section
 II.A]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} write an alternative 
@@ -33546,8 +33629,8 @@ definition of the S-procedure:
 \begin{align*}
   \boldsymbol{M}  &\coloneq
     \left\{\tau{}M\;:\;\tau\in\mathbb{R},\;\tau\geq{}0\right\} \\
-  \boldsymbol{N} & \coloneq \left\{N\;:\; N=N^{*}\preceq{}0\right\}\\
-    \mathcal{S} & \coloneq \xi\xi^{*}\\ 
+  \boldsymbol{N} & \coloneq \left\{N\;:\; N=N^{\dagger}\preceq{}0\right\}\\
+    \mathcal{S} & \coloneq \xi\xi^{\dagger}\\ 
   \boldsymbol{S}\left(\boldsymbol{M}\right)&\coloneq
     \left\{\mathcal{S}\in\mathbb{H}^{n}\;:\;\mathcal{S}\neq{}0,\;
     \mathcal{S}\succeq{}0,\;
@@ -33598,7 +33681,7 @@ and lemma:
   \emph{Lemma 1}: Let
   $\boldsymbol{M}\subset\mathbb{H}^{n}$ be a 
   rank-one-separable set. Then the set
-  $F^{*}\boldsymbol{M}F+\boldsymbol{P}$ is 
+  $F^{\dagger}\boldsymbol{M}F+\boldsymbol{P}$ is 
   rank-one-separable for any matrix $F\in\mathbb{C}^{n\times{}m}$ and subset
   $\boldsymbol{P}\subset\mathbb{H}^{n}$ of positive-semidefinite
   matrixes containing the origin.
@@ -33618,11 +33701,12 @@ complex plane as:
   $t_{o},t_{f}\in\mathbb{R}\cup\left\{\pm\infty\right\}$ and $t_{o}<t_{f}$.
 \end{framed}
 \emph{Iwasaki} and \emph{Hara} consider the class of curves:
-\begin{align*}
-  \boldsymbol{\Lambda}\left(\Phi,\Psi\right)\coloneqq
-  \left\{\lambda\in\mathbb{C}:\sigma\left(\lambda,\Phi\right)=0,
-                              \sigma\left(\lambda,\Psi\right)\ge{}0\right\}
-\end{align*}
+\begin{align}
+\label{eq:Definition_of_Lambda_complex_curves}
+\boldsymbol{\Lambda}\left(\Phi,\Psi\right)\coloneqq
+\left\{\lambda\in\mathbb{C}:\sigma\left(\lambda,\Phi\right)=0,
+\sigma\left(\lambda,\Psi\right)\ge{}0\right\}
+\end{align}
 where $\Phi,\Psi\in\mathbb{H}^{2}$. If $G\in\mathbb{C}^{n\times{}m}$ and
 $\Pi\in\mathbb{H}^{n+m}$ then the function 
 $\sigma:\mathbb{C}^{n\times{}m}\times\mathbb{H}^{n+m}\mapsto\mathbb{H}^{m}$
@@ -33632,62 +33716,62 @@ is defined by:
   \begin{array}{c}
     G \\
     I_{m}\end{array}
-  \right]^{\dagger}\Pi\left[\begin{array}{c}
+  \right]^{\mathconj}\Pi\left[\begin{array}{c}
     G \\
     I_{m}\end{array} \right]
 \end{align*}
 
-The set $\boldsymbol{\Lambda}\left(\Phi,0\right)$ represents a curve
-if-and-only-if $\det\left(\Phi\right)<0$. For example,
-\begin{align*}
-  \sigma\left(\lambda,\left[
-  \begin{array}{cc}
-    1 & -\lambda_{c} \\
-    -\lambda^{\dagger}_{c} & \left|\lambda_{c}\right|^{2}-r^{2}
-  \end{array}\right]\right) &=\left|\lambda-\lambda_{c}\right|^{2}-r^{2}=0
-\end{align*}
-defines a circle with radius $r$ centred at $\lambda_{c}$ and
-\begin{align*}
-  \sigma\left(\lambda,\left[
-  \begin{array}{cc}
-    0 & a+\imath{}b \\
-    a-\imath{}b & 2c
-  \end{array}\right]\right) &=2\left(a\Re\lambda
-                                    +b\Im\lambda+c\right)=0
-\end{align*}
-defines a straight line with the normal vector $a+\imath{}b\ne{} 0$. The set
-$\boldsymbol{\Lambda}\left(0,\Psi\right)$ represents a region in the complex
-plane with boundary $\boldsymbol{\Lambda}\left(\Psi,0\right)$ whenever
-$\det\left(\Psi\right)<0$.
-
-\emph{Iwasaki} and \emph{Hara} prove the following lemma~\cite[Lemma
+\emph{Iwasaki} and \emph{Hara} show the following lemma~\cite[Lemma
 2, Appendix 1]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}:
 
 \begin{framed}
 \emph{Lemma 2}: Let $\Phi\text{,}\Psi\in\mathbb{H}^{2}$ be given. Suppose
 $\det\left(\Psi\right)<0$.  Then there exists a transformation, $T$, such that:  
-\begin{align*}
-  \Phi &= T^{\dagger}\Phi_{o}T\\
+\begin{align}
+\label{eq:GenKYPFreqIneq_Phi_o_Psi_o}
+\begin{split}
   \Phi_{o} &= \left[\begin{array}{cc}
                       0 & 1 \\
                       1 & 0 \\
                     \end{array}\right] \\
-  \Psi &= T^{\dagger}\Psi_{o}T \\
   \Psi_{o} &= \left[\begin{array}{cc}
                      \alpha & \beta \\
                      \beta & \gamma \\
                    \end{array}\right]
+\end{split}
+\end{align}
+and
+\begin{align*}
+  \Phi &= T^{\mathconj}\Phi_{o}T\\
+  \Psi &= T^{\mathconj}\Psi_{o}T \\
 \end{align*}
 where $\alpha,\beta,\gamma\in\mathbb{R}$ and $T\in\mathbb{C}^{2\times{}2}$. In
 particular, $\alpha$ and $\gamma$ can be ordered so that $0\le\alpha\le\gamma$
 or $\alpha<0<\gamma$.
 \end{framed}
+For example, if $\lambda\in\mathbb{C}$
+\begin{align*}
+\left[\begin{array}{cc}
+\lambda^{\mathconj} & 1\end{array}\right]\left[\begin{array}{cc}
+0 & 1 \\
+1 & 0 \end{array}\right]\left[\begin{array}{c}
+\lambda \\
+1 \end{array}\right] & = \lambda^{\mathconj} + \lambda = 0
+\end{align*}
 
-\emph{Iwasaki} and \emph{Hara} show that $\sigma\left(s,\Phi_{o}\right)=0$
-if-and-only-if $s=\imath\omega$ for some $\omega\in\mathbb{R}$. The set
-$\Lambda\left(\Phi_{o},\Psi_{o}\right)$ is the imaginary axis if
-$0\le\alpha\le\gamma$  and is a partial segment of the imaginary axis if
-$\alpha\le 0\le\gamma$. Otherwise it is empty or a single point.
+In other words $\lambda=\imath\omega$ for some $\omega\in\mathbb{R}$. Similarly,
+\begin{align*}
+\left[\begin{array}{cc}
+\lambda^{\mathconj} & 1\end{array}\right]\left[\begin{array}{cc}
+\alpha & \beta \\
+\beta & \gamma\end{array}\right]\left[\begin{array}{c}
+\lambda \\
+1 \end{array}\right] & = \alpha\mathabs{\lambda}^{2} +\gamma \ge 0
+\end{align*}
+If $\alpha< 0 <\gamma$ then $\mathabs{\lambda}^{2} \ge -\frac{\gamma}{\alpha}$
+and $\Lambda\left(\Phi_{o},\Psi_{o}\right)$ is an unbounded segment of the
+imaginary axis. If neither $0\le\alpha\le\gamma$ nor $\alpha\le 0\le\gamma$, then
+$\Lambda\left(\Phi_{o},\Psi_{o}\right)$ is empty or a single point.
 
 \emph{Iwasaki} and \emph{Hara} state the following proposition~\cite[Proposition
 1]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}:
@@ -33709,6 +33793,18 @@ if $\alpha<0<\gamma$, then $\boldsymbol{\Lambda}\left(\Phi,\Psi\right)$ is a
 partial segment (or segments) of a circle or line specified by
 $\boldsymbol{\Lambda}\left(\Phi,0\right)\cap\boldsymbol{\Lambda}\left(0,\Psi\right)$.
 \end{framed}
+
+The set $\boldsymbol{\Lambda}\left(0,\Psi\right)$ represents a region in the
+complex plane with boundary $\boldsymbol{\Lambda}\left(\Psi,0\right)$ whenever
+$\det\left(\Psi\right)<0$. For example,
+\begin{align*}
+  \sigma\left(\lambda,\left[
+  \begin{array}{cc}
+    -1 & \lambda_{c} \\
+    \lambda^{\mathconj}_{c} & r^{2}-\mathabs{\lambda_{c}}^{2}
+  \end{array}\right]\right) &=r^{2}-\mathabs{\lambda-\lambda_{c}}^{2}\ge0
+\end{align*}
+defines the interior of a disc with radius $r$ centred at $\lambda_{c}$.
 
 By an appropriate choice of $\Phi$ and $\Psi$ the set
 $\boldsymbol{\Lambda}$ can be specialised to define a range of the
@@ -33752,7 +33848,7 @@ as shown in Table~\ref{tab:Iwasaki-Hara-discrete-time-frequency-ranges}.
 \end{tabular}
 \end{threeparttable}
 \caption[Iwasaki and Hara discrete-time frequency ranges]
-{$\Psi$ matrixes for distrete-time frequency ranges $\boldsymbol{\Theta}$ given
+{$\Psi$ matrixes for discrete-time frequency ranges $\boldsymbol{\Theta}$ given
   by \emph{Iwasaki} and
   \emph{Hara}~\cite[p.47]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}.   $\omega_{c}=\left(\omega_{1}+\omega_{2}\right)/2$
   and $\omega_{w}=\left(\omega_{1}-\omega_{2}\right)/2$.}
@@ -33761,10 +33857,10 @@ as shown in Table~\ref{tab:Iwasaki-Hara-discrete-time-frequency-ranges}.
 
 \emph{Iwasaki} and \emph{Hara}~\cite[Section
 3.2]{Iwasaki_GeneralizedKYPFrequencyDomainInequalitiesReport} justify the low
-frequency case by noting that $z+z^{\dagger}\ge 2\cos\omega_{l}$ and choose $\Psi$
-accordingly. Similarly, for the band pass case, the frequency interval condition
-can be written as $\mathabs{\omega-\omega_{c}}\le\omega_{w}$ or
-$\cos\left(\omega-\omega_{c}\right)\ge\cos\omega_{w}$ where
+frequency case by noting that $\lambda+\lambda^{\mathconj}\ge 2\cos\omega_{l}$
+and choose $\Psi$ accordingly. Similarly, for the band pass case, the frequency
+interval condition can be written as $\mathabs{\omega-\omega_{c}}\le\omega_{w}$
+or $\cos\left(\omega-\omega_{c}\right)\ge\cos\omega_{w}$ where
 $0\le\omega_{w}\le\pi$. This condition can be written as
 $\sigma\left(e^{\imath\omega},\Psi\right)\ge 0$, again with $\Psi$ as shown in
 Table~\ref{tab:Iwasaki-Hara-discrete-time-frequency-ranges}.
@@ -33774,7 +33870,7 @@ Table~\ref{tab:Iwasaki-Hara-discrete-time-frequency-ranges}.
 p.49]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} prove the following
 \emph{generalised} KYP lemma for state variable systems:
 \begin{framed}
-\emph{Theorem 4(State variable, nonstrict inequality version): }Let matrixes
+\emph{Theorem 4~(State variable, nonstrict inequality version): } Let matrixes
 $A\in\mathbb{C}^{n\times{}n}$, $B\in\mathbb{C}^{n\times{}m}$,
 $\Theta\in\mathbb{H}^{n+m}$ and $\Phi\text{,}\Psi\in\mathbb{H}^{2}$ be
 given and the pair $\left(A,B\right)$ is controllable. $\boldsymbol{\Lambda}$ is
@@ -33788,7 +33884,7 @@ equivalent:
     \label{eqn:Iwasaki-Hara-Generalised-KYP-FDI}
       \left[\begin{array}{c}
               \left(\lambda{}I-A\right)^{-1}B \\
-              I\end{array}\right]^{\dagger}
+              I\end{array}\right]^{\mathconj}
       \Theta
       \left[\begin{array}{c}
               \left(\lambda{}I-A\right)^{-1}B\\
@@ -33799,7 +33895,7 @@ equivalent:
     \label{eqn:Iwasaki-Hara-Generalised-KYP-LMI}
       \left[\begin{array}{cc}
               A & B \\
-              I& 0 \end{array}\right]^{\dagger}
+              I& 0 \end{array}\right]^{\mathconj}
       \left(\Phi\otimes P + \Psi\otimes Q\right)
       \left[\begin{array}{cc}
               A & B \\
@@ -33808,26 +33904,26 @@ equivalent:
     \end{align}
 \end{enumerate}
 \end{framed}
-
 \emph{Iwasaki} and \emph{Hara}~\cite[Section VII,
 p.52]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} add a lemma:
 \begin{framed}
   \emph{Lemma 8: }For a transfer function
   $H\left(\lambda\right)=C\left(\lambda{}I-A\right)^{-1}B+D$, with $m$ inputs
   and $p$ outputs, the condition
-  $\sigma\left(H\left(\lambda\right),\Pi\right)\le{}0\;\forall\lambda\in\boldsymbol{\Lambda}$
-holds if and only if there exist Hermitian matrices $P$ and $Q\succeq{}0$ such
-that
-\begin{align*}
+  $\sigma\left(H\left(\lambda\right),\Pi\right)\le{}0\}$ for all
+  $\lambda\in\boldsymbol{\Lambda}$ holds if and only if there exist Hermitian
+  matrices $P$ and $Q\succeq{}0$ such that
+\begin{align}
+\label{eq:Iwasaki_Hara_KYP_Lemma_8}
   \left[\begin{array}{cc}
-          \Gamma\left(P,Q,A,B,C,D\right) & \left[C\;D\right]^{\dagger}\Pi_{11}\\
+          \Gamma\left(P,Q,A,B,C,D\right) & \left[C\;D\right]^{\mathconj}\Pi_{11}\\
           \Pi_{11}\left[C\;D\right]       & -\Pi_{11}\end{array}\right] \preceq 0
-\end{align*}
+\end{align}
 holds, where the matrix $\Pi\in\mathbb{H}^{m+p}$ is such that
 \begin{align*}
   \Pi &= \left[\begin{array}{cc}
              \Pi_{11} & \Pi_{12} \\
-                 \Pi_{12}^{\dagger}& \Pi_{22} \end{array}\right] \text{, }
+                 \Pi_{12}^{\mathconj}& \Pi_{22} \end{array}\right] \text{, }
                \Pi_{11}\in \mathbb{H}^{p} \text{ and } \Pi_{11}\succeq 0
 \end{align*}
 and
@@ -33835,62 +33931,77 @@ and
   \Gamma\left(P,Q,A,B,C,D\right)
   &= \left[\begin{array}{cc}
              A & B \\
-             I& 0 \end{array}\right]^{\dagger}
+             I& 0 \end{array}\right]^{\mathconj}
                 \left(\Phi\otimes P + \Psi\otimes Q\right)
       \left[\begin{array}{cc}
               A & B \\
               I& 0 \end{array}\right]
        + \left[\begin{array}{cc}
-0 & C^{\dagger}\Pi_{12} \\
-\Pi_{12}^{\dagger}C & D^{\dagger}\Pi_{12}+\Pi_{12}^{\dagger}D+\Pi_{22}\end{array}\right]
+0 & C^{\mathconj}\Pi_{12} \\
+\Pi_{12}^{\mathconj}C & D^{\mathconj}\Pi_{12}+\Pi_{12}^{\mathconj}D+\Pi_{22}\end{array}\right]
 \end{align*}
 \end{framed}
-This lemma follows from the theorem, the expansion of $\Theta$ and from the
-properties of the \emph{Schur complement}\footnote{See
-  Appendix~\ref{app:Linear-algebra-Schur-complement}.}. The expansion of
-$\Theta$ is bi-linear in the FIR filter coefficients. Application of the Schur
-complement linearises this expansion:
+This lemma follows from the theorem and the expansion of $\Theta$.
+Multiplying out $\Theta$:
 \begin{align*}
 \Theta=\left[\begin{array}{cc}
 C & D \\
-0 & I \end{array}\right]^{\dagger}\Pi\left[\begin{array}{cc}
+0 & I \end{array}\right]^{\mathconj}\Pi\left[\begin{array}{cc}
 C & D \\
 0 & I \end{array}\right] &= \left[\begin{array}{cc}
-C^{\dagger} & 0 \\
-D^{\dagger} & I \end{array}\right]\left[\begin{array}{cc}
+C^{\mathconj} & 0 \\
+D^{\mathconj} & I \end{array}\right]\left[\begin{array}{cc}
 \Pi_{11} & \Pi_{12} \\
-\Pi_{12}^{\dagger} & \Pi_{22} \end{array}\right]\left[\begin{array}{cc}
+\Pi_{12}^{\mathconj} & \Pi_{22} \end{array}\right]\left[\begin{array}{cc}
 C & D \\
 0 & I \end{array}\right] \\
 &=\left[\begin{array}{cc}
-C^{\dagger}\Pi_{11} & C^{\dagger}\Pi_{12} \\
-D^{\dagger}\Pi_{11}+\Pi_{12}^{\dagger} & D^{\dagger}\Pi_{12}+\Pi_{22}\end{array}\right]
+C^{\mathconj}\Pi_{11} & C^{\mathconj}\Pi_{12} \\
+D^{\mathconj}\Pi_{11}+\Pi_{12}^{\mathconj} & D^{\mathconj}\Pi_{12}+\Pi_{22}
+\end{array}\right]
 \left[\begin{array}{cc}
 C & D \\
 0 & I \end{array}\right] \\
 &=\left[\begin{array}{cc}
-C^{\dagger}\Pi_{11}C & C^{\dagger}\Pi_{12}+C^{\dagger}\Pi_{11}D \\
-\Pi_{12}^{\dagger}C+D^{\dagger}P_{11}C & D^{\dagger}\Pi_{11}D+D^{\dagger}\Pi_{12}+
-                                    \Pi_{12}^{\dagger}D +\Pi_{22}
-                                    \end{array}\right] \\
+C^{\mathconj}\Pi_{11}C & C^{\mathconj}\Pi_{12}+C^{\mathconj}\Pi_{11}D \\
+\Pi_{12}^{\mathconj}C+D^{\mathconj}\Pi_{11}C &
+D^{\mathconj}\Pi_{11}D+D^{\mathconj}\Pi_{12}+\Pi_{12}^{\mathconj}D +\Pi_{22}
+\end{array}\right] \\
 &=\left[\begin{array}{cc}
-0 & C^{\dagger}\Pi_{12} \\
-\Pi_{12}^{\dagger}C & D^{\dagger}\Pi_{12}+\Pi_{12}^{\dagger}D+\Pi_{22}\end{array}\right]
+0 & C^{\mathconj}\Pi_{12} \\
+\Pi_{12}^{\mathconj}C & D^{\mathconj}\Pi_{12}+\Pi_{12}^{\mathconj}D+\Pi_{22}
+\end{array}\right]
 + \left[\begin{array}{cc}
-C^{\dagger}\Pi_{11}C & C^{\dagger}\Pi_{11}D \\
-D^{\dagger}\Pi_{11}C & D^{\dagger}\Pi_{11}D\end{array}\right] \\
+C^{\mathconj}\Pi_{11}C & C^{\mathconj}\Pi_{11}D \\
+D^{\mathconj}\Pi_{11}C & D^{\mathconj}\Pi_{11}D\end{array}\right] \\
 &=\left[\begin{array}{cc}
-0 & C^{\dagger}\Pi_{12} \\
-\Pi_{12}^{\dagger}C & D^{\dagger}\Pi_{12}+\Pi_{12}^{\dagger}D+\Pi_{22}\end{array}\right]
+0 & C^{\mathconj}\Pi_{12} \\
+\Pi_{12}^{\mathconj}C & D^{\mathconj}\Pi_{12}+\Pi_{12}^{\mathconj}D+\Pi_{22}
+\end{array}\right]
 + \left[\begin{array}{cc}
-C & D\end{array}\right]^{\dagger}\Pi_{11}\left[\begin{array}{cc}
+C & D\end{array}\right]^{\mathconj}\Pi_{11}\left[\begin{array}{cc}
 C & D \end{array}\right]
 \end{align*}
+It appears that the expansion of $\Theta$ is bi-linear in the FIR filter
+coefficients, $C$ and $D$. However, if $\Pi_{11}\succeq 0$ so that
+\begin{align*}
+\left[\begin{array}{cc}
+C & D\end{array}\right]^{\mathconj}\Pi_{11}\left[\begin{array}{cc}
+C & D \end{array}\right]\succeq{} 0
+\end{align*}
+then  applying the \emph{Schur complement}\footnote{See
+Appendix~\ref{app:Linear-algebra-Schur-complement-positive-definite}} linearises
+the second term: 
+\begin{align*}
+  \left[\begin{array}{cc}
+          0 & \left[C\;D\right]^{\mathconj}\Pi_{11}\\
+          \Pi_{11}\left[C\;D\right] & -\Pi_{11}\end{array}\right] \preceq 0
+\end{align*}
 
-The proposition that Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI} (LMI)
-implies Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-FDI} (FDI) can be
-justified in the discrete time case as
-follows~\cite[A.14]{Bliman_AdvancedAnalysisDesignLMI}. Firstly note that:   
+In the discrete time case, the LMI,
+Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}, implies the FDI,
+Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-FDI},
+since~\cite[A.14]{Bliman_AdvancedAnalysisDesignLMI}:
 \begin{align*}
 \left[\begin{array}{cc}
         A & B \\
@@ -33911,44 +34022,27 @@ follows~\cite[A.14]{Bliman_AdvancedAnalysisDesignLMI}. Firstly note that:
 \end{align*}
 For the low pass case, $\mathabs{\omega}\le\omega_{l}\le\pi$:
 \begin{align*}
-\begin{split}
-&\left[\begin{array}{c}
-        \left(e^{\imath\omega}I-A\right)^{-1}B \\
-        I\end{array}\right]^{\dagger}
-\left[\begin{array}{cc}
-        A & B \\
-        I & 0 \end{array}\right]^{\dagger}
-\left(\Phi\otimes P + \Psi\otimes Q\right)
-\left[\begin{array}{cc}
-        A & B \\
-        I & 0 \end{array}\right]
+&B^{\mathconj}\left(e^{\imath\omega}I-A\right)^{-\mathconj}
 \left[\begin{array}{c}
-        \left(e^{\imath\omega}I-A\right)^{-1}B \\
-        I\end{array}\right] \\
-&\quad=B^{\dagger}\left(e^{\imath\omega}I-A\right)^{-\dagger}
-        \left[\begin{array}{c}
-        e^{\imath\omega}I\\
-        I\end{array}\right]^{\dagger}
-        \left[\begin{array}{cc}
-       -P & Q \\
-        Q & P-2Q\cos\omega_{l} \end{array}\right]
-        \left[\begin{array}{c}
-        e^{\imath\omega}I\\
-        I\end{array}\right]\left(e^{\imath\omega}I-A\right)B
-        \end{split} \\
-&\quad= 2\left[\cos\omega-\cos\omega_{l}\right]B^{\dagger}
-        \left(e^{\imath\omega}I-A\right)^{-\dagger}Q
+e^{\imath\omega}I\\
+I\end{array}\right]^{\mathconj}
+\left[\begin{array}{cc}
+-P & Q \\
+Q & P-2Q\cos\omega_{l} \end{array}\right]
+\left[\begin{array}{c}
+e^{\imath\omega}I\\
+I\end{array}\right]\left(e^{\imath\omega}I-A\right)B \\
+&\quad= 2\left[\cos\omega-\cos\omega_{l}\right]B^{\mathconj}
+        \left(e^{\imath\omega}I-A\right)^{-\mathconj}Q
         \left(e^{\imath\omega}I-A\right)^{-1}B \\
 &\quad \ge 0
 \end{align*}
-
 For the band pass case, $\omega_{1}\le\mathabs{\omega}\le\omega_{2}\le\pi$:
 \begin{align*}
-\begin{split}
-&B^{\dagger}\left(e^{\imath\omega}I-A\right)^{-\dagger}
+&B^{\mathconj}\left(e^{\imath\omega}I-A\right)^{-\mathconj}
         \left[\begin{array}{c}
         e^{\imath\omega}I\\
-        I\end{array}\right]^{\dagger}
+        I\end{array}\right]^{\mathconj}
         \left[\begin{array}{cc}
        -P & e^{\imath\frac{\omega_{2}+\omega_{1}}{2}}Q \\
         e^{-\imath\frac{\omega_{2}+\omega_{1}}{2}}Q &
@@ -33958,30 +34052,26 @@ For the band pass case, $\omega_{1}\le\mathabs{\omega}\le\omega_{2}\le\pi$:
         e^{\imath\omega}I\\
         I\end{array}\right]\left(e^{\imath\omega}I-A\right)B \\
 &\quad= 2\left[\cos\left(\omega-\frac{\omega_{2}+\omega_{1}}{2}\right)-
-         \cos\left(\frac{\omega_{2}-\omega_{1}}{2}\right)\right]B^{\dagger}
-        \left(e^{\imath\omega}I-A\right)^{-\dagger}Q
+         \cos\left(\frac{\omega_{2}-\omega_{1}}{2}\right)\right]B^{\mathconj}
+        \left(e^{\imath\omega}I-A\right)^{-\mathconj}Q
         \left(e^{\imath\omega}I-A\right)^{-1}B \\
-\end{split} \\
 &\quad \ge 0
 \end{align*}
-
 For the high pass case, $\omega_{h}\le\mathabs{\omega}\le\pi$:
 \begin{align*}
-\begin{split}
-&B^{\dagger}\left(e^{\imath\omega}I-A\right)^{-\dagger}
+&B^{\mathconj}\left(e^{\imath\omega}I-A\right)^{-\mathconj}
         \left[\begin{array}{c}
         e^{\imath\omega}I\\
-        I\end{array}\right]^{\dagger}
+        I\end{array}\right]^{\mathconj}
         \left[\begin{array}{cc}
        -P & -Q \\
        -Q & P+2Q\cos\omega_{h} \end{array}\right]
         \left[\begin{array}{c}
         e^{\imath\omega}I\\
         I\end{array}\right]\left(e^{\imath\omega}I-A\right)B \\
-&\quad= 2\left(\cos\omega_{h}-\cos\omega\right)B^{\dagger}
-        \left(e^{\imath\omega}I-A\right)^{-\dagger}Q
+&\quad= 2\left(\cos\omega_{h}-\cos\omega\right)B^{\mathconj}
+        \left(e^{\imath\omega}I-A\right)^{-\mathconj}Q
         \left(e^{\imath\omega}I-A\right)^{-1}B \\
-\end{split} \\
 &\quad\ge 0
 \end{align*}
 
@@ -33992,17 +34082,17 @@ three cases:
 \begin{split}
 & \left[\begin{array}{c}
           \left(e^{\imath\omega}I-A\right)^{-1}B \\
-          I\end{array}\right]^{\dagger}
+          I\end{array}\right]^{\mathconj}
   \Theta
   \left[\begin{array}{c}
         \left(e^{\imath\omega}I-A\right)^{-1}B \\
         I\end{array}\right] \\
 & \quad = \left[\begin{array}{c}
           \left(e^{\imath\omega}I-A\right)^{-1}B \\
-          I\end{array}\right]^{\dagger}
+          I\end{array}\right]^{\mathconj}
         \left(\left[\begin{array}{cc}
         A & B \\
-        I & 0 \end{array}\right]^{\dagger}
+        I & 0 \end{array}\right]^{\mathconj}
         \left(\Phi\otimes P + \Psi\otimes Q\right)
         \left[\begin{array}{cc}
         A & B \\
@@ -34012,10 +34102,10 @@ three cases:
         I\end{array}\right] \;\hdots \\
 &\quad\quad - \left[\begin{array}{c}
         \left(e^{\imath\omega}I-A\right)^{-1}B \\
-        I\end{array}\right]^{\dagger}
+        I\end{array}\right]^{\mathconj}
         \left[\begin{array}{cc}
         A & B \\
-        I & 0 \end{array}\right]^{\dagger}
+        I & 0 \end{array}\right]^{\mathconj}
         \left(\Phi\otimes P + \Psi\otimes Q\right)
         \left[\begin{array}{cc}
         A & B \\
@@ -34028,26 +34118,6 @@ three cases:
 \end{align*}
 
 \subsection{Examples of FIR filter design with the generalised KYP lemma}
-\paragraph{Amplitude constraints}
-The pass-band and stop-band errors are: 
-\begin{align*}
-  \mathabs{H\left(e^{\imath\omega}\right)-e^{-\imath{}d\omega}}
-       &<\varepsilon_{p} \quad \mathabs{\omega}\le\omega_{p}\\
-  \mathabs{H\left(e^{\imath\omega}\right)}
-       &<\varepsilon_{s} \quad \mathabs{\omega}\ge\omega_{s}
-\end{align*}
-where $d$ is the desired pass band delay in samples and $\omega_{p}$ and
-$\omega_{s}$ are the pass band and stop band angular frequencies respectively.
-An additional specification prevents over-shoot in the transition band:
-\begin{align*}
-  \mathabs{H\left(e^{\imath\omega}\right)} &< 1+\varepsilon_{t}
-  \quad \omega_{p}\le\omega\le\omega_{s}
-\end{align*}
-Alternatively apply an overall maximum amplitude constraint:
-\begin{align*}
-  \mathabs{H\left(e^{\imath\omega}\right)} &< 1+\varepsilon_{max}
-  \quad -\pi<\omega<\pi
-\end{align*}
 
 \paragraph{Frequency response}
 The frequency response of an order $n$ single-input-single-output FIR filter is:
@@ -34077,8 +34147,8 @@ C & D\end{array}\right]
                           & 
                             \left[h_{0} \right]\end{array}\right]              
 \end{align*}
-where, if the desired pass band delay is $d$ samples, $\Delta=1$ in the
-pass-band and $\Delta=0$ otherwise.
+where the desired pass band delay is $d$ samples and the desired amplitude
+response is $\Delta=1$ in the pass-band and $\Delta=0$ otherwise.
 
 \paragraph{Squared error calculation}
 The Octave function \emph{directFIRnonsymmetricEsqPW.m} calculates the
@@ -34109,116 +34179,151 @@ $\mathcal{E}^{2}$, is a quadratic form:
   \mathcal{E}^{2}&=\boldsymbol{h}^{\top}\boldsymbol{S}\boldsymbol{h}+
                    2\boldsymbol{h}^{\top}\boldsymbol{s}+c
 \end{align*}
-where $\boldsymbol{h}$ is the filter impulse response and $\boldsymbol{S}$ is
-real, symmetric and positive definite. $\boldsymbol{S}$ has a \emph{Cholesky
-  decomposition} into lower and upper triangular matrixes,
-$\boldsymbol{S}=\boldsymbol{L}\boldsymbol{U}$, where 
-$\boldsymbol{L}^{\top}=\boldsymbol{U}$. The SOCP minimisation problem
-is~\cite[Section 14.7.3(i)]{AntoniouLu_PracticalOptimization}:
-\begin{align*} 
-  \textbf{minimise}   \quad & \delta \\
-  \textbf{subject to} \quad &
-\|\boldsymbol{U}\boldsymbol{h}+\boldsymbol{L}^{-1}\boldsymbol{s}\|\le\delta
+where $\boldsymbol{h}$ is the filter impulse response.
+
+\paragraph{Amplitude constraints}
+The desired response errors for each filter frequency band are encoded in the
+corresponding $\Pi$ matrix. For example, see
+Equation~\ref{eqn:KYP_PI_stop_band}. For a low-pass filter, the pass-band and
+stop-band errors are: 
+\begin{align*}
+\mathabs{H\left(e^{\imath\omega}\right)^{2}-H_{D}\left(e^{\imath\omega}\right)}^{2}
+  &\le\varepsilon^{2}_{p} \quad 0\le\mathabs{\omega}\le\omega_{p}\le\pi\\
+\mathabs{H\left(e^{\imath\omega}\right)}^{2}
+  &\le\varepsilon_{s}^{2} \quad 0\le\omega_{s}\le\mathabs{\omega}\le\pi
 \end{align*}
 
+where $\varepsilon_{p}$ and $\varepsilon_{s}$ are the pass-band and stop-band
+errors and $\omega_{p}$ and $\omega_{s}$ are the pass-band and stop-band edge
+angular frequencies respectively. If the desired filter pass-band delay is $d$
+samples then a constraint on the maximum pass-band response error is: 
+\begin{align*}
+\mathabs{H\left(e^{\imath\omega}\right)-e^{-\imath{}d\omega}}^{2}
+  &\le\varepsilon_{z}^{2} \quad 0\le\mathabs{\omega}\le\omega_{p}\le\pi
+\end{align*}
+This constraint is implemented by modifying the $C$ state variable matrix to
+subtract the response of a delayed input signal from the response of the desired
+filter.
+
+A constraint on the maximum pass-band amplitude  is:
+\begin{align*}
+\mathabs{H\left(e^{\imath\omega}\right)}^{2}
+      &\le A^{2}_{p} \quad 0\le\mathabs{\omega}\le\omega_{p}\le\pi
+  \end{align*}
+
+An additional specification prevents over-shoot in the transition band:
+\begin{align*}
+  \mathabs{H\left(e^{\imath\omega}\right)}^{2}
+  &\le A_{t}^{2} \quad 0\le\omega_{p}\le\mathabs{\omega}\le\omega_{s}\le\pi
+\end{align*}
+
+Alternatively, apply an overall maximum amplitude constraint:
+\begin{align*}
+  \mathabs{H\left(e^{\imath\omega}\right)}^{2}
+  &\le A_{max}^{2} \quad 0\le\mathabs{\omega}\le\pi
+\end{align*}
+The Octave script \emph{yalmip\_kyp\_lowpass\_test.m} demonstrates each of these
+amplitude constraints.
 \paragraph{SDP constraints}
-Assuming $\Psi_{11}=0$ and $\Psi_{21}^{\dagger}=\Psi_{12}$, for each constraint:
+Assuming $\Psi_{11}=0$, $\Psi_{21}^{\mathconj}=\Psi_{12}$, $\Pi_{11}=1$ and
+$\Pi_{21}=\Pi_{12}=0$, then for each frequency band response constraint:
 \begin{align*}
   \left[\begin{array}{cc}
           A & B \\
-          I & 0 \end{array}\right]^{\dagger}
+          I & 0 \end{array}\right]^{\mathconj}
   \left[\begin{array}{cc}
             -P & \Psi_{12}Q \\
-             \Psi_{12}^{\dagger}Q & P+\Psi_{22}Q \end{array}\right]
+             \Psi_{12}^{\mathconj}Q & P+\Psi_{22}Q \end{array}\right]
   \left[\begin{array}{cc}
           A & B \\
           I & 0 \end{array}\right]
   + \left[\begin{array}{cc}
-          C & D \end{array}\right]^{\dagger}
-    \Pi
+          C & D \end{array}\right]^{\mathconj}
+  \left[\begin{array}{cc}
+    1 & 0 \\
+    0 & \Pi_{22} \end{array}\right]
     \left[\begin{array}{cc}
           C & D \end{array}\right] &\preceq 0
 \end{align*}
-where $P$ and $Q$ are Hermitian and $Q\succeq{}0$. \emph{Pipeleers}
-and \emph{Vandeberghe}~\cite{Pipeleers_GeneralisedKYPRealData} show that if the
-$A$, $B$ and $\Theta$ matrixes are real valued then the $P$ and $Q$
-matrixes can be constrained to be real and symmetric.
+where $P$, $Q$ are Hermitian and $Q\succeq{}0$.
+For an FIR filter, the unknown variables are $P$, $Q$, $C$ and
+$D$. \emph{Pipeleers} and 
+\emph{Vandeberghe}~\cite{Pipeleers_GeneralisedKYPRealData} show that if the  
+$A$, $B$ and $\Theta$ matrixes are real valued then the $P$ and $Q$ matrixes can
+be constrained to be real and symmetric.
 
-\subsubsection{Design of a nonsymmetric low pass FIR filter with given pass band delay}
+\subsubsection{Design of a non-symmetric low pass FIR filter with given pass band delay}
 As an example, \emph{Iwasaki} and \emph{Hara}~\cite[Section
 VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} describe
-the design of a low-pass FIR filter with order $n=30$ and a nominal pass-band
-group delay of $d=10$ samples, $\varepsilon_{s}=0.01$, $\omega_{p}=0.3\pi$ and
-$\omega_{s}=0.4\pi$. They optimised the pass band sqared-error,
-$\mathabs{H\left(w\right)-e^{-j\omega{}d}}^{2}<\varepsilon_{p}^{2}$ and found
-$\varepsilon_{p}=0.0569$. \emph{Iwasaki} and \emph{Hara} compare the performance
-of symmetric FIR filters with order $20$ and $10$ samples delay and order $30$
-and $15$ samples delay. The Octave script
-\emph{directFIRnonsymmetric\_kyp\_lowpass\_test.m} unsuccessfully
-attempts to reproduce this filter design example with 
-\emph{YALMIP}~\cite{Lofberg_YALMIP,Lofberg2004} and SeDuMi\footnote{The Octave
-script \emph{directFIRnonsymmetric\_socp\_slb\_lowpass\_test.m}, described in
-Section~\ref{app:Design-socp-slb-non-symmetric-FIR-low-pass-filter}, designs a similar filter using SOCP PCLS optimisation.}. 
-This script optimises the maximum squared-error of the pass band minus nominal
-delay response and applies a constraint, $\varepsilon_{max}^{2}$, to the maximum
-overall squared-amplitude response. I found that I could not obtain the
-combination of band edges and amplitude responses given in the example. In
-addition, I found that when I use the $\varepsilon_{p}^{2}$ constraint as the
-YALMIP objective function, SeDuMi gives the message ``numerical problems'',
-meaning that the result is only accurate to \texttt{pars.bigeps}. The filter
-specification is:
+the design of a low-pass FIR filter with order $N=30$ and a nominal pass-band
+group delay of $d=10$ samples, $\omega_{p}=0.3\pi$ and $\omega_{s}=0.4\pi$,
+$\varepsilon_{s}=0.01$. They optimised the zero-phase
+pass-band sqared-error,
+$\mathabs{H\left(w\right)-e^{-j\omega{}d}}^{2}<\varepsilon_{z}^{2}$ and found 
+$\varepsilon^{2}_{z}=0.0569$\footnote{This is probably a typo and should read,
+in my notation, $\varepsilon^{2}_{z}=0.00569$. I suspect that \emph{Iwasaki} and
+\emph{Hara} made $\varepsilon^{2}_{z}$ a YALMIP SDP variable with the constraint 
+$\varepsilon^{2}_{z}<=0.00569$ and an empty objective.}.
+The Octave script \emph{directFIRnonsymmetric\_kyp\_lowpass\_test.m}
+designs a similar filter with YALMIP~\cite{Lofberg_YALMIP,Lofberg2004} and
+SeDuMi. The YALMIP objective is empty. The YALMIP constraints for each
+frequency band are Equation~\ref{eq:Iwasaki_Hara_KYP_Lemma_8} with
+$Q\succeq{}0$\footnote{The Octave script
+\emph{directFIRnonsymmetric\_kyp\_lowpass\_alternate\_test.m} experiments with
+constraints on $\varepsilon^{2}_{z}$ or $\varepsilon^{2}_{s}$, with an empty
+objective or with the objective set to the sum of the pass-band squared-error.
+It seems that it is best to optimise with an empty objective and with fixed
+constraints on $\varepsilon_{z}$ and $\varepsilon_{s}$ found by
+trial-and-error. \emph{Konopacki} and \emph{Mo\'{s}ci\'{n}ska}~\cite[Equation
+5]{Konopacki_EstFilterOrdReducedDelay} show an estimate of the attenuation of a 
+low-pass non-symmetric FIR filter when the pass and stop band errors are
+equal. For the example of \emph{Iwasaki} and \emph{Hara} the estimated stop-band
+attenuation is $42dB$. For comparison, the Octave script
+\emph{directFIRnonsymmetric\_socp\_slb\_lowpass\_test.m}, described in
+Section~\ref{app:Design-socp-slb-non-symmetric-FIR-low-pass-filter}, designs a 
+similar filter using SOCP PCLS optimisation.}. The $C$ matrix of the state
+variable description for the pass-band constraint is modified to subtract a
+signal delayed by $d$ samples.
+
+The filter specification is:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_lowpass_test.spec}
 \end{small}
-The resulting FIR impulse response is:
+The value of $\varepsilon^{2}_{z}$ was found by trial-and-error. The resulting
+FIR impulse response is: 
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_lowpass_test_h_coef.m}
 \end{small}
-
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-lowpass-response} shows the
-amplitude response.
-Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-lowpass-passband} shows the pass
-band amplitude, phase error and delay responses. The pass band phase error shown
-is adjusted for the nominal delay. The overall maximum amplitude response is
-$\varepsilon_{max}=$
-\input{directFIRnonsymmetric_kyp_lowpass_test_max_abs_H.tab}.
-The maximum error in the pass band compared with a pure delay of $d$ samples is 
-$\varepsilon_{p}=$
-\input{directFIRnonsymmetric_kyp_lowpass_test_max_passband_error.tab}. The
-maximum stop band amplitude is
-$\varepsilon_{s}=$
-\input{directFIRnonsymmetric_kyp_lowpass_test_max_stopband_error.tab}.
-
+amplitude and group delay response. The filter satisfies the constraints with
+no numerical problems. The maximum squared-error in the pass-band compared with
+a pure delay is $\varepsilon^{2}_{z}=$ 
+\input{directFIRnonsymmetric_kyp_lowpass_test_max_passband_squared_error.tab} 
+and the maximum stop-band squared-amplitude is $\varepsilon^{2}_{s}=$
+\input{directFIRnonsymmetric_kyp_lowpass_test_max_As.tab}. 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_lowpass_test_response}}
 \caption{Amplitude response of a non-symmetric FIR low pass filter designed with
-the KYP lemma.} 
+the KYP lemma. See \emph{Iwasaki} and \emph{Hara}~\cite[Section
+VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-lowpass-response}
 \end{figure}
 
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_lowpass_test_passband}}
-\caption{Pass band amplitude, phase error and delay responses of a non-symmetric
-FIR low pass filter designed with the KYP lemma. The pass band phase error
-shown is adjusted for the nominal delay.}
-\label{fig:Direct-FIR-nonsymmetric-KYP-lowpass-passband}
-\end{figure}
 \subsubsection{Design of a non-symmetric FIR band pass filter with given pass
 band delay} 
 The Octave script \emph{directFIRnonsymmetric\_kyp\_bandpass\_test.m} uses
-the \emph{Iwasaki} and \emph{Hara}'s generalised KYP lemma to design a band pass
-FIR filter with the following specification:
+the  generalised KYP lemma of \emph{Iwasaki} and \emph{Hara} to design a band
+pass FIR filter with YALMIP and SeDuMi. The YALMIP objective is
+empty. The YALMIP constraints for each frequency band are
+Equation~\ref{eq:Iwasaki_Hara_KYP_Lemma_8} with $Q\succeq{}0$. The $C$ matrix of
+the state variable description for the pass-band constraint is modified
+to subtract a signal delayed by $d$ samples. The filter specification is:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_bandpass_test.spec}
 \end{small}
-This example does not minimise the pass band squared-error,
-$\varepsilon_{p}^{2}$. Instead it finds a solution that satisfies the SDP
-constraints. This example does not constrain the maximum amplitude response in
-the transition band. Instead it applies a constraint, $\varepsilon_{max}^{2}$, to
-the maximum overall squared-amplitude response. The resulting FIR impulse
-response is:
+The value of $\varepsilon^{2}_{z}$ was found by trial-and-error. The resulting
+FIR impulse response is:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_bandpass_test_h_coef.m}
 \end{small}
@@ -34235,7 +34340,9 @@ Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-response} shows the
 amplitude response.
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-passband} 
 shows the pass band amplitude, phase error and delay responses. The pass band
-phase error shown is adjusted for the nominal delay.
+phase error shown is adjusted for the nominal delay. The maximum squared-error
+in the pass-band compared with a pure delay is $\varepsilon^{2}_{z}=$
+\input{directFIRnonsymmetric_kyp_bandpass_test_max_passband_squared_error.tab}. 
 
 \begin{figure}
 \centering
@@ -34256,13 +34363,17 @@ shown is adjusted for the nominal delay.}
 \subsubsection{Design of a non-symmetric FIR band pass Hilbert filter with given pass
 band delay} 
 The Octave script \emph{directFIRnonsymmetric\_kyp\_bandpass\_hilbert\_test.m}
-uses the \emph{Iwasaki} and \emph{Hara}'s generalised KYP lemma to design a band
-pass FIR Hilbert filter with the following specification:
+uses the generalised KYP lemma of \emph{Iwasaki} and \emph{Hara} to design a band
+pass FIR Hilbert filter with  with YALMIP and SeDuMi. The YALMIP objective
+is empty. The YALMIP constraints for each frequency band are
+Equation~\ref{eq:Iwasaki_Hara_KYP_Lemma_8} with $Q\succeq{}0$. The $C$ matrix of
+the state variable description for the pass-band constraint is modified
+to subtract a signal delayed by $d$ samples. The filter specification is:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_bandpass_hilbert_test.spec}
 \end{small}
-The pass band desired response is set to $-\imath e^{-\imath\omega d}$. The
-resulting FIR impulse response is: 
+The value of $\varepsilon^{2}_{z}$ was found by trial-and-error. The resulting
+FIR impulse response is:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_bandpass_hilbert_test_h_coef.m}
 \end{small}
@@ -34270,7 +34381,9 @@ Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-response} shows the
 amplitude response.
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-passband} 
 shows the pass band amplitude, phase and delay responses. The pass band phase
-shown is adjusted for the nominal delay. 
+shown is adjusted for the nominal delay. The maximum squared-error in the
+pass-band compared with a pure delay is $\varepsilon^{2}_{z}=$
+\input{directFIRnonsymmetric_kyp_bandpass_hilbert_test_max_passband_squared_error.tab}. 
 
 \begin{figure}
 \centering
@@ -34288,60 +34401,32 @@ FIR band pass Hilbert filter designed with the KYP lemma. The pass band phase
 shown is adjusted for the nominal delay.} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-passband}
 \end{figure}
-\subsubsection{Design of a nonsymmetric high pass FIR filter with given pass band delay}
-This section describes the design of a high-pass FIR filter with order $n=30$
-and a nominal pass-band group delay of $d=10$ samples, $\varepsilon_{s}=0.01$,
-$\omega_{p}=0.3\pi$ and$\omega_{s}=0.4\pi$. They optimised the pass band
-sqared-error, 
-$\mathabs{H\left(w\right)-e^{-j\omega{}d}}^{2}<\varepsilon_{p}^{2}$ and found
-$\varepsilon_{p}=0.0569$. \emph{Iwasaki} and \emph{Hara} compare the performance
-of symmetric FIR filters with order $20$ and $10$ samples delay and order $30$
-and $15$ samples delay. The Octave script
-\emph{directFIRnonsymmetric\_kyp\_highpass\_test.m} unsuccessfully
-attempts to reproduce this filter design example with 
-\emph{YALMIP}~\cite{Lofberg_YALMIP,Lofberg2004} and SeDuMi. 
-This script optimises the maximum squared-error of the pass band minus nominal
-delay response and applies a constraint, $\varepsilon_{max}^{2}$, to the maximum
-overall squared-amplitude response. I found that I could not obtain the
-combination of band edges and amplitude responses given in the example. The
-filter specification is:
+\subsubsection{Design of a non-symmetric high pass FIR filter with given pass band delay}
+The Octave script \emph{directFIRnonsymmetric\_kyp\_highpass\_test.m} designs a
+high-pass filter with YALMIP and SeDuMi. The YALMIP objective is
+empty. The YALMIP constraints for each frequency band are
+Equation~\ref{eq:Iwasaki_Hara_KYP_Lemma_8} with $Q\succeq{}0$. The $C$ matrix of
+the state variable description for the pass-band constraint is modified
+to subtract a signal delayed by $d$ samples. The filter specification is: 
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_highpass_test.spec}
 \end{small}
-The resulting FIR impulse response is:
+The value of $\varepsilon^{2}_{z}$ was found by trial-and-error. The resulting
+FIR impulse response is: 
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_highpass_test_h_coef.m}
 \end{small}
 
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-highpass-response} shows the
-amplitude response.
-Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-highpass-passband} shows the pass
-band amplitude, phase error and delay responses. The pass band phase error shown
-is adjusted for the nominal delay. The overall maximum amplitude response is
-$\varepsilon_{max}=$
-\input{directFIRnonsymmetric_kyp_highpass_test_max_abs_H.tab}.
-The maximum error in the pass band compared with a pure delay of $d$ samples is 
-$\varepsilon_{p}=$
-\input{directFIRnonsymmetric_kyp_highpass_test_max_passband_error.tab}. The
-maximum stop band amplitude is
-$\varepsilon_{s}=$
-\input{directFIRnonsymmetric_kyp_highpass_test_max_stopband_error.tab}.
-
+amplitude and delay responses. The maximum squared-error in the pass-band
+compared with a pure delay is $\varepsilon^{2}_{z}=$
+\input{directFIRnonsymmetric_kyp_highpass_test_max_passband_squared_error.tab}. 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_highpass_test_response}}
 \caption{Amplitude response of a non-symmetric FIR high pass filter designed with
 the KYP lemma.} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-highpass-response}
-\end{figure}
-
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_highpass_test_passband}}
-\caption{Pass band amplitude, phase error and delay responses of a non-symmetric
-FIR high pass filter designed with the KYP lemma. The pass band phase error
-shown is adjusted for the nominal delay.}
-\label{fig:Direct-FIR-nonsymmetric-KYP-highpass-passband}
 \end{figure}
 \clearpage
 \section{Generalisation of the KYP lemma to a union of frequency intervals}
@@ -34365,34 +34450,60 @@ with
 \begin{align*}
 L_{l}\left(\infty\right)&=\left[1\; 0_{1,l}\right]^{\top}
 \end{align*}
-\emph{Assumption 1}: Similarly to \emph{Lemma 2} above, a similarity
-transformation  $T\in\mathbb{C}^{2\times\left(l+1\right)}$ with full row rank of
-$\Phi_{o}$ and $\Psi_{o}$ is assumed to exist. For each
-$s\in\boldsymbol{\Lambda}\left(\Phi_{o},\Psi_{o}\right)$, the $l$-th degree
-polynomial in $\lambda$ is:
+In addition, \emph{Pipeleers et al.} define
 \begin{align*}
+L_{l}\left(\lambda\right)^{\mathreverse} &=
+\left[1,\;\lambda^{1},\;\cdots,\;\lambda^{l}\right]^{\top}
+\end{align*}
+
+\emph{Pipeleers et al.} define the following two assumptions on the matrixes
+$\Phi$ and $\Psi$.
+
+\emph{Assumption 1}: The matrixes $\Phi$ and $\Psi$ can be decomposed as
+
+where
+\begin{align}
+  \Phi_{o} &= \left[\begin{array}{cc}
+                      0 & 1 \\
+                      1 & 0 \\
+                    \end{array}\right] \\
+  \Psi_{o} &= \left[\begin{array}{cc}
+                     \alpha & \beta \\
+                     \beta & \gamma \\
+                   \end{array}\right]
+                   \quad \alpha < 0 < \gamma\text{ or } 0\le\alpha\le\gamma
+\end{align}
+for some matrix $T\in\mathbb{C}^{2\times\left(l+1\right)}$ with full row rank
+and some $\alpha{}, \beta{},\gamma\in\mathbb{R}$. For each
+$s\in\boldsymbol{\Lambda}\left(\Phi_{o},\Psi_{o}\right)$, the $l$-th degree
+polynomial in $\lambda$
+\begin{align}
+\label{eq:Pipeleers_GenKYPMulFreqInt_2_4}
+\begin{split}
 \left[1\; -s\right]\;T\;L_{l}\left(\lambda\right)&=0,
 \quad\text{for }s\ne\infty\\
 \left[0\;\phantom{-}1\right]\;T\;L_{l}\left(\lambda\right)&=0,
 \quad\text{for }s=\infty
-\end{align*}
-has $l$ distinct roots grouped in the set $\in\mathcal{R}_{T}\left(s\right)$.
+\end{split}
+\end{align}
+has $l$ distinct roots grouped in the set $\mathcal{R}_{T}\left(s\right)$.
 
 \emph{Assumption 2}: When $l\ge 2$ we assume that there exists a Hermitian
 matrix $R\in\mathbb{H}^{l}$ such that:
 \begin{align*}
-L_{l-1}\left(\lambda\right)^{\dagger}R\;L_{l-1}\left(\lambda\right)&>0
-\;\forall\lambda\in\boldsymbol{\Lambda}\left(\Phi_{o},\Psi_{o}\right) \\
-L_{l-1}\left(\lambda_{i}\right)^{\dagger}R\;L_{l-1}\left(\lambda_{j}\right)&=0
-\;\forall\lambda_{i},\lambda_{j}\in\mathcal{R}_{T}\left(s\right),\; i\ne j,\;
-\forall s\in\boldsymbol{\Lambda}\left(\Phi_{o},\Psi_{o}\right) 
+L_{l-1}\left(\lambda\right)^{\mathconj}R\;L_{l-1}\left(\lambda\right)&>0
+\quad\text{for all }\lambda\in\boldsymbol{\Lambda}\left(\Phi,\Psi\right)\\
+L_{l-1}\left(\lambda_{p}\right)^{\mathconj}R\;L_{l-1}\left(\lambda_{q}\right)&=0
+\quad\text{for all }\lambda_{p},\lambda_{q}\in\mathcal{R}_{T}\left(s\right),
+\;p\ne q,\;\text{for all }s\in\boldsymbol{\Lambda}\left(\Phi_{o},\Psi_{o}\right) 
 \end{align*}
+
 Assumption $1$ allows a large variety of curves in $\mathbb{C}$ but only the
 union of segments of a circle or straight line has been found to also comply
-with Assumption $2$. The similarity transformation defines a mapping between the
-curves $\boldsymbol{\Lambda}\left(\Phi,\Psi\right)$ and
+with Assumption $2$. The similarity transformation, $T$, defines a mapping
+between the curves $\boldsymbol{\Lambda}\left(\Phi,\Psi\right)$ and
 $\boldsymbol{\Lambda}\left(\Phi_{o},\Psi_{o}\right)$, which corresponds to a
-segment of the imaginary axis. Each
+(segment of) the imaginary axis. Each
 $s\in\boldsymbol{\Lambda}\left(\Phi_{o},\Psi_{o}\right)$ is mapped onto the
 $l$ roots grouped in
 $\mathcal{R}_{T}\left(s\right)\subset\boldsymbol{\Lambda}\left(\Phi,\Psi\right)$,
@@ -34416,35 +34527,68 @@ $s\in\boldsymbol{\Lambda}\left(\Phi_{o},\Psi_{o}\right)$. As for every such $s$
 the roots in $\mathcal{R}_{T}\left(s\right)$ must be distinct, only root locuses
 without branching points are allowed.
 
-\emph{Pipeleers}, \emph{Iwasaki}
-and \emph{Hara}~\cite[Section
+For $l=1$, the curves, $\boldsymbol{\Lambda}\left(\phi,\psi\right)$, correspond
+to the single non-empty and non-singular segments of a circle or line
+considered in the generalised KYP lemma of \emph{Iwasaki} and
+\emph{Hara}~\cite{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}. If, in
+addition, $\Phi=0$, then the curve corresponds to the entire circle or line
+and the original KYP lemma.
+
+\subsubsection{Union of frequency intervals on the real axis}
+\emph{Pipeleers}, \emph{Iwasaki} and \emph{Hara}~\cite[Section
 3]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals} describe the
 construction of the matrixes $\Phi,\Psi$ and $R$ over a union of segments
-of the real axis. The extension of this mapping to the imaginary axis or unit
-circle in the complex plane is obtained by a M\"{o}bius transformation.
+of the real axis. Subsequently, the extension of this mapping to the imaginary
+axis or unit circle in the complex plane is obtained by a M\"{o}bius
+transformation.
+
 Firstly, on the real axis $\Phi_{r}$ and $\Psi_{r}$ are defined by:
 \begin{align*}
+  \boldsymbol{\Lambda}\left(\Phi_{r},\Psi_{r}\right)
+&=\left\{\lambda\in\mathbb{R} \; :\;
+L_{1}^{\mathconj}\left(\lambda\right)\Phi_{r}L_{1}\left(\lambda\right)=0\;,\;
+L_{1}^{\mathconj}\left(\lambda\right)\Psi_{r}L_{1}\left(\lambda\right)>0\right\}
+=\mathbb{R}_{+}\cup\left\{\infty\right\}
+\end{align*}
+In this case \emph{Pipeleers et al.} use:
+\begin{align*}
 \Phi_{r} &= \left[\begin{array}{cc}
-0 & \imath\\
+\phantom{-}0 & \imath\\
 -\imath & 0\end{array}\right]\\
 \Psi_{r} &= \left[\begin{array}{cc}
 0 & 1\\
 1 & 0\end{array}\right]
 \end{align*}
-such that
-$\boldsymbol{\Lambda}\left(\Phi_{r},\Psi_{r}\right)=\mathbb{R}_{+}\cup\left\{\infty\right\}$. In
-addition, for $l\in\mathbb{I}$, the matrix
-$J_{l}\in\mathbb{R}^{2l\times\left(l+1\right)}$ is defined as:
+so that:
 \begin{align*}
-J_{l}&=\left[\begin{array}{cc}
-I_{l} & 0_{l,1} \\
-0_{l,1} & I_{l}\end{array}\right]
+  L_{1}^{\mathconj}\left(\lambda\right)\Phi_{r}L_{1}\left(\lambda\right)
+  &= \left[\begin{array}{cc}
+             \lambda^{\mathconj} & 1\end{array}\right]
+             \left[\begin{array}{cc}
+\phantom{-}0 & \imath\\
+     -\imath & 0\end{array}\right]
+             \left[\begin{array}{c}
+             \lambda\\
+                     1\end{array}\right] = 2\Im\lambda = 0
 \end{align*}
+and:
+\begin{align*}
+  L_{1}^{\mathconj}\left(\lambda\right)\Psi_{r}L_{1}\left(\lambda\right)
+  &= \left[\begin{array}{cc}
+             \lambda^{\mathconj} & 1\end{array}\right]
+             \left[\begin{array}{cc}
+   0 & 1\\
+   1 & 0\end{array}\right]
+             \left[\begin{array}{c}
+             \lambda\\
+                     1\end{array}\right] = 2\Re\lambda > 0
+\end{align*}
+
 \begin{framed}
 \emph{Lemma}~\cite[Lemma
 3.1]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}: Let $2l$ scalars
 $\alpha_{k},\beta_{k}\in\mathbb{R}\cup\left\{\infty\right\}$,
-$k\in\mathbb{I_{l}}$, be given that satisfy
+$k\in\mathbb{I}_{l}$, be given that satisfy
 \begin{align*}
 \alpha_{1}<\beta_{1}<\alpha_{2}<\cdots <\beta_{l-1}<\alpha_{l}<\beta_{l}
 \end{align*}
@@ -34453,13 +34597,13 @@ Let the vectors $a,b\in\mathbb{R}^{l+1}$ be defined by:
 \prod^{l}_{k=1}\left(\lambda-\alpha_{k}\right)&=a^{\top}L_{l}\left(\lambda\right) \\
 \prod^{l}_{k=1}\left(\lambda-\beta_{k}\right)&=b^{\top}L_{l}\left(\lambda\right)
 \end{align*}
-where $\left(\lambda-\alpha_{1}\right)=1$ for $\alpha_{1}=-\infty$ and
-$\left(\lambda-\beta_{l}\right)=1$ for $\beta_{l}=\infty$ and set
+where $\left(\lambda-\alpha_{1}\right)=\lambda$ for $\alpha_{1}=-\infty$ and
+$\left(\lambda-\beta_{l}\right)=-1$ for $\beta_{l}=\infty$ and set
 $\tilde{T}=\left[-a\;b\right]^{\top}$. Then the matrixes
-$\Phi,\Psi\in\mathbb{H}^{l+1}$ given by:
+$\Phi,\Psi\in\mathbb{H}^{l+1}$ are:
 \begin{align*}
-\Phi=\tilde{T}^{\dagger}\Phi_{r}\tilde{T}\\
-\Psi=\tilde{T}^{\dagger}\Psi_{r}\tilde{T}
+\Phi&=\tilde{T}^{\mathconj}\Phi_{r}\tilde{T}\\
+\Psi&=\tilde{T}^{\mathconj}\Psi_{r}\tilde{T}
 \end{align*}
 satisfy Assumptions $1$ and $2$, and
 \begin{align*}
@@ -34469,19 +34613,286 @@ satisfy Assumptions $1$ and $2$, and
 In particular, a matrix $R\in\mathbb{S}^{l}$ satisfying Assumption $2$ is
 given by the unique solution of:
 \begin{align*}
-\Phi&=J^{\dagger}_{l}\left(\Phi_{r}\otimes R\right)J_{l}
+\Phi&=J^{\mathconj}_{l}\left(\Phi_{r}\otimes R\right)J_{l}
+\end{align*}
+where, for $l\in\mathbb{I}$, the matrix
+$J_{l}\in\mathbb{R}^{2l\times\left(l+1\right)}$ is defined as:
+\begin{align*}
+J_{l}&=\left[\begin{array}{cc}
+I_{l} & 0_{l,1} \\
+0_{l,1} & I_{l}\end{array}\right]
 \end{align*}
 \end{framed}
+\emph{Pipeleers et al.} prove this lemma by defining a mapping between
+$\kappa\in\boldsymbol{\Lambda}\left(\Phi_{r},\Psi_{r}\right)=
+\mathbb{R}_{+}\cup\left\{\infty\right\}$ and
+$\lambda\in\boldsymbol{\Lambda}\left(\Phi,\Psi\right)$ where every $\kappa$ is
+mapped onto the $l$ roots of:
+\begin{align*}
+  \left[ 1\quad -\kappa\right]\tilde{T}L_{l}\left(\lambda\right)
+  &= -a^{\top}L_{l}\left(\lambda\right)-\kappa b^{\top}L_{l}\left(\lambda\right)=0
+\end{align*}
+For $\kappa=\infty$ this reads as $b^{\top}L_{l}\left(\lambda\right)=0$. Hence,
+$\boldsymbol{\Lambda}\left(\Phi,\Psi\right)$ corresponds to the
+root-locus plot\footnote{If the closed-loop transfer function of a feedback
+  control system is:
+  \begin{align*}
+    \frac{G\left(s\right)}{1+G\left(s\right)H\left(s\right)}
+\end{align*}
+    where:
+    \begin{align*}
+      G\left(s\right)H\left(s\right)
+      &=K\frac{\left(s-z_{1}\right)\hdots\left(s-z_{m}\right)}
+        {\left(s-p_{1}\right)\hdots\left(s-p_{n}\right)}
+\end{align*}
+then the root-locus plot consists of the roots of the characteristic equation
+$1+G\left(s\right)H\left(s\right)=0$ for any value of $K$.} of:
+\begin{align*}
+  \frac{b^{\top}L_{l}\left(\lambda\right)}{a^{\top}L_{l}\left(\lambda\right)}
+\end{align*}
+\emph{Pipeleers et al.} state that the following similarity transformation
+shows that \emph{Assumption 1} is satisfied:
+\begin{align*}
+  \Phi_{r}&=T_{r}^{\mathconj}\Phi_{0}T_{r}\\
+  \Psi_{r}&=T_{r}^{\mathconj}\Psi_{0}T_{r}\\
+\end{align*}
+with:
+\begin{align*}
+  T_{r}&=\frac{1}{\sqrt{2}}\left[\begin{array}{cc}
+                            1 & -1 \\
+                            \imath & \phantom{-}\imath\end{array}\right] \\
+  \Psi_{0}&=\left[\begin{array}{cc}
+                            -1 & 0 \\
+                            \phantom{-}0 & 1 \end{array}\right]
+\end{align*}
+and $T=T_{r}\tilde{T}$. $T_{r}$ defines a bijective mapping between
+$s\in\boldsymbol{\Lambda}\left(\Phi_{0},\Psi_{0}\right)$ and
+$\kappa\in\boldsymbol{\Lambda}\left(\Phi_{r},\Psi_{r}\right)$ and every such
+$\kappa$ is mapped into $l$ roots
+$\lambda_{k}\in\left[\alpha_{k},\beta_{k}\right]$.
 
+\emph{Pipeleers}, \emph{Iwasaki} and \emph{Hara}~\cite[Section
+II.B]{Pipeleers_GeneralizingKYPUnionFrequencyIntervals} give two
+subsidiary results. Firstly:
+\begin{align*}
+  L_{l}^{\mathconj}\left(\lambda\right)\Phi L_{l}\left(\lambda\right)
+  &= L_{1}^{\mathconj}\left(\lambda\right)\Phi_{r}L_{1}\left(\lambda\right)
+  L_{l-1}^{\mathconj}\left(\lambda\right)R L_{l-1}\left(\lambda\right)
+\end{align*}
+This follows from the definitions of $J_{l}$ and $\Phi$:
+\begin{align*}
+  L_{l}^{\mathconj}\left(\lambda\right)\Phi L_{l}\left(\lambda\right)
+  &= L_{l}^{\mathconj}\left(\lambda\right)
+    J^{\top}_{l}\left(\Phi_{r}\otimes R\right)J_{l}
+    L_{l}\left(\lambda\right) \\
+  &= L_{l}^{\mathconj}\left(\lambda\right)
+    \left[\begin{array}{cc}
+            I_{l} & 0_{1,l} \\
+            0_{1,l} & I_{l}\end{array}\right]
+    \left[\begin{array}{cc}
+            \phantom{-\imath}0_{l} & \imath R \\
+            -\imath R & \phantom{\imath}0_{l}\end{array}\right]
+    \left[\begin{array}{cc}
+            I_{l} & 0_{l,1} \\
+            0_{l,1} & I_{l}\end{array}\right]
+     L_{l}\left(\lambda\right) \\ 
+ &= \left[\begin{array}{cccc}
+         \lambda^{\mathconj}L_{l-1}^{\mathconj}\left(\lambda\right) &
+         L_{l-1}^{\mathconj}\left(\lambda\right) \end{array}\right]
+    \left[\begin{array}{cc}
+            \phantom{-\imath}0_{l} & \imath R \\
+            -\imath R & \phantom{\imath}0_{l}\end{array}\right]
+    \left[\begin{array}{c}
+              \lambda L_{l-1}\left(\lambda\right) \\
+              L_{l-1}\left(\lambda\right) \end{array}\right] \\
+ &= \left[\begin{array}{cc}
+ -\imath L_{l-1}^{\mathconj}\left(\lambda\right) R
+& \imath \lambda^{\mathconj}L_{l-1}^{\mathconj}\left(\lambda\right) R\end{array}\right]
+  \left[\begin{array}{c}
+ \lambda L_{l-1}\left(\lambda\right) \\
+ L_{l-1}\left(\lambda\right)\end{array}\right]\\
+  &= \imath\left(\lambda^{\mathconj}-\lambda\right)
+    L_{l-1}^{\mathconj}\left(\lambda\right)RL_{l-1}\left(\lambda\right)
+\end{align*}
+Secondly, \emph{Pipeleers}, \emph{Iwasaki} and \emph{Hara}~\cite[Equation
+D.2]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals} state that:
+\begin{align*}
+  L_{l-1}^{\mathconj}\left(\lambda\right)RL_{l-1}\left(\lambda\right)
+  &=\sum_{k=1}^{l}\left(\beta_{k}-\alpha_{k}\right)
+    \prod_{j\ne k}\left(\lambda-\beta_{j}\right)\left(\lambda-\alpha_{j}\right)
+\end{align*}
+From the alternative definition of $\Phi$:
+\begin{align*}
+  L_{l}^{\mathconj}\left(\lambda\right)\Phi L_{l}\left(\lambda\right)
+&=L_{l}^{\mathconj}\left(\lambda\right)\tilde{T}^{\mathconj}
+  \Phi_{r}\tilde{T}L_{l}\left(\lambda\right)\\
+&=\imath\left[L_{l}^{\mathconj}\left(\lambda\right)ba^{\top}L_{l}\left(\lambda\right)-
+L_{l}^{\mathconj}\left(\lambda\right)a^{\top}bL_{l}\left(\lambda\right)\right]\\
+  &=\imath\prod_{k=1}^{l}\prod_{j=1}^{l}
+\left(\lambda^{\mathconj}-\beta_{j}\right)\left(\lambda-\alpha_{k}\right)-
+    \imath\prod_{k=1}^{l}\prod_{j=1}^{l}
+    \left(\lambda^{\mathconj}-\alpha_{j}\right)\left(\lambda-\beta_{k}\right)\\
+  &= -2\Im \prod_{k=1}^{l}\prod_{j=1}^{l}
+\left(\lambda^{\mathconj}-\beta_{j}\right)\left(\lambda-\alpha_{k}\right)
+\end{align*}
+Let $\lambda=\sigma+\imath\omega$:
+\begin{align*}
+  L_{l}^{\mathconj}\left(\lambda\right)\Phi L_{l}\left(\lambda\right)
+  &= -2\Im\prod_{k=1}^{l}\prod_{j=1}^{l}
+    \left(\sigma-\beta_{j}-\imath\omega\right)
+    \left(\sigma-\alpha_{k}+\imath\omega\right)\\
+  &= -2\prod_{k=1}^{l}\prod_{j=1}^{l}\
+    \left(\alpha_{k}-\beta_{j}\right)\omega\\
+  &=\imath\left(\lambda^{\mathconj}-\lambda\right)\omega^{l^{2}-1}
+    \prod_{k=1}^{l}\prod_{j=1}^{l}\left(\alpha_{k}-\beta_{j}\right)
+\end{align*}
+\clearpage
+The first part of the Octave script \emph{kyp\_complex\_curve\_union\_test.m}
+shows the mapping of the segment of the imaginary axis, $\imath s$ with $-1\le
+s\le 1$ to a union of segments of the real axis. 
+For the union of intervals $\left[\alpha_{k},\beta_{k}\right]$ on the real axis,
+the real parts of the roots of
+\begin{align*}
+  \left[\begin{array}{cc}
+          1 & 0\end{array}\right]T -s\left[\begin{array}{cc}
+          0 & 1\end{array}\right]T &=0
+\end{align*}
+are plotted against the imaginary part of $s$. In each case the imaginary
+part of the roots is $0$. Figure~\ref{fig:KYP-complex-curve-union-Assumption1}
+shows the plot of the root locus when the intervals are represented by:
+\begin{small}
+\verbatiminput{kyp_complex_curve_union_test_alpha_m1_coef.m}
+\verbatiminput{kyp_complex_curve_union_test_beta_m1_coef.m}
+\end{small}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{kyp_complex_curve_union_test_Assumption1_m1}}
+\caption{Test of Assumption 1 for an interval on the imaginary $s$ axis mapped to
+  a union of intervals on the real axis}
+\label{fig:KYP-complex-curve-union-Assumption1}
+\end{figure}
+Figure~\ref{fig:KYP-complex-curve-union-Assumption1-infty} shows the plot
+of the root locus when the intervals are represented by:
+\begin{small}
+\verbatiminput{kyp_complex_curve_union_test_alpha_m2_coef.m}
+\verbatiminput{kyp_complex_curve_union_test_beta_m2_coef.m}
+\end{small}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{kyp_complex_curve_union_test_Assumption1_m2}}
+\caption{Test of Assumption 1 for an interval on the imaginary $s$ axis mapped to
+  a union of intervals on the real axis with $\pm\infty$ endpoints}
+\label{fig:KYP-complex-curve-union-Assumption1-infty}
+\end{figure}
+\clearpage
+\subsubsection{Union of frequency intervals on a circle or line}
+\emph{Pipeleers et
+  al.}~\cite[pp. 3627-3629]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}
+~\cite[p. 3915]{Pipeleers_GeneralizingKYPUnionFrequencyIntervals} 
+consider the union of $l$ non-empty, non-singleton, non-intersecting segments
+$\boldsymbol{\Lambda}\left(\Phi,\Psi_{k}\right)$, $k\in\mathbb{I}_{l}$ on an
+arbitrary circle or line $\boldsymbol{\Lambda}\left(\Phi,0\right)$. They use a
+M\"{o}bius transform that maps $\boldsymbol{\Lambda}\left(\Phi,0\right)$ to the
+real axis, $\boldsymbol{\Lambda}\left(\Phi_{r},0\right)$, and every segment
+$\boldsymbol{\Lambda}\left(\Phi,\Psi_{k}\right)$ into an interval
+$\left[\alpha_{k},\beta_{k}\right]$ with $\alpha_{k}<\beta_{k}$. For distinct
+points $z_{1},z_{2},z_{3}\in\mathbb{C}\cup\left\{\infty\right\}$, the M\"{o}bius
+transform
+\begin{align*}
+\mu\left(\lambda\right)&=\frac{\left(\lambda-z_{1}\right)\left(z_{2}-z_{3}\right)}
+                         {\left(\lambda-z_{3}\right)\left(z_{2}-z_{1}\right)}
+\end{align*}
+maps $\left\{z_{1},z_{2},z_{3}\right\}$ onto $\left\{0,1,\infty\right\}$ and
+the circle or line through $z_{1},z_{2},z_{3}$ onto the real axis. With any
+distinct set of points
+$z_{1},z_{2},z_{3}\subset\boldsymbol{\Lambda}\left(\Phi,0\right)$
+$z_{3}\notin\bigcup_{k=1}^{l}\boldsymbol{\Lambda}\left(\Phi,\Psi_{k}\right)$,
+this transformation satisfies the requirements. Let
+$\hat{\Phi},\hat{\Psi}\in\mathbb{H}^{l+1}$  and $\hat{R}\in\mathbb{H}^{l}$ be
+the result of applying the Lemma to the image of
+$\bigcup_{k=1}^{l}\boldsymbol{\Lambda}\left(\Phi,\Psi_{k}\right)$ under the
+M\"{o}bius transformation. In addition, set
+\begin{align*}
+  M&=\left[\begin{array}{cc}
+             z_{2}-z_{3} & -z_{1}\left(z_{2}-z_{3}\right) \\
+             z_{2}-z_{1} & -z_{3}\left(z_{2}-z_{1}\right)\end{array}\right]
+                           =\left[\begin{array}{c}
+             M_{1} \\
+             M_{2}\end{array}\right]
+\end{align*}
+and for $k\in\mathbb{I}$ define the matrix
+$\boldsymbol{M}_{k}\in\mathbb{R}^{\left(k+1\right)\times\left(k+1\right)}$ as:
+\begin{align*}
+  \boldsymbol{M}_{k}&=\left[\begin{array}{c}
+           \mathconv^{k}\left(M_{1}\right) \\
+           \mathconv\left(\mathconv^{k-1}\left(M_{1}\right),M_{2}\right) \\
+           \vdots \\
+           \mathconv^{k}\left(M_{2}\right) \end{array}\right]
+\end{align*}
+Then $\Phi,\Psi\in\mathbb{H}^{l+1}$ and $R\in\mathbb{H}^{l}$ defined by
+\begin{align*}
+  \Phi&=\boldsymbol{M}_{l}^{\mathconj}\hat{\Phi}\boldsymbol{M}_{l} \\
+  \Psi&=\boldsymbol{M}_{l}^{\mathconj}\hat{\Psi}\boldsymbol{M}_{l} \\
+  R&=\boldsymbol{M}_{l-1}^{\mathconj}\hat{R}\boldsymbol{M}_{l-1} 
+\end{align*}
+satisfy
+$\boldsymbol{\Lambda}\left(\Phi,\Psi\right)=
+\bigcup_{k=1}^{l}\boldsymbol{\Lambda}\left(\Phi,\Psi_{k}\right)$
+and $\Phi=J^{\mathconj}_{l}\left(\Phi_{r}\otimes R\right)J_{l}$.
+
+\paragraph{\emph{Pipeleers et al.} Example 1 : Union of two continuous time
+  frequency intervals}
+\emph{Pipeleers}, \emph{Iwasaki} and \emph{Hara}~\cite[Example
+1]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals} show an example of the
+union of two continuous time frequency intervals on the imaginary axis:
+\begin{align*}
+  \boldsymbol{\Lambda}\left(\Phi,\Psi\right)
+  &=\left\{\lambda =\imath\omega\;:\;
+    \omega\in\left[\alpha_{1},\beta_{1}\right]\cup
+    \left[\alpha_{2},\beta_{2}\right]\right\}
+\end{align*}
+with $-\infty < \alpha_{1} < \beta_{1} < \alpha_{2} < \beta_{2} < \infty$. A
+M\"{o}bius transform $\mu\left(\lambda\right)$ that maps the imaginary axis to
+the real axis is given by:
+\begin{align*}
+  \mu\left(\lambda\right)&=-\imath\lambda
+  \quad \rightarrow \quad M=\left[\begin{array}{cc}
+                        -\imath & 0 \\
+                        \phantom{-}0 & 1\end{array}\right]
+\end{align*}
+which is a M\"{o}bius transformation with
+$z_{1}=0,z_{2}=\imath,z_{3}=\infty$. As shown above:
+\begin{align*}
+  \tilde{T}&=\left[\begin{array}{ccc}
+-1 & \phantom{-}\imath\alpha_{1}+\imath\alpha_{2}&\phantom{-}\alpha_{1}\alpha_{2}\\
+ \phantom{-}1 & -\imath\beta_{1}-\imath\beta_{2}& -\beta_{1}\beta_{2}
+                   \end{array}\right]\\
+  \Phi&=\tilde{T}^{\mathconj}\Phi_{r}\tilde{T} \\
+  \Psi&=\tilde{T}^{\mathconj}\Psi_{r}\tilde{T} \\
+  R&=M^{\mathconj}\left[\begin{array}{cc}
+  \beta_{1}+\beta_{2}-\alpha_{1}-\alpha_{2}&\alpha_{1}\alpha_{2}-\beta_{1}\beta_{2}\\
+                        \alpha_{1}\alpha_{2}-\beta_{1}\beta_{2}&
+                        \beta_{1}\beta_{2}\left(\alpha_{1}+\alpha_{2}\right)-
+                        \alpha_{1}\alpha_{2}\left(\beta_{1}+\beta_{2}\right)
+  \end{array}\right]M
+\end{align*}
+and
+\begin{align*}
+  \Phi&=J^{\mathconj}_{l}\left(\left(M^{\mathconj}\Phi_{r}M\right)\otimes R\right)J_{l}
+\end{align*}
+\paragraph{\emph{Pipeleers et al.} Example 2 : Union of two discrete time
+  frequency intervals}
 \emph{Pipeleers}, \emph{Iwasaki} and \emph{Hara}~\cite[Example
 2]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals} show an example of the
-union of two discrete time frequency intervals on the unit circle:
+union of two discrete time frequency intervals on the unit circle (see
+Equation~\ref{eqn:Lambda-sigma-unit-circle}):
 \begin{align*}
 \boldsymbol{\Lambda}\left(\Phi,\Psi\right)&=\left\{\lambda =e^{\imath\theta}\;
 :\; \theta\in\left[\eta_{1},\zeta_{1}\right]\cup
 \left[\eta_{2},\zeta_{2}\right]\right\}
 \end{align*}
-with $-\pi < \eta_{1} < \zeta_{1} < \eta_{2} < \zeta_{2} < \pi$. A M\"{o}bius
+with $-\pi < \eta_{1} < \zeta_{1}< \eta_{2} < \zeta_{2} < \pi$. 
+A M\"{o}bius
 transform that maps the unit circle to the real axis is:
 \begin{align*}
 \mu\left(\lambda\right)&=-\imath\frac{\lambda-1}{\lambda+1}
@@ -34489,16 +34900,18 @@ transform that maps the unit circle to the real axis is:
 0 & c \\
 \bar{c} & 0 \end{array}\right]
 \end{align*}
-The two frequency intervals are mapped into the real intervals
-$\left[\begin{array}{cc}\alpha_{k} & \beta_{k}\end{array}\right]$ with
-$\alpha_{k}=\mu\left(e^{\imath\eta_{k}}\right)$ and
-$\beta_{k}=\mu\left(e^{\imath\zeta_{k}}\right)$. The corresponding matrixes
-$\Phi$ and $\Psi$ are:
+with $z_{1}=1,z_{2}=\imath,z_{3}=-1$ and where
+the two discrete time frequency intervals are mapped into the real axis
+intervals $\left[\alpha_{k}=\mu\left(e^{\imath\eta_{k}}\right),
+ \beta_{k}=\mu\left(e^{\imath\zeta_{k}}\right)\right]$ with
+$c=\left(1+\imath\alpha_{1}\right)\left(1+\imath\alpha_{2}\right)
+\left(1-\imath\beta_{1}\right)\left(1-\imath\beta_{2}\right)$.
+The corresponding $\Phi$ and $\Psi$ matrixes are:
 \begin{align*}
-\Phi&=\tilde{T}^{\dagger}\left[\begin{array}{cc}
+\Phi&=\tilde{T}^{\mathconj}\left[\begin{array}{cc}
 \phantom{-}0 & \imath c \\
 -\imath \bar{c} & 0\end{array}\right]\tilde{T} \\
-\Psi&=\tilde{T}^{\dagger}\left[\begin{array}{cc}
+\Psi&=\tilde{T}^{\mathconj}\left[\begin{array}{cc}
 0 & c \\
 \bar{c} & 0\end{array}\right]\tilde{T}
 \end{align*}
@@ -34508,15 +34921,70 @@ with:
 -1&\phantom{-}e^{\imath\eta_{1}}+e^{\imath\eta_{2}}&-e^{\imath\eta_{1}}e^{\imath\eta_{2}}\\
 \phantom{-}1&-e^{\imath\zeta_{1}}-e^{\imath\zeta_{2}} &
 \phantom{-}e^{\imath\zeta_{1}}e^{\imath\zeta_{2}}\end{array}\right] \\
-c&=\left(1+\imath\alpha_{1}\right)\left(1+\imath\alpha_{2}\right)
-\left(1-\imath\beta_{1}\right)\left(1-\imath\beta_{2}\right) \\
-R&=M^{\dagger}\left[\begin{array}{cc}
+R&=M^{\mathconj}\left[\begin{array}{cc}
 \beta_{1}+\beta_{2}-\alpha_{1}-\alpha_{2}&\alpha_{1}\alpha_{2}-\beta_{1}\beta_{2}\\
 \alpha_{1}\alpha_{2}-\beta_{1}\beta_{2}&
 \beta_{1}\beta_{2}\left(\alpha_{1}+\alpha_{2}\right)-
 \alpha_{1}\alpha_{2}\left(\beta_{1}+\beta_{2}\right)\end{array}\right]M
 \end{align*}
 \subsection{Generalised KYP lemma over a union of frequency intervals}
+\emph{Pipeleers}, \emph{Iwasaki} and
+\emph{Hara}~\cite[p. 3915]{Pipeleers_GeneralizingKYPUnionFrequencyIntervals}
+describe a procedure for mapping a union of complex frequency intervals to
+a union of frequency intervals on the real axis:
+\begin{quotation}
+  To transfer the results above to the union of $l$ nonempty, nonsingleton,
+  nonintersection segments, $\boldsymbol{\Lambda}\left(\phi,\psi_{k}\right)$,
+  on an arbitrary circle or line, $\boldsymbol{\Lambda}\left(\phi,0\right)$,
+  we compute a bijective mapping between
+  $\boldsymbol{\Lambda}\left(\phi,0\right)$ and the real axis
+  $\boldsymbol{\Lambda}\left(\Phi_{r},0\right)$. To this end, we pick one,
+  say the $l$-th segment, $\boldsymbol{\Lambda}\left(\phi,\psi_{l}\right)$,
+  and compute the matrix $T\in\mathbb{C}^{2\times 2}$ such that:
+  \begin{align*}
+    \phi&=T^{\mathconj}\Phi_{r}T \\
+    \psi_{l}&=T^{\mathconj}\Psi_{r}T
+  \end{align*}
+This matrix defines a bijective mapping $\tau\left(\lambda\right)$ between
+$\lambda\in\boldsymbol{\Lambda}\left(\phi,0\right)$ and 
+$\tau\in\boldsymbol{\Lambda}\left(\Phi_{r},0\right)$.
+$\boldsymbol{\Lambda}\left(\phi,\psi_{l}\right)$ is mapped onto $\mathbb{R}_{+}$
+while the other $l-1$ segments,
+$\boldsymbol{\Lambda}\left(\phi,\psi_{k}\right)$, are mapped onto
+nonintersecting intervals of $\mathbb{R}_{--}$. Let
+$\tilde{\Phi},\tilde{\Psi}\in\mathbb{H}^{l+1}$ and 
+$\tilde{R}\in\mathbb{H}^{l}$ be the result of the Lemma applied to the image of
+$\bigcup_{k=1}^{l}\boldsymbol{\Lambda}\left(\phi,\psi_{k}\right)$ under the
+mapping $\tau\left(\lambda\right)$. Let, in addition, the matrixes
+$T_{l}\in\mathbb{R}^{\left(l+1\right)\times\left(l+1\right)}$ be defined as
+follows:
+\begin{align*}
+  T_{l}&=\left[ \begin{array}{c}
+                  T_{1}\star{}T_{1}\star\hdots{}\star{}T_{1}\star{}T_{1}\\
+                  T_{1}\star{}T_{1}\star\hdots{}\star{}T_{1}\star{}T_{2}\\
+                  \vdots\\
+                  T_{1}\star{}T_{2}\star\hdots{}\star{}T_{2}\star{}T_{2}\\
+                  T_{2}\star{}T_{2}\star\hdots{}\star{}T_{2}\star{}T_{2}\\
+  \end{array}\right]
+\end{align*}
+where $T_{1}$ and $T_{2}$ respectively denote the first and second rows of $T$
+and $\star$ is the vector convolution. Then, it is readily verified that
+$\Phi,\Psi\in\mathbb{H}^{l+1}$ and $R\in\mathbb{H}^{l}$ defined by
+\begin{align*}
+  \Phi&=T_{l}^{\mathconj}\tilde{\Phi}T_{l}\\
+  \Psi&=T_{l}^{\mathconj}\tilde{\Psi}T_{l}\\
+  R&=T_{l-1}^{\mathconj}\tilde{R}T_{l-1}
+\end{align*}
+satisfy
+$\boldsymbol{\Lambda}\left(\Phi,\Psi\right)=\bigcup_{k=1}^{l}\boldsymbol{\Lambda}\left(\phi,\psi_{k}\right)$,
+$\Phi=J_{l}^{\mathconj}\left(\phi\otimes{}R\right)J_{l}$ and
+$L_{l-1}\left(\lambda\right)^{\mathconj}RL_{l-1}\left(\lambda\right)>0$,
+for all $\lambda\in\boldsymbol{\Lambda}\left(\phi,0\right)$.
+\end{quotation}
+
+\emph{Pipeleers}, \emph{Iwasaki}
+and \emph{Hara}~\cite{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}
+show the following preliminary definitions.
 For $A\in\mathbb{C}^{n\times n}$, $B\in\mathbb{C}^{n\times m}$ and
 $l\in\mathbb{I}$, define
 $F_{l}\left(A,B\right)\in\mathbb{C}^{\left(l+1\right)n\times\left(n+ml\right)}$:
@@ -34561,7 +35029,7 @@ I-A\right)x=Bu & \text{for }\lambda\ne\infty \\
 \left\{0\right\}\times\mathbb{C}^{m} & \text{for }\lambda = \infty
 \end{cases}
 \end{align*}
-Note the if $\det\left(\lambda I-A\right)\ne 0$, every element of
+Note that if $\det\left(\lambda I-A\right)\ne 0$, every element of
 $\mathcal{N}_{A,B}\left(\lambda\right)$ is of the form:
 \begin{align*}
 \left[\begin{array}{c}
@@ -34570,22 +35038,163 @@ I\end{array}\right] u
 \end{align*}
 for some $u\in\mathbb{C}^{m}$.
 
+Firstly, \emph{Pipeleers et al.} prove the following two Lemmas:
+\begin{framed}
+\emph{Lemma 2.3}~\cite[Lemma 2.3 and Appendix
+A]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}: Let matrixes
+$A\in\mathbb{C}^{n\times n}$, $B\in\mathbb{C}^{n\times m}$ and
+$T\in\mathbb{C}^{2\times \left(l+1\right)}$, be given, and assume $B$ has full
+column rank and $T$ full row rank. In addition, let
+$s\in\mathbb{C}\cup\left\{\infty\right\}$ be given and assume that the $l$ roots
+$\lambda_{k}$, $k\in\mathbb{I}_{l}$, in $\mathcal{R}_{T}\left(s\right)$ are
+all distinct. Then a vector $z\in\mathbb{C}^{n+ml}$ satisfies
+\begin{align}
+\label{eq:Pipeleers_GenKYPMulFreqInt_A_1}
+\begin{split}
+\left(\left[1\; -s\right]\otimes{}I_{n}\right)
+\left(T\otimes{}I_{n}\right)F_{l}z &=0 \quad\text{for }s\ne\infty \\
+\left(\left[0\; \phantom{-}1\right]\otimes{}I_{n}\right)
+\left(T\otimes{}I_{n}\right)F_{l}z &=0 \quad\text{for }s=\infty
+\end{split}
+\end{align}
+if and only if it can be decomposed as
+\begin{align*}
+z=\sum^{l}_{k=1}\left[\begin{array}{c}
+x_{k} \\
+L_{l-1}\left(\lambda_{k}\right)^{\mathreverse}\otimes{}u_{k}
+\end{array}
+\right]
+\end{align*}
+with $\left(x_{k},u_{k}\right)\in\mathcal{N}_{A,B}\left(\lambda_{k}\right)$ for
+all $k\in\mathbb{I}_{l}$.
+\end{framed}
+The proof of Lemma 2.3 proceeds by elaborating each $F_{l}z_{k}$ recursively
+from the bottom row to the top row and recalling the definition of
+$L_{l}\left(\infty\right)$:
+\begin{align*}
+F_{l}\left[\begin{array}{c}
+x_{k} \\
+L_{l-1}\left(\lambda_{k}\right)\otimes()u_{k}\end{array}\right]
+=L_{l}\left(\lambda_{k}\right)\otimes\chi\left(x_{k},u_{k}\right) 
+\end{align*}
+where
+\begin{align*}
+\chi\left(x_{k},u_{k}\right)=\begin{cases}
+x_{k}  & \text{if } \lambda\ne\infty \\
+Bu_{k} & \text{if } \lambda{}=\infty
+\end{cases}
+\end{align*}
+As $\lambda_{k}$ are the $l$ roots of
+Equation~\ref{eq:Pipeleers_GenKYPMulFreqInt_2_4}, each $z_{k}$ satisfies
+Equation~\ref{eq:Pipeleers_GenKYPMulFreqInt_A_1} and so does
+$z=\sum^{l}_{k=1}z_{k}$. 
+
+Also
+\begin{framed}
+\emph{Lemma 2.4}~\cite[Lemma 2.4 and Appendix
+B]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}: Let
+$\Phi_{o},\Psi_{o}\in\mathbb{H}^{2}$  of the form shown in
+Equation~\ref{eq:GenKYPFreqIneq_Phi_o_Psi_o} be given, as well as
+$X,Y\in\mathbb{C}^{n\times m}$. Then
+\begin{align}
+\label{eq:Pipeleers_GenKYPMulFreqInt_2_15}
+\begin{split}
+\left[\begin{array}{cc}
+X & Y
+\end{array}\right]\left(\Phi_{o}\otimes{}I_{m}\right)\left[\begin{array}{c}
+X^{\mathconj}\\
+Y^{\mathconj}
+\end{array}\right] = 0 \\
+\left[\begin{array}{cc}
+X & Y
+\end{array}\right]\left(\Psi_{o}\otimes{}I_{m}\right)\left[\begin{array}{c}
+X^{\mathconj}\\
+Y^{\mathconj}
+\end{array}\right] \succeq 0
+\end{split}
+\end{align}
+hold if and only if $X$ and $Y$ can be factored as
+\begin{align}
+\label{eq:Pipeleers_GenKYPMulFreqInt_2_16}
+\begin{split}
+X&=W\mathdiag\left(s_{1},\ldots,s_{m}\right)V^{\mathconj} \\
+Y&=WV^{\mathconj}
+\end{split}
+\end{align}
+with some $W\in\mathbb{C}^{n\times{}m}$, unitary $V\in\mathbb{C}^{m\times{}m}$
+and $s_{k}\in\Lambda\left(\Phi_{o},\Psi_{o}\right)$ for all $k\in\mathbb{I}_{m}$.
+\end{framed}
+
+\emph{Pipeleers et al.}~\cite[Appendix
+B]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals} show a construction for
+$W$ and $V$. The  equality is equivalent to
+\begin{align*}
+XY^{\mathconj}+YX^{\mathconj}&= -XY^{\mathconj} - YX^{\mathconj} \\
+\left(X+Y\right)\left(X+Y\right)^{\mathconj}&=
+\left(X-Y\right)\left(X-Y\right)^{\mathconj}
+\end{align*}
+so that $X+Y$ and $X-Y$ have the same left singular vectors and singular values
+\begin{align*}
+X+Y &= P\Sigma{}Q^{\mathconj}_{1} \\
+X-Y &= P\Sigma{}Q^{\mathconj}_{2}
+\end{align*}
+where $P\in\mathbb{C}^{n\times{}n}$ is unitary,
+$Q_{1},Q_{2}\in\mathbb{C}^{m\times{}m}$ are unitary and
+$\Sigma\in\mathbb{R}^{n\times{}m}$ is diagonal. The matrix
+$Q_{1}^{\mathconj}Q_{2}$ is unitary and can be factorised as 
+$V\mathdiag\left(\sigma_{k}\right)V^{\mathconj}$ with $\mathabs{\sigma_{k}}=1$
+for $k=1,\ldots,m$. Define $W=YV$ and
+$s_{k}=\left(1+\sigma_{k}\right)/\left(1-\sigma_{k}\right)$. If
+$\sigma_{k}=e^{\imath\omega_{k}}$ then the $s_{k}=\imath\cotan\frac{\omega_{k}}{2}$
+result from a mapping of the unit circle to the imaginary axis in the complex
+plane. Expanding Equation~\ref{eq:Pipeleers_GenKYPMulFreqInt_2_15} and
+substituting Equation~\ref{eq:Pipeleers_GenKYPMulFreqInt_2_16}\footnote{For
+$s_{k}\in\Lambda\left(\Phi_{o},\Phi_{o}\right)$ defined in
+Equation~\ref{eq:Definition_of_Lambda_complex_curves} and $\Phi_{o}$
+and $\Psi_{o}$ defined in Equation~\ref{eq:GenKYPFreqIneq_Phi_o_Psi_o}
+\begin{align*}
+\left[\begin{array}{cc}
+s_{k}^{\mathconj} & 1\end{array}\right]\Phi_{o}\left[\begin{array}{c}
+s_{k} \\
+1\end{array}\right] &= s_{k}^{\mathconj}+s_{k} =0 \\
+\left[\begin{array}{cc}
+s_{k}^{\mathconj} & 1\end{array}\right]\Psi_{o}\left[\begin{array}{c}
+s_{k} \\
+1\end{array}\right] &=
+\alpha{} s_{k}s_{k}^{\mathconj}+\beta{}s_{k}+\beta{}s_{k}^{\mathconj}+\gamma
+=\alpha\mathabs{s_{k}}^{2}+\gamma \ge 0
+\end{align*}}
+\begin{align*}
+XY^{\mathconj}+YX^{\mathconj}&= W\mathdiag\left(s_{k}\right)V^{\mathconj}VW^{\mathconj}+
+WV^{\mathconj}V\mathdiag\left(s_{k}\right)^{\mathconj}V^{\mathconj}W^{\mathconj} =
+\mathdiag\left(s_{k}+s_{k}^{\mathconj}\right) = 0 \\
+\alpha XX^{\mathconj}+\gamma YY^{\mathconj}&=
+\alpha{}W\mathdiag\left(s_{k}\right)V^{\mathconj}
+V\mathdiag\left(s_{k}\right)^{\mathconj}W^{\mathconj} +
+\gamma{}WV^{\mathconj}VW^{\mathconj} =
+\alpha\mathdiag\left(\mathabs{s_{k}}^{2}\right)+\gamma \succeq 0
+\end{align*}
+
+
+
+\emph{Pipeleers et al.} now prove the following generalised KYP lemma for
+non-strict inequalities.
 \begin{framed}
 \emph{Theorem}~\cite[Theorem
-2.2]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}: Let Hermitian
-matrixes $\Phi,\;\Psi\in\mathbb{H}^{l+1}$ and $\Theta\in\mathbb{H}^{m+n}$,
-and matrixes $A\in\mathbb{C}^{n\times n}$ and $B\in\mathbb{C}^{n\times m}$, be
-given, with $B$ of full column rank and $\left(A,B\right)$ controllable.
-Suppose $\Phi$ and $\Psi$ satisfy Assumptions 1 and 2, and let
-$R\in\mathbb{H}^{l}$ be a matrix satisfying Assumption 2. Then the following
-statements are equivalent:
+2.2, Appendix C]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}: Let
+Hermitian matrixes $\Phi,\;\Psi\in\mathbb{H}^{l+1}$ and
+$\Theta\in\mathbb{H}^{m+n}$, and matrixes $A\in\mathbb{C}^{n\times n}$ and
+$B\in\mathbb{C}^{n\times m}$, be given, with $B$ of full column rank and
+$\left(A,B\right)$ controllable. Suppose $\Phi$ and $\Psi$ satisfy Assumptions 1
+and 2, and let $R\in\mathbb{H}^{l}$ be a matrix satisfying Assumption 2. Then
+the following statements are equivalent:
 \begin{enumerate}
 \item The inequality:
 \begin{align*}
 \left[\begin{array}{c}
 x \\
 u
-\end{array}\right]^{\dagger}\Theta\left[\begin{array}{c}
+\end{array}\right]^{\mathconj}\Theta\left[\begin{array}{c}
 x \\
 u
 \end{array}\right]\le 0
@@ -34593,9 +35202,9 @@ u
 holds for all $\left(x,u\right)\in\mathcal{N}_{A,B}\left(\lambda\right)$
 \item There exist $P,Q\in\mathbb{H}^{n}$ that satisfy $Q\succeq 0$ and
 \begin{align*}
-F_{l}\left(A,B\right)^{\dagger}\left(\Phi\otimes P+\Psi\otimes Q\right)
+F_{l}\left(A,B\right)^{\mathconj}\left(\Phi\otimes P+\Psi\otimes Q\right)
 F_{l}\left(A,B\right) +
-G_{l}\left(A,B\right)^{\dagger}\left(R\otimes\Theta\right)
+G_{l}\left(A,B\right)^{\mathconj}\left(R\otimes\Theta\right)
 G_{l}\left(A,B\right)\preceq 0
 \end{align*}
 \end{enumerate}
@@ -34678,8 +35287,8 @@ $R$ is the solution of:
 0 & 0 & 0 & 1\end{array}\right]\left[\begin{array}{cccc}
 \phantom{-}0  & \imath r_{11} & \phantom{-}0  & \imath r_{12} \\
 -\imath r_{11} & 0            & -\imath r_{12} & 0\\
-\phantom{-}0  & \imath r_{12} & \phantom{-}0 & \imath r_{22} \\
--\imath r_{12} & 0            & -\imath r_{22} & 0\end{array}\right]
+\phantom{-}0  & \imath r_{21} & \phantom{-}0 & \imath r_{22} \\
+-\imath r_{21} & 0            & -\imath r_{22} & 0\end{array}\right]
 \left[\begin{array}{ccc}
 1 & 0 & 0 \\
 0 & 1 & 0 \\
@@ -34691,12 +35300,12 @@ $R$ is the solution of:
 0 & 0 & 0 & 1\end{array}\right]\left[\begin{array}{ccc}
 \phantom{-}0  & \phantom{-}\imath r_{11} & \imath r_{12} \\
 -\imath r_{11} & -\imath r_{12}           & 0 \\
-\phantom{-}0  & \phantom{-}\imath r_{12} & \imath r_{22} \\
--\imath r_{12} & -\imath r_{22}           & 0 \end{array}\right]\\
+\phantom{-}0  & \phantom{-}\imath r_{21} & \imath r_{22} \\
+-\imath r_{21} & -\imath r_{22}           & 0 \end{array}\right]\\
 &=\left[\begin{array}{ccc}
 \phantom{-}0  & \phantom{-}\imath r_{11} & \imath r_{12} \\
 -\imath r_{11} & \phantom{-}0            & \imath r_{22} \\
--\imath r_{12} & -\imath r_{22}           & 0 \end{array}\right]
+-\imath r_{21} & -\imath r_{22}           & 0 \end{array}\right]
 \end{align*}
 
 Thus:
@@ -34718,22 +35327,22 @@ linearised by applying the Schur complement to $R\otimes\Theta$:
 \begin{align*}
 R\otimes\Theta &= R\otimes\left(\left[\begin{array}{cc}
 C & D\\
-0 & I\end{array}\right]^{\dagger}\left[\begin{array}{cc}
+0 & I\end{array}\right]^{\mathconj}\left[\begin{array}{cc}
 \Pi_{11} & \Pi_{12} \\
-\Pi_{12}^{\dagger} & \Pi_{22}\end{array}\right]\left[\begin{array}{cc}
+\Pi_{12}^{\mathconj} & \Pi_{22}\end{array}\right]\left[\begin{array}{cc}
 C & D \\
 0 & I\end{array}\right]\right)\\
 &=R\otimes\left[\begin{array}{cc}
-0 & C^{\dagger}\Pi_{12} \\
-\Pi_{12}^{\dagger}C & D^{\dagger}\Pi_{12}+\Pi_{12}^{\dagger}D+\Pi_{22}\end{array}\right]
+0 & C^{\mathconj}\Pi_{12} \\
+\Pi_{12}^{\mathconj}C & D^{\mathconj}\Pi_{12}+\Pi_{12}^{\mathconj}D+\Pi_{22}\end{array}\right]
 + R\otimes\left(\left[\begin{array}{cc}
-C & D\end{array}\right]^{\dagger}\Pi_{11}\left[\begin{array}{cc}
+C & D\end{array}\right]^{\mathconj}\Pi_{11}\left[\begin{array}{cc}
 C & D \end{array}\right]\right)\\
 &=R\otimes\left[\begin{array}{cc}
-0 & C^{\dagger}\Pi_{12} \\
-\Pi_{12}^{\dagger}C & D^{\dagger}\Pi_{12}+\Pi_{12}^{\dagger}D+\Pi_{22}\end{array}\right]
+0 & C^{\mathconj}\Pi_{12} \\
+\Pi_{12}^{\mathconj}C & D^{\mathconj}\Pi_{12}+\Pi_{12}^{\mathconj}D+\Pi_{22}\end{array}\right]
 + \left(I_{2}\otimes\left[\begin{array}{cc}
-C & D\end{array}\right]\right)^{\dagger}\left(R\otimes\Pi_{11}\right)
+C & D\end{array}\right]\right)^{\mathconj}\left(R\otimes\Pi_{11}\right)
 \left(I_{2}\otimes\left[\begin{array}{cc}
 C & D \end{array}\right]\right)
 \end{align*}
@@ -34904,7 +35513,8 @@ comment:
   if desired.
 \end{quote}
 
-The \emph{fftw-3.3.8} release notes (May 28th, 2018-2019-2020) state:
+The \emph{fftw-3.3.8} release notes (May 28th, 2018-2019-2020)
+state\footnote{Also see \url{https://kristerw.github.io/2021/10/19/fast-math/}.}:
 \begin{quote}
     Fixed AVX, AVX2 for gcc-8.
       By default, FFTW 3.3.7 was broken with gcc-8. AVX and AVX2 code

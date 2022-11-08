@@ -1,5 +1,5 @@
 % complementaryFIRlattice_bandpass_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -150,8 +150,8 @@ tmp=pk17b(end); pk17b(end)=pk17bhat(end); pk17bhat(end)=-tmp;
   complementaryFIRlattice2Abcd(pk17b,pk17bhat);
 
 % Find corresponding filter polynomials
-pbk17b=Abcd2tf(Ap,Bp,Cpk17b,Dpk17b);
-pbk17bhat=Abcd2tf(Ap,Bp,Cpk17bhat,Dpk17bhat);
+[pbk17b,~]=Abcd2tf(Ap,Bp,Cpk17b,Dpk17b);
+[pbk17bhat,~]=Abcd2tf(Ap,Bp,Cpk17bhat,Dpk17bhat);
 tol=10*eps;
 if max(abs(b17b(:)-flipud(pbk17b(:)))) > tol
   error("max(abs(b17b(:)-flipud(pbk17b(:)))) > (%g*eps)",tol/eps);

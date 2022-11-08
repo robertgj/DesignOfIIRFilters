@@ -1,5 +1,5 @@
 % schurOneMR2lattice2Abcd_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -62,17 +62,18 @@ for l=1:length(f)
 
   % Compare the retimed Schur lattice transfer functions to the originals 
   [sn,sdR]=Abcd2tf(A,B,C,D);
-  if abs(sum(sn)-sum(f{l}.n))>tol_eps*eps
+  while abs(sn(1)) < tol_eps*eps, sn = sn(2:end); endwhile
+  if max(abs(sn(1:length(f{l}.n))-f{l}.n))>tol_eps*eps
     error("sn differs from n by more than %d*eps",tol_eps);
-  endif
-  if sum(abs(sdR(1:length(f{l}.dR))-f{l}.dR))>tol_eps*eps
+  endif 
+  if max(abs(sdR(1:length(f{l}.dR))-f{l}.dR))>tol_eps*eps
     error("sdR differs from dR by more than %d*eps",tol_eps);
   endif
   [snap,sdRap]=Abcd2tf(Aap,Bap,Cap,Dap);
-  if sum(abs(snap-fliplr(f{l}.dR)))>tol_eps*eps
+  if max(abs(snap-fliplr(f{l}.dR)))>tol_eps*eps
     error("snap differs from fliplr(dR) by more than %d*eps",tol_eps);
   endif
-  if sum(abs(sdRap-f{l}.dR))>tol_eps*eps
+  if max(abs(sdRap-f{l}.dR))>tol_eps*eps
     error("sdRap differs from dR by more than %d*eps",tol_eps);
   endif
 

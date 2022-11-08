@@ -1,13 +1,14 @@
 % schurOneMlatticeRetimed2Abcd_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Test cases for the retimed Schur one-multiplier lattice filter 
 
 test_common;
 
-delete("schurOneMlatticeRetimed2Abcd_test.diary");
-delete("schurOneMlatticeRetimed2Abcd_test.diary.tmp");
-diary schurOneMlatticeRetimed2Abcd_test.diary.tmp
+strf="schurOneMlatticeRetimed2Abcd_test";
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % k empty
 k=epsilon=p=c=[];
@@ -24,7 +25,6 @@ for Nk=1:9
   printf("\nTesting Nk=%d\n",Nk);
   [n,d]=butter(Nk,2*fc);
   [k,epsilon,p,c]=tf2schurOneMlattice(n,d);
-  p1=ones(size(p));
   try
     [A,B,C,dd,Cap,ddap]=schurOneMlatticeRetimed2Abcd(k,epsilon,p,c);
   catch
@@ -127,16 +127,18 @@ for Nk=1:9
   % Plot frequency response for the state-variable implementation
   nfpts=1000;
   nppts=(0:499);
+  fnppts=nppts*0.5/nppts(end);
+  Hnd=freqz(n,d,2*pi*fnppts);
   HABCDf=crossWelch(u,yABCDf,nfpts);
   HABCDapf=crossWelch(u,yABCDapf,nfpts);
   plot(nppts/nfpts,20*log10(abs(HABCDf)), ...
-       nppts/nfpts,20*log10(abs(HABCDapf)));
+       nppts/nfpts,20*log10(abs(HABCDapf)), ...
+       nppts/nfpts,20*log10(abs(Hnd)));
   axis([0 0.5 -80 5])
   grid("on");
   xlabel("Frequency")
   ylabel("Amplitude(dB)")
-  print(sprintf("schurOneMlatticeRetimed2Abcd_test_response_%d",Nk),
-        "-dpdflatex");
+  print(sprintf("%s_response_%d",strf,Nk),"-dpdflatex");
   close
   npass=1+(nfpts*fc);
   printf("At fc HABCDf=%f (dB)\n",20*log10(abs(HABCDf(npass))));
@@ -144,5 +146,4 @@ endfor
 
 % Done
 diary off
-movefile schurOneMlatticeRetimed2Abcd_test.diary.tmp ...
-         schurOneMlatticeRetimed2Abcd_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

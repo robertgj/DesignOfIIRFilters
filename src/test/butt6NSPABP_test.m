@@ -1,5 +1,5 @@
 % butt6NSPABP_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Test case for the 6th order Butterworth band-pass lattice filter
 
@@ -154,6 +154,10 @@ A2ngapABCDf
 plot(w*0.5/pi,20*log10(abs(hap1+(sgma*hap2))/2));
 axis([0 0.5 -50 5]);
 grid("on");
+xlabel("Frequency")
+ylabel("Amplitude(dB)")
+print("butt6NSPABP_test_freqz","-dpdflatex");
+close
 
 % Make a quantised noise signal with standard deviation 0.25*2^nbits
 nsamples=2^14;

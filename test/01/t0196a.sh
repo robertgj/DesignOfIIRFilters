@@ -232,7 +232,27 @@ NG_schurOneM = 13.603
 est_varyd = 1.2169
 varyd = 1.3363
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
+
+cat > test.tab << 'EOF'
+\begin{table}[hptb]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lrrr}  \toprule
+&Non-zero coefficients&Noise gain&Noise variance(bits)\\ 
+\midrule
+ABCD transformed & 286 &  6.44 &  0.62 \\ 
+Globally optimised & 961 &  6.44 &  0.62 \\ 
+Schur normalised-scaled lattice & 180 & 18.88 &  1.66 \\ 
+Schur one-multiplier lattice & 61 & 13.60 &  1.22 \\ 
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Schur NS lattice frequency transformation example]{Schur NS lattice frequency transformation round-off noise example : number of non-zero coefficients, noise gain and estimated output roundoff noise variances for a prototype 5th order elliptic low-pass filter transformed to a multiple band-stop filter.}
+\label{tab:Schur-NS-lattice-frequency-transformation-example}
+\end{table}
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.tab"; fail; fi
 
 #
 # run and see if the results match
@@ -243,6 +263,9 @@ octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test.ok test.out
+if [ $? -ne 0 ]; then echo "Failed diff -Bb"; fail; fi
+
+diff -Bb test.tab tfp2schurNSlattice2Abcd_test.tab
 if [ $? -ne 0 ]; then echo "Failed diff -Bb"; fail; fi
 
 

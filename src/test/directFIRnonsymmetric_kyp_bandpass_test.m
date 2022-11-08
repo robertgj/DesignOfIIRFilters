@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_kyp_bandpass_test.m
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2022 Robert G. Jenssen
 
 % SDP design of a direct-form FIR bandpass filter with the KYP lemma.
 % See Section VII.B.2, pp. 53-55 of "Generalised KYP Lemma: Unified
@@ -12,72 +12,70 @@
 
 test_common;
 
-delete("directFIRnonsymmetric_kyp_bandpass_test.diary");
-delete("directFIRnonsymmetric_kyp_bandpass_test.diary.tmp");
-diary directFIRnonsymmetric_kyp_bandpass_test.diary.tmp
+strf="directFIRnonsymmetric_kyp_bandpass_test";
 
-pkg load symbolic optim
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
-
-strf="directFIRnonsymmetric_kyp_bandpass_test";
 
 % Band-pass filter specification
 N=30;
 d=10;
 fasl=0.10;fapl=0.175;fapu=0.225;fasu=0.30;
-Esq_z=(0.01/sqrt(2))^2;
-Esq_s=(0.01)^2;
+Esq_z=4.66e-5;
+Esq_s=1e-4;
 Esq_max=1;
 
 % Common constants
-nplot=1000;
-nasl=(fasl*nplot/0.5)+1;
-napl=(fapl*nplot/0.5)+1;
-napu=(fapu*nplot/0.5)+1;
-nasu=(fasu*nplot/0.5)+1;
 A=[zeros(N-1,1),eye(N-1);zeros(1,N)];
 B=[zeros(N-1,1);1];
 AB=[A,B;eye(N),zeros(N,1)];
-Phi=[-1,0;0,1];
 C_d=zeros(1,N);
 C_d(N-d+1)=1;
+Phi=[-1,0;0,1];
+Psi_max=[0,1;1,2];
 c_sl=2*cos(2*pi*fasl);
+Psi_sl=[0,1;1,-c_sl];
 e_c=e^(j*pi*(fapu+fapl));
 c_h=2*cos(pi*(fapu-fapl));
+Psi_z=[0,e_c;1/e_c,-c_h];
 c_su=2*cos(2*pi*fasu);
+Psi_su=[0,-1;-1,c_su];
 
 % Set up constraints
-C=sdpvar(1,N);
-D=sdpvar(1,1);
+CD=sdpvar(1,N+1);
+CD_d=CD-[C_d,0];
+
 % Maximum amplitude constraint
-P_max=sdpvar(N,N,'symmetric','real');
-Q_max=sdpvar(N,N,'symmetric','real');
-F_max=sdpvar(N+2,N+2,'symmetric','real');
-F_max=[[((AB')*(kron(P_max,Phi)+kron(Q_max,[0,1;1,2]))*AB) + ...
-        diag([zeros(1,N),-Esq_max]),[C,D]']; ...
-       [C,D,-1]];
+P_max=sdpvar(N,N,"symmetric","real");
+Q_max=sdpvar(N,N,"symmetric","real");
+F_max=sdpvar(N+2,N+2,"symmetric","real");
+F_max=[[((AB')*(kron(Phi,P_max)+kron(Psi_max,Q_max))*AB) + ...
+        diag([zeros(1,N),-Esq_max]),CD']; ...
+       [CD,-1]];
 % Lower stop band constraint 
-P_sl=sdpvar(N,N,'symmetric','real');
-Q_sl=sdpvar(N,N,'symmetric','real');
-F_sl=sdpvar(N+2,N+2,'symmetric','real');
-F_sl=[[((AB')*(kron(P_sl,Phi)+kron(Q_sl,[0,1;1,-c_sl]))*AB) + ...
-       diag([zeros(1,N),-Esq_s]),[C,D]']; ...
-      [C,D,-1]];
+P_sl=sdpvar(N,N,"symmetric","real");
+Q_sl=sdpvar(N,N,"symmetric","real");
+F_sl=sdpvar(N+2,N+2,"symmetric","real");
+F_sl=[[((AB')*(kron(Phi,P_sl)+kron(Psi_sl,Q_sl))*AB) + ...
+       diag([zeros(1,N),-Esq_s]),CD']; ...
+      [CD,-1]];
 % Pass band constraint on the error |H(w)-e^(-j*w*d)|
-P_z=sdpvar(N,N,'symmetric','real');
-Q_z=sdpvar(N,N,'symmetric','real');
-F_z=sdpvar(N+2,N+2,'hermitian','complex');
-F_z=[[((AB')*(kron(P_z,Phi)+kron(Q_z,[0,1/e_c;e_c,-c_h]))*AB) + ...
-      diag([zeros(1,N),-Esq_z]),[C-C_d,D]']; ...
-     [C-C_d,D,-1]];
+P_z=sdpvar(N,N,"symmetric","real");
+Q_z=sdpvar(N,N,"symmetric","real");
+F_z=sdpvar(N+2,N+2,"symmetric","real");
+F_z=[[((AB')*(kron(Phi,P_z)+kron(Psi_z,Q_z))*AB) + ...
+      diag([zeros(1,N),-Esq_z]),CD_d']; ...
+     [CD_d,-1]];
 % Upper stop band constraint 
-P_su=sdpvar(N,N,'symmetric','real');
-Q_su=sdpvar(N,N,'symmetric','real');
-F_su=sdpvar(N+2,N+2,'symmetric','real');
-F_su=[[((AB')*(kron(P_su,Phi)+kron(Q_su,[0,-1;-1,c_su]))*AB) + ...
-       diag([zeros(1,N),-Esq_s]),[C,D]']; ...
-      [C,D,-1]];
+P_su=sdpvar(N,N,"symmetric","real");
+Q_su=sdpvar(N,N,"symmetric","real");
+F_su=sdpvar(N+2,N+2,"symmetric","real");
+F_su=[[((AB')*(kron(Phi,P_su)+kron(Psi_su,Q_su))*AB) + ...
+       diag([zeros(1,N),-Esq_s]),CD']; ...
+      [CD,-1]];
 
 % Solve with YALMIP
 Constraints=[F_max<=0,Q_max>=0,F_z<=0,Q_z>=0,F_sl<=0,Q_sl>=0,F_su<=0,Q_su>=0];
@@ -89,11 +87,17 @@ endif
 
 % Sanity checks
 check(Constraints)
+if ~issymmetric(value(P_max))
+  error("P_max not symmetric");
+endif
 if ~isdefinite(value(Q_max))
   error("Q_max not positive semi-definite");
 endif
 if ~isdefinite(-value(F_max))
   error("F_max not negative semi-definite");
+endif
+if ~issymmetric(value(P_z))
+  error("P_z not symmetric");
 endif
 if ~isdefinite(value(Q_z))
   error("Q_z not positive semi-definite");
@@ -101,11 +105,17 @@ endif
 if ~isdefinite(-value(F_z))
   error("F_z not negative semi-definite");
 endif
+if ~issymmetric(value(P_sl))
+  error("P_sl not symmetric");
+endif
 if ~isdefinite(value(Q_sl))
   error("Q_sl not positive semi-definite");
 endif
 if ~isdefinite(-value(F_sl))
   error("F_sl not negative semi-definite");
+endif
+if ~issymmetric(value(P_su))
+  error("P_su not symmetric");
 endif
 if ~isdefinite(value(Q_su))
   error("Q_su not positive semi-definite");
@@ -115,7 +125,12 @@ if ~isdefinite(-value(F_su))
 endif
 
 % Plot amplitude response
-h=value(fliplr([C,D]));
+nplot=1000;
+nasl=(fasl*nplot/0.5)+1;
+napl=(fapl*nplot/0.5)+1;
+napu=(fapu*nplot/0.5)+1;
+nasu=(fasu*nplot/0.5)+1;
+h=value(fliplr(CD));
 [H,w]=freqz(h,1,nplot);
 if 0
 ax=plotyy(w*0.5/pi,20*log10(abs(H)),w*0.5/pi,20*log10(abs(H)));
@@ -143,8 +158,8 @@ plot(w*0.5/pi,20*log10(abs(H)));
 axis([fapl fapu -0.05 0]);
 grid("on");
 ylabel("Amplitude(dB)");
-strt=sprintf("KYP non-symmetric FIR filter pass band : \
-N=%d,d=%d,fasu=%d,fapl=%g,fapu=%g,fasu=%g",N,d,fasl,fapl,fapu,fasu);
+strt=sprintf("N=%d,d=%d,fasu=%4.2f,fapl=%4.2f,fapu=%4.2f,fasu=%4.2f,\
+Esq\\_z=%10.8f,Esq\\_s=%6.4f",N,d,fasl,fapl,fapu,fasu,Esq_z,Esq_s);
 title(strt);
 subplot(312)
 plot(w(napl:napu)*0.5/pi, ...
@@ -164,15 +179,20 @@ close
 
 % Check squared-amplitude response
 printf("Esq_max=%8.6f\n",Esq_max);
-printf("max(abs(H).^2)=%8.6f\n",max(abs(H).^2));
-printf("max(abs(H(1:nasl)).^2)=%13.6g\n",max(abs(H(1:nasl)).^2));
-printf("min(abs(H(nasl:napl)).^2)=%13.6g\n",min(abs(H(nasl:napl)).^2));
-printf("max(abs(H(nasl:napl)).^2)=%8.6f\n",max(abs(H(nasl:napl)).^2));
-printf("min(abs(H(napl:napu)).^2)=%13.6g\n",min(abs(H(napl:napu)).^2));
-printf("max(abs(H(napl:napu)).^2)=%8.6f\n",max(abs(H(napl:napu)).^2));
-printf("max(abs(H(napu:nasu)).^2)=%8.6f\n",max(abs(H(napu:nasu)).^2));
-printf("min(abs(H(napu:nasu)).^2)=%13.6g\n",min(abs(H(napu:nasu)).^2));
-printf("max(abs(H(nasu:end)).^2)=%13.6g\n",max(abs(H(nasu:end)).^2));
+printf("max(abs(H))^2=%8.6f\n",max(abs(H))^2);
+printf("max(abs(H(1:nasl)))^2=%13.6g\n",max(abs(H(1:nasl)))^2);
+printf("min(abs(H(nasl:napl)))^2=%13.6g\n",min(abs(H(nasl:napl)))^2);
+printf("max(abs(H(nasl:napl)))^2=%8.6f\n",max(abs(H(nasl:napl)))^2);
+printf("min(abs(H(napl:napu)))^2=%13.6g\n",min(abs(H(napl:napu)))^2);
+printf("max(abs(H(napl:napu)))^2=%8.6f\n",max(abs(H(napl:napu)))^2);
+Asq_z=max(abs(H(napl:napu)-e.^(-j*w(napl:napu)*d)))^2;
+printf("max(abs(H(napl:napu)-e.^(-j*w(napl:napu)*d)))^2=%10.8f\n",Asq_z);
+fid=fopen(strcat(strf,"_max_passband_squared_error.tab"),"wt");
+fprintf(fid,"%10.8f",Asq_z);
+fclose(fid);
+printf("max(abs(H(napu:nasu)))^2=%8.6f\n",max(abs(H(napu:nasu)))^2);
+printf("min(abs(H(napu:nasu)))^2=%13.6g\n",min(abs(H(napu:nasu)))^2);
+printf("max(abs(H(nasu:end)))^2=%13.6g\n",max(abs(H(nasu:end)))^2);
 
 % Find complementary FIR lattice coefficients
 hs=direct_form_scale(h(:),1,nplot);
@@ -243,56 +263,9 @@ print_polynomial(k,"k",strcat(strf,"_k_coef.m"),"%11.8f");
 print_polynomial(kc,"kc","%11.8f");
 print_polynomial(kc,"kc",strcat(strf,"_kc_coef.m"),"%11.8f");
 
-save directFIRnonsymmetric_kyp_bandpass_test.mat ...
-     N d fasl fapl fapu fasu Esq_z Esq_s Esq_max h k kc
+eval(sprintf("save %s.mat N d fasl fapl fapu fasu Esq_z Esq_s Esq_max h k kc",strf));
 
 % Done
 toc;
 diary off
-movefile directFIRnonsymmetric_kyp_bandpass_test.diary.tmp ...
-         directFIRnonsymmetric_kyp_bandpass_test.diary;
-
-% Alternative designs:
-%{
-d=10;N=60;
-h = [ -0.0101524800, -0.0045820085,  0.0060020090, -0.0019523710, ... 
-       0.0072702106,  0.0560496533,  0.0323690492, -0.1174426199, ... 
-      -0.1618336359,  0.0721369956,  0.2750502197,  0.0897053578, ... 
-      -0.2272817925, -0.1994834657,  0.0655459819,  0.1353478075, ... 
-       0.0165400694, -0.0076938320,  0.0344056996, -0.0223580636, ... 
-      -0.0795207406, -0.0174152565,  0.0413549928,  0.0119804918, ... 
-      -0.0010236427,  0.0291580248,  0.0120281184, -0.0301877264, ... 
-      -0.0178581511,  0.0058716624, -0.0098713103, -0.0097480130, ... 
-       0.0227239978,  0.0222657336, -0.0068383637, -0.0065090071, ... 
-       0.0038819511, -0.0127394185, -0.0188827595,  0.0066996512, ... 
-       0.0176102395,  0.0021048518, -0.0008637890,  0.0065539802, ... 
-      -0.0033498717, -0.0138489777, -0.0034234376,  0.0067467907, ... 
-       0.0020102282, -0.0000152460,  0.0048100775,  0.0019963243, ... 
-      -0.0048063157, -0.0032980779,  0.0009832650,  0.0001794255, ... 
-      -0.0005743571,  0.0015155068,  0.0015629505, -0.0005108670, ... 
-      -0.0008307858 ];
-% Time taken : 536 seconds
-% eqs m = 14701, order n = 551, dim = 41309, blocks = 9
-% nnz(A) = 60157 + 0, nnz(ADA) = 55372201, nnz(L) = 27693451
-
-d=15;N=60;
-h = [ -0.0026948092, -0.0023808381,  0.0083110207,  0.0130500037, ... 
-      -0.0055256522, -0.0197229297, -0.0041421387,  0.0014200059, ... 
-      -0.0180542126,  0.0146846110,  0.0923320897,  0.0436638802, ... 
-      -0.1444702892, -0.1758440751,  0.0759949239,  0.2558231474, ... 
-       0.0748962218, -0.1859735338, -0.1530674008,  0.0472869747, ... 
-       0.0969308557,  0.0155379865, -0.0107251110,  0.0084170503, ... 
-      -0.0100439301, -0.0260265409, -0.0034555804,  0.0072416816, ... 
-      -0.0038100103,  0.0035870493,  0.0150390660,  0.0026983385, ... 
-      -0.0050426701,  0.0042149354, -0.0030247984, -0.0198676437, ... 
-      -0.0073062108,  0.0167809829,  0.0124216206, -0.0026308478, ... 
-       0.0001316748,  0.0022495051, -0.0093775548, -0.0108350995, ... 
-       0.0039162768,  0.0100023280,  0.0021380374, -0.0021731244, ... 
-      -0.0001845161, -0.0008153335, -0.0024520942, -0.0005997109, ... 
-       0.0013928422,  0.0008970480, -0.0000122272, -0.0003174551, ... 
-      -0.0002639201,  0.0003503883,  0.0005868005, -0.0002241161, ... 
-      -0.0006732924 ];
-% Time taken : 611 seconds
-
-% d=20;N=80
-%}
+eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));

@@ -48,8 +48,8 @@ function [y,xx]=allpass_dir1_retimed(b1,u,rounding)
 
   % Allocate output storage now
   u=u(:);
-  xx=zeros(size(u),3);
-  y=zeros(size(u));
+  xx=zeros(length(u),3);
+  y=zeros(length(u),1);
   x=zeros(1,3);
 
   % Calculate the state scaling factors
