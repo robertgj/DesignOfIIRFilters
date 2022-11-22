@@ -59,7 +59,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_12_nbits_cost.ok << 'EOF'
-Exact & 0.000656 & & \\
+Exact & 0.000655 & & \\
 12-bit 2-signed-digit(Lim)& 0.001206 & 41 & 19 \\
 12-bit 2-signed-digit(SOCP-relax) & 0.001701 & 41 & 19 \\
 EOF

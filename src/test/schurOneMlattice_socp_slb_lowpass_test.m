@@ -1,35 +1,41 @@
 % schurOneMlattice_socp_slb_lowpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMlattice_socp_slb_lowpass_test.diary");
-delete("schurOneMlattice_socp_slb_lowpass_test.diary.tmp");
-diary schurOneMlattice_socp_slb_lowpass_test.diary.tmp
+strf="schurOneMlattice_socp_slb_lowpass_test";
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 
-tol=1e-6
-ctol=tol
+tol=1e-5
+ctol=tol/10
 maxiter=2000
 verbose=false
 
 % Deczky3 lowpass filter specification
-n=400
+n=500
 norder=10
 fap=0.15,dBap=0.1,Wap=1
-ftp=0.25,tp=10,tpr=0.02,Wtp=1
+ftp=0.25,tp=9,tpr=0.02,Wtp=1
 Wat=2*tol
-fas=0.3,dBas=38,Was=100
+fas=0.35,dBas=47,Was=100
 % Initial filter similar to Deczky Example 3a
-U=0;V=0;Q=6;M=10;R=1;
-z0=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...
-    1.5*exp(j*2*pi*0.14),1.5*exp(j*2*pi*0.08)];
-p0=[0.7*exp(j*2*pi*0.16),0.6*exp(j*2*pi*0.12),0.5*exp(j*2*pi*0.05)];
-K0=0.0096312406;
-x0=[K0,abs(z0),angle(z0),abs(p0),angle(p0)]';
+U=1;V=2;M=8;Q=4;R=1;
+Z0=-2;
+z0=[exp(j*2*pi*0.35),1.5*exp(j*2*pi*0.2),1.5*exp(j*2*pi*0.14), ...
+    1.5*exp(j*2*pi*0.08)];
+p0=[0.7*exp(j*2*pi*0.16),0.6*exp(j*2*pi*0.12)];
+P0=[0.5,0.5];
+K0=0.005;
+x0=[K0,Z0,P0,abs(z0),angle(z0),abs(p0),angle(p0)]';
 [n0,d0]=x2tf(x0,U,V,M,Q,R);
+%[H0,w0]=freqz(n0,d0,1024);
+%set(0,'DefaultFigureVisible','on');
+%plot(w0*0.5/pi,20*log10(abs(H0)))
 d0=[d0(:);zeros(length(n0)-length(d0),1)];
 
 % Convert transfer function to one-multiplier Schur lattice
@@ -71,7 +77,6 @@ kc_l=-kc_u;
 kc_active=[find((k0)~=0);(Nk+(1:Nc))'];
   
 % Common strings
-strf="schurOneMlattice_socp_slb_lowpass_test";
 strt=sprintf("Schur one-multiplier lattice lowpass filter SOCP %%s response : \
 fap=%g,dBap=%g,fas=%g,dBas=%g",fap,dBap,fas,dBas);
 
@@ -155,5 +160,4 @@ save schurOneMlattice_socp_slb_lowpass_test.mat x0 n0 d0 k0 epsilon0 p0 c0 ...
 % Done
 toc;
 diary off
-movefile schurOneMlattice_socp_slb_lowpass_test.diary.tmp ...
-         schurOneMlattice_socp_slb_lowpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

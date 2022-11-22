@@ -2,9 +2,9 @@
 
 prog=schurOneMlattice2tf_test.m
 
-depends="test/schurOneMlattice2tf_test.m \
-test_common.m schurOneMlattice2tf.m tf2schurOneMlattice.m schurOneMscale.m \
-Abcd2tf.oct schurdecomp.oct schurexpand.oct schurOneMlattice2Abcd.oct"
+depends="test/schurOneMlattice2tf_test.m test_common.m \
+Abcd2tf.m schurOneMlattice2tf.m tf2schurOneMlattice.m schurOneMscale.m \
+schurdecomp.oct schurexpand.oct schurOneMlattice2Abcd.oct"
 
 tmp=/tmp/$$
 here=`pwd`

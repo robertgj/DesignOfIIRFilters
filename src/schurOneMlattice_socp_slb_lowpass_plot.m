@@ -1,7 +1,7 @@
 function schurOneMlattice_socp_slb_lowpass_plot ...
            (k,epsilon,p,c,fap,dBap,ftp,tp,tpr,fas,dBas,strF,strT)
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -52,14 +52,14 @@ function schurOneMlattice_socp_slb_lowpass_plot ...
   subplot(211);
   plot(wplot*0.5/pi,10*log10(Asq));
   ylabel("Amplitude(dB)");
-  axis([0 fap -dBap dBap]);
+  axis([0, max(fap,ftp), -dBap, dBap]);
   grid("on");
   title(strT);
   subplot(212);
   plot(wplot*0.5/pi,T);
   ylabel("Delay(samples)");
   xlabel("Frequency");
-  axis([0, ftp, tp-tpr tp+tpr]);
+  axis([0, max(fap,ftp), tp-tpr tp+tpr]);
   grid("on");
   print(strcat(strF,"pass"),"-dpdflatex");
   close

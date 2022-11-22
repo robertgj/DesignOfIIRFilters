@@ -12,7 +12,7 @@ fc=0.1;dBap=1;dBas=40;
 
 for N=1:12,
 
-  tol_eps=25*N;
+  tol_eps=100*N;
   
   % Calculate Schur one-multiplier lattice coefficients
   [n,d]=ellip(N,dBap,dBas,2*fc);

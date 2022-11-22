@@ -6,7 +6,7 @@ function [d,p1,p2,q1,q2]=sos2pq(sos,g)
 %                      -----------------------
 %                      1 + (p1/z) + (p2/(z*z))
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -32,17 +32,20 @@ function [d,p1,p2,q1,q2]=sos2pq(sos,g)
   endif
   
   % Check inputs
+  if isempty(sos)
+    error("isempty(sos)");
+  endif
+  if columns(sos) ~= 6
+    error("columns(sos) ~= 6");
+  endif
+  if sos(:,4) ~= ones(rows(sos),1);
+    error("p0 ~= 1");
+  endif
   if nargin == 1
     g=1;
   endif
   if ~isscalar(g)
     error("g is not scalar");
-  endif
-  if sos(:,4) ~= ones(rows(sos),1);
-    error("p0 ~= 1");
-  endif
-  if columns(sos) ~= 6
-    error("columns(sos) ~= 6");
   endif
 
   % Extract d,p and q
@@ -54,19 +57,23 @@ function [d,p1,p2,q1,q2]=sos2pq(sos,g)
   p1=zeros(nsect,1);
   p2=zeros(nsect,1);
   for k=1:nsect
-    [b,r]=deconv(sos(k,1:3)*gnsect,sos(k,4:6));
+    [b,r]=deconv(sos(k,1:3),sos(k,4:6));
     if length(b) ~= 1
       error("length(b) ~= 1");
     endif
-    if length(r) ~= 3
-      error("length(r) ~= 3");
+    if (length(r) ~= 3) && (length(r) ~= 2)
+      error("length(r) is %d",length(r));
     endif
     if r(1) ~= 0
       error("r(1) ~= 0");
     endif
-    d(k)=b;
-    q1(k)=r(2);
-    q2(k)=r(3);
+    d(k)=b*gnsect;
+    q1(k)=r(2)*gnsect;
+    if length(r)==3
+      q2(k)=r(3)*gnsect;
+    else
+      q2(k)=0;
+    endif
     p1(k)=sos(k,5);
     p2(k)=sos(k,6);    
   endfor

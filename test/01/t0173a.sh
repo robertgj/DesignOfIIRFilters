@@ -37,22 +37,54 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-dBpass = 1
-dBstop = 40
-fc = 0.1250
-Testing ellip. LP,fc=0.125000,dBpass=1.000000,dBstop=40.000000
-Testing N=1
-Testing N=2
-Testing N=3
-Testing N=4
-Testing N=5
-Testing N=6
-Testing N=7
-Testing N=8
-Testing N=9
-Testing N=10
-Testing N=11
-Testing N=12
+Testing IIR, N=1
+Testing IIR, N=2
+Testing IIR, N=3
+Testing IIR, N=4
+Testing IIR, N=5
+Testing IIR, N=6
+Testing IIR, N=7
+Testing IIR, N=8
+Testing IIR, N=9
+Testing IIR, N=10
+Testing IIR, N=11
+Testing IIR, N=12
+Testing FIR, N=1
+Testing FIR, N=2
+Testing FIR, N=3
+Testing FIR, N=4
+Testing FIR, N=5
+Testing FIR, N=6
+Testing FIR, N=7
+Testing FIR, N=8
+Testing FIR, N=9
+Testing FIR, N=10
+Testing FIR, N=11
+Testing FIR, N=12
+Testing mixed IIR/FIR, N=1
+Testing mixed IIR/FIR, N=2
+Testing mixed IIR/FIR, N=3
+Testing mixed IIR/FIR, N=4
+Testing mixed IIR/FIR, N=5
+Testing mixed IIR/FIR, N=6
+Testing mixed IIR/FIR, N=7
+Testing mixed IIR/FIR, N=8
+Testing mixed IIR/FIR, N=9
+Testing mixed IIR/FIR, N=10
+Testing mixed IIR/FIR, N=11
+Testing mixed IIR/FIR, N=12
+Testing mixed2 FIR/IIR, N=1
+Testing mixed2 FIR/IIR, N=2
+Testing mixed2 FIR/IIR, N=3
+Testing mixed2 FIR/IIR, N=4
+Testing mixed2 FIR/IIR, N=5
+Testing mixed2 FIR/IIR, N=6
+Testing mixed2 FIR/IIR, N=7
+Testing mixed2 FIR/IIR, N=8
+Testing mixed2 FIR/IIR, N=9
+Testing mixed2 FIR/IIR, N=10
+Testing mixed2 FIR/IIR, N=11
+Testing mixed2 FIR/IIR, N=12
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

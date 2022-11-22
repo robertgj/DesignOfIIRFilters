@@ -57,7 +57,7 @@ trmask=[100*tpr*ones(nt,1);0.5*tpr*ones(n-nt,1)];
 Tdu=Td+trmask;
 Tdl=Td-trmask;
 Wtt=0
-Wtp=0.1
+Wtp=0.2
 Wt=[Wtt*ones(nt,1);Wtp*ones(n-nt,1)];
 
 % Phase constraints

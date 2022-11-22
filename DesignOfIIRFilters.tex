@@ -5202,6 +5202,8 @@ x_{N}
 \end{align*}
 The Octave function \emph{schurFIRlattice2Abcd} returns the state variable
 description of a Schur FIR lattice filter.
+The Octave script \emph{schurFIRlattice2Abcd\_symbolic\_test.m} creates a symbolic
+state variable description of the Schur FIR lattice filter.
 \subsection{\label{State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}State variable description of the one-multiplier IIR lattice filter}
 In Figure~\ref{fig:State-variable-description-One-Multiplier-Lattice},
 Figure~\ref{fig:One-multiplier-lattice-structure} is redrawn with
@@ -5364,7 +5366,10 @@ u
 
 The Octave function \emph{schurOneMlattice2Abcd} returns the state variable
 description of a one multiplier lattice filter (including the all-pass
-filter $Cap$ and $Dap$ output matrixes). 
+filter $Cap$ and $Dap$ output matrixes).
+The Octave script \emph{schurSchurOneMlattice2Abcd\_symbolic\_test.m} creates a
+symbolic state variable description of the Schur one multiplier lattice filter.
+
 
 \subsection{\label{sec:State-variable-retimed-One-multiplier-Schur-lattice-filter}State variable description of a retimed one-multiplier Schur lattice filter}
 Figure~\ref{fig:State-variable-description-retimed-One-Multiplier-Lattice} shows
@@ -5558,6 +5563,9 @@ The Octave function \emph{schurOneMlatticeRetimed2Abcd} returns the state
 variable description of a retimed Schur one-multiplier lattice filter
 (including the all-pass filter $Cap$ and $Dap$ output matrixes).
 
+The Octave script \emph{schurOneMlatticeRetimed2Abcd\_symbolic\_test.m} creates a
+symbolic state variable description of a retimed Schur one-multiplier lattice
+filter. 
 \subsection{\label{State-Variable-Description-Scaled-Normalised-IIR-Lattice-Filter}State variable description of the scaled-normalised IIR lattice filter}
 In Figure~\ref{fig:State-variable-description-Scaled-Normalised-lattice},
 Figure~\ref{fig:Normalised-scaled-lattice} is redrawn with $x_{n}^{\prime}$
@@ -5733,7 +5741,7 @@ u
 The Octave function \emph{schurNSlattice2Abcd} returns the state variable
 description of a normalised-scaled lattice filter (including the all-pass
 filter $Cap$ and $Dap$ output matrixes).
-
+\clearpage
 \section{Roundoff Noise Calculation in Schur Lattice Filters}
 In this section I rely on the analysis of round-off noise presented by
 \emph{Roberts} and 
@@ -6508,6 +6516,9 @@ The Octave function \emph{schurOneMR2lattice2Abcd},
 exercised by the Octave script \emph{schurOneMR2lattice2Abcd\_test.m},
 implements retiming of a one-multiplier Schur lattice filter with a denominator
 polynomial having coefficients in $z^{-2}$ only.
+The Octave script \emph{schurSchurOneMR2lattice2Abcd\_symbolic\_test.m} creates a
+symbolic state variable description of the Schur one multiplier lattice filter
+ with a denominator polynomial having coefficients in $z^{-2}$ only.
 
 \subsection{Frequency transformations of retimed Schur lattice filters}
 An implementation of a rational transfer function having
@@ -11496,7 +11507,7 @@ and~\ref{sec:Deczky3-IIR-filter-gain-zero-pole-with-SeDuMi}:
 \begin{small}
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_test.spec}
 \end{small}
-The initial filter is the ``IPZS-1'' filter of 
+The initial filter is a heavily modified version of the ``IPZS-1'' filter of 
 Section~\ref{sub:Deczkys-Example-3}. 
 Figures~\ref{fig:Schur-one-multiplier-lattice-lowpass-filter-SOCP-PCLS} 
 and~\ref{fig:Schur-one-multiplier-lattice-lowpass-filter-SOCP-PCLS-pass} 
@@ -11530,6 +11541,12 @@ coefficients of the low-pass filter are:
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_test_epsilon2_coef.m}
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_test_p2_coef.m}
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_test_c2_coef.m}
+\end{small}
+The PCLS SOCP optimised Schur one-multiplier low-pass filter numerator and
+denominator polynomials are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_test_n2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_test_d2_coef.m}
 \end{small}
 \clearpage
 \subsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-low-pass-SQP}Design of an IIR one-multiplier Schur lattice low-pass filter using SQP}
@@ -11578,6 +11595,12 @@ coefficients of the low-pass filter are:
 \verbatiminput{schurOneMlattice_sqp_slb_lowpass_test_epsilon2_coef.m}
 \verbatiminput{schurOneMlattice_sqp_slb_lowpass_test_p2_coef.m}
 \verbatiminput{schurOneMlattice_sqp_slb_lowpass_test_c2_coef.m}
+\end{small}
+The PCLS SQP optimised Schur one-multiplier low-pass filter numerator and
+denominator polynomials are:
+\begin{small}
+\verbatiminput{schurOneMlattice_sqp_slb_lowpass_test_n2_coef.m}
+\verbatiminput{schurOneMlattice_sqp_slb_lowpass_test_d2_coef.m}
 \end{small}
 \clearpage
 \subsection{Design of an IIR Schur normalised-scaled lattice low-pass filter using SQP}
@@ -16803,16 +16826,12 @@ lowpass differentiator filter SOCP-relaxation example with 12-bit coefficients]
 \label{tab:socp-relax-schurOneMlattice-lowpass-differentiator-12-nbits-cost-summary}
 \end{table}
 \clearpage
-\section{\label{sec:SOCP-relaxation-search-one-mult-FRM-low-pass-Schur-lattice}SOCP relaxation search for the 12-bit 3-signed-digit coefficients of a FRM low-pass filter}
+\section{\label{sec:SOCP-relaxation-search-one-mult-FRM-low-pass-Schur-lattice}SOCP relaxation search for the 12-bit, 3-signed-digit coefficients of an FRM low-pass filter}
 The Octave script
 \emph{socp\_relaxation\_schurOneMAPlattice\_frm\_12\_nbits\_test.m} uses
 socp-relaxation search to optimise the response of the FRM low-pass
 filter of Section~\ref{sec:FRM-low-pass-Schur-lattice} with
-$12$-bit coefficients each having an average of $3$ signed-digits allocated by
-the method of \emph{Ito et al.}. The number of signed-digits per coefficient is
-as shown in
-Section~\ref{sec:Branch-and-bound-search-one-mult-FRM-low-pass-Schur-lattice}.
-The filter specification is:
+$12$-bit, $3$ signed-digit coefficient. The filter specification is:
 \begin{small}
 \verbatiminput{socp_relaxation_schurOneMAPlattice_frm_12_nbits_test.spec}
 \end{small}
@@ -16829,10 +16848,9 @@ The filter coefficients found by the socp-relaxation search are:
 \end{small}
 Figure~\ref{fig:socp-relaxation-schurOneMAPlattice-frm-12-nbits-response},
 compares the amplitude, phase and delay responses of the FRM low-pass
-filter with exact and 12-bit coefficients with an average of 3-signed-digits
-allocated by the method of \emph{Lim et al.} and with the coefficients
-found by SOCP-relaxation search. The phase response shown is adjusted for the
-nominal delay.
+filter with exact and 12-bit, 3-signed-digit coefficients found by
+SOCP-relaxation search. The phase response shown is adjusted for the nominal
+delay.
 Table~\ref{tab:socp-relaxation-schurOneMAPlattice-frm-12-nbits-cost}
 compares the cost and the number of $12$ bit shift-and-add operations required
 to implement the coefficient multiplications found by SOCP-relaxation search.
@@ -16840,9 +16858,8 @@ to implement the coefficient multiplications found by SOCP-relaxation search.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_response}}
 \caption{Comparison of the amplitude, phase and delay responses of an FRM
-  low-pass filter with exact and 12 bit coefficients with an average of
-  3-signed-digits allocated by the method of \emph{Lim et al.} and with the 
-  coefficients found by SOCP-relaxation search. The phase response shown is
+  low-pass filter with exact and 12 bit, 3-signed-digit coefficients
+  found by SOCP-relaxation search. The phase response shown is
   adjusted for the nominal delay.}
 \label{fig:socp-relaxation-schurOneMAPlattice-frm-12-nbits-response}
 \end{figure}
@@ -16859,10 +16876,70 @@ to implement the coefficient multiplications found by SOCP-relaxation search.
 12-bit 3-signed-digit coefficients found by socp-relaxation search]
 {Comparison of the cost and number of 12-bit shift-and-add operations required 
   to implement the coefficient multiplications for an FRM low-pass filter
-  with 12-bit coefficients with an average of 3-signed-digits allocated by the
-  method of \emph{Lim et al.} and with the coefficients found by
-  SOCP-relaxation search} 
+  with 12-bit, 3-signed-digit coefficients found by SOCP-relaxation search} 
 \label{tab:socp-relaxation-schurOneMAPlattice-frm-12-nbits-cost}
+\end{table}
+\clearpage
+\section{SOCP relaxation search for the 16-bit, 3-signed-digit coefficients of an FRM low-pass filter}
+The Octave script
+\emph{socp\_relaxation\_schurOneMAPlattice\_frm\_16\_nbits\_test.m} uses
+socp-relaxation search to optimise the response of the FRM low-pass
+filter of Section~\ref{sec:FRM-low-pass-Schur-lattice} with
+$16$-bit coefficients each having an average of $3$ signed-digits allocated by
+the method of \emph{Ito et al.}. The number of signed-digits per coefficient is
+as shown in
+Section~\ref{sec:Branch-and-bound-search-one-mult-FRM-low-pass-Schur-lattice}.
+The filter specification is:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMAPlattice_frm_16_nbits_test.spec}
+\end{small}
+The filter coefficients found by the socp-relaxation search are:
+\begin{small}
+  \verbatiminput
+  {socp_relaxation_schurOneMAPlattice_frm_16_nbits_test_k_min_coef.m}
+  \verbatiminput
+  {socp_relaxation_schurOneMAPlattice_frm_16_nbits_test_epsilon_min_coef.m}
+  \verbatiminput
+  {socp_relaxation_schurOneMAPlattice_frm_16_nbits_test_u_min_coef.m}
+  \verbatiminput
+  {socp_relaxation_schurOneMAPlattice_frm_16_nbits_test_v_min_coef.m}
+\end{small}
+Figure~\ref{fig:socp-relaxation-schurOneMAPlattice-frm-16-nbits-response},
+compares the amplitude, phase and delay responses of the FRM low-pass
+filter with exact and $16$-bit coefficients with an average of $3$-signed-digits
+allocated by the method of \emph{Ito et al.} and with the coefficients
+found by SOCP-relaxation search. The phase response shown is adjusted for the
+nominal delay.
+Table~\ref{tab:socp-relaxation-schurOneMAPlattice-frm-16-nbits-cost}
+compares the cost and the number of $16$ bit shift-and-add operations required
+to implement the coefficient multiplications found by SOCP-relaxation search.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMAPlattice_frm_16_nbits_test_response}}
+\caption{Comparison of the amplitude, phase and delay responses of an FRM
+  low-pass filter with exact and 16 bit coefficients with an average of
+  3-signed-digits allocated by the method of \emph{Ito et al.} and with the 
+  coefficients found by SOCP-relaxation search. The phase response shown is
+  adjusted for the nominal delay.}
+\label{fig:socp-relaxation-schurOneMAPlattice-frm-16-nbits-response}
+\end{figure}
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lccc}  \\ \toprule
+& Cost&Signed-digits&Shift-and-adds\\ \midrule
+\input{socp_relaxation_schurOneMAPlattice_frm_16_nbits_test_kuv_min_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the FRM low-pass filter with exact and
+16-bit 3-signed-digit coefficients found by socp-relaxation search]
+{Comparison of the cost and number of 12-bit shift-and-add operations required 
+  to implement the coefficient multiplications for an FRM low-pass filter
+  with 16-bit coefficients with an average of 3-signed-digits allocated by the
+  method of \emph{Ito et al.} and with the coefficients found by
+  SOCP-relaxation search} 
+\label{tab:socp-relaxation-schurOneMAPlattice-frm-16-nbits-cost}
 \end{table}
 \clearpage
 \section{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-FRM-hilbert}SOCP-relaxation search for the signed-digit coefficients of an FRM Hilbert IIR filter with an all-pass lattice model filter}
@@ -26290,6 +26367,8 @@ x_{N}
 \end{align*}
 The Octave function \emph{complementaryFIRlattice2Abcd} returns the state
 variable description of a complementary FIR lattice filter.
+The Octave script \emph{complementaryFIRlattice2Abcd\_symbolic\_test.m} creates a
+symbolic state variable description of the complementary FIR lattice filter.
 
 \subsection{\label{app:Design-of-complementary-FIR-digital-filter}Design of the complementary FIR digital filter}
 The previous sections of this chapter assume that the complementary FIR filter
@@ -35392,22 +35471,22 @@ stop band regions. The pass band phase error is adjusted for the nominal delay.}
 \addcontentsline{toc}{part}{Colophon}
 \pdfbookmark[0]{Requirements}{requirements}
 \section*{Software requirements}
-I currently use the Fedora 36 distribution of Linux~\cite{Fedora_website} with:
+I currently use the Fedora 37 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{5.19.8-200.fc36.x86\_64}
-\item \emph{gcc} version \emph{12.1.1 20220819 (Red Hat 12.2.1-1)}
-\item a local build of \emph{octave-7.2.0} with the \emph{struct}, \emph{io},
+\item \texttt{uname -r} is \emph{6.0.8-300.fc37.x86\_64}
+\item \emph{gcc} version \emph{12.2.1 20220819 (Red Hat 12.2.1-2)}
+\item a local build of \emph{octave-7.3.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic}\footnote{The \emph{symbolic} Octave-Forge package assumes that
   the \emph{python3-sympy} Fedora package is installed.} and \emph{parallel}
   Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit with
-  \emph{qt-4.8.7-67} and a local build of \emph{GraphicsMagick}
-\item \emph{texlive-2021-55} and various packages are installed
-\item \emph{dia-0.97.3-20} is used for line drawings
+  \emph{qt-4.8.7-69} and a local build of \emph{GraphicsMagick}
+\item \emph{texlive-2021-59} and various packages are installed
+\item \emph{dia-0.97.3-21} is used for line drawings
 \end{itemize}
 
-The local build of \emph{octave-7.2.0} and Octave-Forge packages assumes that
+The local build of \emph{octave-7.3.0} and Octave-Forge packages assumes that
 the following packages are installed in addition to the base Fedora distribution:
 \begin{small}
 \begin{verbatim}
@@ -35444,7 +35523,7 @@ texlive-dvisvgm
   
 \pdfbookmark[0]{Makefile}{makefile}
 \section*{\emph{Makefile}}
-This document is built with \emph{GNU make-4.3-7}. The \emph{Makefile} in the
+This document is built with \emph{GNU make-4.3-11}. The \emph{Makefile} in the
 project archive builds the PDF version of this document from the \LaTeX source
 in \emph{DesignOfIIRFilters.tex}. The project archive contains the files
 required to generate the figures shown in this document. The line diagrams are
@@ -35466,15 +35545,15 @@ Section~\ref{sec:Round-off-normalised-scaled-lattice}, has the corresponding
 \pdfbookmark[0]{Octave}{octave}.
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
-version of \emph{octave-7.2.0} avoiding the vagaries of the Fedora
+version of \emph{octave-7.3.0} avoiding the vagaries of the Fedora
 packagers.
 
 The \emph{build-octave.sh} script builds Octave and the associated numerical
 libraries with the \emph{g++} option \texttt{-march=nehalem}. The patch file,
 \emph{octave.patch}, is a shell \emph{here} document
-within \emph{build-octave.sh}. The \emph{octave-7.2.0/configure} script is
+within \emph{build-octave.sh}. The \emph{octave-7.3.0/configure} script is
 patched so that the Octave \texttt{OCTAVE\_VERSION} command
-returns \texttt{7.2.0-robj}.
+returns \texttt{7.3.0-robj}.
 
 The local build of Octave links to locally built versions of the following
 libraries: 
@@ -35483,8 +35562,8 @@ libraries:
 \emph{glpk-5.0}~\cite{GNU_GLPK},
 \emph{lapack-3.10.1}~\cite{LAPACK_website},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
-\emph{SuiteSparse-5.13.0}~\cite{SUITESPARSE_website},
-\emph{sundials-6.3.0}~\cite{SUNDIALS_website} and
+\emph{SuiteSparse-6.0.1}~\cite{SUITESPARSE_website},
+\emph{sundials-6.4.1}~\cite{SUNDIALS_website} and
 \emph{GraphicsMagick-1.3.38}~\cite{GraphicsMagick_website}.
 The local build of the \emph{LAPACK} library includes the deprecated routines.
 
@@ -35547,8 +35626,10 @@ within \emph{build-octave.sh}:
 \item the \emph{signal-1.4.2} package \texttt{zplane} function is patched to
   avoid a \LaTeX~error and the \texttt{grpdelay} function is patched to correctly
   handle the \texttt{grpdelay(a,b,w} API.
+\item the \emph{signal-1.4.3} package \texttt{zp2sos} function is broken.
+\item the \emph{statistics-1.5.0} package gives warnings about missing files
 \item the \emph{parallel-4.0.1} package is patched to make it compatible with
-  \emph{octave-7.2.0}.
+  \emph{octave-7.3.0}.
 \item \emph{SparsePOP} uses the \texttt{collect} function from
   \emph{SymPy}. This is not included in the \emph{symbolic-3.0.1} package. I add
   a version of \emph{collect.m} based on \emph{factor.m}. 
@@ -35627,9 +35708,9 @@ be installed with this work-around:
 This section shows the results of benchmarking various builds of Octave
 and benchmarking \emph{blas} and \emph{lapack} libraries with a shared library
 \emph{LTO} and \emph{PGO} build of Octave. The Linux kernel used was
-\emph{5.19.8-200.fc36.x86\_64} from the RedHat Fedora 36 Linux
+\emph{6.0.8-300.fc37.x86\_64} from the RedHat Fedora 36 Linux
 distribution. The system compiler is
-\emph{gcc version 12.1.1 20220819 (Red Hat 12.2.1-1)}.
+\emph{gcc version 12.2.1 20220819 (Red Hat 12.2.1-2)}.
 The CPU is an Intel i7-7700K for which the number of CPU cores 
 is $4$ ($8$ hyper-threaded). During the benchmark the CPU frequency was fixed
 at $4.5GHz$.  To do this, as the \emph{root} user:
@@ -35702,11 +35783,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 272.9 \\
-Generic, shared reference lapack and blas            &  47.5 \\
-Generic, shared reference lapack and blas, LTO       &  47.8 \\
-Generic, shared reference lapack and blas, PGO       &  48.7 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  47.0 \\
+Debug, shared reference lapack and blas              & 276.3 \\
+Generic, shared reference lapack and blas            &  49.8 \\
+Generic, shared reference lapack and blas, LTO       &  49.7 \\
+Generic, shared reference lapack and blas, PGO       &  51.1 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  49.0 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -35722,7 +35803,7 @@ The shell script \emph{library-benchmark.sh} benchmarks the shared library
 benchmark script. The \emph{linpack.m} script was modified to produce
 repeatable residuals. The alternative \emph{blas} and \emph{lapack} library
 versions used are local builds of \emph{blas-3.10.1} and \emph{lapack-3.10.1} and
-the Fedora 36 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
+the Fedora 37 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
 \emph{gsl}~\cite{GNU_GSL} and \emph{openblas}~\cite{OpenBLAS_website}
 packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
   of \emph{DGESVD} for a problematic matrix and the \emph{libtatlas}, system
@@ -35738,13 +35819,13 @@ packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
 \end{texttt}}
 \begin{small}
 \begin{verbatim}
-atlas.x86_64               3.10.3-19.fc36
-blas.x86_64                3.10.1-1.fc36
-lapack.x86_64              3.10.1-1.fc36
-gsl.x86_64                 2.6-6.fc36
-gsl-devel.x86_64           2.6-6.fc36
-openblas.x86_64            0.3.19-3.fc36
-openblas-threads.x86_64    0.3.19-3.fc36
+atlas.x86_64            3.10.3-20.fc37
+blas.x86_64             3.10.1-2.fc37
+lapack.x86_64           3.10.1-2.fc37
+gsl.x86_64              2.6-7.fc37
+gsl-devel.x86_64        2.6-7.fc37
+openblas.x86_64         0.3.21-3.fc37
+openblas-threads.x86_64 0.3.21-3.fc37
 \end{verbatim}
 \end{small}
 
@@ -35781,19 +35862,19 @@ libraries varied between two values. The largest is shown.
 \cmidrule{2-4}             & MFLOPS & Normalised          & Execution time \\
                            &        & residual            & (seconds) \\
 \midrule
-Generic libblas/liblapack  &  3945  & 21.3                &  46.9 \\
-Intel libblas/liblapack    &  3871  & 21.3                &  46.8 \\
-Haswell libblas/liblapack  &  4737  & 18.5                &  46.4 \\
-Nehalem libblas/liblapack  &  3881  & 21.3                &  46.8 \\
-Skylake libblas/liblapack  &  4506  & 18.5                &  46.7 \\
-Fedora 36 libblas/liblapack&  3908  & 21.3                &  46.9 \\
-libgslcblas                &  3912  & 21.3                &  46.9 \\
-libsatlas                  & 13217  & 14.3                &  46.5 \\
-libtatlas                  & 20725  & 14.3                &  47.2 \\
-libopenblas                & 34054  &  9.9                &  45.3 \\
-libopenblasp (1 thread)    & 34065  &  9.9                &  45.3 \\
-libopenblasp (2 threads)   & 48710  & 12.1                &  45.8 \\
-libopenblasp (4 threads)   & 62354  & 10.8                &  45.6 \\
+Generic libblas/liblapack  &  3894  & 21.3                &  48.4 \\
+Intel libblas/liblapack    &  3879  & 21.3                &  48.4 \\
+Haswell libblas/liblapack  &  4782  & 18.5                &  48.1 \\
+Nehalem libblas/liblapack  &  3872  & 21.3                &  48.4 \\
+Skylake libblas/liblapack  &  4639  & 18.5                &  48.1 \\
+Fedora 37 libblas/liblapack&  3896  & 21.3                &  48.3 \\
+libgslcblas                &  3893  & 21.3                &  48.5 \\
+libsatlas                  & 13238  & 13.1                &  48.0 \\
+libtatlas                  & 20677  & 14.3                &  47.9 \\
+libopenblas                & 33247  &  9.9                &  46.7 \\
+libopenblasp (1 thread)    & 33684  &  9.9                &  46.9 \\
+libopenblasp (2 threads)   & 48015  & 12.1                &  46.7 \\
+libopenblasp (4 threads)   & 61253  & 10.8                &  46.6 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -36083,6 +36164,16 @@ export LIBVIRT_DEFAULT_URI=qemu:///system
 \end{verbatim}
 \end{small}
 Log out and log back in to effect these changes.
+
+\subsubsection*{Rename the VM}
+To change the name of a VM:
+\begin{small}
+\begin{verbatim}
+virsh shutdown foo
+virsh domrename foo bar
+virsh start bar
+\end{verbatim}
+\end{small}
 
 \subsubsection*{Set up the VM}
 I did not attempt to set up a shared directory or file server. I communicate

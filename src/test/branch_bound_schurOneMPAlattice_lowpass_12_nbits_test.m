@@ -177,6 +177,7 @@ if use_best_branch_and_bound_found
     A2k_min = [      784,     -592,      384,      352, ... 
                      -96,       76,     -398,      368, ... 
                       -4,     -360,      304,     -119 ]'/2048;
+    % Esq_min=0.00019052
   else
     % Earlier results with a different initial filter
     if 0

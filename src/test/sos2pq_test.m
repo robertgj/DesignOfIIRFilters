@@ -1,5 +1,5 @@
 % sos2pq_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -8,59 +8,75 @@ delete("sos2pq_test.diary.tmp");
 diary sos2pq_test.diary.tmp
 
 
-% Specify elliptic low pass filter
-fc=0.1;
-dBpass=1
-dBstop=40
-fc=0.125
+% Acceptable errors (*eps)
+a_err=500;b_err=2;
+    
+for ftype={"iir","fir","mixed","mixed2"}
+  for N=1:12
+    % Specify low pass filter
+    fp=0.125;
+    [b,a]=butter(N,2*fp);
+    if strcmp("iir",ftype)
+      % Find the SOS for an IIR filter
+      printf("Testing IIR, N=%d\n",N);
+    elseif strcmp("fir",ftype)
+      % Find the SOS for an FIR filter
+      printf("Testing FIR, N=%d\n",N);
+      a=[1,zeros(1,N)];
+    elseif strcmp("mixed",ftype)
+      % Find the SOS for an IIR/FIR filter
+      printf("Testing mixed IIR/FIR, N=%d\n",N);
+      b=[b(2:end),0];
+    elseif strcmp("mixed2",ftype)
+      % Find the SOS for an FIR/IIR filter (tf2sos() fails here!)
+      printf("Testing mixed2 FIR/IIR, N=%d\n",N);
+      a=[a(2:end),0];
+      % Normalise to a(1)
+      b=b/a(1);
+      a=a/a(1);      
+    else
+      error("Unknown ftype %s",ftype{1});
+    endif
+    
+    % Find d-p-q second order section and transfer function coefficients
+    [sos,g]=tf2sos(b,a);
+    [dd,p1,p2,q1,q2]=sos2pq(sos,g);
 
-% Check sos2pq (the errors were found by experiment)
-printf("Testing ellip. LP,fc=%f,dBpass=%f,dBstop=%f\n",fc,dBpass,dBstop);
-b_err=[0,0.25,0.375,0.40,0.44,0.82,2.2,4.125,7.250,14,16,52];
-a_err=[0,0.25,6,24,36,76,256,544,768,1540,3712,2048];
+    % Convert d-p-q sections to transfer function polynomials
+    bpq=(kron(dd,ones(1,3)).*[ones(size(p1)),p1,p2])+[zeros(size(p1)),q1,q2];
+    apq=[ones(size(p1)), p1, p2];
+    Bpq=1;
+    Apq=1;
+    for k=1:floor(N/2)
+      Bpq=conv(bpq(k,1:3),Bpq);
+      Apq=conv(apq(k,1:3),Apq);
+    endfor
+    if rem(N,2)==1
+      Bpq=conv(bpq(end,1:2),Bpq);
+      Apq=conv(apq(end,1:2),Apq);
+    endif
 
-for N=1:12
+    % Check
+    if length(Bpq) ~= (N+1)
+      error("Expect length(Bpq) == (N+1)");
+    endif
+    if length(Apq) ~= (N+1)
+      error("Expect length(Apq) == (N+1)");
+    endif
 
-  % Find the SOS for an elliptic filter
-  [b,a]=ellip(N,dBpass,dBstop,2*fc);
-  [sos,g]=tf2sos(b,a);
-  
-  % Find d-p-q second order section and transfer function coefficients
-  printf("Testing N=%d\n", N);
-  [dd,p1,p2,q1,q2]=sos2pq(sos,g);
+    if 0
+      printf("max(abs(b-Bpq))/eps=%f\n",max(abs(b-Bpq))/eps);
+      printf("max(abs(a-Apq))/eps=%f\n",max(abs(a-Apq))/eps);
+    endif
 
-  % Convert d-p-q sections to transfer function polynomials
-  bpq=(kron(dd,ones(1,3)).*[ones(size(p1)),p1,p2])+[zeros(size(p1)),q1,q2];
-  apq=[ones(size(p1)), p1, p2];
-  Bpq=1;
-  Apq=1;
-  for k=1:floor(N/2)
-    Bpq=conv(bpq(k,1:3),Bpq);
-    Apq=conv(apq(k,1:3),Apq);
+    if max(abs(b-Bpq)) > b_err*eps
+      error("max(abs(b-Bpq))=%f*eps > %f*eps",max(abs(b-Bpq))/eps,b_err);
+    endif
+    if max(abs(a-Apq)) > a_err*eps
+      error("max(abs(a-Apq))=%f*eps > %f*eps",max(abs(a-Apq))/eps,a_err);
+    endif
+
   endfor
-  if rem(N,2)==1
-    Bpq=conv(bpq(end,1:2),Bpq);
-    Apq=conv(apq(end,1:2),Apq);
-  endif
-
-  % Check
-  if length(Bpq) ~= (N+1)
-    error("Expect length(Bpq) == (N+1)");
-  endif
-  if length(Apq) ~= (N+1)
-    error("Expect length(Apq) == (N+1)");
-  endif
-  if 0
-    printf("max(abs(b-Bpq))/eps=%f\n",max(abs(b-Bpq))/eps);
-    printf("max(abs(a-Apq))/eps=%f\n",max(abs(a-Apq))/eps);
-  endif
-  if max(abs(b-Bpq)) > b_err(N)*eps
-    error("max(abs(b-Bpq))=%f*eps > %f*eps",max(abs(b-Bpq))/eps,b_err(N));
-  endif
-  if max(abs(a-Apq)) > a_err(N)*eps
-    error("max(abs(a-Apq))=%f*eps > %f*eps",max(abs(a-Apq))/eps,a_err(N));
-  endif
-
 endfor
 
 % Done

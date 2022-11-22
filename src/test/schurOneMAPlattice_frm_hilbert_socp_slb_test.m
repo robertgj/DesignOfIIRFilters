@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_hilbert_socp_slb_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -28,9 +28,9 @@ Dmodel=9; % Desired model filter passband delay
 dBap=0.1 % Pass band amplitude ripple
 Wap=1 % Pass band amplitude weight
 tpr=0.76 % Peak-to-peak pass band delay ripple
-Wtp=0.01 % Pass band delay weight
+Wtp=0.02 % Pass band delay weight
 ppr=0.004*pi/2 % Peak-to-peak pass band phase ripple
-Wpp=0.1 % Pass band phase weight
+Wpp=0.2 % Pass band phase weight
 
 mr=length(r0)-1 % Model filter order
 dmask=(length(aa0)-1)/2 % FIR masking filter delay

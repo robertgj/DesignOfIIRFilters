@@ -122,7 +122,7 @@ Phi =
         0 + 0.0061i
         0 +      0i
 
-Symbolic pkg v3.0.1: Python communication link active, SymPy v1.10.1.
+Symbolic pkg v3.0.1: Python communication link active, SymPy v1.11.1.
 R = (sym 4×4 matrix)
   ⎡r₁₁  r₁₂  r₁₃  r₁₄⎤
   ⎢                  ⎥
@@ -435,7 +435,7 @@ Jl =
    0   1   0
    0   0   1
 
-Symbolic pkg v3.0.1: Python communication link active, SymPy v1.10.1.
+Symbolic pkg v3.0.1: Python communication link active, SymPy v1.11.1.
 ans = (sym 3×3 matrix)
   ⎡        0                      α₁ + α₂ - β₁ - β₂                         -ⅈ⋅α
   ⎢                                                                             

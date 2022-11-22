@@ -4,7 +4,7 @@
 % with 12-bit 3-signed-digit coefficients and an allpass model filter
 % implemented as a Schur one-multiplier lattice.
 
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2022 Robert G. Jenssen
 
 test_common;
 
@@ -13,11 +13,10 @@ delete("socp_relaxation_schurOneMAPlattice_frm_12_nbits_test.diary.tmp");
 diary socp_relaxation_schurOneMAPlattice_frm_12_nbits_test.diary.tmp
 
 % Options
-socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Lim=true
+socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Lim=false
 socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Ito=false
 
 tic;
-
 
 %
 % Initial filter from schurOneMAPlattice_frm_socp_slb_test.m
@@ -39,7 +38,7 @@ v0=v1;
 %
 n=1000;
 tol=5e-4
-ctol=tol/10
+ctol=tol/25
 maxiter=2000
 verbose=false
 nbits=12
@@ -334,7 +333,7 @@ printf("] (rad./pi) adjusted for delay\n");
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_kuv_min_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit& %8.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd,kuv0_digits,kuv0_adders);
 fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq_min,kuv_digits,kuv_adders);
@@ -377,7 +376,7 @@ ylabel(ax(1),"Amplitude(dB)");
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 % End of hack
-axis(ax(1),[0 0.5 -dBap/10 dBap/10]);
+axis(ax(1),[0 0.5 -0.2 0.2]);
 axis(ax(2),[0 0.5 -50 -30]);
 ylabel("Amplitude(dB)");
 strt=sprintf("FRM filter (nbits=%d,ndigits=%d) : fap=%g,fas=%g,dBap=%g,dBas=%g,\
@@ -397,7 +396,7 @@ plot(wp*0.5/pi,P_kuv0/pi,"linestyle","--", ...
      wp*0.5/pi,P_kuv_min/pi,"linestyle","-");
 axis([0 0.5 (pp-(ppr/10)) (pp+(ppr/10))]);
 ylabel("Phase error(rad./$\\pi$)");
-legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+legend("exact","s-d","s-d(SOCP-relax)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -413,7 +412,7 @@ subplot(313);
 plot(wt*0.5/pi,T_kuv0+tp,"linestyle","--", ...
      wt*0.5/pi,T_kuv0_sd+tp,"linestyle","-.", ...
      wt*0.5/pi,T_kuv_min+tp,"linestyle","-");
-axis([0 0.5 tp-1 tp+1]);
+axis([0 0.5 tp-tpr tp+tpr]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
@@ -421,8 +420,16 @@ print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,".spec"),"wt"); 
+fprintf(fid,
+        "socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Lim=%d\n",
+        socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Lim);
+fprintf(fid,
+        "socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Ito=%d\n",
+        socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Ito);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
+fprintf(fid,"nbits=%d %% Bits-per-coefficient\n",nbits);
+fprintf(fid,"ndigits=%d %% Average signed-digits-per-coefficient\n",ndigits);
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
@@ -448,6 +455,8 @@ fclose(fid);
 
 % Save results
 save socp_relaxation_schurOneMAPlattice_frm_12_nbits_test.mat ...
+     socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Lim ...
+     socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Ito ...
      n tol ctol maxiter nbits ndigits ndigits_alloc dmax rho ...
      fap fas dBap Wap ftp tp tpr Wtp fpp pp ppr Wpp ...
      k0 epsilon0 p0 u0 v0 Mmodel Dmodel ...
