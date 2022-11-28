@@ -174,6 +174,8 @@ function [cost,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22,svecnz_out] = ...
   if ~isempty(Td)
     t=grpdelay(n,d,npoints);
     t=t(:);
+    tnf=find(~isfinite(t));
+    t(tnf)=Td(tnf);
     cost=cost+sqrt(sum(Wt.*((abs(t-Td)).^2)));
   endif
 endfunction

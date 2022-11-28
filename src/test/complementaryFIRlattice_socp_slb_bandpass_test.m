@@ -5,13 +5,12 @@
 
 test_common;
 
-delete("complementaryFIRlattice_socp_slb_bandpass_test.diary");
-delete("complementaryFIRlattice_socp_slb_bandpass_test.diary.tmp");
-diary complementaryFIRlattice_socp_slb_bandpass_test.diary.tmp
-
 strf="complementaryFIRlattice_socp_slb_bandpass_test";
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
-script_id=tic;
+tic;
 
 tol=1e-6;
 ctol=tol;
@@ -110,45 +109,6 @@ Hg2=freqz(Ng2,Dg2,wplot);
 stdK2=std((Hg2.*conj(Hg2))+(Hh2.*conj(Hh2)));
 if stdK2 > ctol/100
   error("stdK2(%g*ctol/100) > ctol/100",100*stdK2/ctol);
-endif
-
-%
-% Compare to expected (allow for slight variation between runs!)
-%
-k2exp = [   0.9843749874,   0.9843631757,   0.9843749817,   0.9843749784, ... 
-            0.9843459672,   0.9843565254,   0.9843634536,   0.9843597582, ... 
-            0.9843749877,   0.9616092364,   0.9783249979,   0.9843523723, ... 
-            0.8651000806,   0.9391120075,   0.9843712627,   0.9843749891, ... 
-            0.1431375883 ]';
-if norm(k2exp-k2)>ctol
-  error("norm(k2exp-k2)(%g*ctol) > ctol",norm(k2exp-k2)/ctol);
-endif
-
-khat2exp = [  -0.0468090736,  -0.0110913025,   0.0396599420,   0.0865990218, ... 
-               0.0779802487,   0.0419015507,   0.0369863739,   0.0160169196, ... 
-              -0.1702565164,  -0.4765225365,  -0.4461363669,   0.1095851846, ... 
-               0.6318802083,   0.5215848312,   0.0125879244,  -0.2158720334, ... 
-               0.9843107113 ]';
-if norm(khat2exp-khat2)>ctol
-  error("norm(khat2exp-khat2)(%g*ctol) > ctol",norm(khat2exp-khat2)/ctol);
-endif
-
-Nh2exp = [   0.0905516697,   0.0672322315,  -0.0672208463,  -0.2162026902, ... 
-            -0.2047023001,  -0.0057471936,   0.1918350844,   0.2011736026, ... 
-             0.0531978852,  -0.0805104681,  -0.0901114111,  -0.0324363609, ... 
-             0.0009615963,  -0.0060123457,  -0.0150377974,  -0.0165810988, ... 
-             0.0296104123 ];
-if norm(Nh2exp-Nh2)>ctol
-  error("norm(Nh2exp-Nh2)(%g*ctol) > ctol",norm(Nh2exp-Nh2)/ctol);
-endif
-
-Ng2exp = [   0.6226944265,  -0.4965749027,   0.3304626864,   0.5303746308, ... 
-             0.3051396692,   0.0470369856,  -0.0545580660,  -0.0503002222, ... 
-            -0.0409730191,  -0.0462269555,  -0.0353527180,  -0.0026893333, ... 
-             0.0226820616,   0.0217552274,   0.0060936835,  -0.0042196293, ... 
-            -0.0043059198 ];
-if norm(Ng2exp-Ng2)>ctol
-  error("norm(Ng2exp-Ng2)(%g*ctol) > ctol",norm(Ng2exp-Ng2)/ctol);
 endif
 
 %
@@ -282,7 +242,6 @@ save complementaryFIRlattice_socp_slb_bandpass_test.mat ...
      k2 khat2 Nh2 Ng2
 
 % Done
-toc(script_id);
+toc;
 diary off
-movefile complementaryFIRlattice_socp_slb_bandpass_test.diary.tmp ...
-         complementaryFIRlattice_socp_slb_bandpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

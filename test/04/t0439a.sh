@@ -77,8 +77,8 @@ Exact & 1.0870\\
 8-bit 2-signed-digit with bit-flipping & 9.1437\\
 8-bit 2-signed-digit(Lim alloc.) & 16.8760\\
 8-bit 2-signed-digit(Lim alloc.) with bit-flipping & 9.8041\\
-8-bit 2-signed-digit(Ito alloc.) & 15.0589\\
-8-bit 2-signed-digit(Ito alloc.) with bit-flipping & 6.5797\\
+8-bit 2-signed-digit(Ito alloc.) & 7.2216\\
+8-bit 2-signed-digit(Ito alloc.) with bit-flipping & 4.1649\\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 

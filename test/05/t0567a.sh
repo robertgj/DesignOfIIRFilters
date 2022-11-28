@@ -40,8 +40,8 @@ cat > test.ok << 'EOF'
 gloptipoly3 version 3.10 of 5 July 2021
 status=1
 obj=-1.03163
-xa=[ 0.0898 -0.7127]
-xb=[-0.0898  0.7127]
+xa=[ 0.090 -0.713]
+xb=[-0.090  0.713]
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

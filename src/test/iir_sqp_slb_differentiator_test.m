@@ -3,9 +3,10 @@
 
 test_common;
 
-delete("iir_sqp_slb_differentiator_test.diary");
-delete("iir_sqp_slb_differentiator_test.diary.tmp");
-diary iir_sqp_slb_differentiator_test.diary.tmp
+strf="iir_sqp_slb_differentiator_test";
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
@@ -13,9 +14,6 @@ tol=1e-4
 ctol=tol/20
 maxiter=2000
 verbose=false
-
-% Common strings
-strf="iir_sqp_slb_differentiator_test";
 
 % From tarczynski_differentiator_test.m
 tarczynski_differentiator_test_D0_coef; 
@@ -29,11 +27,9 @@ print_pole_zero(x0,U,V,M,Q,R,"x0",strcat(strf,"_x0_coef.m"));
 
 % Low-pass differentiator filter specification
 ft1=0.390;ft2=0.455;
-if 1
-  Ar1=0.0040;Ar2=0.0100;Wap=1;td=5.5;tdr=0.0089;Wtp=0.010;pr=0.00067;Wpp=0.010;
-elseif 0
-  Ar1=0.0040;Ar2=0.0040;Wap=1;td=5.5;tdr=0.0600;Wtp=0.001;pr=0.00800;Wpp=0.001;
-endif
+Ar1=0.0040;Ar2=0.0100;Wap=1;
+td=5.5;tdr=0.0089;Wtp=0.0135;
+pr=0.00067;Wpp=0.0275;
 
 % Frequency points
 n=1000;
@@ -243,8 +239,7 @@ fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"td=%g %% Pass band group delay\n",td);
 fprintf(fid,"tdr=%g %% Pass band group delay peak-to-peak ripple\n",tdr);
 fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
-fprintf(fid,"pr=%4.2f %% Phase pass band peak-to-peak ripple(rad./$\\pi$))\n",
-        pr);
+fprintf(fid,"pr=%g %% Phase pass band peak-to-peak ripple(rad./$\\pi$))\n",pr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
@@ -254,5 +249,4 @@ save iir_sqp_slb_differentiator_test.mat U V M Q R x0 x1 d1 N1 D1 ...
      tol ctol n ft1 ft2 Ar1 Ar2 Wap td tdr Wtp pr Wpp
 
 diary off
-movefile iir_sqp_slb_differentiator_test.diary.tmp ...
-         iir_sqp_slb_differentiator_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

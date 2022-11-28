@@ -3,50 +3,53 @@
 
 test_common;
 
-delete("schurOneMlattice_socp_slb_hilbert_test.diary");
-delete("schurOneMlattice_socp_slb_hilbert_test.diary.tmp");
-diary schurOneMlattice_socp_slb_hilbert_test.diary.tmp
+strf="schurOneMlattice_socp_slb_hilbert_test";
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
-
 
 tol=1e-4
 ctol=tol
 maxiter=2000
 verbose=false
 
+%
 % Hilbert filter specification
+%
 ft=0.08 % Transition bandwidth [0 ft]
 tp=1+(5.5)
+dBap=0.1;Wat=10*tol;Wap_mmse=2;Wap_pcls=1;
+tpr=0.08;Wtt=0;Wtp=0.25;
+pr=0.016;Wpt=10*tol;Wpp=100;
 
-% Frequency points
-n=256;
-w=pi*(0:(n-1))'/n;
-
+%
 % Initial filter from tarczynski_hilbert_test.m
+%
 tarczynski_hilbert_test_D0_coef;
 tarczynski_hilbert_test_N0_coef;
 
 D0R2=zeros(1,(length(D0)*2)-1);
 D0R2(1:2:end)=D0;
-
 [k0,epsilon0,p0,c0]=tf2schurOneMlattice(N0,D0R2);
-Asq0=schurOneMlatticeAsq(w,k0,epsilon0,p0,c0);
-T0=schurOneMlatticeT(w,k0,epsilon0,p0,c0);
-P0=schurOneMlatticeP(w,k0,epsilon0,p0,c0);
+
+%
+% Constraints
+%
+
+% Frequency points
+n=256;
+w=pi*(0:(n-1))'/n;
 
 % Amplitude constraints
 wa=w;
 Asqd=ones(n,1);
-dBap=0.1
 nt=ceil(ft*n/0.5);
 dBapmask=dBap*[2*ones(nt,1);ones(n-nt,1)/2];
 Asqdu=10.^(dBapmask/10);
 Asqdl=10.^(-dBapmask/10);
-Wat=10*tol
-Wap_mmse=2
 Wa_mmse=Wap_mmse*[Wat*ones(nt,1);ones(n-nt,1)];
-Wap_pcls=1
 Wa_pcls=Wap_pcls*[Wat*ones(nt,1);ones(n-nt,1)];
 
 % Group delay constraints
@@ -56,8 +59,6 @@ tpr=0.08;
 trmask=[100*tpr*ones(nt,1);0.5*tpr*ones(n-nt,1)];
 Tdu=Td+trmask;
 Tdl=Td-trmask;
-Wtt=0
-Wtp=0.2
 Wt=[Wtt*ones(nt,1);Wtp*ones(n-nt,1)];
 
 % Phase constraints
@@ -67,8 +68,6 @@ pr=0.016
 prmask=(pi/2)*[2*ones(nt,1);0.5*pr*ones(n-nt,1)];
 Pdu=Pd+prmask;
 Pdl=Pd-prmask;
-Wpt=10*tol
-Wpp=100
 Wp=[Wpt*ones(nt,1);Wpp*ones(n-nt,1)];
 
 % Constraints on the coefficients
@@ -83,7 +82,6 @@ kc_l=-kc_u;
 kc_active=[find((k0)~=0);(Nk+(1:Nc))'];
 
 % Initialise strings
-strf="schurOneMlattice_socp_slb_hilbert_test";
 strM=sprintf("Hilbert filter %%s:ft=%g,tp=%g,Wap=%%g,Wpp=%g",ft,tp,Wpp);
 strP=sprintf("Hilbert filter %%s:ft=%g,dBap=%g,tp=%g,pr=%g,Wap=%%g,Wpp=%g",
              ft,dBap,tp,pr,Wpp);
@@ -101,8 +99,9 @@ tic;
                              maxiter,tol,verbose);
 toc;
 if feasible == 0 
-  error("k1p,c1p(mmse) infeasible");
+  error("k1p,c1p(mmse) infeasible");  
 endif
+
 % Recalculate epsilon1, p1 and c1
 [n1,d1]=schurOneMlattice2tf(k1p,epsilon0,ones(size(p0)),c1p);
 [k1,epsilon1,p1,c1]=tf2schurOneMlattice(n1,d1);
@@ -125,8 +124,9 @@ tic;
                        maxiter,tol,ctol,verbose);
 toc;
 if feasible == 0 
-  error("k2p,c2p(pcls) infeasible");
+  error("k2p,c2p(pcls) infeasible");  
 endif
+
 % Recalculate epsilon2, p2 and c2
 [n2,d2]=schurOneMlattice2tf(k2p,epsilon1,ones(size(p1)),c2p);
 [k2,epsilon2,p2,c2]=tf2schurOneMlattice(n2,d2);
@@ -178,5 +178,4 @@ save schurOneMlattice_socp_slb_hilbert_test.mat ...
 
 % Done
 diary off
-movefile schurOneMlattice_socp_slb_hilbert_test.diary.tmp ...
-         schurOneMlattice_socp_slb_hilbert_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

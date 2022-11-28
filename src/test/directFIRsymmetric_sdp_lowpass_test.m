@@ -205,7 +205,7 @@ for M=[31,200],
                [ xs+[deltas;zeros(M,1)]]'*value(y3) + ...
                [-xs+[deltas;zeros(M,1)]]'*value(y4);
   printf("sum((Ai*xs+di)*ys)=%g\n", sumAixspdiys);
-  tol=2e-8;
+  tol=2.5e-8;
   if abs(sumAixspdiys) > tol
     stre=sprintf("M=%d, abs(sum(((Ai*xs)+di)*ys))(%g)>%g\n",M,abs(sumAixspdiys),tol);
     if ignore_numerical_problems

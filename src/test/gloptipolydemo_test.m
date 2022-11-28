@@ -47,8 +47,8 @@ fhandle=fopen("test.results","wt");
 fprintf(fhandle,"gloptipoly3 version %s\n",gloptipolyversion);
 fprintf(fhandle,"status=%d\n",status);
 fprintf(fhandle,"obj=%d\n",obj);
-fprintf(fhandle,"xa=[%7.4f %7.4f]\n",xa(1), xa(2));
-fprintf(fhandle,"xb=[%7.4f %7.4f]\n",xb(1), xb(2));
+fprintf(fhandle,"xa=[%6.3f %6.3f]\n",xa(1), xa(2));
+fprintf(fhandle,"xb=[%6.3f %6.3f]\n",xb(1), xb(2));
 
 fclose(fhandle);
 

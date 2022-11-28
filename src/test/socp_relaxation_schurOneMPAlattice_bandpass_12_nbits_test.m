@@ -62,7 +62,7 @@ ftpl=0.1
 ftpu=0.2
 td=16
 tdr=0.32
-Wtp=1
+Wtp=0.5
 
 %
 % Frequency vectors

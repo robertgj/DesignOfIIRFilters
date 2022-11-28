@@ -3,9 +3,10 @@
 
 test_common;
 
-delete("schurOneMAPlattice_frm_socp_slb_test.diary");
-delete("schurOneMAPlattice_frm_socp_slb_test.diary.tmp");
-diary schurOneMAPlattice_frm_socp_slb_test.diary.tmp
+strf="schurOneMAPlattice_frm_socp_slb_test";
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
@@ -105,56 +106,9 @@ endif
 % Plot results
 strt=sprintf("FRM PCLS : Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d", ...
              Mmodel,Dmodel,fap,fas,tp);
-strf="schurOneMAPlattice_frm_socp_slb_test";
 schurOneMAPlattice_frm_socp_slb_plot ...
   (k1,epsilon1,p1,u1,v1,Mmodel,Dmodel,fap,fas, ...
    strt,strcat(strf,"_%s_%s"),"PCLS");
-
-%
-% Compare to expected (allow for small variations from run to run!)
-%
-etol = 2e-10;
-k1exp = [ -0.0110731477,   0.5786372320,   0.0175276312,  -0.1441823384, ... 
-          -0.0035186249,   0.0568556517,   0.0087110222,  -0.0265008201, ... 
-          -0.0037440088,   0.0116060049 ]';
-if max(abs(k1exp-k1))>etol
-  print_polynomial(k1,"k1");
-  print_polynomial(k1exp,"k1exp");
-  error("max(abs(k1-k1exp))(%g*etol) > etol", max(abs(k1-k1exp))/etol);
-endif
-
-epsilon1exp = [  1,  1, -1,  1,  1, -1, -1,  1,  1, -1 ];
-if max(abs(epsilon1exp-epsilon1))>etol
-  print_polynomial(epsilon1,"epsilon1");
-  print_polynomial(epsilon1exp,"epsilon1exp");
-  error("max(abs(epsilon1-epsilon1exp))(%g*etol) > etol",
-        max(abs(epsilon1-epsilon1exp))/etol);
-endif
-
-u1exp = [  0.5766164415,   0.3012840561,  -0.0569884534,  -0.0856143363, ... 
-           0.0512118160,   0.0332018000,  -0.0413897727,  -0.0098675161, ... 
-           0.0391459456,  -0.0174705554,  -0.0137287284,   0.0080093289, ... 
-           0.0101329905,  -0.0087037536,  -0.0041187016,   0.0070941840, ... 
-           0.0012606610,  -0.0097509980,   0.0080763800,   0.0003540275, ... 
-          -0.0006555965 ]';
-if max(abs(u1exp-u1))>etol
-  print_polynomial(u1,"u1");
-  print_polynomial(u1exp,"u1exp");
-  error("max(abs(u1-u1exp))(%g*etol) > etol", max(abs(u1-u1exp))/etol);
-endif
-
-v1exp = [ -0.6682946298,  -0.2727662258,   0.1318030122,   0.0042369182, ... 
-          -0.0655691204,   0.0481300985,   0.0045354583,  -0.0361947600, ... 
-           0.0293355959,  -0.0031824737,  -0.0176760468,   0.0130074767, ... 
-           0.0026377642,  -0.0109024065,   0.0077522747,   0.0018211918, ... 
-          -0.0073722341,   0.0065135360,  -0.0018062429,  -0.0031236248, ... 
-           0.0012519438  ]';
-if max(abs(v1exp-v1))>etol
-  print_polynomial(v1,"v1");
-  print_polynomial(v1exp,"v1exp");
-  error("max(abs(v1-v1exp))(%g*etol) > etol", max(abs(v1-v1exp))/etol);
-endif
-
 
 %
 % Compare with remez
@@ -223,5 +177,4 @@ save schurOneMAPlattice_frm_socp_slb_test.mat ...
 % Done
 toc;
 diary off
-movefile schurOneMAPlattice_frm_socp_slb_test.diary.tmp ...
-         schurOneMAPlattice_frm_socp_slb_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

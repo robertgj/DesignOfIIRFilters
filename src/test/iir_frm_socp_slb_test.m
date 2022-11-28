@@ -8,9 +8,10 @@
 
 test_common;
 
-delete("iir_frm_socp_slb_test.diary");
-delete("iir_frm_socp_slb_test.diary.tmp");
-diary iir_frm_socp_slb_test.diary.tmp
+strf="iir_frm_socp_slb_test";
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
@@ -112,67 +113,6 @@ iir_frm_socp_slb_plot ...
   (d2,na,nc,Mmodel,Dmodel,w,fap,strt,strcat(strf,"_%s_%s"),"PCLS");
 
 %
-% Compare to expected (allow for small variations from run to run!)
-%
-etol = 5e-8;
-d2exp.a = [  0.0023872435,  -0.0002998516,  -0.0028178530,  -0.0006292835, ... 
-             0.0075112808,   0.0007771227,  -0.0153793578,   0.0328696565, ... 
-            -0.0275937942,   0.0088012491,   0.0051176032  ]';
-if max(abs(d2exp.a-d2.a))>etol
-  print_polynomial(d2.a,"a");
-  print_polynomial(d2exp.a,"expa");
-  error("max(abs(d2exp.a-d2.a))(%g*etol) > etol",
-        max(abs(d2exp.a-d2.a))/etol);
-endif
-
-d2exp.d = [  1.0000000000,   0.3925483043,   0.7343625347,   0.2883931662, ... 
-             0.0561892637,  -0.0084691690,  -0.0054392025,  -0.0010209218, ... 
-            -0.0001136908,  -0.0000105375,  -0.0000006973 ]';
-if max(abs(d2exp.d-d2.d))>etol
-  print_polynomial(d2.d,"d");
-  print_polynomial(d2exp.d,"expd");
-  error("max(abs(d2exp.d-d2.d))(%g*etol) > etol",
-        max(abs(d2exp.d-d2.d))/etol);
-endif
-
-d2exp.aa = [  0.1390307825,   0.1637722775,  -0.4624376812,   0.3001578566, ... 
-              0.1315784307,  -0.1954580193,   0.0918906885,   0.2285812605, ... 
-             -0.2582587245,  -0.0510615690,   0.4089339399,  -0.2772987421, ... 
-             -0.2448363933,   0.4178081872,   0.0611968156,  -0.4873687979, ... 
-              0.2932744964,   0.3733965821,  -0.3282092409,   0.5572050084, ... 
-              0.2923220653,   0.5572050084,  -0.3282092409,   0.3733965821, ... 
-              0.2932744964,  -0.4873687979,   0.0611968156,   0.4178081872, ... 
-             -0.2448363933,  -0.2772987421,   0.4089339399,  -0.0510615690, ... 
-             -0.2582587245,   0.2285812605,   0.0918906885,  -0.1954580193, ... 
-              0.1315784307,   0.3001578566,  -0.4624376812,   0.1637722775, ... 
-              0.1390307825  ]';
-if max(abs(d2exp.aa-d2.aa))>etol
-  print_polynomial(d2.aa,"aa");
-  print_polynomial(d2exp.aa,"expaa");
-  error("max(abs(d2exp.aa-d2.aa))(%g*etol) > etol",
-        max(abs(d2exp.aa-d2.aa))/etol);
-endif
-
-d2exp.ac = [ -0.0029639740,  -0.0079292225,   0.0154038074,  -0.0064703235, ... 
-             -0.0080891576,   0.0049463675,   0.0035094405,  -0.0104947353, ... 
-              0.0014871843,   0.0217797981,   0.0002949507,  -0.0392881999, ... 
-              0.0380337181,   0.0135031685,  -0.0446458306,   0.0177031304, ... 
-              0.0624691923,  -0.0750983708,  -0.0832297850,   0.2924774451, ... 
-              0.6087368404,   0.2924774451,  -0.0832297850,  -0.0750983708, ... 
-              0.0624691923,   0.0177031304,  -0.0446458306,   0.0135031685, ... 
-              0.0380337181,  -0.0392881999,   0.0002949507,   0.0217797981, ... 
-              0.0014871843,  -0.0104947353,   0.0035094405,   0.0049463675, ... 
-             -0.0080891576,  -0.0064703235,   0.0154038074,  -0.0079292225, ... 
-             -0.0029639740 ]';
-if max(abs(d2exp.ac-d2.ac))>etol
-  print_polynomial(d2.ac,"ac");
-  print_polynomial(d2exp.ac,"expac");
-  error("max(abs(d2exp.ac-d2.ac))(%g*etol) > etol",
-        max(abs(d2exp.ac-d2.ac))/etol);
-endif
-
-
-%
 % Save the results
 %
 fid=fopen(strcat(strf,".spec"),"wt");
@@ -215,4 +155,4 @@ save iir_frm_socp_slb_test.mat ...
 % Done
 toc;
 diary off
-movefile iir_frm_socp_slb_test.diary.tmp iir_frm_socp_slb_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

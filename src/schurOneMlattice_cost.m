@@ -160,6 +160,8 @@ function [cost,k,c,svecnz_out] = schurOneMlattice_cost(svecnz, ...
   if ~isempty(Td)
     t=grpdelay(n,d,npoints);
     t=t(:);
+    tnf=find(~isfinite(t));
+    t(tnf)=Td(tnf);
     cost=cost+sqrt(sum(Wt.*((abs(t-Td)).^2)));
   endif
 endfunction

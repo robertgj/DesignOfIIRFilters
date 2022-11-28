@@ -6,14 +6,14 @@
 
 test_common;
 
-delete("decimator_R2_alternate_test.diary");
-delete("decimator_R2_alternate_test.diary.tmp");
-diary decimator_R2_alternate_test.diary.tmp
+strf="decimator_R2_alternate_test";
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 verbose=false
-tol_wise=1e-7
 tol_mmse=1e-5
 tol_pcls=2e-4
 ctol=1e-7
@@ -21,25 +21,34 @@ maxiter=4000
 
 % Filter specifications (frequencies are normalised to the sample rate)
 fap=0.10,dBap=0.35,Wap=1
-fas=0.25,dBas=50,Was=1.25
-ftp=0.125,tp=10,tpr=0.02,Wtp=1
+fas=0.25,dBas=50,Was=5
+ftp=0.125,tp=10,tpr=0.02,Wtp=0.75
 
 % Initial filter guess
 U=0,V=0,M=12,Q=6,R=2
-xi=[0.0001, [1,1,1,1,1,1], (7:12)*pi/12, 0.75*[1,1,1], (1:3)*pi/8]';
-
-% Frequency points
-n=1000;
+x0=[0.0002, [1,1,1,1,1,1], (7:12)*pi/12, 0.75*[1,1,1], (1:3)*pi/6]';
+printf("x0=[ ");printf("%f ",x0');printf("]'\n");
+strMI=sprintf("Initial decimator R=2 : U=%d,V=%d,M=%d,Q=%d,R=%d", U,V,M,Q,R);
+showResponse(x0,U,V,M,Q,R,strMI);
+print(strcat(strf,"_initial_x0"),"-dpdflatex");
+close
+showResponsePassBands(0,max(fap,ftp),-3,3,x0,U,V,M,Q,R,strMI);
+print(strcat(strf,"_initial_x0pass"),"-dpdflatex");
+close
+showZPplot(x0,U,V,M,Q,R,strMI)
+print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
+close
 
 % Coefficient constraints
 [xl,xu]=xConstraints(U,V,M,Q);
 dmax=0.05;
 
 % Amplitude constraints
+n=1000;
 wa=(0:(n-1))'*pi/n;
 nap=ceil(n*fap/0.5)+1;
 nas=floor(n*fas/0.5)+1;
-Ad=[ones(nap,1);zeros(n-nap,1)];
+Ad=[ones(nap,1);zeros(n-nap,1)]; 
 Adu=[Ad(1:(nas-1));(10^(-dBas/20))*ones(n-nas+1,1)];
 Adl=[(10^(-dBap/20))*Ad(1:nap);zeros(n-nap,1)];
 Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
@@ -79,22 +88,6 @@ strM=sprintf("%%s:fap=%g,fas=%g,Was=%%g,ftp=%g,tp=%g,Wtp=%%g",...
              fap,fas,ftp,tp);
 strP=sprintf("%%s:fap=%g,dBap=%%g,fas=%g,dBas=%%g,Was=%%g,\
 ftp=%g,tp=%g,tpr=%%g,Wtp=%%g",fap,fas,ftp,tp);
-strf="decimator_R2_alternate_test";
-
-% Initial filter
-[x0,Ex0]=xInitHd(xi,U,V,M,Q,R, ...
-                 wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,maxiter,tol_wise);
-printf("x0=[ ");printf("%f ",x0');printf("]'\n");
-strMI=sprintf("Initial decimator R=2 : U=%d,V=%d,M=%d,Q=%d,R=%d", U,V,M,Q,R);
-showResponse(x0,U,V,M,Q,R,strMI);
-print(strcat(strf,"_initial_x0"),"-dpdflatex");
-close
-showResponsePassBands(0,max(fap,ftp),-3,3,x0,U,V,M,Q,R,strMI);
-print(strcat(strf,"_initial_x0pass"),"-dpdflatex");
-close
-showZPplot(x0,U,V,M,Q,R,strMI)
-print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
-close
 
 % MMSE pass
 printf("\nFinding MMSE x1, Wap=%f,Was=%f,Wtp=%f\n", Wap, Was, Wtp);
@@ -188,7 +181,6 @@ fprintf(fid,"M=%d %% Number of complex zeros\n",M);
 fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
 fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"tol_wise=%g %% Tolerance on WISE relative coef. update\n",tol_wise);
 fprintf(fid,"tol_mmse=%g %% Tolerance on MMSE relative coef. update\n",tol_mmse);
 fprintf(fid,"tol_pcls=%g %% Tolerance on PCLS relative coef. update\n",tol_pcls);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
@@ -213,9 +205,9 @@ print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 save decimator_R2_alternate_test.mat n U V M Q R fap fas ftp tp ...
-     dBap dBas tpr Wap Was Wtp x0 x1 d1 tol_wise tol_mmse tol_pcls ctol
+     dBap dBas tpr Wap Was Wtp x0 x1 d1 tol_mmse tol_pcls ctol
 
 % Done
 toc;
 diary off
-movefile decimator_R2_alternate_test.diary.tmp decimator_R2_alternate_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

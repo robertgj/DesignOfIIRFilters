@@ -145,6 +145,11 @@ function [ErrorAsq,gradErrorAsq,diagHessErrorAsq]=...
     [Asq,gradAsq,diagHessAsq]=schurNSlatticeAsq(wa,s10,s11,s20,s00,s02,s22);
   endif
 
+  % Sanity check
+  Asqnf=find(any(~isfinite(Asq)));
+  Asq(Asqnf)=Asqd(Asqnf);
+  gradAsq(Asqnf,:)=0;
+
   % Amplitude response error with trapezoidal integration.
   dwa=diff(wa);
   ErrAsq=Wa.*(Asq-Asqd);
@@ -196,7 +201,7 @@ function [ErrorT,gradErrorT,diagHessErrorT]=...
     error("length(wt)~=length(Wt)");
   endif
   
-  % Squared amplitude response at wt
+  % Delay response at wt
   if nargout==1
     T=schurNSlatticeT(wt,s10,s11,s20,s00,s02,s22);
     gradT=zeros(Nt,6*Ns);
@@ -208,7 +213,12 @@ function [ErrorT,gradErrorT,diagHessErrorT]=...
     [T,gradT,diagHessT]=schurNSlatticeT(wt,s10,s11,s20,s00,s02,s22);
   endif
 
-  % Amplitude response error with trapezoidal integration.
+  % Sanity check
+  Tnf=find(any(~isfinite(T)));
+  T(Tnf)=Td(Tnf);
+  gradT(Tnf,:)=0;
+
+  % Delay reponse error with trapezoidal integration.
   dwt=diff(wt);
   ErrT=Wt.*(T-Td);
   sqErrT=ErrT.*(T-Td);

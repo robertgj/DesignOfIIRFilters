@@ -179,6 +179,11 @@ function [ErrorX,gradErrorX,diagHessErrorX] = ...
     [X,gradX,diagHessX]=pfX(wx,k,epsilon,p,c);
   endif
 
+  % Sanity check
+  Xnf=find(any(~isfinite(X)));
+  X(Xnf)=Xd(Xnf);
+  gradX(Xnf,:)=0;
+
   % X response error with trapezoidal integration.
   dwx = diff(wx);
   ErrX=Wx.*(X-Xd);

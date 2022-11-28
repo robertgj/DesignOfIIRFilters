@@ -153,7 +153,7 @@ function [Esq,gradEsq,diagHessEsq]=...
     gradEsq = gradEsqAsq + gradEsqT + gradEsqP;
     diagHessEsq = diagHessEsqAsq + diagHessEsqT + diagHessEsqP;
   endif
-  
+
 endfunction
 
 function [ErrorX,gradErrorX,diagHessErrorX] = ...
@@ -200,6 +200,11 @@ function [ErrorX,gradErrorX,diagHessErrorX] = ...
   elseif nargout==3
     [X,gradX,diagHessX]=pfX(wx,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
   endif
+
+  % Sanity check
+  Xnf=find(any(~isfinite(X)));
+  X(Xnf)=Xd(Xnf);
+  gradX(Xnf,:)=0;
 
   % X response error with trapezoidal integration.
   dwx = diff(wx);
