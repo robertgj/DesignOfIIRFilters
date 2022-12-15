@@ -29293,87 +29293,6 @@ an $M=19$ and $K=11$ maximally-flat low-pass filter are:
 The numerical range of the maximally-flat filter $a_{k}$ coefficients increases
 rapidly with the length of the filter.
 \clearpage
-\subsubsection{Closed-form design of FIR filters by \emph{Nuevo et al.}'s
-  interpolation with a maximally-flat model filter}
-\emph{Nuevo et al.}~\cite{NuevoDongMitra_InterpolatedFIRFilters} describe a
-general method for the design of \emph{interpolated FIR filters} of the form
-$H\left(z\right)=H_{M}\left(z^{P}\right)G\left(z\right)$. $H_{M}\left(z\right)$
-is called the model filter, designed to meet the required frequency
-specification in $z^{P}$. $H_{M}\left(z\right)$ is transformed by
-interpolating $P-1$ zeros between each impulse response coefficient creating $P$
-images of the desired frequency response. The $G\left(z\right)$ filter places
-zeros at each of the $P-1$ unwanted images. This method is claimed to
-``implement most practical FIR filters with significant savings in the number of
-arithmetic operations''. 
-
-The Octave script \emph{nuevoFIRsymmetric\_flat\_bandpass\_test.m} applies this
-method to the design of a bandpass filter. The maximally flat model filter is
-designed by the Octave function \emph{herrmannFIRsymmetric\_flat\_lowpass} with
-$M=19$ and $fc=0.2$ giving $K=12$. The interpolation factor is $P=8$. The script
-constructs an interpolator filter, $G\left(z\right)$, with double zeros at $z=1$
-and $z=-1$, a pair of zeros at $z=\pm\imath$ and pairs of zeros at on the unit
-circle at
-$\omega=\pm{}2\pi\left[3, 29, 35, 47, 48, 50, 62\right]/\left(16P\right)$. 
-The latter were adjusted ``by-eye''. The resulting filter has a model filter
-with length $39$ and an overall filter length of $325$. The model filter has
-$20$ distinct coefficients and the interpolator filter requires $8$ distinct
-non-power-of-two
-multipliers. 
-Figure~\ref{fig:nuevoFIRsymmetric-flat-bandpass-test-interpolator} shows the
-responses of the interpolated maximally-flat model filter and the
-interpolator filter.
-Figure~\ref{fig:nuevoFIRsymmetric-flat-bandpass-test-response} 
-shows the overall response of the interpolated filter.
-The distinct coefficients of the model filter are:
-\begin{small} 
-\verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hM_coef.m}
-\end{small}
-The coefficients of the two sections of the interpolator filter are:
-\begin{small} 
-\verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hza_coef.m}
-\end{small}
-and
-\begin{small} 
-\verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hzb_coef.m}
-\end{small}
-
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{nuevoFIRsymmetric_flat_bandpass_test_interpolator}}
-\caption{Amplitude response of the interpolated maximally-flat model filter and
-  interpolator filter with $P=8$, $M=19$, $fc=0.2$, $K=12$.}
-\label{fig:nuevoFIRsymmetric-flat-bandpass-test-interpolator}
-\end{figure}
-
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{nuevoFIRsymmetric_flat_bandpass_test_response}}
-\caption{Amplitude response of an interpolated maximally-flat band-pass filter
-with $P=8$, $M=19$, $fc=0.2$, $K=12$.}
-\label{fig:nuevoFIRsymmetric-flat-bandpass-test-response}
-\end{figure}
-
-Figure~\ref{fig:nuevoFIRsymmetric-flat-bandpass-test-16bit-response} shows the
-overall response of the filter with $16$-bit rounded coefficients. The model
-filter now has $16$ distinct coefficients, a total of $24$ multipliers are
-required and the overall filter length is $261$.
-The distinct $16$-bit coefficients of the model filter are:
-\begin{small} 
-\verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hMf_coef.m}
-\end{small}
-The $16$-bit coefficients of the interpolator filter are:
-\begin{small} 
-\verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hzbf_coef.m}
-\end{small}
-
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{nuevoFIRsymmetric_flat_bandpass_test_16bit_response}}
-\caption{Amplitude response of an interpolated maximally-flat band-pass filter
-with $P=8$, $M=19$, $fc=0.2$, $K=12$ and $16$-bit rounded coefficients.}
-\label{fig:nuevoFIRsymmetric-flat-bandpass-test-16bit-response}
-\end{figure}
-\clearpage
 \subsubsection{\emph{Vl\v{c}ek et al.}'s recursive algorithm for the calculation of the coefficients of odd-length, symmetric, maximally-flat, FIR low-pass filters}
 \emph{Vl\v{c}ek et al.}~\cite{Vlcek_AnalyticalDesignFIRFilter} give a recursive
 algorithm for the coefficients of an odd-length, even-order, symmetric,
@@ -29581,14 +29500,234 @@ Accordingly:
   &=-\left(\frac{k-1}{2}\right)U_{k}\left(v\right)
     +\left(\frac{k+1}{2}\right)U_{k-2}\left(v\right)
 \end{align*}
-\begin{comment}
 \clearpage
-\subsubsection{\emph{Vaidyanathan}'s design of monotonic FIR filters by
+\subsubsection{\label{sec:Nuevo-closed-form-FIR-interpolation-maximally-flat}Closed-form design of FIR filters by \emph{Nuevo et al.}'s interpolation with a maximally-flat model filter}
+\emph{Nuevo et al.}~\cite{NuevoDongMitra_InterpolatedFIRFilters} describe a
+general method for the design of \emph{interpolated FIR filters} of the form
+$H\left(z\right)=H_{M}\left(z^{P}\right)G\left(z\right)$. $H_{M}\left(z\right)$
+is called the model filter, designed to meet the required frequency
+specification in $z^{P}$. $H_{M}\left(z\right)$ is transformed by
+interpolating $P-1$ zeros between each impulse response coefficient creating $P$
+images of the desired frequency response. The $G\left(z\right)$ filter places
+zeros at each of the $P-1$ unwanted images. This method is claimed to
+``implement most practical FIR filters with significant savings in the number of
+arithmetic operations''. 
+
+The Octave script \emph{nuevoFIRsymmetric\_flat\_bandpass\_test.m} applies this
+method to the design of a bandpass filter. The maximally flat model filter is
+designed by the Octave function \emph{herrmannFIRsymmetric\_flat\_lowpass} with
+$M=19$ and $fc=0.2$ giving $K=12$. The interpolation factor is $P=8$. The script
+constructs an interpolator filter, $G\left(z\right)$, with double zeros at $z=1$
+and $z=-1$, a pair of zeros at $z=\pm\imath$ and pairs of zeros at on the unit
+circle at
+$\omega=\pm{}2\pi\left[3, 29, 35, 47, 48, 50, 62\right]/\left(16P\right)$. 
+The latter were adjusted ``by-eye''. The resulting filter has a model filter
+with length $39$ and an overall filter length of $325$. The model filter has
+$20$ distinct coefficients and the interpolator filter requires $8$ distinct
+non-power-of-two
+multipliers. 
+Figure~\ref{fig:nuevoFIRsymmetric-flat-bandpass-test-interpolator} shows the
+responses of the interpolated maximally-flat model filter and the
+interpolator filter.
+Figure~\ref{fig:nuevoFIRsymmetric-flat-bandpass-test-response} 
+shows the overall response of the interpolated filter.
+The distinct coefficients of the model filter are:
+\begin{small} 
+\verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hM_coef.m}
+\end{small}
+The coefficients of the two sections of the interpolator filter are:
+\begin{small} 
+\verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hza_coef.m}
+\end{small}
+and
+\begin{small} 
+\verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hzb_coef.m}
+\end{small}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{nuevoFIRsymmetric_flat_bandpass_test_interpolator}}
+\caption{Amplitude response of the interpolated maximally-flat model filter and
+  interpolator filter with $P=8$, $M=19$, $fc=0.2$, $K=12$.}
+\label{fig:nuevoFIRsymmetric-flat-bandpass-test-interpolator}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{nuevoFIRsymmetric_flat_bandpass_test_response}}
+\caption{Amplitude response of an interpolated maximally-flat band-pass filter
+with $P=8$, $M=19$, $fc=0.2$, $K=12$.}
+\label{fig:nuevoFIRsymmetric-flat-bandpass-test-response}
+\end{figure}
+
+Figure~\ref{fig:nuevoFIRsymmetric-flat-bandpass-test-16bit-response} shows the
+overall response of the filter with $16$-bit rounded coefficients. The model
+filter now has $16$ distinct coefficients, a total of $24$ multipliers are
+required and the overall filter length is $261$.
+The distinct $16$-bit coefficients of the model filter are:
+\begin{small} 
+\verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hMf_coef.m}
+\end{small}
+The $16$-bit coefficients of the interpolator filter are:
+\begin{small} 
+\verbatiminput{nuevoFIRsymmetric_flat_bandpass_test_hzbf_coef.m}
+\end{small}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{nuevoFIRsymmetric_flat_bandpass_test_16bit_response}}
+\caption{Amplitude response of an interpolated maximally-flat band-pass filter
+with $P=8$, $M=19$, $fc=0.2$, $K=12$ and $16$-bit rounded coefficients.}
+\label{fig:nuevoFIRsymmetric-flat-bandpass-test-16bit-response}
+\end{figure}
+\clearpage
+\subsubsection{\emph{Vaidyanathan}'s design of multiplier-less FIR filters by
   combining maximally-flat interpolators}
 \emph{Vaidyanathan}~\cite{Vaidyanathan_MultiplierLessFIRSharpCutoffMaxFlat}
-describes the design of monotonic (rather than maximally-flat) FIR filters by
-combining maximally-flat interpolator blocks.
-\end{comment}
+describes the design of monotonic (rather than maximally-flat)
+FIR filters by combining maximally-flat interpolator blocks. The filters are
+designed with ``closed-form'' formulas and coefficient multiplications are
+implemented with shift-and-add arithmetic.
+
+\emph{Vaidyanathan}~\cite[Section II]{Vaidyanathan_MultiplierLessFIRSharpCutoffMaxFlat} first reviews the
+properties of \emph{maximally-flat} symmetric, even-order, N, FIR filters. He
+writes the zero-phase transfer function as:
+\begin{align*}
+H_{0}\left(z\right)=
+h_{0}z^{\frac{N}{2}}+h_{1}z^{\frac{N}{2}-1}+\hdots+h_{N}z^{-\frac{N}{2}}
+\end{align*}
+The associated linear-phase filter is
+$H\left(z\right)=z^{-\frac{N}{2}}H_{0}\left(z\right)$. The corresponding frequency
+response is:
+\begin{align*}
+H_{0}\left(e^{\imath\omega}\right)&=
+h_{\frac{N}{2}}+2\sum^{\frac{N}{2}}_{k=1}h_{\frac{N}{2}-k}\cos k\omega
+\end{align*}
+The filter is maximally-flat if:
+\begin{align*}
+\left.\frac{\partial^{k}H_{0}\left(e^{\imath\omega}\right)}{\partial\omega^{k}}
+\right|_{\omega=0}&=0,
+\quad\text{for }k=1,2,\hdots,2L-1\\
+\left.\frac{\partial^{k}H_{0}\left(e^{\imath\omega}\right)}{\partial\omega^{k}}
+\right|_{\omega=\pi}
+&=0, \quad\text{for }k=1,2,\hdots,2K-1\\
+\end{align*}
+where $N\coloneq 2\left(K+L-1\right)$. $K$ represents the degree of flatness at
+$\omega=0$ and $L$ represents the degree of flatness at $\omega=\pi$. \emph{Herrmann}~\cite{Herrmann_ApproximationProblemNonrecursiveDigitalFilter}
+and \emph{Rajagopal} and \emph{Roy}~\cite{RajagopalRoy_MaxFlatFIRBernstein}
+show a solution for $H_{0}\left(e^{\imath\omega}\right)$ by \emph{Hermite
+interpolation}:
+\begin{align*}
+H_{0}\left(e^{\imath\omega}\right) &= \left(\cos\frac{\omega}{2}\right)^{2K}
+\;\;\sum^{L-1}_{k=0}d\left(k\right)\left(\sin\frac{\omega}{2}\right)^{2k}
+\end{align*}
+where:
+\begin{align*}
+d\left(k\right)=\frac{\left(K-1+k\right)!}{\left(K-1\right)!k!}
+\end{align*}
+The corresponding filter transfer functions are:
+\begin{align*}
+H_{0}\left(z\right) &= \left(\frac{1}{2}+\frac{1}{2}\frac{z+z^{-1}}{2}\right)^{K}
+\;\;\sum^{L-1}_{k=0}d\left(k\right)
+\left(\frac{1}{2}-\frac{1}{2}\frac{z+z^{-1}}{2}\right)^{k} \\
+H\left(z\right) &= \left(\frac{1+z^{-1}}{2}\right)^{2K}
+\;\;\sum^{L-1}_{k=0}z^{-\left(L-1-k\right)}\left(-1\right)^{k}d\left(k\right)
+\left(\frac{1-z^{-1}}{2}\right)^{2k}
+\end{align*}
+
+\emph{Vaidyanathan} points out that $L$ non-trivial multipliers are needed
+to implement this transfer function and that these multipliers have a large
+dynamic range. In addition, the usual design of a maximally-flat linear-phase
+FIR filter begins with the specification of the centre of the transition band,
+$\beta$, and the width of the transition band, $\delta$, both in multiples of
+$\pi$, and computes the $K$ and $L$ required so that the resulting filter has a
+gain of $0.95$ at $\omega=\left(\beta-\frac{\delta}{2}\right)\pi$ and $0.05$ at 
+$\omega=\left(\beta+\frac{\delta}{2}\right)\pi$. The order of such a filter,
+$N=2\left(K+L-1\right)$ grows as $\delta^{2}$. 
+Instead, \emph{Vaidyanathan} employs the interpolated FIR method of \emph{Nuevo
+et al.}~\cite{NuevoDongMitra_InterpolatedFIRFilters}, shown in
+Section~\ref{sec:Nuevo-closed-form-FIR-interpolation-maximally-flat}.
+
+The interpolated FIR design method of \emph{Nuevo et al} first designs a filter
+with $\hat{\beta}=M\beta$ and $\hat{\delta}=M\delta$, where $M$ is an integer.
+This filter transfer function is expanded with $M-1$ delays between each
+coefficient and the unwanted pass-bands are suppressed by a maximally-flat
+interpolator. \emph{Vaidyanathan} proposes the following efficient interpolators
+suitable for $M=2$. Other values of $M$ are obtained by combining these
+interpolators. In the following $C\left(\omega\right)=\cos^{2}\frac{\omega}{2}$
+and $S\left(\omega\right)=\sin^{2}\frac{\omega}{2}$.
+\begin{enumerate}
+\item Interpolator $I\left(z\right)$:
+\begin{align*}
+\beta&=0.5,\; \delta=0.4,\; K=3,\; L=3,\; N=10 \\
+I\left(e^{\imath\omega}\right)&=
+C^{3}\left(\omega\right)
+\left(1+3S\left(\omega\right)+6S^{2}\left(\omega\right)\right)
+\end{align*}
+\item Interpolator $J\left(z\right)$:
+\begin{align*}
+\beta&=0.6,\; \delta=0.5,\; K=2,\; L=4,\; N=10 \\
+J\left(e^{\imath\omega}\right)&=
+C^{2}\left(\omega\right)\left(1+2S\left(\omega\right)+
+3S^{2}\left(\omega\right)+4S^{3}\left(\omega\right)\right)
+\end{align*}
+\item Interpolator $K\left(z\right)$:
+\begin{align*}
+\beta&=0.4,\; \delta=0.4,\; K=4,\; L=2,\; N=10 \\
+K\left(e^{\imath\omega}\right)&=
+C^{4}\left(\omega\right)\left(1+4S\left(\omega\right)\right)
+\end{align*}
+\item Interpolator $L\left(z\right)$:
+\begin{align*}
+\beta&=0.5,\; \delta=0.5,\; K=2,\; L=2,\; N=6 \\
+L\left(e^{\imath\omega}\right)&=
+C^{2}\left(\omega\right)\left(1+2S\left(\omega\right)\right)
+\end{align*}
+\end{enumerate}
+
+\emph{Vaidyanathan} now points out that since
+$0\le C\left(e^{\imath\omega}\right)\le 1$ then each $C\left(z\right)$ can be
+replaced with a function $F\left(z\right)$ for which
+$0\le F\left(e^{\imath\theta}\right)\le 1,\text{ for all }\theta$. This
+constitutes a frequency transformation for which
+\begin{align*}
+\omega =
+2\cos^{-1}\left\{\left[F\left(e^{\imath\theta}\right)\right]^{\frac{1}{2}}\right\}
+\end{align*}
+If $F\left(z\right)$ is linear-phase then the resulting filter is linear-phase.
+For example, if\footnote{Similarly
+$S\left(z\right) \leftarrow 1-I^{2}\left(z\right)$.}:
+\begin{align*}
+I_{I}\left(z\right) \coloneq
+\left.I\left(z\right)\right|_{C\left(z\right)\leftarrow I^{2}\left(z\right)}
+\end{align*}
+then $I_{I}\left(z\right)$ has a much sharper cutoff than $I\left(z\right)$
+itself.
+
+The Octave script \emph{vaidyanathanFIRsymmetric\_lowpass\_test.m} calculates
+the amplitude response of \emph{Vaidyanathan}'s example
+$H_{5}\left(z\right)$~\cite[Figure
+12]{Vaidyanathan_MultiplierLessFIRSharpCutoffMaxFlat}:
+\begin{align*}
+H_{5}\left(z\right) =
+I_{I}\left(z\right)I_{I}\left(z^{2}\right)J_{J}\left(z^{4}\right)
+\end{align*}
+Figure~\ref{fig:Vaidyanathan-efficient-multiplier-less-FIR-filters-H5} shows
+the amplitude response for the $H_{5}\left(z\right)$ example FIR filter.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{vaidyanathanFIRsymmetric_lowpass_test_response}}
+\caption{Amplitude response of \emph{Vaidyanathan}'s example
+$H_{5}\left(z\right)$ of an interpolated multiplier-less low-pass
+filter~\cite[Figure 12]{Vaidyanathan_MultiplierLessFIRSharpCutoffMaxFlat}.}
+\label{fig:Vaidyanathan-efficient-multiplier-less-FIR-filters-H5}
+\end{figure}
+
+\emph{Vaidyanathan} states that this order $N=700$ multiplier-less FIR filter has
+an amplitude response equivalent to that of an $N=174$ equi-ripple FIR filter
+but with far fewer arithmetic operations.
+
 \clearpage
 \subsection{Closed-form design of maximally-flat FIR half-band filters}
 \subsubsection{\emph{Gumacos}'s closed form design of FIR half-band filters that are maximally-flat at $\omega=0$}
