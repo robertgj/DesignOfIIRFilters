@@ -76,7 +76,6 @@ for d=[10,M],
   % Pass band constraint on the error |H(w)-e^(-j*w*d)|^2
   P_z=sdpvar(N,N,"symmetric","real");
   Q_z=sdpvar(N,N,"symmetric","real");
-  F_z=sdpvar(N+2,N+2,"symmetric","real");
   if use_kron
     K_z=(AB')*(kron(Phi,P_z)+kron(Psi_p,Q_z))*AB;
     G_z=K_z + diag([zeros(1,N),-Esq_z]);
@@ -90,7 +89,6 @@ for d=[10,M],
   % Constraint on maximum overall amplitude
   P_max=sdpvar(N,N,"symmetric","real");
   Q_max=sdpvar(N,N,"symmetric","real");
-  F_max=sdpvar(N+2,N+2,"symmetric","real");
   if use_kron
     K_max=(AB')*(kron(Phi,P_max)+kron(Psi_max,Q_max))*AB;
     G_max=K_max + diag([zeros(1,N),-Asq_max]);
@@ -104,7 +102,6 @@ for d=[10,M],
   % Constraint on maximum pass band amplitude
   P_pu=sdpvar(N,N,"symmetric","real");
   Q_pu=sdpvar(N,N,"symmetric","real");
-  F_pu=sdpvar(N+2,N+2,"symmetric","real");
   if use_kron
     K_pu=(AB')*(kron(Phi,P_pu)+kron(Psi_p,Q_pu))*AB;
     G_pu=K_pu + diag([zeros(1,N),-Asq_pu]);
@@ -119,7 +116,6 @@ for d=[10,M],
   if use_constraint_on_pass_min==true
     P_pl=sdpvar(N,N,"symmetric","real");
     Q_pl=sdpvar(N,N,"symmetric","real");
-    F_pl=sdpvar(N,N,"symmetric","real");
     Theta_pl=[CD',[zeros(N,1);1]]*[-1,0;0,Asq_pl]*[CD;[zeros(1,N),1]];
     F_pl=((AB')*(kron(Phi,P_pl)+kron(Psi_p,Q_pl))*AB) + Theta_pl;
   endif
@@ -127,7 +123,6 @@ for d=[10,M],
   % Constraint on maximum transition band amplitude
   P_t=sdpvar(N,N,"symmetric","real");
   Q_t=sdpvar(N,N,"symmetric","real");
-  F_t=sdpvar(N+2,N+2,"symmetric","real");
   if use_kron
     K_t=(AB')*(kron(Phi,P_t)+kron(Psi_p,Q_t))*AB;
     G_t=K_t + diag([zeros(1,N),-Asq_t]);
@@ -141,7 +136,6 @@ for d=[10,M],
   % Constraint on maximum stop band amplitude
   P_s=sdpvar(N,N,"symmetric","real");
   Q_s=sdpvar(N,N,"symmetric","real");
-  F_s=sdpvar(N+2,N+2,"symmetric","real");
   if use_kron
     K_s=(AB')*(kron(Phi,P_s)+kron(Psi_s,Q_s))*AB;
     G_s=K_s + diag([zeros(1,N),-Esq_s]);

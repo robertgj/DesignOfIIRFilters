@@ -6,7 +6,7 @@ directFIRnonsymmetric_kyp_lowpass_test.mat \
 directFIRnonsymmetric_kyp_lowpass_test.spec \
 directFIRnonsymmetric_kyp_lowpass_test_h_coef.m \
 directFIRnonsymmetric_kyp_lowpass_test_max_passband_squared_error.tab \
-directFIRnonsymmetric_kyp_lowpass_test_max_As.tab
+directFIRnonsymmetric_kyp_lowpass_test_max_stopband_squared_error.tab
 
 directFIRnonsymmetric_kyp_lowpass_test_FILES = \
 directFIRnonsymmetric_kyp_lowpass_test.m test_common.m \

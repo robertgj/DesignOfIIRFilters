@@ -42,7 +42,6 @@ Psi_s=[0,-1;-1,c_s];
 % Constraint on maximum overall amplitude
 P_max=sdpvar(N,N,"symmetric","real");
 Q_max=sdpvar(N,N,"symmetric","real");
-F_max=sdpvar(N+2,N+2,"symmetric","real");
 G_max=((AB')*(kron(Phi,P_max)+kron(Psi_max,Q_max))*AB) + ...
       diag([zeros(1,N),-Asq_max]);
 F_max=[[G_max,CD'];[CD,-1]];
@@ -50,14 +49,12 @@ F_max=[[G_max,CD'];[CD,-1]];
 % Constraint on minimum pass band amplitude
 P_pl=sdpvar(N,N,"symmetric","real");
 Q_pl=sdpvar(N,N,"symmetric","real");
-F_pl=sdpvar(2*N,2*N,"symmetric","real");
 Theta_pl=[CD',[zeros(N,1);1]]*[-1,0;0,Asq_pl]*[CD;[zeros(1,N),1]];
 F_pl=((AB')*(kron(Phi,P_pl)+kron(Psi_p,Q_pl))*AB)+Theta_pl;
 
 % Constraint on maximum stop band amplitude
 P_s=sdpvar(N,N,"symmetric","real");
 Q_s=sdpvar(N,N,"symmetric","real");
-F_s=sdpvar(N+2,N+2,"symmetric","real");
 G_s=((AB')*(kron(Phi,P_s)+kron(Psi_s,Q_s))*AB) + ...
     diag([zeros(1,N),-Esq_s]);
 F_s=[[G_s,CD'];[CD,-1]];

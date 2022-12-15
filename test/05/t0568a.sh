@@ -1,8 +1,8 @@
 #!/bin/sh
 
-prog=directFIRnonsymmetric_kyp_lowpass_test.m
-depends="test/directFIRnonsymmetric_kyp_lowpass_test.m \
-test_common.m konopacki.m print_polynomial.m directFIRnonsymmetricEsqPW.m"
+prog=directFIRsymmetric_kyp_lowpass_test.m
+depends="test/directFIRsymmetric_kyp_lowpass_test.m \
+test_common.m print_polynomial.m directFIRsymmetricEsqPW.m"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -55,10 +55,10 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_h_coef.ok"; fail; fi
 #
 echo "Running $prog"
 
-FILTER_IS_SYMMETRIC=1 octave --no-gui -q $prog >test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_h_coef.ok directFIRnonsymmetric_kyp_lowpass_test_h_coef.m
+diff -Bb test_h_coef.ok directFIRsymmetric_kyp_lowpass_test_h_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_h_coef.ok"; fail; fi
 
 #

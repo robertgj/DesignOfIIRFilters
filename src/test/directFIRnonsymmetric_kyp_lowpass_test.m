@@ -6,34 +6,18 @@
 % Frequency Domain Inequalities With Design Applications", T. Iwasaki
 % and S. Hara, IEEE Transactions on Automatic Control, Vol. 50, No. 1,
 % January 2005, pp. 41–59
-%
-% Note that the YALMIP, Octave, Symbolic Toolbox and SymPy combination
-% requires that the KYP constraints have rows enclosed in square brackets.
 
 test_common;
 
 strf="directFIRnonsymmetric_kyp_lowpass_test";
 
-tmpdiaryfile=strcat(strf,".diary.tmp");
-diaryfile=strcat(strf,".diary");
-delete(diaryfile);
-delete(tmpdiaryfile);
-eval(sprintf("diary %s",tmpdiaryfile));
-
-% Options
-filter_is_symmetric=getenv("FILTER_IS_SYMMETRIC");
-if filter_is_symmetric
-  printf("filter is symmetric\n");
-endif
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Low-pass filter specification (Reduce Esq_z while satisfying the constraints)
 M=15;N=2*M;fap=0.15;fas=0.2;Esq_s=1e-4;
-if filter_is_symmetric
-  d=M;Esq_z=3.24e-3;
-else
-  d=10;Esq_z=5.67e-3;
-endif
-
+d=10;Esq_z=5.67e-3;
 AdB_est=konopacki(N,(fas-fap)*2*pi,d)
 
 % Common constants
@@ -49,18 +33,12 @@ c_s=2*cos(2*pi*fas);
 Psi_s=[0,-1;-1,c_s];
 
 % Filter impulse response SDP variable
-if filter_is_symmetric
-  CM1=sdpvar(1,M+1);
-  CD=[CM1,CM1(M:-1:1)];
-else
-  CD=sdpvar(1,N+1);
-endif
+CD=sdpvar(1,N+1);
 CD_d=CD-[C_d,0];
               
 % Pass band constraint on the error |H(w)-e^(-j*w*d)|^2
 P_z=sdpvar(N,N,"symmetric","real");
 Q_z=sdpvar(N,N,"symmetric","real");
-F_z=sdpvar(N+2,N+2,"symmetric","real");
 F_z=[[((AB')*(kron(Phi,P_z)+kron(Psi_z,Q_z))*AB) + ...
       diag([zeros(1,N),-Esq_z]),CD_d']; ...
      [CD_d,-1]];
@@ -68,7 +46,6 @@ F_z=[[((AB')*(kron(Phi,P_z)+kron(Psi_z,Q_z))*AB) + ...
 % Constraint on maximum stop band amplitude
 P_s=sdpvar(N,N,"symmetric","real");
 Q_s=sdpvar(N,N,"symmetric","real");
-F_s=sdpvar(N+2,N+2,"symmetric","real");
 F_s=[[((AB')*(kron(Phi,P_s)+kron(Psi_s,Q_s))*AB) + ...
       diag([zeros(1,N),-Esq_s]),CD']; ...
      [CD,-1]];
@@ -137,14 +114,14 @@ printf("max_Esq_z=%10.8f\n",max_Esq_z);
 fid=fopen(strcat(strf,"_max_passband_squared_error.tab"),"wt");
 fprintf(fid,"%10.8f",max_Esq_z);
 fclose(fid);
-max_As=max(abs(H(nas:end)));
-printf("max_A_s=%10.8f\n",max_As);
-fid=fopen(strcat(strf,"_max_As.tab"),"wt");
-fprintf(fid,"%10.8f",max_As);
+max_Esq_s=max(abs(H(nas:end)))^2;
+printf("max_Esq_s=%10.8f\n",max_Esq_s);
+fid=fopen(strcat(strf,"_max_stopband_squared_error.tab"),"wt");
+fprintf(fid,"%10.8f",max_Esq_s);
 fclose(fid);
 printf("max_A_p=%10.8f\n",max(abs(H(1:nap))));
-printf("min_A_p=%10.8f\n",min(abs(H(1:nap))));
 printf("max_A_t=%10.8f\n",max(abs(H(nap:nas))));
+printf("max_A_s=%10.8f\n",max(abs(H(nas:end))));
 % Check delay response
 printf("max_T_p=%7.4f\n",max(abs(T(1:nap))));
 printf("min_T_p=%7.4f\n",min(abs(T(1:nap))));
@@ -169,4 +146,4 @@ eval(sprintf("save %s.mat N d fap fas Esq_z Esq_s h",strf));
 
 % Done
 diary off
-movefile(tmpdiaryfile,diaryfile,"f");
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"),"f");

@@ -125,7 +125,6 @@ for altspec=1:9
     % Maximum amplitude constraint
     P_max=sdpvar(N,N,"symmetric","real");
     Q_max=sdpvar(N,N,"symmetric","real");
-    F_max=sdpvar(N+2,N+2,"symmetric","real");
     F_max=[[((AB')*(kron(Phi,P_max)+kron(Psi_max,Q_max))*AB) + ...
             diag([zeros(1,N),-Esq_max]),CD']; ...
            [CD,-1]];
@@ -133,14 +132,12 @@ for altspec=1:9
   % Pass band constraint on the error |H(w)-e^(-j*w*d)|
   P_z=sdpvar(N,N,"symmetric","real");
   Q_z=sdpvar(N,N,"symmetric","real");
-  F_z=sdpvar(N+2,N+2,"symmetric","real");
   F_z=[[((AB')*(kron(Phi,P_z)+kron(Psi_z,Q_z))*AB) + ...
         diag([zeros(1,N),-Esq_z]),CD_d']; ...
        [CD_d,-1]];
   % Stop band constraint 
   P_s=sdpvar(N,N,"symmetric","real");
   Q_s=sdpvar(N,N,"symmetric","real");
-  F_s=sdpvar(N+2,N+2,"symmetric","real");
   F_s=[[((AB')*(kron(Phi,P_s)+kron(Psi_s,Q_s))*AB) + ...
         diag([zeros(1,N),-Esq_s]),CD']; ...
        [CD,-1]];

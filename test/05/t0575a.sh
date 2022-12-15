@@ -68,7 +68,7 @@ fi
 #
 echo "Running $prog"
 
-octave --no-gui -q $prog #>test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 diff -Bb test_N_10_latex.ok schurFIRlattice2Abcd_symbolic_test_N_10.latex

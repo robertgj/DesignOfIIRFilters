@@ -1,15 +1,26 @@
 kyp_complex_curve_union_test_FIGURES = \
-kyp_complex_curve_union_test_Assumption1_m1 \
-kyp_complex_curve_union_test_Assumption1_m2 \
-kyp_complex_curve_union_test_Assumption1_m3
+kyp_complex_curve_union_test_1_root_locus_m1 \
+kyp_complex_curve_union_test_1_root_locus_m2 \
+kyp_complex_curve_union_test_2_root_locus_real \
+kyp_complex_curve_union_test_2_root_locus_imag \
+kyp_complex_curve_union_test_3_root_locus \
+kyp_complex_curve_union_test_4_root_locus \
+kyp_complex_curve_union_test_5_root_locus
 
 kyp_complex_curve_union_test_COEFS = \
-kyp_complex_curve_union_test_alpha_m1_coef.m \
-kyp_complex_curve_union_test_beta_m1_coef.m \
-kyp_complex_curve_union_test_alpha_m2_coef.m \
-kyp_complex_curve_union_test_beta_m2_coef.m \
-kyp_complex_curve_union_test_alpha_m3_coef.m \
-kyp_complex_curve_union_test_beta_m3_coef.m
+kyp_complex_curve_union_test_1_alpha_m1_coef.m \
+kyp_complex_curve_union_test_1_beta_m1_coef.m \
+kyp_complex_curve_union_test_1_alpha_m2_coef.m \
+kyp_complex_curve_union_test_1_beta_m2_coef.m \
+kyp_complex_curve_union_test_2_alpha_coef.m \
+kyp_complex_curve_union_test_2_beta_coef.m \
+kyp_complex_curve_union_test_3_eta_coef.m \
+kyp_complex_curve_union_test_3_zeta_coef.m \
+kyp_complex_curve_union_test_4_eta_coef.m \
+kyp_complex_curve_union_test_4_zeta_coef.m \
+kyp_complex_curve_union_test_5_eta_coef.m \
+kyp_complex_curve_union_test_5_zeta_coef.m
 
 kyp_complex_curve_union_test_FILES = \
 kyp_complex_curve_union_test.m test_common.m print_polynomial.m
+

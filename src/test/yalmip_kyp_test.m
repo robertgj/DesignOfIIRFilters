@@ -96,11 +96,9 @@ for use_AB_plus_Theta=0:1
   P_max=sdpvar(N,N,"symmetric");
   Q_max=sdpvar(N,N,"symmetric");
   if use_AB_plus_Theta
-    F_max=sdpvar(N+1,N+1,"symmetric");
     F_max=((AB')*[-P_max,Q_max;Q_max,P_max+(2*Q_max)]*AB) + ...
           ((CD')*[1,0;0,-Asq_max]*CD);
   else
-    F_max=sdpvar(N+2,N+2,"symmetric");
     F_max=[[((AB')*[-P_max, Q_max; Q_max,P_max+(2*Q_max)]*AB) + ...
             diag([zeros(1,N),-Asq_max]),[C,D]']; ...
            [C,D,-1]];
@@ -124,10 +122,8 @@ for use_AB_plus_Theta=0:1
   P_pu=sdpvar(N,N,"symmetric");
   Q_pu=sdpvar(N,N,"symmetric");
   if use_AB_plus_Theta
-    F_pu=sdpvar(N+1,N+1,"symmetric");
     F_pu=((AB')*[-P_pu,Q_pu;Q_pu,P_pu-(c_p*Q_pu)]*AB)+((CD')*[1,0;0,-Asq_pu]*CD);
   else
-    F_pu=sdpvar(N+2,N+2,"symmetric");
     F_pu=[[((AB')*[-P_pu, Q_pu; Q_pu,P_pu-(c_p*Q_pu)]*AB) + ...
            diag([zeros(1,N),-Asq_pu]),[C,D]']; ...
           [C,D,-1]];
@@ -150,10 +146,8 @@ for use_AB_plus_Theta=0:1
   P_z=sdpvar(N,N,"symmetric");
   Q_z=sdpvar(N,N,"symmetric");
   if use_AB_plus_Theta
-    F_z=sdpvar(N+1,N+1,"symmetric");
     F_z=((AB')*[-P_z,Q_z;Q_z,P_z-(c_p*Q_z)]*AB)+((C_dD')*[1,0;0,-Asq_z]*C_dD);
   else
-    F_z=sdpvar(N+2,N+2,"symmetric");
     F_z=[[((AB')*[-P_z, Q_z; Q_z,P_z-(c_p*Q_z)]*AB) + ...
           diag([zeros(1,N),-Asq_z]),[C-C_d,D]']; ...
          [C-C_d,D,-1]];
@@ -198,11 +192,9 @@ for use_AB_plus_Theta=0:1
   P_tu=sdpvar(N,N,"symmetric");
   Q_tu=sdpvar(N,N,"symmetric");
   if use_AB_plus_Theta
-    F_tu=sdpvar(N+1,N+1,"hermitian","complex");
     F_tu=((AB')*[-P_tu,e_c*Q_tu;Q_tu/e_c,P_tu-(c_h*Q_tu)]*AB) + ...
          ((CD')*[1,0;0,-Asq_tu]*CD);
   else
-    F_tu=sdpvar(N+2,N+2,"hermitian","complex");
     F_tu=[[((AB')*[-P_tu,e_c*Q_tu;Q_tu/e_c,P_tu-(c_h*Q_tu)]*AB) + ...
            diag([zeros(1,N),-Asq_tu]),[C,D]']; ...
           [C,D,-1]];
@@ -225,11 +217,9 @@ for use_AB_plus_Theta=0:1
   P_s=sdpvar(N,N,"symmetric");
   Q_s=sdpvar(N,N,"symmetric");
   if 1 || use_AB_plus_Theta
-    F_s=sdpvar(N+1,N+1,"symmetric");
     F_s=((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB)+((CD')*[1,0;0,-Asq_s]*CD);
   else
     % This fails with numerical problems !?!?!
-    F_s=sdpvar(N+2,N+2,"symmetric");
     F_s=[[((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB) + ...
           diag([zeros(1,N),-Asq_s]),[C,D]'];...
          [C,D,-1]];
@@ -262,7 +252,6 @@ D=sdpvar(1,1);
 % Stop band amplitude constraint
 P_s=sdpvar(N,N,'symmetric');
 Q_s=sdpvar(N,N,'symmetric');
-F_s=sdpvar(N+2,N+2,'symmetric');
 F_s=[[((AB')*(kron(Phi,P_s)+kron([0,-1;-1,c_s],Q_s))*AB) + ...
       diag([zeros(1,N),-Esq_s]),[C,D]']; ...
      [C,D,-1]];
@@ -315,13 +304,11 @@ C=sdpvar(1,N);
 D=sdpvar(1,1);
 P_z=sdpvar(N,N,'symmetric');
 Q_z=sdpvar(N,N,'symmetric');
-F_z=sdpvar(N+2,N+2,'symmetric');
 F_z=[[((AB')*(kron(Phi,P_z)+kron([0,1;1,-c_p],Q_z))*AB) + ...
       diag([zeros(1,N),-Esq_z]),[C-C_d,D]']; ...
      [C-C_d,D,-1]];
 P_s=sdpvar(N,N,'symmetric');
 Q_s=sdpvar(N,N,'symmetric');
-F_s=sdpvar(N+2,N+2,'symmetric');
 if use_kron
   F_s=[[((AB')*(kron(Phi,P_s)+kron([0,-1;-1,c_s],Q_s))*AB) + ...
         diag([zeros(1,N),-Esq_s]),[C,D]']; ...
