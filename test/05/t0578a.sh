@@ -38,7 +38,6 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-Symbolic pkg v3.0.1: Python communication link active, SymPy v1.11.1.
 ans = (sym 2×2 matrix)
   ⎡    0      p⋅s - q⋅r⎤
   ⎢                    ⎥
@@ -87,7 +86,9 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.ok test.out
+cat test.out | egrep -v Symbolic | egrep -v Waiting > test.out.ok
+
+diff -Bb test.ok test.out.ok
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok"; fail; fi
 
 #
