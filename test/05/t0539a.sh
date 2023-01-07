@@ -3,7 +3,7 @@
 prog=directFIRnonsymmetric_kyp_union_bandpass_test.m
 
 depends="test/directFIRnonsymmetric_kyp_union_bandpass_test.m test_common.m \
-print_polynomial.m"
+print_polynomial.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

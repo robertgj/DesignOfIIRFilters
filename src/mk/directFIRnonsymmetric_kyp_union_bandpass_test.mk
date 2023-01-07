@@ -1,6 +1,7 @@
 directFIRnonsymmetric_kyp_union_bandpass_test_FIGURES = \
 directFIRnonsymmetric_kyp_union_bandpass_test_response \
-directFIRnonsymmetric_kyp_union_bandpass_test_passband
+directFIRnonsymmetric_kyp_union_bandpass_test_passband \
+directFIRnonsymmetric_kyp_union_bandpass_test_zeros
 
 directFIRnonsymmetric_kyp_union_bandpass_test_COEFS = \
 directFIRnonsymmetric_kyp_union_bandpass_test.mat \
@@ -9,4 +10,5 @@ directFIRnonsymmetric_kyp_union_bandpass_test_h_coef.m \
 directFIRnonsymmetric_kyp_union_bandpass_test_max_passband_squared_error.tab
 
 directFIRnonsymmetric_kyp_union_bandpass_test_FILES = \
-directFIRnonsymmetric_kyp_union_bandpass_test.m test_common.m print_polynomial.m
+directFIRnonsymmetric_kyp_union_bandpass_test.m test_common.m \
+print_polynomial.m qroots.m qzsolve.oct

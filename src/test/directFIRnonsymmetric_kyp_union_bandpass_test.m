@@ -220,6 +220,13 @@ title(strt);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
+% Plot zeros
+z=qroots(h);
+zplane(z);
+title(strt);
+print(strcat(strf,"_zeros"),"-dpdflatex");
+close
+
 % Plot pass band amplitude, phase and delay
 subplot(311)
 plot(w(napl:napu)*0.5/pi,20*log10(abs(H(napl:napu))));
@@ -244,6 +251,7 @@ grid("on");
 xlabel("Frequency");
 print(strcat(strf,"_passband"),"-dpdflatex");
 close
+
 
 % Check squared-amplitude response
 printf("Esq_max=%8.6f\n",Esq_max);
