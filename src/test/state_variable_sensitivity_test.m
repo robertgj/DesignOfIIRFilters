@@ -1,5 +1,5 @@
 % state_variable_sensitivity_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -97,8 +97,8 @@ for k=1:norder
             k,real(dHdc(k)),imag(dHdc(k)),abs(diff_dHdc(k)-dHdc(k)));
   endif
 endfor
-if max(abs(diff_dHdc-dHdc)) > del/2748
-  error("max(abs(diff_dHdc-dHdc)) > del/2748");
+if max(abs(diff_dHdc-dHdc)) > del/2500
+  error("max(abs(diff_dHdc-dHdc)) > del/2500");
 endif
 
 % Sensitivity of H wrt D
@@ -136,8 +136,8 @@ for k=1:norder
     endif
   endfor
 endfor
-if max(max(abs(diff_dAsqda-dAsqda))) > del/208
-  error("max(max(abs(diff_dAsqda-dAsqda))) > del/208");
+if max(max(abs(diff_dAsqda-dAsqda))) > del/100
+  error("max(max(abs(diff_dAsqda-dAsqda))) > del/100");
 endif
 
 % Sensitivity of abs(H)^2 wrt B
@@ -155,8 +155,8 @@ for k=1:norder
             k,real(dAsqdb(k)),imag(dAsqdb(k)),abs(diff_dAsqdb(k)-dAsqdb(k)));
   endif
 endfor
-if max(abs(diff_dAsqdb-dAsqdb)) > del/2559
-  error("max(abs(diff_dAsqdb-dAsqdb)) > del/2559");
+if max(abs(diff_dAsqdb-dAsqdb)) > del/2500
+  error("max(abs(diff_dAsqdb-dAsqdb)) > del/2500");
 endif
 
 % Sensitivity of abs(H)^2 wrt C

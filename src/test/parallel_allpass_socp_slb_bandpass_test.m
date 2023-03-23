@@ -1,17 +1,18 @@
 % parallel_allpass_socp_slb_bandpass_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
-delete("parallel_allpass_socp_slb_bandpass_test.diary");
-delete("parallel_allpass_socp_slb_bandpass_test.diary.tmp");
-diary parallel_allpass_socp_slb_bandpass_test.diary.tmp
+strf="parallel_allpass_socp_slb_bandpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 verbose=false
 maxiter=2000
-strf="parallel_allpass_socp_slb_bandpass_test";
 
 %
 % Initial coefficients found by tarczynski_parallel_allpass_bandpass_test.m
@@ -46,13 +47,13 @@ Wap=1
 Watl=0.01
 Watu=0.01
 dBas=50
-Wasl=10000
-Wasu=10000
+Wasl=2000
+Wasu=2000
 ftpl=0.09
 ftpu=0.21
 td=16
 tdr=td/200
-Wtp=1
+Wtp=0.5
 
 %
 % Frequency vectors
@@ -137,11 +138,15 @@ close
 %
 % PCLS pass
 %
-[ab1,slb_iter,opt_iter,func_iter,feasible]= ...
-parallel_allpass_slb(@parallel_allpass_socp_mmse,ab0,abu,abl, ...
-                     1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
-                     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                     wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
+try
+  [ab1,slb_iter,opt_iter,func_iter,feasible]= ...
+     parallel_allpass_slb(@parallel_allpass_socp_mmse,ab0,abu,abl, ...
+                          1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
+                          wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
+                          wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
+catch
+  feasible = false;
+end_try_catch
 if !feasible
   error("ab1 infeasible");
 endif
@@ -190,7 +195,7 @@ subplot(212);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([min(fapl,ftpl) max(fapu,ftpu) td-tdr td+tdr]);
+axis([min(fapl,ftpl) max(fapu,ftpu) (td+[-1 1]*0.1)]);
 grid("on");
 print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
@@ -293,5 +298,4 @@ save parallel_allpass_socp_slb_bandpass_test.mat ma mb Ra Rb ab0 ab1 Da1 Db1 ...
      fasl fasu dBas Wasl Wasu ftpl ftpu td tdr Wtp
 toc;
 diary off
-movefile parallel_allpass_socp_slb_bandpass_test.diary.tmp ...
-         parallel_allpass_socp_slb_bandpass_test.diary;
+eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));

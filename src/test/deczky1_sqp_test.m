@@ -1,5 +1,5 @@
 % deczky1_sqp_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -12,7 +12,7 @@ tic;
 
 tol=2e-4
 ctol=tol/100
-maxiter=2000
+maxiter=10000
 verbose=false
 
 % Filter specifications
@@ -47,7 +47,6 @@ Adl=[(10^(-dBap/20))*ones(nap,1);zeros(n-nap,1)];
 Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
 
 % Transition-band amplitude derivative constraint frequencies
-%wx=((nap+1):(nas-1))'*pi/n;
 wx=(nap:nas)'*pi/n;
 
 % Group delay constraints

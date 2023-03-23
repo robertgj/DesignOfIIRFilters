@@ -1,5 +1,4 @@
 polyphase_allpass_socp_slb_test_FIGURES = \
-polyphase_allpass_socp_slb_test_ab0 \
 polyphase_allpass_socp_slb_test_ab1 \
 polyphase_allpass_socp_slb_test_ab1dual \
 polyphase_allpass_socp_slb_test_a1pz \
@@ -24,6 +23,6 @@ parallel_allpass_slb_show_constraints.m \
 parallel_allpass_slb_update_constraints.m \
 parallel_allpass_socp_mmse.m allpassP.m allpassT.m tf2a.m a2tf.m \
 aConstraints.m print_polynomial.m print_allpass_pole.m \
-local_max.m qroots.m qzsolve.oct 
+local_max.m qroots.m qzsolve.oct
 
-polyphase_allpass_socp_slb_test.diary : tarczynski_polyphase_allpass_test.diary
+# polyphase_allpass_socp_slb_test.diary : tarczynski_polyphase_allpass_test.diary

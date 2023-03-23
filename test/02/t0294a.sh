@@ -180,10 +180,10 @@ done
 # the octave BLAS output should look like this
 #
 cat > test.blas.ok << 'EOF'
- 0.14709002182060862
+ 0.14709002182060871
 EOF
 
-export LD_LIBRARY_PATH=/usr/local/octave-7.3.0/lib
+export LD_LIBRARY_PATH=/usr/local/octave-8.1.0/lib
 
 gfortran -o dgesvd_test_blas dgesvd_test.f -L$LD_LIBRARY_PATH -lblas -llapack
 if [ $? -ne 0 ]; then \

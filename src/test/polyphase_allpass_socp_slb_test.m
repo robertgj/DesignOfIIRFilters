@@ -1,5 +1,5 @@
 % polyphase_allpass_socp_slb_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -13,13 +13,9 @@ verbose=false
 maxiter=5000
 strf="polyphase_allpass_socp_slb_test";
 
-% Initial coefficients found by tarczynski_polyphase_allpass_test.m 
-tarczynski_polyphase_allpass_test_Da0_coef;
-tarczynski_polyphase_allpass_test_Db0_coef;
-
 % Lowpass filter specification for polyphase combination of all-pass filters
 tol=1e-4
-ctol=1e-7
+ctol=1e-8
 n=500;
 polyphase=true
 difference=false
@@ -29,20 +25,44 @@ Ksq=K^2;
 R=2
 Ra=R
 Rb=R
-ma=length(Da0)-1
-mb=length(Db0)-1
 fap=0.24
-dBap=0.001
+dBap=1e-5
 Wap=1
 fas=0.26
-dBas=81
+dBas=100
 Was=1e-2
 
-% Convert coefficients to a vector
-ab0=zeros(ma+mb,1);
-[ab0(1:ma),Va,Qa]=tf2a(Da0);
-[ab0((ma+1):end),Vb,Qb]=tf2a(Db0);
-printf("Initial ab0=[");printf("%g ",ab0');printf("]'\n");
+if 0
+  % Initial coefficients found by tarczynski_polyphase_allpass_test.m 
+  tarczynski_polyphase_allpass_test_Da0_coef;
+  tarczynski_polyphase_allpass_test_Db0_coef;
+  % Convert coefficients to a vector
+  ma=length(Da0)-1
+  mb=length(Db0)-1
+  ab0=zeros(ma+mb,1);
+  [ab0(1:ma),Va,Qa]=tf2a(Da0);
+  [ab0((ma+1):end),Vb,Qb]=tf2a(Db0);
+  printf("Initial ab0=[");printf("%g ",ab0');printf("]'\n");
+else
+  % With the initial filters found by tarczynski_polyphase_allpass_test.m
+  % the final filters have 3 real zeros and 4 complex zero pairs, including
+  % one complex zero pair with an angle that is very close to pi. I get
+  % better results by converting that complex zero pair to a real zero pair
+  % and so having 5 real zeros in the initial filters.
+  Va=5,Qa=6,Ra=2
+  a0 = [  0.8619,  -0.7219,  -0.1204,  -0.8320,  -0.8320, ...
+          0.8989,   0.8597,   0.8451, ...
+          1.9952,   0.1438,   0.7762 ]';
+  ma = length(a0);
+  [~,Da0]=a2tf(a0,Va,Qa,Ra);
+  Vb=5,Qb=6,Rb=2
+  b0 = [ -0.9303,   0.8612,  -0.4007,  -0.8390,  -0.8390, ...
+          0.8986,   0.8596,   0.8450, ...
+          1.9951,   0.1433,   0.7764 ]';
+  mb = length(b0);
+  [~,Db0]=a2tf(b0,Vb,Qb,Rb);
+  ab0 = [a0;b0];
+endif
 
 %
 % Frequency vectors
@@ -77,31 +97,6 @@ Wp=[];
 abl=[al(:);bl(:)];
 abu=[au(:);bu(:)];
 
-% Find initial response
-Da0R=[1;kron(Da0(2:end),[zeros(R-1,1);1])];
-Db0R=[1;kron(Db0(2:end),[zeros(R-1,1);1])];
-Nab0=(conv(flipud(Da0R),[Db0R;0])+conv([0;flipud(Db0R)],Da0R))/2;
-Dab0=conv(Da0R,Db0R);
-nplot=512;
-[Hab0,wplot]=freqz(Nab0,Dab0,nplot);
-Tab0=grpdelay(Nab0,Dab0,nplot);
-
-% Plot initial response
-subplot(211);
-plot(wplot*0.5/pi,20*log10(abs(Hab0)));
-ylabel("Amplitude(dB)");
-axis([0 0.5 -80 5]);
-grid("on");
-strt=sprintf("Initial polyphase allpass : ma=%d,mb=%d", ma,mb);
-title(strt);
-subplot(212);
-plot(wplot*0.5/pi,Tab0);
-ylabel("Delay(samples)");
-xlabel("Frequency");
-grid("on");
-print(strcat(strf,"_ab0"),"-dpdflatex");
-close
-
 %
 % PCLS pass
 %
@@ -129,9 +124,9 @@ Tab1=grpdelay(Nab1,Dab1,nplot);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hab1)));
 ylabel("Amplitude(dB)");
-axis([0 0.5 -100 5]);
+axis([0 0.5 -110 5]);
 grid("on");
-strt=sprintf("Polyphase allpass : ma=%d,mb=%d,dBap=%5.3f,dBas=%2d",
+strt=sprintf("Polyphase allpass : ma=%d,mb=%d,dBap=%5.3g,dBas=%2d",
              ma,mb,dBap,dBas);
 title(strt);
 subplot(212);
@@ -150,8 +145,8 @@ ax=plotyy(wplot(1:nplot_ap)*0.5/pi,    20*log10(abs(Hab1(1:nplot_ap))),...
           wplot(nplot_as:nplot)*0.5/pi,20*log10(abs(Hab1(nplot_as:nplot))));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
-axis(ax(1),[0, 0.5, -dBap/20000, 0]);
-axis(ax(2),[0, 0.5, -86, -76]);
+axis(ax(1),[0, 0.5, -2e-8, 0]);
+axis(ax(2),[0, 0.5, -102, -98]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
@@ -215,7 +210,7 @@ print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
 % Done 
 save polyphase_allpass_socp_slb_test.mat ...
-    n fap Wap fas Was ma mb K Ra Rb ab0 ab1 Da1 Db1
+    n fap dBap Wap fas dBas Was ma mb K Ra Rb ab0 ab1 Da1 Db1
 toc;
 diary off
 movefile polyphase_allpass_socp_slb_test.diary.tmp ...

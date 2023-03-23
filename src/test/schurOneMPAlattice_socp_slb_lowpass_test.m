@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_lowpass_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -11,7 +11,7 @@ tic;
 
 tol=1e-7
 ctol=tol
-maxiter=2000
+maxiter=5000
 verbose=false
 
 % Initial coefficients found by tarczynski_parallel_allpass_test.m
@@ -33,12 +33,13 @@ Wap=1 % Pass band amplitude response weight
 Wat=0 % Transition band amplitude response weight
 fas=0.25 % Stop band amplitude response edge
 dBas=60 % Stop band amplitude response ripple
-Was=1e2 % Stop band amplitude response weight
+Was=10 % Stop band amplitude response weight
 ftp=0.175 % Pass band group delay response edge
 td=(m1+m2)/2 % Pass band nominal group delay
 tdr=0.08 % Pass band group delay response ripple
 Wtp=2 % Pass band group delay response weight
 
+ 
 % Amplitude constraints
 wa=(0:(n-1))'*pi/n;
 nap=ceil(n*fap/0.5)+1;
@@ -87,6 +88,7 @@ strf="schurOneMPAlattice_socp_slb_lowpass_test";
 if feasible == 0 
   error("A1k,A2k(pcls) infeasible");
 endif
+
 % Recalculate A1epsilon, A1p, A2epsilon and A2p
 A1d=schurOneMAPlattice2tf(A1k,A1epsilon0,A1p0);
 A2d=schurOneMAPlattice2tf(A2k,A2epsilon0,A2p0);

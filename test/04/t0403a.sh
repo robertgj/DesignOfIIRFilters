@@ -58,60 +58,39 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test_exp_k1_coef.m << 'EOF'
-exp_k1 = [ -0.0110731477,   0.5786372320,   0.0175276312,  -0.1441823384, ... 
-           -0.0035186249,   0.0568556517,   0.0087110222,  -0.0265008201, ... 
-           -0.0037440088,   0.0116060049 ]';
-schurOneMAPlattice_frm_socp_slb_test_k1_coef;
-tol=2e-10;
-if max(abs(exp_k1(:)-k1(:)))>tol
-   error("max(abs(exp_k1-k1))(%g)>tol(%g)",max(abs(exp_k1(:)-k1(:))),tol);
-endif
+cat > test_k1_coef.m << 'EOF'
+k1 = [  -0.0114531183,   0.5787677309,   0.0175664228,  -0.1439299898, ... 
+        -0.0035078947,   0.0566943541,   0.0088835253,  -0.0263953543, ... 
+        -0.0039520831,   0.0115148917 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_exp_k1_coef.m"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_k1_coef.m"; fail; fi
 
-cat > test_exp_epsilon1_coef.m << 'EOF'
-exp_epsilon1 = [ 1,  1, -1,  1,  1, -1, -1,  1,  1, -1 ]';
-schurOneMAPlattice_frm_socp_slb_test_epsilon1_coef;
-tol=2e-10;
-if max(abs(exp_epsilon1(:)-epsilon1(:)))>tol
-   error("max(abs(exp_epsilon1-epsilon1))(%g)>tol(%g)",
-         max(abs(exp_epsilon1(:)-epsilon1(:))),tol);
-endif
+cat > test_epsilon1_coef.m << 'EOF'
+epsilon1 = [  1,  1, -1,  1, ... 
+              1, -1, -1,  1, ... 
+              1, -1 ];
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_exp_epsilon1_coef.m"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_epsilon1_coef.m"; fail; fi
 
-cat > test_exp_u1_coef.m << 'EOF'
-exp_u1 = [  0.5766164415,   0.3012840561,  -0.0569884534,  -0.0856143363, ... 
-            0.0512118160,   0.0332018000,  -0.0413897727,  -0.0098675161, ... 
-            0.0391459456,  -0.0174705554,  -0.0137287284,   0.0080093289, ... 
-            0.0101329905,  -0.0087037536,  -0.0041187016,   0.0070941840, ... 
-            0.0012606610,  -0.0097509980,   0.0080763800,   0.0003540275, ... 
-           -0.0006555965 ]';
-schurOneMAPlattice_frm_socp_slb_test_u1_coef;
-tol=2e-10;
-if max(abs(exp_u1(:)-u1(:)))>tol
-   error("max(abs(exp_u1-u1))(%g)>tol(%g)",
-         max(abs(exp_u1(:)-u1(:))),tol);
-endif
+cat > test_u1_coef.m << 'EOF'
+u1 = [   0.5763870249,   0.3013659723,  -0.0570422623,  -0.0856595826, ... 
+         0.0510995682,   0.0334174162,  -0.0413339866,  -0.0097645806, ... 
+         0.0390566050,  -0.0172486603,  -0.0137483563,   0.0080838138, ... 
+         0.0102035778,  -0.0087557840,  -0.0042268483,   0.0071139305, ... 
+         0.0012792526,  -0.0097372819,   0.0079074760,   0.0004107953, ... 
+        -0.0006748690 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_exp_u1_coef.m"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_u1_coef.m"; fail; fi
 
-cat > test_exp_v1_coef.m << 'EOF'
-exp_v1 = [ -0.6682946298,  -0.2727662258,   0.1318030122,   0.0042369182, ... 
-           -0.0655691204,   0.0481300985,   0.0045354583,  -0.0361947600, ... 
-            0.0293355959,  -0.0031824737,  -0.0176760468,   0.0130074767, ... 
-            0.0026377642,  -0.0109024065,   0.0077522747,   0.0018211918, ... 
-           -0.0073722341,   0.0065135360,  -0.0018062429,  -0.0031236248, ... 
-            0.0012519438  ]';
-schurOneMAPlattice_frm_socp_slb_test_v1_coef;
-tol=2e-10;
-if max(abs(exp_v1(:)-v1(:)))>tol
-   error("max(abs(exp_v1-v1))(%g)>tol(%g)",
-         max(abs(exp_v1(:)-v1(:))),tol);
-endif
+cat > test_v1_coef.m << 'EOF'
+v1 = [  -0.6686047283,  -0.2726256006,   0.1315797803,   0.0041060339, ... 
+        -0.0655607334,   0.0482344009,   0.0043901690,  -0.0363187120, ... 
+         0.0295360056,  -0.0033522210,  -0.0175655855,   0.0128412607, ... 
+         0.0026217058,  -0.0109989308,   0.0078792060,   0.0016974330, ... 
+        -0.0073779448,   0.0065728642,  -0.0018098297,  -0.0031172859, ... 
+         0.0012996335 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_exp_v1_coef.m"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_v1_coef.m"; fail; fi
 
 #
 # run and see if the results match
@@ -121,8 +100,9 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
+nstr=schurOneMAPlattice_frm_socp_slb_test
 for coef in k1 epsilon1 u1 v1 ; do
-    octave --no-gui -q test_exp_$coef"_coef.m" >test.out 2>&1
+    diff test_$coef"_coef.m" $nstr"_"$coef"_coef.m"
     if [ $? -ne 0 ]; then echo "Failed for $coef"; fail; fi
 done
 

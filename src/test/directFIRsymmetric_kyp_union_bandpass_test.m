@@ -1,5 +1,5 @@
 % directFIRsymmetric_kyp_union_bandpass_test.m
-% Copyright (C) 2021-2022 Robert G. Jenssen
+% Copyright (C) 2021-2023 Robert G. Jenssen
 %
 % SDP design of a direct-form FIR bandpass filter with the KYP
 % lemma. The pass band response is set to e^{-j*w*d}. The stop band
@@ -25,8 +25,7 @@ N=2*M;
 d=M;
 fasl=0.05;fapl=0.15;fapu=0.25;fasu=0.35;
 % Pipeleers et al. ? Esq_z=(2.5e-4)^2; Esq_s=(5e-3)^2;  
-% Alternative:  Esq_z=2.94e-5;  Esq_s=5e-7;  Esq_max=1;
-Esq_z=(8.33e-4)^2; 
+Esq_z=(8.35e-4)^2; 
 Esq_s=(5e-3)^2;
 Esq_max=1.005;
 

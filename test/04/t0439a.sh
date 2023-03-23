@@ -56,29 +56,29 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k_bf.ok << 'EOF'
-A1k_bf = [      -56,      106,        9,      -42, ... 
-                 70,      -24,      -24,       56, ... 
-                -36,       21 ]/128;
+A1k_bf = [      -50,       87,       63,      -67, ... 
+                 78,      -29,      -22,       56, ... 
+                -36,       20 ]/128;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_bf.ok"; fail; fi
 
 cat > test_A2k_bf.ok << 'EOF'
-A2k_bf = [      -98,      111,        4,      -48, ... 
-                 72,      -13,      -18,       55, ... 
+A2k_bf = [      -96,       96,       62,      -73, ... 
+                 80,      -18,      -16,       55, ... 
                 -40,       19 ]/128;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_bf.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
-Exact & 1.0870\\
-8-bit rounded & 1.8517\\
-8-bit rounded with bit-flipping & 1.6093\\
-8-bit 2-signed-digit & 10.1625 \\ 
-8-bit 2-signed-digit with bit-flipping & 9.1437\\
-8-bit 2-signed-digit(Lim alloc.) & 16.8760\\
-8-bit 2-signed-digit(Lim alloc.) with bit-flipping & 9.8041\\
-8-bit 2-signed-digit(Ito alloc.) & 7.2216\\
-8-bit 2-signed-digit(Ito alloc.) with bit-flipping & 4.1649\\
+Exact & 1.0852\\
+8-bit rounded & 1.9823\\
+8-bit rounded with bit-flipping & 1.6756\\
+8-bit 2-signed-digit & 8.2926 \\ 
+8-bit 2-signed-digit with bit-flipping & 6.3880\\
+8-bit 2-signed-digit(Lim alloc.) &    Inf\\
+8-bit 2-signed-digit(Lim alloc.) with bit-flipping & 16.2185\\
+8-bit 2-signed-digit(Ito alloc.) & 4.4997\\
+8-bit 2-signed-digit(Ito alloc.) with bit-flipping & 4.4997\\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 

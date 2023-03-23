@@ -12,17 +12,17 @@
 #  dnf install atlas blas lapack gsl gsl-devel openblas openblas-threads
 
 # Assume these archive files are present:
-#  lapack-3.10.1.tar.gz
-#  SuiteSparse-6.0.1.tar.gz
-#  arpack-ng-3.8.0.tar.gz
+#  lapack-3.11.0.tar.gz
+#  SuiteSparse-7.0.1.tar.gz
+#  arpack-ng-3.9.0.tar.gz
 #  fftw-3.3.10.tar.gz
 #  qrupdate-1.1.2.tar.gz
-#  octave-7.3.0.tar.lz
+#  octave-8.1.0.tar.lz
 #  io-2.6.4.tar.gz
-#  statistics-1.4.3.tar.gz
+#  statistics-1.5.4.tar.gz
 #  struct-1.0.18.tar.gz
 #  optim-1.6.2.tar.gz
-#  control-3.4.0.tar.gz
+#  control-3.5.0.tar.gz
 #  signal-1.4.2.tar.gz
 
 # Disable CPU frequency scaling:
@@ -40,7 +40,7 @@ dnf list installed kernel* gcc* atlas* openblas* gsl* blas* lapack* \
 
 # Build local versions of the lapack and blas libraries
 export LOCAL_PREFIX=`pwd`
-export LPVER=3.10.1
+export LPVER=3.11.0
 source ./build-lapack.sh
 
 # Build local versions of the other libraries used by octave
@@ -52,12 +52,10 @@ source ./build-other-libs.sh
 export OCTAVE_CONFIG_OPTIONS=" \
        --disable-docs \
        --disable-java \
-       --disable-atomic-refcount \
        --without-fltk \
        --without-qt \
        --without-sndfile \
        --without-portaudio \
-       --without-qhull \
        --without-magick \
        --without-glpk \
        --without-hdf5 \
@@ -85,66 +83,46 @@ export OCTAVE_CONFIG_OPTIONS=" \
        --with-fftw3f-libdir=$LOCAL_PREFIX/lib"
 
 # Unpack Octave
-export OCTAVE_VER=7.3.0
+export OCTAVE_VER=8.1.0
 rm -Rf octave-$OCTAVE_VER
 tar -xf octave-$OCTAVE_VER".tar.lz"
 # Patch
 cat > octave-$OCTAVE_VER.patch.uue << 'EOF'
-begin-base64 644 octave-7.3.0.patch
-ZGlmZiAtciAtVSAzIG9jdGF2ZS03LjMuMC9jb25maWd1cmUgb2N0YXZlLTcu
-My4wLm5ldy9jb25maWd1cmUKLS0tIG9jdGF2ZS03LjMuMC9jb25maWd1cmUJ
-MjAyMi0xMS0wMyAwNToxOTo1Ni4wMDAwMDAwMDAgKzExMDAKKysrIG9jdGF2
-ZS03LjMuMC5uZXcvY29uZmlndXJlCTIwMjItMTEtMTcgMTI6Mjc6MjQuOTYy
-Nzg5NDgyICsxMTAwCkBAIC02MjEsOCArNjIxLDggQEAKICMgSWRlbnRpdHkg
-b2YgdGhpcyBwYWNrYWdlLgogUEFDS0FHRV9OQU1FPSdHTlUgT2N0YXZlJwog
-UEFDS0FHRV9UQVJOQU1FPSdvY3RhdmUnCi1QQUNLQUdFX1ZFUlNJT049Jzcu
-My4wJwotUEFDS0FHRV9TVFJJTkc9J0dOVSBPY3RhdmUgNy4zLjAnCitQQUNL
-QUdFX1ZFUlNJT049JzcuMy4wLXJvYmonCitQQUNLQUdFX1NUUklORz0nR05V
-IE9jdGF2ZSA3LjMuMC1yb2JqJwogUEFDS0FHRV9CVUdSRVBPUlQ9J2h0dHBz
-Oi8vb2N0YXZlLm9yZy9idWdzLmh0bWwnCiBQQUNLQUdFX1VSTD0naHR0cHM6
-Ly93d3cuZ251Lm9yZy9zb2Z0d2FyZS9vY3RhdmUvJwogCk9ubHkgaW4gb2N0
-YXZlLTcuMy4wLm5ldzogY29uZmlndXJlLm9yaWcKT25seSBpbiBvY3RhdmUt
-Ny4zLjAubmV3OiBjb25maWd1cmUucmVqCmRpZmYgLXIgLVUgMyBvY3RhdmUt
-Ny4zLjAvbGliaW50ZXJwL2NvcmVmY24vaW52LmNjIG9jdGF2ZS03LjMuMC5u
-ZXcvbGliaW50ZXJwL2NvcmVmY24vaW52LmNjCi0tLSBvY3RhdmUtNy4zLjAv
-bGliaW50ZXJwL2NvcmVmY24vaW52LmNjCTIwMjItMTEtMDMgMDU6MTk6NTYu
-MDAwMDAwMDAwICsxMTAwCisrKyBvY3RhdmUtNy4zLjAubmV3L2xpYmludGVy
-cC9jb3JlZmNuL2ludi5jYwkyMDIyLTExLTE3IDEyOjI2OjI2Ljc1MzI3NzI4
-NiArMTEwMApAQCAtNzcsNyArNzcsNyBAQAogICAgIGVycl9zcXVhcmVfbWF0
-cml4X3JlcXVpcmVkICgiaW52ZXJzZSIsICJBIik7CiAKICAgb2N0YXZlX3Zh
-bHVlIHJlc3VsdDsKLSAgb2N0YXZlX2lkeF90eXBlIGluZm87CisgIG9jdGF2
-ZV9pZHhfdHlwZSBpbmZvID0gMDsKICAgZG91YmxlIHJjb25kID0gMC4wOwog
-ICBmbG9hdCBmcmNvbmQgPSAwLjA7CiAgIGJvb2wgaXNmbG9hdCA9IGFyZy5p
-c19zaW5nbGVfdHlwZSAoKTsKZGlmZiAtciAtVSAzIG9jdGF2ZS03LjMuMC9s
-aWJpbnRlcnAvY29yZWZjbi9sb2FkLXNhdmUuY2Mgb2N0YXZlLTcuMy4wLm5l
-dy9saWJpbnRlcnAvY29yZWZjbi9sb2FkLXNhdmUuY2MKLS0tIG9jdGF2ZS03
-LjMuMC9saWJpbnRlcnAvY29yZWZjbi9sb2FkLXNhdmUuY2MJMjAyMi0xMS0w
-MyAwNToxOTo1Ni4wMDAwMDAwMDAgKzExMDAKKysrIG9jdGF2ZS03LjMuMC5u
-ZXcvbGliaW50ZXJwL2NvcmVmY24vbG9hZC1zYXZlLmNjCTIwMjItMTEtMTcg
-MTI6MjY6MjYuNzU0Mjc3Mjc4ICsxMTAwCkBAIC0xMjgsOCArMTI4LDggQEAK
-ICAgewogICAgIGNvbnN0IGludCBtYWdpY19sZW4gPSAxMDsKICAgICBjaGFy
-IG1hZ2ljW21hZ2ljX2xlbisxXTsKLSAgICBpcy5yZWFkIChtYWdpYywgbWFn
-aWNfbGVuKTsKICAgICBtYWdpY1ttYWdpY19sZW5dID0gJ1wwJzsKKyAgICBp
-cy5yZWFkIChtYWdpYywgbWFnaWNfbGVuKTsKIAogICAgIGlmIChzdHJuY21w
-IChtYWdpYywgIk9jdGF2ZS0xLUwiLCBtYWdpY19sZW4pID09IDApCiAgICAg
-ICBzd2FwID0gbWFjaF9pbmZvOjp3b3Jkc19iaWdfZW5kaWFuICgpOwpkaWZm
-IC1yIC1VIDMgb2N0YXZlLTcuMy4wL3NjcmlwdHMvcGxvdC91dGlsL3ByaXZh
-dGUvX19nbnVwbG90X2RyYXdfYXhlc19fLm0gb2N0YXZlLTcuMy4wLm5ldy9z
-Y3JpcHRzL3Bsb3QvdXRpbC9wcml2YXRlL19fZ251cGxvdF9kcmF3X2F4ZXNf
-Xy5tCi0tLSBvY3RhdmUtNy4zLjAvc2NyaXB0cy9wbG90L3V0aWwvcHJpdmF0
-ZS9fX2dudXBsb3RfZHJhd19heGVzX18ubQkyMDIyLTExLTAzIDA1OjE5OjU2
-LjAwMDAwMDAwMCArMTEwMAorKysgb2N0YXZlLTcuMy4wLm5ldy9zY3JpcHRz
-L3Bsb3QvdXRpbC9wcml2YXRlL19fZ251cGxvdF9kcmF3X2F4ZXNfXy5tCTIw
-MjItMTEtMTcgMTI6MjY6MjYuNzU1Mjc3MjcwICsxMTAwCkBAIC0yMjgzLDcg
-KzIyODMsNyBAQAogICAgIGlmICghIHdhcm5lZF9sYXRleCkKICAgICAgIGRv
-X3dhcm4gPSAod2FybmluZyAoInF1ZXJ5IiwgIk9jdGF2ZTp0ZXh0X2ludGVy
-cHJldGVyIikpLnN0YXRlOwogICAgICAgaWYgKHN0cmNtcCAoZG9fd2Fybiwg
-Im9uIikpCi0gICAgICAgIHdhcm5pbmcgKCJPY3RhdmU6dGV4dF9pbnRlcnBy
-ZXRlciIsCisgICAgICAgIHdhcm5pbmcgKCJPY3RhdmU6bGF0ZXgtbWFya3Vw
-LW5vdC1zdXBwb3J0ZWQtZm9yLXRpY2stbWFya3MiLAogICAgICAgICAgICAg
-ICAgICAibGF0ZXggbWFya3VwIG5vdCBzdXBwb3J0ZWQgZm9yIHRpY2sgbWFy
-a3MiKTsKICAgICAgICAgd2FybmVkX2xhdGV4ID0gdHJ1ZTsKICAgICAgIGVu
-ZGlmCg==
+begin-base64 644 octave-8.1.0.patch
+LS0tIG9jdGF2ZS04LjEuMC5vcmlnL2NvbmZpZ3VyZQkyMDIzLTAzLTA3IDE2
+OjM0OjMyLjAwMDAwMDAwMCArMTEwMAorKysgb2N0YXZlLTguMS4wL2NvbmZp
+Z3VyZQkyMDIzLTAzLTE4IDE4OjU5OjU0LjU4Mzc3NDIwNyArMTEwMApAQCAt
+NjIxLDggKzYyMSw4IEBACiAjIElkZW50aXR5IG9mIHRoaXMgcGFja2FnZS4K
+IFBBQ0tBR0VfTkFNRT0nR05VIE9jdGF2ZScKIFBBQ0tBR0VfVEFSTkFNRT0n
+b2N0YXZlJwotUEFDS0FHRV9WRVJTSU9OPSc4LjEuMCcKLVBBQ0tBR0VfU1RS
+SU5HPSdHTlUgT2N0YXZlIDguMS4wJworUEFDS0FHRV9WRVJTSU9OPSc4LjEu
+MC1yb2JqJworUEFDS0FHRV9TVFJJTkc9J0dOVSBPY3RhdmUgOC4xLjAtcm9i
+aicKIFBBQ0tBR0VfQlVHUkVQT1JUPSdodHRwczovL29jdGF2ZS5vcmcvYnVn
+cy5odG1sJwogUEFDS0FHRV9VUkw9J2h0dHBzOi8vd3d3LmdudS5vcmcvc29m
+dHdhcmUvb2N0YXZlLycKIAotLS0gb2N0YXZlLTguMS4wLm9yaWcvbGliaW50
+ZXJwL2NvcmVmY24vbG9hZC1zYXZlLmNjCTIwMjMtMDMtMDcgMTY6MzQ6MzIu
+MDAwMDAwMDAwICsxMTAwCisrKyBvY3RhdmUtOC4xLjAvbGliaW50ZXJwL2Nv
+cmVmY24vbG9hZC1zYXZlLmNjCTIwMjMtMDMtMTggMTg6NTk6NTQuNTg0Nzc0
+MTk5ICsxMTAwCkBAIC0xMjgsOCArMTI4LDggQEAKIHsKICAgY29uc3QgaW50
+IG1hZ2ljX2xlbiA9IDEwOwogICBjaGFyIG1hZ2ljW21hZ2ljX2xlbisxXTsK
+LSAgaXMucmVhZCAobWFnaWMsIG1hZ2ljX2xlbik7CiAgIG1hZ2ljW21hZ2lj
+X2xlbl0gPSAnXDAnOworICBpcy5yZWFkIChtYWdpYywgbWFnaWNfbGVuKTsK
+IAogICBpZiAoc3RybmNtcCAobWFnaWMsICJPY3RhdmUtMS1MIiwgbWFnaWNf
+bGVuKSA9PSAwKQogICAgIHN3YXAgPSBtYWNoX2luZm86OndvcmRzX2JpZ19l
+bmRpYW4gKCk7Ci0tLSBvY3RhdmUtOC4xLjAub3JpZy9zY3JpcHRzL3Bsb3Qv
+dXRpbC9wcml2YXRlL19fZ251cGxvdF9kcmF3X2F4ZXNfXy5tCTIwMjMtMDMt
+MDcgMTY6MzQ6MzIuMDAwMDAwMDAwICsxMTAwCisrKyBvY3RhdmUtOC4xLjAv
+c2NyaXB0cy9wbG90L3V0aWwvcHJpdmF0ZS9fX2dudXBsb3RfZHJhd19heGVz
+X18ubQkyMDIzLTAzLTE4IDE4OjU5OjU0LjU4NTc3NDE5MiArMTEwMApAQCAt
+MjI4Myw3ICsyMjgzLDcgQEAKICAgICBpZiAoISB3YXJuZWRfbGF0ZXgpCiAg
+ICAgICBkb193YXJuID0gKHdhcm5pbmcgKCJxdWVyeSIsICJPY3RhdmU6dGV4
+dF9pbnRlcnByZXRlciIpKS5zdGF0ZTsKICAgICAgIGlmIChzdHJjbXAgKGRv
+X3dhcm4sICJvbiIpKQotICAgICAgICB3YXJuaW5nICgiT2N0YXZlOnRleHRf
+aW50ZXJwcmV0ZXIiLAorICAgICAgICB3YXJuaW5nICgiT2N0YXZlOmxhdGV4
+LW1hcmt1cC1ub3Qtc3VwcG9ydGVkLWZvci10aWNrLW1hcmtzIiwKICAgICAg
+ICAgICAgICAgICAgImxhdGV4IG1hcmt1cCBub3Qgc3VwcG9ydGVkIGZvciB0
+aWNrIG1hcmtzIik7CiAgICAgICAgIHdhcm5lZF9sYXRleCA9IHRydWU7CiAg
+ICAgICBlbmRpZgo=
 ====
 EOF
 uudecode octave-$OCTAVE_VER.patch.uue > octave-$OCTAVE_VER.patch

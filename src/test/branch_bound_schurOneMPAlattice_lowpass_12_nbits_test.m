@@ -4,7 +4,7 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -170,14 +170,14 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 % Fix one coefficient at each iteration 
 if use_best_branch_and_bound_found
   if 1
-    branches_min=1623;
-    A1k_min = [     1592,     -160,     -543,     -128, ... 
-                    -128,      476,     -290,       16, ... 
-                     336,     -324,      115 ]'/2048;
-    A2k_min = [      784,     -592,      384,      352, ... 
-                     -96,       76,     -398,      368, ... 
-                      -4,     -360,      304,     -119 ]'/2048;
-    % Esq_min=0.00019052
+    % Esq_min=0.000151086
+    branches_min = 1459
+    A1k_min = [     1584,     -176,     -540,     -128, ... 
+                    -128,      484,     -296,        2, ... 
+                     336,     -321,      112 ]'/2048;
+    A2k_min = [      784,     -580,      384,      336, ... 
+                     -96,       84,     -402,      368, ... 
+                       5,     -360,      304,     -114 ]'/2048;
   else
     % Earlier results with a different initial filter
     if 0
@@ -515,10 +515,6 @@ endif
 % End of hack
 axis(ax(1),[0, 0.5,  -0.15, 0.05]);
 axis(ax(2),[0, 0.5, -70,  -50]);
-legend("exact","3-s-d(Ito) and b-and-b");
-legend("location","northeast");
-legend("boxoff");
-legend("left");
 grid("on");
 if ~print_for_web_page
   strt=sprintf("Parallel all-pass lattice low-pass filter (nbits=%d) : \
@@ -530,6 +526,10 @@ plot(wt*0.5/pi,T_k0,"linestyle","-",wt*0.5/pi,T_kmin,"linestyle","-.");
 ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0, 0.5, td-(tdr/2), td+(tdr/2)]);
+legend("exact","3-s-d(Ito) and b-and-b");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
 grid("on");
 print(strcat(strf,"_kmin_intro"),"-dpdflatex");
 if print_for_web_page

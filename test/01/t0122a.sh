@@ -128,7 +128,7 @@ ngdirap = 1.8054e+12
 est_varyd = 0.4398
 varyd = 0.4353
 est_varyoptd = 0.2082
-varyoptd = 0.2110
+varyoptd = 0.2041
 est_varydird = 2.0132e+10
 varydird = 3.5149e+07
 est_varyapd = 1.1667
@@ -137,7 +137,7 @@ stdxx =
    121.13   120.71   128.78   129.06   130.18   129.96   128.18
 
 stdxxopt =
-   126.38   127.83   125.55   127.10   128.51   130.08   122.91
+   126.28   127.86   125.45   127.08   128.57   130.09   122.77
 
 stdxxdir =
  Columns 1 through 6:

@@ -1,5 +1,5 @@
 % directFIRsymmetric_sdp_bandpass_test.m
-% Copyright (C) 2021-2022 Robert G. Jenssen
+% Copyright (C) 2021-2023 Robert G. Jenssen
 %
 % See: "Efficient Large-Scale Filter/Filterbank Design via LMI
 % Characterization of Trigonometric Curves", H. D. Tuan, T. T. Son,
@@ -32,7 +32,7 @@ for M=[15,30,80],
   elseif M==30
     fasl=0.10;fapl=0.15;fapu=0.25;fasu=0.30;
     deltap=0.001;deltas=10^(-50/20);
-    Wasl=1;Watl=1;Wap=4;Watu=1;Wasu=1;
+    Wasl=1;Watl=1;Wap=5;Watu=1;Wasu=1;
   elseif M==80
     fasl=0.15;fapl=0.175;fapu=0.275;fasu=0.30;
     deltap=0.0005;deltas=0.001;
@@ -258,7 +258,7 @@ for M=[15,30,80],
     [ xs+[deltas;zeros(M,1)]]'*value(y5) + ...
     [-xs+[deltas;zeros(M,1)]]'*value(y6);
   printf("sum((Ai*xs+di)*ys)=%g\n", sumAixspdiys);
-  tol=4e-6;
+  tol=5e-6;
   if abs(sumAixspdiys) > tol
     stre=sprintf("M=%d, abs(sum(((Ai*xs)+di)*ys))(%g)>%g\n",M,abs(sumAixspdiys),tol);
     if ignore_numerical_problems

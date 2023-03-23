@@ -1,5 +1,5 @@
 % branch_bound_schurOneMlattice_bandpass_10_nbits_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 % Branch-and-bound search of Schur one-multiplier lattice bandpass filter
 % response with 10-bit signed-digit coefficients and Ito et al. allocation
@@ -91,7 +91,7 @@ if use_best_branch_and_bound_found
                   -8,      -33,      -24,        4, ... 
                   24,       16,        3,        1, ... 
                    4 ]'/cnscale;
-  branches_min=832; % 982 seconds
+  branches_min=832;
   kc_min=[k_min(:);c_min(:)*cscale];
   Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p0,c_min,wa,Asqd,Wa,wt,Td,Wt);
   improved_solution_found=true;

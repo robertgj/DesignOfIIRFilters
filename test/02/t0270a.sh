@@ -59,7 +59,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_12_nbits_cost.ok << 'EOF'
-Exact & 0.000655 & & \\
+Exact & 0.000656 & & \\
 12-bit 2-signed-digit(Lim)& 0.001206 & 41 & 19 \\
 12-bit 2-signed-digit(SOCP-relax) & 0.001701 & 41 & 19 \\
 EOF
@@ -98,7 +98,6 @@ echo "Running $prog"
 
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
-
 
 nstr="socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test"
 diff -Bb test_12_nbits_cost.ok $nstr"_kuv_min_cost.tab"

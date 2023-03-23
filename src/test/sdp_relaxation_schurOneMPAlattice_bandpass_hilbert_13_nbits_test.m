@@ -1,5 +1,5 @@
 % sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 % SDP relaxation optimisation of a Schur parallel one-multiplier allpass
 % lattice bandpass filter with 12-bit signed-digit coefficients having
@@ -46,8 +46,8 @@ Wap=1
 Watl=1e-3
 Watu=1e-3
 dBas=35
-Wasl=2000
-Wasu=2000
+Wasl=400
+Wasu=400
 ftpl=0.12
 ftpu=0.18
 td=16
@@ -57,7 +57,7 @@ fppl=0.12
 fppu=0.18
 pd=3.5 % Initial phase offset in multiples of pi radians
 pdr=0.03 % Peak-to-peak phase ripple in multiples of pi radians
-Wpp=500
+Wpp=100
 
 %
 % Frequency vectors

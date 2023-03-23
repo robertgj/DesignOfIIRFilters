@@ -48,7 +48,7 @@ function [cost,A1k,A2k,svecnz_out] = ...
 %       - simplex fails if max_cost is not inf
 
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -154,6 +154,7 @@ function [cost,A1k,A2k,svecnz_out] = ...
   A2k=svec((length(A1k0)+1):lsvec);
   if any(abs(A1k)>=1) || any(abs(A2k)>=1)
     cost=max_cost;
+    svecnz_out=svecnz(:);
     return;
   endif
   % Restore svec to the bitflip optimiser integer format

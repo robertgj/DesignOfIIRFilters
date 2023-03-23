@@ -141,7 +141,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \end{center}
 
 \vspace*{11cm}
-Copyright \copyright\; 2017--2022 Robert G. Jenssen
+Copyright \copyright\; 2017--2023 Robert G. Jenssen
 
 This work is licensed under the Creative Commons Attribution 4.0 International
 License.\\ View a copy of the license at:
@@ -11078,7 +11078,7 @@ $H\left(\omega\right)$, are, with simple trigonometry
 \phi_{H}\left(\omega\right) &=
 \frac{\phi_{1}\left(\omega\right)+\phi_{2}\left(\omega\right)}{2}+\frac{\pi}{2}
 \end{align*}
-Clearly, the group delay response is unchanged:
+The group delay response is:
 \begin{align*}
 T\left(\omega\right) &= 
 -\frac{1}{2}\left[
@@ -11345,18 +11345,20 @@ specification is:
 \verbatiminput{polyphase_allpass_socp_slb_test.spec}
 \end{small}
 As in Section~\ref{sec:Design-IIR-filter-sum-all-pass-filters-pole-zero-no-constraints-on-group-delay}, the script does not optimise for a flat filter group 
-delay.
+delay. 
 
-The initial parallel all-pass filters were designed by the
+At first, the initial parallel all-pass filters were designed by the
 Octave script \emph{tarczynski\_polyphase\_allpass\_test.m} using the \emph{WISE}
 method described in
 Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. In this case
-the script has $flat\_delay = false$. The response of the initial  
-filter is shown in Figure~\ref{fig:Polyphase-allpass-filter-initial-response}.
-After PCLS optimisation with the \emph{SeDuMi} SOCP solver the response is 
-shown in Figure~\ref{fig:Polyphase-allpass-filter-PCLS-SOCP-response} and
-Figure~\ref{fig:Polyphase-allpass-filter-PCLS-SOCP-detail-response}. The
-denominator polynomials of the two all-pass filters are
+the script has $flat\_delay = false$. These initial allpass filters have $3$
+real poles and $4$ complex pole pairs. I find that better stop-band attenuation
+is obtained by modifying these initial allpass filters to use $5$ real poles $3$
+complex pole pairs. The response after PCLS optimisation with the \emph{SeDuMi}
+SOCP solver is shown in
+Figure~\ref{fig:Polyphase-allpass-filter-PCLS-SOCP-response} and
+Figure~\ref{fig:Polyphase-allpass-filter-PCLS-SOCP-detail-response}.
+The denominator polynomials of the two all-pass filters are
 \begin{small}
 \verbatiminput{polyphase_allpass_socp_slb_test_Da1_coef.m}
 \end{small}
@@ -11364,13 +11366,6 @@ and
 \begin{small}
 \verbatiminput{polyphase_allpass_socp_slb_test_Db1_coef.m}
 \end{small}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{polyphase_allpass_socp_slb_test_ab0}}
-\caption{Polyphase combination of allpass filters, initial response found
-with the WISE barrier function}
-\label{fig:Polyphase-allpass-filter-initial-response}
-\end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{polyphase_allpass_socp_slb_test_ab1}}
@@ -36033,29 +36028,34 @@ occurred for all combinations of $N$ and $d$ that I tried.
 \section*{Software requirements}
 I currently use the Fedora 37 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{6.0.8-300.fc37.x86\_64}
-\item \emph{gcc} version \emph{12.2.1 20220819 (Red Hat 12.2.1-2)}
-\item a local build of \emph{octave-7.3.0} with the \emph{struct}, \emph{io},
+\item \texttt{uname -r} is \emph{6.1.18-200.fc37.x86\_64}
+\item \emph{gcc} version \emph{12.2.1 20221121 (Red Hat 12.2.1-4)}
+\item a local build of \emph{octave-8.1.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic}\footnote{The \emph{symbolic} Octave-Forge package assumes that
   the \emph{python3-sympy} Fedora package is installed.} and \emph{parallel}
   Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit with
-  \emph{qt-4.8.7-69} and a local build of \emph{GraphicsMagick}
-\item \emph{texlive-2021-59} and various packages are installed
+  \emph{qt-5.15.8-1} and a local build of \emph{GraphicsMagick}
+\item \emph{texlive-2021-60} and various packages are installed
 \item \emph{dia-0.97.3-21} is used for line drawings
 \end{itemize}
 
-The local build of \emph{octave-7.3.0} and Octave-Forge packages assumes that
+The local build of \emph{octave-8.1.0} and Octave-Forge packages assumes that
 the following packages are installed in addition to the base Fedora distribution:
 \begin{small}
 \begin{verbatim}
 dnf install \
-readline-devel make lzip sharutils gcc gcc-c++ gcc-gfortran gmp-devel \
-mpfr-devel cmake gnuplot-latex m4 gperf bison flex openblas-devel patch \
-texinfo texinfo-tex librsvg2 librsvg2-devel librsvg2-tools icoutils autoconf \
-automake libtool pcre pcre-devel freetype freetype-devel gnupg2 python3-sympy \
-rapidjson-devel
+wget readline-devel lzip sharutils gcc gcc-c++ \
+gcc-gfortran gmp-devel mpfr-devel make cmake gnuplot-latex m4 gperf \
+bison flex openblas-devel patch texinfo texinfo-tex librsvg2 librsvg2-devel \
+librsvg2-tools icoutils autoconf automake libtool pcre pcre-devel freetype \
+freetype-devel gnupg2 texlive-dvisvgm gl2ps gl2ps-devel \
+hdf5 hdf5-devel qt qscintilla-qt5 qscintilla-qt5-devel \
+qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel \
+libcurl libcurl-devel gl2ps gl2ps-devel fontconfig-devel mesa-libGLU \
+mesa-libGLU-devel qt5-qttools qt5-qttools-common qt5-qttools-devel \
+rapidjson-devel python3-sympy
 \end{verbatim}
 \end{small}
 
@@ -36105,26 +36105,26 @@ Section~\ref{sec:Round-off-normalised-scaled-lattice}, has the corresponding
 \pdfbookmark[0]{Octave}{octave}.
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
-version of \emph{octave-7.3.0} avoiding the vagaries of the Fedora
+version of \emph{octave-8.1.0} avoiding the vagaries of the Fedora
 packagers.
 
 The \emph{build-octave.sh} script builds Octave and the associated numerical
 libraries with the \emph{g++} option \texttt{-march=nehalem}. The patch file,
-\emph{octave.patch}, is a shell \emph{here} document
-within \emph{build-octave.sh}. The \emph{octave-7.3.0/configure} script is
+\emph{octave-8.1.0.patch}, is a shell \emph{here} document
+within \emph{build-octave.sh}. The \emph{octave-8.1.0/configure} script is
 patched so that the Octave \texttt{OCTAVE\_VERSION} command
-returns \texttt{7.3.0-robj}.
+returns \texttt{8.1.0-robj}.
 
 The local build of Octave links to locally built versions of the following
 libraries: 
-\emph{arpack-ng-3.8.0}~\cite{ARPACKNG_website},
+\emph{arpack-ng-3.9.0}~\cite{ARPACKNG_website},
 \emph{fftw-3.3.10}~\cite{FFTW_website},
 \emph{glpk-5.0}~\cite{GNU_GLPK},
-\emph{lapack-3.10.1}~\cite{LAPACK_website},
+\emph{lapack-3.11.0}~\cite{LAPACK_website},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
-\emph{SuiteSparse-6.0.1}~\cite{SUITESPARSE_website},
-\emph{sundials-6.4.1}~\cite{SUNDIALS_website} and
-\emph{GraphicsMagick-1.3.38}~\cite{GraphicsMagick_website}.
+\emph{SuiteSparse-7.0.1}~\cite{SUITESPARSE_website},
+\emph{sundials-6.5.0}~\cite{SUNDIALS_website} and
+\emph{GraphicsMagick-1.3.40}~\cite{GraphicsMagick_website}.
 The local build of the \emph{LAPACK} library includes the deprecated routines.
 
 This project includes a number of Octave \emph{oct-file} extensions written in
@@ -36185,11 +36185,11 @@ within \emph{build-octave.sh}:
 \begin{itemize}
 \item the \emph{signal-1.4.2} package \texttt{zplane} function is patched to
   avoid a \LaTeX~error and the \texttt{grpdelay} function is patched to correctly
-  handle the \texttt{grpdelay(a,b,w} API.
+  handle the \texttt{grpdelay(a,b,w)} API.
 \item the \emph{signal-1.4.3} package \texttt{zp2sos} function is broken.
-\item the \emph{statistics-1.5.0} package gives warnings about missing files
+\item the \emph{statistics-1.5.4} package gives warnings about missing files
 \item the \emph{parallel-4.0.1} package is patched to make it compatible with
-  \emph{octave-7.3.0}.
+  \emph{octave-8.1.0}.
 \item \emph{SparsePOP} uses the \texttt{collect} function from
   \emph{SymPy}. This is not included in the \emph{symbolic-3.0.1} package. I add
   a version of \emph{collect.m} based on \emph{factor.m}. 
@@ -36267,10 +36267,7 @@ be installed with this work-around:
 \subsection*{Benchmarking Octave}
 This section shows the results of benchmarking various builds of Octave
 and benchmarking \emph{blas} and \emph{lapack} libraries with a shared library
-\emph{LTO} and \emph{PGO} build of Octave. The Linux kernel used was
-\emph{6.0.8-300.fc37.x86\_64} from the RedHat Fedora 36 Linux
-distribution. The system compiler is
-\emph{gcc version 12.2.1 20220819 (Red Hat 12.2.1-2)}.
+\emph{LTO} and \emph{PGO} build of Octave.
 The CPU is an Intel i7-7700K for which the number of CPU cores 
 is $4$ ($8$ hyper-threaded). During the benchmark the CPU frequency was fixed
 at $4.5GHz$.  To do this, as the \emph{root} user:
@@ -36343,11 +36340,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 276.3 \\
-Generic, shared reference lapack and blas            &  49.8 \\
-Generic, shared reference lapack and blas, LTO       &  49.7 \\
-Generic, shared reference lapack and blas, PGO       &  51.1 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  49.0 \\
+Debug, shared reference lapack and blas              & 277.1 \\
+Generic, shared reference lapack and blas            &  48.0 \\
+Generic, shared reference lapack and blas, LTO       &  47.9 \\
+Generic, shared reference lapack and blas, PGO       &  50.0 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  47.8 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -36362,7 +36359,7 @@ The shell script \emph{library-benchmark.sh} benchmarks the shared library
 \emph{linpack.m}~\cite{Rutter_LinpackBenchmark} script and the previous IIR
 benchmark script. The \emph{linpack.m} script was modified to produce
 repeatable residuals. The alternative \emph{blas} and \emph{lapack} library
-versions used are local builds of \emph{blas-3.10.1} and \emph{lapack-3.10.1} and
+versions used are local builds of \emph{blas-3.11.0} and \emph{lapack-3.11.0} and
 the Fedora 37 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
 \emph{gsl}~\cite{GNU_GSL} and \emph{openblas}~\cite{OpenBLAS_website}
 packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
@@ -36407,9 +36404,10 @@ export OPENBLAS_NUM_THREADS=2
 \end{small}
 
 Table~\ref{tab:benchmark-octave-blas-libraries} shows the average MFLOPS or
-execution time for $10$ runs of each test using the shared library \emph{PGO}
-and \emph{LTO} build of Octave. The normalised residuals for the two ATLAS
-libraries varied between two values. The largest is shown.
+execution time for $10$\footnote{Probably not enough!} runs of each test
+using the shared library \emph{PGO} and \emph{LTO} build of Octave. The
+normalised residuals for the two ATLAS libraries varied between two values.
+The largest is shown.
 
 \begin{table}
 \centering
@@ -36422,19 +36420,19 @@ libraries varied between two values. The largest is shown.
 \cmidrule{2-4}             & MFLOPS & Normalised          & Execution time \\
                            &        & residual            & (seconds) \\
 \midrule
-Generic libblas/liblapack  &  3894  & 21.3                &  48.4 \\
-Intel libblas/liblapack    &  3879  & 21.3                &  48.4 \\
-Haswell libblas/liblapack  &  4782  & 18.5                &  48.1 \\
-Nehalem libblas/liblapack  &  3872  & 21.3                &  48.4 \\
-Skylake libblas/liblapack  &  4639  & 18.5                &  48.1 \\
-Fedora 37 libblas/liblapack&  3896  & 21.3                &  48.3 \\
-libgslcblas                &  3893  & 21.3                &  48.5 \\
-libsatlas                  & 13238  & 13.1                &  48.0 \\
-libtatlas                  & 20677  & 14.3                &  47.9 \\
-libopenblas                & 33247  &  9.9                &  46.7 \\
-libopenblasp (1 thread)    & 33684  &  9.9                &  46.9 \\
-libopenblasp (2 threads)   & 48015  & 12.1                &  46.7 \\
-libopenblasp (4 threads)   & 61253  & 10.8                &  46.6 \\
+Generic libblas/liblapack  &  3927  & 21.3                &  47.8 \\
+Intel libblas/liblapack    &  3876  & 21.3                &  47.8 \\
+Haswell libblas/liblapack  &  4548  & 18.5                &  47.6 \\
+Nehalem libblas/liblapack  &  3875  & 21.3                &  47.6 \\
+Skylake libblas/liblapack  &  4610  & 18.5                &  47.4 \\
+Fedora 37 libblas/liblapack&  3879  & 21.3                &  47.8 \\
+libgslcblas                &  3880  & 21.3                &  47.9 \\
+libsatlas                  & 13097  & 13.1                &  47.4 \\
+libtatlas                  & 20516  & 14.3                &  47.5 \\
+libopenblas                & 32952  &  9.9                &  46.1 \\
+libopenblasp (1 thread)    & 33040  &  9.9                &  45.9 \\
+libopenblasp (2 threads)   & 47277  & 12.1                &  46.4 \\
+libopenblasp (4 threads)   & 60969  & 10.8                &  46.2 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -36479,10 +36477,9 @@ power of $2$}
 The \emph{SeDuMi} source is available from \emph{LeHigh University} as
 \emph{SeDuMi\_1\_3.zip}~\cite{Sturm_SeDuMi_1_3}. Unfortunately, this version
 does not seem to be actively maintained. An ``unofficial''
-\emph{GitHub}~\cite{Sturm_SeDuMi_GitHub} fork is compatible with Octave. A fork
-of this version is used in this project. It runs without modification under
-Octave\footnote{The \emph{SeDuMi-1.3} source file \emph{vec.m}
-shadows a built-in Octave function.}.
+\emph{GitHub}~\cite{Sturm_SeDuMi_GitHub} fork is compatible with Octave.
+The \emph{1.3.7} tag runs without modification under Octave\footnote{The
+\emph{SeDuMi-1.3} source file \emph{vec.m} shadows a built-in Octave function.}.
 
 The \emph{SeDuMi} source depends on the \emph{OpenBLAS} \emph{f77blas.h} and
 \emph{openblas\_config.h} headers. \emph{install\_sedumi.m} assumes they are

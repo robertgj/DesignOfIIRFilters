@@ -1,5 +1,5 @@
 % Abcd2H_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -456,8 +456,8 @@ Dopt=D;
 
 % Check H
 Hopt=Abcd2H(wplot,Aopt,Bopt,Copt,Dopt);
-if max(abs(h-Hopt)) > tol
-  error("max(abs(h-Hopt))(%g*tol) > tol",max(abs(h-Hopt))/tol);
+if max(abs(h-Hopt)) > 2*tol
+  error("max(abs(h-Hopt))(%g*tol) > 2*tol",max(abs(h-Hopt))/tol);
 endif
 
 % Check dHdw

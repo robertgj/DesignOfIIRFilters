@@ -1,5 +1,5 @@
 % decimator_R2_alternate_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Example of low-pass IIR decimator filter design using quasi-Newton
 % optimisation with constraints on the coefficients.
@@ -17,12 +17,12 @@ verbose=false
 tol_mmse=1e-5
 tol_pcls=2e-4
 ctol=1e-7
-maxiter=4000
+maxiter=10000
 
 % Filter specifications (frequencies are normalised to the sample rate)
-fap=0.10,dBap=0.35,Wap=1
-fas=0.25,dBas=50,Was=5
-ftp=0.125,tp=10,tpr=0.02,Wtp=0.75
+fap=0.10,dBap=0.3,Wap=1
+fas=0.25,dBas=50,Was=3
+ftp=0.125,tp=10,tpr=0.02,Wtp=1
 
 % Initial filter guess
 U=0,V=0,M=12,Q=6,R=2
@@ -121,6 +121,7 @@ printf("\nFinding PCLS d1, dBap=%f,Wap=%f,dBas=%f,Was=%f,tpr=%f,Wtp=%f\n",
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
+
 strP1=sprintf(strP,"d1",dBap,dBas,Was,tpr,Wtp);
 showResponse(d1,U,V,M,Q,R,strP1);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");

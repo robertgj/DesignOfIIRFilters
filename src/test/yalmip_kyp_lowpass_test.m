@@ -1,5 +1,5 @@
 % yalmip_kyp_lowpass_test.m
-% Copyright (C) 2021-2022 Robert G. Jenssen
+% Copyright (C) 2021-2023 Robert G. Jenssen
 %
 % Somewhat better numerical performance with (kron(P,Phi)+kron(Q,Psi)) !?!?
 %
@@ -26,7 +26,7 @@ Asq_pl=0.8^2;
 
 for d=[10,M],
   if d==M, 
-    Asq_max=1.0;
+    Asq_max=1.02;
     Asq_pu=Asq_max;
     Asq_t=Asq_max;
     Esq_z=0.002^2;

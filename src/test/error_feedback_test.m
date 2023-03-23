@@ -1,5 +1,5 @@
 % error_feedback_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -133,8 +133,8 @@ Pib=((eye(N,N)-Aib)'*Wib) + (Wib*(eye(N,N)-Aib));
 rho=sqrt(diag(Sib))
 Pi=diag(sqrt(1./rho)*sqrt(sum(rho)/N));
 R0=sqrt(Pi);
-if max(max(abs(R0*diag(1./diag(Pi))*R0'-eye(N,N))))-eps
-  error("max(max(abs(R0*diag(1./diag(Pi))*R0'-eye(N,N))))-eps");
+if max(max(abs(R0*diag(1./diag(Pi))*R0'-eye(N,N))))>eps
+  error("max(max(abs(R0*diag(1./diag(Pi))*R0'-eye(N,N))))>eps");
 endif
 R1=Uib;
 R1'*Pib*R1;

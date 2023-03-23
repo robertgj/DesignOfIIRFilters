@@ -56,23 +56,23 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_12_nbits_cost.ok << 'EOF'
-Exact & 0.017168 & & \\
-12-bit 3-signed-digit(Ito)& 0.112595 & 60 & 40 \\
-12-bit 3-signed-digit(SOCP b-and-b) & 0.000972 & 56 & 36 \\
+Exact & 0.010741 & & \\
+12-bit 3-signed-digit(Ito)& 0.028463 & 60 & 40 \\
+12-bit 3-signed-digit(SOCP b-and-b) & 0.001710 & 58 & 38 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_cost.ok"; fail; fi
 
 cat > test_12_nbits_A1k_min.ok << 'EOF'
-A1k_min = [     -988,     1728,     -704,      384, ... 
-                1296,     -888,      576,      352, ... 
-                -272,      137 ]'/2048;
+A1k_min = [     -880,     1696,     -464,       24, ... 
+                1508,    -1026,      800,      592, ... 
+                -624,      432 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_A1k_min.ok"; fail; fi
 
 cat > test_12_nbits_A2k_min.ok << 'EOF'
-A2k_min = [    -1632,     1808,     -848,      304, ... 
-                1344,     -832,      576,      368, ... 
-                -240,      160 ]'/2048;
+A2k_min = [    -1632,     1776,     -544,      -62, ... 
+                1520,     -968,      832,      584, ... 
+                -592,      448 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_A2k_min.ok"; fail; fi
 

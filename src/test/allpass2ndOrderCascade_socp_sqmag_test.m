@@ -1,5 +1,5 @@
 % allpass2ndOrderCascade_socp_sqmag_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -22,8 +22,8 @@ td=(ma+mb)/2;
 fp=0.15
 Wp=1
 fs=0.17
-Ws=550
-
+Ws=750
+  
 % Initial coefficients found by tarczynski_allpass2ndOrderCascade_test.m
 tarczynski_allpass2ndOrderCascade_test_ab0_coef;
 a0=ab0(1:ma);
@@ -55,7 +55,6 @@ Hab0=(Ha0+Hb0)/2;
 Ha0p=allpass2ndOrderCascade(a0,wplot);
 Hb0p=allpass2ndOrderCascade(b0,wplot);
 Hab0p=(Ha0p+Hb0p)/2;
- max(abs(Hab0-Hab0p))/eps
 if max(abs(Hab0-Hab0p)) > 2000*eps
   error("max(abs(Hab0-Hab0p)) > 2000*eps");
 endif
@@ -79,9 +78,13 @@ grid("on");
 print(strcat(strf,"_ab0"),"-dpdflatex");
 close
 
-% SOCP 
-[a1,b1,socp_iter,func_iter,feasible]=allpass2ndOrderCascade_socp( ...
-  a0,b0,tau,w,Ad,W,resp,maxiter,tol,verbose)
+% SOCP
+try
+  [a1,b1,socp_iter,func_iter,feasible] = ...
+     allpass2ndOrderCascade_socp(a0,b0,tau,w,Ad,W,resp,maxiter,tol,verbose)
+catch
+  feasible = 0;
+end_try_catch
 if !feasible
   error("a1,b1 infeasible");
 endif

@@ -1,5 +1,5 @@
 % iir_frm_allpass_socp_slb_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -24,7 +24,7 @@ x0.R=1;x0.r=r1;x0.aa=aa1;x0.ac=ac1;
 n=1000;
 tol=2e-5
 ctol=tol
-maxiter=5000
+maxiter=10000
 verbose=true
 Mmodel=9 % Model filter decimation
 Dmodel=9 % Desired model filter passband delay
@@ -37,7 +37,7 @@ tpr=1 % Peak-to-peak pass band delay ripple
 Wtp=0.02 % Pass band delay weight
 fas=0.3105 % Stop band edge
 dBas=40 % Stop band amplitude ripple
-Was=20 % Stop band amplitude weight
+Was=10 % Stop band amplitude weight
 rho=31/32 % Stability constraint on pole radius
 
 % Convert x0 to vector form
@@ -83,8 +83,10 @@ iir_frm_allpass_slb(@iir_frm_allpass_socp_mmse, ...
 if feasible == 0 
   error("d2k(pcls) infeasible");
 endif
+
 % Convert d2k to structure form
 d2=iir_frm_allpass_vec_to_struct(d2k,Vr,Qr,Rr,na,nc);
+
 % Plot the PCLS response
 iir_frm_allpass_socp_slb_plot(d2,na,nc,Mmodel,Dmodel,w, ...
                               fap,strt,strcat(strf,"_%s_%s"),"PCLS");

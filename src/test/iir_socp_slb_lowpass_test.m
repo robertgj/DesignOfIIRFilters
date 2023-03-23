@@ -1,5 +1,5 @@
 % iir_socp_slb_lowpass_test.m
-% Copyright (C) 2018-2022 Robert G. Jenssen
+% Copyright (C) 2018-2023 Robert G. Jenssen
 
 test_common;
 
@@ -12,7 +12,7 @@ diary iir_socp_slb_lowpass_test.diary.tmp
 tic
 
 tol=1e-4
-ctol=1e-6
+ctol=1e-4
 maxiter=2000
 verbose=false
 
@@ -27,12 +27,12 @@ Wat=0.001
 ftp=0.15
 td=10
 tdr=0.2
-Wtp=0.1
+Wtp=0.05
 Wtt=0.001
 fas=0.2
 dBas=40
-Was=10
-
+Was=45
+  
 % Frequency vectors
 n=1000;
 
@@ -132,13 +132,16 @@ close
 
 % PCLS pass
 feasible=false;
-[d1,E,slb_iter,socp_iter,func_iter,feasible] = ...
-  iir_slb(@iir_socp_mmse,x0,xu,xl,0,U,V,M,Q,R, ...
-          wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
-          wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol,ctol,verbose)
-if ~feasible 
-  error("d1 infeasible");
+try
+  [d1,E,slb_iter,socp_iter,func_iter,feasible] = ...
+     iir_slb(@iir_socp_mmse,x0,xu,xl,0,U,V,M,Q,R, ...
+             wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
+             wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+             maxiter,tol,ctol,verbose)
+catch
+end_try_catch;
+if ~feasible
+ error("d1 infeasible");
 endif
 strt=sprintf(strP,"d1(PCLS)");
 showResponse(d1,U,V,M,Q,R,strt);

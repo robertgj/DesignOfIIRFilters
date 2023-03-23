@@ -1,7 +1,6 @@
 #!/bin/sh
 
-name=schurOneMPAlattice_socp_slb_bandpass_hilbert_test
-prog=$name".m"
+prog=schurOneMPAlattice_socp_slb_bandpass_hilbert_test.m
 depends="test/schurOneMPAlattice_socp_slb_bandpass_hilbert_test.m \
 ../tarczynski_parallel_allpass_bandpass_hilbert_test_Da0_coef.m \
 ../tarczynski_parallel_allpass_bandpass_hilbert_test_Db0_coef.m \
@@ -59,44 +58,44 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k_coef.m << 'EOF'
-A1k = [  -0.4135004229,   0.6119694730,   0.4794873904,  -0.5067394002, ... 
-          0.7072993736,  -0.3010516772,  -0.0646071285,   0.3675203809, ... 
-         -0.2563697410,   0.0890435079 ];
+A1k = [  -0.3982018594,   0.5579158574,   0.5354080583,  -0.5185582087, ... 
+          0.6912216487,  -0.2508049275,  -0.1098817435,   0.3932798003, ... 
+         -0.2712124812,   0.1143990042 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_coef.m"; fail; fi
 
 cat > test_A1epsilon_coef.m << 'EOF'
-A1epsilon = [ -1, -1,  1,  1, ... 
+A1epsilon = [ -1,  1, -1,  1, ... 
                1,  1,  1, -1, ... 
               -1, -1 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1epsilon_coef.m"; fail; fi
 
 cat > test_A1p_coef.m << 'EOF'
-A1p = [   0.9856238388,   0.6348879426,   1.2940246193,   0.7675426769, ... 
-          1.3414774959,   0.5554441242,   0.7578183494,   0.8084678865, ... 
-          1.1887934672,   0.9145894817 ];
+A1p = [   1.1168799964,   0.7327350998,   0.3903259861,   0.7095835468, ... 
+          1.2602228959,   0.5384811723,   0.6957734598,   0.7769308351, ... 
+          1.1773546447,   0.8914534918 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1p_coef.m"; fail; fi
 
 cat > test_A2k_coef.m << 'EOF'
-A2k = [  -0.7696310526,   0.7216132469,   0.4481643290,  -0.5762702648, ... 
-          0.7320010792,  -0.2531067642,  -0.0688876567,   0.3754458362, ... 
-         -0.2352692288,   0.1058925849 ];
+A2k = [  -0.7676338355,   0.6899712227,   0.5000214394,  -0.5938002418, ... 
+          0.7202581013,  -0.1939793580,  -0.1269458040,   0.4047287318, ... 
+         -0.2423733471,   0.1262580562 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_coef.m"; fail; fi
 
 cat > test_A2epsilon_coef.m << 'EOF'
-A2epsilon = [ -1, -1,  1, -1, ... 
-              -1,  1, -1,  1, ... 
-               1, -1 ];
+A2epsilon = [ -1, -1,  1,  1, ... 
+               1,  1,  1, -1, ... 
+              -1, -1 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2epsilon_coef.m"; fail; fi
 
 cat > test_A2p_coef.m << 'EOF'
-A2p = [   1.1896028264,   0.4292127269,   1.0673727377,   0.6588887134, ... 
-          0.3416183554,   0.8684578679,   1.1248989931,   1.0499014585, ... 
-          0.7074762197,   0.8991628915 ];
+A2p = [   1.3601634402,   0.4931526701,   1.1513836017,   0.6647326298, ... 
+          1.3167220595,   0.5309774344,   0.6462512438,   0.7342303043, ... 
+          1.1279012491,   0.8807905307 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2p_coef.m"; fail; fi
 
@@ -104,6 +103,8 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_A2p_coef.m"; fail; fi
 # run and see if the results match
 #
 echo "Running $prog"
+
+name=schurOneMPAlattice_socp_slb_bandpass_hilbert_test
 
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi

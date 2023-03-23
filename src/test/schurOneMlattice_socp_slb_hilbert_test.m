@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_hilbert_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -12,7 +12,7 @@ tic;
 
 tol=1e-4
 ctol=tol
-maxiter=2000
+maxiter=4000
 verbose=false
 
 %
@@ -22,8 +22,8 @@ ft=0.08 % Transition bandwidth [0 ft]
 tp=1+(5.5)
 dBap=0.1;Wat=10*tol;Wap_mmse=2;Wap_pcls=1;
 tpr=0.08;Wtt=0;Wtp=0.25;
-pr=0.016;Wpt=10*tol;Wpp=100;
-
+pr=0.016;Wpt=10*tol;Wpp=80;
+  
 %
 % Initial filter from tarczynski_hilbert_test.m
 %
@@ -99,7 +99,7 @@ tic;
                              maxiter,tol,verbose);
 toc;
 if feasible == 0 
-  error("k1p,c1p(mmse) infeasible");  
+  error("k1p,c1p(mmse) infeasible");
 endif
 
 % Recalculate epsilon1, p1 and c1
@@ -124,7 +124,7 @@ tic;
                        maxiter,tol,ctol,verbose);
 toc;
 if feasible == 0 
-  error("k2p,c2p(pcls) infeasible");  
+  error("k2p,c2p(pcls) infeasible");
 endif
 
 % Recalculate epsilon2, p2 and c2

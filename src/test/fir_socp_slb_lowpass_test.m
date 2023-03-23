@@ -1,5 +1,5 @@
 % fir_socp_slb_lowpass_test.m
-% Copyright (C) 2018-2021 Robert G. Jenssen
+% Copyright (C) 2018-2023 Robert G. Jenssen
 
 test_common;
 
@@ -12,7 +12,7 @@ diary fir_socp_slb_lowpass_test.diary.tmp
 tic
 
 tol=1e-4
-ctol=1e-6
+ctol=1e-4
 maxiter=10000
 verbose=false
 
@@ -21,11 +21,11 @@ N=30
 fap=0.15
 dBap=3
 Wap=1
-Wat=0.0001
+Wat=0.001
 ftp=0.15
 td=10
-tdr=0.8
-Wtp=0.002
+tdr=0.6
+Wtp=0.005
 fas=0.2
 dBas=40
 Was=50

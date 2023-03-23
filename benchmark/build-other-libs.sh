@@ -1,15 +1,15 @@
 #!/bin/sh
 
 # Assume these files are present:
-#  SuiteSparse-6.0.1.tar.gz
-#  arpack-ng-3.8.0.tar.gz
+#  SuiteSparse-7.0.1.tar.gz
+#  arpack-ng-3.9.0.tar.gz
 #  fftw-3.3.10.tar.gz
 #  qrupdate-1.1.2.tar.gz
 
 #
 # Build arpack-ng
 #
-ARPACK_VER=3.8.0
+ARPACK_VER=3.9.0
 rm -Rf arpack-ng-$ARPACK_VER
 tar -xf arpack-ng-$ARPACK_VER".tar.gz"
 pushd arpack-ng-$ARPACK_VER
@@ -21,7 +21,7 @@ popd
 #
 # Build SuiteSparse
 #
-SUITESPARSE_VER=6.0.1
+SUITESPARSE_VER=7.0.1
 rm -Rf SuiteSparse-$SUITESPARSE_VER
 tar -xf SuiteSparse-$SUITESPARSE_VER.tar.gz
 pushd SuiteSparse-$SUITESPARSE_VER

@@ -4,7 +4,7 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -62,7 +62,7 @@ ftpl=0.1
 ftpu=0.2
 td=16
 tdr=0.32
-Wtp=0.5
+Wtp=0.2
 
 %
 % Frequency vectors
@@ -226,7 +226,7 @@ while ~isempty(kopt_active)
   % If this problem was not solved then give up
   if ~feasible
     printf("kopt*nscale=[ ");printf("%g ",kopt(:)'*nscale);printf(" ];\n");
-    error("SOCP problem infeasible!");
+    error("SOCP problem infeasible! Wtp=%f\n",Wtp);
   endif
 
   % Fix coef_n

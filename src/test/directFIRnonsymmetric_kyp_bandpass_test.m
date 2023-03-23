@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_kyp_bandpass_test.m
-% Copyright (C) 2021-2022 Robert G. Jenssen
+% Copyright (C) 2021-2023 Robert G. Jenssen
 
 % SDP design of a direct-form FIR bandpass filter with the KYP lemma.
 % See Section VII.B.2, pp. 53-55 of "Generalised KYP Lemma: Unified
@@ -24,7 +24,7 @@ tic;
 N=30;
 d=10;
 fasl=0.10;fapl=0.175;fapu=0.225;fasu=0.30;
-Esq_z=4.66e-5;
+Esq_z=4.67e-5;
 Esq_s=1e-4;
 Esq_max=1;
 

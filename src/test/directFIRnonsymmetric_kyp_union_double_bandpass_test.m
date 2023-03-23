@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_kyp_union_double_bandpass_test.m
-% Copyright (C) 2022 Robert G. Jenssen
+% Copyright (C) 2023 Robert G. Jenssen
 %
 % SDP design of a non-symmetric FIR double bandpass filter with the KYP
 % lemma. The pass band responses are set to e^{-j*w*d}. The stop band
@@ -20,7 +20,7 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 % Increase from the default SeDuMi eps
-sedumi_eps=1e-8;
+sedumi_eps=3e-8;
 
 % Band-pass filter specification
 % Fails with numerical problems for sedumi.eps=1e-9,(N=60,d=20),(N=50,d=20) !

@@ -1,5 +1,5 @@
 % deczky3_sqp_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -8,7 +8,6 @@ delete("deczky3_sqp_test.diary.tmp");
 diary deczky3_sqp_test.diary.tmp
 
 tic;
-
 
 tol=2e-4
 ctol=tol;
@@ -21,7 +20,7 @@ verbose=false
 U=0,V=0,Q=6,M=10,R=1
 fap=0.15,dBap=0.1,Wap=1
 fas=0.3,dBas=30,Was=1
-ftp=0.25,tp=10,tpr=0.004,Wtp_mmse1=0.125,Wtp_mmse2=0.5,Wtp_pcls=2
+ftp=0.25,tp=10,tpr=0.004,Wtp_mmse1=0.125,Wtp_mmse2=0.5,Wtp_pcls=4.0 
 
 % Strings
 strM=sprintf("%%s:fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp\\_mmse=%%g",
@@ -139,6 +138,7 @@ printf("\nPCLS pass 1:\n");
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
+
 strt=sprintf(strP,"d1(pcls)",Wtp_pcls);
 showZPplot(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
