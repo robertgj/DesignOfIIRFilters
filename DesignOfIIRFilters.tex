@@ -11353,9 +11353,9 @@ method described in
 Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. In this case
 the script has $flat\_delay = false$. These initial allpass filters have $3$
 real poles and $4$ complex pole pairs. I find that better stop-band attenuation
-is obtained by modifying these initial allpass filters to use $5$ real poles $3$
-complex pole pairs. The response after PCLS optimisation with the \emph{SeDuMi}
-SOCP solver is shown in
+is obtained by modifying these initial allpass filters to use $5$ real poles
+and $3$ complex pole pairs. The response after PCLS optimisation with the
+\emph{SeDuMi} SOCP solver is shown in
 Figure~\ref{fig:Polyphase-allpass-filter-PCLS-SOCP-response} and
 Figure~\ref{fig:Polyphase-allpass-filter-PCLS-SOCP-detail-response}.
 The denominator polynomials of the two all-pass filters are
@@ -11390,20 +11390,19 @@ specification is:
 \begin{small}
 \verbatiminput{polyphase_allpass_socp_slb_flat_delay_test.spec}
 \end{small}
-In this case the script does optimise for a flat filter group delay across the
-pass band. The nominal pass-band group delay was found by trial-and-error.
+In this case the script ignores the pass band amplitude, optimises the stop band
+amplitude and optimises for a flat filter group delay across the pass band.
 
 The initial parallel allpass filters were designed by the
-Octave script \emph{tarczynski\_polyphase\_allpass\_test.m} using the \emph{WISE}
+Octave script \emph{tarczynski\_polyphase\_allpass\_test.m} with the \emph{WISE}
 method described in
 Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. In this case
-the script has $flat\_delay = true$. The response of the initial filter is shown
-in Figure~\ref{fig:Polyphase-allpass-filter-flat-delay-initial-response}.
-After PCLS optimisation with the \emph{SeDuMi} SOCP solver the response is 
-shown in Figure~\ref{fig:Polyphase-allpass-filter-flat-delay-PCLS-SOCP-response}.
-The pass band response is shown in 
-Figure~\ref{fig:Polyphase-allpass-filter-flat-delay-PCLS-SOCP-passband-response}.
-The denominator polynomials of the two all-pass filters are
+that script has $flat\_delay = true$.
+Figure~\ref{fig:Polyphase-allpass-filter-flat-delay-PCLS-SOCP-response}
+shows the response after PCLS optimisation with the \emph{SeDuMi} SOCP solver.
+Figure~\ref{fig:Polyphase-allpass-filter-flat-delay-PCLS-SOCP-passband-response}
+shows the pass band response. The denominator polynomials of the all-pass
+filters are
 \begin{small}
 \verbatiminput{polyphase_allpass_socp_slb_flat_delay_test_Da1_coef.m}
 \end{small}
@@ -11411,12 +11410,6 @@ and
 \begin{small}
 \verbatiminput{polyphase_allpass_socp_slb_flat_delay_test_Db1_coef.m}
 \end{small}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{polyphase_allpass_socp_slb_flat_delay_test_ab0}}
-\caption{Polyphase combination of all-pass filters with flat pass-band delay, initial response found with the WISE barrier function}
-\label{fig:Polyphase-allpass-filter-flat-delay-initial-response}
-\end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{polyphase_allpass_socp_slb_flat_delay_test_ab1}}
