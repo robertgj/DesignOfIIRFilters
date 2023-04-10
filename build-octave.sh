@@ -564,10 +564,15 @@ find . -name \*.la -exec rm -f {} ';'
 export PGO_LTO_FLAGS="-pthread -fopenmp -flto=6 -ffat-lto-objects -fprofile-use"
 make XTRA_CFLAGS="$PGO_LTO_FLAGS" XTRA_CXXFLAGS="$PGO_LTO_FLAGS" V=1 -j6
 make install
-ldconfig $OCTAVE_LIB_DIR 
 popd
 rm -Rf build octave-$OCTAVE_VER
 rm -f octave-$OCTAVE_VER.patch.uue octave-$OCTAVE_VER.patch
+
+#
+# Update ld.so.conf.d
+#
+echo $OCTAVE_LIB_DIR > /etc/ld.so.conf.d/usr_local_octave_lib.conf
+ldconfig 
 
 #
 # Compiling octave is done
