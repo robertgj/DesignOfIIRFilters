@@ -137,7 +137,7 @@ $(TARGET).pdf: $(TARGET_DEPENDENCIES)
 		$(PDFGREP) "\[\?" DesignOfIIRFilters.pdf || true ; \
 	fi;
 	-@find . -name \*.elg -exec $(GREP) Can\'t\ load\ glyph {} ';' | sort | uniq
-	-@for warnstr in "No\ file" erfull warning ; do \
+	-@for warnstr in No\ file erfull warning ; do \
 		$(GREP) "$$warnstr" DesignOfIIRFilters.log | sort | uniq ; \
 	done ; 	
 	-@$(GREP) "warning" DesignOfIIRFilters.blg | sort | uniq ; 

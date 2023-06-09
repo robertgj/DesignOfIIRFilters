@@ -86,7 +86,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-cat test.out | egrep -v Symbolic | egrep -v Waiting > test.out.ok
+cat test.out | grep -v Symbolic | grep -v Waiting > test.out.ok
 
 diff -Bb test.ok test.out.ok
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok"; fail; fi

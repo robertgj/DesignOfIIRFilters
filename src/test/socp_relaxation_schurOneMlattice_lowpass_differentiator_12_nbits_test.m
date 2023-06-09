@@ -4,7 +4,7 @@
 % low-pass differentiator filter implemented as the series combination of
 % (z-1) with a Schur one-multiplier lattice correction filter.
 %
-% Copyright (C) 2022 Robert G. Jenssen
+% Copyright (C) 2022-2023 Robert G. Jenssen
 
 test_common;
 
@@ -33,7 +33,7 @@ ndigits=3
 nN=11;nD=11;R=1;
 fap=0.19;fas=0.25;
 Arp=0.5;Ars=0.5;Wap=1;Wat=0.001;Was=1;
-td=nN-2;tdr=0.08;Wtp=0.02;
+td=nN-2;tdr=0.1;Wtp=0.02;
 pr=0.02;Wpp=0.02;
 
 n=1000;

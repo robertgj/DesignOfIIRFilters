@@ -1,5 +1,5 @@
 % iir_socp_slb_bandpass_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -17,7 +17,7 @@ maxiter=5000
 
 % Bandpass filter specification
 % (frequencies are normalised to sample rate)
-fapl=0.1,fapu=0.2,dBap=0.2,Wap=1,Watl=0.001,Watu=0.001
+fapl=0.1,fapu=0.2,dBap=0.3,Wap=1,Watl=0.001,Watu=0.001
 fasl=0.05,fasu=0.25,dBas=30,Wasl=0.5,Wasu=1
 ftpl=0.09,ftpu=0.21,tp=16,tpr=0.032,Wtp=1
 

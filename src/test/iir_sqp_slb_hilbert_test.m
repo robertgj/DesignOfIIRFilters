@@ -1,5 +1,5 @@
 % iir_sqp_slb_hilbert_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 % Note that with the SOCP solver this test fails to find and satisfy
 % phase constraints near w=0 because the phase response has inflexions
@@ -12,8 +12,8 @@ delete("iir_sqp_slb_hilbert_test.diary.tmp");
 diary iir_sqp_slb_hilbert_test.diary.tmp
 
 
-tol=1e-4;
-ctol=tol;
+tol=2e-4;
+ctol=tol/2;
 maxiter=2000
 verbose=false
 

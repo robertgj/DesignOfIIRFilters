@@ -22,7 +22,7 @@ td=(ma+mb)/2;
 fp=0.15
 Wp=1
 fs=0.17
-Ws=750
+Ws=2000
   
 % Initial coefficients found by tarczynski_allpass2ndOrderCascade_test.m
 tarczynski_allpass2ndOrderCascade_test_ab0_coef;

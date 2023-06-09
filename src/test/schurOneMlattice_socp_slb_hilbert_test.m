@@ -22,7 +22,7 @@ ft=0.08 % Transition bandwidth [0 ft]
 tp=1+(5.5)
 dBap=0.1;Wat=10*tol;Wap_mmse=2;Wap_pcls=1;
 tpr=0.08;Wtt=0;Wtp=0.25;
-pr=0.016;Wpt=10*tol;Wpp=80;
+pr=0.016;Wpt=10*tol;Wpp=200;
   
 %
 % Initial filter from tarczynski_hilbert_test.m

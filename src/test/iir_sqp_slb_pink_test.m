@@ -1,5 +1,5 @@
 % iir_sqp_slb_pink_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -12,7 +12,7 @@ tic;
 tol_mmse=2e-5
 tol_pcls=2e-5
 ctol=tol_pcls
-maxiter=5000
+maxiter=10000
 verbose=false
 strf="iir_sqp_slb_pink_test";
 
@@ -25,7 +25,7 @@ R=1;
 % Filter specifications
 fat=0.005;
 AdBr=0.2;
-Wap=10;
+Wap=20;
 ftt=0.025;
 tp=4.77;
 tpr=0.02;

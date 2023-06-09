@@ -37,7 +37,6 @@ pass()
 }
 
 trap "fail" 1 2 3 15
-echo "Creating directory "$tmp
 mkdir $tmp
 if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
 for file in $depends;do \

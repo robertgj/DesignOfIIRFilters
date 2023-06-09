@@ -1,5 +1,5 @@
 % iir_sqp_slb_fir_lowpass_test.m
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2023 Robert G. Jenssen
 
 test_common;
 
@@ -12,7 +12,7 @@ diary iir_sqp_slb_fir_lowpass_test.diary.tmp
 tic
 
 tol=1e-4
-ctol=1e-5
+ctol=tol/10
 maxiter=10000
 verbose=false
 
@@ -29,7 +29,7 @@ tdr=0.3
 Wtp=0.05
 fas=0.2
 dBas=40
-Was=50
+Was=60
 
 % Frequency vectors
 n=1000;

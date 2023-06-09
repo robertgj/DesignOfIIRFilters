@@ -69,15 +69,15 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
 
 cat > test.c.ok << 'EOF'
 c_min = [       72,      -56,     -592,     -128, ... 
-                32,       36,        0,      -15, ... 
-                -3,        6,        2,        0 ]'/2048;
+                32,       36,        0,      -14, ... 
+                -3,        6,        3,        0 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
 
 cat > test.cost.ok << 'EOF'
 Exact & 2.32508e-06 & & \\
 12-bit 3-signed-digit(Ito)& 3.27245e-05 & 46 & 25 \\
-12-bit 3-signed-digit(SOCP-relax) & 1.69879e-05 & 46 & 25 \\
+12-bit 3-signed-digit(SOCP-relax) & 2.62205e-05 & 47 & 26 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 

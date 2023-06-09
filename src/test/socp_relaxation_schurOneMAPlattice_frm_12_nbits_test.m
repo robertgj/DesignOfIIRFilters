@@ -4,7 +4,7 @@
 % with 12-bit 3-signed-digit coefficients and an allpass model filter
 % implemented as a Schur one-multiplier lattice.
 
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -38,7 +38,7 @@ v0=v1;
 %
 n=1000;
 tol=5e-4
-ctol=tol/25
+ctol=tol/10
 maxiter=2000
 verbose=false
 nbits=12

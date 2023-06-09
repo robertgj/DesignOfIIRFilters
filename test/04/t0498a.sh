@@ -125,7 +125,7 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 diff -Bb test.ok test.results
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok"; fail; fi
 
-grep -e "^|" yalmip_test.diary | egrep -v found | egrep -v Ax > yalmiptest.out
+grep -e "^|" yalmip_test.diary | grep -v found | grep -v Ax > yalmiptest.out
 diff -Bb yalmiptest.ok yalmiptest.out
 if [ $? -ne 0 ]; then echo "Failed diff -Bb yalmiptest.ok"; fail; fi
 

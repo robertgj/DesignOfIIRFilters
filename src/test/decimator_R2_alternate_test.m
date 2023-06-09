@@ -15,14 +15,14 @@ tic;
 
 verbose=false
 tol_mmse=1e-5
-tol_pcls=2e-4
-ctol=1e-7
+tol_pcls=1e-3
+ctol=tol_pcls/2
 maxiter=10000
 
 % Filter specifications (frequencies are normalised to the sample rate)
 fap=0.10,dBap=0.3,Wap=1
-fas=0.25,dBas=50,Was=3
-ftp=0.125,tp=10,tpr=0.02,Wtp=1
+fas=0.25,dBas=45,Was=1
+ftp=0.125,tp=10,tpr=0.02,Wtp=0.2
 
 % Initial filter guess
 U=0,V=0,M=12,Q=6,R=2

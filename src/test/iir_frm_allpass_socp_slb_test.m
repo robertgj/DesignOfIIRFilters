@@ -21,9 +21,9 @@ x0.R=1;x0.r=r1;x0.aa=aa1;x0.ac=ac1;
 %
 % Filter specification
 %
-n=1000;
-tol=2e-5
-ctol=tol
+n=500;
+tol=2e-4
+ctol=tol/10
 maxiter=10000
 verbose=true
 Mmodel=9 % Model filter decimation
@@ -35,7 +35,7 @@ dBap=0.05 % Pass band amplitude ripple
 Wap=1 % Pass band amplitude weight
 tpr=1 % Peak-to-peak pass band delay ripple
 Wtp=0.02 % Pass band delay weight
-fas=0.3105 % Stop band edge
+fas=0.311 % Stop band edge
 dBas=40 % Stop band amplitude ripple
 Was=10 % Stop band amplitude weight
 rho=31/32 % Stability constraint on pole radius

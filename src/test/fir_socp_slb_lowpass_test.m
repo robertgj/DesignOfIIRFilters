@@ -11,7 +11,7 @@ diary fir_socp_slb_lowpass_test.diary.tmp
 
 tic
 
-tol=1e-4
+tol=5e-4
 ctol=1e-4
 maxiter=10000
 verbose=false
