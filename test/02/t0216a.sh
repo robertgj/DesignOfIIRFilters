@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=schurNSlatticeEsq_test.m
-depends="test/schurNSlatticeEsq_test.m test_common.m schurNSlatticeEsq.m \
+depends="test/schurNSlatticeEsq_test.m test_common.m delayz.m schurNSlatticeEsq.m \
 schurNSlatticeAsq.m schurNSlatticeT.m tf2schurNSlattice.m \
 schurNSlattice2Abcd.oct schurNSscale.oct H2Asq.m H2T.m Abcd2H.oct \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct"

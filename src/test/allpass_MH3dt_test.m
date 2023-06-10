@@ -1,5 +1,5 @@
 % allpass_MH3dt_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2023 Robert G. Jenssen
 
 test_common;
 
@@ -18,7 +18,7 @@ r2=0.62;
 b=conv([r1, -1],[r2, -1]);
 a=conv([1, -r1],[1, -r2]);
 [Hf,w]=freqz(b,a,1024);
-[Tf,w]=grpdelay(b,a,1024);
+[Tf,w]=delayz(b,a,1024);
 
 [b1,b2]=allpass_MH3dt_pole2coef(r1,r2,"real");
 [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_MH3dt_coef2Abcd(b1,b2);
@@ -63,7 +63,7 @@ theta=-3*pi/10;
 b=conv([r*e^(-j*theta), -1],[r*e^(j*theta), -1]);
 a=conv([1, -r*e^(-j*theta)],[1, -r*e^(j*theta)]);
 [Hf,w]=freqz(b,a,1024);
-[Tf,w]=grpdelay(b,a,1024);
+[Tf,w]=delayz(b,a,1024);
 
 [b1,b2]=allpass_MH3dt_pole2coef(r,theta,"complex");
 [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_MH3dt_coef2Abcd(b1,b2);

@@ -10,4 +10,4 @@ directFIRnonsymmetric_kyp_union_double_bandpass_test_max_passband_squared_error.
 
 directFIRnonsymmetric_kyp_union_double_bandpass_test_FILES = \
 directFIRnonsymmetric_kyp_union_double_bandpass_test.m \
-test_common.m print_polynomial.m
+test_common.m delayz.m print_polynomial.m

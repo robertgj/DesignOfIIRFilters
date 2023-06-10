@@ -173,7 +173,7 @@ title(strt);
 ylabel("Amplitude(dB)");
 grid("on");
 subplot(212);
-T=grpdelay(N1,D1,n);
+T=delayz(N1,D1,n);
 semilogx(w(ni:end)*0.5/pi,T(ni:end));
 axis([0.001 0.6 0 30]);
 ylabel("Delay(samples)");

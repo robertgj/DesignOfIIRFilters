@@ -10,4 +10,4 @@ tarczynski_parallel_allpass_delay_test.mat
 
 tarczynski_parallel_allpass_delay_test_FILES = \
 tarczynski_parallel_allpass_delay_test.m \
-test_common.m print_polynomial.m print_pole_zero.m
+test_common.m delayz.m print_polynomial.m print_pole_zero.m

@@ -2,7 +2,8 @@
 
 prog=schurOneMAPlattice_frm_halfband_socp_mmse_test.m
 
-depends="test/schurOneMAPlattice_frm_halfband_socp_mmse_test.m test_common.m \
+depends="test/schurOneMAPlattice_frm_halfband_socp_mmse_test.m \
+test_common.m delayz.m \
 schurOneMAPlattice_frm_halfband_socp_mmse.m \
 schurOneMAPlattice_frm_halfband_socp_slb_plot.m schurOneMAPlattice2tf.m \
 schurOneMAPlattice_frm_halfband_slb_set_empty_constraints.m \

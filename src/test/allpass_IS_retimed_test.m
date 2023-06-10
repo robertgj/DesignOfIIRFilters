@@ -1,5 +1,5 @@
 % allpass_IS_retimed_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2023 Robert G. Jenssen
 
 test_common;
 
@@ -18,7 +18,7 @@ r2=-0.42;
 b=conv([r1, 0, -1],[r2, 0, -1]);
 a=conv([1, 0, -r1],[1, 0, -r2]);
 [Hf,w]=freqz(b,a,1024);
-[Tf,w]=grpdelay(b,a,1024);
+[Tf,w]=delayz(b,a,1024);
 [d1,d2]=allpass_IS_retimed_pole2coef(r1,r2,"real");
 [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_IS_retimed_coef2Abcd(d1,d2);
 if rank([A,B])~=rows(A)
@@ -56,7 +56,7 @@ theta=-pi/5;
 b=conv([r*e^(-j*theta), 0, -1],[r*e^(j*theta), 0, -1]);
 a=conv([1, 0, -r*e^(-j*theta)],[1, 0, -r*e^(j*theta)]);
 [Hf,w]=freqz(b,a,1024);
-[Tf,w]=grpdelay(b,a,1024);
+[Tf,w]=delayz(b,a,1024);
 
 [d1,d2]=allpass_IS_retimed_pole2coef(r,theta,"complex");
 [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_IS_retimed_coef2Abcd(d1,d2);

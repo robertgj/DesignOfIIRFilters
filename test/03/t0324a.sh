@@ -4,7 +4,7 @@ prog=schurOneMPAlattice_socp_slb_bandpass_test.m
 depends="test/schurOneMPAlattice_socp_slb_bandpass_test.m \
 ../tarczynski_parallel_allpass_bandpass_test_Da0_coef.m \
 ../tarczynski_parallel_allpass_bandpass_test_Db0_coef.m \
-test_common.m \
+test_common.m delayz.m \
 schurOneMPAlatticeAsq.m \
 schurOneMPAlatticeT.m \
 schurOneMPAlatticeP.m \

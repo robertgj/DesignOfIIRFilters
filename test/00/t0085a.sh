@@ -2,7 +2,7 @@
 
 prog=polyphase_allpass_socp_slb_test.m
 
-depends="test/polyphase_allpass_socp_slb_test.m test_common.m \
+depends="test/polyphase_allpass_socp_slb_test.m test_common.m delayz.m \
 ../tarczynski_polyphase_allpass_test_Da0_coef.m \
 ../tarczynski_polyphase_allpass_test_Db0_coef.m \
 parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \

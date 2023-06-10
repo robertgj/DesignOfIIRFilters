@@ -1,5 +1,5 @@
 % parallel_allpass_mmse_error_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 % Check the MMSE error and gradient for the parallel
 % combination of two allpass filters
 
@@ -57,7 +57,7 @@ Wt=Wtp*ones(ntp,1);
 % Check the MMSE error
 %
 
-% Use freqz and grpdelay to find the frequency response.
+% Use freqz and delayz to find the frequency response.
 [Ba,Aa]=a2tf(aa,Va,Qa,Ra);
 [Bb,Ab]=a2tf(ab,Vb,Qb,Rb);
 Aab=conv(Aa,Ab);
@@ -67,9 +67,9 @@ else
   Bab=(conv(Aa,Bb)+conv(Ba,Ab))/2;
 endif
 [H_freqz,wa]=freqz(Bab,Aab,n);
-[T_grpdelay,wt]=grpdelay(Bab,Aab,n);
+[T_delayz,wt]=delayz(Bab,Aab,n);
 wt=wt(1:ntp);
-Twt_grpdelay=T_grpdelay(1:ntp);
+Twt_delayz=T_delayz(1:ntp);
 
 % Check squared-magnitude response
 Asqwa_freqz=(K*abs(H_freqz(:))).^2;
@@ -82,10 +82,10 @@ endif
 
 % Check group-delay response
 Twt_allpass=parallel_allpassT(wt,aa_ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase);
-maxAbsTwt_grpdelay_allpass_eps = max(abs(Twt_grpdelay-Twt_allpass))/eps;
-if maxAbsTwt_grpdelay_allpass_eps > 745824
-  error("max(abs(Twt_grpdelay-Twt_allpass))/eps(=%g)>745824\n",
-          maxAbsTwt_grpdelay_allpass_eps);
+maxAbsTwt_delayz_allpass_eps = max(abs(Twt_delayz-Twt_allpass))/eps;
+if maxAbsTwt_delayz_allpass_eps > 745824
+  error("max(abs(Twt_delayz-Twt_allpass))/eps(=%g)>745824\n",
+          maxAbsTwt_delayz_allpass_eps);
 endif
 
 %
@@ -98,12 +98,12 @@ Ewa_freqz=sum(diff(wa).*((Wa(1:(n-1)).*(AsqwaMAsqd(1:(n-1)).^2)) + ...
                          (Wa(2:end).*(AsqwaMAsqd(2:end).^2))))/2;
 
 % Passband group delay
-TwtMTd=Twt_grpdelay-Td;
-Ewt_grpdelay=sum(diff(wt).*((Wt(1:(ntp-1)).*(TwtMTd(1:(ntp-1)).^2)) + ...
+TwtMTd=Twt_delayz-Td;
+Ewt_delayz=sum(diff(wt).*((Wt(1:(ntp-1)).*(TwtMTd(1:(ntp-1)).^2)) + ...
                             (Wt(2:end).*(TwtMTd(2:end).^2))))/2;
 
 % Total
-Eab_test = Ewa_freqz + Ewt_grpdelay;
+Eab_test = Ewa_freqz + Ewt_delayz;
 
 % Use parallel_allpass_mmse_error to find the MMSE error
 Eab_allpass=parallel_allpass_mmse_error ...

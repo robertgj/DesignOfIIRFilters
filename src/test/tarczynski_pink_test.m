@@ -1,5 +1,5 @@
 % tarczynski_pink_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Design a full-band pink noise filter using the method of Tarczynski et al. 
 % See "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
@@ -58,7 +58,7 @@ D0R=[D0(1);kron(D0(2:end),[zeros(R-1,1);1])];
 % Plot results
 nplot=1024;
 [H,wplot]=freqz(N0,D0R,nplot);
-T=grpdelay(N0',D0R',nplot);
+T=delayz(N0',D0R',nplot);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(H)));
 hold on

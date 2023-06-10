@@ -1,5 +1,5 @@
 % schurNSlatticeEsq_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -88,7 +88,7 @@ Ns=length(s10);
 % Calculate the squared error response
 Esq=schurNSlatticeEsq(s10,s11,s20,s00,s02,s22,wa,Asqd,Wa,wt,Td,Wt);
 
-% Check the squared error response (grpdelay is not accurate??)
+% Check the squared error response (delayz is not accurate??)
 Asq=schurNSlatticeAsq(wa,s10,s11,s20,s00,s02,s22);
 T=schurNSlatticeT(wt,s10,s11,s20,s00,s02,s22);
 AsqErr=Wa.*((Asq-Asqd).^2);

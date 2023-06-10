@@ -2,7 +2,7 @@
 
 prog=tarczynski_ex2_standalone_test.m
 
-depends="test/tarczynski_ex2_standalone_test.m test_common.m \
+depends="test/tarczynski_ex2_standalone_test.m test_common.m delayz.m \
 WISEJ.m tf2Abcd.m print_polynomial.m"
 
 tmp=/tmp/$$

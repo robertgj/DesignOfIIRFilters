@@ -1,5 +1,5 @@
 % tarczynski_phase_equaliser_test.m
-% Copyright (C) 2018-2021 Robert G. Jenssen
+% Copyright (C) 2018-2023 Robert G. Jenssen
 
 test_common;
 
@@ -61,7 +61,7 @@ for nh=3:4,
     N1=conv(N0(:),flipud(Da1(:)));
     D1=conv(D0(:),Da1(:));
     H1=freqz(N1,D1,nf);
-    T1=grpdelay(N1,D1,nf);
+    T1=delayz(N1,D1,nf);
 
     % Plot results
     subplot(211)

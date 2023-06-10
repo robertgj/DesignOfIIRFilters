@@ -1,5 +1,5 @@
 % directFIRnonsymmetricEsq_test.m
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2023 Robert G. Jenssen
 
 test_common;
 
@@ -44,7 +44,7 @@ Esq=directFIRnonsymmetricEsq(h,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
 % Check the squared-error response
 [H,wplot]=freqz(h,1,nplot);
 P=unwrap(arg(H));
-T=grpdelay(h,1,nplot);
+T=delayz(h,1,nplot);
 Asq=abs(H).^2;
 AsqErr=Wa.*((Asq-Asqd).^2);
 AsqErrSum=sum(diff(wa).*(AsqErr(1:(end-1))+AsqErr(2:end)))/2;

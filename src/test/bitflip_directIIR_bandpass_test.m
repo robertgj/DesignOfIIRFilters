@@ -1,15 +1,14 @@
 % bitflip_directIIR_bandpass_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass filter in directIIR form.
 %
-% NOTE: workaround for bug in grpdelay with frequency array argument
 % WARNING: This script takes a long time to run!
 
 test_common;
 
-% Avoid grpdelay warning messages
+% Avoid delayz warning messages
 warning("off");
 
 delete("bitflip_directIIR_bandpass_test.diary");
@@ -70,7 +69,7 @@ function [cost,n,d,svec_out] = ...
   endif
   h=freqz(n,d,npoints);
   h=h(:);
-  t=grpdelay(n,d,npoints);
+  t=delayz(n,d,npoints);
   t=t(:);
   cost=sqrt(sum(Wa.*((abs(h)-abs(Ad)).^2)))+sqrt(sum(Wt.*((abs(t-Td)).^2)));
   svec_out=svec.*nscale;
@@ -86,26 +85,26 @@ strf="bitflip_directIIR_bandpass_test";
 % Exact
 nplot=1024;
 [h0,wplot]=freqz(n0,d0,nplot);
-t0=grpdelay(n0,d0,nplot);
+t0=delayz(n0,d0,nplot);
 % Rounded truncation
 [cost_rd,n_rd,d_rd,svec_rd] = directIIR_cost([],Ad,Wa,Td,Wt,n0,d0,nbits,0)
 h_rd=freqz(n_rd,d_rd,nplot);
-t_rd=grpdelay(n_rd,d_rd,nplot);
+t_rd=delayz(n_rd,d_rd,nplot);
 % Find optimised coefficients with bit-flipping
 svec_bf=bitflip(@directIIR_cost,svec_rd,nbits,bitstart,msize);
 [cost_bf,n_bf,d_bf]=directIIR_cost(svec_bf)
 h_bf=freqz(n_bf,d_bf,nplot);
-t_bf=grpdelay(n_bf,d_bf,nplot);
+t_bf=delayz(n_bf,d_bf,nplot);
 
 % Signed-digit truncation
 [cost_sd,n_sd,d_sd,svec_sd] = directIIR_cost([],Ad,Wa,Td,Wt,n0,d0,nbits,ndigits)
 h_sd=freqz(n_sd,d_sd,nplot);
-t_sd=grpdelay(n_sd,d_sd,nplot);
+t_sd=delayz(n_sd,d_sd,nplot);
 % Find optimised coefficients with bit-flipping and signed-digits
 svec_bfsd=bitflip(@directIIR_cost,svec_sd,nbits,bitstart,msize);
 [cost_bfsd,n_bfsd,d_bfsd]=directIIR_cost(svec_bfsd)
 h_bfsd=freqz(n_bfsd,d_bfsd,nplot);
-t_bfsd=grpdelay(n_bfsd,d_bfsd,nplot);
+t_bfsd=delayz(n_bfsd,d_bfsd,nplot);
 
 % Make a LaTeX table for cost
 fname=strcat(strf,"_cost.tab");

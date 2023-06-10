@@ -10,5 +10,5 @@ directFIRnonsymmetric_kyp_union_bandpass_test_h_coef.m \
 directFIRnonsymmetric_kyp_union_bandpass_test_max_passband_squared_error.tab
 
 directFIRnonsymmetric_kyp_union_bandpass_test_FILES = \
-directFIRnonsymmetric_kyp_union_bandpass_test.m test_common.m \
+directFIRnonsymmetric_kyp_union_bandpass_test.m test_common.m delayz.m \
 print_polynomial.m qroots.m qzsolve.oct

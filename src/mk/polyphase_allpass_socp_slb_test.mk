@@ -13,7 +13,7 @@ polyphase_allpass_socp_slb_test_Da1_coef.m \
 polyphase_allpass_socp_slb_test_Db1_coef.m
 
 polyphase_allpass_socp_slb_test_FILES = \
-polyphase_allpass_socp_slb_test.m test_common.m \
+polyphase_allpass_socp_slb_test.m test_common.m delayz.m \
 parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \
 parallel_allpass_slb.m \
 parallel_allpass_slb_constraints_are_empty.m \

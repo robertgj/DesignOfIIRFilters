@@ -1,5 +1,5 @@
 % bitflip_schurOneMlattice_bandpass_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass lattice filter in one multiplier form.
@@ -26,19 +26,19 @@ strf="bitflip_schurOneMlattice_bandpass_test";
 % Exact
 nplot=1024;
 [h0,wplot]=freqz(n0,d0,nplot);
-t0=grpdelay(n0,d0,nplot);
+t0=delayz(n0,d0,nplot);
 % Rounded truncation
 [cost_rd,k_rd,c_rd,svec_rd] = ...
   schurOneMlattice_cost([],Ad,Wa,Td,Wt,k0,epsilon0,p0,c0,nbits,0)
 [n_rd,d_rd]=schurOneMlattice2tf(k_rd,epsilon0,ones(size(p0)),c_rd);
 h_rd=freqz(n_rd,d_rd,nplot);
-t_rd=grpdelay(n_rd,d_rd,nplot);
+t_rd=delayz(n_rd,d_rd,nplot);
 % Find optimised lattice coefficients with bit-flipping
 svec_bf=bitflip(@schurOneMlattice_cost,svec_rd,nbits,bitstart,msize);
 [cost_bf,k_bf,c_bf]=schurOneMlattice_cost(svec_bf)
 [n_bf,d_bf]=schurOneMlattice2tf(k_bf,epsilon0,ones(size(p0)),c_bf);
 h_bf=freqz(n_bf,d_bf,nplot);
-t_bf=grpdelay(n_bf,d_bf,nplot);
+t_bf=delayz(n_bf,d_bf,nplot);
 % Find the total number of adders required to implement the BF multipliers
 kcbf=[k_bf(:);c_bf(:)];
 [kcbf_digits,kcbf_adders]=SDadders(kcbf,nbits);
@@ -52,13 +52,13 @@ fclose(fid);
    schurOneMlattice_cost([],Ad,Wa,Td,Wt,k0,epsilon0,p0,c0,nbits,ndigits)
 [n_sd,d_sd]=schurOneMlattice2tf(k_sd,epsilon0,ones(size(p0)),c_sd);
 h_sd=freqz(n_sd,d_sd,nplot);
-t_sd=grpdelay(n_sd,d_sd,nplot);
+t_sd=delayz(n_sd,d_sd,nplot);
 % Find optimised lattice coefficients with bit-flipping and signed-digits
 svec_bfsd=bitflip(@schurOneMlattice_cost,svec_sd,nbits,bitstart,msize);
 [cost_bfsd,k_bfsd,c_bfsd]=schurOneMlattice_cost(svec_bfsd)
 [n_bfsd,d_bfsd]=schurOneMlattice2tf(k_bfsd,epsilon0,ones(size(p0)),c_bfsd);
 h_bfsd=freqz(n_bfsd,d_bfsd,nplot);
-t_bfsd=grpdelay(n_bfsd,d_bfsd,nplot);
+t_bfsd=delayz(n_bfsd,d_bfsd,nplot);
 
 % Allocate signed digits with Lim's algorithm
 ndigits_Lim=schurOneMlattice_allocsd_Lim ...
@@ -70,13 +70,13 @@ ndigits_Lim=schurOneMlattice_allocsd_Lim ...
    schurOneMlattice_cost([],Ad,Wa,Td,Wt,k0,epsilon0,p0,c0,nbits,ndigits_Lim)
 [n_sdl,d_sdl]=schurOneMlattice2tf(k_sdl,epsilon0,ones(size(p0)),c_sdl);
 h_sdl=freqz(n_sdl,d_sdl,nplot);
-t_sdl=grpdelay(n_sdl,d_sdl,nplot);
+t_sdl=delayz(n_sdl,d_sdl,nplot);
 % Find optimised lattice coefficients with bit-flipping and signed-digits
 svec_bfsdl=bitflip(@schurOneMlattice_cost,svec_sdl,nbits,bitstart,msize);
 [cost_bfsdl,k_bfsdl,c_bfsdl]=schurOneMlattice_cost(svec_bfsdl)
 [n_bfsdl,d_bfsdl]=schurOneMlattice2tf(k_bfsdl,epsilon0,ones(size(p0)),c_bfsdl);
 h_bfsdl=freqz(n_bfsdl,d_bfsdl,nplot);
-t_bfsdl=grpdelay(n_bfsdl,d_bfsdl,nplot);
+t_bfsdl=delayz(n_bfsdl,d_bfsdl,nplot);
 
 % Allocate signed digits with Ito's algorithm
 ndigits_Ito=schurOneMlattice_allocsd_Ito(nbits,ndigits,k0,epsilon0,p0,c0, ...
@@ -87,13 +87,13 @@ ndigits_Ito=schurOneMlattice_allocsd_Ito(nbits,ndigits,k0,epsilon0,p0,c0, ...
    schurOneMlattice_cost([],Ad,Wa,Td,Wt,k0,epsilon0,p0,c0,nbits,ndigits_Ito)
 [n_sdi,d_sdi]=schurOneMlattice2tf(k_sdi,epsilon0,ones(size(p0)),c_sdi);
 h_sdi=freqz(n_sdi,d_sdi,nplot);
-t_sdi=grpdelay(n_sdi,d_sdi,nplot);
+t_sdi=delayz(n_sdi,d_sdi,nplot);
 % Find optimised lattice coefficients with bit-flipping and signed-digits
 svec_bfsdi=bitflip(@schurOneMlattice_cost,svec_sdi,nbits,bitstart,msize);
 [cost_bfsdi,k_bfsdi,c_bfsdi]=schurOneMlattice_cost(svec_bfsdi)
 [n_bfsdi,d_bfsdi]=schurOneMlattice2tf(k_bfsdi,epsilon0,ones(size(p0)),c_bfsdi);
 h_bfsdi=freqz(n_bfsdi,d_bfsdi,nplot);
-t_bfsdi=grpdelay(n_bfsdi,d_bfsdi,nplot);
+t_bfsdi=delayz(n_bfsdi,d_bfsdi,nplot);
 
 % Make a LaTeX table for cost
 fname=strcat(strf,"_cost.tab");

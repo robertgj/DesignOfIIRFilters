@@ -222,7 +222,7 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 
 #
-# run and see if the results match. Suppress grpdelay() and mfile warnings.
+# run and see if the results match.
 #
 echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1

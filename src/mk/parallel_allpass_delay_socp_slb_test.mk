@@ -12,7 +12,7 @@ parallel_allpass_delay_socp_slb_test_a1_coef.m \
 parallel_allpass_delay_socp_slb_test_Da1_coef.m
 
 parallel_allpass_delay_socp_slb_test_FILES = \
-parallel_allpass_delay_socp_slb_test.m test_common.m \
+parallel_allpass_delay_socp_slb_test.m test_common.m delayz.m \
 parallel_allpass_delayAsq.m \
 parallel_allpass_delayT.m \
 parallel_allpass_delay_slb.m \

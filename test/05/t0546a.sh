@@ -2,7 +2,7 @@
 
 prog=tarczynski_frm_parallel_allpass_test.m
 depends="test/tarczynski_frm_parallel_allpass_test.m \
-test_common.m print_polynomial.m print_pole_zero.m WISEJ_PA.m \
+test_common.m delayz.m print_polynomial.m print_pole_zero.m WISEJ_PA.m \
 frm_lowpass_vectors.m"
 
 tmp=/tmp/$$

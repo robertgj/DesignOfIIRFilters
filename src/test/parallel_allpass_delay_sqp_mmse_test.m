@@ -1,5 +1,5 @@
 % parallel_allpass_delay_sqp_mmse_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -79,7 +79,7 @@ endif
 % Find response
 nplot=512;
 [Ha1,wplot]=freqz(Na1,Da1,nplot);
-Ta1=grpdelay(Na1,Da1,nplot);
+Ta1=delayz(Na1,Da1,nplot);
 Ha1=(Ha1+exp(-j*wplot*DD))/2;
 Ta1=(Ta1+DD)/2;
 

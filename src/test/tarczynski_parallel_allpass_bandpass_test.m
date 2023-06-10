@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_bandpass_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a bandpass filter as the
 % difference of two parallel allpass filters. See:
@@ -85,7 +85,7 @@ N0=0.5*(conv(flipud(Da0),Db0)-conv(flipud(Db0),Da0));
 % Calculate response
 nplot=512;
 [H0,wplot]=freqz(N0,D0,nplot);
-T0=grpdelay(N0,D0,nplot);
+T0=delayz(N0,D0,nplot);
 
 % Plot response
 subplot(211);

@@ -5,7 +5,7 @@ prog=branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test.m
 depends="test/branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test.m \
 ../parallel_allpass_socp_slb_bandpass_hilbert_test_Da1_coef.m \
 ../parallel_allpass_socp_slb_bandpass_hilbert_test_Db1_coef.m \
-test_common.m \
+test_common.m delayz.m \
 schurOneMPAlattice_allocsd_Lim.m \
 schurOneMPAlattice_allocsd_Ito.m \
 schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m \

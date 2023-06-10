@@ -2,7 +2,7 @@
 
 prog=polyphase_allpass_mmse_error_test.m
 depends="test/polyphase_allpass_mmse_error_test.m \
-test_common.m print_polynomial.m print_pole_zero.m \
+test_common.m delayz.m print_polynomial.m print_pole_zero.m \
 parallel_allpass_mmse_error.m parallel_allpassAsq.m parallel_allpassT.m \
 allpassP.m allpassT.m a2tf.m tf2a.m qroots.m qzsolve.oct"
 

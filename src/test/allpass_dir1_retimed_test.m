@@ -1,5 +1,5 @@
 % allpass_dir1_retimed_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2023 Robert G. Jenssen
 
 test_common;
 
@@ -17,7 +17,7 @@ r1=-0.13;
 b=[-r1, 0, 1];
 a=[1, 0, -r1];
 [Hf,w]=freqz(b,a,1024);
-[Tf,w]=grpdelay(b,a,1024);
+[Tf,w]=delayz(b,a,1024);
 
 b1=allpass_dir1_retimed_pole2coef(r1);
 [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_dir1_retimed_coef2Abcd(b1);

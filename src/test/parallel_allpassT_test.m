@@ -1,5 +1,5 @@
 % parallel_allpassT_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 % Check the group delay response and gradient for the parallel
 % combination of two allpass filters
 
@@ -27,17 +27,17 @@ polyphase=true;
 % Check the group delay response
 %
 
-% Use grpdelay to find the group delay response
+% Use delayz to find the group delay response
 [Ba,Aa]=a2tf(aa,Va,Qa,Ra);
 [Bb,Ab]=a2tf(ab,Vb,Qb,Rb);
 Aab=conv(Aa,Ab);
 Bab=0.5*(conv(Ab,[Ba;0])+conv([0;Bb],Aa));
 Nw=1024;
-Tab_grpdelay=grpdelay(Bab,Aab,Nw);
+Tab_delayz=delayz(Bab,Aab,Nw);
 
 % Alternative calculation
-[Ta,w]=grpdelay(Ba,Aa,Nw);
-[Tb,w]=grpdelay(Bb,Ab,Nw);
+[Ta,w]=delayz(Ba,Aa,Nw);
+[Tb,w]=delayz(Bb,Ab,Nw);
 if polyphase
   Tpoly=1;
 else

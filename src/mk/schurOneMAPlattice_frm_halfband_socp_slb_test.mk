@@ -18,7 +18,7 @@ schurOneMAPlattice_frm_halfband_socp_slb_test_u2_coef.m \
 schurOneMAPlattice_frm_halfband_socp_slb_test_v2_coef.m
 
 schurOneMAPlattice_frm_halfband_socp_slb_test_FILES = \
-schurOneMAPlattice_frm_halfband_socp_slb_test.m test_common.m \
+schurOneMAPlattice_frm_halfband_socp_slb_test.m test_common.m delayz.m \
 schurOneMAPlattice_frm_halfband_socp_mmse.m \
 schurOneMAPlattice_frm_halfband_slb.m \
 schurOneMAPlattice_frm_halfband_slb_constraints_are_empty.m \

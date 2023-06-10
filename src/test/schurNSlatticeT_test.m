@@ -1,5 +1,5 @@
 % schurNSlatticeT_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -24,7 +24,7 @@ d = [   1.0000000000,   0.0000000000,   1.7122688809,   0.0000000000, ...
 nplot=1024;
 ntpl=floor(nplot*ftpl/0.5);
 ntpu=ceil(nplot*ftpu/0.5);
-[t,wplot]=grpdelay(n,d,nplot);
+[t,wplot]=delayz(n,d,nplot);
 
 % Convert filter transfer function to Schur normalised-scaled lattice form
 [s10,s11,s20,s00,s02,s22]=tf2schurNSlattice(n,d);

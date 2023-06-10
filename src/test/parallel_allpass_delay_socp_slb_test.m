@@ -1,5 +1,5 @@
 % parallel_allpass_delay_socp_slb_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -81,7 +81,7 @@ vS=[];
 % Find initial response
 nplot=n;
 [Ha0,wplot]=freqz(flipud(Da0),Da0,nplot);
-Ta0=grpdelay(flipud(Da0),Da0,nplot);
+Ta0=delayz(flipud(Da0),Da0,nplot);
 Ha0=(Ha0+exp(-j*wplot*DD))/2;
 Ta0=(Ta0+DD)/2;
 
@@ -123,7 +123,7 @@ endif
 [Na1,Da1]=a2tf(a1,V,Q,R);
 nplot=n;
 [Ha1,wplot]=freqz(flipud(Da1),Da1,nplot);
-Ta1=grpdelay(flipud(Da1),Da1,nplot);
+Ta1=delayz(flipud(Da1),Da1,nplot);
 Ha1=(Ha1+exp(-j*wplot*DD))/2;
 Ta1=(Ta1+DD)/2;
 strt=sprintf("Parallel allpass and delay : m=%d,DD=%d,dBap=%4.2f,dBas=%4.1f", ...

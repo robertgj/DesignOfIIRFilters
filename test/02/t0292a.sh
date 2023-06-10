@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=schurOneMPAlattice_socp_slb_lowpass_test.m
-depends="test/schurOneMPAlattice_socp_slb_lowpass_test.m test_common.m \
+depends="test/schurOneMPAlattice_socp_slb_lowpass_test.m test_common.m delayz.m \
 ../tarczynski_parallel_allpass_test_flat_delay_Da0_coef.m \
 ../tarczynski_parallel_allpass_test_flat_delay_Db0_coef.m \
 schurOneMPAlatticeAsq.m \

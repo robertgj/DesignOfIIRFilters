@@ -18,7 +18,7 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt)
 % See "A WISE Method for Designing IIR Filters", A.Tarczynski et al.,
 % IEEE Transactions on Signal Processing, Vol. 49, No. 7, pp. 1421-1432
 
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -81,7 +81,7 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt)
   EAd = Wa.*(abs(abs(H)-Ad).^2);
 
   % Find the group delay response error
-  [T,wt]=grpdelay(N,D,length(Td));
+  [T,wt]=delayz(N,D,length(Td));
   ETd = Wt.*(abs(T-Td).^2);
 
   % Trapezoidal integration of the weighted error

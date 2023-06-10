@@ -1,5 +1,5 @@
 % frm2ndOrderCascade_socp_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -86,7 +86,7 @@ strM=sprintf("%%s:M=%d,Dmodel=%d,fpass=%g,fstop=%g,Was=%g", ...
 % Plot response
 nplot=512
 [Hw_frm,wplot]=freqz(aM_frm,dM,nplot);
-Tw_frm=grpdelay(aM_frm,dM,nplot);
+Tw_frm=delayz(aM_frm,dM,nplot);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hw_frm)))
 axis([0, 0.5, -70, 10]);
@@ -121,7 +121,7 @@ close
 
 % Plot model filter response
 Hw_model=freqz(aM,dM,nplot);
-Tw_model=grpdelay(aM,dM,nplot);
+Tw_model=delayz(aM,dM,nplot);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hw_model)))
 axis([0, 0.5, -15, 15]);

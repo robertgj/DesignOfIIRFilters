@@ -1,5 +1,5 @@
 % schurOneMlatticeT_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -27,7 +27,7 @@ nplot=1024;
 ntpl=floor(nplot*ftpl/0.5);
 ntpu=ceil(nplot*ftpu/0.5);
 [h,wplot]=freqz(n,d,nplot);
-t=grpdelay(n,d,nplot);
+t=delayz(n,d,nplot);
 
 % Convert filter transfer function to Schur 1-multiplier lattice form
 [k,epsilon,p,c]=tf2schurOneMlattice(n,d);

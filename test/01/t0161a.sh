@@ -4,7 +4,7 @@ prog=allpass2ndOrderCascade_socp_sqmag_test.m
 
 depends="test/allpass2ndOrderCascade_socp_sqmag_test.m \
 ../tarczynski_allpass2ndOrderCascade_test_ab0_coef.m \
-test_common.m stability2ndOrderCascade.m print_polynomial.m \
+test_common.m delayz.m stability2ndOrderCascade.m print_polynomial.m \
 allpass2ndOrderCascade.m allpass2ndOrderCascade_socp.m \
 casc2tf.m tf2casc.m qroots.m qzsolve.oct"
 

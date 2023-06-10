@@ -5,7 +5,7 @@ function E=WISEJ_PA(ab,_ma,_mb,_R,_poly,_Ad,_Wa,_Td,_Wt)
 % Method for Designing IIR Filters", A. Tarczynski et al.,
 % IEEE Transactions on Signal Processing, Vol. 49, No. 7, pp. 1421-1432
 
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -79,8 +79,8 @@ function E=WISEJ_PA(ab,_ma,_mb,_R,_poly,_Ad,_Wa,_Td,_Wt)
   EAd = Wa.*abs((abs(Ha)-abs(Ad)).^2);
 
   % Find the group delay response error
-  [Ta,wt]=grpdelay(flipud(Da),Da,length(Td));
-  [Tb,wt]=grpdelay(flipud(Db),Db,length(Td));
+  [Ta,wt]=delayz(flipud(Da),Da,length(Td));
+  [Tb,wt]=delayz(flipud(Db),Db,length(Td));
   if polyphase
     T=0.5*(Ta+Tb+1);
   else

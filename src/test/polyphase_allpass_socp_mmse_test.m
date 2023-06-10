@@ -1,5 +1,5 @@
 % polyphase_allpass_socp_mmse_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -102,7 +102,7 @@ Dab1=conv(Da1,Db1);
 % Find response
 nplot=512;
 [Hab1,wplot]=freqz(Nab1,Dab1,nplot);
-Tab1=grpdelay(Nab1,Dab1,nplot);
+Tab1=delayz(Nab1,Dab1,nplot);
 
 % Common strings
 strt=sprintf("Polyphase allpass : ma=%d,mb=%d,td=%g", ma,mb,td);

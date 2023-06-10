@@ -1,7 +1,7 @@
 function schurOneMAPlattice_frm_halfband_socp_slb_plot ...
            (k,epsilon,p,u,v,Mmodel,Dmodel,nplot,strT,strF,strOpt)
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -51,13 +51,13 @@ function schurOneMAPlattice_frm_halfband_socp_slb_plot ...
   
   % Calculate filter responses
   [Hw_frm,wplot]=freqz(n,r2M,nplot);
-  Tw_frm=grpdelay(n,r2M,nplot);
+  Tw_frm=delayz(n,r2M,nplot);
   Hw_aa=freqz(aa,1,nplot);
   Hw_ac=freqz(ac,1,nplot);
   n_model=([flipud(r2M);zeros(Mmodel*Dmodel,1)] + ...
            conv([zeros(Mmodel*Dmodel,1);1],r2M))/2;
   Hw_model=freqz(n_model,r2M,nplot);
-  Tw_model=grpdelay(n_model,r2M,nplot);
+  Tw_model=delayz(n_model,r2M,nplot);
   
   % Plot overall response
   subplot(211);

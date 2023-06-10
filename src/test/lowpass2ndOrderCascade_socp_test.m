@@ -1,5 +1,5 @@
 % lowpass2ndOrderCascade_socp_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -54,7 +54,7 @@ endif
 % Calculate response
 nplot=512;
 [h,wplot]=freqz(x1.a, x1.d, nplot);
-t=grpdelay(x1.a, x1.d, nplot);
+t=delayz(x1.a, x1.d, nplot);
 
 % Common strings for output plots
 strf="lowpass2ndOrderCascade_socp_test";
@@ -107,7 +107,7 @@ endif
 % Find response
 nplot=512;
 h_sqm=freqz(x1_sqm.a, x1_sqm.d, nplot);
-t_sqm=grpdelay(x1_sqm.a, x1_sqm.d, nplot);
+t_sqm=delayz(x1_sqm.a, x1_sqm.d, nplot);
 % Plot response
 sqm_strt= ...
 sprintf("Deczky ex.3,SOCP Sq.Mag.,td=%d,fpass=%g,fstop=%g,Wstop=%d,dBstop=%d",

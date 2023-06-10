@@ -1,5 +1,5 @@
 % schurNSPAlatticeT_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -13,15 +13,15 @@ fpass=0.125;
 [n,d]=butter(norder,2*fpass);
 nplot=1024;
 npass=floor(nplot*fpass/0.5);
-[t,wplot]=grpdelay(n,d,nplot);
+[t,wplot]=delayz(n,d,nplot);
 ncheck=2*npass;
 tcheck=t(1:ncheck);
 wcheck=wplot(1:ncheck);
 
 % Alternative calculation
 [Aap1,Aap2]=tf2pa(n,d);
-tAap1=grpdelay(fliplr(Aap1),Aap1,nplot);
-tAap2=grpdelay(fliplr(Aap2),Aap2,nplot);
+tAap1=delayz(fliplr(Aap1),Aap1,nplot);
+tAap2=delayz(fliplr(Aap2),Aap2,nplot);
 tAap12=(tAap1+tAap2)/2;
 tAap12check=tAap12(1:ncheck);
 

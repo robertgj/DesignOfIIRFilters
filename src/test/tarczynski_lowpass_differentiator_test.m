@@ -1,5 +1,5 @@
 % tarczynski_lowpass_differentiator_test.m
-% Copyright (C) 2020-2022 Robert G. Jenssen
+% Copyright (C) 2020-2023 Robert G. Jenssen
 %
 % Design a lowpass differentiator using the method of Tarczynski et al. 
 % See "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
@@ -70,7 +70,7 @@ D0R=[D0(1);kron(D0(2:end),[zeros(R-1,1);1])];
 % Calculate response
 nplot=n;
 [H,wplot]=freqz(N0,D0R,nplot);
-T=grpdelay(N0',D0R',nplot);
+T=delayz(N0',D0R',nplot);
 
 % Plot response
 subplot(211);

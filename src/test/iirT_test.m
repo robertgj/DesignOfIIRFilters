@@ -1,5 +1,5 @@
 % iirT_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -66,7 +66,7 @@ endif
 
 for R=1:3,
   [B,A]=x2tf(x0,U,V,M,Q,R);
-  BAT=grpdelay(B,A,Nw);
+  BAT=delayz(B,A,Nw);
   BAT=BAT(:);
 
   % Use iirT to find delay

@@ -1,5 +1,5 @@
 % tarczynski_polyphase_allpass_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Design a lowpass filter from the polyphase combination of two
 % allpass filters using the method of Tarczynski et al. 
@@ -97,8 +97,8 @@ for flat_delay=[false,true],
   nplot=512;
   [Ha0,wplot]=freqz(flipud(Da0R),Da0R,nplot);
   Hb0=freqz(flipud(Db0R),Db0R,nplot);
-  Ta0=grpdelay(flipud(Da0R),Da0R,nplot);
-  Tb0=grpdelay(flipud(Db0R),Db0R,nplot);
+  Ta0=delayz(flipud(Da0R),Da0R,nplot);
+  Tb0=delayz(flipud(Db0R),Db0R,nplot);
   H0=0.5*(Ha0+(exp(-j*wplot).*Hb0));
   T0=0.5*(Ta0+Tb0+1);
 

@@ -98,7 +98,7 @@ nas=(fas*nplot/0.5)+1;
 h=value(fliplr(CD));
 w=(0:(nplot-1))'*pi/nplot;
 H=freqz(h,1,w);
-T=grpdelay(h,1,w);
+T=delayz(h,1,w);
 subplot(211);
 [ax,h1,h2]=plotyy(w(1:nas)*0.5/pi,20*log10(abs(H(1:nas))),...
                   w(nap:end)*0.5/pi,20*log10(abs(H(nap:end))));

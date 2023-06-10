@@ -1,5 +1,5 @@
 % bitflip_schurFIRlattice_bandpass_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass FIR Schurlattice filter.
@@ -84,30 +84,30 @@ k0=schurFIRdecomp(b0/gain);
 % Exact
 nplot=1024;
 [h0,wplot]=freqz(b0,[],nplot);
-t0=grpdelay(b0,[],nplot);
+t0=delayz(b0,[],nplot);
 % Rounded truncation
 [cost_rd,k_rd,svec_rd]=schurFIRlattice_cost([],Ad,Wa,k0,gain,nbits,0)
 n_rd=schurFIRlattice2tf(k_rd,gain);
 h_rd=freqz(n_rd,[],nplot);
-t_rd=grpdelay(n_rd,[],nplot);
+t_rd=delayz(n_rd,[],nplot);
 % Find optimised lattice coefficients with bit-flipping
 svec_bf=bitflip(@schurFIRlattice_cost,svec_rd,nbits,bitstart,msize);
 [cost_bf,k_bf]=schurFIRlattice_cost(svec_bf)
 n_bf=schurFIRlattice2tf(k_bf,gain);
 h_bf=freqz(n_bf,[],nplot);
-t_bf=grpdelay(n_bf,[],nplot);
+t_bf=delayz(n_bf,[],nplot);
 
 % Signed-digit truncation
 [cost_sd,k_sd,svec_sd]=schurFIRlattice_cost([],Ad,Wa,k0,gain,nbits,ndigits)
 n_sd=schurFIRlattice2tf(k_sd,gain);
 h_sd=freqz(n_sd,[],nplot);
-t_sd=grpdelay(n_sd,[],nplot);
+t_sd=delayz(n_sd,[],nplot);
 % Find optimised lattice coefficients with bit-flipping and signed-digits
 svec_bfsd=bitflip(@schurFIRlattice_cost,svec_sd,nbits,bitstart,msize);
 [cost_bfsd,k_bfsd]=schurFIRlattice_cost(svec_bfsd)
 n_bfsd=schurFIRlattice2tf(k_bfsd,gain);
 h_bfsd=freqz(n_bfsd,[],nplot);
-t_bfsd=grpdelay(n_bfsd,[],nplot);
+t_bfsd=delayz(n_bfsd,[],nplot);
 
 % Plot the results
 subplot(211)

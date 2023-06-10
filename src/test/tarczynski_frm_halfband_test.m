@@ -1,5 +1,5 @@
 % tarczynski_frm_halfband_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Design an FRM filter from IIR halfband model in parallel with a delay
 % and FIR masking filters using the method of Tarczynski et al. The 
@@ -181,13 +181,13 @@ printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 % Calculate filter response
 nplot=512;
 [Hw_frm,wplot]=freqz(n0,r2M0,nplot);
-Tw_frm=grpdelay(n0,r2M0,nplot);
+Tw_frm=delayz(n0,r2M0,nplot);
 Hw_aa=freqz(aa0,1,nplot);
 Hw_ac=freqz(ac0,1,nplot);
 n_model=([flipud(r2M0);zeros(Mmodel*Dmodel,1)] + ...
          conv([zeros(Mmodel*Dmodel,1);1],r2M0))/2;
 Hw_model=freqz(n_model,r2M0,nplot);
-Tw_model=grpdelay(n_model,r2M0,nplot);
+Tw_model=delayz(n_model,r2M0,nplot);
 
 % Plot overall response
 subplot(211);
@@ -264,7 +264,7 @@ rm1=zeros((2*mr*Mmodel)+1,1);
 rm1(1:(4*Mmodel):end)=1;
 rm1(((2*Mmodel)+1):(4*Mmodel):end)=-1;
 Hw_hilbert=freqz(q0.*qm1,r2M0.*rm1,wplot);
-Tw_hilbert=grpdelay(q0.*qm1,r2M0.*rm1,nplot);
+Tw_hilbert=delayz(q0.*qm1,r2M0.*rm1,nplot);
 subplot(311);
 plot(wplot*0.5/pi,20*log10(abs(Hw_hilbert)))
 ylabel("Amplitude(dB)");

@@ -5,7 +5,7 @@ prog=parallel_allpass_socp_slb_bandpass_hilbert_test.m
 depends="test/parallel_allpass_socp_slb_bandpass_hilbert_test.m \
 ../tarczynski_parallel_allpass_bandpass_hilbert_test_Da0_coef.m \
 ../tarczynski_parallel_allpass_bandpass_hilbert_test_Db0_coef.m \
-test_common.m parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \
+test_common.m delayz.m parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \
 parallel_allpass_slb.m \
 parallel_allpass_slb_constraints_are_empty.m \
 parallel_allpass_slb_exchange_constraints.m \

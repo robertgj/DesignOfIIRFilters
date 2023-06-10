@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_kyp_lowpass_test.m
-%% Copyright (C) 2021-2022 Robert G. Jenssen
+%% Copyright (C) 2021-2023 Robert G. Jenssen
 
 % SDP design of a direct-form FIR lowpass filter with the KYP lemma.
 % See Section VII.B.2, pp. 53-55 of "Generalised KYP Lemma: Unified
@@ -86,7 +86,7 @@ nas=(fas*nplot/0.5)+1;
 h=value(fliplr(CD));
 w=(0:(nplot-1))'*pi/nplot;
 H=freqz(h,1,w);
-T=grpdelay(h,1,w);
+T=delayz(h,1,w);
 subplot(211);
 ax=plotyy(w(1:nap)*0.5/pi,20*log10(abs(H(1:nap))), ...
           w(nas:end)*0.5/pi,20*log10(abs(H(nas:end))));

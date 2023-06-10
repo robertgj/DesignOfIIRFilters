@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_multiband_test.m
-% Copyright (C) 2020-2022 Robert G. Jenssen
+% Copyright (C) 2020-2023 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a multi-band-pass filter as the
 % difference of two parallel allpass filters. See:
@@ -108,7 +108,7 @@ N=0.5*(conv(flipud(Da),Db)-conv(flipud(Db),Da));
 % Calculate response
 nplot=512;
 [H,wplot]=freqz(N,D,nplot);
-T=grpdelay(N,D,nplot);
+T=delayz(N,D,nplot);
 
 % Plot response
 subplot(211);

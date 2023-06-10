@@ -9,5 +9,5 @@ directFIRnonsymmetric_kyp_lowpass_test_max_passband_squared_error.tab \
 directFIRnonsymmetric_kyp_lowpass_test_max_stopband_squared_error.tab
 
 directFIRnonsymmetric_kyp_lowpass_test_FILES = \
-directFIRnonsymmetric_kyp_lowpass_test.m test_common.m \
+directFIRnonsymmetric_kyp_lowpass_test.m test_common.m delayz.m \
 directFIRnonsymmetricEsqPW.m konopacki.m print_polynomial.m

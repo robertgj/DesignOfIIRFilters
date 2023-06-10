@@ -1,5 +1,5 @@
 % allpassT_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -26,7 +26,7 @@ endif
 % Use freqz to check response
 [B,A]=a2tf(a0,V,Q,R);
 L=512;
-[BAT,w]=grpdelay(B,A,L);
+[BAT,w]=delayz(B,A,L);
 
 % Use allpassT to find allpass phase
 T=allpassT(w,a0,V,Q,R);

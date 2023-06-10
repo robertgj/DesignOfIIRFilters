@@ -28,6 +28,6 @@ tarczynski_allpass2ndOrderCascade_test_flat_delay.spec \
 tarczynski_allpass2ndOrderCascade_test.mat
 
 tarczynski_allpass2ndOrderCascade_test_FILES = \
-tarczynski_allpass2ndOrderCascade_test.m test_common.m \
+tarczynski_allpass2ndOrderCascade_test.m test_common.m delayz.m \
 allpass2ndOrderCascade.m casc2tf.m print_polynomial.m
 

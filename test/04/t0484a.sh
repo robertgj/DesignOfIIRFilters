@@ -5,7 +5,7 @@ prog=schurOneMPAlattice_socp_slb_multiband_test.m
 depends="test/schurOneMPAlattice_socp_slb_multiband_test.m \
 ../tarczynski_parallel_allpass_multiband_test_Da0_coef.m \
 ../tarczynski_parallel_allpass_multiband_test_Db0_coef.m \
-test_common.m print_polynomial.m \
+test_common.m delayz.m print_polynomial.m \
 schurOneMPAlattice_slb.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
 schurOneMPAlattice_socp_mmse.m \

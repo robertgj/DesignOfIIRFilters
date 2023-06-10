@@ -1,5 +1,5 @@
 % schurOneMPAlatticeEsq_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -20,7 +20,7 @@ for m=1:2,
   % Check the squared-error response
   [Hab1,wplot]=freqz(Nab1,Dab1,nplot);
   Pab1=unwrap(arg(Hab1));
-  Tab1=grpdelay(Nab1,Dab1,wplot);
+  Tab1=delayz(Nab1,Dab1,wplot);
   Asqab1=abs(Hab1).^2;
   AsqErr=Wa.*((Asqab1-Asqd).^2);
   AsqErrSum=sum(diff(wa).*(AsqErr(1:(end-1))+AsqErr(2:end)))/2;

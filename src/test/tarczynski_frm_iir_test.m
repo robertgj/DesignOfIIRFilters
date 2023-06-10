@@ -1,5 +1,5 @@
 % tarczynski_frm_iir_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Design an FRM filter from IIR model and FIR masking filters using
 % the method of Tarczynski et al. The masking filters have odd lengths
@@ -248,11 +248,11 @@ printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 % Calculate filter response
 nplot=512;
 [Hw_frm,wplot]=freqz(n1,dM1,nplot);
-Tw_frm=grpdelay(n1,dM1,nplot);
+Tw_frm=delayz(n1,dM1,nplot);
 Hw_aa=freqz(aa1,1,nplot);
 Hw_ac=freqz(ac1,1,nplot);
 Hw_ad=freqz(aM1,dM1,nplot);
-Tw_ad=grpdelay(aM1,dM1,nplot);
+Tw_ad=delayz(aM1,dM1,nplot);
 
 % Plot overall response
 subplot(211);

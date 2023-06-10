@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_bandpass_hilbert_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -184,7 +184,7 @@ Dab1=conv(Da1,Db1);
 % Find response
 nplot=512;
 [Hab1,wplot]=freqz(Nab1,Dab1,nplot);
-Tab1=grpdelay(Nab1,Dab1,nplot);
+Tab1=delayz(Nab1,Dab1,nplot);
 Pab1=unwrap(arg(Hab1));
 
 % Plot response

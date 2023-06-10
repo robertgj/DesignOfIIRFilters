@@ -302,7 +302,7 @@ napu2=(fapu2*nplot/0.5)+1;
 nasl3=(fasl3*nplot/0.5)+1;
 
 [H,w]=freqz(h,1,nplot);
-[T,w]=grpdelay(h,1,nplot);
+[T,w]=delayz(h,1,nplot);
 plot(w*0.5/pi,20*log10(abs(H)));
 axis([0 0.5 -60 5]);
 ylabel("Amplitude(dB)");

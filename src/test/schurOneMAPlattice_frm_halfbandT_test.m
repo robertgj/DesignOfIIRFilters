@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_halfbandT_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -58,9 +58,9 @@ endif
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Compare T response with grpdelay
+% Compare T response with delayz
 %
-Tp=grpdelay(n0,r2M,w)-((Mmodel*Dmodel)+dmask);
+Tp=delayz(n0,r2M,w)-((Mmodel*Dmodel)+dmask);
 T=schurOneMAPlattice_frm_halfbandT(w,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
 if max(abs(T(1:nap)-Tp(1:nap))) > 1350eps;
   error("max(abs(T(1:%d)-Tp(1:%d))) > 1350*eps (%d*eps)", ...

@@ -2,7 +2,7 @@
 
 prog=tarczynski_differentiator_test.m
 
-depends="test/tarczynski_differentiator_test.m test_common.m WISEJ.m tf2Abcd.m \
+depends="test/tarczynski_differentiator_test.m test_common.m delayz.m WISEJ.m tf2Abcd.m \
 print_polynomial.m print_pole_zero.m"
 
 tmp=/tmp/$$

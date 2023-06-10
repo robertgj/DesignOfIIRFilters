@@ -31,7 +31,7 @@ decimator_R2_interpolated_test_fir_delay.tab \
 decimator_R2_interpolated_test_fir_distinct_multipliers.tab 
 
 decimator_R2_interpolated_test_FILES = \
-decimator_R2_interpolated_test.m test_common.m \
+decimator_R2_interpolated_test.m test_common.m delayz.m \
 print_polynomial.m print_pole_zero.m armijo_kim.m fixResultNaN.m \
 iirA.m iirE.m iirP.m iirT.m invSVD.m local_max.m iir_sqp_mmse.m \
 iir_slb.m iir_slb_exchange_constraints.m iir_slb_show_constraints.m \

@@ -2,7 +2,7 @@
 
 prog=frm2ndOrderCascade_socp_test.m
 
-depends="test/frm2ndOrderCascade_socp_test.m test_common.m \
+depends="test/frm2ndOrderCascade_socp_test.m test_common.m delayz.m \
 frm2ndOrderCascade_socp.m frm2ndOrderCascade.m tf2casc.m casc2tf.m \
 frm2ndOrderCascade_vec_to_struct.m frm2ndOrderCascade_struct_to_vec.m \
 frm_lowpass_vectors.m stability2ndOrderCascade.m print_polynomial.m \

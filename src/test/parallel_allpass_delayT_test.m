@@ -1,5 +1,5 @@
 % parallel_allpass_delayT_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 % Check the group delay response and gradient for the parallel
 % combination of an allpass filter and a pure delay
 
@@ -44,19 +44,19 @@ endif
 % Check the group delay response
 %
 
-% Use freqz to find the frequency response
+% Use delayz to find the group delay response
 [Ba,Aa]=a2tf(a,V,Q,R);
 n=1024;
-[Ta_grpdelay,w]=grpdelay(Ba',Aa',n);
-Ta_grpdelay=(Ta_grpdelay+DD)/2;
+[Ta_delayz,w]=delayz(Ba',Aa',n);
+Ta_delayz=(Ta_delayz+DD)/2;
 
 % Use parallel_allpass_delayT to find the group delay response
 Ta_allpass=parallel_allpass_delayT(w,a,V,Q,R,DD,polyphase);
 
 % Compare the group delay responses
-maxAbsDelTeps=max(abs(Ta_allpass-Ta_grpdelay))/eps;
+maxAbsDelTeps=max(abs(Ta_allpass-Ta_delayz))/eps;
 if maxAbsDelTeps > 3073
-  error("max(abs(Ta_allpass-Ta_grpdelay).^2)/eps(=%g) > 3073",maxAbsDelTeps);
+  error("max(abs(Ta_allpass-Ta_delayz).^2)/eps(=%g) > 3073",maxAbsDelTeps);
 endif
 
 %

@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_hilbertT_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -82,7 +82,7 @@ r2Mm1(((2*Mmodel)+1):(4*Mmodel):end)=-1;
 qm1=zeros((((2*mr)+Dmodel)*Mmodel)+(2*dmask)+1,1);
 qm1(1:4:end)=1;
 qm1(3:4:end)=-1;
-Tp=grpdelay(q0.*qm1,r2M0.*r2Mm1,nplot);
+Tp=delayz(q0.*qm1,r2M0.*r2Mm1,nplot);
 
 % Check schurOneMAPlattice_frm_hilbertT
 T=schurOneMAPlattice_frm_hilbertT(w,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);

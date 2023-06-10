@@ -2,7 +2,7 @@
 
 prog=iir_frm_socp_slb_test.m
 
-depends="test/iir_frm_socp_slb_test.m test_common.m \
+depends="test/iir_frm_socp_slb_test.m test_common.m delayz.m \
 ../tarczynski_frm_iir_test_a_coef.m \
 ../tarczynski_frm_iir_test_d_coef.m \
 ../tarczynski_frm_iir_test_aa_coef.m \

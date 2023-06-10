@@ -3,7 +3,7 @@
 prog=directFIRnonsymmetric_kyp_union_double_bandpass_test.m
 
 depends="test/directFIRnonsymmetric_kyp_union_double_bandpass_test.m \
-test_common.m print_polynomial.m"
+test_common.m delayz.m print_polynomial.m"
 
 tmp=/tmp/$$
 here=`pwd`

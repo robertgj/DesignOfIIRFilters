@@ -2,7 +2,7 @@
 
 prog=directFIRnonsymmetric_kyp_lowpass_alternate_test.m
 
-depends="test/directFIRnonsymmetric_kyp_lowpass_alternate_test.m test_common.m \
+depends="test/directFIRnonsymmetric_kyp_lowpass_alternate_test.m test_common.m delayz.m \
 directFIRnonsymmetricEsqPW.m print_polynomial.m"
 
 tmp=/tmp/$$

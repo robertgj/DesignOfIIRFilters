@@ -17,7 +17,7 @@ iir_frm_allpass_socp_slb_test_ac_coef.m
 
 iir_frm_allpass_socp_slb_test_FILES = \
 iir_frm_allpass_socp_slb_test.m \
-test_common.m \
+test_common.m delayz.m \
 iir_frm_allpass.m \
 iir_frm_allpass_slb.m \
 iir_frm_allpass_slb_constraints_are_empty.m \

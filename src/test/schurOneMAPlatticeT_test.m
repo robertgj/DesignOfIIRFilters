@@ -1,5 +1,5 @@
 % schurOneMAPlatticeT_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -27,7 +27,7 @@ nplot=1024;
 ntpl=floor(nplot*ftpl/0.5);
 ntpu=ceil(nplot*ftpu/0.5);
 [h,wplot]=freqz(flipud(d),d,nplot);
-t=grpdelay(flipud(d),d,nplot);
+t=delayz(flipud(d),d,nplot);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -142,7 +142,7 @@ endif
 R10=10;
 dR10=zeros(R10*(length(dp)-1)+1,1);
 dR10(1:R10:end)=dp;
-T10=grpdelay(flipud(dR10),dR10,nplot);
+T10=delayz(flipud(dR10),dR10,nplot);
 TR10=schurOneMAPlatticeT(wplot,kR,epsilonR,pR,R10);
 if max(abs(T10-TR10)) > 1.4e-10
   error("max(abs(T10-TR10)) > 1.4e-10");

@@ -167,7 +167,7 @@ function [cost,A1k,A2k,svecnz_out] = ...
   h=h(:);
   cost=sqrt(sum(Wa.*((abs(h)-abs(Ad)).^2)));
   if ~isempty(Td)
-    t=grpdelay(n,d,npoints);
+    t=delayz(n,d,npoints);
     t=t(:);
     tnf=find(~isfinite(t));
     t(tnf)=Td(tnf);

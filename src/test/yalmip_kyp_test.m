@@ -1,5 +1,5 @@
 % yalmip_kyp_test.m
-% Copyright (C) 2021-2022 Robert G. Jenssen
+% Copyright (C) 2021-2023 Robert G. Jenssen
 
 test_common;
 
@@ -53,7 +53,7 @@ endif
 h=value(x);
 % Plot response
 [H,w]=freqz(h,1,nplot);
-[T,w]=grpdelay(h,1,nplot);
+[T,w]=delayz(h,1,nplot);
 subplot(211);
 plot(w*0.5/pi,20*log10(abs(H)));
 ylabel("Amplitude(dB)");
@@ -274,7 +274,7 @@ endif
 % Plot h_amp response
 h_amp=value(fliplr([C,D]));
 [H_amp,w]=freqz(h_amp,1,nplot);
-[T_amp,w]=grpdelay(h_amp,1,nplot);
+[T_amp,w]=delayz(h_amp,1,nplot);
 subplot(211);
 plot(w*0.5/pi,20*log10(abs(H_amp)));
 ylabel("Amplitude(dB)");
@@ -342,7 +342,7 @@ endif
 % Plot h_kyp response
 h_kyp=value(fliplr([C,D]));
 [H_kyp,w]=freqz(h_kyp,1,nplot);
-[T_kyp,w]=grpdelay(h_kyp,1,nplot);
+[T_kyp,w]=delayz(h_kyp,1,nplot);
 subplot(211);
 plot(w*0.5/pi,20*log10(abs(H_kyp)));
 ylabel("Amplitude(dB)");

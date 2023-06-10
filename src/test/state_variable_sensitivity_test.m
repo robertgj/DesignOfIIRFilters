@@ -251,7 +251,7 @@ endif
 if 0
   diff_T=-(atan2(imag(HRpdel2),real(HRpdel2))- ...
            atan2(imag(HRmdel2),real(HRmdel2)))/del;
-  t=grpdelay(n0,d0,32);
+  t=delayz(n0,d0,32);
   t=t(9);
   if abs(t-diff_T)>del/172
     error("abs(t-diff_T)>del/172");

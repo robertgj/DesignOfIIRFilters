@@ -3,7 +3,7 @@
 prog=parallel_allpass_delayT_test.m
 
 depends="test/parallel_allpass_delayT_test.m \
-test_common.m print_polynomial.m print_pole_zero.m \
+test_common.m delayz.m print_polynomial.m print_pole_zero.m \
 allpassT.m parallel_allpass_delayT.m a2tf.m tf2a.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$

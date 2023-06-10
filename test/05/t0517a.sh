@@ -2,7 +2,7 @@
 
 prog=directFIRnonsymmetric_kyp_bandpass_test.m
 
-depends="test/directFIRnonsymmetric_kyp_bandpass_test.m test_common.m \
+depends="test/directFIRnonsymmetric_kyp_bandpass_test.m test_common.m delayz.m \
 direct_form_scale.m complementaryFIRlattice.m complementaryFIRlatticeAsq.m \
 complementaryFIRlatticeT.m minphase.m complementaryFIRlattice2Abcd.m \
 H2Asq.m H2T.m print_polynomial.m complementaryFIRlatticeFilter.m crossWelch.m \

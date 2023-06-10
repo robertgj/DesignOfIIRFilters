@@ -3,7 +3,7 @@
 prog=deczky1_sqp_test.m
 
 depends="test/deczky1_sqp_test.m ../tarczynski_deczky1_test_x0_coef.m \
-test_common.m deczky1_slb.m deczky1_slb_constraints_are_empty.m \
+test_common.m delayz.m deczky1_slb.m deczky1_slb_constraints_are_empty.m \
 deczky1_slb_exchange_constraints.m deczky1_slb_set_empty_constraints.m \
 deczky1_slb_show_constraints.m deczky1_slb_update_constraints.m \
 deczky1_sqp_mmse.m iirA.m iirE.m iirT.m iirP.m iirdelAdelw.m \

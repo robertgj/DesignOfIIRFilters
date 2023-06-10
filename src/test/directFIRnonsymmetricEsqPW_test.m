@@ -1,5 +1,5 @@
 % directFIRnonsymmetricEsqPW_test.m
-% Copyright (C) 2020-2021 Robert G. Jenssen
+% Copyright (C) 2020-2023 Robert G. Jenssen
 
 test_common;
 
@@ -88,7 +88,7 @@ if info.numerr
 endif
 hsocp=-ys(2:end);
 Hsocp=freqz(hsocp,1,nplot);
-Tsocp=grpdelay(hsocp,1,nplot);
+Tsocp=delayz(hsocp,1,nplot);
 Ras=nas:length(Hsocp);
 if max(20*log10(abs(Hsocp(Ras))))>-39.86
   error("max(20*log10(abs(Hsocp(Ras))))>-39.86");

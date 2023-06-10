@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=complementaryFIRlattice_slb_exchange_constraints_test.m
-depends="test/complementaryFIRlattice_slb_exchange_constraints_test.m test_common.m \
+depends="test/complementaryFIRlattice_slb_exchange_constraints_test.m test_common.m delayz.m \
 complementaryFIRlattice_slb_exchange_constraints.m \
 complementaryFIRlattice_slb_update_constraints.m \
 complementaryFIRlattice_slb_set_empty_constraints.m \

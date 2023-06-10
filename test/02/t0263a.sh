@@ -2,7 +2,7 @@
 
 prog=schurOneMAPlattice_frm_hilbertT_test.m
 
-depends="test/schurOneMAPlattice_frm_hilbertT_test.m test_common.m \
+depends="test/schurOneMAPlattice_frm_hilbertT_test.m test_common.m delayz.m \
 schurOneMAPlattice_frm_hilbertT.m schurOneMAPlattice_frm_hilbertP.m \
 schurOneMAPlattice_frm_hilbertAsq.m schurOneMAPlatticeT.m \
 schurOneMAPlatticeP.m tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m \

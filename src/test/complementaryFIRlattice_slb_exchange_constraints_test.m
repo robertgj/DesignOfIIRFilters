@@ -1,5 +1,5 @@
 % complementaryFIRlattice_slb_exchange_constraints_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -31,7 +31,7 @@ n=1024;
 w=pi*(0:(n-1))'/n;
 H0=freqz(b0,1,w);
 P0=unwrap(arg(H0));
-T0=grpdelay(b0,1,w);
+T0=delayz(b0,1,w);
 fsl=0.05;fpl=0.1;fpu=0.2;fsu=0.25;
 nsl=floor(n*fsl/0.5)+1;
 npl=floor(n*fpl/0.5)+1;

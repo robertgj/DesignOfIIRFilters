@@ -13,7 +13,7 @@ bitflip_schurFIRlattice_bandpass_test_cost.tab \
 bitflip_schurFIRlattice_bandpass_test_adders.tab
 
 bitflip_schurFIRlattice_bandpass_test_FILES = \
-bitflip_schurFIRlattice_bandpass_test.m test_common.m \
+bitflip_schurFIRlattice_bandpass_test.m test_common.m delayz.m \
 bitflip_bandpass_test_common.m flt2SD.m schurFIRlattice2Abcd.m \
 Abcd2tf.m print_polynomial.m x2nextra.m SDadders.m \
 bin2SPT.oct bin2SD.oct schurFIRdecomp.oct bitflip.oct

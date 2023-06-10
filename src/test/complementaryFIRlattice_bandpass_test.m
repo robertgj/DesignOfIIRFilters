@@ -1,5 +1,5 @@
 % complementaryFIRlattice_bandpass_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -161,8 +161,8 @@ if max(abs(b17bc(:)-flipud(pbk17bhat(:)))) > tol
 endif
 
 % Plot group delay
-Tb17b=grpdelay(b17b,1,wplot);
-Tpbk17b=grpdelay(pbk17b,1,wplot);
+Tb17b=delayz(b17b,1,wplot);
+Tpbk17b=delayz(pbk17b,1,wplot);
 plot(wplot*0.5/pi,Tb17b,"linestyle","-", ...
      wplot*0.5/pi,Tpbk17b,"linestyle","-.")
 axis([0 0.5 0 16])

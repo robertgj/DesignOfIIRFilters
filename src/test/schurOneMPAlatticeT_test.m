@@ -1,5 +1,5 @@
 % schurOneMPAlatticeT_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -17,7 +17,7 @@ for m=1:2
   T=schurOneMPAlatticeT(wt,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 
   % Check the group delay response
-  Tab1=grpdelay(Nab1,Dab1,wa);
+  Tab1=delayz(Nab1,Dab1,wa);
   Tab1=Tab1(Trng);
   if max(abs(Tab1-T)) > 16*tol
     error("max(abs(Tab1-T)) > 16*tol");

@@ -1,5 +1,5 @@
 % tarczynski_frm_hilbert_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Design an FRM Hilbert filter from IIR allpass model in parallel with a delay
 % and FIR masking filters using the method of Tarczynski et al. The 
@@ -81,7 +81,7 @@ function E=WISEJ_FRM_HILBERT(ra,_mr,_na,_Mmodel,_Dmodel, ...
   H=freqz(q,r2M,w);
   EH=abs(abs(H)-abs(Hd)).^2;
   EH=abs(abs(H)-abs(Hd)).^2;
-  T=grpdelay(q,r2M,w);
+  T=delayz(q,r2M,w);
   ET=abs(T-Td).^2;
   P=unwrap(arg(H))+(w*td);
   EP=abs(P-Pd).^2;
@@ -167,7 +167,7 @@ ra0=[r0(2:end);aa0(1:(dmask+1))];
 [q0,r2M0]=vec2frm_hilbert(ra0,mr,na,Mmodel,Dmodel);
 nplot=400;
 [Hw_init,wplot]=freqz(q0,r2M0,nplot);
-[Tw_init,wplot]=grpdelay(q0,r2M0,nplot);
+[Tw_init,wplot]=delayz(q0,r2M0,nplot);
 % Plot initial response
 subplot(311);
 plot(wplot*0.5/pi,20*log10(abs(Hw_init)));
@@ -232,7 +232,7 @@ printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 %
 nplot=1024;
 [Hw_hilbert,wplot]=freqz(q1,r2M1,nplot);
-Tw_hilbert=grpdelay(q1,r2M1,nplot);
+Tw_hilbert=delayz(q1,r2M1,nplot);
 
 % Plot overall response
 subplot(311);

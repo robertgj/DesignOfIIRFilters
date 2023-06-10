@@ -1,10 +1,8 @@
 % bitflip_schurNSlattice_bandpass_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass lattice filter in normalised-scaled form.
-%
-% NOTE: workaround for bug in grpdelay with frequency array argument
 
 test_common;
 
@@ -31,7 +29,7 @@ use_symmetric_s=true;
 % Exact
 nplot=1024;
 [h0,wplot]=freqz(n0,d0,nplot);
-t0=grpdelay(n0,d0,nplot);
+t0=delayz(n0,d0,nplot);
 % Rounded truncation
 [cost_rd,s10_rd,s11_rd,s20_rd,s00_rd,s02_rd,s22_rd,svec_rd] = ...
   schurNSlattice_cost([],Ad,Wa,Td,Wt, ...
@@ -39,13 +37,13 @@ t0=grpdelay(n0,d0,nplot);
                       use_symmetric_s,nbits,0)
 [n_rd,d_rd]=schurNSlattice2tf(s10_rd,s11_rd,s20_rd,s00_rd,s02_rd,s22_rd);
 h_rd=freqz(n_rd,d_rd,nplot);
-t_rd=grpdelay(n_rd,d_rd,nplot);
+t_rd=delayz(n_rd,d_rd,nplot);
 % Find optimised lattice coefficients with bit-flipping
 svec_bf=bitflip(@schurNSlattice_cost,svec_rd,nbits,bitstart,msize);
 [cost_bf,s10_bf,s11_bf,s20_bf,s00_bf,s02_bf,s22_bf]=schurNSlattice_cost(svec_bf)
 [n_bf,d_bf]=schurNSlattice2tf(s10_bf,s11_bf,s20_bf,s00_bf,s02_bf,s22_bf);
 h_bf=freqz(n_bf,d_bf,nplot);
-t_bf=grpdelay(n_bf,d_bf,nplot);
+t_bf=delayz(n_bf,d_bf,nplot);
 % Signed-digit truncation
 use_symmetric_s=false;
 [cost_sd,s10_sd,s11_sd,s20_sd,s00_sd,s02_sd,s22_sd,svec_sd] = ...
@@ -54,7 +52,7 @@ use_symmetric_s=false;
                       use_symmetric_s,nbits,ndigits)
 [n_sd,d_sd]=schurNSlattice2tf(s10_sd,s11_sd,s20_sd,s00_sd,s02_sd,s22_sd);
 h_sd=freqz(n_sd,d_sd,nplot);
-t_sd=grpdelay(n_sd,d_sd,nplot);
+t_sd=delayz(n_sd,d_sd,nplot);
 % Find optimised lattice coefficients with bit-flipping and signed-digits
 svec_bfsd=bitflip(@schurNSlattice_cost,svec_sd,nbits,bitstart,msize);
 [cost_bfsd,s10_bfsd,s11_bfsd,s20_bfsd,s00_bfsd,s02_bfsd,s22_bfsd] = ...
@@ -62,7 +60,7 @@ svec_bfsd=bitflip(@schurNSlattice_cost,svec_sd,nbits,bitstart,msize);
 [n_bfsd,d_bfsd] = ...
   schurNSlattice2tf(s10_bfsd,s11_bfsd,s20_bfsd,s00_bfsd,s02_bfsd,s22_bfsd);
 h_bfsd=freqz(n_bfsd,d_bfsd,nplot);
-t_bfsd=grpdelay(n_bfsd,d_bfsd,nplot);
+t_bfsd=delayz(n_bfsd,d_bfsd,nplot);
 
   % Make a LaTeX table for cost
 fname=strcat(strf,"_cost.tab");

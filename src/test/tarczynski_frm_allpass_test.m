@@ -1,5 +1,5 @@
 % tarczynski_frm_allpass_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Design an FRM filter from IIR allpass model in parallel with a delay
 % and FIR masking filters using the method of Tarczynski et al. The 
@@ -208,13 +208,13 @@ printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 % Calculate filter response
 nplot=512;
 [Hw_frm,wplot]=freqz(n1,rRM1,nplot);
-Tw_frm=grpdelay(n1,rRM1,nplot);
+Tw_frm=delayz(n1,rRM1,nplot);
 Hw_aa=freqz(aa1,1,nplot);
 Hw_ac=freqz(ac1,1,nplot);
 n_model=([flipud(rRM1);zeros(Mmodel*Dmodel,1)] + ...
          conv([zeros(Mmodel*Dmodel,1);1],rRM1))/2;
 Hw_model=freqz(n_model,rRM1,nplot);
-Tw_model=grpdelay(n_model,rRM1,nplot);
+Tw_model=delayz(n_model,rRM1,nplot);
 
 % Plot overall response
 subplot(211);

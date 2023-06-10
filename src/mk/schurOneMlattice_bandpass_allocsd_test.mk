@@ -319,7 +319,7 @@ schurOneMlattice_bandpass_allocsd_3_ndigits_9_nbits_test_k_rd_coef.m \
 schurOneMlattice_bandpass_allocsd_3_ndigits_9_nbits_test_k_sd_coef.m 
 
 schurOneMlattice_bandpass_allocsd_test_FILES = \
-schurOneMlattice_bandpass_allocsd_test.m test_common.m \
+schurOneMlattice_bandpass_allocsd_test.m test_common.m delayz.m \
 schurOneMlattice_allocsd_Ito.m schurOneMlattice_allocsd_Lim.m bin2SDul.m \
 schurOneMlatticeEsq.m H2Asq.m schurOneMlatticeAsq.m schurOneMlatticeT.m \
 schurOneMlatticeP.m schurOneMlattice_cost.m schurOneMlattice2tf.m \

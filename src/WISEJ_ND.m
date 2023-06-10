@@ -23,7 +23,7 @@ function E=WISEJ_ND(ND,_nN,_nD,_R,_Ad,_Wa,_Td,_Wt)
 % See "A WISE Method for Designing IIR Filters", A.Tarczynski et al.,
 % IEEE Transactions on Signal Processing, Vol. 49, No. 7, pp. 1421-1432
 
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -72,7 +72,7 @@ function E=WISEJ_ND(ND,_nN,_nD,_R,_Ad,_Wa,_Td,_Wt)
   [HNDRd, wa] = freqz(N,DR,length(Ad));
   EAd = Wa.*((abs(Ad)-abs(HNDRd)).^2);
   % Find the group delay response error
-  [TNDRd, wt] = grpdelay(N,DR,length(Td));
+  [TNDRd, wt] = delayz(N,DR,length(Td));
   ETd = Wt.*(abs(Td-TNDRd).^2);
   % Trapezoidal integration of the error
   intEAd = sum(diff(wa).*(EAd(1:(length(EAd)-1))+EAd(2:end))/2);

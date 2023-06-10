@@ -1,5 +1,5 @@
 % iir_frm_allpass_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -97,7 +97,7 @@ if max(abs(Asq-Asqp)) > 500*eps
   error("Whole band max(abs(Asq-Asqp)) > 500*eps (%d*eps)", ...
         ceil(max(abs(Asq-Asqp))/eps));
 endif
-Tp=grpdelay(nM,rM,nplot)-((Mmodel*Dmodel)+dmask);
+Tp=delayz(nM,rM,nplot)-((Mmodel*Dmodel)+dmask);
 Tp=Tp(1:nap);
 T=T(1:nap);
 if max(abs(T-Tp)) > 3e5*eps

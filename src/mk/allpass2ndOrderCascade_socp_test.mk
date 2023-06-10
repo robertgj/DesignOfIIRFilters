@@ -13,7 +13,7 @@ allpass2ndOrderCascade_socp_test_Da1_coef.m \
 allpass2ndOrderCascade_socp_test_Db1_coef.m
 
 allpass2ndOrderCascade_socp_test_FILES = \
-allpass2ndOrderCascade_socp_test.m test_common.m stability2ndOrderCascade.m \
+allpass2ndOrderCascade_socp_test.m test_common.m delayz.m stability2ndOrderCascade.m \
 print_polynomial.m allpass2ndOrderCascade.m allpass2ndOrderCascade_socp.m \
 casc2tf.m tf2casc.m qroots.m qzsolve.oct 
 

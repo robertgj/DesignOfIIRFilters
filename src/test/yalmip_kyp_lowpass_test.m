@@ -278,7 +278,7 @@ for d=[10,M],
   strt=sprintf("%s : N=%d,d=%d,fap=%4.2f,fas=%4.2f,Esq\\_z=%7.1g,Esq\\_s=%7.1g",
                strs,N,d,fap,fas,Esq_z,Esq_s);
   [H,w]=freqz(h,1,nplot);
-  [T,w]=grpdelay(h,1,nplot);
+  [T,w]=delayz(h,1,nplot);
   f=w*0.5/pi;
   ax=plotyy(f(1:nap),20*log10(abs(H(1:nap))), ...
             f(nas:end),20*log10(abs(H(nas:end))));

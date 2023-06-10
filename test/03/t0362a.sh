@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=allpass_MH2dt_test.m
-depends="test/allpass_MH2dt_test.m test_common.m allpass_MH2dt.m \
+depends="test/allpass_MH2dt_test.m test_common.m delayz.m allpass_MH2dt.m \
 allpass_MH2dt_pole2coef.m allpass_MH2dt_coef2Abcd.m allpass_MH2dt_coef2ng.m \
 allpass_filter_check_gradc1c2.m Abcd2tf.m H2Asq.m H2T.m H2P.m svf.m KW.m \
 Abcd2ng.m Abcd2H.oct"

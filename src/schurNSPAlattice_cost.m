@@ -43,7 +43,7 @@ function [cost,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22,svecnz_out] = ...
 %       - simplex fails if max_cost is not inf
 
    
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -172,7 +172,7 @@ function [cost,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22,svecnz_out] = ...
   h=h(:);
   cost=sqrt(sum(Wa.*((abs(h)-abs(Ad)).^2)));
   if ~isempty(Td)
-    t=grpdelay(n,d,npoints);
+    t=delayz(n,d,npoints);
     t=t(:);
     tnf=find(~isfinite(t));
     t(tnf)=Td(tnf);

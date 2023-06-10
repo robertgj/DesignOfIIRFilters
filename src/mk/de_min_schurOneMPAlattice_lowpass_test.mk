@@ -7,7 +7,7 @@ de_min_schurOneMPAlattice_lowpass_test.mat
 
 de_min_schurOneMPAlattice_lowpass_test_FILES = \
 de_min_schurOneMPAlattice_lowpass_test.m \
-test_common.m truncation_test_common.m schurOneMPAlattice_cost.m \
+test_common.m delayz.m truncation_test_common.m schurOneMPAlattice_cost.m \
 schurOneMPAlattice2tf.m tf2schurOneMlattice.m schurOneMscale.m Abcd2tf.m \
 flt2SD.m x2nextra.m tf2pa.m print_polynomial.m SDadders.m qroots.m \
 qzsolve.oct schurdecomp.oct schurexpand.oct bin2SD.oct bin2SPT.oct \

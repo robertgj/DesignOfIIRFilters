@@ -1,5 +1,5 @@
 % decimator_R2_interpolated_test.m
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2023 Robert G. Jenssen
 %
 % Example of an interpolated low-pass IIR decimator filter design using
 % quasi-Newton optimisation with constraints on the coefficients.
@@ -164,7 +164,7 @@ N1P=conv(b,[N1(1),kron(N1(2:end),[zeros(1,P-1),1])]);
 D1=D1(:)';
 D1P=[D1(1),kron(D1(2:end),[zeros(1,P-1),1])];
 H1P=freqz(N1P,D1P,wa);
-T1P=grpdelay(N1P,D1P,n);
+T1P=delayz(N1P,D1P,n);
 N1D1_mult=(length(D1(2:end))/R)+length(N1)+(N/2)+1;
 
 % Plot interpolated IIR filter against FIR anti-aliasing filter

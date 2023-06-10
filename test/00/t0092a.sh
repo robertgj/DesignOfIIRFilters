@@ -4,7 +4,7 @@ prog=parallel_allpass_delay_socp_slb_test.m
 
 depends="test/parallel_allpass_delay_socp_slb_test.m \
 ../tarczynski_parallel_allpass_delay_test_Da0_coef.m \
-test_common.m \
+test_common.m delayz.m \
 parallel_allpass_delayAsq.m \
 parallel_allpass_delayT.m \
 parallel_allpass_delay_slb.m \

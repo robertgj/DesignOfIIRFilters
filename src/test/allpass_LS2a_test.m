@@ -1,5 +1,5 @@
 % allpass_LS2a_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2023 Robert G. Jenssen
 
 test_common;
 
@@ -18,7 +18,7 @@ r2=-0.4;
 b=conv([r1, -1],[r2, -1]);
 a=conv([1, -r1],[1, -r2]);
 [Hf,w]=freqz(b,a,1024);
-[Tf,w]=grpdelay(b,a,1024);
+[Tf,w]=delayz(b,a,1024);
 
 [c1,c2]=allpass_LS2a_pole2coef(r1,r2,"real");
 [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_LS2a_coef2Abcd(c1,c2);
@@ -57,7 +57,7 @@ c1=(2-(2*r*cos(theta))-c2)/2;
 b=conv([r*e^(-j*theta), -1],[r*e^(j*theta), -1]);
 a=conv([1, -r*e^(-j*theta)],[1, -r*e^(j*theta)]);
 [Hf,w]=freqz(b,a,1024);
-[Tf,w]=grpdelay(b,a,1024);
+[Tf,w]=delayz(b,a,1024);
 
 [c1,c2]=allpass_LS2a_pole2coef(r,theta,"complex");
 [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_LS2a_coef2Abcd(c1,c2);

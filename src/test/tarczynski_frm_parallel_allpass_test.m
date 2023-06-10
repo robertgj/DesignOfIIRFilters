@@ -1,5 +1,5 @@
 % tarczynski_frm_parallel_allpass_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Design an FRM filter from a parallel allpass IIR model filter
 % and FIR masking filters using the method of Tarczynski et al.
@@ -199,7 +199,7 @@ printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 % Plot overall response
 nplot=1000;
 [Hw_frm,wplot]=freqz(nfrm,dfrm,nplot);
-Tw_frm=grpdelay(nfrm,dfrm,nplot);
+Tw_frm=delayz(nfrm,dfrm,nplot);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hw_frm)),'linestyle','-');
 axis([0 0.5 -60 5]);
@@ -240,9 +240,9 @@ close
 
 % Plot masking filter responses
 Hw_aa=freqz(aa1,1,nplot);
-Tw_aa=grpdelay(aa1,1,nplot);
+Tw_aa=delayz(aa1,1,nplot);
 Hw_ac=freqz(ac1,1,nplot);
-Tw_ac=grpdelay(ac1,1,nplot);
+Tw_ac=delayz(ac1,1,nplot);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hw_aa)),'linestyle','-', ...
      wplot*0.5/pi,20*log10(abs(Hw_ac)),'linestyle','--');
@@ -266,7 +266,7 @@ close
 % Plot model filter response
 Hw_ad=freqz((conv(r1M,flipud(s1M))+conv(s1M,flipud(r1M)))/2, ...
             conv(r1M,s1M),nplot);
-Tw_ad=grpdelay((conv(r1M,flipud(s1M))+conv(s1M,flipud(r1M)))/2, ...
+Tw_ad=delayz((conv(r1M,flipud(s1M))+conv(s1M,flipud(r1M)))/2, ...
                conv(r1M,s1M),nplot);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hw_ad)),'linestyle','-');

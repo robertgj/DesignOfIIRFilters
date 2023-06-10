@@ -1,6 +1,6 @@
 function iir_frm_parallel_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel,dmask, ...
                                                 nplot,fpass,strT,strF,strOpt)
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -48,7 +48,7 @@ function iir_frm_parallel_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel,dmask, ...
 
   % Calculate overall response
   [Hw_frm,wplot]=freqz(nfrm,dfrm,nplot);
-  Tw_frm=grpdelay(nfrm,dfrm,nplot);
+  Tw_frm=delayz(nfrm,dfrm,nplot);
 
   % Plot PCLS response
   subplot(211);
@@ -87,7 +87,7 @@ function iir_frm_parallel_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel,dmask, ...
   % Calculate model filter response
   num_model=(conv(flipud(xrM),xsM)+conv(flipud(xsM),xrM))/2;
   Hw_model=freqz(num_model,dfrm,nplot);
-  Tw_model=grpdelay(num_model,dfrm,nplot);
+  Tw_model=delayz(num_model,dfrm,nplot);
   
   % Plot model filter response
   subplot(211);
@@ -121,8 +121,8 @@ function iir_frm_parallel_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel,dmask, ...
   % Calculate masking filter responses
   Hw_aa=freqz(xaa,1,nplot);
   Hw_ac=freqz(xac,1,nplot);
-  Tw_aa=grpdelay(xaa,1,nplot);
-  Tw_ac=grpdelay(xac,1,nplot);
+  Tw_aa=delayz(xaa,1,nplot);
+  Tw_ac=delayz(xac,1,nplot);
 
   % Plot masking filter response
   subplot(211);

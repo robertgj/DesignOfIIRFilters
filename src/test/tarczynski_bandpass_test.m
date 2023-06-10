@@ -1,5 +1,5 @@
 % tarczynski_bandpass_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 
 test_common;
@@ -80,7 +80,7 @@ DR=[D(1);kron(D(2:length(D)), [zeros(R-1,1);1])];
 % Plot results
 nplot=512;
 [H,wplot]=freqz(N,DR,nplot);
-T=grpdelay(N',DR',nplot);
+T=delayz(N',DR',nplot);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(H)));
 ylabel("Amplitude(dB)");

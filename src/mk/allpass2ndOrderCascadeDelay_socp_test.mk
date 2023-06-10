@@ -17,7 +17,7 @@ allpass2ndOrderCascadeDelay_socp_test_a1sqm_coef.m \
 allpass2ndOrderCascadeDelay_socp_test_Da1sqm_coef.m 
 
 allpass2ndOrderCascadeDelay_socp_test_FILES = \
-allpass2ndOrderCascadeDelay_socp_test.m test_common.m \
+allpass2ndOrderCascadeDelay_socp_test.m test_common.m delayz.m \
 stability2ndOrderCascade.m print_polynomial.m allpass2ndOrderCascade.m \
 allpass2ndOrderCascadeDelay_socp.m local_max.m fixResultNaN.m casc2tf.m \
 tf2casc.m qroots.m qzsolve.oct 

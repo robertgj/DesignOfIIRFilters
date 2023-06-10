@@ -1,5 +1,5 @@
 % yalmip_kyp_bmibnb_lowpass_test.m
-% Copyright (C) 2022 Robert G. Jenssen
+% Copyright (C) 2022-2023 Robert G. Jenssen
 %
 % Add a constraint on the minimum pass-band amplitude using the bmibnb solver.
 % For the frequency domain constraint Pi=[-I,0;0,+Esq*I] gives |H|^2>=Esq_pl.
@@ -114,7 +114,7 @@ strt=sprintf ...
 
 h=value(hsdp);
 [H,w]=freqz(h,1,nplot);
-[T,w]=grpdelay(h,1,nplot);
+[T,w]=delayz(h,1,nplot);
 f=w*0.5/pi;
 ax=plotyy(f(1:nap),20*log10(abs(H(1:nap))), ...
           f(nas:end),20*log10(abs(H(nas:end))));

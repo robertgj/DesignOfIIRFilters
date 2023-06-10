@@ -243,7 +243,7 @@ axis([fapl fapu 0.004*[-1 1]]);
 grid("on");
 ylabel("Phase error(rad./$\\pi$)");
 subplot(313)
-[T,w]=grpdelay(h,1,nplot);
+[T,w]=delayz(h,1,nplot);
 plot(w(napl:napu)*0.5/pi,T(napl:napu));
 ylabel("Delay(samples)");
 axis([fapl fapu d+0.4*[-1 1]]);

@@ -2,7 +2,7 @@
 
 prog=allpassT_test.m
 
-depends="test/allpassT_test.m test_common.m allpassT.m a2tf.m"
+depends="test/allpassT_test.m test_common.m delayz.m allpassT.m a2tf.m"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

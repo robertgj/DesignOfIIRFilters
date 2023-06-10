@@ -2,7 +2,7 @@
 
 prog=state_variable_sensitivity_test.m
 
-depends="test/state_variable_sensitivity_test.m test_common.m tf2Abcd.m optKW.m \
+depends="test/state_variable_sensitivity_test.m test_common.m delayz.m tf2Abcd.m optKW.m \
 KW.m resolvent.m"
 
 tmp=/tmp/$$

@@ -17,7 +17,7 @@ parallel_allpass_socp_slb_bandpass_hilbert_test_Dab1_coef.m \
 parallel_allpass_socp_slb_bandpass_hilbert_test_Nab1_coef.m
 
 parallel_allpass_socp_slb_bandpass_hilbert_test_FILES = \
-parallel_allpass_socp_slb_bandpass_hilbert_test.m test_common.m \
+parallel_allpass_socp_slb_bandpass_hilbert_test.m test_common.m delayz.m \
 parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \
 parallel_allpass_slb.m \
 parallel_allpass_slb_constraints_are_empty.m \

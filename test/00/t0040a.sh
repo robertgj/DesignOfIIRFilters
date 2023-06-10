@@ -2,7 +2,7 @@
 
 prog=tarczynski_polyphase_allpass_test.m
 depends="test/tarczynski_polyphase_allpass_test.m \
-test_common.m print_polynomial.m print_pole_zero.m WISEJ_PA.m"
+test_common.m delayz.m print_polynomial.m print_pole_zero.m WISEJ_PA.m"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_delay_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Design a lowpass filter from the parallel combination of an allpass
 % filter and a delay using the method of Tarczynski et al. 
@@ -78,7 +78,7 @@ function E=WISEJ_DA(a,_R,_D,_poly,_Ad,_Wa,_Td,_Wt)
   EAd = Wa.*abs((abs(Ha)-abs(Ad)).^2);
 
   % Find the group delay error response
-  [Ta_aR,wt]=grpdelay(flipud(DaR),DaR,length(Td));
+  [Ta_aR,wt]=delayz(flipud(DaR),DaR,length(Td));
   if polyphase
     T=0.5*((D*R)+Ta_aR+1);
   else
@@ -186,7 +186,7 @@ Na0=0.5*(conv([zeros((D*R),1);1],Da0)+[flipud(Da0);zeros((D*R),1)]);
 % Calculate response
 nplot=512;
 [Ha0,wplot]=freqz(Na0,Da0,nplot);
-Ta0=grpdelay(Na0,Da0,nplot);
+Ta0=delayz(Na0,Da0,nplot);
 
 % Plot response
 subplot(211);

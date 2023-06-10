@@ -118,7 +118,7 @@ Dab1=conv(Da1,Db1);
 % Find response
 nplot=1024;
 [Hab1,wplot]=freqz(Nab1,Dab1,nplot);
-Tab1=grpdelay(Nab1,Dab1,nplot);
+Tab1=delayz(Nab1,Dab1,nplot);
 
 % Plot response
 subplot(211);

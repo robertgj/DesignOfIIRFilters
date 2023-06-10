@@ -1,6 +1,6 @@
 function iir_frm_socp_slb_plot(x,na,nc,Mmodel,Dmodel, ...
                                nplot,fpass,strT,strF,strOpt)
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -53,7 +53,7 @@ function iir_frm_socp_slb_plot(x,na,nc,Mmodel,Dmodel, ...
 
   % Calculate overall response
   [Hw_frm,wplot]=freqz(aM_frm,dM,nplot);
-  Tw_frm=grpdelay(aM_frm,dM,nplot);
+  Tw_frm=delayz(aM_frm,dM,nplot);
 
   % Plot PCLS response
   subplot(211);
@@ -91,7 +91,7 @@ function iir_frm_socp_slb_plot(x,na,nc,Mmodel,Dmodel, ...
 
   % Calculate model filter response
   Hw_model=freqz(aM,dM,nplot);
-  Tw_model=grpdelay(aM,dM,nplot);
+  Tw_model=delayz(aM,dM,nplot);
   
   % Plot model filter response
   subplot(211);

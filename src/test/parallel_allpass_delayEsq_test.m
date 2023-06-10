@@ -1,5 +1,5 @@
 % parallel_allpass_delayEsq_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 % Check the squared-error response and gradient for the parallel
 % combination of an allpass filter and a pure delay
 
@@ -42,17 +42,16 @@ Wt=Wtp*ones(ntp,1);
 % Check the squared-error response
 %
 
-% Use freqz and grpdelay to find the frequency response
-% (Work-around problems with Octave grpdelay)
+% Use freqz and delayz to find the frequency response
 [Ba,Aa]=a2tf(a,V,Q,R);
 Ha_freqz=freqz(Ba,Aa,w);
 Asq_freqz=abs(0.5*(Ha_freqz+exp(-j*w*DD*R))).^2;
-Ta_grpdelay=grpdelay(Ba,Aa,w);
-T_grpdelay=(Ta_grpdelay(1:ntp)+(DD*R))/2;
+Ta_delayz=delayz(Ba,Aa,w);
+T_delayz=(Ta_delayz(1:ntp)+(DD*R))/2;
 
 % Trapezoidal integration of weighted squared-error response  
 EsqAsq=Wa.*((Asq_freqz-Asqd).^2);
-EsqT=Wt.*((T_grpdelay-Td).^2);
+EsqT=Wt.*((T_delayz-Td).^2);
 EsqAsqT=(sum(diff(wa).*(EsqAsq(1:(n-1))+EsqAsq(2:end)))/2)+...
         (sum(diff(wt).*(EsqT(1:(ntp-1))+EsqT(2:end)))/2);
 

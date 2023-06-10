@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_socp_lowpass_test.m
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2023 Robert G. Jenssen
 % SDP design of a direct-form non-symmetric FIR lowpass filter with SOCP
 
 test_common;
@@ -68,7 +68,7 @@ nas=floor(fas*nplot/0.5)+1;
 f=(0:(nplot-1))'*0.5/nplot;
 w=2*pi*f;
 H=freqz(h,1,w);
-T=grpdelay(h,1,nplot);
+T=delayz(h,1,nplot);
 
 % Find pass-band ripple
 [maxPassRipple,imaxPassRipple]=max(abs(abs(H(1:nap))-1));

@@ -222,7 +222,7 @@ for flat_delay=[false,true],
 
   % Overall frequency response
   [H,wplot]=freqz(N0,D0,nplot);
-  T=grpdelay(N0,D0,nplot);
+  T=delayz(N0,D0,nplot);
   clf();
   subplot(211);
   plot(wplot*0.5/pi,20*log10(abs(H)));

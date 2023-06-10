@@ -1,5 +1,5 @@
 % complementaryFIRlatticeT_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -27,7 +27,7 @@ Nk=length(k);
 
 % Check the magnitude-squared response
 nplot=1024;
-[H,wplot]=grpdelay(b,1,nplot);
+[H,wplot]=delayz(b,1,nplot);
 [T,gradT]=complementaryFIRlatticeT(wplot,k,khat);
 tol=25*eps;
 if max(abs(H(ntpl:ntph)-T(ntpl:ntph))) > tol

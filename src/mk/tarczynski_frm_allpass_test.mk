@@ -11,4 +11,4 @@ tarczynski_frm_allpass_test_ac1_coef.m \
 tarczynski_frm_allpass_test.mat
 
 tarczynski_frm_allpass_test_FILES = tarczynski_frm_allpass_test.m \
-test_common.m print_polynomial.m print_pole_zero.m frm_lowpass_vectors.m
+test_common.m delayz.m print_polynomial.m print_pole_zero.m frm_lowpass_vectors.m

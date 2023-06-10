@@ -1,5 +1,5 @@
 % iir_frm_parallel_allpass_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -112,8 +112,7 @@ if max(abs(Asqaa-Asqaap)) > tolAsqaa
 endif
 nap=ceil(n*fap/0.5)+1;
 [Asqaa,Taa]=iir_frm_parallel_allpass(w(1:nap),xt,0,0,0,0,na,1,Mmodel);
-% BUG in grpdelay: grpdelay(x0.aa,1,w(1:nap)) FAILS!
-Taap=grpdelay(x0.aa(:),1,n);
+Taap=delayz(x0.aa(:),1,n);
 Taap=Taap(1:nap);
 tolTaa=68*eps;
 if max(abs(Taa-Taap)) > tolTaa
@@ -139,7 +138,7 @@ if max(abs(Asqm-Asqmp)) > tolAsqm
   error("max(abs(Asqm-Asqmp)) > tolAsqm (%d*eps)",
         ceil(max(abs(Asqm-Asqmp))/eps));
 endif
-Tmp=grpdelay(conv(flipud(rM),sM)+conv(flipud(sM),rM),2*conv(rM,sM),n);
+Tmp=delayz(conv(flipud(rM),sM)+conv(flipud(sM),rM),2*conv(rM,sM),n);
 nap=ceil(n*fap/0.5)+1;
 napM=(ceil(n*fap/0.5)/Mmodel)+1;
 Tm=Tm(1:napM);
@@ -168,7 +167,7 @@ if max(abs(Asqmc-Asqmcp)) > tolAsqmc
   error("max(abs(Asqmc-Asqmcp)) > tolAsqmc (%d*eps)",
         ceil(max(abs(Asqmc-Asqmcp))/eps));
 endif
-Tmcp=grpdelay(conv(flipud(rM),sM)-conv(flipud(sM),rM),2*conv(rM,sM),n);
+Tmcp=delayz(conv(flipud(rM),sM)-conv(flipud(sM),rM),2*conv(rM,sM),n);
 nap=ceil(n*fap/0.5)+1;
 napM=(ceil(n*fap/0.5)/Mmodel)+1;
 Tmc=Tmc(40:napM);
@@ -199,7 +198,7 @@ if max(abs(Asq-Asqp)) > tolAsq
   error("max(abs(Asq-Asqp)) > tolAsq (%d*eps)",ceil(max(abs(Asq-Asqp))/eps));
 endif
 % Check group delay response
-Tp=grpdelay(numfrm,denfrm,n);
+Tp=delayz(numfrm,denfrm,n);
 nap=ceil(n*fap/0.5)+1;
 napM=(ceil(n*fap/0.5)/Mmodel)+1;
 T=T(1:napM);
@@ -269,7 +268,7 @@ tolAsq=177*eps;
 if max(abs(Asq-Asqp)) > tolAsq
   error("max(abs(Asq-Asqp)) > tolAsq (%d*eps)",ceil(max(abs(Asq-Asqp))/eps));
 endif
-Tp=grpdelay(numfrm,denfrm,n);
+Tp=delayz(numfrm,denfrm,n);
 nap=ceil(n*fap/0.5)+1;
 napM=(ceil(n*fap/0.5)/Mmodel)+1;
 T=T(1:napM);
@@ -339,7 +338,7 @@ tolAsq=1000*eps;
 if max(abs(Asq-Asqp)) > tolAsq
   error("max(abs(Asq-Asqp)) > tolAsq (%d*eps)",ceil(max(abs(Asq-Asqp))/eps));
 endif
-Tp=grpdelay(numfrm,denfrm,n);
+Tp=delayz(numfrm,denfrm,n);
 nap=ceil(n*fap/0.5)+1;
 napM=(ceil(n*fap/0.5)/Mmodel)+1;
 T=T(1:napM);

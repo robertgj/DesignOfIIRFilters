@@ -5,7 +5,7 @@ prog=iir_sqp_slb_differentiator_test.m
 depends="test/iir_sqp_slb_differentiator_test.m \
 ../tarczynski_differentiator_test_N0_coef.m \
 ../tarczynski_differentiator_test_D0_coef.m \
-test_common.m print_polynomial.m print_pole_zero.m \
+test_common.m delayz.m print_polynomial.m print_pole_zero.m \
 armijo_kim.m \
 fixResultNaN.m iirA.m iirE.m iirP.m \
 iirT.m invSVD.m local_max.m iir_sqp_mmse.m iir_slb.m \

@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_bandpass_hilbert_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a bandpass Hilbert filter
 % as the difference of two parallel allpass filters. See:
@@ -77,7 +77,7 @@ function E=WISEJ_PAB_Hilbert(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt,_Pd,_Wp)
   EAd = Wa.*(abs(abs(H)-Ad).^2);
 
   % Find the group-delay error response in the passband
-  T=grpdelay(N,D,length(Ad));
+  T=delayz(N,D,length(Ad));
   ETd = Wt.*(abs(T-Td).^2);
 
   % Find the phase error response in the passband
@@ -219,7 +219,7 @@ N=0.5*(conv(flipud(Da),Db)-conv(flipud(Db),Da));
 nplot=512;
 [H,wplot]=freqz(N,D,nplot);
 P=unwrap(arg(H));
-T=grpdelay(N,D,nplot);
+T=delayz(N,D,nplot);
 
 % Plot response
 subplot(311);

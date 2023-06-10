@@ -1,5 +1,5 @@
 % bitflip_schurOneMPAlattice_bandpass_test.m
-% Copyright (C) 2019-2022 Robert G. Jenssen
+% Copyright (C) 2019-2023 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass lattice filter in one multiplier parallel allpass form.
@@ -43,7 +43,7 @@ nplot=1024;
 [n0,d0]=schurOneMPAlattice2tf(A1k0,A1epsilon0,ones(size(A1p0)), ...
                               A2k0,A2epsilon0,ones(size(A2p0)),difference);
 [h0,wplot]=freqz(n0,d0,nplot);
-t0=grpdelay(n0,d0,nplot);
+t0=delayz(n0,d0,nplot);
 % Rounded truncation
 [cost_rd,A1k_rd,A2k_rd,svec_rd] = ...
   schurOneMPAlattice_cost([],Ad,Wa,Td,Wt, ...
@@ -53,7 +53,7 @@ t0=grpdelay(n0,d0,nplot);
                                   A2k_rd,A2epsilon0,ones(size(A2p0)), ...
                                   difference);
 h_rd=freqz(n_rd,d_rd,nplot);
-t_rd=grpdelay(n_rd,d_rd,nplot);
+t_rd=delayz(n_rd,d_rd,nplot);
 % Find the total number of adders required to implement the rounded multipliers
 krd=[A1k_rd(:);A2k_rd(:)];
 [krd_digits,krd_adders]=SDadders(krd,nbits);
@@ -69,7 +69,7 @@ svec_bf=bitflip(@schurOneMPAlattice_cost,svec_rd,nbits,bitstart,msize);
   schurOneMPAlattice2tf(A1k_bf,A1epsilon0,ones(size(A1p0)), ...
                         A2k_bf,A2epsilon0,ones(size(A2p0)),difference);
 h_bf=freqz(n_bf,d_bf,nplot);
-t_bf=grpdelay(n_bf,d_bf,nplot);
+t_bf=delayz(n_bf,d_bf,nplot);
 % Find the total number of adders required to implement the BF multipliers
 kbf=[A1k_bf(:);A2k_bf(:)];
 [kbf_digits,kbf_adders]=SDadders(kbf,nbits);
@@ -87,7 +87,7 @@ fclose(fid);
                                   A2k_sd,A2epsilon0,ones(size(A2p0)), ...
                                   difference);
 h_sd=freqz(n_sd,d_sd,nplot);
-t_sd=grpdelay(n_sd,d_sd,nplot);
+t_sd=delayz(n_sd,d_sd,nplot);
 % Find optimised lattice coefficients with bit-flipping and signed-digits
 svec_bfsd=bitflip(@schurOneMPAlattice_cost,svec_sd,nbits,bitstart,msize);
 [cost_bfsd,A1k_bfsd,A2k_bfsd]=schurOneMPAlattice_cost(svec_bfsd)
@@ -95,7 +95,7 @@ svec_bfsd=bitflip(@schurOneMPAlattice_cost,svec_sd,nbits,bitstart,msize);
                                       A2k_bfsd,A2epsilon0,ones(size(A2p0)), ...
                                       difference);
 h_bfsd=freqz(n_bfsd,d_bfsd,nplot);
-t_bfsd=grpdelay(n_bfsd,d_bfsd,nplot);
+t_bfsd=delayz(n_bfsd,d_bfsd,nplot);
 
 % Allocate signed digits with Lim's algorithm
 ndigits_Lim=schurOneMPAlattice_allocsd_Lim ...
@@ -112,7 +112,7 @@ ndigits_Lim=schurOneMPAlattice_allocsd_Lim ...
   schurOneMPAlattice2tf(A1k_sdl,A1epsilon0,ones(size(A1p0)), ...
                         A2k_sdl,A2epsilon0,ones(size(A2p0)),difference);
 h_sdl=freqz(n_sdl,d_sdl,nplot);
-t_sdl=grpdelay(n_sdl,d_sdl,nplot);
+t_sdl=delayz(n_sdl,d_sdl,nplot);
 % Find optimised lattice coefficients with bit-flipping and signed-digits
 svec_bfsdl=bitflip(@schurOneMPAlattice_cost,svec_sdl,nbits,bitstart,msize);
 [cost_bfsdl,A1k_bfsdl,A2k_bfsdl]=schurOneMPAlattice_cost(svec_bfsdl)
@@ -120,7 +120,7 @@ svec_bfsdl=bitflip(@schurOneMPAlattice_cost,svec_sdl,nbits,bitstart,msize);
   schurOneMPAlattice2tf(A1k_bfsdl,A1epsilon0,ones(size(A1p0)), ...
                         A2k_bfsdl,A2epsilon0,ones(size(A2p0)),difference);
 h_bfsdl=freqz(n_bfsdl,d_bfsdl,nplot);
-t_bfsdl=grpdelay(n_bfsdl,d_bfsdl,nplot);
+t_bfsdl=delayz(n_bfsdl,d_bfsdl,nplot);
 
 % Allocate signed digits with Ito's algorithm
 ndigits_Ito= ...
@@ -138,7 +138,7 @@ ndigits_Ito= ...
                                     A2k_sdi,A2epsilon0,ones(size(A2p0)), ...
                                     difference);
 h_sdi=freqz(n_sdi,d_sdi,nplot);
-t_sdi=grpdelay(n_sdi,d_sdi,nplot);
+t_sdi=delayz(n_sdi,d_sdi,nplot);
 % Find optimised lattice coefficients with bit-flipping and signed-digits
 svec_bfsdi=bitflip(@schurOneMPAlattice_cost,svec_sdi,nbits,bitstart,msize);
 [cost_bfsdi,A1k_bfsdi,A2k_bfsdi]=schurOneMPAlattice_cost(svec_bfsdi)
@@ -146,7 +146,7 @@ svec_bfsdi=bitflip(@schurOneMPAlattice_cost,svec_sdi,nbits,bitstart,msize);
   schurOneMPAlattice2tf(A1k_bfsdi,A1epsilon0,ones(size(A1p0)), ...
                         A2k_bfsdi,A2epsilon0,ones(size(A2p0)),difference);
 h_bfsdi=freqz(n_bfsdi,d_bfsdi,nplot);
-t_bfsdi=grpdelay(n_bfsdi,d_bfsdi,nplot);
+t_bfsdi=delayz(n_bfsdi,d_bfsdi,nplot);
 
 % Make a LaTeX table for cost
 fname=strcat(strf,"_cost.tab");

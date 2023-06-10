@@ -2,7 +2,7 @@
 
 prog=sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.m
 depends="test/sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.m \
-test_common.m \
+test_common.m delayz.m \
 ../tarczynski_parallel_allpass_bandpass_hilbert_test_Da0_coef.m \
 ../tarczynski_parallel_allpass_bandpass_hilbert_test_Db0_coef.m \
 sdp_relaxation_schurOneMPAlattice_mmse.m \

@@ -1,5 +1,5 @@
 % allpass2ndOrderCascadeDelay_socp_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -49,7 +49,7 @@ nplot=512;
 [Ha0,wplot]=freqz(flipud(Da0(:)),Da0(:),nplot);
 Ha0p=allpass2ndOrderCascade(a0,wplot);
 Hab0=(Ha0+exp(-j*wplot*D))/2;
-Ta0=grpdelay(flipud(Da0(:)),Da0(:),nplot);
+Ta0=delayz(flipud(Da0(:)),Da0(:),nplot);
 Tab0=(Ta0+D)/2;
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hab0)));
@@ -94,7 +94,7 @@ Nab1=([flipud(Da1);zeros(D,1)] + [zeros(D,1);Da1])/2;
 % Find response
 nplot=512;
 [Hab1,wplot]=freqz(Nab1,Da1,nplot);
-Tab1=grpdelay(Nab1,Da1,nplot);
+Tab1=delayz(Nab1,Da1,nplot);
 
 % Plot response
 subplot(211);
@@ -150,7 +150,7 @@ Nab1sqm=([flipud(Da1sqm);zeros(D,1)] + [zeros(D,1);Da1sqm])/2;
 % Find response
 nplot=512;
 [Hab1sqm,wplot]=freqz(Nab1sqm,Da1sqm,nplot);
-Tab1sqm=grpdelay(Nab1sqm,Da1sqm,nplot);
+Tab1sqm=delayz(Nab1sqm,Da1sqm,nplot);
 
 % Plot response
 subplot(211);

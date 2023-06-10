@@ -1,5 +1,5 @@
 % allpass2ndOrderCascade_socp_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -56,8 +56,8 @@ Hab0p=(Ha0p+Hb0p)/2;
 if max(abs(Hab0-Hab0p)) > 433*eps
   error("max(abs(Hab0-Hab0p)) > 433*eps");
 endif
-Ta0=grpdelay(flipud(Da0),Da0,nplot);
-Tb0=grpdelay(flipud(Db0),Db0,nplot);
+Ta0=delayz(flipud(Da0),Da0,nplot);
+Tb0=delayz(flipud(Db0),Db0,nplot);
 Tab0=(Ta0+Tb0)/2;
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hab0)));
@@ -96,8 +96,8 @@ nplot=512;
 [Ha1,wplot]=freqz(flipud(Da1),Da1,nplot);
 Hb1=freqz(flipud(Db1),Db1,nplot);
 Hab1=0.5*(Ha1+Hb1);
-Ta1=grpdelay(flipud(Da1),Da1,nplot);
-Tb1=grpdelay(flipud(Db1),Db1,nplot);
+Ta1=delayz(flipud(Da1),Da1,nplot);
+Tb1=delayz(flipud(Db1),Db1,nplot);
 Tab1=0.5*(Ta1+Tb1);
 
 % Plot response

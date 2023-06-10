@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frmT_test.m
-% Copyright (C) 2019,2022 Robert G. Jenssen
+% Copyright (C) 2019-2023 Robert G. Jenssen
 
 test_common;
 
@@ -73,7 +73,7 @@ endif
 %
 % Compare T response with freqz
 %
-Tp=grpdelay(n0,rM,nplot)-((Dmodel*Mmodel)+dmask);
+Tp=delayz(n0,rM,nplot)-((Dmodel*Mmodel)+dmask);
 T=schurOneMAPlattice_frmT(w,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
 % Pass band
 if max(abs(T(1:nap)-Tp(1:nap))) > 5000*eps

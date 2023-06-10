@@ -1,5 +1,5 @@
 % allpass2ndOrderCascade_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -70,7 +70,7 @@ endif
 % Test group delay response
 ftp=0.175;
 ntp=0.175*n/0.5;
-Tab=grpdelay(Nab,Dab,n);
+Tab=delayz(Nab,Dab,n);
 Tab=Tab(1:(ntp-1));
 Tgd=-diff(unwrap(arg(Haplusb(1:ntp))))./diff(w(1:ntp));
 if max(abs((Tgd-Tab)./Tab)) > 5e-4

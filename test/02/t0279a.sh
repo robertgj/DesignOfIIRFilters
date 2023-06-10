@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=complementaryFIRlatticeT_test.m
-depends="test/complementaryFIRlatticeT_test.m test_common.m \
+depends="test/complementaryFIRlatticeT_test.m test_common.m delayz.m \
 complementaryFIRlatticeT.m complementaryFIRlattice2Abcd.m \
 complementaryFIRlattice.m x2tf.m minphase.m H2T.m direct_form_scale.m \
 Abcd2H.oct complementaryFIRdecomp.oct"

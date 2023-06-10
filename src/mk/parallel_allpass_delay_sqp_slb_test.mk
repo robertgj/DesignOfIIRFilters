@@ -14,7 +14,7 @@ parallel_allpass_delay_sqp_slb_test_a1_coef.m \
 parallel_allpass_delay_sqp_slb_test_Da1_coef.m
 
 parallel_allpass_delay_sqp_slb_test_FILES = \
-parallel_allpass_delay_sqp_slb_test.m test_common.m \
+parallel_allpass_delay_sqp_slb_test.m test_common.m delayz.m \
 parallel_allpass_delay_sqp_mmse.m parallel_allpass_delay_slb.m \
 parallel_allpass_delay_slb_show_constraints.m \
 parallel_allpass_delay_slb_exchange_constraints.m \

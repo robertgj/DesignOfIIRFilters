@@ -1,5 +1,5 @@
 % iir_frm_test.m
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -137,7 +137,7 @@ if max(abs(Asq_4-Asq)) > tolH_4
   error("Expected max(abs(Asq_4-Asq)) <= tolH_4");
 endif
 np=ceil(fp*n/0.5);
-T_4=grpdelay(b_4,a_4,n);
+T_4=delayz(b_4,a_4,n);
 tolT_4=88*eps;
 if max(abs(T_4(1:np)-T(1:np))) > tolT_4
   error("Expected max(abs(T_4(1:np)-T(1:np))) <= tolT_4");
@@ -535,7 +535,7 @@ if max(abs(AsqM_5-Asq)) > tolAsqM_5
   error("Expected max(abs(AsqM_5-Asq)) <= tolAsqM_5");
 endif
 np=ceil(0.15*n/(Mmodel*0.5));
-TM_5=grpdelay(aM_5,dM_5,n);
+TM_5=delayz(aM_5,dM_5,n);
 tolTM_5=496*eps;
 if max(abs(TM_5(1:np)-Tnominal-T(1:np))) > tolTM_5
   error("Expected max(abs(TM_5(1:np)-Tnominal-T(1:np))) <= tolTM_5");
@@ -678,7 +678,7 @@ tolAsqM_5=46*eps;
 if max(abs(AsqM_5-Asq)) > tolAsqM_5
   error("Expected max(abs(AsqM_5-Asq)) <= tolAsqM_5");
 endif
-TM_5=grpdelay(aM_5,dM_5,n);
+TM_5=delayz(aM_5,dM_5,n);
 tolTM_5=4210*eps;
 if max(abs(TM_5(20:70)-Tnominal-T(20:70))) > tolTM_5
   error("Expected max(abs(TM_5(20:70)-Tnominal-T(20:70))) <= tolTM_5");
@@ -782,7 +782,7 @@ dM_14_10=[x0.d(1);kron(x0.d(2:end),[zeros(Mmodel-1,1);1])];
 aM_14_10=[zeros(Mmodel*Dmodel,1);dM_14_10]-[aM_14_10;zeros(Mmodel*Dmodel-20,1)];
 [H_14_10,w]=freqz(aM_14_10,dM_14_10,n);
 Asq_14_10=abs(H_14_10).^2;
-T_14_10=grpdelay(aM_14_10,dM_14_10,n);
+T_14_10=delayz(aM_14_10,dM_14_10,n);
 try
   [Asq,T]=iir_frm(w,xk,Uad,Vad,Mad,Qad,na,nc,Mmodel,Dmodel);
 catch
@@ -978,7 +978,7 @@ if max(abs(Asq_frm_alt-Asq)) > tolAsq_frm_alt
   error("Expected max(abs((Asq_frm_alt-Asq))) <= tolAsq_frm_alt");
 endif
 np=ceil((fp*n/0.5)/2);
-T_frm_alt=grpdelay(aM_frm,dM,n);
+T_frm_alt=delayz(aM_frm,dM,n);
 tolT_frm_alt=200000*eps;
 if max(abs(T_frm_alt(2:np)-Tnominal-T(2:np))) > tolT_frm_alt
   error("Expected max(abs(T_frm_alt(2:np)-Tnominal-T(2:np))) <= tolT_frm_alt");
@@ -1155,7 +1155,7 @@ if max(abs(Asq_frm_alt-Asq)) > tolAsq_frm_alt
   error("Expected max(abs((Asq_frm_alt-Asq))) <= tolAsq_frm_alt");
 endif
 np=ceil((fp*n/0.5)/2);
-T_frm_alt=grpdelay(aM_frm,dM,n);
+T_frm_alt=delayz(aM_frm,dM,n);
 tolT_frm_alt=3077*eps;
 if max(abs(T_frm_alt(2:np)-Tnominal-T(2:np))) > tolT_frm_alt
   error("Expected max(abs(T_frm_alt(2:np)-Tnominal-T(2:np))) <= tolT_frm_alt");

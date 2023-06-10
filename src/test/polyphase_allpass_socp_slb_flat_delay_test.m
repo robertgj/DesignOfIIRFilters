@@ -83,7 +83,7 @@ Nab0=(conv(flipud(Da0R),[Db0R;0])+conv([0;flipud(Db0R)],Da0R))/2;
 Dab0=conv(Da0R,Db0R);
 nplot=512;
 [Hab0,wplot]=freqz(Nab0,Dab0,nplot);
-Tab0=grpdelay(Nab0,Dab0,nplot);
+Tab0=delayz(Nab0,Dab0,nplot);
 
 % Plot initial response
 subplot(211);
@@ -124,7 +124,7 @@ Dab1=conv(Da1,Db1);
 % Find response
 nplot=512;
 [Hab1,wplot]=freqz(Nab1,Dab1,nplot);
-Tab1=grpdelay(Nab1,Dab1,nplot);
+Tab1=delayz(Nab1,Dab1,nplot);
 
 % Plot response
 subplot(211);

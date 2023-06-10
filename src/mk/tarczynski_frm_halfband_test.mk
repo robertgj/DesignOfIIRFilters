@@ -10,5 +10,5 @@ tarczynski_frm_halfband_test_r0_coef.m \
 tarczynski_frm_halfband_test_aa0_coef.m
 
 tarczynski_frm_halfband_test_FILES = tarczynski_frm_halfband_test.m \
-test_common.m print_polynomial.m frm_lowpass_vectors.m
+test_common.m delayz.m print_polynomial.m frm_lowpass_vectors.m
 

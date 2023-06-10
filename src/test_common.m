@@ -54,6 +54,7 @@ warning("error","Octave:undefined-return-values");
 % Disable some noisy warnings (note patches to octave source files)
 warning("off","Octave:data-file-in-path");
 warning("off","Octave:LaTeX:internal-error");
+warning("off","signal:delayz-singularity");
 warning("off","signal:grpdelay-singularity");
 if strcmp("8.2.0-robj",OCTAVE_VERSION)
   % See scripts/plot/util/private/__gnuplot_draw_axes__.m

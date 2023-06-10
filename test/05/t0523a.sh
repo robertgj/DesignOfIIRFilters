@@ -2,7 +2,7 @@
 
 prog=directFIRnonsymmetricT_test.m
 
-depends="test/directFIRnonsymmetricT_test.m test_common.m directFIRnonsymmetricT.m \
+depends="test/directFIRnonsymmetricT_test.m test_common.m delayz.m directFIRnonsymmetricT.m \
 directFIRnonsymmetricAsq.m"
 
 tmp=/tmp/$$

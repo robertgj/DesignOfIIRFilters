@@ -1,5 +1,5 @@
 % tarczynski_deczky1_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -71,7 +71,7 @@ D0=[1; ND0((nN+2):end)];
 % Plot results
 nplot=512;
 [H0,wplot]=freqz(N0,D0,nplot);
-T0=grpdelay(N0',D0',nplot);
+T0=delayz(N0',D0',nplot);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(H0)));
 ylabel("Amplitude(dB)");

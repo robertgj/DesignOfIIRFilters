@@ -1,9 +1,6 @@
 % directFIRnonsymmetricT_test.m
 %
-% The Octave Forge signal package grpdelay function does not accept an
-% array of frequencies as an argument. 
-%
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2023 Robert G. Jenssen
 
 test_common;
 
@@ -63,7 +60,7 @@ h=h(:)';
 N=length(h)-1;
 nplot=1000;
 nap=ceil(fap*nplot/0.5)+1;
-[D,w]=grpdelay(h,1,nplot);
+[D,w]=delayz(h,1,nplot);
 D=D(1:nap);
 w=w(1:nap);
 
@@ -80,8 +77,8 @@ del=1e-6;
 gradD=zeros(nap,N+1);
 delh=[del/2,zeros(1,N)];
 for k=1:(N+1)
-  Dhpdelh=grpdelay(h+delh,1,nplot);
-  Dhmdelh=grpdelay(h-delh,1,nplot);
+  Dhpdelh=delayz(h+delh,1,nplot);
+  Dhmdelh=delayz(h-delh,1,nplot);
   gradD(:,k)=(Dhpdelh(1:nap)-Dhmdelh(1:nap))/del;
   delh=circshift(delh,1);
 endfor  

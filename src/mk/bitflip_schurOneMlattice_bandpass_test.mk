@@ -34,6 +34,6 @@ tf2schurOneMlattice.m schurOneMlatticeNoiseGain.m schurOneMlattice2Abcd.oct \
 Abcd2tf.m schurOneMscale.m print_polynomial.m bin2SPT.oct schurOneMlatticeAsq.m \
 schurOneMlattice2H.oct complex_zhong_inverse.oct H2Asq.m schurOneMlatticeEsq.m \
 schurOneMlatticeT.m H2T.m bin2SDul.m schurOneMlattice_allocsd_Lim.m SDadders.m \
-schurOneMlattice_allocsd_Ito.m
+schurOneMlattice_allocsd_Ito.m delayz.m
 
 bitflip_schurOneMlattice_bandpass_test.diary : iir_sqp_slb_bandpass_test.diary

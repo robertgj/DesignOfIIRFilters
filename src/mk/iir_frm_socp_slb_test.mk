@@ -17,7 +17,7 @@ iir_frm_socp_slb_test_aa_coef.m \
 iir_frm_socp_slb_test_ac_coef.m 
 
 iir_frm_socp_slb_test_FILES = \
-iir_frm_socp_slb_test.m test_common.m \
+iir_frm_socp_slb_test.m test_common.m delayz.m \
 iir_frm.m \
 iir_frm_slb.m \
 iir_frm_slb_constraints_are_empty.m \

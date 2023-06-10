@@ -4,7 +4,7 @@ prog=bitflip_schurOneMlattice_bandpass_test.m
 depends="test/bitflip_schurOneMlattice_bandpass_test.m \
 ../iir_sqp_slb_bandpass_test_D1_coef.m \
 ../iir_sqp_slb_bandpass_test_N1_coef.m \
-test_common.m \
+test_common.m delayz.m \
 bitflip_bandpass_test_common.m schurOneMlattice_cost.m schurOneMlattice2tf.m \
 schurdecomp.oct schurexpand.oct bin2SD.oct flt2SD.m x2nextra.m bitflip.oct \
 tf2schurOneMlattice.m schurOneMlatticeNoiseGain.m schurOneMlattice2Abcd.oct \

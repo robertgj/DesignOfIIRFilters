@@ -9,5 +9,5 @@ tarczynski_lowpass_differentiator_test_N0_coef.m \
 tarczynski_lowpass_differentiator_test.mat
 
 tarczynski_lowpass_differentiator_test_FILES = \
-tarczynski_lowpass_differentiator_test.m test_common.m WISEJ.m \
+tarczynski_lowpass_differentiator_test.m test_common.m delayz.m WISEJ.m \
 tf2Abcd.m print_polynomial.m print_pole_zero.m

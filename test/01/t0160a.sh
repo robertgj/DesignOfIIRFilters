@@ -4,7 +4,7 @@ prog=allpass2ndOrderCascadeDelay_socp_test.m
 
 depends="test/allpass2ndOrderCascadeDelay_socp_test.m \
 ../tarczynski_allpass_phase_shift_test_Da0_coef.m \
-test_common.m stability2ndOrderCascade.m print_polynomial.m \
+test_common.m delayz.m stability2ndOrderCascade.m print_polynomial.m \
 allpass2ndOrderCascade.m allpass2ndOrderCascadeDelay_socp.m \
 local_max.m fixResultNaN.m casc2tf.m tf2casc.m qroots.m qzsolve.oct"
 
