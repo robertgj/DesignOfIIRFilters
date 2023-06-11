@@ -36108,6 +36108,11 @@ within \emph{build-octave.sh}. The \emph{octave-8.2.0/configure} script is
 patched so that the Octave \texttt{OCTAVE\_VERSION} command
 returns \texttt{8.2.0-robj}.
 
+The \emph{build-octave.sh} script assumes the default sizes of FORTRAN
+data types. For example, \texttt{real} and \texttt{integer} are $4$ bytes. The
+script must be modified to use $8$ byte integer array indexes in \emph{blas},
+\emph{lapack}, \emph{SuiteSparse}, \emph{octave} etc.
+
 The local build of Octave links to locally built versions of the following
 libraries: 
 \emph{arpack-ng-3.9.0}~\cite{ARPACKNG_website},
