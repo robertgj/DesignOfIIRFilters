@@ -17,10 +17,15 @@ delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
+expected_yalmip_version = "20210609";
+if ~strcmp(yalmip("version"),expected_yalmip_version)
+  error("Expected YALMIP version %s",expected_yalmip_version);
+endif
+
 tic;
 
 % Increase from the default SeDuMi eps
-sedumi_eps=3e-8;
+sedumi_eps=1e-8;
 
 % Band-pass filter specification
 % Fails with numerical problems for sedumi.eps=1e-9,(N=60,d=20),(N=50,d=20) !
@@ -150,7 +155,7 @@ endif
 
 % Union of lower and upper pass band constraints
 P_plu=sdpvar(N,N,"symmetric","real");
-Q_plu=sdpvar(N,N,"symmetric","real");
+Q_plu=sdpvar(N,N,"hermitian","complex");
 F_plu=[[((F2AB')*(kron(Phi_plu,P_plu)+kron(Psi_plu,Q_plu))*F2AB) + ...
         (G2AB'*kron(R_plu,diag([zeros(1,N),-Esq_z]))*G2AB), ...
         (kron(eye(2),CD_d)*G2AB)']; ...
@@ -240,7 +245,7 @@ endif
 
 % Union of lower, middle and upper stop band constraints
 P_slmu=sdpvar(N,N,"symmetric","real");
-Q_slmu=sdpvar(N,N,"symmetric","real");
+Q_slmu=sdpvar(N,N,"hermitian","complex");
 F_slmu=[[((F3AB')*(kron(Phi_slmu,P_slmu)+kron(Psi_slmu,Q_slmu))*F3AB) + ...
         (G3AB'*kron(R_slmu,diag([zeros(1,N),-Esq_s]))*G3AB), ...
         (kron(eye(3),CD)*G3AB)']; ...
@@ -256,8 +261,8 @@ endif
 
 % Sanity checks
 check(Constraints)
-if ~ishermitian(value(P_plu))
-  error("P_plu not hermitian");
+if ~issymmetric(value(P_plu))
+  error("P_plu not symmetric");
 endif
 if ~ishermitian(value(Q_plu))
   error("Q_plu not hermitian");
@@ -271,8 +276,8 @@ endif
 if ~isdefinite(-value(F_plu))
   error("F_plu not negative semi-definite");
 endif
-if ~ishermitian(value(P_slmu))
-  error("P_slmu not hermitian");
+if ~issymmetric(value(P_slmu))
+  error("P_slmu not symmetric");
 endif
 if ~ishermitian(value(Q_slmu))
   error("Q_slmu not hermitian");

@@ -39,13 +39,13 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 Linear matrix variable 3x3 (full, complex, 6 variables)
-Coeffiecient range: 1 to 1
+Coefficient range: 1 to 1
 
 
 Using sedumi
 
 Linear matrix variable 9x1 (full, complex, 5 variables)
-Coeffiecient range: 0.8 to 4
+Coefficient range: 0.8 to 4
 ans = Successfully solved (SeDuMi)
 ans = 0
 Z1 =
@@ -55,8 +55,8 @@ Z1 =
 
 t1 = 2.1048
 Linear matrix variable 9x1 (full, complex, 5 variables)
-Values in range [0.28269,0.78269]
-Coeffiecient range: 0.8 to 4
+Values in range [0.28269,0.78269], 9 nonzeros
+Coefficient range: 0.8 to 4
 ans = Successfully solved (SeDuMi)
 ans = 0
 Z2 =
@@ -66,8 +66,8 @@ Z2 =
 
 t2 = 1.4508
 Linear matrix variable 9x1 (full, complex, 5 variables)
-Values in range [0.28269,0.78269]
-Coeffiecient range: 0.8 to 4
+Values in range [0.2827,0.7827], 9 nonzeros
+Coefficient range: 0.8 to 4
 ans = Successfully solved (SeDuMi)
 ans = 0
 Z3 =
@@ -77,14 +77,14 @@ Z3 =
 
 t3 = 1.4508
 Linear matrix variable 9x1 (full, complex, 5 variables)
-Values in range [0.28269,0.78269]
-Coeffiecient range: 0.8 to 4
+Values in range [0.2827,0.7827], 9 nonzeros
+Coefficient range: 0.8 to 4
 ans = Successfully solved (SeDuMi)
 ans = 0
 Z4 =
-   4.2826 +      0i   0.8079 + 1.7341i   2.5574 - 0.7937i
-   0.8079 - 1.7341i   4.2826 +      0i   0.8079 + 1.7341i
-   2.5574 + 0.7937i   0.8079 - 1.7341i   4.2826 +      0i
+   4.2826 +      0i   0.8079 + 1.7342i   2.5574 - 0.7937i
+   0.8079 - 1.7342i   4.2826 +      0i   0.8079 + 1.7342i
+   2.5574 + 0.7937i   0.8079 - 1.7342i   4.2826 +      0i
 
 t4 = 2.1048
 ans = Successfully solved (SeDuMi)
@@ -100,8 +100,8 @@ t5 = 1.4508
 Using sdpt3
 
 Linear matrix variable 9x1 (full, complex, 5 variables)
-Values in range [-0.28269,-0.78269]
-Coeffiecient range: 0.8 to 4
+Values in range [-0.2827,-0.7827], 9 nonzeros
+Coefficient range: 0.8 to 4
 ans = Successfully solved (SDPT3)
 ans = 0
 Z1 =
@@ -111,8 +111,8 @@ Z1 =
 
 t1 = 2.1048
 Linear matrix variable 9x1 (full, complex, 5 variables)
-Values in range [0.28268,0.78268]
-Coeffiecient range: 0.8 to 4
+Values in range [0.28268,0.78268], 9 nonzeros
+Coefficient range: 0.8 to 4
 ans = Successfully solved (SDPT3)
 ans = 0
 Z2 =
@@ -122,8 +122,8 @@ Z2 =
 
 t2 = 1.4508
 Linear matrix variable 9x1 (full, complex, 5 variables)
-Values in range [0.28268,0.78268]
-Coeffiecient range: 0.8 to 4
+Values in range [0.28268,0.78268], 9 nonzeros
+Coefficient range: 0.8 to 4
 ans = Successfully solved (SDPT3)
 ans = 0
 Z3 =
@@ -133,8 +133,8 @@ Z3 =
 
 t3 = 1.4508
 Linear matrix variable 9x1 (full, complex, 5 variables)
-Values in range [0.28268,0.78268]
-Coeffiecient range: 0.8 to 4
+Values in range [0.28268,0.78268], 9 nonzeros
+Coefficient range: 0.8 to 4
 ans = Successfully solved (SDPT3)
 ans = 0
 Z4 =

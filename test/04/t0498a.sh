@@ -45,35 +45,13 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 
 cat > yalmiptest.ok << 'EOF'
-|   Searching for installed solvers   |
-|       Solver|   Version|      Status|
-|    BISECTION|          |    internal|
-|       BMIBNB|          |    internal|
-|          BNB|          |    internal|
-|       CUTSDP|          |    internal|
-|        KKTQP|          |    internal|
-|                                     Test|    Status|   Solver|
-|                     Core functionalities|   Success|         |
-|                  Linear programming (LP)|   Success|     GLPK|
-|               Quadratic programming (QP)|   Success|   SeDuMi|
-|     Second-order cone programming (SOCP)|   Success|   SeDuMi|
-|           Semidefinite programming (SDP)|   Success|   SeDuMi|
-|               Geometric programming (GP)|    Failed|         |
-|              Nonlinear programming (NLP)|    Failed|         |
-|                    Nonlinear SDP (NLSDP)|   Success|   BMIBNB|
-|       Exponential cone programming (ECP)|    Failed|         |
-|                  Mixed-integer LP (MIQP)|   Success|     GLPK|
-|                  Mixed-integer QP (MIQP)|   Success|      BNB|
-|              Mixed-integer SOCP (MISOCP)|   Success|      BNB|
-|   Global nonconvex quadratic programming|   Success|   BMIBNB|
-|             Global nonconvex programming|   Success|   BMIBNB|
-|   Searching for installed solvers   |
-|       Solver|   Version|      Status|
-|    BISECTION|          |    internal|
-|       BMIBNB|          |    internal|
-|          BNB|          |    internal|
-|       CUTSDP|          |    internal|
-|        KKTQP|          |    internal|
+|   Searching for installed solvers    |
+|       Solver|    Version|      Status|
+|    BISECTION|           |    internal|
+|       BMIBNB|           |    internal|
+|          BNB|           |    internal|
+|       CUTSDP|           |    internal|
+|        KKTQP|           |    internal|
 |                                     Test|    Status|   Solver|
 |                     Core functionalities|   Success|         |
 |                  Linear programming (LP)|   Success|   SeDuMi|
@@ -89,13 +67,13 @@ cat > yalmiptest.ok << 'EOF'
 |              Mixed-integer SOCP (MISOCP)|    Failed|         |
 |   Global nonconvex quadratic programming|    Failed|         |
 |             Global nonconvex programming|    Failed|         |
-|   Searching for installed solvers   |
-|       Solver|   Version|      Status|
-|    BISECTION|          |    internal|
-|       BMIBNB|          |    internal|
-|          BNB|          |    internal|
-|       CUTSDP|          |    internal|
-|        KKTQP|          |    internal|
+|   Searching for installed solvers    |
+|       Solver|    Version|      Status|
+|    BISECTION|           |    internal|
+|       BMIBNB|           |    internal|
+|          BNB|           |    internal|
+|       CUTSDP|           |    internal|
+|        KKTQP|           |    internal|
 |                                     Test|    Status|   Solver|
 |                     Core functionalities|   Success|         |
 |                  Linear programming (LP)|   Success|    SDPT3|

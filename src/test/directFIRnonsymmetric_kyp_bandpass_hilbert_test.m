@@ -19,15 +19,19 @@ delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
+expected_yalmip_version = "20210609";
+if ~strcmp(yalmip("version"),expected_yalmip_version)
+  error("Expected YALMIP version %s",expected_yalmip_version);
+endif
+
 tic;
 
 % Band-pass filter specification
 N=40;
 d=10;
 fasl=0.10;fapl=0.175;fapu=0.225;fasu=0.30;
-Esq_z=2.351e-5;
-Esq_z
-Esq_s=1e-4;
+Esq_z=2.351e-5
+Esq_s=1e-4
 Esq_max=1;
 
 % Common constants
@@ -52,20 +56,20 @@ CD_d=CD-[C_d,0];
 
 % Maximum amplitude constraint
 P_max=sdpvar(N,N,"symmetric","real");
-Q_max=sdpvar(N,N,"symmetric","real");
+Q_max=sdpvar(N,N,"hermitian","complex");
 F_max=[[((AB')*(kron(Phi,P_max)+kron(Psi_max,Q_max))*AB) + ...
         diag([zeros(1,N),-Esq_max]),CD']; ...
        [CD,-1]];
 
 % Lower stop band constraint 
 P_sl=sdpvar(N,N,"symmetric","real");
-Q_sl=sdpvar(N,N,"symmetric","real");
+Q_sl=sdpvar(N,N,"hermitian","complex");
 F_sl=[[((AB')*(kron(Phi,P_sl)+kron(Psi_sl,Q_sl))*AB) + ...
        diag([zeros(1,N),-Esq_s]),CD']; ...
       [CD,-1]];
 
 % Pass band constraint on the error |H(w)-e^(-j*w*d)|
-P_z=sdpvar(N,N,"hermitian","complex");
+P_z=sdpvar(N,N,"symmetric","real");
 Q_z=sdpvar(N,N,"hermitian","complex");
 F_z=[[((AB')*(kron(Phi,P_z)+kron(Psi_z,Q_z))*AB) + ...
       diag([zeros(1,N),-Esq_z]),CD_d']; ...
@@ -73,7 +77,7 @@ F_z=[[((AB')*(kron(Phi,P_z)+kron(Psi_z,Q_z))*AB) + ...
 
 % Upper stop band constraint 
 P_su=sdpvar(N,N,"symmetric","real");
-Q_su=sdpvar(N,N,"symmetric","real");
+Q_su=sdpvar(N,N,"hermitian","complex");
 F_su=[[((AB')*(kron(Phi,P_su)+kron(Psi_su,Q_su))*AB) + ...
        diag([zeros(1,N),-Esq_s]),CD']; ...
       [CD,-1]];
@@ -94,14 +98,23 @@ check(Constraints)
 if ~issymmetric(value(P_max))
   error("P_max not symmetric");
 endif
+if ~isreal(value(Q_max))
+  error("Q_max not real");
+endif
+if ~issymmetric(value(Q_max))
+  error("Q_max not symmetric");
+endif
 if ~isdefinite(value(Q_max))
   error("Q_max not positive semi-definite");
 endif
 if ~isdefinite(-value(F_max))
   error("F_max not negative semi-definite");
 endif
-if ~ishermitian(value(P_z))
-  error("P_z not hermitian");
+if ~issymmetric(value(P_z))
+  error("P_z not symmetric");
+endif
+if ~ishermitian(value(Q_z))
+  error("Q_z not hermitian");
 endif
 if ~isdefinite(value(Q_z))
   error("Q_z not positive semi-definite");
@@ -112,6 +125,12 @@ endif
 if ~issymmetric(value(P_sl))
   error("P_sl not symmetric");
 endif
+if ~isreal(value(Q_sl))
+  error("Q_sl not real");
+endif
+if ~issymmetric(value(Q_sl))
+  error("Q_sl not symmetric");
+endif
 if ~isdefinite(value(Q_sl))
   error("Q_sl not positive semi-definite");
 endif
@@ -120,6 +139,12 @@ if ~isdefinite(-value(F_sl))
 endif
 if ~issymmetric(value(P_su))
   error("P_su not symmetric");
+endif
+if ~isreal(value(Q_su))
+  error("Q_su not real");
+endif
+if ~issymmetric(value(Q_su))
+  error("Q_su not symmetric");
 endif
 if ~isdefinite(value(Q_su))
   error("Q_su not positive semi-definite");

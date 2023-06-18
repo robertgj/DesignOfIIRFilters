@@ -13,15 +13,15 @@ welcome!
   files.
 * *build-octave.sh* builds a patched local version of
   [Octave](https://www.gnu.org/software/octave) and the required numerical
-  libraries and installs forks of the [SeDuMi](https://github.com/sqlp/sedumi),
-  [SparsePOP](http://sparsepop.sourceforge.net),
+  libraries and installs the [SeDuMi](https://github.com/sqlp/sedumi),
   [SDPT3](https://github.com/sqlp/sdpt3)
-  and [YALMIP](https://yalmip.github.io/) solvers from my GitHub
+  and [YALMIP](https://yalmip.github.io/) solvers from their GitHub repositories 
+  and forks of the 
+  [gloptipoly3](http://homepages.laas.fr/henrion/software/gloptipoly3) and
+  [SparsePOP](http://sparsepop.sourceforge.net) solvers from my
   [repository](https://github.com/robertgj). 
 * *patch* contains the patch files that have been applied to create forks
- of [YALMIP](https://yalmip.github.io),
  [SparsePOP](http://sparsepop.sourceforge.net) and
- [SDPT3](https://github.com/sqlp/sdpt3). 
 * *batchtest.sh* runs the regression tests. It can be run standalone but is intended to be used by the
 [aegis](https://sourceforge.net/projects/aegis/files/aegis/4.24/aegis-4.24.tar.gz/download)
  software configuration management system and the output of the script is in aegis format.

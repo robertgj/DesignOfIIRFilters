@@ -38,8 +38,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-sol.problem=0,result=Correct,value(alpha) = -2.4317
-P(:)'=[10.8191  5.1631  5.1631  6.9775 ]
+sol.problem=0,result=Correct,value(alpha) = -1.394435
+P(:)'=[ 7.8172  6.6476  6.6476  9.7479 ]
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

@@ -862,14 +862,16 @@ if test $? -ne 0;then rm -Rf sdpt3-master; exit -1; fi
 $OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SDPT3/install_sdpt3.m
 
 # Install YALMIP
-if ! test -f YALMIP-develop.zip ; then
-  wget -c $GITHUB_URL/YALMIP/archive/refs/heads/develop.zip
-  mv develop.zip YALMIP-develop.zip
+YALMIP_VER=R20230609
+YALMIP_ARCHIVE=$YALMIP_VER".tar.gz"
+YALMIP_URL="https://github.com/yalmip/YALMIP/archive/refs/tags/"$YALMIP_ARCHIVE
+if ! test -f "YALMIP-"$YALMIP_ARCHIVE ; then
+    wget -c $YALMIP_URL
+    mv -f $YALMIP_ARCHIVE "YALMIP-"$YALMIP_ARCHIVE
 fi
-rm -Rf YALMIP-develop $OCTAVE_SITE_M_DIR/YALMIP
-unzip YALMIP-develop.zip 
-mv YALMIP-develop $OCTAVE_SITE_M_DIR/YALMIP
-if test $? -ne 0;then rm -Rf YALMIP-develop; exit -1; fi
+tar -xf "YALMIP-"$YALMIP_ARCHIVE
+mv -f "YALMIP-"$YALMIP_VER $OCTAVE_SITE_M_DIR/YALMIP
+if test $? -ne 0;then rm -Rf "YALMIP-"$YALMIP_VER; exit -1; fi
 
 # Install SparsePOP
 if ! test -f SparsePOP-master.zip ; then
@@ -879,7 +881,7 @@ fi
 rm -Rf SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP
 unzip SparsePOP-master.zip
 find SparsePOP-master -name \*.mex* -exec rm -f {} ';'
-mv SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP
+mv -f SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP
 if test $? -ne 0;then rm -Rf SparsePOP-master; exit -1; fi
 # !! Do not build the SparsePOP .mex files !!
 # $OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SparsePOP/compileSparsePOP.m

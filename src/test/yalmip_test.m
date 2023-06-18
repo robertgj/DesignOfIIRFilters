@@ -10,7 +10,7 @@ delete("yalmip_test.diary.tmp");
 diary yalmip_test.diary.tmp
 
 % Run YALMIP yalmiptest.m script
-solvers={'','sedumi','sdpt3'};
+solvers={'sedumi','sdpt3'};
 for k=1:length(solvers)
   yalmiptest(sdpsettings('solver',solvers{k}),true);
 endfor
