@@ -13,7 +13,7 @@ function [ng,ngap]=schurOneMlatticeRetimedNoiseGain(k,epsilon,p,c,filterStr)
 %  ngap is the noise gain of the allpass lattice filter
 %
 % The lattice filter structure is:
-%                                             ___move_c1_to_here___
+%                                             ___move_c0_to_here___
 %                                            |                     |
 %       _______  x3N-1_       _______  __x5__V _______  __x2__     | 
 % Out <-|     |<-|z^-1|<-...<-|     |<-|z^-1|<-|     |<-|z^-1|<--  |
@@ -47,10 +47,8 @@ function [ng,ngap]=schurOneMlatticeRetimedNoiseGain(k,epsilon,p,c,filterStr)
 % by including the appropriate states. The choices available are: 
 %   "schur"     - Schur lattice filter implemented in schurOneMlatticeFilter.m
 %   "ABCD"      - Schur lattice filter implemented in svf.m
-%   "pipelined" - Schur lattice filter with extra states to control latency
-%   "decimator" - Schur lattice filter calculated at twice the sample rate
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -81,10 +79,12 @@ function [ng,ngap]=schurOneMlatticeRetimedNoiseGain(k,epsilon,p,c,filterStr)
     error("Input vector lengths inconsistent!");
   endif
   % Filter type
+  if length(filterStr)<4
+    error("Length of filterStr < 4 !");
+  endif
   fchoice=tolower(filterStr(1:4));
-  if (fchoice ~= "schu") && (fchoice ~= "pipe") && ...
-     (fchoice ~= "deci") && (fchoice ~= "abcd")
-    error("Expected \"schur\",\"pipelined\",\"decimator\" or \"abcd\" filter!");
+  if (fchoice ~= "schu")  && (fchoice ~= "abcd")
+    error("Expected \"schur\" or \"abcd\" filter!");
   endif
 
   %
@@ -160,23 +160,6 @@ function [ng,ngap]=schurOneMlatticeRetimedNoiseGain(k,epsilon,p,c,filterStr)
     % In svf.m both outputs are calculated in a wide accumulator.
     selectX=kron(ones(N,1),[0;0;1]); 
     selectXap=selectX;
-  elseif fchoice=="deci"
-    % In the retimed and pipelined decimator filter with a state for 
-    % each node, states 3-3*N contribute to output noise (x5 includes
-    % the c0=c(1) coefficient instead of x2) so dont include x1 and x2: 
-    selectX=[0;0;ones((N*3)-2,1)];
-    % For the retimed pipelined decimator all-pass filter use all states but x1
-    selectXap=kron(ones(N,1),[1;0;1]);
-    selectXap(1)=0;
-  elseif fchoice=="pipe"
-    % The pipelined filter alternates between 1 and 2 states per section.
-    if rem(N,2)
-      selectX=[kron(ones((N-1)/2,1),[0;0;1;1;1;0]);0;0;1];
-      selectXap=[kron(ones((N-1)/2,1),[0;0;1;1;0;0]);0;0;1];
-    else
-      selectX=kron(ones(N/2,1),[0;0;1;1;1;0]);
-      selectXap=kron(ones(N/2,1),[0;0;1;1;0;0]);
-    endif
   else
     error("Unknown ftype! Should not get to here!!!");
   endif

@@ -2837,7 +2837,7 @@ so the scaling constraint applied to the $i$-th component of the state vector is
 \end{align*}
 This can be achieved by applying the coordinate transformation:
 \begin{align*}
-T^{-1}=Diag\,\left[ \frac{1}{t_{1}}\;,\;\cdots\;\;,\;\frac{1}{t_{n}}\;\right]
+T^{-1}=\mathdiag\,\left[ \frac{1}{t_{1}}\;,\;\cdots\;\;,\;\frac{1}{t_{n}}\;\right]
 \end{align*}
 where:
 \begin{align*}
@@ -2851,12 +2851,14 @@ the \emph{``one standard deviation error ellipsoid''} in the filter state
 The z-domain state variable equations with round off noise
 inputs can be represented by the following signal flow graph shown in
 Figure~\ref{fig:SVFG-noise}.
+
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{svfg_noise}
 \caption{\label{fig:SVFG-noise}Signal flow graph of round-off noise of the state
   variable} 
 \end{figure}
+
 Where $e$ models the round off noise due to calculation of the state vector,
 $x$, and $n$ models the round off noise due to calculation of the output, $y$.
 The state variable difference equations for the flow graph are:
@@ -2864,16 +2866,17 @@ The state variable difference equations for the flow graph are:
 x\left(k+1\right) &= Ax\left(k\right)+Bu\left(k\right)+e\left(k\right)\\
 y\left(k\right) &= Cx\left(k\right)+Du\left(k\right)+n\left(k\right)
 \end{align*}
-
 The contribution of $e$ to the state vector, $x$, is usually ignored when the
 filter realization is scaled. The round off noise at the output can be modeled 
 as shown in Figure~\ref{fig:Output-noise}.
+
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{output_noise}
 \caption{\label{fig:Output-noise}Signal flow graph of round-off noise at the
   filter output} 
 \end{figure}
+
 Where:
 \begin{align*}
 H\left(z\right)&=D+C\left(zI-A\right)^{-1}B\\
@@ -2883,7 +2886,6 @@ g\left(k\right)&=\begin{cases}
 CA^{k-1} & k>0
 \end{cases}
 \end{align*}
-
 $G\left(z\right)$ is a vector of transfer functions from each state to the
 output. $g\left(k\right)$ is a vector of unit pulse responses, one for each 
 state. If we call $\sigma_{i}^{2}$ the variance of that part of the output
@@ -2901,10 +2903,11 @@ after accumulation (ie: a double length accumulator is used).
 In a similar fashion to the covariance matrix, $K$, of the state vector, the 
 energy in the sequence $g_{i}$ can be characterised by the matrix, $W$:
 \begin{align*}
-W &= E\left\{g_{i}\left(k\right)g_{i}\left(k\right)^{\top}\right\}\\
+  W &= E\left\{g_{i}\left(k\right)g_{i}\left(k\right)^{\top}\right\}\\
   &= \sum^{\infty}_{k=0}\left(CA^{k}\right)^{\top}\left(CA^{k}\right)\\
   &=A^{\top}WA+C^{\top}C
 \end{align*}
+
 This is also a discrete \emph{Lyapunov} equation and can be solved in the
 same manner as the equation for the state covariance matrix, $K$. The matrixes
 $K$ and $W$ are often called the \emph{controllability Gramian} 
@@ -2918,13 +2921,15 @@ otherwise.
 The output noise variance due to round-off noise in calculating the $i$-th
 state can be written:
 \begin{align*}
-\sigma^{2}_{i} &= \sigma^{2}_{e}W_{ii} \quad i=1,\;\cdots\;,n
+  \sigma^{2}_{i} &= \sigma^{2}_{e}W_{ii} \quad i=1,\;\cdots\;,n
 \end{align*}
+
 After the filter is scaled, the total output error due to
 round off noise in the calculation of the state vector is:
 \begin{align*}
-\sigma_{total}^{2}=\sigma_{e}^{2}\delta^{2}\sum^{n}_{i=1}W_{ii}K_{ii}
+  \sigma_{total}^{2}=\sigma_{e}^{2}\delta^{2}\sum^{n}_{i=1}W_{ii}K_{ii}
 \end{align*}
+
 $W_{ii}$ and $K_{ii}$ are those for the unscaled filter.
 The sum $\sum^{n}_{i=1}W_{ii}K_{ii}$ is known as the \emph{``noise gain''} of 
 the filter realization. It is invariant under a diagonal (or scaling)
@@ -2933,6 +2938,7 @@ coordinate transformation. Under a general coordinate transform, $T$:
 \left\{A\;,\ B\;,\ C\;,\;D,\;K,\;W\right\}\quad&\leftarrow\quad 
 \left\{T^{-1}AT\;,\; T^{-1}B\;,\;CT\;,\;T^{-1}K{T^{-1}}^{\top}\;,\;T^{\top}WT\right\}
 \end{align*}
+
 The other sources of output noise variance are those due to the
 input quantization and the round off in calculating the output. Neither
 term depends on the filter realization. Output roundoff contributes
@@ -2940,6 +2946,7 @@ the amount:
 \begin{align*}
 \sigma_{other}^{2}&=\sigma_{e}^{2} {\sum^{m}_{{j=1}}}\|g_{j}\|_{2}^{2}
 \end{align*}
+
 to the output noise. $m$ is the number of non-state variable summation nodes,
 $g_{j}$ is the unit pulse response from node $j$ to the output and the 
 quantisation step size at the output and at each node is assumed to be the 
@@ -2948,10 +2955,12 @@ same ie: the word lengths used are the same for each state.
 The following result can be used to calculate the $l_{2}$-norm of a transfer 
 function, $H\left(z\right)$, with unit pulse response $h\left(k\right)$ and state
 variable representation $\left\{A,B,C,D\right\}$:
+
 \begin{align}
 \label{eqn:Transfer-function-l2-norm-from-unit-pulse-response}
 \|h\|_{2}^{2}=D^{2}+CKC^{\top}
 \end{align}
+
 \subsection{Rounding-to-minus-infinity quantisation noise}
 As stated in Section~\ref{Quantisation-noise-in-digital-filters}, the results
 for round-off noise shown above assume rounding-to-nearest rounding. With
@@ -2977,7 +2986,7 @@ shows the simulated filtered state variable quantisation noise at the
 output of the filter superimposed on the summed state-output-to-filter-output
 step response to a step of $\frac{q}{2}$ at each state variable.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{gkstep_test_noise}}
 \caption{Summed state-to-output step response superimposed on the output quantisation noise of a 3rd order Butterworth filter due to rounding-to-minus-infinity at each state.}
@@ -2989,12 +2998,14 @@ On the other hand, with the 2's-complement rounding-toward-zero rounding,
  the offset follows the sign of the input signal. The additional signal
 dependent quantisation noise introduced by rounding-toward-zero can
 significantly degrade filter noise performance.
+
 \section{\label{sec:Minimisation-of-round-off-noise}Minimization of round-off noise in the calculation of the state vector}
 Minimising the noise gain minimises the round off noise. \emph{Mullis} and
 \emph{Roberts}~\cite{MullisRoberts_SynthesisMinimumRoundoffNoiseDigitalFilters}
 prove Algorithm~\ref{alg:Minimisation-of-the-noise-gain} for equal word-length 
 filters.
-\begin{algorithm}
+
+\begin{algorithm}[!hp]
 If $K$ and $W$ are two n-by-n real symmetric positive definite matrices
 then:
 \begin{align*}
@@ -3015,7 +3026,8 @@ transformation, $T$, that optimises the round-off noise of fixed point,
 equal wordlength state-variable filters given the $K$ and $W$ matrices. 
 Algorithm~\ref{alg:Optimisation-of-the-noise-gain} is implemented in the
 Octave function \emph{optKW.m}.
-\begin{algorithm}
+
+\begin{algorithm}[!hp]
 \begin{enumerate}
 \item Diagonalise $K$ and $W$:\\
 Since $K$ and $W$ are real, symmetric and positive definite, a decomposition
@@ -3025,7 +3037,7 @@ conjugate transpose) and $D_{1}$ is diagonal with real, positive
 elements. Recall that for non-singular matrices
 $\left(AB\right)^{-1}=B^{-1}A^{-1}$ and  
 $\left(AB\right)^{\top}=B^{\top}A^{\top}$.
-Let $T_{1}=U_{1}D_{1}^{-\frac{1}{2}}$ then
+Let $T_{1}=U_{1}D_{1}^{-\frac{1}{2}}$ then:
 \begin{align*}
   W_{1}&=T_{1}^{\top}WT_{1}=I \\
   K_{1}&=T_{1}^{-1}K\left(T_{1}^{-1}\right)^{\top}=U_{2}D_{2}U_{2}^{\top}
@@ -3037,7 +3049,6 @@ then
 W_{2}&=T_{2}^{\top}WT_{2}=D_{2}^{\frac{1}{2}} \\
 K_{2}&=T_{2}^{-1}K\left(T_{2}^{-1}\right)^{\top}=D_{2}^{\frac{1}{2}}
 \end{align*}
-
 \item Balance $D_{2}^{\frac{1}{2}}$:\\
 Now find a unitary transformation, $U_{3}$, for which
 the diagonal elements of $U_{3}^{\top}D_{2}^{\frac{1}{2}}U_{3}$
@@ -3067,13 +3078,12 @@ Expand the matrix product and set $x^{\prime}=z^{\prime}$ so that
 \begin{align*}
   \tan 2\theta&=\frac{z-x}{2y}
 \end{align*}
-After eliminating $y$ from $x^{\prime}$ and
-$z^{\prime}$
+After eliminating $y$ from $x^{\prime}$ and $z^{\prime}$:
 \begin{align*}
 x^{\prime}=z^{\prime}&=\frac{x+z}{2}
 \end{align*}
-
 \item The optimising transform:
+ 
 \begin{align*}
 T&=U_{1}D_{1}^{-\frac{1}{2}}U_{2}D_{2}^{\frac{1}{4}}U_{3}
 \end{align*}
@@ -3090,19 +3100,19 @@ will have a larger than optimal noise gain. The noise gain for a non-optimal
 filter may be improved by distributing bits unevenly between the states.
 \emph{Mullis} and \emph{Roberts}~\cite[Section
 IV]{MullisRoberts_SynthesisMinimumRoundoffNoiseDigitalFilters} 
-show that if the state wordlengths are $B_{i}$ with
+show that if the state wordlengths are $B_{i}$ with:
 \begin{align*}
 \sum^{n}_{i=1}B_{i} &= nB
 \end{align*}
-and the quantisation step size for each state is
+and the quantisation step size for each state is:
 \begin{align*}
   q &= 2^{-B_{i}+1}
 \end{align*}
-then the choice of $B_{i}$ is optimised by setting
+then the choice of $B_{i}$ is optimised by setting:
 \begin{align*}
   \frac{K_{ii}W_{ii}}{2^{2B_{i}}} &= c
 \end{align*}
-where $c$ is a constant. Each $B_{i}$ is given by
+where $c$ is a constant. Each $B_{i}$ is given by:
 \begin{align}
   \label{eqn:Optimal-roundoff-noise-bit-distribution}
   B_{i} &= B + \frac{1}{2}\log_{2}K_{ii}W_{ii} -
@@ -4932,7 +4942,7 @@ slowed lattice.
 \caption{Slowed and retimed lattice section}
 \label{fig:Slowed-and-retimed}
 \end{figure}
-The state-variable description of the re-timed and pipelined lattice
+The state-variable description of the re-timed lattice
 has a state for every node so that the signal at each node can be
 scaled\footnote{The roundoff-noise performance of the transformed filter is the
 same as that of the original filter}. The orthogonality of the 
@@ -5054,7 +5064,7 @@ of the normalised-scaled lattice implementation of $H\left(z\right)$.
 \emph{Parhi}~\cite[Fig. 12.20]{Parhi_VLSIDigitalSignalProcessingSystems})}
 \label{fig:Butterworth-3rd-order}
 \end{figure}
-
+\clearpage
 \section{State Variable Descriptions for Schur Lattice Filters}
 \subsection{State variable description of the Schur FIR lattice filter}
 Figure~\ref{fig:FIR-filter-structure} shows the Schur FIR lattice structure. 
@@ -5063,6 +5073,7 @@ the $n$-th section, $y_{n}$ the upper output of the $n$-th section
 and $\hat{y}_{n}$ the lower output of the $n$-th section. Construction of the
 state variable description of the Schur FIR lattice is summarised in
 Algorithm~\ref{alg:Construction-state-variable-Schur-FIR-lattice}.
+
 \begin{algorithm}[htbp]
 \begin{algorithmic}
 \State $y_{0} = u$
@@ -5081,7 +5092,8 @@ Algorithm~\ref{alg:Construction-state-variable-Schur-FIR-lattice}.
 As shown in Section~\ref{Sec:Construction-factored-state-variable-description},
 the state variable description can be expressed as a series of matrix
 multiplications linking the input and state outputs to the output and the next
-state inputs.
+state inputs:
+
 \begin{align*}
 \left[\begin{array}{c}
 y_{0}\\
@@ -5204,26 +5216,30 @@ The Octave function \emph{schurFIRlattice2Abcd} returns the state variable
 description of a Schur FIR lattice filter.
 The Octave script \emph{schurFIRlattice2Abcd\_symbolic\_test.m} creates a symbolic
 state variable description of the Schur FIR lattice filter.
+
 \subsection{\label{State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}State variable description of the one-multiplier IIR lattice filter}
 In Figure~\ref{fig:State-variable-description-One-Multiplier-Lattice},
 Figure~\ref{fig:One-multiplier-lattice-structure} is redrawn with
 $x_{n}^{\prime}$ corresponding to the input to state $x_{n}$ of
 the $n$-th section, $y_{n}$ being the output of the $n$-th section
 and $\hat{y}_{n}$ the all-pass output of the $n$-th section.
-\begin{figure}
+
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_OneMultiplier_SV_derivation}
 \caption{State variable description of the Schur one-multiplier lattice filter}
 \label{fig:State-variable-description-One-Multiplier-Lattice}
 \end{figure}
+
 Construction of the state variable description is summarised in
 Algorithm~\ref{alg:Construction-state-variable-One-Multiplier-lattice}.
-\begin{algorithm}[htbp]
+
+\begin{algorithm}[!ht]
 \begin{algorithmic}
 \State $\hat{y}_{0} = x_{1}$
 \For{$n=1,\hdots,N-1$}
-  \State $x_{n}^{\prime} = -k_{n}\hat{y}_{n-1}+\left(1+k_{n}\epsilon_{n}\right)x_{n+1}$
-  \State $\hat{y}_{n} = \left(1-k_{n}\epsilon_{n}\right)\hat{y}_{n-1}+k_{n}x_{n+1}$
+  \State $x_{n}^{\prime}=-k_{n}\hat{y}_{n-1}+\left(1+k_{n}\epsilon_{n}\right)x_{n+1}$
+  \State $\hat{y}_{n}= \left(1-k_{n}\epsilon_{n}\right)\hat{y}_{n-1}+k_{n}x_{n+1}$
 \EndFor
 \State $x_{N} = -k_{N}\hat{y}_{N-1}+\left(1+k_{N}\epsilon_{N}\right)u$
 \State $\hat{y} = \left(1-k_{N}\epsilon_{N}\right)\hat{y}_{N-1}+k_{N}u$
@@ -5241,7 +5257,6 @@ $\det\left[\begin{array}{cc}
 -k_{l}&1+k_{l}\epsilon_{l}\\
 1-k_{l}\epsilon_{l} & k_{l}\end{array}\right]=-1$ and $\det{} PQ=\det{}P\det{}Q$,
 then, by inspection, $\det{}A_{1\hdots{}l,1\hdots{}l}=-1^lk_{l}$.}:
-
 
 \begin{align*}
 \left[\begin{array}{c}
@@ -5369,24 +5384,52 @@ description of a one multiplier lattice filter (including the all-pass
 filter $Cap$ and $Dap$ output matrixes).
 The Octave script \emph{schurSchurOneMlattice2Abcd\_symbolic\_test.m} creates a
 symbolic state variable description of the Schur one multiplier lattice filter.
+\subsection{\label{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter}State variable description of a pipelined one-multiplier Schur lattice filter}
+Figure~\ref{subfig:example-lattice-filter} shows a representation $3$rd order
+lattice filter and Figure~\ref{subfig:example-lattice-filter-after-pipelining}
+shows the filter after pipelining by moving the second filter delay to the upper
+and lower branches of the signal flow graph. The total delay in each loop of
+the signal flow graph is unchanged so the transfer function of the filter is
+also unchanged. This pipelining limits the maximum latency of each filter update
+calculation to the latency of two sections and changes the round-off noise
+performance of the filter\footnote{The tapped output could alse be retimed by
+  pipelining the arithmetic operations in a tree structure. The all-pass
+  lattice ouput calculation is recursive and cannot be retimed in that way.}.
 
-
-\subsection{\label{sec:State-variable-retimed-One-multiplier-Schur-lattice-filter}State variable description of a retimed one-multiplier Schur lattice filter}
-Figure~\ref{fig:State-variable-description-retimed-One-Multiplier-Lattice} shows
-a second order segment of the retimed Schur one-multiplier lattice filter in 
-Figure~\ref{subfig:example-lattice-filter-after-retiming}. 
 \begin{figure}
+\begin{subfigure}{\textwidth}
 \centering
-\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_OneMultiplierRetimed}
-\caption{Second order segment of the retimed Schur one-multiplier lattice filter}
-\label{fig:State-variable-description-retimed-One-Multiplier-Lattice}
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{lattice_pipelined_a}
+\caption{Original filter}
+\label{subfig:example-lattice-filter}
+\vspace{1cm}
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+\centering
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{lattice_pipelined_b}
+\caption{Filter after retiming}
+\label{subfig:example-lattice-filter-after-pipelining}
+\end{subfigure}
+\caption{Example of pipelining a 3rd order lattice filter}
 \end{figure}
 
-Construction of a state variable description of the retimed Schur
-one-multiplier lattice filter is summarised in
-Algorithm~\ref{alg:Construction-state-variable-retimed-One-Multiplier-lattice}.
+Figure~\ref{fig:State-variable-description-pipelined-One-Multiplier-Lattice}
+shows a second order segment of the pipelined Schur one-multiplier lattice
+filter in Figure~\ref{subfig:example-lattice-filter-after-pipelining}. 
 
-\begin{algorithm}[htbp]
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_OneMultiplierPipelined}
+\caption{Second order segment of the pipelined Schur one-multiplier lattice
+  filter}
+\label{fig:State-variable-description-pipelined-One-Multiplier-Lattice}
+\end{figure}
+
+Construction of a state variable description of the pipelined Schur
+one-multiplier lattice filter is summarised in
+Algorithm~\ref{alg:Construction-state-variable-pipelined-One-Multiplier-lattice}.
+
+\begin{algorithm}[!hp]
 Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$,
 $\left\{\epsilon_{1},\epsilon_{2}\hdots,\epsilon_{N}\right\}$ and
 $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
@@ -5426,8 +5469,9 @@ $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
 \State $\hat{y} = \left(1-k_{N}\epsilon_{N}\right)x_{3\frac{N}{2}}+k_{N}u$
 \EndIf
 \end{algorithmic}
-\caption{Construction of a state variable description of the retimed Schur one-multiplier lattice filter}
-\label{alg:Construction-state-variable-retimed-One-Multiplier-lattice}
+\caption{Construction of a state variable description of the pipelined Schur
+  one-multiplier lattice filter}
+\label{alg:Construction-state-variable-pipelined-One-Multiplier-lattice}
 \end{algorithm}
 
 As in Section~\ref{State-Variable-Description-One-Multiplier-IIR-Lattice-Filter},
@@ -5559,23 +5603,218 @@ u
 \end{array}\right]
 \end{align*}
 
-The Octave function \emph{schurOneMlatticeRetimed2Abcd} returns the state
-variable description of a retimed Schur one-multiplier lattice filter
+The Octave function \emph{schurOneMlatticePipelined2Abcd} returns the state
+variable description of a pipelined Schur one-multiplier lattice filter
 (including the all-pass filter $Cap$ and $Dap$ output matrixes).
 
-The Octave script \emph{schurOneMlatticeRetimed2Abcd\_symbolic\_test.m} creates a
-symbolic state variable description of a retimed Schur one-multiplier lattice
-filter. 
+The Octave script \emph{schurOneMlatticePipelined2Abcd\_symbolic\_test.m}
+creates a symbolic state variable description of a retimed Schur one-multiplier
+lattice filter. 
+
+\subsection{\label{sec:State-variable-doubly-pipelined-One-multiplier-Schur-lattice-filter}State variable description of a doubly-pipelined one-multiplier Schur lattice filter}
+Figure~\ref{fig:State-variable-description-doubly-pipelined-One-Multiplier-Lattice}
+shows a first order segment of a doubly-pipelined Schur one-multiplier lattice
+filter. In this case, the state transition matrix is linear in the coefficients
+and there are three delays in each filter loop rather than the original single
+delay. In other words, the filter calculations are assumed to be performed at
+triple the input sample rate.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_OneMultiplierDoublyPipelined}
+\caption{First order segment of a doubly pipelined Schur one-multiplier lattice
+  filter}
+\label{fig:State-variable-description-doubly-pipelined-One-Multiplier-Lattice}
+\end{figure}
+
+Construction of a state variable description of the doubly-pipelined Schur
+one-multiplier lattice filter is summarised in
+Algorithm~\ref{alg:Construction-state-variable-doubly-pipelined-One-Multiplier-lattice}. 
+
+\begin{algorithm}[!ht]
+Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$,
+$\left\{\epsilon_{1},\epsilon_{2}\hdots,\epsilon_{N}\right\}$ and
+$\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
+\begin{algorithmic}
+\State $y_{0} = c_{0}x_{1}$
+\State $\hat{y}_{0} = x_{1}$
+\State $x_{1}^{\prime} = x_{2}$  
+\For{$n=1,\hdots,N$}
+\State $x_{5n-3}^{\prime}=-k_{n}x_{5n-1}+\left(1+k_{n}\epsilon_{n}\right)x_{5n+2}$
+\State $x_{5n-2}^{\prime}=y_{n-1}$
+\State $x_{5n-1}^{\prime}=\hat{y}_{n-1}$
+\State $x_{5n}^{\prime}=x_{5n-2}+c_{n}x_{5n+2}$
+\State $x_{5n+1}^{\prime}=\left(1-k_{n}\epsilon_{n}\right)x_{5n-1}+k_{n}x_{5n+2}$
+\State $y_{n} = x_{5n}$
+\State $\hat{y}_{n} = x_{5n+1}$
+\EndFor
+\State $x_{5N+2}^{\prime}=u$
+\State $y=y_{N}$
+\State $\hat{y}=\hat{y}_{N}$
+\end{algorithmic}
+\caption{Construction of a state variable description of the doubly-pipelined
+  Schur one-multiplier lattice filter}
+\label{alg:Construction-state-variable-doubly-pipelined-One-Multiplier-lattice}
+\end{algorithm}
+
+As in Section~\ref{State-Variable-Description-One-Multiplier-IIR-Lattice-Filter},
+the state variable description can be expressed as a series of matrix
+multiplications:
+
+\begin{align*}
+\left[\begin{array}{c}
+x_{1}^{\prime}\\
+y_{0}\\
+\hat{y}_{0}\\
+x_{2}\\
+x_{3}\\
+\vdots\\
+x_{5N+2}\\
+u
+\end{array}\right] & = \left[\begin{array}{ccccc}
+     0 &      1 & \cdots & \cdots & 0 \\
+  c_{0} &      0 & \cdots & \cdots & 0 \\
+     1 &      0 & \cdots & \cdots & 0 \\
+     0 &      1 & \cdots & \cdots & 0 \\
+\vdots &        & \ddots &        & \vdots \\
+     0 &        &        &      1 & 0 \\
+     0 & \cdots & \cdots &      0 & 1
+\end{array}\right]
+\left[\begin{array}{c}
+x_{1}\\
+x_{2}\\
+x_{3}\\
+\vdots\\
+x_{5N+2}\\
+u
+\end{array}\right]
+\end{align*}
+
+\begin{align*}
+\left[\begin{array}{c}
+x_{1}^{\prime}\\
+x_{2}^{\prime}\\
+x_{3}^{\prime}\\
+x_{4}^{\prime}\\
+x_{5}^{\prime}\\
+x_{6}^{\prime}\\
+y_{1}\\
+\hat{y}_{1}\\
+x_{7}\\
+\vdots\\
+x_{5N+2}\\
+u
+\end{array}\right] & = \left[
+\begin{array}{cccccccccccc}
+ 1& 0& 0& 0& 0&     0& 0& 0&                               0& \cdots& 0& 0\\
+ 0& 0& 0& 0& 0& -k_{1}& 0& 0& \left(1+k_{1}\epsilon_{1}\right)& \cdots& 0& 0\\
+ 0& 1& 0& 0& 0&     0& 0& 0&                               0& \cdots& 0& 0\\
+ 0& 0& 1& 0& 0&     0& 0& 0&                               0& \cdots& 0& 0\\
+ 0& 0& 0& 0& 1&     0& 0& 0&                            c_{1}& \cdots& 0& 0\\
+ 0& 0& 0& 0& 0& \left(1-k_{1}\epsilon_{1}\right)& 0& 0&  k_{1}& \cdots& 0& 0\\ 
+ 0& 0& 0& 0& 0&     0& 1& 0&                               0& \cdots& 0& 0\\
+ 0& 0& 0& 0& 0&     0& 0& 1&                               0& \cdots& 0& 0\\
+ 0& 0& 0& 0& 0&     0& 0& 0&                               1& \cdots& 0& 0\\
+ \cdots& & & & &     &  &  &                            & \ddots&\vdots&\vdots\\
+ 0& 0& 0& 0& 0&     0& 0& 0&                               0& \cdots& 1& 0\\
+ 0& 0& 0& 0& 0&     0& 0& 0&                               0& \cdots& 0& 1\\
+\end{array}\right]
+\left[\begin{array}{c}
+x_{1}^{\prime} \\
+y_{0}\\
+\hat{y}_{0}\\
+x_{2}\\
+x_{3}\\
+x_{4}\\
+x_{5}\\
+x_{6}\\
+x_{7}\\
+\vdots\\
+x_{5N+2}\\
+u
+\end{array}\right]
+\end{align*}
+
+\begin{align*}
+\left[\begin{array}{c}
+x_{1}^{\prime}\\
+\vdots\\
+x_{5N-3}^{\prime}\\
+x_{5N-2}^{\prime}\\
+x_{5N-1}^{\prime}\\
+x_{5N}^{\prime}\\
+x_{5N+1}^{\prime}\\
+y_{N}\\
+\hat{y}_{N}\\
+x_{5N+2}\\
+u\end{array}\right] & = \left[
+\begin{array}{ccccccccccc}
+      1& \cdots& 0& 0& 0& 0&     0& 0& 0& 0& 0\\
+ \vdots& \ddots&  &  &  &  &      &  &  &  & \vdots\\
+      0& \cdots& 0& 0& 0& 0& -k_{N}& 0& 0& \left(1+k_{N}\epsilon_{N}\right)& 0\\
+      0& \cdots& 1& 0& 0& 0&     0& 0& 0&                                0& 0\\
+      0& \cdots& 0& 1& 0& 0&     0& 0& 0&                                0& 0\\
+      0& \cdots& 0& 0& 0& 1&     0& 0& 0&                             c_{N}& 0\\
+      0& \cdots& 0& 0& 0& 0&\left(1-k_{N}\epsilon_{N}\right)& 0& 0&   k_{N}& 0\\
+      0& \cdots& 0& 0& 0& 0& 0& 1& 0& 0& 0\\
+      0& \cdots& 0& 0& 0& 0& 0& 0& 1& 0& 0\\
+      0& \cdots& 0& 0& 0& 0& 0& 0& 0& 1& 0\\
+      0& \cdots& 0& 0& 0& 0& 0& 0& 0& 0& 1\end{array}\right]
+\left[\begin{array}{c}
+x_{1}^{\prime} \\
+\vdots\\
+y_{N-1}\\
+\hat{y}_{N-1}\\
+x_{5N-3}\\
+x_{5N-2}\\
+x_{5N-1}\\
+x_{5N}\\
+x_{5N+1}\\
+x_{5N+2}\\
+u\end{array}\right]
+\end{align*}
+
+\begin{align*}
+\left[\begin{array}{c}
+x_{1}^{\prime}\\
+\vdots\\
+x_{5N-3}^{\prime}\\
+x_{5N-2}^{\prime}\\
+x_{5N-1}^{\prime}\\
+x_{5N}^{\prime}\\
+x_{5N+1}^{\prime}\\
+x_{5N+2}^{\prime}\\
+y\\
+\hat{y}\end{array}\right] & = \left[
+\begin{array}{ccccccccccc}
+      1& \cdots& 0& 0& 0& 0&     0& 0& 0& 0& 0\\
+ \vdots& \ddots&  &  &  &  &      &  &  &  & \vdots\\
+      0& \cdots& 0& 0& 0& 0& 0& 0& 0& 0& 1\\
+      0& \cdots& 0& 0& 0& 0& 0& 1& 0& 0& 0\\
+      0& \cdots& 0& 0& 0& 0& 0& 0& 1& 0& 0\end{array}\right]
+\left[\begin{array}{c}
+x_{1}^{\prime} \\
+\vdots\\
+y_{N}\\
+\hat{y}_{N}\\
+x_{5N+2}\\
+u\end{array}\right]
+\end{align*}
+
+The Octave function \emph{schurOneMlatticeDoublyPipelined2Abcd} returns the state
+variable description of a doubly-pipelined Schur one-multiplier lattice filter
+(including the all-pass filter $Cap$ and $Dap$ output matrixes).
+
+The Octave script \emph{schurOneMlatticeDoublyPipelined2Abcd\_symbolic\_test.m}
+creates a symbolic state variable description of a doubly-pipelined Schur
+one-multiplier lattice filter.
+
 \subsection{\label{State-Variable-Description-Scaled-Normalised-IIR-Lattice-Filter}State variable description of the scaled-normalised IIR lattice filter}
 In Figure~\ref{fig:State-variable-description-Scaled-Normalised-lattice},
 Figure~\ref{fig:Normalised-scaled-lattice} is redrawn with $x_{n}^{\prime}$
 corresponding to the input to state $x_{n}$ of the $n$-th section,
 $y_{n}$ being the output of the $n$-th section and $\hat{y}_{n}$
-the all-pass output of the $n$-th section. Construction of the state variable
-description is summarised in  
-Algorithm~\ref{alg:Construction-state-variable-Scaled-Normalised-lattice}
-\footnote{The Octave function \emph{schurNSlattice} combines 
-  $\sigma_{10}^{\left(0\right)}$ and $\sigma_{11}^{\left(1\right)}$}.
+the all-pass output of the $n$-th section.
 
 \begin{figure}
 \centering
@@ -5584,7 +5823,12 @@ Algorithm~\ref{alg:Construction-state-variable-Scaled-Normalised-lattice}
 \label{fig:State-variable-description-Scaled-Normalised-lattice}
 \end{figure}
 
-\begin{algorithm}[htbp]
+Construction of the state variable description is summarised in  
+Algorithm~\ref{alg:Construction-state-variable-Scaled-Normalised-lattice}
+\footnote{The Octave function \emph{schurNSlattice} combines 
+  $\sigma_{10}^{\left(0\right)}$ and $\sigma_{11}^{\left(1\right)}$}.
+
+\begin{algorithm}[!hp]
 \begin{algorithmic}
 \State $\hat{y}_{0} = x_{1}$
 \State $y_{0} = \sigma_{10}^{\left(0\right)}x_{1}$
@@ -5603,7 +5847,8 @@ Algorithm~\ref{alg:Construction-state-variable-Scaled-Normalised-lattice}
 
 The state variable description can be expressed as a series of matrix
 multiplications linking the input and state outputs to the output
-and the next state inputs.
+and the next state inputs:
+
 \begin{align*}
 \left[\begin{array}{c}
 \hat{y}_{0}\\
@@ -5743,9 +5988,11 @@ description of a normalised-scaled lattice filter (including the all-pass
 filter $Cap$ and $Dap$ output matrixes).
 \clearpage
 \section{Roundoff Noise Calculation in Schur Lattice Filters}
-In this section I rely on the analysis of round-off noise presented by
-\emph{Roberts} and 
-\emph{Mullis}~\cite{RobertsMullis_DigitalSignalProcessing},~\cite{MullisRoberts_RoundoffNoiseInDigitalFiltersFrequencyTransformations},~\cite{MullisRoberts_SynthesisMinimumRoundoffNoiseDigitalFilters}.
+In this section I rely on the state-variable analysis of round-off noise
+presented by \emph{Roberts} and
+\emph{Mullis}~\cite{RobertsMullis_DigitalSignalProcessing},~\cite{MullisRoberts_RoundoffNoiseInDigitalFiltersFrequencyTransformations},~\cite{MullisRoberts_SynthesisMinimumRoundoffNoiseDigitalFilters}
+and the transposed signal flow graph analysis of
+\emph{Parhi}~\cite[Section 12.7]{Parhi_VLSIDigitalSignalProcessingSystems}.
 
 Lattice filter roundoff noise can be calculated by the $K$ and $W$
 matrices derived from the state variable description of the filter.
@@ -5755,12 +6002,17 @@ functions from the internal nodes to the output node are needed. These
 are the same as the transfer functions from the input to the internal
 nodes of the transposed filter. Again, these transfer functions can
 be derived from the Schur decomposition or the state variable description.
+In the following I try to distinguish between pipelining a filter to reduce the
+latency of internal calculations and retiming a filter to determine the noise
+gain without necessarily maintaining the desired filter transfer function.
+
 \subsection{\label{sec:Round-off-normalised-scaled-lattice}Round-off noise of the normalised-scaled lattice filter}
 \subsubsection{Calculation of the normalised-scaled lattice filter round-off noise with the transposed signal flow graph}
 \noindent Figure~\ref{fig:Transposed-normalised-scaled} shows module
 $m$ of $N,\ldots,1$ of the transposed graph of a normalised-scaled
 lattice filter (with $k=\sigma_{20}=-\sigma_{02}$, and 
 $k_{c}=\sqrt{1-k^{2}}=\sigma_{00}=\sigma_{22}$).
+
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_TransposeScaledNorm}
@@ -5768,7 +6020,9 @@ $k_{c}=\sqrt{1-k^{2}}=\sigma_{00}=\sigma_{22}$).
 \emph{Parhi}~\cite[Fig. 12.24]{Parhi_VLSIDigitalSignalProcessingSystems})}
 \label{fig:Transposed-normalised-scaled}
 \end{figure}
-The transposed graph of the module gives
+
+The transposed graph of the module gives:
+
 \begin{align*}
 \left[\begin{array}{c}
 z^{-1}N_{m-1}\left(z\right)\\
@@ -5784,6 +6038,7 @@ D_{m}\left(z\right)\\
 E_{m}\left(z\right)
 \end{array}\right]
 \end{align*}
+
 For module $N$, the input, $D_{N}\left(z\right)$, and output, $N_{N}\left(z\right)$,
 are given by the transfer function $H\left(z\right)=N\left(z\right)/D\left(z\right)$
 and $E_{N}\left(z\right)=0$. Similarly, for the all-pass response, $D_{N}\left(z\right)=0$,
@@ -5896,6 +6151,7 @@ Figure~\ref{fig:Freq-response-butt3NS} shows the amplitude response of the
 Schur normalised-scaled lattice implementation of the Butterworth filter and
 all-pass filter determined from the cross-correlation of the filter input and
 outputs.
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{butt3NS_test_response}}
@@ -5942,6 +6198,7 @@ rather than having the uniform random distribution assumed in the noise
 calculations. Figure~\ref{fig:Freq-response-butt3NS-direct-form-noise} 
 compares the response of the output roundoff noise of the scaled direct-form 
 implementation to that of the globally optimised filter.
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{butt3NS_test_response_direct_form_noise}}
@@ -5969,6 +6226,7 @@ state variable versions of the Butterworth filter with a random noise input.
   in the 3rd order Butterworth filter implemented in a normalised-scaled Schur
   lattice structure with a random noise input}
 \end{figure}
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{butt3NS_test_sv_noise_global_optimum}}
@@ -5976,6 +6234,7 @@ state variable versions of the Butterworth filter with a random noise input.
 in the globally optimised state variable structure with a random noise input}
 \label{fig:State-variables-butt3NS-noise-global-optimum}
 \end{figure}
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{butt3NS_test_sv_noise_direct_form}}
@@ -6004,7 +6263,7 @@ slowed and retimed as shown in Figure~\ref{fig:Slowed-and-retimed-3rdButt-Norm}.
 Each intermediate node is now associated with a state. The additional states
 alter the overall transfer function but the round-off noise gains are unchanged.
 
-\begin{figure}
+\begin{figure}[!hp]
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Butt3NS_SV_retimed}
 \caption{Slowed and retimed normalised-scaled lattice for the 3rd order 
@@ -6031,12 +6290,14 @@ implement this algorithm.}. The \emph{oct}-file \emph{bin2SD.cc} implements a
 C++ version of \emph{bin2SD}. The filter amplitude responses for the
 corresponding Butterworth and all-pass filters with $10$-bit $2$-signed-digit
 coefficients are shown in Figure~\ref{fig:Freq-response-butt3NSSV}.
-\begin{figure}
+
+\begin{figure}[!hp]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{butt3NSSV_test_response}}
 \caption{Amplitude response of the 3rd order Butterworth filter implemented with a normalised-scaled lattice structure and 10-bit 2 signed-digit coefficients}
 \label{fig:Freq-response-butt3NSSV}
 \end{figure}
+
 The response demonstrates a drawback of the normalised-scaled lattice filters:
 they are not \emph{structurally loss-less} in the sense of Vaidyanathan et
 al.~\cite{VaidyanathanMitraNuevo_LowSensitivityIIRDigitalFilters,VaidyanathanMitra_LowPassbandSensitivityDigitalFilters}
@@ -6044,16 +6305,64 @@ al.~\cite{VaidyanathanMitraNuevo_LowSensitivityIIRDigitalFilters,VaidyanathanMit
 normalised-scaled lattice does not preserve the all-pass characteristic when its
 coefficients are truncated.
 
+\subsubsection{\label{sec:Frequency-transformations-and-normalised-scaled-lattice-filter-round-off-noise}Frequency transformations and Schur normalised-scaled lattice filter round-off noise}
+Section~\ref{sec:Frequency-Transformations-of-State-Variable-Filters} shows
+the frequency transformation of a state variable filter. 
+Section~\ref{sec:Frequency-transformations-and-round-off-noise} shows some
+results, given by \emph{Mullis} and \emph{Roberts}~\cite[Section III]
+{MullisRoberts_RoundoffNoiseInDigitalFiltersFrequencyTransformations},
+concerning the noise gain of a frequency transformed state variable filter. 
+\emph{Koshita et al.}~\cite{Koshita_et_al_GramianPreservingFrequencyTransformationNormalisedLattice} 
+point out that the normalised-scaled Schur lattice all-pass filter has 
+controllability and observability Grammians $K=W=I$. It follows from 
+Equation~\ref{eqn:Frequency-transformations-and-round-off-noise-K-W-Q} that 
+the frequency transformed filter constructed with the state variable 
+implementation of that Schur normalised-scaled all-pass lattice 
+filter has the same noise gain as the globally optimised implementation of the
+frequency transformed filter (see 
+Section~\ref{sec:Minimisation-of-round-off-noise}). Further, the 
+state-transition matrix of the lattice all-pass frequency transformation filter
+is Hessenberg in form so the state-transition matrix of the frequency 
+transformed filter has many zero entries. The Octave function
+\emph{tfp2schurNSlattice2Abcd} implements the frequency transformation of a 
+prototype filter as follows:
+\begin{enumerate} 
+\item construct the state variable implementation, 
+$\left\{\alpha,\beta,\gamma,\delta\right\}$, of the Schur normalised-scaled
+lattice filter corresponding to the all-pass frequency transformation, 
+$F\left(z\right)$
+\item construct the globally optimised state-variable implementation,
+$\left\{a,b,c,d\right\}$, of the low-pass filter prototype, $H\left(z\right)$
+\item construct the state variable implementation, $\left\{A,B,C,D\right\}$,
+of the frequency transformed filter, $H\left(F\left(z\right)\right)$
+\end{enumerate}
+
+The Octave script \emph{tfp2schurNSlattice2Abcd\_test.m} exercises 
+\emph{tfp2schurNSlattice2Abcd} with the 5th order elliptic low-pass to 
+multiple stop-band filter example of 
+Section~\ref{sec:example-frequency-transformations-of-5-th-order-elliptic-filter}
+shown in Figure~\ref{fig:tfp2g-bs}.
+
+Table~\ref{tab:Schur-NS-lattice-frequency-transformation-example} shows the 
+number of non-zero coefficients, the noise gain and the estimated noise variance
+in bits of the multiple band-stop filter implemented by 
+\emph{tfp2schurNSlattice2Abcd}, a globally optimised state variable filter, 
+a Schur normalised-scaled lattice filter and a Schur one-multiplier lattice 
+filter (neglecting the one-multiplier state scaling).
+\input{tfp2schurNSlattice2Abcd_test.tab}
+
 \subsection{Round-off noise of the one multiplier lattice filter}
 \subsubsection{Calculation of the one multiplier lattice filter round-off noise with the transposed signal flow graph}
 Figure~\ref{fig:Transposed-One-Multiplier} shows module $m$ of $N,\ldots,1$
 of the transposed graph of a one multiplier lattice filter.
-\begin{figure}
+
+\begin{figure}[!hp]
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_TransposeOneMult}
 \caption{Transposed one multiplier lattice filter module}
 \label{fig:Transposed-One-Multiplier}
 \end{figure}
+
 The transposed graph of the module gives
 \begin{align*}
 E_{m-1} & = -\epsilon_{m}^{2}k_{m}z^{-1}N_{m-1}+\left(1-k_{m}\epsilon_{m}\right)E_{m}\\
@@ -6177,13 +6486,15 @@ from the state variable representation if the signal flow graph is slowed
 and retimed as shown in Figure~\ref{fig:Slowed-and-retimed-3rdButt-Single-Mult}.
 Each intermediate node is now associated with a state. The additional
 states alter the overall transfer function but the round-off noise
-gains are unchanged. 
-\begin{figure}
+gains are unchanged.
+
+\begin{figure}[!hp]
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Butt3OneM_SV_retimed}
 \caption{Slowed and retimed single-multipler lattice for the 3rd order Butterworth example}
 \label{fig:Slowed-and-retimed-3rdButt-Single-Mult}
 \end{figure}
+
 The state-variable equations for this single-multiplier lattice example
 after slowing and re-timing are calculated in the Octave function 
 \emph{schurOneMlatticeRetimedNoiseGain}. The Octave function 
@@ -6272,95 +6583,24 @@ Figure~\ref{fig:Butt3OneMSV-Resp-Schur-lattice} shows the amplitude responses of
 the filter found by cross-correlation of the input and Butterworth and all-pass
 filter outputs when the filter is calculated as a Schur scaled one multiplier
 lattice with 10-bit 3-signed-digit truncated coefficients in the Octave 
-function \emph{schurOneMlatticeFilter}. 
-\begin{figure}
+function \emph{schurOneMlatticeFilter}.
+
+\begin{figure}[!hp]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{butt3OneMSV_test_response_schur_lattice}}
-\caption{Amplitude responses of the slowed and retimed single-multiplier lattice 3rd order Butterworth filter implemented in Schur lattice form with 10-bit 3-signed-digit truncated coefficients}
+\caption{Amplitude responses of the slowed and retimed one multiplier lattice 3rd order Butterworth filter implemented in Schur lattice form with 10-bit 3-signed-digit truncated coefficients}
 \label{fig:Butt3OneMSV-Resp-Schur-lattice}
 \end{figure}
-\subsection{\label{sec:Frequency-transformations-and-normalised-scaled-lattice-filter-round-off-noise}Frequency transformations and Schur normalised-scaled lattice filter round-off noise}
-Section~\ref{sec:Frequency-Transformations-of-State-Variable-Filters} shows
-the frequency transformation of a state variable filter. 
-Section~\ref{sec:Frequency-transformations-and-round-off-noise} shows some
-results, given by \emph{Mullis} and \emph{Roberts}~\cite[Section III]
-{MullisRoberts_RoundoffNoiseInDigitalFiltersFrequencyTransformations},
-concerning the noise gain of a frequency transformed state variable filter. 
-\emph{Koshita et al.}~\cite{Koshita_et_al_GramianPreservingFrequencyTransformationNormalisedLattice} 
-point out that the normalised-scaled Schur lattice all-pass filter has 
-controllability and observability Grammians $K=W=I$. It follows from 
-Equation~\ref{eqn:Frequency-transformations-and-round-off-noise-K-W-Q} that 
-the frequency transformed filter constructed with the state variable 
-implementation of that Schur normalised-scaled all-pass lattice 
-filter has the same noise gain as the globally optimised implementation of the
-frequency transformed filter (see 
-Section~\ref{sec:Minimisation-of-round-off-noise}). Further, the 
-state-transition matrix of the lattice all-pass frequency transformation filter
-is Hessenberg in form so the state-transition matrix of the frequency 
-transformed filter has many zero entries. The Octave function
-\emph{tfp2schurNSlattice2Abcd} implements the frequency transformation of a 
-prototype filter as follows:
-\begin{enumerate} 
-\item construct the state variable implementation, 
-$\left\{\alpha,\beta,\gamma,\delta\right\}$, of the Schur normalised-scaled
-lattice filter corresponding to the all-pass frequency transformation, 
-$F\left(z\right)$
-\item construct the globally optimised state-variable implementation,
-$\left\{a,b,c,d\right\}$, of the low-pass filter prototype, $H\left(z\right)$
-\item construct the state variable implementation, $\left\{A,B,C,D\right\}$,
-of the frequency transformed filter, $H\left(F\left(z\right)\right)$
-\end{enumerate}
 
-The Octave script \emph{tfp2schurNSlattice2Abcd\_test.m} exercises 
-\emph{tfp2schurNSlattice2Abcd} with the 5th order elliptic low-pass to 
-multiple stop-band filter example of 
-Section~\ref{sec:example-frequency-transformations-of-5-th-order-elliptic-filter}
-shown in Figure~\ref{fig:tfp2g-bs}.
+\subsection{Round-off noise of the pipelined one multiplier lattice filter}
+The Octave script \emph{schurOneMlatticePipelinedFilter\_test.m} demonstrates
+calculation of the round-off noise of the pipelined one-multiplier lattice
+filter from the state variable description, as shown in
+Section~\ref{sec:Estimation-of-output-round-off-noise-in-state-variable-filters}.
 
-Table~\ref{tab:Schur-NS-lattice-frequency-transformation-example} shows the 
-number of non-zero coefficients, the noise gain and the estimated noise variance
-in bits of the multiple band-stop filter implemented by 
-\emph{tfp2schurNSlattice2Abcd}, a globally optimised state variable filter, 
-a Schur normalised-scaled lattice filter and a Schur one-multiplier lattice 
-filter (neglecting the one-multiplier state scaling).
-\input{tfp2schurNSlattice2Abcd_test.tab}
-\clearpage
-\section{\label{sec:Examples-retiming-Schur-lattice-filters}Examples of retiming Schur lattice filters}
-\subsection{\label{sec:Retiming-3rd-order-lattice-filter}Retiming a
-3-rd order lattice filter}
-Figure~\ref{subfig:example-lattice-filter} shows a representation $3$rd order
-lattice filter and Figure~\ref{subfig:example-lattice-filter-after-retiming}
-shows the filter after retiming by moving the second filter delay to the upper
-and lower branches of the signal flow graph. The total delay in each loop of
-the signal flow graph is unchanged so the transfer function of the filter is
-also unchanged. Retiming limits the maximum latency of each filter update
-calculation to the latency of two sections and changes the round-off noise
-performance of the filter\footnote{The tapped output could be retimed by
-  pipelining the arithmetic operations in a tree structure. The all-pass
-  lattice ouput calculation is recursive and cannot be retimed in that way.}.
-Appendix~\ref{sec:State-variable-retimed-One-multiplier-Schur-lattice-filter}
-derives the state variable description of the retimed one-multipler Schur
-lattice filter.
-
-\begin{figure}
-\begin{subfigure}{\textwidth}
-\centering
-\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{lattice_retimed_a}
-\caption{Original filter}
-\label{subfig:example-lattice-filter}
-\vspace{1cm}
-\end{subfigure}
-\begin{subfigure}{\textwidth}
-\centering
-\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{lattice_retimed_b}
-\caption{Filter after retiming}
-\label{subfig:example-lattice-filter-after-retiming}
-\end{subfigure}
-\caption{Example of retiming a 3rd order lattice filter}
-\end{figure}
-
-\subsection{\label{sec:Retiming-NS-Schur-lattice-filter}Retiming a
-4-th order Schur normalised-scaled lattice filter}
+\section{\label{sec:Examples-pipelining-Schur-lattice-filters}Examples of pipelining Schur lattice filters}
+\subsection{\label{sec:Pipelining-NS-Schur-lattice-filter}Pipelining a
+4th order Schur normalised-scaled lattice filter}
 The normalised-scaled lattice filter of order N shown in
 Figure~\ref{fig:Normalised-scaled-lattice} has a delay-free path, or latency,
 of $N$ adds and $N$ multiplies to the tapped and all-pass outputs, $y$ and
@@ -6370,23 +6610,39 @@ describes a procedure for inserting fractional delays in the signal flowgraph
 of the filter to reduce the length of the delay free path. The clock rate of
 the resulting filter is a multiple of the sample rate.
 \emph{Parhi}~\cite[Chapter 4]{Parhi_VLSIDigitalSignalProcessingSystems}
-discusses formal methods for retiming a signal flow graph.
+discusses formal methods for pipelining a signal flow graph.
 Figure~\ref{subfig:example-normalised-scaled-Schur-lattice-filter} shows a
 simplified view of a normalised-scaled Schur lattice filter implementing a
 $4$-th order transfer function with a denominator polynomial having
 coefficients only in $z^{-2}$.
-Figure~\ref{subfig:example-normalised-scaled-Schur-lattice-filter-after-retiming}
+Figure~\ref{subfig:example-normalised-scaled-Schur-lattice-filter-after-pipelining}
 shows the example filter after redistributing the delay in each loop of the
 graph so that the total delay around that loop is unchanged. Each state update
 in the resulting filter has the form \emph{$pq+rs$}. In this case the filter
-group delay is increased by $2$ samples. In general, this retiming scheme
+group delay is increased by $2$ samples. In general, this pipelining scheme
 increases the group delay by $1$ sample for each second-order section.
+
+\begin{figure}[!hp]
+\begin{subfigure}{\textwidth}
+\centering
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Schur_pipelinedA}
+\caption{In original form}
+\label{subfig:example-normalised-scaled-Schur-lattice-filter}
+\vspace{1cm}
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+\centering
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Schur_pipelinedB}
+\caption{After retiming}
+\label{subfig:example-normalised-scaled-Schur-lattice-filter-after-pipelining}
+\end{subfigure}
+\caption{Signal flow graph of a 4th order normalised-scaled Schur lattice filter with a denominator polynomial having coefficients only in $z^{-2}$}
+\end{figure}
 
 Following the notation of 
 Figure~\ref{fig:State-variable-description-Scaled-Normalised-lattice}, the state 
 variable equations for the filter shown in 
-Figure~\ref{subfig:example-normalised-scaled-Schur-lattice-filter-after-retiming}
-are:
+Figure~\ref{subfig:example-normalised-scaled-Schur-lattice-filter-after-pipelining} are:
 \begin{align*}
 x_{1}\left(k+1\right)  &= x_{3}\left(k\right) \\
 x_{2}\left(k+1\right)  &= \sigma_{11}^{\left(1\right)}x_{1}\left(k\right) +
@@ -6411,24 +6667,7 @@ y_{ap}\left(k\right)   &= \sigma_{22}^{\left(4\right)}x_{7}\left(k\right) +
                          \sigma_{20}^{\left(4\right)}u\left(k\right)
 \end{align*}
 
-\begin{figure}
-\begin{subfigure}{\textwidth}
-\centering
-\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Schur_retimedA}
-\caption{In original form}
-\label{subfig:example-normalised-scaled-Schur-lattice-filter}
-\vspace{1cm}
-\end{subfigure}
-\begin{subfigure}{\textwidth}
-\centering
-\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Schur_retimedB}
-\caption{After retiming}
-\label{subfig:example-normalised-scaled-Schur-lattice-filter-after-retiming}
-\end{subfigure}
-\caption{Signal flow graph of a 4th order normalised-scaled Schur lattice filter with a denominator polynomial having coefficients only in $z^{-2}$}
-\end{figure}
-
-The Octave script \emph{schur\_retimed\_test.m} designs a $4$-th order low-pass
+The Octave script \emph{schur\_pipelined\_test.m} designs a $4$-th order low-pass
 filter with cutoff frequency $0.05f_{S}$ and denominator coefficients in
 $z^{-2}$. The script minimises the amplitude response error with the Octave
 \emph{fminunc} function. The barrier function of \emph{Tarczynski et
@@ -6436,29 +6675,29 @@ al.}~\cite{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters} is
 added to the response error to constrain the locations of the roots of the 
 denominator polynomial and ensure that the filter is stable. The barrier 
 function is implemented in Octave function \emph{WISEJ.m}. 
-Figure~\ref{fig:schur-retimed-output-response} shows the simulated amplitude 
-response of the retimed Schur lattice filter.
+Figure~\ref{fig:schur-pipelined-output-response} shows the simulated amplitude 
+response of the pipelined Schur lattice filter.
 
-\begin{figure}
+\begin{figure}[!hp]
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schur_retimed_test_output_response}}
-\caption{Simulated amplitude response of the retimed 4th order normalised-scaled
-  Schur lattice filter} 
-\label{fig:schur-retimed-output-response}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schur_pipelined_test_output_response}}
+\caption{Simulated amplitude response of the pipelined 4th order
+  normalised-scaled Schur lattice filter} 
+\label{fig:schur-pipelined-output-response}
 \end{figure}
 
-\subsection{\label{sec:Retiming-OneM-Schur-lattice-filter}Retiming a
+\subsection{\label{sec:Pipelining-OneM-Schur-lattice-filter}Pipelining a
 6th-order Schur one-multiplier lattice filter}
-Figure~\ref{fig:example-retiming-a-one-multplier-Schur-lattice-filter} shows the
-signal flow graph of a retimed 6th order one-multiplier Schur lattice filter
+Figure~\ref{fig:example-pipelining-a-one-multplier-Schur-lattice-filter} shows
+the signal flow graph of a retimed 6th order one-multiplier Schur lattice filter
 with a denominator polynomial having coefficients only in $z^{-2}$. Both filter
 implementations have the same number of delays around the corresponding loops of
 their signal flow graphs. Retiming the filter reduces the latency in the
 calculation of the outputs and does not change the amplitude and group delay
-responses. If $N$ is the filter order then the retimed filter has an additional
+responses. If $N$ is the filter order then the pipelined filter has an additional
 $\frac{N}{2}-1$ states.
 
-\begin{figure}
+\begin{figure}[!hp]
 \centering
 \begin{subfigure}{\textwidth}
 \centering
@@ -6469,23 +6708,24 @@ $\frac{N}{2}-1$ states.
 \end{subfigure}
 \begin{subfigure}{\textwidth}
 \centering
-\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schurOneMR2lattice_retimed}
-\caption{Signal flow graph of a 6th order one-multiplier Schur lattice filter with a denominator polynomial having coefficients in $z^{-2}$ after retiming}
-\label{subfig:example-retimed-one-multplier-Schur-lattice-filter}
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schurOneMR2lattice_pipelined}
+\caption{Signal flow graph of a 6th order one-multiplier Schur lattice filter
+  with a denominator polynomial having coefficients in $z^{-2}$ after pipelining}
+\label{subfig:example-pipelined-one-multplier-Schur-lattice-filter}
 \end{subfigure}
 \vspace{1cm}
-\caption{Original and retimed signal flow graphs of a 6th order one-multiplier
+\caption{Original and pipelined signal flow graphs of a 6th order one-multiplier
   Schur lattice filter with a denominator polynomial having coefficients in
   $z^{-2}$ only. The number of delays around each loop of the signal flow
   graph is unchanged.}
-\label{fig:example-retiming-a-one-multplier-Schur-lattice-filter}
+\label{fig:example-pipelining-a-one-multplier-Schur-lattice-filter}
 \end{figure}
 
-Construction of a state variable description of the retimed Schur
+Construction of a state variable description of the pipelined Schur
 one-multiplier lattice filter with coefficients in $z^{-2}$ only is summarised in
-Algorithm~\ref{alg:Construction-state-variable-retimed-One-Multiplier-R2-lattice}.
+Algorithm~\ref{alg:Construction-state-variable-pipelined-One-Multiplier-R2-lattice}.
  
-\begin{algorithm}[htbp]
+\begin{algorithm}[!hp]
 Given $N$ even, $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$,
 $\left\{\epsilon_{1},\epsilon_{2}\hdots,\epsilon_{N}\right\}$ and
 $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
@@ -6507,22 +6747,22 @@ $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
 \State $y = x_{3\frac{N}{2}-2}+c_{N-1}x_{3\frac{N}{2}-1}+c_{N}u$
 \State $\hat{y} = \left(1-k_{N}\epsilon_{N}\right)x_{3\frac{N}{2}-3}+k_{N}u$
 \end{algorithmic}
-\caption{Construction of a state variable description of the retimed Schur
+\caption{Construction of a state variable description of the pipelined Schur
 one-multiplier lattice filter with denominator coefficients in $z^{-2}$ only}
-\label{alg:Construction-state-variable-retimed-One-Multiplier-R2-lattice}
+\label{alg:Construction-state-variable-pipelined-One-Multiplier-R2-lattice}
 \end{algorithm}
 
 The Octave function \emph{schurOneMR2lattice2Abcd},
 exercised by the Octave script \emph{schurOneMR2lattice2Abcd\_test.m},
-implements retiming of a one-multiplier Schur lattice filter with a denominator
+implements pipelining of a one-multiplier Schur lattice filter with a denominator
 polynomial having coefficients in $z^{-2}$ only.
 The Octave script \emph{schurSchurOneMR2lattice2Abcd\_symbolic\_test.m} creates a
 symbolic state variable description of the Schur one multiplier lattice filter
- with a denominator polynomial having coefficients in $z^{-2}$ only.
+with a denominator polynomial having coefficients in $z^{-2}$ only.
 
-\subsection{Frequency transformations of retimed Schur lattice filters}
+\subsection{Frequency transformations of pipelined Schur lattice filters}
 An implementation of a rational transfer function having
-demominator coefficients only in powers of $z^{-2}$ can be retimed and
+demominator coefficients only in powers of $z^{-2}$ can be 
 pipelined so that the resulting filter is suitable for hardware 
 implementation. This section gives an example of the effect of frequency
 transformations on such a filter transfer function. The Octave script
@@ -6551,7 +6791,8 @@ dR = [  1.0000000000,   0.0000000000,   2.0227725009,   0.0000000000, ...
 Figure~\ref{fig:freq-transform-structure-lowpass} shows the response of 
 the low-pass prototype filter. 
 
-Figure~\ref{subfig:freq-transform-structure-bandpass-A} shows the response of a band-pass filter generated from the low-pass prototype filter with the
+Figure~\ref{subfig:freq-transform-structure-bandpass-A} shows the response of a
+band-pass filter generated from the low-pass prototype filter with the
 following frequency transformation:
 \begin{small}
 \begin{verbatim}
@@ -6574,14 +6815,15 @@ pB = [ 1.0000e+00   0.0000e+00   5.0953e-01 ]
 In this case, both the numerator and denominator polynomials of the resulting
 band-pass filter have coefficients only in powers of $z^{-2}$. 
 
-\begin{figure}
+\begin{figure}[!hp]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{freq_transform_structure_test_lowpass_response}}
-\caption{Amplitude response of a low-pass filter prototype having denominator polynomial coefficients in $z^{-2}$}
+\caption{Amplitude response of a low-pass filter prototype having denominator
+  polynomial coefficients in $z^{-2}$}
 \label{fig:freq-transform-structure-lowpass}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!hp]
 \centering
 \begin{subfigure}{\textwidth}
 \centering
@@ -6593,13 +6835,15 @@ band-pass filter have coefficients only in powers of $z^{-2}$.
 \begin{subfigure}{\textwidth}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{freq_transform_structure_test_bandpass_B_response}}
-\caption{Amplitude response of a band-pass filter with frequency transformation [0.2 0.3]}
+\caption{Amplitude response of a band-pass filter with frequency transformation
+  [0.2 0.3]}
 \label{subfig:freq-transform-structure-bandpass-B}
 \end{subfigure}
-\caption{Frequency transformations of a low-pass filter prototype having denominator polynomial coefficients in powers of $z^{-2}$ only}
+\caption{Frequency transformations of a low-pass filter prototype having
+  denominator polynomial coefficients in powers of $z^{-2}$ only}
 \label{fig:freq-transform-structure}
 \end{figure}
-\clearpage
+
 \section{Summary}
 Given a transfer function $H\left(z\right)=N_{N}\left(z\right)/D_{N}\left(z\right)$ the design procedure
 for the normalised-scaled lattice filter is:
@@ -6629,7 +6873,7 @@ one multiplier lattice filter, but the normalised-scaled lattice filter
 appears to be less sensitive to coefficient truncation than the 
 one multiplier lattice filter. The normalised-scaled lattice filter is 
 inherently scaled. The one multiplier lattice filter is not orthonormal and 
-requires rather complex scaling.
+requires scaling.
 \cleardoublepage{}
 \chapter{Orthogonal state variable filters\label{sec:Orthogonal-state-variable-filters}}
 Chapter~\ref{sec:Schur-decomposition} described the Schur decomposition of 
@@ -14285,7 +14529,7 @@ coefficient are in fact used.
 This filter has been designed with denominator polynomial coefficients only
 in powers of $z^{-2}$ so that the filter can be retimed with reduced latency for
 the state update and filter output calculations. (As shown in 
-Figure~\ref{fig:example-retiming-a-one-multplier-Schur-lattice-filter}). The 
+Figure~\ref{fig:example-pipelining-a-one-multplier-Schur-lattice-filter}). The 
 noise gain of the retimed filter is calculated by converting the lattice 
 filter representation to state variable form with the Octave function
 \emph{schurOneMR2lattice2Abcd}. The noise gain of the filter with exact
@@ -35297,7 +35541,7 @@ Let the vectors $a,b\in\mathbb{R}^{l+1}$ be defined by:
 where $\left(\lambda-\alpha_{1}\right)=1$ for $\alpha_{1}=-\infty$ and
 $\left(\lambda-\beta_{l}\right)=-1$ for $\beta_{l}=\infty$ and set
 $\tilde{T}=\left[-a\;b\right]^{\top}$. Then the matrixes
-$\Phi,\Psi\in\mathbb{H}^{l+1}$ are:
+$\Phi,\Psi\in\mathbb{H}^{l+1}$:
 \begin{align*}
 \Phi&=\tilde{T}^{\mathconj}\Phi_{r}\tilde{T}\\
 \Psi&=\tilde{T}^{\mathconj}\Psi_{r}\tilde{T}
@@ -35956,8 +36200,8 @@ stop band regions. The pass band phase error is adjusted for the nominal delay.}
 \label{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-zeros}
 \end{figure}
 \clearpage
-\subsubsection{Design of a non-symmetric band pass FIR filter with the union of multiple
-pass bands and stop bands}
+\subsubsection{Design of a non-symmetric band pass FIR filter with the union of
+  multiple pass bands and stop bands}
 The Octave script
 \emph{directFIRnonsymmetric\_kyp\_union\_double\_bandpass\_test.m}
 uses \emph{Pipeleer et al.}'s generalised KYP lemma to design a non-symmetric
@@ -35999,7 +36243,8 @@ with the generalised KYP lemma with multiple pass and stop bands.}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_union_double_bandpass_test_passband}}
 \caption{Pass band amplitude, phase error and delay responses of a non-symmetric
-FIR band pass filter designed with the generalised KYP lemma with multiple pass and stop band. The pass band phase error is adjusted for the nominal delay.} 
+  FIR band pass filter designed with the generalised KYP lemma with multiple pass
+  and stop bands. The pass band phase error is adjusted for the nominal delay.} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-union-double-bandpass-passband}
 \end{figure}
 

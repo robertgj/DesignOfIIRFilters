@@ -1,8 +1,8 @@
 #!/bin/sh
 
-prog=schurOneMlatticeRetimed2Abcd_symbolic_test.m
-depends="test/schurOneMlatticeRetimed2Abcd_symbolic_test.m \
-test_common.m schurOneMlatticeRetimed2Abcd.m tf2schurOneMlattice.m tf2Abcd.m \
+prog=schurOneMlatticePipelined2Abcd_symbolic_test.m
+depends="test/schurOneMlatticePipelined2Abcd_symbolic_test.m \
+test_common.m schurOneMlatticePipelined2Abcd.m tf2schurOneMlattice.m tf2Abcd.m \
 Abcd2tf.m schurOneMscale.m \
 schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct"
 
@@ -276,7 +276,7 @@ done
 #
 echo "Running $prog"
 
-strf="schurOneMlatticeRetimed2Abcd_symbolic_test"
+strf="schurOneMlatticePipelined2Abcd_symbolic_test"
 
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi

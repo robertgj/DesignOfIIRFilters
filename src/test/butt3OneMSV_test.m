@@ -1,5 +1,5 @@
 % butt3OneMSV_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Test case for the 3rd order Butterworth lattice filter 
 
@@ -29,12 +29,6 @@ ngap
 [ngABCD,ngABCDap]=schurOneMlatticeRetimedNoiseGain(k,epsilon,p,c,"ABCD");
 ngABCD
 ngABCDap
-[ngDecim,ngDecimap]=schurOneMlatticeRetimedNoiseGain(k,epsilon,p,c,"decim");
-ngDecim
-ngDecimap
-[ngPipe,ngPipeap]=schurOneMlatticeRetimedNoiseGain(k,epsilon,p,c,"pipe");
-ngPipe
-ngPipeap
 
 % Compare with the noise gain of the globally optimised state variable
 % filters with exact coefficients
@@ -70,15 +64,8 @@ endif
 
 % Build a state variable representation of the retimed filter for the
 % truncated coefficients and calculate the noise gains
-[ngf,ngfap]=schurOneMlatticeRetimedNoiseGain(kf,epsilon,p,cf,"schur");
-ngf
-ngfap
-[ngABCDf,ngABCDfap]=schurOneMlatticeRetimedNoiseGain(kf,epsilon,p,cf,"ABCD");
-ngABCDf
-ngABCDfap
-[ngPipef,ngPipefap]=schurOneMlatticeRetimedNoiseGain(kf,epsilon,p,cf,"pipe");
-ngPipef
-ngPipefap
+[ngf,ngfap]=schurOneMlatticeRetimedNoiseGain(kf,epsilon,p,cf,"schur")
+[ngABCDf,ngABCDfap]=schurOneMlatticeRetimedNoiseGain(kf,epsilon,p,cf,"ABCD")
 
 % Make a quantised noise signal
 nsamples=2^14;

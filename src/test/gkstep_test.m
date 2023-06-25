@@ -1,9 +1,9 @@
-% gkstep_test.m : a script to illustrate the effect of 
+% gkstep_test.m :
+%
 % Copyright (C) 2017,2018 Robert G. Jenssen
 %
-% rounding-to-minus-infinity quantisation noise
-
-% The state variable form of a filter is:
+% Illustrate the effect of rounding-to-minus-infinity
+% quantisation noise. The state variable form of a filter is:
 %   x(k+1) = Ax(k) + Bu(k)
 %   y(k)   = Cx(k) + Du(k)
 % where u is the input, x is the state and y is the output.
@@ -22,7 +22,6 @@ test_common;
 delete("gkstep_test.diary");
 delete("gkstep_test.diary.tmp");
 diary gkstep_test.diary.tmp
-
 
 % Make a 3rd order Butterworth state variable filter. The
 % filter is globally optimised so that diagonal elements of
