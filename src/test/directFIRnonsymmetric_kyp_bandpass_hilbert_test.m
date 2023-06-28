@@ -19,11 +19,6 @@ delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
-expected_yalmip_version = "20210609";
-if ~strcmp(yalmip("version"),expected_yalmip_version)
-  error("Expected YALMIP version %s",expected_yalmip_version);
-endif
-
 tic;
 
 % Band-pass filter specification

@@ -862,7 +862,7 @@ if test $? -ne 0;then rm -Rf sdpt3-master; exit -1; fi
 $OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SDPT3/install_sdpt3.m
 
 # Install YALMIP
-YALMIP_VER=R20230609
+YALMIP_VER=R20230622
 YALMIP_ARCHIVE=$YALMIP_VER".tar.gz"
 YALMIP_URL="https://github.com/yalmip/YALMIP/archive/refs/tags/"$YALMIP_ARCHIVE
 if ! test -f "YALMIP-"$YALMIP_ARCHIVE ; then
