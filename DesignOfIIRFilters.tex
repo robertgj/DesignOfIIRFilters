@@ -2397,7 +2397,7 @@ Here $W_{N}=e^{\imath\frac{2\pi}{N}}$ and $\arg$ means \emph{``angle
 \end{align*}
 This algorithm is implemented by the Octave function \emph{tfp2g.m}.
 \section{\label{sec:Frequency-Transformations-of-State-Variable-Filters}Frequency Transformations of State Variable Filters}
-See \emph{Mullis and Roberts}~\cite[Section 6.7]{MullisRoberts_RoundoffNoiseInDigitalFiltersFrequencyTransformations}. 
+See \emph{Mullis and Roberts}~\cite[Section  III]{MullisRoberts_RoundoffNoiseInDigitalFiltersFrequencyTransformations}.
 Given a (usually low-pass) prototype filter $H\left(z\right)$ parameterised
 by the state variable description $\left\{ A,b,c,d\right\}$ construct the 
 filter $G\left(z\right)=H\left(F\left(z\right)\right)$ where 
@@ -2438,7 +2438,7 @@ y\left(k\right) &= cx\left(k\right)+du\left(k\right)
 \end{align*}
 Eliminating $x\left(k\right)$ gives
 \begin{align*}
-S\left(k+1\right) &= \alpha S\left(k\right)+\beta\gamma S\left(k\right)\left[A\left(I-\delta A\right)^{-1}\right]^{\top}+\beta\left[\left(I-\delta A\right)^{-1}\right]^{\top}u\left(k\right)\\
+S\left(k+1\right) &= \alpha S\left(k\right)+\beta\gamma S\left(k\right)\left[A\left(I-\delta A\right)^{-1}\right]^{\top}+\beta\left[\left(I-\delta A\right)^{-1}b\right]^{\top}u\left(k\right)\\
 y\left(k\right) &= \gamma S\left(k\right)\left[c\left(I-\delta A\right)^{-1}\right]^{\top}+\left[d+\delta c\left(I-\delta A\right)^{-1}b\right]u\left(k\right)
 \end{align*}
 
@@ -2480,7 +2480,7 @@ where
 H\left(F\left(z\right)\right) &= \mathfrak{D}+\mathfrak{C}\left(zI-\mathfrak{A}\right)^{-1}\mathfrak{B}\label{eq:FreqTransHofF}
 \end{align}
 \emph{Mullis and
-  Roberts}~\cite{MullisRoberts_RoundoffNoiseInDigitalFiltersFrequencyTransformations}
+  Roberts}~\cite[Appendix A]{MullisRoberts_RoundoffNoiseInDigitalFiltersFrequencyTransformations}
 give a direct proof. Start with the identity:
 \begin{align*}
 \left(fI-A\right)b\otimes\beta &= f\left[b\otimes\beta-Ab\otimes\beta\left(\frac{1}{f}\right)\right]
@@ -22048,6 +22048,7 @@ The non-zero second partial derivatives of the group-delay response are:
 The results for group delay were calculated with the assistance of
 the \emph{Maxima}~\cite{Maxima_website} script \emph{delay.max}.
 
+\section{Octave implementations}
 The Octave function \emph{iirA} calculates the amplitude, and partial
 derivatives and Hessian of the amplitude response of an IIR filter with
 decimation factor $R$, $U$ real zeros, $V$ real poles, $\frac{M}{2}$ conjugate
@@ -33997,10 +33998,10 @@ $\left(A,B\right)$ controllable, the frequency domain inequality(FDI):
   \left(\imath\omega{}I-A\right)^{-1}B \\
   I\end{array}\right]<0\quad\omega\in\mathbb{R}\cup\left\{\infty\right\} 
 \end{align}
- (where $M^{\mathconj}$ means complex conjugate transpose of $M$) holds
- if-and-only-if the following linear matrix inequality(LMI) is feasible for a
- solution $P\in{}\mathbb{H}^{n}$, the set of Hermitian $n\times{}n$ matrixes:  
- \begin{align}
+(where $M^{\mathconj}$ means complex conjugate transpose of $M$) holds
+if-and-only-if the following linear matrix inequality(LMI) is feasible for a
+solution $P\in{}\mathbb{H}^{n}$, the set of Hermitian $n\times{}n$ matrixes:  
+\begin{align}
    \label{eqn:KYPlemmaLMI}
    \left[\begin{array}{cc}
           A & B \\
@@ -34013,7 +34014,15 @@ $\left(A,B\right)$ controllable, the frequency domain inequality(FDI):
           I & 0\end{array}\right]
           +\Theta\prec{}0
 \end{align}
-
+or:
+\begin{align}
+   \label{eqn:KYPlemmaLMI_expanded}
+   \left[\begin{array}{cc}
+          A^{\mathconj}P+PA & PB \\
+          B^{\mathconj}P    & 0\end{array}\right]
+          +\Theta\prec{}0
+\end{align}
+ 
 For the purposes of filter design, the lemma states that an infinite
 dimension frequency response constraint is equivalent to a constraint on
 the coefficients of the state variable description. If 
@@ -34400,7 +34409,7 @@ I & 0 \end{array}\right] = ...\\
 The second corollary shows how to express the Linear Matrix Inequality (LMI) of
 Theorem 2 in terms of real matrixes that represent the real and imaginary parts
 of $P$ and $Q$. 
-
+\clearpage
 \section{\emph{Iwasaki} and \emph{Hara}'s generalised KYP lemma for
 discrete-time systems}
 
@@ -34420,6 +34429,21 @@ I\end{array}\right]^{\mathconj}\Pi\left[\begin{array}{c}
 I\end{array}\right]
 \end{align*}
 
+Note that
+\begin{align*}
+\sigma\left(s,\left[\begin{array}{cc}
+0 & 1 \\
+1 & 0 \end{array}\right]\right)=0
+\end{align*}
+implies $s^{\ast}+s=0$ or $s\in\imath\mathbb{R}$. Similarly,
+\begin{align*}
+\sigma\left(z,\left[\begin{array}{cc}
+1 & 0 \\
+0 & -1 \end{array}\right]\right)=0
+\end{align*}
+implies $z^{\ast}z=1$ or $z=e^{\imath\phi}$.
+
+
 A frequency variable transformation
 $\mathcal{T}~:~\mathbb{C}\rightarrow\mathbb{C}$ is defined by
 \begin{align*}
@@ -34433,7 +34457,7 @@ shows how $\mathcal{T}$ transforms a region of the complex plane:
 \begin{framed}
   \emph{Lemma 1}~\cite[Lemma 1]{Iwasaki_KYPlemmaFrequencyInequalities}:
   Given $\Omega,\;\Sigma\in\mathbb{H}^{2\times{}2}$ and
-  $M\in\mathbb{C}^{2\times{}2}$, define 
+  $M\in\mathbb{C}^{2\times{}2}$, define:
 \begin{align*}
 \boldsymbol{S}&\coloneq\left\{s\in\mathbb{C}\;:\;\sigma\left(s,\Omega\right)=0,
 \sigma\left(s,\Sigma\right)\ge 0\right\} \\
@@ -34441,7 +34465,7 @@ shows how $\mathcal{T}$ transforms a region of the complex plane:
 \sigma\left(\lambda,M^{\mathconj}\Omega{}M\right)=0,
 \sigma\left(\lambda,M^{\mathconj}\Sigma{}M\right)\ge 0\right\}
 \end{align*}
-Then
+then:
 \begin{align*}
 \left\{\lambda\in\mathbb{C}\;:\:
 \lambda\in\boldsymbol{\Lambda},c\lambda+d\ne{}0\right\}=
@@ -34462,10 +34486,6 @@ c\lambda +d\end{array}\right]
 
 Dividing by $c\lambda+d$ and solving for $s$ gives
 $\lambda=\mathcal{T}\left(s\right)$.
-Note that $\sigma\left(s,\left[\begin{array}{cc}
-0 & 1 \\
-1 & 0 \end{array}\right]\right)=0$ implies $s^{\ast}+s=0$
-or $s\in\imath\mathbb{R}$.
 
 The following lemma gives a state space formula for systems obtained
 through the frequency transformation $\mathcal{T}$ of continuous-time systems:
@@ -34473,13 +34493,13 @@ through the frequency transformation $\mathcal{T}$ of continuous-time systems:
   \emph{Lemma 2}~\cite[Lemma 2]{Iwasaki_KYPlemmaFrequencyInequalities}:
   Let $A\in\mathbb{C}^{n\times{}n}$, $B\in\mathbb{C}^{n\times{}m}$,
   $M\in\mathbb{C}^{2\times{}2}$ be given. Suppose $M$ is non-singular and $A$
-  has no eigenvalues, $\lambda$, such that
+  has no eigenvalues, $\lambda$, such that:
 \begin{align*}  
   \sigma\left(\lambda,M^{\mathconj}\left[\begin{array}{cc}
   0 & 1 \\
   1 & 0 \end{array}\right]M\right)=0
 \end{align*}
-Then $\det\left(dI+cA\right)\ne 0$ and the following matrixes are well
+then $\det\left(dI+cA\right)\ne 0$ and the following matrixes are well
 defined:
 \begin{align*}  
 \left[\begin{array}{cc}
@@ -35070,6 +35090,7 @@ and
 \Pi_{12}^{\mathconj}D+\Pi_{22}\end{array}\right]
 \end{align*}
 \end{framed}
+
 This lemma follows from the generalised discrete-time KYP theorem shown in
 Section~\ref{sec:Generalised_discrete_time_KYP_theorem}. Multiplying
 out $\Theta$:
@@ -35123,7 +35144,7 @@ Appendix~\ref{app:Linear-algebra-Schur-complement-positive-definite}} to:
  \left(\Pi_{11}\left[\begin{array}{cc}
  C & D\end{array}\right]\right) \preceq 0
 \end{align*}
-\clearpage
+
 \subsubsection{Design of a symmetric low pass FIR filter}
 The Octave script \emph{directFIRsymmetric\_kyp\_lowpass\_test.m}
 designs a symmetric FIR low-pass filter with
@@ -35137,7 +35158,7 @@ The filter specification is:
 \begin{small}
 \verbatiminput{directFIRsymmetric_kyp_lowpass_test.spec}
 \end{small}
-The value of $\varepsilon^{2}_{z}$ was found by trial-and-error. The acutal
+The value of $\varepsilon^{2}_{z}$ was found by trial-and-error. The actual
 maximum squared-error in the pass-band compared with a pure delay is
 $\varepsilon^{2}_{z}=$ 
 \input{directFIRsymmetric_kyp_lowpass_test_max_passband_squared_error.tab} 
@@ -35150,13 +35171,33 @@ The resulting FIR impulse response is:
 Figure~\ref{fig:Direct-FIR-symmetric-KYP-lowpass-response} shows the
 amplitude response. The filter satisfies the constraints with
 no numerical problems.
-\begin{figure}
+
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_kyp_lowpass_test_response}}
 \caption{Amplitude response of a symmetric FIR low pass filter designed with
 the KYP lemma. See \emph{Iwasaki} and \emph{Hara}~\cite[Section
-VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}} 
+VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}}
 \label{fig:Direct-FIR-symmetric-KYP-lowpass-response}
+\end{figure}
+
+For comparison, Figure~\ref{fig:Direct-FIR-symmetric-mcclellan-lowpass-response}
+shows a similar filter response designed by the \emph{mcclellanFIRsymmetric}
+function described in Section~\ref{sec:Parks-McClellan-mini-max-FIR}. The filter
+specification is: 
+\begin{small}
+\verbatiminput{directFIRsymmetric_kyp_lowpass_test_mcclellan.spec}
+\end{small}
+The distinct coefficients of the resulting FIR impulse response are: 
+\begin{small}
+\verbatiminput{directFIRsymmetric_kyp_lowpass_test_mcclellan_hM_coef.m}
+\end{small}
+\begin{figure}[!ht]
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_kyp_lowpass_test_mcclellan}}
+\caption{Amplitude response of a symmetric FIR low pass filter designed with
+the \emph{Parks-McClellan} algorithm.}
+\label{fig:Direct-FIR-symmetric-mcclellan-lowpass-response}
 \end{figure}
 
 For comparison, Figure~\ref{fig:Direct-FIR-symmetric-mcclellan-lowpass-response}
@@ -35229,7 +35270,7 @@ Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-lowpass-response} shows the
 amplitude and group delay response. The filter satisfies the constraints with
 no numerical problems.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_lowpass_test_response}}
 \caption{Amplitude response of a non-symmetric FIR low pass filter designed with
@@ -35237,7 +35278,7 @@ the KYP lemma. See \emph{Iwasaki} and \emph{Hara}~\cite[Section
 VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-lowpass-response}
 \end{figure}
-\clearpage
+
 \subsubsection{Design of a non-symmetric FIR band pass filter with given pass
 band delay} 
 The Octave script \emph{directFIRnonsymmetric\_kyp\_bandpass\_test.m} uses
@@ -35272,7 +35313,8 @@ amplitude response.
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-passband} 
 shows the pass band amplitude, phase error and delay responses. The pass band
 phase error shown is adjusted for the nominal delay. 
-\begin{figure}
+
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_bandpass_test_response}}
 \caption{Amplitude response of a non-symmetric FIR band pass filter designed
@@ -35280,7 +35322,7 @@ with the KYP lemma.}
 \label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-response}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_bandpass_test_passband}}
 \caption{Pass band amplitude, phase error and delay responses of a non-symmetric
@@ -35288,7 +35330,7 @@ FIR band pass filter designed with the KYP lemma. The pass band phase error
 shown is adjusted for the nominal delay.} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-passband}
 \end{figure}
-\clearpage
+
 \subsubsection{Design of a non-symmetric FIR band pass Hilbert filter with given pass
 band delay} 
 The Octave script \emph{directFIRnonsymmetric\_kyp\_bandpass\_hilbert\_test.m}
@@ -35315,7 +35357,7 @@ Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-passband}
 shows the pass band amplitude, phase and delay responses. The pass band phase
 shown is adjusted for the nominal delay. 
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_bandpass_hilbert_test_response}}
 \caption{Amplitude response of a non-symmetric FIR band pass Hilbert filter
@@ -35323,7 +35365,7 @@ designed with the KYP lemma.}
 \label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-response}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_bandpass_hilbert_test_passband}}
 \caption{Pass band amplitude, phase and delay responses of a non-symmetric
@@ -35331,7 +35373,7 @@ FIR band pass Hilbert filter designed with the KYP lemma. The pass band phase
 shown is adjusted for the nominal delay.} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-passband}
 \end{figure}
-\clearpage
+
 \subsubsection{Design of a non-symmetric high pass FIR filter with given pass band delay}
 The Octave script \emph{directFIRnonsymmetric\_kyp\_highpass\_test.m} designs a
 high-pass filter with YALMIP and SeDuMi. The YALMIP objective is
@@ -35353,7 +35395,8 @@ The resulting FIR impulse response is:
 
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-highpass-response} shows the
 amplitude and delay responses.
-\begin{figure}
+
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_highpass_test_response}}
 \caption{Amplitude response of a non-symmetric FIR high pass filter designed with
@@ -35658,27 +35701,30 @@ shows the plot of the root locus when the intervals are represented by:
 \verbatiminput{kyp_complex_curve_union_test_1_alpha_m1_coef.m}
 \verbatiminput{kyp_complex_curve_union_test_1_beta_m1_coef.m}
 \end{small}
-\begin{figure}
+
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{kyp_complex_curve_union_test_1_root_locus_m1}}
 \caption{Test of Assumption 1 for an interval on the imaginary $s$ axis mapped to
   a union of intervals on the real axis}
 \label{fig:KYP-complex-curve-union-test-1-root-locus}
 \end{figure}
+
 Figure~\ref{fig:KYP-complex-curve-union-test-1-root-locus-infty} shows the plot
 of the root locus when the intervals are represented by:
 \begin{small}
 \verbatiminput{kyp_complex_curve_union_test_1_alpha_m2_coef.m}
 \verbatiminput{kyp_complex_curve_union_test_1_beta_m2_coef.m}
 \end{small}
-\begin{figure}
+
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{kyp_complex_curve_union_test_1_root_locus_m2}}
 \caption{Test of Assumption 1 for an interval on the imaginary $s$ axis mapped to
   a union of intervals on the real axis with $\pm\infty$ endpoints}
 \label{fig:KYP-complex-curve-union-test-1-root-locus-infty}
 \end{figure}
-\clearpage
+
 \subsubsection{Union of frequency intervals on a circle or line}
 \emph{Pipeleers et
   al.}~\cite[pp. 3627-3629]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}
@@ -35835,7 +35881,8 @@ shows the plot of the root locus when the intervals are represented by:
 \verbatiminput{kyp_complex_curve_union_test_3_eta_coef.m}
 \verbatiminput{kyp_complex_curve_union_test_3_zeta_coef.m}
 \end{small}
-\begin{figure}
+
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{kyp_complex_curve_union_test_3_root_locus}}
 \caption{Test of Assumption 1 for an interval on the unit circle mapped to
@@ -35861,7 +35908,8 @@ shows the plot of the root locus when the intervals are represented by:
 \verbatiminput{kyp_complex_curve_union_test_4_eta_coef.m}
 \verbatiminput{kyp_complex_curve_union_test_4_zeta_coef.m}
 \end{small}
-\begin{figure}
+
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{kyp_complex_curve_union_test_4_root_locus}}
 \caption{Test of Assumption 1 for an interval on the unit circle mapped to
@@ -36157,7 +36205,7 @@ I did not achieve the pass-band error of $\varepsilon_{z}=\;$2.5e-4 specified by
 Figure~\ref{fig:Direct-FIR-symmetric-KYP-union-bandpass-response} shows the
 stop band and pass band amplitude responses.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_kyp_union_bandpass_test_response}}
 \caption{Stop band and pass band amplitude responses of a symmetric FIR band
@@ -36186,6 +36234,7 @@ The value of $\varepsilon^{2}_{z}$ was found by trial-and-error. The actual
 maximum squared-error in the pass-band compared with a pure delay is
 $\varepsilon^{2}_{z}=$
 \input{directFIRnonsymmetric_kyp_union_bandpass_test_max_passband_squared_error.tab}.
+
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-response} shows the
 amplitude response.
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-passband} 
@@ -36194,7 +36243,7 @@ phase error is adjusted for the nominal delay.
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-zeros} shows the
 zeros of the transfer function.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_union_bandpass_test_response}}
 \caption{Amplitude response of a non-symmetric FIR band pass filter designed
@@ -36202,7 +36251,7 @@ with the generalised KYP lemma over a union of stop band regions.}
 \label{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-response}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_union_bandpass_test_passband}}
 \caption{Pass band amplitude, phase error and delay responses of a non-symmetric
@@ -36211,7 +36260,7 @@ stop band regions. The pass band phase error is adjusted for the nominal delay.}
 \label{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-passband}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_union_bandpass_test_zeros}}
 \caption{Zeros of a non-symmetric FIR band pass filter designed with the
@@ -36228,12 +36277,14 @@ band pass FIR filter with the union of two pass bands and the union of three
 stop bands. The filter amplitude response is similar to that of the symmetric
 FIR filter shown in
 Figure~\ref{fig:mcclellanFIRsymmetric-multiband-test-response}.
+
 In the pass band the filter response is compared to a nominal delay. In the
 stop band $\mathabs{H\left(\omega\right)}^{2}\le\varepsilon_{s}^{2}$. The filter
 specification is:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_union_double_bandpass_test.spec}
 \end{small}
+
 In the pass bands, the M\"{o}bius transformation from the unit circle to the
 real axis is chosen as $z_{1}=1,z_{2}=\imath,z_{3}=-\imath$. In the stop bands
 each of these $z$s is rotated by $\pi\left(f_{sl2}-f_{pu1}\right)$ radians
@@ -36241,16 +36292,17 @@ so that $z_{3}$ is not in a stop band. The resulting FIR impulse response is:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_union_double_bandpass_test_h_coef.m}
 \end{small}
-The actual maximum squared-error in the pass-band compared with a pure delay is
-$\varepsilon^{2}_{z}=$
-\input{directFIRnonsymmetric_kyp_union_double_bandpass_test_max_passband_squared_error.tab}.
+
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-union-double-bandpass-response}
 shows the amplitude response.
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-union-double-bandpass-passband} 
 shows the pass band amplitude, phase error and delay responses. The pass band
 phase error is adjusted for the nominal delay. 
+The actual maximum squared-error in the pass-band compared with a pure delay is
+$\varepsilon^{2}_{z}=$
+\input{directFIRnonsymmetric_kyp_union_double_bandpass_test_max_passband_squared_error.tab}.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_union_double_bandpass_test_response}}
 \caption{Amplitude response of a non-symmetric FIR band pass filter designed
@@ -36258,7 +36310,7 @@ with the generalised KYP lemma with multiple pass and stop bands.}
 \label{fig:Direct-FIR-nonsymmetric-KYP-union-double-bandpass-response}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_union_double_bandpass_test_passband}}
 \caption{Pass band amplitude, phase error and delay responses of a non-symmetric

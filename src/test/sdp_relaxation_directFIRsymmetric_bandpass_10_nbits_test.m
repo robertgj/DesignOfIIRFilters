@@ -151,7 +151,7 @@ strt=sprintf("Direct-form symmetric bandpass filter pass-band \
 (nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,ndigits,fapl,fapu,dBap);
 title(strt);
 legend("exact","s-d","s-d(Lim)","s-d(SDP)");
-legend("location","northeast");
+legend("location","east");
 legend("boxoff");
 legend("left");
 grid("on");
