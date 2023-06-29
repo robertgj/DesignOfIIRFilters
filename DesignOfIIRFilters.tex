@@ -35200,25 +35200,6 @@ the \emph{Parks-McClellan} algorithm.}
 \label{fig:Direct-FIR-symmetric-mcclellan-lowpass-response}
 \end{figure}
 
-For comparison, Figure~\ref{fig:Direct-FIR-symmetric-mcclellan-lowpass-response}
-shows a similar filter response designed by the \emph{mcclellanFIRsymmetric}
-function described in Section~\ref{sec:Parks-McClellan-mini-max-FIR}. The filter
-specification is: 
-\begin{small}
-\verbatiminput{directFIRsymmetric_kyp_lowpass_test_mcclellan.spec}
-\end{small}
-The distinct coefficients of the resulting FIR impulse response are: 
-\begin{small}
-\verbatiminput{directFIRsymmetric_kyp_lowpass_test_mcclellan_hM_coef.m}
-\end{small}
-\begin{figure}[!ht]
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_kyp_lowpass_test_mcclellan}}
-\caption{Amplitude response of a symmetric FIR low pass filter designed with
-the \emph{Parks-McClellan} algorithm.}
-\label{fig:Direct-FIR-symmetric-mcclellan-lowpass-response}
-\end{figure}
-
 \subsubsection{Design of a non-symmetric low pass FIR filter with given pass band delay}
 As an example, \emph{Iwasaki} and \emph{Hara}~\cite[Section
 VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} describe
