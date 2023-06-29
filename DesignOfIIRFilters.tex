@@ -35126,12 +35126,12 @@ Appendix~\ref{app:Linear-algebra-Schur-complement-positive-definite}} to:
 \clearpage
 \subsubsection{Design of a symmetric low pass FIR filter}
 The Octave script \emph{directFIRsymmetric\_kyp\_lowpass\_test.m}
-designs an odd order, $N=2M+1$, FIR low-pass filter with
+designs a symmetric FIR low-pass filter with
 YALMIP~\cite{Lofberg_YALMIP,Lofberg2004} and SeDuMi. The YALMIP objective is
 empty. The YALMIP constraints for each frequency band are
-Equation~\ref{eqn:Iwasaki_Hara_KYP_Lemma_8} with $Q\succeq{}0$. The $C$ matrix
-of the state variable description for the pass-band constraint is modified to
-subtract a signal delayed by $M$ samples.
+Equation~\ref{eqn:Iwasaki_Hara_KYP_Lemma_8} with $Q\succeq{}0$. The $C$
+matrix of the state variable description for the pass-band constraint is
+modified to subtract a signal delayed by $M$ samples.
 
 The filter specification is:
 \begin{small}
@@ -35158,7 +35158,26 @@ the KYP lemma. See \emph{Iwasaki} and \emph{Hara}~\cite[Section
 VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}} 
 \label{fig:Direct-FIR-symmetric-KYP-lowpass-response}
 \end{figure}
-\clearpage
+
+For comparison, Figure~\ref{fig:Direct-FIR-symmetric-mcclellan-lowpass-response}
+shows a similar filter response designed by the \emph{mcclellanFIRsymmetric}
+function described in Section~\ref{sec:Parks-McClellan-mini-max-FIR}. The filter
+specification is: 
+\begin{small}
+\verbatiminput{directFIRsymmetric_kyp_lowpass_test_mcclellan.spec}
+\end{small}
+The distinct coefficients of the resulting FIR impulse response are: 
+\begin{small}
+\verbatiminput{directFIRsymmetric_kyp_lowpass_test_mcclellan_hM_coef.m}
+\end{small}
+\begin{figure}[!ht]
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_kyp_lowpass_test_mcclellan}}
+\caption{Amplitude response of a symmetric FIR low pass filter designed with
+the \emph{Parks-McClellan} algorithm.}
+\label{fig:Direct-FIR-symmetric-mcclellan-lowpass-response}
+\end{figure}
+
 \subsubsection{Design of a non-symmetric low pass FIR filter with given pass band delay}
 As an example, \emph{Iwasaki} and \emph{Hara}~\cite[Section
 VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} describe
