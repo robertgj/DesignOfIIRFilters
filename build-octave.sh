@@ -11,7 +11,7 @@
 # qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel
 # libcurl libcurl-devel gl2ps gl2ps-devel fontconfig-devel mesa-libGLU
 # mesa-libGLU-devel qt5-qttools qt5-qttools-common qt5-qttools-devel
-# rapidjson-devel python3-sympy
+# rapidjson-devel python3-sympy java-17-openjdk-devel xerces-j2
 #
 # See https://wiki.octave.org/GraphicsMagick for GraphicksMagic dependencies
 #
@@ -513,10 +513,9 @@ export CXXFLAGS="$OPTFLAGS -std=c++17 -I$OCTAVE_INCLUDE_DIR"
 export FFLAGS=$OPTFLAGS
 export LDFLAGS="-L$OCTAVE_LIB_DIR"
 # Add --enable-address-sanitizer-flags for address sanitizer build
-PKG_CONFIG_PATH=$OCTAVE_LIB_DIR/pkgconfig \
+JAVA_HOME=/usr/lib/jvm/java PKG_CONFIG_PATH=$OCTAVE_LIB_DIR/pkgconfig \
 ../octave-$OCTAVE_VER/configure \
     --prefix=$OCTAVE_DIR \
-    --disable-java \
     --without-fltk \
     --with-blas=-lblas \
     --with-lapack=-llapack \
