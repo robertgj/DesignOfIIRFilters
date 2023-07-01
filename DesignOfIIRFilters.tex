@@ -3907,7 +3907,7 @@ The $\epsilon_{1},\epsilon_{2}=\pm{}1$ are chosen to scale the states.
 Figure~\ref{fig:AL7c-second-order-all-pass-filter-section} shows a realisation
 of Equation~\ref{eqn:GM2-second-order-all-pass-filter-section} due to
 \emph{Ansari} and
-\emph{Lui}~\cite{AnsariLiu_LowNoiseEfficientRecursiveDigitalFilters}. This
+\emph{Liu}~\cite{AnsariLiu_LowNoiseEfficientRecursiveDigitalFilters}. This
 realisation has low noise gain for poles near $z=\pm\imath$. 
 
 The three port transfer matrix of the \emph{Mitra} and
@@ -3987,7 +3987,7 @@ realisation has low sensitivity for filter poles near $z=0$.
 \begin{subfigure}{\textwidth}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{allpass_AL7c}
-\caption{Ansari-and-Lui second order all-pass filter section}
+\caption{Ansari-and-Liu second order all-pass filter section}
 \label{fig:AL7c-second-order-all-pass-filter-section}
 \vspace{1cm}
 \end{subfigure}
@@ -4065,7 +4065,7 @@ for complex conjugate poles plotted against pole angle.
 
 Figure~\ref{fig:GM2-all-pass-filter-phase-gradient-real-poles} shows the maximum
 of the gradient of the phase plotted against the second-order
-\emph{Gray} and \emph{Markel} and \emph{Ansari} and \emph{Lui} coefficients
+\emph{Gray} and \emph{Markel} and \emph{Ansari} and \emph{Liu} coefficients
 $k_{1}$ and $k_{2}$ in
 Equation~\ref{eqn:GM2-second-order-all-pass-filter-section} for real 
 poles plotted against pole
@@ -4128,7 +4128,7 @@ for complex conjugate poles.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass_filter_test_GM2_real_pgrad}}
 \caption{Maximum phase gradient plotted against pole radius of the second-order
-  Gray-and-Markel and Ansari-and-Lui all-pass filter section with real poles}
+  Gray-and-Markel and Ansari-and-Liu all-pass filter section with real poles}
 \label{fig:GM2-all-pass-filter-phase-gradient-real-poles}
 \end{figure}
 
@@ -4136,7 +4136,7 @@ for complex conjugate poles.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass_filter_test_GM2_complex_pgrad}}
 \caption{Maximum phase gradient plotted against pole angle of the second-order
-  Gray-and-Markel and Ansari-and-Lui all-pass filter section with complex
+  Gray-and-Markel and Ansari-and-Liu all-pass filter section with complex
   conjugate poles}
 \label{fig:GM2-all-pass-filter-phase-gradient-complex-poles}
 \end{figure}
@@ -4230,7 +4230,7 @@ the noise gain of a scaled realisation with real poles.
 Figure~\ref{fig:GM2-all-pass-filter-noise-gain-complex-poles} shows 
 the noise gain of a scaled realisation with complex conjugate poles.  
 
-The noise gain of the scaled second-order \emph{Ansari} and \emph{Lui} section
+The noise gain of the scaled second-order \emph{Ansari} and \emph{Liu} section
 can be estimated with a slowed and retimed realisation. 
 Figure~\ref{fig:AL7c-all-pass-filter-noise-gain-real-poles} shows the
 noise gain of a scaled realisation with real poles.
@@ -4312,7 +4312,7 @@ the noise gain of a scaled realisation with complex conjugate poles.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass_filter_test_AL7c_retimed_real_ng}}
-\caption{Noise gain of the scaled and retimed second-order Ansari-and-Lui
+\caption{Noise gain of the scaled and retimed second-order Ansari-and-Liu
   all-pass filter section with real poles}
 \label{fig:AL7c-all-pass-filter-noise-gain-real-poles}
 \end{figure}
@@ -4320,7 +4320,7 @@ the noise gain of a scaled realisation with complex conjugate poles.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{allpass_filter_test_AL7c_retimed_complex_ng}}
-\caption{Noise gain of the scaled and retimed second-order Ansari-and-Lui
+\caption{Noise gain of the scaled and retimed second-order Ansari-and-Liu
   all-pass filter section with complex conjugate poles}
 \label{fig:AL7c-all-pass-filter-noise-gain-complex-poles}
 \end{figure}
@@ -32457,7 +32457,7 @@ sub-filters~\cite{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters,
 Shiung_ImprovingFIRFiltersCascadeTechniques,
 Smith_DecompositionFIRCascadeSubFilters,
 SmithHenderson_RoundoffNoiseCascadeFIRFilters,
-LimLui_CascadeFIRDiscreteCoefficients}. As I show in the
+LimLiu_CascadeFIRDiscreteCoefficients}. As I show in the
 \hyperlink{sec:Introduction}{Introduction}, it may be difficult to accurately
 determine the roots of the FIR filter polynomial and so determine the
 sub-filters. For example, see
@@ -33440,7 +33440,7 @@ sub-filters. See, for example,
 \emph{Saram\"{a}ki}~\cite{Saramaki_FIRFiltersTappedCascadeIdenticalSubFilters},
 \emph{Shiung et al.}~\cite{Shiung_ImprovingFIRFiltersCascadeTechniques},
 \emph{Smith}~\cite{Smith_DecompositionFIRCascadeSubFilters} or
-\emph{Lim} and \emph{Liu}~\cite{LimLui_CascadeFIRDiscreteCoefficients}. The
+\emph{Lim} and \emph{Liu}~\cite{LimLiu_CascadeFIRDiscreteCoefficients}. The
 cascade connection permits an improved response and/or reduced complexity by
 partition of the FIR filter or the use of fewer multipliers.
 
