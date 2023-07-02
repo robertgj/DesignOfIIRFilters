@@ -1,5 +1,5 @@
 function [A,B,C,D,Cap,Dap] = schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c)
-% [A,B,C,D,Cap,Dap] = schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,p,c)
+% [A,B,C,D,Cap,Dap] = schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c)
 % Find the state variable representation of a doubly-pipelined Schur
 % one-multiplier lattice filter.
 %

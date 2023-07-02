@@ -1459,7 +1459,7 @@ by the matrix identity:
 \begin{align*}
 RR^{-1} &= I \\
 \frac{dR}{d\rho}R^{-1} +R\frac{dR^{-1}}{d\rho} &= 0\\
-\frac{dR^{-1}}{d\rho} &=-R^{-1}\frac{dR}{d\rho}R^{-1}
+\frac{dR}{d\rho} &=-R\frac{dR^{-1}}{d\rho}R
 \end{align*}
 where $\rho$ represents the components of the matrix $R$.
 With this identity, the gradients of $H\left(z\right)$ are found by
@@ -5396,7 +5396,7 @@ performance of the filter\footnote{The tapped output could alse be retimed by
   pipelining the arithmetic operations in a tree structure. The all-pass
   lattice ouput calculation is recursive and cannot be retimed in that way.}.
 
-\begin{figure}
+\begin{figure}[!ht]
 \begin{subfigure}{\textwidth}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{lattice_pipelined_a}
@@ -5429,7 +5429,7 @@ Construction of a state variable description of the pipelined Schur
 one-multiplier lattice filter is summarised in
 Algorithm~\ref{alg:Construction-state-variable-pipelined-One-Multiplier-lattice}.
 
-\begin{algorithm}[!hp]
+\begin{algorithm}[!ht]
 Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$,
 $\left\{\epsilon_{1},\epsilon_{2}\hdots,\epsilon_{N}\right\}$ and
 $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
@@ -5816,7 +5816,7 @@ corresponding to the input to state $x_{n}$ of the $n$-th section,
 $y_{n}$ being the output of the $n$-th section and $\hat{y}_{n}$
 the all-pass output of the $n$-th section.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_ScaledNorm_SV_derivation}
 \caption{State variable description of the Schur Scaled-Normalised lattice filter}
@@ -5828,7 +5828,7 @@ Algorithm~\ref{alg:Construction-state-variable-Scaled-Normalised-lattice}
 \footnote{The Octave function \emph{schurNSlattice} combines 
   $\sigma_{10}^{\left(0\right)}$ and $\sigma_{11}^{\left(1\right)}$}.
 
-\begin{algorithm}[!hp]
+\begin{algorithm}[!ht]
 \begin{algorithmic}
 \State $\hat{y}_{0} = x_{1}$
 \State $y_{0} = \sigma_{10}^{\left(0\right)}x_{1}$
@@ -6263,7 +6263,7 @@ slowed and retimed as shown in Figure~\ref{fig:Slowed-and-retimed-3rdButt-Norm}.
 Each intermediate node is now associated with a state. The additional states
 alter the overall transfer function but the round-off noise gains are unchanged.
 
-\begin{figure}[!hp]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Butt3NS_SV_retimed}
 \caption{Slowed and retimed normalised-scaled lattice for the 3rd order 
@@ -6291,7 +6291,7 @@ C++ version of \emph{bin2SD}. The filter amplitude responses for the
 corresponding Butterworth and all-pass filters with $10$-bit $2$-signed-digit
 coefficients are shown in Figure~\ref{fig:Freq-response-butt3NSSV}.
 
-\begin{figure}[!hp]
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{butt3NSSV_test_response}}
 \caption{Amplitude response of the 3rd order Butterworth filter implemented with a normalised-scaled lattice structure and 10-bit 2 signed-digit coefficients}
@@ -6356,7 +6356,7 @@ filter (neglecting the one-multiplier state scaling).
 Figure~\ref{fig:Transposed-One-Multiplier} shows module $m$ of $N,\ldots,1$
 of the transposed graph of a one multiplier lattice filter.
 
-\begin{figure}[!hp]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_TransposeOneMult}
 \caption{Transposed one multiplier lattice filter module}
@@ -6488,7 +6488,7 @@ Each intermediate node is now associated with a state. The additional
 states alter the overall transfer function but the round-off noise
 gains are unchanged.
 
-\begin{figure}[!hp]
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Butt3OneM_SV_retimed}
 \caption{Slowed and retimed single-multipler lattice for the 3rd order Butterworth example}
@@ -6585,7 +6585,7 @@ filter outputs when the filter is calculated as a Schur scaled one multiplier
 lattice with 10-bit 3-signed-digit truncated coefficients in the Octave 
 function \emph{schurOneMlatticeFilter}.
 
-\begin{figure}[!hp]
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{butt3OneMSV_test_response_schur_lattice}}
 \caption{Amplitude responses of the slowed and retimed one multiplier lattice 3rd order Butterworth filter implemented in Schur lattice form with 10-bit 3-signed-digit truncated coefficients}
@@ -6622,7 +6622,7 @@ in the resulting filter has the form \emph{$pq+rs$}. In this case the filter
 group delay is increased by $2$ samples. In general, this pipelining scheme
 increases the group delay by $1$ sample for each second-order section.
 
-\begin{figure}[!hp]
+\begin{figure}[!ht]
 \begin{subfigure}{\textwidth}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Schur_pipelinedA}
@@ -6678,7 +6678,7 @@ function is implemented in Octave function \emph{WISEJ.m}.
 Figure~\ref{fig:schur-pipelined-output-response} shows the simulated amplitude 
 response of the pipelined Schur lattice filter.
 
-\begin{figure}[!hp]
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schur_pipelined_test_output_response}}
 \caption{Simulated amplitude response of the pipelined 4th order
@@ -6697,7 +6697,7 @@ calculation of the outputs and does not change the amplitude and group delay
 responses. If $N$ is the filter order then the pipelined filter has an additional
 $\frac{N}{2}-1$ states.
 
-\begin{figure}[!hp]
+\begin{figure}[!ht]
 \centering
 \begin{subfigure}{\textwidth}
 \centering
@@ -6725,7 +6725,7 @@ Construction of a state variable description of the pipelined Schur
 one-multiplier lattice filter with coefficients in $z^{-2}$ only is summarised in
 Algorithm~\ref{alg:Construction-state-variable-pipelined-One-Multiplier-R2-lattice}.
  
-\begin{algorithm}[!hp]
+\begin{algorithm}[!ht]
 Given $N$ even, $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$,
 $\left\{\epsilon_{1},\epsilon_{2}\hdots,\epsilon_{N}\right\}$ and
 $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
@@ -6759,7 +6759,7 @@ polynomial having coefficients in $z^{-2}$ only.
 The Octave script \emph{schurSchurOneMR2lattice2Abcd\_symbolic\_test.m} creates a
 symbolic state variable description of the Schur one multiplier lattice filter
 with a denominator polynomial having coefficients in $z^{-2}$ only.
-
+\clearpage
 \subsection{Frequency transformations of pipelined Schur lattice filters}
 An implementation of a rational transfer function having
 demominator coefficients only in powers of $z^{-2}$ can be 
@@ -6815,7 +6815,7 @@ pB = [ 1.0000e+00   0.0000e+00   5.0953e-01 ]
 In this case, both the numerator and denominator polynomials of the resulting
 band-pass filter have coefficients only in powers of $z^{-2}$. 
 
-\begin{figure}[!hp]
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{freq_transform_structure_test_lowpass_response}}
 \caption{Amplitude response of a low-pass filter prototype having denominator
@@ -6823,7 +6823,7 @@ band-pass filter have coefficients only in powers of $z^{-2}$.
 \label{fig:freq-transform-structure-lowpass}
 \end{figure}
 
-\begin{figure}[!hp]
+\begin{figure}[!ht]
 \centering
 \begin{subfigure}{\textwidth}
 \centering
@@ -6843,7 +6843,7 @@ band-pass filter have coefficients only in powers of $z^{-2}$.
   denominator polynomial coefficients in powers of $z^{-2}$ only}
 \label{fig:freq-transform-structure}
 \end{figure}
-
+\clearpage
 \section{Summary}
 Given a transfer function $H\left(z\right)=N_{N}\left(z\right)/D_{N}\left(z\right)$ the design procedure
 for the normalised-scaled lattice filter is:
@@ -24876,7 +24876,7 @@ A1s11f = [      505,      158,      506,      352 ]/512;
 A1s20f = [      -84,      488,      -76,      376 ]/512;
 A1s00f = [      505,      158,      506,      352 ]/512;
 A1s02f = [       84,     -488,       76,     -376 ]/512;
-A1s22f = [      505,      158,      506,      352 ]/512;
+A1s22f = [      505,      158,      506,      352 ]/512; 
 \end{verbatim}
 \end{small}
 and
@@ -36355,7 +36355,8 @@ Constraints=[F_plu<=-sedumi_eps,Q_plu>=0,F_slmu<=-sedumi_eps,Q_slmu>=0];
 \end{small}
 The resulting filter frequency response is acceptable. These numerical problems
 occurred for all combinations of $N$ and $d$ that I tried.
-\cleardoublepage{}
+\cleardoublepage
+
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}
 \addcontentsline{toc}{part}{Colophon}
 \pdfbookmark[0]{Requirements}{requirements}
