@@ -1,10 +1,12 @@
 % kyp_frequency_transformation_test.m
-% Copyright (C) 2022 Robert G. Jenssen
+% Copyright (C) 2022-2023 Robert G. Jenssen
 %
-% Try to verify Lemma 2 of "Generalization of Kalman-Yakubovic-Popov Lemma
-% for Restricted Frequency Inequalities", T. Iwasaki and S. Hara, Proceedings
-% of the American Control Conference, Denver Colorado, June 4-6, 2003,
-% pp. 3828--3833.
+% Numerical verification of Lemma 2 of "Generalization of Kalman-Yakubovic-Popov
+% Lemma for Restricted Frequency Inequalities", T. Iwasaki and S. Hara,
+% Proceedings of the American Control Conference, June 4-6, 2003, pp. 3828-3833
+%
+% The script kyp_symbolic_frequency_transformation_test.m contains a symbolic
+% verification of Lemma 2 that is commented out because it takes some minutes
 
 test_common;
 

@@ -45,34 +45,49 @@ ans = (sym 2×2 matrix)
 detReJUJp = (sym)
                 2
   -B⋅(p⋅s - q⋅r) 
-Phi =
-   1   0
-   0  -1
-
+Phi = (sym 2×2 matrix)
+  ⎡1  0 ⎤
+  ⎢     ⎥
+  ⎣0  -1⎦
 Psi_o = (sym 2×2 matrix)
-  ⎡  G           ⎤
+  ⎡  g           ⎤
   ⎢- ─ - 1    0  ⎥
   ⎢  2           ⎥
   ⎢              ⎥
-  ⎢             G⎥
+  ⎢             g⎥
   ⎢   0     1 - ─⎥
   ⎣             2⎦
+ans = (sym)
+   2    
+  g     
+  ── - 1
+  4     
 Psi_o = (sym 2×2 matrix)
-  ⎡G           ⎤
+  ⎡g           ⎤
   ⎢─ + 1    0  ⎥
   ⎢2           ⎥
   ⎢            ⎥
-  ⎢       G    ⎥
+  ⎢       g    ⎥
   ⎢  0    ─ - 1⎥
   ⎣       2    ⎦
+ans = (sym)
+   2    
+  g     
+  ── - 1
+  4     
 Psi_o = (sym 2×2 matrix)
-  ⎡     ⎛w₁ - w₂⎞      ⎛w₁ + w₂⎞             ⎛w₁ + w₂⎞         ⎤
-  ⎢- cos⎜───────⎟ - cos⎜───────⎟          sin⎜───────⎟         ⎥
-  ⎢     ⎝   2   ⎠      ⎝   2   ⎠             ⎝   2   ⎠         ⎥
-  ⎢                                                            ⎥
-  ⎢           ⎛w₁ + w₂⎞                ⎛w₁ - w₂⎞      ⎛w₁ + w₂⎞⎥
-  ⎢        sin⎜───────⎟           - cos⎜───────⎟ + cos⎜───────⎟⎥
-  ⎣           ⎝   2   ⎠                ⎝   2   ⎠      ⎝   2   ⎠⎦
+  ⎡       ⎛w₁ - w₂⎞        ⎛w₁ + w₂⎞                ⎛w₁ + w₂⎞          ⎤
+  ⎢- 2⋅cos⎜───────⎟ - 2⋅cos⎜───────⎟           2⋅sin⎜───────⎟          ⎥
+  ⎢       ⎝   2   ⎠        ⎝   2   ⎠                ⎝   2   ⎠          ⎥
+  ⎢                                                                    ⎥
+  ⎢              ⎛w₁ + w₂⎞                   ⎛w₁ - w₂⎞        ⎛w₁ + w₂⎞⎥
+  ⎢         2⋅sin⎜───────⎟            - 2⋅cos⎜───────⎟ + 2⋅cos⎜───────⎟⎥
+  ⎣              ⎝   2   ⎠                   ⎝   2   ⎠        ⎝   2   ⎠⎦
+ans = (sym)
+         2⎛w₁   w₂⎞        2⎛w₁   w₂⎞        2⎛w₁   w₂⎞
+  - 4⋅sin ⎜── + ──⎟ + 4⋅cos ⎜── - ──⎟ - 4⋅cos ⎜── + ──⎟
+          ⎝2    2 ⎠         ⎝2    2 ⎠         ⎝2    2 ⎠
+
 EOF
 if [ $? -ne 0 ]; then
     echo "Failed output cat test.ok"; fail;

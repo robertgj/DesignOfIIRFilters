@@ -16,8 +16,12 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 pkg load symbolic
 
-%{
-% 1. The following commented out section takes several minutes
+%
+% Lemma 2
+%
+% 1. The following commented out section checks Lemma 2 and passes after some
+%    minutes. The kyp_frequency_transformation_test.m script performs
+%    a numerical verification.
 % 2. isAlways() uses a feature deprecated in SymPy V1.10.1.
 %    From Symbolic pkg v3.0.1:
 %
@@ -36,9 +40,7 @@ pkg load symbolic
 %  This has been deprecated since SymPy version 1.9. It
 %  will be removed in a future version of SymPy.
 
-%
-% Lemma 2
-%
+%{
 syms w a b c d A11 A12 A21 A22 B1 B2 real
 A=[A11,A12;A21,A22];
 B=[B1;B2];
@@ -83,37 +85,40 @@ clear B p q r s w
 %
 % Lemma 6 : Low-pass case
 %
-syms G real
-K=[[1,-1];[1,1]]/sqrt(2);
+syms g real
+K=[[1,-1];[1,1]]/sqrt(sym(2));
 Phi=K'*[0,1;1,0]*K
-Psi=[[0,1];[1,-G]];
+Psi=[[0,1];[1,-g]];
 J=[[1,0];[0,j]];
-invJK=2*((J*[1,-1;1,1])^(-1)); % invJK is scaled by sqrt(2)
-Psi_o=real(factor(expand(invJK'*Psi*invJK)))/2
-clear G
+invJK=((J*K)^(-1));
+Psi_o=real(factor(expand(invJK'*Psi*invJK)))
+det(Psi_o)
+clear g
 
 %
 % Lemma 6 : High-pass case
 %
-syms G real
-K=[[1,-1];[1,1]]/sqrt(2);
-Psi=[[0,-1];[-1,G]];
+syms g real
+K=[[1,-1];[1,1]]/sqrt(sym(2));
+Psi=[[0,-1];[-1,g]];
 J=[[1,0];[0,j]];
-invJK=2*((J*[1,-1;1,1])^(-1)); % invJK is scaled by sqrt(2)
-Psi_o=real(factor(expand(invJK'*Psi*invJK)))/2
-clear G
+invJK=((J*K)^(-1));
+Psi_o=real(factor(expand(invJK'*Psi*invJK)))
+det(Psi_o)
+clear g
 
 %
 % Lemma 6 : Band-pass case
 %
 syms wc ww w1 w2 real
-K=[[1,-1];[1,1]]/sqrt(2);
+K=[[1,-1];[1,1]]/sqrt(sym(2));
 Psi=[[0,e^(j*wc)];[e^(-j*wc),-2*cos(ww)]];
 J=[[1,0];[0,j]];
-invJK=[[1,-j];[-1,-j]]; % invJK is scaled by sqrt(2)
+invJK=[[1,-j];[-1,-j]];
 wc=(w2+w1)/2;
 ww=(w2-w1)/2;
-Psi_o=factor(eval(real((invJK'*Psi*invJK)/2)))
+Psi_o=factor(eval(real((invJK'*Psi*invJK))))
+det(Psi_o)
 clear wc ww w1 w2
 
 % Done
