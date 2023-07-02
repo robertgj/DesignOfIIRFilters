@@ -20280,17 +20280,17 @@ example of the application of the S-procedure to a quadratic programming problem
 with one quadratic constraint:
 \begin{align*}
 \textbf{minimise}   \quad & y^{\top}Q_{0}y+2s_{0}^{\top}y+r_{0}\\
-\textbf{subject to} \quad & y^{\top}Q_{1}y+2s_{1}^{\top}y+r_{k1}\ge 0
+\textbf{subject to} \quad & y^{\top}Q_{1}y+2s_{1}^{\top}y+r_{1}\ge 0
 \end{align*}
 A lower bound is obtained by the semi-definite relaxation:
 \begin{align*}
 \textbf{minimise}   \quad & \mathtrace{Q_{0}Y}+2s_{0}^{\top}y+r_{0}\\
-\textbf{subject to} \quad & \mathtrace{Q_{1}Y}+2s_{1}^{\top}y+r_{1}\succeq 0\\\
+\textbf{subject to} \quad & \mathtrace{Q_{1}Y}+2s_{1}^{\top}y+r_{1}\ge 0\\\
    & \left[\begin{array}{cc}
           Y & y \\
           y^{\top} & 1\end{array}\right]\succeq 0
 \end{align*}
-since $\mathtrace{Q_{1}yy^{\top}}=y^{\top}Q_{1}y$ and the second constraint is
+since $\mathtrace{Q_{k}yy^{\top}}=y^{\top}Q_{k}y$ and the second constraint is
 equivalent to $Y\succeq yy^{\top}$.
 
 The dual problem of the semi-definite relaxation is:
@@ -20312,11 +20312,11 @@ show that the function $-\log\det A$ is convex if $A=A^{\top}\succ 0$.
 Their proof uses the following lemma:
 
 \emph{Lemma: } A function $f\left(x\right)$ is convex in $x\in S$
-if-and-only-if $f\left(t\right)=f\left(x_{0}+th\right)$ is convex in t
+if-and-only-if $f\left(t\right)=f\left(x_{0}+th\right)$ is convex in $t$
 for all $x_{0}$, $h$ and $t$ such that $x_{0}+th\in S$ and $x_{0}\in S$.
 
-The proof begins by defining $S=\left\{A \vert A=A^{\top}\succ 0\right\}$. The
-lemma implies that $-\log\det A$ is convex in $A$ on $A=A^{\top}\succ 0$
+The proof begins by defining $S=\left\{A \; : \; A=A^{\top}\succ 0\right\}$.
+The lemma implies that $-\log\det A$ is convex in $A$ on $A=A^{\top}\succ 0$
 if-and-only-if $-\log\det \left(A_{0}+tH\right)$ is convex in $t$ for all  
 $A_{0}=A_{0}^{\top}\succ 0$ and $H$ which satisfy
 $A_{0}+tH =\left(A_{0}+tH\right)^{\top} \succ 0$. The latter condition is
@@ -34247,7 +34247,7 @@ then:
 \end{align*}
 holds for all $P=P^{\mathconj}$ and $Q=Q^{\mathconj}\succ 0$. This implies
 \begin{align*}
-ff^{\mathconj}-\omega^{2}_{0}gg^{\mathconj}\preceq 0,
+ff^{\mathconj}-\omega^{2}_{0}gg^{\mathconj}\preceq 0 \\
 gf^{\mathconj}+fg^{\mathconj}\le 0
 \end{align*}
 \emph{Iwasaki et al.} claim that the first statement now follows from
@@ -34553,6 +34553,7 @@ Then:
 \subsection{\label{sec:Generalised_discrete_time_KYP_theorem}A generalised discrete-time KYP lemma}
 \emph{Iwasaki} and \emph{Hara}~\cite[Section 2.2]{Iwasaki_KYPlemmaFrequencyInequalities} prove the following generalised KYP
 lemma for discrete-time state variable systems:
+
 \begin{framed}
 \emph{Theorem 1}~\cite[Section 2.2]{Iwasaki_KYPlemmaFrequencyInequalities}: Let
 complex matrixes $A$, $B$, $\Theta=\Theta^{\mathconj}$ and
@@ -34574,12 +34575,14 @@ $\left(\Phi,\Psi\right)\in\boldsymbol{\Omega}$  be given where
 & \left.  \right\}
 \end{split}
 \end{align}
+
 Define
 \begin{align}
 \label{eqn:IwasakiHaraDiscreteTimeKYPLambda}
 \boldsymbol{\Lambda}\coloneq\left\{\lambda\in\mathbb{C} : \sigma\left(\lambda,\Phi\right) = 0,
 \sigma\left(\lambda,\Psi\right) \ge 0\right\}
 \end{align}
+
 Suppose $\left(A,B\right)$ is controllable and that $A$ has no eigenvalues, $\lambda$, such that $\sigma\left(\lambda,\Phi\right) = 0$. Then the following
 statements are equivalent:
 \begin{enumerate}
@@ -34622,17 +34625,31 @@ for all $s\in\boldsymbol{S}$ such that $cs\ne a$ where:
 \begin{align*}
 \boldsymbol{S}\coloneq \left\{\imath\omega : \omega\in\mathbb{R}, \mathabs{\omega}\le 1 \right\}
 \end{align*}
+
 From Lemma 2:
 \begin{align*}
 \left[\begin{array}{c}
-\mathcal{C}\left(sI-\mathcal{A}\right)^{-1}\mathcal{B}\\
+\mathcal{C}\left(sI-\mathcal{A}\right)^{-1}\mathcal{B}+\mathcal{D}\\
 I\end{array}\right]^{\mathconj}\Theta\left[\begin{array}{c}
-\mathcal{C}\left(sI-\mathcal{A}\right)^{-1}\mathcal{B}\\
+\mathcal{C}\left(sI-\mathcal{A}\right)^{-1}\mathcal{B}+\mathcal{D}\\
 I\end{array}\right]\le 0
 \end{align*}
+where:
+\begin{align*}
+\left[\begin{array}{c}
+\mathcal{C}\left(sI-\mathcal{A}\right)^{-1}\mathcal{B}+\mathcal{D}\\
+ I\end{array}\right]  &= \left[\begin{array}{cc}
+                               \mathcal{C}&\mathcal{D}\\
+                                 0 &I\end{array}\right]
+                        \left[\begin{array}{c}
+                                \left(sI-\mathcal{A}\right)^{-1}\mathcal{B}\\
+                                I\end{array}\right]
+\end{align*}
+
 Lemma 2 also implies that $\mathcal{A}$ has no eigenvalues on $\imath\mathbb{R}$
 and that $\left(\mathcal{A},\mathcal{B}\right)$ is controllable. The continuous
-time finite frequency KYP lemma~\cite[Section 4]{Iwasaki_GeneralizedSProcFiniteFreqKYP} implies that this condition is equivalent to the existence of Hermitian matrixes $X$ and $Q\succeq 0$ such that:
+time finite frequency KYP lemma implies that this condition is equivalent to the
+existence of Hermitian matrixes $X$ and $Q\succeq 0$ such that:
 \begin{align*}
 \left[\begin{array}{cc}
 \mathcal{A} & \mathcal{B} \\
@@ -34646,7 +34663,7 @@ I & 0 \end{array}\right]+
 \left[\begin{array}{cc}
 \mathcal{C} & \mathcal{D} \\
 0 & I\end{array}\right]^{\mathconj}
-\Theta 
+\Theta
 \left[\begin{array}{cc}
 \mathcal{C} & \mathcal{D} \\
 0 & I\end{array}\right]\preceq 0
@@ -34669,10 +34686,15 @@ A & B\\
 I & 0 \end{array}\right]
 \end{align*}
 where:
-\begin{align*}
--c\left(aA+bI\right)\Gamma B + aB &= \left(-acA-bcI+a\Gamma^{-1}\right)\Gamma B
+\begin{align*} 
+\left[\begin{array}{cc}
+\mathcal{C} & \mathcal{D} \\
+0 & I\end{array}\right]^{-1} &=
+\left[\begin{array}{cc}
+\Gamma^{-1} & c\Gamma{}B \\
+0 & I\end{array}\right]
 \end{align*}
-and, in addition:
+and:
 \begin{align*}
 \left[\begin{array}{cc}
 aI & bI \\
@@ -34682,10 +34704,14 @@ cI & dI\end{array}\right]^{\mathconj}
 X & Q\end{array}\right]
 \left[\begin{array}{cc}
 aI & bI \\
-cI & dI\end{array}\right] &= \left(\Phi\otimes P + \Psi\otimes Q\right)\\
+cI & dI\end{array}\right] &= \left(\Phi\otimes P + \Psi\otimes Q\right)
+\end{align*}
+with:
+\begin{align*}
 P&\coloneq \frac{X-\beta Q}{\alpha}
 \end{align*}
 \end{framed}
+\clearpage
 
 \subsubsection{Characterisation of $\boldsymbol{\Omega}$}
 \emph{Iwasaki} and \emph{Hara}~\cite[Section
@@ -34717,6 +34743,7 @@ J &\coloneq \left[\begin{array}{cc}
 p & q \\
 r & s\end{array}\right]$, substitute and multiply out.
 \end{framed}
+
 \begin{framed}
 \emph{Lemma 4}: Let $\Phi\in\mathbb{H}$ be given such that
 $\det\left(\Phi\right)< 0$. Then the set of all $\alpha\in\mathbb{R}$ and
@@ -34738,6 +34765,7 @@ where $\gamma\coloneq\frac{1}{\alpha}$ and $K$ is an arbirary matrix satisfying
 1 & 0\end{array}\right]K
 \end{align}
 \end{framed}
+
 \begin{framed}
 \emph{Lemma 5}: Given $\Upsilon\in\mathbb{H}$, there exists $\beta,\gamma\in\mathbb{R}$ and $N\in\boldsymbol{N}_{\gamma}$, such that $\gamma\ne 0$ and
 \begin{align*}
@@ -34774,39 +34802,16 @@ $\gamma\ne 0$ and:
 From Lemma 5, this condition is equivalent to $K^{-\mathconj}\Psi{}K^{-1}\in\boldsymbol{\Upsilon}$.
 \end{framed}
 
-\subsubsection{Gain and phase}
-See \emph{Iwasaki} and \emph{Hara}~\cite[Section 3.1]{Iwasaki_KYPlemmaFrequencyInequalities}.
-The gain and phase of the filter transfer function,
-$H\left(\lambda\right)\coloneq C\left(\lambda I -A\right)^{-1}B+D$, are
-determined by the choice of the $\Theta$ matrix in
-Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-FDI}. As for
-Equation~\ref{eqn:ContinuousKYPThetaCDPi}:
-\begin{align*}
-\Theta &= \left[\begin{array}{cc}
-C & D \\
-0 & I\end{array}\right]^{\mathconj} \Pi \left[\begin{array}{cc}
-C & D \\
-0 & I\end{array}\right] 
-\end{align*}
-Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-FDI} now becomes:
-\begin{align*}
-\left[\begin{array}{c}
- H\left(\lambda\right)\\
-I\end{array}\right]^{\mathconj} \Pi \left[\begin{array}{c}
-H\left(\lambda\right) \\
-I\end{array}\right] &\le 0
-\end{align*}
-For example, if $\mathabs{H\left(\lambda\right)}\le\varepsilon$:
-\begin{align*}
-\Pi &= \left[\begin{array}{cc}
-I & 0 \\
-0 & -\varepsilon^{2}I\end{array}\right]
-\end{align*}
 \subsubsection{Frequency restrictions for discrete-time filters}
 See \emph{Iwasaki} and \emph{Hara}~\cite[Section
-3.2]{Iwasaki_KYPlemmaFrequencyInequalities}. The discrete-time frequency
-variable $z=e^{\imath\omega}$ can be characterised by\footnote{I do not know why
-\emph{Iwasaki} and
+3.2]{Iwasaki_KYPlemmaFrequencyInequalities}. The Octave script \emph{kyp\_symbolic\_frequency\_transformation\_test.m}
+uses the \emph{symbolic} package to confirm the following transformations of
+a frequency interval on the unit-circle to the imaginary
+axis\footnote{Section~\ref{sec:Union-of-frequency-intervals} extends these
+  results to the union of frequency intervals.}.
+
+The discrete-time frequency variable $z=e^{\imath\omega}$ can be characterised
+by\footnote{I do not know why \emph{Iwasaki} and
 \emph{Hara}~\cite[p.3831]{Iwasaki_KYPlemmaFrequencyInequalities} use $-\Phi$ for
 the low-pass and band-pass cases of $L\left(P,Q\right)$. The only constraint on
 $P$ is that it be Hermitian. Experiments with the Octave script
@@ -34827,14 +34832,21 @@ K&=\frac{1}{\sqrt{2}}\left[\begin{array}{cc}
 1 & -1 \\
 1 & \phantom{-} 1\end{array}\right]
 \end{align*}
+with:
+\begin{align*}
+ \Phi_{o}=\left[\begin{array}{cc}
+              0 & 1 \\
+              1 & 0\end{array}\right]
+\end{align*}
 
 \paragraph{Low-pass} The low frequency condition is :
 \begin{align*}
 \boldsymbol{\Lambda}_{dl}\coloneq\left\{e^{\imath\omega}: \omega\in\mathbb{R},\mathabs{\omega}\le \omega_{l} \right\}
 \end{align*}
 where $\mathabs{\omega}\le\omega_{l}$ if-and-only-if
-$\gamma\coloneq z+z^{\mathconj}\ge 2\cos\omega_{l}$ and we choose:
+$ z+z^{\mathconj}\ge 2\cos\omega_{l}$ and we choose:
 \begin{align*}
+\gamma &= 2\cos\omega_{l}\\
 \Psi&=\left[\begin{array}{cc}
 0 & \phantom{-}1 \\
 1 &  -\gamma\end{array}\right]
@@ -34849,8 +34861,8 @@ and $\det\left(\Psi_{o}\right)<0$ if-and-only-if $\mathabs{\gamma}<2$ or
 $0<\omega_{l}<\pi$. The state space condition is:
 \begin{align*}
 L\left(P,Q\right)&=\left[\begin{array}{cc}
--P & Q\\
-\phantom{-}Q &  P-\gamma{}Q\end{array}\right]
+P & Q\\
+Q &  -P-\gamma{}Q\end{array}\right]
 \end{align*}
 
 \paragraph{High-pass} The high frequency condition is :
@@ -34872,7 +34884,7 @@ $0<\omega_{h}<\pi$ and the state space condition is:
 \begin{align*}
 L\left(P,Q\right)&=\left[\begin{array}{cc}
 \phantom{-}P & -Q\\
--Q &  \gamma{}Q-P\end{array}\right]
+-Q &  -P+\gamma{}Q\end{array}\right]
 \end{align*}
 
 \paragraph{Band-pass} The middle frequency condition is :
@@ -34902,12 +34914,43 @@ e^{-\imath\omega_{c}} &  -\gamma\end{array}\right]\\
 \sin\omega_{c} &  \cos\omega_{c}-\cos\omega_{m}
 \end{array}\right] \\
 \end{align*}
-Again $\det\left(\Psi_{o}\right)=-\sin^{2}\omega_{m}<0$. The state space
+In this case $\det\left(\Psi_{o}\right)=-\sin^{2}\omega_{m}\le 0$. The state space
 condition is:
 \begin{align*}
 L\left(P,Q\right)&=\left[\begin{array}{cc}
--P & e^{\imath\omega_{c}}Q\\
-e^{-\imath\omega_{c}}Q &  P-\gamma{}Q\end{array}\right]
+P & e^{\imath\omega_{c}}Q\\
+e^{-\imath\omega_{c}}Q &  -P-\gamma{}Q\end{array}\right]
+\end{align*}
+
+\subsubsection{Gain and phase}
+See \emph{Iwasaki} and \emph{Hara}~\cite[Section 3.1]{Iwasaki_KYPlemmaFrequencyInequalities}.
+The gain and phase of the filter transfer function,
+$H\left(\lambda\right)\coloneq C\left(\lambda I -A\right)^{-1}B+D$, are
+determined by the choice of the $\Theta$ matrix in
+Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-FDI}. As for
+Equation~\ref{eqn:ContinuousKYPThetaCDPi}:
+\begin{align*}
+\Theta &= \left[\begin{array}{cc}
+C & D \\
+0 & I\end{array}\right]^{\mathconj} \Pi \left[\begin{array}{cc}
+C & D \\
+0 & I\end{array}\right] 
+\end{align*}
+
+Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-FDI} now becomes:
+\begin{align*}
+\left[\begin{array}{c}
+ H\left(\lambda\right)\\
+I\end{array}\right]^{\mathconj} \Pi \left[\begin{array}{c}
+H\left(\lambda\right) \\
+I\end{array}\right] &\le 0
+\end{align*}
+
+For example, if $\mathabs{H\left(\lambda\right)}\le\varepsilon$:
+\begin{align*}
+\Pi &= \left[\begin{array}{cc}
+I & 0 \\
+0 & -\varepsilon^{2}I\end{array}\right]
 \end{align*}
 
 \subsection{Examples of FIR filter design with the generalised KYP lemma}
@@ -35023,6 +35066,7 @@ Alternatively, apply an overall maximum amplitude constraint:
 \end{align*}
 The Octave script \emph{yalmip\_kyp\_lowpass\_test.m} demonstrates each of these
 amplitude constraints.
+
 \paragraph{SDP constraints}
 Assuming $\Psi_{11}=0$, $\Psi_{21}^{\mathconj}=\Psi_{12}$, $\Pi_{11}=1$ and
 $\Pi_{21}=\Pi_{12}=0$, then for each frequency band response constraint:
@@ -35390,7 +35434,7 @@ the KYP lemma.}
 and \emph{Hara}~\cite{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}
 describe the generalisation of the KYP lemma to the union of disjoint frequency
 intervals. 
-\subsection{Union of frequency intervals}
+\subsection{\label{sec:Union-of-frequency-intervals}Union of frequency intervals}
 \emph{Pipeleers}, \emph{Iwasaki} and \emph{Hara} generalise
 $\boldsymbol{\Lambda}\left(\Phi,\Psi\right)$, to a union of $l\in\mathbb{N}$
 curves with Hermitian matrixes $\Phi,\Psi\in\mathbb{H}^{l+1}$ and a mapping 
