@@ -11,8 +11,8 @@ MAKE_OPTS="-j 6"
 ALL_BUILDS="generic intel haswell nehalem skylake"
 
 # Patch lapack files make.inc.example, SRC/Makefile and BLAS/SRC/Makefile
-cat > lapack.patch.uue << 'EOF'
-begin-base64 644 lapack.patch
+cat > lapack-$LPVER.patch.uue << 'EOF'
+begin-base64 644 lapack-3.11.0.patch
 LS0tIGxhcGFjay0zLjExLjAub3JpZy9CTEFTL1NSQy9NYWtlZmlsZQkyMDIy
 LTExLTEyIDA0OjQ5OjU0LjAwMDAwMDAwMCArMTEwMAorKysgbGFwYWNrLTMu
 MTEuMC9CTEFTL1NSQy9NYWtlZmlsZQkyMDIzLTAzLTE4IDE2OjMwOjAwLjY0
@@ -66,11 +66,11 @@ Q0RJUikvbGlibGFwYWNrLmEKIFRNR0xJQiAgICAgICA9ICQoVE9QU1JDRElS
 KS9saWJ0bWdsaWIuYQo=
 ====
 EOF
-uudecode lapack.patch.uue
+uudecode lapack-$LPVER.patch.uue
 rm -Rf lapack-$LPVER
 tar -xf lapack-$LPVER.tar.gz
 pushd lapack-$LPVER
-patch -p1 < ../lapack.patch
+patch -p1 < ../lapack-$LPVER.patch
 cp make.inc.example make.inc
 popd
 

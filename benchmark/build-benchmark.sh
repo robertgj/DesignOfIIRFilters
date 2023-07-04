@@ -1,29 +1,28 @@
 #!/bin/bash
 
 # Assume these packages are installed:
-#  atlas.x86_64            3.10.3-20.fc37
-#  blas.x86_64             3.10.1-2.fc37
-#  lapack.x86_64           3.10.1-2.fc37
-#  gsl.x86_64              2.6-7.fc37
-#  gsl-devel.x86_64        2.6-7.fc37
+#  atlas.x86_64            3.10.3-22.fc37
+#  blas.x86_64             3.11.0-2.fc37
+#  lapack.x86_64           3.11.0-2.fc37
+#  gsl.x86_64              2.7.1-4.fc37
+#  gsl-devel.x86_64        2.7.1-4.fc37
 #  openblas.x86_64         0.3.21-3.fc37
-#  openblas-threads.x86_64 0.3.21-3.fc37
+#  openblas-threads.x86_64 0.3.21-4.fc37
 # eg:
 #  dnf install atlas blas lapack gsl gsl-devel openblas openblas-threads
 
 # Assume these archive files are present:
-#  lapack-3.11.0.tar.gz
-#  SuiteSparse-7.0.1.tar.gz
-#  arpack-ng-3.9.0.tar.gz
-#  fftw-3.3.10.tar.gz
-#  qrupdate-1.1.2.tar.gz
-#  octave-8.1.0.tar.lz
-#  io-2.6.4.tar.gz
-#  statistics-1.5.4.tar.gz
-#  struct-1.0.18.tar.gz
-#  optim-1.6.2.tar.gz
-#  control-3.5.0.tar.gz
-#  signal-1.4.2.tar.gz
+for file in lapack-3.11.0.tar.gz \
+            SuiteSparse-7.0.1.tar.gz \
+            arpack-ng-3.9.0.tar.gz \
+            fftw-3.3.10.tar.gz \
+            qrupdate-1.1.2.tar.gz \
+            octave-8.2.0.tar.lz \
+            sedumi-1.3.7.tar.gz \
+            YALMIP-R20230622.tar.gz ; 
+do 
+  cp -f /usr/local/src/octave/$file . ; 
+done
 
 # Disable CPU frequency scaling:
  for c in `seq 0 7` ; do
@@ -36,7 +35,7 @@ uname -r
 grep -m1 -A7 vendor_id /proc/cpuinfo
 sudo cpupower -c all frequency-info
 dnf list installed kernel* gcc* atlas* openblas* gsl* blas* lapack* \
-    | egrep -v metadata | awk '{print $1 "\t\t" $2}'
+    | grep -Ev metadata | awk '{print $1 "\t\t" $2}'
 
 # Build local versions of the lapack and blas libraries
 export LOCAL_PREFIX=`pwd`
@@ -83,62 +82,73 @@ export OCTAVE_CONFIG_OPTIONS=" \
        --with-fftw3f-libdir=$LOCAL_PREFIX/lib"
 
 # Unpack Octave
-export OCTAVE_VER=8.1.0
+export OCTAVE_VER=8.2.0
 rm -Rf octave-$OCTAVE_VER
 tar -xf octave-$OCTAVE_VER".tar.lz"
 # Patch
 cat > octave-$OCTAVE_VER.patch.uue << 'EOF'
-begin-base64 644 octave-8.1.0.patch
-LS0tIG9jdGF2ZS04LjEuMC5vcmlnL2NvbmZpZ3VyZQkyMDIzLTAzLTA3IDE2
-OjM0OjMyLjAwMDAwMDAwMCArMTEwMAorKysgb2N0YXZlLTguMS4wL2NvbmZp
-Z3VyZQkyMDIzLTAzLTE4IDE4OjU5OjU0LjU4Mzc3NDIwNyArMTEwMApAQCAt
-NjIxLDggKzYyMSw4IEBACiAjIElkZW50aXR5IG9mIHRoaXMgcGFja2FnZS4K
-IFBBQ0tBR0VfTkFNRT0nR05VIE9jdGF2ZScKIFBBQ0tBR0VfVEFSTkFNRT0n
-b2N0YXZlJwotUEFDS0FHRV9WRVJTSU9OPSc4LjEuMCcKLVBBQ0tBR0VfU1RS
-SU5HPSdHTlUgT2N0YXZlIDguMS4wJworUEFDS0FHRV9WRVJTSU9OPSc4LjEu
-MC1yb2JqJworUEFDS0FHRV9TVFJJTkc9J0dOVSBPY3RhdmUgOC4xLjAtcm9i
-aicKIFBBQ0tBR0VfQlVHUkVQT1JUPSdodHRwczovL29jdGF2ZS5vcmcvYnVn
-cy5odG1sJwogUEFDS0FHRV9VUkw9J2h0dHBzOi8vd3d3LmdudS5vcmcvc29m
-dHdhcmUvb2N0YXZlLycKIAotLS0gb2N0YXZlLTguMS4wLm9yaWcvbGliaW50
-ZXJwL2NvcmVmY24vbG9hZC1zYXZlLmNjCTIwMjMtMDMtMDcgMTY6MzQ6MzIu
-MDAwMDAwMDAwICsxMTAwCisrKyBvY3RhdmUtOC4xLjAvbGliaW50ZXJwL2Nv
-cmVmY24vbG9hZC1zYXZlLmNjCTIwMjMtMDMtMTggMTg6NTk6NTQuNTg0Nzc0
-MTk5ICsxMTAwCkBAIC0xMjgsOCArMTI4LDggQEAKIHsKICAgY29uc3QgaW50
-IG1hZ2ljX2xlbiA9IDEwOwogICBjaGFyIG1hZ2ljW21hZ2ljX2xlbisxXTsK
-LSAgaXMucmVhZCAobWFnaWMsIG1hZ2ljX2xlbik7CiAgIG1hZ2ljW21hZ2lj
-X2xlbl0gPSAnXDAnOworICBpcy5yZWFkIChtYWdpYywgbWFnaWNfbGVuKTsK
-IAogICBpZiAoc3RybmNtcCAobWFnaWMsICJPY3RhdmUtMS1MIiwgbWFnaWNf
-bGVuKSA9PSAwKQogICAgIHN3YXAgPSBtYWNoX2luZm86OndvcmRzX2JpZ19l
-bmRpYW4gKCk7Ci0tLSBvY3RhdmUtOC4xLjAub3JpZy9zY3JpcHRzL3Bsb3Qv
-dXRpbC9wcml2YXRlL19fZ251cGxvdF9kcmF3X2F4ZXNfXy5tCTIwMjMtMDMt
-MDcgMTY6MzQ6MzIuMDAwMDAwMDAwICsxMTAwCisrKyBvY3RhdmUtOC4xLjAv
-c2NyaXB0cy9wbG90L3V0aWwvcHJpdmF0ZS9fX2dudXBsb3RfZHJhd19heGVz
-X18ubQkyMDIzLTAzLTE4IDE4OjU5OjU0LjU4NTc3NDE5MiArMTEwMApAQCAt
-MjI4Myw3ICsyMjgzLDcgQEAKICAgICBpZiAoISB3YXJuZWRfbGF0ZXgpCiAg
-ICAgICBkb193YXJuID0gKHdhcm5pbmcgKCJxdWVyeSIsICJPY3RhdmU6dGV4
-dF9pbnRlcnByZXRlciIpKS5zdGF0ZTsKICAgICAgIGlmIChzdHJjbXAgKGRv
-X3dhcm4sICJvbiIpKQotICAgICAgICB3YXJuaW5nICgiT2N0YXZlOnRleHRf
-aW50ZXJwcmV0ZXIiLAorICAgICAgICB3YXJuaW5nICgiT2N0YXZlOmxhdGV4
-LW1hcmt1cC1ub3Qtc3VwcG9ydGVkLWZvci10aWNrLW1hcmtzIiwKICAgICAg
-ICAgICAgICAgICAgImxhdGV4IG1hcmt1cCBub3Qgc3VwcG9ydGVkIGZvciB0
-aWNrIG1hcmtzIik7CiAgICAgICAgIHdhcm5lZF9sYXRleCA9IHRydWU7CiAg
-ICAgICBlbmRpZgo=
+begin-base64 644 octave-8.2.0.patch
+LS0tIG9jdGF2ZS04LjIuMC9jb25maWd1cmUJMjAyMy0wNC0xNCAwMjo0Mzoz
+NS4wMDAwMDAwMDAgKzEwMDAKKysrIG9jdGF2ZS04LjIuMC5uZXcvY29uZmln
+dXJlCTIwMjMtMDYtMTEgMTU6NDk6MTMuODYwNzg0MjUwICsxMDAwCkBAIC02
+MjEsOCArNjIxLDggQEAKICMgSWRlbnRpdHkgb2YgdGhpcyBwYWNrYWdlLgog
+UEFDS0FHRV9OQU1FPSdHTlUgT2N0YXZlJwogUEFDS0FHRV9UQVJOQU1FPSdv
+Y3RhdmUnCi1QQUNLQUdFX1ZFUlNJT049JzguMi4wJwotUEFDS0FHRV9TVFJJ
+Tkc9J0dOVSBPY3RhdmUgOC4yLjAnCitQQUNLQUdFX1ZFUlNJT049JzguMi4w
+LXJvYmonCitQQUNLQUdFX1NUUklORz0nR05VIE9jdGF2ZSA4LjIuMC1yb2Jq
+JwogUEFDS0FHRV9CVUdSRVBPUlQ9J2h0dHBzOi8vb2N0YXZlLm9yZy9idWdz
+Lmh0bWwnCiBQQUNLQUdFX1VSTD0naHR0cHM6Ly93d3cuZ251Lm9yZy9zb2Z0
+d2FyZS9vY3RhdmUvJwogCi0tLSBvY3RhdmUtOC4yLjAvbGliaW50ZXJwL2Nv
+cmVmY24vY2hvbC5jYwkyMDIzLTA0LTE0IDAyOjQzOjM1LjAwMDAwMDAwMCAr
+MTAwMAorKysgb2N0YXZlLTguMi4wLm5ldy9saWJpbnRlcnAvY29yZWZjbi9j
+aG9sLmNjCTIwMjMtMDYtMTEgMTU6NTE6MjQuMTQ3NjYxODc5ICsxMDAwCkBA
+IC03NzQsNyArNzc0LDcgQEAKICUhCiAlISBSMSA9IGNob2x1cGRhdGUgKFIx
+LCB1YywgIi0iKTsKICUhIGFzc2VydCAobm9ybSAodHJpdSAoUjEpLVIxLCBJ
+bmYpLCAwKTsKLSUhIGFzc2VydCAobm9ybSAoUjEgLSBSLCBJbmYpIDwgMWUx
+KmVwcyk7CislISBhc3NlcnQgKG5vcm0gKFIxIC0gUiwgSW5mKSA8IDJlMSpl
+cHMpOwogCiAlIXRlc3QKICUhIFIgPSBjaG9sIChzaW5nbGUgKEEpKTsKLS0t
+IG9jdGF2ZS04LjIuMC9saWJpbnRlcnAvY29yZWZjbi9sb2FkLXNhdmUuY2MJ
+MjAyMy0wNC0xNCAwMjo0MzozNS4wMDAwMDAwMDAgKzEwMDAKKysrIG9jdGF2
+ZS04LjIuMC5uZXcvbGliaW50ZXJwL2NvcmVmY24vbG9hZC1zYXZlLmNjCTIw
+MjMtMDYtMTEgMTU6NDk6MTMuODYzNzg0MjI0ICsxMDAwCkBAIC0xMjgsOCAr
+MTI4LDggQEAKIHsKICAgY29uc3QgaW50IG1hZ2ljX2xlbiA9IDEwOwogICBj
+aGFyIG1hZ2ljW21hZ2ljX2xlbisxXTsKLSAgaXMucmVhZCAobWFnaWMsIG1h
+Z2ljX2xlbik7CiAgIG1hZ2ljW21hZ2ljX2xlbl0gPSAnXDAnOworICBpcy5y
+ZWFkIChtYWdpYywgbWFnaWNfbGVuKTsKIAogICBpZiAoc3RybmNtcCAobWFn
+aWMsICJPY3RhdmUtMS1MIiwgbWFnaWNfbGVuKSA9PSAwKQogICAgIHN3YXAg
+PSBtYWNoX2luZm86OndvcmRzX2JpZ19lbmRpYW4gKCk7Ci0tLSBvY3RhdmUt
+OC4yLjAvc2NyaXB0cy9wbG90L3V0aWwvcHJpdmF0ZS9fX2dudXBsb3RfZHJh
+d19heGVzX18ubQkyMDIzLTA0LTE0IDAyOjQzOjM1LjAwMDAwMDAwMCArMTAw
+MAorKysgb2N0YXZlLTguMi4wLm5ldy9zY3JpcHRzL3Bsb3QvdXRpbC9wcml2
+YXRlL19fZ251cGxvdF9kcmF3X2F4ZXNfXy5tCTIwMjMtMDYtMTEgMTU6NDk6
+MTMuODYzNzg0MjI0ICsxMDAwCkBAIC0yMjgzLDcgKzIyODMsNyBAQAogICAg
+IGlmICghIHdhcm5lZF9sYXRleCkKICAgICAgIGRvX3dhcm4gPSAod2Fybmlu
+ZyAoInF1ZXJ5IiwgIk9jdGF2ZTp0ZXh0X2ludGVycHJldGVyIikpLnN0YXRl
+OwogICAgICAgaWYgKHN0cmNtcCAoZG9fd2FybiwgIm9uIikpCi0gICAgICAg
+IHdhcm5pbmcgKCJPY3RhdmU6dGV4dF9pbnRlcnByZXRlciIsCisgICAgICAg
+IHdhcm5pbmcgKCJPY3RhdmU6bGF0ZXgtbWFya3VwLW5vdC1zdXBwb3J0ZWQt
+Zm9yLXRpY2stbWFya3MiLAogICAgICAgICAgICAgICAgICAibGF0ZXggbWFy
+a3VwIG5vdCBzdXBwb3J0ZWQgZm9yIHRpY2sgbWFya3MiKTsKICAgICAgICAg
+d2FybmVkX2xhdGV4ID0gdHJ1ZTsKICAgICAgIGVuZGlmCg==
 ====
 EOF
 uudecode octave-$OCTAVE_VER.patch.uue > octave-$OCTAVE_VER.patch
 pushd octave-$OCTAVE_VER
 patch -p1 < ../octave-$OCTAVE_VER.patch
 popd
+
 # Build the benchmark versions
+OCTAVE_DIR=$LOCAL_PREFIX/octave-$OCTAVE_VER ;
 for BUILD in dbg shared shared-lto shared-pgo shared-lto-pgo ;
 do
     #
     echo "Building" $BUILD
     #
-    OCTAVE_DIR=$LOCAL_PREFIX/octave-$OCTAVE_VER ;
     OCTAVE_INSTALL_DIR=$LOCAL_PREFIX/octave-$BUILD
-    OCTAVE_PACKAGE_DIR=$OCTAVE_INSTALL_DIR/share/octave/packages 
-    OCTAVE_PACKAGES=$OCTAVE_INSTALL_DIR/share/octave/octave_packages
+    OCTAVE_BIN_DIR=$OCTAVE_INSTALL_DIR/bin
+    OCTAVE_SHARE_DIR=$OCTAVE_INSTALL_DIR/share/octave
+    OCTAVE_PACKAGE_DIR=$OCTAVE_SHARE_DIR/packages 
+    OCTAVE_PACKAGES=$OCTAVE_SHARE_DIR/octave_packages
     #
     rm -Rf build-$BUILD
     #
@@ -150,26 +160,14 @@ do
     #
     make install
     # 
-    echo "pkg prefix $OCTAVE_PACKAGE_DIR $OCTAVE_PACKAGE_DIR ; \
-          pkg local_list $OCTAVE_PACKAGES ;" > .octaverc
-    $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../io-2.6.4.tar.gz' 
-    $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../struct-1.0.18.tar.gz' 
-    $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../statistics-1.4.3.tar.gz'
-    $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../optim-1.6.2.tar.gz'
-    $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../control-3.4.0.tar.gz'
-    $OCTAVE_INSTALL_DIR/bin/octave-cli --eval \
-                                       'pkg install ../signal-1.4.2.tar.gz'
-    $OCTAVE_INSTALL_DIR/bin/octave-cli --eval "pkg list"
-    $OCTAVE_INSTALL_DIR/bin/octave-cli --eval "__octave_config_info__"
+    $OCTAVE_BIN_DIR/octave-cli --eval "__octave_config_info__"
     #
-    echo "Testing " $BUILD
+    popd
     #
-    cat > iir_benchmark.m << 'EOF'
+done
+
+# Benchmark the builds with the generic lapack library
+cat > iir_benchmark.m << 'EOF'
 % Define a filter
 fc=0.10;U=2;V=2;M=20;Q=8;R=3;tol=1e-6;
 x0=[ 0.0089234, ...
@@ -192,19 +190,21 @@ for n=1:100
 endfor
 toc(id)
 EOF
-    cp -f ../../src/{fixResultNaN,iirA,iirP,iirT}.m .
+cp -f ../src/{fixResultNaN,iirA,iirP,iirT}.m .
+
+for BUILD in dbg shared shared-lto shared-pgo shared-lto-pgo ;
+do
     #
+    echo "Testing " $BUILD
+    #
+    OCTAVE_BIN_DIR=$LOCAL_PREFIX/octave-$BUILD/bin
     for k in `seq 1 10`; do \
-      LD_PRELOAD=$LAPACK_DIR"/liblapack.so:"$LAPACK_DIR"/libblas.so" \
-        $OCTAVE_INSTALL_DIR/bin/octave-cli iir_benchmark.m
+        LD_PRELOAD=$LAPACK_DIR"/liblapack.so:"$LAPACK_DIR"/libblas.so" \
+                              $OCTAVE_BIN_DIR/octave-cli iir_benchmark.m
     done | awk -v build_var=$BUILD '{elapsed=elapsed+$4;}; \
       END {printf("iir_benchmark %s elapsed=%g\n",build_var,elapsed/10);}'
     #
-    popd
-    #    
 done
 
 # Now do library benchmarking
 source ./library-benchmark.sh
-
-# Done
