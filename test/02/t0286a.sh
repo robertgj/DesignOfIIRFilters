@@ -3,7 +3,7 @@
 prog=schurOneMPAlatticeEsq_test.m
 
 depends="test/schurOneMPAlatticeEsq_test.m test_common.m delayz.m schurOneMPAlatticeEsq.m \
-schurOneMPAlattice_test_common.m \
+schur_parallel_allpass_lattice_test_common.m \
 schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m schurOneMPAlatticeP.m \
 tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m schurOneMlattice2Abcd.oct \
 H2Asq.m H2T.m H2P.m schurOneMAPlattice2H.oct tf2pa.m schurOneMscale.m \

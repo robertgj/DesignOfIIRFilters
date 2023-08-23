@@ -1,5 +1,5 @@
-% schurOneMPAlattice_test_common.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% schur_parallel_allpass_lattice_test_common.m
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 if m==1
   % Low pass filter from parallel_allpass_socp_slb_flat_delay_test.m
@@ -127,11 +127,4 @@ else
   Trng=ntpl:ntpu;
   Prng=nppl:nppu;
 endif
-
-% Lattice decomposition
-[A1k,A1epsilon,A1p,~] = tf2schurOneMlattice(flipud(Da1),Da1);
-[A2k,A2epsilon,A2p,~] = tf2schurOneMlattice(flipud(Db1),Db1);
-
-A1rng=1:length(A1k);
-A2rng=(length(A1k)+1):(length(A1k)+length(A2k));
 

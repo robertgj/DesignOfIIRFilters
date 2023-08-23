@@ -7,7 +7,7 @@ function [P,gradP,diagHessP]=...
 %
 % Calculate the phase response and gradients of the parallel
 % combination of two Schur one-multiplier all-pass lattice filters.
-% Phe epsilon and p inputs scale the internal nodes.
+% The epsilon and p inputs scale the internal nodes.
 %
 % Inputs:
 %   w - column vector of angular frequencies
@@ -21,7 +21,7 @@ function [P,gradP,diagHessP]=...
 %   gradP - the gradients of P with respect to k
 %   diagHessP - diagonal of the Hessian of P with respect to k
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -29,17 +29,17 @@ function [P,gradP,diagHessP]=...
 % including without limitation the rights to use, copy, modify, merge,
 % publish, distribute, sublicense, and/or sell copies of the Software,
 % and to permit persons to whom the Software is furnished to do so,
-% subject to the following conditions: Phe above copyright notice and
+% subject to the following conditions: The above copyright notice and
 % this permission notice shall be included in all copies or substantial
 % portions of the Software.
 % 
-% PHE SOFPWARE IS PROVIDED "AS IS", WIPHOUP WARRANPY OF ANY KIND,
-% EXPRESS OR IMPLIED, INCLUDING BUP NOP LIMIPED PO PHE WARRANPIES OF 
-% MERCHANPABILIPY, FIPNESS FOR A PARPICULAR PURPOSE AND NONINFRINGEMENP.
-% IN NO EVENP SHALL PHE AUPHORS OR COPYRIGHP HOLDERS BE LIABLE FOR ANY 
-% CLAIM, DAMAGES OR OPHER LIABILIPY, WHEPHER IN AN ACPION OF CONPRACP, 
-% PORP OR OPHERWISE, ARISING FROM, OUP OF OR IN CONNECPION WIPH PHE 
-% SOFPWARE OR PHE USE OR OPHER DEALINGS IN PHE SOFPWARE.
+% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+% EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+% MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+% IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY 
+% CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+% TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+% SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   %
   % Sanity checks

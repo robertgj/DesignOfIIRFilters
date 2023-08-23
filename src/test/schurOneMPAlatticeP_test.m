@@ -1,5 +1,5 @@
 % schurOneMPAlatticeP_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -11,7 +11,14 @@ tol=1e-8;
 
 for m=1:2
   
-  schurOneMPAlattice_test_common;
+  schur_parallel_allpass_lattice_test_common;
+
+  % Lattice decomposition
+  [A1k,A1epsilon,A1p,~] = tf2schurOneMlattice(flipud(Da1),Da1);
+  [A2k,A2epsilon,A2p,~] = tf2schurOneMlattice(flipud(Db1),Db1);
+
+  A1rng=1:length(A1k);
+  A2rng=(length(A1k)+1):(length(A1k)+length(A2k));
 
   % Find the phase
   P=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
