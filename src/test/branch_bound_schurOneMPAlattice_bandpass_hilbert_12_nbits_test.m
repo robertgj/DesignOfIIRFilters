@@ -69,12 +69,12 @@ ftpl=0.11
 ftpu=0.19
 td=16
 tdr=0.2
-Wtp=10
+Wtp=20
 fppl=0.11
 fppu=0.19
 pd=3.5 % Initial phase offset in multiples of pi radians
 pdr=0.02 % Peak-to-peak phase ripple in multiples of pi radians
-Wpp=500
+Wpp=1000 
 
 %
 % Frequency vectors
@@ -191,15 +191,16 @@ if use_best_branch_and_bound_found
   % Recall that Esq_min depends on band weights
   if branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_allocsd_Ito
     if 1
-      % Esq_min=0.00191894
-      A1k_min = [     -880,     1696,     -464,       24, ... 
-                      1508,    -1026,      800,      592, ... 
+      % Esq_min=0.00187209
+      branches_min=398;
+      A1k_min = [     -864,     1660,     -464,       48, ... 
+                      1512,    -1032,      832,      572, ... 
                       -624,      432 ]'/2048;
-      A2k_min = [    -1632,     1776,     -544,      -62, ... 
-                     1520,     -968,      832,      584, ... 
-                     -592,      448 ]'/2048;
+      A2k_min = [    -1630,     1760,     -576,      -72, ... 
+                      1532,     -968,      832,      592, ... 
+                      -592,      448 ]'/2048;
     elseif 0
-      % Previous solution. Esq_min=0.00097246
+      % Previous solution. Esq_min=0.000770705
       branches_min=158;
       A1k_min = [     -988,     1728,     -704,      384, ... 
                       1296,     -888,      576,      352, ... 
