@@ -16,22 +16,22 @@ tic;
 
 verbose=true
 
-function E=WISEJ_ONEM(kc,_k0,_epsilon0,_p0,_c0,_k_active,_c_active, ...
+function E=WISEJ_ONEM(kc,_k0,_c0,_k_max,_k_active,_c_active, ...
                       _wa,_Asqd,_Wa,_wt,_Td,_Wt)
 
-  persistent k0 epsilon0 p0 c0 k_active c_active wa Asqd Wa wt Td Wt iter
+  persistent k0 c0 k_max k_active c_active wa Asqd Wa wt Td Wt iter
   persistent init_done=false
 
-  if nargin==13
-    k0=_k0;epsilon0=_epsilon0;p0=_p0;c0=_c0;
-    k_active=_k_active;c_active=_c_active;
+  if nargin==12
+    k0=_k0;c0=_c0;
+    k_max=_k_max;k_active=_k_active;c_active=_c_active;
     wa=_wa;Asqd=_Asqd;Wa=_Wa;wt=_wt;Td=_Td;Wt=_Wt;
     iter=0;
     init_done=true;
     return;
   elseif nargin ~= 1
     print_usage("E=WISEJ_ONEM(kc) \n\
-WISEJ_ONEM(kc,k0,epsilon0,p0,c0,k_active,c_active,wa,Asqd,Wa,wt,Td,Wt)");
+WISEJ_ONEM(kc,k0,c0,k_active,c_active,wa,Asqd,Wa,wt,Td,Wt)");
   endif
   if init_done==false
     error("init_done == false!");
@@ -43,15 +43,19 @@ WISEJ_ONEM(kc,k0,epsilon0,p0,c0,k_active,c_active,wa,Asqd,Wa,wt,Td,Wt)");
   % Find the response
   k=k0;
   k(k_active)=kc(1:length(k_active));
+  if any(abs(k)>k_max)
+    E=100;
+    return;
+  endif
   c=c0;
   c(c_active)=kc(length(k_active)+c_active);
-  
+
   % Find the amplitude response error
-  Asq=schurOneMlatticeAsq(wa,k,epsilon0,ones(size(p0)),c);
+  Asq=schurOneMlatticeAsq(wa,k,ones(size(k)),ones(size(k)),c);
   EAsq = Wa.*((Asq-Asqd).^2);
 
   % Find the delay response error
-  t=schurOneMlatticeT(wt,k,epsilon0,ones(size(p0)),c);
+  t=schurOneMlatticeT(wt,k,ones(size(k)),ones(size(k)),c);
   Et = Wt.*((t-Td).^2);
 
   % Trapezoidal integration of the weighted error
@@ -59,7 +63,7 @@ WISEJ_ONEM(kc,k0,epsilon0,p0,c0,k_active,c_active,wa,Asqd,Wa,wt,Td,Wt)");
          sum(diff(wt).*((Et(1:(length(Et)-1))+Et(2:end))/2));
  
   % Heuristics for the barrier function
-  [n,d]=schurOneMlattice2tf(k,epsilon0,ones(size(p0)),c);
+  [n,d]=schurOneMlattice2tf(k,ones(size(k)),ones(size(k)),c);
   lambda = 0.01;
   if (length(d)) > 0
     M =30;
@@ -90,20 +94,12 @@ WISEJ_ONEM(kc,k0,epsilon0,p0,c0,k_active,c_active,wa,Asqd,Wa,wt,Td,Wt)");
   iter = iter+1;
 endfunction
 
-% Deczky3 lowpass filter specification
+% Lowpass filter specification
 norder=10
 fap=0.15,Wap=1
 fas=0.25,Was=1e6
-ftp=0.25,tp=10,Wtp=0.05
-
-% Initial filter calculated by deczky3_socp_test.m
-n0 = [   0.0034549892,  -0.0126111635,   0.0128424226,  -0.0085225483, ... 
-         0.0217938968,  -0.0126330860,  -0.0347097162,  -0.0044625617, ... 
-         0.1013086677,   0.1318220717,   0.1164537735 ]';
-d0 = [   1.0000000000,  -1.6221027249,   1.7194613866,  -1.2096422600, ... 
-         0.5911699380,  -0.1945010363,   0.0339957995,   0, ...
-         0,              0,              0 ]';
-[k0,epsilon0,p0,c0]=tf2schurOneMlattice(n0,d0);
+ftp=0.25,tp=6,Wtp=0.2
+k_max=0.99
 
 % Amplitude constraints
 n=100;
@@ -121,13 +117,13 @@ Wt=Wtp*ones(ntp,1);
 
 % Unconstrained minimisation
 tol=1e-9;
-maxiter=1000;
-k0=k0(:)';
+maxiter=10000;
+k0=0.1*ones(1,norder);
 k_active=find(k0~=0);
-c0=c0(:)';
+c0=0.1*ones(1,norder+1);
 c_active=1:length(c0);
 kc0=[k0(k_active),c0(c_active)];
-WISEJ_ONEM([],k0,epsilon0,p0,c0,k_active,c_active,wa,Asqd,Wa,wt,Td,Wt);
+WISEJ_ONEM([],k0,c0,k_max,k_active,c_active,wa,Asqd,Wa,wt,Td,Wt);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
 [kc1,FVEC,INFO,OUTPUT] = fminunc(@WISEJ_ONEM,kc0,opt);
 if (INFO == 1)
@@ -157,7 +153,7 @@ k1
 c1=c0;
 c1(c_active)=kc1(length(k_active)+c_active);
 c1
-[n1,d1]=schurOneMlattice2tf(k1,epsilon0,ones(size(p0)),c1);
+[n1,d1]=schurOneMlattice2tf(k1,ones(size(k1)),ones(size(k1)),c1);
 
 % Plot overall response
 nplot=1000;
@@ -174,35 +170,47 @@ axis([0 0.5 0 20]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
-print("tarczynski_schurOneMlattice_lowpass_response","-dpdflatex");
+print("tarczynski_schurOneMlattice_lowpass_test_response","-dpdflatex");
 close
 
 % Plot passband response
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(H)));
-axis([0 fap -2 2]);
+axis([0 max(fap,ftp) -4 4]);
 ylabel("Amplitude(dB)");
 grid("on");
 subplot(212);
 plot(wplot*0.5/pi,T);
-axis([0 fap 5 15]);
+axis([0 max(fap,ftp) tp-2 tp+2]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
-print("tarczynski_schurOneMlattice_lowpass_passband_response","-dpdflatex");
+print("tarczynski_schurOneMlattice_lowpass_passband_test_response","-dpdflatex");
 close
 
-% Save the results
+% Save the filter specification
 fid=fopen("tarczynski_schurOneMlattice_lowpass_test.spec","wt");
 fprintf(fid,"tol=%4.1g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
+fprintf(fid,"norder=%d %% Filter order\n",norder);
+fprintf(fid,"k_max=%g %% Maximum absolute value of k\n",k_max);
+fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
+fprintf(fid,"Wap=%g %% Pass band amplitude response weight\n",Wap);
+fprintf(fid,"tp=%g %% Pass band delay\n",tp);
+fprintf(fid,"ftp=%g %% Pass band delay response edge\n",ftp);
+fprintf(fid,"Wtp=%g %% Pass band delay response weight\n",Wtp);
+fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
+fprintf(fid,"Was=%g %% Stop band amplitude response weight\n",Was);
 fclose(fid);
-print_polynomial(n1,"n1");
-print_polynomial(n1,"n1","tarczynski_schurOneMlattice_lowpass_test_n1_coef.m");
-print_polynomial(d1,"d1");
-print_polynomial(d1,"d1","tarczynski_schurOneMlattice_lowpass_test_d1_coef.m");
 
-save tarczynski_schurOneMlattice_lowpass_test.mat n0 d0 k0 c0 k1 c1 n1 d1
+% Save the results
+print_polynomial(k1,"k1");
+print_polynomial(k1,"k1","tarczynski_schurOneMlattice_lowpass_test_k1_coef.m");
+print_polynomial(c1,"c1");
+print_polynomial(c1,"c1","tarczynski_schurOneMlattice_lowpass_test_c1_coef.m");
+
+save tarczynski_schurOneMlattice_lowpass_test.mat ...
+     tol n norder k_max fap Wap tp ftp Wtp fas Was k1 c1
 
 % Done
 toc;
