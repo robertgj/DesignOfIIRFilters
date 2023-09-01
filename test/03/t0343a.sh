@@ -1,10 +1,9 @@
 #!/bin/sh
 
 prog=schurOneMPAlattice_socp_slb_bandpass_hilbert_test.m
-depends="test/schurOneMPAlattice_socp_slb_bandpass_hilbert_test.m \
+depends="test/schurOneMPAlattice_socp_slb_bandpass_hilbert_test.m test_common.m \
 ../tarczynski_parallel_allpass_bandpass_hilbert_test_Da0_coef.m \
 ../tarczynski_parallel_allpass_bandpass_hilbert_test_Db0_coef.m \
-test_common.m delayz.m \
 schurOneMPAlatticeAsq.m \
 schurOneMPAlatticeT.m \
 schurOneMPAlatticeP.m \
@@ -16,13 +15,11 @@ schurOneMPAlattice_slb_exchange_constraints.m \
 schurOneMPAlattice_slb_set_empty_constraints.m \
 schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice_slb_update_constraints.m \
-schurOneMPAlattice2tf.m \
-schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m \
-schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
-Abcd2tf.m H2Asq.m H2T.m H2P.m \
+schurOneMPAlattice2tf.m schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m \
+tf2schurOneMlattice.m schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
+Abcd2tf.m H2Asq.m H2T.m H2P.m qroots.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
- qroots.m qzsolve.oct"
+schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

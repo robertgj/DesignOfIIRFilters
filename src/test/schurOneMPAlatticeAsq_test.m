@@ -26,8 +26,8 @@ for m=1:2
   % Check the squared amplitude response
   Hab1=freqz(Nab1,Dab1,wa);
   Asqab1=abs(Hab1).^2;
-  if max(abs(Asqab1-Asq))/min(Asq(Asqrng)) > 5*tol
-    error("max(abs(Asqab1-Asq))/min(Asq(Asqrng)) > 5*tol");
+  if max(abs(Asqab1-Asq)) > 5*tol
+    error("max(abs(Asqab1-Asq)) > 5*tol");
   endif
 
   % Find the gradients of Asq

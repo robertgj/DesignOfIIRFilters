@@ -162,7 +162,7 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
   if isempty(k_active)
     A1k=A1k0;
     A2k=A2k0;
-    sqp_iter=0;
+    socp_iter=0;
     func_iter=0;
     feasible=true;
     return;

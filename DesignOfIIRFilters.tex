@@ -12236,9 +12236,8 @@ SOCP and PCLS optimisation. The specification of the filter is:
 \end{small}
 The initial parallel all-pass filters were designed by the Octave script 
 \emph{tarczynski\_parallel\_allpass\_bandpass\_hilbert\_test.m}.
-Figures~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS} 
-and~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS-pass}
-show the overall and passband responses of the filter after SOCP PCLS
+Figure~\ref{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS} 
+shows the overall and passband responses of the filter after SOCP PCLS
 optimisation. The phase response shown is adjusted for the nominal delay.
 The band-pass filter SOCP PCLS optimised Schur one-multiplier
 all-pass lattice coefficients are: 
@@ -12252,18 +12251,53 @@ all-pass lattice coefficients are:
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_bandpass_hilbert_test_response}}
-\caption{Parallel Schur one-multiplier all-pass lattice band-pass Hilbert filter
-: response after SOCP PCLS optimisation. The phase response shown is adjusted
-for the nominal delay.} 
+\caption{Response of a parallel Schur one-multiplier all-pass lattice band-pass
+  Hilbert filter after SOCP PCLS optimisation. The phase response shown is
+  adjusted for the nominal delay.} 
 \label{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS}
 \end{figure}
+\clearpage
+\subsection{\label{sec:Design-parallel-Schur-norm-scaled-all-pass-lattice-band-pass-Hilbert-SOCP}Design of a parallel IIR Schur approximately normalised scaled  all-pass lattice band-pass Hilbert filter using SOCP}
+The Octave script \emph{schurNSPAlattice\_socp\_slb\_bandpass\_hilbert\_test.m}
+implements the design of a band-pass IIR Hilbert filter composed of the
+difference of two parallel normalised scaled Schur lattice
+all-pass filters with SOCP and PCLS optimisation. In fact, this design is only
+approximately normalised-scaled since the s20 and s00 coefficients are
+assumed to be independent rather than related by
+$\sigma_{00}=\sqrt{1-\sigma_{20}^{2}}$. The design enforces
+$\sigma_{02}=-\sigma_{20}$ and $\sigma_{s22}=\sigma_{00}$.
+The specification of the filter is:
+\begin{small}
+\verbatiminput{schurNSPAlattice_socp_slb_bandpass_hilbert_test.spec}
+\end{small}
+The initial parallel all-pass filters were designed by the Octave script 
+\emph{tarczynski\_parallel\_allpass\_bandpass\_hilbert\_test.m}.
+Figure~\ref{fig:Parallel-Schur-norm-scaled-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS} 
+shows the overall and passband responses of the filter after SOCP PCLS
+optimisation. The phase response shown is adjusted for the nominal delay.
+The band-pass filter SOCP PCLS optimised Schur approximately normalised scaled
+all-pass lattice coefficients are: 
+\begin{small}
+\verbatiminput{schurNSPAlattice_socp_slb_bandpass_hilbert_test_A1s20_coef.m}
+\verbatiminput{schurNSPAlattice_socp_slb_bandpass_hilbert_test_A1s00_coef.m}
+\verbatiminput{schurNSPAlattice_socp_slb_bandpass_hilbert_test_A2s20_coef.m}
+\verbatiminput{schurNSPAlattice_socp_slb_bandpass_hilbert_test_A2s00_coef.m}
+\end{small}
+
+The script simulates this filter with a uniform random noise input. The standard
+deviations of the all-pass filter state variables are:
+\begin{small}
+\verbatiminput{schurNSPAlattice_socp_slb_bandpass_hilbert_test_A1stdx.m}
+\verbatiminput{schurNSPAlattice_socp_slb_bandpass_hilbert_test_A2stdx.m}
+\end{small}
+
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_bandpass_hilbert_test_passband_response}}
-\caption{Parallel Schur one-multiplier all-pass lattice band-pass Hilbert filter
-: passband response after SOCP PCLS optimisation. The phase response shown is
-adjusted for the nominal delay.}
-\label{fig:Parallel-Schur-one-m-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS-pass}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurNSPAlattice_socp_slb_bandpass_hilbert_test_response}}
+\caption{Response of a parallel Schur approximately normalised scaled all-pass
+  lattice band-pass Hilbert filter after SOCP PCLS optimisation. The phase
+  response shown is adjusted for the nominal delay.} 
+\label{fig:Parallel-Schur-norm-scaled-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS}
 \end{figure}
 \clearpage
 \subsection{\label{sec:Design-parallel-Schur-one-mult-all-pass-lattice-multi-band-pass-SOCP}Design of a parallel IIR Schur one-multiplier all-pass lattice multi-band-pass filter  using SOCP}

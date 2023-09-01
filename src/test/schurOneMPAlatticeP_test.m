@@ -24,8 +24,8 @@ for m=1:2
   P=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 
   % Check the phase response
-  Hab1=freqz(Nab1,Dab1,wa);
-  Pab1=unwrap(arg(Hab1(Prng)));
+  PHab1=freqz(Nab1,Dab1,wp);
+  Pab1=unwrap(arg(PHab1));
   if max(abs(Pab1-P)) > tol
     error("max(abs(Pab1-P)) > tol");
   endif
@@ -38,7 +38,7 @@ for m=1:2
   del=tol*100;
   delk=zeros(size(A1k));
   delk(1)=del/2;
-  diff_Pk=zeros(length(Prng),length(A1k));
+  diff_Pk=zeros(length(P),length(A1k));
   for l=1:length(A1k)
     PkPdel2=schurOneMPAlatticeP(wp,A1k+delk,A1epsilon,A1p,A2k,A2epsilon,A2p,...
                                 difference);
@@ -55,7 +55,7 @@ for m=1:2
   del=tol*100;
   delk=zeros(size(A2k));
   delk(1)=del/2;
-  diff_Pk=zeros(length(Prng),length(A2k));
+  diff_Pk=zeros(length(P),length(A2k));
   for l=1:length(A2k)
     PkPdel2=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,A2k+delk,A2epsilon,A2p,...
                                 difference);
@@ -76,7 +76,7 @@ for m=1:2
   del=tol*100;
   delk=zeros(size(A1k));
   delk(1)=del/2;
-  diff_gradPk=zeros(length(Prng),length(A1k));
+  diff_gradPk=zeros(length(P),length(A1k));
   for l=1:length(A1k)
     [PkPdel2,gradPkPdel2]=schurOneMPAlatticeP(wp,A1k+delk,A1epsilon,A1p, ...
                                               A2k,A2epsilon,A2p,difference);
@@ -93,7 +93,7 @@ for m=1:2
   del=tol*100;
   delk=zeros(size(A2k));
   delk(1)=del/2;
-  diff_gradPk=zeros(length(Prng),length(A2k));
+  diff_gradPk=zeros(length(P),length(A2k));
   for l=1:length(A2k)
     [PkPdel2,gradPkPdel2]=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p, ...
                                               A2k+delk,A2epsilon,A2p,difference);

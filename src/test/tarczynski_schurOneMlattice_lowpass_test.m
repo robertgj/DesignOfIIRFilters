@@ -149,10 +149,8 @@ printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 % Create the output polynomials
 k1=k0;
 k1(k_active)=kc1(k_active);
-k1
 c1=c0;
 c1(c_active)=kc1(length(k_active)+c_active);
-c1
 [n1,d1]=schurOneMlattice2tf(k1,ones(size(k1)),ones(size(k1)),c1);
 
 % Plot overall response

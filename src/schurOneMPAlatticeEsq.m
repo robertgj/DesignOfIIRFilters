@@ -24,7 +24,7 @@ function [Esq,gradEsq,diagHessEsq]=...
 %   gradEsq - gradient of the squared error value at x
 %   diagHessEsq - diagonal of the Hessian of the squared error value at x.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -56,14 +56,15 @@ function [Esq,gradEsq,diagHessEsq]=...
                             difference,wa,Asqd,Wa)");
   endif
   
-  NA1k=length(A1k);
-  NA2k=length(A2k);
   if nargin==10
     wt=[];
     wp=[];
   elseif nargin==13
     wp=[];    
   endif
+
+  NA1k=length(A1k);
+  NA2k=length(A2k);
   
   if nargout==1
     if isempty(wa)

@@ -24,8 +24,8 @@ for m=1:2
   T=schurOneMPAlatticeT(wt,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 
   % Check the group delay response
-  Tab1=delayz(Nab1,Dab1,wa);
-  Tab1=Tab1(Trng);
+  Tab1=delayz(Nab1,Dab1,wt);
+  Tab1=Tab1;
   if max(abs(Tab1-T)) > 16*tol
     error("max(abs(Tab1-T)) > 16*tol");
   endif
@@ -38,7 +38,7 @@ for m=1:2
   del=100*tol;
   delk=zeros(size(A1k));
   delk(1)=del/2;
-  diff_Tk=zeros(length(Trng),length(A1k));
+  diff_Tk=zeros(length(T),length(A1k));
   for l=1:length(A1k)
     TkPdel2=schurOneMPAlatticeT(wt,A1k+delk,A1epsilon,A1p,A2k,A2epsilon,A2p,...
                                 difference);
@@ -55,7 +55,7 @@ for m=1:2
   del=100*tol;
   delk=zeros(size(A2k));
   delk(1)=del/2;
-  diff_Tk=zeros(length(Trng),length(A2k));
+  diff_Tk=zeros(length(T),length(A2k));
   for l=1:length(A2k)
     TkPdel2=schurOneMPAlatticeT(wt,A1k,A1epsilon,A1p,A2k+delk,A2epsilon,A2p,...
                                 difference);
@@ -76,7 +76,7 @@ for m=1:2
   del=100*tol;
   delk=zeros(size(A1k));
   delk(1)=del/2;
-  diff_gradTk=zeros(length(Trng),length(A1k));
+  diff_gradTk=zeros(length(T),length(A1k));
   for l=1:length(A1k)
     [TkPdel2,gradTkPdel2]=schurOneMPAlatticeT(wt,A1k+delk,A1epsilon,A1p, ...
                                               A2k,A2epsilon,A2p,difference);
@@ -93,7 +93,7 @@ for m=1:2
   del=100*tol;
   delk=zeros(size(A2k));
   delk(1)=del/2;
-  diff_gradTk=zeros(length(Trng),length(A2k));
+  diff_gradTk=zeros(length(T),length(A2k));
   for l=1:length(A2k)
     [TkPdel2,gradTkPdel2]=schurOneMPAlatticeT(wt,A1k,A1epsilon,A1p, ...
                                               A2k+delk,A2epsilon,A2p,difference);

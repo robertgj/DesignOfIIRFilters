@@ -195,10 +195,9 @@ function [A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...
           break;
         endif
       endif
+      printf("Feasible solution after %d optimisation iterations\n", slb_iter);
       A1k=nextA1k; 
       A2k=nextA2k;
-      printf("Feasible solution after %d optimisation iterations\n", ...
-             tmp_opt_iter);
     else
       warning("Optimisation solution not feasible!");
       break;

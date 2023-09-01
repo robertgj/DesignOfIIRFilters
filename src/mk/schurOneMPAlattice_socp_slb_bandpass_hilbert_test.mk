@@ -1,9 +1,8 @@
 schurOneMPAlattice_socp_slb_bandpass_hilbert_test_FIGURES = \
-schurOneMPAlattice_socp_slb_bandpass_hilbert_test_initial_response \
 schurOneMPAlattice_socp_slb_bandpass_hilbert_test_response \
-schurOneMPAlattice_socp_slb_bandpass_hilbert_test_passband_response \
 schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A1pz \
-schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A2pz
+schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A2pz \
+schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A12pz
 
 schurOneMPAlattice_socp_slb_bandpass_hilbert_test_COEFS = \
 schurOneMPAlattice_socp_slb_bandpass_hilbert_test.mat \
@@ -28,13 +27,11 @@ schurOneMPAlattice_slb_exchange_constraints.m \
 schurOneMPAlattice_slb_set_empty_constraints.m \
 schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice_slb_update_constraints.m \
-schurOneMPAlattice2tf.m \
-schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m \
-schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
-Abcd2tf.m H2Asq.m H2T.m H2P.m \
+schurOneMPAlattice2tf.m schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m \
+tf2schurOneMlattice.m schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
+Abcd2tf.m H2Asq.m H2T.m H2P.m qroots.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
-qroots.m qzsolve.oct 
+schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct qzsolve.oct 
 
 schurOneMPAlattice_socp_slb_bandpass_hilbert_test.diary : \
 tarczynski_parallel_allpass_bandpass_hilbert_test.diary

@@ -26,12 +26,12 @@ if m==1
   ma=11; % Allpass model filter A denominator order
   mb=12; % Allpass model filter B denominator order
   fap=0.15; % Pass band amplitude response edge
-  Wap=0.1; % Pass band amplitude response weight
+  Wap=1; % Pass band amplitude response weight
   fas=0.2; % Stop band amplitude response edge
-  Was=750; % Stop band amplitude response weight
+  Was=100; % Stop band amplitude response weight
   ftp=0.175; % Pass band group delay response edge
   td=(ma+mb)/2; % Pass band nominal group delay
-  Wtp=1000; % Pass band group delay response weight
+  Wtp=100; % Pass band group delay response weight
   Wpp=10000; % Pass band phase response weight
   % Desired squared magnitude response
   nplot=1000;
@@ -50,10 +50,6 @@ if m==1
   wp=wt;
   Pd=-td*wp;
   Wp=Wpp*ones(npp,1);
-  % For error calculation
-  Asqrng=1:floor((nap+nas)/2);
-  Trng=1:ntp;
-  Prng=1:npp;
 else
   % Band pass filter from parallel_allpass_socp_slb_bandpass_test.m
   difference=true;
@@ -83,17 +79,17 @@ else
   fapu=0.2;
   fasu=0.25;
   dBap=2;dBas=53;
-  Wap=0.1;Watl=0.1;Watu=0.1;
-  Wasl=1e4;
-  Wasu=1e4;
+  Wap=1;Watl=0.1;Watu=0.1;
+  Wasl=100;
+  Wasu=100;
   ftpl=0.09;
   ftpu=0.21;
   td=16;
   tdr=td/200;
-  Wtp=10;
+  Wtp=100;
   fppl=0.09;
   fppu=0.21;
-  Wpp=100;
+  Wpp=0.01;
   % Desired squared magnitude response
   nplot=1000;
   wa=(0:(nplot-1))'*pi/nplot;
@@ -122,9 +118,5 @@ else
   pd=1.7226;
   Pd=(pd*ones(nppu-nppl+1,1))-((wp-wp(1))*td);
   Wp=Wpp*ones(nppu-nppl+1,1);
-  % For error calculation
-  Asqrng=napl:floor((napu+nasu)/2);
-  Trng=ntpl:ntpu;
-  Prng=nppl:nppu;
 endif
 

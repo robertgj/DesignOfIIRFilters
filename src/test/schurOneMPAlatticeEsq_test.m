@@ -20,23 +20,43 @@ for m=1:2,
   A1rng=1:length(A1k);
   A2rng=(length(A1k)+1):(length(A1k)+length(A2k));
 
+  % Alternative calculation of squared-error response
+  Ha1=freqz(flipud(Da1),Da1,wa);
+  Hb1=freqz(flipud(Db1),Db1,wa);
+  if difference
+    Hab1=(Ha1-Hb1)/2;
+  else
+    Hab1=(Ha1+Hb1)/2;
+  endif
+  Asqab1=abs(Hab1).^2;
+
+  PHa1=freqz(flipud(Da1),Da1,wp);
+  PHb1=freqz(flipud(Db1),Db1,wp);
+  if difference
+    PHab1=(PHa1-PHb1)/2;
+  else
+    PHab1=(PHa1+PHb1)/2;
+  endif
+  Pab1=unwrap(arg(PHab1));
+
+  Ta1=delayz(flipud(Da1),Da1,wt);
+  Tb1=delayz(flipud(Db1),Db1,wt);
+  Tab1=(Ta1+Tb1)/2;
+  
+  AsqErr=Wa.*((Asqab1-Asqd).^2);
+  AsqErrSum=sum(diff(wa).*(AsqErr(1:(end-1))+AsqErr(2:end)))/2;
+  TErr=Wt.*((Tab1-Td).^2);  
+  TErrSum=sum(diff(wt).*(TErr(1:(end-1))+TErr(2:end)))/2;
+  PErr=Wp.*((Pab1-Pd).^2);  
+  PErrSum=sum(diff(wp).*(PErr(1:(end-1))+PErr(2:end)))/2;
+  EsqErrSum=AsqErrSum+TErrSum+PErrSum;
+  
   % Find the squared-error
   Esq=schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
                             difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
 
-  % Check the squared-error response
-  [Hab1,wplot]=freqz(Nab1,Dab1,nplot);
-  Pab1=unwrap(arg(Hab1));
-  Tab1=delayz(Nab1,Dab1,wplot);
-  Asqab1=abs(Hab1).^2;
-  AsqErr=Wa.*((Asqab1-Asqd).^2);
-  AsqErrSum=sum(diff(wa).*(AsqErr(1:(end-1))+AsqErr(2:end)))/2;
-  TErr=Wt.*((Tab1(Trng)-Td).^2);  
-  TErrSum=sum(diff(wt).*(TErr(1:(end-1))+TErr(2:end)))/2;
-  PErr=Wp.*((Pab1(Prng)-Pd).^2);  
-  PErrSum=sum(diff(wp).*(PErr(1:(end-1))+PErr(2:end)))/2;
-  if abs(AsqErrSum+TErrSum+PErrSum-Esq) > tol
-    error("abs(AsqErrSum+TErrSum+PErrSum-Esq) > tol");
+  if abs(EsqErrSum-Esq) > tol
+    error("abs(EsqErrSum-Esq) > tol");
   endif
 
   % Find the gradients of Esq
