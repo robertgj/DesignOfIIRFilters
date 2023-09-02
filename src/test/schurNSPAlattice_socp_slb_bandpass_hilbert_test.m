@@ -129,25 +129,42 @@ sxx_symmetric=true;
 %
 % SOCP PCLS
 %
-printf("\nPCLS\n");
-[A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
- slb_iter,opt_iter,func_iter,feasible] = ...
-  schurNSPAlattice_slb(@schurNSPAlattice_socp_mmse,
-                       A1s20_0,A1s00_0,A1s02_0,A1s22_0, ...
-                       A2s20_0,A2s00_0,A2s02_0,A2s22_0, ...
-                       difference, ...
-                       sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...
-                       wa,Asqd,Asqdu,Asqdl,Wa, ...
-                       wt,Td,Tdu,Tdl,Wt, ...
-                       wp,Pd,Pdu,Pdl,Wp, ...
-                       maxiter,tol,ctol,verbose);
+try
+  [A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
+   slb_iter,opt_iter,func_iter,feasible] = ...
+     schurNSPAlattice_slb(@schurNSPAlattice_socp_mmse,
+                          A1s20_0,A1s00_0,A1s02_0,A1s22_0, ...
+                          A2s20_0,A2s00_0,A2s02_0,A2s22_0, ...
+                          difference, ...
+                          sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...
+                          wa,Asqd,Asqdu,Asqdl,Wa, ...
+                          wt,Td,Tdu,Tdl,Wt, ...
+                          wp,Pd,Pdu,Pdl,Wp, ...
+                          maxiter,tol,ctol,verbose);
+catch
+  feasible = false;
+end_try_catch
 if feasible == 0 
   error("A12(pcls) infeasible");
 endif
 
+% Check symmetry
+if max(abs(A1s20+A1s02))>eps
+  error("max(abs(A1s20+A1s02))>eps");
+endif
+if max(abs(A1s00-A1s22))>eps
+  error("max(abs(A1s00-A1s22))>eps");
+endif
+if max(abs(A2s20+A2s02))>eps
+  error("max(abs(A2s20+A2s02))>eps");
+endif
+if max(abs(A2s00-A2s22))>eps
+  error("max(abs(A2s00-A2s22))>eps");
+endif
+
 % Find response
 Asq=schurNSPAlatticeAsq(wa,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
-                          difference);
+                        difference);
 P=schurNSPAlatticeP(wp,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
                     difference);
 T=schurNSPAlatticeT(wt,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
@@ -242,7 +259,7 @@ nppts=(0:511);
 fpts=nppts/nfpts;
 H=crossWelch(u,(A1yap-A2yap)/2,nfpts);
 A=abs(H);
-A=movmean(A,25);
+A=movmean(A,10);
 subplot(311);
 ax=plotyy(fpts,20*log10(A),fpts,20*log10(A));
 set(ax(1),'ycolor','black');
@@ -252,11 +269,11 @@ axis(ax(2),[0 0.5 -dBas-10 -dBas+10]);
 ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf...
-("Simulated parallel all-pass bandpass Hilbert (moving mean of 25 samples)");
+("Simulated parallel all-pass bandpass Hilbert (moving mean of 10 samples)");
 title(strt);
 subplot(312);
 P=unwrap(arg(H));
-P=movmean(P,25);
+P=movmean(P,10);
 plot(fpts,((P+(tp*2*pi*nppts/nfpts))/pi)-1.5);
 axis([0 0.5 -ppr/2 ppr/2])
 grid("on");
@@ -264,7 +281,7 @@ ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency")
 subplot(313);
 T=-diff(P)/((fpts(2)-fpts(1))*2*pi);
-T=movmean(T,25);
+T=movmean(T,10);
 plot(fpts(2:end),T);
 axis([0 0.5 tp-(tpr/2) tp+(tpr/2)])
 grid("on");
@@ -310,19 +327,11 @@ print_polynomial(A1s20,"A1s20");
 print_polynomial(A1s20,"A1s20",strcat(strf,"_A1s20_coef.m"));
 print_polynomial(A1s00,"A1s00");
 print_polynomial(A1s00,"A1s00",strcat(strf,"_A1s00_coef.m"));
-print_polynomial(A1s02,"A1s02");
-print_polynomial(A1s02,"A1s02",strcat(strf,"_A1s02_coef.m"));
-print_polynomial(A1s22,"A1s22");
-print_polynomial(A1s22,"A1s22",strcat(strf,"_A1s22_coef.m"));
 
 print_polynomial(A2s20,"A2s20");
 print_polynomial(A2s20,"A2s20",strcat(strf,"_A2s20_coef.m"));
 print_polynomial(A2s00,"A2s00");
 print_polynomial(A2s00,"A2s00",strcat(strf,"_A2s00_coef.m"));
-print_polynomial(A2s02,"A2s02");
-print_polynomial(A2s02,"A2s02",strcat(strf,"_A2s02_coef.m"));
-print_polynomial(A2s22,"A2s22");
-print_polynomial(A2s22,"A2s22",strcat(strf,"_A2s22_coef.m"));
 
 print_polynomial(A1stdx,"A1stdx");
 print_polynomial(A1stdx,"A1stdx",strcat(strf,"_A1stdx.m"),"%6.4f");
