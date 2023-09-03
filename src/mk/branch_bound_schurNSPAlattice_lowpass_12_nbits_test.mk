@@ -1,0 +1,36 @@
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test_FIGURES = \
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test_sxx_min_response
+
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test_COEFS = \
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test.mat \
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test.spec \
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A1s20_sd_coef.m \
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A1s00_sd_coef.m \
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A2s20_sd_coef.m \
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A2s00_sd_coef.m \
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A1s20_min_coef.m \
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A1s00_min_coef.m \
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A2s20_min_coef.m \
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A2s00_min_coef.m \
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test_sxx_min_digits.tab \
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test_sxx_min_adders.tab \
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test_sxx_min_cost.tab
+
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test_FILES = \
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test.m test_common.m \
+schurNSPAlatticeAsq.m schurNSPAlatticeT.m \
+schurNSPAlatticeP.m schurNSPAlatticeEsq.m \
+schurNSPAlattice_slb.m schurNSPAlattice_socp_mmse.m \
+schurNSPAlattice_slb_set_empty_constraints.m \
+schurNSPAlattice_slb_constraints_are_empty.m \
+schurNSPAlattice_slb_update_constraints.m \
+schurNSPAlattice_slb_exchange_constraints.m \
+schurNSPAlattice_slb_show_constraints.m \
+schurNSPAlattice2tf.m schurNSAPlattice2tf.m schurNSAPlattice2Abcd.m \
+local_max.m tf2pa.m print_polynomial.m flt2SD.m bin2SDul.m x2nextra.m \
+qroots.m SDadders.m Abcd2tf.m H2Asq.m H2T.m H2P.m tf2schurNSlattice.m \
+schurNSscale.oct bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
+Abcd2H.oct qzsolve.oct complex_zhong_inverse.oct schurNSlattice2Abcd.oct \
+
+branch_bound_schurNSPAlattice_lowpass_12_nbits_test.diary : \
+schurNSPAlattice_socp_slb_lowpass_test.diary

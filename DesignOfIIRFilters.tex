@@ -15640,8 +15640,8 @@ bandpass filter branch-and-bound algorithm example with 10-bit coefficients]
 \label{tab:branch-bound-schurOneMlattice-bandpass-10-nbits-cost-summary}
 \end{table}
 \clearpage
-\section{\label{sec:Branch-and-bound-search-signed-digit-coefficients-parallel-allpass-lowpass}Branch-and-bound
-  search for the 12-bit 3-signed-digit coefficients of a parallel all-pass lattice low-pass IIR filter}
+\section{\label{sec:Branch-and-bound-search-signed-digit-coefficients-parallel-allpass-one-M-lowpass}Branch-and-bound
+  search for the 12-bit 3-signed-digit coefficients of a parallel all-pass one-multiplier lattice low-pass IIR filter}
 The Octave script 
 \emph{branch\_bound\_schurOneMPAlattice\_lowpass\_12\_nbits\_test.m} performs
 branch-and-bound search to optimise the response of the parallel
@@ -15738,6 +15738,76 @@ coefficients] {Comparison of the cost and number of 12-bit shift-and-add
   each coefficient using the heuristic of \emph{Ito et al.} and performing
   branch-and-bound search.}
 \label{tab:branch-bound-schurOneMPAlattice-lowpass-12-nbits-cost-summary}
+\end{table}
+\clearpage
+\section{\label{sec:Branch-and-bound-search-signed-digit-coefficients-parallel-allpass-norm-scaled-lowpass}Branch-and-bound
+  search for the 12-bit 3-signed-digit coefficients of a parallel all-pass normalised-scaled lattice low-pass IIR filter}
+The Octave script 
+\emph{branch\_bound\_schurNSPAlattice\_lowpass\_12\_nbits\_test.m} performs
+branch-and-bound search to optimise the response of the parallel
+approximately normalised-scaled all-pass Schur lattice low-pass filter of
+Section~\ref{sec:Design-parallel-Schur-norm-scaled-all-pass-lattice-low-pass-SOCP}
+with $12$-bit integer coefficients. The filter specification is:
+\begin{small}
+\verbatiminput{branch_bound_schurNSPAlattice_lowpass_12_nbits_test.spec}
+\end{small} 
+
+The filter coefficients are truncated to $12$ bits and $3$ signed-digits.
+The script enforces the symmetric relations $s_{02}=-s_{20}$ and $s_{22}=s_{00}$.
+The script does not enforce normalised-scaling with the relation
+$s_{02}=\sqrt{1-s_{00}^{2}}$. At each branch the script fixes the coefficient
+with the largest difference between upper and lower $3$ signed-digit
+approximations to the floating-point value. For each sub-problem the
+coefficients ``higher-up-the-tree'' are fixed and the remaining free
+coefficients are SOCP PCLS optimised with the filter specification given above.
+The signed-digit lattice coefficients are:
+\begin{small}
+\verbatiminput{branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A1s20_sd_coef.m}
+\verbatiminput{branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A1s00_sd_coef.m}
+\verbatiminput{branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A2s20_sd_coef.m}
+\verbatiminput{branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A2s00_sd_coef.m}
+\end{small}
+
+The signed-digit lattice coefficients found by the branch-and-bound search are:
+\begin{small}
+\verbatiminput{branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A1s20_min_coef.m}
+\verbatiminput{branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A1s00_min_coef.m}
+\verbatiminput{branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A2s20_min_coef.m}
+\verbatiminput{branch_bound_schurNSPAlattice_lowpass_12_nbits_test_A2s00_min_coef.m}
+\end{small}
+
+Figure~\ref{fig:branch-bound-schurNSPAlattice-lowpass-12-nbits-response}
+shows the amplitude and group delay responses of the filter with
+exact coefficients and with $12$-bit, $3$-signed-digit coefficients found by
+simple truncation and by branch-and-bound search.
+Table~\ref{tab:branch-bound-schurNSPAlattice-lowpass-12-nbits-cost-summary}
+compares the cost and the number of $12$ bit shift-and-add operations required
+to implement the signed-digit coefficient multiplications.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurNSPAlattice_lowpass_12_nbits_test_sxx_min_response}}
+\caption{Amplitude and group delay responses for a parallel all-pass
+  approximately normalised-scaled Schur lattice low-pass filter with 12 bit
+  3 signed-digit integer coefficients found by direct truncation and by
+  performing branch-and-bound search.}
+\label{fig:branch-bound-schurNSPAlattice-lowpass-12-nbits-response}
+\end{figure}
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lccc}  \\ \toprule
+& Cost&Signed-digits&Shift-and-adds\\ \midrule
+\input{branch_bound_schurNSPAlattice_lowpass_12_nbits_test_sxx_min_cost.tab} \\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the parallel all-pass approximately
+normalised scaled Schur lattice filter SOCP algorithm example with 12 bit
+coefficients] {Comparison of the cost and number of 12-bit shift-and-add
+  operations required to implement the coefficient multiplications for a
+  parallel all-pass approximately normalised-scaled Schur lattice low-pass
+  filter with 12 bit, 3 signed-digit integer coefficients found by direct
+  truncation and by performing branch-and-bound search.}
+\label{tab:branch-bound-schurNSPAlattice-lowpass-12-nbits-cost-summary}
 \end{table}
 \clearpage
 \section{Branch-and-bound search for the 8-bit 3-signed-digit coefficients of a parallel all-pass lattice IIR elliptic low-pass filter}
@@ -16772,7 +16842,7 @@ with $12$-bit integer coefficients. The filter specification is:
 \verbatiminput{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.spec}
 \end{small} 
 The filter weights differ from those used in
-Section~\ref{sec:Branch-and-bound-search-signed-digit-coefficients-parallel-allpass-lowpass}.
+Section~\ref{sec:Branch-and-bound-search-signed-digit-coefficients-parallel-allpass-one-M-lowpass}.
 
 The filter coefficients are truncated to $12$ bits allocated with an average
 of $3$ signed-digits by the heuristic of \emph{Lim et al.} as shown in
