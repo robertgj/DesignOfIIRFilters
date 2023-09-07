@@ -17535,9 +17535,8 @@ filter specification is:
 \verbatiminput{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.spec}
 \end{small} 
 
-The filter coefficients are truncated to $10$ bits allocated with an average
-of $3$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
-Section~\ref{sec:Ito-allocation-signed-digits}. At each coefficient relaxation
+The filter coefficients are truncated to $10$ bits and $3$ signed-digits.
+At each coefficient relaxation
 step the script finds the upper and lower signed-digit approximations to the
 current set of active coefficients, selects the coefficient with the largest
 difference in those approximations and performs two optimisations. The first
@@ -17557,14 +17556,11 @@ The filter coefficients found by the SparsePOP relaxation search are:
 \end{small}
 
 Table~\ref{tab:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-cost-summary}
-compares the cost, the number of signed-digits and the number of $10$-bit
-shift-and-add operations required to implement the coefficient multiplications
-found by the signed-digit allocation heuristic of \emph{Ito et al.} and
-optimised by POP-relaxation search.
+compares the cost, the number of signed-digits and the number of $10$ bit
+shift-and-add operations required to implement the coefficient multiplications.
 Figure~\ref{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-pass-response}
-compares the pass-band responses of the filter with exact and 10-bit
-coefficients allocated an average of 3-signed-digits found by the heuristic of
-\emph{Ito et al.} and optimised by POP-relaxation search. Similarly,
+compares the pass-band responses of the filter with exact and $10$ bit
+$3$ signed-digit coefficients optimised with POP-relaxation search. Similarly,
 Figure~\ref{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-stop-response}
 shows the filter stop-band response and
 Figure~\ref{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-delay-response}
@@ -17581,39 +17577,34 @@ shows the filter pass-band group delay response.
 \end{threeparttable}
 \caption[Summary of cost results for the Schur one-multiplier lattice bandpass
 filter POP-relaxation example with 10-bit 3 signed digit coefficients]
-{Comparison of the cost and number of 10-bit shift-and-add operations required
+{Comparison of the cost and number of 10 bit shift-and-add operations required
   to implement the coefficient multiplications for a Schur one-multiplier
-  lattice bandpass filter with 10-bit integer coefficients found by allocating
-  an average of 3-signed-digits to each coefficient using the heuristic of
-  \emph{Ito et al.}  and performing POP-relaxation search.}
-\label{tab:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-cost-summary}
+  lattice bandpass filter with 10 bit 3 signed-digit integer coefficients.
+\label{tab:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-cost-summary}}
 \end{table}
 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_pass}}
 \caption{Comparison of the pass-band amplitude responses for a Schur
-  one-multiplier lattice bandpass filter with 10-bit integer coefficients found
-  by allocating an average of 3-signed-digits to each coefficient using the
-  heuristic of \emph{Ito et al.} and performing POP-relaxation search}
+  one-multiplier lattice bandpass filter with 10 bit 3 signed-digit coefficients
+  optimised with POP-relaxation search.}
 \label{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-pass-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_stop}}
 \caption{Comparison of the stop-band amplitude responses for a Schur
-  one-multiplier lattice bandpass filter with 10-bit integer coefficients found
-  by allocating an average of 3-signed-digits to each coefficient using the
-  heuristic of \emph{Ito et al.} and performing POP-relaxation search}
+  one-multiplier lattice bandpass filter with 10 bit 3 signed-digit coefficients
+  optimised with POP-relaxation search.}
 \label{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-stop-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_delay}}
 \caption{Comparison of the pass-band group delay responses for a Schur
-  one-multiplier lattice bandpass filter with 10-bit integer coefficients found
-  by allocating an average of 3-signed-digits to each coefficient using the
-  heuristic of \emph{Ito et al.} and performing POP-relaxation search}
+  one-multiplier lattice bandpass filter with 10 bit 3 signed-digit coefficients
+  optimised with POP-relaxation search.}
 \label{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-delay-response}
 \end{figure}
 \clearpage

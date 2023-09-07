@@ -1,14 +1,16 @@
 % pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 % Optimisation of Schur one-multiplier lattice bandpass filter response with
 % 10-bit signed-digit coefficients and POP relaxation solution.
 
 test_common;
 
-delete("pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary");
-delete("pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary.tmp");
-diary pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary.tmp
+strf="pop_relaxation_schurOneMlattice_bandpass_10_nbits_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
@@ -149,7 +151,7 @@ printf("k,c_min:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %6.4f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit(Ito)&%6.4f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit & %6.4f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd,kc0_digits,kc0_adders);
 fprintf(fid,"%d-bit %d-signed-digit(POP-relax) & %6.4f & %d & %d \\\\\n",
         nbits,ndigits,Esq_min,kc_digits,kc_adders);
@@ -175,7 +177,7 @@ axis([0 0.5 -50 -30]);
 strt=sprintf("Schur one-multiplier lattice bandpass filter stop-band \
 (nbits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,fasl,fasu,dBas);
 title(strt);
-legend("exact","s-d(Ito)","s-d(POP-relax)");
+legend("exact","s-d","s-d(POP-relax)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -193,7 +195,7 @@ axis([0.1 0.2 -2 2]);
 strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
 (nbits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,fapl,fapu,dBap);
 title(strt);
-legend("exact","s-d(Ito)","s-d(POP-relax)");
+legend("exact","s-d","s-d(POP-relax)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -211,7 +213,7 @@ axis([0.09 0.21 15.9 16.2]);
 strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
 (nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g",nbits,ftpl,ftpu,tp,tpr);
  title(strt);
-legend("exact","s-d(Ito)","s-d(POP-relax)");
+legend("exact","s-d","s-d(POP-relax)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -261,5 +263,4 @@ save pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.mat ...
 % Done
 toc;
 diary off
-movefile pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary.tmp ...
-         pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary;
+eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));
