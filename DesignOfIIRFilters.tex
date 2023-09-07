@@ -36452,9 +36452,7 @@ so that $z_{3}$ is not in a stop band. The resulting FIR impulse response is:
 \end{small}
 
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-union-double-bandpass-response}
-shows the amplitude response.
-Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-union-double-bandpass-passband} 
-shows the pass band amplitude, phase error and delay responses. The pass band
+shows the amplitude, phase and group delay responses. The pass band
 phase error is adjusted for the nominal delay. 
 The actual maximum squared-error in the pass-band compared with a pure delay is
 $\varepsilon^{2}_{z}=$
@@ -36463,18 +36461,10 @@ $\varepsilon^{2}_{z}=$
 \begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_union_double_bandpass_test_response}}
-\caption{Amplitude response of a non-symmetric FIR band pass filter designed
-with the generalised KYP lemma with multiple pass and stop bands.}
+\caption{Amplitude, phase and group delay responses of a non-symmetric FIR band
+  pass filter designed with the generalised KYP lemma with multiple pass and
+  stop bands.}
 \label{fig:Direct-FIR-nonsymmetric-KYP-union-double-bandpass-response}
-\end{figure}
-
-\begin{figure}[!ht]
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_union_double_bandpass_test_passband}}
-\caption{Pass band amplitude, phase error and delay responses of a non-symmetric
-  FIR band pass filter designed with the generalised KYP lemma with multiple pass
-  and stop bands. The pass band phase error is adjusted for the nominal delay.} 
-\label{fig:Direct-FIR-nonsymmetric-KYP-union-double-bandpass-passband}
 \end{figure}
 
 SeDuMi fails with a ``\emph{Run into numerical problems}'' warning with the

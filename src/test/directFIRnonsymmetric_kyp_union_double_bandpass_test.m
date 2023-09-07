@@ -24,8 +24,8 @@ sedumi_eps=1e-8;
 
 % Band-pass filter specification
 % Fails with numerical problems for sedumi.eps=1e-9,(N=60,d=20),(N=50,d=20) !
-N=41;
-d=16;
+N=48;
+d=20;
 
 % Amplitude constraints
 Esq_z=1e-4;
@@ -290,8 +290,38 @@ endif
 % Extract impulse response
 h=value(fliplr(CD));
 
-% Plot amplitude response
+% Plot amplitude, phase and delay
 nplot=1000;
+[H,w]=freqz(h,1,nplot);
+[T,w]=delayz(h,1,nplot);
+subplot(311)
+ax=plotyy(w*0.5/pi,20*log10(abs(H)),w*0.5/pi,20*log10(abs(H)));
+axis(ax(1),[0 0.5 -0.1 0.1]);
+axis(ax(2),[0 0.5 -60 -40]);
+set(ax(1),'ycolor','black')
+set(ax(2),'ycolor','black');
+grid("on");
+ylabel("Amplitude(dB)");
+strt=sprintf("KYP non-symmetric double pass-band FIR filter : \
+N=%d,d=%d,fapl1=%g,fapu1=%g,fapl2=%g,fapu2=%g",N,d,fapl1,fapu1,fapl2,fapu2);
+title(strt);
+subplot(312)
+hps=plot(w*0.5/pi,(((w*d)+unwrap(arg(H)))/pi)+[4,10]);
+hps1c=get(hps(1),"color");
+set(hps(2),"color",hps1c);
+axis([0 0.5 0.002*[-1 1]]);
+grid("on");
+ylabel("Phase error(rad./$\\pi$)");
+subplot(313)
+plot(w*0.5/pi,T);
+axis([0 0.5 d+0.2*[-1 1]]);
+grid("on");
+ylabel("Delay(samples)");
+xlabel("Frequency");
+print(strcat(strf,"_response"),"-dpdflatex");
+close
+
+% Check squared-amplitude response
 nasu1=(fasu1*nplot/0.5)+1;
 napl1=(fapl1*nplot/0.5)+1;
 napu1=(fapu1*nplot/0.5)+1;
@@ -300,57 +330,6 @@ nasu2=(fasu2*nplot/0.5)+1;
 napl2=(fapl2*nplot/0.5)+1;
 napu2=(fapu2*nplot/0.5)+1;
 nasl3=(fasl3*nplot/0.5)+1;
-
-[H,w]=freqz(h,1,nplot);
-[T,w]=delayz(h,1,nplot);
-plot(w*0.5/pi,20*log10(abs(H)));
-axis([0 0.5 -60 5]);
-ylabel("Amplitude(dB)");
-xlabel("Frequency");
-grid("on");
-strt=sprintf("KYP non-symmetric double pass-band FIR filter : \
-N=%d,d=%d,fapl1=%g,fapu1=%g,fapl2=%g,fapu2=%g",N,d,fapl1,fapu1,fapl2,fapu2);
-title(strt);
-print(strcat(strf,"_response"),"-dpdflatex");
-close
-
-% Plot pass band amplitude, phase and delay
-subplot(311)
-expectedH=[ -99*ones(napl1-1,1); ...
-             20*log10(abs(H(napl1:napu1))); ...
-            -99*ones(napl2-napu1-1,1); ...
-             20*log10(abs(H(napl2:napu2))); ...
-            -99*ones(nplot-napu2,1)];
-plot(w*0.5/pi,expectedH);
-axis([0 0.5 0.1*[-1,1]]);
-grid("on");
-ylabel("Amplitude(dB)");
-title(strt);
-subplot(312)
-expectedP=[  99*ones(napl1-1,1); ...
-             -2*ones(napu1-napl1+1,1); ...
-            -99*ones(napl2-napu1-1,1); ...
-             -4*ones(napu2-napl2+1,1); ...
-            -99*ones(nplot-napu2,1)];
-plot(w*0.5/pi,((w*d)+unwrap(arg(H))+(2*pi*expectedP))/pi);
-axis([0 0.5 0.002*[-1 1]]);
-grid("on");
-ylabel("Phase error(rad./$\\pi$)");
-subplot(313)
-expectedT=[  99*ones(napl1-1,1); ...
-                T(napl1:napu1); ...
-             99*ones(napl2-napu1-1,1); ...
-                T(napl2:napu2); ...
-             99*ones(nplot-napu2,1)];
-plot(w*0.5/pi,expectedT);
-axis([0 0.5 d+0.2*[-1 1]]);
-grid("on");
-ylabel("Delay(samples)");
-xlabel("Frequency");
-print(strcat(strf,"_passband"),"-dpdflatex");
-close
-
-% Check squared-amplitude response
 printf("max(abs(H)).^2)          =%11.4g\n", max(abs(H).^2));
 printf("max(abs(H)).^2,su1       =%11.4g\n", max(abs(H(1:nasu1)).^2));
 printf("min(abs(H)).^2,su1 to pl1=%11.4g\n", min(abs(H(nasu1:napl1)).^2));
