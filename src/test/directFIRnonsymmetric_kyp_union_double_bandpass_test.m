@@ -28,8 +28,8 @@ N=48;
 d=20;
 
 % Amplitude constraints
-Esq_z=1e-4;
-Esq_s=1e-4;
+Esq_z=5e-5;
+Esq_s=8e-5;
 % First stop band
 fasu1=0.10;
 % First pass band
@@ -293,10 +293,13 @@ h=value(fliplr(CD));
 % Plot amplitude, phase and delay
 nplot=1000;
 [H,w]=freqz(h,1,nplot);
+Asq=abs(H).^2;
+P=(w*d)+unwrap(arg(H));
 [T,w]=delayz(h,1,nplot);
+
 subplot(311)
-ax=plotyy(w*0.5/pi,20*log10(abs(H)),w*0.5/pi,20*log10(abs(H)));
-axis(ax(1),[0 0.5 -0.1 0.1]);
+ax=plotyy(w*0.5/pi,10*log10(Asq),w*0.5/pi,10*log10(Asq));
+axis(ax(1),[0 0.5 -0.04 0.04]);
 axis(ax(2),[0 0.5 -60 -40]);
 set(ax(1),'ycolor','black')
 set(ax(2),'ycolor','black');
@@ -306,7 +309,7 @@ strt=sprintf("KYP non-symmetric double pass-band FIR filter : \
 N=%d,d=%d,fapl1=%g,fapu1=%g,fapl2=%g,fapu2=%g",N,d,fapl1,fapu1,fapl2,fapu2);
 title(strt);
 subplot(312)
-hps=plot(w*0.5/pi,(((w*d)+unwrap(arg(H)))/pi)+[4,10]);
+hps=plot(w*0.5/pi,(P/pi)+[2,8]);
 hps1c=get(hps(1),"color");
 set(hps(2),"color",hps1c);
 axis([0 0.5 0.002*[-1 1]]);
@@ -330,28 +333,60 @@ nasu2=(fasu2*nplot/0.5)+1;
 napl2=(fapl2*nplot/0.5)+1;
 napu2=(fapu2*nplot/0.5)+1;
 nasl3=(fasl3*nplot/0.5)+1;
-printf("max(abs(H)).^2)          =%11.4g\n", max(abs(H).^2));
-printf("max(abs(H)).^2,su1       =%11.4g\n", max(abs(H(1:nasu1)).^2));
-printf("min(abs(H)).^2,su1 to pl1=%11.4g\n", min(abs(H(nasu1:napl1)).^2));
-printf("max(abs(H)).^2,su1 to pl1=%11.4g\n", max(abs(H(nasu1:napl1)).^2));
-printf("min(abs(H)).^2,pl1 to pu1=%11.4g\n", min(abs(H(napl1:napu1)).^2));
-printf("max(abs(H)).^2,pl1 to pu1=%11.4g\n", max(abs(H(napl1:napu1)).^2));
-printf("max(abs(H)).^2,pu1 to sl2=%11.4g\n", max(abs(H(napu1:nasl2)).^2));
-printf("min(abs(H)).^2,pu1 to sl2=%11.4g\n", min(abs(H(napu1:nasl2)).^2));
-printf("max(abs(H)).^2,sl2 to su2=%11.4g\n", max(abs(H(nasl2:nasu2)).^2));
-printf("min(abs(H)).^2,su2 to pl2=%11.4g\n", min(abs(H(nasu2:napl2)).^2));
-printf("max(abs(H)).^2,su2 to pl2=%11.4g\n", max(abs(H(nasu2:napl2)).^2));
-printf("min(abs(H)).^2,pl2 to pu2=%11.4g\n", min(abs(H(napl2:napu2)).^2));
-printf("max(abs(H)).^2,pl2 to pu2=%11.4g\n", max(abs(H(napl2:napu2)).^2));
-printf("min(abs(H)).^2,pu2 to sl3=%11.4g\n", min(abs(H(napu2:nasl3)).^2));
-printf("max(abs(H)).^2,pu2 to sl3=%11.4g\n", max(abs(H(napu2:nasl3)).^2));
-printf("max(abs(H)).^2,sl3 to end=%11.4g\n", max(abs(H(nasl3:end)).^2));
+printf("max(10*log10(Asq))           =%11.4g\n",
+       max(10*log10(Asq)));
+printf("max(10*log10(Asq)),su1       =%11.4g\n",
+       max(10*log10(Asq)(    1:nasu1)));
+printf("min(10*log10(Asq)),su1 to pl1=%11.4g\n",
+       min(10*log10(Asq)(nasu1:napl1)));
+printf("max(10*log10(Asq)),su1 to pl1=%11.4g\n",
+       max(10*log10(Asq)(nasu1:napl1)));
+printf("min(10*log10(Asq)),pl1 to pu1=%11.4g\n",
+       min(10*log10(Asq)(napl1:napu1)));
+printf("max(10*log10(Asq)),pl1 to pu1=%11.4g\n",
+       max(10*log10(Asq)(napl1:napu1)));
+printf("max(10*log10(Asq)),pu1 to sl2=%11.4g\n",
+       max(10*log10(Asq)(napu1:nasl2)));
+printf("min(10*log10(Asq)),pu1 to sl2=%11.4g\n",
+       min(10*log10(Asq)(napu1:nasl2)));
+printf("max(10*log10(Asq)),sl2 to su2=%11.4g\n",
+       max(10*log10(Asq)(nasl2:nasu2)));
+printf("min(10*log10(Asq)),su2 to pl2=%11.4g\n",
+       min(10*log10(Asq)(nasu2:napl2)));
+printf("max(10*log10(Asq)),su2 to pl2=%11.4g\n",
+       max(10*log10(Asq)(nasu2:napl2)));
+printf("min(10*log10(Asq)),pl2 to pu2=%11.4g\n",
+       min(10*log10(Asq)(napl2:napu2)));
+printf("max(10*log10(Asq)),pl2 to pu2=%11.4g\n",
+       max(10*log10(Asq)(napl2:napu2)));
+printf("min(10*log10(Asq)),pu2 to sl3=%11.4g\n",
+       min(10*log10(Asq)(napu2:nasl3)));
+printf("max(10*log10(Asq)),pu2 to sl3=%11.4g\n",
+       max(10*log10(Asq)(napu2:nasl3)));
+printf("max(10*log10(Asq)),sl3 to end=%11.4g\n",
+       max(10*log10(Asq)(nasl3:end  )));
 Esq_z_actual=max([abs(H(napl1:napu1)-e.^(-j*w(napl1:napu1)*d)); ...
                   abs(H(napl2:napu2)-e.^(-j*w(napl2:napu2)*d))])^2;
 printf("max. passbands squared-error=%10.8f\n",Esq_z_actual);
 fid=fopen(strcat(strf,"_max_passband_squared_error.tab"),"wt");
 fprintf(fid,"%10.8f",Esq_z_actual);
 fclose(fid);
+
+% Check phase response
+printf("min phase error(rad./pi), pl1 to pu1=%11.4g\n",
+       min((P(napl1:napu1)/pi)+2));
+printf("max phase error(rad./pi), pl1 to pu1=%11.4g\n",
+       max((P(napl1:napu1)/pi)+2));
+printf("min phase error(rad./pi), pl2 to pu2=%11.4g\n",
+       min((P(napl2:napu2)/pi)+8));
+printf("max phase error(rad./pi), pl2 to pu2=%11.4g\n",
+       max((P(napl2:napu2)/pi)+8));
+
+% Check delay
+printf("min delay, pl1 to pu1=%11.4g\n", min(T(napl1:napu1)));
+printf("max delay, pl1 to pu1=%11.4g\n", max(T(napl1:napu1)));
+printf("min delay, pl2 to pu2=%11.4g\n", min(T(napl2:napu2)));
+printf("max delay, pl2 to pu2=%11.4g\n", max(T(napl2:napu2)));
 
 % Save results
 fid=fopen(strcat(strf,".spec"),"wt");
