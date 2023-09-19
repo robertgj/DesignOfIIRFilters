@@ -35194,7 +35194,7 @@ amplitude constraints.
 \paragraph{SDP constraints}
 Assuming $\Psi_{11}=0$, $\Psi_{21}^{\mathconj}=\Psi_{12}$, $\Pi_{11}=1$ and
 $\Pi_{21}=\Pi_{12}=0$, then for each frequency band response constraint:
-\begin{align*}
+\begin{align}
   \left[\begin{array}{cc}
           A & B \\
           I & 0 \end{array}\right]^{\mathconj}
@@ -35211,7 +35211,8 @@ $\Pi_{21}=\Pi_{12}=0$, then for each frequency band response constraint:
     0 & \Pi_{22} \end{array}\right]
     \left[\begin{array}{cc}
           C & D \end{array}\right] &\preceq 0
-\end{align*}
+\label{eqn:Iwasaki_Hara_KYP_SDP_constraints}
+\end{align}
 where $P$, $Q$ are Hermitian and $Q\succeq{}0$.
 For an FIR filter, the unknown variables are $P$, $Q$, $C$ and
 $D$. \emph{Pipeleers} and 
@@ -35312,7 +35313,7 @@ Appendix~\ref{app:Linear-algebra-Schur-complement-positive-definite}} to:
  \left(\Pi_{11}\left[\begin{array}{cc}
  C & D\end{array}\right]\right) \preceq 0
 \end{align*}
-
+\clearpage
 \subsubsection{Design of a symmetric low pass FIR filter}
 The Octave script \emph{directFIRsymmetric\_kyp\_lowpass\_test.m}
 designs a symmetric FIR low-pass filter with
@@ -35367,7 +35368,7 @@ The distinct coefficients of the resulting FIR impulse response are:
 the \emph{Parks-McClellan} algorithm.}
 \label{fig:Direct-FIR-symmetric-mcclellan-lowpass-response}
 \end{figure}
-
+\clearpage
 \subsubsection{Design of a non-symmetric low pass FIR filter with given pass band delay}
 As an example, \emph{Iwasaki} and \emph{Hara}~\cite[Section
 VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} describe
@@ -35419,6 +35420,11 @@ Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-lowpass-response} shows the
 amplitude and group delay response. The filter satisfies the constraints with
 no numerical problems.
 
+The Octave script \emph{directFIRnonsymmetric\_kyp\_bmi\_lowpass\_test.m}
+attempts to design this low pass filter by calling the YALMIP \emph{bmibnb}
+solver with Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints}. YALMIP fails
+after timing out.
+
 \begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_lowpass_test_response}}
@@ -35427,7 +35433,7 @@ the KYP lemma. See \emph{Iwasaki} and \emph{Hara}~\cite[Section
 VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-lowpass-response}
 \end{figure}
-
+\clearpage
 \subsubsection{Design of a non-symmetric FIR band pass filter with given pass
 band delay} 
 The Octave script \emph{directFIRnonsymmetric\_kyp\_bandpass\_test.m} uses
@@ -35479,7 +35485,7 @@ FIR band pass filter designed with the KYP lemma. The pass band phase error
 shown is adjusted for the nominal delay.} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-passband}
 \end{figure}
-
+\clearpage
 \subsubsection{Design of a non-symmetric FIR band pass Hilbert filter with given pass
 band delay} 
 The Octave script \emph{directFIRnonsymmetric\_kyp\_bandpass\_hilbert\_test.m}
@@ -35522,7 +35528,7 @@ FIR band pass Hilbert filter designed with the KYP lemma. The pass band phase
 shown is adjusted for the nominal delay.} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-passband}
 \end{figure}
-
+\clearpage
 \subsubsection{Design of a non-symmetric high pass FIR filter with given pass band delay}
 The Octave script \emph{directFIRnonsymmetric\_kyp\_highpass\_test.m} designs a
 high-pass filter with YALMIP and SeDuMi. The YALMIP objective is
