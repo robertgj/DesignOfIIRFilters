@@ -20,12 +20,12 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 % Band-pass filter specification
-N=30;
-d=10;
+N=40;
+d=16;
 fasl=0.10;fapl=0.175;fapu=0.225;fasu=0.30;
-Esq_z=4.5e-5;
+Esq_z=1e-6;
 Esq_s=1e-4;
-Esq_max=1;
+Esq_max=1.05;
 
 % Common constants
 A=[zeros(N-1,1),eye(N-1);zeros(1,N)];
@@ -201,7 +201,7 @@ endif
 % Extract impulse response
 h=value(fliplr(CD));
 
-% Plot amplitude response
+% Plot amplitude, phase and delay responses
 nplot=1000;
 nasl=(fasl*nplot/0.5)+1;
 napl=(fapl*nplot/0.5)+1;
@@ -209,14 +209,38 @@ napu=(fapu*nplot/0.5)+1;
 nasu=(fasu*nplot/0.5)+1;
 
 [H,w]=freqz(h,1,nplot);
-plot(w*0.5/pi,20*log10(abs(H)));
-axis([0 0.5 -50 5]);
-ylabel("Amplitude(dB)");
-xlabel("Frequency");
+Asq=abs(H).^2;
+P=(w*d)+unwrap(arg(H));
+[T,w]=delayz(h,1,nplot);
+
+subplot(311)
+[ax,h1,h2]=plotyy(w*0.5/pi,10*log10(Asq),w*0.5/pi,10*log10(Asq));
+% Hack to set plot colours
+h1c=get(h1,'color');
+h2c=get(h2,'color');
+set(h1,'color',h2c);
+set(h2,'color',h1c);
+set(ax(1),"ycolor","black");
+set(ax(2),"ycolor","black");
+% End of hack
+axis(ax(1),[0 0.5 -60 -40]);
+axis(ax(2),[0 0.5 0.02*[-1 1]]);
 grid("on");
-strt=sprintf("KYP non-symmetric FIR filter : \
-N=%d,d=%d,fasu=%d,fapl=%g,fapu=%g,fasu=%g",N,d,fasl,fapl,fapu,fasu);
+ylabel("Amplitude(dB)");
+strt=sprintf("KYP non-symmetric band-pass FIR filter : \
+N=%d,d=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g",N,d,fasl,fapl,fapu,fasu);
 title(strt);
+subplot(312)
+plot(w(napl:napu)*0.5/pi,(P(napl:napu)/pi)-4);
+axis([0 0.5 0.0004*[-1 1]]);
+grid("on");
+ylabel("Phase error(rad./$\\pi$)");
+subplot(313)
+plot(w(napl:napu)*0.5/pi,T(napl:napu));
+axis([0 0.5 d+0.1*[-1 1]]);
+grid("on");
+ylabel("Delay(samples)");
+xlabel("Frequency");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -226,32 +250,6 @@ zplane(z);
 title(strt);
 print(strcat(strf,"_zeros"),"-dpdflatex");
 close
-
-% Plot pass band amplitude, phase and delay
-subplot(311)
-plot(w(napl:napu)*0.5/pi,20*log10(abs(H(napl:napu))));
-axis([fapl fapu -0.04 0]);
-grid("on");
-ylabel("Amplitude(dB)");
-strt=sprintf("KYP non-symmetric FIR filter pass band : \
-N=%d,d=%d,fasu=%d,fapl=%g,fapu=%g,fasu=%g",N,d,fasl,fapl,fapu,fasu);
-title(strt);
-subplot(312)
-plot(w(napl:napu)*0.5/pi, ...
-     (((w(napl:napu)*d)+unwrap(arg(H(napl:napu))))/pi)-4);
-axis([fapl fapu 0.004*[-1 1]]);
-grid("on");
-ylabel("Phase error(rad./$\\pi$)");
-subplot(313)
-[T,w]=delayz(h,1,nplot);
-plot(w(napl:napu)*0.5/pi,T(napl:napu));
-ylabel("Delay(samples)");
-axis([fapl fapu d+0.4*[-1 1]]);
-grid("on");
-xlabel("Frequency");
-print(strcat(strf,"_passband"),"-dpdflatex");
-close
-
 
 % Check squared-amplitude response
 printf("Esq_max=%8.6f\n",Esq_max);

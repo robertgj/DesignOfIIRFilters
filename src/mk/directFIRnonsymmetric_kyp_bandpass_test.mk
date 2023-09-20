@@ -1,6 +1,5 @@
 directFIRnonsymmetric_kyp_bandpass_test_FIGURES = \
 directFIRnonsymmetric_kyp_bandpass_test_response \
-directFIRnonsymmetric_kyp_bandpass_test_passband \
 directFIRnonsymmetric_kyp_bandpass_test_k_kc_response
 
 directFIRnonsymmetric_kyp_bandpass_test_COEFS = \

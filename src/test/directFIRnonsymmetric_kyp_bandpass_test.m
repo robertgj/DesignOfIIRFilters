@@ -126,51 +126,42 @@ nasl=(fasl*nplot/0.5)+1;
 napl=(fapl*nplot/0.5)+1;
 napu=(fapu*nplot/0.5)+1;
 nasu=(fasu*nplot/0.5)+1;
+
 h=value(fliplr(CD));
 [H,w]=freqz(h,1,nplot);
-if 0
-ax=plotyy(w*0.5/pi,20*log10(abs(H)),w*0.5/pi,20*log10(abs(H)));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
-ylabel(ax(1),"Amplitude(dB)");
-axis(ax(1),[0 0.5 -0.5 0]);
-axis(ax(2),[0 0.5 -50 -40]);
-else
-plot(w*0.5/pi,20*log10(abs(H)));
-axis([0 0.5 -60 5]);
-ylabel("Amplitude(dB)");
-endif
-xlabel("Frequency");
-grid("on");
-strt=sprintf("KYP non-symmetric FIR filter : \
-N=%d,d=%d,fasu=%d,fapl=%g,fapu=%g,fasu=%g",N,d,fasl,fapl,fapu,fasu);
-title(strt);
-print(strcat(strf,"_response"),"-dpdflatex");
-close
+Asq=abs(H).^2;
+P=(w*d)+unwrap(arg(H));
+[T,w]=delayz(h,1,nplot);
 
-% Plot pass band amplitude, phase and delay
 subplot(311)
-plot(w*0.5/pi,20*log10(abs(H)));
-axis([fapl fapu -0.05 0]);
+[ax,h1,h2]=plotyy(w*0.5/pi,10*log10(Asq),w*0.5/pi,10*log10(Asq));
+% Hack to set plot colours
+h1c=get(h1,'color');
+h2c=get(h2,'color');
+set(h1,'color',h2c);
+set(h2,'color',h1c);
+set(ax(1),"ycolor","black");
+set(ax(2),"ycolor","black");
+% End of hack
+axis(ax(1),[0 0.5 -50 -30]);
+axis(ax(2),[0 0.5 0.04*[-1 0]]);
 grid("on");
 ylabel("Amplitude(dB)");
 strt=sprintf("N=%d,d=%d,fasu=%4.2f,fapl=%4.2f,fapu=%4.2f,fasu=%4.2f,\
 Esq\\_z=%10.8f,Esq\\_s=%6.4f",N,d,fasl,fapl,fapu,fasu,Esq_z,Esq_s);
 title(strt);
 subplot(312)
-plot(w(napl:napu)*0.5/pi, ...
-     unwrap(mod((w(napl:napu)*d)+unwrap(arg(H(napl:napu))),2*pi))/(pi))
-axis([fapl fapu -0.004 0.004]);
+plot(w(napl:napu)*0.5/pi, (P(napl:napu)/pi)-2);
+axis([0 0.5 -0.004 0.004]);
 grid("on");
 ylabel("Phase error(rad./$\\pi$)");
 subplot(313)
-[T,w]=delayz(h,1,nplot);
-plot(w*0.5/pi,T);
+plot(w(napl:napu)*0.5/pi,T(napl:napu));
 ylabel("Delay(samples)");
-axis([fapl fapu d-0.2 d+0.6]);
+axis([0 0.5 d-0.2 d+0.6]);
 grid("on");
 xlabel("Frequency");
-print(strcat(strf,"_passband"),"-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Check squared-amplitude response

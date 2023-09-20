@@ -1,6 +1,5 @@
 directFIRnonsymmetric_kyp_bandpass_hilbert_test_FIGURES = \
-directFIRnonsymmetric_kyp_bandpass_hilbert_test_response \
-directFIRnonsymmetric_kyp_bandpass_hilbert_test_passband
+directFIRnonsymmetric_kyp_bandpass_hilbert_test_response
 
 directFIRnonsymmetric_kyp_bandpass_hilbert_test_COEFS = \
 directFIRnonsymmetric_kyp_bandpass_hilbert_test.mat \

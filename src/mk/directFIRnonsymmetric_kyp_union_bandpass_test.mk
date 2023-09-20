@@ -1,6 +1,5 @@
 directFIRnonsymmetric_kyp_union_bandpass_test_FIGURES = \
 directFIRnonsymmetric_kyp_union_bandpass_test_response \
-directFIRnonsymmetric_kyp_union_bandpass_test_passband \
 directFIRnonsymmetric_kyp_union_bandpass_test_zeros
 
 directFIRnonsymmetric_kyp_union_bandpass_test_COEFS = \

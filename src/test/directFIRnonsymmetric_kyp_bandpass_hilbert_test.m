@@ -157,39 +157,41 @@ nasl=(fasl*nplot/0.5)+1;
 napl=(fapl*nplot/0.5)+1;
 napu=(fapu*nplot/0.5)+1;
 nasu=(fasu*nplot/0.5)+1;
+
 [H,w]=freqz(h,1,nplot);
-plot(w*0.5/pi,20*log10(abs(H)));
-axis([0 0.5 -60 5]);
-ylabel("Amplitude(dB)");
-xlabel("Frequency");
+Asq=abs(H).^2;
+P=(w*d)+unwrap(arg(H));
+[T,w]=delayz(h,1,nplot);
+
+subplot(311)
+[ax,h1,h2]=plotyy(w*0.5/pi,10*log10(Asq),w*0.5/pi,10*log10(Asq));
+% Hack to set plot colours
+h1c=get(h1,'color');
+h2c=get(h2,'color');
+set(h1,'color',h2c);
+set(h2,'color',h1c);
+set(ax(1),"ycolor","black");
+set(ax(2),"ycolor","black");
+% End of hack
+axis(ax(1),[0 0.5 -50 -30]);
+axis(ax(2),[0 0.5 0.04*[-1 0]]);
 grid("on");
+ylabel("Amplitude(dB)");
 strt=sprintf("N=%d,d=%d,fasu=%4.2f,fapl=%4.2f,fapu=%4.2f,fasu=%4.2f,\
 Esq\\_z=%10.8f,Esq\\_s=%6.4f",N,d,fasl,fapl,fapu,fasu,Esq_z,Esq_s);
 title(strt);
-print(strcat(strf,"_response"),"-dpdflatex");
-close
-
-% Plot pass band amplitude, phase and delay
-subplot(311)
-plot(w(napl:napu)*0.5/pi,20*log10(abs(H(napl:napu))));
-axis([fapl fapu -0.04 0]);
-grid("on");
-ylabel("Amplitude(dB)");
-title(strt);
 subplot(312)
-plot(w(napl:napu)*0.5/pi, ...
-     mod(((w(napl:napu)*d)+unwrap(arg(H(napl:napu)))),2*pi)/pi)
-axis([fapl fapu 1.5+0.002*[-1 1]]);
+plot(w(napl:napu)*0.5/pi, (P(napl:napu)/pi)-2);
+axis([0 0.5 1.5+(0.002*[-1,1])]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
 subplot(313)
-[T,w]=delayz(h,1,nplot);
 plot(w(napl:napu)*0.5/pi,T(napl:napu));
 ylabel("Delay(samples)");
-axis([fapl fapu d+0.4*[-1 1]]);
+axis([0 0.5 d+0.4*[-1,1]]);
 grid("on");
 xlabel("Frequency");
-print(strcat(strf,"_passband"),"-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Check squared-amplitude response

@@ -65,7 +65,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \floatname{algorithm}{Algorithm}
 
 \newcommand{\DesignOfIIRFiltersPdfScale}{1}
-\newcommand{\DesignOfIIRFiltersIncludeScale}{0.33}
+\newcommand{\DesignOfIIRFiltersIncludeScale}{0.333}
 
 \newcommand{\coloneq}{\mathrel{\resizebox{\widthof{$\mathord{=}$}}
     {\height}{ $\!\!\resizebox{1.2\width}{0.8\height}
@@ -962,7 +962,7 @@ description\footnote{Appendix~\ref{app:Continued-fraction-expansion} shows the
   variable form.}. An \emph{Octave} implementation is shown in the file
 \emph{tf2Abcd.m}. 
 
-\begin{algorithm}[!tbph]
+\begin{algorithm}[!ht]
 Given a transfer function
 \begin{align*}
 H\left(z\right) &= \frac{\hat{b}\left(z\right)}{\hat{a}\left(z\right)}\\
@@ -1045,7 +1045,7 @@ and \emph{Mitra} and
 Algorithm~\ref{alg:continued-fraction-expansion} calculates the continued
 fraction expansion of a rational transfer function. 
 
-\begin{algorithm}
+\begin{algorithm}[!ht]
 Given a rational transfer function
 $H\left(z\right) = \frac{\hat{b}\left(z\right)}{\hat{a}\left(z\right)} =
 \frac{\sum^{N}_{j=0}b_{j}z^{N-j}}{z^{N}+\sum^{N}_{j=1}a_{j}z^{N-j}}$ find the
@@ -1336,7 +1336,7 @@ matrix inversion. An alternative, slower, but more accurate method for finding
 the resolvent of a matrix is \emph{Le Verrier}'s algorithm~\cite[Algorithm
 8A.12]{RobertsMullis_DigitalSignalProcessing} shown in
 Algorithm~\ref{alg:LeVerriers-algorithm-characteristic-polynomial}.
-\begin{algorithm}[!pbth]
+\begin{algorithm}[!ht]
 To find $p\left(z\right)=\sum_{k=0}^{n}z^{n-k}a_{k}$ and
 $\left(zI-A\right)^{-1}=\frac{1}{p\left(z\right)}\sum_{k=0}^{n-1}z^{n-1-k}\bar{A}_{k}$
 perform the following recursion:
@@ -1386,7 +1386,7 @@ $\lambda_{k}$ are the (possibly repeated) eigenvalues of $A$. When the
 characteristic polynomial is known, the resolvent can be calculated with the
 matrix recursion of \emph{Le Verrier}'s algorithm.
 
-\begin{algorithm}
+\begin{algorithm}[!ht]
 Given:
 $H = \left[\begin{array}{ccccc}
 \alpha_{1} & h_{1,2} & \cdots & \cdots & h_{1,n}\\
@@ -2303,8 +2303,9 @@ has roots $\left|\alpha_{i}\right|<1$ and $\tilde{p}\left(z\right)=z^{-n}p\left(
 Suppose the prototype $H\left(z\right)$ has cut-off frequency $\theta=\pi/2$
 and $G\left(z\right)$ has the pass band edges shown in 
 Figure~\ref{fig:Frequency-warping-function}
-(where $G\left(z\right)$ is low-stop). 
-\begin{figure}
+(where $G\left(z\right)$ is low-stop).
+
+\begin{figure}[!ht]
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{FrequencyTransformation}
 % Note that to enter a Unicode character (eg: small omega) in dia 
@@ -2527,35 +2528,36 @@ result of a low-pass to high-pass transformation. Figure~\ref{fig:tfp2g-bp}
 shows the result of a low-pass to band-pass
 transformation. Figure~\ref{fig:tfp2g-bs} shows the result of a low-pass to
 triple band-stop transformation.
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{tfp2g_test_lpproto}}
 \caption{\label{fig:tfp2g-lpproto}Prototype 5-th order elliptic low-pass filter}
 \end{figure}
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{tfp2g_test_lp}}
 \caption{\label{fig:tfp2g-lp}Low-pass to low-pass transformation of a 
 5-th order elliptic low-pass filter}
 \end{figure}
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{tfp2g_test_hp}}
 \caption{\label{fig:tfp2g-hp}Low-pass to high-pass transformation of a 
 5-th order elliptic low-pass filter}
 \end{figure}
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{tfp2g_test_bp}}
 \caption{\label{fig:tfp2g-bp}Low-pass to band-pass transformation of a 
 5-th order elliptic low-pass filter}
 \end{figure}
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{tfp2g_test_bs}}
 \caption{\label{fig:tfp2g-bs}Low-pass to triple band-stop transformation
 of a 5-th order elliptic low-pass filter}
 \end{figure}
+
 \cleardoublepage{}
 \chapter{\label{sec:Round-off-noise-in-state-variable-filters}Round-off noise in state variable filters}
 This chapter is based on Chapter 9 of \emph{Roberts} and
@@ -3005,7 +3007,7 @@ Minimising the noise gain minimises the round off noise. \emph{Mullis} and
 prove Algorithm~\ref{alg:Minimisation-of-the-noise-gain} for equal word-length 
 filters.
 
-\begin{algorithm}[!hp]
+\begin{algorithm}[!ht]
 If $K$ and $W$ are two n-by-n real symmetric positive definite matrices
 then:
 \begin{align*}
@@ -3027,7 +3029,7 @@ equal wordlength state-variable filters given the $K$ and $W$ matrices.
 Algorithm~\ref{alg:Optimisation-of-the-noise-gain} is implemented in the
 Octave function \emph{optKW.m}.
 
-\begin{algorithm}[!hp]
+\begin{algorithm}[!ht]
 \begin{enumerate}
 \item Diagonalise $K$ and $W$:\\
 Since $K$ and $W$ are real, symmetric and positive definite, a decomposition
@@ -4609,7 +4611,7 @@ N_{N}\left(z\right) & = \sum_{i=0}^{N}c_{i}\Phi_{i}\left(z\right)
 Algorithm~\ref{alg:Polynomial-Expansion} shows the Schur expansion of an
 arbitrary polynomial in a Schur basis.
  
-\begin{algorithm}[htbp]
+\begin{algorithm}[!ht]
 For any polynomial $N_{m}\left(z\right)$ of degree $m,\:(0<m\leq N)$:
 \begin{algorithmic}
 \State $Q\left(z\right)=N_{m}\left(z\right)$ 
@@ -35340,7 +35342,6 @@ The resulting FIR impulse response is:
 Figure~\ref{fig:Direct-FIR-symmetric-KYP-lowpass-response} shows the
 amplitude response. The filter satisfies the constraints with
 no numerical problems.
-
 \begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_kyp_lowpass_test_response}}
@@ -35419,12 +35420,6 @@ The resulting FIR impulse response is:
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-lowpass-response} shows the
 amplitude and group delay response. The filter satisfies the constraints with
 no numerical problems.
-
-The Octave script \emph{directFIRnonsymmetric\_kyp\_bmi\_lowpass\_test.m}
-attempts to design this low pass filter by calling the YALMIP \emph{bmibnb}
-solver with Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints}. YALMIP fails
-after timing out.
-
 \begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_lowpass_test_response}}
@@ -35433,7 +35428,11 @@ the KYP lemma. See \emph{Iwasaki} and \emph{Hara}~\cite[Section
 VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-lowpass-response}
 \end{figure}
-\clearpage
+
+The Octave script \emph{directFIRnonsymmetric\_kyp\_bmi\_lowpass\_test.m}
+attempts to design this low pass filter by calling the YALMIP \emph{bmibnb}
+solver with Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints}. YALMIP fails
+after timing out.
 \subsubsection{Design of a non-symmetric FIR band pass filter with given pass
 band delay} 
 The Octave script \emph{directFIRnonsymmetric\_kyp\_bandpass\_test.m} uses
@@ -35464,28 +35463,16 @@ the complementary FIR lattice reflection coefficients are:
 \end{small}
 
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-response} shows the
-amplitude response.
-Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-passband} 
-shows the pass band amplitude, phase error and delay responses. The pass band
-phase error shown is adjusted for the nominal delay. 
-
+amplitude, phase and group delay responses. The pass band phase error shown is
+adjusted for the nominal delay.
 \begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_bandpass_test_response}}
-\caption{Amplitude response of a non-symmetric FIR band pass filter designed
-with the KYP lemma.}
+\caption{Amplitude, phase and group delay responses of a non-symmetric FIR band
+  pass filter designed with the KYP lemma. The pass band phase error shown is
+  adjusted for the nominal delay.}
 \label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-response}
 \end{figure}
-
-\begin{figure}[!ht]
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_bandpass_test_passband}}
-\caption{Pass band amplitude, phase error and delay responses of a non-symmetric
-FIR band pass filter designed with the KYP lemma. The pass band phase error
-shown is adjusted for the nominal delay.} 
-\label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-passband}
-\end{figure}
-\clearpage
 \subsubsection{Design of a non-symmetric FIR band pass Hilbert filter with given pass
 band delay} 
 The Octave script \emph{directFIRnonsymmetric\_kyp\_bandpass\_hilbert\_test.m}
@@ -35506,29 +35493,17 @@ The resulting FIR impulse response is:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_bandpass_hilbert_test_h_coef.m}
 \end{small}
-Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-response} shows the
-amplitude response.
-Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-passband} 
-shows the pass band amplitude, phase and delay responses. The pass band phase
+Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-response} 
+shows the amplitude, phase and group delay responses. The pass band phase
 shown is adjusted for the nominal delay. 
-
 \begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_bandpass_hilbert_test_response}}
-\caption{Amplitude response of a non-symmetric FIR band pass Hilbert filter
-designed with the KYP lemma.}
+\caption{Amplitude, phase and delay responses of a non-symmetric FIR band pass
+  Hilbert filter designed with the KYP lemma. The pass band phase shown is
+  adjusted for the nominal delay.}
 \label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-response}
 \end{figure}
-
-\begin{figure}[!ht]
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_bandpass_hilbert_test_passband}}
-\caption{Pass band amplitude, phase and delay responses of a non-symmetric
-FIR band pass Hilbert filter designed with the KYP lemma. The pass band phase
-shown is adjusted for the nominal delay.} 
-\label{fig:Direct-FIR-nonsymmetric-KYP-bandpass-hilbert-passband}
-\end{figure}
-\clearpage
 \subsubsection{Design of a non-symmetric high pass FIR filter with given pass band delay}
 The Octave script \emph{directFIRnonsymmetric\_kyp\_highpass\_test.m} designs a
 high-pass filter with YALMIP and SeDuMi. The YALMIP objective is
@@ -35550,7 +35525,6 @@ The resulting FIR impulse response is:
 
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-highpass-response} shows the
 amplitude and delay responses.
-
 \begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_highpass_test_response}}
@@ -36391,30 +36365,18 @@ $\varepsilon^{2}_{z}=$
 \input{directFIRnonsymmetric_kyp_union_bandpass_test_max_passband_squared_error.tab}.
 
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-response} shows the
-amplitude response.
-Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-passband} 
-shows the pass band amplitude, phase error and delay responses. The pass band
-phase error is adjusted for the nominal delay.
+amplitude, phase and delay responses. The pass band phase error is adjusted for
+the nominal delay. 
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-zeros} shows the
 zeros of the transfer function.
-
 \begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_union_bandpass_test_response}}
-\caption{Amplitude response of a non-symmetric FIR band pass filter designed
-with the generalised KYP lemma over a union of stop band regions.}
-\label{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-response}
-\end{figure}
-
-\begin{figure}[!ht]
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_union_bandpass_test_passband}}
-\caption{Pass band amplitude, phase error and delay responses of a non-symmetric
+\caption{Amplitude, phase error and delay responses of a non-symmetric
 FIR band pass filter designed with the generalised KYP lemma over a union of
 stop band regions. The pass band phase error is adjusted for the nominal delay.} 
-\label{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-passband}
+\label{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-response}
 \end{figure}
-
 \begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_union_bandpass_test_zeros}}
@@ -36422,7 +36384,6 @@ stop band regions. The pass band phase error is adjusted for the nominal delay.}
   generalised KYP lemma over a union of stop band regions.} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-union-bandpass-zeros}
 \end{figure}
-\clearpage
 \subsubsection{Design of a non-symmetric band pass FIR filter with the union of
   multiple pass bands and stop bands}
 The Octave script
