@@ -292,39 +292,6 @@ h=value(fliplr(CD));
 
 % Plot amplitude, phase and delay
 nplot=1000;
-[H,w]=freqz(h,1,nplot);
-Asq=abs(H).^2;
-P=(w*d)+unwrap(arg(H));
-[T,w]=delayz(h,1,nplot);
-
-subplot(311)
-ax=plotyy(w*0.5/pi,10*log10(Asq),w*0.5/pi,10*log10(Asq));
-axis(ax(1),[0 0.5 -0.04 0.04]);
-axis(ax(2),[0 0.5 -60 -40]);
-set(ax(1),'ycolor','black')
-set(ax(2),'ycolor','black');
-grid("on");
-ylabel("Amplitude(dB)");
-strt=sprintf("KYP non-symmetric double pass-band FIR filter : \
-N=%d,d=%d,fapl1=%g,fapu1=%g,fapl2=%g,fapu2=%g",N,d,fapl1,fapu1,fapl2,fapu2);
-title(strt);
-subplot(312)
-hps=plot(w*0.5/pi,(P/pi)+[2,8]);
-hps1c=get(hps(1),"color");
-set(hps(2),"color",hps1c);
-axis([0 0.5 0.002*[-1 1]]);
-grid("on");
-ylabel("Phase error(rad./$\\pi$)");
-subplot(313)
-plot(w*0.5/pi,T);
-axis([0 0.5 d+0.2*[-1 1]]);
-grid("on");
-ylabel("Delay(samples)");
-xlabel("Frequency");
-print(strcat(strf,"_response"),"-dpdflatex");
-close
-
-% Check squared-amplitude response
 nasu1=(fasu1*nplot/0.5)+1;
 napl1=(fapl1*nplot/0.5)+1;
 napu1=(fapu1*nplot/0.5)+1;
@@ -333,6 +300,62 @@ nasu2=(fasu2*nplot/0.5)+1;
 napl2=(fapl2*nplot/0.5)+1;
 napu2=(fapu2*nplot/0.5)+1;
 nasl3=(fasl3*nplot/0.5)+1;
+
+[H,w]=freqz(h,1,nplot);
+Asq=abs(H).^2;
+P=(w*d)+unwrap(arg(H));
+[T,w]=delayz(h,1,nplot);
+
+subplot(311)
+[ax,h1,h2]=plotyy(w*0.5/pi,10*log10(Asq),w*0.5/pi,10*log10(Asq));
+% Hack to set plot colours
+h1c=get(h1,"color");
+h2c=get(h2,"color");
+set(h1,"color",h2c);
+set(h2,"color",h1c);
+set(ax(1),"ycolor","black");
+set(ax(2),"ycolor","black");
+% End of hack
+axis(ax(1),[0 0.5 -60 -40]);
+axis(ax(2),[0 0.5 -0.04 0.04]);
+grid("on");
+ylabel("Amplitude(dB)");
+strt=sprintf("KYP non-symmetric double pass-band FIR filter : \
+N=%d,d=%d,fapl1=%g,fapu1=%g,fapl2=%g,fapu2=%g",N,d,fapl1,fapu1,fapl2,fapu2);
+title(strt);
+subplot(312)
+[ax,h1,h2]=plotyy(w(napl1:napu1)*0.5/pi,(P(napl1:napu1)/pi)+2, ...
+                  w(napl2:napu2)*0.5/pi,(P(napl2:napu2)/pi)+8);
+% Hack to set plot colours
+h1c=get(h1,"color");
+set(h2,"color",h1c);
+set(ax(1),"ycolor","black");
+set(ax(2),"ycolor","black");
+% End of hack
+axis(ax(1),[0 0.5 0.002*[-1 1]]);
+axis(ax(2),[0 0.5 0.002*[-1 1]]);
+%axis(ax(2),"off");
+grid("on");
+ylabel("Phase error(rad./$\\pi$)");
+subplot(313)
+[ax,h1,h2]=plotyy(w(napl1:napu1)*0.5/pi,T(napl1:napu1), ...
+                  w(napl2:napu2)*0.5/pi,T(napl2:napu2));
+% Hack to set plot colours
+h1c=get(h1,"color");
+set(h2,"color",h1c);
+set(ax(1),"ycolor","black");
+set(ax(2),"ycolor","black");
+% End of hack
+axis(ax(1),[0 0.5 d+0.2*[-1 1]]);
+axis(ax(2),[0 0.5 d+0.2*[-1 1]]);
+%axis(ax(2),"off");
+grid("on");
+ylabel("Delay(samples)");
+xlabel("Frequency");
+print(strcat(strf,"_response"),"-dpdflatex");
+close
+
+% Check squared-amplitude response
 printf("max(10*log10(Asq))           =%11.4g\n",
        max(10*log10(Asq)));
 printf("max(10*log10(Asq)),su1       =%11.4g\n",
