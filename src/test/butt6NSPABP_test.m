@@ -178,6 +178,7 @@ schurNSlatticeFilter(A2s10f,A2s11f,A2s20f,A2s00f,A2s02f,A2s22f,u,"round");
 
 % Remove the initial transient
 Rn60=(n60+1):length(u);
+uRn60=u(Rn60);
 A1yap=A1yap(Rn60);
 A1y=A1y(Rn60);
 A1xx=A1xx(Rn60,:);
@@ -220,28 +221,28 @@ A2stdxf=std(A2xxf)
 % Plot frequency response
 nfpts=1024;
 nppts=(0:511);
-HA1=crossWelch(u,A1yf,nfpts);
+HA1=crossWelch(uRn60,A1yf,nfpts);
 subplot(411);
 plot(nppts/nfpts,20*log10(abs(HA1)));
 ylabel("A1(dB)")
 axis([0 0.5 -5 5])
 grid("on");
 
-HA1ap=crossWelch(u,A1yapf,nfpts);
+HA1ap=crossWelch(uRn60,A1yapf,nfpts);
 subplot(412);
 plot(nppts/nfpts,20*log10(abs(HA1ap)));
 ylabel("A1ap(dB)")
 axis([0 0.5 -5 5])
 grid("on");
 
-HA2=crossWelch(u,A2yf,nfpts);
+HA2=crossWelch(uRn60,A2yf,nfpts);
 subplot(413);
 plot(nppts/nfpts,20*log10(abs(HA2)));
 ylabel("A2(dB)")
 axis([0 0.5 -5 5])
 grid("on");
 
-HA2ap=crossWelch(u,A2yapf,nfpts);
+HA2ap=crossWelch(uRn60,A2yapf,nfpts);
 subplot(414);
 plot(nppts/nfpts,20*log10(abs(HA2ap)));
 xlabel("Frequency")
@@ -253,7 +254,7 @@ close
 
 nfpts=1024;
 nppts=(0:511);
-HA=crossWelch(u,yf,nfpts);
+HA=crossWelch(uRn60,yf,nfpts);
 subplot(111);
 plot(nppts/nfpts,20*log10(abs(HA)))
 axis([0 0.5 -50 5])
@@ -265,7 +266,7 @@ close
 
 nfpts=1024;
 nppts=(0:511);
-HAap=crossWelch(u,yapf,nfpts);
+HAap=crossWelch(uRn60,yapf,nfpts);
 subplot(111);
 plot(nppts/nfpts,20*log10(abs(HAap)))
 axis([0 0.5 -50 5])

@@ -20,7 +20,7 @@ function [hM,rho,fext,fiter,feasible]= ...
 %   fiter - number of iterations
 %   feasible - true if the design satisfies the constraints
 
-% Copyright (C) 2019-2020 Robert G. Jenssen
+% Copyright (C) 2019-2023 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -53,11 +53,11 @@ function [hM,rho,fext,fiter,feasible]= ...
   if nargin<5
     maxiter=100;
   endif
-  if size(F)~=size(D)
-    error("size(F)~=size(D)");
+  if any(size(F)~=size(D))
+    error("any(size(F)~=size(D))");
   endif
-  if size(F)~=size(W)
-    error("size(F)~=size(W)");
+  if any(size(F)~=size(W))
+    error("any(size(F)~=size(W))");
   endif
   if any(F<0)
     error("any(F<0)");

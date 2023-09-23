@@ -17,7 +17,7 @@ function [hM,fext,fiter,feasible]= ...
 %   fiter - number of iterations
 %   feasible - true if the design satisfies the constraints
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2023 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -54,8 +54,8 @@ hM=hofstetterFIRsymmetric(f0,A0,nf)\n\
   if nargin<3
     nf=100*M;
   endif
-  if size(f0)~=size(A0)
-    error("size(f0)~=size(A0)");
+  if any(size(f0)~=size(A0))
+    error("any(size(f0)~=size(A0))");
   endif
 
   % Initialise
