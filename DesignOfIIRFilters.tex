@@ -35419,7 +35419,10 @@ The resulting FIR impulse response is:
 \end{small}
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-lowpass-response} shows the
 amplitude and group delay response. The filter satisfies the constraints with
-no numerical problems.
+no numerical problems\footnote{The Octave script \emph{yalmip\_kyp\_bmibnb\_lowpass\_test.m} attempts to design
+a low pass FIR filter by calling the YALMIP \emph{bmibnb}
+solver with Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints}. YALMIP fails
+after timing out.}.
 \begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_lowpass_test_response}}
@@ -35429,10 +35432,6 @@ VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities}}
 \label{fig:Direct-FIR-nonsymmetric-KYP-lowpass-response}
 \end{figure}
 
-The Octave script \emph{directFIRnonsymmetric\_kyp\_bmi\_lowpass\_test.m}
-attempts to design this low pass filter by calling the YALMIP \emph{bmibnb}
-solver with Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints}. YALMIP fails
-after timing out.
 \subsubsection{Design of a non-symmetric FIR band pass filter with given pass
 band delay} 
 The Octave script \emph{directFIRnonsymmetric\_kyp\_bandpass\_test.m} uses
