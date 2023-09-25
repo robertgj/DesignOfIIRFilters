@@ -258,7 +258,7 @@ Constraints on the IIR filter response are applied by the
 \emph{Peak-Constrained-Least-Squares} (PCLS) exchange algorithm of
 \emph{Selesnick}, \emph{Lang} and
 \emph{Burrus}~\cite{SelesnickLangBurrus_ConstrainedLeastSquareMultiBandFIRFilters}.
-Appendix~\ref{app:Constrained-opt-FIR-digital-filters}
+Appendix~\ref{app:PCLS-design-non-symmetric-FIR-filters-SOCP}
 describes the use of the PCLS method of \emph{Selesnick et al.} to design 
 symmetric FIR filters with constraints on the filter amplitude response.
 
@@ -14718,10 +14718,7 @@ signed digits using the heuristics of \emph{Lim et al.} and \emph{Ito et al.}}
 \end{figure}
 \clearpage
 \section{Signed-digit allocation of the coefficients of a symmetric FIR band-pass filter}
-Appendix~\ref{app:Constrained-opt-FIR-digital-filters}
-describes the optimisation of even-order symmetric direct-form FIR filters
-with constraints on the amplitude response by the method of Lagrange
-multipliers. This section compares the performance of a direct-form even-order
+This section compares the performance of a direct-form even-order
 symmetric FIR bandpass with coefficients that are exact, rounded, approximated
 by two signed-digits and approximated by an average of two and three
 signed-digits allocated by the \emph{Lim} and \emph{Ito} heuristics.  The
@@ -15270,7 +15267,7 @@ A total of \input{bitflip_schurFIRlattice_bandpass_test_adders.tab}adders is
 required to implement these signed-digit coefficients.
 \section{Bit-flipping search for the signed-digit coefficients of a
   direct-form symmetric bandpass FIR filter}
-Appendix~\ref{app:Constrained-opt-FIR-digital-filters}
+Appendix~\ref{app:PCLS-design-non-symmetric-FIR-filters-SOCP}
 shows the design of a direct-form symmetric FIR bandpass filter with an
 amplitude response that is similar to that of the IIR examples above. The
 filter is linear phase and consequently has a flat group delay response.
@@ -17988,7 +17985,7 @@ has the expected weight $E[W]\ge\alpha W_{MC}$ where:
 \end{comment}
 
 \section{\label{sec:SDP-signed-digit-coefficients-direct-form-symmetricFIR}SDP optimisation of the signed-digit coefficients of a direct-form symmetric FIR filter}
-Following Appendix~\ref{app:Constrained-opt-FIR-digital-filters},
+Following Appendix~\ref{app:PCLS-design-non-symmetric-FIR-filters-SOCP},
 the components of the amplitude responses of a direct-form symmetic FIR filter
 with signed-digit coefficients are:
 \begin{align*}
@@ -26399,6 +26396,25 @@ pass-band and stop-band responses of the filter.
 \cleardoublepage{}
 \chapter{\label{app:Design-of-FIR-digital-filter-transfer-functions}Design of FIR digital filter transfer functions}
 This chapter reviews methods of designing FIR digital filter transfer functions.
+FIR filters are described by a transfer function polynomial in $z^{-1}$:
+\begin{align*}
+  H\left(z\right) &= \sum_{n=0}^{N} h_{n}z^{-n}
+\end{align*}
+This is called the \emph{direct-form} implementation of the FIR filter.
+An even-order, $N=2M$, symmetric FIR filter is assumed to have $M+1$
+distinct coefficients and odd length, $2M+1$, with $h_{2M-n}=h_{n}$. The
+\emph{direct-form} implementation of a symmetric FIR filter requires
+approximately half the number of multipliers used by the non-symmetric
+direct-form implementation. A symmetric FIR filter has a linear phase
+response or, equivalently, a constant group delay response. The
+\emph{transposed-direct-form} FIR filter is an alternative FIR filter
+implementation that uses \emph{Horner's Rule} to evaluate the filter polynomial:
+\begin{align*}
+  h\left(z\right) &= \left(\ldots\left(\left(h_{N}z^{-1}+h_{N-1}\right)z^{-1}+
+                    h_{N-2}\right)z^{-1}+ \ldots +h_{1}\right)z^{-1}+ h_{0}
+\end{align*}
+The transposed-direct-form pipelines the arithmetic operations but cannot
+make use of a symmetry in the filter polynomial.
 \section{\label{app:Low-passband-sensitivity-FIR-digital-filters}Low passband sensitivity FIR lattice filters}
 \subsection{\label{app:Lattice-decomposition-of-FIR-digital-filters}Lattice decomposition of an FIR digital filter}
 \emph{Vaidyanathan}~\cite{Vaidyanathan_PassiveCascadedLatticeFIR} describes the
@@ -27507,7 +27523,7 @@ I found that:
   unit-circle and \emph{minphase} fails
 \end{itemize}
 \clearpage
-\section{\label{sec:FIR-lattice-bandpass-Hilbert-filter}Design of an FIR lattice band-pass Hilbert filter}
+\subsection{\label{sec:FIR-lattice-bandpass-Hilbert-filter}Design of a complementary FIR lattice band-pass Hilbert filter}
 The Octave script \emph{complementaryFIRlattice\_socp\_slb\_bandpass\_test.m}
 designs a PCLS optimised FIR lattice Hilbert band-pass filter with order
 $16$. The filter specification is:
@@ -27586,22 +27602,35 @@ the complementary filter. The FIR lattice filters need not be minimum-phase.
 \end{figure}
 
 \clearpage
-\section{\label{app:Constrained-opt-FIR-digital-filters}Constrained
-  least-squared error optimisation of FIR digital filters}
-This section describes the design of constrained, symmetric, even-order, FIR
-filters by the method of Lagrange multipliers. It is based on the article by
-\emph{Selesnick}, \emph{Lang} and
-\emph{Burrus}~\cite{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters}.
-
-FIR filters are a subset of IIR filters. FIR filters are
-described by a transfer function polynomial in $z^{-1}$:
+\section{\label{app:Unconstrained-opt-FIR-digital-filters-SOCP}Design of FIR digital filters with unconstrained optimisation  of the piece-wise mean-squared error of the response}
+An FIR filter with zero-phase amplitude response
+$A\left(\omega\right)$, piece-wise constant desired amplitudes,
+$A_{k}$, and weights, $W_{k}$, over frequency regions
+$\Omega_{k}\subset\left[0,\pi\right]$, has piece-wise mean-squared-error:
 \begin{align*}
-  H\left(z\right) &= \sum_{n=0}^{N} h_{n}z^{-n}
+  \mathcal{E}_{k}^{2} &= \frac{1}{\pi}\int_{\Omega_{k}}W_{k}
+    \left[A\left(\omega\right)-A_{k}\right]^{2}d\omega
 \end{align*}
-This is called the \emph{direct-form} implementation of the FIR filter.
+If $\boldsymbol{h}$ is a vector containing the FIR filter impulse response, then
+the weighted sum of the piece-wise mean-squared-errors, $\mathcal{E}^{2}$, is a
+quadratic form:
+\begin{align}
+  \label{eqn:mean-squared-error-quadratic-form}
+  \mathcal{E}^{2}&=\boldsymbol{h}^{\top}\boldsymbol{Q}\boldsymbol{h}+
+                   2\boldsymbol{q}\boldsymbol{h}+c
+\end{align}
 
-The transfer function of an even-order, odd-length, $N=2M$, symmetric FIR
-filter is: 
+In this section I give examples of the optimisation of $\mathcal{E}^{2}$ without
+constraints on the response of the FIR filter. The examples show optimisation
+with the Octave \texttt{qp} function. In each case \texttt{qp} objective
+function is the mean-squared-error quadratic form shown in
+Equation~\ref{eqn:mean-squared-error-quadratic-form} and there are no \texttt{qp}
+constraints. I consider symmetric and non-symmetric FIR filters and
+usually assume that the filters are even-order and odd-length. 
+\subsection{Zero-phase  transfer functions of symmetric FIR filters}
+\subsubsection{Zero-phase transfer functions of even-order symmetric FIR filters}
+The transfer function of an even order, $N=2M$, odd length, $2M+1$,
+symmetric FIR filter is:  
 \begin{align*}
   H\left(z\right) &= \sum_{n=0}^{2M}h_{n}z^{-n} \\
   &= \sum_{n=0}^{M-1}h_{n}z^{-n} + h_{M}z^{-M} + \sum_{n=M+1}^{2M}h_{n}z^{-n} \\
@@ -27612,7 +27641,7 @@ where $h_{n}=h_{N-n}$. The zero-phase amplitude response is:
   A\left(\omega\right)
   &=h_{M}+\sum^{M-1}_{n=0}2h_{n}\cos\left[\left(M-n\right)\omega\right]
 \end{align*}
-
+\subsubsection{Zero-phase transfer functions of odd-order symmetric FIR filters}
 The transfer function of an odd-order, even-length, $N=2M-1$, symmetric FIR
 filter is: 
 \begin{align*}
@@ -27628,25 +27657,311 @@ where $h_{n}=h_{N-1-n}$ and $N=2M-1$. The zero-phase amplitude response is:
   A\left(\omega\right)
   &=2\sum^{M-1}_{n=0}h_{n}\cos\left[\left(M-\frac{1}{2}-n\right)\omega\right]
 \end{align*}
+\subsubsection{Zero-phase transfer functions of anti-symmetric FIR Hilbert filters}
+The frequency response of an ideal Hilbert transform filter
+is~\cite[pp.790-792]{OppenheimSchafer_DiscreteTimeSignalProcessing}:
+\begin{align*}
+  H\left(\omega\right) &= \begin{dcases}
+    -\imath & \phantom{-}0<\omega<\pi \\
+    \phantom{-}\imath & -\pi<\omega<0
+    \end{dcases}
+\end{align*}
 
+The corresponding impulse response is:
+\begin{align*}
+  \hat{h}_{k} &= \frac{1}{2\pi}\int^{0}_{-\pi}\imath e^{\imath \omega k}d\omega-
+  \frac{1}{2\pi}\int^{\pi}_{0}\imath e^{\imath{}\omega k}d\omega \\
+  &=\begin{dcases}
+  \frac{2}{\pi k}\sin{}^{2}\frac{\pi k}{2} & k \ne 0 \\
+  0 & k = 0
+  \end{dcases}
+\end{align*}
+Clearly $\hat{h}_{k}=-\hat{h}_{-k}$ and $\hat{h}_{2k}=0$.
+
+If the FIR Hilbert filter is truncated to even order $4M-2$ and odd length
+$4M-1$, then there are $M$ distinct coefficients, the group-delay of the filter
+is $2M-1$ samples and the z-transform of the filter is:  
+\begin{align*}
+  H\left(z\right)
+  &=z^{-2M+1}\sum_{k=-2M+1}^{2M-1}\hat{h}_{k}z^{-k}\\
+  &=z^{-2M+1}\sum_{k=1}^{2M-1}\hat{h}_{k}\left[z^{-k}-z^{k}\right]\\
+  &=z^{-2M+1}\sum_{k=1}^{M}\hat{h}_{2k-1}\left[z^{-2k+1}-z^{2k-1}\right]\\
+  &=z^{-2M+1}\sum_{k=0}^{M-1}\hat{h}_{2k+1}\left[z^{2k+1}-z^{-2k-1}\right] \\
+  &=z^{-2M+1}\sum_{k=0}^{M-1}h_{2M-2k-2}\left[z^{2k+1}-z^{-2k-1}\right]
+\end{align*}
+where $h_{k}=\hat{h}_{-2M+1+k}$, $h_{2M-1+k}=\hat{h}_{k}$ and
+$\hat{h}_{2k+1}=-\hat{h}_{-2k-1}=-h_{2M-2k-2}$. 
+The zero-phase amplitude response of the even order FIR Hilbert filter is:
+\begin{align}
+  \begin{split}
+  A\left(\omega\right) &= 2\sum_{k=0}^{M-1}h_{2M-2k-2}\sin\left(2k+1\right)\omega\\
+  &= 2\sum_{k=0}^{M-1}h_{2k}\sin\left(2M-2k-1\right)\omega                
+  \end{split}
+  \label{eqn:Even-order-FIR-Hilbert-amplitude-response}
+\end{align}
+
+Similarly, the distinct coefficients of an odd order $2M-1$, even length $2M$,
+FIR Hilbert filter are $\hat{h}_{k}$ with
+$k=\frac{1}{2},\frac{3}{2},\hdots,M-\frac{1}{2}$:
+\begin{align*}
+  H\left(z\right)
+  &=z^{-M+\frac{1}{2}}\sum_{k=-M+\frac{1}{2}}^{M-\frac{1}{2}}\hat{h}_{k}z^{-k}\\
+  &=z^{-M+\frac{1}{2}}\sum_{k=\frac{1}{2}}^{M-\frac{1}{2}}\hat{h}_{k}
+    \left[z^{-k}-z^{k}\right]\\
+  &=z^{-M+\frac{1}{2}}\sum_{k=0}^{M-1}\hat{h}_{k+\frac{1}{2}}
+    \left[z^{-k-\frac{1}{2}}-z^{k+\frac{1}{2}}\right]\\
+  &=z^{-M+\frac{1}{2}}\sum_{k=0}^{M-1}h_{M-1-k}
+    \left[z^{k+\frac{1}{2}}-z^{-k-\frac{1}{2}}\right]
+\end{align*}
+where $h_{k}=\hat{h}_{-M+\frac{1}{2}+k}$ and
+$h_{M-1-k}=-\hat{h}_{k+\frac{1}{2}}$. The zero-phase amplitude response is:
+\begin{align}
+  \begin{split}
+  A\left(\omega\right)
+  &= 2\sum_{k=0}^{M-1}h_{M-1-k}\sin\left(2k+1\right)\frac{\omega}{2} \\
+  &= 2\sum_{k=0}^{M-1}h_{k}\sin\left(2M-2k-1\right)\frac{\omega}{2}
+\end{split}
+  \label{eqn:Odd-order-FIR-Hilbert-amplitude-response}
+\end{align}
+Note that, in practice, the odd order $h_{k}$ is interpolated with zeros and
+Equation~\ref{eqn:Odd-order-FIR-Hilbert-amplitude-response} and 
+Equation~\ref{eqn:Even-order-FIR-Hilbert-amplitude-response} are effectively
+identical.
+
+\subsection{Piece-wise mean-squared-error of the response of an FIR filter}
+\subsubsection{Piece-wise mean-squared-error of the response of a symmetric FIR filter}
+If impulse response of a symmetric FIR
+filter is $\boldsymbol{h}=\left[h_{0}, \ldots ,h_{M}\right]^{\top}$ then:
+\begin{align*}
+  \int A\left(\omega\right)d\omega
+  &=h_{M}\omega+2\sum_{n=0}^{M-1}h_{n}\frac{\sin\left(M-n\right)\omega}{M-n}  
+\end{align*}
+and:
+\begin{align*}
+  \int A\left(\omega\right)^{2}d\omega =
+  & h_{M}^{2}\omega
+   -4h_{M}\sum_{n=0}^{M-1}h_{n}\frac{\sin\left(M-n\right)\omega}{M-n}\quad\ldots\\
+  & +2\sum_{n=0}^{M-1}\sum_{m=0}^{M-1}h_{n}h_{m}
+    \frac{\sin\left(2M-m-n\right)\omega}{2M-m-n}
+    +2\sum_{n=0}^{M-1}h_{n}^{2}\omega
+    +2\sum_{n=0}^{M-1}\sum_{m=0,m\ne n}^{M-1}h_{n}h_{m}
+    \frac{\sin\left(n-m\right)\omega}{n-m}
+\end{align*}
+Similarly, the gradient of the mean-squared error with respect to the
+coefficients is:
+\begin{align*}
+  \frac{\partial\mathcal{E}}{\partial h_{n}} 
+  &= \frac{2}{\pi}\int_{\Omega_{k}}W_{k}
+    \left[A\left(\omega\right)-A_{k}\right]
+    \frac{\partial A\left(\omega\right)}{\partial h_{n}}d\omega
+\end{align*}
+which can be expressed in the form
+$2\boldsymbol{q}+2\boldsymbol{Q}\boldsymbol{h}$. The components of
+$\boldsymbol{q}$ and $\boldsymbol{Q}$ are found with:
+\begin{align*}
+  \int \frac{\partial A\left(\omega\right)}{\partial h_{n}}d\omega
+  &= \begin{dcases}
+    2\frac{\sin\left(M-n\right)\omega}{M-n}  & n=0, \ldots ,M-1 \\
+    \omega & n=M
+    \end{dcases}
+\end{align*}
+and:
+\begin{align*}
+  \int A\left(\omega\right)
+  \frac{\partial A\left(\omega\right)}{\partial h_{n}}d\omega
+&= \begin{dcases}
+ 2\sum_{m=0}^{M}h_{m}\frac{\sin\left(2M-m-n\right)\omega}{2M-m-n}
+ +2h_{n}\omega+2\sum_{m=0,m\ne n}^{M-1}h_{m}\frac{\sin\left(n-m\right)\omega}{n-m} &
+ n=0,\ldots,M-1 \\
+ h_{M}\omega +2\sum_{m=0}^{M-1}h_{m}\frac{\sin\left(M-m\right)\omega}{M-m} & n=M
+\end{dcases}
+\end{align*}
+since, for $n=0,\ldots ,M-1$:
+\begin{align*}
+ \int A\left(\omega\right)\cos\left(M-n\right)\omega\;d\omega &=
+ \sum_{m=0}^{M}h_{m}\int\cos\left(2M-m-n\right)\omega\;d\omega 
+ + \sum_{m=0}^{M-1}h_{m}\int\cos\left(n-m\right)\omega\;d\omega
+\end{align*}
+
+The Octave function \emph{directFIRsymmetricEsqPW} implements the piece-wise
+calculation of $\mathcal{E}^{2}$, and its gradients with respect to the
+coefficients, $h_{n}$, of a symmetric FIR filter.
+\subsubsection{Piece-wise mean-squared-error of the response of a non-symmetric FIR
+  filter}
+If the impulse response of a non-symmetric filter is 
+$\boldsymbol{h}=\left[h_{0}, \ldots ,h_{N}\right]^{\top}$ and the nominal
+FIR filter delay, $0<d_{k}<N$, is an integral number of samples,
+then the mean-squared-error over each frequency region $\Omega_{k}$ is:
+\begin{align*}
+  \mathcal{E}_{k}^{2}
+  &=\frac{1}{\pi}\int_{\Omega_{k}} W_{k}\left| H\left(\omega\right)-
+    A_{k}e^{-\imath{}d_{k}\omega} \right|^{2}d\omega\\
+  &=\frac{1}{\pi}\int_{\Omega_{k}}W_{k}\left[\sum_{n=0}^{N}h_{n}e^{-\imath{}n\omega}-
+    A_{k}e^{-\imath{}d_{k}\omega}\right]
+    \left[\sum_{n=0}^{N}h_{n}e^{\imath{}n\omega}-
+    A_{k}e^{\imath{}d_{k}\omega}\right]
+    d\omega\\
+  &=\frac{1}{\pi}\int_{\Omega_{k}}W_{k}\left[
+    \sum_{n=0}^{N}\sum_{m=0}^{N}h_{n}h_{m}\cos \left(n-m\right)\omega
+    -2A_{k}\sum_{n=0}^{N}h_{n}\cos\left(n-d_{k}\right)\omega +
+    A_{k}^{2}\right]d\omega\\
+  &=\frac{1}{\pi}W_{k}\left[\omega\sum_{n=0}^{N}h_{n}^{2}
+ + \sum_{m=0}^{N}\sum_{m=0,m\ne{}n}^{N}h_{n}h_{m}
+    \frac{\sin\left(n-m\right)\omega}{n-m}
+ -2 A_{k}h_{d_{k}}\omega
+ -2A_{k}\sum_{n=0,n\ne{}d_{k}}^{N}h_{n}\frac{\sin\left(n-d_{k}\right)\omega}{n-d_{k}}
+ +A_{k}^{2}\omega\right]_{\Omega_{k}}
+\end{align*}
+In stop bands the nominal delay, $d_{k}$, is assumed to be zero. 
+The Octave function \emph{directFIRnonsymmetricEsqPW.m} calculates the
+piece-wise calculation of $\mathcal{E}^{2}$, and its gradients
+with respect to the coefficients, $h_{n}$, of a non-symmetric FIR filter.
+\subsubsection{Piece-wise mean-squared-error of the response of an anti-symmetric FIR
+  Hilbert filter}
+The piece-wise mean-squared-error of the response of an anti-symmetric FIR
+Hilbert filter is calculated in a similar fashion to that of a symmetric FIR
+filter. The Octave function \emph{directFIRhilbertEsqPW} implements the
+piece-wise calculation of $\mathcal{E}^{2}$, and its gradients with respect to
+the coefficients, $h_{n}$, of an anti-symmetric FIR Hilbert filter.
+\subsection{Examples of the design of  FIR filters with unconstrained optimisation}
+
+\subsubsection{Design of  FIR low-pass filters with unconstrained optimisation}
+The Octave script \emph{qp\_lowpass\_filter.m} uses
+\texttt{qp} to design a low-pass filter with unconstrained optimisation.
+The filter specification is similar to a \emph{Parks-McClellan} low-pass filter
+example~\cite[Table
+I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}. The filter is
+designed as both a symmetric FIR filter and a non-symmetric filter with nominal
+delay $M/2$ samples. The filter specification is:
+\begin{small}
+\verbatiminput{qp_lowpass_test.spec}
+\end{small}
+
+Figure~\ref{fig:qp_symmetric_FIR_lowpass_response} shows the amplitude
+response of the symmetric FIR filter. The symmetric FIR filter coefficients are:
+\begin{small}
+\verbatiminput{qp_lowpass_test_h_coef.m}
+\end{small}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{qp_lowpass_test_h_response}}
+\caption{Amplitude response of a symmetric FIR low-pass filter designed
+  with unconstrained optimisation.}
+\label{fig:qp_symmetric_FIR_lowpass_response}
+\end{figure}
+
+For comparison, Figure~\ref{fig:mcclellan_FIR_lowpass_response} shows the
+response of a symmetric FIR filter designed with the \emph{Parks-McClellan}
+algorithm shown in Appendix~\ref{sec:Parks-McClellan-mini-max-FIR} implemented
+by the Octave function \emph{mcclellanFIRsymmetric}. The filter distinct filter
+coefficients are:
+\begin{small}
+\verbatiminput{qp_lowpass_test_hPM_coef.m}
+\end{small}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{qp_lowpass_test_hPM_response}}
+\caption{Amplitude response of a symmetric FIR low-pass filter designed
+  with the Parks-McClellan algorithm.}
+\label{fig:mcclellan_FIR_lowpass_response}
+\end{figure}
+
+Figure~\ref{fig:qp_nonsymmetric_FIR_lowpass_response} shows the
+amplitude and group delay responses of the non-symmetric low-pass FIR filter
+with nominal delay $M/2$ samples. The non-symmetric FIR filter coefficients are:
+\begin{small}
+\verbatiminput{qp_lowpass_test_hd_coef.m}
+\end{small}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{qp_lowpass_test_hd_response}}
+\caption{Amplitude and group delay responses of a non-symmetric FIR low-pass
+  filter designed with unconstrained optimisation.}
+\label{fig:qp_nonsymmetric_FIR_lowpass_response}
+\end{figure}
+
+\subsubsection{Design of  FIR band-pass filters with unconstrained optimisation}
+The Octave script \emph{qp\_bandpass\_filter.m} uses
+\texttt{qp} to design a band-pass filter with unconstrained optimisation.
+The filter is designed as both a symmetric FIR filter and a non-symmetric filter
+with nominal delay $M/2$ samples. The filter specification is:
+\begin{small}
+\verbatiminput{qp_bandpass_test.spec}
+\end{small}
+
+Figure~\ref{fig:qp_symmetric_FIR_bandpass_response} shows the amplitude
+response of the symmetric FIR filter. The symmetric FIR filter coefficients are:
+\begin{small}
+\verbatiminput{qp_bandpass_test_h_coef.m}
+\end{small}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{qp_bandpass_test_h_response}}
+\caption{Amplitude response of a symmetric FIR band-pass filter designed
+  with unconstrained optimisation.}
+\label{fig:qp_symmetric_FIR_bandpass_response}
+\end{figure}
+
+For comparison, Figure~\ref{fig:mcclellan_FIR_bandpass_response} shows the
+response of a symmetric FIR filter designed with the \emph{Parks-McClellan}
+algorithm shown in Appendix~\ref{sec:Parks-McClellan-mini-max-FIR} implemented
+by the Octave function \emph{mcclellanFIRsymmetric}. The filter distinct filter
+coefficients are:
+\begin{small}
+\verbatiminput{qp_bandpass_test_hPM_coef.m}
+\end{small}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{qp_bandpass_test_hPM_response}}
+\caption{Amplitude response of a symmetric FIR band-pass filter designed
+  with the Parks-McClellan algorithm.}
+\label{fig:mcclellan_FIR_bandpass_response}
+\end{figure}
+
+Figure~\ref{fig:qp_nonsymmetric_FIR_bandpass_response} shows the
+amplitude and group delay responses of the non-symmetric band-pass FIR filter
+with nominal delay $M/2$ samples. The non-symmetric FIR filter coefficients are:
+\begin{small}
+\verbatiminput{qp_bandpass_test_hd_coef.m}
+\end{small}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{qp_bandpass_test_hd_response}}
+\caption{Amplitude and group delay responses of a non-symmetric FIR band-pass
+  filter designed with unconstrained optimisation.}
+\label{fig:qp_nonsymmetric_FIR_bandpass_response}
+\end{figure}
+\clearpage
+\subsubsection{Design of  an anti-symmetric FIR Hilbert filter with unconstrained
+  optimisation}
+The Octave script \emph{qp\_hilbert\_filter.m} uses
+\texttt{qp} to design an anti-symmetric FIR Hilbert filter with unconstrained
+optimisation. The filter specification is:
+\begin{small}
+\verbatiminput{qp_hilbert_test.spec}
+\end{small}
+
+Figure~\ref{fig:qp_antisymmetric_FIR_Hilbert_response} shows the amplitude
+response of the anti-symmetric FIR Hilbert filter. The distinct filter
+coefficients are:
+\begin{small}
+\verbatiminput{qp_hilbert_test_hM_coef.m}
+\end{small}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{qp_hilbert_test_response}}
+\caption{Amplitude response of an anti-symmetric FIR Hilbert filter designed
+  with unconstrained optimisation.}
+\label{fig:qp_antisymmetric_FIR_Hilbert_response}
+\end{figure}
+\clearpage
+\section{\label{app:PCLS-design-symmetric-FIR-digital-filters-Lagrange-multipliers}PCLS design of symmetric FIR digital filters with Lagrange multipliers}
+This section describes peak-constrained-least-squares (PCLS) design of
+non-symmetric FIR filters with optimisation by Lagrange multipliers and the
+exchange algorithm of \emph{Selesnick}, \emph{Lang} and
+\emph{Burrus}~\cite{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters}.
 In the following, I will almost always consider odd-length, even-order,
 symmetric FIR filters.
-
-The \emph{symmetric-direct-form} implementation requires approximately half the
-number of multipliers used by the direct-form implementation. A symmetric FIR
-filter has a linear phase response or, equivalently, a constant group delay
-response. The direct-form and symmetric-direct-form FIR filter implementations
-combine all multiplications and additions into a single calculation. These
-arithmetic operations could be pipelined in a tree structure at the expense of
-increased delay through the filter. The \emph{transposed-direct-form} FIR filter
-is an alternative FIR filter implementation that uses \emph{Horner's Rule} to
-evaluate the filter polynomial:
-\begin{align*}
-  h\left(z\right) &= \left(\ldots\left(\left(h_{N}z^{-1}+h_{N-1}\right)z^{-1}+
-                    h_{N-2}\right)z^{-1}+ \ldots +h_{1}\right)z^{-1}+ h_{0}
-\end{align*}
-The transposed-direct-form pipelines the arithmetic operations but cannot
-make use of a symmetry in the filter polynomial.
 
 Given a desired amplitude response, $A_{d}\left(\omega\right)$, and a weight
 function, $W\left(\omega\right)$, the mean-squared-error of the amplitude
@@ -27732,76 +28047,12 @@ of the response. If any Lagrange multipliers are negative at some iteration
 then the corresponding constraint frequencies are sequentially dropped so that
 an inequality-constrained problem is solved.
 
-\subsection{\label{app:Examples-design-symmetric-FIR-band-pass-filter}Examples of the design of constrained least-squared error symmetric FIR filters}
-This section shows an example of the design of an even-order, symmetric, FIR
+\subsection{\label{app:Examples-design-symmetric-FIR-band-pass-filter}Examples of the design of constrained least-squared error symmetric FIR filters with
+optimisation by the method of Lagrange multipliers}
+This section shows examples of the design of an even-order, symmetric, FIR
 filter by the exchange algorithm described by \emph{Selesnick et 
 al.}~\cite[p.498]{SelesnickLangBurrus_ConstrainedLeastSquareMultiBandFIRFilters}
 and summarised in Section~\ref{sub:Choice-of-Active-Constraints}.
-The impulse response is $\boldsymbol{h}=\left[h_{0}, \ldots ,h_{M}\right]^{\top}$
-with piece-wise constant desired amplitude, $A_{d}\left(k\right)$, and
-weight, $W\left(k\right)$, over contiguous regions
-$\Omega_{k}\subset\left[0,\pi\right]$.
-
-In each region, $\Omega_{k}$, the mean-squared error is:
-\begin{align*}
-  \mathcal{E} &= \frac{1}{\pi}\int_{\Omega_{k}}W\left(k\right)
-    \left[A\left(\omega\right)-A_{d}\left(k\right)\right]^{2}d\omega
-\end{align*}
-where:
-\begin{align*}
-  \int A\left(\omega\right)d\omega
-  &=h_{M}\omega+2\sum_{n=0}^{M-1}h_{n}\frac{\sin\left(M-n\right)\omega}{M-n}  
-\end{align*}
-and:
-\begin{align*}
-  \int A\left(\omega\right)^{2}d\omega =
-  & h_{M}^{2}\omega
-   -4h_{M}\sum_{n=0}^{M-1}h_{n}\frac{\sin\left(M-n\right)\omega}{M-n}\quad\ldots\\
-  & +2\sum_{n=0}^{M-1}\sum_{m=0}^{M-1}h_{n}h_{m}
-    \frac{\sin\left(2M-m-n\right)\omega}{2M-m-n}
-    +2\sum_{n=0}^{M-1}h_{n}^{2}\omega
-    +2\sum_{n=0}^{M-1}\sum_{m=0,m\ne n}^{M-1}h_{n}h_{m}
-    \frac{\sin\left(n-m\right)\omega}{n-m}
-\end{align*}
-Similarly, the gradient of the mean-squared error with respect to the
-coefficients is:
-\begin{align*}
-  \frac{\partial\mathcal{E}}{\partial h_{n}} 
-  &= \frac{2}{\pi}\int_{\Omega_{k}}W\left(k\right)
-    \left[A\left(\omega\right)-A_{d}\left(k\right)\right]
-    \frac{\partial A\left(\omega\right)}{\partial h_{n}}d\omega
-\end{align*}
-which can be expressed in the form
-$2\boldsymbol{q}+2\boldsymbol{Q}\boldsymbol{h}$. The components of
-$\boldsymbol{q}$ and $\boldsymbol{Q}$ are found with:
-\begin{align*}
-  \int \frac{\partial A\left(\omega\right)}{\partial h_{n}}d\omega
-  &= \begin{dcases}
-    2\frac{\sin\left(M-n\right)\omega}{M-n}  & n=0, \ldots ,M-1 \\
-    \omega & n=M
-    \end{dcases}
-\end{align*}
-and:
-\begin{align*}
-  \int A\left(\omega\right)
-  \frac{\partial A\left(\omega\right)}{\partial h_{n}}d\omega
-&= \begin{dcases}
- 2\sum_{m=0}^{M}h_{m}\frac{\sin\left(2M-m-n\right)\omega}{2M-m-n}
- +2h_{n}\omega+2\sum_{m=0,m\ne n}^{M-1}h_{m}\frac{\sin\left(n-m\right)\omega}{n-m} &
- n=0,\ldots,M-1 \\
- h_{M}\omega +2\sum_{m=0}^{M-1}h_{m}\frac{\sin\left(M-m\right)\omega}{M-m} & n=M
-\end{dcases}
-\end{align*}
-since, for $n=0,\ldots ,M-1$:
-\begin{align*}
- \int A\left(\omega\right)\cos\left(M-n\right)\omega\;d\omega &=
- \sum_{m=0}^{M}h_{m}\int\cos\left(2M-m-n\right)\omega\;d\omega 
- + \sum_{m=0}^{M-1}h_{m}\int\cos\left(n-m\right)\omega\;d\omega
-\end{align*}
-
-The octave function \emph{directFIRsymmetricEsqPW} implements the
-\emph{piece-wise} calculation of $\mathcal{E}$ and its gradients with
-respect to $h_{n}$.
 \subsubsection{\label{app:Design-symmetric-FIR-low-pass-filter}Design of a
   constrained least-squared error symmetric FIR low-pass filter}
 The Octave script \emph{directFIRsymmetric\_slb\_lowpass\_test.m}
@@ -27828,9 +28079,9 @@ coefficients are:
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_slb_lowpass_test_response}}
-\caption{Amplitude response of the initial FIR low-pass filter, upper and lower
-  response constraint mask and the optimised low-pass FIR filter designed
-  with the method of Lagrange multipliers and the exchange algorithm of
+\caption{Amplitude response of the initial FIR low-pass filter
+  and the optimised low-pass FIR filter designed
+  with Lagrange multipliers and the exchange algorithm of
   \emph{Selesnick et al.}\;.}
 \label{fig:Symmetric_FIR_lowpass_response}
 \end{figure}
@@ -27843,10 +28094,10 @@ constraint relaxed.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_slb_lowpass_test_truncated}}
-\caption{Amplitude response of the initial FIR low-pass filter, upper and lower
-  response constraint mask and the optimised band pass FIR filter designed
+\caption{Amplitude response of the initial FIR low-pass filter
+  and the optimised band pass FIR filter designed
   with one coefficient rounded and the remaining coefficients optimised by
-  the method of Lagrange multipliers and the exchange algorithm of
+  the Lagrange multipliers and the exchange algorithm of
   \emph{Selesnick et al.}\;.}
 \label{fig:Symmetric_FIR_lowpass_truncated}
 \end{figure}
@@ -27861,111 +28112,36 @@ specification is:
 \begin{small}
 \verbatiminput{directFIRsymmetric_slb_bandpass_test.spec}
 \end{small}
-The amplitude responses of the initial and optimised band-pass filters are 
-shown in Figure~\ref{fig:Symmetric_FIR_bandpass_response}. The distinct
-optimised filter coefficients are:
+Figure~\ref{fig:Symmetric_FIR_bandpass_response} shows the amplitude responses
+of the initial and optimised band-pass filters. The distinct optimised filter
+coefficients are:
 \begin{small}
 \verbatiminput{directFIRsymmetric_slb_bandpass_test_hM1_coef.m}
 \end{small}
-
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_slb_bandpass_test_response}}
-\caption{Amplitude response of the initial FIR band-pass filter, upper and lower
-  response constraint mask and the optimised band-pass FIR filter designed
-  with the method of Lagrange multipliers and the exchange algorithm of
+\caption{Amplitude response of the initial FIR band-pass filter
+  and the optimised band-pass FIR filter designed
+  with Lagrange multipliers and the exchange algorithm of
   \emph{Selesnick et al.}\;.}
 \label{fig:Symmetric_FIR_bandpass_response}
 \end{figure}
-
 Figure~\ref{fig:Symmetric_FIR_bandpass_truncated} shows the initial response
 and the response obtained when three coefficients of the exact solution are
 rounded and the remaining coefficients are optimised with the stop-band ripple
 constraint relaxed.
-
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_slb_bandpass_test_truncated}}
-\caption{Amplitude response of the initial FIR band-pass filter, upper and lower
-  response constraint mask and the optimised band-pass FIR filter designed
+\caption{Amplitude response of the initial FIR band-pass filter
+  and the optimised band-pass FIR filter designed
   with three coefficients rounded and the remaining coefficients optimised by
-  the method of Lagrange multipliers and the exchange algorithm of
+  Lagrange multipliers and the exchange algorithm of
   \emph{Selesnick et al.}\;.}
 \label{fig:Symmetric_FIR_bandpass_truncated}
 \end{figure}
-\clearpage
-\section{\label{app:Constrained-opt-FIR-Hilbert-digital-filters}Constrained least-mean-squared error optimisation of FIR Hilbert digital filters}
-\subsection{Frequency response of a Hilbert filter}
-The frequency response of an ideal Hilbert transform filter
-is~\cite[pp.790-792]{OppenheimSchafer_DiscreteTimeSignalProcessing}:
-\begin{align*}
-  H\left(\omega\right) &= \begin{dcases}
-    -\imath & \phantom{-}0<\omega<\pi \\
-    \phantom{-}\imath & -\pi<\omega<0
-    \end{dcases}
-\end{align*}
-
-The corresponding impulse response is:
-\begin{align*}
-  \hat{h}_{k} &= \frac{1}{2\pi}\int^{0}_{-\pi}\imath e^{\imath \omega k}d\omega-
-  \frac{1}{2\pi}\int^{\pi}_{0}\imath e^{\imath{}\omega k}d\omega \\
-  &=\begin{dcases}
-  \frac{2}{\pi k}\sin{}^{2}\frac{\pi k}{2} & k \ne 0 \\
-  0 & k = 0
-  \end{dcases}
-\end{align*}
-Clearly $\hat{h}_{k}=-\hat{h}_{-k}$ and $\hat{h}_{2k}=0$.
-
-If the FIR Hilbert filter is truncated to even order $4M-2$ and odd length
-$4M-1$, then there are $M$ distinct coefficients, the group-delay of the filter
-is $2M-1$ samples and the z-transform of the filter is:  
-\begin{align*}
-  H\left(z\right)
-  &=z^{-2M+1}\sum_{k=-2M+1}^{2M-1}\hat{h}_{k}z^{-k}\\
-  &=z^{-2M+1}\sum_{k=1}^{2M-1}\hat{h}_{k}\left[z^{-k}-z^{k}\right]\\
-  &=z^{-2M+1}\sum_{k=1}^{M}\hat{h}_{2k-1}\left[z^{-2k+1}-z^{2k-1}\right]\\
-  &=z^{-2M+1}\sum_{k=0}^{M-1}\hat{h}_{2k+1}\left[z^{2k+1}-z^{-2k-1}\right] \\
-  &=z^{-2M+1}\sum_{k=0}^{M-1}h_{2M-2k-2}\left[z^{2k+1}-z^{-2k-1}\right]
-\end{align*}
-where $h_{k}=\hat{h}_{-2M+1+k}$, $h_{2M-1+k}=\hat{h}_{k}$ and
-$\hat{h}_{2k+1}=-\hat{h}_{-2k-1}=-h_{2M-2k-2}$. 
-The zero-phase amplitude response of the even order FIR Hilbert filter is:
-\begin{align}
-  \begin{split}
-  A\left(\omega\right) &= 2\sum_{k=0}^{M-1}h_{2M-2k-2}\sin\left(2k+1\right)\omega\\
-  &= 2\sum_{k=0}^{M-1}h_{2k}\sin\left(2M-2k-1\right)\omega                
-  \end{split}
-  \label{eqn:Even-order-FIR-Hilbert-amplitude-response}
-\end{align}
-
-Similarly, the distinct coefficients of an odd order $2M-1$, even length $2M$,
-FIR Hilbert filter are $\hat{h}_{k}$ with
-$k=\frac{1}{2},\frac{3}{2},\hdots,M-\frac{1}{2}$:
-\begin{align*}
-  H\left(z\right)
-  &=z^{-M+\frac{1}{2}}\sum_{k=-M+\frac{1}{2}}^{M-\frac{1}{2}}\hat{h}_{k}z^{-k}\\
-  &=z^{-M+\frac{1}{2}}\sum_{k=\frac{1}{2}}^{M-\frac{1}{2}}\hat{h}_{k}
-    \left[z^{-k}-z^{k}\right]\\
-  &=z^{-M+\frac{1}{2}}\sum_{k=0}^{M-1}\hat{h}_{k+\frac{1}{2}}
-    \left[z^{-k-\frac{1}{2}}-z^{k+\frac{1}{2}}\right]\\
-  &=z^{-M+\frac{1}{2}}\sum_{k=0}^{M-1}h_{M-1-k}
-    \left[z^{k+\frac{1}{2}}-z^{-k-\frac{1}{2}}\right]
-\end{align*}
-where $h_{k}=\hat{h}_{-M+\frac{1}{2}+k}$ and
-$h_{M-1-k}=-\hat{h}_{k+\frac{1}{2}}$. The zero-phase amplitude response is:
-\begin{align}
-  \begin{split}
-  A\left(\omega\right)
-  &= 2\sum_{k=0}^{M-1}h_{M-1-k}\sin\left(2k+1\right)\frac{\omega}{2} \\
-  &= 2\sum_{k=0}^{M-1}h_{k}\sin\left(2M-2k-1\right)\frac{\omega}{2}
-\end{split}
-  \label{eqn:Odd-order-FIR-Hilbert-amplitude-response}
-\end{align}
-Note that, in practice, the odd order $h_{k}$ is interpolated with zeros and
-Equation~\ref{eqn:Odd-order-FIR-Hilbert-amplitude-response} and 
-Equation~\ref{eqn:Even-order-FIR-Hilbert-amplitude-response} are effectively
-identical.
-\subsection{\label{app:Design-even-order-FIR-Hilbert-filter}Design of a
+\subsubsection{\label{app:Design-even-order-FIR-Hilbert-filter}Design of a
   least-mean-squared error even-order FIR Hilbert filter} 
 The design problem is to minimise the mean-squared-error subject to
 constraints on the zero-phase amplitude response of the Hilbert filter:
@@ -27978,7 +28154,7 @@ constraints on the zero-phase amplitude response of the Hilbert filter:
 where $Ad\left(\omega\right)=-1$.
 
 In a similar fashion to that shown in
-Appendix~\ref{app:Constrained-opt-FIR-digital-filters},
+Appendix~\ref{app:PCLS-design-non-symmetric-FIR-filters-SOCP},
 the method of \emph{Lagrange multipliers} optimises the mean-squared-error
 by solving the following system of equations for $\lambda_{p}$, $\lambda_{q}$
 and the coefficients of an even order $4M-2$ Hilbert filter,
@@ -28032,8 +28208,8 @@ is solved by left division in the Octave function
 The group delay of the filter is $2M-1$ samples. The bandwidth of the constrained
 Hilbert filter is slightly wider than that of the initial unconstrained
 filter. The absolute value of the PCLS pass-band response is constrained to be
-less than $1$. The amplitude responses of the initial and optimised Hilbert
-filters are shown in Figure~\ref{fig:Symmetric_FIR_Hilbert_response}. The FIR
+less than $1$. Figure~\ref{fig:Symmetric_FIR_Hilbert_response} shows the
+amplitude responses of the initial and optimised Hilbert filters. The FIR
 Hilbert filter pass-band response is symmetrical about the frequency $0.25$,
 where the sampling rate is normalised to $1$. The distinct optimised filter
 coefficients are:
@@ -28051,51 +28227,49 @@ h=kron([hM2(:);-flipud(hM2(:))],[1;0])(1:(end-1));
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRhilbert_slb_test_response}}
 \caption{Amplitude response of the initial FIR Hilbert filter and the
-  optimised FIR Hilbert filter designed with the method of Lagrange
+  optimised FIR Hilbert filter designed with Lagrange
   multipliers and the exchange algorithm of \emph{Selesnick et al.}\;.}
 \label{fig:Symmetric_FIR_Hilbert_response}
 \end{figure}
-
-\subsection{\label{app:Design-even-order-FIR-Hilbert-bandpass-filter}Design of a least-mean-squared error even-order FIR Hilbert band-pass filter}
+\clearpage
+\subsubsection{\label{app:Design-even-order-FIR-Hilbert-bandpass-filter}Design of a least-mean-squared error even-order FIR Hilbert band-pass filter}
 The Octave script \emph{directFIRhilbert\_bandpass\_slb\_test.m} designs an FIR
 Hilbert filter with a band-pass response. The corresponding filter specification
 is:
 \begin{small}
 \verbatiminput{directFIRhilbert_bandpass_slb_test.spec}
 \end{small}
-The amplitude responses of the initial and optimised Hilbert filters are
-shown in Figure~\ref{fig:Symmetric_FIR_Hilbert_bandpass_response}.
-The pass-band responses are shown in
-Figure~\ref{fig:Symmetric_FIR_Hilbert_bandpass_passband_response}. The distinct
-optimised filter coefficients are: 
-\begin{small}
-\verbatiminput{directFIRhilbert_bandpass_slb_test_hM2_coef.m}
-\end{small}
-
+Figure~\ref{fig:Symmetric_FIR_Hilbert_bandpass_response} shows the amplitude
+responses of the initial and optimised band-pass Hilbert filters
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRhilbert_bandpass_slb_test_response}}
-\caption{Amplitude response of the initial FIR Hilbert filter and the
-  optimised FIR Hilbert bandpass filter designed with the method of Lagrange
+\caption{Amplitude response of the initial band-pass FIR Hilbert filter and the
+  optimised FIR Hilbert bandpass filter designed with Lagrange
   multipliers and the exchange algorithm of \emph{Selesnick et al.}\;.}
 \label{fig:Symmetric_FIR_Hilbert_bandpass_response}
 \end{figure}
-
+Figure~\ref{fig:Symmetric_FIR_Hilbert_bandpass_passband_response} shows
+the pass-band responses. The distinct optimised filter coefficients are: 
+\begin{small}
+\verbatiminput{directFIRhilbert_bandpass_slb_test_hM2_coef.m}
+\end{small}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRhilbert_bandpass_slb_test_passband_response}}
-\caption{Pass-band amplitude response of the initial FIR Hilbert bandpass filter
-  and the optimised FIR Hilbert bandpass filter designed with the method of
+\caption{Pass-band amplitude response of the initial band-pass FIR Hilbert filter
+  and the optimised FIR Hilbert bandpass filter designed with 
   Lagrange multipliers and the exchange algorithm of \emph{Selesnick et al.}\;.}
 \label{fig:Symmetric_FIR_Hilbert_bandpass_passband_response}
 \end{figure}
-
 \clearpage
-\section{\label{app:PCLS-design-non-symmetric-FIR-filters}Peak-constrained-least-squares design of non-symmetric FIR filters}
+\section{\label{app:PCLS-design-non-symmetric-FIR-filters-SOCP}PCLS design of non-symmetric FIR filters with SOCP}
 This section describes peak-constrained-least-squares (PCLS) design of
 non-symmetric FIR filters with SOCP optimisation and the exchange algorithm
 of \emph{Selesnick}, \emph{Lang} and
-\emph{Burrus}~\cite{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters}. 
+\emph{Burrus}~\cite{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters}.
+The results of this section are, of course, also applicable to the design of
+symmetric FIR filters.
 \subsection{\label{app:Frequency-response-gradients-nonsymmetric-FIR}Frequency
 response and gradients of a non-symmetric FIR filter}
 The complex frequency response of an order $N$ non-symmetric FIR filter with
@@ -28175,8 +28349,8 @@ T\left(\omega\right)
 The calculation of the group delay response of a non-symmetric FIR filter
 is implemented in the Octave function \emph{directFIRnonsymmetricT.m}
 exercised by the Octave script \emph{directFIRnonsymmetricT\_test.m}.
-\subsection{\label{app:Examples-PCLS-design-nonsymmetric-FIR}Examples of the PCLS
-design of non-symmetric FIR filters}
+\subsection{\label{app:Examples-PCLS-design-nonsymmetric-FIR}Examples of the
+  PCLS design of non-symmetric FIR filters with SOCP optimisation}
 \subsubsection{\label{app:Design-socp-slb-non-symmetric-FIR-low-pass-filter}Design of a non-symmetric FIR low pass filter}
 The Octave script \emph{directFIRnonsymmetric\_socp\_slb\_lowpass\_test.m}
 designs a low pass non-symmetric FIR filter with a nominal pass band delay using
@@ -28563,7 +28737,7 @@ amplitude response of the half-band filter. The distinct filter coefficients are
 
 Assuming $M$ is odd, the following Octave code converts an even-order half-band
 filter with $M+1$ distinct coefficients, $h_{M}$, into a Hilbert filter (see
-Section~\ref{app:Constrained-opt-FIR-Hilbert-digital-filters}) and plots the
+Section~\ref{app:PCLS-design-non-symmetric-FIR-filters-SOCP}) and plots the
 amplitude response:  
 \begin{small}
 \begin{verbatim}
@@ -33212,7 +33386,7 @@ The corresponding $z$-domain discrete-time impulse response coefficients are:
 \label{fig:Zolotarev-Vlcek-Zahradnik-p-4-q-11-response}
 \end{figure}
 
-The Octave script \emph{zolotarev\_vlcek\_zahradnik\_test.m} also reproduces
+The Octave script \emph{zolotarev\_vlcek\_zahradnik\_test.m} reproduces
 \emph{Vl\v{c}ek} and \emph{Zahradn\'{i}k}'s Figure $5$, shown here as
 Figure~\ref{fig:Zolotarev-Vlcek-Zahradnik-p-100-q-300-response}.
 \begin{figure}
@@ -35120,34 +35294,11 @@ response is $\Delta=1$ in the pass-band and $\Delta=0$ otherwise.
 
 \paragraph{Squared error calculation}
 The Octave function \emph{directFIRnonsymmetricEsqPW.m} calculates the
-piece-wise weighted mean-squared-error of the response. Over each piece, $p$,
-for frequency range $\left[\omega_{pl},\omega_{pu}\right]$:
-\begin{align*}
-  \mathcal{E}_{p}^{2}
-  &=\frac{1}{\pi}\int_{\omega_{pl}}^{\omega_{pu}}
-    |H\left(\omega\right)-R_{p}e^{-\imath{}d_{p}\omega}|^{2}d\omega\\
-  &=\frac{1}{\pi}\int_{\omega_{pl}}^{\omega_{pu}}
-    \left[\sum_{k=0}^{n}h_{k}e^{-\imath{}k\omega}-R_{p}e^{-\imath{}d_{p}\omega}\right]
-    \left[\sum_{k=0}^{n}h_{k}e^{\imath{}k\omega}-R_{p}e^{\imath{}d_{p}\omega}\right]
-    d\omega\\
-  &=\frac{1}{\pi}\int_{\omega_{pl}}^{\omega_{pu}}\left[
-    \sum_{k=0}^{n}\sum_{l=0}^{n}h_{k}h_{l}\cos \left(k-l\right)\omega
--2R_{p}\sum_{k=0}^{n}h_{k}\cos\left(k-d_{p}\right)\omega + R_{p}^{2}\right]d\omega\\
-  &=\frac{1}{\pi}\left[\omega\sum_{k=0}^{n}h_{k}^{2}
- + \sum_{k=0}^{n}\sum_{l=0,l\ne{}k}^{n}h_{k}h_{l}
-    \frac{\sin\left(k-l\right)\omega}{k-l}
- -2 R_{p}h_{d_{p}}\omega
- -2R_{p}\sum_{k=0,k\ne{}d_{p}}^{n}h_{k}\frac{\sin\left(k-d_{p}\right)\omega}{k-d_{p}}
- +R_{p}^{2}\omega\right]_{\omega_{pl}}^{\omega_{pu}}
-\end{align*}
-where, in each piece, $R_{p}$ is the desired amplitude and $d_{p}$ is the
-nominal delay in samples. The weighted sum of the piece-wise mean-squared-errors,
-$\mathcal{E}^{2}$, is a quadratic form:
-\begin{align*}
-  \mathcal{E}^{2}&=\boldsymbol{h}^{\top}\boldsymbol{S}\boldsymbol{h}+
-                   2\boldsymbol{h}^{\top}\boldsymbol{s}+c
-\end{align*}
-where $\boldsymbol{h}$ is the filter impulse response.
+piece-wise weighted mean-squared-error of the response of a non-symmetric FIR
+filter. Naturally, this function also applies to symmetric FIR filters. In
+this case the state transition matrix $A$ has the same order and structure for
+symmetric and non-symmetric direct FIR filters. The function is described in
+Section~\ref{app:Unconstrained-opt-FIR-digital-filters-SOCP}.
 
 \paragraph{Amplitude constraints}
 The desired response errors for each filter frequency band are encoded in the
