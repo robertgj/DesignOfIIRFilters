@@ -1,5 +1,5 @@
 % selesnickFIRantisymmetric_linear_differentiator_test.m
-% Copyright (C) 2020-2022 Robert G. Jenssen
+% Copyright (C) 2020-2023 Robert G. Jenssen
 
 test_common;
 
@@ -60,7 +60,7 @@ grid("on");
 legend("K=0","K=4","K=8","K=12","K=16","K=20","K=24");
 legend("boxoff");
 legend("right");
-legend("location","west");
+legend("location","northwest");
 print(strcat(strf,"_N30_response"),"-dpdflatex");
 close
 
@@ -93,7 +93,7 @@ grid("on");
 legend("K=1","K=5","K=9","K=13","K=17","K=21","K=25");
 legend("boxoff");
 legend("right");
-legend("location","west");
+legend("location","northwest");
 print(strcat(strf,"_N31_response"),"-dpdflatex");
 close
 
