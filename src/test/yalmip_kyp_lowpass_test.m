@@ -4,7 +4,7 @@
 % Somewhat better numerical performance with (kron(P,Phi)+kron(Q,Psi)) !?!?
 %
 % TODO: Add a constraint on the minimum pass-band amplitude. For the
-% frequency domain constraint Pi=[-I,0;0,+Esq*I] gives |H|^2>=Esq_pl.
+% frequency domain constraint Pi=[-I,0;0,+Asq*I] gives |H|^2>=Asq_pl.
 % Is it possible to convert this to an LMI KYP constraint?
 
 test_common;
@@ -17,17 +17,20 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 use_kron=true
+
+% This script fails with a lower constraint on the pass-band amplitude.
+% I do not know how to use the Schur complement with |H|^2>=Asq_pl .
 use_constraint_on_pass_min=false
 
 % Low-pass filter specification
 M=15;N=2*M;
 fap=0.10;fas=0.20;
-Asq_pl=0.8^2;
 
 for d=[10,M],
   if d==M, 
     Asq_max=1.02;
     Asq_pu=Asq_max;
+    Asq_pl=0.95^2;
     Asq_t=Asq_max;
     Esq_z=0.002^2;
     Esq_s=Esq_z;
@@ -36,6 +39,7 @@ for d=[10,M],
   else 
     Asq_max=1.02^2;
     Asq_pu=Asq_max;
+    Asq_pl=0.95^2;
     Asq_t=Asq_max;
     Esq_z=0.1^2;
     Esq_s=0.005^2; 
@@ -77,6 +81,7 @@ for d=[10,M],
   P_z=sdpvar(N,N,"symmetric","real");
   Q_z=sdpvar(N,N,"symmetric","real");
   if use_kron
+    Theta_z=[CD_d',[zeros(N,1);1]]*[1,0;0,-Esq_z]*[CD_d;[zeros(1,N),1]];
     K_z=(AB')*(kron(Phi,P_z)+kron(Psi_p,Q_z))*AB;
     G_z=K_z + diag([zeros(1,N),-Esq_z]);
   else
@@ -84,12 +89,12 @@ for d=[10,M],
         diag([zeros(1,N),-Esq_z]);
   endif
   F_z=[[G_z,CD_d'];[CD_d,-1]];
-  Theta_z=[CD_d',[zeros(N,1);1]]*[1,0;0,-Esq_z]*[CD_d;[zeros(1,N),1]];
   
   % Constraint on maximum overall amplitude
   P_max=sdpvar(N,N,"symmetric","real");
   Q_max=sdpvar(N,N,"symmetric","real");
   if use_kron
+    Theta_max=[CD',[zeros(N,1);1]]*[1,0;0,-Asq_max]*[CD;[zeros(1,N),1]];
     K_max=(AB')*(kron(Phi,P_max)+kron(Psi_max,Q_max))*AB;
     G_max=K_max + diag([zeros(1,N),-Asq_max]);
   else
@@ -97,12 +102,12 @@ for d=[10,M],
           diag([zeros(1,N),-Asq_max]);
   endif
   F_max=[[G_max,CD'];[CD,-1]];
-  Theta_max=[CD',[zeros(N,1);1]]*[1,0;0,-Asq_max]*[CD;[zeros(1,N),1]];
 
   % Constraint on maximum pass band amplitude
   P_pu=sdpvar(N,N,"symmetric","real");
   Q_pu=sdpvar(N,N,"symmetric","real");
   if use_kron
+    Theta_pu=[CD',[zeros(N,1);1]]*[1,0;0,-Asq_pu]*[CD;[zeros(1,N),1]];
     K_pu=(AB')*(kron(Phi,P_pu)+kron(Psi_p,Q_pu))*AB;
     G_pu=K_pu + diag([zeros(1,N),-Asq_pu]);
   else
@@ -110,20 +115,28 @@ for d=[10,M],
          diag([zeros(1,N),-Asq_pu]);
   endif
   F_pu=[[G_pu,CD'];[CD,-1]];
-  Theta_pu=[CD',[zeros(N,1);1]]*[1,0;0,-Asq_pu]*[CD;[zeros(1,N),1]];
 
   % Constraint on minimum pass band amplitude
+  % Attempt to set up F_pl>=0, Q_pl>=0 and |H|^2>=Asq_pl
   if use_constraint_on_pass_min==true
     P_pl=sdpvar(N,N,"symmetric","real");
     Q_pl=sdpvar(N,N,"symmetric","real");
-    Theta_pl=[CD',[zeros(N,1);1]]*[-1,0;0,Asq_pl]*[CD;[zeros(1,N),1]];
-    F_pl=((AB')*(kron(Phi,P_pl)+kron(Psi_p,Q_pl))*AB) + Theta_pl;
+    if use_kron
+      Theta_pl=[CD',[zeros(N,1);1]]*[1,0;0,-Asq_pl]*[CD;[zeros(1,N),1]];
+      K_pl=(AB')*(kron(Phi,P_pl)-kron(Psi_p,Q_pl))*AB;
+      G_pl=K_pl + diag([zeros(1,N),-Asq_pl]);
+    else
+      G_pl=((AB')*[-P_pl,-Q_pl;-Q_pl,P_pl+(c_p*Q_pl)]*AB) + ...
+           diag([zeros(1,N),-Asq_pl]);
+    endif
+    F_pl=[[G_pl,CD'];[CD,-1]];
   endif
   
   % Constraint on maximum transition band amplitude
   P_t=sdpvar(N,N,"symmetric","real");
   Q_t=sdpvar(N,N,"symmetric","real");
   if use_kron
+    Theta_t=[CD',[zeros(N,1);1]]*[1,0;0,-Asq_t]*[CD;[zeros(1,N),1]];
     K_t=(AB')*(kron(Phi,P_t)+kron(Psi_p,Q_t))*AB;
     G_t=K_t + diag([zeros(1,N),-Asq_t]);
   else
@@ -131,12 +144,12 @@ for d=[10,M],
         diag([zeros(1,N),-Asq_t]);
   endif
   F_t=[[G_t,CD'];[CD,-1]];
-  Theta_t=[CD',[zeros(N,1);1]]*[1,0;0,-Asq_t]*[CD;[zeros(1,N),1]];
 
   % Constraint on maximum stop band amplitude
   P_s=sdpvar(N,N,"symmetric","real");
   Q_s=sdpvar(N,N,"symmetric","real");
   if use_kron
+    Theta_s=[CD',[zeros(N,1);1]]*[1,0;0,-Esq_s]*[CD;[zeros(1,N),1]];
     K_s=(AB')*(kron(Phi,P_s)+kron(Psi_s,Q_s))*AB;
     G_s=K_s + diag([zeros(1,N),-Esq_s]);
   else
@@ -144,7 +157,6 @@ for d=[10,M],
         diag([zeros(1,N),-Esq_s]);
   endif
   F_s=[[G_s,CD'];[CD,-1]];
-  Theta_s=[CD',[zeros(N,1);1]]*[1,0;0,-Esq_s]*[CD;[zeros(1,N),1]];
 
   % Solve
   if use_objective
@@ -154,59 +166,72 @@ for d=[10,M],
   else
     Objective=[];
   endif
-
+  Options=sdpsettings("solver","sedumi");
   Constraints=[ F_z<=0,   Q_z>=0, ...
                 F_max<=0, Q_max>=0, ...
                 F_pu<=0,  Q_pu>=0, ...
                 F_t<=0,   Q_t>=0, ...
                 F_s<=0,   Q_s>=0 ];
   if use_constraint_on_pass_min==true
-    Constraints=[Constraints, F_pl<=0, Q_pl>=0];
+    % Increase default SeDuMi eps
+    sedumi_eps=1e-6;
+    Options=sdpsettings("solver","sedumi","sedumi.eps",sedumi_eps);
+    Constraints=[ F_pu<=-sedumi_eps, Q_pu>=0, ...
+                  F_pl>=sedumi_eps, Q_pl>=0, ...
+                  F_s<=-sedumi_eps, Q_s>=0 ];
   endif
-  
-  if use_constraint_on_pass_min
-    Options=sdpsettings("solver","bmibnb");
-  else
-    Options=sdpsettings("solver","sedumi");    
-  endif
-  
   sol=optimize(Constraints,Objective,Options)
   if sol.problem
     error("YALMIP failed : %s",sol.info);
   endif
-  
+
+  %
   % Sanity checks
+  %
+  
   check(Constraints)
-  if ~ishermitian(value(P_z))
-    error("P_z not hermitian");
+
+  % Check pass band complex response
+  if use_constraint_on_pass_min==false
+    if ~ishermitian(value(P_z))
+      error("P_z not hermitian");
+    endif
+    if ~isdefinite(value(Q_z))
+      error("Q_z not positive semi-definite");
+    endif
+    if ~isdefinite(-value(F_z))
+      error("F_z not negative semi-definite");
+    endif
+    if use_kron
+      if any(any(abs(imag(value(K_z+Theta_z)))>eps))
+        error("any(any(abs(imag(value(K_z+Theta_z)))>eps))");
+      endif
+      if ~isdefinite(-value(K_z+Theta_z))
+        error("K_z+Theta_z not negative semi-definite");
+      endif
+    endif
+
+    % Check maximum overall response
+    if ~issymmetric(value(P_max)) || ~isreal(value(P_max))
+      error("P_max not real and symmetric");
+    endif
+    if ~isdefinite(value(Q_max))
+      error("Q_max not positive semi-definite");
+    endif
+    if ~isdefinite(-value(F_max))
+      error("F_max not negative semi-definite");
+    endif
+    if use_kron
+      if any(any(abs(imag(value(K_max+Theta_max)))>eps))
+        error("any(any(abs(imag(value(K_max+Theta_max)))>eps))");
+      endif
+      if ~isdefinite(-value(K_max+Theta_max))
+        error("K_max+Theta_max not negative semi-definite");
+      endif
+    endif
   endif
-  if ~isdefinite(value(Q_z))
-    error("Q_z not positive semi-definite");
-  endif
-  if ~isdefinite(-value(F_z))
-    error("F_z not negative semi-definite");
-  endif
-  if any(any(abs(imag(value(K_z+Theta_z)))>eps))
-    error("any(any(abs(imag(value(K_z+Theta_z)))>eps))");
-  endif
-  if ~isdefinite(-value(K_z+Theta_z))
-    error("K_z+Theta_z not negative semi-definite");
-  endif
-  if ~issymmetric(value(P_max)) || ~isreal(value(P_max))
-    error("P_max not real and symmetric");
-  endif
-  if ~isdefinite(value(Q_max))
-    error("Q_max not positive semi-definite");
-  endif
-  if ~isdefinite(-value(F_max))
-    error("F_max not negative semi-definite");
-  endif
-  if any(any(abs(imag(value(K_max+Theta_max)))>eps))
-    error("any(any(abs(imag(value(K_max+Theta_max)))>eps))");
-  endif
-  if ~isdefinite(-value(K_max+Theta_max))
-    error("K_max+Theta_max not negative semi-definite");
-  endif
+
+  % Check pass band maximum amplitude response
   if ~issymmetric(value(P_pu)) || ~isreal(value(P_pu))
     error("P_pu not real and symmetric");
   endif
@@ -215,13 +240,17 @@ for d=[10,M],
   endif
   if ~isdefinite(-value(F_pu))
     error("F_pu not negative semi-definite");
-  endif 
-  if any(any(abs(imag(value(K_pu+Theta_pu)))>eps))
-    error("any(any(abs(imag(value(K_pu+Theta_pu)))>eps))");
   endif
-  if ~isdefinite(-value(K_pu+Theta_pu))
-    error("K_pu+Theta_pu not negative semi-definite");
+  if use_kron
+    if any(any(abs(imag(value(K_pu+Theta_pu)))>eps))
+      error("any(any(abs(imag(value(K_pu+Theta_pu)))>eps))");
+    endif
+    if ~isdefinite(-value(K_pu+Theta_pu))
+      error("K_pu+Theta_pu not negative semi-definite");
+    endif
   endif
+
+  % Check pass band minimum amplitude response
   if use_constraint_on_pass_min==true
     if ~issymmetric(value(P_pl)) || ~isreal(value(P_pl))
       error("P_pl not real and symmetric");
@@ -232,22 +261,36 @@ for d=[10,M],
     if ~isdefinite(value(F_pl))
       error("F_pl not positive semi-definite");
     endif
+    if any(any(abs(imag(value(K_pl+Theta_pl)))<-eps))
+      error("any(any(abs(imag(value(K_pl+Theta_pl)))<-eps))");
+    endif
+    if ~isdefinite(value(K_pl+Theta_pl))
+      error("K_pl+Theta_pl not positive semi-definite");
+    endif
   endif
-  if ~issymmetric(value(P_t)) || ~isreal(value(P_t))
-    error("P_t not real and symmetric");
+
+  % Check transition band maximum amplitude response
+  if use_constraint_on_pass_min==false
+    if ~issymmetric(value(P_t)) || ~isreal(value(P_t))
+      error("P_t not real and symmetric");
+    endif
+    if ~isdefinite(value(Q_t))
+      error("Q_t not positive semi-definite");
+    endif
+    if ~isdefinite(-value(F_t))
+      error("F_t not negative semi-definite");
+    endif
+    if use_kron
+      if any(any(abs(imag(value(K_t+Theta_t)))>eps))
+        error("any(any(abs(imag(value(K_t+Theta_t)))>eps))");
+      endif
+      if ~isdefinite(-value(K_t+Theta_t))
+        error("K_t+Theta_t not negative semi-definite");
+      endif
+    endif
   endif
-  if ~isdefinite(value(Q_t))
-    error("Q_t not positive semi-definite");
-  endif
-  if ~isdefinite(-value(F_t))
-    error("F_t not negative semi-definite");
-  endif
-  if any(any(abs(imag(value(K_t+Theta_t)))>eps))
-    error("any(any(abs(imag(value(K_t+Theta_t)))>eps))");
-  endif
-  if ~isdefinite(-value(K_t+Theta_t))
-    error("K_t+Theta_t not negative semi-definite");
-  endif
+
+  % Check stop band maximum amplitude response
   if ~issymmetric(value(P_s)) || ~isreal(value(P_s))
     error("P_s not real and symmetric");
   endif
@@ -257,11 +300,13 @@ for d=[10,M],
   if ~isdefinite(-value(F_s))
     error("F_s not negative semi-definite");
   endif
-  if any(any(abs(imag(value(K_s+Theta_s)))>eps))
-    error("any(any(abs(imag(value(K_s+Theta_s)))>eps))");
-  endif
-  if ~isdefinite(-value(K_s+Theta_s))
-    error("K_s+Theta_s not negative semi-definite");
+  if use_kron
+    if any(any(abs(imag(value(K_s+Theta_s)))>eps))
+      error("any(any(abs(imag(value(K_s+Theta_s)))>eps))");
+    endif
+    if ~isdefinite(-value(K_s+Theta_s))
+      error("K_s+Theta_s not negative semi-definite");
+    endif
   endif
 
   % Plot response
@@ -302,6 +347,7 @@ for d=[10,M],
   endif
   xlabel("Frequency");
   print(sprintf("%s_d_%2d_response",strf,d),"-dpdflatex");
+  print(sprintf("%s_d_%2d_response",strf,d),"-dsvg");
   close
 
   % Check amplitude response

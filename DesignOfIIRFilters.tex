@@ -35466,6 +35466,26 @@ Appendix~\ref{app:Linear-algebra-Schur-complement-positive-definite}} to:
  \left(\Pi_{11}\left[\begin{array}{cc}
  C & D\end{array}\right]\right) \preceq 0
 \end{align*}
+
+The KYP lemma for the minimum passband amplitude, $A_{pl}$, of a single-input
+single-output FIR filter, $\left|H\left(\omega\right)\right|\ge A_{pl}^{2}$,
+fails because it requires $\Pi_{11}=-1$. See the Octave script
+\emph{yalmip\_kyp\_lowpass\_test.m}.
+
+The Octave script \emph{yalmip\_kyp\_lmirank\_lowpass\_test.m} calls the
+YALMIP~\cite{Lofberg_YALMIP,Lofberg2004} 
+\emph{lmirank}~\cite{Orsi_LMIRank,Orsi_NewtonLikeLMIRankConstrained}
+solver to design a symmetric low-pass FIR filter with SDP constraints in the
+form of Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints},
+$\Gamma+X\preceq 0$, and $\mathrank\left(X\right)=1$. $X$ is assumed to
+represent the FIR filter solution by $X=\left[C,D\right]^{\top}\left[C,D\right]$.
+After running on my PC for $1276$ minutes the script had performed $694$
+iterations and was still converging \emph{very} slowly.
+Similarly, the Octave script \emph{yalmip\_kyp\_bmibnb\_lowpass\_test.m}
+attempts to design a non-symmetric low-pass FIR filter by calling the YALMIP
+\emph{bmibnb} solver with Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints}.
+In this case YALMIP fails after timing out.
+
 \clearpage
 \subsubsection{Design of a symmetric low pass FIR filter}
 The Octave script \emph{directFIRsymmetric\_kyp\_lowpass\_test.m}
@@ -35570,10 +35590,7 @@ The resulting FIR impulse response is:
 \end{small}
 Figure~\ref{fig:Direct-FIR-nonsymmetric-KYP-lowpass-response} shows the
 amplitude and group delay response. The filter satisfies the constraints with
-no numerical problems\footnote{The Octave script \emph{yalmip\_kyp\_bmibnb\_lowpass\_test.m} attempts to design
-a low pass FIR filter by calling the YALMIP \emph{bmibnb}
-solver with Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints}. YALMIP fails
-after timing out.}.
+no numerical problems.
 \begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_kyp_lowpass_test_response}}
@@ -37166,6 +37183,21 @@ divide-by-zero warning when running the \emph{maxcut} example from
 optimisation in MATLAB and Octave. \emph{YALMIP} calls semi-definite programming
 (SDP) solvers such as \emph{SeDuMi} and \emph{SDPT3}. 
 
+\pdfbookmark[1]{LMIRank}{lmirank}
+\subsection*{LMIRank}\
+\emph{LMIRank}~\cite{Orsi_LMIRank,Orsi_NewtonLikeLMIRankConstrained} is a
+toolbox for solving rank constrained LMI problems:
+\begin{align*}
+  F\left(x\right) & \succeq 0 \\
+  G\left(x\right) & \succeq 0 \\
+  \mathrank G\left(x\right) & \le r 
+\end{align*}
+The Octave file \emph{lmirank.m} contains the \texttt{lmirank} and
+\texttt{trheuristic} functions. The Octave test script \emph{lmirank\_test.m}
+contains the \texttt{lmiranktest2} function. \texttt{lmirank} calls the
+\emph{SeDuMi} SDP solver. \emph{YALMIP} has an interface to \texttt{lmirank}.
+
+\pdfbookmark[1]{gloptipoly3}{gloptipoly3}
 \subsection*{gloptipoly3}\
 \emph{gloptipoly3}~\cite{Henrion_gloptipoly3,
 Henrion_gloptipoly3MomentsOptimizationSemiDefiniteProg,
@@ -37174,6 +37206,7 @@ Lasserre_IntroductionPolySemiAlgOptim} is ``intended to solve, or at least
 approximate, the Generalized Problem of Moments (GPM), an infinite-dimensional
 optimization problem which can be viewed as an extension of the classical
 problem of moments''. 
+
 \begin{comment}
 \pdfbookmark[1]{BMIsolver}{bmisolver}
 \subsection*{BMIsolver}
@@ -37190,9 +37223,8 @@ runs under Octave with the minor modification shown in
 semi-definite test examples referenced by \emph{BMIsolver}. The \emph{COMPleib}
 function runs under Octave with the minor modifications shown in
 \emph{COMPlib\_r1\_1.patch}.
-\end{comment}
 
-\pdfbookmark[0]{MPSolve}{mpsolve}
+\pdfbookmark[1]{MPSolve}{mpsolve}
 \section*{MPSolve}
 The \emph{MPSolve}~\cite{BiniFiorentinoRobol_mpsolve} is a high precsion
 root-finder with an oct-file implementation. Examples of using
@@ -37208,6 +37240,15 @@ ans =  0.19206
 
 octave-cli --eval 'pkg load mpsolve;norm(mps_roots(bincoeff(20,0:20))+1)'
 ans =    1.0819e-13
+\end{verbatim}
+\end{small}
+
+\subsubsection*{Problems with MPSolve}
+\emph{MPSolve} does not return repeatable answers:
+\begin{small}
+\begin{verbatim}
+octave-cli --eval 'pkg load mpsolve;norm(mps_roots(bincoeff(20,0:20))+1)'
+ans =    1.0819e-13
 
 octave-cli --eval 'pkg load mpsolve;norm(mps_roots(bincoeff(20,0:20))+1)'
 ans =    1.1108e-13
@@ -37216,7 +37257,7 @@ octave-cli --eval 'pkg load mpsolve;norm(mps_roots(bincoeff(20,0:20))+1)'
 ans =    1.0910e-13
 \end{verbatim}
 \end{small}
-Unfortunately, there are bugs:
+and it can return strange answers:
 \begin{small}
 \begin{verbatim}
 octave:1> pkg load mpsolve 
@@ -37235,6 +37276,7 @@ ans =
    3.6247e+233 +  6.2591e-85i
 \end{verbatim}
 \end{small}
+\end{comment}
 
 \pdfbookmark[0]{QEMU emulation}{qemu}
 \section*{QEMU emulation}
