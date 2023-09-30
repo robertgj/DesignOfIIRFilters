@@ -21,7 +21,7 @@ popd
 #
 # Build SuiteSparse
 #
-SUITESPARSE_VER=7.0.1
+SUITESPARSE_VER=7.2.0
 rm -Rf SuiteSparse-$SUITESPARSE_VER
 tar -xf SuiteSparse-$SUITESPARSE_VER.tar.gz
 pushd SuiteSparse-$SUITESPARSE_VER
