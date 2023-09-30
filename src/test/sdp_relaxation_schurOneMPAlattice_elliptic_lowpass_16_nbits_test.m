@@ -1,9 +1,9 @@
 % sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m
-% Copyright (C) 2019-2022 Robert G. Jenssen
+% Copyright (C) 2019-2023 Robert G. Jenssen
 
 % SDP relaxation optimisation of a Schur parallel one-multiplier allpass
 % lattice elliptic lowpass filter with 16-bit signed-digit coefficients having
-% an average of 4 signed-digits
+% an average of 5 signed-digits
 
 test_common;
 
@@ -21,9 +21,9 @@ tic;
 strf="sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test";
 
 % Pass separate tolerances for the coefficient step and SeDuMi eps.
-tol=1e-5
-ctol=1e-8
-del.dtol=tol;
+tol=1e-8
+ctol=2e-10
+del.dtol=ctol;
 del.stol=ctol;
 warning("Using coef. delta tolerance=%g, SeDuMi eps=%g\n",del.dtol,del.stol);
 maxiter=500
@@ -49,16 +49,16 @@ R2=(NA1+1):(NA1+NA2);
 
 % Lowpass filter specification
 fap=0.15
-fape=fap-0.02
+fape=fap-0.05
 dBap=0.06
 Wap=1
-Wape=0 % Extra passband weight increasing linearly from fape to fap
+Wape=1 % Extra passband weight increasing linearly from fape to fap
 Wat=tol
 fas=0.171
-fase=fas+0.02
-dBas=76
+fase=fas+0.05
+dBas=78
 Was=1e7
-Wase=0 % Extra passband weight decreasing linearly from fas to fase
+Wase=1 % Extra passband weight decreasing linearly from fas to fase
 
 % Desired squared magnitude response
 n=1000;
@@ -72,9 +72,9 @@ Asqdu=[ones(nas-1,1);(10^(-dBas/10))*ones(n-nas+1,1)];
 Asqdl=[(10^(-dBap/10))*ones(nap,1);zeros(n-nap,1)];
 Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
 Wae=[zeros(nape,1); ...
-    Wape*((1:(nap-nape))'/(nap-nape)); ...
+    Wape*((0:(nap-nape-1))'/(nap-nape)); ...
     Wat*ones(nas-nap-1,1)
-    Wase*(((nase-nas):-1:1)'/(nase-nas)); ...
+    Wase*(((nase-nas-1):-1:0)'/(nase-nas)); ...
     zeros(n-nase+1,1)];
 
 % Sanity checks
@@ -102,7 +102,7 @@ printf("Initial Esq0=%g\n",Esq0);
 % Allocate digits
 nbits=16;
 nscale=2^(nbits-1);
-ndigits=4;
+ndigits=5;
 if sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_allocsd_Lim
   ndigits_alloc=schurOneMPAlattice_allocsd_Lim ...
                   (nbits,ndigits,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
@@ -284,6 +284,19 @@ wAsqS=wa(unique([vAl;vAu;1;end]));
 AsqS=Asq_k0_sd_min(unique([vAl;vAu;1;end]));
 printf("k0_sd_min:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k0_sd_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
+
+% Find maximum pass band response
+rpb=[1:nap];
+max_pb_Asq_k0=10*log10(max(abs(Asq_k0(rpb))))
+max_pb_Asq_k0_sd=10*log10(max(abs(Asq_k0_sd(rpb))))
+max_pb_Asq_k0_sd_sdp=10*log10(max(abs(Asq_k0_sd_sdp(rpb))))
+max_pb_Asq_k0_sd_min=10*log10(max(abs(Asq_k0_sd_min(rpb))))
+
+% Find minimum pass band response
+min_pb_Asq_k0=10*log10(min(abs(Asq_k0(rpb))))
+min_pb_Asq_k0_sd=10*log10(min(abs(Asq_k0_sd(rpb))))
+min_pb_Asq_k0_sd_sdp=10*log10(min(abs(Asq_k0_sd_sdp(rpb))))
+min_pb_Asq_k0_sd_min=10*log10(min(abs(Asq_k0_sd_min(rpb))))
 
 % Find maximum stop band response
 rsb=[nas:n];

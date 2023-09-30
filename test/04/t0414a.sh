@@ -58,46 +58,46 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k0_sd.ok << 'EOF'
-A1k0_sd = [   -19712,    32384,   -25792,    28320, ... 
-              -23520,    11808 ]'/32768;
+A1k0_sd = [   -19680,    32377,   -25784,    28312, ... 
+              -23524,    11812 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sd.ok"; fail; fi
 
 cat > test_A2k0_sd.ok << 'EOF'
-A2k0_sd = [   -22528,    30736,   -26768,    23872, ... 
-              -11776 ]'/32768;
+A2k0_sd = [   -22592,    30736,   -26768,    23880, ... 
+              -11744 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd.ok"; fail; fi
 
 cat > test_A1k0_sd_sdp.ok << 'EOF'
-A1k0_sd_sdp = [   -19584,    32320,   -25760,    28304, ... 
-                  -23520,    11808 ]'/32768;
+A1k0_sd_sdp = [   -19680,    32376,   -25776,    28312, ... 
+                  -23524,    11812 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sd_sdp.ok"; fail; fi
 
 cat > test_A2k0_sd_sdp.ok << 'EOF'
-A2k0_sd_sdp = [   -23552,    30752,   -26784,    23904, ... 
-                  -11776 ]'/32768;
+A2k0_sd_sdp = [   -22592,    30752,   -26784,    23888, ... 
+                  -11760 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd_sdp.ok"; fail; fi
 
 cat > test_A1k0_sd_min.ok << 'EOF'
-A1k0_sd_min = [   -19584,    32384,   -25728,    28352, ... 
-                  -23616,    11808 ]'/32768;
+A1k0_sd_min = [   -19648,    32380,   -25760,    28320, ... 
+                  -23540,    11816 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sd_min.ok"; fail; fi
 
 cat > test_A2k0_sd_min.ok << 'EOF'
-A2k0_sd_min = [   -22560,    30680,   -26880,    23936, ... 
-                  -11760 ]'/32768;
+A2k0_sd_min = [   -22584,    30731,   -26768,    23904, ... 
+                  -11752 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd_min.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
 Initial & 7.52e-06 & -84.0 & & \\
-16-bit 4-signed-digit(Ito)  & 1.76e-04 & -45.2 & 44 & 33 \\
-16-bit 4-signed-digit(SDP) & 6.00e-01 & -27.5 & 44 & 33 \\
-16-bit 4-signed-digit(min) & 1.40e-05 & -75.6 & 43 & 32 \\
+16-bit 5-signed-digit(Ito) & 7.71e-06 & -63.1 & 54 & 43 \\
+16-bit 5-signed-digit(SDP) & 1.63e-04 & -46.5 & 53 & 42 \\
+16-bit 5-signed-digit(min) & 7.86e-06 & -77.5 & 54 & 43 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 

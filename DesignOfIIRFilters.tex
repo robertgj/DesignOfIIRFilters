@@ -18328,26 +18328,25 @@ bandpass filter SDP-relaxation algorithm example with 10-bit coefficients]
 \clearpage
 \section{\label{sec:SDP-relaxation-search-signed-digit-coefficients-IIR-lattice-elliptic-lowpass}SDP-relaxation search for the signed-digit coefficients of a parallel allpass lattice elliptic low-pass IIR filter}
 The Octave script 
-\emph{sdp\_relaxation\_schurOneMPAlattice\_elliptic\_lowpass\_16\_nbits\_test.m}
+\emph{sdp\_relaxation\_schurOneMPAlattice\_elliptic\_lowpass\_14\_nbits\_test.m}
 performs successive SDP relaxations to optimise the response of an elliptic
-low-pass filter implemented with $16$-bit coefficients. The filter specification
+low-pass filter implemented with $14$-bit coefficients. The filter specification
 is:
 \begin{small}
-\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.spec}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test.spec}
 \end{small} 
 The filter specification is similar to that for the filter designed with
 branch-and-bound search shown in Section~\ref{sec:Branch-and-bound-search-signed-digit-coefficients-parallel-allpass-elliptic-lowpass}.
+For comparison, the  Octave script 
+\emph{sdp\_relaxation\_schurOneMPAlattice\_elliptic\_lowpass\_16\_nbits\_test.m}
+performs successive SDP relaxations to optimise the response of an elliptic
+low-pass filter implemented with $16$-bit coefficients each having an average
+of $5$ signed-digits. 
+
 The initial parallel all-pass filters are those for the filter designed by the
 Octave function \emph{ellip(11,0.02,84,2*0.15)}.
-The filter coefficients are truncated to $16$-bit coefficients with an average
-of $4$ signed-digits allocated by the heuristic of \emph{Ito et al.}, as shown in
-Section~\ref{sec:Ito-allocation-signed-digits}.
-The following numbers of signed-digits are allocated to the lattice coefficients:
-\begin{small}
-\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A1k0_allocsd.m}
-\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A2k0_allocsd.m}
-\end{small}
-
+The filter coefficients are truncated to $14$-bit coefficients having $4$
+signed-digits each.
 The script compares the filter designed by a single call to the Octave
 function \emph{schurOneMPAlattice\_sdp\_mmse} with that designed by successively
 fixing the value of the remaining active coefficients to the SDP coefficient
@@ -18367,84 +18366,83 @@ necessity, not PCLS optimised so the final set of coefficients may not meet
 the PCLS specifications.
 
 \begin{comment}
-The filter coefficients found by $4$-signed-digit approximation are:
+The filter coefficients found by $14$-bit $4$-signed-digit approximation are:
 \begin{small}
-\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A1k0_sd_coef.m}
-\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A2k0_sd_coef.m}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test_A1k0_sd_coef.m}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test_A2k0_sd_coef.m}
 \end{small}
 
-The filter coefficients found by a single ``global'' SDP optimisation are:
+The $14$-bit $4$-signed-digit filter coefficients found by a single ``global''
+SDP optimisation are:
 \begin{small}
-\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A1k0_sd_sdp_coef.m}
-\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A2k0_sd_sdp_coef.m}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test_A1k0_sd_sdp_coef.m}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test_A2k0_sd_sdp_coef.m}
 \end{small}
 \end{comment}
 
-The filter coefficients found by the SDP-relaxation search are:
+The $14$-bit $4$-signed-digit filter coefficients found by the SDP-relaxation
+search are:
 \begin{small}
-\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A1k0_sd_min_coef.m}
-\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A2k0_sd_min_coef.m}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test_A1k0_sd_min_coef.m}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test_A2k0_sd_min_coef.m}
 \end{small}
 
-Figures~\ref{fig:sdp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-pass}
-and~\ref{fig:sdp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-stop}
-compare the pass-band and stop-band responses of the filter with exact, $16$-bit
-coefficients with an average of $4$ signed-digits allocated with the algorithm
-of \emph{Ito et al.}, signed-digit coefficients found with ``global'' SDP
-approximation and those found by SDP-relaxation search.
-Figure~\ref{fig:sdp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-coef-hist}
+Figures~\ref{fig:sdp-relax-schurOneMPAlattice-elliptic-lowpass-14-nbits-pass}
+and~\ref{fig:sdp-relax-schurOneMPAlattice-elliptic-lowpass-14-nbits-stop}
+compare the pass-band and stop-band responses of the filter with floating-point
+coefficients, $14$-bit coefficients having $4$ signed-digits each, signed-digit
+coefficients found with ``global'' SDP approximation and those found by
+SDP-relaxation search.
+Figure~\ref{fig:sdp-relax-schurOneMPAlattice-elliptic-lowpass-14-nbits-coef-hist}
 shows the history of the difference of the successive relaxed signed-digit
 coefficients from the initial exact values.
-Table~\ref{tab:sdp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-cost}
-compares the cost and the number of $16$ bit shift-and-add operations required
+Table~\ref{tab:sdp-relax-schurOneMPAlattice-elliptic-lowpass-14-nbits-cost}
+compares the cost and the number of $14$ bit shift-and-add operations required
 to implement the $11$ coefficient multiplications.
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_pass}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test_pass}}
 \caption{Comparison of the pass-band amplitude responses for a parallel
-  all-pass Schur one-multiplier lattice elliptic low-pass filter with 16-bit
-  integer coefficients found by allocating an average of 4-signed-digits to each
-  coefficient using the heuristic of \emph{Ito et al.} and performing SDP
+  all-pass Schur one-multiplier lattice elliptic low-pass filter with 14-bit
+  integer coefficients having 4-signed-digits each and performing SDP
   relaxation search}
-\label{fig:sdp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-pass}
+\label{fig:sdp-relax-schurOneMPAlattice-elliptic-lowpass-14-nbits-pass}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_stop}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test_stop}}
 \caption{Comparison of the stop-band amplitude responses for a parallel
-  all-pass Schur one-multiplier lattice elliptic low-pass filter with 16-bit
-  integer coefficients found by allocating an average of 4-signed-digits to each
-  coefficient using the heuristic of \emph{Ito et al.} and performing SDP
+  all-pass Schur one-multiplier lattice elliptic low-pass filter with 14-bit
+  integer coefficients having 4-signed-digits each and performing SDP
   relaxation search} 
-\label{fig:sdp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-stop}
+\label{fig:sdp-relax-schurOneMPAlattice-elliptic-lowpass-14-nbits-stop}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_coef_hist}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test_coef_hist}}
 \caption{History of the difference of the successive SDP relaxed signed-digit
 coefficients from the initial exact values}
-\label{fig:sdp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-coef-hist}
+\label{fig:sdp-relax-schurOneMPAlattice-elliptic-lowpass-14-nbits-coef-hist}
 \end{figure}
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
 \begin{tabular}{lcccc}  \\ \toprule
 & Cost&Stop-band response&Signed-digits&Shift-and-adds\\ \midrule
-\input{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_cost.tab}
+\input{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test_cost.tab}
 \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the parallel all-pass Schur
   one-multiplier lattice elliptic low-pass filter SDP-relaxation algorithm
-  example with 16-bit coefficients]
-{Comparison of the cost, stop-band attenuation and number of 16-bit
+  example with 14-bit coefficients]
+{Comparison of the cost, stop-band attenuation and number of 14-bit
   shift-and-add operations required to implement the coefficient multiplications
   for a parallel all-pass Schur one-multiplier lattice elliptic-lowpass filter
-  with 16-bit integer coefficients found by allocating an average of
-  4-signed-digits to each coefficient using the heuristic of \emph{Ito et al.}
-  and performing SDP relaxation search} 
-\label{tab:sdp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-cost}
+  with 14-bit integer coefficients with 4-signed-digits each and performing SDP
+  relaxation search} 
+\label{tab:sdp-relax-schurOneMPAlattice-elliptic-lowpass-14-nbits-cost}
 \end{table}
 \clearpage
 \section{\label{sec:SDP-relaxation-search-signed-digit-coefficients-IIR-lattice-bandpass-Hilbert}SDP-relaxation search for the signed-digit coefficients of a parallel allpass lattice bandpass Hilbert IIR filter}
