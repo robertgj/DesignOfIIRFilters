@@ -1,5 +1,5 @@
 % directFIRsymmetric_bandpass_allocsd_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Test Lims and Itos signed-digit allocation algorithms with
 % coefficients of a band-pass, symmetric, even-order FIR filter
@@ -139,33 +139,40 @@ for ndigits=2:3
     fclose(fid);
 
     % Plot the results 
-    subplot(211)
     plot(wa*0.5/pi,20*log10(abs(A_ex)),"linestyle","-", ...
          wa*0.5/pi,20*log10(abs(A_rd)),"linestyle",":", ...
          wa*0.5/pi,20*log10(abs(A_sd)),"linestyle","-.", ... 
          wa*0.5/pi,20*log10(abs(A_Lim)),"linestyle","--", ...
          wa*0.5/pi,20*log10(abs(A_Ito)),"linestyle","-")
+    axis([0 0.5 -60 10]);
+    xlabel("Frequency");
     ylabel("Amplitude(dB)");
     legend("exact","round","signed-digit","Lim","Ito");
     legend("location","northeast");
     legend("boxoff");
     legend("left");
-    axis([0 0.5 -2 2]);
     grid("on");
     strt=sprintf("Bandpass symmetric FIR,nbits=%d,ndigits=%d",
                  nbits,ndigits);
     title(strt);
-    subplot(212)
+    print(strcat(nbits_strf,"_amplitude"),"-dpdflatex");
+    close
+
     plot(wa*0.5/pi,20*log10(abs(A_ex)),"linestyle","-", ...
          wa*0.5/pi,20*log10(abs(A_rd)),"linestyle",":", ...
          wa*0.5/pi,20*log10(abs(A_sd)),"linestyle","-.", ... 
          wa*0.5/pi,20*log10(abs(A_Lim)),"linestyle","--",...
          wa*0.5/pi,20*log10(abs(A_Ito)),"linestyle","-")
+    axis([0 0.5 -2 1]);
     xlabel("Frequency");
     ylabel("Amplitude(dB)");
-    axis([0 0.5 -60 10]);
+    legend("exact","round","signed-digit","Lim","Ito");
+    legend("location","northeast");
+    legend("boxoff");
+    legend("left");
     grid("on");
-    print(strcat(nbits_strf,"_response"),"-dpdflatex");
+    title(strt);
+    print(strcat(nbits_strf,"_pass_amplitude"),"-dpdflatex");
     close
 
     % Print the maximum side-lobe for Lim

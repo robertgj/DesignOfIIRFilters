@@ -327,7 +327,7 @@ plot(fa,10*log10(Asq_kkhat0),"linestyle","-", ...
      fa,10*log10(Asq_kkhat_min),"linestyle","-.", ...
      fa,10*log10(Asqdu),"linestyle","-");
 legend("exact","s-d(direct)","s-d(lattice)","s-d(SOCP-relax)","Asqdu");
-legend("location","southwest");
+legend("location","northeast");
 legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
@@ -348,7 +348,7 @@ plot(fam,Asq_kkhat0_sd_ratio,"linestyle","--", ...
      fam,H0_ratio,"linestyle",":", ...
      fam,Asqdu_ratio,"linestyle","-", ...
      fam,Asqdl_ratio,"linestyle","-");
-legend("s-d(Lim)","s-d(SOCP-relax)","s-d(direct)","Asqdu","Asqdl");
+legend("s-d(Lim)","s-d(SOCP-relax)","s-d(direct)");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
@@ -371,7 +371,7 @@ plot(ft,T_kkhat0_sd,"linestyle","--", ...
 axis([0 ft(end) tp-tpr tp+tpr]);
 ylabel("Delay(samples)");
 xlabel("Frequency(Units of 1/Ts)");
-legend("s-d(Lim)","s-d(SOCP-relax)","Tdu","Tdl");
+legend("s-d(Lim)","s-d(SOCP-relax)");
 legend("location","southwest");
 legend("boxoff");
 legend("left");

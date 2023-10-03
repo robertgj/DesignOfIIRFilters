@@ -452,9 +452,9 @@ xlabel("Frequency");
 strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
 pass-band(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
 title(strt);
-axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), -0.15, 0.05]);
+axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), -0.04, 0.02]);
 legend("exact","s-d","s-d(b-and-b)");
-legend("location","southeast");
+legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -491,7 +491,7 @@ title(strt);
 axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), ...
       mod(pd-(pdr/4),2), mod(pd+(pdr/4),2)]);
 legend("exact","s-d","s-d(b-and-b)");
-legend("location","northeast");
+legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");

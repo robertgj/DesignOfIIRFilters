@@ -466,7 +466,7 @@ strt=sprintf("Parallel one-multplier allpass lattice bandpass filter pass-band\
 title(strt);
 axis([fapl fapu -3, 1]);
 legend("exact","s-d(Ito)","s-d(b-and-b)");
-legend("location","northeast");
+legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");

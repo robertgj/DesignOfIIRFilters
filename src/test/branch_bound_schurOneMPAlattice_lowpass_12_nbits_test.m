@@ -463,7 +463,7 @@ xlabel("Frequency");
 title(strt);
 axis([0, max(fap,ftp), -0.15, 0.05]);
 legend("exact","s-d(Ito)","s-d(b-and-b)");
-legend("location","northwest");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");

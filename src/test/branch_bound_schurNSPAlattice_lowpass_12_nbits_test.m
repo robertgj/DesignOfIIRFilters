@@ -421,41 +421,54 @@ T_sxx_min=schurNSPAlatticeT ...
              A2s20_min,A2s00_min,-A2s20_min,A2s00_min, ...
              difference);
 
-% Plot response
-subplot(211);
-[ax,h1,h2]=plotyy(wa*0.5/pi,10*log10([Asq_sxx_0,Asq_sxx_sd,Asq_sxx_min]), ...
-                     wa*0.5/pi,10*log10([Asq_sxx_0,Asq_sxx_sd,Asq_sxx_min]));
-axis(ax(1),[0 0.5 -1 1]);
-axis(ax(2),[0 0.5 -60 -20]);
-set(ax(1),'ycolor','black')
-set(ax(2),'ycolor','black');
-h1c=get(h1,"color");
-for k=1:3
-  set(h2(k),"color",h1c{k});
-endfor
-set(h1(1),"linestyle","-");
-set(h1(2),"linestyle","--");
-set(h1(3),"linestyle","-.");
-set(h2(1),"linestyle","-");
-set(h2(2),"linestyle","--");
-set(h2(3),"linestyle","-.");
+% Plot pass band amplitude response
+plot(wa*0.5/pi,10*log10(Asq_sxx_0),"linestyle","-", ...
+     wa*0.5/pi,10*log10(Asq_sxx_sd),"linestyle","--", ...
+     wa*0.5/pi,10*log10(Asq_sxx_min),"linestyle","-.")
+axis([0 0.25 -0.6 0.1]);
 ylabel("Amplitude(dB)");
+xlabel("Frequency");
+legend("exact","s-d","s-d(b-and-b)");
+legend("location","east");
+legend("boxoff");
+legend("left");
 grid("on");
-strt=sprintf("Parallel all-pass bandpass Hilbert : dBap=%g,dBas=%g",dBap,dBas);
+strt=sprintf("Parallel all-pass lowpass: dBap=%g,dBas=%g",dBap,dBas);
 title(strt);
-subplot(212);
+print(strcat(strf,"_sxx_min_pass_amplitude"),"-dpdflatex");
+close
+
+% Plot stop band amplitude response
+plot(wa*0.5/pi,10*log10(Asq_sxx_0),"linestyle","-", ...
+     wa*0.5/pi,10*log10(Asq_sxx_sd),"linestyle","--", ...
+     wa*0.5/pi,10*log10(Asq_sxx_min),"linestyle","-.")
+axis([0 0.5 -60 -20]);
+ylabel("Amplitude(dB)");
+xlabel("Frequency");
+legend("exact","s-d","s-d(b-and-b)");
+legend("location","west");
+legend("boxoff");
+legend("left");
+grid("on");
+strt=sprintf("Parallel all-pass lowpass: dBap=%g,dBas=%g",dBap,dBas);
+title(strt);
+print(strcat(strf,"_sxx_min_stop_amplitude"),"-dpdflatex");
+close
+
+% Plot pass band delay response
 plot(wt*0.5/pi,T_sxx_0,"linestyle","-", ...
      wt*0.5/pi,T_sxx_sd,"linestyle","--", ...
      wt*0.5/pi,T_sxx_min,"linestyle","-.");
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 tp-0.1 tp+0.1]);
+axis([0 0.25 tp-0.1 tp+0.1]);
 grid("on");
 legend("exact","s-d","s-d(b-and-b)");
 legend("location","east");
 legend("boxoff");
 legend("left");
-print(strcat(strf,"_sxx_min_response"),"-dpdflatex");
+title(strt);
+print(strcat(strf,"_sxx_min_pass_delay"),"-dpdflatex");
 close
 
 % Filter specification

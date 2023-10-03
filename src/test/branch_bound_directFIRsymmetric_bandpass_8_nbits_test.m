@@ -1,5 +1,5 @@
 % branch_bound_directFIRsymmetric_bandpass_8_nbits_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 % Branch-and-bound search of direct-form symmetric bandpass filter
 % response with 8-bit signed-digit coefficients
@@ -224,30 +224,36 @@ A_hM1_sd=directFIRsymmetricA(wplot,hM1_sd/escale);
 A_hM_min=directFIRsymmetricA(wplot,hM_min/escale);
 
 % Plot amplitude response
-subplot(211)
 plot(wplot*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle","--", ...
      wplot*0.5/pi,20*log10(abs(A_hM_min)),"linestyle","-.");
-ylabel("Amplitude(dB)");
 axis([0.1 0.2 -1.5 0.5]);
-strt=sprintf("Direct-form symmetric bandpass filter response \
-(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,fasl=%g,fasu=%g", ...
-             nbits,ndigits,fapl,fapu,fasl,fasu);
-title(strt);
+xlabel("Frequency");
+ylabel("Amplitude(dB)");
 legend("exact","s-d","s-d(BandB)");
 legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
-subplot(212);
+strt=sprintf("Direct-form symmetric bandpass filter response \
+(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,fasl=%g,fasu=%g", ...
+             nbits,ndigits,fapl,fapu,fasl,fasu);
+title(strt);
+print(strcat(strf,"_passband_response"),"-dpdflatex");
+close
+
 plot(wplot*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle","--", ...
      wplot*0.5/pi,20*log10(abs(A_hM_min)),"linestyle","-.");
+axis([0 0.5 -50 -30]);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([0 0.5 -50 -30]);
+legend("exact","s-d","s-d(BandB)");
+legend("location","southwest");
+legend("boxoff");
+legend("left");
 grid("on");
-print(strcat(strf,"_response"),"-dpdflatex");
+print(strcat(strf,"_stopband_response"),"-dpdflatex");
 close
 
 % Filter specification

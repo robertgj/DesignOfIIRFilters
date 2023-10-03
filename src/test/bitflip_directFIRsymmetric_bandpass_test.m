@@ -1,5 +1,5 @@
 % bitflip_directFIRsymmetric_bandpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a direct-form symmetric FIR bandpass filter.

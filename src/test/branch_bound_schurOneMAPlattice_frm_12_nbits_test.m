@@ -585,7 +585,7 @@ AsqS_kuv0_sd=schurOneMAPlattice_frmAsq ...
                (was,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
 AsqS_kuv_min=schurOneMAPlattice_frmAsq ...
                (was,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
-subplot(311);
+
 [ax,h1,h2]= ...
   plotyy(wap*0.5/pi,10*log10([AsqP_kuv0,AsqP_kuv0_sd,AsqP_kuv_min]), ...
          was*0.5/pi,10*log10([AsqS_kuv0,AsqS_kuv0_sd,AsqS_kuv_min]));
@@ -608,28 +608,21 @@ set(ax(2),'ycolor','black');
 % End of hack
 axis(ax(1),[0 0.5 -dBap/10 dBap/10]);
 axis(ax(2),[0 0.5 -50 -30]);
+legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+legend("location","northwest");
+legend("boxoff");
+legend("left");
 ylabel("Amplitude(dB)");
+xlabel("Frequency");
 strt=sprintf("FRM filter (nbits=%d,ndigits=%d) : fap=%g,fas=%g,\
 dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g*$\\pi$",
              nbits,ndigits,fap,fas,dBap,dBas,tp,tpr,ppr);
 title(strt);
 grid("on");
-% Plot delay
-T_kuv0=schurOneMAPlattice_frmT ...
-         (wt,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
-T_kuv0_sd=schurOneMAPlattice_frmT ...
-            (wt,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
-T_kuv_min=schurOneMAPlattice_frmT ...
-            (wt,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
-subplot(312);
-plot(wt*0.5/pi,T_kuv0+tp,"linestyle","--", ...
-     wt*0.5/pi,T_kuv0_sd+tp,"linestyle","-.", ...
-     wt*0.5/pi,T_kuv_min+tp,"linestyle","-");
-axis([0 0.5 tp-tpr tp+tpr]);
-ylabel("Delay(samples)");
-grid("on");
+print(strcat(strf,"_amplitude"),"-dpdflatex");
+close
+
 % Plot phase
-subplot(313);
 P_kuv0=schurOneMAPlattice_frmP ... 
          (wp,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
 P_kuv0_sd=schurOneMAPlattice_frmP ...
@@ -643,11 +636,34 @@ axis([0 0.5 (pp-(ppr/10)) (pp+(ppr/10))]);
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
 legend("exact","s-d(Lim)","s-d(SOCP-relax)");
-legend("location","northeast");
+legend("location","east");
 legend("boxoff");
 legend("left");
+title(strt);
 grid("on");
-print(strcat(strf,"_response"),"-dpdflatex");
+print(strcat(strf,"_pass_phase"),"-dpdflatex");
+close
+
+% Plot delay
+T_kuv0=schurOneMAPlattice_frmT ...
+         (wt,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel);
+T_kuv0_sd=schurOneMAPlattice_frmT ...
+            (wt,k0_sd,epsilon0,p0,u0_sd,v0_sd,Mmodel,Dmodel);
+T_kuv_min=schurOneMAPlattice_frmT ...
+            (wt,k_min,epsilon_min,p_min,u_min,v_min,Mmodel,Dmodel);
+plot(wt*0.5/pi,T_kuv0+tp,"linestyle","--", ...
+     wt*0.5/pi,T_kuv0_sd+tp,"linestyle","-.", ...
+     wt*0.5/pi,T_kuv_min+tp,"linestyle","-");
+axis([0 0.5 tp-tpr tp+tpr]);
+ylabel("Delay(samples)");
+xlabel("Frequency");
+legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+legend("location","east");
+legend("boxoff");
+legend("left");
+title(strt);
+grid("on");
+print(strcat(strf,"_pass_delay"),"-dpdflatex");
 close
 
 % Filter specification

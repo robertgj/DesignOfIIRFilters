@@ -1,5 +1,5 @@
 % sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 % SDP relaxation optimisation of a symmetric direct-form FIR
 % bandpass filter with 10-bit signed-digit coefficients
@@ -140,11 +140,11 @@ fprintf(fid,"%d-bit %d-signed-digit(SDP) & %8.6f & %4.1f & %d & %d \\\\\n",
 fclose(fid);
 
 % Plot amplitude response
-subplot(211)
 plot(wa*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
      wa*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle",":", ...
      wa*0.5/pi,20*log10(abs(A_hM1_sd_Lim)),"linestyle","--", ...
      wa*0.5/pi,20*log10(abs(A_hM1_sd_sdp)),"linestyle","-.");
+xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -2 0.5]);
 strt=sprintf("Direct-form symmetric bandpass filter pass-band \
@@ -155,7 +155,9 @@ legend("location","east");
 legend("boxoff");
 legend("left");
 grid("on");
-subplot(212)
+print(strcat(strf,"_pass_amplitude"),"-dpdflatex");
+close
+
 plot(wa*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
      wa*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle",":", ...
      wa*0.5/pi,20*log10(abs(A_hM1_sd_Lim)),"linestyle","--", ...
@@ -167,8 +169,12 @@ axis([0 0.5 -60 -30]);
 strt=sprintf("Direct-form symmetric bandpass filter stop-band \
 (nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,ndigits,fasl,fasu,dBas);
 title(strt);
+legend("exact","s-d","s-d(Lim)","s-d(SDP)");
+legend("location","best");
+legend("boxoff");
+legend("left");
 grid("on");
-print(strcat(strf,"_response"),"-dpdflatex");
+print(strcat(strf,"_stop_amplitude"),"-dpdflatex");
 close
 
 % Filter specification

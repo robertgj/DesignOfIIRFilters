@@ -141,19 +141,24 @@ fprintf(fid,"$%d$",kcbfsdi_adders);
 fclose(fid);
 
 % Plot the results
-subplot(211)
 plot(wplot*0.5/pi,20*log10(abs(    h0)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(  h_rd)),"linestyle",":", ...
      wplot*0.5/pi,20*log10(abs(  h_bf)),"linestyle","--", ...
      wplot*0.5/pi,20*log10(abs(  h_sd)),"linestyle","-.", ... 
      wplot*0.5/pi,20*log10(abs(h_bfsd)),"linestyle","-")
+legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
 strt=sprintf("Bandpass OneM lattice, nbits=%d,bitstart=%d,\
 msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
 title(strt);
-subplot(212)
+print(strcat(strf,"_amplitude"),"-dpdflatex");
+close
 iplot=1:(0.7*nplot); % Avoid overlap with legend
 plot(wplot(iplot)*0.5/pi,    t0(iplot),"linestyle","-", ...
      wplot(iplot)*0.5/pi,  t_rd(iplot),"linestyle",":", ...
@@ -168,23 +173,30 @@ xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
-print(strcat(strf,"_response"),"-dpdflatex");
+print(strcat(strf,"_delay"),"-dpdflatex");
 close
 
 % Plot results with signed-digit allocation
-subplot(211)
 plot(wplot*0.5/pi,20*log10(abs(    h0)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(  h_sdl)),"linestyle",":", ... 
      wplot*0.5/pi,20*log10(abs(h_bfsdl)),"linestyle","--", ...
      wplot*0.5/pi,20*log10(abs(  h_sdi)),"linestyle","-.", ...  
      wplot*0.5/pi,20*log10(abs(h_bfsdi)),"linestyle","-")
+legend("exact","signed-digit (Lim)","bitflip(s-d Lim)","signed-digit (Ito)", ...
+       "bitflip(s-d Ito)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
 strt=sprintf("Bandpass OneM lattice, nbits=%d,bitstart=%d,\
 msize=%d,ndigits=%d, Lim and Ito SD allocation",nbits,bitstart,msize,ndigits);
 title(strt);
-subplot(212)
+print(strcat(strf,"_amplitude_allocsd"),"-dpdflatex");
+close
+
 iplot=1:(0.7*nplot); % Avoid overlap with legend
 plot(wplot(iplot)*0.5/pi,      t0(iplot),"linestyle","-", ...
      wplot(iplot)*0.5/pi,   t_sdl(iplot),"linestyle",":", ...
@@ -200,7 +212,7 @@ xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
-print(strcat(strf,"_response_allocsd"),"-dpdflatex");
+print(strcat(strf,"_delay_allocsd"),"-dpdflatex");
 close
 
 % Print the results

@@ -110,19 +110,25 @@ h_bfsd=freqz(n_bfsd,[],nplot);
 t_bfsd=delayz(n_bfsd,[],nplot);
 
 % Plot the results
-subplot(211)
 plot(wplot*0.5/pi,20*log10(abs(    h0)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(  h_rd)),"linestyle",":", ...
      wplot*0.5/pi,20*log10(abs(  h_bf)),"linestyle","--", ...
      wplot*0.5/pi,20*log10(abs(  h_sd)),"linestyle","-.", ...
      wplot*0.5/pi,20*log10(abs(h_bfsd)),"linestyle","-");
+legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
 strt=sprintf("Bandpass Schur FIR lattice,nbits=%d,bitstart=%d,\
 msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
 title(strt);
-subplot(212)
+print(strcat(strf,"_amplitude"),"-dpdflatex");
+close
+
 iplot=1:(0.7*nplot); % Avoid overlap with legend
 plot(wplot(iplot)*0.5/pi,    t0(iplot),"linestyle","-", ...
      wplot(iplot)*0.5/pi,  t_rd(iplot),"linestyle",":", ...
@@ -137,7 +143,7 @@ xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
-print(strcat(strf,"_response"),"-dpdflatex");
+print(strcat(strf,"_delay"),"-dpdflatex");
 close
 
 % Make a LaTeX table for cost

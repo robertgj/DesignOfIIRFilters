@@ -332,7 +332,7 @@ plot(wa*0.5/pi,10*log10(Asq_k),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_k_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
 legend("exact","s-d(Lim)","s-d(SOCP-relax)");
-legend("location","northeast");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
@@ -342,31 +342,38 @@ xlabel("Frequency");
 title(strt);
 axis([0  0.5 -70 -20]);
 grid("on");
-print(strcat(strf,"_kmin_stop"),"-dpdflatex");
+print(strcat(strf,"_kmin_stop_amplitude"),"-dpdflatex");
 close
 
 % Plot pass-band amplitude and delay
-subplot(211)
 plot(wa*0.5/pi,10*log10(Asq_k),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_k_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
 ylabel("Amplitude(dB)");
+xlabel("Frequency");
 title(strt);
-axis([min(fapl,ftpl) max(fapu,ftpu) -2*dBap 2*dBap]);
+axis([min(fapl,ftpl) max(fapu,ftpu) -2.5 0.5]);
 legend("exact","s-d(Lim)","s-d(SOCP-relax)");
-legend("location","northeast");
+legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
-subplot(212)
+print(strcat(strf,"_kmin_pass_amplitude"),"-dpdflatex");
+close
 plot(wt*0.5/pi,T_k,"linestyle","-", ...
      wt*0.5/pi,T_k_sd,"linestyle","--", ...
      wt*0.5/pi,T_kmin,"linestyle","-.");
 ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([min(fapl,ftpl) max(fapu,ftpu) td-0.2 td+0.2]);
+title(strt);
+legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+legend("location","north");
+legend("boxoff");
+legend("left");
 grid("on");
-print(strcat(strf,"_kmin_pass"),"-dpdflatex");
+print(strcat(strf,"_kmin_pass_delay"),"-dpdflatex");
+close
 
 % Filter specification
 fid=fopen(strcat(strf,".spec"),"wt");

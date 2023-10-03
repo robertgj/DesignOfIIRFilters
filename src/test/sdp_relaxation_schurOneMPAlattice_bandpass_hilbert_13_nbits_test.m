@@ -454,7 +454,7 @@ strt=sprintf("Parallel allpass lattice bandpass Hilbert filter pass-band delay \
 (nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
 title(strt);
 legend("initial","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
-legend("location","southeast");
+legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");

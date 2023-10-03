@@ -1,5 +1,5 @@
 % schurOneMlattice_bandpass_allocsd_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Test Lims and Itos signed-digit allocation algorithms with
 % coefficents of a band-pass one-multiplier lattice filter.
@@ -148,15 +148,14 @@ for ndigits=2:3
     printf("Ito,ndigits=%d,nbits=%d,ng=%g\n",ndigits,nbits,nbits_ng_Ito(l));
 
     % Plot the results
-    subplot(111)
     plot(wa*0.5/pi,10*log10(Asq_ex),"linestyle","-", ...
          wa*0.5/pi,10*log10(Asq_rd),"linestyle",":", ...
          wa*0.5/pi,10*log10(Asq_sd),"linestyle","-.", ... 
          wa*0.5/pi,10*log10(Asq_Lim),"linestyle","--",...
          wa*0.5/pi,10*log10(Asq_Ito),"linestyle","-")
+    axis([0 0.5 -60 10]);
     xlabel("Frequency");
     ylabel("Amplitude(dB)");
-    axis([0 0.5 -60 10]);
     grid("on");
     strt=sprintf("Bandpass one-multiplier lattice,nbits=%d,ndigits=%d",
                  nbits,ndigits);
@@ -165,34 +164,43 @@ for ndigits=2:3
     legend("location","northeast");
     legend("boxoff");
     legend("left");
-    print(strcat(nbits_strf,"_response"),"-dpdflatex");
+    print(strcat(nbits_strf,"_amplitude"),"-dpdflatex");
     close
-    % Plot the passband detail
-    subplot(211)
+
+    % Plot the passband amplitude
     plot(wa*0.5/pi,10*log10(Asq_ex),"linestyle","-", ...
          wa*0.5/pi,10*log10(Asq_rd),"linestyle",":", ...
          wa*0.5/pi,10*log10(Asq_sd),"linestyle","-.", ... 
          wa*0.5/pi,10*log10(Asq_Lim),"linestyle","--", ...
          wa*0.5/pi,10*log10(Asq_Ito),"linestyle","-")
-    title(strt);
+    axis([0.05 0.25 -2 1]);
+    xlabel("Frequency");
     ylabel("Amplitude(dB)");
     legend("exact","round","signed-digit","Lim","Ito");
     legend("location","northeast");
     legend("boxoff");
     legend("left");
-    axis([0.05 0.25 -2 2]);
+    title(strt);
     grid("on");
-    subplot(212)
+    print(strcat(nbits_strf,"_pass_amplitude"),"-dpdflatex");
+    close
+
+    % Plot the passband delay
     plot(wt*0.5/pi,T_ex,"linestyle","-", ...
          wt*0.5/pi,T_rd,"linestyle",":", ...
          wt*0.5/pi,T_sd,"linestyle","-.", ... 
          wt*0.5/pi,T_Lim,"linestyle","--", ...
          wt*0.5/pi,T_Ito,"linestyle","-");
+    axis([0.05 0.25 15 17]);
     xlabel("Frequency");
     ylabel("Delay(samples)");
-    axis([0.05 0.25 15 17]);
+    legend("exact","round","signed-digit","Lim","Ito");
+    legend("location","southwest");
+    legend("boxoff");
+    legend("left");
+    title(strt);
     grid("on");
-    print(strcat(nbits_strf,"_passband_response"),"-dpdflatex");
+    print(strcat(nbits_strf,"_pass_delay"),"-dpdflatex");
     close
 
     % Print the maximum side-lobe for Lim
@@ -311,7 +319,7 @@ used by coefficients, ndigits=%d",ndigits);
   ylabel("Noise gain");
   grid("on");
   legend("round","signed-digit","Lim","Ito");
-  legend("location","northeast");
+  legend("location","southeast");
   legend("boxoff");
   legend("left");
   print(strcat(strf,"_ng"),"-dpdflatex");

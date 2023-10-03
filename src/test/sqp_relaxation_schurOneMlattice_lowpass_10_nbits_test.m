@@ -1,9 +1,8 @@
 % sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.m
-
+% Copyright (C) 2017-2023 Robert G. Jenssen
+%
 % SQP-relaxation optimisation of the response of a Schur one-multiplier
 % lattice lowpass filter with 10-bit 3-signed-digit coefficients.
-
-% Copyright (C) 2017-2021 Robert G. Jenssen
 
 test_common;
 
@@ -258,12 +257,6 @@ fclose(fid);
 Asq0=schurOneMlatticeAsq(wa,k0,epsilon0,p_ones,c0);
 Asq_sd=schurOneMlatticeAsq(wa,k0_sd,epsilon0,p_ones,c0_sd);
 Asq_min=schurOneMlatticeAsq(wa,k_min,epsilon0,p_ones,c_min);
-T0=schurOneMlatticeT(wa,k0,epsilon0,p_ones,c0);
-T_sd=schurOneMlatticeT(wa,k0_sd,epsilon0,p_ones,c0_sd);
-T_min=schurOneMlatticeT(wa,k_min,epsilon0,p_ones,c_min);
-strt=sprintf("Schur One-M lattice lowpass : \
-fap=%g,dBap=%g,ftp=%g,tp=%g,tpr=%g,fas=%g,dBas=%g",fap,dBap,ftp,tp,tpr,fas,dBas);
-subplot(211);
 plot(wa*0.5/pi,10*log10(Asq0), "-", ...
      wa*0.5/pi,10*log10(Asq_sd), "--", ...
      wa*0.5/pi,10*log10(Asq_min), "-.");
@@ -271,39 +264,45 @@ ylabel("Amplitude(dB)");
 axis([0 0.5 -60 5]);
 grid("on");
 legend("exact","s-d(Lim)","s-d(SQP-relax)");
-legend("location","northeast");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
+strt=sprintf("Schur One-M lattice lowpass : \
+fap=%g,dBap=%g,ftp=%g,tp=%g,tpr=%g,fas=%g,dBas=%g",fap,dBap,ftp,tp,tpr,fas,dBas);
 title(strt);
-subplot(212);
-plot(wa*0.5/pi,T0,"-",wa*0.5/pi,T_sd,"--",wa*0.5/pi,T_min,"-.");
-axis([0 0.5 0 25]);
-ylabel("Delay(samples)");
-xlabel("Frequency");
-grid("on");
-print(strcat(strf,"_kc_min"),"-dpdflatex");
+print(strcat(strf,"_kc_min_amplitude"),"-dpdflatex");
 close
 
-% Plot passband response
-subplot(211);
+% Plot passband amplitude response
 plot(wa*0.5/pi,10*log10(Asq0), "-", ...
      wa*0.5/pi,10*log10(Asq_sd), "--", ...
      wa*0.5/pi,10*log10(Asq_min), "-.");
 ylabel("Amplitude(dB)");
-axis([0 fap -1 0.5]);
-grid("on");
+xlabel("Frequency");
+axis([0 fap -0.6 0.6]);
 legend("exact","s-d(Lim)","s-d(SQP-relax)");
-legend("location","southeast");
+legend("location","north");
 legend("boxoff");
 legend("left");
+grid("on");
 title(strt);
-subplot(212);
+print(strcat(strf,"_kc_min_pass_amplitude"),"-dpdflatex");
+close
+
+% Plot passband delay response
+T0=schurOneMlatticeT(wa,k0,epsilon0,p_ones,c0);
+T_sd=schurOneMlatticeT(wa,k0_sd,epsilon0,p_ones,c0_sd);
+T_min=schurOneMlatticeT(wa,k_min,epsilon0,p_ones,c_min);
 plot(wa*0.5/pi,T0,"-",wa*0.5/pi,T_sd,"--",wa*0.5/pi,T_min,"-.");
 ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 fap tp-tpr tp+tpr]);
+legend("exact","s-d(Lim)","s-d(SQP-relax)");
+legend("location","north");
+legend("boxoff");
+legend("left");
 grid("on");
-print(strcat(strf,"_kc_minpass"),"-dpdflatex");
+print(strcat(strf,"_kc_min_pass_delay"),"-dpdflatex");
 close
 
 % Plot poles and zeros
@@ -311,7 +310,7 @@ close
 subplot(111);
 zplane(roots(n_min),roots(d_min));
 title(strt);
-print(strcat(strf,"_kc_minpz"),"-dpdflatex");
+print(strcat(strf,"_kc_min_pz"),"-dpdflatex");
 close
 
 % Filter specification

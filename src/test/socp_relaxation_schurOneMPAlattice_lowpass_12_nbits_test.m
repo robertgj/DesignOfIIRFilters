@@ -300,6 +300,24 @@ T_k_sd=schurOneMPAlatticeT(wt,A1k_sd,A1epsilon,A1p_ones, ...
 T_kmin=schurOneMPAlatticeT(wt,A1k_min,A1epsilon_min,A1p_ones, ...
                            A2k_min,A2epsilon_min,A2p_ones,difference);
 
+% Plot pass-band amplitude
+plot(wa*0.5/pi,10*log10(Asq_k),"linestyle","-", ...
+     wa*0.5/pi,10*log10(Asq_k_sd),"linestyle","--", ...
+     wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
+ylabel("Amplitude(dB)");
+xlabel("Frequency");
+strt=sprintf("Parallel one-multplier allpass lattice lowpass filter (nbits=12) :\
+ fap=%g,fas=%g,dBap=%g,Wap=%g,td=%g,Wtp=%g",fap,fas,dBap,Wap,td,Wtp);
+title(strt);
+axis([0 max(fap,ftp) -0.2 0.05]);
+legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+legend("location","southwest");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_kmin_pass_amplitude"),"-dpdflatex");
+close
+
 % Plot stop-band amplitude
 plot(wa*0.5/pi,10*log10(Asq_k),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_k_sd),"linestyle","--", ...
@@ -310,36 +328,27 @@ legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strt=sprintf("Parallel one-multplier allpass lattice lowpass filter (nbits=12) :\
- fap=%g,fas=%g,dBap=%g,Wap=%g,td=%g,Wtp=%g",fap,fas,dBap,Wap,td,Wtp);
 title(strt);
-axis([fas  0.5 -70 -20]);
+axis([fas  0.5 -70 -30]);
 grid("on");
-print(strcat(strf,"_kmin_stop"),"-dpdflatex");
+print(strcat(strf,"_kmin_stop_amplitude"),"-dpdflatex");
 close
 
-% Plot pass-band amplitude and delay
-subplot(211)
-plot(wa*0.5/pi,10*log10(Asq_k),"linestyle","-", ...
-     wa*0.5/pi,10*log10(Asq_k_sd),"linestyle","--", ...
-     wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-ylabel("Amplitude(dB)");
-title(strt);
-axis([0 max(fap,ftp) -2*dBap dBap]);
-legend("exact","s-d(Lim)","s-d(SOCP-relax)");
-legend("location","northeast");
-legend("boxoff");
-legend("left");
-grid("on");
-subplot(212)
+% Plot pass-band delay
 plot(wt*0.5/pi,T_k,"linestyle","-", ...
      wt*0.5/pi,T_k_sd,"linestyle","--", ...
      wt*0.5/pi,T_kmin,"linestyle","-.");
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 max(fap,ftp) td-tdr td+tdr]);
+axis([0 max(fap,ftp) td+[-0.1 0.15]]);
 grid("on");
-print(strcat(strf,"_kmin_pass"),"-dpdflatex");
+legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+grid("on");
+title(strt);
+print(strcat(strf,"_kmin_pass_delay"),"-dpdflatex");
 close
 
 % Plot responses for the introduction
@@ -347,7 +356,7 @@ print_for_web_page=false;
 if print_for_web_page
   set(0,"defaultlinelinewidth",1.5);
 endif
-subplot(311)
+subplot(211)
 [ax,h1,h2]=plotyy(wa(1:nap)*0.5/pi,10*log10([Asq_k(1:nap) Asq_kmin(1:nap)]), ...
                   wa(nas:n)*0.5/pi,10*log10([Asq_k(nas:n) Asq_kmin(nas:n)]));
 % Hack to match colours. Is there an easier way with colormap?
@@ -376,7 +385,7 @@ if ~print_for_web_page
 fap=%g,dBap=%g,fas=%g,dBas=%g,td=%g,tdr=%g",nbits,fap,dBap,fas,dBas,td,tdr);
   title(strt);
 endif
-subplot(312)
+subplot(212)
 plot(wt*0.5/pi,T_k,"linestyle","-", ...
      wt*0.5/pi,T_kmin,"linestyle","-.");
 ylabel("Delay(samples)");

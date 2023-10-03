@@ -265,7 +265,6 @@ fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.6f & %d & %d \\\\\n",
 fclose(fid);
 
 % Plot response
-subplot(211);
 Asq_kc0=schurOneMlatticeAsq(wa,k0,epsilon0,p0,c0);
 Asq_kc0_sd=schurOneMlatticeAsq(wa,k0_sd,epsilon0,p_ones,c0_sd);
 Asq_kc_min=schurOneMlatticeAsq(wa,k_min,epsilon0,p_ones,c_min);
@@ -274,13 +273,20 @@ plot(wa*0.5/pi,10*log10(Asq_kc0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_kc_min),"linestyle","-.", ...
      wa*0.5/pi,10*log10(Asqdu),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asqdl),"linestyle","-")
+axis([0  0.5 -0.2 0.2]);
 ylabel("Amplitude(dB)");
+xlabel("Frequency");
+legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+legend("location","southeast");
+legend("boxoff");
+legend("left");
 strt=sprintf("Hilbert filter:ft=%g,dBap=%g,tp=%g,pr=%g,Wap=%g,Wpp=%g",
              ft,dBap,tp,pr,Wap,Wpp);
 title(strt);
-axis([0  0.5 -0.2 0.2]);
 grid("on");
-subplot(212);
+print(strcat(strf,"_kc_min_amplitude"),"-dpdflatex");
+close
+
 P_kc0=schurOneMlatticeP(wp,k0,epsilon0,p0,c0);
 P_kc0_sd=schurOneMlatticeP(wp,k0_sd,epsilon0,p_ones,c0_sd);
 P_kc_min=schurOneMlatticeP(wp,k_min,epsilon0,p_ones,c_min);
@@ -293,11 +299,11 @@ ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 axis([0 0.5 -0.53 -0.47]);
 grid("on");
-legend("exact","s-d(Lim)","s-d(SOCP-relax)","Asqdu","Asqdl");
-legend("location","northeast");
+legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+legend("location","southeast");
 legend("boxoff");
 legend("left");
-print(strcat(strf,"_kc_min"),"-dpdflatex");
+print(strcat(strf,"_kc_min_phase"),"-dpdflatex");
 close
 
 % Plot poles and zeros

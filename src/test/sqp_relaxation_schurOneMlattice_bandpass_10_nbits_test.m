@@ -202,7 +202,7 @@ strt=sprintf("Schur one-multiplier lattice bandpass filter stop-band \
 (nbits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,fasl,fasu,dBas);
 title(strt);
 legend("exact","s-d","s-d(Ito)","s-d(SQP-relax)");
-legend("location","northeast");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -216,12 +216,12 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
      wplot*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([0.1 0.2 -2 2]);
+axis([0.1 0.2 -2 0.5]);
 strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
 (nbits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,fapl,fapu,dBap);
 title(strt);
 legend("exact","s-d","s-d(Ito)","s-d(SQP-relax)");
-legend("location","northeast");
+legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -240,7 +240,7 @@ strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
 (nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g",nbits,ftpl,ftpu,tp,tpr);
  title(strt);
 legend("exact","s-d","s-d(Ito)","s-d(SQP-relax)");
-legend("location","northeast");
+legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");

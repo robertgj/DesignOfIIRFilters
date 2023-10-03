@@ -306,7 +306,7 @@ axis([0.1 0.2 -2 1]);
 strt=sprintf(strt,"pass-band");
 title(strt);
 legend("exact","s-d","s-d(BandB)");
-legend("location","northeast");
+legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");

@@ -1,5 +1,6 @@
 bitflip_directIIR_bandpass_test_FIGURES= \
-bitflip_directIIR_bandpass_test_response
+bitflip_directIIR_bandpass_test_amplitude \
+bitflip_directIIR_bandpass_test_delay
 
 bitflip_directIIR_bandpass_test_COEFS= \
 bitflip_directIIR_bandpass_test.mat \

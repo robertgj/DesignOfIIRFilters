@@ -225,14 +225,14 @@ A_hM1_sd=directFIRsymmetricA(wplot,hM1_sd);
 A_hM_min=directFIRsymmetricA(wplot,hM_min);
 A_hM1_3sd=directFIRsymmetricA(wplot,hM1_3sd);
 
-% Plot amplitude response
-subplot(211)
+% Plot pass band amplitude response
 plot(wplot*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(A_hM1_3sd)),"linestyle",":", ... 
      wplot*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle","--", ...
      wplot*0.5/pi,20*log10(abs(A_hM_min)),"linestyle","-.");
 ylabel("Amplitude(dB)");
-axis([0 0.5 -2 1]);
+xlabel("Frequency");
+axis([0 0.5 -2 0.5]);
 strt=sprintf("Direct-form symmetric bandpass filter pass-band \
 (nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,ndigits,fapl,fapu,dBap);
 title(strt);
@@ -241,7 +241,10 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
-subplot(212)
+print(strcat(strf,"_passband_response"),"-dpdflatex");
+close
+
+% Plot pass band amplitude response
 plot(wplot*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(A_hM1_3sd)),"linestyle",":", ...
      wplot*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle","--", ...
@@ -253,8 +256,12 @@ axis([0 0.5 -60 -30]);
 strt=sprintf("Direct-form symmetric bandpass filter stop-band \
 (nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,ndigits,fasl,fasu,dBas);
 title(strt);
+legend("exact","s-d","s-d(Ito)","s-d(Ito and SOCP-relax)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
 grid("on");
-print(strcat(strf,"_response"),"-dpdflatex");
+print(strcat(strf,"_stopband_response"),"-dpdflatex");
 close
 
 % Filter specification

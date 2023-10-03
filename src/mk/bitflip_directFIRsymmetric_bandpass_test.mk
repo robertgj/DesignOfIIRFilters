@@ -1,4 +1,4 @@
-bitflip_directFIRsymmetric_bandpass_test_FIGURES=\
+bitflip_directFIRsymmetric_bandpass_test_FIGURES= \
 bitflip_directFIRsymmetric_bandpass_test_response \
 bitflip_directFIRsymmetric_bandpass_test_response_allocsd
 

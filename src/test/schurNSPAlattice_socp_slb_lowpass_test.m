@@ -147,7 +147,7 @@ axis(ax(1),[0 0.5 -0.6 0.2]);
 axis(ax(2),[0 0.5 -60 -40]);
 ylabel("Amplitude(dB)");
 grid("on");
-strt=sprintf("Parallel all-pass lowpass Hilbert : dBap=%g,dBas=%g",dBap,dBas);
+strt=sprintf("Parallel all-pass lowpass : dBap=%g,dBas=%g",dBap,dBas);
 title(strt);
 subplot(212);
 plot(wt*0.5/pi,T);

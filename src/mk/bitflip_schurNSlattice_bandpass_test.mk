@@ -1,5 +1,6 @@
 bitflip_schurNSlattice_bandpass_test_FIGURES = \
-bitflip_schurNSlattice_bandpass_test_response 
+bitflip_schurNSlattice_bandpass_test_amplitude \
+bitflip_schurNSlattice_bandpass_test_delay
 
 bitflip_schurNSlattice_bandpass_test_COEFS = \
 bitflip_schurNSlattice_bandpass_test.mat \

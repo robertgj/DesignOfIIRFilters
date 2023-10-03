@@ -1,6 +1,8 @@
 bitflip_schurOneMlattice_bandpass_test_FIGURES= \
-bitflip_schurOneMlattice_bandpass_test_response \
-bitflip_schurOneMlattice_bandpass_test_response_allocsd
+bitflip_schurOneMlattice_bandpass_test_amplitude \
+bitflip_schurOneMlattice_bandpass_test_delay \
+bitflip_schurOneMlattice_bandpass_test_amplitude_allocsd \
+bitflip_schurOneMlattice_bandpass_test_delay_allocsd
 
 bitflip_schurOneMlattice_bandpass_test_COEFS= \
 bitflip_schurOneMlattice_bandpass_test.mat \

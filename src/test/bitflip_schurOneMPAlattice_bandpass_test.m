@@ -193,20 +193,30 @@ fid=fopen(fname,"wt");
 fprintf(fid,"$%d$",kbfsdi_adders);
 fclose(fid);
 
+%
 % Plot the results
-subplot(211)
+%
+% Amplitude
 plot(wplot*0.5/pi,20*log10(abs(    h0)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(  h_rd)),"linestyle",":", ...
      wplot*0.5/pi,20*log10(abs(  h_bf)),"linestyle","--", ...
      wplot*0.5/pi,20*log10(abs(  h_sd)),"linestyle","-.", ... 
      wplot*0.5/pi,20*log10(abs(h_bfsd)),"linestyle","-")
-ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
+legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+ylabel("Amplitude(dB)");
+xlabel("Frequency");
 grid("on");
 strt=sprintf("Bandpass OneM PA lattice, nbits=%d,bitstart=%d,\
 msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
 title(strt);
-subplot(212)
+print(strcat(strf,"_amplitude"),"-dpdflatex");
+close
+
+% Delay
 iplot=1:(0.7*nplot); % Avoid overlap with legend
 plot(wplot(iplot)*0.5/pi,    t0(iplot),"linestyle","-", ...
      wplot(iplot)*0.5/pi,  t_rd(iplot),"linestyle",":", ...
@@ -221,42 +231,14 @@ xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
-print(strcat(strf,"_response"),"-dpdflatex");
-close
-% Re-plot for the passband (!?!?!?)
-subplot(211)
-plot(wplot*0.5/pi,20*log10(abs(    h0)),"linestyle","-", ...
-     wplot*0.5/pi,20*log10(abs(  h_rd)),"linestyle",":", ...
-     wplot*0.5/pi,20*log10(abs(  h_bf)),"linestyle","--", ...
-     wplot*0.5/pi,20*log10(abs(  h_sd)),"linestyle","-.", ... 
-     wplot*0.5/pi,20*log10(abs(h_bfsd)),"linestyle","-")
-ylabel("Amplitude(dB)");
-strt=sprintf("Bandpass OneM PA lattice, nbits=%d,bitstart=%d,\
-msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
 title(strt);
-grid("on");
-axis([0 0.5 -3 1]);
-subplot(212)
-iplot=1:(0.7*nplot); % Avoid overlap with legend
-plot(wplot(iplot)*0.5/pi,    t0(iplot),"linestyle","-", ...
-     wplot(iplot)*0.5/pi,  t_rd(iplot),"linestyle",":", ...
-     wplot(iplot)*0.5/pi,  t_bf(iplot),"linestyle","--", ... 
-     wplot(iplot)*0.5/pi,  t_sd(iplot),"linestyle","-.", ... 
-     wplot(iplot)*0.5/pi,t_bfsd(iplot),"linestyle","-");
-legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
-legend("location","northeast");
-legend("boxoff");
-legend("left");
-xlabel("Frequency");
-ylabel("Delay(samples)");
-grid("on");
-title(strt);
-axis([0 0.5 14 18]);
-print(strcat(strf,"_passband_response"),"-dpdflatex");
+print(strcat(strf,"_delay"),"-dpdflatex");
 close
 
+%
 % Plot results with signed-digit allocation
-subplot(211)
+%
+% Amplitude
 plot(wplot*0.5/pi,20*log10(abs(    h0)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(  h_sdl)),"linestyle",":", ... 
      wplot*0.5/pi,20*log10(abs(h_bfsdl)),"linestyle","--", ...
@@ -268,29 +250,31 @@ grid("on");
 strt=sprintf("Bandpass OneM PA lattice, nbits=%d,bitstart=%d,\
 msize=%d,ndigits=%d, Lim and Ito SD allocation",nbits,bitstart,msize,ndigits);
 title(strt);
-subplot(212)
+legend("exact","signed-digit (Lim)","bitflip(s-d Lim)","signed-digit (Ito)", ...
+       "bitflip(s-d Ito)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+print(strcat(strf,"_amplitude_allocsd"),"-dpdflatex");
+close
+
+% Delay
 iplot=1:(0.7*nplot); % Avoid overlap with legend
 plot(wplot(iplot)*0.5/pi,      t0(iplot),"linestyle","-", ...
      wplot(iplot)*0.5/pi,   t_sdl(iplot),"linestyle",":", ...
      wplot(iplot)*0.5/pi, t_bfsdl(iplot),"linestyle","--", ... 
      wplot(iplot)*0.5/pi,   t_sdi(iplot),"linestyle","-.", ... 
      wplot(iplot)*0.5/pi, t_bfsdi(iplot),"linestyle","-");
+xlabel("Frequency");
+ylabel("Delay(samples)");
+axis([0 0.5 0 25]);
+grid("on");
 legend("exact","signed-digit (Lim)","bitflip(s-d Lim)","signed-digit (Ito)", ...
        "bitflip(s-d Ito)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
-xlabel("Frequency");
-ylabel("Delay(samples)");
-axis([0 0.5 0 25]);
-grid("on");
-print(strcat(strf,"_response_allocsd"),"-dpdflatex");
-% Re-display plots
-subplot(211);
-axis([0 0.5 -3 1]);
-subplot(212);
-axis([0 0.5 14 18]);
-print(strcat(strf,"_passband_response_allocsd"),"-dpdflatex");
+print(strcat(strf,"_delay_allocsd"),"-dpdflatex");
 close
 
 % Print the results
