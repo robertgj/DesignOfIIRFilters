@@ -16,8 +16,6 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-use_kron=true
-
 % This script fails with a lower constraint on the pass-band amplitude.
 % I do not know how to use the Schur complement with |H|^2>=Asq_pl .
 use_constraint_on_pass_min=false
@@ -26,17 +24,9 @@ use_constraint_on_pass_min=false
 M=15;N=2*M;
 fap=0.10;fas=0.20;
 
-for d=[10,M],
-  if d==M, 
-    Asq_max=1.02;
-    Asq_pu=Asq_max;
-    Asq_pl=0.95^2;
-    Asq_t=Asq_max;
-    Esq_z=0.002^2;
-    Esq_s=Esq_z;
-    Wap=0;Wat=0;Was=0;
-    use_objective=false;
-  else 
+for d=[10,12,M],
+
+  if d==10, 
     Asq_max=1.02^2;
     Asq_pu=Asq_max;
     Asq_pl=0.95^2;
@@ -44,9 +34,34 @@ for d=[10,M],
     Esq_z=0.1^2;
     Esq_s=0.005^2; 
     Wap=1;Wat=0.01;Was=100;
+    use_kron=true;
     use_objective=true;
+    factorise_objective=true;
+  elseif d==12
+    Asq_max=1.05^2;
+    Asq_pu=Asq_max;
+    Asq_pl=0.95^2;
+    Asq_t=Asq_max;
+    Esq_z=0.1^2;
+    Esq_s=0.01^2; 
+    Wap=1;Wat=0.01;Was=100;
+    use_kron=true;
+    use_objective=true;
+    factorise_objective=false;
+  else 
+    Asq_max=1.02;
+    Asq_pu=Asq_max;
+    Asq_pl=0.95^2;
+    Asq_t=Asq_max;
+    Esq_z=0.002^2;
+    Esq_s=Esq_z;
+    Wap=0;Wat=0;Was=0;
+    use_kron=true;
+    use_objective=false;
+    factorise_objective=false;
   endif
-  printf("Testing d=%2d, use_objective=%d\n",d,use_objective);
+  printf("\nTesting d=%2d, use_objective=%d, factorise_objective=%d\n\n",
+         d,use_objective,factorise_objective);
   
   % Common constants
   A=[zeros(N-1,1),eye(N-1);zeros(1,N)];
@@ -57,12 +72,12 @@ for d=[10,M],
 
   % Filter impulse response SDP variables
   if d==M,
-    CM1=sdpvar(1,M+1);
+    CM1=sdpvar(1,M+1,"full","real");
     C=[CM1,CM1(M:-1:2)];
     D=CM1(1);
   else
-    C=sdpvar(1,N);
-    D=sdpvar(1,1);
+    C=sdpvar(1,N,"full","real");
+    D=sdpvar(1,1,"full","real");
   endif
   CD=[C,D];
   CD_d=CD-[C_d,0];
@@ -162,7 +177,22 @@ for d=[10,M],
   if use_objective
     [~,~,G,g]=directFIRnonsymmetricEsqPW ...
       (zeros(N+1,1),[0,fap,fas,0.5]*2*pi,[1,0,0],[d,0,0],[Wap,Wat,Was]);
-    Objective=(hsdp*G*hsdp')+(2*hsdp*g')+(2*fap);
+    quadratic_Objective=(hsdp*G*hsdp')+(2*hsdp*g')+(2*fap);
+    if factorise_objective
+      try
+        % G may not be positive-definite for the piece-wise squared error!
+        R=chol(G);
+        invRp=inv(R');
+        invRpgp=invRp*g';
+        Objective=norm((R*(hsdp'))+invRpgp,2);
+      catch
+        lasterr=lasterror();
+        warning("%s : using quadratic Objective!\n",lasterr.message);
+        Objective=quadratic_Objective;
+      end_try_catch
+    else
+      Objective=quadratic_Objective;
+    endif
   else
     Objective=[];
   endif
@@ -347,7 +377,6 @@ for d=[10,M],
   endif
   xlabel("Frequency");
   print(sprintf("%s_d_%2d_response",strf,d),"-dpdflatex");
-  print(sprintf("%s_d_%2d_response",strf,d),"-dsvg");
   close
 
   % Check amplitude response
