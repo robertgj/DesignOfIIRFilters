@@ -16,7 +16,7 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 %
-% Design a prototype lattice filters with no scaling by p or epsilon
+% Design a prototype lattice filter with no scaling by p or epsilon
 %
 
 tol_eps=20;dBap=0.1;dBas=40;fc=0.1;
@@ -74,7 +74,8 @@ for N=[1,2,3,6,7],
   endfor
   
   % Extract filter and all-pass outputs
-  apAbcd=[Abcd(1:Ns,1:(Ns+1));Abcd(Ns+2,1:(Ns+1))];
+  v=setdiff(1:Ns,[5*(1:N),5*(1:N)-2],"sorted");
+  apAbcd=[Abcd(v,v),Abcd(v,end);Abcd(end,v),Abcd(end,end)];
   Abcd=Abcd(1:(Ns+1),1:(Ns+1));
 
   %
@@ -83,7 +84,10 @@ for N=[1,2,3,6,7],
   
   % Conversion of original transfer functions. 
   [rA,rB,rC,rD,rCap,rDap] = schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c);
-
+  rAap=rA(v,v);
+  rBap=rB(v);
+  rCap=rCap(v);
+  
   % Evaluate symbolic version
   c0=vpa(c(1));
   for l=1:N,
@@ -98,8 +102,8 @@ for N=[1,2,3,6,7],
   endif
 
   vapAbcd=double(eval(apAbcd));
-  if max(max(abs(vapAbcd-[rA,rB;rCap,rDap])))>eps
-    error("N=%d,max(max(abs(vapAbcd-[rA,rB;rCap,rDap])>eps))");
+  if max(max(abs(vapAbcd-[rAap,rBap;rCap,rDap])))>eps
+    error("N=%d,max(max(abs(vapAbcd-[rAap,rBap;rCap,rDap])>eps))");
   endif
   
   eval(sprintf("clear %s",str_syms));

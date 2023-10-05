@@ -59,6 +59,14 @@ Testing Nk=7
 Testing Nk=8
 
 Testing Nk=9
+
+Testing Nk=10
+
+Testing Nk=11
+
+Testing Nk=12
+
+Testing Nk=13
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

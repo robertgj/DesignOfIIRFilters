@@ -19,9 +19,9 @@ catch
 end_try_catch
 
 % Various 
-tol=400*eps;
 fc=0.05;
-for Nk=1:9
+for Nk=1:13
+  tol=(Nk^3)*eps;
   printf("\nTesting Nk=%d\n",Nk);
   [n,d]=butter(Nk,2*fc);
   [k,epsilon,~,c]=tf2schurOneMlattice(n,d);
@@ -35,40 +35,39 @@ for Nk=1:9
     endfor
     printf("%s\n", err.message);
   end_try_catch
+  % Enumerate the extra states
+  nzD=1:3:((3*Nk)+2);
+  zD=setdiff(1:((5*Nk)+3),nzD,"sorted");
+  nzN=nzD+2;
+  zN=setdiff(1:((5*Nk)+3),nzN,"sorted");
   % Filter transfer function
   [N,D]=Abcd2tf(A,B,C,dd);
   % Test extra states
-  nzN=[kron(ones(1,Nk+1),[0,0,1]),0,0];
-  if max(abs(N(find(~nzN)))) > tol
-    error("max(abs(N(find(~nzN)))) > tol");
+  if max(abs(N(zN))) > tol
+    error("max(abs(N(zN))) > tol");
   endif 
-  nzD=[kron(ones(1,Nk+1),[1,0,0]),0,0];
-  if max(abs(D(find(~nzD)))) > tol
-    error("max(abs(D(find(~nzD)))) > tol");
+  if max(abs(D(zD))) > tol
+    error("max(abs(D(zD))) > tol");
   endif 
-  % Trim extra states 
-  if max(abs(N(find(nzN))-n)) > tol
-    error("max(abs(N(find(nzN))-n)) > tol");
-  endif 
-  if max(abs(D(find(nzD))-d)) > tol
-    error("max(abs(D(find(nzD))-d)) > tol");
+  % Test transfer function
+  if max(abs(N(nzN)-n)) > tol
+    error("max(abs(N(nzN)-n)) > tol");
   endif
-  % All-pass filter transfer function
-  [Nap,Dap]=Abcd2tf(A,B,Cap,ddap);
-  % Test extra states
-  if max(abs(Nap(find(~nzN)))) > tol
-    error("max(abs(Nap(find(~nzN)))) > tol");
-  endif 
-  if max(abs(Dap(find(~nzD)))) > tol
-    error("max(abs(Dap(find(~nzD))))) > tol");
-  endif 
-  % Trim extra states 
-  if max(abs(fliplr(Nap(find(nzN)))-Dap(find(nzD)))) > tol
-    error("max(abs(fliplr(Nap(find(nzN)))-Dap(find(nzD)))) > tol");
-  endif 
-  if max(abs(Dap(find(nzD))-d)) > tol
-    error("max(abs(Dap(find(nzD))-d)) > tol");
+  if max(abs(D(nzD)-d)) > tol
+    error("max(abs(D(nzD)-d)) > tol");
   endif
+  % All-pass filter transfer function (remove states only used in butter output)
+  v=setdiff(1:((5*Nk)+2),[5*(1:Nk),5*(1:Nk)-2],"sorted");
+  Aap=A(v,v);
+  Bap=B(v);
+  Cap=Cap(v);
+  [Nap,Dap]=Abcd2tf(Aap,Bap,Cap,ddap);
+  if max(abs(fliplr(Nap)-Dap)) > tol
+    error("max(abs(fliplr(Nap)-Dap)) > tol");
+  endif 
+  if max(abs(Dap(nzD)-d)) > tol
+    error("max(abs(Dap(nzD)-d)) > tol");
+  endif 
 endfor
   
 % Done
