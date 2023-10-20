@@ -35,6 +35,7 @@ for Nk=1:9
     endfor
     printf("%s\n", err.message);
   end_try_catch
+  
   % Filter transfer function
   [N,D]=Abcd2tf(A,B,C,dd);
   % Test extra states
