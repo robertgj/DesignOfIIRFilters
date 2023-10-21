@@ -26,7 +26,8 @@ for Nk=1:13
   [n,d]=butter(Nk,2*fc);
   [k,epsilon,~,c]=tf2schurOneMlattice(n,d);
   try
-    [A,B,C,dd,Cap,ddap]=schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c);
+    [A,B,C,dd,Aap,Bap,Cap,ddap]= ...
+       schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c);
   catch
     err=lasterror();
     for e=1:length(err.stack)
@@ -56,11 +57,7 @@ for Nk=1:13
   if max(abs(D(nzD)-d)) > tol
     error("max(abs(D(nzD)-d)) > tol");
   endif
-  % All-pass filter transfer function (remove states only used in butter output)
-  v=setdiff(1:((5*Nk)+2),[5*(1:Nk),5*(1:Nk)-2],"sorted");
-  Aap=A(v,v);
-  Bap=B(v);
-  Cap=Cap(v);
+  % All-pass filter transfer function
   [Nap,Dap]=Abcd2tf(Aap,Bap,Cap,ddap);
   if max(abs(fliplr(Nap)-Dap)) > tol
     error("max(abs(fliplr(Nap)-Dap)) > tol");

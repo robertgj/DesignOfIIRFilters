@@ -83,10 +83,8 @@ for N=[1,2,3,6,7],
   %
   
   % Conversion of original transfer functions. 
-  [rA,rB,rC,rD,rCap,rDap] = schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c);
-  rAap=rA(v,v);
-  rBap=rB(v);
-  rCap=rCap(v);
+  [rA,rB,rC,rD,rAap,rBap,rCap,rDap] = ...
+    schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c);
   
   % Evaluate symbolic version
   c0=vpa(c(1));

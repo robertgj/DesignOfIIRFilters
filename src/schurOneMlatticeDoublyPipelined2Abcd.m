@@ -1,5 +1,6 @@
-function [A,B,C,D,Cap,Dap] = schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c)
-% [A,B,C,D,Cap,Dap] = schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c)
+function [A,B,C,D,Aap,Bap,Cap,Dap] = ...
+  schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c)
+% [A,B,C,D,Aap,Bap,Cap,Dap] = schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c)
 % Find the state variable representation of a doubly-pipelined Schur
 % one-multiplier lattice filter.
 %
@@ -10,7 +11,7 @@ function [A,B,C,D,Cap,Dap] = schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c)
 % Outputs:
 %  [A,B;C,D] - state variable description of the doubly-pipelined Schur lattice
 %              filter
-%  Cap,Dap   - corresponding matrixes for the all-pass filter
+%  [Aap,Bap;Cap,Dap] - corresponding matrixes for the all-pass filter
 
 % Copyright (C) 2023 Robert G. Jenssen
 %
@@ -33,9 +34,9 @@ function [A,B,C,D,Cap,Dap] = schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if nargin~=3 || nargout<4 || nargout>6
-    print_usage
-      ("[A,B,C,D,Cap,Dap]=schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c)");
+  if nargin~=3 || nargout<4 || nargout>8
+    print_usage("[A,B,C,D,Aap,Bap,Cap,Dap]= ...\n\
+      schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c)");
   endif
   if isempty(k)
     error("k is empty!");
@@ -86,7 +87,14 @@ function [A,B,C,D,Cap,Dap] = schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c)
   B=ABCD(1:Ns,Ns+1);
   C=ABCD(Ns+1,1:Ns);
   D=ABCD(Ns+1,Ns+1);
-  Cap=ABCD(Ns+2,1:Ns);
-  Dap=ABCD(Ns+2,Ns+1);
+
+  % Extract the all-pass state variable description
+  v=setdiff(1:Ns,[5*(1:Nk),5*(1:Nk)-2],"sorted");
+  ABCDap=[ABCD(v,v),ABCD(v,end);ABCD(end,v),ABCD(end,end)];
+  Nap=rows(ABCDap)-1;
+  Aap=ABCDap(1:Nap,1:Nap);
+  Bap=ABCDap(1:Nap,Nap+1);
+  Cap=ABCDap(Nap+1,1:Nap);
+  Dap=ABCDap(Nap+1,Nap+1);
  
 endfunction
