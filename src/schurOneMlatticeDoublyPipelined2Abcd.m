@@ -47,39 +47,30 @@ function [A,B,C,D,Aap,Bap,Cap,Dap] = ...
   endif
   
   % Initialise
-  Nc=length(c);
   Nk=length(k);
-  Ns=(5*Nk)+2;
+  Ns=(3*Nk)+2;
 
-  % Initialise ABCD (move y0=c0*x(1) to c0*x(3))
-  ABCD=[0,1,zeros(1,(5*Nk)+1);1,zeros(1,(5*Nk)+2);eye((5*Nk)+3)];
+  % Initialise ABCD
+  ABCD=[0,1,zeros(1,Ns-1); ...
+        c(1+0),zeros(1,Ns); ...
+        eye(Ns+1)];
   
   % Modules 1 to Nk
-  for n=1:Nk,
-    ABCDm=eye((5*Nk)+5); 
-    ABCDm(((5*n)-3):((5*n)+3),((5*n)-3):((5*n)+4))=zeros(7,8);
-    ABCDm((5*n)-3,(5*n)+1)=-k(n);                 % xp(5n-3)=-kn*x(5n-1)+
-    ABCDm((5*n)-3,(5*n)+4)=(1+(k(n)*epsilon(n))); %          (1+kn*en)
-    ABCDm((5*n)-2,(5*n)-3)=1;                     % xp(5n-2)=y(n-1)
-    ABCDm((5*n)-1,(5*n)-2)=1;                     % xp(5n-1)=yhat(n-1)
-    if n==1
-      ABCDm((5*n),(5*n)  )=c(1);                  % xp(5n)  =c0*x(5n-2)+
-    else
-      ABCDm((5*n),(5*n)  )=1;                     % xp(5n)  =x(5n-2)+
-    endif
-    ABCDm((5*n)  ,(5*n)+4)=c(n+1);                %          cn*x(5n+2)
-    ABCDm((5*n+1),(5*n)+1)=(1-(k(n)*epsilon(n))); % xp(5n+1)=(1-(kn*en))*x(5n-2)+
-    ABCDm((5*n+1),(5*n)+4)=k(n);                  %          kn*x(5n+2)
-    ABCDm((5*n+2),(5*n)+2)=1;                     % y(n)    =x(5n)
-    ABCDm((5*n+3),(5*n)+3)=1;                     % yhat(n) =x(5n+1)
+  for l=1:Nk,
+    ABCDl=[[0,              -k(l),0,0,0,(1+epsilon(l)*k(l))]; ...
+           [1,                  0,0,0,0,             c(1+l)]; ...
+           [0,(1-epsilon(l)*k(l)),0,0,0,               k(l)]];
+    ABCDm=[[eye((3*l)-2),zeros((3*l)-2,(3*(Nk-l))+7)];...
+           [zeros(3,(3*l)-2),ABCDl,zeros(3,(3*(Nk-l))+1)];...
+           [zeros((3*(Nk-l))+4,(3*l)+1),eye((3*(Nk-l))+4)]];
     ABCD=ABCDm*ABCD;
   endfor
-  
-  % Finalize the state for filter input to state ((5*Nk)+2)
-  ABCDm=[eye((5*Nk)+1),zeros((5*Nk)+1,4);zeros(3,((5*Nk)+5))];
-  ABCDm((5*Nk)+2,(5*Nk)+5)=1; % xp(5Nk+2)=u
-  ABCDm((5*Nk)+3,(5*Nk)+2)=1; % y=y(Nk)
-  ABCDm((5*Nk)+4,(5*Nk)+3)=1; % yhat=yhat(Nk)
+           
+  % Finalize the state for filter input to state x((3*Nk)+2)
+  ABCDm=[[eye(Ns-1),zeros(Ns-1,4)]; ...
+         [zeros(3,Ns-1),[0,0,0,1; ...
+                         1,0,0,0; ...
+                         0,1,0,0]]];
   ABCD=ABCDm*ABCD;
 
   % Extract the state variable description
@@ -89,12 +80,10 @@ function [A,B,C,D,Aap,Bap,Cap,Dap] = ...
   D=ABCD(Ns+1,Ns+1);
 
   % Extract the all-pass state variable description
-  v=setdiff(1:Ns,[5*(1:Nk),5*(1:Nk)-2],"sorted");
-  ABCDap=[ABCD(v,v),ABCD(v,end);ABCD(end,v),ABCD(end,end)];
-  Nap=rows(ABCDap)-1;
-  Aap=ABCDap(1:Nap,1:Nap);
-  Bap=ABCDap(1:Nap,Nap+1);
-  Cap=ABCDap(Nap+1,1:Nap);
-  Dap=ABCDap(Nap+1,Nap+1);
+  v=setdiff(1:Ns,3*(1:Nk),"sorted");
+  Aap=A(v,v);
+  Bap=B(v);
+  Cap=ABCD(Ns+2,v);
+  Dap=ABCD(Ns+2,Ns+1);
  
 endfunction

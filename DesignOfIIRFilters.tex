@@ -5621,7 +5621,7 @@ u
 
 The Octave function \emph{schurOneMlatticePipelined2Abcd} returns the state
 variable description of a pipelined Schur one-multiplier lattice filter
-(including the all-pass filter $Cap$ and $Dap$ output matrixes).
+(including the all-pass filter $Aap$, $Bap$, $Cap$ and $Dap$ output matrixes).
 
 The Octave script \emph{schurOneMlatticePipelined2Abcd\_symbolic\_test.m}
 creates a symbolic state variable description of a retimed Schur one-multiplier
@@ -5631,9 +5631,9 @@ lattice filter.
 Figure~\ref{fig:State-variable-description-doubly-pipelined-One-Multiplier-Lattice}
 shows a first order segment of a doubly-pipelined Schur one-multiplier lattice
 filter. In this case, the state transition matrix is linear in the coefficients
-and there are three delays in each filter loop rather than the original single
+and there are two delays in each filter loop rather than the original single
 delay. In other words, the filter calculations are assumed to be performed at
-triple the input sample rate.
+double the input sample rate.
 
 \begin{figure}[!ht]
 \centering
@@ -5656,15 +5656,13 @@ $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
 \State $\hat{y}_{0} = x_{1}$
 \State $x_{1}^{\prime} = x_{2}$  
 \For{$n=1,\hdots,N$}
-\State $x_{5n-3}^{\prime}=-k_{n}x_{5n-1}+\left(1+k_{n}\epsilon_{n}\right)x_{5n+2}$
-\State $x_{5n-2}^{\prime}=y_{n-1}$
-\State $x_{5n-1}^{\prime}=\hat{y}_{n-1}$
-\State $x_{5n}^{\prime}=x_{5n-2}+c_{n}x_{5n+2}$
-\State $x_{5n+1}^{\prime}=\left(1-k_{n}\epsilon_{n}\right)x_{5n-1}+k_{n}x_{5n+2}$
-\State $y_{n} = x_{5n}$
-\State $\hat{y}_{n} = x_{5n+1}$
+\State $x_{3n-1}^{\prime}=-k_{n}\hat{y}_{n-1}+\left(1+k_{n}\epsilon_{n}\right)x_{3n+2}$
+\State $x_{3n}^{\prime}=y_{n-1}+c_{n}x_{3n+2}$
+\State $x_{3n+1}^{\prime}=\left(1-k_{n}\epsilon_{n}\right)\hat{y}_{n-1}+k_{n}x_{3n+2}$
+\State $y_{n} = x_{3n}$
+\State $\hat{y}_{n} = x_{3n+1}$
 \EndFor
-\State $x_{5N+2}^{\prime}=u$
+\State $x_{3N+2}^{\prime}=u$
 \State $y=y_{N}$
 \State $\hat{y}=\hat{y}_{N}$
 \end{algorithmic}
@@ -5685,23 +5683,24 @@ y_{0}\\
 x_{2}\\
 x_{3}\\
 \vdots\\
-x_{5N+2}\\
+x_{3N+2}\\
 u
-\end{array}\right] & = \left[\begin{array}{ccccc}
-     0 &      1 & \cdots & \cdots & 0 \\
-  c_{0} &      0 & \cdots & \cdots & 0 \\
-     1 &      0 & \cdots & \cdots & 0 \\
-     0 &      1 & \cdots & \cdots & 0 \\
-\vdots &        & \ddots &        & \vdots \\
-     0 &        &        &      1 & 0 \\
-     0 & \cdots & \cdots &      0 & 1
+\end{array}\right] & = \left[\begin{array}{cccccc}
+      0 &  1 &   0 & \cdots &      0 & 0 \\
+   c_{0} &  0 &   0 &        &      0 & 0 \\
+      1 &  0 &   0 &        &      0 & 0 \\
+      0 &  1 &   0 &        &      0 & 0 \\
+      0 &  0 &   1 &        &      0 & 0 \\
+ \vdots &    &     & \ddots & \vdots & \vdots \\
+      0 &    &     & \cdots &      1 & 0 \\
+      0 &    &     & \cdots &      0 & 1
 \end{array}\right]
 \left[\begin{array}{c}
 x_{1}\\
 x_{2}\\
 x_{3}\\
 \vdots\\
-x_{5N+2}\\
+x_{3N+2}\\
 u
 \end{array}\right]
 \end{align*}
@@ -5712,81 +5711,72 @@ x_{1}^{\prime}\\
 x_{2}^{\prime}\\
 x_{3}^{\prime}\\
 x_{4}^{\prime}\\
-x_{5}^{\prime}\\
-x_{6}^{\prime}\\
-y_{1}\\
-\hat{y}_{1}\\
-x_{7}\\
-\vdots\\
-x_{5N+2}\\
-u
-\end{array}\right] & = \left[
-\begin{array}{cccccccccccc}
- 1& 0& 0& 0& 0&     0& 0& 0&                               0& \cdots& 0& 0\\
- 0& 0& 0& 0& 0& -k_{1}& 0& 0& \left(1+k_{1}\epsilon_{1}\right)& \cdots& 0& 0\\
- 0& 1& 0& 0& 0&     0& 0& 0&                               0& \cdots& 0& 0\\
- 0& 0& 1& 0& 0&     0& 0& 0&                               0& \cdots& 0& 0\\
- 0& 0& 0& 0& 1&     0& 0& 0&                            c_{1}& \cdots& 0& 0\\
- 0& 0& 0& 0& 0& \left(1-k_{1}\epsilon_{1}\right)& 0& 0&  k_{1}& \cdots& 0& 0\\ 
- 0& 0& 0& 0& 0&     0& 1& 0&                               0& \cdots& 0& 0\\
- 0& 0& 0& 0& 0&     0& 0& 1&                               0& \cdots& 0& 0\\
- 0& 0& 0& 0& 0&     0& 0& 0&                               1& \cdots& 0& 0\\
- \cdots& & & & &     &  &  &                            & \ddots&\vdots&\vdots\\
- 0& 0& 0& 0& 0&     0& 0& 0&                               0& \cdots& 1& 0\\
- 0& 0& 0& 0& 0&     0& 0& 0&                               0& \cdots& 0& 1\\
-\end{array}\right]
-\left[\begin{array}{c}
-x_{1}^{\prime} \\
-y_{0}\\
-\hat{y}_{0}\\
-x_{2}\\
-x_{3}\\
-x_{4}\\
+y_{1}\\         
+\hat{y}_{1}\\   
 x_{5}\\
 x_{6}\\
-x_{7}\\
-\vdots\\
-x_{5N+2}\\
+\vdots\\        
+x_{3N+2}\\      
+u
+\end{array}\right] & = \left[\begin{array}{ccccccccccc}
+   1&  0&     0& 0& 0& 0&                             0& 0& \cdots& 0& 0\\   
+   0&  0&-k_{1}& 0& 0& 0&\left(1+k_{1}\epsilon_{1}\right)& 0& \cdots& 0& 0\\
+   0&  1&     0& 0& 0& 0&                          c_{1}& 0& \cdots& 0& 0\\   
+   0&  0&\left(1-k_{1}\epsilon_{1}\right)& 0& 0& 0& k_{1}& 0& \cdots& 0& 0\\
+   0&  0&     0& 0& 1& 0&                              0& 0& \cdots& 0& 0\\   
+   0&  0&     0& 0& 0& 1&                              0& 0& \cdots& 0& 0\\   
+   0&  0&     0& 0& 0& 0&                              1& 0& \cdots& 0& 0\\
+   0&  0&     0& 0& 0& 0&                              0& 1& \cdots& 0& 0\\
+\vdots& &      &  &  &  &                               & &\ddots&\vdots&\vdots\\
+   0&  0&     0& 0& 0& 0&                              0& 0& \cdots& 1& 0\\
+   0&  0&     0& 0& 0& 0&                              0& 0& \cdots& 0& 1
+\end{array}\right]
+\left[\begin{array}{c}
+x_{1}^{\prime} \\  
+y_{0}\\            
+\hat{y}_{0}\\      
+x_{2}\\            
+x_{3}\\            
+x_{4}\\            
+x_{5}\\            
+x_{6}\\            
+\vdots\\           
+x_{3N+2}\\         
 u
 \end{array}\right]
 \end{align*}
 
 \begin{align*}
 \left[\begin{array}{c}
-x_{1}^{\prime}\\
-\vdots\\
-x_{5N-3}^{\prime}\\
-x_{5N-2}^{\prime}\\
-x_{5N-1}^{\prime}\\
-x_{5N}^{\prime}\\
-x_{5N+1}^{\prime}\\
-y_{N}\\
-\hat{y}_{N}\\
-x_{5N+2}\\
+x_{1}^{\prime}\\   
+\vdots\\           
+x_{3N-1}^{\prime}\\
+x_{3N}^{\prime}\\
+x_{3N+1}^{\prime}\\
+y_{N}\\            
+\hat{y}_{N}\\ 
+x_{3N+2}\\            
 u\end{array}\right] & = \left[
-\begin{array}{ccccccccccc}
-      1& \cdots& 0& 0& 0& 0&     0& 0& 0& 0& 0\\
- \vdots& \ddots&  &  &  &  &      &  &  &  & \vdots\\
-      0& \cdots& 0& 0& 0& 0& -k_{N}& 0& 0& \left(1+k_{N}\epsilon_{N}\right)& 0\\
-      0& \cdots& 1& 0& 0& 0&     0& 0& 0&                                0& 0\\
-      0& \cdots& 0& 1& 0& 0&     0& 0& 0&                                0& 0\\
-      0& \cdots& 0& 0& 0& 1&     0& 0& 0&                             c_{N}& 0\\
-      0& \cdots& 0& 0& 0& 0&\left(1-k_{N}\epsilon_{N}\right)& 0& 0&   k_{N}& 0\\
-      0& \cdots& 0& 0& 0& 0& 0& 1& 0& 0& 0\\
-      0& \cdots& 0& 0& 0& 0& 0& 0& 1& 0& 0\\
-      0& \cdots& 0& 0& 0& 0& 0& 0& 0& 1& 0\\
-      0& \cdots& 0& 0& 0& 0& 0& 0& 0& 0& 1\end{array}\right]
+\begin{array}{ccccccccc}
+       1& \cdots& 0&    0& 0& 0& 0&                              0& 0\\
+  \vdots& \ddots&  &     &  &  &  &                               & \vdots\\
+       0& \cdots& 0&-k_{N}& 0& 0& 0&\left(1+k_{N}\epsilon_{N}\right)& 0\\
+       0& \cdots& 1&    0& 0& 0& 0&                           c_{N}& 0\\
+       0& \cdots& 0&\left(1-k_{N}\epsilon_{N}\right)& 0& 0& 0& k_{N}& 0 \\
+       0& \cdots& 0&    0& 0& 1& 0&                               0& 0\\
+       0& \cdots& 0&    0& 0& 0& 1&                               0& 0\\
+       0& \cdots& 0&    0& 0& 0& 0&                               1& 0\\
+       0& \cdots& 0&    0& 0& 0& 0&                               0& 1
+\end{array}\right]
 \left[\begin{array}{c}
 x_{1}^{\prime} \\
 \vdots\\
 y_{N-1}\\
 \hat{y}_{N-1}\\
-x_{5N-3}\\
-x_{5N-2}\\
-x_{5N-1}\\
-x_{5N}\\
-x_{5N+1}\\
-x_{5N+2}\\
+x_{3N-1}\\
+x_{3N}\\
+x_{3N+1}\\
+x_{3N+2}\\
 u\end{array}\right]
 \end{align*}
 
@@ -5794,32 +5784,27 @@ u\end{array}\right]
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
 \vdots\\
-x_{5N-3}^{\prime}\\
-x_{5N-2}^{\prime}\\
-x_{5N-1}^{\prime}\\
-x_{5N}^{\prime}\\
-x_{5N+1}^{\prime}\\
-x_{5N+2}^{\prime}\\
+x_{3N+2}^{\prime}\\
 y\\
 \hat{y}\end{array}\right] & = \left[
-\begin{array}{ccccccccccc}
-      1& \cdots& 0& 0& 0& 0&     0& 0& 0& 0& 0\\
- \vdots& \ddots&  &  &  &  &      &  &  &  & \vdots\\
-      0& \cdots& 0& 0& 0& 0& 0& 0& 0& 0& 1\\
-      0& \cdots& 0& 0& 0& 0& 0& 1& 0& 0& 0\\
-      0& \cdots& 0& 0& 0& 0& 0& 0& 1& 0& 0\end{array}\right]
+\begin{array}{ccccccccc}
+      1& \cdots& 0& 0& 0& 0& 0& 0& 0\\
+ \vdots& \ddots&  &  &  &  &  &  & \vdots\\
+      0& \cdots& 0& 0& 0& 0& 0& 0& 1\\
+      0& \cdots& 0& 0& 0& 1& 0& 0& 0\\
+      0& \cdots& 0& 0& 0& 0& 1& 0& 0\end{array}\right]
 \left[\begin{array}{c}
 x_{1}^{\prime} \\
 \vdots\\
 y_{N}\\
 \hat{y}_{N}\\
-x_{5N+2}\\
+x_{3N+2}\\
 u\end{array}\right]
 \end{align*}
 
 The Octave function \emph{schurOneMlatticeDoublyPipelined2Abcd} returns the state
 variable description of a doubly-pipelined Schur one-multiplier lattice filter
-(including the all-pass filter $Cap$ and $Dap$ output matrixes).
+(including the all-pass filter $Aap$, $Bap$, $Cap$ and $Dap$ output matrixes).
 
 The Octave script \emph{schurOneMlatticeDoublyPipelined2Abcd\_symbolic\_test.m}
 creates a symbolic state variable description of a doubly-pipelined Schur
