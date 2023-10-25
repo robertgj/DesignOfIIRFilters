@@ -1,5 +1,5 @@
 % yalmip_dualize_test.m
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2023 Robert G. Jenssen
 %
 % See  https://yalmip.github.io/command/dualize/ and
 % "Dualize it: software for automatic primal and dual conversions of
@@ -11,8 +11,6 @@ test_common;
 delete("yalmip_dualize_test.diary");
 delete("yalmip_dualize_test.diary.tmp");
 diary yalmip_dualize_test.diary.tmp
-
-pkg load symbolic optim
 
 tic;
 
@@ -42,7 +40,7 @@ fdisp(fid,"Ya=");fdisp(fid,Ya);
 fprintf(fid,"isdefinite(Ya)=%d\n",isdefinite(Ya));
 
 % Alternatively
-sol=optimize(F,obj,sdpsettings('dualize',1));
+sol=optimize(F,obj,sdpsettings("dualize",1));
 if sol.problem
   error("YALMIP failed : %s",sol.info);
 endif
@@ -77,7 +75,7 @@ sol=optimize(Fp,objp)
 tb=value(t)
 fprintf(fid,"tb=%9.4g\n",tb);
 
-sol=optimize(Fp,objp,sdpsettings('removeequalities',1))
+sol=optimize(Fp,objp,sdpsettings("removeequalities",1))
 tc=value(t)
 fprintf(fid,"tc=%9.4g\n",tc);
 

@@ -34951,13 +34951,21 @@ For example, if
 0 &-\varepsilon^{2}I\end{array}\right]
 \end{align}
 then the corresponding frequency domain constraint is
-$\mathabs{H\left(\omega\right)}^{2}<\varepsilon^{2}$. If the filter parameter
-vector is $\rho\in\mathbb{R}^{p}$, then the LMI of
-Equation~\ref{eqn:KYPlemmaLMI} corresponds to an SDP optimisation problem 
-with $p+\frac{n\left(n+1\right)}{2}$ variables. \emph{Vandenburghe et
-al.}~\cite{VandenbergheBalakrishnan_ImplementationInteriorPointKYPlemma}
-show that it is more efficient to solve the \emph{dual} or \emph{primal-dual}
-SDP problems.
+$\mathabs{H\left(\omega\right)}^{2}\le\varepsilon^{2}$ for all $\omega$. If the
+state-space description, $\left[\begin{array}{cc}
+    A & B \\
+    C & D\end{array}\right]$, is known, then a feasible solution of
+Equation~\ref{eqn:KYPlemmaLMI_expanded} with this $\Pi$ also shows
+$\varepsilon$.
+Similarly, if 
+\begin{align}
+\Pi=\left[\begin{array}{cc} 0 & -I \\
+-I &2\varepsilon I\end{array}\right]
+\end{align}
+and a feasible solution for $\varepsilon$ exists, then
+$\frac{1}{2}\left[H\left(\omega\right)+H\left(\omega\right)^{\mathconj}\right]
+\le \varepsilon$ for all $\omega$\footnote{For
+  example, see the Octave script \emph{yalmip\_kyp\_epsilon\_test.m}~.}.
 
 \emph{Iwasaki}, \emph{Meinsma} and
 \emph{Fu}~\cite{Iwasaki_GeneralizedSProcFiniteFreqKYP} extend the continuous
@@ -34969,10 +34977,10 @@ Iwasaki_GeneralizedKYPFrequencyDomainInequalities,
 Davidson_LMISpectralConstraints,
 Iwasaki_GeneralizedSProcFiniteFreqKYP,
 Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}.
-
 In the remainder of this section I follow the discussion of a finite-frequency
 continuous-time KYP lemma described by \emph{Iwasaki}, \emph{Meinsma} and
 \emph{Minyue Fu}~\cite{Iwasaki_GeneralizedSProcFiniteFreqKYP}.
+
 \subsection{A generalised S-procedure}
 The \emph{S-procedure}\footnote{Also see Section~\ref{app:Jonsson-S-procedure}}
 is the basis of proofs of the KYP lemma. \emph{Iwasaki}, \emph{Meinsma} and
@@ -35314,9 +35322,18 @@ I & 0 \end{array}\right] = ...\\
 The second corollary shows how to express the Linear Matrix Inequality (LMI) of
 Theorem 2 in terms of real matrixes that represent the real and imaginary parts
 of $P$ and $Q$. 
+
 \clearpage
 \section{\emph{Iwasaki} and \emph{Hara}'s generalised KYP lemma for
 discrete-time systems}
+\emph{Iwasaki} and \emph{Hara}~\cite{Iwasaki_KYPlemmaFrequencyInequalities}
+prove a generalised KYP lemma for discrete-time systems by first making a
+frequency transformation in the complex plane from the unit-circle to the
+imaginary axis and then applying the continuous-time KYP lemma.
+
+\emph{Cheng}~\cite{ChengYiping_ProofDiscreteTimeKYPusingSDPduality} shows
+proofs of the discrete- and continuous-time KYP lemmas by the properties of the
+dual problems.
 
 \subsection{Frequency transformations in the complex plane}
 \emph{Iwasaki} and \emph{Hara}~\cite[Section
@@ -35857,7 +35874,127 @@ For example, if $\mathabs{H\left(\lambda\right)}\le\varepsilon$:
 I & 0 \\
 0 & -\varepsilon^{2}I\end{array}\right]
 \end{align*}
+\clearpage
+\subsection{\emph{Rantzer}'s transformation of the KYP lemma from discrete-time
+  to continuous-time}
+\emph{Rantzer}~\cite[Proof of Theorem 2]{Rantzer_KYP_PositiveSystems} shows an
+alternative transformation of the KYP lemma from discrete-time to
+continuous-time by parameterising the unit circle with
+$\left(1+\imath\omega\right)/\left(1-\imath\omega\right)$ rather than
+$e^{\imath\omega}$. Multiplying out:
+\begin{align*}
+  \left[\frac{1+\imath\omega}{1-\imath\omega}I - A\right]x&=Bu \\
+  \left[\imath\omega\left(A+I\right)-\left(A-I\right)\right]x
+                                   +\imath\omega B &=Bu\\
+  \left[\imath\omega I-\left(A-I\right)\left(A+I\right)^{-1}\right]
+  \left(A+I\right)x   +\imath\omega B &=Bu\\
+  \left[\imath\omega I-\left(A-I\right)\left(A+I\right)^{-1}\right]
+  \left(Ix+Ax+Bu\right)
+     &=\left[I - \left(A-I\right)\left(A+I\right)^{-1}\right]Bu\\
+  \left[\imath\omega I-\left(A-I\right)\left(A+I\right)^{-1}\right]
+  \left(Ix+Ax+Bu\right)
+     &=\left[\left(A+I\right) - \left(A-I\right)\right]\left(A+I\right)^{-1}Bu\\
+  \left[\imath\omega I-\left(A-I\right)\left(A+I\right)^{-1}\right]
+  \left(Ix+Ax+Bu\right) &=2\left(A+I\right)^{-1}Bu
+\end{align*}
 
+\emph{Rantzer} introduces:
+\begin{align*}
+  \hat{A}&=\left(A-I\right)\left(A+I\right)^{-1} \\
+  \hat{B}&=2\left(A+I\right)^{-1}B \\
+  \hat{x}&=Ix+Ax+Bu \\
+  S&=\left[\begin{array}{cc}
+             \left(A+I\right)^{-1} & -\left(A+I\right)^{-1}B \\
+             0 & I \end{array}\right] \\
+  \hat{\Theta}&=S^{\top}\Theta S \\
+ \hat{P}&=P/2
+\end{align*}
+The corresponding frequency domain condition is:
+\begin{align*}
+  \left[\begin{array}{c}
+          \left(\imath\omega I -\hat{A}\right)^{-1}\hat{B} \\
+          I \end{array}\right]^{\mathconj}
+  \hat{\Theta}
+  \left[\begin{array}{c}
+          \left(\imath\omega I -\hat{A}\right)^{-1}\hat{B} \\
+          I \end{array}\right] \le 0
+\end{align*}
+which the continuous-time KYP lemma tells us is equivalent to:
+\begin{align*}
+  \left[\begin{array}{cc}
+          \hat{A}^{\top}\hat{P}+\hat{P}\hat{A} & \hat{P}\hat{B} \\
+          \hat{B}^{\top}\hat{P} & 0 \end{array}\right] + \hat{\Theta} \preceq 0
+\end{align*}
+for some symmetric real $\hat{P}$. Multiplying by $\left[\begin{array}{cc}
+                        A+I & B \\
+                        0 & I \end{array}\right]$  on the right and its
+transpose on the left gives:
+\begin{align*}
+\begin{split}
+ &  \left[\begin{array}{cc}
+          A+I & B \\
+          0 & I \end{array}\right]^{\top}\left[\begin{array}{cc}
+          \hat{A}^{\top}\hat{P}+\hat{P}\hat{A} &\hat{P}\hat{B} \\
+          \hat{B}^{\top}\hat{P} & 0\end{array}\right]\left[\begin{array}{cc}
+          A+I & B \\
+          0 & I \end{array}\right] +
+    \left[\begin{array}{cc}
+          A+I & B \\
+          0 & I \end{array}\right]^{\top}S^{\top}\Theta S\left[\begin{array}{cc}
+          A+I & B \\
+          0 & I \end{array}\right] \preceq 0 \\
+ & \left[\begin{array}{cc}
+  \left(A+I\right)^{\top}\left(\hat{A}^{\top}\hat{P}+\hat{P}\hat{A}\right)
+  &  \left(A+I\right)^{\top}\hat{P}\hat{B} \\
+   B^{\top}\left(\hat{A}^{\top}\hat{P}+\hat{P}\hat{A}\right)+\hat{B}^{\top}\hat{P}
+  &  B^{\top}\hat{P}\hat{B}
+         \end{array}\right]\left[\begin{array}{cc}
+          A+I & B \\
+          0 & I \end{array}\right]  +  \cdots \\
+  &    \left[\begin{array}{cc}
+       A+I & B \\
+       0 & I \end{array}\right]^{\top}\left[\begin{array}{cc}
+       \left(A+I\right)^{-1} & -\left(A+I\right)^{-1}B \\
+      0 & I \end{array}\right]^{\top}\Theta\left[\begin{array}{cc}
+      \left(A+I\right)^{-1} & -\left(A+I\right)^{-1}B \\
+      0 & I\end{array}\right]\left[\begin{array}{cc}
+      A+I & B \\
+      0 & I \end{array}\right]  \preceq 0 \\ 
+ & \left[\begin{array}{cc}
+           \left(A+I\right)^{\top}\left( \hat{A}^{\top}\hat{P}+
+           \hat{P}\hat{A}\right)\left(A+I\right)
+           &  \left(A+I\right)^{\top}\left( \hat{A}^{\top}\hat{P}+
+             \hat{P}\hat{A}\right)B +\left(A+I\right)^{\top}\hat{P}\hat{B} \\
+           B^{\top}\left( \hat{A}^{\top}\hat{P}+
+           \hat{P}\hat{A}\right)\left(A+I\right)+
+           \hat{B}^{\top}\hat{P}\left(A+I\right)
+           &  B^{\top}\left( \hat{A}^{\top}\hat{P}+\hat{P}\hat{A}\right)B+
+             \hat{B}^{\top}\hat{P}B+
+             B^{\top}\hat{P}\hat{B}
+   \end{array}\right]  +  \Theta \preceq 0 \\
+& \left[\begin{array}{cc}
+      \left(A-I\right)^{\top}\hat{P}\left(A+I\right) +
+      \left(A+I\right)^{\top}\hat{P}\left(A-I\right)
+    & \left(A-I\right)^{\top}\hat{P}B+
+      \frac{1}{2}\left(A+I\right)^{\top}\hat{P}\left(A+I\right)\hat{B} \\
+      \frac{1}{2}\hat{B}^{\top}\left(A+I\right)^{\top}\hat{P}\left(A+I\right)+
+      B^{\top}\hat{P}\left(A-I\right)
+    & \frac{1}{2}\hat{B}^{\top}\left(A+I\right)^{\top}\hat{P}B+
+      \frac{1}{2}B^{\top}\hat{P}\left(A+1\right)\hat{B}
+   \end{array}\right]  +  \Theta \preceq 0 \\
+ & \left[\begin{array}{cc}
+  2A^{\top}\hat{P}A-2\hat{P} & 2A^{\top}\hat{P}B\\
+  2B^{\top}\hat{P}A & 2B^{\top}\hat{P}B\end{array}\right]+\Theta \preceq 0 \\
+ & \left[\begin{array}{cc}
+           A^{\top}PA -P & A^{\top}PB \\
+           B^{\top}PA & B^{\top}PB \end{array}\right] + \Theta \preceq 0
+\end{split}
+\end{align*}
+I experiment with this conversion in the Octave script
+\emph{yalmip\_kyp\_rantzer\_test.m} and find that SeDuMi calculates
+$P \approx -2\hat{P}$.
+
+\clearpage
 \subsection{Examples of FIR filter design with the generalised KYP lemma}
 The Octave script \emph{directFIRnonsymmetric\_kyp\_lowpass\_alternate\_test.m}
 experiments with various combinations of constraints and objective functions.
@@ -37208,6 +37345,117 @@ Constraints=[F_plu<=-sedumi_eps,Q_plu>=0,F_slmu<=-sedumi_eps,Q_slmu>=0];
 \end{small}
 The resulting filter frequency response is acceptable. These numerical problems
 occurred for all combinations of $N$ and $d$ that I tried.
+\clearpage
+\section{The dual of the KYP lemma LMI}
+\emph{Wallin}, \emph{Vandeberghe} and others note that solution of the KYP lemma
+by Equation~\ref{eqn:KYPlemmaLMI_expanded} is an $\mathcal{O}\left(n^{6}\right)$
+complexity problem, that solving the \emph{dual} problem reduces this to
+$\mathcal{O}\left(n^{4}\right)$ and that exploiting the structure of the dual
+problem can reduce the complexity further to
+$\mathcal{O}\left(n^{3}\right)$~
+\cite{Balakrishnan_SDPDualityLinearTimeInvariantSystems,
+  VandenbergheBalakrishnan_ImplementationInteriorPointKYPlemma,
+  WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers,
+  WallinHanssonVandenberge_ComparisonStructureExploitingIntegralQuadratic,
+  ChengYiping_ProofDiscreteTimeKYPusingSDPduality}.
+\subsection{The \emph{adjoint} of the discrete-time KYP linear mapping}
+\emph{Cheng}~\cite{ChengYiping_ProofDiscreteTimeKYPusingSDPduality} shows
+proofs of the continuous-time and discrete-time KYP lemmas by duality.
+He begins by reviewing the definition of the \emph{adjoint} of the linear
+mapping of a hermitian matrix. The inner product defined on the Hilbert space of
+$n\times n$ Hermitian matrixes, $\mathbb{H}^{n}$, is:
+  \begin{align*}
+    \langle A,B\rangle = \mathtrace\left(A^{\mathconj}B\right) =
+    \mathtrace\left(AB\right)
+  \end{align*}
+Also:
+\begin{quotation}
+  ..given two Hilbert spaces $V$ and $W$ and a linear mapping
+  $\mathcal{A}:V\rightarrow W$, the adjoint mapping of $\mathcal{A}$,
+  denoted $\mathcal{A}^{adj}$, is a linear mapping from $W$ to $V$ such that
+  \begin{align*}
+    \forall x\in V, y\in W, \langle\mathcal{A}\left(x\right),y\rangle_{W} =
+    \langle x,\mathcal{A}^{adj}\left(y\right)\rangle_{V}
+  \end{align*}
+\end{quotation}
+
+The linear mapping associated with the discrete-time KYP lemma is
+$\mathcal{D}:\mathbb{H}^{n}\rightarrow\mathbb{H}^{n+m}$:
+\begin{align}
+  \mathcal{D}\left(P\right) &= \left[\begin{array}{cc}
+         A^{\mathconj}PA-P & A^{\mathconj}PB \\
+         B^{\mathconj}PA   & B^{\mathconj}PB\end{array}\right]
+  \label{eqn:Discrete-time-KYP-lemma-linear-mapping}
+\end{align}
+The adjoint mapping, $\mathcal{D}^{adj}:\mathbb{H}^{n+m}\rightarrow\mathbb{H}^{n}$, is:
+\begin{align*}
+  \mathcal{D}^{adj}\left(Z\right)
+  &= AZ_{11}A^{\mathconj}-Z_{11} + BZ_{12}^{\mathconj}A^{\mathconj}
+    + AZ_{12}B^{\mathconj} + BZ_{22}B^{\mathconj}
+\end{align*}
+where
+\begin{align*}
+  Z&=\left[\begin{array}{cc}
+             Z_{11} & Z_{12} \\
+             Z_{12}^{\mathconj} & Z_{22}\end{array}\right]
+\end{align*}
+This follows from the definition of the inner product:
+\begin{align*}
+  \langle\mathcal{D}\left(P\right),Z\rangle &=
+  \mathtrace\left(\mathcal{D}Z\right)  \\
+  &= \mathtrace\left(\left[\begin{array}{cc}
+         A^{\mathconj}PA-P & A^{\mathconj}PB \\
+         B^{\mathconj}PA   & B^{\mathconj}PB\end{array}\right]
+    \left[\begin{array}{cc}
+             Z_{11} & Z_{12} \\
+            Z_{12}^{\mathconj} & Z_{22}\end{array}\right]\right) \\
+  &= \mathtrace\left(\left[\begin{array}{cc}
+    A^{\mathconj}PAZ_{11}-PZ_{11} +A^{\mathconj}PBZ_{12}^{\mathconj} & \cdots \\
+    \cdots & B^{\mathconj}PAZ_{12}+B^{\mathconj}PBZ_{22}\end{array}\right]\right) \\
+  &= \mathtrace\left( PAZ_{11}A^{\mathconj}-PZ_{11} +PBZ_{12}^{\mathconj}A^{\mathconj}
+    +PAZ_{12}B^{\mathconj}+PBZ_{22}B^{\mathconj}\right) \\
+  &= \langle P,\mathcal{D}^{adj}\left(Z\right)\rangle 
+\end{align*}
+and the following properties of $\mathtrace$:
+\begin{align*}
+  \mathtrace\left(A+B\right) &=
+      \mathtrace\left(A\right) + \mathtrace\left(B\right) \\
+  \mathtrace\left(AB\right) &=
+      \mathtrace\left(A^{\top}B\right) = \mathtrace\left(AB^{\top}\right)
+        =\mathtrace\left(B^{\top}A\right) = \mathtrace\left(BA^{\top}\right) \\
+  \mathtrace\left(ABCD\right) &= \mathtrace\left(BCDA\right) =
+                                \mathtrace\left(CDAB\right) =
+                                \mathtrace\left(DABC\right) \\
+  \mathtrace\left(ABC\right) &= \mathtrace\left(\left(ABC\right)^{\top}\right)=
+                                \mathtrace\left(CBA\right) 
+\end{align*}
+
+The adjoint mapping of the generalised, finite-frequency, discrete-time KYP
+lemma is found in a similar fashion.
+
+\subsection{The dual of the discrete-time KYP lemma LMI}
+\emph{Cheng}~\cite[Section 3.5]{ChengYiping_ProofDiscreteTimeKYPusingSDPduality}
+proves the following dual of the discrete-time KYP linear matrix inequality:
+\begin{framed}
+  \emph{Proposition 2} There exists $Z\in\mathbb{H}^{n+m}$ such that:
+  \begin{align*}
+    Z = \left[\begin{array}{cc}
+             Z_{11} & Z_{12} \\
+             Z_{12}^{\mathconj} & Z_{22}\end{array}\right] &\prec 0 \\
+    AZ_{11}A^{\mathconj} - Z_{11} + BZ_{12}^{\mathconj}A^{\mathconj}
+    + AZ_{12}B^{\mathconj} + BZ_{22}B^{\mathconj} &= 0\\
+    \mathtrace\left(\Theta Z\right) &\le 0
+  \end{align*}
+\end{framed}
+The Octave script \emph{yalmip\_kyp\_dual\_test.m} checks the dual of the KYP
+lemma for the maximum amplitude of a low-pass FIR filter designed with the Octave
+\emph{remez} function. Unfortunately, in this script, SeDuMi fails for the KYP
+lemma linear mapping of
+Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping} and the SDPT3 solver
+is used instead. However, SeDuMi does solve the dual mapping.
+
+The dual of the KYP lemma requires a bilinear term $\Theta Z$ and is not
+amenable to FIR filter design with LMI SDP solvers.
 \cleardoublepage
 
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}
@@ -37671,7 +37919,7 @@ multiple of $200$.}
 power of $2$.}
 \label{fig:benchmark-iirA-freqz-test-65536}
 \end{figure}
-
+\clearpage
 \pdfbookmark[0]{Solvers}{solvers}
 \section*{Solvers}
 \pdfbookmark[1]{SeDuMi}{sedumi}

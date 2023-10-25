@@ -15,15 +15,28 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 % Low-pass filter specification
-M=15;N=2*M;
-fap=0.10;fas=0.20;
+M=15;
+N=2*M;
+fap=0.10;
+fas=0.20;
 Asq_pl=0.8^2;
-
 d=M; 
 Asq_pu=1.02;
 Asq_pu=0.64;
 Esq_s=0.002^2;
   
+% Demonstrate properties of a rank 1 matrix
+b=remez(N,[0 fap fas 0.5]*2,[1 1 0 0]);
+b=b(:)/sum(b);
+B=b*b';
+[U,S,V]=svd(B);
+if sum(any(abs(diag(S))>eps)) > 1
+  error("B has more than one non-zero eigenvalue!");
+endif
+if max(abs(1-(b./(U(:,1)/sum(U(:,1)))))) > 50*eps
+  error("Did not recover b from U!");
+endif
+
 % Common constants
 A=[zeros(N-1,1),eye(N-1);zeros(1,N)];
 B=[zeros(N-1,1);1];
