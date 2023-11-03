@@ -6,10 +6,15 @@ function [epsilon,p,S1M] = schurOneMscale(k,S)
 % Determine the sign coefficients, epsilon, and scaling factors, p,
 % that scale the Schur lattice filter with coefficients, k, and Schur 
 % orthogonal basis, S. The orthonormal Schur basis is returned in S1M. 
-% Reference: "Digital Lattice and Ladder Filter Synthesis" A.H.Gray, Jr. 
-% and J.D.Markel, IEEE Trans. Audio and Electroacoustics, Vol. 20, No. 6,
-% Dec. 1973, pp.496
-
+% References:
+%  [1] "Digital Lattice and Ladder Filter Synthesis" A.H.Gray, Jr. 
+%       and J.D.Markel, IEEE Trans. Audio and Electroacoustics,
+%       Vol. 20, No. 6, Dec. 1973, pp.496
+%  [2] "Fixed-Point Implementation Algorithms for a Class of Orthogonal,
+%       Polynomial Filter Structures", J. D. Markel and A. H. Gray,
+%       IEEE Trans. Acoustics, Speech and Signal Processing, Vol. 23, No. 5,
+%       Oct. 1975, pp.486-494
+  
 % Copyright (C) 2017,2018 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
