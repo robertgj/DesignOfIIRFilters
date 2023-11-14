@@ -96,3 +96,8 @@ The *docs* directory contains a fork of the [Poole](http://getpoole.com)
 theme for the [Jekyll](http://jekyllrb.com) static web page generator.
 
 All other code is licensed under the [MIT licence](LICENCE).
+
+### Update from Fedora 38 to Fedora 39 breaks octave-8.4.0
+Updating from Fedora 38 to Fedora 39 breaks octave-8.4.0 on my system. I will 
+resume making commits to the git repository after the release of octave-9.1.0 in
+Dec.2023.
