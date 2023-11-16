@@ -7,7 +7,7 @@
 # bison flex openblas-devel patch texinfo texinfo-tex librsvg2 librsvg2-devel
 # librsvg2-tools icoutils autoconf automake libtool pcre pcre-devel freetype
 # freetype-devel gnupg2 texlive-dvisvgm gl2ps gl2ps-devel
-# hdf5 hdf5-devel qt qscintilla-qt5 qscintilla-qt5-devel
+# hdf5 hdf5-devel qt qscintilla-qt5 qscintilla-qt5-devel 
 # qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel
 # libcurl libcurl-devel gl2ps gl2ps-devel fontconfig-devel mesa-libGLU
 # mesa-libGLU-devel qt5-qttools qt5-qttools-common qt5-qttools-devel
@@ -56,7 +56,7 @@ OPTFLAGS="-m64 -march=nehalem -O2"
 #
 # Get Octave archive
 #
-OCTAVE_VER=8.3.0
+OCTAVE_VER=8.4.0
 OCTAVE_ARCHIVE=octave-$OCTAVE_VER".tar.lz"
 OCTAVE_URL=https://ftp.gnu.org/gnu/octave/$OCTAVE_ARCHIVE
 if ! test -f $OCTAVE_ARCHIVE; then
@@ -94,14 +94,14 @@ if ! test -f $LAPACK_ARCHIVE; then
   wget -c $LAPACK_URL -O $LAPACK_ARCHIVE
 fi
 
-ARPACK_VER=${ARPACK_VER:-3.9.0}
+ARPACK_VER=${ARPACK_VER:-3.9.1}
 ARPACK_ARCHIVE=arpack-ng-$ARPACK_VER".tar.gz"
 ARPACK_URL=https://github.com/opencollab/arpack-ng/archive/refs/tags/$ARPACK_VER".tar.gz"
 if ! test -f $ARPACK_ARCHIVE; then
   wget -c $ARPACK_URL -O $ARPACK_ARCHIVE
 fi
 
-SUITESPARSE_VER=${SUITESPARSE_VER:-7.2.0}
+SUITESPARSE_VER=${SUITESPARSE_VER:-7.3.1}
 SUITESPARSE_ARCHIVE=SuiteSparse-$SUITESPARSE_VER".tar.gz"
 SUITESPARSE_URL=https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v$SUITESPARSE_VER".tar.gz"
 if ! test -f $SUITESPARSE_ARCHIVE; then
@@ -129,7 +129,7 @@ if ! test -f $GLPK_ARCHIVE; then
   wget -c $GLPK_URL
 fi
 
-SUNDIALS_VER=${SUNDIALS_VER:-6.6.1}
+SUNDIALS_VER=${SUNDIALS_VER:-6.6.2}
 SUNDIALS_ARCHIVE=sundials-$SUNDIALS_VER".tar.gz"
 SUNDIALS_URL=https://github.com/LLNL/sundials/releases/download/v$SUNDIALS_VER/$SUNDIALS_ARCHIVE
 if ! test -f $SUNDIALS_ARCHIVE; then
@@ -455,41 +455,41 @@ rm -Rf octave-$OCTAVE_VER
 tar -xf $OCTAVE_ARCHIVE
 # Patch
 cat > octave-$OCTAVE_VER.patch.uue << 'EOF'
-begin-base64 644 octave-8.3.0.patch
-LS0tIG9jdGF2ZS04LjMuMC9jb25maWd1cmUJMjAyMy0wOC0wOCAyMzowMjoy
-NC4wMDAwMDAwMDAgKzEwMDAKKysrIG9jdGF2ZS04LjMuMC5uZXcvY29uZmln
-dXJlCTIwMjMtMDktMjkgMTM6MjQ6MDAuNDEyMzI0NDQ3ICsxMDAwCkBAIC02
+begin-base64 644 octave-8.4.0.patch
+LS0tIG9jdGF2ZS04LjQuMC9jb25maWd1cmUJMjAyMy0xMS0wNiAwNDo0NTo0
+MC4wMDAwMDAwMDAgKzExMDAKKysrIG9jdGF2ZS04LjQuMC5uZXcvY29uZmln
+dXJlCTIwMjMtMTEtMTQgMTU6NTQ6MjEuMDc2NTAxNTA4ICsxMTAwCkBAIC02
 MjEsOCArNjIxLDggQEAKICMgSWRlbnRpdHkgb2YgdGhpcyBwYWNrYWdlLgog
 UEFDS0FHRV9OQU1FPSdHTlUgT2N0YXZlJwogUEFDS0FHRV9UQVJOQU1FPSdv
-Y3RhdmUnCi1QQUNLQUdFX1ZFUlNJT049JzguMy4wJwotUEFDS0FHRV9TVFJJ
-Tkc9J0dOVSBPY3RhdmUgOC4zLjAnCitQQUNLQUdFX1ZFUlNJT049JzguMy4w
-LXJvYmonCitQQUNLQUdFX1NUUklORz0nR05VIE9jdGF2ZSA4LjMuMC1yb2Jq
+Y3RhdmUnCi1QQUNLQUdFX1ZFUlNJT049JzguNC4wJwotUEFDS0FHRV9TVFJJ
+Tkc9J0dOVSBPY3RhdmUgOC40LjAnCitQQUNLQUdFX1ZFUlNJT049JzguNC4w
+LXJvYmonCitQQUNLQUdFX1NUUklORz0nR05VIE9jdGF2ZSA4LjQuMC1yb2Jq
 JwogUEFDS0FHRV9CVUdSRVBPUlQ9J2h0dHBzOi8vb2N0YXZlLm9yZy9idWdz
 Lmh0bWwnCiBQQUNLQUdFX1VSTD0naHR0cHM6Ly93d3cuZ251Lm9yZy9zb2Z0
-d2FyZS9vY3RhdmUvJwogCi0tLSBvY3RhdmUtOC4zLjAvbGliaW50ZXJwL2Nv
-cmVmY24vY2hvbC5jYwkyMDIzLTA4LTA4IDIzOjAyOjI0LjAwMDAwMDAwMCAr
-MTAwMAorKysgb2N0YXZlLTguMy4wLm5ldy9saWJpbnRlcnAvY29yZWZjbi9j
-aG9sLmNjCTIwMjMtMDktMjkgMTM6MjM6MTcuMTYyNjg4ODM4ICsxMDAwCkBA
+d2FyZS9vY3RhdmUvJwogCi0tLSBvY3RhdmUtOC40LjAvbGliaW50ZXJwL2Nv
+cmVmY24vY2hvbC5jYwkyMDIzLTExLTA2IDA0OjQ1OjQwLjAwMDAwMDAwMCAr
+MTEwMAorKysgb2N0YXZlLTguNC4wLm5ldy9saWJpbnRlcnAvY29yZWZjbi9j
+aG9sLmNjCTIwMjMtMTEtMTQgMTU6NTM6NTEuMjcxNzM1NzgyICsxMTAwCkBA
 IC03NzQsNyArNzc0LDcgQEAKICUhCiAlISBSMSA9IGNob2x1cGRhdGUgKFIx
 LCB1YywgIi0iKTsKICUhIGFzc2VydCAobm9ybSAodHJpdSAoUjEpLVIxLCBJ
 bmYpLCAwKTsKLSUhIGFzc2VydCAobm9ybSAoUjEgLSBSLCBJbmYpIDwgMWUx
 KmVwcyk7CislISBhc3NlcnQgKG5vcm0gKFIxIC0gUiwgSW5mKSA8IDJlMSpl
 cHMpOwogCiAlIXRlc3QKICUhIFIgPSBjaG9sIChzaW5nbGUgKEEpKTsKLS0t
-IG9jdGF2ZS04LjMuMC9saWJpbnRlcnAvY29yZWZjbi9sb2FkLXNhdmUuY2MJ
-MjAyMy0wOC0wOCAyMzowMjoyNC4wMDAwMDAwMDAgKzEwMDAKKysrIG9jdGF2
-ZS04LjMuMC5uZXcvbGliaW50ZXJwL2NvcmVmY24vbG9hZC1zYXZlLmNjCTIw
-MjMtMDktMjkgMTM6MjM6MTcuMTc1Njg4NzI5ICsxMDAwCkBAIC0xMjgsOCAr
+IG9jdGF2ZS04LjQuMC9saWJpbnRlcnAvY29yZWZjbi9sb2FkLXNhdmUuY2MJ
+MjAyMy0xMS0wNiAwNDo0NTo0MC4wMDAwMDAwMDAgKzExMDAKKysrIG9jdGF2
+ZS04LjQuMC5uZXcvbGliaW50ZXJwL2NvcmVmY24vbG9hZC1zYXZlLmNjCTIw
+MjMtMTEtMTQgMTU6NTM6NTEuMjcyNzM1Nzc1ICsxMTAwCkBAIC0xMjgsOCAr
 MTI4LDggQEAKIHsKICAgY29uc3QgaW50IG1hZ2ljX2xlbiA9IDEwOwogICBj
 aGFyIG1hZ2ljW21hZ2ljX2xlbisxXTsKLSAgaXMucmVhZCAobWFnaWMsIG1h
 Z2ljX2xlbik7CiAgIG1hZ2ljW21hZ2ljX2xlbl0gPSAnXDAnOworICBpcy5y
 ZWFkIChtYWdpYywgbWFnaWNfbGVuKTsKIAogICBpZiAoc3RybmNtcCAobWFn
 aWMsICJPY3RhdmUtMS1MIiwgbWFnaWNfbGVuKSA9PSAwKQogICAgIHN3YXAg
 PSBtYWNoX2luZm86OndvcmRzX2JpZ19lbmRpYW4gKCk7Ci0tLSBvY3RhdmUt
-OC4zLjAvc2NyaXB0cy9wbG90L3V0aWwvcHJpdmF0ZS9fX2dudXBsb3RfZHJh
-d19heGVzX18ubQkyMDIzLTA4LTA4IDIzOjAyOjI0LjAwMDAwMDAwMCArMTAw
-MAorKysgb2N0YXZlLTguMy4wLm5ldy9zY3JpcHRzL3Bsb3QvdXRpbC9wcml2
-YXRlL19fZ251cGxvdF9kcmF3X2F4ZXNfXy5tCTIwMjMtMDktMjkgMTM6MjM6
-MTcuMTc3Njg4NzEyICsxMDAwCkBAIC0yMjgzLDcgKzIyODMsNyBAQAogICAg
+OC40LjAvc2NyaXB0cy9wbG90L3V0aWwvcHJpdmF0ZS9fX2dudXBsb3RfZHJh
+d19heGVzX18ubQkyMDIzLTExLTA2IDA0OjQ1OjQwLjAwMDAwMDAwMCArMTEw
+MAorKysgb2N0YXZlLTguNC4wLm5ldy9zY3JpcHRzL3Bsb3QvdXRpbC9wcml2
+YXRlL19fZ251cGxvdF9kcmF3X2F4ZXNfXy5tCTIwMjMtMTEtMTQgMTU6NTM6
+NTEuMjczNzM1NzY3ICsxMTAwCkBAIC0yMjgzLDcgKzIyODMsNyBAQAogICAg
 IGlmICghIHdhcm5lZF9sYXRleCkKICAgICAgIGRvX3dhcm4gPSAod2Fybmlu
 ZyAoInF1ZXJ5IiwgIk9jdGF2ZTp0ZXh0X2ludGVycHJldGVyIikpLnN0YXRl
 OwogICAgICAgaWYgKHN0cmNtcCAoZG9fd2FybiwgIm9uIikpCi0gICAgICAg
@@ -505,9 +505,9 @@ pushd octave-$OCTAVE_VER
 patch -p1 < ../octave-$OCTAVE_VER.patch
 popd
 # Build
-rm -Rf build
-mkdir build
-pushd build
+rm -Rf build-octave-$OCTAVE_VER
+mkdir build-octave-$OCTAVE_VER
+pushd build-octave-$OCTAVE_VER
 export CFLAGS="$OPTFLAGS -std=c17 -I$OCTAVE_INCLUDE_DIR"
 export CXXFLAGS="$OPTFLAGS -std=c++17 -I$OCTAVE_INCLUDE_DIR"
 export FFLAGS=$OPTFLAGS
@@ -571,7 +571,7 @@ export PGO_LTO_FLAGS="-pthread -fopenmp -flto=6 -ffat-lto-objects -fprofile-use"
 make XTRA_CFLAGS="$PGO_LTO_FLAGS" XTRA_CXXFLAGS="$PGO_LTO_FLAGS" V=1 -j6
 make install
 popd
-rm -Rf build octave-$OCTAVE_VER
+rm -Rf build-octave-$OCTAVE_VER octave-$OCTAVE_VER
 rm -f octave-$OCTAVE_VER.patch.uue octave-$OCTAVE_VER.patch
 
 #

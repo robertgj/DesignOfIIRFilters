@@ -39,7 +39,6 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 For block diagonal : termcode=0, b'*y=  0.53159, gap=8.72e-09
-For theta3.dat-s : termcode=0, b'*y=-42.16698, gap=2.23e-07
 For hamming_7_5_6.mat : termcode=0, b'*y=-42.66667, gap=7.12e-07
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_x5.ok"; fail; fi

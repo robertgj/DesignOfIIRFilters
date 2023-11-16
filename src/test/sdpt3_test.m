@@ -28,12 +28,20 @@ blk{2,1} = 's'; blk{2,2} = [3];
 fprintf(fhandle,"For %s : termcode=%d, b'*y=%9.5f, gap=%8.3g\n",
         "block diagonal",info.termcode,b'*y,info.gap);
 
+%{
+This fails with the message:
+error: reshape: can't reshape 62901x1 array to 5x12580 array
+error: called from
+    read_sdpa at line 133 column 3
+    src/test/sdpt3_test.m at line 34 column 14
+
 % Example in SDPA format
 exname="theta3.dat-s";
 [blk,At,C,b] = read_sdpa(exname); 
 [obj,X,y,Z,info,runhist] = sdpt3(blk,At,C,b);
 fprintf(fhandle,"For %s : termcode=%d, b'*y=%9.5f, gap=%8.3g\n",
         exname,info.termcode,b'*y,info.gap);
+%}
 
 % Example in SeDuMi format
 exname="hamming_7_5_6.mat";

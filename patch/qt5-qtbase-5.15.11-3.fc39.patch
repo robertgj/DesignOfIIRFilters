@@ -1,0 +1,11 @@
+--- SOURCES/0014-QGtk3Theme-Improve-fixed-font-delivery.patch.orig	2023-10-16 11:00:00.000000000 +1100
++++ SOURCES/0014-QGtk3Theme-Improve-fixed-font-delivery.patch	2023-10-16 11:00:00.000000000 +1100
+@@ -54,7 +54,7 @@
+ +    GtkCssProvider *cssProvider = nullptr;
+ +    if (type == QPlatformTheme::FixedFont) {
+ +        cssProvider = gtk_css_provider_new();
+-+        const char *fontSpec = "{font-family: monospace;}";
+++        const char *fontSpec = "* {font-family: monospace;}";
+ +        gtk_css_provider_load_from_data(cssProvider, fontSpec, -1, NULL);
+ +        gtk_style_context_add_provider(con, GTK_STYLE_PROVIDER(cssProvider),
+ +                                       GTK_STYLE_PROVIDER_PRIORITY_USER);

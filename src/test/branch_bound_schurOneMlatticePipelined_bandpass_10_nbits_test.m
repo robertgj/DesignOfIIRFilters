@@ -379,10 +379,10 @@ fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ...
-     k0 epsilon0 p0 c0 cscale nbits ndigits npoints ...\n\
-     fapl fapu Wap fasl fasu Wasl Wasu ftpl ftpu tp Wtp ...\n\
-     improved_solution_found k_min p_min c_min kk_min ck_min",strf));
+eval(sprintf(strcat("save %s.mat ", ...
+                    " k0 epsilon0 p0 c0 cscale nbits ndigits npoints ", ...
+                    " fapl fapu Wap fasl fasu Wasl Wasu ftpl ftpu tp Wtp ", ...
+                    " improved_solution_found k_min p_min c_min kk_min ck_min"),strf));
        
 % Done
 toc;

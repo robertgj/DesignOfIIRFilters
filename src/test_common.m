@@ -56,7 +56,7 @@ warning("off","Octave:data-file-in-path");
 warning("off","Octave:LaTeX:internal-error");
 warning("off","signal:delayz-singularity");
 warning("off","signal:grpdelay-singularity");
-if strcmp("8.3.0-robj",OCTAVE_VERSION)
+if strcmp("8.4.0-robj",OCTAVE_VERSION)
   % See scripts/plot/util/private/__gnuplot_draw_axes__.m
   warning("off","Octave:latex-markup-not-supported-for-tick-marks");
   % See scripts/miscellaneous/delete.m

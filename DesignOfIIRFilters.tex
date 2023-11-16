@@ -37465,15 +37465,15 @@ amenable to FIR filter design with LMI SDP solvers.
 \section*{Software requirements}
 I currently use the Fedora 38 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{6.5.5-200.fc38.x86\_64}
-\item \emph{gcc} version \emph{13.2.1 20230728 (Red Hat 13.2.1-1)}
-\item a local build of \emph{octave-8.3.0} with the \emph{struct}, \emph{io},
+\item \texttt{uname -r} is \emph{6.5.11-300.fc39.x86\_64}
+\item \emph{gcc} version \emph{13.2.1 20231011 (Red Hat 13.2.1-4)}
+\item a local build of \emph{octave-8.4.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic}\footnote{The \emph{symbolic} Octave-Forge package assumes that
   the \emph{python3-sympy} Fedora package is installed.} and \emph{parallel}
   Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit with
-  \emph{qt5-qtbase-5.15.10-9} and a local build of \emph{GraphicsMagick}
+  \emph{qt5-qtbase-5.15.11-3} and a local build of \emph{GraphicsMagick}
 \item \emph{texlive-2022-65} and various packages are installed
 \item \emph{dia-0.97.3-23} is used for line drawings
 \end{itemize}
@@ -37542,15 +37542,15 @@ Section~\ref{sec:Round-off-normalised-scaled-lattice}, has the corresponding
 \pdfbookmark[0]{Octave}{octave}.
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
-version of \emph{octave-8.3.0} avoiding the vagaries of the Fedora
+version of \emph{octave-8.4.0} avoiding the vagaries of the Fedora
 packagers.
 
 The \emph{build-octave.sh} script builds Octave and the associated numerical
 libraries with the \emph{g++} option \texttt{-march=nehalem}. The patch file,
-\emph{octave-8.3.0.patch}, is a shell \emph{here} document
-within \emph{build-octave.sh}. The \emph{octave-8.3.0/configure} script is
+\emph{octave-8.4.0.patch}, is a shell \emph{here} document
+within \emph{build-octave.sh}. The \emph{octave-8.4.0/configure} script is
 patched so that the Octave \texttt{OCTAVE\_VERSION} command
-returns \texttt{8.3.0-robj}.
+returns \texttt{8.4.0-robj}.
 
 The \emph{build-octave.sh} script assumes the default sizes of FORTRAN
 data types. For example, \texttt{real} and \texttt{integer} are $4$ bytes. The
@@ -37559,13 +37559,13 @@ script must be modified to use $8$ byte integer array indexes in \emph{blas},
 
 The local build of Octave links to locally built versions of the following
 libraries: 
-\emph{arpack-ng-3.9.0}~\cite{ARPACKNG_website},
+\emph{arpack-ng-3.9.1}~\cite{ARPACKNG_website},
 \emph{fftw-3.3.10}~\cite{FFTW_website},
 \emph{glpk-5.0}~\cite{GNU_GLPK},
 \emph{lapack-3.11.0}~\cite{LAPACK_website},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
-\emph{SuiteSparse-7.2.0}~\cite{SUITESPARSE_website},
-\emph{sundials-6.6.1}~\cite{SUNDIALS_website} and
+\emph{SuiteSparse-7.3.1}~\cite{SUITESPARSE_website},
+\emph{sundials-6.6.2}~\cite{SUNDIALS_website} and
 \emph{GraphicsMagick-1.3.42}~\cite{GraphicsMagick_website}.
 The local build of the \emph{LAPACK} library includes the deprecated routines.
 
@@ -37630,6 +37630,19 @@ repositories at \url{https://github.com/robertgj}.
 The \emph{octave.patch} here document within \emph{build-octave.sh}
 patches files to add an Octave warning id and to prevent a \emph{valgrind}
 warning.
+
+After updating from Fedora 38 to 39 I get a warning message from GTK3 for
+the command-line version of \emph{octave-8.4.0}:
+\begin{small}
+\begin{verbatim}
+(octave-gui:XXXX): Gtk-WARNING **: YYYY: Theme parsing error:
+<data>:1:0: Expected a valid selector
+\end{verbatim}
+\end{small}
+The patch file \emph{qt5-qtbase-5.15.11-3.fc39.patch} applied to
+the \emph{qt5-qtbase-5.15.11-3} RedHat Fedora 39 SRPM resolves the problem for
+the command-line version. The problem does not happen with Octave-9.0.0 from the
+development repository using Qt6.  
 
 \subsubsection*{Problems with Octave-Forge packages}
 The following packages are patched with shell \emph{here} documents
