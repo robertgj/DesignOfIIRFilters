@@ -146,10 +146,9 @@ Copyright \copyright\; 2017--2023 Robert G. Jenssen
 This work is licensed under the Creative Commons Attribution 4.0 International
 License.\\ View a copy of the license at:
 \url{https://creativecommons.org/licenses/by/4.0/legalcode}
-\cleardoublepage{}
 \tableofcontents
-\cleardoublepage{}
 \listofalgorithms{}
+\cleardoublepage
 \chapter*{\hypertarget{sec:Introduction}{Introduction}}
 An IIR filter can approximate a desired amplitude response with fewer
 coefficients than an FIR
@@ -420,9 +419,9 @@ library\cite{GNU_GSL}\footnote{The \emph{MPSolve} multi-precision polynomial
 \label{fig:bincoeff-test-qzsolve}
 \end{figure}
 
-\cleardoublepage{}
+\cleardoublepage
 \part{\label{part:State-Variable-digital-filters}State Variable description of digital filters}
-\cleardoublepage{}
+\cleardoublepage
 \chapter{\label{chap:Review-State-Variable-digital-filters}A review of the State Variable description of digital filters}
 This chapter briefly summarises parts of the text 
 \emph{Digital Signal Processing} by \emph{Roberts} and 
@@ -2201,9 +2200,13 @@ number of multipliers-per-output is reduced accordingly.
 \begin{tabular}{lll} \\ \toprule
 Filter structure & Number of multipliers per output & Optimal block length, P\\
 \midrule
+  \vspace{1pt} \\
 Full state variable filter & $\frac{N^{2}}{P}+2N+\frac{P+1}{2}$ & $N\sqrt{2}$ \\
-$m$-th order cascaded sections & $\left(\frac{m}{P}+2+\frac{P+1}{2m}\right)N$ & $m\sqrt{2}$ \\
+  \vspace{1pt} \\
+  $m$-th order cascaded sections & $\left(\frac{m}{P}+2+\frac{P+1}{2m}\right)N$ & $m\sqrt{2}$ \\
+  \vspace{1pt} \\
 $m$-th order parallel sections & $\left(\frac{m}{P}+2+\frac{P-1}{2m}\right)N+1$ & $m\sqrt{2}$ \\
+  \vspace{1pt} \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -2253,7 +2256,7 @@ $12$ filter is implemented as an \emph{oct}-file.}
   length $12$ filter is implemented as an \emph{oct}-file.}
 \label{fig:passband-response-of-8th-order-block-length-12-filter}
 \end{figure}
-\cleardoublepage{}
+
 \chapter{Frequency transformations of Digital Filters}
 See \emph{Roberts} and
 \emph{Mullis}~\cite[Section 6.7]{RobertsMullis_DigitalSignalProcessing}.
@@ -2570,7 +2573,7 @@ triple band-stop transformation.
 \label{fig:tfp2g-bs}
 \end{figure}
 
-\cleardoublepage{}
+
 \chapter{\label{sec:Round-off-noise-in-state-variable-filters}Round-off noise in state variable filters}
 This chapter is based on Chapter 9 of \emph{Roberts} and
 \emph{Mullis}~\cite{RobertsMullis_DigitalSignalProcessing}. 
@@ -3267,7 +3270,7 @@ then
 and the $nm$ second-order modes of the filter 
 $G\left(z\right)=H\left(F\left(z\right)\right)$ are $m$ copies of the $n$
 second-order modes of $H\left(z\right)$.
-\cleardoublepage{}
+
 \chapter{State variable filter realisation as a cascade of second order sections\label{sec:Second-order-cascade}}
 \section{Second Order State Variable Filters Optimised for 
 Overflow and Round-Off Noise}
@@ -4403,7 +4406,7 @@ the noise gain of a scaled realisation with complex conjugate poles.
   poles.}
 \label{fig:IS-all-pass-filter-noise-gain-complex-poles}
 \end{figure}
-\cleardoublepage{}
+
 \chapter{\label{sec:Schur-decomposition}Filter synthesis by the Schur decomposition}
 This chapter follows
 \emph{Parhi}~\cite[Chapter 12]{Parhi_VLSIDigitalSignalProcessingSystems}.
@@ -6889,7 +6892,7 @@ appears to be less sensitive to coefficient truncation than the
 one multiplier lattice filter. The normalised-scaled lattice filter is 
 inherently scaled. The one multiplier lattice filter is not orthonormal and 
 requires scaling.
-\cleardoublepage{}
+
 \chapter{Orthogonal state variable filters\label{sec:Orthogonal-state-variable-filters}}
 Chapter~\ref{sec:Schur-decomposition} described the Schur decomposition of 
 an arbitrary rational filter transfer function into the normalised-scaled
@@ -7305,7 +7308,7 @@ pipeline.
 \emph{Roberts} and
 \emph{Mullis}~\cite[pp. 462-467]{RobertsMullis_DigitalSignalProcessing} show
 other examples of orthogonal filter factorisation.
-\cleardoublepage{}
+
 \chapter{Feedforward and feedback of state quantisation error in state variable filters}
 Chapter~\ref{sec:Round-off-noise-in-state-variable-filters} reviewed the 
 optimisation of a state variable digital filter for minimum roundoff noise. The
@@ -7564,9 +7567,10 @@ Figure~\ref{fig:Simulated-response-of-6th-order-filter-with-error-feedback}.
 {Williamson_RoundoffNoiseMinimizationUsingResidueFeedback}).}
 \label{fig:Simulated-response-of-6th-order-filter-with-error-feedback}
 \end{figure}
-\cleardoublepage{}
+\cleardoublepage
 \part{\label{sec:Constrained-Optimisation-of-IIR-frequency-response}Constrained optimisation of the IIR filter frequency response}
-\cleardoublepage{}
+\cleardoublepage
+
 \chapter{\label{sec:Constrained-Optimisation-of-IIR-by-Quadratic-Programming-Pole-Zero-Location}IIR filter design using Sequential Quadratic Programming with the transfer function defined by pole and zero locations}
 The transfer function or response of an IIR digital filter is usually written
 in the $z$-transform domain similarly to
@@ -8279,7 +8283,6 @@ or as the parallel combination of two all-pass filters. Unfortunately, this
 method requires root-finding of intermediate polynomials. I find the
 method of \emph{Tarczynski et al.} to be more useful.
 
-\cleardoublepage{}
 \section{\label{sec:Examples-of-IIR-filter-design-SQP}Examples of IIR filter design with SQP and constrained pole and zero locations}
 \subsection{Introductory comments on the IIR filter design examples}
 This section considers examples of IIR filter design. The design procedure is:
@@ -9677,7 +9680,7 @@ can be derived from the real cepstrum method of
  directly by \emph{Orchard} and \emph{Willson}'s Newton-Raphson
 solution~\cite{OrchardWillson_ComputationMinimumPhaseSpectralFactor}. See
 Appendix~\ref{app:Design-of-complementary-FIR-digital-filter}.
-\cleardoublepage{}
+
 \chapter{\label{sec:IIR-Design-Using-SOCP}IIR filter design using Second Order Cone Programming}
 \section{Second Order Cone Programming}
 Following \emph{Alizadeh} and \emph{Goldfarb}~\cite
@@ -10418,7 +10421,7 @@ the filter.
 \label{fig:IIR-multiband-SOCP-PCLS-pass}
 \end{figure}
 
-\cleardoublepage{}
+
 \chapter{\label{sec:IIR-Filter-Design-With-Predefined-Structure}IIR filter design with a pre-defined structure}
 In this chapter I describe the design of IIR filters with a predefined structure.
 
@@ -14456,9 +14459,9 @@ response of the FRM Hilbert filter after SOCP and PCLS optimisation.
 \label{fig:schurOneMAPlattice-frm-Hilbert-pcls-response}
 \end{figure}
 
-\cleardoublepage{}
+\cleardoublepage
 \part{\label{part:IIR-filters-fixed-point-coefficients}Design of IIR filters with integer coefficients}
-\cleardoublepage{}
+\cleardoublepage
 
 This part describes the results of my experiments in optimising the response
 of digital filters with integer  coefficients expressed in \emph{signed-digit}
@@ -15013,7 +15016,7 @@ non-zero $10$-bit coefficient.
   and \emph{Ito et al.}\;.}
 \label{fig:directFIRsymmetric-bandpass-allocsd-3-10-pass-amplitude}
 \end{figure}
-\clearpage
+
 \chapter{\label{sec:Exhaustive-search-for-integer-signed-digit-filter-coefficients}Exhaustive search for integer and signed-digit filter coefficients}
 The Octave script \emph{exhaustive\_schurOneMlattice\_bandpass\_test.m} implements
 an exhaustive search for the best signed-digit approximation to the
@@ -15028,7 +15031,7 @@ the exhaustive search will perform $2^{32}$ evaluations of the cost function.
 Preliminary experiments showed that this script would require about a month of
 processing time on my PC (which has an Intel i7-7700K CPU with 4 cores running
 at 4.2GHz).
-\clearpage
+
 \chapter{\label{sec:bit-flip-searching-for-integer-signed-digit-filter-coefficients}Searching
   for integer and signed-digit filter coefficients with the
   \emph{bit-flipping} algorithm}
@@ -15607,7 +15610,7 @@ direct-form symmetric FIR filter structure and
 \input{bitflip_directFIRsymmetric_bandpass_test_bft_adders.tab}adders are
 required to implement the coefficient multiplications in the transposed
 (pipelined) direct-form FIR filter structure.
-\clearpage
+
 \chapter{\label{sec:branch-bound-search-signed-digit-coefficients}\emph{Branch-and-bound} search for signed-digit coefficients}
 Given the $K$ coefficients, $x_{k}$, of a filter, an exhaustive search of the
 upper and lower bounds on the integer or signed-digit approximations to these
@@ -17033,7 +17036,7 @@ algorithm]{Comparison of the cost and number of 12-bit
   coefficients found by branch-and-bound search.}
 \label{tab:branch-bound-direct-FIR-Hilbert-bandpass-12-nbits-cost}
 \end{table}
-\clearpage
+
 \chapter{\label{sec:successive-coefficient-relaxation-signed-digit-coefficients}Successive coefficient relaxation search for signed-digit filter coefficients}
 This section describes the results of experiments in which I fix one
 coefficient and minimise the objective function over the
@@ -18322,7 +18325,7 @@ compares the group delay responses in the ``pass-band'' (up to \emph{dBas}).
   of 3-signed-digits per coefficient optimised by SOCP-relaxation.}
 \label{fig:socp-relaxation-gaussian-FIR-lattice-16-nbits-min-delay-response}
 \end{figure}
-\clearpage
+
 \chapter{\label{sec:Semi-definite-programming-search-for-integer-signed-digit-filter-coefficients}Semi-definite programming search for integer and signed-digit filter coefficients}
 This section follows the method introduced by
 \emph{Lu}~\cite{Lu_FIRDiscreteCoefficientsSemidefiniteRelaxation} and
@@ -19143,7 +19146,7 @@ allocation heuristic of \emph{Lim et al.} with the SDP-relaxation search.
   SDP-relaxation search.}
 \label{tab:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-cost}
 \end{table}
-\clearpage
+
 \chapter{\label{sec:Comparison-filter-search-fifth-order-elliptic-filter}Comparison of filter coefficient search methods for a 5th order elliptic filter with 6-bit integer and 2-signed-digit  coefficients}
 The signed-digit allocation algorithms shown in 
 Chapter~\ref{sec:Signed-digit-representation-filter-coefficients} performed
@@ -20142,10 +20145,12 @@ Number of filter coefficients    & 20(30) & 11 & 10(20) & 5 & 23 \\
   required.}
 \label{tab:filter-implementation-number-coef-summary}
 \end{table}
-\cleardoublepage{}
+
+\cleardoublepage
 \appendix
 \part{Appendixes}
-\cleardoublepage{}
+\cleardoublepage
+
 \chapter{\label{app:Review-of-complex-variables}Review of Complex Variables} 
 This chapter summarises 
 \emph{Kreyszig}~\cite[Chapter 12(Sections 4 and 5), Chapter
@@ -20455,7 +20460,7 @@ If $f\left(z\right)$ and $g\left(z\right)$ are analytic inside and on a closed
 contour $C$, and $\left|g\left(z\right)\right| < \left|f\left(z\right)\right|$
 on $C$, then $f\left(z\right)$ and $f\left(z\right)+g\left(z\right)$ have the
 same number of zeros inside $C$.
-\cleardoublepage{}
+
 \chapter{\label{app:Review-of-topics-in-linear-algebra}Review of selected results from linear algebra}
 This appendix collects some results from linear algebra used in convex
 optimization. See, for example, \emph{Golub and Van
@@ -21056,7 +21061,7 @@ The first and second derivatives of the summand are:
 \end{align*}
 The second derivative is positive implying that
 $-\log\det\left(A_{0}+tH\right)$ is convex in $t$ for all $t$.
-\cleardoublepage{}
+
 \chapter{\label{app:Review-of-Chebyshev-polynomials}Review of Chebyshev's polynomials}
 This appendix gathers together results for
 \emph{Chebyshev's polynomials of the first and second kind}.
@@ -21428,8 +21433,6 @@ the Clenshaw recurrence calculated with a
 \label{fig:Chebyshev-Gaussian-approximation-error-fixed-point}
 \end{figure}
 
-
-\cleardoublepage{}
 \chapter{\label{app:Review-of-elliptic-integrals-and-functions}Review of Legendre's elliptic integrals and Jacobi's elliptic functions}
 This appendix reviews the notation for \emph{Legendre's elliptic
   integrals} and \emph{Jacobi's elliptic functions}. See \emph{Whittaker} and
@@ -22104,6 +22107,7 @@ Function & Octave implementation\\
 \caption{Octave implementations of elliptic and related functions.}
 \label{tab:Octave-implementation-of-elliptic-functions}
 \end{table}
+
 \chapter{\label{app:Unsymmetric-Lanczos-tridiagonalisation}Review of \emph{Lanczos} tridiagonalisation of an unsymmetric matrix}
 See \emph{Golub and Van Loan}~\cite[Section
 9.4.3]{GolubVanLoan_MatrixComputations}. The \emph{Lanczos}  
@@ -22212,7 +22216,7 @@ Algorithm~\ref{alg:Unsymmetric-Lanczos-tridiagonalisation}.
 % \raggedbottom suppresses the following warning:
 % "Underfull \vbox (badness 10000) has occurred while \output is active"
 % Pages following \raggedbottom may have unequal page heights.
-\cleardoublepage{}
+
 \chapter{\label{app:Lagrange-Interpolation}Review of Lagrange Interpolation}
 This chapter follows the review article of \emph{Berrut} and
 \emph{Trefethen}~\cite{BerrutTrefethen_BarycentricLagrangeInterpolation}.
@@ -22343,7 +22347,7 @@ interpolation experiment with linearly spaced nodes.
 \end{figure}
 
 \begin{raggedbottom}
-\cleardoublepage{}
+
 \chapter{\label{app:IIR-filter-response}IIR filter amplitude, phase and group-delay frequency responses}
 This section describes the derivation of the amplitude (magnitude) and group
 delay responses and their first and second partial derivatives (gradient vector
@@ -22790,7 +22794,7 @@ over $4$ processes. (My Intel i7-7700K CPU has $4$ CPUs). No benefit was seen on
 my PC until the frequency vector length was much longer than those used in the
 examples.
 \end{raggedbottom}
-\cleardoublepage
+
 \chapter{\label{app:Gradient-IIR-filter-amplitude-response-wrt-frequency}Gradient of the IIR filter amplitude response with respect to frequency}
 This section describes the derivatives with respect to angular frequency of the
 amplitude response, $A\left(\omega\right)$, of an IIR filter expressed in
@@ -22919,7 +22923,7 @@ frequency is given by:
 +\sum_{j=1}^{\frac{Q}{2}}\frac{2r_{pj}^{2}\sin^{2}\left(\omega+\theta_{pj}\right)} 
 {\left[1-2r_{pj}\cos\left(\omega+\theta_{pj}\right) + r_{pj}^{2}\right]^{2}}
 \end{align*}
-\cleardoublepage{}
+
 \chapter{\label{app:Allpass-filter-frequency-response}Allpass filter frequency response}
 
 \section{\label{app:Allpass-filter-phase-response}Allpass filter phase response}
@@ -23095,7 +23099,7 @@ of the Hessian matrix only) are:
 The Octave function \emph{allpassT} calculates the phase and partial derivatives
 of the group delay response of an allpass IIR filter and is exercised by the 
 test script \emph{allpassT\_test.m}.
-\cleardoublepage{}
+
 \chapter{\label{app:Gradients-state-variable-filter-frequency-response}Gradients of the state variable filter frequency response}
 Section~\ref{sec:Sensitivity-analysis-state-variable-transfer-function} shows
 results for the gradients of the complex response, $H\left(z\right)$, with
@@ -23317,7 +23321,7 @@ where $x$ represents the components of the state variable matrixes and:
 \left(e^{\imath\omega}I-A\right)^{-1}
 \right]\left(e^{\imath\omega}I-A\right)^{-1}B
 \end{align*}
-\cleardoublepage{}
+
 \chapter{\label{app:Constrained-Non-linear-Optimisation}Constrained non-linear optimisation}
 The following largely follows \emph{Ruszczynski} 
 ~\cite{Ruszczynski_NonlinearOptimization} with some contributions concerning 
@@ -24903,7 +24907,7 @@ filtered for \emph{``SQP''} is:
 \begin{small}
 \verbatiminput{sqp_bfgs_test.diary.SQP}
 \end{small}
-\cleardoublepage{}
+
 \chapter{\label{app:Fourier-transform-of-the-Gaussian-function}Fourier transform of the Gaussian function}  
 See \emph{NIST Digital Library of Mathematical Functions}~\cite[Sections 7.2.1
 and 1.14.1]{NIST_DigitalLibraryMathematicalFunctions}
@@ -24992,7 +24996,7 @@ where:
                    \int_{0}^{\infty}e^{-\omega^{2}}d\omega \\ 
                  &= \frac{\alpha}{\sqrt{2}}
 \end{align*}
-\cleardoublepage{}
+
 \chapter{Design of IIR digital filter transfer functions}
 This chapter reviews methods of constructing IIR digital filter transfer
 functions. The first section reviews the analogue-to-digital transformation of
@@ -26996,7 +27000,7 @@ pass-band and stop-band responses of the filter.
   PCLS constraints.} 
 \label{fig:Johansson-OneM-lattice-bandstop-PCLS-resp}
 \end{figure}
-\cleardoublepage{}
+
 \chapter{\label{app:Design-of-FIR-digital-filter-transfer-functions}Design of FIR digital filter transfer functions}
 This chapter reviews methods of designing FIR digital filter transfer functions.
 FIR filters are described by a transfer function polynomial in $z^{-1}$:
@@ -34888,7 +34892,6 @@ The $M+1$ distinct coefficients of the sub-filter are:
 \label{fig:Saramaki-FIR-cascade-Approx-II-response-detail}
 \end{figure}
 
-\cleardoublepage{}
 \chapter{\label{app:Kalman-Yakubovic-Popov-Lemma-IIR-Filter-Design}Application of the \emph{Kalman-Yakubovi\u{c}-Popov} lemma to digital filter design}
 \section{The continuous-time KYP lemma}
 The \emph{Kalman-Yakubovi\u{c}-Popov} (KYP)
@@ -37364,11 +37367,12 @@ $\mathcal{O}\left(n^{3}\right)$~
 proofs of the continuous-time and discrete-time KYP lemmas by duality.
 He begins by reviewing the definition of the \emph{adjoint} of the linear
 mapping of a hermitian matrix. The inner product defined on the Hilbert space of
-$n\times n$ Hermitian matrixes, $\mathbb{H}^{n}$, is:
-  \begin{align*}
-    \langle A,B\rangle = \mathtrace\left(A^{\mathconj}B\right) =
+$n\times n$ Hermitian matrixes, $\mathbb{H}^{n}$, is\footnote{See
+  Section~\ref{app:Linear-algebra-trace-of-matrix}}:
+\begin{align*}
+  \langle A,B\rangle = \mathtrace\left(A^{\mathconj}B\right) =
     \mathtrace\left(AB\right)
-  \end{align*}
+\end{align*}
 Also:
 \begin{quotation}
   ..given two Hilbert spaces $V$ and $W$ and a linear mapping
@@ -37388,7 +37392,8 @@ $\mathcal{D}:\mathbb{H}^{n}\rightarrow\mathbb{H}^{n+m}$:
          B^{\mathconj}PA   & B^{\mathconj}PB\end{array}\right]
   \label{eqn:Discrete-time-KYP-lemma-linear-mapping}
 \end{align}
-The adjoint mapping, $\mathcal{D}^{adj}:\mathbb{H}^{n+m}\rightarrow\mathbb{H}^{n}$, is:
+The adjoint mapping, $\mathcal{D}^{adj}:\mathbb{H}^{n+m}\rightarrow\mathbb{H}^{n}$,
+is:
 \begin{align*}
   \mathcal{D}^{adj}\left(Z\right)
   &= AZ_{11}A^{\mathconj}-Z_{11} + BZ_{12}^{\mathconj}A^{\mathconj}
@@ -37457,8 +37462,8 @@ is used instead. However, SeDuMi does solve the dual mapping.
 
 The dual of the KYP lemma requires a bilinear term $\Theta Z$ and is not
 amenable to FIR filter design with LMI SDP solvers.
-\cleardoublepage
 
+\cleardoublepage
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}
 \addcontentsline{toc}{part}{Colophon}
 \pdfbookmark[0]{Requirements}{requirements}
@@ -38487,7 +38492,7 @@ make cleanall && OCTAVE_ENABLE_MONOCHROME=1 make -j 6 monochrome
 \end{verbatim}
 \end{small}
 
-\cleardoublepage{}
+\cleardoublepage
 \phantomsection
 \addcontentsline{toc}{part}{Bibliography}
 \bibliographystyle{plain}
