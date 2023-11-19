@@ -91,7 +91,7 @@ for N=[1,2,3,6,7],
     error("N=%d,max(max(abs(vAbcd-[rA,rB;rC,rD])>eps))",N);
   endif
 
-  v=setdiff(1:Ns,3*(1:l),"sorted");
+  v=setdiff(1:Ns,3*(1:N),"sorted");
   apAbcd=[[Abcd(v,v),Abcd(v,Ns+1)]; ...
           [Abcd(Ns+2,v),Abcd(Ns+2,Ns+1)]];
   vapAbcd=double(eval(apAbcd));
