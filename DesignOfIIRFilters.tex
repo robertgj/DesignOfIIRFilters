@@ -5813,6 +5813,40 @@ variable description of a doubly-pipelined Schur one-multiplier lattice filter
 The Octave script \emph{schurOneMlatticeDoublyPipelined2Abcd\_symbolic\_test.m}
 creates a symbolic state variable description of a doubly-pipelined Schur
 one-multiplier lattice filter.
+\subsection{\label{sec:State-variable-all-pass-doubly-pipelined-One-multiplier-Schur-lattice-filter}State variable description of an all-pass doubly-pipelined one-multiplier Schur lattice filter}
+Figure~\ref{fig:State-variable-description-all-pass-doubly-pipelined-One-Multiplier-Lattice} shows only the all-pass part of a first order segment of the
+doubly-pipelined Schur one-multiplier lattice filter  
+Figure~\ref{fig:State-variable-description-doubly-pipelined-One-Multiplier-Lattice} .
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_OneMultiplier_AllPass_Pipelined}
+\caption{First order segment of an all-pass doubly pipelined Schur one-multiplier lattice filter.}
+\label{fig:State-variable-description-all-pass-doubly-pipelined-One-Multiplier-Lattice}
+\end{figure}
+
+Construction of a state variable description of the all-pass doubly-pipelined
+Schur one-multiplier lattice filter is summarised in
+Algorithm~\ref{alg:Construction-state-variable-all-pass-doubly-pipelined-One-Multiplier-lattice}. 
+
+\begin{algorithm}[!ht]
+Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$ and
+$\left\{\epsilon_{1},\epsilon_{2}\hdots,\epsilon_{N}\right\}$
+\begin{algorithmic}
+\State $\hat{y}_{0} = x_{1}$
+\State $x_{1}^{\prime} = x_{2}$  
+\For{$n=1,\hdots,N$}
+\State $x_{2n}^{\prime}=-k_{n}\hat{y}_{n-1}+\left(1+k_{n}\epsilon_{n}\right)x_{2n+2}$
+\State $x_{2n+1}^{\prime}=\left(1-k_{n}\epsilon_{n}\right)\hat{y}_{n-1}+k_{n}x_{2n+2}$
+\State $\hat{y}_{n} = x_{2n+1}$
+\EndFor
+\State $x_{2N+2}^{\prime}=u$
+\State $\hat{y}=\hat{y}_{N}$
+\end{algorithmic}
+\caption{Construction of a state variable description of the all-pass
+  doubly-pipelined Schur one-multiplier lattice filter.}
+\label{alg:Construction-state-variable-all-pass-doubly-pipelined-One-Multiplier-lattice}
+\end{algorithm}
 
 \subsection{\label{State-Variable-Description-Scaled-Normalised-IIR-Lattice-Filter}State variable description of the scaled-normalised IIR lattice filter}
 In Figure~\ref{fig:State-variable-description-Scaled-Normalised-lattice},
