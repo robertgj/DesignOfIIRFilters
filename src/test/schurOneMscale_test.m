@@ -1,5 +1,5 @@
 % schurOneMscale_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 
 test_common;
 
@@ -102,7 +102,29 @@ norm(S1M+S1Mm)
 norm(epsilon-epsilonm)
 norm(p-pm)
 
-
+% Low-pass 3
+fp=0.05;
+norder=6;
+[n0,d0]=ellip(norder,1,40,fp*2);
+[k,S]=schurdecomp(d0)
+[epsilon,p,S1M]=schurOneMscale(k,S)
+c=schurexpand(n0,S1M)
+[n1,d1]=schurOneMlattice2tf(k,epsilon,p,c);
+if max(abs(n0-n1))>eps
+  error("max(abs(n0-n1))>eps");
+endif
+if max(abs(d0-d1))>10*eps
+  error("max(abs(d0-d1))>10*eps");
+endif
+[epsilonf,pf,S1Mf]=schurOneMscale(k,S,ones(size(k)))
+cf=schurexpand(n0,S1Mf)
+[n1f,d1f]=schurOneMlattice2tf(k,epsilonf,pf,cf);
+if max(abs(n0-n1f))>eps
+  error("max(abs(n0-n1f))>eps");
+endif
+if max(abs(d0-d1f))>10*eps
+  error("max(abs(d0-d1f))>10*eps");
+endif
 
 % Done
 diary off

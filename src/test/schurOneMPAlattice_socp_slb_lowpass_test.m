@@ -92,8 +92,16 @@ endif
 % Recalculate A1epsilon, A1p, A2epsilon and A2p
 A1d=schurOneMAPlattice2tf(A1k,A1epsilon0,A1p0);
 A2d=schurOneMAPlattice2tf(A2k,A2epsilon0,A2p0);
-[A1k,A1epsilon,A1p,~]=tf2schurOneMlattice(flipud(A1d(:)),A1d(:));
-[A2k,A2epsilon,A2p,~]=tf2schurOneMlattice(flipud(A2d(:)),A2d(:));
+[A1krecalc,A1epsilon,A1p,~]=tf2schurOneMlattice(flipud(A1d(:)),A1d(:));
+if max(abs(A1k(:)-A1krecalc(:))) > eps
+  error("max(abs(A1k(:)-A1krecalc(:))) > eps");
+endif
+A1k=A1krecalc;
+[A2krecalc,A2epsilon,A2p,~]=tf2schurOneMlattice(flipud(A2d(:)),A2d(:));
+if max(abs(A2k(:)-A2krecalc(:))) > eps
+  error("max(abs(A2k(:)-A2krecalc(:))) > eps");
+endif
+A2k=A2krecalc;
 
 % Plot
 schurOneMPAlattice_socp_slb_lowpass_plot ...

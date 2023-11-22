@@ -1,5 +1,6 @@
-function [epsilon,p,S1M] = schurOneMscale(k,S)
+function [epsilon,p,S1M] = schurOneMscale(k,S,fixed_epsilon)
 % [epsilon,p,S1M] = schurOneMscale(k,S)
+% [epsilon,p,S1M] = schurOneMscale(k,S,fixed_epsilon)
 % [epsilon,p] = schurOneMscale(k)
 % epsilon = schurOneMscale(k)
 %
@@ -15,7 +16,7 @@ function [epsilon,p,S1M] = schurOneMscale(k,S)
 %       IEEE Trans. Acoustics, Speech and Signal Processing, Vol. 23, No. 5,
 %       Oct. 1975, pp.486-494
   
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2023 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -38,39 +39,49 @@ function [epsilon,p,S1M] = schurOneMscale(k,S)
   % Sanity checks
   if ~(((nargin==2) && (nargout==3)) ...
        || ((nargin==1) && (nargout==1)) ...
+       || ((nargin==3) && (nargout==3)) ...
        || ((nargin=1) && (nargout=2)))
     print_usage("[epsilon,p,S1M] = schurOneMscale(k,S) \n\
+[epsilon,p,S1M] = schurOneMscale(k,S,fixed_epsilon) \n\
 [epsilon,p] = schurOneMscale(k) \n\
 epsilon = schurOneMscale(k)");
   endif
 
-  % Select the sign coefficients
   M=length(k);
-  epsilon=zeros(1,M);
-  [kl,l]=max(abs(k));
-  Qm=1;
-  for m=l-1:-1:1
-    qm=(1+abs(k(m)))/(1-abs(k(m)));
-    if Qm<(1/qm)
-      epsilon(m)=sign(k(m));
-      Qm=Qm*qm;
-    else
-      epsilon(m)=-sign(k(m));
-      Qm=Qm/qm;
+  
+  % Select the sign coefficients
+  if (nargin==3) && (nargout==3)
+    if length(fixed_epsilon) ~= M
+      error("Expected length(fixed_epsilon) == length(k)");
     endif
-  endfor
+    epsilon=fixed_epsilon;
+  else
+    epsilon=zeros(1,M);
+    [kl,l]=max(abs(k));
+    Qm=1;
+    for m=l-1:-1:1
+      qm=(1+abs(k(m)))/(1-abs(k(m)));
+      if Qm<(1/qm)
+        epsilon(m)=sign(k(m));
+        Qm=Qm*qm;
+      else
+        epsilon(m)=-sign(k(m));
+        Qm=Qm/qm;
+      endif
+    endfor
 
-  Qm=1;
-  for m=l:M
-    qm=(1+abs(k(m)))/(1-abs(k(m)));
-    if Qm<(1/qm)
-      epsilon(m)=-sign(k(m));
-      Qm=Qm*qm;
-    else
-      epsilon(m)=sign(k(m));
-      Qm=Qm/qm;
-    endif
-  endfor
+    Qm=1;
+    for m=l:M
+      qm=(1+abs(k(m)))/(1-abs(k(m)));
+      if Qm<(1/qm)
+        epsilon(m)=-sign(k(m));
+        Qm=Qm*qm;
+      else
+        epsilon(m)=sign(k(m));
+        Qm=Qm/qm;
+      endif
+    endfor
+  endif
 
   if (nargin==1) && (nargout==1)
     return;

@@ -4805,7 +4805,7 @@ k_{i}=\Lambda_{i}\left(0\right)/\tilde{\Lambda}_{i}\left(0\right)=\Phi_{i}\left(
  & = \frac{\left(1+\epsilon_{N}k_{N}\right)\left(1+\epsilon_{N-1}k_{N-1}\right)\cdots\left(1+\epsilon_{i+1}k_{i+1}\right)}{\left(1-\epsilon_{N}k_{N}\right)\left(1-\epsilon_{N-1}k_{N-1}\right)\cdots\left(1-\epsilon_{i+1}k_{i+1}\right)}\label{eq:OneMultAmplitude}
 \end{align}
 The magnitude of $\left\langle \Lambda_{i}\left(z\right),\Lambda_{i}\left(z\right)\right\rangle $
-can be adjusted by choosing the sign parameters so that the 1-multiplier
+can be adjusted by choosing the sign parameters so that the one-multiplier
 lattice filter can avoid the severe input scaling of the basic lattice
 filter and have better round-off noise behaviour. One criterion for
 choosing the sign parameters is to require that the node associated
@@ -4879,7 +4879,9 @@ Figure~\ref{fig:One-multiplier-lattice-structure}.
 \label{fig:One-multiplier-lattice-structure}
 \end{figure}
 The Octave function \emph{tf2schurOneMlattice} calculates the coefficients of 
-the one-multiplier Schur lattice from the transfer function.
+the one-multiplier Schur lattice from the transfer function. Note that if the
+$\epsilon_{m}$ sign parameters are changed then the $\Lambda_{i}$ polynomials
+will also change.
 
 \section{Derivation of the Normalised Lattice Filter }
 For an N-th order IIR transfer function
@@ -12038,7 +12040,9 @@ relationships between coefficients are linear.
 The Octave script \emph{schurOneMPAlattice\_socp\_slb\_lowpass\_test.m}
 implements the design of a low-pass IIR filter composed of the sum of two
 parallel one-multiplier Schur lattice all-pass filters with SOCP and PCLS
-optimisation. The specification of the filter is:
+optimisation. For such a filter the all-pass reflection coefficient sign
+assignments can be recalculated without affecting the response. The
+specification of the filter is:
 \begin{small}
 \verbatiminput{schurOneMPAlattice_socp_slb_lowpass_test.spec}
 \end{small}
