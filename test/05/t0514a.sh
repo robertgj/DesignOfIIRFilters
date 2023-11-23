@@ -39,15 +39,48 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 
+
 YALMIP globaloptimization examples
-value(t)=-0.9564
-value(trace(P))= 0.4834
+
+
+
+YALMIP globaloptimization example 1
+
+value(t)=-0.9414
+
+
+YALMIP globaloptimization example 2
+
+value(trace(P))= 0.4974
+
+
+YALMIP globaloptimization example 3
+
+value(trace(P))= 0.4884
+
+
+YALMIP globaloptimization example 4a
+
 value(-t)=-2.5000
+
+
+YALMIP globaloptimization example 4b
+
 value(-t)=-2.4836
-value(-t)=-2.4667
+
+
+YALMIP globaloptimization example 4c
+
 value(-t)=-2.4667
 
-YALMIP nonconvexquadraticprogramming bmibnb example
+
+YALMIP globaloptimization example 4d
+
+value(-t)=-2.4667
+
+
+YALMIP non-convex quadratic programming example
+
 For bmibnb : 
 value(x) = [ -0.2734  1.0000  1.0000 -1.0000 -1.0000 ]
 real(value(x'*Q*x)) = -80.9164
