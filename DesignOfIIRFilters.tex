@@ -37671,8 +37671,10 @@ repositories at \url{https://github.com/robertgj}.
 
 \subsubsection*{Problems with Octave}
 The \emph{octave.patch} here document within \emph{build-octave.sh}
-patches files to add an Octave warning id and to prevent a \emph{valgrind}
-warning.
+patches files to add an Octave warning id in
+\texttt{\_\_gnuplot\_draw\_axes\_\_.m}, to prevent a \emph{valgrind} warning
+from \texttt{load-save.cc} and to add functionality to the \texttt{unique.m}
+script.
 
 After updating from Fedora 38 to 39 I get a warning message from GTK3 for
 the command-line version of \emph{octave-8.4.0}:
@@ -37684,8 +37686,7 @@ the command-line version of \emph{octave-8.4.0}:
 \end{small}
 The patch file \emph{qt5-qtbase-5.15.11-3.fc39.patch} applied to
 the \emph{qt5-qtbase-5.15.11-3} RedHat Fedora 39 SRPM resolves the problem for
-the command-line version. The problem does not happen with Octave-9.0.0 from the
-development repository using Qt6.  
+the command-line version.
 
 \subsubsection*{Problems with Octave-Forge packages}
 The following packages are patched with shell \emph{here} documents
