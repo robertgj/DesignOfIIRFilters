@@ -5817,8 +5817,8 @@ creates a symbolic state variable description of a doubly-pipelined Schur
 one-multiplier lattice filter.
 \subsection{\label{sec:State-variable-all-pass-doubly-pipelined-One-multiplier-Schur-lattice-filter}State variable description of an all-pass doubly-pipelined one-multiplier Schur lattice filter}
 Figure~\ref{fig:State-variable-description-all-pass-doubly-pipelined-One-Multiplier-Lattice} shows only the all-pass part of a first order segment of the
-doubly-pipelined Schur one-multiplier lattice filter  
-Figure~\ref{fig:State-variable-description-doubly-pipelined-One-Multiplier-Lattice} .
+doubly-pipelined Schur one-multiplier lattice filter of
+Figure~\ref{fig:State-variable-description-doubly-pipelined-One-Multiplier-Lattice}.
 
 \begin{figure}[!ht]
 \centering
@@ -37413,7 +37413,7 @@ $n\times n$ Hermitian matrixes, $\mathbb{H}^{n}$, is\footnote{See
 \end{align*}
 Also:
 \begin{quotation}
-  ..given two Hilbert spaces $V$ and $W$ and a linear mapping
+  ... given two Hilbert spaces $V$ and $W$ and a linear mapping
   $\mathcal{A}:V\rightarrow W$, the adjoint mapping of $\mathcal{A}$,
   denoted $\mathcal{A}^{adj}$, is a linear mapping from $W$ to $V$ such that
   \begin{align*}
@@ -37478,10 +37478,12 @@ The adjoint mapping of the generalised, finite-frequency, discrete-time KYP
 lemma is found in a similar fashion.
 
 \subsection{The dual of the discrete-time KYP lemma LMI}
-\emph{Cheng}~\cite[Section 3.5]{ChengYiping_ProofDiscreteTimeKYPusingSDPduality}
+\emph{Cheng}
 proves the following dual of the discrete-time KYP linear matrix inequality:
 \begin{framed}
-  \emph{Proposition 2} There exists $Z\in\mathbb{H}^{n+m}$ such that:
+  \emph{Proposition 2}~\cite[Section
+  3.5]{ChengYiping_ProofDiscreteTimeKYPusingSDPduality}: There exists
+  $Z\in\mathbb{H}^{n+m}$ such that:
   \begin{align*}
     Z = \left[\begin{array}{cc}
              Z_{11} & Z_{12} \\
@@ -37671,10 +37673,12 @@ repositories at \url{https://github.com/robertgj}.
 
 \subsubsection*{Problems with Octave}
 The \emph{octave.patch} here document within \emph{build-octave.sh}
-patches files to add an Octave warning id in
-\texttt{\_\_gnuplot\_draw\_axes\_\_.m}, to prevent a \emph{valgrind} warning
-from \texttt{load-save.cc} and to add functionality to the \texttt{unique.m}
-script.
+patches files to:
+\begin{itemize}
+\item add an Octave warning id in \texttt{\_\_gnuplot\_draw\_axes\_\_.m}
+\item prevent a \emph{valgrind} warning from \texttt{load-save.cc}
+\item add functionality to the \texttt{unique.m} script
+\end{itemize}
 
 After updating from Fedora 38 to 39 I get a warning message from GTK3 for
 the command-line version of \emph{octave-8.4.0}:
