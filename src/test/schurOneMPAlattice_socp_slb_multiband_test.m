@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_multiband_test.m
-% Copyright (C) 2020-2022 Robert G. Jenssen
+% Copyright (C) 2020-2023 Robert G. Jenssen
 
 test_common;
 
@@ -218,7 +218,7 @@ close
 %
 % SOCP PCLS pass
 %
-[A1kpcls,A2kpcls,slb_iter,socp_iter,func_iter,feasible] = ...
+[A1k,A2k,slb_iter,socp_iter,func_iter,feasible] = ...
 schurOneMPAlattice_slb(@schurOneMPAlattice_socp_mmse, ...
                        A1kmmse,A1epsilon0,A1p0,A2kmmse,A2epsilon0,A2p0, ...
                        difference,k_u,k_l,k_active,dmax, ...
@@ -228,13 +228,18 @@ if feasible == 0
   error("A1k,A2k(pcls) infeasible");
 endif
 
+% Recalculate A1epsilon, A1p, A2epsilon and A2p
+[A1epsilon,A1p]=schurOneMscale(A1k);
+[A2epsilon,A2p]=schurOneMscale(A2k);
+A1k=A1k(:)';A1epsilon=A1epsilon(:)';A1p=A1p(:)';
+[A2epsilon,A2p]=schurOneMscale(A2k);
+A2k=A2k(:)';A2epsilon=A2epsilon(:)';A2p=A2p(:)';
+
 %
 % Plot PCLS result
 %
-Asq=schurOneMPAlatticeAsq(w,A1kpcls,A1epsilon0,A1p0,A2kpcls,A2epsilon0,A2p0, ...
-                          difference);
-T=schurOneMPAlatticeT(w,A1kpcls,A1epsilon0,A1p0,A2kpcls,A2epsilon0,A2p0, ...
-                      difference);
+Asq=schurOneMPAlatticeAsq(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
+T=schurOneMPAlatticeT(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 subplot(211)
 plot(w*0.5/pi,10*log10(Asq))
 axis([0 0.5 -40 1])
@@ -324,17 +329,26 @@ print_polynomial(A1kmmse,"A1kmmse");
 print_polynomial(A1kmmse,"A1kmmse",strcat(strf,"_A1kmmse_coef.m"));
 print_polynomial(A2kmmse,"A2kmmse");
 print_polynomial(A2kmmse,"A2kmmse",strcat(strf,"_A2kmmse_coef.m"));
-print_polynomial(A1kpcls,"A1kpcls");
-print_polynomial(A1kpcls,"A1kpcls",strcat(strf,"_A1kpcls_coef.m"));
-print_polynomial(A2kpcls,"A2kpcls");
-print_polynomial(A2kpcls,"A2kpcls",strcat(strf,"_A2kpcls_coef.m"));
+print_polynomial(A1k,"A1k");
+print_polynomial(A1k,"A1k",strcat(strf,"_A1k_coef.m"));
+print_polynomial(A2k,"A2k");
+print_polynomial(A2k,"A2k",strcat(strf,"_A2k_coef.m"));
+print_polynomial(A1epsilon,"A1epsilon","%2d");
+print_polynomial(A1epsilon,"A1epsilon",strcat(strf,"_A1epsilon_coef.m"),"%2d");
+print_polynomial(A2epsilon,"A2epsilon","%2d");
+print_polynomial(A2epsilon,"A2epsilon",strcat(strf,"_A2epsilon_coef.m"),"%2d");
+print_polynomial(A1p,"A1p");
+print_polynomial(A1p,"A1p",strcat(strf,"_A1p_coef.m"));
+print_polynomial(A2p,"A2p");
+print_polynomial(A2p,"A2p",strcat(strf,"_A2p_coef.m"));
 
 save schurOneMPAlattice_socp_slb_multiband_test.mat ...
      tol mtol ptol ctol maxiter verbose nplot npoints dmax rho ...
      fas1u fap1l fap1u fas2l fas2u fap2l fap2u fas3l ...
      dBas1 dBap1 dBas2 dBap2 dBas3 Was1 Wap1 Was2 Wap2 Was3  ...
      ftp1l ftp1u ftp2l ftp2u tp1 tpr1 tp2 tpr2 Wtp1 Wtp2 ...
-     A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 A1kmmse A2kmmse A1kpcls A2kpcls
+     A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 A1kmmse A2kmmse ...
+     A1k A1epsilon A1p A2k A2epsilon A2p
 
 % Done
 toc;

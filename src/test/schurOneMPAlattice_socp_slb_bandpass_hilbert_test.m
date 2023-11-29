@@ -131,12 +131,10 @@ if feasible == 0
 endif
 
 % Recalculate A1epsilon, A1p, A2epsilon and A2p
-A1d=schurOneMAPlattice2tf(A1k,A1epsilon0,A1p0);
-A1d=A1d(:);
-A2d=schurOneMAPlattice2tf(A2k,A2epsilon0,A2p0);
-A2d=A2d(:);
-[A1k,A1epsilon,A1p,~]=tf2schurOneMlattice(flipud(A1d),A1d);
-[A2k,A2epsilon,A2p,~]=tf2schurOneMlattice(flipud(A2d),A2d);
+[A1epsilon,A1p]=schurOneMscale(A1k);
+A1k=A1k(:)';A1epsilon=A1epsilon(:)';A1p=A1p(:)';
+[A2epsilon,A2p]=schurOneMscale(A2k);
+A2k=A2k(:)';A2epsilon=A2epsilon(:)';A2p=A2p(:)';
 
 % Find response
 Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
@@ -169,6 +167,10 @@ print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Plot poles and zeros
+A1d=schurOneMAPlattice2tf(A1k,A1epsilon0,A1p0);
+A1d=A1d(:);
+A2d=schurOneMAPlattice2tf(A2k,A2epsilon0,A2p0);
+A2d=A2d(:);
 zplane(roots(flipud(A1d)),roots(A1d));
 title("Allpass filter 1");
 print(strcat(strf,"_A1pz"),"-dpdflatex");

@@ -61,37 +61,37 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test_A1kpcls.ok << 'EOF'
-A1kpcls = [   0.5726199496,  -0.1177764108,   0.3238234552,   0.8127661774, ... 
-             -0.2558468863,   0.1021006247,   0.5731557410,  -0.1380276883, ... 
-              0.1955612118,   0.3973182703,   0.0021644189,   0.0088422772, ... 
-              0.2329937191,  -0.1280965491 ]';
+cat > test_A1k.ok << 'EOF'
+A1k = [   0.5726199496,  -0.1177764108,   0.3238234552,   0.8127661774, ... 
+         -0.2558468863,   0.1021006247,   0.5731557410,  -0.1380276883, ... 
+          0.1955612118,   0.3973182703,   0.0021644189,   0.0088422772, ... 
+          0.2329937191,  -0.1280965491 ];
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_A1kpcls.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A1k.ok"; fail; fi
 
-cat > test_A1epsilon0.ok << 'EOF'
-A1epsilon0 = [ -1, -1, -1,  1, ... 
-                1, -1, -1, -1, ... 
-                1,  1,  1,  1, ... 
-               -1,  1 ];
+cat > test_A1epsilon.ok << 'EOF'
+A1epsilon = [ -1, -1, -1,  1, ... 
+               1, -1, -1, -1, ... 
+              -1,  1, -1, -1, ... 
+              -1,  1 ];
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_A1epsilon0.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A1epsilon.ok"; fail; fi
 
-cat > test_A2kpcls.ok << 'EOF'
-A2kpcls = [   0.7907028451,   0.2515770808,   0.1447035462,   0.6955091266, ... 
-             -0.3448473797,   0.0241903869,   0.5090199325,  -0.2140969265, ... 
-              0.1635371854,   0.3838140919,  -0.0117301813,   0.0243555770, ... 
-              0.2775395987,  -0.0687032638 ]';
+cat > test_A2k.ok << 'EOF'
+A2k = [   0.7907028451,   0.2515770808,   0.1447035462,   0.6955091266, ... 
+         -0.3448473797,   0.0241903869,   0.5090199325,  -0.2140969265, ... 
+          0.1635371854,   0.3838140919,  -0.0117301813,   0.0243555770, ... 
+          0.2775395987,  -0.0687032638 ];
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_A2kpcls.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A2k.ok"; fail; fi
 
-cat > test_A2epsilon0.ok << 'EOF'
-A2epsilon0 = [  1, -1, -1,  1, ... 
-                1, -1, -1,  1, ... 
-                1,  1,  1, -1, ... 
-               -1, -1 ];
+cat > test_A2epsilon.ok << 'EOF'
+A2epsilon = [  1, -1, -1,  1, ... 
+               1, -1, -1,  1, ... 
+              -1,  1,  1, -1, ... 
+              -1,  1 ];
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_A2epsilon0.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A2epsilon.ok"; fail; fi
 
 #
 # run and see if the results match
@@ -103,17 +103,17 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="schurOneMPAlattice_socp_slb_multiband_test"
 
-diff -Bb test_A1kpcls.ok $nstr"_A1kpcls_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1kpcls.ok"; fail; fi
+diff -Bb test_A1k.ok $nstr"_A1k_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k.ok"; fail; fi
 
-diff -Bb test_A1epsilon0.ok $nstr"_A1epsilon0_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1epsilon0.ok"; fail; fi
+diff -Bb test_A1epsilon.ok $nstr"_A1epsilon_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1epsilon.ok"; fail; fi
 
-diff -Bb test_A2kpcls.ok $nstr"_A2kpcls_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2kpcls.ok"; fail; fi
+diff -Bb test_A2k.ok $nstr"_A2k_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k.ok"; fail; fi
 
-diff -Bb test_A2epsilon0.ok $nstr"_A2epsilon0_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2epsilon0.ok"; fail; fi
+diff -Bb test_A2epsilon.ok $nstr"_A2epsilon_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2epsilon.ok"; fail; fi
 
 #
 # this much worked
