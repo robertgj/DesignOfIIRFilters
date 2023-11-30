@@ -1,7 +1,7 @@
 linesearch_test_EXTRA_DIARY_FILES=linesearch_test.diary.warning
 
 linesearch_test.diary.warning : linesearch_test.diary
-	egrep -v warning $^ > $@
+	grep -v warning $^ > $@
 
 linesearch_test_FILES = \
 linesearch_test.m test_common.m print_polynomial.m print_pole_zero.m \
