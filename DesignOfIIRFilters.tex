@@ -37690,7 +37690,38 @@ the command-line version of \emph{octave-8.4.0}:
 \end{small}
 The patch file \emph{qt5-qtbase-5.15.11-3.fc39.patch} applied to
 the \emph{qt5-qtbase-5.15.11-3} RedHat Fedora 39 SRPM resolves the problem for
-the command-line version.
+the command-line version. To rebuild and reinstall the RPM:
+\begin{itemize}
+\item Download the source RPM:
+\begin{small}
+\begin{verbatim}
+$ cd ~/rpmbuild/SRPMS
+$ wget https://dl.fedoraproject.org/pub/fedora/linux/updates/39/Everything/\
+source/tree/Packages/q/qt5-qtbase-5.15.11-7.fc39.src.rpm
+\end{verbatim}
+\end{small}
+\item Patch \texttt{qt5-qtbase-5.15.11-7.fc39.src.rpm}:
+\begin{small}
+\begin{verbatim}
+$ cd ~/rpmbuild/SOURCES
+$ vi 0014-QGtk3Theme-Improve-fixed-font-delivery.patch
+\end{verbatim}
+\end{small}
+\item Rebuild the SRPM and RPM:  
+\begin{small}
+\begin{verbatim}
+$ cd ~/rpmbuild/SPECS
+$ rpmbuild -ba qt5-qtbase.spec
+\end{verbatim}
+\end{small}
+\item Install the new RPMs
+\begin{small}
+\begin{verbatim}
+$ cd ~/rpmbuild/RPMS
+$ for file in `find . -name \*.rpm`;do rpm -i --nodeps --reinstall $file; done
+\end{verbatim}
+\end{small}
+\end{itemize}
 
 \subsubsection*{Problems with Octave-Forge packages}
 The following packages are patched with shell \emph{here} documents
