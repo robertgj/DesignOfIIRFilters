@@ -55,44 +55,44 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k_coef.m << 'EOF'
-A1k = [  -0.3982018594,   0.5579158574,   0.5354080583,  -0.5185582087, ... 
-          0.6912216487,  -0.2508049275,  -0.1098817435,   0.3932798003, ... 
-         -0.2712124812,   0.1143990042 ];
+A1k = [  -0.4128702265,   0.6121215524,   0.4801508486,  -0.5075186929, ... 
+          0.7071528868,  -0.3014585088,  -0.0657692505,   0.3683891539, ... 
+         -0.2551669486,   0.0888691364 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_coef.m"; fail; fi
 
 cat > test_A1epsilon_coef.m << 'EOF'
-A1epsilon = [ -1,  1, -1,  1, ... 
+A1epsilon = [ -1, -1,  1,  1, ... 
                1,  1,  1, -1, ... 
               -1, -1 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1epsilon_coef.m"; fail; fi
 
 cat > test_A1p_coef.m << 'EOF'
-A1p = [   1.1168799964,   0.7327350998,   0.3903259861,   0.7095835468, ... 
-          1.2602228959,   0.5384811723,   0.6957734598,   0.7769308351, ... 
-          1.1773546447,   0.8914534918 ];
+A1p = [   0.9804982210,   0.6320664307,   1.2885871407,   0.7636589984, ... 
+          1.3360907310,   0.5533758681,   0.7553344213,   0.8067589471, ... 
+          1.1874731882,   0.9147502462 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1p_coef.m"; fail; fi
 
 cat > test_A2k_coef.m << 'EOF'
-A2k = [  -0.7676338355,   0.6899712227,   0.5000214394,  -0.5938002418, ... 
-          0.7202581013,  -0.1939793580,  -0.1269458040,   0.4047287318, ... 
-         -0.2423733471,   0.1262580562 ];
+A2k = [  -0.7695782952,   0.7219958427,   0.4494272756,  -0.5764895220, ... 
+          0.7320489394,  -0.2535235130,  -0.0694096509,   0.3764455442, ... 
+         -0.2345093731,   0.1054511878 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_coef.m"; fail; fi
 
 cat > test_A2epsilon_coef.m << 'EOF'
-A2epsilon = [ -1, -1,  1,  1, ... 
-               1,  1,  1, -1, ... 
-              -1, -1 ];
+A2epsilon = [ -1, -1,  1, -1, ... 
+              -1,  1, -1,  1, ... 
+               1, -1 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2epsilon_coef.m"; fail; fi
 
 cat > test_A2p_coef.m << 'EOF'
-A2p = [   1.3601634402,   0.4931526701,   1.1513836017,   0.6647326298, ... 
-          1.3167220595,   0.5309774344,   0.6462512438,   0.7342303043, ... 
-          1.1279012491,   0.8807905307 ];
+A2p = [   1.1936216641,   0.4307184685,   1.0719731264,   0.6606828437, ... 
+          0.3424361179,   0.8706265445,   1.1282103518,   1.0524398955, ... 
+          0.7083615493,   0.8995643510 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2p_coef.m"; fail; fi
 
@@ -101,27 +101,27 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_A2p_coef.m"; fail; fi
 #
 echo "Running $prog"
 
-name=schurOneMPAlattice_socp_slb_bandpass_hilbert_test
+nstr=schurOneMPAlattice_socp_slb_bandpass_hilbert_test
 
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_A1k_coef.m $name"_A1k_coef.m"
+diff -Bb test_A1k_coef.m $nstr"_A1k_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k_coef.m"; fail; fi
 
-diff -Bb test_A1epsilon_coef.m $name"_A1epsilon_coef.m"
+diff -Bb test_A1epsilon_coef.m $nstr"_A1epsilon_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1epsilon_coef.m"; fail; fi
 
-diff -Bb test_A1p_coef.m $name"_A1p_coef.m"
+diff -Bb test_A1p_coef.m $nstr"_A1p_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1p_coef.m"; fail; fi
 
-diff -Bb test_A2k_coef.m $name"_A2k_coef.m"
+diff -Bb test_A2k_coef.m $nstr"_A2k_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k_coef.m"; fail; fi
 
-diff -Bb test_A2epsilon_coef.m $name"_A2epsilon_coef.m"
+diff -Bb test_A2epsilon_coef.m $nstr"_A2epsilon_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2epsilon_coef.m"; fail; fi
 
-diff -Bb test_A2p_coef.m $name"_A2p_coef.m"
+diff -Bb test_A2p_coef.m $nstr"_A2p_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2p_coef.m"; fail; fi
 
 #

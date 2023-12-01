@@ -11,7 +11,7 @@ test_common;
 strf="branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test";
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
-diary branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test.diary.tmp
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Options
 use_best_branch_and_bound_found=true
@@ -191,6 +191,15 @@ if use_best_branch_and_bound_found
   % Recall that Esq_min depends on band weights
   if branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_allocsd_Ito
     if 1
+      % Esq_min=0.00602264
+      branches_min=370;
+      A1k_min = [     -976,     1710,     -552,       96, ... 
+                      1392,     -895,      480,      448, ... 
+                      -368,      192 ]'/2048;
+      A2k_min = [    -1616,     1809,     -704,       64, ... 
+                      1426,     -840,      496,      448, ... 
+                      -336,      200 ]'/2048;
+    elseif 0
       % Esq_min=0.00187209
       branches_min=398;
       A1k_min = [     -864,     1660,     -464,       48, ... 
@@ -530,7 +539,7 @@ pass-band(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
 title(strt);
 axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), -0.06, 0.02]);
 legend("exact","s-d(Ito)","s-d(b-and-b)");
-legend("location","south");
+legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -638,6 +647,4 @@ branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_allocsd_Ito ...
 % Done
 toc;
 diary off
-movefile ...
-  branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test.diary.tmp ...
-  branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test.diary;
+eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));

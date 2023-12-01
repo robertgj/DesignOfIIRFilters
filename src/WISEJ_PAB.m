@@ -1,5 +1,6 @@
-function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt)
-% E=WISEJ_PAB(ab[,ma,mb,Ad,Wa,Td,Wt])
+function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt,_Pd,_Wp)
+% E=WISEJ_PAB(ab,ma,mb,Ad,Wa,Td,Wt)
+% E=WISEJ_PAB(ab,ma,mb,Ad,Wa,Td,Wt,Pd,Wp)
 % Objective function for minimising the response error of parallel
 % allpass filters using the method of Tarczynski et al. The argument ab
 % is the concatenation of the two allpass filter denominator polynomials
@@ -14,6 +15,8 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt)
 %  Wa - filter amplitude response weighting factor
 %  Td - desired filter group-delay response
 %  Wt - filter group-delay response weighting factor
+%  Pd - desired filter phase response
+%  Wp - filter phase response weighting factor
 %
 % See "A WISE Method for Designing IIR Filters", A.Tarczynski et al.,
 % IEEE Transactions on Signal Processing, Vol. 49, No. 7, pp. 1421-1432
@@ -38,14 +41,14 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   
-  persistent ma mb Ad Wa Td Wt
+  persistent ma mb Ad Wa Td Wt Pd Wp
   persistent init_done=false
 
-  if (nargin ~= 1) && (nargin ~= 7)
-    print_usage("E=WISEJ_PAB(ab[,ma,mb,Ad,Wa,Td,Wt])");
+  if (nargin ~= 1) && (nargin ~= 7) && (nargin ~= 9)
+    print_usage("E=WISEJ_PAB(ab[,ma,mb,Ad,Wa,Td,Wt,Pd,Wp])");
   endif
-  if nargin==7
-    ma=_ma; mb=_mb; Ad=_Ad; Wa=_Wa; Td=_Td; Wt=_Wt;
+  if nargin>=7
+    ma=_ma; mb=_mb; Ad=_Ad; Wa=_Wa; Td=_Td; Wt=_Wt; Pd=[]; Wp=[];
     if (length(Ad) ~= length(Wa))
       error("Expected length(Ad) == length(Wa)!");
     endif
@@ -54,6 +57,18 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt)
     endif 
     if (length(Td) ~= length(Wt))
       error("Expected length(Td) == length(Wt)!");
+    endif
+    if nargin == 7
+      init_done=true;
+    endif
+  endif
+  if nargin==9
+    Pd=_Pd; Wp=_Wp;
+    if (length(Ad) ~= length(Pd))
+      error("Expected length(Ad) == length(Pd)!");
+    endif 
+    if (length(Pd) ~= length(Wp))
+      error("Expected length(Pd) == length(Wp)!");
     endif
     init_done=true;
   endif
@@ -84,9 +99,18 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt)
   [T,wt]=delayz(N,D,length(Td));
   ETd = Wt.*(abs(T-Td).^2);
 
+  % Find the phase response error
+  if ~isempty(Pd)
+    wp = wa;
+    EPd = Wp.*(abs(unwrap(arg(H))-Pd).^2);
+  endif
+
   % Trapezoidal integration of the weighted error
   intEd = (sum(diff(wa).*(EAd(1:(length(EAd)-1))+EAd(2:end))) + ...
            sum(diff(wt).*(ETd(1:(length(ETd)-1))+ETd(2:end))))/2;
+  if ~isempty(Pd)
+    intEd = intEd + (sum(diff(wp).*(EPd(1:(length(EPd)-1))+EPd(2:end)))/2);
+  endif
 
   % Heuristics for the barrier function
   lambda = 0.001;

@@ -10,7 +10,7 @@ test_common;
 strf="branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test";
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
-diary branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test.diary.tmp
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Options
 use_best_branch_and_bound_found=true
@@ -21,7 +21,6 @@ endif
 enforce_pcls_constraints_on_final_filter=true
 
 tic;
-
 
 tol=1e-4
 ctol=1e-5
@@ -57,7 +56,7 @@ fapl=0.1
 fapu=0.2
 fasu=0.25
 dBap=0.2
-Wap=10
+Wap=20
 dBas=35
 Watl=1e-3
 Watu=1e-3
@@ -175,13 +174,24 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 
 % Fix one coefficient at each iteration 
 if use_best_branch_and_bound_found
-  branches_min=264;
-  A1k_min = [     -208,      432,     -140,        6, ... 
-                   376,     -268,      196,      152, ... 
-                  -162,      108 ]'/512;
-  A2k_min = [     -400,      444,     -137,      -27, ... 
-                   376,     -249,      200,      152, ... 
-                  -158,      114 ]'/512;
+  if 1
+    branches_min=1640;
+    A1k_min = [    -228,      432,     -168,       88, ... 
+                    352,     -232,      152,      164, ... 
+                   -123,       88 ]'/512;
+    A2k_min = [    -416,      447,     -200,       65, ... 
+                    352,     -216,      161,      161, ... 
+                   -113,       98 ]'/512;
+  else
+    % Wap= 10
+    branches_min=264;
+    A1k_min = [    -208,      432,     -140,        6, ... 
+                    376,     -268,      196,      152, ... 
+                   -162,      108 ]'/512;
+    A2k_min = [    -400,      444,     -137,      -27, ... 
+                    376,     -249,      200,      152, ... 
+                   -158,      114 ]'/512;
+  endif
   k_min=[A1k_min(:);A2k_min(:)];
   Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon0,A1p_ones, ...
                                 A2k_min,A2epsilon0,A2p_ones, ...
@@ -452,7 +462,7 @@ xlabel("Frequency");
 strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
 pass-band(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
 title(strt);
-axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), -0.04, 0.02]);
+axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), -0.2, 0.1]);
 legend("exact","s-d","s-d(b-and-b)");
 legend("location","northeast");
 legend("boxoff");
@@ -472,7 +482,7 @@ pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
 title(strt);
 axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), td-tdr, td+tdr]);
 legend("exact","s-d","s-d(b-and-b)");
-legend("location","southeast");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -491,7 +501,7 @@ title(strt);
 axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), ...
       mod(pd-(pdr/4),2), mod(pd+(pdr/4),2)]);
 legend("exact","s-d","s-d(b-and-b)");
-legend("location","southeast");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -555,6 +565,4 @@ save branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test.mat ...
 % Done
 toc;
 diary off
-movefile ...
-  branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test.diary.tmp ...
-  branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test.diary;
+eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));

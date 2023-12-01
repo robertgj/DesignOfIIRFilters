@@ -2,7 +2,7 @@
 
 prog=tarczynski_parallel_allpass_bandpass_hilbert_test.m
 depends="test/tarczynski_parallel_allpass_bandpass_hilbert_test.m \
-test_common.m delayz.m print_polynomial.m print_pole_zero.m"
+test_common.m WISEJ_PAB.m delayz.m print_polynomial.m print_pole_zero.m"
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
@@ -37,16 +37,16 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_Da0_coef.m << 'EOF'
-Da0 = [   1.0000000000,  -1.3194189839,   0.9026437097,   0.9023795686, ... 
-         -1.9388654819,   1.7221502269,  -0.3547090588,  -0.6015708606, ... 
-          0.8119338853,  -0.4295212306,   0.1309442168 ]';
+Da0 = [   1.0000000000,  -1.3417133876,   0.9467691202,   0.8932704397, ... 
+         -1.9569064311,   1.7223156818,  -0.3118072885,  -0.6224402999, ... 
+          0.7601112179,  -0.3620260364,   0.0924372209 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Da0_coef.m"; fail; fi
 
 cat > test_Db0_coef.m << 'EOF'
-Db0 = [   1.0000000000,  -1.9070171016,   1.2051021976,   1.1412058992, ... 
-         -2.6024028324,   2.1182582375,  -0.3848100195,  -0.8142384509, ... 
-          0.9958802405,  -0.5209397586,   0.1409537083 ]';
+Db0 = [   1.0000000000,  -1.9565861300,   1.2926175822,   1.1296122659, ... 
+         -2.6904103254,   2.1574929264,  -0.3108843636,  -0.8691490313, ... 
+          0.9361436365,  -0.4300818272,   0.0997981324 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Db0_coef.m"; fail; fi
 
@@ -55,15 +55,15 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_Db0_coef.m"; fail; fi
 #
 echo "Running $prog"
 
+nstr=tarczynski_parallel_allpass_bandpass_hilbert_test
+
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_Da0_coef.m \
-     tarczynski_parallel_allpass_bandpass_hilbert_test_Da0_coef.m
+diff -Bb test_Da0_coef.m $nstr"_Da0_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Da0_coef.m"; fail; fi
 
-diff -Bb test_Db0_coef.m \
-     tarczynski_parallel_allpass_bandpass_hilbert_test_Db0_coef.m
+diff -Bb test_Db0_coef.m $nstr"_Db0_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Db0_coef.m"; fail; fi
 
 

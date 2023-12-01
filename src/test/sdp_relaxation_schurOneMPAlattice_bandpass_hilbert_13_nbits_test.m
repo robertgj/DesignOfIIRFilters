@@ -7,16 +7,16 @@
 
 test_common;
 
-delete("sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.diary");
-delete ...
-  ("sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.diary.tmp");
-diary sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.diary.tmp
+strf="sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test"
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 maxiter=2000
 verbose=false;
-strf="sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test";
 
 %
 % Initial filters from tarczynski_parallel_allpass_bandpass_hilbert_test.m
@@ -454,7 +454,7 @@ strt=sprintf("Parallel allpass lattice bandpass Hilbert filter pass-band delay \
 (nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
 title(strt);
 legend("initial","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
-legend("location","south");
+legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -523,6 +523,4 @@ save sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.mat ...
 % Done
 toc;
 diary off
-movefile ...
-  sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.diary.tmp ...
-  sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.diary;
+eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));
