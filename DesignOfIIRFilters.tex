@@ -35516,8 +35516,10 @@ Then:
 
 \subsection{\label{sec:Generalised_discrete_time_KYP_theorem}A generalised discrete-time KYP lemma}
 \emph{Iwasaki} and \emph{Hara}~\cite[Section 2.2]{Iwasaki_KYPlemmaFrequencyInequalities} prove the following generalised KYP
-lemma for discrete-time state variable systems:
-
+lemma for discrete-time state variable systems\footnote{The Octave script
+  \emph{yalmip\_kyp\_check\_iir\_lowpass\_test.m} uses the generalised KYP
+  lemma to check the frequency response of various implementations of an
+  elliptic low-pass filter.}:
 \begin{framed}
 \emph{Theorem 1}~\cite[Section 2.2]{Iwasaki_KYPlemmaFrequencyInequalities}: Let
 complex matrixes $A$, $B$, $\Theta=\Theta^{\mathconj}$ and
@@ -37190,7 +37192,14 @@ V\mathdiag\left(s_{k}\right)^{\mathconj}W^{\mathconj} +
 \end{align*}
 
 \emph{Pipeleers et al.} now prove the following generalised KYP lemma for
-non-strict inequalities.
+non-strict inequalities\footnote{The Octave script
+  \emph{yalmip\_kyp\_check\_iir\_bandpass\_test.m} uses
+  the generalised KYP lemma to check the response of a parallel all-pass
+  one-multiplier Schur lattice filter designed by the Octave script
+  \emph{schurOneMPAlattice\_socp\_slb\_bandpass\_delay\_test.m}. The filter is
+  intended to have a pass-band phase that is an integer multiple of $\pi$ plus
+  the nominal pass-band phase shift so that the pass-band response may be
+  compared to a delay of an integral number of samples.}:
 \begin{framed}
 \emph{Theorem}~\cite[Theorem
 2.2, Appendix C]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}: Let
