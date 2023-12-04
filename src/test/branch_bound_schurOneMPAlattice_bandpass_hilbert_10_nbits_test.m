@@ -27,7 +27,7 @@ ctol=1e-5
 maxiter=1000
 verbose=false
 
-% Initial coefficients from parallel_allpass_socp_slb_bandpass_hilbert_test.m
+% Initial coefficients
 parallel_allpass_socp_slb_bandpass_hilbert_test_Da1_coef;
 parallel_allpass_socp_slb_bandpass_hilbert_test_Db1_coef;
 
@@ -175,6 +175,16 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 % Fix one coefficient at each iteration 
 if use_best_branch_and_bound_found
   if 1
+    % Esq_min=0.00201295
+    branches_min=437;
+    A1k_min = [    -228,      440,     -216,      176, ... 
+                    312,     -208,      156,      196, ... 
+                   -164,      118 ]'/512;
+    A2k_min = [    -416,      452,     -232,      152, ... 
+                    316,     -191,      162,      196, ... 
+                   -160,      126 ]'/512;
+
+  elseif 0
     branches_min=1640;
     A1k_min = [    -228,      432,     -168,       88, ... 
                     352,     -232,      152,      164, ... 
@@ -182,7 +192,7 @@ if use_best_branch_and_bound_found
     A2k_min = [    -416,      447,     -200,       65, ... 
                     352,     -216,      161,      161, ... 
                    -113,       98 ]'/512;
-  else
+  elseif 0
     % Wap= 10
     branches_min=264;
     A1k_min = [    -208,      432,     -140,        6, ... 

@@ -28,7 +28,7 @@ tarczynski_parallel_allpass_bandpass_hilbert_test_Db0_coef;
 % Band-pass filter specification for parallel all-pass filters
 %
 tol=1e-4
-ctol=1e-5
+ctol=4e-6
 difference=true
 dmax=inf;
 rho=0.999
@@ -36,8 +36,8 @@ fasl=0.05
 fapl=0.1
 fapu=0.2
 fasu=0.25
-dBap=0.2
-dBas=30 
+dBap=0.1
+dBas=40
 Wap=1
 Watl=1e-3
 Watu=1e-3
@@ -46,12 +46,12 @@ Wasu=100
 ftpl=0.11
 ftpu=0.19
 tp=16
-tpr=tp/200
+tpr=0.02
 Wtp=10
 fppl=0.11
 fppu=0.19
 pd=3.5 % Initial phase offset in multiples of pi radians
-pdr=1/500 % Peak-to-peak phase ripple in multiples of pi radians
+pdr=0.0015 % Peak-to-peak phase ripple in multiples of pi radians
 Wpp=200
 
 %
@@ -146,8 +146,8 @@ subplot(311);
 ax=plotyy(wa*0.5/pi,10*log10(Asq),wa*0.5/pi,10*log10(Asq));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
-axis(ax(1),[0 0.5 -2*dBap 2*dBap]);
-axis(ax(2),[0 0.5 -dBas-10 -dBas+10]);
+axis(ax(1),[0 0.5 0.2*[-1 1]]);
+axis(ax(2),[0 0.5 -44 -36]);
 ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf("Parallel all-pass bandpass Hilbert : dBap=%g,dBas=%g",dBap,dBas);
@@ -155,21 +155,21 @@ title(strt);
 subplot(312);
 plot(wp*0.5/pi,((P+(tp*wp))/pi)-pd);
 ylabel("Phase error(rad./$\\pi$)");
-axis([0 0.5 -pdr/2 pdr/2]);
+axis([0 0.5 0.0002*[-1 1]]);
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 tp-(tpr/2) tp+(tpr/2)]);
+axis([0 0.5 (tp+(0.02*[-1 1]))]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Plot poles and zeros
-A1d=schurOneMAPlattice2tf(A1k,A1epsilon0,A1p0);
+A1d=schurOneMAPlattice2tf(A1k,A1epsilon,A1p);
 A1d=A1d(:);
-A2d=schurOneMAPlattice2tf(A2k,A2epsilon0,A2p0);
+A2d=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
 A2d=A2d(:);
 zplane(roots(flipud(A1d)),roots(A1d));
 title("Allpass filter 1");
@@ -233,7 +233,7 @@ fprintf(fid,"tpr=%f %% Pass band group-delay response ripple(samples)\n",tpr);
 fprintf(fid,"Wtp=%d %% Pass band group-delay response weight\n",Wtp);
 fprintf(fid,"fppl=%g %% Pass band phase response lower edge\n",fppl);
 fprintf(fid,"fppu=%g %% Pass band phase response upper edge\n",fppu);
-fprintf(fid,"pd=%f %% Pass band nominal phase response(rad./pi)\n",mod(pd,2));
+fprintf(fid,"pd=%f %% Pass band nominal phase response(rad./pi)\n",pd);
 fprintf(fid,"pdr=%f %% Pass band phase response ripple(rad./pi)\n",pdr);
 fprintf(fid,"Wpp=%d %% Pass band phase response weight\n",Wpp);
 fclose(fid);

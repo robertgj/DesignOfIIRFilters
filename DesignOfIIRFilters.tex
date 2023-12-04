@@ -19072,7 +19072,7 @@ Hilbert filter designed by the script
 \emph{parallel\_allpass\_socp\_slb\_bandpass\_hilbert\_test.m} described in
 Section~\ref{sec:Design-IIR-filter-difference-all-pass-filters-pole-zero-constrained-group-delay}
 implemented with $13$ bit coefficients each having an average of
-$3$ signed-digits allocated by the heuristic of \emph{Lim et al.} as shown in
+$3$ signed-digits allocated by the heuristic of \emph{Ito et al.} as shown in
 Section~\ref{sec:Lim-allocation-signed-digits}. The filter specification is: 
 \begin{small}
 \verbatiminput{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.spec}
@@ -19095,6 +19095,13 @@ constraint algorithm implemented in the Octave function
 necessity, not PCLS optimised so the final set of coefficients may not meet
 the PCLS specifications.
 
+The filter coefficients found when the number of signed-digits is allocated by
+the heuristic of \emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_A1k0_sd_Ito_coef.m}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_A2k0_sd_Ito_coef.m}
+\end{small}
+
 The filter coefficients found by a single ``global'' SDP optimisation are:
 \begin{small}
 \verbatiminput{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_A1k0_sd_sdp_coef.m}
@@ -19113,22 +19120,22 @@ and
 Figure~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-delay}
 compare the pass band responses of the filter with floating-point coefficients,
 13-bit signed-digit coefficients allocated with the algorithm of
-\emph{Lim et al.} and 13-bit signed-digit coefficients allocated with the
-algorithm of \emph{Lim et al.} and SDP-relaxation search. The pass band phase
+\emph{Ito et al.} and 13-bit signed-digit coefficients allocated with the
+algorithm of \emph{Ito et al.} and SDP-relaxation search. The pass band phase
 response shown is adjusted for the nominal delay. Likewise,
 Figure~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-stop}
 shows the filter stop band response.
 Table~\ref{tab:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-cost}
 compares the cost and the number of $13$ bit shift-and-add operations required
 to implement the $20$ coefficient multiplications found by the signed-digit
-allocation heuristic of \emph{Lim et al.} with the SDP-relaxation search.
+allocation heuristic of \emph{Ito et al.} with the SDP-relaxation search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_pass}}
 \caption{Comparison of the pass-band amplitude responses for a parallel
   all-pass Schur one-multiplier lattice bandpass Hilbert filter with 13-bit
   integer coefficients found by allocating an average of 3-signed-digits to
-  each coefficient using the heuristic of \emph{Lim et al.} and performing
+  each coefficient using the heuristic of \emph{Ito et al.} and performing
   SDP-relaxation search.}
 \label{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-pass}
 \end{figure}
@@ -19138,7 +19145,7 @@ allocation heuristic of \emph{Lim et al.} with the SDP-relaxation search.
 \caption{Comparison of the pass-band phase responses for a parallel
   all-pass Schur one-multiplier lattice bandpass Hilbert filter with 13-bit
   integer coefficients found by allocating an average of 3-signed-digits to
-  each coefficient using the heuristic of \emph{Lim et al.} and performing
+  each coefficient using the heuristic of \emph{Ito et al.} and performing
   SDP-relaxation search. The phase responses shown are adjusted for the nominal
   delay.}
 \label{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-phase}
@@ -19149,7 +19156,7 @@ allocation heuristic of \emph{Lim et al.} with the SDP-relaxation search.
 \caption{Comparison of the pass-band group delay responses for a parallel
   all-pass Schur one-multiplier lattice bandpass Hilbert filter with 13-bit
   integer coefficients found by allocating an average of 3-signed-digits to
-  each coefficient using the heuristic of \emph{Lim et al.} and performing
+  each coefficient using the heuristic of \emph{Ito et al.} and performing
   SDP-relaxation search.}
 \label{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-delay}
 \end{figure}
@@ -19159,7 +19166,7 @@ allocation heuristic of \emph{Lim et al.} with the SDP-relaxation search.
 \caption{Comparison of the stop-band amplitude responses for a parallel
   all-pass Schur one-multiplier lattice bandpass Hilbert filter with 13-bit
   integer coefficients found  by allocating an average of 3-signed-digits to
-  each coefficient using the heuristic of \emph{Lim et al.} and performing
+  each coefficient using the heuristic of \emph{Ito et al.} and performing
   SDP-relaxation search.} 
 \label{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-stop}
 \end{figure}
@@ -19180,7 +19187,7 @@ allocation heuristic of \emph{Lim et al.} with the SDP-relaxation search.
   to implement the coefficient multiplications for a parallel all-pass Schur
   one-multiplier lattice bandpass Hilbert filter with 13-bit integer
   coefficients found by allocating an average of 3-signed-digits to each
-  coefficient using the heuristic of \emph{Lim et al.} and performing
+  coefficient using the heuristic of \emph{Ito et al.} and performing
   SDP-relaxation search.}
 \label{tab:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-cost}
 \end{table}

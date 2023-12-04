@@ -7,8 +7,8 @@ sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_stop
 sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_COEFS = \
 sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.mat \
 sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.spec \
-sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_A1k0_sd_Lim_coef.m \
-sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_A2k0_sd_Lim_coef.m \
+sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_A1k0_sd_Ito_coef.m \
+sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_A2k0_sd_Ito_coef.m \
 sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_A1k0_sd_sdp_coef.m \
 sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_A2k0_sd_sdp_coef.m \
 sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_A1k0_sd_min_coef.m \
@@ -22,7 +22,7 @@ sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.m \
 test_common.m \
 sdp_relaxation_schurOneMPAlattice_mmse.m \
 schurOneMPAlattice_socp_mmse.m \
-schurOneMPAlattice_allocsd_Lim.m \
+schurOneMPAlattice_allocsd_Ito.m \
 schurOneMPAlattice_slb.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
 schurOneMPAlattice_slb_exchange_constraints.m \
@@ -40,4 +40,4 @@ schurdecomp.oct schurexpand.oct schurOneMAPlattice2H.oct \
 schurOneMlattice2Abcd.oct complex_zhong_inverse.oct bin2SD.oct bin2SPT.oct \
 
 sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.diary : \
-tarczynski_parallel_allpass_bandpass_hilbert_test.diary
+parallel_allpass_socp_slb_bandpass_hilbert_test.diary

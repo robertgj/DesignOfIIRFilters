@@ -15,12 +15,10 @@ maxiter=5000
 verbose=false
 
 %
-% Initial coefficients from tarczynski_parallel_allpass_bandpass_hilbert_test.m
+% Initial coefficients
 %
 tarczynski_parallel_allpass_bandpass_hilbert_test_Da0_coef;
 tarczynski_parallel_allpass_bandpass_hilbert_test_Db0_coef;
-
-% Lattice decomposition of Da0, Db0
 [~,~,A1s20_0,A1s00_0,A1s02_0,A1s22_0] = tf2schurNSlattice(flipud(Da0),Da0);
 [~,~,A2s20_0,A2s00_0,A2s02_0,A2s22_0] = tf2schurNSlattice(flipud(Db0),Db0);
 
@@ -28,7 +26,7 @@ tarczynski_parallel_allpass_bandpass_hilbert_test_Db0_coef;
 % Band-pass filter specification for parallel all-pass filters
 %
 tol=1e-4
-ctol=tol
+ctol=tol/2
 difference=true
 dmax=inf;
 rho=0.999
@@ -36,23 +34,25 @@ fasl=0.05
 fapl=0.1
 fapu=0.2
 fasu=0.25
-dBap=0.5
-dBas=30 
+dBap=0.08
+dBas=38
 Wap=1
 Watl=1e-3
 Watu=1e-3
-Wasl=100
-Wasu=100
+Wasl=400
+Wasu=400
 ftpl=0.11
 ftpu=0.19
 tp=16
-tpr=tp/200
-Wtp=10
+tpr=0.008
+Wtp=2
 fppl=0.11
 fppu=0.19
 pp=3.5 % Initial phase offset in multiples of pi radians
-ppr=1/500 % Peak-to-peak phase ripple in multiples of pi radians
-Wpp=200
+ppr=0.002 % Peak-to-peak phase ripple in multiples of pi radians
+Wpp=100
+
+  % dBas=38;tpr=0.008;ppr=0.002;Wpp=100
 
 %
 % Frequency vectors
@@ -175,8 +175,8 @@ subplot(311);
 ax=plotyy(wa*0.5/pi,10*log10(Asq),wa*0.5/pi,10*log10(Asq));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
-axis(ax(1),[0 0.5 -2*dBap 2*dBap]);
-axis(ax(2),[0 0.5 -dBas-10 -dBas+10]);
+axis(ax(1),[0 0.5 -0.1 0.1]);
+axis(ax(2),[0 0.5 -60 -20]);
 ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf("Parallel all-pass bandpass Hilbert : dBap=%g,dBas=%g",dBap,dBas);
@@ -184,13 +184,13 @@ title(strt);
 subplot(312);
 plot(wp*0.5/pi,((P+(tp*wp))/pi)-pp);
 ylabel("Phase error(rad./$\\pi$)");
-axis([0 0.5 -ppr/2 ppr/2]);
+axis([0 0.5 ((ppr/10)*[-1 1])]);
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 tp-(tpr/2) tp+(tpr/2)]);
+axis([0 0.5 (tp+((tpr/2)*[-1 1]))]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
@@ -254,36 +254,36 @@ u=u/std(u);
 A1stdx=std(A1xx);
 A2stdx=std(A2xx);
 % Check simulated response
-nfpts=1024;
-nppts=(0:511);
+nfpts=2^11;
+nppts=(0:((nfpts/2)-1));
 fpts=nppts/nfpts;
-H=crossWelch(u,(A1yap-A2yap)/2,nfpts);
-A=abs(H);
-A=movmean(A,10);
+Hsim=crossWelch(u,(A1yap-A2yap)/2,nfpts);
+Asim=abs(Hsim);
+Asim=movmean(Asim,10);
 subplot(311);
-ax=plotyy(fpts,20*log10(A),fpts,20*log10(A));
+ax=plotyy(fpts,20*log10(Asim),fpts,20*log10(Asim));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
-axis(ax(1),[0 0.5 -2*dBap 2*dBap]);
-axis(ax(2),[0 0.5 -dBas-10 -dBas+10]);
+axis(ax(1),[0 0.5 -1 1]);
+axis(ax(2),[0 0.5 -60 -20]);
 ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf...
 ("Simulated parallel all-pass bandpass Hilbert (moving mean of 10 samples)");
 title(strt);
 subplot(312);
-P=unwrap(arg(H));
-P=movmean(P,10);
-plot(fpts,((P+(tp*2*pi*nppts/nfpts))/pi)-1.5);
-axis([0 0.5 -ppr/2 ppr/2])
+Psim=unwrap(arg(Hsim));
+Psim=movmean(Psim,10);
+plot(fpts,((Psim+(tp*2*pi*nppts/nfpts))/pi)+0.5);
+axis([0 0.5 (0.01*[-1 1])])
 grid("on");
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency")
 subplot(313);
-T=-diff(P)/((fpts(2)-fpts(1))*2*pi);
-T=movmean(T,10);
-plot(fpts(2:end),T);
-axis([0 0.5 tp-(tpr/2) tp+(tpr/2)])
+Tsim=-diff(Psim)/((fpts(2)-fpts(1))*2*pi);
+Tsim=movmean(Tsim,10);
+plot(fpts(2:end),Tsim);
+axis([0 0.5 (tp+0.1*[-1 1])])
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency")

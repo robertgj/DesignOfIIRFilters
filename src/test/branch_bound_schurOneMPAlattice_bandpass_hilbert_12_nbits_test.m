@@ -30,7 +30,7 @@ ctol=1e-5
 maxiter=1000
 verbose=false
 
-% Initial coefficients from parallel_allpass_socp_slb_bandpass_hilbert_test.m
+% Initial coefficients
 parallel_allpass_socp_slb_bandpass_hilbert_test_Da1_coef;
 parallel_allpass_socp_slb_bandpass_hilbert_test_Db1_coef;
 
@@ -191,6 +191,15 @@ if use_best_branch_and_bound_found
   % Recall that Esq_min depends on band weights
   if branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_allocsd_Ito
     if 1
+      % Esq_min=0.0076773
+      branches_min=359
+      A1k_min = [     -912,     1728,     -856,      704, ... 
+                      1216,     -834,      560,      800, ... 
+                      -672,      480 ]'/2048;
+      A2k_min = [    -1632,     1810,     -952,      640, ... 
+                      1248,     -769,      576,      800, ... 
+                      -640,      496 ]'/2048;
+    elseif 0
       % Esq_min=0.00602264
       branches_min=370;
       A1k_min = [     -976,     1710,     -552,       96, ... 
@@ -537,9 +546,9 @@ xlabel("Frequency");
 strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
 pass-band(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
 title(strt);
-axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), -0.06, 0.02]);
+axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), -0.03, 0.01]);
 legend("exact","s-d(Ito)","s-d(b-and-b)");
-legend("location","north");
+legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -556,9 +565,9 @@ strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
 pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
 title(strt);
 axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), ...
-      mod(pd-(pdr/20),2), mod(pd+(pdr/20),2)]);
+      mod(pd-(pdr/10),2), mod(pd+(pdr/10),2)]);
 legend("exact","s-d(Ito)","s-d(b-and-b)");
-legend("location","north");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -574,9 +583,9 @@ xlabel("Frequency");
 strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
 pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
 title(strt);
-axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), td-0.04, td+0.04]);
+axis([min([fapl,ftpl,fppl]), max([fapu,ftpu,fppu]), td-0.08, td+0.08]);
 legend("exact","s-d(Ito)","s-d(b-and-b)");
-legend("location","north");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");

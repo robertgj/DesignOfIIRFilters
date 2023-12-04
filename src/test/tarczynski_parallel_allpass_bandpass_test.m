@@ -10,23 +10,22 @@ test_common;
 
 pkg load optim;
 
-% Disable group delay warnings
-warning("off");
+strf="tarczynski_parallel_allpass_bandpass_test";
 
-delete("tarczynski_parallel_allpass_bandpass_test.diary");
-delete("tarczynski_parallel_allpass_bandpass_test.diary.tmp");
-diary tarczynski_parallel_allpass_bandpass_test.diary.tmp
+delete(strcat(strf,".diary",strf));
+delete(strcat(strf,".diary.tmp",strf));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
-
-strf="tarczynski_parallel_allpass_bandpass_test";
 
 % Filter specification
 maxiter=20000
 tol=1e-8
 % Initial filter for parallel_allpass_bandpass_test.m
-fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,Watl=0.01,Wap=1,Watu=0.01
-ma=mb=10,td=16,Wasl=20,Wasu=10,Wtp=0.5,ftpl=0.09,ftpu=0.21
+ma=mb=10
+td=16
+fasl=0.05,ftpl=0.09,fapl=0.10,fapu=0.20,ftpu=0.21,fasu=0.25
+Wasl=20,Watl=0.01,Wap=1,Wtp=0.5,Watu=0.01,Wasu=10
 
 % Frequency points
 n=1000;
@@ -150,10 +149,9 @@ print_polynomial(Db0,"Db0");
 print_polynomial(Db0,"Db0",strcat(strf,"_Db0_coef.m"));
 print_polynomial(N0,"N0");
 print_polynomial(D0,"D0");
-save tarczynski_parallel_allpass_bandpass_test.mat ma mb abi ab0 Da0 Db0 N0 D0
+eval(sprintf("save %s.mat ma mb abi ab0 Da0 Db0 N0 D0",strf));
 
 % Done
 toc;
 diary off
-movefile tarczynski_parallel_allpass_bandpass_test.diary.tmp ...
-         tarczynski_parallel_allpass_bandpass_test.diary;
+eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));

@@ -10,34 +10,26 @@ test_common;
 
 pkg load optim;
 
-% Disable group delay warnings
-warning("off");
+strf="tarczynski_parallel_allpass_bandpass_hilbert_test";
 
-delete("tarczynski_parallel_allpass_bandpass_hilbert_test.diary");
-delete("tarczynski_parallel_allpass_bandpass_hilbert_test.diary.tmp");
-diary tarczynski_parallel_allpass_bandpass_hilbert_test.diary.tmp
+delete(strcat(strf,".diary",strf));
+delete(strcat(strf,".diary.tmp",strf));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-strf="tarczynski_parallel_allpass_bandpass_hilbert_test";
-
 % Initialise with the result of tarczynski_parallel_allpass_bandpass_test.m
-% Note that the initial filters are swapped to get the desired passband phase
-Db0 = [   1.0000000000,  -1.8896420762,   1.1851087257,   1.1354840927, ... 
-         -2.5805074455,   2.1148671967,  -0.3997762976,  -0.8276413628, ... 
-          1.0054762267,  -0.5159272604,   0.1296151332 ]';
-Da0 = [   1.0000000000,  -1.3249813230,   0.8978004911,   0.8919687861, ... 
-         -1.9646494147,   1.7116313675,  -0.3716958949,  -0.6039880527, ... 
-          0.8116637093,  -0.4321107682,   0.1379462636 ]';
+tarczynski_parallel_allpass_bandpass_test_Da0_coef;Dai=Da0;clear Da0;
+tarczynski_parallel_allpass_bandpass_test_Db0_coef;Dbi=Db0;clear Db0;
 
 % Filter specification
 tol=1e-6
 maxiter=5000
-ma=length(Da0)-1
-mb=length(Db0)-1
-fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,Wasl=10,Watl=0.1,Wap=5,Watu=0.1,Wasu=5
-ftpl=0.11,ftpu=0.19,td=16,tdr=0.2,Wtp=1
-fppl=0.11,fppu=0.19,pd=1.5,pdr=0.002,Wpp=10
+ma=length(Dai)-1
+mb=length(Dbi)-1
+fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,Wasl=20,Watl=0.01,Wap=2,Watu=0.01,Wasu=10
+ftpl=0.1,ftpu=0.2,td=16,Wtp=0.5
+fppl=0.1,fppu=0.2,pd=1.5,Wpp=0.5
 
 % Frequency points
 n=1000;
@@ -87,10 +79,10 @@ printf("0.5*w(nchkp)'/pi=[ ");printf("%6.4g ",0.5*w(nchkp)'/pi);printf("];\n");
 printf("Wp(nchkp)=[ ");printf("%6.4g ",Wp(nchkp)');printf("];\n");
 
 % Unconstrained minimisation
-ab0 = [Da0(2:end);Db0(2:end)];
+abi = [Dai(2:end);Dbi(2:end)];
 WISEJ_PAB([],ma,mb,Ad,Wa,Td,Wt,Pd,Wp);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[ab1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PAB,ab0,opt);
+[ab0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PAB,abi,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -112,33 +104,38 @@ printf("fminunc successful=%d??\n", OUTPUT.successful);
 printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 
 % Create the output polynomials
-ab1=ab1(:);
-Da=[1;ab1(1:ma)];
-Db=[1;ab1((ma+1):end)];
-D=conv(Da,Db);
-N=0.5*(conv(flipud(Da),Db)-conv(flipud(Db),Da));
+ab0=ab0(:);
+Da0=[1;ab0(1:ma)];
+Db0=[1;ab0((ma+1):end)];
+D0=conv(Da0,Db0);
+N0=0.5*(conv(flipud(Da0),Db0)-conv(flipud(Db0),Da0));
 
 % Calculate response
 nplot=512;
-[H,wplot]=freqz(N,D,nplot);
-P=unwrap(arg(H));
-T=delayz(N,D,nplot);
+[Ha0,wplot]=freqz(flipud(Da0),Da0,nplot);
+[Hb0,wplot]=freqz(flipud(Db0),Db0,nplot);
+H0=0.5*(Ha0-Hb0);
+P0=unwrap(arg(H0));
+Ta0=delayz(flipud(Da0),Da0,nplot);
+Tb0=delayz(flipud(Db0),Db0,nplot);
+T0=0.5*(Ta0+Tb0);
 
 % Plot response
 subplot(311);
-plot(wplot*0.5/pi,20*log10(abs(H)));
+plot(wplot*0.5/pi,20*log10(abs(H0)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 5]);
 grid("on");
-strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,td=%g",ma,mb,td);
+strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,td=%g,pd=%d(rad./$\\pi$)",
+             ma,mb,td,pd);
 title(strt);
 subplot(312);
-plot(wplot*0.5/pi,mod((P+(wplot*td))/pi,2));
+plot(wplot*0.5/pi,((P0+(wplot*td))/pi));
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 0 2]);
 grid("on");
 subplot(313);
-plot(wplot*0.5/pi,T);
+plot(wplot*0.5/pi,T0);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 2*td]);
@@ -150,37 +147,35 @@ close
 minf=min([fapl,ftpl,fppl]);
 maxf=max([fapu,ftpu,fppu]);
 subplot(311);
-plot(wplot*0.5/pi,20*log10(abs(H)));
+plot(wplot*0.5/pi,20*log10(abs(H0)));
 ylabel("Amplitude(dB)");
-axis([minf maxf -0.3 0.1]);
+axis([minf maxf -0.4 0.1]);
 grid("on");
 title(strt);
 subplot(312);
-plot(wplot*0.5/pi,(P+(wplot*td))/pi);
-ylabel("Phase(rad./$\\pi$)");
-axis([minf maxf 1.5-pdr 1.5+pdr]);
+plot(wplot*0.5/pi,pd-((P0+(wplot*td))/pi));
+ylabel("Phase error(rad./$\\pi$)");
+axis([minf maxf -0.001 0.001]);
 grid("on");
 subplot(313);
-plot(wplot*0.5/pi,T);
+plot(wplot*0.5/pi,T0);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([minf maxf (td-tdr) (td+tdr)]);
+axis([minf maxf td+[-0.1 0.1]]);
 grid("on");
 print(strcat(strf,"_response_passband"),"-dpdflatex");
 close
 
 % Plot poles and zeros
 subplot(111);
-zplane(roots(N),roots(D));
+zplane(roots(N0),roots(D0));
 title(strt);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
 % Plot phase response
-Ha=freqz(flipud(Da),Da,nplot);
-Hb=freqz(flipud(Db),Db,nplot);
-plot(wplot*0.5/pi,(unwrap(arg(Ha))+(wplot*td))/pi,"-", ...
-     wplot*0.5/pi,(unwrap(arg(Hb))+(wplot*td))/pi,"--");
+plot(wplot*0.5/pi,(unwrap(arg(Ha0))+(wplot*td))/pi,"-", ...
+     wplot*0.5/pi,(unwrap(arg(Hb0))+(wplot*td))/pi,"--");
 strt=sprintf("Allpass phase response error from linear phase (-w*td): \
 ma=%d,mb=%d,td=%g",ma,mb,td);
 title(strt);
@@ -193,21 +188,17 @@ print(strcat(strf,"_phase"),"-dpdflatex");
 close
 
 % Save the result
-print_polynomial(Da,"Da0");
-print_polynomial(Da,"Da0",strcat(strf,"_Da0_coef.m"));
-print_polynomial(Db,"Db0");
-print_polynomial(Db,"Db0",strcat(strf,"_Db0_coef.m"));
-print_polynomial(N,"N");
-print_polynomial(D,"D");
-save tarczynski_parallel_allpass_bandpass_hilbert_test.mat ...
-     tol maxiter ma mb ...
-     fasl fapl fapu fasu Wasl Watl Wap Watu Wasu ...
-     ftpl ftpu td Wtp ...
-     fppl fppu pd Wpp ...
-     ab0 ab1 Da Db N D
+print_polynomial(Da0,"Da0");
+print_polynomial(Da0,"Da0",strcat(strf,"_Da0_coef.m"));
+print_polynomial(Db0,"Db0");
+print_polynomial(Db0,"Db0",strcat(strf,"_Db0_coef.m"));
+print_polynomial(N0,"N0");
+print_polynomial(D0,"D0");
+eval(sprintf("save %s.mat tol maxiter ma mb ...\n\
+     fasl fapl fapu fasu Wasl Watl Wap Watu Wasu ...\n\
+     ftpl ftpu td Wtp fppl fppu pd Wpp abi ab0 Da0 Db0 N0 D0",strf));
 
 % Done
 toc;
 diary off
-movefile tarczynski_parallel_allpass_bandpass_hilbert_test.diary.tmp ...
-         tarczynski_parallel_allpass_bandpass_hilbert_test.diary;
+eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));
