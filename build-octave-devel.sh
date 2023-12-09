@@ -47,7 +47,7 @@
 #
 # Produce code for Intel nehalem CPU. If necessary replace with mtune=generic
 #
-OPTFLAGS="-m64 -march=nehalem -O2"
+OPTFLAGS="-m64 -march=nehalem -Og -gdwarf-5"
 
 #
 # Assume these files are present. Get them if they are not.
@@ -459,6 +459,8 @@ export CXXFLAGS="$OPTFLAGS -std=c++17 -I$OCTAVE_INCLUDE_DIR"
 export FFLAGS=$OPTFLAGS
 export LDFLAGS="-L$OCTAVE_LIB_DIR"
 # Add --enable-address-sanitizer-flags for address sanitizer build
+# To disable checking in atexit(): set ASAN_OPTIONS "leak_check_at_exit=0"
+# See: https://wiki.octave.org/Finding_Memory_Leaks
 PKG_CONFIG_PATH=$OCTAVE_LIB_DIR/pkgconfig \
   ../octave/configure \
     --enable-internal-checks \
@@ -510,7 +512,10 @@ rm -Rf build-octave-$OCTAVE_VER
 #
 # Update ld.so.conf.d
 #
-echo $OCTAVE_LIB_DIR >> /etc/ld.so.conf.d/usr_local_octave_lib.conf
+grep $OCTAVE_LIB_DIR /etc/ld.so.conf.d/usr_local_octave_lib.conf
+if test $? -ne 0; then \
+    echo $OCTAVE_LIB_DIR >> /etc/ld.so.conf.d/usr_local_octave_lib.conf ; \
+fi
 ldconfig 
 
 #

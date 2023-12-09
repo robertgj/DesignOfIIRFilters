@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=yalmip_kyp_dual_test.m
-depends="test/yalmip_kyp_dual_test.m test_common.m"
+depends="test/yalmip_kyp_dual_test.m test_common.m Abcd2tf.m"
 
 tmp=/tmp/$$
 here=`pwd`

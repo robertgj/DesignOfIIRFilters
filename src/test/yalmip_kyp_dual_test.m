@@ -8,18 +8,18 @@ delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
-pkg load symbolic optim
-
 tic;
 
+tol=1e-11;
+
 % Low-pass filter
-M=15;N=2*M;fap=0.1;fas=0.2;
+M=3;N=2*M;fap=0.1;fas=0.2;
 h=remez(2*M,2*[0,fap,fas,0.5],[1,1,0,0]);
 h=h(:)';
 [H,w]=freqz(h,1,1024);
-printf("max(abs(H))^2)=%10.8f\n",max(abs(H))^2) % 1.00305929
-Esq=1.0030595;
-tol=1e-12;
+max_H_2=max(abs(H))^2;
+printf("max(abs(H))^2=%12.10f\n",max_H_2);
+Esq=ceil(max_H_2*1e4)/1e4;
 
 % Common constants
 A=[zeros(N-1,1),eye(N-1);zeros(1,N)];
@@ -30,16 +30,27 @@ D=h(end);
 CD=[C,D;zeros(1,N),1];
 Theta=(CD')*[1,0;0,-Esq]*CD;
 Phi=[-1,0;0,1];
-Psi=[0,1;1,2];
+
+% Sanity check
+[n,d]=Abcd2tf(A,B,C,D);
+if abs(d(1)-1) > eps
+  error("abs(d(1)-1) > eps");
+endif
+if max(abs(d(2:end)-zeros(1,N))) > eps
+  error("max(abs(d(2:end)-zeros(1,N))) > eps");
+endif
+if max(abs(n-h)) > eps
+  error("max(abs(n-h)) > eps");
+endif
 
 %
 % Test the filter response with KYP
 %
 P=sdpvar(N,N,"symmetric","real");
 F=Theta+((AB')*kron(Phi,P)*AB);
-Constraints=[F<=tol];
+Constraints=[F<=0];
 Objective=[];
-Options=sdpsettings("solver","sdpt3");
+Options=sdpsettings("solver","sedumi","dualize",1); 
 sol=optimize(Constraints,Objective,Options);
 if sol.problem
   error("YALMIP failed : %s",sol.info);
@@ -70,7 +81,9 @@ endif
 if max(max(abs(value(dualF))))>10*tol
   error("max(max(abs(value(dualF))))>10*tol");
 endif
-if trace(Theta*value(Z))>tol
+trace_Theta_Z=trace(Theta*value(Z));
+printf("trace(Theta*value(Z))=%10.4g\n",trace_Theta_Z);
+if trace_Theta_Z>tol
   error("trace(Theta*value(Z))>tol");
 endif
 

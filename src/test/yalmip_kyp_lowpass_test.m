@@ -18,18 +18,22 @@ tic;
 
 % This script fails with a lower constraint on the pass-band amplitude.
 % I do not know how to use the Schur complement with |H|^2>=Asq_pl .
-use_constraint_on_pass_min=false
+% but I can check ((AB')*(kron(Phi,P_pl)+kron(Psi_p,Q_pl))*AB)+Theta_pl .
+check_constraint_on_pass_min=true
 
 % Low-pass filter specification
 M=15;N=2*M;
 fap=0.10;fas=0.20;
 
 for d=[10,12,M],
+%for d=[10],
 
+  yalmip("clear");
+  
   if d==10, 
     Asq_max=1.02^2;
     Asq_pu=Asq_max;
-    Asq_pl=0.95^2;
+    Asq_pl=0.93^2;
     Asq_t=Asq_max;
     Esq_z=0.1^2;
     Esq_s=0.005^2; 
@@ -37,10 +41,11 @@ for d=[10,12,M],
     use_kron=true;
     use_objective=true;
     factorise_objective=true;
+    use_dualise=true;
   elseif d==12
     Asq_max=1.05^2;
     Asq_pu=Asq_max;
-    Asq_pl=0.95^2;
+    Asq_pl=0.90^2;
     Asq_t=Asq_max;
     Esq_z=0.1^2;
     Esq_s=0.01^2; 
@@ -48,10 +53,11 @@ for d=[10,12,M],
     use_kron=true;
     use_objective=true;
     factorise_objective=false;
+    use_dualise=false;
   else 
     Asq_max=1.02;
     Asq_pu=Asq_max;
-    Asq_pl=0.95^2;
+    Asq_pl=0.99^2;
     Asq_t=Asq_max;
     Esq_z=0.002^2;
     Esq_s=Esq_z;
@@ -59,6 +65,7 @@ for d=[10,12,M],
     use_kron=true;
     use_objective=false;
     factorise_objective=false;
+    use_dualise=false;
   endif
   printf("\nTesting d=%2d, use_objective=%d, factorise_objective=%d\n\n",
          d,use_objective,factorise_objective);
@@ -73,15 +80,12 @@ for d=[10,12,M],
   % Filter impulse response SDP variables
   if d==M,
     CM1=sdpvar(1,M+1,"full","real");
-    C=[CM1,CM1(M:-1:2)];
-    D=CM1(1);
+    CD=[CM1,CM1(M:-1:1)];
   else
-    C=sdpvar(1,N,"full","real");
-    D=sdpvar(1,1,"full","real");
+    CD=sdpvar(1,N+1,"full","real");
   endif
-  CD=[C,D];
-  CD_d=CD-[C_d,0];
   hsdp=fliplr(CD);
+  CD_d=CD-[C_d,0];
   Phi=[-1,0;0,1]; 
   Psi_max=[0,1;1,2];
   c_p=2*cos(2*pi*fap);
@@ -111,6 +115,7 @@ for d=[10,12,M],
   if use_kron
     Theta_max=[CD',[zeros(N,1);1]]*[1,0;0,-Asq_max]*[CD;[zeros(1,N),1]];
     K_max=(AB')*(kron(Phi,P_max)+kron(Psi_max,Q_max))*AB;
+    K_max=(AB')*kron(Phi,P_max)*AB;
     G_max=K_max + diag([zeros(1,N),-Asq_max]);
   else
     G_max=((AB')*[-P_max,Q_max;Q_max,P_max+(2*Q_max)]*AB) + ...
@@ -131,22 +136,6 @@ for d=[10,12,M],
   endif
   F_pu=[[G_pu,CD'];[CD,-1]];
 
-  % Constraint on minimum pass band amplitude
-  % Attempt to set up F_pl>=0, Q_pl>=0 and |H|^2>=Asq_pl
-  if use_constraint_on_pass_min==true
-    P_pl=sdpvar(N,N,"symmetric","real");
-    Q_pl=sdpvar(N,N,"symmetric","real");
-    if use_kron
-      Theta_pl=[CD',[zeros(N,1);1]]*[1,0;0,-Asq_pl]*[CD;[zeros(1,N),1]];
-      K_pl=(AB')*(kron(Phi,P_pl)-kron(Psi_p,Q_pl))*AB;
-      G_pl=K_pl + diag([zeros(1,N),-Asq_pl]);
-    else
-      G_pl=((AB')*[-P_pl,-Q_pl;-Q_pl,P_pl+(c_p*Q_pl)]*AB) + ...
-           diag([zeros(1,N),-Asq_pl]);
-    endif
-    F_pl=[[G_pl,CD'];[CD,-1]];
-  endif
-  
   % Constraint on maximum transition band amplitude
   P_t=sdpvar(N,N,"symmetric","real");
   Q_t=sdpvar(N,N,"symmetric","real");
@@ -196,20 +185,16 @@ for d=[10,12,M],
   else
     Objective=[];
   endif
-  Options=sdpsettings("solver","sedumi");
+  if use_dualise == true;
+    Options=sdpsettings("solver","sedumi","dualize",1);
+  else
+    Options=sdpsettings("solver","sedumi");
+  endif
   Constraints=[ F_z<=0,   Q_z>=0, ...
                 F_max<=0, Q_max>=0, ...
                 F_pu<=0,  Q_pu>=0, ...
                 F_t<=0,   Q_t>=0, ...
                 F_s<=0,   Q_s>=0 ];
-  if use_constraint_on_pass_min==true
-    % Increase default SeDuMi eps
-    sedumi_eps=1e-6;
-    Options=sdpsettings("solver","sedumi","sedumi.eps",sedumi_eps);
-    Constraints=[ F_pu<=-sedumi_eps, Q_pu>=0, ...
-                  F_pl>=sedumi_eps, Q_pl>=0, ...
-                  F_s<=-sedumi_eps, Q_s>=0 ];
-  endif
   sol=optimize(Constraints,Objective,Options)
   if sol.problem
     error("YALMIP failed : %s",sol.info);
@@ -222,42 +207,40 @@ for d=[10,12,M],
   check(Constraints)
 
   % Check pass band complex response
-  if use_constraint_on_pass_min==false
-    if ~ishermitian(value(P_z))
-      error("P_z not hermitian");
+  if ~ishermitian(value(P_z))
+    error("P_z not hermitian");
+  endif
+  if ~isdefinite(value(Q_z))
+    error("Q_z not positive semi-definite");
+  endif
+  if ~isdefinite(-value(F_z))
+    error("F_z not negative semi-definite");
+  endif
+  if use_kron
+    if any(any(abs(imag(value(K_z+Theta_z)))>eps))
+      error("any(any(abs(imag(value(K_z+Theta_z)))>eps))");
     endif
-    if ~isdefinite(value(Q_z))
-      error("Q_z not positive semi-definite");
+    if ~isdefinite(-value(K_z+Theta_z))
+      error("K_z+Theta_z not negative semi-definite");
     endif
-    if ~isdefinite(-value(F_z))
-      error("F_z not negative semi-definite");
-    endif
-    if use_kron
-      if any(any(abs(imag(value(K_z+Theta_z)))>eps))
-        error("any(any(abs(imag(value(K_z+Theta_z)))>eps))");
-      endif
-      if ~isdefinite(-value(K_z+Theta_z))
-        error("K_z+Theta_z not negative semi-definite");
-      endif
-    endif
+  endif
 
-    % Check maximum overall response
-    if ~issymmetric(value(P_max)) || ~isreal(value(P_max))
-      error("P_max not real and symmetric");
+  % Check maximum overall response
+  if ~issymmetric(value(P_max)) || ~isreal(value(P_max))
+    error("P_max not real and symmetric");
+  endif
+  if ~isdefinite(value(Q_max))
+    error("Q_max not positive semi-definite");
+  endif
+  if ~isdefinite(-value(F_max))
+    error("F_max not negative semi-definite");
+  endif
+  if use_kron
+    if any(any(abs(imag(value(K_max+Theta_max)))>eps))
+      error("any(any(abs(imag(value(K_max+Theta_max)))>eps))");
     endif
-    if ~isdefinite(value(Q_max))
-      error("Q_max not positive semi-definite");
-    endif
-    if ~isdefinite(-value(F_max))
-      error("F_max not negative semi-definite");
-    endif
-    if use_kron
-      if any(any(abs(imag(value(K_max+Theta_max)))>eps))
-        error("any(any(abs(imag(value(K_max+Theta_max)))>eps))");
-      endif
-      if ~isdefinite(-value(K_max+Theta_max))
-        error("K_max+Theta_max not negative semi-definite");
-      endif
+    if ~isdefinite(-value(K_max+Theta_max))
+      error("K_max+Theta_max not negative semi-definite");
     endif
   endif
 
@@ -280,43 +263,22 @@ for d=[10,12,M],
     endif
   endif
 
-  % Check pass band minimum amplitude response
-  if use_constraint_on_pass_min==true
-    if ~issymmetric(value(P_pl)) || ~isreal(value(P_pl))
-      error("P_pl not real and symmetric");
-    endif
-    if ~isdefinite(value(Q_pl))
-      error("Q_pl not positive semi-definite");
-    endif
-    if ~isdefinite(value(F_pl))
-      error("F_pl not positive semi-definite");
-    endif
-    if any(any(abs(imag(value(K_pl+Theta_pl)))<-eps))
-      error("any(any(abs(imag(value(K_pl+Theta_pl)))<-eps))");
-    endif
-    if ~isdefinite(value(K_pl+Theta_pl))
-      error("K_pl+Theta_pl not positive semi-definite");
-    endif
-  endif
-
   % Check transition band maximum amplitude response
-  if use_constraint_on_pass_min==false
-    if ~issymmetric(value(P_t)) || ~isreal(value(P_t))
-      error("P_t not real and symmetric");
+  if ~issymmetric(value(P_t)) || ~isreal(value(P_t))
+    error("P_t not real and symmetric");
+  endif
+  if ~isdefinite(value(Q_t))
+    error("Q_t not positive semi-definite");
+  endif
+  if ~isdefinite(-value(F_t))
+    error("F_t not negative semi-definite");
+  endif
+  if use_kron
+    if any(any(abs(imag(value(K_t+Theta_t)))>eps))
+      error("any(any(abs(imag(value(K_t+Theta_t)))>eps))");
     endif
-    if ~isdefinite(value(Q_t))
-      error("Q_t not positive semi-definite");
-    endif
-    if ~isdefinite(-value(F_t))
-      error("F_t not negative semi-definite");
-    endif
-    if use_kron
-      if any(any(abs(imag(value(K_t+Theta_t)))>eps))
-        error("any(any(abs(imag(value(K_t+Theta_t)))>eps))");
-      endif
-      if ~isdefinite(-value(K_t+Theta_t))
-        error("K_t+Theta_t not negative semi-definite");
-      endif
+    if ~isdefinite(-value(K_t+Theta_t))
+      error("K_t+Theta_t not negative semi-definite");
     endif
   endif
 
@@ -339,16 +301,66 @@ for d=[10,12,M],
     endif
   endif
 
+
+  % Check pass band minimum amplitude response
+  if check_constraint_on_pass_min==true
+    % Constraint on minimum pass band amplitude
+    % Attempt to set up F_pl<=0, Q_pl>=0 and |H|^2>=Asq_pl
+    P_pl=sdpvar(N,N,"symmetric","real");
+    Q_pl=sdpvar(N,N,"symmetric","real");
+    valCD=value(CD);
+    Theta_pl=[valCD',[zeros(N,1);1]]*[-1,0;0,Asq_pl]*[valCD;[zeros(1,N),1]];
+    if use_kron
+      K_pl=(AB')*(kron(Phi,P_pl)+kron(Psi_p,Q_pl))*AB;
+    else
+      K_pl=((AB')*[-P_pl,Q_pl;Q_pl,P_pl-(c_p*Q_pl)]*AB);
+    endif
+    F_pl=K_pl+Theta_pl;
+    Objective_pl=[];
+    Options_pl=Options;
+    Constraints_pl=[ F_pl<=0, Q_pl>=0 ];
+    try
+      sol=optimize(Constraints_pl,Objective_pl,Options_pl)
+    catch
+      if (sol.problem==0)
+      elseif (sol.problem==4)
+        warning("\nYALMIP numerical problems (lower pass ampl.)!\n\n");
+      else  
+        error("YALMIP problem %s",sol.info);
+      endif
+    end_try_catch
+
+    % Sanity checks
+    check(Constraints_pl);
+    if ~issymmetric(value(P_pl)) || ~isreal(value(P_pl))
+      error("P_pl not real and symmetric");
+    endif
+    if ~isdefinite(value(Q_pl))
+      error("Q_pl not positive semi-definite");
+    endif
+    if ~isdefinite(-value(F_pl))
+      error("F_pl not positive semi-definite");
+    endif
+    if use_kron
+      if any(any(abs(imag(-value(K_pl+Theta_pl)))<-eps))
+        error("any(any(abs(imag(-value(K_pl+Theta_pl)))<-eps))");
+      endif
+      if ~isdefinite(-value(K_pl+Theta_pl))
+        error("-value(K_pl+Theta_pl) not positive semi-definite");
+      endif
+    endif
+  endif
+  
   % Plot response
   h=value(hsdp);
   nplot=1000;
   nap=(fap*nplot/0.5)+1;
   nas=(fas*nplot/0.5)+1;
   if d==M,
-    strs=sprintf("KYP symmetric FIR")
+    strs="KYP symmetric FIR";
   else
     subplot(211);
-    strs=sprintf("KYP non-symmetric FIR")
+    strs="KYP non-symmetric FIR";
   endif
   strt=sprintf("%s : N=%d,d=%d,fap=%4.2f,fas=%4.2f,Esq\\_z=%7.1g,Esq\\_s=%7.1g",
                strs,N,d,fap,fas,Esq_z,Esq_s);
@@ -392,7 +404,7 @@ for d=[10,12,M],
          A_p_max,sqrt(Asq_pu),f(n_p_max));
 
   [A_p_min,n_p_min]=min(abs(H(1:nap)));
-  if use_constraint_on_pass_min==true
+  if check_constraint_on_pass_min==true
     printf("min(A_p)=%11.6g(%6.4f) at f=%6.4f\n",
            A_p_min,sqrt(Asq_pl),f(n_p_min));
   else

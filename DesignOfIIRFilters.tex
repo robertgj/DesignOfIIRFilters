@@ -36145,8 +36145,8 @@ $\Pi_{21}=\Pi_{12}=0$, then for each frequency band response constraint:
           A & B \\
           I & 0 \end{array}\right]^{\mathconj}
   \left[\begin{array}{cc}
-            -P & \Psi_{12}Q \\
-             \Psi_{12}^{\mathconj}Q & P+\Psi_{22}Q \end{array}\right]
+            P & \Psi_{12}Q \\
+             \Psi_{12}^{\mathconj}Q & -P+\Psi_{22}Q \end{array}\right]
   \left[\begin{array}{cc}
           A & B \\
           I & 0 \end{array}\right]
@@ -36166,7 +36166,24 @@ $D$. \emph{Pipeleers} and
 $A$, $B$ and $\Theta$ matrixes are real valued then the $P$ and $Q$ matrixes can
 be constrained to be real and symmetric.
 
-\paragraph{Linearising the  generalised KYP lemma}
+\paragraph{Solving the  generalised KYP lemma with a quadratic constraint}
+The Octave script \emph{yalmip\_kyp\_lmirank\_lowpass\_test.m} calls the
+YALMIP~\cite{Lofberg_YALMIP,Lofberg2004} 
+\emph{lmirank}~\cite{Orsi_LMIRank,Orsi_NewtonLikeLMIRankConstrained}
+solver to design a symmetric low-pass FIR filter with SDP constraints in the
+form of Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints},
+$\Gamma+X\preceq 0$, and $\mathrank\left(X\right)=1$. $X$ is assumed to
+represent the FIR filter solution by $X=\left[C,D\right]^{\top}\left[C,D\right]$.
+After running on my PC for $1276$ minutes the script had performed $694$
+iterations and was still converging \emph{very} slowly.
+Similarly, the Octave script \emph{yalmip\_kyp\_moment\_lowpass\_test.m}
+calls the YALMIP \emph{moment} solver with a quadratic constraint on the
+minimum pass-band amplitude in the form of
+Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints}. This script requires an
+\textbf{enormous} amount of memory and CPU time to design a symmetric $6$-th
+order low-pass FIR filter.
+
+\paragraph{Solving the  generalised KYP lemma after linearising the constraints}
 The expansion of $\Theta$ is bi-linear in the FIR filter coefficients, $C$ and
 $D$. \emph{Iwasaki} and \emph{Hara}~\cite[Section VII, 
 p.52]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} add a lemma:
@@ -36262,22 +36279,10 @@ Appendix~\ref{app:Linear-algebra-Schur-complement-positive-definite}} to:
 
 The KYP lemma for the minimum passband amplitude, $A_{pl}$, of a single-input
 single-output FIR filter, $\left|H\left(\omega\right)\right|\ge A_{pl}^{2}$,
-fails because it requires $\Pi_{11}=-1$. See the Octave script
-\emph{yalmip\_kyp\_lowpass\_test.m}.
-
-The Octave script \emph{yalmip\_kyp\_lmirank\_lowpass\_test.m} calls the
-YALMIP~\cite{Lofberg_YALMIP,Lofberg2004} 
-\emph{lmirank}~\cite{Orsi_LMIRank,Orsi_NewtonLikeLMIRankConstrained}
-solver to design a symmetric low-pass FIR filter with SDP constraints in the
-form of Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints},
-$\Gamma+X\preceq 0$, and $\mathrank\left(X\right)=1$. $X$ is assumed to
-represent the FIR filter solution by $X=\left[C,D\right]^{\top}\left[C,D\right]$.
-After running on my PC for $1276$ minutes the script had performed $694$
-iterations and was still converging \emph{very} slowly.
-Similarly, the Octave script \emph{yalmip\_kyp\_bmibnb\_lowpass\_test.m}
-attempts to design a non-symmetric low-pass FIR filter by calling the YALMIP
-\emph{bmibnb} solver with Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints}.
-In this case YALMIP fails after timing out.
+fails because it requires $\Pi_{11}=-1$. The Octave script
+\emph{yalmip\_kyp\_lowpass\_test.m} uses
+Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI} to check the minimum
+pass-band amplitude response of an FIR filter.
 
 \clearpage
 \subsubsection{Design of a symmetric low pass FIR filter}
@@ -37495,7 +37500,11 @@ lemma is found in a similar fashion.
 
 \subsection{The dual of the discrete-time KYP lemma LMI}
 \emph{Cheng}
-proves the following dual of the discrete-time KYP linear matrix inequality:
+proves the following dual of the discrete-time KYP linear matrix
+inequality,
+Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping}\footnote{This is not
+  the dual of the \emph{generalised} KYP lemma with frequency domain
+  constraints shown in Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}.}:
 \begin{framed}
   \emph{Proposition 2}~\cite[Section
   3.5]{ChengYiping_ProofDiscreteTimeKYPusingSDPduality}: There exists
@@ -37514,7 +37523,8 @@ lemma for the maximum amplitude of a low-pass FIR filter designed with the Octav
 \emph{remez} function. Unfortunately, in this script, SeDuMi fails for the KYP
 lemma linear mapping of
 Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping} and the SDPT3 solver
-is used instead. However, SeDuMi does solve the dual mapping.
+is used instead. However, SeDuMi does solve the dual mapping and solves the
+primal problem when the \emph{'dualize'} option is set.
 
 The dual of the KYP lemma requires a bilinear term $\Theta Z$ and is not
 amenable to FIR filter design with LMI SDP solvers.
@@ -38030,6 +38040,58 @@ power of $2$.}
 \end{figure}
 \clearpage
 \pdfbookmark[0]{Solvers}{solvers}
+\subsection*{Profiling Octave}
+\subsection*{Profiling Octave scripts with the internal profiler}
+Here is an example of the use of the internal Octave profiler in the Octave
+script \emph{yalmip\_kyp\_moment\_lowpass\_test.m}:
+\begin{small}
+\begin{verbatim}
+Constraints=[F_max<=-sedumi_eps, Q_max>=0, F_pl<=0, Q_pl>=0, F_s<=0, Q_s>=0];
+Objective=(hsdp*G*hsdp')+(2*hsdp*g')+(2*fap);
+Options=sdpsettings("solver","moment","sedumi.eps",sedumi_eps);
+profile("on");
+try
+  sol=optimize(Constraints,Objective,Options);
+catch
+  fprintf(stderr,lasterror().message);
+end_try_catch
+profile("off");
+T=profile("info");
+profshow(T);
+\end{verbatim}
+\end{small}
+with Octave profiler output:
+\begin{small}
+\begin{verbatim}
+   #              Function Attr     Time (s)   Time (%)        Calls
+--------------------------------------------------------------------
+ 415               blkchol          1693.754      93.10           14
+ 414               getada3            50.494       2.78           14
+ 412               getada2            27.194       1.49           14
+ 411               getada1            23.795       1.31           14
+ 377                sedumi             4.569       0.25            1
+ 427              bwblkslv             3.000       0.16           60
+ 423              fwblkslv             1.879       0.10           60
+ 393            getsymbada             1.604       0.09            1
+ 313        findhashsorted             1.264       0.07        16900
+   8              binary +    R        1.194       0.07       274728
+ 179                system             0.949       0.05            5
+ 311                   abs             0.767       0.04          301
+ 400             symbfwblk             0.704       0.04            4
+  73              binary *             0.667       0.04         6194
+ 272                sparse             0.628       0.03          100
+ 288             monpowers             0.623       0.03            2
+ 419              psdscale             0.609       0.03          205
+ 294 @sdpvar/recovermonoms             0.544       0.03            2
+ 396                  tril             0.413       0.02          869
+ 300        @sdpvar/mtimes             0.388       0.02            1
+\end{verbatim}
+\end{small}
+
+\subsection*{Profiling Octave \texttt{.oct} files}
+I have not succeeded in profiling Octave \texttt{.oct} shared object files
+with either \emph{sprof} or \emph{gprofng}.
+
 \section*{Solvers}
 \pdfbookmark[1]{SeDuMi}{sedumi}
 \subsection*{SeDuMi}

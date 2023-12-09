@@ -553,6 +553,8 @@ export CXXFLAGS="$OPTFLAGS -std=c++17 -I$OCTAVE_INCLUDE_DIR"
 export FFLAGS=$OPTFLAGS
 export LDFLAGS="-L$OCTAVE_LIB_DIR"
 # Add --enable-address-sanitizer-flags for address sanitizer build
+# To disable checking in atexit(): set ASAN_OPTIONS "leak_check_at_exit=0"
+# See: https://wiki.octave.org/Finding_Memory_Leaks
 JAVA_HOME=/usr/lib/jvm/java PKG_CONFIG_PATH=$OCTAVE_LIB_DIR/pkgconfig \
 ../octave-$OCTAVE_VER/configure \
     --prefix=$OCTAVE_DIR \
@@ -617,7 +619,10 @@ rm -f octave-$OCTAVE_VER.patch.uue octave-$OCTAVE_VER.patch
 #
 # Update ld.so.conf.d
 #
-echo $OCTAVE_LIB_DIR > /etc/ld.so.conf.d/usr_local_octave_lib.conf
+grep $OCTAVE_LIB_DIR /etc/ld.so.conf.d/usr_local_octave_lib.conf
+if test $? -ne 0; then \
+    echo $OCTAVE_LIB_DIR >> /etc/ld.so.conf.d/usr_local_octave_lib.conf ; \
+fi
 ldconfig 
 
 #
