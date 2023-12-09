@@ -44,7 +44,7 @@ cat > test.ok << 'EOF'
 Using schurexpand mfile
 warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
-    schurdecomp at line 32 column 1
+    schurdecomp at line 33 column 1
     schurexpand_test at line 16 column 6
 
 k =
@@ -84,7 +84,7 @@ dc =
 
 warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
-    schurdecomp at line 32 column 1
+    schurdecomp at line 33 column 1
     schurexpand_test at line 19 column 9
 
 km =
@@ -139,7 +139,7 @@ ans = 0
 ans = 0
 warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
-    schurdecomp at line 32 column 1
+    schurdecomp at line 33 column 1
     schurexpand_test at line 30 column 6
 
 k =
@@ -179,7 +179,7 @@ dc =
 
 warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
-    schurdecomp at line 32 column 1
+    schurdecomp at line 33 column 1
     schurexpand_test at line 33 column 8
 
 km =
@@ -234,7 +234,7 @@ ans = 0
 ans = 0
 warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
-    schurdecomp at line 32 column 1
+    schurdecomp at line 33 column 1
     schurexpand_test at line 46 column 6
 
 k =
@@ -266,7 +266,7 @@ dc =
 
 warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
-    schurdecomp at line 32 column 1
+    schurdecomp at line 33 column 1
     schurexpand_test at line 49 column 8
 
 km =
@@ -310,7 +310,7 @@ ans = 0
 ans = 0
 warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
-    schurdecomp at line 32 column 1
+    schurdecomp at line 33 column 1
     schurexpand_test at line 60 column 6
 
 k =
@@ -342,7 +342,7 @@ dc =
 
 warning: Using Octave m-file version of function schurdecomp()!
 warning: called from
-    schurdecomp at line 32 column 1
+    schurdecomp at line 33 column 1
     schurexpand_test at line 63 column 8
 
 km =

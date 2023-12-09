@@ -25,16 +25,23 @@ catch
   printf("%s\n", err.message);
 end_try_catch
 
+% One output argument
+k = schurdecomp(1);
+
+% Two output arguments
 [k,S]=schurdecomp(1)
 
 % Short filter
 fp=0.2;
 norder=1;
 [n0,d0]=butter(norder,fp*2);
-printf("schurdecomp(d0):\n")
+printf("kk=schurdecomp(d0):\n")
+kk=schurdecomp(d0)
+printf("[k,S]=schurdecomp(d0):\n")
 [k,S]=schurdecomp(d0)
-printf("schurdecomp(-d0):\n")
+printf("[km,Sm]=schurdecomp(-d0):\n")
 [km,Sm]=schurdecomp(-d0)
+norm(kk-km)
 norm(k-km)
 norm(S+Sm)
 
@@ -42,10 +49,13 @@ norm(S+Sm)
 fp=0.1;
 norder=7;
 [n0,d0]=ellip(norder,1,40,fp*2);
-printf("schurdecomp(d0):\n")
+printf("kk=schurdecomp(d0):\n")
+kk=schurdecomp(d0)
+printf("[k,S]=schurdecomp(d0):\n")
 [k,S]=schurdecomp(d0)
-printf("schurdecomp(-d0):\n")
+printf("[km,Sm]=schurdecomp(-d0):\n")
 [km,Sm]=schurdecomp(-d0)
+norm(kk-km)
 norm(k-km)
 norm(S+Sm)
 

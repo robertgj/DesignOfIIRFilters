@@ -28,7 +28,7 @@
 //   -183.58856   665.70949  -819.16332   345.04239
 //
 
-// Copyright (C) 2017 Robert G. Jenssen
+// Copyright (C) 2017,2023 Robert G. Jenssen
 //
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 
@@ -51,7 +51,7 @@
 
 DEFUN_DLD(schurdecomp, args, nargout, "[k,S]=schurdecomp(d)")
 {
-  if ((args.length() < 1) || (nargout != 2))
+  if ((args.length() < 1) || (nargout > 2))
     {
       print_usage();
       return octave_value_list();
@@ -73,11 +73,25 @@ DEFUN_DLD(schurdecomp, args, nargout, "[k,S]=schurdecomp(d)")
     }
   if (N == 1)
     {
-      octave_value_list retval(2);
-      Matrix k(0,0);
-      retval(0)=k;
-      retval(1)=args(0).vector_value();
-      return octave_value_list(retval);
+      if (nargout == 1)
+        {
+          octave_value_list retval(1);
+          Matrix k(0,0);
+          retval(0)=k;
+          return octave_value_list(retval);
+        }
+      else if (nargout == 2)
+        {
+          octave_value_list retval(2);
+          Matrix k(0,0);
+          retval(0)=k;
+          retval(1)=args(0).vector_value();
+          return octave_value_list(retval);
+        }
+      else
+        {
+          return octave_value_list();
+        }
     }
   
   // Output arguments
@@ -188,8 +202,21 @@ DEFUN_DLD(schurdecomp, args, nargout, "[k,S]=schurdecomp(d)")
     }
 
   // Done
-  octave_value_list retval(2);
-  retval(0)=k;
-  retval(1)=S;
-  return octave_value_list(retval);
+  if (nargout == 1)
+    {
+      octave_value_list retval(1);
+      retval(0)=k;
+      return octave_value_list(retval);
+    }
+  else if (nargout == 2)
+    {
+      octave_value_list retval(2);
+      retval(0)=k;
+      retval(1)=S;
+      return octave_value_list(retval);
+    }
+  else
+    {
+      return octave_value_list();
+    }
 }

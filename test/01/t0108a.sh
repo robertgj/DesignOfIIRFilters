@@ -4,7 +4,8 @@ prog=schurdecomp_test.m
 
 descr="schurdecomp_test.m (octfile)"
 
-depends="test/schurdecomp_test.m test_common.m check_octave_file.m schurdecomp.oct"
+depends="test/schurdecomp_test.m test_common.m check_octave_file.m \
+schurdecomp.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -47,13 +48,15 @@ Caught schurdecomp(0)!
 First element of d is 0
 k = [](0x0)
 S = 1
-schurdecomp(d0):
+kk=schurdecomp(d0):
+kk = -0.1584
+[k,S]=schurdecomp(d0):
 k = -0.1584
 S =
    0.9874        0
   -0.1584   1.0000
 
-schurdecomp(-d0):
+[km,Sm]=schurdecomp(-d0):
 km = -0.1584
 Sm =
   -0.9874        0
@@ -61,7 +64,12 @@ Sm =
 
 ans = 0
 ans = 0
-schurdecomp(d0):
+ans = 0
+kk=schurdecomp(d0):
+kk =
+  -0.8167   0.9982  -0.8844   0.9651  -0.9299   0.8869  -0.5636
+
+[k,S]=schurdecomp(d0):
 k =
   -0.8167   0.9982  -0.8844   0.9651  -0.9299   0.8869  -0.5636
 
@@ -75,7 +83,7 @@ S =
     0.7326   -3.8934    9.1556  -12.1157    9.5089   -4.2051    0.8261         0
    -0.5636    3.7557  -11.2004   19.3491  -20.9129   14.1672   -5.5903    1.0000
 
-schurdecomp(-d0):
+[km,Sm]=schurdecomp(-d0):
 km =
   -0.8167   0.9982  -0.8844   0.9651  -0.9299   0.8869  -0.5636
 
@@ -89,6 +97,7 @@ Sm =
    -0.7326    3.8934   -9.1556   12.1157   -9.5089    4.2051   -0.8261         0
     0.5636   -3.7557   11.2004  -19.3491   20.9129  -14.1672    5.5903   -1.0000
 
+ans = 0
 ans = 0
 ans = 0
 schurdecomp(d0):

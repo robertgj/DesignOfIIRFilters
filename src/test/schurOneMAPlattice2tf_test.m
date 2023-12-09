@@ -36,7 +36,7 @@ if abs(H0-1) > eps
   error("abs(H0-1) > eps");
 endif
 % Expect H0AP==1
-[k0,S0]=schurdecomp(r0);
+k0=schurdecomp(r0);
 r0AP=schurOneMAPlattice2tf(k0,ones(1,length(k0)),ones(1,length(k0)));
 H0AP=sum(flipud(r0AP(:)))/sum(r0AP);
 if abs(H0AP-1) > eps
@@ -50,7 +50,7 @@ if abs(H0m1+1) > eps
   error("abs(H0m1+1) > eps");
 endif
 % Expect H0APm1==1
-[k0APm1,S0APm1]=schurdecomp(r0.*rm1);
+k0APm1=schurdecomp(r0.*rm1);
 r0APm1=schurOneMAPlattice2tf(k0APm1,ones(1,length(k0)),ones(1,length(k0)));
 H0APm1=sum(flipud(r0APm1(:)))/sum(r0APm1);
 if abs(H0APm1-1) > eps
