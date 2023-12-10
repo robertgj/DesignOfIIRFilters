@@ -35523,10 +35523,7 @@ Then:
 
 \subsection{\label{sec:Generalised_discrete_time_KYP_theorem}A generalised discrete-time KYP lemma}
 \emph{Iwasaki} and \emph{Hara}~\cite[Section 2.2]{Iwasaki_KYPlemmaFrequencyInequalities} prove the following generalised KYP
-lemma for discrete-time state variable systems\footnote{The Octave script
-  \emph{yalmip\_kyp\_check\_iir\_lowpass\_test.m} uses the generalised KYP
-  lemma to check the frequency response of various implementations of an
-  elliptic low-pass filter.}:
+lemma for discrete-time state variable systems:
 \begin{framed}
 \emph{Theorem 1}~\cite[Section 2.2]{Iwasaki_KYPlemmaFrequencyInequalities}: Let
 complex matrixes $A$, $B$, $\Theta=\Theta^{\mathconj}$ and
@@ -35684,7 +35681,14 @@ with:
 P&\coloneq \frac{X-\beta Q}{\alpha}
 \end{align*}
 \end{framed}
-\clearpage
+The Octave script \emph{yalmip\_kyp\_check\_iir\_lowpass\_test.m} uses the
+generalised KYP lemma to check the frequency response of various implementations
+of an elliptic low-pass filter.
+
+The Octave script
+\emph{schurOneMPAlatticeDoublyPipelined2Abcd\_kyp\_symbolic\_test.m} shows
+the KYP lemma for an IIR filter implemented as the combination of parallel
+doubly pipelined all pass one multiplier Schur lattice filters.
 
 \subsubsection{Characterisation of $\boldsymbol{\Omega}$}
 \emph{Iwasaki} and \emph{Hara}~\cite[Section
@@ -35925,7 +35929,7 @@ For example, if $\mathabs{H\left(\lambda\right)}\le\varepsilon$:
 I & 0 \\
 0 & -\varepsilon^{2}I\end{array}\right]
 \end{align*}
-\clearpage
+
 \subsection{\emph{Rantzer}'s transformation of the KYP lemma from discrete-time
   to continuous-time}
 \emph{Rantzer}~\cite[Proof of Theorem 2]{Rantzer_KYP_PositiveSystems} shows an
@@ -36045,7 +36049,7 @@ I experiment with this conversion in the Octave script
 \emph{yalmip\_kyp\_rantzer\_test.m} and find that SeDuMi calculates
 $P \approx -2\hat{P}$.
 
-\clearpage
+
 \subsection{Examples of FIR filter design with the generalised KYP lemma}
 The Octave script \emph{directFIRnonsymmetric\_kyp\_lowpass\_alternate\_test.m}
 experiments with various combinations of constraints and objective functions.
