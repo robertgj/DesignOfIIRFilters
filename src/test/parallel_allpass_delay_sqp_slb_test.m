@@ -3,15 +3,15 @@
 
 test_common;
 
-delete("parallel_allpass_delay_sqp_slb_test.diary");
-delete("parallel_allpass_delay_sqp_slb_test.diary.tmp");
-diary parallel_allpass_delay_sqp_slb_test.diary.tmp
+strf="parallel_allpass_delay_sqp_slb_test";
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 verbose=false
 maxiter=2000
-strf="parallel_allpass_delay_sqp_slb_test";
 
 % Lowpass filter specification for parallel all-pass filters
 tol=1e-5
@@ -56,10 +56,9 @@ vS=[];
 
 % Find initial response
 nplot=n;
-[Ha0,wplot]=freqz(flipud(Da0),Da0,nplot);
-Ta0=delayz(flipud(Da0),Da0,nplot);
-Ha0=(Ha0+exp(-j*wplot*DD))/2;
-Ta0=(Ta0+DD)/2;
+Na0=0.5*(conv([zeros((DD),1);1],Da0(:))+[flipud(Da0(:));zeros((DD),1)]);
+[Ha0,wplot]=freqz(Na0,Da0,nplot);
+Ta0=delayz(Na0,Da0,nplot);
 
 % Plot initial response
 subplot(211);
@@ -76,9 +75,9 @@ xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_a0"),"-dpdflatex");
 close
-% Plot initial allpass poles and zeros
+% Plot initial filter poles and zeros
 subplot(111);
-zplane(roots(flipud(Da0)),roots(Da0));
+zplane(roots(Na0),roots(Da0));
 title(strt);
 print(strcat(strf,"_a0pz"),"-dpdflatex");
 close
@@ -98,30 +97,29 @@ endif
 % Find response
 [Na1,Da1]=a2tf(a1,V,Q,R);
 nplot=n;
-[Ha1,wplot]=freqz(flipud(Da1),Da1,nplot);
-Ta1=delayz(flipud(Da1),Da1,nplot);
-Ha1D=(Ha1+exp(-j*wplot*DD))/2;
-Ta1D=(Ta1+DD)/2;
+Na1=0.5*(conv([zeros((DD),1);1],Da1(:))+[flipud(Da1(:));zeros((DD),1)]);
+[Ha1,wplot]=freqz(Na1,Da1,nplot);
+Ta1=delayz(Na1,Da1,nplot);
 strt=sprintf("Parallel allpass and delay : m=%d,DD=%d,dBap=%4.2f,dBas=%4.1f", ...
              m,DD,dBap,dBas);
 
 % Plot response
 subplot(211);
-plot(wplot*0.5/pi,20*log10(abs(Ha1D)));
+plot(wplot*0.5/pi,20*log10(abs(Ha1)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 5]);
 grid("on");
 title(strt);
 subplot(212);
-plot(wplot*0.5/pi,Ta1D);
+plot(wplot*0.5/pi,Ta1);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_a1"),"-dpdflatex");
 close
 % Plot response on separate axes
-ax=plotyy(wplot(1:nap)*0.5/pi,20*log10(abs(Ha1D(1:nap))),...
-          wplot(nas:n)*0.5/pi,20*log10(abs(Ha1D(nas:n))));
+ax=plotyy(wplot(1:nap)*0.5/pi,20*log10(abs(Ha1(1:nap))),...
+          wplot(nas:n)*0.5/pi,20*log10(abs(Ha1(nas:n))));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.04 0.01]);
@@ -135,13 +133,13 @@ close
 
 % Plot passband response
 subplot(211);
-plot(wplot*0.5/pi,20*log10(abs(Ha1D)));
+plot(wplot*0.5/pi,20*log10(abs(Ha1)));
 ylabel("Amplitude(dB)");
 axis([0 fap -0.1 0.1]);
 grid("on");
 title(strt);
 subplot(212);
-plot(wplot*0.5/pi,Ta1D);
+plot(wplot*0.5/pi,Ta1);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 fap DD-1 DD+1]);
@@ -150,18 +148,19 @@ print(strcat(strf,"_a1pass"),"-dpdflatex");
 close
 
 % Plot phase response of filter
-plot(wplot*0.5/pi,unwrap(arg(Ha1))+(wplot*DD));
+[Ha1ap,wplot]=freqz(flipud(Da1),Da1,nplot);
+plot(wplot*0.5/pi,(unwrap(arg(Ha1ap))+(wplot*DD))/pi);
 s=sprintf("All-pass phase response adjusted for delay DD=%d",DD);
 title(s);
-ylabel("Phase(rad.)");
+ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_a1phase"),"-dpdflatex");
 close
 
-% Plot allpass filter poles and zeros
+% Plot filter poles and zeros
 subplot(111);
-zplane(roots(flipud(Da1)),roots(Da1));
+zplane(roots(Na1),roots(Da1));
 title(strt);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
@@ -185,11 +184,11 @@ fprintf(fid,"V=%d %% Allpass filter no. of real poles\n",V);
 fprintf(fid,"Q=%d %% Allpass filter no. of complex poles\n",Q);
 fprintf(fid,"R=%d %% Allpass filter decimation\n",R);
 fprintf(fid,"DD=%d %% Parallel delay\n",DD);
-fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
-fprintf(fid,"dBap=%f %% Pass band amplitude response ripple\n",dBap);
+fprintf(fid,"fap=%5.2f %% Pass band amplitude response edge\n",fap);
+fprintf(fid,"dBap=%5.2f %% Pass band amplitude response ripple\n",dBap);
 fprintf(fid,"Wap=%d %% Pass band amplitude response weight\n",Wap);
-fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
-fprintf(fid,"dBas=%f %% Stop band amplitude response ripple\n",dBas);
+fprintf(fid,"fas=%5.2f %% Stop band amplitude response edge\n",fas);
+fprintf(fid,"dBas=%5.2f %% Stop band amplitude response ripple\n",dBas);
 fprintf(fid,"Was=%d %% Stop band amplitude response weight\n",Was);
 fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fprintf(fid,"dmax=%f %% Constraint on coefficent step-size\n",dmax);
@@ -206,5 +205,4 @@ save parallel_allpass_delay_sqp_slb_test.mat ...
      dmax rho tol ctol n fap dBap Wap fas dBas Was m DD R Da0 a1 Da1
 toc;
 diary off
-movefile parallel_allpass_delay_sqp_slb_test.diary.tmp ...
-         parallel_allpass_delay_sqp_slb_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

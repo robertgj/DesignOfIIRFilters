@@ -11586,9 +11586,7 @@ The initial allpass filter was designed by the Octave script
 method described in 
 Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. The response
 of the initial filter is shown in
-Figure~\ref{fig:Parallel-allpass-delay-filter-initial-response} and the pole-zero
-plot of the initial filter is shown in
-Figure~\ref{fig:Parallel-allpass-delay-filter-initial-response-pz}.
+Figure~\ref{fig:Parallel-allpass-delay-filter-initial-response}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_delay_socp_slb_test_a0}}
@@ -11596,19 +11594,12 @@ Figure~\ref{fig:Parallel-allpass-delay-filter-initial-response-pz}.
   WISE barrier function.}
 \label{fig:Parallel-allpass-delay-filter-initial-response}
 \end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_delay_socp_slb_test_a0pz}}
-\caption{Parallel delay and all-pass filter, pole zero plot of the initial
-  filter found with the WISE barrier function.}
-\label{fig:Parallel-allpass-delay-filter-initial-response-pz}
-\end{figure}
 
 The final filter response is shown in
 Figure~\ref{fig:Parallel-allpass-delay-filter-PCLS-SOCP-response} with pass-band
 and stop-band details shown in 
 Figure~\ref{fig:Parallel-allpass-delay-filter-PCLS-SOCP-detail-response}. 
-The pole-zero plot of the all-pass branch of the filter is shown in 
+The pole-zero plot of the filter is shown in 
 Figure~\ref{fig:Parallel-allpass-delay-filter-PCLS-SOCP-a1pz}.
 The denominator polynomial of the final all-pass filter is
 \begin{small}
@@ -11632,8 +11623,8 @@ The denominator polynomial of the final all-pass filter is
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_delay_socp_slb_test_a1pz}}
-\caption{Parallel delay and all-pass filter, pole-zero plot of the all-pass
-  filter branch after PCLS SOCP optimisation.}
+\caption{Parallel delay and all-pass filter, pole-zero plot of the filter
+  after PCLS SOCP optimisation.}
 \label{fig:Parallel-allpass-delay-filter-PCLS-SOCP-a1pz}
 \end{figure}
 \clearpage
@@ -11685,6 +11676,68 @@ The denominator polynomial of the final all-pass filter is
   filter branch after PCLS SQP optimisation. The response has been adjusted
   for the group delay of the fixed delay branch.}
 \label{fig:Parallel-allpass-delay-filter-PCLS-SQP-a1phase}
+\end{figure}
+\clearpage
+\subsubsection{\label{sec:Design-IIR-filter-sum-delay-all-pass-filter-pole-zero-SOCP-delay}Design of an IIR filter as the sum of a delay and an all-pass filter represented in pole-zero form using SOCP with a group delay constraint}
+The Octave script \emph{parallel\_allpass\_flat\_delay\_socp\_slb\_test.m} uses
+the SeDuMi SOCP solver to design a low-pass filter consisting of an all-pass
+filter in parallel with a delay with a constraint on the pass-band delay. The
+script calls the Octave function \emph{parallel\_allpass\_delay\_slb} to perform
+the PCLS design of the filter in terms of the all-pass filter pole locations.
+The PCLS algorithm of \emph{Selesnick}, \emph{Lang} and \emph{Burrus} was
+reviewed in Section~\ref{sub:Choice-of-Active-Constraints}. At each iteration of
+the PCLS optimisation the Octave function
+\emph{parallel\_allpass\_delay\_socp\_mmse} optimises the filter response
+subject to the current constraints. The filter specification is
+\begin{small}
+\verbatiminput{parallel_allpass\_flat\_delay_socp_slb_test.spec}
+\end{small}
+
+The initial allpass filter was designed by the Octave script 
+\emph{tarczynski\_parallel\_allpass\_delay\_test.m} using the \emph{WISE}
+method described in 
+Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. The response
+of the initial filter is shown in
+Figure~\ref{fig:Parallel-allpass-flat-delay-filter-initial-response}.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_flat_delay_socp_slb_test_a0}}
+\caption{Parallel delay and all-pass filter, with delay constraint, initial
+  response found with the WISE barrier function.}
+\label{fig:Parallel-allpass-flat-delay-filter-initial-response}
+\end{figure}
+
+The final filter response is shown in
+Figure~\ref{fig:Parallel-allpass-flat-delay-filter-PCLS-SOCP-response} with
+pass-band and stop-band details shown in 
+Figure~\ref{fig:Parallel-allpass-flat-delay-filter-PCLS-SOCP-detail-response}. 
+The pole-zero plot of the filter is shown in 
+Figure~\ref{fig:Parallel-allpass-flat-delay-filter-PCLS-SOCP-a1pz}.
+The denominator polynomial of the final all-pass filter is
+\begin{small}
+\verbatiminput{parallel_allpass_flat_delay_socp_slb_test_Da1_coef.m}
+\end{small}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_flat_delay_socp_slb_test_a1}}
+\caption{Parallel delay and all-pass filter, with delay constraint, response
+  after PCLS SOCP optimisation.}
+\label{fig:Parallel-allpass-flat-delay-filter-PCLS-SOCP-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_flat_delay_socp_slb_test_a1dual}}
+\caption{Parallel delay and all-pass filter, with delay constraint, detail of
+  the pass-band and stop-band responses after PCLS SOCP optimisation.}
+\label{fig:Parallel-allpass-flat-delay-filter-PCLS-SOCP-detail-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_flat_delay_socp_slb_test_a1pz}}
+\caption{Parallel delay and all-pass filter, with delay constraint, pole-zero
+  plot of the filter after PCLS SOCP optimisation.}
+\label{fig:Parallel-allpass-flat-delay-filter-PCLS-SOCP-a1pz}
 \end{figure}
 \clearpage
 \subsection{\label{sec:IIR-filter-polyphase-decomposition-all-pass-filters}Design of an IIR filter as the polyphase decomposition into two all-pass filters each represented in pole-zero form}

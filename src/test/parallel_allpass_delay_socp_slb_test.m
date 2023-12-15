@@ -3,31 +3,20 @@
 
 test_common;
 
-delete("parallel_allpass_delay_socp_slb_test.diary");
+strf="parallel_allpass_delay_socp_slb_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
 delete("parallel_allpass_delay_socp_slb_test.diary.tmp");
-diary parallel_allpass_delay_socp_slb_test.diary.tmp
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 verbose=false
 maxiter=2000
-strf="parallel_allpass_delay_socp_slb_test";
-
-%{
-% Initial coefficients found by tarczynski_parallel_allpass_delay_test.m
-% with tarczynski_parallel_allpass_delay_flat_delay=true
-parallel_allpass_delay_flat_delay=true;
-Da0 = [  1.0000000000,  -0.1379453584,   0.6508743430,   0.3435819047, ... 
-         0.0871269429,  -0.0354838969,  -0.0404116404,  -0.0013534974, ... 
-         0.0198878376,   0.0102221662,  -0.0088816435,  -0.0168523004, ... 
-        -0.0040320884 ]';
-Wtp=10
-dBas=43
-%}
 
 % Initial coefficients found by tarczynski_parallel_allpass_delay_test.m
 % with tarczynski_parallel_allpass_delay_flat_delay=false
-parallel_allpass_delay_flat_delay=false;
 tarczynski_parallel_allpass_delay_test_Da0_coef;
 
 % Lowpass filter specification for parallel all-pass filters
@@ -80,10 +69,9 @@ vS=[];
 
 % Find initial response
 nplot=n;
-[Ha0,wplot]=freqz(flipud(Da0),Da0,nplot);
-Ta0=delayz(flipud(Da0),Da0,nplot);
-Ha0=(Ha0+exp(-j*wplot*DD))/2;
-Ta0=(Ta0+DD)/2;
+Na0=0.5*(conv([zeros((DD),1);1],Da0(:))+[flipud(Da0(:));zeros((DD),1)]);
+[Ha0,wplot]=freqz(Na0,Da0,nplot);
+Ta0=delayz(Na0,Da0,nplot);
 
 % Plot initial response
 subplot(211);
@@ -120,12 +108,11 @@ if !feasible
 endif
 
 % Find response
-[Na1,Da1]=a2tf(a1,V,Q,R);
+[~,Da1]=a2tf(a1,V,Q,R);
+Na1=0.5*(conv([zeros((DD),1);1],Da1(:))+[flipud(Da1(:));zeros((DD),1)]);
 nplot=n;
-[Ha1,wplot]=freqz(flipud(Da1),Da1,nplot);
-Ta1=delayz(flipud(Da1),Da1,nplot);
-Ha1=(Ha1+exp(-j*wplot*DD))/2;
-Ta1=(Ta1+DD)/2;
+[Ha1,wplot]=freqz(Na1,Da1,nplot);
+Ta1=delayz(Na1,Da1,nplot);
 strt=sprintf("Parallel allpass and delay : m=%d,DD=%d,dBap=%4.2f,dBas=%4.1f", ...
              m,DD,dBap,dBas);
 
@@ -158,9 +145,9 @@ title(strt);
 print(strcat(strf,"_a1dual"),"-dpdflatex");
 close
 
-% Plot allpass filter poles and zeros
+% Plot filter poles and zeros
 subplot(111);
-zplane(roots(flipud(Da1)),roots(Da1));
+zplane(roots(Na1),roots(Da1));
 title(strt);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
@@ -175,20 +162,12 @@ fprintf(fid,"V=%d %% Allpass filter no. of real poles\n",V);
 fprintf(fid,"Q=%d %% Allpass filter no. of complex poles\n",Q);
 fprintf(fid,"R=%d %% Allpass filter decimation\n",R);
 fprintf(fid,"DD=%d %% Parallel delay\n",DD);
-fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
-fprintf(fid,"dBap=%f %% Pass band amplitude response ripple\n",dBap);
+fprintf(fid,"fap=%5.2f %% Pass band amplitude response edge\n",fap);
+fprintf(fid,"dBap=%5.2f %% Pass band amplitude response ripple\n",dBap);
 fprintf(fid,"Wap=%d %% Pass band amplitude response weight\n",Wap);
-fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
-fprintf(fid,"dBas=%f %% Stop band amplitude response ripple\n",dBas);
+fprintf(fid,"fas=%5.2f %% Stop band amplitude response edge\n",fas);
+fprintf(fid,"dBas=%5.2f %% Stop band amplitude response ripple\n",dBas);
 fprintf(fid,"Was=%d %% Stop band amplitude response weight\n",Was);
-fprintf(fid,"parallel_allpass_delay_flat_delay=%d\n",
-        parallel_allpass_delay_flat_delay);
-if parallel_allpass_delay_flat_delay
-  fprintf(fid,"ftp=%g %% Pass band group delay response edge\n",ftp);
-  fprintf(fid,"td=%g %% Pass band nominal group delay\n",td);
-  fprintf(fid,"tdr=%g %% Pass band nominal group delay ripple\n",tdr);
-  fprintf(fid,"Wtp=%d %% Pass band group delay response weight\n",Wtp);
-endif
 fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fclose(fid);
 
@@ -199,11 +178,9 @@ print_polynomial(Da1,"Da1");
 print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 
 % Done 
-save parallel_allpass_delay_socp_slb_test.mat ...
-     parallel_allpass_delay_flat_delay ...
-     rho tol ctol n fap Wap ftp Wtp fas Was td tdr m DD R Da0 a1 Da1
+eval(sprintf("save %s.mat ...\n\
+rho tol ctol n fap Wap ftp Wtp fas Was td tdr m DD R Na0 Da0 a1 Na1 Da1",strf));
 
 toc;
 diary off
-movefile parallel_allpass_delay_socp_slb_test.diary.tmp ...
-         parallel_allpass_delay_socp_slb_test.diary
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));
