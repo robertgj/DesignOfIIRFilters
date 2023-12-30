@@ -429,7 +429,7 @@ plot(wa*0.5/pi,10*log10(abs(Asq_k0)),"linestyle","-", ...
      wa*0.5/pi,10*log10(abs(Asq_k0_sd_min)),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), dBap*[-1, 0.5]]);
+axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), -dBap, 0.02]);
 strt=sprintf("Parallel allpass lattice bandpass Hilbert filter pass-band \
 amplitude nbits=%d,ndigits=%d) : fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
 title(strt);
