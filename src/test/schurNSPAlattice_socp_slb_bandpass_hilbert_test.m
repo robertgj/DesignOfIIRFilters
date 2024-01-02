@@ -1,5 +1,5 @@
 % schurNSPAlattice_socp_slb_bandpass_hilbert_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2023-2024 Robert G. Jenssen
 
 test_common;
 
@@ -35,7 +35,7 @@ fapl=0.1
 fapu=0.2
 fasu=0.25
 dBap=0.08
-dBas=38
+dBas=37
 Wap=1
 Watl=1e-3
 Watu=1e-3
@@ -51,8 +51,6 @@ fppu=0.19
 pp=3.5 % Initial phase offset in multiples of pi radians
 ppr=0.002 % Peak-to-peak phase ripple in multiples of pi radians
 Wpp=100
-
-  % dBas=38;tpr=0.008;ppr=0.002;Wpp=100
 
 %
 % Frequency vectors
@@ -184,7 +182,7 @@ title(strt);
 subplot(312);
 plot(wp*0.5/pi,((P+(tp*wp))/pi)-pp);
 ylabel("Phase error(rad./$\\pi$)");
-axis([0 0.5 ((ppr/10)*[-1 1])]);
+axis([0 0.5 ((ppr/20)*[-1 1])]);
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,T);
@@ -256,10 +254,11 @@ A2stdx=std(A2xx);
 % Check simulated response
 nfpts=2^11;
 nppts=(0:((nfpts/2)-1));
+mov_window=20;
 fpts=nppts/nfpts;
 Hsim=crossWelch(u,(A1yap-A2yap)/2,nfpts);
 Asim=abs(Hsim);
-Asim=movmean(Asim,10);
+Asim=movmean(Asim,mov_window);
 subplot(311);
 ax=plotyy(fpts,20*log10(Asim),fpts,20*log10(Asim));
 set(ax(1),'ycolor','black');
@@ -273,15 +272,15 @@ strt=sprintf...
 title(strt);
 subplot(312);
 Psim=unwrap(arg(Hsim));
-Psim=movmean(Psim,10);
-plot(fpts,((Psim+(tp*2*pi*nppts/nfpts))/pi)+0.5);
+Psim=movmean(Psim,mov_window);
+plot(fpts,mod(((Psim+(tp*2*pi*nppts/nfpts))/pi)+pp,1));
 axis([0 0.5 (0.01*[-1 1])])
 grid("on");
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency")
 subplot(313);
 Tsim=-diff(Psim)/((fpts(2)-fpts(1))*2*pi);
-Tsim=movmean(Tsim,10);
+Tsim=movmean(Tsim,mov_window);
 plot(fpts(2:end),Tsim);
 axis([0 0.5 (tp+0.1*[-1 1])])
 grid("on");

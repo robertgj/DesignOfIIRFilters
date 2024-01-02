@@ -1,5 +1,5 @@
 % sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 % SDP relaxation optimisation of a Schur parallel one-multiplier allpass
 % lattice bandpass filter with 12-bit signed-digit coefficients having
@@ -41,18 +41,18 @@ fasl=0.05
 fapl=0.12
 fapu=0.18
 fasu=0.25
-dBap=0.1
+dBap=0.08
 Wap=1
 Watl=1e-3
 Watu=1e-3
 dBas=35
-Wasl=400
-Wasu=400
+Wasl=200
+Wasu=200
 ftpl=0.12
 ftpu=0.18
 td=16
 tdr=0.2
-Wtp=4
+Wtp=2
 fppl=0.12
 fppu=0.18
 pd=3.5 % Initial phase offset in multiples of pi radians
@@ -173,11 +173,13 @@ ndigits_alloc=schurOneMPAlattice_allocsd_Ito(nbits,ndigits, ...
 [k0_digits_sd,k0_adders_sd]=SDadders(k0_sd,nbits);
 [k0_sd_Ito,k0_sdu_Ito,k0_sdl_Ito]=flt2SD(k0,nbits,ndigits_alloc);
 [k0_digits_sd_Ito,k0_adders_sd_Ito]=SDadders(k0_sd_Ito,nbits);
-print_polynomial(k0_sd_Ito(RA1k),"A1k0_sd_Ito",nscale);
-print_polynomial(k0_sd_Ito(RA1k),"A1k0_sd_Ito", ...
+A1k0_sd_Ito=k0_sd_Ito(RA1k);
+A2k0_sd_Ito=k0_sd_Ito(RA2k);
+print_polynomial(A1k0_sd_Ito,"A1k0_sd_Ito",nscale);
+print_polynomial(A1k0_sd_Ito,"A1k0_sd_Ito", ...
                  strcat(strf,"_A1k0_sd_Ito_coef.m"),nscale);
-print_polynomial(k0_sd_Ito(RA2k),"A2k0_sd_Ito",nscale);
-print_polynomial(k0_sd_Ito(RA2k),"A2k0_sd_Ito", ...
+print_polynomial(A2k0_sd_Ito,"A2k0_sd_Ito",nscale);
+print_polynomial(A2k0_sd_Ito,"A2k0_sd_Ito", ...
                  strcat(strf,"_A2k0_sd_Ito_coef.m"),nscale);
 
 % Find initial mean-squared errrors
