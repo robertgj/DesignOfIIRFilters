@@ -35963,13 +35963,14 @@ $H\left(\lambda\right)\coloneq C\left(\lambda I -A\right)^{-1}B+D$, are
 determined by the choice of the $\Theta$ matrix in
 Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-FDI}. As for
 Equation~\ref{eqn:ContinuousKYPThetaCDPi}:
-\begin{align*}
+\begin{align}
 \Theta &= \left[\begin{array}{cc}
 C & D \\
 0 & I\end{array}\right]^{\mathconj} \Pi \left[\begin{array}{cc}
 C & D \\
 0 & I\end{array}\right] 
-\end{align*}
+\label{eqn:Discrete-time-KYP-Theta}
+\end{align}
 
 Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-FDI} now becomes:
 \begin{align*}
@@ -37470,7 +37471,7 @@ Constraints=[F_plu<=-sedumi_eps,Q_plu>=0,F_slmu<=-sedumi_eps,Q_slmu>=0];
 The resulting filter frequency response is acceptable. These numerical problems
 occurred for all combinations of $N$ and $d$ that I tried.
 \clearpage
-\section{The dual of the KYP lemma LMI}
+\section{The dual of the KYP lemma}
 \emph{Wallin}, \emph{Vandeberghe} and others note that solution of the KYP lemma
 by Equation~\ref{eqn:KYPlemmaLMI_expanded} is an $\mathcal{O}\left(n^{6}\right)$
 complexity problem, that solving the \emph{dual} problem reduces this to
@@ -37528,7 +37529,7 @@ where
 This follows from the definition of the inner product:
 \begin{align*}
   \langle\mathcal{D}\left(P\right),Z\rangle &=
-  \mathtrace\left(\mathcal{D}Z\right)  \\
+  \mathtrace\left(\mathcal{D}\left(P\right)Z\right)  \\
   &= \mathtrace\left(\left[\begin{array}{cc}
          A^{\mathconj}PA-P & A^{\mathconj}PB \\
          B^{\mathconj}PA   & B^{\mathconj}PB\end{array}\right]
@@ -37556,16 +37557,10 @@ and the following properties of $\mathtrace$:
                                 \mathtrace\left(CBA\right) 
 \end{align*}
 
-The adjoint mapping of the generalised, finite-frequency, discrete-time KYP
-lemma is found in a similar fashion.
-
-\subsection{The dual of the discrete-time KYP lemma LMI}
+\subsection{The dual of the discrete-time KYP lemma}
 \emph{Cheng}
-proves the following dual of the discrete-time KYP linear matrix
-inequality,
-Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping}\footnote{This is not
-  the dual of the \emph{generalised} KYP lemma with frequency domain
-  constraints shown in Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}.}:
+proves the following dual of the discrete-time KYP lemma with the linear
+mapping shown in Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping}:
 \begin{framed}
   \emph{Proposition 2}~\cite[Section
   3.5]{ChengYiping_ProofDiscreteTimeKYPusingSDPduality}: There exists
@@ -37579,16 +37574,20 @@ Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping}\footnote{This is not
     \mathtrace\left(\Theta Z\right) &\le 0
   \end{align*}
 \end{framed}
-The Octave script \emph{yalmip\_kyp\_dual\_test.m} checks the dual of the KYP
-lemma for the maximum amplitude of a low-pass FIR filter designed with the Octave
-\emph{remez} function. Unfortunately, in this script, SeDuMi fails for the KYP
-lemma linear mapping of
-Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping} and the SDPT3 solver
-is used instead. However, SeDuMi does solve the dual mapping and solves the
-primal problem when the \emph{'dualize'} option is set.
+Here $\Theta$ is as in Equation~\ref{eqn:Discrete-time-KYP-Theta}.
+The Octave script \emph{yalmip\_kyp\_dual\_test.m} calls YALMIP to check the
+dual of the KYP lemma for the maximum amplitude of a low-pass FIR filter
+designed with the Octave \emph{remez} function. Unfortunately, in this script,
+SeDuMi fails for the KYP lemma linear mapping of
+Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping} but the SDPT3 solver
+succeeds. However, SeDuMi does solve the dual mapping and solves the
+primal problem when the YALMIP \emph{'dualize'} option is set.
 
-The dual of the KYP lemma requires a bilinear term $\Theta Z$ and is not
-amenable to FIR filter design with LMI SDP solvers.
+\subsection{The dual of the generalised discrete-time KYP lemma}
+\emph{Seungil} and
+\emph{Doyle}~\cite{SeungilDoyle_LagrangianDualApproachGeneralizedKYP} prove
+the generalised discrete-time KYP lemma by the dual of the Lagrangian of
+Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}.
 
 \cleardoublepage
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}
