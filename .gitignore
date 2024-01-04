@@ -2168,6 +2168,7 @@ iir_socp_slb_lowpass_test_pcls_d1.pdf
 iir_socp_slb_lowpass_test_pcls_d1.tex
 iir_socp_slb_lowpass_test.spec
 iir_socp_slb_multiband_test_D0_coef.m
+iir_socp_slb_multiband_test_D2_coef.m
 iir_socp_slb_multiband_test_initial-inc.pdf
 iir_socp_slb_multiband_test_initial.pdf
 iir_socp_slb_multiband_test_initial.tex
@@ -2176,6 +2177,7 @@ iir_socp_slb_multiband_test_mmse-inc.pdf
 iir_socp_slb_multiband_test_mmse.pdf
 iir_socp_slb_multiband_test_mmse.tex
 iir_socp_slb_multiband_test_N0_coef.m
+iir_socp_slb_multiband_test_N2_coef.m
 iir_socp_slb_multiband_test_pcls-inc.pdf
 iir_socp_slb_multiband_test_pcls_pass-inc.pdf
 iir_socp_slb_multiband_test_pcls_pass.pdf

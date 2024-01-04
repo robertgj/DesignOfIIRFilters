@@ -3,9 +3,10 @@
 
 test_common;
 
-delete("iir_socp_slb_multiband_test.diary");
-delete("iir_socp_slb_multiband_test.diary.tmp");
-diary iir_socp_slb_multiband_test.diary.tmp
+strf="iir_socp_slb_multiband_test";
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
@@ -17,7 +18,6 @@ maxiter=500;
 verbose=false;
 nplot=500;
 npoints=nplot;
-strf="iir_socp_slb_multiband_test";
 
 % Desired frequency response specification
 fas1u=0.05;
@@ -27,9 +27,9 @@ fas2l=0.125;fas2u=0.150;
 fap2l=0.175;fap2u=0.225;
 ftp2l=0.185;ftp2u=0.215;
 fas3l=0.25;
-dBas1=20;dBap1=1;dBas2=20;dBap2=1;dBas3=20;
+dBas1=20;dBap1=0.5;dBas2=20;dBap2=0.5;dBas3=20;
 Was1=1;Wap1=1;Was2=1;Wap2=1;Was3=1;
-tp1=30;tpr1=10;tp2=15;tpr2=10;
+tp1=21;tpr1=2;tp2=12;tpr2=2;
 Wtp1=0.0001;Wtp2=0.0001;
 
 % Initial elliptic filter with lowpass to double bandpass transformation
@@ -174,7 +174,7 @@ A0=iirA(wa,x0,U,V,M,Q,R);
 T0=iirT(wa(10:end),x0,U,V,M,Q,R);
 subplot(211)
 plot(wa*0.5/pi,20*log10(A0))
-axis([0 0.5 -40 1])
+axis([0 0.5 -40 10])
 ylabel("Amplitude (dB)");
 grid("on");
 subplot(212)
@@ -236,7 +236,7 @@ A2=iirA(wa,x2,U,V,M,Q,R);
 T2=iirT(wa(10:end),x2,U,V,M,Q,R);
 subplot(211)
 plot(wa*0.5/pi,20*log10(A2))
-axis([0 0.5 -40 1])
+axis([0 0.5 -40 10])
 ylabel("Amplitude (dB)");
 grid("on");
 subplot(212)
@@ -250,17 +250,16 @@ close
 % Passband
 subplot(211)
 plot(wa*0.5/pi,20*log10(A2))
-axis([0 0.5 -1.5 0.5])
+axis([0 0.5 -0.6 0.1])
 ylabel("Amplitude (dB)");
 grid("on");
 subplot(212)
 T2=iirT(wt,x2,U,V,M,Q,R);
-ax=plotyy(wt1*0.5/pi,T2(1:length(wt1)), ...
-          wt2*0.5/pi,T2((length(wt1)+1):end));
+ax=plotyy(wt1*0.5/pi,T2(1:length(wt1)),wt2*0.5/pi,T2((length(wt1)+1):end));
 set(ax(1),'ycolor','black');
 set(ax(2),'ycolor','black');
-axis(ax(1),[0 0.5 20 40]);
-axis(ax(2),[0 0.5 10 30]);
+axis(ax(1),[0 0.5 19 23]);
+axis(ax(2),[0 0.5 10 14]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
@@ -323,17 +322,20 @@ print_pole_zero(x2,U,V,M,Q,R,"x1",strcat(strf,"_x1_coef.m"));
 print_pole_zero(x2,U,V,M,Q,R,"x2");
 print_pole_zero(x2,U,V,M,Q,R,"x2",strcat(strf,"_x2_coef.m"));
 
-print_pole_zero(x2,U,V,M,Q,R,"x2");
-print_pole_zero(x2,U,V,M,Q,R,"x2",strcat(strf,"_x2_coef.m"));
+[N2,D2]=x2tf(x2,U,V,M,Q,R);
+print_polynomial(N2,"N2","%16.10f");
+print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"),"%16.10f");
+print_polynomial(D2,"D2","%16.10f");
+print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"),"%16.10f");
 
-save iir_socp_slb_multiband_test.mat ...
-     tol mtol ptol ctol maxiter verbose nplot npoints dmax rho ...
-     fas1u fap1l fap1u fas2l fas2u fap2l fap2u fas3l ...
-     dBas1 dBap1 dBas2 dBap2 dBas3 Was1 Wap1 Was2 Wap2 Was3  ...
-     ftp1l ftp1u ftp2l ftp2u tp1 tpr1 tp2 tpr2 Wtp1 Wtp2 ...
-     x0 U V M Q R x1 x2
+eval(sprintf("save %s.mat ... \n\
+     tol mtol ptol ctol maxiter verbose nplot npoints dmax rho ... \n\
+     fas1u fap1l fap1u fas2l fas2u fap2l fap2u fas3l ... \n\
+     dBas1 dBap1 dBas2 dBap2 dBas3 Was1 Wap1 Was2 Wap2 Was3  ... \n\
+     ftp1l ftp1u ftp2l ftp2u tp1 tpr1 tp2 tpr2 Wtp1 Wtp2 ... \n\
+     x0 U V M Q R x1 x2 N2 D2", strf));
 
 % Done
 toc;
 diary off
-movefile iir_socp_slb_multiband_test.diary.tmp iir_socp_slb_multiband_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));
