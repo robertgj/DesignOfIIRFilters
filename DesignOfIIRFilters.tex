@@ -10436,15 +10436,23 @@ implements the design of a multi-band-pass IIR filter expressed in
 \verbatiminput{iir_socp_slb_multiband_test.spec}
 \end{small}
 The initial filter is designed by frequency transformation of a prototype
-elliptic filter. The SOCP PCLS optimised filter is:
+elliptic filter. The gain-zero-pole description of the SOCP PCLS optimised
+filter is:
+\begin{small}
+\verbatiminput{iir_socp_slb_multiband_test_x2_coef.m}
+\end{small}
+The numerator and denominator polynomials of the SOCP PCLS optimised filter are:
 \begin{small}
 \verbatiminput{iir_socp_slb_multiband_test_N2_coef.m}
 \verbatiminput{iir_socp_slb_multiband_test_D2_coef.m}
 \end{small}
 Figure~\ref{fig:IIR-multiband-SOCP-PCLS} shows the
-amplitude and delay response of the PCLS SOCP optimised filter.
+amplitude and delay responses of the PCLS SOCP optimised filter, calculated
+with the \emph{iirA} and \emph{iirT} functions respectively.
 Figure~\ref{fig:IIR-multiband-SOCP-PCLS-pass} shows the pass-band response of
 the filter.
+Figure~\ref{fig:IIR-multiband-SOCP-PCLS-pz} shows the pole-zero plot of the
+filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_multiband_test_pcls}}
@@ -10457,7 +10465,13 @@ the filter.
 \caption{IIR multi-band filter, pass-band response after SOCP PCLS optimisation.}
 \label{fig:IIR-multiband-SOCP-PCLS-pass}
 \end{figure}
-
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_multiband_test_pcls_pz}}
+\caption{Pole-zero plot of the IIR multi-band filter after SOCP PCLS
+  optimisation.}
+\label{fig:IIR-multiband-SOCP-PCLS-pz}
+\end{figure}
 
 \chapter{\label{sec:IIR-Filter-Design-With-Predefined-Structure}IIR filter design with a pre-defined structure}
 In this chapter I describe the design of IIR filters with a predefined structure.

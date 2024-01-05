@@ -1,5 +1,5 @@
 % iir_socp_slb_multiband_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020,2024 Robert G. Jenssen
 
 test_common;
 
@@ -264,6 +264,11 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_pass"),"-dpdflatex");
+close
+% Pole-zero plot
+[Z2,P2,K2]=x2zp(x2,U,V,M,Q,R);
+zplane(Z2,P2);
+print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
 
 % Filter specification
