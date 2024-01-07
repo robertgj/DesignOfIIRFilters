@@ -1,5 +1,5 @@
 function schurOneMlattice_socp_slb_lowpass_plot ...
-           (k,epsilon,p,c,fap,dBap,ftp,tp,tpr,fas,dBas,strF,strT)
+           (n,d,k,epsilon,p,c,fap,dBap,ftp,tp,tpr,fas,dBas,strF,strT)
 
 % Copyright (C) 2017-2022 Robert G. Jenssen
 %
@@ -22,9 +22,9 @@ function schurOneMlattice_socp_slb_lowpass_plot ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if (nargin ~= 13)
+  if (nargin ~= 15)
     print_usage...
-("shurOneMlattice_socp_slb_lowpass_plot(k,epsilon,p,c, ...\n\
+("shurOneMlattice_socp_slb_lowpass_plot(n,d,k,epsilon,p,c, ...\n\
     fap,dBap,ftp,tp,tpr,fas,dBas,strF,strT)");
   endif
 
@@ -52,7 +52,7 @@ function schurOneMlattice_socp_slb_lowpass_plot ...
   subplot(211);
   plot(wplot*0.5/pi,10*log10(Asq));
   ylabel("Amplitude(dB)");
-  axis([0, max(fap,ftp), -dBap, dBap]);
+  axis([0, max(fap,ftp), dBap*[-1.5, 0.5]]);
   grid("on");
   title(strT);
   subplot(212);
@@ -65,9 +65,8 @@ function schurOneMlattice_socp_slb_lowpass_plot ...
   close
   
   % Plot poles and zeros
-  [n,d]=schurOneMlattice2tf(k,epsilon,p,c);
   subplot(111);
-  zplane(roots(n),roots(d));
+  zplane(qroots(n),qroots(d));
   title(strT);
   print(strcat(strF,"pz"),"-dpdflatex");
   close

@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_lowpass_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
@@ -10,7 +10,6 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-
 tol=1e-5
 ctol=tol/10
 maxiter=2000
@@ -18,24 +17,21 @@ verbose=false
 
 % Deczky3 lowpass filter specification
 n=500
-norder=10
 fap=0.15,dBap=0.1,Wap=1
 ftp=0.25,tp=9,tpr=0.02,Wtp=1
 Wat=2*tol
 fas=0.35,dBas=47,Was=100
+
 % Initial filter similar to Deczky Example 3a
 U=1;V=2;M=8;Q=4;R=1;
+K0=0.005;
 Z0=-2;
+P0=[0.5,0.5];
 z0=[exp(j*2*pi*0.35),1.5*exp(j*2*pi*0.2),1.5*exp(j*2*pi*0.14), ...
     1.5*exp(j*2*pi*0.08)];
 p0=[0.7*exp(j*2*pi*0.16),0.6*exp(j*2*pi*0.12)];
-P0=[0.5,0.5];
-K0=0.005;
 x0=[K0,Z0,P0,abs(z0),angle(z0),abs(p0),angle(p0)]';
 [n0,d0]=x2tf(x0,U,V,M,Q,R);
-%[H0,w0]=freqz(n0,d0,1024);
-%set(0,'DefaultFigureVisible','on');
-%plot(w0*0.5/pi,20*log10(abs(H0)))
 d0=[d0(:);zeros(length(n0)-length(d0),1)];
 
 % Convert transfer function to one-multiplier Schur lattice
@@ -95,11 +91,18 @@ toc;
 if feasible == 0 
   error("k2p,c2p(pcls) infeasible");
 endif
+
 % Recalculate epsilon2, p2 and c2
 [n2,d2]=schurOneMlattice2tf(k2p,epsilon0,ones(size(p0)),c2p);
 [k2,epsilon2,p2,c2]=tf2schurOneMlattice(n2,d2);
+
+% Trim zeros from n2 and d2
+n2=n2(1:(U+M+1));
+d2=d2(1:(V+Q+1));
+
+% Plot
 schurOneMlattice_socp_slb_lowpass_plot ...
-  (k2,epsilon2,p2,c2,fap,dBap,ftp,tp,tpr,fas,dBas, ...
+  (n2,d2,k2,epsilon2,p2,c2,fap,dBap,ftp,tp,tpr,fas,dBas, ...
    strcat(strf,"_pcls_k2c2"),sprintf(strt,"PCLS"));
 
 % Amplitude and delay at local peaks
@@ -140,6 +143,8 @@ fprintf(fid,"dBas=%d %% Amplitude stop band peak-to-peak ripple\n",dBas);
 fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
+print_pole_zero(x0,U,V,M,Q,R,"x0");
+print_pole_zero(x0,U,V,M,Q,R,"x0",strcat(strf,"_x0_coef.m"));
 print_polynomial(k2,"k2");
 print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
 print_polynomial(epsilon2,"epsilon2");
@@ -153,9 +158,9 @@ print_polynomial(n2,"n2",strcat(strf,"_n2_coef.m"));
 print_polynomial(d2,"d2");
 print_polynomial(d2,"d2",strcat(strf,"_d2_coef.m"));
 
-save schurOneMlattice_socp_slb_lowpass_test.mat x0 n0 d0 k0 epsilon0 p0 c0 ...
-     fap dBap Wap ftp tp tpr Wtp Wat fas dBas Was rho tol ctol ...
-     k2 epsilon2 p2 c2 n2 d2
+eval(sprintf("save %s.mat x0 n0 d0 k0 epsilon0 p0 c0 ...\n\
+     fap dBap Wap ftp tp tpr Wtp Wat fas dBas Was rho tol ctol ...\n\
+     k2 epsilon2 p2 c2 n2 d2",strf));
 
 % Done
 toc;
