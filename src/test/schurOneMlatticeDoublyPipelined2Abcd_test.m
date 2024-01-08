@@ -1,5 +1,5 @@
 % schurOneMlatticeDoublyPipelined2Abcd_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2023-2024 Robert G. Jenssen
 %
 % Test cases for the doubly pipelined Schur one-multiplier lattice filter 
 
@@ -14,6 +14,20 @@ eval(sprintf("diary %s.diary.tmp",strf));
 k=epsilon=c=[];
 try
   [A,B,C,D,Aap,Bap,Cap,Dap]=schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c);
+catch
+  printf("%s\n", lasterror().message);
+end_try_catch
+
+% Check arguments
+k=rand(6,1);
+try
+  [A,B,C,D,Aap,Bap,Cap,Dap]=schurOneMlatticeDoublyPipelined2Abcd(k);
+catch
+  printf("%s\n", lasterror().message);
+end_try_catch
+epsilon=ones(length(k),1);
+try
+  [A,B,C,D,Aap,Bap,Cap,Dap]=schurOneMlatticeDoublyPipelined2Abcd(k,epsilon);
 catch
   printf("%s\n", lasterror().message);
 end_try_catch

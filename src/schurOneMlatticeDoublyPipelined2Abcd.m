@@ -13,7 +13,7 @@ function [A,B,C,D,Aap,Bap,Cap,Dap] = ...
 %              filter
 %  [Aap,Bap;Cap,Dap] - corresponding matrixes for the all-pass filter
 
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2023-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -34,12 +34,18 @@ function [A,B,C,D,Aap,Bap,Cap,Dap] = ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if nargin~=3 || nargout<4 || nargout>8
+  if nargin>3 || nargout<4 || nargout>8
     print_usage("[A,B,C,D,Aap,Bap,Cap,Dap]= ...\n\
       schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c)");
   endif
   if isempty(k)
     error("k is empty!");
+  endif
+  if nargin==1
+    epsilon=ones(length(k),1);
+  endif
+  if nargin==1 || nargin==2
+    c=zeros(length(k)+1,1);
   endif
   if length(k)~=length(epsilon) || ...
      (length(k)+1)~=length(c)
