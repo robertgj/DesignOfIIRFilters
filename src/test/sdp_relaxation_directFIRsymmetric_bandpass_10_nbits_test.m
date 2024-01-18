@@ -1,14 +1,15 @@
 % sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 % SDP relaxation optimisation of a symmetric direct-form FIR
 % bandpass filter with 10-bit signed-digit coefficients
 
 test_common;
 
-delete("sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test.diary");
-delete("sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test.diary.tmp");
-diary sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test.diary.tmp
+strf="sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test";
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
@@ -16,7 +17,6 @@ maxiter=2000
 verbose=false;
 tol=1e-6;
 ctol=tol;
-strf="sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test";
 
 % Band pass filter
 M=15;
@@ -170,7 +170,7 @@ strt=sprintf("Direct-form symmetric bandpass filter stop-band \
 (nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,ndigits,fasl,fasu,dBas);
 title(strt);
 legend("exact","s-d","s-d(Lim)","s-d(SDP)");
-legend("location","best");
+legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -188,20 +188,19 @@ fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
 fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
 fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
-fprintf(fid,"fasl=%g %% Amplitude stop band(1) lower edge\n",fasl);
-fprintf(fid,"fasu=%g %% Amplitude stop band(1) upper edge\n",fasu);
-fprintf(fid,"dBas=%d %% Amplitude stop band(1) peak-to-peak ripple\n",dBas);
+fprintf(fid,"fasl=%g %% Amplitude lower stop band edge\n",fasl);
+fprintf(fid,"fasu=%g %% Amplitude upper stop band edge\n",fasu);
+fprintf(fid,"dBas=%d %% Amplitude stop band peak-to-peak ripple\n",dBas);
 fprintf(fid,"Wasl=%d %% Amplitude lower stop band weight\n",Wasl);
 fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-save sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test.mat ...
-     tol ctol nbits nscale ndigits ndigits_alloc npoints ...
-     fapl fapu dBap Wap fasl fasu dBas Wasl Wasu hM1_sd_sdp
+eval(sprintf("save %s.mat ...\n\
+     tol ctol nbits nscale ndigits ndigits_alloc npoints ...\n\
+     fapl fapu dBap Wap fasl fasu dBas Wasl Wasu hM1_sd_sdp",strf));
        
 % Done
 toc;
 diary off
-movefile sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test.diary.tmp ...
-         sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));
