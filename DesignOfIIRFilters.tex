@@ -115,6 +115,8 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \DeclareMathOperator{\mathri}{ri}
 \DeclareMathOperator{\mathaff}{aff}
 \DeclareMathOperator{\mathconv}{conv}
+\DeclareMathOperator{\mathhe}{He}
+\DeclareMathOperator{\mathsq}{Sq}
 \DeclareMathOperator{\mathconj}{\ast} % {\textsf{\tiny{H}}}
 \DeclareMathOperator{\mathreverse}{\textsf{\tiny{F}}}
 
@@ -35640,15 +35642,13 @@ I \end{array}\right]\le 0
 \item There exist Hermitian matrixes $P$ and $Q\succeq 0$ such that:
 \begin{align}
 \label{eqn:Iwasaki-Hara-Generalised-KYP-LMI}
-\begin{split}
-&\left[\begin{array}{cc}
+\left[\begin{array}{cc}
 A & B \\
 I & 0\end{array}\right]^{\mathconj}
 L\left(P,Q\right)
 \left[\begin{array}{cc}
 A & B\\
 I & 0 \end{array}\right]+\Theta \preceq 0
-\end{split}
 \end{align}
 where $L\left(P,Q\right)=\Phi\otimes P + \Psi\otimes Q$.
 \end{enumerate}
@@ -36003,125 +36003,100 @@ I & 0 \\
 0 & -\varepsilon^{2}I\end{array}\right]
 \end{align*}
 
-\subsection{\emph{Rantzer}'s transformation of the KYP lemma from discrete-time
-  to continuous-time}
-\emph{Rantzer}~\cite[Proof of Theorem 2]{Rantzer_KYP_PositiveSystems} shows an
-alternative transformation of the KYP lemma from discrete-time to
-continuous-time by parameterising the unit circle with
-$\left(1+\imath\omega\right)/\left(1-\imath\omega\right)$ rather than
-$e^{\imath\omega}$. Multiplying out:
-\begin{align*}
-  \left[\frac{1+\imath\omega}{1-\imath\omega}I - A\right]x&=Bu \\
-  \left[\imath\omega\left(A+I\right)-\left(A-I\right)\right]x
-                                   +\imath\omega B &=Bu\\
-  \left[\imath\omega I-\left(A-I\right)\left(A+I\right)^{-1}\right]
-  \left(A+I\right)x   +\imath\omega B &=Bu\\
-  \left[\imath\omega I-\left(A-I\right)\left(A+I\right)^{-1}\right]
-  \left(Ix+Ax+Bu\right)
-     &=\left[I - \left(A-I\right)\left(A+I\right)^{-1}\right]Bu\\
-  \left[\imath\omega I-\left(A-I\right)\left(A+I\right)^{-1}\right]
-  \left(Ix+Ax+Bu\right)
-     &=\left[\left(A+I\right) - \left(A-I\right)\right]\left(A+I\right)^{-1}Bu\\
-  \left[\imath\omega I-\left(A-I\right)\left(A+I\right)^{-1}\right]
-  \left(Ix+Ax+Bu\right) &=2\left(A+I\right)^{-1}Bu
-\end{align*}
-
-\emph{Rantzer} introduces:
-\begin{align*}
-  \hat{A}&=\left(A-I\right)\left(A+I\right)^{-1} \\
-  \hat{B}&=2\left(A+I\right)^{-1}B \\
-  \hat{x}&=Ix+Ax+Bu \\
-  S&=\left[\begin{array}{cc}
-             \left(A+I\right)^{-1} & -\left(A+I\right)^{-1}B \\
-             0 & I \end{array}\right] \\
-  \hat{\Theta}&=S^{\top}\Theta S \\
- \hat{P}&=P/2
-\end{align*}
-The corresponding frequency domain condition is:
-\begin{align*}
-  \left[\begin{array}{c}
-          \left(\imath\omega I -\hat{A}\right)^{-1}\hat{B} \\
-          I \end{array}\right]^{\mathconj}
-  \hat{\Theta}
-  \left[\begin{array}{c}
-          \left(\imath\omega I -\hat{A}\right)^{-1}\hat{B} \\
-          I \end{array}\right] \le 0
-\end{align*}
-which the continuous-time KYP lemma tells us is equivalent to:
-\begin{align*}
+\subsubsection{Linearising the generalised discrete-time KYP lemma}
+The expansion of $\Theta$ in Equation~\ref{eqn:Discrete-time-KYP-Theta} is
+bi-linear in the $C$ and $D$ state variable matrixes. \emph{Iwasaki} and
+\emph{Hara}~\cite[Section VII, 
+p.52]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} add a lemma:
+\begin{framed}
+  \emph{Lemma 8: }For a transfer function
+  $H\left(\lambda\right)=C\left(\lambda{}I-A\right)^{-1}B+D$, with $m$ inputs
+  and $p$ outputs, $\sigma\left(H\left(\lambda\right),\Pi\right)\le{}0$ for all
+  $\lambda\in\boldsymbol{\Lambda}$ holds if-and-only-if there exist Hermitian
+  matrices $P$ and $Q\succeq{}0$ such that
+\begin{align}
+\label{eqn:Iwasaki_Hara_KYP_Lemma_8}
   \left[\begin{array}{cc}
-          \hat{A}^{\top}\hat{P}+\hat{P}\hat{A} & \hat{P}\hat{B} \\
-          \hat{B}^{\top}\hat{P} & 0 \end{array}\right] + \hat{\Theta} \preceq 0
-\end{align*}
-for some symmetric real $\hat{P}$. Multiplying by $\left[\begin{array}{cc}
-                        A+I & B \\
-                        0 & I \end{array}\right]$  on the right and its
-transpose on the left gives:
+\Gamma\left(P,Q,A,B,C,D\right)& \left[C\;D\right]^{\mathconj}\Pi_{11}^{\mathconj}\\
+\Pi_{11}\left[C\;D\right]      & -\Pi_{11}^{\mathconj}\end{array}\right] \preceq 0
+\end{align}
+holds, where the matrix $\Pi\in\mathbb{H}^{m+p}$ is such that
 \begin{align*}
-\begin{split}
- &  \left[\begin{array}{cc}
-          A+I & B \\
-          0 & I \end{array}\right]^{\top}\left[\begin{array}{cc}
-          \hat{A}^{\top}\hat{P}+\hat{P}\hat{A} &\hat{P}\hat{B} \\
-          \hat{B}^{\top}\hat{P} & 0\end{array}\right]\left[\begin{array}{cc}
-          A+I & B \\
-          0 & I \end{array}\right] +
-    \left[\begin{array}{cc}
-          A+I & B \\
-          0 & I \end{array}\right]^{\top}S^{\top}\Theta S\left[\begin{array}{cc}
-          A+I & B \\
-          0 & I \end{array}\right] \preceq 0 \\
- & \left[\begin{array}{cc}
-  \left(A+I\right)^{\top}\left(\hat{A}^{\top}\hat{P}+\hat{P}\hat{A}\right)
-  &  \left(A+I\right)^{\top}\hat{P}\hat{B} \\
-   B^{\top}\left(\hat{A}^{\top}\hat{P}+\hat{P}\hat{A}\right)+\hat{B}^{\top}\hat{P}
-  &  B^{\top}\hat{P}\hat{B}
-         \end{array}\right]\left[\begin{array}{cc}
-          A+I & B \\
-          0 & I \end{array}\right]  +  \cdots \\
-  &    \left[\begin{array}{cc}
-       A+I & B \\
-       0 & I \end{array}\right]^{\top}\left[\begin{array}{cc}
-       \left(A+I\right)^{-1} & -\left(A+I\right)^{-1}B \\
-      0 & I \end{array}\right]^{\top}\Theta\left[\begin{array}{cc}
-      \left(A+I\right)^{-1} & -\left(A+I\right)^{-1}B \\
-      0 & I\end{array}\right]\left[\begin{array}{cc}
-      A+I & B \\
-      0 & I \end{array}\right]  \preceq 0 \\ 
- & \left[\begin{array}{cc}
-           \left(A+I\right)^{\top}\left( \hat{A}^{\top}\hat{P}+
-           \hat{P}\hat{A}\right)\left(A+I\right)
-           &  \left(A+I\right)^{\top}\left( \hat{A}^{\top}\hat{P}+
-             \hat{P}\hat{A}\right)B +\left(A+I\right)^{\top}\hat{P}\hat{B} \\
-           B^{\top}\left( \hat{A}^{\top}\hat{P}+
-           \hat{P}\hat{A}\right)\left(A+I\right)+
-           \hat{B}^{\top}\hat{P}\left(A+I\right)
-           &  B^{\top}\left( \hat{A}^{\top}\hat{P}+\hat{P}\hat{A}\right)B+
-             \hat{B}^{\top}\hat{P}B+
-             B^{\top}\hat{P}\hat{B}
-   \end{array}\right]  +  \Theta \preceq 0 \\
-& \left[\begin{array}{cc}
-      \left(A-I\right)^{\top}\hat{P}\left(A+I\right) +
-      \left(A+I\right)^{\top}\hat{P}\left(A-I\right)
-    & \left(A-I\right)^{\top}\hat{P}B+
-      \frac{1}{2}\left(A+I\right)^{\top}\hat{P}\left(A+I\right)\hat{B} \\
-      \frac{1}{2}\hat{B}^{\top}\left(A+I\right)^{\top}\hat{P}\left(A+I\right)+
-      B^{\top}\hat{P}\left(A-I\right)
-    & \frac{1}{2}\hat{B}^{\top}\left(A+I\right)^{\top}\hat{P}B+
-      \frac{1}{2}B^{\top}\hat{P}\left(A+1\right)\hat{B}
-   \end{array}\right]  +  \Theta \preceq 0 \\
- & \left[\begin{array}{cc}
-  2A^{\top}\hat{P}A-2\hat{P} & 2A^{\top}\hat{P}B\\
-  2B^{\top}\hat{P}A & 2B^{\top}\hat{P}B\end{array}\right]+\Theta \preceq 0 \\
- & \left[\begin{array}{cc}
-           A^{\top}PA -P & A^{\top}PB \\
-           B^{\top}PA & B^{\top}PB \end{array}\right] + \Theta \preceq 0
-\end{split}
+  \Pi &= \left[\begin{array}{cc}
+             \Pi_{11} & \Pi_{12} \\
+                 \Pi_{12}^{\mathconj}& \Pi_{22} \end{array}\right] \text{, }
+               \Pi_{11}\in \mathbb{H}^{p} \text{ and } \Pi_{11}\succeq 0
 \end{align*}
-I experiment with this conversion in the Octave script
-\emph{yalmip\_kyp\_rantzer\_test.m} and find that SeDuMi calculates
-$P \approx -2\hat{P}$.
+and
+\begin{align*}
+  \Gamma\left(P,Q,A,B,C,D\right)
+  &= \left[\begin{array}{cc}
+             A & B \\
+             I& 0 \end{array}\right]^{\mathconj}
+                \left(\Phi\otimes P + \Psi\otimes Q\right)
+      \left[\begin{array}{cc}
+              A & B \\
+              I& 0 \end{array}\right]
+       + \left[\begin{array}{cc}
+0 & C^{\mathconj}\Pi_{12} \\
+\Pi_{12}^{\mathconj}C & D^{\mathconj}\Pi_{12}+
+\Pi_{12}^{\mathconj}D+\Pi_{22}\end{array}\right]
+\end{align*}
+\end{framed}
 
+This lemma follows from the generalised discrete-time KYP theorem shown in
+Section~\ref{sec:Generalised_discrete_time_KYP_theorem}. Multiplying
+out $\Theta$:
+\begin{align*} 
+\Theta=\left[\begin{array}{cc}
+C & D \\
+0 & I \end{array}\right]^{\mathconj}\Pi\left[\begin{array}{cc}
+C & D \\
+0 & I \end{array}\right] &= \left[\begin{array}{cc}
+C^{\mathconj} & 0 \\
+D^{\mathconj} & I \end{array}\right]\left[\begin{array}{cc}
+\Pi_{11} & \Pi_{12} \\
+\Pi_{12}^{\mathconj} & \Pi_{22} \end{array}\right]\left[\begin{array}{cc}
+C & D \\
+0 & I \end{array}\right] \\
+&=\left[\begin{array}{cc}
+C^{\mathconj}\Pi_{11} & C^{\mathconj}\Pi_{12} \\
+D^{\mathconj}\Pi_{11}+\Pi_{12}^{\mathconj} & D^{\mathconj}\Pi_{12}+\Pi_{22}
+\end{array}\right]
+\left[\begin{array}{cc}
+C & D \\
+0 & I \end{array}\right] \\
+&=\left[\begin{array}{cc}
+C^{\mathconj}\Pi_{11}C & C^{\mathconj}\Pi_{12}+C^{\mathconj}\Pi_{11}D \\
+\Pi_{12}^{\mathconj}C+D^{\mathconj}\Pi_{11}C &
+D^{\mathconj}\Pi_{11}D+D^{\mathconj}\Pi_{12}+\Pi_{12}^{\mathconj}D +\Pi_{22}
+\end{array}\right] \\
+&=\left[\begin{array}{cc}
+0 & C^{\mathconj}\Pi_{12} \\
+\Pi_{12}^{\mathconj}C & D^{\mathconj}\Pi_{12}+\Pi_{12}^{\mathconj}D+\Pi_{22}
+\end{array}\right]
++ \left[\begin{array}{cc}
+C^{\mathconj}\Pi_{11}C & C^{\mathconj}\Pi_{11}D \\
+D^{\mathconj}\Pi_{11}C & D^{\mathconj}\Pi_{11}D\end{array}\right] \\
+&=\left[\begin{array}{cc}
+0 & C^{\mathconj}\Pi_{12} \\
+\Pi_{12}^{\mathconj}C & D^{\mathconj}\Pi_{12}+\Pi_{12}^{\mathconj}D+\Pi_{22}
+\end{array}\right]
++ \left[\begin{array}{cc}
+C & D\end{array}\right]^{\mathconj}\Pi_{11}\left[\begin{array}{cc}
+C & D \end{array}\right]
+\end{align*}
+
+If $\Pi\in\mathbb{H}^{p}$, $\Pi_{11}$ is invertible, and $\Pi_{11}\succeq 0$
+then the lemma is demonstrated by applying the \emph{Schur
+complement}\footnote{See
+Appendix~\ref{app:Linear-algebra-Schur-complement-positive-definite}} to: 
+\begin{align*}
+ \Gamma\left(P,Q,A,B,C,D\right)-\left(\Pi_{11}\left[\begin{array}{cc}
+ C & D\end{array}\right]\right)^{\mathconj}\left(-\Pi^{-{\mathconj}}_{11}\right)
+ \left(\Pi_{11}\left[\begin{array}{cc}
+ C & D\end{array}\right]\right) \preceq 0
+\end{align*}
 
 \subsection{Examples of FIR filter design with the generalised KYP lemma}
 The Octave script \emph{directFIRnonsymmetric\_kyp\_lowpass\_alternate\_test.m}
@@ -36214,6 +36189,14 @@ Alternatively, apply an overall maximum amplitude constraint:
 The Octave script \emph{yalmip\_kyp\_lowpass\_test.m} demonstrates each of these
 amplitude constraints.
 
+The minimum passband amplitude constraint for a single-input single-output
+filter, $\left|H\left(\omega\right)\right|\ge A_{pl}^{2}$,
+cannot use Equation~\ref{eqn:Iwasaki_Hara_KYP_Lemma_8} because it requires
+$\Pi_{11}\succeq 0$ and in this case $\Pi_{11}=-1$. The Octave script
+\emph{yalmip\_kyp\_lowpass\_test.m} uses
+Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI} to check the minimum
+pass-band amplitude response of an FIR filter.
+
 \paragraph{SDP constraints}
 Assuming $\Psi_{11}=0$, $\Psi_{21}^{\mathconj}=\Psi_{12}$, $\Pi_{11}=1$ and
 $\Pi_{21}=\Pi_{12}=0$, then for each frequency band response constraint:
@@ -36260,108 +36243,6 @@ Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints}. This script requires an
 \textbf{enormous} amount of memory and CPU time to design a symmetric $6$-th
 order low-pass FIR filter.
 
-\paragraph{Solving the  generalised KYP lemma after linearising the constraints}
-The expansion of $\Theta$ is bi-linear in the FIR filter coefficients, $C$ and
-$D$. \emph{Iwasaki} and \emph{Hara}~\cite[Section VII, 
-p.52]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} add a lemma:
-\begin{framed}
-  \emph{Lemma 8: }For a transfer function
-  $H\left(\lambda\right)=C\left(\lambda{}I-A\right)^{-1}B+D$, with $m$ inputs
-  and $p$ outputs, $\sigma\left(H\left(\lambda\right),\Pi\right)\le{}0$ for all
-  $\lambda\in\boldsymbol{\Lambda}$ holds if-and-only-if there exist Hermitian
-  matrices $P$ and $Q\succeq{}0$ such that
-\begin{align}
-\label{eqn:Iwasaki_Hara_KYP_Lemma_8}
-  \left[\begin{array}{cc}
-\Gamma\left(P,Q,A,B,C,D\right)& \left[C\;D\right]^{\mathconj}\Pi_{11}^{\mathconj}\\
-\Pi_{11}\left[C\;D\right]      & -\Pi_{11}^{\mathconj}\end{array}\right] \preceq 0
-\end{align}
-holds, where the matrix $\Pi\in\mathbb{H}^{m+p}$ is such that
-\begin{align*}
-  \Pi &= \left[\begin{array}{cc}
-             \Pi_{11} & \Pi_{12} \\
-                 \Pi_{12}^{\mathconj}& \Pi_{22} \end{array}\right] \text{, }
-               \Pi_{11}\in \mathbb{H}^{p} \text{ and } \Pi_{11}\succeq 0
-\end{align*}
-and
-\begin{align*}
-  \Gamma\left(P,Q,A,B,C,D\right)
-  &= \left[\begin{array}{cc}
-             A & B \\
-             I& 0 \end{array}\right]^{\mathconj}
-                \left(\Phi\otimes P + \Psi\otimes Q\right)
-      \left[\begin{array}{cc}
-              A & B \\
-              I& 0 \end{array}\right]
-       + \left[\begin{array}{cc}
-0 & C^{\mathconj}\Pi_{12} \\
-\Pi_{12}^{\mathconj}C & D^{\mathconj}\Pi_{12}+
-\Pi_{12}^{\mathconj}D+\Pi_{22}\end{array}\right]
-\end{align*}
-\end{framed}
-
-This lemma follows from the generalised discrete-time KYP theorem shown in
-Section~\ref{sec:Generalised_discrete_time_KYP_theorem}. Multiplying
-out $\Theta$:
-\begin{align*} 
-\Theta=\left[\begin{array}{cc}
-C & D \\
-0 & I \end{array}\right]^{\mathconj}\Pi\left[\begin{array}{cc}
-C & D \\
-0 & I \end{array}\right] &= \left[\begin{array}{cc}
-C^{\mathconj} & 0 \\
-D^{\mathconj} & I \end{array}\right]\left[\begin{array}{cc}
-\Pi_{11} & \Pi_{12} \\
-\Pi_{12}^{\mathconj} & \Pi_{22} \end{array}\right]\left[\begin{array}{cc}
-C & D \\
-0 & I \end{array}\right] \\
-&=\left[\begin{array}{cc}
-C^{\mathconj}\Pi_{11} & C^{\mathconj}\Pi_{12} \\
-D^{\mathconj}\Pi_{11}+\Pi_{12}^{\mathconj} & D^{\mathconj}\Pi_{12}+\Pi_{22}
-\end{array}\right]
-\left[\begin{array}{cc}
-C & D \\
-0 & I \end{array}\right] \\
-&=\left[\begin{array}{cc}
-C^{\mathconj}\Pi_{11}C & C^{\mathconj}\Pi_{12}+C^{\mathconj}\Pi_{11}D \\
-\Pi_{12}^{\mathconj}C+D^{\mathconj}\Pi_{11}C &
-D^{\mathconj}\Pi_{11}D+D^{\mathconj}\Pi_{12}+\Pi_{12}^{\mathconj}D +\Pi_{22}
-\end{array}\right] \\
-&=\left[\begin{array}{cc}
-0 & C^{\mathconj}\Pi_{12} \\
-\Pi_{12}^{\mathconj}C & D^{\mathconj}\Pi_{12}+\Pi_{12}^{\mathconj}D+\Pi_{22}
-\end{array}\right]
-+ \left[\begin{array}{cc}
-C^{\mathconj}\Pi_{11}C & C^{\mathconj}\Pi_{11}D \\
-D^{\mathconj}\Pi_{11}C & D^{\mathconj}\Pi_{11}D\end{array}\right] \\
-&=\left[\begin{array}{cc}
-0 & C^{\mathconj}\Pi_{12} \\
-\Pi_{12}^{\mathconj}C & D^{\mathconj}\Pi_{12}+\Pi_{12}^{\mathconj}D+\Pi_{22}
-\end{array}\right]
-+ \left[\begin{array}{cc}
-C & D\end{array}\right]^{\mathconj}\Pi_{11}\left[\begin{array}{cc}
-C & D \end{array}\right]
-\end{align*}
-
-If $\Pi\in\mathbb{H}^{p}$, $\Pi_{11}$ is invertible, and $\Pi_{11}\succeq 0$
-then the lemma is demonstrated by applying the \emph{Schur
-complement}\footnote{See
-Appendix~\ref{app:Linear-algebra-Schur-complement-positive-definite}} to: 
-\begin{align*}
- \Gamma\left(P,Q,A,B,C,D\right)-\left(\Pi_{11}\left[\begin{array}{cc}
- C & D\end{array}\right]\right)^{\mathconj}\left(-\Pi^{-{\mathconj}}_{11}\right)
- \left(\Pi_{11}\left[\begin{array}{cc}
- C & D\end{array}\right]\right) \preceq 0
-\end{align*}
-
-The KYP lemma for the minimum passband amplitude, $A_{pl}$, of a single-input
-single-output FIR filter, $\left|H\left(\omega\right)\right|\ge A_{pl}^{2}$,
-fails because it requires $\Pi_{11}=-1$. The Octave script
-\emph{yalmip\_kyp\_lowpass\_test.m} uses
-Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI} to check the minimum
-pass-band amplitude response of an FIR filter.
-
-\clearpage
 \subsubsection{Design of a symmetric low pass FIR filter}
 The Octave script \emph{directFIRsymmetric\_kyp\_lowpass\_test.m}
 designs a symmetric FIR low-pass filter with
@@ -36416,7 +36297,7 @@ the \emph{Parks-McClellan} algorithm.}
 \label{fig:Direct-FIR-symmetric-mcclellan-lowpass-response}
 \end{figure}
 \clearpage
-\subsubsection{Design of a non-symmetric low pass FIR filter with given pass band delay}
+\subsubsection{\label{sec:Design-KYP-FIR-non-symmetric-low-pass}Design of a non-symmetric low pass FIR filter with given pass band delay}
 As an example, \emph{Iwasaki} and \emph{Hara}~\cite[Section
 VII.B.2, pp. 53-55]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} describe
 the design of a low-pass FIR filter with order $N=30$ and a nominal pass-band
@@ -36574,6 +36455,408 @@ amplitude and delay responses.
 the KYP lemma.} 
 \label{fig:Direct-FIR-nonsymmetric-KYP-highpass-response}
 \end{figure}
+\clearpage
+\subsection{\emph{Rantzer}'s transformation of the KYP lemma from discrete-time
+  to continuous-time}
+\emph{Rantzer}~\cite[Proof of Theorem 2]{Rantzer_KYP_PositiveSystems} shows an
+alternative transformation of the KYP lemma from discrete-time to
+continuous-time by parameterising the unit circle with
+$\left(1+\imath\omega\right)/\left(1-\imath\omega\right)$ rather than
+$e^{\imath\omega}$. Multiplying out:
+\begin{align*}
+  \left[\frac{1+\imath\omega}{1-\imath\omega}I - A\right]x&=Bu \\
+  \left[\imath\omega\left(A+I\right)-\left(A-I\right)\right]x
+                                   +\imath\omega B &=Bu\\
+  \left[\imath\omega I-\left(A-I\right)\left(A+I\right)^{-1}\right]
+  \left(A+I\right)x   +\imath\omega B &=Bu\\
+  \left[\imath\omega I-\left(A-I\right)\left(A+I\right)^{-1}\right]
+  \left(Ix+Ax+Bu\right)
+     &=\left[I - \left(A-I\right)\left(A+I\right)^{-1}\right]Bu\\
+  \left[\imath\omega I-\left(A-I\right)\left(A+I\right)^{-1}\right]
+  \left(Ix+Ax+Bu\right)
+     &=\left[\left(A+I\right) - \left(A-I\right)\right]\left(A+I\right)^{-1}Bu\\
+  \left[\imath\omega I-\left(A-I\right)\left(A+I\right)^{-1}\right]
+  \left(Ix+Ax+Bu\right) &=2\left(A+I\right)^{-1}Bu
+\end{align*}
+
+\emph{Rantzer} introduces:
+\begin{align*}
+  \hat{A}&=\left(A-I\right)\left(A+I\right)^{-1} \\
+  \hat{B}&=2\left(A+I\right)^{-1}B \\
+  \hat{x}&=Ix+Ax+Bu \\
+  S&=\left[\begin{array}{cc}
+             \left(A+I\right)^{-1} & -\left(A+I\right)^{-1}B \\
+             0 & I \end{array}\right] \\
+  \hat{\Theta}&=S^{\top}\Theta S \\
+ \hat{P}&=P/2
+\end{align*}
+The corresponding frequency domain condition is:
+\begin{align*}
+  \left[\begin{array}{c}
+          \left(\imath\omega I -\hat{A}\right)^{-1}\hat{B} \\
+          I \end{array}\right]^{\mathconj}
+  \hat{\Theta}
+  \left[\begin{array}{c}
+          \left(\imath\omega I -\hat{A}\right)^{-1}\hat{B} \\
+          I \end{array}\right] \le 0
+\end{align*}
+which the continuous-time KYP lemma tells us is equivalent to:
+\begin{align*}
+  \left[\begin{array}{cc}
+          \hat{A}^{\top}\hat{P}+\hat{P}\hat{A} & \hat{P}\hat{B} \\
+          \hat{B}^{\top}\hat{P} & 0 \end{array}\right] + \hat{\Theta} \preceq 0
+\end{align*}
+for some symmetric real $\hat{P}$. Multiplying by $\left[\begin{array}{cc}
+                        A+I & B \\
+                        0 & I \end{array}\right]$  on the right and its
+transpose on the left gives:
+\begin{align*}
+\begin{split}
+ &  \left[\begin{array}{cc}
+          A+I & B \\
+          0 & I \end{array}\right]^{\top}\left[\begin{array}{cc}
+          \hat{A}^{\top}\hat{P}+\hat{P}\hat{A} &\hat{P}\hat{B} \\
+          \hat{B}^{\top}\hat{P} & 0\end{array}\right]\left[\begin{array}{cc}
+          A+I & B \\
+          0 & I \end{array}\right] +
+    \left[\begin{array}{cc}
+          A+I & B \\
+          0 & I \end{array}\right]^{\top}S^{\top}\Theta S\left[\begin{array}{cc}
+          A+I & B \\
+          0 & I \end{array}\right] \preceq 0 \\
+ & \left[\begin{array}{cc}
+  \left(A+I\right)^{\top}\left(\hat{A}^{\top}\hat{P}+\hat{P}\hat{A}\right)
+  &  \left(A+I\right)^{\top}\hat{P}\hat{B} \\
+   B^{\top}\left(\hat{A}^{\top}\hat{P}+\hat{P}\hat{A}\right)+\hat{B}^{\top}\hat{P}
+  &  B^{\top}\hat{P}\hat{B}
+         \end{array}\right]\left[\begin{array}{cc}
+          A+I & B \\
+          0 & I \end{array}\right]  +  \cdots \\
+  &    \left[\begin{array}{cc}
+       A+I & B \\
+       0 & I \end{array}\right]^{\top}\left[\begin{array}{cc}
+       \left(A+I\right)^{-1} & -\left(A+I\right)^{-1}B \\
+      0 & I \end{array}\right]^{\top}\Theta\left[\begin{array}{cc}
+      \left(A+I\right)^{-1} & -\left(A+I\right)^{-1}B \\
+      0 & I\end{array}\right]\left[\begin{array}{cc}
+      A+I & B \\
+      0 & I \end{array}\right]  \preceq 0 \\ 
+ & \left[\begin{array}{cc}
+           \left(A+I\right)^{\top}\left( \hat{A}^{\top}\hat{P}+
+           \hat{P}\hat{A}\right)\left(A+I\right)
+           &  \left(A+I\right)^{\top}\left( \hat{A}^{\top}\hat{P}+
+             \hat{P}\hat{A}\right)B +\left(A+I\right)^{\top}\hat{P}\hat{B} \\
+           B^{\top}\left( \hat{A}^{\top}\hat{P}+
+           \hat{P}\hat{A}\right)\left(A+I\right)+
+           \hat{B}^{\top}\hat{P}\left(A+I\right)
+           &  B^{\top}\left( \hat{A}^{\top}\hat{P}+\hat{P}\hat{A}\right)B+
+             \hat{B}^{\top}\hat{P}B+
+             B^{\top}\hat{P}\hat{B}
+   \end{array}\right]  +  \Theta \preceq 0 \\
+& \left[\begin{array}{cc}
+      \left(A-I\right)^{\top}\hat{P}\left(A+I\right) +
+      \left(A+I\right)^{\top}\hat{P}\left(A-I\right)
+    & \left(A-I\right)^{\top}\hat{P}B+
+      \frac{1}{2}\left(A+I\right)^{\top}\hat{P}\left(A+I\right)\hat{B} \\
+      \frac{1}{2}\hat{B}^{\top}\left(A+I\right)^{\top}\hat{P}\left(A+I\right)+
+      B^{\top}\hat{P}\left(A-I\right)
+    & \frac{1}{2}\hat{B}^{\top}\left(A+I\right)^{\top}\hat{P}B+
+      \frac{1}{2}B^{\top}\hat{P}\left(A+1\right)\hat{B}
+   \end{array}\right]  +  \Theta \preceq 0 \\
+ & \left[\begin{array}{cc}
+  2A^{\top}\hat{P}A-2\hat{P} & 2A^{\top}\hat{P}B\\
+  2B^{\top}\hat{P}A & 2B^{\top}\hat{P}B\end{array}\right]+\Theta \preceq 0 \\
+ & \left[\begin{array}{cc}
+           A^{\top}PA -P & A^{\top}PB \\
+           B^{\top}PA & B^{\top}PB \end{array}\right] + \Theta \preceq 0
+\end{split}
+\end{align*}
+I experiment with this conversion in the Octave script
+\emph{yalmip\_kyp\_rantzer\_test.m} and find that SeDuMi calculates
+$P \approx -2\hat{P}$.
+\clearpage
+\subsection{Application of \emph{Finsler}'s lemma to the generalised KYP lemma}
+\emph{Ren et al.}~\cite[Lemma 3]{Ren_SuccessiveConvexOptimizationBMI} write
+\emph{Finsler}'s lemma in LMI form as:
+\begin{framed}
+  \emph{Lemma}: Let $P=P^{\top}$ and matrix $H$ such that $H^{\bot}H=0$ then the
+  following statements are equivalent:
+  \begin{enumerate}
+    \item $H^{\bot}P\left(H^{\bot}\right)^{\top}\prec 0$
+    \item There exists a matrix $X$ satisfying $P+HX+X^{\top}H^{\top}\prec 0$
+    \end{enumerate}
+\end{framed}
+
+\emph{Ren et al.}~\cite[Theorem 3]{Ren_SuccessiveConvexOptimizationBMI} apply
+\emph{Finsler}'s Lemma to the generalised KYP lemma matrix inequality shown in
+Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}:
+\begin{framed}
+  \emph{Theorem}:
+  Matrixes $P\in\mathbb{H}_{n}$, $Q\in\mathbb{H}_{n}$,
+  $Q\succeq 0$ and $X\in\mathbb{C}^{n\times n}$, $Y\in\mathbb{C}^{n\times n}$,
+  $Z\in\mathbb{C}^{m\times n}$ exist such that:
+  \begin{align}
+    \label{eqn:Iwasaki-Hara-Generalised-KYP-LMI-Finsler}
+    \left[\begin{array}{ccc}
+            L\left(P,Q\right) & 0 & 0\\
+            0 & -\varepsilon^{2}I_{m} & 0 \\
+            0 & 0 & I_{p} \end{array}\right] +
+    \mathcal{H}\mathcal{X}+\mathcal{X}^{\mathconj}\mathcal{H}^{\mathconj} \preceq 0
+  \end{align}
+  where  we assume that
+    $\Pi=\left[\begin{array}{cc}
+                I_{p} & 0 \\
+                0 & -\varepsilon^{2}I_{m}\end{array}\right]$ and define 
+            $\mathcal{H}=\left[\begin{array}{cc}
+                        -I_{n} & 0 \\
+                        A^{\mathconj} & C^{\mathconj} \\
+                        B^{\mathconj} & D^{\mathconj} \\
+                        0 & -I_{m}\end{array}\right]$ ,
+    $\mathcal{X}=\left[\begin{array}{cc}
+                        X & 0 \\
+                        Y & 0 \\
+                        Z & 0 \\
+                        0 & I_{p} \end{array}\right]^{\mathconj}$.
+\end{framed}
+Recall that the state-variable system of equations has $n$ states,
+$m$ inputs and $p$ outputs so that $A\in\mathbb{C}^{n\times n}$,
+$B\in\mathbb{C}^{n\times m}$, $C\in\mathbb{C}^{p\times n}$,
+$D\in\mathbb{C}^{p\times m}$, $P\in\mathbb{C}^{n\times n}$,
+$Q\in\mathbb{C}^{n\times n}$, $L\left(P,Q\right)\in\mathbb{C}^{2n\times 2n}$,
+$\Theta\in\mathbb{C}^{\left(n+m\right)\times\left(n+m\right)}$,
+$\Pi\in\mathbb{C}^{\left(p+m\right)\times\left(p+m\right)}$,
+$\Pi_{11}\in\mathbb{C}^{p\times p}$ and $\Pi_{22}\in\mathbb{C}^{m\times m}$.
+
+\emph{Ren et al.} rewrite Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI} as:
+  \begin{align*}
+\left[\begin{array}{cc}
+        A & B \\
+        I_{n} & 0 \\
+        0 & I_{m} \end{array}\right]^{\mathconj}\left\{
+\left[\begin{array}{cc}
+        L\left(P,Q\right) & 0 \\
+        0 & 0_{m} \end{array}\right]+
+\left[\begin{array}{cc}
+        0_{n}& 0 \\
+        0 & \Theta \end{array}\right]\right\}
+\left[\begin{array}{cc}
+        A & B \\
+        I_{n} & 0 \\
+        0 & I_{m} \end{array}\right]\preceq 0
+\end{align*}
+and define $\tilde{\mathcal{H}}^{\bot}=\left[\begin{array}{cc}
+        A & B \\
+        I_{n} & 0 \\
+        0 & I_{m} \end{array}\right]^{\mathconj}$ ,
+    $\tilde{\mathcal{H}}=\left[\begin{array}{ccc}
+                        -I_{n} & A & B\end{array}\right]^{\mathconj}$ ,
+ $\tilde{\mathcal{X}}=\left[\begin{array}{ccc}
+   X^{\mathconj} & Y^{\mathconj} & Z^{\mathconj}\end{array}\right]$.
+
+Applying \emph{Finsler}'s lemma:
+  \begin{align*}
+\left[\begin{array}{cc}
+        L\left(P,Q\right) & 0 \\
+        0 & 0_{m} \end{array}\right]+
+\left[\begin{array}{cc}
+        0_{n}& 0 \\
+        0 & \Theta \end{array}\right] +
+    \tilde{\mathcal{H}}\tilde{\mathcal{X}}+
+    \tilde{\mathcal{X}}^{\mathconj}\tilde{\mathcal{H}}^{\mathconj} \preceq 0
+  \end{align*}
+where:
+  \begin{align*}
+    \tilde{\mathcal{H}}\tilde{\mathcal{X}}
+    &=\left[\begin{array}{c}
+              -I_{n}\\
+              A^{\mathconj}\\
+              B^{\mathconj} \end{array}\right]
+      \left[\begin{array}{ccc}
+              X^{\mathconj} & Y^{\mathconj} & Z^{\mathconj} \end{array}\right] 
+    =\left[\begin{array}{ccc}
+ -X^{\mathconj} & -Y^{\mathconj} & -Z^{\mathconj}\\
+  A^{\mathconj}X^{\mathconj} & A^{\mathconj}Y^{\mathconj} & A^{\mathconj}Z^{\mathconj}\\
+  B^{\mathconj}X^{\mathconj} & B^{\mathconj}Y^{\mathconj} & B^{\mathconj}Z^{\mathconj}
+            \end{array}\right]
+  \end{align*}
+Also:
+\begin{align*}
+\left[\begin{array}{cc}
+        0_{n}& 0 \\
+        0 & \Theta \end{array}\right]
+  &= \left[\begin{array}{cc}
+             0_{n}& 0 \\
+             0 & \left[\begin{array}{cc}
+                         C & D \end{array}\right]^{\mathconj}
+                 I_{p}\left[\begin{array}{cc}
+                         C & D \end{array}\right]
+           \end{array}\right]+
+  \left[\begin{array}{cc}
+          0_{2n}& 0 \\
+          0 & -\varepsilon^{2}I_{m}\end{array}\right]
+\end{align*}
+Apply the Schur complement to:
+\begin{align*}
+  \left[\begin{array}{cc}
+\tilde{\mathcal{H}}\tilde{\mathcal{X}}+
+          \tilde{\mathcal{X}}^{\mathconj}\tilde{\mathcal{H}}^{\mathconj} & 0 \\
+          0 & 0_{p}\end{array}\right]+
+  \left[\begin{array}{cc}
+             0_{n}& 0 \\
+             0 & \left[\begin{array}{cc}
+                         C & D \end{array}\right]^{\mathconj}
+                 I_{p}\left[\begin{array}{cc}
+                         C & D \end{array}\right]
+           \end{array}\right]
+\end{align*}
+so that:
+\begin{align*}
+\left[\begin{array}{cccc}
+-X^{\mathconj}&-Y^{\mathconj}&-Z^{\mathconj}&0\\
+A^{\mathconj}X^{\mathconj}&A^{\mathconj}Y^{\mathconj}&A^{\mathconj}Z^{\mathconj}&C^{\mathconj}\\
+B^{\mathconj}X^{\mathconj}&B^{\mathconj}Y^{\mathconj}&B^{\mathconj}Z^{\mathconj}&D^{\mathconj}\\
+        0 & 0 & 0 & -I_{p} \end{array}\right]+
+\left[\begin{array}{cccc}
+-X & XA & XB & 0 \\
+-Y & YA & YB & 0 \\
+-Z & ZA & ZB & 0 \\
+ 0 & C & D & -I_{p} \end{array}\right]+
+\left[\begin{array}{cc}
+        0_{2n+m} & 0 \\
+        0 & I_{p} \\
+      \end{array}\right]  
+  &= \mathcal{H}\mathcal{X}+\mathcal{X}^{\mathconj}\mathcal{H}^{\mathconj}+
+    \left[\begin{array}{cc}
+            0_{2n+m} & 0 \\
+            0 & I_{p} \\
+          \end{array}\right]  
+\end{align*}
+
+The Octave script \emph{yalmip\_kyp\_finsler\_test.m} checks
+Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI-Finsler}.
+
+The Octave script \emph{directFIRnonsymmetric\_kyp\_finsler\_lowpass\_test.m}
+repeats the filter design of
+Section~\ref{sec:Design-KYP-FIR-non-symmetric-low-pass} with the Finsler
+transformation of the generalised KYP lemma.
+
+\subsection{The dual of the KYP lemma}
+\emph{Wallin}, \emph{Vandeberghe} and others note that solution of the KYP lemma
+by Equation~\ref{eqn:KYPlemmaLMI_expanded} is an $\mathcal{O}\left(n^{6}\right)$
+complexity problem, that solving the \emph{dual} problem reduces this to
+$\mathcal{O}\left(n^{4}\right)$ and that exploiting the structure of the dual
+problem can reduce the complexity further to
+$\mathcal{O}\left(n^{3}\right)$~
+\cite{Balakrishnan_SDPDualityLinearTimeInvariantSystems,
+  VandenbergheBalakrishnan_ImplementationInteriorPointKYPlemma,
+  WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers,
+  WallinHanssonVandenberge_ComparisonStructureExploitingIntegralQuadratic,
+  ChengYiping_ProofDiscreteTimeKYPusingSDPduality}.
+\subsubsection{The \emph{adjoint} of the discrete-time KYP linear mapping}
+\emph{Cheng}~\cite{ChengYiping_ProofDiscreteTimeKYPusingSDPduality} shows
+proofs of the continuous-time and discrete-time KYP lemmas by duality.
+He begins by reviewing the definition of the \emph{adjoint} of the linear
+mapping of a hermitian matrix. The inner product defined on the Hilbert space of
+$n\times n$ Hermitian matrixes, $\mathbb{H}^{n}$, is\footnote{See
+  Section~\ref{app:Linear-algebra-trace-of-matrix}}:
+\begin{align*}
+  \langle A,B\rangle = \mathtrace\left(A^{\mathconj}B\right) =
+    \mathtrace\left(AB\right)
+\end{align*}
+Also:
+\begin{quotation}
+  ... given two Hilbert spaces $V$ and $W$ and a linear mapping
+  $\mathcal{A}:V\rightarrow W$, the adjoint mapping of $\mathcal{A}$,
+  denoted $\mathcal{A}^{adj}$, is a linear mapping from $W$ to $V$ such that
+  \begin{align*}
+    \forall x\in V, y\in W, \langle\mathcal{A}\left(x\right),y\rangle_{W} =
+    \langle x,\mathcal{A}^{adj}\left(y\right)\rangle_{V}
+  \end{align*}
+\end{quotation}
+
+The linear mapping associated with the discrete-time KYP lemma is
+$\mathcal{D}:\mathbb{H}^{n}\rightarrow\mathbb{H}^{n+m}$:
+\begin{align}
+  \mathcal{D}\left(P\right) &= \left[\begin{array}{cc}
+         A^{\mathconj}PA-P & A^{\mathconj}PB \\
+         B^{\mathconj}PA   & B^{\mathconj}PB\end{array}\right]
+  \label{eqn:Discrete-time-KYP-lemma-linear-mapping}
+\end{align}
+The adjoint mapping, $\mathcal{D}^{adj}:\mathbb{H}^{n+m}\rightarrow\mathbb{H}^{n}$,
+is:
+\begin{align*}
+  \mathcal{D}^{adj}\left(Z\right)
+  &= AZ_{11}A^{\mathconj}-Z_{11} + BZ_{12}^{\mathconj}A^{\mathconj}
+    + AZ_{12}B^{\mathconj} + BZ_{22}B^{\mathconj}
+\end{align*}
+where
+\begin{align*}
+  Z&=\left[\begin{array}{cc}
+             Z_{11} & Z_{12} \\
+             Z_{12}^{\mathconj} & Z_{22}\end{array}\right]
+\end{align*}
+This follows from the definition of the inner product:
+\begin{align*}
+  \langle\mathcal{D}\left(P\right),Z\rangle &=
+  \mathtrace\left(\mathcal{D}\left(P\right)Z\right)  \\
+  &= \mathtrace\left(\left[\begin{array}{cc}
+         A^{\mathconj}PA-P & A^{\mathconj}PB \\
+         B^{\mathconj}PA   & B^{\mathconj}PB\end{array}\right]
+    \left[\begin{array}{cc}
+             Z_{11} & Z_{12} \\
+            Z_{12}^{\mathconj} & Z_{22}\end{array}\right]\right) \\
+  &= \mathtrace\left(\left[\begin{array}{cc}
+    A^{\mathconj}PAZ_{11}-PZ_{11} +A^{\mathconj}PBZ_{12}^{\mathconj} & \cdots \\
+    \cdots & B^{\mathconj}PAZ_{12}+B^{\mathconj}PBZ_{22}\end{array}\right]\right) \\
+  &= \mathtrace\left( PAZ_{11}A^{\mathconj}-PZ_{11} +PBZ_{12}^{\mathconj}A^{\mathconj}
+    +PAZ_{12}B^{\mathconj}+PBZ_{22}B^{\mathconj}\right) \\
+  &= \langle P,\mathcal{D}^{adj}\left(Z\right)\rangle 
+\end{align*}
+and the following properties of $\mathtrace$:
+\begin{align*}
+  \mathtrace\left(A+B\right) &=
+      \mathtrace\left(A\right) + \mathtrace\left(B\right) \\
+  \mathtrace\left(AB\right) &=
+      \mathtrace\left(A^{\top}B\right) = \mathtrace\left(AB^{\top}\right)
+        =\mathtrace\left(B^{\top}A\right) = \mathtrace\left(BA^{\top}\right) \\
+  \mathtrace\left(ABCD\right) &= \mathtrace\left(BCDA\right) =
+                                \mathtrace\left(CDAB\right) =
+                                \mathtrace\left(DABC\right) \\
+  \mathtrace\left(ABC\right) &= \mathtrace\left(\left(ABC\right)^{\top}\right)=
+                                \mathtrace\left(CBA\right) 
+\end{align*}
+
+\subsubsection{The dual of the discrete-time KYP lemma}
+\emph{Cheng}
+proves the following dual of the discrete-time KYP lemma with the linear
+mapping shown in Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping}:
+\begin{framed}
+  \emph{Proposition 2}~\cite[Section
+  3.5]{ChengYiping_ProofDiscreteTimeKYPusingSDPduality}: There exists
+  $Z\in\mathbb{H}^{n+m}$ such that:
+  \begin{align*}
+    Z = \left[\begin{array}{cc}
+             Z_{11} & Z_{12} \\
+             Z_{12}^{\mathconj} & Z_{22}\end{array}\right] &\prec 0 \\
+    AZ_{11}A^{\mathconj} - Z_{11} + BZ_{12}^{\mathconj}A^{\mathconj}
+    + AZ_{12}B^{\mathconj} + BZ_{22}B^{\mathconj} &= 0\\
+    \mathtrace\left(\Theta Z\right) &\le 0
+  \end{align*}
+\end{framed}
+Here $\Theta$ is as in Equation~\ref{eqn:Discrete-time-KYP-Theta}.
+The Octave script \emph{yalmip\_kyp\_dual\_test.m} calls YALMIP to check the
+dual of the KYP lemma for the maximum amplitude of a low-pass FIR filter
+designed with the Octave \emph{remez} function. Unfortunately, in this script,
+SeDuMi fails for the KYP lemma linear mapping of
+Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping} but the SDPT3 solver
+succeeds. However, SeDuMi does solve the dual mapping and solves the
+primal problem when the YALMIP \emph{'dualize'} option is set.
+
+\subsubsection{The dual of the generalised discrete-time KYP lemma}
+\emph{Seungil} and
+\emph{Doyle}~\cite{SeungilDoyle_LagrangianDualApproachGeneralizedKYP} prove
+the generalised discrete-time KYP lemma by the dual of the Lagrangian of
+Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}.
 \clearpage
 \section{Generalisation of the KYP lemma to the union of disjoint  frequency intervals}
 \emph{Pipeleers}, \emph{Iwasaki}
@@ -37485,125 +37768,6 @@ Constraints=[F_plu<=-sedumi_eps,Q_plu>=0,F_slmu<=-sedumi_eps,Q_slmu>=0];
 \end{small}
 The resulting filter frequency response is acceptable. These numerical problems
 occurred for all combinations of $N$ and $d$ that I tried.
-\clearpage
-\section{The dual of the KYP lemma}
-\emph{Wallin}, \emph{Vandeberghe} and others note that solution of the KYP lemma
-by Equation~\ref{eqn:KYPlemmaLMI_expanded} is an $\mathcal{O}\left(n^{6}\right)$
-complexity problem, that solving the \emph{dual} problem reduces this to
-$\mathcal{O}\left(n^{4}\right)$ and that exploiting the structure of the dual
-problem can reduce the complexity further to
-$\mathcal{O}\left(n^{3}\right)$~
-\cite{Balakrishnan_SDPDualityLinearTimeInvariantSystems,
-  VandenbergheBalakrishnan_ImplementationInteriorPointKYPlemma,
-  WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers,
-  WallinHanssonVandenberge_ComparisonStructureExploitingIntegralQuadratic,
-  ChengYiping_ProofDiscreteTimeKYPusingSDPduality}.
-\subsection{The \emph{adjoint} of the discrete-time KYP linear mapping}
-\emph{Cheng}~\cite{ChengYiping_ProofDiscreteTimeKYPusingSDPduality} shows
-proofs of the continuous-time and discrete-time KYP lemmas by duality.
-He begins by reviewing the definition of the \emph{adjoint} of the linear
-mapping of a hermitian matrix. The inner product defined on the Hilbert space of
-$n\times n$ Hermitian matrixes, $\mathbb{H}^{n}$, is\footnote{See
-  Section~\ref{app:Linear-algebra-trace-of-matrix}}:
-\begin{align*}
-  \langle A,B\rangle = \mathtrace\left(A^{\mathconj}B\right) =
-    \mathtrace\left(AB\right)
-\end{align*}
-Also:
-\begin{quotation}
-  ... given two Hilbert spaces $V$ and $W$ and a linear mapping
-  $\mathcal{A}:V\rightarrow W$, the adjoint mapping of $\mathcal{A}$,
-  denoted $\mathcal{A}^{adj}$, is a linear mapping from $W$ to $V$ such that
-  \begin{align*}
-    \forall x\in V, y\in W, \langle\mathcal{A}\left(x\right),y\rangle_{W} =
-    \langle x,\mathcal{A}^{adj}\left(y\right)\rangle_{V}
-  \end{align*}
-\end{quotation}
-
-The linear mapping associated with the discrete-time KYP lemma is
-$\mathcal{D}:\mathbb{H}^{n}\rightarrow\mathbb{H}^{n+m}$:
-\begin{align}
-  \mathcal{D}\left(P\right) &= \left[\begin{array}{cc}
-         A^{\mathconj}PA-P & A^{\mathconj}PB \\
-         B^{\mathconj}PA   & B^{\mathconj}PB\end{array}\right]
-  \label{eqn:Discrete-time-KYP-lemma-linear-mapping}
-\end{align}
-The adjoint mapping, $\mathcal{D}^{adj}:\mathbb{H}^{n+m}\rightarrow\mathbb{H}^{n}$,
-is:
-\begin{align*}
-  \mathcal{D}^{adj}\left(Z\right)
-  &= AZ_{11}A^{\mathconj}-Z_{11} + BZ_{12}^{\mathconj}A^{\mathconj}
-    + AZ_{12}B^{\mathconj} + BZ_{22}B^{\mathconj}
-\end{align*}
-where
-\begin{align*}
-  Z&=\left[\begin{array}{cc}
-             Z_{11} & Z_{12} \\
-             Z_{12}^{\mathconj} & Z_{22}\end{array}\right]
-\end{align*}
-This follows from the definition of the inner product:
-\begin{align*}
-  \langle\mathcal{D}\left(P\right),Z\rangle &=
-  \mathtrace\left(\mathcal{D}\left(P\right)Z\right)  \\
-  &= \mathtrace\left(\left[\begin{array}{cc}
-         A^{\mathconj}PA-P & A^{\mathconj}PB \\
-         B^{\mathconj}PA   & B^{\mathconj}PB\end{array}\right]
-    \left[\begin{array}{cc}
-             Z_{11} & Z_{12} \\
-            Z_{12}^{\mathconj} & Z_{22}\end{array}\right]\right) \\
-  &= \mathtrace\left(\left[\begin{array}{cc}
-    A^{\mathconj}PAZ_{11}-PZ_{11} +A^{\mathconj}PBZ_{12}^{\mathconj} & \cdots \\
-    \cdots & B^{\mathconj}PAZ_{12}+B^{\mathconj}PBZ_{22}\end{array}\right]\right) \\
-  &= \mathtrace\left( PAZ_{11}A^{\mathconj}-PZ_{11} +PBZ_{12}^{\mathconj}A^{\mathconj}
-    +PAZ_{12}B^{\mathconj}+PBZ_{22}B^{\mathconj}\right) \\
-  &= \langle P,\mathcal{D}^{adj}\left(Z\right)\rangle 
-\end{align*}
-and the following properties of $\mathtrace$:
-\begin{align*}
-  \mathtrace\left(A+B\right) &=
-      \mathtrace\left(A\right) + \mathtrace\left(B\right) \\
-  \mathtrace\left(AB\right) &=
-      \mathtrace\left(A^{\top}B\right) = \mathtrace\left(AB^{\top}\right)
-        =\mathtrace\left(B^{\top}A\right) = \mathtrace\left(BA^{\top}\right) \\
-  \mathtrace\left(ABCD\right) &= \mathtrace\left(BCDA\right) =
-                                \mathtrace\left(CDAB\right) =
-                                \mathtrace\left(DABC\right) \\
-  \mathtrace\left(ABC\right) &= \mathtrace\left(\left(ABC\right)^{\top}\right)=
-                                \mathtrace\left(CBA\right) 
-\end{align*}
-
-\subsection{The dual of the discrete-time KYP lemma}
-\emph{Cheng}
-proves the following dual of the discrete-time KYP lemma with the linear
-mapping shown in Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping}:
-\begin{framed}
-  \emph{Proposition 2}~\cite[Section
-  3.5]{ChengYiping_ProofDiscreteTimeKYPusingSDPduality}: There exists
-  $Z\in\mathbb{H}^{n+m}$ such that:
-  \begin{align*}
-    Z = \left[\begin{array}{cc}
-             Z_{11} & Z_{12} \\
-             Z_{12}^{\mathconj} & Z_{22}\end{array}\right] &\prec 0 \\
-    AZ_{11}A^{\mathconj} - Z_{11} + BZ_{12}^{\mathconj}A^{\mathconj}
-    + AZ_{12}B^{\mathconj} + BZ_{22}B^{\mathconj} &= 0\\
-    \mathtrace\left(\Theta Z\right) &\le 0
-  \end{align*}
-\end{framed}
-Here $\Theta$ is as in Equation~\ref{eqn:Discrete-time-KYP-Theta}.
-The Octave script \emph{yalmip\_kyp\_dual\_test.m} calls YALMIP to check the
-dual of the KYP lemma for the maximum amplitude of a low-pass FIR filter
-designed with the Octave \emph{remez} function. Unfortunately, in this script,
-SeDuMi fails for the KYP lemma linear mapping of
-Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping} but the SDPT3 solver
-succeeds. However, SeDuMi does solve the dual mapping and solves the
-primal problem when the YALMIP \emph{'dualize'} option is set.
-
-\subsection{The dual of the generalised discrete-time KYP lemma}
-\emph{Seungil} and
-\emph{Doyle}~\cite{SeungilDoyle_LagrangianDualApproachGeneralizedKYP} prove
-the generalised discrete-time KYP lemma by the dual of the Lagrangian of
-Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}.
-
 \cleardoublepage
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}
 \addcontentsline{toc}{part}{Colophon}
