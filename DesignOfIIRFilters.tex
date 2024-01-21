@@ -18,6 +18,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \usepackage{color} % For monochrome printing
 \usepackage{enumitem}
 \usepackage{esint}
+\usepackage{float}
 \usepackage[T1]{fontenc}
 \usepackage{framed}
 \usepackage[utf8]{inputenc}
@@ -37775,7 +37776,7 @@ occurred for all combinations of $N$ and $d$ that I tried.
 \section*{Software requirements}
 I currently use the Fedora 39 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{6.6.9-200.fc39.x86\_64}
+\item \texttt{uname -r} is \emph{6.6.11-200.fc39.x86\_64}
 \item \emph{gcc} version \emph{13.2.1 20231205 (Red Hat 13.2.1-6)}
 \item a local build of \emph{octave-8.4.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
@@ -37872,10 +37873,10 @@ libraries:
 \emph{arpack-ng-3.9.1}~\cite{ARPACKNG_website},
 \emph{fftw-3.3.10}~\cite{FFTW_website},
 \emph{glpk-5.0}~\cite{GNU_GLPK},
-\emph{lapack-3.11.0}~\cite{LAPACK_website},
+\emph{lapack-3.12.0}~\cite{LAPACK_website},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
-\emph{SuiteSparse-7.3.1}~\cite{SUITESPARSE_website},
-\emph{sundials-6.6.2}~\cite{SUNDIALS_website} and
+\emph{SuiteSparse-7.5.1}~\cite{SUITESPARSE_website},
+\emph{sundials-6.7.0}~\cite{SUNDIALS_website} and
 \emph{GraphicsMagick-1.3.42}~\cite{GraphicsMagick_website}.
 The local build of the \emph{LAPACK} library includes the deprecated routines.
 
@@ -38137,18 +38138,18 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \end{verbatim}
 \end{small}
 
-\begin{table}[!ht]
+\begin{table}[H]
 \centering
 \begin{threeparttable}
 \bgroup{}
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 204.9 \\
-Generic, shared reference lapack and blas            &  46.4 \\
-Generic, shared reference lapack and blas, LTO       &  45.6 \\
-Generic, shared reference lapack and blas, PGO       &  47.4 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  45.0 \\
+Debug, shared reference lapack and blas              & 199.4 \\
+Generic, shared reference lapack and blas            &  46.0 \\
+Generic, shared reference lapack and blas, LTO       &  46.5 \\
+Generic, shared reference lapack and blas, PGO       &  48.0 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  45.7 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -38165,31 +38166,32 @@ The shell script \emph{library-benchmark.sh} benchmarks the shared library
 benchmark script and a script that solves a KYP problem by calling YALMIP and
 SeDuMi. The \emph{linpack.m} script was modified to produce
 repeatable residuals. The alternative \emph{blas} and \emph{lapack} library
-versions used are local builds of \emph{blas-3.11.0} and \emph{lapack-3.11.0} and
-the Fedora 37 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
+versions used are local builds of \emph{blas-3.12.0} and \emph{lapack-3.12.0} and
+the Fedora 39 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
 \emph{gsl}~\cite{GNU_GSL} and \emph{openblas}~\cite{OpenBLAS_website}
 packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
   of \emph{DGESVD} for a problematic matrix and the \emph{libtatlas}, system
   \emph{libblas} and ``local'' \emph{libblas} libraries:\\
 \begin{texttt}
   > ./dgesvd\_test\_atlas\\
-   0.14709002182058989\\
-  > ./dgesvd\_test\_sysblas\\
-   0.14709002182060862\\
-   Note: The following floating-point exceptions are signalling: IEEE\_DENORMAL\\
-  > LD\_LIBRARY\_PATH=/usr/local/octave-7.1.0/lib ./dgesvd\_test\_blas\\
-   0.14709002182060862
-\end{texttt}}
+  0.14709002182058989\\
+  > ./dgesvd\_test\_sysblas \\
+  0.14709002182060871\\
+  > LD\_LIBRARY\_PATH=/usr/local/octave-8.4.0/lib ./dgesvd\_test\_sysblas\\
+  0.14709002182060871
+\end{texttt} \\
+Previous versions of \emph{atlas} produced slightly different results on each
+run.}:
 
 \begin{small}
 \begin{verbatim}
-atlas.x86_64            3.10.3-22.fc38
-blas.x86_64             3.11.0-2.fc38
-lapack.x86_64           3.11.0-2.fc38
-gsl.x86_64              2.7.1-4.fc38
-gsl-devel.x86_64        2.7.1-4.fc38
-openblas.x86_64         0.3.21-4.fc38
-openblas-threads.x86_64 0.3.21-4.fc38
+atlas.x86_64            3.10.3-24.fc39
+blas.x86_64             3.11.0-5.fc39
+lapack.x86_64           3.11.0-5.fc39
+gsl.x86_64              2.7.1-5.fc39
+gsl-devel.x86_64        2.7.1-5.fc39
+openblas.x86_64         0.3.21-6.fc39
+openblas-threads.x86_64 0.3.21-6.fc39
 \end{verbatim}
 \end{small}
 
@@ -38216,7 +38218,7 @@ using the shared library \emph{PGO} and \emph{LTO} build of Octave. The
 normalised residuals for the two ATLAS libraries varied between two values.
 The largest is shown.
 
-\begin{table}[!ht]
+\begin{table}[H]
 \centering
 \begin{threeparttable}
 \bgroup{}
@@ -38227,19 +38229,19 @@ The largest is shown.
 \cmidrule{2-5}             & MFLOPS & Normalised          & Execution time     & Execution time \\
                            &        & residual            & (seconds)          & (seconds) \\
 \midrule                                                                          
-Generic libblas/liblapack  &  3916  & 21.3                &  44.8              &  54.5 \\
-Intel libblas/liblapack    &  3886  & 21.3                &  44.8              &  56.0 \\
-Haswell libblas/liblapack  &  4027  & 18.5                &  45.0              &  49.5 \\
-Nehalem libblas/liblapack  &  3922  & 21.3                &  44.9              &  54.7 \\
-Skylake libblas/liblapack  &  4008  & 18.5                &  44.8              &  49.5 \\
-Fedora 38 libblas/liblapack&  3907  & 21.3                &  44.8              &  54.6 \\
-libgslcblas                &  3901  & 21.3                &  44.8              &  54.6 \\
-libsatlas                  & 13390  & 14.3                &  44.9              &  58.7 \\
-libtatlas                  & 20862  & 14.3                &  45.0              &  58.5 \\
-libopenblas                & 34260  &  9.9                &  43.4              &  49.4 \\
-libopenblasp (1 thread)    & 34019  &  9.9                &  43.0              &  49.8 \\
-libopenblasp (2 threads)   & 49315  & 12.1                &  43.1              &  49.9 \\
-libopenblasp (4 threads)   & 63058  & 10.8                &  43.0              &  49.7 \\
+Generic libblas/liblapack  &  4020  & 21.3                &  45.4              &  55.5 \\
+Intel libblas/liblapack    &  3995  & 21.3                &  45.4              &  57.3 \\
+Haswell libblas/liblapack  &  4118  & 18.5                &  45.3              &  50.6 \\
+Nehalem libblas/liblapack  &  4006  & 21.3                &  45.4              &  55.7 \\
+Skylake libblas/liblapack  &  4101  & 18.5                &  45.5              &  50.6 \\
+Fedora 39 libblas/liblapack&  3999  & 21.3                &  45.4              &  55.5 \\
+libgslcblas                &  4016  & 21.3                &  45.4              &  55.6 \\
+libsatlas                  & 13650  & 14.3                &  45.1              &  59.3 \\
+libtatlas                  & 21160  & 12.7                &  45.1              &  59.2 \\
+libopenblas                & 34574  &  9.9                &  43.8              &  50.4 \\
+libopenblasp (1 thread)    & 34511  &  9.9                &  43.8              &  50.6 \\
+libopenblasp (2 threads)   & 49708  & 12.1                &  44.0              &  50.9 \\
+libopenblasp (4 threads)   & 63640  & 10.8                &  43.9              &  50.7 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -38278,8 +38280,8 @@ power of $2$.}
 \label{fig:benchmark-iirA-freqz-test-65536}
 \end{figure}
 \clearpage
-\pdfbookmark[0]{Solvers}{solvers}
-\subsection*{Profiling Octave}
+\pdfbookmark[0]{Profiling Octave}{profiling-octave}
+\section*{Profiling Octave}
 \subsection*{Profiling Octave scripts with the internal profiler}
 Here is an example of the use of the internal Octave profiler in the Octave
 script \emph{yalmip\_kyp\_moment\_lowpass\_test.m}:
@@ -38330,7 +38332,8 @@ with Octave profiler output:
 \subsection*{Profiling Octave \texttt{.oct} files}
 I have not succeeded in profiling Octave \texttt{.oct} shared object files
 with either \emph{sprof} or \emph{gprofng}.
-
+\clearpage
+\pdfbookmark[0]{Solvers}{solvers}
 \section*{Solvers}
 \pdfbookmark[1]{SeDuMi}{sedumi}
 \subsection*{SeDuMi}

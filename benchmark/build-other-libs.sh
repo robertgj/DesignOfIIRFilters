@@ -1,18 +1,11 @@
 #!/bin/sh
 
-# Assume these files are present:
-#  SuiteSparse-7.0.1.tar.gz
-#  arpack-ng-3.9.0.tar.gz
-#  fftw-3.3.10.tar.gz
-#  qrupdate-1.1.2.tar.gz
-
 #
 # Build arpack-ng
 #
-ARPACK_VER=3.9.0
-rm -Rf arpack-ng-$ARPACK_VER
-tar -xf arpack-ng-$ARPACK_VER".tar.gz"
-pushd arpack-ng-$ARPACK_VER
+rm -Rf arpack-ng-$ARPACK_NG_VERSION
+tar -xf arpack-ng-$ARPACK_NG_VERSION".tar.gz"
+pushd arpack-ng-$ARPACK_NG_VERSION
 sh ./bootstrap
 ./configure --prefix=$LOCAL_PREFIX --with-blas=-lblas --with-lapack=-llapack
 make -j 6 && make install
@@ -21,10 +14,9 @@ popd
 #
 # Build SuiteSparse
 #
-SUITESPARSE_VER=7.2.0
-rm -Rf SuiteSparse-$SUITESPARSE_VER
-tar -xf SuiteSparse-$SUITESPARSE_VER.tar.gz
-pushd SuiteSparse-$SUITESPARSE_VER
+rm -Rf SuiteSparse-$SUITESPARSE_VERSION
+tar -xf SuiteSparse-$SUITESPARSE_VERSION.tar.gz
+pushd SuiteSparse-$SUITESPARSE_VERSION
 cd SuiteSparse_config
 export BUILD_OTHER_LIBS_OPTIM="\" -m64 -march=nehalem -O3 \""
 export CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release \
@@ -46,10 +38,9 @@ popd
 #
 # Build qrupdate
 #
-QRUPDATE_VER=1.1.2
-rm -Rf qrupdate-$QRUPDATE_VER
-tar -xf qrupdate-$QRUPDATE_VER.tar.gz
-pushd qrupdate-$QRUPDATE_VER
+rm -Rf qrupdate-$QRUPDATE_VERSION
+tar -xf qrupdate-$QRUPDATE_VERSION.tar.gz
+pushd qrupdate-$QRUPDATE_VERSION
 rm -f Makeconf
 cat > Makeconf << 'EOF'
 FC=gfortran
@@ -74,10 +65,9 @@ popd
 #
 # Build fftw
 #
-FFTW_VER=3.3.10
-rm -Rf fftw-$FFTW_VER
-tar -xf fftw-$FFTW_VER".tar.gz"
-pushd fftw-$FFTW_VER
+rm -Rf fftw-$FFTW_VERSION
+tar -xf fftw-$FFTW_VERSION".tar.gz"
+pushd fftw-$FFTW_VERSION
 ./configure --prefix=$LOCAL_PREFIX --enable-shared \
             --with-combined-threads --enable-threads 
 make -j 6 && make install
@@ -86,9 +76,9 @@ popd
 #
 # Build fftw single-precision
 #
-rm -Rf fftw-$FFTW_VER
-tar -xf fftw-$FFTW_VER".tar.gz"
-pushd fftw-$FFTW_VER
+rm -Rf fftw-$FFTW_VERSION
+tar -xf fftw-$FFTW_VERSION".tar.gz"
+pushd fftw-$FFTW_VERSION
 ./configure --prefix=$LOCAL_PREFIX --enable-shared \
             --with-combined-threads --enable-threads --enable-single
 make -j 6 && make install

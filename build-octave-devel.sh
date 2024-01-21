@@ -56,13 +56,110 @@ OPTFLAGS="-m64 -march=nehalem -Og -gdwarf-5"
 #
 # Get Octave archive
 #
-OCTAVE_VER=9.0.0
+OCTAVE_VER=9.0.1
 if ! test -d octave ; then
     hg clone https://hg.octave.org/octave
-else
     pushd octave
     hg pull
     hg update
+    sh ./bootstrap
+    cat > octave-$OCTAVE_VER.patch.uue << 'EOF'
+begin-base64 644 octave-9.0.1.patch
+ZGlmZiAtciA0ZjQwOTJhYmUxMmYgY29uZmlndXJlLmFjCi0tLSBhL2NvbmZp
+Z3VyZS5hYwlXZWQgSmFuIDE3IDE2OjQ0OjU0IDIwMjQgLTA4MDAKKysrIGIv
+Y29uZmlndXJlLmFjCVRodSBKYW4gMTggMTU6NTE6NTMgMjAyNCArMTEwMApA
+QCAtMjcsNyArMjcsNyBAQAogCiAjIyMgSW5pdGlhbGl6ZSBBdXRvY29uZgog
+QUNfUFJFUkVRKFsyLjY1XSkKLUFDX0lOSVQoW0dOVSBPY3RhdmVdLCBbMTAu
+MC4wXSwgW2h0dHBzOi8vb2N0YXZlLm9yZy9idWdzLmh0bWxdLCBbb2N0YXZl
+XSwKK0FDX0lOSVQoW0dOVSBPY3RhdmVdLCBbOS4wLjEtcm9ial0sIFtodHRw
+czovL29jdGF2ZS5vcmcvYnVncy5odG1sXSwgW29jdGF2ZV0sCiAgICAgICAg
+IFtodHRwczovL3d3dy5nbnUub3JnL3NvZnR3YXJlL29jdGF2ZS9dKQogCiAj
+IyMgRGVjbGFyZSB2ZXJzaW9uIG51bWJlcnMKZGlmZiAtciA0ZjQwOTJhYmUx
+MmYgbGliaW50ZXJwL2NvcmVmY24vY2hvbC5jYwotLS0gYS9saWJpbnRlcnAv
+Y29yZWZjbi9jaG9sLmNjCVdlZCBKYW4gMTcgMTY6NDQ6NTQgMjAyNCAtMDgw
+MAorKysgYi9saWJpbnRlcnAvY29yZWZjbi9jaG9sLmNjCVRodSBKYW4gMTgg
+MTU6NTE6NTMgMjAyNCArMTEwMApAQCAtNzc0LDcgKzc3NCw3IEBACiAlIQog
+JSEgUjEgPSBjaG9sdXBkYXRlIChSMSwgdWMsICItIik7CiAlISBhc3NlcnQg
+KG5vcm0gKHRyaXUgKFIxKS1SMSwgSW5mKSwgMCk7Ci0lISBhc3NlcnQgKG5v
+cm0gKFIxIC0gUiwgSW5mKSwgMCwgMTEqZXBzKTsKKyUhIGFzc2VydCAobm9y
+bSAoUjEgLSBSLCBJbmYpLCAwLCAyZTEqZXBzKTsKIAogJSF0ZXN0CiAlISBS
+ID0gY2hvbCAoc2luZ2xlIChBKSk7CmRpZmYgLXIgNGY0MDkyYWJlMTJmIGxp
+YmludGVycC9jb3JlZmNuL2xvYWQtc2F2ZS5jYwotLS0gYS9saWJpbnRlcnAv
+Y29yZWZjbi9sb2FkLXNhdmUuY2MJV2VkIEphbiAxNyAxNjo0NDo1NCAyMDI0
+IC0wODAwCisrKyBiL2xpYmludGVycC9jb3JlZmNuL2xvYWQtc2F2ZS5jYwlU
+aHUgSmFuIDE4IDE1OjUxOjUzIDIwMjQgKzExMDAKQEAgLTEyOSw4ICsxMjks
+OCBAQAogewogICBjb25zdCBpbnQgbWFnaWNfbGVuID0gMTA7CiAgIGNoYXIg
+bWFnaWNbbWFnaWNfbGVuKzFdOworICBtYWdpY1ttYWdpY19sZW5dID0gJ1ww
+JzsKICAgaXMucmVhZCAobWFnaWMsIG1hZ2ljX2xlbik7Ci0gIG1hZ2ljW21h
+Z2ljX2xlbl0gPSAnXDAnOwogCiAgIGlmIChzdHJuY21wIChtYWdpYywgIk9j
+dGF2ZS0xLUwiLCBtYWdpY19sZW4pID09IDApCiAgICAgc3dhcCA9IG1hY2hf
+aW5mbzo6d29yZHNfYmlnX2VuZGlhbiAoKTsKZGlmZiAtciA0ZjQwOTJhYmUx
+MmYgc2NyaXB0cy9wbG90L3V0aWwvcHJpdmF0ZS9fX2dudXBsb3RfZHJhd19h
+eGVzX18ubQotLS0gYS9zY3JpcHRzL3Bsb3QvdXRpbC9wcml2YXRlL19fZ251
+cGxvdF9kcmF3X2F4ZXNfXy5tCVdlZCBKYW4gMTcgMTY6NDQ6NTQgMjAyNCAt
+MDgwMAorKysgYi9zY3JpcHRzL3Bsb3QvdXRpbC9wcml2YXRlL19fZ251cGxv
+dF9kcmF3X2F4ZXNfXy5tCVRodSBKYW4gMTggMTU6NTE6NTMgMjAyNCArMTEw
+MApAQCAtMjI4Myw3ICsyMjgzLDcgQEAKICAgICBpZiAoISB3YXJuZWRfbGF0
+ZXgpCiAgICAgICBkb193YXJuID0gKHdhcm5pbmcgKCJxdWVyeSIsICJPY3Rh
+dmU6dGV4dF9pbnRlcnByZXRlciIpKS5zdGF0ZTsKICAgICAgIGlmIChzdHJj
+bXAgKGRvX3dhcm4sICJvbiIpKQotICAgICAgICB3YXJuaW5nICgiT2N0YXZl
+OnRleHRfaW50ZXJwcmV0ZXIiLAorICAgICAgICB3YXJuaW5nICgiT2N0YXZl
+OmxhdGV4LW1hcmt1cC1ub3Qtc3VwcG9ydGVkLWZvci10aWNrLW1hcmtzIiwK
+ICAgICAgICAgICAgICAgICAgImxhdGV4IG1hcmt1cCBub3Qgc3VwcG9ydGVk
+IGZvciB0aWNrIG1hcmtzIik7CiAgICAgICAgIHdhcm5lZF9sYXRleCA9IHRy
+dWU7CiAgICAgICBlbmRpZgpkaWZmIC1yIDRmNDA5MmFiZTEyZiBzY3JpcHRz
+L3NldC91bmlxdWUubQotLS0gYS9zY3JpcHRzL3NldC91bmlxdWUubQlXZWQg
+SmFuIDE3IDE2OjQ0OjU0IDIwMjQgLTA4MDAKKysrIGIvc2NyaXB0cy9zZXQv
+dW5pcXVlLm0JVGh1IEphbiAxOCAxNTo1MTo1MyAyMDI0ICsxMTAwCkBAIC0y
+MzIsMTMgKzIzMiwxNiBAQAogCiAgICMjIENhbGN1bGF0ZSBqIG91dHB1dCAo
+M3JkIG91dHB1dCkKICAgaWYgKGlzYXJnb3V0ICgzKSkKLSAgICBqID0gaTsg
+ICMgY2hlYXAgd2F5IHRvIGNvcHkgZGltZW5zaW9ucwotICAgIGooaSkgPSBj
+dW1zdW0gKFsxOyAhIG1hdGNoKDopXSk7Ci0gICAgaWYgKCEgb3B0c29ydGVk
+KQotICAgICAgd2FybmluZyAoInVuaXF1ZTogdGhpcmQgb3V0cHV0IEogaXMg
+bm90IHlldCBpbXBsZW1lbnRlZCIpOwotICAgICAgaiA9IFtdOworICAgIGlm
+IChvcHRzb3J0ZWQpCisgICAgICBqID0gaTsgICMgY2hlYXAgd2F5IHRvIGNv
+cHkgZGltZW5zaW9ucworICAgICAgaihpKSA9IGN1bXN1bSAoWzE7ICEgbWF0
+Y2goOildKTsKKyAgICBlbHNlCisgICAgICBqPXplcm9zKGxlbmd0aCh4KSwx
+KTsKKyAgICAgIGZvciBrPTE6bGVuZ3RoKHgpLAorICAgICAgICBqKGspPWZp
+bmQoeChrKT09eSk7CisgICAgICBlbmRmb3IKICAgICBlbmRpZgotCisgICAg
+CiAgICAgaWYgKG9wdGxlZ2FjeSAmJiBpc3Jvd3ZlYykKICAgICAgIGogPSBq
+Lic7CiAgICAgZW5kaWYKQEAgLTMwMiwxMSArMzA1LDEwIEBACiAlISBhc3Nl
+cnQgKGosIFsxOzE7MjszOzM7Mzs0XSk7CiAKICUhdGVzdAotJSEgW3ksaSx+
+XSA9IHVuaXF1ZSAoWzQsNCwyLDIsMiwzLDFdLCAic3RhYmxlIik7CislISBb
+eSxpLGpdID0gdW5pcXVlIChbNCw0LDIsMiwyLDMsMV0sICJzdGFibGUiKTsK
+ICUhIGFzc2VydCAoeSwgWzQsMiwzLDFdKTsKICUhIGFzc2VydCAoaSwgWzE7
+Mzs2OzddKTsKLSUhICMjIEZJWE1FOiAnaicgaW5wdXQgbm90IGNhbGN1bGF0
+ZWQgd2l0aCBzdGFibGUKLSUhICMjYXNzZXJ0IChqLCBbXSk7CislISBhc3Nl
+cnQgKGosIFsxOzE7MjsyOzI7Mzs0XSk7CiAKICUhdGVzdAogJSEgW3ksaSxq
+XSA9IHVuaXF1ZSAoWzEsMSwyLDMsMywzLDRdJywgImxhc3QiKTsKQEAgLTMz
+NSwxMSArMzM3LDEwIEBACiAKICUhdGVzdAogJSEgQSA9IFs0LDUsNjsgMSwy
+LDM7IDQsNSw2XTsKLSUhIFt5LGksfl0gPSB1bmlxdWUgKEEsICJyb3dzIiwg
+InN0YWJsZSIpOworJSEgW3ksaSxqXSA9IHVuaXF1ZSAoQSwgInJvd3MiLCAi
+c3RhYmxlIik7CiAlISBhc3NlcnQgKHksIFs0LDUsNjsgMSwyLDNdKTsKICUh
+IGFzc2VydCAoQShpLDopLCB5KTsKLSUhICMjIEZJWE1FOiAnaicgb3V0cHV0
+IG5vdCBjYWxjdWxhdGVkIGNvcnJlY3RseSB3aXRoICJzdGFibGUiCi0lISAj
+I2Fzc2VydCAoeShqLDopLCBBKTsKKyUhIGFzc2VydCAoeShqLDopLCBBKTsK
+IAogIyMgVGVzdCAibGVnYWN5IiBvcHRpb24KICUhdGVzdApAQCAtMzU1LDYg
+KzM1NiwxMCBAQAogJSEgYXNzZXJ0IChpLCBbMjsgNTsgNDsgM10pOwogJSEg
+YXNzZXJ0IChqLCBbNDsgMTsgNDsgMzsgMl0pOwogCislIXRlc3QKKyUhIFt5
+LGksal0gPSB1bmlxdWUgKFsyLDFdLCAic3RhYmxlIik7CislISBhc3NlcnQg
+KGosIFsxOzJdKTsKKwogIyMgVGVzdCBpbnB1dCB2YWxpZGF0aW9uCiAlIWVy
+cm9yIDxJbnZhbGlkIGNhbGw+IHVuaXF1ZSAoKQogJSFlcnJvciA8WCBtdXN0
+IGJlIGFuIGFycmF5IG9yIGNlbGwgYXJyYXkgb2Ygc3RyaW5ncz4gdW5pcXVl
+ICh7MX0pCkBAIC0zNzYsNiArMzgxLDMgQEAKICUhZXJyb3IgPGludmFsaWQg
+b3B0aW9uPiB1bmlxdWUgKHsiYSIsICJiIiwgImMifSwgInJvd3MiLCAiVW5r
+bm93bk9wdGlvbjIiKQogJSFlcnJvciA8aW52YWxpZCBvcHRpb24+IHVuaXF1
+ZSAoeyJhIiwgImIiLCAiYyJ9LCAiVW5rbm93bk9wdGlvbjEiLCAibGFzdCIp
+CiAlIXdhcm5pbmcgPCJyb3dzIiBpcyBpZ25vcmVkIGZvciBjZWxsIGFycmF5
+cz4gdW5pcXVlICh7IjEifSwgInJvd3MiKTsKLSUhd2FybmluZyA8dGhpcmQg
+b3V0cHV0IEogaXMgbm90IHlldCBpbXBsZW1lbnRlZD4KLSUhIFt5LGksal0g
+PSB1bmlxdWUgKFsyLDFdLCAic3RhYmxlIik7Ci0lISBhc3NlcnQgKGosIFtd
+KTsK
+====
+EOF
+    # Patch
+    uudecode octave-$OCTAVE_VER".patch.uue"
+    patch -p 1 < octave-$OCTAVE_VER".patch"
     popd
 fi
 
@@ -81,25 +178,25 @@ export PATH=$PATH:$OCTAVE_BIN_DIR
 #
 # Get library archives
 #
-LAPACK_VER=${LAPACK_VER:-3.11.0}
+LAPACK_VER=${LAPACK_VER:-3.12.0}
 LAPACK_ARCHIVE=lapack-$LAPACK_VER".tar.gz"
-LAPACK_URL=http://github.com/Reference-LAPACK/lapack/archive/v$LAPACK_VER.tar.gz
+LAPACK_URL=https://github.com/Reference-LAPACK/lapack/archive/v$LAPACK_VER.tar.gz
 if ! test -f $LAPACK_ARCHIVE; then
-  wget -c $LAPACK_URL -Og $LAPACK_ARCHIVE
+  wget -c $LAPACK_URL -O $LAPACK_ARCHIVE
 fi
 
 ARPACK_VER=${ARPACK_VER:-3.9.1}
 ARPACK_ARCHIVE=arpack-ng-$ARPACK_VER".tar.gz"
 ARPACK_URL=https://github.com/opencollab/arpack-ng/archive/refs/tags/$ARPACK_VER".tar.gz"
 if ! test -f $ARPACK_ARCHIVE; then
-  wget -c $ARPACK_URL -Og $ARPACK_ARCHIVE
+  wget -c $ARPACK_URL -O $ARPACK_ARCHIVE
 fi
 
-SUITESPARSE_VER=${SUITESPARSE_VER:-7.3.1}
+SUITESPARSE_VER=${SUITESPARSE_VER:-7.5.1}
 SUITESPARSE_ARCHIVE=SuiteSparse-$SUITESPARSE_VER".tar.gz"
 SUITESPARSE_URL=https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v$SUITESPARSE_VER".tar.gz"
 if ! test -f $SUITESPARSE_ARCHIVE; then
-  wget -c $SUITESPARSE_URL -Og $SUITESPARSE_ARCHIVE
+  wget -c $SUITESPARSE_URL -O $SUITESPARSE_ARCHIVE
 fi
 
 QRUPDATE_VER=${QRUPDATE_VER:-1.1.2}
@@ -123,7 +220,7 @@ if ! test -f $GLPK_ARCHIVE; then
   wget -c $GLPK_URL
 fi
 
-SUNDIALS_VER=${SUNDIALS_VER:-6.6.2}
+SUNDIALS_VER=${SUNDIALS_VER:-6.7.0}
 SUNDIALS_ARCHIVE=sundials-$SUNDIALS_VER".tar.gz"
 SUNDIALS_URL=https://github.com/LLNL/sundials/releases/download/v$SUNDIALS_VER/$SUNDIALS_ARCHIVE
 if ! test -f $SUNDIALS_ARCHIVE; then
@@ -146,7 +243,7 @@ if test $? -ne 0;then
 fi
 
 #
-# Get octave-forge packages
+# Get octave-forge packages from https://gnu-octave.github.io/packages/
 #
    
 OCTAVE_FORGE_URL=https://downloads.sourceforge.net/project/octave/Octave%20Forge%20Packages/Individual%20Package%20Releases
@@ -158,7 +255,7 @@ if ! test -f $IO_ARCHIVE; then
   wget -c $IO_URL
 fi
 
-STATISTICS_VER=${STATISTICS_VER:-1.6.0}
+STATISTICS_VER=${STATISTICS_VER:-1.6.1}
 STATISTICS_ARCHIVE=statistics-$STATISTICS_VER".tar.gz"
 STATISTICS_URL="https://github.com/gnu-octave/statistics/archive/refs/tags/release-"$STATISTICS_VER".tar.gz"
 if ! test -f $STATISTICS_ARCHIVE; then
@@ -180,7 +277,7 @@ if ! test -f $OPTIM_ARCHIVE; then
   wget -c $OPTIM_URL 
 fi
 
-CONTROL_VER=${CONTROL_VER:-3.6.1}
+CONTROL_VER=${CONTROL_VER:-4.0.0}
 CONTROL_ARCHIVE=control-$CONTROL_VER".tar.gz"
 CONTROL_URL="https://github.com/gnu-octave/pkg-control/releases/download/control-"$CONTROL_VER/$CONTROL_ARCHIVE
 if ! test -f $CONTROL_ARCHIVE; then
@@ -222,29 +319,29 @@ echo "Building octave-"$OCTAVE_VER
 rm -Rf lapack-$LAPACK_VER
 tar -xf $LAPACK_ARCHIVE
 cat > lapack-$LAPACK_VER.patch.uue << 'EOF'
-begin-base64 644 lapack-3.11.0.patch
-LS0tIGxhcGFjay0zLjExLjAvQkxBUy9TUkMvTWFrZWZpbGUJMjAyMi0xMS0x
-MiAwNDo0OTo1NC4wMDAwMDAwMDAgKzExMDAKKysrIGxhcGFjay0zLjExLjAu
-bmV3L0JMQVMvU1JDL01ha2VmaWxlCTIwMjMtMDYtMDQgMjM6MTE6MjcuMDk2
-NDYyMDkwICsxMDAwCkBAIC0xNDksNiArMTQ5LDkgQEAKIAkkKEFSKSAkKEFS
+begin-base64 644 lapack-3.12.0.patch
+LS0tIGxhcGFjay0zLjEyLjAvQkxBUy9TUkMvTWFrZWZpbGUJMjAyMy0xMS0y
+NSAwNzo0MToxNS4wMDAwMDAwMDAgKzExMDAKKysrIGxhcGFjay0zLjEyLjAu
+bmV3L0JMQVMvU1JDL01ha2VmaWxlCTIwMjQtMDEtMTcgMjM6MzI6MzMuMzcy
+NjEwMzM1ICsxMTAwCkBAIC0xNDksNiArMTQ5LDkgQEAKIAkkKEFSKSAkKEFS
 RkxBR1MpICRAICReCiAJJChSQU5MSUIpICRACiAKKyQobm90ZGlyICQoQkxB
 U0xJQjolLmE9JS5zbykpOiAkKEFMTE9CSikKKwkkKEZDKSAtc2hhcmVkIC1X
 bCwtc29uYW1lLCRAIC1vICRAICReCisKIC5QSE9OWTogc2luZ2xlIGRvdWJs
 ZSBjb21wbGV4IGNvbXBsZXgxNgogc2luZ2xlOiAkKFNCTEFTMSkgJChBTExC
 TEFTKSAkKFNCTEFTMikgJChTQkxBUzMpCiAJJChBUikgJChBUkZMQUdTKSAk
-KEJMQVNMSUIpICReCi0tLSBsYXBhY2stMy4xMS4wL1NSQy9NYWtlZmlsZQky
-MDIyLTExLTEyIDA0OjQ5OjU0LjAwMDAwMDAwMCArMTEwMAorKysgbGFwYWNr
-LTMuMTEuMC5uZXcvU1JDL01ha2VmaWxlCTIwMjMtMDYtMDQgMjM6MTE6Mjcu
-MDk4NDYyMDY3ICsxMDAwCkBAIC01NTYsNiArNTU2LDkgQEAKIAkkKEFSKSAk
+KEJMQVNMSUIpICReCi0tLSBsYXBhY2stMy4xMi4wL1NSQy9NYWtlZmlsZQky
+MDIzLTExLTI1IDA3OjQxOjE1LjAwMDAwMDAwMCArMTEwMAorKysgbGFwYWNr
+LTMuMTIuMC5uZXcvU1JDL01ha2VmaWxlCTIwMjQtMDEtMTcgMjM6MzI6MzMu
+Mzc0NjEwMzIwICsxMTAwCkBAIC01NjEsNiArNTYxLDkgQEAKIAkkKEFSKSAk
 KEFSRkxBR1MpICRAICReCiAJJChSQU5MSUIpICRACiAKKyQobm90ZGlyICQo
 TEFQQUNLTElCOiUuYT0lLnNvKSk6ICQoQUxMT0JKKSAkKEFMTFhPQkopICQo
 REVQUkVDQVRFRCkKKwkkKEZDKSAtc2hhcmVkIC1XbCwtc29uYW1lLCRAIC1v
 ICRAICReCisKIC5QSE9OWTogc2luZ2xlIGNvbXBsZXggZG91YmxlIGNvbXBs
 ZXgxNgogCiBTSU5HTEVfREVQUyA6PSAkKFNMQVNSQykgJChEU0xBU1JDKQot
-LS0gbGFwYWNrLTMuMTEuMC9tYWtlLmluYy5leGFtcGxlCTIwMjItMTEtMTIg
-MDQ6NDk6NTQuMDAwMDAwMDAwICsxMTAwCisrKyBsYXBhY2stMy4xMS4wLm5l
-dy9tYWtlLmluYy5leGFtcGxlCTIwMjMtMDYtMDQgMjM6MTQ6MzcuMTM5MzEz
-MDMzICsxMDAwCkBAIC03LDcgKzcsOCBAQAogIyAgQ0MgaXMgdGhlIEMgY29t
+LS0gbGFwYWNrLTMuMTIuMC9tYWtlLmluYy5leGFtcGxlCTIwMjMtMTEtMjUg
+MDc6NDE6MTUuMDAwMDAwMDAwICsxMTAwCisrKyBsYXBhY2stMy4xMi4wLm5l
+dy9tYWtlLmluYy5leGFtcGxlCTIwMjQtMDEtMTcgMjM6MzI6MzMuMzc0NjEw
+MzIwICsxMTAwCkBAIC03LDcgKzcsOCBAQAogIyAgQ0MgaXMgdGhlIEMgY29t
 cGlsZXIsIG5vcm1hbGx5IGludm9rZWQgd2l0aCBvcHRpb25zIENGTEFHUy4K
 ICMKIENDID0gZ2NjCi1DRkxBR1MgPSAtTzMKK0JMRE9QVFMgPSAtZlBJQyAt
 bTY0IC1tYXJjaD1uZWhhbGVtCitDRkxBR1MgPSAtT2cgLWdnZGIzICQoQkxE
@@ -423,7 +520,7 @@ CFLAGS=$OPTFLAGS CXXFLAGS=$OPTFLAGS FFLAGS=$OPTFLAGS \
 echo " c \n g \n q \n" | \
     ccmake -DENABLE_KLU=ON \
            -DKLU_LIBRARY_DIR:PATH=$OCTAVE_LIB_DIR \
-           -DKLU_INCLUDE_DIR:PATH=$OCTAVE_INCLUDE_DIR \
+           -DKLU_INCLUDE_DIR:PATH=$OCTAVE_INCLUDE_DIR/suitesparse \
            -DCMAKE_INSTALL_LIBDIR=lib \
            --install-prefix $OCTAVE_DIR \
            ../sundials-$SUNDIALS_VER
@@ -495,7 +592,7 @@ PKG_CONFIG_PATH=$OCTAVE_LIB_DIR/pkgconfig \
     --with-fftw3f-includedir=$OCTAVE_INCLUDE_DIR \
     --with-fftw3f-libdir=$OCTAVE_LIB_DIR \
     --with-klu-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-klu-libdir=$OCTAVE_LIB_DIR \
+    --with-klu-libdir=$OCTAVE_LIB_DIR/suitesparse \
     --with-sundials_nvecserial-includedir=$OCTAVE_INCLUDE_DIR \
     --with-sundials_nvecserial-libdir=$OCTAVE_LIB_DIR \
     --with-sundials_ida-includedir=$OCTAVE_INCLUDE_DIR \
@@ -660,7 +757,7 @@ $OCTAVE_BIN_DIR/octave --no-gui $OCTAVE_SITE_M_DIR/SeDuMi/install_sedumi.m
 if ! test -f sdpt3-master.zip ; then
   wget -c $GITHUB_URL/sdpt3/archive/refs/heads/master.zip
   mv master.zip sdpt3-master.zip
-fi 
+fi
 rm -Rf sdpt3-master $OCTAVE_SITE_M_DIR/SDPT3
 unzip sdpt3-master.zip 
 rm -f sdpt3-master/Solver/Mexfun/*.mex*
@@ -689,7 +786,7 @@ fi
 rm -Rf SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP
 unzip SparsePOP-master.zip
 find SparsePOP-master -name \*.mex* -exec rm -f {} ';'
-mv SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP
+mv -f SparsePOP-master $OCTAVE_SITE_M_DIR/SparsePOP
 if test $? -ne 0;then rm -Rf SparsePOP-master; exit -1; fi
 # !! Do not build the SparsePOP .mex files !!
 # $OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SparsePOP/compileSparsePOP.m

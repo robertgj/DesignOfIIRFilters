@@ -4,7 +4,7 @@ BUILD=shared-lto-pgo
 OCTAVE=$LOCAL_PREFIX"/octave-"$BUILD"/bin/octave-cli"
 
 export LD_LIBRARY_PATH=$LOCAL_PREFIX"/lib:"\
-$LOCAL_PREFIX"/lapack/generic/lapack-"$LPVER
+$LOCAL_PREFIX"/lapack/generic/lapack-"$LAPACK_VERSION
 $OCTAVE -v | grep version
 $LOCAL_PREFIX"/octave-"$BUILD"/bin/mkoctfile" ../src/reprand.cc
 
@@ -61,7 +61,7 @@ fprintf('MFLOPS: %.0f\n',1e-6*ops/tim);
 EOF
 
 echo "local libblas, generic, linpack.m"
-LAPACK_DIR=$LOCAL_PREFIX"/lapack/generic/lapack-"$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/generic/lapack-"$LAPACK_VERSION
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
       $OCTAVE -q linpack.m
@@ -71,7 +71,7 @@ awk '{flops=flops+$2;}; \
      END {printf("linpack local generic libblas MFLOPS=%g\n",flops/10);}'
 
 echo "local libblas, intel, linpack.m"
-LAPACK_DIR=$LOCAL_PREFIX"/lapack/intel/lapack-"$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/intel/lapack-"$LAPACK_VERSION
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
       $OCTAVE -q linpack.m
@@ -81,7 +81,7 @@ awk '{flops=flops+$2;}; \
      END {printf("linpack local intel libblas MFLOPS=%g\n",flops/10);}'
 
 echo "local libblas, haswell, linpack.m"
-LAPACK_DIR=$LOCAL_PREFIX"/lapack/haswell/lapack-"$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/haswell/lapack-"$LAPACK_VERSION
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
       $OCTAVE -q linpack.m
@@ -91,7 +91,7 @@ awk '{flops=flops+$2;}; \
      END {printf("linpack local haswell libblas MFLOPS=%g\n",flops/10);}'
 
 echo "local libblas, nehalem, linpack.m"
-LAPACK_DIR=$LOCAL_PREFIX"/lapack/nehalem/lapack-"$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/nehalem/lapack-"$LAPACK_VERSION
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
       $OCTAVE -q linpack.m
@@ -101,7 +101,7 @@ awk '{flops=flops+$2;}; \
      END {printf("linpack local nehalem libblas MFLOPS=%g\n",flops/10);}'
 
 echo "local libblas, skylake, linpack.m"
-LAPACK_DIR=$LOCAL_PREFIX"/lapack/skylake/lapack-"$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/skylake/lapack-"$LAPACK_VERSION
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
       $OCTAVE -q linpack.m
@@ -183,7 +183,7 @@ awk '{flops=flops+$2;};\
 # iir_benchmark.m
 #
 echo "local libblas, generic, iir_benchmark.m"
-LAPACK_DIR=$LOCAL_PREFIX"/lapack/generic/lapack-"$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/generic/lapack-"$LAPACK_VERSION
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
     $OCTAVE -q iir_benchmark.m
@@ -191,7 +191,7 @@ done | awk '{elapsed=elapsed+$4;};\
   END {printf("iir_benchmark local generic elapsed=%g\n",elapsed/10);}'
 
 echo "local libblas, intel, iir_benchmark.m"
-LAPACK_DIR=$LOCAL_PREFIX"/lapack/intel/lapack-"$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/intel/lapack-"$LAPACK_VERSION
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
     $OCTAVE -q iir_benchmark.m
@@ -199,7 +199,7 @@ done | awk '{elapsed=elapsed+$4;};\
   END {printf("iir_benchmark local intel elapsed=%g\n",elapsed/10);}'
 
 echo "local libblas, haswell, iir_benchmark.m"
-LAPACK_DIR=$LOCAL_PREFIX"/lapack/haswell/lapack-"$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/haswell/lapack-"$LAPACK_VERSION
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
     $OCTAVE -q iir_benchmark.m
@@ -207,7 +207,7 @@ done | awk '{elapsed=elapsed+$4;};\
   END {printf("iir_benchmark local haswell elapsed=%g\n",elapsed/10);}'
 
 echo "local libblas, nehalem, iir_benchmark.m"
-LAPACK_DIR=$LOCAL_PREFIX"/lapack/nehalem/lapack-"$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/nehalem/lapack-"$LAPACK_VERSION
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
     $OCTAVE -q iir_benchmark.m
@@ -215,7 +215,7 @@ done | awk '{elapsed=elapsed+$4;};\
   END {printf("iir_benchmark local nehalem elapsed=%g\n",elapsed/10);}'
 
 echo "local libblas, skylake, iir_benchmark.m"
-LAPACK_DIR=$LOCAL_PREFIX"/lapack/skylake/lapack-"$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/skylake/lapack-"$LAPACK_VERSION
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
     $OCTAVE -q iir_benchmark.m
@@ -346,7 +346,7 @@ endif
 EOF
 
 echo "local libblas, generic, kyp_benchmark.m"
-LAPACK_DIR=$LOCAL_PREFIX"/lapack/generic/lapack-"$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/generic/lapack-"$LAPACK_VERSION
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
     $OCTAVE -q kyp_benchmark.m
@@ -354,7 +354,7 @@ done | grep Elapsed | awk '{elapsed=elapsed+$4;};\
   END {printf("kyp_benchmark local generic elapsed=%g\n",elapsed/10);}'
 
 echo "local libblas, intel, kyp_benchmark.m"
-LAPACK_DIR=$LOCAL_PREFIX"/lapack/intel/lapack-"$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/intel/lapack-"$LAPACK_VERSION
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
     $OCTAVE -q kyp_benchmark.m
@@ -362,7 +362,7 @@ done | grep Elapsed | awk '{elapsed=elapsed+$4;};\
   END {printf("kyp_benchmark local intel elapsed=%g\n",elapsed/10);}'
 
 echo "local libblas, haswell, kyp_benchmark.m"
-LAPACK_DIR=$LOCAL_PREFIX"/lapack/haswell/lapack-"$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/haswell/lapack-"$LAPACK_VERSION
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
     $OCTAVE -q kyp_benchmark.m
@@ -370,7 +370,7 @@ done | grep Elapsed | awk '{elapsed=elapsed+$4;};\
   END {printf("kyp_benchmark local haswell elapsed=%g\n",elapsed/10);}'
 
 echo "local libblas, nehalem, kyp_benchmark.m"
-LAPACK_DIR=$LOCAL_PREFIX"/lapack/nehalem/lapack-"$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/nehalem/lapack-"$LAPACK_VERSION
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
     $OCTAVE -q kyp_benchmark.m
@@ -378,7 +378,7 @@ done | grep Elapsed | awk '{elapsed=elapsed+$4;};\
   END {printf("kyp_benchmark local nehalem elapsed=%g\n",elapsed/10);}'
 
 echo "local libblas, skylake, kyp_benchmark.m"
-LAPACK_DIR=$LOCAL_PREFIX"/lapack/skylake/lapack-"$LPVER
+LAPACK_DIR=$LOCAL_PREFIX"/lapack/skylake/lapack-"$LAPACK_VERSION
 for k in `seq 1 10`;do 
     LD_PRELOAD="$LAPACK_DIR/libblas.so:$LAPACK_DIR/liblapack.so" \
     $OCTAVE -q kyp_benchmark.m
