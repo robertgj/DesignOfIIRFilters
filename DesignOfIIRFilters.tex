@@ -37950,48 +37950,52 @@ patches files to:
 \item add functionality to the \texttt{unique.m} script
 \end{itemize}
 
-After updating from Fedora 38 to 39 I get a warning message from GTK3 for
-the command-line version of \emph{octave-8.4.0}:
+\subsubsection*{Problems with Qt5 and GTK3}
+After updating from RedHat  Fedora 38 to 39 I get a warning message from GTK3
+for the command-line version of \emph{octave-8.4.0}:
 \begin{small}
 \begin{verbatim}
 (octave-gui:XXXX): Gtk-WARNING **: YYYY: Theme parsing error:
 <data>:1:0: Expected a valid selector
 \end{verbatim}
 \end{small}
-The patch file \emph{qt5-qtbase-5.15.11-3.fc39.patch} applied to
-the \emph{qt5-qtbase-5.15.11-3} RedHat Fedora 39 SRPM resolves the problem for
-the command-line version. To rebuild and reinstall the RPM:
+A patch to the RedHat Fedora 39 \emph{qt5-qtbase} SRPM fixes the command-line
+version:
+\begin{samepage}
 \begin{itemize}
-\item Download the source RPM:
+\item Download:
 \begin{small}
 \begin{verbatim}
-$ cd ~/rpmbuild/SRPMS
-$ wget https://dl.fedoraproject.org/pub/fedora/linux/updates/39/Everything/\
-source/tree/Packages/q/qt5-qtbase-5.15.11-7.fc39.src.rpm
+wget https://dl.fedoraproject.org/pub/fedora/linux/updates/39/Everything/\
+source/tree/Packages/q/qt5-qtbase-5.15.12-1.fc39.src.rpm
+rpm -ivh qt5-qtbase-5.15.12-1.fc39.src.rpm
 \end{verbatim}
 \end{small}
-\item Patch \texttt{qt5-qtbase-5.15.11-7.fc39.src.rpm}:
+\item Modify
+\emph{\~{}/rpmbuild/SOURCES/0014-QGtk3Theme-Improve-fixed-font-delivery.patch}:
 \begin{small}
 \begin{verbatim}
-$ cd ~/rpmbuild/SOURCES
-$ vi 0014-QGtk3Theme-Improve-fixed-font-delivery.patch
+-+        const char *fontSpec = "{font-family: monospace;}";
+++        const char *fontSpec = "* {font-family: monospace;}";
 \end{verbatim}
 \end{small}
-\item Rebuild the SRPM and RPM:  
+\item Rebuild:  
 \begin{small}
 \begin{verbatim}
-$ cd ~/rpmbuild/SPECS
-$ rpmbuild -ba qt5-qtbase.spec
+sudo dnf builddep qt5-qtbase-5.15.12-1.fc39.src.rpm
+rpmbuild -ba ~/rpmbuild/SPECS/qt5-qtbase.spec
 \end{verbatim}
 \end{small}
-\item Install the new RPMs
+\item Reinstall:
 \begin{small}
 \begin{verbatim}
-$ cd ~/rpmbuild/RPMS
-$ for file in `find . -name \*.rpm`;do rpm -i --nodeps --reinstall $file; done
+for file in `find ~/rpmbuild/RPMS -name \*.rpm`; do \
+  sudo rpm -i --nodeps --reinstall $file; \
+done
 \end{verbatim}
 \end{small}
 \end{itemize}
+\end{samepage}
 
 \subsubsection*{Problems with Octave-Forge packages}
 The following packages are patched with shell \emph{here} documents
