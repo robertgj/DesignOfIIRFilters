@@ -101,7 +101,7 @@ if ! test -f $ARPACK_ARCHIVE; then
   wget -c $ARPACK_URL -O $ARPACK_ARCHIVE
 fi
 
-SUITESPARSE_VER=${SUITESPARSE_VER:-7.5.1}
+SUITESPARSE_VER=${SUITESPARSE_VER:-7.6.0}
 SUITESPARSE_ARCHIVE=SuiteSparse-$SUITESPARSE_VER".tar.gz"
 SUITESPARSE_URL=https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v$SUITESPARSE_VER".tar.gz"
 if ! test -f $SUITESPARSE_ARCHIVE; then
@@ -341,7 +341,6 @@ export CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release \
 -DCMAKE_INSTALL_LIBDIR:PATH=$OCTAVE_LIB_DIR \
 -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
 -DCMAKE_INSTALL_PREFIX=$OCTAVE_DIR"
-# If debugging cmake try : -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON 
 make
 cd ..
 make -j 6 && make install

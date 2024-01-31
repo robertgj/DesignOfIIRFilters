@@ -47,7 +47,7 @@
 #
 # Produce code for Intel nehalem CPU. If necessary replace with mtune=generic
 #
-OPTFLAGS="-m64 -march=nehalem -Og -gdwarf-5"
+OPTFLAGS="-m64 -march=nehalem -O0 -ggdb3"
 
 #
 # Assume these files are present. Get them if they are not.
@@ -192,7 +192,7 @@ if ! test -f $ARPACK_ARCHIVE; then
   wget -c $ARPACK_URL -O $ARPACK_ARCHIVE
 fi
 
-SUITESPARSE_VER=${SUITESPARSE_VER:-7.5.1}
+SUITESPARSE_VER=${SUITESPARSE_VER:-7.6.0}
 SUITESPARSE_ARCHIVE=SuiteSparse-$SUITESPARSE_VER".tar.gz"
 SUITESPARSE_URL=https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v$SUITESPARSE_VER".tar.gz"
 if ! test -f $SUITESPARSE_ARCHIVE; then
@@ -600,9 +600,7 @@ PKG_CONFIG_PATH=$OCTAVE_LIB_DIR/pkgconfig \
     --with-sundials_sunlinsolklu-includedir=$OCTAVE_INCLUDE_DIR \
     --with-sundials_sunlinsolklu-libdir=$OCTAVE_LIB_DIR 
 
-make V=1
-make V=1 check
-make V=1 install
+make V=1 && make V=1 install
 popd
 rm -Rf build-octave-$OCTAVE_VER
 

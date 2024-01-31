@@ -5,7 +5,7 @@
 
 # Assume these archive files are present:
 export LAPACK_VERSION=3.12.0
-export SUITESPARSE_VERSION=7.5.1
+export SUITESPARSE_VERSION=7.6.0
 export ARPACK_NG_VERSION=3.9.1
 export FFTW_VERSION=3.3.10
 export QRUPDATE_VERSION=1.1.2
