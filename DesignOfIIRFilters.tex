@@ -36857,10 +36857,93 @@ succeeds. However, SeDuMi does solve the dual mapping and solves the
 primal problem when the YALMIP \emph{'dualize'} option is set.
 
 \subsubsection{The dual of the generalised discrete-time KYP lemma}
-\emph{Seungil} and
-\emph{Doyle}~\cite{SeungilDoyle_LagrangianDualApproachGeneralizedKYP} prove
-the generalised discrete-time KYP lemma by the dual of the Lagrangian of
-Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}.
+\emph{Seungil} and \emph{Doyle} prove the generalised continuous-time KYP lemma
+by the dual of the Lagrangian of~\cite[Equation
+2]{SeungilDoyle_LagrangianDualApproachGeneralizedKYP}:
+\begin{align*}
+  \left[\begin{array}{cc}
+    A & B \\
+    I & 0 \end{array}\right]^{\mathconj}\left[\begin{array}{cc}
+      Q_{1}-Q_{2} & P \\
+      P & -\theta_{1}^{2}Q_{1}-\theta_{2}^{2}Q_{2}\end{array}\right]
+  \left[\begin{array}{cc}
+    A & B \\
+    I & 0 \end{array}\right] + \Theta \preceq 0  
+\end{align*}
+where $\theta_{1}\le\mathabs{\omega}\le\theta_{2}$, $P,Q_{1},Q_{2}\in\mathbb{H}$
+and $Q_{1},Q_{2}\succeq 0$. In this section I adapt the dual formulation of
+\emph{Seungil} and \emph{Doyle}~\cite[Propositions 7 and
+8]{SeungilDoyle_LagrangianDualApproachGeneralizedKYP} to the
+discrete time case.
+
+Rewrite the discrete-time optimisation problem as:
+\begin{align*}
+  \textbf{minimise}\quad & 0 \\
+  \textbf{subject to}\quad & \left[\begin{array}{c}
+    T_{1} \\
+    T_{2}\end{array}\right]^{\mathconj}\left[\begin{array}{cc}
+      P & Q \\
+      Q & -P +\gamma Q\end{array}\right]\left[\begin{array}{c}
+        T_{1} \\
+        T_{2}\end{array}\right] +\Theta \preceq 0
+\end{align*}
+where $T_{1}=\left[\begin{array}{cc} A & B\end{array}\right]$,
+$T_{2}=\left[\begin{array}{cc} \alpha I & 0\end{array}\right]$, $\alpha$ is a
+(possibly complex) scalar and $\mathabs{\alpha}=1$. Expanding the constraint:
+\begin{align*}
+  T_{1}^{\mathconj}P T_{1} - T_{2}^{\mathconj}P T_{2} +
+  T_{2}^{\mathconj}Q T_{1} + T_{1}^{\mathconj}Q T_{2}
+  + \gamma  T_{2}^{\mathconj}Q T_{2} + \Theta \preceq 0
+\end{align*}
+
+The Lagrangian function is:
+\begin{align*}
+  L\left(P,Q,R,W\right) =
+  &\mathtrace \left\{W\left( T_{1}^{\mathconj}P T_{1} -
+    T_{2}^{\mathconj}P T_{2}\right)\right\} +
+    \mathtrace \left\{ W\left(T_{2}^{\mathconj}Q T_{1} +
+    T_{1}^{\mathconj}Q T_{2}+\gamma T_{2}^{\mathconj}Q T_{2} \right)\right\} +
+    \mathtrace \left\{ W\Theta+WR\right\}
+\end{align*}
+where $W\succeq 0$ are the Lagrange multipliers and $R\succeq 0$ is a slack
+variable. Rearranging:
+\begin{align*}
+  L\left(P,Q,R,W\right)=
+  & \mathtrace \left\{P\left( T_{1}WT_{1}^{\mathconj} -
+    T_{2}WT_{2}^{\mathconj}\right)\right\} +
+    \mathtrace \left\{ Q\left(  T_{1} W T_{2}^{\mathconj} +
+    T_{2}W T_{1}^{\mathconj} + \gamma T_{2}W T_{2}^{\mathconj} \right)\right\} +
+    \mathtrace \left\{ W\Theta+WR\right\}
+\end{align*}
+The dual optimisation problem is:
+\begin{align*}
+  \textbf{maximise}\quad
+  & \mathtrace\left\{W\Theta\right\} \\
+  \textbf{subject to}\quad
+  & \mathtrace\left\{W\Theta\right\}\le 0 \\
+  & W=\left[\begin{array}{cc}
+    W_{11} & W_{12} \\
+    W_{12}^{\mathconj} & W_{22}\end{array}\right]\succeq 0 \\
+  & AW_{11}A^{\mathconj}+BW_{12}^{\mathconj}A^{\mathconj}+AW_{12}B^{\mathconj}+
+    BW_{22}B^{\mathconj} - W_{11} \preceq 0 \\
+  & \alpha^{\mathconj}\left(AW_{11}+BW_{12}^{\mathconj}\right) +
+    \alpha\left(W_{11}A^{\mathconj}+W_{12}B^{\mathconj}\right) + \gamma W_{11}=0
+\end{align*}
+The Octave script \emph{yalmip\_generalised\_kyp\_dual\_lowpass\_test.m} calls
+YALMIP and SeDuMi to check the pass-band and stop-band dual constraints for a
+symmetric FIR low-pass filter designed with the \emph{remez} function.
+Unfortunately, SeDuMi fails for the case of complex $\alpha$ in the transition
+band and SDPT3 is used instead.
+
+Similarly, the Octave script
+\emph{yalmip\_generalised\_kyp\_dual\_bandpass\_test.m} calls YALMIP and SDPT3
+to check the pass-band and upper and lower stop-band dual constraints for a
+symmetric FIR band-pass filter designed with the \emph{remez} function.
+
+Unfortunately, in some cases my attempts to force failure of the dual constraints
+instead forced $\mathnorm{W}\rightarrow 0$. Also, this generalised dual is
+bi-linear in the decision variables and so it is not immediately applicable to
+LMI filter design.
 \clearpage
 \section{Generalisation of the KYP lemma to the union of disjoint  frequency intervals}
 \emph{Pipeleers}, \emph{Iwasaki}
