@@ -1,5 +1,5 @@
 % schurOneMlatticePipelinedFilter_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2023-2024 Robert G. Jenssen
 %
 % Test cases for the pipelined Schur one-multiplier lattice filter 
 
@@ -20,7 +20,7 @@ for Nk=1:9
 
   % Filter
   [n,d]=butter(Nk,2*fc);
-  [k,epsilon,~,c,S]=tf2schurOneMlattice(n,d);
+  [k,epsilon,~,c]=tf2schurOneMlattice(n,d);
 
   % Calculate noise gain and state scaling
   [A,B,C,D,Cap,Dap]=schurOneMlatticePipelined2Abcd(k,epsilon,c);

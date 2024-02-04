@@ -1,10 +1,10 @@
-function r=schurOneMAPlattice2tf(k,epsilon,p,R)
-% r=schurOneMAPlattice2tf(k,epsilon,p,R)
-% Find the all-pass filter denominator polynomial, r, of the Schur
+function d=schurOneMAPlattice2tf(k,epsilon,p,R)
+% d=schurOneMAPlattice2tf(k,epsilon,p,R)
+% Find the all-pass filter denominator polynomial, d, of the Schur
 % one-multiplier lattice with coefficients k and epsilon, scaling p
 % and terms in z^R.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -24,16 +24,22 @@ function r=schurOneMAPlattice2tf(k,epsilon,p,R)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if ((nargin ~= 3) && (nargin ~= 4)) || (nargout ~= 1)
-    print_usage("r=schurOneMAPlattice2tf(k,epsilon,p,R)");
+  if (nargin == 0) || (nargin > 4) || (nargout ~= 1)
+    print_usage("d=schurOneMAPlattice2tf(k,epsilon,p,R)");
   endif
-  
+  if nargin < 3
+    p=ones(size(k));
+  endif
+  if nargin < 2
+    epsilon=ones(size(k));
+  endif
+
   [A,B,Cap,Dap]=schurOneMAPlattice2Abcd(k,epsilon,p);
-  [~,r]=Abcd2tf(A,B,Cap,Dap);
+  [~,d]=Abcd2tf(A,B,Cap,Dap);
   if nargin == 4
-    rr=zeros(1,(R*(length(r)-1))+1);
-    rr(1:R:end)=r;
-    r=rr;
+    dd=zeros(1,(R*(length(r)-1))+1);
+    dd(1:R:end)=d;
+    d=dd;
   endif
   
 endfunction
