@@ -29,6 +29,10 @@ r0AP_3=schurOneMAPlattice2tf(k0,epsilon0,p0);
 if max(abs(r0-r0AP_3))>eps
   error("max(abs(r0-r0AP_3))>eps");
 endif
+r0AP_4=schurOneMAPlattice2tf(k0,epsilon0,p0,1);
+if max(abs(r0-r0AP_4))>eps
+  error("max(abs(r0-r0AP_4))>eps");
+endif
 
 % Calculate Schur one-multiplier lattice FRM halfband filter coefficients
 [k0,epsilon0,p0,c0]=tf2schurOneMlattice(fliplr(r0),r0);

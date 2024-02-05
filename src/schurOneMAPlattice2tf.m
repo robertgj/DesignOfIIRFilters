@@ -37,7 +37,7 @@ function d=schurOneMAPlattice2tf(k,epsilon,p,R)
   [A,B,Cap,Dap]=schurOneMAPlattice2Abcd(k,epsilon,p);
   [~,d]=Abcd2tf(A,B,Cap,Dap);
   if nargin == 4
-    dd=zeros(1,(R*(length(r)-1))+1);
+    dd=zeros(1,(R*(length(d)-1))+1);
     dd(1:R:end)=d;
     d=dd;
   endif
