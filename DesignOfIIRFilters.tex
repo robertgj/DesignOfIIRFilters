@@ -12172,6 +12172,51 @@ coefficients are:
 \label{fig:Parallel-Schur-OneMPA-lattice-lowpass-filter-SOCP-PCLS-sens}
 \end{figure}
 \clearpage
+\subsection{\label{sec:Design-parallel-delay-Schur-one-mult-all-pass-lattice-low-pass-SOCP}Design of an IIR low-pass filter with a delay in parallel with a Schur one-multiplier all-pass lattice filter using SOCP}
+The Octave script \emph{schurOneMPAlatticeDelay\_socp\_slb\_lowpass\_test.m}
+implements the design of a low-pass IIR filter composed of the sum of a delay
+and a one-multiplier Schur lattice all-pass filter with SOCP and PCLS
+optimisation. For such a filter the all-pass reflection coefficient sign
+assignments can be recalculated without affecting the response.
+The filter specification is similar to that described in
+Section~\ref{sec:Design-IIR-filter-sum-delay-all-pass-filter-pole-zero-SOCP}:
+\begin{small}
+\verbatiminput{schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12.spec}
+\end{small}
+The initial all-pass filter was designed with the Octave function
+\emph{WISE\_DA.m} using the \emph{WISE} method described in
+Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier} and is the
+same as that used in
+Section~\ref{sec:Design-IIR-filter-sum-delay-all-pass-filter-pole-zero-SOCP}.
+
+Figure~\ref{fig:Parallel-delay-Schur-OneMPA-lattice-lowpass-filter-SOCP-PCLS} 
+shows the passband and stopband responses of the filter after SOCP PCLS
+optimisation.
+Figure~\ref{fig:Parallel-delay-Schur-OneMPA-lattice-lowpass-filter-SOCP-PCLS-pz}
+shows the pole-zero plot of the filter.
+
+The low-pass filter SOCP PCLS optimised Schur one-multiplier all-pass lattice
+coefficients are:
+\begin{small}
+\verbatiminput{schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12_A1k_coef.m}
+\verbatiminput{schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12_A1epsilon_coef.m}
+\end{small}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12_response}}
+\caption{Parallel delay and Schur one-multiplier all-pass lattice low-pass
+  filter, response after SOCP PCLS optimisation.}
+\label{fig:Parallel-delay-Schur-OneMPA-lattice-lowpass-filter-SOCP-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12_pz}}
+\caption{Parallel delay and Schur one-multiplier all-pass lattice low-pass
+  filter, pole-zero plot after SOCP PCLS optimisation.}
+\label{fig:Parallel-delay-Schur-OneMPA-lattice-lowpass-filter-SOCP-PCLS-pz}
+\end{figure}
+\clearpage
 \subsection{\label{sec:Design-parallel-Schur-norm-scaled-all-pass-lattice-low-pass-SOCP}Design of a parallel IIR Schur approximately normalised scaled all-pass lattice low-pass filter using SOCP}
 The Octave script \emph{schurNSPAlattice\_socp\_slb\_lowpass\_test.m}
 implements the design of a low-pass IIR filter composed of the

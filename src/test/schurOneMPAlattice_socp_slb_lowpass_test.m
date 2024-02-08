@@ -1,11 +1,13 @@
 % schurOneMPAlattice_socp_slb_lowpass_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMPAlattice_socp_slb_lowpass_test.diary");
-delete("schurOneMPAlattice_socp_slb_lowpass_test.diary.tmp");
-diary schurOneMPAlattice_socp_slb_lowpass_test.diary.tmp
+strf="schurOneMPAlattice_socp_slb_lowpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
@@ -72,9 +74,6 @@ k_u=rho*ones(size(k0));
 k_l=-k_u;
 k_active=find(k0~=0);
 
-% Common strings
-strf="schurOneMPAlattice_socp_slb_lowpass_test";
-
 %
 % SOCP PCLS
 %
@@ -119,12 +118,12 @@ printf("A1,A2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 %
 % Save the results
 %
-fid=fopen("schurOneMPAlattice_socp_slb_lowpass_test.spec","wt");
+fid=fopen(strcat(strf,".spec"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"m1=%d %% Allpass model filter 1 denominator order\n",m1);
-fprintf(fid,"m2=%d %% Allpass model filter 2 denominator order\n",m2);
+fprintf(fid,"m1=%d %% Allpass filter 1 denominator order\n",m1);
+fprintf(fid,"m2=%d %% Allpass filter 2 denominator order\n",m2);
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
 fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
@@ -161,13 +160,12 @@ Db1=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
 print_polynomial(Db1,"Db1");
 print_polynomial(Db1,"Db1",strcat(strf,"_Db1_coef.m"));
 
-save schurOneMPAlattice_socp_slb_lowpass_test.mat ...
-     rho tol ctol difference n m1 m2 ...
-     fap dBap Wap Wat fas dBas Was ftp td tdr Wtp ...
-     Da0 Db0 A1k A1epsilon A1p Da1 A2k A2epsilon A2p Db1
+eval(sprintf("save %s.mat ... \n\
+     rho tol ctol difference n m1 m2 ...\n\
+     fap dBap Wap Wat fas dBas Was ftp td tdr Wtp ...\n\
+     Da0 Db0 A1k A1epsilon A1p Da1 A2k A2epsilon A2p Db1",strf));
 
 % Done
 toc;
 diary off
-movefile schurOneMPAlattice_socp_slb_lowpass_test.diary.tmp ...
-         schurOneMPAlattice_socp_slb_lowpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));
