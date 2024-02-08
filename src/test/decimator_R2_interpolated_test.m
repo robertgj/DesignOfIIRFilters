@@ -122,8 +122,6 @@ axis(ax1(1),[0 0.5 -0.4 0.4])
 axis(ax1(2),[0 0.5 -50 -30])
 axis(ax1(1),"tic","labely");
 axis(ax1(2),"tic","labely");
-set(ax1(1),'ycolor','black');
-set(ax1(2),'ycolor','black');
 grid("on");
 ylabel("Amplitude(dB)")
 title(sprintf
@@ -186,8 +184,6 @@ close
 ax=plotyy(fa,20*log10(abs(H1P)),fa,20*log10(abs(H1P)));
 axis(ax(1),[0 0.5 -0.4 0.4])
 axis(ax(2),[0 0.5 -60 -40])
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 grid("on");
 ylabel("Amplitude(dB)")
 title("Interpolated and anti-aliased IIR filter");
@@ -218,8 +214,6 @@ axis(ax1(1),[0 0.1 -0.4 0.4])
 axis(ax1(2),[0 0.1 -45 -25])
 axis(ax1(1),"tic","labely");
 axis(ax1(2),"tic","labely");
-set(ax1(1),'ycolor','black');
-set(ax1(2),'ycolor','black');
 grid("on");
 ylabel("Amplitude(dB)")
 %{
@@ -244,8 +238,6 @@ axis(ax2(1),[0 0.1 -0.4 0.4])
 axis(ax2(2),[0 0.1 -45 -25])
 axis(ax2(1),"tic","labely");
 axis(ax2(2),"tic","labely");
-set(ax2(1),'ycolor','black');
-set(ax2(2),'ycolor','black');
 grid("on");
 ylabel("Amplitude(dB)")
 %{
@@ -263,8 +255,6 @@ axis(ax3(1),[0 0.1 -0.4 0.4])
 axis(ax3(2),[0 0.1 -45 -25])
 axis(ax3(1),"tic","labely");
 axis(ax3(2),"tic","labely");
-set(ax3(1),'ycolor','black');
-set(ax3(2),'ycolor','black');
 grid("on");
 ylabel("Amplitude(dB)")
 %{
@@ -279,8 +269,6 @@ Hbbb=freqz(bbb,1,wa);
 ax4=plotyy(fa,20*log10(abs(Hbbb)),fa,20*log10(abs(Hbbb)));
 axis(ax4(1),[0 0.1 -0.4 0.4])
 axis(ax4(2),[0 0.1 -45 -25])
-set(ax4(1),'ycolor','black');
-set(ax4(2),'ycolor','black');
 grid("on");
 ylabel("Amplitude(dB)")
 xlabel("Frequency");

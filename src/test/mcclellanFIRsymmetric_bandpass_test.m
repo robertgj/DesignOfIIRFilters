@@ -88,8 +88,6 @@ close
 
 % Dual plot
 ax=plotyy(wa*0.5/pi,A,wa*0.5/pi,A);
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 1-(2*K*abs(rho)) 1+(2*K*abs(rho))]);
 axis(ax(2),[0 0.5 -2*abs(rho) 2*abs(rho)]);
 title(strt);

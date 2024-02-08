@@ -95,8 +95,6 @@ w=f*2*pi;
 H=freqz(h,1,w);
 ax=plotyy(w(1:nap)*0.5/pi,20*log10(abs(H(1:nap))), ...
           w(nas:end)*0.5/pi,20*log10(abs(H(nas:end))));
-set(ax(1),"ycolor","black");
-set(ax(2),"ycolor","black");
 axis(ax(1),[0 0.5 -0.04 0.04]);
 axis(ax(2),[0 0.5 -60 -40]);
 ylabel("Amplitude(dB)");
@@ -158,8 +156,6 @@ wa=(0:nplot)'*pi/nplot;
 A=directFIRsymmetricA(wa,hM);
 ax=plotyy(wa(1:nap)*0.5/pi,20*log10(abs(A(1:nap))), ...
           wa(nas:end)*0.5/pi,20*log10(abs(A(nas:end))));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.04 0.04]);
 axis(ax(2),[0 0.5 -60 -40]);
 strt=sprintf("McClellan lowpass FIR: M=%d,fap=%g,fas=%g,K=%g,rho=%g", ...

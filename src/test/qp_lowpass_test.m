@@ -56,8 +56,6 @@ for d=[M,floor(M/2)],
   H=freqz(h,1,nplot);
   ax=plotyy(f(1:nap),20*log10(abs(H(1:nap))), ...
             f(nap:end),20*log10(abs(H(nap:end))));
-  set(ax(1),'ycolor','black');
-  set(ax(2),'ycolor','black');
   axis(ax(1),[0 0.5 0.1*[-1 1]]);
   axis(ax(2),[0 0.5 -60 -20]);
   ylabel(ax(1),"Amplitude(dB)");
@@ -124,8 +122,6 @@ print_polynomial(hPM,sprintf("hPM"),sprintf("%s_hPM_coef.m",strf),"%13.10f");
 APM=directFIRsymmetricA(2*pi*fPM,hPM);
 ax=plotyy(fPM(1:nap),20*log10(abs(APM(1:nap))), ...
           fPM(nap:end),20*log10(abs(APM(nap:end))));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 0.1*[-1 1]]);
 axis(ax(2),[0 0.5 -60 -20]);
 ylabel(ax(1),"Amplitude(dB)");

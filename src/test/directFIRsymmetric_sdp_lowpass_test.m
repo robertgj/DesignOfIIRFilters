@@ -247,8 +247,6 @@ for M=[31,200],
     endif
     ylabel("Amplitude");
   endif
-  set(ax(1),"ycolor","black");
-  set(ax(2),"ycolor","black");
   if show_dB
     strt=sprintf("Tuan low-pass FIR : \
 M=%d,fap=%g,fas=%g,dBap=%g,dBas=%g",M,fap,fas,dBap,dBas);

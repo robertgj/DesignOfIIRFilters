@@ -98,8 +98,6 @@ cdnuGg=real(Gcn./Gdn).^2;
 % Plot Omega and cdnuGg
 [ax,h1,h2]=plotyy(Omega(1:nf),cdnuGg(1:nf), ...
                   Omega((nf+1):Oend),cdnuGg((nf+1):Oend));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 Wend 0 1]);
 axis(ax(2),[0 Wend 0 2.5e9]);
 strt="Minimal-Q elliptic filter $cd^2(nuG,\\gamma)$";
@@ -159,8 +157,6 @@ Ws=linspace(0,Wend,nf);
 Hs=freqs(ns,ds,Ws);
 ax=plotyy(Ws(1:nWp),20*log10(abs(Hs(1:nWp))), ...
           Ws((nWp+1):end),20*log10(abs(Hs((nWp+1):end))));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 Wend -0.0002 0]);
 axis(ax(2),[0 Wend -80 0]);
 strt="Minimal-Q elliptic filter s-plane response";
@@ -214,8 +210,6 @@ nfa=floor(fa*nf/0.5)+1;
 printf("Response at fa=%f is %f dB\n",fa,20*log10(abs(hz(nfa))))
 ax=plotyy(Wz(1:nfp)*0.5/pi,20*log10(abs(hz(1:nfp))), ...
           Wz(nfa:end)*0.5/pi,20*log10(abs(hz(nfa:end))));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 % Plotting axis limits
 axis(ax(1),[0 0.5 -0.0008 0]);
 axis(ax(2),[0 0.5 -46 -38]);
@@ -287,8 +281,6 @@ printf("SD response at fp=%f is %f dB\n",fp,20*log10(abs(hz_sd(nfp))))
 printf("SD response at fa=%f is %f dB\n",fa,20*log10(abs(hz_sd(nfa))))
 ax=plotyy(Wz(1:nfp)*0.5/pi,20*log10(abs(hz_sd(1:nfp))), ...
           Wz(nfa:end)*0.5/pi,20*log10(abs(hz_sd(nfa:end))));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.0008 0]);
 axis(ax(2),[0 0.5 -46 -38]);
 strt=sprintf("Minimal-Q elliptic filter z-plane response (%d-bit, \

@@ -369,11 +369,7 @@ set(h1(3),"linestyle","-");
 set(h2(1),"linestyle","--");
 set(h2(2),"linestyle","-.");
 set(h2(3),"linestyle","-");
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 ylabel(ax(1),"Amplitude(dB)");
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 % End of hack
 axis(ax(1),[0 0.5 -0.08 0.04]);
 axis(ax(2),[0 0.5 -48 -36]);

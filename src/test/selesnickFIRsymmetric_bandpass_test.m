@@ -78,8 +78,6 @@ M=%d,deltasl=%g,deltap=%g,deltasu=%g,ftl=%g,ftu=%g,At=%s",
 
   % Dual plot
   ax=plotyy(F,A,F,A);
-  set(ax(1),'ycolor','black');
-  set(ax(2),'ycolor','black');
   axis(ax(1),[0 0.5 1-(2*deltap) 1+(2*deltap)]);
   axis(ax(2),[0 0.5 -2*deltasl 2*deltasl]);
   title(strt);

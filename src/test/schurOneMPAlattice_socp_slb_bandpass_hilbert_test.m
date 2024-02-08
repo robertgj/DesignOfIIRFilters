@@ -144,8 +144,6 @@ P=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 % Plot response
 subplot(311);
 ax=plotyy(wa*0.5/pi,10*log10(Asq),wa*0.5/pi,10*log10(Asq));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 0.2*[-1 1]]);
 axis(ax(2),[0 0.5 -44 -36]);
 ylabel("Amplitude(dB)");

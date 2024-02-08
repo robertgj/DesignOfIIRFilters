@@ -473,8 +473,6 @@ set(h1(3),"linestyle","-.");
 set(h2(1),"linestyle","-");
 set(h2(2),"linestyle","--");
 set(h2(3),"linestyle","-.");
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 % End of hack
 axis(ax(1),[0, 0.5, -0.05, 0.01]);
 axis(ax(2),[0, 0.5, -100, -40]);

@@ -120,8 +120,6 @@ print(strcat(strf,"_iir"),"-dpdflatex");
 close
 ax=plotyy(wa*0.5/pi,20*log10(abs(Hbs)), ...
           wa(nasl:nasu)*0.5/pi,20*log10(abs(Hbs(nasl:nasu))));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.012 0]);
 axis(ax(2),[0 0.5 -30 -24]);
 ylabel("Amplitude(dB)");
@@ -201,8 +199,6 @@ print(strcat(strf,"_zp"),"-dpdflatex");
 close
 ax=plotyy(wa*0.5/pi,20*log10(abs(Fr)), ...
           wa(nasl:nasu)*0.5/pi,20*log10(abs(Fr(nasl:nasu))));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.00005 0]);
 axis(ax(2),[0 0.5 -110 -105]);
 ylabel("Amplitude(dB)");

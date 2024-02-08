@@ -66,8 +66,6 @@ close
 pnp=ceil((nplot+1)*fp/0.5)+1;
 pns=floor((nplot+1)*fs/0.5)+1;
 ax=plotyy(wa(1:pnp)*0.5/pi,A(1:pnp),wa(pns:end)*0.5/pi,A(pns:end));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 0.99 1.01]);
 axis(ax(2),[0 0.5 -2*deltas 2*deltas]);
 title(strt);

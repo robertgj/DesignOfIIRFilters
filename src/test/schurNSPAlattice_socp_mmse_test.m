@@ -136,8 +136,6 @@ T=schurNSPAlatticeT(wt,A1s20_1,A1s00_1,A1s02_1,A1s22_1, ...
 % Plot response
 subplot(311);
 ax=plotyy(wa*0.5/pi,10*log10(Asq),wa*0.5/pi,10*log10(Asq));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -2*dBap dBap]);
 axis(ax(2),[0 0.5 -dBas-10 -dBas+10]);
 ylabel("Amplitude(dB)");

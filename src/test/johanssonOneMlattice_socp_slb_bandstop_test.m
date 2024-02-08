@@ -75,8 +75,6 @@ strt=sprintf ("Johansson one-multiplier lattice band-stop filter SOCP \
 %%s response : fapl=%g,fasl=%g,fasu=%g,fapu=%g",fapl,fasl,fasu,fapu);
 Azp_0=johanssonOneMlatticeAzp(wa,fM_0,k0_0,epsilon0,k1_0,epsilon1);
 ax=plotyy(wa*0.5/pi,Azp_0,wa(nasl:nasu)*0.5/pi,Azp_0(nasl:nasu));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 1-0.000005 1]);
 axis(ax(2),[0 0.5 0 0.000005]);
 ylabel("Amplitude");
@@ -115,8 +113,6 @@ strt=sprintf ("Johansson one-multiplier lattice band-stop filter SOCP \
 %%s response : fapl=%g,fasl=%g,fasu=%g,fapu=%g",fapl,fasl,fasu,fapu);
 Azp=johanssonOneMlatticeAzp(wa,fM,k0,epsilon0,k1,epsilon1);
 ax=plotyy(wa*0.5/pi,Azp,wa(nasl:nasu)*0.5/pi,Azp(nasl:nasu));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 1-delta_p 1]);
 axis(ax(2),[0 0.5 0 delta_s]);
 ylabel("Amplitude");

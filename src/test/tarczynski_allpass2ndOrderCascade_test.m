@@ -270,16 +270,12 @@ ma=%d,mb=%d,fap=%g,fas=%g",ma,mb,fap,fas);
   subplot(211);
   ax=plotyy(wplot(1:np)*0.5/pi,20*log10(abs(H(1:np))),...
             wplot(ns:end)*0.5/pi,20*log10(abs(H(ns:end))));
-  set(ax(1),'ycolor','black');
-  set(ax(2),'ycolor','black');
   axis([0 0.5 -3 1]);
   ylabel("Amplitude(dB)");
   grid("on");
   title(s);
   subplot(212);
   ax=plotyy(wplot(1:np)*0.5/pi,T(1:np),wplot(ns:end)*0.5/pi,T(ns:end));
-  set(ax(1),'ycolor','black');
-  set(ax(2),'ycolor','black');
   ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
@@ -305,8 +301,6 @@ ma=%d,mb=%d,fap=%g,fas=%g",ma,mb,fap,fas);
   phase_diff=(unwrap(arg(Ha))-unwrap(arg(Hb)));
   ax=plotyy(wplot(1:np)*0.5/pi,phase_diff(1:np), ...
             wplot(ns:end)*0.5/pi,phase_diff(ns:end));
-  set(ax(1),'ycolor','black');
-  set(ax(2),'ycolor','black');
   ylabel("Allpass filter phase difference(rad)");
   xlabel("Frequency");
   grid("on");

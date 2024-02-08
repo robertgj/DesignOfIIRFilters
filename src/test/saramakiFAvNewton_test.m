@@ -19,8 +19,6 @@ na=nfp+1;
 [h,w]=freqz(b,a,nplot);
 ax=plotyy(w(1:nfp)*0.5/pi,20*log10(abs(h(1:nfp))), ...
           w(na:end)*0.5/pi,20*log10(abs(h(na:end))));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -2*dBap 2*dBap]);
 axis(ax(2),[0 0.5 -80 -60]);
 strt="Saram\\\"{a}ki n>=m filter response";

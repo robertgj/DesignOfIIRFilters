@@ -85,8 +85,6 @@ title(strt);
 fas=0.3;
 nas=floor(fas*nplot/0.5)+1;
 ax=plotyy(w(1:nas)*0.5/pi,-A57(1:nas),w(nas-10:end)*0.5/pi,-A57(nas-10:end));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.5 1.5 ]);
 axis(ax(2),[0 0.5 -2*deltas 2*deltas]);
 title(strt);

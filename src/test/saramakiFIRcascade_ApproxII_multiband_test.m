@@ -278,8 +278,6 @@ print(strcat(strf,"_response"),"-dpdflatex");
 close
 % Pass-band and stop-band detail
 ax=plotyy(f,ANM,f,ANM);
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 1-2*deltap 1+2*deltap])
 axis(ax(2),[0 0.5 -2*deltas 2*deltas])
 grid("on");

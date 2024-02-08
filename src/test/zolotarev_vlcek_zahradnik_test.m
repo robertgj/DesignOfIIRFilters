@@ -272,8 +272,6 @@ fs=acos(ws)*0.5/pi;
 ns=floor(nplot*(fs)/0.5)+1;
 ax=plotyy(w(1:np)*0.5/pi,20*log10(abs(H(1:np))), ...
           w(ns:end)*0.5/pi,20*log10(abs(H(ns:end))));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.08 0.02]);
 axis(ax(2),[0 0.5 -46 -36]);
 strt=sprintf("Transfer function (Vlcek and Zahradnik) : p=%3d, q=%3d, k=%4.2f",
@@ -356,8 +354,6 @@ np=ceil(nplot*fp/0.5)+1;
 ns=floor(nplot*(fs)/0.5)+1;
 ax=plotyy(w(1:np)*0.5/pi,20*log10(abs(H(1:np))), ...
           w(ns:end)*0.5/pi,20*log10(abs(H(ns:end))));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.00001 0.000002]);
 axis(ax(2),[0 0.5 -130 -118]);
 strt=sprintf("Transfer function (Vlcek and Zahradnik) : \

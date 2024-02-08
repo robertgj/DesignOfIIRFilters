@@ -369,8 +369,6 @@ for d=[10,12,M],
   f=w*0.5/pi;
   ax=plotyy(f(1:nap),20*log10(abs(H(1:nap))), ...
             f(nas:end),20*log10(abs(H(nas:end))));
-  set(ax(1),'ycolor','black');
-  set(ax(2),'ycolor','black');
   if d==M, 
     axis(ax(1),[0 0.5 0.02*[-1 1]]);
   else

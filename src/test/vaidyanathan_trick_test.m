@@ -30,8 +30,6 @@ np=ceil(nplot*fp/0.5)+1;
 ns=ceil(nplot*(0.5-fp)/0.5)+1;
 ax=plotyy(w(1:np)*0.5/pi,20*log10(abs(H(1:np))), ...
           w(ns:end)*0.5/pi,20*log10(abs(H(ns:end))));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.004 0.004]);
 axis(ax(2),[0 0.5 -78 -70]);
 strt=sprintf("Vaidyanathan TRICK half-band filter: M=%d, N=%d, fp=%4.2f", ...

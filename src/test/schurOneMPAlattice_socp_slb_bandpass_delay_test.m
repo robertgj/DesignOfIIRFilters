@@ -123,8 +123,6 @@ P0=schurOneMPAlatticeP(wp,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference);
 % Plot initial response
 subplot(311);
 ax=plotyy(wa*0.5/pi,10*log10(Asq0),wa*0.5/pi,10*log10(Asq0));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -1 1]);
 axis(ax(2),[0 0.5 -60 -20]);
 ylabel("Amplitude(dB)");
@@ -179,8 +177,6 @@ P1=schurOneMPAlatticeP(wp,A1k1,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference);
 % Plot MMSE response
 subplot(311);
 ax=plotyy(wa*0.5/pi,10*log10(Asq1),wa*0.5/pi,10*log10(Asq1));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -1 1]);
 axis(ax(2),[0 0.5 -60 -20]);
 ylabel("Amplitude(dB)");
@@ -233,8 +229,6 @@ P=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 % Plot response
 subplot(311);
 ax=plotyy(wa*0.5/pi,10*log10(Asq),wa*0.5/pi,10*log10(Asq));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -1 1]);
 axis(ax(2),[0 0.5 -60 -40]);
 ylabel("Amplitude(dB)");

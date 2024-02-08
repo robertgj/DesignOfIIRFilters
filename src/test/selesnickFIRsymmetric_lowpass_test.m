@@ -94,8 +94,6 @@ nf=%d,M=%d,deltap=%g,deltas=%g,ft=%g,At=%s",typef,nf,M,deltap,deltas,ft,typeAt);
             F(nat:end),20*log10(abs(A(nat:end))));
   axis(ax(1),[0 0.5 -1e-5 1e-5]);
   axis(ax(2),[0 0.5 -170 -150]);
-  set(ax(1),'ycolor','black');
-  set(ax(2),'ycolor','black');
   ylabel(ax(1),"Amplitude(dB)");
   xlabel("Frequency");
   title(strt);

@@ -388,8 +388,6 @@ set(h2(1),"linestyle","-");
 set(h2(2),"linestyle",":");
 set(h2(3),"linestyle","--");
 set(h2(4),"linestyle","-.");
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0, 0.5, -0.1, 0.02]);
 axis(ax(2),[0, 0.5, -100, -40]);
 ylabel(ax(1),"Amplitude(dB)");

@@ -100,8 +100,6 @@ fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g",fap,dBap,ftp,td,tdr);
     plotyy(wplot(1:floor(0.98*nas))*0.5/pi,gradAsq(1:floor(0.98*nas),:), ...
            wplot(nas:nplot)*0.5/pi,gradAsq(nas:nplot,:));
   axis(ax(1),[0 0.5 -2 2]);
-  set(ax(1),'ycolor','black');
-  set(ax(2),'ycolor','black');
   ylabel(ax(1),"Passband squared amplitude sensitivity");
   ylabel(ax(2),"Stopband squared amplitude sensitivity");
   grid("on");

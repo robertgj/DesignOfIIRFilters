@@ -76,8 +76,6 @@ close
 nap=ceil(nplot*fap_actual/0.5)+1;
 nas=ceil(nplot*fas_actual/0.5)+1;
 ax=plotyy(wa(1:nap)*0.5/pi,A(1:nap),wa(nas:end)*0.5/pi,A(nas:end));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 1-(2*deltap) 1+(2*deltap)]);
 axis(ax(2),[0 0.5 -2*deltas 2*deltas]);
 title(strt);

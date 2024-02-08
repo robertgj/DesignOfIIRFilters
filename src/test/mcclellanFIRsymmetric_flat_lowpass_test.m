@@ -57,8 +57,6 @@ close
 ax=plotyy(F(1:nas),A(1:nas),F(nas:end),A(nas:end));
 axis(ax(1),[0 0.5 0.98 1.02]);
 axis(ax(2),[0 0.5 -0.02 0.02]);
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 title(strt);
 ylabel("Amplitude");
 xlabel("Frequency");

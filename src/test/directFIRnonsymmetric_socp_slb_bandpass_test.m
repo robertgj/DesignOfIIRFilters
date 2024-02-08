@@ -113,8 +113,6 @@ endif
 % Plot initial response
 A0=directFIRsymmetricA(wa,hM);
 ax=plotyy(wa(napl:napu)*0.5/pi,A0(napl:napu),wa*0.5/pi,A0);
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 0.9992 1.0008]);
 axis(ax(2),[0 0.5 -0.01 0.01]);
 grid("on");

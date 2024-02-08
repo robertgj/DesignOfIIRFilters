@@ -60,8 +60,6 @@ close
 ax=plotyy(F,A,F,A);
 axis(ax(1),[0 0.5 0.98 1.02]);
 axis(ax(2),[0 0.5 -0.02 0.02]);
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 title(strt);
 ylabel("Amplitude");
 xlabel("Frequency");

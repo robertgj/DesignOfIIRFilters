@@ -180,7 +180,7 @@ for ndigits=2:3
   title(strt);
   xlabel("bits");
   ylabel("Cost");
-  grid("off");
+  grid("on");
   legend("round","signed-digit","Lim","Ito");
   legend("location","northeast");
   legend("boxoff");

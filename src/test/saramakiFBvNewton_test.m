@@ -30,8 +30,6 @@ print_polynomial(den,"d",strcat(strf,"_d_coef.m"),"%15.10f");
 max_dBas=max(20*log10(abs(h(nfs:end))));
 ax=plotyy(w(1:nfp)*0.5/pi,20*log10(abs(h(1:nfp))), ...
           w(nfs:end)*0.5/pi,20*log10(abs(h(nfs:end))));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.15 0.05]);
 axis(ax(2),[0 0.5 10*ceil(max_dBas/10)+[-20 0]]);
 strt="Saram\\\"{a}ki n<m filter response";

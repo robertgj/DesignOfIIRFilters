@@ -140,8 +140,6 @@ close
 subplot(211);
 ax=plotyy(wplot(1:nas)*0.5/pi,20*log10(abs(Ha1(1:nas))),...
           wplot(nas:n)*0.5/pi,20*log10(abs(Ha1(nas:n))));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.6 0.2]);
 axis(ax(2),[0 0.5 -50 -30]);
 ylabel("Amplitude(dB)");

@@ -217,8 +217,6 @@ Fapmin_subfilter=Fapmin(find(found_subfilter==1));
 Fasmin_subfilter=Fasmin(find(found_subfilter==1));
 if 0
   ax=plotyy(Fapmin_subfilter,2*Mmin_subfilter,Fapmin,(Fasmin-Fapmin));
-  set(ax(2),'ycolor','black');
-  set(ax(1),'ycolor','black');
   axis(ax(1),[0 0.3 40 100])
   axis(ax(2),[0 0.3 0.12 0.24])
   grid("on")
@@ -278,8 +276,6 @@ title(strt);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 ax=plotyy(fa,Amin_subfilter(:,kM),fa,Amin_subfilter(:,kM));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 1-2*deltap 1+2*deltap])
 axis(ax(2),[0 0.5 -2*deltas 2*deltas])
 grid("on");

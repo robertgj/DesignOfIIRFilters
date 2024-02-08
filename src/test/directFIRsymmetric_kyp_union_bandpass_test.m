@@ -213,15 +213,7 @@ nasu=(fasu*nplot/0.5)+1;
 f=(0:(nplot-1))'*0.5/nplot;
 w=2*pi*f;
 H=freqz(h,1,w);
-[ax,h1,h2]=plotyy(f,20*log10(abs(H)),f,20*log10(abs(H)));
-% Hack to set plot colours
-h1c=get(h1,'color');
-h2c=get(h2,'color');
-set(h1,'color',h2c);
-set(h2,'color',h1c);
-set(ax(1),"ycolor","black");
-set(ax(2),"ycolor","black");
-% End of hack
+ax=plotyy(f,20*log10(abs(H)),f,20*log10(abs(H)));
 axis(ax(1),[0 0.5 -60 -40]);
 axis(ax(2),[0 0.5 0.01*[-1,1]]);
 ylabel("Amplitude(dB)");

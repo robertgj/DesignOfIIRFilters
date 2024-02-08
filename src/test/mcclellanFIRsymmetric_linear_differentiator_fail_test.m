@@ -70,8 +70,6 @@ endif
 % Dual plot of hM response 
 AhM=directFIRsymmetricA(2*pi*F,hM);
 [ax,h1,h2]=plotyy(F(1:nas),AhM(1:nas),F(nas:end),AhM(nas:end));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -1100e3 100e3]);
 axis(ax(2),[0 0.5 -110e-3 10e-3]);
 ylabel("Amplitude");

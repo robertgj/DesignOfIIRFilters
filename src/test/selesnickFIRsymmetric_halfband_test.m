@@ -70,8 +70,6 @@ close
 nat=ceil(nplot*ft/0.5)+1;
 ax=plotyy(F(1:nat),20*log10(abs(A(1:nat))), ...
           F(nat:end),20*log10(abs(A(nat:end))));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 ylabel(ax(1),"Amplitude(dB)");
 xlabel("Frequency");
 axis(ax(1),[0 0.5 -1e-5 1e-5]);

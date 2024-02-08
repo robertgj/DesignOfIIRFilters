@@ -105,8 +105,6 @@ close
 [ax,h1,h2]=plotyy(wa*0.5/pi,A,wa*0.5/pi,A);
 set(h1,"linestyle","-");
 set(h2,"linestyle","-");
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 1+1.1*[-1,1]*max([deltap1,deltap2])]);
 axis(ax(2),[0 0.5 1.1*[-1,1]*max([deltas1,deltas2,deltas3])]);
 title(strt);

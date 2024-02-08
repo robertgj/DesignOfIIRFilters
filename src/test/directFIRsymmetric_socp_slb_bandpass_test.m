@@ -121,8 +121,6 @@ close
 ax=plotyy(wa*0.5/pi,A_hM1, wa*0.5/pi,A_hM1);
 axis(ax(1),[0 0.5 1+(0.0004*[-1 1])]);
 axis(ax(2),[0 0.5 0.01*[-1 1]]);
-set(ax(1),"ycolor","black");
-set(ax(2),"ycolor","black");
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude");

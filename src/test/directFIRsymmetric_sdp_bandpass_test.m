@@ -306,8 +306,6 @@ for M=[15,30,80],
     endif
     ylabel("Amplitude");
   endif
-  set(ax(1),"ycolor","black");
-  set(ax(2),"ycolor","black");
   if show_dB
     strt=sprintf("Tuan band-pass FIR : \
 M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g,Wap=%g", ...

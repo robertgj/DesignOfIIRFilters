@@ -307,15 +307,7 @@ P=(w*d)+unwrap(arg(H));
 [T,w]=delayz(h,1,nplot);
 
 subplot(311)
-[ax,h1,h2]=plotyy(w*0.5/pi,10*log10(Asq),w*0.5/pi,10*log10(Asq));
-% Hack to set plot colours
-h1c=get(h1,"color");
-h2c=get(h2,"color");
-set(h1,"color",h2c);
-set(h2,"color",h1c);
-set(ax(1),"ycolor","black");
-set(ax(2),"ycolor","black");
-% End of hack
+ax=plotyy(w*0.5/pi,10*log10(Asq),w*0.5/pi,10*log10(Asq));
 axis(ax(1),[0 0.5 -60 -40]);
 axis(ax(2),[0 0.5 -0.04 0.04]);
 grid("on");
@@ -324,31 +316,17 @@ strt=sprintf("KYP non-symmetric double pass-band FIR filter : \
 N=%d,d=%d,fapl1=%g,fapu1=%g,fapl2=%g,fapu2=%g",N,d,fapl1,fapu1,fapl2,fapu2);
 title(strt);
 subplot(312)
-[ax,h1,h2]=plotyy(w(napl1:napu1)*0.5/pi,(P(napl1:napu1)/pi)+2, ...
+ax=plotyy(w(napl1:napu1)*0.5/pi,(P(napl1:napu1)/pi)+2, ...
                   w(napl2:napu2)*0.5/pi,(P(napl2:napu2)/pi)+8);
-% Hack to set plot colours
-h1c=get(h1,"color");
-set(h2,"color",h1c);
-set(ax(1),"ycolor","black");
-set(ax(2),"ycolor","black");
-% End of hack
 axis(ax(1),[0 0.5 0.002*[-1 1]]);
 axis(ax(2),[0 0.5 0.002*[-1 1]]);
-%axis(ax(2),"off");
 grid("on");
 ylabel("Phase error(rad./$\\pi$)");
 subplot(313)
-[ax,h1,h2]=plotyy(w(napl1:napu1)*0.5/pi,T(napl1:napu1), ...
+ax=plotyy(w(napl1:napu1)*0.5/pi,T(napl1:napu1), ...
                   w(napl2:napu2)*0.5/pi,T(napl2:napu2));
-% Hack to set plot colours
-h1c=get(h1,"color");
-set(h2,"color",h1c);
-set(ax(1),"ycolor","black");
-set(ax(2),"ycolor","black");
-% End of hack
 axis(ax(1),[0 0.5 d+0.2*[-1 1]]);
 axis(ax(2),[0 0.5 d+0.2*[-1 1]]);
-%axis(ax(2),"off");
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency");

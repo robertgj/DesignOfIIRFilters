@@ -158,8 +158,6 @@ subplot(211);
 ax=plotyy(wa*0.5/pi,20*log10(A),wa*0.5/pi,20*log10(A));
 axis(ax(1),[0 0.5 -0.4 0.1]);
 axis(ax(2),[0 0.5 -65 -40]);
-set(ax(1),"ycolor",'black');
-set(ax(2),"ycolor",'black');
 ylabel("Amplitude(dB)");
 grid("on");
 tstr=sprintf("R=2 decimator alt. response : \

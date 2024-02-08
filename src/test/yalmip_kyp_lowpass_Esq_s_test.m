@@ -135,8 +135,6 @@ for d=[10,12,M],
   f=w*0.5/pi;
   ax=plotyy(f(1:nap),20*log10(abs(H(1:nap))), ...
             f(nas:end),20*log10(abs(H(nas:end))));
-  set(ax(1),'ycolor','black');
-  set(ax(2),'ycolor','black');
   axis(ax(1),[0 0.5 -0.4 0.4]);
   axis(ax(2),[0 0.5 -80 -40]);
   ylabel(ax(1),"Amplitude(dB)");

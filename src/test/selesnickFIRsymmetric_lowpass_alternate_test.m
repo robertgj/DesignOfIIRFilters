@@ -75,8 +75,6 @@ close
 pnap=ceil(nplot*fap/0.5)+1;
 pnas=floor(nplot*fas/0.5)+1;
 ax=plotyy(fa(1:pnap),A(1:pnap),fa(pnas:end),A(pnas:end));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 %axis(ax(1),[0 0.5 1-2*deltap 1+2*deltap]);
 axis(ax(1),[0 0.5 1+0.02*[-1,1]]);
 axis(ax(2),[0 0.5 4e-6*[-1,1]]);

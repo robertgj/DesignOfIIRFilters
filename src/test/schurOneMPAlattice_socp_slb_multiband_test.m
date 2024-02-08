@@ -262,8 +262,6 @@ grid("on");
 subplot(212)
 ax=plotyy(w(1+(ntp1l:ntp1u))*0.5/pi,T(1+(ntp1l:ntp1u)), ...
           w(1+(ntp2l:ntp2u))*0.5/pi,T(1+(ntp2l:ntp2u)));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 tp1-tpr1 tp1+tpr1]);
 axis(ax(2),[0 0.5 tp2-tpr2 tp2+tpr2]);
 ylabel("Delay(samples)");

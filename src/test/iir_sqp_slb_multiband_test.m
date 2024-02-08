@@ -256,8 +256,6 @@ else
   T2=iirT(wt,x2,U,V,M,Q,R);
   ax=plotyy(wt1*0.5/pi,T2(1:length(wt1)), ...
             wt2*0.5/pi,T2((length(wt1)+1):end));
-  set(ax(1),'ycolor','black');
-  set(ax(2),'ycolor','black');
   axis(ax(1),[0 0.5 28 32]);
   axis(ax(2),[0 0.5 14 16]);
   ylabel("Delay(samples)");

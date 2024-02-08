@@ -69,8 +69,6 @@ close
 pnap=ceil((nplot+1)*fap/0.5)+1;
 pnas=floor((nplot+1)*fas/0.5)+1;
 ax=plotyy(wa(1:pnap)*0.5/pi,A(1:pnap),wa(pnas:end)*0.5/pi,A(pnas:end));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 1-(2*K*abs(rho)) 1+(2*K*abs(rho))]);
 axis(ax(2),[0 0.5 -2*abs(rho) 2*abs(rho)]);
 title(strt);

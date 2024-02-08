@@ -171,8 +171,6 @@ T=schurNSPAlatticeT(wt,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
 % Plot response
 subplot(311);
 ax=plotyy(wa*0.5/pi,10*log10(Asq),wa*0.5/pi,10*log10(Asq));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.1 0.1]);
 axis(ax(2),[0 0.5 -60 -20]);
 ylabel("Amplitude(dB)");
@@ -261,8 +259,6 @@ Asim=abs(Hsim);
 Asim=movmean(Asim,mov_window);
 subplot(311);
 ax=plotyy(fpts,20*log10(Asim),fpts,20*log10(Asim));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -1 1]);
 axis(ax(2),[0 0.5 -60 -20]);
 ylabel("Amplitude(dB)");

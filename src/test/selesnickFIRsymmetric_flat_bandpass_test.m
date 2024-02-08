@@ -61,8 +61,6 @@ close
 
 % Dual plot
 ax=plotyy(F,A,F,A);
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 0.96 1.04]);
 axis(ax(2),[0 0.5 [-2 2]*max(deltasl,deltasu)]);
 title(strt);

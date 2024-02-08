@@ -214,15 +214,7 @@ P=(w*d)+unwrap(arg(H));
 [T,w]=delayz(h,1,nplot);
 
 subplot(311)
-[ax,h1,h2]=plotyy(w*0.5/pi,10*log10(Asq),w*0.5/pi,10*log10(Asq));
-% Hack to set plot colours
-h1c=get(h1,'color');
-h2c=get(h2,'color');
-set(h1,'color',h2c);
-set(h2,'color',h1c);
-set(ax(1),"ycolor","black");
-set(ax(2),"ycolor","black");
-% End of hack
+ax=plotyy(w*0.5/pi,10*log10(Asq),w*0.5/pi,10*log10(Asq));
 axis(ax(1),[0 0.5 -60 -40]);
 axis(ax(2),[0 0.5 0.02*[-1 1]]);
 grid("on");

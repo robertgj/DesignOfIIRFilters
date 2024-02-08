@@ -52,8 +52,6 @@ function schurOneMAPlattice_frm_socp_slb_plot ...
   % Plot magnitude response
   subplot(311);
   ax=plotyy(wap*0.5/pi,10*log10(AsqP_frm),was*0.5/pi,10*log10(AsqS_frm));
-  set(ax(1),'ycolor','black');
-  set(ax(2),'ycolor','black');
   axis(ax(1),[0 0.5 -0.1 0.1]);
   axis(ax(2),[0 0.5 -60 -20]);
   ylabel("Amplitude(dB)");

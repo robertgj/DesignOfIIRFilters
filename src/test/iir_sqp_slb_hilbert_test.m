@@ -178,8 +178,6 @@ h311c=get(h311,'color');
 for k=1:3
   set(h2(k),'color',h311c{k});
 endfor
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 % End of hack
 axis(ax(1),[-0.5 0.5 -0.5-(pr/2) -0.5+(pr/2)]);
 axis(ax(2),[-0.5 0.5 -1.5-(pr/2) -1.5+(pr/2)]);
@@ -231,8 +229,6 @@ h311c=get(h311,'color');
 for k=1:3
   set(h2(k),'color',h311c{k});
 endfor
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 % End of hack
 axis(ax(1),[-0.5 0.5 -0.5-(pr/2) -0.5+(pr/2)]);
 axis(ax(2),[-0.5 0.5 -1.5-(pr/2) -1.5+(pr/2)]); 

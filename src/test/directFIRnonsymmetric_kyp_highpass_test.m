@@ -100,14 +100,8 @@ w=(0:(nplot-1))'*pi/nplot;
 H=freqz(h,1,w);
 T=delayz(h,1,w);
 subplot(211);
-[ax,h1,h2]=plotyy(w(1:nas)*0.5/pi,20*log10(abs(H(1:nas))),...
+ax=plotyy(w(1:nas)*0.5/pi,20*log10(abs(H(1:nas))),...
                   w(nap:end)*0.5/pi,20*log10(abs(H(nap:end))));
-h1c=get(h1,"color");
-h2c=get(h2,"color");
-set(h1,"color",h2c);
-set(h2,"color",h1c);
-set(ax(1),"ycolor","black");
-set(ax(2),"ycolor","black");
 axis(ax(1),[0 0.5 -60 -20]);
 axis(ax(2),[0 0.5 -1 1]);
 ylabel("Amplitude(dB)");

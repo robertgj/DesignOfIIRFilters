@@ -136,8 +136,6 @@ printf("max_dBap=%8.6f,min_dBap=%8.6f,max_dBas=%6.2f,min_P=%6.2f,max_P=%6.2f\n",
 % Plot response
 subplot(211);
 ax=plotyy(Fp,Ap,Fs,As);
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.000008 0]);
 axis(ax(2),[0 0.5 -50 -30]);
 strt="Surma-aho-and-Saram\\\"{a}ki combined parallel all-pass filter response";
@@ -180,8 +178,6 @@ P12p=(P+(tp*wa))/pi;
 % Plot combined parallel all-pass filter response
 subplot(211);
 ax=plotyy(Fp,A12p,Fs,A12s);
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 0.5 -0.000008 0]);
 axis(ax(2),[0 0.5 -50 -30]);
 strt="Surma-aho-and-Saram\\\"{a}ki combined parallel all-pass filter response";

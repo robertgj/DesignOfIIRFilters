@@ -23,8 +23,6 @@ if 20*log10(max(abs(Ha-Hb))) > -87
   error("20*log10(max(abs(Ha-Hb))) > -87");
 endif
 ax = plotyy(w*0.5/pi,20*log10(abs(Hb)),w*0.5/pi,20*log10(abs(Hb)));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 1 -1 1]);
 axis(ax(2),[0 1 -50 -30]);
 xlabel("Frequency")
@@ -46,8 +44,6 @@ if 20*log10(max(abs(Hc-Hd))) > -98
   error("20*log10(max(abs(Hc-Hd))) > -98");
 endif
 ax = plotyy(w*0.5/pi,20*log10(abs(Hd)),w*0.5/pi,20*log10(abs(Hd)));
-set(ax(1),'ycolor','black');
-set(ax(2),'ycolor','black');
 axis(ax(1),[0 1 -0.2 0.2]);
 axis(ax(2),[0 1 -65 -45]);
 xlabel("Frequency")
