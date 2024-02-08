@@ -76,11 +76,11 @@ for N=[6,7],
   P_s=sdpvar(N,N,"symmetric","real");
   Q_s=sdpvar(N,N,"symmetric","real");
   XYZ_s=sdpvar((2*N)+1,N,"full","real");
-  Eta_s=[[-eye(N),A,B,zeros(N,1)];[zeros(1,N),C,D,-1]]';
-  Chi_s=[[XYZ_s,zeros((2*N)+1,1)];[zeros(1,N),1]]';
-  EtaChi_s=Eta_s*Chi_s;
+  U_s=[[-eye(N),A,B,zeros(N,1)];[zeros(1,N),C,D,-1]]';
+  V_s=[[XYZ_s,zeros((2*N)+1,1)];[zeros(1,N),1]]';
+  UV_s=U_s*V_s;
   L_s=(kron(Phi,P_s)+kron(Psi_s,Q_s));
-  F_s=[[L_s,zeros(2*N,2)];[zeros(2,2*N),diag([-Esq_s,1])]]+EtaChi_s+(EtaChi_s');
+  F_s=[[L_s,zeros(2*N,2)];[zeros(2,2*N),diag([-Esq_s,1])]]+UV_s+(UV_s');
 
   % Solve
   sedumi_eps=6.7e-7;

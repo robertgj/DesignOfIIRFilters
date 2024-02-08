@@ -36,21 +36,21 @@ CD_d=CD-[C_d,0];
 P_z=sdpvar(N,N,"symmetric","real");
 Q_z=sdpvar(N,N,"symmetric","real");
 XYZ_z=sdpvar((2*N)+1,N,"full","real");
-Eta_z=[[-eye(N),A,B,zeros(N,1)];[zeros(1,N),CD_d,-1]]';
-Chi_z=[[XYZ_z,zeros((2*N)+1,1)];[zeros(1,N),1]]';
-EtaChi_z=Eta_z*Chi_z;
+U_z=[[-eye(N),A,B,zeros(N,1)];[zeros(1,N),CD_d,-1]]';
+V_z=[[XYZ_z,zeros((2*N)+1,1)];[zeros(1,N),1]]';
+UV_z=U_z*V_z;
 L_z=(kron(Phi,P_z)+kron(Psi_z,Q_z));
-F_z=[[L_z,zeros(2*N,2)];[zeros(2,2*N),diag([-Esq_z,1])]]+EtaChi_z+(EtaChi_z');
+F_z=[[L_z,zeros(2*N,2)];[zeros(2,2*N),diag([-Esq_z,1])]]+UV_z+(UV_z');
 
 % Constraint on maximum stop band amplitude
 P_s=sdpvar(N,N,"symmetric","real");
 Q_s=sdpvar(N,N,"symmetric","real");
 XYZ_s=sdpvar((2*N)+1,N,"full","real");
-Eta_s=[[-eye(N),A,B,zeros(N,1)];[zeros(1,N),CD,-1]]';
-Chi_s=[[XYZ_s,zeros((2*N)+1,1)];[zeros(1,N),1]]';
-EtaChi_s=Eta_s*Chi_s;
+U_s=[[-eye(N),A,B,zeros(N,1)];[zeros(1,N),CD,-1]]';
+V_s=[[XYZ_s,zeros((2*N)+1,1)];[zeros(1,N),1]]';
+UV_s=U_s*V_s;
 L_s=(kron(Phi,P_s)+kron(Psi_s,Q_s));
-F_s=[[L_s,zeros(2*N,2)];[zeros(2,2*N),diag([-Esq_s,1])]]+EtaChi_s+(EtaChi_s');
+F_s=[[L_s,zeros(2*N,2)];[zeros(2,2*N),diag([-Esq_s,1])]]+UV_s+(UV_s');
 
 % Satisfy constraints on zero-phase pass-band error and stop-band error
 Objective=[];
