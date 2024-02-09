@@ -10,7 +10,7 @@ iir_frm_socp_slb_test_pcls_model_response
 
 iir_frm_socp_slb_test_COEFS = \
 iir_frm_socp_slb_test.mat \
-iir_frm_socp_slb_test.spec \
+iir_frm_socp_slb_test_spec.m \
 iir_frm_socp_slb_test_a_coef.m \
 iir_frm_socp_slb_test_d_coef.m \
 iir_frm_socp_slb_test_aa_coef.m \

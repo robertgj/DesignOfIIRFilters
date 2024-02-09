@@ -7,7 +7,7 @@ directFIRnonsymmetric_sdp_minimum_phase_test_hg_response
 
 directFIRnonsymmetric_sdp_minimum_phase_test_COEFS = \
 directFIRnonsymmetric_sdp_minimum_phase_test.mat \
-directFIRnonsymmetric_sdp_minimum_phase_test.spec \
+directFIRnonsymmetric_sdp_minimum_phase_test_spec.m \
 directFIRnonsymmetric_sdp_minimum_phase_test_h_coef.m \
 directFIRnonsymmetric_sdp_minimum_phase_test_g_coef.m
 

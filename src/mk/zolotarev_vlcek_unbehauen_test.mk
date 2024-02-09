@@ -17,7 +17,7 @@ zolotarev_vlcek_unbehauen_test_a_5_15_coef.m \
 zolotarev_vlcek_unbehauen_test_b_5_15_coef.m \
 zolotarev_vlcek_unbehauen_test_h_5_15_coef.m \
 zolotarev_vlcek_unbehauen_test_fir_coef.m \
-zolotarev_vlcek_unbehauen_test_fir.spec
+zolotarev_vlcek_unbehauen_test_fir_spec.m
 
 zolotarev_vlcek_unbehauen_test_FILES = \
 zolotarev_vlcek_unbehauen_test.m test_common.m print_polynomial.m \

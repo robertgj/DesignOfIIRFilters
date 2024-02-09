@@ -429,7 +429,7 @@ print(strcat(strf,"_pass_delay"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt"); 
+fid=fopen(strcat(strf,"_spec.m"),"wt"); 
 fprintf(fid,
         "socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Lim=%d\n",
         socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Lim);

@@ -318,7 +318,7 @@ print(strcat(strf,"_kc_min_pz"),"-dpdflatex");
 close
 
 % Save specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%d %% Bits-per-coefficient \n",nbits);
 fprintf(fid,"ndigits=%d %% Average igned-digits-per-coefficient \n",ndigits);
 fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);

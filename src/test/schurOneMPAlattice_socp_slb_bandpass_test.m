@@ -184,7 +184,7 @@ printf("A1,A2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"m1=%d %% Allpass model filter 1 denominator order\n",m1);
 fprintf(fid,"m2=%d %% Allpass model filter 2 denominator order\n",m2);
 fprintf(fid,"difference=%d %% Use difference of all-pass filters\n",difference);

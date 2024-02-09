@@ -127,7 +127,7 @@ close
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"nplot=%d %% Frequency points across the band\n",nplot);

@@ -270,7 +270,7 @@ print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on combined response\n",tol);
 fprintf(fid,"mtol=%g %% Tolerance on MMSE update\n",mtol);
 fprintf(fid,"ptol=%g %% Tolerance on PCLS update\n",ptol);

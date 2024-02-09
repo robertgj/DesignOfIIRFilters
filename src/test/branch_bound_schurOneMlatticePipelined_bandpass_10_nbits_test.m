@@ -1,5 +1,5 @@
 % branch_bound_schurOneMlatticePipelined_bandpass_10_nbits_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2023-2024 Robert G. Jenssen
 
 % Branch-and-bound search of a pipelined Schur one-multiplier lattice bandpass
 % filter response with 10-bit 3-signed-digit coefficients
@@ -7,6 +7,7 @@
 test_common;
 
 strf="branch_bound_schurOneMlatticePipelined_bandpass_10_nbits_test";
+
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
@@ -359,12 +360,12 @@ print(strcat(strf,"_delay"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
 fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
-fprintf(fid,"length(c0)=%d %% Num. tap coefficients\n",length(c0));
-fprintf(fid,"sum(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k0~=0));
+fprintf(fid,"%% length(c0)=%d %% Num. tap coefficients\n",length(c0));
+fprintf(fid,"%% sum(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k0~=0));
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
 fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);

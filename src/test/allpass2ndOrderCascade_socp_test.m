@@ -1,11 +1,13 @@
 % allpass2ndOrderCascade_socp_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("allpass2ndOrderCascade_socp_test.diary");
-delete("allpass2ndOrderCascade_socp_test.diary.tmp");
-diary allpass2ndOrderCascade_socp_test.diary.tmp
+strf="allpass2ndOrderCascade_socp_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
@@ -37,9 +39,6 @@ np=ceil(fp*n/0.5)+1;
 ns=floor(fs*n/0.5)+1;
 Ad=[exp(-j*w(1:np)*td);zeros(n-np,1)];
 W=[Wp*ones(np,1);zeros(ns-np-1,1);Ws*ones(n-ns+1,1)];
-
-% Common strings
-strf="allpass2ndOrderCascade_socp_test";
 
 % Plot initial response
 Da0=casc2tf(a0);
@@ -138,13 +137,14 @@ print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 
 % Save specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%5.1g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ma=%d %% Order of filter A\n",ma);
 fprintf(fid,"mb=%d %% Order of filter B\n",mb);
 fprintf(fid,"tau=%3.1g %% Second order section stability parameter\n",tau);
 fprintf(fid,"n=%d %% Number of frequency points\n",n);
-fprintf(fid,"resp=%s %% Flat passband group delay or squared-magnitude\n",resp);
+fprintf(fid,"resp=\"%s\" %% Flat passband group delay or squared-magnitude\n",
+        resp);
 fprintf(fid,"fp=%5.3g %% Pass band edge\n",fp);
 fprintf(fid,"td=%g %% Pass band nominal group delay\n",td);
 fprintf(fid,"Wp=%d %% Pass band weight\n",Wp);
@@ -162,11 +162,10 @@ print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 print_polynomial(Db1,"Db1");
 print_polynomial(Db1,"Db1",strcat(strf,"_Db1_coef.m"));
 
-save allpass2ndOrderCascade_socp_test.mat ...
-     fp td Wp fs Ws ab0 a1 b1 Da1 Db1 Nab1 Dab1
+eval(sprintf("save %s.mat ...\n\
+     fp td Wp fs Ws ab0 a1 b1 Da1 Db1 Nab1 Dab1",strf));
 
 % Done
 toc;
 diary off
-movefile allpass2ndOrderCascade_socp_test.diary.tmp ...
-         allpass2ndOrderCascade_socp_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

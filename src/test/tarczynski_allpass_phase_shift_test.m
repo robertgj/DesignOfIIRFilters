@@ -179,7 +179,7 @@ print("tarczynski_allpass_phase_shift_test_phase_error","-dpdflatex");
 close
 
 % Save the filter specification
-fid=fopen("tarczynski_allpass_phase_shift_test.spec","wt");
+fid=fopen("tarczynski_allpass_phase_shift_test_spec.m","wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"m=%d %% Allpass model filter denominator order\n",m);

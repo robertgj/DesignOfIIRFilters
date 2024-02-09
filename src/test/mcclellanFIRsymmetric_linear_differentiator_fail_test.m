@@ -93,7 +93,7 @@ close
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"N=%d %% Filter length\n",N);
 fprintf(fid,"L=%d %% Filter linearity\n",L);
 fprintf(fid,"fs=%g %% Amplitude stop band frequency\n",fs);

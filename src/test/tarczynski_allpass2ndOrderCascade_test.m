@@ -325,7 +325,7 @@ ma=%d,mb=%d,fap=%g,fas=%g",ma,mb,fap,fas);
   close
 
   % Save the filter specification
-  fid=fopen(sprintf("%s%s.spec",strf,flatstr),"wt");
+  fid=fopen(sprintf("%s%s_spec.m",strf,flatstr),"wt");
   fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
   fprintf(fid,"maxiter=%d %% Maximum optimiser iterations\n",maxiter);
   fprintf(fid,"n=%d %% Frequency points across the band\n",n);

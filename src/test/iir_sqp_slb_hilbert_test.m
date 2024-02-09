@@ -244,7 +244,7 @@ print(strcat(strf,"_pcls_d1phase"),"-dpdflatex");
 close
 
 % Specification file
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"tol=%g %% Tolerance on relative coefficient update size\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);

@@ -270,7 +270,7 @@ print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"M=%d %% Number of distinct coefficients\n",length(hM2));
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);

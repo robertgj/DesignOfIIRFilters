@@ -17,7 +17,7 @@ schurOneMPAlattice_socp_slb_multiband_test_A1epsilon_coef.m \
 schurOneMPAlattice_socp_slb_multiband_test_A2epsilon_coef.m \
 schurOneMPAlattice_socp_slb_multiband_test_A1p_coef.m \
 schurOneMPAlattice_socp_slb_multiband_test_A2p_coef.m \
-schurOneMPAlattice_socp_slb_multiband_test.spec \
+schurOneMPAlattice_socp_slb_multiband_test_spec.m \
 schurOneMPAlattice_socp_slb_multiband_test.mat
 
 schurOneMPAlattice_socp_slb_multiband_test_FILES = \

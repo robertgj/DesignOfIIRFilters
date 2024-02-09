@@ -1,5 +1,5 @@
 % sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 % Optimisation of Schur one-multiplier lattice bandpass filter response with
 % 10-bit signed-digit coefficients having Ito et al. allocation and SQP
@@ -7,9 +7,11 @@
 
 test_common;
 
-delete("sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary");
-delete("sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary.tmp");
-diary sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary.tmp
+strf="sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
@@ -18,8 +20,6 @@ verbose=false;
 
 dBass=37;
 schurOneMlattice_bandpass_10_nbits_common;
-
-strf="sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test";
 
 % Initial coefficients
 kc=zeros(size(kc0));
@@ -299,15 +299,15 @@ if print_for_web_page
 endif
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
 fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"maxiter=%d %% SQP iteration limit\n",maxiter);
 fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
-fprintf(fid,"length(c0)=%d %% Num. tap coefficients\n",length(c0));
-fprintf(fid,"sum(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k0~=0));
+fprintf(fid,"%% length(c0)=%d %% Num. tap coefficients\n",length(c0));
+fprintf(fid,"%% sum(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k0~=0));
 fprintf(fid,"dmax=%f %% Constraint on norm of coefficient SQP step size\n",dmax);
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
@@ -330,15 +330,14 @@ fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-save sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test.mat ...
-     k0 epsilon0 p0 c0 ...
-     tol ctol nbits nscale ndigits ndigits_alloc npoints ...
-     fapl fapu dBap Wap ...
-     fasl fasu dBas fasll fasuu dBass Wasl Wasu ...
-     ftpl ftpu tp tpr Wtp k_min c_min 
+eval(sprintf("save %s.mat ...\n\
+     k0 epsilon0 p0 c0 ...\n\
+     tol ctol nbits nscale ndigits ndigits_alloc npoints ...\n\
+     fapl fapu dBap Wap ...\n\
+     fasl fasu dBas fasll fasuu dBass Wasl Wasu ...\n\
+     ftpl ftpu tp tpr Wtp k_min c_min",strf));
        
 % Done
 toc;
 diary off
-movefile sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary.tmp ...
-         sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

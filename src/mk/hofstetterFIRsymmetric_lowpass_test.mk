@@ -5,7 +5,7 @@ hofstetterFIRsymmetric_lowpass_test_zeros
 
 hofstetterFIRsymmetric_lowpass_test_COEFS = \
 hofstetterFIRsymmetric_lowpass_test.mat \
-hofstetterFIRsymmetric_lowpass_test.spec \
+hofstetterFIRsymmetric_lowpass_test_spec.m \
 hofstetterFIRsymmetric_lowpass_test_hM_coef.m
 
 hofstetterFIRsymmetric_lowpass_test_FILES = \

@@ -136,7 +136,7 @@ printf("fMk0k1:AzpS=[ ");printf("%g ",AzpS');printf(" ]\n");
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"nf=%d %% Frequency points across the band\n",nf);

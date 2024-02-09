@@ -4,6 +4,7 @@
 test_common;
 
 strf="schurOneMlattice_socp_slb_lowpass_test";
+
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
@@ -124,12 +125,12 @@ printf("k2,c2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"length(c0)=%d %% Tap coefficients\n",length(c0));
-fprintf(fid,"length(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",length(k0));
+fprintf(fid,"%% length(c0)=%d %% Tap coefficients\n",length(c0));
+fprintf(fid,"%% length(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",length(k0));
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
 fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
@@ -158,7 +159,8 @@ print_polynomial(n2,"n2",strcat(strf,"_n2_coef.m"));
 print_polynomial(d2,"d2");
 print_polynomial(d2,"d2",strcat(strf,"_d2_coef.m"));
 
-eval(sprintf("save %s.mat x0 n0 d0 k0 epsilon0 p0 c0 ...\n\
+eval(sprintf("save %s.mat ...\n\
+     x0 n0 d0 k0 epsilon0 p0 c0 ...\n\
      fap dBap Wap ftp tp tpr Wtp Wat fas dBas Was rho tol ctol ...\n\
      k2 epsilon2 p2 c2 n2 d2",strf));
 

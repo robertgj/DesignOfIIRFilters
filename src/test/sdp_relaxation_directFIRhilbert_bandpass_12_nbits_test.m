@@ -181,7 +181,7 @@ print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"M=%d %% Number of distinct coefficients\n",M);
 fprintf(fid,"nbits=%d %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%d %% Nominal average coefficient signed-digits\n",ndigits);

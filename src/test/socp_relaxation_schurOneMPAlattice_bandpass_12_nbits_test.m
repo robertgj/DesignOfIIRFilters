@@ -376,7 +376,7 @@ print(strcat(strf,"_kmin_pass_delay"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_\
 allocsd_Lim=%d\n", ...
         socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim);

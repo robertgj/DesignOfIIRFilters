@@ -7,7 +7,7 @@ selesnickFIRsymmetric_halfband_test_hilbert_zeros
 
 selesnickFIRsymmetric_halfband_test_COEFS = \
 selesnickFIRsymmetric_halfband_test.mat \
-selesnickFIRsymmetric_halfband_test.spec \
+selesnickFIRsymmetric_halfband_test_spec.m \
 selesnickFIRsymmetric_halfband_test_hM_coef.m
 
 selesnickFIRsymmetric_halfband_test_FILES = \

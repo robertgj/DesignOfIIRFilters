@@ -1,9 +1,10 @@
 % schurOneMlattice_socp_slb_hilbert_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
 strf="schurOneMlattice_socp_slb_hilbert_test";
+
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
@@ -138,7 +139,7 @@ schurOneMlattice_sqp_slb_hilbert_plot ...
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
@@ -152,10 +153,11 @@ fprintf(fid,"tp=%g %% Nominal pass band filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Group delay pass band peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtt=%d %% Group delay transition band weight\n",Wtt);
 fprintf(fid,"Wtp=%g %% Group delay pass band weight\n",Wtp);
-fprintf(fid,"pr=%g pi/2 %% Phase pass band peak-to-peak ripple\n",pr);
+fprintf(fid,"pr=%g %% Phase pass band peak-to-peak ripple(rad.)\n",pr);
 fprintf(fid,"Wpt=%d %% Phase transition band weight\n",Wpt);
 fprintf(fid,"Wpp=%d %% Phase pass band weight\n",Wpp);
 fclose(fid);
+
 print_polynomial(k2,"k2");
 print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
 print_polynomial(epsilon2,"epsilon2");
@@ -172,9 +174,9 @@ print_polynomial(d2,"d2",strcat(strf,"_d2_coef.m"));
 %
 % Save results
 %
-save schurOneMlattice_socp_slb_hilbert_test.mat ...
-     tol ctol n w N0 D0 k0 epsilon0 p0 c0 rho Asqd dBap tp Pd pr ...
-     k1 epsilon1 p1 c1 k2 epsilon2 p2 c2 n2 d2
+eval(sprintf("save %s.mat ...\n\
+     tol ctol n w N0 D0 k0 epsilon0 p0 c0 rho Asqd dBap tp Pd pr ...\n\
+     k1 epsilon1 p1 c1 k2 epsilon2 p2 c2 n2 d2",strf));
 
 % Done
 diary off

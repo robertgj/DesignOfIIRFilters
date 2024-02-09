@@ -192,7 +192,7 @@ print(strcat(strf,"_a1sqmpz"),"-dpdflatex");
 close
 
 % Save specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"n=%d %% Number of frequency points\n",n);
 fprintf(fid,"tol=%5.1g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"tau=%3.1g %% Second order section stability parameter\n",tau);

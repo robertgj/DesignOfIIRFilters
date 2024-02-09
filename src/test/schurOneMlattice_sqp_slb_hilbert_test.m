@@ -1,14 +1,15 @@
 % schurOneMlattice_sqp_slb_hilbert_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMlattice_sqp_slb_hilbert_test.diary");
-delete("schurOneMlattice_sqp_slb_hilbert_test.diary.tmp");
-diary schurOneMlattice_sqp_slb_hilbert_test.diary.tmp
+strf="schurOneMlattice_sqp_slb_hilbert_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
-
 
 tol=1e-4
 ctol=tol
@@ -80,7 +81,6 @@ kc_l=-kc_u;
 kc_active=[find((k0)~=0);(Nk+(1:Nc))'];
 
 % Initialise strings
-strf="schurOneMlattice_sqp_slb_hilbert_test";
 strM=sprintf("Hilbert filter %%s:\
 R=%d,ft1=%g,ft2=%g,tp=%g,Wap=%g,Wtp=%g,Wpp=%g",R,ft1,ft2,tp,Wap,Wtp,Wpp);
 strP=sprintf("Hilbert filter %%s:\
@@ -137,7 +137,7 @@ schurOneMlattice_sqp_slb_hilbert_plot ...
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
@@ -151,9 +151,10 @@ fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"tp=%g %% Nominal pass band filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Pass band filter group delay peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%d %% Pass band group delay weight\n",Wtp);
-fprintf(fid,"pr=%g pi/2 %% Pass band peak-to-peak phase ripple\n",pr);
+fprintf(fid,"pr=%g %% Pass band peak-to-peak phase ripple(rad.)\n",pr);
 fprintf(fid,"Wpp=%d %% Pass band phase weight\n",Wpp);
 fclose(fid);
+
 print_polynomial(k2,"k2");
 print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
 print_polynomial(epsilon2,"epsilon2");
@@ -170,12 +171,12 @@ print_polynomial(d2,"d2",strcat(strf,"_d2_coef.m"));
 %
 % Save results
 %
-save schurOneMlattice_sqp_slb_hilbert_test.mat ...
-     tol ctol n w k0 epsilon0 p0 c0 dmax rho ...
-     dBap Wat Wap tp tpr Wtp pr Wpp ...
-     k1 epsilon1 p1 c1 k2 epsilon2 p2 c2 n2 d2
+eval(sprintf("save %s.mat ...\n\
+     tol ctol n w k0 epsilon0 p0 c0 dmax rho ...\n\
+     dBap Wat Wap tp tpr Wtp pr Wpp ...\n\
+     k1 epsilon1 p1 c1 k2 epsilon2 p2 c2 n2 d2",strf));
 
 % Done
+toc;
 diary off
-movefile schurOneMlattice_sqp_slb_hilbert_test.diary.tmp ...
-         schurOneMlattice_sqp_slb_hilbert_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

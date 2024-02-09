@@ -5,7 +5,7 @@ mcclellanFIRsymmetric_bandpass_test_zeros
 
 mcclellanFIRsymmetric_bandpass_test_COEFS = \
 mcclellanFIRsymmetric_bandpass_test.mat \
-mcclellanFIRsymmetric_bandpass_test.spec \
+mcclellanFIRsymmetric_bandpass_test_spec.m \
 mcclellanFIRsymmetric_bandpass_test_hM_coef.m \
 mcclellanFIRsymmetric_bandpass_test_hM_LD_coef.m \
 mcclellanFIRsymmetric_bandpass_test_rho.tab

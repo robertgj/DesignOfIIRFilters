@@ -128,7 +128,7 @@ Esq=directFIRnonsymmetricEsqPW(h,[0,fap,fas,0.5]*2*pi,[1,0,0],[d,0,0],[1,1,1]);
 printf("Esq=%10.8f\n",Esq);
 
 % Save results
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"N=%d %% FIR filter order\n",N);
 fprintf(fid,"d=%d %% Nominal FIR filter delay\n",d);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);

@@ -9,7 +9,7 @@ iir_sqp_slb_hilbert_test_pcls_d1
 
 iir_sqp_slb_hilbert_test_COEFS = \
 iir_sqp_slb_hilbert_test.mat \
-iir_sqp_slb_hilbert_test.spec \
+iir_sqp_slb_hilbert_test_spec.m \
 iir_sqp_slb_hilbert_test_d1_coef.m \
 iir_sqp_slb_hilbert_test_D1_coef.m \
 iir_sqp_slb_hilbert_test_N1_coef.m \

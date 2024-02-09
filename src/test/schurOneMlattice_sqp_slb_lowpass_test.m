@@ -1,14 +1,15 @@
 % schurOneMlattice_sqp_slb_lowpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMlattice_sqp_slb_lowpass_test.diary");
-delete("schurOneMlattice_sqp_slb_lowpass_test.diary.tmp");
-diary schurOneMlattice_sqp_slb_lowpass_test.diary.tmp
+strf="schurOneMlattice_sqp_slb_lowpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
-
 
 tol=4e-5
 ctol=tol
@@ -70,7 +71,6 @@ kc_l=-kc_u;
 kc_active=[find((k0)~=0);(Nk+(1:Nc))'];
 
 % Common strings
-strf="schurOneMlattice_sqp_slb_lowpass_test";
 strt=sprintf("Schur one-multiplier lattice lowpass filter SQP %%s response : \
 fap=%g,dBap=%g,fas=%g,dBas=%g",fap,dBap,fas,dBas);
 
@@ -140,12 +140,13 @@ printf("d1:TS=[ ");printf("%f ",TS');printf(" ] (samples)\n");
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"length(c0)=%d %% Tap coefficients\n",length(c0));
-fprintf(fid,"sum(k0~=0)=%d %% Num. non-zero lattice coefficients\n",sum(k0~=0));
+fprintf(fid,"%% length(c0)=%d %% Tap coefficients\n",length(c0));
+fprintf(fid,"%% sum(k0~=0)=%d %% Num. non-zero lattice coefficients\n", ...
+        sum(k0~=0));
 fprintf(fid,"dmax=%f %% Constraint on norm of coefficient SQP step size\n",dmax);
 fprintf(fid,"rho=%f %% Constraint on lattice coefficient magnitudes\n",rho);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
@@ -161,6 +162,7 @@ fprintf(fid,"dBas=%d %% amplitude stop band peak-to-peak ripple\n",dBas);
 fprintf(fid,"Was_mmse=%g %% Amplitude stop band weight for MMSE\n",Was_mmse);
 fprintf(fid,"Was_pcls=%g %% Amplitude stop band weight for PCLS\n",Was_pcls);
 fclose(fid);
+
 print_polynomial(k2,"k2");
 print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
 print_polynomial(epsilon2,"epsilon2");
@@ -173,12 +175,13 @@ print_polynomial(n2,"n2");
 print_polynomial(n2,"n2",strcat(strf,"_n2_coef.m"));
 print_polynomial(d2,"d2");
 print_polynomial(d2,"d2",strcat(strf,"_d2_coef.m"));
-save schurOneMlattice_sqp_slb_lowpass_test.mat x0 n0 d0 k0 epsilon0 p0 c0 ...
-     fap dBap Wap ftp tp tpr Wtp_mmse Wtp_pcls fas dBas Was_mmse ...
-     Was_pcls dmax rho tol ctol k1 epsilon1 p1 c1 k2 epsilon2 p2 c2 n2 d2
+
+eval(sprintf("save %s.mat ...\n\
+  x0 n0 d0 k0 epsilon0 p0 c0 ...\n\
+  fap dBap Wap ftp tp tpr Wtp_mmse Wtp_pcls fas dBas Was_mmse ...\n\
+  Was_pcls dmax rho tol ctol k1 epsilon1 p1 c1 k2 epsilon2 p2 c2 n2 d2",strf));
 
 % Done
 toc;
 diary off
-movefile schurOneMlattice_sqp_slb_lowpass_test.diary.tmp ...
-         schurOneMlattice_sqp_slb_lowpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

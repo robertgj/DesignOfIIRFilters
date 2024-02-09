@@ -83,7 +83,7 @@ print_polynomial(Amm,"Amm","%13.10f");
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"N=%d %% Filter length\n",N);
 fprintf(fid,"L=%d %% Filter maximal flat-ness\n",L);
 fprintf(fid,"deltasl=%g %% Amplitude lower stop-band peak ripple\n",deltasl);

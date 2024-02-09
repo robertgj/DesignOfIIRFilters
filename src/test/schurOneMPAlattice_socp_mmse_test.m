@@ -189,7 +189,7 @@ print(strcat(strf,"_A1A2phase"),"-dpdflatex");
 close
 
 % Save the filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"nplot=%d %% Frequency points across the band\n",nplot);
 fprintf(fid,"ma=%d %% Allpass filter A denominator order\n",ma);

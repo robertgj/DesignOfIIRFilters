@@ -159,7 +159,7 @@ print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
 % Save the filter specification
-fid=fopen("surmaaho_lowpass_test.spec","wt");
+fid=fopen("surmaaho_lowpass_test_spec.m","wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"nf=%d %% Frequency points across the band\n",nf);
 fprintf(fid,"nmin=%d %% Minimum-phase filter order\n",nmin);

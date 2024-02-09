@@ -190,7 +190,7 @@ print_polynomial(hstar,"hstar");
 print_polynomial(hstar,"hstar",strcat(strf,"_hstar_coef.m"));
 
 % Print specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"n=%d %% Filter order\n",n);
 fprintf(fid,"ne=%d %% Filter order for estimation\n",ne);
 fprintf(fid,"N=%d %% Number of filtered noise samples\n",N);

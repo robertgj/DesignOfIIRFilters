@@ -167,7 +167,7 @@ print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 
 % Save the filter specification
-fid=fopen("polyphase_allpass_socp_slb_test.spec","wt");
+fid=fopen("polyphase_allpass_socp_slb_test_spec.m","wt");
 fprintf(fid,"polyphase=%d %% Use polyphase combination\n",polyphase);
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);

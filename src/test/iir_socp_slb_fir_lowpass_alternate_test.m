@@ -211,7 +211,7 @@ P=iirP(wt,d1,U,V,M,Q,R);
 printf("max(abs(P+(wt*td)-pi)/pi)=%g\n",max(abs(P+(wt*td)-pi)/pi));
 
 % Save results
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"U=%d %% Number of real zeros\n",U);
 fprintf(fid,"V=%d %% Number of real poles\n",V);
 fprintf(fid,"M=%d %% Number of complex zeros\n",M);

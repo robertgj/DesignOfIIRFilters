@@ -3,7 +3,7 @@ schurNSPAlattice_socp_slb_lowpass_test_response
 
 schurNSPAlattice_socp_slb_lowpass_test_COEFS = \
 schurNSPAlattice_socp_slb_lowpass_test.mat \
-schurNSPAlattice_socp_slb_lowpass_test.spec \
+schurNSPAlattice_socp_slb_lowpass_test_spec.m \
 schurNSPAlattice_socp_slb_lowpass_test_A1s20_coef.m \
 schurNSPAlattice_socp_slb_lowpass_test_A1s00_coef.m \
 schurNSPAlattice_socp_slb_lowpass_test_A2s20_coef.m \

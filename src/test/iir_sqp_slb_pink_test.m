@@ -216,7 +216,7 @@ print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"tol_mmse=%g %% Tolerance on coef. update (MMSE pass)\n",tol_mmse);
 fprintf(fid,"tol_pcls=%g %% Tolerance on coef. update (PCLS pass)\n",tol_pcls);

@@ -1,5 +1,5 @@
 % saramakiFIRcascade_ApproxI_lowpass_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2024 Robert G. Jenssen
 %
 % Design a low-pass FIR filter as the tapped cascade of sub-filters
 % following Saramaki's Approximation Problem I.
@@ -10,13 +10,13 @@
 
 test_common;
 
-delete("saramakiFIRcascade_ApproxI_lowpass_test.diary");
-delete("saramakiFIRcascade_ApproxI_lowpass_test.diary.tmp");
-diary saramakiFIRcascade_ApproxI_lowpass_test.diary.tmp
-
-tic();
-
 strf="saramakiFIRcascade_ApproxI_lowpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
+
+tic
 
 maxiter=100;
 tol=1e-8;
@@ -419,8 +419,8 @@ fprintf(fid,"\\end{table}\n");
 fclose(fid);
 
 % Save filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
-fprintf(fid,"2N=%d %% Order of prototype filter\n",2*N);
+fid=fopen(strcat(strf,"_spec.m"),"wt");
+fprintf(fid,"%% 2N=%d %% Order of prototype filter\n",2*N);
 fprintf(fid,"fap=%8.6f %% Pass-band edge\n",fap);
 fprintf(fid,"fas=%8.6f %% Stop-band edge\n",fas);
 fprintf(fid,"deltap=%8.6f %% Pass-band ripple\n",deltap);
@@ -431,15 +431,14 @@ fprintf(fid,"nplot=%d %% Frequency points\n",nplot);
 fclose(fid);
 
 % Save results
-save saramakiFIRcascade_ApproxI_lowpass_test.mat ...
-     maxiter tol verbose deltap deltas nplot nap nas ...
-     Fap_step Fap_range Fapmin Fasmin hNmin ...
-     Fapmin_remez Fasmin_remez hNmin_remez ...
-     found_subfilter A_subfilter B_subfilter deltaphat_subfilter ...
-     deltashat_subfilter Mmin_subfilter hMmin_subfilter
+eval(sprintf("save %s.mat ...\n\
+     maxiter tol verbose deltap deltas nplot nap nas ...\n\
+     Fap_step Fap_range Fapmin Fasmin hNmin ...\n\
+     Fapmin_remez Fasmin_remez hNmin_remez ...\n\
+     found_subfilter A_subfilter B_subfilter deltaphat_subfilter ...\n\
+     deltashat_subfilter Mmin_subfilter hMmin_subfilter",strf));
 
 % Done
-toc();
+toc
 diary off
-movefile saramakiFIRcascade_ApproxI_lowpass_test.diary.tmp ...
-         saramakiFIRcascade_ApproxI_lowpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

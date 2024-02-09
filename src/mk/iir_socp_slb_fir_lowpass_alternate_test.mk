@@ -8,7 +8,7 @@ iir_socp_slb_fir_lowpass_alternate_test_pcls_d1pz
 
 iir_socp_slb_fir_lowpass_alternate_test_COEFS = \
 iir_socp_slb_fir_lowpass_alternate_test.mat \
-iir_socp_slb_fir_lowpass_alternate_test.spec \
+iir_socp_slb_fir_lowpass_alternate_test_spec.m \
 iir_socp_slb_fir_lowpass_alternate_test_d1_coef.m \
 iir_socp_slb_fir_lowpass_alternate_test_D1_coef.m \
 iir_socp_slb_fir_lowpass_alternate_test_N1_coef.m 

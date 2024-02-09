@@ -7,7 +7,7 @@ complementaryFIRlattice_socp_slb_bandpass_test_initial_bc0_pz
 
 complementaryFIRlattice_socp_slb_bandpass_test_COEFS = \
 complementaryFIRlattice_socp_slb_bandpass_test.mat \
-complementaryFIRlattice_socp_slb_bandpass_test.spec \
+complementaryFIRlattice_socp_slb_bandpass_test_spec.m \
 complementaryFIRlattice_socp_slb_bandpass_test_k2_coef.m \
 complementaryFIRlattice_socp_slb_bandpass_test_khat2_coef.m \
 complementaryFIRlattice_socp_slb_bandpass_test_std_xxk2.m \

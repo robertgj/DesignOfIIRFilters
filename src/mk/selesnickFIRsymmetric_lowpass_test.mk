@@ -14,13 +14,13 @@ selesnickFIRsymmetric_lowpass_test_hMd_zeros
 
 selesnickFIRsymmetric_lowpass_test_COEFS = \
 selesnickFIRsymmetric_lowpass_test.mat \
-selesnickFIRsymmetric_lowpass_test_hMa.spec \
+selesnickFIRsymmetric_lowpass_test_hMa_spec.m \
 selesnickFIRsymmetric_lowpass_test_hMa_coef.m \
-selesnickFIRsymmetric_lowpass_test_hMb.spec \
+selesnickFIRsymmetric_lowpass_test_hMb_spec.m \
 selesnickFIRsymmetric_lowpass_test_hMb_coef.m \
-selesnickFIRsymmetric_lowpass_test_hMc.spec \
+selesnickFIRsymmetric_lowpass_test_hMc_spec.m \
 selesnickFIRsymmetric_lowpass_test_hMc_coef.m \
-selesnickFIRsymmetric_lowpass_test_hMd.spec \
+selesnickFIRsymmetric_lowpass_test_hMd_spec.m \
 selesnickFIRsymmetric_lowpass_test_hMd_coef.m
 
 selesnickFIRsymmetric_lowpass_test_FILES = \

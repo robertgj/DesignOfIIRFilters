@@ -447,7 +447,7 @@ grid("on");
 print(sprintf("%s_fir_pz",strf),"-dpdflatex");
 close
 % Save filter specification
-fid=fopen(strcat(strf,"_fir.spec"),"wt");
+fid=fopen(strcat(strf,"_fir_spec.m"),"wt");
 fprintf(fid,"p=%d %% Zeros in lower stop-band\n",p);
 fprintf(fid,"q=%d %% Zeros in upper stop-band\n",q);
 fprintf(fid,"N=%d %% Degree of FIR polynomial\n",2*(p+q));

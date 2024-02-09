@@ -8,7 +8,7 @@ iir_sqp_slb_differentiator_test_pcls_d1_pz
 
 iir_sqp_slb_differentiator_test_COEFS = \
 iir_sqp_slb_differentiator_test.mat \
-iir_sqp_slb_differentiator_test.spec \
+iir_sqp_slb_differentiator_test_spec.m \
 iir_sqp_slb_differentiator_test_x0_coef.m \
 iir_sqp_slb_differentiator_test_d1_coef.m \
 iir_sqp_slb_differentiator_test_D1_coef.m \

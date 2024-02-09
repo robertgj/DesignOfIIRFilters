@@ -257,7 +257,7 @@ print(strcat(strf,"_stopband_response"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%d %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%d %% Nominal average coefficient signed-digits\n",ndigits);
 fprintf(fid,"escale=%d %% Coefficient scaling for full range\n",escale);

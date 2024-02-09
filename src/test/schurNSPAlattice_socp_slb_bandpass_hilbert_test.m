@@ -288,7 +288,7 @@ close
 %
 % Save the results
 %
-fid=fopen("schurNSPAlattice_socp_slb_bandpass_hilbert_test.spec","wt");
+fid=fopen("schurNSPAlattice_socp_slb_bandpass_hilbert_test_spec.m","wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"difference=%d %% difference of all-pass filters\n",difference);

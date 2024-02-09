@@ -381,7 +381,7 @@ print(strcat(strf,"_kkhat_min_delay"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"BTs=%g %% Bandwidth-Symbol-rate product\n",BTs);
 fprintf(fid,"Ns=%g %% Filter width in symbols\n",Ns);
 fprintf(fid,"R=%d %% Samples-per-symbol\n",R);

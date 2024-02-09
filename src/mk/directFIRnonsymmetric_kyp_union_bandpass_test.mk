@@ -4,7 +4,7 @@ directFIRnonsymmetric_kyp_union_bandpass_test_zeros
 
 directFIRnonsymmetric_kyp_union_bandpass_test_COEFS = \
 directFIRnonsymmetric_kyp_union_bandpass_test.mat \
-directFIRnonsymmetric_kyp_union_bandpass_test.spec \
+directFIRnonsymmetric_kyp_union_bandpass_test_spec.m \
 directFIRnonsymmetric_kyp_union_bandpass_test_h_coef.m \
 directFIRnonsymmetric_kyp_union_bandpass_test_max_passband_squared_error.tab
 

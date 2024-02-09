@@ -1,13 +1,13 @@
 % hofstetterFIRsymmetric_lowpass_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2024 Robert G. Jenssen
 
 test_common;
 
-delete("hofstetterFIRsymmetric_lowpass_test.diary");
-delete("hofstetterFIRsymmetric_lowpass_test.diary.tmp");
-diary hofstetterFIRsymmetric_lowpass_test.diary.tmp
-
 strf="hofstetterFIRsymmetric_lowpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 %  
 % Initialise
@@ -95,13 +95,13 @@ close
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"M=%d %% Filter order is 2*M\n",M);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
-fprintf(fid,"nMp+1=%d %% Amplitude pass band alternations\n",nMp+1);
+fprintf(fid,"%% nMp+1=%d %% Amplitude pass band alternations\n",nMp+1);
 fprintf(fid,"deltap=%d %% Amplitude pass band peak-to-peak ripple\n",deltap);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
-fprintf(fid,"nMs+1=%d %% Amplitude stop band alternations\n",nMs+1);
+fprintf(fid,"%% nMs+1=%d %% Amplitude stop band alternations\n",nMs+1);
 fprintf(fid,"deltas=%d %% Amplitude stop band peak-to-peak ripple\n",deltas);
 fprintf(fid,"nplot=%d %% Number of frequencies\n",nplot);
 fprintf(fid,"tol=%g %% Tolerance on convergence\n",tol);
@@ -110,13 +110,11 @@ fclose(fid);
 print_polynomial(hM,"hM");
 print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"));
 
-save hofstetterFIRsymmetric_lowpass_test.mat ...
-     maxiter M nplot maxiter tol fap nMp deltap fas nMs deltas hM fext Aext
+eval(sprintf("save %s.mat ...\n\
+  maxiter M nplot maxiter tol fap nMp deltap fas nMs deltas hM fext Aext",strf));
 
 %
 % Done
 %
 diary off
-movefile hofstetterFIRsymmetric_lowpass_test.diary.tmp ...
-         hofstetterFIRsymmetric_lowpass_test.diary;
-
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

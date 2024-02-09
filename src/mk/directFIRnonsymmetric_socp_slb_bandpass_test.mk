@@ -6,7 +6,7 @@ directFIRnonsymmetric_socp_slb_bandpass_test_pz
 
 directFIRnonsymmetric_socp_slb_bandpass_test_COEFS = \
 directFIRnonsymmetric_socp_slb_bandpass_test.mat \
-directFIRnonsymmetric_socp_slb_bandpass_test.spec \
+directFIRnonsymmetric_socp_slb_bandpass_test_spec.m \
 directFIRnonsymmetric_socp_slb_bandpass_test_h_coef.m 
 
 directFIRnonsymmetric_socp_slb_bandpass_test_FILES = \

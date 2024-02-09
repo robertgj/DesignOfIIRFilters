@@ -519,7 +519,7 @@ print(strcat(strf,"_kmin_phase"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"use_best_branch_and_bound_found=%d\n", ...
         use_best_branch_and_bound_found);
 fprintf(fid,"enforce_pcls_constraints_on_final_filter=%d\n", ...

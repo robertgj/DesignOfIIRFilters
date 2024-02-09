@@ -5,7 +5,7 @@ sdp_relaxation_directFIRhilbert_12_nbits_test_COEFS = \
 sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_sd_Ito_coef.m \
 sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_sd_sdp_coef.m \
 sdp_relaxation_directFIRhilbert_12_nbits_test_cost.tab \
-sdp_relaxation_directFIRhilbert_12_nbits_test.spec \
+sdp_relaxation_directFIRhilbert_12_nbits_test_spec.m \
 sdp_relaxation_directFIRhilbert_12_nbits_test.mat
 
 sdp_relaxation_directFIRhilbert_12_nbits_test_FILES = \

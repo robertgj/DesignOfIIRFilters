@@ -68,7 +68,7 @@ print_polynomial(h,"h","%13.10f");
 print_polynomial(h,"h", sprintf("%s_h_coef.m",strf),"%13.10f");
 
 % Save specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nplot=%d %% Frequency points in [0,0.5)\n",nplot);
 fprintf(fid,"M=%d %% Filter order is (4*M)-1\n",M);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);

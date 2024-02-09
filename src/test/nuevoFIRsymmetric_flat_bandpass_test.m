@@ -114,7 +114,7 @@ close
 %
 % Save filter specification
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"P=%d %% Interpolation factor",P);
 fprintf(fid,"M=%d %% Model filter has M+1 distinct coefficients, length 2M+1",M);
 fprintf(fid,"fc=%g %% Model filter nominal cutoff frequency",fc);

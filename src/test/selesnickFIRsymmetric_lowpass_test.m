@@ -111,7 +111,7 @@ nf=%d,M=%d,deltap=%g,deltas=%g,ft=%g,At=%s",typef,nf,M,deltap,deltas,ft,typeAt);
   %
   % Save the results
   %
-  fid=fopen(sprintf("%s_hM%s.spec",strf,k),"wt");
+  fid=fopen(sprintf("%s_hM%s_spec.m",strf,k),"wt");
   fprintf(fid,"M=%d %% Filter order is 2*M\n",M);
   fprintf(fid,"deltap=%d %% Amplitude pass band peak-to-peak ripple\n",deltap);
   fprintf(fid,"deltas=%d %% Amplitude stop band peak-to-peak ripple\n",deltas);

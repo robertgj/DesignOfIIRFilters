@@ -134,7 +134,7 @@ print(sprintf("%s_hPM_response",strf),"-dpdflatex");
 close
 
 % Save specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nplot=%d %% Frequency points in [0,0.5)\n",nplot);
 fprintf(fid,"M=%d %% Filter order is 2*M\n",M);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);

@@ -8565,7 +8565,7 @@ T\left(f\right) &= 10.00\quad0<f<0.25
 The Octave script \emph{deczky3\_sqp\_test.m} implements this example. The
 filter specification defined in that file is
 \begin{small}
-\verbatiminput{deczky3_sqp_test.spec}
+\verbatiminput{deczky3_sqp_test_spec.m}
 \end{small}
 \emph{Sullivan} and \emph{Adams} 
 initialise the filter coefficients with a set of coefficients called 
@@ -8678,7 +8678,7 @@ and
 The test script \emph{deczky3a\_sqp\_test.m} is an alternative implementation
 of \emph{Deczky}'s Example 3 with filter specification:
 \begin{small}
-\verbatiminput{deczky3a_sqp_test.spec}
+\verbatiminput{deczky3a_sqp_test_spec.m}
 \end{small}
 
 The resulting amplitude  and delay responses are shown in
@@ -8730,7 +8730,7 @@ $\frac{\partial{}A\left(\omega\right)}{\partial\omega}<0$. The Octave script
 \emph{deczky1\_sqp\_test.m} implements this example. The filter specification
 defined in that file is:  
 \begin{small}
-\verbatiminput{deczky1_sqp_test.spec}
+\verbatiminput{deczky1_sqp_test_spec.m}
 \end{small}
 The initial filter design was found with the Octave script 
 \emph{tarczynski\_deczky1\_test.m}. The initial frequency response is shown in
@@ -8813,7 +8813,7 @@ T\left(f\right) &= 8 \quad 0<f<0.125
 The Octave script \emph{decimator\_R2\_test.m} implements this example.  The
 filter specification is
 \begin{small}
-\verbatiminput{decimator_R2_test.spec}
+\verbatiminput{decimator_R2_test_spec.m}
 \end{small}
 The initial filter is found using the \emph{WISE} barrier function implemented in
 the Octave function \emph{xInitHd} function. That filter design is itself
@@ -8912,7 +8912,7 @@ The Octave script \emph{decimator\_R2\_alternate\_test.m} designs an
 alternative implementation of an $R=2$ decimation low-pass filter with a flat
 pass-band amplitude response. The alternative filter specification is:
 \begin{small}
-\verbatiminput{decimator_R2_alternate_test.spec}
+\verbatiminput{decimator_R2_alternate_test_spec.m}
 \end{small}
 Figure~\ref{fig:Alternate-decimator-R-2-PCLS-d1} shows the response of the
 resulting filter. The corresponding pole-zero plot is shown in
@@ -8950,7 +8950,7 @@ of interpolated low-pass FIR filters. The Octave script
 \emph{decimator\_R2\_interpolated\_test.m} first designs an interpolated $R=2$
 IIR low-pass filter. The un-interpolated filter specification is:
 \begin{small}
-\verbatiminput{decimator_R2_interpolated_test.spec}
+\verbatiminput{decimator_R2_interpolated_test_spec.m}
 \end{small}
 The  gain, zeros and poles of the optimised filter are:
 \begin{small}
@@ -9313,7 +9313,7 @@ $H_{d}\left(\omega\right)=\frac{\imath\omega}{\pi}e ^{-\imath\omega t_{d}}$.
 The Octave script \emph{iir\_sqp\_slb\_differentiator\_test.m} designs a
 differentiator filter with the specification:
 \begin{small}
-\verbatiminput{iir_sqp_slb_differentiator_test.spec}
+\verbatiminput{iir_sqp_slb_differentiator_test_spec.m}
 \end{small}
 The filter is designed with the effect of a fixed zero at $z=1$ removed from the
 desired response. That zero is added back after optimisation is complete.
@@ -9399,7 +9399,7 @@ and
 The Octave script \emph{iir\_sqp\_slb\_lowpass\_differentiator\_test.m} designs
 an IIR low-pass differentiator filter with the specification:
 \begin{small}
-\verbatiminput{iir_sqp_slb_lowpass_differentiator_test.spec}
+\verbatiminput{iir_sqp_slb_lowpass_differentiator_test_spec.m}
 \end{small}
 The filter is designed with the effect of a fixed zero at $z=1$
 removed from the desired response. That zero is added back after optimisation is
@@ -9468,7 +9468,7 @@ $K$ is a constant and $t_{d}$ is the nominal filter group delay. The Octave
 script \emph{iir\_sqp\_slb\_pink\_test.m} designs an $11$th order IIR pink noise
 filter with the specification:
 \begin{small}
-\verbatiminput{iir_sqp_slb_pink_test.spec}
+\verbatiminput{iir_sqp_slb_pink_test_spec.m}
 \end{small}
 The script defines a ``don't-care'' transition band from $f=0$ to $fat=0.005$
 for the amplitude response and from $f=0$ to $ftt=0.025$ for the group delay
@@ -9536,7 +9536,7 @@ the unit circle in the $z$-plane $\left|z\right|\le 1$\footnote{If the inverse
 \emph{iir\_sqp\_slb\_minimum\_phase\_test.m} designs a minimum phase
 low-pass filter specified by:
 \begin{small}
-\verbatiminput{iir_sqp_slb_minimum_phase_test.spec}
+\verbatiminput{iir_sqp_slb_minimum_phase_test_spec.m}
 \end{small}
 The initial filter coefficients are, in gain-pole-zero form:
 \begin{small}
@@ -9596,7 +9596,7 @@ The Octave script \emph{iir\_sqp\_slb\_fir\_lowpass\_test.m} designs an
 FIR low-pass filter that has approximately linear phase in the pass-band. The
 impulse response is \emph{not} symmetric. The filter specification is:
 \begin{small}
-\verbatiminput{iir_sqp_slb_fir_lowpass_test.spec}
+\verbatiminput{iir_sqp_slb_fir_lowpass_test_spec.m}
 \end{small}
 Figure~\ref{fig:iir-sqp-slb-fir-lowpass-pcls-response} shows the response of
 the PCLS optimised filter.
@@ -10095,7 +10095,7 @@ The \emph{deczky3\_socp\_test.m} script has somewhat tighter constraints on the
 pass-band group-delay ripple than the SQP design of \emph{deczky3\_sqp\_test.m}
 shown in Section~\ref{sub:Deczkys-Example-3}. The filter specification is
 \begin{small}
-\verbatiminput{deczky3_socp_test.spec}
+\verbatiminput{deczky3_socp_test_spec.m}
 \end{small}
 The result of the PCLS SOCP pass in \emph{deczky3\_socp\_test.m} is shown in
 Figure~\ref{fig:SOCP-Deczky-Example-3-PCLS-d2} with pass-band details
@@ -10139,7 +10139,7 @@ For comparison, the \emph{deczky3a\_socp\_test.m} script has looser constraints
 on the pass-band group-delay ripple and increases the required stop-band
 attenuation:
 \begin{small}
-\verbatiminput{deczky3a_socp_test.spec}
+\verbatiminput{deczky3a_socp_test_spec.m}
 \end{small}
 The result of the PCLS SOCP pass in \emph{deczky3a\_socp\_test.m} is shown in
 Figure~\ref{fig:SOCP-Deczky-Example-3a-PCLS-d2} with pass-band details
@@ -10207,7 +10207,7 @@ Appendix~\ref{Updating-with-the-BFGS-formula}.
 
 The filter specification is
 \begin{small}
-\verbatiminput{deczky3_socp_bfgs_test.spec}
+\verbatiminput{deczky3_socp_bfgs_test_spec.m}
 \end{small}
 
 The result of the PCLS SOCP pass in \emph{deczky3\_socp\_bfgs\_test.m} is shown
@@ -10256,7 +10256,7 @@ The Octave script \emph{iir\_socp\_slb\_fir\_lowpass\_test.m} designs an
 FIR low-pass filter that has approximately linear phase in the pass-band. The
 impulse response is \emph{not} symmetric. The filter specification is:
 \begin{small}
-\verbatiminput{iir_socp_slb_fir_lowpass_test.spec}
+\verbatiminput{iir_socp_slb_fir_lowpass_test_spec.m}
 \end{small}
 Figure~\ref{fig:iir-socp-slb-fir-lowpass-pcls-response} shows the response of
 the PCLS optimised filter.
@@ -10291,7 +10291,7 @@ The Octave script \emph{iir\_socp\_slb\_fir\_lowpass\_alternate\_test.m} designs
 an alternative minimum-phase FIR low-pass filter that has approximately linear
 phase in the pass-band. The filter specification is:
 \begin{small}
-\verbatiminput{iir_socp_slb_fir_lowpass_alternate_test.spec}
+\verbatiminput{iir_socp_slb_fir_lowpass_alternate_test_spec.m}
 \end{small}
 Figure~\ref{fig:iir-socp-slb-fir-lowpass-alternate-pcls-response} shows the
 response of the PCLS optimised filter.
@@ -10332,11 +10332,11 @@ function. The low-pass filter pass-band and stop-band edges are $0.15$ and
 $0.2$, respectively, and the allowed pass-band ripple is $3dB$. The IIR filter
 specification is:
 \begin{small}
-\verbatiminput{iir_socp_slb_lowpass_test.spec}
+\verbatiminput{iir_socp_slb_lowpass_test_spec.m}
 \end{small}
 The \emph{gain-zero-pole} FIR filter specification is:
 \begin{small}
-\verbatiminput{fir_socp_slb_lowpass_test.spec}
+\verbatiminput{fir_socp_slb_lowpass_test_spec.m}
 \end{small}
 The symmetric FIR filters were designed with:
 \begin{small}
@@ -10377,7 +10377,7 @@ SOCP solver to design an $R=2$ bandpass filter similar to that designed with the
 SQP solver in Section~\ref{sec:Band-pass-R-2-decimation-filter}. After some 
 experimentation, the filter specification is:
 \begin{small}
-\verbatiminput{iir_socp_slb_bandpass_test.spec}
+\verbatiminput{iir_socp_slb_bandpass_test_spec.m}
 \end{small}
 The \emph{SeDuMi} solver seems to require the initial filter to be a closer
 approximation than that required by the SQP solver. In this case, the initial
@@ -10439,7 +10439,7 @@ implements the design of a multi-band-pass IIR filter expressed in
 \emph{gain-pole-zero} format with SOCP and PCLS optimisation using
 \emph{SeDuMi}. The specification of the filter is:
 \begin{small}
-\verbatiminput{iir_socp_slb_multiband_test.spec}
+\verbatiminput{iir_socp_slb_multiband_test_spec.m}
 \end{small}
 The initial filter is designed by frequency transformation of a prototype
 elliptic filter. The gain-zero-pole description of the SOCP PCLS optimised
@@ -10733,7 +10733,7 @@ The Octave script \emph{lowpass2ndOrderCascade\_socp\_test.m} calls the Octave
 function \emph{lowpass2ndOrderCascade\_socp} to implement MMSE SOCP design of
 a low pass filter similar to that of Deczky's Example 3:
 \begin{small}
-\verbatiminput{lowpass2ndOrderCascade_socp_test.spec}
+\verbatiminput{lowpass2ndOrderCascade_socp_test_spec.m}
 \end{small}
 The filter coefficients are initialised with the ``IPZS-1'' set. The script
 does not enforce the limit-cycle constraints. After SOCP MMSE optimisation,
@@ -10976,7 +10976,7 @@ e^{-\imath\omega t_{d}}&\text{if}\; 0\le\omega\le\omega_{pass}\\
 \end{align*}
 and the filter specification is
 \begin{small}
-\verbatiminput{allpass2ndOrderCascade_socp_test.spec}
+\verbatiminput{allpass2ndOrderCascade_socp_test_spec.m}
 \end{small}
 The initial allpass filters were designed by the Octave script 
 \emph{tarczynski\_allpass2ndOrderCascade\_test.m} with $flat\_delay=true$. 
@@ -11041,7 +11041,7 @@ function \emph{allpass2ndOrderCascade\_socp} to design a low-pass filter
 composed of two parallel all-pass filters with MMSE optimisation of the
 squared-magnitude response of the filter. The filter specification is
 \begin{small}
-\verbatiminput{allpass2ndOrderCascade_socp_sqmag_test.spec}
+\verbatiminput{allpass2ndOrderCascade_socp_sqmag_test_spec.m}
 \end{small}
 The initial allpass filters were designed by the Octave script 
 \emph{tarczynski\_allpass2ndOrderCascade\_test.m} with $flat\_delay=false$.
@@ -11129,7 +11129,7 @@ The allpass filter is composed of a cascade of second-order sections, as
 described in Section~\ref{sec:Parallel-Allpass-2nd-Order-Sections}. The filter
 specification is:
 \begin{small}
-\verbatiminput{allpass2ndOrderCascadeDelay_socp_test.spec}
+\verbatiminput{allpass2ndOrderCascadeDelay_socp_test_spec.m}
 \end{small}
 This script produces two designs. The first attempts to optimise the filter for
 flat group-delay in the passband and the second ignores the phase response
@@ -11255,7 +11255,7 @@ each iteration of the PCLS optimisation the Octave function
 \emph{parallel\_allpass\_socp\_mmse} optimises the filter response subject to 
 the current constraints. The filter specification is
 \begin{small}
-\verbatiminput{parallel_allpass_socp_slb_test.spec}
+\verbatiminput{parallel_allpass_socp_slb_test_spec.m}
 \end{small}
 Compare this filter with the elliptic filter shown in
 Figure~\ref{fig:Parallel-2nd-order-allpass-elliptic-filter}. The response
@@ -11368,7 +11368,7 @@ each iteration of the PCLS optimisation the Octave function
 \emph{parallel\_allpass\_socp\_mmse} optimises the filter response subject to 
 the current constraints. The filter specification is
 \begin{small}
-\verbatiminput{parallel_allpass_socp_slb_flat_delay_test.spec}
+\verbatiminput{parallel_allpass_socp_slb_flat_delay_test_spec.m}
 \end{small}
 
 The initial parallel allpass filters were designed by the Octave script 
@@ -11480,7 +11480,7 @@ optimisation the Octave function \emph{parallel\_allpass\_socp\_mmse}
 optimises the filter response subject to the current constraints. The filter
 specification is
 \begin{small}
-\verbatiminput{parallel_allpass_socp_slb_bandpass_test.spec}
+\verbatiminput{parallel_allpass_socp_slb_bandpass_test_spec.m}
 \end{small}
 The original initial filter was designed by the Octave script
 \emph{tarczynski\_parallel\_allpass\_bandpass\_test.m} using the \emph{WISE}
@@ -11543,7 +11543,7 @@ the difference of two all-pass filters. The script calls the Octave function
 terms of the all-pass filter pole locations with constraints on the filter
 group-delay and phase. The filter specification is
 \begin{small}
-\verbatiminput{parallel_allpass_socp_slb_bandpass_hilbert_test.spec}
+\verbatiminput{parallel_allpass_socp_slb_bandpass_hilbert_test_spec.m}
 \end{small}
 The initial filter was designed by the Octave script
 \emph{tarczynski\_parallel\_allpass\_bandpass\_hilbert\_test.m} using the
@@ -11598,7 +11598,7 @@ optimisation the Octave function \emph{parallel\_allpass\_delay\_socp\_mmse}
 optimises the filter response subject to the current constraints. The filter
 specification is
 \begin{small}
-\verbatiminput{parallel_allpass_delay_socp_slb_test.spec}
+\verbatiminput{parallel_allpass_delay_socp_slb_test_spec.m}
 \end{small}
 There are no group delay constraints.
 
@@ -11660,7 +11660,7 @@ optimisation the Octave function \emph{parallel\_allpass\_delay\_sqp\_mmse}
 optimises the filter response subject to the current constraints. The filter
 specification is
 \begin{small}
-  \verbatiminput{parallel_allpass_delay_sqp_slb_test.spec}
+  \verbatiminput{parallel_allpass_delay_sqp_slb_test_spec.m}
 \end{small}
 There are no group delay constraints.
 
@@ -11711,7 +11711,7 @@ the PCLS optimisation the Octave function
 \emph{parallel\_allpass\_delay\_socp\_mmse} optimises the filter response
 subject to the current constraints. The filter specification is
 \begin{small}
-\verbatiminput{parallel_allpass\_flat\_delay_socp_slb_test.spec}
+\verbatiminput{parallel_allpass\_flat\_delay_socp_slb_test_spec.m}
 \end{small}
 
 The initial allpass filter was designed by the Octave script 
@@ -11785,7 +11785,7 @@ pole locations. The response of the filter is optimised with the PCLS algorithm
 described in Section~\ref{sub:Choice-of-Active-Constraints}. The filter
 specification is:
 \begin{small}
-\verbatiminput{polyphase_allpass_socp_slb_test.spec}
+\verbatiminput{polyphase_allpass_socp_slb_test_spec.m}
 \end{small}
 As in Section~\ref{sec:Design-IIR-filter-sum-all-pass-filters-pole-zero-no-constraints-on-group-delay}, the script does not optimise for a flat filter group 
 delay. 
@@ -11833,7 +11833,7 @@ pole locations. The response of the filter is optimised with the PCLS algorithm
 described in Section~\ref{sub:Choice-of-Active-Constraints}. The filter
 specification is:
 \begin{small}
-\verbatiminput{polyphase_allpass_socp_slb_flat_delay_test.spec}
+\verbatiminput{polyphase_allpass_socp_slb_flat_delay_test_spec.m}
 \end{small}
 In this case the script ignores the pass band amplitude, optimises the stop band
 amplitude and optimises for a flat filter group delay across the pass band.
@@ -11937,7 +11937,7 @@ similar to that of the \emph{Deczky3} gain-pole-zero SQP and SOCP optimisation
 examples in Sections~\ref{sub:Deczkys-Example-3}
 and~\ref{sec:Deczky3-IIR-filter-gain-zero-pole-with-SeDuMi}:
 \begin{small}
-\verbatiminput{schurOneMlattice_socp_slb_lowpass_test.spec}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_test_spec.m}
 \end{small}
 The initial filter is a heavily modified version of the ``IPZS-1'' filter of 
 Section~\ref{sub:Deczkys-Example-3}. 
@@ -11989,7 +11989,7 @@ The Octave script \emph{schurOneMlattice\_sqp\_slb\_lowpass\_test.m} implements
 the design of a lowpass IIR one-multiplier Schur lattice filter with SQP and 
 PCLS. The specification of the filter is:
 \begin{small}
-\verbatiminput{schurOneMlattice_sqp_slb_lowpass_test.spec}
+\verbatiminput{schurOneMlattice_sqp_slb_lowpass_test_spec.m}
 \end{small}
 The initial filter is the ``IPZS-1'' of Section~\ref{sub:Deczkys-Example-3}. As
 for the examples of 
@@ -12048,7 +12048,7 @@ with SQP and PCLS. The filter coefficients are allowed to vary independently
 and the resulting filter is not, in fact, normalised-scaled. The specification
 of the filter is:
 \begin{small}
-\verbatiminput{schurNSlattice_sqp_slb_lowpass_test.spec}
+\verbatiminput{schurNSlattice_sqp_slb_lowpass_test_spec.m}
 \end{small}
 The initial filter is the ``IPZS-1'' of Section~\ref{sub:Deczkys-Example-3}. As
 for the examples of 
@@ -12118,7 +12118,7 @@ optimisation. For such a filter the all-pass reflection coefficient sign
 assignments can be recalculated without affecting the response. The
 specification of the filter is:
 \begin{small}
-\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_test.spec}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_test_spec.m}
 \end{small}
 The initial parallel all-pass filters were designed by the Octave script 
 \emph{tarczynski\_parallel\_allpass\_test.m} (with $flat\_delay=true$).
@@ -12181,7 +12181,7 @@ assignments can be recalculated without affecting the response.
 The filter specification is similar to that described in
 Section~\ref{sec:Design-IIR-filter-sum-delay-all-pass-filter-pole-zero-SOCP}:
 \begin{small}
-\verbatiminput{schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12.spec}
+\verbatiminput{schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12_spec.m}
 \end{small}
 The initial all-pass filter was designed with the Octave function
 \emph{WISE\_DA.m} using the \emph{WISE} method described in
@@ -12228,7 +12228,7 @@ $\sigma_{00}=\sqrt{1-\sigma_{20}^{2}}$. The design enforces
 $\sigma_{02}=-\sigma_{20}$ and $\sigma_{s22}=\sigma_{00}$.
 The specification of the filter is:
 \begin{small}
-\verbatiminput{schurNSPAlattice_socp_slb_lowpass_test.spec}
+\verbatiminput{schurNSPAlattice_socp_slb_lowpass_test_spec.m}
 \end{small}
 The initial parallel all-pass filters were designed by the Octave script 
 \emph{tarczynski\_parallel\_allpass\_test.m}.
@@ -12257,7 +12257,7 @@ implements the design of a band-pass IIR filter composed of the difference of
 two parallel one-multiplier Schur lattice all-pass filters with SOCP and PCLS
 optimisation. The specification of the filter is:
 \begin{small}
-\verbatiminput{schurOneMPAlattice_socp_slb_bandpass_test.spec}
+\verbatiminput{schurOneMPAlattice_socp_slb_bandpass_test_spec.m}
 \end{small}
 The initial parallel all-pass filters were designed by the Octave script 
 \emph{tarczynski\_parallel\_allpass\_bandpass\_test.m}.
@@ -12295,7 +12295,7 @@ The Octave script \emph{schurOneMlattice\_sqp\_slb\_bandpass\_test.m} implements
 the design of a band-pass IIR one-multiplier Schur lattice filter with SQP and 
 PCLS. The specification of the filter is:
 \begin{small}
-\verbatiminput{schurOneMlattice_sqp_slb_bandpass_test.spec}
+\verbatiminput{schurOneMlattice_sqp_slb_bandpass_test_spec.m}
 \end{small}
 The initial filter is that of the Octave script 
 \emph{iir\_sqp\_slb\_bandpass\_test.m}, as shown in 
@@ -12386,7 +12386,7 @@ The Octave script \emph{schurNSlattice\_sqp\_slb\_bandpass\_test.m} implements
 the design of a band-pass IIR normalised-scaled Schur lattice filter with SQP
 and PCLS. The specification of the filter is:
 \begin{small}
-\verbatiminput{schurNSlattice_sqp_slb_bandpass_test.spec}
+\verbatiminput{schurNSlattice_sqp_slb_bandpass_test_spec.m}
 \end{small}
 The initial filter is that of the Octave script 
 \emph{iir\_sqp\_slb\_bandpass\_test.m}, as shown in 
@@ -12439,7 +12439,7 @@ The Octave script \emph{schurOneMlattice\_socp\_slb\_hilbert\_test.m} implements
 the design of an IIR one-multiplier Schur lattice Hilbert filter with SOCP and 
 PCLS. The specification of the filter is:
 \begin{small}
-\verbatiminput{schurOneMlattice_socp_slb_hilbert_test.spec}
+\verbatiminput{schurOneMlattice_socp_slb_hilbert_test_spec.m}
 \end{small}
 The initial filter is that of the Octave script 
 \emph{iir\_sqp\_slb\_hilbert\_test.m} designed by
@@ -12488,7 +12488,7 @@ The Octave script \emph{schurOneMlattice\_sqp\_slb\_hilbert\_test.m} implements
 the design of an IIR one-multiplier Schur lattice Hilbert filter with SQP and 
 PCLS. The specification of the filter is:
 \begin{small}
-\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test.spec}
+\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test_spec.m}
 \end{small}
 The initial filter is that of the Octave script 
 \emph{iir\_sqp\_slb\_hilbert\_test.m} designed by
@@ -12538,7 +12538,7 @@ implements the design of a band-pass IIR Hilbert filter composed of the
 difference of two parallel one-multiplier Schur lattice all-pass filters with
 SOCP and PCLS optimisation. The specification of the filter is:
 \begin{small}
-\verbatiminput{schurOneMPAlattice_socp_slb_bandpass_hilbert_test.spec}
+\verbatiminput{schurOneMPAlattice_socp_slb_bandpass_hilbert_test_spec.m}
 \end{small}
 The initial parallel all-pass filters were designed by the Octave script 
 \emph{tarczynski\_parallel\_allpass\_bandpass\_hilbert\_test.m}.
@@ -12574,7 +12574,7 @@ $\sigma_{00}=\sqrt{1-\sigma_{20}^{2}}$. The design enforces
 $\sigma_{02}=-\sigma_{20}$ and $\sigma_{s22}=\sigma_{00}$.
 The specification of the filter is:
 \begin{small}
-\verbatiminput{schurNSPAlattice_socp_slb_bandpass_hilbert_test.spec}
+\verbatiminput{schurNSPAlattice_socp_slb_bandpass_hilbert_test_spec.m}
 \end{small}
 The initial parallel all-pass filters were designed by the Octave script 
 \emph{tarczynski\_parallel\_allpass\_bandpass\_hilbert\_test.m}.
@@ -12613,7 +12613,7 @@ implements the design of a multi-band-pass IIR filter composed of the difference
 of two parallel one-multiplier Schur lattice all-pass filters with SOCP and PCLS
 optimisation. The specification of the filter is:
 \begin{small}
-\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_to_multiband_test.spec}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_to_multiband_test_spec.m}
 \end{small}
 The initial parallel all-pass filters are designed by the frequency
 transformation of a prototype elliptic low-pass filter. The parallel all-pass
@@ -12653,7 +12653,7 @@ implements the design of a multi-band-pass IIR filter composed of the difference
 of two parallel one-multiplier Schur lattice all-pass filters with SOCP and PCLS
 optimisation. The specification of the filter is:
 \begin{small}
-\verbatiminput{schurOneMPAlattice_socp_slb_multiband_test.spec}
+\verbatiminput{schurOneMPAlattice_socp_slb_multiband_test_spec.m}
 \end{small}
 The initial parallel all-pass filters are designed by the Octave script
 \emph{tarczynski\_parallel\_allpass\_multiband\_test.m}. The SOCP PCLS optimised
@@ -13042,7 +13042,7 @@ of the example shown by Lu and
 Hinamoto~\cite[Section V.E]{LuHinamoto_IIRFrequencyMaskingFiltersConeProgramming}.
 The specification of the FRM filter is:
 \begin{small}
-\verbatiminput{frm2ndOrderCascade_socp_test.spec}
+\verbatiminput{frm2ndOrderCascade_socp_test_spec.m}
 \end{small}
 
 For comparison, the example of Lu and Hinamoto uses $mn=14$, $n_{a}=41$ and $D=9$
@@ -13320,7 +13320,7 @@ algorithm for finding the constraint frequencies. The Octave script
 \emph{iir\_frm\_socp\_slb\_test.m} designs an FRM filter with the following
 specification:
 \begin{small}
-\verbatiminput{iir_frm_socp_slb_test.spec}
+\verbatiminput{iir_frm_socp_slb_test_spec.m}
 \end{small}
 The passband edge frequency is the same as that of the design example given by 
 Lu and Hinamoto~\cite[Section V.E]{LuHinamoto_IIRFrequencyMaskingFiltersConeProgramming},
@@ -13559,7 +13559,7 @@ finding the constraint frequencies.
 The Octave script \emph{iir\_frm\_allpass\_socp\_slb\_test.m} designs an FRM
 filter with the following specification:
 \begin{small}
-\verbatiminput{iir_frm_allpass_socp_slb_test.spec}
+\verbatiminput{iir_frm_allpass_socp_slb_test_spec.m}
 \end{small}
 The passband edge frequency is are the same as for the design example given by 
 Lu and Hinamoto~\cite[Section V.E]{LuHinamoto_IIRFrequencyMaskingFiltersConeProgramming},
@@ -13880,7 +13880,7 @@ Octave script \emph{iir\_frm\_parallel\_allpass\_test.m}.
 The Octave script \emph{iir\_frm\_parallel\_allpass\_socp\_slb\_test.m} designs
 an FRM filter with the following specification:
 \begin{small}
-\verbatiminput{iir_frm_parallel_allpass_socp_slb_test.spec}
+\verbatiminput{iir_frm_parallel_allpass_socp_slb_test_spec.m}
 \end{small}
 In this example the FIR masking filters are not required to be linear phase 
 and there is no constraint on the group delay of the filter. The Octave script
@@ -13992,7 +13992,7 @@ finding the constraint frequencies. The Octave script
 \emph{schurOneMAPlattice\_frm\_socp\_slb\_test.m} designs an FRM
 filter with the following specification:
 \begin{small}
-\verbatiminput{schurOneMAPlattice_frm_socp_slb_test.spec}
+\verbatiminput{schurOneMAPlattice_frm_socp_slb_test_spec.m}
 \end{small}
 Both the FIR masking filters are symmetric and have length $41$.
 The initial filter is designed by the Octave script 
@@ -14290,7 +14290,7 @@ The Octave script
 half-band filter with a model filter implemented as a Schur
 one-multiplier all-pass lattice. The filter specification is:
 \begin{small}
-\verbatiminput{schurOneMAPlattice_frm_halfband_socp_slb_test.spec}
+\verbatiminput{schurOneMAPlattice_frm_halfband_socp_slb_test_spec.m}
 \end{small}
 The initial filter is designed by the Octave script
 \emph{tarczynski\_frm\_halfband\_test.m} with the WISE method of
@@ -14585,7 +14585,7 @@ The Octave script
 Hilbert filter with an all-pass model filter implemented as a Schur
 one-multiplier lattice. The filter specification is:
 \begin{small}
-\verbatiminput{schurOneMAPlattice_frm_hilbert_socp_slb_test.spec}
+\verbatiminput{schurOneMAPlattice_frm_hilbert_socp_slb_test_spec.m}
 \end{small}
 
 The initial filter is based on the half-band filter designed by the Octave
@@ -15826,7 +15826,7 @@ script \emph{directFIRsymmetric\_slb\_bandpass\_test.m}.
 
 The filter specification is:
 \begin{small}
-\verbatiminput{branch_bound_directFIRsymmetric_bandpass_8_nbits_test.spec}
+\verbatiminput{branch_bound_directFIRsymmetric_bandpass_8_nbits_test_spec.m}
 \end{small}
 
 Figures~\ref{fig:branch-bound-direct-form-symmetric-bandpass-FIR-passband}
@@ -15893,7 +15893,7 @@ Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP} with
 coefficients truncated to $8$ bits and $3$ signed-digits. The filter 
 specification is:
 \begin{small}
-\verbatiminput{branch_bound_schurOneMlattice_bandpass_8_nbits_test.spec}
+\verbatiminput{branch_bound_schurOneMlattice_bandpass_8_nbits_test_spec.m}
 \end{small}
 
 The $31$ non-zero 8-bit 3-signed-digit one-multiplier lattice coefficients 
@@ -15977,7 +15977,7 @@ Schur one-multiplier lattice filter of
 Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP}.
 The filter specification is:
 \begin{small}
-\verbatiminput{branch_bound_schurOneMlattice_bandpass_10_nbits_test.spec}
+\verbatiminput{branch_bound_schurOneMlattice_bandpass_10_nbits_test_spec.m}
 \end{small}
 The filter coefficients are truncated to $10$ bits with an average of $3$
 signed-digits allocated to each coefficient. The number of signed-digits
@@ -16075,7 +16075,7 @@ Section~\ref{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter}.
 The $k_{2n-1}k_{2n}$ and $c_{2n-1}k_{2n}$ coefficient combinations are treated as
 additional coefficients. The filter specification is:
 \begin{small}
-\verbatiminput{branch_bound_schurOneMlatticePipelined_bandpass_10_nbits_test.spec}
+\verbatiminput{branch_bound_schurOneMlatticePipelined_bandpass_10_nbits_test_spec.m}
 \end{small}
 The filter coefficients are truncated to $10$ bits with $3$
 signed-digits. The tap coefficients are scaled to make full use of the range of
@@ -16164,7 +16164,7 @@ with the largest difference between upper and lower signed-digit approximations
 and selects the branch with the lowest response error value.
 The filter specification is:
 \begin{small}
-\verbatiminput{branch_bound_schurOneMlatticePipelined_lowpass_16_nbits_test.spec}
+\verbatiminput{branch_bound_schurOneMlatticePipelined_lowpass_16_nbits_test_spec.m}
 \end{small} 
 
 The signed-digit lattice coefficients found by the branch-and-bound search are:
@@ -16224,7 +16224,7 @@ Schur one-multiplier all-pass lattice low-pass filter of
 Section~\ref{sec:Design-parallel-Schur-one-mult-all-pass-lattice-low-pass-SOCP}
 with $12$-bit integer coefficients. The filter specification is:
 \begin{small}
-\verbatiminput{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test.spec}
+\verbatiminput{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_spec.m}
 \end{small} 
 
 The filter coefficients are truncated to $12$ bits allocated with an average
@@ -16324,7 +16324,7 @@ approximately normalised-scaled all-pass Schur lattice low-pass filter of
 Section~\ref{sec:Design-parallel-Schur-norm-scaled-all-pass-lattice-low-pass-SOCP}
 with $12$-bit integer coefficients. The filter specification is:
 \begin{small}
-\verbatiminput{branch_bound_schurNSPAlattice_lowpass_12_nbits_test.spec}
+\verbatiminput{branch_bound_schurNSPAlattice_lowpass_12_nbits_test_spec.m}
 \end{small} 
 
 The filter coefficients are truncated to $12$ bits and $3$ signed-digits.
@@ -16414,7 +16414,7 @@ performs branch-and-bound search to optimise the response of a parallel
 Schur one-multiplier all-pass lattice elliptic approximation low-pass filter
 with $8$-bit integer coefficients. The filter specification is:
 \begin{small}
-\verbatiminput{branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test.spec}
+\verbatiminput{branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test_spec.m}
 \end{small} 
 
 The filter coefficients are truncated to $8$ bits and $2$ signed-digits. At each
@@ -16493,7 +16493,7 @@ performs branch-and-bound search to optimise the response of the parallel
 Schur one-multiplier all-pass lattice elliptic low-pass filter
 with $16$-bit integer coefficients. The filter specification is:
 \begin{small}
-\verbatiminput{branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.spec}
+\verbatiminput{branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_spec.m}
 \end{small} 
 The initial parallel all-pass filters are those for the filter designed by the
 Octave function \emph{ellip(11,0.02,84,2*0.15)}.
@@ -16588,7 +16588,7 @@ Schur one-multiplier all-pass lattice band-pass filter of
 Section~\ref{sec:Design-parallel-Schur-one-mult-all-pass-lattice-band-pass-SOCP}
 with $12$-bit integer coefficients. The filter specification is:
 \begin{small}
-\verbatiminput{branch_bound_schurOneMPAlattice_bandpass_12_nbits_test.spec}
+\verbatiminput{branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_spec.m}
 \end{small} 
 
 The filter coefficients are truncated to $12$ bits allocated with an average
@@ -16688,7 +16688,7 @@ Schur one-multiplier all-pass lattice band-pass Hilbert filter of
 Section~\ref{sec:Design-parallel-Schur-one-mult-all-pass-lattice-band-pass-Hilbert-SOCP}
 with $10$-bit integer coefficients. The filter specification is:
 \begin{small}
-\verbatiminput{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test.spec}
+\verbatiminput{branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test_spec.m}
 \end{small} 
 
 The filter coefficients are truncated to $10$ bits with $3$ signed-digits.
@@ -16781,7 +16781,7 @@ Schur one-multiplier all-pass lattice band-pass Hilbert filter of
 Section~\ref{sec:Design-parallel-Schur-one-mult-all-pass-lattice-band-pass-Hilbert-SOCP}
 with $12$-bit integer coefficients. The filter specification is:
 \begin{small}
-\verbatiminput{branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test.spec}
+\verbatiminput{branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_spec.m}
 \end{small} 
 
 The filter coefficients are truncated to $12$ bits allocated with an average
@@ -16911,7 +16911,7 @@ FIR complementary masking filter are:
 \end{small}
 The filter specification is:
 \begin{small}
-\verbatiminput{branch_bound_schurOneMAPlattice_frm_12_nbits_test.spec}
+\verbatiminput{branch_bound_schurOneMAPlattice_frm_12_nbits_test_spec.m}
 \end{small}
 The filter coefficients found by the branch-and-bound search\footnote{The search
 was stopped after about $36$ hours.} are:
@@ -16989,7 +16989,7 @@ filter of
 Section~\ref{sec:Design-Hilbert-FRM-allpass-model-filter-Schur-lattice} with
 12-bit 2-signed-digit coefficients. The filter specification is:
 \begin{small}
-\verbatiminput{branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test.spec}
+\verbatiminput{branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test_spec.m}
 \end{small}
 The truncation of the last coefficient is, by
 necessity, not PCLS optimised so the final set of coefficients may not meet
@@ -17089,7 +17089,7 @@ the heuristic of \emph{Ito et al.}. The Octave script
     et al.} and \emph{Ito et al.} for coefficient wordlengths from $6$ to
   $16$ bits. The direct-form FIR Hilbert filter specification is:
 \begin{small}
-\verbatiminput{branch_bound_directFIRhilbert_12_nbits_test.spec}
+\verbatiminput{branch_bound_directFIRhilbert_12_nbits_test_spec.m}
 \end{small}
 The filter has $40$ distinct non-zero coefficients and the filter group-delay
 is $79$ samples. The distinct non-zero filter coefficients found by the
@@ -17147,7 +17147,7 @@ An average of $2$ signed-digits are allocated to each non-zero coefficient with
 the heuristic of \emph{Ito et al.} .The direct-form FIR Hilbert filter
 specification is: 
 \begin{small}
-\verbatiminput{branch_bound_directFIRhilbert_bandpass_12_nbits_test.spec}
+\verbatiminput{branch_bound_directFIRhilbert_bandpass_12_nbits_test_spec.m}
 \end{small}
 The filter has $8$ distinct non-zero coefficients and the filter group-delay
 is $15$ samples. The distinct non-zero filter coefficients found by the
@@ -17210,7 +17210,7 @@ performs successive SOCP relaxations to optimise the response of a direct-form
 symmetric band-pass FIR filter. The 
 filter specification is:
 \begin{small}
-\verbatiminput{socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.spec}
+\verbatiminput{socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_spec.m}
 \end{small} 
 The filter coefficients are truncated to $12$ bits allocated with an average of
 $3$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
@@ -17292,7 +17292,7 @@ band-pass Schur one-multiplier lattice filter of
 Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP}. The 
 filter specification is:
 \begin{small}
-\verbatiminput{sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test.spec}
+\verbatiminput{sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test_spec.m}
 \end{small} 
 The filter coefficients are truncated to $10$ bits allocated with an average of
 $3$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
@@ -17384,7 +17384,7 @@ one-multiplier lattice filter of
 Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-low-pass-SQP} with
 $10$-bit integer coefficients. The filter specification is:
 \begin{small}
-\verbatiminput{sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.spec}
+\verbatiminput{sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_spec.m}
 \end{small} 
 
 The filter coefficients are truncated to $10$ bits allocated with an average of
@@ -17484,7 +17484,7 @@ Schur one-multiplier all-pass lattice low-pass filter of
 Section~\ref{sec:Design-parallel-Schur-one-mult-all-pass-lattice-low-pass-SOCP}
 with $12$-bit integer coefficients. The filter specification is:
 \begin{small}
-\verbatiminput{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.spec}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_spec.m}
 \end{small} 
 The filter weights differ from those used in
 Section~\ref{sec:Branch-and-bound-search-signed-digit-coefficients-parallel-allpass-one-M-lowpass}.
@@ -17592,7 +17592,7 @@ one-multiplier all-pass lattice band-pass filter of
 Section~\ref{sec:Design-parallel-Schur-one-mult-all-pass-lattice-band-pass-SOCP}
 with $12$-bit integer coefficients. The filter specification is:
 \begin{small}
-\verbatiminput{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test.spec}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_spec.m}
 \end{small} 
 
 The filter coefficients are truncated to $12$ bits allocated with an average
@@ -17698,7 +17698,7 @@ one-multiplier lattice filter of
 Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-hilbert-SQP} with
 $10$-bit integer coefficients. The filter specification is:
 \begin{small}
-\verbatiminput{socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.spec}
+\verbatiminput{socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_spec.m}
 \end{small} 
 The filter coefficients are truncated to $10$ bits allocated with an average
 of $3$ signed-digits by the heuristic of \emph{Lim et al.} as shown in
@@ -17795,7 +17795,7 @@ Section~\ref{sec:iir-sqp-slb-lowpass-differentiator} as the series combination
 of $z-1$ and a Schur one-multiplier lattice filter with $12$-bit integer
 signed-digit coefficients. The filter specification is:  
 \begin{small}
-\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test.spec}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test_spec.m}
 \end{small} 
 The filter coefficients are truncated to $12$ bits allocated with an average
 of $3$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
@@ -17873,7 +17873,7 @@ socp-relaxation search to optimise the response of the FRM low-pass
 filter of Section~\ref{sec:FRM-low-pass-Schur-lattice} with
 $12$-bit, $3$ signed-digit coefficient. The filter specification is:
 \begin{small}
-\verbatiminput{socp_relaxation_schurOneMAPlattice_frm_12_nbits_test.spec}
+\verbatiminput{socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_spec.m}
 \end{small}
 The filter coefficients found by the socp-relaxation search are:
 \begin{small}
@@ -17952,7 +17952,7 @@ as shown in
 Section~\ref{sec:Branch-and-bound-search-one-mult-FRM-low-pass-Schur-lattice}.
 The filter specification is:
 \begin{small}
-\verbatiminput{socp_relaxation_schurOneMAPlattice_frm_16_nbits_test.spec}
+\verbatiminput{socp_relaxation_schurOneMAPlattice_frm_16_nbits_test_spec.m}
 \end{small}
 The filter coefficients found by the socp-relaxation search are:
 \begin{small}
@@ -18037,7 +18037,7 @@ Section~\ref{sec:Design-Hilbert-FRM-allpass-model-filter-Schur-lattice} with
 $12$-bit integer coefficients. The FRM model filter is implemented as a
 Schur one-multiplier all-pass lattice filter. The filter specification is:
 \begin{small}
-\verbatiminput{socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test.spec}
+\verbatiminput{socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test_spec.m}
 \end{small} 
 The filter coefficients are truncated to $12$ bits allocated with an average
 of $2$ signed-digits by the heuristic of \emph{Lim et al.} shown in
@@ -18145,7 +18145,7 @@ FIR Hilbert filter having a response similar to that of
 Section~\ref{sec:SOCP-relaxation-search-signed-digit-coefficients-FRM-hilbert}.
 The filter specification is:
 \begin{small}
-\verbatiminput{socp_relaxation_directFIRhilbert_12_nbits_test.spec}
+\verbatiminput{socp_relaxation_directFIRhilbert_12_nbits_test_spec.m}
 \end{small} 
 The filter has $M$ distinct non-zero coefficients, the filter polynomial order
 is $4M-2$, the filter group-delay is $2M-1$ samples. The filter coefficients are
@@ -18257,7 +18257,7 @@ optimised band-pass Schur one-multiplier lattice filter described in
 Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP}.  The
 filter specification is:
 \begin{small}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.spec}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_spec.m}
 \end{small} 
 
 The filter coefficients are truncated to $10$ bits and $3$ signed-digits.
@@ -18395,7 +18395,7 @@ Section~\ref{sec:Ito-allocation-signed-digits}.  The script does not implement
 signed-digit allocation or SOCP-relaxation optimisation of the direct-form
 coefficients. The filter specification is:
 \begin{small}
-\verbatiminput{socp_relaxation_schurFIRlattice_gaussian_16_nbits_test.spec}
+\verbatiminput{socp_relaxation_schurFIRlattice_gaussian_16_nbits_test_spec.m}
 \end{small}
 The amplitude response in the ``pass-band'' (up to \emph{dBas}) found by
 SOCP-relaxation is required to be within \emph{$\pm{}\frac{dBap}{2}$} of the
@@ -18726,7 +18726,7 @@ The Octave script
 performs SDP optimisation of the response of a direct-form symmetric
 band-pass FIR filter. The filter specification is:
 \begin{small}
-\verbatiminput{sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test.spec}
+\verbatiminput{sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test_spec.m}
 \end{small} 
 The filter coefficients are truncated to $10$ bits allocated with an average
 of $3$ signed-digits by the heuristic of \emph{Lim et al.} as shown in
@@ -18802,7 +18802,7 @@ The Octave script \emph{sdp\_relaxation\_directFIRhilbert\_12\_nbits\_test.m}
 performs SDP optimisation of the response of a direct-form Hilbert FIR
 filter. The filter specification is: 
 \begin{small}
-\verbatiminput{sdp_relaxation_directFIRhilbert_12_nbits_test.spec}
+\verbatiminput{sdp_relaxation_directFIRhilbert_12_nbits_test_spec.m}
 \end{small} 
 The filter coefficients are truncated to $12$ bits allocated with an average
 of $2$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
@@ -18877,7 +18877,7 @@ band-pass FIR filter. The initial filter is that shown in
 Appendix~\ref{app:Design-even-order-FIR-Hilbert-bandpass-filter}. The filter
 specification is: 
 \begin{small}
-\verbatiminput{sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.spec}
+\verbatiminput{sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test_spec.m}
 \end{small} 
 The group-delay of the filter is $2M-1$ samples. The filter coefficients are
 truncated to $12$ bits allocated with an average of $2$ signed-digits by the
@@ -18957,7 +18957,7 @@ band-pass Schur one-multiplier lattice filter of
 Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP}. The 
 filter specification is:
 \begin{small}
-\verbatiminput{sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.spec}
+\verbatiminput{sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_spec.m}
 \end{small} 
 The filter coefficients are truncated to $10$ bits allocated with an average of
 $3$ signed-digits by the heuristic of \emph{Lim et al.} as shown in
@@ -19075,7 +19075,7 @@ performs successive SDP relaxations to optimise the response of an elliptic
 low-pass filter implemented with $14$-bit coefficients. The filter specification
 is:
 \begin{small}
-\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test.spec}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test_spec.m}
 \end{small} 
 The filter specification is similar to that for the filter designed with
 branch-and-bound search shown in Section~\ref{sec:Branch-and-bound-search-signed-digit-coefficients-parallel-allpass-elliptic-lowpass}.
@@ -19198,7 +19198,7 @@ implemented with $13$ bit coefficients each having an average of
 $3$ signed-digits allocated by the heuristic of \emph{Ito et al.} as shown in
 Section~\ref{sec:Lim-allocation-signed-digits}. The filter specification is: 
 \begin{small}
-\verbatiminput{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.spec}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_spec.m}
 \end{small} 
 The script compares the filter designed by a single call to the Octave
 function \emph{schurOneMPAlattice\_sdp\_mmse} with that designed by successively
@@ -26782,7 +26782,7 @@ approximately linear phase in the pass-band.
 The Octave script \emph{surmaaho\_lowpass\_test.m} designs a low-pass filter
 with approximately flat pass-band delay. The filter specification is:
 \begin{small}
-\verbatiminput{surmaaho_lowpass_test.spec}
+\verbatiminput{surmaaho_lowpass_test_spec.m}
 \end{small}
 The gain-zero-pole coefficients are:
 \begin{small}
@@ -26813,7 +26813,7 @@ The Octave script \emph{surmaaho\_parallel\_allpass\_lowpass\_test.m} designs
 a low-pass filter with approximately flat pass-band delay, implemented as the
 sum of two all-pass filters. The filter specification is:
 \begin{small}
-\verbatiminput{surmaaho_parallel_allpass_lowpass_test.spec}
+\verbatiminput{surmaaho_parallel_allpass_lowpass_test_spec.m}
 \end{small}
 The combined gain-zero-pole coefficients are:
 \begin{small}
@@ -27046,7 +27046,7 @@ a pair of band-stop and band-pass filters. The band-pass filter is both all-pass
 and magnitude complementary to the band-stop filter. The band-stop filter
 specification is:  
 \begin{small}
-\verbatiminput{johansson_cascade_allpass_bandstop_test.spec}
+\verbatiminput{johansson_cascade_allpass_bandstop_test_spec.m}
 \end{small}
 The script designs the prototype FIR filter with the
 \emph{directFIRsymmetric\_slb} and \emph{directFIRsymmetric\_socp\_mmse}
@@ -27122,7 +27122,7 @@ The initial band-stop filter is that designed by the Octave script
 \emph{johansson\_cascade\_allpass\_bandstop\_test.m}. The band-stop filter
 specification is: 
 \begin{small}
-\verbatiminput{branch_bound_johanssonOneMlattice_bandstop_16_nbits_test.spec}
+\verbatiminput{branch_bound_johanssonOneMlattice_bandstop_16_nbits_test_spec.m}
 \end{small}
 The resulting band-stop filter $3$-signed-digit, $16$-bit coefficients are: 
 \begin{small}
@@ -27151,7 +27151,7 @@ filter is that designed by the Octave script
 \emph{johansson\_cascade\_allpass\_bandstop\_test.m}. The band-stop filter
 specification is: 
 \begin{small}
-\verbatiminput{johanssonOneMlattice_socp_slb_bandstop_test.spec}
+\verbatiminput{johanssonOneMlattice_socp_slb_bandstop_test_spec.m}
 \end{small}
 The resulting band-stop filter coefficients are: 
 \begin{small}
@@ -27899,7 +27899,7 @@ method of \emph{Mian} and \emph{Nainer}. The script uses both methods to find
 the minimum-phase complementary filter for an FIR bandpass filter designed with
 the Octave \emph{remez} function. The filter specification is:
 \begin{small}
-\verbatiminput{minphase_test.spec}
+\verbatiminput{minphase_test_spec.m}
 \end{small}
 The combined response of the bandpass filter
 and the complementary filter found by the Newton-Raphson method is allpass to 
@@ -28261,7 +28261,7 @@ attempts to implement the, so-called, CFD solution of \emph{Dumitrescu et
 described above. The specifications of the original filter and estimation
 procedure are:
 \begin{small}
-\verbatiminput{dumitrescu_MA_estimation_test.spec}
+\verbatiminput{dumitrescu_MA_estimation_test_spec.m}
 \end{small}
 Figures~\ref{fig:dumitrescu-MA-estimation-response}
 and~\ref{fig:dumitrescu-MA-estimation-zeros} show the
@@ -28305,7 +28305,7 @@ The Octave script \emph{complementaryFIRlattice\_socp\_slb\_bandpass\_test.m}
 designs a PCLS optimised FIR lattice Hilbert band-pass filter with order
 $16$. The filter specification is:
 \begin{small}
-\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_test.spec}
+\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_test_spec.m}
 \end{small}
 The initial filter is the band-pass filter designed by the Octave script
 \emph{iir\_sqp\_slb\_fir\_17\_bandpass\_test.m} in gain-pole-zero form. The
@@ -28612,7 +28612,7 @@ I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}. The filter is
 designed as both a symmetric FIR filter and a non-symmetric filter with nominal
 delay $M/2$ samples. The filter specification is:
 \begin{small}
-\verbatiminput{qp_lowpass_test.spec}
+\verbatiminput{qp_lowpass_test_spec.m}
 \end{small}
 
 Figure~\ref{fig:qp_symmetric_FIR_lowpass_response} shows the amplitude
@@ -28664,7 +28664,7 @@ The Octave script \emph{qp\_bandpass\_test.m} uses
 The filter is designed as both a symmetric FIR filter and a non-symmetric filter
 with nominal delay $M/2$ samples. The filter specification is:
 \begin{small}
-\verbatiminput{qp_bandpass_test.spec}
+\verbatiminput{qp_bandpass_test_spec.m}
 \end{small}
 
 Figure~\ref{fig:qp_symmetric_FIR_bandpass_response} shows the amplitude
@@ -28716,7 +28716,7 @@ The Octave script \emph{qp\_hilbert\_filter.m} uses
 \texttt{qp} to design an anti-symmetric FIR Hilbert filter with unconstrained
 optimisation. The filter specification is:
 \begin{small}
-\verbatiminput{qp_hilbert_test.spec}
+\verbatiminput{qp_hilbert_test_spec.m}
 \end{small}
 
 Figure~\ref{fig:qp_antisymmetric_FIR_Hilbert_response} shows the amplitude
@@ -28843,7 +28843,7 @@ is solved by left division in the Octave function
 \emph{Selesnick et al.} is implemented by the Octave function
 \emph{directFIRsymmetric\_slb}. The low-pass filter specification is:
 \begin{small}
-\verbatiminput{directFIRsymmetric_slb_lowpass_test.spec}
+\verbatiminput{directFIRsymmetric_slb_lowpass_test_spec.m}
 \end{small}
 The bandwidth of the constrained low-pass filter is slightly narrower than that
 of the initial unconstrained filter. The amplitude responses of the initial
@@ -28888,7 +28888,7 @@ even-order symmetric FIR band-pass filter with constraints on the amplitude
 response by the method of Lagrange multipliers. The band-pass filter
 specification is:
 \begin{small}
-\verbatiminput{directFIRsymmetric_slb_bandpass_test.spec}
+\verbatiminput{directFIRsymmetric_slb_bandpass_test_spec.m}
 \end{small}
 Figure~\ref{fig:Symmetric_FIR_bandpass_response} shows the amplitude responses
 of the initial and optimised band-pass filters. The distinct optimised filter
@@ -28981,7 +28981,7 @@ is solved by left division in the Octave function
 \emph{Selesnick et al.} is implemented by the Octave function
 \emph{directFIRhilbert\_slb}. The FIR Hilbert filter specification is:
 \begin{small}
-\verbatiminput{directFIRhilbert_slb_test.spec}
+\verbatiminput{directFIRhilbert_slb_test_spec.m}
 \end{small}
 The group delay of the filter is $2M-1$ samples. The bandwidth of the constrained
 Hilbert filter is slightly wider than that of the initial unconstrained
@@ -29015,7 +29015,7 @@ The Octave script \emph{directFIRhilbert\_bandpass\_slb\_test.m} designs an FIR
 Hilbert filter with a band-pass response. The corresponding filter specification
 is:
 \begin{small}
-\verbatiminput{directFIRhilbert_bandpass_slb_test.spec}
+\verbatiminput{directFIRhilbert_bandpass_slb_test_spec.m}
 \end{small}
 Figure~\ref{fig:Symmetric_FIR_Hilbert_bandpass_response} shows the amplitude
 responses of the initial and optimised band-pass Hilbert filters
@@ -29135,7 +29135,7 @@ designs a low pass non-symmetric FIR filter with a nominal pass band delay using
 SOCP optimisation and the PCLS exchange algorithm of \emph{Selesnick},
 \emph{Lang} and \emph{Burrus}. The FIR filter specification is:
 \begin{small}
-\verbatiminput{directFIRnonsymmetric_socp_slb_lowpass_test.spec}
+\verbatiminput{directFIRnonsymmetric_socp_slb_lowpass_test_spec.m}
 \end{small}
 The resulting FIR impulse response is:
 \begin{small}
@@ -29173,7 +29173,7 @@ delay using SOCP optimisation and the PCLS exchange algorithm
 of \emph{Selesnick}, \emph{Lang} and \emph{Burrus}.
 The FIR filter specification is: 
 \begin{small}
-\verbatiminput{directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.spec}
+\verbatiminput{directFIRnonsymmetric_socp_slb_bandpass_hilbert_test_spec.m}
 \end{small}
 The resulting FIR impulse response is:
 \begin{small}
@@ -29325,7 +29325,7 @@ implementation of \emph{Hofstetter}'s algorithm in the Octave function
 \emph{hofstetterFIRsymmetric.m} to design a low-pass filter. The filter
 specification is:
 \begin{small}
-\verbatiminput{hofstetterFIRsymmetric_lowpass_test.spec}
+\verbatiminput{hofstetterFIRsymmetric_lowpass_test_spec.m}
 \end{small}
 
 Figure~\ref{fig:hofstetterFIRsymmetric-lowpass-test-dual} shows the pass-band
@@ -29356,7 +29356,7 @@ The Octave script \emph{hofstetterFIRsymmetric\_bandpass\_test.m} calls the
 Octave function \emph{hofstetterFIRsymmetric.m} to design a band-pass
 filter. The filter specification is:
 \begin{small}
-\verbatiminput{hofstetterFIRsymmetric_bandpass_test.spec}
+\verbatiminput{hofstetterFIRsymmetric_bandpass_test_spec.m}
 \end{small}
 
 Figure~\ref{fig:hofstetterFIRsymmetric-bandpass-test-dual} shows the pass-band
@@ -29387,7 +29387,7 @@ The Octave script \emph{hofstetterFIRsymmetric\_multiband\_test.m} calls the
 Octave function \emph{hofstetterFIRsymmetric.m} to design a multi-band
 filter. The filter specification is: 
 \begin{small}
-\verbatiminput{hofstetterFIRsymmetric_multiband_test.spec}
+\verbatiminput{hofstetterFIRsymmetric_multiband_test_spec.m}
 \end{small}
 
 Some experimentation was required to find the number of extrema in each band
@@ -29471,7 +29471,7 @@ the modifications of \emph{Selesnick} and \emph{Burrus} in the Octave function
 \emph{selesnickFIRsymmetric\_lowpass.m}. The extremal frequencies are found by
 quadratic interpolation on a coarse grid. The filter specification is:
 \begin{small}
-\verbatiminput{selesnickFIRsymmetric_lowpass_test_hMb.spec}
+\verbatiminput{selesnickFIRsymmetric_lowpass_test_hMb_spec.m}
 \end{small}
 
 Figure~\ref{fig:selesnickFIRsymmetric-lowpass-test-dual} shows the pass-band
@@ -29504,7 +29504,7 @@ The Octave script \emph{selesnickFIRsymmetric\_halfband\_test.m} calls the
 Octave function \emph{selesnickFIRsymmetric\_lowpass} to design a half-band
 filter with the specification:
 \begin{small}
-\verbatiminput{selesnickFIRsymmetric_halfband_test.spec}
+\verbatiminput{selesnickFIRsymmetric_halfband_test_spec.m}
 \end{small}
 For the half-band filter, $\delta_{p}=\delta_{s}$, $f_{t}=0.25$ and $A_{t}=0.5$. 
 Figure~\ref{fig:selesnickFIRsymmetric-halfband-test-dual} shows the
@@ -29610,7 +29610,7 @@ removed. The case of removing $3$ frequencies, listed above, should not
 occur. The extremal frequencies are found by quadratic interpolation. The filter
 specification is:  
 \begin{small}
-\verbatiminput{selesnickFIRsymmetric_bandpass_test_hMc.spec}
+\verbatiminput{selesnickFIRsymmetric_bandpass_test_hMc_spec.m}
 \end{small}
 Figure~\ref{fig:selesnickFIRsymmetric-bandpass-test-hMc-dual} shows the pass-band
 and stop-band amplitude responses of the filter.
@@ -29752,7 +29752,7 @@ low-pass filter example~\cite[Table
 I]{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}. The filter
 specification is: 
 \begin{small}
-\verbatiminput{mcclellanFIRsymmetric_lowpass_test.spec}
+\verbatiminput{mcclellanFIRsymmetric_lowpass_test_spec.m}
 \end{small}
 Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-test-dual} shows the pass-band
 and stop-band amplitude responses of the filter.
@@ -29787,7 +29787,7 @@ filter coefficients are:
 \emph{mcclellanFIRsymmetric\_bandpass\_test.m} designs the
 band-pass filter with the specification:
 \begin{small}
-\verbatiminput{mcclellanFIRsymmetric_bandpass_test.spec}
+\verbatiminput{mcclellanFIRsymmetric_bandpass_test_spec.m}
 \end{small}
 In this case, the Octave function \emph{mcclellanFIRsymmetric} does a
 preliminary search for error alternation failures when finding the error
@@ -29828,7 +29828,7 @@ filter coefficients are:
 Octave function \emph{mcclellanFIRsymmetric} to design a multi-band filter with
 the specification:
 \begin{small}
-\verbatiminput{mcclellanFIRsymmetric_multiband_test.spec}
+\verbatiminput{mcclellanFIRsymmetric_multiband_test_spec.m}
 \end{small}
 Figure~\ref{fig:mcclellanFIRsymmetric-multiband-test-response} shows the
 amplitude response of the filter.
@@ -29863,7 +29863,7 @@ filter coefficients are:
 Octave function \emph{mcclellanFIRdifferentiator} to design a low-pass
 FIR differentiator filter with the specification:
 \begin{small}
-\verbatiminput{mcclellanFIRdifferentiator_test.spec}
+\verbatiminput{mcclellanFIRdifferentiator_test_spec.m}
 \end{small}
 The ripple found is
 $\rho=$\input{mcclellanFIRdifferentiator_test_rho.tab}.
@@ -29968,7 +29968,7 @@ The Octave script \emph{affineFIRsymmetric\_lowpass\_test.m} calls
 \emph{affineFIRsymmetric\_lowpass.m} to design a low-pass filter
 with the following specification:
 \begin{small}
-\verbatiminput{affineFIRsymmetric_lowpass_test.spec}
+\verbatiminput{affineFIRsymmetric_lowpass_test_spec.m}
 \end{small}
 The resulting filter has
 $\delta_{p}=$\input{affineFIRsymmetric_lowpass_test_deltap.tab}. 
@@ -30075,7 +30075,7 @@ low-pass filter having fixed $\omega_{s}$ with the \emph{Parks-McClellan}
 algorithm (Algorithm~\ref{alg:Parks-McClellan-FIR-filter-design}). The
 specification of the filter is:    
 \begin{small}
-\verbatiminput{mcclellanFIRsymmetric_flat_lowpass_test.spec}
+\verbatiminput{mcclellanFIRsymmetric_flat_lowpass_test_spec.m}
 \end{small}
 Figure~\ref{fig:mcclellanFIRsymmetric-flat-lowpass-test-dual} shows the
 pass-band and stop-band amplitude responses of the fixed $\omega_{s}$ filter. 
@@ -30116,7 +30116,7 @@ Octave function \emph{selesnickFIRsymmetric\_flat\_lowpass} to design a
 maximally-flat FIR low-pass filter having fixed $\delta_{s}$. The specification
 of the filter is: 
 \begin{small}
-\verbatiminput{selesnickFIRsymmetric_flat_lowpass_test.spec}
+\verbatiminput{selesnickFIRsymmetric_flat_lowpass_test_spec.m}
 \end{small}
 Figure~\ref{fig:selesnickFIRsymmetric-flat-lowpass-test-dual} shows  the
 pass-band and stop-band amplitude responses of the fixed $\delta_{s}$ filter.
@@ -30199,7 +30199,7 @@ Octave function \emph{mcclellanFIRsymmetric} to design a maximally-flat FIR
 band-pass filter having fixed $\omega_{p}$ and $\omega_{t}$ and
 $K=\delta_{su}/\delta_{sl}$. The specification of the filter is:    
 \begin{small}
-\verbatiminput{mcclellanFIRsymmetric_flat_bandpass_test.spec}
+\verbatiminput{mcclellanFIRsymmetric_flat_bandpass_test_spec.m}
 \end{small}
 \begin{comment}
 Figure~\ref{fig:mcclellanFIRsymmetric-flat-bandpass-test-response} shows  the
@@ -30262,7 +30262,7 @@ Octave function \emph{selesnickFIRsymmetric\_flat\_bandpass} to design a
 maximally-flat FIR low-pass filter having fixed $\delta_{su}$ and
 $\delta_{sl}$. The specification of the filter is: 
 \begin{small}
-\verbatiminput{selesnickFIRsymmetric_flat_bandpass_test.spec}
+\verbatiminput{selesnickFIRsymmetric_flat_bandpass_test_spec.m}
 \end{small}
 Figure~\ref{fig:selesnickFIRsymmetric-flat-bandpass-test-dual} shows  the
 pass-band and stop-band amplitude responses of the fixed
@@ -30342,7 +30342,7 @@ specification is similar to that of the example of \emph{Selesnick} and
 \emph{Burrus}~\cite[Figure
 6]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}:   
 \begin{small}
-\verbatiminput{mcclellanFIRsymmetric_linear_differentiator_fail_test.spec}
+\verbatiminput{mcclellanFIRsymmetric_linear_differentiator_fail_test_spec.m}
 \end{small}
 Figure~\ref{fig:mcclellanFIRsymmetric-linear-differentiator-fail-test-hM-dual}
 shows the response of the length $M+1$ FIR stop-band filter,
@@ -30386,7 +30386,7 @@ of the example of \emph{Selesnick} and \emph{Burrus}~\cite[Figure
 6]{SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters}. The specification
 of the odd-length filter is:
 \begin{small}
-\verbatiminput{mcclellanFIRantisymmetric_linear_differentiator_test.spec}
+\verbatiminput{mcclellanFIRantisymmetric_linear_differentiator_test_spec.m}
 \end{small}
 The coefficients of the odd-length, even-order, anti-symmetric, FIR
 differentiator filter are\footnote{This truncation introduces ripple of about
@@ -31887,7 +31887,7 @@ al.}~\cite{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}. I only
 dBap &= 20\log_{10}\frac{1+\delta_{p}}{1-\delta_{p}}
 \end{align*}}: 
 \begin{small}
-\verbatiminput{directFIRsymmetric_sdp_lowpass_test_hM031.spec}
+\verbatiminput{directFIRsymmetric_sdp_lowpass_test_hM031_spec.m}
 \end{small}
 
 Figure~\ref{fig:Direct-FIR-symmetric-SDP-hM031-low-pass-response}
@@ -31907,7 +31907,7 @@ attempts to design a low pass filter with a specification similar to that of the
 example of \emph{Tuan et al.}~\cite[Figure
 3]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}:
 \begin{small}
-\verbatiminput{directFIRsymmetric_sdp_lowpass_test_hM200.spec}
+\verbatiminput{directFIRsymmetric_sdp_lowpass_test_hM200_spec.m}
 \end{small}
 
 I could not reproduce the stop-band edge specification of $fas=0.0358$ given by
@@ -31936,7 +31936,7 @@ algorithm~\cite{ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}
 implemented in the Octave function \emph{mcclellanFIRsymmetric} to design a
 filter similar to that of \emph{Tuan et al.}'s Figure 3: 
 \begin{small}
-\verbatiminput{mcclellanFIRsymmetric_lowpass_alternate_test.spec}
+\verbatiminput{mcclellanFIRsymmetric_lowpass_alternate_test_spec.m}
 \end{small}
 Figure~\ref{fig:mcclellanFIRsymmetric-lowpass-alternate-test-dual} shows the
 pass band and stop band zero-phase amplitude responses.
@@ -31959,7 +31959,7 @@ modification~\cite{SelesnickBurrus_ExchangeAlgorithmsParksMcClellanAlgorithm},
 implemented in the Octave function \emph{selesnickFIRsymmetric\_lowpass}, to
 design an FIR filter similar to that of \emph{Tuan et al.}'s Figure 4:
 \begin{small}
-\verbatiminput{selesnickFIRsymmetric_lowpass_alternate_test.spec}
+\verbatiminput{selesnickFIRsymmetric_lowpass_alternate_test_spec.m}
 \end{small}
 Figure~\ref{fig:selesnickFIRsymmetric-lowpass-alternate-test-dual} shows the
 zero-phase pass band and stop band amplitude responses. The transition frequency
@@ -31982,7 +31982,7 @@ The Octave script \emph{directFIRsymmetric\_sdp\_bandpass\_test.m} uses the LMI
 procedure of \emph{Tuan et al.} to design a band-pass symmetric FIR filter with 
 the specification:
 \begin{small}
-\verbatiminput{directFIRsymmetric_sdp_bandpass_test_hM80.spec}
+\verbatiminput{directFIRsymmetric_sdp_bandpass_test_hM80_spec.m}
 \end{small}
 
 In this case the frequency bands are not weighted (i.e.: $Wasl=1$, etc.).
@@ -32010,7 +32010,7 @@ designs a band-pass symmetric FIR filter with a specification similar to that of
 the example of \emph{Pipeleers et al.}~\cite[Figure
 4]{Pipeleers_GeneralizingKYPMultipleFrequencyIntervals}: 
 \begin{small}
-\verbatiminput{directFIRsymmetric_sdp_bandpass_test_hM15.spec}
+\verbatiminput{directFIRsymmetric_sdp_bandpass_test_hM15_spec.m}
 \end{small}
 
 The distinct filter coefficients are:
@@ -32037,7 +32037,7 @@ symmetric FIR filter using the PCLS algorithm of \emph{Selesnick et
 al.}~\cite{SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters} with the
 specification:
 \begin{small}
-\verbatiminput{directFIRsymmetric_socp_slb_bandpass_test.spec}
+\verbatiminput{directFIRsymmetric_socp_slb_bandpass_test_spec.m}
 \end{small}
 
 The distinct coefficients of this filter are:
@@ -32062,7 +32062,7 @@ Similarly, the Octave script
 non-symmetric FIR filter using the PCLS algorithm of \emph{Selesnick et al.}
 with the specification:
 \begin{small}
-\verbatiminput{directFIRnonsymmetric_socp_slb_bandpass_test.spec}
+\verbatiminput{directFIRnonsymmetric_socp_slb_bandpass_test_spec.m}
 \end{small}
 
 The coefficients of this filter are:
@@ -33441,7 +33441,7 @@ filter that approximates that shown in Figure 4 of \emph{Vl\v{c}ek} and
 \emph{Unbehauen}~\cite{Vlcek_ZolotarevOptimalFIR}. The initial specification is
 $fp=0.1$, $fs=0.15$ and $a_{s_{dB}}=-20dB$. The final filter has:
 \begin{small}
-\verbatiminput{zolotarev_vlcek_unbehauen_test_fir.spec}
+\verbatiminput{zolotarev_vlcek_unbehauen_test_fir_spec.m}
 \end{small}
 
 The $z$-domain impulse reponse coefficients of the FIR filter are:
@@ -36303,7 +36303,7 @@ modified to subtract a signal delayed by $M$ samples.
 
 The filter specification is:
 \begin{small}
-\verbatiminput{directFIRsymmetric_kyp_lowpass_test.spec}
+\verbatiminput{directFIRsymmetric_kyp_lowpass_test_spec.m}
 \end{small}
 The value of $\varepsilon^{2}_{z}$ was found by trial-and-error. The actual
 maximum squared-error in the pass-band compared with a pure delay is
@@ -36332,7 +36332,7 @@ shows a similar filter response designed by the \emph{mcclellanFIRsymmetric}
 function described in Section~\ref{sec:Parks-McClellan-mini-max-FIR}. The filter
 specification is: 
 \begin{small}
-\verbatiminput{directFIRsymmetric_kyp_lowpass_test_mcclellan.spec}
+\verbatiminput{directFIRsymmetric_kyp_lowpass_test_mcclellan_spec.m}
 \end{small}
 The distinct coefficients of the resulting FIR impulse response are: 
 \begin{small}
@@ -36381,7 +36381,7 @@ signal delayed by $d$ samples.
 
 The filter specification is:
 \begin{small}
-\verbatiminput{directFIRnonsymmetric_kyp_lowpass_test.spec}
+\verbatiminput{directFIRnonsymmetric_kyp_lowpass_test_spec.m}
 \end{small}
 The value of $\varepsilon^{2}_{z}$ was found by trial-and-error. The actual
 maximum squared-error in the pass-band compared with a pure delay is
@@ -36415,7 +36415,7 @@ Equation~\ref{eqn:Iwasaki_Hara_KYP_Lemma_8} with $Q\succeq{}0$. The $C$ matrix o
 the state variable description for the pass-band constraint is modified
 to subtract a signal delayed by $d$ samples. The filter specification is:
 \begin{small}
-\verbatiminput{directFIRnonsymmetric_kyp_bandpass_test.spec}
+\verbatiminput{directFIRnonsymmetric_kyp_bandpass_test_spec.m}
 \end{small}
 The value of $\varepsilon^{2}_{z}$ was found by trial-and-error. The actual
 maximum squared-error in the pass-band compared with a pure delay is
@@ -36455,7 +36455,7 @@ Equation~\ref{eqn:Iwasaki_Hara_KYP_Lemma_8} with $Q\succeq{}0$. The $C$ matrix o
 the state variable description for the pass-band constraint is modified
 to subtract a signal delayed by $d$ samples. The filter specification is:
 \begin{small}
-\verbatiminput{directFIRnonsymmetric_kyp_bandpass_hilbert_test.spec}
+\verbatiminput{directFIRnonsymmetric_kyp_bandpass_hilbert_test_spec.m}
 \end{small}
 The value of $\varepsilon^{2}_{z}$ was found by trial-and-error. The actual
 maximum squared-error in the pass-band compared with a pure delay is
@@ -36484,7 +36484,7 @@ Equation~\ref{eqn:Iwasaki_Hara_KYP_Lemma_8} with $Q\succeq{}0$. The $C$ matrix o
 the state variable description for the pass-band constraint is modified
 to subtract a signal delayed by $d$ samples. The filter specification is: 
 \begin{small}
-\verbatiminput{directFIRnonsymmetric_kyp_highpass_test.spec}
+\verbatiminput{directFIRnonsymmetric_kyp_highpass_test_spec.m}
 \end{small}
 The value of $\varepsilon^{2}_{z}$ was found by trial-and-error. The actual
 maximum squared-error in the pass-band compared with a pure delay is
@@ -37784,7 +37784,7 @@ $\mathabs{H\left(\omega\right)}^{2}\le\varepsilon_{s}^{2}$.
 
 The filter specification is:
 \begin{small}
-\verbatiminput{directFIRsymmetric_kyp_union_bandpass_test.spec}
+\verbatiminput{directFIRsymmetric_kyp_union_bandpass_test_spec.m}
 \end{small}
 The value of $\varepsilon^{2}_{z}$ was found by trial-and-error. The actual
 maximum squared-error in the pass-band compared with a pure delay is
@@ -37817,7 +37817,7 @@ compared to a nominal delay. In the stop band
 $\mathabs{H\left(\omega\right)}^{2}\le\varepsilon_{s}^{2}$. The filter
 specification is:
 \begin{small}
-\verbatiminput{directFIRnonsymmetric_kyp_union_bandpass_test.spec}
+\verbatiminput{directFIRnonsymmetric_kyp_union_bandpass_test_spec.m}
 \end{small}
 The resulting FIR impulse response is:
 \begin{small}
@@ -37862,7 +37862,7 @@ In the pass band the filter response is compared to a nominal delay. In the
 stop band $\mathabs{H\left(\omega\right)}^{2}\le\varepsilon_{s}^{2}$. The filter
 specification is:
 \begin{small}
-\verbatiminput{directFIRnonsymmetric_kyp_union_double_bandpass_test.spec}
+\verbatiminput{directFIRnonsymmetric_kyp_union_double_bandpass_test_spec.m}
 \end{small}
 
 In the pass bands, the M\"{o}bius transformation from the unit circle to the

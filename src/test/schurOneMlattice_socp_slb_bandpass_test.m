@@ -1,14 +1,15 @@
 % schurOneMlattice_socp_slb_bandpass_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMlattice_socp_slb_bandpass_test.diary");
-delete("schurOneMlattice_socp_slb_bandpass_test.diary.tmp");
-diary schurOneMlattice_socp_slb_bandpass_test.diary.tmp
+strf="schurOneMlattice_socp_slb_bandpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 script_id=tic;
-
 
 tol_mmse=2e-5
 tol_pcls=1e-5
@@ -85,7 +86,6 @@ kc_l=-kc_u;
 kc_active=[find((k2)~=0);(Nk+(1:Nc))'];
 
 % Common strings
-strf="schurOneMlattice_socp_slb_bandpass_test";
 strt=sprintf...
   ("%%s:fapl=%g,fapu=%g,dBap=%g,fasl=%g,fasu=%g,dBas=%g,Wtp=%%g,Was=%%g",
    fapl,fapu,dBap,fasl,fasu,dBas);
@@ -137,13 +137,13 @@ printf("k3c3:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol_mmse=%g %% Tolerance on coef. update for MMSE\n",tol_mmse);
 fprintf(fid,"tol_pcls=%g %% Tolerance on coef. update for PCLS\n",tol_pcls);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"length(c2)=%d %% Tap coefficients\n",length(c2));
-fprintf(fid,"sum(k2~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k2~=0));
+fprintf(fid,"%% length(c2)=%d %% Tap coefficients\n",length(c2));
+fprintf(fid,"%% sum(k2~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k2~=0));
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
@@ -163,6 +163,7 @@ fprintf(fid,"Wasu_mmse=%d %% Ampl. upper stop band weight(MMSE)\n",Wasu_mmse);
 fprintf(fid,"Wasl_pcls=%d %% Ampl. lower stop band weight(PCLS)\n",Wasl_pcls);
 fprintf(fid,"Wasu_pcls=%d %% Ampl. upper stop band weight(PCLS)\n",Wasu_pcls);
 fclose(fid);
+
 print_polynomial(k3,"k3");
 print_polynomial(k3,"k3",strcat(strf,"_k3_coef.m"));
 print_polynomial(epsilon3,"epsilon3");
@@ -175,13 +176,14 @@ print_polynomial(n3,"n3");
 print_polynomial(n3,"n3",strcat(strf,"_n3_coef.m"));
 print_polynomial(d3,"d3");
 print_polynomial(d3,"d3",strcat(strf,"_d3_coef.m"));
-save schurOneMlattice_socp_slb_bandpass_test.mat fapl fapu fasl fasu ...
-     ftpl ftpu dBap Wap dBas Wasl_mmse Wasu_mmse Wasl_pcls Wasu_pcls ...
-     tp tpr Wtp_mmse Wtp_pcls dmax rho tol_mmse tol_pcls ctol ...
-     k2 epsilon2 p2 c2 k3 epsilon3 p3 c3 n3 d3
+
+eval(sprintf("save %s.mat ...\n\
+ fapl fapu fasl fasu ftpl ftpu dBap Wap dBas ...\n\
+ Wasl_mmse Wasu_mmse Wasl_pcls Wasu_pcls ...\n\
+ tp tpr Wtp_mmse Wtp_pcls dmax rho tol_mmse tol_pcls ctol ...\n\
+ k2 epsilon2 p2 c2 k3 epsilon3 p3 c3 n3 d3",strf));
 
 % Done
 toc(script_id);
 diary off
-movefile schurOneMlattice_socp_slb_bandpass_test.diary.tmp ...
-         schurOneMlattice_socp_slb_bandpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

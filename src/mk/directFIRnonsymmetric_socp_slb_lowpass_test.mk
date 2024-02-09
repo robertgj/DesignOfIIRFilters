@@ -5,7 +5,7 @@ directFIRnonsymmetric_socp_slb_lowpass_test_passband
 
 directFIRnonsymmetric_socp_slb_lowpass_test_COEFS = \
 directFIRnonsymmetric_socp_slb_lowpass_test.mat \
-directFIRnonsymmetric_socp_slb_lowpass_test.spec \
+directFIRnonsymmetric_socp_slb_lowpass_test_spec.m \
 directFIRnonsymmetric_socp_slb_lowpass_test_h_coef.m 
 
 directFIRnonsymmetric_socp_slb_lowpass_test_FILES = \

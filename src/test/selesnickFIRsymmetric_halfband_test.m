@@ -130,7 +130,7 @@ close
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"M=%d %% Filter order is 2*M\n",M);
 fprintf(fid,"delta=%d %% Amplitude peak-to-peak ripple\n",delta);
 fprintf(fid,"ft=%g %% Amplitude transition band frequency\n",ft);

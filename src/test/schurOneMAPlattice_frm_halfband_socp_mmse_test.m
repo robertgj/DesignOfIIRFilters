@@ -112,7 +112,7 @@ schurOneMAPlattice_frm_halfband_socp_slb_plot ...
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"length(k1)=%d %% Number of all-pass coefficients\n",length(k1));

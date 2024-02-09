@@ -132,7 +132,7 @@ printf(" ] (dB)\n");
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"nf=%d %% Frequency points across the band\n",nf);
 fprintf(fid,"length(fM_0)=%d %% distinct FIR coefficients\n",length(fM_0));

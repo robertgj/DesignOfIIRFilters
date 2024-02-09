@@ -5,7 +5,7 @@ qp_lowpass_test_hPM_response
 
 qp_lowpass_test_COEFS = \
 qp_lowpass_test.mat \
-qp_lowpass_test.spec \
+qp_lowpass_test_spec.m \
 qp_lowpass_test_h_coef.m \
 qp_lowpass_test_hd_coef.m \
 qp_lowpass_test_hPM_coef.m

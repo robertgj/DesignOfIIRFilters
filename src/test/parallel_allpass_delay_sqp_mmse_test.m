@@ -136,7 +136,7 @@ print(sprintf(strd,"a1phase"),"-dpdflatex");
 close
 
 % Save the filter specification
-fid=fopen("parallel_allpass_delay_sqp_mmse_test.spec","wt");
+fid=fopen("parallel_allpass_delay_sqp_mmse_test_spec.m","wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"m=%d %% Allpass model filter denominator order\n",m);

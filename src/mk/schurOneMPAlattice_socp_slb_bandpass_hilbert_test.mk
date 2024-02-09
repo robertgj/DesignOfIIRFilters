@@ -6,7 +6,7 @@ schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A12pz
 
 schurOneMPAlattice_socp_slb_bandpass_hilbert_test_COEFS = \
 schurOneMPAlattice_socp_slb_bandpass_hilbert_test.mat \
-schurOneMPAlattice_socp_slb_bandpass_hilbert_test.spec \
+schurOneMPAlattice_socp_slb_bandpass_hilbert_test_spec.m \
 schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A1k_coef.m \
 schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A1epsilon_coef.m \
 schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A1p_coef.m \

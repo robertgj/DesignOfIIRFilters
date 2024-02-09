@@ -245,7 +245,7 @@ printf("d1:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:TS=[ ");printf("%f ",TS');printf(" ] (samples)\n");
 
 % Save the filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"polyphase=%d %% Use polyphase combination\n",polyphase);
 fprintf(fid,"difference=%d %% Use difference of all-pass filters\n",difference);
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);

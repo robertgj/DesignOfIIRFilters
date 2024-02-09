@@ -173,7 +173,7 @@ print(strcat(strf,"_pcls_d1dual"),"-dpdflatex");
 close
 
 % Save results
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"U=%d %% Number of real zeros\n",U);
 fprintf(fid,"V=%d %% Number of real poles\n",V);
 fprintf(fid,"M=%d %% Number of complex zeros\n",M);

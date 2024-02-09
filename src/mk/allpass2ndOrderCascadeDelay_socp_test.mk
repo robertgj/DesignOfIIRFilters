@@ -10,7 +10,7 @@ allpass2ndOrderCascadeDelay_socp_test_a1sqmpz
 
 allpass2ndOrderCascadeDelay_socp_test_COEFS = \
 allpass2ndOrderCascadeDelay_socp_test.mat \
-allpass2ndOrderCascadeDelay_socp_test.spec \
+allpass2ndOrderCascadeDelay_socp_test_spec.m \
 allpass2ndOrderCascadeDelay_socp_test_a1_coef.m \
 allpass2ndOrderCascadeDelay_socp_test_Da1_coef.m \
 allpass2ndOrderCascadeDelay_socp_test_a1sqm_coef.m \

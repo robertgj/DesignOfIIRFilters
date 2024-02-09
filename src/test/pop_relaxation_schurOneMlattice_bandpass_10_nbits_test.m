@@ -1,5 +1,5 @@
 % pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 % Optimisation of Schur one-multiplier lattice bandpass filter response with
 % 10-bit signed-digit coefficients and POP relaxation solution.
@@ -18,8 +18,6 @@ maxiter=2000
 verbose=false;
 
 schurOneMlattice_bandpass_10_nbits_common;
-
-strf="pop_relaxation_schurOneMlattice_bandpass_10_nbits_test";
 
 % Initial coefficients
 kc=zeros(size(kc0));
@@ -222,15 +220,15 @@ print(strcat(strf,"_delay"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
 fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"maxiter=%d %% SOCP iteration limit\n",maxiter);
 fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
-fprintf(fid,"length(c0)=%d %% Num. tap coefficients\n",length(c0));
-fprintf(fid,"sum(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k0~=0));
+fprintf(fid,"%% length(c0)=%d %% Num. tap coefficients\n",length(c0));
+fprintf(fid,"%% sum(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k0~=0));
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
@@ -252,13 +250,13 @@ fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-save pop_relaxation_schurOneMlattice_bandpass_10_nbits_test.mat ...
-     k0 epsilon0 p0 c0 ...
-     tol ctol nbits ndigits ndigits_alloc npoints ...
-     fapl fapu dBap Wap ...
-     fasl fasu dBas fasll fasuu dBass Wasl Wasu ...
-     ftpl ftpu tp tpr Wtp ...
-     k_min c_min
+eval(sprintf("save %s.mat ...\n\
+     k0 epsilon0 p0 c0 ...\n\
+     tol ctol nbits ndigits ndigits_alloc npoints ...\n\
+     fapl fapu dBap Wap ...\n\
+     fasl fasu dBas fasll fasuu dBass Wasl Wasu ...\n\
+     ftpl ftpu tp tpr Wtp ...\n\
+     k_min c_min",strf));
 
 % Done
 toc;

@@ -12,7 +12,7 @@ decimator_R2_alternate_test_pcls_d1dual
 
 decimator_R2_alternate_test_COEFS = \
 decimator_R2_alternate_test.mat \
-decimator_R2_alternate_test.spec \
+decimator_R2_alternate_test_spec.m \
 decimator_R2_alternate_test_d1_coef.m \
 decimator_R2_alternate_test_D1_coef.m \
 decimator_R2_alternate_test_N1_coef.m

@@ -7,7 +7,7 @@ parallel_allpass_flat_delay_socp_slb_test_a1pz
 
 parallel_allpass_flat_delay_socp_slb_test_COEFS = \
 parallel_allpass_flat_delay_socp_slb_test.mat \
-parallel_allpass_flat_delay_socp_slb_test.spec \
+parallel_allpass_flat_delay_socp_slb_test_spec.m \
 parallel_allpass_flat_delay_socp_slb_test_a1_coef.m \
 parallel_allpass_flat_delay_socp_slb_test_Da1_coef.m
 

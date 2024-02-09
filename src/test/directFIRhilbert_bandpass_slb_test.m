@@ -156,7 +156,7 @@ close
 %
 % Save the results
 %
-fid=fopen("directFIRhilbert_bandpass_slb_test.spec","wt");
+fid=fopen("directFIRhilbert_bandpass_slb_test_spec.m","wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);

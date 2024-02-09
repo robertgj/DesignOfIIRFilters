@@ -3,7 +3,7 @@ branch_bound_directFIRhilbert_12_nbits_test_response
 
 branch_bound_directFIRhilbert_12_nbits_test_COEFS = \
 branch_bound_directFIRhilbert_12_nbits_test.mat \
-branch_bound_directFIRhilbert_12_nbits_test.spec \
+branch_bound_directFIRhilbert_12_nbits_test_spec.m \
 branch_bound_directFIRhilbert_12_nbits_test_hM0_coef.m \
 branch_bound_directFIRhilbert_12_nbits_test_hM0_sd_coef.m \
 branch_bound_directFIRhilbert_12_nbits_test_hM_sd_coef.m \

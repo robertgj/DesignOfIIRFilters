@@ -290,7 +290,7 @@ print(strcat(strf,"_model_response"),"-dpdflatex");
 close
 
 % Save the results
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%4.1g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"mr=%d %% Model filter numerator order (mn+1 coefficients)\n",mr);

@@ -85,7 +85,7 @@ close
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"M=%d %% Filter order is 2*M\n",M);
 fprintf(fid,"fp=%g %% Amplitude pass band edge\n",fp);
 fprintf(fid,"fs=%g %% Amplitude stop band edge\n",fs);

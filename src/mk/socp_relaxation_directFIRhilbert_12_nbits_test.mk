@@ -3,7 +3,7 @@ socp_relaxation_directFIRhilbert_12_nbits_test_response
 
 socp_relaxation_directFIRhilbert_12_nbits_test_COEFS = \
 socp_relaxation_directFIRhilbert_12_nbits_test.mat \
-socp_relaxation_directFIRhilbert_12_nbits_test.spec \
+socp_relaxation_directFIRhilbert_12_nbits_test_spec.m \
 socp_relaxation_directFIRhilbert_12_nbits_test_cost.tab \
 socp_relaxation_directFIRhilbert_12_nbits_test_hM0_coef.m \
 socp_relaxation_directFIRhilbert_12_nbits_test_hM0_sd_coef.m \

@@ -106,7 +106,7 @@ print(strcat(strf,"_passband"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"N=%d %% FIR filter order\n",N);
 fprintf(fid,"d=%d %% Nominal FIR filter delay\n",d);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);

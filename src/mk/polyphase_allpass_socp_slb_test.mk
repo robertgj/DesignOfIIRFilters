@@ -6,7 +6,7 @@ polyphase_allpass_socp_slb_test_b1pz \
 
 polyphase_allpass_socp_slb_test_COEFS = \
 polyphase_allpass_socp_slb_test.mat \
-polyphase_allpass_socp_slb_test.spec \
+polyphase_allpass_socp_slb_test_spec.m \
 polyphase_allpass_socp_slb_test_a1_coef.m \
 polyphase_allpass_socp_slb_test_b1_coef.m \
 polyphase_allpass_socp_slb_test_Da1_coef.m \

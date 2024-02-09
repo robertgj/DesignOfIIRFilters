@@ -195,7 +195,7 @@ for M=1:2,
   %
   % Save the results
   %
-  fid=fopen(sprintf("%s_m_%d.spec",strf,m),"wt");
+  fid=fopen(sprintf("%s_m_%d_spec.m",strf,m),"wt");
   fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
   fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
   fprintf(fid,"n=%d %% Frequency points across the band\n",n);

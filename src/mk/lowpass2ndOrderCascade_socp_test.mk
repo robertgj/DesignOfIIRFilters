@@ -7,7 +7,7 @@ lowpass2ndOrderCascade_socp_test_x1sqmpass \
 lowpass2ndOrderCascade_socp_test_x1sqmpz
 
 lowpass2ndOrderCascade_socp_test_COEFS = \
-lowpass2ndOrderCascade_socp_test.spec \
+lowpass2ndOrderCascade_socp_test_spec.m \
 lowpass2ndOrderCascade_socp_test_a_coef.m \
 lowpass2ndOrderCascade_socp_test_d_coef.m
 

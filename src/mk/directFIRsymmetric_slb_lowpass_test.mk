@@ -4,7 +4,7 @@ directFIRsymmetric_slb_lowpass_test_truncated
 
 directFIRsymmetric_slb_lowpass_test_COEFS = \
 directFIRsymmetric_slb_lowpass_test.mat \
-directFIRsymmetric_slb_lowpass_test.spec \
+directFIRsymmetric_slb_lowpass_test_spec.m \
 directFIRsymmetric_slb_lowpass_test_hM1_coef.m \
 directFIRsymmetric_slb_lowpass_test_hM2_coef.m
 

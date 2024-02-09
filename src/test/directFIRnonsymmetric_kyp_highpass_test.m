@@ -138,7 +138,7 @@ fprintf(fid,"%8.4g",Asq_s);
 fclose(fid);
 
 % Save results
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"N=%d %% FIR filter order\n",N);
 fprintf(fid,"d=%d %% Nominal FIR filter delay\n",d);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);

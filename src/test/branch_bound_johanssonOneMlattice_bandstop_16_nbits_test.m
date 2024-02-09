@@ -295,7 +295,7 @@ print(strcat(strf,"_resp"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Coefficient signed-digits\n",ndigits);
 fprintf(fid,"nf=%g %% Frequency points across the band\n",nf);

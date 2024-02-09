@@ -309,7 +309,7 @@ M=%d,fap=%g,fas=%g,deltap=%g,deltas=%g",M,fap,fas,deltap,deltas);
   %
   % Save the results
   %
-  fid=fopen(sprintf("%s_hM%03d.spec",strf,M),"wt");
+  fid=fopen(sprintf("%s_hM%03d_spec.m",strf,M),"wt");
   fprintf(fid,"M=%d %% M+1 distinct coefficients, FIR filter order 2*M\n",M);
   fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
   fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);

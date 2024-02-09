@@ -1,11 +1,12 @@
 % complementaryFIRlattice_socp_slb_bandpass_test.m
 % Design of an FIR lattice filter using SOCP. Neither the filter or the
 % complementary filter is constrained to be minimum-phase.
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
 strf="complementaryFIRlattice_socp_slb_bandpass_test";
+
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
@@ -202,12 +203,12 @@ printf("kkhat2:PS=[ ");printf("%f ",PS');printf(" (samples)\n");
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"nplot=%d %% Frequency points across the band\n",nplot);
-fprintf(fid,"length(k0)=%d %% Num. FIR lattice coefficients\n",length(k0));
-fprintf(fid,"sum(k0~=0)=%d %% Num. non-zero FIR lattice coef.s\n",sum(k0~=0));
+fprintf(fid,"%% length(k0)=%d %% Num. FIR lattice coefficients\n",length(k0));
+fprintf(fid,"%% sum(k0~=0)=%d %% Num. non-zero FIR lattice coef.s\n",sum(k0~=0));
 fprintf(fid,"fsl=%g %% Lower stop band upper edge\n",fsl);
 fprintf(fid,"fpl=%g %% Pass band lower edge\n",fpl);
 fprintf(fid,"fpu=%g %% Pass band upper edge\n",fpu);
@@ -220,10 +221,8 @@ fprintf(fid,"Wasu=%g %% Ampl. upper stop band weight\n",Wasu);
 fprintf(fid,"tp=%g %% Pass band group delay\n",tp);
 fprintf(fid,"tpr=%g %% Delay pass band peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Delay pass band weight\n",Wtp);
-fprintf(fid,"pp/pi=%4.2f %% Pass band phase(adjusted for tp,units of pi)\n",
-        pp/pi);
-fprintf(fid,"ppr/pi=%4.2f %% Phase pass band peak-to-peak ripple(units of pi)\n",
-        ppr/pi);
+fprintf(fid,"pp=%4.2f %% Pass band phase(rad., adjusted for tp)\n",pp/pi);
+fprintf(fid,"ppr=%4.2f %% Phase pass band peak-to-peak ripple(rad.)\n",ppr/pi);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
@@ -237,9 +236,10 @@ print_polynomial(Nh2,"Nh2");
 print_polynomial(Nh2,"Nh2",strcat(strf,"_Nh2_coef.m"));
 print_polynomial(Ng2,"Ng2");
 print_polynomial(Ng2,"Ng2",strcat(strf,"_Ng2_coef.m"));
-save complementaryFIRlattice_socp_slb_bandpass_test.mat ...
-     tol ctol fsl fpl fpu fsu dBap Wap dBas Wasl Wasu tp tpr Wtp pp ppr Wpp ...
-     k2 khat2 Nh2 Ng2
+
+eval(sprintf("save %s.mat ...\n\
+     tol ctol fsl fpl fpu fsu dBap Wap dBas Wasl Wasu ...\n\
+     tp tpr Wtp pp ppr Wpp k2 khat2 Nh2 Ng2",strf));
 
 % Done
 toc;

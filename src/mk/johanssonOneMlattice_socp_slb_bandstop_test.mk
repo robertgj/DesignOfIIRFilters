@@ -3,7 +3,7 @@ johanssonOneMlattice_socp_slb_bandstop_test_init \
 johanssonOneMlattice_socp_slb_bandstop_test_pcls
 
 johanssonOneMlattice_socp_slb_bandstop_test_COEFS = \
-johanssonOneMlattice_socp_slb_bandstop_test.spec \
+johanssonOneMlattice_socp_slb_bandstop_test_spec.m \
 johanssonOneMlattice_socp_slb_bandstop_test.mat \
 johanssonOneMlattice_socp_slb_bandstop_test_f_coef.m \
 johanssonOneMlattice_socp_slb_bandstop_test_k0_coef.m \

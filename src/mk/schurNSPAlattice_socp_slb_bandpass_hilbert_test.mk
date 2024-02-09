@@ -7,7 +7,7 @@ schurNSPAlattice_socp_slb_bandpass_hilbert_test_A12pz
 
 schurNSPAlattice_socp_slb_bandpass_hilbert_test_COEFS = \
 schurNSPAlattice_socp_slb_bandpass_hilbert_test.mat \
-schurNSPAlattice_socp_slb_bandpass_hilbert_test.spec \
+schurNSPAlattice_socp_slb_bandpass_hilbert_test_spec.m \
 schurNSPAlattice_socp_slb_bandpass_hilbert_test_A1s20_coef.m \
 schurNSPAlattice_socp_slb_bandpass_hilbert_test_A1s00_coef.m \
 schurNSPAlattice_socp_slb_bandpass_hilbert_test_A2s20_coef.m \

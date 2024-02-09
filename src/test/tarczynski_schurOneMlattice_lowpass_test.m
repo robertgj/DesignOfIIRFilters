@@ -187,7 +187,7 @@ print("tarczynski_schurOneMlattice_lowpass_passband_test_response","-dpdflatex")
 close
 
 % Save the filter specification
-fid=fopen("tarczynski_schurOneMlattice_lowpass_test.spec","wt");
+fid=fopen("tarczynski_schurOneMlattice_lowpass_test_spec.m","wt");
 fprintf(fid,"tol=%4.1g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"norder=%d %% Filter order\n",norder);

@@ -91,7 +91,7 @@ schurOneMlattice_sqp_slb_lowpass_plot ...
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"length(c0)=%d %% Tap coefficients\n",length(c0));

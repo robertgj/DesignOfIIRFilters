@@ -8,7 +8,7 @@ schurOneMPAlattice_socp_slb_lowpass_test_sensitivity
 
 schurOneMPAlattice_socp_slb_lowpass_test_COEFS = \
 schurOneMPAlattice_socp_slb_lowpass_test.mat \
-schurOneMPAlattice_socp_slb_lowpass_test.spec \
+schurOneMPAlattice_socp_slb_lowpass_test_spec.m \
 schurOneMPAlattice_socp_slb_lowpass_test_A1k_coef.m \
 schurOneMPAlattice_socp_slb_lowpass_test_A1epsilon_coef.m \
 schurOneMPAlattice_socp_slb_lowpass_test_A1p_coef.m \

@@ -6,7 +6,7 @@ surmaaho_parallel_allpass_lowpass_test_A1_pz \
 surmaaho_parallel_allpass_lowpass_test_A2_pz
 
 surmaaho_parallel_allpass_lowpass_test_COEFS = \
-surmaaho_parallel_allpass_lowpass_test.spec \
+surmaaho_parallel_allpass_lowpass_test_spec.m \
 surmaaho_parallel_allpass_lowpass_test_x_coef.m \
 surmaaho_parallel_allpass_lowpass_test_a1_coef.m \
 surmaaho_parallel_allpass_lowpass_test_a2_coef.m

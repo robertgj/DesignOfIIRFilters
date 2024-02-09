@@ -12,7 +12,7 @@ schurOneMlattice_socp_slb_hilbert_test_c2_coef.m \
 schurOneMlattice_socp_slb_hilbert_test_n2_coef.m \
 schurOneMlattice_socp_slb_hilbert_test_d2_coef.m \
 schurOneMlattice_socp_slb_hilbert_test.mat \
-schurOneMlattice_socp_slb_hilbert_test.spec
+schurOneMlattice_socp_slb_hilbert_test_spec.m
 
 schurOneMlattice_socp_slb_hilbert_test_FILES = \
 schurOneMlattice_socp_slb_hilbert_test.m test_common.m \

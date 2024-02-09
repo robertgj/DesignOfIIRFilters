@@ -149,7 +149,7 @@ print(strcat(strf,"_x1sqmpz"),"-dpdflatex");
 close
 
 % Save specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%5.1g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"mn=%d %% Numerator order (mn+1 coefficients)\n",length(x1.a)-1);
 fprintf(fid,"mr=%d %% Denominator order (mr coefficients)\n",length(x1.d)-1);

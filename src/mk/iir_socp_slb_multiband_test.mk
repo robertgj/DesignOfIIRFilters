@@ -12,7 +12,7 @@ iir_socp_slb_multiband_test_x1_coef.m \
 iir_socp_slb_multiband_test_x2_coef.m \
 iir_socp_slb_multiband_test_N2_coef.m \
 iir_socp_slb_multiband_test_D2_coef.m \
-iir_socp_slb_multiband_test.spec \
+iir_socp_slb_multiband_test_spec.m \
 iir_socp_slb_multiband_test.mat
 
 iir_socp_slb_multiband_test_FILES = \

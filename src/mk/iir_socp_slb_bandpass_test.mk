@@ -8,7 +8,7 @@ iir_socp_slb_bandpass_test_pcls_d1pz
 
 iir_socp_slb_bandpass_test_COEFS = \
 iir_socp_slb_bandpass_test.mat \
-iir_socp_slb_bandpass_test.spec \
+iir_socp_slb_bandpass_test_spec.m \
 iir_socp_slb_bandpass_test_d1_coef.m \
 iir_socp_slb_bandpass_test_D1_coef.m \
 iir_socp_slb_bandpass_test_N1_coef.m 

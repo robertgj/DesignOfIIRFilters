@@ -4,7 +4,7 @@ mcclellanFIRsymmetric_flat_lowpass_test_dual
 
 mcclellanFIRsymmetric_flat_lowpass_test_COEFS = \
 mcclellanFIRsymmetric_flat_lowpass_test.mat \
-mcclellanFIRsymmetric_flat_lowpass_test.spec \
+mcclellanFIRsymmetric_flat_lowpass_test_spec.m \
 mcclellanFIRsymmetric_flat_lowpass_test_hM_coef.m \
 mcclellanFIRsymmetric_flat_lowpass_test_hA_coef.m \
 mcclellanFIRsymmetric_flat_lowpass_test_rho.tab 

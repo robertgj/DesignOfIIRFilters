@@ -1,20 +1,21 @@
 % branch_bound_schurOneMlattice_bandpass_8_nbits_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 % Branch-and-bound search of Schur one-multiplier lattice bandpass filter
 % response with 8-bit signed-digit coefficients
 
 test_common;
 
-delete("branch_bound_schurOneMlattice_bandpass_8_nbits_test.diary");
-delete("branch_bound_schurOneMlattice_bandpass_8_nbits_test.diary.tmp");
-diary branch_bound_schurOneMlattice_bandpass_8_nbits_test.diary.tmp
+strf="branch_bound_schurOneMlattice_bandpass_8_nbits_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 maxiter=400
 verbose=false
 tol=1e-4
-strf="branch_bound_schurOneMlattice_bandpass_8_nbits_test";
 
 % Coefficients found by schurOneMlattice_sqp_slb_bandpass_test.m
 schurOneMlattice_sqp_slb_bandpass_test_k2_coef;
@@ -332,14 +333,14 @@ print(strcat(strf,"_delay"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
 fprintf(fid,"tol=%g %% Tolerance on coefficient. update\n",tol);
 fprintf(fid,"maxiter=%d %% SQP iteration limit\n",maxiter);
 fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
-fprintf(fid,"length(c0)=%d %% Num. tap coefficients\n",length(c0));
-fprintf(fid,"sum(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k0~=0));
+fprintf(fid,"%% length(c0)=%d %% Num. tap coefficients\n",length(c0));
+fprintf(fid,"%% sum(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k0~=0));
 fprintf(fid,"dmax=%f %% Constraint on norm of coefficient SQP step size\n",dmax);
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
@@ -356,13 +357,12 @@ fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-save branch_bound_schurOneMlattice_bandpass_8_nbits_test.mat ...
-     k0 epsilon0 p0 c0 tol nbits ndigits npoints ...
-     fapl fapu Wap fasl fasu Wasl Wasu ftpl ftpu tp Wtp ...
-     improved_solution_found k_min c_min cscale
+eval(sprintf("save %s.mat ...\n\
+     k0 epsilon0 p0 c0 tol nbits ndigits npoints ...\n\
+     fapl fapu Wap fasl fasu Wasl Wasu ftpl ftpu tp Wtp ...\n\
+     improved_solution_found k_min c_min cscale",strf));
        
 % Done
 toc;
 diary off
-movefile branch_bound_schurOneMlattice_bandpass_8_nbits_test.diary.tmp ...
-         branch_bound_schurOneMlattice_bandpass_8_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

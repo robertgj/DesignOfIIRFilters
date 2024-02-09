@@ -10,7 +10,7 @@ schurOneMAPlattice_frm_halfband_socp_slb_test_pcls_passband_response
 
 schurOneMAPlattice_frm_halfband_socp_slb_test_COEFS = \
 schurOneMAPlattice_frm_halfband_socp_slb_test.mat \
-schurOneMAPlattice_frm_halfband_socp_slb_test.spec \
+schurOneMAPlattice_frm_halfband_socp_slb_test_spec.m \
 schurOneMAPlattice_frm_halfband_socp_slb_test_k2_coef.m \
 schurOneMAPlattice_frm_halfband_socp_slb_test_epsilon2_coef.m \
 schurOneMAPlattice_frm_halfband_socp_slb_test_p2_coef.m \

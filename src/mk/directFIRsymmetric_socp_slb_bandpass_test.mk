@@ -4,7 +4,7 @@ directFIRsymmetric_socp_slb_bandpass_test_dual_response
 
 directFIRsymmetric_socp_slb_bandpass_test_COEFS = \
 directFIRsymmetric_socp_slb_bandpass_test.mat \
-directFIRsymmetric_socp_slb_bandpass_test.spec \
+directFIRsymmetric_socp_slb_bandpass_test_spec.m \
 directFIRsymmetric_socp_slb_bandpass_test_hM1_coef.m 
 
 directFIRsymmetric_socp_slb_bandpass_test_FILES = \

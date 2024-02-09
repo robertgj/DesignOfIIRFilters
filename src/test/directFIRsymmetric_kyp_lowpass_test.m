@@ -130,7 +130,7 @@ Esq=directFIRsymmetricEsqPW(h(1:(M+1)),[0,fap,fas,0.5]*2*pi,[1,0,0],[1,1,1]);
 printf("Esq=%10.8f\n",Esq);
 
 % Save results
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"M=%d %% Filter order is 2*M\n",M);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
@@ -166,7 +166,7 @@ xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_mcclellan"),"-dpdflatex");
 close
-fid=fopen(strcat(strf,"_mcclellan.spec"),"wt");
+fid=fopen(strcat(strf,"_mcclellan_spec.m"),"wt");
 fprintf(fid,"M=%d %% Filter order is 2*M\n",M);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);

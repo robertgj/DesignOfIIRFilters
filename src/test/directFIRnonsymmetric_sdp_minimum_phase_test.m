@@ -116,7 +116,7 @@ if max(abs((abs(G).^2)+(abs(H).^2)-1)) > 2*tol
 endif
 
 % Save the filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%g %% tolerance on results\n",tol);
 fprintf(fid,"N=%d %% filter order\n",N);
 fprintf(fid,"fasl=%g %% Stop band amplitude response lower edge\n",fasl);

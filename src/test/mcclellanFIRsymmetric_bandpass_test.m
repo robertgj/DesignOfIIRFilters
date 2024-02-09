@@ -122,7 +122,7 @@ print_polynomial(Aext_LD,"Aext_LD","%13.10f");
 %
 % Save the results
 %
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"M=%d %% Filter order is 2*M\n",M);
 fprintf(fid,"fasl=%g %% Amplitude stop band lower edge\n",fasl);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);

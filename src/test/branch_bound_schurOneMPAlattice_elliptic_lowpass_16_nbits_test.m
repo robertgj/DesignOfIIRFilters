@@ -489,7 +489,7 @@ print(strcat(strf,"_kmin_dual"),"-dpdflatex");
 close
   
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%d %% Coefficient word length\n",nbits);
 fprintf(fid,"ndigits=%d %% Average number of signed digits per coef.\n",ndigits);
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);

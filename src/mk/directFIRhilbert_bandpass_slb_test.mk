@@ -4,7 +4,7 @@ directFIRhilbert_bandpass_slb_test_passband_response
 
 directFIRhilbert_bandpass_slb_test_COEFS = \
 directFIRhilbert_bandpass_slb_test.mat \
-directFIRhilbert_bandpass_slb_test.spec \
+directFIRhilbert_bandpass_slb_test_spec.m \
 directFIRhilbert_bandpass_slb_test_hM1_coef.m \
 directFIRhilbert_bandpass_slb_test_hM2_coef.m
 

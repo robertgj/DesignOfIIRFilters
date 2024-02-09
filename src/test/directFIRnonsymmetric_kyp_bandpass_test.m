@@ -224,7 +224,7 @@ print(strcat(strf,"_k_kc_response"),"-dpdflatex");
 close
 
 % Save results
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"N=%d %% FIR filter order\n",N);
 fprintf(fid,"d=%d %% Nominal FIR filter delay\n",d);
 fprintf(fid,"fasl=%g %% Amplitude stop band lower edge\n",fasl);

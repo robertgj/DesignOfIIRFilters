@@ -4,7 +4,7 @@ mcclellanFIRsymmetric_linear_differentiator_fail_test_response
 
 mcclellanFIRsymmetric_linear_differentiator_fail_test_COEFS = \
 mcclellanFIRsymmetric_linear_differentiator_fail_test.mat \
-mcclellanFIRsymmetric_linear_differentiator_fail_test.spec \
+mcclellanFIRsymmetric_linear_differentiator_fail_test_spec.m \
 mcclellanFIRsymmetric_linear_differentiator_fail_test_hM_coef.m
 
 mcclellanFIRsymmetric_linear_differentiator_fail_test_FILES = \

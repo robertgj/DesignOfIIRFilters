@@ -6,7 +6,7 @@ nuevoFIRsymmetric_flat_bandpass_test_16bit_error
 
 nuevoFIRsymmetric_flat_bandpass_test_COEFS = \
 nuevoFIRsymmetric_flat_bandpass_test.mat \
-nuevoFIRsymmetric_flat_bandpass_test.spec \
+nuevoFIRsymmetric_flat_bandpass_test_spec.m \
 nuevoFIRsymmetric_flat_bandpass_test_hM_coef.m \
 nuevoFIRsymmetric_flat_bandpass_test_hza_coef.m \
 nuevoFIRsymmetric_flat_bandpass_test_hzb_coef.m \

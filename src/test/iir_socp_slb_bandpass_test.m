@@ -140,7 +140,7 @@ printf("d1:ftS=[ ");printf("%f ",wtS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:TS=[ ");printf("%f ",TS');printf(" ] (samples)\n");
 
 % Save specification
-fid=fopen("iir_socp_slb_bandpass_test.spec","wt");
+fid=fopen("iir_socp_slb_bandpass_test_spec.m","wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"tol=%g %% Tolerance on relative coefficient update size\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);

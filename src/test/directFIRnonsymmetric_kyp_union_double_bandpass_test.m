@@ -390,7 +390,7 @@ printf("min delay, pl2 to pu2=%11.4g\n", min(T(napl2:napu2)));
 printf("max delay, pl2 to pu2=%11.4g\n", max(T(napl2:napu2)));
 
 % Save results
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"eps=%g %% SeDuMi eps\n",sedumi_eps);
 fprintf(fid,"N=%d %% FIR filter order\n",N);
 fprintf(fid,"d=%d %% Nominal FIR filter delay\n",d);

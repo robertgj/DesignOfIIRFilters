@@ -472,7 +472,7 @@ print(strcat(strf,"_sxx_min_pass_delay"),"-dpdflatex");
 close
 
 % Filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"sxx_symmetric=%d %% Enforce s02=-s20 and s22=s00\n",sxx_symmetric);
 fprintf(fid,"nbits=%d %% Coefficient word length\n",nbits);
 fprintf(fid,"ndigits=%d %% Average number of signed digits per coef.\n",ndigits);

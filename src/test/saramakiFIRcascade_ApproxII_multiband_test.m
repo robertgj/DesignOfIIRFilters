@@ -1,5 +1,5 @@
 % saramakiFIRcascade_ApproxII_multiband_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2024 Robert G. Jenssen
 %
 % Design a multi-band FIR filter as the tapped cascade of sub-filters
 % following Saramaki's Approximation Problem II.
@@ -13,11 +13,11 @@ test_common;
 
 tic();
 
-delete("saramakiFIRcascade_ApproxII_multiband_test.diary");
-delete("saramakiFIRcascade_ApproxII_multiband_test.diary.tmp");
-diary saramakiFIRcascade_ApproxII_multiband_test.diary.tmp
-
 strf="saramakiFIRcascade_ApproxII_multiband_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tol=1e-12;
 nplot=2000;
@@ -393,8 +393,8 @@ fprintf(fid,"\\end{table}\n");
 fclose(fid);
 
 % Save filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
-fprintf(fid,"2M=%d %% Order of sub-filter\n",2*M);
+fid=fopen(strcat(strf,"_spec.m"),"wt");
+fprintf(fid,"%% 2M=%d %% Order of sub-filter\n",2*M);
 fprintf(fid,"fasu1=%g %% Amplitude first stop-band upper edge\n",fasu1);
 fprintf(fid,"fapl1=%g %% Amplitude first pass band lower edge\n",fapl1);
 fprintf(fid,"fapu1=%g %% Amplitude first pass band upper edge\n",fapu1);
@@ -410,14 +410,13 @@ fprintf(fid,"nplot=%d %% Frequency points\n",nplot);
 fclose(fid);
 
 % Save results
-save saramakiFIRcascade_ApproxII_multiband_test.mat tol nplot ...
-     M deltap deltas fasu1 fapl1 fapu1 fasl2 fasu2 fapl2 fapu2 fasl3 ...
-     kNEmin K E N hN aN Fap Fas FasN deltaphat deltashat A B hM hM_hat ...
-     Kmin Nmin deltaphatmin deltashatmin Fapmin Fasmin hMmin ...
-     hNmin FasNmin Amin Bmin Emin
+eval(sprintf("save %s.mat ...\n\
+ tol nplot M deltap deltas fasu1 fapl1 fapu1 fasl2 fasu2 fapl2 fapu2 fasl3 ...\n\
+ kNEmin K E N hN aN Fap Fas FasN deltaphat deltashat A B hM hM_hat ...\n\
+ Kmin Nmin deltaphatmin deltashatmin Fapmin Fasmin hMmin ...\n\
+ hNmin FasNmin Amin Bmin Emin",strf));
 
 % Done
 toc();
 diary off
-movefile saramakiFIRcascade_ApproxII_multiband_test.diary.tmp ...
-         saramakiFIRcascade_ApproxII_multiband_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

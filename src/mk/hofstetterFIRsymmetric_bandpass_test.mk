@@ -5,7 +5,7 @@ hofstetterFIRsymmetric_bandpass_test_zeros
 
 hofstetterFIRsymmetric_bandpass_test_COEFS = \
 hofstetterFIRsymmetric_bandpass_test.mat \
-hofstetterFIRsymmetric_bandpass_test.spec \
+hofstetterFIRsymmetric_bandpass_test_spec.m \
 hofstetterFIRsymmetric_bandpass_test_hM_coef.m
 
 hofstetterFIRsymmetric_bandpass_test_FILES = \

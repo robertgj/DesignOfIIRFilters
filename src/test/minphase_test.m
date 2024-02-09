@@ -165,7 +165,7 @@ print(strcat(strf,"_cepstral_combined_response"),"-dpdflatex");
 close
 
 % Save the filter specification
-fid=fopen(strcat(strf,".spec"),"wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"tol=%g %% tolerance on results\n",tol);
 fprintf(fid,"N=%d %% filter order\n",N);
 fprintf(fid,"fasl=%g %% Stop band amplitude response lower edge\n",fasl);

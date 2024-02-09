@@ -3,7 +3,7 @@ directFIRnonsymmetric_kyp_highpass_test_response
 
 directFIRnonsymmetric_kyp_highpass_test_COEFS = \
 directFIRnonsymmetric_kyp_highpass_test.mat \
-directFIRnonsymmetric_kyp_highpass_test.spec \
+directFIRnonsymmetric_kyp_highpass_test_spec.m \
 directFIRnonsymmetric_kyp_highpass_test_h_coef.m \
 directFIRnonsymmetric_kyp_highpass_test_max_passband_squared_error.tab \
 directFIRnonsymmetric_kyp_highpass_test_max_stopband_squared_error.tab
