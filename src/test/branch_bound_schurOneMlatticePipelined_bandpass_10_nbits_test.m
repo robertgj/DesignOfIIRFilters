@@ -247,7 +247,7 @@ p_min=flt2SD(p_min,nbits,1);
 if ~improved_solution_found
   error("Did not find an improved solution!\n");
 endif
-printf("\nBest new solution:\n Esq_min=%g\n ng_min=%g",Esq_min,ng_min);
+printf("\nBest new solution:\n Esq_min=%g\n ng_min=%g\n",Esq_min,ng_min);
 print_polynomial(k_min,"k_min",nscale);
 print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
 print_polynomial(epsilon0,"epsilon0");
