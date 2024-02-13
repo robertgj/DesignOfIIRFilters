@@ -7,7 +7,7 @@ function [next_vR,next_vS,exchanged] = ...
 % Check for violation of the constraints in vR. If any constraints are violated
 % then move the constraint with the greatest violation from vR to vS.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -61,15 +61,15 @@ function [next_vR,next_vS,exchanged] = ...
   exchanged = false; 
 
   % Amplitude constraints
-  if isempty(Asq)
-    vAsql_max=-inf;
-    vAsqu_max=-inf;
-  else
+  vAsql_max=-inf;
+  vAsql_maxi=[];
+  vAsqu_max=-inf;
+  vAsqu_maxi=[];
+  if ~isempty(Asq)
     % Amplitude lower constraint
     Asql=Asq(vR.al);
     Asqdl=Asqdl(vR.al);  
     vAsql=[];
-    vAsql_max=-inf;
     if ~isempty(vR.al)
       vAsql=find((Asqdl-Asql)>tol);
       if ~isempty(vAsql)
@@ -81,7 +81,6 @@ function [next_vR,next_vS,exchanged] = ...
     Asqu=Asq(vR.au); 
     Asqdu=Asqdu(vR.au); 
     vAsqu=[];
-    vAsqu_max=-inf;
     if ~isempty(vR.au)
       vAsqu=find((Asqu-Asqdu)>tol);
       if ~isempty(vAsqu)
@@ -92,15 +91,15 @@ function [next_vR,next_vS,exchanged] = ...
   endif
 
   % Group delay constraints
-  if isempty(T)
-    vTl_max=-inf;
-    vTu_max=-inf;
-  else
+  vTl_max=-inf;
+  vTl_maxi=[];
+  vTu_max=-inf;
+  vTu_maxi=[];
+  if ~isempty(T)
     % Group delay lower constraint
     Tl=T(vR.tl);
     Tdl=Tdl(vR.tl);  
     vTl=[];
-    vTl_max=-inf;
     if ~isempty(vR.tl)
       vTl=find((Tdl-Tl)>tol);
       if ~isempty(vTl)
@@ -111,7 +110,6 @@ function [next_vR,next_vS,exchanged] = ...
     % Group delay upper constraint
     Tu=T(vR.tu);
     Tdu=Tdu(vR.tu); 
-    vTu_max=-inf;
     vTu=[];
     if ~isempty(vR.tu)
       vTu=find((Tu-Tdu)>tol);

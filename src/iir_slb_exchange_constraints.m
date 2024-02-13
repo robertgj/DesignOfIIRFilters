@@ -9,7 +9,7 @@ function [next_vR,next_vS,exchanged] = ...
 % are violated then move the constraint with the greatest violation
 % from vR to vS.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -39,17 +39,11 @@ endif
 next_vR = vR;
 next_vS = vS;
 exchanged = false;
-vAl_max=-inf;
-vAu_max=-inf;
-vSl_max=-inf;
-vSu_max=-inf;
-vTl_max=-inf;
-vTu_max=-inf;
-vPl_max=-inf;
-vPu_max=-inf;
 
 % Amplitude lower constraint
 vAl=[];Al=[];
+vAl_max=-inf;
+vAl_maxi=[];
 if ~isempty(vR.al)
   Al=iirA(wa(vR.al),x,U,V,M,Q,R);
   vAl=find((Adl(vR.al)-tol)>Al);
@@ -61,6 +55,8 @@ endif
 
 % Amplitude upper constraint
 vAu=[];Au=[];
+vAu_max=-inf;
+vAu_maxi=[];
 if ~isempty(vR.au)
   Au=iirA(wa(vR.au),x,U,V,M,Q,R);
   vAu=find(Au>(Adu(vR.au)+tol));
@@ -72,6 +68,8 @@ endif
 
 % Amplitude stop-band lower constraint
 vSl=[];Sl=[];
+vSl_max=-inf;
+vSl_maxi=[];
 if ~isempty(vR.sl)
   Sl=iirA(ws(vR.sl),x,U,V,M,Q,R);
   vSl=find((Sdl(vR.sl)-tol)>Sl);
@@ -83,6 +81,8 @@ endif
 
 % Amplitude stop-band upper constraint
 vSu=[];Su=[];
+vSu_max=-inf;
+vSu_maxi=[];
 if ~isempty(vR.su)
   Su=iirA(ws(vR.su),x,U,V,M,Q,R);
   vSu=find(Su>(Sdu(vR.su)+tol));
@@ -94,6 +94,8 @@ endif
 
 % Group delay lower constraint
 vTl=[];Tl=[];
+vTl_max=-inf;
+vTl_maxi=[];
 if ~isempty(vR.tl)
   Tl=iirT(wt(vR.tl),x,U,V,M,Q,R);
   vTl=find((Tdl(vR.tl)-tol)>Tl);
@@ -105,6 +107,8 @@ endif
 
 % Group delay upper constraint
 vTu=[];Tu=[];
+vTu_max=-inf;
+vTu_maxi=[];
 if ~isempty(vR.tu)
   Tu=iirT(wt(vR.tu),x,U,V,M,Q,R);
   vTu=find(Tu>(Tdu(vR.tu)+tol));
@@ -116,6 +120,8 @@ endif
 
 % Phase response lower constraint
 vPl=[];Pl=[];
+vPl_max=-inf;
+vPl_maxi=[];
 if ~isempty(vR.pl)
   Pl=iirP(wp(vR.pl),x,U,V,M,Q,R);
   vPl=find((Pdl(vR.pl)-tol)>Pl);
@@ -127,6 +133,8 @@ endif
 
 % Phase response upper constraint
 vPu=[];Pu=[];
+vPu_max=-inf;
+vPu_maxi=[];
 if ~isempty(vR.pu)
   Pu=iirP(wp(vR.pu),x,U,V,M,Q,R);
   vPu=find(Pu>(Pdu(vR.pu)+tol));

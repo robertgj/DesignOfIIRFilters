@@ -7,7 +7,7 @@ function [next_vR,next_vS,exchanged] = ...
 % Check for violation of the constraints in vR. If any constraints are violated
 % then move the constraint with the greatest violation from vR to vS.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -67,15 +67,15 @@ schurOneMPAlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl, ...\n\
   exchanged = false; 
 
   % Amplitude constraints
-  if isempty(Asq)
-    vAsql_max=-inf;
-    vAsqu_max=-inf;
-  else
+  vAsql_max=-inf;
+  vAsql_maxi=[];
+  vAsqu_max=-inf;
+  vAsqu_maxi=[];
+  if ~isempty(Asq)
     % Amplitude lower constraint
     Asql=Asq(vR.al);
     Asqdl=Asqdl(vR.al);  
     vAsql=[];
-    vAsql_max=-inf;
     if ~isempty(vR.al)
       vAsql=find((Asqdl-Asql)>tol);
       if ~isempty(vAsql)
@@ -87,7 +87,6 @@ schurOneMPAlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl, ...\n\
     Asqu=Asq(vR.au); 
     Asqdu=Asqdu(vR.au); 
     vAsqu=[];
-    vAsqu_max=-inf;
     if ~isempty(vR.au)
       vAsqu=find((Asqu-Asqdu)>tol);
       if ~isempty(vAsqu)
@@ -98,15 +97,15 @@ schurOneMPAlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl, ...\n\
   endif
 
   % Group delay constraints
-  if isempty(T)
-    vTl_max=-inf;
-    vTu_max=-inf;
-  else
+  vTl_max=-inf;
+  vTl_maxi=[];
+  vTu_max=-inf;
+  vTu_maxi=[];
+  if ~isempty(T)
     % Group delay lower constraint
     Tl=T(vR.tl);
     Tdl=Tdl(vR.tl);  
     vTl=[];
-    vTl_max=-inf;
     if ~isempty(vR.tl)
       vTl=find((Tdl-Tl)>tol);
       if ~isempty(vTl)
@@ -117,7 +116,6 @@ schurOneMPAlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl, ...\n\
     % Group delay upper constraint
     Tu=T(vR.tu);
     Tdu=Tdu(vR.tu); 
-    vTu_max=-inf;
     vTu=[];
     if ~isempty(vR.tu)
       vTu=find((Tu-Tdu)>tol);
@@ -129,15 +127,15 @@ schurOneMPAlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl, ...\n\
   endif
   
   % Phase constraints
-  if isempty(P)
-    vPl_max=-inf;
-    vPu_max=-inf;
-  else
+  vPl_max=-inf;
+  vPl_maxi=[];
+  vPu_max=-inf;
+  vPu_maxi=[];
+  if ~isempty(P)
     % Phase lower constraint
     Pl=P(vR.pl);
     Pdl=Pdl(vR.pl);  
     vPl=[];
-    vPl_max=-inf;
     if ~isempty(vR.pl)
       vPl=find((Pdl-Pl)>tol);
       if ~isempty(vPl)
@@ -148,7 +146,6 @@ schurOneMPAlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl, ...\n\
     % Phase upper constraint
     Pu=P(vR.pu);
     Pdu=Pdu(vR.pu); 
-    vPu_max=-inf;
     vPu=[];
     if ~isempty(vR.pu)
       vPu=find((Pu-Pdu)>tol);

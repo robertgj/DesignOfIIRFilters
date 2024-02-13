@@ -5,7 +5,7 @@ function [next_vR,next_vS,exchanged] = ...
 % Check for violation of the constraints in vR. If any constraints are violated
 % then move the constraint with the greatest violation from vR to vS.
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -52,15 +52,15 @@ johanssonOneMlattice_slb_exchange_constraints(vS,vR,A,Adu,Adl,tol)");
   exchanged = false; 
 
   % Amplitude constraints
-  if isempty(A)
-    vAl_max=-inf;
-    vAu_max=-inf;
-  else
+  vAl_max=-inf;
+  vAl_maxi=[];
+  vAu_max=-inf;
+  vAu_maxi=[];
+  if ~isempty(A)
     % Amplitude lower constraint
     Al=A(vR.al);
     Adl=Adl(vR.al);  
     vAl=[];
-    vAl_max=-inf;
     if ~isempty(vR.al)
       vAl=find((Adl-Al)>tol);
       if ~isempty(vAl)
@@ -72,7 +72,6 @@ johanssonOneMlattice_slb_exchange_constraints(vS,vR,A,Adu,Adl,tol)");
     Au=A(vR.au); 
     Adu=Adu(vR.au); 
     vAu=[];
-    vAu_max=-inf;
     if ~isempty(vR.au)
       vAu=find((Au-Adu)>tol);
       if ~isempty(vAu)
