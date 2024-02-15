@@ -2,25 +2,22 @@
 
 % Branch-and-bound optimisation of the response of an elliptic low-pass
 % filter composed of parallel Schur one-multiplier all-pass lattice
-% filters with 16-bit 3-signed-digit coefficients.
+% filters with 8-bit 2-signed-digit coefficients.
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test.diary");
-delete ...
-  ("branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test.diary.tmp");
-diary branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test.diary.tmp
+strf="branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Options
 enforce_pcls_constraints_on_final_filter=true
 
 tic;
-
-
-% Common strings
-strf="branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test";
 
 % Lowpass filter specification
 maxiter=500
@@ -33,7 +30,7 @@ del.stol=ctol;
 warning("Using coef. delta tolerance=%g, SeDuMi eps=%g\n",del.dtol,del.stol);
 n=1000;
 difference=false
-fap=0.04
+fap=0.040
 dBap=0.2
 Wap=1
 Wat=0
@@ -207,6 +204,7 @@ do
   % Try to solve the current sub-problem
   try  
     % Find the SOCP PCLS solution for the remaining active coefficents
+    feasible=false;
     [nextA1k,nextA2k,slb_iter,opt_iter,func_iter,feasible] = ...
     schurOneMPAlattice_slb(@schurOneMPAlattice_socp_mmse, ...
                            k_b(R1),A1epsilon0,A1p_ones, ...
@@ -405,14 +403,12 @@ fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results
-save branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test.mat ...
-     n fap dBap Wap Wat fas dBas Was rho tol ctol ...
-     improved_solution_found A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ...
-     difference nbits ndigits ndigits_alloc A1k_min A2k_min
+eval(sprintf("save %s.mat ...\n\
+     n fap dBap Wap Wat fas dBas Was rho tol ctol ...\n\
+     improved_solution_found A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ...\n\
+     difference nbits ndigits ndigits_alloc A1k_min A2k_min",strf));
      
 % Done
 toc;
 diary off
-movefile ...
-  branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test.diary.tmp ...
-  branch_bound_schurOneMPAlattice_elliptic_lowpass_8_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

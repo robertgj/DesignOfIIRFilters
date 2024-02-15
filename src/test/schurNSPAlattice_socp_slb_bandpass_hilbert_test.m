@@ -19,8 +19,8 @@ verbose=false
 %
 tarczynski_parallel_allpass_bandpass_hilbert_test_Da0_coef;
 tarczynski_parallel_allpass_bandpass_hilbert_test_Db0_coef;
-[~,~,A1s20_0,A1s00_0,A1s02_0,A1s22_0] = tf2schurNSlattice(flipud(Da0),Da0);
-[~,~,A2s20_0,A2s00_0,A2s02_0,A2s22_0] = tf2schurNSlattice(flipud(Db0),Db0);
+[~,~,A1s20_0,A1s00_0,A1s02_0,A1s22_0] = tf2schurNSlattice(flipud(Da0(:)),Da0(:));
+[~,~,A2s20_0,A2s00_0,A2s02_0,A2s22_0] = tf2schurNSlattice(flipud(Db0(:)),Db0(:));
 
 %
 % Band-pass filter specification for parallel all-pass filters
@@ -128,6 +128,7 @@ sxx_symmetric=true;
 % SOCP PCLS
 %
 try
+  feasible=false;
   [A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
    slb_iter,opt_iter,func_iter,feasible] = ...
      schurNSPAlattice_slb(@schurNSPAlattice_socp_mmse,
@@ -141,6 +142,7 @@ try
                           maxiter,tol,ctol,verbose);
 catch
   feasible = false;
+  warning("Caught schurNSPAlattice_slb!");
 end_try_catch
 if feasible == 0 
   error("A12(pcls) infeasible");
@@ -333,15 +335,15 @@ print_polynomial(A1stdx,"A1stdx",strcat(strf,"_A1stdx.m"),"%6.4f");
 print_polynomial(A2stdx,"A2stdx");
 print_polynomial(A2stdx,"A2stdx",strcat(strf,"_A2stdx.m"),"%6.4f");
 
-save schurNSPAlattice_socp_slb_bandpass_hilbert_test.mat ...
-     rho tol ctol difference sxx_symmetric n ...
-     fasl fapl fapu fasu dBap dBas Wasl Watl Wap Watu Wasu ...
-     ftpl ftpu tp tpr Wtp ...
-     fppl fppu pp ppr Wpp ...
-     Da0 Db0 ...
-     A1s20 A1s00 A1s02 A1s22 A2s20 A2s00 A2s02 A2s22
+eval(sprintf("save %s.mat ...\n\
+     rho tol ctol difference sxx_symmetric n ...\n\
+     fasl fapl fapu fasu dBap dBas Wasl Watl Wap Watu Wasu ...\n\
+     ftpl ftpu tp tpr Wtp ...\n\
+     fppl fppu pp ppr Wpp ...\n\
+     Da0 Db0 ...\n\
+     A1s20 A1s00 A1s02 A1s22 A2s20 A2s00 A2s02 A2s22",strf));
         
 % Done
 toc;
 diary off
-eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_bandpass_hilbert_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
@@ -120,12 +120,18 @@ k_active=find(k0~=0);
 %
 % SOCP PCLS
 %
-[A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...
-  schurOneMPAlattice_slb(@schurOneMPAlattice_socp_mmse, ...
-                         A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
-                         difference,k_u,k_l,k_active,dmax, ...
-                         wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                         wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
+try
+  feasible=false;
+  [A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...
+    schurOneMPAlattice_slb(@schurOneMPAlattice_socp_mmse, ...
+                           A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
+                           difference,k_u,k_l,k_active,dmax, ...
+                           wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
+                           wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
+catch
+  feasible=false;
+  warning("Caught schurOneMPAlattice_slb!");
+end_try_catch;
 if feasible == 0 
   error("A1k,A2k(PCLS) infeasible");
 endif
@@ -249,15 +255,15 @@ print_polynomial(A2epsilon,"A2epsilon",strcat(strf,"_A2epsilon_coef.m"),"%2d");
 print_polynomial(A2p,"A2p");
 print_polynomial(A2p,"A2p",strcat(strf,"_A2p_coef.m"));
 
-save schurOneMPAlattice_socp_slb_bandpass_hilbert_test.mat ...
-     n difference tol ctol rho  ...
-     fapl fapu dBap Wap Watl Watu ...
-     fasl fasu dBas Wasl Wasu ...
-     ftpl ftpu tp tpr Wtp ...
-     fppl fppu pd pdr Wpp ...
-     Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p
+eval(sprintf("save %s.mat ...\n\
+     n difference tol ctol rho  ...\n\
+     fapl fapu dBap Wap Watl Watu ...\n\
+     fasl fasu dBas Wasl Wasu ...\n\
+     ftpl ftpu tp tpr Wtp ...\n\
+     fppl fppu pd pdr Wpp ...\n\
+     Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p",strf));
 
 % Done
 toc;
 diary off
-eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

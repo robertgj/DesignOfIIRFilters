@@ -4,13 +4,15 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test.diary");
-delete("socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test.diary.tmp");
-diary socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test.diary.tmp
+strf="socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test";
+
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Options
 socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim=true
@@ -20,7 +22,6 @@ tic;
 
 maxiter=5000
 verbose=false
-strf="socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test";
 
 %
 % Initial coefficients found by schurOneMPAlattice_socp_slb_bandpass_test.m
@@ -63,7 +64,7 @@ ftpu=0.2
 td=16
 tdr=0.32
 Wtp=0.2
-
+  
 %
 % Frequency vectors
 %
@@ -206,6 +207,7 @@ while ~isempty(kopt_active)
   % Try to solve the current SOCP problem with bounds kopt_bu and kopt_bl
   try
     % Find the SOCP PCLS solution for the remaining active coefficents
+    feasible=false;
     [nextA1k,nextA2k,slb_iter,opt_iter,func_iter,feasible] = ...
     schurOneMPAlattice_slb ...
       (@schurOneMPAlattice_socp_mmse, ...
@@ -224,9 +226,10 @@ while ~isempty(kopt_active)
   end_try_catch
 
   % If this problem was not solved then give up
-  if ~feasible
+  if feasible==false
     printf("kopt*nscale=[ ");printf("%g ",kopt(:)'*nscale);printf(" ];\n");
     error("SOCP problem infeasible! Wtp=%f\n",Wtp);
+    break
   endif
 
   % Fix coef_n
@@ -411,19 +414,18 @@ fprintf(fid,"Wtp=%d %% Pass band group-delay response weight\n",Wtp);
 fclose(fid);
 
 % Save results
-save socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test.mat ...
-     socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim ...
-     socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito ...
-     n m1 m2 difference tol ctol rho  ...
-     fapl fapu dBap Wap Watl Watu ...
-     fasl fasu dBas Wasl Wasu ...
-     ftpl ftpu td tdr Wtp ...
-     A1k A1epsilon A1p A2k A2epsilon A2p ...
-     nbits ndigits ndigits_alloc ...
-     A1k_min A1epsilon_min A2k_min A2epsilon_min
+eval(sprintf("save %s.mat ...\n\
+     socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim ...\n\
+     socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito ...\n\
+     n m1 m2 difference tol ctol rho  ...\n\
+     fapl fapu dBap Wap Watl Watu ...\n\
+     fasl fasu dBas Wasl Wasu ...\n\
+     ftpl ftpu td tdr Wtp ...\n\
+     A1k A1epsilon A1p A2k A2epsilon A2p ...\n\
+     nbits ndigits ndigits_alloc ...\n\
+     A1k_min A1epsilon_min A2k_min A2epsilon_min",strf));
 
 % Done
 toc;
 diary off
-movefile socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test.diary.tmp ...
-         socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

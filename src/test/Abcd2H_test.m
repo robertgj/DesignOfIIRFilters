@@ -1,11 +1,12 @@
 % Abcd2H_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("Abcd2H_test.diary");
-delete("Abcd2H_test.diary.tmp");
-diary Abcd2H_test.diary.tmp
+strf="Abcd2H_test";
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 check_octave_file("Abcd2H");
 
@@ -659,4 +660,4 @@ endif
 
 % Done
 diary off
-movefile Abcd2H_test.diary.tmp Abcd2H_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

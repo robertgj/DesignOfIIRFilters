@@ -1,11 +1,13 @@
 % schurOneMAPlattice_frm_hilbert_socp_slb_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMAPlattice_frm_hilbert_socp_slb_test.diary");
-delete("schurOneMAPlattice_frm_hilbert_socp_slb_test.diary.tmp");
-diary schurOneMAPlattice_frm_hilbert_socp_slb_test.diary.tmp
+strf="schurOneMAPlattice_frm_hilbert_socp_slb_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
@@ -98,7 +100,6 @@ kuv_active=(1:(length(k0)+length(u0)+length(v0)))';
 dmax=inf;
 
 % Common strings
-strf="schurOneMAPlattice_frm_hilbert_socp_slb_test";
 strt=sprintf("FRM Hilbert %%s %%s : \
 Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d",Mmodel,Dmodel,fap,fas,tp);
 
@@ -109,15 +110,21 @@ schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
 %
 % FRM hilbert SOCP PCLS
 %
-tic;
-[k2,u2,v2,slb_iter,socp_iter,func_iter,feasible] = ...
-  schurOneMAPlattice_frm_hilbert_slb ...
-    (@schurOneMAPlattice_frm_hilbert_socp_mmse, ...
-     k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...
-     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-     maxiter,tol,ctol,verbose);
-toc;
-if feasible == 0 
+try
+  tic;
+  feasible=false;
+  [k2,u2,v2,slb_iter,socp_iter,func_iter,feasible] = ...
+    schurOneMAPlattice_frm_hilbert_slb ...
+      (@schurOneMAPlattice_frm_hilbert_socp_mmse, ...
+       k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...
+       wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+       maxiter,tol,ctol,verbose);
+  toc;
+catch
+  feasible=false;
+  warning("Caught schurOneMPAlattice_slb!");
+end_try_catch
+if feasible == false 
   error("k2,u2,v2(pcls) infeasible");
 endif
 
@@ -167,13 +174,12 @@ print_polynomial(u2,"u2",strcat(strf,"_u2_coef.m"));
 print_polynomial(v2,"v2");
 print_polynomial(v2,"v2",strcat(strf,"_v2_coef.m"));
 
-save schurOneMAPlattice_frm_hilbert_socp_slb_test.mat ...
-     r0 k0 epsilon0 p0 u0 v0 k2 epsilon2 p2 u2 v2 ...
-     Mmodel Dmodel dmax rho tol ctol ...
-     fap fas dBap Wap ftp fts tp tpr Wtp fpp fps pp ppr Wpp 
+eval(sprintf("save %s.mat ...\n\
+     r0 k0 epsilon0 p0 u0 v0 k2 epsilon2 p2 u2 v2 ...\n\
+     Mmodel Dmodel dmax rho tol ctol ...\n\
+     fap fas dBap Wap ftp fts tp tpr Wtp fpp fps pp ppr Wpp",strf));
 
 % Done
 toc;
 diary off
-movefile schurOneMAPlattice_frm_hilbert_socp_slb_test.diary.tmp ...
-         schurOneMAPlattice_frm_hilbert_socp_slb_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

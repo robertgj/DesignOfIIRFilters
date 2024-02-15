@@ -3,15 +3,16 @@
 
 test_common;
 
-delete("parallel_allpass_socp_slb_bandpass_hilbert_test.diary");
-delete("parallel_allpass_socp_slb_bandpass_hilbert_test.diary.tmp");
-diary parallel_allpass_socp_slb_bandpass_hilbert_test.diary.tmp
+strf="parallel_allpass_socp_slb_bandpass_hilbert_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 verbose=false
 maxiter=2000
-strf="parallel_allpass_socp_slb_bandpass_hilbert_test";
 
 %
 % Initial coefficients from tarczynski_parallel_allpass_bandpass_hilbert_test.m
@@ -150,11 +151,17 @@ close
 %
 % MMSE pass
 %
-[abm,opt_iter,func_iter,feasible]= ...
-  parallel_allpass_socp_mmse([],ab0,abu,abl, ...
-                             1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
-                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                             wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+try
+  feasible=false;
+  [abm,opt_iter,func_iter,feasible]= ...
+    parallel_allpass_socp_mmse([],ab0,abu,abl, ...
+                               1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
+                               wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
+                               wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+catch
+  feasible=false;
+  warning("Caught parallel_allpass_socp_mmse");
+end_try_catch
 if !feasible
   error("abm infeasible");
 endif
@@ -162,11 +169,17 @@ endif
 %
 % PCLS pass
 %
-[ab1,slb_iter,opt_iter,func_iter,feasible]= ...
-parallel_allpass_slb(@parallel_allpass_socp_mmse,abm,abu,abl, ...
-                     1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
-                     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                     wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
+try
+  feasible=false;
+  [ab1,slb_iter,opt_iter,func_iter,feasible]= ...
+    parallel_allpass_slb(@parallel_allpass_socp_mmse,abm,abu,abl, ...
+                         1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
+                         wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
+                         wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
+catch
+  feasible=false;
+  warning("Caught parallel_allpass_slb");
+end_try_catch
 if !feasible
   error("ab1 infeasible");
 endif
@@ -338,12 +351,12 @@ print_polynomial(Nab1,"Nab1",strcat(strf,"_Nab1_coef.m"));
 print_polynomial(Dab1,"Dab1");
 print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
+eval(sprintf("save %s.mat ...\n\
+     ma mb Ra Rb ab0 ab1 Da1 Db1 ...\n\
+     tol ctol polyphase difference rho n fapl fapu dBap Wap Watl Watu  ...\n\
+     fasl fasu dBas Wasl Wasu ftpl ftpu td tdr Wtp fppl fppu pd pdr Wpp",strf));
+
 % Done 
-save parallel_allpass_socp_slb_bandpass_hilbert_test.mat ...
-     ma mb Ra Rb ab0 ab1 Da1 Db1 ...
-     tol ctol polyphase difference rho n fapl fapu dBap Wap Watl Watu  ...
-     fasl fasu dBas Wasl Wasu ftpl ftpu td tdr Wtp fppl fppu pd pdr Wpp
 toc;
 diary off
-movefile parallel_allpass_socp_slb_bandpass_hilbert_test.diary.tmp ...
-         parallel_allpass_socp_slb_bandpass_hilbert_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

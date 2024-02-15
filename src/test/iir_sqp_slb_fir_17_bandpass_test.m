@@ -1,13 +1,14 @@
 % iir_sqp_slb_fir_17_bandpass_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 % Design a minimum-phase FIR filter with order 17.
 
 test_common;
 
-delete("iir_sqp_slb_fir_17_bandpass_test.diary");
-delete("iir_sqp_slb_fir_17_bandpass_test.diary.tmp");
-diary iir_sqp_slb_fir_17_bandpass_test.diary.tmp
+strf="iir_sqp_slb_fir_17_bandpass_test";
 
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 maxiter=2500
 tol=1e-3
@@ -23,7 +24,7 @@ fasl=0.05,fasu=0.25,dBas=24,Wasl=1,Wasu=1
 strM=sprintf(
 "%%s:fapl=%g,fapu=%g,dBap=%g,fasl=%g,fasu=%g,dBas=%g,Wasl=%%g,Wasu=%%g",
 fapl,fapu,dBap,fasl,fasu,dBas);
-strd=sprintf("iir_sqp_slb_fir_17_bandpass_test_%%s_%%s");
+strd=sprintf("%s_%%s_%%s",strf);
 
 % Initial filter in gain-zero-pole vector form
 U=2;V=0;M=14;Q=0;R=1;
@@ -92,7 +93,7 @@ if !feasible
   error("x1 infeasible");
 endif
 % Plot x1 response
-strd=sprintf("iir_sqp_slb_fir_17_bandpass_test_mmse_%%s");
+strd=sprintf("%s_mmse_%%s",strf);
 strX1=sprintf(strM,"x1(mmse)",Wasl,Wasu);
 showZPplot(x1,U,V,M,Q,R,strX1);
 print(sprintf(strd,"x1pz"),"-dpdflatex");
@@ -122,7 +123,7 @@ if max(abs(Ad1))>1
   error("max(abs(Ad1))>1");
 endif
 % Plot d1 response
-strd=sprintf("iir_sqp_slb_fir_17_bandpass_test_pcls_%%s");
+strd=sprintf("%s_pcls_%%s",strf);
 strP1=sprintf(strM,"d1(pcls)",Wasl,Wasu);
 showZPplot(d1,U,V,M,Q,R,strP1);
 print(sprintf(strd,"d1pz"),"-dpdflatex");
@@ -135,16 +136,15 @@ print(sprintf(strd,"d1pass"),"-dpdflatex");
 close
 
 % Save results
-print_pole_zero(d1,U,V,M,Q,R,"d1","iir_sqp_slb_fir_17_bandpass_test_d1_coef.m");
+print_pole_zero(d1,U,V,M,Q,R,"d1",strcat(strf,"_d1_coef.m"));
 b0=x2tf(x0,U,V,M,Q,R);
-print_polynomial(b0,"b0","iir_sqp_slb_fir_17_bandpass_test_b0_coef.m");
+print_polynomial(b0,"b0",strcat(strf,"_b0_coef.m"));
 b1=x2tf(d1,U,V,M,Q,R);
-print_polynomial(b1,"b1","iir_sqp_slb_fir_17_bandpass_test_b1_coef.m");
+print_polynomial(b1,"b1",strcat(strf,"_b1_coef.m"));
+
+eval(sprintf("save %s.mat ...\n\
+U V M Q R tol ctol fapl fapu dBap Wap dBas Wasu Wasl x1 d1 b1", strf));
 
 % Done 
-save iir_sqp_slb_fir_17_bandpass_test.mat U V M Q R tol ctol ...
-     fapl fapu dBap Wap dBas Wasu Wasl x1 d1 b1
-
 diary off
-movefile iir_sqp_slb_fir_17_bandpass_test.diary.tmp ...
-         iir_sqp_slb_fir_17_bandpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

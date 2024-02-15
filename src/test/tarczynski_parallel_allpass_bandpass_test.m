@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_bandpass_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a bandpass filter as the
 % difference of two parallel allpass filters. See:
@@ -154,4 +154,4 @@ eval(sprintf("save %s.mat ma mb abi ab0 Da0 Db0 N0 D0",strf));
 % Done
 toc;
 diary off
-eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

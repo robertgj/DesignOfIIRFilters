@@ -1,20 +1,20 @@
 % schurOneMPAlattice_socp_slb_bandpass_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMPAlattice_socp_slb_bandpass_test.diary");
-delete("schurOneMPAlattice_socp_slb_bandpass_test.diary.tmp");
-diary schurOneMPAlattice_socp_slb_bandpass_test.diary.tmp
+strf="schurOneMPAlattice_socp_slb_bandpass_test";
+
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
-
 
 tol=1e-4
 ctol=5e-8
 maxiter=2000
 verbose=false
-strf="schurOneMPAlattice_socp_slb_bandpass_test";
 
 %
 % Initial coefficients found by tarczynski_parallel_allpass_bandpass_test.m
@@ -223,15 +223,14 @@ print_polynomial(A2epsilon,"A2epsilon",strcat(strf,"_A2epsilon_coef.m"),"%2d");
 print_polynomial(A2p,"A2p");
 print_polynomial(A2p,"A2p",strcat(strf,"_A2p_coef.m"));
 
-save schurOneMPAlattice_socp_slb_bandpass_test.mat ...
-     n m1 m2 difference tol ctol rho  ...
-     fapl fapu dBap Wap Watl Watu ...
-     fasl fasu dBas Wasl Wasu ...
-     ftpl ftpu td tdr Wtp ...
-     Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p
+eval(sprintf("save %s.mat ...\n\
+     n m1 m2 difference tol ctol rho  ...\n\
+     fapl fapu dBap Wap Watl Watu ...\n\
+     fasl fasu dBas Wasl Wasu ...\n\
+     ftpl ftpu td tdr Wtp ...\n\
+     Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p",strf));
 
 % Done
 toc;
 diary off
-movefile schurOneMPAlattice_socp_slb_bandpass_test.diary.tmp ...
-         schurOneMPAlattice_socp_slb_bandpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

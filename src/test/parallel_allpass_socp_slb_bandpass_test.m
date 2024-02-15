@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_bandpass_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
@@ -139,6 +139,7 @@ close
 % PCLS pass
 %
 try
+  feasible=false
   [ab1,slb_iter,opt_iter,func_iter,feasible]= ...
      parallel_allpass_slb(@parallel_allpass_socp_mmse,ab0,abu,abl, ...
                           1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
@@ -146,6 +147,7 @@ try
                           wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
 catch
   feasible = false;
+  warning("Caught parallel_allpass_slb!");
 end_try_catch
 if !feasible
   error("ab1 infeasible");
@@ -292,10 +294,12 @@ print_polynomial(Nab1,"Nab1",strcat(strf,"_Nab1_coef.m"));
 print_polynomial(Dab1,"Dab1");
 print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
+eval(sprintf("save %s.mat ...\n\
+  ma mb Ra Rb ab0 ab1 Da1 Db1 ... \n\
+  tol ctol polyphase difference rho n fapl fapu dBap Wap Watl Watu  ...\n\
+  fasl fasu dBas Wasl Wasu ftpl ftpu td tdr Wtp",strf));
+
 % Done 
-save parallel_allpass_socp_slb_bandpass_test.mat ma mb Ra Rb ab0 ab1 Da1 Db1 ...
-     tol ctol polyphase difference rho n fapl fapu dBap Wap Watl Watu  ...
-     fasl fasu dBas Wasl Wasu ftpl ftpu td tdr Wtp
 toc;
 diary off
-eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

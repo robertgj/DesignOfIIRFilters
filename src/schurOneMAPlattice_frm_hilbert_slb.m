@@ -75,7 +75,7 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
 % Transition Bands", I. W. Selesnick, M. Lang and C. S. Burrus, IEEE
 % Transactions on Signal Processing, 46(2):497-501, February 1998.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -146,6 +146,7 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
     % Check loop iterations
     slb_iter = slb_iter+1;
     if slb_iter>maxiter
+      feasible=false;
       warning("PCLS loop iteration limit exceeded!");
       break;
     endif
@@ -155,6 +156,7 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
     % Step 3 : Test for optimality with Karush-Kuhn-Tucker conditions(SQP only)
     %
     try
+      feasible=false;
       [nextk,nextu,nextv,tmp_opt_iter,tmp_func_iter,feasible] = ...
       feval(pfx,vS,k,epsilon0,p0,u,v,Mmodel,Dmodel, ...
             kuv_u,kuv_l,kuv_active,dmax, ...
@@ -163,7 +165,7 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
       opt_iter=opt_iter+tmp_opt_iter;
       func_iter=func_iter+tmp_func_iter;
     catch
-      feasible=0;
+      feasible=false;
       err=lasterror();
       warning("feval(pfx,...) failure : %s",err.message);
       for e=1:length(err.stack)
