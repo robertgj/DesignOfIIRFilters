@@ -1,9 +1,9 @@
 #!/bin/bash
 #
 # Run the scripts in $@. Eg:
-#   /bin/bash ./batchmfile.sh `find src -name \*_test.m -printf '%p '`
+#   /bin/sh scripts/batchmfile.sh `find src -name \*_test.m -printf '%p '`
 # or:
-#   /bin/bash ./batchmfile.sh `aelcf | grep _test | tr '\n' ' '`
+#   /bin/sh scripts/batchmfile.sh `aelcf | grep _test | tr '\n' ' '`
 
 main ()
 {

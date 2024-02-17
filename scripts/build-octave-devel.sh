@@ -47,7 +47,15 @@
 #
 # Produce code for Intel nehalem CPU. If necessary replace with mtune=generic
 #
-OPTFLAGS="-m64 -march=nehalem -O0 -ggdb3"
+
+BUILD_OCTAVE_ADDRESS_SANITIZER=0
+BUILD_OCTAVE_DEBUG=0
+
+if test $BUILD_OCTAVE_DEBUG -eq 1 ; then
+    OPTFLAGS="-m64 -march=nehalem -O0 -ggdb3"
+else
+    OPTFLAGS="-m64 -march=nehalem -O2"
+fi
 
 #
 # Assume these files are present. Get them if they are not.
@@ -318,6 +326,7 @@ echo "Building octave-"$OCTAVE_VER
 #
 rm -Rf lapack-$LAPACK_VER
 tar -xf $LAPACK_ARCHIVE
+if test $BUILD_OCTAVE_DEBUG -eq 1 ; then
 cat > lapack-$LAPACK_VER.patch.uue << 'EOF'
 begin-base64 644 lapack-3.12.0.patch
 LS0tIGxhcGFjay0zLjEyLjAvQkxBUy9TUkMvTWFrZWZpbGUJMjAyMy0xMS0y
@@ -377,6 +386,63 @@ SVIpL2xpYmxhcGFjay5hCiBUTUdMSUIgICAgICAgPSAkKFRPUFNSQ0RJUikv
 bGlidG1nbGliLmEK
 ====
 EOF
+else
+cat > lapack-$LAPACK_VER.patch.uue << 'EOF'
+begin-base64 644 lapack-3.12.0.patch
+LS0tIGxhcGFjay0zLjEyLjAvQkxBUy9TUkMvTWFrZWZpbGUJMjAyMy0xMS0y
+NSAwNzo0MToxNS4wMDAwMDAwMDAgKzExMDAKKysrIGxhcGFjay0zLjEyLjAu
+bmV3L0JMQVMvU1JDL01ha2VmaWxlCTIwMjQtMDEtMTkgMjM6NTk6MzcuODI1
+OTU5Njk4ICsxMTAwCkBAIC0xNDksNiArMTQ5LDkgQEAKIAkkKEFSKSAkKEFS
+RkxBR1MpICRAICReCiAJJChSQU5MSUIpICRACiAKKyQobm90ZGlyICQoQkxB
+U0xJQjolLmE9JS5zbykpOiAkKEFMTE9CSikKKwkkKEZDKSAtc2hhcmVkIC1X
+bCwtc29uYW1lLCRAIC1vICRAICReCisKIC5QSE9OWTogc2luZ2xlIGRvdWJs
+ZSBjb21wbGV4IGNvbXBsZXgxNgogc2luZ2xlOiAkKFNCTEFTMSkgJChBTExC
+TEFTKSAkKFNCTEFTMikgJChTQkxBUzMpCiAJJChBUikgJChBUkZMQUdTKSAk
+KEJMQVNMSUIpICReCi0tLSBsYXBhY2stMy4xMi4wL1NSQy9NYWtlZmlsZQky
+MDIzLTExLTI1IDA3OjQxOjE1LjAwMDAwMDAwMCArMTEwMAorKysgbGFwYWNr
+LTMuMTIuMC5uZXcvU1JDL01ha2VmaWxlCTIwMjQtMDEtMTkgMjM6NTk6Mzcu
+ODI4OTU5Njg0ICsxMTAwCkBAIC01NjEsNiArNTYxLDkgQEAKIAkkKEFSKSAk
+KEFSRkxBR1MpICRAICReCiAJJChSQU5MSUIpICRACiAKKyQobm90ZGlyICQo
+TEFQQUNLTElCOiUuYT0lLnNvKSk6ICQoQUxMT0JKKSAkKEFMTFhPQkopICQo
+REVQUkVDQVRFRCkKKwkkKEZDKSAtc2hhcmVkIC1XbCwtc29uYW1lLCRAIC1v
+ICRAICReCisKIC5QSE9OWTogc2luZ2xlIGNvbXBsZXggZG91YmxlIGNvbXBs
+ZXgxNgogCiBTSU5HTEVfREVQUyA6PSAkKFNMQVNSQykgJChEU0xBU1JDKQot
+LS0gbGFwYWNrLTMuMTIuMC9tYWtlLmluYy5leGFtcGxlCTIwMjMtMTEtMjUg
+MDc6NDE6MTUuMDAwMDAwMDAwICsxMTAwCisrKyBsYXBhY2stMy4xMi4wLm5l
+dy9tYWtlLmluYy5leGFtcGxlCTIwMjQtMDEtMTkgMjM6NTk6MzcuODI5OTU5
+NjgwICsxMTAwCkBAIC03LDcgKzcsOCBAQAogIyAgQ0MgaXMgdGhlIEMgY29t
+cGlsZXIsIG5vcm1hbGx5IGludm9rZWQgd2l0aCBvcHRpb25zIENGTEFHUy4K
+ICMKIENDID0gZ2NjCi1DRkxBR1MgPSAtTzMKK0JMRE9QVFMgPSAtZlBJQyAt
+bTY0IC1tYXJjaD1uZWhhbGVtCitDRkxBR1MgPSAtTzMgJChCTERPUFRTKQog
+CiAjICBNb2RpZnkgdGhlIEZDIGFuZCBGRkxBR1MgZGVmaW5pdGlvbnMgdG8g
+dGhlIGRlc2lyZWQgY29tcGlsZXIKICMgIGFuZCBkZXNpcmVkIGNvbXBpbGVy
+IG9wdGlvbnMgZm9yIHlvdXIgbWFjaGluZS4gIE5PT1BUIHJlZmVycyB0bwpA
+QCAtMTcsMTAgKzE4LDEwIEBACiAjICBhbmQgaGFuZGxlIHRoZXNlIHF1YW50
+aXRpZXMgYXBwcm9wcmlhdGVseS4gQXMgYSBjb25zZXF1ZW5jZSwgb25lCiAj
+ICBzaG91bGQgbm90IGNvbXBpbGUgTEFQQUNLIHdpdGggZmxhZ3Mgc3VjaCBh
+cyAtZmZwZS10cmFwPW92ZXJmbG93LgogIwotRkMgPSBnZm9ydHJhbgotRkZM
+QUdTID0gLU8yIC1mcmVjdXJzaXZlCitGQyA9IGdmb3J0cmFuIC1mcmVjdXJz
+aXZlICQoQkxET1BUUykKK0ZGTEFHUyA9IC1PMiAKIEZGTEFHU19EUlYgPSAk
+KEZGTEFHUykKLUZGTEFHU19OT09QVCA9IC1PMCAtZnJlY3Vyc2l2ZQorRkZM
+QUdTX05PT1BUID0gLU8wCiAKICMgIERlZmluZSBMREZMQUdTIHRvIHRoZSBk
+ZXNpcmVkIGxpbmtlciBvcHRpb25zIGZvciB5b3VyIG1hY2hpbmUuCiAjCkBA
+IC01NSw3ICs1Niw3IEBACiAjICBVbmNvbW1lbnQgdGhlIGZvbGxvd2luZyBs
+aW5lIHRvIGluY2x1ZGUgZGVwcmVjYXRlZCByb3V0aW5lcyBpbgogIyAgdGhl
+IExBUEFDSyBsaWJyYXJ5LgogIwotI0JVSUxEX0RFUFJFQ0FURUQgPSBZZXMK
+K0JVSUxEX0RFUFJFQ0FURUQgPSBZZXMKIAogIyAgTEFQQUNLRSBoYXMgdGhl
+IGludGVyZmFjZSB0byBzb21lIHJvdXRpbmVzIGZyb20gdG1nbGliLgogIyAg
+SWYgTEFQQUNLRV9XSVRIX1RNRyBpcyBkZWZpbmVkLCBhZGQgdGhvc2Ugcm91
+dGluZXMgdG8gTEFQQUNLRS4KQEAgLTc0LDcgKzc1LDcgQEAKICMgIG1hY2hp
+bmUtc3BlY2lmaWMsIG9wdGltaXplZCBCTEFTIGxpYnJhcnkgc2hvdWxkIGJl
+IHVzZWQgd2hlbmV2ZXIKICMgIHBvc3NpYmxlLikKICMKLUJMQVNMSUIgICAg
+ICA9ICQoVE9QU1JDRElSKS9saWJyZWZibGFzLmEKK0JMQVNMSUIgICAgICA9
+ICQoVE9QU1JDRElSKS9saWJibGFzLmEKIENCTEFTTElCICAgICA9ICQoVE9Q
+U1JDRElSKS9saWJjYmxhcy5hCiBMQVBBQ0tMSUIgICAgPSAkKFRPUFNSQ0RJ
+UikvbGlibGFwYWNrLmEKIFRNR0xJQiAgICAgICA9ICQoVE9QU1JDRElSKS9s
+aWJ0bWdsaWIuYQo=
+====
+EOF
+fi
 # Patch
 uudecode lapack-$LAPACK_VER".patch.uue"
 tar -xf $LAPACK_ARCHIVE
@@ -401,7 +467,7 @@ pushd lapack-$LAPACK_VER/SRC
 cp liblapack.so $OCTAVE_LIB_DIR
 popd
 rm -Rf lapack-$LAPACK_VER
-rm -f lapack-$LAPACK_VER".patch" lapack-$LAPACK_VER".patch.uue"
+rm -f lapack-$LAPACK_VER".patch" lapack-$LAPACK_VER".patch.uue" 
 
 #
 # Build arpack
@@ -556,10 +622,16 @@ export CXXFLAGS="$OPTFLAGS -std=c++17 -I$OCTAVE_INCLUDE_DIR"
 export FFLAGS=$OPTFLAGS
 export LDFLAGS="-L$OCTAVE_LIB_DIR"
 # Add --enable-address-sanitizer-flags for address sanitizer build
-# To disable checking in atexit(): set ASAN_OPTIONS "leak_check_at_exit=0"
+# To disable checking in atexit(): export ASAN_OPTIONS="leak_check_at_exit=0"
 # See: https://wiki.octave.org/Finding_Memory_Leaks
+if test $BUILD_OCTAVE_ADDRESS_SANITIZER -eq 1 ; then
+    ADDRESS_SANITIZER_FLAGS="--enable-address-sanitizer-flags"
+else
+    ADDRESS_SANITIZER_FLAGS=""
+fi
 PKG_CONFIG_PATH=$OCTAVE_LIB_DIR/pkgconfig \
-  ../octave/configure \
+../octave/configure -C \
+    $ADDRESS_SANITIZER_FLAGS \
     --enable-internal-checks \
     --prefix=$OCTAVE_DIR \
     --disable-java \
@@ -628,7 +700,6 @@ rm -f $OCTAVE_SHARE_DIR/packages/statistics-$STATISTICS_VER/PKG_ADD
 rm -f $OCTAVE_SHARE_DIR/packages/statistics-$STATISTICS_VER/PKG_DEL
 
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$CONTROL_ARCHIVE
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$OPTIM_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$PARALLEL_ARCHIVE
 
 #
@@ -663,6 +734,34 @@ rm -Rf signal-$SIGNAL_VER signal-$SIGNAL_VER.patch.uue signal-$SIGNAL_VER.patch
 
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$NEW_SIGNAL_ARCHIVE
 rm -f $NEW_SIGNAL_ARCHIVE
+
+#
+# Fix optim package and install the new optim package
+#
+cat > optim-$OPTIM_VER.patch.uue << 'EOF'
+begin-base64 644 optim-1.6.2.patch
+LS0tIG9wdGltLTEuNi4yL3NyYy9fX21heF9uYXJnaW5fb3B0aW1fXy5jYwky
+MDIyLTA0LTExIDAwOjMxOjA0LjAwMDAwMDAwMCArMTAwMAorKysgb3B0aW0t
+MS42LjIubmV3L3NyYy9fX21heF9uYXJnaW5fb3B0aW1fXy5jYwkyMDI0LTAy
+LTEyIDIzOjM5OjUxLjcyNTc2MzAzMiArMTEwMApAQCAtNzQsNyArNzQsNyBA
+QAogICBlbHNlIHsKIAogICAgIHJldHZhbCA9IG9jdGF2ZV92YWx1ZQotICAg
+ICAgKGZjbi51c2VyX2Z1bmN0aW9uX3ZhbHVlICgpLT5wYXJhbWV0ZXJfbGlz
+dCAoKS0+bGVuZ3RoICgpKTsKKyAgICAgIChmY24udXNlcl9mdW5jdGlvbl92
+YWx1ZSAoKS0+cGFyYW1ldGVyX2xpc3QgKCktPnNpemUgKCkpOwogICB9CiAK
+ICAgcmV0dXJuIHJldHZhbDsK
+====
+EOF
+uudecode optim-$OPTIM_VER.patch.uue
+tar -xf $OPTIM_ARCHIVE
+pushd optim-$OPTIM_VER
+patch -p1 < ../optim-$OPTIM_VER.patch
+popd
+NEW_OPTIM_ARCHIVE=optim-$OPTIM_VER".new.tar.gz"
+tar -czf $NEW_OPTIM_ARCHIVE optim-$OPTIM_VER
+rm -Rf optim-$OPTIM_VER optim-$OPTIM_VER.patch.uue optim-$OPTIM_VER.patch
+
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$NEW_OPTIM_ARCHIVE
+rm -f $NEW_OPTIM_ARCHIVE
 
 #
 # Add collect.m to the symbolic package and install the new symbolic package
@@ -773,6 +872,28 @@ if ! test -f "YALMIP-"$YALMIP_ARCHIVE ; then
     mv -f $YALMIP_ARCHIVE "YALMIP-"$YALMIP_ARCHIVE
 fi
 tar -xf "YALMIP-"$YALMIP_ARCHIVE
+cat > YALMIP-$YALMIP_VER.patch.uue << 'EOF'
+begin-base64 644 YALMIP-R20230622.patch
+LS0tIFlBTE1JUC1SMjAyMzA2MjIub3JpZy9leHRyYXMvaXNtZW1iY1lBTE1J
+UC5tCTIwMjMtMDYtMjIgMjE6NTc6NTIuMDAwMDAwMDAwICsxMDAwCisrKyBZ
+QUxNSVAtUjIwMjMwNjIyL2V4dHJhcy9pc21lbWJjWUFMTUlQLm0JMjAyNC0w
+Mi0wOSAxNzo1Nzo1Ni42NzQxODYxOTAgKzExMDAKQEAgLTEsMTQgKzEsNiBA
+QAogZnVuY3Rpb24gbWVtYmVycz1pc21lbWJjWUFMTUlQKGEsYikKLQotJSBp
+c21lbWJjIGlzIGZhc3QsIGJ1dCBkb2VzIG5vdCBleGlzdCBpbiBvY3RhdmUK
+LSUgaG93ZXZlciwgdHJ5LWNhdGNoIGlzIHZlcnkgc2xvdyBpbiBPY3RhdmUs
+Ci0lIE9jdGF2ZSB1c2VyOiBKdXN0IHJlcGxhY2UgdGhlIHdob2xlIGNvZGUg
+aGVyZQotJSB3aXRoICJtZW1iZXJzID0gaXNtZW1iZXIoYSxiKTsiCi10cnkK
+LSAgICBtZW1iZXJzID0gaXNtZW1iYyhhLGIpOwotY2F0Y2gKLSAgICBtZW1i
+ZXJzID0gaXNtZW1iZXIoYSxiKTsKLWVuZAorICBtZW1iZXJzID0gaXNtZW1i
+ZXIoYSxiKTsKK2VuZGZ1bmN0aW9uCiAKICAgCiAgIAo=
+====
+EOF
+# Patch
+uudecode YALMIP-$YALMIP_VER".patch.uue"
+pushd YALMIP-$YALMIP_VER
+patch -p 1 < ../YALMIP-$YALMIP_VER".patch"
+popd
+rm -f "YALMIP-"$YALMIP_VER".patch" "YALMIP-"$YALMIP_VER".patch.uue"
 mv -f "YALMIP-"$YALMIP_VER $OCTAVE_SITE_M_DIR/YALMIP
 if test $? -ne 0;then rm -Rf "YALMIP-"$YALMIP_VER; exit -1; fi
 

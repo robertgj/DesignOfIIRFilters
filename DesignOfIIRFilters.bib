@@ -360,15 +360,13 @@
   howpublished = {\url{http://arxiv.org/abs/1202.5488}},
 }
 
-@Article{Dinh_ConvexConcaveDecompositionLinearizationBMI,
-  author={{Tran Dinh, Quoc and Gumussoy, Suat and Michiels, Wim and Diehl, Moritz}},
-  journal=IEEE_TRANS_CONTROL,
+@Misc{Dinh_ConvexConcaveDecompositionLinearizationBMI,
+  author={{Quoc Tran Dinh, Suat Gumussoy, Wim Michiels and Moritz Diehl}},
   title={{Combining Convex–Concave Decompositions and Linearization Approaches for Solving BMIs, With Application to Static Output Feedback}}, 
-  year={2012},
-  volume={57},
-  number={6},
-  pages={{1377-1390}},
-  doi={10.1109/TAC.2011.2176154}
+  year={2011},
+  month={July},
+  note = {{Technical Report}},
+  howpublished = {\url{https://set.kuleuven.be/optec/Software/softwarefiles/bmipaper}}
  }
 
 @Misc{Dinh_InnerConvexApproximationBMI,
@@ -449,10 +447,10 @@ pages = {531-550},
   year =         2010
 }
 
-@Misc{FFTW_website,
-  key =          {FFTW},
-  title =        {{A fast, free C FFT library}},
-  howpublished = {\url{http://www.fftw.org}}
+@Misc{mpYALMIP_website,
+  title =        {{mpYALMIP : An interface to the multiple-precision solver SDPA-GMP for YALMIP}},
+  author =       {{Giovanni Fantuzzi and Federico Fuentes}},
+  howpublished = {\url{https://github.com/aeroimperial-optimization/mpYALMIP}}
 }
 
 @Misc{Fedora34Server_iso,
@@ -465,6 +463,12 @@ pages = {531-550},
   key =          {Fedora34},
   title =        {{Redhat Fedora Linux distribution}},
   howpublished = {\url{https://getfedora.org/}},
+}
+
+@Misc{FFTW_website,
+  key =          {FFTW},
+  title =        {{A fast, free C FFT library}},
+  howpublished = {\url{http://www.fftw.org}}
 }
 
 @Misc{FlexiBLAS_website,
@@ -511,21 +515,31 @@ pages = {531-550},
   year =         2009
 }
 
+@TechReport{Fujisawa_SemidefiniteProgrammingMATLAB,
+  author =       {{Katsuki Fujisawa, Yoshiaki Futakata, Masakazu Kojima, Satoshi Matsuyama, Satoshi Nakamura, Kazuhide Nakata, and Makoto Yamashita}},
+  title =        {{SDPA-M (SemiDefinite Programming Algorithm in MATLAB) User's manual --- version 6.2.0}},
+  institution =  {Dept. of Mathematical and Computing Science, Tokyo Institute of Technology},
+  year =         {2005},
+  month =        {May},
+  type =         {{Research Report}},
+  number =       {B-359},
+}
+
 @Misc{GNU_GLPK,
   title =        {{GNU Linear Programming Kit}},
-  author =       {GNU Project},
+  author =       {{GNU Project}},
   howpublished = {\url{https://www.gnu.org/software/glpk/}}
 }
 
 @Misc{GNU_GMP,
   title =        {{GMP: The GNU Multiple Precision Arithmetic Library}},
-  author =       {GNU Project},
+  author =       {{GNU Project}},
   howpublished = {\url{http://gmplib.org}}
 }
 
 @Misc{GNU_GSL,
   title =        {{GSL - GNU Scientific Library}},
-  author =       {GNU Project},
+  author =       {{GNU Project}},
   howpublished = {\url{https://www.gnu.org/software/gsl/}}
 }
 
@@ -679,6 +693,17 @@ author =         {{S. Hara and T. Iwasaki}},
 title =          {{Sum-of-Squares Decomposition via Generalized KYP Lemma}},
 key =            {{METR 2008-25}},
 howpublished =   {\url{http://www.math.ucsd.edu/~helton/MTNSHISTORY/CONTENTS/2004LEUVEN/CDROM/papers/268.pdf}}
+}
+
+@Article{Hartman_DifferenceConvexFunctions,
+  author =       {{Philip Hartman}},
+  title =        {{On Functions Representable as a Difference of Convex Functions}},
+  journal =      {{Pacific Journal of Mathematics}},
+  year =         {1959},
+  volume =    {9},
+  number =    {3},
+  pages =     {707-713},
+  month =     {July},
 }
 
 @InProceedings{Hassibi_PathFollowingBMI,
@@ -929,7 +954,7 @@ booktitle = {{Proceedings of the 42nd IEEE Conference on Decision and Control}},
 }
 
 @Misc{Kheirandishfard_ConvexificationBMI,
-  author = {{Kheirandishfard, M. and Zohrizadch, F. and Adil, M. and Madani, R.}},
+  author = {{Mohsen Kheirandishfard, Fariba Zohrizadch, Muhammad Adil and Ramtin Madani}},
   title = {{Convexiﬁcation of Bilinear Matrix Inequalities via Conic and Parabolic Relaxations}},
   year = {2017}, 
   howpublished =   {\url{http://www.columbia.edu/~rm3122/paper/convexification_bilinear.pdf}},
@@ -1114,13 +1139,12 @@ journal = {{Philosophical Transactions}}
   pages =        {65-92},
 }
 
-@InProceedings{Lee_SequentialConvexApproxBMI,
+@Misc{Lee_SequentialConvexApproxBMI,
   author={Lee, Donghwan and Hu, Jianghai},
-  booktitle={{2016 IEEE 55th Conference on Decision and Control (CDC)}}, 
   title={{A sequential parametric convex approximation method for solving bilinear matrix inequalities}}, 
   year={2016},
-  pages={1965-1970},
-  doi={10.1109/CDC.2016.7798552}
+  month={July},
+  howpublished = {\url{https://engineering.purdue.edu/~jianghai/Publication/OPTL2018_BMI.pdf}},
 }
 
 @Misc{LeibfritzLipinski_COMPleibManual,
@@ -1406,6 +1430,21 @@ year = {2009}
   volume =       21,
   number =       6, 
   pages =        {506-526},
+}
+
+@InProceedings{Maho_SDPA_evaluation,
+author =         {{Nakata, Maho}},
+booktitle =      {{2010 IEEE International Symposium on Computer-Aided Control System Design}},
+title =          {{A numerical evaluation of highly accurate multiple-precision arithmetic version of semidefinite programming solver: SDPA-GMP, -QD and -DD.}},
+year =           {2010},
+pages=           {29-34},
+doi =            {{10.1109/CACSD.2010.5612693}}
+}
+
+@Misc{Maho_SDPAGMP,
+  author =       {{Nakata, Maho}},
+  title =        {{SDPA-GMP : SDPA in arbitrary multiple precision}},
+  howpublished = {\url{https://github.com/nakatamaho/sdpa-gmp}},
 }
 
 @Article{MarkelGray_FixedPointImplementationPolynomialFilters,
@@ -2443,7 +2482,7 @@ pages = {{102-–109}},
 
 @Article{SurmaahoSaramaki_ApproximatelyLinearPhaseRecursiveDigitalFilters,
   author =       {{K. Surma-aho and T. Saram\"{a}ki}},
-  title =        {{A Systematic Technique fo Designing Approximately Linear
+  title =        {{A Systematic Technique for Designing Approximately Linear
                   Phase Recursive Digital Filters}},
   journal =      IEEE_TRANS_CAS2,
   year =         1999,
@@ -2933,17 +2972,11 @@ SEMIDEFINITE PROGRAMMING}},
   pages =        {24-60}
 }
 
-@Article{YamashitaYabeHarada_PrimalDualInteriorTrustNonlinearSDP,
-  author =       {{Hiroshi Yamashita, Hiroshi Yabe and Kouhei Harada}},
-  title =        {{A primal-dual interior point trust-region method for nonlinear semidefinite programming}},
-  journal =      {{Optimization Methods and Software}},
-  year =         2021,
-  volume =       36,
-  number =       {2-3},
-  pages =        {569-601},
-  doi =          {10.1080/10556788.2020.1801678}
+@Misc{YamishitaFujisawa_SDPA,
+  author =       {{Katsuki Fujisawa et al.}},
+  title =        {{SDPA(SemiDefinite Programming Algorithm)}},
+  howpublished = {\url{https://sourceforge.net/projects/sdpa/files/sdpa/sdpa_7.3.17.tar.gz/download}},
 }
-
 
 @TechReport{YamashitaFujisawa_SoftwarePackageSemidefiniteProgramsSDPA7,
   author =       {{Makoto Yamashita, Katsuki Fujisawa, Kazuhide Nakata, Maho Nakata, Mituhiro Fukuda, Kazuhiro Kobayashi, and Kazushige Goto}},
@@ -2955,14 +2988,15 @@ SEMIDEFINITE PROGRAMMING}},
   number =       {B-460},
 }
 
-@TechReport{Fujisawa_SemidefiniteProgrammingMATLAB,
-  author =       {{Katsuki Fujisawa, Yoshiaki Futakata, Masakazu Kojima, Satoshi Matsuyama, Satoshi Nakamura, Kazuhide Nakata, and Makoto Yamashita}},
-  title =        {{SDPA-M (SemiDefinite Programming Algorithm in MATLAB) User's manual --- version 6.2.0}},
-  institution =  {Dept. of Mathematical and Computing Science, Tokyo Institute of Technology},
-  year =         {2005},
-  month =        {May},
-  type =         {{Research Report}},
-  number =       {B-359},
+@Article{YamashitaYabeHarada_PrimalDualInteriorTrustNonlinearSDP,
+  author =       {{Hiroshi Yamashita, Hiroshi Yabe and Kouhei Harada}},
+  title =        {{A primal-dual interior point trust-region method for nonlinear semidefinite programming}},
+  journal =      {{Optimization Methods and Software}},
+  year =         2021,
+  volume =       36,
+  number =       {2-3},
+  pages =        {569-601},
+  doi =          {10.1080/10556788.2020.1801678}
 }
 
 @Misc{YinyuYe_solnp,
