@@ -1,30 +1,26 @@
 #!/bin/sh
 # Install SDPA sdpam.m and mex files
-
 #
-# 1. Install the Fedora MUMPS, MUMPS-devel packages.
+# Run this script as root!
+#
+# To install spdam.m:
+# 1. The Fedora MUMPS and MUMPS-devel packages are prerequisites
 #    (The sdpa configure scripts gets confused when installing MUMPS locally).
 # 2. Install the Fedora, openblas and openblas-devel packages to link the
 #    SDPA mex file with openblas. 
 #
-
-TOP_DIR=`pwd`
 
 #
 # Set Octave directories
 #
 OCTAVE_VER=8.4.0
 OCTAVE_DIR="/usr/local/octave-"$OCTAVE_VER
-OCTAVE_INCLUDE_DIR=$OCTAVE_DIR/include
-OCTAVE_LIB_DIR=$OCTAVE_DIR/lib
 OCTAVE_BIN_DIR=$OCTAVE_DIR/bin
 OCTAVE_SHARE_DIR=$OCTAVE_DIR/share/octave
-export LD_LIBRARY_PATH=$OCTAVE_LIB_DIR
-export LDFLAGS=-L$OCTAVE_LIB_DIR
-export PATH=$PATH:$OCTAVE_BIN_DIR
-
-OCTAVE_LOCAL_VERSION="`$OCTAVE_BIN_DIR/octave-cli --eval 'disp(OCTAVE_VERSION);'`"
+OCTAVE_CLI=$OCTAVE_BIN_DIR/octave-cli
+OCTAVE_LOCAL_VERSION="`$OCTAVE_CLI --eval 'disp(OCTAVE_VERSION);'`"
 OCTAVE_SITE_M_DIR=$OCTAVE_SHARE_DIR/$OCTAVE_LOCAL_VERSION/site/m
+OCTAVE_MKOCTFILE="$OCTAVE_BIN_DIR/mkoctfile --mex"
 
 #
 # Install SDPA
@@ -74,15 +70,13 @@ uudecode sdpa-$SDPA_VER.patch.uue
 pushd sdpa-$SDPA_VER
 patch -p 1 < ../sdpa-$SDPA_VER.patch
 
-export SDPA_DIR=$TOP_DIR/sdpa-$SDPA_VER
+export SDPA_DIR=`pwd`
 export SDPA_INCLUDE_DIR=$SDPA_DIR
 export SDPA_LIB=$SDPA_DIR/libsdpa.a 
 export MUMPS_INCLUDE_DIR=/usr/include/MUMPS
 export MUMPS_LIBS="-lmumps_common -lpord -lmpiseq -ldmumps"
 export ALL_LIBS="$SDPA_LIB $MUMPS_LIBS"
-
 export BLAS_LIBS="-lopenblasp" 
-#export LIBBLAS=$BLAS_LIBS
 export LAPACK_LIBS=$BLAS_LIBS
 export BLAS_INCLUDE_DIR=/usr/include/openblas
 export CFLAGS="-I$BLAS_INCLUDE_DIR -I$MUMPS_INCLUDE_DIR -I$SDPA_INCLUDE_DIR" 
@@ -93,21 +87,25 @@ export CXXFLAGS="-I$BLAS_INCLUDE_DIR -I$MUMPS_INCLUDE_DIR -I$SDPA_INCLUDE_DIR"
 --with-lapack="$LAPACK_LIBS" \
 --with-mumps-include="-I$MUMPS_INCLUDE_DIR" \
 --with-mumps-libs="$MUMPS_LIBS"
-
 make V=1
-
-#
 # Make Octave .mex files
-#
 cd mex
-make MAKE_INCLUDE_DIR=$SDPA_INCLUDE_DIR COMPILE_ENVIRONMENT=octave 
-
-mkdir -p $OCTAVE_SITE_M_DIR/SDPA
-mv -f * $OCTAVE_SITE_M_DIR/SDPA
+make COMPILE_ENVIRONMENT=octave \
+     MEX="$OCTAVE_MKOCTFILE" \
+     MAKE_INCLUDE_DIR=$SDPA_INCLUDE_DIR
+if test $? -ne 0;then exit -1; fi
+cd ..
+rm -Rf $OCTAVE_SITE_M_DIR/SDPA
+mkdir $OCTAVE_SITE_M_DIR/SDPA
+cp -f mex/* $OCTAVE_SITE_M_DIR/SDPA
+# Done
+popd
+rm -Rf sdpa-$SDPA_VER sdpa-$SDPA_VER.patch sdpa-$SDPA_VER.patch.uue
 
 #
 # Test
 #
+
 # From "SDPA-M (SemiDefinite Programming Algorithm in MATLAB)
 # User’s Manual — Version 6.2.0", K. Fujisawa, Y. Futakata,
 # M. Kojima, S. Matsuyama, S. Nakamura, K. Nakata and M. Yamashita
@@ -144,11 +142,6 @@ OPTION = param(struct("print","example_1.out"));
 % solve the problem using sdpam.
 [objVal,x,X,Y,INFO] = sdpam(mDIM,nBLOCK,bLOCKsTRUCT,c,F,x0,X0,Y0,OPTION);
 EOF
-octave example_1.m
+$OCTAVE_CLI example_1.m
 cat example_1.out
-
-#
-# Done
-#
-popd
-rm -Rf sdpa-$SDPA_VER sdpa-$SDPA_VER.patch sdpa-$SDPA_VER.patch.uue
+rm -f example_1*
