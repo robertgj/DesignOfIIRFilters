@@ -221,7 +221,6 @@ fi
 #
 rm -Rf $OCTAVE_DIR
 echo "Building octave-"$OCTAVE_VER
-mkdir -p $OCTAVE_DIR
 
 #
 # Build lapack
@@ -299,7 +298,7 @@ pushd lapack-$LAPACK_VER/SRC
 make -j 6 liblapack.so
 popd
 # Install
-mkdir $OCTAVE_LIB_DIR
+mkdir -p $OCTAVE_LIB_DIR
 pushd lapack-$LAPACK_VER/BLAS/SRC
 cp libblas.so $OCTAVE_LIB_DIR
 popd
@@ -419,7 +418,7 @@ rm -Rf fftw-$FFTW_VER
 #
 rm -Rf sundials-$SUNDIALS_VER
 tar -xf $SUNDIALS_ARCHIVE
-mkdir build-sundials-$SUNDIALS_VER
+mkdir -p build-sundials-$SUNDIALS_VER
 pushd build-sundials-$SUNDIALS_VER
 CFLAGS=$OPTFLAGS CXXFLAGS=$OPTFLAGS FFLAGS=$OPTFLAGS \
 echo " c \n g \n q \n" | \
@@ -439,7 +438,7 @@ rm -Rf build-sundials-$SUNDIALS_VER sundials-$SUNDIALS_VER
 #
 rm -Rf GraphicsMagick-$GRAPHICSMAGICK_VER
 tar -xf $GRAPHICSMAGICK_ARCHIVE
-mkdir build-GraphicsMagick-$GRAPHICSMAGICK_VER
+mkdir -p build-GraphicsMagick-$GRAPHICSMAGICK_VER
 pushd build-GraphicsMagick-$GRAPHICSMAGICK_VER
 ../GraphicsMagick-$GRAPHICSMAGICK_VER/configure \
     --prefix=$OCTAVE_DIR --enable-shared --disable-static \
@@ -773,7 +772,7 @@ rm -Rf sdpt3-master $OCTAVE_SITE_M_DIR/SDPT3
 unzip sdpt3-master.zip 
 rm -f sdpt3-master/Solver/Mexfun/*.mex*
 rm -Rf sdpt3-master/Solver/Mexfun/o_win
-mv -f sdpt3-master $OCTAVE_SITE_M_DIR/SDPT3
+mv sdpt3-master $OCTAVE_SITE_M_DIR/SDPT3
 if test $? -ne 0;then rm -Rf sdpt3-master; exit -1; fi
 $OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SDPT3/install_sdpt3.m
 
@@ -783,7 +782,7 @@ YALMIP_ARCHIVE=$YALMIP_VER".tar.gz"
 YALMIP_URL="https://github.com/yalmip/YALMIP/archive/refs/tags/"$YALMIP_ARCHIVE
 if ! test -f "YALMIP-"$YALMIP_ARCHIVE ; then
     wget -c $YALMIP_URL
-    mv $YALMIP_ARCHIVE "YALMIP-"$YALMIP_ARCHIVE
+    mv -f $YALMIP_ARCHIVE "YALMIP-"$YALMIP_ARCHIVE
 fi
 tar -xf "YALMIP-"$YALMIP_ARCHIVE
 cat > YALMIP-$YALMIP_VER.patch.uue << 'EOF'
@@ -804,9 +803,9 @@ ZXIoYSxiKTsKK2VuZGZ1bmN0aW9uCiAKICAgCiAgIAo=
 EOF
 # Patch
 uudecode YALMIP-$YALMIP_VER".patch.uue"
-pushd YALMIP-$YALMIP_VER
+cd YALMIP-$YALMIP_VER
 patch -p 1 < ../YALMIP-$YALMIP_VER".patch"
-popd
+cd ..
 rm -f "YALMIP-"$YALMIP_VER".patch" "YALMIP-"$YALMIP_VER".patch.uue"
 mv -f "YALMIP-"$YALMIP_VER $OCTAVE_SITE_M_DIR/YALMIP
 if test $? -ne 0;then rm -Rf "YALMIP-"$YALMIP_VER; exit -1; fi

@@ -8,7 +8,7 @@
 #           "${shell} ./batchtest.sh ${quote $File_Names} ${Output}";
 #
 # If aegis is not installed then run the test scripts with:
-# /bin/sh scripts/batchtest.sh "`ls -1 test/0?/t0???a.sh`" outfile
+#   /bin/bash ./batchtest.sh "`find test -name t0???a.sh -printf '%p '`" outfile
 
 main ()
 {
@@ -31,7 +31,7 @@ main ()
                 errors=$(($errors+1));
             fi
             flock -x $outfile -c "echo -e '{\n  file_name = \"'$testfile'\" ;\n\
-              exit_status = '$status' ;\n},' >> $outfile"
+  exit_status = '$status' ;\n},' >> $outfile"
         } &
     done
 

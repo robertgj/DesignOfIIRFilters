@@ -119,7 +119,6 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \DeclareMathOperator{\mathconv}{conv}
 \DeclareMathOperator{\mathhe}{He}
 \DeclareMathOperator{\mathsq}{Sq}
-\DeclareMathOperator{\mathvec}{vec}
 \DeclareMathOperator{\mathconj}{\ast} % {\textsf{\tiny{H}}}
 \DeclareMathOperator{\mathreverse}{\textsf{\tiny{F}}}
 
@@ -128,7 +127,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 % Use numerals or letters for footnotes
 %\renewcommand{\thefootnote}{\arabic{footnote}}
 \renewcommand{\thefootnote}{\alph{footnote}}
-                                                  
+
 \title{On the design of IIR filters}
 \author{Robert G. Jenssen}
 
@@ -7657,7 +7656,7 @@ where $\hat{D}$ is the previous estimate of $D$. See, for example,
 \emph{Dumitrescu and Niemist\"\o} 
 ~\cite{DumitrescuNiemisto_IIRFilterPositiveRealness}}.
 
-\section{Problem statement}
+\section{Problem Statement }
 The magnitude and group delay responses of an IIR digital 
 filter are optimised in terms of a coefficient vector containing the
 gain-zero-pole definition of the transfer function
@@ -33904,10 +33903,9 @@ $\sqrt{1-w^{2}}S_{p,q}\left(w,\kappa\right)$\footnote{See
   polynomials $P_{n}\left(x\right)$ so that $P_{n}\left(x\right)/\sqrt{1-x^{2}}$
   oscillates between $\pm{}1$   exactly $n+1$ times in a prescribed interval
   $-1<-x_{c}\le{}x\le{}x_{c}<1$. ...  $P_{n}\left(x\right)$ is given then by
-$2P_{n}\left(x\right)=\left(1+\sqrt{1-x_{c}^{2}}\right)T_{n}\left(\frac{x}{x_{c}}
-\right)-\left(1-\sqrt{1-x_{c}^{2}}\right)T_{n-2}\left(\frac{x}{x_{c}}\right)$''}
-and use $S_{p,q}\left(w,\kappa\right)$ as the generating polynomial of a
-low-pass FIR filter\footnote{The normalisation is shown in \emph{Vl\v{c}ek} and
+  $2P_{n}\left(x\right)=\left(1+\sqrt{1-x_{c}^{2}}\right)T_{n}\left(\frac{x}{x_{c}}\right)-\left(1-\sqrt{1-x_{c}^{2}}\right)T_{n-2}\left(\frac{x}{x_{c}}\right)$''}
+and use $S_{p,q}\left(w,\kappa\right)$ as the generating polynomial of a low-pass FIR
+filter\footnote{The normalisation is shown in \emph{Vl\v{c}ek} and
   \emph{Zahradn\'{i}k}~\cite{VlcekZahradnik_AlmostEquirippleLowPassFIR,
     VlcekZahradnik_AlmostEquirippleApproxLowPassFIR} as:
   \begin{align*}
@@ -36277,30 +36275,23 @@ $D$. \emph{Pipeleers} and
 $A$, $B$ and $\Theta$ matrixes are real valued then the $P$ and $Q$ matrixes can
 be constrained to be real and symmetric.
 
-\paragraph{Solving the  generalised KYP lemma with a rank-1 constraint}
-Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints} has the form
-$\Gamma+X\preceq 0$ and the FIR filter coefficients are represented by the
-rank-$1$ matrix $X=\left[\begin{array}{cc} C & D\end{array}\right]^{\top}
-\left[\begin{array}{cc} C & D\end{array}\right]$.
-
+\paragraph{Solving the  generalised KYP lemma with a quadratic constraint}
 The Octave script \emph{yalmip\_kyp\_lmirank\_lowpass\_test.m} calls the
 YALMIP~\cite{Lofberg_YALMIP,Lofberg2004} 
 \emph{lmirank}~\cite{Orsi_LMIRank,Orsi_NewtonLikeLMIRankConstrained}
-solver to design a symmetric low-pass FIR filter with a rank-$1$ SDP constraint.
+solver to design a symmetric low-pass FIR filter with SDP constraints in the
+form of Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints},
+$\Gamma+X\preceq 0$, and $\mathrank\left(X\right)=1$. $X$ is assumed to
+represent the FIR filter solution by $X=\left[C,D\right]^{\top}\left[C,D\right]$.
 After running on my PC for $1276$ minutes the script had performed $694$
 iterations and was still converging \emph{very} slowly.
-
 Similarly, the Octave script \emph{yalmip\_kyp\_moment\_lowpass\_test.m}
-calls the YALMIP \emph{moment} solver with a rank-$1$ constraint on the
-minimum pass-band amplitude. This script requires an \emph{enormous} amount of
-memory and CPU time to design a symmetric $6$-th order low-pass FIR filter.
+calls the YALMIP \emph{moment} solver with a quadratic constraint on the
+minimum pass-band amplitude in the form of
+Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints}. This script requires an
+\textbf{enormous} amount of memory and CPU time to design a symmetric $6$-th
+order low-pass FIR filter.
 
-\emph{Kheirandishfard et al.}~\cite{Kheirandishfard_ConvexificationBMI,
-  Kheirandishfard_ConvexRelaxationBMI_PartI,
-  Kheirandishfard_ConvexRelaxationBMI_PartII}
-describe a successive approximation algorithm that relaxes rank-$1$ constraints
-to LMIs. The Octave script \emph{yalmip\_parabolic\_convex\_bmi\_test.m} shows
-some examples of this approach.
 \subsubsection{Design of a symmetric low pass FIR filter}
 The Octave script \emph{directFIRsymmetric\_kyp\_lowpass\_test.m}
 designs a symmetric FIR low-pass filter with
@@ -36633,15 +36624,15 @@ I experiment with this conversion in the Octave script
 \emph{yalmip\_kyp\_rantzer\_test.m} and find that SeDuMi calculates
 $P \approx -2\hat{P}$.
 \clearpage
-\subsection{\label{sec:Finslers-lemma-transformation-generalised-KYP}\emph{Finsler}'s lemma transformation of  the generalised KYP lemma}
+\subsection{Application of \emph{Finsler}'s lemma to the generalised KYP lemma}
 \emph{Ren et al.}~\cite[Lemma 3]{Ren_SuccessiveConvexOptimizationBMI} write
 \emph{Finsler}'s lemma in LMI form as:
 \begin{framed}
-  \emph{Lemma}: Let $P=P^{\top}$ and matrix $A$ such that $A^{\bot}A=0$ then the
+  \emph{Lemma}: Let $P=P^{\top}$ and matrix $H$ such that $H^{\bot}H=0$ then the
   following statements are equivalent:
   \begin{enumerate}
-    \item $A^{\bot}P\left(A^{\bot}\right)^{\top}\prec 0$
-    \item There exists a matrix $X$ satisfying $P+AX+X^{\top}A^{\top}\prec 0$
+    \item $H^{\bot}P\left(H^{\bot}\right)^{\top}\prec 0$
+    \item There exists a matrix $X$ satisfying $P+HX+X^{\top}H^{\top}\prec 0$
     \end{enumerate}
 \end{framed}
 
@@ -36659,16 +36650,18 @@ Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}:
             L\left(P,Q\right) & 0 & 0\\
             0 & -\varepsilon^{2}I_{m} & 0 \\
             0 & 0 & I_{p} \end{array}\right] +
-    UV+V^{\mathconj}U^{\mathconj} \preceq 0
+    \mathcal{H}\mathcal{X}+\mathcal{X}^{\mathconj}\mathcal{H}^{\mathconj} \preceq 0
   \end{align}
   where  we assume that
     $\Pi=\left[\begin{array}{cc}
                 I_{p} & 0 \\
                 0 & -\varepsilon^{2}I_{m}\end{array}\right]$ and define 
-            $U=\left[\begin{array}{cccc}
-              -I_{n} & A & B & 0 \\
-              0 & C & D & -I_{m}\end{array}\right]^{\mathconj}$ ,
-    $V=\left[\begin{array}{cc}
+            $\mathcal{H}=\left[\begin{array}{cc}
+                        -I_{n} & 0 \\
+                        A^{\mathconj} & C^{\mathconj} \\
+                        B^{\mathconj} & D^{\mathconj} \\
+                        0 & -I_{m}\end{array}\right]$ ,
+    $\mathcal{X}=\left[\begin{array}{cc}
                         X & 0 \\
                         Y & 0 \\
                         Z & 0 \\
@@ -36700,13 +36693,13 @@ $\Pi_{11}\in\mathbb{C}^{p\times p}$ and $\Pi_{22}\in\mathbb{C}^{m\times m}$.
         I_{n} & 0 \\
         0 & I_{m} \end{array}\right]\preceq 0
 \end{align*}
-and define $\tilde{U}^{\bot}=\left[\begin{array}{cc}
+and define $\tilde{\mathcal{H}}^{\bot}=\left[\begin{array}{cc}
         A & B \\
         I_{n} & 0 \\
         0 & I_{m} \end{array}\right]^{\mathconj}$ ,
-    $\tilde{U}=\left[\begin{array}{ccc}
+    $\tilde{\mathcal{H}}=\left[\begin{array}{ccc}
                         -I_{n} & A & B\end{array}\right]^{\mathconj}$ ,
- $\tilde{V}=\left[\begin{array}{ccc}
+ $\tilde{\mathcal{X}}=\left[\begin{array}{ccc}
    X^{\mathconj} & Y^{\mathconj} & Z^{\mathconj}\end{array}\right]$.
 
 Applying \emph{Finsler}'s lemma:
@@ -36717,12 +36710,12 @@ Applying \emph{Finsler}'s lemma:
 \left[\begin{array}{cc}
         0_{n}& 0 \\
         0 & \Theta \end{array}\right] +
-    \tilde{U}\tilde{V}+
-    \tilde{V}^{\mathconj}\tilde{U}^{\mathconj} \preceq 0
+    \tilde{\mathcal{H}}\tilde{\mathcal{X}}+
+    \tilde{\mathcal{X}}^{\mathconj}\tilde{\mathcal{H}}^{\mathconj} \preceq 0
   \end{align*}
 where:
   \begin{align*}
-    \tilde{U}\tilde{V}
+    \tilde{\mathcal{H}}\tilde{\mathcal{X}}
     &=\left[\begin{array}{c}
               -I_{n}\\
               A^{\mathconj}\\
@@ -36754,8 +36747,8 @@ Also:
 Apply the Schur complement to:
 \begin{align*}
   \left[\begin{array}{cc}
-\tilde{U}\tilde{V}+
-          \tilde{V}^{\mathconj}\tilde{U}^{\mathconj} & 0 \\
+\tilde{\mathcal{H}}\tilde{\mathcal{X}}+
+          \tilde{\mathcal{X}}^{\mathconj}\tilde{\mathcal{H}}^{\mathconj} & 0 \\
           0 & 0_{p}\end{array}\right]+
   \left[\begin{array}{cc}
              0_{n}& 0 \\
@@ -36781,7 +36774,7 @@ B^{\mathconj}X^{\mathconj}&B^{\mathconj}Y^{\mathconj}&B^{\mathconj}Z^{\mathconj}
         0_{2n+m} & 0 \\
         0 & I_{p} \\
       \end{array}\right]  
-  &= UV+V^{\mathconj}U^{\mathconj}+
+  &= \mathcal{H}\mathcal{X}+\mathcal{X}^{\mathconj}\mathcal{H}^{\mathconj}+
     \left[\begin{array}{cc}
             0_{2n+m} & 0 \\
             0 & I_{p} \\
@@ -36909,10 +36902,93 @@ succeeds. However, SeDuMi does solve the dual mapping and solves the
 primal problem when the YALMIP \emph{'dualize'} option is set.
 
 \subsubsection{The dual of the generalised discrete-time KYP lemma}
-\emph{Seungil} and
-\emph{Doyle}~\cite{SeungilDoyle_LagrangianDualApproachGeneralizedKYP} prove
-the generalised discrete-time KYP lemma by the dual of the Lagrangian of
-Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}.
+\emph{Seungil} and \emph{Doyle} prove the generalised continuous-time KYP lemma
+by the dual of the Lagrangian of~\cite[Equation
+2]{SeungilDoyle_LagrangianDualApproachGeneralizedKYP}:
+\begin{align*}
+  \left[\begin{array}{cc}
+    A & B \\
+    I & 0 \end{array}\right]^{\mathconj}\left[\begin{array}{cc}
+      Q_{1}-Q_{2} & P \\
+      P & -\theta_{1}^{2}Q_{1}-\theta_{2}^{2}Q_{2}\end{array}\right]
+  \left[\begin{array}{cc}
+    A & B \\
+    I & 0 \end{array}\right] + \Theta \preceq 0  
+\end{align*}
+where $\theta_{1}\le\mathabs{\omega}\le\theta_{2}$, $P,Q_{1},Q_{2}\in\mathbb{H}$
+and $Q_{1},Q_{2}\succeq 0$. In this section I adapt the dual formulation of
+\emph{Seungil} and \emph{Doyle}~\cite[Propositions 7 and
+8]{SeungilDoyle_LagrangianDualApproachGeneralizedKYP} to the
+discrete time case.
+
+Rewrite the discrete-time optimisation problem as:
+\begin{align*}
+  \textbf{minimise}\quad & 0 \\
+  \textbf{subject to}\quad & \left[\begin{array}{c}
+    T_{1} \\
+    T_{2}\end{array}\right]^{\mathconj}\left[\begin{array}{cc}
+      P & Q \\
+      Q & -P +\gamma Q\end{array}\right]\left[\begin{array}{c}
+        T_{1} \\
+        T_{2}\end{array}\right] +\Theta \preceq 0
+\end{align*}
+where $T_{1}=\left[\begin{array}{cc} A & B\end{array}\right]$,
+$T_{2}=\left[\begin{array}{cc} \alpha I & 0\end{array}\right]$, $\alpha$ is a
+(possibly complex) scalar and $\mathabs{\alpha}=1$. Expanding the constraint:
+\begin{align*}
+  T_{1}^{\mathconj}P T_{1} - T_{2}^{\mathconj}P T_{2} +
+  T_{2}^{\mathconj}Q T_{1} + T_{1}^{\mathconj}Q T_{2}
+  + \gamma  T_{2}^{\mathconj}Q T_{2} + \Theta \preceq 0
+\end{align*}
+
+The Lagrangian function is:
+\begin{align*}
+  L\left(P,Q,R,W\right) =
+  &\mathtrace \left\{W\left( T_{1}^{\mathconj}P T_{1} -
+    T_{2}^{\mathconj}P T_{2}\right)\right\} +
+    \mathtrace \left\{ W\left(T_{2}^{\mathconj}Q T_{1} +
+    T_{1}^{\mathconj}Q T_{2}+\gamma T_{2}^{\mathconj}Q T_{2} \right)\right\} +
+    \mathtrace \left\{ W\Theta+WR\right\}
+\end{align*}
+where $W\succeq 0$ are the Lagrange multipliers and $R\succeq 0$ is a slack
+variable. Rearranging:
+\begin{align*}
+  L\left(P,Q,R,W\right)=
+  & \mathtrace \left\{P\left( T_{1}WT_{1}^{\mathconj} -
+    T_{2}WT_{2}^{\mathconj}\right)\right\} +
+    \mathtrace \left\{ Q\left(  T_{1} W T_{2}^{\mathconj} +
+    T_{2}W T_{1}^{\mathconj} + \gamma T_{2}W T_{2}^{\mathconj} \right)\right\} +
+    \mathtrace \left\{ W\Theta+WR\right\}
+\end{align*}
+The dual optimisation problem is:
+\begin{align*}
+  \textbf{maximise}\quad
+  & \mathtrace\left\{W\Theta\right\} \\
+  \textbf{subject to}\quad
+  & \mathtrace\left\{W\Theta\right\}\le 0 \\
+  & W=\left[\begin{array}{cc}
+    W_{11} & W_{12} \\
+    W_{12}^{\mathconj} & W_{22}\end{array}\right]\succeq 0 \\
+  & AW_{11}A^{\mathconj}+BW_{12}^{\mathconj}A^{\mathconj}+AW_{12}B^{\mathconj}+
+    BW_{22}B^{\mathconj} - W_{11} \preceq 0 \\
+  & \alpha^{\mathconj}\left(AW_{11}+BW_{12}^{\mathconj}\right) +
+    \alpha\left(W_{11}A^{\mathconj}+W_{12}B^{\mathconj}\right) + \gamma W_{11}=0
+\end{align*}
+The Octave script \emph{yalmip\_generalised\_kyp\_dual\_lowpass\_test.m} calls
+YALMIP and SeDuMi to check the pass-band and stop-band dual constraints for a
+symmetric FIR low-pass filter designed with the \emph{remez} function.
+Unfortunately, SeDuMi fails for the case of complex $\alpha$ in the transition
+band and SDPT3 is used instead.
+
+Similarly, the Octave script
+\emph{yalmip\_generalised\_kyp\_dual\_bandpass\_test.m} calls YALMIP and SDPT3
+to check the pass-band and upper and lower stop-band dual constraints for a
+symmetric FIR band-pass filter designed with the \emph{remez} function.
+
+Unfortunately, in some cases my attempts to force failure of the dual constraints
+instead forced $\mathnorm{W}\rightarrow 0$. Also, this generalised dual is
+bi-linear in the decision variables and so it is not immediately applicable to
+LMI filter design.
 \clearpage
 \section{Generalisation of the KYP lemma to the union of disjoint  frequency intervals}
 \emph{Pipeleers}, \emph{Iwasaki}
@@ -37824,864 +37900,6 @@ Constraints=[F_plu<=-sedumi_eps,Q_plu>=0,F_slmu<=-sedumi_eps,Q_slmu>=0];
 \end{small}
 The resulting filter frequency response is acceptable. These numerical problems
 occurred for all combinations of $N$ and $d$ that I tried.
-\clearpage
-\section{Design of one-multiplier Schur lattice  filters with the KYP lemma}
-This section considers the use of the KYP lemma to design IIR filters
-implemented as the parallel combination of two all-pass one-multiplier Schur
-lattice filters. The matrix inequality part of the KYP lemma shown in
-Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI} is not linear in the state
-transition matrix, $A$, coefficients and the design problem requires the
-solution of bilinear matrix inequality (BMI) constraints. The design of robust
-feedback control systems has motivated much research into the solution of BMI
-constraints derived from the KYP lemma. See, for example, \emph{Van Antwerp} and
-\emph{Braatz}~\cite{VanAntwerpBraatz_LinearBilinearMatrixInequalities} or
-\emph{Dinh et
- al.}~\cite[Section 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}.
-\begin{comment}
-  \emph{Dinh et al.} consider the following state variable description of a
-  feedback control system:
- \begin{align*}
-    \left[\begin{array}{c}
-            x^{\prime} \\
-            z \\
-            y \end{array}\right]
-    &= \left[\begin{array}{ccc}
-               A & B_{w} & B_{u} \\
-               C_{z} & D_{zw} & D_{zu} \\
-               C_{y} & D_{yw} & 0 \end{array}\right]
-      \left[\begin{array}{c}
-              x \\
-              w \\
-              u \end{array}\right]
- \end{align*}
-  where $x$ is the state vector, $w$ is the control input, $u$ is an input
-  disturbance, $y$ is the output to be controlled and $z$ is the output
-  measurement. The state variable coefficients are known. The design
-  objective is to find a feedback gain, $K$, such that $u=Ky$ and the following
-  closed loop system is stable:
-  \begin{align*}
-    \left[\begin{array}{c}
-            x^{\prime} \\
-            z \end{array}\right]
-    &= \left[\begin{array}{cc}
-               A + B_{u}K C_{y} & B_{w}+B_{u}K D_{yw} \\
-               C_{z} + D_{zu}K C_{y}& D_{zw} + D_{zu}K D_{yw}\end{array}\right]
-      \left[\begin{array}{c}
-              x \\
-              w \end{array}\right]
-  \end{align*}
-\end{comment}
-The solution of an optimisation problem with BMI constraints can be obtained
-as the limit of a sequence of upper bounding convex (or LMI) problems.
-\emph{Duffin} and \emph{Peterson}~\cite[p.533]{Duffin_ReversedGeometricPrograms}
-describe the solution of a ``geometric program'' by a sequence of ``upper-bound
-inequality posynomial'' constraints.
-\emph{Marks} and \emph{Wright}~\cite{Marks_InnerApproximationNonconvexPrograms}
-demonstrated the convergence of a ``sequence of approximating convex programs''.
-\emph{Dinh et al.}~\cite{Dinh_ConvexConcaveDecompositionLinearizationBMI,
-Dinh_InnerConvexApproximationBMI} ``decompose the bilinear mapping as a
-difference between two positive semidefinite convex mappings. At each iteration
-of the algorithm the concave part is linearized, leading to a convex
-subproblem''. \emph{Lee} and \emph{Hu}~\cite{Lee_SequentialConvexApproxBMI},
-\emph{Warner} and
-\emph{Scruggs}~\cite{WarnerScruggs_IterativeConvexOverboundingBMI},
-\emph{Sebe}~\cite{Sebe_SequentialConvexOverboundingBMI}
-and \emph{Ren et al.}~\cite{Ren_SuccessiveConvexOptimizationBMI} each show an
-alternative method of convex upper approximation to the BMI constraint.
-
-\subsection{Preliminaries}
-\subsubsection{Positive-semi-definite convex mappings}
-Suppose the mapping $\mathcal{A}\colon\mathbb{R}^{n}\rightarrow\mathbb{S}^{p}$
-is represented by $A\left(x\right)\in\mathbb{S}^{p}$, the set of symmetric
-$p\times p$ matrixes. $A\left(x\right)$ is said to be \emph{psd-convex} on a
-convex set, $\mathcal{C}\subseteq\mathbb{R}^{n}$, if, for $t\in\left[0,1\right]$
-and $x,y\in\mathcal{C}$:
-\begin{align*}
-A\left(tx+\left[1-t\right]y\right) & \preceq
-tA\left(x\right)+\left[1-t\right]A\left(y\right)
-\end{align*}
-Similarly, $-A\left(x\right)$ is \emph{psd-concave}.
-The first-order linearised approximation at $x=x_{i}+\Delta_{x}$ of a psd-convex
-mapping $\mathcal{A}$ represented by $A\left(x\right)$
-satisfies~\cite[Section 3.1.3]{BoydVandenberghe_ConvexOptimization}:
-\begin{align*}
-  A\left(x_{i}\right) + \nabla A\left(x_{i}\right)\Delta_{x}
-  \preceq A\left(x\right), \text{ for all } x\in\mathcal{C}
-\end{align*}
-
-\subsubsection{Schur complement of a psd-convex mapping}
-\emph{Dinh et al.}~\cite[Section
-3.1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}
-define a \emph{Schur psd-convex} mapping as
-$\mathcal{F}\colon \mathbb{R}^{p\times q}\times\mathbb{S}^{p}
-\rightarrow\mathbb{S}^{p}$
-given by $F\left(X,Y\right)=XQ^{-1}X^{\top}-Y$, where $Q\in\mathbb{S}^{p}_{++}$,
-the set of symmetric, positive definite, $p\times p$ matrixes. They show the
-following lemma, used to transform a Schur psd-convex constraint into an LMI
-constraint~\cite[Lemma 3.2]{Dinh_ConvexConcaveDecompositionLinearizationBMI}:
-\begin{framed}
-  \emph{Lemma 3.2}~\cite{Dinh_ConvexConcaveDecompositionLinearizationBMI}:
-  \begin{enumerate}
-  \item Suppose that $A\in\mathcal{S}^{n}$. Then:
-    \begin{align}
-      \label{eqn:Dinh-convex-Schur-complement}
-      BB^{\top}-A\preceq 0
-      \quad & \Longleftrightarrow\quad
-      \left[\begin{array}{cc}
-              A & B \\
-              B^{\top}& I\end{array}\right] \succeq 0 
-    \end{align}
-  \item Suppose that $A\in\mathbb{S}^{n}$ and $D\succeq 0$ then:
-    \begin{align}
-      \label{eqn:Dinh-convex-concave-Schur-complement}
-      \left[\begin{array}{cc}
-              A-BB^{\top} & C \\
-              C^{\top}& D\end{array}\right] \succeq 0
-      \quad & \Longleftrightarrow\quad
-      \left[\begin{array}{ccc}
-              A & B & C \\
-              B^{\top}& I & 0 \\
-              C^{\top}& 0 & D\end{array}\right] \succeq 0          
-    \end{align}
-  \end{enumerate}
-\end{framed}
-\subsubsection{Problem statement}
-This section considers the following optimisation problem with bilinear matrix
-inequality constraints~\cite[Equation 1]{Lee_SequentialConvexApproxBMI}:
-\begin{samepage}
-  \begin{align*}
-    \textbf{minimise}\quad &f\left(z\right) \\
-    \textbf{subject to}\quad
-                           & z\in\mathcal{C} \\
-                           & F\left(z\right)=C+D\left(z\right) +
-                             \mathhe\left(A\left(x\right)B\left(y\right)\right)
-                             \preceq 0
-  \end{align*}
-\end{samepage}
-where $z^{\top}=\left[x^{\top},y^{\top}\right]\in\mathbb{R}^{n}$, 
-$\mathhe\left(X\right)=X+X^{\top}$, $f\colon\mathbb{R}^{n}\rightarrow\mathbb{R}$
-is convex, $\mathcal{C}\subset\mathbb{R}^{n}$ is convex and closed, a feasible
-initial point, $x_{0}\in\mathcal{C}$, is known, $C$ is a constant matrix
-and $D$, $A$ and $B$ are matrixes\footnote{Here $A$, $B$, $C$ and $D$ are
-  \textbf{not} filter state-variable matrixes.} that are linear in the
-coefficients, $x$, $y$ and $z$ and $F\left(z\right)$ represents
-Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI-Finsler}.
-
-At the $m$'th iteration, \emph{Lee} and
-\emph{Hu}~\cite[Equation 4]{Lee_SequentialConvexApproxBMI} partially linearise
-$F\left(z\right)$ at $z=z_{m}+\Delta_{z}$ where
-$z_{m}^{\top}=\left[x_{m}^{\top},y_{m}^{\top}\right]$ as follows:
-\begin{align}
-  F\left(z\right)
-  &\approx F\left(z_{m}\right) + \nabla F\left(z_{m}\right)\Delta_{z}+
-    \mathhe\left(\Delta_{A} \Delta_{B}\right) \preceq 0
-    \label{eqn:Lee-Hu-partially-linearised-bilinear-mapping}
-\end{align}
-where, for convenience, $\Delta_{A}=\nabla A\left(x_{m}\right)\Delta_{x}$.
-Equation~\ref{eqn:Lee-Hu-partially-linearised-bilinear-mapping} retains
-the bilinear terms in $\Delta_{z}$. The linear part of
-Equation~\ref{eqn:Lee-Hu-partially-linearised-bilinear-mapping} is:
-\begin{align*}
-  \nabla F\left(z_{m}\right)\Delta_{z}
-  &\approx  \Delta_{D} +
-    \mathhe\left(A\left(x_{m}\right)\Delta_{B}\right)+
-     \mathhe\left(\Delta_{A}B\left(y_{m}\right)\right)
-\end{align*}
-\subsection{Sequential approximation of BMI constraints}
-This section describes methods of finding a sequence of convex upper
-approximations to the bilinear terms at the $z_{m}$ of each iteration of
-Equation~\ref{eqn:Lee-Hu-partially-linearised-bilinear-mapping}. 
-
-\subsubsection{\emph{Dinh et al.} psd-convex-concave optimisation with BMI constraints}
-\emph{Dinh et al.}~\cite[Lemma
-3.1]{Dinh_ConvexConcaveDecompositionLinearizationBMI} decompose the bilinear
-form $X^{\top}Y+Y^{\top}X$ into a difference of convex and concave
-mappings\cite{Hartman_DifferenceConvexFunctions}:
-\begin{framed}
-  \emph{Lemma 3.1}~\cite{Dinh_ConvexConcaveDecompositionLinearizationBMI}:
-  \begin{enumerate}
-  \item The mappings $f\left(X\right)\coloneq X^{\top}X$ and
-    $g\left(X\right)\coloneq X X^{\top}$ are psd-convex on $\mathbb{R}^{m\times n}$.
-    The mapping $f\left(X\right)\coloneq X^{-1}$ is psd-convex on
-    $\mathbb{S}_{++}^{p}$.
-  \item The bilinear matrix form $X^{\top}Y+Y^{\top}X$ can be represented as a
-    psd-convex-concave mapping in at least three forms:
-    \begin{subequations}
-    \begin{align}
-       X^{\top}Y+Y^{\top}X &= \left(X+Y\right)^{\top}\left(X+Y\right) -
-                            \left(X^{\top}X+Y^{\top}Y\right)
-      \label{eqn:Dinh-bilinear-convex-concave-a} \\
-      &= \left(X^{\top}X+Y^{\top}Y\right) - \left(X-Y\right)^{\top}\left(X-Y\right)
-      \label{eqn:Dinh-bilinear-convex-concave-b} \\
-      &= \frac{1}{2}\left[\left(X+Y\right)^{\top}\left(X+Y\right) -
-      \left(X-Y\right)^{\top}\left(X-Y\right)\right]
-      \label{eqn:Dinh-bilinear-convex-concave-c}
-    \end{align}
-    \end{subequations}
-  \end{enumerate}
-\end{framed}
-
-\emph{Dinh et al.}~\cite[Sections 3.2 and
-4]{Dinh_ConvexConcaveDecompositionLinearizationBMI} consider the following
-convex optimisation problem:
-\begin{align*}
-\textbf{minimise}\quad &f\left(x\right) \\
-  \textbf{subject to}\quad
-   & x\in\mathcal{C} \\
-   & G\left(x\right)- H\left(x\right)\preceq 0 
-\end{align*}
-where $f\colon\mathbb{R}^{n}\rightarrow\mathbb{R}$ is convex,
-$\mathcal{C}\subseteq\mathbb{R}^{n}$ is a non-empty, closed, convex set and
-$G\left(x\right)$ and $ H\left(x\right)$ are psd-convex.
-
-\begin{comment}
-  The Lagrangian function of this problem is:
-\begin{align*}
-  L\left(x,\Lambda\right)
-  &\coloneq
-    f\left(x\right)+
-    \sum\langle\Lambda_{l},\left[G_{l}\left(x\right)-
-    H_{l}\left(x\right)\right]\rangle
-\end{align*}
-where $\Lambda_{l}\in\mathbb{S}^{p}$ are the Lagrange multipliers and
-$\langle X,Y\rangle\coloneq\mathtrace\left(X^{\top}Y\right)$ is the matrix inner
-product. The KKT conditions\footnote{See
-  Section~\ref{sub:Karush-Kuhn-Tucker-Conditions}}
-  are~\cite[Equation 3.6]{Dinh_ConvexConcaveDecompositionLinearizationBMI}:
-\begin{align*}
-0\in\nabla f\left(x\right)+
-  \sum \langle\Lambda_{l},
-  \nabla\left[G_{l}\left(x\right)- H_{l}\left(x\right)\right]\rangle+
-  N_{\mathcal{C}}\left(x\right) \\
-  G_{l}\left(x\right)- H_{l}\left(x\right)\preceq 0 \\
-  \Lambda_{l}\succeq 0 \\
-\langle\Lambda_{l},\left[G_{l}\left(x\right)- H_{l}\left(x\right)\right]\rangle=0
-\end{align*}
-where $N_{\mathcal{C}}\left(x\right)$ is the normal cone of $\mathcal{C}$:
-\begin{align*}
-  N_{\mathcal{C}}\left(x\right)\coloneq
-  \begin{cases}
-    \left\{w\in\mathbb{R}^{n}\colon w\left(y-x\right)\ge 0
-    \text{, for all }y\in\mathcal{C}\right\} & \text{ if } x\in\mathcal{C}\\
-    \emptyset & \text{otherwise}
-  \end{cases}
-\end{align*}
-\end{comment}
-
-\emph{Dinh et al.} linearise the optimisation problem as follows:
-\begin{align}
-  \begin{split}
-  \textbf{minimise}\quad &f_{m}\left(x\right)\coloneq f\left(x\right) +
-  \rho_{m}\mathnorm{Q_{m}\Delta_{x}}_{2}^{2}\\
-  \textbf{subject to}\quad
-   & x\in\mathcal{C} \\
-   & G\left(x\right)- H\left(x_{m}\right) -
-     \nabla H\left(x_{m}\right)\Delta_{x} \preceq 0
-  \end{split}
-  \label{eqn:Linearised-BMI-optimisation}
-\end{align}
-where the linearised concave part is an upper approximation:
-\begin{align*}
-  -H\left(x\right)\preceq -H\left(x_{m}\right) -
-  \nabla H\left(x_{m}\right)\Delta_{x},
-  \text{ for all } x\in\mathcal{C}
-\end{align*}
-and the convex part is linearised by applying
-Equation~\ref{eqn:Dinh-convex-Schur-complement}.
-
-Given a feasible initial point, $x_{0}$, and initial $\rho_{0}>0$ and
-$Q_{0}\in\mathbb{S}^{n}_{+}$, \emph{Dinh et al.}~\cite[Algorithm
-1]{Dinh_ConvexConcaveDecompositionLinearizationBMI} suggest repeatedly solving
-Equation~\ref{eqn:Linearised-BMI-optimisation} for $x_{i+1}$ until a termination
-condition is met. If necessary, $\rho_{m}$ and $Q_{m}$ are updated at each step.
-\emph{Dinh et al.}~\cite[Section
-5]{Dinh_ConvexConcaveDecompositionLinearizationBMI} show examples in which they
-apply the Schur complement to the psd-convex-linearised-concave decomposition of
-Equation~\ref{eqn:Dinh-bilinear-convex-concave-c}.
-\clearpage
-\subsubsection{\emph{Lee and Hu} sequential convex upper-approximation with BMI constraints}
-\emph{Lee} and \emph{Hu}~\cite[Lemma 2]{Lee_SequentialConvexApproxBMI} prove
-the following lemma\footnote{See~\cite[Section
-  3.6]{BoydVandenberghe_ConvexOptimization}.}:
-\begin{framed}
-  \emph{Lemma 2}~\cite{Lee_SequentialConvexApproxBMI}: Let $D$ and $E$ be real
-  matrixes of appropriate dimensions. Then, for any $S\in\mathbb{S}_{++}^{n}$:
-  \begin{align}
-    DE+E^{\top}D^{\top} \preceq DSD^{\top}+E^{\top}S^{-1}E
-    \label{eqn:Lee-Hu-lemma-2}
-  \end{align}
-  \emph{Proof}: Expand
-  $\left(D^{\top}-S^{-1}E\right)^{\top}S\left(D^{\top}-S^{-1}E\right) \succeq 0$.
-\end{framed}
-\emph{Lee} and \emph{Hu}~\cite[Equation 5]{Lee_SequentialConvexApproxBMI} apply
-this lemma to the partially linearised bilinear mapping of
-Equation~\ref{eqn:Lee-Hu-partially-linearised-bilinear-mapping}\footnote{This
-  is similar to overbounding the constraint by ignoring the second term in
-  Equation~\ref{eqn:Dinh-bilinear-convex-concave-b}.}:
-\begin{align*}
-  F\left(z\right)
-  & \preceq F\left(z_{m}\right)+
-    \nabla F\left(z_{m}\right)\Delta_{z}+
-    \Delta_{A}\left(\Delta_{x}\right)S\Delta_{A}\left(\Delta_{x}\right)^{\top}+
-    \Delta_{B}\left(\Delta_{y}\right)^{\top}S^{-1}\Delta_{B}\left(\Delta_{y}\right)
-    \preceq 0
-\end{align*}
-and, applying the Schur complement as shown in
-Equation~\ref {eqn:Dinh-convex-concave-Schur-complement}, obtain the following
-symmetric linear matrix inequality:
-\begin{align*}
-  \left[\begin{array}{ccc}
-          F\left(z_{m}\right)+
-          \nabla F\left(z_{m}\right)\Delta_{z} & \ast & \ast \\
-          \Delta_{A}\left(\Delta_{z}\right)^{\top} & -S^{-1} & \ast \\
-          \Delta_{B}\left(\Delta_{z}\right) & 0 & -S \end{array}\right]\preceq 0
-\end{align*}
-where I omit the symmetric components. Further, \emph{Dinh et
-  al.}~\cite[Lemma 3.1]{Dinh_ConvexConcaveDecompositionLinearizationBMI} show
-that $S^{-1}$ is psd-convex and, consequently, \emph{Lee} and
-\emph{Hu}~\cite[Lemma 3]{Lee_SequentialConvexApproxBMI} prove the following
-lemma:
-\begin{framed}
-  \emph{Lemma 3}~\cite{Lee_SequentialConvexApproxBMI}: Suppose that
-  $\mathbb{S}\colon\mathbb{R}^{n}\rightarrow\mathbb{S}^{p}$ is a linear mapping
-  defined as $S\left(x\right)=\sum_{l=1}^{n}x_{l}S_{l}$,
-  where $S_{l}\in\mathbb{S}^{p}$ is symmetric and real. If
-  $S\left(x\right)\succ 0$ and $S\left(y\right)\succ 0$,
-  then $-S\left(y\right)^{-1} \preceq -2S\left(x\right)^{-1}+
-  S\left(x\right)^{-1}S\left(y\right)S\left(x\right)^{-1}$.
-  
-  \emph{Proof}: Linearise $-S\left(y\right)^{-1}$ around $x$ and apply the
-  matrix identities $SS^{-1}=I$ and
-  $\frac{dS}{dx}S^{-1}+S\frac{dS^{-1}}{dx}=0$.
-\end{framed}
-After replacing the psd-concave mapping, $-S^{-1}$, with its upper approximation
-linearised around $S_{m}$ and scaling by the congruence transformation
-$\mathdiag \left[I,S_{m},I\right]$, the upper approximation to
-$F\left(z\right)$ near $z=z_{m}$ is the LMI
-constraint~\cite[Equation 8]{Lee_SequentialConvexApproxBMI}:
-\begin{align}
-  \label{eqn:Lee-Hu-linearised-bilinear-mapping} 
-  \left[\begin{array}{ccc}
-  F\left(z_{m}\right)+
-  \nabla F\left(z_{m}\right)\Delta_{z} & \ast & \ast \\
-   S_{m}\Delta_{A}\left(\Delta_{z}\right)^{\top} & -2S_{m}+S & \ast \\
-   \Delta_{B}\left(\Delta_{z}\right) & 0 & -S \end{array}\right] & \preceq 0
-\end{align}
-
-\emph{Lee} and \emph{Hu}~\cite[Algorithm 1]{Lee_SequentialConvexApproxBMI}
-propose a sequential approximation algorithm with the ``regularised'' objective
-function $f\left(z\right)+\frac{\rho}{2}\mathnorm{\Delta_{z}}^{2}$ and the LMI
-constraint of Equation~\ref{eqn:Lee-Hu-linearised-bilinear-mapping} and
-$S_{0}=I_{n}$, $c_{1}I\preceq S\preceq c_{2}I$, $-2S_{m}+S\preceq -c_{3}I$ with
-$\rho>0$, $c_{2}>c_{1}>0$, $c_{3}>0$. \emph{Lee} and
-\emph{Hu}~\cite[Section 5]{Lee_SequentialConvexApproxBMI} provide an example
-with values for $\rho$, $c_{1}$, $c_{2}$ and $c_{3}$.
-
-\emph{Lee} and \emph{Hu}~\cite[Remark 2]{Lee_SequentialConvexApproxBMI}
-compare their method to the difference of convex functions (DC) method of
-\emph{Dinh et al.}:
-\begin{quotation}
-  In fact, a more general psd-convex-concave mapping can be derived by
-  introducing the auxiliary matrix, $S$, as follows:
-  $X^{\top}Y+Y^{\top}X=X^{\top}SX+Y^{\top}S^{-1}Y-\left(X-S^{-1}Y\right)^{\top}S
-  \left(X-S^{-1}Y\right)$. Note that the last term $-\left(X-S^{-1}Y\right)^{\top}S
-  \left(X-S^{-1}Y\right)$ is concave in $X$ and $Y$. If we set $S$ to be a
-  constant, i.e. $S=I$, and linearize the last term
-  $\left(X-S^{-1}Y\right)^{\top}S\left(X-S^{-1}Y\right)$ with respect to
-  $\left(X,Y\right)$ at the point $\left(X,Y\right)=\left(X_{m},Y_{m}\right)$,
-  then the over approximation of the DC programming method is obtained. Instead,
-  if we drop the last term and linearize $S^{-1}$ at $S=S_{m}$, then the over
-  approximation of the proposed Algorithm 1 is obtained. From the interpretation
-  it is not easy to claim which approximation is better than the other. Since
-  the last term is entirely dropped in Algorithm 1, it can be seen as a less
-  accurate one in general. However, the auxiliary matrix $S$ can be adjusted as
-  a decision variable of the convex subproblem, the over approximation can be
-  tightened at each iteration.
-\end{quotation}
-\begin{comment}
-\clearpage
-\subsubsection{\emph{Warner and Scruggs} iterative convex over-bounding optimisation with BMI constraints}
-\emph{Warner} and
-\emph{Scruggs}~\cite{WarnerScruggs_IterativeConvexOverboundingBMI}
-describe iterative convex over-bounding techniques for BMI problems like:
-\begin{align*}
-  Q+\mathhe\left(BRDSC\right) \prec 0
-\end{align*}
-where $Q$, $B$, $C$ and $D$ are constants and $R$ and $S$ are the design
-variables with known feasible intial values $R_{0}$ and $S_{0}$. At the $m$'th iteration, with perturbed values $R=R_{m}+\Delta_{R}$ and $S=S_{m}+\Delta_{S}$:
-\begin{align*}
-  Q+\mathhe\left(\phi\left(R,S\right)+B\Delta_{R}D\Delta_{S}C\right) \prec 0
-\end{align*}
-where:
-\begin{align*}
-  \phi\left(R,S\right)&=B\left[RDS_{m}+R_{m}DS-R_{m}DS_{m}\right]C
-\end{align*}
-\emph{Warner} and \emph{Scruggs} now set $D=UV$ where $U$ and $V^{\top}$ have full
-column rank and for an arbitrary invertible matrix $L_{1}$:
-\begin{align*}
-  Q+\mathhe\left(\phi\left(R,S\right)\right)+
-  B\Delta_{R}UL_{1}L_{1}^{\top}U^{\top}\Delta_{R}^{\top}B^{\top} +
-  C^{\top}\Delta_{S}^{\top}V^{\top}L_{1}^{-\top}L_{1}^{-1}V\Delta_{S} C \prec\eta\eta^{\top}
-\end{align*}
-where:
-\begin{align*}
-  \eta = B\Delta_{R} U L_{1} - C^{\top}\Delta_{S}^{\top}V^{\top}L_{1}^{-\top}
-\end{align*}
-Since $\eta\eta^{\top}\ge 0$ an over-approximation is:
-\begin{align*}
-  Q+\mathhe\left(\phi\left(R,S\right)\right)+
-  B\Delta_{R}UL_{1}L_{1}^{\top}U^{\top}\Delta_{R}^{\top}B^{\top} +
-  C^{\top}\Delta_{S}^{\top}V^{\top}L_{1}^{-\top}L_{1}^{-1}V\Delta_{S} C \prec 0
-\end{align*}
-Defining $W_{1}=L_{1}L_{1}^{\top}$ and applying the Schur complement:
-\begin{align*}
-  \left[\begin{array}{ccc}
-          Q+\mathhe\left(\phi\left(R,S\right)\right) & \ast & \ast \\
-          U^{\top}\left(\Delta_{R}\right)^{\top}B^{\top} & -W_{1}^{-1} & \ast \\
-          V\left(\Delta_{S}\right)C & 0 & -W_{1}\end{array}\right] \prec 0
-\end{align*}
-Alternatively:
-\begin{align*}
-  \mathhe\left(\phi\left(R,S\right)\right)+\alpha\alpha^{\top} \prec
-  B\Delta_{R}UL_{2}L_{2}^{\top}U^{\top}\Delta_{R}^{\top}B^{\top} +
-  C^{\top}\Delta_{S}^{\top}V^{\top}L_{2}^{-\top}L_{2}^{-1}V\Delta_{S} C
-\end{align*}
-where $L_{2}$ is an arbitrary invertible matrix and:
-\begin{align*}
-  \alpha = B\Delta_{R} U L_{2} + \Delta_{S} C V L_{2}^{-1}
-\end{align*}
-Define $W_{2}=L_{2}L_{2}^{\top}$ and choose $L_{2}$ so that  $W_{2}\succ 0$. Then:
-\begin{align*}
-  \mathhe\left(\phi\left(R,S\right)\right)+\beta W_{2}^{-1}\beta^{\top} \prec
-  B\Delta_{R}UW_{2}U^{\top}\Delta_{R}^{\top}B^{\top} +
-  C^{\top}\Delta_{S}^{\top}V^{\top}W_{2}^{-1}V\Delta_{S} C
-\end{align*}
-where:
-\begin{align*}
-  \beta = B\Delta_{R} U W_{2} + C^{\top}\Delta_{S} V^{\top}
-\end{align*}
-Since $W_{2}$ is positive definite, after applying the Schur complement an
-upper-approximation is:
-\begin{align*}
-  \left[\begin{array}{cc}
- \mathhe\left(\phi\left(R,S\right)\right) & \ast \\
- B\left(\Delta_{R}\right)UW_{2}+C^{\top}\left(\Delta_{S}\right)^{\top}V^{\top} & -W_{2}
-        \end{array}\right] \prec 0
-\end{align*}
-
-Finally, \emph{Warner} and \emph{Scruggs} propose using a linear combination
-of these two LMI constraints:
-\begin{align*}
-  Q+\mathhe\left(BRU\Lambda VSC\right) +
-  \mathhe\left(BRU\left(I-\Lambda\right)VSC\right) \prec 0
-\end{align*}
-where $\Lambda$ is symmetric interpolation matrix and $0\prec\Lambda\prec I$.
-The over-all convex upper-approximation constraint is:
-\begin{align*}
- \left[\begin{array}{cccc}
- Q+\mathhe\left(\phi\left(R,S\right)\right) & \ast & \ast & \ast \\
- U^{\top}\left(\Delta_{R}\right)^{\top}B^{\top} &-\hat{W}_{1}^{-1} & \ast & \ast\\
- V\left(\Delta_{S}\right)C & 0 & -\hat{W}_{1} & \ast \\
- \left[\begin{array}{c}
- W_{2}B\left(\Delta_{R}\right)U+ \\
-  C^{\top}\left(\Delta_{S}\right)^{\top}C^{\top}\end{array}\right]& 0 & 0 &-\hat{W}_{2}
-       \end{array}\right] \prec 0
-\end{align*}
-where $\hat{W}_{1}=L_{1}\Lambda^{-1} L_{1}^{\top}$ and
-$\hat{W}_{2}=L_{2}\left(1-\Lambda\right)^{-1} L_{2}^{\top}$.
-
-\emph{Warner} and \emph{Scruggs} suggest:
-\begin{enumerate}
-\item using a ``regularised'' objective function and
-  LMI constraint similar to that described by \emph{Lee} and \emph{Hu}.
-\item updating the weights $L_{1}$, $L_{2}$ and $\Lambda$
-  in separate sub-steps during each iteration of the optimisation.
-\end{enumerate}
-\subsubsection{\emph{Sebe} sequential convex over-bounding optimisation with BMI constraints}
-\emph{Sebe}~\cite[Section 2.1]{Sebe_SequentialConvexOverboundingBMI} argues that
-the preferred decomposition of $\mathhe\left(XY\right)$\footnote{\emph{Dinh et
-    al.} write $\mathhe\left(X^{\top}Y\right)$.} is
-Equation~\ref{eqn:Dinh-bilinear-convex-concave-c}. \emph{Sebe}~\cite[Section
-2.2]{Sebe_SequentialConvexOverboundingBMI} then considers the psd-convex-concave
-decomposition of bilinear constraints in the form
-$\mathhe\left(XNY\right)\prec -\mathhe\left(Q\right)$ where $N$ is a constant
-matrix and $\mathhe\left(Q\right)$ is ``the other part of the matrix
-inequality''\footnote{The linear part?}.
-After pointing out that:
-\begin{align*}
-  \mathhe\left(XNY\right)
-  &=\left[\begin{array}{cc}
-            X & Y^{\top}\end{array}\right]
-    \left[\begin{array}{cc}
-            0 & N \\
-            N^{\top} & 0\end{array}\right]
-    \left[\begin{array}{c}
-            X^{\top} \\
-            Y \end{array}\right]
-\end{align*}
-\emph{Sebe}~\cite[Proposition 3]{Sebe_SequentialConvexOverboundingBMI} shows
-that:
-\begin{align*}
-    \left[\begin{array}{cc}
-            0 & N \\
-            N^{\top} & 0\end{array}\right]
-  &=\left[\begin{array}{cc}
-            N & N \\
-            G^{\top} & -G\end{array}\right]
-    \left[\begin{array}{cc}
-            \left(G+G^{\top}\right)^{-1} & 0 \\
-            0 & -\left(G+G^{\top}\right)^{-1} \end{array}\right]
-    \left[\begin{array}{cc}
-            N & N \\
-            G^{\top} & -G\end{array}\right]^{\top}
-\end{align*}
-where $G\in\mathbb{R}^{n\times n}$ satisfies $G+G^{\top}\succ 0$. With this result,
-the constraint $\mathhe\left(Q+XNY\right)\prec 0$ has the upper approximation:
-\begin{align*}
-  \mathhe\left(Q\right) + \left(XN+Y^{\top}G^{\top}\right)
-  \left(G+G^{\top}\right)^{-1}\left(XN+Y^{\top}G^{\top}\right)^{\top} \prec 0
-\end{align*}
-Applying the Schur complement:
-\begin{align*}
-    \left[\begin{array}{cc}
-            \mathhe\left(Q\right) & XN+Y^{\top}G^{\top} \\
-            \left(XN+Y^{\top}G^{\top}\right)^{\top} & -\left(G+G^{\top}\right)
-          \end{array}\right] \prec 0
-\end{align*}
-or, simply:
-\begin{align*}
-  \mathhe\left(\left[\begin{array}{cc}
-            Q & XN \\
-            GY & -G \end{array}\right]\right) \prec 0
-\end{align*}
-\end{comment}
-
-\subsection{Design of Schur lattice filters with  BMI constraints derived from the KYP lemma}
-In this Section I apply the successive convex optimisation
-to the design of filters implemented as the parallel combination of the doubly
-pipelined all-pass one-multiplier Schur lattice filters described in
-Section~\ref{sec:State-variable-all-pass-doubly-pipelined-One-multiplier-Schur-lattice-filter}\footnote{This design procedure can also be applied to the tapped
-  doubly pipelined one-multiplier Schur lattice filters described in
-Section~\ref{sec:State-variable-doubly-pipelined-One-multiplier-Schur-lattice-filter}
-with the added complication that the tap coefficients, $c_{n}$, depend on the
-$\epsilon_{n}\in\left\{-1,1\right\}$.}. The filters are assumed to have a single
-input and a single output. For such filters, the state transition matrix, $A$,
-is:
-\begin{align*}
-  A\left(\boldsymbol{k}\right) = A_{0}+\sum_{l=1}^{N} k_{l}A_{l}
-\end{align*}
-where
-$\boldsymbol{k}=\left[\begin{array}{ccc}k_{1} & \hdots & k_{N}\end{array}\right]$
-are the Schur lattice filter reflection coefficients, $A\in\mathbb{R}^{n\times n}$
-and the $A_{0},\hdots,A_{N}$ matrixes and the state-variable $B$, $C$ and $D$
-matrixes are constant. After applying Finsler's transformation to the KYP lemma
-matrix inequality of Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}, as
-shown in Section~\ref{sec:Finslers-lemma-transformation-generalised-KYP}, the
-optimisation problem is:
-\begin{align*}
-  \textbf{minimise}\quad
-  & \mathcal{E}\left(\boldsymbol{k}\right)^{2} \\
-  \textbf{subject to}\quad
-  &-1 < \boldsymbol{k} < 1 \\
-  & P,Q\in\mathbb{S}^{n}\text{ and } Q\succeq 0 \\
-  & \text{Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI-Finsler}}
-\end{align*}
-where $\mathcal{E}^{2}\left(\boldsymbol{k}\right)$ is the filter squared error at
-$\boldsymbol{k}=\boldsymbol{k}_{m}+\Delta_{z}$:
-\begin{align*}
-  \mathcal{E}^{2}\left(\boldsymbol{k}_{m}+\Delta_{\boldsymbol{k}}\right)
-  &\approx \mathcal{E}^{2}\left(\boldsymbol{k}_{m}\right)
-+\nabla_{\mathcal{E}^{2}}\left(\boldsymbol{k}_{m}\right)^{\top}\Delta_{\boldsymbol{k}}
-    +\frac{1}{2}\Delta_{\boldsymbol{k}}^{\top}\nabla^{2}_{\mathcal{E}^{2}}
-    \left(\boldsymbol{k}_{m}\right)\Delta_{\boldsymbol{k}}
-\end{align*}
-Assume that $\boldsymbol{k}_{0}$ is a known feasible initial point. Set
-$\Delta_{z}=\mathvec\left(\Delta_{\boldsymbol{k}},\Delta_{\varepsilon^{2}},\Delta_{P},
-  \Delta_{Q},\Delta_{X},\Delta_{Y},\Delta_{Z}\right)$ and, after the $m$'th
-iteration,  $z_{m}=\mathvec\left(\boldsymbol{k}_{m},\varepsilon_{m}^{2},P_{m},Q_{m},
-  X_{m},Y_{m},Z_{m}\right)$.
-
-\subsubsection{Successive convex optimisation with the algorithm of \emph{Dinh et al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}}
-Apply Equation~\ref{eqn:Dinh-bilinear-convex-concave-c} to
-Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI-Finsler}:
-\begin{align*}
-  \begin{split}
-   & \left[\begin{array}{ccc}
-      L\left(P,Q\right) & 0 & 0\\
-      0 & -\varepsilon^{2}I & 0 \\
-      0 & 0 & I \end{array}\right] + \hdots \\
-   & \frac{1}{2}\left\{
-      \left(\left[\begin{array}{cccc}
-        -I & A & B & 0 \\
-         0 & C & D & -I \end{array}\right]+
-      \left[\begin{array}{cccc}
-        X & 0 \\
-        Y & 0 \\
-        Z & 0 \\
-        0 & I\end{array}\right]^{\mathconj}
-      \right)^{\mathconj}
-      \left(\left[\begin{array}{cccc}
-        -I & A & B & 0 \\
-         0 & C & D & -I \end{array}\right]+
-      \left[\begin{array}{cccc}
-        X & 0 \\
-        Y & 0 \\
-        Z & 0 \\
-        0 & I\end{array}\right]^{\mathconj}
-      \right)\right\} - \hdots \\
-    & \frac{1}{2}\left\{
-      \left(\left[\begin{array}{cccc}
-        -I & A & B & 0 \\
-         0 & C & D & -I \end{array}\right]-
-      \left[\begin{array}{cccc}
-        X & 0 \\
-        Y & 0 \\
-        Z & 0 \\
-        0 & I\end{array}\right]^{\mathconj}
-      \right)^{\mathconj}
-      \left(\left[\begin{array}{cccc}
-        -I & A & B & 0 \\
-         0 & C & D & -I \end{array}\right]-
-      \left[\begin{array}{cccc}
-        X & 0 \\
-        Y & 0 \\
-        Z & 0 \\
-        0 & I\end{array}\right]^{\mathconj}
-      \right)\right\} \preceq 0
-  \end{split}
-\end{align*}
-Applying the Schur complement to the first and second terms:
-\begin{align*}
-  \left[\begin{array}{cc}
-    \left[\begin{array}{ccc}
-      L\left(P,Q\right) & 0 & 0 \\
-      0 & -\varepsilon^{2}I & 0 \\
-      0 &                 0 & I \end{array}\right] & \ast \\
-    \frac{1}{\sqrt{2}}\left[\begin{array}{cccc}
-      -I+X^{\mathconj}  & A+Y^{\mathconj} & B+Z^{\mathconj} & 0 \\
-      0 &  C  &  D  & 0 \end{array}\right] & -I \end{array}\right]
-  -\frac{1}{2}\left[\begin{array}{cc}
-    R^{\mathconj}R & 0 \\
-    0 & 0  \end{array}\right] \preceq 0
-\end{align*}
-where:
-\begin{align*}
-  R &=\left[\begin{array}{cccc}
-      -I-X^{\mathconj} & A-Y^{\mathconj} & B-Z^{\mathconj} & 0 \\
-                   0 &             C &             D & -2I\end{array}\right]
-\end{align*}
-After the $m$'the iteration, at $z=z_{m}+\Delta_{z}$,
-$A\left(\boldsymbol{k}\right)\approx
-A\left(\boldsymbol{k}_{m}\right)+\sum_{l=1}^{N}\Delta_{k_{l}}A_{l}$,
-$X\left(z\right)\approx X\left(z_{m}\right)+\Delta_{X}$, etc.
-The linear approximation to the bilinear term,
-$R\left(z\right)^{\mathconj}R\left(z\right)$, is:
-\begin{align*}
-  R\left(z\right)^{\mathconj}R\left(z\right)
-  & \approx R\left(z_{m}\right)^{\mathconj}R\left(z_{m}\right)
-    +R\left(z_{m}\right)^{\mathconj}\Delta_{R}
-    +\Delta_{R}^{\mathconj}R\left(z_{m}\right)
-\end{align*}
-At each iteration, the SDP decision variables are $\Delta_{z}$.
-
-The Octave script
-\emph{schurOneMPAlatticeDoublyPipelinedDelay\_kyp\_Dinh\_lowpass\_test.m}
-implements the successive convex approximation algorithm of
-\emph{Dinh et al.} with YALMIP in order to design a filter consisting of
-the parallel combination of a delay and a Schur one-multiplier all-pass lattice
-filter. The initial filter is designed with the \emph{WISE} method shown in
-Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. The objective
-function is a second order approximation to the summed squared error of the
-amplitude response. The script finds initial values for the SDP decision
-variables $P$, $Q$ etc. with \emph{SeDuMi} and then uses the \emph{SDPT3}
-solver for successive convex approximation. The filter design converges very
-slowly.
-
-The filter specification is:
-\begin{small}
-\verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_spec.m}
-\end{small}
-The optimised reflection coefficients are:
-\begin{small}
-\verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_k_coef.m}
-\end{small}
-Figure~\ref{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-response}
-shows the filter amplitude and delay responses.
-\begin{figure}[!ht]
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_response}}
-\caption{Amplitude and delay responses of a lowpass filter comprised of a
-  Schur one-multiplier lattice all-pass filter in parallel with a delay
-  designed with the generalised KYP lemma amd the algorithm of \emph{Dinh et
-    al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}.}
-\label{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-response}
-\end{figure}
-Figure~\ref{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-convergence}
-shows the convergence of the filter design.
-\begin{figure}[!ht]
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_convergence}}
-\caption{Convergence of the filter design of a lowpass filter comprised of a
-  Schur one-multiplier lattice all-pass filter in parallel with a delay
-  designed with the generalised KYP lemma and the algorithm of \emph{Dinh et
-    al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}.}
-\label{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-convergence}
-\end{figure}
-
-Unfortunately, for $N=5$, the script filter design diverges.
-
-\subsubsection{Successive convex optimisation with the algorithm of
-  \emph{Lee} and \emph{Wu}~\cite[Algorithm 1]{Lee_SequentialConvexApproxBMI}}
-Alternatively, apply the algorithm of \emph{Lee} and \emph{Wu} to
-Equation~\ref{eqn:Lee-Hu-partially-linearised-bilinear-mapping}.
-After the $m$'the iteration, at  $z=z_{m}+\Delta_{z}$, the linear part is:
-\begin{align*}
-  \begin{split}
-   \nabla  F\left(z_{m}\right)\Delta_{z}
-  \approx & \left[\begin{array}{ccc}
-      L\left(\Delta_{P},\Delta_{Q}\right) & 0 & 0\\
-      0 & -\Delta_{\varepsilon^{2}} & 0 \\
-      0 & 0 & 0 \end{array}\right] + \hdots \\
-    & \mathhe{ \left( \left[ \begin{array}{cc}
-      X_{m} & 0 \\
-      Y_{m} & 0 \\
-      Z_{m} & 0 \\
-      0 & 1 \end{array} \right]
-      \left[\begin{array}{cccc}
-        0 & \Delta_{A} & 0 & 0 \\
-        0 & 0 & 0 & 0 \end{array}\right]\right) } + 
-      \mathhe{ \left( \left[ \begin{array}{cc}
-        \Delta_{X} & 0 \\
-        \Delta_{Y} & 0 \\
-        \Delta_{Z} & 0 \\
-        0 & 0\end{array} \right]
-      \left[\begin{array}{cccc}
-        -I & A\left(\boldsymbol{k}_{m}\right) & B & 0 \\
-        0 & C & D & -1 \end{array}\right]\right) }
-  \end{split}
-\end{align*}
-
-The overall bilinear matrix inequality is:
-\begin{align}
-  \label{eqn:One-multiplier-Schur-lattice-bilinear-matrix-inequality}
-  F\left(z_{m}+\Delta_{z}\right)
-  \approx & F\left(z_{m}\right) + \nabla  F\left(z_{m}\right)\Delta_{z} +
-    \mathhe{ \left( \left[ \begin{array}{cc}
-      \Delta_{X} & 0 \\
-      \Delta_{Y} & 0 \\
-      \Delta_{Z} & 0 \\
-      0 & 0 \end{array} \right]
-    \left[ \begin{array}{cccc}
-      0 & \Delta_{A} & 0 & 0 \\
-    0 & 0 & 0 & 0 \end{array} \right] \right) }
-    \preceq 0
-\end{align}
-With the convex upper-approximation of \emph{Lee} and
-\emph{Hu}~\cite[Lemma 2]{Lee_SequentialConvexApproxBMI}, shown in
-Equation~\ref{eqn:Lee-Hu-lemma-2} the bilinear part of
-Equation~\ref{eqn:One-multiplier-Schur-lattice-bilinear-matrix-inequality} is:
-\begin{align*}
-  \begin{split}
-    \mathhe{ \left( \left[ \begin{array}{cc}
-      \Delta_{X}& 0 \\
-      \Delta_{Y}& 0 \\
-      \Delta_{Z}& 0 \\
-      0 & 0 \end{array} \right]
-    \left[ \begin{array}{cccc}
-      0 & \Delta_{A} & 0 & 0 \\
-      0 & 0 & 0 & 0\end{array} \right] \right) } \preceq
-    & \left[ \begin{array}{cc}
-      \Delta_{X} & 0 \\
-      \Delta_{Y} & 0 \\
-      \Delta_{Z} & 0 \\
-      0 & 0 \end{array} \right] S \left[ \begin{array}{cc}
-        \Delta_{X} & 0 \\
-        \Delta_{Y} & 0 \\
-        \Delta_{Z} & 0 \\
-        0 & 0 \end{array} \right]^{\top}+ \hdots \\
-    & \left[ \begin{array}{cccc}
-      0 & \Delta_{A} & 0 & 0 \\
-      0 & 0 & 0 & 0\end{array}\right]^{\top}S^{-1}
-      \left[ \begin{array}{cccc}
-        0 & \Delta_{A} & 0 & 0 \\
-        0 & 0 & 0 & 0 \end{array}\right]\preceq 0
-  \end{split}
-\end{align*}
-where $S\in\mathbb{S}_{++}^{n+1}$ is a positive definite, symmetric matrix.
-After linearising $S^{-1}$ and applying the Schur complement, as shown in
-Equation~\ref{eqn:Lee-Hu-linearised-bilinear-mapping}, at the $m$'th iteration
-the convex upper-approximation at $z=z_{m}+\Delta_{z}$ satisfies:
-\begin{align}
-  \label{eqn:Lee-Hu-linearised-pipelined-all-pass-Schur-lattice}
-  \left[\begin{array}{ccc}
-  F\left(z_{m}\right)+ \nabla F\left(z_{m}\right)\Delta_{z} & \ast & \ast \\
-    S_{m}\left[ \begin{array}{cc}
-      \Delta_{X} & 0 \\
-      \Delta_{Y} & 0 \\
-      \Delta_{Z} & 0 \\
-      0 & 0 \end{array} \right]^{\top} & -2S_{m}+S & \ast \\
-   \left[ \begin{array}{cccc}
-     0 & \Delta_{A} & 0 & 0 \\
-     0 & 0 & 0 & 0 \end{array} \right] & 0 & -S \end{array}\right] & \preceq 0
-\end{align}
-The SDP decision variables are $\Delta_{z}$ and $S$.
-
-The Octave script
-\emph{schurOneMPAlatticeDoublyPipelinedDelay\_kyp\_LeeHu\_lowpass\_test.m}
-implements the successive convex approximation algorithm of
-\emph{Lee} and \emph{Hu} with YALMIP in order to design a filter consisting of
-the parallel combination of a delay and a Schur one-multiplier all-pass lattice
-filter. The initial filter is designed with the \emph{WISE} method shown in
-Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. The objective
-function is a second order approximation to the summed squared error of the
-amplitude response. The script finds initial values for the SDP decision
-variables $P$, $Q$ etc. with \emph{SeDuMi} and then uses the \emph{SDPT3}
-solver for successive convex approximation. The filter design converges very
-slowly.
-
-The filter specification is:
-\begin{small}
-\verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_spec.m}
-\end{small}
-The optimised reflection coefficients are:
-\begin{small}
-\verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_k_coef.m}
-\end{small}
-Figure~\ref{fig:schurOneMPA-DoublyPipelinedDelay-kyp-LeeHu-lowpass-response}
-shows the filter amplitude and delay responses.
-\begin{figure}[!ht]
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_response}}
-\caption{Amplitude and delay responses of a lowpass filter comprised of a
-  Schur one-multiplier lattice all-pass filter in parallel with a delay
-  designed with the generalised KYP lemma and the bilinear algorithm of
-  \emph{Lee} and \emph{Hu}~\cite[Algorithm 1]{Lee_SequentialConvexApproxBMI}.}
-\label{fig:schurOneMPA-DoublyPipelinedDelay-kyp-LeeHu-lowpass-response}
-\end{figure}
-Figure~\ref{fig:schurOneMPA-DoublyPipelinedDelay-kyp-LeeHu-lowpass-convergence}
-shows the convergence of the filter design.
-\begin{figure}[!ht]
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_convergence}}
-\caption{Convergence of the filter design of a lowpass filter comprised of a
-  Schur one-multiplier lattice all-pass filter in parallel with a delay
-  designed with the generalised KYP lemma and the algorithm of
-  \emph{Lee} and \emph{Hu}~\cite[Algorithm 1]{Lee_SequentialConvexApproxBMI}.}
-\label{fig:schurOneMPA-DoublyPipelinedDelay-kyp-LeeHu-lowpass-convergence}
-\end{figure}
-
-Unfortunately, for $N=5$, the script converges for a few
-steps and then wanders randomly. It may be that these SDP solvers have
-insufficient numerical precision. To test this I installed the \emph{SDPA-GMP}
-solver~\cite{Maho_SDPAGMP,Maho_SDPA_evaluation,
-  Fujisawa_SemidefiniteProgrammingMATLAB}
-with the \emph{mpYALMIP}~\cite{mpYALMIP_website} interface to YALMIP.
-The \emph{mpYALMIP} function \emph{gensdpagmpfile} writes the YALMIP problem to
-an intermediate file with a conversion from sparse to full matrixes. That
-function required more memory than was available on my PC. I modified
-\emph{gensdpagmpfile} to avoid this problem but then found that the executable
-file, \emph{sdpa\_gmp}, ran very, very slowly.
-
 \cleardoublepage
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}
 \addcontentsline{toc}{part}{Colophon}
@@ -39403,17 +38621,6 @@ semidefinite-quadratic-linear programming. The shell script
 \emph{install-sdpa.sh} downloads, patches and installs \emph{SDPA} with the
 \emph{mex}-file interface to Octave. The Fedora MUMPS and MUMPS-devel packages
 are prerequisites.
-\subsubsection*{Problems with SDPA}
-When I run \emph{SDPA} as a solver in the Octave and YALMIP test script
-\emph{yalmip\_complex\_test.m} I get messages like:
-\begin{small}
-\begin{verbatim}
-Strange behavior : primal < dual :: line 158 in sdpa_solve.cpp
-\end{verbatim}
-\end{small}
-Nonetheless the results for these small examples appear correct. I suspect that
-there is a problem in the conversion from the YALMIP internal format to the SDPA
-format.
 
 \begin{comment}
 \pdfbookmark[1]{BMIsolver}{bmisolver}
