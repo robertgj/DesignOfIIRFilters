@@ -38698,7 +38698,7 @@ I currently use the Fedora 39 distribution of Linux~\cite{Fedora_website} with:
   the \emph{python3-sympy} Fedora package is installed.} and \emph{parallel}
   Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit with
-  \emph{qt5-qtbase-5.15.11-7} and a local build of \emph{GraphicsMagick}
+  \emph{qt5-qtbase-5.15.12-5} and a local build of \emph{GraphicsMagick}
 \item \emph{texlive-2023-69} and various packages are installed
 \item \emph{dia-0.97.3-24} is used for line drawings
 \end{itemize}
@@ -38877,15 +38877,15 @@ for the command-line version of \emph{octave-8.4.0}:
 \end{verbatim}
 \end{small}
 A patch to the RedHat Fedora 39 \emph{qt5-qtbase} SRPM fixes the command-line
-version:
+version of Octave (use the appropriate version number for \emph{qt5-qtbase}):
 \begin{samepage}
 \begin{itemize}
 \item Download:
 \begin{small}
 \begin{verbatim}
 wget https://dl.fedoraproject.org/pub/fedora/linux/updates/39/Everything/\
-source/tree/Packages/q/qt5-qtbase-5.15.12-1.fc39.src.rpm
-rpm -ivh qt5-qtbase-5.15.12-1.fc39.src.rpm
+source/tree/Packages/q/qt5-qtbase-5.15.12-5.fc39.src.rpm
+rpm -ivh qt5-qtbase-5.15.12-5.fc39.src.rpm
 \end{verbatim}
 \end{small}
 \item Modify
@@ -38899,7 +38899,7 @@ rpm -ivh qt5-qtbase-5.15.12-1.fc39.src.rpm
 \item Rebuild:  
 \begin{small}
 \begin{verbatim}
-sudo dnf builddep qt5-qtbase-5.15.12-1.fc39.src.rpm
+sudo dnf builddep qt5-qtbase-5.15.12-5.fc39.src.rpm
 rpmbuild -ba ~/rpmbuild/SPECS/qt5-qtbase.spec
 \end{verbatim}
 \end{small}
