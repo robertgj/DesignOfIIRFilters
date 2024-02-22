@@ -9,6 +9,23 @@ diary x2pa_test.diary.tmp
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+[a1,V1,Q1,a2,V2,Q2]=x2pa([1 -1.1 -0.9],1,1,0,0,1,0.001);
+try
+  [V1,Q1,a2,V2,Q2]=x2pa([1 -1.1 -0.9],1,1,0,0,1,0.001);
+catch
+  printf("Caught %s\n",lasterror.message);
+end_try_catch
+try
+  [a1,V1,Q1,a2,V2,Q2]=x2pa([1 -1.1 -0.9],1,1,0,0,1,0.001,0);
+catch
+  printf("Caught %s\n",lasterror.message);
+end_try_catch
+try
+  [a1,V1,Q1,a2,V2,Q2]=x2pa([1 -1.1 -0.9],1,1,0,0);
+catch
+  printf("Caught %s\n",lasterror.message);
+end_try_catch
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [a1,V1,Q1,a2,V2,Q2]=x2pa([1 -1.1 -0.9],1,1,0,0,1);
 R1=1;
 R2=1;

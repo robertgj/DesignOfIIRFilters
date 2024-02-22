@@ -23,7 +23,7 @@ function [a1,V1,Q1,a2,V2,Q2]=x2pa(x,U,V,M,Q,R,tol)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~=6) || ((nargout~=6) && (nargout~=7))
+  if ((nargin ~=6) && (nargin ~=7)) || (nargout~=6)
     print_usage("[a1,V1,Q1,a2,V2,Q2]=x2pa(x,U,V,M,Q,R,tol)");
   endif
   if nargin==6
