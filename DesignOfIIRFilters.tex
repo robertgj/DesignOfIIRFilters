@@ -9460,6 +9460,72 @@ and
   optimisation.}
 \label{fig:iir-sqp-slb-lowpass-differentiator-pcls-pz}
 \end{figure}
+\subsubsection{\label{sec:iir-sqp-slb-lowpass-differentiator-alt}Alternate low-pass differentiator filter}
+The Octave script
+\emph{iir\_sqp\_slb\_lowpass\_differentiator\_alternate\_test.m} designs
+an IIR low-pass differentiator filter with the specification:
+\begin{small}
+\verbatiminput{iir_sqp_slb_lowpass_differentiator_alternate_test_spec.m}
+\end{small}
+The filter is designed as $z=1$ in series with a correction filter.
+An initial correction filter was designed by the
+method of \emph{Tarczynski et al} with the Octave script
+\emph{tarczynski\_lowpass\_differentiator\_alternate\_test.m}. The inital filter
+numerator and denominator polynomials are:
+\begin{small}
+\verbatiminput{tarczynski_lowpass_differentiator_alternate_test_N0_coef.m}
+\verbatiminput{tarczynski_lowpass_differentiator_alternate_test_D0_coef.m}
+\end{small}
+
+Figure~\ref{fig:iir-sqp-slb-lowpass-differentiator-alt-initial-response}
+shows the amplitude, group delay and phase response errors of the initial
+correction filter.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_alternate_test_initial_x0_response}}
+\caption{Response errors of the initial low-pass differentiator correction
+  filter. The phase response shown is adjusted for the nominal delay.}
+\label{fig:iir-sqp-slb-lowpass-differentiator-alt-initial-response}
+\end{figure}
+
+The PCLS optimised filter coefficients are, in gain-zero-pole form:
+\begin{small}
+\verbatiminput{iir_sqp_slb_lowpass_differentiator_alternate_test_d1z_coef.m}
+\end{small}
+and, in transfer function form, the numerator and denominator polynomials of
+the correction filter are, respectively:
+\begin{small}
+\verbatiminput{iir_sqp_slb_lowpass_differentiator_alternate_test_N1_coef.m}
+\end{small}
+and
+\begin{small}
+\verbatiminput{iir_sqp_slb_lowpass_differentiator_alternate_test_D1_coef.m}
+\end{small}
+
+Figure~\ref{fig:iir-sqp-slb-lowpass-differentiator-alt-pcls-response-error} shows
+the response errors of the low-pass differentiator after PCLS optimisation of
+the correction filter.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_alternate_test_pcls_d1z_response}}
+\caption{Response errors of the alternate low-pass differentiator filter after
+  PCLS optimisation. The phase response shown is adjusted for the nominal delay.}
+\label{fig:iir-sqp-slb-lowpass-differentiator-alt-pcls-response-error}
+\end{figure}
+
+Figure~\ref{fig:iir-sqp-slb-lowpass-differentiator-alt-pcls-pz} shows the
+pole-zero plot of the low-pass differentiator after PCLS optimisation.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_alternate_test_pcls_d1z_pz}}
+\caption{Pole-zero plot of the alternate low-pass differentiator filter after
+  PCLS optimisation.}
+\label{fig:iir-sqp-slb-lowpass-differentiator-alt-pcls-pz}
+\end{figure}
+I found it difficult to obtain suitable response weights and peak-to-peak ripple
+constraints and, also, to find a correction filter design without the
+apparently cancelled pole-zero pair.
 \clearpage
 \subsection{Pink noise filter}
 Pink noise has equal noise power per octave. A ideal pink noise filter has
