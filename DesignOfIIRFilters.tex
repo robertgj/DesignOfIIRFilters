@@ -9467,7 +9467,7 @@ an IIR low-pass differentiator filter with the specification:
 \begin{small}
 \verbatiminput{iir_sqp_slb_lowpass_differentiator_alternate_test_spec.m}
 \end{small}
-The filter is designed as $z=1$ in series with a correction filter.
+The filter is designed as $1-z^{-1}$ in series with a correction filter.
 An initial correction filter was designed by the
 method of \emph{Tarczynski et al} with the Octave script
 \emph{tarczynski\_lowpass\_differentiator\_alternate\_test.m}. The inital filter
@@ -9523,9 +9523,6 @@ pole-zero plot of the low-pass differentiator after PCLS optimisation.
   PCLS optimisation.}
 \label{fig:iir-sqp-slb-lowpass-differentiator-alt-pcls-pz}
 \end{figure}
-I found it difficult to obtain suitable response weights and peak-to-peak ripple
-constraints and, also, to find a correction filter design without the
-apparently cancelled pole-zero pair.
 \clearpage
 \subsection{Pink noise filter}
 Pink noise has equal noise power per octave. A ideal pink noise filter has

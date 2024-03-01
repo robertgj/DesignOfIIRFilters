@@ -17,12 +17,10 @@ maxiter=20000
 verbose=false
 
 % Polynomials from tarczynski_lowpass_differentiator_alternate_test.m
-% (without z-1)
+% (without 1-z^{-1})
 tarczynski_lowpass_differentiator_alternate_test_N0_coef;
 tarczynski_lowpass_differentiator_alternate_test_D0_coef;
-[x0,U,V,M,Q]=tf2x(N0,D0,tol);
-x0(1)=abs(x0(1));
-R=1;
+[x0,U,V,M,Q]=tf2x(N0,D0,tol);R=1;
 print_pole_zero(x0,U,V,M,Q,R,"x0");
 
 % Correction filter order
@@ -32,10 +30,10 @@ nN=length(N0)-1;
 dmax=0.05;
 [xl,xu]=xConstraints(U,V,M,Q);
 
-  % Low-pass differentiator filter specification
+% Low-pass differentiator filter specification
 fap=0.2;fas=0.3;
-Arp=0.04;Art=0.1;Ars=0.04;Wap=1;Wat_mmse=0.01;Wat_pcls=0.0001;Was=2;
-td=nN-2;tdr=0.2;Wtp=0.2;pr=0.001;Wpp=0.2;
+Arp=0.01;Art=0.05;Ars=0.01;Wap=1;Wat_mmse=0.01;Wat_pcls=0.0001;Was=2;
+td=nN-1;tdr=0.02;Wtp=0.5;pr=0.0002;Wpp=0.5;
 
 % Frequency points
 n=1000;
@@ -46,9 +44,9 @@ nas=ceil(fas*n/0.5);
 % Pass and transition band amplitudes
 wa=w(1:(nas-1));
 Azm1=2*sin(wa/2);
-Ad=[wa(1:nap); zeros(nas-nap-1,1)];
-Adu=(wa+[(Arp/2)*ones(nap,1); (Art/2)*ones((nas-nap-1),1)]);
-Adl=[(wa(1:nap)-(Arp/2));zeros(nas-nap-1,1)];
+Ad=[(wa(1:nap)/2); zeros(nas-nap-1,1)];
+Adu=((wa/2)+[(Arp/2)*ones(nap,1); (Art/2)*ones((nas-nap-1),1)]);
+Adl=[((wa(1:nap)/2)-(Arp/2));zeros(nas-nap-1,1)];
 Wa_mmse=[Wap*ones(nap,1); Wat_mmse*ones(nas-nap-1,1)];
 Wa_pcls=[Wap*ones(nap,1); Wat_pcls*ones(nas-nap-1,1)];
 
@@ -68,11 +66,11 @@ Tdu=Td+(tdr/2);
 Tdl=Td-(tdr/2);
 Wt=Wtp*ones(size(wt));
 
-% Phase response with z-1 removed
+% Phase response with 1-z^{-1} removed
 wp=w(1:nap);
-Pzm1=(pi/2)+(wp/2);
-Pconst=pi;
-Pd=(pi/2)-(wp*td);
+Pzm1=(pi/2)-(wp/2);
+Pconst=2*pi;
+Pd=Pconst+(pi/2)-(wp*td);
 Pdu=Pd+(pr*pi/2);
 Pdl=Pd-(pr*pi/2);
 Wp=Wpp*ones(size(wp));
@@ -101,15 +99,15 @@ hac=get(ha,"color");
 for c=1:3
   set(hs(c),"color",hac{c});
 endfor
-axis(ax(1),[0 0.5 0 1.4]);
-axis(ax(2),[0 0.5 0 0.035]);
-strI=sprintf("Differentiator initial response (without z-1) : \
+axis(ax(1),[0 0.5 0 0.8]);
+axis(ax(2),[0 0.5 0 0.02]);
+strI=sprintf("Differentiator initial response (without $1-z^{-1}$) : \
 fap=%g,fas=%g,td=%g",fap,fas,td);
 title(strI);
 ylabel("Amplitude");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,([(Px0-Pzm1),Pd,Pdl,Pdu]-Pd)/pi);
+plot(wp*0.5/pi,([Px0+Pzm1,Pd,Pdl,Pdu]-Pd)/pi);
 axis([0 0.5 -2*pr 2*pr]);
 ylabel("Phase error(rad./$\\pi$)");
 grid("on");
@@ -135,7 +133,7 @@ feasible=false;
                wa,Ad./Azm1,Adu./Azm1,Adl./Azm1,Wa_mmse, ...
                ws,Sd./Szm1,Sdu./Szm1,Sdl./Szm1,Ws, ...
                wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
-               wp,Pd+Pzm1,Pdu+Pzm1,Pdl+Pzm1,Wp, ...
+               wp,Pd-Pzm1,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
                maxiter,tol,verbose);
 if feasible == 0 
   error("x1(mmse) infeasible");
@@ -154,15 +152,15 @@ hac=get(ha,"color");
 for c=1:3
   set(hs(c),"color",hac{c});
 endfor
-axis(ax(1),[0 0.5 0 1.4]);
-axis(ax(2),[0 0.5 0 0.035]);
-strM=sprintf("Differentiator MMSE (without z-1) : fap=%g,fas=%g,td=%g", ...
+axis(ax(1),[0 0.5 0 0.8]);
+axis(ax(2),[0 0.5 0 0.02]);
+strM=sprintf("Differentiator MMSE (without $1-z^{-1}$) : fap=%g,fas=%g,td=%g",...
              fap,fas,td);
 title(strM);
 ylabel("Amplitude");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,([(Px1-Pzm1) Pdl Pdu]-Pd)/pi);
+plot(wp*0.5/pi,([(Px1+Pzm1) Pdl Pdu]-Pd)/pi);
 axis([0 0.5 (pr*[-1 1])]);
 ylabel("Phase error(rad./$\\pi$)");
 grid("on");
@@ -188,7 +186,7 @@ feasible=false;
           wa,Ad./Azm1,Adu./Azm1,Adl./Azm1,Wa_pcls, ...
           ws,Sd./Szm1,Sdu./Szm1,Sdl./Szm1,Ws,...
           wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
-          wp,Pd+Pzm1,Pdu+Pzm1,Pdl+Pzm1,Wp, ...
+          wp,Pd-Pzm1,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
           maxiter,tol,ctol,verbose)
 if feasible == 0
   error("d1 (pcls) infeasible");
@@ -222,7 +220,7 @@ title(strP);
 ylabel("Amplitude error");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,([Pd1z-Pconst,Pdl,Pdu]-Pd)/pi);
+plot(wp*0.5/pi,([Pd1z+Pconst Pdl Pdu]-Pd)/pi);
 axis([0 0.5 (pr*[-1,1])]);
 ylabel("Phase error(rad./$\\pi$)");
 grid("on");

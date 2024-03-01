@@ -18,24 +18,24 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 % Filter specification
 fap=0.2;fas=0.3;Wap=1;Wat=0.01;Was=2;
-R=1;nN=10;nD=floor(nN/R);td=nN-2;
+R=1;nN=11;nD=floor(nN/R);td=nN-1;
 tol=1e-8;maxiter=20000;
 
 % Frequency points
 n=1000;
-nap=ceil(fap*n/0.5)+1;
-nas=ceil(fas*n/0.5)+1;
+nap=ceil(fap*n/0.5);
+nas=floor(fas*n/0.5);
 
 % Frequency vectors
-wd=pi*(0:(n-1))'/n;
+wd=pi*(1:(n-1))'/n;
 Hzm1=freqz([1,-1],1,wd)(:);
 Tzm1=delayz([1,-1],1,wd)(:);
-Hd=[-j*([1;wd(2:nap)]./[1;Hzm1(2:nap)]).*exp(-j*td*wd(1:nap)); ...
-    zeros(n-nap,1)];
+Hd=[(-j*(wd(1:nap)/2)./Hzm1(1:nap)).*exp(-j*td*wd(1:nap)); ...
+    zeros(n-nap-1,1)];
 Wd=[Wap*ones(nap,1); ...
     Wat*ones(nas-nap-1,1); ...
-    Was*ones(n-nas+1,1)];
-nchk=[1,nap-1,nap,nap+1,nas-1,nas,nas+1,n];
+    Was*ones(n-nas,1)];
+nchk=[1,nap-1,nap,nap+1,nas-1,nas,nas+1,n-1];
 printf("nchk=[");printf("%d ",nchk);printf(" ]\n");
 printf("fd(nchk)=[");printf("%g ",wd(nchk)*0.5/pi);printf(" ]\n");
 printf("Hd(nchk)=[");printf("%g ",abs(Hd(nchk)));printf(" ]\n");
@@ -71,13 +71,13 @@ D0=[1; ND0((nN+2):end)];
 D0R=[D0(1);kron(D0(2:end),[zeros(R-1,1);1])];
 
 % Calculate response
-[H,wd]=freqz(conv([1;-1],N0),D0R,n);
-[T,wd]=delayz(conv([1;-1],N0),D0R,n);
+H=freqz(conv([1;-1],N0),D0R,wd);
+T=delayz(conv([1;-1],N0),D0R,wd);
 
 % Plot response
 subplot(211);
-plot(wd(2:end)*0.5/pi,abs(H(2:end)));
-axis([0 0.5 0 2]);
+plot(wd*0.5/pi,abs(H));
+axis([0 0.5 0 0.8]);
 ylabel("Amplitude");
 grid("on");
 s=sprintf("Tarczynski et al. lowpass differentiator : nN=%d,nD=%d,R=%d,td=%g",
@@ -85,7 +85,7 @@ s=sprintf("Tarczynski et al. lowpass differentiator : nN=%d,nD=%d,R=%d,td=%g",
 title(s);
 subplot(212);
 plot(wd*0.5/pi,T);
-axis([0 0.5 0 2*td ]);
+axis([0 0.5 0 2*td]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
@@ -102,7 +102,7 @@ s=sprintf("Tarczynski et al. lowpass_differentiator : nN=%d,nD=%d,R=%d,td=%g",
           nN,nD,R,td);
 title(s);
 subplot(212);
-plot(wd(2:end)*0.5/pi,((unwrap(arg(H(2:end)))+(wd(2:end)*td)+(pi/2))/pi));
+plot(wd*0.5/pi,((unwrap(arg(H))+(wd*td)+(pi/2))/pi));
 axis([0 0.5 -0.02 0.02 ]);
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
