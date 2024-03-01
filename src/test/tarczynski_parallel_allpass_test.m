@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Design a lowpass filter from two parallel allpass filters using
 % the method of Tarczynski et al. 
@@ -20,6 +20,7 @@ tic;
 tol=1e-6
 maxiter=5000
 polyphase=false
+difference=false
 n=1000;
 R=1
 fap=0.15
@@ -55,10 +56,12 @@ for flat_delay=[false,true],
   Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
   Td=td*ones(n,1);
   Wt=[Wtp*ones(ntp,1);zeros(n-ntp,1)];
+  Pd=[];
+  Wp=[];
 
   % Unconstrained minimisation
   abi=[1;zeros(ma-1,1);1;zeros(mb-1,1)];
-  WISEJ_PA([],ma,mb,R,polyphase,Ad,Wa,Td,Wt);
+  WISEJ_PA([],ma,mb,R,polyphase,difference,Ad,Wa,Td,Wt,Pd,Wp);
   opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
   [ab0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PA,abi,opt);
   if (INFO == 1)

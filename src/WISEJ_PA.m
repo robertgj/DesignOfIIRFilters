@@ -1,11 +1,28 @@
-function E=WISEJ_PA(ab,_ma,_mb,_R,_poly,_Ad,_Wa,_Td,_Wt)
-% E=WISEJ_PA(ab[,ma,mb,R,poly,w,Ad,Wa,Td,Wt])
+function E=WISEJ_PA(ab,_ma,_mb,_R,_poly,_diff,_Ad,_Wa,_Td,_Wt,_Pd,_Wp)
+% E=WISEJ_PA(ab[,ma,mb,R,polyphase,difference,w,Ad,Wa,Td,Wt,Pd,Wp])
 % Objective function for minimising the response error of parallel
 % allpass filters using the method of Tarczynski et al. See "A WISE
 % Method for Designing IIR Filters", A. Tarczynski et al.,
 % IEEE Transactions on Signal Processing, Vol. 49, No. 7, pp. 1421-1432
-
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% The argument ab is the concatenation of the two allpass filter denominator
+% polynomials to be optimised.
+%
+% First initialise the common parameters of the filter structure with:
+%  WISEJ([],ma,mb,Ad,Wa,Td,Wt)
+% The common filter parameters are:
+%  ma - order of first allpass filter
+%  mb - order of second allpass filter
+%  R  - terms in the denominator polynomial are in z^R
+%  polyphase - if true, make a polyphase output filter
+%  difference - if true, take the difference of the allpass filter outputs
+%  Ad - desired filter amplitude response
+%  Wa - filter amplitude response weighting factor
+%  Td - desired filter group-delay response
+%  Wt - filter group-delay response weighting factor
+%  Pd - desired filter phase response
+%  Wp - filter phase response weighting factor
+%
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -25,14 +42,15 @@ function E=WISEJ_PA(ab,_ma,_mb,_R,_poly,_Ad,_Wa,_Td,_Wt)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  persistent ma mb R polyphase Ad Wa Td Wt
+  persistent ma mb R polyphase difference Ad Wa Td Wt Pd Wp
   persistent init_done=false
 
-  if (nargin ~= 1) && (nargin ~= 9)
-    print_usage("E=WISEJ_PA(ab[,ma,mb,R,poly,Ad,Wa,Td,Wt])");
+  if (nargin ~= 1) && (nargin ~= 12)
+    print_usage("E=WISEJ_PA(ab[,ma,mb,R,poly,diff,Ad,Wa,Td,Wt,Pd,Wp])");
   endif
-  if nargin==9
-    ma=_ma; mb=_mb; R=_R; polyphase=_poly; Ad=_Ad; Wa=_Wa; Td=_Td; Wt=_Wt;
+  if nargin==12
+    ma=_ma; mb=_mb; R=_R; polyphase=_poly; difference=_diff;
+    Ad=_Ad; Wa=_Wa; Td=_Td; Wt=_Wt; Pd=_Pd; Wp=_Wp;
     init_done=true;
   endif
   if isempty(ab)
@@ -63,34 +81,55 @@ function E=WISEJ_PA(ab,_ma,_mb,_R,_poly,_Ad,_Wa,_Td,_Wt)
   D=conv(Da,Db);
   
   % Find the amplitude response error
-  [Ha_a,wa]=freqz(flipud(Da),Da,length(Ad));
-  if any(find(isnan(Ha_a)))
-    Ha_a(find(isnan(Ha_a))) = 0;
+  [H_a,wa]=freqz(flipud(Da),Da,length(Ad));
+  if any(find(isnan(H_a)))
+    H_a(find(isnan(H_a))) = 0;
   endif
-  [Ha_b,wa]=freqz(flipud(Db),Db,length(Ad));
-  if any(find(isnan(Ha_b)))
-    Ha_b(find(isnan(Ha_b))) = 0;
+  [H_b,wa]=freqz(flipud(Db),Db,length(Ad));
+  if any(find(isnan(H_b)))
+    H_b(find(isnan(H_b))) = 0;
   endif
   if polyphase
-    Ha=0.5*(Ha_a+(exp(-j*wa).*Ha_b));
+    if difference
+      H=0.5*(H_a-(exp(-j*wa).*H_b));
+    else
+      H=0.5*(H_a+(exp(-j*wa).*H_b));
+    endif
   else
-    Ha=0.5*(Ha_a+Ha_b);
+    if difference
+      H=0.5*(H_a-H_b);
+    else
+      H=0.5*(H_a+H_b);
+    endif
   endif
-  EAd = Wa.*abs((abs(Ha)-abs(Ad)).^2);
+  EAd = Wa.*abs((abs(H)-abs(Ad)).^2);
 
   % Find the group delay response error
-  [Ta,wt]=delayz(flipud(Da),Da,length(Td));
-  [Tb,wt]=delayz(flipud(Db),Db,length(Td));
-  if polyphase
-    T=0.5*(Ta+Tb+1);
-  else
-    T=0.5*(Ta+Tb);
+  if ~isempty(Td)
+    [Ta,wt]=delayz(flipud(Da),Da,length(Td));
+    [Tb,wt]=delayz(flipud(Db),Db,length(Td));
+    if polyphase
+      T=0.5*(Ta+Tb+1);
+    else
+      T=0.5*(Ta+Tb);
+    endif
+    ETd = Wt.*((T-Td).^2);
   endif
-  ETd = Wt.*((T-Td).^2);
+
+  % Find the phase response error
+  if ~isempty(Pd)
+    wp = wa(1:length(Pd));
+    EPd = Wp.*(abs(unwrap(arg(H(1:length(Pd))))-Pd).^2);
+  endif
 
   % Trapezoidal integration of the weighted error
-  intEd = sum(diff(wa).*((EAd(1:(length(EAd)-1))+EAd(2:end))/2)) + ...
-          sum(diff(wt).*((ETd(1:(length(ETd)-1))+ETd(2:end))/2));
+  intEd = sum(diff(wa).*((EAd(1:(length(EAd)-1))+EAd(2:end))/2));
+  if ~isempty(Td)
+    intEd = intEd + sum(diff(wt).*((ETd(1:(length(ETd)-1))+ETd(2:end))/2));
+  endif
+  if ~isempty(Pd)
+    intEd = intEd + (sum(diff(wp).*(EPd(1:(length(EPd)-1))+EPd(2:end)))/2);
+  endif
   
   % Heuristics for the barrier function
   lambda = 0.001;
