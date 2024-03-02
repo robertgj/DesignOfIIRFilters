@@ -1,24 +1,29 @@
 % spectralfactor_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Test case for the spectral factor 
 
 test_common;
 
-delete("spectralfactor_test.diary");
-delete("spectralfactor_test.diary.tmp");
-diary spectralfactor_test.diary.tmp
+strf="spectralfactor_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 check_octave_file("spectralfactor");
 
-strf="spectralfactor_test";
-
+N=13;
 fc=0.05;
-[n,d]=ellip(13,0.0005,40,2*fc);
+dBap=0.0005;
+dBas=40;
+[n,d]=ellip(N,dBap,dBas,2*fc);
 q=spectralfactor(n,d);
 [g,w]=freqz(n,d,4096);
 [h,w]=freqz(q,d,w);
 plot(0.5*w/pi,20*log10(abs(g)),0.5*w/pi,20*log10(abs(h)))
+strt=sprintf("Spectral factors of an elliptic filter : N=%d, fc=%4.2g",N,fc);
+title(strt);
 legend("G","H","location","southeast");
 legend("boxoff");
 legend("left");
@@ -31,7 +36,9 @@ close
 plot(0.5*w/pi,20*log10(abs(g)),"--", ...
      0.5*w/pi,20*log10(abs(h)),"-.", ...
      0.5*w/pi,20*log10(abs(g+h)),"-");
-legend("G","H","G+H","location","southeast");
+title(strt);
+legend("G","H","$|G+H|$")
+legend("location","southeast");
 legend("boxoff");
 legend("left");
 axis([0.046 0.054 -3 3]);
@@ -45,4 +52,4 @@ print_polynomial(q,"q",strcat(strf,"_q_coef.m"));
 
 % Done
 diary off
-movefile spectralfactor_test.diary.tmp spectralfactor_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));
