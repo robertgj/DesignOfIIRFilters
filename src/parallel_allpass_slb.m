@@ -81,7 +81,7 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
 % Transition Bands", I. W. Selesnick, M. Lang and C. S. Burrus, IEEE
 % Transactions on Signal Processing, 46(2):497-501, February 1998.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -192,6 +192,7 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
     % 
     Asqk=parallel_allpassAsq(wa,abk,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
     Tk=parallel_allpassT(wt,abk,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+    Pk=parallel_allpassP(wp,abk,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
     [vR,vS,exchanged] = parallel_allpass_slb_exchange_constraints ...
                           (vS,vR,Asqk,Asqdu,Asqdl,Tk,Tdu,Tdl,Pk,Pdu,Pdl,ctol);
     if exchanged
