@@ -1,17 +1,18 @@
 % parallel_allpass_socp_slb_flat_delay_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("parallel_allpass_socp_slb_flat_delay_test.diary");
-delete("parallel_allpass_socp_slb_flat_delay_test.diary.tmp");
-diary parallel_allpass_socp_slb_flat_delay_test.diary.tmp
+strf="parallel_allpass_socp_slb_flat_delay_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 verbose=false
 maxiter=2000
-strf="parallel_allpass_socp_slb_flat_delay_test";
 
 % Initial coefficients found by tarczynski_parallel_allpass_test.m
 tarczynski_parallel_allpass_test_flat_delay_Da0_coef;
@@ -53,9 +54,9 @@ printf("Initial ab0=[");printf("%g ",ab0');printf("]'\n");
 nap=ceil(n*fap/0.5)+1;
 nas=floor(n*fas/0.5)+1;
 wa=(0:(n-1))'*pi/n;
-A2d=[ones(nap,1);zeros(n-nap,1)];
-A2du=[ones(nas-1,1);(10^(-dBas/10))*ones(n-nas+1,1)];
-A2dl=[(10^(-dBap/10))*ones(nap,1);zeros(n-nap,1)];
+Asqd=[ones(nap,1);zeros(n-nap,1)];
+Asqdu=[ones(nas-1,1);(10^(-dBas/10))*ones(n-nas+1,1)];
+Asqdl=[(10^(-dBap/10))*ones(nap,1);zeros(n-nap,1)];
 Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
 
 % Desired pass-band group delay response
@@ -109,7 +110,7 @@ close
 [ab1,slb_iter,opt_iter,func_iter,feasible]= ...
 parallel_allpass_slb(@parallel_allpass_socp_mmse,ab0,abu,abl, ...
                      1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
-                     wa,A2d,A2du,A2dl,Wa,wt,Td,Tdu,Tdl,Wt, ...
+                     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                      wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
 if !feasible
   error("ab1 infeasible");
@@ -173,18 +174,24 @@ zplane(roots(Nb1),roots(Db1));
 title("Allpass filter B");
 print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
+subplot(111);
+zplane(roots(Nab1),roots(Dab1));
+title("Lowpass filter with flat pass-band delay");
+print(strcat(strf,"_ab1pz"),"-dpdflatex");
+close
 
 % Plot phase response of parallel filters
 Ha=freqz(Na1,Da1,nplot);
 Hb=freqz(Nb1,Db1,nplot);
-plot(wplot*0.5/pi,unwrap(arg(Ha))+(wplot*td), ...
-     wplot*0.5/pi,unwrap(arg(Hb))+(wplot*td));
+plot(wplot*0.5/pi,(unwrap(arg(Ha))+(wplot*td))/pi, ...
+     wplot*0.5/pi,(unwrap(arg(Hb))+(wplot*td))/pi);
 strt=sprintf("Allpass phase response error from linear phase (-w*td): \
 ma=%d,mb=%d,td=%g",ma,mb,td);
 title(strt);
-ylabel("Linear phase error(rad.)");
+ylabel("Linear phase error(rad./$\\pi$)");
 xlabel("Frequency");
-legend("Filter A","Filter B","location","northwest");
+legend("Filter A","Filter B")
+legend("location","northwest");
 legend("boxoff");
 grid("on");
 print(strcat(strf,"_ab1phase"),"-dpdflatex");
@@ -196,14 +203,14 @@ fprintf(fid,"polyphase=%d %% Use polyphase combination\n",polyphase);
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"ma=%d %% Allpass model filter A denominator order\n",ma);
-fprintf(fid,"Va=%d %% Allpass model filter A no. of real poles\n",Va);
-fprintf(fid,"Qa=%d %% Allpass model filter A no. of complex poles\n",Qa);
-fprintf(fid,"Ra=%d %% Allpass model filter A decimation\n",Ra);
-fprintf(fid,"mb=%d %% Allpass model filter B denominator order\n",mb);
-fprintf(fid,"Vb=%d %% Allpass model filter B no. of real poles\n",Vb);
-fprintf(fid,"Qb=%d %% Allpass model filter B no. of complex poles\n",Qb);
-fprintf(fid,"Rb=%d %% Allpass model filter B decimation\n",Rb);
+fprintf(fid,"ma=%d %% Allpass filter A denominator order\n",ma);
+fprintf(fid,"Va=%d %% Allpass filter A no. of real poles\n",Va);
+fprintf(fid,"Qa=%d %% Allpass filter A no. of complex poles\n",Qa);
+fprintf(fid,"Ra=%d %% Allpass filter A decimation\n",Ra);
+fprintf(fid,"mb=%d %% Allpass filter B denominator order\n",mb);
+fprintf(fid,"Vb=%d %% Allpass filter B no. of real poles\n",Vb);
+fprintf(fid,"Qb=%d %% Allpass filter B no. of complex poles\n",Qb);
+fprintf(fid,"Rb=%d %% Allpass filter B decimation\n",Rb);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
 fprintf(fid,"dBap=%f %% Pass band amplitude response ripple\n",dBap);
 fprintf(fid,"Wap=%d %% Pass band amplitude response weight\n",Wap);
@@ -233,10 +240,10 @@ print_polynomial(Nab1,"Nab1",strcat(strf,"_Nab1_coef.m"));
 print_polynomial(Dab1,"Dab1");
 print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
+eval(sprintf("save %s.mat ...\n\
+     n fap Wap ftp Wtp fas Was td tdr ma mb Ra Rb ab0 ab1 Da1 Db1",strf));
+
 % Done 
-save parallel_allpass_socp_slb_flat_delay_test.mat ...
-     n fap Wap ftp Wtp fas Was td tdr ma mb Ra Rb ab0 ab1 Da1 Db1
 toc;
 diary off
-movefile parallel_allpass_socp_slb_flat_delay_test.diary.tmp ...
-         parallel_allpass_socp_slb_flat_delay_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

@@ -11448,12 +11448,60 @@ Figure~\ref{fig:Parallel-allpass-filter-flat-delay-initial-response}.
   found with the WISE barrier function.}
 \label{fig:Parallel-allpass-filter-flat-delay-initial-response}
 \end{figure}
-The final filter response is shown in
-Figure~\ref{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-response} with 
-passband detail shown in 
-Figure~\ref{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-pass-band-response}.The pole-zero plots of the branch allpass filters are shown in 
+Figure~\ref{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-response}
+shows the PCLS optimised filter response.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_flat_delay_test_ab1}}
+\caption{Parallel all-pass filters with flat pass-band delay, response after
+  PCLS SOCP optimisation.}
+\label{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-response}
+\end{figure}
+Figure~\ref{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-pass-band-response}.
+shows the PCLS optimised filter response in the pass-band.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_flat_delay_test_ab1pass}}
+\caption{Parallel all-pass filters with flat pass-band delay, pass-band response
+  after PCLS SOCP optimisation.}
+\label{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-pass-band-response}
+\end{figure}
+Figure~\ref{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-phase-response}
+shows the phase responses of the two all-pass fiters.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_flat_delay_test_ab1phase}}
+\caption{Parallel all-pass filters with flat pass-band delay, phase responses
+  after PCLS SOCP optimisation.}
+\label{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-phase-response}
+\end{figure}
 Figures~\ref{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-a1pz}
-and~\ref{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-b1pz}.
+and~\ref{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-b1pz} show the
+pole-zero plots of the branch allpass filters.
+Figure~\ref{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-ab1pz} shows
+the pole-zero plot of the overall filter.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_flat_delay_test_a1pz}}
+\caption{Parallel all-pass filters with flat pass-band delay, pole-zero plot of
+  the A allpass filter branch after PCLS SOCP optimisation.}
+\label{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-a1pz}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_flat_delay_test_b1pz}}
+\caption{Parallel all-pass filters with flat pass-band delay, pole-zero plot of
+  the B allpass filter branch after PCLS SOCP optimisation.}
+\label{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-b1pz}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_flat_delay_test_ab1pz}}
+\caption{Parallel all-pass filters with flat pass-band delay, pole-zero plot of
+  the overall filter after PCLS SOCP optimisation.}
+\label{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-ab1pz}
+\end{figure}
+
 The denominator polynomials of the two all-pass filters are
 \begin{small}
 \verbatiminput{parallel_allpass_socp_slb_flat_delay_test_Da1_coef.m}
@@ -11471,40 +11519,13 @@ and
 \begin{small}
 \verbatiminput{parallel_allpass_socp_slb_flat_delay_test_Dab1_coef.m}
 \end{small}
+
 The overall numerator polynomial is symmetric to within the precision of the
 calculations and has pairs of reciprocal zeros that do not lie on the unit 
 circle. This should be compared with the pole-zero plot resulting when the
 delay is not constrained, Figure~\ref{fig:Parallel-allpass-filter-PCLS-SOCP-pz},
 and the pole-zero plot for the elliptic filter example, 
 Figure~\ref{fig:Parallel-2nd-order-allpass-elliptic-filter-pz}.
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_flat_delay_test_ab1}}
-\caption{Parallel all-pass filters with flat pass-band delay, response after
-  PCLS SOCP optimisation.}
-\label{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-response}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_flat_delay_test_ab1pass}}
-\caption{Parallel all-pass filters with flat pass-band delay, pass-band response
-  after PCLS SOCP optimisation.}
-\label{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-pass-band-response}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_flat_delay_test_a1pz}}
-\caption{Parallel all-pass filters with flat pass-band delay, pole-zero plot of
-  the A allpass filter branch after PCLS SOCP optimisation.}
-\label{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-a1pz}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_flat_delay_test_b1pz}}
-\caption{Parallel all-pass filters with flat pass-band delay, pole-zero plot of
-  the B allpass filter branch after PCLS SOCP optimisation.}
-\label{fig:Parallel-allpass-filter-flat-delay-PCLS-SOCP-b1pz}
-\end{figure}
 \clearpage
 \subsubsection{\label{sec:Design-IIR-filter-difference-all-pass-filters-pole-zero-constrained-group-delay}Design
   of an IIR filter as the difference of two all-pass filters each represented 
