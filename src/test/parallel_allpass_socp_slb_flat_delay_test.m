@@ -185,10 +185,10 @@ Ha=freqz(Na1,Da1,nplot);
 Hb=freqz(Nb1,Db1,nplot);
 plot(wplot*0.5/pi,(unwrap(arg(Ha))+(wplot*td))/pi, ...
      wplot*0.5/pi,(unwrap(arg(Hb))+(wplot*td))/pi);
-strt=sprintf("Allpass phase response error from linear phase (-w*td): \
+strt=sprintf("Allpass phase responses adjusted for linear phase : \
 ma=%d,mb=%d,td=%g",ma,mb,td);
 title(strt);
-ylabel("Linear phase error(rad./$\\pi$)");
+ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
 legend("Filter A","Filter B")
 legend("location","northwest");

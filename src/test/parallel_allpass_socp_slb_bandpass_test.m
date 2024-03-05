@@ -42,18 +42,18 @@ fasl=0.05
 fapl=0.1
 fapu=0.2
 fasu=0.25
-dBap=2
+dBap=1.78
 Wap=1
 Watl=0.01
 Watu=0.01
 dBas=50
-Wasl=2000
+Wasl=5000
 Wasu=2000
 ftpl=0.09
 ftpu=0.21
 td=16
-tdr=td/200
-Wtp=0.5
+tdr=td/400
+Wtp=2
 
 %
 % Frequency vectors
@@ -172,7 +172,7 @@ Tab1=delayz(Nab1,Dab1,nplot);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hab1)));
 ylabel("Amplitude(dB)");
-axis([0 0.5 -80 5]);
+axis([0 0.5 -60 5]);
 grid("on");
 strt=sprintf("Parallel allpass bandpass : ma=%d,mb=%d,dBap=%g,dBas=%g",
              ma,mb,dBap,dBas);
@@ -197,7 +197,7 @@ subplot(212);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([min(fapl,ftpl) max(fapu,ftpu) (td+[-1 1]*0.1)]);
+axis([min(fapl,ftpl) max(fapu,ftpu) (td+[-1 1]*0.04)]);
 grid("on");
 print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
@@ -206,8 +206,8 @@ close
 Pa=allpassP(wplot,a1,Va,Qa,Ra);
 Pb=allpassP(wplot,b1,Vb,Qb,Rb);
 plot(wplot*0.5/pi,(Pa+(wplot*td))/pi,"-",wplot*0.5/pi,(Pb+(wplot*td))/pi,"--");
-strt=sprintf("Parallel allpass bandpass filter : all-pass filter phase \
-responses adjusted for linear phase (w*td): ma=%d,mb=%d,td=%g",ma,mb,td);
+strt=sprintf("Allpass phase response adjusted for linear phase \
+ma=%d,mb=%d,td=%g", ma,mb,td);
 title(strt);
 ylabel("All-pass filter phase (rad./$\\pi$)");
 xlabel("Frequency");
@@ -226,6 +226,10 @@ close
 zplane(roots(flipud(Db1)),roots(Db1));
 title("Allpass filter B");
 print(strcat(strf,"_b1pz"),"-dpdflatex");
+close
+zplane(roots(Nab1),roots(Dab1));
+title("Parallel allpass filters");
+print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 
 % PCLS amplitude at local peaks

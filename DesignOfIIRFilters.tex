@@ -11422,6 +11422,7 @@ Figure~\ref{fig:Parallel-allpass-filter-PCLS-SOCP-b1pz}.
 \end{figure}
 \clearpage
 \subsubsection{\label{sec:Design-IIR-filter-sum-all-pass-filters-pole-zero-constrained-group-delay}Design of an IIR filter as the sum of two all-pass filters each represented in pole-zero form with constraints on the group delay}
+\paragraph{Design of an IIR lowpass filter with a flat passband delay as the sum of two allpass filters}
 The Octave script \emph{parallel\_allpass\_socp\_slb\_flat\_delay\_test.m} calls 
 the Octave function \emph{parallel\_allpass\_slb} to perform the PCLS design of
 a low-pass filter composed of two parallel all-pass filters in terms of the 
@@ -11526,6 +11527,96 @@ circle. This should be compared with the pole-zero plot resulting when the
 delay is not constrained, Figure~\ref{fig:Parallel-allpass-filter-PCLS-SOCP-pz},
 and the pole-zero plot for the elliptic filter example, 
 Figure~\ref{fig:Parallel-2nd-order-allpass-elliptic-filter-pz}.
+
+\paragraph{Design of an IIR low-pass differentiator filter as the sum of two all-pass filters}
+Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt} shows the design of a
+low-pass differentiator filter with coefficients given in gain-pole-zero
+form\footnote{The  numerator polynomial of the filter designed in
+  Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt} is not symmetric so
+  that filter cannot be decomposed into allpass filters with the spectral
+  factorisation method described in
+  Appendix~\ref{app:Low-passband-sensitivity-IIR-digital-filters}.}.
+The resulting direct form IIR filter has $23$ multipliers. The Octave script
+\emph{parallel\_allpass\_socp\_slb\_lowpass\_differentiator\_test.m}
+uses the SeDuMi SOCP solver to design a low-pass differentiator filter
+consisting of $1-z^{-1}$ followed by a correction filter, implemented as the sum
+of two all-pass filters, with $23$ multipliers.
+The script calls the Octave function \emph{parallel\_allpass\_slb} to perform
+the PCLS design of the filter in terms of the all-pass filter pole locations
+with constraints on the filter group-delay and phase. Unfortunately, I did not
+find a combination of weights and constraints for which the amplitude error
+response achieved that of the filter designed in
+Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt}.
+
+The parallel all-pass low-pass differentiator filter specification is:
+\begin{small}
+\verbatiminput{parallel_allpass_socp_slb_lowpass_differentiator_test_spec.m}
+\end{small}
+
+The Octave script
+\emph{tarczynski\_parallel\_allpass\_lowpass\_differentiator\_test.m}
+designs an initial low-pass differentiator correction filter with the
+\emph{WISE} method described in
+Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}.
+Figure~\ref{fig:Parallel-allpass-lowpass-differentiator-filter-initial-response}.
+shows the initial low-pass differentiator filter response.
+The phase response shown is adjusted for the nominal delay.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_lowpass_differentiator_test_ab0}}
+\caption{Initial response of the low-pass differentiator filter implemented as
+  the sum of two all-pass filters. The phase response shown is
+  adjusted for the nominal delay.} 
+\label{fig:Parallel-allpass-lowpass-differentiator-filter-initial-response}
+\end{figure}
+
+After PCLS optimisation, the denominator polynomials of the all-pass filters in
+the low-pass differentiator filter are:
+\begin{small}
+\verbatiminput{parallel_allpass_socp_slb_lowpass_differentiator_test_Da1_coef.m}
+\verbatiminput{parallel_allpass_socp_slb_lowpass_differentiator_test_Db1_coef.m}
+\end{small}
+
+The corresponding filter numerator and denominator polynomials of the overall
+filter are:
+\begin{small}
+\verbatiminput{parallel_allpass_socp_slb_lowpass_differentiator_test_Nab1_coef.m}
+\verbatiminput{parallel_allpass_socp_slb_lowpass_differentiator_test_Dab1_coef.m}
+\end{small}
+
+Figure~\ref{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-response}.
+shows the low-pass differentiator filter response after PCLS optimisation.
+The phase response shown is adjusted for the nominal delay.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_lowpass_differentiator_test_ab1}}
+\caption{Response of the low-pass differentiator filter implemented as the sum
+  of two all-pass filters after PCLS SOCP optimisation. The phase response shown
+  is adjusted for the nominal delay.} 
+\label{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-response}
+\end{figure}
+
+Figure~\ref{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-phase} shows
+the phase responses of the low-pass differentiator filter  parallel allpass
+filters,  including $1-z^{-1}$, after PCLS SOCP optimisation.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_lowpass_differentiator_test_ab1phase}}
+\caption{Phase responses of the low-pass differentiator filter
+  parallel allpass filters after PCLS SOCP optimisation.}
+\label{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-phase}
+\end{figure}
+
+Figure~\ref{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-pz} shows the
+pole-zero plot of the low-pass differentiator after PCLS optimisation.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_lowpass_differentiator_test_ab1pz}}
+\caption{Pole-zero plot of the parallel-allpass low-pass differentiator filter
+  after PCLS SOCP optimisation.}
+\label{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-pz}
+\end{figure}
 \clearpage
 \subsubsection{\label{sec:Design-IIR-filter-difference-all-pass-filters-pole-zero-constrained-group-delay}Design
   of an IIR filter as the difference of two all-pass filters each represented 
@@ -11589,11 +11680,9 @@ filter are:
 \verbatiminput{parallel_allpass_socp_slb_bandpass_test_Db1_coef.m}
 \end{small}
 
-The final filter response is shown in
 Figure~\ref{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-response} and
-Figure~\ref{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-pass-band-response}.
-The phase responses of the parallel all-pass filters are compared in
-Figure~\ref{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-ab1phase}.
+Figure~\ref{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-pass-band-response}
+show the PCLS optimised parallel allpass bandpass filter response.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_test_ab1}}
@@ -11608,6 +11697,19 @@ Figure~\ref{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-ab1phase}.
   pass-band response after PCLS SOCP optimisation.}
 \label{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-pass-band-response}
 \end{figure}
+
+Figure~\ref{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-pz} shows the
+pole-zero plot of the PCLS optimised parallel allpass bandpass filter.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_test_ab1pz}}
+\caption{Band-pass filter implemented as the difference of two all-pass filters,
+  pole-zero plot after PCLS SOCP optimisation.}
+\label{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-pz}
+\end{figure}
+
+Figure~\ref{fig:Parallel-allpass-bandpass-filter-PCLS-SOCP-ab1phase} compares
+the phase responses of the parallel all-pass filters.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_test_ab1phase}}

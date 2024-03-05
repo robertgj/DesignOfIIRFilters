@@ -176,7 +176,7 @@ close
 % Plot phase response
 plot(wplot*0.5/pi,(unwrap(arg(Ha0))+(wplot*td))/pi,"-", ...
      wplot*0.5/pi,(unwrap(arg(Hb0))+(wplot*td))/pi,"--");
-strt=sprintf("Allpass phase response error from linear phase (-w*td): \
+strt=sprintf("Allpass phase response adjusted for linear phase : \
 ma=%d,mb=%d,td=%g",ma,mb,td);
 title(strt);
 ylabel("Linear phase error(rad./$\\pi$)");

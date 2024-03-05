@@ -5,6 +5,7 @@ parallel_allpass_socp_slb_bandpass_test_ab1pass \
 parallel_allpass_socp_slb_bandpass_test_ab1phase \
 parallel_allpass_socp_slb_bandpass_test_a1pz \
 parallel_allpass_socp_slb_bandpass_test_b1pz \
+parallel_allpass_socp_slb_bandpass_test_ab1pz
 
 parallel_allpass_socp_slb_bandpass_test_COEFS = \
 parallel_allpass_socp_slb_bandpass_test.mat \
