@@ -29,8 +29,7 @@ nas=floor(fas*n/0.5);
 % Frequency vectors
 wd=pi*(1:(n-1))'/n;
 Hzm1=freqz([1,-1],1,wd)(:);
-Tzm1=delayz([1,-1],1,wd)(:);
-Hd=[(-j*(wd(1:nap)/2)./Hzm1(1:nap)).*exp(-j*td*wd(1:nap)); ...
+Hd=[(j*(wd(1:nap)/2)./Hzm1(1:nap)).*exp(-j*td*wd(1:nap)); ...
     zeros(n-nap-1,1)];
 Wd=[Wap*ones(nap,1); ...
     Wat*ones(nas-nap-1,1); ...
@@ -102,7 +101,7 @@ s=sprintf("Tarczynski et al. lowpass_differentiator : nN=%d,nD=%d,R=%d,td=%g",
           nN,nD,R,td);
 title(s);
 subplot(212);
-plot(wd*0.5/pi,((unwrap(arg(H))+(wd*td)+(pi/2))/pi));
+plot(wd*0.5/pi,((unwrap(arg(H))-((pi/2)-(wd*td)))/pi));
 axis([0 0.5 -0.02 0.02 ]);
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");

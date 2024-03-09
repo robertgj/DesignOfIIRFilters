@@ -9421,10 +9421,9 @@ in Figure~\ref{fig:iir-sqp-slb-lowpass-differentiator-initial-response}.
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_test_initial_x0_error}}
-\caption{Response errors of the initial low-pass differentiator filter. The
-zero at $z=1$ is removed and the phase response shown is adjusted for the
-nominal delay.}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_test_initial_response}}
+\caption{Response of the initial low-pass differentiator filter. The phase
+  response shown is adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-lowpass-differentiator-initial-response}
 \end{figure}
 
@@ -9448,15 +9447,15 @@ and
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_test_pcls_d1_error}}
-\caption{Response errors of the $R=1$ low-pass differentiator filter after PCLS
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_test_pcls_error}}
+\caption{Response errors of the low-pass differentiator filter after PCLS
   optimisation. The phase response shown is adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-lowpass-differentiator-pcls-response-error}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_test_pcls_d1_pz}}
-\caption{Pole-zero plot of the $R=1$ low-pass differentiator filter after PCLS
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_test_pcls_pz}}
+\caption{Pole-zero plot of the low-pass differentiator filter after PCLS
   optimisation.}
 \label{fig:iir-sqp-slb-lowpass-differentiator-pcls-pz}
 \end{figure}
@@ -12295,6 +12294,21 @@ $s_{02}=-s_{20}$ and $s_{22}=s_{00}$. In neither case does this function
 enforce normalised-scaling with the relations $s_{02}=\sqrt{1-s_{00}^{2}}$ and
 $s_{22}=\sqrt{1-s_{20}^{2}}$. For simplicity, I have assumed that all
 relationships between coefficients are linear.
+
+\subsection{Design of an IIR low-pass differentiator filter with a Schur one-multiplier lattice correction filter  using SOCP}
+The Octave script
+\emph{schurOneMlattice\_socp\_slb\_lowpass\_differentiator\_alternate\_test.m}
+calls \emph{schurOneMlattice\_slb} to improve the filter designed with
+\emph{iir\_sqp\_slb} in Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt}.
+I attempted unsuccessfully to use the initial filter used for that design, found
+with \emph{tarczynski\_lowpass\_differentiator\_alternate\_test.m}. The
+Schur one-multiplier lattice coefficients for the lowpass differentiator design
+found in Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt} are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_k2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_epsilon0_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_c2_coef.m}
+\end{small}
 
 \clearpage
 \subsection{\label{sec:Design-parallel-Schur-one-mult-all-pass-lattice-low-pass-SOCP}Design of an IIR low-pass filter with parallel Schur one-multiplier all-pass lattice filters using SOCP}
@@ -17979,19 +17993,18 @@ The Octave script
 performs successive SOCP relaxations to optimise the response of
 an implementation of the low-pass differentiator filter shown in
 Section~\ref{sec:iir-sqp-slb-lowpass-differentiator} as the series combination
-of $z-1$ and a Schur one-multiplier lattice filter with $12$-bit integer
+of $1-z^{-1}$ and a Schur one-multiplier lattice filter with $12$-bit integer
 signed-digit coefficients. The filter specification is:  
 \begin{small}
 \verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test_spec.m}
 \end{small} 
 The filter coefficients are truncated to $12$ bits allocated with an average
-of $3$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
-Section~\ref{sec:Ito-allocation-signed-digits}.
-At each coefficient relaxation step the script finds the upper and lower
-signed-digit approximations to the current set of active coefficients and
-selects the coefficient with the largest difference in those
-approximations. The corresponding bounds are set in the bounds for that
-coefficient passed to the Octave function
+of $3$ signed-digits allocated by the heuristic of \emph{Ito et al.} as shown in
+Section~\ref{sec:Ito-allocation-signed-digits}. At each coefficient relaxation
+step the script finds the upper and lower signed-digit approximations to the
+current set of active coefficients and selects the coefficient with the largest
+difference in those approximations. The corresponding bounds are set in the
+bounds for that coefficient passed to the Octave function
 \emph{schurOneMlattice\_socp\_mmse}. The results of this MMSE optimisation are
 then passed to \emph{schurOneMlattice\_slb} for PCLS optimisation. The
 resulting PCLS coefficient value selects the closer of the upper or lower
@@ -18011,26 +18024,27 @@ The signed-digit filter coefficients found by the SOCP-relaxation search are:
 \end{small}
 
 Figure~\ref{fig:socp-relax-schurOneMlattice-lowpass-differentiator-12-nbits-response}
-compares the amplitude error, phase and group delay responses of the filter with
-floating-point coefficients, 12-bit signed-digit coefficients allocated with the
-algorithm of \emph{Ito et al.} and 12-bit signed-digit coefficients allocated
-with the algorithm of \emph{Ito et al.} and SOCP-relaxation search. The phase
-responses shown are adjusted for the nominal filter delay.
+compares the amplitude error, phase error and group delay responses of the
+filter with floating-point coefficients, 12-bit signed-digit coefficients
+allocated with the algorithm of \emph{Ito et al.} and 12-bit signed-digit
+coefficients allocated with the algorithm of \emph{Ito et al.} and found by
+SOCP-relaxation search. The phase responses shown are adjusted for the nominal
+filter delay.
 Table~\ref{tab:socp-relax-schurOneMlattice-lowpass-differentiator-12-nbits-cost-summary}
 compares the cost, the number of signed-digits and the number of $12$-bit
 shift-and-add operations required to implement the coefficient multiplications
-found by the signed-digit allocation heuristic of \emph{Ito et al.} with
+found by the signed-digit allocation heuristic of \emph{Ito et al.} and by
 SOCP-relaxation search.
 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test_kc_min}}
-\caption{Comparison of the amplitude error, phase and group delay responses for a
-  Schur one-multiplier lattice lowpass differentiator filter with 12-bit integer
-  coefficients found by allocating an average of 3-signed-digits to each
-  coefficient using the heuristic of \emph{Ito et al.} and performing
-  SOCP-relaxation search. The phase responses shown are adjusted for the nominal
-  delay.} 
+\caption{Comparison of the amplitude error, phase error and group delay
+  responses for a Schur one-multiplier lattice lowpass differentiator filter
+  with 12-bit integer coefficients found by allocating an average of
+  3-signed-digits to each coefficient using the heuristic of \emph{Ito et al.}
+  and performing SOCP-relaxation search. The phase responses shown are adjusted
+  for the nominal delay.} 
 \label{fig:socp-relax-schurOneMlattice-lowpass-differentiator-12-nbits-response}
 \end{figure}
 

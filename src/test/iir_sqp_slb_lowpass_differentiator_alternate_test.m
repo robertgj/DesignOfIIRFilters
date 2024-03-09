@@ -20,7 +20,8 @@ verbose=false
 % (without 1-z^{-1})
 tarczynski_lowpass_differentiator_alternate_test_N0_coef;
 tarczynski_lowpass_differentiator_alternate_test_D0_coef;
-[x0,U,V,M,Q]=tf2x(N0,D0,tol);R=1;
+[x0,U,V,M,Q]=tf2x(N0,D0,tol);
+R=1;
 print_pole_zero(x0,U,V,M,Q,R,"x0");
 
 % Correction filter order
@@ -33,13 +34,13 @@ dmax=0.05;
 % Low-pass differentiator filter specification
 fap=0.2;fas=0.3;
 Arp=0.01;Art=0.05;Ars=0.01;Wap=1;Wat_mmse=0.01;Wat_pcls=0.0001;Was=2;
-td=nN-1;tdr=0.02;Wtp=0.5;pr=0.0002;Wpp=0.5;
+td=nN-1;tdr=0.02;Wtp=0.5;pr=0.00016;Wpp=0.5;
 
 % Frequency points
 n=1000;
 w=pi*(1:(n-1))'/n;
 nap=ceil(fap*n/0.5);
-nas=ceil(fas*n/0.5);
+nas=floor(fas*n/0.5);
 
 % Pass and transition band amplitudes
 wa=w(1:(nas-1));

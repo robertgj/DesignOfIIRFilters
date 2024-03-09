@@ -1,5 +1,5 @@
 % tarczynski_lowpass_differentiator_test.m
-% Copyright (C) 2020-2023 Robert G. Jenssen
+% Copyright (C) 2020-2024 Robert G. Jenssen
 %
 % Design a lowpass differentiator using the method of Tarczynski et al. 
 % See "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
@@ -9,30 +9,29 @@ test_common;
 
 pkg load optim;
 
-delete("tarczynski_lowpass_differentiator_test.diary");
-delete("tarczynski_lowpass_differentiator_test.diary.tmp");
-diary tarczynski_lowpass_differentiator_test.diary.tmp
+strf="tarczynski_lowpass_differentiator_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Filter specification
-fapl=0.01;fap=0.2;fas=0.25;Wap=1;Wat=0.001;Was=1;
-R=1;nN=11;nD=floor(nN/R);td=nN-2;
+fap=0.2;fas=0.25;Wap=1;Wat=0.01;Was=1;
+R=1;nN=11;nD=floor(nN/R);td=nN-1;
 tol=1e-8;maxiter=20000;
 
 % Frequency points
 n=1000;
-napl=floor(fapl*n/0.5)+1;
-nap=ceil(fap*n/0.5)+1;
-nas=ceil(fas*n/0.5)+1;
+wd=pi*(1:(n-1))'/n;
+nap=ceil(fap*n/0.5);
+nas=floor(fas*n/0.5);
 
 % Frequency vectors
-wd=pi*(0:(n-1))'/n;
-Hd=[-j*(wd(1:nap)*0.5/pi).*exp(-j*td*wd(1:nap)); ...
-    zeros(n-nap,1)];
-Wd=[Wat*ones(napl-1,1); ...
-    Wap*ones(nap-napl+1,1); ...
-    Wat*ones(nas-nap-1,1); ...
-    Was*ones(n-nas+1,1)];
-nchk=[1,napl-1,napl,napl+1,nap-1,nap,nap+1,nas-1,nas,nas+1,n];
+Hzm1=freqz([1,-1],1,wd)(:);
+Hd=[j*(wd(1:nap)/2).*exp(-j*td*wd(1:nap)); zeros(n-nap-1,1)];
+Wd=[Wap*ones(nap,1); Wat*ones(nas-nap-1,1); Was*ones(n-nas,1)];
+
+nchk=[1,nap-1,nap,nap+1,nas-1,nas,nas+1,n-1];
 printf("nchk=[");printf("%d ",nchk);printf(" ]\n");
 printf("fd(nchk)=[");printf("%g ",wd(nchk)*0.5/pi);printf(" ]\n");
 printf("Hd(nchk)=[");printf("%g ",abs(Hd(nchk)));printf(" ]\n");
@@ -40,7 +39,7 @@ printf("Wd(nchk)=[");printf("%g ",Wd(nchk));printf(" ]\n");
 
 % Unconstrained minimisation
 NI=[1;zeros(nN+nD,1)];
-WISEJ([],nN,nD,R,wd,Hd,Wd);
+WISEJ([],nN,nD,R,wd,Hd./Hzm1,Wd);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
 [ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,NI,opt);
 if (INFO == 1)
@@ -68,30 +67,36 @@ D0=[1; ND0((nN+2):end)];
 D0R=[D0(1);kron(D0(2:end),[zeros(R-1,1);1])];
 
 % Calculate response
-nplot=n;
-[H,wplot]=freqz(N0,D0R,nplot);
-T=delayz(N0',D0R',nplot);
+wplot=wd;
+H=freqz(N0,D0R,wplot).*Hzm1;
+T=delayz(N0,D0R,wplot)+0.5;
 
 % Plot response
-subplot(211);
+subplot(311);
 plot(wplot*0.5/pi,abs(H));
-axis([0 0.5 0 0.5]);
+axis([0 0.5 0 1]);
 ylabel("Amplitude");
 grid("on");
 s=sprintf("Tarczynski et al. lowpass_differentiator : nN=%d,nD=%d,R=%d,td=%g",
           nN,nD,R,td);
 title(s);
-subplot(212);
+subplot(312);
+plot(wplot*0.5/pi,(unwrap(angle(H))+(wplot*td))/pi);
+axis([0 0.5]);
+ylabel("Phase(rad./$\\pi$)");
+xlabel("Frequency");
+grid("on");
+subplot(313);
 plot(wplot*0.5/pi,T);
 axis([0 0.5 0 2*td ]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
-print("tarczynski_lowpass_differentiator_test_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Plot errors
-subplot(211);
+subplot(311);
 plot(wplot*0.5/pi,abs(H)-abs(Hd));
 axis([0 0.5 -0.01 0.01]);
 ylabel("Amplitude error");
@@ -99,30 +104,35 @@ grid("on");
 s=sprintf("Tarczynski et al. lowpass_differentiator : nN=%d,nD=%d,R=%d,td=%g",
           nN,nD,R,td);
 title(s);
-subplot(212);
-plot(wplot*0.5/pi,((unwrap(arg(H))+(wplot*td))/pi)+0.5);
-axis([0 0.5 -0.01 0.01 ]);
+subplot(312);
+plot(wplot*0.5/pi,unwrap(angle(H)-angle(Hd))/pi);
+axis([0 0.5 -0.01 0.01]);
 ylabel("Phase error(rad./$\\pi$)");
+grid("on");
+subplot(313);
+plot(wplot*0.5/pi,T-td)
+axis([0 0.5 -0.2 0.2]);
+ylabel("Delay error(samples)");
 xlabel("Frequency");
 grid("on");
-print("tarczynski_lowpass_differentiator_test_error_response","-dpdflatex");
+print(strcat(strf,"_error_response"),"-dpdflatex");
 close
 
 % Plot poles and zeros
 subplot(111);
-zplane(roots(N0),roots(D0R));
+zplane(roots(conv([1;-1],N0)),roots(D0R));
 title(s);
-print("tarczynski_lowpass_differentiator_test_pz","-dpdflatex");
+print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
 % Save the result
 print_polynomial(N0,"N0");
-print_polynomial(N0,"N0","tarczynski_lowpass_differentiator_test_N0_coef.m");
+print_polynomial(N0,"N0",strcat(strf,"_N0_coef.m"));
 print_polynomial(D0,"D0");
-print_polynomial(D0,"D0","tarczynski_lowpass_differentiator_test_D0_coef.m");
+print_polynomial(D0,"D0",strcat(strf,"_D0_coef.m"));
 
-save tarczynski_lowpass_differentiator_test.mat nN nD R N0 D0 D0R
+eval(sprintf("save %s.mat nN nD R N0 D0 D0R",strf));
 
+% Done
 diary off
-movefile tarczynski_lowpass_differentiator_test.diary.tmp ...
-         tarczynski_lowpass_differentiator_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));
