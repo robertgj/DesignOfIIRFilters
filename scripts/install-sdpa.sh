@@ -33,7 +33,6 @@ if ! test -f $SDPA_ARCHIVE ; then
 fi
 rm -Rf sdpa-$SDPA_VER
 tar -xf $SDPA_ARCHIVE
-sed -i -e "s/catch(badalloc)/catch(std::bad_alloc&)/" sdpa-$SDPA_VER/sdpa_tool.h
 # Silence some warning messages
 cat > sdpa-$SDPA_VER".patch.uue" <<EOF
 begin-base64 644 sdpa-7.3.17.patch
