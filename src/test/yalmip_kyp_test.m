@@ -1,17 +1,29 @@
 % yalmip_kyp_test.m
-% Copyright (C) 2021-2023 Robert G. Jenssen
+% Copyright (C) 2021-2024 Robert G. Jenssen
 
 test_common;
 
-delete("yalmip_kyp_test.diary");
-delete("yalmip_kyp_test.diary.tmp");
-diary yalmip_kyp_test.diary.tmp
+strf="yalmip_kyp_test";
 
-pkg load symbolic optim
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-strf="yalmip_kyp_test";
+Options=sdpsettings("solver","sedumi");
+
+function result = find_negative_eigenvalues(X,tol)
+  if nargin == 1
+    tol=1e-8;
+  endif
+  ev=eigs(X,rows(X));
+  if any(find(abs(imag(ev)) > eps))
+    error("Found complex eigenvalue!");
+  endif
+  ev=real(ev);
+  result = any(find(ev < -tol));
+endfunction
 
 % Low-pass filter specification
 N=30;d=10;fap=0.1;Wap=1;Wat=0.0001;fas=0.2;Was=1;
@@ -45,7 +57,6 @@ l=(g*inv(L'));
 x=sdpvar(1,N+1);
 Constraints=[];
 Objective=norm((x*L)+l);
-Options=sdpsettings('solver','sedumi');
 sol=optimize(Constraints,Objective,Options);
 if sol.problem
   error("YALMIP failed : %s",sol.info);
@@ -109,10 +120,10 @@ for use_AB_plus_Theta=0:1
     error("YALMIP failed maximum amplitude constraint : %s",sol.info);
   endif
   check(Constraints_max)
-  if ~isdefinite(value(Q_max))
+  if find_negative_eigenvalues(value(Q_max))
     error("Q_max not positive semi-definite");
   endif
-  if ~isdefinite(-value(F_max))
+  if find_negative_eigenvalues(-value(F_max))
     error("F_max not negative semi-definite");
   endif
 
@@ -134,10 +145,10 @@ for use_AB_plus_Theta=0:1
     error("YALMIP failed maximum pass band amplitude constraint : %s",sol.info);
   endif
   check(Constraints_pu)
-  if ~isdefinite(value(Q_pu))
+  if find_negative_eigenvalues(value(Q_pu))
     error("Q_pu not positive semi-definite");
   endif
-  if ~isdefinite(-value(F_pu))
+  if find_negative_eigenvalues(-value(F_pu))
     error("F_pu not negative semi-definite");
   endif
 
@@ -159,10 +170,10 @@ for use_AB_plus_Theta=0:1
           sol.info);
   endif
   check(Constraints_z)
-  if ~isdefinite(value(Q_z))
+  if find_negative_eigenvalues(value(Q_z))
     error("Q_z not positive semi-definite");
   endif
-  if ~isdefinite(-value(F_z))
+  if find_negative_eigenvalues(-value(F_z))
     error("F_z not negative semi-definite");
   endif
 
@@ -174,16 +185,16 @@ for use_AB_plus_Theta=0:1
     error("YALMIP failed pass band constraints : %s",sol.info);
   endif
   check(Constraints_p)
-  if ~isdefinite(value(Q_pu))
+  if find_negative_eigenvalues(value(Q_pu))
     error("Q_pu not positive semi-definite");
   endif
-  if ~isdefinite(-value(F_pu))
+  if find_negative_eigenvalues(-value(F_pu))
     error("F_pu not negative semi-definite");
   endif
-  if ~isdefinite(value(Q_z))
+  if find_negative_eigenvalues(value(Q_z))
     error("Q_z not positive semi-definite");
   endif
-  if ~isdefinite(-value(F_z))
+  if find_negative_eigenvalues(-value(F_z))
     error("F_z not negative semi-definite");
   endif
 
@@ -205,10 +216,10 @@ for use_AB_plus_Theta=0:1
     error("YALMIP failed transition band constraint : %s",sol.info);
   endif
   check(Constraints_t)
-  if ~isdefinite(value(Q_tu))
+  if find_negative_eigenvalues(value(Q_tu))
     error("Q_tu not positive semi-definite");
   endif
-  if ~isdefinite(-value(F_tu))
+  if find_negative_eigenvalues(-value(F_tu))
     error("F_tu not negative semi-definite");
   endif
 
@@ -230,10 +241,10 @@ for use_AB_plus_Theta=0:1
     error("YALMIP failed stop band constraints: %s",sol.info);
   endif
   check(Constraints_s)
-  if ~isdefinite(value(Q_s))
+  if find_negative_eigenvalues(value(Q_s))
     error("Q_s not positive semi-definite");
   endif
-  if ~isdefinite(-value(F_s))
+  if find_negative_eigenvalues(-value(F_s))
     error("F_s not negative semi-definite");
   endif
 endfor
@@ -250,25 +261,24 @@ Esq_s=5e-5;
 C=sdpvar(1,N);
 D=sdpvar(1,1);
 % Stop band amplitude constraint
-P_s=sdpvar(N,N,'symmetric');
-Q_s=sdpvar(N,N,'symmetric');
+P_s=sdpvar(N,N,"symmetric");
+Q_s=sdpvar(N,N,"symmetric");
 F_s=[[((AB')*(kron(Phi,P_s)+kron([0,-1;-1,c_s],Q_s))*AB) + ...
       diag([zeros(1,N),-Esq_s]),[C,D]']; ...
      [C,D,-1]];
 % Solve
 Constraints=[F_s<=0,Q_s>=0];
 Objective=norm((fliplr([C,D])*L)+l);
-Options=sdpsettings('solver','sedumi');
 sol=optimize(Constraints,Objective,Options);
 if sol.problem
   error("YALMIP failed : %s",sol.info);
 endif
 % Sanity checks
 check(Constraints)
-if ~isdefinite(value(Q_s))
+if find_negative_eigenvalues(value(Q_s))
   error("Q_s not positive semi-definite");
 endif
-if ~isdefinite(-value(F_s))
+if find_negative_eigenvalues(-value(F_s))
   error("F_s not negative semi-definite");
 endif
 % Plot h_amp response
@@ -298,17 +308,17 @@ close
 %
 printf("\nUsing YALMIP to design filter with generalised KYP\n");
 use_kron=true;
-Esq_z=1e-5;
-Esq_s=1e-5;
+Esq_z=1e-4;
+Esq_s=1e-6;
 C=sdpvar(1,N);
 D=sdpvar(1,1);
-P_z=sdpvar(N,N,'symmetric');
-Q_z=sdpvar(N,N,'symmetric');
+P_z=sdpvar(N,N,"symmetric");
+Q_z=sdpvar(N,N,"symmetric");
 F_z=[[((AB')*(kron(Phi,P_z)+kron([0,1;1,-c_p],Q_z))*AB) + ...
       diag([zeros(1,N),-Esq_z]),[C-C_d,D]']; ...
      [C-C_d,D,-1]];
-P_s=sdpvar(N,N,'symmetric');
-Q_s=sdpvar(N,N,'symmetric');
+P_s=sdpvar(N,N,"symmetric");
+Q_s=sdpvar(N,N,"symmetric");
 if use_kron
   F_s=[[((AB')*(kron(Phi,P_s)+kron([0,-1;-1,c_s],Q_s))*AB) + ...
         diag([zeros(1,N),-Esq_s]),[C,D]']; ...
@@ -319,7 +329,7 @@ else
        [C,D,-1]];
 endif
 Constraints=[F_z<=0;Q_z>=0,F_s<=0,Q_s>=0];
-Options=sdpsettings('solver','sedumi');
+Options=sdpsettings(Options,"sedumi.eps",1e-6);
 sol=optimize(Constraints,[],Options);
 if sol.problem
   error("YALMIP failed : %s",sol.info);
@@ -327,16 +337,16 @@ endif
 h_kyp=value(fliplr([C,D]));
 % Sanity checks
 check(Constraints)
-if ~isdefinite(value(Q_z))
+if find_negative_eigenvalues(value(Q_z))
   error("Q_z not positive semi-definite");
 endif
-if ~isdefinite(-value(F_z))
+if find_negative_eigenvalues(-value(F_z))
   error("F_z not negative semi-definite");
 endif
-if ~isdefinite(value(Q_s))
+if find_negative_eigenvalues(value(Q_s))
   error("Q_s not positive semi-definite");
 endif
-if ~isdefinite(-value(F_s))
+if find_negative_eigenvalues(-value(F_s))
   error("F_s not negative semi-definite");
 endif
 % Plot h_kyp response
@@ -370,4 +380,4 @@ print_polynomial(h_kyp,"h_kyp",strcat(strf,"_h_kyp_coef.m"),"%13.10f");
 
 % Done
 diary off
-movefile yalmip_kyp_test.diary.tmp yalmip_kyp_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

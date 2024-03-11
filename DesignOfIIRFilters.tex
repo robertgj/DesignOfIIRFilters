@@ -39592,6 +39592,20 @@ Nonetheless the results for these small examples appear correct. I suspect that
 there is a problem in the conversion from the YALMIP internal format to the SDPA
 format.
 
+\pdfbookmark[1]{SCS}{SCS}
+\subsection*{SCS}
+\emph{SCS}~\cite{Bodonoghue_SCS,BODonoghueChuParikhBoyd_SCS,BODonoghueAbbott_Matlab_SCS}, or Splitting Conic Solver,
+is software for semidefinite-quadratic-linear programming. The shell script
+\emph{install-scs.sh} downloads, patches and installs \emph{SCS} with the
+\emph{mex}-file interface to Octave. There are two varieties of SCS, a
+\emph{direct} LMI solver and an \emph{indirect} conjugate-gradient
+solver\footnote{YALMIP supports the \emph{"scs"}, \emph{"scs-direct"} and
+\emph{"scs-indirect"} SCS solver names.}.
+\subsubsection*{Problems with SCS}
+SCS with default settings is much less precise than SeDuMi. The documentation
+does not make it clear how to adjust the various \emph{eps\_*} parameters so I
+will do some experiments.
+
 \begin{comment}
 \pdfbookmark[1]{BMIsolver}{bmisolver}
 \subsection*{BMIsolver}
