@@ -282,21 +282,19 @@ done | awk '{elapsed=elapsed+$4;};\
 OCTAVE_LOCAL_VERSION=\
 "`$OCTAVE --eval 'disp(OCTAVE_VERSION);'`"
 OCTAVE_SITE_M_DIR=$OCTAVE_SHARE_DIR/$OCTAVE_LOCAL_VERSION/site/m
-SEDUMI_VER=1.3.7
-SEDUMI_ARCHIVE="sedumi-"$SEDUMI_VER".tar.gz"
+SEDUMI_ARCHIVE="sedumi-"$SEDUMI_VERSION".tar.gz"
 tar -xf $LOCAL_PREFIX/$SEDUMI_ARCHIVE
-rm -f sedumi-$SEDUMI_VER/vec.m
-rm -f sedumi-$SEDUMI_VER/*.mex*
+rm -f sedumi-$SEDUMI_VERSION/vec.m
+rm -f sedumi-$SEDUMI_VERSION/*.mex*
 rm -Rf $OCTAVE_SITE_M_DIR/SeDuMi
-mv -f sedumi-$SEDUMI_VER $OCTAVE_SITE_M_DIR/SeDuMi
+mv -f sedumi-$SEDUMI_VERSION $OCTAVE_SITE_M_DIR/SeDuMi
 $OCTAVE $OCTAVE_SITE_M_DIR/SeDuMi/install_sedumi.m
 
 # Install YALMIP
-YALMIP_VER=R20230622
-YALMIP_ARCHIVE=$YALMIP_VER".tar.gz"
+YALMIP_ARCHIVE=$YALMIP_VERSION".tar.gz"
 tar -xf $LOCAL_PREFIX/"YALMIP-"$YALMIP_ARCHIVE
 rm -Rf $OCTAVE_SITE_M_DIR/YALMIP
-mv -f "YALMIP-"$YALMIP_VER $OCTAVE_SITE_M_DIR/YALMIP
+mv -f "YALMIP-"$YALMIP_VERSION $OCTAVE_SITE_M_DIR/YALMIP
 
 cat > kyp_benchmark.m << 'EOF'
 % Low-pass filter specification (Reduce Esq_z while satisfying the constraints)

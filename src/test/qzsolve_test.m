@@ -1,5 +1,5 @@
 % qzsolve_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
@@ -40,8 +40,8 @@ if max(abs(rr+1)) > 0.4032
   error("rr=roots(bincoeff(20,0:20)) : max(abs(rr+1)) > 0.4032");
 endif
 r=qzsolve(bincoeff(N,0:N));
-if max(abs(r+1)) > 4.46e-2
-  error("r=qzsolve(bincoeff(20,0:20)) : max(abs(r+1)) > 4.46e-2");
+if max(abs(r+1)) > 4.51e-2
+  error("r=qzsolve(bincoeff(20,0:20)) : max(abs(r+1)) > 4.51e-2");
 endif
 
 % Roots of -1

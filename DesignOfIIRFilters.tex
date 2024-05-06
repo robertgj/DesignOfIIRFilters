@@ -38863,35 +38863,35 @@ file, \emph{sdpa\_gmp}, ran very, very slowly.
 \pdfbookmark[0]{Requirements}{requirements}
 \setcounter{footnote}{0}
 \section*{Software requirements}
-I currently use the Fedora 39 distribution of Linux~\cite{Fedora_website} with:
+I currently use the Fedora 40 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{6.6.11-200.fc39.x86\_64}
-\item \emph{gcc} version \emph{13.2.1 20231205 (Red Hat 13.2.1-6)}
-\item a local build of \emph{octave-8.4.0} with the \emph{struct}, \emph{io},
+\item \texttt{uname -r} is \emph{6.8.8-300.fc40.x86\_64}
+\item \emph{gcc} version \emph{14.0.1 20240411 (Red Hat 14.0.1-0)}
+\item a local build of \emph{octave-9.1.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic}\footnote{The \emph{symbolic} Octave-Forge package assumes that
   the \emph{python3-sympy} Fedora package is installed.} and \emph{parallel}
   Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit with
-  \emph{qt5-qtbase-5.15.12-5} and a local build of \emph{GraphicsMagick}
-\item \emph{texlive-2023-69} and various packages are installed
-\item \emph{dia-0.97.3-24} is used for line drawings
+  \emph{qt6-qtbase-6.7.0-3} and a local build of \emph{GraphicsMagick}
+\item \emph{texlive-2023-71} and various packages are installed
+\item \emph{dia-0.97.3-27} is used for line drawings
 \end{itemize}
 
-The local build of \emph{octave-8.4.0} and Octave-Forge packages assumes that
+The local build of \emph{octave-9.1.0} and Octave-Forge packages assumes that
 the following packages are installed in addition to the base Fedora distribution:
 \begin{small}
 \begin{verbatim}
-dnf install \
-wget readline-devel lzip sharutils gcc gcc-c++ \
+dnf install wget readline-devel lzip sharutils gcc gcc-c++ \
 gcc-gfortran gmp-devel mpfr-devel make cmake gnuplot-latex m4 gperf \
 bison flex openblas-devel patch texinfo texinfo-tex librsvg2 librsvg2-devel \
 librsvg2-tools icoutils autoconf automake libtool pcre pcre-devel freetype \
-freetype-devel gnupg2 texlive-dvisvgm gl2ps gl2ps-devel \
-hdf5 hdf5-devel qt qscintilla-qt5 qscintilla-qt5-devel \
+freetype-devel gnupg2 texlive-dvisvgm gl2ps gl2ps-devel hdf5 hdf5-devel \
 qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel \
 libcurl libcurl-devel gl2ps gl2ps-devel fontconfig-devel mesa-libGLU \
-mesa-libGLU-devel qt5-qttools qt5-qttools-common qt5-qttools-devel \
+mesa-libGLU-devel qt qt6-qtbase qt6-qtbase-common qt6-qtbase-devel \
+qt6-qtbase-gui qt6-qt5compat qt6-qt5compat-devel qt6-qttools \
+qt6-qttools-common qt6-qttools-devel rapidjson-devel python3-sympywget \
 rapidjson-devel python3-sympy java-17-openjdk-devel xerces-j2
 \end{verbatim}
 \end{small}
@@ -38902,7 +38902,7 @@ installed. The \emph{maxima} package is required to run the \emph{.max} scripts.
 The following packages are required to build this document:
 \begin{small}
 \begin{verbatim}
-dnf install dia epstool \
+dnf install dia epstool texlive \
 texlive-algorithmicx texlive-appendix texlive-boondox \
 texlive-calculator texlive-chngcntr texlive-dvipng texlive-dvisvgm \
 texlive-environ texlive-epstopdf texlive-esint texlive-esint-type1 \
@@ -38942,15 +38942,15 @@ Section~\ref{sec:Round-off-normalised-scaled-lattice}, has the corresponding
 \pdfbookmark[0]{Octave}{octave}
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
-version of \emph{octave-8.4.0} avoiding the vagaries of the Fedora
+version of \emph{octave-9.1.0} avoiding the vagaries of the Fedora
 packagers.
 
 The \emph{build-octave.sh} script builds Octave and the associated numerical
 libraries with the \emph{g++} option \texttt{-march=nehalem}. The patch file,
-\emph{octave-8.4.0.patch}, is a shell \emph{here} document
-within \emph{build-octave.sh}. The \emph{octave-8.4.0/configure} script is
+\emph{octave-9.1.0.patch}, is a shell \emph{here} document
+within \emph{build-octave.sh}. The \emph{octave-9.1.0/configure} script is
 patched so that the Octave \texttt{OCTAVE\_VERSION} command
-returns \texttt{8.4.0-robj}.
+returns \texttt{9.1.0-robj}.
 
 The \emph{build-octave.sh} script assumes the default sizes of FORTRAN
 data types. For example, \texttt{real} and \texttt{integer} are $4$ bytes. The
@@ -38964,12 +38964,10 @@ libraries:
 \emph{glpk-5.0}~\cite{GNU_GLPK},
 \emph{lapack-3.12.0}~\cite{LAPACK_website},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
-\emph{SuiteSparse-7.6.1}~\cite{SUITESPARSE_website},
-\emph{sundials-6.7.0}~\cite{SUNDIALS_website} and
-\emph{GraphicsMagick-1.3.42}~\cite{GraphicsMagick_website}.
+\emph{SuiteSparse-7.7.0}~\cite{SUITESPARSE_website},
+\emph{sundials-7.0.0}~\cite{SUNDIALS_website} and
+\emph{GraphicsMagick-1.3.43}~\cite{GraphicsMagick_website}.
 The local build of the \emph{LAPACK} library includes the deprecated routines.
-The Octave \emph{octave-8.4.0/configure} script does not support
-\emph{sundials-7.0.0}.
 
 Display the Octave internal build configuration with:
 \begin{small}
@@ -39036,60 +39034,17 @@ versions of the \emph{SparsePOP} and \emph{gloptipoly3} solvers from my
 repositories at \url{https://github.com/robertgj}.
 
 \subsubsection*{Problems with Octave}
-The \emph{octave.patch} here document within \emph{build-octave.sh}
+The \emph{octave-9.1.0.patch} here document within \emph{build-octave.sh}
 patches files to:
 \begin{itemize}
 \item add an Octave warning id in \texttt{\_\_gnuplot\_draw\_axes\_\_.m}
 \item prevent a \emph{valgrind} warning from \texttt{load-save.cc}
-\item add functionality to the \texttt{unique.m} script
+\item copies the following scripts from the development version of octave:
+  \begin{enumerate}
+    \item \texttt{unique.m} to add stable sorting
+    \item \texttt{uifigure.m} to avoid a core dump in the test case
+  \end{enumerate}
 \end{itemize}
-
-\subsubsection*{Problems with Qt5 and GTK3}
-After updating from RedHat  Fedora 38 to 39 I get a warning message from GTK3
-for the command-line version of \emph{octave-8.4.0}:
-\begin{small}
-\begin{verbatim}
-(octave-gui:XXXX): Gtk-WARNING **: YYYY: Theme parsing error:
-<data>:1:0: Expected a valid selector
-\end{verbatim}
-\end{small}
-A patch to the RedHat Fedora 39 \emph{qt5-qtbase} SRPM fixes the command-line
-version of Octave (use the appropriate version number for \emph{qt5-qtbase}):
-\begin{samepage}
-\begin{itemize}
-\item Download:
-\begin{small}
-\begin{verbatim}
-wget https://dl.fedoraproject.org/pub/fedora/linux/updates/39/Everything/\
-source/tree/Packages/q/qt5-qtbase-5.15.12-5.fc39.src.rpm
-rpm -ivh qt5-qtbase-5.15.12-5.fc39.src.rpm
-\end{verbatim}
-\end{small}
-\item Modify
-\emph{\~{}/rpmbuild/SOURCES/0014-QGtk3Theme-Improve-fixed-font-delivery.patch}:
-\begin{small}
-\begin{verbatim}
--+        const char *fontSpec = "{font-family: monospace;}";
-++        const char *fontSpec = "* {font-family: monospace;}";
-\end{verbatim}
-\end{small}
-\item Rebuild:  
-\begin{small}
-\begin{verbatim}
-sudo dnf builddep qt5-qtbase-5.15.12-5.fc39.src.rpm
-rpmbuild -ba ~/rpmbuild/SPECS/qt5-qtbase.spec
-\end{verbatim}
-\end{small}
-\item Reinstall:
-\begin{small}
-\begin{verbatim}
-for file in `find ~/rpmbuild/RPMS -name \*.rpm`; do \
-  sudo rpm -i --nodeps --reinstall $file; \
-done
-\end{verbatim}
-\end{small}
-\end{itemize}
-\end{samepage}
 
 \subsubsection*{Problems with Octave-Forge packages}
 The following packages are patched with shell \emph{here} documents
@@ -39175,8 +39130,8 @@ be installed with this work-around:
 This section shows the results of benchmarking various builds of Octave
 and benchmarking \emph{blas} and \emph{lapack} libraries with a shared library
 \emph{LTO} and \emph{PGO} build of Octave.
-The CPU is an Intel i7-7700K for which the number of CPU cores 
-is $4$ ($8$ hyper-threaded). During the benchmark the CPU frequency was fixed
+The CPU is an Intel i7-7700K with $4$ CPU cores ($8$ hyper-threaded).
+During the benchmark the CPU frequency was fixed
 at $4.5GHz$.  To do this, as the \emph{root} user:
 \begin{small}
 \begin{verbatim}
@@ -39247,11 +39202,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 199.4 \\
-Generic, shared reference lapack and blas            &  46.0 \\
-Generic, shared reference lapack and blas, LTO       &  46.5 \\
-Generic, shared reference lapack and blas, PGO       &  48.0 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  45.7 \\
+Debug, shared reference lapack and blas              & 203.4 \\
+Generic, shared reference lapack and blas            &  47.2 \\
+Generic, shared reference lapack and blas, LTO       &  46.9 \\
+Generic, shared reference lapack and blas, PGO       &  48.9 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  46.0 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -39269,7 +39224,7 @@ benchmark script and a script that solves a KYP problem by calling YALMIP and
 SeDuMi. The \emph{linpack.m} script was modified to produce
 repeatable residuals. The alternative \emph{blas} and \emph{lapack} library
 versions used are local builds of \emph{blas-3.12.0} and \emph{lapack-3.12.0} and
-the Fedora 39 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
+the Fedora 40 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
 \emph{gsl}~\cite{GNU_GSL} and \emph{openblas}~\cite{OpenBLAS_website}
 packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
   of \emph{DGESVD} for a problematic matrix and the \emph{libtatlas}, system
@@ -39279,7 +39234,7 @@ packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
   0.14709002182058989\\
   > ./dgesvd\_test\_sysblas \\
   0.14709002182060871\\
-  > LD\_LIBRARY\_PATH=/usr/local/octave-8.4.0/lib ./dgesvd\_test\_sysblas\\
+  > LD\_LIBRARY\_PATH=/usr/local/octave-9.1.0/lib ./dgesvd\_test\_sysblas\\
   0.14709002182060871
 \end{texttt} \\
 Previous versions of \emph{atlas} produced slightly different results on each
@@ -39288,12 +39243,12 @@ run.}:
 \begin{small}
 \begin{verbatim}
 atlas.x86_64            3.10.3-24.fc39
-blas.x86_64             3.11.0-5.fc39
-lapack.x86_64           3.11.0-5.fc39
-gsl.x86_64              2.7.1-5.fc39
-gsl-devel.x86_64        2.7.1-5.fc39
-openblas.x86_64         0.3.21-6.fc39
-openblas-threads.x86_64 0.3.21-6.fc39
+blas.x86_64             3.12.0-4.fc40
+lapack.x86_64           3.12.0-4.fc40
+gsl.x86_64              2.7.1-8.fc40
+gsl-devel.x86_64        2.7.1-8.fc40
+openblas.x86_64         0.3.26-4.fc40
+openblas-threads.x86_64 0.3.26-4.fc40
 \end{verbatim}
 \end{small}
 
@@ -39331,19 +39286,19 @@ The largest is shown.
 \cmidrule{2-5}             & MFLOPS & Normalised          & Execution time     & Execution time \\
                            &        & residual            & (seconds)          & (seconds) \\
 \midrule                                                                          
-Generic libblas/liblapack  &  4020  & 21.3                &  45.4              &  55.5 \\
-Intel libblas/liblapack    &  3995  & 21.3                &  45.4              &  57.3 \\
-Haswell libblas/liblapack  &  4118  & 18.5                &  45.3              &  50.6 \\
-Nehalem libblas/liblapack  &  4006  & 21.3                &  45.4              &  55.7 \\
-Skylake libblas/liblapack  &  4101  & 18.5                &  45.5              &  50.6 \\
-Fedora 39 libblas/liblapack&  3999  & 21.3                &  45.4              &  55.5 \\
-libgslcblas                &  4016  & 21.3                &  45.4              &  55.6 \\
-libsatlas                  & 13650  & 14.3                &  45.1              &  59.3 \\
-libtatlas                  & 21160  & 12.7                &  45.1              &  59.2 \\
-libopenblas                & 34574  &  9.9                &  43.8              &  50.4 \\
-libopenblasp (1 thread)    & 34511  &  9.9                &  43.8              &  50.6 \\
-libopenblasp (2 threads)   & 49708  & 12.1                &  44.0              &  50.9 \\
-libopenblasp (4 threads)   & 63640  & 10.8                &  43.9              &  50.7 \\
+Generic libblas/liblapack  &  3916  & 21.3                &  46.1              &  56.6 \\
+Intel libblas/liblapack    &  3889  & 21.3                &  46.0              &  57.0 \\
+Haswell libblas/liblapack  &  4765  & 18.5                &  45.8              &  51.2 \\
+Nehalem libblas/liblapack  &  3917  & 21.3                &  46.1              &  56.4 \\
+Skylake libblas/liblapack  &  4674  & 18.5                &  45.8              &  51.2 \\
+Fedora 39 libblas/liblapack&  3927  & 21.3                &  46.1              &  56.5 \\
+libgslcblas                &  3916  & 21.3                &  46.2              &  56.6 \\
+libsatlas                  & 13269  & 14.3                &  45.9              &  60.2 \\
+libtatlas                  & 20696  & 14.3                &  46.3              &  59.9 \\
+libopenblas                & 33921  &  9.9                &  44.6              &  51.2 \\
+libopenblasp (1 thread)    & 33743  &  9.9                &  44.4              &  51.6 \\
+libopenblasp (2 threads)   & 48531  & 12.1                &  44.8              &  51.7 \\
+libopenblasp (4 threads)   & 61805  & 10.8                &  44.2              &  51.7 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -39443,7 +39398,7 @@ The \emph{SeDuMi} source is available from \emph{LeHigh University} as
 \emph{SeDuMi\_1\_3.zip}~\cite{Sturm_SeDuMi_1_3}. Unfortunately, this version
 does not seem to be actively maintained. An ``unofficial''
 \emph{GitHub}~\cite{Sturm_SeDuMi_GitHub} fork is compatible with Octave.
-The \emph{1.3.7} tag runs without modification under Octave\footnote{The
+The \emph{1.3.8} tag runs without modification under Octave\footnote{The
 \emph{SeDuMi-1.3} source file \emph{vec.m} shadows a built-in Octave function.}.
 
 The \emph{SeDuMi} source depends on the \emph{OpenBLAS} \emph{f77blas.h} and

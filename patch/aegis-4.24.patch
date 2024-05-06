@@ -1,589 +1,5 @@
---- aegis-4.24/aefind/cmdline.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/aefind/cmdline.y	2021-08-27 01:16:29.007380454 +1000
-@@ -71,6 +71,17 @@
- 
- %}
- 
-+%union
-+{
-+    struct string_ty *lv_string;
-+    struct string_list_ty *lv_string_list;
-+    tree::pointer *lv_tree;
-+    class tree_list *lv_tree_list;
-+    long lv_number;
-+    double lv_real;
-+    diadic_t comparator;
-+}
-+
- %token AMIN
- %token ANDAND
- %token ATIME
-@@ -112,7 +123,7 @@
- %token NEWER
- %token NOT
- %token NOW
--%token NUMBER
-+%token <lv_number> NUMBER
- %token OROR
- %token PATH
- %token PERM
-@@ -120,7 +131,7 @@
- %token PRINT
- %token PROJECT
- %token QUESTION
--%token REAL
-+%token <lv_real> REAL
- %token RESOLVE
- %token RESOLVE_NOT
- %token RPAREN
-@@ -128,9 +139,9 @@
- %token SHIFT_LEFT
- %token SHIFT_RIGHT
- %token SSIZE
--%token STRING
-+%token <lv_string> STRING
- %token STRINGIZE
--%token THIS
-+%token <lv_number> THIS
- %token TILDE
- %token TRACE
- %token TRUE_keyword
-@@ -138,21 +149,7 @@
- %token TYPE
- %token VERSION
- 
--%union
--{
--    struct string_ty *lv_string;
--    struct string_list_ty *lv_string_list;
--    tree::pointer *lv_tree;
--    class tree_list *lv_tree_list;
--    long lv_number;
--    double lv_real;
--    diadic_t comparator;
--}
--
- %type <comparator>  comparator
--%type <lv_number>   NUMBER THIS
--%type <lv_real>     REAL
--%type <lv_string>   STRING
- %type <lv_string>   number_or_string
- %type <lv_string_list> strings strings_or_dot
- %type <lv_tree>     tree1 tree2 tree3 tree4 tree5 tree6 tree7
---- aegis-4.24/aeimport/format/rcs/gram.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/aeimport/format/rcs/gram.y	2021-08-27 01:16:29.007380454 +1000
-@@ -32,6 +32,12 @@
- 
- %}
- 
-+%union
-+{
-+    string_ty       *lv_string;
-+    string_list_ty  *lv_string_list;
-+}
-+
- %token ACCESS
- %token AUTHOR
- %token BRANCH
-@@ -41,27 +47,21 @@
- %token DESC
- %token EXPAND
- %token HEAD
--%token IDENTIFIER
-+%token <lv_string> IDENTIFIER
- %token JUNK
- %token LOCKS
- %token LOG
- %token NEXT
--%token NUMBER
-+%token <lv_string> NUMBER
- %token SEMI
- %token STATE
- %token STRICT
--%token STRING
-+%token <lv_string> STRING
- %token SUFFIX
- %token SYMBOLS
- %token TEXT
- 
--%union
--{
--    string_ty       *lv_string;
--    string_list_ty  *lv_string_list;
--}
--
--%type <lv_string> NUMBER STRING IDENTIFIER date author next log state
-+%type <lv_string> date author next log state
- %type <lv_string_list> strings_opt branch branch_opt identifiers_opt numbers_opt
- 
- %{
---- aegis-4.24/aeimport/format/sccs/gram.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/aeimport/format/sccs/gram.y	2021-08-27 01:16:29.008380445 +1000
-@@ -39,7 +39,12 @@
- 
- %}
- 
--%token COMMENT
-+%union {
-+    string_ty       *lv_string;
-+    long            lv_long;
-+}
-+
-+%token <lv_string> COMMENT
- %token DELTA_BEGIN
- %token DELTA_END
- %token D_KEYWORD
-@@ -52,21 +57,15 @@
- %token MR_EXCLUDE
- %token MR_IGNORE
- %token MR_INCLUDE
--%token STRING
-+%token <lv_string> STRING
- %token SUMMARY
--%token TEXTLINE
-+%token <lv_string> TEXTLINE
- %token TITLE_BEGIN
- %token TITLE_END
- %token USERS_BEGIN
- %token USERS_END
- 
--%union {
--    string_ty       *lv_string;
--    long            lv_long;
--}
--
- %type <lv_long> date_and_time number
--%type <lv_string> COMMENT STRING TEXTLINE
- 
- %{
- 
---- aegis-4.24/libaegis/interrupt.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/interrupt.cc	2021-08-27 01:15:55.786689653 +1000
-@@ -26,11 +26,9 @@
- 
- static int depth;
- 
--#if !defined (HAVE_SIGHOLD) || !defined (HAVE_SIGRELSE)
- #ifdef HAVE_SIGPROCMASK
- static sigset_t oldsigs;
- #endif
--#endif
- 
- 
- void
-@@ -42,12 +40,6 @@
-     if (++depth > 1)
- 	return;
- 
--#if defined (HAVE_SIGHOLD) && defined (HAVE_SIGRELSE)
--    sighold(SIGHUP);
--    sighold(SIGINT);
--    sighold(SIGQUIT);
--    sighold(SIGTERM);
--#else
- #ifdef HAVE_SIGPROCMASK
-     {
- 	sigset_t        set;
-@@ -59,8 +51,14 @@
- 	sigaddset(&set, SIGTERM);
- 	sigprocmask(SIG_BLOCK, &set, &oldsigs);
-     }
--#endif // HAVE_SIGPROCMASK
-+#else
-+#if defined (HAVE_SIGHOLD) && defined (HAVE_SIGRELSE)
-+    sighold(SIGHUP);
-+    sighold(SIGINT);
-+    sighold(SIGQUIT);
-+    sighold(SIGTERM);
- #endif // !HAVE_SIGHOLD
-+#endif // HAVE_SIGPROCMASK
- }
- 
- 
-@@ -76,14 +74,14 @@
-     if (--depth > 0)
- 	return;
- 
-+#ifdef HAVE_SIGPROCMASK
-+    sigprocmask(SIG_SETMASK, &oldsigs, (sigset_t *)0);
-+#else
- #if defined (HAVE_SIGHOLD) && defined (HAVE_SIGRELSE)
-     sigrelse(SIGHUP);
-     sigrelse(SIGINT);
-     sigrelse(SIGQUIT);
-     sigrelse(SIGTERM);
--#else
--#ifdef HAVE_SIGPROCMASK
--    sigprocmask(SIG_SETMASK, &oldsigs, (sigset_t *)0);
--#endif // HAVE_SIGPROCMASK
- #endif // !HAVE_SIGHOLD
-+#endif // HAVE_SIGPROCMASK
- }
---- aegis-4.24/libaegis/http.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/http.cc	2021-08-27 01:16:29.008380445 +1000
-@@ -404,7 +404,7 @@
- emit_change_href(change::pointer cp, const char *modifier)
- {
-     if (cp->bogus)
--        emit_project_href(cp->pp, modifier);
-+        emit_project_href(cp->pp,"%s", modifier);
-     else
-         emit_change_href_n(cp->pp, magic_zero_decode(cp->number), modifier);
- }
---- aegis-4.24/libaegis/sub/plural_gram.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/sub/plural_gram.y	2021-08-27 01:16:29.008380445 +1000
-@@ -38,6 +38,11 @@
- 
- %}
- 
-+%union
-+{
-+    unsigned        lv_number;
-+}
-+
- %token ANDAND
- %token BITAND
- %token BITOR
-@@ -48,7 +53,7 @@
- %token EQU
- %token GE
- %token GT
--%token INTEGER
-+%token <lv_number> INTEGER
- %token JUNK
- %token LE
- %token LP
-@@ -67,12 +72,7 @@
- %token RP
- %token SEMI
- 
--%union
--{
--    unsigned        lv_number;
--}
--
--%type <lv_number> INTEGER expr
-+%type <lv_number> expr
- 
- %right EQU
- %right QUEST COLON
---- aegis-4.24/libaegis/sub/expr_gram.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/sub/expr_gram.y	2021-08-27 01:16:29.008380445 +1000
-@@ -38,6 +38,13 @@
- 
- %}
- 
-+%union
-+{
-+	long	lv_number;
-+}
-+
-+%type <lv_number> expr
-+
- %token DIV
- %token EQ
- %token GE
-@@ -51,17 +58,10 @@
- %token MUL
- %token NE
- %token NOT
--%token NUMBER
-+%token <lv_number> NUMBER
- %token PLUS
- %token RP
- 
--%union
--{
--	long	lv_number;
--}
--
--%type <lv_number> NUMBER expr
--
- %left NE EQ
- %left LT LE GT GE
- %left PLUS MINUS
---- aegis-4.24/libaegis/project/file/roll_forward.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/project/file/roll_forward.cc	2021-08-27 01:16:29.009380435 +1000
-@@ -1045,7 +1045,8 @@
-                 //
-                 file_event_list::pointer felp2 =
-                     uuid_to_felp.get(nstring(filename));
--                assert(felp2);
-+                if (felp2)
-+                {
-                 felp2->push_back(*result);
- 
-                 //
-@@ -1058,6 +1059,7 @@
-                 assert(result == felp2);
-             }
-         }
-+        }
- 
- #ifdef DEBUG
- 	for (size_t j = 0; j < result->size(); ++j)
---- aegis-4.24/libaegis/aer/report.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/aer/report.y	2021-08-27 01:16:29.009380435 +1000
-@@ -120,6 +120,15 @@
- 
- %}
- 
-+%union
-+{
-+    long lv_number;
-+    nstring *lv_string;
-+    rpt_value::pointer *lv_value;
-+    rpt_stmt::pointer *lv_stmt;
-+    rpt_expr::pointer *lv_expr;
-+}
-+
- %token AND_BIT
- %token AND_LOGICAL
- %token ASSIGN
-@@ -141,7 +150,7 @@
- %token CATCH
- %token COLON
- %token COMMA
--%token CONSTANT
-+%token <lv_value> CONSTANT
- %token CONTINUE
- %token DECR
- %token DEFAULT
-@@ -170,7 +179,7 @@
- %token MINUS
- %token MOD
- %token MUL
--%token NAME
-+%token <lv_string> NAME
- %token NE
- %token NMATCH
- %token NOT_BIT
-@@ -192,19 +201,8 @@
- %token WHILE
- %token XOR_BIT
- 
--%union
--{
--    long lv_number;
--    nstring *lv_string;
--    rpt_value::pointer *lv_value;
--    rpt_stmt::pointer *lv_stmt;
--    rpt_expr::pointer *lv_expr;
--}
--
- %type <lv_expr> expr
--%type <lv_value> CONSTANT
- %type <lv_stmt> stmt stmt_list compound_stmt
--%type <lv_string> NAME
- %type <lv_expr> expr_list struct_list expr_list_opt struct_assign
- %type <lv_stmt> declaration decl_name_list decl_name
- 
---- aegis-4.24/libaegis/change/file/name_check.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/change/file/name_check.cc	2021-08-27 01:16:29.009380435 +1000
-@@ -279,17 +279,12 @@
- 	    }
- 	}
-     }
--    else
--    {
- 	//
--	// exclude control characters, space characters
--	// and high-bit-on characters
--	// (This is a "C" locale test.)
-+    // Avoid doing more checks using isgraph/isprint or similar
-+    // functions, since they can be too strict with respect to other
-+    // option selected by the user: allow_white_space_in_filenames,
-+    // allow_non_ascii_filenames.
- 	//
--	for (s = fn->str_text; *s; ++s)
--	    if (!isgraph((unsigned char)*s))
--		return 0;
--    }
-     return 1;
- }
- 
---- aegis-4.24/libaegis/gram.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/gram.y	2021-08-27 01:16:29.009380435 +1000
-@@ -34,11 +34,6 @@
- 
- %}
- 
--%token INTEGER
--%token NAME
--%token REAL
--%token STRING
--
- %union
- {
- 	string_ty	*lv_string;
-@@ -46,9 +41,14 @@
- 	double		lv_real;
- }
- 
--%type <lv_string> NAME STRING string
--%type <lv_integer> INTEGER integer
--%type <lv_real> REAL real
-+%token <lv_integer> INTEGER
-+%token <lv_string> NAME
-+%token <lv_real> REAL
-+%token <lv_string> STRING
-+
-+%type <lv_string> string
-+%type <lv_integer> integer
-+%type <lv_real> real
- 
- %%
- 
---- aegis-4.24/aeget/get/project/integr_histo.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/aeget/get/project/integr_histo.cc	2021-08-27 01:16:29.009380435 +1000
-@@ -189,14 +189,14 @@
-     if (recursive)
-     {
- 	printf("faster ");
--	emit_project_href(pp, ref.c_str());
-+	emit_project_href(pp,"%s", ref.c_str());
- 	printf("non-");
-     }
-     else
-     {
- 	printf("slower ");
- 	ref += "+recursive";
--	emit_project_href(pp, ref.c_str());
-+	emit_project_href(pp,"%s", ref.c_str());
-     }
-     printf("recursive</a> listing available.</p>\n");
- 
---- aegis-4.24/common/config.messy.h	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/common/config.messy.h	2021-08-27 01:16:29.009380435 +1000
-@@ -97,11 +97,10 @@
- #ifndef _GNU_SOURCE
- #define _GNU_SOURCE
- #endif
--#ifndef _BSD_SOURCE
--#define _BSD_SOURCE
-+#ifndef _DEFAULT_SOURCE
-+#define _DEFAULT_SOURCE
- #endif
- #endif
--
- //
- // The SINGLE_USER define may be exploited to create a single-user version
- // of Aegis.  It is mostly used for testing, but also for Windows NT,
---- aegis-4.24/common/mem.h	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/common/mem.h	2021-08-27 01:16:29.009380435 +1000
-@@ -124,11 +124,7 @@
-    dmem_copy_string(__FILE__, __LINE__, (p), ## __VA_ARGS__)
- #endif
- 
--#if HAVE_HEADER_NEW || HAVE_NEW_H
--#define THROW_BAD_ALLOC throw(std::bad_alloc)
--#else
- #define THROW_BAD_ALLOC
--#endif
- 
- #ifndef DMALLOC
- void *operator new(size_t nbytes) THROW_BAD_ALLOC;
---- aegis-4.24/common/stack.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/common/stack.cc	2021-08-27 01:16:29.009380435 +1000
-@@ -24,7 +24,7 @@
- find_stack_direction ()
- {
-     static char *addr = 0;
--    auto char dummy;
-+    char dummy;
-     if (addr == 0)
-     {
- 	addr = &dummy;
-@@ -47,7 +47,7 @@
- 	return false;
-     if (stack_direction == 0)
- 	stack_direction = find_stack_direction();
--    auto char dummy = 0;
-+    char dummy = 0;
-     char *cp = (char *)p;
-     return (stack_direction < 0 ?  (&dummy < cp) : (&dummy > cp));
- }
---- aegis-4.24/common/ac/unistd.h	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/common/ac/unistd.h	2021-08-27 01:16:29.009380435 +1000
-@@ -27,8 +27,8 @@
- // and readlink functions.
- //
- #ifdef __linux__
--#ifndef _BSD_SOURCE
--#define _BSD_SOURCE
-+#ifndef _DEFAULT_SOURCE
-+#define _DEFAULT_SOURCE
- #endif
- #ifndef __USE_BSD
- #define __USE_BSD
---- aegis-4.24/common/ac/string/memmem.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/common/ac/string/memmem.cc	2021-08-27 01:16:29.010380426 +1000
-@@ -182,7 +182,7 @@
- 
-     // Use optimizations in memchr when possible.
-     if (needle_len == 1)
--        return memchr(haystack, *needle, haystack_len);
-+      return (void *)memchr(haystack, *needle, haystack_len);
- 
-     // Minimizing the worst-case complexity:
-     // Let n = haystack_len, m = needle_len.
---- aegis-4.24/common/nstring/accumulator.h	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/common/nstring/accumulator.h	2021-08-27 01:16:29.010380426 +1000
-@@ -161,7 +161,7 @@
-       * \note
-       *     Please use this methdo as little as possible.
-       */
--    const char *get_data() const { return (buffer ? buffer : ""); }
-+    const char *get_data() const { return (length ? buffer : ""); }
- 
-     /**
-       * The array index operator is used to obtain thr nth character in
---- aegis-4.24/fmtgen/parse.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/fmtgen/parse.y	2021-08-27 01:16:29.010380426 +1000
-@@ -54,30 +54,29 @@
- 
- %}
- 
-+%union
-+{
-+    string_ty       *lv_string;
-+    long            lv_integer;
-+    type *lv_type;
-+}
-+
- %token	BOOLEAN
- %token	BOOLEAN_CONSTANT
- %token	HIDE_IF_DEFAULT
- %token	INCLUDE
- %token	INTEGER
--%token	INTEGER_CONSTANT
--%token	NAME
-+%token	<lv_integer> INTEGER_CONSTANT
-+%token	<lv_string> NAME
- %token	REAL
- %token	REDEFINITION_OK
- %token	SHOW_IF_DEFAULT
- %token	STRING
--%token	STRING_CONSTANT
-+%token	<lv_string> STRING_CONSTANT
- %token	TIME
- %token	TYPE
- 
--%union
--{
--    string_ty       *lv_string;
--    long            lv_integer;
--    type *lv_type;
--}
--
--%type <lv_string> NAME STRING_CONSTANT
--%type <lv_integer> INTEGER_CONSTANT attributes
-+%type <lv_integer> attributes
- %type <lv_type> type structure list enumeration enum_list_begin
- 
- %{
 --- aegis-4.24/Makefile.in	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/Makefile.in	2021-08-27 01:16:29.012380408 +1000
++++ aegis-4.24.new/Makefile.in	2024-05-03 11:50:58.561841866 +1000
 @@ -4007,12 +4007,16 @@
  aefind/cmdline.gen.cc aefind/cmdline.gen.h: aefind/cmdline.y
  	@echo Expect 5 shift/reduce, 23 reduce/reduce conflicts.
@@ -760,3 +176,605 @@
  	-@touch $@
  	@sleep 1
  
+--- aegis-4.24/aefind/cmdline.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/aefind/cmdline.y	2024-05-03 11:50:58.533842203 +1000
+@@ -71,6 +71,17 @@
+ 
+ %}
+ 
++%union
++{
++    struct string_ty *lv_string;
++    struct string_list_ty *lv_string_list;
++    tree::pointer *lv_tree;
++    class tree_list *lv_tree_list;
++    long lv_number;
++    double lv_real;
++    diadic_t comparator;
++}
++
+ %token AMIN
+ %token ANDAND
+ %token ATIME
+@@ -112,7 +123,7 @@
+ %token NEWER
+ %token NOT
+ %token NOW
+-%token NUMBER
++%token <lv_number> NUMBER
+ %token OROR
+ %token PATH
+ %token PERM
+@@ -120,7 +131,7 @@
+ %token PRINT
+ %token PROJECT
+ %token QUESTION
+-%token REAL
++%token <lv_real> REAL
+ %token RESOLVE
+ %token RESOLVE_NOT
+ %token RPAREN
+@@ -128,9 +139,9 @@
+ %token SHIFT_LEFT
+ %token SHIFT_RIGHT
+ %token SSIZE
+-%token STRING
++%token <lv_string> STRING
+ %token STRINGIZE
+-%token THIS
++%token <lv_number> THIS
+ %token TILDE
+ %token TRACE
+ %token TRUE_keyword
+@@ -138,21 +149,7 @@
+ %token TYPE
+ %token VERSION
+ 
+-%union
+-{
+-    struct string_ty *lv_string;
+-    struct string_list_ty *lv_string_list;
+-    tree::pointer *lv_tree;
+-    class tree_list *lv_tree_list;
+-    long lv_number;
+-    double lv_real;
+-    diadic_t comparator;
+-}
+-
+ %type <comparator>  comparator
+-%type <lv_number>   NUMBER THIS
+-%type <lv_real>     REAL
+-%type <lv_string>   STRING
+ %type <lv_string>   number_or_string
+ %type <lv_string_list> strings strings_or_dot
+ %type <lv_tree>     tree1 tree2 tree3 tree4 tree5 tree6 tree7
+--- aegis-4.24/aeget/get/project/integr_histo.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/aeget/get/project/integr_histo.cc	2024-05-03 11:50:58.555841938 +1000
+@@ -189,14 +189,14 @@
+     if (recursive)
+     {
+ 	printf("faster ");
+-	emit_project_href(pp, ref.c_str());
++	emit_project_href(pp,"%s", ref.c_str());
+ 	printf("non-");
+     }
+     else
+     {
+ 	printf("slower ");
+ 	ref += "+recursive";
+-	emit_project_href(pp, ref.c_str());
++	emit_project_href(pp,"%s", ref.c_str());
+     }
+     printf("recursive</a> listing available.</p>\n");
+ 
+--- aegis-4.24/aeimport/format/rcs/gram.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/aeimport/format/rcs/gram.y	2024-05-03 11:50:58.533842203 +1000
+@@ -32,6 +32,12 @@
+ 
+ %}
+ 
++%union
++{
++    string_ty       *lv_string;
++    string_list_ty  *lv_string_list;
++}
++
+ %token ACCESS
+ %token AUTHOR
+ %token BRANCH
+@@ -41,27 +47,21 @@
+ %token DESC
+ %token EXPAND
+ %token HEAD
+-%token IDENTIFIER
++%token <lv_string> IDENTIFIER
+ %token JUNK
+ %token LOCKS
+ %token LOG
+ %token NEXT
+-%token NUMBER
++%token <lv_string> NUMBER
+ %token SEMI
+ %token STATE
+ %token STRICT
+-%token STRING
++%token <lv_string> STRING
+ %token SUFFIX
+ %token SYMBOLS
+ %token TEXT
+ 
+-%union
+-{
+-    string_ty       *lv_string;
+-    string_list_ty  *lv_string_list;
+-}
+-
+-%type <lv_string> NUMBER STRING IDENTIFIER date author next log state
++%type <lv_string> date author next log state
+ %type <lv_string_list> strings_opt branch branch_opt identifiers_opt numbers_opt
+ 
+ %{
+--- aegis-4.24/aeimport/format/sccs/gram.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/aeimport/format/sccs/gram.y	2024-05-03 11:50:58.534842190 +1000
+@@ -39,7 +39,12 @@
+ 
+ %}
+ 
+-%token COMMENT
++%union {
++    string_ty       *lv_string;
++    long            lv_long;
++}
++
++%token <lv_string> COMMENT
+ %token DELTA_BEGIN
+ %token DELTA_END
+ %token D_KEYWORD
+@@ -52,21 +57,15 @@
+ %token MR_EXCLUDE
+ %token MR_IGNORE
+ %token MR_INCLUDE
+-%token STRING
++%token <lv_string> STRING
+ %token SUMMARY
+-%token TEXTLINE
++%token <lv_string> TEXTLINE
+ %token TITLE_BEGIN
+ %token TITLE_END
+ %token USERS_BEGIN
+ %token USERS_END
+ 
+-%union {
+-    string_ty       *lv_string;
+-    long            lv_long;
+-}
+-
+ %type <lv_long> date_and_time number
+-%type <lv_string> COMMENT STRING TEXTLINE
+ 
+ %{
+ 
+--- aegis-4.24/common/ac/string/memmem.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/common/ac/string/memmem.cc	2024-05-03 11:50:58.556841926 +1000
+@@ -182,7 +182,7 @@
+ 
+     // Use optimizations in memchr when possible.
+     if (needle_len == 1)
+-        return memchr(haystack, *needle, haystack_len);
++      return (void *)memchr(haystack, *needle, haystack_len);
+ 
+     // Minimizing the worst-case complexity:
+     // Let n = haystack_len, m = needle_len.
+--- aegis-4.24/common/ac/unistd.h	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/common/ac/unistd.h	2024-05-03 11:50:58.556841926 +1000
+@@ -27,8 +27,8 @@
+ // and readlink functions.
+ //
+ #ifdef __linux__
+-#ifndef _BSD_SOURCE
+-#define _BSD_SOURCE
++#ifndef _DEFAULT_SOURCE
++#define _DEFAULT_SOURCE
+ #endif
+ #ifndef __USE_BSD
+ #define __USE_BSD
+--- aegis-4.24/common/ac/uuid.h	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/common/ac/uuid.h	2024-05-04 13:58:27.549540099 +1000
+@@ -28,12 +28,12 @@
+ #define UUID_FLAVOR_SET 1
+ #define UUID_IS_DCE 1
+ 
+-#elif HAVE_UUID_H
+-#include <uuid.h>
+-
+ #elif HAVE_UUID_UUID_H
+ #include <uuid/uuid.h>
+ 
++#elif HAVE_UUID_H
++#include <uuid.h>
++
+ #elif HAVE_SYS_UUID_H
+ extern "C" {
+ #include <sys/uuid.h>
+--- aegis-4.24/common/config.messy.h	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/common/config.messy.h	2024-05-03 11:50:58.555841938 +1000
+@@ -97,11 +97,10 @@
+ #ifndef _GNU_SOURCE
+ #define _GNU_SOURCE
+ #endif
+-#ifndef _BSD_SOURCE
+-#define _BSD_SOURCE
++#ifndef _DEFAULT_SOURCE
++#define _DEFAULT_SOURCE
+ #endif
+ #endif
+-
+ //
+ // The SINGLE_USER define may be exploited to create a single-user version
+ // of Aegis.  It is mostly used for testing, but also for Windows NT,
+--- aegis-4.24/common/mem.h	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/common/mem.h	2024-05-03 11:50:58.555841938 +1000
+@@ -124,11 +124,7 @@
+    dmem_copy_string(__FILE__, __LINE__, (p), ## __VA_ARGS__)
+ #endif
+ 
+-#if HAVE_HEADER_NEW || HAVE_NEW_H
+-#define THROW_BAD_ALLOC throw(std::bad_alloc)
+-#else
+ #define THROW_BAD_ALLOC
+-#endif
+ 
+ #ifndef DMALLOC
+ void *operator new(size_t nbytes) THROW_BAD_ALLOC;
+--- aegis-4.24/common/nstring/accumulator.h	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/common/nstring/accumulator.h	2024-05-03 11:50:58.556841926 +1000
+@@ -161,7 +161,7 @@
+       * \note
+       *     Please use this methdo as little as possible.
+       */
+-    const char *get_data() const { return (buffer ? buffer : ""); }
++    const char *get_data() const { return (length ? buffer : ""); }
+ 
+     /**
+       * The array index operator is used to obtain thr nth character in
+--- aegis-4.24/common/stack.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/common/stack.cc	2024-05-03 11:50:58.555841938 +1000
+@@ -24,7 +24,7 @@
+ find_stack_direction ()
+ {
+     static char *addr = 0;
+-    auto char dummy;
++    char dummy;
+     if (addr == 0)
+     {
+ 	addr = &dummy;
+@@ -47,7 +47,7 @@
+ 	return false;
+     if (stack_direction == 0)
+ 	stack_direction = find_stack_direction();
+-    auto char dummy = 0;
++    char dummy = 0;
+     char *cp = (char *)p;
+     return (stack_direction < 0 ?  (&dummy < cp) : (&dummy > cp));
+ }
+--- aegis-4.24/fmtgen/parse.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/fmtgen/parse.y	2024-05-03 11:50:58.556841926 +1000
+@@ -54,30 +54,29 @@
+ 
+ %}
+ 
++%union
++{
++    string_ty       *lv_string;
++    long            lv_integer;
++    type *lv_type;
++}
++
+ %token	BOOLEAN
+ %token	BOOLEAN_CONSTANT
+ %token	HIDE_IF_DEFAULT
+ %token	INCLUDE
+ %token	INTEGER
+-%token	INTEGER_CONSTANT
+-%token	NAME
++%token	<lv_integer> INTEGER_CONSTANT
++%token	<lv_string> NAME
+ %token	REAL
+ %token	REDEFINITION_OK
+ %token	SHOW_IF_DEFAULT
+ %token	STRING
+-%token	STRING_CONSTANT
++%token	<lv_string> STRING_CONSTANT
+ %token	TIME
+ %token	TYPE
+ 
+-%union
+-{
+-    string_ty       *lv_string;
+-    long            lv_integer;
+-    type *lv_type;
+-}
+-
+-%type <lv_string> NAME STRING_CONSTANT
+-%type <lv_integer> INTEGER_CONSTANT attributes
++%type <lv_integer> attributes
+ %type <lv_type> type structure list enumeration enum_list_begin
+ 
+ %{
+--- aegis-4.24/libaegis/aer/report.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/libaegis/aer/report.y	2024-05-03 11:50:58.554841951 +1000
+@@ -120,6 +120,15 @@
+ 
+ %}
+ 
++%union
++{
++    long lv_number;
++    nstring *lv_string;
++    rpt_value::pointer *lv_value;
++    rpt_stmt::pointer *lv_stmt;
++    rpt_expr::pointer *lv_expr;
++}
++
+ %token AND_BIT
+ %token AND_LOGICAL
+ %token ASSIGN
+@@ -141,7 +150,7 @@
+ %token CATCH
+ %token COLON
+ %token COMMA
+-%token CONSTANT
++%token <lv_value> CONSTANT
+ %token CONTINUE
+ %token DECR
+ %token DEFAULT
+@@ -170,7 +179,7 @@
+ %token MINUS
+ %token MOD
+ %token MUL
+-%token NAME
++%token <lv_string> NAME
+ %token NE
+ %token NMATCH
+ %token NOT_BIT
+@@ -192,19 +201,8 @@
+ %token WHILE
+ %token XOR_BIT
+ 
+-%union
+-{
+-    long lv_number;
+-    nstring *lv_string;
+-    rpt_value::pointer *lv_value;
+-    rpt_stmt::pointer *lv_stmt;
+-    rpt_expr::pointer *lv_expr;
+-}
+-
+ %type <lv_expr> expr
+-%type <lv_value> CONSTANT
+ %type <lv_stmt> stmt stmt_list compound_stmt
+-%type <lv_string> NAME
+ %type <lv_expr> expr_list struct_list expr_list_opt struct_assign
+ %type <lv_stmt> declaration decl_name_list decl_name
+ 
+--- aegis-4.24/libaegis/change/file/name_check.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/libaegis/change/file/name_check.cc	2024-05-03 11:50:58.554841951 +1000
+@@ -279,17 +279,12 @@
+ 	    }
+ 	}
+     }
+-    else
+-    {
+ 	//
+-	// exclude control characters, space characters
+-	// and high-bit-on characters
+-	// (This is a "C" locale test.)
++    // Avoid doing more checks using isgraph/isprint or similar
++    // functions, since they can be too strict with respect to other
++    // option selected by the user: allow_white_space_in_filenames,
++    // allow_non_ascii_filenames.
+ 	//
+-	for (s = fn->str_text; *s; ++s)
+-	    if (!isgraph((unsigned char)*s))
+-		return 0;
+-    }
+     return 1;
+ }
+ 
+--- aegis-4.24/libaegis/gram.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/libaegis/gram.y	2024-05-03 11:50:58.554841951 +1000
+@@ -34,11 +34,6 @@
+ 
+ %}
+ 
+-%token INTEGER
+-%token NAME
+-%token REAL
+-%token STRING
+-
+ %union
+ {
+ 	string_ty	*lv_string;
+@@ -46,9 +41,14 @@
+ 	double		lv_real;
+ }
+ 
+-%type <lv_string> NAME STRING string
+-%type <lv_integer> INTEGER integer
+-%type <lv_real> REAL real
++%token <lv_integer> INTEGER
++%token <lv_string> NAME
++%token <lv_real> REAL
++%token <lv_string> STRING
++
++%type <lv_string> string
++%type <lv_integer> integer
++%type <lv_real> real
+ 
+ %%
+ 
+--- aegis-4.24/libaegis/http.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/libaegis/http.cc	2024-05-03 11:50:58.534842190 +1000
+@@ -404,7 +404,7 @@
+ emit_change_href(change::pointer cp, const char *modifier)
+ {
+     if (cp->bogus)
+-        emit_project_href(cp->pp, modifier);
++        emit_project_href(cp->pp,"%s", modifier);
+     else
+         emit_change_href_n(cp->pp, magic_zero_decode(cp->number), modifier);
+ }
+--- aegis-4.24/libaegis/interrupt.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/libaegis/interrupt.cc	2024-05-03 11:50:58.534842190 +1000
+@@ -26,11 +26,9 @@
+ 
+ static int depth;
+ 
+-#if !defined (HAVE_SIGHOLD) || !defined (HAVE_SIGRELSE)
+ #ifdef HAVE_SIGPROCMASK
+ static sigset_t oldsigs;
+ #endif
+-#endif
+ 
+ 
+ void
+@@ -42,12 +40,6 @@
+     if (++depth > 1)
+ 	return;
+ 
+-#if defined (HAVE_SIGHOLD) && defined (HAVE_SIGRELSE)
+-    sighold(SIGHUP);
+-    sighold(SIGINT);
+-    sighold(SIGQUIT);
+-    sighold(SIGTERM);
+-#else
+ #ifdef HAVE_SIGPROCMASK
+     {
+ 	sigset_t        set;
+@@ -59,8 +51,14 @@
+ 	sigaddset(&set, SIGTERM);
+ 	sigprocmask(SIG_BLOCK, &set, &oldsigs);
+     }
+-#endif // HAVE_SIGPROCMASK
++#else
++#if defined (HAVE_SIGHOLD) && defined (HAVE_SIGRELSE)
++    sighold(SIGHUP);
++    sighold(SIGINT);
++    sighold(SIGQUIT);
++    sighold(SIGTERM);
+ #endif // !HAVE_SIGHOLD
++#endif // HAVE_SIGPROCMASK
+ }
+ 
+ 
+@@ -76,14 +74,14 @@
+     if (--depth > 0)
+ 	return;
+ 
++#ifdef HAVE_SIGPROCMASK
++    sigprocmask(SIG_SETMASK, &oldsigs, (sigset_t *)0);
++#else
+ #if defined (HAVE_SIGHOLD) && defined (HAVE_SIGRELSE)
+     sigrelse(SIGHUP);
+     sigrelse(SIGINT);
+     sigrelse(SIGQUIT);
+     sigrelse(SIGTERM);
+-#else
+-#ifdef HAVE_SIGPROCMASK
+-    sigprocmask(SIG_SETMASK, &oldsigs, (sigset_t *)0);
+-#endif // HAVE_SIGPROCMASK
+ #endif // !HAVE_SIGHOLD
++#endif // HAVE_SIGPROCMASK
+ }
+--- aegis-4.24/libaegis/project/file/roll_forward.cc	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/libaegis/project/file/roll_forward.cc	2024-05-03 11:50:58.553841962 +1000
+@@ -1045,7 +1045,8 @@
+                 //
+                 file_event_list::pointer felp2 =
+                     uuid_to_felp.get(nstring(filename));
+-                assert(felp2);
++                if (felp2)
++                {
+                 felp2->push_back(*result);
+ 
+                 //
+@@ -1058,6 +1059,7 @@
+                 assert(result == felp2);
+             }
+         }
++        }
+ 
+ #ifdef DEBUG
+ 	for (size_t j = 0; j < result->size(); ++j)
+--- aegis-4.24/libaegis/sub/expr_gram.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/libaegis/sub/expr_gram.y	2024-05-03 11:50:58.534842190 +1000
+@@ -38,6 +38,13 @@
+ 
+ %}
+ 
++%union
++{
++	long	lv_number;
++}
++
++%type <lv_number> expr
++
+ %token DIV
+ %token EQ
+ %token GE
+@@ -51,17 +58,10 @@
+ %token MUL
+ %token NE
+ %token NOT
+-%token NUMBER
++%token <lv_number> NUMBER
+ %token PLUS
+ %token RP
+ 
+-%union
+-{
+-	long	lv_number;
+-}
+-
+-%type <lv_number> NUMBER expr
+-
+ %left NE EQ
+ %left LT LE GT GE
+ %left PLUS MINUS
+--- aegis-4.24/libaegis/sub/plural_gram.y	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/libaegis/sub/plural_gram.y	2024-05-03 11:50:58.534842190 +1000
+@@ -38,6 +38,11 @@
+ 
+ %}
+ 
++%union
++{
++    unsigned        lv_number;
++}
++
+ %token ANDAND
+ %token BITAND
+ %token BITOR
+@@ -48,7 +53,7 @@
+ %token EQU
+ %token GE
+ %token GT
+-%token INTEGER
++%token <lv_number> INTEGER
+ %token JUNK
+ %token LE
+ %token LP
+@@ -67,12 +72,7 @@
+ %token RP
+ %token SEMI
+ 
+-%union
+-{
+-    unsigned        lv_number;
+-}
+-
+-%type <lv_number> INTEGER expr
++%type <lv_number> expr
+ 
+ %right EQU
+ %right QUEST COLON

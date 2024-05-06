@@ -1,9 +1,9 @@
 #!/bin/sh
 
-BLDOPTS="-m64 -O0"
-export CFLAGS="-I"$LOCAL_PREFIX"/include -std=c11 -ggdb3 "$BLDOPTS
-export CXXFLAGS="-I"$LOCAL_PREFIX"/include -std=c++11 -ggdb3 "$BLDOPTS
-export FFLAGS="-ggdb3 "$BLDOPTS
+BLDOPTS="-ggdb3 -m64 -O0"
+export CFLAGS="-I"$LOCAL_PREFIX"/include "$BLDOPTS
+export CXXFLAGS="-I"$LOCAL_PREFIX"/include "$BLDOPTS
+export FFLAGS=$BLDOPTS
 export LDFLAGS="-L"$LAPACK_DIR" -L"$LOCAL_PREFIX"/lib"
 
 $OCTAVE_DIR/configure $OCTAVE_CONFIG_OPTIONS \

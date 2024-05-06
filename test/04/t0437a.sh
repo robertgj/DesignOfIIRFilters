@@ -47,12 +47,11 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 (m+2)*wm*wp*ws-(m+2)^2*wm*wp*ws;
-(m+1)^2*(wp*ws+wm*ws+wm*wp)+(m+1)*((-2*wp*ws)-wm*ws+wm*wq-wm*wp);
+(m+1)^2*(wp*ws+wm*ws+wm*wp)+(m+1)*(-(2*wp*ws)-wm*ws+wm*wq-wm*wp);
 m^2*(wm*wp*ws-ws-wp-wm)+m*(2*ws-wq+2*wp)-n^2*wm^3;
-(m-1)*(wp*ws-wm*wq-1)+(m-1)^2*((-wp*ws)-wm*ws-wm*wp+1)+3*n^2*wm^2;
-(m-2)^2*(ws+wp+wm)+(m-2)*((-ws)+wq-wp+wm)-3*n^2*wm;
+(m-1)*(wp*ws-wm*wq-1)+(m-1)^2*(-(wp*ws)-wm*ws-wm*wp+1)+3*n^2*wm^2;
+(m-2)^2*(ws+wp+wm)+(m-2)*(-ws+wq-wp+wm)-3*n^2*wm;
 n^2-(m-3)^2;
-
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat of test.ok"; fail; fi
 

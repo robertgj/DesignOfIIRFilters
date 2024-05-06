@@ -48,10 +48,10 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test.ok << 'EOF'
 
 (n-m+3)*(n+m-3);
-2*((-(m-2)*ws)+(m-2)^2*ws+(m-2)*wq-(m-2)*wp+(m-2)^2*wp-3*n^2*wm+(m-2)*wm+(m-2)^2*wm);
+2*(-((m-2)*ws)+(m-2)^2*ws+(m-2)*wq-(m-2)*wp+(m-2)^2*wp-3*n^2*wm+(m-2)*wm+(m-2)^2*wm);
 4*(m-1)*wp*ws-4*(m-1)^2*wp*ws-4*(m-1)^2*wm*ws-4*(m-1)*wm*wq-4*(m-1)^2*wm*wp+12*n^2*wm^2+3*n^2-3*(m-1)^2;
 4*(2*m^2*wm*wp*ws+m^2*ws+m^2*wp-2*n^2*wm^3-3*n^2*wm+m^2*wm);
-(-4*(m+1)^2*wp*ws)-4*(m+1)*wp*ws-4*(m+1)^2*wm*ws+4*(m+1)*wm*wq-4*(m+1)^2*wm*wp+12*n^2*wm^2+3*n^2-3*(m+1)^2;
+-(4*(m+1)^2*wp*ws)-4*(m+1)*wp*ws-4*(m+1)^2*wm*ws+4*(m+1)*wm*wq-4*(m+1)^2*wm*wp+12*n^2*wm^2+3*n^2-3*(m+1)^2;
 2*((m+2)^2*ws+(m+2)*ws-(m+2)*wq+(m+2)^2*wp+(m+2)*wp-3*n^2*wm+(m+2)^2*wm-(m+2)*wm);
 (n-m-3)*(n+m+3);
 0;
