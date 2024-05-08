@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_kyp_union_bandpass_test.m
-% Copyright (C) 2021-2023 Robert G. Jenssen
+% Copyright (C) 2021-2024 Robert G. Jenssen
 %
 % SDP design of a direct-form FIR bandpass filter with the KYP
 % lemma. The pass band response is set to e^{-j*w*d}. The stop band
@@ -214,22 +214,26 @@ P=(w*d)+unwrap(arg(H));
 [T,w]=delayz(h,1,nplot);
 
 subplot(311)
-ax=plotyy(w*0.5/pi,10*log10(Asq),w*0.5/pi,10*log10(Asq));
+[ax,h1,h2]=plotyy(w*0.5/pi,10*log10(Asq),w*0.5/pi,10*log10(Asq));
 axis(ax(1),[0 0.5 -60 -40]);
 axis(ax(2),[0 0.5 0.02*[-1 1]]);
+h1c=get(h1,"color");
+h2c=get(h2,"color");
 grid("on");
 ylabel("Amplitude(dB)");
 strt=sprintf("KYP non-symmetric band-pass FIR filter : \
 N=%d,d=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g",N,d,fasl,fapl,fapu,fasu);
 title(strt);
 subplot(312)
-plot(w(napl:napu)*0.5/pi,(P(napl:napu)/pi)-4);
+hax=plot(w(napl:napu)*0.5/pi,(P(napl:napu)/pi)-4);
 axis([0 0.5 0.0004*[-1 1]]);
+set(hax,"color",h2c);
 grid("on");
 ylabel("Phase error(rad./$\\pi$)");
 subplot(313)
-plot(w(napl:napu)*0.5/pi,T(napl:napu));
+hax=plot(w(napl:napu)*0.5/pi,T(napl:napu));
 axis([0 0.5 d+0.1*[-1 1]]);
+set(hax,"color",h2c);
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency");
