@@ -31,8 +31,7 @@ if getenv("OCTAVE_ENABLE_MONOCHROME")
   % For monochrome printing
   set(0,"defaultaxescolororder",zeros(size(get(0,"defaultaxescolororder"))));
 endif
-clf
-close
+close all force;
 
 % Make warnings into errors
 warning("error","Octave:assign-as-truth-value");

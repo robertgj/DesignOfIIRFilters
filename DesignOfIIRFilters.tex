@@ -144,14 +144,14 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \end{align*}
 \vspace*{1cm}
 \begin{center}
-  See: \url{https://erich-friedman.github.io/mathmagic/0804.html}
+  See \url{https://erich-friedman.github.io/mathmagic/0804.html}
 \end{center}
 
 \vspace*{11cm}
 Copyright \copyright\; 2017--2024 Robert G. Jenssen
 
 This work is licensed under the Creative Commons Attribution 4.0 International
-License.\\ View a copy of the license at:
+License.\\ View a copy of the license at 
 \url{https://creativecommons.org/licenses/by/4.0/legalcode}
 \tableofcontents
 \listofalgorithms{}
@@ -39044,6 +39044,8 @@ patches files to:
     \item \texttt{unique.m} to add stable sorting
     \item \texttt{uifigure.m} to avoid a core dump in the test case
   \end{enumerate}
+\item patches \texttt{libgui/graphics/GLCanvas.cc} to avoid seg-faults with
+      qt-6.7.0. See \url{https://savannah.gnu.org/bugs/?65605}
 \end{itemize}
 
 \subsubsection*{Problems with Octave-Forge packages}
