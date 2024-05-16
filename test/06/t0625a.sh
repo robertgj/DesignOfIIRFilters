@@ -17,8 +17,12 @@ schurOneMPAlattice_slb_exchange_constraints.m \
 schurOneMPAlattice_slb_set_empty_constraints.m \
 schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice_slb_update_constraints.m \
-schurOneMPAlattice2tf.m schurOneMAPlatticeDoublyPipelined2Abcd.m \
-schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m \
+schurOneMPAlattice2tf.m \
+schurOneMAPlatticeDoublyPipelined2Abcd.m \
+schurOneMAPlattice2tf.m \
+schurOneMAPlattice2Abcd.m \
+tf2schurOneMlattice.m \
+schurOneMPAlatticeDelay_wise_lowpass.m \
 schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
 Abcd2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m WISEJ_DA.m delayz.m \
 Abcd2H.oct schurdecomp.oct complex_zhong_inverse.oct \
@@ -58,7 +62,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_k_coef.m << 'EOF'
-k = [  -0.5929031136,   0.3293844234,   0.1621855219,   0.0498198586 ];
+k = [  -0.5782998611,   0.3931457849,   0.2169255234,   0.0899513674, ... 
+        0.0213560913 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k_coef.m"; fail; fi
 

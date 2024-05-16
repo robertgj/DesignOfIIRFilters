@@ -2,6 +2,7 @@ schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_FIGURES = \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_initial_response \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_error_response \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_response \
+schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_Asq_min_max \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_convergence
 
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_COEFS = \
@@ -28,6 +29,7 @@ schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice_slb_update_constraints.m \
 schurOneMPAlattice2tf.m schurOneMAPlatticeDoublyPipelined2Abcd.m \
 schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m \
+schurOneMPAlatticeDelay_wise_lowpass.m \
 schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
 Abcd2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m WISEJ_DA.m delayz.m \
 Abcd2H.oct schurdecomp.oct complex_zhong_inverse.oct \

@@ -1,22 +1,33 @@
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_FIGURES = \
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12_response \
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5_response \
+schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_4_response \
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12_pz \
-schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5_pz
+schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5_pz \
+schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_4_pz
 
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_COEFS = \
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12.mat \
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5.mat \
+schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_4.mat \
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12_spec.m \
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5_spec.m \
+schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_4_spec.m \
+schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12_A1k0_coef.m \
+schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5_A1k0_coef.m \
+schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_4_A1k0_coef.m \
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12_A1k_coef.m \
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5_A1k_coef.m \
+schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_4_A1k_coef.m \
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12_A1epsilon_coef.m \
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5_A1epsilon_coef.m \
+schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_4_A1epsilon_coef.m \
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12_A1p_coef.m \
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5_A1p_coef.m \
+schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_4_A1p_coef.m \
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_12_Da1_coef.m \
-schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5_Da1_coef.m
+schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5_Da1_coef.m \
+schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_4_Da1_coef.m
 
 schurOneMPAlatticeDelay_socp_slb_lowpass_test_FILES = \
 schurOneMPAlatticeDelay_socp_slb_lowpass_test.m test_common.m \
@@ -32,7 +43,9 @@ schurOneMPAlattice_slb_set_empty_constraints.m \
 schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice_slb_update_constraints.m \
 schurOneMPAlattice2tf.m \
-schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m \
+schurOneMAPlattice2tf.m \
+schurOneMPAlatticeDelay_wise_lowpass.m \
+schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m \
 schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
 Abcd2tf.m H2Asq.m H2T.m H2P.m WISEJ_DA.m delayz.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \

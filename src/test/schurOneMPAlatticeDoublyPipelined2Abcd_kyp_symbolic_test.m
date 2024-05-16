@@ -1,5 +1,5 @@
 % schurOneMPAlatticeDoublyPipelined2Abcd_kyp_symbolic_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2023-2024 Robert G. Jenssen
 %
 % Create a symbolic version of the KYP lemma for doubly pipelined Schur
 % one-multiplier parallel all-pass filters. 
@@ -115,12 +115,10 @@ for N=3:2:7,
   endfor
   vpapABCD=double(eval(papABCD));
 
-  % Convert the original transfer functions. 
-  [~,~,~,~,ra1apA,ra1apB,ra1apC,ra1apD] = ...
-    schurOneMlatticeDoublyPipelined2Abcd(a1k,ones(Na1,1),zeros(Na1+1,1));
-  [~,~,~,~,ra2apA,ra2apB,ra2apC,ra2apD] = ...
-    schurOneMlatticeDoublyPipelined2Abcd(a2k,ones(Na2,1),zeros(Na2+1,1));
-
+  % Convert the original transfer functions.
+  [ra1apA,ra1apB,ra1apC,ra1apD] = schurOneMAPlatticeDoublyPipelined2Abcd(a1k);
+  [ra2apA,ra2apB,ra2apC,ra2apD] = schurOneMAPlatticeDoublyPipelined2Abcd(a2k);
+  
   % Construct the filter
   rapA=[[ra1apA, zeros(Na1s,Na2s)]; ...
         [zeros(Na2s,Na1s), ra2apA]];
@@ -148,15 +146,25 @@ for N=3:2:7,
   %
   % Construct the KYP lemma LMI
   %
-  AB=[[papA,papB];[eye(size(papA)),zeros(size(papB))]];
-  CD=[[papC,papD];[zeros(size(papC)),1]];
+  Ns=Na1s+Na2s;
+  AB=[[papA,papB];[eye(Ns,Ns),zeros(Ns,1)]];
+  CD=[[papC,papD];[zeros(1,Ns),1]];
   Phi=[[-1,0];[0,1]]; 
   a=sym("a");
   c=sym("c");
   Psi=[[0,a];[1/a,c]];
-  P=sym("P",size(papA));
-  Q=sym("Q",size(papA));
-  Esq=sym("Esq");
+  % Force P and Q to be symmetric
+  for l=1:Ns,
+    eval(sprintf("P(%02d,%02d)=sym('P%02d%02d','real');",l,l,l,l));
+    eval(sprintf("Q(%02d,%02d)=sym('Q%02d%02d','real');",l,l,l,l));
+    for m=(l+1):Ns,
+      eval(sprintf("P(%02d,%02d)=sym('P%02d%02d','real');",l,m,l,m));
+      eval(sprintf("P(%02d,%02d)=P(%02d,%02d);",m,l,l,m));
+      eval(sprintf("Q(%02d,%02d)=sym('Q%02d%02d','real');",l,m,l,m));
+      eval(sprintf("Q(%02d,%02d)=Q(%02d,%02d);",m,l,l,m));
+    endfor
+  endfor
+  Esq=sym("Esq","real","positive");
   Theta=(CD')*[[1,0];[0,-Esq]]*CD;
   Gamma=(kron(Phi,P)+kron(Psi,Q));
   K=(AB')*Gamma*AB;

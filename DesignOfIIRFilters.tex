@@ -38576,7 +38576,7 @@ $\Delta_{z}=\mathvec\left(\Delta_{\boldsymbol{k}},\Delta_{\varepsilon^{2}},\Delt
 iteration,  $z_{m}=\mathvec\left(\boldsymbol{k}_{m},\varepsilon_{m}^{2},P_{m},Q_{m},
   X_{m},Y_{m},Z_{m}\right)$.
 
-\subsubsection{Successive convex optimisation with the algorithm of \emph{Dinh et al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}}
+\subsubsection{Successive convex optimisation with the algorithm of \emph{Dinh et al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}\label{sec:Successive-convex optimisation-Dinh}}
 Apply Equation~\ref{eqn:Dinh-bilinear-convex-concave-c} to
 Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI-Finsler}:
 \begin{align*}
@@ -38667,22 +38667,41 @@ the parallel combination of a delay and a Schur one-multiplier all-pass lattice
 filter. The initial filter is designed with the \emph{WISE} method shown in
 Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. The objective
 function is a second order approximation to the summed squared error of the
-amplitude response. The script finds initial values for the SDP decision
-variables $P$, $Q$ etc. with \emph{SeDuMi} and then uses the \emph{SDPT3}
-solver for successive convex approximation. The filter design converges very
-slowly.
-
-The filter specification is:
+amplitude response. The script finds initial values for the symmetric and real
+SDP decision variables $P$, $Q$, $X$ etc. with \emph{SeDuMi} and then uses the
+\emph{SDPT3} solver for successive convex approximation. The filter design
+converges very slowly. The filter specification is:
 \begin{small}
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_spec.m}
 \end{small}
+The initial reflection coefficients are:
+\begin{small}
+\verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_k0_coef.m}
+\end{small}
+Figure~\ref{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-initial}
+shows the initial filter amplitude and delay responses.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_initial_response}}
+\caption{Initial amplitude and delay responses of a lowpass filter comprised
+  of a Schur one-multiplier lattice all-pass filter in parallel with a delay.}
+\label{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-initial}
+\end{figure}
+
 The optimised reflection coefficients are:
 \begin{small}
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_k_coef.m}
 \end{small}
 Figure~\ref{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-response}
 shows the filter amplitude and delay responses.
-\begin{figure}[!ht]
+Figure~\ref{fig:schurOneMPADoublyPipelinedDelay-Dinh-lowpass-convergence-Esq}
+shows the convergence of the squared-error and $\Delta_{k}$ of the filter design.
+Figure~\ref{fig:schurOneMPADoublyPipelinedDelay-Dinh-lowpass-convergence-Asq}
+shows the convergence of the minimum pass-band amplitude and maximum stop-band
+amplitude of the filter design.
+
+\begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_response}}
 \caption{Amplitude and delay responses of a lowpass filter comprised of a
@@ -38691,25 +38710,35 @@ shows the filter amplitude and delay responses.
     al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}.}
 \label{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-response}
 \end{figure}
-Figure~\ref{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-convergence}
-shows the convergence of the filter design.
-\begin{figure}[!ht]
+
+\begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_convergence}}
-\caption{Convergence of the filter design of a lowpass filter comprised of a
-  Schur one-multiplier lattice all-pass filter in parallel with a delay
-  designed with the generalised KYP lemma and the algorithm of \emph{Dinh et
+\caption{Convergence of the squared-error and $\Delta_{k}$ 
+  of a lowpass filter comprised of a Schur one-multiplier lattice all-pass
+  filter in parallel with a delay designed with the generalised KYP lemma and
+  the algorithm of \emph{Dinh et
     al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}.}
-\label{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-convergence}
+\label{fig:schurOneMPADoublyPipelinedDelay-Dinh-lowpass-convergence-Esq}
 \end{figure}
 
-Unfortunately, for $N=5$, the script filter design diverges.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_Asq_min_max}}
+\caption{Convergence of the minimum pass-band and maximum stop-band
+  amplitudes of a lowpass filter comprised of a Schur
+  one-multiplier lattice all-pass filter in parallel with a delay designed with
+  the generalised KYP lemma and the algorithm of \emph{Dinh et
+    al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}.}
+\label{fig:schurOneMPADoublyPipelinedDelay-Dinh-lowpass-convergence-Asq}
+\end{figure}
 
 \subsubsection{Successive convex optimisation with the algorithm of
   \emph{Lee} and \emph{Wu}~\cite[Algorithm 1]{Lee_SequentialConvexApproxBMI}}
 Alternatively, apply the algorithm of \emph{Lee} and \emph{Wu} to
 Equation~\ref{eqn:Lee-Hu-partially-linearised-bilinear-mapping}.
 After the $m$'the iteration, at  $z=z_{m}+\Delta_{z}$, the linear part is:
+
 \begin{align*}
   \begin{split}
    \nabla  F\left(z_{m}\right)\Delta_{z}
@@ -38812,19 +38841,25 @@ function is a second order approximation to the summed squared error of the
 amplitude response. The script finds initial values for the SDP decision
 variables $P$, $Q$ etc. with \emph{SeDuMi} and then uses the \emph{SDPT3}
 solver for successive convex approximation. The filter design converges very
-slowly.
-
-The filter specification is:
+slowly. The filter specification is:
 \begin{small}
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_spec.m}
 \end{small}
+The initial filter is that of
+Section~\ref{sec:Successive-convex optimisation-Dinh}.
 The optimised reflection coefficients are:
 \begin{small}
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_k_coef.m}
 \end{small}
 Figure~\ref{fig:schurOneMPA-DoublyPipelinedDelay-kyp-LeeHu-lowpass-response}
 shows the filter amplitude and delay responses.
-\begin{figure}[!ht]
+Figure~\ref{fig:schurOneMPADoublyPipelinedDelay-LeeHu-lowpass-convergence-Esq}
+shows the convergence of the squared-error and $\Delta_{z}$ of the filter design.
+Figure~\ref{fig:schurOneMPADoublyPipelinedDelay-LeeHu-lowpass-convergence-Asq}
+shows the convergence of the minimum pass-band amplitude and maximum stop-band
+amplitude of the filter design.
+
+\begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_response}}
 \caption{Amplitude and delay responses of a lowpass filter comprised of a
@@ -38833,20 +38868,31 @@ shows the filter amplitude and delay responses.
   \emph{Lee} and \emph{Hu}~\cite[Algorithm 1]{Lee_SequentialConvexApproxBMI}.}
 \label{fig:schurOneMPA-DoublyPipelinedDelay-kyp-LeeHu-lowpass-response}
 \end{figure}
-Figure~\ref{fig:schurOneMPA-DoublyPipelinedDelay-kyp-LeeHu-lowpass-convergence}
-shows the convergence of the filter design.
-\begin{figure}[!ht]
+
+\begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_convergence}}
-\caption{Convergence of the filter design of a lowpass filter comprised of a
-  Schur one-multiplier lattice all-pass filter in parallel with a delay
-  designed with the generalised KYP lemma and the algorithm of
-  \emph{Lee} and \emph{Hu}~\cite[Algorithm 1]{Lee_SequentialConvexApproxBMI}.}
-\label{fig:schurOneMPA-DoublyPipelinedDelay-kyp-LeeHu-lowpass-convergence}
+\caption{Convergence of the squared-error and $\Delta_{z}$ 
+  of a lowpass filter comprised of a Schur one-multiplier lattice all-pass
+  filter in parallel with a delay designed with the generalised KYP lemma and
+  the algorithm of \emph{Lee} and
+  \emph{Hu}~\cite[Algorithm 1]{Lee_SequentialConvexApproxBMI}.}
+\label{fig:schurOneMPADoublyPipelinedDelay-LeeHu-lowpass-convergence-Esq}
 \end{figure}
-
-Unfortunately, for $N=5$, the script converges for a few
-steps and then wanders randomly. It may be that these SDP solvers have
+\clearpage
+\begin{figure}[!ht]
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_Asq_min_max}}
+\caption{Convergence of the minimum pass-band amplitude and maximum stop-band
+  amplitude of a lowpass filter comprised of a Schur
+  one-multiplier lattice all-pass filter in parallel with a delay designed with
+  the generalised KYP lemma and the algorithm of \emph{Lee} and
+  \emph{Hu}~\cite[Algorithm 1]{Lee_SequentialConvexApproxBMI}.}
+\label{fig:schurOneMPADoublyPipelinedDelay-LeeHu-lowpass-convergence-Asq}
+\end{figure}
+\begin{comment}
+Unfortunately, for $N=6$, the scripts converge for a few
+steps and then wander randomly. It may be that these SDP solvers have
 insufficient numerical precision. To test this I installed the \emph{SDPA-GMP}
 solver~\cite{Maho_SDPAGMP,Maho_SDPA_evaluation,
   Fujisawa_SemidefiniteProgrammingMATLAB}
@@ -38856,6 +38902,34 @@ an intermediate file with a conversion from sparse to full matrixes. That
 function required more memory than was available on my PC. I modified
 \emph{gensdpagmpfile} to avoid this problem but then found that the executable
 file, \emph{sdpa\_gmp}, ran very, very slowly.
+\end{comment}
+
+\subsubsection{Comparison with SOCP PCLS design}
+For comparison, the Octave script
+\emph{schurOneMPAlatticeDelay\_socp\_slb\_lowpass\_test.m} uses the
+PCLS algorithm and SOCP optimisation to design a lowpass filter comprised of a
+Schur one-multiplier lattice all-pass filter in parallel with a delay.
+The initial filter is designed with the \emph{WISE} method.
+The filter specification is similar to that of
+Section~\ref{sec:Successive-convex optimisation-Dinh}.
+The initial reflection coefficients are those found in 
+Section~\ref{sec:Successive-convex optimisation-Dinh}.
+
+The optimised reflection coefficients are:
+\begin{small}
+\verbatiminput{schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5_A1k_coef.m}
+\end{small}
+Figure~\ref{fig:schurOneMPA-delay-m-5-lowpass-response}
+shows the filter amplitude response.
+
+\begin{figure}[!hb]
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5_response}}
+\caption{Amplitude response of a lowpass filter comprised of a
+  Schur one-multiplier lattice all-pass filter in parallel with a delay
+  designed with the PCLS algorithm and SOCP optimisation.}
+\label{fig:schurOneMPA-delay-m-5-lowpass-response}
+\end{figure}
 
 \cleardoublepage
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}

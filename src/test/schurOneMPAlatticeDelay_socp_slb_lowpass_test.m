@@ -12,60 +12,10 @@ delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
-function Da0=schurOneMPAlatticeDelay_socp_slb_lowpass_init(m,DD,fap,fas)
-  maxiter=5000;
-  % Frequency points
-  n=1000;
-  fplot=0.5*(0:(n-1))'/n;
-  wplot=2*pi*fplot;
-  nap=ceil(fap*n/0.5)+1;
-  nas=floor(fas*n/0.5)+1;
-  Wap=1;
-  Was=100;
-
-  % Frequency vectors
-  Ad=[ones(nap,1);zeros(n-nap,1)];
-  Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
-  Td=zeros(n,1);
-  Wt=zeros(n,1);
-
-  % Unconstrained minimisation
-  R=1;
-  polyphase=false;
-  tol=1e-9;
-  ai=[-0.9;zeros(m-1,1)];
-  WISEJ_DA([],R,DD,polyphase,Ad,Wa,Td,Wt);
-  opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-  [a0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_DA,ai,opt);
-  if (INFO == 1)
-    printf("Converged to a solution point.\n");
-  elseif (INFO == 2)
-    printf("Last relative step size was less that TolX.\n");
-  elseif (INFO == 3)
-    printf("Last relative decrease in function value was less than TolF.\n");
-  elseif (INFO == 0)
-    printf("Iteration limit exceeded.\n");
-  elseif (INFO == -1)
-    printf("Algorithm terminated by OutputFcn.\n");
-  elseif (INFO == -3)
-    printf("The trust region radius became excessively small.\n");
-  else
-    error("Unknown INFO value.\n");
-  endif
-  printf("Function value=%f\n", FVEC);
-  printf("fminunc iterations=%d\n", OUTPUT.iterations);
-  printf("fminunc successful=%d??\n", OUTPUT.successful);
-  printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
-
-  % Create the initial polynomials
-  a0=a0(:);
-  Da0=[1;kron(a0,[zeros(R-1,1);1])];
-endfunction
-  
 maxiter=5000
 verbose=false
 
-for M=1:2,
+for M=1:3,
 
   % Low pass filter specification
   difference=false
@@ -83,7 +33,7 @@ for M=1:2,
     fas=0.20 % Stop band amplitude response edge
     dBas=66 % Stop band amplitude response ripple
     Was=1000 % Stop band amplitude response weight
-  else
+  elseif M==2
     tol=1e-6 % Tolerance on coefficient update vector
     ctol=1e-8 % Tolerance on constraints
     m=5 % Allpass filter denominator order
@@ -94,10 +44,23 @@ for M=1:2,
     Wat=0 % Transition band amplitude response weight
     fas=0.20 % Stop band amplitude response edge
     dBas=50 % Stop band amplitude response ripple
+    Was=100 % Stop band amplitude response weight
+  else  
+    tol=1e-6 % Tolerance on coefficient update vector
+    ctol=1e-8 % Tolerance on constraints
+    m=4 % Allpass filter denominator order
+    DD=3 % Parallel delay
+    fap=0.10 % Pass band amplitude response edge
+    dBap=0.32 % Pass band amplitude response ripple
+    Wap=1 % Pass band amplitude response weight
+    Wat=0 % Transition band amplitude response weight
+    fas=0.20 % Stop band amplitude response edge
+    dBas=38.6 % Stop band amplitude response ripple
     Was=1000 % Stop band amplitude response weight
   endif
-  
-  Da0=schurOneMPAlatticeDelay_socp_slb_lowpass_init(m,DD,fap,fas);
+
+  % Initial all-pass filter
+  Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was);
   
   % Amplitude constraints
   wa=(0:(n-1))'*pi/n;
@@ -174,11 +137,15 @@ for M=1:2,
             wa(nas:end)*0.5/pi,10*log10(Asq(nas:end)));
   ylabel("Amplitude(dB)");
   xlabel("Frequency");
-  axis(ax(1),[0 0.5 -dBap 0]);
   if M==1
+    axis(ax(1),[0 0.5 -dBap 0]);
     axis(ax(2),[0 0.5 -70 -62]);
-  else
+  elseif M==2
+    axis(ax(1),[0 0.5 -dBap 0]);
     axis(ax(2),[0 0.5 -60 -40]);
+  else
+    axis(ax(1),[0 0.5 -0.5 0]);
+    axis(ax(2),[0 0.5 -40 -35]);
   endif
   grid("on");
   strt=sprintf("Parallel all-pass filter and delay : m=%d, DD=%d",m, DD);
@@ -209,19 +176,24 @@ for M=1:2,
   fprintf(fid,"DD=%d %% Delay order \n",DD);
   fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
   fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
-  fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
+  fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
   fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
   fprintf(fid,"Wat=%d %% Transition pass band weight\n",Wat);
   fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
-  fprintf(fid,"dBas=%d %% amplitude stop band peak-to-peak ripple\n",dBas);
+  fprintf(fid,"dBas=%g %% amplitude stop band peak-to-peak ripple\n",dBas);
   fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
   fclose(fid);
 
+  print_polynomial(A1k0,"A1k0");
+  print_polynomial(A1k0,"A1k0",sprintf("%s_m_%d_A1k0_coef.m",strf,m));
+
   print_polynomial(A1k,"A1k");
   print_polynomial(A1k,"A1k",sprintf("%s_m_%d_A1k_coef.m",strf,m));
+  
   print_polynomial(A1epsilon,"A1epsilon");
   print_polynomial(A1epsilon,"A1epsilon", ...
                    sprintf("%s_m_%d_A1epsilon_coef.m",strf,m),"%2d");
+  
   print_polynomial(A1p,"A1p");
   print_polynomial(A1p,"A1p",sprintf("%s_m_%d_A1p_coef.m",strf,m));
 

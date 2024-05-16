@@ -16,8 +16,13 @@ delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 % Low-pass filter specification
-d=10;M=15;N=2*M;fap=0.15;Esq_z=5.9e-3;fas=0.2;Esq_s=1e-4;
+d=10;M=15;N=2*M;fap=0.15;Esq_z=6.064e-3;fas=0.2;Esq_s=1e-4;
 AdB_est=konopacki(N,(fas-fap)*2*pi,d)
+
+% If
+%  XYZ_z=sdpvar((2*N)+1,N,"full","real");
+%  XYZ_s=sdpvar((2*N)+1,N,"full","real");
+% then Esq_z=5.9e-3 works
 
 % Common constants
 A=[zeros(N-1,1),eye(N-1);zeros(1,N)];
@@ -35,7 +40,10 @@ CD_d=CD-[C_d,0];
 % Pass band constraint on the error |H(w)-e^(-j*w*d)|^2
 P_z=sdpvar(N,N,"symmetric","real");
 Q_z=sdpvar(N,N,"symmetric","real");
-XYZ_z=sdpvar((2*N)+1,N,"full","real");
+X_z=sdpvar(N,N,"symmetric","real");
+Y_z=sdpvar(N,N,"symmetric","real");
+Z_z=sdpvar(1,N,"full","real");
+XYZ_z=[X_z;Y_z;Z_z];
 U_z=[[-eye(N),A,B,zeros(N,1)];[zeros(1,N),CD_d,-1]]';
 V_z=[[XYZ_z,zeros((2*N)+1,1)];[zeros(1,N),1]]';
 UV_z=U_z*V_z;
@@ -45,7 +53,10 @@ F_z=[[L_z,zeros(2*N,2)];[zeros(2,2*N),diag([-Esq_z,1])]]+UV_z+(UV_z');
 % Constraint on maximum stop band amplitude
 P_s=sdpvar(N,N,"symmetric","real");
 Q_s=sdpvar(N,N,"symmetric","real");
-XYZ_s=sdpvar((2*N)+1,N,"full","real");
+X_s=sdpvar(N,N,"symmetric","real");
+Y_s=sdpvar(N,N,"symmetric","real");
+Z_s=sdpvar(1,N,"full","real");
+XYZ_s=[X_s;Y_s;Z_s];
 U_s=[[-eye(N),A,B,zeros(N,1)];[zeros(1,N),CD,-1]]';
 V_s=[[XYZ_s,zeros((2*N)+1,1)];[zeros(1,N),1]]';
 UV_s=U_s*V_s;

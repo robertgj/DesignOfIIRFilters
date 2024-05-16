@@ -2,7 +2,7 @@
 % Copyright (C) 2024 Robert G. Jenssen
 
 % Filter specification
-tol=1e-6,N=4,DD=3,fap=0.10,Wap=1,fas=0.20,Was=100
+tol=1e-6,N=5,DD=4,fap=0.10,Wap=1,fas=0.20,Was=100
 
 % Frequency points
 nplot=1000;
@@ -17,44 +17,13 @@ Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(nplot-nas+1,1)];
 Td=[];
 Wt=[];
 
-% Unconstrained minimisation
-utol=1e-9
-maxiter=5000
-polyphase=false
-R=1
-ai=[-0.9;zeros(N-1,1)];
-WISEJ_DA([],R,DD,polyphase,Ad,Wa,Td,Wt);
-opt=optimset("TolFun",utol,"TolX",utol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[a0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_DA,ai,opt);
-if (INFO == 1)
-  printf("Converged to a solution point.\n");
-elseif (INFO == 2)
-  printf("Last relative step size was less that TolX.\n");
-elseif (INFO == 3)
-  printf("Last relative decrease in function value was less than TolF.\n");
-elseif (INFO == 0)
-  printf("Iteration limit exceeded.\n");
-elseif (INFO == -1)
-  printf("Algorithm terminated by OutputFcn.\n");
-elseif (INFO == -3)
-  printf("The trust region radius became excessively small.\n");
-else
-  error("Unknown INFO value.\n");
-endif
-printf("Function value=%f\n", FVEC);
-printf("fminunc iterations=%d\n", OUTPUT.iterations);
-printf("fminunc successful=%d??\n", OUTPUT.successful);
-printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
-
-% Create the initial polynomials
-a0=a0(:);
-Da0=[1;kron(a0,[zeros(R-1,1);1])];
-Na0=0.5*(conv([zeros((DD*R),1);1],Da0)+[flipud(Da0);zeros((DD*R),1)]);
+% Initial allpass filter
+Da0=schurOneMPAlatticeDelay_wise_lowpass(N,DD,fap,fas,Was);
 print_polynomial(Da0,"Da0");
 
 % Calculate initial response
 [Ha0,wplot]=freqz(flipud(Da0),Da0,nplot);
-NDD=[zeros((DD*R),1);1];
+NDD=[zeros(DD,1);1];
 [HDD,wplot]=freqz(NDD,1,nplot);
 H0_p=(Ha0-HDD)/2;
 logH0_p=20*log10(abs(H0_p));
@@ -66,13 +35,13 @@ TDD=DD*ones(size(Ta0));
 T0=(Ta0+TDD)/2;
 
 % Plot initial response
-ax=plotyy(fplot,logH0_p,fplot,logH0_s);
-ylabel("Amplitude error(dB)");
+ax=plotyy(fplot,logH0_s,fplot,logH0_s);
+ylabel("Amplitude response(dB)");
 xlabel("Frequency");
-axis(ax(1),[0 0.5 -30 -0]);
-axis(ax(2),[0 0.5 -50 -20]);
+axis(ax(1),[0 0.5 -0.8 0]);
+axis(ax(2),[0 0.5 -60 -40]);
 grid("on");
-tstr=sprintf("Parallel all-pass filter and delay : N=%d, DD=%d",N, DD);
+tstr=sprintf("Initial parallel all-pass filter and delay : N=%d, DD=%d",N, DD);
 title(tstr);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
@@ -80,7 +49,7 @@ close
 %
 % Initial filter z^-2 parallel doubly pipelined all-pass and delay implementation
 %
-DaDD=[zeros(R*((2*DD)+2),1);1];
+DaDD=[zeros((2*DD)+2,1);1];
 [ADD,BDD,CDD,DDD]=tf2Abcd(DaDD,1);
 nDD=rows(ADD);
 % Initial filter reflection coefficients
@@ -138,7 +107,14 @@ Psi_p=[0, 1; 1,-2*cos(2*pi*fap/2)];
 Esq_p=(ceil(1e5*max(abs(H0_p(1:nap)))^2)/1e5);
 dP_p=sdpvar(n,n,"symmetric","real");
 dQ_p=sdpvar(n,n,"symmetric","real");
-dXYZ_p=sdpvar((2*n)+1,n,"full","real");
+if 0
+  dXYZ_p=sdpvar((2*n)+1,n,"full","real");
+else
+  dX_p=sdpvar(n,n,"symmetric","real");
+  dY_p=sdpvar(n,n,"symmetric","real");
+  dZ_p=sdpvar(1,n,"full","real");
+  dXYZ_p=[dX_p;dY_p;dZ_p];
+endif
 L_p=(kron(Phi,dP_p)+kron(Psi_p,dQ_p));
 U_p=[[-eye(n),A,B,zeros(n,1)];[zeros(1,n),C_p,D,-1]]';
 V_p=[[dXYZ_p,zeros((2*n)+1,1)];[zeros(1,n),1]]';
@@ -155,7 +131,14 @@ Psi_s=[0,conj(ec_s);ec_s,-2*cos(wm_s)];
 Esq_s=(ceil(1e5*max(abs(H0_s(nas:end)))^2)/1e5);
 dP_s=sdpvar(n,n,"symmetric","real");
 dQ_s=sdpvar(n,n,"symmetric","real");
-dXYZ_s=sdpvar((2*n)+1,n,"full","real");
+if 0
+  dXYZ_s=sdpvar((2*n)+1,n,"full","real");
+else
+  dX_s=sdpvar(n,n,"symmetric","real");
+  dY_s=sdpvar(n,n,"symmetric","real");
+  dZ_s=sdpvar(1,n,"full","real");
+  dXYZ_s=[dX_s;dY_s;dZ_s];
+endif
 L_s=(kron(Phi,dP_s)+kron(Psi_s,dQ_s));
 U_s=[[-eye(n),A,B,zeros(n,1)];[zeros(1,n),C_s,D,-1]]';
 V_s=[[dXYZ_s,zeros((2*n)+1,1)];[zeros(1,n),1]]';
@@ -209,3 +192,5 @@ dz=[dEsq_p;dEsq_s;vec(dk); ...
 % Store norm(dk) and Esq in a list
 list_norm_dk=[];
 list_Esq=[];
+list_Asq_min=[];
+list_Asq_max=[];
