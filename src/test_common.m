@@ -12,6 +12,8 @@ output_precision(5)
 format compact
 
 pkg load signal;
+
+% Initialise graphics
 try
   graphics_toolkit("qt");
 catch
@@ -19,6 +21,12 @@ catch
 end_try_catch
 
 set(0,"defaultaxestitlefontweight","normal");
+
+% Try to place Octave GUI figures on-screen for XWindows. Octave sets the
+% default figure size in file libinterp/corefcn/graphics.cc in function
+% default_figure_position(). The layout of DesignOfIIRFilters.pdf depends on
+% this figure size so I enforce it here.
+set(0,"defaultfigureposition",[1000,1000,560,420]);
 
 if getenv("OCTAVE_ENABLE_PLOT_TO_SCREEN")
   set(0,'DefaultFigureVisible','on');
@@ -31,6 +39,7 @@ if getenv("OCTAVE_ENABLE_MONOCHROME")
   % For monochrome printing
   set(0,"defaultaxescolororder",zeros(size(get(0,"defaultaxescolororder"))));
 endif
+
 close all force;
 
 % Make warnings into errors
