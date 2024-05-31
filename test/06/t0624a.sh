@@ -19,6 +19,9 @@ schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice_slb_update_constraints.m \
 schurOneMPAlattice2tf.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
+schurOneMAPlatticeDoublyPipelined2H.m \
+schurOneMPAlatticeDoublyPipelinedAsq.m \
+schurOneMPAlatticeDoublyPipelinedEsq.m \
 schurOneMAPlattice2tf.m \
 schurOneMAPlattice2Abcd.m \
 tf2schurOneMlattice.m \
@@ -62,8 +65,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_k_coef.m << 'EOF'
-k = [  -0.5782966668,   0.3929108170,   0.2174962383,   0.0897015762, ... 
-        0.0215175151 ];
+k = [  -0.5747517063,   0.3955017952,   0.2181781846,   0.0900569089, ... 
+        0.0202773534 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k_coef.m"; fail; fi
 

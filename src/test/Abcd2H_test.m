@@ -1,6 +1,9 @@
 % Abcd2H_test.m
 % Copyright (C) 2017-2024 Robert G. Jenssen
 
+% !!! TODO !!! : These tests do not use d2Adydx, etc.
+%                Modify schurOneMlattice2Abcd.m to return d2Adydx, etc
+
 test_common;
 
 strf="Abcd2H_test";
@@ -54,7 +57,9 @@ nplot=1024;
 [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc]=schurOneMlattice2Abcd(k,epsilon,p,c);
 [A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk]=schurOneMAPlattice2Abcd(k,epsilon,p);
 
+%
 % Check H
+%
 H=Abcd2H(wplot,A,B,C,D);
 if max(abs(h-H)) > tol
   error("max(abs(h-H))(%g*tol) > tol",max(abs(h-H))/tol);
@@ -66,7 +71,9 @@ if max(abs(Hap)-1) > 40*eps
   error("max(abs(Hap)-1)(%g*eps) > 40*eps",max(abs(Hap)-1)/eps);
 endif
 
+%
 % Check dHdw
+%
 [H,dHdw]=Abcd2H(wplot,A,B,C,D);
 del=tol;
 delw=del/2;
@@ -95,7 +102,9 @@ if max(diff_Hapw) > 25*tol
         max(diff_Hapw)/tol);
 endif
 
+%
 % Check dHdkc
+%
 Nkc=length(dAdkc);
 Nk=rows(A);
 Nc=Nk+1;
@@ -153,7 +162,9 @@ if max(diff_Hapk) > 100*tol
 (%g*tol) > 100*tol(%g)",max(diff_Hapk)/tol);
 endif
 
+%
 % Check d2Hdwdkc
+%
 [H,dHdw,dHdkc,d2Hdwdkc]=Abcd2H(wplot,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc);
 % Exclude d2Hdwdkc(:,end) since d2HdwdD==0
 if any(any(abs(d2Hdwdkc(:,end))))
@@ -224,10 +235,12 @@ if max(diff_dHapdw) > 30*tol
 abs(d2Hapdwdk(nc,l)))(%g*tol) > 30*tol",max(diff_dHapdw)/tol);
 endif
 
+%
 % Check diagd2Hdkc2
+%
 [H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2]=Abcd2H(wplot,A,B,C,D, ...
                                            dAdkc,dBdkc,dCdkc,dDdkc);
-% Exclude diagd2Hdkc2(:,(Nk+1);end) since d2HdC2==0 and d2HdD2==0
+% Exclude diagd2Hdkc2(:,(Nk+1):end) since d2HdC2==0 and d2HdD2==0
 if any(any(abs(diagd2Hdkc2(:,(Nk+1):end))))
   error("any(any(diagd2Hdkc2(:,(Nk+1):end)))");
 endif
@@ -305,15 +318,17 @@ if max(diff_dHapdk) > 200*tol
 abs(diagd2Hapdk2(nc,l)))(%g*tol) > 200*tol",max(diff_dHapdk)/tol);
 endif
 
+%
 % Check diagd3Hdwdkc2 with delw
+%
 [H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2,diagd3Hdwdkc2]=...
   Abcd2H(wplot,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc);
-% Exclude diagd3Hdwdkc2(:,(Nk+1);end) since d2HdC2==0 and d2HdD2==0
+% Exclude diagd3Hdwdkc2(:,(Nk+1):end) since d2HdC2==0 and d2HdD2==0
 if any(any(diagd3Hdwdkc2(:,(Nk+1):end)))
-  error("any(any(diagd3Hdwdkc2(:,(Nk+1):end)))");
+  error("any(any(diagd3Hdwdkc2(_,(Nk+1)_end)))");
 endif
 if any(any(abs(diagd3Hdwdkc2(:,1:Nk))<tol))
-  error("any(any(abs(diagd3Hdwdkc2(:,1:Nk))<tol))");
+  error("any(any(abs(diagd3Hdwdkc2(_,1_Nk))<tol))");
 endif
 Nkc=length(dAdkc);
 Nk=rows(A);
@@ -340,7 +355,7 @@ diagd3Hdwdkc2(nc,l))./abs(diagd3Hdwdkc2(nc,l)))(%g*tol) > 10*tol",
           max(diff_diagd2Hdkc2)/tol);
 endif
 if max(diff_diagd2Hdkc2((Nk+1):end))>eps
-  error("max(diff_diagd2Hdkc2((Nk+1):end))(%g)>eps",
+  error("max(diff_diagd2Hdkc2((Nk+1)_end))(%g)>eps",
         max(diff_d2Hdkc2((Nk+1):end)));
 endif
 
@@ -387,7 +402,7 @@ if max(diff_d2Hdwdkc) > 40*tol
 abs(diagd3Hdwdkc2(nc,l)))(%g*tol) > 40*tol",max(diff_d2Hdwdkc)/tol);
 endif
 if max(diff_d2Hdwdkc((Nk+1):end))>eps
- error("max(diff_d2Hdwdkc((Nk+1):end))(%g)>eps",max(diff_dH2dwdkc((Nk+1):end)));
+ error("max(diff_d2Hdwdkc((Nk+1)_end))(%g)>eps",max(diff_dH2dwdkc((Nk+1):end)));
 endif
 
 % Check diagd3Hapdwdk2 with delw
@@ -395,7 +410,7 @@ endif
   Abcd2H(wplot,A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk);
 % Avoid problematic values k(1:4)
 if any(any(abs(diagd3Hapdwdk2(:,5:end))<tol))
-  error("any(any(abs(diagd3Hapdwdk2(:,5:end))<tol))");
+  error("any(any(abs(diagd3Hapdwdk2(_,5_end))<tol))");
 endif
 Nk=rows(A);
 del=tol;
@@ -442,6 +457,7 @@ if max(diff_d2Hapdwdk) > 40*tol
     error("max(abs(((d2HapdwdkP(l)-d2HapdwdkM(l))/del)-diagd3Hapdwdk2(nc,l))./\
 abs(diagd3Hapdwdk2(nc,l)))(%g*tol) > 40*tol",max(diff_d2Hapdwdk)/tol);
 endif
+
 
 %
 % Repeat for the globally optimised state variable filter with 256 coefficients.
@@ -555,7 +571,7 @@ HoptM=Abcd2H(wplot(nc),Aopt,Bopt,Copt,DoptM);
 diff_Hoptx(1+Nc+Nr+(Nc*Nr))=abs(((HoptP-HoptM)/del)-dHoptdx(nc,1+Nc+Nr+(Nc*Nr)));
 % Check dHoptdx
 if max(diff_Hoptx) > 200*tol
-  error("max(abs(((HoptP-HoptM)/del)-dHoptdx(nc,:)));)(%g*tol) > 200*tol",
+  error("max(abs(((HoptP-HoptM)/del)-dHoptdx(nc,_)));)(%g*tol) > 200*tol",
         max(diff_Hoptx)/tol);
 endif
 
@@ -654,7 +670,7 @@ diff_dHoptdx=zeros(1,nplot);
 diff_diagd2Hoptdx2=abs(((diagd2Hoptdx2P-diagd2Hoptdx2M)/del)-diagd3Hoptdwdx2);
 if max(diff_diagd2Hoptdx2) > 25000*tol
   error("max(abs(((diagd2Hoptdx2P-diagd2Hoptdx2M)/del)-\
-diagd3Hoptdwdx2(nc,:)))(%g*tol) > 25000*tol",
+diagd3Hoptdwdx2(nc,_)))(%g*tol) > 25000*tol",
         max(max(diff_diagd2Hoptdx2))/tol);
 endif
 

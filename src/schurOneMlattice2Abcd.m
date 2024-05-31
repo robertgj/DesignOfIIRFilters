@@ -40,17 +40,27 @@ function [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc] = ...
   warning("Using Octave m-file version of function schurOneMlattice2Abcd()!");
 
   % Sanity checks
-  if nargin~=4 || nargout<4
+  if (nargin<1) || (nargin>4) || nargout<4
     print_usage ("[A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc]=\n\
                 schurOneMlattice2Abcd(k,epsilon,p,c)");
+  endif
+  if isempty(k)
+    error("k is empty!");    
+  endif
+  if nargin<4
+    c=zeros(length(k)+1,1);
+    if isrow(k)
+      c=transpose(c);
+    endif
+  elseif nargin<3
+    p=ones(size(k));
+  elseif nargin<2
+    epsilon=ones(size(k));
   endif
   if length(k)~=length(epsilon) || ...
      length(k)~=length(p) || ...
      (length(k)+1)~=length(c)
     error("Input vector lengths inconsistent!");
-  endif
-  if isempty(k)
-    error("k is empty!");    
   endif
   
   % Initialise

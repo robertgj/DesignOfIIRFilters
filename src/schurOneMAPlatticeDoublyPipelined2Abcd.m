@@ -41,7 +41,7 @@ function [apA,apB,apC,apD,apA0,apAl] = schurOneMAPlatticeDoublyPipelined2Abcd(k)
   endif
 
   %
-  % Build a state variabl description of the allpass filter
+  % Build a state variable description of the allpass filter
   %
   N=length(k);
   % Modules 1 to N have Ns states

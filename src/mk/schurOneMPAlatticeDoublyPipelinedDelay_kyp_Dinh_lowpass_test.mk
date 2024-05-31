@@ -12,13 +12,14 @@ schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_k0_coef.m \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_k_coef.m
 
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_FILES = \
-schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test.m test_common.m \
+schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test.m \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_lowpass_common_start.m \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_lowpass_common_update.m \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_lowpass_common_finish.m \
+test_common.m \
 schurOneMPAlatticeAsq.m \
-schurOneMPAlatticeP.m \
 schurOneMPAlatticeT.m \
+schurOneMPAlatticeP.m \
 schurOneMPAlatticeEsq.m \
 schurOneMPAlattice_slb.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
@@ -27,8 +28,14 @@ schurOneMPAlattice_slb_exchange_constraints.m \
 schurOneMPAlattice_slb_set_empty_constraints.m \
 schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice_slb_update_constraints.m \
-schurOneMPAlattice2tf.m schurOneMAPlatticeDoublyPipelined2Abcd.m \
-schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m \
+schurOneMPAlattice2tf.m \
+schurOneMAPlatticeDoublyPipelined2Abcd.m \
+schurOneMAPlatticeDoublyPipelined2H.m \
+schurOneMPAlatticeDoublyPipelinedAsq.m \
+schurOneMPAlatticeDoublyPipelinedEsq.m \
+schurOneMAPlattice2tf.m \
+schurOneMAPlattice2Abcd.m \
+tf2schurOneMlattice.m \
 schurOneMPAlatticeDelay_wise_lowpass.m \
 schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
 Abcd2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m WISEJ_DA.m delayz.m \

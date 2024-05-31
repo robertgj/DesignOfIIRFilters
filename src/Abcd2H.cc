@@ -1,7 +1,17 @@
 // Abcd2H.cc
 //
-// [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2]= ...
+// H=Abcd2H(w,A,B,C,D)
+// [H,dHdw] = Abcd2H(w,A,B,C,D)
+// [H,dHdw,dHdx] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
+// [H,dHdw,dHdx,d2Hdwdx] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
+// [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
+// [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2] =
 //   Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
+// [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx] = 
+//   Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
+// [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx,d3Hdwdydx]= ...
+//   Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
+//
 // Find the complex response and partial derivatives for a state variable
 // filter. The outputs are intermediate results in the calculation of
 // the squared-magnitude and group-delay responses and partial derivatives.
@@ -12,9 +22,11 @@
 // the second derivatives d2Adx2,etc are all zero.
 //
 // Inputs:
-//  w         - column vector of angular frequencies   
+//  w - column vector of angular frequencies   
 //  A,B,C,D - state variable description of the lattice filter
 //  dAdx,dBdx,dCdx,dDdx - cell vectors of the differentials of A,B,C and D
+//  d2Adydx,d2Bdydx,d2Cdydx,d2Ddydx - cell arrays of the 2nd derivatives of
+//                                    A,B,C and D wrt coefficients x and y
 // Outputs:
 //  H - complex vector of the response over w
 //  dHdw - complex vector derivative of the complex response wrt w
@@ -23,9 +35,20 @@
 //  diagd2Hdx2 - complex matrix of the diagonal of the matrix of second
 //               derivatives of the response wrt x over w
 //  diagd3Hdwdx2 - complex matrix of the diagonal of the matrix of second
-//                 derivatives of the response wrt x and w over w
+//                 derivatives of the response wrt x over w 
+//  d2Hdydx - the Hessian matrix of the response wrt the coefficients
+//  d3Hdwdydx - the Hessian matrix of the response wrt the coefficients over w
+//
+// In the following, confusingly, Nx is the number of filter coefficients
+// (eg: k and c) and Nk is the number of filter states.
+//
+// !!! d2Hdydx and d3Hdwdydx have not been tested with d2Adydx etc. !!!
+//
+// For each output other than d2Hdydx, the rows correspond to frequency
+// vector, w, of length Nw and the columns correspond to the coefficient
+// vector, x, of length Nx. d2Hdydx is returned as a matrix of size (Nw,Nx,Nx).
 
-// Copyright (C) 2017 Robert G. Jenssen
+// Copyright (C) 2017-2024 Robert G. Jenssen
 //
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 
@@ -46,15 +69,16 @@
 #include <octave/parse.h>
 
 DEFUN_DLD(Abcd2H, args, nargout,
-"[H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2]=\
-Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)")
+"[H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx,d3Hdwdydx]=\
+  Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)")
 {
   // Sanity checks
   octave_idx_type nargin=args.length();
-  if ((nargin>9)
-      || (nargout>6)
+  if (((nargin!=5) && (nargin!=9) && (nargin!=13))
       || ((nargout<=2) && (nargin<5))
-      || ((nargout>2) && (nargin<9)))
+      || ((nargout>2) && (nargin<9))
+      || ((nargout>=7) && (nargin!=9) && (nargin!=13))
+      || (nargout>8))
     {
       print_usage();
     }
@@ -84,14 +108,14 @@ Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)")
       error("A.rows() != C.columns()");
     }
 
-  // Allocate output cell arrays
+  // Allocate input cell arrays
   Cell dAdx;
   Cell dBdx;
   Cell dCdx;
   Cell dDdx;
   octave_idx_type Nk=A.columns();
   octave_idx_type Nx=0;
-  if (nargin==9)
+  if (nargin>=9)
     {
       dAdx=args(5).cell_value();
       dBdx=args(6).cell_value();
@@ -99,6 +123,18 @@ Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)")
       dDdx=args(8).cell_value();
       Nx=dAdx.numel();
     }
+  Cell d2Adydx;
+  Cell d2Bdydx;
+  Cell d2Cdydx;
+  Cell d2Ddydx;
+  if (nargin==13)
+    {
+      d2Adydx=args(9).cell_value();
+      d2Bdydx=args(10).cell_value();
+      d2Cdydx=args(11).cell_value();
+      d2Ddydx=args(12).cell_value();
+    }
+
   
   // Outputs
   octave_idx_type Nw=w.numel();
@@ -108,6 +144,12 @@ Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)")
   ComplexMatrix d2Hdwdx((nargout>=4 ? Nw : 0),(nargout>=4 ? Nx : 0)); 
   ComplexMatrix diagd2Hdx2((nargout>=5 ? Nw : 0),(nargout>=5 ? Nx : 0));
   ComplexMatrix diagd3Hdwdx2((nargout>=6 ? Nw : 0),(nargout>=6 ? Nx : 0));
+  ComplexNDArray d2Hdydx(dim_vector ( (nargout>=7 ? Nw : 0),
+                                    (nargout>=7 ? Nx : 0),
+                                    (nargout>=7 ? Nx : 0) ) );
+  ComplexNDArray d3Hdwdydx(dim_vector ( (nargout>=8 ? Nw : 0),
+                                        (nargout>=8 ? Nx : 0),
+                                        (nargout>=8 ? Nx : 0) ) );
 
   // Loop over w
   for (octave_idx_type l=0;l<H.numel();l++)
@@ -205,6 +247,93 @@ Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)")
                                                   (CR*dAdx_m*RR*dBdx_m) +
                                                   (dCdx_m*RR*dBdx_m));
         } 
+      if (nargout == 6)
+        {
+          continue;
+        }
+
+      // Find d2Hdydx
+      for (octave_idx_type m=0;m<Nx;m++)
+        { 
+          ComplexMatrix dAdx_m=dAdx(m).complex_matrix_value();
+          ComplexColumnVector dBdx_m=dBdx(m).complex_column_vector_value();
+          ComplexRowVector dCdx_m=dCdx(m).complex_row_vector_value();
+          for (octave_idx_type n=m;n<Nx;n++)
+            { 
+              ComplexMatrix dAdx_n=dAdx(n).complex_matrix_value();
+              ComplexColumnVector dBdx_n=dBdx(n).complex_column_vector_value();
+              ComplexRowVector dCdx_n=dCdx(n).complex_row_vector_value();
+              d2Hdydx(l,m,n) =
+                (dCdx_n*R*dAdx_m*RB)    +
+                (dCdx_n*R*dBdx_m)       +
+                (dCdx_m*R*dAdx_n*RB)    +
+                (CR*dAdx_m*R*dAdx_n*RB) +
+                (CR*dAdx_n*R*dAdx_m*RB) +
+                (CR*dAdx_n*R*dBdx_m)    +
+                (dCdx_m*R*dBdx_n)       +
+                (CR*dAdx_m*R*dBdx_n);
+              if (nargin == 13)
+                {
+                  ComplexMatrix d2Adydx_mn = d2Adydx(m,n).complex_matrix_value();
+                  ComplexColumnVector d2Bdydx_mn =
+                    d2Bdydx(m,n).complex_column_vector_value();
+                  ComplexRowVector d2Cdydx_mn =
+                    d2Cdydx(m,n).complex_row_vector_value();
+                  Complex d2Ddydx_mn = d2Ddydx(m,n).complex_value();
+                  d2Hdydx(l,m,n) = d2Hdydx(l,m,n) + (d2Cdydx_mn*RB) +
+                    (CR*d2Adydx_mn*RB) + (CR*d2Bdydx_mn) + d2Ddydx_mn;    
+                }
+              d2Hdydx(l,n,m)=d2Hdydx(l,m,n);
+            }
+        }
+      if (nargout == 7)
+        {
+          continue;
+        }
+
+      // Find d3Hdwdydx
+      for (octave_idx_type m=0;m<Nx;m++)
+        { 
+          ComplexMatrix dAdx_m=dAdx(m).complex_matrix_value();
+          ComplexColumnVector dBdx_m=dBdx(m).complex_column_vector_value();
+          ComplexRowVector dCdx_m=dCdx(m).complex_row_vector_value();
+          for (octave_idx_type n=m;n<Nx;n++)
+            { 
+              ComplexMatrix dAdx_n=dAdx(n).complex_matrix_value();
+              ComplexColumnVector dBdx_n=dBdx(n).complex_column_vector_value();
+              ComplexRowVector dCdx_n=dCdx(n).complex_row_vector_value();
+              d3Hdwdydx(l,m,n) = Complex(-1)*jexpjw*( (dCdx_m*RR*dAdx_n*RB)    +
+                                                      (dCdx_m*R*dAdx_n*RRB)    +
+                                                      (dCdx_m*RR*dBdx_n)       + 
+                                                      (dCdx_n*RR*dAdx_m*RB)    + 
+                                                      (dCdx_n*R*dAdx_m*RRB)    +
+                                                      (CRR*dAdx_n*R*dAdx_m*RB) +
+                                                      (CR*dAdx_n*RR*dAdx_m*RB) +
+                                                      (CR*dAdx_n*R*dAdx_m*RRB) +
+                                                      (CRR*dAdx_m*R*dAdx_n*RB) +
+                                                      (CR*dAdx_m*RR*dAdx_n*RB) +
+                                                      (CR*dAdx_m*R*dAdx_n*RRB) +
+                                                      (CRR*dAdx_m*R*dBdx_n)    +
+                                                      (CR*dAdx_m*RR*dBdx_n)    +
+                                                      (dCdx_n*RR*dBdx_m)       +
+                                                      (CRR*dAdx_n*R*dBdx_m)    +
+                                                      (CR*dAdx_n*RR*dBdx_m) );
+              if (nargin==13)
+                {
+                  ComplexMatrix d2Adydx_mn = d2Adydx(m,n).complex_matrix_value();
+                  ComplexColumnVector d2Bdydx_mn =
+                    d2Bdydx(m,n).complex_column_vector_value();
+                  ComplexRowVector d2Cdydx_mn =
+                    d2Cdydx(m,n).complex_row_vector_value();
+                  d3Hdwdydx(l,m,n) = d3Hdwdydx(l,m,n) +
+                    (Complex(-1,0)*jexpjw*( (d2Cdydx_mn*RRB) +
+                                            (CRR*d2Adydx_mn*RB) +
+                                            (CR*d2Adydx_mn*RRB) +
+                                            (CRR*d2Bdydx_mn) ) );
+                }
+              d3Hdwdydx(l,n,m)=d3Hdwdydx(l,m,n);
+            }
+        }
     }
 
   // Done
@@ -229,9 +358,17 @@ Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)")
     {
       retval(4)=diagd2Hdx2;
     }
-  if (nargout == 6)
+  if (nargout >= 6)
     {
       retval(5)=diagd3Hdwdx2;
+    } 
+  if (nargout >= 7)
+    {
+      retval(6)=d2Hdydx;
+    }
+  if (nargout >= 8)
+    {
+      retval(7)=d3Hdwdydx;
     }
   return retval;
 }

@@ -34,10 +34,15 @@ function [A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if nargin~=3 || nargout<4
+  if nargin<1 || nargin>3 || nargout<4
     print_usage...
       ("[A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk]=...\n\
   schurOneMAPlattice2Abcd(k,epsilon,p)");
+  endif
+  if nargin<3
+    epsilon=ones(size(k));
+  elseif nargin<2
+    p=ones(size(k));
   endif
   if (length(k)~=length(epsilon)) || (length(k)~=length(p))
     error("Input vector lengths inconsistent!");
@@ -46,8 +51,8 @@ function [A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk]= ...
   % Initialise dummy tap coefficients, c
   Nk=length(k);
   cdummy=zeros(1,Nk+1);
-  if columns(k) == 1
-    cdummy=cdummy';
+  if isrow(k)
+    cdummy=transpose(cdummy);
   endif
 
   % Find the state variable matrixes
@@ -55,7 +60,7 @@ function [A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk]= ...
    dAdkc,dBdkc,dCdummydkc,dDdummydkc,dCapdkc,dDapdkc]=...
     schurOneMlattice2Abcd(k,epsilon,p,cdummy);
 
-  % Remove the gradients of cdummy
+  % Remove the gradients of c
   dAdk=cell(1,Nk);
   dBdk=cell(1,Nk);
   dCapdk=cell(1,Nk);

@@ -1,12 +1,15 @@
-function Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was)
-% Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was)
+function Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was,td,ftp,Wtp)
+% Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was,td,ftp,Wtp)
 % Design a lowpass filter consisting of an allpass filter in parallel
 % with a delay using the method of Tarczynski et al. 
 % Inputs:
 %  m - allpass filter order
 %  DD - parallel delay in samples
-%  fap,fas - low-pass filter pass-band and stop-band frequencies
-%  Was - stop-band weight (pass-band weight is 1)
+%  fap,fas - low-pass filter amplitude pass-band and stop-band frequencies
+%  Was - amplitude stop-band weight (pass-band weight is 1)
+%  td - nominal pass-band delay
+%  ftp - low-pass filter delay pass-band frequency
+%  Wtp - delay pass-band weight 
 % Output:
 %  Da0 - allpass denominator polynomial
   
@@ -30,8 +33,9 @@ function Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin~=5) || (nargout~=1)
-    print_usage("Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was)");
+  if ((nargin~=5) && (nargin~=8)) || (nargout~=1)
+    print_usage ..
+      ("Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was,td,ftp,Wtp)");
   endif
 
   maxiter=5000;
@@ -46,8 +50,14 @@ function Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was)
   % Frequency vectors
   Ad=[ones(nap,1);zeros(n-nap,1)];
   Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
-  Td=zeros(n,1);
-  Wt=zeros(n,1);
+  if nargin == 8
+    ntp=floor(ftp*n/0.5)+1;
+    Td=td*ones(ntp,1);
+    Wt=Wtp*ones(ntp,1);
+  else
+    Td=[];
+    Wt=[];
+  endif
 
   % Unconstrained minimisation
   R=1;
@@ -60,7 +70,7 @@ function Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was)
   if (INFO == 1)
     printf("Converged to a solution point.\n");
   elseif (INFO == 2)
-    printf("Last relative step size was less that TolX.\n");
+    printf("Last relative step size was less than TolX.\n");
   elseif (INFO == 3)
     printf("Last relative decrease in function value was less than TolF.\n");
   elseif (INFO == 0)

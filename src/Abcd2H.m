@@ -1,7 +1,18 @@
-function [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2] = ...
-  Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
-% [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2] = ...
+function [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx,d3Hdwdydx] = ...
+  Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx,d2Adydx,dB2dydx,d2Cdydx,d2Ddydx)
+% H=Abcd2H(w,A,B,C,D)
+% [H,dHdw] = Abcd2H(w,A,B,C,D)
+% [H,dHdw,dHdx] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
+% [H,dHdw,dHdx,d2Hdwdx] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
+% [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
+% [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2] =
 %   Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
+% [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx] = 
+%   Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
+% [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx] = 
+%   Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx,d2Adydx,dB2dydx,d2Cdydx,d2Ddydx)
+% [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx,d3Hdwdydx] = ...
+%   Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx,d2Adydx,dB2dydx,d2Cdydx,d2Ddydx)
 %
 % Find the complex response and partial derivatives of a state variable
 % filter with respect to a vector of coefficients. The vector x represents
@@ -16,23 +27,33 @@ function [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2] = ...
 %
 % Inputs:
 %  w - column vector of angular frequencies   
-%  A,B,C,D - state variable description of the filter
+%  A,B,C,D - state variable description of the filter with coefficients x
 %  dAdx,dBdx,dCdx,dDdx - cell arrays of the gradients of A,B,C and D wrt x
+%  d2Adydx,d2Bdydx,d2Cdydx,d2Ddydx - cell arrays of the 2nd derivatives of
+%                                    A,B,C and D wrt coefficients x and y
 %
 % Outputs:
 %  H - complex vector of the response over w
 %  dHdw - complex vector derivative of H wrt w
-%  dHdx - complex matrix of the gradients of H wrt x over w
+%  dHdx - complex matrix of the gradients of H wrt x coefficients and w
 %  d2Hdwdx - complex matrix of the mixed second derivatives of H
 %  diagd2Hdx2 - complex matrix of the diagonal of the matrix of second
-%               derivatives of H wrt x
+%               derivatives of H wrt x coefficients
 %  diagd3Hdwdx2 - complex matrix of the diagonal of the matrix of second
-%                 derivatives of H wrt x and w
+%                 derivatives of H wrt x coefficients and w
+%  d2Hdydx - the Hessian matrix of the response wrt x and y coefficients
+%  d3Hdwdydx - complex matrix of the second derivatives of H wrt x, y and w
 %
-% For each output the rows correspond to frequency vector, w, and the
-% columns correspond to the coefficient vector, x.
-
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% In the following, confusingly, Nx is the number of filter coefficients
+% (eg: k and c or alpha, beta, gamma and delta) and Nk is the number of states.
+%
+% !!! d2Hdydx has not been tested with d2Adydx etc. !!!
+%
+% For each output other than d2Hdydx, the rows correspond to frequency
+% vector, w, of length Nw and the columns correspond to the coefficient
+% vector, x, of length Nx. d2Hdydx is returned as a matrix of size (Nw,Nx,Nx).
+  
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -52,165 +73,200 @@ function [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2] = ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  warning("Using Octave m-file version of function Abcd2H()!");
+warning("Using Octave m-file version of function Abcd2H()!");
   
-  % Sanity checks
-  if (nargin>9) || (nargout>6) ...
-    || ((nargout<=2) && (nargin<5)) ...
-    || ((nargout>2) && (nargin<9))
-    print_usage("[H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2] = ...\n\
-                   Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)");
-  endif
-  if nargin==5
-    dAdx=[];dBdx=[];dCdx=[];dDdx=[];
-  endif
-  if isempty(A)
-    error("A is empty");
-  endif
-  if (rows(A) ~= columns(A))
-    error("rows(A) ~= columns(A)");
-  endif
-  if (rows(A) ~= rows(B))
-    error("rows(A) ~= rows(B)");
-  endif
-  if (rows(A) ~= columns(C))
-    error("rows(A) ~= columns(C)");
-  endif
-  if (length(D) ~= 1)
-    error("length(D) ~= 1");
-  endif
+% Sanity checks
+if (nargin>14) ...
+   || (nargout>8) ...
+   || ((nargout<=2) && (nargin<5)) ...
+   || ((nargout>2) && (nargout<=6) && (nargin~=9)) ...
+   || ((nargout>=7) && ((nargin~=9) && (nargin~=13)))
+   print_usage("H=Abcd2H(w,A,B,C,D); \n\
+[H,dHdw] = Abcd2H(w,A,B,C,D); \n\
+[H,dHdw,dHdx] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx); \n\
+[H,dHdw,dHdx,d2Hdwdx] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx); \n\
+[H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx); \n\
+[H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2] = ...\n\
+  Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx); \n\
+[H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx] = ...\n\
+  Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx); \n\
+[H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx,d3Hdwdydx] = ...\n\
+  Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx, ...\n\
+         d2Adydx,dB2dydx,d2Cdydx,d2Ddydx) !!! NOT TESTED !!!");
+endif
+if nargin==5
+  dAdx=[];dBdx=[];dCdx=[];dDdx=[];
+endif
+if nargin<=9
+  d2Adydx=[];d2Bdydx=[];d2Cdydx=[];d2Ddydx=[];
+endif
+if isempty(A)
+  error("A is empty");
+endif
+if (rows(A) ~= columns(A))
+  error("rows(A) ~= columns(A)");
+endif
+if (rows(A) ~= rows(B))
+  error("rows(A) ~= rows(B)");
+endif
+if (rows(A) ~= columns(C))
+  error("rows(A) ~= columns(C)");
+endif
 
-  % Initialise
-  w=w(:);
- 
-  % Loop over w calculating the complex response then
-  % convert the resulting cell array to the output matrixes
-  Abcd2H_loop([],A,B,C,D,dAdx,dBdx,dCdx,dDdx);
-  if nargout==1
-    H=arrayfun(@Abcd2H_loop,w,'UniformOutput',true);
-  elseif nargout==2
-    [H,dHdw]=arrayfun(@Abcd2H_loop,w,'UniformOutput',true);
-  elseif nargout==3
-    [H,dHdw,dHdx]=arrayfun(@Abcd2H_loop,w,'UniformOutput',false);
-    H=cell2mat(H);
-    dHdw=cell2mat(dHdw);
-    dHdx=cell2mat(dHdx);
-  elseif nargout==4
-    [H,dHdw,dHdx,d2Hdwdx] = ...
-      arrayfun(@Abcd2H_loop,w,'UniformOutput',false);
-    H=cell2mat(H);
-    dHdw=cell2mat(dHdw);
-    dHdx=cell2mat(dHdx);
-    d2Hdwdx=cell2mat(d2Hdwdx);
-  elseif nargout==5
-    [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2] = ...
-      arrayfun(@Abcd2H_loop,w,'UniformOutput',false);
-    H=cell2mat(H);
-    dHdw=cell2mat(dHdw);
-    dHdx=cell2mat(dHdx);
-    d2Hdwdx=cell2mat(d2Hdwdx);
-    diagd2Hdx2=cell2mat(diagd2Hdx2);
-  else
-    [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2] = ...
-      arrayfun(@Abcd2H_loop,w,'UniformOutput',false);
-    H=cell2mat(H);
-    dHdw=cell2mat(dHdw);
-    dHdx=cell2mat(dHdx);
-    d2Hdwdx=cell2mat(d2Hdwdx);
-    diagd2Hdx2=cell2mat(diagd2Hdx2);
-    diagd3Hdwdx2=cell2mat(diagd3Hdwdx2);
-  endif
-endfunction
+% Initialise
+w=w(:);
+Nw=length(w);    % Number of frequencies
+Nk=rows(A);      % Number of states
+Nx=length(dAdx); % Number of coefficients
+if nargout>=1
+  H=zeros(Nw,1);
+endif
+if nargout>=2
+  dHdw=zeros(Nw,1);
+endif
+if nargout>=3
+  dHdx=zeros(Nw,Nx);
+endif
+if nargout>=4
+  d2Hdwdx=zeros(Nw,Nx);
+endif
+if nargout>=5
+  diagd2Hdx2=zeros(Nw,Nx);
+endif
+if nargout>=6
+  diagd3Hdwdx2=zeros(Nw,Nx);
+endif
+if nargout>=7
+  d2Hdydx=zeros(Nw,Nx,Nx);
+endif
+if nargout>=8
+  d3Hdwdydx=zeros(Nw,Nx,Nx);
+endif
 
-function [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2] = ...
-           Abcd2H_loop(w,_A,_B,_C,_D,_dAdx,_dBdx,_dCdx,_dDdx)
-  
-  persistent Nw A B C D dAdx dBdx dCdx dDdx Nout Nx Nk
-  persistent init_done=false
-  if nargin==9
-    A=_A; B=_B; C=_C; D=_D;
-    dAdx=_dAdx; dBdx=_dBdx; dCdx=_dCdx; dDdx=_dDdx;
-    if (nargout<0) || (nargout>5)
-      error("(nargout<0) || (nargout>5)");
-    endif
-    Nx=length(dAdx);
-    Nk=rows(A);
-    init_done=true;
-    return;
-  elseif init_done==false
-    error("init_done==false");
-  endif
-  if ~isscalar(w)
-    error("w is not a scalar");
-  endif
-  
+% Loop over w calculating the complex response
+for l=1:Nw,
   % Find the resolvent
-  R=inv((exp(j*w)*eye(Nk))-A);
+  R=inv((exp(j*w(l))*eye(Nk))-A);
   
   % Find H
   CR=C*R;
   CRB=CR*B;
-  H=CRB+D;
+  H(l)=CRB+D;
   if nargout==1
-    return;
+    continue;
   endif
 
   % Find dHdw
   CRR=CR*R;
   CRRB=CRR*B;
-  jexpjw=j*exp(j*w);
-  dHdw=-jexpjw.*CRRB;
+  jexpjw=j*exp(j*w(l));
+  dHdw(l)=-jexpjw.*CRRB;
   if nargout==2
-    return;
+    continue;
   endif
 
   % Find dHdx
   RB=R*B;
-  dHdx=zeros(1,Nx);
-  for l=1:Nx
-    dHdx(l)=(dCdx{l}*RB)+(CR*dAdx{l}*RB)+(CR*dBdx{l})+dDdx{l};
+  for m=1:Nx
+    dHdx(l,m)=(dCdx{m}*RB)+(CR*dAdx{m}*RB)+(CR*dBdx{m})+dDdx{m};
   endfor
   if nargout==3
-    return;
+    continue;
   endif
 
   % Find d2Hdwdx
   RRB=R*RB;
-  d2Hdwdx=zeros(1,Nx);
-  for l=1:Nx
-    d2Hdwdx(l)=-jexpjw*((CRR*dAdx{l}*RB) + ...
-                        (CR*dAdx{l}*RRB) + ...
-                        (CRR*dBdx{l})    + ...
-                        (dCdx{l}*RRB));
+  for m=1:Nx
+    d2Hdwdx(l,m)=-jexpjw*((CRR*dAdx{m}*RB) + ...
+                          (CR*dAdx{m}*RRB) + ...
+                          (CRR*dBdx{m})    + ...
+                          (dCdx{m}*RRB));
   endfor
   if nargout==4
-    return;
+    continue;
   endif
 
   % Find diagd2Hdx2 (diagonal of the the Hessian of H wrt x)
-  diagd2Hdx2=zeros(1,Nx);
-  for l=1:Nx
-    diagd2Hdx2(l)=(2*dCdx{l}*R*dAdx{l}*RB)    + ...
-                  (2*dCdx{l}*R*dBdx{l})       + ...
-                  (2*CR*dAdx{l}*R*dAdx{l}*RB) + ...
-                  (2*CR*dAdx{l}*R*dBdx{l});
+  for m=1:Nx
+    diagd2Hdx2(l,m)=2*( (dCdx{m}*R*dAdx{m}*RB)    + ...
+                        (dCdx{m}*R*dBdx{m})       + ...
+                        (CR*dAdx{m}*R*dAdx{m}*RB) + ...
+                        (CR*dAdx{m}*R*dBdx{m}) );
   endfor
   if nargout==5
-    return;
+    continue;
   endif
 
   % Find diagd3Hdwdx2 (diagonal of the the partial derivatives of H wrt w,x)
-  diagd3Hdwdx2=zeros(1,Nx);
   RR=R*R;
-  for l=1:Nx
-    diagd3Hdwdx2(l)=-2*jexpjw*((CRR*dAdx{l}*R*dAdx{l}*RB) + ...
-                               (CR*dAdx{l}*RR*dAdx{l}*RB) + ...
-                               (CR*dAdx{l}*R*dAdx{l}*RRB) + ...
-                               (dCdx{l}*RR*dAdx{l}*RB)    + ...
-                               (dCdx{l}*R*dAdx{l}*RRB)    + ...
-                               (CRR*dAdx{l}*R*dBdx{l})    + ...
-                               (CR*dAdx{l}*RR*dBdx{l})    + ...
-                               (dCdx{l}*RR*dBdx{l}));
+  for m=1:Nx
+    diagd3Hdwdx2(l,m)=-2*jexpjw*( (CRR*dAdx{m}*R*dAdx{m}*RB) + ...
+                                  (CR*dAdx{m}*RR*dAdx{m}*RB) + ...
+                                  (CR*dAdx{m}*R*dAdx{m}*RRB) + ...
+                                  (dCdx{m}*RR*dAdx{m}*RB)    + ...
+                                  (dCdx{m}*R*dAdx{m}*RRB)    + ...
+                                  (CRR*dAdx{m}*R*dBdx{m})    + ...
+                                  (CR*dAdx{m}*RR*dBdx{m})    + ...
+                                  (dCdx{m}*RR*dBdx{m}) );
   endfor
+  if nargout==6
+    continue;
+  endif
+
+  % Find d2Hdydx (second partial derivatives of H wrt x and y)
+  for m=1:Nx
+    for n=m:Nx
+      d2Hdydx(l,m,n)=(dCdx{n}*R*dAdx{m}*RB)    + ...
+                     (dCdx{n}*R*dBdx{m})       + ...
+                     (dCdx{m}*R*dAdx{n}*RB)    + ...
+                     (CR*dAdx{m}*R*dAdx{n}*RB) + ...
+                     (CR*dAdx{n}*R*dAdx{m}*RB) + ...
+                     (CR*dAdx{n}*R*dBdx{m})    + ...
+                     (dCdx{m}*R*dBdx{n})       + ...
+                     (CR*dAdx{m}*R*dBdx{n});
+      if nargin==13
+        d2Hdydx(l,m,n)=d2Hdydx(l,m,n)       + ...
+                       (d2Cdydx{m,n}*RB)    + ...
+                       (CR*d2Adydx{m,n}*RB) + ...
+                       (CR*d2Bdydx{m,n})    + ...
+                       (d2Ddydx{m,n});
+      endif
+      d2Hdydx(l,n,m)=d2Hdydx(l,m,n);
+    endfor
+  endfor
+  if nargout==7
+    continue;
+  endif
+
+  % Find d3Hdwdydx (second partial derivatives of H wrt x, y and w)
+  for m=1:Nx
+    for n=m:Nx
+      d3Hdwdydx(l,m,n)=-jexpjw*( (dCdx{m}*RR*dAdx{n}*RB)    + ...
+                                 (dCdx{m}*R*dAdx{n}*RRB)    + ...
+                                 (dCdx{m}*RR*dBdx{n})       + ...
+                                 (dCdx{n}*RR*dAdx{m}*RB)    + ...
+                                 (dCdx{n}*R*dAdx{m}*RRB)    + ...
+                                 (CRR*dAdx{n}*R*dAdx{m}*RB) + ...
+                                 (CR*dAdx{n}*RR*dAdx{m}*RB) + ...
+                                 (CR*dAdx{n}*R*dAdx{m}*RRB) + ...
+                                 (CRR*dAdx{m}*R*dAdx{n}*RB) + ...
+                                 (CR*dAdx{m}*RR*dAdx{n}*RB) + ...
+                                 (CR*dAdx{m}*R*dAdx{n}*RRB) + ...
+                                 (CRR*dAdx{m}*R*dBdx{n})    + ...
+                                 (CR*dAdx{m}*RR*dBdx{n})    + ...
+                                 (dCdx{n}*RR*dBdx{m})       + ...
+                                 (CRR*dAdx{n}*R*dBdx{m})    + ...
+                                 (CR*dAdx{n}*RR*dBdx{m}) );
+      if nargin==13
+        d3Hdwdydx(l,m,n)= d3Hdwdydx(l,m,n) + (-jexpjw*( (d2Cdydx*RRB)    + ...
+                                                        (CRR*d2Adydx*RB) + ...
+                                                        (CR*d2Adydx*RRB) + ...
+                                                        (CRR*d2Bdydx) ) );
+      endif
+      d3Hdwdydx(l,n,m)=d3Hdwdydx(l,m,n);
+    endfor
+  endfor
+
+endfor
 
 endfunction

@@ -73,8 +73,8 @@ legend("location","northeast");
 ylabel(ax(1),"norm($\\Delta_{\\boldsymbol{k}}$)");
 ylabel(ax(2),"$\\mathcal{E}^2$");
 xlabel("Iteration");
-axis(ax(1),[0 maxiter_kyp]);
-axis(ax(2),[0 maxiter_kyp]);
+axis(ax(1),[0 maxiter_kyp 0 0.004]);
+axis(ax(2),[0 maxiter_kyp 0 0.0002]);
 grid("on");
 tstr=sprintf("Convergence of parallel all-pass filter and delay : N=%d, DD=%d",N, DD);
 title(tstr);
@@ -103,7 +103,9 @@ close
 
 % Save the results
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% General used tolerance\n",tol);
+fprintf(fid,"tol=%g %% General tolerance\n",tol);
+fprintf(fid,"maxiter_kyp=%d %% Maximum number of KYP iterations\n",maxiter_kyp);
+fprintf(fid,"use_hessEsq=%d %% Use 2nd order approx. to Esq\n",use_hessEsq);
 fprintf(fid,"N=%d %% Allpass filter order\n",N);
 fprintf(fid,"DD=%d %% Parallel delay order\n",DD);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
@@ -123,5 +125,5 @@ print_polynomial(list_Asq_min,"list_Asq_min");
 print_polynomial(list_Asq_max,"list_Asq_max");
 
 % Done
-eval(sprintf("save %s.mat k0 N DD fap Wap fas Was k",strf));
+eval(sprintf("save %s.mat tol k0 N DD fap Wap fas Was k",strf));
 

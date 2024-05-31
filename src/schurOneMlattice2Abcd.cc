@@ -16,7 +16,7 @@
 //  dCapdk,dDapdk           - cell vectors of the differentials of Cap and Dap
 
 
-// Copyright (C) 2017 Robert G. Jenssen
+// Copyright (C) 2017-2024 Robert G. Jenssen
 //
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 
@@ -42,7 +42,7 @@ DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
 {
   // Sanity checks
   octave_idx_type nargin=args.length();
-  if ((nargin<4) || (nargout>12))
+  if ((nargin<1) || (nargin>4) || (nargout>12))
     {
       print_usage();
       return octave_value_list();
@@ -50,17 +50,72 @@ DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
 
   // Input arguments
   RowVector k = args(0).row_vector_value();
-  RowVector epsilon = args(1).row_vector_value();
-  RowVector p = args(2).row_vector_value();
-  RowVector c = args(3).row_vector_value();
   octave_idx_type Nk=k.numel();
+
+  RowVector epsilon(Nk);
+  if (nargin<2)
+    {
+      for (octave_idx_type l=0;l<Nk;l++)
+        {
+          epsilon(l)=1.0;
+        }
+    }
+  else
+    {
+      if (args(1).numel() != Nk)
+        {
+          error("k and epsilon vector lengths inconsistent!");
+          return octave_value_list();
+        }
+      else
+        {
+          epsilon = args(1).row_vector_value();
+        }
+    }
+  
+  RowVector p(Nk);
+  if (nargin<3)
+    {
+      for (octave_idx_type l=0;l<Nk;l++)
+        {
+          p(l)=1.0;
+        }
+    }
+  else
+    {
+      if (args(2).numel() != Nk)
+        {
+          error("k and p vector lengths inconsistent!");
+          return octave_value_list();
+        }
+      else
+        {
+          p = args(2).row_vector_value();
+        }
+    }
+
+  RowVector c(Nk+1);
+  if (nargin<4)
+    {
+      for (octave_idx_type l=0;l<(Nk+1);l++)
+        {
+          c(l)=0.0;
+        }
+    }
+  else
+    {
+      if (args(3).numel() != (Nk+1))
+        {
+          error("k and c vector lengths inconsistent!");
+          return octave_value_list();
+        }
+      else
+        {
+          c = args(3).row_vector_value();
+        }
+    }
   octave_idx_type Nc=c.numel();
   octave_idx_type Nkc=Nk+Nc;
-  if ((Nk!=epsilon.numel()) || (Nk!=p.numel()) || ((Nk+1) != c.numel()))
-    {
-      error("Input vector lengths inconsistent!");
-      return octave_value_list();
-    }
 
   //
   // Calculate the state variable matrixes

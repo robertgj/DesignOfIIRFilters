@@ -1,5 +1,5 @@
-function [Asq,gradAsq,diagHessAsq]=H2Asq(H,dHdx,diagd2Hdx2)
-% [Asq,gradAsq,diagHessAsq]=H2Asq(H,dHdx,diagd2Hdx2)
+function [Asq,gradAsq,diagHessAsq,hessAsq]=H2Asq(H,dHdx,diagd2Hdx2,d2Hdydx)
+% [Asq,gradAsq,diagHessAsq]=H2Asq(H,dHdx,diagd2Hdx2,d2Hdydx)
 % A helper function that calculates the squared-magnitude response and
 % gradients of a filter with the complex response, H, and gradients, dHdx,
 % and diagonal of the Hessian of H, diagd2Hdx2, found by functions like
@@ -8,14 +8,16 @@ function [Asq,gradAsq,diagHessAsq]=H2Asq(H,dHdx,diagd2Hdx2)
 % Inputs:
 %   H - complex frequency response over angular frequency, w
 %   dHdx - gradient of complex frequency response wrt the coefficients, x
-%   diagd2Hdx2 - diagonal of the Hessian of H wrt to x
-
+%   diagd2Hdx2 - diagonal of the Hessian of H wrt x
+%   d2Hdydx - Hessian of H wrt x and y at w
+%
 % Outputs:
 %   Asq - the squared magnitude response at w
 %   gradAsq - the gradients of Asq with respect to x
 %   diagHessAsq - diagonal of the Hessian of Asq with respect to x
+%   hessAsq - Hessian of Asq
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -38,8 +40,17 @@ function [Asq,gradAsq,diagHessAsq]=H2Asq(H,dHdx,diagd2Hdx2)
   %
   % Sanity checks
   %
-  if ((nargout==2)&&(nargin<2)) || ((nargout==3)&&(nargin<3)) || (nargout>3)
-    print_usage("[Asq,gradAsq,diagHessAsq]=H2Asq(H,dHdx,diagd2Hdx2)");
+  if ((nargout==1)&&(nargin<1)) || ...
+     ((nargout==2)&&(nargin<2)) || ...
+     ((nargout==3)&&(nargin<3)) || ...
+     ((nargout==4)&&(nargin<4)) || ...
+     (nargout>4)
+    print_usage ...
+      ("[Asq,gradAsq,diagHessAsq,hessAsq]=H2Asq(H,dHdx,diagd2Hdx2,d2Hdydx)");
+  endif
+  if (nargin>=1) && (length(H) == 0)
+    Asq=[]; gradAsq=[]; diagHessAsq=[]; hessAsq=[];
+    return;
   endif
   if (nargin == 2) && (length(H) ~= rows(dHdx))
     error("length(H) ~= rows(dHdx)");
@@ -50,11 +61,27 @@ function [Asq,gradAsq,diagHessAsq]=H2Asq(H,dHdx,diagd2Hdx2)
   if (nargin == 3) && (columns(dHdx) ~= columns(diagd2Hdx2))
     error("columns(dHdx) ~= columns(diagd2Hdx2)");
   endif
-  if length(H) == 0
-    Asq=[]; gradAsq=[]; diagHessAsq=[];
-    return;
+  if nargin == 4
+    sz_d2Hdydx = size(d2Hdydx);
+    if length(sz_d2Hdydx) ~= 3
+      error("Expected size(d2Hdydx)==[Nw,Nx,Nx]");
+    endif
+    if length(H) ~= sz_d2Hdydx(1)
+      error("length(H) ~= sz_d2Hdydx(1)");
+    endif
+    if rows(dHdx) ~= sz_d2Hdydx(1)
+      error("rows(dHdx) ~= sz_d2Hdydx(1)");
+    endif
+    if columns(dHdx) ~= sz_d2Hdydx(2)
+      error("columns(dHdx) ~= sz_d2Hdydx(2)");
+    endif
+    if sz_d2Hdydx(2) ~= sz_d2Hdydx(3)
+      error("sz_d2Hdydx(2) ~= sz_d2Hdydx(3)");
+    endif
   endif
 
+  H=H(:);
+  
   % Find Asq
   Asq=H.*conj(H);
   if nargout==1
@@ -74,5 +101,18 @@ function [Asq,gradAsq,diagHessAsq]=H2Asq(H,dHdx,diagd2Hdx2)
 
   % Find diagHessAsq
   diagHessAsq=2*((abs(dHdx).^2)+(krH.*real(diagd2Hdx2))+(kiH.*imag(diagd2Hdx2)));
+  if nargout==3
+    return;
+  endif
+
+  % Find hessAsq
+  kkiH=reshape(kron(kiH,ones(1,Nx)),sz_d2Hdydx);
+  kkrH=reshape(kron(krH,ones(1,Nx)),sz_d2Hdydx);
+  kidHdx=reshape(kron(idHdx,ones(1,Nx)),sz_d2Hdydx);
+  kidHdx_t=reshape(kron(ones(1,Nx),idHdx),sz_d2Hdydx);
+  krdHdx=reshape(kron(rdHdx,ones(1,Nx)),sz_d2Hdydx);
+  krdHdx_t=reshape(kron(ones(1,Nx),rdHdx),sz_d2Hdydx);
+  hessAsq=2*((kidHdx.*kidHdx_t) + (kkiH.*imag(d2Hdydx)) + ...
+             (krdHdx.*krdHdx_t) + (kkrH.*real(d2Hdydx)));
   
 endfunction

@@ -23,12 +23,11 @@ end_try_catch
 set(0,"defaultaxestitlefontweight","normal");
 
 % Try to place Octave GUI figures on-screen for XWindows. Octave sets the
-% default figure size in file libinterp/corefcn/graphics.cc in function
-% default_figure_position(). The layout of DesignOfIIRFilters.pdf depends on
-% this figure size so I enforce it here.
-set(0,"defaultfigureposition",[1000,1000,560,420]);
-
+% default figure position and size in file libinterp/corefcn/graphics.cc
+% in function default_figure_position().
 if getenv("OCTAVE_ENABLE_PLOT_TO_SCREEN")
+  pos=get(0,"defaultfigureposition");
+  set(0,"defaultfigureposition",[1000,1000,pos(3),pos(4)]);
   set(0,'DefaultFigureVisible','on');
 else
   % Disable plotting to the screen. It captures the screen focus.

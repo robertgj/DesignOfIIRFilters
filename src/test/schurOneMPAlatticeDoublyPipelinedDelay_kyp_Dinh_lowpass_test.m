@@ -19,6 +19,7 @@
 test_common;
 
 use_best_k_found=true
+use_hessEsq=true
 maxiter_kyp=12;
 
 strf="schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test";
@@ -33,22 +34,22 @@ schurOneMPAlatticeDoublyPipelinedDelay_kyp_lowpass_common_start;
 if use_best_k_found
   maxiter_succ_approx=0;
   printf("\n\nUsing best k found!\n\n");
-  k0 = [  -0.5815122254,   0.3900417137,   0.2137485273,   0.0895397490, ...
-          0.0223971683 ];
-  k = [  -0.5782998611,   0.3931457849,   0.2169255234,   0.0899513674, ...
-          0.0213560913 ];
-  list_norm_dk = [ 0.0015221431, 0.0010060201, 0.0007903048, 0.0006427362, ...
-                   0.0005148136, 0.0003989500, 0.0002961254, 0.0002095585, ...
-                   0.0001297589, 0.0000935183, 0.0000850062, 0.0000719651 ]';
-  list_Esq = [ 0.0001863897, 0.0001763859, 0.0001687048, 0.0001626674, ...
-               0.0001579908, 0.0001544765, 0.0001519480, 0.0001502354, ...
-               0.0001492415, 0.0001486440, 0.0001481766, 0.0001478675 ]';
-  list_Asq_min = [ 0.9142834294, 0.9163339585, 0.9179655734, 0.9192820168, ...
-                   0.9203230396, 0.9211177289, 0.9216957998, 0.9220896216, ...
-                   0.9223194145, 0.9224568193, 0.9225624382, 0.9226318525 ]';
-  list_Asq_max = [ 0.0000549100, 0.0000537475, 0.0000532357, 0.0000528064, ...
-                   0.0000522922, 0.0000516769, 0.0000509729, 0.0000501688, ...
-                   0.0000495724, 0.0000489804, 0.0000483234, 0.0000478822 ]';
+  k0 = [  -0.5815122254, 0.3900417137, 0.2137485273, 0.0895397490, ... 
+           0.0223971683 ];
+  k = [  -0.5751931231, 0.3958062355, 0.2181833337, 0.0904527117, ... 
+          0.0206682574 ];
+  list_norm_dk = [   0.0024508435, 0.0018498824, 0.0014472826, 0.0011030371, ... 
+                     0.0009018763, 0.0007482201, 0.0006187905, 0.0005078939, ... 
+                     0.0003819572, 0.0002886002, 0.0002065488, 0.0001353615 ]';
+  list_Esq = [   0.0001774012, 0.0001605855, 0.0001480695, 0.0001388145, ... 
+                 0.0001317300, 0.0001264229, 0.0001224100, 0.0001193007, ... 
+                 0.0001171416, 0.0001155425, 0.0001145079, 0.0001139210 ]';
+  list_Asq_min = [   0.9160780864, 0.9196520188, 0.9224878348, 0.9247005962, ... 
+                     0.9264675487, 0.9278384875, 0.9289048960, 0.9297493495, ... 
+                     0.9303466582, 0.9307936991, 0.9310866602, 0.9312546086 ]';
+  list_Asq_max = [   0.0000571210, 0.0000561099, 0.0000556120, 0.0000561561, ... 
+                     0.0000570025, 0.0000575181, 0.0000577061, 0.0000576596, ... 
+                     0.0000575132, 0.0000572355, 0.0000568936, 0.0000565053 ]';
 else
   maxiter_succ_approx=maxiter_kyp;
 endif
@@ -131,16 +132,25 @@ for m=1:maxiter_succ_approx,
     printf("rows(Lzm_s)=%d\n",rows(Lzm_s));
     printf("rows(Fzm_s)=%d\n",rows(Fzm_s));
   endif
-   
+
+  % Define objective function
+  if use_hessEsq
+    [Esq,gradEsq,~,hessEsq]= ...
+       schurOneMPAlatticeDoublyPipelinedEsq(k,kDD,diff,wplot/2,Ad,Wa);
+    Esqkdk=Esq+(gradEsq(1:N)*(dk'))+(dk*hessEsq(1:N,1:N)*(dk')/2);
+  else
+    [Esq,gradEsq]=schurOneMPAlatticeDoublyPipelinedEsq(k,kDD,diff,wplot/2,Ad,Wa);
+    Esqkdk=Esq+(gradEsq(1:N)*(dk'));
+  endif
+
   % Solve for the SDP variables
-  [Esq,gradEsq,diagHessEsq]= ...
-    schurOneMPAlatticeEsq(k,k1,k1,kDD,kDD1,kDD1,diff,wplot,Ad,Wa);
-  Esqkdk=Esq+sum(gradEsq(1:N).*dk)+sum(dk.*diagHessEsq(1:N).*dk/2);
+  rho=10^floor(log10(Esq));
+  ctol=1e-5;
   Constraints=[ (-1+tol)<=(k+dk)<=(1-tol), ...
-                dEsq_p<=0,   dEsq_s<=0, ...
-                bFzm_p<=tol, dQ_p>=0, ...
-                bFzm_s<=tol, dQ_s>=0 ];
-  Objective=real(Esqkdk + (norm(dz)^2));
+                dEsq_p<=0,    dEsq_s<=0, ...
+                bFzm_p<=ctol, dQ_p>=0, ...
+                bFzm_s<=ctol, dQ_s>=0 ];
+  Objective=real(Esqkdk + (rho*norm(dz)^2));
   Options=sdpsettings("solver","sdpt3","maxit",100,"gaptol",tol);
   sol=optimize(Constraints,Objective,Options)
   if sol.problem
@@ -155,8 +165,9 @@ for m=1:maxiter_succ_approx,
   % Exit criterion
   if norm(value(dk)) < tol
     break;
-  elseif m==maxiter
-    error("Failed at maxiter!");
+  elseif m==maxiter_kyp
+    warning("Exiting at maxiter_kyp!");
+    break;
   endif
 
 endfor
