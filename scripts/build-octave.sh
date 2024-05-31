@@ -118,7 +118,7 @@ fi
 
 FFTW_VER=${FFTW_VER:-3.3.10}
 FFTW_ARCHIVE=fftw-$FFTW_VER".tar.gz"
-FFTW_URL=ftp://ftp.fftw.org/pub/fftw/$FFTW_ARCHIVE
+FFTW_URL=https://www.fftw.org/$FFTW_ARCHIVE
 if ! test -f $FFTW_ARCHIVE; then
   wget -c $FFTW_URL
 fi
