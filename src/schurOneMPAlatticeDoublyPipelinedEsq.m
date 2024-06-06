@@ -125,7 +125,7 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
     endif
     if isempty(wt)
       EsqT = 0;
-      gradEsqPT = zeros(1,NA1k+NA2k);
+      gradEsqT = zeros(1,NA1k+NA2k);
       diagHessEsqT = zeros(1,NA1k+NA2k);
     else
       [EsqT,gradEsqT,diagHessEsqT] =...
@@ -161,7 +161,7 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
     if isempty(wt)
       EsqT = 0;
       gradEsqT = zeros(1,NA1k+NA2k);
-      diagHessEsqP = zeros(1,NA1k+NA2k);
+      diagHessEsqT = zeros(1,NA1k+NA2k);
       hessEsqT = zeros(NA1k+NA2k,NA1k+NA2k);
     else
       [EsqT,gradEsqT,diagHessEsqT,hessEsqT] =...

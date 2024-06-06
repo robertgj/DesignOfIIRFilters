@@ -211,6 +211,132 @@ for difference=[false,true]
     error("max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng)))) > 100*del");
   endif
   
+  % Find hessEsq for Asq only
+  [~,~,diagHessEsq,hessEsq]=schurOneMPAlatticeDoublyPipelinedEsq ...
+                              (A1k,A2k,difference,wa/2,Asqd,Wa);
+
+  if max(abs(diagHessEsq-transpose(diag(hessEsq)))) > 1000000*eps
+    error("max(abs(diagHessEsq-transpose(diag(hessEsq)))) > 1000000*eps");
+  endif
+  
+  % Check the Hessian of the squared-error response wrt A1k
+  del=1e-6;
+  delk=zeros(size(A1k));
+  delk(1)=del/2;
+  diff_gradEsqk=zeros(length(A1k),length(A1k));
+  for l=1:NA1k
+    [~,gradEsqkPdel2]=schurOneMPAlatticeDoublyPipelinedEsq ...
+                        (A1k+delk,A2k,difference,wa/2,Asqd,Wa);
+    [~,gradEsqkMdel2]=schurOneMPAlatticeDoublyPipelinedEsq ...
+                        (A1k-delk,A2k,difference,wa/2,Asqd,Wa);
+    diff_gradEsqk(l,:)=(gradEsqkPdel2(A1rng)-gradEsqkMdel2(A1rng))/del;
+    delk=circshift(delk,1);
+  endfor
+  if max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng)))) > 10*del
+    error("max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng)))) > 10*del");
+  endif
+  
+  % Check the Hessian of the squared-error response wrt A2k
+  del=1e-6;
+  delk=zeros(size(A2k));
+  delk(1)=del/2;
+  diff_gradEsqk=zeros(length(A2k),length(A2k));
+  for l=1:NA2k
+    [~,gradEsqkPdel2]=schurOneMPAlatticeDoublyPipelinedEsq ...
+                        (A1k,A2k+delk,difference,wa/2,Asqd,Wa);
+    [~,gradEsqkMdel2]=schurOneMPAlatticeDoublyPipelinedEsq ...
+                        (A1k,A2k-delk,difference,wa/2,Asqd,Wa);
+    diff_gradEsqk(l,:)=(gradEsqkPdel2(A2rng)-gradEsqkMdel2(A2rng))/del;
+    delk=circshift(delk,1);
+  endfor
+  if max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng)))) > 100*del
+    error("max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng)))) > 100*del");
+  endif
+  
+  % Find hessEsq for T only
+  [~,~,diagHessEsq,hessEsq]=schurOneMPAlatticeDoublyPipelinedEsq ...
+                              (A1k,A2k,difference,[],[],[],wt/2,Td,Wt);
+
+  if max(abs(diagHessEsq-transpose(diag(hessEsq)))) > 1000000*eps
+    error("max(abs(diagHessEsq-transpose(diag(hessEsq)))) > 1000000*eps");
+  endif
+  
+  % Check the Hessian of the squared-error response wrt A1k
+  del=1e-6;
+  delk=zeros(size(A1k));
+  delk(1)=del/2;
+  diff_gradEsqk=zeros(length(A1k),length(A1k));
+  for l=1:NA1k
+    [~,gradEsqkPdel2]=schurOneMPAlatticeDoublyPipelinedEsq ...
+                        (A1k+delk,A2k,difference,[],[],[],wt/2,Td,Wt);
+    [~,gradEsqkMdel2]=schurOneMPAlatticeDoublyPipelinedEsq ...
+                        (A1k-delk,A2k,difference,[],[],[],wt/2,Td,Wt);
+    diff_gradEsqk(l,:)=(gradEsqkPdel2(A1rng)-gradEsqkMdel2(A1rng))/del;
+    delk=circshift(delk,1);
+  endfor
+  if max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng)))) > 10*del
+    error("max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng)))) > 10*del");
+  endif
+  
+  % Check the Hessian of the squared-error response wrt A2k
+  del=1e-6;
+  delk=zeros(size(A2k));
+  delk(1)=del/2;
+  diff_gradEsqk=zeros(length(A2k),length(A2k));
+  for l=1:NA2k
+    [~,gradEsqkPdel2]=schurOneMPAlatticeDoublyPipelinedEsq ...
+                        (A1k,A2k+delk,difference,[],[],[],wt/2,Td,Wt);
+    [~,gradEsqkMdel2]=schurOneMPAlatticeDoublyPipelinedEsq ...
+                        (A1k,A2k-delk,difference,[],[],[],wt/2,Td,Wt);
+    diff_gradEsqk(l,:)=(gradEsqkPdel2(A2rng)-gradEsqkMdel2(A2rng))/del;
+    delk=circshift(delk,1);
+  endfor
+  if max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng)))) > 100*del
+    error("max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng)))) > 100*del");
+  endif
+  
+  % Find hessEsq for P only
+  [~,~,diagHessEsq,hessEsq]=schurOneMPAlatticeDoublyPipelinedEsq ...
+                              (A1k,A2k,difference,[],[],[],[],[],[],wp/2,Pd,Wp);
+
+  if max(abs(diagHessEsq-transpose(diag(hessEsq)))) > 1000000*eps
+    error("max(abs(diagHessEsq-transpose(diag(hessEsq)))) > 1000000*eps");
+  endif
+  
+  % Check the Hessian of the squared-error response wrt A1k
+  del=1e-6;
+  delk=zeros(size(A1k));
+  delk(1)=del/2;
+  diff_gradEsqk=zeros(length(A1k),length(A1k));
+  for l=1:NA1k
+    [~,gradEsqkPdel2]=schurOneMPAlatticeDoublyPipelinedEsq ...
+                        (A1k+delk,A2k,difference,[],[],[],[],[],[],wp/2,Pd,Wp);
+    [~,gradEsqkMdel2]=schurOneMPAlatticeDoublyPipelinedEsq ...
+                        (A1k-delk,A2k,difference,[],[],[],[],[],[],wp/2,Pd,Wp);
+    diff_gradEsqk(l,:)=(gradEsqkPdel2(A1rng)-gradEsqkMdel2(A1rng))/del;
+    delk=circshift(delk,1);
+  endfor
+  if max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng)))) > 10*del
+    error("max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng)))) > 10*del");
+  endif
+  
+  % Check the Hessian of the squared-error response wrt A2k
+  del=1e-6;
+  delk=zeros(size(A2k));
+  delk(1)=del/2;
+  diff_gradEsqk=zeros(length(A2k),length(A2k));
+  for l=1:NA2k
+    [~,gradEsqkPdel2]=schurOneMPAlatticeDoublyPipelinedEsq ...
+                        (A1k,A2k+delk,difference,[],[],[],[],[],[],wp/2,Pd,Wp);
+    [~,gradEsqkMdel2]=schurOneMPAlatticeDoublyPipelinedEsq ...
+                        (A1k,A2k-delk,difference,[],[],[],[],[],[],wp/2,Pd,Wp);
+    diff_gradEsqk(l,:)=(gradEsqkPdel2(A2rng)-gradEsqkMdel2(A2rng))/del;
+    delk=circshift(delk,1);
+  endfor
+  if max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng)))) > 100*del
+    error("max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng)))) > 100*del");
+  endif
+  
 endfor
 
 % Done
