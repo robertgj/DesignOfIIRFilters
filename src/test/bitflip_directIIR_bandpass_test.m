@@ -1,5 +1,5 @@
 % bitflip_directIIR_bandpass_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass filter in directIIR form.
@@ -11,9 +11,11 @@ test_common;
 % Avoid delayz warning messages
 warning("off");
 
-delete("bitflip_directIIR_bandpass_test.diary");
-delete("bitflip_directIIR_bandpass_test.diary.tmp");
-diary bitflip_directIIR_bandpass_test.diary.tmp
+strf="bitflip_directIIR_bandpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 bitflip_bandpass_test_common;
 
@@ -74,9 +76,6 @@ function [cost,n,d,svec_out] = ...
   cost=sqrt(sum(Wa.*((abs(h)-abs(Ad)).^2)))+sqrt(sum(Wt.*((abs(t-Td)).^2)));
   svec_out=svec.*nscale;
 endfunction
-
-% File name string
-strf="bitflip_directIIR_bandpass_test";
 
 % Find vector of exact lattice coefficients
 [cost_ex,n_ex,d_ex,svec_ex] = directIIR_cost([],Ad,Wa,Td,Wt,n0,d0,0,0)
@@ -195,10 +194,9 @@ print_polynomial(d_bfsd,"d_bfsd",nscale);
 print_polynomial(d_bfsd,"d_bfsd",strcat(strf,"_d_bfsd_coef.m"),nscale);
 
 % Save the results
-save bitflip_directIIR_bandpass_test.mat ...
-     n0 d0 n_ex d_ex n_rd d_rd n_bf d_bf n_sd d_sd n_bfsd d_bfsd
+eval(sprintf("save %s.mat \
+n0 d0 n_ex d_ex n_rd d_rd n_bf d_bf n_sd d_sd n_bfsd d_bfsd",strf));
 
 % Done
 diary off
-movefile bitflip_directIIR_bandpass_test.diary.tmp ...
-         bitflip_directIIR_bandpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

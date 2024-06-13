@@ -1,14 +1,15 @@
 % iir_frm_allpass_socp_slb_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("iir_frm_allpass_socp_slb_test.diary");
-delete("iir_frm_allpass_socp_slb_test.diary.tmp");
-diary iir_frm_allpass_socp_slb_test.diary.tmp
+strf="iir_frm_allpass_socp_slb_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
-
 
 %
 % Initial filter is based on the filters found by tarczynski_frm_allpass_test.m
@@ -22,9 +23,9 @@ x0.R=1;x0.r=r1;x0.aa=aa1;x0.ac=ac1;
 % Filter specification
 %
 n=500;
-tol=2e-4
-ctol=tol/10
 maxiter=10000
+ftol=2e-4
+ctol=ftol/10
 verbose=true
 Mmodel=9 % Model filter decimation
 Dmodel=9 % Desired model filter passband delay
@@ -79,7 +80,7 @@ iir_frm_allpass_socp_slb_plot(x0,na,nc,Mmodel,Dmodel, ...
 iir_frm_allpass_slb(@iir_frm_allpass_socp_mmse, ...
                     x0k,ru,rl,Vr,Qr,Rr,na,nc,Mmodel,Dmodel, ...
                     w,Asqd,Asqdu,Asqdl,Wa,Td,Tdu,Tdl,Wt, ...
-                    maxiter,tol,ctol,verbose);
+                    maxiter,ftol,ctol,verbose);
 if feasible == 0 
   error("d2k(pcls) infeasible");
 endif
@@ -95,7 +96,7 @@ iir_frm_allpass_socp_slb_plot(d2,na,nc,Mmodel,Dmodel,w, ...
 % Save the results
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"mr=%d %% Allpass model filter denominator order\n",length(x0.r)-1);
@@ -107,26 +108,27 @@ fprintf(fid,"Dmodel=%d %% Model filter nominal pass band group delay \n",Dmodel)
 fprintf(fid,"dmask=%d %% FIR masking filter delay\n",dmask);
 fprintf(fid,"Tnominal=%g %% Nominal FRM filter group delay\n",Tnominal);
 fprintf(fid,"fap=%g %% Pass band edge\n",fap);
-fprintf(fid,"dBap=%d %% Pass band amplitude peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Pass band weight\n",Wap);
+fprintf(fid,"dBap=%g %% Pass band amplitude peak-to-peak ripple\n",dBap);
+fprintf(fid,"Wap=%g %% Pass band weight\n",Wap);
 fprintf(fid,"tpr=%g %% Pass band delay peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtp=%d %% Pass band delay weight\n",Wtp);
+fprintf(fid,"Wtp=%g %% Pass band delay weight\n",Wtp);
 fprintf(fid,"fas=%g %% Stop band edge\n",fas);
-fprintf(fid,"dBas=%d %% Stop band attenuation ripple\n",dBas);
-fprintf(fid,"Was=%d %% Stop band weight\n",Was);
-fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
+fprintf(fid,"dBas=%g %% Stop band attenuation ripple\n",dBas);
+fprintf(fid,"Was=%g %% Stop band weight\n",Was);
+fprintf(fid,"rho=%g %% Constraint on allpass pole radius\n",rho);
 fclose(fid);
+
 print_polynomial(d2.r,"r");
 print_polynomial(d2.r,"r",strcat(strf,"_r_coef.m"));
 print_polynomial(d2.aa,"aa");
 print_polynomial(d2.aa,"aa",strcat(strf,"_aa_coef.m"));
 print_polynomial(d2.ac,"ac");
 print_polynomial(d2.ac,"ac",strcat(strf,"_ac_coef.m"));
-save iir_frm_allpass_socp_slb_test.mat ...
-     x0 d2 Mmodel Dmodel fap fas dBap Wap tpr Wtp dBas Was rho tol ctol
+
+eval(sprintf("save %s.mat \
+x0 d2 Mmodel Dmodel fap fas dBap Wap tpr Wtp dBas Was rho ftol ctol",strf));
 
 % Done
 toc;
 diary off
-movefile iir_frm_allpass_socp_slb_test.diary.tmp ...
-         iir_frm_allpass_socp_slb_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

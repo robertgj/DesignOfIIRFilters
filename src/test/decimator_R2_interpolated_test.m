@@ -1,31 +1,31 @@
 % decimator_R2_interpolated_test.m
-% Copyright (C) 2021-2023 Robert G. Jenssen
+% Copyright (C) 2021-2024 Robert G. Jenssen
 %
 % Example of an interpolated low-pass IIR decimator filter design using
 % quasi-Newton optimisation with constraints on the coefficients.
 
 test_common;
 
-delete("decimator_R2_interpolated_test.diary");
-delete("decimator_R2_interpolated_test.diary.tmp");
-diary decimator_R2_interpolated_test.diary.tmp
-
 strf="decimator_R2_interpolated_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 verbose=false
-tol_wise=1e-7
-tol_mmse=1e-5
-tol_pcls=1e-3
+ftol_wise=1e-7
+ftol_mmse=1e-5
+ftol_pcls=1e-4
 ctol=1e-5
 maxiter=10000
 
 % Filter specifications (frequencies are normalised to the sample rate)
 U=0,V=0,M=12,Q=6,R=2
-fap=0.09,dBap=0.25,Wap=1
+fap=0.09,dBap=0.4,Wap=1
 Wat=0.001
-fas=0.18,dBas=40,Was=10
+fas=0.18,dBas=40,Was=2
 ftp=0.12,tp=10,tpr=0.2,Wtp=0.1
 
 % Interpolation factor
@@ -86,17 +86,40 @@ printf("Adl(nchka)=[ ");printf("%6.4g ",Adl(nchka)');printf("];\n");
 printf("Wa(nchka)=[ ");printf("%6.4g ",Wa(nchka)');printf("];\n");
 
 % Initial filter
-[x0,Ex0]=xInitHd(xi,U,V,M,Q,R, ...
-                 wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,maxiter,tol_wise);
+try
+  [x0,Ex0]=...
+     xInitHd(xi,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,maxiter,ftol_wise);
+catch
+  feasible=false;
+  err=lasterror();
+  fprintf(stderr,"Error: %s\n",err.message);
+  for e=1:length(err.stack)
+    fprintf(stderr,"Called from %s at line %d\n", ...
+            err.stack(e).name, err.stack(e).line);
+  endfor
+  error("xInitHd() failed!");
+end_try_catch
 print_pole_zero(x0,U,V,M,Q,R,"x0");
 
 % MMSE pass
 printf("\nFinding MMSE x1, Wap=%f,Was=%f,Wtp=%f\n", Wap, Was, Wtp);
-[x1,Ex1,sqp_iter,func_iter,feasible] = ...
-  iir_sqp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R, ...
-               wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
-               wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-               maxiter,tol_mmse,verbose);
+try
+  feasible=false;
+  [x1,Ex1,sqp_iter,func_iter,feasible] = ...
+    iir_sqp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R, ...
+                 wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
+                 wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+                 maxiter,ftol_mmse,ctol,verbose);
+catch
+  feasible=false;
+  err=lasterror();
+  fprintf(stderr,"Error: %s\n",err.message);
+  for e=1:length(err.stack)
+    fprintf(stderr,"Called from %s at line %d\n", ...
+            err.stack(e).name, err.stack(e).line);
+  endfor
+  error("iir_sqp_mmse() failed!");
+end_try_catch
 if feasible == 0 
   error("R=2 decimator x1 infeasible");
 endif
@@ -105,10 +128,21 @@ print_pole_zero(x1,U,V,M,Q,R,"x1");
 % PCLS pass 1
 printf("\nFinding PCLS d1, dBap=%f,Wap=%f,dBas=%f,Was=%f,tpr=%f,Wtp=%f\n", 
        dBap, Wap, dBas, Was, tpr, Wtp);
-[d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
-  iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
-          wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
-          wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol_pcls,ctol,verbose)
+try
+  [d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
+     iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
+             wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
+             wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,ftol_pcls,ctol,verbose)
+catch
+  feasible=false;
+  err=lasterror();
+  fprintf(stderr,"Error: %s\n",err.message);
+  for e=1:length(err.stack)
+    fprintf(stderr,"Called from %s at line %d\n", ...
+            err.stack(e).name, err.stack(e).line);
+  endfor
+  error("iir_slb() failed!");
+end_try_catch
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
@@ -287,9 +321,9 @@ fprintf(fid,"M=%d %% Number of complex zeros\n",M);
 fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
 fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"tol_wise=%g %% Tolerance on WISE relative coef. update\n",tol_wise);
-fprintf(fid,"tol_mmse=%g %% Tolerance on MMSE relative coef. update\n",tol_mmse);
-fprintf(fid,"tol_pcls=%g %% Tolerance on PCLS relative coef. update\n",tol_pcls);
+fprintf(fid,"ftol_wise=%g %% Tolerance on WISE coefficient update\n",ftol_wise);
+fprintf(fid,"ftol_mmse=%g %% Tolerance on MMSE coefficient update\n",ftol_mmse);
+fprintf(fid,"ftol_pcls=%g %% Tolerance on PCLS coefficient update\n",ftol_pcls);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
 fprintf(fid,"dBap=%d %% Pass band amplitude peak-to-peak ripple\n",dBap);
@@ -341,12 +375,11 @@ fid=fopen(strcat(strf,"_fir_delay.tab"),"wt");
 fprintf(fid,"$%g$",(Nbbb/2));
 fclose(fid);
 
-save decimator_R2_interpolated_test.mat n U V M Q R P fap fas ftp tp ...
-     dBap dBas tpr Wap Was Wtp tol_wise tol_wise tol_mmse tol_pcls ctol ...
-     x0 x1 d1 N1 D1 N1P D1P b b_scale baa beq bb bbb
+eval(sprintf("save %s.mat n U V M Q R P fap fas ftp tp dBap dBas tpr Wap Was \
+Wtp ftol_wise ftol_mmse ftol_pcls ctol x0 x1 d1 N1 D1 N1P D1P \
+b b_scale baa beq bb bbb",strf));
 
 % Done
 toc;
 diary off
-movefile decimator_R2_interpolated_test.diary.tmp ...
-         decimator_R2_interpolated_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

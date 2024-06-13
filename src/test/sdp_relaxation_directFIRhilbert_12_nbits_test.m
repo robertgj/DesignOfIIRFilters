@@ -1,22 +1,23 @@
 % sdp_relaxation_directFIRhilbert_12_nbits_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 % SDP relaxation optimisation of a direct-form FIR Hilbert filter
 % with 12-bit signed-digit coefficients
 
 test_common;
 
-delete("sdp_relaxation_directFIRhilbert_12_nbits_test.diary");
-delete("sdp_relaxation_directFIRhilbert_12_nbits_test.diary.tmp");
-diary sdp_relaxation_directFIRhilbert_12_nbits_test.diary.tmp
+strf="sdp_relaxation_directFIRhilbert_12_nbits_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 maxiter=2000
+ftol=1e-5;
+ctol=ftol;
 verbose=true;
-tol=1e-5;
-ctol=tol;
-strf="sdp_relaxation_directFIRhilbert_12_nbits_test";
 
 % Hilbert filter frequency specification
 % dBap=0.1 gives poorer results ?!?
@@ -76,7 +77,7 @@ hM_active=1:length(hM0);
   directFIRhilbert_slb(@directFIRhilbert_socp_mmsePW, ...
                        hM0,hM_active,na, ...
                        wa(war),Ad(war),Adu(war),Adl(war),Wa(war), ...
-                       maxiter,tol,ctol,verbose);
+                       maxiter,ftol,ctol,verbose);
 if ~feasible
   error("SOCP PCLS problem for exact filter is infeasible!");
 endif
@@ -112,7 +113,7 @@ hM1_sd_x=(hM1_sdu_Ito+hM1_sdl_Ito)/2;
 if 1
   [hM1_sd_sdp,socp_iter,func_iter,feasible] = ...
   sdp_relaxation_directFIRhilbert_mmsePW([],hM1_sd_x,hM1_sd_delta, ...
-                              na,wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose);
+                              na,wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose);
   if feasible==false
     error("sdp_relaxation_directFIRhilbert_mmsePW failed!");
   endif
@@ -126,7 +127,7 @@ else
   directFIRhilbert_slb(@sdp_relaxation_directFIRhilbert_mmsePW, ...
                        hM1_sd_x,hM1_sd_delta,na, ...
                        wa(war),Ad(war),Adu_slb(war),Adl_slb(war),Wa(war), ...
-                       maxiter,tol,ctol,verbose);
+                       maxiter,ftol,ctol,verbose);
   if ~feasible
     error("SDP PCLS problem for exact filter is infeasible!");
   endif
@@ -187,7 +188,7 @@ fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"M=%d %% Number of distinct coefficients\n",M);
 fprintf(fid,"nbits=%d %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%d %% Nominal average coefficient signed-digits\n",ndigits);
-fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
@@ -198,12 +199,10 @@ fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results
-save sdp_relaxation_directFIRhilbert_12_nbits_test.mat ...
-     tol ctol nbits nscale ndigits ndigits_alloc npoints ...
-     fapl fapu dBap Wap Was hM1_sd_sdp
+eval(sprintf("save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc npoints \
+fapl fapu dBap Wap Was hM1_sd_sdp", strf));
        
 % Done
 toc;
 diary off
-movefile sdp_relaxation_directFIRhilbert_12_nbits_test.diary.tmp ...
-         sdp_relaxation_directFIRhilbert_12_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

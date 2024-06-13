@@ -1,19 +1,21 @@
 % fir_socp_slb_lowpass_test.m
-% Copyright (C) 2018-2023 Robert G. Jenssen
+% Copyright (C) 2018-2024 Robert G. Jenssen
 
 test_common;
 
 pkg load optim;
 
-delete("fir_socp_slb_lowpass_test.diary");
-delete("fir_socp_slb_lowpass_test.diary.tmp");
-diary fir_socp_slb_lowpass_test.diary.tmp
+strf="fir_socp_slb_lowpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic
 
-tol=5e-4
-ctol=1e-4
 maxiter=10000
+ftol=5e-4
+ctol=1e-4
 verbose=false
 
 % Filter specifications
@@ -105,7 +107,7 @@ function intEH=ERROR_FIR(b,_wd,_Hd,_Wd)
 endfunction
 
 ERROR_FIR([],wd,Hd,Wd);
-opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+opt=optimset("TolFun",ftol,"TolX",ftol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
 [b0,FVEC,INFO,OUTPUT]=fminunc(@ERROR_FIR,bi,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
@@ -126,7 +128,7 @@ printf("fminunc successful=%d??\n", OUTPUT.successful);
 printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 
 % Convert b0 to gain-pole-zero form
-[x0,U,V,M,Q]=tf2x(b0,1,tol);
+[x0,U,V,M,Q]=tf2x(b0,1,ftol);
 U,V,M,Q
 R=1;
 strt=sprintf(strP,"x0");
@@ -151,7 +153,7 @@ dmax=inf;
   iir_socp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R, ...
                 wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
                 wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-                maxiter,tol,verbose)
+                maxiter,ftol,ctol,verbose)
 if ~feasible 
   error("x1 infeasible");
 endif
@@ -172,7 +174,7 @@ close
   iir_slb(@iir_socp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol,ctol,verbose)
+          maxiter,ftol,ctol,verbose)
 if ~feasible 
   error("d1 infeasible");
 endif
@@ -217,7 +219,7 @@ fprintf(fid,"M=%d %% Number of complex zeros\n",M);
 fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
 fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"tol=%g %% Tolerance on relative coefficient update size\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on relative coefficient update size\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
 fprintf(fid,"dBap=%d %% Pass band amplitude peak-to-peak ripple\n",dBap);
@@ -235,11 +237,10 @@ print_pole_zero(d1,U,V,M,Q,R,"d1",strcat(strf,"_d1_coef.m"));
 print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
+eval(sprintf("save %s.mat N U V M Q R ftol ctol \
+fap dBap Wap ftp td tdr Wtp fas dBas Was bi b0 x0 d1",strf));
+
 % Done
 toc;
-save fir_socp_slb_lowpass_test.mat N U V M Q R tol ctol ...
-     fap dBap Wap ftp td tdr Wtp fas dBas Was bi b0 x0 d1
-
 diary off
-movefile fir_socp_slb_lowpass_test.diary.tmp ...
-         fir_socp_slb_lowpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

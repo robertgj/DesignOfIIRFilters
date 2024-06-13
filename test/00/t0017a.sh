@@ -47,7 +47,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-tol=0.001,ctol=0.001,maxiter=2000,verbose=0
+maxiter=2000,ftol=0.001,ctol=0.001,verbose=0
 f = [   0.1495000000,   0.1500000000,   0.1505000000,   0.2995000000, ... 
         0.3000000000,   0.3005000000 ]';
 Wa = [   1.0000000000,   1.0000000000,   0.0000000000,   0.0000000000, ... 

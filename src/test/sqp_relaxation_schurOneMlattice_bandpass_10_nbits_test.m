@@ -18,7 +18,8 @@ tic;
 maxiter=2000
 verbose=false;
 
-dBass=37;
+dBass=36;
+Wtp=2;
 schurOneMlattice_bandpass_10_nbits_common;
 
 % Initial coefficients
@@ -55,7 +56,7 @@ while ~isempty(kc_active)
                          wa,Asqd,Asqdu,Asqdl,Wa, ...
                          wt,Td,Tdu,Tdl,Wt, ...
                          wp,Pd,Pdu,Pdl,Wp, ...
-                         maxiter,tol,ctol,verbose);
+                         maxiter,ftol,ctol,verbose);
   catch
     feasible=false;
     err=lasterror();
@@ -302,37 +303,37 @@ endif
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
-fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"maxiter=%d %% SQP iteration limit\n",maxiter);
-fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
+fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);
 fprintf(fid,"%% length(c0)=%d %% Num. tap coefficients\n",length(c0));
 fprintf(fid,"%% sum(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k0~=0));
 fprintf(fid,"dmax=%f %% Constraint on norm of coefficient SQP step size\n",dmax);
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"ftpl=%g %% Delay pass band lower edge\n",ftpl);
 fprintf(fid,"ftpu=%g %% Delay pass band upper edge\n",ftpu);
 fprintf(fid,"tp=%g %% Nominal passband filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Delay pass band peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
+fprintf(fid,"Wtp=%g %% Delay pass band weight\n",Wtp);
 fprintf(fid,"fasl=%g %% Amplitude stop band(1) lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Amplitude stop band(1) upper edge\n",fasu);
-fprintf(fid,"dBas=%d %% Amplitude stop band(1) peak-to-peak ripple\n",dBas);
+fprintf(fid,"dBas=%g %% Amplitude stop band(1) peak-to-peak ripple\n",dBas);
 fprintf(fid,"fasll=%g %% Amplitude stop band(2) lower edge\n",fasll);
 fprintf(fid,"fasuu=%g %% Amplitude stop band(2) upper edge\n",fasuu);
-fprintf(fid,"dBass=%d %% Amplitude stop band(2) peak-to-peak ripple\n",dBass);
-fprintf(fid,"Wasl=%d %% Amplitude lower stop band weight\n",Wasl);
-fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
+fprintf(fid,"dBass=%g %% Amplitude stop band(2) peak-to-peak ripple\n",dBass);
+fprintf(fid,"Wasl=%g %% Amplitude lower stop band weight\n",Wasl);
+fprintf(fid,"Wasu=%g %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
 eval(sprintf("save %s.mat ...\n\
      k0 epsilon0 p0 c0 ...\n\
-     tol ctol nbits nscale ndigits ndigits_alloc npoints ...\n\
+     ftol ctol nbits nscale ndigits ndigits_alloc npoints ...\n\
      fapl fapu dBap Wap ...\n\
      fasl fasu dBas fasll fasuu dBass Wasl Wasu ...\n\
      ftpl ftpu tp tpr Wtp k_min c_min",strf));

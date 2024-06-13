@@ -9070,15 +9070,13 @@ with \input{decimator_R2_interpolated_test_fir_delay.tab} samples delay.
 \end{figure}
 \clearpage
 \subsection{\label{sec:Band-pass-R-2-decimation-filter}Band-pass R=2 decimation filter}
-This example design is an $R=2$ decimation band-pass filter.
-The amplitude response pass-band edges are at frequencies $0.1f_{s}$ 
-and $0.2f_{s}$. The amplitude response stop-band edges are at 
-frequencies $0.05f_{s}$ and $0.25f_{s}$. The pass-band 
-group-delay specification is $16$ samples with band edges at
-frequencies $0.09f_{s}$ and $0.21f_{s}$.
-The Octave script \emph{iir\_sqp\_slb\_bandpass\_test.m} implements
-this example. The \emph{sqp} loop is implemented by the Octave function 
-\emph{iir\_slb}. The initial filter was ``guesstimated'' and has a pole-zero 
+The Octave script \emph{iir\_sqp\_slb\_bandpass\_test.m} implements an $R=2$
+decimation band-pass filter. The \emph{sqp} loop is implemented by the Octave
+function \emph{iir\_slb}. The filter specification is:
+\begin{small}
+\verbatiminput{iir_sqp_slb_bandpass_test_spec.m}
+\end{small}
+The initial filter was ``guesstimated'' and has a pole-zero 
 specification of $U=2$, $V=0$, $M=18$, $Q=10$ and $R=2$:
 \begin{small}
 \begin{verbatim}
@@ -9091,11 +9089,11 @@ x0=[ 0.00005, ...
      (4:8)*pi/10 ]';
 \end{verbatim}
 \end{small}
-In the above listing, the first line shows the gain, and subsequent lines show,
-respectively, $2$ real zeros, $0$ real poles, the zero radiuses for $9$
-conjugate pairs of zeros, the zero angles for $9$ conjugate pairs of zeros, the
-pole radiuses for $5$ conjugate pairs of poles and the pole angles for $5$
-conjugate pairs of poles. In this case the denominator decimation
+In the above listing, the first line of $x0$ shows the gain, and subsequent
+lines show, respectively, $2$ real zeros, $0$ real poles, the zero radiuses
+for $9$ conjugate pairs of zeros, the zero angles for $9$ conjugate pairs of
+zeros, the pole radiuses for $5$ conjugate pairs of poles and the pole angles
+for $5$ conjugate pairs of poles. In this case the denominator decimation
 factor is $R=2$ and each complex pole pair is split into $2$ complex pole pairs
 so that the overall filter has $10$ complex conjugate pole pairs. The response of
 the initial filter is shown in
@@ -9107,11 +9105,7 @@ Figure~\ref{fig:iir-sqp-slb-bandpass-test-initial-x0}.
 \label{fig:iir-sqp-slb-bandpass-test-initial-x0}
 \end{figure}
 \subsubsection{\label{sub:MMSE-optimisation-of-the-band-pass-R2-decimator}MMSE optimisation of the band-pass  R=2 decimator}
-First the initial filter is passed through \emph{iir\_sqp\_mmse} with amplitude
-response pass-band weight $Wap=1$, amplitude response lower and 
-upper stop-band weights $Wasl=2$ and $Wasu=4$, respectively, and
-group-delay response pass-band weight $Wtp=1$. The 
-response of the MMSE-optimised filter is shown in 
+The response of the MMSE-optimised filter is shown in 
 Figure~\ref{fig:iir-sqp-slb-bandpass-test-mmse-x1} with pass-band detail
 shown in Figure~\ref{fig:iir-sqp-slb-bandpass-test-mmse-x1-passband}. The 
 corresponding pole-zero plot is shown in 
@@ -9139,11 +9133,8 @@ Figure~\ref{fig:iir-sqp-slb-bandpass-test-mmse-x1-pz}.
 \end{figure}
 \clearpage
 \subsubsection{PCLS optimisation of the band-pass R=2 decimator}
-Next, the filter designed in 
-Section~\ref{sub:MMSE-optimisation-of-the-band-pass-R2-decimator} is passed 
-through \emph{iir\_slb} for PCLS optimisation with $Wtp=1$, $tpr=0.08$ samples, 
-$dBap=1$ and $dBas=35$. The response of the resulting filter is shown 
-in Figure~\ref{fig:iir-sqp-slb-bandpass-test-pcls-d1} with pass-band detail
+The response of the PCLS optimised filter is shown in
+Figure~\ref{fig:iir-sqp-slb-bandpass-test-pcls-d1} with pass-band detail
 shown in Figure~\ref{fig:iir-sqp-slb-bandpass-test-pcls-d1-passband}. The
 corresponding pole-zero plot is shown in
 Figure~\ref{fig:iir-sqp-slb-bandpass-test-pcls-d1-pz}. The estimate of the
@@ -9253,7 +9244,7 @@ group-delay by adding $\omega t_{d}$ where $\omega$ is the angular frequency
 vector for which the response is calculated.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_hilbert_test_initial_x0phase}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_hilbert_test_initial_response}}
 \caption{Response of the initial Hilbert filter designed by 
   \emph{tarczynski\_hilbert\_test.m} with $R=2$ and $t_{d}=5.5$. The phase
   response shown is adjusted for the nominal delay.}
@@ -9273,7 +9264,7 @@ phase response is approximated with the Octave function
 \emph{iirP\_hessP\_DiagonalApprox.m}.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_hilbert_test_mmse_x1phase}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_hilbert_test_mmse_response}}
 \caption{Response of the Hilbert filter after MMSE optimisation. The phase
   response shown is adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-hilbert-mmse-response}
@@ -9291,25 +9282,21 @@ are, in gain-pole-zero form
 \begin{small}
 \verbatiminput{iir_sqp_slb_hilbert_test_d1_coef.m}
 \end{small}
-and in transfer function form the numerator and denominator polynomials are,
-respectively:
+and in transfer function form the numerator and denominator polynomials are:
 \begin{small}
 \verbatiminput{iir_sqp_slb_hilbert_test_N1_coef.m}
-\end{small}
-and
-\begin{small}
 \verbatiminput{iir_sqp_slb_hilbert_test_D1_coef.m}
 \end{small}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_hilbert_test_pcls_d1phase}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_hilbert_test_pcls_response}}
 \caption{Response of the Hilbert filter after PCLS optimisation. The phase
   response shown is adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-hilbert-pcls-response}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_hilbert_test_pcls_d1pz}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_hilbert_test_pcls_pz}}
 \caption{Pole-zero plot of the Hilbert filter after PCLS optimisation.}
 \label{fig:iir-sqp-slb-hilbert-pcls-pz}
 \end{figure}
@@ -9483,17 +9470,20 @@ numerator and denominator polynomials are:
 \end{small}
 
 Figure~\ref{fig:iir-sqp-slb-lowpass-differentiator-alt-initial-response}
-shows the amplitude, group delay and phase response errors of the initial
-correction filter.
+shows the amplitude, group delay and phase responses of the initial low-pass
+differentiator filter. The phase response is adjusted for linear-phase delay.
+
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_alternate_test_initial_x0_response}}
-\caption{Response errors of the initial low-pass differentiator correction
-  filter. The phase response shown is adjusted for the nominal delay.}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_alternate_test_initial_response}}
+\caption{Amplitude, phase and group delay responses of the initial low-pass
+  differentiator filter. The phase response shown is adjusted for the nominal
+  delay.}
 \label{fig:iir-sqp-slb-lowpass-differentiator-alt-initial-response}
 \end{figure}
 
-The PCLS optimised filter coefficients are, in gain-zero-pole form:
+The PCLS optimised filter coefficients of the alternate low-pass differentiator
+filter are, in gain-zero-pole form:
 \begin{small}
 \verbatiminput{iir_sqp_slb_lowpass_differentiator_alternate_test_d1z_coef.m}
 \end{small}
@@ -9513,7 +9503,7 @@ the correction filter.
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_alternate_test_pcls_d1z_response}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_alternate_test_pcls_error}}
 \caption{Response errors of the alternate low-pass differentiator filter after
   PCLS optimisation. The phase response shown is adjusted for the nominal delay.}
 \label{fig:iir-sqp-slb-lowpass-differentiator-alt-pcls-response-error}
@@ -9523,7 +9513,7 @@ Figure~\ref{fig:iir-sqp-slb-lowpass-differentiator-alt-pcls-pz} shows the
 pole-zero plot of the low-pass differentiator after PCLS optimisation.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_alternate_test_pcls_d1z_pz}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_differentiator_alternate_test_pcls_pz}}
 \caption{Pole-zero plot of the alternate low-pass differentiator filter after
   PCLS optimisation.}
 \label{fig:iir-sqp-slb-lowpass-differentiator-alt-pcls-pz}
@@ -9671,8 +9661,8 @@ Figure~\ref{fig:iir-sqp-slb-fir-lowpass-pcls-response} shows the response of
 the PCLS optimised filter.
 Figure~\ref{fig:iir-sqp-slb-fir-lowpass-pcls-passband-response} shows the
 pass-band detail of the response of the PCLS optimised filter.
-The coefficients of the PCLS optimised minimum phase
-FIR bandpass filter are, in gain-pole-zero form:
+The coefficients of the PCLS optimised FIR low-pass filter are, in
+gain-pole-zero form:
 \begin{small}
 \verbatiminput{iir_sqp_slb_fir_lowpass_test_d1_coef.m}
 \end{small}
@@ -11576,7 +11566,7 @@ The phase response shown is adjusted for the nominal delay.
 \end{figure}
 
 After PCLS optimisation, the denominator polynomials of the all-pass filters in
-the low-pass differentiator filter are:
+the low-pass differentiator correction filter are:
 \begin{small}
 \verbatiminput{parallel_allpass_socp_slb_lowpass_differentiator_test_Da1_coef.m}
 \verbatiminput{parallel_allpass_socp_slb_lowpass_differentiator_test_Db1_coef.m}
@@ -11603,13 +11593,14 @@ The phase response shown is adjusted for the nominal delay.
 \end{figure}
 
 Figure~\ref{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-phase} shows
-the phase responses of the low-pass differentiator filter  parallel allpass
-filters,  including $1-z^{-1}$, after PCLS SOCP optimisation.
+the phase responses of the parallel all-pass correction filters (including
+a series $1-z^{-1}$) after PCLS SOCP optimisation.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_lowpass_differentiator_test_ab1phase}}
 \caption{Phase responses of the low-pass differentiator filter
-  parallel allpass filters after PCLS SOCP optimisation.}
+  parallel allpass filters (including a series $1-z^{-1}$) after PCLS SOCP
+  optimisation.}
 \label{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-phase}
 \end{figure}
 
@@ -12304,18 +12295,27 @@ relationships between coefficients are linear.
 \subsection{Design of an IIR low-pass differentiator filter with a Schur one-multiplier lattice correction filter  using SOCP}
 The Octave script
 \emph{schurOneMlattice\_socp\_slb\_lowpass\_differentiator\_alternate\_test.m}
-calls \emph{schurOneMlattice\_slb} to improve the filter designed with
-\emph{iir\_sqp\_slb} in Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt}.
-I attempted unsuccessfully to use the initial filter used for that design, found
-with \emph{tarczynski\_lowpass\_differentiator\_alternate\_test.m}. The
-Schur one-multiplier lattice coefficients for the lowpass differentiator design
-found in Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt} are:
+calls \emph{schurOneMlattice\_slb} to attempt to improve the filter designed with
+\emph{tarczynski\_lowpass\_differentiator\_alternate\_test.m}. The filter specification
+is similar to that of Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt}:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_spec.m}
+\end{small}
+The Schur one-multiplier lattice coefficients for the PCLS optimised correction filter are:
 \begin{small}
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_k2_coef.m}
-\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_epsilon2_coef.m}
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_c2_coef.m}
 \end{small}
-
+Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-SOCP-PCLS}
+shows the response of the low-pass differentiator filter after PCLS
+optimisation. 
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_pcls_error_response}}
+\caption{PCLS optimised error response of a low-pass differentiator filter
+  composed of a Schur one-multiplier lattice correction filter and $1-z^{-1}$.}
+\label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-SOCP-PCLS}
+\end{figure}
 \clearpage
 \subsection{\label{sec:Design-parallel-Schur-one-mult-all-pass-lattice-low-pass-SOCP}Design of an IIR low-pass filter with parallel Schur one-multiplier all-pass lattice filters using SOCP}
 The Octave script \emph{schurOneMPAlattice\_socp\_slb\_lowpass\_test.m}
@@ -12690,21 +12690,21 @@ Section~\ref{sec:Hilbert-transform-R-2-decimation-filter}.
 The denominator polynomial of the filter has coefficients in $z^{2}$ only.
 Figure~\ref{fig:Schur-one-multiplier-lattice-hilbert-filter-SOCP-PCLS} 
 shows the response of the Hilbert filter after SOCP PCLS optimisation. The phase
-response shown has been adjusted by the nominal group delay, $\omega{}\tau_{p}$.
+response shown has been adjusted by the nominal group delay, $\omega{}\tau_{d}$.
 The values shown on the phase axis of the phase response plot are multiples of
 $\pi$ radians.
 Figure~\ref{fig:Schur-one-multiplier-lattice-hilbert-filter-SOCP-PCLS-pz} shows
 the pole-zero plot of the Hilbert filter after SOCP PCLS optimisation.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_hilbert_test_pcls_k2c2}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_hilbert_test_pcls_response}}
 \caption{Schur one-multiplier lattice Hilbert filter, response after SOCP PCLS
   optimisation.}
 \label{fig:Schur-one-multiplier-lattice-hilbert-filter-SOCP-PCLS}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_hilbert_test_pcls_k2c2pz}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_hilbert_test_pcls_pz}}
 \caption{Schur one-multiplier lattice Hilbert filter, pole-zero plot after SOCP
   PCLS optimisation.}
 \label{fig:Schur-one-multiplier-lattice-hilbert-filter-SOCP-PCLS-pz}
@@ -12720,8 +12720,8 @@ coefficients of the Hilbert filter are:
 \end{small}
 The corresponding denominator and numerator transfer function polynomials are:
 \begin{small}
-\verbatiminput{schurOneMlattice_socp_slb_hilbert_test_d2_coef.m}
-\verbatiminput{schurOneMlattice_socp_slb_hilbert_test_n2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_hilbert_test_N2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_hilbert_test_D2_coef.m}
 \end{small}
 \clearpage
 \subsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-hilbert-SQP}Design of an IIR one-multiplier Schur lattice Hilbert filter using SQP}
@@ -12739,21 +12739,21 @@ Section~\ref{sec:Hilbert-transform-R-2-decimation-filter}.
 The denominator polynomial of the filter has coefficients in $z^{2}$ only.
 Figure~\ref{fig:Schur-one-multiplier-lattice-hilbert-filter-SQP-PCLS} 
 shows the response of the Hilbert filter after SQP PCLS optimisation. The phase
-response shown has been adjusted by the nominal group delay, $\omega{}\tau_{p}$.
+response shown has been adjusted by the nominal group delay, $\omega{}\tau_{d}$.
 The values shown on the phase axis of the phase response plot are multiples of
 $\pi$ radians.
 Figure~\ref{fig:Schur-one-multiplier-lattice-hilbert-filter-SQP-PCLS-pz} shows
 the pole-zero plot of the Hilbert filter after SQP PCLS optimisation.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_hilbert_test_pcls_k2c2}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_hilbert_test_pcls_response}}
 \caption{Schur one-multiplier lattice Hilbert filter, response after SQP PCLS
   optimisation.}
 \label{fig:Schur-one-multiplier-lattice-hilbert-filter-SQP-PCLS}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_hilbert_test_pcls_k2c2pz}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_hilbert_test_pcls_pz}}
 \caption{Schur one-multiplier lattice Hilbert filter, pole-zero plot after SQP
   PCLS optimisation.}
 \label{fig:Schur-one-multiplier-lattice-hilbert-filter-SQP-PCLS-pz}
@@ -12769,8 +12769,8 @@ coefficients of the Hilbert filter are:
 \end{small}
 The corresponding denominator and numerator transfer function polynomials are:
 \begin{small}
-\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test_d2_coef.m}
-\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test_n2_coef.m}
+\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test_N2_coef.m}
+\verbatiminput{schurOneMlattice_sqp_slb_hilbert_test_D2_coef.m}
 \end{small}
 \clearpage
 \subsection{\label{sec:Design-parallel-Schur-one-mult-all-pass-lattice-band-pass-Hilbert-SOCP}Design of a parallel IIR Schur one-multiplier all-pass lattice band-pass Hilbert filter using SOCP}
@@ -15150,7 +15150,7 @@ include the round-off noise due to state scaling.
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_2_ndigits_test_cost}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_test_2_ndigits_cost}}
 \caption{Comparison of the cost function for a Schur one-multiplier lattice
 bandpass filter with 6-bit to 16-bit integer coefficients found by rounding,
 approximation by two signed-digits and approximation by an average of two signed
@@ -15159,7 +15159,7 @@ digits using the heuristics of \emph{Lim et al.} and \emph{Ito et al.}\;.}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_2_ndigits_test_sidelobe}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_test_2_ndigits_sidelobe}}
 \caption{Comparison of the maximum stopband response in the region [0.26,0.5)
 for a Schur one-multiplier lattice
 bandpass filter with 6-bit to 16-bit integer coefficients found by rounding,
@@ -15169,7 +15169,7 @@ digits using the heuristics of \emph{Lim et al.} and \emph{Ito et al.}\;.}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_2_ndigits_test_digits}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_test_2_ndigits_digits}}
 \caption{Comparison of the total number of signed-digits required to implement
 the coefficients of a Schur one-multiplier lattice
 bandpass filter with 6-bit to 16-bit integer coefficients found by rounding,
@@ -15179,7 +15179,7 @@ digits using the heuristics of \emph{Lim et al.} and \emph{Ito et al.}\;.}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_2_ndigits_test_ng}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_test_2_ndigits_ng}}
 \caption{Comparison of the estimated noise gain of a Schur one-multiplier lattice
 bandpass filter with 6-bit to 16-bit integer coefficients found by rounding,
 approximation by two signed-digits and approximation by an average of two signed
@@ -15188,7 +15188,7 @@ digits using the heuristics of \emph{Lim et al.} and \emph{Ito et al.}\;.}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_2_ndigits_10_nbits_test_amplitude}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_test_2_ndigits_10_nbits_amplitude}}
 \caption{Comparison of the amplitude responses for a Schur one-multiplier lattice
 bandpass filter with 10-bit integer coefficients found by rounding,
 approximation by two signed-digits and approximation by an average of two signed
@@ -15197,7 +15197,7 @@ digits using the heuristics of \emph{Lim et al.} and \emph{Ito et al.}\;.}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_2_ndigits_10_nbits_test_pass_amplitude}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_test_2_ndigits_10_nbits_pass_amplitude}}
 \caption{Comparison of the passband amplitude responses for a Schur
   one-multiplier lattice bandpass filter with 10-bit integer coefficients found
   by rounding, approximation by two signed-digits and approximation by an
@@ -15207,7 +15207,7 @@ digits using the heuristics of \emph{Lim et al.} and \emph{Ito et al.}\;.}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_2_ndigits_10_nbits_test_pass_delay}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_test_2_ndigits_10_nbits_pass_delay}}
 \caption{Comparison of the passband delay responses for a Schur
   one-multiplier lattice bandpass filter with 10-bit integer coefficients found
   by rounding, approximation by two signed-digits and approximation by an
@@ -15217,7 +15217,7 @@ digits using the heuristics of \emph{Lim et al.} and \emph{Ito et al.}\;.}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_3_ndigits_test_cost}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_test_3_ndigits_cost}}
 \caption{Comparison of the cost function for a Schur one-multiplier lattice
 bandpass filter with 6-bit to 16-bit integer coefficients found by rounding,
 approximation by three signed-digits and approximation by an average of three
@@ -15226,7 +15226,7 @@ signed digits using the heuristics of \emph{Lim et al.} and \emph{Ito et al.}\;.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_3_ndigits_test_sidelobe}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_test_3_ndigits_sidelobe}}
 \caption{Comparison of the maximum stopband response in the region [0.26,0.5)
 for a Schur one-multiplier lattice
 bandpass filter with 6-bit to 16-bit integer coefficients found by rounding,
@@ -15236,7 +15236,7 @@ signed digits using the heuristics of \emph{Lim et al.} and \emph{Ito et al.}\;.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_3_ndigits_test_digits}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_test_3_ndigits_digits}}
 \caption{Comparison of the total number of signed-digits required to implement
 the coefficients of a Schur one-multiplier lattice
 bandpass filter with 6-bit to 16-bit integer coefficients found by rounding,
@@ -15246,7 +15246,7 @@ signed digits using the heuristics of \emph{Lim et al.} and \emph{Ito et al.}\;.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_3_ndigits_test_ng}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_test_3_ndigits_ng}}
 \caption{Comparison of the estimated noise gain of a Schur one-multiplier lattice
 bandpass filter with 6-bit to 16-bit integer coefficients found by rounding,
 approximation by three signed-digits and approximation by an average of two 
@@ -15255,7 +15255,7 @@ signed digits using the heuristics of \emph{Lim et al.} and \emph{Ito et al.}\;.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_3_ndigits_10_nbits_test_amplitude}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_test_3_ndigits_10_nbits_amplitude}}
 \caption{Comparison of the amplitude responses for a Schur one-multiplier lattice
 bandpass filter with 10-bit integer coefficients found by rounding,
 approximation by three signed-digits and approximation by an average of three
@@ -15264,7 +15264,7 @@ signed digits using the heuristics of \emph{Lim et al.} and \emph{Ito et al.}\;.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_3_ndigits_10_nbits_test_pass_amplitude}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_test_3_ndigits_10_nbits_pass_amplitude}}
 \caption{Comparison of the passband amplitude responses for a Schur
   one-multiplier lattice bandpass filter with 10-bit integer coefficients found
   by rounding, approximation by three signed-digits and approximation by an
@@ -15274,7 +15274,7 @@ signed digits using the heuristics of \emph{Lim et al.} and \emph{Ito et al.}\;.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_3_ndigits_10_nbits_test_pass_delay}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_bandpass_allocsd_test_3_ndigits_10_nbits_pass_delay}}
 \caption{Comparison of the passband amplitude responses for a Schur
   one-multiplier lattice bandpass filter with 10-bit integer coefficients found
   by rounding, approximation by three signed-digits and approximation by an
@@ -15320,7 +15320,7 @@ non-zero $10$-bit coefficient.
 \clearpage
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_2_ndigits_test_cost}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_test_2_ndigits_cost}}
 \caption{Comparison of the cost function for a direct-form even-order
   symmetric FIR bandpass filter with 6-bit to 16-bit integer coefficients
   found by rounding, approximation by two signed-digits and approximation by
@@ -15330,7 +15330,7 @@ non-zero $10$-bit coefficient.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_2_ndigits_test_sidelobe}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_test_2_ndigits_sidelobe}}
 \caption{Comparison of the maximum stopband response in the region [0.26,0.5)
   for a direct-form even-order symmetric FIR bandpass filter with 6-bit to
   16-bit integer coefficients found by rounding, approximation by two
@@ -15340,7 +15340,7 @@ non-zero $10$-bit coefficient.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_2_ndigits_test_digits}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_test_2_ndigits_digits}}
 \caption{Comparison of the total number of signed-digits required to implement
   the coefficients of a direct-form even-order symmetric FIR bandpass filter
   with 6-bit to 16-bit integer coefficients found by rounding, approximation
@@ -15350,7 +15350,7 @@ non-zero $10$-bit coefficient.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_2_ndigits_10_nbits_test_amplitude}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_test_2_ndigits_10_nbits_amplitude}}
 \caption{Comparison of the amplitude responses for a direct-form even-order
   symmetric FIR bandpass filter with 10-bit integer coefficients found by
   rounding, approximation by two signed-digits and approximation by an average
@@ -15360,7 +15360,7 @@ non-zero $10$-bit coefficient.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_2_ndigits_10_nbits_test_pass_amplitude}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_test_2_ndigits_10_nbits_pass_amplitude}}
 \caption{Comparison of the pass-band amplitude responses for a direct-form
   even-order symmetric FIR bandpass filter with 10-bit integer coefficients
   found by rounding, approximation by two signed-digits and approximation by an
@@ -15370,7 +15370,7 @@ non-zero $10$-bit coefficient.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_3_ndigits_test_cost}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_test_3_ndigits_cost}}
 \caption{Comparison of the cost function for a direct-form even-order
   symmetric FIR bandpass filter with 6-bit to 16-bit integer coefficients
   found by rounding, approximation by three signed-digits and approximation by
@@ -15380,7 +15380,7 @@ non-zero $10$-bit coefficient.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_3_ndigits_test_sidelobe}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_test_3_ndigits_sidelobe}}
 \caption{Comparison of the maximum stopband response in the region [0.26,0.5)
   for a direct-form even-order symmetric FIR bandpass filter with 6-bit to
   16-bit integer coefficients found by rounding, approximation by three
@@ -15390,7 +15390,7 @@ non-zero $10$-bit coefficient.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_3_ndigits_test_digits}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_test_3_ndigits_digits}}
 \caption{Comparison of the total number of signed-digits required to implement
   the coefficients of a direct-form even-order symmetric FIR bandpass filter
   with 6-bit to 16-bit integer coefficients found by rounding, approximation
@@ -15400,7 +15400,7 @@ non-zero $10$-bit coefficient.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_3_ndigits_10_nbits_test_amplitude}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_test_3_ndigits_10_nbits_amplitude}}
 \caption{Comparison of the amplitude responses for a direct-form even-order
   symmetric FIR bandpass filter with 10-bit integer coefficients found by
   rounding, approximation by three signed-digits and approximation by an average
@@ -15410,7 +15410,7 @@ non-zero $10$-bit coefficient.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_3_ndigits_10_nbits_test_pass_amplitude}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRsymmetric_bandpass_allocsd_test_3_ndigits_10_nbits_pass_amplitude}}
 \caption{Comparison of the pass-band amplitude responses for a direct-form
   even-order symmetric FIR bandpass filter with 10-bit integer coefficients
   found by rounding, approximation by three signed-digits and approximation by
@@ -18050,39 +18050,47 @@ then passed to \emph{schurOneMlattice\_slb} for PCLS optimisation. The
 resulting PCLS coefficient value selects the closer of the upper or lower
 signed-digit values as the final choice for that coefficient. 
 
-The signed-digit filter coefficients found by the heuristic of 
-\emph{Ito et al.} are:
+The allocation of signed-digits to the filter coefficients found by the
+heuristic of \emph{Lim et al.} is:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test_k_allocsd_digits.m}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test_c_allocsd_digits.m}
+\end{small}
+  
+The corresponding signed-digit coefficients of the Schur one-multiplier lattice
+correction filter are:
 \begin{small}
 \verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test_k0_sd_coef.m}
 \verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test_c0_sd_coef.m}
 \end{small}
 
-The signed-digit filter coefficients found by the SOCP-relaxation search are:
+The signed-digit filter coefficients  of the Schur one-multiplier lattice
+correction filter found by the SOCP-relaxation search are:
 \begin{small}
 \verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test_k_min_coef.m}
 \verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test_c_min_coef.m}
 \end{small}
 
 Figure~\ref{fig:socp-relax-schurOneMlattice-lowpass-differentiator-12-nbits-response}
-compares the amplitude error, phase error and group delay responses of the
-filter with floating-point coefficients, 12-bit signed-digit coefficients
-allocated with the algorithm of \emph{Ito et al.} and 12-bit signed-digit
-coefficients allocated with the algorithm of \emph{Ito et al.} and found by
-SOCP-relaxation search. The phase responses shown are adjusted for the nominal
-filter delay.
+compares the amplitude, phase and group delay error responses of the low-pass
+differentiator filter with floating-point coefficients, 12-bit signed-digit
+coefficients allocated with the algorithm of \emph{Lim et al.} and 12-bit
+signed-digit coefficients allocated with the algorithm of \emph{Lim et al.} and
+found by SOCP-relaxation search. The phase responses shown are adjusted for the
+nominal filter delay.
 Table~\ref{tab:socp-relax-schurOneMlattice-lowpass-differentiator-12-nbits-cost-summary}
 compares the cost, the number of signed-digits and the number of $12$-bit
 shift-and-add operations required to implement the coefficient multiplications
-found by the signed-digit allocation heuristic of \emph{Ito et al.} and by
+found by the signed-digit allocation heuristic of \emph{Lim et al.} and by
 SOCP-relaxation search.
 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test_kc_min}}
-\caption{Comparison of the amplitude error, phase error and group delay
+\caption{Comparison of the amplitude, phase and group delay error
   responses for a Schur one-multiplier lattice lowpass differentiator filter
   with 12-bit integer coefficients found by allocating an average of
-  3-signed-digits to each coefficient using the heuristic of \emph{Ito et al.}
+  3-signed-digits to each coefficient using the heuristic of \emph{Lim et al.}
   and performing SOCP-relaxation search. The phase responses shown are adjusted
   for the nominal delay.} 
 \label{fig:socp-relax-schurOneMlattice-lowpass-differentiator-12-nbits-response}
@@ -18091,7 +18099,7 @@ SOCP-relaxation search.
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
-\begin{tabular}{lccc}  \\ \toprule
+\begin{tabular}{llcc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
 \input{socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test_kc_min_cost.tab}
 \\ \bottomrule
@@ -18101,9 +18109,9 @@ SOCP-relaxation search.
 lowpass differentiator filter SOCP-relaxation example with 12-bit coefficients]
 {Comparison of the cost and number of 12-bit shift-and-add operations required 
   to implement the coefficient multiplications for a Schur one-multiplier 
-  lattice lowpass differentiator filter with 12-bit integer coefficients found
+  lattice correction filter with 12-bit integer coefficients found
   by allocating an average of 3-signed-digits to each coefficient using the
-  heuristic of \emph{Ito et al.} and performing SOCP-relaxation search.}
+  heuristic of \emph{Lim et al.} and performing SOCP-relaxation search.}
 \label{tab:socp-relax-schurOneMlattice-lowpass-differentiator-12-nbits-cost-summary}
 \end{table}
 \clearpage
@@ -18478,7 +18486,7 @@ as a \emph{polynomial optimisation problem} (POP) in SOCP form as:
 \end{align*}
 where $\Delta\boldsymbol{x}$ is the coefficient update vector, $\mathcal{E}$ 
 is the weighted response error at $\boldsymbol{x_{k}}$ and $\boldsymbol{x}_{u}$
-and $\boldsymbol{x}_{u}$ are the upper and lower bounds on the truncated 
+and $\boldsymbol{x}_{l}$ are the upper and lower bounds on the truncated 
 coefficients, $\boldsymbol{x_{k}}+\Delta\boldsymbol{x}$. 
 
 \emph{Lasserre}~\cite{Lasserre_GlobalOptimizationPolynomialsMoments} and 
@@ -19251,9 +19259,15 @@ shows the history of the difference of the successive relaxed signed-digit
 coefficients from the initial floating-point values. 
 Table~\ref{tab:sdp-relax-schurOneMlattice-bandpass-10-nbits-cost-summary}
 compares the cost and the number of $10$ bit shift-and-add operations required
-to implement the $20$ coefficient multiplications found by the signed-digit
-allocation heuristic of \emph{Lim et al.} with the SDP-relaxation search. A
-further $51$ additions are required by the lattice filter structure.
+to implement the coefficient multiplications found by the signed-digit
+allocation heuristic of \emph{Lim et al.} with the SDP-relaxation search.
+For comparison,
+Table~\ref{tab:sdp-relax-schurOneMlattice-bandpass-12-nbits-cost-summary}
+compares the cost and the number of $12$ bit shift-and-add operations required
+to implement the coefficient multiplications found by the signed-digit
+allocation heuristic of \emph{Lim et al.} with the SDP-relaxation search with
+the Octave script
+\emph{sdp\_relaxation\_schurOneMlattice\_bandpass\_12\_nbits\_test.m}.
 
 \begin{figure}
 \centering
@@ -19264,6 +19278,7 @@ further $51$ additions are required by the lattice filter structure.
   heuristic of \emph{Lim et al.} and performing SDP-relaxation search.}
 \label{fig:sdp-relax-schurOneMlattice-bandpass-10-nbits-pass-response}
 \end{figure}
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_stop}}
@@ -19273,6 +19288,7 @@ further $51$ additions are required by the lattice filter structure.
   heuristic of \emph{Lim et al.} and performing SDP-relaxation search.}
 \label{fig:sdp-relax-schurOneMlattice-bandpass-10-nbits-stop-response}
 \end{figure}
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_delay}}
@@ -19282,6 +19298,7 @@ further $51$ additions are required by the lattice filter structure.
   heuristic of \emph{Lim et al.} and performing SDP-relaxation search.}
 \label{fig:sdp-relax-schurOneMlattice-bandpass-10-nbits-delay-response}
 \end{figure}
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_coef_hist}}
@@ -19307,6 +19324,25 @@ bandpass filter SDP-relaxation algorithm example with 10-bit coefficients]
   an average of 3-signed-digits to each coefficient using the heuristic of 
   \emph{Lim et al.} and performing SDP-relaxation search.}
 \label{tab:sdp-relax-schurOneMlattice-bandpass-10-nbits-cost-summary}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lcccc}  \\ \toprule
+& Cost&Stop-band response&Signed-digits&Shift-and-adds\\ \midrule
+\input{sdp_relaxation_schurOneMlattice_bandpass_12_nbits_test_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the Schur one-multiplier lattice 
+bandpass filter SDP-relaxation algorithm example with 12-bit coefficients]
+{Comparison of the cost and number of 12-bit shift-and-add operations required 
+  to implement the coefficient multiplications for a Schur one-multiplier 
+  lattice bandpass filter with 12-bit integer coefficients found by allocating 
+  an average of 4-signed-digits to each coefficient using the heuristic of 
+  \emph{Lim et al.} and performing SDP-relaxation search.}
+\label{tab:sdp-relax-schurOneMlattice-bandpass-12-nbits-cost-summary}
 \end{table}
 \clearpage
 \section{\label{sec:SDP-relaxation-search-signed-digit-coefficients-IIR-lattice-elliptic-lowpass}SDP-relaxation search for the signed-digit coefficients of a parallel allpass lattice elliptic low-pass IIR filter}
@@ -20031,7 +20067,8 @@ annealing algorithm, \emph{nonlin\_min}~\cite[Demonstartion
 2]{OctaveForge_OptimPackage_nonlin_min}\footnote{The \emph{samin} function has
   been deprecated.}. Unfortunately, the minimum cost found by \emph{nonlin\_min}
 may vary by a factor of $2$ or more from run to run. In this section I show the
-best results from $20$ runs of each test. 
+best results from $20$ runs of each test. You may need to do more runs to find
+the best filter.
 
 The Octave script \emph{samin\_schurNSlattice\_lowpass\_test.m} implements the
 prototype elliptic filter as a normalised-scaled lattice and optimises the
@@ -20281,7 +20318,8 @@ package~\cite{OctaveForge_OptimPackage} implementation of the
 \emph{differential evolution} algorithm of \emph{Storn} and 
 \emph{Price}~\cite{StornPrice_DifferentialEvolution}, \emph{de\_min}. 
 Unfortunately, the minimum cost found by \emph{de\_min} may vary from run to
-run. In this section I show the best results from $20$ runs of each test. These
+run. In this section I show the best results from $20$ runs of each test. You
+may need to do more runs to find the best filter. These
 tests use the default control settings for \emph{de\_min}. The \emph{de\_min}
 function includes $12$ possible optimisation strategies. The default strategy
 is \emph{DEGL/SAW/bin}.
@@ -28615,48 +28653,49 @@ I found that:
 \end{itemize}
 \clearpage
 \subsection{\label{sec:FIR-lattice-bandpass-Hilbert-filter}Design of a complementary FIR lattice band-pass Hilbert filter}
-The Octave script \emph{complementaryFIRlattice\_socp\_slb\_bandpass\_test.m}
+The Octave script
+\emph{complementaryFIRlattice\_socp\_slb\_bandpass\_hilbert\_test.m}
 designs a PCLS optimised FIR lattice Hilbert band-pass filter with order
 $16$. The filter specification is:
 \begin{small}
-\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_test_spec.m}
+\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_hilbert_test_spec.m}
 \end{small}
 The initial filter is the band-pass filter designed by the Octave script
 \emph{iir\_sqp\_slb\_fir\_17\_bandpass\_test.m} in gain-pole-zero form. The
 corresponding initial minimum-phase FIR lattice filters  were calculated by the
 Octave function \emph{complementaryFIRlattice}.
 
-Figure~\ref{fig:Zeros-initial-band-pass-FIR-lattice-and-complementary-filter}
+Figure~\ref{fig:Zeros-initial-band-pass-hilbert-FIR-and-complementary-filter}
 shows the zeros of the initial FIR lattice band-pass and complementary filters.
 
 \begin{figure}
 \begin{subfigure}[b]{\textwidth}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_test_initial_b0_pz}}
-\caption{Zeros of the initial FIR lattice band-pass filter.}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_hilbert_test_initial_b0_pz}}
+\caption{Zeros of the initial FIR lattice band-pass Hilbert filter.}
 \end{subfigure}
 \begin{subfigure}[b]{\textwidth}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_test_initial_bc0_pz}}
-\caption{Zeros of the initial FIR lattice band-pass complementary filter.}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_hilbert_test_initial_bc0_pz}}
+\caption{Zeros of the initial FIR lattice band-pass Hilbert complementary filter.}
 \end{subfigure}
-\caption{Zeros of the initial band-pass FIR lattice filter and the complementary
+\caption{Zeros of the initial FIR lattice band-pass Hilbert filter and the complementary
  filter.}
-\label{fig:Zeros-initial-band-pass-FIR-lattice-and-complementary-filter}
+\label{fig:Zeros-initial-band-pass-hilbert-FIR-and-complementary-filter}
 \end{figure}
 
 
 The PCLS optimised filter lattice coefficients are:
 \begin{small}
-\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_test_k2_coef.m}
+\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_hilbert_test_k2_coef.m}
 \end{small}
 and:
 \begin{small}
-\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_test_khat2_coef.m}
+\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_hilbert_test_khat2_coef.m}
 \end{small}
 The corresponding direct-form FIR band-pass Hilbert filter coefficients are:
 \begin{small}
-\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_test_Nh2_coef.m}
+\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_hilbert_test_Nh2_coef.m}
 \end{small}
 Figure~\ref{fig:Response-PCLS-optimised-FIR-lattice-band-pass-Hilbert-filter}
 shows the amplitude, phase and delay responses of the PCLS optimised FIR lattice
@@ -28664,7 +28703,7 @@ band-pass Hilbert filter. The phase response shown is adjusted for the nominal
 delay.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_test_pcls_response}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_hilbert_test_pcls_response}}
 \caption{Response of the PCLS optimised FIR lattice band-pass Hilbert
 filter. The phase response shown is adjusted for the nominal delay.}
 \label{fig:Response-PCLS-optimised-FIR-lattice-band-pass-Hilbert-filter}
@@ -28672,25 +28711,26 @@ filter. The phase response shown is adjusted for the nominal delay.}
 The FIR lattice band-pass Hilbert filter was simulated with a uniformly
 distributed random noise input. The standard-deviations of the $16$ states are: 
 \begin{small}
-\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_test_std_xxk2.m}
+\verbatiminput{complementaryFIRlattice_socp_slb_bandpass_hilbert_test_std_xxk2.m}
 \end{small}
-Figure~\ref{fig:Zeros-PCLS-band-pass-FIR-lattice-and-complementary-filter}
+Figure~\ref{fig:Zeros-PCLS-band-pass-hilbert-FIR-and-complementary-filter}
 shows the zeros of the PCLS optimised FIR lattice band-pass Hilbert filter and
 the complementary filter. The FIR lattice filters need not be minimum-phase.
 \begin{figure}
 \begin{subfigure}[b]{\textwidth}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_test_pcls_Nh2_pz}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_hilbert_test_pcls_Nh2_pz}}
 \caption{Zeros of the PCLS optimised FIR lattice band-pass Hilbert filter.}
 \end{subfigure}
 \begin{subfigure}[b]{\textwidth}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_test_pcls_Ng2_pz}}
-\caption{Zeros of the PCLS optimised FIR lattice complementary filter.}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{complementaryFIRlattice_socp_slb_bandpass_hilbert_test_pcls_Ng2_pz}}
+\caption{Zeros of the PCLS optimised FIR lattice band-pass Hilbert filter
+  complementary filter.}
 \end{subfigure}
 \caption{Zeros of the PCLS optimised FIR lattice band-pass Hilbert filter and
   the complementary filter.}
-\label{fig:Zeros-PCLS-band-pass-FIR-lattice-and-complementary-filter}
+\label{fig:Zeros-PCLS-band-pass-hilbert-FIR-and-complementary-filter}
 \end{figure}
 
 \clearpage

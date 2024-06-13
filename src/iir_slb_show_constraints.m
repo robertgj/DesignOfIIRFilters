@@ -4,7 +4,7 @@ if nargin ~= 9
   print_usage("iir_slb_show_constraints(vS,wa,A,ws,S,wt,T,wp,P)");
 endif
   
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

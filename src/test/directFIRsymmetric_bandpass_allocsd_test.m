@@ -1,19 +1,21 @@
 % directFIRsymmetric_bandpass_allocsd_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Test Lims and Itos signed-digit allocation algorithms with
 % coefficients of a band-pass, symmetric, even-order FIR filter
 
 test_common;
 
-delete("directFIRsymmetric_bandpass_allocsd_test.diary");
-delete("directFIRsymmetric_bandpass_allocsd_test.diary.tmp");
-diary directFIRsymmetric_bandpass_allocsd_test.diary.tmp
+strf="directFIRsymmetric_bandpass_allocsd_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 maxiter=500;
 verbose=true;
-tol=1e-5;
-ctol=tol;
+ftol=1e-5;
+ctol=ftol;
 
 % Initialise
 % pass Band filter
@@ -62,7 +64,7 @@ hM0_active=1:length(hM0);
 [hM,slb_iter,socp_iter,func_iter,feasible]= ...
   directFIRsymmetric_slb(@directFIRsymmetric_mmsePW, ...
                          hM0,hM0_active,na,wa,Ad,Adu,Adl,Wa, ...
-                         maxiter,tol,ctol,verbose);
+                         maxiter,ftol,ctol,verbose);
 if feasible==false
   error("directFIRsymmetric_slb failed!");
 endif
@@ -84,13 +86,11 @@ nbits_cost_Ito=zeros(size(nbits_range));
 nbits_sidelobe_Ito=zeros(size(nbits_range));
 nbits_hM_digits_Ito=zeros(size(nbits_range));
 for ndigits=2:3
-  strf=sprintf("directFIRsymmetric_bandpass_allocsd_%d_ndigits_test",ndigits);
+  strf_ndigits=sprintf("%s_%d_ndigits",strf,ndigits);
   for l=1:length(nbits_range),
     nbits=nbits_range(l);
     nscale=2^(nbits-1);
-    nbits_strf=sprintf ...
-      ("directFIRsymmetric_bandpass_allocsd_%d_ndigits_%d_nbits_test",
-       ndigits,nbits);
+    strf_nbits=sprintf("%s_%d_nbits",strf_ndigits,nbits);
     
     % Rounded truncation
     hM_rd=round(hM.*nscale)./nscale;
@@ -112,14 +112,14 @@ for ndigits=2:3
                   (nbits,ndigits,hM,waf,Adf,ones(size(Waf)));
     print_polynomial(int16(ndigits_Lim(1:length(hM))), ...
                      "hM_allocsd_digits", ...
-                     strcat(nbits_strf,"_hM_Lim_digits.m"),"%2d");
+                     strcat(strf_nbits,"_hM_Lim_digits.m"),"%2d");
     % Signed-digits allocated by Lim
     hM_Lim=flt2SD(hM,nbits,ndigits_Lim(1:length(hM)));
     nbits_cost_Lim(l)=directFIRsymmetricEsqPW(hM_Lim,waf,Adf,Waf);
     A_Lim=directFIRsymmetricA(wa,hM_Lim);
     % Find the actual number of signed digits used
     [nbits_hM_digits_Lim(l),hM_Lim_adders]=SDadders(hM_Lim,nbits);
-    fid=fopen(strcat(nbits_strf,"_Lim.adders.tab"),"wt");
+    fid=fopen(strcat(strf_nbits,"_Lim.adders.tab"),"wt");
     fprintf(fid,"$%d$",hM_Lim_adders);
     fclose(fid);
 
@@ -127,14 +127,14 @@ for ndigits=2:3
     ndigits_Ito=directFIRsymmetric_allocsd_Ito(nbits,ndigits,hM,waf,Adf,Waf);
     print_polynomial(int16(ndigits_Ito(1:length(hM))), ...
                      "hM_allocsd_digits", ...
-                     strcat(nbits_strf,"_hM_Ito_digits.m"),"%2d");
+                     strcat(strf_nbits,"_hM_Ito_digits.m"),"%2d");
     % Signed-digits allocated by Ito
     hM_Ito=flt2SD(hM,nbits,ndigits_Ito(1:length(hM)));
     nbits_cost_Ito(l)=directFIRsymmetricEsqPW(hM_Ito,waf,Adf,Waf);
     A_Ito=directFIRsymmetricA(wa,hM_Ito);
     % Find the actual number of signed digits used
     [nbits_hM_digits_Ito(l),hM_Ito_adders]=SDadders(hM_Ito,nbits);
-    fid=fopen(strcat(nbits_strf,"_Ito.adders.tab"),"wt");
+    fid=fopen(strcat(strf_nbits,"_Ito.adders.tab"),"wt");
     fprintf(fid,"$%d$",hM_Ito_adders);
     fclose(fid);
 
@@ -155,7 +155,7 @@ for ndigits=2:3
     strt=sprintf("Bandpass symmetric FIR,nbits=%d,ndigits=%d",
                  nbits,ndigits);
     title(strt);
-    print(strcat(nbits_strf,"_amplitude"),"-dpdflatex");
+    print(strcat(strf_nbits,"_amplitude"),"-dpdflatex");
     close
 
     plot(wa*0.5/pi,20*log10(abs(A_ex)),"linestyle","-", ...
@@ -172,7 +172,7 @@ for ndigits=2:3
     legend("left");
     grid("on");
     title(strt);
-    print(strcat(nbits_strf,"_pass_amplitude"),"-dpdflatex");
+    print(strcat(strf_nbits,"_pass_amplitude"),"-dpdflatex");
     close
 
     % Print the maximum side-lobe for Lim
@@ -206,13 +206,13 @@ for ndigits=2:3
     
     % Print the results
     print_polynomial(hM_rd,sprintf("hM_rd_%d_bits",nbits),...
-                     strcat(nbits_strf,"_hM_rd_coef.m"),nscale);
+                     strcat(strf_nbits,"_hM_rd_coef.m"),nscale);
     print_polynomial(hM_sd,sprintf("hM_sd_%d_bits",nbits),...
-                     strcat(nbits_strf,"_hM_sd_coef.m"),nscale);
+                     strcat(strf_nbits,"_hM_sd_coef.m"),nscale);
     print_polynomial(hM_Lim,sprintf("hM_Lim_%d_bits",nbits),...
-                     strcat(nbits_strf,"_hM_Lim_coef.m"),nscale);
+                     strcat(strf_nbits,"_hM_Lim_coef.m"),nscale);
     print_polynomial(hM_Ito,sprintf("hM_Ito_%d_bits",nbits),...
-                     strcat(nbits_strf,"_hM_Ito_coef.m"),nscale);
+                     strcat(strf_nbits,"_hM_Ito_coef.m"),nscale);
   endfor
 
   % Plot comparison of cost
@@ -230,7 +230,7 @@ for ndigits=2:3
   legend("location","northeast");
   legend("boxoff");
   legend("left");
-  print(strcat(strf,"_cost"),"-dpdflatex");
+  print(strcat(strf_ndigits,"_cost"),"-dpdflatex");
   close
 
   % Plot comparison of maximum response
@@ -249,7 +249,7 @@ in [%4.2f,0.5) (dB), ndigits=%d",fasuu,ndigits);
   legend("location","northeast");
   legend("boxoff");
   legend("left");
-  print(strcat(strf,"_sidelobe"),"-dpdflatex");
+  print(strcat(strf_ndigits,"_sidelobe"),"-dpdflatex");
   close
 
   % Plot comparison of total signed-digits used
@@ -268,12 +268,11 @@ used by coefficients, ndigits=%d",ndigits);
   legend("location","northwest");
   legend("boxoff");
   legend("left");
-  print(strcat(strf,"_digits"),"-dpdflatex");
+  print(strcat(strf_ndigits,"_digits"),"-dpdflatex");
   close
   
 endfor
 
 % Done
 diary off
-movefile directFIRsymmetric_bandpass_allocsd_test.diary.tmp ... 
-         directFIRsymmetric_bandpass_allocsd_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

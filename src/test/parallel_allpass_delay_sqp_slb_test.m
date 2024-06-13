@@ -1,9 +1,10 @@
 % parallel_allpass_delay_sqp_slb_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
 strf="parallel_allpass_delay_sqp_slb_test";
+
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
@@ -14,7 +15,7 @@ verbose=false
 maxiter=2000
 
 % Lowpass filter specification for parallel all-pass filters
-tol=1e-5
+ftol=1e-5
 ctol=1e-7
 n=1000;
 R=1
@@ -89,7 +90,7 @@ close
   parallel_allpass_delay_slb(@parallel_allpass_delay_sqp_mmse, ...
                              a0,au,al,dmax,V,Q,R,DD, ...
                              wa,Asqd,Asqdu,Asqdl,Wa,[],[],[],[],[], ...
-                             maxiter,tol,ctol,verbose);
+                             maxiter,ftol,ctol,verbose);
 if !feasible
   error("a1 infeasible");
 endif
@@ -174,7 +175,7 @@ printf("a1:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
 
 % Save the filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"m=%d %% Allpass filter denominator order\n",m);
@@ -184,10 +185,10 @@ fprintf(fid,"R=%d %% Allpass filter decimation\n",R);
 fprintf(fid,"DD=%d %% Parallel delay\n",DD);
 fprintf(fid,"fap=%5.2f %% Pass band amplitude response edge\n",fap);
 fprintf(fid,"dBap=%5.2f %% Pass band amplitude response ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Pass band amplitude response weight\n",Wap);
+fprintf(fid,"Wap=%g %% Pass band amplitude response weight\n",Wap);
 fprintf(fid,"fas=%5.2f %% Stop band amplitude response edge\n",fas);
 fprintf(fid,"dBas=%5.2f %% Stop band amplitude response ripple\n",dBas);
-fprintf(fid,"Was=%d %% Stop band amplitude response weight\n",Was);
+fprintf(fid,"Was=%g %% Stop band amplitude response weight\n",Was);
 fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fprintf(fid,"dmax=%f %% Constraint on coefficent step-size\n",dmax);
 fclose(fid);
@@ -198,9 +199,10 @@ print_allpass_pole(a1,V,Q,R,"a1",strcat(strf,"_a1_coef.m"));
 print_polynomial(Da1,"Da1");
 print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 
+eval(sprintf("save %s.mat dmax rho ftol ctol n fap dBap Wap fas dBas Was \
+m DD R Da0 a1 Da1",strf));
+
 % Done 
-save parallel_allpass_delay_sqp_slb_test.mat ...
-     dmax rho tol ctol n fap dBap Wap fas dBas Was m DD R Da0 a1 Da1
 toc;
 diary off
 movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

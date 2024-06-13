@@ -1,18 +1,17 @@
 % iir_socp_slb_multiband_test.m
-% Copyright (C) 2020,2024 Robert G. Jenssen
+% Copyright (C) 2020-2024 Robert G. Jenssen
 
 test_common;
 
 strf="iir_socp_slb_multiband_test";
+
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-tol=1e-4;
-mtol=1e-4;
-ptol=1e-4;
+ftol=1e-4;
 ctol=1e-4;
 maxiter=500;
 verbose=false;
@@ -192,7 +191,7 @@ close
 [x1,E2,socp_iter,func_iter,feasible] = ...
   iir_socp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R,wa,Ad,Adu,Adl,Wa, ...
                ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt, ...
-               wp,Pd,Pdu,Pdl,Wp,maxiter,mtol,verbose);
+               wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 if feasible == 0 
   error("x1 (mmse) infeasible");
 else
@@ -224,7 +223,7 @@ close
 [x2,E2,slb_iter,opt_iter,func_iter,feasible] = ...
    iir_slb(@iir_socp_mmse,x1,xu,xl,dmax,U,V,M,Q,R,wa,Ad,Adu,Adl,Wa, ...
            ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-           maxiter,ptol,ctol,verbose)
+           maxiter,ftol,ctol,verbose)
 if feasible == 0 
   error("x2 (pcls) infeasible");
 endif
@@ -271,9 +270,7 @@ close
 
 % Filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on combined response\n",tol);
-fprintf(fid,"mtol=%g %% Tolerance on MMSE update\n",mtol);
-fprintf(fid,"ptol=%g %% Tolerance on PCLS update\n",ptol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"maxiter=%d %% SOCP iteration limit\n",maxiter);
 fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);
@@ -331,12 +328,12 @@ print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"),"%16.10f");
 print_polynomial(D2,"D2","%16.10f");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"),"%16.10f");
 
-eval(sprintf("save %s.mat ... \n\
-     tol mtol ptol ctol maxiter verbose nplot npoints dmax rho ... \n\
-     fas1u fap1l fap1u fas2l fas2u fap2l fap2u fas3l ... \n\
-     dBas1 dBap1 dBas2 dBap2 dBas3 Was1 Wap1 Was2 Wap2 Was3  ... \n\
-     ftp1l ftp1u ftp2l ftp2u tp1 tpr1 tp2 tpr2 Wtp1 Wtp2 ... \n\
-     x0 U V M Q R x1 x2 N2 D2", strf));
+eval(sprintf("save %s.mat \
+ftol ctol maxiter verbose nplot npoints dmax rho \
+fas1u fap1l fap1u fas2l fas2u fap2l fap2u fas3l \
+dBas1 dBap1 dBas2 dBap2 dBas3 Was1 Wap1 Was2 Wap2 Was3 \
+ftp1l ftp1u ftp2l ftp2u tp1 tpr1 tp2 tpr2 Wtp1 Wtp2 \
+x0 U V M Q R x1 x2 N2 D2",strf));
 
 % Done
 toc;

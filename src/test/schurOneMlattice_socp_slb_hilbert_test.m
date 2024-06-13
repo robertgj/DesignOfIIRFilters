@@ -1,4 +1,6 @@
 % schurOneMlattice_socp_slb_hilbert_test.m
+% Schur one-multiplier lattice implementation of a Hilbert filter
+% with denominator polynomial having coefficients only for z^2 terms
 % Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
@@ -9,71 +11,83 @@ delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
-tic;
+tic
 
-tol=1e-4
-ctol=tol
-maxiter=4000
+maxiter=5000
+ftol=1e-4
+ctol=ftol/10
 verbose=false
+
+%
+% Initial filter from tarczynski_hilbert_test.m
+%
+tarczynski_hilbert_test_N0_coef;
+tarczynski_hilbert_test_D0_coef;
+R=2;
+D0R=zeros(size([N0;0]));
+D0R(1:R:end)=D0;
+[k0,epsilon0,p0,c0]=tf2schurOneMlattice([N0;0],D0R);
+
+%
+% Frequency points
+%
+% The A and T responses are symmetric in frequency and the P response is
+% antisymmetric. Any A and T constraints are duplicated at negative and
+% positive frequencies resulting in a reduced rank constraint matrix.
+% Avoid this problem by staggering the frequencies.
+%
+n=400;
+nnrng=-(n-2):2:0;
+nprng=1:2:(n-1);
+w=pi*([nnrng(:);nprng(:)])/n;
+non2=floor(n/2);
 
 %
 % Hilbert filter specification
 %
-ft=0.08 % Transition bandwidth [0 ft]
-tp=1+(5.5)
-dBap=0.1;Wat=10*tol;Wap_mmse=2;Wap_pcls=1;
-tpr=0.08;Wtt=0;Wtp=0.25;
-pr=0.016;Wpt=10*tol;Wpp=200;
-  
-%
-% Initial filter from tarczynski_hilbert_test.m
-%
-tarczynski_hilbert_test_D0_coef;
-tarczynski_hilbert_test_N0_coef;
-
-D0R2=zeros(1,(length(D0)*2)-1);
-D0R2(1:2:end)=D0;
-[k0,epsilon0,p0,c0]=tf2schurOneMlattice(N0,D0R2);
-
-%
-% Constraints
-%
-
-% Frequency points
-n=256;
-w=pi*(0:(n-1))'/n;
+dBar=0.067;dBat=dBar;Wap=1;Wat=0.1;
+td=(length(N0)-1)/2;;
+ftt=0.08; % Delay transition band at zero
+ntt=floor(ftt*n);
+tdr=0.16;Wtp=0.005;Wtt=0;
+fpt=0.06; % Phase transition band at zero
+npt=floor(fpt*n); 
+pp=5;ppr=0.02;Wpp=1;Wpt=0;
 
 % Amplitude constraints
 wa=w;
 Asqd=ones(n,1);
-nt=ceil(ft*n/0.5);
-dBapmask=dBap*[2*ones(nt,1);ones(n-nt,1)/2];
-Asqdu=10.^(dBapmask/10);
-Asqdl=10.^(-dBapmask/10);
-Wa_mmse=Wap_mmse*[Wat*ones(nt,1);ones(n-nt,1)];
-Wa_pcls=Wap_pcls*[Wat*ones(nt,1);ones(n-nt,1)];
+Asqr=1-(10^(-dBar/10));
+Asqt=1-(10^(-dBat/10));
+Asqdu=[(1+(Asqr/2))*ones(non2-npt,1); ...
+       (1+(Asqt/2))*ones(2*npt,1); ...
+       (1+(Asqr/2))*ones(non2-npt,1)];
+Asqdl=[(1-(Asqr/2))*ones(non2-npt,1); ...
+       (1-(Asqt/2))*ones(2*npt,1); ...
+       (1-(Asqr/2))*ones(non2-npt,1)];
+Wa=[Wap*ones(non2-npt,1);Wat*ones((2*npt),1);Wap*ones(non2-npt,1)];
 
 % Group delay constraints
 wt=w;
-Td=tp*ones(n,1);
-tpr=0.08;
-trmask=[100*tpr*ones(nt,1);0.5*tpr*ones(n-nt,1)];
-Tdu=Td+trmask;
-Tdl=Td-trmask;
-Wt=[Wtt*ones(nt,1);Wtp*ones(n-nt,1)];
+Td=td*ones(n,1);
+Tdu=[(td+(tdr/2))*ones(non2-ntt,1); ...
+     10*td*ones(2*ntt,1); ...
+     (td+(tdr/2))*ones(non2-ntt,1)];
+Tdl=[(td-(tdr/2))*ones(non2-ntt,1);...
+     zeros(2*ntt,1); ...
+     (td-(tdr/2))*ones(non2-ntt,1)];
+Wt=[Wtp*ones(non2-ntt,1);Wtt*ones(2*ntt,1);Wtp*ones(non2-ntt,1)];
 
 % Phase constraints
 wp=w;
-Pd=-(wp*tp)-(pi/2);
-pr=0.016
-prmask=(pi/2)*[2*ones(nt,1);0.5*pr*ones(n-nt,1)];
-Pdu=Pd+prmask;
-Pdl=Pd-prmask;
-Wp=[Wpt*ones(nt,1);Wpp*ones(n-nt,1)];
+Pd=-wp*td-(pp*pi)+([ones(non2-1,1);0;-ones(non2,1)]*pi/2);
+Pdu=-wp*td-(pp*pi)+([ones(non2+npt,1);-ones(non2-npt,1)]*pi/2)+(ppr*pi/2);
+Pdl=-wp*td-(pp*pi)+([ones(non2-npt,1);-ones(non2+npt,1)]*pi/2)-(ppr*pi/2);
+Wp=[Wpp*ones(non2-npt,1);Wpt*ones(2*npt,1);Wpp*ones(non2-npt,1)];
 
 % Constraints on the coefficients
 dmax=inf;
-rho=1-tol;
+rho=1-ftol;
 k0=k0(:);
 c0=c0(:);
 Nk=length(k0);
@@ -83,101 +97,203 @@ kc_l=-kc_u;
 kc_active=[find((k0)~=0);(Nk+(1:Nc))'];
 
 % Initialise strings
-strM=sprintf("Hilbert filter %%s:ft=%g,tp=%g,Wap=%%g,Wpp=%g",ft,tp,Wpp);
-strP=sprintf("Hilbert filter %%s:ft=%g,dBap=%g,tp=%g,pr=%g,Wap=%%g,Wpp=%g",
-             ft,dBap,tp,pr,Wpp);
+strM=sprintf("Hilbert filter %%s:Wap=%g,ftt=%g,td=%g,Wtp=%g,fpt=%g,Wpp=%g", ...
+             Wap,ftt,td,Wtp,fpt,Wpp);
+strP=sprintf("Hilbert filter %%s:\
+dBar=%g,Wap=%g,td=%g,ftt=%g,tdr=%g,Wtp=%g,fpt=%g,ppr=%g,Wpp=%g", ...
+             dBar,Wap,td,ftt,tdr,Wtp,fpt,ppr,Wpp);
+
+% Calculate the initial response
+Asq0=schurOneMlatticeAsq(w,k0,epsilon0,p0,c0);
+P0=schurOneMlatticeP(w,k0,epsilon0,p0,c0);
+T0=schurOneMlatticeT(w,k0,epsilon0,p0,c0);
+
+% Plot the initial response and constraints
+subplot(311);
+plot(w*0.5/pi,[Asq0 Asqd Asqdl Asqdu]);
+strt=sprintf("Hilbert filter initial response : td=%g,fpt=%g",td,fpt);
+title(strt);
+ylabel("Amplitude");
+axis([-0.5 0.5 0.6 1.2 ]);
+grid("on");
+subplot(312);
+plot(w*0.5/pi,([P0 Pd Pdl Pdu]+(w*td)+(pp*pi))/pi);
+ylabel("Phase(rad./$\\pi$)");
+axis([-0.5 0.5 -1 1]);
+grid("on");
+subplot(313);
+plot(w*0.5/pi,[T0 Td Tdl Tdu]);
+ylabel("Delay(samples)");
+xlabel("Frequency");
+axis([-0.5 0.5 0 10*td]);
+grid("on");
+print(strcat(strf,"_initial_response"),"-dpdflatex");
+close
 
 %
-% SOCP MMSE
+% SOCP MMSE pass
 %
-tic;
+printf("\nMMSE pass 1:\n");
 [k1p,c1p,opt_iter,func_iter,feasible] = ...
-  schurOneMlattice_socp_mmse([],k0,epsilon0,p0,c0, ...
-                             kc_u,kc_l,kc_active,dmax, ...
-                             wa,Asqd,Asqdu,Asqdl,Wa_mmse, ...
-                             wt,Td,Tdu,Tdl,Wt, ...
-                             wp,Pd,Pdu,Pdl,Wp, ...
-                             maxiter,tol,verbose);
-toc;
-if feasible == 0 
-  error("k1p,c1p(mmse) infeasible");
+  schurOneMlattice_socp_mmse([], ...
+                            k0,epsilon0,p0,c0, ...
+                            kc_u,kc_l,kc_active,dmax, ...
+                            wa,Asqd,Asqdu,Asqdl,Wa, ...
+                            wt,Td,Tdu,Tdl,Wt, ...
+                            wp,Pd,Pdu,Pdl,Wp, ...
+                            maxiter,ftol,ctol,verbose);
+if feasible == 0
+  error("x1(mmse) infeasible");
 endif
 
 % Recalculate epsilon1, p1 and c1
-[n1,d1]=schurOneMlattice2tf(k1p,epsilon0,ones(size(p0)),c1p);
-[k1,epsilon1,p1,c1]=tf2schurOneMlattice(n1,d1);
-schurOneMlattice_sqp_slb_hilbert_plot ...
-  (k1,epsilon1,p1,c1,wa,wt,wp, ...
-   2*dBap,tp,0.2,pr,Asqdu,Asqdl,Tdu,Tdl,Pdu,Pdl, ...
-   strcat(strf,"_mmse_k1c1"),sprintf(strM,"MMSE",Wap_mmse));
+[N1,D1]=schurOneMlattice2tf(k1p,epsilon0,p0,c1p);
+[k1,epsilon1,p1,c1]=tf2schurOneMlattice(N1,D1);
+Asq1=schurOneMlatticeAsq(wa,k1,epsilon1,p1,c1);
+P1=schurOneMlatticeP(wp,k1,epsilon1,p1,c1);
+T1=schurOneMlatticeT(wt,k1,epsilon1,p1,c1);
+
+% Plot poles and zeros
+[N1,D1]=schurOneMlattice2tf(k1,epsilon1,p1,c1);
+subplot(111);
+zplane(roots(N1),roots(D1));
+title(strt);
+print(strcat(strf,"_mmse_pz"),"-dpdflatex");
+close
+
+% Plot the MMSE response
+subplot(311);
+h311=plot(w*0.5/pi,[Asq1 Asqdl Asqdu]);
+strt=sprintf(strM,"k1(MMSE)");
+title(strt);
+ylabel("Amplitude");
+axis([-0.5 0.5 0.9 1.1]);
+grid("on");
+subplot(312);
+P1_plot=[P1 Pdl Pdu]+(w*td)+(pp*pi);
+[ax,h1,h2]=plotyy(w(1:(non2-npt))*0.5/pi,   P1_plot(1:(non2-npt),:)/pi, ...
+                  w((non2+npt):end)*0.5/pi, P1_plot((non2+npt):end,:)/pi);
+% Hack to match colours. Is there an easier way with colormap?
+h311c=get(h311,'color');
+for k=1:3
+  set(h2(k),'color',h311c{k});
+endfor
+% End of hack
+axis(ax(1),[-0.5 0.5  0.5+(4*ppr*[-1,1])]);
+axis(ax(2),[-0.5 0.5 -0.5+(4*ppr*[-1,1])]);
+ylabel("Phase error(rad./$\\pi$)");
+grid("on");
+subplot(313);
+plot(w*0.5/pi,[T1 Tdl Tdu]);
+ylabel("Delay(samples)");
+xlabel("Frequency");
+axis([-0.5 0.5 td+(4*tdr*[-1,1])]);
+grid("on");
+print(strcat(strf,"_mmse_response"),"-dpdflatex");
+close
 
 %
-% SOCP PCLS
+% PCLS pass
 %
-tic;
+printf("\nPCLS pass:\n");
 [k2p,c2p,slb_iter,opt_iter,func_iter,feasible] = ...
   schurOneMlattice_slb(@schurOneMlattice_socp_mmse, ...
                        k1,epsilon1,p1,c1, ...
                        kc_u,kc_l,kc_active,dmax, ...
-                       wa,Asqd,Asqdu,Asqdl,Wa_pcls, ...
+                       wa,Asqd,Asqdu,Asqdl,Wa, ...
                        wt,Td,Tdu,Tdl,Wt, ...
                        wp,Pd,Pdu,Pdl,Wp, ...
-                       maxiter,tol,ctol,verbose);
-toc;
+                       maxiter,ftol,ctol,verbose);
 if feasible == 0 
-  error("k2p,c2p(pcls) infeasible");
+  error("k2(pcls) infeasible");
 endif
 
 % Recalculate epsilon2, p2 and c2
-[n2,d2]=schurOneMlattice2tf(k2p,epsilon1,ones(size(p1)),c2p);
-[k2,epsilon2,p2,c2]=tf2schurOneMlattice(n2,d2);
-schurOneMlattice_sqp_slb_hilbert_plot ...
-  (k2,epsilon2,p2,c2,wa,wt,wp, ...
-   dBap,tp,0.04,0.004,Asqdu,Asqdl,Tdu,Tdl,Pdu,Pdl, ...
-   strcat(strf,"_pcls_k2c2"),sprintf(strP,"PCLS",Wap_pcls));
+[N2,D2]=schurOneMlattice2tf(k2p,epsilon1,p1,c2p);
+[k2,epsilon2,p2,c2]=tf2schurOneMlattice(N2,D2);
+Asq2=schurOneMlatticeAsq(wa,k2,epsilon2,p2,c2);
+P2=schurOneMlatticeP(wp,k2,epsilon2,p2,c2);
+T2=schurOneMlatticeT(wt,k2,epsilon2,p2,c2);
 
-%
-% Save the results
-%
+% Plot poles and zeros
+[N2,D2]=schurOneMlattice2tf(k2,epsilon2,p2,c2);
+subplot(111);
+zplane(roots(N2),roots(D2));
+title(strt);
+print(strcat(strf,"_pcls_pz"),"-dpdflatex");
+close
+
+% Plot the PCLS response
+subplot(311);
+h311=plot(w*0.5/pi,[Asq2 Asqdl Asqdu]);
+strt=sprintf(strP,"k2(PCLS)");
+title(strt);
+ylabel("Amplitude");
+grid("on");
+axis([-0.5 0.5 0.98 1.02]);
+subplot(312);
+Pplot=[P2 Pdl Pdu]+(w*td)+(pp*pi);
+[ax,h1,h2]=plotyy(w(1:(non2-npt))*0.5/pi,   Pplot(1:(non2-npt),:)/pi, ...
+                  w((non2+npt):end)*0.5/pi, Pplot((non2+npt):end,:)/pi);
+% Hack to match colours. Is there an easier way with colormap?
+h311c=get(h311,'color');
+for k=1:3
+  set(h2(k),'color',h311c{k});
+endfor
+% End of hack
+axis(ax(1),[-0.5 0.5  0.5+(0.02*[-1,1])]);
+axis(ax(2),[-0.5 0.5 -0.5+(0.02*[-1,1])]);
+ylabel("Phase(rad./$\\pi$)");
+grid("on");
+subplot(313);
+plot(w*0.5/pi,[T2 Tdl Tdu]);
+axis([-0.5 0.5 td+(tdr*[-1,1])]);
+ylabel("Delay(samples)");
+xlabel("Frequency");
+grid("on");
+print(strcat(strf,"_pcls_response"),"-dpdflatex");
+close
+
+% Specification file
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
-fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"rho=%f %% Constraint on lattice coefficient magnitudes\n",rho);
-fprintf(fid,"ft=%g %% Transition band width [0,ft]\n",ft);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wat=%d %% Amplitude transition band weight\n",Wat);
-fprintf(fid,"Wap_mmse=%g %% Amplitude pass band weight for MMSE\n",Wap_mmse);
-fprintf(fid,"Wap_pcls=%g %% Amplitude pass band weight for PCLS\n",Wap_pcls);
-fprintf(fid,"tp=%g %% Nominal pass band filter group delay\n",tp);
-fprintf(fid,"tpr=%g %% Group delay pass band peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtt=%d %% Group delay transition band weight\n",Wtt);
-fprintf(fid,"Wtp=%g %% Group delay pass band weight\n",Wtp);
-fprintf(fid,"pr=%g %% Phase pass band peak-to-peak ripple(rad.)\n",pr);
-fprintf(fid,"Wpt=%d %% Phase transition band weight\n",Wpt);
-fprintf(fid,"Wpp=%d %% Phase pass band weight\n",Wpp);
+fprintf(fid,"dmax=%g %% Constraint on coefficient update size\n",dmax);
+fprintf(fid,"ftol=%g %% Tolerance on relative coefficient update size\n",ftol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
+fprintf(fid,"dBar=%g %% Amplitude response peak-to-peak ripple\n",dBar);
+fprintf(fid,"dBat=%g %% Amplitude transition peak-to-peak ripple\n",dBat);
+fprintf(fid,"Wap=%d %% Amplitude response weight\n",Wap);
+fprintf(fid,"Wat=%d %% Amplitude transition weight\n",Wat);
+fprintf(fid,"fpt=%g %% Phase response transition edge\n",fpt);
+fprintf(fid,"pp=%g %% Phase response nominal phase(rad./pi)\n",pp);
+fprintf(fid,"ppr=%g %% Phase response peak-to-peak ripple(rad./pi)\n",ppr);
+fprintf(fid,"Wpp=%g %% Phase response weight\n",Wpp);
+fprintf(fid,"Wpt=%g %% Phase response transition weight\n",Wpt);
+fprintf(fid,"ftt=%g %% Group delay response transition edge\n",ftt);
+fprintf(fid,"td=%g %% Nominal filter group delay(samples)\n",td);
+fprintf(fid,"tdr=%g %% Group delay peak-to-peak ripple(samples)\n",tdr);
+fprintf(fid,"Wtp=%g %% Group delay weight\n",Wtp);
+fprintf(fid,"Wtt=%g %% Group delay transition weight\n",Wtt);
 fclose(fid);
 
+% Coefficients
 print_polynomial(k2,"k2");
 print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
-print_polynomial(epsilon2,"epsilon2");
+print_polynomial(epsilon2,"epsilon2","%2d");
 print_polynomial(epsilon2,"epsilon2",strcat(strf,"_epsilon2_coef.m"),"%2d");
 print_polynomial(p2,"p2");
 print_polynomial(p2,"p2",strcat(strf,"_p2_coef.m"));
 print_polynomial(c2,"c2");
 print_polynomial(c2,"c2",strcat(strf,"_c2_coef.m"));
-print_polynomial(n2,"n2");
-print_polynomial(n2,"n2",strcat(strf,"_n2_coef.m"));
-print_polynomial(d2,"d2");
-print_polynomial(d2,"d2",strcat(strf,"_d2_coef.m"));
+print_polynomial(N2,"N2");
+print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
+print_polynomial(D2,"D2");
+print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
-%
-% Save results
-%
-eval(sprintf("save %s.mat ...\n\
-     tol ctol n w N0 D0 k0 epsilon0 p0 c0 rho Asqd dBap tp Pd pr ...\n\
-     k1 epsilon1 p1 c1 k2 epsilon2 p2 c2 n2 d2",strf));
+eval(sprintf("save %s.mat n dmax ftol ctol dBar dBat Wap Wat \
+fpt pp ppr Wpp Wpt ftt td tdr Wtp Wtt k2 epsilon2 p2 c2", strf));
 
 % Done
+toc
 diary off
 movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

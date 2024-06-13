@@ -1,14 +1,16 @@
 % bitflip_schurFIRlattice_bandpass_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass FIR Schurlattice filter.
 
 test_common;
 
-delete("bitflip_schurFIRlattice_bandpass_test.diary");
-delete("bitflip_schurFIRlattice_bandpass_test.diary.tmp");
-diary bitflip_schurFIRlattice_bandpass_test.diary.tmp;
+strf="bitflip_schurFIRlattice_bandpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 bitflip_bandpass_test_common;
 
@@ -65,9 +67,6 @@ function [cost,k,svec_out] = ...
   k=svec;
   svec_out=svec.*nscale;
 endfunction
-
-% File name string
-strf="bitflip_schurFIRlattice_bandpass_test";
 
 % PCLS FIR band pass filter (from iir_sqp_slb_fir_17_bandpass_test.m)
 iir_sqp_slb_fir_17_bandpass_test_b1_coef;
@@ -184,10 +183,8 @@ print_polynomial(k_bfsd,"k_bfsd",nscale);
 print_polynomial(k_bfsd,"k_bfsd",strcat(strf,"_k_bfsd_coef.m"),nscale);
 
 % Save the results
-save bitflip_schurFIRlattice_bandpass_test.mat ...
-     b0 k0 k_ex k_rd k_bf k_sd k_bfsd
+eval(sprintf("save %s.mat b0 k0 k_ex k_rd k_bf k_sd k_bfsd",strf));
 
 % Done
 diary off
-movefile bitflip_schurFIRlattice_bandpass_test.diary.tmp ...
-         bitflip_schurFIRlattice_bandpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

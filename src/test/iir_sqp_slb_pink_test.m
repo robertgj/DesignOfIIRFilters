@@ -1,20 +1,20 @@
 % iir_sqp_slb_pink_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("iir_sqp_slb_pink_test.diary");
-delete("iir_sqp_slb_pink_test.diary.tmp");
-diary iir_sqp_slb_pink_test.diary.tmp
+strf="iir_sqp_slb_pink_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-tol_mmse=2e-5
-tol_pcls=2e-5
-ctol=tol_pcls
 maxiter=10000
+ftol=2e-5
+ctol=ftol
 verbose=false
-strf="iir_sqp_slb_pink_test";
 
 % Initial pink noise filter from tarczynski_pink_test.m
 tarczynski_pink_test_D0_coef;
@@ -123,7 +123,7 @@ printf("\nMMSE pass:\n");
   iir_sqp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R, ...
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-               maxiter,tol_mmse,verbose)
+               maxiter,ftol,ctol,verbose)
 if feasible == 0 
   error("x1 (mmse) infeasible");
 endif
@@ -155,7 +155,7 @@ printf("\nPCLS pass:\n");
   iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol_pcls,ctol,verbose)
+          maxiter,ftol,ctol,verbose)
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
@@ -218,12 +218,11 @@ print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 % Filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"tol_mmse=%g %% Tolerance on coef. update (MMSE pass)\n",tol_mmse);
-fprintf(fid,"tol_pcls=%g %% Tolerance on coef. update (PCLS pass)\n",tol_pcls);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"fat=%g %% Amplitude transition band width\n",fat);
 fprintf(fid,"AdBr=%g %% Relative amplitude peak-to-peak ripple (dB)\n",AdBr);
-fprintf(fid,"Wap=%d %% Amplitude weight\n",Wap);
+fprintf(fid,"Wap=%g %% Amplitude weight\n",Wap);
 fprintf(fid,"ftt=%g %% Group delay transition band width\n",ftt);
 fprintf(fid,"tp=%g %% Nominal filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Filter group delay peak-to-peak ripple\n",tpr);
@@ -235,11 +234,10 @@ fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
 fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fclose(fid);
 
+eval(sprintf("save %s.mat U V M Q R x0 d1 ftol ctol n wd \
+fat Ad AdBr ftt tp Td tpr",strf));
+
 % Done
-save iir_sqp_slb_pink_test.mat ...
-     U V M Q R x0 d1 tol_mmse tol_pcls ctol n wd fat Ad AdBr ftt tp Td tpr
-
 toc;
-
 diary off
-movefile iir_sqp_slb_pink_test.diary.tmp iir_sqp_slb_pink_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

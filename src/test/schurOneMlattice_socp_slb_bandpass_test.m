@@ -11,10 +11,10 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 script_id=tic;
 
-tol_mmse=2e-5
-tol_pcls=1e-5
-ctol=tol_pcls
 maxiter=2000
+ftol_mmse=2e-5
+ftol_pcls=1e-5
+ctol=1e-5
 verbose=false
 
 % Bandpass R=2 filter specification
@@ -101,7 +101,7 @@ schurOneMlattice_slb(@schurOneMlattice_socp_mmse, ...
                      wa,Asqd,Asqdu,Asqdl,Wa_pcls, ...
                      wt,Td,Tdu,Tdl,Wt_pcls, ...
                      wp,Pd,Pdu,Pdl,Wp, ...
-                     maxiter,tol_pcls,ctol,verbose);
+                     maxiter,ftol_pcls,ctol,verbose);
 toc(run_id);
 if feasible == 0 
   error("k3p,c3p(pcls) infeasible");
@@ -138,8 +138,8 @@ printf("k3c3:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 % Save the results
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol_mmse=%g %% Tolerance on coef. update for MMSE\n",tol_mmse);
-fprintf(fid,"tol_pcls=%g %% Tolerance on coef. update for PCLS\n",tol_pcls);
+fprintf(fid,"ftol_mmse=%g %% Tolerance on coef. update for MMSE\n",ftol_mmse);
+fprintf(fid,"ftol_pcls=%g %% Tolerance on coef. update for PCLS\n",ftol_pcls);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"%% length(c2)=%d %% Tap coefficients\n",length(c2));
@@ -147,21 +147,21 @@ fprintf(fid,"%% sum(k2~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k2~=0));
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"ftpl=%g %% Delay pass band lower edge\n",ftpl);
 fprintf(fid,"ftpu=%g %% Delay pass band upper edge\n",ftpu);
 fprintf(fid,"tp=%g %% Nominal passband filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Delay pass band peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtp_mmse=%d %% Delay pass band weight(MMSE)\n",Wtp_mmse);
-fprintf(fid,"Wtp_pcls=%d %% Delay pass band weight(PCLS)\n",Wtp_pcls);
+fprintf(fid,"Wtp_mmse=%g %% Delay pass band weight(MMSE)\n",Wtp_mmse);
+fprintf(fid,"Wtp_pcls=%g %% Delay pass band weight(PCLS)\n",Wtp_pcls);
 fprintf(fid,"fasl=%g %% Amplitude stop band lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Amplitude stop band upper edge\n",fasu);
-fprintf(fid,"dBas=%d %% Amplitude stop band peak-to-peak ripple\n",dBas);
-fprintf(fid,"Wasl_mmse=%d %% Ampl. lower stop band weight(MMSE)\n",Wasl_mmse);
-fprintf(fid,"Wasu_mmse=%d %% Ampl. upper stop band weight(MMSE)\n",Wasu_mmse);
-fprintf(fid,"Wasl_pcls=%d %% Ampl. lower stop band weight(PCLS)\n",Wasl_pcls);
-fprintf(fid,"Wasu_pcls=%d %% Ampl. upper stop band weight(PCLS)\n",Wasu_pcls);
+fprintf(fid,"dBas=%g %% Amplitude stop band peak-to-peak ripple\n",dBas);
+fprintf(fid,"Wasl_mmse=%g %% Ampl. lower stop band weight(MMSE)\n",Wasl_mmse);
+fprintf(fid,"Wasu_mmse=%g %% Ampl. upper stop band weight(MMSE)\n",Wasu_mmse);
+fprintf(fid,"Wasl_pcls=%g %% Ampl. lower stop band weight(PCLS)\n",Wasl_pcls);
+fprintf(fid,"Wasu_pcls=%g %% Ampl. upper stop band weight(PCLS)\n",Wasu_pcls);
 fclose(fid);
 
 print_polynomial(k3,"k3");
@@ -177,11 +177,9 @@ print_polynomial(n3,"n3",strcat(strf,"_n3_coef.m"));
 print_polynomial(d3,"d3");
 print_polynomial(d3,"d3",strcat(strf,"_d3_coef.m"));
 
-eval(sprintf("save %s.mat ...\n\
- fapl fapu fasl fasu ftpl ftpu dBap Wap dBas ...\n\
- Wasl_mmse Wasu_mmse Wasl_pcls Wasu_pcls ...\n\
- tp tpr Wtp_mmse Wtp_pcls dmax rho tol_mmse tol_pcls ctol ...\n\
- k2 epsilon2 p2 c2 k3 epsilon3 p3 c3 n3 d3",strf));
+eval(sprintf("save %s.mat fapl fapu fasl fasu ftpl ftpu dBap Wap dBas \
+Wasl_mmse Wasu_mmse Wasl_pcls Wasu_pcls tp tpr Wtp_mmse Wtp_pcls dmax rho \
+ftol_mmse ftol_pcls ctol k2 epsilon2 p2 c2 k3 epsilon3 p3 c3 n3 d3",strf));
 
 % Done
 toc(script_id);

@@ -16,6 +16,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 maxiter=2000
+ftol=1e-4
+ctol=1e-5
 verbose=false;
 
 %
@@ -31,8 +33,6 @@ parallel_allpass_socp_slb_bandpass_hilbert_test_Db1_coef;
 %
 % Band-pass filter specification for parallel all-pass filters
 %
-tol=1e-4
-ctol=1e-5
 difference=true
 rho=0.999 
 ma=length(A1k0)
@@ -55,8 +55,8 @@ tdr=0.2
 Wtp=2
 fppl=0.12
 fppu=0.18
-pd=3.5 % Initial phase offset in multiples of pi radians
-pdr=0.08 % Peak-to-peak phase ripple in multiples of pi radians
+pd=3.5 % Initial phase offset (rad./pi)
+pdr=0.08 % Peak-to-peak phase ripple (rad./pi)
 Wpp=100
 
 %
@@ -208,7 +208,7 @@ k0_sd_x_active=find((k0_sd_x)~=0);
                               k0_sd_x(RA2k),A2epsilon0,A2p0, ...
                               difference,k_u,k_l,k0_sd_x_active,k0_sd_delta, ...
                               wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                              wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+                              wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 if feasible==false
   error("sdp_relaxation_schurOneMPAlattice_mmse failed!");
 endif
@@ -246,7 +246,7 @@ while 1
                                 k_sd_x(RA2k),A2epsilon0,A2p0, ...
                                 difference,k_u,k_l,k_sd_x_active,k_sd_delta, ...
                                 wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+                                wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
   if feasible==false
     error("sdp_relaxation_schurOneMPAlattice_mmse failed!");
   endif
@@ -301,7 +301,7 @@ while 1
                              wa,Asqd,Asqdu,Asqdl,Wa, ...
                              wt,Td,Tdu,Tdl,Wt, ...
                              wp,Pd,Pdu,Pdl,Wp, ...
-                             maxiter,tol,ctol,verbose);
+                             maxiter,ftol,ctol,verbose);
     k=[nextA1k(:);nextA2k(:)];
   catch
     feasible=false;
@@ -487,41 +487,41 @@ close
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
-fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
-fprintf(fid,"n=%g %% Frequency points across the band\n",n);
+fprintf(fid,"n=%d%% Frequency points across the band\n",n);
 fprintf(fid,"ma=%d %% All-pass filter a order\n",ma);
 fprintf(fid,"mb=%d %% All-pass filter b order\n",mb);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"fasl=%g %% Amplitude stop band lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Amplitude stop band upper edge\n",fasu);
-fprintf(fid,"dBas=%d %% Amplitude stop band peak-to-peak ripple\n",dBas);
-fprintf(fid,"Wasl=%d %% Amplitude lower stop band weight\n",Wasl);
-fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
+fprintf(fid,"dBas=%g %% Amplitude stop band peak-to-peak ripple\n",dBas);
+fprintf(fid,"Wasl=%g %% Amplitude lower stop band weight\n",Wasl);
+fprintf(fid,"Wasu=%g %% Amplitude upper stop band weight\n",Wasu);
 fprintf(fid,"ftpl=%g %% Pass band delay lower edge\n",ftpl);
 fprintf(fid,"ftpu=%g %% Pass band delay upper edge\n",ftpu);
 fprintf(fid,"td=%g %% Nominal pass band filter group delay\n",td);
 fprintf(fid,"tdr=%g %% Delay pass band peak-to-peak ripple\n",tdr);
-fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
+fprintf(fid,"Wtp=%g %% Delay pass band weight\n",Wtp);
 fprintf(fid,"fppl=%g %% Pass band phase response lower edge\n",fppl);
 fprintf(fid,"fppu=%g %% Pass band phase response upper edge\n",fppu);
 fprintf(fid,"pd=%g %% Pass band initial phase response (rad./pi)\n",pd);
 fprintf(fid,"pdr=%g %% Pass band phase response ripple(rad./pi)\n",pdr);
-fprintf(fid,"Wpp=%d %% Pass band phase response weight\n",Wpp);
+fprintf(fid,"Wpp=%g %% Pass band phase response weight\n",Wpp);
 fclose(fid);
 
 % Save results
-save sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.mat ...
-     tol ctol nbits nscale ndigits ndigits_alloc n ...
-     fapl fapu dBap Wap fasl fasu dBas Wasl Wasu  ...
-     ftpl ftpu td tdr Wtp fppl fppu pd pdr Wpp ...
-     A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ...
-     A1k0_sd_Ito A2k0_sd_Ito A1k0_sd_sdp A2k0_sd_sdp A1k0_sd_min A2k0_sd_min
+eval(sprintf("save %s.mat \
+ftol ctol nbits nscale ndigits ndigits_alloc n \
+fapl fapu dBap Wap fasl fasu dBas Wasl Wasu \
+ftpl ftpu td tdr Wtp fppl fppu pd pdr Wpp \
+A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 \
+A1k0_sd_Ito A2k0_sd_Ito A1k0_sd_sdp A2k0_sd_sdp A1k0_sd_min A2k0_sd_min",strf));
        
 % Done
 toc;
 diary off
-eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

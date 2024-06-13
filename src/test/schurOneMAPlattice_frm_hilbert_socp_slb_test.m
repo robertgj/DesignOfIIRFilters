@@ -23,27 +23,27 @@ verbose=false
 tarczynski_frm_halfband_test_r0_coef;
 tarczynski_frm_halfband_test_aa0_coef;
 
-tol=75e-6
-ctol=tol
+ftol=75e-6
+ctol=ftol
 Mmodel=7; % Model filter decimation
 Dmodel=9; % Desired model filter passband delay
 dBap=0.1 % Pass band amplitude ripple
 Wap=1 % Pass band amplitude weight
 tpr=0.76 % Peak-to-peak pass band delay ripple
 Wtp=0.02 % Pass band delay weight
-ppr=0.004*pi/2 % Peak-to-peak pass band phase ripple
+ppr=0.002 % Peak-to-peak pass band phase ripple (rad./pi)
+pp=-0.5 % Nominal passband phase (rad./pi, adjusted for delay)
 Wpp=0.2 % Pass band phase weight
 
 mr=length(r0)-1 % Model filter order
-dmask=(length(aa0)-1)/2 % FIR masking filter delay
-tp=(Mmodel*Dmodel)+dmask % Nominal FRM filter group delay
+dmask=(length(aa0)-1)/2 % FIR masking filter delay(samples)
+tp=(Mmodel*Dmodel)+dmask % Nominal FRM filter group delay(samples)
 fap=0.01 % Amplitude pass band edge
 fas=0.49 % Amplitude stop band edge
 ftp=0.01 % Delay pass band edge
 fts=0.49 % Delay stop band edge
 fpp=0.01 % Phase pass band edge
 fps=0.49 % Phase stop band edge
-pp=-pi/2 % Nominal passband phase (adjusted for delay)
 
 % Convert to Hilbert
 rm1=ones(size(r0));
@@ -87,9 +87,9 @@ Wt=Wtp*ones(size(wt));
 npp=floor(fpp*n/0.5)+1;
 nps=ceil(fps*n/0.5)+1;
 wp=w(npp:nps);
-Pd=pp*ones(size(wp));
-Pdu=pp+(ppr/2)*ones(size(wp));
-Pdl=pp-(ppr/2)*ones(size(wp));
+Pd=pp*pi*ones(size(wp));
+Pdu=(pp*pi)+(ppr*pi/2)*ones(size(wp));
+Pdl=(pp*pi)-(ppr*pi/2)*ones(size(wp));
 Wp=Wpp*ones(size(wp));
 
 % Coefficient constraints
@@ -101,7 +101,8 @@ dmax=inf;
 
 % Common strings
 strt=sprintf("FRM Hilbert %%s %%s : \
-Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d",Mmodel,Dmodel,fap,fas,tp);
+Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d,tpr=%g,ppr=%g",
+             Mmodel,Dmodel,fap,fas,tp,tpr,ppr);
 
 % Plot the initial response
 schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
@@ -118,7 +119,7 @@ try
       (@schurOneMAPlattice_frm_hilbert_socp_mmse, ...
        k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...
        wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-       maxiter,tol,ctol,verbose);
+       maxiter,ftol,ctol,verbose);
   toc;
 catch
   feasible=false;
@@ -141,7 +142,7 @@ schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"n=%d %% Frequency points\n",n);
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"Mmodel=%d %% Model filter decimation\n",Mmodel);
 fprintf(fid,"Dmodel=%d %% Desired model filter passband delay\n",Dmodel);
@@ -153,13 +154,13 @@ fprintf(fid,"dBap=%g %% Pass band amplitude ripple\n",dBap);
 fprintf(fid,"Wap=%g %% Pass band amplitude weight\n",Wap);
 fprintf(fid,"ftp=%g %% Delay pass band edge\n",ftp);
 fprintf(fid,"fts=%g %% Delay stop band edge\n",fts);
-fprintf(fid,"tp=%d %% Nominal FRM filter group delay\n",tp);
+fprintf(fid,"tp=%g %% Nominal FRM filter group delay\n",tp);
 fprintf(fid,"tpr=tp/%g %% Peak-to-peak pass band delay ripple\n",tp/tpr);
 fprintf(fid,"Wtp=%g %% Pass band delay weight\n",Wtp);
 fprintf(fid,"fpp=%g %% Phase pass band edge\n",fpp);
 fprintf(fid,"fps=%g %% Phase stop band edge\n",fps);
-fprintf(fid,"pp=%g*pi %% Nominal passband phase (adjusted for delay)\n",pp/pi);
-fprintf(fid,"ppr=pi/%g %% Peak-to-peak pass band phase ripple\n",pi/ppr);
+fprintf(fid,"pp=%g %% Nominal passband phase(rad./pi)(adjusted for delay)\n",pp);
+fprintf(fid,"ppr=%g %% Peak-to-peak pass band phase ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%g %% Pass band phase weight\n",Wpp);
 fclose(fid);
 
@@ -174,10 +175,9 @@ print_polynomial(u2,"u2",strcat(strf,"_u2_coef.m"));
 print_polynomial(v2,"v2");
 print_polynomial(v2,"v2",strcat(strf,"_v2_coef.m"));
 
-eval(sprintf("save %s.mat ...\n\
-     r0 k0 epsilon0 p0 u0 v0 k2 epsilon2 p2 u2 v2 ...\n\
-     Mmodel Dmodel dmax rho tol ctol ...\n\
-     fap fas dBap Wap ftp fts tp tpr Wtp fpp fps pp ppr Wpp",strf));
+eval(sprintf("save %s.mat r0 k0 epsilon0 p0 u0 v0 k2 epsilon2 p2 u2 v2 \
+Mmodel Dmodel dmax rho ftol ctol fap fas dBap Wap ftp fts tp tpr Wtp \
+fpp fps pp ppr Wpp",strf));
 
 % Done
 toc;

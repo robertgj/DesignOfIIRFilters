@@ -1,26 +1,30 @@
 % schurNSlattice_sqp_slb_lowpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurNSlattice_sqp_slb_lowpass_test.diary");
-delete("schurNSlattice_sqp_slb_lowpass_test.diary.tmp");
-diary schurNSlattice_sqp_slb_lowpass_test.diary.tmp
+strf="schurNSlattice_sqp_slb_lowpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
+
+tic;
 
 maxiter=5000
+ftol=1e-4
+ctol=1e-5
 verbose=false
 
 % Option: enforce s02=-s20,s22=s00?
 sxx_symmetric=false;
 
 % Deczky3 lowpass filter specification
-tol=1e-4
 norder=10
 fap=0.15,Wap=1
 fas=0.3,Was=1e3
-ftp=0.25,tp=10,Wtp=0.1
-n=800,dBap=0.2,dBas=40,tpr=0.08
-ctol=1e-6
+ftp=0.25,tp=10,Wtp=0.01
+n=500,dBap=1,dBas=36,tpr=0.1
 
 % Initial filter from deczky3_sqp_test.m
 U=0;V=0;Q=6;M=10;R=1;
@@ -52,7 +56,7 @@ Wt=Wtp*ones(ntp,1);
 
 % Constraints on the coefficients
 dmax=0.05
-rho=1-tol
+rho=1-ftol
 Ns=length(s10_0);
 sxx_u=reshape(kron([10*ones(2,1);rho*ones(4,1)],ones(1,Ns)),1,6*Ns);
 sxx_l=-sxx_u;
@@ -65,7 +69,6 @@ sxx_0=reshape([s10_0;s11_0;s20_0;s02_0;s00_0;s22_0],1,6*Ns);
 sxx_active=intersect(find(gradEsq),find((sxx_0~=0)&(sxx_0~=1)));
 
 % Common strings
-strf="schurNSlattice_sqp_slb_lowpass_test";
 strt=sprintf("Schur normalised-scaled lattice lowpass filter SQP %%s response : \
 fap=%g,dBap=%g,fas=%g,dBas=%g",fap,dBap,fas,dBas);
 
@@ -78,7 +81,7 @@ tic;
                           sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...
                           wa,Asqd,Asqdu,Asqdl,Wa, ...
                           wt,Td,Tdu,Tdl,Wt, ...
-                          maxiter,tol,verbose);
+                          maxiter,ftol,ctol,verbose);
 toc;
 if feasible == 0 
   error("s10_1,s11_1,s20_1,s00_1,s02_1,s22_1(mmse) infeasible");
@@ -98,7 +101,7 @@ tic;
                      sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...
                      wa,Asqd,Asqdu,Asqdl,Wa, ...
                      wt,Td,Tdu,Tdl,Wt, ...
-                     maxiter,tol,ctol,verbose);
+                     maxiter,ftol,ctol,verbose);
 toc;
 if feasible == 0 
   error("s10_2,s11_2,s20_2,s00_2,s02_2,s22_2(pcls) infeasible");
@@ -155,21 +158,21 @@ print_polynomial(var(xx/(0.25*scale)),"var(xx/(0.25*scale))")
 % Save the results
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector for MMSE\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"sxx_symmetric=%1d %% Enforce s02=-s20 and s22=s00\n",sxx_symmetric);
 fprintf(fid,"dmax=%f %% Constraint on norm of coefficient SQP step size\n",dmax);
 fprintf(fid,"rho=%f %% Constraint on lattice coefficient magnitudes\n",rho);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"ftp=%g %% Delay pass band edge\n",ftp);
 fprintf(fid,"tp=%g %% Nominal pass band filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Delay pass band peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
+fprintf(fid,"Wtp=%g %% Delay pass band weight\n",Wtp);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
-fprintf(fid,"dBas=%d %% amplitude stop band peak-to-peak ripple\n",dBas);
+fprintf(fid,"dBas=%g %% amplitude stop band peak-to-peak ripple\n",dBas);
 fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
@@ -186,14 +189,14 @@ print_polynomial(s02_2,"s02_2",strcat(strf,"_s02_2_coef.m"));
 print_polynomial(s22_2,"s22_2");
 print_polynomial(s22_2,"s22_2",strcat(strf,"_s22_2_coef.m"));
 
-save schurNSlattice_sqp_slb_lowpass_test.mat x0 n0 d0 ...
-     fap dBap Wap ftp tp tpr Wtp fas dBas Was ...
-     dmax rho tol ctol ...
-     s10_0 s11_0 s20_0 s00_0 s02_0 s22_0 ...
-     s10_1 s11_1 s20_1 s00_1 s02_1 s22_1 ...
-     s10_2 s11_2 s20_2 s00_2 s02_2 s22_2
+eval(sprintf("save %s.mat x0 n0 d0 \
+fap dBap Wap ftp tp tpr Wtp fas dBas Was \
+dmax rho ftol ctol \
+s10_0 s11_0 s20_0 s00_0 s02_0 s22_0 \
+s10_1 s11_1 s20_1 s00_1 s02_1 s22_1 \
+s10_2 s11_2 s20_2 s00_2 s02_2 s22_2", strf));
 
 % Done
+toc;
 diary off
-movefile schurNSlattice_sqp_slb_lowpass_test.diary.tmp ...
-         schurNSlattice_sqp_slb_lowpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

@@ -65,7 +65,7 @@ f(tu)=[ 0.000000 0.100586 ](fs=1)
 Tu=[ 5.473691 5.765574 ](Samples)
 pu=[ 159 ]
 f(pu)=[ 0.077148 ](fs=1)
-Pu=[ -1.204283 ](Samples)
+Pu=[ -0.383335 ](rad./pi)
 vS1 before exchange constraints:
 al=[ 206 411 ]
 f(al)=[ 0.100098 0.200195 ](fs=1)
@@ -81,7 +81,7 @@ f(tu)=[ 0.000000 0.100586 ](fs=1)
 Tu=[ 5.473921 5.764304 ](Samples)
 pu=[ 159 ]
 f(pu)=[ 0.077148 ](fs=1)
-Pu=[ -1.204206 ](Samples)
+Pu=[ -0.383311 ](rad./pi)
 Exchanged constraint from vR.tu(207) to vS
 vR1 after exchange constraints:
 al=[ 206 411 ]
@@ -98,7 +98,7 @@ f(tu)=[ 0.000000 ](fs=1)
 Tu=[ 5.473921 ](Samples)
 pu=[ 159 ]
 f(pu)=[ 0.077148 ](fs=1)
-Pu=[ -1.204206 ](Samples)
+Pu=[ -0.383311 ](rad./pi)
 vS1 after exchange constraints:
 al=[ 206 411 ]
 f(al)=[ 0.100098 0.200195 ](fs=1)
@@ -114,7 +114,7 @@ f(tu)=[ 0.000000 0.100586 ](fs=1)
 Tu=[ 5.473921 5.764304 ](Samples)
 pu=[ 159 ]
 f(pu)=[ 0.077148 ](fs=1)
-Pu=[ -1.204206 ](Samples)
+Pu=[ -0.383311 ](rad./pi)
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

@@ -3,13 +3,13 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
            (vS,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
             difference,k_u,k_l,k_active,k_delta, ...
             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-            wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+            wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 % [A1k_min,A2k_min,socp_iter,func_iter,feasible] =
 %   sdp_relaxation_schurOneMPAlattice_mmse ...
 %      (vS,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
 %       difference,k_u,k_l,k_active,k_delta, ...
 %       wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%       wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+%       wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 %
 % SDP optimisation of a parallel one-multiplier Schur allpasslattice filter
 % with integer coefficients and constraints on the amplitude, phase and
@@ -53,7 +53,8 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - not used
-%   tol - tolerance
+%   ftol - tolerance on coefficient update
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % The state scaling coefficients have no effect on the response but can
@@ -65,13 +66,13 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints
 %
-% If tol is a structure then the tol.dtol field is the minimum relative
+% If ftol is a structure then the ftol.dtol field is the minimum relative
 % step size and the tol.stol field sets the SeDuMi pars.eps field (the
 % default is 1e-8). This is a hack to deal with filters for which the
 % desired stop-band attenuation of the squared amplitude response is more
 % than 80dB.
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -91,13 +92,13 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 30) || (nargout ~= 5)
+  if (nargin ~= 31) || (nargout ~= 5)
     print_usage("[A1k,A2k,socp_iter,func_iter,feasible]= ...\n\
   sdp_relaxation_schurOneMPAlattice_mmse ...\n\
                 (vS,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0 ...\n\
                  difference,k_u,k_l,k_active,k_delta, ...\n\
                  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                 wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)");
+                 wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
   endif
 
   %
@@ -152,14 +153,14 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
          (all(isfield(vS,{"al","au","tl","tu","pl","pu"}))==false)
     error("numfields(vS)=%d, expected 6 (al,au,tl,tu,pl and pu)",numfields(vS));
   endif
-  if isstruct(tol)
-    if all(isfield(tol,{"dtol","stol"})) == false
-      error("Expect tol structure to have fields dtol and stol");
+  if isstruct(ftol)
+    if all(isfield(ftol,{"dtol","stol"})) == false
+      error("Expect ftol structure to have fields dtol and stol");
     endif
-    dtol=tol.dtol;
-    pars.eps=tol.stol;
+    dtol=ftol.dtol;
+    pars.eps=ftol.stol;
   else
-    dtol=tol;
+    dtol=ftol;
   endif
 
   Nresp=length(vS.al)+length(vS.au)+ ...
@@ -328,21 +329,20 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   endif
 
   % Approximate phase linear constraints 
-  if ~isempty(vS.pu)
-    [P_pu,gradP_pu]=schurOneMPAlatticeP(wp(vS.pu),A1k0,A1epsilon0,A1p0, ...
-                                        A2k0,A2epsilon0,A2p0,difference);
+  if ~isempty(vS.pu) || ~isempty(vS.pl)
+    [P,gradP]=schurOneMPAlatticeP(wp,A1k0,A1epsilon0,A1p0, ...
+                                  A2k0,A2epsilon0,A2p0,difference);
     func_iter = func_iter+1;
-    gradP_pu_delta=gradP_pu.*kron(ones(length(vS.pu),1),k_delta');
+  endif      
+  if ~isempty(vS.pu) 
+    gradP_pu_delta=gradP(vS.pu).*kron(ones(length(vS.pu),1),k_delta');
     D=[D,[zeros(MM,length(vS.pu));-gradP_pu_delta(:,k_active)']];
-    f=[f;Pdu(vS.pu)-P_pu];
+    f=[f;                          Pdu(vS.pu)-P_pu(vS.pu)];
   endif
   if ~isempty(vS.pl) 
-    [P_pl,gradP_pl]=schurOneMPAlatticeP(wp(vS.pl),A1k0,A1epsilon0,A1p0, ...
-                                        A2k0,A2epsilon0,A2p0,difference);
-    func_iter = func_iter+1;
-    gradP_pl_delta=gradP_pl.*kron(ones(length(vS.pl),1),k_delta');
-    D=[D,[zeros(MM,length(vS.pl));gradP_pl_delta(:,k_active)']];
-    f=[f;P_pl-Pdl(vS.pl)];
+    gradP_pl_delta=gradP(vS.pl).*kron(ones(length(vS.pl),1),k_delta');
+    D=[D,[zeros(MM,length(vS.pl)); gradP_pl_delta(:,k_active)']];
+    f=[f;                          P(vS.pl)-Pdl(vS.pl)];
   endif
 
   % Triangle inequalities (in the SeDuMi form: Dy+f>=0)

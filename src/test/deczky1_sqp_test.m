@@ -1,23 +1,24 @@
 % deczky1_sqp_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("deczky1_sqp_test.diary");
-delete("deczky1_sqp_test.diary.tmp");
-diary deczky1_sqp_test.diary.tmp
+strf="deczky1_sqp_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-
-tol=2e-4
-ctol=tol/100
-maxiter=10000
+maxiter=2000
+ftol=1e-3
+ctol=1e-4
 verbose=false
 
 % Filter specifications
 fap=0.25,ftp=0.25,fas=0.3
-dBap=1,dBas=36,tp=8,tpr=2
+dBap=0.5,dBas=36,tp=8,tpr=2
 Wap=1,Wat=0.01,Was=1,Wtp=0.01
 
 % Initial filter from tarczynski_deczky1_test.m
@@ -28,10 +29,9 @@ strM=sprintf("%%s:fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g",
              fap,Wap,fas,Was,ftp,tp,Wtp);
 strP=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,\
 tpr=%g,Wtp=%g",fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
-strf="deczky1_sqp_test";
 
 % Frequency points
-n=400;
+n=800;
 
 % Coefficient constraints
 dmax=0.05;
@@ -74,10 +74,11 @@ vS=deczky1_slb_set_empty_constraints();
   deczky1_sqp_mmse(vS, ...
                    x0,xu,xl,dmax,Ux0,Vx0,Mx0,Qx0,Rx0, ...
                    wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx, ...
-                   maxiter,tol,verbose)
+                   maxiter,ftol,ctol,verbose);
 if feasible == 0 
   error("x1(mmse) infeasible");
 endif
+
 strt=sprintf(strM,"x1(mmse)");
 showZPplot(x1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
@@ -94,10 +95,11 @@ printf("\nPCLS pass 1:\n");
 [d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
   deczky1_slb(@deczky1_sqp_mmse,x1,xu,xl,dmax,Ux0,Vx0,Mx0,Qx0,Rx0, ...
               wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx, ...
-              maxiter,tol,ctol,verbose)
+              maxiter,ftol,ctol,verbose);
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
+
 strt=sprintf(strP,"d1(pcls)");
 showZPplot(d1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
@@ -136,7 +138,7 @@ printf("d1:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 % Save results
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"tol=%g %% Tolerance on relative coefficient update size\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on relative coefficient update size\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
 fprintf(fid,"dBap=%d %% Pass band amplitude peak-to-peak ripple\n",dBap);
@@ -155,18 +157,20 @@ fprintf(fid,"Mx0=%d %% Number of complex zeros\n",Mx0);
 fprintf(fid,"Qx0=%d %% Number of complex poles\n",Qx0);
 fprintf(fid,"Rx0=%d %% Denominator polynomial decimation factor\n",Rx0);
 fclose(fid);
+
 print_pole_zero(d1,Ux0,Vx0,Mx0,Qx0,Rx0,"d1");
 print_pole_zero(d1,Ux0,Vx0,Mx0,Qx0,Rx0,"d1",strcat(strf,"_d1_coef.m"));
 [N1,D1]=x2tf(d1,Ux0,Vx0,Mx0,Qx0,Rx0);
+
 print_polynomial(N1,"N1");
 print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
-save deczky1_sqp_test.mat Ux0 Vx0 Mx0 Qx0 Rx0 ...
-     tol ctol fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp x0 x1 d1
+eval(sprintf("save %s.mat Ux0 Vx0 Mx0 Qx0 Rx0 \
+ftol ctol fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp x0 x1 d1",strf));
 
 % Done
 toc
 diary off
-movefile deczky1_sqp_test.diary.tmp deczky1_sqp_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

@@ -56,43 +56,43 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.s10.ok << 'EOF'
-s10_2 = [   1.0279396548,   0.1935260157,  -0.0916241858,  -0.0653808722, ... 
-            0.0142448015,   0.0129142652,   0.0024737017,  -0.0069440305, ... 
-           -0.0051571508,   0.0012782823 ];
+s10_2 = [   0.9264513567,   0.1152940006,  -0.1192003216,  -0.0441970678, ... 
+            0.0232422300,   0.0259930923,  -0.0034407910,  -0.0128985630, ... 
+           -0.0024065496,   0.0054752723 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.s10.ok"; fail; fi
 
 cat > test.s11.ok << 'EOF'
-s11_2 = [   0.8040534037,   0.9316660442,   0.9941967593,   1.0261479817, ... 
-            0.9249817439,   1.1144246585,   1.3100056198,   1.3019852097, ... 
-            1.3079771599,   0.8138627835 ];
+s11_2 = [   1.0052477837,   0.9082044912,   0.9761300906,   1.0094266892, ... 
+            1.0854082474,   1.0316983639,   1.0592144362,   1.0687664900, ... 
+            1.0739802683,   0.7412544053 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.s10.ok"; fail; fi
 
 cat > test.s20.ok << 'EOF'
-s20_2 = [  -0.6889239260,   0.4752667630,  -0.4961994741,   0.3970745806, ... 
-           -0.1697955137,   0.0441000000,   0.0000000000,   0.0000000000, ... 
+s20_2 = [  -0.5970533029,   0.7171705548,  -0.5056592608,  -0.1136577915, ... 
+            0.9839704466,   0.0441000000,   0.0000000000,   0.0000000000, ... 
             0.0000000000,   0.0000000000 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.s20.ok"; fail; fi
 
 cat > test.s00.ok << 'EOF'
-s00_2 = [   0.9883987249,   0.4926734214,   0.7408301356,   0.8854322120, ... 
-            0.9273987541,   0.4059507633,   1.0000000000,   1.0000000000, ... 
+s00_2 = [   0.8035005457,   0.5774865137,   0.7368565622,   0.8659868445, ... 
+            0.8044284234,   0.9999000000,   1.0000000000,   1.0000000000, ... 
             1.0000000000,   1.0000000000 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.s00.ok"; fail; fi
 
 cat > test.s02.ok << 'EOF'
-s02_2 = [   0.6857383075,  -0.5440075919,   0.6572742436,  -0.5692084825, ... 
-            0.2760979095,  -0.3613674206,  -0.0000000000,  -0.0000000000, ... 
+s02_2 = [   0.7712564164,  -0.7446390770,   0.6815569172,  -0.5657532054, ... 
+            0.4200140379,  -0.1741629822,  -0.0000000000,  -0.0000000000, ... 
            -0.0000000000,  -0.0000000000 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.s02.ok"; fail; fi
 
 cat > test.s22.ok << 'EOF'
-s22_2 = [   0.7436318730,   0.7278805905,   0.6313750134,   0.9450728519, ... 
-            0.2005128923,   0.9990271218,   1.0000000000,   1.0000000000, ... 
+s22_2 = [   0.6615901421,   0.8950771164,   0.9158924916,   0.8838964529, ... 
+            0.9946619491,   0.9990271218,   1.0000000000,   1.0000000000, ... 
             1.0000000000,   1.0000000000 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.s22.ok"; fail; fi
@@ -105,22 +105,24 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.s10.ok schurNSlattice_sqp_slb_lowpass_test_s10_2_coef.m
+nstr="schurNSlattice_sqp_slb_lowpass_test"
+
+diff -Bb test.s10.ok $nstr"_s10_2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s10.ok"; fail; fi
 
-diff -Bb test.s11.ok schurNSlattice_sqp_slb_lowpass_test_s11_2_coef.m
+diff -Bb test.s11.ok $nstr"_s11_2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s11.ok"; fail; fi
 
-diff -Bb test.s20.ok schurNSlattice_sqp_slb_lowpass_test_s20_2_coef.m
+diff -Bb test.s20.ok $nstr"_s20_2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s20.ok"; fail; fi
 
-diff -Bb test.s00.ok schurNSlattice_sqp_slb_lowpass_test_s00_2_coef.m
+diff -Bb test.s00.ok $nstr"_s00_2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s00.ok"; fail; fi
 
-diff -Bb test.s02.ok schurNSlattice_sqp_slb_lowpass_test_s02_2_coef.m
+diff -Bb test.s02.ok $nstr"_s02_2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s02.ok"; fail; fi
 
-diff -Bb test.s22.ok schurNSlattice_sqp_slb_lowpass_test_s22_2_coef.m
+diff -Bb test.s22.ok $nstr"_s22_2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s22.ok"; fail; fi
 
 #

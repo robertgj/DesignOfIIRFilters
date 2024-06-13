@@ -1,11 +1,13 @@
-% complementaryFIRlattice_socp_slb_bandpass_test.m
-% Design of an FIR lattice filter using SOCP. Neither the filter or the
-% complementary filter is constrained to be minimum-phase.
+% complementaryFIRlattice_socp_slb_bandpass_hilbert_test.m
+% Design of an FIR lattice bandpass Hilbert filter using SOCP.
+% Neither the filter or the complementary filter is constrained to be
+% minimum-phase.
+
 % Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-strf="complementaryFIRlattice_socp_slb_bandpass_test";
+strf="complementaryFIRlattice_socp_slb_bandpass_hilbert_test";
 
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
@@ -13,13 +15,29 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-tol=1e-6;
-ctol=tol;
+ftol=1e-6;
+ctol=ftol;
 maxiter=2000;
 verbose=false;
 
 %
-% Filter specification from iir_sqp_slb_fir_17_bandpass_test.m
+% Frequency specification
+%
+fapl=0.1,fapu=0.2,dBap=3,Wap=1
+fasl=0.05,
+fasu=0.25,dBas=20,Wasl=1,Wasu=1
+tp=5;tpr=1;Wtp=0.1;
+pp=1.5;ppr=0.02;Wpp=1;
+
+nplot=1000;
+wplot=pi*(0:(nplot-1))'/nplot;
+nasl=ceil(nplot*fasl/0.5)+1;
+nasu=floor(nplot*fasu/0.5)+1;
+napl=floor(nplot*fapl/0.5)+1;
+napu=ceil(nplot*fapu/0.5)+1;
+
+%
+% Initial filter from iir_sqp_slb_fir_17_bandpass_test.m
 %
 iir_sqp_slb_fir_17_bandpass_test_d1_coef;
 [b0p,~]=x2tf(d1,Ud1,Vd1,Md1,Qd1,Rd1);
@@ -34,51 +52,44 @@ close
 zplane(qroots(bc0));
 print(strcat(strf,"_initial_bc0_pz"),"-dpdflatex");
 close
+% Check complementary responses
+[A0,b0,ch0,dh0,cg0,dg0]=complementaryFIRlattice2Abcd(k0,khat0);
+Hh0=Abcd2H(wplot,A0,b0,ch0,dh0);
+Hg0=Abcd2H(wplot,A0,b0,cg0,dg0);
+stdK0=std((Hg0.*conj(Hg0))+(Hh0.*conj(Hh0)));
+if stdK0 > 10*eps
+  error("stdK0(%g*eps) > 10*eps",stdK0/eps);
+endif
 
-% Frequency specifications
-nplot=1000;
-wplot=pi*(0:(nplot-1))'/nplot;
-fsl=0.05;fpl=0.1;fpu=0.2;fsu=0.25;
-nsl=ceil(nplot*fsl/0.5)+1;
-npl=floor(nplot*fpl/0.5)+1;
-npu=ceil(nplot*fpu/0.5)+1;
-nsu=floor(nplot*fsu/0.5)+1;
-dBap=3;
-dBas=20;
-Wasl=100;Wap=1;Wasu=100;
-tp=5;
-tpr=1;
-Wtp=0.1;
-pp=1.5*pi;
-ppr=0.02*pi;
-Wpp=1;
+%
+% Constraints
+%
 
 % Squared-magnitude
 wa=wplot;
-Asqd=[zeros(npl-1,1);ones(npu-npl+1,1);zeros(nplot-npu,1)];
-Asqdu=[(10^(-dBas/10))*ones(nsl,1); ...
-       ones(nsu-nsl-1,1); ...
-       (10^(-dBas/10))*ones(nplot-nsu+1,1)];
-Asqdl=[zeros(npl-1,1);(10^(-dBap/10))*ones(npu-npl+1,1);zeros(nplot-npu,1)];
-Wa=[Wasl*ones(nsl,1); ...
-    zeros(npl-nsl-1,1); ...
-    Wap*ones(npu-npl+1,1); ...
-    zeros(nsu-npu-1,1); ...
-    Wasu*ones(nplot-nsu+1,1)];
+Asqd=[zeros(napl-1,1);ones(napu-napl+1,1);zeros(nplot-napu,1)];
+Asqdu=[(10^(-dBas/10))*ones(nasl,1); ...
+       ones(nasu-nasl-1,1); ...
+       (10^(-dBas/10))*ones(nplot-nasu+1,1)];
+Asqdl=[zeros(napl-1,1);(10^(-dBap/10))*ones(napu-napl+1,1);zeros(nplot-napu,1)];
+Wa=[Wasl*ones(nasl,1); ...
+    zeros(napl-nasl-1,1); ...
+    Wap*ones(napu-napl+1,1); ...
+    zeros(nasu-napu-1,1); ...
+    Wasu*ones(nplot-nasu+1,1)];
 % Delay
-wt=wplot(npl:npu);
+wt=wplot(napl:napu);
 Td=tp*ones(length(wt),1);
 Tdu=Td+(tpr/2);
 Tdl=Td-(tpr/2);
 Wt=Wtp*ones(length(wt),1);
 % Phase
-wp=wplot(npl:npu);
-Pd=pp-(tp*wplot(npl:npu));
-Pdu=Pd+(ppr/2);
-Pdl=Pd-(ppr/2);
+wp=wplot(napl:napu);
+Pd=(pp*pi)-(tp*wplot(napl:napu));
+Pdu=Pd+(ppr*pi/2);
+Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(length(wp),1);
-
-% Constraints on the coefficients
+% Coefficients
 dmax=inf;
 kkhat_u=(63/64)*ones(2*Nk,1);
 kkhat_l=-kkhat_u;
@@ -95,7 +106,7 @@ run_id=tic;
                               wa,Asqd,Asqdu,Asqdl,Wa, ...
                               wt,Td,Tdu,Tdl,Wt, ...
                               wp,Pd,Pdu,Pdl,Wp, ...
-                              maxiter,tol,ctol,verbose);
+                              maxiter,ftol,ctol,verbose);
 toc(run_id);
 if feasible == 0 
   error("k2,khat2(pcls) infeasible");
@@ -150,22 +161,22 @@ plot(wplot*0.5/pi,10*log10(Asq_plot));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -30 1]);
 grid("on");
-strt=sprintf ...
-       ("fsl=%g,fpl=%g,fpu=%g,fsu=%g,dBap=%g,dBas=%g,tp=%g,tpr=%g,pp=%g,ppr=%g",
-        fsl,fpl,fpu,fsu,dBap,dBas,tp,tpr,pp/pi,ppr/pi);
+strt=sprintf("fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g,\
+tp=%g,tpr=%g,pp=%g\\$pi\\$,ppr=%g\\$pi\\$",
+             fasl,fapl,fapu,fasu,dBap,dBas,tp,tpr,pp/pi,ppr/pi);
 title(strt);
 subplot(312);
 plot(wplot*0.5/pi,(P_plot+(wplot*tp))/pi);
+axis([0 0.5 (pp-ppr) (pp+ppr)]);
 ylabel("Phase(rad./$\\pi$)");
-axis([0 0.5 (pp-ppr)/pi (pp+ppr)/pi]);
 grid("on");
-print(strcat(strf,"_pcls_response"),"-dpdflatex");
 subplot(313);
 plot(wplot*0.5/pi,T_plot);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 tp-tpr tp+tpr]);
 grid("on");
+print(strcat(strf,"_pcls_response"),"-dpdflatex");
 close
 zplane(qroots(Nh2));
 print(strcat(strf,"_pcls_Nh2_pz"),"-dpdflatex");
@@ -182,7 +193,7 @@ T=complementaryFIRlatticeT(wt,k2,khat2);
 P=complementaryFIRlatticeP(wp,k2,khat2);
 vAl=local_max(Asqdl-Asq);
 vAu=local_max(Asq-Asqdu);
-wAsqS=unique([wa(vAl);wa(vAu);wa([1,nsl,npl,npu,nsu,end])]);
+wAsqS=unique([wa(vAl);wa(vAu);wa([1,nasl,napl,napu,nasu,end])]);
 AsqS=complementaryFIRlatticeAsq(wAsqS,k2,khat2);
 printf("k2khat2:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k2khat2:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
@@ -204,15 +215,15 @@ printf("kkhat2:PS=[ ");printf("%f ",PS');printf(" (samples)\n");
 % Save the results
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"nplot=%d %% Frequency points across the band\n",nplot);
 fprintf(fid,"%% length(k0)=%d %% Num. FIR lattice coefficients\n",length(k0));
 fprintf(fid,"%% sum(k0~=0)=%d %% Num. non-zero FIR lattice coef.s\n",sum(k0~=0));
-fprintf(fid,"fsl=%g %% Lower stop band upper edge\n",fsl);
-fprintf(fid,"fpl=%g %% Pass band lower edge\n",fpl);
-fprintf(fid,"fpu=%g %% Pass band upper edge\n",fpu);
-fprintf(fid,"fsu=%g %% Upper stop band lower edge\n",fsu);
+fprintf(fid,"fasl=%g %% Lower stop band upper edge\n",fasl);
+fprintf(fid,"fapl=%g %% Pass band lower edge\n",fapl);
+fprintf(fid,"fapu=%g %% Pass band upper edge\n",fapu);
+fprintf(fid,"fasu=%g %% Upper stop band lower edge\n",fasu);
 fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
 fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"dBas=%g %% Amplitude stop band peak-to-peak ripple\n",dBas);
@@ -221,8 +232,8 @@ fprintf(fid,"Wasu=%g %% Ampl. upper stop band weight\n",Wasu);
 fprintf(fid,"tp=%g %% Pass band group delay\n",tp);
 fprintf(fid,"tpr=%g %% Delay pass band peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Delay pass band weight\n",Wtp);
-fprintf(fid,"pp=%4.2f %% Pass band phase(rad., adjusted for tp)\n",pp/pi);
-fprintf(fid,"ppr=%4.2f %% Phase pass band peak-to-peak ripple(rad.)\n",ppr/pi);
+fprintf(fid,"pp=%4.2f %% Pass band phase(rad./pi), adjusted for tp\n",pp);
+fprintf(fid,"ppr=%4.2f %% Phase pass band peak-to-peak ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
@@ -237,9 +248,8 @@ print_polynomial(Nh2,"Nh2",strcat(strf,"_Nh2_coef.m"));
 print_polynomial(Ng2,"Ng2");
 print_polynomial(Ng2,"Ng2",strcat(strf,"_Ng2_coef.m"));
 
-eval(sprintf("save %s.mat ...\n\
-     tol ctol fsl fpl fpu fsu dBap Wap dBas Wasl Wasu ...\n\
-     tp tpr Wtp pp ppr Wpp k2 khat2 Nh2 Ng2",strf));
+eval(sprintf("save %s.mat ftol ctol fasl fapl fapu fasu dBap Wap dBas Wasl Wasu \
+tp tpr Wtp pp ppr Wpp k2 khat2 Nh2 Ng2",strf));
 
 % Done
 toc;

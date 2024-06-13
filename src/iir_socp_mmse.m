@@ -2,12 +2,12 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
   iir_socp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...
                 wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                 wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-                maxiter,tol,verbose)
+                maxiter,ftol,ctol,verbose)
 % [xk,E,socp_iter,func_iter,feasible] =
 %   iir_socp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...
 %                 wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
 %                 wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-%                 maxiter,tol,verbose)
+%                 maxiter,ftol,ctol,verbose)
 %
 % SOCP MMSE optimisation using a linear approximation to the error with
 % linear constraints on the amplitude, phase and group delay responses. The
@@ -57,7 +57,8 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of SQP iterations
-%   tol - tolerance
+%   ftol - tolerance on function value
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -67,7 +68,7 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - x satisfies the constraints 
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -87,12 +88,12 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 33) || (nargout ~= 5)
+  if (nargin ~= 34) || (nargout ~= 5)
     print_usage("[xk,Ek,socp_iter,func_iter,feasible]= ...\n\
       iir_socp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...\n\
                     wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...\n\
                     wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...\n\
-                    maxiter,tol,verbose)");
+                    maxiter,ftol,ctol,verbose)");
   endif
 
   %
@@ -124,6 +125,9 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
   if Nwa ~= length(Wa)
     error("Expected length(wa)(%d) == length(Wa)(%d)",Nwa,length(Wa));
   endif
+  if any(Adu<Adl)
+    error("Expected Adu>=Adl");
+  endif
   if Nws ~= length(Sd)
     error("Expected length(ws)(%d) == length(Sd)(%d)",Nws,length(Sd));
   endif  
@@ -135,6 +139,9 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
   endif
   if Nws ~= length(Ws)
     error("Expected length(ws)(%d) == length(Ws)(%d)",Nws,length(Ws));
+  endif
+  if any(Sdu<Sdl)
+    error("Expected Sdu>=Sdl");
   endif
   if Nwt ~= length(Td)
     error("Expected length(wt)(%d) == length(Td)(%d)",Nwt,length(Td));
@@ -148,6 +155,9 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
   if Nwt ~= length(Wt)
     error("Expected length(wt)(%d) == length(Wt)(%d)",Nwt,length(Wt));
   endif
+  if any(Tdu<Tdl)
+    error("Expected Tdu>=Tdl");
+  endif
   if Nwp ~= length(Pd)
     error("Expected length(wp)(%d) == length(Pd)(%d)",Nwp,length(Pd));
   endif  
@@ -159,6 +169,9 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
   endif
   if Nwp ~= length(Wp)
     error("Expected length(wp)(%d) == length(Wp)(%d)",Nwp,length(Wp));
+  endif
+  if any(Pdu<Pdl)
+    error("Expected Pdu>=Pdl");
   endif
   if isempty(vS)
     vS=iir_slb_set_empty_constraints();
@@ -255,17 +268,17 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
     endif
 
     % Phase linear constraints
-    if ~isempty(vS.pu)
-      [Pk_pu,gradPk_pu]=iirP(wp(vS.pu),xk,U,V,M,Q,R);
+    if ~isempty(vS.pu) || ~isempty(vS.pl)
+      [P,gradP]=iirP(wp,xk,U,V,M,Q,R);
       func_iter = func_iter+1;
-      D=[D, [zeros(2,length(vS.pu));-gradPk_pu']];
-      f=[f; Pdu(vS.pu)-Pk_pu];
+    endif
+    if ~isempty(vS.pu)
+      D=[D, [zeros(2,length(vS.pu));-gradP(vS.pu,:)']];
+      f=[f; Pdu(vS.pu)-P(vS.pu)];
     endif
     if ~isempty(vS.pl)
-      [Pk_pl,gradPk_pl]=iirP(wp(vS.pl),xk,U,V,M,Q,R);
-      func_iter = func_iter+1;
-      D=[D, [zeros(2,length(vS.pl));gradPk_pl']];
-      f=[f; Pk_pl-Pdl(vS.pl)];
+      D=[D, [zeros(2,length(vS.pl)); gradP(vS.pl,:)']];
+      f=[f; P(vS.pl)-Pdl(vS.pl)];
     endif
     
     % SeDuMi linear constraint matrixes
@@ -346,8 +359,8 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
       printf("func_iter=%d, socp_iter=%d\n",func_iter,socp_iter);
       info
     endif
-    if norm(delta)/norm(xk) < tol
-      printf("norm(delta)/norm(xk) < tol\n");
+    if norm(delta)/norm(xk) < ftol
+      printf("norm(delta)/norm(xk) < ftol\n");
       feasible=true;
       break;
     endif

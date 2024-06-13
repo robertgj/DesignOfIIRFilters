@@ -133,30 +133,30 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-nstr="schurOneMlattice_bandpass_allocsd_2_ndigits_12_nbits_test"
-diff -Bb test_2_12_k_Lim.ok $nstr"_k_Lim_coef.m"
+nstr="schurOneMlattice_bandpass_allocsd_test"
+
+diff -Bb test_2_12_k_Lim.ok $nstr"_2_ndigits_12_nbits_k_Lim_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_2_12_k_Lim.ok"; fail; fi
 
-diff -Bb test_2_12_c_Lim.ok $nstr"_c_Lim_coef.m"
+diff -Bb test_2_12_c_Lim.ok $nstr"_2_ndigits_12_nbits_c_Lim_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_2_12_c_Lim.ok"; fail; fi
 
-diff -Bb test_2_12_k_Ito.ok $nstr"_k_Ito_coef.m"
+diff -Bb test_2_12_k_Ito.ok $nstr"_2_ndigits_12_nbits_k_Ito_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_2_12_k_Ito.ok"; fail; fi
 
-diff -Bb test_2_12_c_Ito.ok $nstr"_c_Ito_coef.m"
+diff -Bb test_2_12_c_Ito.ok $nstr"_2_ndigits_12_nbits_c_Ito_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_2_12_c_Ito.ok"; fail; fi
 
-nstr="schurOneMlattice_bandpass_allocsd_3_ndigits_12_nbits_test"
-diff -Bb test_3_12_k_Lim.ok $nstr"_k_Lim_coef.m"
+diff -Bb test_3_12_k_Lim.ok $nstr"_3_ndigits_12_nbits_k_Lim_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_3_12_k_Lim.ok"; fail; fi
 
-diff -Bb test_3_12_c_Lim.ok $nstr"_c_Lim_coef.m"
+diff -Bb test_3_12_c_Lim.ok $nstr"_3_ndigits_12_nbits_c_Lim_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_3_12_c_Lim.ok"; fail; fi
 
-diff -Bb test_3_12_k_Ito.ok $nstr"_k_Ito_coef.m"
+diff -Bb test_3_12_k_Ito.ok $nstr"_3_ndigits_12_nbits_k_Ito_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_3_12_k_Ito.ok"; fail; fi
 
-diff -Bb test_3_12_c_Ito.ok $nstr"_c_Ito_coef.m"
+diff -Bb test_3_12_c_Ito.ok $nstr"_3_ndigits_12_nbits_c_Ito_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_3_12_c_Ito.ok"; fail; fi
 
 #

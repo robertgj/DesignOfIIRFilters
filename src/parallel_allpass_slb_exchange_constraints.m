@@ -1,13 +1,13 @@
 function [next_vR,next_vS,exchanged] = ...
   parallel_allpass_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl, ...
-                                            P,Pdu,Pdl,tol)
+                                            P,Pdu,Pdl,ctol)
 % [next_vR,next_vS,exchanged] = ...
 %   parallel_allpass_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,...
-%                                             P,Pdu,Pdl,tol)
+%                                             P,Pdu,Pdl,ctol)
 % Check for violation of the constraints in vR. If any constraints are violated
 % then move the constraint with the greatest violation from vR to vS.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -32,7 +32,7 @@ function [next_vR,next_vS,exchanged] = ...
     print_usage("[next_vR,next_vS,exchanged]= ...\n\
   parallel_allpass_slb_exchange_constraints(vS,vR, ...\n\
                                             Asq,Asqdu,Asqdl,T,Tdu,Tdl, ...\n\
-                                            P,Pdu,Pdl,tol)");
+                                            P,Pdu,Pdl,ctol)");
   endif
   if all(isfield(vS,{"al","au","tl","tu","pl","pu"})) == false
     error("Expect fields vS.al, vS.au, vS.tlv, S.tu, vS.pl and vS.pu");
@@ -70,10 +70,10 @@ function [next_vR,next_vS,exchanged] = ...
   vAsql=[];
   vAsql_max=-inf;
   if ~isempty(vR.al)
-    vAsql=find((Asqdl-tol)>Asql);
+    vAsql=find((Asqdl-ctol)>Asql);
     if ~isempty(vAsql)
       exchanged = true;
-      [vAsql_max,vAsql_maxi]=max((Asqdl-tol)-Asql);
+      [vAsql_max,vAsql_maxi]=max((Asqdl-ctol)-Asql);
     endif
   endif
 
@@ -83,10 +83,10 @@ function [next_vR,next_vS,exchanged] = ...
   vAsqu=[];
   vAsqu_max=-inf;
   if ~isempty(vR.au)
-    vAsqu=find(Asqu>(Asqdu+tol));
+    vAsqu=find(Asqu>(Asqdu+ctol));
     if ~isempty(vAsqu)
       exchanged = true;
-      [vAsqu_max,vAsqu_maxi]=max(Asqu-(Asqdu+tol));
+      [vAsqu_max,vAsqu_maxi]=max(Asqu-(Asqdu+ctol));
     endif
   endif
 
@@ -96,10 +96,10 @@ function [next_vR,next_vS,exchanged] = ...
   vTl=[];
   vTl_max=-inf;
   if ~isempty(vR.tl)
-    vTl=find((Tdl-tol)>Tl);
+    vTl=find((Tdl-ctol)>Tl);
     if ~isempty(vTl)
       exchanged = true;
-      [vTl_max,vTl_maxi]=max((Tdl-tol)-Tl);
+      [vTl_max,vTl_maxi]=max((Tdl-ctol)-Tl);
     endif 
   endif
 
@@ -109,10 +109,10 @@ function [next_vR,next_vS,exchanged] = ...
   vTu_max=-inf;
   vTu=[];
   if ~isempty(vR.tu)
-    vTu=find(Tu>(Tdu+tol));
+    vTu=find(Tu>(Tdu+ctol));
     if ~isempty(vTu)
       exchanged = true;
-      [vTu_max,vTu_maxi]=max(Tu-(Tdu+tol));
+      [vTu_max,vTu_maxi]=max(Tu-(Tdu+ctol));
     endif
   endif
 
@@ -122,10 +122,10 @@ function [next_vR,next_vS,exchanged] = ...
   vPl=[];
   vPl_max=-inf;
   if ~isempty(vR.pl)
-    vPl=find((Pdl-tol)>Pl);
+    vPl=find((Pdl-ctol)>Pl);
     if ~isempty(vPl)
       exchanged = true;
-      [vPl_max,vPl_maxi]=max((Pdl-tol)-Pl);
+      [vPl_max,vPl_maxi]=max((Pdl-ctol)-Pl);
     endif 
   endif
 
@@ -135,10 +135,10 @@ function [next_vR,next_vS,exchanged] = ...
   vPu_max=-inf;
   vPu=[];
   if ~isempty(vR.pu)
-    vPu=find(Pu>(Pdu+tol));
+    vPu=find(Pu>(Pdu+ctol));
     if ~isempty(vPu)
       exchanged = true;
-      [vPu_max,vPu_maxi]=max(Pu-(Pdu+tol));
+      [vPu_max,vPu_maxi]=max(Pu-(Pdu+ctol));
     endif
   endif
 

@@ -1,6 +1,7 @@
 socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_FIGURES = \
 socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_kc_min_amplitude \
 socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_kc_min_phase \
+socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_kc_min_delay \
 socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_kc_min_pz
 
 socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_COEFS = \
@@ -37,4 +38,4 @@ complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct \
 qroots.m qzsolve.oct
 
 socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.diary : \
-schurOneMlattice_sqp_slb_hilbert_test.diary
+schurOneMlattice_socp_slb_hilbert_test.diary

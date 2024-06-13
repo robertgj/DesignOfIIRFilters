@@ -1,23 +1,25 @@
 % schurNSlattice_sqp_slb_bandpass_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurNSlattice_sqp_slb_bandpass_test.diary");
-delete("schurNSlattice_sqp_slb_bandpass_test.diary.tmp");
-diary schurNSlattice_sqp_slb_bandpass_test.diary.tmp
+strf="schurNSlattice_sqp_slb_bandpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-tol=5e-4
-ctol=tol/50
+ftol=1e-3
+ctol=ftol/10
 maxiter=5000
 verbose=false
 
 % Bandpass R=2 filter specification
-fapl=0.1,fapu=0.2,dBap=1;Wap=1
+fapl=0.1,fapu=0.2,dBap=2;Wap=1
 fasl=0.05,fasu=0.25,dBas=30,Wasl=10,Wasu=20
-ftpl=0.1,ftpu=0.2,tp=16,tpr=0.16,Wtp=0.1
+ftpl=0.1,ftpu=0.2,tp=16,tpr=0.4,Wtp=1
 
 % Initial filter from iir_sqp_slb_bandpass_test.m
 U=2,V=0,M=18,Q=10,R=2
@@ -68,7 +70,7 @@ Wt=Wtp*ones(ntp,1);
 
 % Constraints on the coefficients
 dmax=0.05
-rho=1-tol
+rho=1-ftol
 Ns=length(s10_0);
 sxx_u=reshape(kron([10*ones(2,1);rho*ones(4,1)],ones(1,Ns)),1,6*Ns);
 sxx_l=-sxx_u;
@@ -84,7 +86,6 @@ sxx_active=intersect(find(gradEsq),find((sxx_0~=0)&(sxx_0~=1)));
 sxx_symmetric=false;
 
 % Common strings
-strf="schurNSlattice_sqp_slb_bandpass_test";
 strt=sprintf...
   ("%%s:fapl=%g,fapu=%g,dBap=%g,fasl=%g,fasu=%g,dBas=%g,Wtp=%%g,Was=%%g",
    fapl,fapu,dBap,fasl,fasu,dBas);
@@ -93,11 +94,12 @@ strt=sprintf...
 % SOCP MMSE pass
 %
 tic;
+feasible=0;
 [s10_1,s11_1,s20_1,s00_1,s02_1,s22_1,opt_iter,func_iter,feasible] = ...
 schurNSlattice_sqp_mmse([],s10_0,s11_0,s20_0,s00_0,s02_0,s22_0, ...
                         sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...
                         wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                        maxiter,tol,verbose);
+                        maxiter,ftol,ctol,verbose);
 toc;
 if feasible == 0 
   error("s10_1,s11_1,s20_1,s00_1,s02_1,s22_1(mmse) infeasible");
@@ -131,12 +133,13 @@ printf("sxx_1:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 % SOCP PCLS pass 1
 %
 tic;
+feasible=0;
 [s10_2,s11_2,s20_2,s00_2,s02_2,s22_2,slb_iter,opt_iter,func_iter,feasible] = ...
 schurNSlattice_slb(@schurNSlattice_sqp_mmse, ...
                    s10_1,s11_1,s20_1,s00_1,s02_1,s22_1, ...
                    sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...
                    wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                   maxiter,tol,ctol,verbose);
+                   maxiter,ftol,ctol,verbose);
 toc;
 if feasible == 0 
   error("s10_2,s11_2,s20_2,s00_2,s02_2,s22_2(pcls) infeasible");
@@ -210,25 +213,25 @@ print_polynomial(stdxxf,"stdxxf",strcat(strf,".stdxxf.val"),"%5.1f");
 % Save the results
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"dmax=%f %% Constraint on norm of coefficient SQP step size\n",dmax);
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"ftpl=%g %% Delay pass band lower edge\n",ftpl);
 fprintf(fid,"ftpu=%g %% Delay pass band upper edge\n",ftpu);
 fprintf(fid,"tp=%g %% Nominal passband filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Delay pass band peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
+fprintf(fid,"Wtp=%g %% Delay pass band weight\n",Wtp);
 fprintf(fid,"fasl=%g %% Amplitude stop band lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Amplitude stop band upper edge\n",fasu);
-fprintf(fid,"dBas=%d %% Amplitude stop band peak-to-peak ripple\n",dBas);
-fprintf(fid,"Wasl=%d %% Ampl. lower stop band weight\n",Wasl);
-fprintf(fid,"Wasu=%d %% Ampl. upper stop band weight\n",Wasu);
+fprintf(fid,"dBas=%g %% Amplitude stop band peak-to-peak ripple\n",dBas);
+fprintf(fid,"Wasl=%g %% Ampl. lower stop band weight\n",Wasl);
+fprintf(fid,"Wasu=%g %% Ampl. upper stop band weight\n",Wasu);
 fclose(fid);
 
 print_polynomial(s10_2,"s10_2");
@@ -244,14 +247,13 @@ print_polynomial(s02_2,"s02_2",strcat(strf,"_s02_2_coef.m"));
 print_polynomial(s22_2,"s22_2");
 print_polynomial(s22_2,"s22_2",strcat(strf,"_s22_2_coef.m"));
 
-save schurNSlattice_sqp_slb_bandpass_test.mat fapl fapu fasl fasu ...
-     ftpl ftpu dBap Wap dBas Wasl Wasu tp tpr Wtp dmax rho tol tol ctol ...
-     s10_0 s11_0 s20_0 s00_0 s02_0 s22_0 ...
-     s10_1 s11_1 s20_1 s00_1 s02_1 s22_1 ...
-     s10_2 s11_2 s20_2 s00_2 s02_2 s22_2 
+eval(sprintf("save %s.mat fapl fapu fasl fasu \
+ftpl ftpu dBap Wap dBas Wasl Wasu tp tpr Wtp dmax rho ftol ctol \
+s10_0 s11_0 s20_0 s00_0 s02_0 s22_0 \
+s10_1 s11_1 s20_1 s00_1 s02_1 s22_1 \
+s10_2 s11_2 s20_2 s00_2 s02_2 s22_2",strf));
 
 % Done
 toc;
 diary off
-movefile schurNSlattice_sqp_slb_bandpass_test.diary.tmp ...
-         schurNSlattice_sqp_slb_bandpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

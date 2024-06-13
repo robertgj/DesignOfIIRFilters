@@ -101,22 +101,24 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.s10.ok schurNSlattice_sqp_mmse_test_s10_1_coef.m
+nstr="schurNSlattice_sqp_mmse_test"
+
+diff -Bb test.s10.ok $nstr"_s10_1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s10.ok"; fail; fi
 
-diff -Bb test.s11.ok schurNSlattice_sqp_mmse_test_s11_1_coef.m
+diff -Bb test.s11.ok $nstr"_s11_1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s11.ok"; fail; fi
 
-diff -Bb test.s20.ok schurNSlattice_sqp_mmse_test_s20_1_coef.m
+diff -Bb test.s20.ok $nstr"_s20_1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s20.ok"; fail; fi
 
-diff -Bb test.s00.ok schurNSlattice_sqp_mmse_test_s00_1_coef.m
+diff -Bb test.s00.ok $nstr"_s00_1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s00.ok"; fail; fi
 
-diff -Bb test.s02.ok schurNSlattice_sqp_mmse_test_s02_1_coef.m
+diff -Bb test.s02.ok $nstr"_s02_1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s02.ok"; fail; fi
 
-diff -Bb test.s22.ok schurNSlattice_sqp_mmse_test_s22_1_coef.m
+diff -Bb test.s22.ok $nstr"_s22_1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s22.ok"; fail; fi
 
 #

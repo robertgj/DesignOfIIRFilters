@@ -1,6 +1,6 @@
 function vS=deczky1_slb_update_constraints(x,U,V,M,Q,R, ...
-                                           wa,Adu,Adl,Wa,wt,Tdu,Tdl,Wt,wx,tol)
-% Copyright (C) 2018 Robert G. Jenssen
+                                           wa,Adu,Adl,Wa,wt,Tdu,Tdl,Wt,wx,ctol)
+% Copyright (C) 2018-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -22,7 +22,7 @@ function vS=deczky1_slb_update_constraints(x,U,V,M,Q,R, ...
 
 if (nargin ~= 16) || (nargout ~= 1)
   print_usage("vS=deczky1_slb_update_constraints(x,U,V,M,Q,R,...\n\
-         wa,Adu,Adl,Wa,wt,Tdu,Tdl,Wt,wx,tol)");
+         wa,Adu,Adl,Wa,wt,Tdu,Tdl,Wt,wx,ctol)");
 endif
 
 % Amplitude response
@@ -30,27 +30,27 @@ A=iirA(wa,x,U,V,M,Q,R);
 
 % Find amplitude lower constraint violations with local_max
 vAl=local_max((Adl-A).*(Wa~=0));
-vS.al=vAl(find((Adl(vAl)-A(vAl))>tol));
+vS.al=vAl(find((Adl(vAl)-A(vAl))>ctol));
 
 % Find amplitude upper constraint violations
 vAu=local_max((A-Adu).*(Wa~=0));
-vS.au=vAu(find((A(vAu)-Adu(vAu))>tol));
+vS.au=vAu(find((A(vAu)-Adu(vAu))>ctol));
 
 % Group delay response
 T=iirT(wt,x,U,V,M,Q,R);
 
 % Find group delay lower constraint violations
 vTl=local_max((Tdl-T).*(Wt~=0));
-vS.tl=vTl(find((Tdl(vTl)-T(vTl))>tol));
+vS.tl=vTl(find((Tdl(vTl)-T(vTl))>ctol));
 
 % Find group delay upper constraint violations
 vTu=local_max((T-Tdu).*(Wt~=0));
-vS.tu=vTu(find((T(vTu)-Tdu(vTu))>tol));
+vS.tu=vTu(find((T(vTu)-Tdu(vTu))>ctol));
 
 % Derivative of amplitude response in transition band
 delAdelw=iirdelAdelw(wx,x,U,V,M,Q,R);
-vAx=local_max(delAdelw-tol);
-vS.ax=vAx(find(delAdelw(vAx)>tol));
+vAx=local_max(delAdelw-ctol);
+vS.ax=vAx(find(delAdelw(vAx)>ctol));
 
 % Do not want size 0x1 ?!?!?!
 if isempty(vS.al) 

@@ -1,19 +1,20 @@
 % directFIRsymmetric_socp_mmse_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("directFIRsymmetric_socp_mmse_test.diary");
-delete("directFIRsymmetric_socp_mmse_test.diary.tmp");
-diary directFIRsymmetric_socp_mmse_test.diary.tmp
+strf="directFIRsymmetric_socp_mmse_test";
+
+delete(strcat(".diary",strf));
+delete(strcat(".diary.tmp",strf));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 maxiter=2000
-tol=5e-5
-ctol=tol
+ftol=5e-5
+ctol=ftol
 verbose=false
-strf="directFIRsymmetric_socp_mmse_test";
 
 % Band pass filter
 M=15;
@@ -55,7 +56,7 @@ try
   [hM1,slb_iter,socp_iter,func_iter,feasible]= ...
     directFIRsymmetric_slb(@directFIRsymmetric_socp_mmse, ...
                            hM0,hM_active,[],wa,Ad,Adu,Adl,Wa, ...
-                           maxiter,tol,ctol,verbose);
+                           maxiter,ftol,ctol,verbose);
 catch
   feasible=false;
   err=lasterror();
@@ -104,7 +105,7 @@ close
 
 % Save the filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);
 fprintf(fid,"fapl=%f %% Pass band amplitude response lower edge\n",fapl);
@@ -122,10 +123,10 @@ fclose(fid);
 print_polynomial(hM1,"hM1");
 print_polynomial(hM1,"hM1",strcat(strf,"_hM1_coef.m"),"%12.8f");
 
+eval(sprintf("save %s.mat \
+ftol ctol npoints fapl fapu dBap Wap fasl fasu dBas Wasl Wasu hM0 hM1",strf));
+
 % Done 
-save directFIRsymmetric_socp_mmse_test.mat ...
-     tol ctol npoints fapl fapu dBap Wap fasl fasu dBas Wasl Wasu hM0 hM1
 toc
 diary off
-movefile directFIRsymmetric_socp_mmse_test.diary.tmp ...
-         directFIRsymmetric_socp_mmse_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

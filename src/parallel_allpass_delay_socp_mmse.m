@@ -1,11 +1,11 @@
 function [ak,socp_iter,func_iter,feasible]= ...
   parallel_allpass_delay_socp_mmse(vS,a0,au,al,dmax,V,Q,R,DD, ...
                                    wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                   maxiter,tol,ctol,verbose)
+                                   maxiter,ftol,ctol,verbose)
 % [ak,socp_iter,func_iter,feasible] = ...
 %   parallel_allpass_delay_socp_mmse(vS,a0,au,al,dmax,V,Q,R,DD, ...
 %                                    wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                                    maxiter,tol,ctol,verbose)
+%                                    maxiter,ftol,ctol,verbose)
 %
 % SOCP MMSE optimisation with multiple frequency constraints
 % on the amplitude and group delay responses of a filter consisting of the
@@ -38,7 +38,7 @@ function [ak,socp_iter,func_iter,feasible]= ...
 %   Tdu,Tdl - upper and lower mask for the pass-band group delay response
 %   Wt - pass-band group delay response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance on coefficient update
+%   ftol - tolerance on coefficient update
 %   ctol - tolerance on constraints (unused)
 %   verbose -
 %
@@ -48,7 +48,7 @@ function [ak,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - abk satisfies the constraints 
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -76,7 +76,7 @@ if nargin ~= 23
     parallel_allpass_delay_socp_mmse(vS,a0,au,al,dmax,V,Q,R,DD, ...\n\
                                      wa,Asqd,Asqdu,Asqdl,Wa, ...\n\
                                      wt,Td,Tdu,Tdl,Wt, ...\n\
-                                     maxiter,tol,ctol,verbose)");
+                                     maxiter,ftol,ctol,verbose)");
 endif
 wa=wa(:);
 Nwa=length(wa);
@@ -262,8 +262,8 @@ while 1
   elseif info.dinf
     error("SeDuMi dual problem infeasible"); 
   endif 
-  if norm(delta)/norm(ak) < tol
-    printf("norm(delta)/norm(ak) < tol\nSolution is feasible!\n");
+  if norm(delta)/norm(ak) < ftol
+    printf("norm(delta)/norm(ak) < ftol\nSolution is feasible!\n");
     feasible=true;
     break;
   endif

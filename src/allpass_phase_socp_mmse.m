@@ -1,9 +1,9 @@
 function [ak,socp_iter,func_iter,feasible]= ...
          allpass_phase_socp_mmse(vS,a0,au,al,Va,Qa,Ra, ...
-                                 wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+                                 wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 % [ak,socp_iter,func_iter,feasible] = ...
 %   allpass_phase_socp_mmse(vS,a0,au,al,Va,Qa,Ra, ...
-%                           wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+%                           wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 %
 % SOCP MMSE optimisation of an all-pass phase equaliser with frequency
 % constraints on the phase response.
@@ -25,7 +25,8 @@ function [ak,socp_iter,func_iter,feasible]= ...
 %   Pdu,Pdl - upper and lower mask for the phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance on the relative step size to accept the result
+%   ftol - tolerance on the relative step size to accept the result
+%   ctol - tolerance on the constraints
 %   verbose -
 %
 % Outputs:
@@ -35,7 +36,7 @@ function [ak,socp_iter,func_iter,feasible]= ...
 %   feasible - ak satisfies the constraints 
 %
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -58,10 +59,10 @@ function [ak,socp_iter,func_iter,feasible]= ...
 %
 % Sanity checks
 %
-if (nargout > 4) || (nargin ~= 15)
+if (nargout > 4) || (nargin ~= 16)
   print_usage("[ak,socp_iter,func_iter,feasible]= ...\n\
   allpass_phase_socp_mmse(vS,a0,au,al,Va,Qa,Ra, ...\n\
-                          wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)");
+                          wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
 endif
 wp=wp(:);
 Nwp=length(wp);
@@ -146,7 +147,7 @@ while 1
     f=[f; Pdu(vS.pu)-Pawp(vS.pu)];
   endif
   if ~isempty(vS.pl)
-    D=[D, [zeros(2,length(vS.pl));gradPawp(vS.pl,:)']];
+    D=[D, [zeros(2,length(vS.pl)); gradPawp(vS.pl,:)']];
     f=[f; Pawp(vS.pl)-Pdl(vS.pl)];
   endif
     
@@ -207,8 +208,8 @@ while 1
   elseif info.dinf
     error("SeDuMi dual problem infeasible"); 
   endif 
-  if norm(delta)/norm(ak) < tol
-    printf("norm(delta)/norm(ak) < tol\nSolution is feasible!\n");
+  if norm(delta)/norm(ak) < ftol
+    printf("norm(delta)/norm(ak) < ftol\nSolution is feasible!\n");
     feasible=true;
     break;
   endif

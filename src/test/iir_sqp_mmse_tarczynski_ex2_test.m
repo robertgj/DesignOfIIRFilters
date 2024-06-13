@@ -1,5 +1,5 @@
 % iir_sqp_mmse_tarczynski_ex2_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Design a filter implementing the response of Example 2 of Tarczynski et al. 
 % See "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
@@ -7,12 +7,14 @@
 
 test_common;
 
-delete("iir_sqp_mmse_tarczynski_ex2_test.diary");
-delete("iir_sqp_mmse_tarczynski_ex2_test.diary.tmp");
-diary iir_sqp_mmse_tarczynski_ex2_test.diary.tmp
+strf="iir_sqp_mmse_tarczynski_ex2_test";
 
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
-tol=1e-2;
+ftol=1e-2;
+ctol=ftol
 maxiter=2000;
 verbose=true;
 
@@ -88,7 +90,7 @@ Wp=[];
   iir_sqp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R, ...
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-               maxiter,tol,verbose);
+               maxiter,ftol,ctol,verbose);
 if feasible == 0 
   error("Tarczynski mmse x1 infeasible");
 endif
@@ -109,7 +111,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 10 25]);
 grid("on");
-print("iir_sqp_mmse_tarczynski_ex2_test_x1","-dpdflatex");
+print(strcat(strf,"_x1"),"-dpdflatex");
 close
 
 % Passband details plot
@@ -133,27 +135,28 @@ plot(wt*0.5/pi,T1);
 xlabel("Frequency");
 axis([0.3 0.5 19.9 20.1]);
 grid("on");
-print("iir_sqp_mmse_tarczynski_ex2_test_x1pass","-dpdflatex");
+print(strcat(strf,"_x1pass"),"-dpdflatex");
 close
 
 % Z-plane plot
 showZPplot(x1,U,V,M,Q,R,sprintf ...
 ("Tarczynski et al. Example 2 pole-zero plot : U=%d,V=%d,M=%d,Q=%d,R=%d", ...
 U,V,M,Q,R));
-print("iir_sqp_mmse_tarczynski_ex2_test_x1pz","-dpdflatex");
+print(strcat(strf,"_x1pz"),"-dpdflatex");
 close
 
 % Save results
 print_pole_zero(x0,U,V,M,Q,R,"x0");
-print_pole_zero(x0,U,V,M,Q,R,"x0","iir_sqp_mmse_tarczynski_ex2_test_x0_coef.m");
+print_pole_zero(x0,U,V,M,Q,R,"x0",strcat(strf,"_x0_coef.m"));
 print_pole_zero(x1,U,V,M,Q,R,"x1");
-print_pole_zero(x1,U,V,M,Q,R,"x1","iir_sqp_mmse_tarczynski_ex2_test_x1_coef.m");
+print_pole_zero(x1,U,V,M,Q,R,"x1",strcat(strf,"_x1_coef.m"));
+
 [N1,D1]=x2tf(x1,U,V,M,Q,R);
 print_polynomial(N1,"N1");
-print_polynomial(N1,"N1","iir_sqp_mmse_tarczynski_ex2_test_N1_coef.m");
+print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
-print_polynomial(D1,"D1","iir_sqp_mmse_tarczynski_ex2_test_D1_coef.m");
+print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
+% Done
 diary off
-movefile iir_sqp_mmse_tarczynski_ex2_test.diary.tmp ...
-       iir_sqp_mmse_tarczynski_ex2_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

@@ -1,14 +1,16 @@
 % sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 % SDP relaxation optimisation of a direct-form FIR Hilbert filter
 % with 12-bit signed-digit coefficients
 
 test_common;
 
-delete("sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.diary");
-delete("sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.diary.tmp");
-diary sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.diary.tmp
+strf="sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Options
 sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test_use_unity_passband=false
@@ -16,10 +18,9 @@ sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test_use_unity_passband=false
 tic;
 
 maxiter=2000
+ftol=1e-5;
+ctol=ftol;
 verbose=true;
-tol=1e-5;
-ctol=tol;
-strf="sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test";
 
 % Hilbert filter frequency specification
 M=8;
@@ -99,7 +100,8 @@ hM2_sd_x=(hM2_sdu_Ito+hM2_sdl_Ito)/2;
 [hM2_sd_sdp,socp_iter,func_iter,feasible] = ...
 sdp_relaxation_directFIRhilbert_mmsePW([],hM2_sd_x,hM2_sd_delta,...
                                        [nasl,napl,napu,nasu], ...
-                                       wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose);
+                                       wa,Ad,Adu,Adl,Wa, ...
+                                       maxiter,ftol,ctol,verbose);
 if feasible==false
   error("sdp_relaxation_directFIRhilbert_mmsePW failed!");
 endif
@@ -185,7 +187,7 @@ fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"M=%d %% Number of distinct coefficients\n",M);
 fprintf(fid,"nbits=%d %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%d %% Nominal average coefficient signed-digits\n",ndigits);
-fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);
 fprintf(fid,"fasl=%g %% Amplitude stop band lower edge\n",fasl);
@@ -200,13 +202,12 @@ fprintf(fid,"dBas=%g %% Amplitude stop band peak ripple\n",dBas);
 fclose(fid);
 
 % Save results
-save sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.mat ...
-     tol ctol nbits nscale ndigits ndigits_alloc npoints ...
-     fasl fapl fapu fasu dBap Wap Wat dBas Was hM2 hM2_sd_sdp ...
-     sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test_use_unity_passband
+eval(sprintf("save %s.mat \
+sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test_use_unity_passband \
+ftol ctol nbits nscale ndigits ndigits_alloc \
+npoints fasl fapl fapu fasu dBap Wap Wat dBas Was hM2 hM2_sd_sdp",strf));
       
 % Done
 toc;
 diary off
-movefile sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.diary.tmp ...
-         sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

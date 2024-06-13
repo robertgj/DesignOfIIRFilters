@@ -1,6 +1,6 @@
 % directFIRnonsymmetric_socp_slb_lowpass_test.m
 % Optimisation of direct-form nonsymmetric FIR lowpass filter response
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2024 Robert G. Jenssen
 
 %{
 % See Example 1 of "Estimation of filter order for prescribed, reduced
@@ -32,16 +32,18 @@ h0 = [  0.00147701,   0.00197770,   0.00142608,  -0.00091198, ...
 
 test_common;
 
-delete("directFIRnonsymmetric_socp_slb_lowpass_test.diary");
-delete("directFIRnonsymmetric_socp_slb_lowpass_test.diary.tmp");
-diary directFIRnonsymmetric_socp_slb_lowpass_test.diary.tmp
+strf="directFIRnonsymmetric_socp_slb_lowpass_test";
+                                                   
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 maxiter=5000
+ftol=1e-4
+ctol=ftol/10
 verbose=false
-tol=1e-4
-ctol=tol/10
 n=500
 
 strf="directFIRnonsymmetric_socp_slb_lowpass_test";
@@ -86,7 +88,7 @@ h_active=1:(N+1);
 [hmmse,socp_iter,func_iter,feasible]= ...
   directFIRnonsymmetric_socp_mmse([],h0,h_active,wa,Asqd,Asqdu,Asqdl,Wa, ...
                                   wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-                                  maxiter,tol,verbose);
+                                  maxiter,ftol,ctol,verbose);
 if feasible==false
   error("directFIRnonsymmetric_socp_mmse failed!");
 endif
@@ -117,7 +119,7 @@ close
   directFIRnonsymmetric_slb(@directFIRnonsymmetric_socp_mmse, ...
                             hmmse,h_active,wa,Asqd,Asqdu,Asqdl,Wa, ...
                             wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-                            maxiter,tol,ctol,verbose);
+                            maxiter,ftol,ctol,verbose);
 if feasible==false
   error("directFIRnonsymmetric_slb failed!");
 endif
@@ -174,7 +176,7 @@ printf("h:TS=[ ");printf("%f ",TS);printf(" ] (samples)\n");
 
 % Save results
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"N=%d %% FIR filter order\n",N);
@@ -194,11 +196,10 @@ fclose(fid);
 printf("h=[ ");printf("%g ",h');printf("]';\n");
 print_polynomial(h,"h",strcat(strf,"_h_coef.m"),"%12.8f");
 
-save directFIRnonsymmetric_socp_slb_lowpass_test.mat ...
-     tol ctol n fap dBap Wap Wat fas dBas Was ftp td tdr Wtp h0 h
+eval(sprintf("save %s.mat ftol ctol n \
+fap dBap Wap Wat fas dBas Was ftp td tdr Wtp h0 h",strf));
        
 % Done
 toc;
 diary off
-movefile directFIRnonsymmetric_socp_slb_lowpass_test.diary.tmp ...
-         directFIRnonsymmetric_socp_slb_lowpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

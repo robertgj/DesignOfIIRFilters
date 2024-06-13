@@ -1,11 +1,11 @@
 function [next_vR,next_vS,exchanged] = ...
-  schurNSlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,tol)
+  schurNSlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,ctol)
 % [next_vR,next_vS,exchanged] = ...
-%  schurNSlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,tol)
+%  schurNSlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,ctol)
 % Check for violation of the constraints in vR. If any constraints are violated
 % then move the constraint with the greatest violation from vR to vS.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -28,7 +28,7 @@ function [next_vR,next_vS,exchanged] = ...
   % Sanity checks
   if (nargin ~= 9) || (nargout ~= 3)
     print_usage("[next_vR,next_vS,exchanged]= ...\n\
-schurNSlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,tol)");
+schurNSlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,ctol)");
   endif
   if all(isfield(vS,{"al","au","tl","tu"})) == false
     error("Expect fields vS.al, vS.au, vS.tl and vS.tu");
@@ -69,10 +69,10 @@ schurNSlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,tol)");
     vAsql=[];
     vAsql_max=-inf;
     if ~isempty(vR.al)
-      vAsql=find((Asqdl-Asql)>tol);
+      vAsql=find((Asqdl-Asql)>ctol);
       if ~isempty(vAsql)
         exchanged = true;
-        [vAsql_max,vAsql_maxi]=max(Asqdl-Asql-tol);
+        [vAsql_max,vAsql_maxi]=max(Asqdl-Asql-ctol);
       endif
     endif
     % Amplitude upper constraint
@@ -81,10 +81,10 @@ schurNSlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,tol)");
     vAsqu=[];
     vAsqu_max=-inf;
     if ~isempty(vR.au)
-      vAsqu=find((Asqu-Asqdu)>tol);
+      vAsqu=find((Asqu-Asqdu)>ctol);
       if ~isempty(vAsqu)
         exchanged = true;
-        [vAsqu_max,vAsqu_maxi]=max(Asqu-Asqdu-tol);
+        [vAsqu_max,vAsqu_maxi]=max(Asqu-Asqdu-ctol);
       endif
     endif
   endif
@@ -97,10 +97,10 @@ schurNSlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,tol)");
     vTl=[];
     vTl_max=-inf;
     if ~isempty(vR.tl)
-      vTl=find((Tdl-Tl)>tol);
+      vTl=find((Tdl-Tl)>ctol);
       if ~isempty(vTl)
         exchanged = true;
-        [vTl_max,vTl_maxi]=max(Tdl-Tl-tol);
+        [vTl_max,vTl_maxi]=max(Tdl-Tl-ctol);
       endif 
     endif
     % Group delay upper constraint
@@ -109,10 +109,10 @@ schurNSlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,tol)");
     vTu_max=-inf;
     vTu=[];
     if ~isempty(vR.tu)
-      vTu=find((Tu-Tdu)>tol);
+      vTu=find((Tu-Tdu)>ctol);
       if ~isempty(vTu)
         exchanged = true;
-        [vTu_max,vTu_maxi]=max(Tu-Tdu-tol);
+        [vTu_max,vTu_maxi]=max(Tu-Tdu-ctol);
       endif
     endif
   endif

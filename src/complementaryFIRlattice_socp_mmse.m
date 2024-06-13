@@ -2,12 +2,12 @@ function [k,khat,socp_iter,func_iter,feasible]= ...
   complementaryFIRlattice_socp_mmse(vS,k0,khat0, ...
                                     kkhat_u,kkhat_l,kkhat_active,dmax, ...
                                     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                    wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+                                    wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 % [k,c,socp_iter,func_iter,feasible] =
 % complementaryFIRlattice_socp_mmse(vS,k0,khat0, ...
 %                                   kkhat_u,kkhat_l,kkhat_active,dmax, ...
 %                                   wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                                   wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+%                                   wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 %
 % SOCP MMSE optimisation of a complementary FIR lattice filter with
 % constraints on the amplitude, phase and group delay responses. 
@@ -31,7 +31,8 @@ function [k,khat,socp_iter,func_iter,feasible]= ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance
+%   ftol - tolerance on function value
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -40,7 +41,7 @@ function [k,khat,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -60,12 +61,12 @@ function [k,khat,socp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 25) || (nargout ~= 5)
+  if (nargin ~= 26) || (nargout ~= 5)
     print_usage("[k,khat,socp_iter,func_iter,feasible]= ...\n\
       complementaryFIRlattice_socp_mmse(vS,k0,khat0, ...\n\
                                  kkhat_u,kkhat_l,kkhat_active,dmax, ...\n\
                                  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                                 wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)");
+                                 wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
   endif
 
   %
@@ -230,17 +231,17 @@ function [k,khat,socp_iter,func_iter,feasible]= ...
     endif
 
     % Phase linear constraints
-    if ~isempty(vS.pu)
-      [P_pu,gradP_pu]=complementaryFIRlatticeP(wp(vS.pu),k,khat);
+    if ~isempty(vS.pu) || ~isempty(vS.pl)
+      [P,gradP]=complementaryFIRlatticeP(wp,k,khat);
       func_iter = func_iter+1;
-      D=[D, [zeros(2,length(vS.pu));-gradP_pu(:,kkhat_active)']];
-      f=[f; Pdu(vS.pu)-P_pu];
+    endif      
+    if ~isempty(vS.pu)
+      D=[D, [zeros(2,length(vS.pu));-gradP(vS.pu,kkhat_active)']];
+      f=[f; Pdu(vS.pu)-P(vS.pu)];
     endif
     if ~isempty(vS.pl)
-      [P_pl,gradP_pl]=complementaryFIRlatticeP(wp(vS.pl),k,khat);
-      func_iter = func_iter+1;
-      D=[D, [zeros(2,length(vS.pl));gradP_pl(:,kkhat_active)']];
-      f=[f; P_pl-Pdl(vS.pl)];
+      D=[D, [zeros(2,length(vS.pl)); gradP(vS.pl,kkhat_active)']];
+      f=[f; P(vS.pl)-Pdl(vS.pl)];
     endif
 
     % SeDuMi linear constraint matrixes
@@ -324,8 +325,8 @@ function [k,khat,socp_iter,func_iter,feasible]= ...
       printf("func_iter=%d, socp_iter=%d\n",func_iter,socp_iter);
       info
     endif
-    if norm(delta)/norm(xkkhat) < tol
-      printf("norm(delta)/norm(xkkhat) < tol\n");
+    if norm(delta)/norm(xkkhat) < ftol
+      printf("norm(delta)/norm(xkkhat) < ftol\n");
       feasible=true;
       break;
     endif

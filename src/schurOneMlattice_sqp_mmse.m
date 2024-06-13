@@ -2,12 +2,12 @@ function [k,c,sqp_iter,func_iter,feasible]= ...
          schurOneMlattice_sqp_mmse(vS,k0,epsilon0,p0,c0, ...
                                    kc_u,kc_l,kc_active,dmax, ...
                                    wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                   wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+                                   wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 % [k,c,sqp_iter,func_iter,feasible] = ...
 %   schurOneMlattice_sqp_mmse(vS,k0,epsilon0,p0,c0, ...
 %                             kc_u,kc_l,kc_active,dmax, ...
 %                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                             wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+%                             wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 %
 % SQP MMSE optimisation of a one-multiplier Schur lattice filter with
 % constraints on the amplitude, and low pass group delay responses. 
@@ -34,7 +34,8 @@ function [k,c,sqp_iter,func_iter,feasible]= ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of SQP iterations
-%   tol - tolerance
+%   ftol - tolerance on coefficient update
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -43,7 +44,7 @@ function [k,c,sqp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -63,12 +64,12 @@ function [k,c,sqp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 27) || (nargout ~= 5)
+  if (nargin ~= 28) || (nargout ~= 5)
     print_usage("[k,c,sqp_iter,func_iter,feasible]= ...\n\
       schurOneMlattice_sqp_mmse(vS,k0,epsilon0,p0,c0, ...\n\
                                 kc_u,kc_l,kc_active,dmax, ...\n\
                                 wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                                wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)");
+                                wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
   endif
 
   %
@@ -93,6 +94,9 @@ function [k,c,sqp_iter,func_iter,feasible]= ...
   if Nwa ~= length(Wa)
     error("Expected length(wa)(%d) == length(Wa)(%d)",Nwa,length(Wa));
   endif
+  if any(Asqdu<Asqdl)
+    error("Expected Asqdu>=Asqdl");
+  endif
   if ~isempty(Td) && Nwt ~= length(Td)
     error("Expected length(wt)(%d) == length(Td)(%d)",Nwt,length(Td));
   endif
@@ -105,6 +109,9 @@ function [k,c,sqp_iter,func_iter,feasible]= ...
   if ~isempty(Wt) && Nwt ~= length(Wt)
     error("Expected length(wt)(%d) == length(Wt)(%d)",Nwt,length(Wt));
   endif
+  if any(Tdu<Tdl)
+    error("Expected Tdu>=Tdl");
+  endif
   if ~isempty(Pd) && Nwp ~= length(Pd)
     error("Expected length(wp)(%d) == length(Pd)(%d)",Nwp,length(Pd));
   endif
@@ -116,6 +123,9 @@ function [k,c,sqp_iter,func_iter,feasible]= ...
   endif
   if ~isempty(Wp) && Nwp ~= length(Wp)
     error("Expected length(wp)(%d) == length(Wp)(%d)",Nwp,length(Wp));
+  endif
+  if any(Pdu<Pdl)
+    error("Expected Pdu>=Pdl");
   endif
   if isempty(vS)
     vS=schurOneMlattice_slb_set_empty_constraints();
@@ -170,9 +180,9 @@ function [k,c,sqp_iter,func_iter,feasible]= ...
   % Initialise constraint function persistent constants
   gx=schurOneMlattice_sqp_mmse_gx(xkc0,vS,k0,epsilon0,p0,c0,kc_active, ...
                                   wa,Asqdu,Asqdl,wt,Tdu,Tdl, ...
-                                  wp,Pdu,Pdl,tol,false);
+                                  wp,Pdu,Pdl,ctol,false);
   % Initial check on constraints. Do not need to proceed if they are satisfied.
-  if (isempty(gx) == false) && all(gx > -tol)
+  if (isempty(gx) == false) && all(gx > -ctol)
     k=k0;
     c=c0;
     sqp_lm=[];
@@ -192,7 +202,7 @@ function [k,c,sqp_iter,func_iter,feasible]= ...
       sqp_bfgs(xkc0, ...
                @schurOneMlattice_sqp_mmse_fx,@schurOneMlattice_sqp_mmse_gx, ...
                "armijo_kim",xkcl,xkcu,dmax,{W,invW},"bfgs", ...
-               tol,maxiter,verbose);
+               maxiter,ftol,ctol,verbose);
     [~,~,~,func_iter] = schurOneMlattice_sqp_mmse_fx();
   catch
     k=[];c=[];
@@ -291,10 +301,10 @@ function [gx,B]=...
          schurOneMlattice_sqp_mmse_gx(xkc, ...
                                       _vS,_k0,_epsilon0,_p0,_c0,_kc_active, ...
                                       _wa,_Asqdu,_Asqdl,_wt,_Tdu,_Tdl, ...
-                                      _wp,_Pdu,_Pdl,_tol,_verbose)
+                                      _wp,_Pdu,_Pdl,_ctol,_verbose)
  
   persistent vS k0 epsilon0 p0 c0 kc_active
-  persistent wa Asqdu Asqdl wt Tdu Tdl wp Pdu Pdl tol verbose
+  persistent wa Asqdu Asqdl wt Tdu Tdl wp Pdu Pdl ctol verbose
   persistent init_done=false
 
   % Initialise persistent values
@@ -309,7 +319,7 @@ function [gx,B]=...
     endif
     k0=_k0;epsilon0=_epsilon0;p0=_p0;c0=_c0;kc_active=_kc_active;
     wa=_wa;Asqdu=_Asqdu;Asqdl=_Asqdl;wt=_wt;Tdu=_Tdu;Tdl=_Tdl;
-    wp=_wp;Pdu=_Pdu;Pdl=_Pdl;tol=_tol;verbose=_verbose;
+    wp=_wp;Pdu=_Pdu;Pdl=_Pdl;ctol=_ctol;verbose=_verbose;
     init_done=true;
   elseif nargin == 1
     if init_done == false
@@ -319,7 +329,7 @@ function [gx,B]=...
     print_usage("[gx,B] = schurOneMlattice_sqp_mmse_gx(kc); \n\
 schurOneMlattice_sqp_mmse_gx(xkc,vS,k0,epsilon0,p0,c0,kc_active, ...\n\
                              wa,Asqdu,Asqdl,wt,Tdu,Tdl, ...\n\
-                             wp,Pdu,Pdl,tol,verbose)");
+                             wp,Pdu,Pdl,ctol,verbose)");
   endif
 
   % Do nothing
@@ -342,27 +352,23 @@ schurOneMlattice_sqp_mmse_gx(xkc,vS,k0,epsilon0,p0,c0,kc_active, ...\n\
     [Asqu,gradAsqu]=schurOneMlatticeAsq(wa(vS.au),k,epsilon0,p0,c);
     [Tl,gradTl]=schurOneMlatticeT(wt(vS.tl),k,epsilon0,p0,c);
     [Tu,gradTu]=schurOneMlatticeT(wt(vS.tu),k,epsilon0,p0,c); 
+    [P,gradP]=schurOneMlatticeP(wp,k,epsilon0,p0,c);
+    Pl=P(vS.pl);gradPl=gradP(vS.pl,:);
+    Pu=P(vS.pu);gradPu=gradP(vS.pu,:);
   else
     Asql=schurOneMlatticeAsq(wa(vS.al),k,epsilon0,p0,c);
     Asqu=schurOneMlatticeAsq(wa(vS.au),k,epsilon0,p0,c);
     Tl=schurOneMlatticeT(wt(vS.tl),k,epsilon0,p0,c);
     Tu=schurOneMlatticeT(wt(vS.tu),k,epsilon0,p0,c);
-  endif
-  % Work-around for phase unwrapping
-  if nargout == 2
-    [P,gradP]=schurOneMlatticeP(wp,k,epsilon0,p0,c); 
-    Pl=P(vS.pl);gradPl=gradP(vS.pl,:);
-    Pu=P(vS.pu);gradPu=gradP(vS.pu,:);
-  else
     P=schurOneMlatticeP(wp,k,epsilon0,p0,c);
-    Pl=P(vS.pl);
-    Pu=P(vS.pu);
+    Pl=P(vS.pl);gradPl=[];
+    Pu=P(vS.pu);gradPu=[];
   endif
 
   % Construct constraint vector
   gx=[Asql-Asqdl(vS.al); Asqdu(vS.au)-Asqu; ...
-          Tl-Tdl(vS.tl);   Tdu(vS.tu)-Tu; ...
-          Pl-Pdl(vS.pl);   Pdu(vS.pu)-Pu];
+      Tl-Tdl(vS.tl);     Tdu(vS.tu)-Tu; ...
+      Pl-Pdl(vS.pl);     Pdu(vS.pu)-Pu];
 
   % Construct constraint gradient matrix
   if nargout==2
@@ -374,7 +380,7 @@ schurOneMlattice_sqp_mmse_gx(xkc,vS,k0,epsilon0,p0,c0,kc_active, ...\n\
   
   % Show
   if verbose
-    if all(gx>-tol)
+    if all(gx>-ctol)
       printf("All constraints satisfied!\n");
     endif
   endif

@@ -1,10 +1,6 @@
 function deczky1_slb_show_constraints(vS,wa,A,wt,T,wx,delAdelw)
 
-if nargin ~= 7
-  print_usage("deczky1_slb_show_constraints(vS,wa,A,wt,T,wx,delAdelw)");
-endif
-  
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -24,8 +20,10 @@ endif
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-printf("Current constraints:\n");
-
+if nargin ~= 7
+  print_usage("deczky1_slb_show_constraints(vS,wa,A,wt,T,wx,delAdelw)");
+endif
+  
 if ~isempty(vS.al)
   printf("al = [ ");printf("%d ",vS.al');printf("]\n");
   printf("f(al) = [ ");printf("%f ",wa(vS.al)'*0.5/pi);printf("] (fs=1)\n");

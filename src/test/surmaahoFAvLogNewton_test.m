@@ -1,14 +1,17 @@
 % surmaahoFAvLogNewton_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2024 Robert G. Jenssen
 
 test_common;
 
-delete("surmaahoFAvLogNewton_test.diary");
-delete("surmaahoFAvLogNewton_test.diary.tmp");
-diary surmaahoFAvLogNewton_test.diary.tmp
+strf="surmaahoFAvLogNewton_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 maxiter=5000
-tol=1e-6
+ftol=1e-6
+ctol=ftol;
 verbose=false
 
 % Minimum-phase filter specification
@@ -29,7 +32,7 @@ wp=w(1:npp);
 for nmin=6:7
   for nall=4:5
     
-    strf=sprintf("surmaahoFAvLogNewton_test_nmin_%d_nall_%d",nmin,nall);
+    strd=sprintf("%s_nmin_%d_nall_%d",strf,nmin,nall);
     
     % Design initial equi-ripple filter
     [z0,p0,K0]=ellip(nmin,dBap,dBas,2*fap);
@@ -51,8 +54,10 @@ for nmin=6:7
 
     % SOCP MMSE
     [a1,socp_iter,func_iter,feasible]= ...
-    allpass_phase_socp_mmse([],a0,au,al,Va,Qa,Ra, ...
-                            wp,Pd,[],[],ones(size(wp)),maxiter,tol,verbose);
+      allpass_phase_socp_mmse([], ...
+                              a0,au,al,Va,Qa,Ra, ...
+                              wp,Pd,[],[],ones(size(wp)),...
+                              maxiter,ftol,ctol,verbose);
     if ~feasible
       error("Initial allpass_phase_socp_mmse not feasible");
     endif
@@ -101,7 +106,7 @@ min_P=%6.2f,max_P=%6.2f\n",nmin,nall,max_dBap,min_dBap,max_dBas,min_P,max_P);
     grid("on");
     ylabel("Phase error(rad./$\\pi$)");
     xlabel("Frequency");
-    print(strcat(strf,"_resp"),"-dpdflatex");
+    print(strcat(strd,"_resp"),"-dpdflatex");
     close
 
     % Combined filter zplane plot
@@ -109,7 +114,7 @@ min_P=%6.2f,max_P=%6.2f\n",nmin,nall,max_dBap,min_dBap,max_dBas,min_P,max_P);
     zplane([min_z;1./allpass_p],min_p);
     strt="Surma-aho-and-Saram\\\"{a}ki combined filter";
     title(strt);
-    print(strcat(strf,"_pz"),"-dpdflatex");
+    print(strcat(strd,"_pz"),"-dpdflatex");
     close
 
     %
@@ -156,7 +161,7 @@ min_P=%6.2f,max_P=%6.2f\n",nmin,nall,max_dBap,min_dBap,max_dBas,min_P,max_P);
     grid("on");
     ylabel("Phase error(rad./$\\pi$)");
     xlabel("Frequency");
-    print(strcat(strf,"_pa_resp"),"-dpdflatex");
+    print(strcat(strd,"_pa_resp"),"-dpdflatex");
     close
 
     % Combined filter zplane plot
@@ -164,12 +169,11 @@ min_P=%6.2f,max_P=%6.2f\n",nmin,nall,max_dBap,min_dBap,max_dBas,min_P,max_P);
     zplane([min_z;1./allpass_p],min_p);
     strt="Surma-aho-and-Saram\\\"{a}ki combined filter with double zeros";
     title(strt);
-    print(strcat(strf,"_pa_pz"),"-dpdflatex");
+    print(strcat(strd,"_pa_pz"),"-dpdflatex");
     close
   endfor
 endfor
 
 % Done
 diary off
-movefile surmaahoFAvLogNewton_test.diary.tmp surmaahoFAvLogNewton_test.diary;
-  
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));  

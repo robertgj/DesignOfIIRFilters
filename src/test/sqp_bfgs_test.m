@@ -1,13 +1,15 @@
 % Example of non-linear quasi-newton optimisation using BFGS update
-% Copyright (C) 2017,2018 Robert G. Jenssen
 % An optimum is at x=[-sqrt(2); 1; -0.527];
+
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("sqp_bfgs_test.diary");
-delete("sqp_bfgs_test.diary.tmp");
-diary sqp_bfgs_test.diary.tmp
+strf="sqp_bfgs_test";
 
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 sqp_common;
 
@@ -19,7 +21,8 @@ function [tau,iter]=nosearch(pf,x,d,fx,gxf,W,tol,maxiter,verbose)
 endfunction
 
 % Initialise 
-tol=1e-3
+ftol=1e-3
+ctol=ftol;
 maxiter=400
 verbose=true
 iter=0;
@@ -45,7 +48,7 @@ for initType={"GI","eye","none"}
         x=xi;
         if strcmpi(initType{1},"GI")
           [x,W,invW,iter,feasible] = ...
-            goldfarb_idnani(x,@sqp_fx,@sqp_gx,tol,maxiter,verbose);
+            goldfarb_idnani(x,@sqp_fx,@sqp_gx,ftol,maxiter,verbose);
           [W,invW]=updateWchol(W,1);
         elseif strcmpi(initType{1},"eye")
           W=invW=eye(N,N);
@@ -57,7 +60,7 @@ for initType={"GI","eye","none"}
         tic();
         [x,fx,lm,iter,liter,feasible] = ...
             sqp_bfgs(x,@sqp_fx,@sqp_gx,linesearchType{1},lbx,ubx,inf, ...
-                     {W,invW},hessianType{1},tol,maxiter,verbose);
+                     {W,invW},hessianType{1},maxiter,ftol,ctol,verbose);
         elapsedTime=toc();
         if feasible == 0
 	        error("infeasible\n");
@@ -99,5 +102,6 @@ for initType={"GI","eye","none"}
   endfor
 endfor
 
+% Done
 diary off
-movefile sqp_bfgs_test.diary.tmp sqp_bfgs_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

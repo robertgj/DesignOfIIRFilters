@@ -1,22 +1,20 @@
 % johanssonOneMlattice_socp_mmse_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2024 Robert G. Jenssen
 
 test_common;
 
-delete("johanssonOneMlattice_socp_mmse_test.diary");
-delete("johanssonOneMlattice_socp_mmse_test.diary.tmp");
-diary johanssonOneMlattice_socp_mmse_test.diary.tmp
+strf="johanssonOneMlattice_socp_mmse_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-
 maxiter=2000
 verbose=true
-tol=1e-6
-ctol=tol
-
-% Common strings
-strf="johanssonOneMlattice_socp_mmse_test";
+ftol=1e-6
+ctol=ftol
 
 % Band-stopfilter specification
 fapl=0.15,fasl=0.2,fasu=0.25,fapu=0.3
@@ -100,7 +98,7 @@ tic;
 [fM,k0,k1,opt_iter,func_iter,feasible] = ...
   johanssonOneMlattice_socp_mmse([],fM_0,k0_0,epsilon0,k1_0,epsilon1, ...
                                  fMk_0_u,fMk_0_l,fMk_0_active,dmax, ...
-                                 wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose);
+                                 wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose);
 toc;
 if feasible == 0 
   error("fM,k0,k1(mmse) infeasible");
@@ -133,7 +131,7 @@ printf(" ] (dB)\n");
 % Save the results
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"nf=%d %% Frequency points across the band\n",nf);
 fprintf(fid,"length(fM_0)=%d %% distinct FIR coefficients\n",length(fM_0));
 fprintf(fid,"length(k0)=%d %% Num. all-pass k0 coefficients\n",length(k0));
@@ -152,11 +150,11 @@ print_polynomial(k0,"k0");
 print_polynomial(k0,"k0",strcat(strf,"_k0_coef.m"));
 print_polynomial(k1,"k1");
 print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"));
-save johanssonOneMlattice_socp_mmse_test.mat fM_0 k0_0 epsilon0 k1_0 epsilon1 ...
-     fapl fasl fasu fapu Wap Was dmax rho tol fM k0 k1
+
+eval(sprintf("save %s.mat fM_0 k0_0 epsilon0 k1_0 epsilon1 \
+fapl fasl fasu fapu Wap Was dmax rho ftol fM k0 k1",strf));
 
 % Done
 toc;
 diary off
-movefile johanssonOneMlattice_socp_mmse_test.diary.tmp ...
-         johanssonOneMlattice_socp_mmse_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

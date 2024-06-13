@@ -1,7 +1,7 @@
 function [hM,socp_iter,func_iter,feasible]=directFIRhilbert_socp_mmsePW ...
-           (vS,hM0,hM0_active,na,wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose)
+           (vS,hM0,hM0_active,na,wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose)
 % function [hM,socp_iter,func_iter,feasible]=directFIRhilbert_socp_mmsePW ...
-%  (vS,hM0,hM0_active,na,wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose)
+%  (vS,hM0,hM0_active,na,wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose)
 %
 % SOCP MMSE optimisation of a direct-form Hilbert FIR filter with
 % constraints on the amplitude response. The desired response is
@@ -17,7 +17,8 @@ function [hM,socp_iter,func_iter,feasible]=directFIRhilbert_socp_mmsePW ...
 %   Adu,Adl - upper/lower mask for the desired amplitude response
 %   Wa - amplitude response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance
+%   ftol - tolerance on function value
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -26,7 +27,7 @@ function [hM,socp_iter,func_iter,feasible]=directFIRhilbert_socp_mmsePW ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -46,10 +47,10 @@ function [hM,socp_iter,func_iter,feasible]=directFIRhilbert_socp_mmsePW ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 12) || (nargout ~= 4)
+  if (nargin ~= 13) || (nargout ~= 4)
     print_usage("[hM,socp_iter,func_iter,feasible]= ...\n\
   directFIRhilbert_socp_mmsePW(vS,hM0,hM_active,na, ...\n\
-                            wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose)");
+                            wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose)");
   endif
 
   %
@@ -222,8 +223,8 @@ function [hM,socp_iter,func_iter,feasible]=directFIRhilbert_socp_mmsePW ...
       printf("func_iter=%d, socp_iter=%d\n",func_iter,socp_iter);
       info
     endif
-    if norm(delta)/norm(hM) < tol
-      printf("norm(delta)/norm(hM) < tol\n");
+    if norm(delta)/norm(hM) < ftol
+      printf("norm(delta)/norm(hM) < ftol\n");
       feasible=true;
       break;
     endif

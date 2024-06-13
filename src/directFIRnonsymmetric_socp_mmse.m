@@ -1,9 +1,9 @@
 function [h,socp_iter,func_iter,feasible]=directFIRnonsymmetric_socp_mmse ...
   (vS,h0,h_active,wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-   maxiter,tol,verbose)
+   maxiter,ftol,ctol,verbose)
 % [h,socp_iter,func_iter,feasible]=directFIRnonsymmetric_socp_mmse ...
 %   (vS,h0,h_active,wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,...
-%    maxiter,tol,verbose)
+%    maxiter,ftol,ctol,verbose)
 %
 % SOCP MMSE optimisation of a nonsymmetric FIR filter with
 % constraints on the squared amplitude, and low pass group delay responses. 
@@ -25,7 +25,8 @@ function [h,socp_iter,func_iter,feasible]=directFIRnonsymmetric_socp_mmse ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance
+%   ftol - tolerance on function value
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -34,13 +35,13 @@ function [h,socp_iter,func_iter,feasible]=directFIRnonsymmetric_socp_mmse ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints
 %
-% If tol is a structure then the tol.dtol field is the minimum relative
-% step size and the tol.stol field sets the SeDuMi pars.eps field (the
+% If ftol is a structure then the ftol.dtol field is the minimum relative
+% step size and the ftol.stol field sets the SeDuMi pars.eps field (the
 % default is 1e-8). This is a hack to deal with filters for which the
 % desired stop-band attenuation of the squared amplitude response is more
 % than 80dB.
 
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -60,11 +61,11 @@ function [h,socp_iter,func_iter,feasible]=directFIRnonsymmetric_socp_mmse ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 21) || (nargout ~= 4)
+  if (nargin ~= 22) || (nargout ~= 4)
     print_usage ...
       ("[h,socp_iter,func_iter,feasible]=directFIRnonsymmetric_socp_mmse ...\n\
 (vS,h0,h_active,wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,...\n\
- maxiter,tol,verbose)");
+ maxiter,ftol,ctol,verbose)");
   endif
 
   %
@@ -119,14 +120,14 @@ function [h,socp_iter,func_iter,feasible]=directFIRnonsymmetric_socp_mmse ...
          (all(isfield(vS,{"al","au","tl","tu","pl","pu"}))==false)
     error("numfields(vS)=%d, expected 6 (al,au,tl,tu,pl and pu)",numfields(vS));
   endif
-  if isstruct(tol)
-    if all(isfield(tol,{"dtol","stol"})) == false
-      error("Expect tol structure to have fields dtol and stol");
+  if isstruct(ftol)
+    if all(isfield(ftol,{"dtol","stol"})) == false
+      error("Expect ftol structure to have fields dtol and stol");
     endif
-    dtol=tol.dtol;
-    pars.eps=tol.stol;
+    dtol=ftol.dtol;
+    pars.eps=ftol.stol;
   else
-    dtol=tol;
+    dtol=ftol;
   endif
 
   %
@@ -215,17 +216,17 @@ function [h,socp_iter,func_iter,feasible]=directFIRnonsymmetric_socp_mmse ...
     endif
 
     % Phase linear constraints
-    if ~isempty(vS.pu)
-      [P_pu,gradP_pu] = directFIRnonsymmetricP(wp(vS.pu),h);
+    if ~isempty(vS.pu) || ~isempty(vS.pl)
+      [P,gradP] = directFIRnonsymmetricP(wp,h);
       func_iter = func_iter+1;
-      D=[D, [zeros(2,length(vS.pu));-gradP_pu(:,h_active)']];
-      f=[f; Pdu(vS.pu)-P_pu];
+    endif      
+    if ~isempty(vS.pu)
+      D=[D, [zeros(2,length(vS.pu));-gradP(vS.pu,h_active)']];
+      f=[f; Pdu(vS.pu)-P(vS.pu)];
     endif
     if ~isempty(vS.pl)
-      [P_pl,gradP_pl] = directFIRnonsymmetricP(wp(vS.pl),h);
-      func_iter = func_iter+1;
-      D=[D, [zeros(2,length(vS.pl));gradP_pl(:,h_active)']];
-      f=[f; P_pl-Pdl(vS.pl)];
+      D=[D, [zeros(2,length(vS.pl));gradP(vS.pl,h_active)']];
+      f=[f; P(vS.pl)-Pdl(vS.pl)];
     endif
 
     % SeDuMi linear constraint matrixes

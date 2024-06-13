@@ -1,15 +1,16 @@
 % parallel_allpass_delay_sqp_mmse_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("parallel_allpass_delay_sqp_mmse_test.diary");
-delete("parallel_allpass_delay_sqp_mmse_test.diary.tmp");
-diary parallel_allpass_delay_sqp_mmse_test.diary.tmp
+strf="parallel_allpass_delay_sqp_mmse_test";
 
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 verbose=true
-tol=1e-4
+ftol=1e-4
 ctol=1e-8
 maxiter=2000
 
@@ -68,7 +69,7 @@ vS=[];
 [a1,sqp_iter,func_iter,feasible]= ...
   parallel_allpass_delay_sqp_mmse(vS,a0,au,al,dmax,V,Q,R,DD, ...
                                   wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                  maxiter,tol,ctol,verbose);
+                                  maxiter,ftol,ctol,verbose);
 if !feasible
   error("a1 infeasible");
 endif
@@ -84,7 +85,7 @@ Ha1=(Ha1+exp(-j*wplot*DD))/2;
 Ta1=(Ta1+DD)/2;
 
 % Plot response
-strd=sprintf("parallel_allpass_delay_sqp_mmse_%%s");
+strd=sprintf("%s_%%s",strf);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Ha1)));
 ylabel("Amplitude(dB)");
@@ -136,8 +137,9 @@ print(sprintf(strd,"a1phase"),"-dpdflatex");
 close
 
 % Save the filter specification
-fid=fopen("parallel_allpass_delay_sqp_mmse_test_spec.m","wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fid=fopen(strcat(strf,"_spec.m"),"wt");
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"m=%d %% Allpass model filter denominator order\n",m);
 fprintf(fid,"V=%d %% Allpass model filter no. of real poles\n",V);
@@ -145,26 +147,23 @@ fprintf(fid,"Q=%d %% Allpass model filter no. of complex poles\n",Q);
 fprintf(fid,"R=%d %% Allpass model filter decimation\n",R);
 fprintf(fid,"DD=%d %% Parallel delay\n",DD);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
-fprintf(fid,"Wap=%d %% Pass band amplitude response weight\n",Wap);
+fprintf(fid,"Wap=%g %% Pass band amplitude response weight\n",Wap);
 fprintf(fid,"ftp=%g %% Pass band group delay response edge\n",ftp);
-fprintf(fid,"Wtp=%d %% Pass band group delay response weight\n",Wtp);
+fprintf(fid,"Wtp=%g %% Pass band group delay response weight\n",Wtp);
 fprintf(fid,"td=%g %% Pass band nominal group delay\n",td);
 fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
-fprintf(fid,"Was=%d %% Stop band amplitude response weight\n",Was);
-fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
+fprintf(fid,"Was=%g %% Stop band amplitude response weight\n",Was);
+fprintf(fid,"rho=%g %% Constraint on allpass pole radius\n",rho);
 fclose(fid);
 
 % Save results
 print_allpass_pole(a1,V,Q,R,"a1");
-print_allpass_pole(a1,V,Q,R,"a1", ...
-                   "parallel_allpass_delay_sqp_mmse_test_a1_coef.m");
+print_allpass_pole(a1,V,Q,R,"a1",strcat(strf,"_a1_coef.m"));
 print_polynomial(Da1,"Da1");
-print_polynomial(Da1,"Da1","parallel_allpass_delay_sqp_mmse_test_Da1_coef.m");
+print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
+
+eval(sprintf("save %s.mat n fap Wap ftp Wtp fas Was td m R DD a0 a1 Da1 ",strf));
 
 % Done 
-save parallel_allpass_delay_sqp_mmse_test.mat  ...
-     n fap Wap ftp Wtp fas Was td m R DD a0 a1 Da1
-
 diary off
-movefile parallel_allpass_delay_sqp_mmse_test.diary.tmp ...
-         parallel_allpass_delay_sqp_mmse_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

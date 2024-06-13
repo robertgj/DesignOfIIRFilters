@@ -1,14 +1,15 @@
 % parallel_allpass_mmse_error_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 % Check the MMSE error and gradient for the parallel
 % combination of two allpass filters
 
 test_common;
 
-delete("parallel_allpass_mmse_error_test.diary");
-delete("parallel_allpass_mmse_error_test.diary.tmp");
-diary parallel_allpass_mmse_error_test.diary.tmp
+strf="parallel_allpass_mmse_error_test";
 
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 verbose=true
 
@@ -220,5 +221,4 @@ endfor
 
 % Done
 diary off
-movefile parallel_allpass_mmse_error_test.diary.tmp ...
-         parallel_allpass_mmse_error_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

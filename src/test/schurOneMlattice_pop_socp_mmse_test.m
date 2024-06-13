@@ -1,17 +1,20 @@
 % schurOneMlattice_pop_socp_mmse_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMlattice_pop_socp_mmse_test.diary");
-delete("schurOneMlattice_pop_socp_mmse_test.diary.tmp");
-diary schurOneMlattice_pop_socp_mmse_test.diary.tmp
+strf="schurOneMlattice_pop_socp_mmse_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
-tol=1e-8
+ftol=1e-8
+ctol=ftol
 maxiter=0
 verbose=true;
-strf="schurOneMlattice_pop_socp_mmse_test";
 
 schurOneMlattice_bandpass_10_nbits_common;
 
@@ -78,7 +81,7 @@ while ~isempty(kc_active)
     Asqk=schurOneMlatticeAsq(wa,kc(1:Nk),epsilon0,ones(size(p0)),kc((Nk+1):end));
     Tk=schurOneMlatticeT(wt,kc(1:Nk),epsilon0,ones(size(p0)),kc((Nk+1):end));
     vS=schurOneMlattice_slb_update_constraints ...
-         (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,[],Pdu,Pdl,Wp,tol);
+         (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,[],Pdu,Pdl,Wp,ctol);
     schurOneMlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,[],[]);
   else
     vS=[];
@@ -91,7 +94,7 @@ while ~isempty(kc_active)
         (vS,kc(1:Nk),epsilon0,ones(size(p0)),kc((Nk+1):end), ...
          kc_u,kc_l,kc_active,kc_fixed, ...
          wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-         maxiter,tol,verbose);
+         maxiter,ftol,ctol,verbose);
   catch
     feasible=false;
     err=lasterror();
@@ -223,7 +226,8 @@ close
 % Save the results
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
 fprintf(fid,"maxiter=%d %% POP iteration limit\n",maxiter);
@@ -233,24 +237,24 @@ fprintf(fid,"sum(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k0~=0));
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"ftpl=%g %% Delay pass band lower edge\n",ftpl);
 fprintf(fid,"ftpu=%g %% Delay pass band upper edge\n",ftpu);
 fprintf(fid,"tp=%g %% Nominal passband filter group delay\n",tp);
-fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
+fprintf(fid,"Wtp=%g %% Delay pass band weight\n",Wtp);
 fprintf(fid,"fasl=%g %% Amplitude stop band(1) lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Amplitude stop band(1) upper edge\n",fasu);
 fprintf(fid,"Wasl=%d %% Amplitude lower stop band weight\n",Wasl);
 fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
+
 print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"),nscale);
 print_polynomial(c1,"c1",strcat(strf,"_c1_coef.m"),nscale);
-save schurOneMlattice_pop_socp_mmse_test.mat ...
-     k0 epsilon0 p0 c0 tol nbits ndigits ndigits_alloc npoints ...
-     fapl fapu Wap fasl fasu Wasl Wasu ftpl ftpu tp Wtp k1 c1
+
+eval(sprintf("save %s.mat k0 epsilon0 p0 c0 tol nbits ndigits ndigits_alloc \
+npoints fapl fapu Wap fasl fasu Wasl Wasu ftpl ftpu tp Wtp k1 c1",strf));
 
 % Done
 toc;
 diary off
-movefile schurOneMlattice_pop_socp_mmse_test.diary.tmp ...
-         schurOneMlattice_pop_socp_mmse_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

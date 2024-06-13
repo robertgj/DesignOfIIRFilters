@@ -1,19 +1,21 @@
 % iir_sqp_slb_fir_bandpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
 % Design a minimum-phase FIR filter and find a complementary
 % non-minimum-phase FIR filter. Compare it with a linear phase FIR
 % filter designed by cl2bp.m
 
+% Copyright (C) 2017-2024 Robert G. Jenssen
+
 test_common;
 
-delete("iir_sqp_slb_fir_bandpass_test.diary");
-delete("iir_sqp_slb_fir_bandpass_test.diary.tmp");
-diary iir_sqp_slb_fir_bandpass_test.diary.tmp
+strf="iir_sqp_slb_fir_bandpass_test";
 
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 maxiter=5000
-tol=1e-3
-ctol=tol
+ftol=1e-3
+ctol=ftol
 verbose=false
 
 % Bandpass filter specification
@@ -25,7 +27,7 @@ fasl=0.05,fasu=0.25,dBas=36,Wasl=10,Wasu=5
 strM=sprintf(
 "%%s:fapl=%g,fapu=%g,dBap=%g,fasl=%g,fasu=%g,dBas=%g,Wasl=%%g,Wasu=%%g",
 fapl,fapu,dBap,fasl,fasu,dBas);
-strd=sprintf("iir_sqp_slb_fir_bandpass_test_%%s_%%s");
+strd=sprintf("%s_%%s_%%s",strf);
 
 % Initial filter in gain-zero-pole vector form
 U=2;V=0;M=28;Q=0;R=1;
@@ -89,7 +91,7 @@ wp=[];Pd=[];Pdu=[];Pdl=[];Wp=[];
   iir_sqp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R, ...
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-               maxiter,tol,verbose)
+               maxiter,ftol,ctol,verbose)
 if !feasible 
   error("x1 infeasible");
 endif
@@ -99,20 +101,20 @@ endif
   iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol,ctol,verbose)
+          maxiter,ftol,ctol,verbose)
 if !feasible 
   error("d1 infeasible");
 endif
 % Ensure d1 amplitude response is <=1
-% (PCLS permits max(Ad1)==tol. d1(1) is the gain coefficient.)
-Ad1=iirA(wa,d1,U,V,M,Q,R,tol);
+% (PCLS permits max(Ad1)==ftol. d1(1) is the gain coefficient.)
+Ad1=iirA(wa,d1,U,V,M,Q,R,ftol);
 d1(1)=d1(1)/max(abs(Ad1));
 Ad1=Ad1/max(abs(Ad1));
 if max(abs(Ad1))>1
   error("max(abs(Ad1))>1");
 endif
 % Plot d1 response
-strd=sprintf("iir_sqp_slb_fir_bandpass_test_pcls_%%s");
+strd=sprintf("%s_pcls_%%s",strf);
 strP1=sprintf(strM,"d1(pcls)",Wasl,Wasu);
 showZPplot(d1,U,V,M,Q,R,strP1);
 print(sprintf(strd,"d1pz"),"-dpdflatex");
@@ -138,19 +140,19 @@ c0((1+1):(1+U))=0;
 % MMSE optimisation of the complementary response
 % No constraints on real and complex zero radiuses (not minimum phase)
 [xlc,xuc]=xConstraints(Uc,Vc,Mc,Qc);
-tol=1e-6
+ftol=1e-6
 Wasl=8,Wasu=12
 Wa=[Wasl*ones(nasl,1);ones(nasu-nasl,1);Wasu*ones(n-nasu,1)];
 [c1,Ec1,opt_iter,func_iter,feasible] = ...
 iir_sqp_mmse([],c0,xuc,xlc,dmax,Uc,Vc,Mc,Qc,R, ...
              wa,Cd,[],[],Wa,[],[],[],[],[], ...
              [],[],[],[],[],[],[],[],[],[], ...
-             maxiter,tol,verbose)
+             maxiter,ftol,ctol,verbose)
 if !feasible 
   error("c1 infeasible");
 endif
 % Plot complement response
-strd=sprintf("iir_sqp_slb_fir_bandpass_test_complementary_%%s");
+strd=sprintf("%s_complementary_%%s",strf);
 strC1=sprintf(strM,"c1(mmse)",Wasl,Wasu);
 showZPplot(c1,Uc,Vc,Mc,Qc,R,strC1);
 print(sprintf(strd,"c1pz"),"-dpdflatex");
@@ -160,7 +162,7 @@ print(sprintf(strd,"c1"),"-dpdflatex");
 close
 % Show combined amplitude response
 Ac1=iirA(wa,c1,Uc,Vc,Mc,Qc,R);
-strd=sprintf("iir_sqp_slb_fir_bandpass_test_combined_%%s");
+strd=sprintf("%s_combined_%%s",strf);
 plot(wa*0.5/pi,20*log10(sqrt((Ad1.^2)+(Ac1.^2))));
 ylabel("Combined response(dB)");
 xlabel("Frequency");
@@ -179,41 +181,41 @@ up=10.^([-dBas, 0, -dBas]/20);
 lo=[-1,1,-1].*10.^([-dBas, -dBap, -dBas]/20);
 N=floor((1+U+V+M+Q)/2);
 bcl = cl2bp(N,wl,wu,up,lo,512);
-[cl0,Ucl,Vcl,Mcl,Qcl]=tf2x(bcl,1,tol);
+[cl0,Ucl,Vcl,Mcl,Qcl]=tf2x(bcl,1,ftol);
 % Ensure max(abs(Acl0))<=1 (cl0(1) is the gain coefficient)
-Acl0=iirA(wa,cl0,Ucl,Vcl,Mcl,Qcl,R,tol);
+Acl0=iirA(wa,cl0,Ucl,Vcl,Mcl,Qcl,R,ftol);
 cl0(1)=cl0(1)/max(abs(Acl0));
 Acl0=Acl0/max(abs(Acl0));
 % Find the complement to the cl2bp filter
 Aclcd=sqrt(1-(Acl0.^2));
 [xlcl,xucl]=xConstraints(Ucl,Vcl,Mcl,Qcl);
 % First mmse pass
-tol=1e-6
+ftol=1e-6
 Wasl=8,Wasu=12
 Wa=[Wasl*ones(nasl,1);ones(nasu-nasl,1);Wasu*ones(n-nasu,1)];
 [clc0,Eclc0,opt_iter,func_iter,feasible] = ...
 iir_sqp_mmse([],c1,xucl,xlcl,dmax,Ucl,Vcl,Mcl,Qcl,R, ...
              wa,Aclcd,[],[],Wa,[],[],[],[],[], ...
              [],[],[],[],[],[],[],[],[],[], ...
-             maxiter,tol,verbose)
+             maxiter,ftol,ctol,verbose)
 if !feasible 
   error("clc0 (mmse) infeasible");
 endif
 % Second mmse pass
-tol=4e-8
+ftol=4e-8
 Wasl=4,Wasu=2
 Wa=[Wasl*ones(nasl,1);ones(nasu-nasl,1);Wasu*ones(n-nasu,1)];
 [clc1,Eclc1,opt_iter,func_iter,feasible] = ...
 iir_sqp_mmse([],clc0,xucl,xlcl,dmax,Ucl,Vcl,Mcl,Qcl,R, ...
              wa,Aclcd,[],[],Wa,[],[],[],[],[], ...
              [],[],[],[],[],[],[],[],[],[], ...
-             maxiter,tol,verbose)
+             maxiter,ftol,ctol,verbose)
 if !feasible 
   error("clc1 (mmse) infeasible");
 endif
 
 % Plot complement response
-strd=sprintf("iir_sqp_slb_fir_bandpass_test_complementary_%%s");
+strd=sprintf("%s_complementary_%%s",strf);
 showZPplot(clc1,Ucl,Vcl,Mcl,Qcl,R,"");
 print(sprintf(strd,"clc1pz"),"-dpdflatex");
 close
@@ -222,7 +224,7 @@ print(sprintf(strd,"clc1"),"-dpdflatex");
 close
 % Show combined amplitude response
 Aclc1=iirA(wa,clc1,Ucl,Vcl,Mcl,Qcl,R);
-strd=sprintf("iir_sqp_slb_fir_bandpass_test_combined_%%s");
+strd=sprintf("%s_combined_%%s",strf);
 plot(wa*0.5/pi,20*log10(sqrt((Acl0.^2)+(Aclc1.^2))));
 ylabel("Combined response(dB)");
 xlabel("Frequency");
@@ -232,18 +234,19 @@ close
 %}
 
 % Save results
-print_pole_zero(x1,U,V,M,Q,R,"x1","iir_sqp_slb_fir_bandpass_test_x1_coef.m");
-print_pole_zero(d1,U,V,M,Q,R,"d1","iir_sqp_slb_fir_bandpass_test_d1_coef.m");
-print_pole_zero(c1,Uc,Vc,Mc,Qc,R,"c1","iir_sqp_slb_fir_bandpass_test_c1_coef.m");
+print_pole_zero(x1,U,V,M,Q,R,"x1",strcat(strf,"_x1_coef.m"));
+print_pole_zero(d1,U,V,M,Q,R,"d1",strcat(strf,"_d1_coef.m"));
+print_pole_zero(c1,Uc,Vc,Mc,Qc,R,"c1",strcat(strf,"_c1_coef.m"));
+                                
 [Nd1,Dd1]=x2tf(d1,U,V,M,Q,R);
-print_polynomial(Nd1,"Nd1","iir_sqp_slb_fir_bandpass_test_Nd1_coef.m");
+print_polynomial(Nd1,"Nd1",strcat(strf,"_Nd1_coef.m"));
+                 
 [Nc1,Dc1]=x2tf(c1,Uc,Vc,Mc,Qc,R);
-print_polynomial(Nc1,"Nc1","iir_sqp_slb_fir_bandpass_test_Nc1_coef.m");
+print_polynomial(Nc1,"Nc1",strcat(strf,"_Nc1_coef.m"));
 
 % Done 
-save iir_sqp_slb_fir_bandpass_test.mat U V M Q R tol ctol ...
-     fapl fapu dBap Wap dBas Wasu Wasl x1 d1 Uc Vc Mc Qc c1
+eval(sprintf("save %s.mat U V M Q R ftol ctol \
+fapl fapu dBap Wap dBas Wasu Wasl x1 d1 Uc Vc Mc Qc c1",strf));
 
 diary off
-movefile iir_sqp_slb_fir_bandpass_test.diary.tmp ...
-         iir_sqp_slb_fir_bandpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

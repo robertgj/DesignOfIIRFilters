@@ -1,5 +1,5 @@
 % schurNSPAlattice_socp_slb_lowpass_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2023-2024 Robert G. Jenssen
 
 test_common;
 
@@ -12,6 +12,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 maxiter=5000
+ftol=1e-5
+ctol=ftol/100
 verbose=false
 
 %
@@ -28,8 +30,6 @@ tarczynski_parallel_allpass_test_flat_delay_Db0_coef;
 % Band-pass filter specification for parallel all-pass filters
 %
 % Low pass filter specification
-tol=1e-5
-ctol=tol/100
 dmax=inf;
 rho=0.999
 n=800
@@ -90,7 +90,7 @@ try
                                 difference, ...
                                 sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...
                                 wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+                                wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 catch
   feasible = false;
 end_try_catch
@@ -110,7 +110,7 @@ try
                           difference, ...
                           sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...
                           wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                          wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
+                          wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 catch
   feasible = false;
 end_try_catch
@@ -176,7 +176,7 @@ printf("A1,A2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 % Save the results
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
@@ -203,12 +203,11 @@ print_polynomial(A2s20,"A2s20",strcat(strf,"_A2s20_coef.m"));
 print_polynomial(A2s00,"A2s00");
 print_polynomial(A2s00,"A2s00",strcat(strf,"_A2s00_coef.m"));
 
-save schurNSPAlattice_socp_slb_lowpass_test.mat ...
-     rho tol ctol difference sxx_symmetric n ...
-     fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp ...
-     Da0 Db0 A1s20 A1s00 A1s02 A1s22 A2s20 A2s00 A2s02 A2s22
+eval(sprintf("save %s.mat rho ftol ctol difference sxx_symmetric n \
+fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp \
+Da0 Db0 A1s20 A1s00 A1s02 A1s22 A2s20 A2s00 A2s02 A2s22",strf));
         
 % Done
 toc;
 diary off
-eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

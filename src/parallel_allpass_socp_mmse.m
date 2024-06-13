@@ -2,12 +2,12 @@ function [abk,socp_iter,func_iter,feasible]= ...
          parallel_allpass_socp_mmse(vS,ab0,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb, ...
                                     polyphase,difference, ...
                                     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                    wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+                                    wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 % [xk,socp_iter,func_iter,feasible] = ...
 %   parallel_allpass_socp_mmse(vS,ab0,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb, ...
 %                              polyphase,difference, ...
 %                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                              wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+%                              wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 %
 % SOCP MMSE optimisation with multiple frequency constraints
 % on the amplitude, phase and group delay responses of a filter consisting
@@ -52,7 +52,8 @@ function [abk,socp_iter,func_iter,feasible]= ...
 %   Pdu,Pdl - upper and lower mask for the pass-band phase response
 %   Wp - pass-band phase response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance on the relative step size to accept the result
+%   ftol - tolerance on the relative step size to accept the result
+%   ctol - tolerance on constraints
 %   verbose -
 %
 % Outputs:
@@ -61,13 +62,13 @@ function [abk,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - abk satisfies the constraints 
 %
-% If tol is a structure then the tol.dtol field is the minimum relative
-% step size and the tol.stol field sets the SeDuMi pars.eps field (the
+% If ftol is a structure then the ftol.dtol field is the minimum relative
+% step size and the ftol.stol field sets the SeDuMi pars.eps field (the
 % default is 1e-8). This is a hack to deal with filters for which the
 % desired stop-band attenuation of the squared amplitude response is more
 % than 80dB.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -90,12 +91,12 @@ function [abk,socp_iter,func_iter,feasible]= ...
 %
 % Sanity checks
 %
-if (nargout > 4) || (nargin ~= 31)
+if (nargout > 4) || (nargin ~= 32)
   print_usage("[abk,socp_iter,func_iter,feasible]= ...\n\
   parallel_allpass_socp_mmse(vS,ab0,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb, ...\n\
                              polyphase,difference, ...\n\
                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                             wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)");
+                             wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
 endif
 wa=wa(:);
 Nwa=length(wa);
@@ -158,14 +159,14 @@ endif
 if Nwp ~= length(Wp)
   error("Expected length(wp)(%d) == length(Wp)(%d)",Nwp,length(Wp));
 endif
-if isstruct(tol)
-  if all(isfield(tol,{"dtol","stol"})) == false
-    error("Expect tol structure to have fields dtol and stol");
+if isstruct(ftol)
+  if all(isfield(ftol,{"dtol","stol"})) == false
+    error("Expect ftol structure to have fields dtol and stol");
   endif
-  dtol=tol.dtol;
-  pars.eps=tol.stol;
+  dtol=ftol.dtol;
+  pars.eps=ftol.stol;
 else
-  dtol=tol;
+  dtol=ftol;
 endif
 
 % Initialise

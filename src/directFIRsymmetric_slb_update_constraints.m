@@ -1,7 +1,7 @@
-function vS=directFIRsymmetric_slb_update_constraints(A,Adu,Adl,tol)
-% vS=directFIRsymmetric_slb_update_constraints(A,Adu,Adl,tol)
+function vS=directFIRsymmetric_slb_update_constraints(A,Adu,Adl,ctol)
+% vS=directFIRsymmetric_slb_update_constraints(A,Adu,Adl,ctol)
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -24,7 +24,7 @@ function vS=directFIRsymmetric_slb_update_constraints(A,Adu,Adl,tol)
   % Sanity checks
   if (nargin ~= 4) || (nargout ~= 1)
     print_usage ...
-      ("vS=directFIRsymmetric_slb_update_constraints(A,Adu,Adl,tol)");
+      ("vS=directFIRsymmetric_slb_update_constraints(A,Adu,Adl,ctol)");
   endif
   if length(A) ~= length(Adu)
     error("length(A) ~= length(Adu)");
@@ -39,10 +39,10 @@ function vS=directFIRsymmetric_slb_update_constraints(A,Adu,Adl,tol)
   if ~isempty(A)
     % Find amplitude lower constraint violations
     vAl=local_max(Adl-A);
-    vS.al=vAl(find((Adl(vAl)-A(vAl))>tol));
+    vS.al=vAl(find((Adl(vAl)-A(vAl))>ctol));
     % Find amplitude upper constraint violations
     vAu=local_max(A-Adu);
-    vS.au=vAu(find((A(vAu)-Adu(vAu))>tol));
+    vS.au=vAu(find((A(vAu)-Adu(vAu))>ctol));
   endif
 
   % Do not want size 0x1 ?!?!?!

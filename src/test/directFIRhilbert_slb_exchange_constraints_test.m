@@ -1,21 +1,21 @@
 % directFIRhilbert_slb_exchange_constraints_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("directFIRhilbert_slb_exchange_constraints_test.diary");
-delete("directFIRhilbert_slb_exchange_constraints_test.diary.tmp");
-diary directFIRhilbert_slb_exchange_constraints_test.diary.tmp
+strf="directFIRhilbert_slb_exchange_constraints_test";
 
-
-tol=1e-4;
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 %
 % Initialise
 %
 maxiter=500;
 verbose=true;
-tol=1e-4;
+ftol=1e-4;
+ctol=ftol;
 
 % Hilbert filter frequency specification
 M=8;fapl=0.05;fapu=0.5-fapl;dBap=0.05;Wap=1;Was=0;;
@@ -47,7 +47,6 @@ hM0=h0(1:2:((2*M)-1));
 hM_active=1:length(hM0);
 
 % Common strings
-strd=sprintf("directFIRhilbert_slb_exchange_constraints_test_%%s");
 strM=sprintf("FIR Hilbert %%s : fapl=%g,fapu=%g,dBap=%g",fapl,fapu,dBap);
 
 % Amplitude response
@@ -55,17 +54,17 @@ A0=directFIRhilbertA(wa,hM0);
 
 % Optimise
 war=1:(npoints/2);
-vR=directFIRhilbert_slb_update_constraints(A0(war),Adu(war),Adl(war),tol);
+vR=directFIRhilbert_slb_update_constraints(A0(war),Adu(war),Adl(war),ctol);
 [hM1,socp_iter,func_iter,feasible]=directFIRhilbert_mmsePW ...
   (vR,hM0,hM_active,[napl,(npoints/2)], ...
-   wa(war),Ad(war),Adu(war),Adl(war),Wa(war),maxiter,tol,verbose);
+   wa(war),Ad(war),Adu(war),Adl(war),Wa(war),maxiter,ftol,ctol,verbose);
 if feasible==false
   error("hM1 not feasible");
 endif
 
 % Update constraints
 A1=directFIRhilbertA(wa,hM1);
-vS=directFIRhilbert_slb_update_constraints(A1(war),Adu(war),Adl(war),tol);
+vS=directFIRhilbert_slb_update_constraints(A1(war),Adu(war),Adl(war),ctol);
 
 % Show constraints before exchange
 printf("vR before exchange constraints:\n");
@@ -89,12 +88,12 @@ legend("A0","A1","Adu","Adl");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
-print(sprintf(strd,"vR_A0"),"-dpdflatex");
+print(strcat(strf,"_vR_A0"),"-dpdflatex");
 close
 
 % Exchange constraints
 [vR,vS,exchanged]= ...
-  directFIRhilbert_slb_exchange_constraints(vS,vR,A1,Adu,Adl,tol);
+  directFIRhilbert_slb_exchange_constraints(vS,vR,A1,Adu,Adl,ctol);
 printf("vR after exchange constraints:\n");
 directFIRhilbert_slb_show_constraints(vR,wa,A1);
 printf("vS after exchange constraints:\n");
@@ -117,10 +116,9 @@ legend("A0","A1","Adu","Adl");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
-print(sprintf(strd,"vR_A0_vS_A1"),"-dpdflatex");
+print(strcat(strf,"_vR_A0_vS_A1"),"-dpdflatex");
 close
 
 % Done
 diary off
-movefile directFIRhilbert_slb_exchange_constraints_test.diary.tmp ...
-         directFIRhilbert_slb_exchange_constraints_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary")); 

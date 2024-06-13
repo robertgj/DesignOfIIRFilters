@@ -1,5 +1,5 @@
 % complementaryFIRlattice_slb_exchange_constraints_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
@@ -73,7 +73,8 @@ Pdu=Pd+(ppr/2);
 Pdl=Pd-(ppr/2);
 Wp=Wpp*ones(length(wp),1);
          
-% Coefficients from complementaryFIRlattice_socp_slb_bandpass_test_k1_coef.m
+% Coefficients from
+% complementaryFIRlattice_socp_slb_bandpass_hilbert_test_k1_coef.m
 k1 = [   0.9999999993,   0.9999999999,   0.9987097741,   0.9991009507, ... 
          1.0000000000,   1.0000000000,   0.9987473027,   0.9995621685, ... 
          0.9878925124,   0.9350003845,   0.9734067894,   0.9805643826, ... 

@@ -39,7 +39,8 @@ printf("Initial ab0=[");printf("%g ",ab0');printf("]'\n");
 % Low-pass differentiator filter specification
 fap=0.2;fas=0.3;
 Arp=0.1;Art=0.1;Ars=0.1;Wap=1;Wat=1;Was=1;
-td=((Ra*ma)+(Rb*mb)+1)/2;tdr=0.1;Wtp=1;pr=0.002;Wpp=0.01;
+td=((Ra*ma)+(Rb*mb)+1)/2;tdr=0.1;Wtp=1;
+pp=0.5;ppr=0.002;Wpp=0.01;
 polyphase=false;
 difference=false;
 rho=0.99;
@@ -71,9 +72,9 @@ Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas,1)];
 npp=nap;
 wp=w(1:npp);
 Pzm1=(pi/2)-(wp/2);
-Pd=(pi/2)-(wp*td);
-Pdu=Pd+(pr*pi/2);
-Pdl=Pd-(pr*pi/2);
+Pd=(pp*pi)-(wp*td);
+Pdu=Pd+(ppr*pi/2);
+Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
 
 % Desired pass-band group delay response
@@ -107,9 +108,9 @@ grid("on");
 strt=sprintf("Initial parallel allpass : ma=%d,mb=%d", ma,mb);
 title(strt);
 subplot(312);
-plot(wp*0.5/pi,([P0 Pd Pdl Pdu]-Pd)/pi);
-ylabel("Phase error(rad./$\\pi$)");
-axis([0 0.5 2*pr*[-1 1]]);
+plot(wp*0.5/pi,([P0 Pd Pdl Pdu]+(wp*td))/pi);
+ylabel("Phase(rad./$\\pi$)");
+axis([0 0.5 pp+2*ppr*[-1 1]]);
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,[T0 Td Tdl Tdu]);
@@ -165,9 +166,9 @@ strt=sprintf("Parallel allpass : ma=%d,mb=%d,Arp=%4.2f,Ars=%4.1f,td=%g,tdr=%g",
              ma,mb,Arp,Ars,td,tdr);
 title(strt);
 subplot(312);
-plot(wp*0.5/pi,([P1 Pdl Pdu]-Pd)/pi);
-ylabel("Phase error(rad./$\\pi$)");
-axis([0 0.5 -pr pr]);
+plot(wp*0.5/pi,([P1 Pdl Pdu]+(wp*td))/pi);
+ylabel("Phase(rad./$\\pi$)");
+axis([0 0.5 pp+ppr*[-1,1]]);
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,[T1 Tdl Tdu]);
@@ -197,7 +198,7 @@ title(strt);
 subplot(312);
 plot(wp*0.5/pi,([P1 Pdl Pdu]-Pd)/pi);
 ylabel("Phase error(rad./$\\pi$)");
-axis([0 0.5 -pr pr]);
+axis([0 0.5 ppr*[-1,1]]);
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,[T1 Tdl Tdu]-Td);
@@ -230,13 +231,13 @@ Ha=freqz(conv(Na1,[1;-1]),Da1,w);
 Hb=freqz(conv(Nb1,[1;-1]),Db1,w);
 plot(w*0.5/pi,(unwrap(arg(Ha))+(w*td))/pi, ...
      w*0.5/pi,(unwrap(arg(Hb))+(w*td))/pi);
-strt=sprintf("Allpass phase response adjusted for linear phase : \
+strt=sprintf("All-pass phase response adjusted for linear phase : \
 ma=%d,mb=%d,td=%g",ma,mb,td);
 title(strt);
-ylabel("Phase error(rad./$\\pi$)");
+ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 legend("Filter A and $1-z^{-1}$","Filter B and $1-z^{-1}$");
-legend("location","southwest");
+legend("location","east");
 legend("boxoff");
 grid("on");
 print(strcat(strf,"_ab1phase"),"-dpdflatex");
@@ -268,7 +269,8 @@ fprintf(fid,"Was=%d %% Stop band amplitude response weight\n",Was);
 fprintf(fid,"td=%g %% Pass band nominal group delay\n",td);
 fprintf(fid,"tdr=%g %% Pass band nominal group delay ripple\n",tdr);
 fprintf(fid,"Wtp=%d %% Pass band group delay response weight\n",Wtp);
-fprintf(fid,"pr=%g %% Pass band nominal phase ripple\n",pr);
+fprintf(fid,"pp=%g %% Pass band nominal phase\n",pp);
+fprintf(fid,"ppr=%g %% Pass band phase peak-to-peak-ripple\n",ppr);
 fprintf(fid,"Wpp=%d %% Pass band phase response weight\n",Wpp);
 fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fclose(fid);
@@ -290,7 +292,7 @@ print_polynomial(Dab1,"Dab1");
 print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
 eval(sprintf("save %s.mat ...\n\
-     n fap Arp Wap td tdr Wtp pr Wpp Art Wat fas Ars Was ...\n\
+     n fap Arp Wap td tdr Wtp pp ppr Wpp Art Wat fas Ars Was ...\n\
      ma mb Va Qa Ra Vb Qb Rb Da0 Db0 ab0 ab1 Da1 Db1 Nab1 Dab1",strf));
 
 % Done 

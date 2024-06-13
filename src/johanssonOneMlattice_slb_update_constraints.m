@@ -1,7 +1,7 @@
-function vS=johanssonOneMlattice_slb_update_constraints(A,Adu,Adl,Wa,tol)
-% vS=johanssonOneMlattice_slb_update_constraints(A,Adu,Adl,Wa,tol)
+function vS=johanssonOneMlattice_slb_update_constraints(A,Adu,Adl,Wa,ctol)
+% vS=johanssonOneMlattice_slb_update_constraints(A,Adu,Adl,Wa,ctol)
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -24,7 +24,7 @@ function vS=johanssonOneMlattice_slb_update_constraints(A,Adu,Adl,Wa,tol)
   % Sanity checks
   if (nargin ~= 5) || (nargout ~= 1)
     print_usage ...
-      ("vS=johanssonOneMlattice_slb_update_constraints(A,Adu,Adl,Wa,tol)");
+      ("vS=johanssonOneMlattice_slb_update_constraints(A,Adu,Adl,Wa,ctol)");
   endif
   if length(A) ~= length(Adu)
     error("length(A) ~= length(Adu)");
@@ -42,10 +42,10 @@ function vS=johanssonOneMlattice_slb_update_constraints(A,Adu,Adl,Wa,tol)
   if ~isempty(A)
     % Find amplitude lower constraint violations
     vAl=local_max((Adl-A).*(Wa~=0));
-    vS.al=vAl(find((Adl(vAl)-A(vAl))>tol));
+    vS.al=vAl(find((Adl(vAl)-A(vAl))>ctol));
     % Find amplitude upper constraint violations
     vAu=local_max((A-Adu).*(Wa~=0));
-    vS.au=vAu(find((A(vAu)-Adu(vAu))>tol));
+    vS.au=vAu(find((A(vAu)-Adu(vAu))>ctol));
   endif
 
   % Do not want size 0x1 ?!?!?!

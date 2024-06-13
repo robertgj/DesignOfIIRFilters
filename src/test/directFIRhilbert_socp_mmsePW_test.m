@@ -1,19 +1,20 @@
 % directFIRhilbert_socp_mmsePW_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("directFIRhilbert_socp_mmsePW_test.diary");
-delete("directFIRhilbert_socp_mmsePW_test.diary.tmp");
-diary directFIRhilbert_socp_mmsePW_test.diary.tmp
+strf="directFIRhilbert_socp_mmsePW_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 maxiter=2000
-tol=1e-8
-ctol=tol
+ftol=1e-8
+ctol=ftol
 verbose=false
-strf="directFIRhilbert_socp_mmsePW_test";
                                          
 % Hilbert filter frequency specification (dBap=0.05 also works)
 M=40;fapl=0.01;fapu=0.5-fapl;dBap=0.04034;Wap=1;Was=0;
@@ -60,7 +61,7 @@ try
     directFIRhilbert_slb(@directFIRhilbert_socp_mmsePW, ...
                          hM0,(1:length(hM0)),[1 ((npoints/2)-napl+1)], ...
                          wa(war),Ad(war),Adu(war),Adl(war),Wa(war), ...
-                         maxiter,tol,ctol,verbose);
+                         maxiter,ftol,ctol,verbose);
 catch
   feasible=false;
   err=lasterror();
@@ -104,7 +105,7 @@ close
 
 % Save the filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);
 fprintf(fid,"fapl=%f %% Pass band amplitude response lower edge\n",fapl);
@@ -118,10 +119,10 @@ fclose(fid);
 print_polynomial(hM1,"hM1");
 print_polynomial(hM1,"hM1",strcat(strf,"_hM1_coef.m"),"%12.8f");
 
+eval(sprintf("save %s.mat ftol ctol npoints fapl fapu dBap Wap Was hM0 hM1",
+             strf));
+
 % Done 
-save directFIRhilbert_socp_mmsePW_test.mat ...
-     tol ctol npoints fapl fapu dBap Wap Was hM0 hM1
 toc
 diary off
-movefile directFIRhilbert_socp_mmsePW_test.diary.tmp ...
-         directFIRhilbert_socp_mmsePW_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

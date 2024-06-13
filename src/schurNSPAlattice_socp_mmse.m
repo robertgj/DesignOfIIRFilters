@@ -8,7 +8,7 @@ function [A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
                              wa,Asqd,Asqdu,Asqdl,Wa, ...
                              wt,Td,Tdu,Tdl,Wt, ...
                              wp,Pd,Pdu,Pdl,Wp, ...
-                             maxiter,tol,verbose)
+                             maxiter,ftol,ctol,verbose)
 % [A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
 %  socp_iter,func_iter,feasible]= ...
 %  schurNSPAlattice_socp_mmse(vS, ...
@@ -19,7 +19,7 @@ function [A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
 %                             wa,Asqd,Asqdu,Asqdl,Wa, ...
 %                             wt,Td,Tdu,Tdl,Wt, ...
 %                             wp,Pd,Pdu,Pdl,Wp, ...
-%                             maxiter,tol,verbose)
+%                             maxiter,ftol,ctol,verbose)
 %
 % SOCP MMSE optimisation of a normalised-scaled Schur lattice filter with
 % constraints on the amplitude, group delay and phase responses. 
@@ -50,7 +50,8 @@ function [A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance
+%   ftol - tolerance on function
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -65,7 +66,7 @@ function [A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
 % desired stop-band attenuation of the squared amplitude response is more
 % than 80dB.
 
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -85,7 +86,7 @@ function [A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 33) || (nargout ~= 11)
+  if (nargin ~= 34) || (nargout ~= 11)
     print_usage ...
       ("A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...\n\
   socp_iter,func_iter,feasible]= ...\n\
@@ -97,7 +98,7 @@ function [A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
                              wa,Asqd,Asqdu,Asqdl,Wa, ...\n\
                              wt,Td,Tdu,Tdl,Wt, ...\n\
                              wp,Pd,Pdu,Pdl,Wp, ...\n\
-                             maxiter,tol,verbose)");
+                             maxiter,ftol,ctol,verbose)");
   endif
 
   %
@@ -152,14 +153,14 @@ function [A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
          (all(isfield(vS,{"al","au","tl","tu","pl","pu"}))==false)
     error("numfields(vS)=%d, expected 6 (al,au,tl,tu,pl and pu)",numfields(vS));
   endif
-  if isstruct(tol)
-    if all(isfield(tol,{"dtol","stol"})) == false
-      error("Expect tol structure to have fields dtol and stol");
+  if isstruct(ftol)
+    if all(isfield(ftol,{"dtol","stol"})) == false
+      error("Expect ftol structure to have fields dtol and stol");
     endif
-    dtol=tol.dtol;
-    pars.eps=tol.stol;
+    dtol=ftol.dtol;
+    pars.eps=ftol.stol;
   else
-    dtol=tol;
+    dtol=ftol;
   endif
 
   %
@@ -314,23 +315,19 @@ function [A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
     endif
 
     % Phase linear constraints
+    if ~isempty(vS.pu) || ~isempty(vS.pl)
+      [P,gradP] =schurNSPAlatticeP ...
+        (wp,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22,difference);
+    endif
     if ~isempty(vS.pu)
-      [P_pu,gradP_pu] = ...
-      schurNSPAlatticeP(wp(vS.pu), ...
-                        A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
-                        difference);
       func_iter = func_iter+1;
-      D=[D, [zeros(2,length(vS.pu));-gradP_pu(:,sxx_active)']];
-      f=[f; Pdu(vS.pu)-P_pu];
+      D=[D, [zeros(2,length(vS.pu));-gradP(vS.pu,sxx_active)']];
+      f=[f; Pdu(vS.pu)-P(vS.pu)];
     endif
     if ~isempty(vS.pl)
-      [P_pl,gradP_pl] = ...
-      schurNSPAlatticeP(wp(vS.pl), ...
-                        A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
-                        difference);
       func_iter = func_iter+1;
-      D=[D, [zeros(2,length(vS.pl));gradP_pl(:,sxx_active)']];
-      f=[f; P_pl-Pdl(vS.pl)];
+      D=[D, [zeros(2,length(vS.pl)); gradP(vS.pl,sxx_active)']];
+      f=[f; P(vS.pl)-Pdl(vS.pl)];
     endif
 
     % SeDuMi linear constraint matrixes

@@ -11,9 +11,9 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 script_id=tic;
 
-tol_mmse=2e-5
-tol_pcls=1e-5
-ctol=tol_pcls
+ftol_mmse=2e-5
+ftol_pcls=1e-5
+ctol=ftol_pcls
 maxiter=2000
 verbose=false;
 
@@ -103,7 +103,7 @@ run_id=tic;
                             wa,Asqd,Asqdu,Asqdl,Wa_mmse, ...
                             wt,Td,Tdu,Tdl,Wt_mmse, ...
                             wp,Pd,Pdu,Pdl,Wp, ...
-                            maxiter,tol_mmse,verbose);
+                            maxiter,ftol_mmse,ctol,verbose);
 toc(run_id);
 if feasible == 0 
   error("k1p,c1p(mmse) infeasible");
@@ -146,7 +146,7 @@ schurOneMlattice_slb(@schurOneMlattice_sqp_mmse, ...
                      wa,Asqd,Asqdu,Asqdl,Wa_pcls, ...
                      wt,Td,Tdu,Tdl,Wt_pcls, ...
                      wp,Pd,Pdu,Pdl,Wp, ...
-                     maxiter,tol_pcls,ctol,verbose);
+                     maxiter,ftol_pcls,ctol,verbose);
 toc(run_id);
 if feasible == 0 
   error("k2p,c2p(pcls) infeasible");
@@ -183,8 +183,8 @@ printf("k2c2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 % Save the results
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol_mmse=%g %% Tolerance on coef. update for MMSE\n",tol_mmse);
-fprintf(fid,"tol_pcls=%g %% Tolerance on coef. update for PCLS\n",tol_pcls);
+fprintf(fid,"ftol_mmse=%g %% Tolerance on coef. update for MMSE\n",ftol_mmse);
+fprintf(fid,"ftol_pcls=%g %% Tolerance on coef. update for PCLS\n",ftol_pcls);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"%% length(c0)=%d %% Tap coefficients\n",length(c0));
@@ -193,21 +193,21 @@ fprintf(fid,"dmax=%f %% Constraint on norm of coefficient SQP step size\n",dmax)
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"ftpl=%g %% Delay pass band lower edge\n",ftpl);
 fprintf(fid,"ftpu=%g %% Delay pass band upper edge\n",ftpu);
 fprintf(fid,"tp=%g %% Nominal passband filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Delay pass band peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtp_mmse=%d %% Delay pass band weight(MMSE)\n",Wtp_mmse);
-fprintf(fid,"Wtp_pcls=%d %% Delay pass band weight(PCLS)\n",Wtp_pcls);
+fprintf(fid,"Wtp_mmse=%g %% Delay pass band weight(MMSE)\n",Wtp_mmse);
+fprintf(fid,"Wtp_pcls=%g %% Delay pass band weight(PCLS)\n",Wtp_pcls);
 fprintf(fid,"fasl=%g %% Amplitude stop band lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Amplitude stop band upper edge\n",fasu);
-fprintf(fid,"dBas=%d %% Amplitude stop band peak-to-peak ripple\n",dBas);
-fprintf(fid,"Wasl_mmse=%d %% Ampl. lower stop band weight(MMSE)\n",Wasl_mmse);
-fprintf(fid,"Wasu_mmse=%d %% Ampl. upper stop band weight(MMSE)\n",Wasu_mmse);
-fprintf(fid,"Wasl_pcls=%d %% Ampl. lower stop band weight(PCLS)\n",Wasl_pcls);
-fprintf(fid,"Wasu_pcls=%d %% Ampl. upper stop band weight(PCLS)\n",Wasu_pcls);
+fprintf(fid,"dBas=%g %% Amplitude stop band peak-to-peak ripple\n",dBas);
+fprintf(fid,"Wasl_mmse=%g %% Ampl. lower stop band weight(MMSE)\n",Wasl_mmse);
+fprintf(fid,"Wasu_mmse=%g %% Ampl. upper stop band weight(MMSE)\n",Wasu_mmse);
+fprintf(fid,"Wasl_pcls=%g %% Ampl. lower stop band weight(PCLS)\n",Wasl_pcls);
+fprintf(fid,"Wasu_pcls=%g %% Ampl. upper stop band weight(PCLS)\n",Wasu_pcls);
 fclose(fid);
 
 print_polynomial(k2,"k2");
@@ -223,11 +223,10 @@ print_polynomial(n2,"n2",strcat(strf,"_n2_coef.m"));
 print_polynomial(d2,"d2");
 print_polynomial(d2,"d2",strcat(strf,"_d2_coef.m"));
 
-eval(sprintf("save %s.mat ...\n\
-  fapl fapu fasl fasu ftpl ftpu dBap Wap dBas ...\n\
-  Wasl_mmse Wasu_mmse Wasl_pcls Wasu_pcls ...\n\
-  tp tpr Wtp_mmse Wtp_pcls dmax rho tol_mmse tol_pcls ctol ...\n\
-  x0 n0 d0 k0 epsilon0 p0 c0 k1 epsilon1 p1 c1 k2 epsilon2 p2 c2 n2 d2",strf));
+eval(sprintf("save %s.mat fapl fapu fasl fasu ftpl ftpu dBap Wap dBas \
+Wasl_mmse Wasu_mmse Wasl_pcls Wasu_pcls \
+tp tpr Wtp_mmse Wtp_pcls dmax rho ftol_mmse ftol_pcls ctol \
+x0 n0 d0 k0 epsilon0 p0 c0 k1 epsilon1 p1 c1 k2 epsilon2 p2 c2 n2 d2",strf));
 
 % Done
 toc(script_id);

@@ -1,14 +1,16 @@
 % schurOneMlattice_bandpass_allocsd_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
-%
 % Test Lims and Itos signed-digit allocation algorithms with
 % coefficents of a band-pass one-multiplier lattice filter.
 
+% Copyright (C) 2017-2024 Robert G. Jenssen
+
 test_common;
 
-delete("schurOneMlattice_bandpass_allocsd_test.diary");
-delete("schurOneMlattice_bandpass_allocsd_test.diary.tmp");
-diary schurOneMlattice_bandpass_allocsd_test.diary.tmp
+strf="schurOneMlattice_bandpass_allocsd_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Initialise
 schurOneMlattice_bandpass_10_nbits_common;
@@ -43,14 +45,12 @@ nbits_ng_sd=zeros(size(nbits_range));
 nbits_ng_Lim=zeros(size(nbits_range));
 nbits_ng_Ito=zeros(size(nbits_range));
 for ndigits=2:3
-  strf=sprintf("schurOneMlattice_bandpass_allocsd_%d_ndigits_test",ndigits);
+  strf_ndigits=sprintf("%s_%d_ndigits",strf,ndigits);
   for l=1:length(nbits_range),
     nbits=nbits_range(l);
     nscale=2^(nbits-1);
-    nbits_strf= ...
-      sprintf("schurOneMlattice_bandpass_allocsd_%d_ndigits_%d_nbits_test", ...
-              ndigits,nbits);
-    
+    strf_nbits=sprintf("%s_%d_nbits",strf_ndigits,nbits);
+  
     % Rounded truncation
     k_rd=round(k0.*nscale)./nscale;
     c_rd=round(c0.*nscale)./nscale;
@@ -93,10 +93,10 @@ for ndigits=2:3
                    wa,Asqd,ones(size(wa)),wt,Td,ones(size(wt)));
     print_polynomial(int16(ndigits_Lim(1:length(k0))), ...
                      "k_allocsd_digits", ...
-                     strcat(nbits_strf,"_k_Lim_digits.m"),"%2d");
+                     strcat(strf_nbits,"_k_Lim_digits.m"),"%2d");
     print_polynomial(int16(ndigits_Lim((length(k0)+1):end)), ...
                      "c_allocsd_digits", ...
-                     strcat(nbits_strf,"_c_Lim_digits.m"),"%2d");
+                     strcat(strf_nbits,"_c_Lim_digits.m"),"%2d");
     % Signed-digits allocated by Lim
     k_Lim=flt2SD(k0,nbits,ndigits_Lim(1:length(k0)));
     c_Lim=flt2SD(c0,nbits,ndigits_Lim((length(k0)+1):end));
@@ -107,7 +107,7 @@ for ndigits=2:3
     % Find the actual number of signed digits used
     kc_Lim=[k_Lim(:);c_Lim(:)];
     [nbits_kc_digits_Lim(l),kc_Lim_adders]=SDadders(kc_Lim,nbits);
-    fid=fopen(strcat(nbits_strf,"_Lim.adders.tab"),"wt");
+    fid=fopen(strcat(strf_nbits,"_Lim.adders.tab"),"wt");
     fprintf(fid,"$%d$",kc_Lim_adders);
     fclose(fid);
     % Calculate the noise gain
@@ -123,10 +123,10 @@ for ndigits=2:3
                                              wa,Asqd,Wa,wt,Td,Wt);
     print_polynomial(int16(ndigits_Ito(1:length(k0))), ...
                      "k_allocsd_digits", ...
-                     strcat(nbits_strf,"_k_Ito_digits.m"),"%2d");
+                     strcat(strf_nbits,"_k_Ito_digits.m"),"%2d");
     print_polynomial(int16(ndigits_Ito((length(k0)+1):end)), ...
                      "c_allocsd_digits", ...
-                     strcat(nbits_strf,"_c_Ito_digits.m"),"%2d");
+                     strcat(strf_nbits,"_c_Ito_digits.m"),"%2d");
     % Signed-digits allocated by Ito
     k_Ito=flt2SD(k0,nbits,ndigits_Ito(1:length(k0)));
     c_Ito=flt2SD(c0,nbits,ndigits_Ito((length(k0)+1):end));
@@ -137,7 +137,7 @@ for ndigits=2:3
     % Find the actual number of signed digits used
     kc_Ito=[k_Ito(:);c_Ito(:)];
     [nbits_kc_digits_Ito(l),kc_Ito_adders]=SDadders(kc_Ito,nbits);
-    fid=fopen(strcat(nbits_strf,"_Ito.adders.tab"),"wt");
+    fid=fopen(strcat(strf_nbits,"_Ito.adders.tab"),"wt");
     fprintf(fid,"$%d$",kc_Ito_adders);
     fclose(fid);
     % Calculate the noise gain
@@ -164,7 +164,7 @@ for ndigits=2:3
     legend("location","northeast");
     legend("boxoff");
     legend("left");
-    print(strcat(nbits_strf,"_amplitude"),"-dpdflatex");
+    print(strcat(strf_nbits,"_amplitude"),"-dpdflatex");
     close
 
     % Plot the passband amplitude
@@ -182,7 +182,7 @@ for ndigits=2:3
     legend("left");
     title(strt);
     grid("on");
-    print(strcat(nbits_strf,"_pass_amplitude"),"-dpdflatex");
+    print(strcat(strf_nbits,"_pass_amplitude"),"-dpdflatex");
     close
 
     % Plot the passband delay
@@ -200,7 +200,7 @@ for ndigits=2:3
     legend("left");
     title(strt);
     grid("on");
-    print(strcat(nbits_strf,"_pass_delay"),"-dpdflatex");
+    print(strcat(strf_nbits,"_pass_delay"),"-dpdflatex");
     close
 
     % Print the maximum side-lobe for Lim
@@ -234,21 +234,21 @@ for ndigits=2:3
     
     % Print the results
     print_polynomial(k_rd,sprintf("k_rd_%d_bits",nbits),...
-                     strcat(nbits_strf,"_k_rd_coef.m"),nscale);
+                     strcat(strf_nbits,"_k_rd_coef.m"),nscale);
     print_polynomial(c_rd,sprintf("c_rd_%d_bits",nbits),...
-                     strcat(nbits_strf,"_c_rd_coef.m"),nscale);
+                     strcat(strf_nbits,"_c_rd_coef.m"),nscale);
     print_polynomial(k_sd,sprintf("k_sd_%d_bits",nbits),...
-                     strcat(nbits_strf,"_k_sd_coef.m"),nscale);
+                     strcat(strf_nbits,"_k_sd_coef.m"),nscale);
     print_polynomial(c_sd,sprintf("c_sd_%d_bits",nbits),...
-                     strcat(nbits_strf,"_c_sd_coef.m"),nscale);
+                     strcat(strf_nbits,"_c_sd_coef.m"),nscale);
     print_polynomial(k_Lim,sprintf("k_Lim_%d_bits",nbits),...
-                     strcat(nbits_strf,"_k_Lim_coef.m"),nscale);
+                     strcat(strf_nbits,"_k_Lim_coef.m"),nscale);
     print_polynomial(c_Lim,sprintf("c_Lim_%d_bits",nbits),...
-                     strcat(nbits_strf,"_c_Lim_coef.m"),nscale);
+                     strcat(strf_nbits,"_c_Lim_coef.m"),nscale);
     print_polynomial(k_Ito,sprintf("k_Ito_%d_bits",nbits),...
-                     strcat(nbits_strf,"_k_Ito_coef.m"),nscale);
+                     strcat(strf_nbits,"_k_Ito_coef.m"),nscale);
     print_polynomial(c_Ito,sprintf("c_Ito_%d_bits",nbits),...
-                     strcat(nbits_strf,"_c_Ito_coef.m"),nscale);
+                     strcat(strf_nbits,"_c_Ito_coef.m"),nscale);
   endfor
 
   % Plot comparison of cost
@@ -266,7 +266,7 @@ for ndigits=2:3
   legend("location","northeast");
   legend("boxoff");
   legend("left");
-  print(strcat(strf,"_cost"),"-dpdflatex");
+  print(strcat(strf_ndigits,"_cost"),"-dpdflatex");
   close
 
   % Plot comparison of maximum response in [0.26,0.5)
@@ -285,7 +285,7 @@ in [%4.2f,0.5) (dB), ndigits=%d",fasuu,ndigits);
   legend("location","northeast");
   legend("boxoff");
   legend("left");
-  print(strcat(strf,"_sidelobe"),"-dpdflatex");
+  print(strcat(strf_ndigits,"_sidelobe"),"-dpdflatex");
   close
 
   % Plot comparison of total signed-digits used
@@ -304,7 +304,7 @@ used by coefficients, ndigits=%d",ndigits);
   legend("location","northwest");
   legend("boxoff");
   legend("left");
-  print(strcat(strf,"_digits"),"-dpdflatex");
+  print(strcat(strf_ndigits,"_digits"),"-dpdflatex");
   close
 
   % Plot comparison of noise gain
@@ -322,12 +322,11 @@ used by coefficients, ndigits=%d",ndigits);
   legend("location","southeast");
   legend("boxoff");
   legend("left");
-  print(strcat(strf,"_ng"),"-dpdflatex");
+  print(strcat(strf_ndigits,"_ng"),"-dpdflatex");
   close
   
 endfor
 
 % Done
 diary off
-movefile schurOneMlattice_bandpass_allocsd_test.diary.tmp ...
-       schurOneMlattice_bandpass_allocsd_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

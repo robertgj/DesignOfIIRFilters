@@ -3,13 +3,15 @@
 % SOCP-relaxation optimisation of the response of a Schur one-multiplier
 % lattice Hilbert filter with 10-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.diary");
-delete("socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.diary.tmp");
-diary socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.diary.tmp
+strf="socp_relaxation_schurOneMlattice_hilbert_10_nbits_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Options
 socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_allocsd_Lim=true
@@ -19,64 +21,78 @@ tic;
 
 maxiter=2000
 verbose=false
-tol=1e-8
-ctol=tol
+ftol=1e-8
+ctol=ftol
 nbits=10
 nscale=2^(nbits-1);
 ndigits=3
-strf="socp_relaxation_schurOneMlattice_hilbert_10_nbits_test";
 
-% Coefficients found by schurOneMlattice_sqp_slb_hilbert_test.m
-schurOneMlattice_sqp_slb_hilbert_test_k2_coef;
-schurOneMlattice_sqp_slb_hilbert_test_epsilon2_coef;
-schurOneMlattice_sqp_slb_hilbert_test_p2_coef;
-schurOneMlattice_sqp_slb_hilbert_test_c2_coef;
+%
+% Coefficients found by schurOneMlattice_socp_slb_hilbert_test.m
+%
+schurOneMlattice_socp_slb_hilbert_test_k2_coef; k0=k2;
+schurOneMlattice_socp_slb_hilbert_test_epsilon2_coef; epsilon0=epsilon2;
+schurOneMlattice_socp_slb_hilbert_test_p2_coef; p0=p2;
+schurOneMlattice_socp_slb_hilbert_test_c2_coef; c0=c2;
 
-k0=k2;
-epsilon0=epsilon2;
-p0=p2;
-c0=c2;
-
-% Hilbert filter specification
-tp=(length(k0)-1)/2
-ft=0.05 % Transition bandwidth [0 ft]
-
+%
 % Frequency points
+%
+% The A and T responses are symmetric in frequency and the P response is
+% antisymmetric. Any A and T constraints are duplicated at negative and
+% positive frequencies resulting in a reduced rank constraint matrix.
+% Avoid this problem by staggering the frequencies.
+%
 n=400;
-w=pi*(0:(n-1))'/n;
+nnrng=-(n-2):2:0;
+nprng=1:2:(n-1);
+w=pi*([nnrng(:);nprng(:)])/n;
+non2=floor(n/2);
+
+%
+% Hilbert filter specification
+%
+dBar=0.2;dBat=dBar;Wap=1;Wat=0.1;
+pp=5;ppr=0.01;Wpp=2;Wpt=0;
+tp=(length(k0)-1)/2;
+tpr=0.275;Wtp=0.01;Wtt=0;
+ftt=0.08; % Transition band width at zero
+ntt=floor(ftt*n);
 
 % Amplitude constraints
 wa=w;
 Asqd=ones(n,1);
-dBap=0.17;
-nt=ceil(ft*n/0.5);
-dBapmask=dBap*[ones(nt,1);0.5*ones(n-nt,1)];
-Asqdu=10.^(dBapmask/10);
-Asqdl=10.^(-dBapmask/10);
-Wat=tol;
-Wap=1;
-Wa=Wap*[Wat*ones(nt,1);ones(n-nt,1)];
-
-% Group delay constraints
-wt=[];
-Td=[];
-Tdu=[];
-Tdl=[];
-Wt=[];
+Asqr=1-(10^(-dBar/10));
+Asqt=1-(10^(-dBat/10));
+Asqdu=[(1+(Asqr/2))*ones(non2-ntt,1); ...
+       (1+(Asqt/2))*ones(2*ntt,1); ...
+       (1+(Asqr/2))*ones(non2-ntt,1)];
+Asqdl=[(1-(Asqr/2))*ones(non2-ntt,1); ...
+       (1-(Asqt/2))*ones(2*ntt,1); ...
+       (1-(Asqr/2))*ones(non2-ntt,1)];
+Wa=[Wap*ones(non2-ntt,1);Wat*ones((2*ntt),1);Wap*ones(non2-ntt,1)];
 
 % Phase constraints
 wp=w;
-Pd=-(wp*tp)-(pi/2);
-pr=0.011;
-prmask=pi*[4*ones(nt,1);2*pr*ones(nt,1);0.5*pr*ones(n-(2*nt),1)];
-Pdu=Pd+prmask;
-Pdl=Pd-prmask;
-Wpp=1;
-Wp=Wpp*[zeros(nt,1);ones(n-nt,1)];
+Pd=-wp*tp-(pp*pi)+([ones(non2-1,1);0;-ones(non2,1)]*pi/2);
+Pdu=-wp*tp-(pp*pi)+([ones(non2+ntt,1);-ones(non2-ntt,1)]*pi/2)+(ppr*pi/2);
+Pdl=-wp*tp-(pp*pi)+([ones(non2-ntt,1);-ones(non2+ntt,1)]*pi/2)-(ppr*pi/2);
+Wp=[Wpp*ones(non2-ntt,1);Wpt*ones(2*ntt,1);Wpp*ones(non2-ntt,1)];
+
+% Group delay constraints
+wt=w;
+Td=tp*ones(n,1);
+Tdu=[(tp+(tpr/2))*ones(non2-ntt,1); ...
+     10*tp*ones(2*ntt,1); ...
+     (tp+(tpr/2))*ones(non2-ntt,1)];
+Tdl=[(tp-(tpr/2))*ones(non2-ntt,1);...
+     zeros(2*ntt,1); ...
+     (tp-(tpr/2))*ones(non2-ntt,1)];
+Wt=[Wtp*ones(non2-ntt,1);Wtt*ones(2*ntt,1);Wtp*ones(non2-ntt,1)];
 
 % Constraints on the coefficients
 dmax=inf;
-rho=1-tol;
+rho=1-ftol;
 k0=k0(:);
 c0=c0(:);
 kc0=[k0;c0];
@@ -178,7 +194,7 @@ while ~isempty(kc_active)
                            wa,Asqd,Asqdu,Asqdl,Wa, ...
                            wt,Td,Tdu,Tdl,Wt, ...
                            wp,Pd,Pdu,Pdl,Wp, ...
-                           maxiter,tol,ctol,verbose);
+                           maxiter,ftol,ctol,verbose);
   catch
     feasible=false;
     err=lasterror();
@@ -242,18 +258,26 @@ stdxf=std(xxf)
 Asq=schurOneMlatticeAsq(wa,k_min,epsilon0,p_ones,c_min);
 vAl=local_max(Asqdl-Asq);
 vAu=local_max(Asq-Asqdu);
-wAsqS=unique([wa(vAl);wa(vAu);wa([1,nt,end])]);
+wAsqS=unique([wa(vAl);wa(vAu);wa([1,2,ntt,end])]);
 AsqS=schurOneMlatticeAsq(wAsqS,k_min,epsilon0,p_ones,c_min);
 printf("k,c_min:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
 P=schurOneMlatticeP(wp,k_min,epsilon0,p_ones,c_min);
 vPl=local_max(Pdl-P);
 vPu=local_max(P-Pdu);
-wPS=sort(unique([wp(vPl);wp(vPu);wp([1,nt,end])]));
+wPS=sort(unique([wp(vPl);wp(vPu);wp([1,ntt,end])]));
 PS=schurOneMlatticeP(wPS,k_min,epsilon0,p_ones,c_min);
 printf("k,c_min:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:PS=[ ");printf("%f ",mod((PS+(wPS*tp))'/pi,-1));
                         printf("] (rad./pi) adjusted for delay\n");
+T=schurOneMlatticeT(wt,k_min,epsilon0,p_ones,c_min);
+vTl=local_max(Tdl-T);
+vTu=local_max(T-Tdu);
+wTS=sort(unique([wt(vTl);wt(vTu);wt([1,ntt,end])]));
+TS=schurOneMlatticeT(wTS,k_min,epsilon0,p_ones,c_min);
+printf("k,c_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("k,c_min:TS=[ ");printf("%f ",TS);
+                        printf("] (samples) adjusted for delay\n");
 
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_kc_min_cost.tab"),"wt");
@@ -264,7 +288,7 @@ fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq_min,kc_digits,kc_adders);
 fclose(fid);
 
-% Plot response
+% Plot amplitude response
 Asq_kc0=schurOneMlatticeAsq(wa,k0,epsilon0,p0,c0);
 Asq_kc0_sd=schurOneMlatticeAsq(wa,k0_sd,epsilon0,p_ones,c0_sd);
 Asq_kc_min=schurOneMlatticeAsq(wa,k_min,epsilon0,p_ones,c_min);
@@ -273,28 +297,29 @@ plot(wa*0.5/pi,10*log10(Asq_kc0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_kc_min),"linestyle","-.", ...
      wa*0.5/pi,10*log10(Asqdu),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asqdl),"linestyle","-")
-axis([0  0.5 -0.2 0.2]);
+axis([0 0.5 -0.2 0.2]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 legend("exact","s-d(Lim)","s-d(SOCP-relax)");
 legend("location","southeast");
 legend("boxoff");
 legend("left");
-strt=sprintf("Hilbert filter:ft=%g,dBap=%g,tp=%g,pr=%g,Wap=%g,Wpp=%g",
-             ft,dBap,tp,pr,Wap,Wpp);
+strt=sprintf("Hilbert filter:ftt=%g,dBar=%g,tp=%g,pr=%g,Wap=%g,Wpp=%g",
+             ftt,dBar,tp,ppr,Wap,Wpp);
 title(strt);
 grid("on");
 print(strcat(strf,"_kc_min_amplitude"),"-dpdflatex");
 close
 
+% Plot phase response
 P_kc0=schurOneMlatticeP(wp,k0,epsilon0,p0,c0);
 P_kc0_sd=schurOneMlatticeP(wp,k0_sd,epsilon0,p_ones,c0_sd);
 P_kc_min=schurOneMlatticeP(wp,k_min,epsilon0,p_ones,c_min);
-plot(wp*0.5/pi,(P_kc0+(wp*tp))/pi,"linestyle","-", ...
-     wp*0.5/pi,(P_kc0_sd+(wp*tp))/pi,"linestyle","--", ...
-     wp*0.5/pi,(P_kc_min+(wp*tp))/pi,"linestyle","-.", ...
-     wp*0.5/pi,(Pdu+(wp*tp))/pi,"linestyle","-", ...
-     wp*0.5/pi,(Pdl+(wp*tp))/pi,"linestyle","-");
+plot(wp*0.5/pi,(P_kc0+(wp*tp)+(pp*pi))/pi,"linestyle","-", ...
+     wp*0.5/pi,(P_kc0_sd+(wp*tp)+(pp*pi))/pi,"linestyle","--", ...
+     wp*0.5/pi,(P_kc_min+(wp*tp)+(pp*pi))/pi,"linestyle","-.", ...
+     wp*0.5/pi,(Pdu+(wp*tp)+(pp*pi))/pi,"linestyle","-", ...
+     wp*0.5/pi,(Pdl+(wp*tp)+(pp*pi))/pi,"linestyle","-");
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 axis([0 0.5 -0.53 -0.47]);
@@ -304,6 +329,27 @@ legend("location","southeast");
 legend("boxoff");
 legend("left");
 print(strcat(strf,"_kc_min_phase"),"-dpdflatex");
+close
+
+% Plot delay response
+T_kc0=schurOneMlatticeT(wt,k0,epsilon0,p0,c0);
+T_kc0_sd=schurOneMlatticeT(wt,k0_sd,epsilon0,p_ones,c0_sd);
+T_kc_min=schurOneMlatticeT(wt,k_min,epsilon0,p_ones,c_min);
+plot(wt*0.5/pi,T_kc0,"linestyle","-", ...
+     wt*0.5/pi,T_kc0_sd,"linestyle","--", ...
+     wt*0.5/pi,T_kc_min,"linestyle","-.", ...
+     wt*0.5/pi,Tdu,"linestyle","-", ...
+     wt*0.5/pi,Tdl,"linestyle","-")
+axis([0 0.5 tp-0.2 tp+0.2]);
+ylabel("Delay(samples)");
+xlabel("Frequency");
+legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+legend("location","southeast");
+legend("boxoff");
+legend("left");
+title(strt);
+grid("on");
+print(strcat(strf,"_kc_min_delay"),"-dpdflatex");
 close
 
 % Plot poles and zeros
@@ -316,27 +362,24 @@ close
 
 % Filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"rho=%f %% Constraint on lattice coefficient magnitudes\n",rho);
-fprintf(fid,"ft=%g %% Transition band width [0,ft]\n",ft);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
+fprintf(fid,"ftt=%g %% Transition band width [0,ftt]\n",ftt);
+fprintf(fid,"dBar=%g %% Amplitude pass band peak-to-peak ripple\n",dBar);
 fprintf(fid,"Wat=%g %% Amplitude transition band weight\n",Wat);
 fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"tp=%g %% Nominal pass band filter group delay (samples)\n",tp);
-fprintf(fid,"pr=%g * pi %% Phase pass band peak-to-peak ripple (rad.)\n",pr);
-fprintf(fid,"Wpp=%d %% Phase pass band weight\n",Wpp);
+fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple (rad./pi)\n",ppr);
+fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
 % Save results
-save socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.mat ...
-     k0 epsilon0 p0 c0 ...
-     tol ctol nbits ndigits ndigits_alloc ...
-     nt Asqd dBap Wat Wap Pd pr Wpp dmax rho k_min c_min 
+eval(sprintf("save %s.mat k0 epsilon0 p0 c0 ftol ctol nbits ndigits \
+ndigits_alloc ntt ftt dBar Wat Wap Pd pp ppr Wpp dmax rho k_min c_min",strf));
        
 % Done
 toc;
 diary off
-movefile socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.diary.tmp ...
-         socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

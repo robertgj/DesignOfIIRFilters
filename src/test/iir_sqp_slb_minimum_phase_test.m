@@ -1,21 +1,25 @@
 % iir_sqp_slb_minimum_phase_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("iir_sqp_slb_minimum_phase_test.diary");
-delete("iir_sqp_slb_minimum_phase_test.diary.tmp");
-diary iir_sqp_slb_minimum_phase_test.diary.tmp
+strf="iir_sqp_slb_minimum_phase_test";
 
-tol=1e-4
-ctol=tol/100
-maxiter=2000
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
+
+tic;
+
+ftol=1e-4
+ctol=ftol/100
+maxiter=10000
 verbose=false
 
 % Filter specifications
 U=2,V=1,M=8,Q=4,R=2
-fap=0.15
-dBap=0.05
+fap=0.125
+dBap=0.035
 Wap=1
 fas=0.25
 dBas=50
@@ -57,7 +61,6 @@ Wp=[];
 % Common strings for output plots
 strP=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g",
              fap,dBap,Wap,fas,dBas,Was);
-strf="iir_sqp_slb_minimum_phase_test";
 
 % Initial coefficients
 x0=[ 0.004; ...
@@ -84,12 +87,22 @@ close
 [xl,xu]=xConstraints(U,V,M,Q,255/256,255/256);
 dmax=0.005;
 
+% MMSE
+[x1,Ex1,sqp_iter,func_iter,feasible] = ...
+  iir_sqp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R, ...
+                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
+                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+                maxiter,ftol,ctol,verbose);
+if ~feasible 
+  error("x1 infeasible");
+endif
+
 % PCLS
 [d1,E,slb_iter,opt_iter,func_iter,feasible] = ...
-  iir_slb(@iir_sqp_mmse,x0,xu,xl,dmax,U,V,M,Q,R, ...
+  iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol,ctol,verbose)
+          maxiter,ftol,ctol,verbose)
 if !feasible 
   error("d1 infeasible");
 endif
@@ -112,7 +125,7 @@ xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
-showResponsePassBands(0,fap,-0.06,0.01,d1,U,V,M,Q,R,strt);
+showResponsePassBands(0,fap,-0.04,0.01,d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 hold off
 close
@@ -135,29 +148,31 @@ printf("d1:AS=[ ");printf("%f ",20*log10(AS'));printf(" ] (dB)\n");
 % Save results
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"tol=%g %% Tolerance on relative coefficient update size\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on relative coefficient update size\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
-fprintf(fid,"dBap=%d %% Pass band amplitude peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Pass band weight\n",Wap);
+fprintf(fid,"dBap=%g %% Pass band amplitude peak-to-peak ripple\n",dBap);
+fprintf(fid,"Wap=%g %% Pass band weight\n",Wap);
 fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
-fprintf(fid,"dBas=%d %% Stop band minimum attenuation\n",dBas);
-fprintf(fid,"Was=%d %% Stop band amplitude weight\n",Was);
+fprintf(fid,"dBas=%g %% Stop band minimum attenuation\n",dBas);
+fprintf(fid,"Was=%g %% Stop band amplitude weight\n",Was);
 fprintf(fid,"U=%d %% Number of real zeros\n",U);
 fprintf(fid,"V=%d %% Number of real poles\n",V);
 fprintf(fid,"M=%d %% Number of complex zeros\n",M);
 fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
 fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fclose(fid);
+
 print_pole_zero(d1,U,V,M,Q,R,"d1",strcat(strf,"_d1_coef.m"));
+
 [N1,D1]=x2tf(d1,U,V,M,Q,R);
 print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
-% Done 
-save iir_sqp_slb_minimum_phase_test.mat U V M Q R tol ctol ...
-     fap dBap Wap fas dBas Was x0 d1
+eval(sprintf("save %s.mat U V M Q R ftol ctol fap dBap Wap fas dBas Was x0 d1",
+             strf));
 
+% Done 
+toc
 diary off
-movefile iir_sqp_slb_minimum_phase_test.diary.tmp ...
-         iir_sqp_slb_minimum_phase_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

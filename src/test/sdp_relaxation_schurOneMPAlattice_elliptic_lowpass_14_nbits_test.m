@@ -1,5 +1,5 @@
 % sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2023-2024 Robert G. Jenssen
 
 % SDP relaxation optimisation of a Schur parallel one-multiplier allpass
 % lattice elliptic lowpass filter with 16-bit signed-digit coefficients each
@@ -14,15 +14,12 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-% Common strings
-strf="sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test";
-
 % Pass separate tolerances for the coefficient step and SeDuMi eps.
-tol=1e-5
+ftol=1e-5
 ctol=1e-8
-del.dtol=ctol;
-del.stol=1e-10;
-warning("Using coef. delta tolerance=%g, SeDuMi eps=%g\n",del.dtol,del.stol);
+tol.dtol=ctol;
+tol.stol=1e-10;
+warning("Using coef. delta tolerance=%g, SeDuMi eps=%g\n",tol.dtol,tol.stol);
 maxiter=500
 verbose=false;
 
@@ -48,7 +45,7 @@ R2=(NA1+1):(NA1+NA2);
 fap=0.15
 dBap=0.06
 Wap=1
-Wat=tol
+Wat=ftol
 fas=0.171
 dBas=76
 Was=1e7
@@ -123,7 +120,7 @@ k0_sd_x_active=find((k0_sd_x)~=0);
                               difference,k0_u,k0_l,k0_sd_x_active,k0_sd_delta,...
                               wa,Asqd,Asqdu,Asqdl,Wa, ...
                               [],[],[],[],[],[],[],[],[],[], ...
-                              maxiter,del,verbose);
+                              maxiter,tol,ctol,verbose);
 if feasible==false
   error("sdp_relaxation_schurOneMPAlattice_mmse failed!");
 endif
@@ -165,7 +162,7 @@ while 1
                                 k0_u,k0_l,k_sd_x_active,k_sd_delta, ...
                                 wa,Asqd,Asqdu,Asqdl,Wa, ...
                                 [],[],[],[],[],[],[],[],[],[], ...
-                                maxiter,del,verbose);
+                                maxiter,tol,ctol,verbose);
   if feasible==false
     error("sdp_relaxation_schurOneMPAlattice_mmse failed!");
   endif
@@ -221,7 +218,7 @@ while 1
                              difference,k0_u,k0_l,k_active,dmax, ...
                              wa,Asqd,Asqdu,Asqdl,Wa, ...
                              [],[],[],[],[],[],[],[],[],[], ...
-                             maxiter,del,ctol,verbose);
+                             maxiter,tol,ctol,verbose);
     k=[nextA1k(:);nextA2k(:)];
   catch
     feasible=false;
@@ -398,7 +395,7 @@ close
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
-fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"difference=%d %% Use difference of all-pass filters\n",difference);
@@ -406,18 +403,17 @@ fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"m1=%d %% All-pass filter 1 order\n",NA1-1);
 fprintf(fid,"m2=%d %% All-pass filter 2 order\n",NA2-1);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
-fprintf(fid,"dBas=%d %% Amplitude stop band peak-to-peak ripple\n",dBas);
-fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
+fprintf(fid,"dBas=%g %% Amplitude stop band peak-to-peak ripple\n",dBas);
+fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results
-save sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test.mat ...
-     tol ctol nbits nscale ndigits ndigits_alloc n fap dBap Wap fas dBas Was ...
-     A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ...
-     A1k0_sd A2k0_sd A1k0_sd_sdp A2k0_sd_sdp A1k0_sd_min A2k0_sd_min
+eval(sprintf("save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc n \
+fap dBap Wap fas dBas Was A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 \
+A1k0_sd A2k0_sd A1k0_sd_sdp A2k0_sd_sdp A1k0_sd_min A2k0_sd_min",strf));
 
 % Done
 toc;

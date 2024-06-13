@@ -1,16 +1,17 @@
 % schurOneMPAlattice_socp_mmse_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMPAlattice_socp_mmse_test.diary");
-delete("schurOneMPAlattice_socp_mmse_test.diary.tmp");
-diary schurOneMPAlattice_socp_mmse_test.diary.tmp
-
 strf="schurOneMPAlattice_socp_mmse_test";
 
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
+
 maxiter=2000
-tol=1e-9
+ftol=1e-9
+ctol=ftol
 verbose=false
 
 % Low pass filter specification 
@@ -28,7 +29,7 @@ td=11.86 % Pass band nominal group delay
 tdr=0.15 % Pass band group delay response ripple
 Wtp=1 % Pass band group delay response weight
 fpp=0.125 % Pass band phase response edge
-ppr=0.02 % Pass band phase response ripple
+ppr=0.06 % Pass band phase response ripple(rad./pi)
 Wpp=1 % Pass band phase response weight
 
 % Desired squared magnitude response
@@ -53,8 +54,8 @@ Wt=Wtp*ones(ntp,1);
 npp=ntp;
 wp=wt;
 Pd=-td*wp;
-Pdu=Pd+(ppr*ones(npp,1)/2);
-Pdl=Pd-(ppr*ones(npp,1)/2);
+Pdu=Pd+(ppr*pi*ones(npp,1)/2);
+Pdl=Pd-(ppr*pi*ones(npp,1)/2);
 Wp=Wpp*ones(npp,1);
 
 % Initial coefficients found by tarczynski_parallel_allpass_test.m
@@ -88,7 +89,7 @@ try
                                  difference, ...
                                  k_u,k_l,k_active,dmax, ...
                                  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                 wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+                                 wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 catch
   feasible=false;
 end_try_catch
@@ -116,8 +117,8 @@ s=sprintf("Parallel Schur one-multiplier allpass : ma=%d,mb=%d,td=%g", ma,mb,td)
 title(s);
 subplot(312);
 plot(wp*0.5/pi,(P+(wp*td))/pi);
+axis([0 0.5 ppr*[-1,1]]);
 ylabel("Phase error(rad./$\\pi$)");
-axis([0 0.5 -ppr ppr]);
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,T);
@@ -137,8 +138,8 @@ grid("on");
 title(s);
 subplot(312);
 plot(wp*0.5/pi,(P+(wp*td))/pi);
+axis([0 max([fap,ftp,fpp]) ppr*[-1,1]]);
 ylabel("Phase error(rad./$\\pi$)");
-axis([0 max([fap,ftp,fpp]) -ppr ppr]);
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,T);
@@ -190,7 +191,7 @@ close
 
 % Save the filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"nplot=%d %% Frequency points across the band\n",nplot);
 fprintf(fid,"ma=%d %% Allpass filter A denominator order\n",ma);
 fprintf(fid,"mb=%d %% Allpass filter B denominator order\n",mb);
@@ -205,7 +206,7 @@ fprintf(fid,"td=%f %% Pass band nominal group delay\n",td);
 fprintf(fid,"tdr=%f %% Pass band group delay response ripple\n",tdr);
 fprintf(fid,"Wtp=%f %% Pass band group delay response weight\n",Wtp);
 fprintf(fid,"fpp=%f %% Pass band phase response edge\n",fpp);
-fprintf(fid,"ppr=%f %% Pass band phase response ripple\n",ppr);
+fprintf(fid,"ppr=%f %% Pass band phase peak-to-peak ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%f %% Pass band phase response weight\n",Wpp);
 fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fclose(fid);
@@ -216,11 +217,9 @@ print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
-% Done 
-save schurOneMPAlattice_socp_mmse_test.mat ...
-     tol nplot ma mb fap dBap Wap fas dBas Was ftp td tdr Wtp fpp ppr Wpp rho ...
-     D1_0 D2_0 A1k A2k D1 D2
+eval(sprintf("save %s.mat tol nplot ma mb fap dBap Wap fas dBas Was ftp td tdr \
+Wtp fpp ppr Wpp rho D1_0 D2_0 A1k A2k D1 D2",strf));
 
+% Done 
 diary off
-movefile schurOneMPAlattice_socp_mmse_test.diary.tmp ...
-         schurOneMPAlattice_socp_mmse_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

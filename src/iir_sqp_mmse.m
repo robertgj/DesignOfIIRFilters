@@ -2,11 +2,11 @@ function [x,E,sqp_iter,func_iter,feasible] = ...
            iir_sqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...
                         wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                         wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-                        maxiter,tol,verbose)
+                        maxiter,ftol,ctol,verbose)
 % [x,E,sqp_iter,func_iter,feasible] = ...
 %   iir_sqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R,wa,Ad,Adu,Adl,Wa, ...
 %                ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt, ...
-%                wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+%                wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 %
 % SQP MMSE optimisation of a Lagrangian with constraints on the
 % amplitude and group delay responses. 
@@ -48,7 +48,8 @@ function [x,E,sqp_iter,func_iter,feasible] = ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of SQP iterations
-%   tol - tolerance
+%   ftol - tolerance on function value
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Note that Ad, Adu, Adl and Wa are the amplitudes or weights at
@@ -62,7 +63,7 @@ function [x,E,sqp_iter,func_iter,feasible] = ...
 %   func_iter - number of iirE() function calls
 %   feasible - true if a solution has been found
          
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -82,11 +83,11 @@ function [x,E,sqp_iter,func_iter,feasible] = ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if (nargin ~= 33) || (nargout ~= 5)
+if (nargin ~= 34) || (nargout ~= 5)
   print_usage("[x,E,sqp_iter,func_iter,feasible] = ...\n\
          iir_sqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...\n\
          wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt, ...\n\
-         wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)"); 
+         wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)"); 
 endif
 
 % Sanity checks
@@ -116,6 +117,9 @@ endif
 if Nwa ~= length(Wa)
   error("Expected length(wa)(%d) == length(Wa)(%d)",Nwa,length(Wa));
 endif
+if any(Adu<Adl)
+  error("Expected Adu>=Adl");
+endif
 if Nws ~= length(Sd)
   error("Expected length(ws)(%d) == length(Sd)(%d)",Nws,length(Sd));
 endif  
@@ -127,6 +131,9 @@ if ~isempty(Sdl) && Nws ~= length(Sdl)
 endif
 if Nws ~= length(Ws)
   error("Expected length(ws)(%d) == length(Ws)(%d)",Nws,length(Ws));
+endif
+if any(Sdu<Sdl)
+  error("Expected Sdu>=Sdl");
 endif
 if Nwt ~= length(Td)
   error("Expected length(wt)(%d) == length(Td)(%d)",Nwt,length(Td));
@@ -140,6 +147,9 @@ endif
 if Nwt ~= length(Wt)
   error("Expected length(wt)(%d) == length(Wt)(%d)",Nwt,length(Wt));
 endif
+if any(Tdu<Tdl)
+  error("Expected Pdu>=Pdl");
+endif
 if Nwp ~= length(Pd)
   error("Expected length(wp)(%d) == length(Pd)(%d)",Nwp,length(Pd));
 endif  
@@ -151,6 +161,9 @@ if ~isempty(Pdl) && Nwp ~= length(Pdl)
 endif
 if Nwp ~= length(Wp)
   error("Expected length(wp)(%d) == length(Wp)(%d)",Nwp,length(Wp));
+endif
+if any(Pdu<Pdl)
+  error("Expected Pdu>=Pdl");
 endif
 if isempty(vS)
   vS=iir_slb_set_empty_constraints();
@@ -170,14 +183,14 @@ invW=inv(W);
 
 % Initialise constraint function persistent constants
 gx=iir_sqp_mmse_gx(x0,vS,U,V,M,Q,R, ...
-                   wa,Adu,Adl,ws,Sdu,Sdl,wt,Tdu,Tdl,wp,Pdu,Pdl,tol,false);
+                   wa,Adu,Adl,ws,Sdu,Sdl,wt,Tdu,Tdl,wp,Pdu,Pdl,ctol,false);
   
 % Initial check on constraints. Do not need to proceed if they are satisfied.
-if (isempty(gx) == false) && all(gx > -tol)
+if (isempty(gx) == false) && all(gx > -ctol)
   x=x0;
   sqp_lm=[];
   sqp_iter=0;
-  [dummy1,dummy2,dummy3,func_iter] = iir_sqp_mmse_fx();
+  [~,~,~,func_iter] = iir_sqp_mmse_fx();
   feasible=true;
   printf("iir_sqp_mmse() : gx constraints satisfied by x0!\n");
   return;
@@ -191,13 +204,13 @@ x=[];E=inf;sqp_lm=[];func_iter=0;sqp_iter=0;liter=0;feasible=false;
 try
   [x,E,sqp_lm,sqp_iter,liter,feasible] = ...
   sqp_bfgs(x0,@iir_sqp_mmse_fx,@iir_sqp_mmse_gx,"armijo_kim", ...
-           xl,xu,dmax,{W,invW},"bfgs",tol,maxiter,verbose);
-  [dummy1,dummy2,dummy3,func_iter] = iir_sqp_mmse_fx();
+           xl,xu,dmax,{W,invW},"bfgs",maxiter,ftol,ctol,verbose);
+  [~,~,~,func_iter] = iir_sqp_mmse_fx();
 catch
   x=[];
   E=inf;
   sqp_lm=[];
-  [dummy1,dummy2,dummy3,func_iter] = iir_sqp_mmse_fx();
+  [~,~,~,func_iter] = iir_sqp_mmse_fx();
   feasible=false;
   printf("sqp_bfgs() infeasible!\n");
   err=lasterror();
@@ -219,8 +232,8 @@ endif
 endfunction
 
 function [E,gradE,hessE,func_iter] = ...
-         iir_sqp_mmse_fx(x,_U,_V,_M,_Q,_R, ...
-                         _wa,_Ad,_Wa,_ws,_Sd,_Ws,_wt,_Td,_Wt,_wp,_Pd,_Wp)
+  iir_sqp_mmse_fx(x,_U,_V,_M,_Q,_R, ...
+                  _wa,_Ad,_Wa,_ws,_Sd,_Ws,_wt,_Td,_Wt,_wp,_Pd,_Wp)
          
   persistent U V M Q R N wa Ad Wa ws Sd Ws wt Td Wt wp Pd Wp
   persistent iter=0
@@ -270,10 +283,10 @@ endfunction
 function [gx,B] = iir_sqp_mmse_gx(x,_vS,_U,_V,_M,_Q,_R, ...
                                   _wa,_Adu,_Adl,_ws,_Sdu,_Sdl, ...
                                   _wt,_Tdu,_Tdl,_wp,_Pdu,_Pdl, ...
-                                  _tol,_verbose)
+                                  _ctol,_verbose)
  
   persistent vS U V M Q R N wa Adu Adl ws Sdu Sdl wt Tdu Tdl wp Pdu Pdl
-  persistent tol verbose
+  persistent ctol verbose
   persistent init_complete=false
 
   % Initialise persistent values
@@ -297,7 +310,7 @@ function [gx,B] = iir_sqp_mmse_gx(x,_vS,_U,_V,_M,_Q,_R, ...
     ws=_ws;Sdu=_Sdu;Sdl=_Sdl;
     wt=_wt;Tdu=_Tdu;Tdl=_Tdl;
     wp=_wp;Pdu=_Pdu;Pdl=_Pdl;
-    tol=_tol;
+    ctol=_ctol;
     verbose=_verbose;
     init_complete=true;
   else
@@ -322,8 +335,11 @@ function [gx,B] = iir_sqp_mmse_gx(x,_vS,_U,_V,_M,_Q,_R, ...
     [Su,gradSu]=iirA(ws(vS.su),x,U,V,M,Q,R);
     [Tl,gradTl]=iirT(wt(vS.tl),x,U,V,M,Q,R);
     [Tu,gradTu]=iirT(wt(vS.tu),x,U,V,M,Q,R); 
-    [Pl,gradPl]=iirP(wp(vS.pl),x,U,V,M,Q,R);
-    [Pu,gradPu]=iirP(wp(vS.pu),x,U,V,M,Q,R); 
+    [P,gradP]=iirP(wp,x,U,V,M,Q,R);
+    Pl=P(vS.pl);
+    gradPl=gradP(vS.pl,:);
+    Pu=P(vS.pu);
+    gradPu=gradP(vS.pu,:);
   else
     gradAl=[];
     Al=iirA(wa(vS.al),x,U,V,M,Q,R);
@@ -337,17 +353,18 @@ function [gx,B] = iir_sqp_mmse_gx(x,_vS,_U,_V,_M,_Q,_R, ...
     Tl=iirT(wt(vS.tl),x,U,V,M,Q,R);
     gradTu=[];
     Tu=iirT(wt(vS.tu),x,U,V,M,Q,R);
+    P=iirP(wp,x,U,V,M,Q,R);
+    Pl=P(vS.pl);
     gradPl=[];
-    Pl=iirP(wp(vS.pl),x,U,V,M,Q,R);
+    Pu=P(vS.pu);
     gradPu=[];
-    Pu=iirP(wp(vS.pu),x,U,V,M,Q,R);
   endif
 
   % Construct constraint vector
-  gx=[Al-Adl(vS.al);Adu(vS.au)-Au; ...
-      Sl-Sdl(vS.sl);Sdu(vS.su)-Su; ...
-      Tl-Tdl(vS.tl);Tdu(vS.tu)-Tu; ...
-      Pl-Pdl(vS.pl);Pdu(vS.pu)-Pu];
+  gx=[Al-Adl(vS.al); Adu(vS.au)-Au; ...
+      Sl-Sdl(vS.sl); Sdu(vS.su)-Su; ...
+      Tl-Tdl(vS.tl); Tdu(vS.tu)-Tu; ...
+      Pl-Pdl(vS.pl); Pdu(vS.pu)-Pu ];
 
   % Construct constraint gradient matrix 
   B=[];
@@ -357,7 +374,7 @@ function [gx,B] = iir_sqp_mmse_gx(x,_vS,_U,_V,_M,_Q,_R, ...
 
   % Show
   if verbose
-    if all(gx>-tol)
+    if all(gx>-ctol)
       printf("All constraints satisfied!\n");
     endif
     Ac=zeros(size(wa));  Ac(vS.al)=Al;  Ac(vS.au)=Au;

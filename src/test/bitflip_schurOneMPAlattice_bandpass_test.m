@@ -1,17 +1,16 @@
 % bitflip_schurOneMPAlattice_bandpass_test.m
-% Copyright (C) 2019-2023 Robert G. Jenssen
+% Copyright (C) 2019-2024 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass lattice filter in one multiplier parallel allpass form.
 
 test_common;
 
-delete("bitflip_schurOneMPAlattice_bandpass_test.diary");
-delete("bitflip_schurOneMPAlattice_bandpass_test.diary.tmp");
-diary bitflip_schurOneMPAlattice_bandpass_test.diary.tmp
-
-% File name string
 strf="bitflip_schurOneMPAlattice_bandpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 bitflip_bandpass_test_common;
 
@@ -333,11 +332,10 @@ print_polynomial(A1k_bfsdi,"A1k_bfsdi",strcat(strf,"_A1k_bfsdi_coef.m"),nscale);
 print_polynomial(A2k_bfsdi,"A2k_bfsdi",strcat(strf,"_A2k_bfsdi_coef.m"),nscale);
 
 % Save the results
-save bitflip_schurOneMPAlattice_bandpass_test.mat ...
-   A1k_ex A2k_ex A1k_rd A2k_rd A1k_bf A2k_bf A1k_sd A2k_sd A1k_bfsd A2k_bfsd ...
-   A1k_sdl A2k_sdl A1k_bfsdl A2k_bfsdl A1k_sdi A2k_sdi A1k_bfsdi A2k_bfsdi 
+eval(sprintf("save %s.mat \
+A1k_ex A2k_ex A1k_rd A2k_rd A1k_bf A2k_bf A1k_sd A2k_sd A1k_bfsd A2k_bfsd \
+A1k_sdl A2k_sdl A1k_bfsdl A2k_bfsdl A1k_sdi A2k_sdi A1k_bfsdi A2k_bfsdi",strf)); 
 
 % Done
 diary off
-movefile bitflip_schurOneMPAlattice_bandpass_test.diary.tmp ...
-         bitflip_schurOneMPAlattice_bandpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

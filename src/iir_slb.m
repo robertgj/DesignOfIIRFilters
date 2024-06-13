@@ -1,10 +1,10 @@
 function [x,E,slb_iter,opt_iter,func_iter,feasible] = iir_slb(pfx, ...
   x0,xu,xl,dmax,U,V,M,Q,R,wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
-  wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose)
+  wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 % [x,E,slb_iter,opt_iter,func_iter,feasible] = ...
 %   iir_slb(pfx,x0,xu,xl,dmax,U,V,M,Q,R,wa,Ad,Adu,Adl,Wa, ...
 %           ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-%           maxiter,tol,ctol,verbose)
+%           maxiter,ftol,ctol,verbose)
 %
 % PCLS optimisation with constraints on the amplitude, phase and
 % group delay responses. See:
@@ -16,9 +16,9 @@ function [x,E,slb_iter,opt_iter,func_iter,feasible] = iir_slb(pfx, ...
 %
 % Inputs:
 %   pfx - pointer to function that calls the inner optimisation loop:   
-%         [nextx,E,opt_iter,func_iter,feasible] = pfx(vS,x,xu,xl,dmax, ...
+%         [x,E,opt_iter,func_iter,feasible] = pfx(vS,x,xu,xl,dmax, ...
 %         U,V,M,Q,R,wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
-%         wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+%         wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 %   x0 - initial coefficient vector in the form:
 %         [ k;                          ...
 %           zR(1:U);     pR(1:V);       ...
@@ -53,7 +53,7 @@ function [x,E,slb_iter,opt_iter,func_iter,feasible] = iir_slb(pfx, ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of optimisation loop iterations
-%   tol - tolerance on coefficient update
+%   ftol - tolerance on function value
 %   ctol - tolerance on constraints
 %   verbose - 
 %
@@ -89,7 +89,7 @@ function [x,E,slb_iter,opt_iter,func_iter,feasible] = iir_slb(pfx, ...
 % Transition Bands", I. W. Selesnick, M. Lang and C. S. Burrus, IEEE
 % Transactions on Signal Processing, 46(2):497-501, February 1998.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -113,7 +113,7 @@ if (nargin ~= 34) || (nargout ~= 6)
   print_usage("[x,E,slb_iter,opt_iter,func_iter,feasible] = ...\n\
          iir_slb(pfx,x0,xu,xl,dmax,U,V,M,Q,R,wa,Ad,Adu,Adl,Wa, ...\n\
          ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...\n\
-         maxiter,tol,ctol,verbose)");
+         maxiter,ftol,ctol,verbose)");
 endif
 
 %
@@ -154,6 +154,7 @@ while 1
   % Check loop iterations
   slb_iter = slb_iter+1;
   if slb_iter>maxiter
+    feasible=false;
     x=bestx;
     E=bestE;
     warning("PCLS loop iteration limit exceeded!");
@@ -165,13 +166,14 @@ while 1
   % Step 3 : Test for optimality with Karush-Kuhn-Tucker conditions
   %
   try
-    [nextx,E,tmp_opt_iter,tmp_func_iter,feasible] = ...
+    feasible=false;
+    [x,E,tmp_opt_iter,tmp_func_iter,feasible] = ...
     feval(pfx,vS,x,xu,xl,dmax,U,V,M,Q,R,wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
-          wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+          wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
     opt_iter = opt_iter + tmp_opt_iter;
     func_iter = func_iter + tmp_func_iter;
   catch
-    feasible=0;
+    feasible=false;
     err=lasterror();
     fprintf(stderr,"Error: %s\n",err.message);
     for e=1:length(err.stack)
@@ -179,23 +181,10 @@ while 1
               err.stack(e).name, err.stack(e).line);
     endfor
     error("feval(pfx,...) failure!");
+    break;
   end_try_catch
+  
   if feasible
-    if all(x==nextx)
-      printf("E=%f\n",E);
-      printf("x=[ ");printf("%f ",x);printf("]';\n");
-      warning("No change to solution after %d PCLS iterations\n",slb_iter);
-      for [v,m]=vR
-        printf("vR.%s=[ ",m);printf("%d ",v);printf("]\n");
-      endfor
-      for [v,m]=vS
-        printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
-      endfor
-      if iir_slb_constraints_are_empty(vR)
-        break;
-      endif
-    endif
-    x=nextx;
     printf("Feasible solution after %d optimisation iterations\n",tmp_opt_iter);
     printf("E=%f\n",E);
     printf("x=[ ");printf("%f ",x);printf("]';\n");

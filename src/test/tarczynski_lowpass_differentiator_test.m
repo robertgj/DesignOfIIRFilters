@@ -28,7 +28,7 @@ nas=floor(fas*n/0.5);
 
 % Frequency vectors
 Hzm1=freqz([1,-1],1,wd)(:);
-Hd=[j*(wd(1:nap)/2).*exp(-j*td*wd(1:nap)); zeros(n-nap-1,1)];
+Hd=[-j*(wd(1:nap)/2).*exp(-j*td*wd(1:nap)); zeros(n-nap-1,1)];
 Wd=[Wap*ones(nap,1); Wat*ones(nas-nap-1,1); Was*ones(n-nas,1)];
 
 nchk=[1,nap-1,nap,nap+1,nas-1,nas,nas+1,n-1];

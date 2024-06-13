@@ -1,17 +1,19 @@
 % allpass_phase_socp_mmse_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2024 Robert G. Jenssen
 
 test_common;
 
-delete("allpass_phase_socp_mmse_test.diary");
-delete("allpass_phase_socp_mmse_test.diary.tmp");
-diary allpass_phase_socp_mmse_test.diary.tmp
+strf="allpass_phase_socp_mmse_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 
 verbose=false
-tol=1e-6
+ftol=1e-6
+ctol=ftol
 maxiter=2000
-strf="allpass_phase_socp_mmse_test";
 
 % Low-pass elliptic filter specification
 nh=4
@@ -51,7 +53,7 @@ rho=31/32;
 % SOCP MMSE
 [a1,socp_iter,func_iter,feasible]= ...
   allpass_phase_socp_mmse([],a0,au,al,Va,Qa,Ra, ...
-                          wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+                          wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 if !feasible
   error("a1 infeasible");
 endif
@@ -100,7 +102,8 @@ close
 
 % Save the filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
+fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"nh=%d %% Elliptic low-pass filter order\n",nh);
@@ -121,5 +124,4 @@ print_allpass_pole(a1,Va,Qa,Ra,"a1",strcat(strf,"_a1_coef.m"));
 
 % Done 
 diary off
-movefile allpass_phase_socp_mmse_test.diary.tmp ...
-         allpass_phase_socp_mmse_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

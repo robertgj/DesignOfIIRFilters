@@ -1,30 +1,31 @@
 % parallel_allpass_socp_slb_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("parallel_allpass_socp_slb_test.diary");
-delete("parallel_allpass_socp_slb_test.diary.tmp");
-diary parallel_allpass_socp_slb_test.diary.tmp
+strf="parallel_allpass_socp_slb_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-verbose=true
 maxiter=1000
-strf="parallel_allpass_socp_slb_test";
+ftol=1e-4
+ctol=1e-10
+verbose=true
 
 % Initial filter from tarczynski_parallel_allpass_test.m with flat_delay=false
 tarczynski_parallel_allpass_test_Da0_coef;
 tarczynski_parallel_allpass_test_Db0_coef;
 
 % Lowpass filter specification
-tol=1e-4
-ctol=1e-10
 % The default SeDuMi eps is 1e-8 which is insufficient for this example.
 % Pass separate tolerances for the coefficient step and SeDuMi eps.
-del.dtol=tol;
-del.stol=ctol;
-warning("Using coef. delta tolerance=%g, SeDuMi eps=%g\n",del.dtol,del.stol);
+tol.dtol=ftol;
+tol.stol=ctol;
+warning("Using coef. delta tolerance=%g, SeDuMi eps=%g\n",tol.dtol,tol.stol);
 n=2000;
 polyphase=false
 difference=false
@@ -147,7 +148,8 @@ printf("Starting MMSE pass\n");
 parallel_allpass_socp_mmse([],ab0,abu,abl, ...
                            K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
                            wa,Asqd*Ksq,Asqdu*Ksq,Asqdl*Ksq,Wa_mmse/Ksq, ...
-                           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol,false);
+                           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+                           maxiter,tol,ctol,false);
 if feasible
   printf("Found feasible MMSE abm=[ ");printf("%g ",abm(:)');printf("]';\n");
 else
@@ -177,7 +179,8 @@ printf("Starting PCLS pass\n");
 parallel_allpass_slb(@parallel_allpass_socp_mmse,abm,abu,abl, ...
                      K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
                      wa,Asqd*Ksq,Asqdu*Ksq,Asqdl*Ksq,Wa_pcls/Ksq, ...
-                     wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,del,ctol,verbose);
+                     wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+                     maxiter,tol,ctol,verbose);
 if feasible
   printf("Found feasible PCLS ab1=[ ");printf("%g ",ab1(:)');printf("]';\n");
 else
@@ -273,7 +276,7 @@ printf("d1:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
 % Save the filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"polyphase=%d %% Use polyphase combination\n",polyphase);
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"ma=%d %% Allpass model filter A denominator order\n",ma);
@@ -286,10 +289,10 @@ fprintf(fid,"Vb=%d %% Allpass model filter B no. of real poles\n",Vb);
 fprintf(fid,"Qb=%d %% Allpass model filter B no. of complex poles\n",Qb);
 fprintf(fid,"Rb=%d %% Allpass model filter B decimation\n",Rb);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
-fprintf(fid,"dBap=%f %% Pass band amplitude response ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Pass band amplitude response weight\n",Wap);
+fprintf(fid,"dBap=%g %% Pass band amplitude response ripple\n",dBap);
+fprintf(fid,"Wap=%g %% Pass band amplitude response weight\n",Wap);
 fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
-fprintf(fid,"dBas=%f %% Stop band amplitude response ripple\n",dBas);
+fprintf(fid,"dBas=%g %% Stop band amplitude response ripple\n",dBas);
 fprintf(fid,"Was_mmse=%d %% Stop band amplitude response weight(MMSE)\n",
         Was_mmse);
 fprintf(fid,"Was_pcls=%d %% Stop band amplitude response weight(PCLS)\n",
@@ -313,11 +316,10 @@ print_polynomial(Nab1,"Nab1",strcat(strf,"_Nab1_coef.m"));
 print_polynomial(Dab1,"Dab1");
 print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
+eval(sprintf("save %s.mat n wa fap Wap fas Was_mmse Was_pcls ma mb \
+K Va Qa Ra Vb Qb Rb ab0 abm ab1 Da1 Db1",strf));
+
 % Done 
-save parallel_allpass_socp_slb_test.mat ...
-     n wa fap Wap fas Was_mmse Was_pcls ma mb K Va Qa Ra Vb Qb Rb ...
-     ab0 abm ab1 Da1 Db1
 toc;
 diary off
-movefile parallel_allpass_socp_slb_test.diary.tmp ...
-         parallel_allpass_socp_slb_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

@@ -1,5 +1,5 @@
 % tarczynski_hilbert_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Design a full-band Hilbert transform filter, H(w)=-jsign(w), using
 % the method of Tarczynski et al.  See "A WISE Method for Designing 
@@ -10,10 +10,11 @@ test_common;
 
 pkg load optim;
 
-delete("tarczynski_hilbert_test.diary");
-delete("tarczynski_hilbert_test.diary.tmp");
-diary tarczynski_hilbert_test.diary.tmp
+strf="tarczynski_hilbert_test";
 
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Objective function
 function E=WISEJ_HILBERT(ND,_nN,_nD,_R,_wd,_Hd,_Wd,_td)
@@ -38,9 +39,7 @@ function E=WISEJ_HILBERT(ND,_nN,_nD,_R,_wd,_Hd,_Wd,_td)
   DR=[1;kron(ND((nN+2):(nN+1+nD)), [zeros(R-1,1);1])];
   % Find the error complex frequency response 
   HNDRd=freqz(N,DR,wd);
-  PNDRd=unwrap(mod(arg(HNDRd)+(wd*td),2*pi));
-  Pd=unwrap(mod(arg(Hd)+(wd*td),2*pi));
-  EHd = Wd.*((abs(Hd-HNDRd).^2) + 0.01*(Pd-PNDRd).^2);
+  EHd = Wd.*(abs(Hd-HNDRd).^2);
   % Trapezoidal integration of the error
   intEHd = sum(diff(wd).*(EHd(1:(length(EHd)-1))+EHd(2:(length(EHd))))/2);
   % Heuristics for the barrier function
@@ -74,24 +73,20 @@ function E=WISEJ_HILBERT(ND,_nN,_nD,_R,_wd,_Hd,_Wd,_td)
 endfunction
 
 % Filter specification
-R=2;nN=11;nD=6;td=nN/2;tol=1e-9;maxiter=5000;
+R=2;nN=11;nD=6;td=nN/2;ft=0.02;pp=5;tol=1e-9;maxiter=5000;
 
 % Frequency points
 n=1024;
 wd=pi*(-n:(n-1))'/n;
+ntt=floor(ft*0.5/n);
 
 % Frequency vectors
-Pd=[0.5*pi*ones(n,1);0;-0.5*pi*ones(n-1,1)]-wd*td;
-Hd=[ones(n,1);0;ones(n-1,1)].*exp(j*Pd);
+Pd=(0.5*pi*[-ones(n,1);0;ones(n-1,1)])-(wd*td);
+Hd=[ones(n,1);1;ones(n-1,1)].*exp(j*Pd);
 Wd=ones(2*n,1);
 
 % Initial filter
-if 0
-  bi=remez(nN,[0.1 0.9],[1 1],'hilbert');
-  Ni=[bi;zeros(nD,1)];
-else
-  Ni=[1;zeros(nN+nD,1)];
-endif
+Ni=[1;zeros(nN+nD,1)];
 
 % Unconstrained minimisation
 WISEJ_HILBERT([],nN,nD,R,wd,Hd,Wd,td);
@@ -127,7 +122,7 @@ subplot(111);
 zplane(roots(N0),roots(D0R));
 s=sprintf("Tarczynski nN=%d,nD=%d,R=%d,td=%g IIR Hilbert filter",nN,nD,R,td);
 title(s);
-print("tarczynski_hilbert_test_pz",  "-dpdflatex");
+print("tarczynski_hilbert_test_pz","-dpdflatex");
 close
 
 subplot(211);
@@ -137,12 +132,12 @@ grid("on");
 title(s);
 ylabel("Amplitude");
 subplot(212);
-plot(wd*0.5/pi,unwrap(mod(arg(H0)+(wd*td),2*pi)))
-axis([-0.5 0.5 -pi pi]);
+plot(wd*0.5/pi,(unwrap(arg(H0))+(wd*td)+(pp*pi))/pi)
+axis([-0.5 0.5 -1 1]);
 grid("on");
-ylabel("Phase(rad.)\n(less delay)");
+ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
-print("tarczynski_hilbert_test_response",  "-dpdflatex");
+print("tarczynski_hilbert_test_response","-dpdflatex");
 close
 
 % Compare with remez
@@ -155,12 +150,12 @@ grid("on");
 title("Remez nN=11 FIR Hilbert filter");
 ylabel("Amplitude");
 subplot(212);
-plot(wd*0.5/pi,unwrap(mod(arg(H)+(wd*td),2*pi)));
-axis([-0.5 0.5 0 2*pi])
+plot(wd*0.5/pi,(unwrap(arg(H))+(wd*td)+(pp*pi))/pi);
+axis([-0.5 0.5 -1 1])
 grid("on");
-ylabel("Phase(rad.)\n(less delay)");
+ylabel("Phase errror(rad./$\\pi$)");
 xlabel("Frequency");
-print("tarczynski_hilbert_test_remez_response",  "-dpdflatex");
+print("tarczynski_hilbert_test_remez_response","-dpdflatex");
 close
 
 % Save the result
@@ -171,7 +166,8 @@ print_polynomial(N0,"N0");
 print_polynomial(N0,"N0","tarczynski_hilbert_test_N0_coef.m");
 print_polynomial(D0,"D0");
 print_polynomial(D0,"D0","tarczynski_hilbert_test_D0_coef.m");
-save tarczynski_hilbert_test.mat nN nD R N0 D0 D0R
+eval(sprintf("save %s.mat nN nD R N0 D0 D0R",strf));
 
+% Done
 diary off
-movefile tarczynski_hilbert_test.diary.tmp tarczynski_hilbert_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

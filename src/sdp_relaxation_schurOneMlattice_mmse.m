@@ -2,12 +2,12 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
   sdp_relaxation_schurOneMlattice_mmse(vS,k0,epsilon0,p0,c0, ...
                             kc_u,kc_l,kc_active,kc_delta, ...
                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                            wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+                            wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 % [k_min,c_min,socp_iter,func_iter,feasible] =
 %   sdp_relaxation_schurOneMlattice_mmse(vS,k0,epsilon0,p0,c0, ...
 %                             kc_u,kc_l,kc_active,kc_delta, ...
 %                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                             wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+%                             wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 %
 % SDP optimisation of a one-multiplier Schur lattice filter with integer
 % coefficients and constraints on the amplitude, phase and group delay
@@ -50,7 +50,8 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - not used
-%   tol - tolerance
+%   ftol - tolerance on coefficient update
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -59,7 +60,7 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -79,12 +80,12 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 27) || (nargout ~= 5)
+  if (nargin ~= 28) || (nargout ~= 5)
     print_usage("[k,c,socp_iter,func_iter,feasible]= ...\n\
   sdp_relaxation_schurOneMlattice_mmse(vS,k0,epsilon0,p0,c0, ...\n\
                             kc_u,kc_l,kc_active,kc_delta, ...\n\
                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                            wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)");
+                            wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
   endif
 
   %
@@ -208,7 +209,7 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
   %
   % Numerical approximation to hessEsq0
   %
-  del=tol*10;
+  del=ftol*10;
   % del-squared-Esq-del-k-m-del-c
   for m=1:Nk
     delk=zeros(size(k0));
@@ -298,20 +299,20 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
     f=[f;T_tl-Tdl(vS.tl)];
   endif
 
-  % Approximate phase linear constraints 
-  if ~isempty(vS.pu)
-    [P_pu,gradP_pu]=schurOneMlatticeP(wp(vS.pu),k0,epsilon0,p0,c0);
+  % Approximate phase linear constraints
+  if ~isempty(vS.pu) || ~isempty(vS.pl)
+    [P,gradP]=schurOneMlatticeP(wp,k,epsilon0,p0,c);
     func_iter = func_iter+1;
-    gradP_pu_delta=gradP_pu.*kron(ones(length(vS.pu),1),kc_delta');
+  endif
+  if ~isempty(vS.pu)
+    gradP_pu_delta=gradP(vS.pu).*kron(ones(length(vS.pu),1),kc_delta');
     D=[D,[zeros(MM,length(vS.pu));-gradP_pu_delta(:,kc_active)']];
-    f=[f;Pdu(vS.pu)-P_pu];
+    f=[f;                          Pdu(vS.pu)-P_pu];
   endif
   if ~isempty(vS.pl) 
-    [P_pl,gradP_pl]=schurOneMlatticeP(wp(vS.pl),k0,epsilon0,p0,c0);
-    func_iter = func_iter+1;
-    gradP_pl_delta=gradP_pl.*kron(ones(length(vS.pl),1),kc_delta');
-    D=[D,[zeros(MM,length(vS.pl));gradP_pl_delta(:,kc_active)']];
-    f=[f;P_pl-Pdl(vS.pl)];
+    gradP_pl_delta=gradP(vS.pl).*kron(ones(length(vS.pl),1),kc_delta');
+    D=[D,[zeros(MM,length(vS.pl)); gradP_pl_delta(:,kc_active)']];
+    f=[f;                          P_pl-Pdl(vS.pl)];
   endif
 
   % Triangle inequalities (in the SeDuMi form: Dy+f>=0)

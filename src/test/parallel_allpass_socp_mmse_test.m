@@ -1,17 +1,20 @@
 % parallel_allpass_socp_mmse_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("parallel_allpass_socp_mmse_test.diary");
-delete("parallel_allpass_socp_mmse_test.diary.tmp");
-diary parallel_allpass_socp_mmse_test.diary.tmp
+strf="parallel_allpass_socp_mmse_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 
 verbose=false
-tol=1e-8
+ftol=1e-8
+ctol=ftol
 maxiter=2000
-strf="parallel_allpass_socp_mmse_test";
 
 % Initial coefficients found by tarczynski_parallel_allpass_test.m
 Da0 = [   1.0000000000,   0.6972798665,  -0.2975063336,  -0.3126562447, ... 
@@ -93,7 +96,7 @@ vS=[];
   parallel_allpass_socp_mmse(vS,ab0,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb, ...
                              polyphase,difference, ...
                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                             wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+                             wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 if !feasible
   error("ab1 infeasible");
 endif
@@ -180,7 +183,7 @@ close
 
 % Save the filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"ma=%d %% Allpass model filter A denominator order\n",ma);
@@ -193,14 +196,14 @@ fprintf(fid,"Vb=%d %% Allpass model filter B no. of real poles\n",Vb);
 fprintf(fid,"Qb=%d %% Allpass model filter B no. of complex poles\n",Qb);
 fprintf(fid,"Rb=%d %% Allpass model filter B decimation\n",Rb);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
-fprintf(fid,"Wap=%d %% Pass band amplitude response weight\n",Wap);
+fprintf(fid,"Wap=%g %% Pass band amplitude response weight\n",Wap);
 fprintf(fid,"ftp=%g %% Pass band group delay response edge\n",ftp);
-fprintf(fid,"Wtp=%d %% Pass band group delay response weight\n",Wtp);
+fprintf(fid,"Wtp=%g %% Pass band group delay response weight\n",Wtp);
 fprintf(fid,"td=%g %% Pass band nominal group delay\n",td);
 fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
-fprintf(fid,"Was=%d %% Stop band amplitude response weight\n",Was);
+fprintf(fid,"Was=%g %% Stop band amplitude response weight\n",Was);
 fprintf(fid,"fpp=%g %% Pass band phase response edge\n",fpp);
-fprintf(fid,"Wpp=%d %% Pass band phase response weight\n",Wpp);
+fprintf(fid,"Wpp=%g %% Pass band phase response weight\n",Wpp);
 fprintf(fid,"pd=%g %% Pass band initial phase\n",pd);
 fclose(fid);
 
@@ -220,11 +223,8 @@ print_polynomial(Dab1,"Dab1");
 print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
 % Done 
-save parallel_allpass_socp_mmse_test.mat ...
-     ma mb K Ra Rb ab0 ab1 ...
-     n fap Wap ftp Wtp fas Was td fpp pd pdr Wpp ...
-     Na1 Da1 Nb1 Db1
+eval(sprintf("save %s.mat ma mb K Ra Rb ab0 ab1 ... \n\
+     n fap Wap ftp Wtp fas Was td fpp pd pdr Wpp Na1 Da1 Nb1 Db1",strf));
 
 diary off
-movefile parallel_allpass_socp_mmse_test.diary.tmp ...
-         parallel_allpass_socp_mmse_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

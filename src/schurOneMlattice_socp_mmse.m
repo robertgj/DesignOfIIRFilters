@@ -2,12 +2,12 @@ function [k,c,socp_iter,func_iter,feasible]= ...
          schurOneMlattice_socp_mmse(vS,k0,epsilon0,p0,c0, ...
                                     kc_u,kc_l,kc_active,dmax, ...
                                     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                    wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+                                    wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 % [k,c,socp_iter,func_iter,feasible] =
 % schurOneMlattice_socp_mmse(vS,k0,epsilon0,p0,c0, ...
 %                            kc_u,kc_l,kc_active,dmax, ...
 %                            wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                            wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+%                            wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 %
 % SOCP MMSE optimisation of a one-multiplier Schur lattice filter with
 % constraints on the amplitude, and low pass group delay responses. 
@@ -34,7 +34,8 @@ function [k,c,socp_iter,func_iter,feasible]= ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance
+%   ftol - tolerance on coefficient update
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -43,7 +44,7 @@ function [k,c,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -63,12 +64,12 @@ function [k,c,socp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 27) || (nargout ~= 5)
+  if (nargin ~= 28) || (nargout ~= 5)
     print_usage("[k,c,socp_iter,func_iter,feasible]= ...\n\
       schurOneMlattice_socp_mmse(vS,k0,epsilon0,p0,c0, ...\n\
                                  kc_u,kc_l,kc_active,dmax, ...\n\
                                  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                                 wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)");
+                                 wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
   endif
 
   %
@@ -173,7 +174,7 @@ function [k,c,socp_iter,func_iter,feasible]= ...
   else
     pars.fid=0;
   endif
-
+  
   %
   % Second Order Cone Programming (SQP) loop
   %
@@ -233,17 +234,17 @@ function [k,c,socp_iter,func_iter,feasible]= ...
     endif
 
     % Phase linear constraints
-    if ~isempty(vS.pu)
-      [P_pu,gradP_pu]=schurOneMlatticeP(wp(vS.pu),k,epsilon0,p0,c);
+    if ~isempty(vS.pu) || ~isempty(vS.pl)
+      [P,gradP]=schurOneMlatticeP(wp,k,epsilon0,p0,c);
       func_iter = func_iter+1;
-      D=[D, [zeros(2,length(vS.pu));-gradP_pu(:,kc_active)']];
-      f=[f; Pdu(vS.pu)-P_pu];
+    endif      
+    if ~isempty(vS.pu)
+      D=[D, [zeros(2,length(vS.pu));-gradP(vS.pu,kc_active)']];
+      f=[f;                          Pdu(vS.pu)-P(vS.pu)];
     endif
     if ~isempty(vS.pl)
-      [P_pl,gradP_pl]=schurOneMlatticeP(wp(vS.pl),k,epsilon0,p0,c);
-      func_iter = func_iter+1;
-      D=[D, [zeros(2,length(vS.pl));gradP_pl(:,kc_active)']];
-      f=[f; P_pl-Pdl(vS.pl)];
+      D=[D, [zeros(2,length(vS.pl)); gradP(vS.pl,kc_active)']];
+      f=[f;                          P(vS.pl)-Pdl(vS.pl)];
     endif
 
     % SeDuMi linear constraint matrixes
@@ -327,8 +328,8 @@ function [k,c,socp_iter,func_iter,feasible]= ...
       printf("func_iter=%d, socp_iter=%d\n",func_iter,socp_iter);
       info
     endif
-    if norm(delta)/norm(xkc) < tol
-      printf("norm(delta)/norm(xkc) < tol\n");
+    if norm(delta)/norm(xkc) < ftol
+      printf("norm(delta)/norm(xkc) < ftol\n");
       feasible=true;
       break;
     endif

@@ -1,8 +1,8 @@
 function [x,fx,lm,iter,liter,feasible] = ...
          sqp_bfgs(x0,pfx,pgx,linesearchName,xlb,xub,dmax, ...
-                  H0,hessianType,tol,maxiter,verbose)
+                  H0,hessianType,maxiter,ftol,ctol,verbose)
 % [x,fx,lm,iter,liter,feasible]=sqp_bfgs(x0,pfx,pgx,linesearchName,...
-%   xlb,xub,dmax,H0,hessianType,tol,maxiter,verbose)
+%   xlb,xub,dmax,H0,hessianType,maxiter,ftol,ctol,verbose)
 %
 % Input arguments:
 % x0 - initial point
@@ -21,8 +21,9 @@ function [x,fx,lm,iter,liter,feasible] = ...
 % hessianType - Hessian update type [exact,bfgs,diagonal,eye] 
 %               If "eye" then the Hessian is initialised with the unit 
 %               matrix and updated with the BFGS formula.
-% tol - tolerance
 % maxiter - maximum iterations 
+% ftol - tolerance on function value
+% ctol - tolerance on constraints
 % verbose - logging
 %
 % Outputs:
@@ -44,14 +45,15 @@ function [x,fx,lm,iter,liter,feasible] = ...
 %  fx - Lagrangian function value at x
 %  gxf - gradient of Lagrangian function at x
 %  W - Hessian approximation at x
-%  tol - tolerance
 %  maxiter - maximum linesearch iterations
+%  ftol - tolerance on function value
+%  ctol - tolerance on constraints
 %  verbose - show results
 %
 % The linesearch Lagrangian function, sqp_Lfunction, takes a coefficient
 % value, x, as an argument and returns the Lagrangian value.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -75,21 +77,24 @@ function [x,fx,lm,iter,liter,feasible] = ...
 global sqp_pfx sqp_pgx sqp_liter sqp_lm sqp_xub sqp_xlb
 
 % Check input argument list
-if (nargin ~= 12) && (nargout ~= 5)
-  print_usage(strcat("[x fx lm iterliter]= ...\nsqp_bfgs(x0,pfx,pgx",
-               "linesearchName,xlb,xub,dmax,",
-               "H0,hessianType,tol,maxiter,verbose"));
+if (nargin ~= 13) && (nargout ~= 6)
+  print_usage(strcat("[x, fx, lm, iter, liter,feasible]= ...\n\
+sqp_bfgs(x0,pfx,pgx,linesearchName,xlb,xub,dmax,H0,hessianType, ...\n\
+maxiter,ftol,ctol,verbose)"));
 endif
 
 % Sanity checks
-if (tol > 0.5)
-  error("expected tol < 0.5!");
+if (ftol >= 0.5) || (ftol <= 0.0)
+  error("expected 0 < ftol < 0.5!");
+endif
+if (ctol >= 0.5) || (ctol <= 0.0)
+  error("expected 0 < ctol < 0.5!");
 endif
 if (~isempty(xlb) && (length(xlb) ~= length(x0)))
   error("length(xlb) ~= length(x0)!");
 endif
 if (length(xlb) == length(x0))
-  if any(x0(:)<(xlb(:)-tol))
+  if any(x0(:)<(xlb(:)-ftol))
     printf("x0=[");printf("%f ",x0);printf("]\n");
     printf("xlb=[");printf("%f ",xlb);printf("]\n");
     error("x0 < lower bound !");
@@ -99,7 +104,7 @@ if (~isempty(xub) && (length(xub) ~= length(x0)))
   error("length(xub) ~= length(x0)!");
 endif
 if (length(xub) == length(x0))
-  if any(x0(:)>(xub(:)+tol))
+  if any(x0(:)>(xub(:)+ftol))
     printf("x0=[ ");printf("%f ",x0);printf("]\n");
     printf("xub=[ ");printf("%f ",xub);printf("]\n");
     error("x0 > upper bound !");
@@ -176,7 +181,7 @@ while 1
   
   % Find the active constraints
   %
-  % The obvious thing to put here is "Ax=find(gx<tol);" However,
+  % The obvious thing to put here is "Ax=find(gx<ctol);" However,
   % when the trajectory approaches an optimum from outside the 
   % constrained area (or starts on the boundary) the gradient
   % of the Lagrangian, and hence d, may be very small at the 
@@ -185,7 +190,7 @@ while 1
   % multiplier component implies that the global unconstrained 
   % minimum lies within the corresponding constraint and that
   % constraint should be dropped.
-  Ax=find((sqp_lm>-tol).*(gx<tol));
+  Ax=find((sqp_lm>-ctol).*(gx<ctol));
   if verbose
     printf("At x = [ ");printf("%f ",x);
     printf("] active constraints are [ ");printf("%d ",Ax);printf("]\n");
@@ -231,12 +236,12 @@ while 1
   endif
   
   % Make sure the step size fits within the constraints
-  while (any((x+d)<(sqp_xlb-tol)) || any((x+d)>(sqp_xub+tol)))
+  while (any((x+d)<(sqp_xlb-ctol)) || any((x+d)>(sqp_xub+ctol)))
     d=d/2;
-    if (norm(d)<(tol^2))
+    if (norm(d)<(ftol^2))
       lm=sqp_lm;
       liter=sqp_liter;  
-      error("Searching for d within constraints but norm(d)<tol^2!");
+      error("Searching for d within constraints but norm(d)<ftol^2!");
       return
     endif
   endwhile
@@ -254,7 +259,7 @@ while 1
     printf("gxL = [ ");printf("%f ",gxL);printf("]\n");
     printf("L = %f\n",L);
   endif
-  [tau,liter]=feval(psearch,@sqp_Lfunction,x,d,L,gxL,W,tol,maxiter,verbose);
+  [tau,liter]=feval(psearch,@sqp_Lfunction,x,d,L,gxL,W,ftol,maxiter,verbose);
   if verbose
     printf("Found tau=%f using %s search(%d) of Lagrangian\n", ...
            tau,linesearchName,liter);
@@ -321,7 +326,7 @@ while 1
   endif
   % Check for positive definite W
   if verbose
-    P=isdefinite(W,tol);
+    P=isdefinite(W,ftol);
     if P==-1
       warning("W is not positive (semi-)definite!");
     endif
@@ -338,7 +343,7 @@ while 1
     printf("sqp_lm'*gx = %f\n",sqp_lm'*gx);
     printf("min_rcond_found = %g\n",min_rcond_found);
   endif
-  if (norm(gxL)<tol) && (min(sqp_lm)>-tol) && (abs(sqp_lm'*gx)<tol)
+  if (norm(gxL)<ftol) && (min(sqp_lm)>-ftol) && (abs(sqp_lm'*gx)<ftol)
     feasible=true;
     if verbose
       printf("Solution satisfying KKT conditions found\n");

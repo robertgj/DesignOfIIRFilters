@@ -162,7 +162,7 @@ else
                            wa,Asqd,Asqdu,Asqdl,Wa, ...
                            wt,Td,Tdu,Tdl,Wt, ...
                            wp,Pd,Pdu,Pdl,Wp, ...
-                           maxiter,tol,ctol,verbose);
+                           maxiter,ftol,ctol,verbose);
    catch
       feasible=false;
       warning("Branch and bound SQP failed!\n");
@@ -360,7 +360,7 @@ close
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
-fprintf(fid,"tol=%g %% Tolerance on coefficient update\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"maxiter=%d %% SQP iteration limit\n",maxiter);
 fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
@@ -385,11 +385,11 @@ fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ...\n\
-     use_best_branch_and_bound_found ...\n\
-     k0 epsilon0 p0 c0 tol ctol nbits ndigits ndigits_alloc npoints cscale ...\n\
-     fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp ...\n\
-     improved_solution_found k_min c_min",strf));
+eval(sprintf("save %s.mat \
+use_best_branch_and_bound_found \
+k0 epsilon0 p0 c0 ftol ctol nbits ndigits ndigits_alloc npoints cscale \
+fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp \
+improved_solution_found k_min c_min",strf));
        
 % Done
 toc;

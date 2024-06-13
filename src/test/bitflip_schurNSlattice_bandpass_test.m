@@ -1,19 +1,18 @@
 % bitflip_schurNSlattice_bandpass_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass lattice filter in normalised-scaled form.
 
 test_common;
 
-delete("bitflip_schurNSlattice_bandpass_test.diary");
-delete("bitflip_schurNSlattice_bandpass_test.diary.tmp");
-diary bitflip_schurNSlattice_bandpass_test.diary.tmp
+strf="bitflip_schurNSlattice_bandpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 bitflip_bandpass_test_common;
-
-% File name string
-strf="bitflip_schurNSlattice_bandpass_test";
 
 % Lattice decomposition
 [s10_0,s11_0,s20_0,s00_0,s02_0,s22_0]=tf2schurNSlattice(n0,d0);
@@ -153,13 +152,12 @@ print_polynomial(s00_bfsd,"s00_bfsd",strcat(strf,"_s00_bfsd_coef.m"),nscale);
 print_polynomial(s02_bfsd,"s02_bfsd",strcat(strf,"_s02_bfsd_coef.m"),nscale);
 print_polynomial(s22_bfsd,"s22_bfsd",strcat(strf,"_s22_bfsd_coef.m"),nscale);
 
-save bitflip_schurNSlattice_bandpass_test.mat ...
-     s10_rd   s11_rd   s20_rd   s00_rd   s02_rd   s22_rd ...
-     s10_bf   s11_bf   s20_bf   s00_bf   s02_bf   s22_bf ...
-     s10_sd   s11_sd   s20_sd   s00_sd   s02_sd   s22_sd ...
-     s10_bfsd s11_bfsd s20_bfsd s00_bfsd s02_bfsd s22_bfsd
+eval(sprintf("save %s.mat \
+s10_rd   s11_rd   s20_rd   s00_rd   s02_rd   s22_rd \
+s10_bf   s11_bf   s20_bf   s00_bf   s02_bf   s22_bf \
+s10_sd   s11_sd   s20_sd   s00_sd   s02_sd   s22_sd \
+s10_bfsd s11_bfsd s20_bfsd s00_bfsd s02_bfsd s22_bfsd",strf));
 
 % Done
 diary off
-movefile bitflip_schurNSlattice_bandpass_test.diary.tmp ...
-         bitflip_schurNSlattice_bandpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

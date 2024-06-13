@@ -1,19 +1,18 @@
 % bitflip_schurOneMlattice_bandpass_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a bandpass lattice filter in one multiplier form.
 
 test_common;
 
-delete("bitflip_schurOneMlattice_bandpass_test.diary");
-delete("bitflip_schurOneMlattice_bandpass_test.diary.tmp");
-diary bitflip_schurOneMlattice_bandpass_test.diary.tmp
+strf="bitflip_schurOneMlattice_bandpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 bitflip_bandpass_test_common;
-
-% File name string
-strf="bitflip_schurOneMlattice_bandpass_test";
 
 % Lattice decomposition
 [k0,epsilon0,p0,c0]=tf2schurOneMlattice(n0,d0);
@@ -271,11 +270,10 @@ print_polynomial(k_bfsdi,"k_bfsdi",strcat(strf,"_k_bfsdi_coef.m"),nscale);
 print_polynomial(c_bfsdi,"c_bfsdi",strcat(strf,"_c_bfsdi_coef.m"),nscale);
 
 % Save the results
-save bitflip_schurOneMlattice_bandpass_test.mat ...
-     k_ex c_ex k_rd c_rd k_bf c_bf k_sd c_sd k_bfsd c_bfsd ...
-     k_sdl c_sdl k_bfsdl c_bfsdl k_sdi c_sdi k_bfsdi c_bfsdi 
+eval(sprintf("save %s.mat \
+k_ex c_ex k_rd c_rd k_bf c_bf k_sd c_sd k_bfsd c_bfsd \
+k_sdl c_sdl k_bfsdl c_bfsdl k_sdi c_sdi k_bfsdi c_bfsdi",strf));
 
 % Done
 diary off
-movefile bitflip_schurOneMlattice_bandpass_test.diary.tmp ...
-         bitflip_schurOneMlattice_bandpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

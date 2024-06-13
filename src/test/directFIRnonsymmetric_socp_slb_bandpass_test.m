@@ -4,21 +4,21 @@
 % FREQUENCY INTERVALS", GOELE PIPELEERS, TETSUYA IWASAKI, AND SHINJI HARA, 
 % SIAM J. CONTROL OPTIM., Vol. 52, No. 6, pp. 3618–3638
 %
-% Copyright (C) 2021-2022 Robert G. Jenssen
+% Copyright (C) 2021-2024 Robert G. Jenssen
 
 test_common;
 
-delete("directFIRnonsymmetric_socp_slb_bandpass_test.diary");
-delete("directFIRnonsymmetric_socp_slb_bandpass_test.diary.tmp");
-diary directFIRnonsymmetric_socp_slb_bandpass_test.diary.tmp
+strf="directFIRnonsymmetric_socp_slb_bandpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-strf="directFIRnonsymmetric_socp_slb_bandpass_test";
-
 maxiter=5000
-tol=1e-6
-ctol=tol/10
+ftol=1e-6
+ctol=ftol/10
 verbose=false
 n=500
 
@@ -106,7 +106,7 @@ a0su=((-1).^(1:nMsu))*deltas;
 f0=[f0sl,f0p,f0su];
 a0=[a0sl,a0p,a0su];
 % Filter design
-[hM,fext,fiter,feasible]=hofstetterFIRsymmetric(f0,a0,n,maxiter,tol);
+[hM,fext,fiter,feasible]=hofstetterFIRsymmetric(f0,a0,n,maxiter,ftol);
 if feasible==false
   error("hofsetterFIRsymmetric hM not feasible");
 endif
@@ -133,7 +133,7 @@ try
   [h1,opt_iter,func_iter,feasible]= ...
   directFIRnonsymmetric_socp_mmse([],h0,h_active,wa,Asqd,Asqdu,Asqdl,Wa,...
                                   wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-                                  maxiter,tol,verbose);
+                                  maxiter,ftol,ctol,verbose);
 catch
   feasible=false;
   err=lasterror();
@@ -153,7 +153,7 @@ endif
 try
   [h,slb_iter,opt_iter,func_iter,feasible]=directFIRnonsymmetric_slb ...
    (@directFIRnonsymmetric_socp_mmse,h1,h_active,wa,Asqd,Asqdu,Asqdl,Wa,...
-    wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
+    wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 catch
   feasible=false;
   err=lasterror();
@@ -221,7 +221,7 @@ close
 % Save results
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"N=%d %% FIR filter order\n",N);
@@ -246,14 +246,13 @@ fclose(fid);
 print_polynomial(h,"h");
 print_polynomial(h,"h",strcat(strf,"_h_coef.m"));
 
-save directFIRnonsymmetric_socp_slb_bandpass_test.mat maxiter tol ctol n ...
-     N fapl fapu deltap Wap Watl Watu fasl fasu deltas Wasl Wasu ...
-     ftpl ftpu td tdr Wtp h0 h1 h
+eval(sprintf("save %s.mat maxiter ftol ctol n \
+N fapl fapu deltap Wap Watl Watu fasl fasu deltas Wasl Wasu \
+ftpl ftpu td tdr Wtp h0 h1 h",strf));
 
 %
 % Done
 %
 toc;
 diary off
-movefile directFIRnonsymmetric_socp_slb_bandpass_test.diary.tmp ...
-         directFIRnonsymmetric_socp_slb_bandpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

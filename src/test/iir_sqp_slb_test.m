@@ -1,17 +1,19 @@
 % iir_sqp_slb_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("iir_sqp_slb_test.diary");
-delete("iir_sqp_slb_test.diary.tmp");
-diary iir_sqp_slb_test.diary.tmp
+strf="iir_sqp_slb_test";
 
-tol=1e-3;
-ctol=tol;
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
+
 maxiter=2000;
+ftol=1e-3;
+ctol=ftol;
 verbose=false;
-printf("tol=%g,ctol=%g,maxiter=%d,verbose=%d\n",tol,ctol,maxiter,verbose);
+printf("maxiter=%d,ftol=%g,ctol=%g,verbose=%d\n",maxiter,ftol,ctol,verbose);
 
 % Deczky3 Lowpass filter specification
 
@@ -43,7 +45,7 @@ dmax=0.05;
 % Amplitude constraints
 Ad=[ones(nap,1); zeros(n-nap,1)];
 Adu=[ones(nas-1,1); (10^(-dBas/20))*ones(n-nas+1,1)];
-Adl=[(10^(-dBap/20))*ones(nap,1);zeros(n-nap,1)+tol/10];
+Adl=[(10^(-dBap/20))*ones(nap,1);zeros(n-nap,1)+ftol/10];
 Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
 
 % Stop-band amplitude response constraints
@@ -79,7 +81,7 @@ strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,",fap,dBap,Wap);
 strM=strcat(strM, sprintf("fas=%g,dBas=%g,Was=%g,",fas,dBas,Was));
 strM=strcat(strM, sprintf("tp=%g,rtp=%g,Wtp=%g",tp,tpr,Wtp));
 printf("%s\n",sprintf(strM,"Test parameters"));
-strd=sprintf("iir_sqp_slb_test_%%s");
+strd=sprintf("%s_%%s",strf);
 
 % First iir_sqp_mmse pass
 printf("\nFirst MMSE pass\n");
@@ -87,7 +89,7 @@ printf("\nFirst MMSE pass\n");
   iir_sqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-               maxiter,tol,verbose);
+               maxiter,ftol,ctol,verbose);
 if feasible == 0 
   error("iir_sqp_slb_test, x2(mmse) infeasible");
 endif
@@ -124,7 +126,7 @@ iir_slb_show_constraints(vS,wa,Ax2,ws,Sx2,wt,Tx2,wp,Px2);
   iir_sqp_mmse(vS,x2,xu,xl,dmax,U,V,M,Q,R, ...
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-               maxiter,tol,verbose);
+               maxiter,ftol,ctol,verbose);
 if feasible == 0 
   error("iir_sqp_slb_test, x3(mmse) infeasible");
 endif
@@ -158,4 +160,4 @@ close
 
 % Done
 diary off
-movefile iir_sqp_slb_test.diary.tmp iir_sqp_slb_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

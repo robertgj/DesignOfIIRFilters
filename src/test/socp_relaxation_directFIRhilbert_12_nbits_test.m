@@ -1,22 +1,23 @@
 % socp_relaxation_directFIRhilbert_12_nbits_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 % Optimisation of Hilbert FIR filter response with 12-bit signed-digit
 % coefficients allocated with the heuristic of Ito et al. and SOCP relaxation
 
 test_common;
 
-delete("socp_relaxation_directFIRhilbert_12_nbits_test.diary");
-delete("socp_relaxation_directFIRhilbert_12_nbits_test.diary.tmp");
-diary socp_relaxation_directFIRhilbert_12_nbits_test.diary.tmp
+strf="socp_relaxation_directFIRhilbert_12_nbits_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-strf="socp_relaxation_directFIRhilbert_12_nbits_test";
 maxiter=1000
 verbose=false;
-tol=1e-5;
-ctol=tol;
+ftol=1e-5;
+ctol=ftol;
 
 % Hilbert filter frequency specification
 M=40;fapl=0.01;fapu=0.5-fapl;dBap=0.1575;Wap=1;Was=0;
@@ -121,7 +122,7 @@ while ~isempty(hM_active)
       directFIRhilbert_slb(@directFIRhilbert_socp_mmsePW, ...
                            hM,hM_active,[1 ((npoints/2)-napl+1)], ...
                            wa(war),Ad(war),Adu(war),Adl(war),Wa(war), ...
-                           maxiter,tol,ctol,verbose);
+                           maxiter,ftol,ctol,verbose);
     slb_iter=slb_iter+siter;
     socp_iter=socp_iter+soiter;
     func_iter=func_iter+fiter;
@@ -226,7 +227,7 @@ fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"M=%d %% Number of distinct coefficients\n",M);
 fprintf(fid,"nbits=%d %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%d %% Nominal average coefficient signed-digits\n",ndigits);
-fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"maxiter=%d %% SOCP iteration limit\n",maxiter);
 fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);
@@ -238,12 +239,10 @@ fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results
-save socp_relaxation_directFIRhilbert_12_nbits_test.mat ...
-     tol ctol nbits nscale ndigits ndigits_alloc npoints ...
-     fapl fapu dBap Wap Was hM0 hM0_sd hM0_Ito_sd hM_min
-       
+eval(sprintf("save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc npoints \
+fapl fapu dBap Wap Was hM0 hM0_sd hM0_Ito_sd hM_min",strf));
+
 % Done
 toc;
 diary off
-movefile socp_relaxation_directFIRhilbert_12_nbits_test.diary.tmp ...
-         socp_relaxation_directFIRhilbert_12_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

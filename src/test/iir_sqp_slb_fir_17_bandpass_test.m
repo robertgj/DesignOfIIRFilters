@@ -11,8 +11,8 @@ delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 maxiter=2500
-tol=1e-3
-ctol=tol
+ftol=1e-3
+ctol=ftol
 verbose=false
 
 % Bandpass filter specification
@@ -38,8 +38,9 @@ print(sprintf(strd,"initial","x0pz"),"-dpdflatex");
 close
 
 % Use minimum phase coefficient constraints
-[xl,xu]=xConstraints(U,V,M,Q,1-tol,1-tol);
 dmax=0.05;
+rho=1-ftol;
+[xl,xu]=xConstraints(U,V,M,Q,rho,rho);
 
 % Frequency points
 n=1000;
@@ -88,7 +89,7 @@ wp=[];Pd=[];Pdu=[];Pdl=[];Wp=[];
   iir_sqp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R, ...
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-               maxiter,tol,verbose)
+               maxiter,ftol,ctol,verbose)
 if !feasible 
   error("x1 infeasible");
 endif
@@ -110,13 +111,13 @@ close
   iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol,ctol,verbose)
+          maxiter,ftol,ctol,verbose)
 if !feasible 
   error("d1 infeasible");
 endif
 % Ensure d1 amplitude response is <=1
-% (PCLS permits max(Ad1)==tol. d1(1) is the gain coefficient.)
-Ad1=iirA(wa,d1,U,V,M,Q,R,tol);
+% (PCLS permits max(Ad1)==ftol. d1(1) is the gain coefficient.)
+Ad1=iirA(wa,d1,U,V,M,Q,R,ftol);
 d1(1)=d1(1)/max(abs(Ad1));
 Ad1=Ad1/max(abs(Ad1));
 if max(abs(Ad1))>1
@@ -142,8 +143,8 @@ print_polynomial(b0,"b0",strcat(strf,"_b0_coef.m"));
 b1=x2tf(d1,U,V,M,Q,R);
 print_polynomial(b1,"b1",strcat(strf,"_b1_coef.m"));
 
-eval(sprintf("save %s.mat ...\n\
-U V M Q R tol ctol fapl fapu dBap Wap dBas Wasu Wasl x1 d1 b1", strf));
+eval(sprintf("save %s.mat \
+U V M Q R ftol ctol fapl fapu dBap Wap dBas Wasu Wasl x1 d1 b1", strf));
 
 % Done 
 diary off

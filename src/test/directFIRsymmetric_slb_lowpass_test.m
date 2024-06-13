@@ -1,20 +1,21 @@
 % directFIRsymmetric_slb_lowpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("directFIRsymmetric_slb_lowpass_test.diary");
-delete("directFIRsymmetric_slb_lowpass_test.diary.tmp");
-diary directFIRsymmetric_slb_lowpass_test.diary.tmp
+strf="directFIRsymmetric_slb_lowpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 %
 % Initialise
 %
 maxiter=100;
+ftol=1e-5;
+ctol=ftol;
 verbose=true;
-tol=1e-5;
-ctol=tol;
-strf="directFIRsymmetric_slb_lowpass_test";
 
 % Low pass filter
 M=15;
@@ -39,7 +40,7 @@ hM_active=1:length(hM0);
 
 [hM1mmse,socp_iter,func_iter,feasible]= ...
   directFIRsymmetric_mmsePW([],hM0,hM_active,na,wa,Ad,Adu,Adl,Wa, ...
-                            maxiter,tol,verbose);
+                            maxiter,ftol,ctol,verbose);
 if feasible==false
   error("hM1mmse not feasible");
 endif
@@ -50,7 +51,7 @@ endif
 [hM1,slb_iter,socp_iter,func_iter,feasible]= ...
   directFIRsymmetric_slb(@directFIRsymmetric_mmsePW, ...
                          hM0,hM_active,na,wa,Ad,Adu,Adl,Wa, ...
-                         maxiter,tol,ctol,verbose);
+                         maxiter,ftol,ctol,verbose);
 if feasible==false
   error("hM1 not feasible");
 endif
@@ -94,7 +95,7 @@ Adut=[ones(nas-1,1);(10^(-dBast/20))*ones(nplot-nas+2,1)];
 Adlt=[(10^(-dBapt/20))*ones(nap,1);-(10^(-dBast/20))*ones(nplot-nap+1,1)];
 [hM2,slb_iter,socp_iter,func_iter,feasible]=...
   directFIRsymmetric_slb(@directFIRsymmetric_mmsePW,hM1t,hM_active,na, ...
-                         wa,Ad,Adut,Adlt,Wa,maxiter,tol,ctol,verbose);
+                         wa,Ad,Adut,Adlt,Wa,maxiter,ftol,ctol,verbose);
 if feasible==false
   error("hM2 not feasible");
 endif
@@ -128,7 +129,7 @@ close
 % Save the results
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"nplot=%d %% Frequency points across the band\n",nplot);
 fprintf(fid,"M=%d %% M+1 distinct coefficients\n",M);
@@ -146,13 +147,10 @@ print_polynomial(hM1t,"hM1t");
 print_polynomial(hM2,"hM2");
 print_polynomial(hM2,"hM2",strcat(strf,"_hM2_coef.m"));
 
-save directFIRsymmetric_slb_lowpass_test.mat ...
-     tol ctol maxiter M nplot ...
-     fap Wap dBap fas Was dBas wa Ad Adu Adl Wa h0 hM1 ...
-     nbits hM_inactive hM1t hM2 dBapt dBast Adut Adlt
+eval(sprintf("save %s.mat ftol ctol maxiter M nplot \
+     fap Wap dBap fas Was dBas wa Ad Adu Adl Wa h0 hM1 \
+     nbits hM_inactive hM1t hM2 dBapt dBast Adut Adlt",strf));
 
 % Done
 diary off
-movefile directFIRsymmetric_slb_lowpass_test.diary.tmp ...
-         directFIRsymmetric_slb_lowpass_test.diary;
-
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

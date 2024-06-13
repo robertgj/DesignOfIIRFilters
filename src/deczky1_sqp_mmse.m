@@ -1,11 +1,11 @@
 function [x,E,sqp_iter,func_iter,feasible] = ... 
   deczky1_sqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...
                    wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx, ...
-                   maxiter,tol,verbose)
+                   maxiter,ftol,ctol,verbose)
 % [x,E,sqp_iter,func_iter,feasible] = ...
 %   deczky1_sqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...
 %                    wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx, ...
-%                    maxiter,tol,verbose)
+%                    maxiter,ftol,ctol,verbose)
 %
 % SQP MMSE optimisation of a Lagrangian with constraints on the
 % amplitude and group delay responses, including a constraint on the
@@ -41,7 +41,8 @@ function [x,E,sqp_iter,func_iter,feasible] = ...
 %   wx - angular frequencies of desired transition-band amplitude response 
 %        derivative
 %   maxiter - maximum number of SQP iterations
-%   tol - tolerance
+%   ftol - tolerance on function value
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Note that Ad, Adu, Adl and Wa are the amplitudes or weights at
@@ -55,7 +56,7 @@ function [x,E,sqp_iter,func_iter,feasible] = ...
 %   func_iter - number of iirE() function calls
 %   feasible - true if a solution has been found
          
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -75,11 +76,11 @@ function [x,E,sqp_iter,func_iter,feasible] = ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if (nargin ~= 24) || (nargout ~= 5)
+if (nargin ~= 25) || (nargout ~= 5)
   print_usage("[x,E,sqp_iter,func_iter,feasible] = ...\n\
          deczky1_sqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...\n\
          wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx, ...\n\
-         maxiter,tol,verbose)"); 
+         maxiter,ftol,ctol,verbose)"); 
 endif
 
 % Sanity checks
@@ -135,10 +136,10 @@ W=diag(diag(hessE));
 invW=inv(W);
 
 % Initialise constraint function persistent constants
-gx=deczky1_sqp_mmse_gx(x0,vS,U,V,M,Q,R,wa,Adu,Adl,wt,Tdu,Tdl,wx,tol,false);
+gx=deczky1_sqp_mmse_gx(x0,vS,U,V,M,Q,R,wa,Adu,Adl,wt,Tdu,Tdl,wx,ctol,false);
   
 % Initial check on constraints. Do not need to proceed if they are satisfied.
-if (isempty(gx) == false) && all(gx > -tol)
+if (isempty(gx) == false) && all(gx > -ctol)
   x=x0;
   sqp_lm=[];
   sqp_iter=0;
@@ -156,7 +157,7 @@ x=[];E=inf;sqp_lm=[];func_iter=0;sqp_iter=0;liter=0;feasible=false;
 try
   [x,E,sqp_lm,sqp_iter,liter,feasible] = ...
   sqp_bfgs(x0,@deczky1_sqp_mmse_fx,@deczky1_sqp_mmse_gx,"armijo_kim", ...
-           xl,xu,dmax,{W,invW},"bfgs",tol,maxiter,verbose);
+           xl,xu,dmax,{W,invW},"bfgs",maxiter,ftol,ctol,verbose);
   [dummy1,dummy2,dummy3,func_iter] = deczky1_sqp_mmse_fx();
 catch
   x=[];
@@ -231,9 +232,9 @@ endfunction
 
 function [gx,B] = deczky1_sqp_mmse_gx(x,_vS,_U,_V,_M,_Q,_R, ...
                                       _wa,_Adu,_Adl,_wt,_Tdu,_Tdl,_wx, ...
-                                      _tol,_verbose)
+                                      _ctol,_verbose)
  
-  persistent vS U V M Q R N wa Adu Adl wt Tdu Tdl wx tol verbose
+  persistent vS U V M Q R N wa Adu Adl wt Tdu Tdl wx ctol verbose
   persistent init_complete=false
 
   % Initialise persistent values
@@ -253,7 +254,7 @@ function [gx,B] = deczky1_sqp_mmse_gx(x,_vS,_U,_V,_M,_Q,_R, ...
     wa=_wa;Adu=_Adu;Adl=_Adl;
     wt=_wt;Tdu=_Tdu;Tdl=_Tdl;
     wx=_wx;
-    tol=_tol;
+    ctol=_ctol;
     verbose=_verbose;
     init_complete=true;
   else
@@ -303,7 +304,7 @@ function [gx,B] = deczky1_sqp_mmse_gx(x,_vS,_U,_V,_M,_Q,_R, ...
 
   % Show
   if verbose
-    if all(gx>-tol)
+    if all(gx>-ctol)
       printf("All constraints satisfied!\n");
     endif
     Ac=zeros(size(wa));  Ac(vS.al)=Al;  Ac(vS.au)=Au;

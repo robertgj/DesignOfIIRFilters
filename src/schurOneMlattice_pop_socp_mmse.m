@@ -2,12 +2,12 @@ function [k,c,pop_iter,func_iter,feasible]= ...
   schurOneMlattice_pop_socp_mmse(vS,k0,epsilon0,p0,c0, ...
                                  kc_u,kc_l,kc_active,kc_fixed, ...
                                  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                 wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+                                 wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 % [k,c,pop_iter,func_iter,feasible] =
 %   schurOneMlattice_pop_socp_mmse(vS,k0,epsilon0,p0,c0, ...
 %                                  kc_u,kc_l,kc_active,kc_fixed, ...
 %                                  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                                  wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)
+%                                  wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 %
 % sparsePOP optimisation of a one-multiplier Schur lattice filter with
 % constraints on the amplitude, phase and group delay responses.
@@ -18,9 +18,10 @@ function [k,c,pop_iter,func_iter,feasible]= ...
 %
 % Coefficient truncation is achieved by setting equality constraints on delta:
 %  (delta-(xl-x))*(delta-(xu-x))=0
+% or:
+%  [(xl-x)*(xu-x)] - [(xl-x)+(xu-x)]*delta + delta^2 = 0
 % where x is the current coefficient vector and xl and xu are the lower and
-% upper coefficient truncation bounds on x. I found that sparsePOP only
-% solves for the first equality constraint.
+% upper coefficient truncation bounds on x.
 %
 % The response inequalities are of the form:
 %   (Asqdu-Asq) - gradAsq*delta >= 0
@@ -56,7 +57,8 @@ function [k,c,pop_iter,func_iter,feasible]= ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - not used
-%   tol - tolerance
+%   ftol - tolerance on coefficient updates
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -65,7 +67,7 @@ function [k,c,pop_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -85,12 +87,12 @@ function [k,c,pop_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 27) || (nargout ~= 5)
+  if (nargin ~= 28) || (nargout ~= 5)
     print_usage("[k,c,pop_iter,func_iter,feasible]= ...\n\
   schurOneMlattice_pop_socp_mmse(vS,k0,epsilon0,p0,c0, ...\n\
                                  kc_u,kc_l,kc_active,kc_fixed, ...\n\
                                  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                                 wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose)");
+                                 wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
   endif
 
   %
@@ -182,7 +184,7 @@ function [k,c,pop_iter,func_iter,feasible]= ...
   if any(kc_fixed<1) || any(kc_fixed>Nkc_active) || any(rem(kc_active,1))
     error("kc_fixed(%d)>%d is out of bounds!",kc_fixed,length(kc_active));
   endif
-
+  
   %
   % Initialise
   %
@@ -214,18 +216,20 @@ function [k,c,pop_iter,func_iter,feasible]= ...
   % Objective function (must be positive!)
   %
   % Minimise the estimated error (ignoring the constant term):
-  %  0.5*deltaxl'*diag(diagHessEsql*deltaxl)+gradEsql*deltaxl
+  %  0.5*delta'*(diagHessEsq0.*delta)+(gradEsq0*delta)+Esq0
   % with l=1..Nkc_active
   objPoly.typeCone = 1;
   objPoly.dimVar   = Nkc_active;
   objPoly.degree   = 2;
-  objPoly.noTerms  = Nkc_active+Nkc_active;
+  objPoly.noTerms  = Nkc_active+Nkc_active+1;
   % Order of supports: delta_l^2, delta_l
-  objPoly.supports = [2*speye(Nkc_active); speye(Nkc_active)];
+  objPoly.supports = [2*speye(Nkc_active); ...
+                      speye(Nkc_active); ...
+                      sparse(1,Nkc_active)];
   % objPoly coefficients
   gradEsq_active=gradEsq0(kc_active);
   diagHessEsq_active=diagHessEsq0(kc_active);
-  objPoly.coef=[0.5*diagHessEsq_active(:); gradEsq_active(:)];
+  objPoly.coef=[0.5*diagHessEsq_active(:); gradEsq_active(:); Esq0];
   
   %
   % Constraints
@@ -239,8 +243,8 @@ function [k,c,pop_iter,func_iter,feasible]= ...
     ineqPolySys{l}.typeCone = 1;
     ineqPolySys{l}.dimVar   = Nkc_active;
     ineqPolySys{l}.degree   = 1;
-    ineqPolySys{l}.noTerms  = Nkc_active+1;
-    ineqPolySys{l}.coef     = zeros(1+Nkc_active,1);
+    ineqPolySys{l}.noTerms  = 1+Nkc_active;
+    ineqPolySys{l}.coef     = sparse(1+Nkc_active,1);
     ineqPolySys{l}.supports = [sparse(1,Nkc_active);speye(Nkc_active)];
   endfor
 
@@ -252,7 +256,8 @@ function [k,c,pop_iter,func_iter,feasible]= ...
     for l=1:length(vS.au)
       l_ineq=l_ineq+1; 
       % Asqdu - (Asq+(gradAsq*delta)) >= 0
-      ineqPolySys{l_ineq}.coef=[Asqdu(l)-Asq_au(l);-gradAsq_au(l,kc_active)'];
+      ineqPolySys{l_ineq}.coef=[ Asqdu(vS.au(l))-Asq_au(l); ...
+                                -gradAsq_au(l,kc_active)'];
     endfor
   endif
   if ~isempty(vS.al)
@@ -261,7 +266,8 @@ function [k,c,pop_iter,func_iter,feasible]= ...
     for l=1:length(vS.al)
       l_ineq=l_ineq+1;
       % (Asq+(gradAsq*delta)) - Asqdl >= 0
-      ineqPolySys{l_ineq}.coef=[Asq_al(l)-Asqdl(l);gradAsq_al(l,kc_active)'];
+      ineqPolySys{l_ineq}.coef=[ Asq_al(l)-Asqdl(vS.al(l)); ...
+                                 gradAsq_al(l,kc_active)'];
     endfor
   endif
 
@@ -272,7 +278,8 @@ function [k,c,pop_iter,func_iter,feasible]= ...
     for l=1:length(vS.tu)
       l_ineq=l_ineq+1;
       % Tdu - (T+(gradT*delta)) >= 0
-      ineqPolySys{l_ineq}.coef=[Tdu(l)-T_tu(l);-gradT_tu(l,kc_active)'];
+      ineqPolySys{l_ineq}.coef=[ Tdu(vS.tu(l))-T_tu(l); ...
+                                -gradT_tu(l,kc_active)'];
     endfor
   endif
   if ~isempty(vS.tl)
@@ -281,30 +288,33 @@ function [k,c,pop_iter,func_iter,feasible]= ...
     for l=1:length(vS.tl)
       l_ineq=l_ineq+1;
       % (T+(gradT*delta)) - Tdl >= 0
-      ineqPolySys{l_ineq}.coef=[T_tl(l)-Tdl(l);gradT_tl(l,kc_active)'];
+      ineqPolySys{l_ineq}.coef=[ T_tl(l)-Tdl(vS.tl(l)); ...
+                                 gradT_tl(l,kc_active)'];
     endfor
   endif
 
   % Phase linear constraints
-  if ~isempty(vS.pu)
-    [P_pu,gradP_pu]=schurOneMlatticeP(wp(vS.pu),k,epsilon0,p0,c);
+  if ~isempty(vS.pu) || ~isempty(vS.pl)
+    [P,gradP]=schurOneMlatticeP(wp,k,epsilon0,p0,c);
     func_iter = func_iter+1;
+  endif      
+  if ~isempty(vS.pu)
     for l=1:length(vS.pu)
       l_ineq=l_ineq+1;
       % Pdu - (P+(gradP*delta)) >= 0
-      ineqPolySys{l_ineq}.coef=[Pdu(l)-P_pu(l);-gradP_pu(l,kc_active)'];
+      ineqPolySys{l_ineq}.coef=[ Pdu(vS.pu(l))-P(vS.pu(l)); ...
+                                -gradP(vS.pu(l),kc_active)'];
     endfor
   endif
   if ~isempty(vS.pl)
-    [P_pl,gradP_pl]=schurOneMlatticeP(wp(vS.pl),k,epsilon0,p0,c);
-    func_iter = func_iter+1;
     for l=1:length(vS.pl)
       l_ineq=l_ineq+1;
       % (P+(gradP*delta)) - Pdl >= 0
-      ineqPolySys{l_ineq}.coef=[P_pl(l)-Pdl(l);gradP_pl(l,kc_active)'];
+      ineqPolySys{l_ineq}.coef=[ P(vS.pl(l))-Pdl(vS.pl(l)); ...
+                                 gradP(vS.pl(l),kc_active)'];
     endfor
   endif
-
+  
   % Initialise truncation equality constraints
   for l=1:Nkc_fixed
     ineqPolySys{Nresp+l}.typeCone = -1;
@@ -331,27 +341,35 @@ function [k,c,pop_iter,func_iter,feasible]= ...
   %
   % Call sparsePOP
   %
+  feasible=false;
   try
     [param,SDPobjValue,POP,cpuTime,SDPsolverInfo,SDPinfo] = ...
-    sparsePOP(objPoly,ineqPolySys,lbd,ubd,param);
+      sparsePOP(objPoly,ineqPolySys,lbd,ubd,param);
     if verbose
       printf("SeDuMi SDPsolverInfo.iter=%d,SDPsolverInfo.feasratio=%6.4g\n",
              SDPsolverInfo.iter,SDPsolverInfo.feasratio);
+      printf("       SDPsolverInfo.pinf=%d,SDPsolverInfo.dinf=%d\n",
+             SDPsolverInfo.pinf,SDPsolverInfo.dinf);
+      printf("       SDPsolverInfo.numerr=%d\n",SDPsolverInfo.numerr);
     endif
-    if SDPsolverInfo.pinf
-      error("SeDuMi primary problem infeasible");
+    if SDPsolverInfo.pinf || SDPsolverInfo.dinf || SDPsolverInfo.numerr
+      feasible=false;
+      if SDPsolverInfo.pinf
+        error("SeDuMi primary problem infeasible");
+      endif
+      if SDPsolverInfo.dinf
+        error("SeDuMi dual problem infeasible");
+      endif 
+      if SDPsolverInfo.numerr == 1
+        error("SeDuMi premature termination"); 
+      elseif SDPsolverInfo.numerr == 2 
+        error("SeDuMi numerical failure");
+      elseif SDPsolverInfo.numerr
+        error("SeDuMi SDPsolverInfo.numerr=%d",SDPsolverInfo.numerr);
+      endif
+    else
+      feasible=true;
     endif
-    if SDPsolverInfo.dinf
-      error("SeDuMi dual problem infeasible");
-    endif 
-    if SDPsolverInfo.numerr == 1
-      error("SeDuMi premature termination"); 
-    elseif SDPsolverInfo.numerr == 2 
-      error("SeDuMi numerical failure");
-    elseif SDPsolverInfo.numerr
-      error("SeDuMi SDPsolverInfo.numerr=%d",SDPsolverInfo.numerr);
-    endif
-    feasible=true;
   catch
     xkc=[];
     feasible=false;

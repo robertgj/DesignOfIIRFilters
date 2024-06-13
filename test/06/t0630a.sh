@@ -4,8 +4,8 @@ prog=schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test.m
 
 depends="test/schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test.m \
 test_common.m \
-../iir_sqp_slb_lowpass_differentiator_alternate_test_D1_coef.m \
-../iir_sqp_slb_lowpass_differentiator_alternate_test_N1_coef.m \
+../tarczynski_lowpass_differentiator_alternate_test_D0_coef.m \
+../tarczynski_lowpass_differentiator_alternate_test_N0_coef.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
 schurOneMlatticeP.m \
@@ -60,30 +60,16 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k2.ok << 'EOF'
-k2 = [  -0.2812722202,   0.9749403828,  -0.6337173090,   0.6916463537, ... 
-        -0.7006149013,   0.6768687830,  -0.6151392256,   0.4882615035, ... 
-        -0.2899281212,   0.1044693405,  -0.0179860570 ]';
+k2 = [  -0.5287389183,   0.6991930719,  -0.4455159197,  -0.1457079246, ... 
+         0.5312023078,  -0.4930405831,   0.1609335274,   0.1932597811, ... 
+        -0.2506415498,   0.1300962232,  -0.0285408298 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
 
-cat > test.epsilon2.ok << 'EOF'
-epsilon2 = [  1,  1,  1, -1, ... 
-             -1, -1, -1, -1, ... 
-              1, -1,  1 ];
-EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon2.ok"; fail; fi
-
-cat > test.p2.ok << 'EOF'
-p2 = [   1.1084749804,   1.4800090958,   0.1667149726,   0.3520909502, ... 
-         0.8246793251,   0.3460168172,   0.7882378564,   0.3847725939, ... 
-         0.6561750466,   0.8844052448,   0.9821728214 ];
-EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.p2.ok"; fail; fi
-
 cat > test.c2.ok << 'EOF'
-c2 = [  -0.0060644902,  -0.0147766987,   1.4111830129,   0.7359763899, ... 
-         0.0202599449,  -0.1608163928,   0.0095506693,   0.0372475745, ... 
-        -0.0058292666,  -0.0058904477,   0.0011302632,   0.0018945742 ]';
+c2 = [   0.0947912984,  -0.1739171093,  -0.6929334435,  -0.1933889763, ... 
+         0.0243740688,   0.0313868990,  -0.0061763530,  -0.0165581525, ... 
+         0.0010188585,   0.0095031174,   0.0016016799,  -0.0025042181 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
 
@@ -99,12 +85,6 @@ nstr="schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test";
 
 diff -Bb test.k2.ok $nstr"_k2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k2.ok"; fail; fi
-
-diff -Bb test.epsilon2.ok $nstr"_epsilon2_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.epsilon2.ok"; fail; fi
-
-diff -Bb test.p2.ok $nstr"_p2_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.p2.ok"; fail; fi
 
 diff -Bb test.c2.ok $nstr"_c2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c2.ok"; fail; fi

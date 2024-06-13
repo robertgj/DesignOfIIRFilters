@@ -49,8 +49,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_f1_coef.ok << 'EOF'
-f1 = [  -0.0314881200,  -0.0000085599,   0.2814857078,   0.5000169443, ... 
-         0.2814857078,  -0.0000085599,  -0.0314881200 ]';
+f1 = [  -0.0314883306,  -0.0000086184,   0.2814859166,   0.5000170650, ... 
+         0.2814859166,  -0.0000086184,  -0.0314883306 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_f1_coef.ok"; fail; fi
 

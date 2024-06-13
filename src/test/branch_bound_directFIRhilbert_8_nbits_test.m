@@ -1,21 +1,22 @@
 % branch_bound_directFIRhilbert_8_nbits_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 % Branch-and-bound search of even-order direct-form hilbert bandpass filter
 % response with 8-bit signed-digit coefficients
 
 test_common;
 
-delete("branch_bound_directFIRhilbert_8_nbits_test.diary");
-delete("branch_bound_directFIRhilbert_8_nbits_test.diary.tmp");
-diary branch_bound_directFIRhilbert_8_nbits_test.diary.tmp
+strf="branch_bound_directFIRhilbert_8_nbits_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 maxiter=400
 verbose=false
-tol=1e-4
-ctol=tol
-strf="branch_bound_directFIRhilbert_8_nbits_test";
+ftol=1e-4
+ctol=ftol
 
 % Hilbert filter frequency specification
 M=10;fapl=0.1;fapu=0.5-fapl;dBap=0.15;Wap=1;Was=0;
@@ -47,13 +48,13 @@ A0=directFIRhilbertA(wa,hM0);
 vS=directFIRhilbert_slb_update_constraints(A0(war),Adu(war),Adl(war),ctol);
 [hM1,socp_iter,func_iter,feasible]=directFIRhilbert_mmsePW ...
   (vS,hM0,hM0_active,[napl,(npoints/2)], ...
-   wa(war),Ad(war),Adu(war),Adl(war),Wa(war),maxiter,tol,verbose);
+   wa(war),Ad(war),Adu(war),Adl(war),Wa(war),maxiter,ftol,ctol,verbose);
 hM1_active=find(hM1~=0);
 
 % SLB solution
 [hM2,slb_iter,socp_iter,func_iter,feasible]=directFIRhilbert_slb ...
   (@directFIRhilbert_mmsePW,hM1,hM0_active,[napl,(npoints/2)], ...
-   wa(war),Ad(war),Adu(war),Adl(war),Wa(war),maxiter,tol,ctol,verbose);
+   wa(war),Ad(war),Adu(war),Adl(war),Wa(war),maxiter,ftol,ctol,verbose);
 if feasible==false
   error("directFIRhilbert_slb failed!");
 endif
@@ -268,14 +269,14 @@ close
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
-fprintf(fid,"tol=%g %% Tolerance on coefficient. update\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"maxiter=%d %% iteration limit\n",maxiter);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
 fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple(dB)\n",dBap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
-fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 print_polynomial(hM0,"hM0");
@@ -290,12 +291,10 @@ print_polynomial(hM_min,"hM_min",nscale);
 print_polynomial(hM_min,"hM_min",strcat(strf,"_hM_min_coef.m"),nscale);
 
 % Save results
-save branch_bound_directFIRhilbert_8_nbits_test.mat ...
-     hM0 hM1 hM2 hM2_sd tol ctol nbits ndigits fapl fapu dBap Wap Was ...
-     improved_solution_found hM_min
+eval(sprintf("save %s.mat hM0 hM1 hM2 hM2_sd ftol ctol nbits ndigits \
+fapl fapu dBap Wap Was improved_solution_found hM_min",strf));
        
 % Done
 toc;
 diary off
-movefile branch_bound_directFIRhilbert_8_nbits_test.diary.tmp ...
-         branch_bound_directFIRhilbert_8_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

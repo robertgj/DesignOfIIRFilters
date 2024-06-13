@@ -1,5 +1,5 @@
 % sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m
-% Copyright (C) 2019-2023 Robert G. Jenssen
+% Copyright (C) 2019-2024 Robert G. Jenssen
 
 % SDP relaxation optimisation of a Schur parallel one-multiplier allpass
 % lattice elliptic lowpass filter with 16-bit signed-digit coefficients having
@@ -7,21 +7,19 @@
 
 test_common;
 
-delete ...
-("sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.diary");
-delete ...
-("sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.diary.tmp");
-diary sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.diary.tmp
-sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_allocsd_Lim=false
-sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_allocsd_Ito=true
+strf="sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
+
+eval(strcat(strf,"_allocsd_Lim=false"));
+eval(strcat(strf,"_allocsd_Ito=true"));
 
 tic;
 
-% Common strings
-strf="sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test";
-
 % Pass separate tolerances for the coefficient step and SeDuMi eps.
-tol=1e-8
+ftol=1e-8
 ctol=2e-10
 del.dtol=ctol;
 del.stol=ctol;
@@ -53,7 +51,7 @@ fape=fap-0.05
 dBap=0.06
 Wap=1
 Wape=1 % Extra passband weight increasing linearly from fape to fap
-Wat=tol
+Wat=ftol
 fas=0.171
 fase=fas+0.05
 dBas=78
@@ -149,7 +147,7 @@ k0_sd_x_active=find((k0_sd_x)~=0);
                               difference,k0_u,k0_l,k0_sd_x_active,k0_sd_delta,...
                               wa,Asqd,Asqdu,Asqdl,Wa+Wae, ...
                               [],[],[],[],[],[],[],[],[],[], ...
-                              maxiter,del,verbose);
+                              maxiter,del,ctol,verbose);
 if feasible==false
   error("sdp_relaxation_schurOneMPAlattice_mmse failed!");
 endif
@@ -191,7 +189,7 @@ while 1
                                 k0_u,k0_l,k_sd_x_active,k_sd_delta, ...
                                 wa,Asqd,Asqdu,Asqdl,Wa+Wae, ...
                                 [],[],[],[],[],[],[],[],[],[], ...
-                                maxiter,del,verbose);
+                                maxiter,del,ctol,verbose);
   if feasible==false
     error("sdp_relaxation_schurOneMPAlattice_mmse failed!");
   endif
@@ -426,7 +424,7 @@ close
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
-fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"difference=%d %% Use difference of all-pass filters\n",difference);
@@ -445,7 +443,7 @@ fclose(fid);
 
 % Save results
 save sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.mat ...
-     tol ctol nbits nscale ndigits ndigits_alloc n fap dBap Wap fas dBas Was ...
+     ftol ctol nbits nscale ndigits ndigits_alloc n fap dBap Wap fas dBas Was ...
      A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ...
      A1k0_sd A2k0_sd A1k0_sd_sdp A2k0_sd_sdp A1k0_sd_min A2k0_sd_min
        

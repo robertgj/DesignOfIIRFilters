@@ -1,11 +1,13 @@
 % schurOneMAPlattice_frm_halfband_socp_mmse_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMAPlattice_frm_halfband_socp_mmse_test.diary");
-delete("schurOneMAPlattice_frm_halfband_socp_mmse_test.diary.tmp");
-diary schurOneMAPlattice_frm_halfband_socp_mmse_test.diary.tmp
+strf="schurOneMAPlattice_frm_halfband_socp_mmse_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
@@ -29,7 +31,8 @@ aa0 = [ -0.0019232288,   0.0038703625,   0.0038937068,  -0.0055310972, ...
 % Filter specification 
 %
 n=800;
-tol=1e-6
+ftol=1e-6
+ctol=ftol
 maxiter=2000
 verbose=true
 mr=length(r0)-1 % Allpass model filter order
@@ -88,7 +91,6 @@ Wt=Wtp*ones(ntp,1);
 % Common strings
 strt=sprintf("FRM halfband %%s %%s : \
 Mmodel=%d,Dmodel=%d,fap=%g,fas=%g",Mmodel,Dmodel,fap,fas);
-strf="schurOneMAPlattice_frm_halfband_socp_mmse_test";
 
 %
 % FRM halfband SOCP MMSE
@@ -97,7 +99,7 @@ tic;
 [k1tmp,u1,v1,socp_iter,func_iter,feasible] = ...
   schurOneMAPlattice_frm_halfband_socp_mmse ...
     ([],k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...
-     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,maxiter,tol,verbose);
+     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,maxiter,ftol,ctol,verbose);
 toc;
 if feasible == 0 
   error("k1tmp,u1,v1(mmse) infeasible");
@@ -113,18 +115,18 @@ schurOneMAPlattice_frm_halfband_socp_slb_plot ...
 % Save the results
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"length(k1)=%d %% Number of all-pass coefficients\n",length(k1));
 fprintf(fid,"length(u1)=%d %% Number of FIR u coefficients\n",length(u1));
 fprintf(fid,"length(v1)=%d %% Number of FIR v coefficients\n",length(v1));
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"ftp=%g %% Delay pass band edge\n",ftp);
-fprintf(fid,"Wtp=%d %% Delay pass band weight for MMSE\n",Wtp);
+fprintf(fid,"Wtp=%g %% Delay pass band weight for MMSE\n",Wtp);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
-fprintf(fid,"Was=%d %% Amplitude stop band weight for MMSE\n",Was);
+fprintf(fid,"Was=%g %% Amplitude stop band weight for MMSE\n",Was);
 fclose(fid);
 
 print_polynomial(r1,"r1");
@@ -138,12 +140,10 @@ print_polynomial(u1,"u1",strcat(strf,"_u1_coef.m"));
 print_polynomial(v1,"v1");
 print_polynomial(v1,"v1",strcat(strf,"_v1_coef.m"));
 
-save schurOneMAPlattice_frm_halfband_socp_mmse_test.mat ...
-     r0 aa0 k0 epsilon0 p0 u0 v0 Mmodel Dmodel ...
-     fap Wap ftp Wtp fas Was dmax rho tol k1 u1 v1
+eval(sprintf("save %s.mat r0 aa0 k0 epsilon0 p0 u0 v0 Mmodel Dmodel \
+fap Wap ftp Wtp fas Was dmax rho tol k1 u1 v1",strf));
 
 % Done
 toc;
 diary off
-movefile schurOneMAPlattice_frm_halfband_socp_mmse_test.diary.tmp ...
-       schurOneMAPlattice_frm_halfband_socp_mmse_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

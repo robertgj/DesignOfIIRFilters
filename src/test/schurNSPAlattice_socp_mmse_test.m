@@ -1,5 +1,5 @@
 % schurNSPAlattice_socp_mmse_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2023-2024 Robert G. Jenssen
 
 test_common;
 
@@ -29,7 +29,8 @@ Db0 = [   1.0000000000,  -1.9070171016,   1.2051021976,   1.1412058992, ...
 % Band-pass filter specification for parallel all-pass filters
 %
 sxx_symmetric=true;  % Enforce s02=-s20,s22=s00?
-tol=1e-4
+ftol=1e-4
+ctol=ftol
 difference=true
 dmax=inf;
 rho=127/128
@@ -114,7 +115,7 @@ vS=[];
                                 wa,Asqd,Asqdu,Asqdl,Wa, ...
                                 wt,Td,Tdu,Tdl,Wt, ...
                                 wp,Pd,Pdu,Pdl,Wp, ...
-                                maxiter,tol,verbose);
+                                maxiter,ftol,ctol,verbose);
 %catch
 %  feasible=false;
 %end_try_catch
@@ -177,4 +178,4 @@ print_polynomial(A2s22_1,"A2s22_1",strcat(strf,"_A2s22_1_coef.m"));
 
 % Done
 diary off
-eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

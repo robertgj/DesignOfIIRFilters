@@ -1,19 +1,21 @@
 % directFIRhilbert_slb_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("directFIRhilbert_slb_test.diary");
-delete("directFIRhilbert_slb_test.diary.tmp");
-diary directFIRhilbert_slb_test.diary.tmp
+strf="directFIRhilbert_slb_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 %
 % Initialise
 %
 maxiter=500;
 verbose=true;
-tol=1e-4;
-ctol=tol;
+ftol=1e-4;
+ctol=ftol;
 
 % Hilbert filter frequency specification
 %M=10;fapl=0.05;fapu=0.5-fapl;dBap=0.015;Wap=1;Was=0;
@@ -50,17 +52,17 @@ hM_active=1:length(hM0);
 %
 war=1:(npoints/2);
 A0=directFIRhilbertA(wa,hM0);
-vS=directFIRhilbert_slb_update_constraints(A0(war),Adu(war),Adl(war),tol);
+vS=directFIRhilbert_slb_update_constraints(A0(war),Adu(war),Adl(war),ctol);
 [hM1,socp_iter,func_iter,feasible]=directFIRhilbert_mmsePW ...
   (vS,hM0,hM_active,[napl,(npoints/2)], ...
-   wa(war),Ad(war),Adu(war),Adl(war),Wa(war),maxiter,tol,verbose);
+   wa(war),Ad(war),Adu(war),Adl(war),Wa(war),maxiter,ftol,ctol,verbose);
 
 %
 % SLB solution
 %
 [hM2,slb_iter,socp_iter,func_iter,feasible]=directFIRhilbert_slb ...
   (@directFIRhilbert_mmsePW,hM1,hM_active,[napl,(npoints/2)], ...
-   wa(war),Ad(war),Adu(war),Adl(war),Wa(war),maxiter,tol,ctol,verbose);
+   wa(war),Ad(war),Adu(war),Adl(war),Wa(war),maxiter,ftol,ctol,verbose);
 if feasible==false
   error("directFIRhilbert_slb failed!");
 endif
@@ -85,7 +87,7 @@ legend("left");
 grid("on");
 strM=sprintf("FIR Hilbert : fapl=%g,fapu=%g,dBap=%g,Was=%g",fapl,fapu,dBap,Was);
 title(strM);
-print("directFIRhilbert_slb_test_response","-dpdflatex");
+print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Check phase response, group delay should be 2M-1
@@ -99,8 +101,8 @@ endif
 %
 % Save the results
 %
-fid=fopen("directFIRhilbert_slb_test_spec.m","wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fid=fopen(strcat(strf,"_spec.m"),"wt");
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);
 fprintf(fid,"M=%d %% M distinct coefficients\n",M);
@@ -112,16 +114,16 @@ fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 print_polynomial(hM0,"hM0");
-print_polynomial(hM0,"hM0","directFIRhilbert_slb_test_hM0_coef.m");
+print_polynomial(hM0,"hM0",strcat(strf,"_hM0_coef.m"));
 print_polynomial(hM1,"hM1");
-print_polynomial(hM1,"hM1","directFIRhilbert_slb_test_hM1_coef.m");
+print_polynomial(hM1,"hM1",strcat(strf,"_hM1_coef.m"));
 print_polynomial(hM2,"hM2");
-print_polynomial(hM2,"hM2","directFIRhilbert_slb_test_hM2_coef.m");
+print_polynomial(hM2,"hM2",strcat(strf,"_hM2_coef.m"));
 
-save directFIRhilbert_slb_test.mat tol ctol maxiter M npoints ...
-     fapl fapu Wap dBap Was wa Ad Adu Adl Wa hM0 hM1 hM2
+eval(sprintf("save %s.mat ftol ctol maxiter M npoints \
+fapl fapu Wap dBap Was wa Ad Adu Adl Wa hM0 hM1 hM2",strf));
 
 % Done
 diary off
-movefile directFIRhilbert_slb_test.diary.tmp directFIRhilbert_slb_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));
 

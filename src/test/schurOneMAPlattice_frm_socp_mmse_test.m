@@ -1,16 +1,19 @@
 % schurOneMAPlattice_frm_socp_mmse_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMAPlattice_frm_socp_mmse_test.diary");
-delete("schurOneMAPlattice_frm_socp_mmse_test.diary.tmp");
-diary schurOneMAPlattice_frm_socp_mmse_test.diary.tmp
+strf="schurOneMAPlattice_frm_socp_mmse_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 maxiter=2000
-tol=1e-4
+ftol=1e-6
+ctol=ftol/10
 verbose=false
 
 %
@@ -59,8 +62,6 @@ v0=ac0((dmask+1):end);
 % Filter specification
 %
 n=1000;
-tol=1e-6
-ctol=tol/10
 fap=0.29 % Pass band edge
 dBap=0.1 % Pass band amplitude ripple
 Wap=1 % Pass band amplitude weight
@@ -73,8 +74,7 @@ tp=(Mmodel*Dmodel)+dmask;
 tpr=5 % Peak-to-peak pass band delay ripple
 Wtp=0.01 % Pass band delay weight
 fpp=fap % Phase pass band edge
-pp=0 % Pass band zero-phase phase
-ppr=0.02*pi % Peak-to-peak pass band phase ripple
+ppr=0.02 % Peak-to-peak pass band phase ripple
 Wpp=0.01 % Pass band phase weight
 
 %
@@ -101,7 +101,7 @@ Wt=Wtp*ones(nap,1);
 % Phase constraints
 wp=w(1:nap);
 Pd=zeros(nap,1);
-Pdu=(ppr/2)*ones(nap,1);
+Pdu=(ppr*pi/2)*ones(nap,1);
 Pdl=-Pdu;
 Wp=Wpp*ones(nap,1);
 
@@ -114,8 +114,7 @@ dmax=inf;
 
 % Common strings
 strt=sprintf("FRM %%s %%s : \
-Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d",Mmodel,Dmodel,fap,fas,tp);
-strf="schurOneMAPlattice_frm_socp_mmse_test";
+Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d,ppr=%g",Mmodel,Dmodel,fap,fas,tp,ppr);
 
 %
 % FRM SOCP MMSE
@@ -125,7 +124,7 @@ tic;
   schurOneMAPlattice_frm_socp_mmse ...
     ([],k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...
      wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-     maxiter,tol,verbose);
+     maxiter,ftol,ctol,verbose);
 toc;
 if feasible == 0 
   error("k1,u1,v1(mmse) infeasible");
@@ -136,7 +135,7 @@ endif
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"n=%d %% Frequency points\n",n);
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"Mmodel=%d %% Model filter decimation\n",Mmodel);
 fprintf(fid,"Dmodel=%d %% Desired model filter passband delay\n",Dmodel);
 fprintf(fid,"mr=%d %% Model filter order\n",mr);
@@ -145,10 +144,10 @@ fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
 fprintf(fid,"Wap=%g %% Pass band amplitude weight\n",Wap);
 fprintf(fid,"ftp=%g %% Delay pass band edge\n",ftp);
-fprintf(fid,"tp=%d %% Nominal FRM filter group delay\n",tp);
+fprintf(fid,"tp=%g %% Nominal FRM filter group delay\n",tp);
 fprintf(fid,"Wtp=%g %% Pass band delay weight\n",Wtp);
 fprintf(fid,"fpp=%g %% Phase pass band edge\n",fpp);
-fprintf(fid,"pp=%g*pi %% Nominal passband phase (adjusted for delay)\n",pp/pi);
+fprintf(fid,"ppr=%g %% Pass band phase peak-to-peak ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%g %% Pass band phase weight\n",Wpp);
 fclose(fid);
 
@@ -159,12 +158,10 @@ print_polynomial(u1,"u1",strcat(strf,"_u1_coef.m"));
 print_polynomial(v1,"v1");
 print_polynomial(v1,"v1",strcat(strf,"_v1_coef.m"));
 
-save schurOneMAPlattice_frm_socp_mmse_test.mat ...
-     r0 u0 v0 k0 epsilon0 p0 k1 u1 v1 Mmodel Dmodel dmax rho tol ...
-     fap fas Wap ftp tp Wtp fpp pp Wpp 
+eval(sprintf("save %s.mat r0 u0 v0 k0 epsilon0 p0 k1 u1 v1 Mmodel Dmodel dmax \
+rho ftol fap fas Wap ftp tp Wtp fpp ppr Wpp",strf));
 
 % Done
 toc;
 diary off
-movefile schurOneMAPlattice_frm_socp_mmse_test.diary.tmp ...
-         schurOneMAPlattice_frm_socp_mmse_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

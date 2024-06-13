@@ -1,16 +1,17 @@
 % directFIRnonsymmetric_socp_mmse_test.m
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2024 Robert G. Jenssen
 
 test_common;
 
-delete("directFIRnonsymmetric_socp_mmse_test.diary");
-delete("directFIRnonsymmetric_socp_mmse_test.diary.tmp");
-diary directFIRnonsymmetric_socp_mmse_test.diary.tmp
-
 strf="directFIRnonsymmetric_socp_mmse_test";
 
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
+
 maxiter=2000
-tol=1e-4
+ftol=1e-4
+ctol=ftol
 verbose=true
 n=500
 
@@ -97,7 +98,7 @@ try
   [h,socp_iter,func_iter,feasible]= ...
     directFIRnonsymmetric_socp_mmse([],h0,h_active, ...
                                     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                    wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+                                    wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 catch
   feasible=false;
   err=lasterror();
@@ -141,9 +142,9 @@ axis([ftpl ftpu td-tdr td+tdr]);
 grid("on");
 subplot(313);
 plot(wp*0.5/pi,(P+(wp*td))/pi);
+axis([fppl fppu pd-ppr pd+ppr]);
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
-axis([fppl fppu pd-ppr pd+ppr]);
 grid("on");
 print(strcat(strf,"_passband"),"-dpdflatex");
 close
@@ -157,7 +158,7 @@ close
 
 % Save the filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"N=%d %% FIR filter order\n",N);
 fprintf(fid,"fapl=%f %% Pass band squared amplitude lower edge\n",fapl);
@@ -184,11 +185,11 @@ fclose(fid);
 print_polynomial(h,"h");
 print_polynomial(h,"h",strcat(strf,"_h_coef.m"));
 
-% Done 
-save directFIRnonsymmetric_socp_mmse_test.mat tol n ...
-     N fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu td tdr Wtp ...
-     fppl fppu ppr Wpp h0 h
+eval(sprintf("save %s.mat ftol ctol n N \
+fapl fapu dBap Wap fasl fasu dBas Wasl Wasu \
+ftpl ftpu td tdr Wtp \
+fppl fppu ppr Wpp h0 h",strf));
 
+% Done 
 diary off
-movefile directFIRnonsymmetric_socp_mmse_test.diary.tmp ...
-         directFIRnonsymmetric_socp_mmse_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

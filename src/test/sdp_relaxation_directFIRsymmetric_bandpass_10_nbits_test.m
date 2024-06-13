@@ -7,6 +7,7 @@
 test_common;
 
 strf="sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test";
+
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
@@ -14,9 +15,9 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 maxiter=2000
+ftol=1e-6;
+ctol=ftol;
 verbose=false;
-tol=1e-6;
-ctol=tol;
 
 % Band pass filter
 M=15;
@@ -64,7 +65,7 @@ hM0_active=1:length(hM0);
 [hM1,slb_iter,socp_iter,func_iter,feasible]= ...
 directFIRsymmetric_slb(@directFIRsymmetric_socp_mmsePW, ...
                        hM0,hM0_active,na,wa,Ad,Adu,Adl,Wa, ...
-                       maxiter,tol,ctol,verbose);
+                       maxiter,ftol,ctol,verbose);
 if feasible==false
   error("directFIRsymmetric_slb failed for initial filter!");
 endif
@@ -103,7 +104,8 @@ endif
 % Run the SeDuMi problem
 [hM1_sd_sdp,socp_iter,func_iter,feasible] = ...
 sdp_relaxation_directFIRsymmetric_mmsePW([],hM1_sd_x,hM1_sd_delta,na, ...
-                                         wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose);
+                                         wa,Ad,Adu,Adl,Wa, ...
+                                         maxiter,ftol,ctol,verbose);
 if feasible==false
   error("sdp_relaxation_directFIRsymmetric_mmsePW failed!");
 endif
@@ -181,24 +183,24 @@ close
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
-fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"fasl=%g %% Amplitude lower stop band edge\n",fasl);
 fprintf(fid,"fasu=%g %% Amplitude upper stop band edge\n",fasu);
-fprintf(fid,"dBas=%d %% Amplitude stop band peak-to-peak ripple\n",dBas);
-fprintf(fid,"Wasl=%d %% Amplitude lower stop band weight\n",Wasl);
-fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
+fprintf(fid,"dBas=%g %% Amplitude stop band peak-to-peak ripple\n",dBas);
+fprintf(fid,"Wasl=%g %% Amplitude lower stop band weight\n",Wasl);
+fprintf(fid,"Wasu=%g %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
 eval(sprintf("save %s.mat ...\n\
-     tol ctol nbits nscale ndigits ndigits_alloc npoints ...\n\
-     fapl fapu dBap Wap fasl fasu dBas Wasl Wasu hM1_sd_sdp",strf));
+ftol ctol nbits nscale ndigits ndigits_alloc npoints ...\n\
+fapl fapu dBap Wap fasl fasu dBas Wasl Wasu hM1_sd_sdp",strf));
        
 % Done
 toc;

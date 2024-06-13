@@ -1,16 +1,18 @@
 % deczky3_sqp_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("deczky3_sqp_test.diary");
-delete("deczky3_sqp_test.diary.tmp");
-diary deczky3_sqp_test.diary.tmp
+strf="deczky3_sqp_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-tol=2e-4
-ctol=tol;
+ftol=1e-3
+ctol=ftol/10;
 maxiter=5000
 verbose=false
 
@@ -18,16 +20,15 @@ verbose=false
 
 % Filter specifications
 U=0,V=0,Q=6,M=10,R=1
-fap=0.15,dBap=0.1,Wap=1
-fas=0.3,dBas=30,Was=1
-ftp=0.25,tp=10,tpr=0.004,Wtp_mmse1=0.125,Wtp_mmse2=0.5,Wtp_pcls=4.0 
+fap=0.15,dBap=0.2,Wap=1
+fas=0.3,dBas=33,Was=1
+ftp=0.25,tp=10,tpr=0.008,Wtp_mmse1=0.125,Wtp_mmse2=0.5,Wtp_pcls=4.0 
 
 % Strings
 strM=sprintf("%%s:fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp\\_mmse=%%g",
              fap,Wap,fas,Was,ftp,tp);
 strP=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,\
 tpr=%g,Wtp\\_pcls=%%g",fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr);
-strf="deczky3_sqp_test";
 
 % Initial coefficients
 z=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...
@@ -63,8 +64,8 @@ Ws=[];
 ntp=ceil(n*ftp/0.5)+1;
 wt=(0:(ntp-1))'*pi/n;
 Td=tp*ones(ntp,1);
-Tdu=(tp+((tpr-tol)/2))*ones(ntp,1);
-Tdl=(tp-((tpr-tol)/2))*ones(ntp,1);
+Tdu=(tp+(tpr/2))*ones(ntp,1);
+Tdl=(tp-(tpr/2))*ones(ntp,1);
 Wt_mmse1=Wtp_mmse1*ones(ntp,1);
 Wt_mmse2=Wtp_mmse2*ones(ntp,1);
 Wt_pcls=Wtp_pcls*ones(ntp,1);
@@ -93,7 +94,7 @@ vS=iir_slb_set_empty_constraints();
                x0,xu,xl,dmax,U,V,M,Q,R, ...
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt_mmse1,wp,Pd,Pdu,Pdl,Wp, ...
-               maxiter,tol,verbose)
+               maxiter,ftol,ctol,verbose)
 if feasible == 0 
   error("x1(mmse) infeasible");
 endif
@@ -114,7 +115,7 @@ printf("\nMMSE pass 2:\n");
   iir_sqp_mmse([],x1,xu,xl,dmax,U,V,M,Q,R, ...
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt_mmse2,wp,Pd,Pdu,Pdl,Wp, ...
-               maxiter,tol,verbose)
+               maxiter,ftol,ctol,verbose)
 if feasible == 0 
   error("x2(mmse) infeasible");
 endif
@@ -134,7 +135,7 @@ printf("\nPCLS pass 1:\n");
 [d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
   iir_slb(@iir_sqp_mmse,x2,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt_pcls, ...
-          wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose)
+          wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
@@ -169,7 +170,7 @@ printf("d1:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 % Save results
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"tol=%g %% Tolerance on relative coefficient update size\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on relative coefficient update size\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
 fprintf(fid,"dBap=%d %% Pass band amplitude peak-to-peak ripple\n",dBap);
@@ -192,18 +193,20 @@ fprintf(fid,"M=%d %% Number of complex zeros\n",M);
 fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
 fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fclose(fid);
+
 print_pole_zero(d1,U,V,M,Q,R,"d1");
 print_pole_zero(d1,U,V,M,Q,R,"d1",strcat(strf,"_d1_coef.m"));
+
 [N1,D1]=x2tf(d1,U,V,M,Q,R);
 print_polynomial(N1,"N1");
 print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
-save deczky3_sqp_test.mat U V M Q R tol ctol ...
-     fap dBap Wap fas dBas Was ftp tp tpr Wtp_mmse1 Wtp_mmse2 Wtp_pcls x1 x2 d1
+eval(sprintf("save %s.mat U V M Q R ftol ctol fap dBap Wap fas dBas Was \
+ftp tp tpr Wtp_mmse1 Wtp_mmse2 Wtp_pcls x1 x2 d1",strf));
 
 % Done
 toc
 diary off
-movefile deczky3_sqp_test.diary.tmp deczky3_sqp_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

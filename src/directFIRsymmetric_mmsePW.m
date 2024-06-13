@@ -1,7 +1,8 @@
-function [hM,socp_iter,func_iter,feasible]=directFIRsymmetric_mmsePW ...
-                       (vS,hM0,hM_active,na,wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose)
+function [hM,socp_iter,func_iter,feasible]=...
+  directFIRsymmetric_mmsePW(vS,hM0,hM_active,na,wa,Ad,Adu,Adl,Wa, ...
+                            maxiter,ftol,ctol,verbose)
 % [hM,socp_iter,func_iter,feasible]=directFIRsymmetric_mmsePW ...
-%  (vS,hM0,hM_active,na,wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose)
+%  (vS,hM0,hM_active,na,wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose)
 % MMSE optimisation of a direct-form symmetric even-order FIR filter with
 % constraints on the amplitude response. The desired amplitude response
 % is assumed to be piece-wise constant with band-edges at the indices
@@ -16,13 +17,17 @@ function [hM,socp_iter,func_iter,feasible]=directFIRsymmetric_mmsePW ...
 %   Ad - desired amplitude response
 %   Adu,Adl - upper/lower mask for the desired amplitude response
 %   Wa - amplitude response weight at each frequency
+%   maxiter - maximum number of SOCP iterations
+%   ftol - tolerance on function value
+%   ctol - tolerance on constraints
+%   verbose -
 %
 % Outputs:
 %   hM - filter design
 %   socp_iter,func_iter - for compatibility
 %   feasible - true if the design satisfies the constraints
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017,2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -42,10 +47,11 @@ function [hM,socp_iter,func_iter,feasible]=directFIRsymmetric_mmsePW ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 12) || (nargout ~= 4)
+  if (nargin ~= 13) || (nargout ~= 4)
     print_usage ...
       ("[hM,socp_iter,func_iter,feasible]=directFIRsymmetric_mmsePW ...\n\
-                (vS,hM0,hM_active,na,wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose)");
+                (vS,hM0,hM_active,na,wa,Ad,Adu,Adl,Wa, ...\n\
+                 maxiter,ftol,ctol,verbose)");
   endif
   
   %

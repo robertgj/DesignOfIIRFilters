@@ -1,7 +1,7 @@
 function [next_vR,next_vS,exchanged] = ...
-           directFIRhilbert_slb_exchange_constraints(vS,vR,A,Adu,Adl,tol)
+           directFIRhilbert_slb_exchange_constraints(vS,vR,A,Adu,Adl,ctol)
 % [next_vR,next_vS,exchanged] = ...
-%  directFIRhilbert_slb_exchange_constraints(vS,vR,A,Adu,Adl,tol)
+%  directFIRhilbert_slb_exchange_constraints(vS,vR,A,Adu,Adl,ctol)
 % Check for violation of the constraints in vR. If any constraints are violated
 % then move the constraint with the greatest violation from vR to vS.
 
@@ -28,7 +28,7 @@ function [next_vR,next_vS,exchanged] = ...
   % Sanity checks
   if (nargin ~= 6) || (nargout ~= 3)
     print_usage("[next_vR,next_vS,exchanged]= ...\n\
-      directFIRhilbert_slb_exchange_constraints(vS,vR,A,Adu,Adl,tol)");
+      directFIRhilbert_slb_exchange_constraints(vS,vR,A,Adu,Adl,ctol)");
   endif
   if all(isfield(vS,{"al","au"})) == false
     error("Expect fields vS.al and vS.au");
@@ -62,10 +62,10 @@ function [next_vR,next_vS,exchanged] = ...
     Adl=Adl(vR.al);  
     vAl=[];
     if ~isempty(vR.al)
-      vAl=find((Adl-Al)>tol);
+      vAl=find((Adl-Al)>ctol);
       if ~isempty(vAl)
         exchanged = true;
-        [vAl_max,vAl_maxi]=max(Adl-Al-tol);
+        [vAl_max,vAl_maxi]=max(Adl-Al-ctol);
       endif
     endif
     % Amplitude upper constraint
@@ -73,10 +73,10 @@ function [next_vR,next_vS,exchanged] = ...
     Adu=Adu(vR.au); 
     vAu=[];
     if ~isempty(vR.au)
-      vAu=find((Au-Adu)>tol);
+      vAu=find((Au-Adu)>ctol);
       if ~isempty(vAu)
         exchanged = true;
-        [vAu_max,vAu_maxi]=max(Au-Adu-tol);
+        [vAu_max,vAu_maxi]=max(Au-Adu-ctol);
       endif
     endif
   endif

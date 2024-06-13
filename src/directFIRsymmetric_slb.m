@@ -1,9 +1,9 @@
 function [hM,slb_iter,socp_iter,func_iter,feasible] = ...
            directFIRsymmetric_slb(pfx,hM0,hM_active,na,wa,Ad,Adu,Adl,Wa, ...
-                                  maxiter,tol,ctol,verbose)
+                                  maxiter,ftol,ctol,verbose)
 % [hM,slb_iter,socp_iter,func_iter,feasible] = ...
 %   directFIRsymmetric_slb(pfx,hM0,hM_active,na,wa,Ad,Adu,Adl,Wa, ...
-%                          maxiter,tol,ctol,verbose)
+%                          maxiter,ftol,ctol,verbose)
 % PCLS optimisation of a direct-form symmetric even-order FIR filter with
 % constraints on the amplitude response. See:
 % "Constrained Least Square Design of FIR Filters without Specified 
@@ -13,7 +13,8 @@ function [hM,slb_iter,socp_iter,func_iter,feasible] = ...
 % Inputs:
 %   pfx - pointer to function that calls:
 %           [hM,socp_iter,func_iter,feasible]=pfx(vS,hM,hM_active,na, ..
-%                                                 wa,Ad,Adu,Adl,Wa);
+%                                                 wa,Ad,Adu,Adl,Wa, ...
+%                                                 maxiter,ftol,ctol,verbose);
 %   vS - structure of peak constraint frequencies {al,au}
 %   hM0 - initial distinct symmetric FIR polynomial coefficients [h0,...,hM]
 %   hM_active - indexes of elements of coefficients being optimised
@@ -23,7 +24,7 @@ function [hM,slb_iter,socp_iter,func_iter,feasible] = ...
 %   Adu,Adl - upper/lower mask for the desired amplitude response
 %   Wa - amplitude response weight at each frequency
 %   maxiter - maximum number of SLB iterations
-%   tol - tolerance on coefficient update
+%   ftol - tolerance on coefficient update
 %   ctol - tolerance on constraints
 %   verbose - 
 %
@@ -54,7 +55,7 @@ function [hM,slb_iter,socp_iter,func_iter,feasible] = ...
 % Transition Bands", I. W. Selesnick, M. Lang and C. S. Burrus, IEEE
 % Transactions on Signal Processing, 46(2):497-501, February 1998.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -74,148 +75,136 @@ function [hM,slb_iter,socp_iter,func_iter,feasible] = ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  %
-  % Sanity checks
-  %
-  if (nargin ~= 13) || (nargout ~= 5)
-    print_usage("[hM,slb_iter,socp_iter,func_iter,feasible] = ...\n\
-      directFIRsymmetric_slb(pfx,hM0,hM_active,na,wa,Ad,Adu,Adl,Wa, ...\n\
-                             maxiter,tol,ctol,verbose)");
-  endif
-  if ~is_function_handle(pfx)
-    feasible=false;
-    error("Expected pfx to be a function handle!");
-  endif
+%
+% Sanity checks
+%
+if (nargin ~= 13) || (nargout ~= 5)
+  print_usage("[hM,slb_iter,socp_iter,func_iter,feasible] = ...\n\
+    directFIRsymmetric_slb(pfx,hM0,hM_active,na,wa,Ad,Adu,Adl,Wa, ...\n\
+                           maxiter,ftol,ctol,verbose)");
+endif
+if ~is_function_handle(pfx)
+  feasible=false;
+  error("Expected pfx to be a function handle!");
+endif
 
-  %
-  % SLB constraints
-  %
+%
+% SLB constraints
+%
 
-  %
-  % Step 1: Initialise constraint sets of the amplitude and group
-  % delay responses over frequency. vS.al etc are angular frequencies.
-  %
-  % Initialise the SLB loop parameters (these are also output values)
-  slb_iter=0;socp_iter=0;func_iter=0;feasible=false;hM=hM0(:);
-  % Check if the initial filter meets the constraints
-  vR=directFIRsymmetric_slb_set_empty_constraints();
-  Ak=directFIRsymmetricA(wa,hM);
-  vS=directFIRsymmetric_slb_update_constraints(Ak,Adu,Adl,ctol);
-  if directFIRsymmetric_slb_constraints_are_empty(vS)
-    printf("Initial solution satisfies constraints!\n");
-    feasible=true;
-    return;
-  endif
-  % Nothing to do but hM0 does not satisfy the constraints
-  if isempty(hM_active) 
-    warning("No active coefficients! Initial solution fails constraints!");
-    feasible=false;
-    return;
-  endif
+%
+% Step 1: Initialise constraint sets of the amplitude and group
+% delay responses over frequency. vS.al etc are angular frequencies.
+%
+% Initialise the SLB loop parameters (these are also output values)
+slb_iter=0;socp_iter=0;func_iter=0;feasible=false;hM=hM0(:);
+% Check if the initial filter meets the constraints
+vR=directFIRsymmetric_slb_set_empty_constraints();
+Ak=directFIRsymmetricA(wa,hM);
+vS=directFIRsymmetric_slb_update_constraints(Ak,Adu,Adl,ctol);
+if directFIRsymmetric_slb_constraints_are_empty(vS)
+  printf("Initial solution satisfies constraints!\n");
+  feasible=true;
+  return;
+endif
+% Nothing to do but hM0 does not satisfy the constraints
+if isempty(hM_active) 
+  warning("No active coefficients! Initial solution fails constraints!");
+  feasible=false;
+  return;
+endif
+
+% PCLS loop
+while 1
   
-  % PCLS loop
-  while 1
-    
-    % Check loop iterations
-    slb_iter = slb_iter+1;
-    if slb_iter>maxiter
-      feasible=false;
-      warning("PCLS loop iteration limit exceeded!");
-      break;
-    endif
+  % Check loop iterations
+  slb_iter = slb_iter+1;
+  if slb_iter>maxiter
+    feasible=false;
+    warning("PCLS loop iteration limit exceeded!");
+    break;
+  endif
 
-    %
-    % Step 2 : Solve the minimisation problem with the active constraints  
-    % Step 3 : Test for optimality with Karush-Kuhn-Tucker conditions(SQP only)
-    %
-    try
-      [nexthM,siter,fiter,feasible]=feval(pfx,vS,hM,hM_active,na, ...
-                                          wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose);
-      socp_iter=socp_iter+siter;
-      func_iter=func_iter+fiter;
-    catch
-      feasible=false;
-      err=lasterror();
-      warning("feval(pfx,...) failure : %s",err.message);
-      for e=1:length(err.stack)
-        printf("Called from %s at line %d\n", ...
-               err.stack(e).name, err.stack(e).line);
-      endfor
-    end_try_catch
-    if feasible
-      if hM==nexthM
-        printf("hM=[ ");printf("%f ",hM');printf("]';\n");
-        warning("No change to solution after %d PCLS iterations\n",slb_iter);
-        for [v,m]=vR
-          printf("vR.%s=[ ",m);printf("%d ",v);printf("]\n");
-        endfor
-        for [v,m]=vS
-          printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
-        endfor
-        if directFIRsymmetric_slb_constraints_are_empty(vR)
-          break;
-        endif
-      endif
-      hM=nexthM; 
-      printf("Feasible solution after %d optimisation iterations\n",slb_iter);
-    else
-      warning("Optimisation solution not feasible!");
-      break;
-    endif
+  %
+  % Step 2 : Solve the minimisation problem with the active constraints  
+  % Step 3 : Test for optimality with Karush-Kuhn-Tucker conditions(SQP only)
+  %
+  try 
+    feasible=false;
+    [hM,siter,fiter,feasible]= ...
+      feval(pfx,vS,hM,hM_active,na,wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose);
+    socp_iter=socp_iter+siter;
+    func_iter=func_iter+fiter;
+  catch
+    feasible=false;
+    err=lasterror();
+    warning("feval(pfx,...) failure : %s",err.message);
+    for e=1:length(err.stack)
+      printf("Called from %s at line %d\n", ...
+             err.stack(e).name, err.stack(e).line);
+    endfor
+  end_try_catch
+  
+  if feasible
+    printf("Feasible solution after %d optimisation iterations\n",siter);
+  else
+    warning("Optimisation solution not feasible!");
+    break;
+  endif
 
-    %
-    % Step 4: Check for violations over vR
-    % 
-    Ak=directFIRsymmetricA(wa,hM);
-    [vR,vS,exchanged] = ...
-      directFIRsymmetric_slb_exchange_constraints(vS,vR,Ak,Adu,Adl,ctol);
-    if exchanged
-      printf("Step 4: R constraints violated after ");
-      printf("%d PCLS iterations.\n",slb_iter)
-      printf("R constraints:\n");
-      directFIRsymmetric_slb_show_constraints(vR,wa,Ak);
-      printf("S constraints:\n");
-      directFIRsymmetric_slb_show_constraints(vS,wa,Ak);
-      printf("Going to Step 2!\n");
-      continue;
-    else
-      printf("Step 4: no R constraints violated after ")
-      printf("%d PCLS iterations.\n",slb_iter)
-      printf("S constraints:\n");
-      directFIRsymmetric_slb_show_constraints(vS,wa,Ak);
-      printf("Going to Step 5!\n");
-    endif
-    
-    %
-    % Step 5: Multiple exchange of the constraint sets
-    %
-    vR=vS;
-    vS=directFIRsymmetric_slb_update_constraints(Ak,Adu,Adl,ctol);
-    printf("Step 5: vS frequency constraints updated to:\n");
-    for [v,m]=vS
-      printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
-    endfor  
-    printf("hM=[ ");printf("%g ",hM');printf("]'\n");
+  %
+  % Step 4: Check for violations over vR
+  % 
+  Ak=directFIRsymmetricA(wa,hM);
+  [vR,vS,exchanged] = ...
+    directFIRsymmetric_slb_exchange_constraints(vS,vR,Ak,Adu,Adl,ctol);
+  if exchanged
+    printf("Step 4: R constraints violated after ");
+    printf("%d PCLS iterations.\n",slb_iter)
+    printf("R constraints:\n");
+    directFIRsymmetric_slb_show_constraints(vR,wa,Ak);
     printf("S constraints:\n");
     directFIRsymmetric_slb_show_constraints(vS,wa,Ak);
+    printf("Going to Step 2!\n");
+    continue;
+  else
+    printf("Step 4: no R constraints violated after ")
+    printf("%d PCLS iterations.\n",slb_iter)
+    printf("S constraints:\n");
+    directFIRsymmetric_slb_show_constraints(vS,wa,Ak);
+    printf("Going to Step 5!\n");
+  endif
+  
+  %
+  % Step 5: Multiple exchange of the constraint sets
+  %
+  vR=vS;
+  vS=directFIRsymmetric_slb_update_constraints(Ak,Adu,Adl,ctol);
+  printf("Step 5: vS frequency constraints updated to:\n");
+  for [v,m]=vS
+    printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
+  endfor  
+  printf("hM=[ ");printf("%g ",hM');printf("]'\n");
+  printf("S constraints:\n");
+  directFIRsymmetric_slb_show_constraints(vS,wa,Ak);
 
-    %
-    % Step 6: Check for convergence
-    %
-    if directFIRsymmetric_slb_constraints_are_empty(vS)
-      printf("Step 6: Solution satisfying constraints found ");
-      printf("after %d PCLS iterations\nDone!\n",slb_iter);
-      break;
-    else
-      printf("Step 6: Solution does not satisfy S constraints ");
-      printf("after %d PCLS iterations\n",slb_iter)
-      printf("S constraints:\n");
-      directFIRsymmetric_slb_show_constraints(vS,wa,Ak);
-      printf("Going to Step 2!\n");
-      continue;
-    endif
+  %
+  % Step 6: Check for convergence
+  %
+  if directFIRsymmetric_slb_constraints_are_empty(vS)
+    printf("Step 6: Solution satisfying constraints found ");
+    printf("after %d PCLS iterations\nDone!\n",slb_iter);
+    break;
+  else
+    printf("Step 6: Solution does not satisfy S constraints ");
+    printf("after %d PCLS iterations\n",slb_iter)
+    printf("S constraints:\n");
+    directFIRsymmetric_slb_show_constraints(vS,wa,Ak);
+    printf("Going to Step 2!\n");
+    continue;
+  endif
 
-  % End of PCLS constraint loop
-  endwhile
+% End of PCLS constraint loop
+endwhile
 
 endfunction

@@ -2,12 +2,12 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
          parallel_allpass_slb(pfx,ab0,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb, ...
                               polyphase,difference, ...
                               wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                              wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose)
+                              wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 % [abk,slb_iter,opt_iter,func_iter,feasible] = ...
 %   parallel_allpass_slb(pfx,ab0,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb, ...
 %                        polyphase,difference, ...
 %                        wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                        wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose)
+%                        wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
 %
 % PCLS optimisation of a parallel allpass filter with constraints on the
 % amplitude and group delay responses. See:
@@ -50,7 +50,7 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance on coefficient update
+%   ftol - tolerance on coefficient update
 %   ctol - tolerance on constraints
 %   verbose - 
 %
@@ -101,137 +101,124 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  %
-  % Sanity checks
-  %
-  if (nargin ~= 32) || (nargout > 5)
-    print_usage("[abk,slb_iter,opt_iter,func_iter,feasible] = ...\n\
-      parallel_allpass_slb(pfx,ab0,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb, ...\n\
-                           polyphase,difference, ...\n\
-                           wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                           wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose)");
-  endif
-  if ~is_function_handle(pfx)
-    error("Expected pfx to be a function handle!");
-  endif
+%
+% Sanity checks
+%
+if (nargin ~= 32) || (nargout > 5)
+  print_usage("[abk,slb_iter,opt_iter,func_iter,feasible] = ...\n\
+    parallel_allpass_slb(pfx,ab0,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb, ...\n\
+                         polyphase,difference, ...\n\
+                         wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
+                         wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
+endif
+if ~is_function_handle(pfx)
+  error("Expected pfx to be a function handle!");
+endif
 
-  %
-  % SLB constraints
-  %
+%
+% SLB constraints
+%
 
-  %
-  % Step 1: Initialise constraint sets of the amplitude and group
-  % delay responses over frequency. vS.al etc are angular frequencies.
-  %
-  vR=parallel_allpass_slb_set_empty_constraints();
-  Asqk=parallel_allpassAsq(wa,ab0,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
-  Tk=parallel_allpassT(wt,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
-  Pk=parallel_allpassP(wp,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
-  vS=parallel_allpass_slb_update_constraints ...
-       (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,ctol);
+%
+% Step 1: Initialise constraint sets of the amplitude and group
+% delay responses over frequency. vS.al etc are angular frequencies.
+%
+vR=parallel_allpass_slb_set_empty_constraints();
+Asqk=parallel_allpassAsq(wa,ab0,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+Tk=parallel_allpassT(wt,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+Pk=parallel_allpassP(wp,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+vS=parallel_allpass_slb_update_constraints ...
+     (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,ctol);
 
-  % Initialise SLB loop parameters
-  info=0;slb_iter=0;opt_iter=0;func_iter=0;feasible=false;abk=ab0(:);
+% Initialise SLB loop parameters
+info=0;slb_iter=0;opt_iter=0;func_iter=0;feasible=false;abk=ab0(:);
+
+% PCLS loop
+while 1
   
-  % PCLS loop
-  while 1
-    
-    % Check loop iterations
-    slb_iter = slb_iter+1;
-    if slb_iter>maxiter
-      feasible = false;
-      warning("PCLS loop iteration limit exceeded!");
-      break;
-    endif
+  % Check loop iterations
+  slb_iter = slb_iter+1;
+  if slb_iter>maxiter
+    feasible = false;
+    warning("PCLS loop iteration limit exceeded!");
+    break;
+  endif
 
-    %
-    % Step 2 : Solve the minimisation problem with the active constraints  
-    % Step 3 : Test for optimality with Karush-Kuhn-Tucker conditions
-    %
-    try
-      [nextabk,tmp_opt_iter,tmp_func_iter,feasible] = ...
-      feval(pfx,vS,abk,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
-            wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-            maxiter,tol,false);
-      opt_iter = opt_iter + tmp_opt_iter;
-      func_iter = func_iter + tmp_func_iter;
-    catch
-      feasible=0;
-      err=lasterror();
-      for e=1:length(err.stack)
-        printf("Called from %s at line %d\n", ...
-               err.stack(e).name, err.stack(e).line);
-      endfor
-      error("feval(pfx,...) failure : %s",err.message);
-    end_try_catch
-    if feasible
-      if abk==nextabk
-        printf("abk=[ ");printf("%f ",abk);printf("]';\n");
-        warning("No change to solution after %d PCLS iterations\n",slb_iter);
-        for [v,m]=vR
-          printf("vR.%s=[ ",m);printf("%d ",v);printf("]\n");
-        endfor
-        for [v,m]=vS
-          printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
-        endfor
-        if parallel_allpass_slb_constraints_are_empty(vR)
-          break;
-        endif
-      endif
-      abk=nextabk;
-      printf("Feasible solution after %d optimisation iterations\n", ...
-             tmp_opt_iter);
-      printf("abk=[ ");printf("%f ",abk);printf("]';\n");
-    else
-      warning("Optimisation solution not feasible!");
-      break;
-    endif
-
-    %
-    % Step 4: Check for violations over vR
-    % 
-    Asqk=parallel_allpassAsq(wa,abk,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
-    Tk=parallel_allpassT(wt,abk,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
-    Pk=parallel_allpassP(wp,abk,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
-    [vR,vS,exchanged] = parallel_allpass_slb_exchange_constraints ...
-                          (vS,vR,Asqk,Asqdu,Asqdl,Tk,Tdu,Tdl,Pk,Pdu,Pdl,ctol);
-    if exchanged
-      printf("Step 4: R constraints violated after ");
-      printf("%d PCLS iterations\nGoing to Step 2!\n",slb_iter);
-      continue;
-    else
-      printf("Step 4: no R constraints violated after ")
-      printf("%d PCLS iterations\nGoing to Step 5!\n",slb_iter);
-    endif
-
-    %
-    % Step 5: Multiple exchange of the constraint sets
-    %
-    vR=vS;
-    vS=parallel_allpass_slb_update_constraints ...
-       (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,ctol);
-    printf("Step 5: vS frequency constraints updated to:\n");
-    for [v,m]=vS
-      printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
+  %
+  % Step 2 : Solve the minimisation problem with the active constraints  
+  % Step 3 : Test for optimality with Karush-Kuhn-Tucker conditions
+  %
+  try
+    feasible=false;
+    [abk,tmp_opt_iter,tmp_func_iter,feasible] = ...
+    feval(pfx,vS,abk,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
+          wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+          maxiter,ftol,ctol,false);
+    opt_iter = opt_iter + tmp_opt_iter;
+    func_iter = func_iter + tmp_func_iter;
+  catch
+    feasible=false;
+    err=lasterror();
+    for e=1:length(err.stack)
+      printf("Called from %s at line %d\n", ...
+             err.stack(e).name, err.stack(e).line);
     endfor
-    if verbose
-      parallel_allpass_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk);
-    endif
+    error("feval(pfx,...) failure : %s",err.message);
+  end_try_catch
 
-    %
-    % Step 6: Check for convergence
-    %
-    if parallel_allpass_slb_constraints_are_empty(vS)
-      printf("Step 6: Solution satisfying constraints found ");
-      printf("after %d PCLS iterations\nDone!\n",slb_iter);
-      break;
-    else
-      printf("Step 6: Solution does not satisfy S constraints ");
-      printf("after %d PCLS iterations\nGoing to Step 2!\n",slb_iter);
-      continue;
-    endif
+  if feasible
+    printf("Feasible solution after %d optimisation iterations\n",tmp_opt_iter);
+    printf("abk=[ ");printf("%f ",abk);printf("]';\n");
+  else
+    warning("Optimisation solution not feasible!");
+    break;
+  endif
 
-  % End of PCLS constraint loop
-  endwhile
+  %
+  % Step 4: Check for violations over vR
+  % 
+  Asqk=parallel_allpassAsq(wa,abk,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+  Tk=parallel_allpassT(wt,abk,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+  Pk=parallel_allpassP(wp,abk,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+  [vR,vS,exchanged] = parallel_allpass_slb_exchange_constraints ...
+                        (vS,vR,Asqk,Asqdu,Asqdl,Tk,Tdu,Tdl,Pk,Pdu,Pdl,ctol);
+  if exchanged
+    printf("Step 4: R constraints violated after ");
+    printf("%d PCLS iterations\nGoing to Step 2!\n",slb_iter);
+    continue;
+  else
+    printf("Step 4: no R constraints violated after ")
+    printf("%d PCLS iterations\nGoing to Step 5!\n",slb_iter);
+  endif
+
+  %
+  % Step 5: Multiple exchange of the constraint sets
+  %
+  vR=vS;
+  vS=parallel_allpass_slb_update_constraints ...
+     (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,ctol);
+  printf("Step 5: vS frequency constraints updated to:\n");
+  for [v,m]=vS
+    printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
+  endfor
+  if verbose
+    parallel_allpass_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk);
+  endif
+
+  %
+  % Step 6: Check for convergence
+  %
+  if parallel_allpass_slb_constraints_are_empty(vS)
+    printf("Step 6: Solution satisfying constraints found ");
+    printf("after %d PCLS iterations\nDone!\n",slb_iter);
+    break;
+  else
+    printf("Step 6: Solution does not satisfy S constraints ");
+    printf("after %d PCLS iterations\nGoing to Step 2!\n",slb_iter);
+    continue;
+  endif
+
+% End of PCLS constraint loop
+endwhile
 
 endfunction

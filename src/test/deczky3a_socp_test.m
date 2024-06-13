@@ -1,18 +1,19 @@
 % deczky3a_socp_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("deczky3a_socp_test.diary");
-delete("deczky3a_socp_test.diary.tmp");
-diary deczky3a_socp_test.diary.tmp
+strf="deczky3a_socp_test";
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-
-tol=2e-5
-ctol=tol
 maxiter=2000
+ftol=2e-5
+ctol=ftol
 verbose=false
 
 % Deczky3 Lowpass filter specification
@@ -54,8 +55,8 @@ Ws=Was*ones(n-nas,1);
 ntp=ceil(n*ftp/0.5)+1;
 wt=(0:(ntp-1))'*pi/n;
 Td=tp*ones(ntp,1);
-Tdu=(tp+((tpr-tol)/2))*ones(ntp,1);
-Tdl=(tp-((tpr-tol)/2))*ones(ntp,1);
+Tdu=(tp+(tpr/2))*ones(ntp,1);
+Tdl=(tp-(tpr/2))*ones(ntp,1);
 Wt=Wtp*ones(ntp,1);
 
 % Phase constraints
@@ -69,14 +70,13 @@ Wp=[];
 strM=sprintf("%%s:fap=%g,Wap=%%g,fas=%g,Was=%%g,tp=%g,Wtp=%%g",fap,fas,tp);
 strP=sprintf("%%s:fap=%g,dBap=%g,Wap=%%g,fas=%g,dBas=%g,Was=%%g,tp=%g,\
 tpr=%%g",fap,dBap,fas,dBas,tp);
-strf="deczky3a_socp_test";
 
 % SOCP MMSE
 [x1,E,socp_iter,func_iter,feasible] = ...
   iir_socp_mmse([],x0,xu,xl,inf,U,V,M,Q,R, ...
                 wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                 wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-                maxiter,tol,verbose)
+                maxiter,ftol,ctol,verbose)
 if feasible == 0 
   error("x1(mmse) infeasible");
 endif
@@ -96,7 +96,7 @@ close
   iir_slb(@iir_socp_mmse,x1,xu,xl,inf,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol,ctol,verbose)
+          maxiter,ftol,ctol,verbose)
 if feasible == 0 
   error("d2(pcls) infeasible");
 endif
@@ -134,7 +134,7 @@ printf("d2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 % Save results
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"tol=%g %% Tolerance on relative coefficient update size\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on relative coefficient update size\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
 fprintf(fid,"dBap=%d %% Pass band amplitude peak-to-peak ripple\n",dBap);
@@ -163,10 +163,10 @@ if verbose
   print_polynomial(D2,"D2");
 endif
 
-save deczky3a_socp_test.mat U V M Q R ...
-     n tol ctol fap dBap Wap fas dBas Was ftp tp tpr Wtp x1 d2 N2 D2
+eval(sprintf("save %s.mat U V M Q R \
+n ftol ctol fap dBap Wap fas dBas Was ftp tp tpr Wtp x1 d2 N2 D2",strf));
 
 % Done
 toc;
 diary off
-movefile deczky3a_socp_test.diary.tmp deczky3a_socp_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

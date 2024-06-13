@@ -66,7 +66,6 @@ dBas = 50
 fpp = 0.1800
 Wpp = 1000
 vRab0 before exchange constraints:
-Current constraints:
 al=[ 351 ]
 f(al)=[ 0.175000 ](fs=1)
 Asql=[ -2.082911 ](dB)
@@ -81,12 +80,11 @@ f(tu)=[ 0.166000 0.200000 ](fs=1)
 Tu=[ 11.522271 11.527620 ](Samples)
 pl=[ 264 ]
 f(pl)=[ 0.131500 ](fs=1)
-Pl=[ -9.502973 ](rad.)
+Pl=[ -3.024890 ](rad./pi)
 pu=[ 312 ]
 f(pu)=[ 0.155500 ](fs=1)
-Pu=[ -11.234853 ](rad.)
+Pu=[ -3.576165 ](rad./pi)
 vSab1 before exchange constraints:
-Current constraints:
 al=[ 351 ]
 f(al)=[ 0.175000 ](fs=1)
 Asql=[ -2.082911 ](dB)
@@ -101,13 +99,12 @@ f(tu)=[ 0.041000 0.123000 0.170500 0.200000 ](fs=1)
 Tu=[ 11.509780 11.516601 11.517986 11.527620 ](Samples)
 pl=[ 109 271 ]
 f(pl)=[ 0.054000 0.135000 ](fs=1)
-Pl=[ -3.902395 -9.755756 ](rad.)
+Pl=[ -1.242171 -3.105354 ](rad./pi)
 pu=[ 54 218 322 ]
 f(pu)=[ 0.026500 0.108500 0.160500 ](fs=1)
-Pu=[ -1.914422 -7.839412 -11.596391 ](rad.)
+Pu=[ -0.609379 -2.495362 -3.691246 ](rad./pi)
 Exchanged constraint from vR.au(1) to vS
 vRab1 after exchange constraints:
-Current constraints:
 al=[ 351 ]
 f(al)=[ 0.175000 ](fs=1)
 Asql=[ -1.066736 ](dB)
@@ -122,12 +119,11 @@ f(tu)=[ 0.166000 0.200000 ](fs=1)
 Tu=[ 11.535894 11.575651 ](Samples)
 pl=[ 264 ]
 f(pl)=[ 0.131500 ](fs=1)
-Pl=[ -9.504444 ](rad.)
+Pl=[ -3.025359 ](rad./pi)
 pu=[ 312 ]
 f(pu)=[ 0.155500 ](fs=1)
-Pu=[ -11.232544 ](rad.)
+Pu=[ -3.575430 ](rad./pi)
 vSab1 after exchange constraints:
-Current constraints:
 al=[ 351 ]
 f(al)=[ 0.175000 ](fs=1)
 Asql=[ -1.066736 ](dB)
@@ -142,10 +138,10 @@ f(tu)=[ 0.041000 0.123000 0.170500 0.200000 ](fs=1)
 Tu=[ 11.537656 11.555707 11.546648 11.575651 ](Samples)
 pl=[ 109 271 ]
 f(pl)=[ 0.054000 0.135000 ](fs=1)
-Pl=[ -3.903796 -9.757606 ](rad.)
+Pl=[ -1.242617 -3.105942 ](rad./pi)
 pu=[ 54 218 322 ]
 f(pu)=[ 0.026500 0.108500 0.160500 ](fs=1)
-Pu=[ -1.912691 -7.837082 -11.593214 ](rad.)
+Pu=[ -0.608828 -2.494621 -3.690235 ](rad./pi)
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

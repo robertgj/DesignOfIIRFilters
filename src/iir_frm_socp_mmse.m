@@ -1,10 +1,10 @@
 function [xk,socp_iter,func_iter,feasible]= ...
          iir_frm_socp_mmse(vS,x0,xu,xl,U,V,M,Q,na,nc,Mmodel,Dmodel, ...
                            w,Asqd,Asqdu,Asqdl,Wa,Td,Tdu,Tdl,Wt, ...
-                           maxiter,tol,verbose)
+                           maxiter,ftol,ctol,verbose)
 % [xk,socp_iter,func_iter,feasible] =
 %   iir_frm_socp_mmse(vS,x0,xu,xl,U,V,M,Q,na,nc,Mmodel,Dmodel, ...
-%     w,Asqd,Asqdu,Asqdl,Wa,Td,Tdu,Tdl,Wt,maxiter,tol,verbose)
+%     w,Asqd,Asqdu,Asqdl,Wa,Td,Tdu,Tdl,Wt,maxiter,ftol,ctol,verbose)
 %
 % SOCP MMSE optimisation of a low pass FRM filter with constraints on the
 % amplitude, and low pass group delay responses. The FRM model filter consists
@@ -47,7 +47,8 @@ function [xk,socp_iter,func_iter,feasible]= ...
 %   Tdu,Tdl - upper/lower mask for the desired group delay response
 %   Wt - group delay response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance
+%   ftol - tolerance on function value
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -56,7 +57,7 @@ function [xk,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - x satisfies the constraints 
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -76,10 +77,10 @@ function [xk,socp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 24) || (nargout ~= 4)
+  if (nargin ~= 25) || (nargout ~= 4)
     print_usage("[xk,socp_iter,func_iter,feasible]= ...\n\
     iir_frm_socp_mmse(vS,x0,xu,xl,U,V,M,Q,na,nc,Mmodel,Dmodel, ...\n\
-      w,Asqd,Asqdu,Asqdl,Wa,Td,Tdu,Tdl,Wt,maxiter,tol,verbose)");
+      w,Asqd,Asqdu,Asqdl,Wa,Td,Tdu,Tdl,Wt,maxiter,ftol,ctol,verbose)");
   endif
 
   %
@@ -285,8 +286,8 @@ function [xk,socp_iter,func_iter,feasible]= ...
       printf("func_iter=%d, socp_iter=%d\n",func_iter,socp_iter);
       info
     endif
-    if norm(delta)/norm(xk) < tol
-      printf("norm(delta)/norm(xk) < tol\n");
+    if norm(delta)/norm(xk) < ftol
+      printf("norm(delta)/norm(xk) < ftol\n");
       feasible=true;
       break;
     endif

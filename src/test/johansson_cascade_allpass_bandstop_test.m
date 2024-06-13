@@ -1,14 +1,16 @@
 % johansson_cascade_allpass_bandstop_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2024 Robert G. Jenssen
 
 test_common;
 
-delete("johansson_cascade_allpass_bandstop_test.diary");
-delete("johansson_cascade_allpass_bandstop_test.diary.tmp");
-diary johansson_cascade_allpass_bandstop_test.diary.tmp
+strf="johansson_cascade_allpass_bandstop_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 maxiter=2000
-tol=1e-8
+ftol=1e-8
 ctol=1e-8
 verbose=false
 strf="johansson_cascade_allpass_bandstop_test";
@@ -40,12 +42,12 @@ printf("             ");printf("%g ",wa(nchk(8:end))*0.5/pi);printf("]*2*pi;\n")
 % Step 1 : design FIR filter
 %
 % Desired low-pass magnitude response
-Wap=10;Wat=tol;Was=1;
+Wap=10;Wat=ftol;Was=1;
 nFap=ceil(Fap*nf/0.5)+1;
 Fas=0.5-Fap;
 nFas=floor(Fas*nf/0.5)+1;
-Ad=[(1-tol)*ones(nFap,1);zeros(nf-nFap+1,1)];
-Adu=[(1-tol)*ones(nFas-1,1);delta_s*ones(nf-nFas+2,1)];
+Ad=[ones(nFap,1);zeros(nf-nFap+1,1)];
+Adu=[ones(nFas-1,1);delta_s*ones(nf-nFas+2,1)];
 Adl=[(1-delta_p)*ones(nFap,1);zeros(nf-nFap+1,1)];
 Wa=[Wap*ones(nFap,1);Wat*ones(nFas-nFap-1,1);Was*ones(nf-nFas+2,1)]; 
 na=[1 nFap nFas length(wa)];
@@ -68,7 +70,7 @@ fM_active=1:length(fM0);
 [fM1,slb_iter,socp_iter,func_iter,feasible]= ...
   directFIRsymmetric_slb(@directFIRsymmetric_socp_mmse, ...
                          fM0,fM_active,na,wa,Ad,Adu,Adl,Wa, ...
-                         maxiter,tol,ctol,verbose);
+                         maxiter,ftol,ctol,verbose);
 if feasible==false
   error("fM1 not feasible");
 endif
@@ -104,7 +106,7 @@ phi=[fasl fasu];
 p=phi2p(phi);
 [bsB,bsA]=tfp2g(lpB,lpA,p,1);
 % Parallel all-pass decomposition
-[lpA0,lpA1]=tf2pa(lpB,lpA,tol);
+[lpA0,lpA1]=tf2pa(lpB,lpA,ftol);
 [~,bsA0]=tfp2g(flipud(lpA0(:)),lpA0(:),p,1);
 [~,bsA1]=tfp2g(flipud(lpA1(:)),lpA1(:),p,1);
 HbsA0=freqz(flipud(bsA0(:)),bsA0(:),wa);
@@ -154,8 +156,8 @@ if max(abs(abs(H+Hc)-1)) > 100*eps
 endif
 
 % Check complementary magnitude response
-if max(abs(abs(H)+abs(Hc)-1)) > 100*eps
-  error("max(abs(abs(H)+abs(Hc)-1))(%g) > 100*eps", max(abs(abs(H)+abs(Hc)-1)));
+if max(abs(abs(H)+abs(Hc)-1)) > 1e-8
+  error("max(abs(abs(H)+abs(Hc)-1))(%g) > 1e-8", max(abs(abs(H)+abs(Hc)-1)));
 endif
 
 % Plot magnitude responses
@@ -209,8 +211,8 @@ print(strcat(strf,"_zp_dual"),"-dpdflatex");
 close
 
 % Save the filter specification
-fid=fopen("johansson_cascade_allpass_bandstop_test_spec.m","wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fid=fopen(strcat(strf,"_spec.m"),"wt");
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"nf=%d %% Frequency points across the band\n",nf);
 fprintf(fid,"M=%d %% Prototype FIR filter order\n",M);
@@ -233,5 +235,4 @@ print_polynomial(bsA1,"bsA1",strcat(strf,"_bsA1_coef.m"));
 
 % Done
 diary off
-movefile johansson_cascade_allpass_bandstop_test.diary.tmp ...
-         johansson_cascade_allpass_bandstop_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

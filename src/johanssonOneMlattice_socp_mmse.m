@@ -1,11 +1,11 @@
 function [fM,k0,k1,socp_iter,func_iter,feasible]= ...
   johanssonOneMlattice_socp_mmse(vS,fM_0,k0_0,epsilon0,k1_0,epsilon1, ...
                                  fMk_u,fMk_l,fMk_active,dmax, ...
-                                 wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose)
+                                 wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose)
 % [fM,k0,k1,socp_iter,func_iter,feasible] =
 %   johanssonOneMlattice_socp_mmse(vS,fM_0,k0_0,epsilon0,k1_0,epsilon1, ...
 %                                  fMk_u,fMk_l,fMk_active,dmax, ...
-%                                  wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose)
+%                                  wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose)
 %
 % SOCP MMSE optimisation of a Johansson and Saramaki cascade allpass band-stop
 % filter with the all-pass filters implemented as one-multiplier lattice
@@ -24,7 +24,8 @@ function [fM,k0,k1,socp_iter,func_iter,feasible]= ...
 %   Adu,Adl - upper/lower mask for the desired amplitude response
 %   Wa - amplitude response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance
+%   ftol - tolerance on function value
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -33,7 +34,7 @@ function [fM,k0,k1,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -53,11 +54,12 @@ function [fM,k0,k1,socp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 18) || (nargout ~= 6)
+  if (nargin ~= 19) || (nargout ~= 6)
     print_usage("[fM,k0,k1,socp_iter,func_iter,feasible]= ...\n\
       johanssonOneMlattice_socp_mmse(vS,fM_0,k0_0,epsilon0,k1_0,epsilon1, ...\n\
                                      fMk_u,fMk_l,fMk_active,dmax, ...\n\
-                                     wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose)");
+                                     wa,Ad,Adu,Adl,Wa, ...\n\
+                                     maxiter,ftol,ctol,verbose)");
   endif
 
   %
@@ -86,17 +88,17 @@ function [fM,k0,k1,socp_iter,func_iter,feasible]= ...
          (all(isfield(vS,{"al","au"}))==false)
     error("numfields(vS)=%d, expected 2 (al and au)",numfields(vS));
   endif
-  if isstruct(tol)
-    if all(isfield(tol,{"dtol","stol"})) == false
-      error("Expect tol structure to have fields dtol and stol");
+  if isstruct(ftol)
+    if all(isfield(ftol,{"dtol","stol"})) == false
+      error("Expect ftol structure to have fields dtol and stol");
     endif
-    dtol=tol.dtol;
-    pars.eps=tol.stol;
+    dtol=ftol.dtol;
+    pars.eps=ftol.stol;
     if verbose
       printf("Using dtol=%g,pars.eps=%g\n",dtol,pars.eps);
     endif
   else
-    dtol=tol;
+    dtol=ftol;
   endif
 
   %

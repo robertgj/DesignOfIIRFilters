@@ -1,22 +1,23 @@
 % sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 % SDP relaxation optimisation of a symmetric direct-form FIR
 % bandpass filter with 12-bit signed-digit coefficients
 
 test_common;
 
-delete("sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.diary");
-delete("sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.diary.tmp");
-diary sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.diary.tmp
+strf="sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 maxiter=2000
+ftol=1e-6;
+ctol=ftol;
 verbose=false;
-tol=1e-6;
-ctol=tol;
-strf="sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test";
 
 % Band pass filter
 M=15;
@@ -64,7 +65,7 @@ hM0_active=1:length(hM0);
 [hM1,slb_iter,socp_iter,func_iter,feasible]= ...
 directFIRsymmetric_slb(@directFIRsymmetric_socp_mmsePW, ...
                        hM0,hM0_active,na,wa,Ad,Adu,Adl,Wa, ...
-                       maxiter,tol,ctol,verbose);
+                       maxiter,ftol,ctol,verbose);
 if feasible==false
   error("directFIRsymmetric_slb failed for initial filter!");
 endif
@@ -105,7 +106,7 @@ if 1
   [hM1_sd_sdp,socp_iter,func_iter,feasible] = ...
     sdp_relaxation_directFIRsymmetric_mmsePW([],hM1_sd_x,hM1_sd_delta,na, ...
                                              wa,Ad,Adu,Adl,Wa, ...
-                                             maxiter,tol,verbose);
+                                             maxiter,ftol,ctol,verbose);
   if feasible==false
     error("sdp_relaxation_directFIRsymmetric_mmsePW failed!");
   endif
@@ -121,7 +122,7 @@ else
     directFIRsymmetric_slb(@sdp_relaxation_directFIRsymmetric_mmsePW, ...
                            hM1_sd_x,hM1_sd_delta,na, ...
                            wa,Ad,Adu_sdp,Adl_sdp,Wa, ...
-                           maxiter,tol,ctol,verbose);
+                           maxiter,ftol,ctol,verbose);
   if feasible==false
     error("directFIRsymmetric_slb failed!");
   endif
@@ -192,29 +193,27 @@ close
 
 % Filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
-fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
-fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"nbits=%d %% Coefficient bits\n",nbits);
+fprintf(fid,"ndigits=%d %% Nominal average coefficient signed-digits\n",ndigits);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
-fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
+fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"fasl=%g %% Amplitude stop band(1) lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Amplitude stop band(1) upper edge\n",fasu);
-fprintf(fid,"dBas=%d %% Amplitude stop band(1) peak-to-peak ripple\n",dBas);
-fprintf(fid,"Wasl=%d %% Amplitude lower stop band weight\n",Wasl);
-fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
+fprintf(fid,"dBas=%g %% Amplitude stop band(1) peak-to-peak ripple\n",dBas);
+fprintf(fid,"Wasl=%g %% Amplitude lower stop band weight\n",Wasl);
+fprintf(fid,"Wasu=%g %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-save sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.mat ...
-     tol ctol nbits nscale ndigits ndigits_alloc npoints ...
-     fapl fapu dBap Wap fasl fasu dBas Wasl Wasu hM1_sd_sdp
+eval(sprintf("save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc npoints \
+fapl fapu dBap Wap fasl fasu dBas Wasl Wasu hM1_sd_sdp",strf));
        
 % Done
 toc;
 diary off
-movefile sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.diary.tmp ...
-         sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

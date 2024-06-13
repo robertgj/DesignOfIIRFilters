@@ -1,9 +1,9 @@
 function vS=directFIRnonsymmetric_slb_update_constraints ...
-              (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,tol)
+              (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,ctol)
 % vS=directFIRnonsymmetric_slb_update_constraints ...
-%      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,tol)
+%      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,ctol)
 
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -26,7 +26,7 @@ function vS=directFIRnonsymmetric_slb_update_constraints ...
   % Sanity checks
   if (nargin ~= 13) || (nargout ~= 1)
     print_usage("vS=directFIRnonsymmetric_slb_update_constraints ...\n\
-      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,tol)");
+      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,ctol)");
   endif
   if length(Asq) ~= length(Asqdu)
     error("length(Asq) ~= length(Asqdu)");
@@ -62,30 +62,30 @@ function vS=directFIRnonsymmetric_slb_update_constraints ...
   if ~isempty(Asq)
     % Find amplitude lower constraint violations
     vAsql=local_max((Asqdl-Asq).*(Wa~=0));
-    vS.al=vAsql(find((Asqdl(vAsql)-Asq(vAsql))>tol));
+    vS.al=vAsql(find((Asqdl(vAsql)-Asq(vAsql))>ctol));
     % Find amplitude upper constraint violations
     vAsqu=local_max((Asq-Asqdu).*(Wa~=0));
-    vS.au=vAsqu(find((Asq(vAsqu)-Asqdu(vAsqu))>tol));
+    vS.au=vAsqu(find((Asq(vAsqu)-Asqdu(vAsqu))>ctol));
   endif
 
   % Find group delay constraint violations
   if ~isempty(T)
     % Find group delay lower constraint violations
     vTl=local_max((Tdl-T).*(Wt~=0));
-    vS.tl=vTl(find((Tdl(vTl)-T(vTl))>tol));
+    vS.tl=vTl(find((Tdl(vTl)-T(vTl))>ctol));
     % Find group delay upper constraint violations
     vTu=local_max((T-Tdu).*(Wt~=0));
-    vS.tu=vTu(find((T(vTu)-Tdu(vTu))>tol));
+    vS.tu=vTu(find((T(vTu)-Tdu(vTu))>ctol));
   endif
 
   % Find phase constraint violations
   if ~isempty(P)
     % Find phase lower constraint violations
     vPl=local_max((Pdl-P).*(Wp~=0));
-    vS.pl=vPl(find((Pdl(vPl)-P(vPl))>tol));
+    vS.pl=vPl(find((Pdl(vPl)-P(vPl))>ctol));
     % Find phase upper constraint violations
     vPu=local_max((P-Pdu).*(Wp~=0));
-    vS.pu=vPu(find((P(vPu)-Pdu(vPu))>tol));
+    vS.pu=vPu(find((P(vPu)-Pdu(vPu))>ctol));
   endif
 
   % Do not want size 0x1 ?!?!?!

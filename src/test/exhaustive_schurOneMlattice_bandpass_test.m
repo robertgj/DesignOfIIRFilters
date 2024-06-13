@@ -1,5 +1,5 @@
 % exhaustive_schurOneMlattice_bandpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 % To divide this script into 8 parts:
 %{ 
@@ -16,9 +16,11 @@
 
 test_common;
 
-delete("exhaustive_schurOneMlattice_bandpass_test.diary");
-delete("exhaustive_schurOneMlattice_bandpass_test.diary.tmp");
-diary exhaustive_schurOneMlattice_bandpass_test.diary.tmp
+strf="exhaustive_schurOneMlattice_bandpass_test.diary";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 schurOneMlattice_bandpass_10_nbits_common;
 
@@ -55,5 +57,4 @@ printf("min_m=%d,min_cost=%g\n",min_m,min_cost);
 
 % Done
 diary off
-movefile exhaustive_schurOneMlattice_bandpass_test.diary.tmp ...
-         exhaustive_schurOneMlattice_bandpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

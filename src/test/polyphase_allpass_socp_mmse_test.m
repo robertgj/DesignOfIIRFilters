@@ -1,15 +1,15 @@
 % polyphase_allpass_socp_mmse_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("polyphase_allpass_socp_mmse_test.diary");
-delete("polyphase_allpass_socp_mmse_test.diary.tmp");
-diary polyphase_allpass_socp_mmse_test.diary.tmp
+strf="polyphase_allpass_socp_mmse_test";
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 
 verbose=true
-strf="polyphase_allpass_socp_mmse_test";
 
 % Initial coefficients found by tarczynski_polyphase_allpass_test.m
 Da0 = [   1.0000000000,  -0.0002135795,   0.0001187213,  -0.0000936667, ... 
@@ -20,7 +20,8 @@ Db0 = [   1.0000000000,   0.4963316187,  -0.1198749572,   0.0562537917, ...
          -0.0051805297,   0.0032053536,  -0.0019025918,   0.0011977681 ]';
 
 % Lowpass filter specification for polyphase all-pass filters
-tol=1e-7
+ftol=1e-7
+ctol=ftol
 maxiter=2000
 polyphase=true
 difference=false
@@ -88,7 +89,7 @@ vS=[];
                              polyphase,difference, ...
                              wa,A2d*Ksq,A2du*Ksq,A2dl*Ksq,Wa/Ksq, ...
                              wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-                             maxiter,tol,verbose);
+                             maxiter,ftol,ctol,verbose);
 if !feasible
   error("ab1 infeasible");
 endif
@@ -176,7 +177,7 @@ close
 
 % Save the filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"ma=%d %% Allpass model filter A denominator order\n",ma);
 fprintf(fid,"Va=%d %% Allpass model filter A no. of real poles\n",Va);
@@ -209,7 +210,8 @@ print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 % Done 
 save polyphase_allpass_socp_mmse_test.mat ...
      n fap Wap ftp Wtp fas Was td ma mb Ra Rb ab0 ab1 Da1 Db1
+eval(sprintf("save %s.mat fM_0 k0_0 epsilon0 k1_0 epsilon1 \
+fapl fasl fasu fapu Wap Was dmax rho ftol fM k0 k1",strf));
 
 diary off
-movefile polyphase_allpass_socp_mmse_test.diary.tmp ...
-         polyphase_allpass_socp_mmse_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

@@ -1,16 +1,18 @@
 % surmaaho_lowpass_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2024 Robert G. Jenssen
 
 test_common;
 
-delete("surmaaho_lowpass_test.diary");
-delete("surmaaho_lowpass_test.diary.tmp");
-diary surmaaho_lowpass_test.diary.tmp
+strf="surmaaho_lowpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 maxiter=5000
-tol=1e-6
+ftol=1e-6
+ctol=ftol
 verbose=false
-strf="surmaaho_lowpass_test";
 
 % Minimum-phase filter specification
 nmin=7,fap=0.1,fas=0.125,dBap=0.1,dBas=60
@@ -59,7 +61,7 @@ rho=31/32;
 % SOCP MMSE
 [a,socp_iter,func_iter,feasible]= ...
 allpass_phase_socp_mmse([],a0,au,al,Va,Qa,Ra, ...
-                        wp,Pd,[],[],ones(size(wp)),maxiter,tol,verbose);
+                        wp,Pd,[],[],ones(size(wp)),maxiter,ftol,ctol,verbose);
 if ~feasible
   error("Initial allpass_phase_socp_mmse not feasible");
 endif
@@ -88,7 +90,7 @@ for iter=0:maxiter
   Pd=-(P+(tp*ww));
   [next_a,socp_iter,func_iter,feasible] = ...
     allpass_phase_socp_mmse([],a,au,al,Va,Qa,Ra,ww,Pd,[],[],ones(size(ww)), ...
-                            maxiter,tol,verbose);
+                            maxiter,ftol,ctol,verbose);
   if ~feasible
     error("allpass_phase_socp_mmse not feasible");
   endif
@@ -99,7 +101,7 @@ for iter=0:maxiter
   % Step 5 : Check equaliser pole-zero convergence
   %
   diff_allpass_p=norm(allpass_p-next_allpass_p);
-  if diff_allpass_p<tol
+  if diff_allpass_p<ftol
     break;
   else
     allpass_p=next_allpass_p;
@@ -159,8 +161,8 @@ print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
 % Save the filter specification
-fid=fopen("surmaaho_lowpass_test_spec.m","wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fid=fopen(strcat(strf,"_spec.m"),"wt");
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"nf=%d %% Frequency points across the band\n",nf);
 fprintf(fid,"nmin=%d %% Minimum-phase filter order\n",nmin);
 fprintf(fid,"nall=%d %% All-pass phase equaliser filter order\n",nall);
@@ -185,4 +187,4 @@ print_polynomial(angle(min_p),"angle_min_p");
     
 % Done
 diary off
-movefile surmaaho_lowpass_test.diary.tmp surmaaho_lowpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

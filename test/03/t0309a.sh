@@ -62,8 +62,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.hM_min.ok \
-     branch_bound_directFIRhilbert_8_nbits_test_hM_min_coef.m
+diff -Bb test.hM_min.ok branch_bound_directFIRhilbert_8_nbits_test_hM_min_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.hM_min.ok"; fail; fi
 
 #

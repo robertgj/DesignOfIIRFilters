@@ -1,19 +1,18 @@
 % bitflip_directFIRsymmetric_bandpass_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficents of
 % a direct-form symmetric FIR bandpass filter.
 
 test_common;
 
-delete("bitflip_directFIRsymmetric_bandpass_test.diary");
-delete("bitflip_directFIRsymmetric_bandpass_test.diary.tmp");
-diary bitflip_directFIRsymmetric_bandpass_test.diary.tmp
+strf="bitflip_directFIRsymmetric_bandpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 bitflip_bandpass_test_common;
-
-% File name string
-strf="bitflip_directFIRsymmetric_bandpass_test";
 
 % Frequency specifications for directFIRsymmetricEsqPW
 waf=w([1 nasl napl napu nasu end]);
@@ -272,10 +271,9 @@ print_polynomial(hM_bfsdi,"hM_bfsdi",enscale);
 print_polynomial(hM_bfsdi,"hM_bfsdi",strcat(strf,"_hM_bfsdi_coef.m"),enscale);
 
 % Save the results
-save bitflip_directFIRsymmetric_bandpass_test.mat ...
-     hM_ex hM_rd hM_bf hM_sd hM_bfsd hM_sdl hM_bfsdl hM_sdi hM_bfsdi
+eval(sprintf("save %s.mat \
+hM_ex hM_rd hM_bf hM_sd hM_bfsd hM_sdl hM_bfsdl hM_sdi hM_bfsdi", strf));
 
 % Done
 diary off
-movefile bitflip_directFIRsymmetric_bandpass_test.diary.tmp ...
-         bitflip_directFIRsymmetric_bandpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

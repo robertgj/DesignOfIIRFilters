@@ -1,17 +1,18 @@
 % iir_sqp_slb_differentiator_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
 strf="iir_sqp_slb_differentiator_test";
+
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-tol=1e-4
-ctol=tol/20
+ftol=1e-4
+ctol=ftol/20
 maxiter=2000
 verbose=false
 
@@ -77,7 +78,7 @@ U=U-1;
 dmax=0.05;
 [xl,xu]=xConstraints(U,V,M,Q);
 
-% Amplitude with z-1 removed
+% Amplitude
 wa=w(1:nt2);
 Azm1=[1;2*sin(wa(2:end)/2)];
 Ad=[1;wa(2:end)]./(pi*Azm1);
@@ -92,14 +93,14 @@ Sdu=[];
 Sdl=[];
 Ws=[];
 
-% Group delay with z-1 removed
+% Group delay 
 wt=wa;
 Td=(td-0.5)*ones(size(wt));
 Tdu=Td+(tdr/2);
 Tdl=Td-(tdr/2);
 Wt=Wtp*ones(size(wt));
 
-% Phase response with z-1 removed
+% Phase response 
 wp=wa;
 Pd=pi-(wp*(td-0.5));
 Pdu=Pd+(pr*pi/2);
@@ -121,18 +122,19 @@ printf("\nMMSE pass 1:\n");
   iir_sqp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R, ...
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-               maxiter,tol,verbose)
+               maxiter,ftol,ctol,verbose)
 if feasible == 0 
   error("x1(mmse) infeasible");
 endif
 
+% Plot MMSE response
 Ax1=iirA(wa,x1,U,V,M,Q,R);
 Tx1=iirT(wt,x1,U,V,M,Q,R);
 Px1=iirP(wp,x1,U,V,M,Q,R);
 subplot(311);
 plot(wa*0.5/pi,[Ax1 Adl Adu]-Ad)
 axis([0 0.5 -max(Ar1,Ar2)/2 max(Ar1,Ar2)/2]);
-strM=sprintf("Differentiator MMSE response (with z-1 removed):\
+strM=sprintf("Differentiator correction filter MMSE response : \
 R=%d,ft1=%g,ft2=%g,td=%g",R,ft1,ft2,(td-0.5));
 title(strM);
 ylabel("Amplitude error");
@@ -160,7 +162,7 @@ printf("\nPCLS pass :\n");
 iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
         wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
         wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-        maxiter,tol,ctol,verbose)
+        maxiter,ftol,ctol,verbose)
 if feasible == 0 
   error("d1 (pcls) infeasible\n");
 endif
@@ -223,7 +225,7 @@ print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 % Save specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"U=%d %% Number of real zeros\n",U);
 fprintf(fid,"V=%d %% Number of real poles\n",V);
@@ -245,8 +247,8 @@ fclose(fid);
 
 % Done
 toc;
-save iir_sqp_slb_differentiator_test.mat U V M Q R x0 x1 d1 N1 D1 ...
-     tol ctol n ft1 ft2 Ar1 Ar2 Wap td tdr Wtp pr Wpp
+eval(sprintf("save %s.mat U V M Q R x0 x1 d1 N1 D1 \
+ftol ctol n ft1 ft2 Ar1 Ar2 Wap td tdr Wtp pr Wpp",strf));
 
 diary off
 movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

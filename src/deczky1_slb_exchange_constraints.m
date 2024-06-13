@@ -1,6 +1,6 @@
 function [next_vR,next_vS,exchanged] = ...
          deczky1_slb_exchange_constraints(vS,vR,x,U,V,M,Q,R, ...
-                                          wa,Adu,Adl,wt,Tdu,Tdl,wx,tol)
+                                          wa,Adu,Adl,wt,Tdu,Tdl,wx,ctol)
 % [next_vR,next_vS,exchanged] = ...
 %  deczky1_slb_exchange_constraints(vS,vR,x,U,V,M,Q,R, ...
 %                                   wa,Adu,Adl,wt,Tdu,Tdl,wx,tol)
@@ -9,7 +9,7 @@ function [next_vR,next_vS,exchanged] = ...
 % are violated then move the constraint with the greatest violation
 % from vR to vS.
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -33,7 +33,7 @@ function [next_vR,next_vS,exchanged] = ...
 if (nargin ~= 16) || (nargout ~= 3)
   print_usage("[next_vR,next_vS,exchanged]=...\n\
          deczky1_slb_exchange_constraints(vS,vR, ...\n\
-           x,U,V,M,Q,R,wa,Adu,Adl,wt,Tdu,Tdl,wx,tol)");
+           x,U,V,M,Q,R,wa,Adu,Adl,wt,Tdu,Tdl,wx,ctol)");
 endif
 
 next_vR = vR;
@@ -49,10 +49,10 @@ vAx_max=-inf;
 vAl=[];Al=[];
 if ~isempty(vR.al)
   Al=iirA(wa(vR.al),x,U,V,M,Q,R);
-  vAl=find((Adl(vR.al)-tol)>Al);
+  vAl=find((Adl(vR.al)-ctol)>Al);
   if ~isempty(vAl)
     exchanged = true;
-    [vAl_max,vAl_maxi]=max((Adl(vR.al)-tol)-Al);
+    [vAl_max,vAl_maxi]=max((Adl(vR.al)-ctol)-Al);
   endif
 endif
 
@@ -60,10 +60,10 @@ endif
 vAu=[];Au=[];
 if ~isempty(vR.au)
   Au=iirA(wa(vR.au),x,U,V,M,Q,R);
-  vAu=find(Au>(Adu(vR.au)+tol));
+  vAu=find(Au>(Adu(vR.au)+ctol));
   if ~isempty(vAu)
     exchanged = true;
-    [vAu_max,vAu_maxi]=max(Au-(Adu(vR.au)+tol));
+    [vAu_max,vAu_maxi]=max(Au-(Adu(vR.au)+ctol));
   endif
 endif
 
@@ -71,10 +71,10 @@ endif
 vTl=[];Tl=[];
 if ~isempty(vR.tl)
   Tl=iirT(wt(vR.tl),x,U,V,M,Q,R);
-  vTl=find((Tdl(vR.tl)-tol)>Tl);
+  vTl=find((Tdl(vR.tl)-ctol)>Tl);
   if ~isempty(vTl)
     exchanged = true;
-    [vTl_max,vTl_maxi]=max((Tdl(vR.tl)-tol)-Tl);
+    [vTl_max,vTl_maxi]=max((Tdl(vR.tl)-ctol)-Tl);
   endif 
 endif
 
@@ -82,10 +82,10 @@ endif
 vTu=[];Tu=[];
 if ~isempty(vR.tu)
   Tu=iirT(wt(vR.tu),x,U,V,M,Q,R);
-  vTu=find(Tu>(Tdu(vR.tu)+tol));
+  vTu=find(Tu>(Tdu(vR.tu)+ctol));
   if ~isempty(vTu)
     exchanged = true;
-    [vTu_max,vTu_maxi]=max(Tu-(Tdu(vR.tu)+tol));
+    [vTu_max,vTu_maxi]=max(Tu-(Tdu(vR.tu)+ctol));
   endif
 endif
 
@@ -93,10 +93,10 @@ endif
 vAx=[];
 if ~isempty(vR.ax)
   delAdelw=iirdelAdelw(wx(vR.ax),x,U,V,M,Q,R);
-  vAx=find(delAdelw>tol);
+  vAx=find(delAdelw>ctol);
   if ~isempty(vAx)
     exchanged = true;
-    [vAx_max,vAx_maxi]=max(delAdelw-tol);
+    [vAx_max,vAx_maxi]=max(delAdelw-ctol);
   endif
 endif
 

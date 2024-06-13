@@ -1,24 +1,23 @@
 % schurOneMPAlattice_socp_slb_lowpass_to_multiband_test.m
-% Copyright (C) 2020,2023 Robert G. Jenssen
+% Copyright (C) 2020-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMPAlattice_socp_slb_lowpass_to_multiband_test.diary");
-delete("schurOneMPAlattice_socp_slb_lowpass_to_multiband_test.diary.tmp");
-diary schurOneMPAlattice_socp_slb_lowpass_to_multiband_test.diary.tmp
+strf="schurOneMPAlattice_socp_slb_lowpass_to_multiband_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-tol=1e-4;
-mtol=1e-4;
-ptol=1e-4;
+ftol=1e-4;
 ctol=1e-4;
 maxiter=10000;
 verbose=false;
 nplot=1000;
 npoints=nplot;
 difference=true;
-strf="schurOneMPAlattice_socp_slb_lowpass_to_multiband_test";
 
 % Desired frequency response specification
 fas1u=0.05;
@@ -59,8 +58,8 @@ f=(0:(nplot-1))'*0.5/nplot;
 w=f*2*pi;
 H=freqz(B,A,w);
 G=freqz(Qp,A,w);
-if max(abs(abs(H+G)-1))>tol
-  error("max(abs(abs(H+G)-1))(%g)>tol(%g)",max(abs(abs(H+G)-1)),tol);
+if max(abs(abs(H+G)-1))>ctol
+  error("max(abs(abs(H+G)-1))(%g)>ctol(%g)",max(abs(abs(H+G)-1)),ctol);
 endif
 BQp=B+Qp;
 Z=qroots(BQp)
@@ -93,8 +92,9 @@ Hap1=schurOneMlattice2H(w,Aap1,Bap1,Cap1,Dap1);
 [Aap2,Bap2,~,~,Cap2,Dap2]= ...
   schurOneMlattice2Abcd(A2k0,A2epsilon0,A2p0,zeros(size(A2c0)));
 Hap2=schurOneMlattice2H(w,Aap2,Bap2,Cap2,Dap2);
-if max(abs(((Hap1-Hap2)/2)-H))>tol
-  error("max(abs((Hap1-Hap2)/2)-H)(%g)>tol(%g)",max(abs(((Hap1-Hap2)/2)-H)),tol);
+if max(abs(((Hap1-Hap2)/2)-H))>ctol
+  error("max(abs((Hap1-Hap2)/2)-H)(%g)>ctol(%g)",
+        max(abs(((Hap1-Hap2)/2)-H)),ctol);
 endif
 
 % Plot initial filter
@@ -244,7 +244,7 @@ k_active=find(k0~=0);
   schurOneMPAlattice_socp_mmse([],A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
                                difference,k_u,k_l,k_active,dmax, ...
                                wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                               wp,Pd,Pdu,Pdl,Wp,maxiter,mtol,verbose);
+                               wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 if feasible == 0 
   error("A1k,A2k(mmse) infeasible");
 endif
@@ -278,7 +278,7 @@ schurOneMPAlattice_slb(@schurOneMPAlattice_socp_mmse, ...
                        A1kmmse,A1epsilon0,A1p0,A2kmmse,A2epsilon0,A2p0, ...
                        difference,k_u,k_l,k_active,dmax, ...
                        wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                       wp,Pd,Pdu,Pdl,Wp,maxiter,ptol,ctol,verbose);
+                       wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 if feasible == 0 
   error("A1k,A2k(pcls) infeasible");
 endif
@@ -326,9 +326,7 @@ close
 
 % Filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on combined response\n",tol);
-fprintf(fid,"mtol=%g %% Tolerance on MMSE update\n",mtol);
-fprintf(fid,"ptol=%g %% Tolerance on PCLS update\n",ptol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"maxiter=%d %% SOCP iteration limit\n",maxiter);
 fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);
@@ -400,15 +398,14 @@ print_polynomial(A1p,"A1p",strcat(strf,"_A1p_coef.m"));
 print_polynomial(A2p,"A2p");
 print_polynomial(A2p,"A2p",strcat(strf,"_A2p_coef.m"));
 
-save schurOneMPAlattice_socp_slb_lowpass_to_multiband_test.mat ...
-     tol mtol ptol ctol maxiter verbose nplot npoints n fc dBap dBas dmax rho ...
-     fas1u fap1l fap1u fas2l fas2u fap2l fap2u fas3l ...
-     dBas1 dBap1 dBas2 dBap2 dBas3 Was1 Wap1 Was2 Wap2 Was3  ...
-     ftp1l ftp1u ftp2l ftp2u tp1 tpr1 tp2 tpr2 Wtp1 Wtp2 ...
-     A1k A1epsilon A1p A2k A2epsilon A2p
+eval(sprintf("save %s.mat \
+ftol ctol maxiter verbose nplot npoints n fc dBap dBas dmax rho \
+fas1u fap1l fap1u fas2l fas2u fap2l fap2u fas3l \
+dBas1 dBap1 dBas2 dBap2 dBas3 Was1 Wap1 Was2 Wap2 Was3 \
+ftp1l ftp1u ftp2l ftp2u tp1 tpr1 tp2 tpr2 Wtp1 Wtp2 \
+A1k A1epsilon A1p A2k A2epsilon A2p",strf));
 
 % Done
 toc;
 diary off
-movefile schurOneMPAlattice_socp_slb_lowpass_to_multiband_test.diary.tmp  ...
-         schurOneMPAlattice_socp_slb_lowpass_to_multiband_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

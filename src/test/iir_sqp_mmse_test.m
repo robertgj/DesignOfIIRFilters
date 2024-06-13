@@ -1,15 +1,17 @@
 % iir_sqp_mmse_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("iir_sqp_mmse_test.diary");
-delete("iir_sqp_mmse_test.diary.tmp");
-diary iir_sqp_mmse_test.diary.tmp
+strf="iir_sqp_mmse_test";
 
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 verbose=true
-tol=1e-3
+ftol=1e-3
+ctol=ftol
 maxiter=2000
 
 % Bandpass filter specification
@@ -76,7 +78,7 @@ Wp([napl-1,napl,napl+1,napu-1,napu,napu+1])'
 % Initialise strings
 strM=sprintf("%%s:fapl=%g,fapu=%g,Wasl=%%g,Wap=%%g,Wasu=%%g,tp=%d,Wtp=%%g",...
              fapl,fapu,tp);
-strd=sprintf("iir_sqp_mmse_test_initial_%%s");
+strd=sprintf("%s_initial_%%s",strf);
 strM0=sprintf(strM,"x0",Wasl,Wap,Wasu,Wtp);
 
 % Plot response of the initial filter
@@ -95,11 +97,11 @@ close
   iir_sqp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R, ...
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-               maxiter,tol,verbose);
+               maxiter,ftol,ctol,verbose);
 if feasible == 0 
-  error("iir_sqp_mmse_test, x1 infeasible");
+  error("%s : x1 infeasible",strf);
 endif
-strd=sprintf("iir_sqp_mmse_test_mmse_%%s");
+strd=sprintf("%s_%%s",strf);
 strM1=sprintf(strM,"x1",Wasl,Wap,Wasu,Wtp);
 showZPplot(x1,U,V,M,Q,R,strM1);
 print(sprintf(strd,"x1pz"),"-dpdflatex");
@@ -111,7 +113,7 @@ showResponsePassBands(fapl,fapu,-3,3,x1,U,V,M,Q,R,strM1);
 print(sprintf(strd,"x1pass"),"-dpdflatex");
 close
 
-print_polynomial(x1,"x1=","iir_sqp_mmse_test_x1_coef.m");
+print_polynomial(x1,"x1=",strcat(strf,"_x1_coef.m"));
 x1'
 [N1,D1]=x2tf(x1,U,V,M,Q,R);
 N1'
@@ -130,9 +132,9 @@ Cfir=ceil(N/2)
 nfir=2048;
 b = cl2bp(Cfir,wl,wu,up,lo,nfir);
 length(b)
-[xfir,Ufir,Vfir,Mfir,Qfir]=tf2x(b,1,tol);
+[xfir,Ufir,Vfir,Mfir,Qfir]=tf2x(b,1,ftol);
 Rfir=1;
-strd=sprintf("iir_sqp_mmse_test_cl2bp_%%s");
+strd=sprintf("%s_cl2bp_%%s",strf);
 strMfir=sprintf("xfir:length=%d,fapl=%g,fapu=%g,stop band ripple=-30dB", ...
                 length(b),fapl,fapu);
 showResponse(xfir,Ufir,Vfir,Mfir,Qfir,Rfir,strMfir);
@@ -143,8 +145,8 @@ print(sprintf(strd,"xfirpz"),"-dpdflatex");
 close
 
 % Done 
-save iir_sqp_mmse_test.mat U V M Q R N fapl fapu ftpl ftpu tp ...
-     x1 b Cfir wl wu up lo nfir xfir Ufir Vfir Mfir Qfir 
+eval(sprintf("save %s.mat ftol ctol U V M Q R N fapl fapu ftpl ftpu tp \
+x1 b Cfir wl wu up lo nfir xfir Ufir Vfir Mfir Qfir",strf));
 
 diary off
-movefile iir_sqp_mmse_test.diary.tmp iir_sqp_mmse_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

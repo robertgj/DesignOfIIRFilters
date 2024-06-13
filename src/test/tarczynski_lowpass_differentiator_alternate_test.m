@@ -28,8 +28,9 @@ nas=floor(fas*n/0.5);
 
 % Frequency vectors
 wd=pi*(1:(n-1))'/n;
-Hzm1=freqz([1,-1],1,wd)(:);
-Hd=[(j*(wd(1:nap)/2)./Hzm1(1:nap)).*exp(-j*td*wd(1:nap)); ...
+hzm1=[1,-1];
+Hzm1=freqz(hzm1,1,wd)(:);
+Hd=[(-j*(wd(1:nap)/2)./Hzm1(1:nap)).*exp(-j*td*wd(1:nap)); ...
     zeros(n-nap-1,1)];
 Wd=[Wap*ones(nap,1); ...
     Wat*ones(nas-nap-1,1); ...
@@ -70,8 +71,8 @@ D0=[1; ND0((nN+2):end)];
 D0R=[D0(1);kron(D0(2:end),[zeros(R-1,1);1])];
 
 % Calculate response
-H=freqz(conv([1;-1],N0),D0R,wd);
-T=delayz(conv([1;-1],N0),D0R,wd);
+H=freqz(conv(hzm1,N0),D0R,wd);
+T=delayz(conv(hzm1,N0),D0R,wd);
 
 % Plot response
 subplot(211);
@@ -111,7 +112,7 @@ close
 
 % Plot poles and zeros
 subplot(111);
-zplane(roots(conv([1;-1],N0)),roots(D0R));
+zplane(roots(conv(hzm1,N0)),roots(D0R));
 title(s);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close

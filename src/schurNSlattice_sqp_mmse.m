@@ -2,12 +2,12 @@ function [s10,s11,s20,s00,s02,s22,sqp_iter,func_iter,feasible]= ...
   schurNSlattice_sqp_mmse(vS,s10_0,s11_0,s20_0,s00_0,s02_0,s22_0, ...
                           sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax,...
                           wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                          maxiter,tol,verbose)
+                          maxiter,ftol,ctol,verbose)
 % [s10,s11,s20,s00,s02,s22,sqp_iter,func_iter,feasible]= ...
 %   schurNSlattice_sqp_mmse(vS,s10_0,s11_0,s20_0,s00_0,s02_0,s22_0, ...
 %                           sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax,...
 %                           wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                           maxiter,tol,verbose)
+%                           maxiter,ftol,ctol,verbose)
 %
 % SQP MMSE optimisation of a normalised Schur lattice filter with
 % constraints on the amplitude and group delay responses. 
@@ -28,7 +28,8 @@ function [s10,s11,s20,s00,s02,s22,sqp_iter,func_iter,feasible]= ...
 %   Tdu,Tdl - upper/lower mask for the desired group delay response
 %   Wt - group delay response weight at each frequency
 %   maxiter - maximum number of SQP iterations
-%   tol - tolerance
+%   ftol - tolerance on function value
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -37,7 +38,7 @@ function [s10,s11,s20,s00,s02,s22,sqp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -57,12 +58,12 @@ function [s10,s11,s20,s00,s02,s22,sqp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 25) || (nargout ~= 9)
+  if (nargin ~= 26) || (nargout ~= 9)
     print_usage("[s10,s11,s20,s00,s02,s22,sqp_iter,func_iter,feasible]= ...\n\
       schurNSlattice_sqp_mmse(vS,s10_0,s11_0,s20_0,s00_0,s02_0,s22_0, ...\n\
                               sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...\n\
                               wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                              maxiter,tol,verbose)");
+                              maxiter,ftol,ctol,verbose)");
   endif
 
   %
@@ -170,10 +171,11 @@ function [s10,s11,s20,s00,s02,s22,sqp_iter,func_iter,feasible]= ...
 
   % Initialise constraint function persistent constants
   gx=schurNSlattice_sqp_mmse_gx(xsxx_0,...
-       vS,sxx_0,sxx_active,sxx_symmetric,wa,Asqdu,Asqdl,wt,Tdu,Tdl,tol,false);
+                                vS,sxx_0,sxx_active,sxx_symmetric, ...
+                                wa,Asqdu,Asqdl,wt,Tdu,Tdl,ctol,false);
   
   % Initial check on constraints. Do not need to proceed if they are satisfied.
-  if (isempty(gx) == false) && all(gx > -tol)
+  if (isempty(gx) == false) && all(gx > -ctol)
     s10=s10_0;s11=s11_0;s20=s20_0;s00=s00_0;s02=s02_0;s22=s22_0;
     sqp_lm=[];
     sqp_iter=0;
@@ -192,7 +194,7 @@ function [s10,s11,s20,s00,s02,s22,sqp_iter,func_iter,feasible]= ...
       sqp_bfgs(xsxx_0, ...
                @schurNSlattice_sqp_mmse_fx,@schurNSlattice_sqp_mmse_gx, ... 
                "armijo_kim",xsxx_l,xsxx_u,dmax,{W,invW},"bfgs", ...
-               tol,maxiter,verbose);
+               maxiter,ftol,ctol,verbose);
     [dummy1,dummy2,dummy3,func_iter] = schurNSlattice_sqp_mmse_fx();
   catch
     s10=[];s11=[];s20=[];s00=[];s02=[];s22=[];sqp_lm=[];
@@ -301,10 +303,10 @@ endfunction
 
 function [gx,B]=schurNSlattice_sqp_mmse_gx (xsxx, ...
                   _vS,_sxx_0,_sxx_active,_sxx_symmetric,...
-                  _wa,_Asqdu,_Asqdl,_wt,_Tdu,_Tdl,_tol,_verbose)
+                  _wa,_Asqdu,_Asqdl,_wt,_Tdu,_Tdl,_ctol,_verbose)
   
   persistent vS sxx_0 sxx_active sxx_symmetric
-  persistent wa Asqdu Asqdl wt Tdu Tdl tol verbose
+  persistent wa Asqdu Asqdl wt Tdu Tdl ctol verbose
   persistent init_done=false
 
   % Initialise persistent values
@@ -319,7 +321,7 @@ function [gx,B]=schurNSlattice_sqp_mmse_gx (xsxx, ...
     sxx_0=_sxx_0;sxx_active=_sxx_active;sxx_symmetric=_sxx_symmetric;
     wa=_wa;Asqdu=_Asqdu;Asqdl=_Asqdl;
     wt=_wt;Tdu=_Tdu;Tdl=_Tdl;
-    tol=_tol;verbose=_verbose;
+    ctol=_ctol;verbose=_verbose;
     init_done=true;
   elseif nargin == 1
     if init_done == false
@@ -328,7 +330,7 @@ function [gx,B]=schurNSlattice_sqp_mmse_gx (xsxx, ...
   else
     print_usage("[gx,B] = schurNSlattice_sqp_mmse_gx(xsxx); \n\
       schurNSlattice_sqp_mmse_gx(xsxx,vS,sxx_0,sxx_active,sxx_symmetric, ...\n\
-                                 wa,Asqdu,Asqdl,wt,Tdu,Tdl,tol,verbose)");
+                                 wa,Asqdu,Asqdl,wt,Tdu,Tdl,ctol,verbose)");
   endif
 
   % Do nothing
@@ -387,7 +389,7 @@ function [gx,B]=schurNSlattice_sqp_mmse_gx (xsxx, ...
 
   % Show
   if verbose
-    if all(gx>-tol)
+    if all(gx>-ctol)
       printf("All constraints satisfied!\n");
     endif
   endif

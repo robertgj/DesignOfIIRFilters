@@ -1,17 +1,19 @@
 % schurOneMlattice_sqp_mmse_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMlattice_sqp_mmse_test.diary");
-delete("schurOneMlattice_sqp_mmse_test.diary.tmp");
-diary schurOneMlattice_sqp_mmse_test.diary.tmp
+strf="schurOneMlattice_sqp_mmse_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-
-tol=1e-6
 maxiter=2000
+ftol=1e-6
+ctol=ftol
 verbose=true
 
 % Deczky3 lowpass filter specification
@@ -67,7 +69,6 @@ kc_l=[kl(:);cl(:)];
 kc_active=[find((k0(:)')~=0),(length(k0)+1):(length(k0)+length(c0))]';
 
 % Common strings
-strf="schurOneMlattice_sqp_mmse_test";
 strt=sprintf("Schur one-multiplier lattice lowpass filter SQP %%s response : \
 fap=%g,fas=%g",fap,fas);
 
@@ -79,7 +80,7 @@ tic;
   schurOneMlattice_sqp_mmse([],k0,epsilon0,p0,c0, ...
                             kc_u,kc_l,kc_active,dmax, ...
                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                            wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+                            wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 toc;
 if feasible == 0 
   error("k1,c1(mmse) infeasible");
@@ -92,29 +93,30 @@ schurOneMlattice_sqp_slb_lowpass_plot ...
 % Save the results
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"length(c0)=%d %% Tap coefficients\n",length(c0));
 fprintf(fid,"length(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",length(k0));
 fprintf(fid,"dmax=%f %% Constraint on norm of coefficient step size\n",dmax);
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"ftp=%g %% Delay pass band edge\n",ftp);
 fprintf(fid,"tp=%g %% Nominal pass band filter group delay\n",tp);
-fprintf(fid,"Wtp_mmse=%d %% Delay pass band weight for MMSE\n",Wtp_mmse);
+fprintf(fid,"Wtp_mmse=%g %% Delay pass band weight for MMSE\n",Wtp_mmse);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
-fprintf(fid,"Was_mmse=%d %% Amplitude stop band weight for MMSE\n",Was_mmse);
+fprintf(fid,"Was_mmse=%g %% Amplitude stop band weight for MMSE\n",Was_mmse);
 fclose(fid);
+
 print_polynomial(k1,"k1");
 print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"));
 print_polynomial(c1,"c1");
 print_polynomial(c1,"c1",strcat(strf,"_c1_coef.m"));
-save schurOneMlattice_sqp_mmse_test.mat n0 d0 k0 epsilon0 p0 c0 ...
-     fap Wap ftp tp Wtp_mmse fas Was_mmse dmax rho tol k1 c1
+
+eval(sprintf("save %s.mat n0 d0 k0 epsilon0 p0 c0 \
+fap Wap ftp tp Wtp_mmse fas Was_mmse dmax rho ftol ctol k1 c1",strf));
 
 % Done
 toc;
 diary off
-movefile schurOneMlattice_sqp_mmse_test.diary.tmp ...
-         schurOneMlattice_sqp_mmse_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

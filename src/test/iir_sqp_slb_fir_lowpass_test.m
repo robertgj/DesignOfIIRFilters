@@ -1,57 +1,52 @@
-% iir_sqp_slb_fir_lowpass_test.m
-% Copyright (C) 2021-2023 Robert G. Jenssen
+  % iir_sqp_slb_fir_lowpass_test.m
+
+% Copyright (C) 2021-2024 Robert G. Jenssen
 
 test_common;
 
-pkg load optim;
+strf="iir_sqp_slb_fir_lowpass_test";
 
-delete("iir_sqp_slb_fir_lowpass_test.diary");
-delete("iir_sqp_slb_fir_lowpass_test.diary.tmp");
-diary iir_sqp_slb_fir_lowpass_test.diary.tmp
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic
 
-tol=1e-4
-ctol=tol/10
-maxiter=10000
+pkg load optim;
+
+maxiter=20000
+ftol=1e-3
+ctol=2e-5
 verbose=false
 
 % Filter specifications
-R=1;
-N=60
-fap=0.15
-dBap=0.2
-Wap=1
-Wat=0.01
-ftp=0.15
-td=15
-tdr=0.3
-Wtp=0.05
-fas=0.2
-dBas=40
-Was=60
-
-% Frequency vectors
+R=1;N=40;
+fap=0.1;dBap=0.4;Wap=1;Wat=0.01;
+ftp=0.1;td=10;tdr=0.1;Wtp=0.1;
+fas=0.25;dBas=60;Was=20;
+   
+% Frequency vector
 n=1000;
-
-% Desired frequency response
+fd=(0:(n-1))'*0.5/n;
 nap=ceil((n*fap)/0.5)+1;
 nas=floor((n*fas)/0.5)+1;
-fd=(0:(n-1))'*0.5/n;
+ntp=ceil(n*ftp/0.5)+1;
+
+% Desired frequency response
 wd=2*pi*fd;
 Hd=[exp(-j*wd(1:nap)*td);zeros(n-nap,1)];
-Wd=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
+Wd=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
 
 % Amplitude constraints
-fa=(0:(n-1))'*0.5/n;
+fa=fd(1:(nas-1));
 wa=2*pi*fa;
-Ad=[ones(nap,1);zeros(n-nap,1)];
-Adu=[ones(nas-1,1);(10^(-dBas/20))*ones(n-nas+1,1)];
-Adl=[(10^(-dBap/20))*ones(nap,1);zeros(n-nap,1)];
-Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
+Ad=[ones(nap,1);zeros(nas-nap-1,1)];
+Adu=ones(nas-1,1);
+Adl=[(10^(-dBap/20))*ones(nap,1);zeros(nas-nap-1,1)];
+Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1)];
 
 % Sanity checks
-nchka=[nap-1,nap,nap+1,nas-1,nas,nas+1]';
+nchka=[1,2,nap-1,nap,nap+1,nas-1]';
 printf("fa(nchka)'=[ ");printf("%7.5g ",fa(nchka)');printf("];\n");
 printf("Ad(nchka)=[ ");printf("%7.5g ",Ad(nchka)');printf("];\n");
 printf("Adu(nchka)=[ ");printf("%7.5g ",Adu(nchka)');printf("];\n");
@@ -59,15 +54,15 @@ printf("Adl(nchka)=[ ");printf("%7.5g ",Adl(nchka)');printf("];\n");
 printf("Wa(nchka)=[ ");printf("%7.5g ",Wa(nchka)');printf("];\n");
 
 % Stop-band amplitude constraints
-ws=[];
-Sd=[];
-Sdu=[];
-Sdl=[];
-Ws=[];
+fs=fd(nas:end);
+ws=2*pi*fs;
+Sd=zeros(n-nas+1,1);
+Sdu=(10^(-dBas/20))*ones(n-nas+1,1);
+Sdl=zeros(n-nas+1,1);
+Ws=Was*ones(n-nas+1,1);
 
 % Group delay constraints
-ntp=ceil(n*ftp/0.5)+1;
-ft=(0:(ntp-1))'*0.5/n;
+ft=fd(1:ntp);
 wt=2*pi*ft;
 Td=td*ones(ntp,1);
 Tdu=(td+(tdr/2))*ones(ntp,1);
@@ -89,13 +84,13 @@ Pdu=[];
 Pdl=[];
 Wp=[];
 
-% Common strings for output plots
-strP=sprintf("%%s:fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g,fas=%g,dBas=%g,Was=%g",
-             fap,dBap,ftp,td,tdr,fas,dBas,Was);
-strf="iir_sqp_slb_fir_lowpass_test";
+% Common string for output plots
+strP=sprintf("%%s:N=%d,fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g,fas=%g,dBas=%g,Was=%g",
+             N,fap,dBap,ftp,td,tdr,fas,dBas,Was);
 
+%
 % Initial coefficients
-bi=remez(N,2*[0 fap fas 0.5],[1 1 0 0],[1 2]);
+%
 
 % Unconstrained minimisation
 function intEH=ERROR_FIR(b,_wd,_Hd,_Wd)
@@ -124,8 +119,9 @@ function intEH=ERROR_FIR(b,_wd,_Hd,_Wd)
   intEH = sum(diff(wd).*(EH(1:(end-1))+EH(2:end)))/2;
 endfunction
 
+bi=remez(N,2*[0 fap fas 0.5],[1 1 0 0],[1 2]);
 ERROR_FIR([],wd,Hd,Wd);
-opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+opt=optimset("TolFun",ftol,"TolX",ftol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
 [b0,FVEC,INFO,OUTPUT]=fminunc(@ERROR_FIR,bi,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
@@ -146,7 +142,7 @@ printf("fminunc successful=%d??\n", OUTPUT.successful);
 printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 
 % Convert b0 to gain-pole-zero form
-[x0,U,V,M,Q]=tf2x(b0,1,tol);
+[x0,U,V,M,Q]=tf2x(b0,1,ftol);
 print_pole_zero(x0,U,V,M,Q,R,"x0");
 strt=sprintf(strP,"x0");
 showZPplot(x0,U,V,M,Q,R,strt);
@@ -165,15 +161,20 @@ close
 [xl,xu]=xConstraints(U,V,M,Q);
 dmax=0.01;
 
+%
 % MMSE pass
+%
+printf("\n\nMMSE pass:\n")
 [x1,Ex1,sqp_iter,func_iter,feasible] = ...
   iir_sqp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R, ...
                 wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
                 wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-                maxiter,tol,verbose);
+                maxiter,ftol,ctol,verbose);
 if ~feasible 
   error("x1 infeasible");
 endif
+
+% Plot results
 print_pole_zero(x1,U,V,M,Q,R,"x1");
 strt=sprintf(strP,"x1(MMSE)");
 showZPplot(x1,U,V,M,Q,R,strt);
@@ -189,20 +190,27 @@ print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 hold off
 close
 
+%
 % PCLS pass
+%
+printf("\n\nPCLS pass:\n")
 [d1,Ed1,slb_iter,sqp_iter,func_iter,feasible] = ...
   iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol,ctol,verbose);
+          maxiter,ftol,ctol,verbose);
 if ~feasible 
   error("d1 infeasible");
 endif
+
+% Plot results
 strt=sprintf(strP,"d1(PCLS)");
 showZPplot(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
 showResponse(d1,U,V,M,Q,R,strt);
+subplot(211)
+axis([0 0.5 -80 10]);
 subplot(212)
 axis([0 0.5 0 2*td]);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
@@ -211,7 +219,9 @@ showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 close
 
+%
 % Final amplitude at constraints
+%
 A=iirA(wa,d1,U,V,M,Q,R);
 vAl=local_max(Adl-A);
 vAu=local_max(A-Adu);
@@ -223,7 +233,9 @@ AS=iirA(wAS,d1,U,V,M,Q,R);
 printf("d1:fAS=[ ");printf("%f ",wAS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:AS=[ ");printf("%f ",20*log10(AS'));printf(" ] (dB)\n");
 
+%
 % Final group-delay at constraints
+%
 T=iirT(wt,d1,U,V,M,Q,R);
 vTl=local_max(Tdl-T);
 vTu=local_max(T-Tdu);
@@ -232,7 +244,9 @@ TS=iirT(wTS,d1,U,V,M,Q,R);
 printf("d1:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:TS=[ ");printf("%f ",TS');printf(" ] (samples)\n");
 
+%
 % Save results
+%
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"U=%d %% Number of real zeros\n",U);
 fprintf(fid,"V=%d %% Number of real poles\n",V);
@@ -240,7 +254,7 @@ fprintf(fid,"M=%d %% Number of complex zeros\n",M);
 fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
 fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"tol=%g %% Tolerance on relative coefficient update size\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on relative coefficient update size\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
 fprintf(fid,"dBap=%d %% Pass band amplitude peak-to-peak ripple\n",dBap);
@@ -254,16 +268,18 @@ fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
 fprintf(fid,"dBas=%d %% Stop band minimum attenuation\n",dBas);
 fprintf(fid,"Was=%d %% Stop band amplitude weight\n",Was);
 fclose(fid);
+
 print_pole_zero(d1,U,V,M,Q,R,"d1",strcat(strf,"_d1_coef.m"));
 [N1,D1]=x2tf(d1,U,V,M,Q,R);
 print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
-% Done
-toc;
-save iir_sqp_slb_fir_lowpass_test.mat N U V M Q R tol ctol ...
-     fap dBap Wap ftp td tdr Wtp fas dBas Was bi b0 x0 d1
+eval(sprintf("save %s.mat N U V M Q R ftol ctol \
+fap dBap Wap ftp td tdr Wtp fas dBas Was bi b0 x0 d1",strf));
 
+%
+% Done
+%
+toc;
 diary off
-movefile iir_sqp_slb_fir_lowpass_test.diary.tmp ...
-         iir_sqp_slb_fir_lowpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

@@ -1,7 +1,7 @@
 function complementaryFIRlattice_slb_show_constraints(vS,wa,Asq,wt,T,wp,P)
 % complementaryFIRlattice_slb_show_constraints(vS,wa,Asq,wt,T,wp,P)
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -48,13 +48,13 @@ function complementaryFIRlattice_slb_show_constraints(vS,wa,Asq,wt,T,wp,P)
   if ~isempty(vS.pl)
     printf("pl=[ ");printf("%d ",vS.pl');printf("]\n");
     printf("f(pl)=[ ");printf("%f ",wp(vS.pl)'*0.5/pi);printf("](fs=1)\n");
-    printf("Pl=[ ");printf("%f ",P(vS.pl));printf("](Samples)\n");
+    printf("Pl=[ ");printf("%f ",P(vS.pl)/pi);printf("](rad./pi)\n");
   endif
 
   if ~isempty(vS.pu)
     printf("pu=[ ");printf("%d ",vS.pu');printf("]\n");
     printf("f(pu)=[ ");printf("%f ",wp(vS.pu)'*0.5/pi);printf("](fs=1)\n");
-    printf("Pu=[ ");printf("%f ",P(vS.pu));printf("](Samples)\n");
+    printf("Pu=[ ");printf("%f ",P(vS.pu)/pi);printf("](rad./pi)\n");
   endif
 
 endfunction

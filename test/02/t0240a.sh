@@ -2,10 +2,10 @@
 
 prog=socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.m
 depends="test/socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.m \
-../schurOneMlattice_sqp_slb_hilbert_test_k2_coef.m \
-../schurOneMlattice_sqp_slb_hilbert_test_epsilon2_coef.m \
-../schurOneMlattice_sqp_slb_hilbert_test_p2_coef.m \
-../schurOneMlattice_sqp_slb_hilbert_test_c2_coef.m \
+../schurOneMlattice_socp_slb_hilbert_test_k2_coef.m \
+../schurOneMlattice_socp_slb_hilbert_test_epsilon2_coef.m \
+../schurOneMlattice_socp_slb_hilbert_test_p2_coef.m \
+../schurOneMlattice_socp_slb_hilbert_test_c2_coef.m \
 test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
@@ -63,24 +63,24 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k.ok << 'EOF'
-k_min = [        0,     -468,        0,      284, ... 
-                 0,      -50,        0,        0, ... 
-                 0,       -1,        0,        1 ]'/512;
+k_min = [        0,     -469,        0,      225, ... 
+                 0,        0,        0,        0, ... 
+                 0,        0,        0,        0 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
 
 cat > test.c.ok << 'EOF'
-c_min = [       22,       26,      124,      148, ... 
-                96,      146,      351,     -303, ... 
-               -84,      -41,      -23,      -12, ... 
-                -9 ]'/512;
+c_min = [      -15,      -18,     -100,     -118, ... 
+               -92,     -135,     -353,      300, ... 
+                80,       36,       20,        9, ... 
+                 4 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
 
 cat > test.cost.ok << 'EOF'
-Exact & 0.000161 & & \\
-10-bit 3-signed-digit(Lim)& 0.000218 & 47 & 29 \\
-10-bit 3-signed-digit(SOCP-relax) & 0.000259 & 48 & 30 \\
+Exact & 0.000255 & & \\
+10-bit 3-signed-digit(Lim)& 0.000867 & 42 & 27 \\
+10-bit 3-signed-digit(SOCP-relax) & 0.000623 & 41 & 26 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 
@@ -92,16 +92,15 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.k.ok \
-     socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_k_min_coef.m
+nstr="socp_relaxation_schurOneMlattice_hilbert_10_nbits_test"
+
+diff -Bb test.k.ok $nstr"_k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
 
-diff -Bb test.c.ok \
-     socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_c_min_coef.m
+diff -Bb test.c.ok $nstr"_c_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi
 
-diff -Bb test.cost.ok \
-     socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_kc_min_cost.tab
+diff -Bb test.cost.ok $nstr"_kc_min_cost.tab"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.cost.ok"; fail; fi
 
 #

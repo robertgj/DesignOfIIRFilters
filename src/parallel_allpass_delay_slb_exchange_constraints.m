@@ -1,13 +1,13 @@
 function [next_vR,next_vS,exchanged] = ...
          parallel_allpass_delay_slb_exchange_constraints ...
-           (vS,vR,A2,A2du,A2dl,T,Tdu,Tdl,tol)
+           (vS,vR,A2,A2du,A2dl,T,Tdu,Tdl,ctol)
 % [next_vR,next_vS,exchanged] = ...
 %   parallel_allpass_delay_slb_exchange_constraints ...
-%    (vS,vR,A2,A2du,A2dl,T,Tdu,Tdl,tol)
+%    (vS,vR,A2,A2du,A2dl,T,Tdu,Tdl,ctol)
 % Check for violation of the constraints in vR. If any constraints are violated
 % then move the constraint with the greatest violation from vR to vS.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -31,7 +31,7 @@ function [next_vR,next_vS,exchanged] = ...
   if (nargin ~= 9) || (nargout ~= 3)
     print_usage("[next_vR,next_vS,exchanged]= ...\n\
   parallel_allpass_delay_slb_exchange_constraints ...\n\
-    (vS,vR,A2,A2du,A2dl,T,Tdu,Tdl,tol)");
+    (vS,vR,A2,A2du,A2dl,T,Tdu,Tdl,ctol)");
   endif
   if all(isfield(vS,{"al","au","tl","tu"})) == false
     error("Expect fields vS.al, vS.au, vS.tl and vS.tu");
@@ -63,10 +63,10 @@ function [next_vR,next_vS,exchanged] = ...
   vA2l=[];
   vA2l_max=-inf;
   if ~isempty(vR.al)
-    vA2l=find((A2dl-tol)>A2l);
+    vA2l=find((A2dl-ctol)>A2l);
     if ~isempty(vA2l)
       exchanged = true;
-      [vA2l_max,vA2l_maxi]=max((A2dl-tol)-A2l);
+      [vA2l_max,vA2l_maxi]=max((A2dl-ctol)-A2l);
     endif
   endif
 
@@ -76,10 +76,10 @@ function [next_vR,next_vS,exchanged] = ...
   vA2u=[];
   vA2u_max=-inf;
   if ~isempty(vR.au)
-    vA2u=find(A2u>(A2du+tol));
+    vA2u=find(A2u>(A2du+ctol));
     if ~isempty(vA2u)
       exchanged = true;
-      [vA2u_max,vA2u_maxi]=max(A2u-(A2du+tol));
+      [vA2u_max,vA2u_maxi]=max(A2u-(A2du+ctol));
     endif
   endif
 
@@ -89,10 +89,10 @@ function [next_vR,next_vS,exchanged] = ...
   vTl=[];
   vTl_max=-inf;
   if ~isempty(vR.tl)
-    vTl=find((Tdl-tol)>Tl);
+    vTl=find((Tdl-ctol)>Tl);
     if ~isempty(vTl)
       exchanged = true;
-      [vTl_max,vTl_maxi]=max((Tdl-tol)-Tl);
+      [vTl_max,vTl_maxi]=max((Tdl-ctol)-Tl);
     endif 
   endif
 
@@ -102,10 +102,10 @@ function [next_vR,next_vS,exchanged] = ...
   vTu_max=-inf;
   vTu=[];
   if ~isempty(vR.tu)
-    vTu=find(Tu>(Tdu+tol));
+    vTu=find(Tu>(Tdu+ctol));
     if ~isempty(vTu)
       exchanged = true;
-      [vTu_max,vTu_maxi]=max(Tu-(Tdu+tol));
+      [vTu_max,vTu_maxi]=max(Tu-(Tdu+ctol));
     endif
   endif
 

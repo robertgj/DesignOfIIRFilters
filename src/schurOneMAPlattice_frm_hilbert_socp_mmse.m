@@ -3,13 +3,13 @@ function [k,u,v,socp_iter,func_iter,feasible]= ...
            (vS,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,
             kuv_u,kuv_l,kuv_active,dmax, ...
             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-            maxiter,tol,verbose)
+            maxiter,ftol,ctol,verbose)
 % [k,u,v,socp_iter,func_iter,feasible]= ...
 %         schurOneMAPlattice_frm_hilbert_socp_mmse ...
 %           (vS,k0,epsilon0,p0,c0,u0,v0,Mmodel,Dmodel,
 %            kuv_u,kuv_l,kuv_active,dmax, ...
 %            wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-%            maxiter,tol,verbose)
+%            maxiter,ftol,ctol,verbose)
 %
 % SOCP MMSE optimisation of an FRM hilbert filter with a model filter
 % implemented as an allpass one-multiplier Schur lattice filter with
@@ -39,7 +39,8 @@ function [k,u,v,socp_iter,func_iter,feasible]= ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance
+%   ftol - tolerance on coefficient upates
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -48,7 +49,7 @@ function [k,u,v,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
 
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -68,12 +69,12 @@ function [k,u,v,socp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 30) || (nargout ~= 6)
+  if (nargin ~= 31) || (nargout ~= 6)
     print_usage("[k,u,v,socp_iter,func_iter,feasible]= ...\n\
       schurOneMAPlattice_frm_hilbert_socp_mmse(vS,k0,epsilon0,p0,u0,v0, ...\n\
              Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...\n\
              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...\n\
-             maxiter,tol,verbose)");
+             maxiter,ftol,ctol,verbose)");
   endif
 
   %
@@ -247,19 +248,18 @@ function [k,u,v,socp_iter,func_iter,feasible]= ...
     endif
 
     % Phase linear constraints
-    if ~isempty(vS.pu)
-      [P_pu,gradP_pu]=schurOneMAPlattice_frm_hilbertP ...
-                        (wp(vS.pu),k,epsilon0,p0,u,v,Mmodel,Dmodel);
+    if ~isempty(vS.pu) || ~isempty(vS.pl)
+      [P,gradP]=schurOneMAPlattice_frm_hilbertP ...
+                  (wp,k,epsilon0,p0,u,v,Mmodel,Dmodel);
       func_iter = func_iter+1;
-      D=[D, [zeros(2,length(vS.pu));-gradP_pu(:,kuv_active)']];
-      f=[f; Pdu(vS.pu)-P_pu];
+    endif      
+    if ~isempty(vS.pu)
+      D=[D, [zeros(2,length(vS.pu));-gradP(vS.pu,kuv_active)']];
+      f=[f; Pdu(vS.pu)-P(vS.pu)];
     endif
     if ~isempty(vS.pl)
-      [P_pl,gradP_pl]=schurOneMAPlattice_frm_hilbertP ...
-                        (wp(vS.pl),k,epsilon0,p0,u,v,Mmodel,Dmodel);
-      func_iter = func_iter+1;
-      D=[D, [zeros(2,length(vS.pl));gradP_pl(:,kuv_active)']];
-      f=[f; P_pl-Pdl(vS.pl)];
+      D=[D, [zeros(2,length(vS.pl)); gradP(vS.pl,kuv_active)']];
+      f=[f; P(vS.pl)-Pdl(vS.pl)];
     endif
 
     % SeDuMi linear constraint matrixes
@@ -346,8 +346,8 @@ function [k,u,v,socp_iter,func_iter,feasible]= ...
       printf("func_iter=%d, socp_iter=%d\n",func_iter,socp_iter);
       info
     endif
-    if norm(delta)/norm(xkuv) < tol
-      printf("norm(delta)/norm(xkuv) < tol\n");
+    if norm(delta)/norm(xkuv) < ftol
+      printf("norm(delta)/norm(xkuv) < ftol\n");
       feasible=true;
       break;
     endif

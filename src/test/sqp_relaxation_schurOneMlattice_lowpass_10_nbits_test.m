@@ -20,8 +20,8 @@ tic;
 
 maxiter=2000
 verbose=false
-tol=1e-4
-ctol=tol
+ftol=1e-4
+ctol=ftol
 nbits=10
 nscale=2^(nbits-1);
 ndigits=3
@@ -167,7 +167,7 @@ while ~isempty(kc_active)
                            wa,Asqd,Asqdu,Asqdl,Wa, ...
                            wt,Td,Tdu,Tdl,Wt, ...
                            wp,Pd,Pdu,Pdl,Wp, ...
-                           maxiter,tol,ctol,verbose);
+                           maxiter,ftol,ctol,verbose);
   catch
     feasible=false;
     err=lasterror();
@@ -316,7 +316,7 @@ close
 
 % Filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"nbits=%d %% coefficient length in bits\n",nbits);
 fprintf(fid,"ndigits=%d %% signed-digits per coefficient\n",ndigits);
@@ -327,20 +327,20 @@ fprintf(fid,"%% sum(k0~=0)=%d %% Num. non-zero lattice coefficients\n", ...
 fprintf(fid,"dmax=%f %% Constraint on norm of coefficient SQP step size\n",dmax);
 fprintf(fid,"rho=%f %% Constraint on lattice coefficient magnitudes\n",rho);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"ftp=%g %% Delay pass band edge\n",ftp);
 fprintf(fid,"tp=%g %% Nominal pass band filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Delay pass band peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
+fprintf(fid,"Wtp=%g %% Delay pass band weight\n",Wtp);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
-fprintf(fid,"dBas=%d %% amplitude stop band peak-to-peak ripple\n",dBas);
+fprintf(fid,"dBas=%g %% amplitude stop band peak-to-peak ripple\n",dBas);
 fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results
 eval(sprintf("save %s.mat ...\n\
-     k0 epsilon0 p0 c0 tol ctol nbits ndigits ndigits_alloc ...\n\
+     k0 epsilon0 p0 c0 ftol ctol nbits ndigits ndigits_alloc ...\n\
      fap dBap Wap ftp tp tpr Wtp fas dBas Was dmax rho k_min c_min",strf));
        
 % Done

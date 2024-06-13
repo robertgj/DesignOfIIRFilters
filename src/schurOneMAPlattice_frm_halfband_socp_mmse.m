@@ -3,13 +3,13 @@ function [k,u,v,socp_iter,func_iter,feasible]= ...
            (vS,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,
             kuv_u,kuv_l,kuv_active,dmax, ...
             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-            maxiter,tol,verbose)
+            maxiter,ftol,ctol,verbose)
 % [k,u,v,socp_iter,func_iter,feasible]= ...
 %         schurOneMAPlattice_frm_halfband_socp_mmse ...
 %           (vS,k0,epsilon0,p0,c0,u0,v0,Mmodel,Dmodel,
 %            kuv_u,kuv_l,kuv_active,dmax, ...
 %            wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%            maxiter,tol,verbose)
+%            maxiter,ftol,ctol,verbose)
 %
 % SOCP MMSE optimisation of an FRM halfband filter with a model filter
 % implemented as an allpass one-multiplier Schur lattice filter with
@@ -35,7 +35,8 @@ function [k,u,v,socp_iter,func_iter,feasible]= ...
 %   Tdu,Tdl - upper/lower mask for the desired group delay response
 %   Wt - group delay response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance
+%   ftol - tolerance on function
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -44,7 +45,7 @@ function [k,u,v,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
 
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -64,11 +65,12 @@ function [k,u,v,socp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 25) || (nargout ~= 6)
+  if (nargin ~= 26) || (nargout ~= 6)
     print_usage("[k,u,v,socp_iter,func_iter,feasible]= ...\n\
       schurOneMAPlattice_frm_halfband_socp_mmse(vS,k0,epsilon0,p0,u0,v0, ...\n\
              Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...\n\
-             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,maxiter,tol,verbose)");
+             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
+             maxiter,ftol,ctol,verbose)");
   endif
 
   %
@@ -310,8 +312,8 @@ function [k,u,v,socp_iter,func_iter,feasible]= ...
       printf("func_iter=%d, socp_iter=%d\n",func_iter,socp_iter);
       info
     endif
-    if norm(delta)/norm(xkuv) < tol
-      printf("norm(delta)/norm(xkuv) < tol\n");
+    if norm(delta)/norm(xkuv) < ftol
+      printf("norm(delta)/norm(xkuv) < ftol\n");
       feasible=true;
       break;
     endif

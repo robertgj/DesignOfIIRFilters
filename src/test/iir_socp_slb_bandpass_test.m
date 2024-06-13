@@ -1,18 +1,19 @@
 % iir_socp_slb_bandpass_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("iir_socp_slb_bandpass_test.diary");
-delete("iir_socp_slb_bandpass_test.diary.tmp");
-diary iir_socp_slb_bandpass_test.diary.tmp
+strf="iir_socp_slb_bandpass_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-
 verbose=false
-tol=1e-4
-ctol=tol
+ftol=1e-4
+ctol=ftol
 maxiter=5000
 
 % Bandpass filter specification
@@ -23,7 +24,7 @@ ftpl=0.09,ftpu=0.21,tp=16,tpr=0.032,Wtp=1
 
 strM=sprintf("%%s:fapl=%g,fapu=%g,dBap=%g,Wap=%%g,fasl=%g,fasu=%g,\
 dBas=%g,Wasl=%%g,Wasu=%%g,tp=%d,Wtp=%%g",fapl,fapu,dBap,fasl,fasu,dBas,tp);
-strd=sprintf("iir_socp_slb_bandpass_test_%%s_%%s");
+strd=sprintf("%s_%%s_%%s",strf);
 
 % Frequency points
 n=500;
@@ -110,10 +111,11 @@ start_time=time();
   iir_slb(@iir_socp_mmse,x0,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-          maxiter,tol,ctol,verbose)
+          maxiter,ftol,ctol,verbose)
 if feasible == 0 
   error("R=2 bandpass d1 (pcls) infeasible");
 endif
+
 printf("R=2 bandpass d1 (pcls) feasible after %d seconds!\n",time()-start_time);
 strP1=sprintf(strM,"d1",Wap,Wasl,Wasu,Wtp);
 showZPplot(d1,U,V,M,Q,R,strP1);
@@ -122,14 +124,14 @@ close
 showResponse(d1,U,V,M,Q,R,strP1);
 print(sprintf(strd,"pcls","d1"),"-dpdflatex");
 close
-showResponsePassBands(ftpl,ftpu,-2*dBap,dBap,d1,U,V,M,Q,R,strP1);
+showResponsePassBands(fapl,fapu,-2*dBap,dBap,d1,U,V,M,Q,R,strP1);
 print(sprintf(strd,"pcls","d1pass"),"-dpdflatex");
 close
 
 % Amplitude and delay at constraints
 vS=iir_slb_update_constraints(d1,U,V,M,Q,R,wa,Adu,Adl,Wa, ...
                               ws,Sdu,Sdl,Ws,wt,Tdu,Tdl,Wt,...
-                              wp,Pdu,Pdl,Wp,tol);
+                              wp,Pdu,Pdl,Wp,ctol);
 waS=unique([wa(vS.al);wa(vS.au);2*pi*[0;0.5;fasl;fapl;fapu;fasu]]);
 AS=iirA(waS,d1,U,V,M,Q,R);
 printf("d1:faS=[ ");printf("%f ",waS'*0.5/pi);printf(" ] (fs==1)\n");
@@ -140,24 +142,24 @@ printf("d1:ftS=[ ");printf("%f ",wtS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:TS=[ ");printf("%f ",TS');printf(" ] (samples)\n");
 
 % Save specification
-fid=fopen("iir_socp_slb_bandpass_test_spec.m","wt");
+fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"tol=%g %% Tolerance on relative coefficient update size\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on relative coefficient update size\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"fasl=%g %% Stop band amplitude response lower edge\n",fasl);
 fprintf(fid,"fapl=%g %% Pass band amplitude response lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Pass band amplitude response upper edge\n",fapu);
 fprintf(fid,"fasu=%g %% Stop band amplitude response upper edge\n",fasu);
-fprintf(fid,"dBap=%d %% Pass band amplitude peak-to-peak ripple\n",dBap);
-fprintf(fid,"dBas=%d %% Stop band amplitude peak-to-peak ripple\n",dBas);
-fprintf(fid,"Wasl=%d %% Lower stop band weight\n",Wasl);
-fprintf(fid,"Wap=%d %% Pass band weight\n",Wap);
-fprintf(fid,"Wasu=%d %% Upper stop band weight\n",Wasu);
+fprintf(fid,"dBap=%g %% Pass band amplitude peak-to-peak ripple\n",dBap);
+fprintf(fid,"dBas=%g %% Stop band amplitude peak-to-peak ripple\n",dBas);
+fprintf(fid,"Wasl=%g %% Lower stop band weight\n",Wasl);
+fprintf(fid,"Wap=%g %% Pass band weight\n",Wap);
+fprintf(fid,"Wasu=%g %% Upper stop band weight\n",Wasu);
 fprintf(fid,"ftpl=%g %% Pass band group delay response lower edge\n",ftpl);
 fprintf(fid,"ftpu=%g %% Pass band group delay response upper edge\n",ftpu);
-fprintf(fid,"tp=%d %% Nominal filter group delay\n",tp);
+fprintf(fid,"tp=%g %% Nominal filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtp=%d %% Pass band group delay weight\n",Wtp);
+fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
 fprintf(fid,"U=%d %% Number of real zeros\n",U);
 fprintf(fid,"V=%d %% Number of real poles\n",V);
 fprintf(fid,"M=%d %% Number of complex zeros\n",M);
@@ -168,16 +170,16 @@ fclose(fid);
 % Save results
 [N1,D1]=x2tf(d1,U,V,M,Q,R);
 print_pole_zero(d1,U,V,M,Q,R,"d1");
-print_pole_zero(d1,U,V,M,Q,R,"d1","iir_socp_slb_bandpass_test_d1_coef.m");
+print_pole_zero(d1,U,V,M,Q,R,"d1",strcat(strf,"_d1_coef.m"));
 print_polynomial(N1,"N1");
-print_polynomial(N1,"N1","iir_socp_slb_bandpass_test_N1_coef.m");
+print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
-print_polynomial(D1,"D1","iir_socp_slb_bandpass_test_D1_coef.m");
+print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
+
+eval(sprintf("save %s.mat U V M Q R n ftol ctol fapl fapu dBap Wap \
+fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp x0 d1",strf));
 
 % Done 
-save iir_socp_slb_bandpass_test.mat U V M Q R n tol ctol fapl fapu dBap Wap ...
-     fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp x0 d1
-
 toc;
 diary off
-movefile iir_socp_slb_bandpass_test.diary.tmp iir_socp_slb_bandpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

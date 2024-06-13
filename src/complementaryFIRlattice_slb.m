@@ -4,14 +4,14 @@ function [k,khat,slb_iter,opt_iter,func_iter,feasible] = ...
                                        wa,Asqd,Asqdu,Asqdl,Wa, ...
                                        wt,Td,Tdu,Tdl,Wt, ...
                                        wp,Pd,Pdu,Pdl,Wp, ...
-                                       maxiter,tol,ctol,verbose)
+                                       maxiter,ftol,ctol,verbose)
 % [k,khat,slb_iter,opt_iter,func_iter,feasible] = ...
 %   complementaryFIRlattice_slb(pfx,k0,khat0, ...
 %                               kkhat_u,kkhat_l,kkhat_active,dmax, ...
 %                               wa,Asqd,Asqdu,Asqdl,Wa, ...
 %                               wt,Td,Tdu,Tdl,Wt, ...
 %                               wp,Pd,Pdu,Pdl,Wp, ...
-%                               maxiter,tol,ctol,verbose)
+%                               maxiter,ftol,ctol,verbose)
 %
 % PCLS optimisation of a complementary FIR lattice filter with constraints on
 % the amplitude, phase and group delay responses. See:
@@ -25,7 +25,7 @@ function [k,khat,slb_iter,opt_iter,func_iter,feasible] = ...
 %         [k,khat,socp_iter,func_iter,feasible]= ...
 %           pfx(vS,k0,khat0,kkhat_u,kkhat_l,kkhat_active,dmax, ...
 %               wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%               wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+%               wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 %   k0,khat0 - initial vector of complementary FIR coefficients
 %   kkhat_u,kkhat_l - upper and lower bounds on the coefficients
 %   kkhat_active - indexes of the coefficents being optimised
@@ -43,7 +43,7 @@ function [k,khat,slb_iter,opt_iter,func_iter,feasible] = ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of SQP iterations
-%   tol - tolerance on coefficient update
+%   ftol - tolerance on coefficient update
 %   ctol - tolerance on constraints
 %   verbose - 
 %
@@ -74,7 +74,7 @@ function [k,khat,slb_iter,opt_iter,func_iter,feasible] = ...
 % Transition Bands", I. W. Selesnick, M. Lang and C. S. Burrus, IEEE
 % Transactions on Signal Processing, 46(2):497-501, February 1998.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -94,163 +94,149 @@ function [k,khat,slb_iter,opt_iter,func_iter,feasible] = ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  %
-  % Sanity checks
-  %
-  if (nargin ~= 26) || (nargout ~=6)
-    print_usage("[k,khat,slb_iter,opt_iter,func_iter,feasible] = ...\n\
-       complementaryFIRlattice_slb(pfx,k0,khat0, ...\n\
-                            kkhat_u,kkhat_l,kkhat_active,dmax, ...\n\
-                            wa,Asqd,Asqdu,Asqdl,Wa, ...\n\
-                            wt,Td,Tdu,Tdl,Wt, ...\n\
-                            wp,Pd,Pdu,Pdl,Wp, ...\n\
-                            maxiter,tol,ctol,verbose)");
-  endif
-  if ~is_function_handle(pfx)
-    error("Expected pfx to be a function handle!");
+%
+% Sanity checks
+%
+if (nargin ~= 26) || (nargout ~=6)
+  print_usage("[k,khat,slb_iter,opt_iter,func_iter,feasible] = ...\n\
+     complementaryFIRlattice_slb(pfx,k0,khat0, ...\n\
+                          kkhat_u,kkhat_l,kkhat_active,dmax, ...\n\
+                          wa,Asqd,Asqdu,Asqdl,Wa, ...\n\
+                          wt,Td,Tdu,Tdl,Wt, ...\n\
+                          wp,Pd,Pdu,Pdl,Wp, ...\n\
+                          maxiter,ftol,ctol,verbose)");
+endif
+if ~is_function_handle(pfx)
+  error("Expected pfx to be a function handle!");
+endif
+
+%
+% SLB constraints
+%
+
+%
+% Step 1: Initialise constraint sets of the amplitude and group
+% delay responses over frequency. vS.al etc are angular frequencies.
+%
+% Initialise the SLB loop parameters (these are also output values)
+slb_iter=0;opt_iter=0;func_iter=0;feasible=false;
+k=k0(:);khat=khat0(:);kkhat=[k;khat];
+% Check if the initial filter meets the constraints
+vR=complementaryFIRlattice_slb_set_empty_constraints();
+Asqk=complementaryFIRlatticeAsq(wa,k,khat);
+Tk=complementaryFIRlatticeT(wt,k,khat);
+Pk=complementaryFIRlatticeP(wp,k,khat);
+vS=complementaryFIRlattice_slb_update_constraints ...
+     (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,ctol);
+if complementaryFIRlattice_slb_constraints_are_empty(vS) && ...
+   all(kkhat_u>=kkhat) && all(kkhat_l<=kkhat)
+  printf("Initial solution satisfies constraints!\n");
+  feasible=true;
+  return;
+endif
+% Nothing to do but k and khat do not satisfy the constraints
+if isempty(kkhat_active)
+  feasible=false;
+  return;
+endif
+
+% PCLS loop
+while 1
+  
+  % Check loop iterations
+  slb_iter = slb_iter+1;
+  if slb_iter>maxiter
+    feasible=false;
+    warning("PCLS loop iteration limit exceeded!");
+    break;
   endif
 
   %
-  % SLB constraints
+  % Step 2 : Solve the minimisation problem with the active constraints  
+  % Step 3 : Test for optimality with Karush-Kuhn-Tucker conditions(SQP only)
   %
+  try
+    feasible=false;
+    [k,khat,tmp_opt_iter,tmp_func_iter,feasible] = ...
+       feval(pfx,vS,k,khat,kkhat_u,kkhat_l,kkhat_active,dmax, ...
+             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
+             wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
+    opt_iter=opt_iter+tmp_opt_iter;
+    func_iter=func_iter+tmp_func_iter;
+  catch
+    feasible=false;
+    err=lasterror();
+    warning("feval(pfx,...) failure : %s",err.message);
+    for e=1:length(err.stack)
+      printf("Called from %s at line %d\n", ...
+             err.stack(e).name, err.stack(e).line);
+    endfor
+  end_try_catch
+  
+  if feasible
+    printf("Feasible solution after %d optimisation iterations\n",tmp_opt_iter);
+  else
+    warning("Optimisation solution not feasible!");
+    break;
+  endif
 
   %
-  % Step 1: Initialise constraint sets of the amplitude and group
-  % delay responses over frequency. vS.al etc are angular frequencies.
-  %
-  % Initialise the SLB loop parameters (these are also output values)
-  slb_iter=0;opt_iter=0;func_iter=0;feasible=false;
-  k=k0(:);khat=khat0(:);kkhat=[k;khat];
-  % Check if the initial filter meets the constraints
-  vR=complementaryFIRlattice_slb_set_empty_constraints();
+  % Step 4: Check for violations over vR
+  % 
   Asqk=complementaryFIRlatticeAsq(wa,k,khat);
   Tk=complementaryFIRlatticeT(wt,k,khat);
   Pk=complementaryFIRlatticeP(wp,k,khat);
-  vS=complementaryFIRlattice_slb_update_constraints ...
-       (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,ctol);
-  if complementaryFIRlattice_slb_constraints_are_empty(vS) && ...
-     all(kkhat_u>=kkhat) && all(kkhat_l<=kkhat)
-    printf("Initial solution satisfies constraints!\n");
-    feasible=true;
-    return;
-  endif
-  % Nothing to do but k and khat do not satisfy the constraints
-  if isempty(kkhat_active)
-    feasible=false;
-    return;
-  endif
-  
-  % PCLS loop
-  while 1
-    
-    % Check loop iterations
-    slb_iter = slb_iter+1;
-    if slb_iter>maxiter
-      warning("PCLS loop iteration limit exceeded!");
-      break;
-    endif
-
-    %
-    % Step 2 : Solve the minimisation problem with the active constraints  
-    % Step 3 : Test for optimality with Karush-Kuhn-Tucker conditions(SQP only)
-    %
-    try
-      [nextk,nextkhat,tmp_opt_iter,tmp_func_iter,feasible] = ...
-      feval(pfx,vS,k,khat,kkhat_u,kkhat_l,kkhat_active,dmax, ...
-            wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-            wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
-      opt_iter=opt_iter+tmp_opt_iter;
-      func_iter=func_iter+tmp_func_iter;
-    catch
-      feasible=0;
-      err=lasterror();
-      warning("feval(pfx,...) failure : %s",err.message);
-      for e=1:length(err.stack)
-        printf("Called from %s at line %d\n", ...
-               err.stack(e).name, err.stack(e).line);
-      endfor
-    end_try_catch
-    if feasible
-      if k==nextk && khat==nextkhat
-        printf("k=[ ");printf("%f ",k');printf("]';\n");
-        printf("khat=[ ");printf("%f ",khat');printf("]';\n");
-        warning("No change to solution after %d PCLS iterations\n",slb_iter);
-        for [v,m]=vR
-          printf("vR.%s=[ ",m);printf("%d ",v);printf("]\n");
-        endfor
-        for [v,m]=vS
-          printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
-        endfor
-        if complementaryFIRlattice_slb_constraints_are_empty(vR)
-          break;
-        endif
-      endif
-      k=nextk; 
-      khat=nextkhat;
-      printf("Feasible solution after %d optimisation iterations\n", ...
-             tmp_opt_iter);
-    else
-      warning("Optimisation solution not feasible!");
-      break;
-    endif
-
-    %
-    % Step 4: Check for violations over vR
-    % 
-    Asqk=complementaryFIRlatticeAsq(wa,k,khat);
-    Tk=complementaryFIRlatticeT(wt,k,khat);
-    Pk=complementaryFIRlatticeP(wp,k,khat);
-    [vR,vS,exchanged] = complementaryFIRlattice_slb_exchange_constraints ...
-                          (vS,vR,Asqk,Asqdu,Asqdl,Tk,Tdu,Tdl,Pk,Pdu,Pdl,ctol);
-    if exchanged
-      printf("Step 4: R constraints violated after ");
-      printf("%d PCLS iterations.\n",slb_iter)
-      printf("R constraints:\n");
-      complementaryFIRlattice_slb_show_constraints(vR,wa,Asqk,wt,Tk,wp,Pk);
-      printf("S constraints:\n");
-      complementaryFIRlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk);
-      printf("Going to Step 2!\n");
-      continue;
-    else
-      printf("Step 4: no R constraints violated after ")
-      printf("%d PCLS iterations.\n",slb_iter)
-      printf("S constraints:\n");
-      complementaryFIRlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk);
-      printf("Going to Step 5!\n");
-    endif
-    
-    %
-    % Step 5: Multiple exchange of the constraint sets
-    %
-    vR=vS;
-    vS=complementaryFIRlattice_slb_update_constraints ...
-         (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,ctol);
-    printf("Step 5: vS frequency constraints updated to:\n");
-    for [v,m]=vS
-      printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
-    endfor  
-    printf("k=[ ");printf("%g ",k');printf("]'\n");
-    printf("khat=[ ");printf("%g ",khat');printf("]'\n");
+  [vR,vS,exchanged] = complementaryFIRlattice_slb_exchange_constraints ...
+                        (vS,vR,Asqk,Asqdu,Asqdl,Tk,Tdu,Tdl,Pk,Pdu,Pdl,ctol);
+  if exchanged
+    printf("Step 4: R constraints violated after ");
+    printf("%d PCLS iterations.\n",slb_iter)
+    printf("R constraints:\n");
+    complementaryFIRlattice_slb_show_constraints(vR,wa,Asqk,wt,Tk,wp,Pk);
     printf("S constraints:\n");
     complementaryFIRlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk);
+    printf("Going to Step 2!\n");
+    continue;
+  else
+    printf("Step 4: no R constraints violated after ")
+    printf("%d PCLS iterations.\n",slb_iter)
+    printf("S constraints:\n");
+    complementaryFIRlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk);
+    printf("Going to Step 5!\n");
+  endif
+  
+  %
+  % Step 5: Multiple exchange of the constraint sets
+  %
+  vR=vS;
+  vS=complementaryFIRlattice_slb_update_constraints ...
+       (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,ctol);
+  printf("Step 5: vS frequency constraints updated to:\n");
+  for [v,m]=vS
+    printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
+  endfor  
+  printf("k=[ ");printf("%g ",k');printf("]'\n");
+  printf("khat=[ ");printf("%g ",khat');printf("]'\n");
+  printf("S constraints:\n");
+  complementaryFIRlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk);
 
-    %
-    % Step 6: Check for convergence
-    %
-    if complementaryFIRlattice_slb_constraints_are_empty(vS)
-      printf("Step 6: Solution satisfying constraints found ");
-      printf("after %d PCLS iterations\nDone!\n",slb_iter);
-      break;
-    else
-      printf("Step 6: Solution does not satisfy S constraints ");
-      printf("after %d PCLS iterations\n",slb_iter)
-      printf("S constraints:\n");
-      complementaryFIRlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk);
-      printf("Going to Step 2!\n");
-      continue;
-    endif
+  %
+  % Step 6: Check for convergence
+  %
+  if complementaryFIRlattice_slb_constraints_are_empty(vS)
+    printf("Step 6: Solution satisfying constraints found ");
+    printf("after %d PCLS iterations\nDone!\n",slb_iter);
+    break;
+  else
+    printf("Step 6: Solution does not satisfy S constraints ");
+    printf("after %d PCLS iterations\n",slb_iter)
+    printf("S constraints:\n");
+    complementaryFIRlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk);
+    printf("Going to Step 2!\n");
+    continue;
+  endif
 
-  % End of PCLS constraint loop
-  endwhile
+% End of PCLS constraint loop
+endwhile
 
 endfunction

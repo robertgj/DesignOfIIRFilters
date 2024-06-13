@@ -1,15 +1,16 @@
 % iir_sqp_slb_multiband_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2024 Robert G. Jenssen
 
 test_common;
 
-delete("iir_sqp_slb_multiband_test.diary");
-delete("iir_sqp_slb_multiband_test.diary.tmp");
-diary iir_sqp_slb_multiband_test.diary.tmp
+strf="iir_sqp_slb_multiband_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-tol=1e-4;
 mtol=1e-4;
 ptol=1e-2;
 ctol=1e-2;
@@ -17,7 +18,6 @@ maxiter=2000;
 verbose=false;
 nplot=500;
 npoints=nplot;
-strf="iir_sqp_slb_multiband_test";
 
 % Desired frequency response specification
 fas1u=0.05;
@@ -189,11 +189,12 @@ close
 %
 % SQP MMSE pass
 %
+feasible=false;
 [x1,E2,sqp_iter,func_iter,feasible] = ...
   iir_sqp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R,wa,Ad,Adu,Adl,Wa, ...
                ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt, ...
-               wp,Pd,Pdu,Pdl,Wp,maxiter,mtol,verbose);
-if feasible == 0 
+               wp,Pd,Pdu,Pdl,Wp,maxiter,mtol,ctol,verbose);
+if feasible == false
   error("x1 (mmse) infeasible");
 else
   printf("x1 (mmse) feasible sqp_iter=%d\n",sqp_iter);
@@ -221,53 +222,52 @@ close
 %
 % SQP PCLS pass
 %
+feasible=false;
 [x2,E2,slb_iter,opt_iter,func_iter,feasible] = ...
    iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R,wa,Ad,Adu,Adl,Wa, ...
            ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
            maxiter,ptol,ctol,verbose)
-if feasible == 0 
-  fprintf(stderr,"x2 (pcls) infeasible\n");
-else
-  printf("x1 (pcls) feasible slb_iter=%d,opt_iter=%d\n",slb_iter,opt_iter);
-
-  % Plot PCLS result
-  A2=iirA(wa,x2,U,V,M,Q,R);
-  T2=iirT(wa(10:end),x2,U,V,M,Q,R);
-  subplot(211)
-  plot(wa*0.5/pi,20*log10(A2))
-  axis([0 0.5 -40 5])
-  ylabel("Amplitude(dB)");
-  grid("on");
-  subplot(212)
-  plot(wa(10:end)*0.5/pi,T2);
-  axis([0 0.5 0 40]);
-  ylabel("Delay(samples)");
-  xlabel("Frequency");
-  grid("on");
-  print(strcat(strf,"_pcls"),"-dpdflatex");
-  close
-  % Passband
-  subplot(211)
-  plot(wa*0.5/pi,20*log10(A2))
-  axis([0 0.5 -3 1])
-  ylabel("Amplitude(dB)");
-  grid("on");
-  subplot(212)
-  T2=iirT(wt,x2,U,V,M,Q,R);
-  ax=plotyy(wt1*0.5/pi,T2(1:length(wt1)), ...
-            wt2*0.5/pi,T2((length(wt1)+1):end));
-  axis(ax(1),[0 0.5 28 32]);
-  axis(ax(2),[0 0.5 14 16]);
-  ylabel("Delay(samples)");
-  xlabel("Frequency");
-  grid("on");
-  print(strcat(strf,"_pcls_pass"),"-dpdflatex");
-  close
+if feasible == false
+  error("x2 (pcls) infeasible\n");
 endif
+printf("x1 (pcls) feasible slb_iter=%d,opt_iter=%d\n",slb_iter,opt_iter);
+
+% Plot PCLS result
+A2=iirA(wa,x2,U,V,M,Q,R);
+T2=iirT(wa(10:end),x2,U,V,M,Q,R);
+subplot(211)
+plot(wa*0.5/pi,20*log10(A2))
+axis([0 0.5 -40 5])
+ylabel("Amplitude(dB)");
+grid("on");
+subplot(212)
+plot(wa(10:end)*0.5/pi,T2);
+axis([0 0.5 0 40]);
+ylabel("Delay(samples)");
+xlabel("Frequency");
+grid("on");
+print(strcat(strf,"_pcls"),"-dpdflatex");
+close
+  % Passband
+subplot(211)
+plot(wa*0.5/pi,20*log10(A2))
+axis([0 0.5 -3 1])
+ylabel("Amplitude(dB)");
+grid("on");
+subplot(212)
+T2=iirT(wt,x2,U,V,M,Q,R);
+ax=plotyy(wt1*0.5/pi,T2(1:length(wt1)), ...
+          wt2*0.5/pi,T2((length(wt1)+1):end));
+axis(ax(1),[0 0.5 28 32]);
+axis(ax(2),[0 0.5 14 16]);
+ylabel("Delay(samples)");
+xlabel("Frequency");
+grid("on");
+print(strcat(strf,"_pcls_pass"),"-dpdflatex");
+close
 
 % Filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on combined response\n",tol);
 fprintf(fid,"mtol=%g %% Tolerance on MMSE update\n",mtol);
 fprintf(fid,"ptol=%g %% Tolerance on PCLS update\n",ptol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
@@ -319,19 +319,17 @@ print_polynomial(D0,"D0",strcat(strf,"_D0_coef.m"),"%16.10f");
 print_pole_zero(x1,U,V,M,Q,R,"x1");
 print_pole_zero(x1,U,V,M,Q,R,"x1",strcat(strf,"_x1_coef.m"));
 
-if feasible
-  print_pole_zero(x2,U,V,M,Q,R,"x2");
-  print_pole_zero(x2,U,V,M,Q,R,"x2",strcat(strf,"_x2_coef.m"));
+print_pole_zero(x2,U,V,M,Q,R,"x2");
+print_pole_zero(x2,U,V,M,Q,R,"x2",strcat(strf,"_x2_coef.m"));
 
-  save iir_sqp_slb_multiband_test.mat ...
-       tol mtol ptol ctol maxiter verbose nplot npoints dmax rho ...
-       fas1u fap1l fap1u fas2l fas2u fap2l fap2u fas3l ...
-       dBas1 dBap1 dBas2 dBap2 dBas3 Was1 Wap1 Was2 Wap2 Was3  ...
-       ftp1l ftp1u ftp2l ftp2u tp1 tpr1 tp2 tpr2 Wtp1 Wtp2 ...
-       x0 U V M Q R x1 x2
-endif
+eval(sprintf("save %s.mat \
+mtol ptol ctol maxiter verbose nplot npoints dmax rho \
+fas1u fap1l fap1u fas2l fas2u fap2l fap2u fas3l \
+dBas1 dBap1 dBas2 dBap2 dBas3 Was1 Wap1 Was2 Wap2 Was3 \
+ftp1l ftp1u ftp2l ftp2u tp1 tpr1 tp2 tpr2 Wtp1 Wtp2 \
+x0 U V M Q R x1 x2",strf));
 
 % Done
 toc;
 diary off
-movefile iir_sqp_slb_multiband_test.diary.tmp iir_sqp_slb_multiband_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

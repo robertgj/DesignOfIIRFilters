@@ -1,22 +1,23 @@
 % sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 % SDP relaxation optimisation of a Schur one-multiplier lattice
 % bandpass filter 10-bit signed-digit coefficients
 
 test_common;
 
-delete("sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary");
-delete("sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary.tmp");
-diary sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary.tmp
+strf="sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-maxiter=2000
 verbose=false;
-tol=1e-4;
-ctol=tol;
-strf="sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test";
+ftol=1e-4;
+ctol=ftol;
+maxiter=2000
 
 % Bandpass R=2 filter specification
 fapl=0.1,fapu=0.2,dBap=2,Wap=1
@@ -145,7 +146,7 @@ kc0_sd_x_active=find((kc0_sd_x)~=0);
      kc0_sd_x(Rk),epsilon0,p0,kc0_sd_x(Rc), ...
      kc_u,kc_l,kc0_sd_x_active,kc0_sd_delta, ...
      wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-     wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+     wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 if feasible==false
   error("sdp_relaxation_schurOneMlattice_mmse failed!");
 endif
@@ -174,7 +175,7 @@ while 1
   [kc_sd_Lim,kc_sdu_Lim,kc_sdl_Lim]=flt2SD(kc,nbits,ndigits_alloc);
   kc_sdul_Lim=kc_sdu_Lim-kc_sdl_Lim;
   
-  % Run the SeDuMi problem to find the SDP solution for the current coefficients
+  % Find the SDP solution for the active coefficients
   kc_sd_delta=(kc_sdu_Lim-kc_sdl_Lim)/2;
   kc_sd_x=(kc_sdu_Lim+kc_sdl_Lim)/2;
   kc_sd_x_active=find((kc_sd_x)~=0);
@@ -184,7 +185,7 @@ while 1
        kc_sd_x(Rk),epsilon0,p0,kc_sd_x(Rc), ...
        kc_u,kc_l,kc_sd_x_active,kc_sd_delta, ...
        wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-       wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+       wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
   if feasible==false
     error("sdp_relaxation_schurOneMlattice_mmse failed!");
   endif
@@ -227,7 +228,7 @@ while 1
                          wa,Asqd,Asqdu,Asqdl,Wa, ...
                          wt,Td,Tdu,Tdl,Wt, ...
                          wp,Pd,Pdu,Pdl,Wp, ...
-                         maxiter,tol,ctol,verbose);
+                         maxiter,ftol,ctol,verbose);
     kc=[nextk(:);nextc(:)];
   catch
     feasible=false;
@@ -416,39 +417,37 @@ text(0.5,-2.4,str_active1,'fontsize',8);
 text(0.5,-2.7,str_active2,'fontsize',8);
 print(strcat(strf,"_coef_hist"),"-dpdflatex"); 
 close
-      
+
 % Filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
-fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%g %% Frequency points across the band\n",n);
 fprintf(fid,"Nk=%d %% Filter order\n",Nk);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
-fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"fasl=%g %% Amplitude stop band lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Amplitude stop band upper edge\n",fasu);
-fprintf(fid,"dBas=%d %% Amplitude stop band peak-to-peak ripple\n",dBas);
-fprintf(fid,"Wasl=%d %% Amplitude lower stop band weight\n",Wasl);
-fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
+fprintf(fid,"dBas=%g %% Amplitude stop band peak-to-peak ripple\n",dBas);
+fprintf(fid,"Wasl=%g %% Amplitude lower stop band weight\n",Wasl);
+fprintf(fid,"Wasu=%g %% Amplitude upper stop band weight\n",Wasu);
 fprintf(fid,"ftpl=%g %% Pass band delay lower edge\n",ftpl);
 fprintf(fid,"ftpu=%g %% Pass band delay upper edge\n",ftpu);
 fprintf(fid,"tp=%g %% Nominal pass band filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Delay pass band peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
+fprintf(fid,"Wtp=%g %% Delay pass band weight\n",Wtp);
 fclose(fid);
 
 % Save results
-save sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.mat ...
-     tol ctol nbits nscale ndigits ndigits_alloc n ...
-     fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp ...
-     kc0_sd_sdp kc0_sd_min
+eval(sprintf("save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc n \
+fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp \
+kc0_sd_sdp kc0_sd_min",strf));
        
 % Done
 toc;
 diary off
-movefile sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary.tmp ...
-         sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

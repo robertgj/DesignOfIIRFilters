@@ -1,23 +1,25 @@
 % schurOneMAPlattice_frm_halfband_socp_slb_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMAPlattice_frm_halfband_socp_slb_test.diary");
-delete("schurOneMAPlattice_frm_halfband_socp_slb_test.diary.tmp");
-diary schurOneMAPlattice_frm_halfband_socp_slb_test.diary.tmp
+strf="schurOneMAPlattice_frm_halfband_socp_slb_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
-
 
 %
 % Filter specification
 %
-n=800;
-tol=1e-5
-ctol=tol/100
 maxiter=2000
+ftol=1e-5
+ctol=ftol/100
 verbose=false
+n=800;
 
 % Initial filter is found by tarczynski_frm_halfband_test.m
 tarczynski_frm_halfband_test_r0_coef;
@@ -78,7 +80,6 @@ Tdl=-Tdu;
 Wt=Wtp*ones(ntp,1);
 
 % Common strings
-strf="schurOneMAPlattice_frm_halfband_socp_slb_test";
 strt=sprintf("FRM halfband %%s %%s : \
 fap=%g,ftp=%g,fas=%g,mr=%d,Mmodel=%d,Dmodel=%d,dmask=%d", ...
              fap,ftp,fas,mr,Mmodel,Dmodel,dmask);
@@ -94,7 +95,7 @@ schurOneMAPlattice_frm_halfband_socp_slb_plot ...
   schurOneMAPlattice_frm_halfband_slb ...
     (@schurOneMAPlattice_frm_halfband_socp_mmse, ...
      k0,epsilon0,p0,u0,v0,Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...
-     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,maxiter,tol,ctol,verbose);
+     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,maxiter,ftol,ctol,verbose);
 if feasible == 0 
   error("k2(pcls) infeasible");
 endif
@@ -110,7 +111,7 @@ schurOneMAPlattice_frm_halfband_socp_slb_plot ...
 % Save the results
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"mr=%d %% Allpass model filter denominator order\n",mr);
@@ -120,13 +121,13 @@ fprintf(fid,"Dmodel=%d %% Model filter nominal pass band group delay \n",Dmodel)
 fprintf(fid,"dmask=%d %% FIR masking filter delay\n",dmask);
 fprintf(fid,"Tnominal=%g %% Nominal FRM filter group delay\n",Tnominal);
 fprintf(fid,"fap=%g %% Pass band edge\n",fap);
-fprintf(fid,"dBap=%d %% Pass band amplitude peak-to-peak ripple\n",dBap);
-fprintf(fid,"Wap=%d %% Pass band weight\n",Wap);
+fprintf(fid,"dBap=%g %% Pass band amplitude peak-to-peak ripple\n",dBap);
+fprintf(fid,"Wap=%g %% Pass band weight\n",Wap);
 fprintf(fid,"tpr=%g %% Pass band delay peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtp=%d %% Pass band delay weight\n",Wtp);
+fprintf(fid,"Wtp=%g %% Pass band delay weight\n",Wtp);
 fprintf(fid,"fas=%g %% Stop band edge\n",fas);
-fprintf(fid,"dBas=%d %% Stop band attenuation ripple\n",dBas);
-fprintf(fid,"Was=%d %% Stop band weight\n",Was);
+fprintf(fid,"dBas=%g %% Stop band attenuation ripple\n",dBas);
+fprintf(fid,"Was=%g %% Stop band weight\n",Was);
 fprintf(fid,"rho=%f %% Constraint on all-pass lattice coefficients\n",rho);
 fclose(fid);
 
@@ -141,12 +142,10 @@ print_polynomial(u2,"u2",strcat(strf,"_u2_coef.m"));
 print_polynomial(v2,"v2");
 print_polynomial(v2,"v2",strcat(strf,"_v2_coef.m"));
 
-save schurOneMAPlattice_frm_halfband_socp_slb_test.mat ...
-     r0 aa0 k0 epsilon0 p0 k2 epsilon2 p2 u2 v2 Mmodel Dmodel ...
-     fap fas dBap Wap tpr Wtp dBas Was rho tol ctol
+eval(sprintf("save %s.mat Mmodel Dmodel fap fas dBap Wap tpr Wtp dBas Was \
+rho ftol ctol r0 aa0 k0 epsilon0 p0 k2 epsilon2 p2 u2 v2",strf));
 
 % Done
 toc;
 diary off
-movefile schurOneMAPlattice_frm_halfband_socp_slb_test.diary.tmp ...
-         schurOneMAPlattice_frm_halfband_socp_slb_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

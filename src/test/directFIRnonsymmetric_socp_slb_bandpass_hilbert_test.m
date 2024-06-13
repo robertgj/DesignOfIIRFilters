@@ -1,19 +1,21 @@
 % directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.m
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2024 Robert G. Jenssen
 
 test_common;
 
-delete("directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.diary");
-delete("directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.diary.tmp");
-diary directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.diary.tmp
+strf="directFIRnonsymmetric_socp_slb_bandpass_hilbert_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 strf="directFIRnonsymmetric_socp_slb_bandpass_hilbert_test";
 
 maxiter=2000
-tol=1e-3
-ctol=tol/100
+ftol=1e-3
+ctol=5e-6
 verbose=false
 n=500
 
@@ -33,7 +35,7 @@ Wasu=10
 ftpl=0.11
 ftpu=0.19
 td=10
-tdr=td/20
+tdr=td/25
 Wtp=0.5
 fppl=0.11
 fppu=0.19
@@ -112,7 +114,7 @@ a0su=((-1).^(1:nMsu))*deltas;
 f0=[f0sl,f0p,f0su];
 a0=[a0sl,a0p,a0su];
 % Filter design
-[hM,fext,fiter,feasible]=hofstetterFIRsymmetric(f0,a0,n,maxiter,tol);
+[hM,fext,fiter,feasible]=hofstetterFIRsymmetric(f0,a0,n,maxiter,ftol);
 if feasible==false
   error("hM not feasible");
 endif
@@ -124,7 +126,7 @@ try
   [h1,opt_iter,func_iter,feasible]= ...
   directFIRnonsymmetric_socp_mmse([],h0,h_active,wa,Asqd,Asqdu,Asqdl,Wa,...
                                   wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-                                  maxiter,tol,verbose);
+                                  maxiter,ftol,ctol,verbose);
 catch
   feasible=false;
   err=lasterror();
@@ -142,7 +144,7 @@ endif
 try
   [h,slb_iter,opt_iter,func_iter,feasible]=directFIRnonsymmetric_slb ...
    (@directFIRnonsymmetric_socp_mmse,h1,h_active,wa,Asqd,Asqdu,Asqdl,Wa,...
-    wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
+    wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 catch
   feasible=false;
   err=lasterror();
@@ -161,6 +163,35 @@ Asq=directFIRnonsymmetricAsq(wa,h);
 T=directFIRnonsymmetricT(wt,h);
 P=directFIRnonsymmetricP(wp,h);
 
+% Show squared-amplitude peaks
+vAsql=local_max(Asqdl-Asq);
+vAsqu=local_max(Asq-Asqdu);
+wAsqS=unique([wa(vAsql);wa(vAsqu);wa([1,nasl,napl,napu,nasu,end])]);
+AsqS=directFIRnonsymmetricAsq(wAsqS,h);
+printf("h:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("h:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
+
+% Show delay peaks
+vTl=local_max(Tdl-T);
+vTu=local_max(T-Tdu);
+wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
+TS=directFIRnonsymmetricT(wTS,h);
+printf("h:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("h:TS=[ ");printf("%f ",TS');printf(" ] (samples)\n");
+
+% Show phase peaks
+vPl=local_max(Pdl-P);
+vPu=local_max(P-Pdu);
+wPS=unique([wp(vPl);wp(vPu);wp([1,end])]);
+PS=directFIRnonsymmetricP(wPS,h);
+printf("h:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("h:PS=[ ");printf("%f ",(PS+(wPS*td))'/pi);printf(" ] (radians/pi)\n");
+
+% Find response
+Asq=directFIRnonsymmetricAsq(wa,h);
+T=directFIRnonsymmetricT(wa,h);
+P=directFIRnonsymmetricP(wa,h);
+
 % Plot response
 plot(wa*0.5/pi,10*log10(Asq));
 axis([0 0.5 -dBas-10 5]);
@@ -176,19 +207,19 @@ close
 subplot(311);
 plot(wa(napl:napu)*0.5/pi,10*log10(Asq(napl:napu)));
 ylabel("Amplitude(dB)");
-axis([fapl fapu -0.3 0.1]);
+axis([fapl fapu -0.6 0.2]);
 grid("on");
 title(s);
 subplot(312);
-plot(wp*0.5/pi,mod(P+(wp*td),2*pi)/pi);
+plot(wa*0.5/pi,mod(P+(wa*td),2*pi)/pi);
 ylabel("Phase(rad./$\\pi$)");
-axis([fppl fppu mod(pd-0.01,2) mod(pd+0.01,2)]);
+axis([fapl fapu mod(pd-0.01,2) mod(pd+0.01,2)]);
 grid("on");
 subplot(313);
-plot(wt*0.5/pi,T);
+plot(wa*0.5/pi,T);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([ftpl ftpu td-0.4 td+0.4]);
+axis([fapl fapu td-0.2 td+0.2]);
 grid("on");
 print(strcat(strf,"_passband"),"-dpdflatex");
 close
@@ -202,7 +233,7 @@ close
 
 % Save the filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"N=%d %% FIR filter order\n",N);
@@ -231,12 +262,11 @@ fclose(fid);
 print_polynomial(h,"h");
 print_polynomial(h,"h",strcat(strf,"_h_coef.m"));
 
-save directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.mat tol n ...
-     N fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu td tdr Wtp ...
-     fppl fppu ppr Wpp h0 h1 h
+eval(sprintf("save %s.mat ftol ctol n \
+N fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu td tdr Wtp \
+fppl fppu ppr Wpp h0 h1 h",strf));
 
 % Done
 toc;
 diary off
-movefile directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.diary.tmp ...
-         directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

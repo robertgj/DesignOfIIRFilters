@@ -1,9 +1,9 @@
 function [hM,socp_iter,func_iter,feasible]=...
          sdp_relaxation_directFIRsymmetric_mmsePW ...
-           (vS,hM0,hM0_delta,na,wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose)
+           (vS,hM0,hM0_delta,na,wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose)
 % function [hM,socp_iter,func_iter,feasible]=...
 %  sdp_relaxation_directFIRsymmetric_mmsePW ...
-%  (vS,hM0,hM0_delta,na,wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose)
+%  (vS,hM0,hM0_delta,na,wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose)
 %
 % SDP MMSE optimisation of the scaled integer coefficients of a direct-form
 % symmetric FIR filter with constraints on the amplitude response. The desired
@@ -21,7 +21,8 @@ function [hM,socp_iter,func_iter,feasible]=...
 %   Adu,Adl - upper/lower mask for the desired amplitude response
 %   Wa - amplitude response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
-%   tol - tolerance
+%   ftol - tolerance on coefficient update
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -30,7 +31,7 @@ function [hM,socp_iter,func_iter,feasible]=...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -50,10 +51,11 @@ function [hM,socp_iter,func_iter,feasible]=...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 12) || (nargout ~= 4)
+  if (nargin ~= 13) || (nargout ~= 4)
     print_usage("[hM,socp_iter,func_iter,feasible]= ...\n\
 sdp_relaxation_directFIRsymmetric_mmsePW(vS,hM0,hM0_delta,na, ...\n\
-                                         wa,Ad,Adu,Adl,Wa,maxiter,tol,verbose)");
+                                         wa,Ad,Adu,Adl,Wa, ...\n\
+                                         maxiter,ftol,ctol,verbose)");
   endif
 
   %

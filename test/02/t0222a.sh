@@ -55,9 +55,9 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k2.ok << 'EOF'
-k2 = [   0.0000000000,  -0.9135081373,   0.0000000000,   0.5546428086, ... 
-         0.0000000000,  -0.0966755724,   0.0000000000,   0.0007462344, ... 
-         0.0000000000,  -0.0020582170,   0.0000000000,   0.0015840384 ];
+k2 = [   0.0000000000,  -0.8105864394,   0.0000000000,   0.2655181645, ... 
+         0.0000000000,  -0.0336215102,   0.0000000000,   0.0012379481, ... 
+         0.0000000000,  -0.0003065055,   0.0000000000,   0.0001110418 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
 
@@ -69,17 +69,17 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon2.ok"; fail; fi
 
 cat > test.p2.ok << 'EOF'
-p2 = [   2.2748006766,   2.2748006766,   0.4836328779,   0.4836328779, ... 
-         0.9036013965,   0.9036013965,   0.9956211212,   0.9956211212, ... 
-         0.9963643653,   0.9963643653,   0.9984172142,   0.9984172142 ];
+p2 = [   2.2737060699,   2.2737060699,   0.7354111726,   0.7354111726, ... 
+         0.9653257368,   0.9653257368,   0.9983458736,   0.9983458736, ... 
+         0.9995825399,   0.9995825399,   0.9998889644,   0.9998889644 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.p2.ok"; fail; fi
 
 cat > test.c2.ok << 'EOF'
-c2 = [   0.0435189928,   0.0508921400,   0.2428519501,   0.2882277492, ... 
-         0.1877845013,   0.2854412265,   0.6862739758,  -0.5909939643, ... 
-        -0.1639093080,  -0.0790058477,  -0.0435858016,  -0.0252833113, ... 
-        -0.0155222724 ];
+c2 = [  -0.0437647324,  -0.0526095103,  -0.1506187275,  -0.1846670626, ... 
+        -0.1806322200,  -0.2725453506,  -0.6912602247,   0.5823145464, ... 
+         0.1563236592,   0.0717407970,   0.0366475456,   0.0185442080, ... 
+         0.0085434874 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
 
@@ -91,16 +91,18 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.k2.ok schurOneMlattice_sqp_slb_hilbert_test_k2_coef.m
+nstr="schurOneMlattice_sqp_slb_hilbert_test"
+
+diff -Bb test.k2.ok $nstr"_k2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.k2.ok"; fail; fi
 
-diff -Bb test.epsilon2.ok schurOneMlattice_sqp_slb_hilbert_test_epsilon2_coef.m
+diff -Bb test.epsilon2.ok $nstr"_epsilon2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.epsilon2.ok"; fail; fi
 
-diff -Bb test.p2.ok schurOneMlattice_sqp_slb_hilbert_test_p2_coef.m
+diff -Bb test.p2.ok $nstr"_p2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.p2.ok"; fail; fi
 
-diff -Bb test.c2.ok schurOneMlattice_sqp_slb_hilbert_test_c2_coef.m
+diff -Bb test.c2.ok $nstr"_c2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.c2.ok"; fail; fi
 
 #

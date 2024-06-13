@@ -1,7 +1,7 @@
 function vS=parallel_allpass_delay_slb_update_constraints ...
-              (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,tol)
+              (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,ctol)
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -24,7 +24,7 @@ function vS=parallel_allpass_delay_slb_update_constraints ...
   % Sanity checks
   if (nargin ~= 9) || (nargout ~= 1)
     print_usage("vS=parallel_allpass_delay_slb_update_constraints ...\n\
-      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,tol)");
+      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,ctol)");
   endif
   if length(Asq) ~= length(Asqdu)
     error("length(Asq) ~= length(Asqdu)");
@@ -50,7 +50,7 @@ function vS=parallel_allpass_delay_slb_update_constraints ...
     vS.al=[];
   else
     vAsql=local_max((Asqdl-Asq).*(Wa~=0));
-    vS.al=vAsql(find((Asqdl(vAsql)-Asq(vAsql))>tol));
+    vS.al=vAsql(find((Asqdl(vAsql)-Asq(vAsql))>ctol));
   endif
 
   % Find amplitude upper constraint violations
@@ -58,7 +58,7 @@ function vS=parallel_allpass_delay_slb_update_constraints ...
     vS.au=[];
   else
     vAsqu=local_max((Asq-Asqdu).*(Wa~=0));
-    vS.au=vAsqu(find((Asq(vAsqu)-Asqdu(vAsqu))>tol));
+    vS.au=vAsqu(find((Asq(vAsqu)-Asqdu(vAsqu))>ctol));
   endif
 
   % Find group delay lower constraint violations
@@ -66,7 +66,7 @@ function vS=parallel_allpass_delay_slb_update_constraints ...
     vS.tl=[];
   else
     vTl=local_max((Tdl-T(1:length(Wt))).*(Wt~=0));
-    vS.tl=vTl(find((Tdl(vTl)-T(vTl))>tol));
+    vS.tl=vTl(find((Tdl(vTl)-T(vTl))>ctol));
   endif
   
   % Find group delay upper constraint violations
@@ -74,7 +74,7 @@ function vS=parallel_allpass_delay_slb_update_constraints ...
     vS.tu=[];
   else
     vTu=local_max((T(1:length(Wt))-Tdu).*(Wt~=0));
-    vS.tu=vTu(find((T(vTu)-Tdu(vTu))>tol));
+    vS.tu=vTu(find((T(vTu)-Tdu(vTu))>ctol));
   endif
 
   % Do not want size 0x1 ?!?!?!

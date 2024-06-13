@@ -1,16 +1,19 @@
 % schurNSlattice_sqp_mmse_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurNSlattice_sqp_mmse_test.diary");
-delete("schurNSlattice_sqp_mmse_test.diary.tmp");
-diary schurNSlattice_sqp_mmse_test.diary.tmp
+strf="schurNSlattice_sqp_mmse_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
 
-tol=1e-3
+ftol=1e-3
+ctol=ftol
 maxiter=2000
 verbose=false
 
@@ -52,7 +55,7 @@ Wt=Wtp_mmse*ones(ntp,1);
 % Constraints on the coefficients are given by section:
 %  [s10(1),s11(1),s20(1),s02(1),s00(1),s22(1),s10(2),s11(2),...,s22(Ns)]
 dmax=0.05
-rho=1-tol
+rho=1-ftol
 Ns=length(s10_0);
 sxx_u=reshape(kron([10*ones(2,1);rho*ones(4,1)],ones(1,Ns)),1,6*Ns);
 sxx_l=-sxx_u;
@@ -67,7 +70,6 @@ sxx_active=intersect(find(gradEsq),find((sxx_0~=0)&(sxx_0~=1)));
 sxx_symmetric=true;
 
 % Common strings
-strf="schurNSlattice_sqp_mmse_test";
 strt=sprintf("Schur normalised-scaled lattice lowpass filter SQP %%s \
 response : fap=%g,fas=%g",fap,fas);
 
@@ -79,7 +81,7 @@ tic;
   schurNSlattice_sqp_mmse([],s10_0,s11_0,s20_0,s00_0,s02_0,s22_0, ...
                           sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...
                           wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                          maxiter,tol,verbose);
+                          maxiter,ftol,ctol,verbose);
 toc;
 if feasible == 0 
   error("s10_1,s11_1,s20_1,s00_1,s02_1,s22_1(mmse) infeasible");
@@ -132,18 +134,18 @@ print_polynomial(stdxxf,"stdxxf",strcat(strf,".stdxxf_false.val"),"%5.1f");
 % Save the results
 %
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"sxx_symmetric=%1d %% Enforce s02=-s20 and s22=s00\n",sxx_symmetric);
-fprintf(fid,"dmax=%f %% Constraint on norm of coefficient step size\n",dmax);
-fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
+fprintf(fid,"dmax=%g %% Constraint on norm of coefficient step size\n",dmax);
+fprintf(fid,"rho=%g %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
-fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"ftp=%g %% Delay pass band edge\n",ftp);
 fprintf(fid,"tp=%g %% Nominal pass band filter group delay\n",tp);
-fprintf(fid,"Wtp_mmse=%d %% Delay pass band weight for MMSE\n",Wtp_mmse);
+fprintf(fid,"Wtp_mmse=%g %% Delay pass band weight for MMSE\n",Wtp_mmse);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
-fprintf(fid,"Was_mmse=%d %% Amplitude stop band weight for MMSE\n",Was_mmse);
+fprintf(fid,"Was_mmse=%g %% Amplitude stop band weight for MMSE\n",Was_mmse);
 fclose(fid);
 
 print_polynomial(s10_1,"s10_1");
@@ -159,13 +161,11 @@ print_polynomial(s02_1,"s02_1",strcat(strf,"_s02_1_coef.m"));
 print_polynomial(s22_1,"s22_1");
 print_polynomial(s22_1,"s22_1",strcat(strf,"_s22_1_coef.m"));
 
-save schurNSlattice_sqp_mmse_test.mat n0 d0 ...
-     fap Wap ftp tp Wtp_mmse fas Was_mmse dmax rho tol ...
-     s10_0 s11_0 s20_0 s00_0 s02_0 s22_0 ...
-     s10_1 s11_1 s20_1 s00_1 s02_1 s22_1
+eval(sprintf("save %s.mat n0 d0 \
+fap Wap ftp tp Wtp_mmse fas Was_mmse dmax rho ftol \
+s10_0 s11_0 s20_0 s00_0 s02_0 s22_0 s10_1 s11_1 s20_1 s00_1 s02_1 s22_1",strf));
 
 % Done
 toc;
 diary off
-movefile schurNSlattice_sqp_mmse_test.diary.tmp ...
-         schurNSlattice_sqp_mmse_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

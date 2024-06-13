@@ -2,12 +2,12 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
   iir_socp_bfgs(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...
                 wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                 wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-                maxiter,tol,verbose)
+                maxiter,ftol,ctol,verbose)
 % [xk,E,socp_iter,func_iter,feasible] =
 %   iir_socp_bfgs(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...
 %                 wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
 %                 wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-%                 maxiter,tol,verbose)
+%                 maxiter,ftol,ctol,verbose)
 %
 % SOCP MMSE optimisation using a BFGS approximation to the error with
 % linear constraints on the amplitude, phase and group delay responses. The
@@ -57,7 +57,8 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of SQP iterations
-%   tol - tolerance
+%   ftol - tolerance on coefficient updates
+%   ctol - tolerance on constraints
 %   verbose - 
 %
 % Outputs:
@@ -67,7 +68,7 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - x satisfies the constraints 
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -87,12 +88,12 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 33) || (nargout ~= 5)
+  if (nargin ~= 34) || (nargout ~= 5)
     print_usage("[xk,Ek,socp_iter,func_iter,feasible]= ...\n\
       iir_socp_bfgs(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...\n\
                     wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...\n\
                     wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...\n\
-                    maxiter,tol,verbose)");
+                    maxiter,ftol,ctol,verbose)");
   endif
 
   % Options for BFGS initialisation (default is eye)
@@ -390,8 +391,8 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
     old_gradEk=gradEk;
     [W,invW]=updateWbfgs(delta,gamma,W,invW);
     % Check loop termination
-    if norm(delta)/norm(xk) < tol
-      printf("norm(delta)/norm(xk) < tol\n");
+    if norm(delta)/norm(xk) < ftol
+      printf("norm(delta)/norm(xk) < ftol\n");
       feasible=true;
       break;
     endif
