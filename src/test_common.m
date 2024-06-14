@@ -27,7 +27,7 @@ set(0,"defaultaxestitlefontweight","normal");
 % in function default_figure_position().
 if getenv("OCTAVE_ENABLE_PLOT_TO_SCREEN")
   pos=get(0,"defaultfigureposition");
-  set(0,"defaultfigureposition",[1000,1000,pos(3),pos(4)]);
+  set(0,"defaultfigureposition",[200,200,pos(3),pos(4)]);
   set(0,'DefaultFigureVisible','on');
 else
   % Disable plotting to the screen. It captures the screen focus.
@@ -63,7 +63,7 @@ warning("off","Octave:data-file-in-path");
 warning("off","Octave:LaTeX:internal-error");
 warning("off","signal:delayz-singularity");
 warning("off","signal:grpdelay-singularity");
-if strcmp("9.1.0-robj",OCTAVE_VERSION)
+if strcmp("9.2.0-robj",OCTAVE_VERSION)
   % See scripts/plot/util/private/__gnuplot_draw_axes__.m
   warning("off","Octave:latex-markup-not-supported-for-tick-marks");
   % See scripts/miscellaneous/delete.m

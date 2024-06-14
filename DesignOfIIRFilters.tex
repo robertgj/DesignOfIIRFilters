@@ -39110,20 +39110,20 @@ shows the filter amplitude response.
 \section*{Software requirements}
 I currently use the Fedora 40 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{6.8.8-300.fc40.x86\_64}
-\item \emph{gcc} version \emph{14.0.1 20240411 (Red Hat 14.0.1-0)}
-\item a local build of \emph{octave-9.1.0} with the \emph{struct}, \emph{io},
+\item \texttt{uname -r} is \emph{6.8.11-300.fc40.x86\_64}
+\item \emph{gcc} version \emph{14.1.1 20240607 (Red Hat 14.1.1-5)}
+\item a local build of \emph{octave-9.2.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic}\footnote{The \emph{symbolic} Octave-Forge package assumes that
   the \emph{python3-sympy} Fedora package is installed.} and \emph{parallel}
   Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit with
-  \emph{qt6-qtbase-6.7.0-3} and a local build of \emph{GraphicsMagick}
+  \emph{qt6-qtbase-6.7.1-2} and a local build of \emph{GraphicsMagick}
 \item \emph{texlive-2023-71} and various packages are installed
 \item \emph{dia-0.97.3-27} is used for line drawings
 \end{itemize}
 
-The local build of \emph{octave-9.1.0} and Octave-Forge packages assumes that
+The local build of \emph{octave-9.2.0} and Octave-Forge packages assumes that
 the following packages are installed in addition to the base Fedora distribution:
 \begin{small}
 \begin{verbatim}
@@ -39187,15 +39187,13 @@ Section~\ref{sec:Round-off-normalised-scaled-lattice}, has the corresponding
 \pdfbookmark[0]{Octave}{octave}
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
-version of \emph{octave-9.1.0} avoiding the vagaries of the Fedora
+version of \emph{octave-9.2.0} avoiding the vagaries of the Fedora
 packagers.
 
 The \emph{build-octave.sh} script builds Octave and the associated numerical
 libraries with the \emph{g++} option \texttt{-march=nehalem}. The patch file,
-\emph{octave-9.1.0.patch}, is a shell \emph{here} document
-within \emph{build-octave.sh}. The \emph{octave-9.1.0/configure} script is
-patched so that the Octave \texttt{OCTAVE\_VERSION} command
-returns \texttt{9.1.0-robj}.
+\emph{octave-9.2.0.patch}, is a shell \emph{here} document
+within \emph{build-octave.sh}. 
 
 The \emph{build-octave.sh} script assumes the default sizes of FORTRAN
 data types. For example, \texttt{real} and \texttt{integer} are $4$ bytes. The
@@ -39279,7 +39277,7 @@ versions of the \emph{SparsePOP} and \emph{gloptipoly3} solvers from my
 repositories at \url{https://github.com/robertgj}.
 
 \subsubsection*{Problems with Octave}
-The \emph{octave-9.1.0.patch} here document within \emph{build-octave.sh}
+The \emph{octave-9.2.0.patch} here document within \emph{build-octave.sh}
 patches files to:
 \begin{itemize}
 \item add an Octave warning id in \texttt{\_\_gnuplot\_draw\_axes\_\_.m}
@@ -39289,8 +39287,6 @@ patches files to:
     \item \texttt{unique.m} to add stable sorting
     \item \texttt{uifigure.m} to avoid a core dump in the test case
   \end{enumerate}
-\item patches \texttt{libgui/graphics/GLCanvas.cc} to avoid seg-faults with
-      qt-6.7.0. See \url{https://savannah.gnu.org/bugs/?65605}
 \end{itemize}
 
 \subsubsection*{Problems with Octave-Forge packages}
@@ -39301,9 +39297,6 @@ within \emph{build-octave.sh}:
   avoid a \LaTeX~error.
 \item the \emph{signal-1.4.5} package \texttt{grpdelay} function is replaced
   with a local version called \texttt{delayz}.
-\item \emph{SparsePOP} uses the \texttt{collect} function from
-  \emph{SymPy}. This is not included in the \emph{symbolic-3.1.1} package. I add
-  a version of \emph{collect.m} based on \emph{factor.m}. 
 \end{itemize}
 
 \pdfbookmark[1]{Building Octave}{building-octave}
