@@ -12316,6 +12316,40 @@ optimisation.
   composed of a Schur one-multiplier lattice correction filter and $1-z^{-1}$.}
 \label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-SOCP-PCLS}
 \end{figure}
+\subsection{Design of an IIR low-pass differentiator filter with a Schur one-multiplier lattice correction filter  with R=2 using SOCP}
+The Octave script
+\emph{schurOneMlattice\_socp\_slb\_lowpass\_differentiator\_R2\_test.m}
+designs a low-pass differentiator filter with a denominator polynomial having
+terms only in $z^{-2}$. In other words, $R=2$. The filter consists of a Schur
+one-multiplier lattice correction filter in series with $1-z^{-1}$. The filter
+specification is:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_spec.m}
+\end{small}
+The Schur one-multiplier lattice coefficients of the PCLS optimised correction
+filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_k2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_c2_coef.m}
+\end{small}
+The corresponding correction filter numerator and denominator polynomial
+coefficients are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_N2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_D2_coef.m}
+\end{small}
+Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-SOCP-PCLS}
+shows the response of the $R=2$ low-pass differentiator filter after PCLS
+optimisation. 
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_pcls_error_response}}
+\caption{PCLS optimised error response of an $R=2$ low-pass differentiator filter
+  composed of a Schur one-multiplier lattice correction filter with a denominator
+  polynomial having terms only in $z^{-2}$ in series with $1-z^{-1}$.}
+\label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-SOCP-PCLS}
+\end{figure}
+
 \clearpage
 \subsection{\label{sec:Design-parallel-Schur-one-mult-all-pass-lattice-low-pass-SOCP}Design of an IIR low-pass filter with parallel Schur one-multiplier all-pass lattice filters using SOCP}
 The Octave script \emph{schurOneMPAlattice\_socp\_slb\_lowpass\_test.m}
