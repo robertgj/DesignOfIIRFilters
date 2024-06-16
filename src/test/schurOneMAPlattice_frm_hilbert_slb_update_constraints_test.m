@@ -147,7 +147,7 @@ fp=wp*0.5/pi;
 plot(fp,P1/pi, ...
      fp,Pdu/pi,":",fp,Pdl/pi,"-.",fp(vS.pl),Pl/pi,"x",fp(vS.pu),Pu/pi,"+");
 %axis([0 0.5 [pp-(ppr*2) pp+(ppr*2)]/pi]);
-strMp=sprintf("P(k1):fpp=%g,fps=%g,ppr=%g*pi,Wpp=%g,",fpp,fps,ppr/pi,Wpp);
+strMp=sprintf("P(k1):fpp=%g,fps=%g,ppr=%g$\\pi$,Wpp=%g,",fpp,fps,ppr/pi,Wpp);
 title(strMp);
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency")
