@@ -3,8 +3,8 @@
 prog=schurNSlattice2Abcd_test.m
 descr="schurNSlattice2Abcd_test.m (mfile)"
 depends="test/schurNSlattice2Abcd_test.m test_common.m check_octave_file.m \
-schurNSlattice2Abcd.m tf2schurNSlattice.m Abcd2tf.m \
-schurNSscale.oct schurdecomp.oct schurexpand.oct"
+schurNSlattice2Abcd.m tf2schurNSlattice.m \
+schurNSscale.oct schurdecomp.oct schurexpand.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -44,1891 +44,3053 @@ Using schurNSlattice2Abcd mfile
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 33 column 20
+    schurNSlattice2Abcd_test at line 42 column 20
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 54 column 55
+    schurNSlattice2Abcd_test at line 89 column 48
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 100 column 55
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 33 column 20
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 54 column 55
+    schurNSlattice2Abcd_test at line 42 column 20
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 89 column 48
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 100 column 55
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 33 column 20
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 54 column 55
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 195 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 197 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 224 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 226 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 253 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 255 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 282 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 284 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 311 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 313 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 340 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 342 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 392 column 20
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 413 column 55
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 42 column 20
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 89 column 48
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 100 column 55
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 42 column 20
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 89 column 48
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 100 column 55
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 244 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 246 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 273 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 275 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 302 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 304 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 331 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 333 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 360 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 362 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 389 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 391 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 441 column 20
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 462 column 55
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 567 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 569 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 596 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 598 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 625 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 627 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 654 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 656 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 567 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 569 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 596 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 598 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 625 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 627 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 654 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 656 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 567 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 569 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 596 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 598 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 625 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 627 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 392 column 20
+    schurNSlattice2Abcd_test at line 654 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 413 column 55
+    schurNSlattice2Abcd_test at line 656 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 567 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 569 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 596 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 598 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 625 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 627 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 654 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 656 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 567 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 569 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 596 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 598 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 625 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 627 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 654 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 656 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 392 column 20
+    schurNSlattice2Abcd_test at line 567 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 413 column 55
+    schurNSlattice2Abcd_test at line 569 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 518 column 40
+    schurNSlattice2Abcd_test at line 596 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 520 column 40
+    schurNSlattice2Abcd_test at line 598 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 547 column 40
+    schurNSlattice2Abcd_test at line 625 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 549 column 40
+    schurNSlattice2Abcd_test at line 627 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 654 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 656 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 567 column 40
+
 warning: Using Octave m-file version of function schurNSlattice2Abcd()!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 441 column 20
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 462 column 55
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 441 column 20
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 462 column 55
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 567 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 569 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 596 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 598 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 625 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 627 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 654 column 40
+
+warning: Using Octave m-file version of function schurNSlattice2Abcd()!
+warning: called from
+    schurNSlattice2Abcd at line 49 column 3
+    schurNSlattice2Abcd_test at line 656 column 40
+
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

@@ -114,12 +114,12 @@ A1k=A1k(:)';A1epsilon=A1epsilon(:)';A1p=A1p(:)';
 A2k=A2k(:)';A2epsilon=A2epsilon(:)';A2p=A2p(:)';
 
 % Find response
-Asq12=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
-T12=schurOneMPAlatticeT(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
+Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
+T=schurOneMPAlatticeT(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 
 % Plot response
 subplot(211);
-plot(wa*0.5/pi,10*log10(abs(Asq12)));
+plot(wa*0.5/pi,10*log10(abs(Asq)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
@@ -127,7 +127,7 @@ strt=sprintf("Parallel allpass bandpass : m1=%d,m2=%d,dBap=%g,dBas=%g",
              m1,m2,dBap,dBas);
 title(strt);
 subplot(212);
-plot(wa*0.5/pi,T12);
+plot(wa*0.5/pi,T);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 20]);
@@ -137,13 +137,13 @@ close
 
 % Plot passband response
 subplot(211);
-plot(wa*0.5/pi,10*log10(abs(Asq12)));
+plot(wa*0.5/pi,10*log10(abs(Asq)));
 ylabel("Amplitude(dB)");
 axis([min(fapl,ftpl) max(fapu,ftpu) -3 1]);
 grid("on");
 title(strt);
 subplot(212);
-plot(wa*0.5/pi,T12);
+plot(wa*0.5/pi,T);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([min(fapl,ftpl) max(fapu,ftpu) td-tdr td+tdr]);
@@ -156,11 +156,11 @@ A1d=schurOneMAPlattice2tf(A1k,A1epsilon,A1p);
 A1d=A1d(:);
 A2d=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
 A2d=A2d(:);
-zplane(roots(flipud(A1d)),roots(A1d));
+zplane(qroots(flipud(A1d)),qroots(A1d));
 title("Allpass filter 1");
 print(strcat(strf,"_A1pz"),"-dpdflatex");
 close
-zplane(roots(flipud(A2d)),roots(A2d));
+zplane(qroots(flipud(A2d)),qroots(A2d));
 title("Allpass filter 2");
 print(strcat(strf,"_A2pz"),"-dpdflatex");
 close
@@ -180,6 +180,15 @@ wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
 TS=schurOneMPAlatticeT(wTS,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 printf("A1,A2:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("A1,A2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
+
+% Check transfer function
+N2=(conv(flipud(A1d),A2d)-conv(flipud(A2d),A1d))/2;
+D2=conv(A1d,A2d);
+HH=freqz(N2,D2,wa);
+if max(abs((abs(HH).^2)-Asq)) > 2000*eps
+  error("max(abs((abs(HH).^2)-Asq))(%g*eps)>2000*eps",
+        max(abs((abs(HH).^2)-Asq))/eps);
+endif
 
 %
 % Save the results
@@ -223,12 +232,22 @@ print_polynomial(A2epsilon,"A2epsilon",strcat(strf,"_A2epsilon_coef.m"),"%2d");
 print_polynomial(A2p,"A2p");
 print_polynomial(A2p,"A2p",strcat(strf,"_A2p_coef.m"));
 
+print_polynomial(A1d,"A1d");
+print_polynomial(A1d,"A1d",strcat(strf,"_A1d_coef.m"));
+print_polynomial(A2d,"A2d");
+print_polynomial(A2d,"A2d",strcat(strf,"_A2d_coef.m"));
+
+print_polynomial(N2,"N2");
+print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
+print_polynomial(D2,"D2");
+print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
+
 eval(sprintf("save %s.mat ...\n\
      n m1 m2 difference tol ctol rho  ...\n\
      fapl fapu dBap Wap Watl Watu ...\n\
      fasl fasu dBas Wasl Wasu ...\n\
      ftpl ftpu td tdr Wtp ...\n\
-     Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p",strf));
+     Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p A1d A2d N2 D2",strf));
 
 % Done
 toc;

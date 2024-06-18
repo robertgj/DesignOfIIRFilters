@@ -19,10 +19,10 @@ schurOneMlattice2Abcd.oct \
 schurOneMscale.m \
 tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
-local_max.m tf2pa.m x2tf.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
+local_max.m tf2pa.m x2tf.m H2Asq.m H2T.m H2P.m \
 print_polynomial.m print_pole_zero.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2H.oct qroots.m qzsolve.oct"
+schurOneMlattice2H.oct qroots.m qzsolve.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -59,15 +59,15 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.k2.ok << 'EOF'
 k2 = [  -0.6805896882,   0.6554707502,  -0.5345555025,   0.3522006886, ... 
-        -0.1701042028,   0.0464958011,  -0.0000000000,   0.0000000000, ... 
-         0.0000000000 ];
+        -0.1701042028,   0.0464958011,   0.0000000000,  -0.0000000000, ... 
+        -0.0000000000 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
 
 cat > test.epsilon2.ok << 'EOF'
 epsilon2 = [ -1, -1, -1, -1, ... 
-              1, -1,  1, -1, ... 
-             -1 ];
+              1, -1, -1,  1, ... 
+              1 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon2.ok"; fail; fi
 
@@ -90,19 +90,21 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
 #
 echo "Running $prog"
 
+nstr="schurOneMlattice_socp_slb_lowpass_test"
+
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.k2.ok schurOneMlattice_socp_slb_lowpass_test_k2_coef.m
+diff -Bb test.k2.ok $nstr"_k2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of k2.coef"; fail; fi
 
-diff -Bb test.epsilon2.ok schurOneMlattice_socp_slb_lowpass_test_epsilon2_coef.m
+diff -Bb test.epsilon2.ok $nstr"_epsilon2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of epsilon2.coef"; fail; fi
 
-diff -Bb test.p2.ok schurOneMlattice_socp_slb_lowpass_test_p2_coef.m
+diff -Bb test.p2.ok $nstr"_p2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of p2.coef"; fail; fi
 
-diff -Bb test.c2.ok schurOneMlattice_socp_slb_lowpass_test_c2_coef.m
+diff -Bb test.c2.ok $nstr"_c2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of c2.coef"; fail; fi
 
 #

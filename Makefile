@@ -36,7 +36,7 @@ OCTAVE_VER=9.2.0
 OCTAVE=/usr/local/octave-$(OCTAVE_VER)/bin/octave
 MKOCTFILE=/usr/local/octave-$(OCTAVE_VER)/bin/mkoctfile
 OCTAVE_FLAGS=--no-gui -q -p src
-MKOCTFILE_FLAGS=-v -o $@ -Wall -lgmp -lmpfr
+MKOCTFILE_FLAGS=-v -o $@ -Wall -lgmp -lmpfr -I/usr/include/eigen3
 PDF_MONO_FLAGS='\newcommand\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
 PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1
 BIBTEX=bibtex

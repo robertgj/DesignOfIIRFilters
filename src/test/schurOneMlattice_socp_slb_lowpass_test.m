@@ -94,16 +94,16 @@ if feasible == 0
 endif
 
 % Recalculate epsilon2, p2 and c2
-[n2,d2]=schurOneMlattice2tf(k2p,epsilon0,ones(size(p0)),c2p);
-[k2,epsilon2,p2,c2]=tf2schurOneMlattice(n2,d2);
+[N2,D2]=schurOneMlattice2tf(k2p,epsilon0,ones(size(p0)),c2p);
+[k2,epsilon2,p2,c2]=tf2schurOneMlattice(N2,D2);
 
 % Trim zeros from n2 and d2
-n2=n2(1:(U+M+1));
-d2=d2(1:(V+Q+1));
+N2=N2(1:(U+M+1));
+D2=D2(1:(V+Q+1));
 
 % Plot
 schurOneMlattice_socp_slb_lowpass_plot ...
-  (n2,d2,k2,epsilon2,p2,c2,fap,dBap,ftp,tp,tpr,fas,dBas, ...
+  (N2,D2,k2,epsilon2,p2,c2,fap,dBap,ftp,tp,tpr,fas,dBas, ...
    strcat(strf,"_pcls_k2c2"),sprintf(strt,"PCLS"));
 
 % Amplitude and delay at local peaks
@@ -121,6 +121,12 @@ wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
 TS=schurOneMlatticeT(wTS,k2,epsilon2,p2,c2);
 printf("k2,c2:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k2,c2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
+
+% Check transfer function
+HH=freqz(N2,D2,wa);
+if max(abs((abs(HH).^2)-Asq)) > 100*eps
+  error("max(abs((abs(HH).^2)-Asq)) > 100*eps");
+endif
 
 %
 % Save the results
@@ -154,13 +160,13 @@ print_polynomial(p2,"p2");
 print_polynomial(p2,"p2",strcat(strf,"_p2_coef.m"));
 print_polynomial(c2,"c2");
 print_polynomial(c2,"c2",strcat(strf,"_c2_coef.m"));
-print_polynomial(n2,"n2");
-print_polynomial(n2,"n2",strcat(strf,"_n2_coef.m"));
-print_polynomial(d2,"d2");
-print_polynomial(d2,"d2",strcat(strf,"_d2_coef.m"));
+print_polynomial(N2,"N2");
+print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
+print_polynomial(D2,"D2");
+print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
 eval(sprintf("save %s.mat x0 n0 d0 k0 epsilon0 p0 c0 fap dBap Wap \
-ftp tp tpr Wtp Wat fas dBas Was rho ftol ctol k2 epsilon2 p2 c2 n2 d2",strf));
+ftp tp tpr Wtp Wat fas dBas Was rho ftol ctol k2 epsilon2 p2 c2 N2 D2",strf));
 
 % Done
 toc;

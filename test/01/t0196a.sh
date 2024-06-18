@@ -4,10 +4,10 @@ prog=tfp2schurNSlattice2Abcd_test.m
 depends="test/tfp2schurNSlattice2Abcd_test.m test_common.m \
 tfp2schurNSlattice2Abcd.m tf2schurNSlattice.m tf2schurOneMlattice.m \
 schurNSlattice2Abcd.oct schurOneMlattice2Abcd.oct KW.m optKW.m phi2p.m \
-Abcd2tf.m schurNSlatticeNoiseGain.m schurOneMlatticeNoiseGain.m \
+schurNSlatticeNoiseGain.m schurOneMlatticeNoiseGain.m \
 schurNSlatticeFilter.m schurOneMlatticeFilter.m crossWelch.m \
 schurdecomp.oct schurexpand.oct schurNSscale.oct schurOneMscale.m \
-p2n60.m qroots.m qzsolve.oct"
+p2n60.m qroots.m qzsolve.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -44,10 +44,6 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 ng_opt = 1.0730
-ans = 1.5811
-ans = 1.6008
-ans = 11.204
-ans = 34.582
 A =
  Columns 1 through 8:
    0.2212   0.9752        0        0        0        0        0        0
@@ -220,8 +216,6 @@ C =
 
 D = 0.2437
 ABCD_nz_coefs = 286
-ans = 41.163
-ans = 3651.6
 NG_ABCD = 6.4380
 ABCDopt_nz_coefs = 961
 NG_ABCDopt = 6.4380

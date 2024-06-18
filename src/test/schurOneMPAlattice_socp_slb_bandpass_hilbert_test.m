@@ -157,9 +157,9 @@ grid("on");
 strt=sprintf("Parallel all-pass bandpass Hilbert : dBap=%g,dBas=%g",dBap,dBas);
 title(strt);
 subplot(312);
-plot(wp*0.5/pi,((P+(tp*wp))/pi)-pd);
-ylabel("Phase error(rad./$\\pi$)");
-axis([0 0.5 0.0002*[-1 1]]);
+plot(wp*0.5/pi,(unwrap(P)+(tp*wp))/pi);
+ylabel("Phase(rad./$\\pi$)");
+axis([0 0.5 pd+(0.0002*[-1 1])]);
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,T);
@@ -183,10 +183,19 @@ zplane(roots(flipud(A2d)),roots(A2d));
 title("Allpass filter 2");
 print(strcat(strf,"_A2pz"),"-dpdflatex");
 close
-zplane(roots(conv(A1d,flipud(A2d))-conv(A2d,flipud(A1d))),roots(conv(A1d,A2d)));
+N2=(conv(A1d,flipud(A2d))-conv(A2d,flipud(A1d)))/2;
+D2=conv(A1d,A2d);
+zplane(qroots(N2),qroots(D2));
 title("Parallel allpass filter ");
 print(strcat(strf,"_A12pz"),"-dpdflatex");
 close
+
+% Check transfer function
+HH=freqz(N2,D2,wa);
+if max(abs((abs(HH).^2)-Asq)) > 1e4*eps
+  error("max(abs((abs(HH).^2)-Asq))(%g*eps) > 1e4*eps",
+        max(abs((abs(HH).^2)-Asq))/eps);
+endif
 
 % Amplitude, delay and phase at local peaks
 vAl=local_max(Asqdl-Asq);
@@ -255,13 +264,23 @@ print_polynomial(A2epsilon,"A2epsilon",strcat(strf,"_A2epsilon_coef.m"),"%2d");
 print_polynomial(A2p,"A2p");
 print_polynomial(A2p,"A2p",strcat(strf,"_A2p_coef.m"));
 
+print_polynomial(A1d,"A1d");
+print_polynomial(A1d,"A1d",strcat(strf,"_A1d_coef.m"));
+print_polynomial(A2d,"A2d");
+print_polynomial(A2d,"A2d",strcat(strf,"_A2d_coef.m"));
+
+print_polynomial(N2,"N2");
+print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
+print_polynomial(D2,"D2");
+print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
+
 eval(sprintf("save %s.mat ...\n\
      n difference tol ctol rho  ...\n\
      fapl fapu dBap Wap Watl Watu ...\n\
      fasl fasu dBas Wasl Wasu ...\n\
      ftpl ftpu tp tpr Wtp ...\n\
      fppl fppu pd pdr Wpp ...\n\
-     Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p",strf));
+     Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p A1d A2d N2 D2",strf));
 
 % Done
 toc;

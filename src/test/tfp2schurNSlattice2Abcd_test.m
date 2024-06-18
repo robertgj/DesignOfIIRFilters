@@ -1,13 +1,15 @@
 % tfp2schurNSlattice2Abcd_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Script for testing frequency transformations
 
 test_common;
 
-delete("tfp2schurNSlattice2Abcd_test.diary");
-delete("tfp2schurNSlattice2Abcd_test.diary.tmp");
-diary tfp2schurNSlattice2Abcd_test.diary.tmp
+strf="tfp2schurNSlattice2Abcd_test";
+
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 
 function plot_response(B,A,fname)
@@ -55,12 +57,20 @@ p=phi2p(phi);
 [Alpha,Beta,dummy1,dummy2,Gamma,Delta]=...
 schurNSlattice2Abcd(ps10,ps11,ps20,ps00,ps02,ps22);
 [n1,d1]=Abcd2tf(Alpha,Beta,Gamma,Delta);
-norm(n1-p(length(p):-1:1))/eps
-norm(d1-p)/eps
+if norm(n1(:)-flipud(p(:)))>10*eps
+  error("norm(n1-flipud(p))>10*eps")
+endif
+if norm(d1-p)>10*eps
+  error("norm(d1-p)>10*eps")
+endif
 [pK,pW]=KW(Alpha,Beta,Gamma,Delta);
 Q=eye(size(Alpha));
-norm(pK-Q)/eps
-norm(pK-pW)/eps
+if norm(pK-Q)>100*eps
+  error("norm(pk-Q)>100*eps")
+endif
+if norm(pK-pW)>100*eps
+  error("norm(pk-pW)>100*eps")
+endif
 
 % Bandpass filter
 [A,B,C,D]=tfp2schurNSlattice2Abcd(n0,d0,p,s,delta)
@@ -68,8 +78,12 @@ ABCD_nz_coefs=sum(sum(abs([A,B;C,D])>eps))
 [K,W]=KW(A,B,C,D);
 [N1,D1]=Abcd2tf(A,B,C,D);
 plot_response(N1,D1,"tfp2schurNSlattice2Abcd_test_ABCD");
-norm(K-kron(kopt,Q))/eps
-norm(W-kron(wopt,Q))/eps
+if norm(K-kron(kopt,Q))>100*eps
+  error("norm(K-kron(kopt,Q))>100*eps")
+endif
+if norm(W-kron(wopt,Q))>5000*eps
+  error("norm(W-kron(wopt,Q))>5000*eps")
+endif
 NG_ABCD=sum(diag(K).*diag(W))
 
 % Globally optimised
@@ -119,7 +133,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 axis([0 0.5 -50 5]);
 grid("on");
-print("tfp2schurNSlattice2Abcd_test_schurNS","-dpdflatex");
+print(strcat(strf,"_schurNS"),"-dpdflatex");
 close
 
 % Schur One-multiplier lattice
@@ -149,11 +163,11 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 axis([0 0.5 -50 5]);
 grid("on");
-print("tfp2schurNSlattice2Abcd_test_schurOneM","-dpdflatex");
+print(strcat(strf,"_schurOneM"),"-dpdflatex");
 close
 
 % Make a LaTeX table for noise performance
-fname=sprintf("tfp2schurNSlattice2Abcd_test.tab");
+fname=sprintf("%s.tab",strf);
 fid=fopen(fname,"wt");
 fprintf(fid,"\\begin{table}[hptb]\n");
 fprintf(fid,"\\centering\n");
@@ -183,5 +197,4 @@ fclose(fid);
 
 % Done
 diary off
-movefile tfp2schurNSlattice2Abcd_test.diary.tmp ...
-       tfp2schurNSlattice2Abcd_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

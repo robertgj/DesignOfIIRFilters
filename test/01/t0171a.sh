@@ -3,9 +3,9 @@
 prog=resolvent_test.m
 descr="resolvent_test.m (octfile)"
 depends="test/resolvent_test.m test_common.m resolvent.m \
-reprand.oct tf2schurOneMlattice.m schurOneMlattice2Abcd.oct Abcd2tf.m \
-schurOneMscale.m zhong_inverse.m complex_zhong_inverse.oct \
-complex_lower_hessenberg_inverse.oct schurdecomp.oct schurexpand.oct"
+tf2schurOneMlattice.m schurOneMscale.m zhong_inverse.m \
+schurOneMlattice2Abcd.oct reprand.oct schurdecomp.oct schurexpand.oct \
+complex_zhong_inverse.oct complex_lower_hessenberg_inverse.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

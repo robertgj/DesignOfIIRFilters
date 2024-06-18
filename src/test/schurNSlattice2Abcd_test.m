@@ -1,30 +1,39 @@
 % schurNSlattice2Abcd_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurNSlattice2Abcd_test.diary");
-delete("schurNSlattice2Abcd_test.diary.tmp");
-diary schurNSlattice2Abcd_test.diary.tmp
+strf="schurNSlattice2Abcd_test";
 
-check_octave_file("schurNSlattice2Abcd");
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
+
+check_octave_file(strtok(strf,"_"));
 
 verbose=true;
 
 %
 % Test for 6 arguments: s10,s11,s20,s02,s00,s22
 %
-for x=1:3
+for x=1:4
   % Design filter transfer function
   if x==1
-    N=20;dbap=0.1;dbas=80;fc=0.1;
-    [n,d]=cheby2(N,dbas,2*fc);
+    N=20;dBap=0.1;dBas=80;fc=0.1;
+    [n,d]=cheby2(N,dBas,2*fc);
+    eps_tol=2e9;
   elseif x==2
+    N=11;dBap=0.1;dBas=60;fc=0.1;
+    [n,d]=ellip(N,dBap,dBas,2*fc);
+    eps_tol=2e6;
+  elseif x==3
     N=2;fc=0.1;
     [n,d]=butter(N,2*fc);
+    eps_tol=1;
   else
     N=1;fc=0.1;
     [n,d]=butter(N,2*fc);
+    eps_tol=1;
   endif
 
   % Convert filter transfer function to lattice form
@@ -34,20 +43,57 @@ for x=1:3
 
   % Check [A,B,C,D]
   [check_n,check_d]=Abcd2tf(A,B,C,D);
-  if max(abs(check_n-n)) > 200*eps
-    error("max(abs(check_n-n)) > 200*eps");
+  if max(abs(check_n-n)) > 250*eps
+    error("max(abs(check_n-n)) > 250*eps");
   endif
   if max(abs(check_d-d)) > 5000*eps
     error("max(abs(check_d-d)) > 5000*eps");
   endif
+  
+  % Check s10,s11,s20,s00,s02,s22
+  [check_s10,check_s11,check_s20,check_s00,check_s02,check_s22]= ...
+    tf2schurNSlattice(check_n,check_d);
+  if max(abs(check_s10-s10))>eps_tol*eps
+    error("max(abs(check_s10-s10))(%g*eps)>%d*eps",
+          max(abs(check_s10-s10))/eps,eps_tol);
+  endif
+  if max(abs(check_s11-s11))>eps_tol*eps
+    error("max(abs(check_s11-s11))(%g*eps)>%d*eps",
+          max(abs(check_s11-s11))/eps,eps_tol);
+  endif
+  if max(abs(check_s20-s20))>eps_tol*eps
+    error("max(abs(check_s20-s20))(%g*eps)>%d*eps",
+          max(abs(check_s20-s20))/eps,eps_tol);
+  endif
+  if max(abs(check_s00-s00))>eps_tol*eps
+    error("max(abs(check_s00-s00))(%g*eps)>%d*eps",
+          max(abs(check_s00-s00))/eps,eps_tol);
+  endif
+  if max(abs(check_s02-s02))>eps_tol*eps
+    error("max(abs(check_s02-s02))(%g*eps)>%d*eps",
+          max(abs(check_s02-s02))/eps,eps_tol);
+  endif
+  if max(abs(check_s22-s22))>eps_tol*eps
+    error("max(abs(check_s22-s22))(%g*eps)>%d*eps",
+          max(abs(check_s22-s22))/eps,eps_tol);
+  endif
 
   % Check [A,B,Cap,Dap]
-  [check_nap,check_dap]=Abcd2tf(A,B,Cap,Dap);
-  if max(abs(fliplr(check_nap)-d)) > 5000*eps
-    error("max(abs(fliplr(check_nap)-d)) > 5000*eps");
+  [check1_nap,check1_dap]=Abcd2tf(A,B,Cap,Dap);
+  if max(abs(fliplr(check1_nap)-d)) > 5000*eps
+    error("max(abs(fliplr(check1_nap)-d)) > 5000*eps");
   endif
-  if max(abs(check_dap-d)) > 5000*eps
-    error("max(abs(check_dap-d)) > 5000*eps");
+  if max(abs(check1_dap-d)) > 5000*eps
+    error("max(abs(check1_dap-d)) > 5000*eps");
+  endif
+  [check2_A,check2_B,~,~,check2_Cap,check2_Dap]= ...
+    schurNSlattice2Abcd(zeros(size(s10)),zeros(size(s11)),s20,s00,s02,s22);
+  [check2_nap,check2_dap]=Abcd2tf(check2_A,check2_B,check2_Cap,check2_Dap);
+  if max(abs(fliplr(check2_nap)-d)) > 5000*eps
+    error("max(abs(fliplr(check2_nap)-d)) > 5000*eps");
+  endif
+  if max(abs(check2_dap-d)) > 5000*eps
+    error("max(abs(check2_dap-d)) > 5000*eps");
   endif
 
   % Calculate differentials of A,B,C,D,Cap,Dap with respect to s
@@ -148,6 +194,9 @@ for x=1:3
   if x==1
     del=1e-8;
     tol=2.5*del;
+  elseif x==2
+    del=1e-8;
+    tol=2*del;
   else
     del=1e-8;
     tol=del;
@@ -393,8 +442,8 @@ for x=1:3
 
   % Check [A,B,C,D]
   [check_n,check_d]=Abcd2tf(A,B,C,D);
-  if max(abs(check_n-n)) > 200*eps
-    error("max(abs(check_n-n)) > 200*eps");
+  if max(abs(check_n-n)) > 250*eps
+    error("max(abs(check_n-n)) > 250*eps");
   endif
   if max(abs(check_d-d)) > 5000*eps
     error("max(abs(check_d-d)) > 5000*eps");
@@ -637,4 +686,4 @@ endfor
 
 % Done
 diary off
-movefile schurNSlattice2Abcd_test.diary.tmp schurNSlattice2Abcd_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

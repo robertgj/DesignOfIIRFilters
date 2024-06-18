@@ -172,19 +172,26 @@ close
 
 % Pole-zero plot
 [N2,D2]=schurOneMlattice2tf(k2,epsilon0,p0,c2);
-print_polynomial(N2,"N2");
-print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
-print_polynomial(D2,"D2");
-print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
-zplane(roots(conv(N2,[1,-1])),roots(D2));
+zplane(qroots(conv(N2,[1,-1])),qroots(D2));
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
+
+% Check transfer function
+HH=freqz(N2,D2,wa);
+if max(abs((abs(HH).^2)-Asq2)) > 100*eps
+  error("max(abs((abs(HH).^2)-Asq2)) > 100*eps");
+endif
 
 % Save results
 print_polynomial(k2,"k2");
 print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
 print_polynomial(c2,"c2");
 print_polynomial(c2,"c2",strcat(strf,"_c2_coef.m"));
+
+print_polynomial(N2,"N2");
+print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
+print_polynomial(D2,"D2");
+print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
 % Save specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");

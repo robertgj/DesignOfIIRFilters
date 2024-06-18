@@ -10,10 +10,10 @@ schurOneMlattice_bandpass_10_nbits_common.m \
 schurOneMlattice_allocsd_Ito.m schurOneMlattice_allocsd_Lim.m bin2SDul.m \
 schurOneMlatticeEsq.m H2Asq.m schurOneMlatticeAsq.m schurOneMlatticeT.m \
 schurOneMlatticeP.m schurOneMlattice_cost.m schurOneMlattice2tf.m \
-schurOneMlatticeNoiseGain.m tf2schurOneMlattice.m Abcd2tf.m schurOneMscale.m \
+schurOneMlatticeNoiseGain.m tf2schurOneMlattice.m schurOneMscale.m \
 print_polynomial.m H2T.m H2P.m flt2SD.m x2nextra.m schurOneMR2lattice2Abcd.m \
 KW.m SDadders.m \
-schurdecomp.oct schurexpand.oct bin2SD.oct bitflip.oct bin2SPT.oct \
+schurdecomp.oct schurexpand.oct bin2SD.oct bitflip.oct bin2SPT.oct Abcd2tf.oct \
 schurOneMlattice2Abcd.oct schurOneMlattice2H.oct complex_zhong_inverse.oct"
 
 tmp=/tmp/$$

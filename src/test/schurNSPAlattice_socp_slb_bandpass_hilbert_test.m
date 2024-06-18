@@ -193,6 +193,31 @@ grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
+% Check the transfer function.
+% As filter order increases, schurNSlattice2Abcd() is increasingly inaccurate.
+% See schurNSlattice2Abcd_test.m and compare with schurOneMlattice2Abcd_test.m
+% The N2, and D2 returned here have frequency response errors.
+A1d=schurNSAPlattice2tf(A1s20,A1s00,A1s02,A1s22);
+A1d=A1d(:);
+A2d=schurNSAPlattice2tf(A2s20,A2s00,A2s02,A2s22);
+A2d=A2d(:);
+N2=(conv(A1d,flipud(A2d))-conv(A2d,flipud(A1d)))/2;
+D2=conv(A1d,A2d);
+HH=freqz(N2,D2,wa);
+if max(abs((abs(HH).^2)-Asq)) > 100*eps
+  warning("With freqz, N2 and D2, max(abs((abs(HH).^2)-Asq))(%g/eps)>100*eps\n\
+   !!!! Re-write schurNSlattice2Abcd.cc with extra precision arithmetic !!!!",
+          max(abs((abs(HH).^2)-Asq))/eps);
+endif
+H1=freqz(flipud(A1d),A1d,wa);
+H2=freqz(flipud(A2d),A2d,wa);
+HH=(H1-H2)/2;
+if max(abs((abs(HH).^2)-Asq)) > 100*eps
+  warning("With freqz, A1d and A2d, max(abs((abs(HH).^2)-Asq))(%g*eps)>100*eps\n\
+   !!!! Re-write schurNSlattice2Abcd.cc with extra precision arithmetic !!!!",
+          max(abs((abs(HH).^2)-Asq))/eps);
+endif
+
 % Plot poles and zeros
 A1d=schurNSAPlattice2tf(A1s20,A1s00,A1s02,A1s22);
 A1d=A1d(:);
@@ -206,7 +231,9 @@ zplane(roots(flipud(A2d)),roots(A2d));
 title("Allpass filter 2");
 print(strcat(strf,"_A2pz"),"-dpdflatex");
 close
-zplane(roots(conv(A1d,flipud(A2d))-conv(A2d,flipud(A1d))),roots(conv(A1d,A2d)));
+N2=(conv(A1d,flipud(A2d))-conv(A2d,flipud(A1d)))/2;
+D2=conv(A1d,A2d);
+zplane(qroots(N2),qroots(D2));
 title("Parallel allpass filter ");
 print(strcat(strf,"_A12pz"),"-dpdflatex");
 
@@ -239,7 +266,7 @@ printf("A1,A2:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("A1,A2:PS=[ ");printf("%f ",(PS+(wPS*tp))'/pi-pp);printf("] (rad./pi)\n");
 
 % Make a quantised noise signal with standard deviation 0.25
-nsamples=2^14;
+nsamples=2^15;
 rand("seed",0xdeadbeef);
 u=rand(nsamples,1)-0.5;
 u=u/std(u);
@@ -261,7 +288,7 @@ Asim=abs(Hsim);
 Asim=movmean(Asim,mov_window);
 subplot(311);
 ax=plotyy(fpts,20*log10(Asim),fpts,20*log10(Asim));
-axis(ax(1),[0 0.5 -1 1]);
+axis(ax(1),[0 0.5 -0.1 0.1]);
 axis(ax(2),[0 0.5 -60 -20]);
 ylabel("Amplitude(dB)");
 grid("on");
@@ -271,16 +298,16 @@ title(strt);
 subplot(312);
 Psim=unwrap(arg(Hsim));
 Psim=movmean(Psim,mov_window);
-plot(fpts,mod(((Psim+(tp*2*pi*nppts/nfpts))/pi)+pp,1));
-axis([0 0.5 (0.01*[-1 1])])
+plot(fpts,mod(((Psim+(tp*2*pi*nppts/nfpts))/pi),1));
+axis([0 0.5 0.5+((0.01)*[0 1])])
 grid("on");
-ylabel("Phase error(rad./$\\pi$)");
+ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency")
 subplot(313);
 Tsim=-diff(Psim)/((fpts(2)-fpts(1))*2*pi);
 Tsim=movmean(Tsim,mov_window);
 plot(fpts(2:end),Tsim);
-axis([0 0.5 (tp+0.1*[-1 1])])
+axis([0 0.5 (tp+(0.1*[-1 1]))]);
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency")
@@ -330,6 +357,16 @@ print_polynomial(A2s20,"A2s20",strcat(strf,"_A2s20_coef.m"));
 print_polynomial(A2s00,"A2s00");
 print_polynomial(A2s00,"A2s00",strcat(strf,"_A2s00_coef.m"));
 
+print_polynomial(A1d,"A1d");
+print_polynomial(A1d,"A1d",strcat(strf,"_A1d_coef.m"));
+print_polynomial(A2d,"A2d");
+print_polynomial(A2d,"A2d",strcat(strf,"_A2d_coef.m"));
+
+print_polynomial(N2,"N2");
+print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
+print_polynomial(D2,"D2");
+print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
+
 print_polynomial(A1stdx,"A1stdx");
 print_polynomial(A1stdx,"A1stdx",strcat(strf,"_A1stdx.m"),"%6.4f");
 print_polynomial(A2stdx,"A2stdx");
@@ -341,7 +378,7 @@ eval(sprintf("save %s.mat ...\n\
      ftpl ftpu tp tpr Wtp ...\n\
      fppl fppu pp ppr Wpp ...\n\
      Da0 Db0 ...\n\
-     A1s20 A1s00 A1s02 A1s22 A2s20 A2s00 A2s02 A2s22",strf));
+     A1s20 A1s00 A1s02 A1s22 A2s20 A2s00 A2s02 A2s22 A1d A2d N2 D2",strf));
         
 % Done
 toc;

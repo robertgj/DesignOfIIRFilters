@@ -4,8 +4,9 @@ prog=tarczynski_schurOneMlattice_lowpass_test.m
 
 depends="test/tarczynski_schurOneMlattice_lowpass_test.m test_common.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlattice2tf.m \
-H2Asq.m H2T.m Abcd2tf.m delayz.m print_polynomial.m \
-schurOneMlattice2Abcd.oct schurOneMlattice2H.oct complex_zhong_inverse.oct"
+H2Asq.m H2T.m delayz.m print_polynomial.m \
+schurOneMlattice2Abcd.oct schurOneMlattice2H.oct complex_zhong_inverse.oct \
+Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -41,16 +42,16 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_k1.ok << 'EOF'
-k1 = [   0.1694610869,   0.1649206878,   0.1812789821,   0.1185725028, ... 
-         0.0379073112,   0.0611904408,   0.0583420478,   0.0094098231, ... 
-         0.0176090109,   0.0311393381 ];
+k1 = [   0.7998024158,   0.9899999965,   0.1713037648,  -0.3518824250, ... 
+         0.4992843490,  -0.1269572743,  -0.1662404749,   0.2693495405, ... 
+        -0.1834885316,   0.0600678853 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k1.ok"; fail; fi
 
 cat > test_c1.ok << 'EOF'
-c1 = [  -0.0266551956,  -0.0196526223,   0.0329408225,   0.1316258978, ... 
-         0.2276906181,   0.2359888551,   0.1662193394,   0.0636658165, ... 
-        -0.0090504107,  -0.0295203754,  -0.0180490760 ];
+c1 = [  -0.0000613759,  -0.0001441428,   0.0219383846,   0.2006921965, ... 
+         0.2590788155,   0.3795016901,   0.1632331769,  -0.0011422946, ... 
+        -0.0665049716,  -0.0353010514,  -0.0057534422 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_c1.ok"; fail; fi
 

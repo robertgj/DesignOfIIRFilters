@@ -20,9 +20,11 @@ schurOneMlattice_slb_show_constraints.m \
 schurOneMlattice_slb_update_constraints.m \
 schurOneMscale.m schurOneMlattice2tf.m schurOneMlattice_allocsd_Ito.m \
 schurOneMlatticeFilter.m tf2schurOneMlattice.m local_max.m print_polynomial.m \
-Abcd2tf.m x2nextra.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m SDadders.m \
+x2nextra.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m SDadders.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct"
+schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct \
+Abcd2tf.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

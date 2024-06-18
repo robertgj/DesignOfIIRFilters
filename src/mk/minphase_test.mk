@@ -16,5 +16,3 @@ minphase_test_FILES = minphase_test.m test_common.m minphase.m \
 direct_form_scale.m qroots.m complementaryFIRlatticeFilter.m crossWelch.m \
 complementaryFIRdecomp.oct qzsolve.oct \
 # minphase.oct
-
-src/minphase.oct : XCXXFLAGS= -I/usr/include/eigen3 

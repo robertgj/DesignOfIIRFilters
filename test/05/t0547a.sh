@@ -17,10 +17,11 @@ schurNSlattice_sqp_slb_bandpass_plot.m \
 schurNSlattice2tf.m \
 schurNSlatticeFilter.m \
 crossWelch.m \
-tf2schurNSlattice.m local_max.m x2tf.m tf2pa.m print_polynomial.m Abcd2tf.m \
+tf2schurNSlattice.m local_max.m x2tf.m tf2pa.m print_polynomial.m \
 sqp_bfgs.m armijo_kim.m updateWbfgs.m invSVD.m H2Asq.m H2T.m KW.m p2n60.m \
 schurNSlattice2Abcd.oct schurNSscale.oct Abcd2H.oct spectralfactor.oct \
-schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct qroots.m qzsolve.oct"
+schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct qroots.m qzsolve.oct \
+Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

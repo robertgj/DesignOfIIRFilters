@@ -29,7 +29,8 @@ schurOneMlattice_slb_update_constraints.m \
 schurOneMscale.m \
 tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
-local_max.m tf2pa.m x2tf.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
+local_max.m tf2pa.m x2tf.m H2Asq.m H2T.m H2P.m \
 print_polynomial.m WISEJ.m \
 schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2H.oct qroots.m qzsolve.oct
+complex_zhong_inverse.oct schurOneMlattice2H.oct qroots.m qzsolve.oct \
+Abcd2tf.oct

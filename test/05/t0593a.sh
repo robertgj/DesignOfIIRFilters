@@ -17,9 +17,10 @@ schurNSPAlattice_slb_exchange_constraints.m \
 schurNSPAlattice_slb_show_constraints.m \
 schurNSPAlattice2tf.m schurNSAPlattice2tf.m schurNSAPlattice2Abcd.m \
 local_max.m tf2pa.m print_polynomial.m flt2SD.m bin2SDul.m x2nextra.m \
-qroots.m SDadders.m Abcd2tf.m H2Asq.m H2T.m H2P.m tf2schurNSlattice.m \
+qroots.m SDadders.m H2Asq.m H2T.m H2P.m tf2schurNSlattice.m \
 schurNSscale.oct bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
-Abcd2H.oct qzsolve.oct complex_zhong_inverse.oct schurNSlattice2Abcd.oct"
+Abcd2H.oct qzsolve.oct complex_zhong_inverse.oct schurNSlattice2Abcd.oct \
+Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

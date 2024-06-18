@@ -172,6 +172,16 @@ TS=schurNSPAlatticeT(wTS,A1s20,A1s00,A1s02,A1s22, ...
 printf("A1,A2:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("A1,A2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 
+% Check transfer function
+A1d=schurNSAPlattice2tf(A1s20,A1s00,A1s02,A1s22);
+A2d=schurNSAPlattice2tf(A2s20,A2s00,A2s02,A2s22);
+[N2,D2]=schurNSPAlattice2tf(A1s20,A1s02,A1s00,A1s22,A2s20,A2s02,A2s00,A2s22);
+HH=freqz(N2,D2,wa);
+if max(abs((abs(HH).^2)-Asq)) > 100*eps
+  warning("max(abs((abs(HH).^2)-Asq))(%g*eps)>100*eps",
+          max(abs((abs(HH).^2)-Asq))/eps);
+endif
+
 %
 % Save the results
 %
@@ -203,9 +213,19 @@ print_polynomial(A2s20,"A2s20",strcat(strf,"_A2s20_coef.m"));
 print_polynomial(A2s00,"A2s00");
 print_polynomial(A2s00,"A2s00",strcat(strf,"_A2s00_coef.m"));
 
+print_polynomial(A1d,"A1d");
+print_polynomial(A1d,"A1d",strcat(strf,"_A1d_coef.m"));
+print_polynomial(A2d,"A2d");
+print_polynomial(A2d,"A2d",strcat(strf,"_A2d_coef.m"));
+
+print_polynomial(N2,"N2");
+print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
+print_polynomial(D2,"D2");
+print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
+
 eval(sprintf("save %s.mat rho ftol ctol difference sxx_symmetric n \
 fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp \
-Da0 Db0 A1s20 A1s00 A1s02 A1s22 A2s20 A2s00 A2s02 A2s22",strf));
+Da0 Db0 A1s20 A1s00 A1s02 A1s22 A2s20 A2s00 A2s02 A2s22 A1d A2d N2 D2",strf));
         
 % Done
 toc;

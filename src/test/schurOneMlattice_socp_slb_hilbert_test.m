@@ -156,7 +156,7 @@ T1=schurOneMlatticeT(wt,k1,epsilon1,p1,c1);
 % Plot poles and zeros
 [N1,D1]=schurOneMlattice2tf(k1,epsilon1,p1,c1);
 subplot(111);
-zplane(roots(N1),roots(D1));
+zplane(qroots(N1),qroots(D1));
 title(strt);
 print(strcat(strf,"_mmse_pz"),"-dpdflatex");
 close
@@ -218,10 +218,16 @@ T2=schurOneMlatticeT(wt,k2,epsilon2,p2,c2);
 % Plot poles and zeros
 [N2,D2]=schurOneMlattice2tf(k2,epsilon2,p2,c2);
 subplot(111);
-zplane(roots(N2),roots(D2));
+zplane(qroots(N2),qroots(D2));
 title(strt);
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
+
+% Check transfer function
+HH=freqz(N2,D2,wa);
+if max(abs((abs(HH).^2)-Asq2)) > 100*eps
+  error("max(abs((abs(HH).^2)-Asq2)) > 100*eps");
+endif
 
 % Plot the PCLS response
 subplot(311);
@@ -285,13 +291,14 @@ print_polynomial(p2,"p2");
 print_polynomial(p2,"p2",strcat(strf,"_p2_coef.m"));
 print_polynomial(c2,"c2");
 print_polynomial(c2,"c2",strcat(strf,"_c2_coef.m"));
+
 print_polynomial(N2,"N2");
 print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
 print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
 eval(sprintf("save %s.mat n dmax ftol ctol dBar dBat Wap Wat \
-fpt pp ppr Wpp Wpt ftt td tdr Wtp Wtt k2 epsilon2 p2 c2", strf));
+fpt pp ppr Wpp Wpt ftt td tdr Wtp Wtt k2 epsilon2 p2 c2 N2 D2", strf));
 
 % Done
 toc

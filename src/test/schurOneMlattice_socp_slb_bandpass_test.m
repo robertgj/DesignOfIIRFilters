@@ -106,9 +106,10 @@ toc(run_id);
 if feasible == 0 
   error("k3p,c3p(pcls) infeasible");
 endif
+
 % Recalculate epsilon3, p3 and c3
-[n3,d3]=schurOneMlattice2tf(k3p,epsilon2,p2,c3p);
-[k3,epsilon3,p3,c3]=tf2schurOneMlattice(n3,d3);
+[N3,D3]=schurOneMlattice2tf(k3p,epsilon2,p2,c3p);
+[k3,epsilon3,p3,c3]=tf2schurOneMlattice(N3,D3);
 % Plot the PCLS response
 pcls_strf=strcat(strf,"_pcls_k3c3");
 pcls_strt=sprintf(strt,"Schur 1-multiplier SOCP PCLS",Wtp_pcls,Wasl_pcls);
@@ -133,6 +134,13 @@ wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
 TS=schurOneMlatticeT(wTS,k3,epsilon3,p3,c3);
 printf("k3c3:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k3c3:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
+
+% Check transfer function
+HH=freqz(N3,D3,wa);
+if max(abs((abs(HH).^2)-Asq)) > 100*eps
+  error("max(abs((abs(HH).^2)-Asq))(%g*eps)>100*eps",
+        max(abs((abs(HH).^2)-Asq))/eps);
+endif
 
 %
 % Save the results
@@ -172,14 +180,15 @@ print_polynomial(p3,"p3");
 print_polynomial(p3,"p3",strcat(strf,"_p3_coef.m"));
 print_polynomial(c3,"c3");
 print_polynomial(c3,"c3",strcat(strf,"_c3_coef.m"));
-print_polynomial(n3,"n3");
-print_polynomial(n3,"n3",strcat(strf,"_n3_coef.m"));
-print_polynomial(d3,"d3");
-print_polynomial(d3,"d3",strcat(strf,"_d3_coef.m"));
+
+print_polynomial(N3,"N3");
+print_polynomial(N3,"N3",strcat(strf,"_N3_coef.m"));
+print_polynomial(D3,"D3");
+print_polynomial(D3,"D3",strcat(strf,"_D3_coef.m"));
 
 eval(sprintf("save %s.mat fapl fapu fasl fasu ftpl ftpu dBap Wap dBas \
 Wasl_mmse Wasu_mmse Wasl_pcls Wasu_pcls tp tpr Wtp_mmse Wtp_pcls dmax rho \
-ftol_mmse ftol_pcls ctol k2 epsilon2 p2 c2 k3 epsilon3 p3 c3 n3 d3",strf));
+ftol_mmse ftol_pcls ctol k2 epsilon2 p2 c2 k3 epsilon3 p3 c3 N3 D3",strf));
 
 % Done
 toc(script_id);

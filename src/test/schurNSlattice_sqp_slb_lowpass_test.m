@@ -129,6 +129,14 @@ TS=schurNSlatticeT(wTS,s10_2,s11_2,s20_2,s00_2,s02_2,s22_2);
 printf("d1:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:TS=[ ");printf("%f ",TS');printf(" ] (samples)\n");
 
+% Check transfer function
+[N2,D2]=schurNSlattice2tf(s10_2,s11_2,s20_2,s00_2,s02_2,s22_2);
+HH=freqz(N2,D2,wa);
+if max(abs((abs(HH).^2)-Asq)) > 100*eps
+  error("max(abs((abs(HH).^2)-Asq))(%g*eps) > 100*eps",
+        max(abs((abs(HH).^2)-Asq))/eps);
+endif
+
 %
 % Find state variance
 %
@@ -189,12 +197,17 @@ print_polynomial(s02_2,"s02_2",strcat(strf,"_s02_2_coef.m"));
 print_polynomial(s22_2,"s22_2");
 print_polynomial(s22_2,"s22_2",strcat(strf,"_s22_2_coef.m"));
 
+print_polynomial(N2,"N2");
+print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
+print_polynomial(D2,"D2");
+print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
+
 eval(sprintf("save %s.mat x0 n0 d0 \
 fap dBap Wap ftp tp tpr Wtp fas dBas Was \
 dmax rho ftol ctol \
 s10_0 s11_0 s20_0 s00_0 s02_0 s22_0 \
 s10_1 s11_1 s20_1 s00_1 s02_1 s22_1 \
-s10_2 s11_2 s20_2 s00_2 s02_2 s22_2", strf));
+s10_2 s11_2 s20_2 s00_2 s02_2 s22_2 N2 D2", strf));
 
 % Done
 toc;

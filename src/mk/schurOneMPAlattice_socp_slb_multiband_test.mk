@@ -17,6 +17,10 @@ schurOneMPAlattice_socp_slb_multiband_test_A1epsilon_coef.m \
 schurOneMPAlattice_socp_slb_multiband_test_A2epsilon_coef.m \
 schurOneMPAlattice_socp_slb_multiband_test_A1p_coef.m \
 schurOneMPAlattice_socp_slb_multiband_test_A2p_coef.m \
+schurOneMPAlattice_socp_slb_multiband_test_A1d_coef.m \
+schurOneMPAlattice_socp_slb_multiband_test_A2d_coef.m \
+schurOneMPAlattice_socp_slb_multiband_test_N2_coef.m \
+schurOneMPAlattice_socp_slb_multiband_test_D2_coef.m \
 schurOneMPAlattice_socp_slb_multiband_test_spec.m \
 schurOneMPAlattice_socp_slb_multiband_test.mat
 
@@ -43,7 +47,7 @@ schurOneMscale.m \
 H2Asq.m H2T.m H2P.m tf2pa.m qroots.m local_max.m \
 complex_zhong_inverse.oct qzsolve.oct Abcd2H.oct \
 schurdecomp.oct schurexpand.oct schurOneMlattice2Abcd.oct \
-schurOneMAPlattice2H.oct schurOneMlattice2H.oct 
+schurOneMAPlattice2H.oct schurOneMlattice2H.oct Abcd2tf.oct
 
 schurOneMPAlattice_socp_slb_multiband_test.diary : \
 tarczynski_parallel_allpass_multiband_test.diary

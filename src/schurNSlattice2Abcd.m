@@ -26,7 +26,7 @@ function [A,B,C,D,Cap,Dap,dAds,dBds,dCds,dDds,dCapds,dDapds]=...
 % For 4 independent lattice coefficients per section:
 %   grad[s10_1,s11_1,s20_1,s00_1,s10_2,s11_2,s20_2,s00_2,s10_3,...]
   
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -50,11 +50,10 @@ function [A,B,C,D,Cap,Dap,dAds,dBds,dCds,dDds,dCapds,dDapds]=...
 
   % Sanity checks
   if ((nargin~=4) && (nargin~=6)) || nargout<4
-    print_usage(...
-"[A,B,C,D,Cap,Dap,dAds,dBds,dCds,dDds,dCapds,dDapds] =\n\
-   schurNSlattice2Abcd(s10,s11,s20,s00,s02,s22)\n\
-[A,B,C,D,Cap,Dap,dAds,dBds,dCds,dDds,dCapds,dDapds] =\n\
-  schurNSlattice2Abcd(s10,s11,s20,s00)");
+    str1="[A,B,C,D,Cap,Dap,dAds,dBds,dCds,dDds,dCapds,dDapds]=...\n\
+  schurNSlattice2Abcd(s10,s11,s20,s00,s02,s22)"
+    str2="[A,B,C,D]=schurNSlattice2Abcd(s10,s11,s20,s00)";
+    print_usage(sprintf("%s\n%s",str1,str2));
   endif
   if nargin == 6
     if length(s10)~=length(s11) || ...

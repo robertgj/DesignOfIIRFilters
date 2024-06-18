@@ -164,7 +164,7 @@ for M=1:3,
   grid("on");
   print(sprintf("%s_m_%d_pz",strf,m),"-dpdflatex");
   close
-
+  
   %
   % Save the results
   %
@@ -197,14 +197,16 @@ for M=1:3,
   print_polynomial(A1p,"A1p");
   print_polynomial(A1p,"A1p",sprintf("%s_m_%d_A1p_coef.m",strf,m));
 
-  Da1=schurOneMAPlattice2tf(A1k,A1epsilon,A1p);
   print_polynomial(Da1,"Da1");
   print_polynomial(Da1,"Da1",sprintf("%s_m_%d_Da1_coef.m",strf,m));
+  
+  print_polynomial(Na1,"Na1");
+  print_polynomial(Na1,"Na1",sprintf("%s_m_%d_Na1_coef.m",strf,m));
 
   eval(sprintf("save %s_m_%d.mat ...\n\
    rho tol ctol difference n m DD ...\n\
    fap dBap Wap Wat fas dBas Was ...\n\
-   Da0 A1k A1epsilon A1p Da1",strf,m));
+   Da0 A1k A1epsilon A1p Na1 Da1",strf,m));
 endfor
 
 % Done

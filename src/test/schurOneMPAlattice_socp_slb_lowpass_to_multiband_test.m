@@ -324,6 +324,16 @@ grid("on");
 print(strcat(strf,"_pcls_pass"),"-dpdflatex");
 close
 
+% Check transfer function
+A1d=schurOneMAPlattice2tf(A1k,A1epsilon,A1p);
+A2d=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
+[N2,D2]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
+HH=freqz(N2,D2,wa);
+if max(abs((abs(HH).^2)-Asq)) > 2e10*eps
+  error("max(abs((abs(HH).^2)-Asq))(%g*eps) > 2e10*eps",
+        max(abs((abs(HH).^2)-Asq))/eps);
+endif
+
 % Filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"ftol=%g %% Tolerance on coefficient update\n",ftol);
@@ -398,12 +408,22 @@ print_polynomial(A1p,"A1p",strcat(strf,"_A1p_coef.m"));
 print_polynomial(A2p,"A2p");
 print_polynomial(A2p,"A2p",strcat(strf,"_A2p_coef.m"));
 
+print_polynomial(A1d,"A1d");
+print_polynomial(A1d,"A1d",strcat(strf,"_A1d_coef.m"));
+print_polynomial(A2d,"A2d");
+print_polynomial(A2d,"A2d",strcat(strf,"_A2d_coef.m"),"%16.10f");
+
+print_polynomial(N2,"N2");
+print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
+print_polynomial(D2,"D2");
+print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"),"%16.10f");
+
 eval(sprintf("save %s.mat \
 ftol ctol maxiter verbose nplot npoints n fc dBap dBas dmax rho \
 fas1u fap1l fap1u fas2l fas2u fap2l fap2u fas3l \
 dBas1 dBap1 dBas2 dBap2 dBas3 Was1 Wap1 Was2 Wap2 Was3 \
 ftp1l ftp1u ftp2l ftp2u tp1 tpr1 tp2 tpr2 Wtp1 Wtp2 \
-A1k A1epsilon A1p A2k A2epsilon A2p",strf));
+A1k A1epsilon A1p A2k A2epsilon A2p A1d A2d N2 D2",strf));
 
 % Done
 toc;

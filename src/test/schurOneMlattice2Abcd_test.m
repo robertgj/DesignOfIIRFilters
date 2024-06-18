@@ -1,5 +1,5 @@
 % schurOneMlattice2Abcd_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
@@ -12,14 +12,18 @@ check_octave_file("schurOneMlattice2Abcd");
 verbose=false;
 del=1e-8;
 
-for x=1:3
+for x=1:4
 
   % Design filter transfer function
   if x==1
-    N=20;dbap=0.1;dbas=80;fc=0.1;
-    [n,d]=cheby2(N,dbas,2*fc);
+    N=20;dBap=0.1;dBas=80;fc=0.1;
+    [n,d]=cheby2(N,dBas,2*fc);
     tol=20*del;
   elseif x==2
+    N=11;dBap=0.1;dBas=60;fc=0.1;
+    [n,d]=ellip(N,dBap,dBas,2*fc);
+    tol=40*del;
+  elseif x==3
     N=2;fc=0.1;
     [n,d]=butter(N,2*fc);
     tol=50*del;

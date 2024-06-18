@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_multiband_test.m
-% Copyright (C) 2020-2023 Robert G. Jenssen
+% Copyright (C) 2020-2024 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a multi-band-pass filter as the
 % difference of two parallel allpass filters. See:
@@ -10,13 +10,13 @@ test_common;
 
 pkg load optim;
 
-delete("tarczynski_parallel_allpass_multiband_test.diary");
-delete("tarczynski_parallel_allpass_multiband_test.diary.tmp");
-diary tarczynski_parallel_allpass_multiband_test.diary.tmp
+strf="tarczynski_parallel_allpass_multiband_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
-
-strf="tarczynski_parallel_allpass_multiband_test";
 
 % Filter specification
 maxiter=20000
@@ -24,7 +24,7 @@ tol=1e-8
 npoints=1000;
 
 % Initial filter for parallel_allpass_multiband_test.m
-ma=mb=14;
+ma=mb=20;
 fas1u=0.05;
 fap1l=0.075;fap1u=0.1;
 ftp1l=0.075;ftp1u=0.1;
@@ -175,10 +175,9 @@ print_polynomial(Db,"Db0");
 print_polynomial(Db,"Db0",strcat(strf,"_Db0_coef.m"));
 print_polynomial(N,"N");
 print_polynomial(D,"D");
-save tarczynski_parallel_allpass_multiband_test.mat ma mb ab0 ab1 Da Db N D
+eval(sprintf("save %s.mat ma mb ab0 ab1 Da Db N D",strf));
 
 % Done
 toc;
 diary off
-movefile tarczynski_parallel_allpass_multiband_test.diary.tmp ...
-         tarczynski_parallel_allpass_multiband_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

@@ -115,6 +115,19 @@ TS=schurOneMPAlatticeT(wTS,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 printf("A1,A2:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("A1,A2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 
+% Check transfer function
+Da1=schurOneMAPlattice2tf(A1k,A1epsilon,A1p);
+Da1=Da1(:);
+Db1=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
+Db1=Db1(:);
+N1=(conv(flipud(Da1),Db1)+conv(flipud(Db1),Da1))/2;
+D1=conv(Da1,Db1);
+HH=freqz(N1,D1,wa);
+if max(abs((abs(HH).^2)-Asq)) > 100*eps
+  error("max(abs((abs(HH).^2)-Asq))(%g*eps) > 100*eps",
+        max(abs((abs(HH).^2)-Asq))/eps);
+endif
+
 %
 % Save the results
 %
@@ -145,10 +158,6 @@ print_polynomial(A1epsilon,"A1epsilon",strcat(strf,"_A1epsilon_coef.m"),"%2d");
 print_polynomial(A1p,"A1p");
 print_polynomial(A1p,"A1p",strcat(strf,"_A1p_coef.m"));
 
-Da1=schurOneMAPlattice2tf(A1k,A1epsilon,A1p);
-print_polynomial(Da1,"Da1");
-print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
-
 print_polynomial(A2k,"A2k");
 print_polynomial(A2k,"A2k",strcat(strf,"_A2k_coef.m"));
 print_polynomial(A2epsilon,"A2epsilon");
@@ -156,14 +165,19 @@ print_polynomial(A2epsilon,"A2epsilon",strcat(strf,"_A2epsilon_coef.m"),"%2d");
 print_polynomial(A2p,"A2p");
 print_polynomial(A2p,"A2p",strcat(strf,"_A2p_coef.m"));
 
-Db1=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
+print_polynomial(Da1,"Da1");
+print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 print_polynomial(Db1,"Db1");
 print_polynomial(Db1,"Db1",strcat(strf,"_Db1_coef.m"));
+print_polynomial(N1,"N1");
+print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
+print_polynomial(D1,"D1");
+print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 eval(sprintf("save %s.mat ... \n\
      rho tol ctol difference n m1 m2 ...\n\
      fap dBap Wap Wat fas dBas Was ftp td tdr Wtp ...\n\
-     Da0 Db0 A1k A1epsilon A1p Da1 A2k A2epsilon A2p Db1",strf));
+     Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p Da1 Db1 N1 D1",strf));
 
 % Done
 toc;

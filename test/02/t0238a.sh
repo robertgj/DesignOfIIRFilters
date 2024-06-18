@@ -15,9 +15,10 @@ schurOneMlattice_slb_set_empty_constraints.m \
 schurOneMlattice_slb_show_constraints.m \
 schurOneMlattice_slb_update_constraints.m \
 schurOneMlattice_sqp_slb_hilbert_plot.m \
-schurOneMscale.m tf2schurOneMlattice.m \
-schurOneMlattice2tf.m local_max.m print_polynomial.m Abcd2tf.m \
-H2Asq.m H2T.m H2P.m spectralfactor.oct schurdecomp.oct schurexpand.oct \
+schurOneMlattice2tf.m \
+schurOneMscale.m tf2schurOneMlattice.m qroots.m \
+local_max.m print_polynomial.m H2Asq.m H2T.m H2P.m \
+spectralfactor.oct schurdecomp.oct schurexpand.oct qzsolve.oct Abcd2tf.oct \
 complex_zhong_inverse.oct schurOneMlattice2H.oct schurOneMlattice2Abcd.oct"
 
 tmp=/tmp/$$
@@ -54,9 +55,9 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k2.ok << 'EOF'
-k2 = [   0.0000000000,  -0.9167025619,   0.0000000000,   0.4392844216, ... 
-         0.0000000000,  -0.0007270227,   0.0000000000,   0.0007326353, ... 
-        -0.0000000000,  -0.0002678109,  -0.0000000000,  -0.0002076646 ];
+k2 = [   0.0000000000,  -0.9167025619,   0.0000000000,   0.4392844215, ... 
+         0.0000000000,  -0.0007270227,   0.0000000000,   0.0007326354, ... 
+         0.0000000000,  -0.0002678109,   0.0000000000,  -0.0002076647 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
 
@@ -68,16 +69,16 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon2.ok"; fail; fi
 
 cat > test.p2.ok << 'EOF'
-p2 = [   2.9882650828,   2.9882650828,   0.6229562980,   0.6229562980, ... 
-         0.9980667373,   0.9980667373,   0.9987926185,   0.9987926185, ... 
+p2 = [   2.9882650834,   2.9882650834,   0.6229562981,   0.6229562981, ... 
+         0.9980667373,   0.9980667373,   0.9987926184,   0.9987926184, ... 
          0.9995246374,   0.9995246374,   0.9997923569,   0.9997923569 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.p2.ok"; fail; fi
 
 cat > test.c2.ok << 'EOF'
-c2 = [  -0.0299129634,  -0.0359370025,  -0.1941475739,  -0.2289340720, ... 
-        -0.1776967551,  -0.2636823927,  -0.6863246009,   0.5868552741, ... 
-         0.1562560344,   0.0693242206,   0.0424955666,   0.0186961405, ... 
+c2 = [  -0.0299129634,  -0.0359370025,  -0.1941475738,  -0.2289340723, ... 
+        -0.1776967550,  -0.2636823925,  -0.6863246009,   0.5868552741, ... 
+         0.1562560346,   0.0693242207,   0.0424955665,   0.0186961405, ... 
          0.0111132630 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi

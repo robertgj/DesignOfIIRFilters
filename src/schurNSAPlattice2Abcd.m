@@ -13,7 +13,7 @@ function [A,B,Cap,Dap,dAds,dBds,dCapds,dDapds]=...
 %   [A,B;Cap,Dap] - the state-variable matrixes
 %   dAds,dBds,dCapds,dDapds - the gradients of the state variable matrixes
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -55,11 +55,8 @@ function [A,B,Cap,Dap,dAds,dBds,dCapds,dDapds]=...
   
   % Calculate the state-variable matrixes and gradients of the
   % corresponding normalised-scaled Schur lattice filter.
-  s10_dummy=zeros(size(s20));
-  s11_dummy=zeros(size(s20));
-  [A,B,Cdummy,Dummy,Cap,Dap, ...
-   dAdx,dBdx,dCdummyds,dDdummyds,dCapdx,dDapdx]=...
-    schurNSlattice2Abcd(s10_dummy,s11_dummy,s20,s00,s02,s22);
+  [A,B,~,~,Cap,Dap,dAdx,dBdx,~,~,dCapdx,dDapdx]=...
+    schurNSlattice2Abcd(zeros(size(s20)),zeros(size(s20)),s20,s00,s02,s22);
   
   % Remove the dummy gradients
   Ns=length(s20);

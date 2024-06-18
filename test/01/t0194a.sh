@@ -1,8 +1,9 @@
 #!/bin/sh
 
 prog=tf2schurNSlattice_test.m
-depends="test/tf2schurNSlattice_test.m tf2schurNSlattice.m test_common.m Abcd2tf.m \
-schurNSlattice2Abcd.oct schurNSscale.oct schurdecomp.oct schurexpand.oct"
+depends="test/tf2schurNSlattice_test.m tf2schurNSlattice.m test_common.m \
+schurNSlattice2Abcd.oct schurNSscale.oct schurdecomp.oct schurexpand.oct \
+Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

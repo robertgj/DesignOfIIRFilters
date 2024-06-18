@@ -28,9 +28,10 @@ schurOneMlattice_slb_set_empty_constraints.m \
 schurOneMlattice_slb_show_constraints.m \
 schurOneMlattice_slb_update_constraints.m \
 schurOneMlattice_sqp_slb_hilbert_plot.m \
-schurOneMscale.m tf2schurOneMlattice.m \
-schurOneMlattice2tf.m local_max.m print_polynomial.m Abcd2tf.m \
-H2Asq.m H2T.m H2P.m spectralfactor.oct schurdecomp.oct schurexpand.oct \
+schurOneMlattice2tf.m \
+schurOneMscale.m tf2schurOneMlattice.m qroots.m \
+local_max.m print_polynomial.m H2Asq.m H2T.m H2P.m \
+spectralfactor.oct schurdecomp.oct schurexpand.oct qzsolve.oct Abcd2tf.oct \
 complex_zhong_inverse.oct schurOneMlattice2H.oct schurOneMlattice2Abcd.oct
 
 schurOneMlattice_socp_slb_hilbert_test.diary : \
