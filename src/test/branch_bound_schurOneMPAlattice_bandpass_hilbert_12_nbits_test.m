@@ -9,6 +9,7 @@
 test_common;
 
 strf="branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test";
+
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
@@ -146,8 +147,18 @@ else
   ndigits_alloc=zeros(size(k0));
   ndigits_alloc(k0_active)=ndigits;
 endif
-k0_allocsd_digits=int16(ndigits_alloc);
-printf("k0_allocsd_digits=[ ");printf("%2d ",k0_allocsd_digits);printf("]';\n");
+A1k_allocsd_digits=int16(ndigits_alloc(R1));
+A2k_allocsd_digits=int16(ndigits_alloc(R2));
+
+printf("A1k_allocsd_digits=[ ");
+printf("%2d ",A1k_allocsd_digits);printf("]';\n");
+print_polynomial(A1k_allocsd_digits,"A1k_allocsd_digits", ...
+                 strcat(strf,"_A1k_allocsd_digits.m"),"%2d");
+
+printf("A2k_allocsd_digits=[ ");
+printf("%2d ",A2k_allocsd_digits);printf("]';\n");
+print_polynomial(A2k_allocsd_digits,"A2k_allocsd_digits", ...
+                 strcat(strf,"_A2k_allocsd_digits.m"),"%2d");
 
 % Find the signed-digit approximations to A1k0 and A2k0
 [k0_sd,k0_sdu,k0_sdl]=flt2SD(k0,nbits,ndigits_alloc);
@@ -639,21 +650,20 @@ fprintf(fid,"Wpp=%d %% Pass band phase response weight\n",Wpp);
 fclose(fid);
 
 % Save results
-save branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test.mat ...
-     use_best_branch_and_bound_found branches_min ...
-     enforce_pcls_constraints_on_final_filter ...
-branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_allocsd_Lim ...
-branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_allocsd_Ito ...
-     k0_allocsd_digits ...
-     n m1 m2 difference tol ctol rho  ...
-     fapl fapu dBap Wap Watl Watu ...
-     fasl fasu dBas Wasl Wasu ...
-     ftpl ftpu td tdr Wtp ...
-     fppl fppu pd pdr Wpp ...
-     A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ...
-     A1k_min A1epsilon_min A2k_min A2epsilon_min
+eval(sprintf("save %s.mat use_best_branch_and_bound_found branches_min \
+enforce_pcls_constraints_on_final_filter \
+branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_allocsd_Lim \
+branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_allocsd_Ito \
+A1k_allocsd_digits A2k_allocsd_digits \
+n m1 m2 difference tol ctol rho \
+fapl fapu dBap Wap Watl Watu \
+fasl fasu dBas Wasl Wasu \
+ftpl ftpu td tdr Wtp \
+fppl fppu pd pdr Wpp \
+A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 \
+A1k_min A1epsilon_min A2k_min A2epsilon_min",strf));
 
 % Done
 toc;
 diary off
-eval(sprintf("movefile %s.diary.tmp %s.diary",strf,strf));
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

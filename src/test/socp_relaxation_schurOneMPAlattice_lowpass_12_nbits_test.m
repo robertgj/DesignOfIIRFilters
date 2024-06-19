@@ -8,9 +8,11 @@
 
 test_common;
 
-delete("socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.diary");
-delete("socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.diary.tmp");
-diary socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.diary.tmp
+strf="socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test";
+
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Options
 socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_allocsd_Lim=true
@@ -22,7 +24,6 @@ tol=1e-4
 ctol=5e-7
 maxiter=2000
 verbose=false
-strf="socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test";
 
 % Initial coefficients found by schurOneMPAlattice_socp_slb_lowpass_test.m
 schurOneMPAlattice_socp_slb_lowpass_test_A1k_coef;
@@ -108,6 +109,19 @@ else
   ndigits_alloc=zeros(size(k));
   ndigits_alloc(k_active)=ndigits;
 endif
+
+A1k_allocsd_digits=int16(ndigits_alloc(R1));
+A2k_allocsd_digits=int16(ndigits_alloc(R2));
+
+printf("A1k_allocsd_digits=[ ");
+printf("%2d ",A1k_allocsd_digits);printf("]';\n");
+print_polynomial(A1k_allocsd_digits,"A1k_allocsd_digits", ...
+                 strcat(strf,"_A1k_allocsd_digits.m"),"%2d");
+
+printf("A2k_allocsd_digits=[ ");
+printf("%2d ",A2k_allocsd_digits);printf("]';\n");
+print_polynomial(A2k_allocsd_digits,"A2k_allocsd_digits", ...
+                 strcat(strf,"_A2k_allocsd_digits.m"),"%2d");
 
 % Find the signed-digit approximations to k0,u0 and v0
 [k_sd,k_sdu,k_sdl]=flt2SD(k,nbits,ndigits_alloc);
@@ -424,15 +438,13 @@ fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
 fclose(fid);
 
 % Save results
-save socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.mat ...
-     n m1 m2 fap dBap Wap Wat fas dBas Was ftp td tdr Wtp rho tol ctol ...
-     A1k A1epsilon A1p A2k A2epsilon A2p ...
-     nbits ndigits ndigits_alloc ...
-     A1k_min A1epsilon_min A2k_min A2epsilon_min
+eval(sprintf("save %s.mat \
+n m1 m2 fap dBap Wap Wat fas dBas Was ftp td tdr Wtp rho tol ctol \
+nbits ndigits ndigits_alloc \
+A1k A1epsilon A1p A2k A2epsilon A2p \
+A1k_min A1epsilon_min A2k_min A2epsilon_min",strf));
 
 % Done
 toc;
 diary off
-movefile ...
-  socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.diary.tmp ...
-  socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

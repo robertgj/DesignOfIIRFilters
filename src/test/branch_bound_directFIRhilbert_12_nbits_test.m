@@ -1,20 +1,21 @@
 % branch_bound_directFIRhilbert_12_nbits_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 % Branch-and-bound search of a direct-form Hilbert filter
 % with 12-bit 2-signed-digit coefficients
 
 test_common;
 
-delete("branch_bound_directFIRhilbert_12_nbits_test.diary");
-delete("branch_bound_directFIRhilbert_12_nbits_test.diary.tmp");
-diary branch_bound_directFIRhilbert_12_nbits_test.diary.tmp
+strf="branch_bound_directFIRhilbert_12_nbits_test";
+
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 maxiter=400
 verbose=false
 tol=1e-4
-strf="branch_bound_directFIRhilbert_12_nbits_test";
 
 % Hilbert filter frequency specification
 M=40;fapl=0.01;fapu=0.5-fapl;Wap=1;Was=0;
@@ -58,6 +59,13 @@ printf("hM0_sd uses %d %d-bit adders for coefficient multiplications\n",
 
 % Allocate signed digits with the heuristic of Ito et al.
 ndigits_Ito=directFIRhilbert_allocsd_Ito(nbits,ndigits,hM0,waf,Adf,Waf);
+hM_allocsd_digits=int16(ndigits_Ito);
+printf("hM_allocsd_digits=[ ");
+printf("%2d ",hM_allocsd_digits);printf("]';\n");
+print_polynomial(hM_allocsd_digits,"hM_allocsd_digits", ...
+                 strcat(strf,"_hM_allocsd_digits.m"),"%2d");
+
+% Find the signed-digit coefficients
 [hM_sd,hM_sdu,hM_sdl]=flt2SD(hM0(:),nbits,ndigits_Ito);
 % Find signed-digit error
 Esq_sd=directFIRhilbertEsqPW(hM_sd,waf,Adf,Waf);
@@ -271,5 +279,4 @@ save branch_bound_directFIRhilbert_12_nbits_test.mat ...
 % Done
 toc;
 diary off
-movefile branch_bound_directFIRhilbert_12_nbits_test.diary.tmp ...
-         branch_bound_directFIRhilbert_12_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

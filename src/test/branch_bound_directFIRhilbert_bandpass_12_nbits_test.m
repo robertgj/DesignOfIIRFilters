@@ -1,14 +1,16 @@
 % branch_bound_directFIRhilbert_bandpass_12_nbits_test.m
-% Copyright (C) 2019-2021 Robert G. Jenssen
+% Copyright (C) 2019-2024 Robert G. Jenssen
 
 % Branch-and-bound search of a direct-form Hilbert bandpass filter
 % with 12-bit 2-signed-digit coefficients
 
 test_common;
 
-delete("branch_bound_directFIRhilbert_bandpass_12_nbits_test.diary");
-delete("branch_bound_directFIRhilbert_bandpass_12_nbits_test.diary.tmp");
-diary branch_bound_directFIRhilbert_bandpass_12_nbits_test.diary.tmp
+strf="branch_bound_directFIRhilbert_bandpass_12_nbits_test";
+
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Options
 branch_bound_directFIRhilbert_bandpass_12_nbits_test_use_unity_passband=false
@@ -18,7 +20,6 @@ tic;
 maxiter=400
 verbose=false
 tol=1e-4
-strf="branch_bound_directFIRhilbert_bandpass_12_nbits_test";
 
 % Hilbert band-pass filter from directFIRhilbert_bandpass_slb_test.m
 directFIRhilbert_bandpass_slb_test_hM2_coef;
@@ -75,6 +76,13 @@ printf("hM2_sd uses %d %d-bit adders for coefficient multiplications\n",
 % Allocate signed digits with the heuristic of Ito et al.
 ndigits_Ito=directFIRhilbert_allocsd_Ito(nbits,ndigits,hM2,waf,Adf,Waf);
 print_polynomial(ndigits_Ito,"ndigits_Ito");
+hM_allocsd_digits=int16(ndigits_Ito);
+printf("hM_allocsd_digits=[ ");
+printf("%2d ",hM_allocsd_digits);printf("]';\n");
+print_polynomial(hM_allocsd_digits,"hM_allocsd_digits", ...
+                 strcat(strf,"_hM_allocsd_digits.m"),"%2d");
+
+% Find the signed-digit coefficients
 [hM_sd,hM_sdu,hM_sdl]=flt2SD(hM2(:)*escale,nbits,ndigits_Ito);
 % Find signed-digit error
 Esq_sd=directFIRhilbertEsqPW(hM_sd/escale,waf,Adf,Waf);
@@ -292,14 +300,13 @@ print_polynomial(hM_min/escale,"hM_min",enscale);
 print_polynomial(hM_min/escale,"hM_min",strcat(strf,"_hM_min_coef.m"),enscale);
 
 % Save results
-save branch_bound_directFIRhilbert_bandpass_12_nbits_test.mat ...
-     hM2 hM2_sd hM_sd tol nbits ndigits escale fapl fapu Wap Was ...
-     improved_solution_found hM_min ...
-     branch_bound_directFIRhilbert_bandpass_12_nbits_test_use_unity_passband ...
-     branch_bound_directFIRhilbert_bandpass_12_nbits_test_use_coef_escale
+eval(sprintf("save %s.mat \
+hM2 hM2_sd hM_sd tol nbits ndigits escale fapl fapu Wap Was \
+improved_solution_found hM_min \
+branch_bound_directFIRhilbert_bandpass_12_nbits_test_use_unity_passband \
+branch_bound_directFIRhilbert_bandpass_12_nbits_test_use_coef_escale",strf));
 
 % Done
 toc;
 diary off
-movefile branch_bound_directFIRhilbert_bandpass_12_nbits_test.diary.tmp ...
-         branch_bound_directFIRhilbert_bandpass_12_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

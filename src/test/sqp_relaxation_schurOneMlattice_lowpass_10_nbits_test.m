@@ -88,8 +88,20 @@ else
   ndigits_alloc=zeros(size(kc0));
   ndigits_alloc(kc0_active)=ndigits;
 endif
+
 k_allocsd_digits=int16(ndigits_alloc(1:Nk));
 c_allocsd_digits=int16(ndigits_alloc((Nk+1):end));
+
+printf("k_allocsd_digits=[ ");
+printf("%2d ",k_allocsd_digits);printf("]';\n");
+print_polynomial(k_allocsd_digits,"k_allocsd_digits", ...
+                 strcat(strf,"_k_allocsd_digits.m"),"%2d");
+
+printf("c_allocsd_digits=[ ");
+printf("%2d ",c_allocsd_digits);printf("]';\n");
+print_polynomial(c_allocsd_digits,"c_allocsd_digits", ...
+                 strcat(strf,"_c_allocsd_digits.m"),"%2d");
+
 % Find the signed-digit approximations to k0 and c0
 [kc0_sd,kc0_sdu,kc0_sdl]=flt2SD(kc0,nbits,ndigits_alloc);
 k0_sd=kc0_sd(1:Nk);
@@ -339,9 +351,9 @@ fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ...\n\
-     k0 epsilon0 p0 c0 ftol ctol nbits ndigits ndigits_alloc ...\n\
-     fap dBap Wap ftp tp tpr Wtp fas dBas Was dmax rho k_min c_min",strf));
+eval(sprintf("save %s.mat \
+k0 epsilon0 p0 c0 ftol ctol nbits ndigits ndigits_alloc \
+fap dBap Wap ftp tp tpr Wtp fas dBas Was dmax rho k_min c_min",strf));
        
 % Done
 toc;

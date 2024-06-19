@@ -2,6 +2,7 @@ sdp_relaxation_directFIRhilbert_12_nbits_test_FIGURES = \
 sdp_relaxation_directFIRhilbert_12_nbits_test_response
 
 sdp_relaxation_directFIRhilbert_12_nbits_test_COEFS = \
+sdp_relaxation_directFIRhilbert_12_nbits_test_hM_allocsd_digits.m \
 sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_sd_Ito_coef.m \
 sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_sd_sdp_coef.m \
 sdp_relaxation_directFIRhilbert_12_nbits_test_cost.tab \

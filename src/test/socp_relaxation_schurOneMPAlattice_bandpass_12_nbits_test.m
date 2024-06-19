@@ -131,6 +131,20 @@ else
   ndigits_alloc(k_active)=ndigits;
 endif
 
+A1k_allocsd_digits=int16(ndigits_alloc(R1));
+A2k_allocsd_digits=int16(ndigits_alloc(R2));
+
+printf("A1k_allocsd_digits=[ ");
+printf("%2d ",A1k_allocsd_digits);printf("]';\n");
+print_polynomial(A1k_allocsd_digits,"A1k_allocsd_digits", ...
+                 strcat(strf,"_A1k_allocsd_digits.m"),"%2d");
+
+printf("A2k_allocsd_digits=[ ");
+printf("%2d ",A2k_allocsd_digits);printf("]';\n");
+print_polynomial(A2k_allocsd_digits,"A2k_allocsd_digits", ...
+                 strcat(strf,"_A2k_allocsd_digits.m"),"%2d");
+
+
 % Find the signed-digit approximations to k0,u0 and v0
 [k_sd,k_sdu,k_sdl]=flt2SD(k,nbits,ndigits_alloc);
 A1k_sd=k_sd(R1);

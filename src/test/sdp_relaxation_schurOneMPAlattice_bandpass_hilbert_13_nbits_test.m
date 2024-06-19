@@ -167,6 +167,16 @@ ndigits_alloc=schurOneMPAlattice_allocsd_Ito(nbits,ndigits, ...
                                              wa,Asqd,ones(size(wa)), ...
                                              wt,Td,ones(size(wt)), ...
                                              wp,Pd,ones(size(wp)));
+A1k_allocsd_digits=int16(ndigits_alloc(RA1k));
+A2k_allocsd_digits=int16(ndigits_alloc(RA2k));
+printf("A1k_allocsd_digits=[ ");
+printf("%2d ",A1k_allocsd_digits);printf("]';\n");
+print_polynomial(A1k_allocsd_digits,"A1k_allocsd_digits", ...
+                 strcat(strf,"_A1k_allocsd_digits.m"),"%2d");
+printf("A2k_allocsd_digits=[ ");
+printf("%2d ",A2k_allocsd_digits);printf("]';\n");
+print_polynomial(A2k_allocsd_digits,"A2k_allocsd_digits", ...
+                 strcat(strf,"_A2k_allocsd_digits.m"),"%2d");
 
 % Find the signed-digit approximations to k0
 [k0_sd,k0_sdu,k0_sdl]=flt2SD(k0,nbits,ndigits);

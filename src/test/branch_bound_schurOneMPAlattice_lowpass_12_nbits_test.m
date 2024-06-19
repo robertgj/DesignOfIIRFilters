@@ -4,13 +4,15 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("branch_bound_schurOneMPAlattice_lowpass_12_nbits_test.diary");
-delete("branch_bound_schurOneMPAlattice_lowpass_12_nbits_test.diary.tmp");
-diary branch_bound_schurOneMPAlattice_lowpass_12_nbits_test.diary.tmp
+strf="branch_bound_schurOneMPAlattice_lowpass_12_nbits_test";
+
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Options
 use_best_branch_and_bound_found=true
@@ -28,9 +30,6 @@ tol=1e-4
 ctol=5e-7
 maxiter=500
 verbose=false
-
-% Common strings
-strf="branch_bound_schurOneMPAlattice_lowpass_12_nbits_test";
 
 % Initial coefficients found by schurOneMPAlattice_socp_slb_lowpass_test.m
 schurOneMPAlattice_socp_slb_lowpass_test_A1k_coef;
@@ -127,8 +126,20 @@ else
   ndigits_alloc=zeros(size(k0));
   ndigits_alloc(k0_active)=ndigits;
 endif
-k0_allocsd_digits=int16(ndigits_alloc);
-printf("k0_allocsd_digits=[ ");printf("%2d ",k0_allocsd_digits);printf("]';\n");
+
+A1k_allocsd_digits=int16(ndigits_alloc(R1));
+A2k_allocsd_digits=int16(ndigits_alloc(R2));
+
+printf("A1k_allocsd_digits=[ ");
+printf("%2d ",A1k_allocsd_digits);printf("]';\n");
+print_polynomial(A1k_allocsd_digits,"A1k_allocsd_digits", ...
+                 strcat(strf,"_A1k_allocsd_digits.m"),"%2d");
+
+printf("A2k_allocsd_digits=[ ");
+printf("%2d ",A2k_allocsd_digits);printf("]';\n");
+print_polynomial(A2k_allocsd_digits,"A2k_allocsd_digits", ...
+                 strcat(strf,"_A2k_allocsd_digits.m"),"%2d");
+
 
 % Find the signed-digit approximations to A1k0 and A2k0
 [k0_sd,k0_sdu,k0_sdl]=flt2SD(k0,nbits,ndigits_alloc);
@@ -560,14 +571,12 @@ fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
 fclose(fid);
 
 % Save results
-save branch_bound_schurOneMPAlattice_lowpass_12_nbits_test.mat ...
-     use_best_branch_and_bound_found ...
-     n m1 m2 fap dBap Wap Wat fas dBas Was ftp td tdr Wtp rho tol ctol ...
-     improved_solution_found A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ...
-     difference nbits ndigits ndigits_alloc A1k_min A2k_min
+eval(sprintf("save %s.mat use_best_branch_and_bound_found \
+n m1 m2 fap dBap Wap Wat fas dBas Was ftp td tdr Wtp rho tol ctol \
+improved_solution_found A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 \
+difference nbits ndigits ndigits_alloc A1k_min A2k_min",strf));
      
 % Done
 toc;
 diary off
-movefile branch_bound_schurOneMPAlattice_lowpass_12_nbits_test.diary.tmp ...
-         branch_bound_schurOneMPAlattice_lowpass_12_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

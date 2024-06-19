@@ -4,13 +4,15 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("branch_bound_schurOneMPAlattice_bandpass_12_nbits_test.diary");
-delete("branch_bound_schurOneMPAlattice_bandpass_12_nbits_test.diary.tmp");
-diary branch_bound_schurOneMPAlattice_bandpass_12_nbits_test.diary.tmp
+strf="branch_bound_schurOneMPAlattice_bandpass_12_nbits_test";
+
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Options
 use_best_branch_and_bound_found=true
@@ -26,7 +28,6 @@ tic;
 
 maxiter=500
 verbose=false
-strf="branch_bound_schurOneMPAlattice_bandpass_12_nbits_test";
 
 %
 % Initial coefficients found by schurOneMPAlattice_socp_slb_bandpass_test.m
@@ -143,8 +144,19 @@ else
   ndigits_alloc=zeros(size(k0));
   ndigits_alloc(k0_active)=ndigits;
 endif
-k0_allocsd_digits=int16(ndigits_alloc);
-printf("k0_allocsd_digits=[ ");printf("%2d ",k0_allocsd_digits);printf("]';\n");
+
+A1k_allocsd_digits=int16(ndigits_alloc(R1));
+A2k_allocsd_digits=int16(ndigits_alloc(R2));
+
+printf("A1k_allocsd_digits=[ ");
+printf("%2d ",A1k_allocsd_digits);printf("]';\n");
+print_polynomial(A1k_allocsd_digits,"A1k_allocsd_digits", ...
+                 strcat(strf,"_A1k_allocsd_digits.m"),"%2d");
+
+printf("A2k_allocsd_digits=[ ");
+printf("%2d ",A2k_allocsd_digits);printf("]';\n");
+print_polynomial(A2k_allocsd_digits,"A2k_allocsd_digits", ...
+                 strcat(strf,"_A2k_allocsd_digits.m"),"%2d");
 
 % Find the signed-digit approximations to A1k0 and A2k0
 [k0_sd,k0_sdu,k0_sdl]=flt2SD(k0,nbits,ndigits_alloc);
@@ -209,7 +221,7 @@ if use_best_branch_and_bound_found
     A2k_min = [    -1540,     1504,      976,    -1168, ... 
                     1296,     -296,     -270,      864, ... 
                     -608,      312 ]'/2048;
-  endif 
+  endif
   A1epsilon_min=schurOneMscale(A1k_min);
   A2epsilon_min=schurOneMscale(A2k_min);
   k_min=[A1k_min(:);A2k_min(:)];
@@ -360,7 +372,7 @@ else
   printf("Branch-and-bound search completed with %d branches\n",n_branch);
 endif
   
-  % Show results
+% Show results
 if ~improved_solution_found
   error("Did not find an improved solution!\n");
 endif
@@ -529,20 +541,19 @@ fprintf(fid,"Wtp=%d %% Pass band group-delay response weight\n",Wtp);
 fclose(fid);
 
 % Save results
-save branch_bound_schurOneMPAlattice_bandpass_12_nbits_test.mat ...
-     use_best_branch_and_bound_found ...
-     enforce_pcls_constraints_on_final_filter ...
-     branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim ...
-     branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito ...
-     n m1 m2 difference tol ctol rho  ...
-     fapl fapu dBap Wap Watl Watu ...
-     fasl fasu dBas Wasl Wasu ...
-     ftpl ftpu td tdr Wtp ...
-     A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ...
-     A1k_min A1epsilon_min A2k_min A2epsilon_min
+eval(sprintf("save %s.mat use_best_branch_and_bound_found \
+enforce_pcls_constraints_on_final_filter \
+branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim \
+branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito \
+A1k_allocsd_digits A2k_allocsd_digits \
+n m1 m2 difference tol ctol rho \
+fapl fapu dBap Wap Watl Watu \
+fasl fasu dBas Wasl Wasu \
+ftpl ftpu td tdr Wtp \
+A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 \
+A1k_min A1epsilon_min A2k_min A2epsilon_min",strf));
 
 % Done
 toc;
 diary off
-movefile branch_bound_schurOneMPAlattice_bandpass_12_nbits_test.diary.tmp ...
-         branch_bound_schurOneMPAlattice_bandpass_12_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

@@ -7,6 +7,8 @@ sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_kc_min_pz
 sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_COEFS = \
 sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.mat \
 sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_spec.m \
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_k_allocsd_digits.m \
+sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_c_allocsd_digits.m \
 sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_k0_sd_coef.m \
 sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_c0_sd_coef.m \
 sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_k_min_coef.m \
@@ -33,9 +35,9 @@ schurOneMlatticeFilter.m \
 tf2schurOneMlattice.m \
 local_max.m print_polynomial.m Abcd2tf.m x2nextra.m sqp_bfgs.m armijo_kim.m \
 updateWbfgs.m invSVD.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m SDadders.m \
-qroots.m \
-qzsolve.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct 
+schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
+schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct
 
 sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.diary : \
 schurOneMlattice_sqp_slb_lowpass_test.diary
+

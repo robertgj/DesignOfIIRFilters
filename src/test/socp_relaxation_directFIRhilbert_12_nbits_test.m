@@ -75,6 +75,12 @@ nbits=12;
 nscale=2^(nbits-1);
 ndigits=2;
 ndigits_alloc=directFIRhilbert_allocsd_Ito(nbits,ndigits,hM0,waf,Adf,Waf);
+hM_allocsd_digits=int16(ndigits_alloc);
+printf("hM_allocsd_digits=[ ");
+printf("%2d ",hM_allocsd_digits);printf("]';\n");
+print_polynomial(hM_allocsd_digits,"hM_allocsd_digits", ...
+                 strcat(strf,"_hM_allocsd_digits.m"),"%2d");
+
 % Find the signed-digit approximations to hM0
 [hM0_sd,hM0_sdu,hM0_sdl]=flt2SD(hM0,nbits,ndigits);
 [hM0_sd_digits,hM0_sd_adders]=SDadders(hM0_sd,nbits);

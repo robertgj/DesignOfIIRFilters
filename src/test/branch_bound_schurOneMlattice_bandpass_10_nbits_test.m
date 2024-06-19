@@ -245,9 +245,9 @@ printf("p0=[ ");printf("%g ",p0');printf("]';\n");
 print_polynomial(c_min,"c_min",cnscale);
 print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),cnscale);
 print_polynomial(k_allocsd_digits,"k_allocsd_digits", ...
-                 strcat(strf,"_k_allocsd_digits_Ito.m"),"%2d");
+                 strcat(strf,"_k_allocsd_digits.m"),"%2d");
 print_polynomial(c_allocsd_digits,"c_allocsd_digits", ...
-                 strcat(strf,"_c_allocsd_digits_Ito.m"),"%2d");
+                 strcat(strf,"_c_allocsd_digits.m"),"%2d");
 
 % Find the number of signed-digits used
 [kc_digits,kc_adders]=SDadders(kc_min(kc0_active),nbits);

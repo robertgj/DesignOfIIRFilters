@@ -1,5 +1,5 @@
 % socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 % Optimisation of Schur one-multiplier lattice bandpass filter response with
 % 10-bit signed-digit coefficients having Ito et al. allocation and SOCP
@@ -7,9 +7,11 @@
 
 test_common;
 
-delete("socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.diary");
-delete("socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.diary.tmp");
-diary socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.diary.tmp
+strf="socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
@@ -17,7 +19,6 @@ maxiter=5000
 verbose=false;
 tol=1e-5;
 ctol=tol;
-strf="socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test";
 
 % Band pass filter
 M=15;
@@ -96,6 +97,12 @@ waf=wa([1 nasl napl napu nasu end]);
 Adf=[0 0 1 0 0];
 Waf=[Wasl 0 Wap 0 Wasu];
 ndigits_alloc=directFIRsymmetric_allocsd_Ito(nbits,ndigits,hM1,waf,Adf,Waf);
+hM_allocsd_digits=int16(ndigits_alloc);
+printf("hM_allocsd_digits=[ ");
+printf("%2d ",hM_allocsd_digits);printf("]';\n");
+print_polynomial(hM_allocsd_digits,"hM_allocsd_digits", ...
+                 strcat(strf,"_hM_allocsd_digits.m"),"%2d");
+
 % Find the signed-digit approximations to hM1
 [hM1_sd,hM1_sdu,hM1_sdl]=flt2SD(hM1,nbits,ndigits_alloc);
 [hM1_digits,hM1_adders]=SDadders(hM1_sd,nbits);
@@ -168,11 +175,10 @@ endwhile
 
 % Show results
 hM_min=hM;
-Esq_min=directFIRsymmetricEsqPW(hM_min,waf,Adf,Waf);
-printf("\nSolution:\nEsq_min=%g\n",Esq_min);
-printf("ndigits_alloc=[ ");printf("%d ",ndigits_alloc);printf("]\n");
 print_polynomial(hM_min,"hM_min",nscale);
 print_polynomial(hM_min,"hM_min",strcat(strf,"_hM_min_coef.m"),nscale);
+Esq_min=directFIRsymmetricEsqPW(hM_min,waf,Adf,Waf);
+printf("\nSolution:\nEsq_min=%g\n",Esq_min);
 
 % Find the number of signed-digits and adders used
 [hM_min_digits,hM_min_adders]=SDadders(hM_min,nbits);
@@ -287,12 +293,10 @@ fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-save socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.mat ...
-     tol ctol nbits nscale ndigits ndigits_alloc npoints ...
-     hM1 fapl fapu dBap Wap fasl fasll fasu fasuu dBas dBass Wasl Wasu hM_min
+eval(sprintf("save %s.mat tol ctol nbits nscale ndigits ndigits_alloc npoints \
+hM1 fapl fapu dBap Wap fasl fasll fasu fasuu dBas dBass Wasl Wasu hM_min",strf));
        
 % Done
 toc;
 diary off
-movefile socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.diary.tmp ...
-         socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

@@ -16463,9 +16463,16 @@ bit-shifts.
 At each branch the script fixes the coefficient with the largest difference
 between upper and lower $3$ signed-digit approximations to the floating-point
 value. For each sub-problem the coefficients ``higher-up-the-tree'' are fixed
-and the remaining free coefficients are SQP PCLS optimised with the filter 
+and the remaining free coefficients are PCLS SQP optimised with the filter 
 specification given above. For this example the branch-and-bound search
 makes thousands of branches and requires several hours CPU time on my PC.
+
+The numbers of signed digits allocated to each coefficient by the heuristic of
+\emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMlattice_bandpass_10_nbits_test_k_allocsd_digits.m}
+\verbatiminput{branch_bound_schurOneMlattice_bandpass_10_nbits_test_c_allocsd_digits.m}
+\end{small}
 
 The filter coefficients found by the branch-and-bound search are:
 \begin{small}
@@ -16653,7 +16660,7 @@ $16$-bit $4$-signed-digit coefficients found by branch-and-bound search.
 Figure~\ref{fig:branch-bound-schurOneMlattice-pipelined-lowpass-16-nbits-stop}
 shows the corresponding filter stop-band amplitude response.
 Table~\ref{tab:branch-bound-schurOneMlattice-pipelined-lowpass-16-nbits-cost}
-compares the cost and the number of $12$ bit shift-and-add operations required
+compares the cost and the number of $16$ bit shift-and-add operations required
 to implement the coefficient multiplications found by branch-and-bound search.
 \begin{figure}
 \centering
@@ -16694,7 +16701,9 @@ The Octave script
 branch-and-bound search to optimise the response of the parallel
 Schur one-multiplier all-pass lattice low-pass filter of
 Section~\ref{sec:Design-parallel-Schur-one-mult-all-pass-lattice-low-pass-SOCP}
-with $12$-bit integer coefficients. The filter specification is:
+with $12$-bit integer coefficients. The initial filter is found by the Octave
+script \emph{schurOneMPAlattice\_socp\_slb\_lowpass\_test.m}. The filter
+specification is:
 \begin{small}
 \verbatiminput{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_spec.m}
 \end{small} 
@@ -16708,6 +16717,14 @@ value. For each sub-problem the coefficients ``higher-up-the-tree'' are fixed
 and the remaining free coefficients are SOCP PCLS optimised with the filter 
 specification given above. In this case there are no filter tap coefficients
 and the one-multiplier lattice $\epsilon$ coefficients can be recalculated.
+
+The numbers of signed digits allocated to each coefficient by the heuristic of
+\emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_A1k_allocsd_digits.m}
+\verbatiminput{branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_A2k_allocsd_digits.m}
+\end{small}
+
 The signed-digit lattice coefficients found by the heuristic of
 \emph{Ito et al.} are:
 \begin{small}
@@ -16972,10 +16989,12 @@ Octave function \emph{ellip(11,0.02,84,2*0.15)}.
 The filter coefficients are truncated to $16$ bits allocated with an average
 of $4$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
 Section~\ref{sec:Ito-allocation-signed-digits}.
-The following numbers of signed-digits are allocated to the lattice coefficients:
+
+The numbers of signed digits allocated to each coefficient by the heuristic of
+\emph{Ito et al.} are:
 \begin{small}
-\verbatiminput{branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A1k0_allocsd.m}
-\verbatiminput{branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A2k0_allocsd.m}
+\verbatiminput{branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A1k_allocsd_digits.m}
+\verbatiminput{branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A2k_allocsd_digits.m}
 \end{small}
 
 The signed-digit lattice coefficients found by the heuristic of
@@ -17071,6 +17090,13 @@ between upper and lower $3$ signed-digit approximations to the floating-point
 value. For each sub-problem the coefficients ``higher-up-the-tree'' are fixed
 and the remaining free coefficients are SOCP PCLS optimised with the filter
 specification given above.
+
+The numbers of signed digits allocated to each coefficient by the heuristic of
+\emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_A1k_allocsd_digits.m}
+\verbatiminput{branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_A2k_allocsd_digits.m}
+\end{small}
 
 The signed-digit lattice coefficients found by the heuristic of
 \emph{Lim et al.} are:
@@ -17265,6 +17291,13 @@ value. For each sub-problem the coefficients ``higher-up-the-tree'' are fixed
 and the remaining free coefficients are SOCP PCLS optimised with the filter
 specification given above.
 
+The numbers of signed-digits allocated to each lattice coefficient by the
+heuristic of \emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_A1k_allocsd_digits.m}
+\verbatiminput{branch_bound_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_A2k_allocsd_digits.m}
+\end{small}
+
 The $12$-bit, average of $3$-signed-digit, lattice coefficients allocated with
 the algorithm of \emph{Ito et al.} are:
 \begin{small}
@@ -17366,17 +17399,17 @@ The Octave script
 the branch-and-bound heuristic to optimise the response of the FRM low-pass
 filter of Section~\ref{sec:FRM-low-pass-Schur-lattice} with
 $12$-bit coefficients each having an average of $3$ signed-digits allocated by
-the method of \emph{Lim et al.}. The number of signed-digits allocated to the
-coefficients of the all-pass lattice filter are:
+the heuristic of \emph{Lim et al.}. The numbers of signed-digits allocated to
+the coefficients of the all-pass lattice filter are:
 \begin{small}
   \verbatiminput{branch_bound_schurOneMAPlattice_frm_12_nbits_test_k_allocsd_digits.m}
 \end{small}
-The number of signed-digits allocated to the distinct coefficients of the
+The numbers of signed-digits allocated to the distinct coefficients of the
 FIR masking filter are:
 \begin{small}
 \verbatiminput{branch_bound_schurOneMAPlattice_frm_12_nbits_test_u_allocsd_digits.m}
 \end{small}
-The number of signed-digits allocated to the distinct coefficients of the
+The numbers of signed-digits allocated to the distinct coefficients of the
 FIR complementary masking filter are:
 \begin{small}
 \verbatiminput{branch_bound_schurOneMAPlattice_frm_12_nbits_test_v_allocsd_digits.m}
@@ -17563,8 +17596,14 @@ the heuristic of \emph{Ito et al.}. The Octave script
 \begin{small}
 \verbatiminput{branch_bound_directFIRhilbert_12_nbits_test_spec.m}
 \end{small}
+
 The filter has $40$ distinct non-zero coefficients and the filter group-delay
-is $79$ samples. The distinct non-zero filter coefficients found by the
+is $79$ samples. The numbers of signed-digits allocated to each coefficient with
+the heuristic of \emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{branch_bound_directFIRhilbert_12_nbits_test_hM_allocsd_digits.m}
+\end{small}
+The distinct non-zero filter coefficients found by the
 branch-and-bound search are:
 \begin{small}
   \verbatiminput{branch_bound_directFIRhilbert_12_nbits_test_hM_min_coef.m}
@@ -17622,7 +17661,14 @@ specification is:
 \verbatiminput{branch_bound_directFIRhilbert_bandpass_12_nbits_test_spec.m}
 \end{small}
 The filter has $8$ distinct non-zero coefficients and the filter group-delay
-is $15$ samples. The distinct non-zero filter coefficients found by the
+is $15$ samples.
+
+The numbers of signed-digits allocated to each coefficient by
+the heuristic of \emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{branch_bound_directFIRhilbert_bandpass_12_nbits_test_hM_allocsd_digits.m}
+\end{small}
+The distinct non-zero filter coefficients found by the
 allocation of signed-digits with the heuristic of \emph{Ito et al.} are:
 \begin{small}
 \verbatiminput{branch_bound_directFIRhilbert_bandpass_12_nbits_test_hM_sd_coef.m}
@@ -17699,6 +17745,11 @@ upper or lower signed-digit values as the final choice for that coefficient. The
 truncation of the last coefficient is, by necessity, not PCLS optimised so the
 final set of coefficients may not meet the PCLS specifications.
 
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test_hM_allocsd_digits.m}
+\end{small}
 The distinct direct-form symmetric FIR bandpass filter coefficients found by
 the SOCP-relaxation search are:
 \begin{small}
@@ -17781,6 +17832,12 @@ upper or lower signed-digit values as the final choice for that coefficient. The
 truncation of the last coefficient is, by necessity, not PCLS optimised so the
 final set of coefficients may not meet the PCLS specifications.
 
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test_k_allocsd_digits.m}
+\verbatiminput{sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test_c_allocsd_digits.m}
+\end{small}
 The filter coefficients found by the SQP-relaxation search are:
 \begin{small}
 \verbatiminput{sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test_k_min_coef.m}
@@ -17873,6 +17930,12 @@ values as the final choice for that coefficient. The truncation of the last
 coefficient is, by necessity, not PCLS optimised so the final set of
 coefficients may not meet the PCLS specifications.
 
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Lim et al.} are:
+\begin{small}
+\verbatiminput{sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_k_allocsd_digits.m}
+\verbatiminput{sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_c_allocsd_digits.m}
+\end{small}
 The filter coefficients found by the SQP-relaxation search are:
 \begin{small}
 \verbatiminput{sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_k_min_coef.m}
@@ -17976,6 +18039,12 @@ coefficient. The truncation of the last coefficient is, by necessity, not PCLS
 optimised so the final set of coefficients may not meet the PCLS
 specifications.
 
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Lim et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_A1k_allocsd_digits.m}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_A2k_allocsd_digits.m}
+\end{small}
 The signed-digit lattice coefficients found by the heuristic of
 \emph{Lim et al.} are:
 \begin{small}
@@ -18082,6 +18151,12 @@ coefficient. The truncation of the last coefficient is, by necessity, not PCLS
 optimised so the final set of coefficients may not meet the PCLS
 specifications.
 
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Lim et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_A1k_allocsd_digits.m}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_A2k_allocsd_digits.m}
+\end{small}
 The signed-digit lattice coefficients found by the heuristic of
 \emph{Lim et al.} are:
 \begin{small}
@@ -18193,6 +18268,12 @@ signed-digit values as the final choice for that coefficient. The truncation
 of the last coefficient is, by necessity, not PCLS optimised so the final set
 of coefficients may not meet the PCLS specifications.
 
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Lim et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_k_allocsd_digits.m}
+\verbatiminput{socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_c_allocsd_digits.m}
+\end{small}
 The signed-digit filter coefficients found by the heuristic of 
 \emph{Lim et al.} are:
 \begin{small}
@@ -18206,12 +18287,13 @@ The signed-digit filter coefficients found by the SOCP-relaxation search are:
 \verbatiminput{socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_c_min_coef.m}
 \end{small}
 
-Figures~\ref{fig:socp-relax-hilbert-schurOneMlattice-10-nbits-amplitude}
-and~\ref{fig:socp-relax-hilbert-schurOneMlattice-10-nbits-phase}
-compare the amplitude and phase responses of the filter with
-floating-point coefficients, 10-bit signed-digit coefficients allocated with the
-algorithm of \emph{Lim et al.} and 10-bit signed-digit coefficients allocated
-with the algorithm of \emph{Lim et al.} and SOCP-relaxation search. The phase
+Figures~\ref{fig:socp-relax-hilbert-schurOneMlattice-10-nbits-amplitude},
+~\ref{fig:socp-relax-hilbert-schurOneMlattice-10-nbits-phase} and
+\ref{fig:socp-relax-hilbert-schurOneMlattice-10-nbits-delay}
+compare the amplitude, phase and delay responses of the filter with
+floating-point coefficients, 10-bit signed-digit coefficients allocated by the
+heuristic of \emph{Lim et al.} and 10-bit signed-digit coefficients allocated
+by the heuristic of \emph{Lim et al.} with SOCP-relaxation search. The phase
 responses shown are adjusted for the nominal filter delay.
 \begin{figure}
 \centering
@@ -18220,7 +18302,7 @@ responses shown are adjusted for the nominal filter delay.
   Schur one-multiplier lattice Hilbert filter with 10-bit integer coefficients
   found by allocating an average of 3-signed-digits to each coefficient using
   the heuristic of \emph{Lim et al.} and performing SOCP-relaxation
-  search. The phase responses shown are adjusted for the nominal delay.}
+  search.}
 \label{fig:socp-relax-hilbert-schurOneMlattice-10-nbits-amplitude}
 \end{figure}
 \begin{figure}
@@ -18232,6 +18314,17 @@ responses shown are adjusted for the nominal filter delay.
   the heuristic of \emph{Lim et al.} and performing SOCP-relaxation
   search. The phase responses shown are adjusted for the nominal delay.}
 \label{fig:socp-relax-hilbert-schurOneMlattice-10-nbits-phase}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMlattice_hilbert_10_nbits_test_kc_min_delay}}
+\caption{Comparison of the delay responses for a
+  Schur one-multiplier lattice Hilbert filter with 10-bit integer coefficients
+  found by allocating an average of 3-signed-digits to each coefficient using
+  the heuristic of \emph{Lim et al.} and performing SOCP-relaxation
+  search.}
+\label{fig:socp-relax-hilbert-schurOneMlattice-10-nbits-delay}
 \end{figure}
 
 Table~\ref{tab:socp-relax-hilbert-schurOneMlattice-10-nbits-cost-summary}
@@ -18281,8 +18374,8 @@ then passed to \emph{schurOneMlattice\_slb} for PCLS optimisation. The
 resulting PCLS coefficient value selects the closer of the upper or lower
 signed-digit values as the final choice for that coefficient. 
 
-The allocation of signed-digits to the filter coefficients found by the
-heuristic of \emph{Lim et al.} is:
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Lim et al.} are:
 \begin{small}
 \verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test_k_allocsd_digits.m}
 \verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test_c_allocsd_digits.m}
@@ -18377,8 +18470,7 @@ coefficients found by SOCP-relaxation search. The phase response shown is adjust
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_amplitude}}
 \caption{Comparison of the amplitude responses of an FRM
   low-pass filter with floating-point coefficients and with 12 bit,
-  3-signed-digit coefficients found by SOCP-relaxation search. The phase
-  response shown is adjusted for the nominal delay.}
+  3-signed-digit coefficients found by SOCP-relaxation search.}
 \label{fig:socp-relaxation-schurOneMAPlattice-frm-12-nbits-amplitude}
 \end{figure}
 \begin{figure}
@@ -18395,8 +18487,7 @@ coefficients found by SOCP-relaxation search. The phase response shown is adjust
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_pass_delay}}
 \caption{Comparison of the pass-band delay responses of an FRM
   low-pass filter with floating-point coefficients and with 12 bit,
-  3-signed-digit coefficients found by SOCP-relaxation search. The phase
-  response shown is adjusted for the nominal delay.}
+  3-signed-digit coefficients found by SOCP-relaxation search.}
 \label{fig:socp-relaxation-schurOneMAPlattice-frm-12-nbits-pass-delay}
 \end{figure}
 
@@ -18427,13 +18518,23 @@ The Octave script
 socp-relaxation search to optimise the response of the FRM low-pass
 filter of Section~\ref{sec:FRM-low-pass-Schur-lattice} with
 $16$-bit coefficients each having an average of $3$ signed-digits allocated by
-the method of \emph{Ito et al.}. The number of signed-digits per coefficient is
-as shown in
-Section~\ref{sec:Branch-and-bound-search-one-mult-FRM-low-pass-Schur-lattice}.
-The filter specification is:
+the method of \emph{Ito et al.}. The filter specification is:
 \begin{small}
 \verbatiminput{socp_relaxation_schurOneMAPlattice_frm_16_nbits_test_spec.m}
 \end{small}
+
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Ito et al.} are:
+\begin{small}
+  \verbatiminput
+  {socp_relaxation_schurOneMAPlattice_frm_16_nbits_test_k_allocsd_digits.m}
+  \verbatiminput
+  {socp_relaxation_schurOneMAPlattice_frm_16_nbits_test_u_allocsd_digits.m}
+  \verbatiminput
+  {socp_relaxation_schurOneMAPlattice_frm_16_nbits_test_v_allocsd_digits.m}
+\end{small}
+
+Section~\ref{sec:Branch-and-bound-search-one-mult-FRM-low-pass-Schur-lattice}.
 The filter coefficients found by the socp-relaxation search are:
 \begin{small}
   \verbatiminput
@@ -18459,8 +18560,7 @@ is adjusted for the nominal delay.
 \caption{Comparison of the amplitude responses of an FRM
   low-pass filter with floating-point coefficients, with 16 bit coefficients
   having an average of 3-signed-digits allocated by the method of
-  \emph{Ito et al.} and with the coefficients found by SOCP-relaxation search.
-  The phase response shown is adjusted for the nominal delay.}
+  \emph{Ito et al.} and with the coefficients found by SOCP-relaxation search.}
 \label{fig:socp-relaxation-schurOneMAPlattice-frm-16-nbits-amplitude}
 \end{figure}
 \begin{figure}
@@ -18479,8 +18579,7 @@ is adjusted for the nominal delay.
 \caption{Comparison of the pass-band delay responses of an FRM
   low-pass filter with floating-point coefficients, with 16 bit coefficients
   having an average of 3-signed-digits allocated by the method of
-  \emph{Ito et al.} and with the coefficients found by SOCP-relaxation search.
-  The phase response shown is adjusted for the nominal delay.}
+  \emph{Ito et al.} and with the coefficients found by SOCP-relaxation search.}
 \label{fig:socp-relaxation-schurOneMAPlattice-frm-16-nbits-pass-delay}
 \end{figure}
 
@@ -18534,6 +18633,14 @@ final choice for that coefficient. The truncation of the last coefficient is
 necessarily not PCLS optimised so the final set of coefficients may not meet
 the PCLS specifications.
 
+The numbers of signed-digits allocated to the coefficients of the all-pass
+lattice filter, FIR masking filter and FIR complementary masking filter by the
+heuristic of \emph{Lim et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test_k_allocsd_digits.m}
+\verbatiminput{socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test_u_allocsd_digits.m}
+\verbatiminput{socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test_v_allocsd_digits.m}
+\end{small}
 The signed-digit filter coefficients found by the heuristic of 
 \emph{Lim et al.} are:
 \begin{small}
@@ -18643,6 +18750,11 @@ signed-digit values as the final choice for that coefficient. The truncation
 of the last coefficient is, by necessity, not PCLS optimised so the final
 set of coefficients may not meet the PCLS specifications.
 
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_directFIRhilbert_12_nbits_test_hM_allocsd_digits.m}
+\end{small}
 The 12-bit signed-digit filter coefficients found by the heuristic of 
 \emph{Ito et al.} are:
 \begin{small}
@@ -19216,6 +19328,11 @@ triangle inequalities of Equation~\ref{eqn:triangle-inequality-yyY}. The
 resulting $\boldsymbol{y}$ values were all very close to $-1$ or $1$. Attempts
 at PCLS optimisation with \emph{directFIRsymmetric\_slb} failed.
 
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Lim et al.} are:
+\begin{small}
+\verbatiminput{sdp_relaxation_directFIRsymmetric_bandpass_10_nbits_test_hM_allocsd_digits.m}
+\end{small}
 The distinct direct-form symmetric FIR bandpass filter coefficients found by
 the SDP optimisation with triangle inequalities are:
 \begin{small}
@@ -19291,6 +19408,11 @@ Section~\ref{sec:Ito-allocation-signed-digits}. The Octave function
 triangle inequalities of Equation~\ref{eqn:triangle-inequality-yyY}. The
 resulting $\boldsymbol{y}$ values were all very close to $-1$ or $1$.
 
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{sdp_relaxation_directFIRhilbert_12_nbits_test_hM_allocsd_digits.m}
+\end{small}
 The distinct direct-form Hilbert FIR filter coefficients found by
 signed-digit allocation with the heuristic of \emph{Ito et al.} are:
 \begin{small}
@@ -19366,6 +19488,11 @@ Section~\ref{sec:Ito-allocation-signed-digits}. The Octave function
 \emph{directFIRhilbert\_sdp\_mmsePW} implements SDP optimisation with the
 triangle inequalities of Equation~\ref{eqn:triangle-inequality-yyY}.
 
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test_hM_allocsd_digits.m}
+\end{small}
 The distinct direct-form Hilbert band-pass FIR filter coefficients found by
 signed-digit allocation with the heuristic of \emph{Ito et al.} are:
 \begin{small}
@@ -19461,6 +19588,12 @@ constraint algorithm implemented in the Octave function
 necessity, not PCLS optimised so the final set of coefficients may not meet
 the PCLS specifications.
 
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Lim et al.} are:
+\begin{small}
+\verbatiminput{sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_k_allocsd_digits.m}
+\verbatiminput{sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_c_allocsd_digits.m}
+\end{small}
 The filter coefficients found by a single ``global'' SDP optimisation are:
 \begin{small}
 \verbatiminput{sdp_relaxation_schurOneMlattice_bandpass_10_nbits_test_k0_sd_sdp_coef.m}
@@ -19597,6 +19730,7 @@ The initial parallel all-pass filters are those for the filter designed by the
 Octave function \emph{ellip(11,0.02,84,2*0.15)}.
 The filter coefficients are truncated to $14$-bit coefficients having $4$
 signed-digits each.
+
 The script compares the filter designed by a single call to the Octave
 function \emph{schurOneMPAlattice\_sdp\_mmse} with that designed by successively
 fixing the value of the remaining active coefficients to the SDP coefficient
@@ -19726,6 +19860,12 @@ constraint algorithm implemented in the Octave function
 necessity, not PCLS optimised so the final set of coefficients may not meet
 the PCLS specifications.
 
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_A1k_allocsd_digits.m}
+\verbatiminput{sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test_A2k_allocsd_digits.m}
+\end{small}
 The filter coefficients found when the number of signed-digits is allocated by
 the heuristic of \emph{Ito et al.} are:
 \begin{small}

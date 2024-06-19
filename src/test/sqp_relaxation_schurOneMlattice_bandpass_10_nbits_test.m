@@ -110,13 +110,29 @@ endwhile
 kc_min=kc;
 k_min=kc(1:Nk);
 c_min=kc((Nk+1):end);
+
 Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p_ones,c_min,wa,Asqd,Wa,wt,Td,Wt);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
+
 printf("ndigits_alloc=[ ");printf("%d ",ndigits_alloc);printf("]\n");
+k_allocsd_digits=int16(ndigits_alloc(1:Nk));
+c_allocsd_digits=int16(ndigits_alloc((Nk+1):end));
+
+printf("k_allocsd_digits=[ ");
+printf("%2d ",k_allocsd_digits);printf("]';\n");
+print_polynomial(k_allocsd_digits,"k_allocsd_digits", ...
+                 strcat(strf,"_k_allocsd_digits.m"),"%2d");
+
+printf("c_allocsd_digits=[ ");
+printf("%2d ",c_allocsd_digits);printf("]';\n");
+print_polynomial(c_allocsd_digits,"c_allocsd_digits", ...
+                 strcat(strf,"_c_allocsd_digits.m"),"%2d");
+
 print_polynomial(k_min,"k_min",nscale);
 print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
 print_polynomial(c_min,"c_min",nscale);
 print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),nscale);
+
 % Find the number of signed-digits and adders used
 [kc_digits,kc_adders]=SDadders(kc_min(kc0_active),nbits);
 printf("%d signed-digits used\n",kc_digits);
