@@ -3,7 +3,9 @@
 prog=tarczynski_pink_test.m
 
 depends="test/tarczynski_pink_test.m test_common.m delayz.m WISEJ.m tf2Abcd.m \
-print_polynomial.m"
+print_polynomial.m qroots.m \
+qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

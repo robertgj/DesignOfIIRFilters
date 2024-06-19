@@ -146,7 +146,7 @@ close
 
 % Plot poles and zeros
 subplot(111);
-zplane(roots(N),roots(D));
+zplane(qroots(N),qroots(D));
 title(strt);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close

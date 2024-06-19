@@ -95,7 +95,7 @@ print(strcat(strf,"_dual"),"-dpdflatex");
 close
 
 % Plot zeros
-zplane(roots(hA57));
+zplane(qroots(hA57));
 title(strt);
 grid("on");
 print(strcat(strf,"_zeros"),"-dpdflatex");

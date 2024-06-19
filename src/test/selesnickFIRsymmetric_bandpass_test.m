@@ -88,7 +88,7 @@ M=%d,deltasl=%g,deltap=%g,deltasu=%g,ftl=%g,ftu=%g,At=%s",
   close
 
   % Plot zeros
-  zplane(roots([hM;flipud(hM(1:(end-1)))]));
+  zplane(qroots([hM;flipud(hM(1:(end-1)))]));
   title(strt);
   grid("on");
   print(sprintf("%s_hM%s_zeros",strf,k),"-dpdflatex");

@@ -403,7 +403,8 @@ Figure~\ref{fig:bincoeff-test-qzsolve} repeats the example with the oct-file
 on \emph{gsl\_poly\_complex\_solve} from the GNU GSL
 library\cite{GNU_GSL}\footnote{The \emph{MPSolve} multi-precision polynomial
   solver~\cite{BiniFiorentinoRobol_mpsolve} finds the expected roots. The package
-  includes an Octave interface.}.
+  includes an Octave interface. The Matlab \emph{multroot}
+  solver~\cite{Zeng_multroot} finds the expected roots.}.
 
 \textbf{\textsc{The results shown in this report were obtained on my system
     running with a particular combination of CPU architecture, operating system,
@@ -27229,7 +27230,7 @@ with the procedure of Saram\"{a}ki.}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{saramakiFBvNewton_test_pz}}
-\caption{Pole-zero of an IIR filter with $n=6$ and $m=9$, designed
+\caption{Pole-zero plot of an IIR filter with $n=6$ and $m=9$, designed
 with the procedure of Saram\"{a}ki.}
 \label{fig:saramaki-FBv-Newton-pz}
 \end{figure}

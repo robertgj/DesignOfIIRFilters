@@ -10,4 +10,5 @@ affine_mcclellanFIRsymmetric_lowpass_test_del_p.tab
 
 affine_mcclellanFIRsymmetric_lowpass_test_FILES = \
 affine_mcclellanFIRsymmetric_lowpass_test.m test_common.m print_polynomial.m \
-faffine.m frefine.m local_max.m directFIRsymmetricA.m
+faffine.m frefine.m local_max.m directFIRsymmetricA.m qroots.m \
+qzsolve.oct

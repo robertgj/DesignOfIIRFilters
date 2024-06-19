@@ -130,7 +130,7 @@ print(strcat(strf,"_a1pass"),"-dpdflatex");
 close
 % Plot poles and zeros
 subplot(111);
-zplane(roots(Nab1),roots(Da1));
+zplane(qroots(Nab1),qroots(Da1));
 title(s);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
@@ -186,7 +186,7 @@ print(strcat(strf,"_a1sqmpass"),"-dpdflatex");
 close
 % Plot poles and zeros
 subplot(111);
-zplane(roots(Nab1sqm),roots(Da1sqm));
+zplane(qroots(Nab1sqm),qroots(Da1sqm));
 title(s);
 print(strcat(strf,"_a1sqmpz"),"-dpdflatex");
 close

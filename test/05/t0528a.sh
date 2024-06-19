@@ -2,8 +2,7 @@
 
 prog=directFIRnonsymmetric_socp_mmse_test.m
 
-depends="test/directFIRnonsymmetric_socp_mmse_test.m \
-test_common.m print_polynomial.m print_pole_zero.m \
+depends="test/directFIRnonsymmetric_socp_mmse_test.m test_common.m \
 directFIRnonsymmetricAsq.m \
 directFIRnonsymmetricEsq.m \
 directFIRnonsymmetricP.m \
@@ -14,7 +13,9 @@ directFIRnonsymmetric_slb_exchange_constraints.m \
 directFIRnonsymmetric_slb_set_empty_constraints.m \
 directFIRnonsymmetric_slb_show_constraints.m \
 directFIRnonsymmetric_slb_update_constraints.m \
-directFIRnonsymmetric_socp_mmse.m"
+directFIRnonsymmetric_socp_mmse.m \
+print_polynomial.m print_pole_zero.m qroots.m \
+qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

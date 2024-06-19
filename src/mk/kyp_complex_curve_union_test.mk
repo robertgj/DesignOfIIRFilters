@@ -22,5 +22,5 @@ kyp_complex_curve_union_test_5_eta_coef.m \
 kyp_complex_curve_union_test_5_zeta_coef.m
 
 kyp_complex_curve_union_test_FILES = \
-kyp_complex_curve_union_test.m test_common.m print_polynomial.m
-
+kyp_complex_curve_union_test.m test_common.m print_polynomial.m qroots.m \
+qzsolve.oct

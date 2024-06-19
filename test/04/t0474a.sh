@@ -2,8 +2,10 @@
 
 prog=mcclellanFIRantisymmetric_linear_differentiator_test.m
 
-depends="test/mcclellanFIRantisymmetric_linear_differentiator_test.m test_common.m \
-mcclellanFIRantisymmetric_linear_differentiator.m local_max.m print_polynomial.m"
+depends="test/mcclellanFIRantisymmetric_linear_differentiator_test.m \
+mcclellanFIRantisymmetric_linear_differentiator.m test_common.m \
+local_max.m print_polynomial.m qroots.m \
+qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

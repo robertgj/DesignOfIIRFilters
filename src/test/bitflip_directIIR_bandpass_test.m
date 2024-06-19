@@ -65,7 +65,7 @@ function [cost,n,d,svec_out] = ...
   endif
   n=svec(1:length(n0));
   d=svec((length(n0)+1):lsvec);
-  if any(abs(roots(d)) >= 1)
+  if any(abs(qroots(d)) >= 1)
     cost=inf;
     return;
   endif

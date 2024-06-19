@@ -68,7 +68,7 @@ function schurNSlattice_sqp_slb_bandpass_plot ...
   % Plot poles and zeros
   [n,d]=schurNSlattice2tf(s10,s11,s20,s00,s02,s22);
   subplot(111);
-  zplane(roots(n),roots(d));
+  zplane(qroots(n),qroots(d));
   title(strT);
   print(strcat(strF,"pz"),"-dpdflatex");
   close

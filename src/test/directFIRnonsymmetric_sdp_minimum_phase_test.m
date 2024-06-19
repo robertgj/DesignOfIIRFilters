@@ -67,8 +67,8 @@ endif
 Nw=2^16;
 [g,w,G]=direct_form_scale(g,1,Nw);
 % Sanity check on roots of complementary minimum phase filter
-if max(abs(roots(g))) >= 1
-  error("max(abs(roots(g)))(%g) >= 1",max(abs(roots(g))));
+if max(abs(qroots(g))) >= 1
+  error("max(abs(qroots(g)))(%g) >= 1",max(abs(qroots(g))));
 endif
 
 % Plot h response
@@ -80,7 +80,7 @@ grid("on");
 axis([0 0.5 -40 5])
 print(strcat(strf,"_h_response"),"-dpdflatex");
 close
-zplane(roots(h));
+zplane(qroots(h));
 title("Initial filter zeros");
 print(strcat(strf,"_h_zeros"),"-dpdflatex");
 close
@@ -94,7 +94,7 @@ grid("on");
 axis([0 0.5 -40 5])
 print(strcat(strf,"_g_response"),"-dpdflatex");
 close
-zplane(roots(g));
+zplane(qroots(g));
 title("Complementary filter zeros");
 print(strcat(strf,"_g_zeros"),"-dpdflatex");
 close

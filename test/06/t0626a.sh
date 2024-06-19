@@ -3,7 +3,8 @@
 prog=tarczynski_lowpass_differentiator_alternate_test.m
 
 depends="test/tarczynski_lowpass_differentiator_alternate_test.m test_common.m \
-delayz.m WISEJ.m tf2Abcd.m print_polynomial.m print_pole_zero.m"
+delayz.m WISEJ.m tf2Abcd.m print_polynomial.m print_pole_zero.m qroots.m \
+qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

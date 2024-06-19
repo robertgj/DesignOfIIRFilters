@@ -1,25 +1,27 @@
 % bincoeff_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("bincoeff_test.diary");
-delete("bincoeff_test.diary.tmp");
-diary bincoeff_test.diary.tmp
+strf="bincoeff_test";
+
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 n=20;
 zplane(roots(bincoeff(n,0:n)));
 grid on;
 title(sprintf("roots(bincoeff(%d,0:%d))",n,n));
-print("bincoeff_test_roots","-dpdflatex");
+print(strcat(strf,"_roots"),"-dpdflatex");
 close
 zplane(qzsolve(bincoeff(n,0:n)));
 grid on;
 axis([-1.1 -0.9 -0.1 0.1])
 title(sprintf("qzsolve(bincoeff(%d,0:%d))",n,n));
-print("bincoeff_test_qzsolve","-dpdflatex");
+print(strcat(strf,"_qzsolve"),"-dpdflatex");
 close
 
 % Done
 diary off
-movefile bincoeff_test.diary.tmp bincoeff_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

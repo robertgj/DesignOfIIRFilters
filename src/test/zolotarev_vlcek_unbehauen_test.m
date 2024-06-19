@@ -441,7 +441,7 @@ grid("on");
 print(sprintf("%s_fir_zptf",strf),"-dpdflatex");
 close
 % Show z-plane zeros
-zplane(roots(h),[]);
+zplane(qroots(h),[]);
 title(strt);
 grid("on");
 print(sprintf("%s_fir_pz",strf),"-dpdflatex");

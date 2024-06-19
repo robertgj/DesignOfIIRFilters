@@ -95,7 +95,7 @@ print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 subplot(111);
-zplane(roots(N0),roots(D0R))
+zplane(qroots(N0),qroots(D0R))
 title(s);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close

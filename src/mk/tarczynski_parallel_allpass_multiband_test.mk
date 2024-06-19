@@ -11,4 +11,5 @@ tarczynski_parallel_allpass_multiband_test.mat
 
 tarczynski_parallel_allpass_multiband_test_FILES = \
 tarczynski_parallel_allpass_multiband_test.m \
-test_common.m delayz.m print_polynomial.m WISEJ_PAB.m
+test_common.m delayz.m print_polynomial.m WISEJ_PAB.m qroots.m \
+qzsolve.oct

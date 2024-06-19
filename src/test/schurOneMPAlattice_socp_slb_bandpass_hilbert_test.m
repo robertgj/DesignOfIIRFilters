@@ -175,11 +175,11 @@ A1d=schurOneMAPlattice2tf(A1k,A1epsilon,A1p);
 A1d=A1d(:);
 A2d=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
 A2d=A2d(:);
-zplane(roots(flipud(A1d)),roots(A1d));
+zplane(qroots(flipud(A1d)),qroots(A1d));
 title("Allpass filter 1");
 print(strcat(strf,"_A1pz"),"-dpdflatex");
 close
-zplane(roots(flipud(A2d)),roots(A2d));
+zplane(qroots(flipud(A2d)),qroots(A2d));
 title("Allpass filter 2");
 print(strcat(strf,"_A2pz"),"-dpdflatex");
 close

@@ -11,4 +11,6 @@ tarczynski_parallel_allpass_lowpass_differentiator_test.mat
 
 tarczynski_parallel_allpass_lowpass_differentiator_test_FILES = \
 tarczynski_parallel_allpass_lowpass_differentiator_test.m \
-test_common.m WISEJ_PA.m delayz.m print_polynomial.m print_pole_zero.m
+test_common.m WISEJ_PA.m delayz.m print_polynomial.m print_pole_zero.m \
+qroots.m \
+qzsolve.oct

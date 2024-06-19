@@ -138,7 +138,7 @@ print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 % Plot poles and zeros
 subplot(111);
-zplane(roots(Nab1),roots(Dab1));
+zplane(qroots(Nab1),qroots(Dab1));
 title(s);
 print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
@@ -203,7 +203,7 @@ close
 
 % Pole zero plot
 subplot(111);
-zplane(roots(Nellip),roots(Dellip));
+zplane(qroots(Nellip),qroots(Dellip));
 strt=sprintf("Order %d elliptic filter pole-zero plot : \
 fap=%g,dBap=%g,fas=%g,dBas=%g",ma+mb,fap,dBap,fas,dBas);
 print(strcat(strf,"_ellippz"),"-dpdflatex");

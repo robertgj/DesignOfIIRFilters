@@ -19,7 +19,7 @@ bitflip_directIIR_bandpass_test_adders.tab
 
 bitflip_directIIR_bandpass_test_FILES = \
 bitflip_directIIR_bandpass_test.m test_common.m delayz.m print_polynomial.m \
-bitflip_bandpass_test_common.m flt2SD.m SDadders.m x2nextra.m \
-bin2SD.oct bitflip.oct bin2SPT.oct
+bitflip_bandpass_test_common.m flt2SD.m SDadders.m x2nextra.m qroots.m \
+qzsolve.oct bin2SD.oct bitflip.oct bin2SPT.oct
 
 bitflip_directIIR_bandpass_test.diary : iir_sqp_slb_bandpass_test.diary

@@ -26,4 +26,5 @@ selesnickFIRsymmetric_lowpass_test_hMd_coef.m
 selesnickFIRsymmetric_lowpass_test_FILES = \
 selesnickFIRsymmetric_lowpass_test.m test_common.m \
 selesnickFIRsymmetric_lowpass.m lagrange_interp.m print_polynomial.m \
-local_max.m local_peak.m xfr2tf.m directFIRsymmetricA.m
+local_max.m local_peak.m xfr2tf.m directFIRsymmetricA.m qroots.m \
+qzsolve.oct

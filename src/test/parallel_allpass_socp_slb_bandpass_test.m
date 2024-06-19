@@ -219,15 +219,15 @@ close
 
 % Plot poles and zeros
 subplot(111);
-zplane(roots(flipud(Da1)),roots(Da1));
+zplane(qroots(flipud(Da1)),qroots(Da1));
 title("Allpass filter A");
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
-zplane(roots(flipud(Db1)),roots(Db1));
+zplane(qroots(flipud(Db1)),qroots(Db1));
 title("Allpass filter B");
 print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
-zplane(roots(Nab1),roots(Dab1));
+zplane(qroots(Nab1),qroots(Dab1));
 title("Parallel allpass filters");
 print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close

@@ -102,7 +102,7 @@ nf=%d,M=%d,deltap=%g,deltas=%g,ft=%g,At=%s",typef,nf,M,deltap,deltas,ft,typeAt);
   close
 
   % Plot zeros
-  zplane(roots([hM;flipud(hM(1:(end-1)))]));
+  zplane(qroots([hM;flipud(hM(1:(end-1)))]));
   title(strt);
   grid("on");
   print(sprintf("%s_hM%s_zeros",strf,k),"-dpdflatex");

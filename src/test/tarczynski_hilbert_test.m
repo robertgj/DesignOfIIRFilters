@@ -119,7 +119,7 @@ D0R=[D0(1);kron(D0(2:length(D0)), [zeros(R-1,1);1])];
 % Plot results
 H0=freqz(N0,D0R,wd);
 subplot(111);
-zplane(roots(N0),roots(D0R));
+zplane(qroots(N0),qroots(D0R));
 s=sprintf("Tarczynski nN=%d,nD=%d,R=%d,td=%g IIR Hilbert filter",nN,nD,R,td);
 title(s);
 print("tarczynski_hilbert_test_pz","-dpdflatex");
@@ -159,8 +159,8 @@ print("tarczynski_hilbert_test_remez_response","-dpdflatex");
 close
 
 % Save the result
-sort(roots(N0))
-sort(roots(D0R))
+sort(qroots(N0))
+sort(qroots(D0R))
 printf("R=%d\n",R);
 print_polynomial(N0,"N0");
 print_polynomial(N0,"N0","tarczynski_hilbert_test_N0_coef.m");

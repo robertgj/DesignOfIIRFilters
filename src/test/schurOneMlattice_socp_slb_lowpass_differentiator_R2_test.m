@@ -147,7 +147,7 @@ grid("on");
 print(strcat(strf,"_initial_error_response"),"-dpdflatex");
 close
 % Pole-zero plot
-zplane(roots(conv(N0,[1,-1])),roots(D0R));
+zplane(qroots(conv(N0,[1,-1])),qroots(D0R));
 print(strcat(strf,"_initial_pz"),"-dpdflatex");
 close
 
@@ -224,7 +224,7 @@ print_polynomial(N2,"N2");
 print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
 print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
-zplane(roots(conv(N2,[1,-1])),roots(D2));
+zplane(qroots(conv(N2,[1,-1])),qroots(D2));
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
 

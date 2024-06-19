@@ -2,7 +2,7 @@ function r = qroots(p)
 % r = qroots(p);
 % qroots is a wrapper function that calls qzsolve.oct if it exists
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -22,14 +22,13 @@ function r = qroots(p)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if exist("qzsolve")==3
+  if (~any(iscomplex(p))) && (exist("qzsolve")==3)
     r=qzsolve(p);
     if ~isempty(r)
       [~,k]=sort(abs(r),'descend');
       r=r(k);
     endif
   else
-    warning("Using Octave built-in roots()!")
     r=roots(p);
   endif
 

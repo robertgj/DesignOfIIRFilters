@@ -161,7 +161,7 @@ close
 
 % Plot poles and zeros
 subplot(111);
-zplane(roots(flipud(Da0)),roots(Da0));
+zplane(qroots(flipud(Da0)),qroots(Da0));
 s=sprintf("All-pass/delay lowpass filter pole-zero : fp=%g,fs=%g,D=%d",fp,fs,D);
 title(s);
 print("tarczynski_allpass_phase_shift_test_pz","-dpdflatex");

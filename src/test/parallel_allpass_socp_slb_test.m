@@ -135,7 +135,7 @@ print(strcat(strf,"_ab0"),"-dpdflatex");
 close
 % Plot initial poles and zeros
 subplot(111);
-zplane(roots(Nab0),roots(Dab0));
+zplane(qroots(Nab0),qroots(Dab0));
 title(strt);
 print(strcat(strf,"_ab0pz"),"-dpdflatex");
 close

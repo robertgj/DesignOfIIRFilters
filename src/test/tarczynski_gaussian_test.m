@@ -101,7 +101,7 @@ print("tarczynski_gaussian_response_error",  "-dpdflatex");
 close
 % Pole-zero plot
 subplot(111);
-zplane(roots(N0),roots(D0R));
+zplane(qroots(N0),qroots(D0R));
 title(s);
 print("tarczynski_gaussian_pz",  "-dpdflatex");
 close

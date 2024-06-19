@@ -39,6 +39,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 Using qzsolve octfile
+qzsolve did catch complex coefficients
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

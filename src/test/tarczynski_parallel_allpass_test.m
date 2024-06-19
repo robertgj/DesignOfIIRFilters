@@ -143,7 +143,7 @@ for flat_delay=[false,true],
 
   % Plot poles and zeros
   subplot(111);
-  zplane(roots(N0),roots(D0));
+  zplane(qroots(N0),qroots(D0));
   title(s);
   print(sprintf("%s%s_pz",strf,flatstr),"-dpdflatex");
   close

@@ -154,13 +154,13 @@ close
 
 % Plot poles and zeros
 subplot(111);
-zplane(roots(Na1),roots(Da1));
+zplane(qroots(Na1),qroots(Da1));
 grid("on");
 title("Allpass filter A");
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 subplot(111);
-zplane(roots(Nb1),roots(Db1));
+zplane(qroots(Nb1),qroots(Db1));
 grid("on");
 title("Allpass filter B");
 print(strcat(strf,"_b1pz"),"-dpdflatex");

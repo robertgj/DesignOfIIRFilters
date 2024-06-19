@@ -22,6 +22,40 @@ r=qzsolve([1]);
 if ~isempty(r)
   error("Expected isempty(r) for [1]");
 endif
+try
+  r=qzsolve([1 2*j 1]);
+  error("qzsolve did not catch complex coefficients");
+catch
+  printf("qzsolve did catch complex coefficients\n");
+end_try_catch
+
+% Check leading(z^n) and trailing(z^1,1) zeros
+r=qzsolve([bincoeff(6,0:6),0]);
+if max(abs(r+[0;ones(6,1)])) > 1e-5
+  error("r=qzsolve([bincoeff(6,0:6),0] :  max(abs(r+[0;ones(6,1)])) > 1e-5")
+endif
+r=qzsolve([0,bincoeff(6,0:6)]);
+if max(abs(r+ones(6,1))) > 1e-5
+  error("r=qzsolve([0,bincoeff(6,0:6)] :  max(abs(r+[ones(6,1);0])) > 1e-5")
+endif
+r=qzsolve([0,bincoeff(6,0:6),0]);
+if max(abs(r+[0;ones(6,1)])) > 1e-5
+  error("r=qzsolve([0,bincoeff(6,0:6),0] :  max(abs(r+[0;ones(6,1)])) > 1e-5")
+endif
+
+% Check sorting
+p1=conv(conv([1,1-i],[1,1+i]),conv([1,-2-2*i],[1,-2+2*i]));
+r1=qroots(p1);
+rr1=roots(p1);
+if max(abs(r1-rr1))>10*eps
+  error("max(abs(r1-rr1))>10*eps");
+endif
+p2=conv(p1,conv(conv([1,-1-2*i],[1,-1+2*i]),conv([1,-3-2*i],[1,-3+2*i])));
+r2=qroots(p2);
+rr2=roots(p2);
+if max(abs(r2-rr2))>100*eps
+  error("max(abs(r2-rr2))>100*eps");
+endif
 
 % Binomial coefficients
 N=6;

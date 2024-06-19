@@ -111,7 +111,7 @@ for m=1:2,
   T=Tr*Tt;
   rl=zeros(l,length(w));
   for k=1:length(w),
-    rlk=roots(([1,0]*T)-w(k)*i*([0 1]*T));
+    rlk=qroots(([1,0]*T)-w(k)*i*([0 1]*T));
     rl(:,k)=[zeros(l-length(rlk),1);rlk];
   endfor
   if max(max(abs(imag(rl))))>tol
@@ -212,7 +212,7 @@ T=Tr*([-[1;-alpha1-alpha2;alpha1*alpha2], ...
 w=(-1:0.02:1);
 rl=zeros(l,length(w));
 for k=1:length(w),
-  rlk=roots(([1,0]*T)-w(k)*i*([0, 1]*T));
+  rlk=qroots(([1,0]*T)-w(k)*i*([0, 1]*T));
   rl(:,k)=[zeros(l-length(rlk),1);rlk];
 endfor
 if max(max(abs(imag(rl))))>eps
@@ -231,7 +231,7 @@ T=Tr*([-[1;-i*alpha1-i*alpha2;-alpha1*alpha2], ...
 w=(-1:0.02:1);
 rl=zeros(l,length(w));
 for k=1:length(w),
-  rlk=roots(([1,0]*T)-w(k)*i*([0, 1]*T));
+  rlk=qroots(([1,0]*T)-w(k)*i*([0, 1]*T));
   rl(:,k)=[zeros(l-length(rlk),1);rlk];
 endfor
 if max(max(abs(real(rl))))>eps
@@ -334,7 +334,7 @@ T=Tr*eval(Tt);
 w=(-1:0.02:1);
 rl=zeros(l,length(w));
 for k=1:length(w),
-  rlk=roots(([1,0]*T)-w(k)*i*([0 1]*T));
+  rlk=qroots(([1,0]*T)-w(k)*i*([0 1]*T));
   if max(abs(rlk)-1)>tol
     error("max(abs(rlk)-1)>tol");
   endif
@@ -415,7 +415,7 @@ T=Tr*Tt;
 w=(-1:0.02:1);
 rl=zeros(l,length(w));
 for k=1:length(w),
-  rlk=roots(([1,0]*T)-w(k)*i*([0 1]*T));
+  rlk=qroots(([1,0]*T)-w(k)*i*([0 1]*T));
   if max(abs(rlk)-1)>tol
     error("max(abs(rlk)-1)>tol");
   endif
@@ -505,7 +505,7 @@ T=Tr*Tt;
 w=(-1:0.02:1);
 rl=zeros(l,length(w));
 for k=1:length(w),
-  rlk=roots(([1,0]*T)-w(k)*i*([0 1]*T));
+  rlk=qroots(([1,0]*T)-w(k)*i*([0 1]*T));
   if max(abs(rlk)-1)>tol
     error("max(abs(rlk)-1)>tol");
   endif

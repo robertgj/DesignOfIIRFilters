@@ -78,7 +78,7 @@ print("tarczynski_pink_test_response",  "-dpdflatex");
 close
 
 subplot(111);
-zplane(roots(N0),roots(D0R));
+zplane(qroots(N0),qroots(D0R));
 title(s);
 print("tarczynski_pink_test_pz",  "-dpdflatex");
 close

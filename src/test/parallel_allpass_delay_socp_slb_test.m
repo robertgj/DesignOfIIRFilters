@@ -90,7 +90,7 @@ print(strcat(strf,"_a0"),"-dpdflatex");
 close
 % Plot initial allpass poles and zeros
 subplot(111);
-zplane(roots(flipud(Da0)),roots(Da0));
+zplane(qroots(flipud(Da0)),qroots(Da0));
 title(strt);
 print(strcat(strf,"_a0pz"),"-dpdflatex");
 close
@@ -145,7 +145,7 @@ close
 
 % Plot filter poles and zeros
 subplot(111);
-zplane(roots(Na1),roots(Da1));
+zplane(qroots(Na1),qroots(Da1));
 title(strt);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close

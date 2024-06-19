@@ -98,7 +98,7 @@ print("tarczynski_bandpass_test_response","-dpdflatex");
 close
 
 subplot(111);
-zplane(roots(N),roots(DR))
+zplane(qroots(N),qroots(DR))
 title(s);
 print("tarczynski_bandpass_test_pz","-dpdflatex");
 close

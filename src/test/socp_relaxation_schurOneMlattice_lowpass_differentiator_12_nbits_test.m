@@ -329,7 +329,7 @@ close
 % Plot poles and zeros
 [N_min,D_min]=schurOneMlattice2tf(k_min,epsilon0,p0_ones,c_min);
 subplot(111);
-zplane(roots(conv([1;-1],N_min(:))),roots(D_min(:)));
+zplane(qroots(conv([1;-1],N_min(:))),qroots(D_min(:)));
 title(strt);
 print(strcat(strf,"_kc_min_pz"),"-dpdflatex");
 close

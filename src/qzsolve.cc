@@ -537,34 +537,42 @@ static __float128 qgsl_hypot (const __float128 x, const __float128 y)
 int
 main (void)
 {
-  int i;
-  int width = 36;
-  char bufr[128];
-  char bufi[128];
-  char bufm[128];
-  /* coefficients of P(x) =  (1+x)^20  */
-  int N=20;
-  __float128 a[21] = {         1,     20,    190,     1140,     4845,
-                           15504,  38760,  77520,   125970,   167960,
-                          184756,
-                          167960, 125970,  77520,    38760,    15504,
-                            4845,   1140,    190,       20,        1};
-  __float128 z[40];
-
-  qgsl_poly_complex_workspace * w 
-      = qgsl_poly_complex_workspace_alloc (N+1);
+  size_t N1=20;
+  __float128 pt1[N1+1] = {      1,     20,    190,     1140,     4845,
+                            15504,  38760,  77520,   125970,   167960,
+                           184756,
+                           167960, 125970,  77520,    38760,    15504,
+                             4845,   1140,    190,       20,        1 }; 
+  size_t N2=5;
+  __float128 pt2[N2+1]={  1.0000, -3.6247,  5.4033, -4.1093,  1.5890, -0.2491 };
   
-  qgsl_poly_complex_solve (a, N+1, w, z);
-
-  qgsl_poly_complex_workspace_free (w);
-
-  for (i = 0; i < N; i++)
+  const size_t num_tests=2;
+  struct ptest {size_t N; __float128 *p;} pt[num_tests] = {{N1,pt1}, {N2,pt2}};
+  
+  for (size_t n=0;n<num_tests;n++)
     {
-      quadmath_snprintf (bufr, sizeof(bufr),"%+-#*.30Qe",width, z[2*i]);
-      quadmath_snprintf (bufi, sizeof(bufi),"%+-#*.30Qe",width, z[2*i+1]);
-      __float128 m = qgsl_hypot(z[2*i],z[2*i+1]);
-      quadmath_snprintf (bufm, sizeof(bufm),"%+-#*.30Qe",width, m);
-      printf ("z%d=%s %s \n(%s)\n", i, bufr, bufi, bufm);
+      __float128 z[2*(pt[n].N)];
+
+      qgsl_poly_complex_workspace * w 
+        = qgsl_poly_complex_workspace_alloc ((pt[n].N)+1);
+  
+      qgsl_poly_complex_solve (pt[n].p, (pt[n].N)+1, w, z);
+
+      qgsl_poly_complex_workspace_free (w);
+
+      for (size_t i = 0; i < pt[n].N; i++)
+        {
+          size_t width=36;
+          char bufr[128];
+          char bufi[128];
+          char bufm[128];
+
+          quadmath_snprintf (bufr, sizeof(bufr),"%+-#*.30Qe",width, z[2*i]);
+          quadmath_snprintf (bufi, sizeof(bufi),"%+-#*.30Qe",width, z[2*i+1]);
+          __float128 m = qgsl_hypot(z[2*i],z[2*i+1]);
+          quadmath_snprintf (bufm, sizeof(bufm),"%+-#*.30Qe",width, m);
+          printf ("z%d=%s %s \n(%s)\n", i, bufr, bufi, bufm);
+        }
     }
 
   return 0;
@@ -587,12 +595,16 @@ DEFUN_DLD(qzsolve, args, nargout, "r=qzsolve(p)")
     {
       print_usage();
     }
+  if (args(0).is_complex_scalar() || args(0).is_complex_matrix())
+    {
+      error("Expected real argument!");
+      return octave_value();
+    }
 
   // Input arguments
   ColumnVector p = args(0).column_vector_value();
-  octave_idx_type N=p.numel();
   
-  if (N<=1)
+  if (p.numel()<=1)
     {
       Matrix r;
       octave_value_list retval(1);
@@ -600,12 +612,32 @@ DEFUN_DLD(qzsolve, args, nargout, "r=qzsolve(p)")
       return retval;
     }
 
-  // Initialise arguments
+  // Count the leading zero coefficients 
+  octave_idx_type num_leading_zeros=0;
+  for(auto row=0;row<p.numel();row++)
+    {
+      if (p(row) != 0)
+        {
+          break;
+        }
+      num_leading_zeros++;
+    }
+  if (num_leading_zeros == p.numel())
+    {
+      octave_value_list retval(1);
+      retval(0)=0;
+      return retval;      
+    }
+
+  // Initialise arguments. 
+  octave_idx_type N=p.numel()-num_leading_zeros;
   __float128 a[N];
   for(auto row=0;row<N;row++)
     {
-      a[row]=p(N-1-row);
+      a[row]=p(p.numel()-1-row);
     }
+
+  // Call the solver. For a length N polynomial I expect N-1 zeros.
   __float128 z[2*(N-1)];
   qgsl_poly_complex_workspace * w = qgsl_poly_complex_workspace_alloc (N);
   int res=qgsl_poly_complex_solve (a, N, w, z);

@@ -4,7 +4,10 @@ prog=tarczynski_parallel_allpass_bandpass_hilbert_test.m
 depends="test/tarczynski_parallel_allpass_bandpass_hilbert_test.m \
 ../tarczynski_parallel_allpass_bandpass_test_Da0_coef.m \
 ../tarczynski_parallel_allpass_bandpass_test_Db0_coef.m \
-test_common.m WISEJ_PAB.m delayz.m print_polynomial.m print_pole_zero.m"
+test_common.m WISEJ_PAB.m delayz.m print_polynomial.m print_pole_zero.m \
+qroots.m \
+qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

@@ -67,7 +67,7 @@ function schurOneMlattice_sqp_slb_lowpass_plot ...
   % Plot poles and zeros
   [n,d]=schurOneMlattice2tf(k,epsilon,p,c);
   subplot(111);
-  zplane(roots(n),roots(d));
+  zplane(qroots(n),qroots(d));
   title(strT);
   print(strcat(strF,"pz"),"-dpdflatex");
   close

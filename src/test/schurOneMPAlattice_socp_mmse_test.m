@@ -154,19 +154,19 @@ close
 [N12,D12]=schurOneMPAlattice2tf(A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0, ...
                                 difference);
 subplot(111);
-zplane(roots(N12),roots(D12));
+zplane(qroots(N12),qroots(D12));
 title(s);
 print(strcat(strf,"_A12pz"),"-dpdflatex");
 close
 A1d=schurOneMAPlattice2tf(A1k,A1epsilon0,A1p0);
 subplot(111);
-zplane(roots(flipud(A1d(:))),roots(A1d(:)));
+zplane(qroots(flipud(A1d(:))),qroots(A1d(:)));
 title(s);
 print(strcat(strf,"_A1pz"),"-dpdflatex");
 close
 subplot(111);
 A2d=schurOneMAPlattice2tf(A2k,A2epsilon0,A2p0);
-zplane(roots(flipud(A2d(:))),roots(A2d(:)));
+zplane(qroots(flipud(A2d(:))),qroots(A2d(:)));
 title(s);
 print(strcat(strf,"_A2pz"),"-dpdflatex");
 close

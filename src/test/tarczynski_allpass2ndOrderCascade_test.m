@@ -308,18 +308,18 @@ ma=%d,mb=%d,fap=%g,fas=%g",ma,mb,fap,fas);
   print(sprintf("%s%s_phase_error",strf,flatstr),"-dpdflatex");
   close
   % Plot poles and zeros
-  zplane(roots(Na0),roots(Da0))
+  zplane(qroots(Na0),qroots(Da0))
   s=sprintf("All-pass 2nd order cascade A : ma=%d",ma);
   title(s);
   print(sprintf("%s%s_Apz",strf,flatstr),"-dpdflatex");
   close
-  zplane(roots(Nb0),roots(Db0))
+  zplane(qroots(Nb0),qroots(Db0))
   s=sprintf("All-pass 2nd order cascade B : mb=%d",mb);
   title(s);
   print(sprintf("%s%s_Bpz",strf,flatstr),"-dpdflatex");
   close
   subplot(111);
-  zplane(roots(N0),roots(D0))
+  zplane(qroots(N0),qroots(D0))
   title(s);
   print(sprintf("%s%s_pz",strf,flatstr),"-dpdflatex");
   close

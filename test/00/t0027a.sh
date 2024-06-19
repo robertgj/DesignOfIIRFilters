@@ -2,7 +2,10 @@
 
 prog=tarczynski_hilbert_test.m
 
-depends="test/tarczynski_hilbert_test.m test_common.m print_polynomial.m"
+depends="test/tarczynski_hilbert_test.m test_common.m \
+print_polynomial.m qroots.m \
+qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

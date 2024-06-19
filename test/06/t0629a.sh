@@ -2,7 +2,9 @@
 
 prog=tarczynski_parallel_allpass_lowpass_differentiator_test.m
 depends="test/tarczynski_parallel_allpass_lowpass_differentiator_test.m \
-test_common.m WISEJ_PA.m delayz.m print_polynomial.m print_pole_zero.m"
+test_common.m WISEJ_PA.m delayz.m print_polynomial.m print_pole_zero.m qroots.m \
+qzsolve.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

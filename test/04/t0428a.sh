@@ -10,7 +10,8 @@ jacobi_theta3.m jacobi_theta3k.m jacobi_theta4.m jacobi_theta4k.m \
 jacobi_theta2p.m jacobi_theta4p.m jacobi_theta4kp.m \
 carlson_RJ.m carlson_RD.m carlson_RC.m carlson_RF.m \
 chebyshevP.m chebyshevT.m chebyshevP_backward_recurrence.m \
-chebyshevT_backward_recurrence.m chebyshevT_expand.m"
+chebyshevT_backward_recurrence.m chebyshevT_expand.m qroots.m \
+qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

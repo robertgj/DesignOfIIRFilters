@@ -132,7 +132,7 @@ for tarczynski_parallel_allpass_delay_flat_delay=[true,false]
 
   % Plot poles and zeros
   subplot(111);
-  zplane(roots(Na0),roots(Da0));
+  zplane(qroots(Na0),qroots(Da0));
   title(s);
   print(strcat(strn,"_pz"),"-dpdflatex");
   close

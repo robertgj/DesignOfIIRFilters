@@ -223,11 +223,11 @@ A1d=schurNSAPlattice2tf(A1s20,A1s00,A1s02,A1s22);
 A1d=A1d(:);
 A2d=schurNSAPlattice2tf(A2s20,A2s00,A2s02,A2s22);
 A2d=A2d(:);
-zplane(roots(flipud(A1d)),roots(A1d));
+zplane(qroots(flipud(A1d)),qroots(A1d));
 title("Allpass filter 1");
 print(strcat(strf,"_A1pz"),"-dpdflatex");
 close
-zplane(roots(flipud(A2d)),roots(A2d));
+zplane(qroots(flipud(A2d)),qroots(A2d));
 title("Allpass filter 2");
 print(strcat(strf,"_A2pz"),"-dpdflatex");
 close

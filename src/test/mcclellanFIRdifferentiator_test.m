@@ -90,7 +90,7 @@ print(strcat(strf,"_dual"),"-dpdflatex");
 close
 
 % Plot zeros
-zplane(roots(b));
+zplane(qroots(b));
 title(strt);
 grid("on");
 print(strcat(strf,"_zeros"),"-dpdflatex");

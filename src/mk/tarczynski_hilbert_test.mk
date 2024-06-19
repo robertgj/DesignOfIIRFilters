@@ -9,4 +9,5 @@ tarczynski_hilbert_test_N0_coef.m \
 tarczynski_hilbert_test.mat
 
 tarczynski_hilbert_test_FILES = \
-tarczynski_hilbert_test.m test_common.m print_polynomial.m
+tarczynski_hilbert_test.m test_common.m print_polynomial.m qroots.m \
+qzsolve.oct

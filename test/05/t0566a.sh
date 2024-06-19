@@ -2,7 +2,8 @@
 
 prog=kyp_complex_curve_union_test.m
 
-depends="test/kyp_complex_curve_union_test.m test_common.m print_polynomial.m"
+depends="test/kyp_complex_curve_union_test.m test_common.m print_polynomial.m \
+qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

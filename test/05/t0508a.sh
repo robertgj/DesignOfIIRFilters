@@ -2,7 +2,8 @@
 
 prog=directFIRnonsymmetric_sdp_minimum_phase_test.m
 depends="test/directFIRnonsymmetric_sdp_minimum_phase_test.m test_common.m \
-print_polynomial.m direct_form_scale.m"
+print_polynomial.m direct_form_scale.m qroots.m \
+qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`
