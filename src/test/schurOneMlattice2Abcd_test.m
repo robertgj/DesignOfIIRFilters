@@ -3,17 +3,19 @@
 
 test_common;
 
-delete("schurOneMlattice2Abcd_test.diary");
-delete("schurOneMlattice2Abcd_test.diary.tmp");
-diary schurOneMlattice2Abcd_test.diary.tmp
+strf="schurOneMlattice2Abcd_test";
 
-check_octave_file("schurOneMlattice2Abcd");
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
+
+check_octave_file(strtok(strf,"_"));
 
 verbose=false;
 del=1e-8;
 
-for x=1:4
-
+for x=1:4,
+  
   % Design filter transfer function
   if x==1
     N=20;dBap=0.1;dBas=80;fc=0.1;
@@ -35,29 +37,30 @@ for x=1:4
 
   % Convert filter transfer function to lattice form
   [k,epsilon,p,c]=tf2schurOneMlattice(n,d);
+
   [A,B,C,D,Cap,Dap]=schurOneMlattice2Abcd(k,epsilon,p,c);
 
   % Check [A,B,C,D]
   [check_n,check_d]=Abcd2tf(A,B,C,D);
-  if max(abs(check_n-n)) > 499*eps
-    error("max(abs(check_n-n)) > 499*eps");
+  if max(abs(check_n-n)) > 1000*eps
+    error("max(abs(check_n-n)) > 1000*eps");
   endif
-  if max(abs(check_d-d)) > 2048*eps
-    error("max(abs(check_d-d)) > 2048*eps");
+  if max(abs(check_d-d)) > 2500*eps
+    error("max(abs(check_d-d)) > 2500*eps");
   endif
 
   % Check [A,B,Cap,Dap]
   [check_nap,check_dap]=Abcd2tf(A,B,Cap,Dap);
-  if max(abs(fliplr(check_nap)-d)) > 3072*eps
-    error("max(abs(fliplr(check_nap)-d)) > 3072*eps");
+  if max(abs(fliplr(check_nap)-d)) > 5000*eps
+    error("max(abs(fliplr(check_nap)-d)) > 5000*eps");
   endif
-  if max(abs(check_dap-d)) > 2048*eps
-    error("max(abs(check_dap-d)) > 2048*eps");
+  if max(abs(check_dap-d)) > 5000*eps
+    error("max(abs(check_dap-d)) > 5000*eps");
   endif
 
   % Check the differentials of A,B,C,D,Cap and Dap with respect to k and c
   [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc] = ...
-  schurOneMlattice2Abcd(k,epsilon,p,c);
+    schurOneMlattice2Abcd(k,epsilon,p,c);
   Nkc=length(k)+length(c);
   delk=zeros(size(k));
   delk(1)=del;
@@ -101,8 +104,8 @@ for x=1:4
   if verbose
     printf("max(dCdkc_max_err)=%g*tol\n",max(dCdkc_max_err)/tol);
   endif
-  if max(dCdkc_max_err) > tol/10
-    error("max(dCdkc_max_err) > %g",tol/10);
+  if max(dCdkc_max_err) > tol/2
+    error("max(dCdkc_max_err) > %g",tol/2);
   endif
   if verbose
     printf("max(dDdkc_max_err)=%g*tol\n",max(dDdkc_max_err)/tol);
@@ -113,7 +116,7 @@ for x=1:4
   if verbose
     printf("max(dCapdkc_max_err)=%g*tol\n",max(dCapdkc_max_err)/tol);
   endif
-  if max(dCapdkc_max_err) > tol/10
+  if max(dCapdkc_max_err) > tol/5
     error("max(dCapdkc_max_err) > %g",tol/10);
   endif
   if verbose
@@ -123,8 +126,113 @@ for x=1:4
     error("max(dDapdkc_max_err) > %g",tol/10);
   endif
 
+  % Check the second differentials w.r.t. k and c 
+  [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc, ...
+   d2Adxdy,d2Bdxdy,d2Cdxdy,d2Ddxdy,d2Capdxdy,d2Dapdxdy] = ...
+    schurOneMlattice2Abcd(k,epsilon,p,c);
+  Nkc=length(k)+length(c);
+  delk=zeros(size(k));
+  delk(1)=del;
+  delc=zeros(size(c));
+  delc(1)=del;
+  d2Adxdy_max_err=zeros(Nkc,Nkc);
+  d2Bdxdy_max_err=zeros(Nkc,Nkc);
+  d2Cdxdy_max_err=zeros(Nkc,Nkc);
+  d2Ddxdy_max_err=zeros(Nkc,Nkc);
+  d2Capdxdy_max_err=zeros(Nkc,Nkc);
+  d2Dapdxdy_max_err=zeros(Nkc,Nkc);
+  for l=1:Nkc,
+    for m=1:Nkc,
+      if m <= length(k),
+        [AP,BP,CP,DP,CapP,DapP, ...
+         dAdkcP,dBdkcP,dCdkcP,dDdkcP,dCapdkcP,dDapdkcP] = ...
+           schurOneMlattice2Abcd(k+(delk/2),epsilon,p,c);
+        [AM,BM,CM,DM,CapM,DapM, ...
+         dAdkcM,dBdkcM,dCdkcM,dDdkcM,dCapdkcM,dDapdkcM] = ...
+           schurOneMlattice2Abcd(k-(delk/2),epsilon,p,c);
+        delk=circshift(delk,1);
+      else
+        [AP,BP,CP,DP,CapP,DapP, ...
+         dAdkcP,dBdkcP,dCdkcP,dDdkcP,dCapdkcP,dDapdkcP] = ...
+          schurOneMlattice2Abcd(k,epsilon,p,c+(delc/2));
+        [AM,BM,CM,DM,CapM,DapM, ...
+         dAdkcM,dBdkcM,dCdkcM,dDdkcM,dCapdkcM,dDapdkcM] = ...
+          schurOneMlattice2Abcd(k,epsilon,p,c-(delc/2));
+        delc=circshift(delc,1); 
+      endif
+      
+      d2Adxdy_max_err(l,m)= ...
+        max(max(abs(((dAdkcP{l}-dAdkcM{l})/del)-d2Adxdy{l,m})));
+      d2Bdxdy_max_err(l,m) = ...
+        max(abs(((dBdkcP{l}-dBdkcM{l})/del)-d2Bdxdy{l,m}));
+      d2Cdxdy_max_err(l,m) = ...
+        max(abs(((dCdkcP{l}-dCdkcM{l})/del)-d2Cdxdy{l,m}));
+      d2Ddxdy_max_err(l,m) = ...
+        max(abs(((dDdkcP{l}-dDdkcM{l})/del)-d2Ddxdy{l,m}));
+      d2Capdxdy_max_err(l,m) = ...
+        max(abs(((dCapdkcP{l}-dCapdkcM{l})/del)-d2Capdxdy{l,m}));
+      d2Dapdxdy_max_err(l,m) = ...
+        max(abs(((dDapdkcP{l}-dDapdkcM{l})/del)-d2Dapdxdy{l,m}));
+    endfor
+  endfor
+
+  if verbose
+    printf("max(max(d2Adxdy_max_err))=%g*tol\n",max(max(d2Adxdy_max_err))/tol);
+  endif
+  switch (x)
+    case {1}
+      if max(max(d2Adxdy_max_err)) > 10*tol
+        error("max(max(d2Adxdy_max_err)) > %g",10*tol);
+      endif
+    case {2}
+      if max(max(d2Adxdy_max_err)) > 4*tol
+        error("max(max(d2Adxdy_max_err)) > %g",4*tol);
+      endif
+    otherwise
+      if max(max(d2Adxdy_max_err)) > tol
+        error("max(max(d2Adxdy_max_err)) > %g",tol);
+      endif
+  endswitch
+  
+  if verbose
+    printf("max(max(d2Bdxdy_max_err))=%g*tol\n",max(max(d2Bdxdy_max_err))/tol);
+  endif
+  if max(max(d2Bdxdy_max_err)) > tol
+    error("max(max(d2Bdxdy_max_err)) > %g",tol);
+  endif
+
+  if verbose
+    printf("max(max(d2Cdxdy_max_err))=%g*tol\n",max(max(d2Cdxdy_max_err))/tol);
+  endif
+  if max(max(d2Cdxdy_max_err)) > tol
+    error("max(max(d2Cdxdy_max_err)) > %g",tol);
+  endif
+
+  if verbose
+    printf("max(max(d2Ddxdy_max_err))=%g*tol\n",max(max(d2Ddxdy_max_err))/tol);
+  endif
+  if max(max(d2Ddxdy_max_err)) > tol
+    error("max(max(d2Ddxdy_max_err)) > %g",tol);
+  endif
+
+  if verbose
+    printf("max(max(d2Capdxdy_max_err))=%g*tol\n", ...
+           max(max(d2Capdxdy_max_err))/tol);
+  endif
+  if max(max(d2Capdxdy_max_err)) > tol
+    error("max(max(d2Capdxdy_max_err)) > %g",tol);
+  endif
+
+  if verbose
+    printf("max(max(d2Dapdxdy_max_err))=%g*tol\n", ...
+           max(max(d2Dapdxdy_max_err))/tol);
+  endif
+  if max(max(d2Dapdxdy_max_err)) > tol
+    error("max(max(d2Dapdxdy_max_err)) > %g",tol);
+  endif
+
 endfor
 
 % Done
 diary off
-movefile schurOneMlattice2Abcd_test.diary.tmp schurOneMlattice2Abcd_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

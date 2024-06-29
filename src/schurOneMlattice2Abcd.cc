@@ -1,6 +1,7 @@
 // schurOneMlattice2Abcd.cc
 //
-// [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc] = ...
+// [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc, ...
+//  d2Adxdy,d2Bdxdy,d2Cdxdy,d2Ddxdy,d2Capdxdy,d2Dapdxdy] = ...
 //   schurOneMlattice2Abcd(k,epsilon,p,c)
 // Find the state variable matrixes and gradients for a Schur one-multiplier
 // lattice filter.
@@ -14,7 +15,9 @@
 //  Cap,Dap                 - corresponding matrixes for the all-pass filter
 //  dAdkc,dBdkc,dCdkc,dDdkc - cell vectors of the differentials of A, B, C and D
 //  dCapdk,dDapdk           - cell vectors of the differentials of Cap and Dap
-
+//  d2Adxdy,d2Bdxdy,d2Cdxdy,d2Ddxdy - cell vectors of the second differentials
+//                                    of A, B, C and w.r.t k and c
+//  d2Capdxdy,d2Dapdxdy - cell vectors of the second differentials of Cap and Dap
 
 // Copyright (C) 2017-2024 Robert G. Jenssen
 //
@@ -37,12 +40,13 @@
 #include <octave/parse.h>
 
 DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
-"[A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc] = ...\n\
-  schurOneMlattice2Abcd(k,epsilon,p,c)")
+"[A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc,...\n\
+  d2Adxdy,d2Bdxdy,d2Cdxdy,d2Ddxdy,d2Capdxdy,d2Dapdxdy] = ...\n\
+    schurOneMlattice2Abcd(k,epsilon,p,c)")
 {
   // Sanity checks
   octave_idx_type nargin=args.length();
-  if ((nargin<1) || (nargin>4) || (nargout>12))
+  if ((nargin<1) || (nargin>4) || (nargout>18))
     {
       print_usage();
       return octave_value_list();
@@ -361,7 +365,7 @@ DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
       dDapdkc(l+Nk)=dDapdkc_tmp;      
     }
   
-  // Done
+  // Done ?
   if (nargout >= 7)
     {
       retval(6)=dAdkc;
@@ -386,5 +390,118 @@ DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
     {
       retval(11)=dDapdkc;
     }
+  if (nargout <= 12)
+    {
+      return retval;
+    }
+
+  // Declare second-differential cell arrays
+  Cell d2Adxdy(Nkc,Nkc);
+  Cell d2Bdxdy(Nkc,Nkc);
+  Cell d2Cdxdy(Nkc,Nkc);
+  Cell d2Ddxdy(Nkc,Nkc);
+  Cell d2Capdxdy(Nkc,Nkc);
+  Cell d2Dapdxdy(Nkc,Nkc);
+ 
+  // Declare temporaries and initialise the cell arrays to zero
+  Matrix d2Adxdy_tmp(Nk,Nk);
+  ColumnVector d2Bdxdy_tmp(Nk);
+  RowVector d2Cdxdy_tmp(Nk);
+  double d2Ddxdy_tmp;
+  RowVector d2Capdxdy_tmp(Nk);
+  double d2Dapdxdy_tmp;
+  memset(d2Adxdy_tmp.fortran_vec(),0,d2Adxdy_tmp.byte_size());
+  memset(d2Bdxdy_tmp.fortran_vec(),0,d2Bdxdy_tmp.byte_size());
+  memset(d2Cdxdy_tmp.fortran_vec(),0,d2Cdxdy_tmp.byte_size());
+  d2Ddxdy_tmp=0;
+  memset(d2Capdxdy_tmp.fortran_vec(),0,d2Capdxdy_tmp.byte_size());
+  d2Dapdxdy_tmp=0;
+  for(octave_idx_type l=0;l<Nkc;l++)
+    {
+      for(octave_idx_type m=0;m<Nkc;m++)
+        {
+          d2Adxdy(l,m) = d2Adxdy_tmp;
+          d2Bdxdy(l,m) = d2Bdxdy_tmp;
+          d2Cdxdy(l,m) = d2Cdxdy_tmp;
+          d2Ddxdy(l,m) = d2Ddxdy_tmp;
+          d2Capdxdy(l,m) = d2Capdxdy_tmp;
+          d2Dapdxdy(l,m) = d2Dapdxdy_tmp;
+        }
+    }
+
+  // Calculate the second-differentials wrt all-pass k coefficients
+  for(octave_idx_type l=0;l<Nk;l++)
+    {
+      for(octave_idx_type m=(l+1);m<Nk;m++)
+        {
+          Matrix d2ABCapDapdxdy_tmp(eyeNkp1);
+
+          for(octave_idx_type n=0;n<l;n++)
+            {
+              d2ABCapDapdxdy_tmp=ABCapDapm(n).matrix_value()*d2ABCapDapdxdy_tmp;
+            }
+          
+          d2ABCapDapdxdy_tmp=dABCapDapmdk(l).matrix_value()*d2ABCapDapdxdy_tmp;
+
+          for(octave_idx_type n=(l+1);n<m;n++)
+            {
+              d2ABCapDapdxdy_tmp=ABCapDapm(n).matrix_value()*d2ABCapDapdxdy_tmp;
+            }
+
+          d2ABCapDapdxdy_tmp=dABCapDapmdk(m).matrix_value()*d2ABCapDapdxdy_tmp;
+
+          for(octave_idx_type n=(m+1);n<Nk;n++)
+            { 
+              d2ABCapDapdxdy_tmp=ABCapDapm(n).matrix_value()*d2ABCapDapdxdy_tmp;
+            }
+
+          // Copy to cell array outputs
+          for (octave_idx_type u=0;u<Nk;u++)
+            {
+              for (octave_idx_type v=0;v<Nk;v++)
+                {
+                  d2Adxdy_tmp(u,v)=d2ABCapDapdxdy_tmp(u,v);
+                }
+            }
+          d2Adxdy_tmp=invT*d2Adxdy_tmp*T;
+          d2Adxdy(l,m)=d2Adxdy_tmp;
+          d2Adxdy(m,l)=d2Adxdy(l,m);
+      
+          for (octave_idx_type u=0;u<Nk;u++)
+            {
+              d2Capdxdy_tmp(u)=d2ABCapDapdxdy_tmp(Nk,u);
+            }
+          d2Capdxdy_tmp=d2Capdxdy_tmp*T;
+          d2Capdxdy(l,m)=d2Capdxdy_tmp;
+          d2Capdxdy(m,l)=d2Capdxdy(l,m);
+        }
+    }  
+
+  // Done ?
+  if (nargout >= 13)
+    {
+      retval(12)=d2Adxdy;
+    }
+  if (nargout >= 14)
+    {
+      retval(13)=d2Bdxdy;
+    }
+  if (nargout >= 15)
+    {
+      retval(14)=d2Cdxdy;
+    }
+  if (nargout >= 16)
+    {
+      retval(15)=d2Ddxdy;
+    }
+  if (nargout >= 17)
+    {
+      retval(16)=d2Capdxdy;
+    }
+  if (nargout >= 18)
+    {
+      retval(17)=d2Dapdxdy;
+    }
+
   return retval;
 }
