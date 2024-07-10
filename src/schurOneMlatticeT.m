@@ -64,16 +64,16 @@ function [T,gradT,diagHessT]=schurOneMlatticeT(w,k,epsilon,p,c)
     [H,dHdw]=schurOneMlattice2H(w,A,B,C,D);
     T=H2T(H,dHdw);
   elseif nargout==2
-    [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc]=...
+    [A,B,C,D,~,~,dAdkc,dBdkc,dCdkc,dDdkc]=...
       schurOneMlattice2Abcd(k,epsilon,p,c);
     [H,dHdw,dHdkc,d2Hdwdkc]=...
       schurOneMlattice2H(w,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc);
     [T,gradT]=H2T(H,dHdw,dHdkc,d2Hdwdkc);
   elseif nargout==3
-    [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc]=...
+    [A,B,C,D,~,~,dAdkc,dBdkc,dCdkc,dDdkc,~,~,d2Adkc2]=...
       schurOneMlattice2Abcd(k,epsilon,p,c);
     [H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2,diagd3Hdwdkc2]=...
-      schurOneMlattice2H(w,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc);
+      schurOneMlattice2H(w,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc,d2Adkc2);
     [T,gradT,diagHessT]=H2T(H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2,diagd3Hdwdkc2);
   endif    
 

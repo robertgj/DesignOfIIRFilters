@@ -15,7 +15,7 @@ verbose=false;
 del=1e-8;
 
 for x=1:4,
-  
+ 
   % Design filter transfer function
   if x==1
     N=20;dBap=0.1;dBas=80;fc=0.1;
@@ -128,107 +128,107 @@ for x=1:4,
 
   % Check the second differentials w.r.t. k and c 
   [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc, ...
-   d2Adxdy,d2Bdxdy,d2Cdxdy,d2Ddxdy,d2Capdxdy,d2Dapdxdy] = ...
+   d2Adydx,d2Bdydx,d2Cdydx,d2Ddydx,d2Capdydx,d2Dapdydx] = ...
     schurOneMlattice2Abcd(k,epsilon,p,c);
   Nkc=length(k)+length(c);
   delk=zeros(size(k));
-  delk(1)=del;
+  delk(1)=del/2;
   delc=zeros(size(c));
-  delc(1)=del;
-  d2Adxdy_max_err=zeros(Nkc,Nkc);
-  d2Bdxdy_max_err=zeros(Nkc,Nkc);
-  d2Cdxdy_max_err=zeros(Nkc,Nkc);
-  d2Ddxdy_max_err=zeros(Nkc,Nkc);
-  d2Capdxdy_max_err=zeros(Nkc,Nkc);
-  d2Dapdxdy_max_err=zeros(Nkc,Nkc);
+  delc(1)=del/2;
+  d2Adydx_max_err=zeros(Nkc,Nkc);
+  d2Bdydx_max_err=zeros(Nkc,Nkc);
+  d2Cdydx_max_err=zeros(Nkc,Nkc);
+  d2Ddydx_max_err=zeros(Nkc,Nkc);
+  d2Capdydx_max_err=zeros(Nkc,Nkc);
+  d2Dapdydx_max_err=zeros(Nkc,Nkc);
   for l=1:Nkc,
     for m=1:Nkc,
-      if m <= length(k),
+      if (m <= length(k)) && (l <= length(k)),
         [AP,BP,CP,DP,CapP,DapP, ...
          dAdkcP,dBdkcP,dCdkcP,dDdkcP,dCapdkcP,dDapdkcP] = ...
-           schurOneMlattice2Abcd(k+(delk/2),epsilon,p,c);
+           schurOneMlattice2Abcd(k+delk,epsilon,p,c);
         [AM,BM,CM,DM,CapM,DapM, ...
          dAdkcM,dBdkcM,dCdkcM,dDdkcM,dCapdkcM,dDapdkcM] = ...
-           schurOneMlattice2Abcd(k-(delk/2),epsilon,p,c);
+           schurOneMlattice2Abcd(k-delk,epsilon,p,c);
         delk=circshift(delk,1);
       else
         [AP,BP,CP,DP,CapP,DapP, ...
          dAdkcP,dBdkcP,dCdkcP,dDdkcP,dCapdkcP,dDapdkcP] = ...
-          schurOneMlattice2Abcd(k,epsilon,p,c+(delc/2));
+          schurOneMlattice2Abcd(k,epsilon,p,c+delc);
         [AM,BM,CM,DM,CapM,DapM, ...
          dAdkcM,dBdkcM,dCdkcM,dDdkcM,dCapdkcM,dDapdkcM] = ...
-          schurOneMlattice2Abcd(k,epsilon,p,c-(delc/2));
+          schurOneMlattice2Abcd(k,epsilon,p,c-delc);
         delc=circshift(delc,1); 
       endif
       
-      d2Adxdy_max_err(l,m)= ...
-        max(max(abs(((dAdkcP{l}-dAdkcM{l})/del)-d2Adxdy{l,m})));
-      d2Bdxdy_max_err(l,m) = ...
-        max(abs(((dBdkcP{l}-dBdkcM{l})/del)-d2Bdxdy{l,m}));
-      d2Cdxdy_max_err(l,m) = ...
-        max(abs(((dCdkcP{l}-dCdkcM{l})/del)-d2Cdxdy{l,m}));
-      d2Ddxdy_max_err(l,m) = ...
-        max(abs(((dDdkcP{l}-dDdkcM{l})/del)-d2Ddxdy{l,m}));
-      d2Capdxdy_max_err(l,m) = ...
-        max(abs(((dCapdkcP{l}-dCapdkcM{l})/del)-d2Capdxdy{l,m}));
-      d2Dapdxdy_max_err(l,m) = ...
-        max(abs(((dDapdkcP{l}-dDapdkcM{l})/del)-d2Dapdxdy{l,m}));
+      d2Adydx_max_err(l,m)= ...
+        max(max(abs(((dAdkcP{l}-dAdkcM{l})/del)-d2Adydx{l,m})));
+      d2Bdydx_max_err(l,m) = ...
+        max(abs(((dBdkcP{l}-dBdkcM{l})/del)-d2Bdydx{l,m}));
+      d2Cdydx_max_err(l,m) = ...
+        max(abs(((dCdkcP{l}-dCdkcM{l})/del)-d2Cdydx{l,m}));
+      d2Ddydx_max_err(l,m) = ...
+        max(abs(((dDdkcP{l}-dDdkcM{l})/del)-d2Ddydx{l,m}));
+      d2Capdydx_max_err(l,m) = ...
+        max(abs(((dCapdkcP{l}-dCapdkcM{l})/del)-d2Capdydx{l,m}));
+      d2Dapdydx_max_err(l,m) = ...
+        max(abs(((dDapdkcP{l}-dDapdkcM{l})/del)-d2Dapdydx{l,m}));
     endfor
   endfor
 
   if verbose
-    printf("max(max(d2Adxdy_max_err))=%g*tol\n",max(max(d2Adxdy_max_err))/tol);
+    printf("max(max(d2Adydx_max_err))=%g*tol\n",max(max(d2Adydx_max_err))/tol);
   endif
   switch (x)
     case {1}
-      if max(max(d2Adxdy_max_err)) > 10*tol
-        error("max(max(d2Adxdy_max_err)) > %g",10*tol);
+      if max(max(d2Adydx_max_err)) > 10*tol
+        error("max(max(d2Adydx_max_err)) > %g",10*tol);
       endif
     case {2}
-      if max(max(d2Adxdy_max_err)) > 4*tol
-        error("max(max(d2Adxdy_max_err)) > %g",4*tol);
+      if max(max(d2Adydx_max_err)) > 4*tol
+        error("max(max(d2Adydx_max_err)) > %g",4*tol);
       endif
     otherwise
-      if max(max(d2Adxdy_max_err)) > tol
-        error("max(max(d2Adxdy_max_err)) > %g",tol);
+      if max(max(d2Adydx_max_err)) > tol
+        error("max(max(d2Adydx_max_err)) > %g",tol);
       endif
   endswitch
   
   if verbose
-    printf("max(max(d2Bdxdy_max_err))=%g*tol\n",max(max(d2Bdxdy_max_err))/tol);
+    printf("max(max(d2Bdydx_max_err))=%g*tol\n",max(max(d2Bdydx_max_err))/tol);
   endif
-  if max(max(d2Bdxdy_max_err)) > tol
-    error("max(max(d2Bdxdy_max_err)) > %g",tol);
-  endif
-
-  if verbose
-    printf("max(max(d2Cdxdy_max_err))=%g*tol\n",max(max(d2Cdxdy_max_err))/tol);
-  endif
-  if max(max(d2Cdxdy_max_err)) > tol
-    error("max(max(d2Cdxdy_max_err)) > %g",tol);
+  if max(max(d2Bdydx_max_err)) > tol
+    error("max(max(d2Bdydx_max_err)) > %g",tol);
   endif
 
   if verbose
-    printf("max(max(d2Ddxdy_max_err))=%g*tol\n",max(max(d2Ddxdy_max_err))/tol);
+    printf("max(max(d2Cdydx_max_err))=%g*tol\n",max(max(d2Cdydx_max_err))/tol);
   endif
-  if max(max(d2Ddxdy_max_err)) > tol
-    error("max(max(d2Ddxdy_max_err)) > %g",tol);
-  endif
-
-  if verbose
-    printf("max(max(d2Capdxdy_max_err))=%g*tol\n", ...
-           max(max(d2Capdxdy_max_err))/tol);
-  endif
-  if max(max(d2Capdxdy_max_err)) > tol
-    error("max(max(d2Capdxdy_max_err)) > %g",tol);
+  if max(max(d2Cdydx_max_err)) > tol
+    error("max(max(d2Cdydx_max_err)) > %g",tol);
   endif
 
   if verbose
-    printf("max(max(d2Dapdxdy_max_err))=%g*tol\n", ...
-           max(max(d2Dapdxdy_max_err))/tol);
+    printf("max(max(d2Ddydx_max_err))=%g*tol\n",max(max(d2Ddydx_max_err))/tol);
   endif
-  if max(max(d2Dapdxdy_max_err)) > tol
-    error("max(max(d2Dapdxdy_max_err)) > %g",tol);
+  if max(max(d2Ddydx_max_err)) > tol
+    error("max(max(d2Ddydx_max_err)) > %g",tol);
+  endif
+
+  if verbose
+    printf("max(max(d2Capdydx_max_err))=%g*tol\n", ...
+           max(max(d2Capdydx_max_err))/tol);
+  endif
+  if max(max(d2Capdydx_max_err)) > tol
+    error("max(max(d2Capdydx_max_err)) > %g",tol);
+  endif
+
+  if verbose
+    printf("max(max(d2Dapdydx_max_err))=%g*tol\n", ...
+           max(max(d2Dapdydx_max_err))/tol);
+  endif
+  if max(max(d2Dapdydx_max_err)) > tol
+    error("max(max(d2Dapdydx_max_err)) > %g",tol);
   endif
 
 endfor

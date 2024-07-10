@@ -4,13 +4,14 @@
 // [H,dHdw] = Abcd2H(w,A,B,C,D)
 // [H,dHdw,dHdx] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
 // [H,dHdw,dHdx,d2Hdwdx] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
-// [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
+// [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2] =
+//   Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx,d2Adydx,d2Bdydx,d2Cdydx,d2Ddydx)
 // [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2] =
-//   Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
+//   Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx,d2Adydx,d2Bdydx,d2Cdydx,d2Ddydx)
 // [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx] = 
-//   Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
+//   Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx,d2Adydx,d2Bdydx,d2Cdydx,d2Ddydx)
 // [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx,d3Hdwdydx]= ...
-//   Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)
+//   Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx,d2Adydx,d2Bdydx,d2Cdydx,d2Ddydx)
 //
 // Find the complex response and partial derivatives for a state variable
 // filter. The outputs are intermediate results in the calculation of
@@ -42,8 +43,6 @@
 // In the following, confusingly, Nx is the number of filter coefficients
 // (eg: k and c) and Nk is the number of filter states.
 //
-// !!! d2Hdydx and d3Hdwdydx have not been tested with d2Adydx etc. !!!
-//
 // For each output other than d2Hdydx, the rows correspond to frequency
 // vector, w, of length Nw and the columns correspond to the coefficient
 // vector, x, of length Nx. d2Hdydx is returned as a matrix of size (Nw,Nx,Nx).
@@ -70,15 +69,15 @@
 
 DEFUN_DLD(Abcd2H, args, nargout,
 "[H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx,d3Hdwdydx]=\
-  Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx)")
+  Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx,d2Adydx,d2Bdydx,d2Cdydx,d2Ddydx)")
 {
   // Sanity checks
   octave_idx_type nargin=args.length();
-  if (((nargin!=5) && (nargin!=9) && (nargin!=13))
-      || ((nargout<=2) && (nargin<5))
-      || ((nargout>2) && (nargin<9))
-      || ((nargout>=7) && (nargin!=9) && (nargin!=13))
-      || (nargout>8))
+    if ((nargin>14)
+        || (nargout>8)
+        || ((nargout<=2) && (nargin<5))
+        || ((nargout>2) && (nargout<=6) && (nargin!=9) && (nargin!=13))
+        || ((nargout>=7) && ((nargin!=9) && (nargin!=13))))
     {
       print_usage();
     }
@@ -225,6 +224,17 @@ DEFUN_DLD(Abcd2H, args, nargout,
                                         (dCdx_m*R*dBdx_m) +
                                         (CR*dAdx_m*R*dAdx_m*RB) +
                                         (CR*dAdx_m*R*dBdx_m));
+          if (nargin==13)
+            {
+              ComplexMatrix d2Adydx_mm = d2Adydx(m,m).complex_matrix_value();
+              ComplexColumnVector d2Bdydx_mm =
+                d2Bdydx(m,m).complex_column_vector_value();
+              ComplexRowVector d2Cdydx_mm =
+                d2Cdydx(m,m).complex_row_vector_value();
+              Complex d2Ddydx_mm = d2Ddydx(m,m).complex_value();
+              diagd2Hdx2(l,m)=diagd2Hdx2(l,m) + (CR*d2Adydx_mm*RB) +
+                (CR*d2Bdydx_mm) + (d2Cdydx_mm*RB) + (d2Ddydx_mm);
+            }
         } 
       if (nargout == 5)
         {
@@ -246,6 +256,19 @@ DEFUN_DLD(Abcd2H, args, nargout,
                                                   (CRR*dAdx_m*R*dBdx_m) +
                                                   (CR*dAdx_m*RR*dBdx_m) +
                                                   (dCdx_m*RR*dBdx_m));
+          if (nargin==13)
+            {
+              ComplexMatrix d2Adydx_mm = d2Adydx(m,m).complex_matrix_value();
+              ComplexColumnVector d2Bdydx_mm =
+                d2Bdydx(m,m).complex_column_vector_value();
+              ComplexRowVector d2Cdydx_mm =
+                d2Cdydx(m,m).complex_row_vector_value();
+              diagd3Hdwdx2(l,m)=diagd3Hdwdx2(l,m) +
+                (CR*d2Adydx_mm*RRB) +
+                (CRR*d2Adydx_mm*RB) +
+                (CRR*d2Bdydx_mm) +
+                (d2Cdydx_mm*RRB);
+            }
         } 
       if (nargout == 6)
         {

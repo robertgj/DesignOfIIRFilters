@@ -46,7 +46,7 @@ DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
 {
   // Sanity checks
   octave_idx_type nargin=args.length();
-  if ((nargin<1) || (nargin>4) || (nargout>18))
+  if ((nargin<1) || (nargin>4) || (nargout<4) || (nargout>18))
     {
       print_usage();
       return octave_value_list();
@@ -126,24 +126,23 @@ DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
   //
   
   // Outputs
-  Matrix A(Nk,Nk);
-  ColumnVector B(Nk);
-  RowVector C(Nk);
-  double D;
-  RowVector Cap(Nk);
-  double Dap;
+  ComplexMatrix A(Nk,Nk);
+  ComplexColumnVector B(Nk);
+  ComplexRowVector C(Nk);
+  Complex D;
+  ComplexRowVector Cap(Nk);
+  Complex Dap;
   
   // Modules 1 to Nk
-  Matrix eyeNkp1(Nk+1,Nk+1);
-  memset(eyeNkp1.fortran_vec(),0,eyeNkp1.byte_size());
+  ComplexMatrix eyeNkp1(Nk+1,Nk+1);
   for (octave_idx_type l=0;l<Nk+1;l++)
     {
       eyeNkp1(l,l)=1;
     }
-  Matrix ABCapDap(eyeNkp1);
+  ComplexMatrix ABCapDap(eyeNkp1);
   for (octave_idx_type l=0;l<Nk;l++)
     {
-      Matrix ABCapDapm(eyeNkp1);
+      ComplexMatrix ABCapDapm(eyeNkp1);
       ABCapDapm(l,l)=-k(l);
       ABCapDapm(l,l+1)=1+(k(l)*epsilon(l));
       ABCapDapm(l+1,l)=1-(k(l)*epsilon(l));
@@ -166,9 +165,8 @@ DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
   Dap=ABCapDap(Nk,Nk);
 
   // Scale the states
-  Matrix T(Nk,Nk);
-  memset(T.fortran_vec(),0,T.byte_size());
-  Matrix invT(T);
+  ComplexMatrix T(Nk,Nk);
+  ComplexMatrix invT(T);
   for (octave_idx_type l=0;l<Nk;l++)
     {
       T(l,l)=p(l);
@@ -218,7 +216,7 @@ DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
   Cell ABCapDapm(1,Nk);
   for (octave_idx_type l=0;l<Nk;l++)
     {
-      Matrix ABCapDapm_tmp(eyeNkp1);
+      ComplexMatrix ABCapDapm_tmp(eyeNkp1);
       ABCapDapm_tmp(l,l)=-k(l);
       ABCapDapm_tmp(l,l+1)=1+(k(l)*epsilon(l));
       ABCapDapm_tmp(l+1,l)=1-(k(l)*epsilon(l));
@@ -258,8 +256,7 @@ DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
   Cell dABCapDapmdk(1,Nk);
   for (octave_idx_type l=0;l<Nk;l++)
     {
-      Matrix dABCapDapmdk_tmp(Nk+1,Nk+1);
-      memset(dABCapDapmdk_tmp.fortran_vec(),0,dABCapDapmdk_tmp.byte_size());
+      ComplexMatrix dABCapDapmdk_tmp(Nk+1,Nk+1);
       dABCapDapmdk_tmp(l,l)=-1;
       dABCapDapmdk_tmp(l,l+1)=epsilon(l);
       dABCapDapmdk_tmp(l+1,l)=-epsilon(l);
@@ -298,13 +295,13 @@ DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
   // Make the gradient matrixes for the k coefficients
   for (octave_idx_type l=0;l<Nk;l++)
     {
-      Matrix dABCapDapdk_tmp(dABCapDapdk(l).matrix_value());
-      Matrix dAdkc_tmp(Nk,Nk);
-      ColumnVector dBdkc_tmp(Nk);
-      RowVector dCdkc_tmp(Nk);
-      RowVector dCapdkc_tmp(Nk);
-      double dDdkc_tmp;
-      double dDapdkc_tmp;
+      ComplexMatrix dABCapDapdk_tmp(dABCapDapdk(l).matrix_value());
+      ComplexMatrix dAdkc_tmp(Nk,Nk);
+      ComplexColumnVector dBdkc_tmp(Nk);
+      ComplexRowVector dCdkc_tmp(Nk);
+      ComplexRowVector dCapdkc_tmp(Nk);
+      Complex dDdkc_tmp;
+      Complex dDapdkc_tmp;
       for (octave_idx_type m=0;m<Nk;m++)
         {
           for (octave_idx_type n=0;n<Nk;n++)
@@ -315,7 +312,6 @@ DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
           dCapdkc_tmp(m)=dABCapDapdk_tmp(Nk,m);
         }
       dDapdkc_tmp=dABCapDapdk_tmp(Nk,Nk);
-      memset(dCdkc_tmp.fortran_vec(),0,dCdkc_tmp.byte_size());
       dDdkc_tmp=0;
       // Scale the states
       dAdkc_tmp=invT*dAdkc_tmp*T;
@@ -334,16 +330,13 @@ DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
   // Make the gradient matrixes for the c coefficients
   for (octave_idx_type l=0;l<=Nk;l++)
     {
-      Matrix dAdkc_tmp(Nk,Nk);
-      ColumnVector dBdkc_tmp(Nk);
-      RowVector dCdkc_tmp(Nk);
-      RowVector dCapdkc_tmp(Nk);
-      double dDdkc_tmp;
-      double dDapdkc_tmp;
+      ComplexMatrix dAdkc_tmp(Nk,Nk);
+      ComplexColumnVector dBdkc_tmp(Nk);
+      ComplexRowVector dCdkc_tmp(Nk);
+      ComplexRowVector dCapdkc_tmp(Nk);
+      Complex dDdkc_tmp;
+      Complex dDapdkc_tmp;
 
-      memset(dAdkc_tmp.fortran_vec(),0,dAdkc_tmp.byte_size());
-      memset(dBdkc_tmp.fortran_vec(),0,dBdkc_tmp.byte_size());
-      memset(dCdkc_tmp.fortran_vec(),0,dCdkc_tmp.byte_size());
       if (l<Nk)
         {
           dCdkc_tmp(l)=p(l);
@@ -353,7 +346,6 @@ DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
         {
           dDdkc_tmp=1;
         }
-      memset(dCapdkc_tmp.fortran_vec(),0,dCapdkc_tmp.byte_size());
       dDapdkc_tmp=0;
 
       // Set the output cell values for the c coefficients
@@ -404,17 +396,13 @@ DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
   Cell d2Dapdxdy(Nkc,Nkc);
  
   // Declare temporaries and initialise the cell arrays to zero
-  Matrix d2Adxdy_tmp(Nk,Nk);
-  ColumnVector d2Bdxdy_tmp(Nk);
-  RowVector d2Cdxdy_tmp(Nk);
-  double d2Ddxdy_tmp;
-  RowVector d2Capdxdy_tmp(Nk);
-  double d2Dapdxdy_tmp;
-  memset(d2Adxdy_tmp.fortran_vec(),0,d2Adxdy_tmp.byte_size());
-  memset(d2Bdxdy_tmp.fortran_vec(),0,d2Bdxdy_tmp.byte_size());
-  memset(d2Cdxdy_tmp.fortran_vec(),0,d2Cdxdy_tmp.byte_size());
+  ComplexMatrix d2Adxdy_tmp(Nk,Nk);
+  ComplexColumnVector d2Bdxdy_tmp(Nk);
+  ComplexRowVector d2Cdxdy_tmp(Nk);
+  Complex d2Ddxdy_tmp;
+  ComplexRowVector d2Capdxdy_tmp(Nk);
+  Complex d2Dapdxdy_tmp;
   d2Ddxdy_tmp=0;
-  memset(d2Capdxdy_tmp.fortran_vec(),0,d2Capdxdy_tmp.byte_size());
   d2Dapdxdy_tmp=0;
   for(octave_idx_type l=0;l<Nkc;l++)
     {
@@ -434,7 +422,7 @@ DEFUN_DLD(schurOneMlattice2Abcd, args, nargout,
     {
       for(octave_idx_type m=(l+1);m<Nk;m++)
         {
-          Matrix d2ABCapDapdxdy_tmp(eyeNkp1);
+          ComplexMatrix d2ABCapDapdxdy_tmp(eyeNkp1);
 
           for(octave_idx_type n=0;n<l;n++)
             {

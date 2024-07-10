@@ -1,8 +1,8 @@
 function [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc, ...
-          d2Adxdy,d2Bdxdy,d2Cdxdy,d2Ddxdy,d2Capdxdy,d2Dapdxdy] = ...
+          d2Adydx,d2Bdydx,d2Cdydx,d2Ddydx,d2Capdydx,d2Dapdydx] = ...
            schurOneMlattice2Abcd(k,epsilon,p,c)
 % [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc, ... 
-%  d2Adxdy,d2Bdxdy,d2Cdxdy,d2Ddxdy,d2Capdxdy,d2Dapdxdy] = ...
+%  d2Adydx,d2Bdydx,d2Cdydx,d2Ddydx,d2Capdydx,d2Dapdydx] = ...
 %   schurOneMlattice2Abcd(k,epsilon,p,c)
 % Find the state variable representation of a Schur one-multiplier lattice
 % filter. (Note that here the state scaling vector, p, is assumed to be fixed.
@@ -18,8 +18,8 @@ function [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc, ...
 %  Cap,Dap                 - corresponding matrixes for the all-pass filter
 %  dAdkc,dBdkc,dCdkc,dDdkc - cell vectors of the differentials of A, B, C and D
 %  dCapdk,dDapdk           - cell vectors of the differentials of Cap and Dap    
-%  d2Adxdy,d2Bdxdy,d2Cdxdy,d2Ddxdy - cell matrixes of the second differentials
-%  d2Capdxdy,d2Dapdxdy     - cell matrix of the second differentials of Cap,Dap
+%  d2Adydx,d2Bdydx,d2Cdydx,d2Ddydx - cell matrixes of the second differentials
+%  d2Capdydx,d2Dapdydx     - cell matrix of the second differentials of Cap,Dap
 
 % Copyright (C) 2017-2024 Robert G. Jenssen
 %
@@ -41,13 +41,13 @@ function [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc, ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  warning("Using Octave m-file version of function schurOneMlattice2Abcd()!");
+  warning("Using Octave m-file version of function schurOneMlattice2Abcd");
 
   % Sanity checks
-  if (nargin<1) || (nargin>4) || nargout<4
+  if (nargin<1) || (nargin>4) || (nargout<4) || (nargout>18)
     print_usage ...
       "[A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc, ...\n\
- d2Adxdy,d2Bdxdy,d2Cdxdy,d2Ddxdy,d2Capdxdy,d2Dapdxdy] = ...\n\
+ d2Adydx,d2Bdydx,d2Cdydx,d2Ddydx,d2Capdydx,d2Dapdydx] = ...\n\
     schurOneMlattice2Abcd(k,epsilon,p,c)");
   endif
   if isempty(k)
@@ -182,20 +182,20 @@ function [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc, ...
   endif
 
   % Initialise
-  d2Adxdy=cell(Nkc,Nkc);
-  d2Bdxdy=cell(Nkc,Nkc);
-  d2Cdxdy=cell(Nkc,Nkc);
-  d2Ddxdy=cell(Nkc,Nkc);
-  d2Capdxdy=cell(Nkc,Nkc);
-  d2Dapdxdy=cell(Nkc,Nkc);
+  d2Adydx=cell(Nkc,Nkc);
+  d2Bdydx=cell(Nkc,Nkc);
+  d2Cdydx=cell(Nkc,Nkc);
+  d2Ddydx=cell(Nkc,Nkc);
+  d2Capdydx=cell(Nkc,Nkc);
+  d2Dapdydx=cell(Nkc,Nkc);
   for l=1:Nkc,
     for m=1:Nkc,
-      d2Adxdy{l,m}=zeros(size(A));
-      d2Bdxdy{l,m}=zeros(size(B));
-      d2Cdxdy{l,m}=zeros(size(C));
-      d2Ddxdy{l,m}=zeros(size(D)); 
-      d2Capdxdy{l,m}=zeros(size(Cap));
-      d2Dapdxdy{l,m}=zeros(size(Dap));
+      d2Adydx{l,m}=zeros(size(A));
+      d2Bdydx{l,m}=zeros(size(B));
+      d2Cdydx{l,m}=zeros(size(C));
+      d2Ddydx{l,m}=zeros(size(D)); 
+      d2Capdydx{l,m}=zeros(size(Cap));
+      d2Dapdydx{l,m}=zeros(size(Dap));
     endfor
   endfor
 
@@ -203,29 +203,29 @@ function [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc, ...
   for l=1:Nk,
     for m=(l+1):Nk,
       
-      d2ABCapDapdxdy=eye(Nk+1);
+      d2ABCapDapdydx=eye(Nk+1);
 
       for n=1:(l-1),
-        d2ABCapDapdxdy=ABCapDapm{n}*d2ABCapDapdxdy;
+        d2ABCapDapdydx=ABCapDapm{n}*d2ABCapDapdydx;
       endfor
 
-      d2ABCapDapdxdy=dABCapDapmdk{l}*d2ABCapDapdxdy;
+      d2ABCapDapdydx=dABCapDapmdk{l}*d2ABCapDapdydx;
 
       for n=(l+1):(m-1),
-        d2ABCapDapdxdy=ABCapDapm{n}*d2ABCapDapdxdy;
+        d2ABCapDapdydx=ABCapDapm{n}*d2ABCapDapdydx;
       endfor
 
-      d2ABCapDapdxdy=dABCapDapmdk{m}*d2ABCapDapdxdy;
+      d2ABCapDapdydx=dABCapDapmdk{m}*d2ABCapDapdydx;
 
       for n=(m+1):Nk,
-        d2ABCapDapdxdy=ABCapDapm{n}*d2ABCapDapdxdy;
+        d2ABCapDapdydx=ABCapDapm{n}*d2ABCapDapdydx;
       endfor
 
-      d2Adxdy{l,m}=invT*d2ABCapDapdxdy(1:Nk,1:Nk)*T;
-      d2Adxdy{m,l}=d2Adxdy{l,m};
+      d2Adydx{l,m}=invT*d2ABCapDapdydx(1:Nk,1:Nk)*T;
+      d2Adydx{m,l}=d2Adydx{l,m};
       
-      d2Capdxdy{l,m}=d2ABCapDapdxdy(Nk+1,1:Nk)*T;
-      d2Capdxdy{m,l}=d2Capdxdy{l,m};
+      d2Capdydx{l,m}=d2ABCapDapdydx(Nk+1,1:Nk)*T;
+      d2Capdydx{m,l}=d2Capdydx{l,m};
       
     endfor
   endfor

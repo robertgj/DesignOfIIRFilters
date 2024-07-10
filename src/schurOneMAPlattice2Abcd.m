@@ -1,6 +1,8 @@
-function [A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk]= ...
+function [A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk, ...
+          d2Adydx,d2Bdydx,d2Capdydx,d2Dapdydx]= ...
            schurOneMAPlattice2Abcd(k,epsilon,p)
-% [A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk]=schurOneMAPlattice2Abcd(k,epsilon,p)
+% [A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk,d2Adydx,d2Bdydx,d2Capdydx,d2Dapdydx]= ...
+%   schurOneMAPlattice2Abcd(k,epsilon,p)
 % Find the state variable representation of an all-pass Schur one-multiplier
 % lattice filter. (Note that here the state scaling vector, p, is assumed to
 % be fixed. In fact it is calculated from k when the design is complete).
@@ -12,8 +14,9 @@ function [A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk]= ...
 % Outputs:
 %  [A,B;Cap,Dap]           - state variable description of the lattice filter
 %  dAdk,dBdk,dCapdk,dDapdk - cell vectors of the differentials of A,B,Cap and Dap
+%  d2Adydx,d2Bdydx,d2Capdydx,d2Dapdydx - cell vectors of the second differentials
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -36,12 +39,13 @@ function [A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk]= ...
   % Sanity checks
   if nargin<1 || nargin>3 || nargout<4
     print_usage...
-      ("[A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk]=...\n\
-  schurOneMAPlattice2Abcd(k,epsilon,p)");
+      ("[A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk, ...\n\
+ d2Adydx,d2Bdydx,d2Capdydx,d2Dapdydx]=schurOneMAPlattice2Abcd(k,epsilon,p)");
+  endif
+  if nargin<2
+    epsilon=ones(size(k));
   endif
   if nargin<3
-    epsilon=ones(size(k));
-  elseif nargin<2
     p=ones(size(k));
   endif
   if (length(k)~=length(epsilon)) || (length(k)~=length(p))
@@ -55,21 +59,46 @@ function [A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk]= ...
     cdummy=transpose(cdummy);
   endif
 
-  % Find the state variable matrixes
-  [A,B,Cdummy,Ddummy,Cap,Dap, ...
-   dAdkc,dBdkc,dCdummydkc,dDdummydkc,dCapdkc,dDapdkc]=...
-    schurOneMlattice2Abcd(k,epsilon,p,cdummy);
+  if nargout<=4
+    % Find the state variable matrixes
+    [A,B,~,~,Cap,Dap] = schurOneMlattice2Abcd(k,epsilon,p,cdummy);
+  elseif nargout<=8
+    [A,B,~,~,Cap,Dap,dAdkc,dBdkc,~,~,dCapdkc,dDapdkc]=...
+       schurOneMlattice2Abcd(k,epsilon,p,cdummy);
+  else
+    [A,B,~,~,Cap,Dap,dAdkc,dBdkc,~,~,dCapdkc,dDapdkc, ...
+     d2Adkdc,d2Bdkdc,~,~,d2Capdkdc,d2Dapdkdc]=...
+       schurOneMlattice2Abcd(k,epsilon,p,cdummy);
+  endif
 
-  % Remove the gradients of c
-  dAdk=cell(1,Nk);
-  dBdk=cell(1,Nk);
-  dCapdk=cell(1,Nk);
-  dDapdk=cell(1,Nk);
-  for l=1:Nk
-    dAdk{l}=dAdkc{l};
-    dBdk{l}=dBdkc{l};
-    dCapdk{l}=dCapdkc{l};
-    dDapdk{l}=dDapdkc{l};
-  endfor
- 
+  if nargout>4
+    % Remove the gradients of c
+    dAdk=cell(1,Nk);
+    dBdk=cell(1,Nk);
+    dCapdk=cell(1,Nk);
+    dDapdk=cell(1,Nk);
+    for m=1:Nk
+      dAdk{m}=dAdkc{m}(1:Nk,1:Nk);
+      dBdk{m}=dBdkc{m}(1:Nk,1);
+      dCapdk{m}=dCapdkc{m}(1,1:Nk);
+      dDapdk{m}=dDapdkc{m}(1,1);
+    endfor
+  endif
+  
+  if nargout>8
+    % Remove the gradients of c
+    d2Adydx=cell(Nk,Nk);
+    d2Bdydx=cell(Nk,Nk);
+    d2Capdydx=cell(Nk,Nk);
+    d2Dapdydx=cell(Nk,Nk);
+    for m=1:Nk
+      for n=1:Nk
+      d2Adydx{m,n}=d2Adkdc{m,n}(1:Nk,1:Nk);
+      d2Bdydx{m,n}=d2Bdkdc{m,n}(1:Nk,1);
+      d2Capdydx{m,n}=d2Capdkdc{m,n}(1,1:Nk);
+      d2Dapdydx{m,n}=d2Dapdkdc{m,n}(1,1);
+      endfor
+    endfor
+  endif
+    
 endfunction

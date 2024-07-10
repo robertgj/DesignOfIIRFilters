@@ -64,15 +64,15 @@ function [P,gradP,diagHessP]=schurOneMlatticeP(w,k,epsilon,p,c)
     H=schurOneMlattice2H(w,A,B,C,D);
     P=H2P(H);
   elseif nargout==2
-    [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc]=...
+    [A,B,C,D,~,~,dAdkc,dBdkc,dCdkc,dDdkc]=...
       schurOneMlattice2Abcd(k,epsilon,p,c);
     [H,dHdw,dHdkc]=schurOneMlattice2H(w,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc);
     [P,gradP]=H2P(H,dHdkc);
   elseif nargout==3
-    [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc]=...
+    [A,B,C,D,~,~,dAdkc,dBdkc,dCdkc,dDdkc,~,~,d2Adkc2]=...
       schurOneMlattice2Abcd(k,epsilon,p,c);
     [H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2]=...
-      schurOneMlattice2H(w,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc);
+      schurOneMlattice2H(w,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc,d2Adkc2);
     [P,gradP,diagHessP]=H2P(H,dHdkc,diagd2Hdkc2);
   endif    
 

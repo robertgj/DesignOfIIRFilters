@@ -3,9 +3,10 @@
 prog=schurOneMAPlattice2H_test.m
 descr="schurOneMAPlattice2H_test.m (octfile)"
 depends="test/schurOneMAPlattice2H_test.m test_common.m check_octave_file.m \
-tf2schurOneMlattice.m schurOneMscale.m tf2pa.m \
+tf2schurOneMlattice.m schurOneMscale.m tf2pa.m schurOneMAPlattice2Abcd.m \
 schurOneMAPlattice2H.oct schurOneMlattice2Abcd.oct spectralfactor.oct \
-schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct qroots.m qzsolve.oct"
+schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct qroots.m qzsolve.oct \
+Abcd2H.oct"
 
 tmp=/tmp/$$
 here=`pwd`

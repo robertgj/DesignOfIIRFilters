@@ -5,7 +5,7 @@ function B=zhong_inverse(A)
 % Inverses of Hessenberg Matrices", Xu Zhong, "Linear Algebra and
 % its Applications", Vol. 101, 1988, pp. 167-180.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -34,7 +34,8 @@ function B=zhong_inverse(A)
   if isempty(A)
     error("A is empty!");
   endif
-  if length(A)<=2
+
+  if rows(A)<=2
     B=inv(A);
     return;
   endif
@@ -42,8 +43,13 @@ function B=zhong_inverse(A)
   % P
   N=rows(A);
   P=A(1:(N-1),2:N);
-  if ~strcmp("Lower",matrix_type(P))
+  if ~istril(P)
     error("A is not lower hessenberg");
+  endif
+  if any(diag(P)==0)
+    % Elimination will fail
+    B=inv(A);
+    return;
   endif
 
   % alpha

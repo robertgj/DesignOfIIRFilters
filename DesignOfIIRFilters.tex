@@ -23908,7 +23908,7 @@ $R=\left(e^{\imath\omega}I-A\right)^{-1}$. The identities shown in
 Equation~\ref{eqn:Sensitivity-analysis-state-variable-transfer-function} apply
 with:
 \begin{align*}
-  \frac{\partial{}R}{\partial{}\omega} =& -e^{\imath\omega}RR
+  \frac{\partial{}R}{\partial{}\omega} =& -\imath{}e^{\imath\omega}RR
 \end{align*}
 
 \section{\label{app:State-variable-filter-gradients-complex-frequency-response}Gradients of the state variable  filter complex frequency response}
@@ -23918,6 +23918,8 @@ $\frac{dC}{dx}$ and $\frac{dD}{dx}$, then the gradients of the complex frequency
 response are:
 
 \begin{align*}
+\frac{\partial{}H\left(\omega\right)}{\partial\omega}&=
+-\imath e^{\imath\omega}CRRB \\
 \frac{\partial{}H}{\partial{}x}=&\frac{dC}{dx}RB+
                                   CR\frac{dA}{dx}RB+
                                   CR\frac{dB}{dx}+
@@ -24122,11 +24124,6 @@ so that
 \Im H\left(\omega\right)
 \Re\frac{\partial H\left(\omega\right)}{\partial\omega}
 \right]
-\end{align*}
-where:
-\begin{align*}
-\frac{\partial{}H\left(\omega\right)}{\partial\omega}&=
--\imath e^{\imath\omega}CRRB
 \end{align*}
 
 The gradients of the group delay response with respect to the state
