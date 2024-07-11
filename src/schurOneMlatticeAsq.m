@@ -1,5 +1,5 @@
-function [Asq,gradAsq,diagHessAsq]=schurOneMlatticeAsq(w,k,epsilon,p,c)
-% [Asq,gradAsq,diagHessAsq]=schurOneMlatticeAsq(w,k,epsilon,p,c)
+function [Asq,gradAsq,diagHessAsq,hessAsq]=schurOneMlatticeAsq(w,k,epsilon,p,c)
+% [Asq,gradAsq,diagHessAsq,hessAsq]=schurOneMlatticeAsq(w,k,epsilon,p,c)
 % Calculate the squared-magnitude response and gradients of a Schur
 % one-multiplier lattice filter. If the order of the filter numerator
 % polynomial is N, then there are N+1 numerator tap coefficients, c.
@@ -18,8 +18,9 @@ function [Asq,gradAsq,diagHessAsq]=schurOneMlatticeAsq(w,k,epsilon,p,c)
 %   Asq - the squared magnitude response at w
 %   gradAsq - the gradients of Asq with respect to k and c
 %   diagHessAsq - diagonal of the Hessian of Asq with respect to k and c
+%   hessAsq - Hessian of Asq with respect to k and c
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -42,9 +43,9 @@ function [Asq,gradAsq,diagHessAsq]=schurOneMlatticeAsq(w,k,epsilon,p,c)
   %
   % Sanity checks
   %
-  if (nargin ~= 5) || (nargout > 3) 
+  if (nargin ~= 5) || (nargout > 4) 
     print_usage...
-      ("[Asq,gradAsq,diagHessAsq]=schurOneMlatticeAsq(w,k,epsilon,p,c)");
+      ("[Asq,gradAsq,diagHessAsq,hessAsq]=schurOneMlatticeAsq(w,k,epsilon,p,c)");
   endif
   if length(k) ~= length(epsilon)
     error("length(k) ~= length(epsilon)");
@@ -55,8 +56,9 @@ function [Asq,gradAsq,diagHessAsq]=schurOneMlatticeAsq(w,k,epsilon,p,c)
   if(length(k)+1) ~= length(c)
     error("(length(k)(%d)+1) ~= length(c)(%d)",length(k),length(c));
   endif
+  
   if length(w) == 0
-    Asq=[]; gradAsq=[]; diagHessAsq=[];
+    Asq=[]; gradAsq=[]; diagHessAsq=[]; hessAsq=[];
     return;
   endif
 
@@ -67,14 +69,20 @@ function [Asq,gradAsq,diagHessAsq]=schurOneMlatticeAsq(w,k,epsilon,p,c)
   elseif nargout==2 
     [A,B,C,D,~,~,dAdkc,dBdkc,dCdkc,dDdkc]=...
       schurOneMlattice2Abcd(k,epsilon,p,c);
-    [H,dHdw,dHdkc]=schurOneMlattice2H(w,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc);
+    [H,~,dHdkc]=schurOneMlattice2H(w,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc);
     [Asq,gradAsq]=H2Asq(H,dHdkc);  
   elseif nargout==3
     [A,B,C,D,~,~,dAdkc,dBdkc,dCdkc,dDdkc,~,~,d2Adkc2] = ...
       schurOneMlattice2Abcd(k,epsilon,p,c);
-    [H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2] = ...
+    [H,~,dHdkc,~,diagd2Hdkc2] = ...
       schurOneMlattice2H(w,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc,d2Adkc2);
     [Asq,gradAsq,diagHessAsq]=H2Asq(H,dHdkc,diagd2Hdkc2);
+  else
+    [A,B,C,D,~,~,dAdkc,dBdkc,dCdkc,dDdkc,~,~,d2Adydx]=...
+        schurOneMlattice2Abcd(k,epsilon,p,c);
+    [H,~,dHdkc,~,diagd2Hdkdc,~,d2Hdydx] = ...
+      schurOneMlattice2H(w,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc,d2Adydx);
+    [Asq,gradAsq,diagHessAsq,hessAsq]=H2Asq(H,dHdkc,diagd2Hdkdc,d2Hdydx);
   endif
    
 endfunction

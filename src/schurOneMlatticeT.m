@@ -1,5 +1,5 @@
-function [T,gradT,diagHessT]=schurOneMlatticeT(w,k,epsilon,p,c)
-% [T,gradT,diagHessT]=schurOneMlatticeT(w,k,epsilon,p,c)
+function [T,gradT,diagHessT,hessT]=schurOneMlatticeT(w,k,epsilon,p,c)
+% [T,gradT,diagHessT,hessT]=schurOneMlatticeT(w,k,epsilon,p,c)
 % Calculate the group-delay responses and gradients of a Schur one-multiplier
 % lattice filter. If the order of the filter numerator polynomial is N, then
 % there are N+1 numerator tap coefficients, c. If the order of the denominator
@@ -17,8 +17,9 @@ function [T,gradT,diagHessT]=schurOneMlatticeT(w,k,epsilon,p,c)
 %   T - the group delay response at w
 %   gradT - the gradients of T with respect to k and c
 %   diagHessT - diagonal of the Hessian of T with respect to k and c
+%   hessT - Hessian of T with respect to k and c
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -41,8 +42,8 @@ function [T,gradT,diagHessT]=schurOneMlatticeT(w,k,epsilon,p,c)
   %
   % Sanity checks
   %
-  if (nargin ~= 5) || (nargout > 3) 
-    print_usage("[T,gradT,diagHessT]=schurOneMlatticeT(w,k,epsilon,p,c)");
+  if (nargin ~= 5) || (nargout > 4) 
+    print_usage("[T,gradT,diagHessT,hessT]=schurOneMlatticeT(w,k,epsilon,p,c)");
   endif
   if length(k) ~= length(epsilon)
     error("length(k) ~= length(epsilon)");
@@ -53,8 +54,9 @@ function [T,gradT,diagHessT]=schurOneMlatticeT(w,k,epsilon,p,c)
   if(length(k)+1) ~= length(c)
     error("(length(k)+1) ~= length(c)");
   endif
+  
   if length(w) == 0
-    T=[]; gradT=[]; diagHessT=[];
+    T=[]; gradT=[]; diagHessT=[]; hessT=[];
     return;
   endif
 
@@ -75,6 +77,13 @@ function [T,gradT,diagHessT]=schurOneMlatticeT(w,k,epsilon,p,c)
     [H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2,diagd3Hdwdkc2]=...
       schurOneMlattice2H(w,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc,d2Adkc2);
     [T,gradT,diagHessT]=H2T(H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2,diagd3Hdwdkc2);
+  else
+    [A,B,C,D,~,~,dAdkc,dBdkc,dCdkc,dDdkc,~,~,d2Adydx]=...
+        schurOneMlattice2Abcd(k,epsilon,p,c);
+    [H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2,diagd3Hdwdkc2,d2Hdydx,d3Hdwdydx]=...
+      schurOneMlattice2H(w,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc,d2Adydx);
+    [T,gradT,diagHessT,hessT] = ...
+      H2T(H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2,diagd3Hdwdkc2,d2Hdydx,d3Hdwdydx);
   endif    
 
 endfunction

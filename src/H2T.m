@@ -45,28 +45,33 @@ function [T,gradT,diagHessT,hessT]= ...
   %
   % Sanity checks
   %
-  if (nargout>4) || ...
+  if (nargout==0)                 || ...
      ((nargout==1) && (nargin<2)) || ...
      ((nargout==2) && (nargin<4)) || ...
      ((nargout==3) && (nargin<6)) || ...
-     ((nargout==4) && (nargin<8))
+     ((nargout==4) && (nargin<8)) || ...
+     (nargout>4)
     print_usage("[T,gradT,diagHessT,hessT]= ...\n\
       H2T(H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx,d3Hdwdydx)");
   endif
-  if (nargin >= 2) && (length(H) ~= rows(dHdw))
-    error("length(H) ~= length(dHdw)");
+  Nw=length(H);
+  if (nargin >= 1) && (Nw ~= rows(H))
+    error("Nw ~= length(H)");
   endif
-  if (nargin >= 3) && (length(H) ~= rows(dHdx))
-    error("length(H) ~= rows(dHdx)");
+  if (nargin >= 2) && (Nw ~= rows(dHdw))
+    error("Nw ~= length(dHdw)");
   endif
-  if (nargin >= 4) && (length(H) ~= rows(d2Hdwdx))
-    error("length(H) ~= rows(d2Hdwdx)");
+  if (nargin >= 3) && (Nw ~= rows(dHdx))
+    error("Nw ~= rows(dHdx)");
   endif
-  if (nargin >= 5) && (length(H) ~= rows(diagd2Hdx2))
-    error("length(H) ~= rows(diagd2Hdx2)");
+  if (nargin >= 4) && (Nw ~= rows(d2Hdwdx))
+    error("Nw ~= rows(d2Hdwdx)");
   endif
-  if (nargin >= 6) && (length(H) ~= rows(diagd3Hdwdx2))
-    error("length(H) ~= rows(diagd3Hdwdx2)");
+  if (nargin >= 5) && (Nw ~= rows(diagd2Hdx2))
+    error("Nw ~= rows(diagd2Hdx2)");
+  endif
+  if (nargin >= 6) && (Nw ~= rows(diagd3Hdwdx2))
+    error("Nw ~= rows(diagd3Hdwdx2)");
   endif
   if (nargin >= 4) && (columns(dHdx) ~= columns(d2Hdwdx))
     error("columns(dHdx) ~= columns(d2Hdwdx)");
@@ -79,8 +84,8 @@ function [T,gradT,diagHessT,hessT]= ...
   endif
   if nargin >= 7
     sz_d2Hdydx=size(d2Hdydx);
-    if length(H) ~= sz_d2Hdydx(1)
-      error("length(H) ~= sz_d2Hdydx(1)");
+    if Nw ~= sz_d2Hdydx(1)
+      error("Nw ~= sz_d2Hdydx(1)");
     endif
     if columns(dHdx) ~= sz_d2Hdydx(2)
       error("columns(dHdx) ~= sz_d2Hdydx(2)");
@@ -91,8 +96,8 @@ function [T,gradT,diagHessT,hessT]= ...
   endif
   if nargin >= 8
     sz_d3Hdwdydx=size(d3Hdwdydx);
-    if length(H) ~= sz_d3Hdwdydx(1)
-      error("length(H) ~= sz_d3Hdwdydx(1)");
+    if Nw ~= sz_d3Hdwdydx(1)
+      error("Nw ~= sz_d3Hdwdydx(1)");
     endif
     if columns(dHdx) ~= sz_d3Hdwdydx(2)
       error("columns(dHdx) ~= sz_d3Hdwdydx(2)");
@@ -101,8 +106,9 @@ function [T,gradT,diagHessT,hessT]= ...
       error("columns(dHdx) ~= sz_d3Hdwdydx(3)");
     endif
   endif
-  if length(H) == 0
-    T=[]; gradT=[]; diagHessT=[];
+
+  if Nw == 0
+    T=[]; gradT=[]; diagHessT=[]; hessT=[];
     return;
   endif
 
@@ -194,5 +200,12 @@ function [T,gradT,diagHessT,hessT]= ...
          -(krdHdx_t.*kid2Hdwdx)-(kkrH.*id3Hdwdydx) ...
          +(id2Hdydx.*kkrdHdw)+(kidHdx.*krd2Hdwdx_t) ...
          +(kidHdx_t.*krd2Hdwdx)+(kkiH.*rd3Hdwdydx))./kkAsq;
-
+  
+  for l=1:Nw,
+    if ~issymmetric(squeeze(hessT(l,:,:)),10*eps)
+      error("hessT is not symmetric at l=%d",l);
+    endif 
+    hessT(l,:,:)=(squeeze(hessT(l,:,:))+(squeeze(hessT(l,:,:)).'))/2;
+  endfor
+  
 endfunction

@@ -1,5 +1,5 @@
-function [P,gradP,diagHessP]=schurOneMlatticeP(w,k,epsilon,p,c)
-% [P,gradP,diagHessP]=schurOneMlatticeP(w,k,epsilon,p,c)
+function [P,gradP,diagHessP,hessP]=schurOneMlatticeP(w,k,epsilon,p,c)
+% [P,gradP,diagHessP,hessP]=schurOneMlatticeP(w,k,epsilon,p,c)
 % Calculate the phase responses and gradients of a Schur one-multiplier
 % lattice filter. If the order of the filter numerator polynomial is N, then
 % there are N+1 numerator tap coefficients, c. If the order of the denominator
@@ -17,8 +17,9 @@ function [P,gradP,diagHessP]=schurOneMlatticeP(w,k,epsilon,p,c)
 %   P - the phase response at w
 %   gradP - the gradients of P with respect to k and c
 %   diagHessP - diagonal of the Hessian of P with respect to k and c
+%   hessP - Hessian of P with respect to k and c
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -41,8 +42,8 @@ function [P,gradP,diagHessP]=schurOneMlatticeP(w,k,epsilon,p,c)
   %
   % Sanity checks
   %
-  if (nargin ~= 5) || (nargout > 3) 
-    print_usage("[P,gradP,diagHessP]=schurOneMlatticeP(w,k,epsilon,p,c)");
+  if (nargin ~= 5) || (nargout > 4) 
+    print_usage("[P,gradP,diagHessP,hessP]=schurOneMlatticeP(w,k,epsilon,p,c)");
   endif
   if length(k) ~= length(epsilon)
     error("length(k) ~= length(epsilon)");
@@ -53,8 +54,9 @@ function [P,gradP,diagHessP]=schurOneMlatticeP(w,k,epsilon,p,c)
   if(length(k)+1) ~= length(c)
     error("(length(k)+1) ~= length(c)");
   endif
+  
   if length(w) == 0
-    P=[]; gradP=[]; diagHessP=[];
+    P=[]; gradP=[]; diagHessP=[]; hessP=[];
     return;
   endif
 
@@ -74,6 +76,12 @@ function [P,gradP,diagHessP]=schurOneMlatticeP(w,k,epsilon,p,c)
     [H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2]=...
       schurOneMlattice2H(w,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc,d2Adkc2);
     [P,gradP,diagHessP]=H2P(H,dHdkc,diagd2Hdkc2);
+  else
+    [A,B,C,D,~,~,dAdkc,dBdkc,dCdkc,dDdkc,~,~,d2Adkc2]=...
+      schurOneMlattice2Abcd(k,epsilon,p,c);
+    [H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2,diagd3Hdwdkc2,d2Hdydx]=...
+      schurOneMlattice2H(w,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc,d2Adkc2);
+    [P,gradP,diagHessP,hessP]=H2P(H,dHdkc,diagd2Hdkc2,d2Hdydx);
   endif    
 
 endfunction

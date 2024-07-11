@@ -39,7 +39,8 @@ function [P,gradP,diagHessP,hessP]=H2P(H,dHdx,diagd2Hdx2,d2Hdydx)
   %
   % Sanity checks
   %
-  if ((nargout==1)&&(nargin<1)) || ...
+  if (nargout==0)               || ...
+     ((nargout==1)&&(nargin<1)) || ...
      ((nargout==2)&&(nargin<2)) || ...
      ((nargout==3)&&(nargin<3)) || ...
      ((nargout==4)&&(nargin<4)) || ...
@@ -47,26 +48,26 @@ function [P,gradP,diagHessP,hessP]=H2P(H,dHdx,diagd2Hdx2,d2Hdydx)
     print_usage ...
       ("[P,gradP,diagHessP,hessP]=H2P(H,dHdx,diagd2Hdx2,d2Hdydx)");
   endif
-  if (nargin>=1) && (length(H) == 0)
-    P=[]; gradP=[]; diagHessP=[]; hessP=[];
-    return;
+  Nw=length(H);
+  if (nargin >= 1) && (Nw ~= rows(H))
+    error("Nw ~= rows(H)");
   endif
-  if (nargin == 2) && (length(H) ~= rows(dHdx))
-    error("length(H) ~= rows(dHdx)");
+  if (nargin >= 2) && (Nw ~= rows(dHdx))
+    error("Nw ~= rows(dHdx)");
   endif
-  if (nargin == 3) && (length(H) ~= rows(diagd2Hdx2))
-    error("length(H) ~= rows(diagd2Hdx2)");
+  if (nargin >= 3) && (Nw ~= rows(diagd2Hdx2))
+    error("Nw ~= rows(diagd2Hdx2)");
   endif
-  if (nargin == 3) && (columns(dHdx) ~= columns(diagd2Hdx2))
+  if (nargin >= 3) && (columns(dHdx) ~= columns(diagd2Hdx2))
     error("columns(dHdx) ~= columns(diagd2Hdx2)");
   endif
-  if nargin == 4
+  if nargin >= 4
     sz_d2Hdydx = size(d2Hdydx);
     if length(sz_d2Hdydx) ~= 3
       error("Expected size(d2Hdydx)==[Nw,Nx,Nx]");
     endif
-    if length(H) ~= sz_d2Hdydx(1)
-      error("length(H) ~= sz_d2Hdydx(1)");
+    if Nw ~= sz_d2Hdydx(1)
+      error("Nw ~= sz_d2Hdydx(1)");
     endif
     if rows(dHdx) ~= sz_d2Hdydx(1)
       error("rows(dHdx) ~= sz_d2Hdydx(1)");
@@ -77,6 +78,11 @@ function [P,gradP,diagHessP,hessP]=H2P(H,dHdx,diagd2Hdx2,d2Hdydx)
     if sz_d2Hdydx(2) ~= sz_d2Hdydx(3)
       error("sz_d2Hdydx(2) ~= sz_d2Hdydx(3)");
     endif
+  endif
+  
+  if Nw == 0
+    P=[]; gradP=[]; diagHessP=[]; hessP=[];
+    return;
   endif
 
   % Find P
@@ -123,5 +129,12 @@ function [P,gradP,diagHessP,hessP]=H2P(H,dHdx,diagd2Hdx2,d2Hdydx)
   hessP=((krdHdx_t.*kidHdx) - (kidHdx_t.*krdHdx) + ...
          (kkrH.*imag(d2Hdydx)) - (kkiH.*real(d2Hdydx)) - ...
          (kgradAsq_t.*kgradP))./kkAsq;
-
+  
+  for l=1:Nw,
+    if ~issymmetric(squeeze(hessP(l,:,:)),10*eps)
+      error("hessP is not symmetric at l=%d",l);
+    endif
+    hessP(l,:,:)=(squeeze(hessP(l,:,:))+(squeeze(hessP(l,:,:)).'))/2;
+  endfor
+  
 endfunction
