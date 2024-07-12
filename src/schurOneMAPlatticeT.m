@@ -1,5 +1,5 @@
-function [T,gradT,diagHessT]=schurOneMAPlatticeT(w,k,epsilon,p,R)
-% [T,gradT,diagHessT]=schurOneMAPlatticeT(w,k,epsilon,p,R)
+function [T,gradT,diagHessT,hessT]=schurOneMAPlatticeT(w,k,epsilon,p,R)
+% [T,gradT,diagHessT,hessT]=schurOneMAPlatticeT(w,k,epsilon,p,R)
 % Calculate the group-delay responses and gradients of a Schur one-multiplier
 % all-pass lattice filter. If the order of the denominator
 % polynomial is Nk, then there are Nk one-multiplier lattice section
@@ -17,8 +17,9 @@ function [T,gradT,diagHessT]=schurOneMAPlatticeT(w,k,epsilon,p,R)
 %   T - the group delay response at w
 %   gradT - the gradients of T with respect to k and c
 %   diagHessT - diagonal of the Hessian of T with respect to k and c
+%   hessT - Hessian of T with respect to k and c
 
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -41,33 +42,39 @@ function [T,gradT,diagHessT]=schurOneMAPlatticeT(w,k,epsilon,p,R)
   %
   % Sanity checks
   %
-  if ((nargin ~= 3) && (nargin ~= 4) && (nargin ~= 5)) || (nargout > 3) 
-    print_usage("[T,gradT,diagHessT]=schurOneMAPlatticeP(w,k,epsilon[,p,R])");
+  if (nargin < 2) || (nargin > 5) || (nargout > 4)
+    print_usage ...
+      ("[T,gradT,diagHessT,hessT]=schurOneMAPlatticeT(w,k[,epsilon,p,R])");
   endif
-  if length(k) ~= length(epsilon)
-    error("length(k) ~= length(epsilon)");
+  if nargin <= 2
+    epsilon=ones(size(k));
+  else
+    if length(k) ~= length(epsilon)
+      error("length(k) ~= length(epsilon)");
+    endif
   endif
-  if (nargin >= 4) && (length(k) ~= length(p))
-    error("length(k) ~= length(p)");
-  endif
-  if length(w) == 0
-    T=[]; gradT=[]; diagHessT=[];
-    return;
-  endif
-  if nargin == 3
+  if nargin <= 3
     p=ones(size(k));
-    R=1;
-    wR=w;
-  elseif nargin == 4
+  else
+    if length(k) ~= length(p)
+      error("length(k) ~= length(p)");
+    endif
+  endif
+  if (nargin <= 4)
     R=1;
     wR=w;
   else
     if ~isscalar(R)
       error("~isscalar(R)");
     endif
-    wR=R*w;
+    wR=w*R;
   endif
-
+ 
+  if length(w) == 0
+    T=[]; gradT=[]; diagHessT=[]; hessT=[];
+    return;
+  endif
+  
   % Calculate the complex transfer function at w 
   if nargout==1
     [A,B,Cap,Dap]=schurOneMAPlattice2Abcd(k,epsilon,p);
@@ -97,6 +104,20 @@ function [T,gradT,diagHessT]=schurOneMAPlatticeT(w,k,epsilon,p,R)
       diagd3Hdwdk2=R*diagd3Hdwdk2;
     endif
     [T,gradT,diagHessT]=H2T(H,dHdw,dHdk,d2Hdwdk,diagd2Hdk2,diagd3Hdwdk2);
+  elseif nargout==4
+    [A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk,d2Adydx,~,d2Capdydx,~]=...
+      schurOneMAPlattice2Abcd(k,epsilon,p);
+    [H,dHdw,dHdk,d2Hdwdk,diagd2Hdk2,diagd3Hdwdk2,d2Hdydx,d3Hdwdydx]=...
+      schurOneMAPlattice2H(wR,A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk, ...
+                           d2Adydx,d2Capdydx);
+    if nargin==5
+      dHdw=R*dHdw;
+      d2Hdwdk=R*d2Hdwdk;
+      diagd3Hdwdydx=R*diagd3Hdwdydx;
+      d3Hdwdydx=R*d3Hdwdydx;
+    endif
+    [T,gradT,diagHessT,hessT] = ...
+      H2T(H,dHdw,dHdk,d2Hdwdk,diagd2Hdk2,diagd3Hdwdk2,d2Hdydx,d3Hdwdydx);
   endif    
 
 endfunction

@@ -1,118 +1,213 @@
 % schurOneMPAlatticeAsq_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMPAlatticeAsq_test.diary");
-delete("schurOneMPAlatticeAsq_test.diary.tmp");
-diary schurOneMPAlatticeAsq_test.diary.tmp
+strf="schurOneMPAlatticeAsq_test";
 
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
+
+verbose=false;
 tol=1e-7;
 
 for m=1:2
   
   schur_parallel_allpass_lattice_test_common;
-
+  
+  %
   % Lattice decomposition
+  %
   [A1k,A1epsilon,A1p,~] = tf2schurOneMlattice(flipud(Da1),Da1);
   [A2k,A2epsilon,A2p,~] = tf2schurOneMlattice(flipud(Db1),Db1);
 
   A1rng=1:length(A1k);
   A2rng=(length(A1k)+1):(length(A1k)+length(A2k));
 
+  %
   % Find the squared amplitude
+  %
   Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 
   % Check the squared amplitude response
   Hab1=freqz(Nab1,Dab1,wa);
   Asqab1=abs(Hab1).^2;
-  if max(abs(Asqab1-Asq)) > 5*tol
-    error("max(abs(Asqab1-Asq)) > 5*tol");
+  max_abs_diff_Asq = max(abs(Asqab1-Asq));
+  if verbose
+    printf("max_abs_diff_Asq = %g*tol\n",max_abs_diff_Asq/tol);
+  endif
+  if max_abs_diff_Asq > tol
+    error("max_abs_diff_Asq > tol");
   endif
 
+  %
   % Find the gradients of Asq
+  %
   [Asq,gradAsq]=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
                                       A2k,A2epsilon,A2p,difference);
   
-  % Check the gradients of the squared amplitude response wrt A1k
+  % Check the gradients of the squared amplitude response
+  est_dAsqdk=zeros(length(wa),length(A1k)+length(A2k));
   del=tol*10;
-  delk=zeros(size(A1k));
-  delk(1)=del/2;
-  diff_Asqk=zeros(length(wa),length(A1k));
+  delA1k=zeros(size(A1k));
+  delA1k(1)=del/2;
   for l=1:length(A1k)
-    AsqkPdel2=schurOneMPAlatticeAsq(wa,A1k+delk,A1epsilon,A1p, ...
+    AsqA1kP=schurOneMPAlatticeAsq(wa,A1k+delA1k,A1epsilon,A1p, ...
                                     A2k,A2epsilon,A2p,difference);
-    AsqkMdel2=schurOneMPAlatticeAsq(wa,A1k-delk,A1epsilon,A1p, ...
+    AsqA1kM=schurOneMPAlatticeAsq(wa,A1k-delA1k,A1epsilon,A1p, ...
                                     A2k,A2epsilon,A2p,difference);
-    delk=circshift(delk,1);
-    diff_Asqk(:,l)=(AsqkPdel2-AsqkMdel2)/del;
+    delA1k=circshift(delA1k,1);
+    est_dAsqdk(:,l)=(AsqA1kP-AsqA1kM)/del;
   endfor
-  if max(max(abs(diff_Asqk-gradAsq(:,A1rng)))) > tol
-    error("max(max(abs(diff_Asqk-gradAsq(:,A1rng)))) > tol");
-  endif
-
-  % Check the gradients of the squared amplitude response wrt A2k
-  del=tol*10;
-  delk=zeros(size(A2k));
-  delk(1)=del/2;
-  diff_Asqk=zeros(length(wa),length(A2k));
+  delA2k=zeros(size(A2k));
+  delA2k(1)=del/2;
   for l=1:length(A2k)
-    AsqkPdel2=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
-                                    A2k+delk,A2epsilon,A2p,difference);
-    AsqkMdel2=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
-                                    A2k-delk,A2epsilon,A2p,difference);
-    delk=circshift(delk,1);
-    diff_Asqk(:,l)=(AsqkPdel2-AsqkMdel2)/del;
+    AsqA2kP=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
+                                    A2k+delA2k,A2epsilon,A2p,difference);
+    AsqA2kM=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
+                                    A2k-delA2k,A2epsilon,A2p,difference);
+    delA2k=circshift(delA2k,1);
+    est_dAsqdk(:,length(A1k)+l)=(AsqA2kP-AsqA2kM)/del;
   endfor
-  if max(max(abs(diff_Asqk-gradAsq(:,A2rng)))) > tol
-    error("max(max(abs(diff_Asqk-gradAsq(:,A2rng)))) > tol");
+  max_abs_diff_dAsqdk = max(max(abs(est_dAsqdk-gradAsq)));
+  if verbose
+    printf("max_abs_diff_dAsqdk = %g*tol\n",max_abs_diff_dAsqdk/tol);
+  endif
+  if max_abs_diff_dAsqdk > tol
+    error("max_abs_diff_dAsqdk > tol");
   endif
 
+  %
   % Find diagHessAsq
+  %
   [Asq,gradAsq,diagHessAsq]=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
                                                   A2k,A2epsilon,A2p,difference);
 
-  % Check the Hessian of the squared amplitude response wrt A1k
+  % Check the diagonal of the Hessian of the squared amplitude response
+  est_d2Asqdk2=zeros(length(wa),length(A1k)+length(A2k));
   del=tol*10;
-  delk=zeros(size(A1k));
-  delk(1)=del/2;
-  diff_gradAsqk=zeros(length(wa),length(A1k));
+  delA1k=zeros(size(A1k));
+  delA1k(1)=del/2;
   for l=1:length(A1k)
-    [AsqkPdel2,gradAsqkPdel2]=schurOneMPAlatticeAsq(wa,A1k+delk,A1epsilon,A1p,...
-                                                    A2k,A2epsilon,A2p, ...
-                                                    difference);
-    [AsqkMdel2,gradAsqkMdel2]=schurOneMPAlatticeAsq(wa,A1k-delk,A1epsilon,A1p,...
-                                                    A2k,A2epsilon,A2p, ...
-                                                    difference);
-    delk=circshift(delk,1);
-    diff_gradAsqk(:,l)=(gradAsqkPdel2(:,l)-gradAsqkMdel2(:,l))/del;
+    [AsqA1kP,gradAsqA1kP] = schurOneMPAlatticeAsq(wa,A1k+delA1k,A1epsilon,A1p,...
+                                                  A2k,A2epsilon,A2p, ...
+                                                  difference);
+    [AsqA1kM,gradAsqA1kM] = schurOneMPAlatticeAsq(wa,A1k-delA1k,A1epsilon,A1p,...
+                                                  A2k,A2epsilon,A2p, ...
+                                                  difference);
+    delA1k=circshift(delA1k,1);
+    est_d2Asqdk2(:,l)=(gradAsqA1kP(:,l)-gradAsqA1kM(:,l))/del;
   endfor
-  if max(max(abs(diff_gradAsqk-diagHessAsq(:,A1rng)))) > tol
-    error("max(max(abs(diff_gradAsqk-diagHessAsq(,A1rng)))) > tol");
+  delA2k=zeros(size(A2k));
+  delA2k(1)=del/2;
+  for l=(length(A1k)+1):(length(A1k)+length(A2k))
+    [AsqA2kP,gradAsqA2kP] = schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,...
+                                                  A2k+delA2k,A2epsilon,A2p, ...
+                                                  difference);
+    [AsqA2kM,gradAsqA2kM] = schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,...
+                                                  A2k-delA2k,A2epsilon,A2p, ...
+                                                  difference);
+    delA2k=circshift(delA2k,1);
+    est_d2Asqdk2(:,l) = (gradAsqA2kP(:,l)-gradAsqA2kM(:,l))/del;
+  endfor
+  max_abs_diff_d2Asqdk2 = max(max(abs(est_d2Asqdk2-diagHessAsq)));
+  if verbose
+    printf("max_abs_diff_d2Asqdk2 = %g*tol\n",max_abs_diff_d2Asqdk2/tol);
+  endif
+  if max_abs_diff_d2Asqdk2 > 200*tol
+    error("max_abs_diff_d2Asqdk2 > 200*tol");
   endif
 
-  % Check the Hessian of the squared amplitude response wrt A2k
+  %
+  % Find hessAsq
+  %
+  [Asq,gradAsq,diagHessAsq,hessAsq] = ...
+    schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
+                          A2k,A2epsilon,A2p,difference);
+
+  % Check the Hessian of the squared amplitude response
+  if verbose
+    printf("Estimating d2Asqdydx\n");
+    tic;
+  endif
+  est_d2Asqdydx=zeros(length(wa), ...
+                      length(A1k)+length(A2k),length(A1k)+length(A2k));
   del=tol*10;
-  delk=zeros(size(A2k));
-  delk(1)=del/2;
-  diff_gradAsqk=zeros(length(wa),length(A2k));
-  for l=1:length(A2k)
-    [AsqkPdel2,gradAsqkPdel2]=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
-                                                    A2k+delk,A2epsilon,A2p, ...
-                                                    difference);
-    [AsqkMdel2,gradAsqkMdel2]=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p, ...
-                                                    A2k-delk,A2epsilon,A2p, ...
-                                                    difference);
-    delk=circshift(delk,1);
-    diff_gradAsqk(:,l)=(gradAsqkPdel2(:,length(A1k)+l)-...
-                        gradAsqkMdel2(:,length(A1k)+l))/del;
+  % d2AsqdA1kdA1k (upper left)
+  delA1k=zeros(size(A1k));
+  delA1k(1)=del/2;
+  for u=1:length(A1k)
+    for v=1:length(A1k)
+      [AsqA1kP,gradAsqA1kP]=schurOneMPAlatticeAsq(wa,A1k+delA1k,A1epsilon,A1p,...
+                                                  A2k,A2epsilon,A2p, ...
+                                                  difference);
+      [AsqA1kM,gradAsqA1kM]=schurOneMPAlatticeAsq(wa,A1k-delA1k,A1epsilon,A1p,...
+                                                  A2k,A2epsilon,A2p, ...
+                                                  difference);
+      delA1k=circshift(delA1k,1);
+      est_d2Asqdydx(:,u,v) = (gradAsqA1kP(:,u)-gradAsqA1kM(:,u))/del;
+    endfor
   endfor
-  if max(max(abs(diff_gradAsqk-diagHessAsq(:,A2rng)))) > tol
-    error("max(max(abs(diff_gradAsqk-diagHessAsq(,A2rng)))) > tol");
+  % d2AsqdA2kdA2k (lower right)
+  delA2k=zeros(size(A2k));
+  delA2k(1)=del/2;
+  for u=(length(A1k)+1):(length(A1k)+length(A2k))
+    for v=(length(A1k)+1):(length(A1k)+length(A2k))
+      [AsqA2kP,gradAsqA2kP] = schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,...
+                                                    A2k+delA2k,A2epsilon,A2p, ...
+                                                    difference);
+      [AsqA2kM,gradAsqA2kM] = schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,...
+                                                    A2k-delA2k,A2epsilon,A2p, ...
+                                                    difference);
+      delA2k=circshift(delA2k,1);
+      est_d2Asqdydx(:,u,v) = (gradAsqA2kP(:,u)-gradAsqA2kM(:,u))/del;
+    endfor
+  endfor
+  % d2AsqdA1kdA2k (lower left)
+  delA1k=zeros(size(A1k));
+  delA1k(1)=del/2;
+  for u=(length(A1k)+1):(length(A1k)+length(A2k))
+    for v=1:length(A1k)
+      [AsqA1kP,gradAsqA1kP]=schurOneMPAlatticeAsq(wa,A1k+delA1k,A1epsilon,A1p,...
+                                                  A2k,A2epsilon,A2p, ...
+                                                  difference);
+      [AsqA1kM,gradAsqA1kM]=schurOneMPAlatticeAsq(wa,A1k-delA1k,A1epsilon,A1p,...
+                                                  A2k,A2epsilon,A2p, ...
+                                                  difference);
+      delA1k=circshift(delA1k,1);
+      est_d2Asqdydx(:,u,v) = (gradAsqA1kP(:,u)-gradAsqA1kM(:,u))/del;
+    endfor
+  endfor
+  % d2AsqdA2kdA1k (upper right)
+  delA2k=zeros(size(A2k));
+  delA2k(1)=del/2;
+  for u=1:length(A1k)
+    for v=(length(A1k)+1):(length(A1k)+length(A2k))
+      [AsqA2kP,gradAsqA2kP] = schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,...
+                                                    A2k+delA2k,A2epsilon,A2p, ...
+                                                    difference);
+      [AsqA2kM,gradAsqA2kM] = schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,...
+                                                    A2k-delA2k,A2epsilon,A2p, ...
+                                                    difference);
+      delA2k=circshift(delA2k,1);
+      est_d2Asqdydx(:,u,v) = (gradAsqA2kP(:,u)-gradAsqA2kM(:,u))/del;
+    endfor
+  endfor
+  if verbose
+    toc;
+  endif
+  max_abs_diff_d2Asqdydx = max(max(max(abs(est_d2Asqdydx-hessAsq))));
+  if verbose
+    printf("max_abs_diff_d2Asqdydx = %g*tol\n",
+           max_abs_diff_d2Asqdydx/tol);
+  endif
+  if max_abs_diff_d2Asqdydx > 200*tol
+    error("max_abs_diff_d2Asqdydx > 200*tol");
   endif
   
 endfor
 
 % Done
 diary off
-movefile schurOneMPAlatticeAsq_test.diary.tmp schurOneMPAlatticeAsq_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

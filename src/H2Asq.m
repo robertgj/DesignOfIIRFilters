@@ -1,5 +1,5 @@
 function [Asq,gradAsq,diagHessAsq,hessAsq]=H2Asq(H,dHdx,diagd2Hdx2,d2Hdydx)
-% [Asq,gradAsq,diagHessAsq]=H2Asq(H,dHdx,diagd2Hdx2,d2Hdydx)
+% [Asq,gradAsq,diagHessAsq,hessAsq]=H2Asq(H,dHdx,diagd2Hdx2,d2Hdydx)
 % A helper function that calculates the squared-magnitude response and
 % gradients of a filter with the complex response, H, and gradients, dHdx,
 % and diagonal of the Hessian of H, diagd2Hdx2, found by functions like

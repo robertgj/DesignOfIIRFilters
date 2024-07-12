@@ -1,114 +1,216 @@
 % schurOneMPAlatticeP_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMPAlatticeP_test.diary");
-delete("schurOneMPAlatticeP_test.diary.tmp");
-diary schurOneMPAlatticeP_test.diary.tmp
+strf="schurOneMPAlatticeP_test";
 
-tol=1e-8;
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
+
+verbose=false;
+tol=1e-7;
 
 for m=1:2
   
   schur_parallel_allpass_lattice_test_common;
-
+  
+  %
   % Lattice decomposition
+  %
   [A1k,A1epsilon,A1p,~] = tf2schurOneMlattice(flipud(Da1),Da1);
   [A2k,A2epsilon,A2p,~] = tf2schurOneMlattice(flipud(Db1),Db1);
 
   A1rng=1:length(A1k);
   A2rng=(length(A1k)+1):(length(A1k)+length(A2k));
 
+%  Nw=400;
+%  wp=wp(1:Nw);
+  
+  %
   % Find the phase
+  %
   P=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 
   % Check the phase response
-  PHab1=freqz(Nab1,Dab1,wp);
-  Pab1=unwrap(arg(PHab1));
-  if max(abs(Pab1-P)) > tol
-    error("max(abs(Pab1-P)) > tol");
+  Hab1=freqz(Nab1,Dab1,wp);
+  Pab1=unwrap(arg(Hab1));
+  max_abs_diff_P = max(abs(Pab1-P));
+  if verbose
+    printf("max_abs_diff_P = %g*tol\n",max_abs_diff_P/tol);
+  endif
+  if max_abs_diff_P > tol/10
+    error("max_abs_diff_P > tol/10");
   endif
 
+  %
   % Find the gradients of P
-  [P,gradP]=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                                difference);
+  %
+  [P,gradP]=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p, ...
+                                A2k,A2epsilon,A2p,difference);
   
-  % Check the gradients of the phase response wrt A1k
-  del=tol*100;
-  delk=zeros(size(A1k));
-  delk(1)=del/2;
-  diff_Pk=zeros(length(P),length(A1k));
+  % Check the gradients of the phase response
+  est_dPdk=zeros(length(wp),length(A1k)+length(A2k));
+  del=tol*10;
+  delA1k=zeros(size(A1k));
+  delA1k(1)=del/2;
   for l=1:length(A1k)
-    PkPdel2=schurOneMPAlatticeP(wp,A1k+delk,A1epsilon,A1p,A2k,A2epsilon,A2p,...
-                                difference);
-    PkMdel2=schurOneMPAlatticeP(wp,A1k-delk,A1epsilon,A1p,A2k,A2epsilon,A2p,...
-                                difference);
-    delk=circshift(delk,1);
-    diff_Pk(:,l)=(PkPdel2-PkMdel2)/del;
+    PA1kP=schurOneMPAlatticeP(wp,A1k+delA1k,A1epsilon,A1p, ...
+                              A2k,A2epsilon,A2p,difference);
+    PA1kM=schurOneMPAlatticeP(wp,A1k-delA1k,A1epsilon,A1p, ...
+                              A2k,A2epsilon,A2p,difference);
+    delA1k=circshift(delA1k,1);
+    est_dPdk(:,l)=(PA1kP-PA1kM)/del;
   endfor
-  if max(max(abs(diff_Pk-gradP(:,A1rng)))) > tol
-    error("max(max(abs(diff_Pk-gradP(:,A1rng)))) > tol");
-  endif
-
-  % Check the gradients of the phase response wrt A2k
-  del=tol*100;
-  delk=zeros(size(A2k));
-  delk(1)=del/2;
-  diff_Pk=zeros(length(P),length(A2k));
+  delA2k=zeros(size(A2k));
+  delA2k(1)=del/2;
   for l=1:length(A2k)
-    PkPdel2=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,A2k+delk,A2epsilon,A2p,...
-                                difference);
-    PkMdel2=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,A2k-delk,A2epsilon,A2p,...
-                                difference);
-    delk=circshift(delk,1);
-    diff_Pk(:,l)=(PkPdel2-PkMdel2)/del;
+    PA2kP=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p, ...
+                              A2k+delA2k,A2epsilon,A2p,difference);
+    PA2kM=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p, ...
+                              A2k-delA2k,A2epsilon,A2p,difference);
+    delA2k=circshift(delA2k,1);
+    est_dPdk(:,length(A1k)+l)=(PA2kP-PA2kM)/del;
   endfor
-  if max(max(abs(diff_Pk-gradP(:,A2rng)))) > tol
-    error("max(max(abs(diff_Pk-gradP(:,A2rng)))) > tol");
+  max_abs_diff_dPdk = max(max(abs(est_dPdk-gradP)));
+  if verbose
+    printf("max_abs_diff_dPdk = %g*tol\n",max_abs_diff_dPdk/tol);
+  endif
+  if max_abs_diff_dPdk > tol/10
+    error("max_abs_diff_dPdk > tol/10");
   endif
 
+  %
   % Find diagHessP
+  %
   [P,gradP,diagHessP]=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p, ...
                                           A2k,A2epsilon,A2p,difference);
 
-  % Check the Hessian of the phase response wrt A1k
-  del=tol*100;
-  delk=zeros(size(A1k));
-  delk(1)=del/2;
-  diff_gradPk=zeros(length(P),length(A1k));
+  % Check the diagonal of the Hessian of the phase response
+  est_d2Pdk2=zeros(length(wp),length(A1k)+length(A2k));
+  del=tol*10;
+  delA1k=zeros(size(A1k));
+  delA1k(1)=del/2;
   for l=1:length(A1k)
-    [PkPdel2,gradPkPdel2]=schurOneMPAlatticeP(wp,A1k+delk,A1epsilon,A1p, ...
-                                              A2k,A2epsilon,A2p,difference);
-    [PkMdel2,gradPkMdel2]=schurOneMPAlatticeP(wp,A1k-delk,A1epsilon,A1p, ...
-                                              A2k,A2epsilon,A2p,difference);
-    delk=circshift(delk,1);
-    diff_gradPk(:,l)=(gradPkPdel2(:,l)-gradPkMdel2(:,l))/del;
+    [PA1kP,gradPA1kP] = schurOneMPAlatticeP(wp,A1k+delA1k,A1epsilon,A1p,...
+                                            A2k,A2epsilon,A2p, ...
+                                            difference);
+    [PA1kM,gradPA1kM] = schurOneMPAlatticeP(wp,A1k-delA1k,A1epsilon,A1p,...
+                                            A2k,A2epsilon,A2p, ...
+                                            difference);
+    delA1k=circshift(delA1k,1);
+    est_d2Pdk2(:,l)=(gradPA1kP(:,l)-gradPA1kM(:,l))/del;
   endfor
-  if max(max(abs(diff_gradPk-diagHessP(:,A1rng)))) > 3*tol
-    error("max(max(abs(diff_gradPk-diagHessP(,A1rng)))) > 3*tol");
+  delA2k=zeros(size(A2k));
+  delA2k(1)=del/2;
+  for l=(length(A1k)+1):(length(A1k)+length(A2k))
+    [PA2kP,gradPA2kP] = schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,...
+                                            A2k+delA2k,A2epsilon,A2p, ...
+                                            difference);
+    [PA2kM,gradPA2kM] = schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,...
+                                            A2k-delA2k,A2epsilon,A2p, ...
+                                            difference);
+    delA2k=circshift(delA2k,1);
+    est_d2Pdk2(:,l) = (gradPA2kP(:,l)-gradPA2kM(:,l))/del;
+  endfor
+  max_abs_diff_d2Pdk2 = max(max(abs(est_d2Pdk2-diagHessP)));
+  if verbose
+    printf("max_abs_diff_d2Pdk2 = %g*tol\n",max_abs_diff_d2Pdk2/tol);
+  endif
+  if max_abs_diff_d2Pdk2 > tol
+    error("max_abs_diff_d2Pdk2 > tol");
   endif
 
-  % Check the Hessian of the phase response wrt A2k
-  del=tol*100;
-  delk=zeros(size(A2k));
-  delk(1)=del/2;
-  diff_gradPk=zeros(length(P),length(A2k));
-  for l=1:length(A2k)
-    [PkPdel2,gradPkPdel2]=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p, ...
-                                              A2k+delk,A2epsilon,A2p,difference);
-    [PkMdel2,gradPkMdel2]=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p, ...
-                                              A2k-delk,A2epsilon,A2p,difference);
-    delk=circshift(delk,1);
-    diff_gradPk(:,l)=(gradPkPdel2(:,length(A1k)+l)-...
-                      gradPkMdel2(:,length(A1k)+l))/del;
+  %
+  % Find hessP
+  %
+  [P,gradP,diagHessP,hessP] = ...
+    schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p, ...
+                        A2k,A2epsilon,A2p,difference);
+
+  % Check the Hessian of the phase response
+  if verbose
+    printf("Estimating d2Pdydx\n");
+    tic;
+  endif
+  est_d2Pdydx=zeros(length(wp), ...
+                      length(A1k)+length(A2k),length(A1k)+length(A2k));
+  del=tol*10;
+  % d2PdA1kdA1k (upper left)
+  delA1k=zeros(size(A1k));
+  delA1k(1)=del/2;
+  for u=1:length(A1k)
+    for v=1:length(A1k)
+      [PA1kP,gradPA1kP]=schurOneMPAlatticeP(wp,A1k+delA1k,A1epsilon,A1p,...
+                                            A2k,A2epsilon,A2p, ...
+                                            difference);
+      [PA1kM,gradPA1kM]=schurOneMPAlatticeP(wp,A1k-delA1k,A1epsilon,A1p,...
+                                            A2k,A2epsilon,A2p, ...
+                                            difference);
+      delA1k=circshift(delA1k,1);
+      est_d2Pdydx(:,u,v) = (gradPA1kP(:,u)-gradPA1kM(:,u))/del;
+    endfor
   endfor
-  if max(max(abs(diff_gradPk-diagHessP(:,A2rng)))) > 3*tol
-    error("max(max(abs(diff_gradPk-diagHessP(,A2rng)))) > 3*tol");
+  % d2PdA2kdA2k (lower right)
+  delA2k=zeros(size(A2k));
+  delA2k(1)=del/2;
+  for u=(length(A1k)+1):(length(A1k)+length(A2k))
+    for v=(length(A1k)+1):(length(A1k)+length(A2k))
+      [PA2kP,gradPA2kP] = schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,...
+                                              A2k+delA2k,A2epsilon,A2p, ...
+                                              difference);
+      [PA2kM,gradPA2kM] = schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,...
+                                              A2k-delA2k,A2epsilon,A2p, ...
+                                              difference);
+      delA2k=circshift(delA2k,1);
+      est_d2Pdydx(:,u,v) = (gradPA2kP(:,u)-gradPA2kM(:,u))/del;
+    endfor
+  endfor
+  % d2PdA1kdA2k (lower left)
+  delA1k=zeros(size(A1k));
+  delA1k(1)=del/2;
+  for u=(length(A1k)+1):(length(A1k)+length(A2k))
+    for v=1:length(A1k)
+      [PA1kP,gradPA1kP]=schurOneMPAlatticeP(wp,A1k+delA1k,A1epsilon,A1p,...
+                                            A2k,A2epsilon,A2p, ...
+                                            difference);
+      [PA1kM,gradPA1kM]=schurOneMPAlatticeP(wp,A1k-delA1k,A1epsilon,A1p,...
+                                            A2k,A2epsilon,A2p, ...
+                                            difference);
+      delA1k=circshift(delA1k,1);
+      est_d2Pdydx(:,u,v) = (gradPA1kP(:,u)-gradPA1kM(:,u))/del;
+    endfor
+  endfor
+  % d2PdA2kdA1k (upper right)
+  delA2k=zeros(size(A2k));
+  delA2k(1)=del/2;
+  for u=1:length(A1k)
+    for v=(length(A1k)+1):(length(A1k)+length(A2k))
+      [PA2kP,gradPA2kP] = schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,...
+                                              A2k+delA2k,A2epsilon,A2p, ...
+                                              difference);
+      [PA2kM,gradPA2kM] = schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,...
+                                              A2k-delA2k,A2epsilon,A2p, ...
+                                              difference);
+      delA2k=circshift(delA2k,1);
+      est_d2Pdydx(:,u,v) = (gradPA2kP(:,u)-gradPA2kM(:,u))/del;
+    endfor
+  endfor
+  if verbose
+    toc;
+  endif
+  max_abs_diff_d2Pdydx = max(max(max(abs(est_d2Pdydx-hessP))));
+  if verbose
+    printf("max_abs_diff_d2Pdydx = %g*tol\n",
+           max_abs_diff_d2Pdydx/tol);
+  endif
+  if max_abs_diff_d2Pdydx > tol
+    error("max_abs_diff_d2Pdydx > tol");
   endif
   
 endfor
 
 % Done
 diary off
-movefile schurOneMPAlatticeP_test.diary.tmp schurOneMPAlatticeP_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

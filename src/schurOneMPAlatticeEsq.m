@@ -1,7 +1,7 @@
-function [Esq,gradEsq,diagHessEsq]=...
+function [Esq,gradEsq,diagHessEsq,hessEsq]=...
          schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference,...
                                wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)
-% [Esq,gradEsq,diagHessEsq]= ...
+% [Esq,gradEsq,diagHessEsq,hessEsq]= ...
 %   schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference,...
 %                         wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)
 % Inputs:
@@ -23,8 +23,9 @@ function [Esq,gradEsq,diagHessEsq]=...
 %   Esq - the squared error value at the coefficients, x
 %   gradEsq - gradient of the squared error value at x
 %   diagHessEsq - diagonal of the Hessian of the squared error value at x.
+%   hessEsq - Hessian of the squared error value at x.
 
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -44,14 +45,14 @@ function [Esq,gradEsq,diagHessEsq]=...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if nargout>3 || ((nargin~=10)&&(nargin~=13)&&(nargin~=16))
-    print_usage("[Esq,gradEsq,diagHessEsq] = ...\n\
+  if nargout>4 || ((nargin~=10)&&(nargin~=13)&&(nargin~=16))
+    print_usage("[Esq,gradEsq,diagHessEsq,hessEsq] = ...\n\
       schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...\n\
                             difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp) \n\
-[Esq,gradEsq,diagHessEsq] = ...\n\
+[Esq,gradEsq,diagHessEsq,hessEsq] = ...\n\
       schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...\n\
                             difference,wa,Asqd,Wa,wt,Td,Wt) \n\
-[Esq,gradEsq,diagHessEsq] = ...\n\
+[Esq,gradEsq,diagHessEsq,hessEsq] = ...\n\
       schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...\n\
                             difference,wa,Asqd,Wa)");
   endif
@@ -65,6 +66,7 @@ function [Esq,gradEsq,diagHessEsq]=...
 
   NA1k=length(A1k);
   NA2k=length(A2k);
+  NA12k=NA1k+NA2k;
   
   if nargout==1
     if isempty(wa)
@@ -92,7 +94,7 @@ function [Esq,gradEsq,diagHessEsq]=...
   elseif nargout==2
     if isempty(wa)
       EsqAsq = 0;
-      gradEsqAsq = zeros(1,NA1k+NA2k);
+      gradEsqAsq = zeros(1,NA12k);
     else
       [EsqAsq,gradEsqAsq] = ...
         schurOneMPAlatticeXError(@schurOneMPAlatticeAsq,...
@@ -101,7 +103,7 @@ function [Esq,gradEsq,diagHessEsq]=...
     endif
     if isempty(wt)
       EsqT = 0;
-      gradEsqT = zeros(1,NA1k+NA2k);
+      gradEsqT = zeros(1,NA12k);
     else
       [EsqT,gradEsqT] = ...
         schurOneMPAlatticeXError(@schurOneMPAlatticeT,...
@@ -110,7 +112,7 @@ function [Esq,gradEsq,diagHessEsq]=...
     endif
     if isempty(wp)
       EsqP = 0;
-      gradEsqP = zeros(1,NA1k+NA2k);
+      gradEsqP = zeros(1,NA12k);
     else
       [EsqP,gradEsqP] = ...
         schurOneMPAlatticeXError(@schurOneMPAlatticeP,...
@@ -122,8 +124,8 @@ function [Esq,gradEsq,diagHessEsq]=...
   elseif nargout==3
     if isempty(wa)
       EsqAsq = 0;
-      gradEsqAsq = zeros(1,NA1k+NA2k);
-      diagHessEsqAsq = zeros(1,NA1k+NA2k);
+      gradEsqAsq = zeros(1,NA12k);
+      diagHessEsqAsq = zeros(1,NA12k);
     else
       [EsqAsq,gradEsqAsq,diagHessEsqAsq] = ...
         schurOneMPAlatticeXError(@schurOneMPAlatticeAsq, ...
@@ -132,8 +134,8 @@ function [Esq,gradEsq,diagHessEsq]=...
     endif
     if isempty(wt)
       EsqT = 0;
-      gradEsqT = zeros(1,NA1k+NA2k);
-      diagHessEsqT = zeros(1,NA1k+NA2k);
+      gradEsqT = zeros(1,NA12k);
+      diagHessEsqT = zeros(1,NA12k);
     else
       [EsqT,gradEsqT,diagHessEsqT] = ...
         schurOneMPAlatticeXError(@schurOneMPAlatticeT, ...
@@ -142,8 +144,8 @@ function [Esq,gradEsq,diagHessEsq]=...
     endif
     if isempty(wp)
       EsqP = 0;
-      gradEsqP = zeros(1,NA1k+NA2k);
-      diagHessEsqP = zeros(1,NA1k+NA2k);
+      gradEsqP = zeros(1,NA12k);
+      diagHessEsqP = zeros(1,NA12k);
     else
       [EsqP,gradEsqP,diagHessEsqP] = ...
         schurOneMPAlatticeXError(@schurOneMPAlatticeP, ...
@@ -153,16 +155,54 @@ function [Esq,gradEsq,diagHessEsq]=...
     Esq = EsqAsq + EsqT + EsqP;
     gradEsq = gradEsqAsq + gradEsqT + gradEsqP;
     diagHessEsq = diagHessEsqAsq + diagHessEsqT + diagHessEsqP;
+  elseif nargout==4
+    if isempty(wa)
+      EsqAsq = 0;
+      gradEsqAsq = zeros(1,NA12k);
+      diagHessEsqAsq = zeros(1,NA12k);
+      hessEsqAsq = zeros(NA12k,NA12k);
+    else
+      [EsqAsq,gradEsqAsq,diagHessEsqAsq,hessEsqAsq] = ...
+        schurOneMPAlatticeXError(@schurOneMPAlatticeAsq, ...
+                                 A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+                                 difference,wa,Asqd,Wa);
+    endif
+    if isempty(wt)
+      EsqT = 0;
+      gradEsqT = zeros(1,NA12k);
+      diagHessEsqT = zeros(1,NA12k);
+      hessEsqT = zeros(NA12k,NA12k);
+    else
+      [EsqT,gradEsqT,diagHessEsqT,hessEsqT] = ...
+        schurOneMPAlatticeXError(@schurOneMPAlatticeT, ...
+                                 A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+                                 difference,wt,Td,Wt);
+    endif
+    if isempty(wp)
+      EsqP = 0;
+      gradEsqP = zeros(1,NA12k);
+      diagHessEsqP = zeros(1,NA12k);
+      hessEsqP = zeros(NA12k,NA12k);
+    else
+      [EsqP,gradEsqP,diagHessEsqP,hessEsqP] = ...
+        schurOneMPAlatticeXError(@schurOneMPAlatticeP, ...
+                                 A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+                                 difference,wp,Pd,Wp);
+    endif
+    Esq = EsqAsq + EsqT + EsqP;
+    gradEsq = gradEsqAsq + gradEsqT + gradEsqP;
+    diagHessEsq = diagHessEsqAsq + diagHessEsqT + diagHessEsqP;
+    hessEsq = hessEsqAsq + hessEsqT + hessEsqP;
   endif
 
 endfunction
 
-function [ErrorX,gradErrorX,diagHessErrorX] = ...
+function [ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...
          schurOneMPAlatticeXError(pfX,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
                                   difference,wx,Xd,Wx)
 
-  if nargin~=11 || nargout>3 
-    print_usage("[ErrorX,gradErrorX,diagHessErrorX] = ...\n\
+  if nargin~=11 || nargout>4
+    print_usage("[ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...\n\
     schurOneMPAlatticeXError(pfX,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...\n\
                              difference,wx,Xd,Wx)");
   endif
@@ -180,6 +220,7 @@ function [ErrorX,gradErrorX,diagHessErrorX] = ...
   wx=wx(:);
   Xd=Xd(:);
   Wx=Wx(:);
+  NA12k=NA1k+NA2k;
 
   % Sanity checks
   Nx = length(wx);
@@ -193,13 +234,16 @@ function [ErrorX,gradErrorX,diagHessErrorX] = ...
   % X response at wx
   if nargout==1
     X=pfX(wx,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
-    gradX=zeros(Nx,NA1k+NA2k);
-    diagHessX=zeros(Nx,NA1k+NA2k);
+    gradX=zeros(Nx,NA12k);
+    diagHessX=zeros(Nx,NA12k);
   elseif nargout==2
     [X,gradX]=pfX(wx,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
-    diagHessX=zeros(Nx,NA1k+NA2k);
+    diagHessX=zeros(Nx,NA12k);
   elseif nargout==3
     [X,gradX,diagHessX]=pfX(wx,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
+  elseif nargout==4
+    [X,gradX,diagHessX,hessX] = ...
+      pfX(wx,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
   endif
 
   % Sanity check
@@ -217,10 +261,10 @@ function [ErrorX,gradErrorX,diagHessErrorX] = ...
   endif
 
   % Gradient of response error  
-  kErrX=kron(ErrX,ones(1,NA1k+NA2k));
+  kErrX=kron(ErrX,ones(1,NA12k));
   kErrXGradX=((kErrX(1:(Nx-1),:).*gradX(1:(Nx-1),:)) + ...
                   (kErrX(2:end,:).*gradX(2:end,:)))/2;
-  kdwx=kron(dwx,ones(1,NA1k+NA2k));
+  kdwx=kron(dwx,ones(1,NA12k));
   kdwxErrXGradX=2*kdwx.*kErrXGradX;
   gradErrorX=sum(kdwxErrXGradX,1);
   if nargout==2
@@ -230,7 +274,31 @@ function [ErrorX,gradErrorX,diagHessErrorX] = ...
   % We only want the diagonal of the Hessian of the error.
   % Recall that the derivative of integralof(2*Wx*(X-Xd)'*gradX) is
   % integralof(2*Wx*gradX'*gradX + 2*Wx*(X-Xd)'*diagHessX). 
-  dHessXInt=(kron(Wx,ones(1,NA1k+NA2k)).*(gradX.^2))+(kErrX.*diagHessX);
+  dHessXInt=(kron(Wx,ones(1,NA12k)).*(gradX.^2))+(kErrX.*diagHessX);
   diagHessErrorX=sum(kdwx.*(dHessXInt(1:(Nx-1),:)+dHessXInt(2:Nx,:)),1);
+  if nargout==3
+    return
+  endif
+
+  % Hessian of the squared-error
+  % Construct the 1st term
+  WxKgradX=kron(ones(1,NA12k),Wx).*gradX;
+  WgradXbyRow = ...
+    permute(reshape(kron(WxKgradX',ones(1,NA12k)),NA12k,NA12k,Nx),[3,1,2]);
+  gradXbyCol = ...
+    permute(reshape(kron(gradX',ones(NA12k,1)),NA12k,NA12k,Nx),[3,1,2]);
+
+  % Construct 2nd term
+  % Create an Nx-by-NA12k-by-NA12k array.
+  % Each element of the l'th NA12k-by-NA12k subarray is ErrX(l).
+  hkErrX=permute(reshape(kron(ErrX',ones(NA12k,NA12k)),NA12k,NA12k,Nx),[3,1,2]);
+
+  % Integrand
+  hXint=(WgradXbyRow.*gradXbyCol)+(hkErrX.*hessX);
+
+  % Trapezoidal integration
+  kdwx=permute(reshape(kron(dwx',ones(NA12k,NA12k)),NA12k,NA12k,Nx-1),[3,1,2]);
+  hessErrorX=2*reshape(sum(kdwx.*(hXint(1:(Nx-1),:,:) + ...
+                                  hXint(2:Nx,:,:))/2,1),NA12k,NA12k);
 
 endfunction

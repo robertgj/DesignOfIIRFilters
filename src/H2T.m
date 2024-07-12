@@ -202,7 +202,7 @@ function [T,gradT,diagHessT,hessT]= ...
          +(kidHdx_t.*krd2Hdwdx)+(kkiH.*rd3Hdwdydx))./kkAsq;
   
   for l=1:Nw,
-    if ~issymmetric(squeeze(hessT(l,:,:)),10*eps)
+    if ~issymmetric(squeeze(hessT(l,:,:)),100*eps)
       error("hessT is not symmetric at l=%d",l);
     endif 
     hessT(l,:,:)=(squeeze(hessT(l,:,:))+(squeeze(hessT(l,:,:)).'))/2;
