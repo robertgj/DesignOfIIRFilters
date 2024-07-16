@@ -2,10 +2,11 @@
 
 prog=schurOneMlatticeT_test.m
 
-depends="test/schurOneMlatticeT_test.m test_common.m delayz.m schurOneMlatticeT.m \
-tf2schurOneMlattice.m schurOneMlattice2Abcd.oct tf2pa.m schurOneMscale.m \
-H2Asq.m H2T.m schurOneMlattice2H.oct spectralfactor.oct schurdecomp.oct \
-schurexpand.oct complex_zhong_inverse.oct qroots.m qzsolve.oct"
+depends="test/schurOneMlatticeT_test.m test_common.m schurOneMlatticeT.m \
+schur_lattice_test_common.m delayz.m tf2schurOneMlattice.m \
+tf2pa.m schurOneMscale.m qroots.m H2Asq.m H2T.m \
+schurOneMlattice2Abcd.oct schurOneMlattice2H.oct spectralfactor.oct \
+schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

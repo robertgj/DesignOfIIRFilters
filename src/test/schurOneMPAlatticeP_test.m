@@ -12,9 +12,9 @@ eval(sprintf("diary %s.diary.tmp",strf));
 verbose=false;
 tol=1e-7;
 
-for m=1:2
+for x=1:2
   
-  schur_parallel_allpass_lattice_test_common;
+  schur_lattice_test_common;
   
   %
   % Lattice decomposition
@@ -25,18 +25,15 @@ for m=1:2
   A1rng=1:length(A1k);
   A2rng=(length(A1k)+1):(length(A1k)+length(A2k));
 
-%  Nw=400;
-%  wp=wp(1:Nw);
-  
   %
   % Find the phase
   %
   P=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 
   % Check the phase response
-  Hab1=freqz(Nab1,Dab1,wp);
-  Pab1=unwrap(arg(Hab1));
-  max_abs_diff_P = max(abs(Pab1-P));
+  Hnd=freqz(n,d,wp);
+  Pnd=unwrap(arg(Hnd));
+  max_abs_diff_P = max(abs(Pnd-P));
   if verbose
     printf("max_abs_diff_P = %g*tol\n",max_abs_diff_P/tol);
   endif

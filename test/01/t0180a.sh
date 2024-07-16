@@ -3,7 +3,7 @@
 prog=schurOneMPAlatticeT_test.m
 
 depends="test/schurOneMPAlatticeT_test.m test_common.m delayz.m schurOneMPAlatticeT.m \
-schur_parallel_allpass_lattice_test_common.m \
+schur_lattice_test_common.m \
 tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m schurOneMlattice2Abcd.oct \
 H2Asq.m H2T.m schurOneMAPlattice2H.oct tf2pa.m schurOneMscale.m \
 spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \

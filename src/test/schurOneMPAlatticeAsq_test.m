@@ -12,9 +12,9 @@ eval(sprintf("diary %s.diary.tmp",strf));
 verbose=false;
 tol=1e-7;
 
-for m=1:2
+for x=1:2
   
-  schur_parallel_allpass_lattice_test_common;
+  schur_lattice_test_common;
   
   %
   % Lattice decomposition
@@ -31,9 +31,9 @@ for m=1:2
   Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 
   % Check the squared amplitude response
-  Hab1=freqz(Nab1,Dab1,wa);
-  Asqab1=abs(Hab1).^2;
-  max_abs_diff_Asq = max(abs(Asqab1-Asq));
+  Hnd=freqz(n,d,wa);
+  Asqnd=abs(Hnd).^2;
+  max_abs_diff_Asq = max(abs(Asqnd-Asq));
   if verbose
     printf("max_abs_diff_Asq = %g*tol\n",max_abs_diff_Asq/tol);
   endif

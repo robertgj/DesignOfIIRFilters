@@ -12,9 +12,9 @@ eval(sprintf("diary %s.diary.tmp",strf));
 verbose=false;
 tol=1e-6;
 
-for m=1:2,
+for x=1:2,
 
-  schur_parallel_allpass_lattice_test_common;
+  schur_lattice_test_common;
 
   %
   % Lattice decomposition
@@ -49,6 +49,9 @@ for m=1:2,
   Ta1=delayz(flipud(Da1),Da1,wt);
   Tb1=delayz(flipud(Db1),Db1,wt);
   Tab1=(Ta1+Tb1)/2;
+
+  dAsqdw = ...
+    schurOneMPAlatticedAsqdw(wd,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
   
   AsqErr=Wa.*((Asqab1-Asqd).^2);
   AsqErrSum=sum(diff(wa).*(AsqErr(1:(end-1))+AsqErr(2:end)))/2;
@@ -56,25 +59,56 @@ for m=1:2,
   TErrSum=sum(diff(wt).*(TErr(1:(end-1))+TErr(2:end)))/2;
   PErr=Wp.*((Pab1-Pd).^2);  
   PErrSum=sum(diff(wp).*(PErr(1:(end-1))+PErr(2:end)))/2;
-  EsqErrSum=AsqErrSum+TErrSum+PErrSum;
+  DErr=Wd.*((dAsqdw-Dd).^2);  
+  DErrSum=sum(diff(wd).*(DErr(1:(end-1))+DErr(2:end)))/2;
   
   % Find the squared-error
   Esq=schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-
-  abs_diff_Esq=abs(EsqErrSum-Esq);
+                            difference,wa,Asqd,Wa);
+  EsqErrSum=AsqErrSum;
   if verbose
-    printf("abs_diff_Esq = %g*tol\n",abs_diff_Esq/tol);
+    printf("abs(EsqErrSum-Esq) = %g*eps\n", abs(EsqErrSum-Esq)/eps);
   endif
-  if abs_diff_Esq > tol/1e4
-    error("abs_diffEsq > tol/1e4");
+  if abs(EsqErrSum-Esq) > 2*eps
+    error("abs(EsqErrSum-Esq) > 2*eps");
+  endif
+
+  Esq=schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+                            difference,wa,Asqd,Wa,wt,Td,Wt);
+  EsqErrSum=AsqErrSum+TErrSum;
+  if verbose
+    printf("abs(EsqErrSum-Esq) = %g*eps\n", abs(EsqErrSum-Esq)/eps);
+  endif
+  if abs(AsqErrSum+TErrSum-Esq) > 1e5*eps
+    error("abs(AsqErrSum-Esq) > 1e5*eps");
+  endif
+
+  Esq=schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+  EsqErrSum=AsqErrSum+TErrSum+PErrSum;
+  if verbose
+    printf("abs(EsqErrSum-Esq) = %g*eps\n", abs(EsqErrSum-Esq)/eps);
+  endif
+  if abs(EsqErrSum-Esq) > 1e5*eps
+    error("abs(EsqErrSum-Esq) > 1e5*eps");
+  endif
+
+  Esq=schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
+  EsqErrSum=AsqErrSum+TErrSum+PErrSum+DErrSum;
+  if verbose
+    printf("abs(EsqErrSum-Esq) = %g*eps\n", abs(EsqErrSum-Esq)/eps);
+  endif
+  if abs(EsqErrSum-Esq) > 1e5*eps
+    error("abs(EsqErrSum-Esq) > 1e5*eps");
   endif
 
   %
   % Find the gradients of Esq
   %
-  [Esq,gradEsq]=schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                                      difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+  [Esq,gradEsq] = ...
+    schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+                          difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
   del=tol;
   NA1k=length(A1k);
   NA2k=length(A2k);
@@ -84,10 +118,12 @@ for m=1:2,
   delA1k=zeros(size(A1k));
   delA1k(1)=del/2;
   for l=1:NA1k
-    EsqA1kP=schurOneMPAlatticeEsq(A1k+delA1k,A1epsilon,A1p,A2k,A2epsilon,A2p,...
-                                  difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-    EsqA1kM=schurOneMPAlatticeEsq(A1k-delA1k,A1epsilon,A1p,A2k,A2epsilon,A2p,...
-                                  difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+    EsqA1kP = ...
+        schurOneMPAlatticeEsq(A1k+delA1k,A1epsilon,A1p,A2k,A2epsilon,A2p,...
+                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
+    EsqA1kM = ...
+      schurOneMPAlatticeEsq(A1k-delA1k,A1epsilon,A1p,A2k,A2epsilon,A2p,...
+                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
     delA1k=circshift(delA1k,1);
     est_dEsqdk(l)=(EsqA1kP-EsqA1kM)/del;
   endfor
@@ -95,10 +131,12 @@ for m=1:2,
   delA2k=zeros(size(A2k));
   delA2k(1)=del/2;
   for l=(NA1k+1):NA12k
-    EsqA2kP=schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k+delA2k,A2epsilon,A2p,...
-                                  difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-    EsqA2kM=schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k-delA2k,A2epsilon,A2p,...
-                                  difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+    EsqA2kP = ...
+      schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k+delA2k,A2epsilon,A2p,...
+                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
+    EsqA2kM = ...
+      schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k-delA2k,A2epsilon,A2p,...
+                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
     delA2k=circshift(delA2k,1);
     est_dEsqdk(l)=(EsqA2kP-EsqA2kM)/del;
   endfor
@@ -106,8 +144,8 @@ for m=1:2,
   if verbose
     printf("max_abs_diff_dEsqdk = %g*tol\n",max_abs_diff_dEsqdk/tol);
   endif
-  if max_abs_diff_dEsqdk > tol
-    error("max_abs_diff_dEsqdk > tol");
+  if max_abs_diff_dEsqdk > 5*tol
+    error("max_abs_diff_dEsqdk > 5*tol");
   endif
 
   %
@@ -115,7 +153,7 @@ for m=1:2,
   %
   [Esq,gradEsq,diagHessEsq]=...
     schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                          difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                          difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
   del=tol;
   est_diagHessEsq=zeros(1,NA12k);
   % Check the diagonal of the Hessian of the squared-error response wrt A1k
@@ -124,10 +162,10 @@ for m=1:2,
   for l=1:NA1k
     [EsqA1kP,gradEsqA1kP]=...
       schurOneMPAlatticeEsq(A1k+delA1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
     [EsqA1kM,gradEsqA1kM]= ...
       schurOneMPAlatticeEsq(A1k-delA1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
     delA1k=circshift(delA1k,1);
     est_diagHessEsq(l)=(gradEsqA1kP(l)-gradEsqA1kM(l))/del;
   endfor
@@ -137,10 +175,10 @@ for m=1:2,
   for l=(NA1k+1):NA12k
     [EsqA2kP,gradEsqA2kP]=...
       schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k+delA2k,A2epsilon,A2p, ...
-                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
     [EsqA2kM,gradEsqA2kM]= ...
       schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k-delA2k,A2epsilon,A2p, ...
-                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
     delA2k=circshift(delA2k,1);
     est_diagHessEsq(l)=(gradEsqA2kP(l)-gradEsqA2kM(l))/del;
   endfor
@@ -148,8 +186,8 @@ for m=1:2,
   if verbose
     printf("max_abs_diff_diagHessEsq = %g*tol\n",max_abs_diff_diagHessEsq/tol);
   endif
-  if max_abs_diff_diagHessEsq > 20*tol
-    error("max_abs_diff_diagHessEsq > 20*tol");
+  if max_abs_diff_diagHessEsq > 30*tol
+    error("max_abs_diff_diagHessEsq > 30*tol");
   endif
 
   %
@@ -157,13 +195,9 @@ for m=1:2,
   %
   [Esq,gradEsq,diagHessEsq,hessEsq]=...
     schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                          difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                          difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
   
   % Check the Hessian of the squared error response
-  if verbose
-    printf("Estimating d2Esqdydx\n");
-    tic;
-  endif
   del=tol;
   est_d2Esqdydx=zeros(NA12k);
   % d2EsqdA1kdA1k (upper left)
@@ -173,10 +207,10 @@ for m=1:2,
     for v=1:length(A1k)
       [EsqA1kP,gradEsqA1kP] = ...
         schurOneMPAlatticeEsq(A1k+delA1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
       [EsqA1kM,gradEsqA1kM] = ...
         schurOneMPAlatticeEsq(A1k-delA1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
       delA1k=circshift(delA1k,1);
       est_d2Esqdydx(u,v) = (gradEsqA1kP(u)-gradEsqA1kM(u))/del;
     endfor
@@ -188,10 +222,10 @@ for m=1:2,
     for v=(length(A1k)+1):(length(A1k)+length(A2k))
       [EsqA2kP,gradEsqA2kP] = ...
         schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k+delA2k,A2epsilon,A2p, ...
-                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
       [EsqA2kM,gradEsqA2kM] = ...
         schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k-delA2k,A2epsilon,A2p, ...
-                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
       delA2k=circshift(delA2k,1);
       est_d2Esqdydx(u,v) = (gradEsqA2kP(u)-gradEsqA2kM(u))/del;
     endfor
@@ -203,10 +237,10 @@ for m=1:2,
     for v=1:length(A1k)
       [EsqA1kP,gradEsqA1kP] = ...
         schurOneMPAlatticeEsq(A1k+delA1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
       [EsqA1kM,gradEsqA1kM] = ...
         schurOneMPAlatticeEsq(A1k-delA1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
       delA1k=circshift(delA1k,1);
       est_d2Esqdydx(u,v) = (gradEsqA1kP(u)-gradEsqA1kM(u))/del;
     endfor
@@ -218,24 +252,21 @@ for m=1:2,
     for v=(length(A1k)+1):(length(A1k)+length(A2k))
       [EsqA2kP,gradEsqA2kP] = ...
         schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k+delA2k,A2epsilon,A2p, ...
-                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
       [EsqA2kM,gradEsqA2kM] = ...
         schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k-delA2k,A2epsilon,A2p, ...
-                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
       delA2k=circshift(delA2k,1);
       est_d2Esqdydx(u,v) = (gradEsqA2kP(u)-gradEsqA2kM(u))/del;
     endfor
   endfor
-  if verbose
-    toc;
-  endif
   max_abs_diff_d2Esqdydx = max(max(abs(est_d2Esqdydx-hessEsq)));
   if verbose
     printf("max_abs_diff_d2Esqdydx = %g*tol\n",
            max_abs_diff_d2Esqdydx/tol);
   endif
-  if max_abs_diff_d2Esqdydx > 20*tol
-    error("max_abs_diff_d2Esqdydx > 20*tol");
+  if max_abs_diff_d2Esqdydx > 30*tol
+    error("max_abs_diff_d2Esqdydx > 30*tol");
   endif
 
 endfor

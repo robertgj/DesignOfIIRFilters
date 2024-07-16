@@ -12,9 +12,9 @@ eval(sprintf("diary %s.diary.tmp",strf));
 verbose=false;
 tol=1e-7;
 
-for m=1:2
+for x=1:2
   
-  schur_parallel_allpass_lattice_test_common;
+  schur_lattice_test_common;
   
   %
   % Lattice decomposition
@@ -31,8 +31,8 @@ for m=1:2
   T=schurOneMPAlatticeT(wt,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 
   % Check the group delay response
-  Tab1=delayz(Nab1,Dab1,wt);
-  max_abs_diff_T = max(abs(Tab1-T));
+  Tnd=delayz(n,d,wt);
+  max_abs_diff_T = max(abs(Tnd-T));
   if verbose
     printf("max_abs_diff_T = %g*tol\n",max_abs_diff_T/tol);
   endif

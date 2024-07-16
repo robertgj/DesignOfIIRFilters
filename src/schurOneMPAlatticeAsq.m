@@ -78,7 +78,6 @@ function [Asq,gradAsq,diagHessAsq,hessAsq] = ...
     mm=1;
   endif
   
-  % Calculate the complex transfer function, H, and derivatives at w
   if nargout==1
     [A1A,A1B,A1Cap,A1Dap]=schurOneMAPlattice2Abcd(A1k,A1epsilon,A1p);
     A1H=schurOneMAPlattice2H(w,A1A,A1B,A1Cap,A1Dap);

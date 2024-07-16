@@ -23915,10 +23915,10 @@ with:
 If the gradients of the state variable matrixes, $A$, $B$, $C$ and $D$, with
 respect to a coefficient, $x$, are $\frac{dA}{dx}$, $\frac{dB}{dx}$,
 $\frac{dC}{dx}$ and $\frac{dD}{dx}$, then the gradients of the complex frequency
-response are:
+response, $H\left(\omega\right)$, are:
 
 \begin{align*}
-\frac{\partial{}H\left(\omega\right)}{\partial\omega}&=
+\frac{\partial{}H}{\partial\omega}=&
 -\imath e^{\imath\omega}CRRB \\
 \frac{\partial{}H}{\partial{}x}=&\frac{dC}{dx}RB+
                                   CR\frac{dA}{dx}RB+
@@ -23945,13 +23945,13 @@ CR\frac{d^{2}B}{dx^{2}}+
 2\frac{dC}{dx}R\frac{dA}{dx}RRB+
 2\frac{dC}{dx}RR\frac{dA}{dx}RB+
 2\frac{dC}{dx}RR\frac{dB}{dx}+\cdots\right.\\*
-&\left.\phantom{-\imath{}e^{\imath\omega}}\quad
+&\left.\phantom{-\imath{}e^{\imath\omega}}\;
 2CR\frac{dA}{dx}R\frac{dA}{dx}RRB+
 CR\frac{d^{2}A}{dx^{2}}RRB+
 2CR\frac{dA}{dx}RR\frac{dA}{dx}RB+
 2CR\frac{dA}{dx}RR\frac{dB}{dx}+
 \cdots\right.\\*
-&\left.\phantom{-\imath{}e^{\imath\omega}}\quad
+&\left.\phantom{-\imath{}e^{\imath\omega}}\;
 2CRR\frac{dA}{dx}R\frac{dA}{dx}RB+
 CRR\frac{d^{2}A}{dx^{2}}RB+
 2CRR\frac{dA}{dx}R\frac{dB}{dx}+
@@ -23978,18 +23978,18 @@ CR\frac{d^{2}B}{dydx}+
 \frac{dC}{dx}RR\frac{dB}{dy}+
 \frac{dC}{dy}RR\frac{dA}{dx}RB+
 \frac{dC}{dy}R\frac{dA}{dx}RRB+\cdots\right.\\*
-&\left.\phantom{-\imath{}e^{\imath\omega}}\quad
+&\left.\phantom{-\imath{}e^{\imath\omega}}\;
 CRR\frac{dA}{dy}R\frac{dA}{dx}RB+
 CR\frac{dA}{dy}RR\frac{dA}{dx}RB+
 CR\frac{dA}{dy}R\frac{dA}{dx}RRB+\cdots\right.\\*
-&\left.\phantom{-\imath{}e^{\imath\omega}}\quad
+&\left.\phantom{-\imath{}e^{\imath\omega}}\;
 CRR\frac{d^{2}A}{dydx}RB+
 CR\frac{d^{2}A}{dydx}RRB+\cdots\right.\\*
-&\left.\phantom{-\imath{}e^{\imath\omega}}\quad
+&\left.\phantom{-\imath{}e^{\imath\omega}}\;
 CRR\frac{dA}{dx}R\frac{dA}{dy}RB+
 CR\frac{dA}{dx}RR\frac{dA}{dy}RB+
 CR\frac{dA}{dx}R\frac{dA}{dy}RRB+\cdots\right.\\*
-&\left.\phantom{-\imath{}e^{\imath\omega}}\quad
+&\left.\phantom{-\imath{}e^{\imath\omega}}\;
 CRR\frac{dA}{dx}R\frac{dB}{dy}+
 CR\frac{dA}{dx}RR\frac{dB}{dy}+
 \frac{dC}{dy}RR\frac{dB}{dx}+
@@ -24000,130 +24000,159 @@ CRR\frac{d^{2}B}{dydx}\right]
 
 The Octave function \emph{Abcd2H} calculates these gradients under the assumption
 that the components of the state variable matrixes $A$, $B$, $C$ and $D$ are
-linear, or monomial, functions of $x$ or $y$ and
+first-order polynomial functions of coefficients $x$ or $y$ and
 $\frac{d^{2}A}{dx^{2}}=\frac{d^{2}B}{dx^{2}}=
-\frac{d^{2}C}{dx^{2}}=\frac{d^{2}D}{dx^{2}}=0$.
+\frac{d^{2}C}{dx^{2}}=\frac{d^{2}D}{dx^{2}}=0$. This assumption holds for the
+Schur one-multiplier lattice filter.
 
 \section{\label{app:State-variable-filter-squared-magnitude-response}State  variable  filter squared-magnitude response}
 The squared-magnitude response of a state variable filter is:
 \begin{align*}
-\left|H\left(\omega\right)\right|^{2} &=
-\Im H\left(\omega\right)^{2} +
-\Re H\left(\omega\right)^{2}
+\left|H\right|^{2} &=\Im H^{2} + \Re H^{2}
 \end{align*}
 
 The gradients of the squared-magnitude response of the filter with respect to 
 the state variable coefficients are:
 \begin{align*}
-\frac{\partial}{\partial{}x}\left|H\left(\omega\right)\right|^{2}
-&= 2\left[\Im H\left(\omega\right)
-\Im\frac{\partial{}H\left(\omega\right)}{\partial{}x}+
-\Re H\left(\omega\right)
-\Re\frac{\partial{}H\left(\omega\right)}{\partial{}x}\right]
+\frac{\partial\left|H\right|^{2}}{\partial{}x}
+&= 2\left[\Im H\Im\frac{\partial{}H}{\partial{}x}+
+          \Re H\Re\frac{\partial{}H}{\partial{}x}\right]
 \end{align*}
 where $x$ represents the components of the state variable matrixes. The 
 diagonal of the Hessian matrix of the squared-magnitude (that is the second
 derivatives of the squared-magnitude) is:
 \begin{align*}
-\frac{\partial^{2}\left|H\left(\omega\right)\right|^{2}}{\partial{}x^{2}}
+\frac{\partial^{2}\left|H\right|^{2}}{\partial{}x^{2}}
   &= 2\left[
-\left|\frac{\partial{}H\left(\omega\right)}{\partial{}x}\right|^{2}+
-\Im H\left(\omega\right)
-\Im\frac{\partial^{2}H\left(\omega\right)}{\partial{}x^{2}}+
-\Re H\left(\omega\right)
-\Re\frac{\partial^{2}H\left(\omega\right)}{\partial{}x^{2}}\right]
+\left|\frac{\partial{}H}{\partial{}x}\right|^{2}+
+    \Im H\Im\frac{\partial^{2}H}{\partial{}x^{2}}+
+    \Re H\Re\frac{\partial^{2}H}{\partial{}x^{2}}\right]
 \end{align*}
-If $A$ is a linear, or monomial, function of the coefficients, $\alpha$, then:
+If $A$ is a first-order polynomial function of the state variable matrix
+coefficients, $\alpha$, then:
 \begin{align*}
-\frac{\partial^{2}H\left(\omega\right)}{\partial\alpha^{2}} &= 
+\frac{\partial^{2}H}{\partial\alpha^{2}} &= 
 2CR\frac{dA}{d\alpha}R\frac{dA}{d\alpha}RB
 \end{align*}
-Similarly, if $B$ is a linear, or monomial, function of the coefficients,
-$\beta$, and-so-on, then:
+Similarly, if $B$ is a first-order polynomial function of the state variable
+matrix coefficients, $\beta$, and-so-on, then:
 \begin{align*}
-\frac{\partial^{2}H\left(\omega\right)}{\partial\beta^{2}} &= 
-\frac{\partial^{2}H\left(\omega\right)}{\partial\gamma^{2}} = 
-\frac{\partial^{2}H\left(\omega\right)}{\partial\delta^{2}} = 0
+\frac{\partial^{2}H}{\partial\beta^{2}} &= 
+\frac{\partial^{2}H}{\partial\gamma^{2}} = 
+\frac{\partial^{2}H}{\partial\delta^{2}} = 0
 \end{align*}
 
 The Hessian matrix of the squared-magnitude (that is the second
 derivatives of the squared-magnitude) is:
 \begin{align*}
-  \frac{\partial^{2}\left|H\left(\omega\right)\right|^{2}}{\partial{}y\partial{}x}
-  &=2\left[\Im\frac{\partial{}H\left(\omega\right)}{\partial{}y}
-    \Im\frac{\partial{}H\left(\omega\right)}{\partial{}x} +
-    \Im H\left(\omega\right)\Im\frac{\partial^{2}H\left(\omega\right)}
+  \frac{\partial^{2}\left|H\right|^{2}}{\partial{}y\partial{}x}
+  &=2\left[\Im\frac{\partial{}H}{\partial{}y}
+    \Im\frac{\partial{}H}{\partial{}x} +
+    \Im H\Im\frac{\partial^{2}H}
     {\partial{}y\partial{}x} + 
-    \Re\frac{\partial{}H\left(\omega\right)}{\partial{}y}
-    \Re\frac{\partial{}H\left(\omega\right)}{\partial{}x} +
-    \Re H\left(\omega\right)\Re\frac{\partial^{2}H\left(\omega\right)}
+    \Re\frac{\partial{}H}{\partial{}y}
+    \Re\frac{\partial{}H}{\partial{}x} +
+    \Re H\Re\frac{\partial^{2}H}
     {\partial{}y\partial{}x}\right]
 \end{align*}
+where $x$ and $y$ represent the state variable matrix coefficients $\alpha$,
+$\beta$, etc.
 
-\section{\label{app:State-variable-filter-phase-response}State  variable filter phase response}
-The phase response, $P\left(\omega\right)$, of the state variable filter is:
+The gradient of the squared-magnitude response of the filter with respect to 
+the angular frequency is:
 \begin{align*}
-P\left(\omega\right)&=\arctan\frac{\Im H\left(\omega\right)}
-{\Re H\left(\omega\right)}
+\frac{\partial\left|H\right|^{2}}{\partial\omega}
+&= 2\left[\Im H\Im\frac{\partial{}H}{\partial\omega}+
+          \Re H\Re\frac{\partial{}H}{\partial\omega}\right]
+\end{align*}
+and with respect to the coefficients, $x$:
+\begin{align*}
+  \frac{\partial^{2}  \left|H\right|^{2}}
+  {\partial\omega\partial{}x}
+  &= 2\left[ \Im\frac{\partial{}H}{\partial{}x}
+             \Im\frac{\partial{}H}{\partial\omega}+
+    \Im H\Im\frac{\partial^{2}H}{\partial\omega\partial{}x}+
+    \Re\frac{\partial{}H}{\partial{}x}
+    \Re\frac{\partial{}H}{\partial\omega}+
+    \Re H\Re\frac{\partial^{2}H}{\partial\omega\partial{}x}
+  \right]
+\end{align*}
+The Hessian matrix of the gradient of the squared-magnitude with respect to
+angular frequency is:
+\begin{align*}
+  \begin{split}
+  \frac{\partial^{3}\left|H\right|^{2}}
+  {\partial\omega\partial{}y\partial{}x}
+  =&2\left[\Im\frac{\partial^{2}H}{\partial\omega\partial{}y\partial{}x}
+    \Im\frac{\partial{}H}{\partial{}w} +
+    \Im\frac{\partial{}H}{\partial{}x}
+    \Im\frac{\partial^{2}H}{\partial\omega\partial{}y} +  
+    \Im \frac{\partial{}H}{\partial{}y}
+    \Im\frac{\partial^{2}H}{\partial\omega\partial{}x} + 
+    \Im H\Im\frac{\partial^{3}H}{\partial\omega\partial{}y\partial{}x} +
+    \cdots\right.\\*
+   &\phantom{2}\left.\;
+    \Re\frac{\partial^{2}H}{\partial{}y\partial{}x}
+    \Re\frac{\partial{}H}{\partial{}w} +
+    \Re\frac{\partial{}H}{\partial{}x}
+    \Re\frac{\partial^{2}H}{\partial\omega\partial{}y} +
+    \Re\frac{\partial{}H}{\partial{}y}
+    \Re\frac{\partial^{2}H}{\partial\omega\partial{}x} +
+    \Re H\Re\frac{\partial^{3}H}{\partial\omega\partial{}y\partial{}x}\;\right]
+  \end{split}
+\end{align*}
+\section{\label{app:State-variable-filter-phase-response}State  variable filter phase response}
+The phase response, $P$, of the state variable filter is:
+\begin{align*}
+P&=\arctan\frac{\Im H}{\Re H}
 \end{align*}
 
 The gradients of the phase response of the filter with respect to 
 the state variable coefficients, $\alpha$, $\beta$, etc., are given by:
 \begin{align*}
-\left|H\left(\omega\right)\right|^{2}
-\frac{\partial{}P\left(\omega\right)}{\partial{}x}&=
-\Re H\left(\omega\right)
-\Im\frac{\partial{}H\left(\omega\right)}{\partial{}x}-
-\Im H\left(\omega\right)
-\Re\frac{\partial{}H\left(\omega\right)}{\partial{}x}
+\left|H\right|^{2}\frac{\partial{}P}{\partial{}x}&=
+\Re H\Im\frac{\partial{}H}{\partial{}x}-
+\Im H\Re\frac{\partial{}H}{\partial{}x}
 \end{align*}
 where $x$ represents the components of the state variable matrixes.
 The diagonal of the Hessian matrix of the phase (that is the second
 derivatives of the phase) is given by:
 \begin{align*}
-\frac{\partial\left|H\left(\omega\right)\right|^{2}}{\partial{}x}
-\frac{\partial{}P\left(\omega\right)}{\partial{}x}+
-\left|H\left(\omega\right)\right|^{2}
-\frac{\partial^{2}P\left(\omega\right)}{\partial{}x^{2}}&=
-\Re H\left(\omega\right)
-\Im\frac{\partial^{2}H\left(\omega\right)}{\partial{}x^{2}}-
-\Im H\left(\omega\right)
-\Re\frac{\partial^{2}H\left(\omega\right)}{\partial{}x^{2}}
+\frac{\partial\left|H\right|^{2}}{\partial{}x}
+\frac{\partial{}P}{\partial{}x}+\left|H\right|^{2}
+\frac{\partial^{2}P}{\partial{}x^{2}}&=
+\Re H\Im\frac{\partial^{2}H}{\partial{}x^{2}}-
+\Im H\Re\frac{\partial^{2}H}{\partial{}x^{2}}
 \end{align*}
 
 The Hessian matrix of the phase (that is the second
 derivatives of the phase) is given by:
 \begin{align*}
-  \frac{\partial\left|H\left(\omega\right)\right|^{2}}{\partial{}y}
+  \frac{\partial\left|H\right|^{2}}{\partial{}y}
   \frac{\partial{}P}{\partial{}x} +
-  \left|H\left(\omega\right)\right|^{2}
+  \left|H\right|^{2}
   \frac{\partial^{2}P}{\partial{}y\partial{}x}
-  &=\Re\frac{\partial{}H\left(\omega\right)}{\partial{}y}
-    \Im\frac{\partial{}H\left(\omega\right)}{\partial{}x} +
-    \Re H\left(\omega\right)\Im\frac{\partial^{2}H\left(\omega\right)}
+  &=\Re\frac{\partial{}H}{\partial{}y}
+    \Im\frac{\partial{}H}{\partial{}x} +
+    \Re H\Im\frac{\partial^{2}H}
     {\partial{}y\partial{}x} -
-    \Im\frac{\partial{}H\left(\omega\right)}{\partial{}y}
-    \Re\frac{\partial{}H\left(\omega\right)}{\partial{}x} -
-    \Im{}H\left(\omega\right)\Re\frac{\partial^{2}H\left(\omega\right)}
+    \Im\frac{\partial{}H}{\partial{}y}
+    \Re\frac{\partial{}H}{\partial{}x} -
+    \Im{}H\Re\frac{\partial^{2}H}
     {\partial{}y\partial{}x}
 \end{align*}
 
 \section{\label{app:State-variable-filter-group-delay-response}State  variable filter group-delay response}
-The group delay response, $T\left(\omega\right)$, of the state variable filter is
+The group delay response, $T$, of the state variable filter is
 \begin{align*}
-T\left(\omega\right) &= -\frac{\partial\phantom{\omega}}{\partial\omega}
-\arctan\frac{\Im H\left(\omega\right)}
-{\Re H\left(\omega\right)}
+T &= -\frac{\partial\phantom{\omega}}{\partial\omega}
+\arctan\frac{\Im H}
+{\Re H}
 \end{align*}
 so that
 \begin{align*}
-\left|H\left(\omega\right)\right|^{2}T\left(\omega\right) &= 
--\left[
-\Re H\left(\omega\right)
-\Im\frac{\partial H\left(\omega\right)}{\partial\omega} -
-\Im H\left(\omega\right)
-\Re\frac{\partial H\left(\omega\right)}{\partial\omega}
-\right]
+\left|H\right|^{2}T &= -\left[\Re H\Im\frac{\partial H}{\partial\omega} -
+                              \Im H\Re\frac{\partial H}{\partial\omega}\right]
 \end{align*}
 
 The gradients of the group delay response with respect to the state
@@ -24133,22 +24162,9 @@ variable coefficients, $\alpha$, $\beta$, etc., are given by:
   \left|H\right|^{2}\frac{\partial{}T}{\partial{}x} = 
 &-\left[\Re\frac{\partial{}H}{\partial{}x}
 \Im\frac{\partial{}H}{\partial\omega} +
-\Re H \Im\frac{\partial^{2}H}{\partial{}x\partial\omega}
+\Re H \Im\frac{\partial^{2}H}{\partial{}x\partial\omega} -
 \Im\frac{\partial{}H}{\partial{}x}\Re\frac{\partial{}H}{\partial\omega} -
 \Im H\Re \frac{\partial^{2}H}{\partial{}x\partial\omega}\right]
-\end{align*}
-where:
-\begin{align*}
-\frac{\partial^{2}H}{\partial\alpha\partial{}\omega}&=
--\imath{}e^{\imath\omega}CR\left[\
-R\frac{dA}{d\alpha}+
-\frac{dA}{d\alpha}R
-\right]RB\\
-\frac{\partial^{2}H}{\partial\beta\partial{}\omega}&=
--\imath{}e^{\imath\omega}CRR\\
-\frac{\partial^{2}H}{\partial\gamma\partial{}\omega}&=
--\imath{}e^{\imath\omega}\left(e^{\imath\omega}{}I-A\right)^{-2}B\\
-\frac{\partial^{2}H}{\partial\delta\partial{}\omega}&=0
 \end{align*}
 
 The diagonal of the Hessian matrix of the group-delay (that is the second
@@ -24174,14 +24190,6 @@ derivatives of the group-delay) is given by:
 \Im H
 \Re\frac{\partial^{3}H}{\partial\omega\partial{}x^{2}}
 \end{align*}
-where $x$ represents the components of the state variable matrixes and:
-\begin{align*}
-\frac{\partial^{3}H}{\partial{}\omega\partial\alpha^{2}}=&
--\imath{}e^{\imath\omega}CR\left[
-2\frac{dA}{d\alpha}RR\frac{dA}{d\alpha}+
-2R\frac{dA}{d\alpha}R\frac{dA}{d\alpha}+
-2\frac{dA}{d\alpha}R\frac{dA}{d\alpha}R\right]RB
-\end{align*}
 
 The Hessian matrix of the group delay (that is the second
 derivatives of the group delay) is given by:
@@ -24190,7 +24198,7 @@ derivatives of the group delay) is given by:
 \frac{\partial\left|H\right|^{2}}{\partial{}x}\frac{\partial{}T}{\partial{}y}+
 \frac{\partial\left|H\right|^{2}}{\partial{}y}\frac{\partial{}T}{\partial{}x}+
 \left|H\right|^{2}\frac{\partial^{2}T}{\partial{}y\partial{}x} = \cdots \\
-\quad & - \left[ \quad
+\quad & - \left[ \;
 \Re\frac{\partial^{2}H}{\partial{}y\partial{}x}
 \Im\frac{\partial{}H}{\partial\omega} +
 \Re\frac{\partial{}H}{\partial{}x}
@@ -24199,7 +24207,7 @@ derivatives of the group delay) is given by:
 \Im\frac{\partial^{2}H}{\partial\omega\partial{}x} +
 \Re{}H
 \Im\frac{\partial^{3}H}{\partial{}\omega\partial{}y\partial{}x}\cdots\right.\\*
-\quad & \phantom{-} \left.\quad
+\quad & \phantom{-} \left.\;
 -\Im\frac{\partial^{2}H}{\partial{}y\partial{}x}
 \Re\frac{\partial{}H}{\partial\omega}-
 \Im\frac{\partial{}H}{\partial{}x}
@@ -24207,7 +24215,7 @@ derivatives of the group delay) is given by:
 \Im\frac{\partial{}H}{\partial{}y}
 \Re\frac{\partial^{2}H}{\partial\omega\partial{}x}-
 \Im{}H
-\Re\frac{\partial^{3}H}{\partial\omega\partial{}y\partial{}x}\quad\right]
+\Re\frac{\partial^{3}H}{\partial\omega\partial{}y\partial{}x}\;\right]
 \end{align*}
 
 \chapter{\label{app:Constrained-Non-linear-Optimisation}Constrained non-linear optimisation}

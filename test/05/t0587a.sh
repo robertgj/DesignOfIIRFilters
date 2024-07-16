@@ -3,10 +3,10 @@
 prog=schurNSPAlatticeT_test.m
 
 depends="test/schurNSPAlatticeT_test.m test_common.m schurNSPAlatticeT.m \
-schur_parallel_allpass_lattice_test_common.m delayz.m tf2schurNSlattice.m \
-schurNSAPlattice2Abcd.m H2T.m \
+schur_lattice_test_common.m delayz.m tf2schurNSlattice.m \
+schurNSAPlattice2Abcd.m H2T.m tf2pa.m qroots.m \
 schurdecomp.oct schurexpand.oct schurNSscale.oct schurNSlattice2Abcd.oct \
-Abcd2H.oct"
+Abcd2H.oct spectralfactor.oct qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

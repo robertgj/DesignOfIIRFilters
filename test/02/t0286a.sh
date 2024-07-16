@@ -2,13 +2,13 @@
 
 prog=schurOneMPAlatticeEsq_test.m
 
-depends="test/schurOneMPAlatticeEsq_test.m test_common.m delayz.m schurOneMPAlatticeEsq.m \
-schur_parallel_allpass_lattice_test_common.m \
+depends="test/schurOneMPAlatticeEsq_test.m test_common.m delayz.m \
+schurOneMPAlatticeEsq.m schur_lattice_test_common.m schurOneMPAlatticedAsqdw.m \
 schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m schurOneMPAlatticeP.m \
 tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m schurOneMlattice2Abcd.oct \
-H2Asq.m H2T.m H2P.m schurOneMAPlattice2H.oct tf2pa.m schurOneMscale.m \
-spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-qroots.m qzsolve.oct"
+H2Asq.m H2T.m H2P.m H2dAsqdw.m tf2pa.m schurOneMscale.m qroots.m \
+schurOneMAPlattice2H.oct spectralfactor.oct schurdecomp.oct schurexpand.oct \
+complex_zhong_inverse.oct qzsolve.oct"
 
 tmp=/tmp/$$
 here=`pwd`

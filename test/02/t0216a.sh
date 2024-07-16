@@ -1,9 +1,11 @@
 #!/bin/sh
 
 prog=schurNSlatticeEsq_test.m
-depends="test/schurNSlatticeEsq_test.m test_common.m delayz.m schurNSlatticeEsq.m \
+depends="test/schurNSlatticeEsq_test.m test_common.m \
+schur_lattice_test_common.m schurNSlatticeEsq.m \
 schurNSlatticeAsq.m schurNSlatticeT.m tf2schurNSlattice.m \
-schurNSlattice2Abcd.oct schurNSscale.oct H2Asq.m H2T.m Abcd2H.oct \
+qroots.m H2Asq.m H2T.m tf2pa.m delayz.m \
+spectralfactor.oct schurNSlattice2Abcd.oct schurNSscale.oct Abcd2H.oct \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct"
 
 tmp=/tmp/$$
