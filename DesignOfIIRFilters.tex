@@ -23186,9 +23186,7 @@ simulations, with statements for the computation of derivatives''. See
 \end{itemize}
 Below I use a mixture of differentiation by hand and symbolic differentiation
 to derive the formulas implemented in Octave code and use numerical 
-differentiation to test the formulas\footnote{In the examples above, the Hessian
-of the phase response is calculated numerically and that matrix initialises
-the diagonal of the BFGS positive-definite approximation to the Hessian.}. 
+differentiation to test the formulas. 
 
 \emph{Richards}~\cite{Richards_DeczkyRecursiveDecimator} shows expressions
 for the magnitude and group-delay of an IIR filter with an integer
@@ -24000,7 +23998,7 @@ CRR\frac{d^{2}B}{dydx}\right]
 
 The Octave function \emph{Abcd2H} calculates these gradients under the assumption
 that the components of the state variable matrixes $A$, $B$, $C$ and $D$ are
-first-order polynomial functions of coefficients $x$ or $y$ and
+linear, or monomial, functions of coefficients $x$ or $y$ and
 $\frac{d^{2}A}{dx^{2}}=\frac{d^{2}B}{dx^{2}}=
 \frac{d^{2}C}{dx^{2}}=\frac{d^{2}D}{dx^{2}}=0$. This assumption holds for the
 Schur one-multiplier lattice filter.
@@ -24028,13 +24026,13 @@ derivatives of the squared-magnitude) is:
     \Im H\Im\frac{\partial^{2}H}{\partial{}x^{2}}+
     \Re H\Re\frac{\partial^{2}H}{\partial{}x^{2}}\right]
 \end{align*}
-If $A$ is a first-order polynomial function of the state variable matrix
+If $A$ is a linear, or monomial, function of the state variable matrix
 coefficients, $\alpha$, then:
 \begin{align*}
 \frac{\partial^{2}H}{\partial\alpha^{2}} &= 
 2CR\frac{dA}{d\alpha}R\frac{dA}{d\alpha}RB
 \end{align*}
-Similarly, if $B$ is a first-order polynomial function of the state variable
+Similarly, if $B$ is a linear, or monomial, function of the state variable
 matrix coefficients, $\beta$, and-so-on, then:
 \begin{align*}
 \frac{\partial^{2}H}{\partial\beta^{2}} &= 

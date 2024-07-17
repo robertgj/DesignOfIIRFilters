@@ -7,7 +7,8 @@
 
 test_common;
 
-strf="sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test"
+strf="sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test";
+
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
@@ -46,7 +47,7 @@ fap=0.15
 dBap=0.06
 Wap=1
 Wat=ftol
-fas=0.171
+fas=0.172
 dBas=76
 Was=1e7
 
@@ -81,7 +82,7 @@ Esq0=schurOneMPAlatticeEsq(A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
                            difference,wa,Asqd,Wa)
 printf("Initial Esq0=%g\n",Esq0);
 
-% Allocate digits (nbits=14 works!)
+% Allocate digits
 nbits=14;
 nscale=2^(nbits-1);
 ndigits=4;

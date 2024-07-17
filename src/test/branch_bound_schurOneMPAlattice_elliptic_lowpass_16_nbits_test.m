@@ -512,7 +512,7 @@ fprintf(fid,"Wase=%d %% Extra amplitude stop band weight\n",Wase);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat best_branch_and_bound_found \
+eval(sprintf("save %s.mat use_best_branch_and_bound_found \
 n fape fap dBap Wap Wape Wat fas fase dBas Was Wase rho tol ctol \
 improved_solution_found A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 \
 difference nbits ndigits ndigits_alloc A1k_min A2k_min",strf));

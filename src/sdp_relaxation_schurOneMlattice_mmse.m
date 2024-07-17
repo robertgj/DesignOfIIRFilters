@@ -15,8 +15,7 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
 %
 % The objective function minimised is:
 % (0.5*(kc0+kc_delta.*y)'*hessEsq*(kc0+kc_delta.*y))+(gradEsq*(kc0+kc_delta.*y))
-% where y is -1 or 1 and the off-diagonal elements of hessEsq are found by
-% numerical approximation.
+% where y is -1 or 1.
 %
 % The response inequalities are of the form:
 %   (Asqdu-Asq) - gradAsq*(kc_delta.*y) >= 0
@@ -198,44 +197,12 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
   %
   % Initial squared response error and gradient
   %
-  [Esq0,gradEsq0]=schurOneMlatticeEsq(k0,epsilon0,p0,c0, ...
-                                      wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+  [Esq0,gradEsq0,~,hessEsq0]=schurOneMlatticeEsq(k0,epsilon0,p0,c0, ...
+                                                 wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
   func_iter=func_iter+1;
   if verbose
     printf("Initial Esq=%g\n",Esq0);
     printf("Initial gradEsq=[");printf("%g ",gradEsq0);printf("]\n");
-  endif
-
-  %
-  % Numerical approximation to hessEsq0
-  %
-  del=ftol*10;
-  % del-squared-Esq-del-k-m-del-c
-  for m=1:Nk
-    delk=zeros(size(k0));
-    delk(m)=del/2;
-    [~,gradEsq_mnPdel2]=schurOneMlatticeEsq(k0+delk,epsilon0,p0,c0, ...
-                                            wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-    [~,gradEsq_mnMdel2]=schurOneMlatticeEsq(k0-delk,epsilon0,p0,c0, ...
-                                            wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-    delk=circshift(delk,1);
-    hessEsq0(m,:)=(gradEsq_mnPdel2-gradEsq_mnMdel2)/del;
-  endfor 
-  % del-squared-Esq-del-k-del-c-m
-  for m=1:Nc
-    delc=zeros(size(c0));
-    delc(m)=del/2;
-    [~,gradEsq_mnPdel2]=schurOneMlatticeEsq(k0,epsilon0,p0,c0+delc, ...
-                                            wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-    [~,gradEsq_mnMdel2]=schurOneMlatticeEsq(k0,epsilon0,p0,c0-delc, ...
-                                            wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-    delc=circshift(delc,1);
-    hessEsq0(m+Nk,:)=(gradEsq_mnPdel2-gradEsq_mnMdel2)/del;
-  endfor
-  func_iter=func_iter+Nkc;
-  % Sanity check
-  if ~isdefinite(hessEsq0(Nkc_active,Nkc_active))
-    error("hessEsq0(Nkc_active,Nkc_active) is not positive definite");
   endif
 
   %

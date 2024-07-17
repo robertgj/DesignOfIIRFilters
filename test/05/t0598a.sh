@@ -93,8 +93,8 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd_min.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
 Initial & 7.52e-06 & -84.0 & & \\
-14-bit 4-signed-digit & 6.96e-03 & -38.9 & 44 & 33 \\
-14-bit 4-signed-digit(SDP) & 2.02e-01 & -31.2 & 44 & 33 \\
+14-bit 4-signed-digit & 5.97e-03 & -39.3 & 44 & 33 \\
+14-bit 4-signed-digit(SDP) & 1.68e-01 & -31.7 & 44 & 33 \\
 14-bit 4-signed-digit(min) & 1.41e-05 & -75.6 & 43 & 32 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
