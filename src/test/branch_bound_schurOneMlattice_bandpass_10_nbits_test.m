@@ -162,6 +162,7 @@ else
                            wa,Asqd,Asqdu,Asqdl,Wa, ...
                            wt,Td,Tdu,Tdl,Wt, ...
                            wp,Pd,Pdu,Pdl,Wp, ...
+                           wd,Dd,Ddu,Ddl,Wd, ...
                            maxiter,ftol,ctol,verbose);
    catch
       feasible=false;
@@ -207,7 +208,7 @@ else
         Asq=schurOneMlatticeAsq(wa,k_b,epsilon0,p0,c_b);
         T=schurOneMlatticeT(wt,k_b,epsilon0,p0,c_b);
         vS=schurOneMlattice_slb_update_constraints ...
-             (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,[],[],[],[],ctol);
+             (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,[],[],[],[],[],[],[],[],ctol);
         if ~schurOneMlattice_slb_constraints_are_empty(vS)
           printf("At maximum depth constraints are not empty!\n");
           schurOneMlattice_slb_show_constraints(vS);

@@ -11,6 +11,7 @@ test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
 schurOneMlatticeP.m \
+schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_slb.m \
 schurOneMlattice_slb_constraints_are_empty.m \
@@ -20,13 +21,13 @@ schurOneMlattice_slb_set_empty_constraints.m \
 schurOneMlattice_slb_show_constraints.m \
 schurOneMlattice_slb_update_constraints.m \
 schurOneMlattice_sqp_slb_bandpass_plot.m \
-schurOneMlattice2Abcd.oct \
 schurOneMscale.m \
 tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
-local_max.m tf2pa.m x2tf.m print_polynomial.m H2Asq.m H2T.m H2P.m \
+local_max.m tf2pa.m x2tf.m print_polynomial.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+qroots.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2H.oct qroots.m qzsolve.oct Abcd2tf.oct"
+schurOneMlattice2Abcd.oct schurOneMlattice2H.oct qzsolve.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

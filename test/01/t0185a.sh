@@ -6,6 +6,7 @@ depends="test/schurOneMlattice_socp_slb_lowpass_test.m test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
 schurOneMlatticeP.m \
+schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_slb.m \
 schurOneMlattice_slb_constraints_are_empty.m \
@@ -19,10 +20,10 @@ schurOneMlattice2Abcd.oct \
 schurOneMscale.m \
 tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
-local_max.m tf2pa.m x2tf.m H2Asq.m H2T.m H2P.m \
-print_polynomial.m print_pole_zero.m \
+local_max.m tf2pa.m x2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+print_polynomial.m print_pole_zero.m qroots.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2H.oct qroots.m qzsolve.oct Abcd2tf.oct"
+schurOneMlattice2H.oct qzsolve.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -1,11 +1,13 @@
 % schurOneMlattice_slb_update_constraints_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMlattice_slb_update_constraints_test.diary");
-delete("schurOneMlattice_slb_update_constraints_test.diary.tmp");
-diary schurOneMlattice_slb_update_constraints_test.diary.tmp
+strf="schurOneMlattice_slb_update_constraints_test";
+
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 
 maxiter=2000
@@ -50,6 +52,14 @@ Pdl=[];
 Wp=[];
 P=[];
 
+% dAsqdw constraints
+wd=[];
+Dd=[];
+Ddu=[];
+Ddl=[];
+Wd=[];
+dAsqdw=[];
+
 % Common strings
 strM=sprintf("%%s:fap=%g,dBap=%g,fas=%g,dBas=%g,",fap,dBap,fas,dBas);
 strM=strcat(strM, sprintf("tp=%d,rtp=%g",tp,tpr));
@@ -72,7 +82,7 @@ T=schurOneMlatticeT(wt,k7,epsilon7,p7,c7);
 
 % Update constraints
 vS=schurOneMlattice_slb_update_constraints ...
-     (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,tol);
+     (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,dAsqdw,Ddu,Ddl,Wd,tol);
 for [v,k]=vS
   printf("%s=[ ",k);printf("%d ",v);printf("]\n");
 endfor
@@ -82,11 +92,11 @@ Tl=schurOneMlatticeT(wt(vS.tl),k7,epsilon7,p7,c7);
 Tu=schurOneMlatticeT(wt(vS.tu),k7,epsilon7,p7,c7);
 
 % Show constraints
-schurOneMlattice_slb_show_constraints(vS,w,Asq,w,T,w,P);
+schurOneMlattice_slb_show_constraints(vS,w,Asq,w,T,w,P,w,dAsqdw);
 
 % Plot amplitude
 fa=wa*0.5/pi;
-strd=sprintf("schurOneMlattice_slb_update_constraints_test_%%s");
+strd=sprintf("%s_%%s",strf);
 strM7=sprintf(strM,"7");
 subplot(211);
 plot(fa,Asq,fa,Asqdu,fa,Asqdl,fa(vS.al),Asql,"x",fa(vS.au),Asqu,"+");
@@ -114,5 +124,4 @@ close
 
 % Done
 diary off
-movefile schurOneMlattice_slb_update_constraints_test.diary.tmp ...
-       schurOneMlattice_slb_update_constraints_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

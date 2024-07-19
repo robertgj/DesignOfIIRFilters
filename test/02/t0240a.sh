@@ -10,6 +10,7 @@ test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
 schurOneMlatticeP.m \
+schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_slb.m \
 schurOneMlattice_slb_constraints_are_empty.m \
@@ -23,11 +24,11 @@ tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
 schurOneMlattice_allocsd_Lim.m \
 schurOneMlattice_allocsd_Ito.m \
-local_max.m tf2pa.m x2tf.m print_polynomial.m H2Asq.m H2T.m H2P.m \
-schurOneMlatticeFilter.m flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
+local_max.m tf2pa.m x2tf.m print_polynomial.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+schurOneMlatticeFilter.m flt2SD.m x2nextra.m bin2SDul.m SDadders.m qroots.m \
 bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
 complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct \
-qroots.m qzsolve.oct Abcd2tf.oct"
+qzsolve.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -78,9 +79,9 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
 
 cat > test.cost.ok << 'EOF'
-Exact & 0.000255 & & \\
-10-bit 3-signed-digit(Lim)& 0.000867 & 42 & 27 \\
-10-bit 3-signed-digit(SOCP-relax) & 0.000623 & 41 & 26 \\
+Exact & 0.001716 & & \\
+10-bit 3-signed-digit(Lim)& 0.003722 & 42 & 27 \\
+10-bit 3-signed-digit(SOCP-relax) & 0.001594 & 41 & 26 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 

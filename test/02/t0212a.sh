@@ -3,15 +3,18 @@
 prog=schurOneMlattice_slb_update_constraints_test.m
 depends="test/schurOneMlattice_slb_update_constraints_test.m test_common.m \
 schurOneMlattice_slb_update_constraints.m \
-schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
+schurOneMlatticeAsq.m \
+schurOneMlatticeT.m \
+schurOneMlatticeP.m \
+schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice2Abcd.oct schurOneMscale.m \
 schurOneMlattice_slb_set_empty_constraints.m \
 schurOneMlattice_slb_show_constraints.m \
 schurOneMlattice_slb_constraints_are_empty.m tf2schurOneMlattice.m \
 schurOneMlattice2tf.m local_max.m x2tf.m print_polynomial.m \
-Abcd2tf.m H2Asq.m H2T.m H2P.m schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2H.oct"
+Abcd2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct schurOneMlattice2H.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -66,6 +69,8 @@ tl=[ 1 246 443 ]
 tu=[ 126 355 498 ]
 pl=[  ]
 pu=[  ]
+dl=[  ]
+du=[  ]
 al=[ 1 301 ]
 f(al)=[ 0.000000 0.150000 ](fs=1)
 Asql=[ -0.184653 -0.786008 ](dB)

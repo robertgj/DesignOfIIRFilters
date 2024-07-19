@@ -1,7 +1,7 @@
 function ndigits_alloc=schurOneMlattice_allocsd_Ito ...
-  (nbits,ndigits,k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)
+  (nbits,ndigits,k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)
 % ndigits_alloc=schurOneMlattice_allocsd_Ito ...
-%   (nbits,ndigits,k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)
+%   (nbits,ndigits,k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)
 %
 % A modified version of Itos digit allocation algorithm:
 %   - the total signed-digit allocation is initially set to a large
@@ -37,9 +37,11 @@ function ndigits_alloc=schurOneMlattice_allocsd_Ito ...
   %
   % Sanity checks
   %
-  if ((nargin~=9) && (nargin~=12) && (nargin~=15)) || (nargout~=1)
+  if (nargin<9) || ...
+     ((nargin~=9) && (nargin~=12) && (nargin~=15) && (nargin~=18)) || ...
+     (nargout~=1)
     print_usage ("ndigits_alloc=schurOneMlattice_allocsd_Ito ...\n\
-      (nbits,ndigits,k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)");
+      (nbits,ndigits,k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)");
   endif
   if length(k0)~=length(epsilon0) || ...
      length(k0)~=length(p0) || ...
@@ -63,7 +65,14 @@ function ndigits_alloc=schurOneMlattice_allocsd_Ito ...
       error("Input phase vector lengths inconsistent!");
     endif
   endif
-  
+  if nargin<18
+    wd=[];Dd=[];Wd=[];
+  else
+    if (length(Dd)~=length(wd)) || (length(Dd)~=length(Wd))
+      error("Input dAsqdw vector lengths inconsistent!");
+    endif
+  endif
+
   %
   % Initialise
   %
@@ -82,10 +91,10 @@ function ndigits_alloc=schurOneMlattice_allocsd_Ito ...
     kcdel=kc0;
     kcdel(l)=kc_sdU(l);
     cost_kcU=schurOneMlatticeEsq(kcdel(Rk),epsilon0,p0,kcdel(Rc),wa, ...
-                                 Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                                 Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
     kcdel(l)=kc_sdL(l);
     cost_kcL=schurOneMlatticeEsq(kcdel(Rk),epsilon0,p0,kcdel(Rc), ...
-                                 wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                                 wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
     if cost_kcU>cost_kcL
       cost_kc(l)=cost_kcU;
     else
@@ -113,10 +122,10 @@ function ndigits_alloc=schurOneMlattice_allocsd_Ito ...
       [nextkc,nextkcU,nextkcL]=flt2SD(kc0,nbits,ndigits_alloc);
       kcdel(imkc)=nextkcU(imkc);
       cost_kcU=schurOneMlatticeEsq(kcdel(Rk),epsilon0,p0,kcdel(Rc), ...
-                                   wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                                   wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
       kcdel(imkc)=nextkcL(imkc);
       cost_kcL=schurOneMlatticeEsq(kcdel(Rk),epsilon0,p0,kcdel(Rc), ...
-                                   wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                                   wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
       if cost_kcU>cost_kcL
         cost_kc(imkc)=cost_kcU;
       else

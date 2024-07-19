@@ -5,7 +5,10 @@ prog=schurOneMlattice_socp_slb_hilbert_test.m
 depends="test/schurOneMlattice_socp_slb_hilbert_test.m test_common.m \
 ../tarczynski_hilbert_test_D0_coef.m \
 ../tarczynski_hilbert_test_N0_coef.m \
-schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
+schurOneMlatticeAsq.m \
+schurOneMlatticeT.m \
+schurOneMlatticeP.m \
+schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_socp_mmse.m \
 schurOneMlattice_slb.m \
@@ -17,7 +20,7 @@ schurOneMlattice_slb_update_constraints.m \
 schurOneMlattice_sqp_slb_hilbert_plot.m \
 schurOneMlattice2tf.m \
 schurOneMscale.m tf2schurOneMlattice.m qroots.m \
-local_max.m print_polynomial.m H2Asq.m H2T.m H2P.m \
+local_max.m print_polynomial.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
 spectralfactor.oct schurdecomp.oct schurexpand.oct qzsolve.oct Abcd2tf.oct \
 complex_zhong_inverse.oct schurOneMlattice2H.oct schurOneMlattice2Abcd.oct"
 

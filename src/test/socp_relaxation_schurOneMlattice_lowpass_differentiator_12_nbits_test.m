@@ -53,12 +53,12 @@ socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Ito=false
 %
 
 n=400;
-wd=(1:(n-1))'*pi/n;
+w=(1:(n-1))'*pi/n;
 nap=ceil(fap*n/0.5);
 nas=floor(fas*n/0.5);
 
 % Amplitude
-wa=wd;
+wa=w;
 Azm1=2*sin(wa/2);
 Ad=([(wa(1:nap)/2);zeros(n-nap-1,1)]);
 Adu=[(wa(1:(nas-1))/2);zeros(n-nas,1)] + ...
@@ -78,7 +78,7 @@ printf("Adl(nchk)=[");printf("%g ",Adl(nchk));printf(" ]\n");
 printf("Wa(nchk)=[");printf("%g ",Wa(nchk));printf(" ]\n");
 
 % Phase response 
-wp=wd(1:nap);
+wp=w(1:nap);
 Pzm1=(pi/2)-(wp/2);
 Pd=(pi/2)-(wp*td);
 Pdu=Pd+(pr*pi/2);
@@ -86,12 +86,20 @@ Pdl=Pd-(pr*pi/2);
 Wp=Wpp*ones(size(wp));
 
 % Group delay
-wt=wd(1:nap);
+wt=w(1:nap);
 Tzm1=0.5;
 Td=td*ones(size(wt));
 Tdu=Td+(tdr/2);
 Tdl=Td-(tdr/2);
 Wt=Wtp*ones(size(wt));
+
+% dAsqdw constraints
+wd=[];
+Dzm1=[];
+Dd=[];
+Ddu=[];
+Ddl=[];
+Wd=[];
 
 % Initial response
 Asq0=schurOneMlatticeAsq(wa,k0,epsilon0,p0_ones,c0);
@@ -215,6 +223,7 @@ while ~isempty(kc_active)
                            wa,(Ad./Azm1).^2,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
                            wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
                            wp,Pd-Pzm1,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
+                           wd,(Dd./Dzm1),(Ddu./Dzm1),(Ddl./Dzm1),Wd, ...
                            maxiter,ftol,ctol,verbose);
   catch
     feasible=false;
@@ -283,6 +292,9 @@ P_kc_min=schurOneMlatticeP(wp,k_min,epsilon0,p0_ones,c_min);
 T_kc0=schurOneMlatticeT(wt,k0,epsilon0,p0_ones,c0);
 T_kc0_sd=schurOneMlatticeT(wt,k0_sd,epsilon0,p0_ones,c0_sd);
 T_kc_min=schurOneMlatticeT(wt,k_min,epsilon0,p0_ones,c_min);
+dAsqdw_kc0=schurOneMlatticedAsqdw(wd,k0,epsilon0,p0_ones,c0);
+dAsqdw_kc0_sd=schurOneMlatticedAsqdw(wd,k0_sd,epsilon0,p0_ones,c0_sd);
+dAsqdw_kc_min=schurOneMlatticedAsqdw(wd,k_min,epsilon0,p0_ones,c_min);
 
 % Check constraints after the last truncation
 printf("These constraints on the correction filter response are not met:\n");
@@ -290,8 +302,10 @@ vS=schurOneMlattice_slb_update_constraints ...
      (Asq_kc_min,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
       T_kc_min,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
       P_kc_min,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
+      dAsqdw_kc_min,Ddu./Dzm1,Ddl./Dzm1,Wd, ...
       ctol);
-schurOneMlattice_slb_show_constraints(vS,wa,Asq_kc_min,wt,T_kc_min,wp,P_kc_min);
+schurOneMlattice_slb_show_constraints ...
+  (vS,wa,Asq_kc_min,wt,T_kc_min,wp,P_kc_min,wd,dAsqdw_kc_min);
 
 % Plot response error
 subplot(311);

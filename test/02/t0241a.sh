@@ -7,7 +7,10 @@ depends="test/sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.m \
 ../schurOneMlattice_sqp_slb_lowpass_test_epsilon2_coef.m \
 ../schurOneMlattice_sqp_slb_lowpass_test_p2_coef.m \
 schurOneMlattice_bandpass_10_nbits_common.m test_common.m \
-schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
+schurOneMlatticeAsq.m \
+schurOneMlatticeT.m \
+schurOneMlatticeP.m \
+schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_slb.m \
 schurOneMlattice_slb_constraints_are_empty.m \
@@ -23,9 +26,10 @@ schurOneMlattice_allocsd_Lim.m \
 schurOneMlatticeFilter.m \
 tf2schurOneMlattice.m \
 local_max.m print_polynomial.m x2nextra.m sqp_bfgs.m armijo_kim.m qroots.m \
-updateWbfgs.m invSVD.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m SDadders.m \
+updateWbfgs.m invSVD.m H2Asq.m H2T.m H2P.m H2dAsqdw.m flt2SD.m bin2SDul.m \
+SDadders.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct \
+schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SD.oct bin2SPT.oct \
 Abcd2tf.oct qzsolve.oct"
 
 tmp=/tmp/$$

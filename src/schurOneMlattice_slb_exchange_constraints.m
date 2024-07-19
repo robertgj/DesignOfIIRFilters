@@ -1,9 +1,9 @@
 function [next_vR,next_vS,exchanged] = ...
-          schurOneMlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl, ...
-                                                    T,Tdu,Tdl,P,Pdu,Pdl,ctol)
+  schurOneMlattice_slb_exchange_constraints ...
+    (vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,P,Pdu,Pdl,dAsqdw,Ddu,Ddl,ctol)
 % [next_vR,next_vS,exchanged] = ...
-%  schurOneMlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl, ...
-%                                            T,Tdu,Tdl,P,Pdu,Pdl,ctol)
+%  schurOneMlattice_slb_exchange_constraints ...
+%    (vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,P,Pdu,Pdl,dAsqdw,Ddu,Ddl,ctol)
 % Check for violation of the constraints in vR. If any constraints are violated
 % then move the constraint with the greatest violation from vR to vS.
 
@@ -28,19 +28,19 @@ function [next_vR,next_vS,exchanged] = ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if (nargin ~= 12) || (nargout ~= 3)
+  if (nargin ~= 15) || (nargout ~= 3)
     print_usage("[next_vR,next_vS,exchanged]= ...\n\
-schurOneMlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl, ...\n\
-                                          T,Tdu,Tdl,P,Pdu,Pdl,ctol)");
+schurOneMlattice_slb_exchange_constraints ...\n\
+  (vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,P,Pdu,Pdl,dAsqdw,Ddu,Ddl,ctol)");
   endif
-  if all(isfield(vS,{"al","au","tl","tu","pl","pu"})) == false
-    error("Expect fields vS.al, vS.au, vS.tl, vS.tu, vS.pl and vS.pu");
+  if all(isfield(vS,{"al","au","tl","tu","pl","pu","dl","du"})) == false
+    error("Expect vS fields al, au, tl, tu, pl, pu, dl and du");
   endif
-  if all(isfield(vR,{"al","au","tl","tu","pl","pu"})) == false
-    error("Expect fields vR.al, vR.au, vR.tl, vR.tu, vR.pl and vR.pu");
+  if all(isfield(vR,{"al","au","tl","tu","pl","pu","dl","du"})) == false
+    error("Expect vR fields al, au, tl, tu, pl, pu, dl and du");
   endif
-  if isempty(Asq) && isempty(T) && isempty(P)
-    error("Asq,T and P are empty");
+  if isempty(Asq) && isempty(T) && isempty(P) && isempty(dAsqdw)
+    error("Asq, T, P and dAsqdw are empty");
   endif
   if length(Asq) ~= length(Asqdu)
     error("length(Asq) ~= length(Asqdu)");
@@ -59,6 +59,12 @@ schurOneMlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl, ...\n\
   endif
   if length(Pdu) ~= length(Pdl)
     error("length(Pdu) ~= length(Pdl)");
+  endif
+  if length(dAsqdw) ~= length(Ddu)
+    error("length(dAsqdw) ~= length(Ddu)");
+  endif
+  if length(Ddu) ~= length(Ddl)
+    error("length(Ddu) ~= length(Ddl)");
   endif
 
   % Initialise
@@ -156,6 +162,36 @@ schurOneMlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl, ...\n\
     endif
   endif
   
+  % dAsqdw constraints
+  vDl_max=-inf;
+  vDl_maxi=[];
+  vDu_max=-inf;
+  vDu_maxi=[];
+  if ~isempty(dAsqdw)
+    % dAsqdw lower constraint
+    Dl=dAsqdw(vR.dl);
+    Ddl=Ddl(vR.dl);  
+    vDl=[];
+    if ~isempty(vR.dl)
+      vDl=find((Ddl-Dl)>ctol);
+      if ~isempty(vDl)
+        exchanged = true;
+        [vDl_max,vDl_maxi]=max(Ddl-Dl-ctol);
+      endif 
+    endif
+    % Phase upper constraint
+    Du=dAsqdw(vR.du);
+    Ddu=Ddu(vR.du); 
+    vDu=[];
+    if ~isempty(vR.du)
+      vDu=find((Du-Ddu)>ctol);
+      if ~isempty(vDu)
+        exchanged = true;
+        [vDu_max,vDu_maxi]=max(Du-Ddu-ctol);
+      endif
+    endif
+  endif
+  
   % Return if no exchange
   if exchanged == false
     printf("No vR constraints violated. No exchange with vS.\n");
@@ -164,7 +200,8 @@ schurOneMlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl, ...\n\
 
   % Find the most violated constraint in vR
   [violation, most_violated] = ...
-    max([vAsql_max, vAsqu_max, vTl_max, vTu_max, vPl_max, vPu_max]);
+    max([vAsql_max, vAsqu_max, vTl_max, vTu_max, ...
+         vPl_max, vPu_max, vDl_max, vDu_max]);
 
   % Move the most violated constraint to vS
   if most_violated == 1
@@ -191,6 +228,14 @@ schurOneMlattice_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl, ...\n\
     next_vS.pu=unique([vS.pu;vR.pu(vPu_maxi)]);
     next_vR.pu(vPu_maxi)=[];
     printf("Exchanged constraint from vR.pu(%d) to vS\n",vR.pu(vPu_maxi));
+  elseif most_violated == 7
+    next_vS.dl=unique([vS.dl;vR.dl(vDl_maxi)]);
+    next_vR.dl(vDl_maxi)=[];
+    printf("Exchanged constraint from vR.dl(%d) to vS\n",vR.dl(vDl_maxi));
+  elseif most_violated == 8
+    next_vS.du=unique([vS.du;vR.du(vDu_maxi)]);
+    next_vR.du(vDu_maxi)=[];
+    printf("Exchanged constraint from vR.du(%d) to vS\n",vR.du(vDu_maxi));
   else
     error("Illegal max. position!?!");
   endif

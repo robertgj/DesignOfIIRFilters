@@ -28,7 +28,6 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
 %
 % It may be necessary to adjust param.eqTolerance and param.SDPsolverEpsilon
 %
-%
 % Inputs:
 %   vS - structure of peak constraint frequencies {al,au,tl,tu}
 %   A1k0 - initial allpass filter multipliers for allpass filter 1
@@ -47,8 +46,8 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
 %   Td - desired group delay response
 %   Tdu,Tdl - upper/lower mask for the desired group delay response
 %   Wt - group delay response weight at each frequency
-%   wp - angular frequencies of the delay response
-%   Pd - desired passband group delay response
+%   wp - angular frequencies of the phase response
+%   Pd - desired passband phase response
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - not used
@@ -107,8 +106,8 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   Nwa=length(wa);
   Nwt=length(wt);
   Nwp=length(wp);
-  if isempty(wa) && isempty(wt)
-    error("wa and wt empty");
+  if isempty(wa) && isempty(wt) && isempty(wp)
+    error("wa, wt and wp empty");
   endif
   if Nwa ~= length(Asqd)
     error("Expected length(wa)(%d) == length(Asqd)(%d)",Nwa,length(Asqd));
@@ -149,7 +148,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   if isempty(vS)
     vS=schurOneMPAlattice_slb_set_empty_constraints();
   elseif (numfields(vS) ~= 6) || ...
-         (all(isfield(vS,{"al","au","tl","tu","pl","pu"}))==false)
+         (all(isfield(vS,{"al","au","tl","tu","pl","pu"})) == false)
     error("numfields(vS)=%d, expected 6 (al,au,tl,tu,pl and pu)",numfields(vS));
   endif
   if isstruct(ftol)
@@ -162,8 +161,8 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
     dtol=ftol;
   endif
 
-  Nresp=length(vS.al)+length(vS.au)+ ...
-        length(vS.tl)+length(vS.tu)+ ...
+  Nresp=length(vS.al)+length(vS.au) + ...
+        length(vS.tl)+length(vS.tu) + ...
         length(vS.pl)+length(vS.pu);
 
   %

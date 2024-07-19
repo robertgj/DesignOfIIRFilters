@@ -7,6 +7,7 @@ test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
 schurOneMlatticeP.m \
+schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_slb.m \
 schurOneMlattice_slb_constraints_are_empty.m \
@@ -19,11 +20,10 @@ schurOneMlattice_socp_slb_lowpass_plot.m \
 schurOneMscale.m \
 tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
-local_max.m tf2pa.m x2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m \
-print_polynomial.m WISEJ.m \
+local_max.m tf2pa.m x2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+print_polynomial.m WISEJ.m qroots.m \
 schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2H.oct qroots.m qzsolve.oct \
-Abcd2tf.oct"
+complex_zhong_inverse.oct schurOneMlattice2H.oct qzsolve.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -59,16 +59,16 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k2.ok << 'EOF'
-k2 = [   0.0000000000,   0.1889539538,   0.0000000000,  -0.0284766905, ... 
-         0.0000000000,   0.0116932149,   0.0000000000,  -0.0104124204, ... 
-         0.0000000000,   0.0127069920 ]';
+k2 = [   0.0000000000,   0.2151004985,   0.0000000000,  -0.0296584368, ... 
+         0.0000000000,   0.0098022298,   0.0000000000,  -0.0042977815, ... 
+         0.0000000000,   0.0009950519 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
 
 cat > test.c2.ok << 'EOF'
-c2 = [  -0.0123978535,  -0.2265628385,  -0.3095745305,  -0.0203101092, ... 
-         0.0869340779,  -0.0349290725,  -0.0231821198,   0.0311422815, ... 
-        -0.0069378944,  -0.0117026096,   0.0087826337 ]';
+c2 = [  -0.0222306337,  -0.2127799152,  -0.2748948607,  -0.0305653176, ... 
+         0.0672189785,  -0.0133867300,  -0.0215896181,   0.0137473254, ... 
+         0.0020918321,  -0.0050122920,   0.0010028840 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
 

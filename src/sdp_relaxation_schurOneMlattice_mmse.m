@@ -2,12 +2,14 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
   sdp_relaxation_schurOneMlattice_mmse(vS,k0,epsilon0,p0,c0, ...
                             kc_u,kc_l,kc_active,kc_delta, ...
                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                            wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
+                            wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+                            maxiter,ftol,ctol,verbose)
 % [k_min,c_min,socp_iter,func_iter,feasible] =
 %   sdp_relaxation_schurOneMlattice_mmse(vS,k0,epsilon0,p0,c0, ...
 %                             kc_u,kc_l,kc_active,kc_delta, ...
 %                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                             wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
+%                             wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+%                             maxiter,ftol,ctol,verbose)
 %
 % SDP optimisation of a one-multiplier Schur lattice filter with integer
 % coefficients and constraints on the amplitude, phase and group delay
@@ -44,10 +46,14 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
 %   Td - desired group delay response
 %   Tdu,Tdl - upper/lower mask for the desired group delay response
 %   Wt - group delay response weight at each frequency
-%   wp - angular frequencies of the delay response
-%   Pd - desired passband group delay response
+%   wp - angular frequencies of the phase response
+%   Pd - desired passband phase response
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
+%   wd - angular frequencies of the dAsqdw response
+%   Dd - desired passband dAsqdw response
+%   Ddu,Ddl - upper/lower mask for the desired dAsqdw response
+%   Wd - dAsqdw response weight at each frequency
 %   maxiter - not used
 %   ftol - tolerance on coefficient update
 %   ctol - tolerance on constraints
@@ -79,23 +85,25 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 28) || (nargout ~= 5)
+  if (nargin ~= 33) || (nargout ~= 5)
     print_usage("[k,c,socp_iter,func_iter,feasible]= ...\n\
   sdp_relaxation_schurOneMlattice_mmse(vS,k0,epsilon0,p0,c0, ...\n\
                             kc_u,kc_l,kc_active,kc_delta, ...\n\
                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                            wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
+                            wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...\n\
+                            maxiter,ftol,ctol,verbose)");
   endif
 
   %
   % Sanity checks on frequency response vectors
   %
-  wa=wa(:);wt=wt(:);wp=wp(:);
+  wa=wa(:);wt=wt(:);wp=wp(:);wd=wd(:);
   Nwa=length(wa);
   Nwt=length(wt);
   Nwp=length(wp);
-  if isempty(wa) && isempty(wt)
-    error("wa and wt empty");
+  Nwd=length(wd);
+  if isempty(wa) && isempty(wt) && isempty(wp) && isempty(wd)
+    error("wa, wt, wp and wd empty");
   endif
   if Nwa ~= length(Asqd)
     error("Expected length(wa)(%d) == length(Asqd)(%d)",Nwa,length(Asqd));
@@ -133,15 +141,29 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
   if ~isempty(Wp) && Nwp ~= length(Wp)
     error("Expected length(wp)(%d) == length(Wp)(%d)",Nwp,length(Wp));
   endif
+  if ~isempty(Dd) && Nwd ~= length(Dd)
+    error("Expected length(wd)(%d) == length(Dd)(%d)",Nwd,length(Dd));
+  endif
+  if ~isempty(Ddu) && Nwd ~= length(Ddu)
+    error("Expected length(wd)(%d) == length(Ddu)(%d)",Nwd,length(Ddu));
+  endif
+  if ~isempty(Ddl) && Nwd ~= length(Ddl)
+    error("Expected length(wd)(%d) == length(Ddl)(%d)",Nwd,length(Ddl));
+  endif
+  if ~isempty(Wd) && Nwd ~= length(Wd)
+    error("Expected length(wd)(%d) == length(Wd)(%d)",Nwd,length(Wd));
+  endif
   if isempty(vS)
     vS=schurOneMlattice_slb_set_empty_constraints();
-  elseif (numfields(vS) ~= 6) || ...
-         (all(isfield(vS,{"al","au","tl","tu","pl","pu"}))==false)
-    error("numfields(vS)=%d, expected 6 (al,au,tl,tu,pl and pu)",numfields(vS));
+  elseif (numfields(vS) ~= 8) || ...
+         (all(isfield(vS,{"al","au","tl","tu","pl","pu","dl","du"}))==false)
+    error("numfields(vS)=%d, expected 8 (al,au,tl,tu,pl,pu,dl and du)", ...
+          numfields(vS));
   endif
-  Nresp=length(vS.al)+length(vS.au)+ ...
-        length(vS.tl)+length(vS.tu)+ ...
-        length(vS.pl)+length(vS.pu);
+  Nresp=length(vS.al)+length(vS.au) + ...
+        length(vS.tl)+length(vS.tu) + ...
+        length(vS.pl)+length(vS.pu) + ...
+        length(vS.dl)+length(vS.du);
 
   %
   % Sanity checks on coefficient vectors
@@ -252,14 +274,14 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
   
   % Approximate group-delay linear constraints 
   if ~isempty(vS.tu)
-    [T_tu,gradT_tu]=schurOneMlatticeP(wt(vS.tu),k0,epsilon0,p0,c0);
+    [T_tu,gradT_tu]=schurOneMlatticeT(wt(vS.tu),k0,epsilon0,p0,c0);
     func_iter = func_iter+1;
     gradT_tu_delta=gradT_tu.*kron(ones(length(vS.tu),1),kc_delta');
     D=[D,[zeros(MM,length(vS.tu));-gradT_tu_delta(:,kc_active)']];
     f=[f;Tdu(vS.tu)-T_tu];
   endif
   if ~isempty(vS.tl) 
-    [T_tl,gradT_tl]=schurOneMlatticeP(wt(vS.tl),k0,epsilon0,p0,c0);
+    [T_tl,gradT_tl]=schurOneMlatticeT(wt(vS.tl),k0,epsilon0,p0,c0);
     func_iter = func_iter+1;
     gradT_tl_delta=gradT_tl.*kron(ones(length(vS.tl),1),kc_delta');
     D=[D,[zeros(MM,length(vS.tl));gradT_tl_delta(:,kc_active)']];
@@ -280,6 +302,24 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
     gradP_pl_delta=gradP(vS.pl).*kron(ones(length(vS.pl),1),kc_delta');
     D=[D,[zeros(MM,length(vS.pl)); gradP_pl_delta(:,kc_active)']];
     f=[f;                          P_pl-Pdl(vS.pl)];
+  endif
+ 
+  % Approximate dAsqdw linear constraints
+  if ~isempty(vS.du)
+    [dAsqdw_du,graddAsqdw_du] = ...
+       schurOneMlatticedAsqdw(wd(vS.du),k0,epsilon0,p0,c0);
+    func_iter = func_iter+1;
+    graddAsqdw_du_delta=graddAsqdw_du.*kron(ones(length(vS.du),1),kc_delta');
+    D=[D,[zeros(MM,length(vS.du));-graddAsqdw_du_delta(:,kc_active)']];
+    f=[f;Ddu(vS.du)-dAsqdw_du];
+  endif
+  if ~isempty(vS.dl) 
+    [dAsqdw_dl,graddAsqdw_dl] = ...
+       schurOneMlatticedAsqdw(wd(vS.dl),k0,epsilon0,p0,c0);
+    func_iter = func_iter+1;
+    graddAsqdw_dl_delta=graddAsqdw_dl.*kron(ones(length(vS.dl),1),kc_delta');
+    D=[D,[zeros(MM,length(vS.dl));graddAsqdw_dl_delta(:,kc_active)']];
+    f=[f;dAsqdw_dl-Ddl(vS.dl)];
   endif
 
   % Triangle inequalities (in the SeDuMi form: Dy+f>=0)
@@ -387,7 +427,7 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
     printf("k_min=[ ");printf("%15.12f ",k_min');printf(" ]';\n"); 
     printf("c_min=[ ");printf("%15.12f ",c_min');printf(" ]';\n"); 
     Esq=schurOneMlatticeEsq(k_min,epsilon0,p0,c_min, ...
-                            wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                            wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
     func_iter=func_iter+1;
     printf("Esq= %g\n",Esq);
     printf("func_iter=%d, socp_iter=%d\n",func_iter,socp_iter);

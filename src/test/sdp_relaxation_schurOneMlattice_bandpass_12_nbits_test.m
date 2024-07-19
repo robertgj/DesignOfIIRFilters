@@ -89,6 +89,13 @@ Pdu=[];
 Pdl=[];
 Wp=[];
 
+% dAsqdw constraints
+wd=[];
+Dd=[];
+Ddu=[];
+Ddl=[];
+Wd=[];
+
 % Constraints on the coefficients
 dmax=0.05;
 rho=127/128
@@ -111,8 +118,7 @@ Adf=[0 0 1 0 0];
 Waf=[Wasl 0 Wap 0 Wasu];
 ndigits_alloc=schurOneMlattice_allocsd_Lim(nbits,ndigits,k0,epsilon0,p0,c0, ...
                                            wa,Asqd,ones(size(wa)), ...
-                                           wt,Td,ones(size(wt)), ...
-                                           wp,Pd,ones(size(wp)));
+                                           wt,Td,ones(size(wt)));
 
 % Find the signed-digit approximations to kc0
 kc0=[k0;c0];
@@ -128,11 +134,11 @@ print_polynomial(kc0_sd_Lim(Rc),"c0_sd_Lim", ...
                  strcat(strf,"_c0_sd_Lim_coef.m"),nscale);
 
 % Find initial mean-squared errrors
-Esq0=schurOneMlatticeEsq(k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+Esq0=schurOneMlatticeEsq(k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt);
 Esq0_sd=schurOneMlatticeEsq(kc0_sd(Rk),epsilon0,p0,kc0_sd(Rc), ...
-                            wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                            wa,Asqd,Wa,wt,Td,Wt);
 Esq0_sd_Lim=schurOneMlatticeEsq(kc0_sd_Lim(Rk),epsilon0,p0,kc0_sd_Lim(Rc), ...
-                                wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                                wa,Asqd,Wa,wt,Td,Wt);
 
 % Define filter coefficients
 kc0_sd_delta=(kc0_sdu_Lim-kc0_sdl_Lim)/2;
@@ -140,7 +146,7 @@ kc0_sd_x=(kc0_sdu_Lim+kc0_sdl_Lim)/2;
 kc0_sd_x_active=find((kc0_sd_x)~=0);
 [Esq0_sd_x,gradEsq0_sd_x]=schurOneMlatticeEsq ...
                             (kc0_sd_x(Rk),epsilon0,p0,kc0_sd_x(Rc), ...
-                             wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                             wa,Asqd,Wa,wt,Td,Wt);
 
 % Solve the SDP problem with SeDuMi
 [k0_sd_sdp,c0_sd_sdp,socp_iter,func_iter,feasible] = ... 
@@ -149,7 +155,7 @@ kc0_sd_x_active=find((kc0_sd_x)~=0);
      kc0_sd_x(Rk),epsilon0,p0,kc0_sd_x(Rc), ...
      kc_u,kc_l,kc0_sd_x_active,kc0_sd_delta, ...
      wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-     wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
+     wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd,maxiter,ftol,ctol,verbose);
 if feasible==false
   error("sdp_relaxation_schurOneMlattice_mmse failed!");
 endif
@@ -162,7 +168,7 @@ print_polynomial(c0_sd_sdp,"c0_sd_sdp", ...
 kc0_sd_sdp=[k0_sd_sdp(:);c0_sd_sdp(:)];
 [kc0_digits_sd_sdp,kc0_adders_sd_sdp]=SDadders(kc0_sd_sdp,nbits);
 Esq0_sd_sdp=schurOneMlatticeEsq(k0_sd_sdp,epsilon0,p0,c0_sd_sdp, ...
-                                wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                                wa,Asqd,Wa,wt,Td,Wt);
 
 % Find coefficients with successive relaxation
 kc=zeros(size(kc0));
@@ -188,7 +194,7 @@ while 1
        kc_sd_x(Rk),epsilon0,p0,kc_sd_x(Rc), ...
        kc_u,kc_l,kc_sd_x_active,kc_sd_delta, ...
        wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-       wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
+       wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd,maxiter,ftol,ctol,verbose);
   if feasible==false
     error("sdp_relaxation_schurOneMlattice_mmse failed!");
   endif
@@ -212,7 +218,7 @@ while 1
     kc0_sd_min=kc;
     [kc0_digits_sd_min,kc0_adders_sd_min]=SDadders(kc0_sd_min,nbits);
     Esq0_sd_min=schurOneMlatticeEsq(kc0_sd_min(Rk),epsilon0,p0,kc0_sd_min(Rc),...
-                                    wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                                    wa,Asqd,Wa,wt,Td,Wt);
     print_polynomial(kc0_sd_min(Rk),"k0_sd_min",nscale);
     print_polynomial(kc0_sd_min(Rk),"k0_sd_min", ...
                      strcat(strf,"_k0_sd_min_coef.m"),nscale);
@@ -231,6 +237,7 @@ while 1
                          wa,Asqd,Asqdu,Asqdl,Wa, ...
                          wt,Td,Tdu,Tdl,Wt, ...
                          wp,Pd,Pdu,Pdl,Wp, ...
+                         wd,Dd,Ddu,Ddl,Wd, ...
                          maxiter,ftol,ctol,verbose);
     kc=[nextk(:);nextc(:)];
   catch

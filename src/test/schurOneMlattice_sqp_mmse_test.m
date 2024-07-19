@@ -57,6 +57,13 @@ Pdu=[];
 Pdl=[];
 Wp=[];
 
+% dAsqdw constraints
+wd=[];
+Dd=[];
+Ddu=[];
+Ddl=[];
+Wd=[];
+
 % Constraints on the coefficients
 dmax=0.1
 rho=127/128
@@ -80,7 +87,8 @@ tic;
   schurOneMlattice_sqp_mmse([],k0,epsilon0,p0,c0, ...
                             kc_u,kc_l,kc_active,dmax, ...
                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                            wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
+                            wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+                            maxiter,ftol,ctol,verbose);
 toc;
 if feasible == 0 
   error("k1,c1(mmse) infeasible");

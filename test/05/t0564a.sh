@@ -9,6 +9,7 @@ test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
 schurOneMlatticeP.m \
+schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_slb.m \
 schurOneMlattice_slb_constraints_are_empty.m \
@@ -22,11 +23,10 @@ tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
 schurOneMlattice_allocsd_Lim.m \
 schurOneMlattice_allocsd_Ito.m \
-local_max.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
-schurOneMlatticeFilter.m flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
-bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct \
-qroots.m qzsolve.oct"
+local_max.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+schurOneMlatticeFilter.m flt2SD.m x2nextra.m bin2SDul.m SDadders.m qroots.m \
+qzsolve.oct bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
+complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct"
 
 tmp=/tmp/$$
 here=`pwd`

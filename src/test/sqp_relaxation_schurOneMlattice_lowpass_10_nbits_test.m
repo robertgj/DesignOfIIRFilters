@@ -69,6 +69,13 @@ Pdu=[];
 Pdl=[];
 Wp=[];
 
+% dAsqdw constraints
+wd=[];
+Dd=[];
+Ddu=[];
+Ddl=[];
+Wd=[];
+
 % Constraints on the coefficients
 dmax=0.05
 rho=127/128
@@ -79,11 +86,10 @@ kc0_l=-kc0_u;
 if sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_allocsd_Lim
   ndigits_alloc=schurOneMlattice_allocsd_Lim(nbits,ndigits,k0,epsilon0,p0,c0, ...
                                              wa,Asqd,ones(size(wa)), ...
-                                             wt,Td,ones(size(wt)), ...
-                                             wp,Pd,ones(size(wp)));
+                                             wt,Td,ones(size(wt)));
 elseif sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test_allocsd_Ito
   ndigits_alloc=schurOneMlattice_allocsd_Ito(nbits,ndigits,k0,epsilon0,p0,c0, ...
-                                             wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                                             wa,Asqd,Wa,wt,Td,Wt);
 else
   ndigits_alloc=zeros(size(kc0));
   ndigits_alloc(kc0_active)=ndigits;
@@ -179,6 +185,7 @@ while ~isempty(kc_active)
                            wa,Asqd,Asqdu,Asqdl,Wa, ...
                            wt,Td,Tdu,Tdl,Wt, ...
                            wp,Pd,Pdu,Pdl,Wp, ...
+                           wd,Dd,Ddu,Ddl,Wd, ...
                            maxiter,ftol,ctol,verbose);
   catch
     feasible=false;

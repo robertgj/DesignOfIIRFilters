@@ -59,6 +59,13 @@ Pdu=[];
 Pdl=[];
 Wp=[];
 
+% dAsqdw constraints
+wd=[];
+Dd=[];
+Ddu=[];
+Ddl=[];
+Wd=[];
+
 % Constraints on the coefficients
 dmax=0.05;
 rho=127/128
@@ -84,6 +91,7 @@ tic;
                              wa,Asqd,Asqdu,Asqdl,Wa_mmse, ...
                              wt,Td,Tdu,Tdl,Wt_mmse, ...
                              wp,Pd,Pdu,Pdl,Wp, ...
+                             wd,Dd,Ddu,Ddl,Wd, ...
                              maxiter,ftol,ctol,verbose);
 toc;
 if feasible == 0 
@@ -107,6 +115,7 @@ tic;
                        wa,Asqd,Asqdu,Asqdl,Wa_pcls, ...
                        wt,Td,Tdu,Tdl,Wt_pcls, ...
                        wp,Pd,Pdu,Pdl,Wp, ...
+                       wd,Dd,Ddu,Ddl,Wd, ...
                        maxiter,ftol,ctol,verbose);
 toc;
 if feasible == 0 

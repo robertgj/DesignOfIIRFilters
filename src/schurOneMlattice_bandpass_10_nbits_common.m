@@ -95,6 +95,13 @@ Pdu=[];
 Pdl=[];
 Wp=[];
 
+% dAsqdw constraints
+wd=[];
+Dd=[];
+Ddu=[];
+Ddl=[];
+Wd=[];
+
 % Set coefficient size
 if exist('nbits','var')~=1
   nbits=10;

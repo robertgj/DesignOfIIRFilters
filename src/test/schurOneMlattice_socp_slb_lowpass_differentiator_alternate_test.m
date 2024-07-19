@@ -84,6 +84,14 @@ Pdu=Pd+(ppr*pi/2);
 Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
 
+% dAsqdw response
+wd=[];
+Dzm1=[];
+Dd=[];
+Ddu=[];
+Ddl=[];
+Wd=[];
+
 % Coefficient constraints
 dmax=0.1; % For compatibility with SQP
 rho=127/128;
@@ -119,6 +127,7 @@ feasible=false;
    wa,(Ad./Azm1).^2,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
    wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
    wp,Pd-Pzm1,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
+   wd,(Dd./Dzm1),(Ddu./Dzm1),(Ddl./Dzm1),Wd, ...
    maxiter,ftol,ctol,verbose);
 if feasible == 0
   error("k2 (PCLS) infeasible");

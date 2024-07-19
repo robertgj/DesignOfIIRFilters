@@ -2,12 +2,14 @@ function [k,c,pop_iter,func_iter,feasible]= ...
   schurOneMlattice_pop_socp_mmse(vS,k0,epsilon0,p0,c0, ...
                                  kc_u,kc_l,kc_active,kc_fixed, ...
                                  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                 wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
+                                 wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+                                 maxiter,ftol,ctol,verbose)
 % [k,c,pop_iter,func_iter,feasible] =
 %   schurOneMlattice_pop_socp_mmse(vS,k0,epsilon0,p0,c0, ...
 %                                  kc_u,kc_l,kc_active,kc_fixed, ...
 %                                  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                                  wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
+%                                  wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+%                                  maxiter,ftol,ctol,verbose)
 %
 % sparsePOP optimisation of a one-multiplier Schur lattice filter with
 % constraints on the amplitude, phase and group delay responses.
@@ -52,10 +54,14 @@ function [k,c,pop_iter,func_iter,feasible]= ...
 %   Td - desired group delay response
 %   Tdu,Tdl - upper/lower mask for the desired group delay response
 %   Wt - group delay response weight at each frequency
-%   wp - angular frequencies of the delay response
-%   Pd - desired passband group delay response
+%   wp - angular frequencies of the phase response
+%   Pd - desired passband phase response
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
+%   wd - angular frequencies of the dAsqdw response
+%   Dd - desired passband dAsqdw response
+%   Ddu,Ddl - upper/lower mask for the desired dAsqdw response
+%   Wd - dAsqdw response weight at each frequency
 %   maxiter - not used
 %   ftol - tolerance on coefficient updates
 %   ctol - tolerance on constraints
@@ -87,23 +93,25 @@ function [k,c,pop_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 28) || (nargout ~= 5)
+  if (nargin ~= 33) || (nargout ~= 5)
     print_usage("[k,c,pop_iter,func_iter,feasible]= ...\n\
   schurOneMlattice_pop_socp_mmse(vS,k0,epsilon0,p0,c0, ...\n\
                                  kc_u,kc_l,kc_active,kc_fixed, ...\n\
                                  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                                 wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
+                                 wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd. ...\n\
+                                 maxiter,ftol,ctol,verbose)");
   endif
 
   %
   % Sanity checks on frequency response vectors
   %
-  wa=wa(:);wt=wt(:);wp=wp(:);
+  wa=wa(:);wt=wt(:);wp=wp(:);wd=wd(:);
   Nwa=length(wa);
   Nwt=length(wt);
   Nwp=length(wp);
-  if isempty(wa) && isempty(wt)
-    error("wa and wt empty");
+  Nwd=length(wd);
+  if isempty(wa) && isempty(wt) && isempty(wp) && isempty(wd)
+    error("wa, wt, wp and wd empty");
   endif
   if Nwa ~= length(Asqd)
     error("Expected length(wa)(%d) == length(Asqd)(%d)",Nwa,length(Asqd));
@@ -141,15 +149,29 @@ function [k,c,pop_iter,func_iter,feasible]= ...
   if ~isempty(Wp) && Nwp ~= length(Wp)
     error("Expected length(wp)(%d) == length(Wp)(%d)",Nwp,length(Wp));
   endif
+  if ~isempty(Dd) && Nwd ~= length(Dd)
+    error("Expected length(wd)(%d) == length(Dd)(%d)",Nwd,length(Dd));
+  endif
+  if ~isempty(Ddu) && Nwd ~= length(Ddu)
+    error("Expected length(wd)(%d) == length(Ddu)(%d)",Nwd,length(Ddu));
+  endif
+  if ~isempty(Ddl) && Nwd ~= length(Ddl)
+    error("Expected length(wd)(%d) == length(Ddl)(%d)",Nwd,length(Ddl));
+  endif
+  if ~isempty(Wd) && Nwd ~= length(Wd)
+    error("Expected length(wd)(%d) == length(Wd)(%d)",Nwd,length(Wd));
+  endif
   if isempty(vS)
     vS=schurOneMlattice_slb_set_empty_constraints();
-  elseif (numfields(vS) ~= 6) || ...
+  elseif (numfields(vS) ~= 8) || ...
          (all(isfield(vS,{"al","au","tl","tu","pl","pu"}))==false)
-    error("numfields(vS)=%d, expected 6 (al,au,tl,tu,pl and pu)",numfields(vS));
+    error("numfields(vS)=%d, expected 8 (al,au,tl,tu,pl,pu,dl and du)", ...
+          numfields(vS));
   endif
-  Nresp=length(vS.al)+length(vS.au)+ ...
-        length(vS.tl)+length(vS.tu)+ ...
-        length(vS.pl)+length(vS.pu);
+  Nresp=length(vS.al)+length(vS.au) + ...
+        length(vS.tl)+length(vS.tu) + ...
+        length(vS.pl)+length(vS.pu) + ...
+        length(vS.dl)+length(vS.du);
 
   %
   % Sanity checks on coefficient vectors
@@ -193,7 +215,7 @@ function [k,c,pop_iter,func_iter,feasible]= ...
   k=k0(:);c=c0(:);kc=[k;c];xkc=kc(kc_active);
   % Initial squared response error
   [Esq0,gradEsq0,diagHessEsq0]= ...
-    schurOneMlatticeEsq(k,epsilon0,p0,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+    schurOneMlatticeEsq(k,epsilon0,p0,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
   func_iter=func_iter+1;
   if verbose
     printf("Initial Esq=%g\n",Esq0);
@@ -315,6 +337,28 @@ function [k,c,pop_iter,func_iter,feasible]= ...
     endfor
   endif
   
+  % dAsqdw linear constraints
+  if ~isempty(vS.du)
+    [dAsqdw_du,graddAsqdw_du]=schurOneMlatticedAsqdw(wd(vS.du),k,epsilon0,p0,c);
+    func_iter = func_iter+1;
+    for l=1:length(vS.du)
+      l_ineq=l_ineq+1;
+      % dAsqdwdu - (dAsqdw+(graddAsqdw*delta)) >= 0
+      ineqPolySys{l_ineq}.coef=[ dAsqdwdu(vS.du(l))-dAsqdw_du(l); ...
+                                -graddAsqdw_du(l,kc_active)'];
+    endfor
+  endif
+  if ~isempty(vS.dl)
+    [dAsqdw_dl,graddAsqdw_dl]=schurOneMlatticedAsqdw(wd(vS.dl),k,epsilon0,p0,c);
+    func_iter = func_iter+1;
+    for l=1:length(vS.dl)
+      l_ineq=l_ineq+1;
+      % (dAsqdw+(graddAsqdw*delta)) - dAsqdwdl >= 0
+      ineqPolySys{l_ineq}.coef=[ dAsqdw_dl(l)-dAsqdwdl(vS.dl(l)); ...
+                                 graddAsqdw_dl(l,kc_active)'];
+    endfor
+  endif
+  
   % Initialise truncation equality constraints
   for l=1:Nkc_fixed
     ineqPolySys{Nresp+l}.typeCone = -1;
@@ -399,7 +443,7 @@ function [k,c,pop_iter,func_iter,feasible]= ...
     printf("xkc(%d)= ",kc_fixed);printf("%g ",xkc(kc_fixed));printf("\n");
     printf("norm(delta)/norm(xkc)=%g\n",norm(delta)/norm(xkc));
     [Esq,gradEsq]= ...
-      schurOneMlatticeEsq(k,epsilon0,p0,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+      schurOneMlatticeEsq(k,epsilon0,p0,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
     func_iter=func_iter+1;
     printf("Esq=%g\n",Esq);
     printf("gradEsq=[");printf("%g ",gradEsq);printf("]\n");

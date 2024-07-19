@@ -2,7 +2,7 @@ function r=schurOneMlattice_slb_constraints_are_empty(vS)
 % r=schurOneMlattice_slb_constraints_are_empty(vS)
 % Return true if the vS structure constraints are empty
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -24,7 +24,8 @@ function r=schurOneMlattice_slb_constraints_are_empty(vS)
 
   r=isempty(vS.al) && isempty(vS.au) ...
     && isempty(vS.tl) && isempty(vS.tu) ...
-    && isempty(vS.pl) && isempty(vS.pu);
+    && isempty(vS.pl) && isempty(vS.pu) ...
+    && isempty(vS.dl) && isempty(vS.du);
 
 endfunction
       

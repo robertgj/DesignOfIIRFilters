@@ -74,6 +74,13 @@ Pdu=[];
 Pdl=[];
 Wp=[];
 
+% dAsqdw constraints
+wd=[];
+Dd=[];
+Ddu=[];
+Ddl=[];
+Wd=[];
+
 % Constraints on the coefficients
 dmax=inf;
 rho=127/128
@@ -101,6 +108,7 @@ schurOneMlattice_slb(@schurOneMlattice_socp_mmse, ...
                      wa,Asqd,Asqdu,Asqdl,Wa_pcls, ...
                      wt,Td,Tdu,Tdl,Wt_pcls, ...
                      wp,Pd,Pdu,Pdl,Wp, ...
+                     wd,Dd,Ddu,Ddl,Wd, ...
                      maxiter,ftol_pcls,ctol,verbose);
 toc(run_id);
 if feasible == 0 

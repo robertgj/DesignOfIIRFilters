@@ -1,14 +1,14 @@
 function ndigits_alloc=schurOneMlattice_allocsd_Lim ...
-  (nbits,ndigits,k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)
+  (nbits,ndigits,k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)
 % ndigits_alloc=schurOneMlattice_allocsd_Lim ...
-%   (nbits,ndigits,k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)
+%   (nbits,ndigits,k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)
 %
 % Lim's signed-digit allocation algorithm. See: "Signed Power-of-Two Term
 % Allocation Scheme for the Design of Digital Filters", Y. C. Lim, R. Yang,
 % D. Li and J. Song, IEEE Transactions on Circuits and Systems-II:Analog and
 % Digital Signal Processing, Vol. 46, No. 5, May 1999, pp.577-584
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -31,9 +31,11 @@ function ndigits_alloc=schurOneMlattice_allocsd_Lim ...
   %
   % Sanity checks
   %
-  if ((nargin~=9)&&(nargin~=12)&&(nargin~=15)) || nargout~=1
+  if (nargin<9) || ...
+     ((nargin~=9)&&(nargin~=12)&&(nargin~=15)&&(nargin~=18)) || ...
+     (nargout~=1)
     print_usage ("ndigits_alloc=schurOneMlattice_allocsd_Lim ...\n\
-      (nbits,ndigits,k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)");
+      (nbits,ndigits,k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)");
   endif
   if length(k0)~=length(epsilon0) || ...
      length(k0)~=length(p0) || ...
@@ -57,10 +59,17 @@ function ndigits_alloc=schurOneMlattice_allocsd_Lim ...
       error("Input phase vector lengths inconsistent!");
     endif
   endif
+  if nargin<18
+    wd=[];Dd=[];Wd=[];
+  else
+    if (length(Dd)~=length(wd)) || (length(Dd)~=length(Wd))
+      error("Input dAsqdw vector lengths inconsistent!");
+    endif
+  endif
 
   % Calculate the response squared-error and gradient
   [Esq,gradEsq]=schurOneMlatticeEsq(k0,epsilon0,p0,c0, ...
-                                    wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                                    wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 
   % Allocate signed digits to non-zero coefficients
   kc0=[k0(:);c0(:)];

@@ -1,7 +1,7 @@
 function vS=schurOneMlattice_slb_update_constraints ...
-              (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,ctol)
+  (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,dAsqdw,Ddu,Ddl,Wd,ctol)
 % vS=schurOneMlattice_slb_update_constraints ...
-%      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,ctol)
+%   (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,dAsqdw,Ddu,Ddl,Wd,ctol)
 
 % Copyright (C) 2017-2024 Robert G. Jenssen
 %
@@ -24,9 +24,9 @@ function vS=schurOneMlattice_slb_update_constraints ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   % Sanity checks
-  if (nargin ~= 13) || (nargout ~= 1)
+  if (nargin ~= 17) || (nargout ~= 1)
     print_usage("vS=schurOneMlattice_slb_update_constraints ...\n\
-      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,ctol)");
+      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,dAsqdw,Ddu,Ddl,Wd,ctol)");
   endif
   if length(Asq) ~= length(Asqdu)
     error("length(Asq) ~= length(Asqdu)");
@@ -54,6 +54,15 @@ function vS=schurOneMlattice_slb_update_constraints ...
   endif
   if length(Pdl) ~= length(Wp)
     error("length(Pdl) ~= length(Wp)");
+  endif
+  if length(dAsqdw) ~= length(Ddu)
+    error("length(dAsqdw) ~= length(Ddu)");
+  endif
+  if length(Ddu) ~= length(Ddl)
+    error("length(Ddu) ~= length(Ddl)");
+  endif
+  if length(Ddl) ~= length(Wd)
+    error("length(Ddl) ~= length(Wd)");
   endif
   
   vS=schurOneMlattice_slb_set_empty_constraints();
@@ -88,6 +97,16 @@ function vS=schurOneMlattice_slb_update_constraints ...
     vS.pu=vPu(find((P(vPu)-Pdu(vPu))>ctol));
   endif
 
+  % Find dAsqdw constraint violations
+  if ~isempty(dAsqdw)
+    % Find dAsqdw lower constraint violations
+    vDl=local_max((Ddl-dAsqdw).*(Wd~=0));
+    vS.dl=vDl(find((Ddl(vDl)-dAsqdw(vDl))>ctol));
+    % Find dAsqdw upper constraint violations
+    vDu=local_max((dAsqdw-Ddu).*(Wd~=0));
+    vS.du=vDu(find((dAsqdw(vDu)-Ddu(vDu))>ctol));
+  endif
+
   % Do not want size 0x1 ?!?!?!
   if isempty(vS.al) 
     vS.al=[];
@@ -106,6 +125,12 @@ function vS=schurOneMlattice_slb_update_constraints ...
   endif
   if isempty(vS.pu) 
     vS.pu=[];
+  endif
+  if isempty(vS.dl) 
+    vS.dl=[];
+  endif
+  if isempty(vS.du) 
+    vS.du=[];
   endif
 
 endfunction

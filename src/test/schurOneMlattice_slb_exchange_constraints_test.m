@@ -1,12 +1,13 @@
 % schurOneMlattice_slb_exchange_constraints_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMlattice_slb_exchange_constraints_test.diary");
-delete("schurOneMlattice_slb_exchange_constraints_test.diary.tmp");
-diary schurOneMlattice_slb_exchange_constraints_test.diary.tmp
+strf="schurOneMlattice_slb_exchange_constraints_test";
 
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 maxiter=2000
 tol=5e-6
@@ -50,6 +51,14 @@ Pdl=[];
 Wp=[];
 P=[];
 
+% dAsqdw constraints
+wd=[];
+Dd=[];
+Ddu=[];
+Ddl=[];
+Wd=[];
+dAsqdw=[];
+
 % Common strings
 strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,",fap,dBap,Wap);
 strM=strcat(strM, sprintf("fas=%g,dBas=%g,Was=%g,",fas,dBas,Was));
@@ -89,18 +98,18 @@ T7=schurOneMlatticeT(wt,k7,epsilon7,p7,c7);
 
 % Update constraints
 vR2=schurOneMlattice_slb_update_constraints ...
-      (Asq2,Asqdu,Asqdl,Wa,T2,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,tol);
+      (Asq2,Asqdu,Asqdl,Wa,T2,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,dAsqdw,Ddu,Ddl,Wd,tol);
 vS7=schurOneMlattice_slb_update_constraints ...
-      (Asq7,Asqdu,Asqdl,Wa,T7,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,tol);
+      (Asq7,Asqdu,Asqdl,Wa,T7,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,dAsqdw,Ddu,Ddl,Wd,tol);
 
 % Show constraints
 printf("vR2 before exchange constraints:\n");
-schurOneMlattice_slb_show_constraints(vR2,w,Asq2,w,T2,w,P);
+schurOneMlattice_slb_show_constraints(vR2,w,Asq2,w,T2,w,P,w,dAsqdw);
 printf("vS7 before exchange constraints:\n");
-schurOneMlattice_slb_show_constraints(vS7,w,Asq7,w,T7,w,P);
+schurOneMlattice_slb_show_constraints(vS7,w,Asq7,w,T7,w,P,w,dAsqdw);
 
 % Plot amplitude
-strd=sprintf("schurOneMlattice_slb_exchange_constraints_test_%%s");
+strd=sprintf("%s_%%s",strf);
 strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tpr=%g,Wtp=%g",
              fap,dBap,Wap,fas,dBas,Was,tpr,Wtp);
 fa=wa*0.5/pi;
@@ -135,11 +144,12 @@ close
 
 % Exchange constraints
 [vR7,vS7,exchanged] = schurOneMlattice_slb_exchange_constraints ...
-                        (vS7,vR2,Asq7,Asqdu,Asqdl,T7,Tdu,Tdl,P,Pdu,Pdl,tol);
+                        (vS7,vR2,Asq7,Asqdu,Asqdl,T7,Tdu,Tdl, ...
+                         P,Pdu,Pdl,dAsqdw,Ddu,Ddl,tol);
 printf("vR7 after exchange constraints:\n");
-schurOneMlattice_slb_show_constraints(vR7,w,Asq7,w,T7,w,P);
+schurOneMlattice_slb_show_constraints(vR7,w,Asq7,w,T7,w,P,w,dAsqdw);
 printf("vS7 after exchange constraints:\n");
-schurOneMlattice_slb_show_constraints(vS7,w,Asq7,w,T7,w,P);
+schurOneMlattice_slb_show_constraints(vS7,w,Asq7,w,T7,w,P,w,dAsqdw);
 
 % Plot amplitude
 subplot(211);
@@ -182,6 +192,6 @@ legend("boxoff");
 print(sprintf(strd,"7T"),"-dpdflatex");
 close
 
+% Done
 diary off
-movefile schurOneMlattice_slb_exchange_constraints_test.diary.tmp ...
-       schurOneMlattice_slb_exchange_constraints_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

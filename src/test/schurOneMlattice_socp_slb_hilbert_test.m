@@ -85,6 +85,13 @@ Pdu=-wp*td-(pp*pi)+([ones(non2+npt,1);-ones(non2-npt,1)]*pi/2)+(ppr*pi/2);
 Pdl=-wp*td-(pp*pi)+([ones(non2-npt,1);-ones(non2+npt,1)]*pi/2)-(ppr*pi/2);
 Wp=[Wpp*ones(non2-npt,1);Wpt*ones(2*npt,1);Wpp*ones(non2-npt,1)];
 
+% dAsqdw constraints
+wd=[];
+Dd=[];
+Ddu=[];
+Ddl=[];
+Wd=[];
+
 % Constraints on the coefficients
 dmax=inf;
 rho=1-ftol;
@@ -141,6 +148,7 @@ printf("\nMMSE pass 1:\n");
                             wa,Asqd,Asqdu,Asqdl,Wa, ...
                             wt,Td,Tdu,Tdl,Wt, ...
                             wp,Pd,Pdu,Pdl,Wp, ...
+                            wd,Dd,Ddu,Ddl,Wd, ...
                             maxiter,ftol,ctol,verbose);
 if feasible == 0
   error("x1(mmse) infeasible");
@@ -203,6 +211,7 @@ printf("\nPCLS pass:\n");
                        wa,Asqd,Asqdu,Asqdl,Wa, ...
                        wt,Td,Tdu,Tdl,Wt, ...
                        wp,Pd,Pdu,Pdl,Wp, ...
+                       wd,Dd,Ddu,Ddl,Wd, ...
                        maxiter,ftol,ctol,verbose);
 if feasible == 0 
   error("k2(pcls) infeasible");

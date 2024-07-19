@@ -90,6 +90,13 @@ Tdl=[(tp-(tpr/2))*ones(non2-ntt,1);...
      (tp-(tpr/2))*ones(non2-ntt,1)];
 Wt=[Wtp*ones(non2-ntt,1);Wtt*ones(2*ntt,1);Wtp*ones(non2-ntt,1)];
 
+% dAsqdw constraints
+wd=[];
+Dd=[];
+Ddu=[];
+Ddl=[];
+Wd=[];
+
 % Constraints on the coefficients
 dmax=inf;
 rho=1-ftol;
@@ -164,10 +171,11 @@ if any(kc0_sdl(kc0_active)>kc0(kc0_active))
 endif
 
 % Find kc0 error
-Esq0=schurOneMlatticeEsq(k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt);
+Esq0=schurOneMlatticeEsq(k0,epsilon0,p0,c0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
 
 % Find kc0_sd error
-Esq0_sd=schurOneMlatticeEsq(k0_sd,epsilon0,p0,c0_sd,wa,Asqd,Wa,wt,Td,Wt);
+Esq0_sd = ...
+  schurOneMlatticeEsq(k0_sd,epsilon0,p0,c0_sd,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
 
 % Find the number of signed-digits and adders used by kc0_sd
 [kc0_digits,kc0_adders]=SDadders(kc0_sd(kc0_active),nbits);
@@ -205,6 +213,7 @@ while ~isempty(kc_active)
                            wa,Asqd,Asqdu,Asqdl,Wa, ...
                            wt,Td,Tdu,Tdl,Wt, ...
                            wp,Pd,Pdu,Pdl,Wp, ...
+                           wd,Dd,Ddu,Ddl,Wd, ...
                            maxiter,ftol,ctol,verbose);
   catch
     feasible=false;
@@ -241,7 +250,8 @@ p_ones=ones(size(p0));
 kc_min=kc;
 k_min=kc(1:Nk);
 c_min=kc((Nk+1):end);
-Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p_ones,c_min,wa,Asqd,Wa,wt,Td,Wt);
+Esq_min = ...
+  schurOneMlatticeEsq(k_min,epsilon0,p_ones,c_min,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
 print_polynomial(k_min,"k_min",nscale);
 print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);

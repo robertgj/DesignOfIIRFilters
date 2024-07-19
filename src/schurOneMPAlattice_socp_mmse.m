@@ -32,8 +32,8 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
 %   Td - desired group delay response
 %   Tdu,Tdl - upper/lower mask for the desired group delay response
 %   Wt - group delay response weight at each frequency
-%   wp - angular frequencies of the delay response
-%   Pd - desired passband group delay response
+%   wp - angular frequencies of the phase response
+%   Pd - desired passband phase response
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
