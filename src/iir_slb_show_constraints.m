@@ -1,8 +1,5 @@
 function iir_slb_show_constraints(vS,wa,A,ws,S,wt,T,wp,P)
-
-if nargin ~= 9
-  print_usage("iir_slb_show_constraints(vS,wa,A,ws,S,wt,T,wp,P)");
-endif
+% iir_slb_show_constraints(vS,wa,A,ws,S,wt,T,wp,P)
   
 % Copyright (C) 2017-2024 Robert G. Jenssen
 %
@@ -24,6 +21,10 @@ endif
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+if nargin ~= 9
+  print_usage("iir_slb_show_constraints(vS,wa,A,ws,S,wt,T,wp,P)");
+endif
+  
 printf("Current constraints:\n");
 
 if ~isempty(vS.al)

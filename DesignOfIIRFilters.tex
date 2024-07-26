@@ -817,7 +817,7 @@ x\left(k+1\right) &= Ax\left(k\right)+Bu\left(k\right)
 \end{align*}
 can be driven to any specified vector $x\left(n\right)$.
 
-\emph{Proof}: From above
+\emph{Proof:}~ From above
 \begin{align*}
 x\left(n\right) &= \sum_{l=1}^{n}A^{l-1}Bu\left(n-l\right)\\
  &= \left[\begin{array}{cccc}
@@ -1000,7 +1000,7 @@ D &= b_{0}
 \label{alg:Transformation-transfer-to-SV}
 \end{algorithm}
 
-\textsc{PROOF} of Algorithm~\ref{alg:Transformation-transfer-to-SV}:
+\emph{Proof} of Algorithm~\ref{alg:Transformation-transfer-to-SV}:
 Firstly, show the identity
 \begin{align*}
 \left(zI-A\right)\Psi\left(z\right) &= \hat{a}\left(z\right)B
@@ -1222,7 +1222,7 @@ T^{-1}B &= \left[\begin{array}{c}
 \label{alg:Transformation-SV-to-Direct-Form}
 \end{algorithm}
 
-\textsc{PROOF} of Algorithm~\ref{alg:Transformation-SV-to-Direct-Form}: 
+\emph{Proof} of Algorithm~\ref{alg:Transformation-SV-to-Direct-Form}: 
 By repeated application, the state vectors, $x$, at time $k+1$ are:
 \begin{align*}
 x\left(k+1\right) &= \sum_{i=0}^{k}A^{k-i}Ba_{i}
@@ -4575,7 +4575,7 @@ Some identities:
 0 & 0\leq i\leq N-1
 \end{cases}
 \end{align*}
-\textsc{Proof:} Recall that 
+\emph{Proof:}~ Recall that 
 $\tilde{\Phi}_{N}\left(z\right)=z^{N}\Phi_{N}\left(z^{-1}\right)$. Then
 \begin{align*}
 \left\langle \Phi_{N}\left(z\right),z^{i}\right\rangle  & = \frac{1}{2\pi\imath}
@@ -6987,7 +6987,7 @@ H\left(e^{\imath\theta}\right)\in\mathcal{U}\left(m\right)
 ~ \forall\; \text{real } \; \theta
 \end{align*}
 
-\textsc{Definition:}
+\textbf{Definition:}
 A state variable filter $F=\left[\begin{array}{cc}
 A & B\\
 C & D
@@ -7749,9 +7749,18 @@ greatest lower bound of the dual function:
 \sum_{i\in\mathcal{A}\left(x\right)}\lambda_{i}g_{i}\left(x\right)\right\}
 \end{align*}
 \subsection{\label{sub:Solution-quasi-Newton-optimisation}Solution of the constrained quasi-Newton optimisation problem}
+The second-order \emph{Taylor expansion} of $\mathcal{E}\left(x\right)$ at
+$x^{k}$ is:
+\begin{align}\label{eqn:Quasi-Newton-second-order-Taylor-expansion}
+  \mathcal{E}\left(x\right)
+  &\approx\mathcal{E}\left(x^{k}\right) +
+    \nabla_{x}\mathcal{E}\left(x^{k}\right)\left(x-x^{k}\right) +
+    \frac{1}{2}\left(x-x^{k}\right)^{\top}
+    \nabla_{x}^{2}\mathcal{E}\left(x^{k}\right)\left(x-x^{k}\right)
+\end{align}
 Express the \emph{Karush-Kuhn-Tucker} conditions (Equations~\ref{eqn:KKT-cond-1}
-and~\ref{eqn:KKT-cond-2}) at $x^{k}$ in terms of a linearised version
-of the gradient of the error and linearised constraints (see 
+and~\ref{eqn:KKT-cond-2}) for a minimum at $x^{k}$ in terms of the gradient of
+the second-order expansion of the error and linearised constraints as (see 
 Appendix~\ref{app:Newtons-method-quadratic-function}):
 \begin{align}
 \nabla_{x}\mathcal{E}\left(x^{k}\right)+\nabla_{x}^{2}\mathcal{E}\left(x^{k}\right)\left(x-x^{k}\right)-\sum_{i\in\mathcal{A}\left(x\right)}\lambda_{i}\nabla_{x}g_{i}\left(x^{k}\right) &= 0\label{eqn:Linearised-KKT}\\
@@ -8367,6 +8376,15 @@ Section~\ref{sec:iir-R-2-differentiator-filter} and
 Section~\ref{sec:iir-sqp-slb-lowpass-differentiator} assume a zero at $z=1$ and
 design a correction filter that provides the desired combined response.
 
+Octave includes an SQP solver function, \emph{sqp}. I have not used this 
+function because it calls separate functions to calculate the error and the
+constraints. Instead I have written my own Octave SQP
+solver, \emph{iir\_sqp\_mmse}, based on the BFGS update algorithm and, in the
+PCLS solver, \emph{iir\_slb}, the constraints are calculated at the same
+time as the error. Other open-source Quadratic Programming (QP) solvers exist.
+For example, the \emph{Proximal Interior-Point Quadratic Programming
+  Solver}(PIQP) of \emph{Schwan et al.}~\cite{Schwan_PIQP2023}.
+
 \subsubsection{Finding an initial IIR filter design}
 The initial IIR filter design must be stable and bear a passing resemblance
 to the desired response. The multi-dimensional IIR filter design 
@@ -8470,12 +8488,6 @@ Found tau = 0.000000 using goldensection search of Lagrangian
 warning: norm(delta)<eps
 \end{verbatim}
 \end{itemize}
-
-Octave includes an SQP solver function, \emph{sqp}. I have not used this 
-function because it calls separate functions to calculate the error and the
-constraints. In  \emph{iir\_sqp\_mmse} and in the PCLS
-solver, \emph{iir\_slb}, the constraints are calculated at the same
-time as the error.
 \subsubsection{PCLS optimisation}
 The MMSE optimisation constrains the integrated error over a frequency interval.
 PCLS optimisation constrains the peaks of the amplitude, phase and group-delay
@@ -8737,6 +8749,74 @@ and
 \verbatiminput{deczky3a_sqp_test_D1_coef.m}
 \end{small}
 
+\subsection{\label{sec:PIQP-Deczky3}Deczky's Example 3 designed with the PIQP solver}
+The Octave script \emph{deczky3\_piqp\_test.m} calls the
+\emph{iir\_piqp\_mmse} and \emph{iir\_slb} functions to design a low-pass
+IIR filter similar to that of \emph{deczky3\_sqp\_test.m} with the PIQP solver
+of \emph{Schwan et al.}~\cite{Schwan_PIQP2023,OctaveForge_PIQPPackage}. PIQP
+solves quadratic programs like:
+\begin{align*}
+\begin{split}
+  \textbf{minimise}\quad &\frac{1}{2}x^{\top}Px+c^{\top}x \\
+  \textbf{subject to}\quad &Ax=b \\
+                         & Gx\le h \\
+                         & x_{lb}\le x \le x_{ub}
+\end{split}
+\end{align*}
+where $x\in\mathbb{R}^{n}$, $P\in\mathbb{S}^{n}_{+}$ (i.e.: $P\succ 0$),
+$A\in\mathbb{R}^{p\times n}$, $G\in\mathbb{R}^{m\times n}$, $c\in\mathbb{R}^{n}$,
+$b\in\mathbb{R}^{p}$, $h\in\mathbb{R}^{m}$, $x_{lb}\in\mathbb{R}^{n}$ and
+$x_{ub}\in\mathbb{R}^{n}$. In this case, $P$ corresponds to the Hessian,
+$\nabla^{2}_{x}\mathcal{E}\left(x\right)$, shown in
+Equation~\ref{eqn:Quasi-Newton-second-order-Taylor-expansion}. When
+designing an IIR, as opposed to FIR, filter, the squared-error,
+$\mathcal{E}\left(x\right)$, represents a complicated surface that may not be
+convex when $x$ is not particularly close to a local minimum. In other words, it
+is possible that $\nabla^{2}_{x}\mathcal{E}\left(x\right)$ is not
+positive-definite. PIQP appears to tolerate a $P$ matrix that is symmetric
+but not positive-definite.
+
+The filter specification is:
+\begin{small}
+\verbatiminput{deczky3_piqp_test_spec.m}
+\end{small}
+
+The resulting amplitude  and delay responses are shown in
+Figure~\ref{fig:Deczky-Example-3-PCLS-PIQP-d1} with pass-band detail shown in
+Figure~\ref{fig:Deczky-Example-3-PCLS-PIQP-d1-passband}. The corresponding
+pole-zero plot is shown in Figure~\ref{fig:Deczky-Example-3-PCLS-PIQP-d1-pz}. 
+\begin{figure}[!ht]
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_piqp_test_pcls_d1}}
+\caption{Deczky Example 3 PCLS PIQP optimised response.}
+\label{fig:Deczky-Example-3-PCLS-PIQP-d1}
+\end{figure}
+\begin{figure}[!ht]
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_piqp_test_pcls_d1pass}}
+\caption{Deczky Example 3 PCLS PIQP optimised passband response.}
+\label{fig:Deczky-Example-3-PCLS-PIQP-d1-passband}
+\end{figure}
+
+\clearpage
+\begin{figure}[!ht]
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_piqp_test_pcls_d1pz}}
+\caption{Deczky Example 3 PCLS PIQP optimised pole-zero plot.}
+\label{fig:Deczky-Example-3-PCLS-PIQP-d1-pz}
+\end{figure}
+
+The PCLS optimised filter vector is, in gain-zero-pole form:
+\begin{small}
+\verbatiminput{deczky3_piqp_test_d1_coef.m}
+\end{small}
+and the corresponding transfer function numerator and denominator polynomials
+are:
+\begin{small}
+\verbatiminput{deczky3_piqp_test_N1_coef.m}
+\verbatiminput{deczky3_piqp_test_D1_coef.m}
+\end{small}
+\clearpage
 \subsection{\label{sub:Deczkys-Example-1}Deczky's Example 1}
 The following example IIR filter design specification is similar to
 \emph{Deczky}'s Example 1~\cite{Deczky_MinPSynthesisIIRDigitalFilters}. The
@@ -8754,6 +8834,7 @@ defined in that file is:
 The initial filter design was found with the Octave script 
 \emph{tarczynski\_deczky1\_test.m}. The initial frequency response is shown in
 Figure~\ref{fig:Deczky-Ex1-Initial-x0}.
+
 \begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky1_sqp_test_initial_x0}}
@@ -9793,7 +9874,7 @@ can be derived from the real cepstrum method of
  directly by \emph{Orchard} and \emph{Willson}'s Newton-Raphson
 solution~\cite{OrchardWillson_ComputationMinimumPhaseSpectralFactor}. See
 Appendix~\ref{app:Design-of-complementary-FIR-digital-filter}.
-
+\clearpage
 \chapter{\label{sec:IIR-Design-Using-SOCP}IIR filter design using Second Order Cone Programming}
 \section{Second Order Cone Programming}
 Following \emph{Alizadeh} and \emph{Goldfarb}~\cite
@@ -9881,11 +9962,11 @@ H\left(\boldsymbol{x}_{k},\omega\right) +
 \nabla_{x}H\left(\boldsymbol{x}_{k},\omega\right)^{\top}
 \left(\boldsymbol{x}-\boldsymbol{x}_{k}\right)+ 
 \frac{1}{2}\left(\boldsymbol{x}-\boldsymbol{x}_{k}\right)^{\top}
-\nabla_{xx}^{2}H\left(\boldsymbol{x}_{k},\omega\right)
+\nabla_{x}^{2}H\left(\boldsymbol{x}_{k},\omega\right)
 \left(\boldsymbol{x}-\boldsymbol{x}_{k}\right)
 \end{align*}
 Unfortunately the IIR filter Hessian matrix, 
-$\nabla_{xx}^{2}H\left(\boldsymbol{x}_{k},\omega\right)$, is unlikely to be
+$\nabla_{x}^{2}H\left(\boldsymbol{x}_{k},\omega\right)$, is unlikely to be
 positive definite.
 
 Lu and Hinamoto~\cite{LuHinamoto_IIRFrequencyMaskingFiltersConeProgramming} add
@@ -10272,7 +10353,7 @@ $\mathcal{E}\left(\boldsymbol{x}\right)$, represented as $
 \|\boldsymbol{Q}^{\frac{1}{2}}\boldsymbol{x}+
 \boldsymbol{Q}^{-\frac{1}{2}}\nabla_{x}\mathcal{E}\left(\boldsymbol{x}\right)\|$, 
 where $\boldsymbol{Q}$ is initialised with the diagonal of 
-$\nabla_{xx}^{2}\mathcal{E}\left(\boldsymbol{x}\right)$ and updated with the
+$\nabla_{x}^{2}\mathcal{E}\left(\boldsymbol{x}\right)$ and updated with the
 BFGS Hessian matrix update algorithm shown in 
 Appendix~\ref{Updating-with-the-BFGS-formula}. 
 
@@ -18834,7 +18915,7 @@ as a \emph{polynomial optimisation problem} (POP) in SOCP form as:
 \mathcal{E}\left(\boldsymbol{x_{k}}\right)+
 \nabla_{x}\mathcal{E}\left(\boldsymbol{x_{k}}\right)^{\top}\Delta\boldsymbol{x}+
 \frac{1}{2}\Delta\boldsymbol{x}^{\top}
-\nabla^{2}_{xx}\mathcal{E}\left(\boldsymbol{x_{k}}\right)\Delta\boldsymbol{x} \\
+\nabla^{2}_{x}\mathcal{E}\left(\boldsymbol{x_{k}}\right)\Delta\boldsymbol{x} \\
 \textbf{subject to}\quad&
 \left(\boldsymbol{x_{k}}+\Delta\boldsymbol{x}-\boldsymbol{x}_{u}\right)^{\top}
 \left(\boldsymbol{x_{k}}+\Delta\boldsymbol{x}-\boldsymbol{x}_{l}\right)
@@ -20447,7 +20528,7 @@ optimised with the simplex algorithm, 6 bit 2 signed-digit coefficients and
 This section shows the results of searching for the coefficients of a $5$-th
 order low-pass filter with the Octave-Forge \emph{optim}
 package~\cite{OctaveForge_OptimPackage} implementation of the simulated
-annealing algorithm, \emph{nonlin\_min}~\cite[Demonstartion
+annealing algorithm, \emph{nonlin\_min}~\cite[Demonstration
 2]{OctaveForge_OptimPackage_nonlin_min}\footnote{The \emph{samin} function has
   been deprecated.}. Unfortunately, the minimum cost found by \emph{nonlin\_min}
 may vary by a factor of $2$ or more from run to run. In this section I show the
@@ -21110,8 +21191,7 @@ in $D$
 \begin{align*}
 \ointctrclockwise_{C}f\left(z\right) & = 0
 \end{align*}
-\textsc{Proof:}
-Cauchy made the additional assumption that $f^{\prime}\left(z\right)$
+\emph{Proof:}~Cauchy made the additional assumption that $f^{\prime}\left(z\right)$
 is continuous and applied Green's theorem. Write
 \begin{align*}
 \ointctrclockwise_{C}f\left(z\right) & = \intop_{C}udx-vdy+\imath\intop_{C}udy+vdx
@@ -21135,7 +21215,7 @@ which encloses $z_{0}$
 \begin{align*}
 \ointctrclockwise_{C}\frac{f\left(z\right)}{z-z_{0}}dz & = 2\pi\imath f(z_{0})
 \end{align*}
-\textsc{Proof:}
+\emph{Proof:}~
 Let
 \begin{align*}
 f\left(z\right) & = f(z_{0})+\left[f\left(z\right)-f(z_{0})\right]
@@ -21171,7 +21251,7 @@ in $D$ which are also analytic functions in $D$
 \begin{align*}
 f^{(n)}\left(z_{0}\right) & = \frac{n!}{2\pi\imath}\ointctrclockwiseop_{c}\frac{f\left(z\right)}{(z-z_{0})^{n+1}}dz,\: n=1,2,\cdots
 \end{align*}
-\textsc{Proof:} 
+\emph{Proof:}~ 
 For $f^{\prime}(z_{0})$
 \begin{align*}
 f^{\prime}(z_{0}) & = \lim_{\Delta z\rightarrow0}\frac{f\left(z_{0}+\Delta z\right)f\left(z_{0}\right)}{\Delta z}
@@ -21254,7 +21334,7 @@ where $k$ and $m$ denote the number of zeros and poles, respectively, of
 $f\left(z\right)$ inside $C$. Each zero and pole is counted as many times as
 its multiplicity and order, respectively, indicate.
 
-\textsc{Proof:}
+\emph{Proof:}~
 Let $z_{N}$ be a zero of $f\left(z\right)$ with multiplicity $k$, then
 \begin{align*}
 f\left(z\right) &= \left(z-z_{N}\right)^{k}g\left(z\right)
@@ -24241,22 +24321,22 @@ $f\left(x\right)$ evaluated at a point $x^{k}$
 \begin{align*}
 f^{k}\left(x\right) &= f\left(x^{k}\right)+
 \nabla_{x}f\left(x^{k}\right)\left(x-x^{k}\right)+
-\frac{1}{2}\left(x-x^{k}\right)^{\top}\nabla_{xx}^{2}f\left(x^{k}\right)\left(x-x^{k}\right)
+\frac{1}{2}\left(x-x^{k}\right)^{\top}\nabla_{x}^{2}f\left(x^{k}\right)\left(x-x^{k}\right)
 \end{align*}
-where $\nabla_{xx}^{2}f\left(x^{k}\right)$ is a positive-definite
+where $\nabla_{x}^{2}f\left(x^{k}\right)$ is a positive-definite
 matrix\footnote{$Q \in \mathbb{R}^{n\times n}$ is positive-definite if 
 $x^{\top}Qx>0$ for all nonzero $x \in \mathbb{R}^{n}$}
 (the Hessian matrix). At an optimum point $\nabla_{x}f^{k}\left(x\right)=0$ so,
 approximating the gradient with the first two terms of $f^{k}\left(x\right)$:
 \begin{align*}
 \nabla_{x}f\left(x^{k}\right)+
-\nabla_{xx}^{2}f\left(x^{k}\right)\left(x-x^{k}\right) &= 0
+\nabla_{x}^{2}f\left(x^{k}\right)\left(x-x^{k}\right) &= 0
 \end{align*}
 Accordingly, given a pair $\left(x^{k},f\left(x^{k}\right)\right)$, 
 \emph{Newton's method of tangents} gives the next approximation to the location
 of the optimum point as
 \begin{align*}
-x^{k+1} &= x^{k}-\tau^{k}\left[\nabla_{xx}^{2}f\left(x^{k}\right)\right]^{-1}\nabla_{x}f\left(x^{k}\right)
+x^{k+1} &= x^{k}-\tau^{k}\left[\nabla_{x}^{2}f\left(x^{k}\right)\right]^{-1}\nabla_{x}f\left(x^{k}\right)
 \end{align*}
 where $\tau^{k}$ is a stepsize.
 
@@ -24432,7 +24512,7 @@ construct an approximation to the \emph{Karush-Kuhn-Tucker} conditions that
 is linearised at $\bar{x}$:
 \begin{align*}
 \nabla_{x}\mathcal{L}\left(\overline{x},\overline{\lambda},\overline{\mu}\right)
-+\nabla_{xx}^{2}\mathcal{L}\left(\overline{x},\overline{\lambda},\overline{\mu}\right)\left(x-\overline{x}\right) &= 0\\
++\nabla_{x}^{2}\mathcal{L}\left(\overline{x},\overline{\lambda},\overline{\mu}\right)\left(x-\overline{x}\right) &= 0\\
 \left[\begin{array}{c}
 g\left(\overline{x}\right)+\nabla_{x}g\left(\overline{x}\right)
 \left(x-\overline{x}\right)\\
@@ -24451,7 +24531,7 @@ the tangent quadratic programming problem:
 \begin{align*}
 \textbf{minimise} \quad & 
 \left\langle \nabla_x f\left(x^{k}\right),d^{k}\right\rangle 
-+\frac{1}{2}\left\langle {d^{k}}^{\top},\nabla_{xx}^{2}
++\frac{1}{2}\left\langle {d^{k}}^{\top},\nabla_{x}^{2}
 \mathcal{L}\left(x^{k},\lambda^{k},\mu^{k}\right),d^{k}\right\rangle \\
 \textbf{subject to} \quad & g\left(x^{k}\right)
 +\nabla_{x}g\left(x^{k}\right)d^{k}\le0\\
@@ -24489,7 +24569,7 @@ treated as equalities. The iterates of the sequential programming
 method are the iterates of Newton's method for this system. For the
 current iterate $\left(x^{k},\lambda^{k}\right)$, define the matrices:
 \begin{align*}
-\mathcal{H}_{k} &= \nabla_{xx}^{2}\mathcal{L}\left(x^{k},\lambda^{k}\right)\\
+\mathcal{H}_{k} &= \nabla_{x}^{2}\mathcal{L}\left(x^{k},\lambda^{k}\right)\\
 \mathcal{B}_{k} &= \left\{ \nabla_{x}g_{i}\left(x^{k}\right)\right\} 
 \end{align*}
 where $i\in\mathcal{A}\left(x^{k}\right)$ and the columns of $\mathcal{B}_{k}$
@@ -24522,7 +24602,7 @@ Consider a modified version of the tangent quadratic programming problem
  & h\left(x^{k}\right)+\nabla_{x}h\left(x^{k}\right)d^{k}=0
 \end{align*}
 where the Hessian of the Lagrangian 
-$\nabla_{xx}^{2}\mathcal{L}\left(x^{k},\lambda^{k},\mu^{k}\right)$
+$\nabla_{x}^{2}\mathcal{L}\left(x^{k},\lambda^{k},\mu^{k}\right)$
 is replaced by the positive definite matrix $\mathcal{W}_{k}$, guaranteeing
 that this is a convex quadratic programming problem. The following
 subsections describe methods for constructing the matrix $\mathcal{W}_{k}$.
@@ -24572,13 +24652,14 @@ is a \emph{dyadic} or \emph{Kronecker }product also written $\delta\otimes\eta$.
 \emph{Wright}~\cite[Procedure 18.2]{NocedalWright_NumericalOptimization} refer
 to Equation~\ref{eqn:damped-BFGS-formula} as \emph{damped BFGS updating}.
 
-\subsection{A modified Cholesky factorisation of the Hessian}
+\subsection{\label{app:Bertsekas-modified-Cholesky}A modified Cholesky factorisation of the Hessian}
 \emph{Bertsekas}~\cite[Appendix D]{Bertsekas_NonlinearProgramming} describes
 implementation of Newton's method by Cholesky factorisation of an
-approximation to the Hessian, $\nabla_{xx}^{2}\mathcal{L}(x^{k})+\Delta_{k}$,
+approximation to the Hessian, $\nabla_{x}^{2}\mathcal{L}(x^{k})+\Delta_{k}$,
 that is positive definite.
 
-Algorithm~\ref{alg:Cholesky-factorisation} shows the Cholesky factorisation
+Algorithm~\ref{alg:Cholesky-factorisation}~\cite[Appendix
+D.1]{Bertsekas_NonlinearProgramming} shows the Cholesky factorisation
 of a positive definite symmetric matrix, $W$, as $LL^{\top}$ where $L$ is lower 
 triangular. Firstly, define $W_{i}$ to be the $i$-th leading principal 
 submatrix of $W$:
@@ -24626,7 +24707,7 @@ $\lambda_{i,i} = \sqrt{w_{i,i}-l_{i}^{\top}l_{i}}$
 \State $W=L_{n}L_{n}^{\top}$
 \end{algorithmic}
 \caption{Cholesky factorisation of an $n\times{}n$ positive-definite symmetric
-  matrix, $W$.}
+  matrix, $W$~\cite[Appendix D.1]{Bertsekas_NonlinearProgramming}}
 \label{alg:Cholesky-factorisation}
 \end{algorithm}
 
@@ -24654,7 +24735,7 @@ See~\cite[Algorithm 4.1.2]{GolubVanLoan_MatrixComputations}.}.
 
 We wish to add a diagonal correction, $\Delta_{k}$, to the Hessian
 matrix such that the resulting matrix is positive definite whilst
-simultaneously factoring $\nabla_{xx}^{2}\mathcal{L}\left(x^{k}\right)+\Delta_{k}$.
+simultaneously factoring $\nabla_{x}^{2}\mathcal{L}\left(x^{k}\right)+\Delta_{k}$.
 Firstly, fix two positive scalars $\mu_{1}$ and $\mu_{2}$, where
 $\mu_{1}<\mu_{2}$. The first column of the factor $L$ is given by
 \begin{align*}
@@ -24675,8 +24756,8 @@ l_{ij} &= \frac{w_{ij}-\sum_{m=1}^{j-1}l_{jm}l_{im}}{l_{jj}}\quad i=j+1,\dots,n
 \end{align*}
 This scheme can be used in a modified Newton's method, where at the
 $k$-th iteration, we add a diagonal correction, $\Delta^{k}$, to the
-Hessian, $\nabla_{xx}^{2}\mathcal{L}\left(x^{k}\right)$, and simultaneously
-obtain a Cholesky factorisation of $\nabla_{xx}^{2}\mathcal{L}\left(x^{k}\right)+\Delta^{k}$.
+Hessian, $\nabla_{x}^{2}\mathcal{L}\left(x^{k}\right)$, and simultaneously
+obtain a Cholesky factorisation of $\nabla_{x}^{2}\mathcal{L}\left(x^{k}\right)+\Delta^{k}$.
 The direction vector, $d^{k}$, is found by solving the triangular systems
 \begin{align*}
 L_{k}y &= -\nabla_{x}f\left(x^{k}\right)\\
@@ -24690,12 +24771,31 @@ where $\tau^{k}$ is a step size. The scalars $\mu_{1}$ and $\mu_{2}$
 are selected as follows: at each iteration we find the maximum absolute
 value of the Hessian diagonal elements
 \begin{align*}
-w^{k}&=\max\; element\left\{ \nabla_{xx}^{2}\mathcal{L}\left(x^{k}\right)\right\} 
+w^{k}&=\max\;\mathdiag\;\nabla_{x}^{2}\mathcal{L}\left(x^{k}\right)
 \end{align*}
 and set $\mu_{1}=r_{1}w^{k}$ and $\mu_{2}=r_{2}w^{k}$. The scalar
 $r_{1}$ is set at some ``small'' (or zero) value. The scalar $r_{2}$
 is modified at each iteration: if $\tau^{k}<0.2$ then $r_{2}=5r_{2}$;
 otherwise if $\tau^{k}>0.9$ then $r_{2}=\frac{r_{2}}{5}$.
+
+\emph{Bertsekas} justifies this correction as
+follows~\cite[p. 733]{Bertsekas_NonlinearProgramming}:
+\begin{quotation}
+  Assuming fixed values of $\mu_{1}$ and $\mu_{2}$, the following may be
+  verified for the modified Newton's method just described:
+  \begin{itemize}
+  \item The algorithm is globally convergent in the sense that every limit
+    point of $\left\{x^{k}\right\}$ is a stationary point of
+    $\mathcal{L}\left(x^{k}\right)$. This can be shown using ... 
+  \item For each local minimum $x^{*}$ with positive definite Hessian, there
+    exist scalars $\mu>0$ and $\varepsilon>0$ such that of $\mu_{1}<\mu$ and
+    $\mathnorm{x^{0}-x^{*}}\le\varepsilon$, then $x^{k}\rightarrow x^{*}$,
+    $\Delta^{k}=0$, and $\tau^{k}=1$ for all $k$. In other words, if $\mu_{1}$
+    is not chosen too large, the Hessian will never be modified near $x^{*}$,
+    the method will be reduced to the pure form of Newton's method near $x^{*}$,
+    and the convergence to $x^{*}$ will be superlinear.
+  \end{itemize}
+\end{quotation}
 \subsection{\label{sub:Degenerate-constraints}Wright's modification for degenerate constraints}
 For the filter design problem, the gradients of upper and lower constraints
 on the radius and angle of the poles and zeros are not linearly independent
@@ -24763,7 +24863,7 @@ exists
 \item for at least one of the active constraints, $\tilde{\lambda_{i}}>0$
 where $i\in\mathcal{A}\left(\tilde{x}\right)$
 \item $\tilde{\lambda}_{i} = 0 ~ \forall i\in\mathcal{N}\left(\tilde{x}\right)$ 
-\item there exists a $\sigma>0$ such that $w^{\top}\nabla_{xx}\mathcal{L}\left(\tilde{x},\tilde{\lambda}\right)w\ge\sigma\| w\| ^{2}$
+\item there exists a $\sigma>0$ such that $w^{\top}\nabla_{x}\mathcal{L}\left(\tilde{x},\tilde{\lambda}\right)w\ge\sigma\| w\| ^{2}$
 for all $\tilde{\lambda}$ such that $\left(\tilde{x},\tilde{\lambda}\right)$
 satisfies the \emph{Karush-Kuhn-Tucker} conditions and all $w \in \mathnull\left(\nabla g_{\mathcal{A}}\left(\tilde{x}\right)\right)$
 \item $\nabla g_{\mathcal{A}}\left(\tilde{x}\right)d<0$ for some $d\in\mathbb{R}^{n}$ 
@@ -24778,11 +24878,11 @@ He points out that the Lagrange multipliers $\lambda_{\mathcal{A}}$
 may not be uniquely determined if the Jacobian 
 $\nabla_{x}g_{\mathcal{A}}\left(x\right)$
 is rank deficient. Consequently, the Hessian 
-$\nabla_{xx}\mathcal{L}$$\left(x,\lambda_{\mathcal{A}}\right)$
+$\nabla_{x}\mathcal{L}$$\left(x,\lambda_{\mathcal{A}}\right)$
 may not be uniquely defined at the next SQP iteration. He proposes
 a stabilised version of the SQP algorithm 
 \[
-\min_{x}\max_{\lambda_{\mathcal{A}}\ge0}\left\langle \nabla f\left(\overline{x}\right),x-\overline{x}\right\rangle -\left\langle \lambda_{\mathcal{A}},g\left(\bar{x}\right)+\nabla_{x}^{\top}g\left(\bar{x}\right)\left(x-\bar{x}\right)\right\rangle +\frac{1}{2}\left\langle x-\overline{x},\left[\nabla_{xx}^{2}\mathcal{L}\left(\overline{x},\overline{\lambda}_{\mathcal{A}}\right)\right]\left(x-\overline{x}\right)\right\rangle -\frac{1}{2}\nu\| \lambda_{\mathcal{A}}-\bar{\lambda}_{\mathcal{A}}\| ^{2}
+\min_{x}\max_{\lambda_{\mathcal{A}}\ge0}\left\langle \nabla f\left(\overline{x}\right),x-\overline{x}\right\rangle -\left\langle \lambda_{\mathcal{A}},g\left(\bar{x}\right)+\nabla_{x}^{\top}g\left(\bar{x}\right)\left(x-\bar{x}\right)\right\rangle +\frac{1}{2}\left\langle x-\overline{x},\left[\nabla_{x}^{2}\mathcal{L}\left(\overline{x},\overline{\lambda}_{\mathcal{A}}\right)\right]\left(x-\overline{x}\right)\right\rangle -\frac{1}{2}\nu\| \lambda_{\mathcal{A}}-\bar{\lambda}_{\mathcal{A}}\| ^{2}
 \]
 where $\nu$ is defined as 
 \begin{align*}
@@ -24791,7 +24891,7 @@ where $\nu$ is defined as
 The optimality conditions for a candidate solution $\left(\tilde{x},\tilde{\lambda}_{\mathcal{A}}\right)$
 are likewise similar
 \begin{align*}
-\nabla_{x}f\left(\bar{x}\right)-\nabla g_{\mathcal{A}}\left(\bar{x}\right)\tilde{\lambda}_{\mathcal{A}}+\nabla_{xx}\mathcal{L}\left(\bar{x},\bar{\lambda}_{\mathcal{A}}\right)\left(\tilde{x}-\bar{x}\right) &= 0\\
+\nabla_{x}f\left(\bar{x}\right)-\nabla g_{\mathcal{A}}\left(\bar{x}\right)\tilde{\lambda}_{\mathcal{A}}+\nabla_{x}\mathcal{L}\left(\bar{x},\bar{\lambda}_{\mathcal{A}}\right)\left(\tilde{x}-\bar{x}\right) &= 0\\
 g_{\mathcal{A}}\left(\bar{x}\right)+\nabla_{x}^{\top}g_{\mathcal{A}}\left(\bar{x}\right)\left(\tilde{x}-\bar{x}\right)-\nu\left(\tilde{\lambda}_{\mathcal{A}}-\bar{\lambda}_{\mathcal{A}}\right) & \ge 0\\
 \tilde{\lambda}_{\mathcal{A}} & \ge 0\\
 \left\langle \tilde{\lambda}_{\mathcal{A}},g_{\mathcal{A}}\left(\bar{x}\right)+\nabla g_{\mathcal{A}}^{\top}\left(\bar{x}\right)\left(\tilde{x}-\bar{x}\right)-\nu\left(\tilde{\lambda}_{\mathcal{A}}-\bar{\lambda}_{\mathcal{A}}\right)\right\rangle  &= 0
@@ -24803,7 +24903,7 @@ for which $\| \left(\tilde{x}-\bar{x},\tilde{\lambda}_{\mathcal{A}}-\bar{\lambda
 This solution satisfies the following linear system 
 \begin{align*}
 \left[\begin{array}{cc}
-\nabla_{xx}\mathcal{L}\left(\bar{x},\bar{\lambda}_{\mathcal{A}}\right) & -\nabla_{x}g_{\mathcal{A}}\left(\bar{x}\right)\\
+\nabla_{x}\mathcal{L}\left(\bar{x},\bar{\lambda}_{\mathcal{A}}\right) & -\nabla_{x}g_{\mathcal{A}}\left(\bar{x}\right)\\
 -\nabla_{x}g_{\mathcal{A}}^{\top}\left(\bar{x}\right) & \nu I
 \end{array}\right]\left[\begin{array}{c}
 x-\bar{x}\\
@@ -25539,7 +25639,7 @@ g_{i}\left(\tilde{x}\right) &= 0 ~ \forall i \in \mathcal{A}\\
 \end{align}
 where $r=B^{\dagger}n^{+}$and $g_{p}\left(\tilde{x}\right)=g_{p}\left(x\right)+\tau d^{\top}n^{+}$.
 
-\emph{Proof:}The lemma follows from the properties of the V-triple
+\emph{Proof:}~ The lemma follows from the properties of the V-triple
 $(x,\mathcal{A},p)$ and
 \begin{align}
 \nabla_{x}f\left(\tilde{x}\right) &= \nabla_{x}f\left(x\right)+\tau Hd\label{eqn:Lemma1_gradf}
@@ -25598,7 +25698,7 @@ $l$-th element in $\mathcal{A}$. Alternatively, if $\tau=\tau_{2}$,
 then $\left(\tilde{x},\mathcal{A}\cup\left\{ p\right\} \right)$ is
 an S-pair.
 
-\emph{Proof: }Since $\left(x,\mathcal{A},p\right)$ is a V-triple,
+\emph{Proof:}~ Since $\left(x,\mathcal{A},p\right)$ is a V-triple,
 \[
 d^{\top}n^{+}=n^{+T}En^{+}=n^{+T}EHEn^{+}=d^{\top}Hd>0
 \]
@@ -25657,7 +25757,7 @@ the active set, where $k$ is determined by
 to give $\mathcal{A}^{-}=\mathcal{A}\setminus\left\{ k\right\} $
 and the V-triple $\left(x,\mathcal{A}^{-},p\right)$. 
 
-\emph{Proof: }If there is a feasible solution $\tilde{x}=x+d$ satisfying
+\emph{Proof:}~If there is a feasible solution $\tilde{x}=x+d$ satisfying
 the constraints $\mathcal{A}\cup\left\{ p\right\} $, it is necessary
 that $n^{+T}d=r^{\top}B^{\top}d>0$ and $B^{\top}d \ge 0$ since $g_{i}\left(x\right)=0$
 for all $i\in\mathcal{A}$. But if $r \le 0$, the two requirements
@@ -32247,7 +32347,7 @@ p\left(x\right)=xa\left(x\right)^{2}+\left(1-x\right)b\left(x\right)^{2},&n=2k+1
 \end{cases}
 \end{align*}
 \end{framed}
-\emph{Proof}: By induction:
+\emph{Proof:}~ By induction:
 
 $n=2$:
 \begin{align*}
@@ -35991,7 +36091,7 @@ is loss-less, then the following statements are equivalent:
 \item There exists $S\in\mathcal{S}$ such that $\Theta\prec S$.
 \end{enumerate}
 
-\emph{Proof}: The first statement follows from the second. The converse is
+\emph{Proof:}~ The first statement follows from the second. The converse is
 proved by contradiction. Assume that there is no $S\in\mathcal{S}$ such that
 $\Theta\prec S$. Then, from Lemma 1, there is a non-zero matrix, $H$, such that:
 \begin{align*}
@@ -36055,7 +36155,7 @@ f \\
 g \end{array}\right]\le 0, \forall P,Q\in\mathbb{H} \text{ and } Q\succ 0$
 \end{enumerate}
 
-\emph{Proof}: Suppose the first statement holds. Then:
+\emph{Proof:}~ Suppose the first statement holds. Then:
 \begin{align*}
 \left[\begin{array}{c}
 f \\
@@ -36128,7 +36228,7 @@ I & 0 \end{array}\right]+\Theta \prec 0
 If matrixes $A$, $B$ and $\Theta$ are real, then the equivalence still holds when
 restricting $P$ and $Q$ to be real.
 
-\emph{Proof}: The first statement holds if-and-only-if
+\emph{Proof:}~ The first statement holds if-and-only-if
 \begin{align*}
 \zeta^{\mathconj}\Theta\zeta < 0, \forall\zeta\in\mathcal{G}
 \end{align*}
@@ -36444,7 +36544,7 @@ I & 0 \end{array}\right]+\Theta \preceq 0
 where $L\left(P,Q\right)=\Phi\otimes P + \Psi\otimes Q$.
 \end{enumerate}
 
-\emph{Proof}: Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-FDI} holds for all
+\emph{Proof:}~ Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-FDI} holds for all
 $\lambda\in\boldsymbol{\Lambda}$ such that $c\lambda+d\ne 0$. By Lemma 1, the
 condition is equivalent to:
 \begin{align*}
@@ -36579,7 +36679,7 @@ J &\coloneq \left[\begin{array}{cc}
 1 & 0 \\
 0 & \imath\end{array}\right]
 \end{align*}
-\emph{Proof}: Choose an arbitrary $F=\left[\begin{array}{cc}
+\emph{Proof:}~ Choose an arbitrary $F=\left[\begin{array}{cc}
 p & q \\
 r & s\end{array}\right]$, substitute and multiply out.
 \end{framed}
@@ -36616,7 +36716,7 @@ N^{\mathconj}\left[\begin{array}{cc}
 if-and-only-if $\Upsilon\in\boldsymbol{\Upsilon}\coloneq \left\{\Upsilon\in\mathbb{H} :
 \det\left(\Re\left[J\Upsilon J^{\mathconj}\right]\right)<0\right\}$.
 
-\emph{Proof}: For the previously defined $F$ and $\gamma$, multiplying out gives
+\emph{Proof:}~ For the previously defined $F$ and $\gamma$, multiplying out gives
 $\det\left(\Re\left[J\Upsilon J^{\mathconj}\right]\right) = -\beta\gamma^{2}$
 \end{framed}
 
@@ -36631,7 +36731,7 @@ hold where:
 \end{align*}
 where $K$ is an arbitrary matrix as in Equation~\ref{eqn:Lemma4_Phi_K}.
 
-\emph{Proof}: Note that, by Lemma 4, $\det\left(\Phi\right)$ is negative if
+\emph{Proof:}~ Note that, by Lemma 4, $\det\left(\Phi\right)$ is negative if
 $\left(\Phi,\Psi\right)\in\boldsymbol{\Omega}$ and there exist $\beta,\gamma\in\mathbb{R}$ and $N\in\boldsymbol{N}_{\gamma}$ such that
 $\gamma\ne 0$ and:
 \begin{align*}
@@ -38850,7 +38950,7 @@ the following lemma\footnote{See~\cite[Section
     DE+E^{\top}D^{\top} \preceq DSD^{\top}+E^{\top}S^{-1}E
     \label{eqn:Lee-Hu-lemma-2}
   \end{align}
-  \emph{Proof}: Expand
+  \emph{Proof:}~ Expand
   $\left(D^{\top}-S^{-1}E\right)^{\top}S\left(D^{\top}-S^{-1}E\right) \succeq 0$.
 \end{framed}
 \emph{Lee} and \emph{Hu}~\cite[Equation 5]{Lee_SequentialConvexApproxBMI} apply
@@ -38890,7 +38990,7 @@ lemma:
   then $-S\left(y\right)^{-1} \preceq -2S\left(x\right)^{-1}+
   S\left(x\right)^{-1}S\left(y\right)S\left(x\right)^{-1}$.
   
-  \emph{Proof}: Linearise $-S\left(y\right)^{-1}$ around $x$ and apply the
+  \emph{Proof:}~ Linearise $-S\left(y\right)^{-1}$ around $x$ and apply the
   matrix identities $SS^{-1}=I$ and
   $\frac{dS}{dx}S^{-1}+S\frac{dS^{-1}}{dx}=0$.
 \end{framed}
@@ -39701,9 +39801,7 @@ $123$ times. Next I used \emph{gdb} to look at the \emph{cmd\_str} passed to
 that function. It seems that for each tick-mark label in the \TeX file, the
 \LaTeX, \emph{dvisvgm} and \emph{dvipng} renderers are run in a sub-process $41$
 times each. The aim appears to be to find the bounding box of the label for
-typesetting.  Why not use the FreeType renderer, which is dynamically linked to
-the executable? If it is a \MF{} font parse the corresponding \emph{tfm} file.
-If that is not available, generate it with the \MF{} interpreter, \emph{mf}.
+typesetting. \LaTeX provides macros to do this.
 
 \subsubsection*{Problems with Octave-Forge packages}
 The following packages are patched with shell \emph{here} documents
@@ -40232,6 +40330,17 @@ SCS with default settings is much less precise than SeDuMi. The documentation
 does not make it clear how to adjust the various \emph{eps\_*} parameters so I
 will do some experiments.
 
+\pdfbookmark[1]{PIQP}{PIQP}
+\subsection*{PIQP}
+The Proximal Interior-Point Quadratic Programming (PIQP) 
+solver~\cite{Schwan_PIQP2023} solves, as the name
+suggests, quadratic programming problems with equality and inequality
+constraints . It is written in C++ template header files and is based on the
+Eigen C++ template header library~\cite{EigenWeb}. It is available as an
+Octave-Forge package~\cite{OctaveForge_PIQPPackage}.
+\subsubsection*{Problems with PIQP}
+The documentation is incomplete. Sometimes the solver does not approach the
+constraints as closely as SeDuMi does with the equivalent SOCP problem.
 \begin{comment}
 \pdfbookmark[1]{BMIsolver}{bmisolver}
 \subsection*{BMIsolver}

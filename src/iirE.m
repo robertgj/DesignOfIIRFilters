@@ -166,10 +166,13 @@ elseif nargout==3
   gradE = gradEA + gradES + gradET + gradEP;
   gradE = gradE(:);
   hessE = hessEA + hessES + hessET + hessEP;
-endif
 
-if verbose
-  printf("E=%g,EA=%g,ES=%g,ET=%g,EP=%g\n",E,EA,ES,ET,EP);
+  if ~issymmetric(hessE,100*eps)
+    error("Expected hessE symmetric!");
+  endif
+  
+  hessE=(hessE+hessE')/2;
+
 endif
 
 endfunction

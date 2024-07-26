@@ -1,13 +1,15 @@
 % iir_socp_slb_lowpass_test.m
-% Copyright (C) 2018-2023 Robert G. Jenssen
+% Copyright (C) 2018-2024 Robert G. Jenssen
 
 test_common;
 
 pkg load optim;
 
-delete("iir_socp_slb_lowpass_test.diary");
-delete("iir_socp_slb_lowpass_test.diary.tmp");
-diary iir_socp_slb_lowpass_test.diary.tmp
+strf="iir_socp_slb_lowpass_test";
+
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tic
 
@@ -16,8 +18,9 @@ ctol=1e-4
 maxiter=2000
 verbose=false
 
-% Filter specifications 
-rho=127/128;
+%
+% Filter specifications
+%
 R=1;
 N=15
 fap=0.15
@@ -35,47 +38,41 @@ Was=45
   
 % Frequency vectors
 n=1000;
-
-% Desired frequency response
-nap=ceil((n*fap)/0.5)+1;
-ntp=ceil((n*ftp)/0.5)+1;
-nas=floor((n*fas)/0.5)+1;
-wd=(0:(n-1))'*pi/n;
-Hda=[ones(nap,1);zeros(n-nap,1)];
-Wda=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
-Hdt=td*ones(n,1);
-Wdt=[Wtp*ones(ntp,1);zeros(n-ntp,1)];
+w=(0:(n-1))'*pi/n;
 
 % Amplitude constraints
-wa=wd;
-Ad=[ones(nap,1);zeros(n-nap,1)];
-Adu=[ones(nas-1,1);(10^(-dBas/20))*ones(n-nas+1,1)];
-Adl=[(10^(-dBap/20))*ones(nap,1);zeros(n-nap,1)];
-Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
+nap=ceil((n*fap)/0.5)+1;
+wa=w(1:nap);
+Ad=ones(size(wa));
+Adu=ones(size(wa));
+Adl=(10^(-dBap/20))*ones(size(wa));
+Wa=Wap*ones(size(wa));
 
 % Stop-band amplitude constraints
-ws=[];
-Sd=[];
-Sdu=[];
-Sdl=[];
-Ws=[];
+nas=floor((n*fas)/0.5)+1;
+ws=w(nas:end);
+Sd=zeros(size(ws));
+Sdu=(10^(-dBas/20))*ones(size(ws));
+Sdl=zeros(size(ws));
+Ws=Was*ones(size(ws));
 
 % Group delay constraints
+ntp=ceil((n*ftp)/0.5)+1;
 if 1
   % Limit transition band peaks
   ntp=ceil(n*ftp/0.5)+1;
-  wt=wd(1:(nas-1));
-  Td=td*ones(nas-1,1);
+  wt=w(1:(nas-1));
+  Td=td*ones(size(wt));
   Tdu=[(td+(tdr/2))*ones(ntp,1);(td*2)*ones(nas-1-ntp,1)];
   Tdl=[(td-(tdr/2))*ones(ntp,1);zeros(nas-1-ntp,1)];
   Wt=[Wtp*ones(ntp,1);Wtt*ones(nas-1-ntp,1)];
 else
   ntp=ceil(n*ftp/0.5)+1;
-  wt=wd(1:ntp);
-  Td=td*ones(ntp,1);
-  Tdu=(td+(tdr/2))*ones(ntp,1);
-  Tdl=(td-(tdr/2))*ones(ntp,1);
-  Wt=Wtp*ones(ntp,1);
+  wt=w(1:ntp);
+  Td=td*ones(size(wt));
+  Tdu=(td+(tdr/2))*ones(size(wt));
+  Tdl=(td-(tdr/2))*ones(size(wt));
+  Wt=Wtp*ones(size(wt));
 endif
 
 % Phase constraints
@@ -85,15 +82,16 @@ Pdu=[];
 Pdl=[];
 Wp=[];
 
-% Common strings for output plots
-strP=sprintf("%%s:fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g,fas=%g,dBas=%g,Was=%g",
-             fap,dBap,ftp,td,tdr,fas,dBas,Was);
-strf="iir_socp_slb_lowpass_test";
-
+%
+% Use unconstrained optimisation to find an initial filter
+%
 % Initial coefficients
 [ni,di]=butter(N,2*fap);
-
-% Use unconstrained optimisation to find an initial filter
+% Desired frequency response
+Hda=[ones(nap,1);zeros(n-nap,1)];
+Wda=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
+Hdt=td*ones(n,1);
+Wdt=[Wtp*ones(ntp,1);zeros(n-ntp,1)];
 ndi=[ni,di(2:end)]';
 WISEJ_ND([],N,N,R,Hda,Wda,Hdt,Wdt);
 [nd0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_ND,ndi);
@@ -119,7 +117,7 @@ printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 n0=nd0(1:(N+1));
 d0=[1;nd0((N+2):end)];
 [x0,U,V,M,Q]=tf2x(n0,d0);
-strt=sprintf(strP,"x0");
+strt=sprintf("x0:fap=%g,ftp=%g,td=%g,fas=%g",fap,ftp,td,fas);
 showResponse(x0,U,V,M,Q,R,strt);
 print(strcat(strf,"_initial_x0"),"-dpdflatex");
 close
@@ -127,14 +125,20 @@ showResponsePassBands(0,fap,-3,3,x0,U,V,M,Q,R,strt);
 print(strcat(strf,"_initial_x0pass"),"-dpdflatex");
 close
 
+%
 % Coefficient constraints
+%
+dmax=0.02;
+rho=127/128;
 [xl,xu]=xConstraints(U,V,M,Q,rho);
 
+%
 % PCLS pass
+%
 feasible=false;
 try
   [d1,E,slb_iter,socp_iter,func_iter,feasible] = ...
-     iir_slb(@iir_socp_mmse,x0,xu,xl,0,U,V,M,Q,R, ...
+     iir_slb(@iir_socp_mmse,x0,xu,xl,dmax,U,V,M,Q,R, ...
              wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
              wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
              maxiter,tol,ctol,verbose)
@@ -143,32 +147,41 @@ end_try_catch;
 if ~feasible
  error("d1 infeasible");
 endif
-strt=sprintf(strP,"d1(PCLS)");
+strt=sprintf("d1(PCLS):fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g,fas=%g,dBas=%g,Was=%g",
+             fap,dBap,ftp,td,tdr,fas,dBas,Was);
 showResponse(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
-hold off
+close
+showZPplot(d1,U,V,M,Q,R,strt);
+print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
 
-% Final amplitude at constraints
+% Final pass-band amplitude at constraints
 A=iirA(wa,d1,U,V,M,Q,R);
 vAl=local_max(Adl-A);
 vAu=local_max(A-Adu);
-S=iirA(ws,d1,U,V,M,Q,R);
-vSl=local_max(Sdl-S);
-vSu=local_max(S-Sdu);
-wAS=unique([wa(vAl);wa(vAu);ws(vSu);ws(vSl)]);
+wAS=unique([wa(vAl);wa(vAu)]);
 AS=iirA(wAS,d1,U,V,M,Q,R);
 printf("d1:fAS=[ ");printf("%f ",wAS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:AS=[ ");printf("%f ",20*log10(AS'));printf(" ] (dB)\n");
+
+% Final stop-band amplitude at constraints
+S=iirA(ws,d1,U,V,M,Q,R);
+vSl=local_max(Sdl-S);
+vSu=local_max(S-Sdu);
+wSS=unique([ws(vSu);ws(vSl)]);
+SS=iirA(wSS,d1,U,V,M,Q,R);
+printf("d1:fSS=[ ");printf("%f ",wSS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("d1:SS=[ ");printf("%f ",20*log10(SS'));printf(" ] (dB)\n");
 
 % Final group-delay at constraints
 T=iirT(wt,d1,U,V,M,Q,R);
 vTl=local_max(Tdl-T);
 vTu=local_max(T-Tdu);
-wTS=unique([wt(vTl);wa(vTu)]);
+wTS=unique([wt(vTl);wt(vTu)]);
 TS=iirT(wTS,d1,U,V,M,Q,R);
 printf("d1:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:TS=[ ");printf("%f ",TS');printf(" ] (samples)\n");
@@ -204,7 +217,7 @@ print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 % Done
 toc;
-save iir_socp_slb_lowpass_test.mat N U V M Q R tol ctol rho ...
+save iir_socp_slb_lowpass_test.mat N U V M Q R tol ctol rho dmax ...
      fap dBap Wap ftp td tdr Wtp fas dBas Was ni di x0 d1 N1 D1
 
 diary off

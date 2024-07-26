@@ -169,6 +169,13 @@ fi
 
 OCTAVE_FORGE_URL=https://downloads.sourceforge.net/project/octave/Octave%20Forge%20Packages/Individual%20Package%20Releases
 
+CONTROL_VER=${CONTROL_VER:-4.0.1}
+CONTROL_ARCHIVE=control-$CONTROL_VER".tar.gz"
+CONTROL_URL="https://github.com/gnu-octave/pkg-control/releases/download/control-"$CONTROL_VER/$CONTROL_ARCHIVE
+if ! test -f $CONTROL_ARCHIVE; then
+  wget -c $CONTROL_URL 
+fi
+
 IO_VER=${IO_VER:-2.6.4}
 IO_ARCHIVE=io-$IO_VER".tar.gz"
 IO_URL=$OCTAVE_FORGE_URL/$IO_ARCHIVE
@@ -176,7 +183,35 @@ if ! test -f $IO_ARCHIVE; then
   wget -c $IO_URL
 fi
 
-STATISTICS_VER=${STATISTICS_VER:-1.6.6}
+OPTIM_VER=${OPTIM_VER:-1.6.2}
+OPTIM_ARCHIVE=optim-$OPTIM_VER".tar.gz"
+OPTIM_URL=$OCTAVE_FORGE_URL/$OPTIM_ARCHIVE
+if ! test -f $OPTIM_ARCHIVE; then
+  wget -c $OPTIM_URL 
+fi
+
+PARALLEL_VER=${PARALLEL_VER:-4.0.2}
+PARALLEL_ARCHIVE=parallel-$PARALLEL_VER".tar.gz"
+PARALLEL_URL=$OCTAVE_FORGE_URL/$PARALLEL_ARCHIVE
+if ! test -f $PARALLEL_ARCHIVE; then
+  wget -c $PARALLEL_URL 
+fi
+
+PIQP_VER=${PIQP_VER:-0.4.1}
+PIQP_ARCHIVE=piqp-octave.tar.gz
+PIQP_URL=https://github.com/PREDICT-EPFL/piqp/releases/download/v$PIQP_VER/$PIQP_ARCHIVE
+if ! test -f $PIQP_ARCHIVE; then
+  wget -c $PIQP_URL 
+fi
+
+SIGNAL_VER=${SIGNAL_VER:-1.4.5}
+SIGNAL_ARCHIVE=signal-$SIGNAL_VER".tar.gz"
+SIGNAL_URL=$OCTAVE_FORGE_URL/$SIGNAL_ARCHIVE
+if ! test -f $SIGNAL_ARCHIVE; then
+  wget -c $SIGNAL_URL 
+fi
+
+STATISTICS_VER=${STATISTICS_VER:-1.6.7}
 STATISTICS_ARCHIVE=statistics-$STATISTICS_VER".tar.gz"
 STATISTICS_URL="https://github.com/gnu-octave/statistics/archive/refs/tags/release-"$STATISTICS_VER".tar.gz"
 if ! test -f $STATISTICS_ARCHIVE; then
@@ -189,34 +224,6 @@ STRUCT_ARCHIVE=struct-$STRUCT_VER".tar.gz"
 STRUCT_URL=$OCTAVE_FORGE_URL/$STRUCT_ARCHIVE
 if ! test -f $STRUCT_ARCHIVE; then
   wget -c $STRUCT_URL 
-fi
-
-OPTIM_VER=${OPTIM_VER:-1.6.2}
-OPTIM_ARCHIVE=optim-$OPTIM_VER".tar.gz"
-OPTIM_URL=$OCTAVE_FORGE_URL/$OPTIM_ARCHIVE
-if ! test -f $OPTIM_ARCHIVE; then
-  wget -c $OPTIM_URL 
-fi
-
-CONTROL_VER=${CONTROL_VER:-4.0.1}
-CONTROL_ARCHIVE=control-$CONTROL_VER".tar.gz"
-CONTROL_URL="https://github.com/gnu-octave/pkg-control/releases/download/control-"$CONTROL_VER/$CONTROL_ARCHIVE
-if ! test -f $CONTROL_ARCHIVE; then
-  wget -c $CONTROL_URL 
-fi
-
-SIGNAL_VER=${SIGNAL_VER:-1.4.5}
-SIGNAL_ARCHIVE=signal-$SIGNAL_VER".tar.gz"
-SIGNAL_URL=$OCTAVE_FORGE_URL/$SIGNAL_ARCHIVE
-if ! test -f $SIGNAL_ARCHIVE; then
-  wget -c $SIGNAL_URL 
-fi
-
-PARALLEL_VER=${PARALLEL_VER:-4.0.2}
-PARALLEL_ARCHIVE=parallel-$PARALLEL_VER".tar.gz"
-PARALLEL_URL=$OCTAVE_FORGE_URL/$PARALLEL_ARCHIVE
-if ! test -f $PARALLEL_ARCHIVE; then
-  wget -c $PARALLEL_URL 
 fi
 
 SYMBOLIC_VER=${SYMBOLIC_VER:-3.2.1}
@@ -748,6 +755,7 @@ rm -f $OCTAVE_SHARE_DIR/packages/statistics-$STATISTICS_VER/PKG_DEL
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$CONTROL_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$OPTIM_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$PARALLEL_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$PIQP_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$SYMBOLIC_ARCHIVE
 
 #
@@ -755,9 +763,9 @@ $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$SYMBOLIC_ARCHIVE
 #
 cat > signal-$SIGNAL_VER.patch.uue << 'EOF'
 begin-base64 644 signal-1.4.5.patch
-LS0tIHNpZ25hbC0xLjQuNC9pbnN0L3pwbGFuZS5tCTIwMjMtMDUtMTggMDM6
-MjA6MDkuMDAwMDAwMDAwICsxMDAwCisrKyBzaWduYWwtMS40LjQubmV3L2lu
-c3QvenBsYW5lLm0JMjAyMy0wNi0wOSAxNDoxMzowOC45MDEwMDI3NDggKzEw
+LS0tIHNpZ25hbC0xLjQuNS9pbnN0L3pwbGFuZS5tCTIwMjMtMDctMjEgMjM6
+NDE6MjEuMDAwMDAwMDAwICsxMDAwCisrKyBzaWduYWwtMS40LjUubmV3L2lu
+c3QvenBsYW5lLm0JMjAyNC0wNy0yMyAyMzoyMjo1Ni4yMTMwOTgyMzAgKzEw
 MDAKQEAgLTExNSw4ICsxMTUsOSBAQAogICAgICAgZm9yIGkgPSAxOmxlbmd0
 aCAoeF91KQogICAgICAgICBuID0gc3VtICh4X3UoaSkgPT0geCg6LGMpKTsK
 ICAgICAgICAgaWYgKG4gPiAxKQotICAgICAgICAgIGxhYmVsID0gc3ByaW50
@@ -768,7 +776,13 @@ dGV4dCAocmVhbCAoeF91KGkpKSwgaW1hZyAoeF91KGkpKSwgbGFiZWwsICJj
 b2xvciIsIGNvbG9yLCAuLi4KKyAgICAgICAgICAgICAgICAidmVydGljYWxh
 bGlnbm1lbnQiLCAiYm90dG9tIiwgImhvcml6b250YWxhbGlnbm1lbnQiLCAi
 bGVmdCIpOwogICAgICAgICBlbmRpZgogICAgICAgZW5kZm9yCiAgICAgZW5k
-Zm9yCg==
+Zm9yCi0tLSBzaWduYWwtMS40LjUvc3JjL3JlbWV6LmNjCTIwMjMtMDctMjEg
+MjM6NDE6MjEuMDAwMDAwMDAwICsxMDAwCisrKyBzaWduYWwtMS40LjUubmV3
+L3NyYy9yZW1lei5jYwkyMDI0LTA3LTIzIDIzOjIzOjMwLjUzNjc5NjY4NiAr
+MTAwMApAQCAtMjgsNiArMjgsNyBAQAogCiAjaW5jbHVkZSA8b2N0YXZlL29j
+dC5oPgogI2luY2x1ZGUgPGNtYXRoPgorI2luY2x1ZGUgPGNhc3NlcnQ+CiAK
+ICNpZm5kZWYgT0NUQVZFX0xPQ0FMX0JVRkZFUgogI2luY2x1ZGUgPHZlY3Rv
+cj4K
 ====
 EOF
 uudecode signal-$SIGNAL_VER.patch.uue
