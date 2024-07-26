@@ -25,6 +25,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 \usepackage{mathtools}
+\usepackage{mflogo}
 \usepackage{multirow}
 \usepackage{nag}
 \usepackage{needspace}
@@ -39666,14 +39667,43 @@ repositories at \url{https://github.com/robertgj}.
 The \emph{octave-9.2.0.patch} here document within \emph{build-octave.sh}
 patches files to:
 \begin{itemize}
-\item add an Octave warning id in \texttt{\_\_gnuplot\_draw\_axes\_\_.m}
 \item prevent a \emph{valgrind} warning from \texttt{load-save.cc}
-\item copies the following scripts from the development version of octave:
-  \begin{enumerate}
-    \item \texttt{unique.m} to add stable sorting
-    \item \texttt{uifigure.m} to avoid a core dump in the test case
-  \end{enumerate}
+\item copies the unique.m script from the development version of octave
+      to add stable sorting
 \end{itemize}
+
+I have found that the best way to include plots in this document is to
+print from Octave with the \emph{-dpdflatex} device. Unfortunately, producing
+plots this way is very slow. Here is an example:
+\begin{small}
+\begin{verbatim}
+$ time octave -q --no-gui src/test/print_latex_test.m
+
+ans = 9.2.0-robj
+Elapsed time is 17.3568 seconds.
+   #      Function Attr     Time (s)   Time (%)        Calls
+------------------------------------------------------------
+  36           set    R       12.180      68.80           61
+  20           get             5.013      28.32          269
+  33 __go_uimenu__             0.196       1.11           24
+ 182 __go_delete__             0.112       0.63            1
+ 172       drawnow             0.078       0.44            3
+
+real	0m18.142s
+user	0m8.938s
+sys	0m9.143s
+\end{verbatim}
+\end{small}
+
+I ran \emph{octave} under \emph{callgrind} and viewed the results with
+\emph{qcachegrind}. \emph{run\_command\_and\_return\_output()} was called
+$123$ times. Next I used \emph{gdb} to look at the \emph{cmd\_str} passed to
+that function. It seems that for each tick-mark label in the \TeX file, the
+\LaTeX, \emph{dvisvgm} and \emph{dvipng} renderers are run in a sub-process $41$
+times each. The aim appears to be to find the bounding box of the label for
+typesetting.  Why not use the FreeType renderer, which is dynamically linked to
+the executable? If it is a \MF{} font parse the corresponding \emph{tfm} file.
+If that is not available, generate it with the \MF{} interpreter, \emph{mf}.
 
 \subsubsection*{Problems with Octave-Forge packages}
 The following packages are patched with shell \emph{here} documents
@@ -40012,9 +40042,24 @@ with Octave profiler output:
 \end{verbatim}
 \end{small}
 
-\subsection*{Profiling Octave \texttt{.oct} files}
-I have not succeeded in profiling Octave \texttt{.oct} shared object files
-with either \emph{sprof} or \emph{gprofng}.
+\subsection*{Profiling the Octave binary}
+I have not succeeded in profiling the \emph{octave} binary with
+\emph{gprof}\footnote{I configured \emph{octave} with \texttt{--disable-docs}
+  and compiled with \texttt{-ggdb3 -O0 -pg}. Unfortunately, running
+  \emph{octave} fails with the message "Profiling timer expired".} or
+\texttt{.oct} shared object files with either \emph{sprof} or \emph{gprofng}.
+
+To ``sort-of'' profile \emph{octave} with \emph{callgrind}:
+\begin{small}
+\begin{verbatim}
+valgrind --tool=callgrind --enable-debuginfod=no --instr-atstart=no \
+ --dump-instr=yes --collect-jumps=yes --log-file=valgrind.%p.log \
+ --trace-children=yes /usr/local/octave-10.0.0/bin/octave-10.0.0 --no-gui
+\end{verbatim}
+\end{small}
+When the \emph{octave} prompt appears, run \texttt{callgrind\_control
+  --instr=on} in another terminal to start sampling.
+
 \clearpage
 \pdfbookmark[0]{Solvers}{solvers}
 \section*{Solvers}
