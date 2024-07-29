@@ -38,9 +38,9 @@ dmax=0.05;
 
 % Low-pass differentiator filter specification
 fap=0.18;fas=0.3;
-Arp=0.004;Art=0.005;Ars=0.005;Wap=1;Wat=0.001;Was=5;
-pp=0.5;ppr=0.0002;Wpp=1;
-td=nN-1;tdr=0.02;Wtp=2;
+Arp=0.004;Art=0.005;Ars=0.005;Wap=1;Wat=0.001;Was=1;
+pp=0.5;ppr=0.0001;Wpp=1;
+td=nN-1;tdr=0.02;Wtp=1;
 
 % Frequency points
 n=1000;

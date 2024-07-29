@@ -49,17 +49,21 @@ print(strcat(strf,"_initial"),"-dpdflatex");
 close
 
 % Desired frequency response specification
-fas1u=0.05;
-fap1l=0.080;fap1u=0.095;
-ftp1l=0.080;ftp1u=0.095;
-fas2l=0.125;fas2u=0.150;
-fap2l=0.175;fap2u=0.225;
-ftp2l=0.175;ftp2u=0.225;
+fas1u=0.06;
+fap1l=0.09;fap1u=0.10;
+fas2l=0.13;fas2u=0.16;
+fap2l=0.19;fap2u=0.22;
 fas3l=0.25;
-dBas1=30;dBap1=1;dBas2=30;dBap2=1;dBas3=30;
-Was1=1;Wap1=2;Was2=2;Wap2=1;Was3=1;
-tp1=20;tpr1=1;tp2=20;tpr2=1;
-Wtp1=0.01;Wtp2=0.01;
+dBap=1;Wap=1;
+dBas=33;Was=1;
+tp=20;tpr=0.1;Wtp=0.01;
+
+dBas1=dBas;dBap1=dBap;dBas2=dBas;dBap2=dBap;dBas3=dBas;
+Was1=Was;Wap1=Wap;Was2=Was;Wap2=Wap;Was3=Was;
+ftp1l=fap1l;ftp1u=fap1u;
+ftp2l=fap2l;ftp2u=fap2u;
+tp1=tp;tpr1=tpr;tp2=tp;tpr2=tpr;
+Wtp1=Wtp;Wtp2=Wtp;
 
 % Amplitude mask
 fa=0.5*(0:(npoints-1))'/npoints;
@@ -276,7 +280,7 @@ A2d=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
 [N2,D2]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 HH=freqz(N2,D2,wa);
 if max(abs((abs(HH).^2)-Asq)) > 100*eps
-  error("max(abs((abs(HH).^2)-Asq))(%g*eps) > 100*eps",
+  error("max(abs((abs(HH).^2)-Asq))(%g*eps) > 1000*eps",
         max(abs((abs(HH).^2)-Asq))/eps);
 endif
 

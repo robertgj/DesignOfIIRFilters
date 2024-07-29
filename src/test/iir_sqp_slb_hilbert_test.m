@@ -38,15 +38,16 @@ nprng=1:2:(n-1);
 w=pi*([nnrng(:);nprng(:)])/n;
 non2=floor(n/2);
 
+
 % Hilbert filter specification
-Ar=0.012;At=Ar;Wap=1;Wat=0.1;
+Ar=0.01;At=Ar;Wap=1;Wat=0.1;
 td=(U+M)/2;
 ftt=0.08; % Delay transition band at zero
 ntt=floor(ftt*n);
-tdr=0.2;Wtp=0.01;Wtt=0;
+tdr=0.2;Wtp=0.005;Wtt=0;
 fpt=0.06; % Phase transition band at zero
 npt=floor(fpt*n); 
-pp=5;ppr=0.032;Wpp=0.001;Wpt=0;
+pp=5;ppr=0.03;Wpp=0.05;Wpt=0;
 
 % Coefficient constraints
 dmax=0.05;
@@ -121,7 +122,6 @@ axis([-0.5 0.5 0 10*td]);
 grid("on");
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
-
 % Plot poles and zeros
 showZPplot(x0,U,V,M,Q,R,strt);
 print(strcat(strf,"_initial_pz"),"-dpdflatex");
@@ -131,6 +131,8 @@ close
 % SQP MMSE pass
 %
 printf("\nMMSE pass 1:\n");
+feasible=0;
+try
 [x1,Ex1,sqp_iter,func_iter,feasible] = ...
   iir_sqp_mmse([], ...
                x0,xu,xl,dmax,U,V,M,Q,R, ...
@@ -139,10 +141,13 @@ printf("\nMMSE pass 1:\n");
                wt,Td,Tdu,Tdl,Wt, ...
                wp,Pd,Pdu,Pdl,Wp, ...
                maxiter,ftol,ctol,verbose)
+catch
+end_try_catch
 if feasible == 0
   error("x1(mmse) infeasible");
 endif
 
+% Plot MMSE
 Ax1=iirA(w,x1,U,V,M,Q,R);
 Tx1=iirT(w,x1,U,V,M,Q,R);
 Px1=iirP(w,x1,U,V,M,Q,R);
@@ -176,7 +181,6 @@ axis([-0.5 0.5 td-tdr td+tdr]);
 grid("on");
 print(strcat(strf,"_mmse_response"),"-dpdflatex");
 close
-
 % Plot poles and zeros
 showZPplot(x1,U,V,M,Q,R,strt);
 print(strcat(strf,"_mmse_pz"),"-dpdflatex");
@@ -186,7 +190,9 @@ close
 % PCLS pass
 %
 printf("\nPCLS pass 1:\n");
-[d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
+feasible=0;
+try
+  [d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
   iir_slb(@iir_sqp_mmse, ...
           x1,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa, ...
@@ -194,10 +200,13 @@ printf("\nPCLS pass 1:\n");
           wt,Td,Tdu,Tdl,Wt, ...
           wp,Pd,Pdu,Pdl,Wp, ...
           maxiter,ftol,ctol,verbose)
+catch
+end_try_catch
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
 
+% Plot PCLS
 Ad1=iirA(w,d1,U,V,M,Q,R);
 Td1=iirT(w,d1,U,V,M,Q,R);
 Pd1=iirP(w,d1,U,V,M,Q,R);
@@ -230,7 +239,6 @@ xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_response"),"-dpdflatex");
 close
-
 % Plot poles and zeros
 showZPplot(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
@@ -260,6 +268,7 @@ fprintf(fid,"M=%d %% Number of complex zeros\n",M);
 fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
 fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fclose(fid);
+
 % Coefficients
 print_pole_zero(x0,U,V,M,Q,R,"x0",strcat(strf,"_x0_coef.m"));
 print_pole_zero(d1,U,V,M,Q,R,"d1");

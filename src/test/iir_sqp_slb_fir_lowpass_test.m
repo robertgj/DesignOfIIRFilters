@@ -21,10 +21,10 @@ verbose=false
 
 % Filter specifications
 R=1;N=40;
-fap=0.1;dBap=0.4;Wap=1;Wat=0.01;
-ftp=0.1;td=10;tdr=0.1;Wtp=0.1;
-fas=0.25;dBas=60;Was=20;
-   
+fap=0.1;dBap=0.3;Wap=1;Wat=0.01;
+ftp=0.1;td=10;tdr=0.1;Wtp=0.5;
+fas=0.25;dBas=60;Was=10;
+
 % Frequency vector
 n=1000;
 fd=(0:(n-1))'*0.5/n;
@@ -144,6 +144,8 @@ printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 % Convert b0 to gain-pole-zero form
 [x0,U,V,M,Q]=tf2x(b0,1,ftol);
 print_pole_zero(x0,U,V,M,Q,R,"x0");
+
+% Plot initial response
 strt=sprintf(strP,"x0");
 showZPplot(x0,U,V,M,Q,R,strt);
 print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
@@ -174,7 +176,7 @@ if ~feasible
   error("x1 infeasible");
 endif
 
-% Plot results
+% Plot MMSE
 print_pole_zero(x1,U,V,M,Q,R,"x1");
 strt=sprintf(strP,"x1(MMSE)");
 showZPplot(x1,U,V,M,Q,R,strt);
@@ -203,7 +205,7 @@ if ~feasible
   error("d1 infeasible");
 endif
 
-% Plot results
+% Plot PCLS
 strt=sprintf(strP,"d1(PCLS)");
 showZPplot(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");

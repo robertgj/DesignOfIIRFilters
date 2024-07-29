@@ -18,8 +18,8 @@ verbose=false
 
 % Filter specifications
 fap=0.25,ftp=0.25,fas=0.3
-dBap=0.5,dBas=36,tp=8,tpr=2
-Wap=1,Wat=0.01,Was=1,Wtp=0.01
+dBap=0.5,dBas=35,tp=8,tpr=2
+Wap=1,Wat=0.01,Was=0.5,Wtp=0.01
 
 % Initial filter from tarczynski_deczky1_test.m
 tarczynski_deczky1_test_x0_coef;
@@ -75,10 +75,11 @@ vS=deczky1_slb_set_empty_constraints();
                    x0,xu,xl,dmax,Ux0,Vx0,Mx0,Qx0,Rx0, ...
                    wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx, ...
                    maxiter,ftol,ctol,verbose);
-if feasible == 0 
+if feasible == 0
   error("x1(mmse) infeasible");
 endif
 
+% Plot MMSE
 strt=sprintf(strM,"x1(mmse)");
 showZPplot(x1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
@@ -100,6 +101,7 @@ if feasible == 0
   error("d1 (pcls) infeasible");
 endif
 
+% Plot PCLS
 strt=sprintf(strP,"d1(pcls)");
 showZPplot(d1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");

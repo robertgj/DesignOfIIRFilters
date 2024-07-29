@@ -16,12 +16,12 @@ ftol=1e-4
 ctol=ftol/10
 verbose=false
 
-% Deczky3 Lowpass filter specification
+% Deczky3a Lowpass filter specification
 U=0,V=0,Q=6,M=10,R=1
-fap=0.15,dBap=0.2,Wap=1
-fas=0.3,dBas=50,Was=4
-ftp=0.2,tp=9.325,tpr=0.06,Wtp=0.05
-    
+fap=0.15,dBap=0.3,Wap=1
+fas=0.3,dBas=40,Was=1
+ftp=0.2,tp=9,tpr=0.04,Wtp=0.02
+
 % Initial coefficients
 z=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...
    1.5*exp(j*2*pi*0.14),1.5*exp(j*2*pi*0.08)];
@@ -77,7 +77,7 @@ print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
 close
 
 % MMSE pass 1
-printf("\nMMSE pass 1:\n");
+printf("\nMMSE pass 1: dBas=%f,Was=%f,Wtp=%f\n", dBas, Was, Wtp);
 vS=iir_slb_set_empty_constraints();
 [x1,E,sqp_iter,func_iter,feasible] = ...
   iir_sqp_mmse(vS, ...
@@ -85,9 +85,11 @@ vS=iir_slb_set_empty_constraints();
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
                maxiter,ftol,ctol,verbose);
-if feasible == 0 
+if feasible == 0
   error("x1(mmse) infeasible");
 endif
+
+% Plot MMSE
 strt=sprintf("x1(mmse):fap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g",
              fap,Wap,fas,dBas,Was,ftp,tp,Wtp);
 showZPplot(x1,U,V,M,Q,R,strt);
@@ -99,19 +101,21 @@ close
 showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,x1,U,V,M,Q,R,strt);
 print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 close
+%}
 
 % PCLS pass 1
-printf("\nPCLS pass 1:\n");
+printf("\nPCLS pass 1: dBas=%f,Was=%f,Wtp=%f\n", dBas, Was, Wtp);
 [d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
   iir_slb(@iir_sqp_mmse, ...
           x1,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
           maxiter,ftol,ctol,verbose)
-if feasible == 0 
+if feasible == 0
   error("d1 (pcls) infeasible");
 endif
 
+% Plot MMSE
 strt=sprintf("d1:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,\
 tp=%g,tpr=%g,Wtp=%g",fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
 showZPplot(d1,U,V,M,Q,R,strt);
@@ -173,7 +177,6 @@ print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 eval(sprintf("save %s.mat U V M Q R ftol ctol \
 fap dBap Wap fas dBas Was ftp tp tpr Wtp d1",strf));
-
 
 % Done
 toc

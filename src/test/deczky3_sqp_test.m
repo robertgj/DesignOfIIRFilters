@@ -21,7 +21,7 @@ verbose=false
 % Filter specifications
 U=0,V=0,Q=6,M=10,R=1
 fap=0.15,dBap=0.2,Wap=1
-fas=0.3,dBas=33,Was=1
+fas=0.3,dBas=33,Was=0.5
 ftp=0.25,tp=10,tpr=0.008,Wtp_mmse1=0.125,Wtp_mmse2=0.5,Wtp_pcls=4.0 
 
 % Strings
@@ -98,6 +98,8 @@ vS=iir_slb_set_empty_constraints();
 if feasible == 0 
   error("x1(mmse) infeasible");
 endif
+
+% Plot MMSE pass 1
 strt=sprintf(strM,"x1(mmse)",Wtp_mmse1);
 showZPplot(x1,U,V,M,Q,R,strt);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
@@ -119,6 +121,8 @@ printf("\nMMSE pass 2:\n");
 if feasible == 0 
   error("x2(mmse) infeasible");
 endif
+
+% Plot MMSE pass 2
 strt=sprintf(strM,"x2(mmse)",Wtp_mmse2);
 showZPplot(x2,U,V,M,Q,R,strt);
 print(strcat(strf,"_mmse_x2pz"),"-dpdflatex");
@@ -140,6 +144,7 @@ if feasible == 0
   error("d1 (pcls) infeasible");
 endif
 
+% Plot PCLS pass 1
 strt=sprintf(strP,"d1(pcls)",Wtp_pcls);
 showZPplot(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
