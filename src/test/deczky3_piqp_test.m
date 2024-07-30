@@ -1,4 +1,4 @@
-% deczky3_piqp_test.m
+% deczky3_piqp_test .m
 % Copyright (C) 2024 Robert G. Jenssen
 
 test_common;
@@ -21,10 +21,34 @@ verbose=false;
 % Deczky3 Lowpass filter specification
 
 % Filter specifications
+%{
+Feasible t=4.153646,dBas=33.000000,tpr=0.040000,Was=1.000000,Wtp=1.000000
+Feasible t=2.699642,dBas=33.000000,tpr=0.040000,Was=1.000000,Wtp=2.000000
+Feasible t=13.049731,dBas=32.000000,tpr=0.020000,Was=1.000000,Wtp=2.000000
+Feasible t=2.135897,dBas=32.000000,tpr=0.040000,Was=1.000000,Wtp=0.200000
+Feasible t=4.201475,dBas=32.000000,tpr=0.040000,Was=1.000000,Wtp=0.500000
+Feasible t=3.027227,dBas=32.000000,tpr=0.040000,Was=1.000000,Wtp=2.000000
+Feasible t=3.136277,dBas=32.000000,tpr=0.040000,Was=2.000000,Wtp=0.500000
+Feasible t=3.419293,dBas=32.000000,tpr=0.040000,Was=2.000000,Wtp=1.000000
+Feasible t=2.702218,dBas=31.000000,tpr=0.020000,Was=1.000000,Wtp=1.000000
+Feasible t=2.052784,dBas=31.000000,tpr=0.040000,Was=1.000000,Wtp=0.200000
+Feasible t=1.678895,dBas=31.000000,tpr=0.040000,Was=1.000000,Wtp=1.000000
+Feasible t=2.793137,dBas=31.000000,tpr=0.040000,Was=1.000000,Wtp=2.000000
+Feasible t=3.064551,dBas=31.000000,tpr=0.040000,Was=2.000000,Wtp=0.500000
+Feasible t=2.167418,dBas=31.000000,tpr=0.040000,Was=2.000000,Wtp=1.000000
+Feasible t=4.421308,dBas=30.000000,tpr=0.010000,Was=1.000000,Wtp=2.000000
+Feasible t=5.767007,dBas=30.000000,tpr=0.020000,Was=1.000000,Wtp=1.000000
+Feasible t=2.619098,dBas=30.000000,tpr=0.020000,Was=1.000000,Wtp=2.000000
+Feasible t=2.088212,dBas=30.000000,tpr=0.040000,Was=1.000000,Wtp=0.200000
+Feasible t=1.700268,dBas=30.000000,tpr=0.040000,Was=1.000000,Wtp=1.000000
+Feasible t=2.621229,dBas=30.000000,tpr=0.040000,Was=1.000000,Wtp=2.000000
+Feasible t=3.111665,dBas=30.000000,tpr=0.040000,Was=2.000000,Wtp=0.500000
+Feasible t=2.174661,dBas=30.000000,tpr=0.040000,Was=2.000000,Wtp=1.000000
+%}
 U=0,V=0,Q=6,M=10,R=1
 fap=0.15,dBap=0.2,Wap=1
-fas=0.3,dBas=31,Was=1
-ftp=0.25,tp=10,tpr=0.01,Wtp_mmse=0.5,Wtp_pcls=4
+fas=0.3,dBas=33,Was=1
+ftp=0.25,tp=10,tpr=0.04,Wtp=2
 
 % Initial coefficients
 z=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...
@@ -59,8 +83,7 @@ wt=w(1:ntp);
 Td=tp*ones(size(wt));
 Tdu=(tp+(tpr/2))*ones(size(wt));
 Tdl=(tp-(tpr/2))*ones(size(wt));
-Wt_mmse=Wtp_mmse*ones(size(wt));
-Wt_pcls=Wtp_pcls*ones(size(wt));
+Wt=Wtp*ones(size(wt));
 
 % Phase constraints
 wp=[];
@@ -73,7 +96,7 @@ Wp=[];
 dmax=0.02;
 [xl,xu]=xConstraints(U,V,M,Q);
 
-% Initial response
+% Plot initial response
 strt=sprintf("Initial Deczky Ex. 3 : U=%d,V=%d,M=%d,Q=%d,R=%d", U,V,M,Q,R);
 showResponse(x0,U,V,M,Q,R,strt);
 print(strcat(strf,"_initial_x0"),"-dpdflatex");
@@ -84,17 +107,22 @@ close
 
 % MMSE pass
 printf("\nMMSE pass:\n");
-[x1,E,piqp_iter,func_iter,feasible] = ...
-  iir_piqp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R, ...
-                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
-                wt,Td,Tdu,Tdl,Wt_mmse,wp,Pd,Pdu,Pdl,Wp, ...
-                maxiter,ftol,ctol,verbose);
+feasible=0;
+try
+  [x1,E,piqp_iter,func_iter,feasible] = ...
+     iir_piqp_mmse([],x0,xu,xl,dmax,U,V,M,Q,R, ...
+                   wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
+                   wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+                   maxiter,ftol,ctol,verbose);
+catch
+end_try_catch
 if feasible == 0 
   error("x1(mmse) infeasible");
 endif
 
-strt=sprintf("x1(mmse):fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp\\_mmse=%g",
-             fap,Wap,fas,Was,ftp,tp,Wtp_mmse);
+% Plot MMSE
+strt=sprintf("x1(mmse):fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g",
+             fap,Wap,fas,Was,ftp,tp,Wtp);
 showZPplot(x1,U,V,M,Q,R,strt);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
@@ -107,16 +135,21 @@ close
 
 % PCLS pass
 printf("\nPCLS pass 1:\n");
-[d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
-  iir_slb(@iir_piqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
-          wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt_pcls, ...
-          wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
+feasible=0;
+try
+  [d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
+     iir_slb(@iir_piqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
+             wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt, ...
+             wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
+catch
+end_try_catch
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
 
+% Plot PCLS
 strt=sprintf("d1(pcls):fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,\
-tpr=%g,Wtp\\_pcls=%g",fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp_pcls);
+tpr=%g,Wtp=%g",fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
 showZPplot(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
@@ -163,8 +196,7 @@ fprintf(fid,"Wap=%d %% Pass band weight\n",Wap);
 fprintf(fid,"ftp=%g %% Pass band group delay response edge\n",ftp);
 fprintf(fid,"tp=%d %% Nominal filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtp_mmse=%g %% Pass band group delay weight(MMSE pass)\n",Wtp_mmse);
-fprintf(fid,"Wtp_pcls=%g %% Pass band group delay weight(PCLS pass)\n",Wtp_pcls);
+fprintf(fid,"Wtp=%g %% Pass band group delay weight(MMSE pass)\n",Wtp);
 fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
 fprintf(fid,"dBas=%d %% Stop band minimum attenuation\n",dBas);
 fprintf(fid,"Was=%d %% Stop band amplitude weight\n",Was);
@@ -185,7 +217,7 @@ print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 eval(sprintf("save %s.mat U V M Q R ftol ctol fap dBap Wap fas dBas Was \
-ftp tp tpr Wtp_mmse Wtp_pcls x1 d1",strf));
+ftp tp tpr Wtp x1 d1",strf));
 
 % Done
 toc(start);

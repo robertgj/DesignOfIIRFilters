@@ -22,7 +22,7 @@ schurOneMlattice_piqp_mmse(vS,k0,epsilon0,p0,c0, ...
 %   c0 - initial numerator tap coefficients
 %   kc_u,kc_l - upper and lower bounds on the allpass filter coefficients
 %   kc_active - indexes of elements of coefficients being optimised
-%   dmax - for compatibility with SQP. Not used.
+%   dmax - maximum coefficient step
 %   wa - angular frequencies of the squared-magnitude response
 %   Asqd - desired squared amplitude response
 %   Asqdu,Asqdl - upper/lower mask for the desired squared amplitude response
@@ -196,8 +196,8 @@ rowsG=length(vS.au)+length(vS.al) + ...
       length(vS.tu)+length(vS.tl) + ...
       length(vS.pu)+length(vS.pl) + ...
       length(vS.du)+length(vS.dl);
-G0=zeros(rowsG+(2*length(xkc)),length(xkc));
-h0=zeros(rowsG+(2*length(xkc)),1);
+G0=zeros(rowsG,length(xkc));
+h0=zeros(rowsG,1);
 A0=[];
 b0=[];
 xkc_lb=kc_l(kc_active);
@@ -285,18 +285,12 @@ while 1
     hk=[hk; ctol+dAsqdw_dl-dAsqdwdl(vS.dl)];
   endif
 
-  % Decision variable delta constraints -delta<dmax and delta<dmax
-  Gk=[Gk;-eye(length(xkc))];
-  hk=[hk;dmax*ones(size(xkc))];
-  Gk=[Gk;eye(length(xkc))];
-  hk=[hk;dmax*ones(size(xkc))];
-
   % Decision variable global constraints
-  xkc_lb=kc_l(kc_active)-xkc;
-  xkc_ub=kc_u(kc_active)-xkc;
+  delta_lb=max(kc_l(kc_active)-xkc,-dmax);
+  delta_ub=min(kc_u(kc_active)-xkc, dmax);
 
   % Update solver
-  solver.update('P',Pk,'c',ck,'G',Gk,'h',hk,'x_lb',xkc_lb,'x_ub',xkc_ub);
+  solver.update('P',Pk,'c',ck,'G',Gk,'h',hk,'x_lb',delta_lb,'x_ub',delta_ub);
 
   %
   % Call PIQP

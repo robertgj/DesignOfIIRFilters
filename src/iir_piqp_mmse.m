@@ -12,8 +12,7 @@ iir_piqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...
 % PIQP MMSE optimisation using a linear approximation to the error with
 % linear constraints on the amplitude, phase and group delay responses. The
 % function signature is the same as that of iir_sqp_mmse.m and this function
-% is compatible with iir_slb.m. The PIQP solution does not require a
-% linesearch function and the dmax argument is unused.
+% is compatible with iir_slb.m. 
 %
 % Inputs:
 %   vS - structure of peak constraint frequencies {al,au,sl,su,tl,tu,pl,pu}
@@ -26,7 +25,7 @@ iir_piqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...
 %         zeros  and poles and z and p represent conjugate zero and
 %         pole pairs.
 %   xu,xl - upper and lower constraints on the coefficients
-%   dmax - constraint on coefficient step-size (NOT USED)
+%   dmax - constraint on coefficient step-size
 %   U - number of real zeros
 %   V - number of real poles
 %   M - number of conjugate zero pairs
@@ -197,8 +196,8 @@ rowsG=length(vS.au)+length(vS.al) + ...
       length(vS.su)+length(vS.sl) + ...
       length(vS.tu)+length(vS.tl) + ...
       length(vS.pu)+length(vS.pl);
-G0=zeros(rowsG+(2*length(x0)),length(x0));
-h0=zeros(rowsG+(2*length(x0)),1);
+G0=zeros(rowsG,length(x0));
+h0=zeros(rowsG,1);
 A0=[];
 b0=[];
 x0_lb=xl;
@@ -287,18 +286,12 @@ while 1
     hk=[hk; ctol+P(vS.pl)-Pdl(vS.pl)];
   endif
 
-  % Decision variable delta constraints -delta<dmax and delta<dmax
-  Gk=[Gk;-eye(length(xk))];
-  hk=[hk;dmax*ones(size(xk))];
-  Gk=[Gk;eye(length(xk))];
-  hk=[hk;dmax*ones(size(xk))];
-
   % Decision variable global constraints
-  xk_lb=xl-xk;
-  xk_ub=xu-xk;
+  delta_lb=max(xl-xk,-dmax);
+  delta_ub=min(xu-xk,dmax);
 
   % Update solver
-  solver.update('P',Pk,'c',ck,'G',Gk,'h',hk,'x_lb',xk_lb,'x_ub',xk_ub);
+  solver.update('P',Pk,'c',ck,'G',Gk,'h',hk,'x_lb',delta_lb,'x_ub',delta_ub);
 
   %
   % Call PIQP
