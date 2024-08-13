@@ -13,7 +13,7 @@
 #
 # Set Octave directories
 #
-OCTAVE_VER=8.4.0
+OCTAVE_VER=${OCTAVE_VER:-9.2.0}
 OCTAVE_DIR="/usr/local/octave-"$OCTAVE_VER
 OCTAVE_BIN_DIR=$OCTAVE_DIR/bin
 OCTAVE_SHARE_DIR=$OCTAVE_DIR/share/octave

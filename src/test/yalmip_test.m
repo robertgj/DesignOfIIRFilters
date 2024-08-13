@@ -1,16 +1,18 @@
 % yalmip_test.m
-% Copyright (C) 2020-2021 Robert G. Jenssen
+% Copyright (C) 2020-2024 Robert G. Jenssen
 
 % YALMIP assumes MATLAB linprog. OctaveForge optim linprog is not compatible.
 
 test_common;
 
-delete("yalmip_test.diary");
-delete("yalmip_test.diary.tmp");
-diary yalmip_test.diary.tmp
+strf="yalmip_test";
+
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Run YALMIP yalmiptest.m script
-solvers={'sedumi','sdpt3'};
+solvers={'scs-direct','scs-indirect','sedumi','sdpt3'};
 for k=1:length(solvers)
   yalmiptest(sdpsettings('solver',solvers{k}),true);
 endfor
@@ -32,7 +34,7 @@ Objective = x'*x+norm(x,1);
 
 % Run some examples
 fhandle=fopen("test.results","wt");
-solvers={'sdpt3','sedumi','sparsepop'};
+solvers={'scs-direct','scs-indirect','sdpt3','sedumi','sparsepop'};
 for k=1:length(solvers)
   if strcmp(solvers{k},'sparsepop')
     pkg('load','symbolic');
@@ -71,4 +73,4 @@ fclose(fhandle);
 
 % Done
 diary off
-movefile yalmip_test.diary.tmp yalmip_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

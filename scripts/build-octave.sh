@@ -57,7 +57,7 @@ OPTFLAGS="-m64 -march=nehalem -O2"
 #
 # Get Octave archive
 #
-OCTAVE_VER=9.2.0
+OCTAVE_VER=${OCTAVE_VER:-9.2.0}
 OCTAVE_ARCHIVE=octave-$OCTAVE_VER".tar.lz"
 OCTAVE_URL=https://ftp.gnu.org/gnu/octave/$OCTAVE_ARCHIVE
 if ! test -f $OCTAVE_ARCHIVE; then
@@ -102,7 +102,7 @@ if ! test -f $ARPACK_ARCHIVE; then
   wget -c $ARPACK_URL -O $ARPACK_ARCHIVE
 fi
 
-SUITESPARSE_VER=${SUITESPARSE_VER:-7.7.0}
+SUITESPARSE_VER=${SUITESPARSE_VER:-7.8.0}
 SUITESPARSE_ARCHIVE=SuiteSparse-$SUITESPARSE_VER".tar.gz"
 SUITESPARSE_URL=https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v$SUITESPARSE_VER".tar.gz"
 if ! test -f $SUITESPARSE_ARCHIVE; then
@@ -130,7 +130,7 @@ if ! test -f $GLPK_ARCHIVE; then
   wget -c $GLPK_URL
 fi
 
-SUNDIALS_VER=${SUNDIALS_VER:-7.0.0}
+SUNDIALS_VER=${SUNDIALS_VER:-7.1.1}
 SUNDIALS_ARCHIVE=sundials-$SUNDIALS_VER".tar.gz"
 SUNDIALS_URL=https://github.com/LLNL/sundials/releases/download/v$SUNDIALS_VER/$SUNDIALS_ARCHIVE
 if ! test -f $SUNDIALS_ARCHIVE; then
@@ -671,6 +671,7 @@ JAVA_HOME=/usr/lib/jvm/java PKG_CONFIG_PATH=$OCTAVE_LIB_DIR/pkgconfig \
       PACKAGE_STRING="GNU Octave "$OCTAVE_VER"-robj" \
     --prefix=$OCTAVE_INSTALL_DIR \
     --without-fltk \
+    --disable-openmp \
     --with-blas=-lblas \
     --with-lapack=-llapack \
     --with-qt=6 \
@@ -710,7 +711,7 @@ JAVA_HOME=/usr/lib/jvm/java PKG_CONFIG_PATH=$OCTAVE_LIB_DIR/pkgconfig \
 #
 # Generate profile
 #
-export PGO_GEN_FLAGS="-pthread -fopenmp -fprofile-generate"
+export PGO_GEN_FLAGS="-pthread -fprofile-generate"
 make XTRA_CFLAGS="$PGO_GEN_FLAGS" XTRA_CXXFLAGS="$PGO_GEN_FLAGS" V=1 -j6
 find . -name \*.gcda -exec rm -f {} ';'
 make V=1 check
@@ -721,7 +722,7 @@ make V=1 check
 find . -name \*.o -exec rm -f {} ';'
 find . -name \*.lo -exec rm -f {} ';'
 find . -name \*.la -exec rm -f {} ';'
-export PGO_LTO_FLAGS="-pthread -fopenmp -flto=6 -ffat-lto-objects -fprofile-use"
+export PGO_LTO_FLAGS="-pthread -flto=6 -ffat-lto-objects -fprofile-use"
 make XTRA_CFLAGS="$PGO_LTO_FLAGS" XTRA_CXXFLAGS="$PGO_LTO_FLAGS" V=1 -j6
 make install
 popd
@@ -812,7 +813,9 @@ OCTAVE_LOCAL_VERSION=\
 "`$OCTAVE_BIN_DIR/octave-cli --eval 'disp(OCTAVE_VERSION);'`"
 OCTAVE_SITE_M_DIR=$OCTAVE_SHARE_DIR/$OCTAVE_LOCAL_VERSION/site/m
 
+#
 # Install SeDuMi
+#
 SEDUMI_VER=1.3.8
 SEDUMI_ARCHIVE="sedumi-"$SEDUMI_VER".tar.gz"
 SEDUMI_URL="https://github.com/sqlp/sedumi/archive/refs/tags/v"$SEDUMI_VER".tar.gz"
@@ -828,7 +831,9 @@ mv -f sedumi-$SEDUMI_VER $OCTAVE_SITE_M_DIR/SeDuMi
 if test $? -ne 0;then rm -Rf sedumi-$SEDUMI_VER; exit -1; fi
 $OCTAVE_BIN_DIR/octave --no-gui $OCTAVE_SITE_M_DIR/SeDuMi/install_sedumi.m
 
+#
 # Install SDPT3
+#
 if ! test -f sdpt3-master.zip ; then
   wget -c $GITHUB_URL/sdpt3/archive/refs/heads/master.zip
   mv master.zip sdpt3-master.zip
@@ -841,7 +846,9 @@ mv -f sdpt3-master $OCTAVE_SITE_M_DIR/SDPT3
 if test $? -ne 0;then rm -Rf sdpt3-master; exit -1; fi
 $OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SDPT3/install_sdpt3.m
 
+#
 # Install YALMIP
+#
 YALMIP_VER=R20230622
 YALMIP_ARCHIVE=$YALMIP_VER".tar.gz"
 YALMIP_URL="https://github.com/yalmip/YALMIP/archive/refs/tags/"$YALMIP_ARCHIVE
@@ -875,7 +882,9 @@ rm -f "YALMIP-"$YALMIP_VER".patch" "YALMIP-"$YALMIP_VER".patch.uue"
 mv -f "YALMIP-"$YALMIP_VER $OCTAVE_SITE_M_DIR/YALMIP
 if test $? -ne 0;then rm -Rf "YALMIP-"$YALMIP_VER; exit -1; fi
 
+#
 # Install SparsePOP
+#
 if ! test -f SparsePOP-master.zip ; then
   wget -c $GITHUB_URL/SparsePOP/archive/refs/heads/master.zip
   mv master.zip SparsePOP-master.zip
@@ -888,7 +897,9 @@ if test $? -ne 0;then rm -Rf SparsePOP-master; exit -1; fi
 # !! Do not build the SparsePOP .mex files !!
 # $OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SparsePOP/compileSparsePOP.m
 
+#
 # Install gloptipoly
+#
 GLOPTIPOLY3_URL=http://homepages.laas.fr/henrion/software/gloptipoly3
 if ! test -f gloptipoly3.zip ; then
   wget -c $GLOPTIPOLY3_URL/gloptipoly3.zip
@@ -1372,6 +1383,200 @@ cd ..
 mv -f gloptipoly3 $OCTAVE_SITE_M_DIR
 rm -f gloptipoly3-$GLOPTIPOLY3_VER.patch.uue
 rm -f gloptipoly3-$GLOPTIPOLY3_VER.patch
+
+#
+# Install SCS
+#
+
+# Get SCS Matlab interface source
+SCS_MATLAB=${SCS_MATLAB:-"scs-matlab-master"}
+SCS_MATLAB_ARCHIVE=$SCS_MATLAB".zip"
+SCS_MATLAB_URL="https://github.com/bodono/scs-matlab/archive/refs/heads/master.zip"
+if ! test -f $SCS_MATLAB_ARCHIVE ; then
+    wget -c $SCS_MATLAB_URL
+    mv master.zip $SCS_MATLAB_ARCHIVE
+fi
+unzip $SCS_MATLAB_ARCHIVE
+
+# Get SCS source
+SCS_VER=${SCS_VER:-3.2.6}
+SCS_ARCHIVE=scs-$SCS_VER".tar.gz"
+SCS_URL="https://github.com/cvxgrp/scs/archive/refs/tags/"$SCS_VER.tar.gz
+if ! test -f $SCS_ARCHIVE ; then
+    wget -c $SCS_URL
+    mv $SCS_VER.tar.gz $SCS_ARCHIVE
+fi
+tar -xf $SCS_ARCHIVE
+
+# Copy SCS source 
+mv -f scs-${SCS_VER}/* $SCS_MATLAB"/scs"
+
+# Patch SCS
+cat > $SCS_MATLAB".patch.uue" <<EOF
+begin-base64 644 scs-matlab-master.patch
+LS0tIHNjcy1tYXRsYWItbWFzdGVyL2NvbXBpbGVfZGlyZWN0Lm0JMjAyNC0w
+Ny0xMCAwMjoyMjozNS4wMDAwMDAwMDAgKzEwMDAKKysrIHNjcy1tYXRsYWIt
+bWFzdGVyLm5ldy9jb21waWxlX2RpcmVjdC5tCTIwMjQtMDgtMTIgMTY6MDk6
+MDEuMTk0NzIyODkyICsxMDAwCkBAIC0xLDYgKzEsNiBAQAogZnVuY3Rpb24g
+Y29tcGlsZV9kaXJlY3QoZmxhZ3MsIGNvbW1vbl9zY3MpCiAlIGNvbXBpbGUg
+ZGlyZWN0Ci1jbWQgPSBzcHJpbnRmKCdtZXggLU8gLXYgJXMgJXMgJXMgJXMg
+Q09NUEZMQUdTPSIkQ09NUEZMQUdTICVzIiBDRkxBR1M9IiRDRkxBR1MgJXMi
+IC1Jc2NzIC1Jc2NzL2xpbnN5cyAtSXNjcy9pbmNsdWRlJywgZmxhZ3MuYXJy
+LCBmbGFncy5MQ0ZMQUcsIGZsYWdzLklOQ1MsIGZsYWdzLklOVCwgZmxhZ3Mu
+Q09NUEZMQUdTLCBmbGFncy5DRkxBR1MpOworY21kID0gc3ByaW50ZignbWV4
+IC1PIC12ICVzICVzICVzICVzICVzIC1Jc2NzL2xpbnN5cyAtSXNjcy9pbmNs
+dWRlJywgZmxhZ3MuYXJyLCBmbGFncy5MQ0ZMQUcsIGZsYWdzLklOQ1MsIGZs
+YWdzLklOVCwgZmxhZ3MuQ0ZMQUdTKTsKIAogYW1kX2ZpbGVzID0geydhbWRf
+b3JkZXInLCAnYW1kX2R1bXAnLCAnYW1kX3Bvc3RvcmRlcicsICdhbWRfcG9z
+dF90cmVlJywgLi4uCiAgICAgJ2FtZF9hYXQnLCAnYW1kXzInLCAnYW1kXzEn
+LCAnYW1kX2RlZmF1bHRzJywgJ2FtZF9jb250cm9sJywgLi4uCi0tLSBzY3Mt
+bWF0bGFiLW1hc3Rlci9jb21waWxlX2luZGlyZWN0Lm0JMjAyNC0wNy0xMCAw
+MjoyMjozNS4wMDAwMDAwMDAgKzEwMDAKKysrIHNjcy1tYXRsYWItbWFzdGVy
+Lm5ldy9jb21waWxlX2luZGlyZWN0Lm0JMjAyNC0wOC0xMiAxNjowOTowMS4x
+OTQ3MjI4OTIgKzEwMDAKQEAgLTEsNCArMSw0IEBACiBmdW5jdGlvbiBjb21w
+aWxlX2luZGlyZWN0KGZsYWdzLCBjb21tb25fc2NzKQogJSBjb21waWxlIGlu
+ZGlyZWN0Ci1jbWQgPSBzcHJpbnRmKCdtZXggLU8gLXYgJXMgJXMgJXMgJXMg
+LURJTkRJUkVDVCBDT01QRkxBR1M9IiRDT01QRkxBR1MgJXMiIENGTEFHUz0i
+JENGTEFHUyAlcyIgc2NzL2xpbnN5cy9jcHUvaW5kaXJlY3QvcHJpdmF0ZS5j
+ICVzIC1Jc2NzIC1Jc2NzL2xpbnN5cyAtSXNjcy9pbmNsdWRlICVzICVzICVz
+IC1vdXRwdXQgc2NzX2luZGlyZWN0JywgZmxhZ3MuYXJyLCBmbGFncy5MQ0ZM
+QUcsIGNvbW1vbl9zY3MsIGZsYWdzLklOQ1MsIGZsYWdzLkNPTVBGTEFHUywg
+ZmxhZ3MuQ0ZMQUdTLCBmbGFncy5saW5rLCBmbGFncy5MT0NTLCBmbGFncy5C
+TEFTTElCLCBmbGFncy5JTlQpOworY21kID0gc3ByaW50ZignbWV4IC1PIC12
+ICVzICVzICVzICVzIC1ESU5ESVJFQ1QgJXMgc2NzL2xpbnN5cy9jcHUvaW5k
+aXJlY3QvcHJpdmF0ZS5jICVzIC1Jc2NzIC1Jc2NzL2xpbnN5cyAtSXNjcy9p
+bmNsdWRlICVzICVzICVzIC1vdXRwdXQgc2NzX2luZGlyZWN0JywgZmxhZ3Mu
+YXJyLCBmbGFncy5MQ0ZMQUcsIGNvbW1vbl9zY3MsIGZsYWdzLklOQ1MsIGZs
+YWdzLkNGTEFHUywgZmxhZ3MubGluaywgZmxhZ3MuTE9DUywgZmxhZ3MuQkxB
+U0xJQiwgZmxhZ3MuSU5UKTsKIGV2YWwoY21kKTsKLS0tIHNjcy1tYXRsYWIt
+bWFzdGVyL21ha2Vfc2NzLm0JMjAyNC0wNy0xMCAwMjoyMjozNS4wMDAwMDAw
+MDAgKzEwMDAKKysrIHNjcy1tYXRsYWItbWFzdGVyLm5ldy9tYWtlX3Njcy5t
+CTIwMjQtMDgtMTIgMTY6NDA6NTQuNDY2NzUzMTA5ICsxMDAwCkBAIC02LDIx
+ICs2LDIyIEBACiAlIGFuZCBzb21lIGNvbmUgcHJvamVjdGlvbnMuCiB1c2Vf
+b3Blbl9tcCA9IGZhbHNlOwogCi1mbGFncy5CTEFTTElCID0gJy1sbXdibGFz
+IC1sbXdsYXBhY2snOworZmxhZ3MuQkxBU0xJQiA9ICctbGJsYXMgLWxsYXBh
+Y2snOwogJSBNQVRMQUJfTUVYX0ZJTEUgZW52IHZhcmlhYmxlIHNldHMgYmxh
+c2ludCB0byBwdHJkaWZmX3QKIGZsYWdzLkxDRkxBRyA9ICctRE1BVExBQl9N
+RVhfRklMRSAtRFVTRV9MQVBBQ0sgLURDVFJMQz0xIC1EQ09QWUFNQVRSSVgg
+LURHUFVfVFJBTlNQT1NFX01BVCAtRFZFUkJPU0lUWT0wJzsKIGZsYWdzLklO
+Q1MgPSAnJzsKIGZsYWdzLkxPQ1MgPSAnJzsKIAogY29tbW9uX3NjcyA9ICdz
+Y3Mvc3JjL2xpbmFsZy5jIHNjcy9zcmMvY29uZXMuYyBzY3Mvc3JjL2V4cF9j
+b25lLmMgc2NzL3NyYy9hYS5jIHNjcy9zcmMvdXRpbC5jIHNjcy9zcmMvc2Nz
+LmMgc2NzL3NyYy9jdHJsYy5jIHNjcy9zcmMvbm9ybWFsaXplLmMgc2NzL3Ny
+Yy9zY3NfdmVyc2lvbi5jIHNjcy9saW5zeXMvc2NzX21hdHJpeC5jIHNjcy9s
+aW5zeXMvY3NwYXJzZS5jIHNjcy9zcmMvcncuYyBzY3NfbWV4LmMnOwotaWYg
+KGNvbnRhaW5zKGNvbXB1dGVyLCAnNjQnKSkKKworaWYgZmFsc2UKICAgICBm
+bGFncy5hcnIgPSAnLWxhcmdlQXJyYXlEaW1zJzsKIGVsc2UKICAgICBmbGFn
+cy5hcnIgPSAnJzsKIGVuZAogCiBpZiAoIGlzdW5peCAmJiB+aXNtYWMgKQot
+ICAgIGZsYWdzLmxpbmsgPSAnLWxtIC1sdXQgLWxydCc7CisgICAgZmxhZ3Mu
+bGluayA9ICctbG0nOwogZWxzZWlmICAoIGlzbWFjICkKICAgICBmbGFncy5s
+aW5rID0gJy1sbSAtbHV0JzsKIGVsc2UKQEAgLTYyLDUgKzYzLDYgQEAKIAog
+YWRkcGF0aCAnLicKIAorZGlzcCgnJykKIGRpc3AoJ1NVQ0NFU1NGVUxMWSBJ
+TlNUQUxMRUQgU0NTJykKIGRpc3AoJyhJZiB1c2luZyBTQ1Mgd2l0aCBDVlgs
+IG5vdGUgdGhhdCBTQ1Mgb25seSBzdXBwb3J0cyBDVlggdjMuMCBvciBsYXRl
+cikuJykKLS0tIHNjcy1tYXRsYWItbWFzdGVyL3Njcy9pbmNsdWRlL3Njc19i
+bGFzLmgJMjAyNC0wNy0wNSAyMToyODowNC4wMDAwMDAwMDAgKzEwMDAKKysr
+IHNjcy1tYXRsYWItbWFzdGVyLm5ldy9zY3MvaW5jbHVkZS9zY3NfYmxhcy5o
+CTIwMjQtMDgtMTIgMTY6MDk6MDEuMTk1NzIyODgwICsxMDAwCkBAIC0zOCw2
+ICszOCw3IEBACiAjZW5kaWYKIAogI2lmZGVmIE1BVExBQl9NRVhfRklMRQor
+I2luY2x1ZGUgPHN0ZGRlZi5oPgogdHlwZWRlZiBwdHJkaWZmX3QgYmxhc19p
+bnQ7CiAjZWxpZiBkZWZpbmVkIEJMQVM2NAogI2luY2x1ZGUgPHN0ZGludC5o
+PgotLS0gc2NzLW1hdGxhYi1tYXN0ZXIvc2NzL2xpbnN5cy9zY3NfbWF0cml4
+LmMJMjAyNC0wNy0wNSAyMToyODowNC4wMDAwMDAwMDAgKzEwMDAKKysrIHNj
+cy1tYXRsYWItbWFzdGVyLm5ldy9zY3MvbGluc3lzL3Njc19tYXRyaXguYwky
+MDI0LTA4LTEyIDE2OjQxOjM0LjA5OTI3NzQ1MSArMTAwMApAQCAtNDAyLDkg
+KzQwMiw2IEBACiAgIHNjc19pbnQgKkFwID0gQS0+cDsKICAgc2NzX2ludCAq
+QWkgPSBBLT5pOwogICBzY3NfZmxvYXQgKkF4ID0gQS0+eDsKLSNpZmRlZiBf
+T1BFTk1QCi0jcHJhZ21hIG9tcCBwYXJhbGxlbCBmb3IgcHJpdmF0ZShwLCBj
+MSwgYzIsIHlqKQotI2VuZGlmCiAgIGZvciAoaiA9IDA7IGogPCBuOyBqKysp
+IHsKICAgICB5aiA9IHlbal07CiAgICAgYzEgPSBBcFtqXTsKLS0tIHNjcy1t
+YXRsYWItbWFzdGVyL3Njcy9zcmMvY29uZXMuYwkyMDI0LTA3LTA1IDIxOjI4
+OjA0LjAwMDAwMDAwMCArMTAwMAorKysgc2NzLW1hdGxhYi1tYXN0ZXIubmV3
+L3Njcy9zcmMvY29uZXMuYwkyMDI0LTA4LTEyIDE2OjQxOjM0LjgwMzI2OTAw
+MiArMTAwMApAQCAtNzIxLDkgKzcyMSw2IEBACiAgIH0KIAogICBpZiAoay0+
+ZXAgfHwgay0+ZWQpIHsgLyogZG9lc24ndCB1c2Ugcl95ICovCi0jaWZkZWYg
+X09QRU5NUAotI3ByYWdtYSBvbXAgcGFyYWxsZWwgZm9yCi0jZW5kaWYKICAg
+ICBmb3IgKGkgPSAwOyBpIDwgay0+ZXAgKyBrLT5lZDsgKytpKSB7CiAgICAg
+ICAvKiBwcm92aWRlZCBpbiBleHBfY29uZS5jICovCiAgICAgICBTQ1MocHJv
+al9wZF9leHBfY29uZSkoJih4W2NvdW50ICsgMyAqIGldKSwgaSA8IGstPmVw
+KTsKQEAgLTczMywxMSArNzMwLDYgQEAKICAgaWYgKGstPnBzaXplICYmIGst
+PnApIHsgLyogZG9lc24ndCB1c2Ugcl95ICovCiAgICAgc2NzX2Zsb2F0IHZb
+M107CiAgICAgc2NzX2ludCBpZHg7Ci0gICAgLyogZG9uJ3QgdXNlIG9wZW5t
+cCBmb3IgcG93ZXIgY29uZQotICAgIGlmZGVmIF9PUEVOTVAKLSAgICBwcmFn
+bWEgb21wIHBhcmFsbGVsIGZvciBwcml2YXRlKHYsIGlkeCkKLSAgICBlbmRp
+ZgotICAgICovCiAgICAgZm9yIChpID0gMDsgaSA8IGstPnBzaXplOyArK2kp
+IHsgLyogZG9lc24ndCB1c2Ugcl95ICovCiAgICAgICBpZHggPSBjb3VudCAr
+IDMgKiBpOwogICAgICAgaWYgKGstPnBbaV0gPj0gMCkgewotLS0gc2NzLW1h
+dGxhYi1tYXN0ZXIvc2NzL3NyYy9jdHJsYy5jCTIwMjQtMDctMDUgMjE6Mjg6
+MDQuMDAwMDAwMDAwICsxMDAwCisrKyBzY3MtbWF0bGFiLW1hc3Rlci5uZXcv
+c2NzL3NyYy9jdHJsYy5jCTIwMjQtMDgtMTIgMTY6MDk6MDEuMTk1NzIyODgw
+ICsxMDAwCkBAIC0xMSw3ICsxMSw3IEBACiAKICNpZiBDVFJMQyA+IDAKIAot
+I2lmZGVmIE1BVExBQl9NRVhfRklMRQorI2lmIDAKICNpbmNsdWRlIDxzdGRi
+b29sLmg+CiAKIGV4dGVybiBib29sIHV0SXNJbnRlcnJ1cHRQZW5kaW5nKHZv
+aWQpOwotLS0gc2NzLW1hdGxhYi1tYXN0ZXIvc2NzX21leC5jCTIwMjQtMDct
+MTAgMDI6MjI6MzUuMDAwMDAwMDAwICsxMDAwCisrKyBzY3MtbWF0bGFiLW1h
+c3Rlci5uZXcvc2NzX21leC5jCTIwMjQtMDgtMTIgMTY6MDk6MDEuMTk1NzIy
+ODgwICsxMDAwCkBAIC0xLDYgKzEsNSBAQAogI2luY2x1ZGUgImdsYm9wdHMu
+aCIKICNpbmNsdWRlICJsaW5hbGcuaCIKLSNpbmNsdWRlICJtYXRyaXguaCIK
+ICNpbmNsdWRlICJtZXguaCIKICNpbmNsdWRlICJzY3MuaCIKICNpbmNsdWRl
+ICJzY3NfbWF0cml4LmgiCkBAIC0yNTcsMTIgKzI1NiwyMiBAQAogICBpZiAo
+dG1wICE9IFNDU19OVUxMKSB7CiAgICAgLyogbmVlZCB0byBmcmVlIHRoaXMg
+bGF0ZXIgKi8KICAgICBzdGdzLT53cml0ZV9kYXRhX2ZpbGVuYW1lID0gbXhB
+cnJheVRvU3RyaW5nKHRtcCk7CisgICAgLyogWUFMTUlQIHB1dHMgIiIgaGVy
+ZSAhISAqLworICAgIGlmIChzdHJsZW4oc3Rncy0+d3JpdGVfZGF0YV9maWxl
+bmFtZSkgPT0gMCkgeworICAgICAgc2NzX2ZyZWUoKHZvaWQgKilzdGdzLT53
+cml0ZV9kYXRhX2ZpbGVuYW1lKTsKKyAgICAgIHN0Z3MtPndyaXRlX2RhdGFf
+ZmlsZW5hbWUgPSBTQ1NfTlVMTDsKKyAgICB9CiAgIH0KIAogICB0bXAgPSBt
+eEdldEZpZWxkKHNldHRpbmdzLCAwLCAibG9nX2Nzdl9maWxlbmFtZSIpOwog
+ICBpZiAodG1wICE9IFNDU19OVUxMKSB7CiAgICAgLyogbmVlZCB0byBmcmVl
+IHRoaXMgbGF0ZXIgKi8KICAgICBzdGdzLT5sb2dfY3N2X2ZpbGVuYW1lID0g
+bXhBcnJheVRvU3RyaW5nKHRtcCk7CisgICAgLyogWUFMTUlQIHB1dHMgIiIg
+aGVyZSAhISAqLworICAgIGlmIChzdHJsZW4oc3Rncy0+bG9nX2Nzdl9maWxl
+bmFtZSkgPT0gMCkgeworICAgICAgc2NzX2ZyZWUoKHZvaWQgKilzdGdzLT5s
+b2dfY3N2X2ZpbGVuYW1lKTsKKyAgICAgIHN0Z3MtPmxvZ19jc3ZfZmlsZW5h
+bWUgPSBTQ1NfTlVMTDsKKyAgICB9CiAgIH0KIAogICAvKiBjb25lcyAqLwo=
+====
+EOF
+uudecode $SCS_MATLAB".patch.uue"
+pushd $SCS_MATLAB
+patch -p 1 < ../$SCS_MATLAB".patch"
+popd
+
+# Build and install SCS
+rm -Rf $OCTAVE_SITE_M_DIR/SCS
+mkdir -p $OCTAVE_SITE_M_DIR/SCS
+pushd $SCS_MATLAB
+$OCTAVE_BIN_DIR/octave-cli --eval "make_scs"
+cp -f LICENSE README.md scs*.m scs*.mex $OCTAVE_SITE_M_DIR/SCS
+popd
+
+# Build HTML documentation
+#
+# Install (at least) the following Fedora packages:
+#    texlive-cancel texlive-ellipse texlive-hyphen-polish texlive-pict2e
+#    sphinx sphinx-php sphinxbase sphinxbase-devel sphinxbase-libs
+#    python3-sphinx python3-sphinx-theme-alabaster python3-sphinx_rtd_theme
+#    python-sphinx_rtd_theme-doc python3-sphinxcontrib-devhelp
+#    python3-sphinxcontrib-htmlhelp python3-sphinxcontrib-jquery
+#    python3-sphinxcontrib-qthelp python3-sphinxcontrib-serializinghtml
+#
+# Building LaTeX documentation fails, possibly due to multirow:
+#    ! Misplaced \omit.
+#    \math@cr@@@ ...@ \@ne \add@amps \maxfields@ \omit 
+#                                                  \kern -\alignsep@ \iftag@ ...
+#    l.421 \end{align}\end{split}
+#
+pushd $SCS_MATLAB/scs/docs/src
+doxygen -u
+make html
+rm -Rf $OCTAVE_SHARE_DIR/doc/scs
+mkdir -p $OCTAVE_SHARE_DIR/doc/scs
+mv _build/html $OCTAVE_SHARE_DIR/doc/scs
+popd
+
+# Done
+rm -Rf scs-$SCS_VER $SCS_MATLAB $SCS_MATLAB.patch $SCS_MATLAB.patch.uue
+
 #
 # Solver installation done
 #

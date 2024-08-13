@@ -369,6 +369,47 @@ function [gx,B] = iir_sqp_mmse_gx(x,_vS,_U,_V,_M,_Q,_R, ...
   % Construct constraint gradient matrix 
   B=[];
   if nargout == 2
+    % Remove constraints with zero gradient 
+    for k=rows(gradAl):-1:1,
+      if all(abs(gradAl(k,:))<ctol)
+        Al(k)=[]; gradAl(k,:)=[]; vS.al(k)=[];
+      endif
+    endfor
+    for k=rows(gradAu):-1:1,
+      if all(abs(gradAu(k,:))<ctol)
+        Au(k)=[]; gradAu(k,:)=[]; vS.au(k)=[];
+      endif
+    endfor
+    for k=rows(gradSl):-1:1,
+      if all(abs(gradSl(k,:))<ctol)
+        Sl(k)=[]; gradSl(k,:)=[]; vS.sl(k)=[];
+      endif
+    endfor
+    for k=rows(gradSu):-1:1,
+      if all(abs(gradSu(k,:))<ctol)
+        Su(k)=[]; gradSu(k,:)=[]; vS.su(k)=[];
+      endif
+    endfor
+    for k=rows(gradTl):-1:1,
+      if all(abs(gradTl(k,:))<ctol)
+        Tl(k)=[]; gradTl(k,:)=[]; vS.tl(k)=[];
+      endif
+    endfor
+    for k=rows(gradTu):-1:1,
+      if all(abs(gradTu(k,:))<ctol)
+        Tu(k)=[]; gradTu(k,:)=[]; vS.tu(k)=[];
+      endif
+    endfor
+    for k=rows(gradPl):-1:1,
+      if all(abs(gradPl(k,:))<ctol)
+        Pl(k)=[]; gradPl(k,:)=[]; vS.pl(k)=[];
+      endif
+    endfor
+    for k=rows(gradPu):-1:1,
+      if all(abs(gradPu(k,:))<ctol)
+        Pu(k)=[]; gradPu(k,:)=[]; vS.pu(k)=[];
+      endif
+    endfor
     B=[gradAl;-gradAu;gradSl;-gradSu;gradTl;-gradTu;gradPl;-gradPu]';
   endif
 

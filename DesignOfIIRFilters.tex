@@ -10138,7 +10138,8 @@ $\boldsymbol{q}=\left[\begin{array}{cccc}n_{1} & n_{2} & \hdots & n_{q}
 \end{array}\right]$. The Octave script \emph{Lu\_remarks\_example\_4\_test.m}
 shows \emph{Lu}'s Example 4~\cite[Section III]{Lu_SedumiRemarks}, an SOCP
 problem with linear and quadratic constraints.
-\section{\label{sec:Deczky3-IIR-filter-gain-zero-pole-with-SeDuMi}An example of SOCP design of an IIR filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
+\clearpage
+\section{\label{sec:Deczky3-IIR-filter-gain-zero-pole-with-SeDuMi}An example of SOCP design of an IIR filter expressed in \emph{gain-zero-pole} format with the \emph{SeDuMi} SOCP solver}
 The Octave script \emph{deczky3\_socp\_test.m} implements the design of Deczky's
 Example 3, used previously in Section~\ref{sub:Deczkys-Example-3}, with MMSE 
 optimisation of the weighted response error by the \emph{SeDuMi} SOCP solver.
@@ -10249,31 +10250,32 @@ shown in Section~\ref{sub:Deczkys-Example-3}. The filter specification is
 \begin{small}
 \verbatiminput{deczky3_socp_test_spec.m}
 \end{small}
-The result of the PCLS SOCP pass in \emph{deczky3\_socp\_test.m} is shown in
-Figure~\ref{fig:SOCP-Deczky-Example-3-PCLS-d2} with pass-band details
+The result of the PCLS SOCP SeDuMi pass in \emph{deczky3\_socp\_test.m} is shown
+in Figure~\ref{fig:SOCP-Deczky-Example-3-PCLS-d2} with pass-band details
 shown in Figure~\ref{fig:SOCP-Deczky-Example-3-PCLS-d2-passband} and 
 pole-zero plot shown in Figure~\ref{fig:SOCP-Deczky-Example-3-PCLS-d2-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_socp_test_pcls_d2}}
-\caption{Deczky Example 3, PCLS response after SOCP optimisation.}
+\caption{Deczky Example 3, response after PCLS SOCP SeDuMi optimisation.}
 \label{fig:SOCP-Deczky-Example-3-PCLS-d2}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_socp_test_pcls_d2pass}}
-\caption{Deczky Example 3, PCLS passband response after SOCP optimisation.}
+\caption{Deczky Example 3, passband response after PCLS SOCP SeDuMi
+optimisation.}
 \label{fig:SOCP-Deczky-Example-3-PCLS-d2-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_socp_test_pcls_d2pz}}
-\caption{Deczky Example 3, PCLS pole-zero plot after SOCP optimisation.}
+\caption{Deczky Example 3, pole-zero plot after PCLS SOCP SeDuMi optimisation.}
 \label{fig:SOCP-Deczky-Example-3-PCLS-d2-pz}
 \end{figure}
 
-The estimate of the SOCP PCLS optimised filter vector is, in the gain,
-zeros and poles form of Equation~\ref{eqn:Filter-gain-zeros-poles}:
+The PCLS SOCP SeDuMi optimised filter is, in the gain, zeros and poles form of
+Equation~\ref{eqn:Filter-gain-zeros-poles}:
 \begin{small}
 \verbatiminput{deczky3_socp_test_d2_coef.m}
 \end{small}
@@ -10286,39 +10288,40 @@ and
 \begin{small}
 \verbatiminput{deczky3_socp_test_D2_coef.m}
 \end{small}
-\clearpage
-For comparison, the \emph{deczky3a\_socp\_test.m} script has looser constraints
+
+The \emph{deczky3a\_socp\_test.m} script also calls the SeDuMi solver through
+the function \emph{iir\_socp\_mmse.m}. This script has looser constraints
 on the pass-band group-delay ripple and increases the required stop-band
 attenuation:
 \begin{small}
 \verbatiminput{deczky3a_socp_test_spec.m}
 \end{small}
-The result of the PCLS SOCP pass in \emph{deczky3a\_socp\_test.m} is shown in
-Figure~\ref{fig:SOCP-Deczky-Example-3a-PCLS-d2} with pass-band details
+The result of the PCLS SOCP SeDuMi pass in \emph{deczky3a\_socp\_test.m} is
+shown in Figure~\ref{fig:SOCP-Deczky-Example-3a-PCLS-d2} with pass-band details
 shown in Figure~\ref{fig:SOCP-Deczky-Example-3a-PCLS-d2-passband} and 
 pole-zero plot shown in Figure~\ref{fig:SOCP-Deczky-Example-3a-PCLS-d2-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3a_socp_test_pcls_d2}}
-\caption{Deczky Example 3, PCLS response after SOCP optimisation, alternative
-  specification.}
+\caption{Deczky Example 3, response after PCLS SOCP SeDuMi optimisation,
+  alternative specification.}
 \label{fig:SOCP-Deczky-Example-3a-PCLS-d2}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3a_socp_test_pcls_d2pass}}
-\caption{Deczky Example 3, PCLS passband response after SOCP optimisation,
+\caption{Deczky Example 3, passband response after PCLS SOCP SeDuMi optimisation,
   alternative specification.}
 \label{fig:SOCP-Deczky-Example-3a-PCLS-d2-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3a_socp_test_pcls_d2pz}}
-\caption{Deczky Example 3, PCLS pole-zero plot after SOCP optimisation,
+\caption{Deczky Example 3, pole-zero plot after PCLS SOCP SeDuMi optimisation,
   alternative specification.}
 \label{fig:SOCP-Deczky-Example-3a-PCLS-d2-pz}
 \end{figure}
-The estimate of the SOCP PCLS optimised filter vector is, in the gain,
+The estimate of the PCLS SOCP SeDuMi optimised filter vector is, in the gain,
 zeros and poles form of Equation~\ref{eqn:Filter-gain-zeros-poles}:
 \begin{small}
 \verbatiminput{deczky3a_socp_test_d2_coef.m}
@@ -10362,46 +10365,86 @@ The filter specification is
 \verbatiminput{deczky3_socp_bfgs_test_spec.m}
 \end{small}
 
-The result of the PCLS SOCP pass in \emph{deczky3\_socp\_bfgs\_test.m} is shown
-in Figure~\ref{fig:SOCP-BFGS-Deczky-Example-3-PCLS-d2} with pass-band details 
-shown in Figure~\ref{fig:SOCP-BFGS-Deczky-Example-3-PCLS-d2-passband} and 
-pole-zero plot shown in Figure~\ref{fig:SOCP-BFGS-Deczky-Example-3-PCLS-d2-pz}.
+The result of the PCLS SOCP SeDuMi pass in \emph{deczky3\_socp\_bfgs\_test.m} is
+shown in Figure~\ref{fig:SOCP-BFGS-Deczky-Example-3-PCLS-d2} with pass-band
+details  shown in Figure~\ref{fig:SOCP-BFGS-Deczky-Example-3-PCLS-d2-passband}
+and  pole-zero plot shown in
+Figure~\ref{fig:SOCP-BFGS-Deczky-Example-3-PCLS-d2-pz}.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_socp_bfgs_test_pcls_d2}}
-\caption{Deczky Example 3, PCLS response after SOCP optimisation with BFGS
+\caption{Deczky Example 3, response after PCLS SOCP SeDuMi optimisation with BFGS
   update of the Hessian.}
 \label{fig:SOCP-BFGS-Deczky-Example-3-PCLS-d2}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_socp_bfgs_test_pcls_d2pass}}
-\caption{Deczky Example 3, PCLS passband response after SOCP optimisation with
-  BFGS update of the Hessian.}
+\caption{Deczky Example 3, passband response after PCLS SOCP SeDuMi optimisation
+  with BFGS update of the Hessian.}
 \label{fig:SOCP-BFGS-Deczky-Example-3-PCLS-d2-passband}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_socp_bfgs_test_pcls_d2pz}}
-\caption{Deczky Example 3, PCLS pole-zero plot after SOCP optimisation with BFGS
-  update of the Hessian.}
+\caption{Deczky Example 3, pole-zero plot after PCLS SOCP SeDuMi optimisation
+  with BFGS update of the Hessian.}
 \label{fig:SOCP-BFGS-Deczky-Example-3-PCLS-d2-pz}
 \end{figure}
 
-The estimate of the SOCP PCLS optimised filter vector is, in the gain,
-zeros and poles form of Equation~\ref{eqn:Filter-gain-zeros-poles}:
+The PCLS SOCP SeDuMi optimised filter is, in the gain, zeros and poles form of
+Equation~\ref{eqn:Filter-gain-zeros-poles}:
 \begin{small}
 \verbatiminput{deczky3_socp_bfgs_test_d2_coef.m}
 \end{small}
-and the corresponding transfer function numerator and denominator polynomials
-(found with Octave function \emph{x2tf}) are, respectively:
+The corresponding transfer function numerator and denominator polynomials are:
 \begin{small}
 \verbatiminput{deczky3_socp_bfgs_test_N2_coef.m}
-\end{small}
-and
-\begin{small}
 \verbatiminput{deczky3_socp_bfgs_test_D2_coef.m}
 \end{small}
+\clearpage
+\section{\label{sec:Deczky3-IIR-filter-gain-zero-pole-with-SCSi}An example of SOCP design of an IIR filter expressed in \emph{gain-zero-pole} format with the \emph{SCS} SOCP solver}
+The \emph{deczky3\_scs\_test.m} script calls the SCS~\cite{Bodonoghue_SCS,
+BODonoghueAbbott_Matlab_SCS,BODonoghueChuParikhBoyd_SCS} SOCP solver through
+the Octave function \emph{iir\_scs\_mmse.m}. The filter specification is:
+\begin{small}
+\verbatiminput{deczky3_scs_test_spec.m}
+\end{small}
+
+The result of the PCLS SOCP SCS pass in \emph{deczky3\_scs\_test.m} is shown
+in Figure~\ref{fig:SCS-Deczky-Example-3-PCLS-d2} with pass-band details
+shown in Figure~\ref{fig:SCS-Deczky-Example-3-PCLS-d2-passband} and 
+pole-zero plot shown in Figure~\ref{fig:SCS-Deczky-Example-3-PCLS-d2-pz}.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_scs_test_pcls_d2}}
+\caption{Deczky Example 3, response after PCLS SOCP SCS optimisation.}
+\label{fig:SCS-Deczky-Example-3-PCLS-d2}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_scs_test_pcls_d2pass}}
+\caption{Deczky Example 3, passband response after PCLS SOCP SCS optimisation.}
+\label{fig:SCS-Deczky-Example-3-PCLS-d2-passband}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_scs_test_pcls_d2pz}}
+\caption{Deczky Example 3, pole-zero plot after PCLS SOCP SCS optimisation.}
+\label{fig:SCS-Deczky-Example-3-PCLS-d2-pz}
+\end{figure}
+\clearpage
+The PCLS SOCP SCS optimised filter is, in the gain, zeros and poles form of
+Equation~\ref{eqn:Filter-gain-zeros-poles}:
+\begin{small}
+\verbatiminput{deczky3_scs_test_d2_coef.m}
+\end{small}
+The corresponding transfer function numerator and denominator polynomials are:
+\begin{small}
+\verbatiminput{deczky3_scs_test_N2_coef.m}
+\verbatiminput{deczky3_scs_test_D2_coef.m}
+\end{small}
+
 \clearpage
 \section{\label{sec:SOCP-non-linear-phase-FIR-lowpass-filter}SOCP design of a non-linear phase FIR low-pass filter}
 The Octave script \emph{iir\_socp\_slb\_fir\_lowpass\_test.m} designs an 
@@ -39758,17 +39801,17 @@ The \emph{build-octave.sh} script installs the following Octave Forge packages:
 \begin{small}
 \verbatiminput{octave_info_test.diary}
 \end{small}
-The \emph{build-octave.sh} script installs the \emph{SeDuMi}, \emph{SDPT3} and
-\emph{YALMIP} SDP solvers from their respective GitHub repositories and forked
-versions of the \emph{SparsePOP} and \emph{gloptipoly3} solvers from my
-repositories at \url{https://github.com/robertgj}.
+The \emph{build-octave.sh} script installs the \emph{SeDuMi}, \emph{SDPT3},
+\emph{SCS} and \emph{YALMIP} from their respective software repositories,
+and forked versions of the \emph{SparsePOP} and \emph{gloptipoly3} solvers from
+\url{https://github.com/robertgj}.
 
 \subsubsection*{Problems with Octave}
-The \emph{octave-9.2.0.patch} here document within \emph{build-octave.sh}
-patches files to:
+The \emph{octave-9.2.0.patch} \texttt{here} document within
+\emph{build-octave.sh} patches files to:
 \begin{itemize}
-\item prevent a \emph{valgrind} warning from \texttt{load-save.cc}
-\item copies the unique.m script from the development version of octave
+\item prevent a \emph{valgrind} warning from \emph{load-save.cc}
+\item copies the \emph{unique.m} script from the development version of Octave
       to add stable sorting
 \end{itemize}
 
@@ -40296,6 +40339,29 @@ approximate, the Generalized Problem of Moments (GPM), an infinite-dimensional
 optimization problem which can be viewed as an extension of the classical
 problem of moments''.
 
+\pdfbookmark[1]{SCS}{SCS}
+\subsection*{SCS}
+\emph{SCS}~\cite{Bodonoghue_SCS,BODonoghueAbbott_Matlab_SCS,BODonoghueChuParikhBoyd_SCS}, or \emph{Splitting Conic Solver},
+is software for semidefinite-quadratic-linear programming. There are two
+varieties of SCS, a \emph{direct} LMI solver and an \emph{indirect}
+conjugate-gradient solver\footnote{YALMIP supports the \emph{"scs"},
+  \emph{"scs-direct"} and \emph{"scs-indirect"} SCS solver names.}. 
+\subsubsection*{Problems with SCS}
+The documentation is confusing.
+
+\pdfbookmark[1]{PIQP}{PIQP}
+\subsection*{PIQP}
+The Proximal Interior-Point Quadratic Programming (PIQP) 
+solver~\cite{Schwan_PIQP2023} solves, as the name
+suggests, quadratic programming problems with equality and inequality
+constraints . It is written in C++ template header files and is based on the
+Eigen C++ template header library~\cite{EigenWeb}. It is available as an
+Octave-Forge package~\cite{OctaveForge_PIQPPackage}.
+\subsubsection*{Problems with PIQP}
+The documentation is incomplete.
+
+\begin{comment}
+
 \pdfbookmark[1]{SDPA}{SDPA}
 \subsection*{SDPA}
 \emph{SDPA}~\cite{YamashitaFujisawa_SoftwarePackageSemidefiniteProgramsSDPA7,
@@ -40316,32 +40382,6 @@ Nonetheless the results for these small examples appear correct. I suspect that
 there is a problem in the conversion from the YALMIP internal format to the SDPA
 format.
 
-\pdfbookmark[1]{SCS}{SCS}
-\subsection*{SCS}
-\emph{SCS}~\cite{Bodonoghue_SCS,BODonoghueChuParikhBoyd_SCS,BODonoghueAbbott_Matlab_SCS}, or Splitting Conic Solver,
-is software for semidefinite-quadratic-linear programming. The shell script
-\emph{install-scs.sh} downloads, patches and installs \emph{SCS} with the
-\emph{mex}-file interface to Octave. There are two varieties of SCS, a
-\emph{direct} LMI solver and an \emph{indirect} conjugate-gradient
-solver\footnote{YALMIP supports the \emph{"scs"}, \emph{"scs-direct"} and
-\emph{"scs-indirect"} SCS solver names.}.
-\subsubsection*{Problems with SCS}
-SCS with default settings is much less precise than SeDuMi. The documentation
-does not make it clear how to adjust the various \emph{eps\_*} parameters so I
-will do some experiments.
-
-\pdfbookmark[1]{PIQP}{PIQP}
-\subsection*{PIQP}
-The Proximal Interior-Point Quadratic Programming (PIQP) 
-solver~\cite{Schwan_PIQP2023} solves, as the name
-suggests, quadratic programming problems with equality and inequality
-constraints . It is written in C++ template header files and is based on the
-Eigen C++ template header library~\cite{EigenWeb}. It is available as an
-Octave-Forge package~\cite{OctaveForge_PIQPPackage}.
-\subsubsection*{Problems with PIQP}
-The documentation is incomplete. Sometimes the solver does not approach the
-constraints as closely as SeDuMi does with the equivalent SOCP problem.
-\begin{comment}
 \pdfbookmark[1]{BMIsolver}{bmisolver}
 \subsection*{BMIsolver}
 \emph{BMIsolver}~\cite{BMIsolver,Dinh_BMIsolver} is a MATLAB package for solving
@@ -40349,14 +40389,6 @@ optimisation problems with BMI (bilinear matrix inequality) constraints. The
 current version requires \emph{YALMIP} as a modeling language. \emph{BMIsolver}
 runs under Octave with the minor modification shown in
 \emph{BMIsolver\_2013.patch}.
-
-\pdfbookmark[1]{COMPleib}{compleib}
-\subsection*{COMPLeib}
-\emph{COMPleib}~\cite{Leibfritz_COMPleib,LeibfritzLipinski_COMPleibManual,
-  Leibfritz_COMPleibPaper} is a collection of non-linear 
-semi-definite test examples referenced by \emph{BMIsolver}. The \emph{COMPleib}
-function runs under Octave with the minor modifications shown in
-\emph{COMPlib\_r1\_1.patch}.
 
 \pdfbookmark[1]{MPSolve}{mpsolve}
 \section*{MPSolve}
@@ -40410,6 +40442,15 @@ ans =
    3.6247e+233 +  6.2591e-85i
 \end{verbatim}
 \end{small}
+With \emph{mpsolve-3.2.1} this example seg-faults.
+\pdfbookmark[1]{COMPleib}{compleib}
+\subsection*{COMPLeib}
+\emph{COMPleib}~\cite{Leibfritz_COMPleib,LeibfritzLipinski_COMPleibManual,
+  Leibfritz_COMPleibPaper} is a collection of non-linear 
+semi-definite test examples referenced by \emph{BMIsolver}. The \emph{COMPleib}
+function runs under Octave with the minor modifications shown in
+\emph{COMPlib\_r1\_1.patch}.
+
 \end{comment}
 
 \pdfbookmark[0]{QEMU emulation}{qemu}

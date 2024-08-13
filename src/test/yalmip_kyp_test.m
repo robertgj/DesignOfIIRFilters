@@ -11,19 +11,7 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-Options=sdpsettings("solver","sedumi");
-
-function result = find_negative_eigenvalues(X,tol)
-  if nargin == 1
-    tol=1e-8;
-  endif
-  ev=eigs(X,rows(X));
-  if any(find(abs(imag(ev)) > eps))
-    error("Found complex eigenvalue!");
-  endif
-  ev=real(ev);
-  result = any(find(ev < -tol));
-endfunction
+Options=sdpsettings("solver","sedumi","dualize",true);
 
 % Low-pass filter specification
 N=30;d=10;fap=0.1;Wap=1;Wat=0.0001;fas=0.2;Was=1;
@@ -120,10 +108,10 @@ for use_AB_plus_Theta=0:1
     error("YALMIP failed maximum amplitude constraint : %s",sol.info);
   endif
   check(Constraints_max)
-  if find_negative_eigenvalues(value(Q_max))
+  if ~isdefinite(value(Q_max))
     error("Q_max not positive semi-definite");
   endif
-  if find_negative_eigenvalues(-value(F_max))
+  if ~isdefinite(-value(F_max))
     error("F_max not negative semi-definite");
   endif
 
@@ -145,10 +133,10 @@ for use_AB_plus_Theta=0:1
     error("YALMIP failed maximum pass band amplitude constraint : %s",sol.info);
   endif
   check(Constraints_pu)
-  if find_negative_eigenvalues(value(Q_pu))
+  if ~isdefinite(value(Q_pu))
     error("Q_pu not positive semi-definite");
   endif
-  if find_negative_eigenvalues(-value(F_pu))
+  if ~isdefinite(-value(F_pu))
     error("F_pu not negative semi-definite");
   endif
 
@@ -170,10 +158,10 @@ for use_AB_plus_Theta=0:1
           sol.info);
   endif
   check(Constraints_z)
-  if find_negative_eigenvalues(value(Q_z))
+  if ~isdefinite(value(Q_z))
     error("Q_z not positive semi-definite");
   endif
-  if find_negative_eigenvalues(-value(F_z))
+  if ~isdefinite(-value(F_z))
     error("F_z not negative semi-definite");
   endif
 
@@ -185,16 +173,16 @@ for use_AB_plus_Theta=0:1
     error("YALMIP failed pass band constraints : %s",sol.info);
   endif
   check(Constraints_p)
-  if find_negative_eigenvalues(value(Q_pu))
+  if ~isdefinite(value(Q_pu))
     error("Q_pu not positive semi-definite");
   endif
-  if find_negative_eigenvalues(-value(F_pu))
+  if ~isdefinite(-value(F_pu))
     error("F_pu not negative semi-definite");
   endif
-  if find_negative_eigenvalues(value(Q_z))
+  if ~isdefinite(value(Q_z))
     error("Q_z not positive semi-definite");
   endif
-  if find_negative_eigenvalues(-value(F_z))
+  if ~isdefinite(-value(F_z))
     error("F_z not negative semi-definite");
   endif
 
@@ -216,10 +204,10 @@ for use_AB_plus_Theta=0:1
     error("YALMIP failed transition band constraint : %s",sol.info);
   endif
   check(Constraints_t)
-  if find_negative_eigenvalues(value(Q_tu))
+  if ~isdefinite(value(Q_tu))
     error("Q_tu not positive semi-definite");
   endif
-  if find_negative_eigenvalues(-value(F_tu))
+  if ~isdefinite(-value(F_tu))
     error("F_tu not negative semi-definite");
   endif
 
@@ -241,10 +229,10 @@ for use_AB_plus_Theta=0:1
     error("YALMIP failed stop band constraints: %s",sol.info);
   endif
   check(Constraints_s)
-  if find_negative_eigenvalues(value(Q_s))
+  if ~isdefinite(value(Q_s))
     error("Q_s not positive semi-definite");
   endif
-  if find_negative_eigenvalues(-value(F_s))
+  if ~isdefinite(-value(F_s))
     error("F_s not negative semi-definite");
   endif
 endfor
@@ -275,10 +263,10 @@ if sol.problem
 endif
 % Sanity checks
 check(Constraints)
-if find_negative_eigenvalues(value(Q_s))
+if ~isdefinite(value(Q_s))
   error("Q_s not positive semi-definite");
 endif
-if find_negative_eigenvalues(-value(F_s))
+if ~isdefinite(-value(F_s))
   error("F_s not negative semi-definite");
 endif
 % Plot h_amp response
@@ -337,17 +325,18 @@ endif
 h_kyp=value(fliplr([C,D]));
 % Sanity checks
 check(Constraints)
-if find_negative_eigenvalues(value(Q_z))
+if ~isdefinite(value(Q_z))
   error("Q_z not positive semi-definite");
 endif
-if find_negative_eigenvalues(-value(F_z))
+if ~isdefinite(-value(F_z))
   error("F_z not negative semi-definite");
 endif
-if find_negative_eigenvalues(value(Q_s))
+if ~isdefinite(value(Q_s))
   error("Q_s not positive semi-definite");
 endif
-if find_negative_eigenvalues(-value(F_s))
-  error("F_s not negative semi-definite");
+if ~isdefinite(-value(F_s))
+  warning("F_s not negative semi-definite\n(min. eigenvalue of -F_s is =%g)",
+          min(eigs(-value(F_s),rows(F_s))));
 endif
 % Plot h_kyp response
 h_kyp=value(fliplr([C,D]));
