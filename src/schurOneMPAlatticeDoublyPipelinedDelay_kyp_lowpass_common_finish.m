@@ -123,6 +123,9 @@ print_polynomial(list_norm_dk,"list_norm_dk");
 print_polynomial(list_Esq,"list_Esq");
 print_polynomial(list_Asq_min,"list_Asq_min");
 print_polynomial(list_Asq_max,"list_Asq_max");
+for u=1:length(list_k)
+  print_polynomial(list_k{u},sprintf("list_k{%d}",u));
+endfor
 
 % Done
 eval(sprintf("save %s.mat tol k0 N DD fap Wap fas Was k",strf));

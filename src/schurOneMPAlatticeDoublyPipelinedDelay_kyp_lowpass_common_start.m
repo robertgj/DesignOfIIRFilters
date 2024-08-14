@@ -2,7 +2,7 @@
 % Copyright (C) 2024 Robert G. Jenssen
 
 % Filter specification
-tol=1e-6,N=5,DD=4,fap=0.10,Wap=1,fas=0.20,Was=100
+tol=5e-6,N=5,DD=4,fap=0.10,Wap=1,fas=0.20,Was=100
 
 % Frequency points
 nplot=1000;
@@ -104,7 +104,7 @@ Phi=[-1,0;0,1];
 
 % Pass band with z^-2 (frequencies scaled by 0.5)
 Psi_p=[0, 1; 1,-2*cos(2*pi*fap/2)];
-Esq_p=(ceil(1e5*max(abs(H0_p(1:nap)))^2)/1e5);
+Esq_p=tol*ceil((max(abs(H0_p(1:nap)))^2)/tol);
 dP_p=sdpvar(n,n,"symmetric","real");
 dQ_p=sdpvar(n,n,"symmetric","real");
 if 0
@@ -128,7 +128,7 @@ wc_s=2*pi*(f2+f1)/2;
 wm_s=2*pi*(f2-f1)/2;
 ec_s=exp(i*wc_s);
 Psi_s=[0,conj(ec_s);ec_s,-2*cos(wm_s)];
-Esq_s=(ceil(1e5*max(abs(H0_s(nas:end)))^2)/1e5);
+Esq_s=tol*ceil((max(abs(H0_s(nas:end)))^2)/tol);
 dP_s=sdpvar(n,n,"symmetric","real");
 dQ_s=sdpvar(n,n,"symmetric","real");
 if 0
@@ -194,3 +194,4 @@ list_norm_dk=[];
 list_Esq=[];
 list_Asq_min=[];
 list_Asq_max=[];
+list_k=cell();

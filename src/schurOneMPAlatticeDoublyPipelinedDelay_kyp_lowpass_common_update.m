@@ -50,4 +50,4 @@ list_norm_dk=[list_norm_dk;norm(value(dk))];
 list_Esq=[list_Esq;Esq];
 list_Asq_min=[list_Asq_min;min(Asq(1:nap))];
 list_Asq_max=[list_Asq_max;max(Asq(nas:end))];
-
+list_k{length(list_norm_dk)}=k;
