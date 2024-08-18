@@ -55,13 +55,13 @@ function B=zhong_inverse(A)
   % alpha
   alpha=diag(A,1);
   
-  % x recursion
+  % x recurrence
   x=[1;zeros(N-1,1)];
   for l=2:N
     x(l)=-(A(l-1,1:(l-1))*x(1:(l-1)))/alpha(l-1);
   endfor
 
-  % w recursion
+  % w recurrence
   w=zeros(1,N);
   w(N)=1/(A(N,1:N)*x);
   for l=(N-1):-1:1

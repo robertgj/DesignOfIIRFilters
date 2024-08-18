@@ -129,7 +129,7 @@ DEFUN_DLD(complex_zhong_inverse,args,nargout,"B=complex_zhong_inverse(A)")
       alpha[i]=A.elem(i,i+1);
     }
 
-  // xi recursion
+  // xi recurrence
   OCTAVE_LOCAL_BUFFER (Complex, xi, N);
   xi[0]=1;
   for (int i=2;i<=N;i++)
@@ -142,7 +142,7 @@ DEFUN_DLD(complex_zhong_inverse,args,nargout,"B=complex_zhong_inverse(A)")
       xi[i-1]=-xi[i-1]/alpha[i-2];
     }
                       
-  // wi recursion
+  // wi recurrence
   OCTAVE_LOCAL_BUFFER (Complex, wi, N);
   wi[N-1]=0;
   for(int k=1;k<=N;k++)

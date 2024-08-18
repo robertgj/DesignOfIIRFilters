@@ -385,7 +385,7 @@ the \emph{simplex}, \emph{differential evolution} and \emph{simulated annealing}
 routines from the Octave-Forge \emph{optim} 
 package~\cite{OctaveForge_OptimPackage}.
 
-\paragraph{\label{sec:Introduction-reproducting-results}Reproducing my results}
+\paragraph{\label{sec:Introduction-reproducing-results}Reproducing my results}
 The Octave scripts referred to in this report generate long sequences of
 floating point operations. I recommend reading \emph{``What Every 
   Computer Scientist Should Know About Floating-point Arithmetic''} by
@@ -8339,10 +8339,9 @@ Figure~\ref{fig:tarczynski-ex2-standalone-pz}.
 The Octave function \emph{xInitHd} uses the WISE barrier function to design an 
 initial filter in polynomial form and then calls the Octave \emph{qroots}
 function to convert that polynomial into \emph{gain-pole-zero} form. As 
-noted in the Introduction, finding the roots of a polynomial is a difficult
-problem in numerical analysis and the output of the \emph{qroots} function
-depends on the CPU architecture, operating system, library
-versions, compiler version and Octave version.
+noted in the \hyperlink{sec:Introduction}{Introduction},  finding the roots
+of a polynomial is a difficult problem in numerical analysis and the output of the \emph{qroots} function depends on the CPU architecture, operating system,
+library versions, compiler version and Octave version.
 
 \subsubsection{Surma-aho and Saram\"{a}ki method of designing an IIR initial filter}
 Appendix~\ref{app:Saram\"{a}ki-unconstrained-minimisation-initial-IIR} describes
@@ -39735,7 +39734,9 @@ libraries:
 \emph{arpack-ng-3.9.1}~\cite{ARPACKNG_website},
 \emph{fftw-3.3.10}~\cite{FFTW_website},
 \emph{glpk-5.0}~\cite{GNU_GLPK},
-\emph{lapack-3.12.0}~\cite{LAPACK_website},
+\emph{lapack-3.12.0}~\cite{LAPACK_website}\footnote{The $16$-byte
+  DOUBLE LAPACK static libraries, \emph{libqblas.a} and \emph{libqlapack.a},
+  are compiled with the \texttt{-freal-8-real-16} flag.},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
 \emph{SuiteSparse-7.7.0}~\cite{SUITESPARSE_website},
 \emph{sundials-7.0.0}~\cite{SUNDIALS_website} and
@@ -39796,16 +39797,6 @@ state\footnote{Also see \url{https://kristerw.github.io/2021/10/19/fast-math/}.}
       good measure.
 \end{quote}
 
-\subsubsection*{Octave packages and solvers}
-The \emph{build-octave.sh} script installs the following Octave Forge packages:
-\begin{small}
-\verbatiminput{octave_info_test.diary}
-\end{small}
-The \emph{build-octave.sh} script installs the \emph{SeDuMi}, \emph{SDPT3},
-\emph{SCS} and \emph{YALMIP} from their respective software repositories,
-and forked versions of the \emph{SparsePOP} and \emph{gloptipoly3} solvers from
-\url{https://github.com/robertgj}.
-
 \subsubsection*{Problems with Octave}
 The \emph{octave-9.2.0.patch} \texttt{here} document within
 \emph{build-octave.sh} patches files to:
@@ -39832,9 +39823,9 @@ Elapsed time is 17.3568 seconds.
  182 __go_delete__             0.112       0.63            1
  172       drawnow             0.078       0.44            3
 
-real	0m18.142s
-user	0m8.938s
-sys	0m9.143s
+real    0m18.142s
+user    0m8.938s
+sys     0m9.143s
 \end{verbatim}
 \end{small}
 
@@ -39845,6 +39836,52 @@ that function. It seems that for each tick-mark label in the \TeX file, the
 \LaTeX, \emph{dvisvgm} and \emph{dvipng} renderers are run in a sub-process $41$
 times each. The aim appears to be to find the bounding box of the label for
 typesetting. \LaTeX provides macros to do this.
+
+\subsubsection*{Using the Octave external code interface}
+From the Octave \emph{info} documentation:
+\begin{quotation}Octave offers a versatile interface for including
+  chunks of compiled code as dynamically linked extensions.\end{quotation}
+I use the Octave external code interface for the following reasons:
+\paragraph{Improved execution time}
+For example, the \emph{schurdecomp.m} and \emph{zhong\_inverse.m} functions use
+recurrence relations to calculate intermediate results. Recurrence relations
+cannot be vectorised in Octave code.
+\paragraph{Access to LAPACK functions}
+For example, the \emph{complex\_zhong\_inverse} Oct-file pre-processes
+a Hessenberg matrix to produce a triangular matrix and then calls the LAPACK
+ZTRTRI function to calculate the inverse of that matrix. Similarly, the
+\emph{complex\_lower\_hessenberg\_inverse} Oct-file calls the LAPACK ZGBSV
+function to calculate the inverse of a lower Hessenberg, banded, matrix.
+\paragraph{Improved accuracy}
+For example, the \emph{schurdecomp} Oct-file uses
+the MPFR~\cite{Fousse:2007:MMB:1236463.1236468} multi-precision library to
+obtain improved accuracy in the Schur decomposition of a polynomial. As
+mentioned in the \hyperlink{sec:Introduction}{Introduction}, polynomial
+root-finding is notoriously difficult. The \emph{qzsolve} Oct-file adapts
+the GNU Scientific Library~\cite{GNU_GSL} \emph{gsl\_poly\_complex\_solve()}
+function, in the GSL file \emph{poly/zsolve.c}, from \texttt{double} to IEEE
+\texttt{\_\_float128} variables. Similarly, the \emph{mzsolve} Oct-file
+adapts that GSL function from \texttt{double} to an \texttt{mpfr\_t} data type
+defined by the \emph{Boost.Multiprecision} C++ template
+library~\cite{Boost_Multiprecision_website}. I tried running the existing test
+scripts with \emph{mzsolve} called by \emph{qroots.m}. A single test fails
+because of the differences in an approximately zero value. Finally, the
+\emph{lzsolve} Oct-file calls a $16$-byte \texttt{DOUBLE}, or IEEE
+\texttt{\_\_float128}, version of the LAPACK DGEEV function\footnote{The
+  \emph{src/mk/lzsolve.mk} Makefile fragment adds the \emph{libqblas.a} and
+  \emph{libqlapack.a} static libraries to \emph{lzsolve.oct}.}. Unsurprisingly,
+the accuracy obtained with \emph{lzsolve} is similar to that obtained with
+\emph{qzsolve}. 
+
+\subsubsection*{Octave packages and solvers}
+The \emph{build-octave.sh} script installs the following Octave Forge packages:
+\begin{small}
+\verbatiminput{octave_info_test.diary}
+\end{small}
+The \emph{build-octave.sh} script installs the \emph{SeDuMi}, \emph{SDPT3},
+\emph{SCS} and \emph{YALMIP} from their respective software repositories,
+and forked versions of the \emph{SparsePOP} and \emph{gloptipoly3} solvers from
+\url{https://github.com/robertgj}.
 
 \subsubsection*{Problems with Octave-Forge packages}
 The following packages are patched with shell \emph{here} documents
@@ -40347,7 +40384,8 @@ varieties of SCS, a \emph{direct} LMI solver and an \emph{indirect}
 conjugate-gradient solver\footnote{YALMIP supports the \emph{"scs"},
   \emph{"scs-direct"} and \emph{"scs-indirect"} SCS solver names.}. 
 \subsubsection*{Problems with SCS}
-The documentation is confusing.
+The documentation is confusing. In many cases SeDuMi and SDPT3 find a better
+solution.
 
 \pdfbookmark[1]{PIQP}{PIQP}
 \subsection*{PIQP}
@@ -40358,7 +40396,8 @@ constraints . It is written in C++ template header files and is based on the
 Eigen C++ template header library~\cite{EigenWeb}. It is available as an
 Octave-Forge package~\cite{OctaveForge_PIQPPackage}.
 \subsubsection*{Problems with PIQP}
-The documentation is incomplete.
+The documentation is incomplete. In general, the design of IIR filters is a
+non-convex problem that is unsuited to quadratic programming optimisation.
 
 \begin{comment}
 

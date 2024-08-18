@@ -1,6 +1,6 @@
 // schurdecomp.cc
 //
-// Implement the Schur recursion for decomposing a polynomial into an
+// Implement the Schur recurrence for decomposing a polynomial into an
 // orthonormal basis with the MPFR arbitrary precision floating-point
 // library.
 //
@@ -135,7 +135,7 @@ DEFUN_DLD(schurdecomp, args, nargout, "[k,S]=schurdecomp(d)")
       mpfr_set_d(mS[l], S(N-1,l), MPFR_RNDN);
     }
 
-  // Schur recursion
+  // Schur recurrence
   for (uint64_t i=0;i<N-1;i++)
     {
       // k
