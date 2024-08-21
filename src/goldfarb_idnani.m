@@ -67,7 +67,8 @@ x=x0;
 [W invW]=updateWchol(hxxf,1);
 L=chol(W)';
 invL=inv(L);
-Kx=1:length(gx);
+Kx0=1:length(gx);
+Kx=Kx0;
 Ax=[];
 q=0;
 lm=[];
@@ -83,6 +84,11 @@ while 1
   endif
   if verbose
     printf("Active constraints are [ "); printf("%d ",Ax); printf("]\n");
+  endif
+  
+  % Check termination condition.
+  if ~isempty(setdiff(Kx0,[Kx,Ax]))
+    error("Expected Kx0 == sort(union(Kx,Ax))!")
   endif
   V=find(gx(Kx)<-tol);
   if isempty(V)
@@ -190,8 +196,8 @@ while 1
     x=x+delta;
     lmp=lmp+t*[-r;1];
     lastgxf=gxf;
-    [fx,gxf]=feval(pfx,x);
     [gx,B]=feval(pgx,x);
+    [fx,gxf]=feval(pfx,x);
     if verbose
       printf("Next x = [ "); printf("%f ",x); printf("]\n");
       printf("f(x) =%f\n",fx);
@@ -214,7 +220,6 @@ while 1
       break;
     elseif t==t1
       % Drop constraint k from Ax
-      % Add constraint p to Ax
       if verbose
         printf("Dropping constraint %d\n",Ax(kAx));
       endif

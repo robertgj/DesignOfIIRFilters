@@ -25926,20 +25926,30 @@ factors $J$ and $R$ when a constraint is added or deleted.
 The archive distributed with this document contains Octave functions for the
 line-search and non-linear optimisation techniques described above. 
 
-The Octave file \emph{sqp\_common.m} contains the function to be optimised, 
-constraints, gradients and the Hessian function:
+The Octave script \emph{linesearch\_test.m} implements unconstrained
+quasi-Newton optimisation with various line-search methods. The Octave file
+\emph{sqp\_common.m} contains the function to be optimised, constraints,
+gradients and the Hessian function:
 \begin{align*}
   \textbf{minimise}   \quad & f\left(x\right) = x_{1}^{4}+x_{2}^{4}+x_{3}^{4}+
                               x_{1}x_{2}+x_{1}x_{3}+x_{2}x_{3}+x_{1}+x_{2}+x_{3}+5\\
   \textbf{subject to} \quad & g\left(x\right) =
                               \left[x_{2}-1;-x_{1}-\sqrt{2};-x_{3}-0.5\right]\ge0
 \end{align*}
-\emph{linesearch\_test.m} implements unconstrained quasi-Newton optimisation
-of this function with step size found by line search with the Armijo,
-Goldstein, golden-section or quadratic-interpolation methods.
-Sample output of \emph{linesearch\_test.m} is:
+The step size is found by line search with the Armijo, Goldstein, golden-section
+or quadratic-interpolation methods. Sample output of \emph{linesearch\_test.m}
+is:
 \begin{small}
 \verbatiminput{linesearch_test.diary.warning}
+\end{small}
+
+The Octave script \emph{sqp\_bfgs\_test.m} tests constrained quasi-Newton
+optimisation with combinations of Hessian initialisation, Hessian
+update and linesearch type. Note that the \emph{goldensection} linesearch 
+requires many more function calls than the other types. Sample output
+filtered for \emph{``SQP''} is:
+\begin{small}
+\verbatiminput{sqp_bfgs_test.diary.SQP}
 \end{small}
 
 \emph{sqp\_gi\_test.m} tests the \emph{Goldfarb-Idnani} algorithm implemented
@@ -25948,14 +25958,54 @@ in \emph{goldfarb\_idnani.m}. Sample output is:
 \verbatiminput{sqp_gi_test.diary}
 \end{small}
 
-The script \emph{sqp\_bfgs\_test.m} tests constrained quasi-Newton
-optimisation with combinations of Hessian initialisation, Hessian
-update and linesearch type. Note that the \emph{goldensection} linesearch 
-requires many more function calls than the other types. Sample output
-filtered for \emph{``SQP''} is:
+The Octave script \emph{goldfarb\_idnani\_fir\_minimum\_phase\_test.m} modifies
+a bandpass FIR filter designed by the \emph{remez} function by constraining the
+zeros of the filter to lie within the unit circle in the $z$-plane and by
+constraining the amplitude response at regular intervals in frequency. The
+filter specification is:
 \begin{small}
-\verbatiminput{sqp_bfgs_test.diary.SQP}
+\verbatiminput{goldfarb_idnani_fir_minimum_phase_test_spec.m}
 \end{small}
+Figure~\ref{fig:Goldfarb-Idnani-fir-minimum-phase-initial-response} shows the
+amplitude response of the initial band-pass FIR filter and
+Figure~\ref{fig:Goldfarb-Idnani-fir-minimum-phase-initial-zeros}
+shows the zeros of the initial band-pass FIR filter.
+Figure~\ref{fig:Goldfarb-Idnani-fir-minimum-phase-response} shows the
+amplitude response of the modified band-pass FIR filter.
+The frequencies of the amplitude constraints are marked. Unfortunately, one
+amplitude constraint is not satisfied.
+Figure~\ref{fig:Goldfarb-Idnani-fir-minimum-phase-zeros}
+shows the zeros of the modified band-pass FIR filter.
+\clearpage
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{goldfarb_idnani_fir_minimum_phase_test_initial_response}}
+\caption{Amplitude response of the initial band-pass FIR filter.}
+\label{fig:Goldfarb-Idnani-fir-minimum-phase-initial-response}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{goldfarb_idnani_fir_minimum_phase_test_initial_zeros}}
+\caption{Zeros of the initial band-pass FIR filter.}
+\label{fig:Goldfarb-Idnani-fir-minimum-phase-initial-zeros}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{goldfarb_idnani_fir_minimum_phase_test_response}}
+\caption{Amplitude response of the band-pass FIR filter after application of the
+  Goldfarb-Idnani algorithm. The frequencies of the amplitude constraints are
+  marked.}
+\label{fig:Goldfarb-Idnani-fir-minimum-phase-response}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{goldfarb_idnani_fir_minimum_phase_test_zeros}}
+\caption{Zeros of the band-pass FIR filter after application of the Goldfarb-Idnani algorithm.}
+\label{fig:Goldfarb-Idnani-fir-minimum-phase-zeros}
+\end{figure}
 
 \chapter{\label{app:Fourier-transform-of-the-Gaussian-function}Fourier transform of the Gaussian function}  
 See \emph{NIST Digital Library of Mathematical Functions}~\cite[Sections 7.2.1
