@@ -1,5 +1,5 @@
-function [k,epsilon,p,c,S] = tf2schurOneMlattice(n,d)
-% [k,epsilon,p,c,S] = tf2schurOneMlattice(n,d)
+function [k,epsilon,p,c,S,S1M] = tf2schurOneMlattice(n,d,fixed_epsilon)
+% [k,epsilon,p,c,S,S1M] = tf2schurOneMlattice(n,d,fixed_epsilon)
 % Synthesise the one-multiplier lattice filter 
 % corresponding to of the transfer function N(z)/D(z) where 
 % N(z)=n(1)+n(2)z+n(3)z^2 etc. For a stable, causal filter, the 
@@ -62,15 +62,23 @@ function [k,epsilon,p,c,S] = tf2schurOneMlattice(n,d)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 % Sanity check
-if (nargin ~= 2) || ((nargout ~= 4) && (nargout ~= 5))
-  print_usage("[k,epsilon,p,c,S] = tf2schurOneMlattice(n,d)");
+if (nargin < 2) || (nargin > 3) || (nargout < 4) || (nargout > 6)
+  print_usage("[k,epsilon,p,c,S,S1M] = tf2schurOneMlattice(n,d,fixed_epsilon)");
+endif
+
+if (nargin == 3) && (length(fixed_epsilon)+1 ~= length(d))
+  error("length(fixed_epsilon)+1 ~= length(d)");
 endif
 
 % Find the Schur decomposition of the denominator
 [k,S] = schurdecomp(d);
 
 % Scale the one-multiplier implementation
-[epsilon,p,S1M] = schurOneMscale(k,S);
+if nargin == 3
+  [epsilon,p,S1M] = schurOneMscale(k,S,fixed_epsilon);
+else
+  [epsilon,p,S1M] = schurOneMscale(k,S);
+endif
 
 % Expand the numerator in the Schur basis
 c = schurexpand(n,S1M);

@@ -45,7 +45,6 @@ tstr=sprintf("Initial parallel all-pass filter and delay : N=%d, DD=%d",N, DD);
 title(tstr);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
-
 %
 % Initial filter z^-2 parallel doubly pipelined all-pass and delay implementation
 %
@@ -91,11 +90,15 @@ k1=ones(length(k0),1);kDD=zeros(DD,1);kDD1=ones(DD,1);diff=false;
 Asq=schurOneMPAlatticeAsq(wplot,k0,k1,k1,kDD,kDD1,kDD1);
 printf("10*log10(min(Asq))(pass)=%g,10*log10(max(Asq))(stop)=%g\n", ...
         10*log10(min(Asq(1:nap))),10*log10(max(Asq(nas:end))));
-[Esq,gradEsq,diagHessEsq]= ...
+[Esq,gradEsq,diagHessEsq,hessEsq]= ...
   schurOneMPAlatticeEsq(k0,k1,k1,kDD,kDD1,kDD1,diff,wplot,Ad,Wa);
 printf("Esq=%g\n",Esq);
 print_polynomial(gradEsq(1:N),"gradEsq","%g");
 print_polynomial(diagHessEsq(1:N),"diagHessEsq","%g");
+ % Initialise BFGS update
+last_gradEsq=zeros(size(gradEsq(1:N)));
+W=diag(diagHessEsq(1:N));
+invW=diag(1./diagHessEsq(1:N));
 
 %
 % Find initial values for Esq_p,Esq_s,P_p,P_p,Q_p,Q_s,XYZ_p,XYZ_s
