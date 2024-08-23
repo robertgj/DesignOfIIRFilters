@@ -39411,8 +39411,8 @@ Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. The objective
 function is an approximation to the summed squared error of the amplitude
 response. The script finds initial values for the symmetric and real SDP
 decision variables $P$, $Q$, $X$ etc. with \emph{SeDuMi} and then uses the
-\emph{SDPT3} solver for successive convex approximation. The filter design
-converges very slowly. The filter specification is:
+\emph{SDPT3} solver for successive convex approximation. The filter
+specification is:
 \begin{small}
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_spec.m}
 \end{small}
@@ -39421,7 +39421,7 @@ The initial reflection coefficients are:
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_k0_coef.m}
 \end{small}
 Figure~\ref{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-initial}
-shows the initial filter amplitude and delay responses.
+shows the initial filter amplitude response.
 The optimised reflection coefficients are:
 \begin{small}
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_k_coef.m}
@@ -39432,12 +39432,13 @@ Figure~\ref{fig:schurOneMPADoublyPipelinedDelay-Dinh-lowpass-convergence-Esq}
 shows the convergence of the squared-error and $\Delta_{k}$ of the filter design.
 Figure~\ref{fig:schurOneMPADoublyPipelinedDelay-Dinh-lowpass-convergence-Asq}
 shows the convergence of the minimum pass-band amplitude and maximum stop-band
-amplitude of the filter design.
+amplitude of the filter design. The script seems to be converging very slowly
+towards an equi-ripple stop-band design that minimises the pass-band error.
 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_initial_response}}
-\caption{Initial amplitude and delay responses of a lowpass filter comprised
+\caption{Initial amplitude response of a lowpass filter comprised
   of a Schur one-multiplier lattice all-pass filter in parallel with a delay.}
 \label{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-initial}
 \end{figure}
@@ -39455,7 +39456,7 @@ amplitude of the filter design.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_convergence}}
-\caption{Convergence of the squared-error and $\Delta_{k}$ 
+\caption{Convergence of the squared-error and $\Delta_{\boldsymbol{k}}$ 
   of a lowpass filter comprised of a Schur one-multiplier lattice all-pass
   filter in parallel with a delay designed with the generalised KYP lemma and
   the algorithm of \emph{Dinh et
@@ -39578,7 +39579,7 @@ implements the successive convex approximation algorithm of
 the parallel combination of a delay and a Schur one-multiplier all-pass lattice
 filter. The initial filter is designed with the \emph{WISE} method shown in
 Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. The objective
-function is an approximation to the summed squared error of the amplitude response. The script finds initial values for the SDP decision variables $P$, $Q$ etc. with \emph{SeDuMi} and then uses the \emph{SDPT3} solver for successive convex approximation. The filter design converges very slowly. The filter specification is:
+function is an approximation to the summed squared error of the amplitude response. The script finds initial values for the SDP decision variables $P$, $Q$ etc. with \emph{SeDuMi} and then uses the \emph{SDPT3} solver for successive convex approximation. The filter specification is:
 \begin{small}
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_spec.m}
 \end{small}
@@ -39594,8 +39595,9 @@ Figure~\ref{fig:schurOneMPADoublyPipelinedDelay-LeeHu-lowpass-convergence-Esq}
 shows the convergence of the squared-error and $\Delta_{z}$ of the filter design.
 Figure~\ref{fig:schurOneMPADoublyPipelinedDelay-LeeHu-lowpass-convergence-Asq}
 shows the convergence of the minimum pass-band amplitude and maximum stop-band
-amplitude of the filter design.
-
+amplitude of the filter design. The script seems to be converging very, very
+slowly towards an equi-ripple stop-band design that minimises the pass-band
+error.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_response}}
@@ -39609,7 +39611,7 @@ amplitude of the filter design.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_convergence}}
-\caption{Convergence of the squared-error and $\Delta_{z}$ 
+\caption{Convergence of the squared-error and $\Delta_{\boldsymbol{k}}$ 
   of a lowpass filter comprised of a Schur one-multiplier lattice all-pass
   filter in parallel with a delay designed with the generalised KYP lemma and
   the algorithm of \emph{Lee} and
@@ -39627,6 +39629,7 @@ amplitude of the filter design.
   \emph{Hu}~\cite[Algorithm 1]{Lee_SequentialConvexApproxBMI}.}
 \label{fig:schurOneMPADoublyPipelinedDelay-LeeHu-lowpass-convergence-Asq}
 \end{figure}
+
 \begin{comment}
 Unfortunately, for $N=6$, the scripts converge for a few
 steps and then wander randomly. It may be that these SDP solvers have
@@ -39640,6 +39643,7 @@ function required more memory than was available on my PC. I modified
 \emph{gensdpagmpfile} to avoid this problem but then found that the executable
 file, \emph{sdpa\_gmp}, ran very, very slowly.
 \end{comment}
+
 \clearpage
 \subsubsection{Comparison with SOCP PCLS design}
 For comparison, the Octave script
