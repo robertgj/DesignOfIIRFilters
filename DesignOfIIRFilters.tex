@@ -6804,8 +6804,8 @@ one-multiplier lattice filter with coefficients in $z^{-2}$ only is summarised i
 Algorithm~\ref{alg:Construction-state-variable-pipelined-One-Multiplier-R2-lattice}.
  
 \begin{algorithm}[!ht]
-Given $N$ even, $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$,
-$\left\{\epsilon_{1},\epsilon_{2}\hdots,\epsilon_{N}\right\}$ and
+Given $N$ even, $\left\{k_{2},k_{4}\hdots,k_{N}\right\}$,
+$\left\{\epsilon_{2},\epsilon_{4}\hdots,\epsilon_{N}\right\}$ and
 $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
 \begin{algorithmic}
 \State $x^{\prime}_{1}=x_{2}$
@@ -12247,21 +12247,6 @@ results of this section are intended to be used in the following
 Part~\ref{part:IIR-filters-fixed-point-coefficients} to optimise the choice of
 fixed-point lattice coefficients. 
 
-The scripts described in the following section translate the lattice
-coefficients to state-variable form with the \emph{schurOneMlattice2Abcd} or
-\emph{schurNSlattice2Abcd} functions (or similar). The transfer function
-numerator and denominator polynomials are calculated with the \emph{Abcd2tf}
-function and the complex frequency response is calculated with the \emph{Abcd2H}
-function. Unfortunately, the \emph{schurNSlattice2Abcd} function becomes
-increasingly inaccurate as the filter order increases. The \emph{Abcd2H}
-function continues to provide a good approximation to the filter response but
-the transfer function calculated by \emph{Abcd2tf} does not. The accuracy of the
-\emph{schurNSlattice2Abcd} function is compared with that of the
-\emph{schurOneMlattice2Abcd} function in the test scripts
-\emph{schurNSlattice2Abcd\_test.m} and \emph{schurOneMlattice2Abcd\_test.m}.
-
-\textbf{\textsc{The lattice to state variable conversion functions should be
-    rewritten with extra precision.}}
 \clearpage
 \subsection{Design of one-multiplier IIR Schur lattice filters with SQP optimisation}
 \subsubsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-low-pass-SQP}Design of a one-multiplier IIR Schur lattice low-pass filter using SQP}
@@ -37569,7 +37554,8 @@ $P \approx -2\hat{P}$.
 \emph{Ren et al.}~\cite[Lemma 3]{Ren_SuccessiveConvexOptimizationBMI} write
 \emph{Finsler}'s lemma in LMI form as:
 \begin{framed}
-  \emph{Lemma}: Let $P=P^{\top}$ and matrix $A$ such that $A^{\bot}A=0$ then the
+  \emph{Lemma}: Let $P=P^{\top}$ and matrix $A$ with orthogonal complement,
+  $A^{\bot}$, such that $A^{\bot}A=0$, then the
   following statements are equivalent:
   \begin{enumerate}
     \item $A^{\bot}P\left(A^{\bot}\right)^{\top}\prec 0$
@@ -39311,14 +39297,14 @@ shown in Section~\ref{sec:Finslers-lemma-transformation-generalised-KYP}, the
 optimisation problem is:
 \begin{align*}
   \textbf{minimise}\quad
-  & \mathcal{E}\left(\boldsymbol{k}\right)^{2} \\
+  & \mathcal{E}^{2}\left(\boldsymbol{k}\right) \\
   \textbf{subject to}\quad
   &-1 < \boldsymbol{k} < 1 \\
   & P,Q\in\mathbb{S}^{n}\text{ and } Q\succeq 0 \\
   & \text{Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI-Finsler}}
 \end{align*}
 where $\mathcal{E}^{2}\left(\boldsymbol{k}\right)$ is the filter squared error at
-$\boldsymbol{k}=\boldsymbol{k}_{m}+\Delta_{z}$:
+$\boldsymbol{k}=\boldsymbol{k}_{m}+\Delta_{\boldsymbol{k}}$:
 \begin{align*}
   \mathcal{E}^{2}\left(\boldsymbol{k}_{m}+\Delta_{\boldsymbol{k}}\right)
   &\approx \mathcal{E}^{2}\left(\boldsymbol{k}_{m}\right)
