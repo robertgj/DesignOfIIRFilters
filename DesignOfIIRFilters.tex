@@ -40418,18 +40418,29 @@ problem of moments''.
 
 \pdfbookmark[1]{SCS}{SCS}
 \subsection*{SCS}
-\emph{SCS}~\cite{Bodonoghue_SCS,BODonoghueAbbott_Matlab_SCS,BODonoghueChuParikhBoyd_SCS}, or \emph{Splitting Conic Solver},
-is software for semidefinite-quadratic-linear programming. There are two
-varieties of SCS, a \emph{direct} LMI solver and an \emph{indirect}
-conjugate-gradient solver\footnote{YALMIP supports the \emph{"scs"},
-  \emph{"scs-direct"} and \emph{"scs-indirect"} SCS solver names.}. 
+The \emph{Splitting Conic Solver}
+(SCS)~\cite{Bodonoghue_SCS,BODonoghueAbbott_Matlab_SCS,BODonoghueChuParikhBoyd_SCS}
+is software for solving semidefinite-quadratic-linear programming problems.
+There are two varieties of SCS, a \emph{direct} LMI solver and an
+\emph{indirect} conjugate-gradient solver\footnote{YALMIP supports the
+\emph{"scs"}, \emph{"scs-direct"} and \emph{"scs-indirect"} SCS solver names.}.
+
+\subsubsection*{Compiling SCS with \texttt{\_\_float128} floating-point numbers}
+The \emph{build-octave.sh} script installs SCS with patches to enable
+compilation with \texttt{\_\_float128} floating-point numbers by setting
+\texttt{dfloat=true} in \emph{make\_scs.m}, compiling \emph{scs\_qprintf.c},
+and linking with the \emph{libquadmath.so}, \emph{libqblas.a} and
+\emph{libqlapack.a} libraries. I found that with \texttt{\_\_float128}
+floating-point numbers SCS was $1$ to $2$ orders of magnitude slower than
+with \texttt{double} floating-point numbers.
+
 \subsubsection*{Problems with SCS}
 The documentation is confusing. In many cases SeDuMi and SDPT3 find a better
 solution.
 
 \pdfbookmark[1]{PIQP}{PIQP}
 \subsection*{PIQP}
-The Proximal Interior-Point Quadratic Programming (PIQP) 
+The \emph{Proximal Interior-Point Quadratic Programming} (PIQP) 
 solver~\cite{Schwan_PIQP2023} solves, as the name
 suggests, quadratic programming problems with equality and inequality
 constraints . It is written in C++ template header files and is based on the
