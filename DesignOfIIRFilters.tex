@@ -6761,7 +6761,7 @@ response of the pipelined Schur lattice filter.
   normalised-scaled Schur lattice filter.} 
 \label{fig:schur-pipelined-output-response}
 \end{figure}
-
+\clearpage
 \subsection{\label{sec:Pipelining-OneM-Schur-lattice-filter}Pipelining a
 6th-order Schur one-multiplier lattice filter}
 Figure~\ref{fig:example-pipelining-a-one-multplier-Schur-lattice-filter} shows
@@ -6773,7 +6773,7 @@ calculation of the outputs and does not change the amplitude and group delay
 responses. If $N$ is the filter order then the pipelined filter has an additional
 $\frac{N}{2}-1$ states.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 \centering
 \begin{subfigure}{\textwidth}
 \centering
@@ -6781,7 +6781,7 @@ $\frac{N}{2}-1$ states.
 \caption{Signal flow graph of a 6th order one-multiplier Schur lattice filter
   with a denominator polynomial having coefficients in $z^{-2}$.}
 \label{subfig:example-one-multplier-Schur-lattice-filter}
-\vspace{1cm}
+\vspace{5mm}
 \end{subfigure}
 \begin{subfigure}{\textwidth}
 \centering
@@ -6790,8 +6790,16 @@ $\frac{N}{2}-1$ states.
   with a denominator polynomial having coefficients in $z^{-2}$ after
   pipelining.}
 \label{subfig:example-pipelined-one-multplier-Schur-lattice-filter}
+\vspace{5mm}
 \end{subfigure}
-\vspace{1cm}
+\begin{subfigure}{\textwidth}
+\centering
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schurOneMR2lattice_allpass_pipelined}
+\caption{Signal flow graph of a 6th order one-multiplier Schur all-pass lattice
+  filter with a denominator polynomial having coefficients in $z^{-2}$ after
+  pipelining.}
+\label{subfig:example-pipelined-one-multplier-Schur-all-pass-lattice-filter}
+\end{subfigure}
 \caption{Original and pipelined signal flow graphs of a 6th order one-multiplier
   Schur lattice filter with a denominator polynomial having coefficients in
   $z^{-2}$ only. The number of delays around each loop of the signal flow
@@ -6799,11 +6807,10 @@ $\frac{N}{2}-1$ states.
 \label{fig:example-pipelining-a-one-multplier-Schur-lattice-filter}
 \end{figure}
 
-Construction of a state variable description of the pipelined Schur
-one-multiplier lattice filter with coefficients in $z^{-2}$ only is summarised in
-Algorithm~\ref{alg:Construction-state-variable-pipelined-One-Multiplier-R2-lattice}.
- 
-\begin{algorithm}[!ht]
+Algorithm~\ref{alg:State-variable-pipelined-One-Multiplier-R2-lattice}
+shows a state variable description of the pipelined Schur one-multiplier lattice
+filter with coefficients in $z^{-2}$.
+\begin{algorithm}[!htbp]
 Given $N$ even, $\left\{k_{2},k_{4}\hdots,k_{N}\right\}$,
 $\left\{\epsilon_{2},\epsilon_{4}\hdots,\epsilon_{N}\right\}$ and
 $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
@@ -6827,7 +6834,29 @@ $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
 \end{algorithmic}
 \caption{Construction of a state variable description of the pipelined Schur
   one-multiplier lattice filter with denominator coefficients in $z^{-2}$ only.}
-\label{alg:Construction-state-variable-pipelined-One-Multiplier-R2-lattice}
+\label{alg:State-variable-pipelined-One-Multiplier-R2-lattice}
+\end{algorithm}
+
+Similarly,
+Algorithm~\ref{alg:State-variable-pipelined-One-Multiplier-R2-all-pass-lattice}
+shows a state variable description of the pipelined Schur one-multiplier all-pass
+lattice filter with coefficients in $z^{-2}$.
+\begin{algorithm}[!htbp]
+Given $N$ even, $\left\{k_{2},k_{4}\hdots,k_{N}\right\}$ and
+$\left\{\epsilon_{2},\epsilon_{4}\hdots,\epsilon_{N}\right\}$
+\begin{algorithmic}
+\State $x^{\prime}_{1}=x_{2}$
+\For{$n=1,\hdots,\frac{N}{2}-1$}
+\State $x^{\prime}_{2n}=-k_{2n}x_{2n-1}+ \left(1+k_{2n}\epsilon_{2n}\right)x_{2n+2}$
+\State $x^{\prime}_{2n+1}=\left(1-k_{2n}\epsilon_{2n}\right)x_{2n-1}+ k_{2n}x_{2n+2}$
+\EndFor
+\State $x_{N}^{\prime} = -k_{N}x_{N-1}+\left(1+k_{N}\epsilon_{N}\right)u$
+\State $\hat{y} = \left(1-k_{N}\epsilon_{N}\right)x_{N-1}+k_{N}u$
+\end{algorithmic}
+\caption{Construction of a state variable description of the pipelined Schur
+  one-multiplier all-pass lattice filter with denominator coefficients in
+  $z^{-2}$ only.}
+\label{alg:State-variable-pipelined-One-Multiplier-R2-all-pass-lattice}
 \end{algorithm}
 
 The Octave function \emph{schurOneMR2lattice2Abcd},
@@ -6837,7 +6866,7 @@ polynomial having coefficients in $z^{-2}$ only.
 The Octave script \emph{schurSchurOneMR2lattice2Abcd\_symbolic\_test.m} creates a
 symbolic state variable description of the Schur one multiplier lattice filter
 with a denominator polynomial having coefficients in $z^{-2}$ only.
-\clearpage
+
 \subsection{Frequency transformations of pipelined Schur lattice filters}
 An implementation of a rational transfer function having
 demominator coefficients only in powers of $z^{-2}$ can be 
@@ -6845,17 +6874,12 @@ pipelined so that the resulting filter is suitable for hardware
 implementation. This section gives an example of the effect of frequency
 transformations on such a filter transfer function. The Octave script
 \emph{freq\_trans\_structure\_test.m} designs an $8$-th order
-low-pass filter prototype with a denominator polynomial having
-coefficients only in powers of $z^{-2}$. The script minimises the amplitude 
-response error with the Octave \emph{fminunc} function. The barrier function 
-of \emph{Tarczynski et
-  al.}~\cite{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters} is
-added to the response error to constrain the locations of the roots of the 
-denominator polynomial and ensure that the filter is stable. The barrier 
-function is implemented in Octave function \emph{WISEJ.m}. The relative weights
-of the pass-band and stop-band response
-errors are $1:100$. The transfer function numerator and denominator polynomials
-for the low-pass filter prototype are, respectively:
+low-pass filter prototype with a denominator polynomial having coefficients only
+in powers of $z^{-2}$. The script minimises the amplitude response error with
+the Octave \emph{fminunc} function and uses the WISE method of \emph{Tarczynski
+  et  al.}~\cite{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters}
+to ensure that the filter is stable. The transfer function numerator and
+denominator polynomials for the low-pass filter prototype are, respectively:
 \begin{small}
 \begin{verbatim}
 n = [   0.0857526461,   0.2721065334,   0.5924693555,   0.8872367637, ...
@@ -6868,8 +6892,7 @@ dR = [  1.0000000000,   0.0000000000,   2.0227725009,   0.0000000000, ...
 \end{small}
 Figure~\ref{fig:freq-transform-structure-lowpass} shows the response of 
 the low-pass prototype filter. 
-
-Figure~\ref{subfig:freq-transform-structure-bandpass-A} shows the response of a
+Figure~\ref{fig:freq-transform-structure-bandpass-A} shows the response of a
 band-pass filter generated from the low-pass prototype filter with the
 following frequency transformation:
 \begin{small}
@@ -6880,8 +6903,7 @@ pA = [ 1.0000e+00  -6.7508e-01   3.2492e-01 ]
 \end{small}
 The denominator polynomial of the resulting band-pass filter has coefficients
 in powers of $z^{-1}$. 
-
-Figure~\ref{subfig:freq-transform-structure-bandpass-B} shows the response of
+Figure~\ref{fig:freq-transform-structure-bandpass-B} shows the response of
 a band-pass filter generated from the low-pass prototype filter with a
 frequency transformation that is symmetrical about $\frac{f_{S}}{4}$:
 \begin{small}
@@ -6890,9 +6912,8 @@ pB = phi2P([0.2 0.3])
 pB = [ 1.0000e+00   0.0000e+00   5.0953e-01 ]
 \end{verbatim}
 \end{small}
-In this case, both the numerator and denominator polynomials of the resulting
-band-pass filter have coefficients only in powers of $z^{-2}$. 
-
+In this case, both the numerator and denominator polynomials of the band-pass
+filter have coefficients only in powers of $z^{-2}$. 
 \begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{freq_transform_structure_test_lowpass_response}}
@@ -6900,29 +6921,21 @@ band-pass filter have coefficients only in powers of $z^{-2}$.
   polynomial coefficients in $z^{-2}$.}
 \label{fig:freq-transform-structure-lowpass}
 \end{figure}
-
 \begin{figure}[!ht]
-\centering
-\begin{subfigure}{\textwidth}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{freq_transform_structure_test_bandpass_A_response}}
 \caption{Amplitude response of a band-pass filter with frequency transformation
   [0.1 0.25].}
-\label{subfig:freq-transform-structure-bandpass-A}
-\vspace{1cm}
-\end{subfigure}
-\begin{subfigure}{\textwidth}
+\label{fig:freq-transform-structure-bandpass-A}
+\end{figure}
+\clearpage
+\begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{freq_transform_structure_test_bandpass_B_response}}
 \caption{Amplitude response of a band-pass filter with frequency transformation
   [0.2 0.3].}
-\label{subfig:freq-transform-structure-bandpass-B}
-\end{subfigure}
-\caption{Frequency transformations of a low-pass filter prototype having
-  denominator polynomial coefficients in powers of $z^{-2}$ only.}
-\label{fig:freq-transform-structure}
+\label{fig:freq-transform-structure-bandpass-B}
 \end{figure}
-\clearpage
 \section{Summary}
 Given a transfer function $H\left(z\right)=N_{N}\left(z\right)/D_{N}\left(z\right)$ the design procedure
 for the normalised-scaled lattice filter is:

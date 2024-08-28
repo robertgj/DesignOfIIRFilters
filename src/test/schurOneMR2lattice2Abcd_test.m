@@ -1,13 +1,15 @@
 % schurOneMR2lattice2Abcd_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
-delete("schurOneMR2lattice2Abcd_test.diary");
-delete("schurOneMR2lattice2Abcd_test.diary.tmp");
-diary schurOneMR2lattice2Abcd_test.diary.tmp
+debug_on_error=true;
 
 strf="schurOneMR2lattice2Abcd_test";
+
+delete(strcat(strf,"diary.tmp"));
+delete(strcat(strf,"diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 %
 % Filter polynomials
@@ -56,6 +58,9 @@ for l=1:length(f)
 
   % Schur one-multiplier decomposition
   [k,epsilon,p,c] = tf2schurOneMlattice(f{l}.n,f{l}.dR);
+  N=length(k);
+  Non2=N/2;
+  NS=N+Non2-1;
 
   % Retimed Schur lattice
   [A,B,C,D,Aap,Bap,Cap,Dap]=schurOneMR2lattice2Abcd(k,epsilon,c)
@@ -168,12 +173,57 @@ for l=1:length(f)
   print(sprintf("%s_allpass_response%d",strf,l),"-dpdflatex");
   close
 
-endfor
+  %
+  % Check the matrix coefficients for the tapped Schur lattice
+  %
+  [A,B,C,D,~,~,~,~,ABCD0,ABCDk,ABCDc] = schurOneMR2lattice2Abcd(k,epsilon,c);
+  ABCD=[A,B;C,D];
+  if size(ABCD) != size(ABCD0)
+    error("size(ABCD) != size(ABCD0)");
+  endif
+  if length(ABCDk) != N
+    error("length(ABCDk) != N");
+  endif
+  if length(ABCDc) != (N+1)
+    error("length(ABCDc) != (N+1)");
+  endif
+  % Make mABCD from the matrix coefficients of k and c
+  mABCD=ABCD0;
+  for m=1:N
+    mABCD=mABCD+(k(m)*ABCDk{m});
+  endfor
+  for m=1:(N+1)
+    mABCD=mABCD+(c(m)*ABCDc{m});
+  endfor
+  if max(max(abs(ABCD-mABCD))) > eps
+    error("max(max(abs(ABCD-mABCD))) > eps");
+  endif
 
+  %
+  % Check the matrix coefficients for the all-pass Schur lattice
+  %
+  [~,~,~,~,Aap,Bap,Cap,Dap,~,~,~,ABCDap0,ABCDapk] = ...
+    schurOneMR2lattice2Abcd(k,epsilon,c);
+  ABCDap=[Aap,Bap;Cap,Dap];
+  if size(ABCDap) != size(ABCDap0)
+    error("size(ABCDap) != size(ABCDap0)");
+  endif
+  if length(ABCDapk) != N
+    error("length(ABCDapk) != N");
+  endif
+  % Make mABCD from the matrix coefficients of k
+  mABCDap=ABCDap0;
+  for m=1:N
+    mABCDap=mABCDap+(k(m)*ABCDapk{m});
+  endfor
+  if max(max(abs(ABCDap-mABCDap))) > eps
+    error("max(max(abs(ABCDap-mABCDap))) > eps");
+  endif
+
+endfor
+  
 %
 % Done
 %
-
 diary off
-movefile schurOneMR2lattice2Abcd_test.diary.tmp ...
-         schurOneMR2lattice2Abcd_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));
