@@ -2,7 +2,7 @@
 % Copyright (C) 2024 Robert G. Jenssen
 
 % Filter specification
-tol=5e-6,N=5,DD=4,fap=0.10,Wap=1,fas=0.20,Was=200
+tol=5e-6,N=5,DD=4,fap=0.10,Wap=0.1,fas=0.20,Was=200
 
 % Frequency points
 nplot=1000;
@@ -41,7 +41,8 @@ xlabel("Frequency");
 axis(ax(1),[0 0.5 -1 0]);
 axis(ax(2),[0 0.5 -60 -35]);
 grid("on");
-tstr=sprintf("Initial parallel all-pass filter and delay : N=%d, DD=%d",N, DD);
+tstr=sprintf("Initial response of parallel all-pass filter and delay : \
+N=%d, DD=%d",N, DD);
 title(tstr);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close

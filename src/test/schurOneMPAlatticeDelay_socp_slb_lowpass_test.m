@@ -39,13 +39,13 @@ for M=1:3,
     m=5 % Allpass filter denominator order
     DD=4 % Parallel delay
     fap=0.10 % Pass band amplitude response edge
-    dBap=0.2 % Pass band amplitude response ripple
-    Wap=1 % Pass band amplitude response weight
+    dBap=0.07 % Pass band amplitude response ripple
+    Wap=0.1 % Pass band amplitude response weight
     Wat=0 % Transition band amplitude response weight
     fas=0.20 % Stop band amplitude response edge
-    dBas=50 % Stop band amplitude response ripple
-    Was=100 % Stop band amplitude response weight
-  else  
+    dBas=49.4 % Stop band amplitude response ripple
+    Was=200 % Stop band amplitude response weight
+  else
     tol=1e-6 % Tolerance on coefficient update vector
     ctol=1e-8 % Tolerance on constraints
     m=4 % Allpass filter denominator order
@@ -122,6 +122,12 @@ for M=1:3,
   [A1epsilon,A1p]=schurOneMscale(A1k);
   A1k=A1k(:)';A1epsilon=A1epsilon(:)';A1p=A1p(:)';
 
+  % Error
+  Esq = schurOneMPAlatticeEsq(A1k,ones(size(A1k)),ones(size(A1k)), ...
+                              zeros(DD,1),ones(DD,1),ones(DD,1),false, ...
+                              wa,Asqd,Wa);
+  printf("A1,A2,m=%d,DD=%d,Esq=%g\n",m,DD,Esq);
+
   % Amplitude and delay at local peaks
   Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
   vAl=local_max(Asqdl-Asq);
@@ -141,11 +147,11 @@ for M=1:3,
     axis(ax(1),[0 0.5 -dBap 0]);
     axis(ax(2),[0 0.5 -70 -62]);
   elseif M==2
-    axis(ax(1),[0 0.5 -dBap 0]);
-    axis(ax(2),[0 0.5 -60 -40]);
+    axis(ax(1),[0 0.5 -0.1 0]);
+    axis(ax(2),[0 0.5 -54 -44]);
   else
     axis(ax(1),[0 0.5 -0.5 0]);
-    axis(ax(2),[0 0.5 -40 -35]);
+    axis(ax(2),[0 0.5 -40 -35]); 
   endif
   grid("on");
   strt=sprintf("Parallel all-pass filter and delay : m=%d, DD=%d",m, DD);

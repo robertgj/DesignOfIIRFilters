@@ -3,11 +3,13 @@ schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_initial_response \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_error_response \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_response \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_Asq_min_max \
-schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_convergence
+schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_convergence \
+schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_pz
 
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_COEFS = \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test.mat \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_spec.m \
+schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_Da0_coef.m \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_k0_coef.m \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_k_coef.m
 
@@ -38,6 +40,6 @@ schurOneMAPlattice2Abcd.m \
 tf2schurOneMlattice.m \
 schurOneMPAlatticeDelay_wise_lowpass.m \
 schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
-Abcd2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m WISEJ_DA.m delayz.m \
-Abcd2H.oct schurdecomp.oct complex_zhong_inverse.oct \
+Abcd2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m WISEJ_DA.m delayz.m qroots.m \
+Abcd2H.oct schurdecomp.oct complex_zhong_inverse.oct qzsolve.oct \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct

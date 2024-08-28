@@ -72,14 +72,14 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_m_12_A1k_coef.m"; fail; fi
 
 cat > test_m_5_A1k0_coef.m << 'EOF'
-A1k0 = [  -0.5815122254,   0.3900417137,   0.2137485273,   0.0895397490, ... 
-           0.0223971683 ];
+A1k0 = [  -0.5887890122,   0.3794825489,   0.2077136416,   0.0867433777, ... 
+           0.0216280074 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_m_5_A1k0_coef.m"; fail; fi
 
 cat > test_m_5_A1k_coef.m << 'EOF'
-A1k = [  -0.5774643963,   0.4132981110,   0.2321945085,   0.1025491710, ... 
-          0.0287362996 ];
+A1k = [  -0.5662109737,   0.4317358628,   0.2428077171,   0.1078009224, ... 
+          0.0303444618 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_m_5_A1k_coef.m"; fail; fi
 

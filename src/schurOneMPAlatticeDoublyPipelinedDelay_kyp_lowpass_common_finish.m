@@ -36,7 +36,7 @@ set(h2,'linestyle','--');
 legend("$A^{2}_{min}(dB)$","$A^{2}_{max}(dB)$");
 legend("box","off");
 legend("location","northeast");
-axis(ax(1),[0 0.5 -0.5 0]);
+axis(ax(1),[0 0.5 -0.25 0]);
 axis(ax(2),[0 0.5 -60 -35]);
 grid("on");
 tstr=sprintf("Response of parallel all-pass filter and delay : N=%d, DD=%d", ...
@@ -67,14 +67,14 @@ close
 [ax,h1,h2]=plotyy(1:length(list_norm_dk),list_norm_dk,1:length(list_Esq),list_Esq);
 set(h1,'linestyle','-');
 set(h2,'linestyle','--');
-legend("norm($\\Delta_{\\boldsymbol{k}}$)","$\\mathcal{E}^2$");
+legend("$\\mathnorm{\\Delta_{\\boldsymbol{k}}}$","$\\mathcal{E}^2$");
 legend("box","off");
 legend("location","northeast");
-ylabel(ax(1),"norm($\\Delta_{\\boldsymbol{k}}$)");
+ylabel(ax(1),"$\\mathnorm{\\Delta_{\\boldsymbol{k}}}$");
 ylabel(ax(2),"$\\mathcal{E}^2$");
 xlabel("Iteration");
 axis(ax(1),[0 maxiter_kyp 0 0.004]);
-axis(ax(2),[0 maxiter_kyp 0 0.0004]);
+axis(ax(2),[0 maxiter_kyp 0 0.00002]);
 grid("on");
 tstr=sprintf("Convergence of parallel all-pass filter and delay : N=%d, DD=%d",N, DD);
 title(tstr);
@@ -86,19 +86,30 @@ close
                   1:length(list_Asq_max),10*log10(list_Asq_max));
 set(h1,'linestyle','-');
 set(h2,'linestyle','--');
-legend("$A^{2}_{min}(dB)$","$A^{2}_{max}(dB)$");
+legend("$A_{min}$(dB)","$A_{max}$(dB)");
 legend("box","off");
 legend("location","northwest");
-ylabel(ax(1),"$A^{2}_{min}(dB)$");
-ylabel(ax(2),"$A^{2}_{max}(dB)$");
+ylabel(ax(1),"Minimum Amplitude(dB)");
+ylabel(ax(2),"Maximum Amplitude(dB)");
 xlabel("Iteration");
 axis(ax(1),[0 maxiter_kyp -0.5 0]);
 axis(ax(2),[0 maxiter_kyp -45 -40]);
 grid("on");
-tstr=sprintf("Convergence of parallel all-pass filter \
-pass-band $A^{2}_{min}$ and stop-band $A^{2}_{max}$ : N=%d, DD=%d",N, DD);
+tstr=sprintf("Pass-band $A_{min}$(dB) and stop-band $A_{max}$(dB) of \
+parallel all-pass filter and delay : N=%d, DD=%d",N, DD);
 title(tstr);
 print(strcat(strf,"_Asq_min_max"),"-dpdflatex");
+close
+
+% Plot poles and zeros
+Da=schurOneMAPlattice2tf(k,k1,k1);
+Na=0.5*(conv([zeros(1,(DD)),1],Da)+[fliplr(Da),zeros(1,(DD))]);
+zplane(Na,[zeros(1,length(Na)-length(Da)),Da])
+tstr=sprintf("Pole-zero plot of parallel all-pass filter and delay : \
+N=%d, DD=%d", N, DD);
+title(tstr);
+grid("on");
+print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
 % Save the results
@@ -114,6 +125,8 @@ fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
 fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
+print_polynomial(Da0,"Da0");
+print_polynomial(Da0,"Da0",strcat(strf,"_Da0_coef.m"));
 print_polynomial(k0,"k0");
 print_polynomial(k0,"k0",strcat(strf,"_k0_coef.m"));
 print_polynomial(k,"k");
