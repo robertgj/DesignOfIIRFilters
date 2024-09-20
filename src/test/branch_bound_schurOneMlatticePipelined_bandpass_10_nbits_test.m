@@ -28,10 +28,14 @@ p0=p2(:);
 c0=c2(:);
 Nc=length(c0);
 Rc=(Nk+1):(Nk+Nc);
-kk0=k0(1:2:(Nk-1)).*k0(2:2:Nk);
+kk0=k0(1:(Nk-1)).*k0(2:Nk);
+% For branch-and-bound zero out the values of kk that are not used
+kk0(2:2:end)=0;
 Nkk=length(kk0);
 Rkk=(Nk+Nc+1):(Nk+Nc+Nkk);
-ck0=c0(2:2:Nk).*k0(2:2:Nk);
+ck0=c0(2:Nk).*k0(2:Nk);
+% For branch-and-bound zero out the values of ck that are not used
+ck0(2:2:end)=0;
 Nck=length(ck0);
 Rck=(Nk+Nc+Nkk+1):(Nk+Nc+Nkk+Nck);
 

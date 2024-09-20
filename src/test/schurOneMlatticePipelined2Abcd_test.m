@@ -1,5 +1,5 @@
 % schurOneMlatticePipelined2Abcd_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Test cases for the pipelined Schur one-multiplier lattice filter 
 
@@ -19,14 +19,14 @@ catch
 end_try_catch
 
 % Various 
-tol=100*eps;
 fc=0.05;
-for Nk=1:9
+for Nk=1:11
   printf("\nTesting Nk=%d\n",Nk);
+  tol=Nk*4*eps;
   [n,d]=butter(Nk,2*fc);
   [k,epsilon,~,c]=tf2schurOneMlattice(n,d);
   try
-    [A,B,C,dd,Cap,ddap]=schurOneMlatticePipelined2Abcd(k,epsilon,c);
+    [A,B,C,dd,Cap,ddap] = schurOneMlatticePipelined2Abcd(k,epsilon,c);
   catch
     err=lasterror();
     for e=1:length(err.stack)
@@ -35,7 +35,7 @@ for Nk=1:9
     endfor
     printf("%s\n", err.message);
   end_try_catch
-  
+
   % Filter transfer function
   [N,D]=Abcd2tf(A,B,C,dd);
   % Test extra states
@@ -72,6 +72,71 @@ for Nk=1:9
   if max(abs(Dap-d)) > tol
     error("max(abs(Dap-d)) > tol");
   endif
+
+  % Matrix coefficient cell arrays 
+  try
+    kk=k(1:(Nk-1)).*k(2:Nk);
+    ck=c(2:Nk).*k(2:Nk);
+    [A,B,C,dd,Cap,ddap,ABCD0,ABCDk,ABCDc,ABCDkk,ABCDck] = ...
+       schurOneMlatticePipelined2Abcd(k,epsilon,c);
+  catch
+    err=lasterror();
+    for e=1:length(err.stack)
+      printf("Called %s at line %d\n", ...
+             err.stack(e).name,err.stack(e).line);
+    endfor
+    printf("%s\n", err.message);
+  end_try_catch
+  ABCD=[A,B;C,dd;Cap,ddap];
+  cABCD=ABCD0;
+  for s=1:Nk,
+    cABCD=cABCD+(k(s)*ABCDk{s});
+  endfor
+  for s=1:(Nk+1),
+    cABCD=cABCD+(c(s)*ABCDc{s});
+  endfor
+  for s=1:(Nk-1),
+    cABCD=cABCD+(kk(s)*ABCDkk{s});
+  endfor
+  for s=1:(Nk-1),
+    cABCD=cABCD+(ck(s)*ABCDck{s});
+  endfor 
+  if max(max(ABCD-cABCD))>eps
+    error("max(max(ABCD-cABCD))>eps");
+  endif
+
+  % Repeat
+  try
+    kk=k(1:(Nk-1)).*k(2:Nk);
+    ck=c(2:Nk).*k(2:Nk);
+    [A,B,C,dd,Cap,ddap,ABCD0,ABCDk,ABCDc,ABCDkk,ABCDck] = ...
+       schurOneMlatticePipelined2Abcd(k,epsilon,c,kk,ck);
+  catch
+    err=lasterror();
+    for e=1:length(err.stack)
+      printf("Called %s at line %d\n", ...
+             err.stack(e).name,err.stack(e).line);
+    endfor
+    printf("%s\n", err.message);
+  end_try_catch
+  ABCD=[A,B;C,dd;Cap,ddap];
+  cABCD=ABCD0;
+  for s=1:Nk,
+    cABCD=cABCD+(k(s)*ABCDk{s});
+  endfor
+  for s=1:(Nk+1),
+    cABCD=cABCD+(c(s)*ABCDc{s});
+  endfor
+  for s=1:(Nk-1),
+    cABCD=cABCD+(kk(s)*ABCDkk{s});
+  endfor
+  for s=1:(Nk-1),
+    cABCD=cABCD+(ck(s)*ABCDck{s});
+  endfor 
+  if max(max(ABCD-cABCD))>eps
+    error("max(max(ABCD-cABCD))>eps");
+  endif
+  
 endfor
   
 % Done

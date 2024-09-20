@@ -2,9 +2,8 @@
 
 prog=schurOneMlatticePipelined2Abcd_test.m
 depends="test/schurOneMlatticePipelined2Abcd_test.m test_common.m \
-schurOneMlatticePipelined2Abcd.m tf2schurOneMlattice.m Abcd2tf.m qroots.m \
-schurOneMscale.m \
-schurdecomp.oct schurexpand.oct qzsolve.oct"
+schurOneMlatticePipelined2Abcd.m tf2schurOneMlattice.m qroots.m \
+schurOneMscale.m schurdecomp.oct schurexpand.oct qzsolve.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -59,6 +58,10 @@ Testing Nk=7
 Testing Nk=8
 
 Testing Nk=9
+
+Testing Nk=10
+
+Testing Nk=11
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

@@ -59,12 +59,14 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_c.ok"; fail; fi
 
 cat > test_kk.ok << 'EOF'
-kk_min = [   -19840,   -23040,   -22496,   -10624 ]'/32768;
+kk_min = [   -19840,        0,   -23040,        0, ... 
+             -22496,        0,   -10624,        0 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_kk.ok"; fail; fi
 
 cat > test_ck.ok << 'EOF'
-ck_min = [    -3216,    18576,    12672,      782 ]'/32768;
+ck_min = [    -3216,        0,    18576,        0, ... 
+              12672,        0,      782,        0 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_ck.ok"; fail; fi
 

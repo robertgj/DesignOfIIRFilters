@@ -5120,6 +5120,7 @@ state variable description of the Schur FIR lattice is summarised in
 Algorithm~\ref{alg:Construction-state-variable-Schur-FIR-lattice}.
 
 \begin{algorithm}[htbp]
+Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$:
 \begin{algorithmic}
 \State $y_{0} = u$
 \State $\hat{y}_{0} = u$
@@ -5281,6 +5282,9 @@ Construction of the state variable description is summarised in
 Algorithm~\ref{alg:Construction-state-variable-One-Multiplier-lattice}.
 
 \begin{algorithm}[!ht]
+Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$,
+$\left\{\epsilon_{1},\epsilon_{2},\hdots,\epsilon_{N}\right\}$ and
+$\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
 \begin{algorithmic}
 \State $\hat{y}_{0} = x_{1}$
 \For{$n=1,\hdots,N-1$}
@@ -5478,7 +5482,7 @@ Algorithm~\ref{alg:Construction-state-variable-pipelined-One-Multiplier-lattice}
 
 \begin{algorithm}[!ht]
 Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$,
-$\left\{\epsilon_{1},\epsilon_{2}\hdots,\epsilon_{N}\right\}$ and
+$\left\{\epsilon_{1},\epsilon_{2},\hdots,\epsilon_{N}\right\}$ and
 $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
 \begin{algorithmic}
 \State $y_{0} = c_{0}x_{1}$
@@ -5680,7 +5684,7 @@ Algorithm~\ref{alg:Construction-state-variable-doubly-pipelined-One-Multiplier-l
 
 \begin{algorithm}[!ht]
 Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$,
-$\left\{\epsilon_{1},\epsilon_{2}\hdots,\epsilon_{N}\right\}$ and
+$\left\{\epsilon_{1},\epsilon_{2},\hdots,\epsilon_{N}\right\}$ and
 $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
 \begin{algorithmic}
 \State $y_{0} = c_{0}x_{1}$
@@ -5858,7 +5862,7 @@ Algorithm~\ref{alg:Construction-state-variable-all-pass-doubly-pipelined-One-Mul
 
 \begin{algorithm}[!ht]
 Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$ and
-$\left\{\epsilon_{1},\epsilon_{2}\hdots,\epsilon_{N}\right\}$
+$\left\{\epsilon_{1},\epsilon_{2},\hdots,\epsilon_{N}\right\}$:
 \begin{algorithmic}
 \State $\hat{y}_{0} = x_{1}$
 \State $x_{1}^{\prime} = x_{2}$  
@@ -6812,7 +6816,7 @@ shows a state variable description of the pipelined Schur one-multiplier lattice
 filter with coefficients in $z^{-2}$.
 \begin{algorithm}[!htbp]
 Given $N$ even, $\left\{k_{2},k_{4}\hdots,k_{N}\right\}$,
-$\left\{\epsilon_{2},\epsilon_{4}\hdots,\epsilon_{N}\right\}$ and
+$\left\{\epsilon_{2},\epsilon_{4},\hdots,\epsilon_{N}\right\}$ and
 $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
 \begin{algorithmic}
 \State $x^{\prime}_{1}=x_{2}$
@@ -6843,7 +6847,7 @@ shows a state variable description of the pipelined Schur one-multiplier all-pas
 lattice filter with coefficients in $z^{-2}$.
 \begin{algorithm}[!htbp]
 Given $N$ even, $\left\{k_{2},k_{4}\hdots,k_{N}\right\}$ and
-$\left\{\epsilon_{2},\epsilon_{4}\hdots,\epsilon_{N}\right\}$
+$\left\{\epsilon_{2},\epsilon_{4},\hdots,\epsilon_{N}\right\}$:
 \begin{algorithmic}
 \State $x^{\prime}_{1}=x_{2}$
 \For{$n=1,\hdots,\frac{N}{2}-1$}

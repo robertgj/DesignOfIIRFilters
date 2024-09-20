@@ -12,13 +12,13 @@ function Asq=schurOneMlatticePipelinedAsq(w,k,epsilon,c,kk,ck)
 %   k - one-multiplier allpass section denominator multiplier coefficients
 %   epsilon - one-multiplier allpass section sign coefficients (+1 or -1)
 %   c - numerator all-pass filter tap coefficients
-%   kk - k(2n-1)*k(2n)
-%   ck - c(2n)*k(2n) (c(1)=c_0, c(2n)=c_{2n-1})
+%   kk - k(1:(Nk-1)).*k(2:Nk)
+%   ck - c(2:Nk).*k(2:Nk) (c(1)=c_{0}, ... ,c(Nk+1)=c_{Nk})
 %
 % Outputs:
 %   Asq - the squared magnitude response at w
 
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2023-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

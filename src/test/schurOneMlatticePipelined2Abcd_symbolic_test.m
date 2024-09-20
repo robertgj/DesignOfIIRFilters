@@ -1,5 +1,5 @@
 % schurOneMlatticePipelined2Abcd_symbolic_test.m
-% Copyright (C) 2022-2023 Robert G. Jenssen
+% Copyright (C) 2022-2024 Robert G. Jenssen
 %
 % Create symbolic descriptions of pipelined Schur one-multiplier all-pass filters
 
@@ -18,10 +18,10 @@ tic;
 % Design a prototype lattice filters with no scaling by p or epsilon
 %
 
-tol_eps=20;dBap=0.1;dBas=40;fc=0.1;
+tol_eps=20;dBas=40;fc=0.1;
 
-for N=6:7
-
+for N=6:7,
+  
   [n,d]=cheby2(N,dBas,2*fc);
   [k,epsilon,~,c]=tf2schurOneMlattice(n,d);
 
@@ -67,6 +67,7 @@ for N=6:7
     [zeros(5,3*(l-1)),rM%d,zeros(5,Ns+3-6-(3*(l-1)))]; ...\n\
     [zeros(Ns+3-(3*(l-1))-5,(3*(l-1))+5),eye(Ns+3-(3*(l-1))-5)]];",l,l));
   endfor
+  l=(ceil(N/2)-1); % For N=1,2
 
   % Final module
   if rem(N,2)
@@ -280,7 +281,6 @@ for N=6:7
   endif
 
   eval(sprintf("clear %s",str_syms));
-
 endfor
 
 %
