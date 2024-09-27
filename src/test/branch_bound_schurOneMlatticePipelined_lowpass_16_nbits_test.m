@@ -15,15 +15,11 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 % Low-pass filter specification
-N=9;dBap=0.02;dBas=84;fap=0.15;Wap=1;Wat=0.01;fas=0.2;Was=1e6;
+N=9;dBap=0.02;dBas=84;fap=0.15;Wap=1;Wat=0.01;fas=0.2;Was=1e8;
 ndigits=4;nbits=16;nscale=2^(nbits-1);
 
 % Exact coefficients
-if 1
-  [B,A]=ellip(N,dBap,dBas,2*fap);
-else
-  [B,A]=butter(N,2*fap);
-endif
+[B,A]=ellip(N,dBap,dBas,2*fap);
 
 % Amplitude constraints
 npoints=1000;
@@ -45,7 +41,6 @@ Nc=length(c0);
 Rc=(Nk+1):(Nk+Nc);
 kk0=k0(1:(Nk-1)).*k0(2:Nk);
 % For branch-and-bound zero out the values of kk that are not used
-kk0(2:2:end)=0;
 Nkk=length(kk0);
 Rkk=(Nk+Nc+1):(Nk+Nc+Nkk);
 ck0=c0(2:Nk).*k0(2:Nk);
@@ -288,7 +283,7 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
      wplot*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([0 0.5 -0.2 0.2]);
+axis([0 0.5 -0.4 0.2]);
 strt=sprintf(strt,"pass-band");
 title(strt);
 legend("exact","s-d","s-d(BandB)");

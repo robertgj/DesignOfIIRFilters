@@ -20,7 +20,7 @@ tic;
 
 tol_eps=20;dBas=40;fc=0.1;
 
-for N=6:7,
+for N=[1,2,3,6,7],
   
   [n,d]=cheby2(N,dBas,2*fc);
   [k,epsilon,~,c]=tf2schurOneMlattice(n,d);
@@ -98,7 +98,7 @@ for N=6:7,
   for l=1:ceil(N/2)
     eval(sprintf("Abcd=M%d*Abcd;",l));
   endfor
-  
+
   % Extract all-pass only states
   i_apAbcd=[];
   for l=1:(ceil(N/2)-1),

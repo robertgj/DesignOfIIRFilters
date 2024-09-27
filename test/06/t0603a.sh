@@ -52,28 +52,28 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k.ok"; fail; fi
 
 cat > test_c.ok << 'EOF'
-c_min = [    -8137,    -3296,     8440,    20996, ... 
+c_min = [    -8138,    -3296,     8440,    20996, ... 
              84480,    15552,     2132,     1720, ... 
-               280,       41 ]'/32768;
+               281,       42 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_c.ok"; fail; fi
 
 cat > test_kk.ok << 'EOF'
-kk_min = [   -19840,        0,   -23040,        0, ... 
-             -22496,        0,   -10624,        0 ]'/32768;
+kk_min = [   -19840,   -25472,   -23040,   -24446, ... 
+             -22496,   -19072,   -10624,    -1900 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_kk.ok"; fail; fi
 
 cat > test_ck.ok << 'EOF'
-ck_min = [    -3216,        0,    18576,        0, ... 
+ck_min = [    -3232,        0,    18576,        0, ... 
               12672,        0,      782,        0 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_ck.ok"; fail; fi
 
 cat > test_cost.tab.ok << 'EOF'
 Exact & 0.00027853 & & \\
-16-bit 4-signed-digit&0.00072675 & 107 & 80 \\
-16-bit 4-signed-digit(branch-and-bound)&0.00030924 & 105 & 78 \\
+16-bit 4-signed-digit&0.00161778 & 123 & 92 \\
+16-bit 4-signed-digit(branch-and-bound)&0.00063430 & 122 & 91 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.tab.ok"; fail; fi
 

@@ -29,8 +29,6 @@ c0=c2(:);
 Nc=length(c0);
 Rc=(Nk+1):(Nk+Nc);
 kk0=k0(1:(Nk-1)).*k0(2:Nk);
-% For branch-and-bound zero out the values of kk that are not used
-kk0(2:2:end)=0;
 Nkk=length(kk0);
 Rkk=(Nk+Nc+1):(Nk+Nc+Nkk);
 ck0=c0(2:Nk).*k0(2:Nk);
@@ -387,7 +385,8 @@ fclose(fid);
 eval(sprintf(strcat("save %s.mat ", ...
                     " k0 epsilon0 p0 c0 cscale nbits ndigits npoints ", ...
                     " fapl fapu Wap fasl fasu Wasl Wasu ftpl ftpu tp Wtp ", ...
-                    " improved_solution_found k_min p_min c_min kk_min ck_min"),strf));
+                    " improved_solution_found k_min p_min c_min kk_min ", ...
+                    " ck_min"),strf));
        
 % Done
 toc;

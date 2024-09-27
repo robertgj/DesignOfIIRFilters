@@ -2,6 +2,9 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
          schurOneMlatticeEsq(k,epsilon,p,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)
 % [Esq,gradEsq,diagHessEsq,hessEsq]= ...
 %   schurOneMlatticeEsq(k,epsilon,p,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)
+%
+% Calculate the weighted response error with trapezoidal integration.
+%
 % Inputs:
 %   k - one-multiplier allpass section denominator multiplier coefficients
 %   epsilon - one-multiplier allpass section sign coefficients (+1 or -1)
@@ -55,7 +58,7 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
 
   Nk=length(k);
   Nc=length(c);
-  Nkc=Nk+Nc;
+  Nx=Nk+Nc;
   if Nc ~= (Nk+1)
     error("Expected length(k)+1==length(c)!");
   endif
@@ -99,28 +102,28 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
   elseif nargout==2
     if isempty(wa)
       EsqAsq = 0;
-      gradEsqAsq = zeros(1,Nkc);
+      gradEsqAsq = zeros(1,Nx);
     else
       [EsqAsq,gradEsqAsq] = schurOneMlatticeXError(@schurOneMlatticeAsq,...
                                                    k,epsilon,p,c,wa,Asqd,Wa);
     endif
     if isempty(wt)
       EsqT = 0;
-      gradEsqT = zeros(1,Nkc);
+      gradEsqT = zeros(1,Nx);
     else
       [EsqT,gradEsqT] = schurOneMlatticeXError(@schurOneMlatticeT,...
                                                k,epsilon,p,c,wt,Td,Wt);
     endif
     if isempty(wp)
       EsqP = 0;
-      gradEsqP = zeros(1,Nkc);
+      gradEsqP = zeros(1,Nx);
     else
       [EsqP,gradEsqP] = schurOneMlatticeXError(@schurOneMlatticeP,...
                                                k,epsilon,p,c,wp,Pd,Wp);
     endif
     if isempty(wd)
       EsqD = 0;
-      gradEsqD = zeros(1,Nkc);
+      gradEsqD = zeros(1,Nx);
     else
       [EsqD,gradEsqD] = schurOneMlatticeXError(@schurOneMlatticedAsqdw,...
                                                k,epsilon,p,c,wd,Dd,Wd);
@@ -130,32 +133,32 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
   elseif nargout==3
     if isempty(wa)
       EsqAsq = 0;
-      gradEsqAsq = zeros(1,Nkc);
-      diagHessEsqAsq = zeros(1,Nkc);
+      gradEsqAsq = zeros(1,Nx);
+      diagHessEsqAsq = zeros(1,Nx);
     else
       [EsqAsq,gradEsqAsq,diagHessEsqAsq] = ...
         schurOneMlatticeXError(@schurOneMlatticeAsq,k,epsilon,p,c,wa,Asqd,Wa);
     endif
     if isempty(wt)
       EsqT = 0;
-      gradEsqT = zeros(1,Nkc);
-      diagHessEsqT = zeros(1,Nkc);
+      gradEsqT = zeros(1,Nx);
+      diagHessEsqT = zeros(1,Nx);
     else
       [EsqT,gradEsqT,diagHessEsqT] = ...
         schurOneMlatticeXError(@schurOneMlatticeT,k,epsilon,p,c,wt,Td,Wt);
     endif
     if isempty(wp)
       EsqP = 0;
-      gradEsqP = zeros(1,Nkc);
-      diagHessEsqP = zeros(1,Nkc);
+      gradEsqP = zeros(1,Nx);
+      diagHessEsqP = zeros(1,Nx);
     else
       [EsqP,gradEsqP,diagHessEsqP] = ...
         schurOneMlatticeXError(@schurOneMlatticeP,k,epsilon,p,c,wp,Pd,Wp);
     endif
     if isempty(wd)
       EsqD = 0;
-      gradEsqD = zeros(1,Nkc);
-      diagHessEsqD = zeros(1,Nkc);
+      gradEsqD = zeros(1,Nx);
+      diagHessEsqD = zeros(1,Nx);
     else
       [EsqD,gradEsqD,diagHessEsqD] = ...
         schurOneMlatticeXError(@schurOneMlatticedAsqdw,k,epsilon,p,c,wd,Dd,Wd);
@@ -166,36 +169,36 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
   elseif nargout==4
     if isempty(wa)
       EsqAsq = 0;
-      gradEsqAsq = zeros(1,Nkc);
-      diagHessEsqAsq = zeros(1,Nkc);
-      hessEsqAsq = zeros(Nkc,Nkc);
+      gradEsqAsq = zeros(1,Nx);
+      diagHessEsqAsq = zeros(1,Nx);
+      hessEsqAsq = zeros(Nx,Nx);
     else
       [EsqAsq,gradEsqAsq,diagHessEsqAsq,hessEsqAsq] = ...
           schurOneMlatticeXError(@schurOneMlatticeAsq,k,epsilon,p,c,wa,Asqd,Wa);
     endif
     if isempty(wt)
       EsqT = 0;
-      gradEsqT = zeros(1,Nkc);
-      diagHessEsqT = zeros(1,Nkc);
-      hessEsqT = zeros(Nkc,Nkc);
+      gradEsqT = zeros(1,Nx);
+      diagHessEsqT = zeros(1,Nx);
+      hessEsqT = zeros(Nx,Nx);
     else
       [EsqT,gradEsqT,diagHessEsqT,hessEsqT] = ...
           schurOneMlatticeXError(@schurOneMlatticeT,k,epsilon,p,c,wt,Td,Wt);
     endif
     if isempty(wp)
       EsqP = 0;
-      gradEsqP = zeros(1,Nkc);
-      diagHessEsqP = zeros(1,Nkc);
-      hessEsqP = zeros(Nkc,Nkc);
+      gradEsqP = zeros(1,Nx);
+      diagHessEsqP = zeros(1,Nx);
+      hessEsqP = zeros(Nx,Nx);
     else
       [EsqP,gradEsqP,diagHessEsqP,hessEsqP] = ...
           schurOneMlatticeXError(@schurOneMlatticeP,k,epsilon,p,c,wp,Pd,Wp);
     endif
     if isempty(wd)
       EsqD = 0;
-      gradEsqD = zeros(1,Nkc);
-      diagHessEsqD = zeros(1,Nkc);
-      hessEsqD = zeros(Nkc,Nkc);
+      gradEsqD = zeros(1,Nx);
+      diagHessEsqD = zeros(1,Nx);
+      hessEsqD = zeros(Nx,Nx);
     else
       [EsqD,gradEsqD,diagHessEsqD,hessEsqD] = ...
           schurOneMlatticeXError(@schurOneMlatticedAsqdw,k,epsilon,p,c,wd,Dd,Wd);
@@ -231,16 +234,16 @@ function [ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...
   Wx=Wx(:);
 
   % Sanity checks
-  Nx = length(wx);
-  if length(Xd) ~= Nx
+  Nw = length(wx);
+  if length(Xd) ~= Nw
     error("length(wx)~=length(Xd)");
   endif
-  if length(Wx) ~= Nx
+  if length(Wx) ~= Nw
     error("length(wx)~=length(Wx)");
   endif
   Nk=length(k);
   Nc=length(c);
-  Nkc=Nk+Nc;
+  Nx=Nk+Nc;
   if Nc ~= Nk+1
     error("Nc ~= Nk+1");
   endif
@@ -248,11 +251,11 @@ function [ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...
   % X response at wx
   if nargout==1
     X=pfX(wx,k,epsilon,p,c);
-    gradX=zeros(Nx,Nkc);
-    diagHessX=zeros(Nx,Nkc);
+    gradX=zeros(Nw,Nx);
+    diagHessX=zeros(Nw,Nx);
   elseif nargout==2
     [X,gradX]=pfX(wx,k,epsilon,p,c);
-    diagHessX=zeros(Nx,Nkc);
+    diagHessX=zeros(Nw,Nx);
   elseif nargout==3
     [X,gradX,diagHessX]=pfX(wx,k,epsilon,p,c);
   elseif nargout==4
@@ -268,16 +271,16 @@ function [ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...
   dwx = diff(wx);
   ErrX=Wx.*(X-Xd);
   sqErrX=ErrX.*(X-Xd);
-  ErrorX=sum(dwx.*(sqErrX(1:(Nx-1))+sqErrX(2:Nx)))/2;
+  ErrorX=sum(dwx.*(sqErrX(1:(Nw-1))+sqErrX(2:Nw)))/2;
   if nargout==1
     return;
   endif
 
   % Gradient of response squared-error  
-  kErrX=kron(ErrX,ones(1,Nkc));
-  kErrXGradX=((kErrX(1:(Nx-1),:).*gradX(1:(Nx-1),:)) + ...
+  kErrX=kron(ErrX,ones(1,Nx));
+  kErrXGradX=((kErrX(1:(Nw-1),:).*gradX(1:(Nw-1),:)) + ...
                   (kErrX(2:end,:).*gradX(2:end,:)))/2;
-  kdwx=kron(dwx,ones(1,Nkc));
+  kdwx=kron(dwx,ones(1,Nx));
   kdwxErrXGradX=2*kdwx.*kErrXGradX;
   gradErrorX=sum(kdwxErrXGradX,1);
   if nargout==2
@@ -290,29 +293,29 @@ function [ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...
   %   integralof(2*Wx*gradX'*gradX + 2*Wx*(X-Xd)'*hessX). 
 
   % Diagonal of the Hessian of the squared-error.
-  dHessXInt=(kron(Wx,ones(1,Nkc)).*(gradX.^2))+(kErrX.*diagHessX);
-  diagHessErrorX=sum(kdwx.*(dHessXInt(1:(Nx-1),:)+dHessXInt(2:Nx,:)),1);
+  dHessXInt=(kron(Wx,ones(1,Nx)).*(gradX.^2))+(kErrX.*diagHessX);
+  diagHessErrorX=sum(kdwx.*(dHessXInt(1:(Nw-1),:)+dHessXInt(2:Nw,:)),1);
   if nargout==3
     return
   endif
 
   % Hessian of the squared-error
   % Construct the 1st term
-  WxKgradX=kron(ones(1,Nkc),Wx).*gradX;
-  WgradXbyRow=permute(reshape(kron(WxKgradX',ones(1,Nkc)),Nkc,Nkc,Nx),[3,1,2]);
-   gradXbyCol=permute(reshape(kron(   gradX',ones(Nkc,1)),Nkc,Nkc,Nx),[3,1,2]);
+  WxKgradX=kron(ones(1,Nx),Wx).*gradX;
+  WgradXbyRow=permute(reshape(kron(WxKgradX',ones(1,Nx)),Nx,Nx,Nw),[3,1,2]);
+   gradXbyCol=permute(reshape(kron(   gradX',ones(Nx,1)),Nx,Nx,Nw),[3,1,2]);
 
   % Construct 2nd term
-  % Create an Nx-by-Nkc-by-Nkc array.
-  % Each element of the l'th Nkc-by-Nkc subarray is ErrX(l).
-  hkErrX=permute(reshape(kron(ErrX',ones(Nkc,Nkc)),Nkc,Nkc,Nx),[3,1,2]);
+  % Create an Nw-by-Nx-by-Nx array.
+  % Each element of the l'th Nx-by-Nx subarray is ErrX(l).
+  hkErrX=permute(reshape(kron(ErrX',ones(Nx,Nx)),Nx,Nx,Nw),[3,1,2]);
 
   % Integrand
   hXint=(WgradXbyRow.*gradXbyCol)+(hkErrX.*hessX);
 
   % Trapezoidal integration
-  kdwx=permute(reshape(kron(dwx',ones(Nkc,Nkc)),Nkc,Nkc,Nx-1),[3,1,2]);
-  hessErrorX=2*reshape(sum(kdwx.*(hXint(1:(Nx-1),:,:) + ...
-                                  hXint(2:Nx,:,:))/2,1),Nkc,Nkc);
+  kdwx=permute(reshape(kron(dwx',ones(Nx,Nx)),Nx,Nx,Nw-1),[3,1,2]);
+  hessErrorX=2*reshape(sum(kdwx.*(hXint(1:(Nw-1),:,:) + ...
+                                  hXint(2:Nw,:,:))/2,1),Nx,Nx);
   
 endfunction

@@ -1,9 +1,9 @@
 function [T,gradT,diagHessT,hessT]=...
          schurOneMPAlatticeT(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)
 % [T,gradT,diagHessT,hessT] = ...
-%   schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)
+%   schurOneMPAlatticeT(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)
 % [T,gradT,diagHessT,hessT]= ...
-%   schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)
+%   schurOneMPAlatticeT(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)
 % Calculate the group-delay response and gradients of the parallel
 % combination of two Schur one-multiplier all-pass lattice filters.
 % The epsilon and p inputs scale the internal nodes.
@@ -47,9 +47,9 @@ function [T,gradT,diagHessT,hessT]=...
   %
   if ((nargin ~= 7) && (nargin ~= 8)) || (nargout > 4) 
     print_usage("[T,gradT,diagHessT,hessT]= ...\n\
-  schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p) \n\
+  schurOneMPAlatticeT(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p) \n\
 [T,gradT,diagHessT,hessT] = ...\n\
-  schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)");
+  schurOneMPAlatticeT(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)");
   endif
   if nargin == 7
     difference = false;

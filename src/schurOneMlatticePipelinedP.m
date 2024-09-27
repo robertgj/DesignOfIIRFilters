@@ -1,5 +1,6 @@
-function P=schurOneMlatticePipelinedP(w,k,epsilon,c,kk,ck)
-% P=schurOneMlatticePipelinedP(w,k,epsilon,c,kk,ck)
+function [P,gradP,diagHessP,hessP] = ...
+  schurOneMlatticePipelinedP(w,k,epsilon,c,kk,ck)
+% [P,gradP,diagHessP,hessP] = schurOneMlatticePipelinedP(w,k,epsilon,c,kk,ck)
 % Calculate the phase responses of a pipelined Schur one-multiplier
 % lattice filter. If the order of the filter numerator polynomial is N, then
 % there are N+1 numerator tap coefficients, c. If the order of the denominator
@@ -11,11 +12,14 @@ function P=schurOneMlatticePipelinedP(w,k,epsilon,c,kk,ck)
 %   k - one-multiplier allpass section denominator multiplier coefficients
 %   epsilon - one-multiplier allpass section sign coefficients (+1 or -1)
 %   c - numerator all-pass filter tap coefficients
-%   kk - k(1:(Nk-1)).*k(2:Nk)
-%   ck - c(2:Nk).*k(2:Nk) (c(1)=c_{0}, c(Nk+1)=c_{Nk})
+%   kk - nominally k(1:(Nk-1)).*k(2:Nk)
+%   ck - nominally c(2:Nk).*k(2:Nk) (c(1)=c_{0}, c(Nk+1)=c_{Nk})
 %
 % Outputs:
 %   P - the phase response at w
+%   gradP - the gradients of P with respect to k, c and kk
+%   diagHessP - diagonal of the Hessian of P with respect to k, c and kk
+%   hessP - Hessian of P with respect to k, c and kk
 
 % Copyright (C) 2023-2024 Robert G. Jenssen
 %
@@ -40,23 +44,45 @@ function P=schurOneMlatticePipelinedP(w,k,epsilon,c,kk,ck)
   %
   % Sanity checks
   %
-  if (nargin ~= 6) || (nargout > 1) 
+  if (nargin ~= 6) || (nargout > 4) 
     print_usage("P=schurOneMlatticePipelinedP(w,k,epsilon,c,kk,ck)");
   endif
   if length(k) ~= length(epsilon)
     error("length(k) ~= length(epsilon)");
   endif
-  if(length(k)+1) ~= length(c)
+  if (length(k)+1) ~= length(c)
     error("(length(k)+1) ~= length(c)");
   endif
+  if (length(k)-1) ~= length(kk)
+    error("(length(k)-1) ~= length(kk)");
+  endif
+  if (length(k)-1) ~= length(ck)
+    error("(length(k)-1) ~= length(ck)");
+  endif
   if length(w) == 0
-    P=[];
+    P=[];gradP=[];diagHessP=[];hessP=[];
     return;
   endif
 
   % Calculate the complex transfer function at w 
-  [A,B,C,D]=schurOneMlatticePipelined2Abcd(k,epsilon,c,kk,ck);
-  H=Abcd2H(w,A,B,C,D);
-  P=H2P(H);
+  [A,B,C,D,~,~,dAdx,dBdx,dCdx,dDdx,~,~] = ...
+    schurOneMlatticePipelined2Abcd(k,epsilon,c,kk,ck);
 
+  if nargout == 1
+    H = Abcd2H(w,A,B,C,D);
+    P = H2P(H);
+    
+  elseif nargout == 2
+   [H,~,dHdx] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx);
+   [P,gradP] = H2P(H,dHdx);
+
+  elseif nargout == 3
+    [H,~,dHdx,~,diagd2Hdx2] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx);
+    [P,gradP,diagHessP] = H2P(H,dHdx,diagd2Hdx2);
+
+  elseif nargout == 4
+    [H,~,dHdx,~,diagd2Hdx2,~,d2Hdydx] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx);
+    [P,gradP,diagHessP,hessP] = H2P(H,dHdx,diagd2Hdx2,d2Hdydx);
+
+  endif
 endfunction

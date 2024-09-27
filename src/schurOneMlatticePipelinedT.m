@@ -1,5 +1,6 @@
-function T=schurOneMlatticePipelinedT(w,k,epsilon,c,kk,ck)
-% T=schurOneMlatticePipelinedT(w,k,epsilon,c,kk,ck)
+function [T,gradT,diagHessT,hessT] = ...
+  schurOneMlatticePipelinedT(w,k,epsilon,c,kk,ck)
+% [T,gradT,diagHessT,hessT]=schurOneMlatticePipelinedT(w,k,epsilon,c,kk,ck)
 % Calculate the group-delay responses of a pipelined Schur one-multiplier
 % lattice filter. If the order of the filter numerator polynomial is N, then
 % there are N+1 numerator tap coefficients, c. If the order of the denominator
@@ -11,11 +12,14 @@ function T=schurOneMlatticePipelinedT(w,k,epsilon,c,kk,ck)
 %   k - one-multiplier allpass section denominator multiplier coefficients
 %   epsilon - one-multiplier allpass section sign coefficients (+1 or -1)
 %   c - numerator all-pass filter tap coefficients
-%   kk - k(1:(Nk-1)).*k(2:Nk)
-%   ck - c(2:Nk).*k(2:Nk) (c(1)=c_{0}, ... ,c(Nk+1)=c_{Nk})
+%   kk - nominally k(1:(Nk-1)).*k(2:Nk)
+%   ck - nominally c(2:Nk).*k(2:Nk) (c(1)=c_{0}, ... ,c(Nk+1)=c_{Nk})
 %
 % Outputs:
 %   T - the group delay response at w
+%   gradT - the gradients of T with respect to k, etc
+%   diagHessT - diagonal of the Hessian of T with respect to k, etc
+%   hessT - Hessian of T with respect to k, etc
 
 % Copyright (C) 2023-2024 Robert G. Jenssen
 %
@@ -40,23 +44,50 @@ function T=schurOneMlatticePipelinedT(w,k,epsilon,c,kk,ck)
   %
   % Sanity checks
   %
-  if (nargin ~= 6) || (nargout > 1) 
-    print_usage("T=schurOneMlatticePipelinedT(w,k,epsilon,c,kk,ck)");
+  if (nargin ~= 6) || (nargout > 4) 
+    print_usage("T=schurOneMlatticePipelinedT(w,k,epsilon,c,kk,ck)\n\
+[T,gradT,diagHessT,hessT]=schurOneMlatticePipelinedT(w,k,epsilon,c,kk,ck)");
   endif
   if length(k) ~= length(epsilon)
     error("length(k) ~= length(epsilon)");
   endif
-  if(length(k)+1) ~= length(c)
+  if (length(k)+1) ~= length(c)
     error("(length(k)+1) ~= length(c)");
   endif
+  if (length(k)-1) ~= length(kk)
+    error("(length(k)-1) ~= length(kk)");
+  endif
+  if (length(k)-1) ~= length(ck)
+    error("(length(k)-1) ~= length(ck)");
+  endif
   if length(w) == 0
-    T=[];
+    T=[];gradT=[];diagHessT=[];hessT=[];
     return;
   endif
 
+  [A,B,C,D,~,~,dAdx,dBdx,dCdx,dDdx,~,~] = ...
+    schurOneMlatticePipelined2Abcd(k,epsilon,c,kk,ck);
+
   % Calculate the complex transfer function at w 
-  [A,B,C,D]=schurOneMlatticePipelined2Abcd(k,epsilon,c,kk,ck);
-  [H,dHdw]=Abcd2H(w,A,B,C,D);
-  T=H2T(H,dHdw);
+  if nargout == 1
+    [H,dHdw]=Abcd2H(w,A,B,C,D);
+    T=H2T(H,dHdw);
+
+  elseif nargout == 2
+    [H,dHdw,dHdx,d2Hdwdx] = Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx);
+    [T,gradT] = H2T(H,dHdw,dHdx,d2Hdwdx);
+
+  elseif nargout == 3
+    [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2]=...
+           Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx);
+    [T,gradT,diagHessT]=H2T(H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2);
+
+  elseif nargout == 4
+    [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx,d3Hdwdydx]=...
+      Abcd2H(w,A,B,C,D,dAdx,dBdx,dCdx,dDdx);
+    [T,gradT,diagHessT,hessT] = ...
+      H2T(H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx,d3Hdwdydx);
+ 
+  endif
 
 endfunction

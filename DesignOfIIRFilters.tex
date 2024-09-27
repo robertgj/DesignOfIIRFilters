@@ -16686,10 +16686,11 @@ The Octave script
 uses the branch-and-bound heuristic to optimise the response of the band-pass 
 Schur one-multiplier lattice filter of
 Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP}
-implemented in the pipelined form shown in
-Section~\ref{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter}.
-The $k_{2n-1}k_{2n}$ and $c_{2n-1}k_{2n}$ coefficient combinations are treated as
-additional coefficients. The filter specification is:
+designed with SQP as described in
+Section~\ref{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter}
+and implemented in the pipelined form. The $k_{n-1}k_{n}$ and $c_{2n-1}k_{2n}$
+coefficient combinations are treated as additional coefficients. The filter
+specification is:
 \begin{small}
 \verbatiminput{branch_bound_schurOneMlatticePipelined_bandpass_10_nbits_test_spec.m}
 \end{small}
@@ -16772,7 +16773,7 @@ performs branch-and-bound search to optimise the response of a Schur
 one-multiplier pipelined lattice low-pass filter implemented in the pipelined
 form shown in
 Section~\ref{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter}
-with $16$ bit $4$ signed-digit coefficients. The $k_{2n-1}k_{2n}$ and
+with $16$ bit $4$ signed-digit coefficients. The $k_{n-1}k_{n}$ and
 $c_{2n-1}k_{2n}$ coefficient combinations are treated as additional coefficients.
 The inputs to the branch-and-bound search are the upper and lower bounds of the
 truncated exact coefficients. At each branch the script selects the coefficient
