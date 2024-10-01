@@ -1,6 +1,5 @@
 schurOneMlattice_socp_slb_hilbert_test_FIGURES = \
 schurOneMlattice_socp_slb_hilbert_test_initial_response \
-schurOneMlattice_socp_slb_hilbert_test_initial_pz \
 schurOneMlattice_socp_slb_hilbert_test_mmse_response \
 schurOneMlattice_socp_slb_hilbert_test_mmse_pz \
 schurOneMlattice_socp_slb_hilbert_test_pcls_response \
