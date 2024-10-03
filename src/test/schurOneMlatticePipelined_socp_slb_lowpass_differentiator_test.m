@@ -61,15 +61,6 @@ Wa=[Wap*ones(nap,1); Wat*ones(nas-nap-1,1); Was*ones(n-nas,1)];
 % Amplitude response of (1-z^-1)
 Azm1=2*sin(wa/2);
 
-% Group delay of combined filters
-wt=w(1:ntp);
-Td=td*ones(size(wt));
-Tdu=Td+(tdr/2);
-Tdl=Td-(tdr/2);
-Wt=Wtp*ones(size(wt));
-% Group delay response of (1-z^-1)
-Tzm1=0.5;
-
 % Phase response of combined filters
 wp=w(1:npp);
 Pd=(pp*pi)-(wp*td);
@@ -78,6 +69,15 @@ Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
 % Phase response of (1-z^-1)
 Pzm1=(pi/2)-(wp/2);
+
+% Group delay of combined filters
+wt=w(1:ntp);
+Td=td*ones(size(wt));
+Tdu=Td+(tdr/2);
+Tdl=Td-(tdr/2);
+Wt=Wtp*ones(size(wt));
+% Group delay response of (1-z^-1)
+Tzm1=0.5;
 
 % dAsqdw response of correction filter
 wd=wa(1:ndp);
@@ -109,7 +109,7 @@ Asq0=schurOneMlatticePipelinedAsq(wa,k0,epsilon0,c0,kk0,ck0);
 A0=sqrt(Asq0).*Azm1;
 P0=schurOneMlatticePipelinedP(wp,k0,epsilon0,c0,kk0,ck0) + Pzm1;
 T0=schurOneMlatticePipelinedT(wt,k0,epsilon0,c0,kk0,ck0) + Tzm1;
-% Calculate the initial response of correction filter
+% Calculate the initial dAsqdw response of correction filter
 dAsqdw0=schurOneMlatticePipelineddAsqdw(wd,k0,epsilon0,c0,kk0,ck0);
 
 %
@@ -207,6 +207,8 @@ if max(abs((abs(HH).^2)-Asq2)) > 20*eps
 endif
 
 % Save results
+print_polynomial(epsilon0,"epsilon0");
+print_polynomial(epsilon0,"epsilon0",strcat(strf,"_epsilon0_coef.m"));
 print_polynomial(k2,"k2");
 print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
 print_polynomial(c2,"c2");
