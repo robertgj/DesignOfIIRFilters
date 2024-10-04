@@ -85,16 +85,16 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.kk.ok"; fail; fi
 
 cat > test.ck.ok << 'EOF'
-ck_min = [     -272,       32,       84,        4, ... 
-                  5,       -2,       22,       -8, ... 
-                 37,        1 ]'/2048;
+ck_min = [     -272,        0,       84,        0, ... 
+                  5,        0,       22,        0, ... 
+                 37,        0 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ck.ok"; fail; fi
 
 cat > test.cost.ok << 'EOF'
 Exact & 0.0000142 & & \\
-12-bit 3-signed-digit(Ito)&  0.000316 & 96 & 53 \\
-12-bit 3-signed-digit(SOCP-relax) &  0.000195 & 96 & 53 \\
+12-bit 3-signed-digit(Ito)&  0.000316 & 91 & 53 \\
+12-bit 3-signed-digit(SOCP-relax) &  0.000195 & 91 & 53 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 

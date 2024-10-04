@@ -12536,6 +12536,57 @@ denominator polynomials are:
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_test_d2_coef.m}
 \end{small}
 \clearpage
+\subsubsection{Design of a pipelined  IIR Schur one-multiplier lattice band-pass filter using SOCP}
+The Octave script
+\emph{schurOneMlatticePipelined\_socp\_slb\_bandpass\_test.m}
+designs a band-pass Schur one-multiplier lattice filter implemented in the
+pipelined form shown in
+Section~\ref{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter}.
+The initial filter is designed by the Octave script
+\emph{tarczynski\_bandpass\_R1\_test.m}. The filter specification is:
+\begin{small}
+\verbatiminput{schurOneMlatticePipelined_socp_slb_bandpass_test_spec.m}
+\end{small}
+
+The PCLS SOCP optimised pipelined Schur one-multiplier lattice band-pass filter
+coefficients are:
+\begin{small}
+\verbatiminput{schurOneMlatticePipelined_socp_slb_bandpass_test_k2_coef.m}
+\verbatiminput{schurOneMlatticePipelined_socp_slb_bandpass_test_epsilon0_coef.m}
+\verbatiminput{schurOneMlatticePipelined_socp_slb_bandpass_test_c2_coef.m}
+\verbatiminput{schurOneMlatticePipelined_socp_slb_bandpass_test_kk2_coef.m}
+\verbatiminput{schurOneMlatticePipelined_socp_slb_bandpass_test_ck2_coef.m}
+\end{small}
+
+The corresponding overall transfer function numerator and denominator
+polynomials are:
+\begin{small}
+\verbatiminput{schurOneMlatticePipelined_socp_slb_bandpass_test_N2_coef.m}
+\verbatiminput{schurOneMlatticePipelined_socp_slb_bandpass_test_D2_coef.m}
+\end{small}
+
+Figure~\ref{fig:Schur-OneM-lattice-pipelined-bandpass-SOCP-PCLS}
+shows the response of the band-pass filter after PCLS optimisation.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlatticePipelined_socp_slb_bandpass_test_pcls_response}}
+\caption{PCLS optimised response of a pipelined Schur one-multiplier  lattice
+  band-pass filter.}
+\label{fig:Schur-OneM-lattice-pipelined-bandpass-SOCP-PCLS}
+\end{figure}
+\begin{comment}
+Figure~\ref{fig:Schur-OneM-lattice-pipelined-bandpass-SOCP-PCLS-pz}
+shows the pole-zero plot of the band-pass filter after PCLS
+optimisation. 
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlatticePipelined_socp_slb_bandpass_test_pcls_pz}}
+\caption{Pole-zero plot of the PCLS optimised pipelined Schur one-multiplier
+  lattice band-pass filter.}
+\label{fig:Schur-OneM-lattice-pipelined-bandpass-SOCP-PCLS-pz}
+\end{figure}
+\end{comment}
+\clearpage
 \subsubsection{Design of a low-pass differentiator filter with an IIR Schur one-multiplier lattice correction filter using SOCP}
 The Octave script
 \emph{schurOneMlattice\_socp\_slb\_lowpass\_differentiator\_alternate\_test.m}
@@ -18647,8 +18698,9 @@ lowpass differentiator filter SOCP-relaxation example with 12-bit coefficients]
 \section{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-pipelined-lowpass-differentiator}SOCP-relaxation search for the signed-digit coefficients of a pipelined one-multiplier lattice low-pass differentiator IIR filter}
 The Octave script 
 \emph{socp\_relaxation\_schurOneMlatticePipelined\_lowpass\_differentiator\_12\_nbits\_test.m}
-performs successive SOCP relaxations to optimise the response of
-an implementation of the low-pass differentiator filter shown in
+performs successive \\
+SOCP relaxations to optimise the response of an implementation of the low-pass
+differentiator filter shown in
 Section~\ref{sec:iir-sqp-slb-lowpass-differentiator} as the series combination
 of $1-z^{-1}$ and a pipelined Schur one-multiplier lattice correction filter
 with $12$-bit integer signed-digit coefficients. The filter specification is:  
@@ -18675,8 +18727,18 @@ The numbers of signed-digits allocated to each coefficient by the heuristic of
 \verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_12_nbits_test_kk_allocsd_digits.m}
 \verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_12_nbits_test_ck_allocsd_digits.m}
 \end{small}
-  
-The signed-digit filter coefficients  of the Schur one-multiplier lattice
+\begin{comment}
+The signed-digit filter coefficients of the Schur one-multiplier lattice
+correction filter with the number of digits allocated by the algorithm of
+\emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_12_nbits_test_k0_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_12_nbits_test_c0_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_12_nbits_test_kk0_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_12_nbits_test_ck0_sd_coef.m}
+\end{small}
+\end{comment}
+The signed-digit filter coefficients of the Schur one-multiplier lattice
 correction filter found by the SOCP-relaxation search are:
 \begin{small}
 \verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_12_nbits_test_k_min_coef.m}

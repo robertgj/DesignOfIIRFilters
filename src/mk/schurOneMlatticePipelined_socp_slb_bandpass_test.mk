@@ -1,0 +1,38 @@
+schurOneMlatticePipelined_socp_slb_bandpass_test_FIGURES = \
+schurOneMlatticePipelined_socp_slb_bandpass_test_pcls_response \
+schurOneMlatticePipelined_socp_slb_bandpass_test_pcls_pz
+
+schurOneMlatticePipelined_socp_slb_bandpass_test_COEFS = \
+schurOneMlatticePipelined_socp_slb_bandpass_test.mat \
+schurOneMlatticePipelined_socp_slb_bandpass_test_spec.m \
+schurOneMlatticePipelined_socp_slb_bandpass_test_epsilon0.m \
+schurOneMlatticePipelined_socp_slb_bandpass_test_k2_coef.m \
+schurOneMlatticePipelined_socp_slb_bandpass_test_c2_coef.m \
+schurOneMlatticePipelined_socp_slb_bandpass_test_kk2_coef.m \
+schurOneMlatticePipelined_socp_slb_bandpass_test_ck2_coef.m \
+schurOneMlatticePipelined_socp_slb_bandpass_test_N2_coef.m \
+schurOneMlatticePipelined_socp_slb_bandpass_test_D2_coef.m
+
+schurOneMlatticePipelined_socp_slb_bandpass_test_FILES = \
+schurOneMlatticePipelined_socp_slb_bandpass_test.m \
+test_common.m \
+schurOneMlatticePipelinedAsq.m \
+schurOneMlatticePipelinedP.m \
+schurOneMlatticePipelinedT.m \
+schurOneMlatticePipelineddAsqdw.m \
+schurOneMlatticePipelinedEsq.m \
+schurOneMlatticePipelined2Abcd.m \
+schurOneMlatticePipelined_slb.m \
+schurOneMlatticePipelined_slb_constraints_are_empty.m \
+schurOneMlatticePipelined_socp_mmse.m \
+schurOneMlatticePipelined_slb_exchange_constraints.m \
+schurOneMlatticePipelined_slb_set_empty_constraints.m \
+schurOneMlatticePipelined_slb_show_constraints.m \
+schurOneMlatticePipelined_slb_update_constraints.m \
+schurOneMscale.m tf2schurOneMlattice.m \
+H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+print_polynomial.m local_max.m tf2pa.m x2tf.m qroots.m \
+schurdecomp.oct schurexpand.oct qzsolve.oct Abcd2H.oct Abcd2tf.oct
+
+schurOneMlatticePipelined_socp_slb_bandpass_test.diary : \
+tarczynski_bandpass_R1_test.diary

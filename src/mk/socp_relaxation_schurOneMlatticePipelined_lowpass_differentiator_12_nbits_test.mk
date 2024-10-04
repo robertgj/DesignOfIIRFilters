@@ -43,4 +43,4 @@ print_polynomial.m local_max.m tf2pa.m x2tf.m qroots.m \
 schurdecomp.oct schurexpand.oct qzsolve.oct Abcd2H.oct Abcd2tf.oct
 
 socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_12_nbits_test.diary : \
-tarczynski_lowpass_differentiator_test.diary
+schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test.diary

@@ -108,7 +108,8 @@ Nck=length(ck0);
 Rck=(Nk+Nc+Nkk+1):(Nk+Nc+Nkk+Nck);
 kc0=[k0;c0;kk0;ck0];
 Nx=Nk+Nc+Nkk+Nck;
-kc0_u=[rho*ones(size(k0));10*ones(size(c0));rho*ones(size(kk0));10*ones(size(ck0))];
+kc0_u=[rho*ones(size(k0));10*ones(size(c0)); ...
+       rho*ones(size(kk0));10*ones(size(ck0))];
 kc0_l=-kc0_u;
 Nx=Nk+Nc+Nkk+Nck;
 kc0_active=(1:Nx)';
@@ -171,6 +172,7 @@ k0_sd=kc0_sd(Rk)(:);
 c0_sd=kc0_sd(Rc)(:);
 kk0_sd=kc0_sd(Rkk)(:);
 ck0_sd=kc0_sd(Rck)(:);
+ck0_sd(2:2:end)=0;
 print_polynomial(k0_sd,"k0_sd",nscale);
 print_polynomial(k0_sd,"k0_sd",strcat(strf,"_k0_sd_coef.m"),nscale);
 print_polynomial(c0_sd,"c0_sd",nscale);
@@ -218,10 +220,11 @@ Esq0_sd=schurOneMlatticePipelinedEsq(k0_sd,epsilon0,c0_sd,kk0_sd,ck0_sd, ...
                                      wt,Td-Tzm1,Wt, ...
                                      wp,Pd-Pzm1,Wp, ...
                                      wd,dAsqdwd,Wd);
-printf("Signed-digit coefficients Esq0_sd=%g\n",Esq0);
+printf("Signed-digit coefficients Esq0_sd=%g\n",Esq0_sd);
 
 % Find the number of signed-digits and adders used by kc0_sd
-[kc0_digits,kc0_adders]=SDadders(kc0_sd(kc0_active),nbits);
+[kc0_digits,kc0_adders]= ...
+  SDadders(kc0_sd([1:(Nk+Nc+Nkk),(Nk+Nc+Nkk+1):2:Nx]),nbits);
 
 % Initialise the vector of filter coefficients to be optimised
 kc=zeros(size(kc0));
@@ -295,6 +298,7 @@ k_min=kc(Rk);
 c_min=kc(Rc);
 kk_min=kc(Rkk);
 ck_min=kc(Rck);
+ck_min(2:2:end)=0;
 Esq_min=schurOneMlatticePipelinedEsq ...
           (k_min,epsilon0,c_min,kk_min,ck_min, ...
            wa,(Ad./Azm1).^2,Wa,wt,Td-Tzm1,Wt,wp,Pd-Pzm1,Wp,wd,dAsqdwd,Wd);
@@ -308,7 +312,7 @@ print_polynomial(kk_min,"kk_min",strcat(strf,"_kk_min_coef.m"),nscale);
 print_polynomial(ck_min,"ck_min",nscale);
 print_polynomial(ck_min,"ck_min",strcat(strf,"_ck_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used by kc_sd
-[kc_digits,kc_adders]=SDadders(kc_sd(kc0_active),nbits);
+[kc_digits,kc_adders]=SDadders(kc_sd([1:(Nk+Nc+Nkk),(Nk+Nc+Nkk+1):2:Nx]),nbits);
 printf("%d signed-digits used\n",kc_digits);
 printf("%d %d-bit adders used for coefficient multiplications\n",
        kc_adders,nbits);
@@ -367,7 +371,7 @@ plot(wp*0.5/pi,(P_kc0+Pzm1-Pd)/pi,"linestyle","-", ...
 axis([0 0.5 ppr*[-1,1]]);
 grid("on");
 ylabel("Phase error(rad./$\\pi$)");
-legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+legend("exact","s-d(Ito)","s-d(SOCP-relax)");
 legend("location","east");
 legend("boxoff");
 legend("left");
