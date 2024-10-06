@@ -21,7 +21,7 @@ fapl=0.095,fapu=0.205,dBap=-20*log10(0.99),Wap=1
 fasl=0.05,fasu=0.25,dBas=40,Wat=0.0001,Wasl=1000,Wasu=1000
 ftpl=0.1,ftpu=0.2,tp=16,tpr=tp/400,Wtp=0.1
 
-% Initial filter (found by schurOneMlattice_sqp_slb_bandpass_test.m)
+% Initial filter (found by tarczynski_bandpass_R1_test.m)
 tarczynski_bandpass_R1_test_N0_coef;
 tarczynski_bandpass_R1_test_D0_coef;
 [k0,epsilon0,p0,c0]=tf2schurOneMlattice(N0,D0);

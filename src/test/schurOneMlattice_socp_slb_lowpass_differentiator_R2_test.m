@@ -161,6 +161,7 @@ xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_initial_error_response"),"-dpdflatex");
 close
+
 % Pole-zero plot
 zplane(qroots(conv(N0,hzm1)),qroots(D0R));
 print(strcat(strf,"_initial_pz"),"-dpdflatex");
@@ -202,24 +203,38 @@ P2=schurOneMlatticeP(wp,k2,epsilon0,p0,c2) + Pzm1;
 T2=schurOneMlatticeT(wt,k2,epsilon0,p0,c2) + Tzm1;
 dAsqdw2=schurOneMlatticedAsqdw(wd,k2,epsilon0,p0,c2);
 
-% Plot pass-band error response
-subplot(311);
-plot(wa(1:nap)*0.5/pi,([A2(1:nap),Adl(1:nap),Adu(1:nap)])-Ad(1:nap));
-axis([0 fap 0.001*[-1,1]]);
-strP=sprintf("Differentiator PCLS : \
+% Plot response
+subplot(411);
+[ax,ha,hs]=plotyy(wa(1:nap)*0.5/pi, ...
+                  ([A2(1:nap),Adl(1:nap),Adu(1:nap)])-Ad(1:nap), ...
+                  wa(nas:end)*0.5/pi, ...
+                  [A2(nas:end),[Adl(nas:end),Adu(nas:end)]]);
+% Copy line colour
+hac=get(ha,"color");
+for c=1:3
+  set(hs(c),"color",hac{c});
+endfor
+axis(ax(1),[0 0.5 0.001*[-1,1]]);
+axis(ax(2),[0 0.5 0.004*[-1,1]]);
+strP=sprintf("Differentiator PCLS error : \
 fap=%g,Arp=%g,fas=%g,Ars=%g,td=%g,tdr=%g,ppr=%g",fap,Arp,fas,Ars,td,tdr,ppr);
 title(strP);
-ylabel("Amplitude error");
+ylabel("Amplitude");
 grid("on");
-subplot(312);
+subplot(412);
 plot(wp*0.5/pi,([P2 Pdl Pdu]-Pd)/pi);
-axis([0 fap 0.0004*[-1,1]]);
-ylabel("Phase error(rad./$\\pi$)");
+axis([0 0.5 0.0004*[-1,1]]);
+ylabel("Phase(rad./$\\pi$)");
 grid("on");
-subplot(313);
-plot(wt*0.5/pi,[T2 Tdl Tdu]);
-axis([0 fap (0.01*[-1,1])+td]);
+subplot(413);
+plot(wt*0.5/pi,[T2 Tdl Tdu]-td);
+axis([0 0.5 (0.01*[-1,1])+td]);
 ylabel("Delay(samples)");
+grid("on");
+subplot(414);
+plot(wd*0.5/pi,[dAsqdw2 Ddl Ddu]-Dd);
+axis([0 0.5 0.02*[-1,1]]);
+ylabel("dAsqdw");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_error_response"),"-dpdflatex");

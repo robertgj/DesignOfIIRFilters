@@ -12321,8 +12321,8 @@ denominator polynomials are:
 \verbatiminput{schurOneMlattice_sqp_slb_lowpass_test_n2_coef.m}
 \verbatiminput{schurOneMlattice_sqp_slb_lowpass_test_d2_coef.m}
 \end{small}
-\clearpage
-\subsubsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP}Design of a one-multiplier IIR Schur lattice band-pass filter using SQP}
+
+\subsubsection{Design of a one-multiplier IIR Schur lattice band-pass filter using SQP\label{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP}}
 The Octave script \emph{schurOneMlattice\_sqp\_slb\_bandpass\_test.m} implements
 the design of a band-pass IIR one-multiplier Schur lattice filter with SQP and 
 PCLS. The specification of the filter is:
@@ -12346,29 +12346,29 @@ the pole-zero plot of the band-pass filter after SQP PCLS optimisation.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_mmse_k1c1}}
-\caption{Schur one-multiplier lattice band-pass filter, response after SQP MMSE
-  optimisation.}
+\caption{Response of the Schur one-multiplier lattice band-pass filter after
+  SQP MMSE optimisation.}
 \label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-MMSE}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_pcls_k2c2}}
-\caption{Schur one-multiplier lattice band-pass filter, response after SQP PCLS
-  optimisation.}
+\caption{Response of the Schur one-multiplier lattice band-pass filter after SQP
+  PCLS optimisation.}
 \label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_pcls_k2c2pass}}
-\caption{Schur one-multiplier lattice band-pass filter, passband response after
-  SQP PCLS optimisation.}
+\caption{Passband response of the Schur one-multiplier lattice band-pass filter
+  after SQP PCLS optimisation.}
 \label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS-pass}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_sqp_slb_bandpass_test_pcls_k2c2pz}}
-\caption{Schur one-multiplier lattice band-pass filter, pole-zero plot after SQP
-  PCLS optimisation.}
+\caption{Pole-zero plot of the Schur one-multiplier lattice band-pass filter
+  after SQP PCLS optimisation.}
 \label{fig:Schur-one-multiplier-lattice-band-pass-filter-SQP-PCLS-pz}
 \end{figure}
 
@@ -12388,46 +12388,6 @@ polynomial coefficients are:
 \verbatiminput{schurOneMlattice_sqp_slb_bandpass_test_D2_coef.m}
 \end{small}
 
-The Octave script \emph{schurOneMlattice\_socp\_slb\_bandpass\_test.m} runs a
-PCLS SOCP pass starting with the $k2$, $epsilon2$, $p2$ and $c2$ found above
-and the constraint $tpr=tp/400$.
-
-Figures~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS} 
-and~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS-pass} 
-show the overall and passband response of the band-pass filter after SOCP PCLS
-optimisation.
-
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_test_pcls_k3c3}}
-\caption{Schur one-multiplier lattice band-pass filter, response after SOCP PCLS
-  optimisation.}
-\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_test_pcls_k3c3pass}}
-\caption{Schur one-multiplier lattice band-pass filter, passband response after
-  SOCP PCLS optimisation.}
-\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS-pass}
-\end{figure}
-
-The SOCP PCLS optimised Schur one-multiplier
-allpass lattice and numerator tap coefficients of the band-pass filter are:
-\begin{small}
-\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_k3_coef.m}
-\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_epsilon3_coef.m}
-\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_p3_coef.m}
-\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_c3_coef.m}
-\end{small}
-
-The corresponding overall transfer function numerator and denominator
-polynomial coefficients are:
-\begin{small}
-\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_N3_coef.m}
-\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_D3_coef.m}
-\end{small}
-\clearpage
 \subsubsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-hilbert-SQP}Design of a one-multiplier IIR Schur lattice Hilbert filter using SQP} 
 The Octave script \emph{schurOneMlattice\_sqp\_slb\_hilbert\_test.m} implements
 the design of an IIR one-multiplier Schur lattice Hilbert filter with SQP and 
@@ -12502,22 +12462,22 @@ the pole-zero plot of the resulting filter after SOCP PCLS optimisation.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_test_pcls_k2c2}}
-\caption{Schur one-multiplier lattice lowpass filter, response after PCLS SOCP
-  optimisation.}
+\caption{Response of the Schur one-multiplier lattice lowpass filter after PCLS
+  SOCP optimisation.}
 \label{fig:Schur-one-multiplier-lattice-lowpass-filter-SOCP-PCLS}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_test_pcls_k2c2pass}}
-\caption{Schur one-multiplier lattice lowpass filter, passband response after
-  PCLS SOCP optimisation.}
+\caption{Passband response of the Schur one-multiplier lattice lowpass filter
+  after PCLS SOCP optimisation.}
 \label{fig:Schur-one-multiplier-lattice-lowpass-filter-SOCP-PCLS-pass}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_test_pcls_k2c2pz}}
-\caption{Schur one-multiplier lattice lowpass filter, pole-zero plot after PCLS
-  SOCP optimisation.}
+\caption{Pole-zero plot of the Schur one-multiplier lattice lowpass filter after
+  PCLS SOCP optimisation.}
 \label{fig:Schur-one-multiplier-lattice-lowpass-filter-SOCP-PCLS-pz}
 \end{figure}
 
@@ -12535,7 +12495,96 @@ denominator polynomials are:
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_test_n2_coef.m}
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_test_d2_coef.m}
 \end{small}
-\clearpage
+
+\subsubsection{Design of a one-multiplier IIR Schur lattice band-pass filter using SOCP\label{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SOCP}}
+The Octave script \emph{schurOneMlattice\_socp\_slb\_bandpass\_test.m}
+implements the design of a band-pass IIR one-multiplier Schur lattice filter
+with SOCP and PCLS. The specification of the filter is:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_spec.m}
+\end{small}
+The initial filter is that found by the Octave script 
+\emph{tarczynski\_bandpass\_R1\_test.m}.
+Figure~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS} 
+shows the response of the band-pass filter after SOCP PCLS optimisation and
+Figure~\ref{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS-pz} 
+shows the pole-zero plot of the band-pass filter.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_test_pcls_response}}
+\caption{Response of the Schur one-multiplier lattice band-pass filter after
+  SOCP PCLS optimisation.}
+\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_test_pcls_pz}}
+\caption{Pole-zero plot of the Schur one-multiplier lattice band-pass filter
+  after SOCP PCLS optimisation.}
+\label{fig:Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS-pz}
+\end{figure}
+
+The SOCP PCLS optimised Schur one-multiplier
+allpass lattice and numerator tap coefficients of the band-pass filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_k3_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_epsilon3_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_p3_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_c3_coef.m}
+\end{small}
+
+The corresponding overall transfer function numerator and denominator
+polynomial coefficients are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_N3_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_test_D3_coef.m}
+\end{small}
+\subsubsection{Design of an R=2 one-multiplier IIR Schur lattice band-pass filter using SOCP\label{sec:Design-R2-IIR-one-multiplier-Schur-lattice-band-pass-SOCP}}
+The Octave script \emph{schurOneMR2lattice\_socp\_slb\_bandpass\_test.m}
+implements the design of an $R=2$ band-pass IIR one-multiplier Schur lattice
+filter with SOCP and PCLS. The filter denominator polynomial has coefficients
+only in $z^{-2}$. The specification of the filter is:
+\begin{small}
+\verbatiminput{schurOneMR2lattice_socp_slb_bandpass_test_spec.m}
+\end{small}
+The initial filter is that found by the Octave script 
+\emph{tarczynski\_bandpass\_test.m}.
+Figure~\ref{fig:R2-Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS} 
+shows the response of the band-pass filter after SOCP PCLS optimisation and
+Figure~\ref{fig:R2-Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS-pz} 
+shows the pole-zero plot of the $R=2$ band-pass filter.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMR2lattice_socp_slb_bandpass_test_pcls_response}}
+\caption{Response of the R=2 Schur one-multiplier lattice band-pass filter after
+  SOCP PCLS optimisation.}
+\label{fig:R2-Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMR2lattice_socp_slb_bandpass_test_pcls_pz}}
+\caption{Pole-zero plot of the R=2 Schur one-multiplier lattice band-pass filter
+  after SOCP PCLS optimisation.}
+\label{fig:R2-Schur-one-multiplier-lattice-band-pass-filter-SOCP-PCLS-pz}
+\end{figure}
+
+The SOCP PCLS optimised Schur one-multiplier
+allpass lattice and numerator tap coefficients of the $R=2$ band-pass filter are:
+\begin{small}
+\verbatiminput{schurOneMR2lattice_socp_slb_bandpass_test_k3_coef.m}
+\verbatiminput{schurOneMR2lattice_socp_slb_bandpass_test_epsilon3_coef.m}
+\verbatiminput{schurOneMR2lattice_socp_slb_bandpass_test_p3_coef.m}
+\verbatiminput{schurOneMR2lattice_socp_slb_bandpass_test_c3_coef.m}
+\end{small}
+
+The corresponding overall transfer function numerator and denominator
+polynomial coefficients are:
+\begin{small}
+\verbatiminput{schurOneMR2lattice_socp_slb_bandpass_test_N3_coef.m}
+\verbatiminput{schurOneMR2lattice_socp_slb_bandpass_test_D3_coef.m}
+\end{small}
 \subsubsection{Design of a pipelined  IIR Schur one-multiplier lattice band-pass filter using SOCP}
 The Octave script
 \emph{schurOneMlatticePipelined\_socp\_slb\_bandpass\_test.m}
@@ -12566,7 +12615,9 @@ polynomials are:
 \end{small}
 
 Figure~\ref{fig:Schur-OneM-lattice-pipelined-bandpass-SOCP-PCLS}
-shows the response of the band-pass filter after PCLS optimisation.
+shows the response of the band-pass filter after PCLS optimisation and 
+Figure~\ref{fig:Schur-OneM-lattice-pipelined-bandpass-SOCP-PCLS-pz}
+shows the pole-zero plot of the band-pass filter after PCLS optimisation. 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlatticePipelined_socp_slb_bandpass_test_pcls_response}}
@@ -12574,10 +12625,6 @@ shows the response of the band-pass filter after PCLS optimisation.
   band-pass filter.}
 \label{fig:Schur-OneM-lattice-pipelined-bandpass-SOCP-PCLS}
 \end{figure}
-\begin{comment}
-Figure~\ref{fig:Schur-OneM-lattice-pipelined-bandpass-SOCP-PCLS-pz}
-shows the pole-zero plot of the band-pass filter after PCLS
-optimisation. 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlatticePipelined_socp_slb_bandpass_test_pcls_pz}}
@@ -12585,8 +12632,7 @@ optimisation.
   lattice band-pass filter.}
 \label{fig:Schur-OneM-lattice-pipelined-bandpass-SOCP-PCLS-pz}
 \end{figure}
-\end{comment}
-\clearpage
+
 \subsubsection{Design of a low-pass differentiator filter with an IIR Schur one-multiplier lattice correction filter using SOCP}
 The Octave script
 \emph{schurOneMlattice\_socp\_slb\_lowpass\_differentiator\_alternate\_test.m}
@@ -12626,7 +12672,6 @@ optimisation.
   composed of a Schur one-multiplier lattice correction filter and $1-z^{-1}$.}
 \label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-SOCP-PCLS}
 \end{figure}
-
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_pcls_pz}}
@@ -12690,7 +12735,6 @@ optimisation.
 \label{fig:Schur-OneM-lattice-pipelined-correction-lowpass-differentiator-SOCP-PCLS-pz}
 \end{figure}
 
-\clearpage
 \subsubsection{Design of a low-pass differentiator filter with an IIR Schur one-multiplier lattice correction filter with R=2 using SOCP}
 The Octave script
 \emph{schurOneMlattice\_socp\_slb\_lowpass\_differentiator\_R2\_test.m}
@@ -12716,14 +12760,14 @@ coefficients are:
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_D2_coef.m}
 \end{small}
 Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2}
-shows the pass-band error response of the $R=2$ low-pass differentiator filter
+shows the error response of the $R=2$ low-pass differentiator filter
 after PCLS SOCP optimisation (with sample rate $f_{S}=1$).
 Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-pz} shows
 the pole-zero plot of the $R=2$ low-pass differentiator filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_error_response}}
-\caption{PCLS optimised pass-band error response of an low-pass differentiator
+\caption{PCLS optimised error response of an low-pass differentiator
   filter composed of a Schur one-multiplier lattice correction filter with a
   denominator polynomial having terms only in $z^{-2}$ in series with $1-z^{-1}$.}
 \label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2}
@@ -12736,7 +12780,6 @@ the pole-zero plot of the $R=2$ low-pass differentiator filter.
   denominator polynomial having terms only in $z^{-2}$ in series with $1-z^{-1}$.}
 \label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-pz}
 \end{figure}
-\clearpage
 \subsubsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-hilbert-SOCP}Design of a one-multiplier IIR Schur lattice Hilbert filter with $R=2$ using SOCP}
 The Octave script \emph{schurOneMlattice\_socp\_slb\_hilbert\_test.m} implements
 the design of an IIR one-multiplier Schur lattice Hilbert filter with SOCP and 
