@@ -102,13 +102,14 @@ if ! test -f $ARPACK_ARCHIVE; then
   wget -c $ARPACK_URL -O $ARPACK_ARCHIVE
 fi
 
-SUITESPARSE_VER=${SUITESPARSE_VER:-7.8.0}
+SUITESPARSE_VER=${SUITESPARSE_VER:-7.8.2}
 SUITESPARSE_ARCHIVE=SuiteSparse-$SUITESPARSE_VER".tar.gz"
 SUITESPARSE_URL=https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v$SUITESPARSE_VER".tar.gz"
 if ! test -f $SUITESPARSE_ARCHIVE; then
   wget -c $SUITESPARSE_URL -O $SUITESPARSE_ARCHIVE
 fi
 
+# See: https://github.com/mpimd-csc/qrupdate-ng/archive/refs/tags/v1.1.5.tar.gz
 QRUPDATE_VER=${QRUPDATE_VER:-1.1.2}
 QRUPDATE_ARCHIVE=qrupdate-$QRUPDATE_VER".tar.gz"
 QRUPDATE_URL=https://sourceforge.net/projects/qrupdate/files/qrupdate/1.2/$QRUPDATE_ARCHIVE
@@ -137,7 +138,7 @@ if ! test -f $SUNDIALS_ARCHIVE; then
   wget -c $SUNDIALS_URL
 fi
 
-GRAPHICSMAGICK_VER=${GRAPHICSMAGICK_VER:-1.3.43}
+GRAPHICSMAGICK_VER=${GRAPHICSMAGICK_VER:-1.3.45}
 GRAPHICSMAGICK_ARCHIVE=GraphicsMagick-$GRAPHICSMAGICK_VER".tar.xz"
 GRAPHICSMAGICK_URL=https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/$GRAPHICSMAGICK_VER/GraphicsMagick-$GRAPHICSMAGICK_VER.tar.xz
 if ! test -f $GRAPHICSMAGICK_ARCHIVE; then
@@ -204,14 +205,14 @@ if ! test -f $PIQP_ARCHIVE; then
   wget -c $PIQP_URL 
 fi
 
-SIGNAL_VER=${SIGNAL_VER:-1.4.5}
+SIGNAL_VER=${SIGNAL_VER:-1.4.6}
 SIGNAL_ARCHIVE=signal-$SIGNAL_VER".tar.gz"
 SIGNAL_URL=$OCTAVE_FORGE_URL/$SIGNAL_ARCHIVE
 if ! test -f $SIGNAL_ARCHIVE; then
   wget -c $SIGNAL_URL 
 fi
 
-STATISTICS_VER=${STATISTICS_VER:-1.6.7}
+STATISTICS_VER=${STATISTICS_VER:-1.7.0}
 STATISTICS_ARCHIVE=statistics-$STATISTICS_VER".tar.gz"
 STATISTICS_URL="https://github.com/gnu-octave/statistics/archive/refs/tags/release-"$STATISTICS_VER".tar.gz"
 if ! test -f $STATISTICS_ARCHIVE; then
@@ -826,10 +827,10 @@ $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$SYMBOLIC_ARCHIVE
 # Fix signal package and install the new signal package
 #
 cat > signal-$SIGNAL_VER.patch.uue << 'EOF'
-begin-base64 644 signal-1.4.5.patch
-LS0tIHNpZ25hbC0xLjQuNS9pbnN0L3pwbGFuZS5tCTIwMjMtMDctMjEgMjM6
-NDE6MjEuMDAwMDAwMDAwICsxMDAwCisrKyBzaWduYWwtMS40LjUubmV3L2lu
-c3QvenBsYW5lLm0JMjAyNC0wNy0yMyAyMzoyMjo1Ni4yMTMwOTgyMzAgKzEw
+begin-base64 644 signal-1.4.6.patch
+LS0tIHNpZ25hbC0xLjQuNi5uZXcvaW5zdC96cGxhbmUubQkyMDI0LTA5LTIw
+IDIyOjU0OjIwLjAwMDAwMDAwMCArMTAwMAorKysgc2lnbmFsLTEuNC42L2lu
+c3QvenBsYW5lLm0JMjAyNC0xMC0wNyAxNjozMTozNi42MTE3Mzc4MDMgKzEx
 MDAKQEAgLTExNSw4ICsxMTUsOSBAQAogICAgICAgZm9yIGkgPSAxOmxlbmd0
 aCAoeF91KQogICAgICAgICBuID0gc3VtICh4X3UoaSkgPT0geCg6LGMpKTsK
 ICAgICAgICAgaWYgKG4gPiAxKQotICAgICAgICAgIGxhYmVsID0gc3ByaW50
@@ -840,13 +841,7 @@ dGV4dCAocmVhbCAoeF91KGkpKSwgaW1hZyAoeF91KGkpKSwgbGFiZWwsICJj
 b2xvciIsIGNvbG9yLCAuLi4KKyAgICAgICAgICAgICAgICAidmVydGljYWxh
 bGlnbm1lbnQiLCAiYm90dG9tIiwgImhvcml6b250YWxhbGlnbm1lbnQiLCAi
 bGVmdCIpOwogICAgICAgICBlbmRpZgogICAgICAgZW5kZm9yCiAgICAgZW5k
-Zm9yCi0tLSBzaWduYWwtMS40LjUvc3JjL3JlbWV6LmNjCTIwMjMtMDctMjEg
-MjM6NDE6MjEuMDAwMDAwMDAwICsxMDAwCisrKyBzaWduYWwtMS40LjUubmV3
-L3NyYy9yZW1lei5jYwkyMDI0LTA3LTIzIDIzOjIzOjMwLjUzNjc5NjY4NiAr
-MTAwMApAQCAtMjgsNiArMjgsNyBAQAogCiAjaW5jbHVkZSA8b2N0YXZlL29j
-dC5oPgogI2luY2x1ZGUgPGNtYXRoPgorI2luY2x1ZGUgPGNhc3NlcnQ+CiAK
-ICNpZm5kZWYgT0NUQVZFX0xPQ0FMX0JVRkZFUgogI2luY2x1ZGUgPHZlY3Rv
-cj4K
+Zm9yCg==
 ====
 EOF
 uudecode signal-$SIGNAL_VER.patch.uue
@@ -861,6 +856,7 @@ rm -Rf signal-$SIGNAL_VER signal-$SIGNAL_VER.patch.uue signal-$SIGNAL_VER.patch
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$NEW_SIGNAL_ARCHIVE
 rm -f $NEW_SIGNAL_ARCHIVE
 
+#
 #
 # Installing Octave-Forge packages is done
 #
@@ -1881,6 +1877,7 @@ biByZXQ7Cn0KI2VuZGlmCg==
 EOF
 uudecode scs_qprintf.c.uue
 mv scs_qprintf.c  $SCS_MATLAB
+rm -f scs_qprintf.c.uue
 
 # Build and install SCS
 rm -Rf $OCTAVE_SITE_M_DIR/SCS
