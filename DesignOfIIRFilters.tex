@@ -40216,7 +40216,7 @@ scripts with \emph{mzsolve} called by \emph{qroots.m}. A single test fails
 because of the differences in an approximately zero value. Finally, the
 \emph{lzsolve} Oct-file calls a $16$-byte \texttt{DOUBLE}, or IEEE
 \texttt{\_\_float128}, version of the LAPACK DGEEV function\footnote{The
-  \emph{src/mk/lzsolve.mk} Makefile fragment adds the \emph{libqblas.a} and
+  \emph{src/mk/lzsolve\_test.mk} Makefile fragment adds the \emph{libqblas.a} and
   \emph{libqlapack.a} static libraries to \emph{lzsolve.oct}.}. Unsurprisingly,
 the accuracy obtained with \emph{lzsolve} is similar to that obtained with
 \emph{qzsolve}. 
