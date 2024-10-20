@@ -156,7 +156,7 @@ axis(ax(1),[0 0.5 -0.3 0.1]);
 axis(ax(2),[0 0.5 -dBas+[-3,1]]);
 grid("on");
 title(strt);
-ylabel("Amplitude");
+ylabel("Amplitude(dB)");
 subplot(212);
 plot(wt*0.5/pi,T);
 axis([0 0.5 tp+(0.2*[-1,1])]);

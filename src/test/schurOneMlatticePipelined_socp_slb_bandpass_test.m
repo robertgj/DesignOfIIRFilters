@@ -179,7 +179,7 @@ axis(ax(1),[0 0.5 -0.1 0.02]);
 axis(ax(2),[0 0.5 -dBas+[-5,1]]);
 grid("on");
 title(strt);
-ylabel("Amplitude");
+ylabel("Amplitude(dB)");
 subplot(212);
 plot(wt*0.5/pi,T);
 axis([0 0.5 tp+(tpr*[-1,1])]);

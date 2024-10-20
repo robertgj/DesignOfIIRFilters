@@ -17,9 +17,9 @@ ctol=1e-7
 verbose=false
 
 % Bandpass filter specification
-fapl=0.095,fapu=0.205,dBap=-20*log10(0.99),Wap=1,Wat=0.0001
+fapl=0.09,fapu=0.21,dBap=0.08,Wap=1,Wat=0.0001
 fasl=0.05,fasu=0.25,dBas=40,Wasl=1000,Wasu=1000
-ftpl=0.1,ftpu=0.2,tp=16,tpr=tp/400,Wtp=0.1
+ftpl=0.095,ftpu=0.205,tp=16,tpr=tp/400,Wtp=0.1
 
 % Initial filter (found by tarczynski_bandpass_R1_test.m)
 tarczynski_bandpass_R1_test_N0_coef;
@@ -154,7 +154,7 @@ axis(ax(1),[0 0.5 -0.1 0.02]);
 axis(ax(2),[0 0.5 -dBas+[-5,1]]);
 grid("on");
 title(strt);
-ylabel("Amplitude");
+ylabel("Amplitude(dB)");
 subplot(212);
 plot(wt*0.5/pi,T);
 axis([0 0.5 tp+(tpr*[-1,1])]);
