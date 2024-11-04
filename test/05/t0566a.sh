@@ -39,7 +39,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-ans = (sym) -2⋅(-α₁ + w)⋅(-α₂ + w)⋅(-β₁ + w)⋅(-β₂ + w)
+ans = (sym) [-2⋅(-α₁ + w)⋅(-α₂ + w)⋅(-β₁ + w)⋅(-β₂ + w)]
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok "; fail; fi

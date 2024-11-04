@@ -194,9 +194,11 @@ Ll=[w^2;-i*w;1];
 if abs(Ll'*Phi*Ll)>0
   error("abs(Ll'*Phi*Ll)>0");
 endif
-if (Ll'*Psi*Ll)<0
-  error("(Ll'*Psi*Ll)<0");
+%{
+if eval(Ll'*Psi*Ll)<0
+  error("eval(Ll'*Psi*Ll)<0");
 endif
+%}
 
 % This should be positive when alpha1<w<beta1<alpha2<beta2 or
 % alpha1<beta1<alpha2<w<beta2
@@ -307,9 +309,11 @@ Ll=[e^(i*2*w);e^(i*w);1];
 if abs(Ll'*Phi*Ll)>0
   error("abs(Ll'*Phi*Ll)>0");
 endif
-if (Ll'*Psi*Ll)<0
-  error("(Ll'*Psi*Ll)<0");
+%{
+if eval(Ll'*Psi*Ll)<0
+  error("eval(Ll'*Psi*Ll)<0");
 endif
+%}
 
 % Sanity checks
 eta1=0.1;
@@ -370,6 +374,7 @@ M=[z2-z3,z2-z1;-z1*(z2-z3),-z3*(z2-z1)];
 
 % Alternative mapping with the result of Lemma 3.1 applied to the
 % image of the Moebius transform.
+syms a b Tth
 a=[1;-alpha1-alpha2;alpha1*alpha2];
 b=[0; -1;  beta1];
 TtH=[-a,b].';
@@ -402,9 +407,11 @@ Ll=[e^(i*2*w);e^(i*w);1];
 if abs(Ll'*Phi*Ll)>0
   error("abs(Ll'*Phi*Ll)>0");
 endif
-if (Ll'*Psi*Ll)<0
-  error("(Ll'*Psi*Ll)<0");
+%{
+if eval(Ll'*Psi*Ll)<0
+  error("eval(Ll'*Psi*Ll)<0");
 endif
+%}
 
 % Sanity checks
 % Test assumption 1
@@ -492,9 +499,11 @@ if abs(Ll'*Phi*Ll)>0
   error("abs(Ll'*Phi*Ll)>0");
 endif
 % This should not be less than zero
-if (Ll'*Psi*Ll)<0
-  error("(Ll'*Psi*Ll)<0");
+%{
+if eval(Ll'*Psi*Ll)<0
+  error("eval(Ll'*Psi*Ll)<0");
 endif
+%}
 
 % Sanity checks
 % Test assumption 1

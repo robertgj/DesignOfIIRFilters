@@ -39985,19 +39985,19 @@ KYP design procedure.
 \pdfbookmark[0]{Requirements}{requirements}
 \setcounter{footnote}{0}
 \section*{Software requirements}
-I currently use the Fedora 40 distribution of Linux~\cite{Fedora_website} with:
+I currently use the Fedora 41 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{6.8.11-300.fc40.x86\_64}
-\item \emph{gcc} version \emph{14.1.1 20240607 (Red Hat 14.1.1-5)}
+\item \texttt{uname -r} is \emph{6.11.5-300.fc41.x86\_64}
+\item \emph{gcc} version \emph{14.2.1 20240912 (Red Hat 14.2.1-3)}
 \item a local build of \emph{octave-9.2.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic}\footnote{The \emph{symbolic} Octave-Forge package assumes that
   the \emph{python3-sympy} Fedora package is installed.} and \emph{parallel}
   Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit with
-  \emph{qt6-qtbase-6.7.1-2} and a local build of \emph{GraphicsMagick}
-\item \emph{texlive-2023-71} and various packages are installed
-\item \emph{dia-0.97.3-27} is used for line drawings
+  \emph{qt6-qtbase-6.8.0-4} and a local build of \emph{GraphicsMagick}
+\item \emph{texlive-2023-73} and various packages are installed
+\item \emph{dia-0.97.3-28} is used for line drawings
 \end{itemize}
 
 The local build of \emph{octave-9.2.0} and Octave-Forge packages assumes that
@@ -40086,9 +40086,9 @@ libraries:
   DOUBLE LAPACK static libraries, \emph{libqblas.a} and \emph{libqlapack.a},
   are compiled with the \texttt{-freal-8-real-16} flag.},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
-\emph{SuiteSparse-7.7.0}~\cite{SUITESPARSE_website},
-\emph{sundials-7.0.0}~\cite{SUNDIALS_website} and
-\emph{GraphicsMagick-1.3.43}~\cite{GraphicsMagick_website}.
+\emph{SuiteSparse-7.8.3}~\cite{SUITESPARSE_website},
+\emph{sundials-7.1.1}~\cite{SUNDIALS_website} and
+\emph{GraphicsMagick-1.3.45}~\cite{GraphicsMagick_website}.
 The local build of the \emph{LAPACK} library includes the deprecated routines.
 
 Display the Octave internal build configuration with:
@@ -40235,9 +40235,9 @@ and forked versions of the \emph{SparsePOP} and \emph{gloptipoly3} solvers from
 The following packages are patched with shell \emph{here} documents
 within \emph{build-octave.sh}:
 \begin{itemize}
-\item the \emph{signal-1.4.5} package \texttt{zplane} function is patched to
+\item the \emph{signal-1.4.6} package \texttt{zplane} function is patched to
   avoid a \LaTeX~error.
-\item the \emph{signal-1.4.5} package \texttt{grpdelay} function is replaced
+\item the \emph{signal-1.4.6} package \texttt{grpdelay} function is replaced
   with a local version called \texttt{delayz}.
 \end{itemize}
 
@@ -40384,11 +40384,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 203.4 \\
-Generic, shared reference lapack and blas            &  47.2 \\
-Generic, shared reference lapack and blas, LTO       &  46.9 \\
-Generic, shared reference lapack and blas, PGO       &  48.9 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  46.0 \\
+Debug, shared reference lapack and blas              & 207.6 \\
+Generic, shared reference lapack and blas            &  49.2 \\
+Generic, shared reference lapack and blas, LTO       &  48.9 \\
+Generic, shared reference lapack and blas, PGO       &  49.3 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  47.7 \\
 \bottomrule
 \end{tabular}
 \egroup
@@ -40425,12 +40425,12 @@ run.}:
 \begin{small}
 \begin{verbatim}
 atlas.x86_64            3.10.3-24.fc39
-blas.x86_64             3.12.0-4.fc40
-lapack.x86_64           3.12.0-4.fc40
-gsl.x86_64              2.7.1-8.fc40
-gsl-devel.x86_64        2.7.1-8.fc40
-openblas.x86_64         0.3.26-4.fc40
-openblas-threads.x86_64 0.3.26-4.fc40
+blas.x86_64             3.12.0-7.fc41
+lapack.x86_64           3.12.0-7.fc41
+gsl.x86_64              2.7.1-11.fc41
+gsl-devel.x86_64        2.7.1-11.fc41
+openblas.x86_64         0.3.26-5.fc41
+openblas-threads.x86_64 0.3.26-5.fc41
 \end{verbatim}
 \end{small}
 
@@ -40457,7 +40457,7 @@ using the shared library \emph{PGO} and \emph{LTO} build of Octave. The
 normalised residuals for the two ATLAS libraries varied between two values.
 The largest is shown.
 
-\begin{table}[H]
+\begin{table}
 \centering
 \begin{threeparttable}
 \bgroup{}
@@ -40468,19 +40468,19 @@ The largest is shown.
 \cmidrule{2-5}             & MFLOPS & Normalised          & Execution time     & Execution time \\
                            &        & residual            & (seconds)          & (seconds) \\
 \midrule                                                                          
-Generic libblas/liblapack  &  3916  & 21.3                &  46.1              &  56.6 \\
-Intel libblas/liblapack    &  3889  & 21.3                &  46.0              &  57.0 \\
-Haswell libblas/liblapack  &  4765  & 18.5                &  45.8              &  51.2 \\
-Nehalem libblas/liblapack  &  3917  & 21.3                &  46.1              &  56.4 \\
-Skylake libblas/liblapack  &  4674  & 18.5                &  45.8              &  51.2 \\
-Fedora 39 libblas/liblapack&  3927  & 21.3                &  46.1              &  56.5 \\
-libgslcblas                &  3916  & 21.3                &  46.2              &  56.6 \\
-libsatlas                  & 13269  & 14.3                &  45.9              &  60.2 \\
-libtatlas                  & 20696  & 14.3                &  46.3              &  59.9 \\
-libopenblas                & 33921  &  9.9                &  44.6              &  51.2 \\
-libopenblasp (1 thread)    & 33743  &  9.9                &  44.4              &  51.6 \\
-libopenblasp (2 threads)   & 48531  & 12.1                &  44.8              &  51.7 \\
-libopenblasp (4 threads)   & 61805  & 10.8                &  44.2              &  51.7 \\
+Generic libblas/liblapack  &  3850  & 21.3                &  47.5              &  58.5 \\
+Intel libblas/liblapack    &  3857  & 21.3                &  47.6              &  58.9 \\
+Haswell libblas/liblapack  &  4690  & 18.5                &  47.2              &  53.2 \\
+Nehalem libblas/liblapack  &  3867  & 21.3                &  47.7              &  58.6 \\
+Skylake libblas/liblapack  &  4679  & 18.5                &  47.3              &  52.9 \\
+Fedora 41 libblas/liblapack&  3851  & 21.3                &  47.7              &  58.6 \\
+libgslcblas                &  3872  & 21.3                &  47.6              &  58.5 \\
+libsatlas                  & 13065  & 14.3                &  47.5              &  62.4 \\
+libtatlas                  & 20410  & 14.3                &  47.6              &  62.4 \\
+libopenblas                & 33208  &  9.9                &  46.1              &  52.8 \\
+libopenblasp (1 thread)    & 33148  &  9.9                &  46.3              &  53.3 \\
+libopenblasp (2 threads)   & 47476  & 12.1                &  46.4              &  53.4 \\
+libopenblasp (4 threads)   & 60230  & 10.8                &  46.1              &  53.4 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -40518,7 +40518,7 @@ multiple of $200$.}
 power of $2$.}
 \label{fig:benchmark-iirA-freqz-test-65536}
 \end{figure}
-\clearpage
+
 \pdfbookmark[0]{Profiling Octave}{profiling-octave}
 \section*{Profiling Octave}
 \subsection*{Profiling Octave scripts with the internal profiler}
@@ -40586,7 +40586,6 @@ valgrind --tool=callgrind --enable-debuginfod=no --instr-atstart=no \
 When the \emph{octave} prompt appears, run \texttt{callgrind\_control
   --instr=on} in another terminal to start sampling.
 
-\clearpage
 \pdfbookmark[0]{Solvers}{solvers}
 \section*{Solvers}
 \pdfbookmark[1]{SeDuMi}{sedumi}

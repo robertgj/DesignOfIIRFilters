@@ -169,10 +169,11 @@ for N=3:2:7,
   Gamma=(kron(Phi,P)+kron(Psi,Q));
   K=(AB')*Gamma*AB;
   % Print
-  cstr=ccode(K+Theta);
-  fname=sprintf("%s_K_Theta_N_%d.c",strf,N);
+  pstr=sympy(K+Theta);
+  strcat(pstr,"\n");
+  fname=sprintf("%s_K_Theta_N_%d.py",strf,N);
   fhandle=fopen(fname,"w");
-  fprintf(fhandle,cstr);
+  fprintf(fhandle,pstr);
   fclose(fhandle);
   
   %
