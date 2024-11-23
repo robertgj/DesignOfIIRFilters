@@ -51,7 +51,7 @@ Wtp=10
 fppl=0.11
 fppu=0.19
 pd=3.5 % Initial phase offset in multiples of pi radians
-pdr=0.0015 % Peak-to-peak phase ripple in multiples of pi radians
+pdr=0.0004 % Peak-to-peak phase ripple in multiples of pi radians
 Wpp=200
 
 %

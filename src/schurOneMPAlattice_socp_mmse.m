@@ -269,7 +269,7 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
     endif
     if ~isempty(vS.pl)
       D=[D, [zeros(2,length(vS.pl)); gradP(vS.pl,k_active)']];
-      f=[f;                          P_pl-Pdl(vS.pl)];
+      f=[f;                          P(vS.pl)-Pdl(vS.pl)];
     endif
 
     % SeDuMi linear constraint matrixes
