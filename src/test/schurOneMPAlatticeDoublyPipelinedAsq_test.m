@@ -147,8 +147,8 @@ for difference=[false,true]
   for l=1:length(wplot)
     if max(max(abs(squeeze(hessAsq(l,A1rng,A1rng)) - ...
                    squeeze(diff_gradAsqk(l,:,:))))) > del/10
-      error("if max(max(abs(squeeze(hessAsq(l,A1rng,A1rng)) - ... \n\
-                  squeeze(diff_gradAsqk(l,,))))) > del/10");
+      error("max(max(abs(squeeze(hessAsq(l,A1rng,A1rng)) - ... \n\
+            squeeze(diff_gradAsqk(l,,))))) > del/10");
     endif
   endfor
 
@@ -170,8 +170,8 @@ for difference=[false,true]
   for l=1:length(wplot)
     if max(max(abs(squeeze(hessAsq(l,A2rng,A2rng)) - ...
                    squeeze(diff_gradAsqk(l,:,:))))) > del
-      error("if max(max(abs(squeeze(hessAsq(l,A2rng,A2rng)) - ... \n\
-                  squeeze(diff_gradAsqk(l,,))))) > del");
+      error("max(max(abs(squeeze(hessAsq(l,A2rng,A2rng)) - ... \n\
+            squeeze(diff_gradAsqk(l,,))))) > del");
     endif
   endfor
 

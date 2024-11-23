@@ -1,18 +1,19 @@
 #!/bin/sh
 
 prog=schurOneMPAlatticeDoublyPipelinedEsq_test.m
+
 depends="test/schurOneMPAlatticeDoublyPipelinedEsq_test.m \
 test_common.m \
 schurOneMPAlatticeDoublyPipelinedEsq.m \
 schurOneMPAlatticeDoublyPipelinedAsq.m \
 schurOneMPAlatticeDoublyPipelinedT.m \
 schurOneMPAlatticeDoublyPipelinedP.m \
-schurOneMAPlatticeDoublyPipelined2H.m \
+schurOneMPAlatticeDoublyPipelineddAsqdw.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
-schurOneMlatticeDoublyPipelined2Abcd.m \
-tf2schurOneMlattice.m schurOneMscale.m \
-tf2pa.m Abcd2tf.m H2Asq.m H2T.m H2P.m qroots.m \
-schurdecomp.oct schurexpand.oct qzsolve.oct spectralfactor.oct Abcd2H.oct" 
+schurOneMAPlatticeDoublyPipelined2H.m \
+H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+tf2schurOneMlattice.m schurOneMscale.m tf2pa.m qroots.m \
+qzsolve.oct Abcd2H.oct schurdecomp.oct schurexpand.oct spectralfactor.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -52,7 +53,7 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 
 #
-# run and see if the results match. .
+# run and see if the results match
 #
 echo "Running $prog"
 

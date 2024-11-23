@@ -1,9 +1,9 @@
 function [Esq,gradEsq,diagHessEsq,hessEsq]=...
   schurOneMPAlatticeDoublyPipelinedEsq ...
-    (A1k,A2k,difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)
+    (A1k,A2k,difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)
 % [Esq,gradEsq,diagHessEsq,hessEsq]= ...
 %   schurOneMPAlatticeDoublyPipelinedEsq ...
-%    (A1k,A2k,A2p,difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)
+%    (A1k,A2k,A2p,difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)
 % Inputs:
 %   A1k,A2k - one-multiplier allpass section denominator multiplier coefficients
 %   difference - return the response for the difference of the all-pass filters
@@ -11,11 +11,14 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
 %   Asqd - desired amplitude-squared response
 %   Wa - amplitude-squared weight vector
 %   wt - angular frequencies of desired delay response in [0,pi
-%   Td - desired pass-band delay response
+%   Td - desired delay response
 %   Wt - delay weight vector
 %   wp - angular frequencies of desired phase response in [0,pi]
-%   Pd - desired pass-band phase response
+%   Pd - desired phase response
 %   Wp - phase weight vector
+%   wd - angular frequencies of desired dAsqdw response in [0,pi]
+%   Dd - desired dAsqdw response
+%   Wd - dAsqdw weight vector
 %   
 % Outputs:
 %   Esq - the squared error value at the coefficients, x
@@ -43,10 +46,10 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargout>4) || ((nargin~=6) && (nargin~=9) && (nargin~=12))
+  if (nargout>4) || ((nargin~=6) && (nargin~=9) && (nargin~=12) && (nargin~=15))
     print_usage("[Esq,gradEsq,diagHessEsq,hessEsq] = ...\n\
       schurOneMPAlatticeDoublyPipelinedEsq ...\n\
-        (A1k,A2k,difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)");
+        (A1k,A2k,difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)");
   endif
 
   if nargin<=6
@@ -54,6 +57,9 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
   endif
   if nargin<=9
     wp=[];Pd=[];Wp=[];
+  endif
+  if nargin<=12
+    wd=[];Dd=[];Wd=[];
   endif
   
   NA1k=length(A1k);
@@ -81,7 +87,14 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
              (@schurOneMPAlatticeDoublyPipelinedP, ...
               A1k,A2k,difference,wp,Pd,Wp);
     endif
-    Esq = EsqAsq+EsqT+EsqP;
+    if isempty(wd)
+      EsqD = 0;
+    else
+      EsqD=schurOneMPAlatticeDoublyPipelinedXError ...
+             (@schurOneMPAlatticeDoublyPipelineddAsqdw, ...
+              A1k,A2k,difference,wd,Dd,Wd);
+    endif
+    Esq = EsqAsq+EsqT+EsqP+EsqD;
   elseif nargout==2
     if isempty(wa)
       EsqAsq = 0;
@@ -110,8 +123,17 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
                          A1k,A2k, ...
                          difference,wp,Pd,Wp);
     endif
-    Esq = EsqAsq+EsqT+EsqP;
-    gradEsq = gradEsqAsq + gradEsqT + gradEsqP;
+    if isempty(wd)
+      EsqD = 0;
+      gradEsqD = zeros(1,NA1k+NA2k);
+    else
+      [EsqD,gradEsqD]=schurOneMPAlatticeDoublyPipelinedXError ...
+                        (@schurOneMPAlatticeDoublyPipelineddAsqdw,...
+                         A1k,A2k, ...
+                         difference,wd,Dd,Wd);
+    endif
+    Esq = EsqAsq+EsqT+EsqP+EsqD;
+    gradEsq = gradEsqAsq + gradEsqT + gradEsqP + gradEsqD;
   elseif nargout==3
     if isempty(wa)
       EsqAsq = 0;
@@ -143,9 +165,19 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
             (@schurOneMPAlatticeDoublyPipelinedP,
              A1k,A2k,difference,wp,Pd,Wp);
     endif
-    Esq = EsqAsq+EsqT+EsqP;
-    gradEsq = gradEsqAsq+gradEsqT+gradEsqP;
-    diagHessEsq = diagHessEsqAsq+diagHessEsqT+diagHessEsqP;
+    if isempty(wd)
+      EsqD = 0;
+      gradEsqD = zeros(1,NA1k+NA2k);
+      diagHessEsqD = zeros(1,NA1k+NA2k);
+    else
+      [EsqD,gradEsqD,diagHessEsqD] =...
+          schurOneMPAlatticeDoublyPipelinedXError ...
+            (@schurOneMPAlatticeDoublyPipelineddAsqdw,
+             A1k,A2k,difference,wd,Dd,Wd);
+    endif
+    Esq = EsqAsq+EsqT+EsqP+EsqD;
+    gradEsq = gradEsqAsq+gradEsqT+gradEsqP+gradEsqD;
+    diagHessEsq = diagHessEsqAsq+diagHessEsqT+diagHessEsqP+diagHessEsqD;
   elseif nargout==4
     if isempty(wa)
       EsqAsq = 0;
@@ -180,10 +212,21 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
             (@schurOneMPAlatticeDoublyPipelinedP,
              A1k,A2k,difference,wp,Pd,Wp);
     endif
-    Esq = EsqAsq+EsqT+EsqP;
-    gradEsq = gradEsqAsq+gradEsqT+gradEsqP;
-    diagHessEsq = diagHessEsqAsq+diagHessEsqT+diagHessEsqP;
-    hessEsq = hessEsqAsq+hessEsqT+hessEsqP;
+    if isempty(wd)
+      EsqD = 0;
+      gradEsqD = zeros(1,NA1k+NA2k);
+      diagHessEsqD = zeros(1,NA1k+NA2k);
+      hessEsqD = zeros(NA1k+NA2k,NA1k+NA2k);
+    else
+      [EsqD,gradEsqD,diagHessEsqD,hessEsqD] =...
+          schurOneMPAlatticeDoublyPipelinedXError ...
+            (@schurOneMPAlatticeDoublyPipelineddAsqdw,
+             A1k,A2k,difference,wd,Dd,Wd);
+    endif
+    Esq = EsqAsq+EsqT+EsqP+EsqD;
+    gradEsq = gradEsqAsq+gradEsqT+gradEsqP+gradEsqD;
+    diagHessEsq = diagHessEsqAsq+diagHessEsqT+diagHessEsqP+diagHessEsqD;
+    hessEsq = hessEsqAsq+hessEsqT+hessEsqP+hessEsqD;
   endif
 
 endfunction
