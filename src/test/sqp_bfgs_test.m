@@ -89,9 +89,9 @@ for initType={"GI","eye","none"}
         printf("%d %d %d %d\n",feasible,iter,fiter,liter);
         
       catch
-        printf("SQP %s %s %s :\n %s\n", ...
-               initType{1}, hessianType{1}, linesearchType{1},lasterror.message);
         err=lasterror();
+        printf("SQP %s %s %s :\n %s\n", ...
+               initType{1}, hessianType{1}, linesearchType{1},err.message);
         for e=1:length(err.stack)
           printf("Called from %s at line %d\n", ...
                  err.stack(e).name, err.stack(e).line);

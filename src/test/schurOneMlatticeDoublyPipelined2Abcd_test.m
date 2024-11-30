@@ -15,7 +15,7 @@ k=epsilon=c=[];
 try
   [A,B,C,D,Aap,Bap,Cap,Dap]=schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c);
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 
 % Check arguments
@@ -23,13 +23,13 @@ k=rand(6,1);
 try
   [A,B,C,D,Aap,Bap,Cap,Dap]=schurOneMlatticeDoublyPipelined2Abcd(k);
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 epsilon=ones(length(k),1);
 try
   [A,B,C,D,Aap,Bap,Cap,Dap]=schurOneMlatticeDoublyPipelined2Abcd(k,epsilon);
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 
 % Various 

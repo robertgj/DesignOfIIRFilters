@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_bandpass_delay_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2023-2024 Robert G. Jenssen
 %
 % Find a parallel all-pass one-multiplier Schur lattice bandpass filter for
 % which the phase at the phase pass-band lower edge is (w*tp)+(n*pi).
@@ -162,7 +162,7 @@ try
                                  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                                  wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 if feasible == 0
   error("A1k,A2k(MMSE) infeasible for tp=%d",tp);
@@ -209,7 +209,7 @@ try
                            wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                            wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 if feasible == 0 
   error("A1k,A2k(PCLS) infeasible for tp=%d",tp);

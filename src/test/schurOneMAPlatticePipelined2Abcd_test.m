@@ -16,7 +16,7 @@ k=[];
 try
   [Aap,Bap,Cap,Dap]=schurOneMAPlatticePipelined2Abcd(k);
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 
 % Various 

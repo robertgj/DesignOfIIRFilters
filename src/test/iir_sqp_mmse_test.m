@@ -123,7 +123,7 @@ catch
             "Called %s at %s : %d\n", ...
             err.stack(frame).name,err.stack(frame).file,err.stack(frame).line);
   endfor
-  error("\nCaught %s!\n",lasterror().message)
+  error("\nCaught %s!\n",lasterr())
 end_try_catch
 if feasible == 0
   error("MMSE : x1 infeasible");

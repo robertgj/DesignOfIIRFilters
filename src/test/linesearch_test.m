@@ -91,7 +91,7 @@ for k=1:length(searchTypes)
   try 
     doSQP(searchTypes{k});
   catch
-    printf("%s linesearch failed: %s\n", searchTypes{k},lasterror.message);
+    printf("%s linesearch failed: %s\n", searchTypes{k},lasterr());
   end_try_catch
 endfor
 

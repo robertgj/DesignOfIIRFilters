@@ -47,61 +47,61 @@ try
   x=pAbcd2tf(A,B,C,D);
   error("Did not catch nargout == 1");
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 try
   [w,x,y,z]=pAbcd2tf(A,B,C,D);
   error("Did not catch nargout == 4");
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 try
   [w,x]=pAbcd2tf(A,B,C);
   error("Did not catch nargin != 4");
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 try
   [w,x,y,z]=pAbcd2tf(A,B,C,D);
   error("Did not catch nargout == 4");
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 try
   [w,x]=pAbcd2tf([],B,C,D);
   error("Did not catch A empty");
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 try
   [w,x]=pAbcd2tf(rand(N,N+1),B,C,D);
   error("Did not catch A not square");
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 try
   [w,x]=pAbcd2tf(A,[],C,D);
   error("Did not catch B empty");
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 try
   [w,x]=pAbcd2tf(A,rand(N+1,1),C,D);
   error("Did not catch B rows=rows(A)");
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 try
   [w,x]=pAbcd2tf(A,B,[],D);
   error("Did not catch C empty");
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 try
   [w,x]=pAbcd2tf(A,B,rand(1,N+1),D);
   error("Did not catch C columns=columns(A)");
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 
 % Convert filter transfer function to lattice form

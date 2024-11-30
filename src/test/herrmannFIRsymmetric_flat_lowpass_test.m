@@ -1,5 +1,5 @@
 % herrmannFIRsymmetric_flat_lowpass_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2024 Robert G. Jenssen
 
 test_common;
 
@@ -16,14 +16,14 @@ M=100;K=101;
 try
   [hM,a]=herrmannFIRsymmetric_flat_lowpass(M,K,"Xxxxxxx");
 catch
-  printf("Caught exception : %s\n",lasterror().message);
+  printf("Caught exception : %s\n",lasterr());
 end_try_catch
 
 M=100;K=100;
 try
   [hM,a]=herrmannFIRsymmetric_flat_lowpass(M,K,"Xxxxxxx");
 catch
-  printf("Caught exception : %s\n",lasterror().message);
+  printf("Caught exception : %s\n",lasterr());
 end_try_catch
 
 w=pi*(0:nplot)'/nplot;

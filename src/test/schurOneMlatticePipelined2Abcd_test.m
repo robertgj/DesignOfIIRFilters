@@ -15,7 +15,7 @@ k=epsilon=c=[];
 try
   [A,B,C,dd,Cap,ddap]=schurOneMlatticePipelined2Abcd(k,epsilon,c);
 catch
-  printf("%s\n", lasterror().message);
+  printf("%s\n", lasterr());
 end_try_catch
 
 % Various 
