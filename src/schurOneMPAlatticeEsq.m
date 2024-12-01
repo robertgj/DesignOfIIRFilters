@@ -6,7 +6,7 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
 %                         wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)
 % Inputs:
 %   A1k,A2k - one-multiplier allpass section denominator multiplier coefficients
-%   A1epsilon,A2epsion - one-multiplier allpass section sign coefficients
+%   A1epsilon,A2epsilon - one-multiplier allpass section sign coefficients
 %   A1p,A2p - internal state scaling factors
 %   difference - return the response for the difference of the all-pass filters
 %   wa - angular frequencies of desired pass-band amplitude response in [0,pi]

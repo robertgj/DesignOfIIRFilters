@@ -2,7 +2,7 @@ function vS=schurOneMPAlattice_slb_set_empty_constraints()
 % vS=schurOneMPAlattice_slb_set_empty_constraints()
 % Return an empty constraint structure
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -22,6 +22,6 @@ function vS=schurOneMPAlattice_slb_set_empty_constraints()
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  vS.al=[];vS.au=[];vS.tl=[];vS.tu=[];vS.pl=[];vS.pu=[];
+  vS.al=[];vS.au=[];vS.tl=[];vS.tu=[];vS.pl=[];vS.pu=[];vS.dl=[];vS.du=[];
 
 endfunction

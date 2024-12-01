@@ -5,12 +5,12 @@ depends="test/schurOneMPAlattice_slb_exchange_constraints_test.m test_common.m \
 schurOneMPAlattice_slb_exchange_constraints.m \
 schurOneMPAlattice_slb_update_constraints.m \
 schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m schurOneMPAlatticeP.m \
-schurOneMPAlatticeEsq.m \
+schurOneMPAlatticedAsqdw.m schurOneMPAlatticeEsq.m \
 schurOneMPAlattice_slb_set_empty_constraints.m \
 schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
 schurOneMscale.m tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m \
-local_max.m print_polynomial.m H2Asq.m H2T.m H2P.m \
+local_max.m print_polynomial.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct"
 
@@ -51,6 +51,7 @@ cat > test.ok << 'EOF'
 maxiter = 2000
 tol = 5.0000e-06
 verbose = 1
+fdp = 0.1500
 vR0 before exchange constraints:
 al=[ 148 301 ]
 f(al)=[ 0.073500 0.150000 ](fs=1)
@@ -70,6 +71,12 @@ Pl=[ -0.322424 -3.565270 -4.025277 ](rad./pi)
 pu=[ 84 ]
 f(pu)=[ 0.041500 ](fs=1)
 Pu=[ -0.954198 ](rad./pi)
+dl=[ 107 297 ]
+f(dl)=[ 0.053000 0.148000 ](fs=1)
+Dl=[ -0.520083 -3.526330 ]
+du=[ 192 ]
+f(du)=[ 0.095500 ](fs=1)
+Du=[ 0.723269 ]
 vS1 before exchange constraints:
 al=[ 153 301 ]
 f(al)=[ 0.076000 0.150000 ](fs=1)
@@ -89,11 +96,17 @@ Pl=[ -0.299651 -1.472634 -2.599585 -3.611481 ](rad./pi)
 pu=[ 78 179 273 346 ]
 f(pu)=[ 0.038500 0.089000 0.136000 0.172500 ](fs=1)
 Pu=[ -0.884841 -2.046359 -3.127408 -3.967185 ](rad./pi)
-Exchanged constraint from vR.al(301) to vS
+dl=[ 110 298 ]
+f(dl)=[ 0.054500 0.148500 ](fs=1)
+Dl=[ -0.945374 -3.891545 ]
+du=[ 198 ]
+f(du)=[ 0.098500 ](fs=1)
+Du=[ 1.221333 ]
+Exchanged constraint from vR.dl(297) to vS
 vR1 after exchange constraints:
-al=[ 148 ]
-f(al)=[ 0.073500 ](fs=1)
-Asql=[ -0.946105 ](dB)
+al=[ 148 301 ]
+f(al)=[ 0.073500 0.150000 ](fs=1)
+Asql=[ -0.946105 -3.000000 ](dB)
 au=[ 1 225 401 439 ]
 f(au)=[ 0.000000 0.112000 0.200000 0.219000 ](fs=1)
 Asqu=[ -0.000000 -0.031842 -39.999943 -45.402173 ](dB)
@@ -109,6 +122,12 @@ Pl=[ -0.322644 -3.565452 -4.024777 ](rad./pi)
 pu=[ 84 ]
 f(pu)=[ 0.041500 ](fs=1)
 Pu=[ -0.953885 ](rad./pi)
+dl=[ 107 ]
+f(dl)=[ 0.053000 ](fs=1)
+Dl=[ -0.939049 ]
+du=[ 192 ]
+f(du)=[ 0.095500 ](fs=1)
+Du=[ 1.190089 ]
 vS1 after exchange constraints:
 al=[ 153 301 ]
 f(al)=[ 0.076000 0.150000 ](fs=1)
@@ -128,6 +147,12 @@ Pl=[ -0.299651 -1.472634 -2.599585 -3.611481 ](rad./pi)
 pu=[ 78 179 273 346 ]
 f(pu)=[ 0.038500 0.089000 0.136000 0.172500 ](fs=1)
 Pu=[ -0.884841 -2.046359 -3.127408 -3.967185 ](rad./pi)
+dl=[ 110 297 298 ]
+f(dl)=[ 0.054500 0.148000 0.148500 ](fs=1)
+Dl=[ -0.945374 -3.889782 -3.891545 ]
+du=[ 198 ]
+f(du)=[ 0.098500 ](fs=1)
+Du=[ 1.221333 ]
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

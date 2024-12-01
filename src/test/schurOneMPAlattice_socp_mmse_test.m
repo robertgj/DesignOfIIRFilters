@@ -26,11 +26,14 @@ dBas=40 % Stop band amplitude response ripple
 Was=1e2 % Stop band amplitude response weight
 ftp=0.125 % Pass band group delay response edge
 td=11.86 % Pass band nominal group delay
-tdr=0.15 % Pass band group delay response ripple
+tpr=0.15 % Pass band group delay response ripple
 Wtp=1 % Pass band group delay response weight
 fpp=0.125 % Pass band phase response edge
 ppr=0.06 % Pass band phase response ripple(rad./pi)
 Wpp=1 % Pass band phase response weight
+fdp=fap % Pass band dAsqdw response edge
+dpr=0.2; % Pass band dAsqdw response ripple
+Wdp=0.1; % Pass band dAsqdw response weight
 
 % Desired squared magnitude response
 nplot=1000;
@@ -46,8 +49,8 @@ Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(nplot-nas+1,1)];
 ntp=ceil(nplot*ftp/0.5)+1;
 wt=wa(1:ntp);
 Td=td*ones(ntp,1);
-Tdu=Td+(tdr*ones(ntp,1)/2);
-Tdl=Td-(tdr*ones(ntp,1)/2);
+Tdu=Td+(tpr*ones(ntp,1)/2);
+Tdl=Td-(tpr*ones(ntp,1)/2);
 Wt=Wtp*ones(ntp,1);
 
 % Desired pass-band phase response
@@ -57,6 +60,14 @@ Pd=-td*wp;
 Pdu=Pd+(ppr*pi*ones(npp,1)/2);
 Pdl=Pd-(ppr*pi*ones(npp,1)/2);
 Wp=Wpp*ones(npp,1);
+
+% Desired pass-band dAsqdw response
+ndp=nap;
+wd=wa(1:ndp);
+Dd=zeros(size(wd));
+Ddu=Dd+(dpr*ones(ndp,1)/2);
+Ddl=Dd-(dpr*ones(ndp,1)/2);
+Wd=Wdp*ones(ndp,1);
 
 % Initial coefficients found by tarczynski_parallel_allpass_test.m
 % (with fap=0.15, ftp=0.175 and fas=0.2)
@@ -89,7 +100,8 @@ try
                                  difference, ...
                                  k_u,k_l,k_active,dmax, ...
                                  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                 wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
+                                 wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+                                 maxiter,ftol,ctol,verbose);
 catch
   feasible=false;
 end_try_catch
@@ -101,11 +113,13 @@ endif
 Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,difference);
 T=schurOneMPAlatticeT(wt,A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,difference);
 P=schurOneMPAlatticeP(wp,A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,difference);
+D=schurOneMPAlatticedAsqdw(wd,A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0, ...
+                           difference);
 
 % Common strings
 strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,",fap,dBap,Wap);
 strM=strcat(strM, sprintf("fas=%g,dBas=%g,Was=%g,",fas,dBas,Was));
-strM=strcat(strM, sprintf("td=%d,tdr=%g,Wtp=%g",td,tdr,Wtp));
+strM=strcat(strM, sprintf("td=%d,tpr=%g,Wtp=%g",td,tpr,Wtp));
 
 % Plot response
 subplot(311);
@@ -124,28 +138,33 @@ subplot(313);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 td-tdr td+tdr]);
+axis([0 0.5 td-tpr td+tpr]);
 grid("on");
 print(strcat(strf,"_A12"),"-dpdflatex");
 close
 
 % Plot passband response
-subplot(311);
+subplot(411);
 plot(wa*0.5/pi,10*log10(Asq));
 ylabel("Amplitude(dB)");
-axis([0 max([fap,ftp,fpp]) -3 1]);
+axis([0 max([fap,ftp,fpp,fdp]) -3 1]);
 grid("on");
 title(s);
-subplot(312);
+subplot(412);
 plot(wp*0.5/pi,(P+(wp*td))/pi);
-axis([0 max([fap,ftp,fpp]) ppr*[-1,1]]);
+axis([0 max([fap,ftp,fpp,fdp]) ppr*[-1,1]]);
 ylabel("Phase error(rad./$\\pi$)");
 grid("on");
-subplot(313);
+subplot(413);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");
+axis([0 max([fap,ftp,fpp,fdp]) td-tpr td+tpr]);
+grid("on");
+subplot(414);
+plot(wd*0.5/pi,D);
+ylabel("dAsqdw");
 xlabel("Frequency");
-axis([0 max([fap,ftp,fpp]) td-tdr td+tdr]);
+axis([0 max([fap,ftp,fpp,fdp]) -dpr dpr]);
 grid("on");
 print(strcat(strf,"_A12pass"),"-dpdflatex");
 close
@@ -203,11 +222,14 @@ fprintf(fid,"dBas=%f %% Stop band amplitude response ripple\n",dBas);
 fprintf(fid,"Was=%f %% Stop band amplitude response weight\n",Was);
 fprintf(fid,"ftp=%f %% Pass band group delay response edge\n",ftp);
 fprintf(fid,"td=%f %% Pass band nominal group delay\n",td);
-fprintf(fid,"tdr=%f %% Pass band group delay response ripple\n",tdr);
+fprintf(fid,"tpr=%f %% Pass band group delay response ripple\n",tpr);
 fprintf(fid,"Wtp=%f %% Pass band group delay response weight\n",Wtp);
 fprintf(fid,"fpp=%f %% Pass band phase response edge\n",fpp);
 fprintf(fid,"ppr=%f %% Pass band phase peak-to-peak ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%f %% Pass band phase response weight\n",Wpp);
+fprintf(fid,"fdp=%f %% Pass band dAsqdw response edge\n",fdp);
+fprintf(fid,"dpr=%f %% Pass band dAsqdw peak-to-peak ripple\n",dpr);
+fprintf(fid,"Wdp=%f %% Pass band dAsqdw response weight\n",Wdp);
 fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fclose(fid);
 
@@ -217,8 +239,8 @@ print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
-eval(sprintf("save %s.mat ftol nplot ma mb fap dBap Wap fas dBas Was ftp td tdr \
-Wtp fpp ppr Wpp rho D1_0 D2_0 A1k A2k D1 D2",strf));
+eval(sprintf("save %s.mat ftol nplot ma mb fap dBap Wap fas dBas Was ftp td tpr \
+Wtp fpp ppr Wpp fdp dpr Wdp rho D1_0 D2_0 A1k A2k D1 D2",strf));
 
 % Done 
 diary off

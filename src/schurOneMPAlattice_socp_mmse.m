@@ -3,13 +3,15 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
                                difference, ...
                                k_u,k_l,k_active,dmax, ...
                                wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                               wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
+                               wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+                               maxiter,ftol,ctol,verbose)
 % [A1k,A2k,socp_iter,func_iter,feasible] =
 % schurOneMPAlattice_socp_mmse(vS,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
 %                              difference, ...
 %                              k_u,k_l,k_active,dmax, ...
 %                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                              wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
+%                              wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+%                              maxiter,ftol,ctol,verbose)
 %
 % SOCP MMSE optimisation of a one-multiplier Schur lattice filter with
 % constraints on the amplitude, and low pass group delay responses. 
@@ -36,6 +38,10 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
 %   Pd - desired passband phase response
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
+%   wd - angular frequencies of dAsqdw response 
+%   Dd - desired dAsqdw response
+%   Ddu,Ddl - upper/lower mask for the desired dAsqdw response
+%   Wd - dAsqdw response weight at each frequency
 %   maxiter - maximum number of SOCP iterations
 %   ftol - tolerance on coefficient update
 %   ctol - tolerance on constraints
@@ -73,22 +79,24 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 31) || (nargout ~= 5)
+  if (nargin ~= 36) || (nargout ~= 5)
     print_usage(...
 "[A1k,A2k,socp_iter,func_iter,feasible]=schurOneMPAlattice_socp_mmse ...\n\
 (vS,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference, ...\n\
  k_u,k_l,k_active,dmax, ...\n\
- wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...\n\
+ wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
+ wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...\n\
  maxiter,ftol,ctol,verbose)");
   endif
 
   %
   % Sanity checks on frequency response vectors
   %
-  wa=wa(:);wt=wt(:);wp=wp(:);
+  wa=wa(:);wt=wt(:);wp=wp(:);wd=wd(:);
   Nwa=length(wa);
   Nwt=length(wt);
   Nwp=length(wp);
+  Nwd=length(wd);
   if isempty(wa)
     error("wa empty");
   endif
@@ -128,11 +136,24 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
   if ~isempty(Wp) && Nwp ~= length(Wp)
     error("Expected length(wp)(%d) == length(Wp)(%d)",Nwp,length(Wp));
   endif
+  if ~isempty(Dd) && Nwd ~= length(Dd)
+    error("Expected length(wd)(%d) == length(Dd)(%d)",Nwd,length(Dd));
+  endif
+  if ~isempty(Ddu) && Nwd ~= length(Ddu)
+    error("Expected length(wd)(%d) == length(Ddu)(%d)",Nwd,length(Ddu));
+  endif
+  if ~isempty(Ddl) && Nwd ~= length(Ddl)
+    error("Expected length(wd)(%d) == length(Ddl)(%d)",Nwd,length(Ddl));
+  endif
+  if ~isempty(Wd) && Nwd ~= length(Wd)
+    error("Expected length(wd)(%d) == length(Wd)(%d)",Nwd,length(Wd));
+  endif
   if isempty(vS)
     vS=schurOneMPAlattice_slb_set_empty_constraints();
-  elseif (numfields(vS) ~= 6) || ...
-         (all(isfield(vS,{"al","au","tl","tu","pl","pu"}))==false)
-    error("numfields(vS)=%d, expected 6 (al,au,tl,tu,pl and pu)",numfields(vS));
+  elseif (numfields(vS) ~= 8) || ...
+         (all(isfield(vS,{"al","au","tl","tu","pl","pu","dl","du"}))==false)
+    error("numfields(vS)=%d, expected 8 (al,au,tl,tu,pl,pu,dl and du)", ...
+          numfields(vS));
   endif
   if isstruct(ftol)
     if all(isfield(ftol,{"dtol","stol"})) == false
@@ -177,8 +198,9 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
   % Coefficient vector being optimised
   A1k=A1k0(:);A2k=A2k0(:);k=[A1k;A2k];xk=k(k_active);
   % Initial squared response error
-  [Esq,gradEsq]=schurOneMPAlatticeEsq(A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,...
-                                      difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+  [Esq,gradEsq]=schurOneMPAlatticeEsq ...
+                  (A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,...
+                   difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
   func_iter=func_iter+1;
   if verbose
     printf("Initial Esq=%g\n",Esq);
@@ -258,6 +280,7 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
     endif
 
     % Phase linear constraints
+    % (computed across wp to allow for phase unwrapping)
     if ~isempty(vS.pu) || ~isempty(vS.pl)
       [P,gradP] = schurOneMPAlatticeP ...
         (wp,A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,difference);
@@ -270,6 +293,24 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
     if ~isempty(vS.pl)
       D=[D, [zeros(2,length(vS.pl)); gradP(vS.pl,k_active)']];
       f=[f;                          P(vS.pl)-Pdl(vS.pl)];
+    endif
+
+    % dAsqdw linear constraints
+    if ~isempty(vS.du)
+      [dAsqdw_du,graddAsqdw_du] = ...
+         schurOneMPAlatticedAsqdw ...
+           (wd(vS.du),A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,difference);
+      func_iter = func_iter+1;
+      D=[D, [zeros(2,length(vS.du));-graddAsqdw_du(:,k_active)']];
+      f=[f; Ddu(vS.du)-dAsqdw_du];
+    endif
+    if ~isempty(vS.dl)
+      [dAsqdw_dl,graddAsqdw_dl] = ...
+         schurOneMPAlatticedAsqdw ...
+           (wd(vS.dl),A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0,difference);
+      func_iter = func_iter+1;
+      D=[D, [zeros(2,length(vS.dl));graddAsqdw_dl(:,k_active)']];
+      f=[f; dAsqdw_dl-Ddl(vS.dl)];
     endif
 
     % SeDuMi linear constraint matrixes
@@ -338,7 +379,7 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
     A2k=k((NA1k+1):end);
     [Esq,gradEsq] = ...
       schurOneMPAlatticeEsq(A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0, ...
-                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
     func_iter=func_iter+1;
     socp_iter=socp_iter+info.iter;
     if verbose

@@ -34,7 +34,8 @@ schurOneMPAlatticeEsq.m \
 schurOneMPAlatticeAsq.m \
 schurOneMPAlatticeP.m \
 schurOneMPAlatticeT.m \
-H2Asq.m H2P.m H2T.m print_polynomial.m local_max.m flt2SD.m SDadders.m \
+schurOneMPAlatticedAsqdw.m \
+H2Asq.m H2P.m H2T.m H2dAsqdw.m print_polynomial.m local_max.m flt2SD.m SDadders.m \
 x2nextra.m bin2SDul.m tf2pa.m schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m \
 schurOneMscale.m qroots.m qzsolve.oct \
 spectralfactor.oct schurdecomp.oct schurexpand.oct schurOneMAPlattice2H.oct \

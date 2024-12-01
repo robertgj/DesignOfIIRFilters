@@ -34,8 +34,8 @@ for M=1:2,
     fas=0.20 % Stop band amplitude response edge
     dBas=50 % Stop band amplitude response ripple
     Was=1000 % Stop band amplitude response weight
-    td=DD % Nominal pass band delay
-    tdr=0.04 % Pass band delay peak-to-peak ripple
+    tp=DD % Nominal pass band delay
+    tpr=0.04 % Pass band delay peak-to-peak ripple
     ftp=0.1 % Pass band delay response edge
     Wtp=10 % Pass band delay weight
   else
@@ -50,8 +50,8 @@ for M=1:2,
     fas=0.25 % Stop band amplitude response edge
     dBas=40 % Stop band amplitude response ripple
     Was=200 % Stop band amplitude response weight
-    td=DD % Nominal pass band delay
-    tdr=1 % Pass band delay peak-to-peak ripple
+    tp=DD % Nominal pass band delay
+    tpr=1 % Pass band delay peak-to-peak ripple
     ftp=fap % Pass band delay response edge
     Wtp=10 % Pass band delay weight
   endif
@@ -68,16 +68,19 @@ for M=1:2,
   % Group delay constraints
   ntp=floor(ftp*n/0.5)+1;
   wt=wa(1:ntp);
-  Td=td*ones(ntp,1);
-  Tdu=(td+(tdr/2))*ones(ntp,1);
-  Tdl=(td-(tdr/2))*ones(ntp,1);
+  Td=tp*ones(ntp,1);
+  Tdu=(tp+(tpr/2))*ones(ntp,1);
+  Tdl=(tp-(tpr/2))*ones(ntp,1);
   Wt=Wtp*ones(ntp,1);
 
   % Phase constraints
   wp=[];Pd=[];Pdu=[];Pdl=[];Wp=[];
 
+  % dAsqdw constraints
+  wd=[];Dd=[];Ddu=[];Ddl=[];Wd=[];
+
   % Initial all-pass filter
-  Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was,td,ftp,Wtp);
+  Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was,tp,ftp,Wtp);
   
   % Lattice decomposition of Da0
   A1k0=schurdecomp(Da0);
@@ -110,7 +113,9 @@ for M=1:2,
                               k_u,k_l,k_active,dmax, ...
                               wa,Asqd,Asqdu,Asqdl,Wa, ...
                               wt,Td,Tdu,Tdl,Wt, ...
-                              wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
+                              wp,Pd,Pdu,Pdl,Wp, ...
+                              wd,Dd,Ddu,Ddl,Wd, ...
+                              maxiter,tol,ctol,verbose);
     toc
   catch
     feasible=false;
@@ -155,13 +160,13 @@ for M=1:2,
     axis(ax(1),[0 0.5 dBap*[-1 1]]);
     axis(ax(2),[0 0.5 -50 -30]);
   endif
-  strt=sprintf("Parallel all-pass filter and delay : m=%d,DD=%d,td=%g",m,DD,td);
+  strt=sprintf("Parallel all-pass filter and delay : m=%d,DD=%d,tp=%g",m,DD,tp);
   title(strt);
   grid("on");
   ylabel("Amplitude(dB)");
   subplot(212);
   plot(wa(1:nas)*0.5/pi,T(1:nas));
-  axis([0 0.5 td-tdr td+tdr]);
+  axis([0 0.5 tp-tpr tp+tpr]);
   ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
@@ -199,8 +204,8 @@ for M=1:2,
   fprintf(fid,"dBas=%g %% Amplitude stop band peak-to-peak ripple\n",dBas);
   fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
   fprintf(fid,"ftp=%g %% Amplitude stop band edge\n",ftp);
-  fprintf(fid,"td=%g %% Nominal pass band delay\n",td);
-  fprintf(fid,"tdr=%g %% Delay pass band peak-to-peak ripple\n",tdr);
+  fprintf(fid,"tp=%g %% Nominal pass band delay\n",tp);
+  fprintf(fid,"tpr=%g %% Delay pass band peak-to-peak ripple\n",tpr);
   fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
   fclose(fid);
 
@@ -224,7 +229,7 @@ for M=1:2,
 
   eval(sprintf("save %s_m_%d.mat ...\n\
    rho tol ctol difference n m DD ...\n\
-   fap dBap Wap Wat fas dBas Was ftp td tdr Wtp ...\n\
+   fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp ...\n\
    Da0 A1k A1epsilon A1p Na1 Da1",strf,m));
 endfor
 

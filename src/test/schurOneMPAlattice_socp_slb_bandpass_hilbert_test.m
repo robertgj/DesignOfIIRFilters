@@ -50,9 +50,14 @@ tpr=0.02
 Wtp=10
 fppl=0.11
 fppu=0.19
-pd=3.5 % Initial phase offset in multiples of pi radians
-pdr=0.0004 % Peak-to-peak phase ripple in multiples of pi radians
+pp=3.5 % Initial phase offset in multiples of pi radians
+ppr=0.0004 % Peak-to-peak phase ripple in multiples of pi radians
 Wpp=200
+fdpl=fapl % Pass band dAsqdw response lower edge
+fdpu=fapu % Pass band dAsqdw response upper edge
+dp=0      % Pass band dAsqdw response nominal value
+dpr=0.4   % Pass band dAsqdw response ripple
+Wdp=0.001 % Pass band dAsqdw response weight
 
 %
 % Frequency vectors
@@ -89,10 +94,19 @@ Wt=Wtp*ones(length(wt),1);
 nppl=floor(n*fppl/0.5)+1;
 nppu=ceil(n*fppu/0.5)+1;
 wp=wa(nppl:nppu);
-Pd=(pd*pi)-(tp*wp);
-Pdu=Pd+(pdr*pi/2);
-Pdl=Pd-(pdr*pi/2);
+Pd=(pp*pi)-(tp*wp);
+Pdu=Pd+(ppr*pi/2);
+Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(length(wp),1);
+
+% Desired pass-band dAsqdw response
+ndpl=floor(n*fdpl/0.5)+1;
+ndpu=ceil(n*fdpu/0.5)+1;
+wd=wa(ndpl:ndpu);
+Dd=dp*ones(length(wd),1);
+Ddu=Dd+(dpr/2);
+Ddl=Dd-(dpr/2);
+Wd=Wdp*ones(length(wd),1);
 
 %
 % Sanity checks
@@ -111,6 +125,9 @@ printf("0.5*wa(nchkt)'/pi=[ ");printf("%6.4g ",0.5*wa(nchkt)'/pi);printf("];\n")
 nchkp=[nppl-1,nppl,nppl+1,nppu-1,nppu,nppu+1];
 printf("0.5*wa(nchkp)'/pi=[ ");printf("%6.4g ",0.5*wa(nchkp)'/pi);printf("];\n");
 
+nchkd=[ndpl-1,ndpl,ndpl+1,ndpu-1,ndpu,ndpu+1];
+printf("0.5*wa(nchkd)'/pi=[ ");printf("%6.4g ",0.5*wa(nchkd)'/pi);printf("];\n");
+
 % Linear constraints
 k0=[A1k0(:);A2k0(:)];
 k_u=rho*ones(size(k0));
@@ -127,7 +144,8 @@ try
                            A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
                            difference,k_u,k_l,k_active,dmax, ...
                            wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                           wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
+                           wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+                           maxiter,tol,ctol,verbose);
 catch
   feasible=false;
   warning("Caught schurOneMPAlattice_slb!");
@@ -146,9 +164,39 @@ A2k=A2k(:)';A2epsilon=A2epsilon(:)';A2p=A2p(:)';
 Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 T=schurOneMPAlatticeT(wt,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 P=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
+D=schurOneMPAlatticedAsqdw(wd,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
+
+% Amplitude, delay and phase at local peaks
+vAl=local_max(Asqdl-Asq);
+vAu=local_max(Asq-Asqdu);
+wAsqS=unique([wa(vAl);wa(vAu);wa([1,nasl,napl,napu,nasu,end])]);
+AsqS=schurOneMPAlatticeAsq(wAsqS,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
+printf("A1,A2:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("A1,A2:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
+
+vTl=local_max(Tdl-T);
+vTu=local_max(T-Tdu);
+wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
+TS=schurOneMPAlatticeT(wTS,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
+printf("A1,A2:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("A1,A2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
+
+vPl=local_max(Pdl-P);
+vPu=local_max(P-Pdu);
+wPS=unique([wp(vPl);wp(vPu);wp([1,end])]);
+PS=schurOneMPAlatticeP(wPS,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
+printf("A1,A2:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("A1,A2:PS=[ ");printf("%f ",(PS+(wPS*tp))'/pi-pp);printf("] (rad./pi)\n");
+
+vDl=local_max(Ddl-D);
+vDu=local_max(D-Ddu);
+wDS=unique([wd(vDl);wd(vDu);wd([1,end])]);
+DS=schurOneMPAlatticedAsqdw(wDS,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
+printf("A1,A2:fDS=[ ");printf("%f ",wDS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("A1,A2:DS=[ ");printf("%f ",DS');printf("]\n");
 
 % Plot response
-subplot(311);
+subplot(411);
 ax=plotyy(wa*0.5/pi,10*log10(Asq),wa*0.5/pi,10*log10(Asq));
 axis(ax(1),[0 0.5 0.2*[-1 1]]);
 axis(ax(2),[0 0.5 -44 -36]);
@@ -156,16 +204,21 @@ ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf("Parallel all-pass bandpass Hilbert : dBap=%g,dBas=%g",dBap,dBas);
 title(strt);
-subplot(312);
-plot(wp*0.5/pi,(unwrap(P)+(tp*wp))/pi);
+subplot(412);
+plot(wp*0.5/pi,mod((unwrap(P)+(tp*wp))/pi,2.0));
 ylabel("Phase(rad./$\\pi$)");
-axis([0 0.5 pd+(0.0002*[-1 1])]);
+axis([0 0.5 (mod(pp,2.0)+(ppr*[-1 1]/2))]);
 grid("on");
-subplot(313);
+subplot(413);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");
-xlabel("Frequency");
 axis([0 0.5 (tp+(0.02*[-1 1]))]);
+grid("on");
+subplot(414);
+plot(wd*0.5/pi,D);
+ylabel("$\\frac{dAsq}{d\\omega}$");
+xlabel("Frequency");
+axis([0 0.5 (dp+(dpr*[-1 1]/2))]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
@@ -197,28 +250,6 @@ if max(abs((abs(HH).^2)-Asq)) > 1e4*eps
         max(abs((abs(HH).^2)-Asq))/eps);
 endif
 
-% Amplitude, delay and phase at local peaks
-vAl=local_max(Asqdl-Asq);
-vAu=local_max(Asq-Asqdu);
-wAsqS=unique([wa(vAl);wa(vAu);wa([1,nasl,napl,napu,nasu,end])]);
-AsqS=schurOneMPAlatticeAsq(wAsqS,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
-printf("A1,A2:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("A1,A2:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
-
-vTl=local_max(Tdl-T);
-vTu=local_max(T-Tdu);
-wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
-TS=schurOneMPAlatticeT(wTS,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
-printf("A1,A2:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("A1,A2:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
-
-vPl=local_max(Pdl-P);
-vPu=local_max(P-Pdu);
-wPS=unique([wp(vPl);wp(vPu);wp([1,end])]);
-PS=schurOneMPAlatticeP(wPS,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
-printf("A1,A2:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("A1,A2:PS=[ ");printf("%f ",(PS+(wPS*tp))'/pi-pd);printf("] (rad./pi)\n");
-
 %
 % Save the results
 %
@@ -246,9 +277,14 @@ fprintf(fid,"tpr=%f %% Pass band group-delay response ripple(samples)\n",tpr);
 fprintf(fid,"Wtp=%d %% Pass band group-delay response weight\n",Wtp);
 fprintf(fid,"fppl=%g %% Pass band phase response lower edge\n",fppl);
 fprintf(fid,"fppu=%g %% Pass band phase response upper edge\n",fppu);
-fprintf(fid,"pd=%f %% Pass band nominal phase response(rad./pi)\n",pd);
-fprintf(fid,"pdr=%f %% Pass band phase response ripple(rad./pi)\n",pdr);
+fprintf(fid,"pp=%f %% Pass band nominal phase response(rad./pi)\n",pp);
+fprintf(fid,"ppr=%f %% Pass band phase response ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%d %% Pass band phase response weight\n",Wpp);
+fprintf(fid,"fdpl=%g %% Pass band dAsqdw response lower edge\n",fdpl);
+fprintf(fid,"fdpu=%g %% Pass band dAsqdw response upper edge\n",fdpu);
+fprintf(fid,"dp=%f %% Pass band nominal dAsqdw response\n",dp);
+fprintf(fid,"dpr=%f %% Pass band dAsqdw response ripple\n",dpr);
+fprintf(fid,"Wdp=%d %% Pass band dAsqdw response weight\n",Wpp);
 fclose(fid);
 
 print_polynomial(A1k,"A1k");
@@ -279,7 +315,8 @@ eval(sprintf("save %s.mat ...\n\
      fapl fapu dBap Wap Watl Watu ...\n\
      fasl fasu dBas Wasl Wasu ...\n\
      ftpl ftpu tp tpr Wtp ...\n\
-     fppl fppu pd pdr Wpp ...\n\
+     fppl fppu pp ppr Wpp ...\n\
+     fdpl fdpu dp dpr Wdp ...\n\
      Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p A1d A2d N2 D2",strf));
 
 % Done

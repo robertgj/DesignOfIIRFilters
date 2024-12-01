@@ -1,5 +1,5 @@
 % schurOneMPAlattice_slb_update_constraints_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 
 test_common;
 
@@ -26,9 +26,12 @@ ftp=0.175; % Pass band group delay response edge
 td=(ma+mb)/2; % Pass band nominal group delay
 tdr=0.04; % Pass band group delay response ripple
 Wtp=1; % Pass band group delay response weight
-fpp=0.175; % Pass band phase response edge
+fpp=ftp; % Pass band phase response edge
 ppr=0.0016; % Pass band phase response ripple
 Wpp=0.1; % Pass band phase response weight
+fdp=fap % Pass band dAsqdw response edge
+dpr=0.5; % Pass band dAsqdw response ripple
+Wdp=0.1; % Pass band dAsqdw response weight
 
 % Desired squared magnitude response
 nplot=1000;
@@ -56,6 +59,14 @@ Pdu=Pd+(ppr*ones(npp,1)/2);
 Pdl=Pd-(ppr*ones(npp,1)/2);
 Wp=Wpp*ones(npp,1);
 
+% Desired pass-band dAsqdw response
+ndp=nap;
+wd=wa(1:ndp);
+Dd=zeros(size(wd));
+Ddu=Dd+(dpr*ones(ndp,1)/2);
+Ddl=Dd-(dpr*ones(ndp,1)/2);
+Wd=Wdp*ones(ndp,1);
+
 % Common strings
 strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,",fap,dBap,Wap);
 strM=strcat(strM, sprintf("fas=%g,dBas=%g,Was=%g,",fas,dBas,Was));
@@ -81,14 +92,16 @@ T0=schurOneMPAlatticeT(wt,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
                        difference);
 P0=schurOneMPAlatticeP(wp,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
                        difference);
+D0=schurOneMPAlatticedAsqdw(wd,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
+                            difference);
 
 % Update constraints
 vR0=schurOneMPAlattice_slb_update_constraints ...
-      (Asq0,Asqdu,Asqdl,Wa,T0,Tdu,Tdl,Wt,P0,Pdu,Pdl,Wp,tol);
+      (Asq0,Asqdu,Asqdl,Wa,T0,Tdu,Tdl,Wt,P0,Pdu,Pdl,Wp,D0,Ddu,Ddl,Wd,tol);
 
 % Show constraints
 printf("vR0 after update constraints:\n");
-schurOneMPAlattice_slb_show_constraints(vR0,wa,Asq0,wt,T0,wp,P0);
+schurOneMPAlattice_slb_show_constraints(vR0,wa,Asq0,wt,T0,wp,P0,wd,D0);
 
 % Plot amplitude
 strd=sprintf("schurOneMPAlattice_slb_update_constraints_test_%%s");
@@ -133,6 +146,17 @@ title(strM0);
 ylabel("Phase(rad.)");
 xlabel("Frequency")
 print(sprintf(strd,"0P"),"-dpdflatex");
+close
+
+% Plot dAsqdw
+fd=wd*0.5/pi;
+plot(fd,[D0-Dd,Ddu-Dd,Ddl-Dd], ...
+     fd(vR0.dl),D0(vR0.dl)-Dd(vR0.dl),'*', ...
+     fd(vR0.du),D0(vR0.du)-Dd(vR0.du),'+');
+title(strM0);
+ylabel("dAsqdw");
+xlabel("Frequency")
+print(sprintf(strd,"0D"),"-dpdflatex");
 close
 
 % Done

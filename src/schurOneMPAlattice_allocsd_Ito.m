@@ -1,9 +1,9 @@
 function ndigits_alloc=schurOneMPAlattice_allocsd_Ito ...
                          (nbits,ndigits,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                          difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)
+                          difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)
 % ndigits_alloc=schurOneMPAlattice_allocsd_Ito ...
 %   (nbits,ndigits,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference, ...
-%    wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)
+%    wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)
 %
 % A modified version of Itos digit allocation algorithm:
 %   - the total signed-digit allocation is initially set to a large
@@ -16,7 +16,7 @@ function ndigits_alloc=schurOneMPAlattice_allocsd_Ito ...
 % Kenji Suyama and Ryuichi Hirabayashi.
 % http://www.eurasip.org/Proceedings/Eusipco/Eusipco2004/defevent/papers/cr1722.pdf
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2024 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -39,10 +39,10 @@ function ndigits_alloc=schurOneMPAlattice_allocsd_Ito ...
   %
   % Sanity checks
   %
-  if ((nargin~=12) && (nargin~=15) && (nargin~=18)) || (nargout~=1)
+  if ((nargin~=12)&&(nargin~=15)&&(nargin~=18)&&(nargin~=21)) || (nargout~=1)
     print_usage ("ndigits_alloc=schurOneMPAlattice_allocsd_Ito ...\n\
       (nbits,ndigits,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference, ...\n\
-       wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)");
+       wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)");
   endif
   if length(A1k)~=length(A1epsilon) || length(A1k)~=length(A1p)
     error("Input A1 coefficient vector lengths inconsistent!");
@@ -53,21 +53,28 @@ function ndigits_alloc=schurOneMPAlattice_allocsd_Ito ...
   if (length(Asqd)~=length(wa)) || (length(Asqd)~=length(Wa))
     error("Input squared-amplitude vector lengths inconsistent!");
   endif
-  if nargin<14
+  if nargin<15
     wt=[];Td=[];Wt=[];
   else
     if (length(Td)~=length(wt)) || (length(Td)~=length(Wt))
       error("Input delay vector lengths inconsistent!");
     endif
   endif
-  if nargin<17
+  if nargin<18
     wp=[];Pd=[];Wp=[];
   else
     if (length(Pd)~=length(wp)) || (length(Pd)~=length(Wp))
       error("Input phase vector lengths inconsistent!");
     endif
   endif
-  
+  if nargin<21
+    wd=[];Dd=[];Wd=[];
+  else
+    if (length(Dd)~=length(wd)) || (length(Dd)~=length(Wd))
+      error("Input dAsqdw vector lengths inconsistent!");
+    endif
+  endif
+
   %
   % Initialise
   %
@@ -87,11 +94,11 @@ function ndigits_alloc=schurOneMPAlattice_allocsd_Ito ...
     kdel(l)=k_sdU(l);
     cost_kU=schurOneMPAlatticeEsq(kdel(RA1),A1epsilon,A1p, ...
                                   kdel(RA2),A2epsilon,A2p,difference, ...
-                                  wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                                  wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
     kdel(l)=k_sdL(l);
     cost_kL=schurOneMPAlatticeEsq(kdel(RA1),A1epsilon,A1p, ...
                                   kdel(RA2),A2epsilon,A2p,difference, ...
-                                  wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                                  wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
     if cost_kU>cost_kL
       cost_k(l)=cost_kU;
     else
@@ -120,11 +127,11 @@ function ndigits_alloc=schurOneMPAlattice_allocsd_Ito ...
       kdel(imk)=nextkU(imk);
       cost_kU=schurOneMPAlatticeEsq(kdel(RA1),A1epsilon,A1p, ...
                                     kdel(RA2),A2epsilon,A2p,difference, ...
-                                    wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                                    wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
       kdel(imk)=nextkL(imk);
       cost_kL=schurOneMPAlatticeEsq(kdel(RA1),A1epsilon,A1p, ...
                                     kdel(RA2),A2epsilon,A2p,difference, ...
-                                    wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                                    wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
       if cost_kU>cost_kL
         cost_k(imk)=cost_kU;
       else

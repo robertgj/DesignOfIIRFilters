@@ -9,6 +9,7 @@ schurOneMPAlatticeAsq.m \
 schurOneMPAlatticeT.m \
 schurOneMPAlatticeP.m \
 schurOneMPAlatticeEsq.m \
+schurOneMPAlatticedAsqdw.m \
 schurOneMPAlattice_slb.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
 schurOneMPAlattice_socp_mmse.m \
@@ -18,7 +19,8 @@ schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice_slb_update_constraints.m \
 schurOneMPAlattice2tf.m \
 schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m \
-schurOneMscale.m local_max.m tf2pa.m print_polynomial.m H2Asq.m H2T.m H2P.m \
+schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
+H2Asq.m H2T.m H2P.m H2dAsqdw.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
 qroots.m qzsolve.oct Abcd2tf.oct"
@@ -106,24 +108,24 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_A1k_coef.m schurOneMPAlattice_socp_slb_bandpass_test_A1k_coef.m
+nstr="schurOneMPAlattice_socp_slb_bandpass_test"
+
+diff -Bb test_A1k_coef.m $nstr"_A1k_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k_coef.m"; fail; fi
 
-diff -Bb test_A1epsilon_coef.m \
-     schurOneMPAlattice_socp_slb_bandpass_test_A1epsilon_coef.m
+diff -Bb test_A1epsilon_coef.m $nstr"_A1epsilon_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1epsilon_coef.m"; fail; fi
 
-diff -Bb test_A1p_coef.m schurOneMPAlattice_socp_slb_bandpass_test_A1p_coef.m
+diff -Bb test_A1p_coef.m $nstr"_A1p_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1p_coef.m"; fail; fi
 
-diff -Bb test_A2k_coef.m schurOneMPAlattice_socp_slb_bandpass_test_A2k_coef.m
+diff -Bb test_A2k_coef.m $nstr"_A2k_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k_coef.m"; fail; fi
 
-diff -Bb test_A2epsilon_coef.m \
-     schurOneMPAlattice_socp_slb_bandpass_test_A2epsilon_coef.m
+diff -Bb test_A2epsilon_coef.m $nstr"_A2epsilon_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2epsilon_coef.m"; fail; fi
 
-diff -Bb test_A2p_coef.m schurOneMPAlattice_socp_slb_bandpass_test_A2p_coef.m
+diff -Bb test_A2p_coef.m $nstr"_A2p_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2p_coef.m"; fail; fi
 
 #

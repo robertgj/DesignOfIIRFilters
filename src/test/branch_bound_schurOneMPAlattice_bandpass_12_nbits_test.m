@@ -110,11 +110,10 @@ Tdl=(td-(tdr/2))*ones(ntpu-ntpl+1,1);
 Wt=Wtp*ones(ntpu-ntpl+1,1);
 
 % Phase constraints
-wp=[];
-Pd=[];
-Pdu=[];
-Pdl=[];
-Wp=[];
+wp=[];Pd=[];Pdu=[];Pdl=[];Wp=[];
+
+% dAsqdw constraints
+wd=[];Dd=[];Ddu=[];Ddl=[];Wd=[];
 
 % Linear constraints
 dmax=inf;
@@ -125,7 +124,7 @@ k0_l=-k0_u;
 
 % Exact error
 Esq0=schurOneMPAlatticeEsq(A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
-                           difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                           difference,wa,Asqd,Wa,wt,Td,Wt);
 
 % Allocate signed-digits to the coefficients
 nbits=12
@@ -134,12 +133,11 @@ ndigits=3
 if branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim
   ndigits_alloc=schurOneMPAlattice_allocsd_Lim ...
                   (nbits,ndigits,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
-                   difference,wa,Asqd,ones(size(Wa)), ...
-                   wt,Td,ones(size(Wt)),wp,Pd,ones(size(Wp)));
+                   difference,wa,Asqd,ones(size(Wa)),wt,Td,ones(size(Wt)));
 elseif branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito
   ndigits_alloc=schurOneMPAlattice_allocsd_Ito ...
                   (nbits,ndigits,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
-                   difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                   difference,wa,Asqd,Wa,wt,Td,Wt);
 else
   ndigits_alloc=zeros(size(k0));
   ndigits_alloc(k0_active)=ndigits;
@@ -164,7 +162,7 @@ print_polynomial(A2k_allocsd_digits,"A2k_allocsd_digits", ...
 A1k0_sd=k0_sd(R1);A2k0_sd=k0_sd(R2);
 Esq0_sd=schurOneMPAlatticeEsq(A1k0_sd,A1epsilon0,A1p_ones, ...
                               A2k0_sd,A2epsilon0,A2p_ones, ...
-                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                              difference,wa,Asqd,Wa,wt,Td,Wt);
 print_polynomial(A1k0_sd,"A1k0_sd",strcat(strf,"_A1k0_sd_coef.m"),nscale);
 print_polynomial(A2k0_sd,"A2k0_sd",strcat(strf,"_A2k0_sd_coef.m"),nscale);
 
@@ -227,7 +225,7 @@ if use_best_branch_and_bound_found
   k_min=[A1k_min(:);A2k_min(:)];
   Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon_min,A1p_ones, ...
                                 A2k_min,A2epsilon_min,A2p_ones, ...
-                                difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                                difference,wa,Asqd,Wa,wt,Td,Wt);
   improved_solution_found=true;
 else
   % At each node of a branch, define two SQP sub-problems, one of which is
@@ -255,7 +253,7 @@ else
         [~,gradEsq]=schurOneMPAlatticeEsq ...
                       (k_sd(R1),A1epsilon0,A1p_ones, ...
                        k_sd(R2),A2epsilon0,A2p_ones, ...
-                       difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                       difference,wa,Asqd,Wa,wt,Td,Wt);
         [k_max,k_max_n]=max(abs(gradEsq(k_active)));
       endif
       coef_n=k_active(k_max_n);
@@ -296,7 +294,8 @@ else
                                k_b(R2),A2epsilon0,A2p_ones, ...
                                difference,k0_u,k0_l,k_active,dmax, ...
                                wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                               wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
+                               [],[],[],[],[],[],[],[],[],[], ...
+                               maxiter,tol,ctol,verbose);
       printf("nextA1k=[ ");printf("%g ",nextA1k');printf("]';\n");
       printf("nextA2k=[ ");printf("%g ",nextA2k');printf("]';\n");
     catch
@@ -324,7 +323,7 @@ else
       % Check bound on Esq 
       Esq=schurOneMPAlatticeEsq ...
             (k_b(R1),A1epsilon0,A1p_ones,k_b(R2),A2epsilon0,A2p_ones, ...
-             difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+             difference,wa,Asqd,Wa,wt,Td,Wt);
       printf("Found Esq=%g\n",Esq); 
       if Esq<Esq_min
         branch_tree=true;
@@ -339,7 +338,7 @@ else
       branch_tree=false;
       Esq=schurOneMPAlatticeEsq ...
             (k_b(R1),A1epsilon0,A1p_ones,k_b(R2),A2epsilon0,A2p_ones, ...
-             difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+             difference,wa,Asqd,Wa,wt,Td,Wt);
       printf("At maximum depth Esq=%g\n",Esq);  
       % Check constraints
       if enforce_pcls_constraints_on_final_filter
@@ -348,7 +347,7 @@ else
         T=schurOneMPAlatticeT(wt,k_b(R1),A1epsilon0,A1p_ones, ...
                               k_b(R2),A2epsilon0,A2p_ones,difference);
         vS=schurOneMPAlattice_slb_update_constraints ...
-             (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,[],[],[],[],ctol);
+             (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,[],[],[],[],[],[],[],[],ctol);
         if ~schurOneMPAlattice_slb_constraints_are_empty(vS)
           printf("At maximum depth constraints are not empty!\n");
           schurOneMPAlattice_slb_show_constraints(vS,wa,Asq,wt,T);
@@ -382,7 +381,7 @@ A2k_min=k_min(R2);
 A2epsilon_min=schurOneMscale(A2k_min);
 Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon_min,A1p_ones, ...
                               A2k_min,A2epsilon_min,A2p_ones, ...
-                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                              difference,wa,Asqd,Wa,wt,Td,Wt);
 printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
 print_polynomial(A1k_min,"A1k_min",nscale);
 print_polynomial(A1k_min,"A1k_min",strcat(strf,"_A1k_min_coef.m"),nscale);

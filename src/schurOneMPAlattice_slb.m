@@ -4,14 +4,16 @@ function [A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...
                                   difference, ...
                                   k_u,k_l,k_active,dmax, ...
                                   wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                  wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
+                                  wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+                                  maxiter,ftol,ctol,verbose)
 % [A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...
 %   schurOneMPAlattice_slb(pfx, ...
 %                          A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
 %                          difference, ...
 %                          k_u,k_l,k_active,dmax, ...
 %                          wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%                          wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
+%                          wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+%                          maxiter,ftol,ctol,verbose)
 %
 % PCLS optimisation of a one-multiplier lattice filter with constraints on
 % the amplitude and group delay responses. See:
@@ -47,6 +49,10 @@ function [A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...
 %   Pd - desired phase response
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
+%   wd - angular frequencies of dAsqdw response 
+%   Dd - desired dAsqdw response
+%   Ddu,Ddl - upper/lower mask for the desired dAsqdw response
+%   Wd - dAsqdw response weight at each frequency
 %   maxiter - maximum number of SQP iterations
 %   ftol - tolerance on coefficient update
 %   ctol - tolerance on constraints
@@ -102,14 +108,15 @@ function [A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...
 %
 % Sanity checks
 %
-if (nargin ~= 31) || (nargout ~=6)
+if (nargin ~= 36) || (nargout ~=6)
   print_usage("[A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...\n\
      schurOneMPAlattice_slb(pfx, ...\n\
                             A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...\n\
                             difference, ...\n\
                             k_u,k_l,k_active,dmax, ...\n\
                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                            wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
+                            wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...\n\
+                            maxiter,ftol,ctol,verbose)");
 endif
 if ~is_function_handle(pfx)
   error("Expected pfx to be a function handle!");
@@ -135,8 +142,10 @@ Tk=schurOneMPAlatticeT(wt,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
                        difference);
 Pk=schurOneMPAlatticeP(wp,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
                        difference);
+Dk=schurOneMPAlatticedAsqdw(wd,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
+                            difference);
 vS=schurOneMPAlattice_slb_update_constraints ...
-     (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,ctol);
+     (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,Dk,Ddu,Ddl,Wd,ctol);
 if schurOneMPAlattice_slb_constraints_are_empty(vS)&&all(k_u>=k0)&&all(k_l<=k0)
   printf("Initial solution satisfies constraints!\n");
   feasible=true;
@@ -170,7 +179,8 @@ while 1
             difference, ...
             k_u,k_l,k_active,dmax, ...
             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-            wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
+            wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+            maxiter,ftol,ctol,verbose);
     opt_iter=opt_iter+tmp_opt_iter;
     func_iter=func_iter+tmp_func_iter;
   catch
@@ -200,23 +210,26 @@ while 1
   Tk=schurOneMPAlatticeT(wt,A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0, ...
                          difference);
   Pk=schurOneMPAlatticeP(wp,A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0, ...
-                         difference);
-  [vR,vS,exchanged] = schurOneMPAlattice_slb_exchange_constraints ...
-                        (vS,vR,Asqk,Asqdu,Asqdl,Tk,Tdu,Tdl,Pk,Pdu,Pdl,ctol);
+                         difference); 
+  Dk=schurOneMPAlatticedAsqdw(wd,A1k,A1epsilon0,A1p0,A2k,A2epsilon0,A2p0, ...
+                              difference);
+  [vR,vS,exchanged] = ...
+    schurOneMPAlattice_slb_exchange_constraints ...
+      (vS,vR,Asqk,Asqdu,Asqdl,Tk,Tdu,Tdl,Pk,Pdu,Pdl,Dk,Ddu,Ddl,ctol);
   if exchanged
     printf("Step 4: R constraints violated after ");
     printf("%d PCLS iterations.\n",slb_iter)
     printf("R constraints:\n");
-    schurOneMPAlattice_slb_show_constraints(vR,wa,Asqk,wt,Tk,wp,Pk);
+    schurOneMPAlattice_slb_show_constraints(vR,wa,Asqk,wt,Tk,wp,Pk,wd,Dk);
     printf("S constraints:\n");
-    schurOneMPAlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk);
+    schurOneMPAlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk,wd,Dk);
     printf("Going to Step 2!\n");
     continue;
   else
     printf("Step 4: no R constraints violated after ")
     printf("%d PCLS iterations.\n",slb_iter)
     printf("S constraints:\n");
-    schurOneMPAlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk);
+    schurOneMPAlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk,wd,Dk);
     printf("Going to Step 5!\n");
   endif
   
@@ -225,7 +238,7 @@ while 1
   %
   vR=vS;
   vS=schurOneMPAlattice_slb_update_constraints ...
-       (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,ctol);
+       (Asqk,Asqdu,Asqdl,Wa,Tk,Tdu,Tdl,Wt,Pk,Pdu,Pdl,Wp,Dk,Ddu,Ddl,Wd,ctol);
   printf("Step 5: vS frequency constraints updated to:\n");
   for [v,m]=vS
     printf("vS.%s=[ ",m);printf("%d ",v);printf("]\n");
@@ -233,7 +246,7 @@ while 1
   printf("A1k=[ ");printf("%g ",A1k');printf("]'\n");
   printf("A2k=[ ");printf("%g ",A2k');printf("]'\n");
   printf("S constraints:\n");
-  schurOneMPAlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk);
+  schurOneMPAlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk,wd,Dk);
 
   %
   % Step 6: Check for convergence
@@ -246,7 +259,7 @@ while 1
     printf("Step 6: Solution does not satisfy S constraints ");
     printf("after %d PCLS iterations\n",slb_iter)
     printf("S constraints:\n");
-    schurOneMPAlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk);
+    schurOneMPAlattice_slb_show_constraints(vS,wa,Asqk,wt,Tk,wp,Pk,wd,Dk);
     printf("Going to Step 2!\n");
     continue;
   endif

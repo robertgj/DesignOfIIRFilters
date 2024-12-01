@@ -21,43 +21,66 @@ ctol=1e-5
 verbose=false;
 
 %
-% Initial filters
-%
-parallel_allpass_socp_slb_bandpass_hilbert_test_Da1_coef;
-parallel_allpass_socp_slb_bandpass_hilbert_test_Db1_coef;
-
-% SeDuMi fails if p is all ones!!
-[A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(Da1),Da1);
-[A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(Db1),Db1);
-
-%
 % Band-pass filter specification for parallel all-pass filters
 %
 difference=true
-rho=0.999 
-ma=length(A1k0)
-mb=length(A2k0)
 fasl=0.05
-fapl=0.12
-fapu=0.18
+fapl=0.1
+fapu=0.2
 fasu=0.25
-dBap=0.08
-Wap=1
+dBap=0.1
+Wap=20
+dBas=36
 Watl=1e-3
 Watu=1e-3
-dBas=35
-Wasl=200
-Wasu=200
-ftpl=0.12
-ftpu=0.18
-td=16
-tdr=0.2
+Wasl=50000
+Wasu=5000
+ftpl=0.11
+ftpu=0.19
+tp=16
+tpr=0.4
 Wtp=2
-fppl=0.12
-fppu=0.18
-pd=3.5 % Initial phase offset (rad./pi)
-pdr=0.08 % Peak-to-peak phase ripple (rad./pi)
-Wpp=100
+fppl=0.11
+fppu=0.19
+pp=3.5 % Initial phase offset (rad./pi)
+ppr=0.02 % Peak-to-peak phase ripple (rad./pi)
+Wpp=10
+fdpl=fapl % Pass band dAsqdw response lower edge
+fdpu=fapu % Pass band dAsqdw response upper edge
+dp=0      % Pass band dAsqdw response nominal value
+dpr=1     % Pass band dAsqdw response ripple
+Wdp=0.001 % Pass band dAsqdw response weight
+
+%
+% Initial coefficients
+%
+schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A1k_coef;
+schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A1epsilon_coef;
+schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A1p_coef;
+A1k0=A1k;
+A1epsilon0=A1epsilon;
+A1p0=A1p;
+A1p_ones = ones(size(A1p0));
+print_polynomial(A1k0,"A1k0");
+printf("A1epsilon0=[ ");printf("%d ",A1epsilon0);printf("]';\n");
+clear A1k A1epsilon A1p;
+
+schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A2k_coef;
+schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A2epsilon_coef;
+schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A2p_coef;
+A2k0=A2k;
+A2epsilon0=A2epsilon;
+A2p0=A2p;
+A2p_ones = ones(size(A2p0));
+print_polynomial(A2k0,"A2k0");
+printf("A2epsilon0=[ ");printf("%d ",A2epsilon0);printf("]';\n");
+clear A2k A2epsilon A2p;
+
+% Initialise coefficient range vectors
+NA1k=length(A1k0);
+NA2k=length(A2k0);
+RA1k=1:NA1k;
+RA2k=(NA1k+1):(NA1k+NA2k);
 
 %
 % Frequency vectors
@@ -85,19 +108,32 @@ Wa=[Wasl*ones(nasl,1); ...
 ntpl=floor(n*ftpl/0.5)+1;
 ntpu=ceil(n*ftpu/0.5)+1;
 wt=wa(ntpl:ntpu);
-Td=td*ones(length(wt),1);
-Tdu=Td+(tdr/2);
-Tdl=Td-(tdr/2);
+Td=tp*ones(length(wt),1);
+Tdu=Td+(tpr/2);
+Tdl=Td-(tpr/2);
 Wt=Wtp*ones(length(wt),1);
 
 % Desired pass-band phase response
 nppl=floor(n*fppl/0.5)+1;
 nppu=ceil(n*fppu/0.5)+1;
 wp=wa(nppl:nppu);
-Pd=(pd*pi)-(td*wp);
-Pdu=Pd+(pdr*pi/2);
-Pdl=Pd-(pdr*pi/2);
+Pd=(pp*pi)-(tp*wp);
+Pdu=Pd+(ppr*pi/2);
+Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(nppu-nppl+1,1);
+
+% Desired pass-band dAsqdw response
+if 1
+  ndpl=floor(n*fdpl/0.5)+1;
+  ndpu=ceil(n*fdpu/0.5)+1;
+  wd=wa(ndpl:ndpu);
+  Dd=dp*ones(length(wd),1);
+  Ddu=Dd+(dpr/2);
+  Ddl=Dd-(dpr/2);
+  Wd=Wdp*ones(length(wd),1);
+else
+  wd=[];Dd=[];Ddu=[];Ddl=[];Wd=[];
+endif
 
 % Sanity checks
 nchka=[nasl-1,nasl,nasl+1,napl-1,napl,napl+1,napu-1,napu,napu+1, ...
@@ -114,59 +150,29 @@ printf("0.5*wa(nchkt)'/pi=[ ");printf("%6.4g ",0.5*wa(nchkt)'/pi);printf("];\n")
 nchkp=[nppl-1,nppl,nppl+1,nppu-1,nppu,nppu+1];
 printf("0.5*wa(nchkp)'/pi=[ ");printf("%6.4g ",0.5*wa(nchkp)'/pi);printf("];\n");
 
-% Relative errors
-EsqA0sl=schurOneMPAlatticeEsq ...
-         (A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference, ...
-          wa,Asqd,[ones(nasl,1);zeros(n-nasl,1)], ...
-          wt,Td,zeros(size(wt)), ...
-          wp,Pd,zeros(size(wp)))
-EsqA0p=schurOneMPAlatticeEsq ...
-         (A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference, ...
-          wa,Asqd,[zeros(napl-1,1);ones(napu-napl+1,1);zeros(n-napu,1)], ...
-          wt,Td,zeros(size(wt)), ...
-          wp,Pd,zeros(size(wp)))
-EsqA0su=schurOneMPAlatticeEsq ...
-         (A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference, ...
-          wa,Asqd,[zeros(nasu-1,1);ones(n-nasu+1,1)], ...
-          wt,Td,zeros(size(wt)), ...
-          wp,Pd,zeros(size(wp)))
-EsqT0=schurOneMPAlatticeEsq ...
-        (A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference, ...
-         wa,Asqd,zeros(size(wa)), ...
-         wt,Td,ones(size(wt)), ...
-         wp,Pd,zeros(size(wp)))
-EsqP0=schurOneMPAlatticeEsq ...
-        (A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference, ...
-         wa,Asqd,zeros(size(wa)), ...
-         wt,Td,zeros(size(wt)), ...
-         wp,Pd,ones(size(wp)))
-
 % Constraints on the coefficients
+rho=0.999 
 dmax=0.05;
 A1k0=A1k0(:);
 A2k0=A2k0(:);
-NA1k=length(A1k0);
-NA2k=length(A2k0);
 k0=[A1k0;A2k0];
 Nk=length(k0);
-Rk=1:Nk;
-RA1k=1:NA1k;
-RA2k=NA1k+RA1k;
 k_u=rho*ones(Nk,1);
 k_l=-k_u;
 k0_active=find((k0)~=0);
+
+% Exact error
+Esq0=schurOneMPAlatticeEsq(A1k0,A1epsilon0,A1p_ones, ...
+                           A2k0,A2epsilon0,A2p_ones, ...
+                           difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 
 % Allocate digits
 nbits=13;
 nscale=2^(nbits-1);
 ndigits=3;
-ndigits_alloc=schurOneMPAlattice_allocsd_Ito(nbits,ndigits, ...
-                                             A1k0,A1epsilon0,A1p0, ...
-                                             A2k0,A2epsilon0,A2p0, ...
-                                             difference, ...
-                                             wa,Asqd,ones(size(wa)), ...
-                                             wt,Td,ones(size(wt)), ...
-                                             wp,Pd,ones(size(wp)));
+ndigits_alloc=schurOneMPAlattice_allocsd_Ito ...
+                (nbits,ndigits,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
+                 difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 A1k_allocsd_digits=int16(ndigits_alloc(RA1k));
 A2k_allocsd_digits=int16(ndigits_alloc(RA2k));
 printf("A1k_allocsd_digits=[ ");
@@ -193,14 +199,15 @@ print_polynomial(A2k0_sd_Ito,"A2k0_sd_Ito", ...
                  strcat(strf,"_A2k0_sd_Ito_coef.m"),nscale);
 
 % Find initial mean-squared errrors
-Esq0=schurOneMPAlatticeEsq(A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
-                           difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-Esq0_sd=schurOneMPAlatticeEsq(k0_sd(RA1k),A1epsilon0,A1p0, ...
-                              k0_sd(RA2k),A2epsilon0,A2p0, ... 
-                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
-Esq0_sd_Ito=schurOneMPAlatticeEsq(k0_sd_Ito(RA1k),A1epsilon0,A1p0, ...
-                                  k0_sd_Ito(RA2k),A2epsilon0,A2p0, ...
-                                  difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+Esq0=schurOneMPAlatticeEsq ...
+       (A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
+        difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
+Esq0_sd=schurOneMPAlatticeEsq ...
+          (k0_sd(RA1k),A1epsilon0,A1p0,k0_sd(RA2k),A2epsilon0,A2p0, ... 
+           difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
+Esq0_sd_Ito=schurOneMPAlatticeEsq ...
+          (k0_sd_Ito(RA1k),A1epsilon0,A1p0,k0_sd_Ito(RA2k),A2epsilon0,A2p0, ...
+           difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 
 % Define filter coefficients
 k0_sd_delta=(k0_sdu_Ito-k0_sdl_Ito)/2;
@@ -209,7 +216,7 @@ k0_sd_x_active=find((k0_sd_x)~=0);
 [Esq0_sd_x,gradEsq0_sd_x]= ...
   schurOneMPAlatticeEsq(k0_sd_x(RA1k),A1epsilon0,A1p0, ...
                         k0_sd_x(RA2k),A2epsilon0,A2p0, ...
-                        difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                        difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 
 % Solve the SDP problem with SeDuMi
 [A1k0_sd_sdp,A2k0_sd_sdp,socp_iter,func_iter,feasible] = ...
@@ -218,7 +225,8 @@ k0_sd_x_active=find((k0_sd_x)~=0);
                               k0_sd_x(RA2k),A2epsilon0,A2p0, ...
                               difference,k_u,k_l,k0_sd_x_active,k0_sd_delta, ...
                               wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                              wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
+                              wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+                              maxiter,ftol,ctol,verbose);
 if feasible==false
   error("sdp_relaxation_schurOneMPAlattice_mmse failed!");
 endif
@@ -230,9 +238,9 @@ print_polynomial(A2k0_sd_sdp,"A2k0_sd_sdp", ...
                  strcat(strf,"_A2k0_sd_sdp_coef.m"),nscale);
 k0_sd_sdp=[A1k0_sd_sdp(:);A2k0_sd_sdp];
 [k0_digits_sd_sdp,k0_adders_sd_sdp]=SDadders(k0_sd_sdp,nbits);
-Esq0_sd_sdp=schurOneMPAlatticeEsq(A1k0_sd_sdp,A1epsilon0,A1p0, ...
-                                  A2k0_sd_sdp,A2epsilon0,A2p0, ...
-                                  difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+Esq0_sd_sdp=schurOneMPAlatticeEsq ...
+              (A1k0_sd_sdp,A1epsilon0,A1p0,A2k0_sd_sdp,A2epsilon0,A2p0, ...
+               difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 
 % Find coefficients with successive relaxation
 k=zeros(size(k0));
@@ -251,12 +259,13 @@ while 1
   k_sd_x=(k_sdu_Ito+k_sdl_Ito)/2;
   k_sd_x_active=find((k_sd_x)~=0);
   [A1k_sd_sdp,A2k_sd_sdp,socp_iter,func_iter,feasible] = ...
-    sdp_relaxation_schurOneMPAlattice_mmse([], ...
-                                k_sd_x(RA1k),A1epsilon0,A1p0, ...
-                                k_sd_x(RA2k),A2epsilon0,A2p0, ...
-                                difference,k_u,k_l,k_sd_x_active,k_sd_delta, ...
-                                wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
+    sdp_relaxation_schurOneMPAlattice_mmse ...
+      ([], ...
+       k_sd_x(RA1k),A1epsilon0,A1p0,k_sd_x(RA2k),A2epsilon0,A2p0, ...
+       difference,k_u,k_l,k_sd_x_active,k_sd_delta, ...
+       wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
+       wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+       maxiter,ftol,ctol,verbose);
   if feasible==false
     error("sdp_relaxation_schurOneMPAlattice_mmse failed!");
   endif
@@ -290,9 +299,10 @@ while 1
     % Coefficients
     A1k0_sd_min=k0_sd_min(RA1k);
     A2k0_sd_min=k0_sd_min(RA2k);
-    Esq0_sd_min=schurOneMPAlatticeEsq(A1k0_sd_min,A1epsilon0,A1p0, ...
-                                      A2k0_sd_min,A2epsilon0,A2p0, ...
-                                      difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+    Esq0_sd_min=schurOneMPAlatticeEsq ...
+                  (A1k0_sd_min,A1epsilon0,A1p0,A2k0_sd_min,A2epsilon0,A2p0, ...
+                   difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
+    printf("Esq0_sd_min=%g\n",Esq0_sd_min);
     print_polynomial(A1k0_sd_min,"A1k0_sd_min",nscale);
     print_polynomial(A1k0_sd_min,"A1k0_sd_min", ...
                      strcat(strf,"_A1k0_sd_min_coef.m"),nscale);
@@ -311,6 +321,7 @@ while 1
                              wa,Asqd,Asqdu,Asqdl,Wa, ...
                              wt,Td,Tdu,Tdl,Wt, ...
                              wp,Pd,Pdu,Pdl,Wp, ...
+                             wd,Dd,Ddu,Ddl,Wd, ...
                              maxiter,ftol,ctol,verbose);
     k=[nextA1k(:);nextA2k(:)];
   catch
@@ -342,6 +353,7 @@ Asq_k0_sd_sdp=schurOneMPAlatticeAsq(wa,k0_sd_sdp(RA1k),A1epsilon0,A1p0, ...
                                     k0_sd_sdp(RA2k),A2epsilon0,A2p0,difference);
 Asq_k0_sd_min=schurOneMPAlatticeAsq(wa,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
                                     k0_sd_min(RA2k),A2epsilon0,A2p0,difference);
+
 T_k0=schurOneMPAlatticeT(wt,A1k0,A1epsilon0,A1p0, ...
                          A2k0,A2epsilon0,A2p0,difference);
 T_k0_sd=schurOneMPAlatticeT(wt,k0_sd(RA1k),A1epsilon0,A1p0, ...
@@ -352,6 +364,7 @@ T_k0_sd_sdp=schurOneMPAlatticeT(wt,k0_sd_sdp(RA1k),A1epsilon0,A1p0, ...
                                 k0_sd_sdp(RA2k),A2epsilon0,A2p0,difference);
 T_k0_sd_min=schurOneMPAlatticeT(wt,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
                                 k0_sd_min(RA2k),A2epsilon0,A2p0,difference);
+
 P_k0=schurOneMPAlatticeP(wp,A1k0,A1epsilon0,A1p0, ...
                          A2k0,A2epsilon0,A2p0,difference);
 P_k0_sd=schurOneMPAlatticeP(wp,k0_sd(RA1k),A1epsilon0,A1p0, ...
@@ -362,6 +375,17 @@ P_k0_sd_sdp=schurOneMPAlatticeP(wp,k0_sd_sdp(RA1k),A1epsilon0,A1p0, ...
                                 k0_sd_sdp(RA2k),A2epsilon0,A2p0,difference);
 P_k0_sd_min=schurOneMPAlatticeP(wp,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
                                 k0_sd_min(RA2k),A2epsilon0,A2p0,difference);
+
+dAsqdw_k0=schurOneMPAlatticedAsqdw(wd,A1k0,A1epsilon0,A1p0, ...
+                                   A2k0,A2epsilon0,A2p0,difference);
+dAsqdw_k0_sd=schurOneMPAlatticedAsqdw(wd,k0_sd(RA1k),A1epsilon0,A1p0, ...
+                                      k0_sd(RA2k),A2epsilon0,A2p0,difference);
+dAsqdw_k0_sd_Ito=schurOneMPAlatticedAsqdw(wd,k0_sd_Ito(RA1k),A1epsilon0,A1p0, ...
+                                          k0_sd_Ito(RA2k),A2epsilon0,A2p0,difference);
+dAsqdw_k0_sd_sdp=schurOneMPAlatticedAsqdw(wd,k0_sd_sdp(RA1k),A1epsilon0,A1p0, ...
+                                          k0_sd_sdp(RA2k),A2epsilon0,A2p0,difference);
+dAsqdw_k0_sd_min=schurOneMPAlatticedAsqdw(wd,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
+                                          k0_sd_min(RA2k),A2epsilon0,A2p0,difference);
 
 % Amplitude and delay at local peaks
 vAl=local_max(Asqdl-Asq_k0_sd_min);
@@ -386,8 +410,16 @@ wPS=sort(unique([wp(vPl);wp(vPu);wp([1,end])]));
 PS=schurOneMPAlatticeP(wPS,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
                        k0_sd_min(RA2k),A2epsilon0,A2p0,difference);
 printf("k0_sd_min:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("k0_sd_min:PS=[ ");printf("%f ",mod((PS+(wPS*td))'/pi,2));
+printf("k0_sd_min:PS=[ ");printf("%f ",mod((PS+(wPS*tp))'/pi,2));
 printf("] (rad./pi)\n");
+
+vDl=local_max(Ddl-dAsqdw_k0_sd_min);
+vDu=local_max(dAsqdw_k0_sd_min-Ddu);
+wDS=sort(unique([wd(vDl);wd(vDu);wd([1,end])]));
+DS=schurOneMPAlatticedAsqdw(wDS,k0_sd_min(RA1k),A1epsilon0,A1p_ones, ...
+                            k0_sd_min(RA2k),A2epsilon0,A2p_ones,difference);
+printf("k0_sd_kmin:fDS=[ ");printf("%f ",wDS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("k0_sd_kmin:DS=[ ");printf("%f ",DS');printf("]\n")
 
 % Find maximum stop band response
 rsb=[1:nasl,nasu:n];
@@ -461,7 +493,7 @@ plot(wt*0.5/pi,T_k0,"linestyle","-", ...
      wt*0.5/pi,T_k0_sd_min,"linestyle","-.");
 xlabel("Frequency");
 ylabel("Delay(samples)");
-axis([min([fapl ftpl fppl]),max([fapu ftpu ftpu]),(td+(tdr*[-1,1]))]);
+axis([min([fapl ftpl fppl]),max([fapu ftpu ftpu]),(tp+(tpr*[-1,1]))]);
 strt=sprintf("Parallel allpass lattice bandpass Hilbert filter pass-band delay \
 (nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
 title(strt);
@@ -474,14 +506,14 @@ print(strcat(strf,"_delay"),"-dpdflatex");
 close
 
 % Plot phase response
-plot(wp*0.5/pi,((P_k0+(wp*td))/pi)-pd,"linestyle","-", ...
-     wp*0.5/pi,((P_k0_sd+(wp*td))/pi)-pd,"linestyle",":", ...
-     wp*0.5/pi,((P_k0_sd_Ito+(wp*td))/pi)-pd,"linestyle","--", ...
-     wp*0.5/pi,((P_k0_sd_sdp+(wp*td))/pi)-pd,"linestyle","-", ...
-     wp*0.5/pi,((P_k0_sd_min+(wp*td))/pi)-pd,"linestyle","-.");
+plot(wp*0.5/pi,((P_k0+(wp*tp))/pi)-pp,"linestyle","-", ...
+     wp*0.5/pi,((P_k0_sd+(wp*tp))/pi)-pp,"linestyle",":", ...
+     wp*0.5/pi,((P_k0_sd_Ito+(wp*tp))/pi)-pp,"linestyle","--", ...
+     wp*0.5/pi,((P_k0_sd_sdp+(wp*tp))/pi)-pp,"linestyle","-", ...
+     wp*0.5/pi,((P_k0_sd_min+(wp*tp))/pi)-pp,"linestyle","-.");
 xlabel("Frequency");
 ylabel("Phase error(rad./$\\pi$)");
-axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), (pdr/2)*[-1,1]]);
+axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), (ppr/2)*[-1,1]]);
 strt=sprintf("Parallel allpass lattice bandpass Hilbert filter pass-band phase \
 (nbits=%d,ndigits=%d) : fppl=%g,fppu=%g",nbits,ndigits,fppl,fppu);
 title(strt);
@@ -500,8 +532,8 @@ fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits)
 fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d%% Frequency points across the band\n",n);
-fprintf(fid,"ma=%d %% All-pass filter a order\n",ma);
-fprintf(fid,"mb=%d %% All-pass filter b order\n",mb);
+fprintf(fid,"NA1k=%d %% All-pass filter a order\n",NA1k);
+fprintf(fid,"NA2k=%d %% All-pass filter b order\n",NA2k);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
 fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
@@ -513,21 +545,26 @@ fprintf(fid,"Wasl=%g %% Amplitude lower stop band weight\n",Wasl);
 fprintf(fid,"Wasu=%g %% Amplitude upper stop band weight\n",Wasu);
 fprintf(fid,"ftpl=%g %% Pass band delay lower edge\n",ftpl);
 fprintf(fid,"ftpu=%g %% Pass band delay upper edge\n",ftpu);
-fprintf(fid,"td=%g %% Nominal pass band filter group delay\n",td);
-fprintf(fid,"tdr=%g %% Delay pass band peak-to-peak ripple\n",tdr);
+fprintf(fid,"tp=%g %% Nominal pass band filter group delay\n",tp);
+fprintf(fid,"tpr=%g %% Delay pass band peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Delay pass band weight\n",Wtp);
 fprintf(fid,"fppl=%g %% Pass band phase response lower edge\n",fppl);
 fprintf(fid,"fppu=%g %% Pass band phase response upper edge\n",fppu);
-fprintf(fid,"pd=%g %% Pass band initial phase response (rad./pi)\n",pd);
-fprintf(fid,"pdr=%g %% Pass band phase response ripple(rad./pi)\n",pdr);
+fprintf(fid,"pp=%g %% Pass band initial phase response (rad./pi)\n",pp);
+fprintf(fid,"ppr=%g %% Pass band phase response ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%g %% Pass band phase response weight\n",Wpp);
+fprintf(fid,"fdpl=%g %% Pass band dAsqdw response lower edge\n",fdpl);
+fprintf(fid,"fdpu=%g %% Pass band dAsqdw response upper edge\n",fdpu);
+fprintf(fid,"dp=%g %% Pass band initial dAsqdw response (rad./pi)\n",dp);
+fprintf(fid,"dpr=%g %% Pass band dAsqdw response ripple(rad./pi)\n",dpr);
+fprintf(fid,"Wdp=%g %% Pass band dAsqdw response weight\n",Wdp);
 fclose(fid);
 
 % Save results
 eval(sprintf("save %s.mat \
 ftol ctol nbits nscale ndigits ndigits_alloc n \
 fapl fapu dBap Wap fasl fasu dBas Wasl Wasu \
-ftpl ftpu td tdr Wtp fppl fppu pd pdr Wpp \
+ftpl ftpu tp tpr Wtp fppl fppu pp ppr Wpp fdpl fdpu dp dpr Wdp \
 A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 \
 A1k0_sd_Ito A2k0_sd_Ito A1k0_sd_sdp A2k0_sd_sdp A1k0_sd_min A2k0_sd_min",strf));
        

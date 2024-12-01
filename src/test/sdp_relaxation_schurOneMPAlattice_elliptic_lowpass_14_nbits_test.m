@@ -62,18 +62,13 @@ Asqdl=[(10^(-dBap/10))*ones(nap,1);zeros(n-nap,1)];
 Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
 
 % Group delay
-wt=[];
-Td=[];
-Tdu=[];
-Tdl=[];
-Wt=[];
+wt=[];Td=[];Tdu=[];Tdl=[];Wt=[];
 
 % Phase
-wp=[];
-Pd=[];
-Pdu=[];
-Pdl=[];
-Wp=[];
+wp=[];Pd=[];Pdu=[];Pdl=[];Wp=[];
+
+% dAsqdw
+wd=[];Dd=[];Ddu=[];Ddl=[];Wd=[];
 
 % Sanity checks
 nchka=[nap-1,nap,nap+1,nas-1,nas,nas+1]';
@@ -135,7 +130,7 @@ k0_sd_x_active=find((k0_sd_x)~=0);
                               difference,k0_u,k0_l,k0_sd_x_active,k0_sd_delta,...
                               wa,Asqd,Asqdu,Asqdl,Wa, ...
                               wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-                              maxiter,tol,ctol,verbose);
+                              wd,Dd,Ddu,Ddl,Wd,maxiter,tol,ctol,verbose);
 if feasible==false
   error("sdp_relaxation_schurOneMPAlattice_mmse failed!");
 endif
@@ -177,7 +172,7 @@ while 1
                                 k0_u,k0_l,k_sd_x_active,k_sd_delta, ...
                                 wa,Asqd,Asqdu,Asqdl,Wa, ...
                                 wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-                                maxiter,tol,ctol,verbose);
+                                wd,Dd,Ddu,Ddl,Wd,maxiter,tol,ctol,verbose);
   if feasible==false
     error("sdp_relaxation_schurOneMPAlattice_mmse failed!");
   endif
@@ -233,7 +228,7 @@ while 1
                              difference,k0_u,k0_l,k_active,dmax, ...
                              wa,Asqd,Asqdu,Asqdl,Wa, ...
                              wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-                             maxiter,tol,ctol,verbose);
+                             wd,Dd,Ddu,Ddl,Wd,maxiter,tol,ctol,verbose);
     k=[nextA1k(:);nextA2k(:)];
   catch
     feasible=false;

@@ -25,6 +25,7 @@ schurOneMPAlatticeDelay_socp_slb_lowpass_flat_delay_test.m test_common.m \
 schurOneMPAlatticeAsq.m \
 schurOneMPAlatticeT.m \
 schurOneMPAlatticeP.m \
+schurOneMPAlatticedAsqdw.m \
 schurOneMPAlatticeEsq.m \
 schurOneMPAlattice_slb.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
@@ -38,7 +39,7 @@ schurOneMAPlattice2tf.m \
 schurOneMPAlatticeDelay_wise_lowpass.m \
 schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m \
 schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
-Abcd2tf.m H2Asq.m H2T.m H2P.m WISEJ_DA.m delayz.m \
+Abcd2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m WISEJ_DA.m delayz.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
 qroots.m qzsolve.oct

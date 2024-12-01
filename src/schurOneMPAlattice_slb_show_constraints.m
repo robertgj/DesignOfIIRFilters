@@ -1,4 +1,4 @@
-function schurOneMPAlattice_slb_show_constraints(vS,wa,Asq,wt,T,wp,P)
+function schurOneMPAlattice_slb_show_constraints(vS,wa,Asq,wt,T,wp,P,wd,D)
 
 % Copyright (C) 2017-2024 Robert G. Jenssen
 %
@@ -54,6 +54,18 @@ function schurOneMPAlattice_slb_show_constraints(vS,wa,Asq,wt,T,wp,P)
     printf("pu=[ ");printf("%d ",vS.pu');printf("]\n");
     printf("f(pu)=[ ");printf("%f ",wp(vS.pu)'*0.5/pi);printf("](fs=1)\n");
     printf("Pu=[ ");printf("%f ",P(vS.pu)/pi);printf("](rad./pi)\n");
+  endif
+
+  if ~isempty(vS.dl)
+    printf("dl=[ ");printf("%d ",vS.dl');printf("]\n");
+    printf("f(dl)=[ ");printf("%f ",wd(vS.dl)'*0.5/pi);printf("](fs=1)\n");
+    printf("Dl=[ ");printf("%f ",D(vS.dl));printf("]\n");
+  endif
+
+  if ~isempty(vS.du)
+    printf("du=[ ");printf("%d ",vS.du');printf("]\n");
+    printf("f(du)=[ ");printf("%f ",wd(vS.du)'*0.5/pi);printf("](fs=1)\n");
+    printf("Du=[ ");printf("%f ",D(vS.du));printf("]\n");
   endif
 
 endfunction

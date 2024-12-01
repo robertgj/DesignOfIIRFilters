@@ -66,6 +66,13 @@ Pdu=[];
 Pdl=[];
 Wp=[];
 
+% dAsqdw constraints
+wd=[];
+Dd=[];
+Ddu=[];
+Ddl=[];
+Wd=[];
+
 % Linear constraints
 dmax=inf;
 rho=127/128
@@ -83,7 +90,8 @@ k_active=find(k0~=0);
                          difference, ...
                          k_u,k_l,k_active,dmax, ...
                          wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                         wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
+                         wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+                         maxiter,tol,ctol,verbose);
 if feasible == 0 
   error("A1k,A2k(pcls) infeasible");
 endif

@@ -4,12 +4,12 @@ prog=schurOneMPAlattice_slb_update_constraints_test.m
 depends="test/schurOneMPAlattice_slb_update_constraints_test.m test_common.m \
 schurOneMPAlattice_slb_update_constraints.m \
 schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m schurOneMPAlatticeP.m \
-schurOneMPAlatticeEsq.m \
+schurOneMPAlatticedAsqdw.m schurOneMPAlatticeEsq.m \
 schurOneMPAlattice_slb_set_empty_constraints.m \
 schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
 schurOneMscale.m tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m \
-local_max.m print_polynomial.m H2Asq.m H2T.m H2P.m \
+local_max.m print_polynomial.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct"
 
@@ -50,6 +50,7 @@ cat > test.ok << 'EOF'
 maxiter = 2000
 tol = 5.0000e-06
 verbose = 1
+fdp = 0.1500
 vR0 after update constraints:
 al=[ 148 301 ]
 f(al)=[ 0.073500 0.150000 ](fs=1)
@@ -69,6 +70,12 @@ Pl=[ -0.322424 -3.565270 -4.025277 ](rad./pi)
 pu=[ 84 ]
 f(pu)=[ 0.041500 ](fs=1)
 Pu=[ -0.954198 ](rad./pi)
+dl=[ 107 297 ]
+f(dl)=[ 0.053000 0.148000 ](fs=1)
+Dl=[ -0.520083 -3.526330 ]
+du=[ 192 ]
+f(du)=[ 0.095500 ](fs=1)
+Du=[ 0.723269 ]
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

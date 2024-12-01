@@ -97,11 +97,10 @@ Tdl=(td-(tdr/2))*ones(ntpu-ntpl+1,1);
 Wt=Wtp*ones(ntpu-ntpl+1,1);
 
 % Phase constraints
-wp=[];
-Pd=[];
-Pdu=[];
-Pdl=[];
-Wp=[];
+wp=[];Pd=[];Pdu=[];Pdl=[];Wp=[];
+
+% dAsqdw constraints
+wd=[];Dd=[];Ddu=[];Ddl=[];Wd=[];
 
 % Linear constraints
 dmax=inf;
@@ -120,12 +119,12 @@ ndigits=3
 if socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim
   ndigits_alloc=schurOneMPAlattice_allocsd_Lim ...
                   (nbits,ndigits,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                   difference,wa,Asqd,ones(size(Wa)), ...
-                   wt,Td,ones(size(Wt)),wp,Pd,ones(size(Wp)));
+                   difference,wa,Asqd,ones(size(Wa)),wt,Td,ones(size(Wt)), ...
+                   wp,Pd,ones(size(Wp)),wd,Dd,ones(size(Wd)));
 elseif socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito
   ndigits_alloc=schurOneMPAlattice_allocsd_Ito ...
                   (nbits,ndigits,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                   difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                   difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 else
   ndigits_alloc=zeros(size(k));
   ndigits_alloc(k_active)=ndigits;
@@ -181,12 +180,12 @@ endif
 
 % Find k error
 Esq0=schurOneMPAlatticeEsq(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                           difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                           difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 
 % Find k_sd error
 Esq0_sd=schurOneMPAlatticeEsq ...
           (k_sd(R1),A1epsilon,A1p,k_sd(R2),A2epsilon,A2p,difference, ...
-           wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+           wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 
 % Find the number of signed-digits and adders used by k_sd
 [k_digits,k_adders]=SDadders(k_sd(k_active),nbits);
@@ -227,7 +226,8 @@ while ~isempty(kopt_active)
       (@schurOneMPAlattice_socp_mmse, ...
        kopt_b(R1),A1epsilon,A1p,kopt_b(R2),A2epsilon,A2p,difference, ...
        kopt_bu,kopt_bl,kopt_active,dmax, ...
-       wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
+       wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
+       wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
        maxiter,tol,ctol,verbose);
   catch
     feasible=false;
@@ -273,7 +273,7 @@ A2epsilon_min=schurOneMscale(A2k_min);
 Esq_min=schurOneMPAlatticeEsq ...
           (A1k_min,A1epsilon_min,A1p_ones, ...
            A2k_min,A2epsilon_min,A2p_ones,difference, ...
-           wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+           wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
 print_polynomial(A1k_min,"A1k_min",nscale);
 print_polynomial(A1k_min,"A1k_min",strcat(strf,"_A1k_min_coef.m"),nscale);

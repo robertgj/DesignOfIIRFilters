@@ -35,11 +35,13 @@ schurOneMPAlatticeEsq.m \
 schurOneMPAlatticeAsq.m \
 schurOneMPAlatticeP.m \
 schurOneMPAlatticeT.m \
-H2Asq.m H2P.m H2T.m \
+schurOneMPAlatticedAsqdw.m \
+H2Asq.m H2P.m H2T.m H2dAsqdw.m \
 print_polynomial.m local_max.m flt2SD.m SDadders.m x2nextra.m bin2SDul.m \
 schurOneMAPlattice2Abcd.m tf2schurOneMlattice.m schurOneMscale.m \
 schurdecomp.oct schurexpand.oct schurOneMAPlattice2H.oct \
 schurOneMlattice2Abcd.oct complex_zhong_inverse.oct bin2SD.oct bin2SPT.oct \
 
 sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.diary : \
-parallel_allpass_socp_slb_bandpass_hilbert_test.diary
+schurOneMPAlattice_socp_slb_bandpass_hilbert_test.diary
+

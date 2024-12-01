@@ -11,7 +11,7 @@ depends="test/branch_bound_schurOneMPAlattice_lowpass_12_nbits_test.m test_commo
 schurOneMPAlattice_allocsd_Lim.m \
 schurOneMPAlattice_allocsd_Ito.m \
 schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m \
-schurOneMPAlatticeP.m schurOneMPAlatticeEsq.m \
+schurOneMPAlatticeP.m schurOneMPAlatticedAsqdw.m schurOneMPAlatticeEsq.m \
 schurOneMPAlattice_slb.m schurOneMPAlattice_socp_mmse.m \
 schurOneMPAlattice_slb_set_empty_constraints.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
@@ -20,7 +20,8 @@ schurOneMPAlattice_slb_exchange_constraints.m \
 schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice2tf.m schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m \
 local_max.m tf2pa.m print_polynomial.m flt2SD.m bin2SDul.m x2nextra.m \
-SDadders.m H2Asq.m H2T.m H2P.m tf2schurOneMlattice.m schurOneMscale.m \
+SDadders.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+tf2schurOneMlattice.m schurOneMscale.m \
 bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
 complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
 qroots.m qzsolve.oct Abcd2tf.oct"

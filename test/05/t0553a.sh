@@ -3,13 +3,17 @@
 prog=branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test.m
 
 depends="test/branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test.m \
-../parallel_allpass_socp_slb_bandpass_hilbert_test_Da1_coef.m \
-../parallel_allpass_socp_slb_bandpass_hilbert_test_Db1_coef.m \
+../schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A1k_coef.m \
+../schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A1epsilon_coef.m \
+../schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A1p_coef.m \
+../schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A2k_coef.m \
+../schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A2epsilon_coef.m \
+../schurOneMPAlattice_socp_slb_bandpass_hilbert_test_A2p_coef.m \
 test_common.m delayz.m \
 schurOneMPAlattice_allocsd_Lim.m \
 schurOneMPAlattice_allocsd_Ito.m \
 schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m \
-schurOneMPAlatticeP.m schurOneMPAlatticeEsq.m \
+schurOneMPAlatticeP.m schurOneMPAlatticedAsqdw.m schurOneMPAlatticeEsq.m \
 schurOneMPAlattice_slb.m schurOneMPAlattice_socp_mmse.m \
 schurOneMPAlattice_slb_set_empty_constraints.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
@@ -18,7 +22,8 @@ schurOneMPAlattice_slb_exchange_constraints.m \
 schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice2tf.m schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m \
 local_max.m tf2pa.m print_polynomial.m flt2SD.m bin2SDul.m x2nextra.m \
-SDadders.m Abcd2tf.m H2Asq.m H2T.m H2P.m tf2schurOneMlattice.m schurOneMscale.m \
+SDadders.m Abcd2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+tf2schurOneMlattice.m schurOneMscale.m \
 bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
 complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
 qroots.m qzsolve.oct"
@@ -57,23 +62,23 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_10_nbits_cost.ok << 'EOF'
-Exact & 0.001810 & & \\
-10-bit 3-signed-digit& 0.041330 & 58 & 38 \\
-10-bit 3-signed-digit(SOCP b-and-b) & 0.002013 & 58 & 38 \\
+Exact & 0.001616 & & \\
+10-bit 3-signed-digit& 0.217507 & 60 & 40 \\
+10-bit 3-signed-digit(SOCP b-and-b) & 0.003438 & 58 & 38 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_10_nbits_cost.ok"; fail; fi
 
 cat > test_10_nbits_A1k_min.ok << 'EOF'
-A1k_min = [     -228,      440,     -216,      176, ... 
-                 312,     -208,      156,      196, ... 
-                -164,      118 ]'/512;
+A1k_min = [     -216,      432,     -168,       52, ... 
+                 352,     -216,       88,      242, ... 
+                -196,      123 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_10_nbits_A1k_min.ok"; fail; fi
 
 cat > test_10_nbits_A2k_min.ok << 'EOF'
-A2k_min = [     -416,      452,     -232,      152, ... 
-                 316,     -191,      162,      196, ... 
-                -160,      126 ]'/512;
+A2k_min = [     -400,      446,     -176,       25, ... 
+                 352,     -200,       98,      240, ... 
+                -193,      130 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_10_nbits_A2k_min.ok"; fail; fi
 

@@ -29,6 +29,9 @@ Wtp=1; % Pass band group delay response weight
 fpp=0.175; % Pass band phase response edge
 ppr=0.0016; % Pass band phase response ripple
 Wpp=0.1; % Pass band phase response weight
+fdp=fap % Pass band dAsqdw response edge
+dpr=0.5; % Pass band dAsqdw response ripple
+Wdp=0.1; % Pass band dAsqdw response weight
 
 % Desired squared magnitude response
 nplot=1000;
@@ -56,6 +59,14 @@ Pdu=Pd+(ppr*ones(npp,1)/2);
 Pdl=Pd-(ppr*ones(npp,1)/2);
 Wp=Wpp*ones(npp,1);
 
+% Desired pass-band dAsqdw response
+ndp=nap;
+wd=wa(1:ndp);
+Dd=zeros(size(wd));
+Ddu=Dd+(dpr*ones(ndp,1)/2);
+Ddl=Dd-(dpr*ones(ndp,1)/2);
+Wd=Wdp*ones(ndp,1);
+
 % Common strings
 strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,",fap,dBap,Wap);
 strM=strcat(strM, sprintf("fas=%g,dBas=%g,Was=%g,",fas,dBas,Was));
@@ -81,6 +92,8 @@ T0=schurOneMPAlatticeT(wt,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
                        difference);
 P0=schurOneMPAlatticeP(wp,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
                        difference);
+D0=schurOneMPAlatticedAsqdw(wd,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
+                            difference);
 
 % Low pass filter from parallel_allpass_socp_slb_flat_delay_test.m 
 Da1 = [   1.0000000000,   0.3931432341,  -0.2660133321,  -0.0850275861, ... 
@@ -100,18 +113,20 @@ T1=schurOneMPAlatticeT(wt,A1k1,A1epsilon1,A1p1,A2k1,A2epsilon1,A2p1, ...
                        difference);
 P1=schurOneMPAlatticeP(wp,A1k1,A1epsilon1,A1p1,A2k1,A2epsilon1,A2p1, ...
                        difference);
+D1=schurOneMPAlatticedAsqdw(wd,A1k1,A1epsilon1,A1p1,A2k1,A2epsilon1,A2p1, ...
+                            difference);
 
 % Update constraints
 vR0=schurOneMPAlattice_slb_update_constraints ...
-      (Asq0,Asqdu,Asqdl,Wa,T0,Tdu,Tdl,Wt,P0,Pdu,Pdl,Wp,tol);
+      (Asq0,Asqdu,Asqdl,Wa,T0,Tdu,Tdl,Wt,P0,Pdu,Pdl,Wp,D0,Ddu,Ddl,Wd,tol);
 vS1=schurOneMPAlattice_slb_update_constraints ...
-      (Asq1,Asqdu,Asqdl,Wa,T1,Tdu,Tdl,Wt,P1,Pdu,Pdl,Wp,tol);
+      (Asq1,Asqdu,Asqdl,Wa,T1,Tdu,Tdl,Wt,P1,Pdu,Pdl,Wp,D1,Ddu,Ddl,Wd,tol);
 
 % Show constraints
 printf("vR0 before exchange constraints:\n");
-schurOneMPAlattice_slb_show_constraints(vR0,wa,Asq0,wt,T0,wp,P0);
+schurOneMPAlattice_slb_show_constraints(vR0,wa,Asq0,wt,T0,wp,P0,wd,D0);
 printf("vS1 before exchange constraints:\n");
-schurOneMPAlattice_slb_show_constraints(vS1,wa,Asq1,wt,T1,wp,P1);
+schurOneMPAlattice_slb_show_constraints(vS1,wa,Asq1,wt,T1,wp,P1,wd,D1);
 
 % Plot amplitude
 strd=sprintf("schurOneMPAlattice_slb_exchange_constraints_test_%%s");
@@ -158,13 +173,25 @@ xlabel("Frequency")
 print(sprintf(strd,"0P"),"-dpdflatex");
 close
 
+% Plot dAsqdw
+fd=wd*0.5/pi;
+plot(fd,[D0-Dd,Ddu-Dd,Ddl-Dd], ...
+     fd(vR0.dl),D0(vR0.dl)-Dd(vR0.dl),'*', ...
+     fd(vR0.du),D0(vR0.du)-Dd(vR0.du),'+');
+title(strM0);
+ylabel("dAsqdw");
+xlabel("Frequency")
+print(sprintf(strd,"0D"),"-dpdflatex");
+close
+
 % Exchange constraints
 [vR1,vS1,exchanged] = schurOneMPAlattice_slb_exchange_constraints ...
-                        (vS1,vR0,Asq1,Asqdu,Asqdl,T1,Tdu,Tdl,P1,Pdu,Pdl,tol);
+                        (vS1,vR0, ...
+                         Asq1,Asqdu,Asqdl,T1,Tdu,Tdl,P1,Pdu,Pdl,D1,Ddu,Ddl,tol);
 printf("vR1 after exchange constraints:\n");
-schurOneMPAlattice_slb_show_constraints(vR1,wa,Asq1,wt,T1,wp,P1);
+schurOneMPAlattice_slb_show_constraints(vR1,wa,Asq1,wt,T1,wp,P1,wd,D1);
 printf("vS1 after exchange constraints:\n");
-schurOneMPAlattice_slb_show_constraints(vS1,wa,Asq1,wt,T1,wp,P1);
+schurOneMPAlattice_slb_show_constraints(vS1,wa,Asq1,wt,T1,wp,P1,wd,D1);
 
 % Plot amplitude
 subplot(211);
@@ -222,6 +249,21 @@ xlabel("Frequency")
 legend("P0","P1","Pdu","Pdl","location","northwest");
 legend("boxoff");
 print(sprintf(strd,"1P"),"-dpdflatex");
+close
+
+% Plot dAsqdw
+plot(fd,[D0-Dd,D1-Dd,Ddu-Dd,Ddl-Dd], ...
+     fd(vR0.dl),D0(vR0.dl)-Dd(vR0.dl),'*',
+     fd(vR0.du),D0(vR0.du)-Dd(vR0.du),'+', ...
+     fd(vS1.dl),D1(vS1.dl)-Dd(vS1.dl),'*',
+     fd(vS1.du),D1(vS1.du)-Dd(vS1.du),'+');
+axis([0 fdp -(dpr*8) +(dpr*4)]);
+title(strM1);
+ylabel("dAsqdw");
+xlabel("Frequency")
+legend("D0","D1","Ddu","Ddl","location","northwest");
+legend("boxoff");
+print(sprintf(strd,"1D"),"-dpdflatex");
 close
 
 diary off

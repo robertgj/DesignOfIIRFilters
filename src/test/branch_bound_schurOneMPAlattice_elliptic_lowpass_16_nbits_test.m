@@ -15,7 +15,7 @@ delete(strcat(strf,"diary"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 % Options
-use_best_branch_and_bound_found=false
+use_best_branch_and_bound_found=true
 if use_best_branch_and_bound_found
   warning("Reporting the best branch-and-bound filter found so far. \n\
            Set \"use_best_branch_and_bound_found\"=false to re-run.");
@@ -176,7 +176,7 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 
 % Fix one coefficient at each iteration 
 if use_best_branch_and_bound_found
-  branches_min=24; % 130 seconds
+  branches_min=24; 
   A1k_min = [   -19584,    32384,   -25648,    28180, ... 
                 -23296,    11328 ]'/32768;
   A2k_min = [   -22528,    30722,   -26544,    23684, ... 
@@ -253,7 +253,7 @@ else
                                k_b(R2),A2epsilon0,A2p_ones, ...
                                difference,k0_u,k0_l,k_active,dmax, ...
                                wa,Asqd,Asqdu,Asqdl,Wa+Wae, ...
-                               [],[],[],[],[],[],[],[],[],[], ...
+                               [],[],[],[],[],[],[],[],[],[],[],[],[],[],[], ...
                                maxiter,del,ctol,verbose);
       printf("nextA1k=[ ");printf("%g ",nextA1k');printf("]';\n");
       printf("nextA2k=[ ");printf("%g ",nextA2k');printf("]';\n");
@@ -304,10 +304,10 @@ else
         Asq=schurOneMPAlatticeAsq(wa,k_b(R1),A1epsilon0,A1p_ones, ...
                                   k_b(R2),A2epsilon0,A2p_ones,difference);
         vS=schurOneMPAlattice_slb_update_constraints ...
-             (Asq,Asqdu,Asqdl,Wa,[],[],[],[],[],[],[],[],ctol);
+             (Asq,Asqdu,Asqdl,Wa,[],[],[],[],[],[],[],[],[],[],[],[],ctol);
         if ~schurOneMPAlattice_slb_constraints_are_empty(vS)
           printf("At maximum depth constraints are not empty!\n");
-          schurOneMPAlattice_slb_show_constraints(vS,wa,Asq,[],[],[],[]);
+          schurOneMPAlattice_slb_show_constraints(vS,wa,Asq,[],[],[],[],[],[]);
         endif
       else
         vS=schurOneMPAlattice_slb_set_empty_constraints();

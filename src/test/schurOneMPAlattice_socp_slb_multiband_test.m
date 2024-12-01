@@ -151,6 +151,12 @@ Tdu=[(tp1+(tpr1/2))*ones(ntp1u-ntp1l+1,1);(tp2+(tpr2/2))*ones(ntp2u-ntp2l+1,1)];
 Tdl=[(tp1-(tpr1/2))*ones(ntp1u-ntp1l+1,1);(tp2-(tpr2/2))*ones(ntp2u-ntp2l+1,1)];
 Wt=[Wtp1*ones(ntp1u-ntp1l+1,1);Wtp2*ones(ntp2u-ntp2l+1,1)];
 
+% Phase constraints
+wp=[];Pd=[];Pdu=[];Pdl=[];Wp=[];
+
+% dAsqdw constraints
+wd=[];Dd=[];Ddu=[];Ddl=[];Wd=[];
+
 % Sanity checks
 printf("Lower delay pass-band:\n");
 nchkt=[1,2,ntp1u-ntp1l,ntp1u-ntp1l+1];
@@ -171,13 +177,6 @@ printf("Tdu(nchkt)=[ ");printf("%6.4g ",Tdu(nchkt)');printf("];\n");
 printf("Tdl(nchkt)=[ ");printf("%6.4g ",Tdl(nchkt)');printf("];\n");
 printf("Wt(nchkt)=[ ");printf("%6.4g ",Wt(nchkt)');printf("];\n");
 
-% Phase constraints
-wp=[];
-Pd=[];
-Pdu=[];
-Pdl=[];
-Wp=[];
-
 % Linear constraints
 dmax=inf;
 k0=[A1k0(:);A2k0(:)];
@@ -193,7 +192,8 @@ k_active=find(k0~=0);
   schurOneMPAlattice_socp_mmse([],A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
                                difference,k_u,k_l,k_active,dmax, ...
                                wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                               wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
+                               wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+                               maxiter,ftol,ctol,verbose);
 if feasible == 0 
   error("A1k,A2k(mmse) infeasible");
 endif
@@ -227,7 +227,8 @@ schurOneMPAlattice_slb(@schurOneMPAlattice_socp_mmse, ...
                        A1kmmse,A1epsilon0,A1p0,A2kmmse,A2epsilon0,A2p0, ...
                        difference,k_u,k_l,k_active,dmax, ...
                        wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                       wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
+                       wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+                       maxiter,ftol,ctol,verbose);
 if feasible == 0 
   error("A1k,A2k(pcls) infeasible");
 endif

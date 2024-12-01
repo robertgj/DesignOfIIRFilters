@@ -26,26 +26,31 @@ difference=true
 dmax=inf;
 rho=0.999
 fasl=0.05
-fapl=0.10
-fapu=0.15
-fasu=0.20
-dBap=0.08
-dBas=51
+fapl=0.1
+fapu=0.2
+fasu=0.25
+dBap=0.1
+dBas=40
 Wap=1
 Watl=0.01
 Watu=0.01
 Wasl=1000
 Wasu=2000
-ftpl=0.10
-ftpu=0.15
+ftpl=0.11
+ftpu=0.19
 tp=16
 tpr=0.16
 Wtp=10
-fppl=0.10
-fppu=0.15
-pd=3 % Initial phase offset in multiples of pi radians
-pdr=0.006 % Peak-to-peak phase ripple in multiples of pi radians
+fppl=0.11
+fppu=0.19
+pp=3 % Initial phase offset in multiples of pi radians
+ppr=0.002 % Peak-to-peak phase ripple in multiples of pi radians
 Wpp=100
+fdpl=0.09
+fdpu=0.21
+dp=0  % Desired dAsqdw 
+dpr=0.6 % Peak-to-peak dAsqdw ripple
+Wdp=0.001
 
 %
 % Frequency vectors
@@ -82,10 +87,19 @@ Wt=Wtp*ones(length(wt),1);
 nppl=floor(n*fppl/0.5)+1;
 nppu=ceil(n*fppu/0.5)+1;
 wp=wa(nppl:nppu);
-Pd=(pd*pi)-(tp*wp);
-Pdu=Pd+(pdr*pi/2);
-Pdl=Pd-(pdr*pi/2);
+Pd=(pp*pi)-(tp*wp);
+Pdu=Pd+(ppr*pi/2);
+Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(length(wp),1);
+
+% dAsqdw response
+ndpl=floor(n*fdpl/0.5)+1;
+ndpu=ceil(n*fdpu/0.5)+1;
+wd=wa(ndpl:ndpu);
+Dd=dp*ones(size(wd));
+Ddu=Dd+(dpr/2);
+Ddl=Dd-(dpr/2);
+Wd=Wdp*ones(size(wd));
 
 %
 % Sanity checks
@@ -114,35 +128,6 @@ tarczynski_parallel_allpass_bandpass_test_Db0_coef;
 [A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(Da0),Da0);
 [A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(Db0),Db0);
 
-% Find initial response
-Asq0=schurOneMPAlatticeAsq(wa,A1k0,A1epsilon0,A1p0, ...
-                           A2k0,A2epsilon0,A2p0,difference);
-T0=schurOneMPAlatticeT(wt,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference);
-P0=schurOneMPAlatticeP(wp,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference);
-
-% Plot initial response
-subplot(311);
-ax=plotyy(wa*0.5/pi,10*log10(Asq0),wa*0.5/pi,10*log10(Asq0));
-axis(ax(1),[0 0.5 -1 1]);
-axis(ax(2),[0 0.5 -60 -20]);
-ylabel("Amplitude(dB)");
-grid("on");
-strt=sprintf("Parallel all-pass bandpass initial response");
-title(strt);
-subplot(312);
-plot(wp*0.5/pi,((P0+(tp*wp))/pi)-pd);
-ylabel("Phase error(rad./$\\pi$)");
-%axis([0 0.5 -0.002 0.002]);
-grid("on");
-subplot(313);
-plot(wt*0.5/pi,T0);
-ylabel("Delay(samples)");
-xlabel("Frequency");
-%axis([0 0.5 tp-0.1 tp+0.1]);
-grid("on");
-print(strcat(strf,"_initial_response"),"-dpdflatex");
-close
-
 %
 % SOCP MMSE
 %
@@ -159,43 +144,17 @@ try
     schurOneMPAlattice_socp_mmse([], ...
                                  A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
                                  difference,k_u,k_l,k_active,dmax, ...
-                                 wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                                 wp,Pd,Pdu,Pdl,Wp,maxiter,tol,verbose);
+                                 wa,Asqd,Asqdu,Asqdl,Wa, ...
+                                 wt,Td,Tdu,Tdl,Wt, ...
+                                 wp,Pd,Pdu,Pdl,Wp, ...
+                                 wd,Dd,Ddu,Ddl,Wd, ...
+                                 maxiter,tol,ctol,verbose);
 catch
-  printf("%s\n", lasterr());
+  printf("%s\n", lasterror().message);
 end_try_catch
 if feasible == 0
   error("A1k,A2k(MMSE) infeasible for tp=%d",tp);
 endif
-
-% Find MMSE response
-Asq1=schurOneMPAlatticeAsq ...
-       (wa,A1k1,A1epsilon0,A1p0,A2k1,A2epsilon0,A2p0,difference);
-T1=schurOneMPAlatticeT(wt,A1k1,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference);
-P1=schurOneMPAlatticeP(wp,A1k1,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0,difference);
-
-% Plot MMSE response
-subplot(311);
-ax=plotyy(wa*0.5/pi,10*log10(Asq1),wa*0.5/pi,10*log10(Asq1));
-axis(ax(1),[0 0.5 -1 1]);
-axis(ax(2),[0 0.5 -60 -20]);
-ylabel("Amplitude(dB)");
-grid("on");
-strt=sprintf("Parallel all-pass bandpass MMSE response");
-title(strt);
-subplot(312);
-plot(wp*0.5/pi,((P1+(tp*wp))/pi)-pd);
-ylabel("Phase error(rad./$\\pi$)");
-%axis([0 0.5 -0.002 0.002]);
-grid("on");
-subplot(313);
-plot(wt*0.5/pi,T1);
-ylabel("Delay(samples)");
-xlabel("Frequency");
-%axis([0 0.5 tp-0.1 tp+0.1]);
-grid("on");
-print(strcat(strf,"_mmse_response"),"-dpdflatex");
-close
 
 %
 % SOCP PCLS
@@ -206,8 +165,11 @@ try
     schurOneMPAlattice_slb(@schurOneMPAlattice_socp_mmse, ...
                            A1k1,A1epsilon0,A1p0,A2k1,A2epsilon0,A2p0, ...
                            difference,k_u,k_l,k_active,dmax, ...
-                           wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-                           wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
+                           wa,Asqd,Asqdu,Asqdl,Wa, ...
+                           wt,Td,Tdu,Tdl,Wt, ...
+                           wp,Pd,Pdu,Pdl,Wp, ...
+                           wd,Dd,Ddu,Ddl,Wd, ...
+                           maxiter,tol,ctol,verbose);
 catch
   printf("%s\n", lasterr());
 end_try_catch
@@ -225,26 +187,33 @@ A2k=A2k(:)';A2epsilon=A2epsilon(:)';A2p=A2p(:)';
 Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 T=schurOneMPAlatticeT(wt,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 P=schurOneMPAlatticeP(wp,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
+D=schurOneMPAlatticedAsqdw(wd,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 
 % Plot response
-subplot(311);
+subplot(411);
 ax=plotyy(wa*0.5/pi,10*log10(Asq),wa*0.5/pi,10*log10(Asq));
-axis(ax(1),[0 0.5 -1 1]);
-axis(ax(2),[0 0.5 -60 -40]);
+axis(ax(1),[0 0.5 (2*dBap*[-1,1])]);
+axis(ax(2),[0 0.5 -50 -30]);
 ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf("Parallel all-pass bandpass : dBap=%g,dBas=%g",dBap,dBas);
 title(strt);
-subplot(312);
-plot(wp*0.5/pi,((P+(tp*wp))/pi)-pd);
+subplot(412);
+plot(wp*0.5/pi,((P+(tp*wp))/pi)-pp);
 ylabel("Phase error(rad./$\\pi$)");
-axis([0 0.5 -0.002 0.002]);
+axis([0 0.5 (ppr*0.5*[-1,1])]);
 grid("on");
-subplot(313);
+subplot(413);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");
+%axis([0 0.5 (tp+(tpr*0.5*[-1,1]))]);
+axis([0 0.5 (tp+(tpr*0.5*[-1,1]))]);
+grid("on");
+subplot(414);
+plot(wd*0.5/pi,D);
+ylabel("dAsqdw");
 xlabel("Frequency");
-axis([0 0.5 tp-0.1 tp+0.1]);
+axis([0 0.5 (dp+(dpr*0.5*[-1,1]))]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
@@ -271,7 +240,7 @@ close
 Htp=freqz([zeros(1,tp),1],1,wa);
 [N,D]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 H=freqz(N,D,wa);
-dB_error_tp_sample_delay=20*log10(abs(H-(cos(mod(pd,2)*pi)*Htp)));
+dB_error_tp_sample_delay=20*log10(abs(H-(cos(mod(pp,2)*pi)*Htp)));
 max_dB_error_tp_sample_delay=max(dB_error_tp_sample_delay(nppl:nppu));
 printf("max_dB_error_tp_sample_delay=%10.6f dB\n",max_dB_error_tp_sample_delay);
 
@@ -311,7 +280,7 @@ vPu=local_max(P-Pdu);
 wPS=unique([wp(vPl);wp(vPu);wp([1,end])]);
 PS=schurOneMPAlatticeP(wPS,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 printf("A1,A2:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("A1,A2:PS=[ ");printf("%f ",(PS+(wPS*tp))'/pi-pd);printf("] (rad./pi)\n");
+printf("A1,A2:PS=[ ");printf("%f ",(PS+(wPS*tp))'/pi-pp);printf("] (rad./pi)\n");
 
 %
 % Save the results
@@ -340,9 +309,14 @@ fprintf(fid,"tpr=%f %% Pass band group-delay response ripple(samples)\n",tpr);
 fprintf(fid,"Wtp=%d %% Pass band group-delay response weight\n",Wtp);
 fprintf(fid,"fppl=%g %% Pass band phase response lower edge\n",fppl);
 fprintf(fid,"fppu=%g %% Pass band phase response upper edge\n",fppu);
-fprintf(fid,"pd=%f %% Pass band nominal phase response(rad./pi)\n",pd);
-fprintf(fid,"pdr=%f %% Pass band phase response ripple(rad./pi)\n",pdr);
+fprintf(fid,"pp=%f %% Pass band nominal phase response(rad./pi)\n",pp);
+fprintf(fid,"ppr=%f %% Pass band phase response ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%d %% Pass band phase response weight\n",Wpp);
+fprintf(fid,"fdpl=%g %% Pass band dAsqdw response lower edge\n",fdpl);
+fprintf(fid,"fdpu=%g %% Pass band dAsqdw response upper edge\n",fdpu);
+fprintf(fid,"dp=%f %% Pass band nominal dAsqdw response(rad./pi)\n",dp);
+fprintf(fid,"dpr=%f %% Pass band dAsqdw response ripple(rad./pi)\n",dpr);
+fprintf(fid,"Wdp=%d %% Pass band dAsqdw response weight\n",Wdp);
 fclose(fid);
 
 print_polynomial(A1k,"A1k");
@@ -363,7 +337,8 @@ save schurOneMPAlattice_socp_slb_bandpass_delay_test.mat ...
      fapl fapu dBap Wap Watl Watu ...
      fasl fasu dBas Wasl Wasu ...
      ftpl ftpu tp tpr Wtp ...
-     fppl fppu pd pdr Wpp ...
+     fppl fppu pp ppr Wpp ...
+     fdpl fdpu dp dpr Wdp ...
      Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p ...
      N D max_dB_error_tp_sample_delay max_dB_error_stop_band
  

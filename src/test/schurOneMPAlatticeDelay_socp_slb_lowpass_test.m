@@ -77,6 +77,9 @@ for M=1:3,
   % Phase constraints
   wp=[];Pd=[];Pdu=[];Pdl=[];Wp=[];
 
+  % dAsqdw constraints
+  wd=[];Dd=[];Ddu=[];Ddl=[];Wd=[];
+
   % Lattice decomposition of Da0
   A1k0=schurdecomp(Da0);
   A1epsilon0=ones(length(A1k0),1);
@@ -108,11 +111,13 @@ for M=1:3,
                               k_u,k_l,k_active,dmax, ...
                               wa,Asqd,Asqdu,Asqdl,Wa, ...
                               wt,Td,Tdu,Tdl,Wt, ...
-                              wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
+                              wp,Pd,Pdu,Pdl,Wp, ...
+                              wd,Dd,Ddu,Ddl,Wd, ...
+                              maxiter,tol,ctol,verbose);
     toc
   catch
     feasible=false;
-    warning("Caught schurOneMPAlattice_slb() : %s", lasterr().message);
+    warning("Caught schurOneMPAlattice_slb() : %s", lasterr());
   end_try_catch
   if feasible == false
     error("A1k(pcls) infeasible");

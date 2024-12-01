@@ -3,13 +3,13 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
              (vS,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
               difference,k_u,k_l,k_active,k_delta, ...
               wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-              wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
+              wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd,maxiter,ftol,ctol,verbose)
 % [A1k_min,A2k_min,socp_iter,func_iter,feasible] =
 %   sdp_relaxation_schurOneMPAlattice_mmse ...
 %      (vS,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
 %       difference,k_u,k_l,k_active,k_delta, ...
 %       wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-%       wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)
+%       wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd,maxiter,ftol,ctol,verbose)
 %
 % SDP optimisation of a parallel one-multiplier Schur allpasslattice filter
 % with integer coefficients and constraints on the amplitude, phase and
@@ -50,6 +50,10 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
 %   Pd - desired passband phase response
 %   Pdu,Pdl - upper/lower mask for the desired phase response
 %   Wp - phase response weight at each frequency
+%   wd - angular frequencies of the dAsqdw response
+%   Dd - desired passband dAsqdw response
+%   Ddu,Ddl - upper/lower mask for the desired dAsqdw response
+%   Wd - dAsqdw response weight at each frequency
 %   maxiter - not used
 %   ftol - tolerance on coefficient update
 %   ctol - tolerance on constraints
@@ -90,24 +94,25 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin ~= 31) || (nargout ~= 5)
+  if (nargin ~= 36) || (nargout ~= 5)
     print_usage("[A1k,A2k,socp_iter,func_iter,feasible]= ...\n\
   sdp_relaxation_schurOneMPAlattice_mmse ...\n\
                 (vS,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0 ...\n\
                  difference,k_u,k_l,k_active,k_delta, ...\n\
                  wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                 wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
+                 wp,Pd,Pdu,Pdl,Wp,wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
   endif
 
   %
   % Sanity checks on frequency response vectors
   %
-  wa=wa(:);wt=wt(:);wp=wp(:);
+  wa=wa(:);wt=wt(:);wp=wp(:);wd=wd(:);
   Nwa=length(wa);
   Nwt=length(wt);
   Nwp=length(wp);
-  if isempty(wa) && isempty(wt) && isempty(wp)
-    error("wa, wt and wp empty");
+  Nwd=length(wd);
+  if isempty(wa) && isempty(wt) && isempty(wp) && isempty(wd)
+    error("wa, wt, wp and wd empty");
   endif
   if Nwa ~= length(Asqd)
     error("Expected length(wa)(%d) == length(Asqd)(%d)",Nwa,length(Asqd));
@@ -145,11 +150,24 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   if ~isempty(Wp) && Nwp ~= length(Wp)
     error("Expected length(wp)(%d) == length(Wp)(%d)",Nwp,length(Wp));
   endif
+  if ~isempty(Dd) && Nwd ~= length(Dd)
+    error("Expected length(wd)(%d) == length(Dd)(%d)",Nwd,length(Dd));
+  endif
+  if ~isempty(Ddu) && Nwd ~= length(Ddu)
+    error("Expected length(wd)(%d) == length(Ddu)(%d)",Nwd,length(Ddu));
+  endif
+  if ~isempty(Ddl) && Nwd ~= length(Ddl)
+    error("Expected length(wd)(%d) == length(Ddl)(%d)",Nwd,length(Ddl));
+  endif
+  if ~isempty(Wd) && Nwd ~= length(Wd)
+    error("Expected length(wd)(%d) == length(Wd)(%d)",Nwd,length(Wd));
+  endif
   if isempty(vS)
     vS=schurOneMPAlattice_slb_set_empty_constraints();
-  elseif (numfields(vS) ~= 6) || ...
-         (all(isfield(vS,{"al","au","tl","tu","pl","pu"})) == false)
-    error("numfields(vS)=%d, expected 6 (al,au,tl,tu,pl and pu)",numfields(vS));
+  elseif (numfields(vS) ~= 8) || ...
+         (all(isfield(vS,{"al","au","tl","tu","pl","pu","dl","du"})) == false)
+    error("numfields(vS)=%d, expected 8 (al,au,tl,tu,pl,pu,dl and du)",
+          numfields(vS));
   endif
   if isstruct(ftol)
     if all(isfield(ftol,{"dtol","stol"})) == false
@@ -163,7 +181,8 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
 
   Nresp=length(vS.al)+length(vS.au) + ...
         length(vS.tl)+length(vS.tu) + ...
-        length(vS.pl)+length(vS.pu);
+        length(vS.pl)+length(vS.pu) + ...
+        length(vS.dl)+length(vS.du);
 
   %
   % Sanity checks on coefficient vectors
@@ -219,7 +238,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   %
   [Esq0,gradEsq0,~,hessEsq0]= ...
     schurOneMPAlatticeEsq(A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
-                          difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                          difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
   func_iter=func_iter+1;
   if verbose
     printf("Initial Esq=%g\n",Esq0);
@@ -313,6 +332,26 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
     f=[f;                          P(vS.pl)-Pdl(vS.pl)];
   endif
 
+  % Approximate dAsqdw linear constraints 
+  if ~isempty(vS.du)
+    [dAsqdw_du,graddAsqdw_du]= ...
+       schurOneMPAlatticedAsqdw(wd(vS.du),A1k0,A1epsilon0,A1p0, ...
+                                A2k0,A2epsilon0,A2p0,difference);
+    func_iter = func_iter+1;
+    graddAsqdw_du_delta=graddAsqdw_du.*kron(ones(length(vS.du),1),k_delta');
+    D=[D,[zeros(MM,length(vS.du));-graddAsqdw_du_delta(:,k_active)']];
+    f=[f;Ddu(vS.du)-dAsqdw_du];
+  endif
+  if ~isempty(vS.dl)
+    [dAsqdw_dl,graddAsqdw_dl]= ...
+       schurOneMPAlatticedAsqdw(wd(vS.dl),A1k0,A1epsilon0,A1p0, ...
+                                A2k0,A2epsilon0,A2p0,difference);
+    func_iter = func_iter+1;
+    graddAsqdw_dl_delta=graddAsqdw_dl.*kron(ones(length(vS.dl),1),k_delta');
+    D=[D,[zeros(MM,length(vS.dl));-graddAsqdw_dl_delta(:,k_active)']];
+    f=[f;dAsqdw_dl-Ddl(vS.dl)];
+  endif
+  
   % Triangle inequalities (in the SeDuMi form: Dy+f>=0)
   Fn=zeros(Nk_active+1);
   Fn(find(triu(ones(Nk_active+1),1)))=1:NN;
@@ -418,7 +457,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
     printf("A1k_min=[ ");printf("%15.12f ",A1k_min');printf(" ]';\n"); 
     printf("A2k_min=[ ");printf("%15.12f ",A2k_min');printf(" ]';\n"); 
     Esq=schurOneMPAlatticeEsq(A1k_min,A1epsilon0,A1p0,A2k_min,A2epsilon0,A2p0,...
-                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+                              difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
     func_iter=func_iter+1;
     printf("Esq= %g\n",Esq);
     printf("func_iter=%d, socp_iter=%d\n",func_iter,socp_iter);

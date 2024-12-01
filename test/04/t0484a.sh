@@ -18,12 +18,13 @@ schurOneMPAlatticeEsq.m \
 schurOneMPAlatticeAsq.m \
 schurOneMPAlatticeT.m \
 schurOneMPAlatticeP.m \
+schurOneMPAlatticedAsqdw.m \
 schurOneMPAlattice2tf.m \
 schurOneMAPlattice2tf.m \
 schurOneMAPlattice2Abcd.m \
 tf2schurOneMlattice.m \
 schurOneMscale.m \
-H2Asq.m H2T.m H2P.m tf2pa.m qroots.m local_max.m \
+H2Asq.m H2T.m H2P.m H2dAsqdw.m tf2pa.m qroots.m local_max.m \
 complex_zhong_inverse.oct qzsolve.oct Abcd2H.oct \
 schurdecomp.oct schurexpand.oct schurOneMlattice2Abcd.oct \
 schurOneMAPlattice2H.oct schurOneMlattice2H.oct Abcd2tf.oct"
