@@ -8,6 +8,7 @@ schurOneMAPlatticeDoublyPipelined2H.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
 schurOneMlatticeDoublyPipelined2Abcd.m \
 tf2schurOneMlattice.m Abcd2tf.m qroots.m schurOneMscale.m tf2pa.m H2T.m \
+delayz.m \
 schurdecomp.oct schurexpand.oct qzsolve.oct spectralfactor.oct Abcd2H.oct" 
 
 tmp=/tmp/$$

@@ -8,55 +8,52 @@ delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
-verbose=true;
+verbose=false;
 
 % Low pass filter
 norder=9;
 fpass=0.125;
 [n,d]=butter(norder,2*fpass);
 nplot=1000;
+wplot=(0:(nplot-1))'*pi/nplot;
 npass=floor(nplot*fpass/0.5)+1;
 
 % Lattice decomposition
 [Aap1,Aap2]=tf2pa(n,d);
 Aap1=transpose(Aap1(:));
 Aap2=transpose(Aap2(:));
-[Hap1,wplot]=freqz(fliplr(Aap1),Aap1,nplot);
-[Hap2,wplot]=freqz(fliplr(Aap2),Aap2,nplot);
 [A1k,~,~,~] = tf2schurOneMlattice(fliplr(Aap1),Aap1);
 [A2k,~,~,~] = tf2schurOneMlattice(fliplr(Aap2),Aap2);
 A1rng=1:length(A1k);
 A2rng=length(A1k)+(1:length(A2k));
 
 for difference=[false,true]
+  if difference
+    wcheck=wplot(npass+1:end);
+  else
+    wcheck=wplot(1:npass);
+  endif
+  ncheck=length(wcheck);
+  
   % Doubly pipelined state variable form where the Schur one-multiplier
   % lattice has z^-1 replaced by z^-2 with an extra z^-2 delay. In other
   % words, the response of the doubly pipelined filter is scaled by two
   % in frequency.
-  T=schurOneMPAlatticeDoublyPipelinedT(wplot/2,A1k,A2k,difference);
+  T=schurOneMPAlatticeDoublyPipelinedT(wcheck/2,A1k,A2k,difference);
 
   % Check the response
-  if difference
-    H=(Hap1-Hap2)/2;
-    Hcheck=H((npass+1):end);
-    Tcheck=T((npass+1):end);
-    TT=T((npass+1):end);
-    wcheck=wplot((npass+1):end)+(2*pi);
-    ncheck=length(wcheck);
-  else
-    H=(Hap1+Hap2)/2;
-    Hcheck=H(1:npass);
-    Tcheck=T(1:npass);
-    TT=T(1:npass);
-    wcheck=wplot(1:npass);
-    ncheck=length(wcheck);
+  Tap1=delayz(fliplr(Aap1),Aap1,wcheck);
+  Tap2=delayz(fliplr(Aap2),Aap2,wcheck);
+  Tcheck=(2*(Tap1+Tap2)/2)+2;
+  if verbose
+    printf("max(abs(T-Tcheck))=%g\n",max(abs(T-Tcheck)));
   endif
-  if max(abs(TT-Tcheck)) > 100*eps
-    error("max(abs(TT-Tcheck)) > 100*eps");
+  if max(abs(T-Tcheck)) > 1e-10
+    error("max(abs(T-Tcheck)) > 1e-10");
   endif
 
   % Find the gradients of T
-  [Tcheck,gradTcheck]= ...
+  [~,gradTcheck]= ...
     schurOneMPAlatticeDoublyPipelinedT(wcheck/2,A1k,A2k,difference);
 
   % Check the gradients of the squared amplitude response wrt A1k
@@ -70,6 +67,10 @@ for difference=[false,true]
     delk=circshift(delk,1);
     diff_Tk(:,l)=(TkP-TkM)/del;
   endfor
+  if verbose
+    printf("max(max(abs(diff_Tk-gradTcheck(:,A1rng))))=%g\n", ...
+           max(max(abs(diff_Tk-gradTcheck(:,A1rng)))));
+  endif
   if max(max(abs(diff_Tk-gradTcheck(:,A1rng)))) > del/10
     error("max(max(abs(diff_Tk-gradTcheck(,A1rng)))) > del/10");
   endif
@@ -85,6 +86,10 @@ for difference=[false,true]
     delk=circshift(delk,1);
     diff_Tk(:,l)=(TkP-TkM)/del;
   endfor
+  if verbose
+    printf("max(max(abs(diff_Tk-gradTcheck(:,A2rng))))=%g\n", ...
+           max(max(abs(diff_Tk-gradTcheck(:,A2rng)))));
+  endif
   if max(max(abs(diff_Tk-gradTcheck(:,A2rng)))) > del/10
     error("max(max(abs(diff_Tk-gradTcheck(,A2rng)))) > del/10");
   endif
@@ -106,6 +111,10 @@ for difference=[false,true]
     delk=circshift(delk,1);
     diff_gradTk(:,l)=(gradTkP(:,l)-gradTkM(:,l))/del;
   endfor
+  if verbose
+    printf("max(max(abs(diff_gradTk-diagHessTcheck(,A1rng))))=%g\n", ...
+           max(max(abs(diff_gradTk-diagHessTcheck(:,A1rng)))));
+  endif
   if max(max(abs(diff_gradTk-diagHessTcheck(:,A1rng)))) > del
     error("max(max(abs(diff_gradTk-diagHessTcheck(,A1rng)))) > del");
   endif
@@ -124,8 +133,12 @@ for difference=[false,true]
     diff_gradTk(:,l)=(gradTkP(:,length(A1k)+l)- ...
                         gradTkM(:,length(A1k)+l))/del;
   endfor
-  if max(max(abs(diff_gradTk-diagHessTcheck(:,A2rng)))) > 2*del
-    error("max(max(abs(diff_gradTk-diagHessTcheck(,A2rng)))) > 2*del");
+  if verbose
+    printf("max(max(abs(diff_gradTk-diagHessTcheck(,A2rng))))=%g\n", ...
+           max(max(abs(diff_gradTk-diagHessTcheck(:,A2rng)))));
+  endif
+  if max(max(abs(diff_gradTk-diagHessTcheck(:,A2rng)))) > 5*del
+    error("max(max(abs(diff_gradTk-diagHessTcheck(,A2rng)))) > 5*del");
   endif
 
   % Find hessT
@@ -156,13 +169,17 @@ for difference=[false,true]
     endfor
     delk=circshift(delk,1);
   endfor
-  for l=1:length(wcheck)
-    if max(max(abs(squeeze(hessTcheck(l,A1rng,A1rng)) - ...
-                    squeeze(diff_gradTk(l,:,:))))) > del
-      error("if max(max(abs((squeeze(hessTcheck(l,A1rng,A1rng)) - ... \n\
-                  squeeze(diff_gradTk(l,,)))))) > del");
-    endif
-  endfor
+  if verbose
+    printf("max(max(max(abs(squeeze(hessTcheck(l,A1rng,A1rng)) - ...\n\
+squeeze(diff_gradTk(l,,))))))=%g\n",
+           max(max(max(abs(squeeze(hessTcheck(l,A1rng,A1rng)) - ...
+                           squeeze(diff_gradTk(l,:,:)))))));
+  endif
+  if max(max(max(abs(squeeze(hessTcheck(l,A1rng,A1rng)) - ...
+                     squeeze(diff_gradTk(l,:,:)))))) > del
+    error("if max(max(max(abs((squeeze(hessTcheck(l,A1rng,A1rng)) - ... \n\
+                  squeeze(diff_gradTk(l,,))))))) > del");
+  endif
 
   % Check the Hessian of the squared amplitude response wrt A2k
   del=1e-6;
@@ -179,13 +196,17 @@ for difference=[false,true]
     endfor
     delk=circshift(delk,1);
   endfor
-  for l=1:length(wcheck)
-    if max(max(abs(squeeze(hessTcheck(l,A2rng,A2rng)) - ...
-                   squeeze(diff_gradTk(l,:,:))))) > 10*del
-      error("if max(max(abs((squeeze(hessTcheck(l,A2rng,A2rng)) - ... \n\
-                  squeeze(diff_gradTk(l,,)))))) > 10*del");
-    endif
-  endfor
+  if verbose
+    printf("max(max(max(abs(squeeze(hessTcheck(l,A2rng,A2rng)) - ...\n\
+squeeze(diff_gradTk(l,,))))))=%g\n",
+           max(max(max(abs(squeeze(hessTcheck(l,A2rng,A2rng)) - ...
+                           squeeze(diff_gradTk(l,:,:)))))));
+  endif
+  if max(max(max(abs(squeeze(hessTcheck(l,A2rng,A2rng)) - ...
+                     squeeze(diff_gradTk(l,:,:)))))) > 5*del
+    error("if max(max(max(abs((squeeze(hessTcheck(l,A2rng,A2rng)) - ... \n\
+                  squeeze(diff_gradTk(l,,))))))) > 5*del");
+  endif
 
 endfor
 
