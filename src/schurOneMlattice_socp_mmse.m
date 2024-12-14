@@ -15,7 +15,7 @@ function [k,c,socp_iter,func_iter,feasible]= ...
 % constraints on the amplitude, phase and low pass group delay responses. 
 %
 % Inputs:
-%   vS - structure of peak constraint frequencies {al,au,tl,tu}
+%   vS - structure of peak constraint frequencies {al,au,tl,tu,pl,pu,dl,du}
 %   k0 - initial allpass filter multipliers
 %   epsilon0,p0 - state scaling coefficients. These have no effect on the
 %                 response but can improve numerical accuracy.
