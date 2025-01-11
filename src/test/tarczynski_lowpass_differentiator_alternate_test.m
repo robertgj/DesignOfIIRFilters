@@ -1,5 +1,5 @@
 % tarczynski_lowpass_differentiator_alternate_test.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Design a lowpass differentiator using the method of Tarczynski et al.
 % This script designs a correction filter for (z-1). See:
@@ -18,7 +18,7 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 % Filter specification
 fap=0.2;fas=0.3;Wap=1;Wat=0.01;Was=2;
-R=1;nN=11;nD=floor(nN/R);td=nN-1;
+R=1;nN=11;nD=floor(nN/R);tp=nN-1;
 tol=1e-8;maxiter=20000;
 
 % Frequency points
@@ -30,7 +30,7 @@ nas=floor(fas*n/0.5);
 wd=pi*(1:(n-1))'/n;
 hzm1=[1,-1];
 Hzm1=freqz(hzm1,1,wd)(:);
-Hd=[(-j*(wd(1:nap)/2)./Hzm1(1:nap)).*exp(-j*td*wd(1:nap)); ...
+Hd=[(-j*(wd(1:nap)/2)./Hzm1(1:nap)).*exp(-j*tp*wd(1:nap)); ...
     zeros(n-nap-1,1)];
 Wd=[Wap*ones(nap,1); ...
     Wat*ones(nas-nap-1,1); ...
@@ -80,31 +80,32 @@ plot(wd*0.5/pi,abs(H));
 axis([0 0.5 0 0.8]);
 ylabel("Amplitude");
 grid("on");
-s=sprintf("Tarczynski et al. lowpass differentiator : nN=%d,nD=%d,R=%d,td=%g",
-          nN,nD,R,td);
+s=sprintf("Tarczynski et al. lowpass differentiator : nN=%d,nD=%d,R=%d,tp=%g",
+          nN,nD,R,tp);
 title(s);
 subplot(212);
 plot(wd*0.5/pi,T);
-axis([0 0.5 0 2*td]);
+axis([0 0.5 0 2*tp]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
-% Plot errors
+% Plot response error
 subplot(211);
 plot(wd*0.5/pi,abs(H)-abs(Hd.*Hzm1));
 axis([0 0.5 -0.04 0.04]);
-ylabel("Amplitude error");
+ylabel("Amplitude");
 grid("on");
-s=sprintf("Tarczynski et al. lowpass_differentiator : nN=%d,nD=%d,R=%d,td=%g",
-          nN,nD,R,td);
+s=sprintf("Tarczynski et al. lowpass_differentiator error : \
+nN=%d,nD=%d,R=%d,tp=%g",
+          nN,nD,R,tp);
 title(s);
 subplot(212);
-plot(wd*0.5/pi,((unwrap(arg(H))-((pi/2)-(wd*td)))/pi));
+plot(wd*0.5/pi,((unwrap(arg(H))-((pi/2)-(wd*tp)))/pi));
 axis([0 0.5 -0.02 0.02 ]);
-ylabel("Phase error(rad./$\\pi$)");
+ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_error_response"),"-dpdflatex");

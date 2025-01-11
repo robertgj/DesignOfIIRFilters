@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_bandpass_hilbert_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a bandpass Hilbert filter
 % as the difference of two parallel allpass filters. See:
@@ -18,7 +18,7 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-% Initialise with the result of tarczynski_parallel_allpass_bandpass_test.m
+% Initialise filter
 tarczynski_parallel_allpass_bandpass_test_Da0_coef;Dai=Da0;clear Da0;
 tarczynski_parallel_allpass_bandpass_test_Db0_coef;Dbi=Db0;clear Db0;
 
@@ -28,8 +28,8 @@ maxiter=5000
 ma=length(Dai)-1
 mb=length(Dbi)-1
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,Wasl=20,Watl=0.01,Wap=2,Watu=0.01,Wasu=10
-ftpl=0.1,ftpu=0.2,td=16,Wtp=0.5
-fppl=0.1,fppu=0.2,pd=1.5,Wpp=0.5
+ftpl=0.1,ftpu=0.2,tp=16,Wtp=0.5
+fppl=0.1,fppu=0.2,pp=1.5,Wpp=0.5
 
 % Frequency points
 n=1000;
@@ -50,7 +50,7 @@ Wa=[Wasl*ones(nasl,1); ...
 % Desired delay response
 ntpl=floor(n*ftpl/0.5)+1;
 ntpu=ceil(n*ftpu/0.5)+1;
-Td=td*ones(n,1);
+Td=tp*ones(n,1);
 Wt=[zeros(ntpl-1,1);
     Wtp*ones(ntpu-ntpl+1,1); ...
     zeros(n-ntpu,1)];
@@ -58,7 +58,7 @@ Wt=[zeros(ntpl-1,1);
 % Desired phase response
 nppl=floor(n*fppl/0.5)+1;
 nppu=ceil(n*fppu/0.5)+1;
-Pd=(pd*pi)-td*w;
+Pd=(pp*pi)-tp*w;
 Wp=[zeros(nppl-1,1);
     Wpp*ones(nppu-nppl+1,1); ...
     zeros(n-nppu,1)];
@@ -111,34 +111,33 @@ D0=conv(Da0,Db0);
 N0=0.5*(conv(flipud(Da0),Db0)-conv(flipud(Db0),Da0));
 
 % Calculate response
-nplot=512;
-[Ha0,wplot]=freqz(flipud(Da0),Da0,nplot);
-[Hb0,wplot]=freqz(flipud(Db0),Db0,nplot);
+Ha0=freqz(flipud(Da0),Da0,w);
+Hb0=freqz(flipud(Db0),Db0,w);
 H0=0.5*(Ha0-Hb0);
 P0=unwrap(arg(H0));
-Ta0=delayz(flipud(Da0),Da0,nplot);
-Tb0=delayz(flipud(Db0),Db0,nplot);
+Ta0=delayz(flipud(Da0),Da0,w);
+Tb0=delayz(flipud(Db0),Db0,w);
 T0=0.5*(Ta0+Tb0);
 
 % Plot response
 subplot(311);
-plot(wplot*0.5/pi,20*log10(abs(H0)));
+plot(w*0.5/pi,20*log10(abs(H0)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 5]);
 grid("on");
-strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,td=%g,pd=%d(rad./$\\pi$)",
-             ma,mb,td,pd);
+strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,tp=%g,pp=%d(rad./$\\pi$)",
+             ma,mb,tp,pp);
 title(strt);
 subplot(312);
-plot(wplot*0.5/pi,((P0+(wplot*td))/pi));
+plot(w*0.5/pi,rem(((P0+(w*tp))/pi),2));
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 0 2]);
 grid("on");
 subplot(313);
-plot(wplot*0.5/pi,T0);
+plot(w*0.5/pi,T0);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 0 2*td]);
+axis([0 0.5 0 2*tp]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
@@ -147,21 +146,21 @@ close
 minf=min([fapl,ftpl,fppl]);
 maxf=max([fapu,ftpu,fppu]);
 subplot(311);
-plot(wplot*0.5/pi,20*log10(abs(H0)));
+plot(w*0.5/pi,20*log10(abs(H0)));
 ylabel("Amplitude(dB)");
 axis([minf maxf -0.4 0.1]);
 grid("on");
 title(strt);
 subplot(312);
-plot(wplot*0.5/pi,pd-((P0+(wplot*td))/pi));
+plot(w*0.5/pi,rem(pp-((P0+(w*tp))/pi),2));
 ylabel("Phase error(rad./$\\pi$)");
 axis([minf maxf -0.001 0.001]);
 grid("on");
 subplot(313);
-plot(wplot*0.5/pi,T0);
+plot(w*0.5/pi,T0);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([minf maxf td+[-0.1 0.1]]);
+axis([minf maxf tp+[-0.1 0.1]]);
 grid("on");
 print(strcat(strf,"_response_passband"),"-dpdflatex");
 close
@@ -174,10 +173,10 @@ print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
 % Plot phase response
-plot(wplot*0.5/pi,(unwrap(arg(Ha0))+(wplot*td))/pi,"-", ...
-     wplot*0.5/pi,(unwrap(arg(Hb0))+(wplot*td))/pi,"--");
+plot(w*0.5/pi,(unwrap(arg(Ha0))+(w*tp))/pi,"-", ...
+     w*0.5/pi,(unwrap(arg(Hb0))+(w*tp))/pi,"--");
 strt=sprintf("Allpass phase response adjusted for linear phase : \
-ma=%d,mb=%d,td=%g",ma,mb,td);
+ma=%d,mb=%d,tp=%g",ma,mb,tp);
 title(strt);
 ylabel("Linear phase error(rad./$\\pi$)");
 xlabel("Frequency");
@@ -196,7 +195,7 @@ print_polynomial(N0,"N0");
 print_polynomial(D0,"D0");
 eval(sprintf("save %s.mat tol maxiter ma mb ...\n\
      fasl fapl fapu fasu Wasl Watl Wap Watu Wasu ...\n\
-     ftpl ftpu td Wtp fppl fppu pd Wpp abi ab0 Da0 Db0 N0 D0",strf));
+     ftpl ftpu tp Wtp fppl fppu pp Wpp abi ab0 Da0 Db0 N0 D0",strf));
 
 % Done
 toc;

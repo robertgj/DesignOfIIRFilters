@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 
 test_common;
 
@@ -141,7 +141,7 @@ Pzm1=(pi/2)-(wp/2);
 P2=schurOneMlatticeP(wp,k2,epsilon0,p0,c2) + Pzm1;
 T2=schurOneMlatticeT(wt,k2,epsilon0,p0,c2) + Tzm1;
 
-% Plot response
+% Plot response error
 subplot(311);
 [ax,ha,hs]=plotyy ...
              (wa(1:nap)*0.5/pi, ...
@@ -160,20 +160,20 @@ else
   axis(ax(1),[0 0.5 0.004*[-1,1]]);
   axis(ax(2),[0 0.5 0.004*[-1,1]]);
 endif
-strP=sprintf("Differentiator PCLS : \
+strP=sprintf("Differentiator PCLS error : \
 fap=%g,Arp=%g,fas=%g,Ars=%g,td=%g,tdr=%g,ppr=%g",fap,Arp,fas,Ars,td,tdr,ppr);
 title(strP);
-ylabel("Amplitude error");
+ylabel("Amplitude");
 grid("on");
 subplot(312);
 plot(wp*0.5/pi,([P2 Pdl Pdu]-Pd)/pi);
 axis([0 0.5 ppr*[-1,1]]);
-ylabel("Phase error(rad./$\\pi$)");
+ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,[T2 Tdl Tdu]-td);
 axis([0 0.5 tdr*[-1,1]]);
-ylabel("Delay error(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_error_response"),"-dpdflatex");

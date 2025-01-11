@@ -5,7 +5,7 @@ prog=parallel_allpass_socp_slb_lowpass_differentiator_test.m
 depends="test/parallel_allpass_socp_slb_lowpass_differentiator_test.m \
 ../tarczynski_parallel_allpass_lowpass_differentiator_test_Da0_coef.m \
 ../tarczynski_parallel_allpass_lowpass_differentiator_test_Db0_coef.m \
-test_common.m delayz.m parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \
+test_common.m parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \
 parallel_allpass_slb.m \
 parallel_allpass_slb_constraints_are_empty.m \
 parallel_allpass_slb_exchange_constraints.m \
@@ -13,7 +13,7 @@ parallel_allpass_slb_set_empty_constraints.m \
 parallel_allpass_slb_show_constraints.m \
 parallel_allpass_slb_update_constraints.m \
 parallel_allpass_socp_mmse.m allpassP.m allpassT.m tf2a.m a2tf.m \
-aConstraints.m print_polynomial.m print_allpass_pole.m \
+aConstraints.m print_polynomial.m print_allpass_pole.m delayz.m \
 local_max.m qroots.m qzsolve.oct"
 
 tmp=/tmp/$$
@@ -52,21 +52,21 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test_a1_coef.m.ok << 'EOF'
 % All-pass single-vector representation
 Va1=1,Qa1=10,Ra1=1
-a1 = [  -0.7186611981, ...
-         0.6670556777,   0.6946540190,   0.7224449778,   0.7336230462, ... 
-         0.7575594413, ...
-         1.4061506975,   0.9281572354,   0.4740165995,   2.6074918126, ... 
-         2.0975203787 ]';
+a1 = [  -0.6776866450, ...
+         0.6884630309,   0.7056399926,   0.7068094778,   0.7223051527, ... 
+         0.7457359568, ...
+         1.9903060586,   1.4941314939,   2.6097372883,   0.9684881252, ... 
+         0.4478669155 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m.ok"; fail; fi
 
 cat > test_b1_coef.m.ok << 'EOF'
 % All-pass single-vector representation
 Vb1=0,Qb1=12,Rb1=1
-b1 = [   0.6255699667,   0.6393110446,   0.6505344563,   0.6655045620, ... 
-         0.6990586545,   0.7381271289, ...
-         2.8662642204,   2.3739029186,   0.7427120570,   1.9117683211, ... 
-         1.2875148480,   0.1560174023 ]';
+b1 = [   0.7132934704,   0.7158744107,   0.7165826689,   0.7235568917, ... 
+         0.7570830604,   0.8057983831, ...
+         1.2592490195,   2.8725249584,   0.7199155194,   1.7880783198, ... 
+         0.1491269214,   2.3396062493 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_b1_coef.m.ok"; fail; fi
 

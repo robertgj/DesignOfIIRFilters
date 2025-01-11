@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_bandpass_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a bandpass filter as the
 % difference of two parallel allpass filters. See:
@@ -148,7 +148,9 @@ print_polynomial(Da0,"Da0",strcat(strf,"_Da0_coef.m"));
 print_polynomial(Db0,"Db0");
 print_polynomial(Db0,"Db0",strcat(strf,"_Db0_coef.m"));
 print_polynomial(N0,"N0");
+print_polynomial(N0,"N0",strcat(strf,"_N0_coef.m"));
 print_polynomial(D0,"D0");
+print_polynomial(D0,"D0",strcat(strf,"_D0_coef.m"));
 eval(sprintf("save %s.mat ma mb abi ab0 Da0 Db0 N0 D0",strf));
 
 % Done

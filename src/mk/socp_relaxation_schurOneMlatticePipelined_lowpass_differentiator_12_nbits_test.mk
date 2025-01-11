@@ -29,7 +29,6 @@ schurOneMlatticePipelinedP.m \
 schurOneMlatticePipelinedT.m \
 schurOneMlatticePipelineddAsqdw.m \
 schurOneMlatticePipelinedEsq.m \
-schurOneMlatticePipelined2Abcd.m \
 schurOneMlatticePipelined_slb.m \
 schurOneMlatticePipelined_slb_constraints_are_empty.m \
 schurOneMlatticePipelined_socp_mmse.m \
@@ -37,10 +36,14 @@ schurOneMlatticePipelined_slb_exchange_constraints.m \
 schurOneMlatticePipelined_slb_set_empty_constraints.m \
 schurOneMlatticePipelined_slb_show_constraints.m \
 schurOneMlatticePipelined_slb_update_constraints.m \
-schurOneMscale.m tf2schurOneMlattice.m \
-H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-print_polynomial.m local_max.m tf2pa.m x2tf.m qroots.m \
-schurdecomp.oct schurexpand.oct qzsolve.oct Abcd2H.oct Abcd2tf.oct
+schurOneMlatticePipelined_allocsd_Lim.m \
+schurOneMlatticePipelined_allocsd_Ito.m \
+schurOneMlatticePipelined2Abcd.m \
+schurOneMscale.m tf2schurOneMlattice.m local_max.m x2tf.m print_polynomial.m \
+H2Asq.m H2T.m H2P.m H2dAsqdw.m flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
+qroots.m \
+qzsolve.oct bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
+Abcd2H.oct Abcd2tf.oct
 
 socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_12_nbits_test.diary : \
 schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test.diary

@@ -4,7 +4,7 @@
 % low-pass differentiator filter implemented as the series combination of
 % (1-z^{-1}) with a pipelined Schur one-multiplier lattice correction filter.
 %
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 
 test_common;
 
@@ -37,8 +37,8 @@ epsilon0=epsilon0(:);k0=k2(:);c0=c2(:);kk0=kk2(:);ck0=ck2(:);
 %
 % Lowpass differentiator filter specification
 %
-fap=0.18;fas=0.3;
-Arp=0.01;Art=0.02;Ars=0.01;Wap=1;Wat=0.0001;Was=1;
+fap=0.3;fas=0.4;
+Arp=0.012;Art=0.02;Ars=0.012;Wap=1;Wat=0.001;Was=1;
 fpp=fap;pp=1.5;ppr=0.004;Wpp=1;
 ftp=fap;td=length(k0)-1;tdr=0.08;Wtp=1;
 
@@ -343,26 +343,28 @@ dAsqdw_kc_min=schurOneMlatticePipelineddAsqdw ...
                 (wd,k_min,epsilon0,c_min,kk_min,ck_min);
 
 % Check constraints after the last truncation
-printf("These constraints on the correction filter response are not met:\n");
 vS=schurOneMlatticePipelined_slb_update_constraints ...
      (Asq_kc_min,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
       T_kc_min,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
       P_kc_min,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
-      dAsqdw_kc_min,dAsqdwdu./dAsqdwzm1,dAsqdwdl./dAsqdwzm1,Wd, ...
+      dAsqdw_kc_min,dAsqdwdu,dAsqdwdl,Wd, ...
       ctol);
-schurOneMlatticePipelined_slb_show_constraints ...
-  (vS,wa,Asq_kc_min,wt,T_kc_min,wp,P_kc_min,wd,dAsqdw_kc_min);
+if ~schurOneMlatticePipelined_slb_constraints_are_empty(vS)
+  printf("These constraints on the correction filter response are not met:\n");
+  schurOneMlatticePipelined_slb_show_constraints ...
+    (vS,wa,Asq_kc_min,wt,T_kc_min,wp,P_kc_min,wd,dAsqdw_kc_min);
+endif
 
 % Plot response error
 subplot(311);
 plot(wa*0.5/pi,(Azm1.*sqrt(Asq_kc0))-Ad,"linestyle","-", ...
      wa*0.5/pi,(Azm1.*sqrt(Asq_kc0_sd)-Ad),"linestyle","--", ...
      wa*0.5/pi,(Azm1.*sqrt(Asq_kc_min))-Ad,"linestyle","-.");
-ylabel("Amplitude error");
-strt=sprintf("Pipelined low-pass differentiator : \
+ylabel("Amplitude");
+strt=sprintf("Pipelined low-pass differentiator error : \
 fap=%g,fas=%g,Arp=%g,Ars=%g,td=%g,ppr=%g",fap,fas,Arp,Ars,td,ppr);
 title(strt);
-axis([0 0.5 max(Arp,Ars)*[-1,1]]);
+axis([0 0.5 max([Arp,Ars,0.02]/2)*[-1,1]]);
 grid("on");
 subplot(312);
 plot(wp*0.5/pi,(P_kc0+Pzm1-Pd)/pi,"linestyle","-", ...
@@ -370,7 +372,7 @@ plot(wp*0.5/pi,(P_kc0+Pzm1-Pd)/pi,"linestyle","-", ...
      wp*0.5/pi,(P_kc_min+Pzm1-Pd)/pi,"linestyle","-.");
 axis([0 0.5 ppr*[-1,1]]);
 grid("on");
-ylabel("Phase error(rad./$\\pi$)");
+ylabel("Phase(rad./$\\pi$)");
 legend("exact","s-d(Ito)","s-d(SOCP-relax)");
 legend("location","east");
 legend("boxoff");
@@ -381,7 +383,7 @@ plot(wt*0.5/pi,T_kc0+Tzm1-Td,"linestyle","-", ...
      wt*0.5/pi,T_kc_min+Tzm1-Td,"linestyle","-.");
 axis([0 0.5 tdr/2*[-1,1]]);
 grid("on");
-ylabel("Group delay error(samples)");
+ylabel("Group delay(samples)");
 xlabel("Frequency");
 print(strcat(strf,"_kc_min"),"-dpdflatex");
 close

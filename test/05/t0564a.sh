@@ -3,8 +3,9 @@
 prog=socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test.m
 depends="\
 test/socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test.m \
-../iir_sqp_slb_lowpass_differentiator_test_N1_coef.m \
-../iir_sqp_slb_lowpass_differentiator_test_D1_coef.m \
+../schurOneMlattice_socp_slb_lowpass_differentiator_test_k2_coef.m \
+../schurOneMlattice_socp_slb_lowpass_differentiator_test_epsilon2_coef.m \
+../schurOneMlattice_socp_slb_lowpass_differentiator_test_c2_coef.m \
 test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
@@ -62,23 +63,23 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k.ok << 'EOF'
-k_min = [     -312,     1942,    -1352,     1409, ... 
-             -1416,     1392,    -1304,     1095, ... 
-              -708,      284,      -48 ]'/2048;
+k_min = [      696,     1192,     -808,      705, ... 
+              -604,      464,     -332,      196, ... 
+              -108,       40,      -15 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
 
 cat > test.c.ok << 'EOF'
-c_min = [     -200,      -14,     2624,     1212, ... 
-                92,     -280,      -14,       80, ... 
-                 4,      -16,        0,        4 ]'/2048;
+c_min = [      330,     -482,    -1344,       68, ... 
+               133,      -98,       32,        2, ... 
+               -20,       12,       -8,       -2 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
 
 cat > test.cost.ok << 'EOF'
-Exact & 0.0000699 & & \\
-12-bit 3-signed-digit(Lim)&  0.004691 & 68 & 46 \\
-12-bit 3-signed-digit(SOCP-relax) &  0.000548 & 66 & 44 \\
+Exact & 0.0004010 & & \\
+12-bit 3-signed-digit(Lim)&  0.000507 & 64 & 41 \\
+12-bit 3-signed-digit(SOCP-relax) &  0.000580 & 63 & 40 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 

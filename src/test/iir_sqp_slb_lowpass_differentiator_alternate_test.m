@@ -1,5 +1,5 @@
 % iir_sqp_slb_lowpass_differentiator_alternate_test.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 
 test_common;
 
@@ -23,7 +23,7 @@ tarczynski_lowpass_differentiator_alternate_test_D0_coef;
 [x0,U,V,M,Q]=tf2x(N0,D0,ftol);
 R=1;
 
-% Avoid prolebms with negative A from iirA since 
+% Avoid problems with negative A from iirA since 
 % tarczynski_lowpass_differentiator_alternate_test
 % returns the differential of e^(-jwt) as -jw*e^(-jwt)
 x0(1)=abs(x0(1));
@@ -103,8 +103,8 @@ hac=get(ha,"color");
 for c=1:3
   set(hs(c),"color",hac{c});
 endfor
-axis(ax(1),[0 0.5 -0.2 0.8]);
-axis(ax(2),[0 0.5 -0.01 0.04]);
+axis(ax(1),[0 0.5 0 0.8]);
+axis(ax(2),[0 0.5 0 0.04]);
 strI=sprintf("Differentiator initial response : fap=%g,fas=%g,td=%g",fap,fas,td);
 title(strI);
 ylabel("Amplitude");
@@ -159,19 +159,19 @@ for c=1:3
 endfor
 axis(ax(1),[0 0.5 Arp*[-1,1]]);
 axis(ax(2),[0 0.5 Ars*[-1,1]]);
-strM=sprintf("Differentiator MMSE : fap=%g,fas=%g,td=%g", fap,fas,td);
+strM=sprintf("Differentiator MMSE error : fap=%g,fas=%g,td=%g", fap,fas,td);
 title(strM);
-ylabel("Amplitude error");
+ylabel("Amplitude");
 grid("on");
 subplot(312);
 plot(wp*0.5/pi,([Px1 Pdl Pdu]-Pd)/pi);
 axis([0 0.5 -ppr ppr]);
-ylabel("Phase error(rad./$\\pi$)");
+ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,[Tx1 Tdl Tdu]-Td)
 axis([0 0.5 -tdr tdr]);
-ylabel("Delay error(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_mmse_error"),"-dpdflatex");
@@ -216,23 +216,23 @@ hac=get(ha,"color");
 for c=1:3
   set(hs(c),"color",hac{c});
 endfor
-axis(ax(1),[0 0.5 -Arp Arp]);
-axis(ax(2),[0 0.5 -Ars Ars]);
+axis(ax(1),[0 0.5 Arp*[-1,1]]);
+axis(ax(2),[0 0.5 0.004*[-1,1]]);
 strP=sprintf ...
   ("Differentiator PCLS error: fap=%g,Arp=%g,fas=%g,Ars=%g,td=%g,tdr=%g,ppr=%g",
    fap,Arp,fas,Ars,td,tdr,ppr);
 title(strP);
-ylabel("Amplitude error");
+ylabel("Amplitude");
 grid("on");
 subplot(312);
 plot(wp*0.5/pi,([(Pd1z+Pconst) Pdl Pdu]-Pd)/pi);
 axis([0 0.5 ppr*[-1,1]]);
-ylabel("Phase error(rad./$\\pi$)");
+ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,[Td1z Tdl Tdu]-Td);
 axis([0 0.5 tdr*[-1,1]]);
-ylabel("Delay error(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_error"),"-dpdflatex");

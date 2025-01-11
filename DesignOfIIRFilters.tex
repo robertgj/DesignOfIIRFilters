@@ -149,7 +149,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \end{center}
 
 \vspace*{11cm}
-Copyright \copyright\; 2017--2024 Robert G. Jenssen
+Copyright \copyright\; 2017--2025 Robert G. Jenssen
 
 This work is licensed under the Creative Commons Attribution 4.0 International
 License.\\ View a copy of the license at 
@@ -9532,12 +9532,12 @@ Figure~\ref{fig:iir-sqp-slb-lowpass-differentiator-pcls-response-error} shows
 the response errors of the low-pass differentiator after PCLS optimisation.
 Figure~\ref{fig:iir-sqp-slb-lowpass-differentiator-pcls-pz} shows the pole-zero
 plot of the low-pass differentiator filter after PCLS optimisation. The
-PCLS optimised filter coefficients are, in gain-zero-pole form:
+PCLS optimised overall filter coefficients are, in gain-zero-pole form:
 \begin{small}
-\verbatiminput{iir_sqp_slb_lowpass_differentiator_test_d1_coef.m}
+\verbatiminput{iir_sqp_slb_lowpass_differentiator_test_d1z_coef.m}
 \end{small}
-and, in transfer function form, the numerator and denominator polynomials are,
-respectively
+and, in transfer function form, the numerator and denominator polynomials of
+the correction filter are, respectively:
 \begin{small}
 \verbatiminput{iir_sqp_slb_lowpass_differentiator_test_N1_coef.m}
 \end{small}
@@ -10579,6 +10579,53 @@ symmetric FIR filter is not shown).
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{compare_fir_iir_socp_slb_lowpass_test_T}}
 \caption{Comparison of FIR and IIR low-pass filters, group delay responses.}
 \label{fig:FIR-IIR-low-pass-filter-gain-zero-pole-with-SeDuMi-delay}
+\end{figure}
+\clearpage
+\section{\label{sec:iir-socp-slb-lowpass-differentiator}SOCP design of a low-pass differentiator filter}
+The Octave script \emph{iir\_socp\_slb\_lowpass\_differentiator\_test.m} designs
+an IIR low-pass differentiator filter with the specification:
+\begin{small}
+\verbatiminput{iir_socp_slb_lowpass_differentiator_test_spec.m}
+\end{small}
+The filter is designed with the effect of a fixed zero at $z=1$
+removed from the desired response. That zero is added back after optimisation is
+complete.
+
+As shown in Section~\ref{sec:iir-sqp-slb-lowpass-differentiator}, the Octave
+script \emph{tarczynski\_lowpass\_differentiator\_test.m} designs an initial
+filter by the method of \emph{Tarczynski et al}.
+
+Figure~\ref{fig:iir-socp-slb-lowpass-differentiator-pcls-response-error} shows
+the response errors of the low-pass differentiator after PCLS optimisation.
+Figure~\ref{fig:iir-socp-slb-lowpass-differentiator-pcls-pz} shows the pole-zero
+plot of the low-pass differentiator filter after PCLS optimisation. The
+PCLS optimised overall filter coefficients are, in gain-zero-pole form:
+\begin{small}
+\verbatiminput{iir_socp_slb_lowpass_differentiator_test_d1z_coef.m}
+\end{small}
+and, in transfer function form, the numerator and denominator polynomials of
+the correction filter are, respectively:
+\begin{small}
+\verbatiminput{iir_socp_slb_lowpass_differentiator_test_N1_coef.m}
+\end{small}
+and
+\begin{small}
+\verbatiminput{iir_socp_slb_lowpass_differentiator_test_D1_coef.m}
+\end{small}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_lowpass_differentiator_test_pcls_error}}
+\caption{Response errors of the low-pass differentiator filter after PCLS
+  optimisation. The phase response shown is adjusted for the nominal delay.}
+\label{fig:iir-socp-slb-lowpass-differentiator-pcls-response-error}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_lowpass_differentiator_test_pcls_pz}}
+\caption{Pole-zero plot of the low-pass differentiator filter after PCLS
+  optimisation.}
+\label{fig:iir-socp-slb-lowpass-differentiator-pcls-pz}
 \end{figure}
 \clearpage
 \section{\label{sec:Bandpass-R-2-IIR-filter-gain-zero-pole-with-SeDuMi}SOCP MMSE design of a bandpass R=2 filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
@@ -11674,25 +11721,22 @@ delay is not constrained, Figure~\ref{fig:Parallel-allpass-filter-PCLS-SOCP-pz},
 and the pole-zero plot for the elliptic filter example, 
 Figure~\ref{fig:Parallel-2nd-order-allpass-elliptic-filter-pz}.
 
-\paragraph{Design of an IIR low-pass differentiator filter as the sum of two all-pass filters}
-Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt} shows the design of a
-low-pass differentiator filter with coefficients given in gain-pole-zero
-form\footnote{The  numerator polynomial of the filter designed in
+\paragraph{Design of an IIR low-pass differentiator filter as the sum of two all-pass filters} 
+The Octave script \newline
+\emph{parallel\_allpass\_socp\_slb\_lowpass\_differentiator\_test.m}
+uses the SeDuMi SOCP solver to design a low-pass differentiator filter
+consisting of $1-z^{-1}$ followed by a correction filter, implemented as the sum
+of two all-pass
+filters\footnote{Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt}
+  shows the design of a low-pass differentiator filter with coefficients given
+  in gain-pole-zero form. The  numerator polynomial of the filter designed in
   Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt} is not symmetric so
   that filter cannot be decomposed into allpass filters with the spectral
   factorisation method described in
   Appendix~\ref{app:Low-passband-sensitivity-IIR-digital-filters}.}.
-The resulting direct form IIR filter has $23$ multipliers. The Octave script
-\emph{parallel\_allpass\_socp\_slb\_lowpass\_differentiator\_test.m}
-uses the SeDuMi SOCP solver to design a low-pass differentiator filter
-consisting of $1-z^{-1}$ followed by a correction filter, implemented as the sum
-of two all-pass filters, with $23$ multipliers.
 The script calls the Octave function \emph{parallel\_allpass\_slb} to perform
 the PCLS design of the filter in terms of the all-pass filter pole locations
-with constraints on the filter group-delay and phase. Unfortunately, I did not
-find a combination of weights and constraints for which the amplitude error
-response achieved that of the filter designed in
-Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt}.
+with constraints on the filter group-delay and phase.
 
 The parallel all-pass low-pass differentiator filter specification is:
 \begin{small}
@@ -11723,24 +11767,24 @@ the low-pass differentiator correction filter are:
 \verbatiminput{parallel_allpass_socp_slb_lowpass_differentiator_test_Db1_coef.m}
 \end{small}
 
-The corresponding filter numerator and denominator polynomials of the overall
+The corresponding numerator and denominator polynomials of the correction
 filter are:
 \begin{small}
 \verbatiminput{parallel_allpass_socp_slb_lowpass_differentiator_test_Nab1_coef.m}
 \verbatiminput{parallel_allpass_socp_slb_lowpass_differentiator_test_Dab1_coef.m}
 \end{small}
 
-Figure~\ref{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-response}.
-shows the low-pass differentiator filter response after PCLS optimisation.
-The phase response shown is adjusted for the nominal delay.
+Figure~\ref{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-error}.
+shows the response error of the low-pass differentiator filter after PCLS
+optimisation. The phase response shown is adjusted for the nominal delay.
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_lowpass_differentiator_test_ab1}}
-\caption{Response of the low-pass differentiator filter implemented as the sum
-  of two all-pass filters after PCLS SOCP optimisation. The phase response shown
-  is adjusted for the nominal delay.} 
-\label{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-response}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_lowpass_differentiator_test_ab1error}}
+\caption{Response error of the low-pass differentiator filter implemented as the
+  sum of two all-pass filters after PCLS SOCP optimisation. The phase response
+  shown is adjusted for the nominal delay.} 
+\label{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-error}
 \end{figure}
 
 Figure~\ref{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-phase} shows
@@ -11763,6 +11807,98 @@ pole-zero plot of the low-pass differentiator after PCLS optimisation.
 \caption{Pole-zero plot of the parallel-allpass low-pass differentiator filter
   after PCLS SOCP optimisation.}
 \label{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-pz}
+\end{figure}
+
+Figure~\ref{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-correction}
+shows the response of the correction filter of the low-pass differentiator after
+PCLS optimisation. The amplitude response plot demonstrates that the parallel
+allpass filter is not an appropriate structure for the low-pass differentiator.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_lowpass_differentiator_test_ab1correction}}
+\caption{Response of the correction filter of the parallel-allpass low-pass
+  differentiator filter after PCLS SOCP optimisation.}
+\label{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-correction}
+\end{figure}
+\clearpage
+\paragraph{Design of an IIR band-pass differentiator filter as the difference of two all-pass filters} 
+The Octave script \newline
+\emph{parallel\_allpass\_socp\_slb\_bandpass\_differentiator\_test.m}
+uses the SeDuMi SOCP solver to design a band-pass differentiator filter
+consisting of $1-z^{-2}$ followed by a correction filter, implemented as the sum
+of two all-pass filters.
+The script calls the Octave function \emph{parallel\_allpass\_slb} to perform
+the PCLS design of the filter in terms of the all-pass filter pole locations
+with constraints on the filter group-delay and phase.
+
+The parallel all-pass band-pass differentiator filter specification is:
+\begin{small}
+\verbatiminput{parallel_allpass_socp_slb_bandpass_differentiator_test_spec.m}
+\end{small}
+
+The Octave script
+\emph{tarczynski\_parallel\_allpass\_bandpass\_differentiator\_test.m}
+designs an initial band-pass differentiator correction filter with the
+\emph{WISE} method described in
+Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}.
+Figure~\ref{fig:Parallel-allpass-bandpass-differentiator-filter-initial}.
+shows the initial band-pass differentiator filter response.
+The phase response shown is adjusted for the nominal delay.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_differentiator_test_ab0}}
+\caption{Initial response of the band-pass differentiator filter implemented as
+  the sum of two all-pass filters. The phase response shown is
+  adjusted for the nominal delay.} 
+\label{fig:Parallel-allpass-bandpass-differentiator-filter-initial}
+\end{figure}
+
+After PCLS optimisation, the denominator polynomials of the all-pass filters in
+the band-pass differentiator correction filter are:
+\begin{small}
+\verbatiminput{parallel_allpass_socp_slb_bandpass_differentiator_test_Da1_coef.m}
+\verbatiminput{parallel_allpass_socp_slb_bandpass_differentiator_test_Db1_coef.m}
+\end{small}
+
+The corresponding numerator and denominator polynomials of the correction
+filter are:
+\begin{small}
+\verbatiminput{parallel_allpass_socp_slb_bandpass_differentiator_test_Nab1_coef.m}
+\verbatiminput{parallel_allpass_socp_slb_bandpass_differentiator_test_Dab1_coef.m}
+\end{small}
+
+Figure~\ref{fig:Parallel-allpass-bandpass-differentiator-filter-PCLS-error}.
+shows the response error of the band-pass differentiator filter after PCLS
+optimisation. The phase response shown is adjusted for the nominal delay.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_differentiator_test_ab1error}}
+\caption{Response error of the band-pass differentiator filter implemented as the
+  sum of two all-pass filters after PCLS SOCP optimisation. The phase response
+  shown is adjusted for the nominal delay.} 
+\label{fig:Parallel-allpass-bandpass-differentiator-filter-PCLS-error}
+\end{figure}
+
+Figure~\ref{fig:Parallel-allpass-bandpass-differentiator-filter-PCLS-phase} shows
+the phase responses of the parallel all-pass correction filters after PCLS SOCP
+optimisation.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_differentiator_test_ab1phase}}
+\caption{Phase responses of the band-pass differentiator filter
+  parallel allpass filters after PCLS SOCP optimisation.}
+\label{fig:Parallel-allpass-bandpass-differentiator-filter-PCLS-phase}
+\end{figure}
+
+Figure~\ref{fig:Parallel-allpass-bandpass-differentiator-filter-PCLS-pz} shows the
+pole-zero plot of the band-pass differentiator after PCLS optimisation.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_differentiator_test_ab1pz}}
+\caption{Pole-zero plot of the parallel-allpass band-pass differentiator filter
+  after PCLS SOCP optimisation.}
+\label{fig:Parallel-allpass-bandpass-differentiator-filter-PCLS-pz}
 \end{figure}
 \clearpage
 \subsubsection{\label{sec:Design-IIR-filter-difference-all-pass-filters-pole-zero-constrained-group-delay}Design
@@ -11805,7 +11941,7 @@ specification is
 \begin{small}
 \verbatiminput{parallel_allpass_socp_slb_bandpass_test_spec.m}
 \end{small}
-The original initial filter was designed by the Octave script
+The initial filter was designed by the Octave script
 \emph{tarczynski\_parallel\_allpass\_bandpass\_test.m} using the \emph{WISE}
 method described in
 Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. The response
@@ -12635,28 +12771,28 @@ shows the pole-zero plot of the band-pass filter after PCLS optimisation.
 
 \subsubsection{Design of a low-pass differentiator filter with an IIR Schur one-multiplier lattice correction filter using SOCP}
 The Octave script
-\emph{schurOneMlattice\_socp\_slb\_lowpass\_differentiator\_alternate\_test.m}
+\emph{schurOneMlattice\_socp\_slb\_lowpass\_differentiator\_test.m}
 calls \emph{schurOneMlattice\_slb} to improve the filter designed with
-\emph{tarczynski\_lowpass\_differentiator\_alternate\_test.m}. The low-pass
+\emph{tarczynski\_lowpass\_differentiator\_test.m}. The low-pass
 differentiator filter consists of $1-z^{-1}$ and a Schur one-multiplier lattice
 correction filter. The filter specification is similar to that of
-Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt}:
+Section~\ref{sec:iir-sqp-slb-lowpass-differentiator}:
 \begin{small}
-\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_spec.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_test_spec.m}
 \end{small}
 
 The PCLS SOCP optimised Schur one-multiplier lattice filter coefficients of the
 correction filter are:
 \begin{small}
-\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_k2_coef.m}
-\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_c2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_test_k2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_test_c2_coef.m}
 \end{small}
 
-The corresponding overall transfer function numerator and denominator
-polynomials are:
+The corresponding transfer function numerator and denominator
+polynomials of the correction filter are:
 \begin{small}
-\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_N2_coef.m}
-\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_D2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_test_N2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_test_D2_coef.m}
 \end{small}
 
 Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-SOCP-PCLS}
@@ -12667,18 +12803,67 @@ shows the pole-zero plot of the low-pass differentiator filter after PCLS
 optimisation. 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_pcls_error_response}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_test_error_response}}
 \caption{PCLS optimised error response of a low-pass differentiator filter
   composed of a Schur one-multiplier lattice correction filter and $1-z^{-1}$.}
 \label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-SOCP-PCLS}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_pcls_pz}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_test_pz}}
 \caption{Pole-zero plot of the PCLS optimised low-pass differentiator filter
   composed of a Schur one-multiplier lattice correction filter in series with
   $1-z^{-1}$.}
 \label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-SOCP-PCLS-pz}
+\end{figure}
+\clearpage
+\subsubsection{Design of an alternative low-pass differentiator filter with an IIR Schur one-multiplier lattice correction filter using SOCP}
+The Octave script
+\emph{schurOneMlattice\_socp\_slb\_lowpass\_differentiator\_alternate\_test.m}
+calls \emph{schurOneMlattice\_slb} to improve the filter designed with
+\emph{tarczynski\_lowpass\_differentiator\_alternate\_test.m}. The low-pass
+differentiator filter consists of $1-z^{-1}$ and a Schur one-multiplier lattice
+correction filter. The filter specification is similar to that of
+Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt}:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_spec.m}
+\end{small}
+
+The PCLS SOCP optimised alternative Schur one-multiplier lattice filter
+coefficients of the correction filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_k2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_c2_coef.m}
+\end{small}
+
+The corresponding transfer function numerator and denominator
+polynomials of the correction filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_N2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_D2_coef.m}
+\end{small}
+
+Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-diff-alt-SOCP-PCLS}
+shows the response of the alternative low-pass differentiator filter after PCLS
+optimisation and
+Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-SOCP-PCLS-pz}
+shows the pole-zero plot of the alternative low-pass differentiator filter after
+PCLS optimisation. 
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_pcls_error_response}}
+\caption{PCLS optimised error response of a low-pass differentiator filter
+  composed of an alternative Schur one-multiplier lattice correction filter in
+  series with $1-z^{-1}$.}
+\label{fig:Schur-OneM-lattice-correction-lowpass-diff-alt-SOCP-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_pcls_pz}}
+\caption{Pole-zero plot of the PCLS optimised low-pass differentiator filter
+  composed of an alternative Schur one-multiplier lattice correction filter in
+  series with $1-z^{-1}$.}
+\label{fig:Schur-OneM-lattice-correction-lowpass-diff-alt-SOCP-PCLS-pz}
 \end{figure}
 \clearpage
 \subsubsection{Design of a low-pass differentiator filter with a pipelined  IIR Schur one-multiplier lattice correction filter using SOCP}
@@ -12704,8 +12889,8 @@ coefficients of the correction filter are:
 \verbatiminput{schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test_ck2_coef.m}
 \end{small}
 
-The corresponding overall transfer function numerator and denominator
-polynomials are:
+The corresponding transfer function numerator and denominator
+polynomials of the correction filter are:
 \begin{small}
 \verbatiminput{schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test_N2_coef.m}
 \verbatiminput{schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test_D2_coef.m}
@@ -12751,6 +12936,7 @@ The Schur one-multiplier lattice coefficients of the PCLS SOCP optimised
 correction filter are:
 \begin{small}
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_k2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_epsilon2_coef.m}
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_c2_coef.m}
 \end{small}
 The corresponding correction filter numerator and denominator polynomial
@@ -12760,18 +12946,30 @@ coefficients are:
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_D2_coef.m}
 \end{small}
 Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2}
-shows the error response of the $R=2$ low-pass differentiator filter
+shows the response error of the $R=2$ low-pass differentiator filter
 after PCLS SOCP optimisation (with sample rate $f_{S}=1$).
-Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-pz} shows
-the pole-zero plot of the $R=2$ low-pass differentiator filter.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_error_response}}
-\caption{PCLS optimised error response of an low-pass differentiator
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_error}}
+\caption{PCLS optimised response error of a low-pass differentiator
   filter composed of a Schur one-multiplier lattice correction filter with a
   denominator polynomial having terms only in $z^{-2}$ in series with $1-z^{-1}$.}
 \label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2}
 \end{figure}
+Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-corr}
+shows the response of the $R=2$ correction filter for the low-pass
+differentiator filter after PCLS SOCP optimisation (with sample rate $f_{S}=1$).
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_correction}}
+\caption{PCLS optimised response error of the correction filter of a low-pass
+  differentiator filter composed of a Schur one-multiplier lattice 
+  filter with a denominator polynomial having terms only in $z^{-2}$ in series
+  with $1-z^{-1}$.}
+\label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-corr}
+\end{figure}
+Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-pz} shows
+the pole-zero plot of the $R=2$ low-pass differentiator filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_pz}}
@@ -12780,6 +12978,53 @@ the pole-zero plot of the $R=2$ low-pass differentiator filter.
   denominator polynomial having terms only in $z^{-2}$ in series with $1-z^{-1}$.}
 \label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-pz}
 \end{figure}
+\subsubsection{Design of a band-pass differentiator filter with an IIR Schur one-multiplier lattice correction filter using SOCP}
+The Octave script
+\emph{schurOneMlattice\_socp\_slb\_bandpass\_differentiator\_test.m}
+calls \emph{schurOneMlattice\_slb} to improve the filter designed with
+\emph{tarczynski\_bandpass\_differentiator\_test.m}. The band-pass
+differentiator filter consists of $1-z^{-2}$ and a Schur one-multiplier lattice
+correction filter. The filter specification is:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_differentiator_test_spec.m}
+\end{small}
+
+The PCLS SOCP optimised Schur one-multiplier lattice filter coefficients of the
+correction filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_differentiator_test_k2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_differentiator_test_c2_coef.m}
+\end{small}
+
+The corresponding transfer function numerator and denominator polynomials of
+the correction filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_differentiator_test_N1_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_differentiator_test_D1_coef.m}
+\end{small}
+
+Figure~\ref{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS}
+shows the response error of the band-pass differentiator filter after PCLS
+optimisation and
+Figure~\ref{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS-pz}
+shows the pole-zero plot of the band-pass differentiator filter after PCLS
+optimisation. 
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_differentiator_test_error}}
+\caption{PCLS optimised response error of a band-pass differentiator filter
+  composed of a Schur one-multiplier lattice correction filter and $1-z^{-2}$.}
+\label{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_differentiator_test_pz}}
+\caption{Pole-zero plot of the PCLS optimised band-pass differentiator filter
+  composed of a Schur one-multiplier lattice correction filter in series with
+  $1-z^{-2}$.}
+\label{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS-pz}
+\end{figure}
+
 \subsubsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-hilbert-SOCP}Design of a one-multiplier IIR Schur lattice Hilbert filter with $R=2$ using SOCP}
 The Octave script \emph{schurOneMlattice\_socp\_slb\_hilbert\_test.m} implements
 the design of an IIR one-multiplier Schur lattice Hilbert filter with SOCP and 
@@ -40465,22 +40710,22 @@ The largest is shown.
 \begin{tabular}{lrrrr} \toprule
 \multirow{3}{*}
 {\emph{blas} library}      &\multicolumn{2}{c}{linpack.m} &IIR benchmark script&KYP benchmark script\\
-\cmidrule{2-5}             & MFLOPS & Normalised          & Execution time     & Execution time \\
-                           &        & residual            & (seconds)          & (seconds) \\
-\midrule                                                                          
-Generic libblas/liblapack  &  3850  & 21.3                &  47.5              &  58.5 \\
-Intel libblas/liblapack    &  3857  & 21.3                &  47.6              &  58.9 \\
-Haswell libblas/liblapack  &  4690  & 18.5                &  47.2              &  53.2 \\
-Nehalem libblas/liblapack  &  3867  & 21.3                &  47.7              &  58.6 \\
-Skylake libblas/liblapack  &  4679  & 18.5                &  47.3              &  52.9 \\
-Fedora 41 libblas/liblapack&  3851  & 21.3                &  47.7              &  58.6 \\
-libgslcblas                &  3872  & 21.3                &  47.6              &  58.5 \\
-libsatlas                  & 13065  & 14.3                &  47.5              &  62.4 \\
-libtatlas                  & 20410  & 14.3                &  47.6              &  62.4 \\
-libopenblas                & 33208  &  9.9                &  46.1              &  52.8 \\
-libopenblasp (1 thread)    & 33148  &  9.9                &  46.3              &  53.3 \\
-libopenblasp (2 threads)   & 47476  & 12.1                &  46.4              &  53.4 \\
-libopenblasp (4 threads)   & 60230  & 10.8                &  46.1              &  53.4 \\
+\cmidrule{2-5}             & MFLOPS & Normalised  & Execution time & Execution time \\
+                           &        & residual    & (seconds)      & (seconds) \\
+\midrule                                                              
+Generic libblas/liblapack  &  3850  & 21.3        &  47.5          &  58.5 \\
+Intel libblas/liblapack    &  3857  & 21.3        &  47.6          &  58.9 \\
+Haswell libblas/liblapack  &  4690  & 18.5        &  47.2          &  53.2 \\
+Nehalem libblas/liblapack  &  3867  & 21.3        &  47.7          &  58.6 \\
+Skylake libblas/liblapack  &  4679  & 18.5        &  47.3          &  52.9 \\
+Fedora 41 libblas/liblapack&  3851  & 21.3        &  47.7          &  58.6 \\
+libgslcblas                &  3872  & 21.3        &  47.6          &  58.5 \\
+libsatlas                  & 13065  & 14.3        &  47.5          &  62.4 \\
+libtatlas                  & 20410  & 14.3        &  47.6          &  62.4 \\
+libopenblas                & 33208  &  9.9        &  46.1          &  52.8 \\
+libopenblasp (1 thread)    & 33148  &  9.9        &  46.3          &  53.3 \\
+libopenblasp (2 threads)   & 47476  & 12.1        &  46.4          &  53.4 \\
+libopenblasp (4 threads)   & 60230  & 10.8        &  46.1          &  53.4 \\
 \bottomrule
 \end{tabular}
 \egroup{}

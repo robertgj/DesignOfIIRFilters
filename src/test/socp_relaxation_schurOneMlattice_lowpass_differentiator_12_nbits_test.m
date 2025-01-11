@@ -1,10 +1,10 @@
-% socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test.m
+% socp_relaxation_schurOneMlattice_lowpass_differentiator_12_nbits_test.m 
 %
 % Use SOCP relaxation to find the 12 bit 3 signed-digit coefficients of a
 % low-pass differentiator filter implemented as the series combination of
 % (1-z^{-1}) with a Schur one-multiplier lattice correction filter.
 %
-% Copyright (C) 2022-2024 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 
 test_common;
 
@@ -24,29 +24,25 @@ nbits=12
 nscale=2^(nbits-1);
 ndigits=3
 
+% Options
+socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Lim=true
+socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Ito=false
+
 %
 % Initial correction filter
 %
-iir_sqp_slb_lowpass_differentiator_test_N1_coef;N0=N1;
-iir_sqp_slb_lowpass_differentiator_test_D1_coef;D0=D1;
-
-%
-% Convert initial correction filter to Schur one-multiplier lattice form
-%
-[k0,epsilon0,~,c0,S0]=tf2schurOneMlattice(N0,D0);
+schurOneMlattice_socp_slb_lowpass_differentiator_test_k2_coef;k0=k2(:);clear k2;
+schurOneMlattice_socp_slb_lowpass_differentiator_test_epsilon2_coef;epsilon0=epsilon2(:);clear epsilon2;
+schurOneMlattice_socp_slb_lowpass_differentiator_test_c2_coef;c0=c2(:);clear c2;
 p0_ones=ones(size(k0));
 
 %
 % Lowpass differentiator filter specification
 %
-fap=0.18;fas=0.25;
-Arp=0.01;Art=0.02;Ars=0.02;Wap=2;Wat=0.0001;Was=1;
-td=length(N0)-2;tdr=0.2;Wtp=1;
-pr=0.002;Wpp=1;
-
-% Options
-socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Lim=true
-socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Ito=false
+fap=0.3;fas=0.4;
+Arp=0.005;Art=0.02;Ars=0.02;Wap=2;Wat=0.001;Was=1;
+tp=length(k0)-1;tpr=0.06;Wtp=1;
+pp=1.5;pr=0.003;Wpp=1;
 
 %
 % Frequency vectors for the Schur one-mulitplier lattice correction filter
@@ -80,7 +76,7 @@ printf("Wa(nchk)=[");printf("%g ",Wa(nchk));printf(" ]\n");
 % Phase response 
 wp=w(1:nap);
 Pzm1=(pi/2)-(wp/2);
-Pd=(pi/2)-(wp*td);
+Pd=(pp*pi)-(wp*tp);
 Pdu=Pd+(pr*pi/2);
 Pdl=Pd-(pr*pi/2);
 Wp=Wpp*ones(size(wp));
@@ -88,9 +84,9 @@ Wp=Wpp*ones(size(wp));
 % Group delay
 wt=w(1:nap);
 Tzm1=0.5;
-Td=td*ones(size(wt));
-Tdu=Td+(tdr/2);
-Tdl=Td-(tdr/2);
+Td=tp*ones(size(wt));
+Tdu=Td+(tpr/2);
+Tdl=Td-(tpr/2);
 Wt=Wtp*ones(size(wt));
 
 % dAsqdw constraints
@@ -126,15 +122,18 @@ if socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Lim
                                  wa,(Ad./Azm1).^2,ones(size(wa)), ...
                                  wt,Td-Tzm1,ones(size(wt)), ...
                                  wp,Pd-Pzm1,ones(size(wp)));
+  strItoLim="Lim";
 elseif socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Ito
   ndigits_alloc = ...
-         schurOneMlattice_allocsd_Ito(nbits,ndigits,k0,epsilon0,p0_ones,c0, ...
-                                      wa,(Ad./Azm1).^2,Wa, ...
-                                      wt,Td-Tzm1,Wt, ...
-                                      wp,Pd-Pzm1,Wp);
+    schurOneMlattice_allocsd_Ito(nbits,ndigits,k0,epsilon0,p0_ones,c0, ...
+                                 wa,(Ad./Azm1).^2,Wa, ...
+                                 wt,Td-Tzm1,Wt, ...
+                                 wp,Pd-Pzm1,Wp);
+  strItoLim="Ito";
 else
   ndigits_alloc=zeros(size(kc0));
   ndigits_alloc(kc0_active)=ndigits;
+  strItoLim="none";
 endif
 k_allocsd_digits=int16(ndigits_alloc(1:Nk));
 c_allocsd_digits=int16(ndigits_alloc((Nk+1):end));
@@ -223,7 +222,7 @@ while ~isempty(kc_active)
                            wa,(Ad./Azm1).^2,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
                            wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
                            wp,Pd-Pzm1,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
-                           wd,(Dd./Dzm1),(Ddu./Dzm1),(Ddl./Dzm1),Wd, ...
+                           wd,Dd,Ddu,Ddl,Wd, ...
                            maxiter,ftol,ctol,verbose);
   catch
     feasible=false;
@@ -276,8 +275,8 @@ printf("%d %d-bit adders used for coefficient multiplications\n",
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_kc_min_cost.tab"),"wt");
 fprintf(fid,"Exact & %9.7f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit(Lim)& %9.6f & %d & %d \\\\\n",
-        nbits,ndigits,Esq0_sd,kc0_digits,kc0_adders);
+fprintf(fid,"%d-bit %d-signed-digit(%s)& %9.6f & %d & %d \\\\\n",
+        nbits,ndigits,strItoLim,Esq0_sd,kc0_digits,kc0_adders);
 fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %9.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq_min,kc_digits,kc_adders);
 fclose(fid);
@@ -286,15 +285,15 @@ fclose(fid);
 Asq_kc0=schurOneMlatticeAsq(wa,k0,epsilon0,p0_ones,c0);
 Asq_kc0_sd=schurOneMlatticeAsq(wa,k0_sd,epsilon0,p0_ones,c0_sd);
 Asq_kc_min=schurOneMlatticeAsq(wa,k_min,epsilon0,p0_ones,c_min);
+A_kc0=sqrt(Asq_kc0);
+A_kc0_sd=sqrt(Asq_kc0_sd);
+A_kc_min=sqrt(Asq_kc_min);
 P_kc0=schurOneMlatticeP(wp,k0,epsilon0,p0_ones,c0);
 P_kc0_sd=schurOneMlatticeP(wp,k0_sd,epsilon0,p0_ones,c0_sd);
 P_kc_min=schurOneMlatticeP(wp,k_min,epsilon0,p0_ones,c_min);
 T_kc0=schurOneMlatticeT(wt,k0,epsilon0,p0_ones,c0);
 T_kc0_sd=schurOneMlatticeT(wt,k0_sd,epsilon0,p0_ones,c0_sd);
 T_kc_min=schurOneMlatticeT(wt,k_min,epsilon0,p0_ones,c_min);
-dAsqdw_kc0=schurOneMlatticedAsqdw(wd,k0,epsilon0,p0_ones,c0);
-dAsqdw_kc0_sd=schurOneMlatticedAsqdw(wd,k0_sd,epsilon0,p0_ones,c0_sd);
-dAsqdw_kc_min=schurOneMlatticedAsqdw(wd,k_min,epsilon0,p0_ones,c_min);
 
 % Check constraints after the last truncation
 printf("These constraints on the correction filter response are not met:\n");
@@ -302,30 +301,43 @@ vS=schurOneMlattice_slb_update_constraints ...
      (Asq_kc_min,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
       T_kc_min,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
       P_kc_min,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
-      dAsqdw_kc_min,Ddu./Dzm1,Ddl./Dzm1,Wd, ...
+      Dd,Ddu,Ddl,Wd, ...
       ctol);
 schurOneMlattice_slb_show_constraints ...
-  (vS,wa,Asq_kc_min,wt,T_kc_min,wp,P_kc_min,wd,dAsqdw_kc_min);
+  (vS,wa,Asq_kc_min,wt,T_kc_min,wp,P_kc_min,wd,Dd);
 
 % Plot response error
 subplot(311);
-plot(wa*0.5/pi,(Azm1.*sqrt(Asq_kc0))-Ad,"linestyle","-", ...
-     wa*0.5/pi,(Azm1.*sqrt(Asq_kc0_sd)-Ad),"linestyle","--", ...
-     wa*0.5/pi,(Azm1.*sqrt(Asq_kc_min))-Ad,"linestyle","-.");
-ylabel("Amplitude error");
-strt=sprintf("Low-pass differentiator filter : \
-fap=%g,fas=%g,Arp=%g,Ars=%g,td=%g,pr=%g",fap,fas,Arp,Ars,td,pr);
+rap=1:nap;
+ras=nas:(n-1);
+[ax,ha,hs]= ...
+  plotyy(wa(rap)*0.5/pi, ...
+         (Azm1(rap).*[A_kc0(rap),A_kc0_sd(rap),A_kc_min(rap)])-Ad(rap), ...
+         wa(ras)*0.5/pi, ...
+         (Azm1(ras).*[A_kc0(ras),A_kc0_sd(ras),A_kc_min(ras)])-Ad(ras));
+% Copy line colour
+hac=get(ha,"color");
+hls={"-","--","-."};
+for c=1:3
+  set(hs(c),"color",hac{c}); 
+  set(ha(c),"linestyle",hls{c});
+  set(hs(c),"linestyle",hls{c}); 
+endfor
+axis(ax(1),[0  0.5 0.004*[-1,1]]);
+axis(ax(2),[0  0.5 0.02*[-1,1]]);
+ylabel("Amplitude");
+strt=sprintf("Low-pass differentiator filter error : \
+fap=%g,fas=%g,Arp=%g,Ars=%g,tp=%g,pr=%g",fap,fas,Arp,Ars,tp,pr);
 title(strt);
-axis([0  0.5 max(Arp,Ars)*[-1,1]]);
 grid("on");
 subplot(312);
 plot(wp*0.5/pi,(P_kc0+Pzm1-Pd)/pi,"linestyle","-", ...
      wp*0.5/pi,(P_kc0_sd+Pzm1-Pd)/pi,"linestyle","--", ...
      wp*0.5/pi,(P_kc_min+Pzm1-Pd)/pi,"linestyle","-.");
-axis([0 0.5 pr*[-1,1]]);
+axis([0 0.5 0.002*[-1,1]]);
 grid("on");
-ylabel("Phase error(rad./$\\pi$)");
-legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+ylabel("Phase(rad./$\\pi$)");
+legend("exact",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","east");
 legend("boxoff");
 legend("left");
@@ -333,9 +345,9 @@ subplot(313);
 plot(wt*0.5/pi,T_kc0+Tzm1-Td,"linestyle","-", ...
      wt*0.5/pi,T_kc0_sd+Tzm1-Td,"linestyle","--", ...
      wt*0.5/pi,T_kc_min+Tzm1-Td,"linestyle","-.");
-axis([0 0.5 tdr/2*[-1,1]]);
+axis([0 0.5 0.04*[-1,1]]);
 grid("on");
-ylabel("Group delay error(samples)");
+ylabel("Group delay(samples)");
 xlabel("Frequency");
 print(strcat(strf,"_kc_min"),"-dpdflatex");
 close
@@ -350,6 +362,10 @@ close
 
 % Save specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
+fprintf(fid,"socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Lim=%d\n",
+        socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Lim);
+fprintf(fid,"socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Ito=%d\n",
+        socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Ito);
 fprintf(fid,"nbits=%d %% Bits-per-coefficient \n",nbits);
 fprintf(fid,"ndigits=%d %% Average signed-digits-per-coefficient \n",ndigits);
 fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
@@ -358,12 +374,15 @@ fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"fap=%g %% Amplitude pass band upper edge\n",fap);
 fprintf(fid,"Arp=%g %% Amplitude pass band peak-to-peak ripple\n",Arp);
 fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"Art=%g %% Amplitude transition band peak-to-peak ripple\n",Art);
+fprintf(fid,"Wat=%g %% Amplitude transition band weight\n",Wat);
 fprintf(fid,"fas=%g %% Amplitude stop band lower edge\n",fas);
 fprintf(fid,"Ars=%g %% Amplitude stop band peak-to-peak ripple\n",Ars);
 fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
-fprintf(fid,"td=%g %% Pass band group delay\n",td);
-fprintf(fid,"tdr=%g %% Pass band group delay peak-to-peak ripple\n",tdr);
+fprintf(fid,"tp=%g %% Pass band group delay\n",tp);
+fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
+fprintf(fid,"pp=%g %% Phase pass band nominal phase(rad./pi))\n",pp);
 fprintf(fid,"pr=%g %% Phase pass band peak-to-peak ripple(rad./pi))\n",pr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
@@ -372,7 +391,7 @@ eval(sprintf("save %s.mat \
 socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Lim \
 socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Ito \
 nbits ndigits ndigits_alloc k_allocsd_digits c_allocsd_digits \
-ftol ctol n fap Arp Wap Ars Was td tdr Wtp pr Wpp \
+ftol ctol n fap Arp Wap Art Wat Ars Was tp tpr Wtp pr Wpp \
 k0 epsilon0 c0 k0_sd c0_sd k_min c_min",strf));
 
 % Done 

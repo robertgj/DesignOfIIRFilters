@@ -7,6 +7,8 @@ tarczynski_parallel_allpass_bandpass_test_phase
 tarczynski_parallel_allpass_bandpass_test_COEFS = \
 tarczynski_parallel_allpass_bandpass_test_Da0_coef.m \
 tarczynski_parallel_allpass_bandpass_test_Db0_coef.m \
+tarczynski_parallel_allpass_bandpass_test_N0_coef.m \
+tarczynski_parallel_allpass_bandpass_test_D0_coef.m \
 tarczynski_parallel_allpass_bandpass_test.mat
 
 tarczynski_parallel_allpass_bandpass_test_FLES = \

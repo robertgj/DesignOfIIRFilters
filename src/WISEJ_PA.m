@@ -8,7 +8,7 @@ function E=WISEJ_PA(ab,_ma,_mb,_R,_poly,_diff,_Ad,_Wa,_Td,_Wt,_Pd,_Wp)
 % polynomials to be optimised.
 %
 % First initialise the common parameters of the filter structure with:
-%  WISEJ([],ma,mb,Ad,Wa,Td,Wt)
+%  WISEJ_PA([],ma,mb,Ad,Wa,Td,Wt)
 % The common filter parameters are:
 %  ma - order of first allpass filter
 %  mb - order of second allpass filter
@@ -21,8 +21,8 @@ function E=WISEJ_PA(ab,_ma,_mb,_R,_poly,_diff,_Ad,_Wa,_Td,_Wt,_Pd,_Wp)
 %  Wt - filter group-delay response weighting factor
 %  Pd - desired filter phase response
 %  Wp - filter phase response weighting factor
-%
-% Copyright (C) 2017-2024 Robert G. Jenssen
+
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

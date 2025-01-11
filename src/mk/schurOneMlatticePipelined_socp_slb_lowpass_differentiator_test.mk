@@ -1,6 +1,8 @@
 schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test_FIGURES = \
+schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test_pcls_pz \
 schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test_pcls_error \
-schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test_pcls_pz
+schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test_pcls_correction \
+schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test_pcls_response
 
 schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test_COEFS = \
 schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test.mat \
@@ -29,9 +31,10 @@ schurOneMlatticePipelined_slb_exchange_constraints.m \
 schurOneMlatticePipelined_slb_set_empty_constraints.m \
 schurOneMlatticePipelined_slb_show_constraints.m \
 schurOneMlatticePipelined_slb_update_constraints.m \
-schurOneMscale.m tf2schurOneMlattice.m \
-H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-print_polynomial.m local_max.m tf2pa.m x2tf.m qroots.m \
+schurOneMscale.m \
+tf2schurOneMlattice.m \
+local_max.m tf2pa.m x2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+print_polynomial.m print_pole_zero.m qroots.m \
 schurdecomp.oct schurexpand.oct qzsolve.oct Abcd2H.oct Abcd2tf.oct
 
 schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test.diary : \

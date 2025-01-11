@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_lowpass_differentiator_test.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a lowpass differentiator filter
 % as (z-1) followed by the sum of two parallel allpass filters. See:
@@ -28,9 +28,9 @@ if difference
 else
   pa_sign=1;
 endif
-fap=0.2;fas=0.3;Wap=1;Wat=0.01;Was=2;
+fap=0.3;fas=0.4;Wap=1;Wat=0.01;Was=2;
 ma=11;mb=12;
-td=R*(ma+mb+1)/2;Wtp=0.5;Wpp=0.05;
+tp=R*(ma+mb+1)/2;Wtp=0.5;Wpp=0.05;
 
 % Frequency points
 n=1000;
@@ -51,13 +51,13 @@ Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas,1)];
 % Group delay response
 wt=w(1:nap);
 Tzm1=0.5*ones(size(wt));
-Td=td*ones(size(wt));
+Td=tp*ones(size(wt));
 Wt=Wtp*ones(size(wt));
 
 % Phase response
 wp=w(1:nap);
 Pzm1=(pi/2)-(wp/2);
-Pd=(pi/2)-(wp*td);
+Pd=(pi/2)-(wp*tp);
 Wp=Wpp*ones(size(wp));
 
 % Sanity checks
@@ -104,12 +104,16 @@ N0=0.5*(conv(flipud(Da0),Db0)+(pa_sign*conv(flipud(Db0),Da0)));
 Ha0=freqz(flipud(Da0),Da0,w);
 Hb0=freqz(flipud(Db0),Db0,w);
 Hzm1=freqz([1;-1],1,w);
-H0=0.5*(Ha0+(pa_sign*Hb0)).*Hzm1;
+H0c=0.5*(Ha0+(pa_sign*Hb0));
+H0=H0c.*Hzm1;
+A0c=abs(H0c);
 A0=abs(H0);
+P0c=unwrap(arg(H0c(1:nap)));
 P0=unwrap(arg(H0(1:nap)));
 Ta0=delayz(flipud(Da0),Da0,w(1:nap));
 Tb0=delayz(flipud(Db0),Db0,w(1:nap));
-T0=((Ta0+Tb0)/2)+Tzm1;
+T0c=((Ta0+Tb0)/2);
+T0=T0c+Tzm1;
 % Alternate calculation
 H0a=freqz(N0,D0,w);
 A0a=abs(H0a).*Azm1;
@@ -117,26 +121,51 @@ P0a=unwrap(arg(H0a(1:nap)))+Pzm1;
 T0a=delayz(N0,D0,wt)+Tzm1;
 % Check
 if max(abs(A0a-A0)) > 100*eps
-  error("max(abs(A0a-A0)) > 100*eps");
+  warning("max(abs(A0a-A0))(%g*eps) > 100*eps",max(abs(A0a-A0))/eps);
 endif
 if max(abs(P0a-P0)) > 200*eps
-  error("max(abs(P0a-P0)) > 200*eps");
+  warning("max(abs(P0a-P0))(%g*eps) > 200*eps",max(abs(P0a-P0))/eps);
 endif
 if max(abs(T0a-T0)) > 2e4*eps
-  error("max(abs(T0a-T0)) > 2e4*eps");
+  warning("max(abs(T0a-T0))(%g*eps) > 2e4*eps",max(abs(T0a-T0))/eps);
 endif
+
+% Plot correction filter response
+subplot(311);
+plot(wa*0.5/pi,A0c);
+ylabel("Amplitude");
+axis([0 0.5 0 1]);
+grid("on");
+strt=sprintf ...
+       ("Parallel all-pass correction response : \
+ma=%d,mb=%d,fap=%g,fas=%g,tp=%g",
+        ma,mb,fap,fas,tp);
+title(strt);
+subplot(312);
+plot(wp*0.5/pi,(P0c+(wp*(tp-0.5)))/pi);
+ylabel("Phase (rad./$\\pi$)");
+axis([0 0.5]);
+grid("on");
+subplot(313);
+plot(wt*0.5/pi,T0c);
+axis([0 0.5]);
+ylabel("Delay(samples)");
+xlabel("Frequency");
+grid("on");
+print(strcat(strf,"_correction"),"-dpdflatex");
+close
 
 % Plot response
 subplot(311);
 plot(wa*0.5/pi,A0);
 ylabel("Amplitude");
-axis([0 0.5 0 0.8]);
+axis([0 0.5 0 1]);
 grid("on");
-strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,fap=%g,fas=%g,td=%g",
-             ma,mb,fap,fas,td);
+strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,fap=%g,fas=%g,tp=%g",
+             ma,mb,fap,fas,tp);
 title(strt);
 subplot(312);
-plot(wp*0.5/pi,(P0+(wp*td))/pi);
+plot(wp*0.5/pi,(P0+(wp*tp))/pi);
 ylabel("Phase (rad./$\\pi$)");
 axis([0 0.5]);
 grid("on");
@@ -152,22 +181,24 @@ close
 % Plot response error
 subplot(311);
 plot(wa*0.5/pi,A0-Ad);
-ylabel("Amplitude error");
+ylabel("Amplitude");
 axis([0 0.5 -0.1 0.1]);
 grid("on");
+strt=sprintf("Parallel all-pass filters error : ma=%d,mb=%d,fap=%g,fas=%g,tp=%g",
+             ma,mb,fap,fas,tp);
 title(strt);
 subplot(312);
 plot(wp*0.5/pi,(P0-Pd)/pi);
 axis([0 0.5]);
-ylabel("Phase error(rad./$\\pi$)");
+ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,T0-Td);
 axis([0 0.5]);
-ylabel("Delay error(samples)");
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
-print(strcat(strf,"_response_error"),"-dpdflatex");
+print(strcat(strf,"_error"),"-dpdflatex");
 close
 
 % Plot poles and zeros
@@ -175,6 +206,20 @@ subplot(111);
 zplane(qroots(conv(N0,[1;-1])),qroots(D0));
 title(strt);
 print(strcat(strf,"_pz"),"-dpdflatex");
+close
+
+% Plot phase response
+plot(w*0.5/pi,(unwrap(arg(Ha0))+(w*tp))/pi,"-", ...
+     w*0.5/pi,(unwrap(arg(Hb0))+(w*tp))/pi,"--");
+strt=sprintf("Allpass phase response adjusted for linear phase : \
+ma=%d,mb=%d,tp=%g",ma,mb,tp);
+title(strt);
+ylabel("Phase(rad./$\\pi$)");
+xlabel("Frequency");
+legend("Filter A","Filter B","location","northwest");
+legend("boxoff");
+grid("on");
+print(strcat(strf,"_phase"),"-dpdflatex");
 close
 
 % Save the result

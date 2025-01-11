@@ -1,5 +1,5 @@
 % schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 
 test_common;
 
@@ -35,11 +35,11 @@ Nck=length(ck0);
 Nx=Nk+Nc+Nkk+Nck;
 
 % Low-pass differentiator filter specification
-fap=0.18;fas=0.3;
-Arp=0.004;Art=0.005;Ars=0.003;Wap=1;Wat=0.0001;Was=1;
-ftp=fap;td=length(N0)-2;tdr=0.01;Wtp=1;
-fpp=fap;pp=1.5;ppr=0.0002;Wpp=1;
-fdp=fap;dpr=0.04;Wdp=1;
+fap=0.3;fas=0.4;
+Arp=0.004;Art=0.008;Ars=0.008;Wap=1;Wat=0.0001;Was=1;
+fpp=fap;pp=1.5;ppr=0.0008;Wpp=1;
+ftp=fap;tp=nN-1;tpr=0.04;Wtp=0.1;
+fdp=fap;dpr=0.04;Wdp=0.1;
 
 % Frequency points
 n=1000;
@@ -63,7 +63,7 @@ Azm1=2*sin(wa/2);
 
 % Phase response of combined filters
 wp=w(1:npp);
-Pd=(pp*pi)-(wp*td);
+Pd=(pp*pi)-(wp*tp);
 Pdu=Pd+(ppr*pi/2);
 Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
@@ -72,9 +72,9 @@ Pzm1=(pi/2)-(wp/2);
 
 % Group delay of combined filters
 wt=w(1:ntp);
-Td=td*ones(size(wt));
-Tdu=Td+(tdr/2);
-Tdl=Td-(tdr/2);
+Td=tp*ones(size(wt));
+Tdu=Td+(tpr/2);
+Tdl=Td-(tpr/2);
 Wt=Wtp*ones(size(wt));
 % Group delay response of (1-z^-1)
 Tzm1=0.5;
@@ -149,13 +149,77 @@ endif
 
 % Calculate the overall responses
 Asq2=schurOneMlatticePipelinedAsq(wa,k2,epsilon0,c2,kk2,ck2);
-A2=sqrt(Asq2).*Azm1;
-P2=schurOneMlatticePipelinedP(wp,k2,epsilon0,c2,kk2,ck2) + Pzm1;
-T2=schurOneMlatticePipelinedT(wt,k2,epsilon0,c2,kk2,ck2) + Tzm1;
-dAsqdw2=schurOneMlatticePipelineddAsqdw(wd,k2,epsilon0,c2,kk2,ck2);
+A2c=sqrt(Asq2);
+A2=A2c.*Azm1;
+P2c=schurOneMlatticePipelinedP(wp,k2,epsilon0,c2,kk2,ck2);
+P2=P2c+Pzm1;
+T2c=schurOneMlatticePipelinedT(wt,k2,epsilon0,c2,kk2,ck2);
+T2=T2c+Tzm1;
+dAsqdw2c=schurOneMlatticePipelineddAsqdw(wd,k2,epsilon0,c2,kk2,ck2);
+
+% Plot correction filter response
+subplot(411);
+plot(wa*0.5/pi,A2c);
+axis([0 0.5 0 1]);
+grid("on");
+strP=sprintf("Lowpass differentiator correction filter : \
+fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g",fap,Arp,fas,Ars,tp);
+title(strP);
+ylabel("Amplitude");
+subplot(412);
+plot(wp*0.5/pi,(P2c+(wp*(tp-0.5)))/pi);
+axis([0 0.5 1+(0.001*[-1,1])]);
+grid("on");
+ylabel("Phase(rad./$\\pi$)");
+subplot(413);
+plot(wt*0.5/pi,T2c);
+axis([0 0.5 (tp-0.5)+tpr*[-1,1]]);
+grid("on");
+ylabel("Delay(samples)");
+subplot(414);
+plot(wd*0.5/pi,dAsqdw2c);
+axis([0 0.5 -0.05 0.15]);
+grid("on");
+ylabel("dAsqdw");
+xlabel("Frequency");
+print(strcat(strf,"_pcls_correction"),"-dpdflatex");
+close
+
+% Plot response
+subplot(311);
+[ax,ha,hs]=plotyy ...
+             (wa(1:nap)*0.5/pi, ...
+              [A2(1:nap),Adl(1:nap),Adu(1:nap)], ...
+              wa(nas:end)*0.5/pi, ...
+              [A2(nas:end),[Adl(nas:end),Adu(nas:end)]]);
+% Copy line colour
+hac=get(ha,"color");
+for c=1:3
+  set(hs(c),"color",hac{c});
+endfor
+axis(ax(1),[0 0.5 0 1]);
+axis(ax(2),[0 0.5 0.01*[0,1]]);
+grid("on");
+strP=sprintf("Lowpass differentiator response : \
+fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g",fap,Arp,fas,Ars,tp,tpr,ppr);
+title(strP);
+ylabel("Amplitude");
+subplot(312);
+plot(wp*0.5/pi,([P2 Pdl Pdu]+(wp*tp))/pi);
+axis([0 0.5 pp+0.001*[-1,1]]);
+grid("on");
+ylabel("Phase(rad./$\\pi$)");
+subplot(313);
+plot(wt*0.5/pi,[T2 Tdl Tdu]);
+axis([0 0.5 tp+tpr*[-1,1]]);
+grid("on");
+ylabel("Delay(samples)");
+xlabel("Frequency");
+print(strcat(strf,"_pcls_response"),"-dpdflatex");
+close
 
 % Plot response errors
-subplot(411);
+subplot(311);
 [ax,ha,hs]=plotyy ...
              (wa(1:nap)*0.5/pi, ...
               ([A2(1:nap),Adl(1:nap),Adu(1:nap)])-Ad(1:nap), ...
@@ -166,28 +230,23 @@ hac=get(ha,"color");
 for c=1:3
   set(hs(c),"color",hac{c});
 endfor
-axis(ax(1),[0 0.5 0.004*[-1,1]]);
-axis(ax(2),[0 0.5 0.004*[-1,1]]);
+axis(ax(1),[0 0.5 Arp*[-1,1]]);
+axis(ax(2),[0 0.5 0.01*[-1,1]]);
 grid("on");
 strP=sprintf("Lowpass differentiator response errors : \
-fap=%g,Arp=%g,fas=%g,Ars=%g,td=%g,tdr=%g,ppr=%g",fap,Arp,fas,Ars,td,tdr,ppr);
+fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g",fap,Arp,fas,Ars,tp,tpr,ppr);
 title(strP);
 ylabel("Amplitude");
-subplot(412);
+subplot(312);
 plot(wp*0.5/pi,([P2 Pdl Pdu]-Pd)/pi);
-axis([0 0.5 ppr*[-1,1]]);
+axis([0 0.5 0.001*[-1,1]]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
-subplot(413);
-plot(wt*0.5/pi,[T2 Tdl Tdu]-td);
-axis([0 0.5 tdr*[-1,1]]);
+subplot(313);
+plot(wt*0.5/pi,[T2 Tdl Tdu]-tp);
+axis([0 0.5 tpr*[-1,1]]);
 grid("on");
 ylabel("Delay(samples)");
-subplot(414);
-plot(wd*0.5/pi,[dAsqdw2 dAsqdwdl dAsqdwdu]-dAsqdwd);
-axis([0 0.5 0.04*[-1,1]]);
-grid("on");
-ylabel("dAsqdw");
 xlabel("Frequency");
 print(strcat(strf,"_pcls_error"),"-dpdflatex");
 close
@@ -238,15 +297,15 @@ fprintf(fid,"Art=%g %% Amplitude transition band peak-to-peak ripple\n",Art);
 fprintf(fid,"Wat=%g %% Amplitude transition band weight\n",Wat);
 fprintf(fid,"Ars=%g %% Amplitude stop band peak ripple\n",Ars);
 fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
-fprintf(fid,"td=%g %% Pass band group delay\n",td);
-fprintf(fid,"tdr=%g %% Pass band group delay peak-to-peak ripple\n",tdr);
+fprintf(fid,"tp=%g %% Pass band group delay\n",tp);
+fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
 fprintf(fid,"pp=%g %% Nominal pass band phase(rad./pi)\n",pp);
 fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
-eval(sprintf(strcat("save %s.mat ftol ctol n fap fas Arp Ars td tdr pp ppr",
+eval(sprintf(strcat("save %s.mat ftol ctol n fap fas Arp Ars tp tpr pp ppr",
                     " Wap Wat Was Wtp Wpp N0 D0 k0 epsilon0 p0 c0 kk0 ck0",
                     " k2 c2 kk2 ck2 N2 D2"),strf));
 

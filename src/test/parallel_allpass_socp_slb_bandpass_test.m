@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_bandpass_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 
@@ -36,6 +36,7 @@ difference=true
 rho=0.999 
 Ra=1
 Rb=1
+K=1
 ma=length(a0)
 mb=length(b0)
 fasl=0.05
@@ -51,8 +52,8 @@ Wasl=5000
 Wasu=2000
 ftpl=0.09
 ftpu=0.21
-td=16
-tdr=td/400
+tp=16
+tpr=tp/400
 Wtp=2
 
 %
@@ -81,9 +82,9 @@ Wa=[Wasl*ones(nasl,1); ...
 ntpl=floor(n*ftpl/0.5)+1;
 ntpu=ceil(n*ftpu/0.5)+1;
 wt=wa(ntpl:ntpu);
-Td=td*ones(ntpu-ntpl+1,1);
-Tdu=(td+(tdr/2))*ones(ntpu-ntpl+1,1);
-Tdl=(td-(tdr/2))*ones(ntpu-ntpl+1,1);
+Td=tp*ones(ntpu-ntpl+1,1);
+Tdu=(tp+(tpr/2))*ones(ntpu-ntpl+1,1);
+Tdl=(tp-(tpr/2))*ones(ntpu-ntpl+1,1);
 Wt=Wtp*ones(ntpu-ntpl+1,1);
 
 % Desired pass-band phase response
@@ -142,7 +143,7 @@ try
   feasible=false
   [ab1,slb_iter,opt_iter,func_iter,feasible]= ...
      parallel_allpass_slb(@parallel_allpass_socp_mmse,ab0,abu,abl, ...
-                          1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
+                          K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
                           wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                           wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
 catch
@@ -197,7 +198,7 @@ subplot(212);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([min(fapl,ftpl) max(fapu,ftpu) (td+[-1 1]*0.04)]);
+axis([min(fapl,ftpl) max(fapu,ftpu) (tp+[-1 1]*0.04)]);
 grid("on");
 print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
@@ -205,9 +206,9 @@ close
 % Plot phase response
 Pa=allpassP(wplot,a1,Va,Qa,Ra);
 Pb=allpassP(wplot,b1,Vb,Qb,Rb);
-plot(wplot*0.5/pi,(Pa+(wplot*td))/pi,"-",wplot*0.5/pi,(Pb+(wplot*td))/pi,"--");
+plot(wplot*0.5/pi,(Pa+(wplot*tp))/pi,"-",wplot*0.5/pi,(Pb+(wplot*tp))/pi,"--");
 strt=sprintf("Allpass phase response adjusted for linear phase \
-ma=%d,mb=%d,td=%g", ma,mb,td);
+ma=%d,mb=%d,tp=%g", ma,mb,tp);
 title(strt);
 ylabel("All-pass filter phase (rad./$\\pi$)");
 xlabel("Frequency");
@@ -233,7 +234,7 @@ print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 
 % PCLS amplitude at local peaks
-Asq=parallel_allpassAsq(wa,ab1,1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+Asq=parallel_allpassAsq(wa,ab1,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 vAl=local_max(Asqdl-Asq);
 vAu=local_max(Asq-Asqdu);
 wAsqS=unique([wa(vAl);wa(vAu);wa([1,nasl,napl,napu,nasu,end])]);
@@ -279,8 +280,8 @@ fprintf(fid,"Wasl=%d %% Lower stop band amplitude response weight\n",Wasl);
 fprintf(fid,"Wasu=%d %% Upper stop band amplitude response weight\n",Wasu);
 fprintf(fid,"ftpl=%g %% Pass band group-delay response lower edge\n",ftpl);
 fprintf(fid,"ftpu=%g %% Pass band group-delay response upper edge\n",ftpu);
-fprintf(fid,"td=%f %% Pass band nominal group-delay response (samples)\n",td);
-fprintf(fid,"tdr=%f %% Pass band group-delay response ripple(samples)\n",tdr);
+fprintf(fid,"tp=%f %% Pass band nominal group-delay response (samples)\n",tp);
+fprintf(fid,"tpr=%f %% Pass band group-delay response ripple(samples)\n",tpr);
 fprintf(fid,"Wtp=%d %% Pass band group-delay response weight\n",Wtp);
 fclose(fid);
 
@@ -301,7 +302,7 @@ print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 eval(sprintf("save %s.mat ...\n\
   ma mb Ra Rb ab0 ab1 Da1 Db1 ... \n\
   tol ctol polyphase difference rho n fapl fapu dBap Wap Watl Watu  ...\n\
-  fasl fasu dBas Wasl Wasu ftpl ftpu td tdr Wtp",strf));
+  fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp",strf));
 
 % Done 
 toc;

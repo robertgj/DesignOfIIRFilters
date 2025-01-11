@@ -1,13 +1,16 @@
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_FIGURES = \
-schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_error_response \
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_initial_response \
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_initial_pz \
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_error \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_pz \
-schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_initial_error_response \
-schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_initial_pz
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_correction
 
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_COEFS = \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test.mat \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_spec.m \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_k2_coef.m \
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_epsilon2_coef.m \
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_p2_coef.m \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_c2_coef.m \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_N2_coef.m \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_D2_coef.m
@@ -29,8 +32,7 @@ schurOneMlattice_slb_update_constraints.m \
 schurOneMscale.m \
 tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
-local_max.m tf2pa.m x2tf.m H2Asq.m H2T.m H2P.m \
-print_polynomial.m WISEJ.m \
+local_max.m tf2pa.m x2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m  H2dAsqdw.m \
+print_polynomial.m WISEJ.m qroots.m \
 schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2H.oct qroots.m qzsolve.oct \
-Abcd2tf.oct
+complex_zhong_inverse.oct schurOneMlattice2H.oct qzsolve.oct Abcd2tf.oct

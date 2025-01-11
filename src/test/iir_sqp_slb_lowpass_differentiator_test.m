@@ -1,5 +1,5 @@
 % iir_sqp_slb_lowpass_differentiator_test.m
-% Copyright (C) 2020-2024 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 
 test_common;
 
@@ -13,18 +13,17 @@ tic;
 
 maxiter=20000
 ftol=1e-3
-ctol=ftol/10
+ctol=ftol/100
 verbose=false
 
-% Polynomials (without 1-z^{-1}) from
-% tarczynski_lowpass_differentiator_test.m
+% Initialise with polynomials without z-1
 tarczynski_lowpass_differentiator_test_N0_coef;
 tarczynski_lowpass_differentiator_test_D0_coef;
 [x0,U,V,M,Q]=tf2x(N0,D0,ftol);
 R=1;
 
-% Avoid prolebms with negative A from iirA since 
-% tarczynski_lowpass_differentiator_alternate_test
+% Avoid problems with negative A from iirA since 
+% tarczynski_lowpass_differentiator_test
 % returns the differential of e^(-jwt) as -jw*e^(-jwt)
 x0(1)=abs(x0(1));
 print_pole_zero(x0,U,V,M,Q,R,"x0");
@@ -33,10 +32,10 @@ print_pole_zero(x0,U,V,M,Q,R,"x0");
 nN=length(N0)-1;
 
 % Low-pass differentiator filter specification
-fap=0.19;fas=0.25;
+fap=0.3;fas=0.4;
 Arp=0.02;Art=0.02;Ars=0.02;Wap=1;Wat=0.001;Was=10;
 pp=0.5;ppr=0.0002;Wpp=1;
-td=nN-1;tdr=0.08;Wtp=1;
+tp=nN-1;tpr=0.04;Wtp=1;
 
 % Frequency points
 n=1000;
@@ -72,7 +71,7 @@ Ws=Was*ones(n-nas,1);
 wp=w(1:nap);
 Pzm1=(pi/2)-(wp/2);
 Pconst=2*pi;
-Pd=(pp*pi)+Pconst-(wp*td);
+Pd=(pp*pi)+Pconst-(wp*tp);
 Pdu=Pd+(ppr*pi/2);
 Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
@@ -80,9 +79,9 @@ Wp=Wpp*ones(size(wp));
 % Group delay
 wt=w(1:nap);
 Tzm1=0.5*ones(size(wt));
-Td=td*ones(size(wt));
-Tdu=Td+(tdr/2);
-Tdl=Td-(tdr/2);
+Td=tp*ones(size(wt));
+Tdu=Td+(tpr/2);
+Tdl=Td-(tpr/2);
 Wt=Wtp*ones(size(wt));
 
 % Calculate initial response
@@ -99,20 +98,20 @@ hac=get(ha,"color");
 for c=1:3
   set(hs(c),"color",hac{c});
 endfor
-axis(ax(1),[0 0.5 -0.2 0.8]);
-axis(ax(2),[0 0.5 -0.01 0.04]);
-strI=sprintf("Differentiator initial response : fap=%g,fas=%g,td=%g",fap,fas,td);
+axis(ax(1),[0 0.5 0 1]);
+axis(ax(2),[0 0.5 0 0.05]);
+strI=sprintf("Differentiator initial response : fap=%g,fas=%g,tp=%g",fap,fas,tp);
 title(strI);
 ylabel("Amplitude");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,([Px0,Pdl,Pdu]-Pconst+(wp*td))/pi);
-axis([0 0.5 pp+(4*ppr*[-1,1])]);
+plot(wp*0.5/pi,([Px0,Pdl,Pdu]-Pconst+(wp*tp))/pi);
+axis([0 0.5 pp+(0.001*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,[Tx0,Tdl,Tdu]);
-axis([0 0.5 td+(2*tdr*[-1,1])]);
+axis([0 0.5 tp+(0.1*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
@@ -160,19 +159,19 @@ for c=1:3
 endfor
 axis(ax(1),[0 0.5 Arp*[-1,1]]);
 axis(ax(2),[0 0.5 Ars*[-1,1]]);
-strM=sprintf("Differentiator MMSE error : fap=%g,fas=%g,td=%g", fap,fas,td);
+strM=sprintf("Differentiator MMSE error : fap=%g,fas=%g,tp=%g", fap,fas,tp);
 title(strM);
-ylabel("Amplitude error");
+ylabel("Amplitude");
 grid("on");
 subplot(312);
 plot(wp*0.5/pi,([Px1 Pdl Pdu]-Pd)/pi);
 axis([0 0.5 ppr*[-1,1]]);
-ylabel("Phase error(rad./$\\pi$)");
+ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,[Tx1 Tdl Tdu]-Td)
-axis([0 0.5 tdr*[-1,1]]);
-ylabel("Delay error(samples)");
+axis([0 0.5 tpr*[-1,1]]);
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_mmse_error"),"-dpdflatex");
@@ -201,13 +200,13 @@ endif
 d1z=[d1(1);1;d1(2:end)(:)];
 Ud1z=U+1;
 
-% Calculate the overall response
+% Calculate response
 Ad1z=iirA(wa,d1z,Ud1z,V,M,Q,R);
 Sd1z=iirA(ws,d1z,Ud1z,V,M,Q,R);
 Pd1z=iirP(wp,d1z,Ud1z,V,M,Q,R);
 Td1z=iirT(wt,d1z,Ud1z,V,M,Q,R);
 
-% Plot the error response
+% Plot error response
 subplot(311);
 ApR=1:nap;
 [ax,ha,hs]=plotyy(wa(ApR)*0.5/pi,[Ad1z(ApR) Adl(ApR) Adu(ApR)]-Ad(ApR), ...
@@ -220,19 +219,19 @@ endfor
 axis(ax(1),[0 0.5 Arp*[-1,1]]);
 axis(ax(2),[0 0.5 Ars*[-1,1]]);
 strPerror=sprintf("Differentiator PCLS error : \
-fap=%g,Arp=%g,fas=%g,Ars=%g,td=%g,tdr=%g,ppr=%g",fap,Arp,fas,Ars,td,tdr,ppr);
+fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g",fap,Arp,fas,Ars,tp,tpr,ppr);
 title(strPerror);
-ylabel("Amplitude error");
+ylabel("Amplitude");
 grid("on");
 subplot(312);
 plot(wp*0.5/pi,([(Pd1z+Pconst) Pdl Pdu]-Pd)/pi);
 axis([0 0.5 ppr*[-1,1]]);
-ylabel("Phase error(rad./$\\pi$)");
+ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,[Td1z Tdl Tdu]-Td);
-axis([0 0.5 tdr*[-1,1]]);
-ylabel("Delay error(samples)");
+axis([0 0.5 tpr*[-1,1]]);
+ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_error"),"-dpdflatex");
@@ -248,21 +247,21 @@ hac=get(ha,"color");
 for c=1:3
   set(hs(c),"color",hac{c});
 endfor
-axis(ax(1),[0 0.5 -0.2 0.8]);
-axis(ax(2),[0 0.5 -0.005 0.02]);
+axis(ax(1),[0 0.5 0 1]);
+axis(ax(2),[0 0.5 0 0.025]);
 strP=sprintf("Differentiator PCLS : \
-fap=%g,Arp=%g,fas=%g,Ars=%g,td=%g,tdr=%g,ppr=%g",fap,Arp,fas,Ars,td,tdr,ppr);
+fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g",fap,Arp,fas,Ars,tp,tpr,ppr);
 title(strP);
 ylabel("Amplitude");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,([Pd1z Pdl-Pconst Pdu-Pconst]+(wp*td))/pi);
+plot(wp*0.5/pi,([Pd1z Pdl-Pconst Pdu-Pconst]+(wp*tp))/pi);
 axis([0 0.5 pp+(ppr*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,[Td1z Tdl Tdu])
-axis([0 0.5 td+(0.1*[-1,1])]);
+axis([0 0.5 tp+(tpr*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
@@ -299,8 +298,8 @@ fprintf(fid,"Art=%g %% Amplitude transition band peak-to-peak ripple\n",Art);
 fprintf(fid,"Wat=%g %% Amplitude transition band weight\n",Wat);
 fprintf(fid,"Ars=%g %% Amplitude stop band peak-to-peak ripple\n",Ars);
 fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
-fprintf(fid,"td=%g %% Pass band group delay\n",td);
-fprintf(fid,"tdr=%g %% Pass band group delay peak-to-peak ripple\n",tdr);
+fprintf(fid,"tp=%g %% Pass band group delay\n",tp);
+fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
 fprintf(fid,"pp=%g %% Phase pass band nominal phase(rad./pi)\n",pp);
 fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi)\n",ppr);
@@ -308,7 +307,7 @@ fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
 eval(sprintf("save %s.mat U Ud1z V M Q R d1 d1z N1 D1 ftol ctol n \
-fap fas Arp Art Ars td tdr pp ppr Wap Wat Was Wtp Wpp",strf));
+fap fas Arp Art Ars tp tpr pp ppr Wap Wat Was Wtp Wpp",strf));
 
 % Done
 toc;

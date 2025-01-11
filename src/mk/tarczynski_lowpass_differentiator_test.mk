@@ -1,6 +1,7 @@
 tarczynski_lowpass_differentiator_test_FIGURES = \
 tarczynski_lowpass_differentiator_test_response \
 tarczynski_lowpass_differentiator_test_error_response \
+tarczynski_lowpass_differentiator_test_correction_response \
 tarczynski_lowpass_differentiator_test_pz
 
 tarczynski_lowpass_differentiator_test_COEFS = \
