@@ -1,0 +1,47 @@
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_FIGURES = \
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_response \
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_pz \
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_correction
+
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_COEFS = \
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test.mat \
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_spec.m \
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_k_min_coef.m \
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c_min_coef.m \
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_k_allocsd_digits.m \
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c_allocsd_digits.m \
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_N_min_coef.m \
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_D_min_coef.m \
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_cost.tab \
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_adders.tab \
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_signed_digits.tab 
+
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_FILES = \
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test.m \
+test_common.m \
+schurOneMlatticeAsq.m \
+schurOneMlatticeP.m \
+schurOneMlatticeT.m \
+schurOneMlatticedAsqdw.m \
+schurOneMlatticeEsq.m \
+schurOneMlattice_slb.m \
+schurOneMlattice_slb_constraints_are_empty.m \
+schurOneMlattice_socp_mmse.m \
+schurOneMlattice_slb_exchange_constraints.m \
+schurOneMlattice_slb_set_empty_constraints.m \
+schurOneMlattice_slb_show_constraints.m \
+schurOneMlattice_slb_update_constraints.m \
+schurOneMlattice_allocsd_Lim.m \
+schurOneMlattice_allocsd_Ito.m \
+schurOneMlatticeFilter.m \
+schurOneMscale.m \
+tf2schurOneMlattice.m \
+schurOneMlattice2tf.m \
+local_max.m tf2Abcd.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+print_polynomial.m flt2SD.m bin2SDul.m SDadders.m qroots.m x2nextra.m \
+schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
+complex_zhong_inverse.oct schurOneMlattice2H.oct qzsolve.oct Abcd2tf.oct \
+bin2SD.oct bin2SPT.oct
+
+branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test.diary : \
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test.diary

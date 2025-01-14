@@ -20,19 +20,20 @@ plot_dAsqdw=false
 % Low-pass differentiator filter specification
 nN=10; % Order of correction filter for (z-1)
 R=2;   % Denominator polynomial in z^-2 only
-if 1
-  fap=0.2;fas=0.4;
-  Arp=0.0009;Art=0.004;Ars=0.007;Wap=1;Wat=0.0001;Was=0.1;
-  fpp=fap;pp=1.5;ppr=0.0002;Wpp=1;
-  ftp=fap;tp=nN-1;tpr=0.006;Wtp=0.1;
-  fdp=fap;dpr=0.1;cpr=0.013;Wdp=0.1;
-else
-  fap=0.25;fas=0.45;
-  Arp=0.01;Art=0.02;Ars=0.02;Wap=1;Wat=0.0001;Was=1;
-  fpp=fap;pp=1.5;ppr=0.002;Wpp=1;
-  ftp=fap;tp=nN-1;tpr=0.2;Wtp=0.1;
-  fdp=fap;dpr=0.6;cpr=0.6;Wdp=0.1;
-endif
+fap=0.2;fas=0.4;
+Arp=0.0009;Art=0.004;Ars=0.007;Wap=1;Wat=0.0001;Was=0.1;
+fpp=fap;pp=1.5;ppr=0.0002;Wpp=1;
+ftp=fap;tp=nN-1;tpr=0.006;Wtp=0.1;
+fdp=fap;dpr=0.1;cpr=0.013;Wdp=0.1;
+
+%{
+% An alternative filter:
+fap=0.25;fas=0.45;
+Arp=0.01;Art=0.02;Ars=0.02;Wap=1;Wat=0.0001;Was=1;
+fpp=fap;pp=1.5;ppr=0.002;Wpp=1;
+ftp=fap;tp=nN-1;tpr=0.2;Wtp=0.1;
+fdp=fap;dpr=0.6;cpr=0.6;Wdp=0.1;
+%}
 
 % Frequency points
 n=1000;
@@ -77,7 +78,7 @@ Wt=Wtp*ones(size(wt));
 wd=wa(1:ndp);
 Dd=dAsqddw(1:ndp);
 Wd=Wdp*ones(size(wd));
-Cd=(Dd-(Asqd(1:ndp).*cot(Ad(1:ndp))))./Azm1sq(1:ndp);
+Cd=(Dd-(Asqd(1:ndp).*cot(w(1:ndp)/2)))./Azm1sq(1:ndp);
 if plot_dAsqdw
   Ddu=Dd+(dpr/2);
   Ddl=Dd-(dpr/2);

@@ -211,7 +211,7 @@ else
              (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,[],[],[],[],[],[],[],[],ctol);
         if ~schurOneMlattice_slb_constraints_are_empty(vS)
           printf("At maximum depth constraints are not empty!\n");
-          schurOneMlattice_slb_show_constraints(vS);
+          schurOneMlattice_slb_show_constraints(vS,wa,Asq,wt,T,[],[],[],[]);
         endif
       else
         vS=schurOneMlattice_slb_set_empty_constraints();

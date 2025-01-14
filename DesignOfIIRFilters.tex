@@ -17230,7 +17230,7 @@ to implement the coefficient multiplications found by branch-and-bound search.
 \input{branch_bound_schurOneMlatticePipelined_lowpass_16_nbits_test_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
-\caption[Summary of cost results for a pipelined Schur one-multiplier pipelined
+\caption[Summary of cost results for a Schur one-multiplier pipelined
 lattice lowpass filter with 16 bit 4 signed-digit coefficients]{Comparison of
   the cost and number of 16-bit shift-and-add operations required to implement
   the coefficient multiplications for a Schur one-multiplier pipelined lattice
@@ -17238,6 +17238,100 @@ lattice lowpass filter with 16 bit 4 signed-digit coefficients]{Comparison of
   branch-and-bound search.}
 \label{tab:branch-bound-schurOneMlattice-pipelined-lowpass-16-nbits-cost}
 \end{table}
+\clearpage
+\section{Branch-and-bound search for the 12-bit 3-signed-digit coefficients
+  of a one-multiplier lattice R=2 low-pass differentiator filter}
+The Octave script 
+\emph{branch\_bound\_schurOneMlattice\_lowpass\_differentiator\_R2\_12\_nbits\_test.m}
+performs branch and bound search to optimise the response of a Schur
+one-multiplier lattice low-pass differentiator filter implemented as a
+$1-z^{-1}$ filter followed by a correction filter. The correction filter has
+$12$ bit coefficients with an average of $3$ signed-digits, allocated with the
+heuristic of \emph{Lim et al.}, and a denominator polynomial having only
+terms in $z^{-2}$. The inputs to the branch-and-bound search are the upper and
+lower bounds of the truncated exact coefficients. At each branch the script
+selects the coefficient with the largest difference between upper and lower
+signed-digit approximations and selects the branch with the lowest response
+error value. The filter specification is:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_spec.m}
+\end{small} 
+
+The numbers of signed digits allocated to each coefficient by the heuristic of
+\emph{Lim et al.} are:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_k_allocsd_digits.m}
+\verbatiminput{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c_allocsd_digits.m}
+\end{small}
+
+The correction filter signed-digit lattice coefficients found by the
+branch-and-bound search are:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_k_min_coef.m}
+\verbatiminput{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c_min_coef.m}
+\end{small}
+
+The corresponding correction filter transfer function polynomials are:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_N_min_coef.m}
+\verbatiminput{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_D_min_coef.m}
+\end{small}
+
+Figure~\ref{fig:branch-bound-schurOneMlattice-R2-lowpass-diff-12-nbits-response}
+shows the pass-band amplitude error (compared to the desired pass-band response
+of $\frac{\omega}{2}$), stop-band amplitude, pass-band phase and pass-band group
+delay responses of the low-pass differentiator filter with $12$-bit
+$3$-signed-digit coefficients found by branch-and-bound search.
+Figure~\ref{fig:branch-bound-schurOneMlattice-R2-lowpass-diff-12-nbits-corr}
+shows the gradient of the squared-amplitude response of the correction filter.
+Figure~\ref{fig:branch-bound-schurOneMlattice-R2-lowpass-diff-12-nbits-pz}
+shows the pole-zero plot of the low-pass differentiator filter.
+Table~\ref{tab:branch-bound-schurOneMlattice-R2-lowpass-diff-12-nbits-cost}
+compares the cost and the number of $12$ bit shift-and-add operations required
+to implement the coefficient multiplications found by branch-and-bound search.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_response}}
+\caption{Amplitude error, phase and group delay responses of a Schur
+  one-multiplier lattice low-pass differentiator filter with 12 bit, 3
+  signed-digit coefficients and denominator polynomial terms only in $z^{-2}$
+  found by performing branch-and-bound search.}
+\label{fig:branch-bound-schurOneMlattice-R2-lowpass-diff-12-nbits-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_correction}}
+\caption{Gradient of the squared-amplitude response of the correction filter of
+  a Schur one-multiplier lattice low-pass differentiator filter with 12 bit, 3
+  signed-digit coefficients and denominator polynomial terms only in $z^{-2}$
+  found by performing branch-and-bound search.}
+\label{fig:branch-bound-schurOneMlattice-R2-lowpass-diff-12-nbits-corr}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_pz}}
+\caption{Pole-zero plot of the Schur one-multiplier lattice low-pass
+  differentiator filter with 12 bit, 3 signed-digit coefficients and denominator
+  polynomial terms only in $z^{-2}$ found by performing branch-and-bound search.}
+\label{fig:branch-bound-schurOneMlattice-R2-lowpass-diff-12-nbits-pz}
+\end{figure}
+\begin{table}
+\centering
+\begin{threeparttable}
+\begin{tabular}{lccc}  \\ \toprule
+& Cost&Signed-digits&Shift-and-adds\\ \midrule
+\input{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_cost.tab} \\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for a Schur one-multiplier R=2 lattice lowpass differentiator filter with 12 bit, 3 signed-digit coefficients]{Comparison of
+  the cost and number of 12-bit shift-and-add operations required to implement
+  the coefficient multiplications for a Schur one-multiplier R=2 lattice
+  low-pass differentiator filter with 12-bit integer coefficients found
+  by allocating an average of 3 signed-digits to each coefficient using the
+  heuristic of \emph{Lim et al.} and performing branch-and-bound search.}
+\label{tab:branch-bound-schurOneMlattice-R2-lowpass-diff-12-nbits-cost}
+\end{table}
+\clearpage
 \section{\label{sec:Branch-and-bound-search-signed-digit-coefficients-parallel-allpass-one-M-lowpass}Branch-and-bound
   search for the 12-bit 3-signed-digit coefficients of a parallel all-pass one-multiplier lattice low-pass IIR filter}
 The Octave script 
@@ -17329,7 +17423,7 @@ allocation heuristic of \emph{Ito et al.} with the branch-and-bound search.
   heuristic of \emph{Ito et al.} and performing branch-and-bound search.}
 \label{fig:branch-bound-schurOneMPAlattice-lowpass-12-nbits-stop-response}
 \end{figure}
-\begin{table}[htbp]
+\begin{table}
 \centering
 \begin{threeparttable}
 \begin{tabular}{lccc}  \\ \toprule
@@ -17422,7 +17516,7 @@ shows the corresponding stop-band amplitude response.
 Table~\ref{tab:branch-bound-schurNSPAlattice-lowpass-12-nbits-cost-summary}
 compares the cost and the number of $12$ bit shift-and-add operations required
 to implement the signed-digit coefficient multiplications.
-\begin{table}[htbp]
+\begin{table}
 \centering
 \begin{threeparttable}
 \begin{tabular}{lccc}  \\ \toprule
@@ -17643,14 +17737,13 @@ The numbers of signed digits allocated to each coefficient by the heuristic of
 \end{small}
 
 The signed-digit lattice coefficients found by the heuristic of
-\emph{Lim et al.} are:
+\emph{Ito et al.} are:
 \begin{small}
 \verbatiminput{branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_A1k0_sd_coef.m}
 \verbatiminput{branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_A2k0_sd_coef.m}
 \end{small}
 
-The signed-digit lattice coefficients found by the branch-and-bound
-search are:
+The signed-digit lattice coefficients found by the branch-and-bound search are:
 \begin{small}
 \verbatiminput{branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_A1k_min_coef.m}
 \verbatiminput{branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_A2k_min_coef.m}
