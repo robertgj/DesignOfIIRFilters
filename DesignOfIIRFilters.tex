@@ -17243,7 +17243,7 @@ lattice lowpass filter with 16 bit 4 signed-digit coefficients]{Comparison of
   of a one-multiplier lattice R=2 low-pass differentiator filter}
 The Octave script 
 \emph{branch\_bound\_schurOneMlattice\_lowpass\_differentiator\_R2\_12\_nbits\_test.m}
-performs branch and bound search to optimise the response of a Schur
+performs branch-and- bound search to optimise the response of a Schur
 one-multiplier lattice low-pass differentiator filter implemented as a
 $1-z^{-1}$ filter followed by a correction filter. The correction filter has
 $12$ bit coefficients with an average of $3$ signed-digits, allocated with the
@@ -17281,11 +17281,16 @@ Figure~\ref{fig:branch-bound-schurOneMlattice-R2-lowpass-diff-12-nbits-response}
 shows the pass-band amplitude error (compared to the desired pass-band response
 of $\frac{\omega}{2}$), stop-band amplitude, pass-band phase and pass-band group
 delay responses of the low-pass differentiator filter with $12$-bit
-$3$-signed-digit coefficients found by branch-and-bound search.
+$3$-signed-digit coefficients found by conversion of the floating-point
+coefficients to signed-digits, conversion to signed-digits with an average of
+$3$ signed-digits allocated by the heuristic of \emph{Lim et al.} and by
+conversion to signed-digit with branch-and-bound search.
 Figure~\ref{fig:branch-bound-schurOneMlattice-R2-lowpass-diff-12-nbits-corr}
-shows the gradient of the squared-amplitude response of the correction filter.
+shows the error in the gradient of the squared-amplitude response of the
+correction filter.
 Figure~\ref{fig:branch-bound-schurOneMlattice-R2-lowpass-diff-12-nbits-pz}
-shows the pole-zero plot of the low-pass differentiator filter.
+shows the pole-zero plot of the low-pass differentiator filter with signed-digit
+coefficients found by branch-and-bound search.
 Table~\ref{tab:branch-bound-schurOneMlattice-R2-lowpass-diff-12-nbits-cost}
 compares the cost and the number of $12$ bit shift-and-add operations required
 to implement the coefficient multiplications found by branch-and-bound search.
@@ -17301,10 +17306,10 @@ to implement the coefficient multiplications found by branch-and-bound search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_correction}}
-\caption{Gradient of the squared-amplitude response of the correction filter of
-  a Schur one-multiplier lattice low-pass differentiator filter with 12 bit, 3
-  signed-digit coefficients and denominator polynomial terms only in $z^{-2}$
-  found by performing branch-and-bound search.}
+\caption{Error in the gradient of the squared-amplitude response of the
+  correction filter of a Schur one-multiplier lattice low-pass differentiator
+  filter with 12 bit, 3 signed-digit coefficients and denominator polynomial
+  terms only in $z^{-2}$ found by performing branch-and-bound search.}
 \label{fig:branch-bound-schurOneMlattice-R2-lowpass-diff-12-nbits-corr}
 \end{figure}
 \begin{figure}
@@ -17325,10 +17330,11 @@ to implement the coefficient multiplications found by branch-and-bound search.
 \end{threeparttable}
 \caption[Summary of cost results for a Schur one-multiplier R=2 lattice lowpass differentiator filter with 12 bit, 3 signed-digit coefficients]{Comparison of
   the cost and number of 12-bit shift-and-add operations required to implement
-  the coefficient multiplications for a Schur one-multiplier R=2 lattice
-  low-pass differentiator filter with 12-bit integer coefficients found
-  by allocating an average of 3 signed-digits to each coefficient using the
-  heuristic of \emph{Lim et al.} and performing branch-and-bound search.}
+  the coefficient multiplications for a Schur one-multiplier lattice
+  low-pass differentiator IIR filter, having denominator coefficients only in
+  $z^{-2}$, with 12-bit integer coefficients found by allocating an average of 3
+  signed-digits to each coefficient using the heuristic of \emph{Lim et al.} and
+  performing branch-and-bound search.}
 \label{tab:branch-bound-schurOneMlattice-R2-lowpass-diff-12-nbits-cost}
 \end{table}
 \clearpage
