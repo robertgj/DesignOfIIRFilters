@@ -19,6 +19,7 @@ test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
 schurOneMlatticeP.m \
+schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_slb.m \
 schurOneMlattice_slb_constraints_are_empty.m \

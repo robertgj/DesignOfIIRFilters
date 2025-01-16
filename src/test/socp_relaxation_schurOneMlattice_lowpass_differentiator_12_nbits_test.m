@@ -42,7 +42,7 @@ p0_ones=ones(size(k0));
 fap=0.3;fas=0.4;
 Arp=0.005;Art=0.02;Ars=0.02;Wap=2;Wat=0.001;Was=1;
 tp=length(k0)-1;tpr=0.06;Wtp=1;
-pp=1.5;pr=0.003;Wpp=1;
+pp=1.5;ppr=0.003;Wpp=1;
 
 %
 % Frequency vectors for the Schur one-mulitplier lattice correction filter
@@ -77,8 +77,8 @@ printf("Wa(nchk)=[");printf("%g ",Wa(nchk));printf(" ]\n");
 wp=w(1:nap);
 Pzm1=(pi/2)-(wp/2);
 Pd=(pp*pi)-(wp*tp);
-Pdu=Pd+(pr*pi/2);
-Pdl=Pd-(pr*pi/2);
+Pdu=Pd+(ppr*pi/2);
+Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
 
 % Group delay
@@ -327,7 +327,7 @@ axis(ax(1),[0  0.5 0.004*[-1,1]]);
 axis(ax(2),[0  0.5 0.02*[-1,1]]);
 ylabel("Amplitude");
 strt=sprintf("Low-pass differentiator filter error : \
-fap=%g,fas=%g,Arp=%g,Ars=%g,tp=%g,pr=%g",fap,fas,Arp,Ars,tp,pr);
+fap=%g,fas=%g,Arp=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g",fap,fas,Arp,Ars,tp,tpr,ppr);
 title(strt);
 grid("on");
 subplot(312);
@@ -383,7 +383,7 @@ fprintf(fid,"tp=%g %% Pass band group delay\n",tp);
 fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
 fprintf(fid,"pp=%g %% Phase pass band nominal phase(rad./pi))\n",pp);
-fprintf(fid,"pr=%g %% Phase pass band peak-to-peak ripple(rad./pi))\n",pr);
+fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi))\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
@@ -391,7 +391,7 @@ eval(sprintf("save %s.mat \
 socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Lim \
 socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Ito \
 nbits ndigits ndigits_alloc k_allocsd_digits c_allocsd_digits \
-ftol ctol n fap Arp Wap Art Wat Ars Was tp tpr Wtp pr Wpp \
+ftol ctol n fap Arp Wap Art Wat Ars Was tp tpr Wtp pp ppr Wpp \
 k0 epsilon0 c0 k0_sd c0_sd k_min c_min",strf));
 
 % Done 
