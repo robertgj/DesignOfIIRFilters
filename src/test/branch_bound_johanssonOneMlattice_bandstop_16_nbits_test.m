@@ -109,10 +109,10 @@ if any(fMk_sdl(fMk0k1_active)>fMk(fMk0k1_active))
 endif
 
 % Find the number of signed-digits used by fMk_sd
-[fMk_digits,fMk_adders]=SDadders(fMk_sd(fMk0k1_active),nbits);
-printf("fMk_sd uses %d signed-digits\n",fMk_digits);
+[fMk_sd_digits,fMk_sd_adders]=SDadders(fMk_sd(fMk0k1_active),nbits);
+printf("fMk_sd uses %d signed-digits\n",fMk_sd_digits);
 printf("fMk_sd uses %d %d-bit adders for coefficient multiplications\n",
-       fMk_adders,nbits);
+       fMk_sd_adders,nbits);
 
 % Define stack of current filter coefficients and tree depth
 fMk_stack=cell(1,n_active);
@@ -234,9 +234,9 @@ print_polynomial(k0_min,"k0_min",strcat(strf,"_k0_min_coef.m"),nscale);
 print_polynomial(k1_min,"k1_min",nscale);
 print_polynomial(k1_min,"k1_min",strcat(strf,"_k1_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used
-[fMk_digits,fMk_adders]=SDadders(fMk_min(fMk0k1_active),nbits);
-printf("%d signed-digits used\n",fMk_digits);
-printf("%d %d-bit adders used for coef. multiplications\n",fMk_adders,nbits);
+[fMk_min_digits,fMk_min_adders]=SDadders(fMk_min(fMk0k1_active),nbits);
+printf("%d signed-digits used\n",fMk_min_digits);
+printf("%d %d-bit adders used for coef. multiplications\n",fMk_min_adders,nbits);
 
 % Amplitude and delay at local peaks
 Azp=johanssonOneMlatticeAzp(wa,fM_min,k0_min,epsilon0,k1_min,epsilon1);
@@ -253,9 +253,9 @@ printf(" ] (dB)\n");
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %10.4g & & \\\\\n",Esq0);
 fprintf(fid,"%d-bit %d-signed-digit&%10.4g & %d & %d \\\\\n",
-        nbits,ndigits,Esq0_sd,fMk_digits,fMk_adders);
+        nbits,ndigits,Esq0_sd,fMk_sd_digits,fMk_sd_adders);
 fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.4g & %d & %d \\\\\n",
-        nbits,ndigits,Esq_min,fMk_digits,fMk_adders);
+        nbits,ndigits,Esq_min,fMk_min_digits,fMk_min_adders);
 fclose(fid);
 
 % Calculate response

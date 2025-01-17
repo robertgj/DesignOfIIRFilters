@@ -312,7 +312,7 @@ print_polynomial(kk_min,"kk_min",strcat(strf,"_kk_min_coef.m"),nscale);
 print_polynomial(ck_min,"ck_min",nscale);
 print_polynomial(ck_min,"ck_min",strcat(strf,"_ck_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used by kc_sd
-[kc_digits,kc_adders]=SDadders(kc_sd([1:(Nk+Nc+Nkk),(Nk+Nc+Nkk+1):2:Nx]),nbits);
+[kc_digits,kc_adders]=SDadders(kc_min([1:(Nk+Nc+Nkk),(Nk+Nc+Nkk+1):2:Nx]),nbits);
 printf("%d signed-digits used\n",kc_digits);
 printf("%d %d-bit adders used for coefficient multiplications\n",
        kc_adders,nbits);

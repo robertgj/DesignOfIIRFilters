@@ -62,6 +62,13 @@ k1_min = [    -5184,    20992 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k1_min_coef.ok"; fail; fi
 
+cat > test_cost.ok << 'EOF'
+Exact &   2.25e-07 & & \\
+16-bit 3-signed-digit& 6.497e-08 & 25 & 16 \\
+16-bit 3-signed-digit(branch-and-bound)& 6.019e-08 & 24 & 15 \\
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
+
 #
 # run and see if the results match. 
 #
@@ -80,6 +87,9 @@ if [ $? -ne 0 ]; then echo "Failed diff -Bb test_k0_min_coef.ok"; fail; fi
 
 diff -Bb test_k1_min_coef.ok $nstr"_k1_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_k1_min_coef.ok"; fail; fi
+
+diff -Bb test_cost.ok $nstr"_cost.tab"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_cost.ok"; fail; fi
 
 #
 # this much worked
