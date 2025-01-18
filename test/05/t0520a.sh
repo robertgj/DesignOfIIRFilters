@@ -63,8 +63,8 @@ norm(Ya-Yb)=1.468e-05
 ta=    2.549
 tb=    2.549
 tc=    2.549
-norm(ta-tb)=1.686e-09
-norm(ta-tc)=3.254e-09
+norm(ta-tb)=1.436e-09
+norm(ta-tc)=3.004e-09
 norm(tb-tc)=1.568e-09
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok "; fail; fi

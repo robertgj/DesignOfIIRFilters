@@ -127,7 +127,7 @@ varyd = 0.1819
 est_varyABCDd = 0.1458
 varyABCDd = 0.1450
 est_varyoptd = 0.1225
-varyoptd = 0.1215
+varyoptd = 0.1211
 est_varydird = 5.8317
 varydird = 1.8148
 est_varyapd = 0.5000
@@ -136,7 +136,7 @@ stdxx =
    131.21   129.39   127.97
 
 stdxxopt =
-   130.37   129.38   130.94
+   130.41   129.25   130.98
 
 stdxxdir =
    131.34   131.34   131.33

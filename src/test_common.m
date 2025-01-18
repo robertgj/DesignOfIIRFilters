@@ -1,5 +1,5 @@
 % test_common.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 % Normally these would be in .octaverc or ~/.octaverc
 
@@ -63,7 +63,7 @@ warning("off","Octave:data-file-in-path");
 warning("off","Octave:LaTeX:internal-error");
 warning("off","signal:delayz-singularity");
 warning("off","signal:grpdelay-singularity");
-if strcmp("9.2.0-robj",OCTAVE_VERSION)
+if strcmp("9.3.0-robj",OCTAVE_VERSION)
   % See scripts/plot/util/private/__gnuplot_draw_axes__.m
   warning("off","Octave:latex-markup-not-supported-for-tick-marks");
   % See scripts/miscellaneous/delete.m

@@ -1,6 +1,6 @@
   % iir_sqp_slb_fir_lowpass_test.m
 
-% Copyright (C) 2021-2024 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 
 test_common;
 
@@ -21,9 +21,9 @@ verbose=false
 
 % Filter specifications
 R=1;N=40;
-fap=0.1;dBap=0.3;Wap=1;Wat=0.01;
-ftp=0.1;td=10;tdr=0.1;Wtp=0.5;
-fas=0.25;dBas=60;Was=10;
+fap=0.1;dBap=0.3;Wap=1;Wat=0.001;
+ftp=0.1;td=10;tdr=0.1;Wtp=0.1;
+fas=0.25;dBas=65;Was=10;
 
 % Frequency vector
 n=1000;

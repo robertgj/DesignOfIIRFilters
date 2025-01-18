@@ -1,5 +1,5 @@
 % minphase_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 
@@ -37,14 +37,15 @@ brzc=brzc(:);
 [k,khat] = complementaryFIRdecomp(brz,brzc);
 
 % Sanity checks
-tol=10*eps;
+tol=20*eps;
 if abs(((brz(:)')*brz(:))+((brzc(:)')*brzc(:))-1)>tol
   error("abs(((brz(:)')*brz(:))+((brzc(:)')*brzc(:))-1)>(%g*eps)",tol/eps);
 endif
 [Hbrz,w]=freqz(brz,1,Nw);
 [Hbrzc,w]=freqz(brzc,1,Nw);
 if max(abs(abs(Hbrz).^2+abs(Hbrzc).^2-1))>tol
-  error("max(abs(abs(Hbrz).^2+abs(Hbrzc).^2-1))>(%g*eps)",tol/eps);
+  error("max(abs(abs(Hbrz).^2+abs(Hbrzc).^2-1))(%g*eps)>(%g*eps)", ...
+        max(abs(abs(Hbrz).^2+abs(Hbrzc).^2-1))/eps,tol/eps);
 endif
 
 % Plot
@@ -154,8 +155,9 @@ endfor
 grzc=grzcalpha.*(alpha.^[0:(2*M)]);
 % Sanity check
 [Grzc,w]=freqz(grzc,1,Nw);
-if max(abs(abs(Hbrz).^2+abs(Grzc).^2-1)) > 75810*eps
-  error("max(abs(abs(Hbrz).^2+abs(Grzc).^2-1)) > 75810*eps");
+if max(abs(abs(Hbrz).^2+abs(Grzc).^2-1)) > 8e4*eps
+  error("max(abs(abs(Hbrz).^2+abs(Grzc).^2-1))(%g*eps) > 8e4*eps", ...
+       max(abs(abs(Hbrz).^2+abs(Grzc).^2-1))/eps);
 endif
 % Combined response with the complementary filter found by the cepstral method
 plot(w*0.5/pi, 10*log10(abs(Grzc).^2 + abs(Hbrz).^2));

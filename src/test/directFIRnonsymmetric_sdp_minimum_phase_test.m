@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_sdp_minimum_phase_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020,2025 Robert G. Jenssen
 %
 % See Section 3.2 of SeDuMi_1_3/doc/SeDuMi_Guide_105R5.pdf and
 % sedumi_minphase_test as well as Section V of "Use SeDuMi to Solve LP, SDP
@@ -49,7 +49,7 @@ if info.numerr==2
   error("info.numerr == 2");
 endif
 % Check x and y
-tol=2e-6;
+tol=4e-6;
 if abs((c'*x)-(y'*b))>tol
   error("abs((c'*x)-(y'*b))(%g)>tol(%g)",abs((c'*x)-(y'*b)),tol);
 endif

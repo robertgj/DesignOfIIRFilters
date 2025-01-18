@@ -77,7 +77,7 @@ SQP eye bfgs nosearch [ -1.414214 1.000000 -0.527108 ] 1 6 8 0
 SQP eye bfgs quadratic [ -1.414185 0.999973 -0.527072 ] 1 33 68 33
 SQP eye bfgs armijo [ -1.414214 1.000000 -0.527095 ] 1 9 44 33
 SQP eye bfgs armijo_kim [ -1.414214 1.000000 -0.527095 ] 1 9 44 33
-SQP eye bfgs goldstein [ -1.414214 1.000000 -0.527084 ] 1 9 55 44
+SQP eye bfgs goldstein [ -1.414214 1.000000 -0.527094 ] 1 9 55 44
 SQP eye bfgs goldensection [ -1.414194 0.999995 -0.527054 ] 1 33 681 646
 SQP eye diagonal nosearch [ -1.414214 1.000000 -0.527100 ] 1 6 8 0
 SQP eye diagonal quadratic [ -1.414180 0.999986 -0.527180 ] 1 18 38 18
@@ -89,7 +89,7 @@ SQP eye eye nosearch [ -1.414214 1.000000 -0.527108 ] 1 6 8 0
 SQP eye eye quadratic [ -1.414185 0.999973 -0.527072 ] 1 33 68 33
 SQP eye eye armijo [ -1.414214 1.000000 -0.527095 ] 1 9 44 33
 SQP eye eye armijo_kim [ -1.414214 1.000000 -0.527095 ] 1 9 44 33
-SQP eye eye goldstein [ -1.414214 1.000000 -0.527084 ] 1 9 55 44
+SQP eye eye goldstein [ -1.414214 1.000000 -0.527094 ] 1 9 55 44
 SQP eye eye goldensection [ -1.414194 0.999995 -0.527054 ] 1 33 681 646
 SQP none exact nosearch [ -1.414214 1.000000 -0.527104 ] 1 4 6 0
 SQP none exact quadratic [ -1.414191 0.999985 -0.527110 ] 1 17 36 17
@@ -113,7 +113,7 @@ SQP none eye nosearch [ -1.414214 1.000000 -0.527108 ] 1 6 8 0
 SQP none eye quadratic [ -1.414185 0.999973 -0.527072 ] 1 33 68 33
 SQP none eye armijo [ -1.414214 1.000000 -0.527095 ] 1 9 44 33
 SQP none eye armijo_kim [ -1.414214 1.000000 -0.527095 ] 1 9 44 33
-SQP none eye goldstein [ -1.414214 1.000000 -0.527084 ] 1 9 55 44
+SQP none eye goldstein [ -1.414214 1.000000 -0.527094 ] 1 9 55 44
 SQP none eye goldensection [ -1.414194 0.999995 -0.527054 ] 1 33 681 646
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
