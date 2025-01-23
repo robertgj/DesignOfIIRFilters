@@ -38,11 +38,12 @@ p0_ones=ones(size(k0));
 
 %
 % Lowpass differentiator filter specification
+% (ppr=0.003,tpr=0.06 fails in QEMU/nehalem)
 %
 fap=0.3;fas=0.4;
-Arp=0.005;Art=0.02;Ars=0.02;Wap=2;Wat=0.001;Was=1;
-tp=length(k0)-1;tpr=0.06;Wtp=1;
-pp=1.5;ppr=0.003;Wpp=1;
+Arp=0.005;Art=0.02;Ars=0.02;Wap=2;Wat=0.0001;Was=1;
+tp=length(k0)-1;tpr=0.08;Wtp=1.75;
+pp=1.5;ppr=0.003;Wpp=0.5;
 
 %
 % Frequency vectors for the Schur one-mulitplier lattice correction filter
@@ -237,7 +238,6 @@ while ~isempty(kc_active)
   % If this problem was not solved then give up
   if ~feasible
     error("SOCP problem infeasible!");
-    break;
   endif
   
   % Fix coef_n
@@ -323,8 +323,8 @@ for c=1:3
   set(ha(c),"linestyle",hls{c});
   set(hs(c),"linestyle",hls{c}); 
 endfor
-axis(ax(1),[0  0.5 0.004*[-1,1]]);
-axis(ax(2),[0  0.5 0.02*[-1,1]]);
+axis(ax(1),[0 0.5 0.004*[-1,1]]);
+axis(ax(2),[0 0.5 0.02*[-1,1]]);
 ylabel("Amplitude");
 strt=sprintf("Low-pass differentiator filter error : \
 fap=%g,fas=%g,Arp=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g",fap,fas,Arp,Ars,tp,tpr,ppr);

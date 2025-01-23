@@ -71,30 +71,30 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
 
 cat > test.c.ok << 'EOF'
-c_min = [      624,     -440,    -2208,     -112, ... 
-                44,     -126,        1,       32, ... 
-               -20,       78,       -4,       -1 ]'/2048;
+c_min = [      624,     -440,    -2208,     -114, ... 
+                44,     -124,        1,       32, ... 
+               -20,       76,       -4,       -2 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
 
 cat > test.kk.ok << 'EOF'
-kk_min = [      896,     -624,     -355,     -128, ... 
+kk_min = [      896,     -624,     -356,     -128, ... 
                  20,       88,      152,      -94, ... 
                 152,        0 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.kk.ok"; fail; fi
 
 cat > test.ck.ok << 'EOF'
-ck_min = [     -256,        0,     -168,        0, ... 
-               -108,        0,       16,        0, ... 
-                 64,        0 ]'/2048;
+ck_min = [     -264,        0,     -168,        0, ... 
+               -104,        0,       15,        0, ... 
+                 63,        0 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ck.ok"; fail; fi
 
 cat > test.cost.ok << 'EOF'
-Exact & 0.0002316 & & \\
-12-bit 3-signed-digit(Ito)&  0.000726 & 92 & 55 \\
-12-bit 3-signed-digit(SOCP-relax) &  0.000476 & 91 & 54 \\
+Exact & 0.0000698 & & \\
+12-bit 3-signed-digit(Ito)&  0.000131 & 95 & 58 \\
+12-bit 3-signed-digit(SOCP-relax) &  0.000087 & 94 & 57 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 

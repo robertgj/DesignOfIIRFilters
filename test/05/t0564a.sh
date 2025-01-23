@@ -70,16 +70,16 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
 
 cat > test.c.ok << 'EOF'
-c_min = [      330,     -482,    -1344,       68, ... 
-               133,      -98,       32,        2, ... 
+c_min = [      330,     -482,    -1344,       69, ... 
+               132,      -98,       32,        2, ... 
                -20,       12,       -8,       -2 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
 
 cat > test.cost.ok << 'EOF'
-Exact & 0.0004010 & & \\
-12-bit 3-signed-digit(Lim)&  0.000507 & 64 & 41 \\
-12-bit 3-signed-digit(SOCP-relax) &  0.000580 & 63 & 40 \\
+Exact & 0.0005298 & & \\
+12-bit 3-signed-digit(Lim)&  0.000723 & 64 & 41 \\
+12-bit 3-signed-digit(SOCP-relax) &  0.000861 & 63 & 40 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 

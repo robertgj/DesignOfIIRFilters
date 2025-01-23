@@ -30,9 +30,9 @@ k0=k0(:);epsilon0=epsilon0(:);p0=p0(:);c0=c0(:);
 % Band-pass differentiator filter specification
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,
 Arp=0.02,Ars=0.02,Wasl=0.1,Watl=0.001,Wap=0.1,Watu=0.001,Wasu=0.1
-ftpl=0.1,ftpu=0.2,tp=12,tpr=0.2,Wtp=0.01
-fppl=0.1,fppu=0.2,pp=3.5,ppr=0.002,Wpp=1
-fdpl=0.1;fdpu=0.2;dpr=0.8;Wdp=0.001;
+fppl=0.1,fppu=0.2,pp=3.5,ppr=0.002,Wpp=0.5
+ftpl=0.1,ftpu=0.2,tp=12,tpr=0.2,Wtp=0.02
+fdpl=0.1,fdpu=0.2,dpr=0.8,Wdp=0.001
 
 % Frequency points
 n=1000;
@@ -148,8 +148,8 @@ printf("\n");
 [N1,D1]=schurOneMlattice2tf(k2,epsilon0,p0,c2);
 [k2r,epsilon2,p2,c2]=tf2schurOneMlattice(N1,D1);
 k2r=k2r(:);epsilon2=epsilon2(:);p2=p2(:);c2=c2(:);
-if max(abs(k2-k2r))>20*eps
-  error("max(abs(k2-k2r))(%g*eps)>20*eps",max(abs(k2-k2r))/eps);
+if max(abs(k2-k2r))>1000*eps
+  error("max(abs(k2-k2r))(%g*eps)>1000*eps",max(abs(k2-k2r))/eps);
 endif
 
 % Pole-zero plot

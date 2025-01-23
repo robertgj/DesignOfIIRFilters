@@ -5,6 +5,10 @@
 # OLD_SHELL := $(SHELL)
 # SHELL = $(warning Building $@$(if $<, (from $<))$(if $?, ($? newer))) \
 #         $(OLD_SHELL) -x
+#
+# Use the following to find out if running on Linux with sys_vendor as "QEMU":
+# VENDOR=$(shell cat /sys/class/dmi/id/sys_vendor)
+
 
 #
 # Top-level variables

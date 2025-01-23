@@ -33,9 +33,9 @@ nN=length(N0)-1;
 
 % Low-pass differentiator filter specification
 fap=0.3;fas=0.4;
-Arp=0.02;Art=0.02;Ars=0.02;Wap=1;Wat=0.001;Was=10;
-pp=0.5;ppr=0.0002;Wpp=1;
-tp=nN-1;tpr=0.04;Wtp=1;
+Arp=0.02;Art=0.02;Ars=0.02;Wap=1;Wat=0.001;Was=1;
+pp=0.5;ppr=0.0002;Wpp=0.5;
+tp=nN-1;tpr=0.04;Wtp=2;
 
 % Frequency points
 n=1000;
@@ -192,7 +192,7 @@ feasible=false;
           wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
           wp,Pd-Pzm1,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
           maxiter,ftol,ctol,verbose)
-if feasible == 0
+if feasible == false
   error("d1 (PCLS) infeasible");
 endif
 

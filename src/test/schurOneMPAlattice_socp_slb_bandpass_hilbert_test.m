@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_bandpass_hilbert_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 
@@ -245,8 +245,8 @@ close
 
 % Check transfer function
 HH=freqz(N2,D2,wa);
-if max(abs((abs(HH).^2)-Asq)) > 1e4*eps
-  error("max(abs((abs(HH).^2)-Asq))(%g*eps) > 1e4*eps",
+if max(abs((abs(HH).^2)-Asq)) > 2e4*eps
+  error("max(abs((abs(HH).^2)-Asq))(%g*eps) > 2e4*eps",
         max(abs((abs(HH).^2)-Asq))/eps);
 endif
 

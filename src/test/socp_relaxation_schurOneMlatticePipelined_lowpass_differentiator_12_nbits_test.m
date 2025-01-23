@@ -19,7 +19,7 @@ tic;
 verbose=false
 maxiter=2000
 ftol=1e-3
-ctol=ftol/1000
+ctol=ftol/100
 nbits=12
 nscale=2^(nbits-1);
 ndigits=3 % flt2SD expects ndigits*2 <= nbits
@@ -36,11 +36,11 @@ epsilon0=epsilon0(:);k0=k2(:);c0=c2(:);kk0=kk2(:);ck0=ck2(:);
 
 %
 % Lowpass differentiator filter specification
-%
+% (ppr=0.002,tpr=0.06 fails with QEMU/nehalem)
 fap=0.3;fas=0.4;
-Arp=0.012;Art=0.02;Ars=0.012;Wap=1;Wat=0.001;Was=1;
+Arp=0.01;Art=0.02;Ars=0.01;Wap=1;Wat=0.001;Was=1;
 fpp=fap;pp=1.5;ppr=0.004;Wpp=1;
-ftp=fap;td=length(k0)-1;tdr=0.08;Wtp=1;
+ftp=fap;tp=length(k0)-1;tpr=0.08;Wtp=0.1;
 
 % Options
 socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_allocsd_Lim=false
@@ -50,7 +50,7 @@ socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_allocsd_Ito=tru
 % Frequency vectors for the Schur one-mulitplier lattice correction filter
 %
 
-n=400;
+n=1000;
 w=(1:(n-1))'*pi/n;
 nap=ceil(fap*n/0.5);
 nas=floor(fas*n/0.5);
@@ -70,7 +70,7 @@ Azm1=2*sin(wa/2);
 
 % Phase response 
 wp=w(1:npp);
-Pd=(pp*pi)-(wp*td);
+Pd=(pp*pi)-(wp*tp);
 Pdu=Pd+(ppr*pi/2);
 Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
@@ -79,9 +79,9 @@ Pzm1=(pi/2)-(wp/2);
 
 % Group delay
 wt=w(1:ntp);
-Td=td*ones(size(wt));
-Tdu=Td+(tdr/2);
-Tdl=Td-(tdr/2);
+Td=tp*ones(size(wt));
+Tdu=Td+(tpr/2);
+Tdl=Td-(tpr/2);
 Wt=Wtp*ones(size(wt));
 % Group delay response of (1-z^-1)
 Tzm1=0.5;
@@ -274,7 +274,6 @@ while ~isempty(kc_active)
   % If this problem was not solved then give up
   if ~feasible
     error("SOCP problem infeasible!");
-    break;
   endif
   
   % Fix coef_n
@@ -357,20 +356,34 @@ endif
 
 % Plot response error
 subplot(311);
-plot(wa*0.5/pi,(Azm1.*sqrt(Asq_kc0))-Ad,"linestyle","-", ...
-     wa*0.5/pi,(Azm1.*sqrt(Asq_kc0_sd)-Ad),"linestyle","--", ...
-     wa*0.5/pi,(Azm1.*sqrt(Asq_kc_min))-Ad,"linestyle","-.");
+rap=1:nap;
+ras=nas:(n-1);
+A_kc0=Azm1.*sqrt(Asq_kc0);
+A_kc0_sd=Azm1.*sqrt(Asq_kc0_sd);
+A_kc_min=Azm1.*sqrt(Asq_kc_min);
+[ax,ha,hs] = ...
+  plotyy(wa(rap)*0.5/pi,[A_kc0(rap),A_kc0_sd(rap),A_kc_min(rap)]-Ad(rap), ...
+         wa(ras)*0.5/pi,[A_kc0(ras),A_kc0_sd(ras),A_kc_min(ras)]-Ad(ras));
+% Copy line colour
+hac=get(ha,"color");
+hls={"-","--","-."};
+for c=1:3
+  set(hs(c),"color",hac{c}); 
+  set(ha(c),"linestyle",hls{c});
+  set(hs(c),"linestyle",hls{c}); 
+endfor
 ylabel("Amplitude");
 strt=sprintf("Pipelined low-pass differentiator error : \
-fap=%g,fas=%g,Arp=%g,Ars=%g,td=%g,ppr=%g",fap,fas,Arp,Ars,td,ppr);
+fap=%g,fas=%g,Arp=%g,Ars=%g,tp=%g,ppr=%g",fap,fas,Arp,Ars,tp,ppr);
 title(strt);
-axis([0 0.5 max([Arp,Ars,0.02]/2)*[-1,1]]);
+axis(ax(1),[0 0.5 Arp*[-1,1]]);
+axis(ax(2),[0 0.5 Ars*[-1,1]]);
 grid("on");
 subplot(312);
 plot(wp*0.5/pi,(P_kc0+Pzm1-Pd)/pi,"linestyle","-", ...
      wp*0.5/pi,(P_kc0_sd+Pzm1-Pd)/pi,"linestyle","--", ...
      wp*0.5/pi,(P_kc_min+Pzm1-Pd)/pi,"linestyle","-.");
-axis([0 0.5 ppr*[-1,1]]);
+axis([0 0.5 (ppr/2)*[-1,1]]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
 legend("exact","s-d(Ito)","s-d(SOCP-relax)");
@@ -381,7 +394,7 @@ subplot(313);
 plot(wt*0.5/pi,T_kc0+Tzm1-Td,"linestyle","-", ...
      wt*0.5/pi,T_kc0_sd+Tzm1-Td,"linestyle","--", ...
      wt*0.5/pi,T_kc_min+Tzm1-Td,"linestyle","-.");
-axis([0 0.5 tdr/2*[-1,1]]);
+axis([0 0.5 (tpr/2)*[-1,1]]);
 grid("on");
 ylabel("Group delay(samples)");
 xlabel("Frequency");
@@ -416,8 +429,8 @@ fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"fas=%g %% Amplitude stop band lower edge\n",fas);
 fprintf(fid,"Ars=%g %% Amplitude stop band peak ripple\n",Ars/2);
 fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
-fprintf(fid,"td=%g %% Pass band group delay\n",td);
-fprintf(fid,"tdr=%g %% Pass band group delay peak-to-peak ripple\n",tdr);
+fprintf(fid,"tp=%g %% Pass band group delay\n",tp);
+fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
 fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi))\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
@@ -428,7 +441,7 @@ eval(sprintf(strcat("save %s.mat ",
 " socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_allocsd_Ito",
 " nbits ndigits ndigits_alloc k_allocsd_digits c_allocsd_digits ",
 " k_allocsd_digits c_allocsd_digits ftol ctol n ",
-" fap Arp Wap Ars Was td tdr Wtp ppr Wpp k0 epsilon0 c0 kk0 ck0 ",
+" fap Arp Wap Ars Was tp tpr Wtp ppr Wpp k0 epsilon0 c0 kk0 ck0 ",
 " k0_sd c0_sd kk0_sd ck0_sd k_min c_min kk_min ck_min"),strf));
 
 % Done 

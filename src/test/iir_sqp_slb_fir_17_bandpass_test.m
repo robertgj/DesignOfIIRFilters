@@ -1,5 +1,5 @@
 % iir_sqp_slb_fir_17_bandpass_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 % Design a minimum-phase FIR filter with order 17.
 
 test_common;
@@ -18,7 +18,7 @@ verbose=false
 % Bandpass filter specification
 % (frequencies are normalised to sample rate)
 fapl=0.1,fapu=0.2,dBap=3,Wap=1
-fasl=0.05,fasu=0.25,dBas=24,Wasl=1,Wasu=1
+fasl=0.05,fasu=0.25,dBas=24,Wasl=10,Wasu=5
 
 % Initialise strings
 strM=sprintf(
@@ -115,6 +115,7 @@ close
 if !feasible 
   error("d1 infeasible");
 endif
+
 % Ensure d1 amplitude response is <=1
 % (PCLS permits max(Ad1)==ftol. d1(1) is the gain coefficient.)
 Ad1=iirA(wa,d1,U,V,M,Q,R,ftol);

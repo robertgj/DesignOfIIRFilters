@@ -30,8 +30,9 @@ complementaryFIRlattice_slb_update_constraints.m \
 complementaryFIRlattice.m \
 complementaryFIRlattice2Abcd.m \
 complementaryFIRlatticeFilter.m \
-minphase.m local_max.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
-direct_form_scale.m Abcd2H.oct complementaryFIRdecomp.oct qroots.m qzsolve.oct
+local_max.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
+direct_form_scale.m qroots.m \
+minphase.oct Abcd2H.oct complementaryFIRdecomp.oct qzsolve.oct
 
 complementaryFIRlattice_socp_slb_bandpass_hilbert_test.diary : \
 iir_sqp_slb_fir_17_bandpass_test.diary 

@@ -38,9 +38,9 @@ dmax=0.05;
 
 % Low-pass differentiator filter specification
 fap=0.18;fas=0.3;
-Arp=0.004;Art=0.005;Ars=0.005;Wap=1;Wat=0.001;Was=5;
-pp=0.5;ppr=0.0001;Wpp=0.1;
-td=nN-1;tdr=0.02;Wtp=0.2;
+Arp=0.004;Art=0.005;Ars=0.005;Wap=1;Wat=0.001;Was=1;
+pp=0.5;ppr=0.0001;Wpp=0.2;
+td=nN-1;tdr=0.02;Wtp=1;
 
 % Frequency points
 n=1000;
@@ -183,7 +183,7 @@ close
 %
 % PCLS pass
 %
-printf("\nPCLS pass :\n");
+printf("\nPCLS pass:\n");
 feasible=false;
 [d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
   iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...

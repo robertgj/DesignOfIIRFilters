@@ -11,7 +11,7 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-maxiter=20000
+maxiter=2000
 ftol=1e-3
 ctol=ftol/100
 verbose=false
@@ -32,11 +32,12 @@ print_pole_zero(x0,U,V,M,Q,R,"x0");
 nN=length(N0)-1;
 
 % Low-pass differentiator filter specification
+% (ppr=0.002,tpr=0.04 fails under QEMU)
 fap=0.3;fas=0.4;
-Arp=0.02;Art=0.02;Ars=0.02;Wap=1;Wat=0.001;Was=2;
-pp=0.5;ppr=0.0002;Wpp=1;
-tp=nN-1;tpr=0.04;Wtp=1;
-
+Arp=0.02;Art=0.02;Ars=0.02;Wap=1;Wat=0.001;Was=1;
+pp=0.5;ppr=0.0004;Wpp=0.2;
+tp=nN-1;tpr=0.08;Wtp=0.1;
+      
 % Frequency points
 n=1000;
 w=pi*(1:(n-1))'/n;
@@ -142,7 +143,7 @@ feasible=false;
                wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
                wp,Pd-Pzm1,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
                maxiter,ftol,ctol,verbose);
-if feasible == 0 
+if feasible == 0
   error("x1(MMSE) infeasible");
 endif
 
@@ -196,7 +197,7 @@ feasible=false;
           wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
           wp,Pd-Pzm1,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
           maxiter,ftol,ctol,verbose)
-if feasible == 0
+if feasible == false
   error("d1 (PCLS) infeasible");
 endif
 

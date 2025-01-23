@@ -1,5 +1,5 @@
 % deczky3a_sqp_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 
@@ -11,7 +11,7 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-maxiter=10000
+maxiter=4000
 ftol=1e-4
 ctol=ftol/10
 verbose=false
@@ -19,7 +19,7 @@ verbose=false
 % Deczky3a Lowpass filter specification
 U=0,V=0,Q=6,M=10,R=1
 fap=0.15,dBap=0.3,Wap=1
-fas=0.3,dBas=40,Was=1
+fas=0.3,dBas=40,Was=0.9
 ftp=0.2,tp=9,tpr=0.04,Wtp=0.02
 
 % Initial coefficients
@@ -76,8 +76,8 @@ showZPplot(x0,U,V,M,Q,R,strt)
 print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
 close
 
-% MMSE pass 1
-printf("\nMMSE pass 1: dBas=%f,Was=%f,Wtp=%f\n", dBas, Was, Wtp);
+% MMSE pass
+printf("\nMMSE pass:\n");
 vS=iir_slb_set_empty_constraints();
 [x1,E,sqp_iter,func_iter,feasible] = ...
   iir_sqp_mmse(vS, ...
@@ -90,8 +90,9 @@ if feasible == 0
 endif
 
 % Plot MMSE
-strt=sprintf("x1(mmse):fap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g",
-             fap,Wap,fas,dBas,Was,ftp,tp,Wtp);
+strt=sprintf("MMSE x1: \
+fap=%g,dBap=%f,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g", ...
+             fap,dBap,Wap,fas,dBas,Was,ftp,tp,Wtp);
 showZPplot(x1,U,V,M,Q,R,strt);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
@@ -103,8 +104,8 @@ print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 close
 %}
 
-% PCLS pass 1
-printf("\nPCLS pass 1: dBas=%f,Was=%f,Wtp=%f\n", dBas, Was, Wtp);
+% PCLS pass
+printf("\nPCLS pass:\n");
 [d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
   iir_slb(@iir_sqp_mmse, ...
           x1,xu,xl,dmax,U,V,M,Q,R, ...
@@ -115,9 +116,10 @@ if feasible == 0
   error("d1 (pcls) infeasible");
 endif
 
-% Plot MMSE
-strt=sprintf("d1:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,\
-tp=%g,tpr=%g,Wtp=%g",fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
+% Plot PCLS
+strt=sprintf("PCLS d1 : \
+fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,tpr=%g,Wtp=%g", ...
+             fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
 showZPplot(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close

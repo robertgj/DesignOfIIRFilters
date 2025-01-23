@@ -1,5 +1,5 @@
 % deczky3_scs_test.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 
 test_common;
 
@@ -17,10 +17,10 @@ maxiter=500;
 verbose=false;
 
 % Deczky3 lowpass filter specification
-U=0,V=0,Q=6,M=10,R=1
+U=0,V=0,M=10,Q=6,R=1
 fap=0.15,dBap=0.2,Wap=1
-fas=0.3,dBas=30,Was=5
-ftp=0.25,tp=10,tpr=0.02,Wtp=0.05
+fas=0.3,dBas=30,Was=2.5
+ftp=0.25,tp=10,tpr=0.02,Wtp=0.5
 
 % Initial coefficients
 z=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...
