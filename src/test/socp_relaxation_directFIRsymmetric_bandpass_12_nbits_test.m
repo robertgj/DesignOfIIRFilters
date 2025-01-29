@@ -214,7 +214,7 @@ print_polynomial(hM1_3sd,"hM1_3sd",strcat(strf,"_hM1_3sd_coef.m"),nscale);
 
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
-fprintf(fid,"Exact & %6.4f & & \\\\\n",Esq0);
+fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
 fprintf(fid,"%d-bit %d-signed-digit&%8.6f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_3sd,hM1_3sd_digits,hM1_3sd_adders);
 fprintf(fid,"%d-bit %d-signed-digit(Ito)&%8.6f & %d & %d \\\\\n",
