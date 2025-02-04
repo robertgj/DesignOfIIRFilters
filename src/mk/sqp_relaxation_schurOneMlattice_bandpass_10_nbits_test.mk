@@ -18,7 +18,10 @@ sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test_adders.tab
 sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test_FILES = \
 sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test.m \
 schurOneMlattice_bandpass_10_nbits_common.m test_common.m \
-schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
+schurOneMlatticeAsq.m \
+schurOneMlatticeT.m \
+schurOneMlatticeP.m \
+schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_slb.m \
 schurOneMlattice_slb_constraints_are_empty.m \
@@ -30,6 +33,7 @@ schurOneMlattice_slb_update_constraints.m \
 schurOneMscale.m \
 schurOneMlattice2tf.m \
 schurOneMlattice_allocsd_Ito.m \
+schurOneMlattice_allocsd_Lim.m \
 schurOneMlatticeFilter.m \
 tf2schurOneMlattice.m \
 local_max.m print_polynomial.m Abcd2tf.m x2nextra.m sqp_bfgs.m armijo_kim.m \

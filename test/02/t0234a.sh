@@ -23,6 +23,7 @@ schurOneMlattice_slb_update_constraints.m \
 schurOneMscale.m \
 schurOneMlattice2tf.m \
 schurOneMlattice_allocsd_Ito.m \
+schurOneMlattice_allocsd_Lim.m \
 schurOneMlatticeFilter.m \
 tf2schurOneMlattice.m \
 local_max.m print_polynomial.m x2nextra.m sqp_bfgs.m armijo_kim.m updateWbfgs.m \

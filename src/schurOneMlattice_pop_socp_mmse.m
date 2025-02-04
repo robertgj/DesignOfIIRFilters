@@ -73,7 +73,7 @@ function [k,c,pop_iter,func_iter,feasible]= ...
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -202,10 +202,10 @@ function [k,c,pop_iter,func_iter,feasible]= ...
     return;
   endif
   Nkc_active=length(kc_active);
-  Nkc_fixed=length(kc_fixed);
   if any(kc_fixed<1) || any(kc_fixed>Nkc_active) || any(rem(kc_active,1))
     error("kc_fixed(%d)>%d is out of bounds!",kc_fixed,length(kc_active));
   endif
+  Nkc_fixed=length(kc_fixed);
   
   %
   % Initialise

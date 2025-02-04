@@ -1,5 +1,5 @@
 % schurOneMlattice_bandpass_10_nbits_common.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 % Coefficients found by schurOneMlattice_sqp_slb_bandpass_test.m
 schurOneMlattice_sqp_slb_bandpass_test_k2_coef;
@@ -119,12 +119,24 @@ c0=c0(:);
 Nk=length(k0);
 Nc=length(c0);
 kc0=[k0;c0];
+Nkc=length(kc0);
 kc0_u=[rho*ones(size(k0));10*ones(size(c0))];
 kc0_l=-kc0_u;
 
 % Allocate digits
-ndigits_alloc=schurOneMlattice_allocsd_Ito(nbits,ndigits,k0,epsilon0,p0,c0, ...
-                                           wa,Asqd,Wa,wt,Td,Wt);
+if (exist('use_schurOneMlattice_allocsd_Lim','var')==1) && ...
+   (use_schurOneMlattice_allocsd_Lim == true)
+  printf("Using schurOneMlattice_allocsd_Lim()");
+  ndigits_alloc=schurOneMlattice_allocsd_Lim(nbits,ndigits,k0,epsilon0,p0,c0, ...
+                                             wa,Asqd,Wa,wt,Td,Wt);
+elseif (exist('use_schurOneMlattice_allocsd_Ito','var')==1) && ...
+       (use_schurOneMlattice_allocsd_Ito == true)
+  printf("Using schurOneMlattice_allocsd_Ito()");
+  ndigits_alloc=schurOneMlattice_allocsd_Ito(nbits,ndigits,k0,epsilon0,p0,c0, ...
+                                             wa,Asqd,Wa,wt,Td,Wt);
+else
+  ndigits_alloc=ndigits*ones(size(kc0));
+endif
 k_allocsd_digits=int16(ndigits_alloc(1:Nk));
 c_allocsd_digits=int16(ndigits_alloc((Nk+1):end));
 % Find the signed-digit approximations to k0 and c0

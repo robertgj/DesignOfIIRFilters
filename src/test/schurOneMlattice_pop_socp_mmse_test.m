@@ -1,6 +1,6 @@
 % schurOneMlattice_pop_socp_mmse_test.m
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 
@@ -16,12 +16,14 @@ ctol=ftol
 maxiter=0
 verbose=true;
 
+dBas=36,dBass=37,tpr=0.15
+use_schurOneMlattice_allocsd_Ito=true
 schurOneMlattice_bandpass_10_nbits_common;
 
 % Options (adjust param.eqTolerance and param.SDPsolverEpsilon if necessary)
 test_fix_all_coefficients_simultaneously=false;
-test_fix_coefficient_difference_greater_than_alpha=false;
-test_add_linear_response_inequality_constraints=false;
+test_fix_coefficient_difference_greater_than_alpha=true;
+test_add_linear_response_inequality_constraints=true;
 
 % Initial coefficients
 kc=kc0;
@@ -40,12 +42,9 @@ while ~isempty(kc_active)
   kc_sdul=kc_sdu-kc_sdl;
 
   % Initialise kc_fixed
-  % (SparsePOP appears to only apply the first equality constraint)
   if test_fix_all_coefficients_simultaneously
     % All at once
     kc_fixed=1:length(kc_active);
-    kc_u=kc_sdu;
-    kc_l=kc_sdl;
   elseif test_fix_coefficient_difference_greater_than_alpha
     % Lu suggests fixing the coefficients for which alpha>0.5
     alpha=abs((2*kc)-kc_sdu-kc_sdl);
@@ -54,21 +53,10 @@ while ~isempty(kc_active)
     if isempty(kc_fixed)
       kc_fixed=1:length(kc_active);
     endif
-    kc_u=kc_sdu;
-    kc_l=kc_sdl;
     printf("kc_fixed=[ ");printf("%d ",kc_fixed(:)');printf(" ]\n");
   else 
     % Ito et al. suggest ordering the search by max(kc_sdu-kc_sdl)
     [~,kc_fixed]=max(kc_sdul(kc_active));
-    if 0
-      % This widens the search and allows linear constraints on the
-      % response to succeed but produces very poor results
-      kc_u(kc_active(kc_fixed))=kc_sdu(kc_active(kc_fixed));
-      kc_l(kc_active(kc_fixed))=kc_sdl(kc_active(kc_fixed));
-    else
-      kc_u=kc_sdu;
-      kc_l=kc_sdl;
-    endif
   endif
   printf("Fixing coef. kc([ ");
   printf("%d ",kc_active(kc_fixed));
@@ -76,7 +64,15 @@ while ~isempty(kc_active)
   printf("%12.8f ",kc(kc_active(kc_fixed))*nscale);
   printf("]/%d\n",nscale);
 
-  % Linear constraints
+  % Initialise upper and lower constraints on kc
+  kc_u=kc;
+  kc_u(kc_active)=kc0_u(kc_active);
+  kc_u(kc_active(kc_fixed))=kc_sdu(kc_active(kc_fixed));
+  kc_l=kc;
+  kc_l(kc_active)=kc0_l(kc_active);
+  kc_l(kc_active(kc_fixed))=kc_sdl(kc_active(kc_fixed));
+
+  % Find linear constraints on the response
   if test_add_linear_response_inequality_constraints
     Asqk=schurOneMlatticeAsq(wa,kc(1:Nk),epsilon0,ones(size(p0)),kc((Nk+1):end));
     Tk=schurOneMlatticeT(wt,kc(1:Nk),epsilon0,ones(size(p0)),kc((Nk+1):end));
@@ -238,22 +234,29 @@ fprintf(fid,"sum(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k0~=0));
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
+fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
 fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"fasll=%g %% Amplitude stop band outer lower edge\n",fasll);
+fprintf(fid,"fasl=%g %% Amplitude stop band inner lower edge\n",fasl);
+fprintf(fid,"fasu=%g %% Amplitude stop band inner upper edge\n",fasu);
+fprintf(fid,"fasuu=%g %% Amplitude stop band outer upper edge\n",fasuu);
+fprintf(fid,"dBas=%g %% Inner stop band amplitude (dB)\n",dBas);
+fprintf(fid,"dBass=%g %% Outer stop band amplitude (dB)\n",dBass);
+fprintf(fid,"Wasl=%g %% Lower stop band amplitude weight\n",Wasl);
+fprintf(fid,"Wasu=%g %% Upper stop band amplitude weight\n",Wasu);
 fprintf(fid,"ftpl=%g %% Delay pass band lower edge\n",ftpl);
 fprintf(fid,"ftpu=%g %% Delay pass band upper edge\n",ftpu);
 fprintf(fid,"tp=%g %% Nominal passband filter group delay\n",tp);
+fprintf(fid,"tpr=%g %% Delay pass band peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Delay pass band weight\n",Wtp);
-fprintf(fid,"fasl=%g %% Amplitude stop band(1) lower edge\n",fasl);
-fprintf(fid,"fasu=%g %% Amplitude stop band(1) upper edge\n",fasu);
-fprintf(fid,"Wasl=%d %% Amplitude lower stop band weight\n",Wasl);
-fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"),nscale);
 print_polynomial(c1,"c1",strcat(strf,"_c1_coef.m"),nscale);
 
-eval(sprintf("save %s.mat k0 epsilon0 p0 c0 tol nbits ndigits ndigits_alloc \
-npoints fapl fapu Wap fasl fasu Wasl Wasu ftpl ftpu tp Wtp k1 c1",strf));
+eval(sprintf("save %s.mat k0 epsilon0 p0 c0 ctol ftol nbits ndigits npoints \
+fapl fapu dBap Wap fasll fasl fasu fasuu dBas dBass Wasl Wasu \
+ftpl ftpu tp tpr Wtp ndigits_alloc k1 c1",strf));
 
 % Done
 toc;
