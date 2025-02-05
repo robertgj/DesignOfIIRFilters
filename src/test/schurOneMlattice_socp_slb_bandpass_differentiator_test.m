@@ -23,16 +23,17 @@ tarczynski_bandpass_differentiator_test_N0_coef;
 % Correction filter order
 nN=length(N0)-1;
 
-% Convert transfer function to one-multiplier Schur lattice
+% Convert transfer function to tapped one-multiplier Schur lattice
 [k0,epsilon0,p0,c0]=tf2schurOneMlattice(N0,D0);
 k0=k0(:);epsilon0=epsilon0(:);p0=p0(:);c0=c0(:);
+p_ones=ones(size(k0));
 
 % Band-pass differentiator filter specification
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,
 Arp=0.02,Ars=0.02,Wasl=0.1,Watl=0.001,Wap=0.1,Watu=0.001,Wasu=0.1
 fppl=0.1,fppu=0.2,pp=3.5,ppr=0.002,Wpp=0.5
 ftpl=0.1,ftpu=0.2,tp=12,tpr=0.2,Wtp=0.02
-fdpl=0.1,fdpu=0.2,dpr=0.8,Wdp=0.001
+fdpl=0.1,fdpu=0.2,dpr=0.62,Wdp=0.01
 
 % Frequency points
 n=1000;
@@ -52,7 +53,9 @@ ndpu=ceil(n*fdpu/0.5);
 % Pass and transition band amplitudes
 wa=w;
 Azsqm1=2*sin(wa);
+Azsqm1sq=Azsqm1.^2;
 Ad=[zeros(napl-1,1);w(napl:napu)/2;zeros(n-1-napu,1)];
+Asqd=Ad.^2;
 Adu=[(Ars/2)*ones(nasl-1,1);(w(nasl:nasu)/2)+(Arp/2);(Ars/2)*ones(n-1-nasu,1)];
 Adl=[zeros(napl-1,1);(w(napl:napu)/2)-(Arp/2);zeros(n-1-napu,1)];
 Wa=[Wasl*ones(nasl,1); ...
@@ -61,8 +64,8 @@ Wa=[Wasl*ones(nasl,1); ...
     Watu*ones(nasu-napu-1,1); ...
     Wasu*ones(n-1-nasu+1,1)];
 % Sanity check
-nchka=[nasl-1,nasl,nasl+1,napl-1,napl,napl+1,napu-1,napu,napu+1, ...
-       nasu-1,nasu,nasu+1]';
+nchka=[1,nasl-1,nasl,nasl+1,napl-1,napl,napl+1,napu-1,napu,napu+1, ...
+       nasu-1,nasu,nasu+1,n-1]';
 printf("0.5*wa(nchka)'/pi=[ ");printf("%6.4g",0.5*wa(nchka)'/pi);printf("];\n");
 printf("Ad(nchka)=[ ");printf("%6.4g ",Ad(nchka)');printf("];\n");
 printf("Adu(nchka)=[ ");printf("%6.4g ",Adu(nchka)');printf("];\n");
@@ -91,6 +94,10 @@ Dd=Ad(ndpl:ndpu);
 Ddu=Dd+(dpr/2);
 Ddl=Dd-(dpr/2);
 Wd=Wdp*ones(size(wd));
+Cd=(Dd-(2*Asqd(ndpl:ndpu).*cot(wa(ndpl:ndpu))))./Azsqm1sq(ndpl:ndpu);
+cpr=dpr./Azsqm1sq(ndpl:ndpu);
+Cdu=Cd+(cpr/2);
+Cdl=Cd-(cpr/2);
 
 % Coefficient constraints
 dmax=0.1; % For compatibility with SQP
@@ -101,18 +108,6 @@ kc_u=[rho*ones(Nk,1);10*ones(Nc,1)];
 kc_l=-kc_u;
 kc_active=[find((k0)~=0);(Nk+(1:Nc))'];
 
-% Sanity check
-nachk=[1, ...
-       nasl-1,nasl,nasl+1,napl-1,napl,napl+1, ...
-       napu-1,napu,napu+1,nasu-1,nasu,nasu+1, ...
-       n-1];
-printf("nachk=[");printf("%d ",nachk);printf(" ]\n");
-printf("wa(nachk)*0.5/pi=[");printf("%g ",wa(nachk)*0.5/pi);printf(" ]\n");
-printf("Ad(nachk)=[");printf("%g ",Ad(nachk));printf(" ]\n");
-printf("Adu(nachk)=[");printf("%g ",Adu(nachk));printf(" ]\n");
-printf("Adl(nachk)=[");printf("%g ",Adl(nachk));printf(" ]\n");
-printf("Wa(nachk)=[");printf("%g ",Wa(nachk));printf(" ]\n");
-
 % Calculate the initial response
 Asq0c=schurOneMlatticeAsq(wa,k0,epsilon0,p0,c0);
 A0c=sqrt(Asq0c);
@@ -121,7 +116,8 @@ P0c=schurOneMlatticeP(wp,k0,epsilon0,p0,c0);
 P0=P0c+Pzsqm1;
 T0c=schurOneMlatticeT(wt,k0,epsilon0,p0,c0);
 T0=T0c+Tzsqm1;
-dAsqdw0c=schurOneMlatticedAsqdw(wd,k0,epsilon0,p0,c0);
+dAsqdw0c=schurOneMlatticedAsqdw(wa,k0,epsilon0,p0,c0);
+dAsqdw0=(dAsqdw0c.*Azsqm1sq) + (((Ad./Azsqm1).^2).*(4*sin(2*wa)));
 
 %
 % PCLS pass
@@ -130,11 +126,11 @@ printf("\nPCLS pass :\n");
 feasible=false;
 [k2,c2,slb_iter,opt_iter,func_iter,feasible] = schurOneMlattice_slb ...
   (@schurOneMlattice_socp_mmse, ...
-   k0,epsilon0,p0,c0,kc_u,kc_l,kc_active,dmax, ...
+   k0,epsilon0,p_ones,c0,kc_u,kc_l,kc_active,dmax, ...
    wa,(Ad./Azsqm1).^2,(Adu./Azsqm1).^2,(Adl./Azsqm1).^2,Wa, ...
    wt,Td-Tzsqm1,Tdu-Tzsqm1,Tdl-Tzsqm1,Wt, ...
    wp,Pd-Pzsqm1,Pdu-Pzsqm1,Pdl-Pzsqm1,Wp, ...
-   [],[],[],[],[], ...
+   wd,Cd,Cdu,Cdl,Wd, ...
    maxiter,ftol,ctol,verbose);
 if feasible == 0
   error("k2 (PCLS) infeasible");
@@ -165,7 +161,8 @@ P1c=schurOneMlatticeP(wp,k2,epsilon2,p2,c2);
 P1=P1c+Pzsqm1;
 T1c=schurOneMlatticeT(wt,k2,epsilon2,p2,c2);
 T1=T1c+Tzsqm1;
-dAsqdw1c=schurOneMlatticedAsqdw(wd,k2,epsilon2,p2,c2);
+dAsqdw1c=schurOneMlatticedAsqdw(wa,k2,epsilon2,p2,c2);
+dAsqdw1=(dAsqdw1c.*Azsqm1sq) + (((Ad./Azsqm1).^2).*(4*sin(2*wa)));
 
 % Check amplitude of transfer function
 HH=freqz(N1,D1,wa);
@@ -223,6 +220,34 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_error"),"-dpdflatex");
+close
+
+% Plot correction filter dAsqdw response
+ax=plot(wd*0.5/pi,[dAsqdw1c(ndpl:ndpu),Cd,Cdl,Cdu]);
+title("Differentiator PCLS correction filter dAsqdw response");
+axis([fdpl fdpu 0.4*[-1,1]])
+ylabel("Amplitude");
+xlabel("Frequency");
+grid("on");
+legend("dAsqdwc","Cd","Cdl","Cdu");
+legend("location","southeast")
+legend("boxoff")
+legend("left")
+print(strcat(strf,"_correction"),"-dpdflatex");
+close
+
+% Plot differentiator filter dAsqdw response
+ax=plot(wd*0.5/pi,[dAsqdw1(ndpl:ndpu),Dd,Ddl,Ddu]);
+title("Differentiator PCLS filter dAsqdw response");
+axis([fdpl fdpu 0 0.8])
+ylabel("Amplitude");
+xlabel("Frequency");
+grid("on");
+legend("dAsqdw","Dd","Ddl","Ddu");
+legend("location","southeast")
+legend("boxoff")
+legend("left")
+print(strcat(strf,"_dAsqdw"),"-dpdflatex");
 close
 
 % Save results

@@ -13006,6 +13006,9 @@ the correction filter are:
 Figure~\ref{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS}
 shows the response error of the band-pass differentiator filter after PCLS
 optimisation and
+Figure~\ref{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS-dAsqdw}
+shows the pass-band \emph{dAsqdw} response of the band-pass differentiator
+filter after PCLS optimisation. 
 Figure~\ref{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS-pz}
 shows the pole-zero plot of the band-pass differentiator filter after PCLS
 optimisation. 
@@ -13018,13 +13021,21 @@ optimisation.
 \end{figure}
 \begin{figure}
 \centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_differentiator_test_dAsqdw}}
+\caption{PCLS optimised pass-band dAsqdw response of a band-pass differentiator
+  filter composed of a Schur one-multiplier lattice correction filter and
+  $1-z^{-2}$.}
+\label{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS-dAsqdw}
+\end{figure}
+\begin{figure}
+\centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_differentiator_test_pz}}
 \caption{Pole-zero plot of the PCLS optimised band-pass differentiator filter
   composed of a Schur one-multiplier lattice correction filter in series with
   $1-z^{-2}$.}
 \label{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS-pz}
 \end{figure}
-
+\clearpage
 \subsubsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-hilbert-SOCP}Design of a one-multiplier IIR Schur lattice Hilbert filter with $R=2$ using SOCP}
 The Octave script \emph{schurOneMlattice\_socp\_slb\_hilbert\_test.m} implements
 the design of an IIR one-multiplier Schur lattice Hilbert filter with SOCP and 
