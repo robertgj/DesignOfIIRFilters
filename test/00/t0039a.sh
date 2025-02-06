@@ -73,18 +73,18 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-strn="tarczynski_parallel_allpass_test";
+nstr="tarczynski_parallel_allpass_test";
 
-diff -Bb test_Da0_coef.m $strn"_Da0_coef.m"
+diff -Bb test_Da0_coef.m $nstr"_Da0_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Da0_coef.m"; fail; fi
 
-diff -Bb test_Db0_coef.m $strn"_Db0_coef.m"
+diff -Bb test_Db0_coef.m $nstr"_Db0_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Db0_coef.m"; fail; fi
 
-diff -Bb test_flat_Da0_coef.m $strn"_flat_delay_Da0_coef.m"
+diff -Bb test_flat_Da0_coef.m $nstr"_flat_delay_Da0_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_flat_Da0_coef.m"; fail; fi
 
-diff -Bb test_flat_Db0_coef.m $strn"_flat_delay_Db0_coef.m"
+diff -Bb test_flat_Db0_coef.m $nstr"_flat_delay_Db0_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_flat_Db0_coef.m"; fail; fi
 
 

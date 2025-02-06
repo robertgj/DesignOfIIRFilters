@@ -271,21 +271,21 @@ done
 #
 echo "Running $prog"
 
-strf="schurOneMlatticePipelined2Abcd_symbolic_test"
+nstr="schurOneMlatticePipelined2Abcd_symbolic_test"
 
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_N_6.latex.ok $strf"_N_6.latex"
+diff -Bb test_N_6.latex.ok $nstr"_N_6.latex"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_N_6.latex.ok"; fail; fi
 
-diff -Bb test_KYP_apG_N_6.latex.ok $strf"_KYP_apG_N_6.latex"
+diff -Bb test_KYP_apG_N_6.latex.ok $nstr"_KYP_apG_N_6.latex"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_KYP_apG_N_6.latex.ok"; fail; fi
 
-diff -Bb test_N_7.latex.ok $strf"_N_7.latex"
+diff -Bb test_N_7.latex.ok $nstr"_N_7.latex"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_N_7.latex.ok"; fail; fi
 
-diff -Bb test_KYP_apG_N_7.latex.ok $strf"_KYP_apG_N_7.latex"
+diff -Bb test_KYP_apG_N_7.latex.ok $nstr"_KYP_apG_N_7.latex"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_KYP_apG_N_7.latex.ok"; fail; fi
 
 #

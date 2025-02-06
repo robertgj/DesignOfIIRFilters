@@ -172,27 +172,27 @@ done
 #
 echo "Running $prog"
 
-strf="schurOneMR2lattice2Abcd_symbolic_test"
+nstr="schurOneMR2lattice2Abcd_symbolic_test"
 
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_N_4.latex.ok $strf"_N_4.latex"
+diff -Bb test_N_4.latex.ok $nstr"_N_4.latex"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_N_4.latex.ok"; fail; fi
 
-diff -Bb test_KYP_apG_N_4.latex.ok $strf"_KYP_apG_N_4.latex"
+diff -Bb test_KYP_apG_N_4.latex.ok $nstr"_KYP_apG_N_4.latex"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_KYP_apG_N_4.latex.ok"; fail; fi
 
-diff -Bb test_N_6.latex.ok $strf"_N_6.latex"
+diff -Bb test_N_6.latex.ok $nstr"_N_6.latex"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_N_6.latex.ok"; fail; fi
 
-diff -Bb test_KYP_apG_N_6.latex.ok $strf"_KYP_apG_N_6.latex"
+diff -Bb test_KYP_apG_N_6.latex.ok $nstr"_KYP_apG_N_6.latex"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_KYP_apG_N_6.latex.ok"; fail; fi
 
-diff -Bb test_N_12.latex.ok $strf"_N_12.latex"
+diff -Bb test_N_12.latex.ok $nstr"_N_12.latex"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_N_12.latex.ok"; fail; fi
 
-diff -Bb test_N_20.latex.ok $strf"_N_20.latex"
+diff -Bb test_N_20.latex.ok $nstr"_N_20.latex"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_N_20.latex.ok"; fail; fi
 
 #

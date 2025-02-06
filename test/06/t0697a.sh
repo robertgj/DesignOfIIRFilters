@@ -92,15 +92,15 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-strn="socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test"
+nstr="socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test"
 
-diff -Bb test.k.ok $strn"_k_min_coef.m"
+diff -Bb test.k.ok $nstr"_k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
 
-diff -Bb test.c.ok $strn"_c_min_coef.m"
+diff -Bb test.c.ok $nstr"_c_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi
 
-diff -Bb test.cost.ok $strn"_cost.tab"
+diff -Bb test.cost.ok $nstr"_cost.tab"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.cost.ok"; fail; fi
 
 #

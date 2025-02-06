@@ -63,12 +63,12 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-strn="tarczynski_allpass2ndOrderCascade_test"
+nstr="tarczynski_allpass2ndOrderCascade_test"
 
-diff -Bb test_ab0_coef.m $strn"_ab0_coef.m"
+diff -Bb test_ab0_coef.m $nstr"_ab0_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_ab0_coef.m"; fail; fi
 
-diff -Bb test_flat_ab0_coef.m $strn"_flat_delay_ab0_coef.m"
+diff -Bb test_flat_ab0_coef.m $nstr"_flat_delay_ab0_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_flat_ab0_coef.m"; fail; fi
 
 #

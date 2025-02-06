@@ -62,12 +62,12 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-strn="tarczynski_bandpass_differentiator_test"
+nstr="tarczynski_bandpass_differentiator_test"
 
-diff -Bb test.N0.ok $strn"_N0_coef.m"
+diff -Bb test.N0.ok $nstr"_N0_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.N0.ok"; fail; fi
 
-diff -Bb test.D0.ok $strn"_D0_coef.m"
+diff -Bb test.D0.ok $nstr"_D0_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.D0.ok"; fail; fi
 
 #
