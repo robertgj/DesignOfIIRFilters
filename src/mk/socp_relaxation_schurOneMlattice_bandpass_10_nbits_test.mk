@@ -28,8 +28,8 @@ schurOneMlattice_allocsd_Ito.m \
 schurOneMlattice_allocsd_Lim.m \
 schurOneMscale.m schurOneMlattice2tf.m \
 schurOneMlatticeFilter.m tf2schurOneMlattice.m local_max.m print_polynomial.m \
-Abcd2tf.m x2nextra.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m SDadders.m \
-schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
+x2nextra.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m SDadders.m \
+schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct Abcd2tf.oct \
 schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct \
 
 socp_relaxation_schurOneMlattice_bandpass_10_nbits_test.diary : \
