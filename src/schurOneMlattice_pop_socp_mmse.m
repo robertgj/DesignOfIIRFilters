@@ -226,6 +226,8 @@ function [k,c,pop_iter,func_iter,feasible]= ...
   % Set up the sparsePOP problem.
   %
 
+  d_max=0.05;
+  
   % SparsePOP parameters
   param.relaxOrder=1;
   param.SDPsolver='sedumi';
@@ -343,8 +345,8 @@ function [k,c,pop_iter,func_iter,feasible]= ...
     func_iter = func_iter+1;
     for l=1:length(vS.du)
       l_ineq=l_ineq+1;
-      % dAsqdwdu - (dAsqdw+(graddAsqdw*delta)) >= 0
-      ineqPolySys{l_ineq}.coef=[ dAsqdwdu(vS.du(l))-dAsqdw_du(l); ...
+      % Ddu - (dAsqdw+(graddAsqdw*delta)) >= 0
+      ineqPolySys{l_ineq}.coef=[ Ddu(vS.du(l))-dAsqdw_du(l); ...
                                 -graddAsqdw_du(l,kc_active)'];
     endfor
   endif
@@ -353,8 +355,8 @@ function [k,c,pop_iter,func_iter,feasible]= ...
     func_iter = func_iter+1;
     for l=1:length(vS.dl)
       l_ineq=l_ineq+1;
-      % (dAsqdw+(graddAsqdw*delta)) - dAsqdwdl >= 0
-      ineqPolySys{l_ineq}.coef=[ dAsqdw_dl(l)-dAsqdwdl(vS.dl(l)); ...
+      % (dAsqdw+(graddAsqdw*delta)) - Ddl >= 0
+      ineqPolySys{l_ineq}.coef=[ dAsqdw_dl(l)-Ddl(vS.dl(l)); ...
                                  graddAsqdw_dl(l,kc_active)'];
     endfor
   endif
@@ -381,7 +383,7 @@ function [k,c,pop_iter,func_iter,feasible]= ...
   ubd=(kc_u(kc_active)-xkc)';
   %  (kc+deltakc)-kc_l >= 0
   lbd=(kc_l(kc_active)-xkc)';
-  
+
   %
   % Call sparsePOP
   %
@@ -428,6 +430,9 @@ function [k,c,pop_iter,func_iter,feasible]= ...
   % Extract results
   delta=POP.xVect;
   delta=delta(:);
+  if norm(delta)>d_max
+    delta=(d_max/norm(delta))*delta;
+  endif
   
   % Update kc
   xkc=xkc+delta;
@@ -438,9 +443,11 @@ function [k,c,pop_iter,func_iter,feasible]= ...
   if verbose
     printf("delta=[ ");printf("%g ",delta');printf(" ]';\n"); 
     printf("norm(delta)=%g\n",norm(delta));
+    printf("lbd=[ ");printf("%g ",lbd');printf("]'\n");    
+    printf("ubd=[ ");printf("%g ",ubd');printf("]'\n");    
+    printf("xkc(%d)= ",kc_fixed);printf("%g ",xkc(kc_fixed));printf("\n");
     printf("k=[ ");printf("%g ",k');printf(" ]';\n"); 
     printf("c=[ ");printf("%g ",c');printf(" ]';\n");    
-    printf("xkc(%d)= ",kc_fixed);printf("%g ",xkc(kc_fixed));printf("\n");
     printf("norm(delta)/norm(xkc)=%g\n",norm(delta)/norm(xkc));
     [Esq,gradEsq]= ...
       schurOneMlatticeEsq(k,epsilon0,p0,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);

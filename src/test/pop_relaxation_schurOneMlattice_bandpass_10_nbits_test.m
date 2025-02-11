@@ -43,13 +43,25 @@ while ~isempty(kc_active)
   % Find the limits of the signed-digit approximations to k and c
   [~,kc_sdu,kc_sdl]=flt2SD(kc,nbits,ndigits_alloc);
   kc_sdul=kc_sdu-kc_sdl;
+
+  % Sanity check on kc_sdul
+  [~,n_kc_sdul_0]=find(kc_sdul(kc_active)==0);
+  if ~isempty(n_kc_sdul_0)
+    kc_active(n_kc_sdul_0) = [];
+    if isempty(kc_active)
+      break;
+    else
+      continue;
+    endif
+  endif
+
   if use_fix_coefficient_difference_greater_than_alpha
     % Lu suggests fixing the coefficients for which alpha>alpha_min
     alpha=abs((2*kc)-kc_sdu-kc_sdl);
     alpha=alpha(kc_active)./kc_sdul(kc_active);
     kc_fixed=find(alpha>alpha_min);
     if isempty(kc_fixed)
-      kc_fixed=1:length(kc_active);
+      [~,kc_fixed]=max(kc_sdul(kc_active));
     endif
     printf("kc_fixed=[ ");printf("%d ",kc_fixed(:)');printf(" ]\n");
   else 
