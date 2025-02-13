@@ -12966,7 +12966,7 @@ optimisation.
 \label{fig:Schur-OneM-lattice-pipelined-correction-lowpass-differentiator-SOCP-PCLS-pz}
 \end{figure}
 
-\subsubsection{Design of a low-pass differentiator filter with an IIR Schur one-multiplier lattice correction filter with R=2 using SOCP}
+\subsubsection{\label{sec:SOCP-Schur-OneM-R2-lowpass-differentiator}Design of a low-pass differentiator filter with an IIR Schur one-multiplier lattice correction filter with R=2 using SOCP}
 The Octave script
 \emph{schurOneMlattice\_socp\_slb\_lowpass\_differentiator\_R2\_test.m}
 designs a low-pass differentiator filter consisting of a Schur
@@ -19929,233 +19929,6 @@ additions.
 \label{tab:socp-relax-direct-FIR-hilbert-12-nbits-cost}
 \end{table}
 \clearpage
-\section{\label{sec:POP-relaxation-search-signed-digit-coefficients-bandpass}POP relaxation search for the signed-digit coefficients of a one-multiplier lattice bandpass filter}
-\emph{Lu}~\cite{Lu_DigitalFilterGlobalPolynomialOptimization} and \emph{Lu} and 
-\emph{Hinamoto}~\cite{LuHinamoto_FIRDiscreteCoefficientsPolynomialProgramming} 
-point out that the integer programming optimisation of the truncated filter 
-coefficients shown in 
-Equation~\ref{eqn:integer-programming-coefficient-truncation} can be rewritten 
-as a \emph{polynomial optimisation problem} (POP) in SOCP form as:
-\begin{align*}
-\textbf{minimise}\quad&
-\mathcal{E}\left(\boldsymbol{x_{k}}\right)+
-\nabla_{x}\mathcal{E}\left(\boldsymbol{x_{k}}\right)^{\top}\Delta\boldsymbol{x}+
-\frac{1}{2}\Delta\boldsymbol{x}^{\top}
-\nabla^{2}_{x}\mathcal{E}\left(\boldsymbol{x_{k}}\right)\Delta\boldsymbol{x} \\
-\textbf{subject to}\quad&
-\left(\boldsymbol{x_{k}}+\Delta\boldsymbol{x}-\boldsymbol{x}_{u}\right)^{\top}
-\left(\boldsymbol{x_{k}}+\Delta\boldsymbol{x}-\boldsymbol{x}_{l}\right)
-=\boldsymbol{0}
-\end{align*}
-where $\Delta\boldsymbol{x}$ is the coefficient update vector, $\mathcal{E}$ 
-is the weighted response error at $\boldsymbol{x_{k}}$ and $\boldsymbol{x}_{u}$
-and $\boldsymbol{x}_{l}$ are the upper and lower bounds on the truncated 
-coefficients, $\boldsymbol{x_{k}}+\Delta\boldsymbol{x}$. 
-
-\emph{Lasserre}~\cite{Lasserre_GlobalOptimizationPolynomialsMoments} and 
-\emph{Waki et al.}~\cite{Waki_SumsSquaresSDPRelaxationsPolynomialOptSparsity}
-show that polynomial optimisation can be reduced to the solution of ``an often 
-finite sequence of convex linear matrix inequality problems''. 
-\emph{Waki et al.} have written \emph{SparsePOP}~\cite{SparsePOP}, a ``Matlab 
-implementation of sparse semidefinite programming (SDP) relaxation for 
-polynomial optimization problems''. SparsePOP runs under Octave with minor 
-modifications. SparsePOP converts the POP problem to a larger SOCP problem that
-is solved by SeDuMi.
-
-The Octave script
-\emph{pop\_relaxation\_schurOneMlattice\_bandpass\_10\_nbits\_test.m}
-performs SparsePOP optimisation of the truncated coefficients of the SQP
-optimised band-pass Schur one-multiplier lattice filter described in
-Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP}. The
-filter specification is:
-\begin{small}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_spec.m}
-\end{small} 
-
-The filter coefficients are truncated to $10$ bits and an average of $3$
-signed-digits allocated by the heuristic of \emph{Ito et al.}. At each
-coefficient relaxation step the script finds the upper and lower signed-digit
-approximations to the current set of active coefficients, selects those
-coefficients for which the floating-point values are are closer than a threshold
-value to those
-bounds~\cite[Section II.C]{Lu_FIRDiscreteCoefficientsConvexRelaxation}. The
-Octave function \emph{schurOneMlattice\_pop\_socp\_mmse.m} calls \emph{SparsePOP}
-with a second order polynomial equality constraint requiring that the previously
-selected coefficients be equal to the corresponding signed-digit coefficient
-upper or lower bound. The remaining active coefficients are allowed to vary
-within the corresponding initial upper and lower bounds.
-
-The Schur lattice filter coefficients found by the SparsePOP relaxation search
-are:
-\begin{small}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_k_min_coef.m}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_c_min_coef.m}
-\end{small}
-
-Table~\ref{tab:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-cost-summary}
-compares the cost, the number of signed-digits and the number of $10$ bit
-shift-and-add operations required to implement the coefficient multiplications.
-Figure~\ref{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-pass-response}
-compares the pass-band responses of the filter with floating-point coefficients
-and with $10$ bit $3$ signed-digit coefficients optimised with POP-relaxation
-search. Similarly,
-Figure~\ref{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-stop-response}
-shows the filter stop-band response and
-Figure~\ref{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-delay-response}
-shows the filter pass-band group delay response.
-
-\begin{table}[htbp]
-\centering
-\begin{threeparttable}
-\begin{tabular}{lccc}  \\ \toprule
-& Cost&Signed-digits&Shift-and-adds\\ \midrule
-\input{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_cost.tab}
-\\ \bottomrule
-\end{tabular}
-\end{threeparttable}
-\caption[Summary of cost results for the Schur one-multiplier lattice bandpass
-filter POP-relaxation example with 10-bit 3 signed digit coefficients]
-{Comparison of the cost and number of 10 bit shift-and-add operations required
-  to implement the coefficient multiplications for a Schur one-multiplier
-  lattice bandpass filter with 10 bit 3 signed-digit integer coefficients.}
-\label{tab:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-cost-summary}
-\end{table}
-
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_pass}}
-\caption{Comparison of the pass-band amplitude responses for a Schur
-  one-multiplier lattice bandpass filter with 10 bit 3 signed-digit coefficients
-  optimised with POP-relaxation search.}
-\label{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-pass-response}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_stop}}
-\caption{Comparison of the stop-band amplitude responses for a Schur
-  one-multiplier lattice bandpass filter with 10 bit 3 signed-digit coefficients
-  optimised with POP-relaxation search.}
-\label{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-stop-response}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_delay}}
-\caption{Comparison of the pass-band group delay responses for a Schur
-  one-multiplier lattice bandpass filter with 10 bit 3 signed-digit coefficients
-  optimised with POP-relaxation search.}
-\label{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-delay-response}
-\end{figure}
-\clearpage
-\section{\label{sec:POP-relaxation-search-signed-digit-coefficients-bandpass-hilbert}POP relaxation search for the signed-digit coefficients of a one-multiplier lattice bandpass Hilbert filter}
-Similarly to 
-Section~\ref{sec:POP-relaxation-search-signed-digit-coefficients-bandpass},
-the Octave script
-\emph{pop\_relaxation\_schurOneMlattice\_bandpass\_hilbert\_13\_nbits\_test.m}
-performs SparsePOP optimisation of the truncated coefficients of the SOCP
-optimised band-pass Hilbert Schur one-multiplier lattice filter described in
-Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-hilbert-SOCP}.
-The filter specification is:
-\begin{small}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_spec.m}
-\end{small} 
-
-The filter coefficients are truncated to $13$ bits and an average of $4$
-signed-digits allocated by the heuristic of \emph{Ito et al.}. At each
-coefficient relaxation
-step the script finds the upper and lower signed-digit approximations to the
-current set of active coefficients, selects those coefficients for which the
-floating-point values are are closer than a threshold value to those
-bounds~\cite[Section II.C]{Lu_FIRDiscreteCoefficientsConvexRelaxation}. The
-Octave function \emph{schurOneMlattice\_pop\_socp\_mmse.m} calls \emph{SparsePOP}
-with a second order polynomial equality constraint requiring that the previously
-selected coefficients be equal to the corresponding signed-digit coefficient
-upper or lower bound. The remaining active coefficients are allowed to vary
-within the corresponding initial upper and lower bounds.
-
-The signed-digits allocated by the heuristic of \emph{Ito et al.} are:
-\begin{small}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_k_allocsd_digits.m}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_c_allocsd_digits.m}
-\end{small}
-
-The Schur lattice filter coefficients found by the SparsePOP relaxation search
-are:
-\begin{small}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_k_sd_min_coef.m}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_c_sd_min_coef.m}
-\end{small}
-
-The corresponding transfer function polynomial coefficients are:
-\begin{small}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_N_sd_min_coef.m}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_D_sd_min_coef.m}
-\end{small}
-
-Table~\ref{tab:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-cost}
-compares the cost, the number of signed-digits and the number of $13$ bit
-shift-and-add operations required to implement the coefficient multiplications.
-Figure~\ref{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-pass}
-compares the pass-band responses of the filter with floating-point coefficients
-and with $13$ bit $4$ signed-digit coefficients optimised with POP-relaxation
-search. Similarly,
-Figure~\ref{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-stop}
-shows the filter stop-band amplitude response,
-Figure~\ref{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-phase}
-shows the filter pass-band phase response and
-Figure~\ref{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-delay}
-shows the filter pass-band group delay response.
-
-\begin{table}[htbp]
-\centering
-\begin{threeparttable}
-\begin{tabular}{lcccc}  \\ \toprule
-& Cost&Stop-band response(dB) & Signed-digits & Shift-and-adds\\ \midrule
-\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_cost.tab}
-\\ \bottomrule
-\end{tabular}
-\end{threeparttable}
-\caption[Summary of cost results for the Schur one-multiplier lattice bandpass
-Hilbert filter POP-relaxation example with 13-bit 4 signed digit coefficients]
-{Comparison of the cost and number of 13 bit shift-and-add operations required
-  to implement the coefficient multiplications for a Schur one-multiplier
-  lattice bandpass Hilbert filter with 13 bit 4 signed-digit integer
-  coefficients.}
-\label{tab:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-cost}
-\end{table}
-
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_pass}}
-\caption{Comparison of the pass-band amplitude responses for a Schur
-  one-multiplier lattice bandpass filter with 13 bit 4 signed-digit coefficients
-  optimised with POP-relaxation search.}
-\label{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-pass}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_stop}}
-\caption{Comparison of the stop-band amplitude responses for a Schur
-  one-multiplier lattice bandpass Hilbert filter with 13 bit 4 signed-digit
-  coefficients optimised with POP-relaxation search.}
-\label{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-stop}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_phase}}
-\caption{Comparison of the pass-band phase responses for a Schur
-  one-multiplier lattice bandpass Hilbert filter with 13 bit 4 signed-digit
-  coefficients optimised with POP-relaxation search.}
-\label{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-phase}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_delay}}
-\caption{Comparison of the pass-band group delay responses for a Schur
-  one-multiplier lattice bandpass Hilbert filter with 13 bit 4 signed-digit
-  coefficients optimised with POP-relaxation search.}
-\label{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-delay}
-\end{figure}
-\clearpage
 \section{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-bandpass-lattice-FIR}SOCP-relaxation search for the signed-digit coefficients of a lattice FIR filter}
 The Gaussian function in the continuous angular frequency domain is:
 \begin{align*}
@@ -20308,7 +20081,401 @@ compares the group delay responses in the ``pass-band'' (up to \emph{dBas}).
   of 3-signed-digits per coefficient optimised by SOCP-relaxation.}
 \label{fig:socp-relaxation-gaussian-FIR-lattice-16-nbits-min-delay-response}
 \end{figure}
+\clearpage
 
+\chapter{\label{sec:POP-search-for-integer-signed-digit-filter-coefficients}POP programming search for integer and signed-digit filter coefficients}
+\emph{Lu}~\cite{Lu_DigitalFilterGlobalPolynomialOptimization} and \emph{Lu} and 
+\emph{Hinamoto}~\cite{LuHinamoto_FIRDiscreteCoefficientsPolynomialProgramming} 
+point out that the integer programming optimisation of the truncated filter 
+coefficients shown in 
+Equation~\ref{eqn:integer-programming-coefficient-truncation} can be rewritten 
+as a \emph{polynomial optimisation problem} (POP) in SOCP form as:
+\begin{align*}
+\textbf{minimise}\quad&
+\mathcal{E}\left(\boldsymbol{x_{k}}\right)+
+\nabla_{x}\mathcal{E}\left(\boldsymbol{x_{k}}\right)^{\top}\Delta\boldsymbol{x}+
+\frac{1}{2}\Delta\boldsymbol{x}^{\top}
+\nabla^{2}_{x}\mathcal{E}\left(\boldsymbol{x_{k}}\right)\Delta\boldsymbol{x} \\
+\textbf{subject to}\quad&
+\left(\boldsymbol{x_{k}}+\Delta\boldsymbol{x}-\boldsymbol{x}_{u}\right)^{\top}
+\left(\boldsymbol{x_{k}}+\Delta\boldsymbol{x}-\boldsymbol{x}_{l}\right)
+=\boldsymbol{0}
+\end{align*}
+where $\Delta\boldsymbol{x}$ is the coefficient update vector, $\mathcal{E}$ 
+is the weighted response error at $\boldsymbol{x_{k}}$ and $\boldsymbol{x}_{u}$
+and $\boldsymbol{x}_{l}$ are the upper and lower bounds on the truncated 
+coefficients, $\boldsymbol{x_{k}}+\Delta\boldsymbol{x}$. 
+
+\emph{Lasserre}~\cite{Lasserre_GlobalOptimizationPolynomialsMoments} and 
+\emph{Waki et al.}~\cite{Waki_SumsSquaresSDPRelaxationsPolynomialOptSparsity}
+show that polynomial optimisation can be reduced to the solution of ``an often 
+finite sequence of convex linear matrix inequality problems''. 
+\emph{Waki et al.} have written \emph{SparsePOP}~\cite{SparsePOP}, a ``Matlab 
+implementation of sparse semidefinite programming (SDP) relaxation for 
+polynomial optimization problems''. SparsePOP runs under Octave with minor 
+modifications. SparsePOP converts the POP problem to a larger SOCP problem that
+is solved by SeDuMi.
+
+\section{\label{sec:POP-relaxation-search-signed-digit-coefficients-bandpass}POP relaxation search for the signed-digit coefficients of a one-multiplier lattice bandpass filter}
+The Octave script
+\emph{pop\_relaxation\_schurOneMlattice\_bandpass\_10\_nbits\_test.m}
+performs SparsePOP optimisation of the truncated coefficients of the SQP
+optimised band-pass Schur one-multiplier lattice filter described in
+Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SQP}. The
+filter specification is:
+\begin{small}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_spec.m}
+\end{small} 
+
+The filter coefficients are truncated to $10$ bits and an average of $3$
+signed-digits allocated by the heuristic of \emph{Ito et al.}. At each
+coefficient relaxation step the script finds the upper and lower signed-digit
+approximations to the current set of active coefficients, selects those
+coefficients for which the floating-point values are are closer than a threshold
+value to those
+bounds~\cite[Section II.C]{Lu_FIRDiscreteCoefficientsConvexRelaxation}. The
+Octave function \emph{schurOneMlattice\_pop\_socp\_mmse.m} calls \emph{SparsePOP}
+with a second order polynomial equality constraint requiring that the previously
+selected coefficients be equal to the corresponding signed-digit coefficient
+upper or lower bound. The remaining active coefficients are allowed to vary
+within the corresponding initial upper and lower bounds.
+
+The Schur lattice filter coefficients found by the SparsePOP relaxation search
+are:
+\begin{small}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_k_min_coef.m}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_c_min_coef.m}
+\end{small}
+
+Table~\ref{tab:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-cost-summary}
+compares the cost, the number of signed-digits and the number of $10$ bit
+shift-and-add operations required to implement the coefficient multiplications.
+Figure~\ref{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-pass-response}
+compares the pass-band responses of the filter with floating-point coefficients
+and with $10$ bit $3$ signed-digit coefficients optimised with POP-relaxation
+search. Similarly,
+Figure~\ref{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-stop-response}
+shows the filter stop-band response and
+Figure~\ref{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-delay-response}
+shows the filter pass-band group delay response.
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lccc}  \\ \toprule
+& Cost&Signed-digits&Shift-and-adds\\ \midrule
+\input{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the Schur one-multiplier lattice bandpass
+filter POP-relaxation example with 10-bit 3 signed digit coefficients]
+{Comparison of the cost and number of 10 bit shift-and-add operations required
+  to implement the coefficient multiplications for a Schur one-multiplier
+  lattice bandpass filter with 10 bit 3 signed-digit integer coefficients.}
+\label{tab:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-cost-summary}
+\end{table}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_pass}}
+\caption{Comparison of the pass-band amplitude responses for a Schur
+  one-multiplier lattice bandpass filter with 10 bit 3 signed-digit coefficients
+  optimised with POP-relaxation search.}
+\label{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-pass-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_stop}}
+\caption{Comparison of the stop-band amplitude responses for a Schur
+  one-multiplier lattice bandpass filter with 10 bit 3 signed-digit coefficients
+  optimised with POP-relaxation search.}
+\label{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-stop-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_10_nbits_test_delay}}
+\caption{Comparison of the pass-band group delay responses for a Schur
+  one-multiplier lattice bandpass filter with 10 bit 3 signed-digit coefficients
+  optimised with POP-relaxation search.}
+\label{fig:pop-relax-bandpass-OneM-lattice-SparsePOP-10-nbits-delay-response}
+\end{figure}
+\clearpage
+\section{\label{sec:POP-relaxation-search-signed-digit-coefficients-bandpass-hilbert}POP relaxation search for the signed-digit coefficients of a one-multiplier lattice bandpass Hilbert filter}
+The Octave script
+\emph{pop\_relaxation\_schurOneMlattice\_bandpass\_hilbert\_13\_nbits\_test.m}
+performs SparsePOP optimisation of the truncated coefficients of the SOCP
+optimised band-pass Hilbert Schur one-multiplier lattice filter described in
+Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-hilbert-SOCP}.
+The filter specification is:
+\begin{small}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_spec.m}
+\end{small} 
+
+The filter coefficients are truncated to $13$ bits and an average of $4$
+signed-digits allocated by the heuristic of \emph{Ito et al.}. At each
+coefficient relaxation
+step the script finds the upper and lower signed-digit approximations to the
+current set of active coefficients, selects those coefficients for which the
+floating-point values are are closer than a threshold value to those
+bounds~\cite[Section II.C]{Lu_FIRDiscreteCoefficientsConvexRelaxation}. The
+Octave function \emph{schurOneMlattice\_pop\_socp\_mmse.m} calls \emph{SparsePOP}
+with a second order polynomial equality constraint requiring that the previously
+selected coefficients be equal to the corresponding signed-digit coefficient
+upper or lower bound. The remaining active coefficients are allowed to vary
+within the corresponding initial upper and lower bounds.
+
+The signed-digits allocated by the heuristic of \emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_k_allocsd_digits.m}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_c_allocsd_digits.m}
+\end{small}
+
+The Schur lattice filter coefficients found by the SparsePOP relaxation search
+are:
+\begin{small}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_k_sd_min_coef.m}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_c_sd_min_coef.m}
+\end{small}
+
+The corresponding transfer function polynomial coefficients are:
+\begin{small}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_N_sd_min_coef.m}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_D_sd_min_coef.m}
+\end{small}
+
+Table~\ref{tab:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-cost}
+compares the cost, the number of signed-digits and the number of $13$ bit
+shift-and-add operations required to implement the coefficient multiplications.
+Figure~\ref{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-pass}
+compares the pass-band responses of the filter with floating-point coefficients
+and with $13$ bit $4$ signed-digit coefficients optimised with POP-relaxation
+search. Similarly,
+Figure~\ref{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-stop}
+shows the filter stop-band amplitude response,
+Figure~\ref{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-phase}
+shows the filter pass-band phase response and
+Figure~\ref{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-delay}
+shows the filter pass-band group delay response.
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lcccc}  \\ \toprule
+& Cost&Stop-band response(dB) & Signed-digits & Shift-and-adds\\ \midrule
+\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the Schur one-multiplier lattice bandpass
+Hilbert filter POP-relaxation example with 13-bit 4 signed digit coefficients]
+{Comparison of the cost and number of 13 bit shift-and-add operations required
+  to implement the coefficient multiplications for a Schur one-multiplier
+  lattice bandpass Hilbert filter with 13 bit 4 signed-digit integer
+  coefficients.}
+\label{tab:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-cost}
+\end{table}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_pass}}
+\caption{Comparison of the pass-band amplitude responses for a Schur
+  one-multiplier lattice bandpass filter with 13 bit 4 signed-digit coefficients
+  optimised with POP-relaxation search.}
+\label{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-pass}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_stop}}
+\caption{Comparison of the stop-band amplitude responses for a Schur
+  one-multiplier lattice bandpass Hilbert filter with 13 bit 4 signed-digit
+  coefficients optimised with POP-relaxation search.}
+\label{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-stop}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_phase}}
+\caption{Comparison of the pass-band phase responses for a Schur
+  one-multiplier lattice bandpass Hilbert filter with 13 bit 4 signed-digit
+  coefficients optimised with POP-relaxation search.}
+\label{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-phase}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test_delay}}
+\caption{Comparison of the pass-band group delay responses for a Schur
+  one-multiplier lattice bandpass Hilbert filter with 13 bit 4 signed-digit
+  coefficients optimised with POP-relaxation search.}
+\label{fig:pop-relax-bandpass-hilbert-OneM-lattice-13-nbits-delay}
+\end{figure}
+\clearpage
+\section{\label{sec:POP-relaxation-search-signed-digit-coefficients-R2-lowpass-differentiator}POP-relaxation search for the signed-digit
+  coefficients of a one-multiplier lattice R=2 low-pass differentiator IIR
+  filter}
+The Octave script 
+\emph{pop\_relaxation\_schurOneMlattice\_lowpass\_differentiator\_R2\_12\_nbits\_test.m}
+performs successive POP relaxations to optimise the response of an
+implementation of the low-pass differentiator filter shown in
+Section~\ref{sec:SOCP-Schur-OneM-R2-lowpass-differentiator} as the series
+combination of $1-z^{-1}$ and a Schur one-multiplier lattice correction filter
+having denominator polynomial coefficients only in $z^{-2}$ with $12$-bit
+coefficients each having an average of $3$ signed-digits allocated by the
+heuristic of \emph{Ito et al.} and found by POP-relaxation search.
+The filter specification is:  
+\begin{small}
+\verbatiminput{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_spec.m}
+\end{small} 
+The filter coefficients are truncated to $12$ bits allocated with an average
+of $3$ signed-digits allocated by the heuristic of \emph{Ito et al.} as shown in
+Section~\ref{sec:Ito-allocation-signed-digits}.
+At each coefficient relaxation step the script finds the upper and lower
+signed-digit approximations to the current set of active coefficients, selects
+those coefficients for which the floating-point values are are closer than a
+threshold value to those
+bounds~\cite[Section II.C]{Lu_FIRDiscreteCoefficientsConvexRelaxation}. The
+Octave function \emph{schurOneMlattice\_slb} performs PCLS optimisation. The
+Octave function \emph{schurOneMlattice\_pop\_socp\_mmse.m} calls \emph{SparsePOP}
+with a second order polynomial equality constraint requiring that the previously
+selected coefficients be equal to the corresponding signed-digit coefficient
+upper or lower bound. The remaining active coefficients are allowed to vary
+within the corresponding initial upper and lower bounds.
+
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_k_allocsd_digits.m}
+\verbatiminput{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c_allocsd_digits.m}
+\end{small}
+\begin{comment}
+The signed-digit filter coefficients of the Schur one-multiplier lattice
+correction filter with the number of digits allocated by the algorithm of
+\emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_k0_sd_Ito_coef.m}
+\verbatiminput{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c0_sd_Ito_coef.m}
+\end{small}
+\end{comment}
+The signed-digit filter coefficients of the Schur one-multiplier lattice
+correction filter found by the POP-relaxation search are:
+\begin{small}
+\verbatiminput{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_k_sd_min_coef.m}
+\verbatiminput{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c_sd_min_coef.m}
+\end{small}
+The corresponding coefficients of the correction filter transfer function
+polynomials are:
+\begin{small}
+\verbatiminput{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_N_sd_min_coef.m}
+\verbatiminput{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_D_sd_min_coef.m}
+\end{small}
+
+Figure~\ref{fig:pop-relax-schurOneMlattice-lowpass-diff-R2-12-nbits-pass-error}
+shows the pass-band amplitude error compared to a desired response of
+$\frac{\omega}{2}$) for exact coefficients, $12$-bit $3$-signed-digit
+coefficients, coefficient with an average of $12$-bit $3$-signed-digits
+allocated with the heuristic of \emph{Ito et al.} and coefficients found
+by POP-relaxation search.
+Similarly,
+Figure~\ref{fig:pop-relax-schurOneMlattice-lowpass-diff-R2-12-nbits-stop}
+shows the stop-band amplitude response, 
+Figure~\ref{fig:pop-relax-schurOneMlattice-lowpass-diff-R2-12-nbits-phase}
+shows the pass-band phase response, adjusted for the nominal delay, and
+Figure~\ref{fig:pop-relax-schurOneMlattice-lowpass-diff-R2-12-nbits-delay}
+shows the pass-band group delay response of the low-pass differentiator filter.
+Figure~\ref{fig:pop-relax-schurOneMlattice-lowpass-diff-R2-12-nbits-corr}
+shows the pass-band amplitude error of the correction filter.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_pass_error}}
+\caption{Plot of the pass-band amplitude error response of a Schur
+  one-multiplier lattice lowpass differentiator filter, having denominator
+  polynomial coefficients only in $z^{-2}$, with $12$-bit integer coefficients
+  found by allocating an average of $3$-signed-digits to each coefficient using
+  the heuristic of \emph{Ito et al.} and performing POP-relaxation search.} 
+\label{fig:pop-relax-schurOneMlattice-lowpass-diff-R2-12-nbits-pass-error}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_stop}}
+\caption{Plot of the stop-band amplitude response of a Schur
+  one-multiplier lattice lowpass differentiator filter, having denominator
+  polynomial coefficients only in $z^{-2}$, with $12$-bit integer coefficients
+  found by allocating an average of $3$-signed-digits to each coefficient using
+  the heuristic of \emph{Ito et al.} and performing POP-relaxation search.} 
+\label{fig:pop-relax-schurOneMlattice-lowpass-diff-R2-12-nbits-stop}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_phase}}
+\caption{Plot of the pass-band phase response of a Schur
+  one-multiplier lattice lowpass differentiator filter, having denominator
+  polynomial coefficients only in $z^{-2}$, with $12$-bit signed-digit
+  coefficients found by allocating an average of $3$-signed-digits to each
+  coefficient using the heuristic of \emph{Ito et al.} and performing
+  POP-relaxation search. The phase response shown is adjusted for the nominal
+  delay.} 
+\label{fig:pop-relax-schurOneMlattice-lowpass-diff-R2-12-nbits-phase}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_delay}}
+\caption{Plot of the pass-band delay response of a Schur
+  one-multiplier lattice lowpass differentiator filter, having denominator
+  polynomial coefficients only in $z^{-2}$, with $12$-bit integer coefficients
+  found by allocating an average of $3$-signed-digits to each coefficient using
+  the heuristic of \emph{Ito et al.} and performing POP-relaxation search.} 
+\label{fig:pop-relax-schurOneMlattice-lowpass-diff-R2-12-nbits-delay}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_correction_pass}}
+\caption{Error in the pass-band squared-amplitude response of the
+  correction filter of a Schur one-multiplier lattice low-pass differentiator
+  filter with $12$ bit, $3$ signed-digit coefficients and denominator polynomial
+  terms only in $z^{-2}$ found by performing POP-relaxation search.}
+\label{fig:pop-relax-schurOneMlattice-lowpass-diff-R2-12-nbits-corr}
+\end{figure}
+
+Figure~\ref{fig:pop-relax-schurOneMlattice-lowpass-diff-R2-12-nbits-pz}
+shows the pole-zero plot of the correction filter with coefficients found by
+POP-relaxation search.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_pz}}
+\caption{Pole-zero plot of the Schur one-multiplier lattice low-pass
+  differentiator filter having denominator polynomial terms only in $z^{-2}$
+  with $12$ bit, $3$ signed-digit coefficients found by performing
+  POP-relaxation search.}
+\label{fig:pop-relax-schurOneMlattice-lowpass-diff-R2-12-nbits-pz}
+\end{figure}
+
+Table~\ref{tab:pop-relax-schurOneMlattice-lowpass-diff-R2-12-nbits-cost}
+compares the cost, the maximum stop-band response, the number of signed-digits
+and the number of $12$-bit shift-and-add operations required to implement the
+coefficient multiplications.
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lcccc}  \\ \toprule
+& Cost & Stop-band response(dB) &Signed-digits&Shift-and-adds\\ \midrule
+\input{pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the $R=2$ Schur one-multiplier lattice 
+lowpass differentiator filter POP-relaxation example with $12$-bit coefficients]
+{Comparison of the cost and number of 12-bit shift-and-add operations required 
+  to implement the coefficient multiplications for a Schur one-multiplier
+  lattice low-pass differentiator correction filter having denominator
+  polynomial coefficients only in $z^{-2}$, with $12$-bit integer
+  coefficients found by allocating an average of $3$-signed-digits to each
+  coefficient using the heuristic of \emph{Ito et al.} and performing
+  POP-relaxation search.}
+\label{tab:pop-relax-schurOneMlattice-lowpass-diff-R2-12-nbits-cost}
+\end{table}
+\clearpage
 \chapter{\label{sec:Semi-definite-programming-search-for-integer-signed-digit-filter-coefficients}Semi-definite programming search for integer and signed-digit filter coefficients}
 This section follows the method introduced by
 \emph{Lu}~\cite{Lu_FIRDiscreteCoefficientsSemidefiniteRelaxation} and

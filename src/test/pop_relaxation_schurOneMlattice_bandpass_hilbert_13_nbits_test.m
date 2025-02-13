@@ -1,8 +1,8 @@
 % pop_relaxation_schurOneMlattice_bandpass_hilbert_13_nbits_test.m
 % Copyright (C) 2025 Robert G. Jenssen
 
-% POP relaxation optimisation of a Schur parallel one-multiplier allpass
-% lattice bandpass hilbert filter with 13-bit signed-digit coefficients having
+% POP relaxation optimisation of a Schur one-multiplier tapped allpass
+% lattice bandpass Hilbert filter with 13-bit signed-digit coefficients having
 % an average of 4 signed-digits
 
 test_common;
@@ -32,7 +32,7 @@ alpha_min=0.5
 rho=0.999 
 
 %
-% Band-pass filter specification for parallel all-pass filters
+% Band-pass Hilbert filter specification
 %
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25
 dBap=0.18,dBas=33,Wap=1,Watl=1e-3,Watu=1e-3,Wasl=2,Wasu=2
@@ -409,7 +409,7 @@ axis([0 0.5 -40 -30]);
 strt=sprintf("Parallel allpass lattice bandpass Hilbert filter stop-band : \
 nbits=%d,ndigits=%d,fasl=%g,fasu=%g",nbits,ndigits,fasl,fasu);
 title(strt);
-legend("initial","s-d","s-d(Ito)","s-d(POP min.)");
+legend("Exact","s-d","s-d(Ito)","s-d(POP-relax)");
 legend("location","southeast");
 legend("boxoff");
 legend("left");
@@ -424,11 +424,11 @@ plot(wa*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
      wa*0.5/pi,10*log10(abs(Asq_kc_sd_min)),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), -0.3, 0.1]);
-strt=sprintf("Parallel allpass lattice bandpass Hilbert filter pass-band \
+axis([min([fapl fppl ftpl]), max([fapu fppu ftpu]), -0.3, 0.1]);
+strt=sprintf("Tapped allpass lattice bandpass Hilbert filter pass-band \
 amplitude : nbits=%d,ndigits=%d,fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
 title(strt);
-legend("initial","s-d","s-d(Ito)","s-d(POP min.)");
+legend("Exact","s-d","s-d(Ito)","s-d(POP-relax)");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
@@ -442,12 +442,12 @@ plot(wp*0.5/pi,((P_kc0+(wp*tp))/pi)-pp,"linestyle","-", ...
      wp*0.5/pi,((P_kc0_sd_Ito+(wp*tp))/pi)-pp,"linestyle","--", ...
      wp*0.5/pi,((P_kc_sd_min+(wp*tp))/pi)-pp,"linestyle","-.");
 xlabel("Frequency");
-ylabel("Phase error(rad./$\\pi$)");
-axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), 0.004*[-1,1]]);
-strt=sprintf("Parallel allpass lattice bandpass Hilbert filter pass-band phase :\
+ylabel("Phase(rad./$\\pi$)");
+axis([min([fapl fppl ftpl]), max([fapu fppu fppu]), 0.004*[-1,1]]);
+strt=sprintf("Tapped allpass lattice bandpass Hilbert filter pass-band phase :\
  nbits=%d,ndigits=%d,fppl=%g,fppu=%g",nbits,ndigits,fppl,fppu);
 title(strt);
-legend("initial","s-d","s-d(Ito)","s-d(POP min.)");
+legend("Exact","s-d","s-d(Ito)","s-d(POP-relax)");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
@@ -462,11 +462,11 @@ plot(wt*0.5/pi,T_kc0,"linestyle","-", ...
      wt*0.5/pi,T_kc_sd_min,"linestyle","-.");
 xlabel("Frequency");
 ylabel("Delay(samples)");
-axis([min([fapl ftpl fppl]),max([fapu ftpu ftpu]),(tp+(0.2*[-1,1]))]);
-strt=sprintf("Parallel allpass lattice bandpass Hilbert filter pass-band delay :\
+axis([min([fapl fppl ftpl]),max([fapu fppu ftpu]),(tp+(0.2*[-1,1]))]);
+strt=sprintf("Tapped allpass lattice bandpass Hilbert filter pass-band delay :\
  nbits=%d,ndigits=%d,ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
 title(strt);
-legend("initial","s-d","s-d(Ito)","s-d(POP min.)");
+legend("Exact","s-d","s-d(Ito)","s-d(POP-relax)");
 legend("location","south");
 legend("boxoff");
 legend("left");
@@ -499,7 +499,8 @@ fprintf(fid,"use_schurOneMlattice_allocsd_Ito=%d\n", ...
         use_schurOneMlattice_allocsd_Ito);
 fprintf(fid,"use_fix_coefficient_difference_greater_than_alpha=%d\n", ...
         use_fix_coefficient_difference_greater_than_alpha);
-fprintf(fid,"alpha_num=%g %% Fix at most alpha_num coefficients with POP\n",alpha_num);
+fprintf(fid,"alpha_num=%g %% Fix at most alpha_num coefficients with POP\n", ...
+        alpha_num);
 fprintf(fid,"alpha_min=%g %% Minimum threshold for alpha\n",alpha_min);
 fprintf(fid,"rho=%g %% Upper limit on abs(k)\n",rho);
 fprintf(fid,"n=%d%% Frequency points across the band\n",n);
@@ -525,7 +526,7 @@ fprintf(fid,"Wpp=%g %% Pass band phase response weight\n",Wpp);
 fprintf(fid,"fdpl=%g %% Pass band dAsqdw response lower edge\n",fdpl);
 fprintf(fid,"fdpu=%g %% Pass band dAsqdw response upper edge\n",fdpu);
 fprintf(fid,"dp=%g %% Pass band initial dAsqdw response (rad./pi)\n",dp);
-fprintf(fid,"dpr=%g %% Pass band dAsqdw response ripple(rad./pi)\n",dpr);
+fprintf(fid,"dpr=%g %% Pass band dAsqdw response ripple\n",dpr);
 fprintf(fid,"Wdp=%g %% Pass band dAsqdw response weight\n",Wdp);
 fclose(fid);
 
