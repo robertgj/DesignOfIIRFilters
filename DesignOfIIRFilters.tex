@@ -17053,8 +17053,8 @@ The filter specification is:
 \end{small}
 The filter coefficients are truncated to $10$ bits with an average of $3$
 signed-digits allocated to each coefficient. The number of signed-digits
-allocated to each coefficient is determined by the heuristic of \emph{Ito et
-  al.} as shown in Section~\ref{sec:Ito-allocation-signed-digits}.  The
+allocated to each coefficient is determined by the heuristic of \emph{Lim et
+  al.} as shown in Section~\ref{sec:Lim-allocation-signed-digits}.  The
 average number of non-zero signed-digits per coefficient is close to $2$. The
 tap coefficients are scaled to make full use of the range of integers
 available. I assume that the internal filter state scaling is approximated by
@@ -17068,7 +17068,7 @@ specification given above. For this example the branch-and-bound search
 makes thousands of branches and requires several hours CPU time on my PC.
 
 The numbers of signed digits allocated to each coefficient by the heuristic of
-\emph{Ito et al.} are:
+\emph{Lim et al.} are:
 \begin{small}
 \verbatiminput{branch_bound_schurOneMlattice_bandpass_10_nbits_test_k_allocsd_digits.m}
 \verbatiminput{branch_bound_schurOneMlattice_bandpass_10_nbits_test_c_allocsd_digits.m}
@@ -17083,8 +17083,8 @@ The filter coefficients found by the branch-and-bound search are:
 Figure~\ref{fig:branch-bound-schurOneMlattice-bandpass-10-nbits-pass-response}
 compares the pass-band responses of the filter with floating-point coefficients,
 10-bit signed-digit coefficients allocated with the algorithm of
-\emph{Ito et al.} and 10-bit signed-digits allocated with the algorithm of
-\emph{Ito et al.} and branch-and-bound search.
+\emph{Lim et al.} and 10-bit signed-digits allocated with the algorithm of
+\emph{Lim et al.} and branch-and-bound search.
 Figure~\ref{fig:branch-bound-schurOneMlattice-bandpass-10-nbits-stop-response}
 shows the filter stop-band response and
 Figure~\ref{fig:branch-bound-schurOneMlattice-bandpass-10-nbits-delay-response}
@@ -17092,7 +17092,7 @@ shows the filter pass-band group delay response.
 Table~\ref{tab:branch-bound-schurOneMlattice-bandpass-10-nbits-cost-summary} 
 compares the cost and the number of $10$ bit shift-and-add operations required to
 implement the $31$ coefficient multiplications found by the signed-digit 
-allocation heuristic of \emph{Ito et al.} with the branch-and-bound search. A 
+allocation heuristic of \emph{Lim et al.} with the branch-and-bound search. A 
 further $51$ additions are required by the lattice filter structure. The
 truncation of the last coefficient is, by necessity, not PCLS optimised so the
 final set of coefficients may not meet the PCLS specifications.
@@ -17102,7 +17102,7 @@ final set of coefficients may not meet the PCLS specifications.
 \caption{Comparison of the pass-band amplitude responses for a Schur
   one-multiplier lattice bandpass filter with 10-bit integer coefficients found
   by allocating an average of 3-signed-digits to each coefficient using the
-  heuristic of \emph{Ito et al.} and performing branch-and-bound search.}
+  heuristic of \emph{Lim et al.} and performing branch-and-bound search.}
 \label{fig:branch-bound-schurOneMlattice-bandpass-10-nbits-pass-response}
 \end{figure}
 \begin{figure}
@@ -17111,7 +17111,7 @@ final set of coefficients may not meet the PCLS specifications.
 \caption{Comparison of the stop-band amplitude responses for a Schur
   one-multiplier lattice bandpass filter with 10-bit integer coefficients found
   by allocating an average of 3-signed-digits to each coefficient using the
-  heuristic of \emph{Ito et al.} and performing branch-and-bound search.}
+  heuristic of \emph{Lim et al.} and performing branch-and-bound search.}
 \label{fig:branch-bound-schurOneMlattice-bandpass-10-nbits-stop-response}
 \end{figure}
 \begin{figure}
@@ -17120,7 +17120,7 @@ final set of coefficients may not meet the PCLS specifications.
 \caption{Comparison of the pass-band group delay responses for a Schur
   one-multiplier lattice bandpass filter with 10-bit integer coefficients found
   by allocating an average of 3-signed-digits to each coefficient using the
-  heuristic of \emph{Ito et al.} and performing branch-and-bound search.}
+  heuristic of \emph{Lim et al.} and performing branch-and-bound search.}
 \label{fig:branch-bound-schurOneMlattice-bandpass-10-nbits-delay-response}
 \end{figure}
 
@@ -17138,7 +17138,7 @@ bandpass filter branch-and-bound algorithm example with 10-bit coefficients]
   to implement the coefficient multiplications for a Schur one-multiplier 
   lattice bandpass filter with 10-bit integer coefficients found by allocating 
   an average of 3-signed-digits to each coefficient using the heuristic of 
-  \emph{Ito et al.} and performing branch-and-bound search.}
+  \emph{Lim et al.} and performing branch-and-bound search.}
 \label{tab:branch-bound-schurOneMlattice-bandpass-10-nbits-cost-summary}
 \end{table}
 \clearpage

@@ -2,7 +2,7 @@
 % Copyright (C) 2017-2025 Robert G. Jenssen
 
 % Branch-and-bound search of Schur one-multiplier lattice bandpass filter
-% response with 10-bit signed-digit coefficients and Ito et al. allocation
+% response with 10-bit signed-digit coefficients and Lim et al. allocation
 
 test_common;
 
@@ -27,7 +27,8 @@ verbose=false;
 
 dBass=33
 tpr=0.4
-use_schurOneMlattice_allocsd_Ito=true
+use_schurOneMlattice_allocsd_Ito=false
+use_schurOneMlattice_allocsd_Lim=true
 schurOneMlattice_bandpass_10_nbits_common;
 
 % Scale the rounded c0 to use all the bits 
@@ -81,18 +82,18 @@ c_allocsd_digits=int16(ndigits_alloc((Nk+1):end));
 printf("c_allocsd_digits=[ ");printf("%2d ",c_allocsd_digits);printf("]';\n");
 
 if use_best_branch_and_bound_found
-  k_min = [        0,      344,        0,      256, ... 
-                   0,      184,        0,      212, ... 
-                   0,      156,        0,      128, ... 
-                   0,       80,        0,       52, ... 
-                   0,       19,        0,        7 ]'/nscale;
-  c_min = [       69,      -16,     -304,     -480, ... 
-                -156,      128,      400,      304, ... 
-                  16,      -84,      -80,      -16, ... 
-                  -8,      -33,      -24,        4, ... 
-                  24,       16,        3,        1, ... 
-                   4 ]'/cnscale;
-  branches_min=832;
+  k_min = [        0,      337,        0,      251, ... 
+                   0,      176,        0,      208, ... 
+                   0,      148,        0,      121, ... 
+                   0,       72,        0,       47, ... 
+                   0,       16,        0,        6 ]'/nscale;
+  c_min = [       68,      -20,     -310,     -472, ... 
+                  -152,      129,      392,      290, ... 
+                  14,      -84,      -80,      -14, ... 
+                  -9,      -33,      -24,        4, ... 
+                  24,       16,        4,        1, ... 
+                  4 ]'/cnscale;
+  branches_min=2118;
   kc_min=[k_min(:);c_min(:)*cscale];
   Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p0,c_min,wa,Asqd,Wa,wt,Td,Wt);
   improved_solution_found=true;
@@ -288,7 +289,7 @@ printf("k,c_min:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %6.4f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit(Ito)&%6.4f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Lim)&%6.4f & %d & %d \\\\\n",
         nbits,ndigits,Esq0_sd,kc0_digits,kc0_adders);
 fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%6.4f & %d & %d \\\\\n",
         nbits,ndigits,Esq_min,kc_digits,kc_adders);
@@ -314,7 +315,7 @@ axis([0 0.5 -50 -30]);
 strt=sprintf("Schur one-multiplier lattice bandpass filter stop-band \
 (nbits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,fasl,fasu,dBas);
 title(strt);
-legend("exact","s-d(Ito)","s-d(BandB)");
+legend("exact","s-d(Lim)","s-d(BandB)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -332,7 +333,7 @@ axis([0.1 0.2 -2 1]);
 strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
 (nbits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,fapl,fapu,dBap);
 title(strt);
-legend("exact","s-d(Ito)","s-d(BandB)");
+legend("exact","s-d(Lim)","s-d(BandB)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -350,7 +351,7 @@ axis([0.09 0.21 15.9 16.2]);
 strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
 (nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g",nbits,ftpl,ftpu,tp,tpr);
 title(strt);
-legend("exact","s-d(Ito)","s-d(BandB)");
+legend("exact","s-d(Lim)","s-d(BandB)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -361,14 +362,20 @@ close
 % Filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
-fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
+fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n", ...
+        ndigits);
+fprintf(fid,"use_schurOneMlattice_allocsd_Lim=%d\n", ...
+        use_schurOneMlattice_allocsd_Lim)
+fprintf(fid,"use_schurOneMlattice_allocsd_Ito=%d\n", ...
+        use_schurOneMlattice_allocsd_Ito)
 fprintf(fid,"ftol=%g %% Tolerance on coefficient update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"maxiter=%d %% SQP iteration limit\n",maxiter);
 fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
 fprintf(fid,"%% length(c0)=%d %% Num. tap coefficients\n",length(c0));
 fprintf(fid,"%% sum(k0~=0)=%d %% Num. non-zero all-pass coef.s\n",sum(k0~=0));
-fprintf(fid,"dmax=%f %% Constraint on norm of coefficient SQP step size\n",dmax);
+fprintf(fid,"dmax=%f %% Constraint on norm of coefficient SQP step size\n", ...
+        dmax);
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
@@ -389,6 +396,8 @@ fclose(fid);
 % Save results
 eval(sprintf("save %s.mat \
 use_best_branch_and_bound_found \
+use_schurOneMlattice_allocsd_Ito \
+use_schurOneMlattice_allocsd_Lim \
 k0 epsilon0 p0 c0 ftol ctol nbits ndigits ndigits_alloc npoints cscale \
 fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp \
 improved_solution_found k_min c_min",strf));

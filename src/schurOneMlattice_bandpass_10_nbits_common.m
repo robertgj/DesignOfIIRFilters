@@ -126,12 +126,13 @@ kc0_l=-kc0_u;
 % Allocate digits
 if (exist('use_schurOneMlattice_allocsd_Lim','var')==1) && ...
    (use_schurOneMlattice_allocsd_Lim == true)
-  printf("Using schurOneMlattice_allocsd_Lim()");
+  printf("Using schurOneMlattice_allocsd_Lim()\n");
   ndigits_alloc=schurOneMlattice_allocsd_Lim(nbits,ndigits,k0,epsilon0,p0,c0, ...
-                                             wa,Asqd,Wa,wt,Td,Wt);
+                                             wa,Asqd,ones(size(wa)), ...
+                                             wt,Td,ones(size(wt)));
 elseif (exist('use_schurOneMlattice_allocsd_Ito','var')==1) && ...
        (use_schurOneMlattice_allocsd_Ito == true)
-  printf("Using schurOneMlattice_allocsd_Ito()");
+  printf("Using schurOneMlattice_allocsd_Ito()\n");
   ndigits_alloc=schurOneMlattice_allocsd_Ito(nbits,ndigits,k0,epsilon0,p0,c0, ...
                                              wa,Asqd,Wa,wt,Td,Wt);
 else

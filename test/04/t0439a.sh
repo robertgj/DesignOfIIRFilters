@@ -75,8 +75,8 @@ Exact & 1.0852\\
 8-bit rounded with bit-flipping & 1.6756\\
 8-bit 2-signed-digit & 8.2926 \\ 
 8-bit 2-signed-digit with bit-flipping & 6.3880\\
-8-bit 2-signed-digit(Lim alloc.) &    Inf\\
-8-bit 2-signed-digit(Lim alloc.) with bit-flipping & 16.2185\\
+8-bit 2-signed-digit(Lim alloc.) & 17.5044\\
+8-bit 2-signed-digit(Lim alloc.) with bit-flipping & 7.8376\\
 8-bit 2-signed-digit(Ito alloc.) & 4.4997\\
 8-bit 2-signed-digit(Ito alloc.) with bit-flipping & 4.4997\\
 EOF
@@ -89,13 +89,15 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_A1k_bf.ok bitflip_schurOneMPAlattice_bandpass_test_A1k_bf_coef.m
+nstr="bitflip_schurOneMPAlattice_bandpass_test";
+
+diff -Bb test_A1k_bf.ok $nstr"_A1k_bf_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k_bf.ok"; fail; fi
 
-diff -Bb test_A2k_bf.ok bitflip_schurOneMPAlattice_bandpass_test_A2k_bf_coef.m
+diff -Bb test_A2k_bf.ok $nstr"_A2k_bf_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k_bf.ok"; fail; fi
 
-diff -Bb test_cost.ok bitflip_schurOneMPAlattice_bandpass_test_cost.tab
+diff -Bb test_cost.ok $nstr"_cost.tab"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_cost.ok"; fail; fi
 
 #
