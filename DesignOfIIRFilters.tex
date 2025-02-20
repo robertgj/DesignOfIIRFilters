@@ -20822,7 +20822,7 @@ and by SDP optimisation with triangle inequalities are:
 The corresponding FIR filter is:
 \begin{small}
 \begin{verbatim}
-h=[-flipud(kron(hM1_sd_sdp,[1;0]));0;kron(hM1_sd_sdp,[1;0])](2:end-1)
+h=[kron(hM1_sd_sdp,[1;0]);-flipud(kron(hM1_sd_sdp,[0;1]))](1:end-1);
 \end{verbatim}
 \end{small}
 

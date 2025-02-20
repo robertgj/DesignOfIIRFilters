@@ -1,5 +1,5 @@
 % sdp_relaxation_directFIRhilbert_12_nbits_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 % SDP relaxation optimisation of a direct-form FIR Hilbert filter
 % with 12-bit signed-digit coefficients
@@ -149,6 +149,18 @@ A_hM1=directFIRhilbertA(wa,hM1);
 A_hM1_sd=directFIRhilbertA(wa,hM1_sd);
 A_hM1_sd_Ito=directFIRhilbertA(wa,hM1_sd_Ito);
 A_hM1_sd_sdp=directFIRhilbertA(wa,hM1_sd_sdp);
+
+% Compare with freqz
+h_sdp=[kron(hM1_sd_sdp,[1;0]);-flipud(kron(hM1_sd_sdp,[0;1]))](1:end-1);
+H_sdp=freqz(h_sdp,1,wa);
+if max(abs(abs(H_sdp)+A_hM1_sd_sdp)) > 50*eps
+  error("max(abs(abs(H_sdp)+A_hM1_sd_sdp))(%g*eps) > 50*eps", ...
+        max(abs(abs(H_sdp)+A_hM1_sd_sdp))/eps)
+endif
+P_sdp=[(unwrap(arg(H_sdp))+(((2*M)-1)*wa))/pi](2:end);
+if max(abs(P_sdp-(-0.5))) > 500*eps
+  error("max(abs(P_sdp-(-0.5)))(%g*eps) > 500*eps", max(abs(P_sdp-(-0.5)))/eps);
+endif
 
 % Find maximum pass-band response
 rsb=[napl:napu];
