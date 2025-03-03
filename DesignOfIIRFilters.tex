@@ -3616,7 +3616,7 @@ highpass filter.
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{svcasc2noise_lowpass_response}}
 \caption{Simulated amplitude response of the $20$th order lowpass Butterworth
   filter realised as a block optimised cascade of second-order sections with
-  $10$-bit coefficents and state storage.} 
+  $10$-bit coefficients and state storage.} 
 \label{fig:order-20-low-butterworth-second-order-cascade-output-response}
 \end{figure}
 \begin{figure}
@@ -3624,7 +3624,7 @@ highpass filter.
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{svcasc2noise_highpass_response}}
 \caption{Simulated amplitude response of the $20$th order highpass Butterworth
   filter realised as a block optimised cascade of second-order sections with
-  $10$-bit coefficents and state storage.} 
+  $10$-bit coefficients and state storage.} 
 \label{fig:order-20-high-butterworth-second-order-cascade-output-response}
 \end{figure}
 Tables~\ref{tab:Simulated-noise-20-order-Butterworth-low-pass}
@@ -8262,8 +8262,8 @@ D &= 1
 
 Alternatively, for the filter transfer function, 
 $H\left(z\right)$, given by Equation~\ref{eqn:Transfer-function-H}, 
-\emph{Tarczynski et al.} 
-~\cite[Appendix 1]{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters}
+\emph{Tarczynski et al.}~\cite[Appendix 1]
+{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters}
 show that the filter $\frac{z^{-N_d}}{D\left(\rho z\right)}$ can be implemented
 as a cascade of first order sections,
 $\frac{z^{-1}}{1-p_{i}\left(\rho z\right)^{-1}}$. $0<\rho<1$ is 
@@ -10177,24 +10177,27 @@ along the minimal direction is not required. The minimisation variables are
 \end{array}\right]
 \end{align*}
 where $\epsilon$ is the MMSE error, 
-$\boldsymbol{\delta}$ is the step direction from coefficent vector 
+$\boldsymbol{\delta}$ is the step direction from coefficient vector 
 $\boldsymbol{x}_{k}$, and $\beta$ is the constraint on the coefficient
 step-size, $\|\boldsymbol{\delta}\| \le \beta$.
 
 In a similar fashion to the MMSE error used in 
-Part~\ref{sec:Constrained-Optimisation-of-IIR-by-Quadratic-Programming-Pole-Zero-Location},
+Chapter~\ref{sec:Constrained-Optimisation-of-IIR-by-Quadratic-Programming-Pole-Zero-Location},
 the MMSE frequency response constraint can be expressed as a weighted sum of 
-pass-band amplitude response, $A$, stop-band amplitude response, $S$, and 
-group-delay response, $T$. In this example I do not attempt to control the
-transition band amplitude response. In \emph{SeDuMi} format
+pass-band amplitude response, $A$, stop-band amplitude response, $S$, pass-band
+phase response, $P$, and the pass-band group-delay response, $T$. In this
+example I do not attempt to control the transition band amplitude response.
+In \emph{SeDuMi} format:
 \begin{align*}
 \boldsymbol{A}_{i}^{\top} &= \left[\begin{array}{cc}
-\boldsymbol{0} & W_{a}\left(\omega_{s}\right) 
+\boldsymbol{0} & W_{a}\left(\omega_{a}\right) 
 \nabla_{x}A\left(\boldsymbol{x}_{k},\omega_{a}\right) \\
-\boldsymbol{0} & W_{t}\left(\omega_{t}\right) 
-\nabla_{x}T\left(\boldsymbol{x}_{k},\omega_{t}\right) \\
 \boldsymbol{0} & W_{s}\left(\omega_{s}\right)
-\nabla_{x}S\left(\boldsymbol{x}_{k},\omega_{s}\right)
+\nabla_{x}S\left(\boldsymbol{x}_{k},\omega_{s}\right)\\
+\boldsymbol{0} & W_{p}\left(\omega_{p}\right) 
+\nabla_{x}P\left(\boldsymbol{x}_{k},\omega_{p}\right) \\
+\boldsymbol{0} & W_{t}\left(\omega_{t}\right) 
+\nabla_{x}T\left(\boldsymbol{x}_{k},\omega_{t}\right)
 \end{array}\right] \\
 \boldsymbol{b}_{i}^{\top} &= \left[\begin{array}{ccc} 
 1 & 0 & \boldsymbol{0} \end{array}\right] \\
@@ -10202,21 +10205,25 @@ transition band amplitude response. In \emph{SeDuMi} format
 W_{a}\left(\omega_{a}\right)\;
 \left[A\left(\boldsymbol{x}_{k},\omega_{a}\right)-
 A_{d}\left(\omega_{a}\right)\right] \\
- W_{t}\left(\omega_{t}\right)\;
-\left[T\left(\boldsymbol{x}_{k},\omega_{t}\right)-
-T_{d}\left(\omega_{t}\right)\right]\\
 W_{s}\left(\omega_{s}\right)\;
 \left[S\left(\boldsymbol{x}_{k},\omega_{s}\right)-
-S_{d}\left(\omega_{s}\right)\right]
+S_{d}\left(\omega_{s}\right)\right] \\
+W_{p}\left(\omega_{p}\right)\;
+\left[P\left(\boldsymbol{x}_{k},\omega_{p}\right)-
+P_{d}\left(\omega_{p}\right)\right]\\
+W_{t}\left(\omega_{t}\right)\;
+\left[T\left(\boldsymbol{x}_{k},\omega_{t}\right)-
+T_{d}\left(\omega_{t}\right)\right]
 \end{array}\right]\\
 d_{i} &= 0
 \end{align*}
-where $\omega_{a}\in\Omega_{a}$, $\omega_{t}\in\Omega_{t}$ and 
-$\omega_{s}\in\Omega_{s}$ are the pass band amplitude, and pass band group delay
-and stop band amplitude response grid frequencies and 
-$A_{d}\left(\omega_{a}\right)$, $T_{d}\left(\omega_{t}\right)$ and 
-$S_{d}\left(\omega_{s}\right)$ are the desired pass band amplitude, pass band 
-delay and stop band amplitude responses, respectively.
+where $\omega_{a}\in\Omega_{a}$, $\omega_{s}\in\Omega_{s}$,
+$\omega_{p}\in\Omega_{p}$ and $\omega_{t}\in\Omega_{t}$ are the pass-band
+amplitude, stop-band amplitude, pass band-phase and pass-band group delay
+response grid frequencies and $A_{d}\left(\omega_{a}\right)$,
+$S_{d}\left(\omega_{s}\right)$, $P_{d}\left(\omega_{p}\right)$  and
+$T_{d}\left(\omega_{t}\right)$ are the desired pass-band amplitude, stop-band
+amplitude, pass-band phase and pass-band delay responses, respectively.
 
 The gain-zero-pole coefficients have upper and lower constraints, 
 $\boldsymbol{x}_{u}$ and $\boldsymbol{x}_{l}$ respectively, ensuring stability
@@ -16691,7 +16698,7 @@ The Schur FIR lattice multiplier coefficients of the initial filter are
 \begin{small}
 \verbatiminput{bitflip_schurFIRlattice_bandpass_test_k_ex_coef.m}
 \end{small}
-The initial FIR filter has order $17$, $16$ lattice coefficents and $32$ 
+The initial FIR filter has order $17$, $16$ lattice coefficients and $32$ 
 multiplies per sample which is similar to the one-multiplier Schur lattice 
 bandpass filter of the previous example. 
 
@@ -20370,7 +20377,7 @@ polynomials are:
 
 Figure~\ref{fig:pop-relax-schurOneMlattice-lowpass-diff-R2-12-nbits-pass-error}
 shows the pass-band amplitude error compared to a desired response of
-$\frac{\omega}{2}$) for exact coefficients, $12$-bit $3$-signed-digit
+$\frac{\omega}{2}$ for exact coefficients, $12$-bit $3$-signed-digit
 coefficients, coefficient with an average of $12$-bit $3$-signed-digits
 allocated with the heuristic of \emph{Ito et al.} and coefficients found
 by POP-relaxation search.
@@ -20527,7 +20534,7 @@ approximately:
 \end{align}
 
 If $\boldsymbol{Y}=\boldsymbol{y}\boldsymbol{y}^{\top}$ and
-$\boldsymbol{\Delta}=\boldsymbol{\delta}\boldsymbol{\delta}^{\top}$, then
+$\boldsymbol{\Delta}=\boldsymbol{\delta}\boldsymbol{\delta}^{\top}$, then the
 mean-squared-error can be expressed in the form\footnote{The \emph{trace} of
 a matrix is defined in Appendix~\ref{app:Linear-algebra-trace-of-matrix}.}:
 \begin{align*}
@@ -20535,7 +20542,8 @@ a matrix is defined in Appendix~\ref{app:Linear-algebra-trace-of-matrix}.}:
                \frac{1}{2}\mathtrace\left(
                \left(\boldsymbol{Q}\circ\boldsymbol{\Delta}\right)
                \boldsymbol{Y}\right)+
-  \left(\boldsymbol{q}\circ\boldsymbol{\delta}\right)\boldsymbol{y}+\text{const}
+          \left(\boldsymbol{q}\circ\boldsymbol{\delta}\right)^{\top}\boldsymbol{y}
+               +\text{const}
 \end{align*}
 
 The approximate minimum mean-squared-error is found by the integer programming
@@ -20544,7 +20552,7 @@ optimisation:
   \begin{split}
   \textbf{minimise}\quad&
   \mathtrace\left(\hat{\boldsymbol{Q}}\boldsymbol{Y}\right)+
-  2\hat{\boldsymbol{q}}\boldsymbol{y}\\
+  2\hat{\boldsymbol{q}}^{\top}\boldsymbol{y}\\
   \textbf{subject to}\quad& y_{i}\in \left\{-1,1\right\}
   \end{split}
 \end{align*}
@@ -20569,7 +20577,7 @@ matrix $\hat{\boldsymbol{Y}}$ with ones on the diagonal:
   \begin{split}
   \textbf{minimise}\quad
   & \mathtrace\left(\hat{\boldsymbol{Q}}\hat{\boldsymbol{Y}}\right)+
-  2\hat{\boldsymbol{q}}\boldsymbol{y}\\
+  2\hat{\boldsymbol{q}}^{\top}\boldsymbol{y}\\
   \textbf{subject to}\quad&
   \bar{\boldsymbol{Y}}=
   \left[\begin{array}{cc}
@@ -20578,9 +20586,9 @@ matrix $\hat{\boldsymbol{Y}}$ with ones on the diagonal:
         \end{array}\right]\succeq \boldsymbol{0}
   \end{split}
 \end{align*}
-Define a length $\frac{N\left(N+1\right)}{2}$ augmented variable,
-$\bar{\boldsymbol{y}}$, consisting of the $N$ elements of $\boldsymbol{y}$
-and the $\frac{N\left(N-1\right)}{2}$ distinct off-diagonal elements of
+Define a length $P=\frac{M\left(M-1\right)}{2}+M$ augmented variable,
+$\bar{\boldsymbol{y}}$, consisting of the $M$ elements of $\boldsymbol{y}$
+and the $\frac{M\left(M-1\right)}{2}$ distinct off-diagonal elements of
 $\hat{\boldsymbol{Y}}$. The relaxed optimisation problem becomes:
 \begin{align*}
   \begin{split}
@@ -20592,7 +20600,8 @@ $\hat{\boldsymbol{Y}}$. The relaxed optimisation problem becomes:
 
 \emph{Murumatsu} and \emph{Suzuki}~\cite[Section 3.3]
 {MurumatsuSuzuki_SecondOrderConeRelaxationMaxCut} and
-\emph{Ito et al.}~\cite{Ito_FIRSP2CoefficientsRelaxationTriangleInequalities}
+\emph{Ito et al.}~\cite{Ito_FIRSP2CoefficientsRelaxationTriangleInequalities},
+\cite[Equation 19]{Ito_FIRSP2CoefficientsLinearProgrammingTriangleInequalities}
 add \emph{triangle inequality} constraints:
 \begin{align}
   \begin{split}
@@ -20603,10 +20612,10 @@ add \emph{triangle inequality} constraints:
   \end{split}
   \label{eqn:triangle-inequality-yyY}
 \end{align}
-for $0\le i<j<N$.
+for $i<j$.
 
-\begin{comment}
-Also:
+Also~\cite[Equation 20]
+{Ito_FIRSP2CoefficientsLinearProgrammingTriangleInequalities}:
 \begin{align}
   \begin{split}
   \phantom{-} \hat{Y}_{ij} + \hat{Y}_{ik} + \hat{Y}_{jk} \ge -1 \\
@@ -20616,8 +20625,8 @@ Also:
   \end{split}
   \label{eqn:triangle-inequality-YYY}
 \end{align}
-for $0\le i<j<k<N$.
-\end{comment}
+for $i<j<k$. In practice, I have found that
+Equation~\ref{eqn:triangle-inequality-yyY} is sufficient.
 
 \emph{Lu}~\cite[Section V]{Lu_SedumiRemarks} shows how to solve this
 \emph{semidefinite programming} optimisation problem with the
@@ -20632,27 +20641,50 @@ form:
   + \hdots + \bar{y}_{P}\boldsymbol{F}_{P} \succeq \boldsymbol{0}
   \end{split}
 \end{align*}
-where $P=\frac{N\left(N+1\right)}{2}$,
-$\bar{\boldsymbol{y}}=\left[\bar{y}_{1} \hdots \bar{y}_{P}\right]^{\top}$ and the
-$\boldsymbol{F}_{k}$ are the symmetric matrixes that select the two
+where $P$ is the number of distinct components of $\bar{\boldsymbol{Y}}$, and
+the $\boldsymbol{F}_{k}$ are the symmetric matrixes that select the two
 off-diagonal elements of $\bar{\boldsymbol{Y}}$ corresponding to $\bar{y}_{k}$.
-If the SDP solution is $\boldsymbol{y}^{\ast}$ and $\hat{\boldsymbol{Y}}^{\ast}$, then
-$\text{sign}\left(\boldsymbol{y}^{\ast}\right)$ is a reasonable solution to
+If the SDP solution is $\boldsymbol{y}^{\ast}$ and $\hat{\boldsymbol{Y}}^{\ast}$,
+then $\text{sign}\left(\boldsymbol{y}^{\ast}\right)$ is a reasonable solution to
 the original integer programming problem.
 \emph{Lu}~\cite{Lu_FIRDiscreteCoefficientsSemidefiniteRelaxation} points out
 that, given the singular-value decomposition
 \begin{align*}
   Z^{\ast} =  \left[\begin{array}{cc}
           \hat{\boldsymbol{Y}}^{\ast}&\boldsymbol{y}^{\ast} \\
-          {\boldsymbol{y}^{\ast}}^{\top}  & 1
+          \boldsymbol{y}^{\ast\top}  & 1
         \end{array}\right]=U\Sigma U^{\top}
 \end{align*}
 an alternative solution is $\text{sign}\left(u_{N+1,l}u_{1\hdots N,l}\right)$,
 where $u_{1\hdots N,l}$ is the first column vector in $U$ that corresponds to
 the largest singular value, $\sigma_{l}$. ``\emph{The motivation ... is that a
-  perfect solution $\boldsymbol{Y}^{\ast}$ ... would imply that matrix $Z^{\ast}$
-  has rank one, hence $\sigma_{l}u_{1\hdots N+1,l}u_{1\hdots N+1,l}^{\top}$ is
-  the best rank-one approximation of $Z^{\ast}$ in the 2-norm sense.}''
+  perfect solution $\hat{\boldsymbol{Y}}^{\ast}$ ... would imply that matrix
+  $Z^{\ast}$ has rank one, hence
+  $\sigma_{l}u_{1\hdots N+1,l}u_{1\hdots N+1,l}^{\top}$ is the best rank-one
+  approximation of $Z^{\ast}$ in the 2-norm sense.}''
+
+\emph{Ito et al.}~\cite[Equation 23]
+{Ito_FIRSP2CoefficientsLinearProgrammingTriangleInequalities} suggest the
+following relaxation of the SDP problem to a linear programming (LP) problem:
+\begin{align*}
+  \begin{split}
+    \textbf{minimise}\quad & 2\sum_{i<j}\hat{Q}_{ij}\hat{Y}_{ij} +
+                             \sum_{i}\hat{Q}_{ii} +
+                             2\hat{\boldsymbol{q}}^{\top}\boldsymbol{y} \\
+    \textbf{subject to}\quad&\text{Equation~\ref{eqn:triangle-inequality-yyY}}\\
+                            &\text{Equation~\ref{eqn:triangle-inequality-YYY}}\\
+                            & -1 \le y_{i}\le 1
+  \end{split}
+\end{align*}
+
+For successive coefficient optimisation, the components of the coefficient
+vector may be either \emph{inactive} (possibly already optimised) or
+\emph{active}. The \emph{active} coefficients may further divided into
+those that are to be \emph{fixed} to a signed-digit value, corresponding to
+the $\boldsymbol{y}$ above, and those that are \emph{not fixed} and are
+optimised to a floating point value. In the latter case an additional term
+is added to the objective function, as shown in
+Chapter~\ref{sec:IIR-Design-Using-SOCP}.
 
 \begin{comment}
 \section{The \emph{maximum-cut} problem of graph theory}
@@ -20911,7 +20943,7 @@ Table~\ref{tab:sdp-direct-FIR-hilbert-bandpass-12-nbits-cost-summary} compares
 the cost, maximum stop-band response error and the number of $12$ bit
 shift-and-add operations required to implement the $8$ distinct coefficient
 multiplications found by the signed-digit allocation heuristic of \emph{Ito et
-  al.} with the SDP relaxation optimisation and triangle inequalities.
+  al.} with the SDP reaxation optimisation and triangle inequalities.
 
 \begin{figure}
 \centering
@@ -22732,8 +22764,13 @@ For a column vector, $\boldsymbol{y}$, and a matrix, $\boldsymbol{Q}$:
   &=\sum_{k}\sum_{l}Q_{kl}Y_{kl} \\
   &=\mathtrace\left(\boldsymbol{QY}\right)
 \end{align*}
-where $\boldsymbol{Y}=\boldsymbol{y}\boldsymbol{y}^{\top}$ is symmetric.
-  
+where $\boldsymbol{Y}=\boldsymbol{y}\boldsymbol{y}^{\top}$ is symmetric. If
+$\boldsymbol{Q}$ is also symmetric, then:
+\begin{align*}
+  \mathtrace\left(\boldsymbol{QY}\right)
+  &=2\sum_{k<l}Q_{kl}Y_{kl} + \sum_{k}Q_{kk}Y_{kk}
+\end{align*}
+
 \section{\label{app:Linear-algebra-range-and-null-space-of-matrix}Rank, range, span and null-space of a matrix}
 \emph{Golub and Van Loan}~\cite[Section
 2.1.2]{GolubVanLoan_MatrixComputations} define the \emph{range} and
@@ -24570,7 +24607,7 @@ transfer function. Some possibilities for constructing the first and second
 partial derivatives are:
 \begin{itemize}
 \item numerical differentiation by evaluation of the function at a perturbed
-input coefficent vector
+input coefficient vector
 \item symbolic differentiation by a symbolic algebra package. For example, 
 \emph{Maxima}~\cite{Maxima_website} or the Octave-Forge \emph{symbolic}
 calculation toolbox~\cite{OctaveForge_SymbolicPackage}
