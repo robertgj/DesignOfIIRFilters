@@ -29,7 +29,7 @@ function [fM,k0,k1,slb_iter,opt_iter,func_iter,feasible] = ...
 %   epsilon0,epsilon1- state scaling coefficients. These have no effect on the
 %                      response but can improve numerical accuracy.
 %   fMk_u,fMk_l - upper and lower bounds on the coefficients
-%   fMk_active - indexes of the coefficents being optimised
+%   fMk_active - indexes of the coefficients being optimised
 %   dmax - maximum of norm of the coefficient step (SQP only)
 %   wa - angular frequencies of amplitude response
 %   Ad - desired amplitude response
@@ -67,7 +67,7 @@ function [fM,k0,k1,slb_iter,opt_iter,func_iter,feasible] = ...
 % Transition Bands", I. W. Selesnick, M. Lang and C. S. Burrus, IEEE
 % Transactions on Signal Processing, 46(2):497-501, February 1998.
 
-% Copyright (C) 2019-2024 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

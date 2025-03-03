@@ -4,7 +4,7 @@
 % with 16-bit 3-signed-digit coefficients and an allpass model filter
 % implemented as a Schur one-multiplier lattice.
 
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 
@@ -233,7 +233,7 @@ while ~isempty(kuv_active)
 
   % Try to solve the current SOCP problem with bounds kuv_bu and kuv_bl
   try
-    % Find the SOCP PCLS solution for the remaining active coefficents
+    % Find the SOCP PCLS solution for the remaining active coefficients
     [nextk,nextu,nextv,slb_iter,opt_iter,func_iter,feasible] = ...
     schurOneMAPlattice_frm_slb ...
       (@schurOneMAPlattice_frm_socp_mmse, ...

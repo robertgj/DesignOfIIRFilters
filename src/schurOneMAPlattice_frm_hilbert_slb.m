@@ -30,7 +30,7 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
 %   Mmodel - Model filter FRM decimation factor
 %   Dmodel - Nominal model filter delay
 %   kuv_u,kuv_l - upper and lower bounds on the coefficients
-%   kuv_active - indexes of the coefficents being optimised
+%   kuv_active - indexes of the coefficients being optimised
 %   dmax - maximum of norm of the coefficient step (SQP only)
 %   wa - angular frequencies of amplitude response
 %   Asqd - desired squared amplitude response
@@ -75,7 +75,7 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
 % Transition Bands", I. W. Selesnick, M. Lang and C. S. Burrus, IEEE
 % Transactions on Signal Processing, 46(2):497-501, February 1998.
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

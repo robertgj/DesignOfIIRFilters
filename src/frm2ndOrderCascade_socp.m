@@ -41,7 +41,7 @@ function [x1,E,socp_iter,feasible]= ...
 % IEEE Transactions on Circuits and Systems-I:Fundamental Theory and 
 % Applications, Vol. 50, No. 11, pp. 1401-1412, Nov. 2003
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -150,7 +150,7 @@ function [x1,E,socp_iter,feasible]= ...
     % Set up the SeDuMi problem. 
     % The vector to be minimised is [epsilon;beta0;beta1;delta] where 
     % epsilon is the minimax error, beta0 is the coefficient step size
-    % of the IIR filter coefficents, beta1 is the step size of the FIR
+    % of the IIR filter coefficients, beta1 is the step size of the FIR
     % masking filter coefficients and delta is the coefficient
     % difference vector.
     % 

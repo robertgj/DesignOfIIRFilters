@@ -1,7 +1,7 @@
 % de_min_schurOneMPAlattice_lowpass_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
-% Test case for the differential evolution algorithm with coefficents of
+% Test case for the differential evolution algorithm with coefficients of
 % a 5th order elliptic filter implemented as the sum of two 
 % all-pass lattice filters in one-multiplier form.
 %

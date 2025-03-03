@@ -1,8 +1,8 @@
 % schurOneMlattice_bandpass_allocsd_test.m
 % Test Lims and Itos signed-digit allocation algorithms with
-% coefficents of a band-pass one-multiplier lattice filter.
+% coefficients of a band-pass one-multiplier lattice filter.
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 

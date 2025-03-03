@@ -1,7 +1,7 @@
 % samin_svcasc_lowpass_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
-% Test case for the simulated-annealing samin algorithm with coefficents of a
+% Test case for the simulated-annealing samin algorithm with coefficients of a
 % 5th order elliptic filter implemented as a cascade of 2nd order state variable
 % sections.
 %

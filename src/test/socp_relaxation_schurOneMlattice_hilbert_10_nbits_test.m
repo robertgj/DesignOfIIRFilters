@@ -3,7 +3,7 @@
 % SOCP-relaxation optimisation of the response of a Schur one-multiplier
 % lattice Hilbert filter with 10-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 
@@ -205,7 +205,7 @@ while ~isempty(kc_active)
 
   % Try to solve the current SOCP problem with bounds kc_bu and kc_bl
   try
-    % Find the SOCP PCLS solution for the remaining active coefficents
+    % Find the SOCP PCLS solution for the remaining active coefficients
     [nextk,nextc,slb_iter,opt_iter,func_iter,feasible] = ...
       schurOneMlattice_slb(@schurOneMlattice_socp_mmse, ...
                            kc_b(1:Nk),epsilon0,p0,kc_b((Nk+1):end), ...

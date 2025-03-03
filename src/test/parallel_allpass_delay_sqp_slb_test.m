@@ -1,5 +1,5 @@
 % parallel_allpass_delay_sqp_slb_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 
@@ -190,7 +190,7 @@ fprintf(fid,"fas=%5.2f %% Stop band amplitude response edge\n",fas);
 fprintf(fid,"dBas=%5.2f %% Stop band amplitude response ripple\n",dBas);
 fprintf(fid,"Was=%g %% Stop band amplitude response weight\n",Was);
 fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
-fprintf(fid,"dmax=%f %% Constraint on coefficent step-size\n",dmax);
+fprintf(fid,"dmax=%f %% Constraint on coefficient step-size\n",dmax);
 fclose(fid);
 
 % Save results

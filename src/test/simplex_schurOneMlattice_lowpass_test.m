@@ -1,7 +1,7 @@
 % simplex_schurOneMlattice_lowpass_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
-% Test case for the simplex algorithm with coefficents of
+% Test case for the simplex algorithm with coefficients of
 % a 5th order elliptic lattice filter in one multiplier form.
 
 test_common;

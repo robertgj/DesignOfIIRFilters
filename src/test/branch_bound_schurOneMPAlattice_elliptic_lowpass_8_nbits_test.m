@@ -4,7 +4,7 @@
 % filter composed of parallel Schur one-multiplier all-pass lattice
 % filters with 8-bit 2-signed-digit coefficients.
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 
@@ -203,7 +203,7 @@ do
 
   % Try to solve the current sub-problem
   try  
-    % Find the SOCP PCLS solution for the remaining active coefficents
+    % Find the SOCP PCLS solution for the remaining active coefficients
     feasible=false;
     [nextA1k,nextA2k,slb_iter,opt_iter,func_iter,feasible] = ...
     schurOneMPAlattice_slb(@schurOneMPAlattice_socp_mmse, ...

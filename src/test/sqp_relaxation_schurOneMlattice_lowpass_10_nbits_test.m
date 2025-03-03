@@ -1,5 +1,5 @@
 % sqp_relaxation_schurOneMlattice_lowpass_10_nbits_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % SQP-relaxation optimisation of the response of a Schur one-multiplier
 % lattice lowpass filter with 10-bit 3-signed-digit coefficients.
@@ -177,7 +177,7 @@ while ~isempty(kc_active)
 
   % Try to solve the current SQP problem with bounds kc_bu and kc_bl
   try
-    % Find the SQP PCLS solution for the remaining active coefficents
+    % Find the SQP PCLS solution for the remaining active coefficients
     [nextk,nextc,slb_iter,opt_iter,func_iter,feasible] = ...
       schurOneMlattice_slb(@schurOneMlattice_sqp_mmse, ...
                            kc_b(1:Nk),epsilon0,p0,kc_b((Nk+1):end), ...

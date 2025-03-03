@@ -1,5 +1,5 @@
 % socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 % Optimisation of Schur one-multiplier lattice bandpass filter response with
 % 10-bit signed-digit coefficients having Ito et al. allocation and SOCP
@@ -136,7 +136,7 @@ while ~isempty(hM_active)
 
   % Try to solve the current SOCP problem with bounds
   try
-    % Find the SOCP PCLS solution for the remaining active coefficents
+    % Find the SOCP PCLS solution for the remaining active coefficients
     [nexthM,siter,soiter,fiter,feasible]= ...
     directFIRsymmetric_slb(@directFIRsymmetric_socp_mmsePW, ...
                            hM,hM_active,na,wa,Ad,Adu,Adl,Wa, ...

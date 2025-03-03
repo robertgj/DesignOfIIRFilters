@@ -1,7 +1,7 @@
 % simplex_svcasc_lowpass_test.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
-% Test case for the Nelder-Mead simplex algorithm with coefficents of a 5th
+% Test case for the Nelder-Mead simplex algorithm with coefficients of a 5th
 % order elliptic filter implemented as a cascade of 2nd order state variable
 % sections.
 

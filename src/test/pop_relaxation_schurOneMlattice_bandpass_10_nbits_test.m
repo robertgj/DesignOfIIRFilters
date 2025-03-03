@@ -89,7 +89,7 @@ while ~isempty(kc_active)
   kc_l(coef_n)=kc_sdl(coef_n);
 
   try
-    % Find the SOCP PCLS solution for the remaining active coefficents
+    % Find the SOCP PCLS solution for the remaining active coefficients
     feasible=false;
     [knext,cnext,slb_iter,opt_iter,func_iter,feasible] = ...
     schurOneMlattice_slb(@schurOneMlattice_pop_socp_mmse, ...

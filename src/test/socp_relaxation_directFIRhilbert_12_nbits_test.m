@@ -1,5 +1,5 @@
 % socp_relaxation_directFIRhilbert_12_nbits_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 % Optimisation of Hilbert FIR filter response with 12-bit signed-digit
 % coefficients allocated with the heuristic of Ito et al. and SOCP relaxation
@@ -122,7 +122,7 @@ while ~isempty(hM_active)
 
   % Try to solve the current SOCP problem with bounds
   try
-    % Find the SOCP PCLS solution for the remaining active coefficents
+    % Find the SOCP PCLS solution for the remaining active coefficients
     war=(napl:(npoints/2));
     [nexthM,siter,soiter,fiter,feasible]= ...
       directFIRhilbert_slb(@directFIRhilbert_socp_mmsePW, ...

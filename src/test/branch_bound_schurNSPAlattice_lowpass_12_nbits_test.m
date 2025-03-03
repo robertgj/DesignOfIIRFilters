@@ -1,5 +1,5 @@
 % branch_bound_schurNSPAlattice_lowpass_12_nbits_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2023-2025 Robert G. Jenssen
 % Branch-and-bound optimisation of the response of a low-pass filter
 % composed of parallel Schur approximately normalised-scaled all-pass
 % lattice filters with 12-bit 3-signed-digit coefficients.
@@ -210,7 +210,7 @@ else
 
     % Try to solve the current sub-problem
     try  
-      % Find the SOCP PCLS solution for the remaining active coefficents
+      % Find the SOCP PCLS solution for the remaining active coefficients
       [nextA1s20,nextA1s00,nextA1s02,nextA1s22, ...
        nextA2s20,nextA2s00,nextA2s02,nextA2s22, ...
        slb_iter,opt_iter,func_iter,feasible] = ...

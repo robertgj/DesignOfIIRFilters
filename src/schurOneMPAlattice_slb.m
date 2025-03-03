@@ -35,7 +35,7 @@ function [A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...
 %             response but can improve numerical accuracy.
 %   difference - filter uses the difference of the all-pass outputs
 %   k_u,k_l - upper and lower bounds on the coefficients
-%   k_active - indexes of the coefficents being optimised
+%   k_active - indexes of the coefficients being optimised
 %   dmax - maximum of norm of the coefficient step (SQP only)
 %   wa - angular frequencies of amplitude response
 %   Asqd - desired squared amplitude response
@@ -85,7 +85,7 @@ function [A1k,A2k,slb_iter,opt_iter,func_iter,feasible] = ...
 % Transition Bands", I. W. Selesnick, M. Lang and C. S. Burrus, IEEE
 % Transactions on Signal Processing, 46(2):497-501, February 1998.
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

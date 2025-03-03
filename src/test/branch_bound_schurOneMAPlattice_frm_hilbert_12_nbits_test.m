@@ -1,5 +1,5 @@
 % branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 % Branch-and-bound search of FRM Hilbert filter response with 12-bit
 % signed-digit coefficients. The model filter is implemented as the parallel
@@ -306,7 +306,7 @@ else
 
     % Try to solve the current sub-problem
     try  
-      % Find the SQP PCLS solution for the remaining active coefficents
+      % Find the SQP PCLS solution for the remaining active coefficients
       [nextk,nextu,nextv,slb_iter,opt_iter,func_iter,feasible] = ...
         schurOneMAPlattice_frm_hilbert_slb ...
           (@schurOneMAPlattice_frm_hilbert_socp_mmse, ...

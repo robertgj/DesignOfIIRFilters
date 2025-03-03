@@ -4,7 +4,7 @@
 % lattice Gaussian filter with 16-bit 3-signed-digit coefficients
 % allocated with the algorithm of Lim et al.
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 
@@ -222,7 +222,7 @@ while ~isempty(kkhat_active)
 
   % Try to solve the current SOCP problem with bounds kkhat_bu and kkhat_bl
   try
-    % Find the SOCP PCLS solution for the remaining active coefficents
+    % Find the SOCP PCLS solution for the remaining active coefficients
     [nextk,nextkhat,slb_iter,opt_iter,func_iter,feasible] = ...
       complementaryFIRlattice_slb(@complementaryFIRlattice_socp_mmse, ...
                                   kkhat_b(1:Nk),kkhat_b((Nk+1):end), ...

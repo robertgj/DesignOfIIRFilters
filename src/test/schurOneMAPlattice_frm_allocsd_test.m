@@ -1,8 +1,8 @@
 % schurOneMAPlattice_frm_allocsd_test.m
-% Copyright (C) 2019-2021 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Test the Ito and Lim signed-digit allocation algorithms with the
-% coefficents of an FRM low-pass filter with a model filter implemented
+% coefficients of an FRM low-pass filter with a model filter implemented
 % as a Schur one-multiplier lattice in parallel with a delay.
 
 test_common;

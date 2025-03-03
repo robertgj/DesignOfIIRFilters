@@ -31,7 +31,7 @@ function [k,c,kk,ck,slb_iter,opt_iter,func_iter,feasible] = ...
 %   kk0 - nominally k0(1:(Nk-1)).*k0(2:Nk)
 %   ck0 - nominally c0(2:Nk).*k0(2:Nk) (where c(1)=c_{0}, ... , c(Nk+1)=c_{Nk})
 %   kc_u,kc_l - upper and lower bounds on the coefficients
-%   kc_active - indexes of the coefficents being optimised
+%   kc_active - indexes of the coefficients being optimised
 %   dmax - maximum of norm of the coefficient step (SQP only)
 %   wa - angular frequencies of amplitude response
 %   Asqd - desired squared amplitude response
@@ -82,7 +82,7 @@ function [k,c,kk,ck,slb_iter,opt_iter,func_iter,feasible] = ...
 % Transition Bands", I. W. Selesnick, M. Lang and C. S. Burrus, IEEE
 % Transactions on Signal Processing, 46(2):497-501, February 1998.
 
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

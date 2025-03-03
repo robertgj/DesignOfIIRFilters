@@ -1,7 +1,7 @@
 % bitflip_schurOneMPAlattice_bandpass_test.m
-% Copyright (C) 2019-2024 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
-% Test case for the bit-flipping algorithm with coefficents of
+% Test case for the bit-flipping algorithm with coefficients of
 % a bandpass lattice filter in one multiplier parallel allpass form.
 
 test_common;
