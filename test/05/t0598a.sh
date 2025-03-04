@@ -70,7 +70,7 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd.ok"; fail; fi
 
 cat > test_A1k0_sd_sdp.ok << 'EOF'
-A1k0_sd_sdp = [    -4896,     8094,    -6432,     7072, ... 
+A1k0_sd_sdp = [    -4928,     8094,    -6432,     7072, ... 
                    -5880,     2952 ]'/8192;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sd_sdp.ok"; fail; fi
@@ -82,22 +82,22 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd_sdp.ok"; fail; fi
 
 cat > test_A1k0_sd_min.ok << 'EOF'
-A1k0_sd_min = [    -4896,     8096,    -6432,     7088, ... 
-                   -5904,     2948 ]'/8192;
+A1k0_sd_min = [    -4928,     8080,    -6432,     7072, ... 
+                   -5896,     2960 ]'/8192;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sd_min.ok"; fail; fi
 
 cat > test_A2k0_sd_min.ok << 'EOF'
-A2k0_sd_min = [    -5640,     7670,    -6720,     5984, ... 
-                   -2936 ]'/8192;
+A2k0_sd_min = [    -5648,     7664,    -6688,     5984, ... 
+                   -2944 ]'/8192;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd_min.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
 Initial & 7.52e-06 & -84.0 & & \\
-14-bit 4-signed-digit & 5.97e-03 & -39.3 & 44 & 33 \\
-14-bit 4-signed-digit(SDP) & 1.68e-01 & -31.7 & 44 & 33 \\
-14-bit 4-signed-digit(min) & 1.41e-05 & -75.6 & 43 & 32 \\
+14-bit 4-signed-digit & 3.89e-03 & -40.4 & 44 & 33 \\
+14-bit 4-signed-digit(SDP) & 9.20e-02 & -33.3 & 44 & 33 \\
+14-bit 4-signed-digit(min) & 1.87e-05 & -68.6 & 41 & 30 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 

@@ -11,7 +11,8 @@ depends="test/branch_bound_schurOneMPAlattice_bandpass_12_nbits_test.m test_comm
 schurOneMPAlattice_allocsd_Lim.m \
 schurOneMPAlattice_allocsd_Ito.m \
 schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m \
-schurOneMPAlatticeP.m schurOneMPAlatticeEsq.m \
+schurOneMPAlatticeP.m schurOneMPAlatticedAsqdw.m \
+schurOneMPAlatticeEsq.m \
 schurOneMPAlattice_slb.m schurOneMPAlattice_socp_mmse.m \
 schurOneMPAlattice_slb_set_empty_constraints.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \

@@ -74,7 +74,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
 % desired stop-band attenuation of the squared amplitude response is more
 % than 80dB.
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -173,10 +173,10 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
     if all(isfield(ftol,{"dtol","stol"})) == false
       error("Expect ftol structure to have fields dtol and stol");
     endif
-    dtol=ftol.dtol;
     pars.eps=ftol.stol;
-  else
-    dtol=ftol;
+    if verbose
+      fprintf(stderr,"Warning! SeDuMi pars.eps set to %g\n",pars.eps);
+    endif
   endif
 
   Nresp=length(vS.al)+length(vS.au) + ...
@@ -267,15 +267,10 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   % implementing:
   %   ku-(k+deltak) >= 0
   %   (k+deltak)-kl >= 0
-  if 1
-    D=[];
-    f=[];
-  else
-    D=[ [zeros(MM,Nk_active); -eye(Nk_active)], ...
-        [zeros(MM,Nk_active);  eye(Nk_active)] ];
-    f=[ k_u(k_active)-k0(k_active); ...
-        k0(k_active)-k_l(k_active) ];
-  endif
+  D=[ [zeros(MM,Nk_active); -diag(k_delta(k_active))], ...
+      [zeros(MM,Nk_active);  diag(k_delta(k_active))] ];
+  f=[ k_u(k_active)-k0(k_active); ...
+      k0(k_active)-k_l(k_active) ];
   
   % Approximate squared-amplitude linear constraints (SeDuMi format is Dx+f>=0): 
   %   -Asq-gradAsq*(k0_delta.*y) + Asqdu >= 0
@@ -324,7 +319,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   if ~isempty(vS.pu) 
     gradP_pu_delta=gradP(vS.pu).*kron(ones(length(vS.pu),1),k_delta');
     D=[D,[zeros(MM,length(vS.pu));-gradP_pu_delta(:,k_active)']];
-    f=[f;                          Pdu(vS.pu)-P_pu(vS.pu)];
+    f=[f;                          Pdu(vS.pu)-P(vS.pu)];
   endif
   if ~isempty(vS.pl) 
     gradP_pl_delta=gradP(vS.pl).*kron(ones(length(vS.pl),1),k_delta');
@@ -356,65 +351,65 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   Fn=zeros(Nk_active+1);
   Fn(find(triu(ones(Nk_active+1),1)))=1:NN;
   byyY=ones(4*MM,1);
-  AyyY=zeros(4*MM,NN);
+  AyyY=zeros(NN,4*MM);
   nn=-3;
   for m=1:(Nk_active-1),
     for n=(m+1):Nk_active,
       nn=nn+4;
       % y(m)+y(n)+Y(m,n) + 1 >= 0
-      AyyY(nn,Fn(m,Nk_active+1))=1; 
-      AyyY(nn,Fn(n,Nk_active+1))=1;
-      AyyY(nn,Fn(m,n))=1;
+      AyyY(Fn(m,Nk_active+1), nn)=1; 
+      AyyY(Fn(n,Nk_active+1), nn)=1;
+      AyyY(Fn(m,n)          , nn)=1;
       % y(m)-y(n)-Y(m,n) + 1 >= 0
-      AyyY(nn+1,Fn(m,Nk_active+1))=1; 
-      AyyY(nn+1,Fn(n,Nk_active+1))=-1;
-      AyyY(nn+1,Fn(m,n))=-1; 
+      AyyY(Fn(m,Nk_active+1), nn+1)=1; 
+      AyyY(Fn(n,Nk_active+1), nn+1)=-1;
+      AyyY(Fn(m,n)          , nn+1)=-1; 
       % -y(m)-y(n)+Y(m,n) + 1 >= 0
-      AyyY(nn+2,Fn(m,Nk_active+1))=-1; 
-      AyyY(nn+2,Fn(n,Nk_active+1))=-1;
-      AyyY(nn+2,Fn(m,n))=1;
+      AyyY(Fn(m,Nk_active+1), nn+2)=-1; 
+      AyyY(Fn(n,Nk_active+1), nn+2)=-1;
+      AyyY(Fn(m,n),           nn+2)=1;
       % -y(m)+y(n)-Y(m,n) + 1 >= 0
-      AyyY(nn+3,Fn(m,Nk_active+1))=-1; 
-      AyyY(nn+3,Fn(n,Nk_active+1))=1;
-      AyyY(nn+3,Fn(m,n))=-1;
+      AyyY(Fn(m,Nk_active+1), nn+3)=-1; 
+      AyyY(Fn(n,Nk_active+1), nn+3)=1;
+      AyyY(Fn(m,n)          , nn+3)=-1;
     endfor
   endfor
 
-  % Minimise cc*y
-  [Fr,Fc]=find(triu(ones(Nk_active+1),1));
-  cc=zeros(1,NN); 
+  % Minimise the filter response MMSE error
   xk0=k0(k_active);
   xk_delta=k_delta(k_active);
   q=gradEsq0(k_active);
   Q=hessEsq0(k_active,k_active);
- for k=1:MM,
-    cc(m)=Q(Fr(m),Fc(m))*xk_delta(Fr(m))*xk_delta(Fc(m));
-  endfor
+  Fhat=find(triu(ones(Nk_active),1));
+  Qhat=Q.*(xk_delta*(xk_delta'));
+  cc=zeros(NN,1); 
+  cc(1:MM)=Qhat(Fhat);
   cc((MM+1):NN)=(((xk0')*Q)+q).*(xk_delta');
 
   % Positive definite constraint
   F0=eye(Nk_active+1);
   F=cell(NN,1);
+  [Fr,Fc]=find(triu(ones(Nk_active+1),1));
   for m=1:NN,
     F{m}=zeros(size(F0));
     F{m}(Fr(m),Fc(m))=1;
     F{m}(Fc(m),Fr(m))=1;
   endfor
-  At=zeros(size(vec(F0),1),NN);
+  As=zeros(NN,size(vec(F0),1));
   for m=1:NN,
-    At(:,m)=-vec(F{m});
+    As(m,:)=-vec(F{m});
   endfor
 
   % SeDuMi variables
-  Att=[-D';-AyyY;At];
+  Att=[-[D,AyyY], As];
   btt=-cc;
   ctt=[f;byyY;vec(F0)];
-  K.l=rows(D')+rows(AyyY);
+  K.l=columns(D)+columns(AyyY);
   K.s=size(F0,1);
 
   % Call SeDuMi
   try
-    [x,yy,info]=sedumi(Att,btt,ctt,K,pars);
+    [xs,ys,info]=sedumi(Att,btt,ctt,K,pars);
     if verbose
       printf("SeDuMi info.iter=%d, info.feasratio=%6.4g\n",
              info.iter,info.feasratio);
@@ -445,8 +440,8 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   end_try_catch
   
   % Extract results
-  y=yy((MM+1):NN);
-  k_min=zeros(size(k0));
+  y=ys((MM+1):NN);
+  k_min=k0;
   k_min(k_active)=xk0+(sign(y.*(abs(y)>0.5)).*xk_delta);
   A1k_min=k_min(RA1k);
   A2k_min=k_min(RA2k);

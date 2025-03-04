@@ -59,7 +59,7 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
 % desired stop-band attenuation of the squared amplitude response is more
 % than 80dB.
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -161,6 +161,9 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
     endif
     dtol=ftol.dtol;
     pars.eps=ftol.stol;
+    if verbose
+      fprintf(stderr,"Warning! SeDuMi pars.eps set to %g\n",pars.eps);
+    endif
   else
     dtol=ftol;
   endif
@@ -214,7 +217,7 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
   endif
 
   %
-  % Second Order Cone Programming (SQP) loop
+  % Second Order Cone Programming (SOCP) loop
   %
   while 1
 
@@ -239,7 +242,7 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
     % In matrix form:
     %   |0 0 -I||epsilon | + |k_u - k  | >= 0
     %   |0 0  I||beta    |   |k   - k_l|
-    %           |deltak |
+    %           |deltak  |
     D=[ zeros(2,2*Nk_active); [-eye(Nk_active), eye(Nk_active)] ];
     f=[ k_u(k_active)-k(k_active) ; k(k_active)-k_l(k_active)];
     
@@ -317,8 +320,10 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
     At=-D;
     ct=f;
     sedumiK.l=columns(D);
-           
+
+    %
     % SeDuMi quadratic constraint matrixes
+    %
 
     % Step size constraints
     At1=[zeros(2,Nk_active);eye(Nk_active)];
@@ -392,7 +397,8 @@ function [A1k,A2k,socp_iter,func_iter,feasible]= ...
       printf("norm(delta)/norm(xk)=%g\n",norm(delta)/norm(xk));
       printf("Esq= %g\n",Esq);
       printf("gradEsq=[");printf("%g ",gradEsq);printf("]\n");
-      printf("func_iter=%d, socp_iter=%d\n",func_iter,socp_iter);
+      printf("loop_iter=%d, func_iter=%d, socp_iter=%d\n", ...
+             loop_iter,func_iter,socp_iter);
       info
     endif
     if norm(delta)/norm(xk) < dtol

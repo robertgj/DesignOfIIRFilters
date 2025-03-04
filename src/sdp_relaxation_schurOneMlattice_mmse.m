@@ -64,8 +64,14 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
 %   socp_iter - number of SOCP iterations
 %   func_iter - number of function calls
 %   feasible - design satisfies the constraints 
+%
+% If ftol is a structure then the ftol.dtol field is the minimum relative
+% step size and the tol.stol field sets the SeDuMi pars.eps field (the
+% default is 1e-8). This is a hack to deal with filters for which the
+% desired stop-band attenuation of the squared amplitude response is more
+% than 80dB.
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -160,6 +166,16 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
     error("numfields(vS)=%d, expected 8 (al,au,tl,tu,pl,pu,dl and du)", ...
           numfields(vS));
   endif
+  if isstruct(ftol)
+    if all(isfield(ftol,{"dtol","stol"})) == false
+      error("Expect ftol structure to have fields dtol and stol");
+    endif
+    pars.eps=ftol.stol;
+    if verbose
+      fprintf(stderr,"Warning! SeDuMi pars.eps set to %g\n",pars.eps);
+    endif
+  endif
+
   Nresp=length(vS.al)+length(vS.au) + ...
         length(vS.tl)+length(vS.tu) + ...
         length(vS.pl)+length(vS.pu) + ...
@@ -200,6 +216,7 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
   else
     pars.fid=0;
   endif
+  
   % Coefficient vector being optimised
   kc0=[k0(:);c0(:)];
   Nkc_active=length(kc_active);
@@ -244,15 +261,10 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
   % implementing:
   %   kcu-(kc+deltakc) >= 0
   %   (kc+deltakc)-kcl >= 0
-  if 1
-    D=[];
-    f=[];
-  else
-    D=[ [zeros(MM,Nkc_active); -eye(Nkc_active)], ...
-        [zeros(MM,Nkc_active);  eye(Nkc_active)] ];
-    f=[ kc_u(kc_active)-kc0(kc_active); ...
-        kc0(kc_active)-kc_l(kc_active) ];
-  endif
+  D=[ [zeros(MM,Nkc_active); -diag(kc_delta(kc_active))], ...
+      [zeros(MM,Nkc_active);  diag(kc_delta(kc_active))] ];
+  f=[ kc_u(kc_active)-kc0(kc_active); ...
+      kc0(kc_active)-kc_l(kc_active) ];
   
   % Approximate squared-amplitude linear constraints (SeDuMi format is Dx+f>=0): 
   %   -Asq-gradAsq*(kc0_delta.*y) + Asqdu >= 0
@@ -296,12 +308,12 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
   if ~isempty(vS.pu)
     gradP_pu_delta=gradP(vS.pu).*kron(ones(length(vS.pu),1),kc_delta');
     D=[D,[zeros(MM,length(vS.pu));-gradP_pu_delta(:,kc_active)']];
-    f=[f;                          Pdu(vS.pu)-P_pu];
+    f=[f;                          Pdu(vS.pu)-P(vS.pu)];
   endif
   if ~isempty(vS.pl) 
     gradP_pl_delta=gradP(vS.pl).*kron(ones(length(vS.pl),1),kc_delta');
     D=[D,[zeros(MM,length(vS.pl)); gradP_pl_delta(:,kc_active)']];
-    f=[f;                          P_pl-Pdl(vS.pl)];
+    f=[f;                          P(vS.pl)-Pdl(vS.pl)];
   endif
  
   % Approximate dAsqdw linear constraints
@@ -326,65 +338,90 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
   Fn=zeros(Nkc_active+1);
   Fn(find(triu(ones(Nkc_active+1),1)))=1:NN;
   byyY=ones(4*MM,1);
-  AyyY=zeros(4*MM,NN);
+  AyyY=zeros(NN,4*MM);
   nn=-3;
   for m=1:(Nkc_active-1),
     for n=(m+1):Nkc_active,
       nn=nn+4;
       % y(m)+y(n)+Y(m,n) + 1 >= 0
-      AyyY(nn,Fn(m,Nkc_active+1))=1; 
-      AyyY(nn,Fn(n,Nkc_active+1))=1;
-      AyyY(nn,Fn(m,n))=1;
+      AyyY(Fn(m,Nkc_active+1), nn)=1; 
+      AyyY(Fn(n,Nkc_active+1), nn)=1;
+      AyyY(Fn(m,n)           , nn)=1;
       % y(m)-y(n)-Y(m,n) + 1 >= 0
-      AyyY(nn+1,Fn(m,Nkc_active+1))=1; 
-      AyyY(nn+1,Fn(n,Nkc_active+1))=-1;
-      AyyY(nn+1,Fn(m,n))=-1; 
+      AyyY(Fn(m,Nkc_active+1), nn+1)=1; 
+      AyyY(Fn(n,Nkc_active+1), nn+1)=-1;
+      AyyY(Fn(m,n)           , nn+1)=-1; 
       % -y(m)-y(n)+Y(m,n) + 1 >= 0
-      AyyY(nn+2,Fn(m,Nkc_active+1))=-1; 
-      AyyY(nn+2,Fn(n,Nkc_active+1))=-1;
-      AyyY(nn+2,Fn(m,n))=1;
+      AyyY(Fn(m,Nkc_active+1), nn+2)=-1; 
+      AyyY(Fn(n,Nkc_active+1), nn+2)=-1;
+      AyyY(Fn(m,n),            nn+2)=1;
       % -y(m)+y(n)-Y(m,n) + 1 >= 0
-      AyyY(nn+3,Fn(m,Nkc_active+1))=-1; 
-      AyyY(nn+3,Fn(n,Nkc_active+1))=1;
-      AyyY(nn+3,Fn(m,n))=-1;
+      AyyY(Fn(m,Nkc_active+1), nn+3)=-1; 
+      AyyY(Fn(n,Nkc_active+1), nn+3)=1;
+      AyyY(Fn(m,n)           , nn+3)=-1;
     endfor
   endfor
 
-  % Minimise cc*y
-  [Fr,Fc]=find(triu(ones(Nkc_active+1),1));
-  cc=zeros(1,NN); 
+  % Minimise the filter response MMSE error
   xkc0=kc0(kc_active);
   xkc_delta=kc_delta(kc_active);
   q=gradEsq0(kc_active);
   Q=hessEsq0(kc_active,kc_active);
- for k=1:MM,
-    cc(m)=Q(Fr(m),Fc(m))*xkc_delta(Fr(m))*xkc_delta(Fc(m));
-  endfor
+  Fhat=find(triu(ones(Nkc_active),1));
+  Qhat=Q.*(xkc_delta*(xkc_delta'));
+  cc=zeros(NN,1); 
+  cc(1:MM)=Qhat(Fhat);
   cc((MM+1):NN)=(((xkc0')*Q)+q).*(xkc_delta');
 
   % Positive definite constraint
   F0=eye(Nkc_active+1);
   F=cell(NN,1);
+  [Fr,Fc]=find(triu(ones(Nkc_active+1),1));
   for m=1:NN,
     F{m}=zeros(size(F0));
     F{m}(Fr(m),Fc(m))=1;
     F{m}(Fc(m),Fr(m))=1;
   endfor
-  At=zeros(size(vec(F0),1),NN);
+  As=zeros(NN,size(vec(F0),1));
   for m=1:NN,
-    At(:,m)=-vec(F{m});
+    As(m,:)=-vec(F{m});
   endfor
 
   % SeDuMi variables
-  Att=[-D';-AyyY;At];
+  Att=[-[D,AyyY], As];
   btt=-cc;
-  ctt=[f;byyY;vec(F0)];
-  K.l=rows(D')+rows(AyyY);
+  ctt=[[f;byyY];vec(F0)];
+  K.l=columns(D)+columns(AyyY);
   K.s=size(F0,1);
+
+  use_SOCP_objective=false;
+  if use_SOCP_objective
+    % SOCP minimisation of the objective function with x=[delta;epsilon]
+    % such that |As'*x+c|<=[zeros;1]'*x
+    %   1. SeDuMi has numerical problems
+    %   2. [yy,y] doesn't go to -1,1 in the triangle inequalities 
+    D=[D;zeros(1,columns(D))];
+    AyyY=[AyyY;zeros(1,columns(AyyY))];
+    As=[As;zeros(1,columns(As))];
+    Aq=[cc;0];
+    bq=[zeros(size(cc));1];
+    cq=Esq0+(diag(Q)'*(xkc_delta.^2)/2);
+    dq=0;
+
+    Att=[-[D,AyyY],-[bq,Aq], As];
+    btt=-bq;
+    ctt=[[f;byyY];[dq;cq];vec(F0)];
+    K.l=columns(D)+columns(AyyY);
+    K.q=2;
+    K.s=size(F0,1);
+    % Avoid Sedumi "Run into numerical problems" warning
+    pars.eps=1e-6;
+    fprintf(stderr,"Warning! SeDuMi pars.eps set to %g\n",pars.eps);
+  endif
 
   % Call SeDuMi
   try
-    [x,yy,info]=sedumi(Att,btt,ctt,K,pars);
+    [xs,ys,info]=sedumi(Att,btt,ctt,K,pars);
     if verbose
       printf("SeDuMi info.iter=%d, info.feasratio=%6.4g\n",
              info.iter,info.feasratio);
@@ -415,14 +452,15 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
   end_try_catch
   
   % Extract results
-  y=yy((MM+1):NN);
-  kc_min=zeros(size(kc0));
+  y=ys((MM+1):NN);
+  kc_min=kc0;
   kc_min(kc_active)=xkc0+(sign(y).*xkc_delta);
   k_min=kc_min(1:Nk);
   c_min=kc_min((Nk+1):end);
   socp_iter=info.iter;
   feasible=true;
   if verbose
+    if use_SOCP_objective, printf("epsilon=%g\n", ys(end)); end;
     printf("y=[ ");printf("%13.10f ",y');printf(" ]';\n"); 
     printf("k_min=[ ");printf("%15.12f ",k_min');printf(" ]';\n"); 
     printf("c_min=[ ");printf("%15.12f ",c_min');printf(" ]';\n"); 
