@@ -1,7 +1,7 @@
 % schurOneMlattice_piqp_slb_hilbert_test.m
 % PIQP optimisation of a Schur one-multiplier lattice implementation of a
 % Hilbert filter with denominator polynomial coefficients only for z^2 terms
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 
 test_common;
 

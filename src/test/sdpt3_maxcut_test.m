@@ -1,6 +1,6 @@
 % sdpt3_maxcut_test.m
 % The existing sqlpdemo.m fails for maxcut with feas=1. Check the fix.
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 
 test_common;
 

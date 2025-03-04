@@ -1,5 +1,5 @@
 % schurOneMPAlatticeDoublyPipelinedDelay_kyp_lowpass_common_update.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 
 % Update coefficients
 k=k+value(dk);

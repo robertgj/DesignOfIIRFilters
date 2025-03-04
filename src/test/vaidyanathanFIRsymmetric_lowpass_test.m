@@ -4,7 +4,7 @@
 % Very Sharp Cutoff via Maximally Flat Building Blocks", P. P. Vaidyanathan,
 % IEEE Trans. on Circuits and Systems, March, 1985, Vol. 32, No. 3, pp. 236-244
 %
-% Copyright (C) 2022 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 
 test_common;
 

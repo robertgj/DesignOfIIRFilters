@@ -1,5 +1,5 @@
 % johanssonOneMlattice_socp_mmse_test.m
-% Copyright (C) 2019-2024 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 
 test_common;
 

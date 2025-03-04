@@ -10,7 +10,7 @@ function q=spectralfactor(n,d)
 % Low-Sensitivity IIR Digital Filters", IEEE Trans. Acoustics, Speech
 % and Signal Processing, Vol.34, No.2, April 1986, pp350-361.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

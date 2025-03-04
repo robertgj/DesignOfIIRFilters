@@ -10,7 +10,7 @@ function [k,S] = schurdecomp(d)
 % in the order  d(1)+d(2)*z+d(3)*z^2+...+d(N)*z^(N-1) whereas the Octave
 % (Matlab?) convention is d(1)*z^(N-1)+d(2)*z^(N-2)+...+d(N)
 
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

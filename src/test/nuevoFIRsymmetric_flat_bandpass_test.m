@@ -2,7 +2,7 @@
 % Design an interpolated FIR filter by the method of Nuevo et al. with
 % a maximally-flat model filter.
 %
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 
 test_common;
 

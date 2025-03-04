@@ -7,7 +7,7 @@
 % P. Zahradnik, 2013 European Conference on Circuit Theory and Design,
 % DOI: 10.1109/ECCTD.2013.6662301
 % 
-% Copyright (C) 2019-2021 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 
 test_common;
 

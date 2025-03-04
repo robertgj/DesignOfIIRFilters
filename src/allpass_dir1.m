@@ -3,7 +3,7 @@ function [y,xx]=allpass_dir1(b1,u,rounding)
 % Filter the input u with the first order direct form allpass section with
 % coefficient, b1. If rounding=="round", the output is rounded to nearest.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

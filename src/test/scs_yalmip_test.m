@@ -1,6 +1,6 @@
 % scs_yalmip_test.m
 % Experiment with YALMIP examples from yalmiptest.m to work out how to call SCS
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 
 test_common;
 

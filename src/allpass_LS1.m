@@ -3,7 +3,7 @@ function [y,xx]=allpass_LS1(c1,u,rounding)
 % Filter the input u with the first order LS1 allpass section with
 % coefficient, c1. If rounding=="round", the output is rounded to nearest.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

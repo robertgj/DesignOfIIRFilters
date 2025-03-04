@@ -12,7 +12,7 @@ function svcasc2cc(a11,a12,a21,a22,b1,b2,c1,c2,d,bits,name)
 % containing the corresponding state variable for each section in the
 % filter.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

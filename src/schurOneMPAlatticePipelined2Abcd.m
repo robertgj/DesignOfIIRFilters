@@ -19,7 +19,7 @@ function [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=schurOneMPAlatticePipelined2Abcd ...
 %   dAdx, etc - the derivatives of the state variable matrixes wrt
 %                 x=[A1k(:);A1kk(:);A2k(:);A2kk(:)]
 
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

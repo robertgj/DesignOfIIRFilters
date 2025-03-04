@@ -23,7 +23,7 @@ function [Esq,gradEsq]=schurOneMAPlattice_frm_hilbertEsq ...
 %   Esq - the squared error value at x
 %   gradEsq - gradient of the squared error value at x
 
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

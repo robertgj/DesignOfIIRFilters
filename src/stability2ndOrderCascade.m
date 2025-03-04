@@ -3,7 +3,7 @@ function [C,e]=stability2ndOrderCascade(m,limit_cycle)
 % Return the second order stability and limit-cycle constraint
 % matrixes, C and e, for an order m filter denominator polynomial.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

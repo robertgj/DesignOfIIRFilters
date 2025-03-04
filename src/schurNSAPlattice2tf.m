@@ -4,7 +4,7 @@ function r=schurNSAPlattice2tf(s20,s00,s02,s22,R)
 % scaled-normalised lattice with coefficients s20, s00, s02 and s22
 % and terms in z^R.
 
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

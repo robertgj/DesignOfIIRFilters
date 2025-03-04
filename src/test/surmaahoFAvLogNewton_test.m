@@ -1,5 +1,5 @@
 % surmaahoFAvLogNewton_test.m
-% Copyright (C) 2018-2024 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 
 test_common;
 

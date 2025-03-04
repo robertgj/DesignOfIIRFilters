@@ -1,6 +1,6 @@
 % directFIRsymmetric_kyp_lowpass_test.m
 %
-% Copyright (C) 2022-2023 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 
 % SDP design of a symmetric direct-form FIR lowpass filter with the
 % KYP lemma. See Section VII.B.2, pp. 53-55 of "Generalised KYP Lemma:

@@ -12,7 +12,7 @@ function h=purczynskiFIRantisymmetric_linear_differentiator(N,p)
 % Outputs:
 %   h - coefficients of the anti-symmetric FIR differentiator filter
 
-% Copyright (C) 2020-2022 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

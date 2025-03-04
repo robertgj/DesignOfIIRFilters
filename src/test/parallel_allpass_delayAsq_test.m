@@ -1,5 +1,5 @@
 % parallel_allpass_delayAsq_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 % Check the squared-magnitude response and gradient for the parallel
 % combination of an allpass filter and a pure delay
 

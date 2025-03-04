@@ -12,7 +12,7 @@ function h=gumacosFIRsymmetric_flat_halfband(M)
 % Digital Filters", C. Gumacos, IEEE Transactions of Circuits and Systems,
 % Vol. 25, No. 4, April 1978, pp. 234-235
   
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

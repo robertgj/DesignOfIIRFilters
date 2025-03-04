@@ -1,5 +1,5 @@
 % tarczynski_frm_parallel_allpass_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Design an FRM filter from a parallel allpass IIR model filter
 % and FIR masking filters using the method of Tarczynski et al.

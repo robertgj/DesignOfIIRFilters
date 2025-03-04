@@ -1,5 +1,5 @@
 % gloptipolydemo_test.m
-% Copyright (C) 2022 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 % See:
 % [1] "GloptiPoly 3 - moments, optimization and semidefinite programming",
 % D. Henrion, J. B. Lasserre and Johan Lofberg,

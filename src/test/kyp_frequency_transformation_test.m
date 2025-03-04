@@ -1,5 +1,5 @@
 % kyp_frequency_transformation_test.m
-% Copyright (C) 2022-2023 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 %
 % Numerical verification of Lemma 2 of "Generalization of Kalman-Yakubovic-Popov
 % Lemma for Restricted Frequency Inequalities", T. Iwasaki and S. Hara,

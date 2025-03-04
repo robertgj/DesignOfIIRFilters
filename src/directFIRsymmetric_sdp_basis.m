@@ -23,7 +23,7 @@ function [Ea,Eb,Ec,Ed]=directFIRsymmetric_sdp_basis(n)
 % of Trigonometric Curves", H. D. Tuan et al, IEEE Transactions on Signal
 % Processing, Vol. 55, No. 9, September 2007, pp. 4393-4404
  
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

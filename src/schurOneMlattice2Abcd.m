@@ -21,7 +21,7 @@ function [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc, ...
 %  d2Adydx,d2Bdydx,d2Cdydx,d2Ddydx - cell matrixes of the second differentials
 %  d2Capdydx,d2Dapdydx     - cell matrix of the second differentials of Cap,Dap
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

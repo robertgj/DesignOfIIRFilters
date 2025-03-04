@@ -3,7 +3,7 @@ function x=elliptic_F(phi,k,tol)
 % See Equation 4.1 of "Computing elliptic integrals by duplication",
 % B.C.Carlson, Numerische Mathematik, 33:1-16, 1979
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

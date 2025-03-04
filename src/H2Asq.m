@@ -17,7 +17,7 @@ function [Asq,gradAsq,diagHessAsq,hessAsq]=H2Asq(H,dHdx,diagd2Hdx2,d2Hdydx)
 %   diagHessAsq - diagonal of the Hessian of Asq with respect to x
 %   hessAsq - Hessian of Asq
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

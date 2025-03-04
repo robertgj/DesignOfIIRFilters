@@ -13,7 +13,7 @@ function gradSqErr=directFIRsymmetricGradSqErr(w,_hM,_Ad,_Wa)
 % The angular frequency 2*pi corresponds to the sample rate. Ad and Wa are
 % assumed to be evenly spaced in angular frequency from 0 to pi inclusive.
   
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

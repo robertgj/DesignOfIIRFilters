@@ -1,5 +1,5 @@
 % benchmark_iirA_freqz_test.m
-% Copyright (C) 2022 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 
 test_common;
 

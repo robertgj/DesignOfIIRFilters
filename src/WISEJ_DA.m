@@ -12,7 +12,7 @@ function E=WISEJ_DA(a,_R,_D,_poly,_Ad,_Wa,_Td,_Wt)
 % For the polyphase combination:
 %   H(z)=(z^(-D*R)+z^(-1)*a(z^R))/2
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

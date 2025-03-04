@@ -1,5 +1,5 @@
 % branch_bound_directFIRhilbert_12_nbits_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 % Branch-and-bound search of a direct-form Hilbert filter
 % with 12-bit 2-signed-digit coefficients

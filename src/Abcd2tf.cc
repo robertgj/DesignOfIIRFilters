@@ -32,7 +32,7 @@
 // Compile with:
 //   mkoctfile -lgmp -lmpfr Abcd2tf.cc
 
-// Copyright (C) 2022-2024 Robert G. Jenssen
+// Copyright (C) 2022-2025 Robert G. Jenssen
 //
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 

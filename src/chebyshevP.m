@@ -5,7 +5,7 @@ function [Pn,Pnm1]=chebyshevP(n,kind)
 % or second kind. Both Pn and the previous polynomial
 % are returned for convenience.
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

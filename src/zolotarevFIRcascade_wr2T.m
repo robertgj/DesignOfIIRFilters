@@ -12,7 +12,7 @@ function [a,ha,Qa,wQa]=zolotarevFIRcascade_wr2T(wr,p,wmax,nplot)
 % P.Zahradnik, M.Susta,B.Simak and M.Vlcek, IEEE Transactions on Circuits
 % and Systems-II:Express Briefs, Vol. 64, No. 4, April 2017, pp. 407-411
   
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

@@ -17,7 +17,7 @@ function [Azp,gradAzp,diagHessAzp]=...
 %   gradAzp - the gradients of Azp with respect to fM, k0 and k1
 %   diagHessAzp - diagonal of the Hessian of Azp with respect to fM, k0 and k1
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

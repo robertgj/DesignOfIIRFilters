@@ -1,5 +1,5 @@
 % saramakiFIRcascade_ApproxII_multiband_test.m
-% Copyright (C) 2020-2024 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 %
 % Design a multi-band FIR filter as the tapped cascade of sub-filters
 % following Saramaki's Approximation Problem II.

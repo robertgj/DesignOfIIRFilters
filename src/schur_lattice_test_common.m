@@ -1,5 +1,5 @@
 % schur_lattice_test_common.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 if x==1
   N=7;fc=0.15;

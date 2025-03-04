@@ -3,7 +3,7 @@ function [a1,a2]=tf2pa(n,d,tol)
 % Find the denominator polynomials, a1 and a2, of the parallel
 % allpass filter that implements the transfer function n(z)/d(z)
   
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

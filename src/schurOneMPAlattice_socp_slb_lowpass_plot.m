@@ -2,7 +2,7 @@ function schurOneMPAlattice_socp_slb_lowpass_plot ...
            (A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference, ...
             fap,dBap,ftp,td,tdr,fas,dBas,strF)
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

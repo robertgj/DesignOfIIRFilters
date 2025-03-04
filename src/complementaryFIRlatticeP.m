@@ -14,7 +14,7 @@ function [P,gradP]=complementaryFIRlatticeP(w,k,khat)
 %   P - the phase response at w
 %   gradP - the gradients of P with respect to k and khat
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

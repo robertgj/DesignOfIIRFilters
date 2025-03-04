@@ -11,7 +11,7 @@ function [N,D,B]=Abcd2tf(A,b,c,d)
 % See Appendix 8A, pp. 332-333 of "Digital Signal Processing", R.A. Roberts
 % and C.T. Mullis, Addison-Wesley ISBN 0-201-16350-0
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

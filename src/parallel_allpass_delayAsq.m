@@ -21,7 +21,7 @@ function [Asq, gradAsq,diagHessAsq]=parallel_allpass_delayAsq(w,a,V,Q,R,D, ...
 %  diagHessAsq - the diagonal of the Hessian of Asq with respect to the
 %                coefficients of the allpass filter, a
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

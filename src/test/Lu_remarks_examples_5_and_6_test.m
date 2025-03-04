@@ -1,6 +1,6 @@
 % Lu_remarks_examples_5_and_6_test.m
 % See: http://www.ece.uvic.ca/~wslu/Talk/SeDuMi-Remarks.pdf
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 

@@ -1,5 +1,5 @@
 % affineFIRsymmetric_lowpass_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 %
 % See:
 % [1] "Exchange Algorithms that Complement the Parks-McClellan Algorithm for

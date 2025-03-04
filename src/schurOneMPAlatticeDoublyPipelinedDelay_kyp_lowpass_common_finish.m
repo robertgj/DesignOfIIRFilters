@@ -1,5 +1,5 @@
 % schurOneMPAlatticeDoublyPipelinedDelay_kyp_lowpass_common_finish.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 
 % Find all-pass denominator polynomial
 Dap=schurOneMAPlattice2tf(k);

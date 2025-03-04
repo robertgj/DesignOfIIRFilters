@@ -1,5 +1,5 @@
 % butt6NSPABP_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Test case for the 6th order Butterworth band-pass lattice filter
 

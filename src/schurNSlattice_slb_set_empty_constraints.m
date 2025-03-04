@@ -2,7 +2,7 @@ function vS=schurNSlattice_slb_set_empty_constraints()
 % vS=schurNSlattice_slb_set_empty_constraints()
 % Return an empty constraint structure
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

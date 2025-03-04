@@ -1,5 +1,5 @@
 % bitflip_bandpass_test_common.m
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 % PCLS IIR band pass filter from iir_sqp_slb_bandpass_test.m
 iir_sqp_slb_bandpass_test_D1_coef;

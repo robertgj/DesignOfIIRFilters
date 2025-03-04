@@ -1,5 +1,5 @@
 % kyp_complex_curve_test.m
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 % See: T. Iwasaki and S. Hara, "Generalised KYP Lemma: Unified Frequency
 % Domain Inequalities With Design Applications", IEEE Transactions on
 % Automatic Control, Vol. 50, No. 1, pp. 41–59, January 2005

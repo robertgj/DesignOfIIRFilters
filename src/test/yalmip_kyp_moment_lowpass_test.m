@@ -1,5 +1,5 @@
 % yalmip_kyp_moment_lowpass_test.m
-% Copyright (C) 2022-2024 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 %
 % Design of a direct-form symmetric FIR lowpass filter with the KYP lemma.
 %

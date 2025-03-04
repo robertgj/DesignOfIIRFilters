@@ -3,7 +3,7 @@ function [y,xx]=allpass_MH2dt(b1,b2,u,rounding)
 % Filter the u with the second order MH2dt allpass section with coefficients
 % b1 and b2. If rounding=="round", the output is rounded to nearest.
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

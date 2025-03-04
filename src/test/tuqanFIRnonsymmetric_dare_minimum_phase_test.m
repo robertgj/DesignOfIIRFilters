@@ -1,5 +1,5 @@
 % tuqanFIRnonsymmetric_dare_minimum_phase_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 %
 % Implement calculation of the minimum phase component, H(z), from the causal
 % part of a transfer function F(z)=H(z)H(z^-1)=D(z)+D(z^-1) by solving the

@@ -4,7 +4,7 @@ function [c1,c2]=allpass_LS2a_pole2coef(arg1,arg2,real_comp_str)
 % Given the LS2a second order all-pass filter section pole locations,
 % return the coefficients c1 and c2.
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

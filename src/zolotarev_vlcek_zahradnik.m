@@ -27,7 +27,7 @@ function [h,wp,wm,ws,a,aplus]=zolotarev_vlcek_zahradnik(p,q,k,tol)
 % P. Zahradnik, Circuits Syst Signal Process (2013) 32:743–757,
 % DOI 10.1007/s00034-012-9484-0
 
-% Copyright (C) 2019-2020 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

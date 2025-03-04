@@ -5,7 +5,7 @@ function [ng,hl2,xbits]=svcasc2noise(a11,a12,a21,a22,b1,b2,c1,c2,dd)
 % fractional extra number of bits per section, xbits, for a cascade of
 % second order state variable sections.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

@@ -21,7 +21,7 @@ function [T, gradT]=parallel_allpassT(w,ab,Va,Qa,Ra,Vb,Qb,Rb, ...
 %  gradT - the gradient of T with respect to the coefficients of a
 %          and b
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

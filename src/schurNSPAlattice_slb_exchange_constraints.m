@@ -7,7 +7,7 @@ function [next_vR,next_vS,exchanged] = ...
 % Check for violation of the constraints in vR. If any constraints are violated
 % then move the constraint with the greatest violation from vR to vS.
 
-% Copyright (C) 2023-2024 Robert G. Jenssen
+% Copyright (C) 2023-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

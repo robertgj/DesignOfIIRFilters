@@ -1,5 +1,5 @@
 % complex_lower_hessenberg_inverse_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 

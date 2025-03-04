@@ -8,7 +8,7 @@
 //   Bioinformatics Applications" by David Jones, UCL Bioinformatics Group
 //
 
-// Copyright (C) 2017-2019 Robert G. Jenssen
+// Copyright (C) 2017-2025 Robert G. Jenssen
 // 
 // This program is free software; you can redistribute it
 // and/or modify it underthe terms of the GNU General Public

@@ -1,7 +1,7 @@
 % vlcekFIRsymmetric_flat_lowpass_test.m
 % Design a maximally-flat FIR filter with the algorithm of Vlcek et al. 
 %
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 
 test_common;
 

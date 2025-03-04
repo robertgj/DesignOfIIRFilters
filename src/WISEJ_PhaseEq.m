@@ -7,7 +7,7 @@ function E=WISEJ_PhaseEq(a,_Va,_Qa,_Ra,_x,_Ux,_Vx,_Mx,_Qx,_Rx,_w,_tp)
 % Filters", A. Tarczynski et al., IEEE Transactions on Signal Processing,
 % Vol. 49, No. 7, pp. 1421-1432
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

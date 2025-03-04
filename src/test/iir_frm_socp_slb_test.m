@@ -1,5 +1,5 @@
 % iir_frm_socp_slb_test.m
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 % Design an FRM filter having an IIR model filter expressed in
 % gain-pole-zero form and linear phase (ie: symmetric) masking filters.
 % The squared-magnitude and group delay responses are PCLS optimised.

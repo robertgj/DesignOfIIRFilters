@@ -41,7 +41,7 @@ function spt=bin2SPT(x,nbits)
 %          bitget(1.5,1) returns 0
 %          bitget(1.499999999999999,1) returns 1
   
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

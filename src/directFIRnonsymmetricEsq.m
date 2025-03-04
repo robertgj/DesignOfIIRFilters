@@ -16,7 +16,7 @@ function [Esq,gradEsq]=directFIRnonsymmetricEsq(h,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)
 %   Esq - the squared error value at h, a scalar
 %   gradEsq - gradient of the squared error value at h, a row vector
   
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

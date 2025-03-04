@@ -9,7 +9,7 @@ function [F,delFdelB]=saramakiFBv(B,n,m,v)
 % "Design of Optimum Recursive Digital Filters with Zeros on the Unit Circle",
 % T. Saramaki, IEEE Trans. ASSP, April 1983.
   
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

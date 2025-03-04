@@ -1,5 +1,5 @@
 % yalmip_kyp_check_iir_bandpass_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 %
 % Use the KYP lemma to check the response of a parallel all-pass one-multiplier
 % Schur lattice bandpass filter for which the phase at the phase pass-band lower

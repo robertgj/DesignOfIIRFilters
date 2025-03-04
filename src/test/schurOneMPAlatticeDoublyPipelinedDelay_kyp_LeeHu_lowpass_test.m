@@ -1,5 +1,5 @@
 % schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Design a Schur one-multiplier all-pass filter with the Finsler
 % transformation of the KYP lemma and the BMI convex over-approximation

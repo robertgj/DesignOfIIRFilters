@@ -1,6 +1,6 @@
 function deczky1_slb_show_constraints(vS,wa,A,wt,T,wx,delAdelw)
 
-% Copyright (C) 2018-2024 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

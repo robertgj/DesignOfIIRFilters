@@ -1,5 +1,5 @@
 % affine_mcclellanFIRsymmetric_lowpass_test.m
-% Copyright (C) 2019-2020 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % See: "Exchange Algorithms that Complement the Parks-McClellan Algorithm for
 % Linear-Phase FIR Filter Design", Ivan W. Selesnick and C. Sidney Burrus,

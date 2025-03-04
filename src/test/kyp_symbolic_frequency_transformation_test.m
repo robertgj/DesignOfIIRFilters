@@ -1,5 +1,5 @@
 % kyp_symbolic_frequency_transformation_test.m
-% Copyright (C) 2022 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 %
 % Try to verify Lemmas etc. in "Generalization of Kalman-Yakubovic-Popov Lemma
 % for Restricted Frequency Inequalities", T. Iwasaki and S. Hara, Proceedings

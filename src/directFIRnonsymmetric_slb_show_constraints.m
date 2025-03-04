@@ -1,6 +1,6 @@
 function directFIRnonsymmetric_slb_show_constraints(vS,wa,Asq,wt,T,wp,P)
 
-% Copyright (C) 2021-2024 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

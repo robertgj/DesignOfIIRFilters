@@ -11,7 +11,7 @@ function hM=xfr2tf(M,x,A,tol)
 % Output:
 %   hM - M+1 distinct coeficients of the impulse response
   
-% Copyright (C) 2019-2020 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

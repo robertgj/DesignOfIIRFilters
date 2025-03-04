@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_multiband_test.m
-% Copyright (C) 2020-2024 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 
 test_common;
 

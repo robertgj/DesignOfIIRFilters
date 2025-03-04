@@ -1,5 +1,5 @@
 % GlAB_test.m
-% Copyright (C) 2022 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 
 % Check Equation 2.8 of "GENERALIZING THE KYP LEMMA TO MULTIPLE FREQUENCY
 % INTERVALS", G. Pipeleers, T. Iwasaki and S. Hara,SIAM Journal on Control

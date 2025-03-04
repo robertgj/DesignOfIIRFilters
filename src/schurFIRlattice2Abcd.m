@@ -5,7 +5,7 @@ function [A,B,C,D]=schurFIRlattice2Abcd(k)
 % Outputs:
 %  [A,B,C,D] is the state variable description of the Schur FIR lattice filter
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

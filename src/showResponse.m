@@ -1,7 +1,7 @@
 function showResponse(x,U,V,M,Q,R,str)
 % showResponse(x,U,V,M,Q,R,str)
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

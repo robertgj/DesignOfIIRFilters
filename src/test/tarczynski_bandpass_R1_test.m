@@ -1,5 +1,5 @@
 % tarczynski_bandpass_R1_test.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a bandpass filter. See:
 % "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,

@@ -24,7 +24,7 @@ function [A,B,C,D,Aap,Bap,Cap,Dap,ABCD0,ABCDk,ABCDc,ABCDap0,ABCDapk] = ...
 %  ABCDap0 - constant values in [Aap,Bap,Cap,Dap]
 %  ABCDapk - cell array of coefficient matrixes of k in [Aap,Bap,Cap,Dap]
   
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

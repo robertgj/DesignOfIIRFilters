@@ -12,7 +12,7 @@ function [k,khat] = complementaryFIRdecomp(h,g,tol)
 % Vol. 33, No. 11, pp 1045-1064, November 1986.
 % 
   
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

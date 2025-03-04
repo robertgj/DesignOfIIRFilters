@@ -5,7 +5,7 @@ function [b,a]=tfp2g(B,A,p,s)
 % and p(z)=Sum[k=0,M](p(k)z^(-k)) find the corresponding G(z)=H(F(z)).
 % s=1 for low-pass and s=-1 for low-stop
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

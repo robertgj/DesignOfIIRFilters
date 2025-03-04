@@ -7,7 +7,7 @@ function [acs,err]=arccs(z,k,tol)
 % [2] "POWER SERIES FOR INVERSE JACOBIAN ELLIPTIC FUNCTIONS", B.C.Carlson,
 % MATHEMATICS OF COMPUTATION, Vol. 77, No. 263, July 2008, pp. 1615–1621
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

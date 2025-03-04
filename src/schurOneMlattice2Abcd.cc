@@ -19,7 +19,7 @@
 //                                    of A, B, C and w.r.t k and c
 //  d2Capdxdy,d2Dapdxdy - cell vectors of the second differentials of Cap and Dap
 
-// Copyright (C) 2017-2024 Robert G. Jenssen
+// Copyright (C) 2017-2025 Robert G. Jenssen
 //
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 

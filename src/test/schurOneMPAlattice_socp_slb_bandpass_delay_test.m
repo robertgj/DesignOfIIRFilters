@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_bandpass_delay_test.m
-% Copyright (C) 2023-2024 Robert G. Jenssen
+% Copyright (C) 2023-2025 Robert G. Jenssen
 %
 % Find a parallel all-pass one-multiplier Schur lattice bandpass filter for
 % which the phase at the phase pass-band lower edge is (w*tp)+(n*pi).

@@ -1,5 +1,5 @@
 % mcclellanFIRsymmetric_lowpass_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Compare with: b=remez(2*M,[0 fap fas 0.5]*2,[1 1 0 0],[1/K,1],16)
 % See: "Chebyshev Approximation for Nonrecursive Digital Filters with

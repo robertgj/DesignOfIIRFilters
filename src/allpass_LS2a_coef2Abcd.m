@@ -4,7 +4,7 @@ function [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_LS2a_coef2Abcd(c1,c2)
 % return the state variable description and cell arrays of the derivatives
 % of the state variable description with respect to c1 and c2.
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

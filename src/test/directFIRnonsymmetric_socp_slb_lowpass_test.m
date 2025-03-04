@@ -1,6 +1,6 @@
 % directFIRnonsymmetric_socp_slb_lowpass_test.m
 % Optimisation of direct-form nonsymmetric FIR lowpass filter response
-% Copyright (C) 2021-2024 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 
 %{
 % See Example 1 of "Estimation of filter order for prescribed, reduced

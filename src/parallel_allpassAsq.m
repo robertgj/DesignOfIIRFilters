@@ -24,7 +24,7 @@ function [Asq, gradAsq]=parallel_allpassAsq(w,ab,K,Va,Qa,Ra,Vb,Qb,Rb, ...
 %  gradAsq - the gradient of Asq with respect to the coefficients of
 %           filters a and b
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

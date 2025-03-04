@@ -11,7 +11,7 @@ function S=chebyshevP_backward_recurrence(a,kind)
 % Chebyshev polynomials of the first or second kind, F, calculate the
 % sum of a(k)*F{k}(x) by backwards recursion.
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

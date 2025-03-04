@@ -18,7 +18,7 @@ function [a11,a12,a21,a22,b1,b2,c1,c2]=pq2svcasc(p1,p2,q1,q2,opt)
 % on Acoustics, Speech and Signal Processing, Vol. 33, No. 1,
 % February 1985, pp. 106-110
   
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

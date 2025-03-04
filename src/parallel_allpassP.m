@@ -21,7 +21,7 @@ function [P, gradP]=parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb, ...
 %  gradP - the gradient of P with respect to the coefficients of a
 %          and b
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

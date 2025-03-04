@@ -3,7 +3,7 @@ function ng=allpass_MH3dtp_coef2ng(b1,b2)
 % Given the MH3dtp second order all-pass filter section coefficients, b1 and b2,
 % return the noise gain.
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

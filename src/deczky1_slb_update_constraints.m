@@ -1,6 +1,6 @@
 function vS=deczky1_slb_update_constraints(x,U,V,M,Q,R, ...
                                            wa,Adu,Adl,Wa,wt,Tdu,Tdl,Wt,wx,ctol)
-% Copyright (C) 2018-2024 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

@@ -1,7 +1,7 @@
 function schurNSlattice_sqp_slb_lowpass_plot ...
            (s10,s11,s20,s00,s02,s22,fap,dBap,ftp,tp,tpr,fas,dBas,strF,strT)
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

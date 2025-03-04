@@ -3,7 +3,7 @@ function b1=allpass_dir1_pole2coef(r1)
 % Given the dir1 first order all-pass filter section pole location,
 % return the coefficient, b1.
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

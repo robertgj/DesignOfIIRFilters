@@ -14,7 +14,7 @@ function [A,gradA]=directFIRhilbertA(wa,hM,order)
 %   gradA - the gradients of the amplitude wrt hM at wa. The rows of gradA
 %           are the gradients of A at each frequency in wa. 
   
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

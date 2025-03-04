@@ -4,7 +4,7 @@ function [E gradE]=...
 % [E gradE]= parallel_allpass_mmse_error...
 %   (abk,_K,_Va,_Qa,_Ra,_Vb,_Qb,_Rb,_poly,_wa,_Asqd,_Wa,_wt,_Td,_Wt)
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

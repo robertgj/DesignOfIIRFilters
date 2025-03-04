@@ -1,5 +1,5 @@
 % johanssonOneMlattice_socp_slb_bandstop_test.m
-% Copyright (C) 2019-2022 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 
 test_common;
 

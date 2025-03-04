@@ -5,7 +5,7 @@
  *      R. Unbehauen, IEEE Transactions on Signal Processing, Vol. 47,
  *      No. 3, March, 1999, pp. 717-730
  *
- * Copyright (C) 2019 Robert G. Jenssen
+ * Copyright (C) 2019-2025 Robert G. Jenssen
  */
 
 /* The second-order linear differential equation of Zolotarev functions */

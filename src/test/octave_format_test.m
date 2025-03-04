@@ -1,5 +1,5 @@
 % octave_format_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 
 [f,t]=format
 0

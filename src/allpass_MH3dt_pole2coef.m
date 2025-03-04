@@ -4,7 +4,7 @@ function [b1,b2]=allpass_MH3dt_pole2coef(arg1,arg2,real_comp_str)
 % Given the MH3dt second order all-pass filter section pole locations,
 % return the coefficients b1 and b2.
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

@@ -1,5 +1,5 @@
 % schurOneMR2lattice2Abcd_symbolic_test.m
-% Copyright (C) 2022 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 %
 % Create symbolic descriptions of Schur one-multiplier all-pass filters with
 % non-zero denominator coefficients only for powers of z^-2.

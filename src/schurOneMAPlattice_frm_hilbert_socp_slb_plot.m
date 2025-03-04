@@ -2,7 +2,7 @@ function schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
            (k,epsilon,p,u,v,Mmodel,Dmodel,nplot,strT,strF,strOpt, ...
             wa,Asqdu,Asqdl,wt,Tdu,Tdl,wp,Pdu,Pdl)
 
-% Copyright (C) 2017-2021 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

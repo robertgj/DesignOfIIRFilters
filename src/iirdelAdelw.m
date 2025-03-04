@@ -52,7 +52,7 @@ function [delAdelw,graddelAdelw,del2Adelw2]=iirdelAdelw(w,x,U,V,M,Q,R,tol)
 %
 %   4. NaN is quietly set to 0
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

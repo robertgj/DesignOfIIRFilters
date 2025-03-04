@@ -1,5 +1,5 @@
 % schurOneMPAlatticeDoublyPipelined2Abcd_kyp_symbolic_test.m
-% Copyright (C) 2023-2024 Robert G. Jenssen
+% Copyright (C) 2023-2025 Robert G. Jenssen
 %
 % Create a symbolic version of the KYP lemma for doubly pipelined Schur
 % one-multiplier parallel all-pass filters. 

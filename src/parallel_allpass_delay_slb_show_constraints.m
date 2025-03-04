@@ -1,6 +1,6 @@
 function parallel_allpass_delay_slb_show_constraints(vS,wa,A2u,A2l,wt,Tu,Tl)
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

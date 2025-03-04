@@ -1,5 +1,5 @@
 % dumitrescu_MA_estimation_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 %
 % Implement MA estimation with the method of the dual of the SDP trace
 % parameterisation by Dumitrescu at al. See Equation 47, "On the

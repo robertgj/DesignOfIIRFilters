@@ -3,7 +3,7 @@ function [A,B,C,D]=contfrac(b,a)
 % Find the state variable equations for the continued fraction
 % expansion of the transfer function b(z)/a(z)
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

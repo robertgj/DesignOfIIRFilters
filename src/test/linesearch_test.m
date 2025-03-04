@@ -1,5 +1,5 @@
 % Example of line search using golden section, armijo or Goldstein test
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 

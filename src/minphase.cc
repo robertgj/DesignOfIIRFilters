@@ -8,7 +8,7 @@
 //   It is presumed that any unit-circle zeros of h are of even multiplicity. 
 //   Copyright (c) January 2002  by  H. J. Orchard and A. N. Willson, Jr.
 
-// Copyright (C) 2017 Robert G. Jenssen
+// Copyright (C) 2017-2025 Robert G. Jenssen
 //
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 

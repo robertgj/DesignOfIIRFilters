@@ -7,7 +7,7 @@ function [a11,a12,a21,a22,b1,b2,c1,c2]=pq2blockKWopt(dd,p1,p2,q1,q2,delta)
 % necessary to detect a first order transfer function implemented in a
 % second-order section.
   
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

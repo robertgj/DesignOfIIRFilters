@@ -9,7 +9,7 @@ function [A,B,Ch,Dh,Cg,Dg,dAdkkhat,dBdkkhat,dChdkkhat,dDhdkkhat, ...
 %  [A,B,Ch,Dh] is the state variable description of the FIR lattice filter
 %  [A,B,Cg,Dg] is the state variable description of the complementary filter
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

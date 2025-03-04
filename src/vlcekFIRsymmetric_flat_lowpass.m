@@ -15,7 +15,7 @@ function hM=vlcekFIRsymmetric_flat_lowpass(M,K)
 % Pavel Zahradnik and Rolf Unbehauen, IEEE Transactions on Signal Processing,
 % Vol. 48, No. 9, September 2000, pp. 2705-2709
   
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

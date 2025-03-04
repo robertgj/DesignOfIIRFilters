@@ -4,7 +4,7 @@ function x=jacobi_theta1k(z,k,tol)
 % Functions", http://dlmf.nist.gov/, edited by F. W. J. Olver, et al.
 % Given k, if K'(k)>K(k) then implement equation 20.2.1, otherwise 20.7.30.
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

@@ -22,7 +22,7 @@ function [dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw] = ...
 %   diagHessdAsqdw - diagonal of the Hessian of dAsqdw with respect to k
 %   hessdAsqdw - Hessian of dAsqdw with respect to k
 
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

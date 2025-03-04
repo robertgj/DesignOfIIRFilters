@@ -4,7 +4,7 @@ function [x_digits,x_adders]=SDadders(x,nbits)
 % total number of digits and adders required to implement the
 % signed-digit representation of x.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

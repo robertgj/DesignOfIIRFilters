@@ -5,7 +5,7 @@ function X=dlyap_recursive(P,Q,tol)
 % See "Digital Signal Processing", R. A. Roberts and 
 % C. T. Mullis, Section 9.11 .
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

@@ -1,5 +1,5 @@
 % yalmip_kyp_lmirank_lowpass_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 %
 % Try using LMIRank to solve the KYP lemma problem without
 % using the Schur complement using the constraint : rank(X)<=1

@@ -1,5 +1,5 @@
 % vaidyanathan_trick_test.m
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % See: "A “TRICK” for the Design of FIR Half-Band Filters
 % P. P. Vaidyanathan and Truong Q. Nguyen, IEEE Transactions on

@@ -6,7 +6,7 @@ function [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=...
 % k1 and k2, return the state variable description and cell arrays of the
 % derivatives of the state variable description with respect to k1 and k2.
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

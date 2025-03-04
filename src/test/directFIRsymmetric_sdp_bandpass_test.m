@@ -1,5 +1,5 @@
 % directFIRsymmetric_sdp_bandpass_test.m
-% Copyright (C) 2021-2023 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 %
 % See: "Efficient Large-Scale Filter/Filterbank Design via LMI
 % Characterization of Trigonometric Curves", H. D. Tuan, T. T. Son,

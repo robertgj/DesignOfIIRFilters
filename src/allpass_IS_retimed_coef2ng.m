@@ -3,7 +3,7 @@ function ng=allpass_IS_retimed_coef2ng(d1,d2)
 % Given the IS_retimed second order all-pass filter section coefficients,
 % d1 and d2, return the noise gain due to truncation at the state inputs.
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

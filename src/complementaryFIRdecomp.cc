@@ -15,7 +15,7 @@
 // Vol. 33, No. 11, pp 1045-1064, November 1986.
 
 
-// Copyright (C) 2017-2022 Robert G. Jenssen
+// Copyright (C) 2017-2025 Robert G. Jenssen
 //
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 

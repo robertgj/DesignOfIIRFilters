@@ -29,7 +29,7 @@ function [ng,ngap]=schurNSlatticeRetimedNoiseGain(s10,s11,s20,s00,s02,s22)
 %                    V  s22  |
 %       <------------+<------o------<
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

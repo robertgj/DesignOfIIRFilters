@@ -39,7 +39,7 @@ function [Aap,Bap,Cap,Dap,dummy1,dummy2,dummy3,dummy4] = ...
 %
 % The epsilon scaling is assumed to be applied after the k are determined.
   
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

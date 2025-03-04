@@ -4,7 +4,7 @@ function ng=allpass_GM2_coef2ng(arg1,arg2,arg3,arg4)
 % Given the GM2 second order all-pass filter section coefficients, k1 and k2,
 % return the noise gain due to truncation at the state inputs. 
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

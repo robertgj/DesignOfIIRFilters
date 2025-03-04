@@ -28,7 +28,7 @@
 //   -183.58856   665.70949  -819.16332   345.04239
 //
 
-// Copyright (C) 2017,2023 Robert G. Jenssen
+// Copyright (C) 2017-2025 Robert G. Jenssen
 //
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 

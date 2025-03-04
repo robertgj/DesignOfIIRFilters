@@ -1,5 +1,5 @@
 % mcclellanFIRsymmetric_lowpass_alternate_test.m
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 %
 % See:
 % [1] "Chebyshev Approximation for Nonrecursive Digital Filters with

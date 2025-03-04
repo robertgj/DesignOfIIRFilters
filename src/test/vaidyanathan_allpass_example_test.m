@@ -1,5 +1,5 @@
 % vaidyanathan_allpass_example_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 % Example from Section V of "A New Approach to the Realization of
 % Low-Sensitivity IIR Digital Filters", P. P. Vaidyanathan, S.K. Mitra,
 % Y. Neuvo, IEEE Transactions on Acoustics, Speech and Signal Processing,

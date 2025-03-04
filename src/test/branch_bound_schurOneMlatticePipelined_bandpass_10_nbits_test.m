@@ -1,5 +1,5 @@
 % branch_bound_schurOneMlatticePipelined_bandpass_10_nbits_test.m
-% Copyright (C) 2023-2024 Robert G. Jenssen
+% Copyright (C) 2023-2025 Robert G. Jenssen
 
 % Branch-and-bound search of a pipelined Schur one-multiplier lattice bandpass
 % filter response with 10-bit 3-signed-digit coefficients

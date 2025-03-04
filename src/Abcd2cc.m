@@ -3,7 +3,7 @@ function Abcd2cc(A,b,c,d,bits,name)
 % Generate C++ code for a state variable filter [A,b,c,d] with bits 
 % fixed-point precision. c and d can represent block filter outputs.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

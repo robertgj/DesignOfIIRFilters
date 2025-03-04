@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_kyp_union_double_bandpass_test.m
-% Copyright (C) 2023-2024 Robert G. Jenssen
+% Copyright (C) 2023-2025 Robert G. Jenssen
 %
 % SDP design of a non-symmetric FIR double bandpass filter with the KYP
 % lemma. The pass band responses are set to e^{-j*w*d}. The stop band

@@ -1,5 +1,5 @@
 % allpass_filter_test.m
-% Copyright (C) 2018,2022 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 
 test_common;
 

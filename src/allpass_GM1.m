@@ -6,7 +6,7 @@ function [y,xx]=allpass_GM1(arg1,arg2,arg3,arg4)
 % Filter the input u with the first order GM1 allpass section with
 % coefficient, k1. If rounding=="round", the output is rounded to nearest.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

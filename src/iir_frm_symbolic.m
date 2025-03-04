@@ -3,7 +3,7 @@
 % the squared-amplitude and phase response and gradients
 % for the FRM filter with an IIR model filter
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 clear all
 pkg load symbolic

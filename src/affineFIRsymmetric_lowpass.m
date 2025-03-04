@@ -34,7 +34,7 @@ function [hM,deltap,deltas,fext,fiter,feasible]= ...
 % IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS—II: ANALOG AND DIGITAL SIGNAL
 % PROCESSING, VOL. 44, NO. 2, FEBRUARY 1997, pp.137-143
 
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

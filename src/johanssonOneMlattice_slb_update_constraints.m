@@ -1,7 +1,7 @@
 function vS=johanssonOneMlattice_slb_update_constraints(A,Adu,Adl,Wa,ctol)
 % vS=johanssonOneMlattice_slb_update_constraints(A,Adu,Adl,Wa,ctol)
 
-% Copyright (C) 2019-2024 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

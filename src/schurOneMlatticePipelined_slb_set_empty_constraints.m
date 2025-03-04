@@ -2,7 +2,7 @@ function vS=schurOneMlatticePipelined_slb_set_empty_constraints()
 % vS=schurOneMlatticePipelined_slb_set_empty_constraints()
 % Return an empty constraint structure
 
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

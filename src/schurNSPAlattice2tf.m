@@ -3,7 +3,7 @@ function [n,d]=schurNSPAlattice2tf(A1s20,A1s02,A1s00,A1s22, ...
 % [n,d]=schurNSPAlattice2tf(A1s20,A1s02,A1s00,A1s22,A2s20,A2s02,A2s00,A2s22, ...
 %                           difference)
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

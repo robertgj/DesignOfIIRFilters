@@ -47,7 +47,7 @@
 // vector, w, of length Nw and the columns correspond to the coefficient
 // vector, x, of length Nx. d2Hdydx is returned as a matrix of size (Nw,Nx,Nx).
 
-// Copyright (C) 2017-2024 Robert G. Jenssen
+// Copyright (C) 2017-2025 Robert G. Jenssen
 //
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 

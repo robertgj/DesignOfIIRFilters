@@ -12,7 +12,7 @@ function [a,V,Q]=p2a(p,tol)
 %   V - number of real poles
 %   Q - number of conjugate pole-zero pairs
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

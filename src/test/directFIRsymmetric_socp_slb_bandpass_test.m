@@ -5,7 +5,7 @@
 % FREQUENCY INTERVALS", GOELE PIPELEERS, TETSUYA IWASAKI, AND SHINJI HARA, 
 % SIAM J. CONTROL OPTIM., Vol. 52, No. 6, pp. 3618–3638
 %
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 

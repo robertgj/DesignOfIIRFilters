@@ -1,5 +1,5 @@
 % branch_bound_johanssonOneMlattice_bandstop_16_nbits_test.m
-% Copyright (C) 2019-2021 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 
 % Branch-and-bound search of Johansson and Saramaki cascade all-pass band-stop
 % filter response with 16-bit 3-signed-digit coefficients

@@ -1,5 +1,5 @@
 % sedumi_real_toepest_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 %
 % See Section 4 of SeDuMi_1_3/doc/SeDuMi_Guide_105R5.pdf
 % Compare the output of this script with Section 4 of the User Guide

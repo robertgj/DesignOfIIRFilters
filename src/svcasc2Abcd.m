@@ -29,7 +29,7 @@ function [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=...
 % This function will attempt to remove that row but it may fail to do so when
 % the the state-variable cascade second-order sections are not in direct form.
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

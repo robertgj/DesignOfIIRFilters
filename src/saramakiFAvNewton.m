@@ -11,7 +11,7 @@ function [z,p,K,dBas,iter] = ...
 % Unit Circle", T. Saramaki, IEEE Trans. ASSP, April 1983. (I use v
 % instead of w to avoid confusion between w and omega).
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

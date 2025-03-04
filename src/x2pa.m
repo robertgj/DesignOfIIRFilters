@@ -3,7 +3,7 @@ function [a1,V1,Q1,a2,V2,Q2]=x2pa(x,U,V,M,Q,R,tol)
 % Find the all-pass single vector representations, a1 and a2, of
 % the parallel allpass filter with the single vector representation, x
   
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

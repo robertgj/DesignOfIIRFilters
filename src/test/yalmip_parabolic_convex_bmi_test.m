@@ -1,5 +1,5 @@
 % yalmip_parabolic_convex_bmi_test.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % See "Convexiﬁcation of Bilinear Matrix Inequalities via
 % Conic and Parabolic Relaxations", Kheirandishfard et al.,

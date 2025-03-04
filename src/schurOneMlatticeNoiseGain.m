@@ -45,7 +45,7 @@ function ng=schurOneMlatticeNoiseGain(S,k,epsilon,p,c,d,n,e)
 % (eg: at [i] in the original flow graph corresponding to the figure above)
 % or because a double-length accumulator is assumed (eg: at [ii], likewise).
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

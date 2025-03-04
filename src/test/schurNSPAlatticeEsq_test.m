@@ -1,5 +1,5 @@
 % schurNSPAlatticeEsq_test.m
-% Copyright (C) 2023-2024 Robert G. Jenssen
+% Copyright (C) 2023-2025 Robert G. Jenssen
 
 test_common;
 

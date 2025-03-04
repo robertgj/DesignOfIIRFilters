@@ -5,7 +5,7 @@
 %     "PRACTICAL OPTIMIZATION : Algorithms and Engineering Applications" by
 %     Andreas Antoniou and Wu-Sheng Lu ISBN-10: 0-387-71106-6
 %
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 
 test_common;
 

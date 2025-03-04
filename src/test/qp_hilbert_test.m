@@ -1,5 +1,5 @@
 % qp_hilbert_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 
 test_common;
 

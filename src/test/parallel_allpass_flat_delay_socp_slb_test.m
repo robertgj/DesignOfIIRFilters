@@ -1,5 +1,5 @@
 % parallel_allpass_flat_delay_socp_slb_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 %
 % Design an allpass filter in parallel with a delay with approximately flat
 % passband delay response

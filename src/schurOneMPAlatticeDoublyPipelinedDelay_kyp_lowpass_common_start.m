@@ -1,5 +1,5 @@
 % schurOneMPAlatticeDoublyPipelinedDelay_kyp_lowpass_common_start.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 
 % Filter specification
 tol=5e-6,N=5,DD=4,fap=0.10,Wap=0.1,fas=0.20,Was=200

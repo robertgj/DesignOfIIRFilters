@@ -8,7 +8,7 @@ function [P,gradP]=directFIRnonsymmetricP(w,h)
 %   gradP - the gradients of the phase wrt h at wa. The rows of gradP
 %           are the gradients of P at each frequency in w. 
   
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

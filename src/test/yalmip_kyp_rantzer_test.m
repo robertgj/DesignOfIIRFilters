@@ -1,5 +1,5 @@
 % yalmip_kyp_rantzer_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 %
 % See "Proof of Theorem 2" :
 % "On the Kalman-Yakubovich-Popov Lemma for Positive Systems", Anders Rantzer,

@@ -27,7 +27,7 @@ function [Asq,gradAsq,diagHessAsq,hessAsq] = ...
 %   diagHessAsq - diagonal of the Hessian of Asq with respect to k,etc
 %   hessAsq - Hessian of Asq with respect to k,etc
 
-% Copyright (C) 2023-2024 Robert G. Jenssen
+% Copyright (C) 2023-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

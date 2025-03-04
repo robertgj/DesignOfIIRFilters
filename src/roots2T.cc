@@ -2,7 +2,7 @@
 // coefficients of the expansion of the polynomial in Chebyshev
 // polynomials of the first kind
 
-// Copyright (C) 2019 Robert G. Jenssen
+// Copyright (C) 2019-2025 Robert G. Jenssen
 //
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 

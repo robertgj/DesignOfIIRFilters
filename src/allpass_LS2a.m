@@ -3,7 +3,7 @@ function [y,xx]=allpass_LS2a(c1,c2,u,rounding)
 % Filter the u with the second order LS2a allpass section with coefficients
 % c1 and c2. If rounding=="round", the output is rounded to nearest.
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

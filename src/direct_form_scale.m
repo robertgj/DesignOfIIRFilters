@@ -12,7 +12,7 @@ function [scaled_b,scaled_w,scaled_H] = direct_form_scale(b,a,Nw)
 %   scaled_w - frequency response angular frequencies
 %   scaled_H - frequency response
 
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

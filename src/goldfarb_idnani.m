@@ -26,7 +26,7 @@ function [x,W,invW,iter,feasible]=goldfarb_idnani(x0,pfx,pgx,tol,maxiter,verbose
 % Convex Quadratic Programs", D. Goldfarb and A. Idnani, Mathematical 
 % Programming 27 (1983) pp. 1-33
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

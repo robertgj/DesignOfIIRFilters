@@ -1,6 +1,6 @@
 % gkstep_test.m :
 %
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Illustrate the effect of rounding-to-minus-infinity
 % quantisation noise. The state variable form of a filter is:

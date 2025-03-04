@@ -3,7 +3,7 @@ function vS=schurOneMAPlattice_frm_slb_update_constraints ...
 % vS=schurOneMAPlattice_frm_slb_update_constraints ...
 %      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,ctol)
 
-% Copyright (C) 2019-2024 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

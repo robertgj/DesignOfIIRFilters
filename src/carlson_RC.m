@@ -5,7 +5,7 @@ function [RC,err]=carlson_RC(x0,y0,tol)
 % B.C.Carlson, Numerische Mathematik, 33:1-16, 1979. The case of
 % y0<0 is handled with equation 2.12.
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

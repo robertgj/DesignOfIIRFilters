@@ -1,5 +1,5 @@
 % kyp_complex_curve_union_test.m
-% Copyright (C) 2021-2022 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 %
 % See: Section 3 of "Generalizing the KYP Lemma to multiple frequency
 % intervals", G. Pipeleers, T. Iwasaki, S. Hara, SIAM J. Control. Optim.,

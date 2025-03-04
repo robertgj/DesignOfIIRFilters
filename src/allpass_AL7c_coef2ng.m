@@ -3,7 +3,7 @@ function ng=allpass_AL7c_coef2ng(k1,k2)
 % Given the AL7c second order all-pass filter section coefficients,
 % k1 and k2, return the noise gain due to truncation at the state inputs.
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

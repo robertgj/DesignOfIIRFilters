@@ -23,7 +23,7 @@ function [H,dHdw,dHdk,d2Hdwdk,diagd2Hdk2,diagd3Hdwdk2,d2Hdydx,d3Hdwdydx] = ...
 %  d3Hdwdydx - complex matrix of the hessian of the response wrt the
 %              reflection coefficients, k, and w with size [Nw,Nk,Nk]
   
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

@@ -4,7 +4,7 @@ function [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_MH2d_coef2Abcd(b1,b2)
 % return the state variable description and cell arrays of the derivatives
 % of the state variable description with respect to b1 and b2.
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

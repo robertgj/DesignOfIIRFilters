@@ -1,5 +1,5 @@
 % yalmip_sdp_ellipsoid_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 %
 % See Section 8.3 of "Introduction to Semidefinite Programming (SDP)",
 % Robert M. Freud

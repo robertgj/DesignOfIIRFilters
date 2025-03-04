@@ -8,7 +8,7 @@ function [y,xx]=svf(a,b,c,d,u,rounding,efb)
 % to sample number. The rows of u are inputs at each sample and the
 % rows of y are the outputs at each sample.
 
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

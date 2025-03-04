@@ -1,5 +1,5 @@
 % iir_socp_slb_fir_lowpass_test.m
-% Copyright (C) 2020-2024 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 
 test_common;
 

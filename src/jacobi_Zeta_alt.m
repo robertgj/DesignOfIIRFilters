@@ -3,7 +3,7 @@ function z=jacobi_Zeta_alt(x,k,tol)
 % See Section 22.16(iii) and equations 22.16.30 and 22.16.32 of the
 % Digital Library of Mathematical Functions at https://dlmf.nist.gov/22.16
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

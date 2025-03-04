@@ -7,7 +7,7 @@ function Txy = crossWelch(x,y,m)
 % overlap noverlap=m/2. Using an m-point FFT, successive sections 
 % are Hanning windowed, FFTed and accumulated.
 
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

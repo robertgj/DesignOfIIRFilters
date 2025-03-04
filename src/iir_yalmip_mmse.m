@@ -62,7 +62,7 @@ iir_yalmip_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...
 %   func_iter - number of function calls
 %   feasible - x satisfies the constraints 
 
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

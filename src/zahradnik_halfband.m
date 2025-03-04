@@ -14,7 +14,7 @@ function [hn,a,alpha]=zahradnik_halfband(n,kp)
 % P. Zahradnik and M. Vlcek, IEEE Transactions on Circuits and Systems - II:
 % Express Briefs, Vol. 56, No. 12, December 2009, pp. 941-945
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

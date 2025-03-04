@@ -7,7 +7,7 @@ function a=chebyshevT_expand(p)
 
 % TODO: Implement expansion in chebyshevP.m by overloading n with p
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

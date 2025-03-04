@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_kyp_finsler_lowpass_test.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 
 % SDP design of a direct-form FIR lowpass filter with the Finsler transform
 % of the generalised KYP lemma. See: Section VII.B.2, pp. 53-55 of "Generalised

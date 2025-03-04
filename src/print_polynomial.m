@@ -13,7 +13,7 @@ function print_polynomial(x,name_str,arg3,arg4)
 %   - an output file and printf format string (it contains '%') 
 %   - an output file and integer scaling
 
-% Copyright (C) 2017-2019 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

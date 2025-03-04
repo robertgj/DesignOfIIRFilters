@@ -1,5 +1,5 @@
 % p2n60_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 %
 % Test case for estimate for time to decay to -60dB
 

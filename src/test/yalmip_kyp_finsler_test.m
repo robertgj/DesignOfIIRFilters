@@ -1,5 +1,5 @@
 % yalmip_kyp_finsler_test.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Check the generalised KYP lemma after transformation by Finsler's lemma
 

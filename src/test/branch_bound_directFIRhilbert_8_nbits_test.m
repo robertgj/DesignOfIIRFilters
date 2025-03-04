@@ -1,5 +1,5 @@
 % branch_bound_directFIRhilbert_8_nbits_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 % Branch-and-bound search of even-order direct-form hilbert bandpass filter
 % response with 8-bit signed-digit coefficients

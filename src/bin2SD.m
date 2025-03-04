@@ -5,7 +5,7 @@ function y=bin2SD(x,nbits,ndigits)
 % signed-digit number with nbits ternary digits from {-1,0,1} of which
 % ndigits are non-zero.
   
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

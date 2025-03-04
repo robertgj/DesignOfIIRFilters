@@ -2,7 +2,7 @@ function r = qroots(p)
 % r = qroots(p);
 % qroots is a wrapper function that calls qzsolve.oct if it exists
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

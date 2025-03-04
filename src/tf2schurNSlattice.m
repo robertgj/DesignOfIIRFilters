@@ -37,7 +37,7 @@ function [s10,s11,s20,s00,s02,s22,c,S] = tf2schurNSlattice(n,d)
 % Reference: Chapter 12 of "VLSI Digital Signal Processing Systems: 
 % Design and Implementation", by K. K. Parhi, Wiley, ISBN 0-471-24186-5
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

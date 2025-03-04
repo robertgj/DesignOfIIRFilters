@@ -1,5 +1,5 @@
 % branch_bound_schurOneMlatticePipelined_lowpass_16_nbits_test.m
-% Copyright (C) 2023-2024 Robert G. Jenssen
+% Copyright (C) 2023-2025 Robert G. Jenssen
 
 % Branch-and-bound search of a pipelined Schur one-multiplier lattice 
 % low-pass filter response with 16-bit 4-signed-digit coefficients

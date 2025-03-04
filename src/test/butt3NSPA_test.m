@@ -1,5 +1,5 @@
 % butt3NSPA_test.m
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 % 
 % Test case for the 3rd order Butterworth lattice filter
 % implemented as the parallel combination of two allpass

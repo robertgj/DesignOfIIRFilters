@@ -1,5 +1,5 @@
 % mcclellanFIRsymmetric_linear_differentiator_fail_test.m
-% Copyright (C) 2020-2022 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 %
 % Failed implementation of a maximally-linear FIR differentiator filter. The
 % stop-band filter is calculated with mcclellanFIRsymmetric.m Small errors in

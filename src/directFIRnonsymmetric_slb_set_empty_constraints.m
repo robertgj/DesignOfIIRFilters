@@ -2,7 +2,7 @@ function vS=directFIRnonsymmetric_slb_set_empty_constraints()
 % vS=directFIRnonsymmetric_slb_set_empty_constraints()
 % Return an empty constraint structure
 
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

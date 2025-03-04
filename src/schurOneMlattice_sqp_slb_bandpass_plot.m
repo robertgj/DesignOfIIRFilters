@@ -1,7 +1,7 @@
 function schurOneMlattice_sqp_slb_bandpass_plot ...
   (k,epsilon,p,c,fapl,fapu,dBap,ftpl,ftpu,tp,tpr,fasl,fasu,dBas,strF,strT)
 
-% Copyright (C) 2017-2020 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

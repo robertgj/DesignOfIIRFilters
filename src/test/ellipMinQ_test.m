@@ -1,5 +1,5 @@
 % ellipMinQ_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % An example of the design of a minimal-Q elliptic IIR filter.
 %

@@ -4,7 +4,7 @@ function print_allpass_pole(a,V,Q,R,name_str,file_name_str,format_str)
 % vector [pR(1:V); abs(p(1:Qon2)); angle(p(1:Qon2))] where pR represents
 % real poles and p represents conjugate pole pairs.
   
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

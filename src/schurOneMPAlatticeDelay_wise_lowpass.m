@@ -13,7 +13,7 @@ function Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was,td,ftp,Wtp)
 % Output:
 %  Da0 - allpass denominator polynomial
   
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

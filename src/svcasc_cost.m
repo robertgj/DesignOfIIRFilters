@@ -35,7 +35,7 @@ function [cost,a11,a12,a21,a22,b1,b2,c1,c2,dd,svecnz_out] = ...
 %       - de_min fails if max_cost is inf
 %       - simplex fails if max_cost is not inf
   
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

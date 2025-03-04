@@ -21,7 +21,7 @@ function [x,U,V,M,Q]=tf2x(b,a,tol)
 %   M - number of conjugate zero pairs
 %   Q - number of conjugate pole pairs
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

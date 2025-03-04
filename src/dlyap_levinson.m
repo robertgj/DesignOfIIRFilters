@@ -4,7 +4,7 @@ function X=dlyap_levinson(P,Q)
 % discrete Lyapunov equation X=PXP'+Q*Q'
 % See Roberts and Mullis p. 393 and p. 527
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

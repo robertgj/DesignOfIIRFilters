@@ -1,5 +1,5 @@
 % schurOneMPAlatticeDelay_socp_slb_lowpass_flat_delay_test.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 
 % Design a lowpass filter consisting of the parallel combination of a
 % Schur one-multiplier lattice allpass filter and a delay and having an

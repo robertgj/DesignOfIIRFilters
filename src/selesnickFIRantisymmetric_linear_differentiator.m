@@ -20,7 +20,7 @@ function [h,c]=selesnickFIRantisymmetric_linear_differentiator(N,K)
 % TRANSACTIONS ON CIRCUITS AND SYSTEMS—II: ANALOG AND DIGITAL SIGNAL
 % PROCESSING, VOL. 43, NO. 9, SEPTEMBER 1996, pp. 671-675
 
-% Copyright (C) 2020-2022 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

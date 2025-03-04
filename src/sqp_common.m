@@ -1,7 +1,7 @@
 1;
 
 % sqp_common.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 
   % Expected minimum: x=[-sqrt(2); 1; -0.527];

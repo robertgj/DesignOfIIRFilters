@@ -3,7 +3,7 @@ function ng=allpass_LS2a_coef2ng(c1,c2)
 % Given the LS2a second order all-pass filter section coefficients, c1 and c2,
 % return the noise gain due to truncation at the state inputs.
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

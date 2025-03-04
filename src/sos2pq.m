@@ -6,7 +6,7 @@ function [d,p1,p2,q1,q2]=sos2pq(sos,g)
 %                      -----------------------
 %                      1 + (p1/z) + (p2/(z*z))
 
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

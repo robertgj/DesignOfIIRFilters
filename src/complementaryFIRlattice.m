@@ -4,7 +4,7 @@ function [hm,g,k,khat] = complementaryFIRlattice(h,tol,Nw)
 % h, H, ie: |H|^2+|G|^2=1, and the FIR lattice coefficients, k and khat.
 % h is scaled so that max|H|=1.
   
-% Copyright (C) 2017-2022 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

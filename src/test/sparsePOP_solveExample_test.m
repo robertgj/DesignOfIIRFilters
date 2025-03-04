@@ -1,5 +1,5 @@
 % sparsePOP_solveExample_test.m
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 %
 % Run the SparsePOP solveExample function.
 % An exception is caught for k_exclude=[36,45,46,54,70,71,88,92]

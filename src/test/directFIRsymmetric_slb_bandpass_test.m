@@ -1,5 +1,5 @@
 % directFIRsymmetric_slb_bandpass_test.m
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 % Also M=31;dBap=0.039217209;dBas=60.01714835;dBapt=0.188164;dBast=44.152;
 

@@ -1,5 +1,5 @@
 % schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq_test.m
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 
 % Test the series combination of a doubly-pipelined parallel-allpass lattice
 % filter and a low-pass anti-aliasing filter. The doubly-pipelined lattice has

@@ -3,7 +3,7 @@ function [Tn,Tnm1]=chebyshevT(n)
 % Return the Chebyshev polynomial of the first kind of order n.
 % For convenience, also return the polynomial of next lower order.
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

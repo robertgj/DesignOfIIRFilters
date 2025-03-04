@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_delay_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Design a lowpass filter from the parallel combination of an allpass
 % filter and a delay using the method of Tarczynski et al. 

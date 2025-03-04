@@ -14,7 +14,7 @@ function [a,V,Q]=tf2a(den,tol)
 %   V - number of real poles
 %   Q - number of conjugate pole pairs
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

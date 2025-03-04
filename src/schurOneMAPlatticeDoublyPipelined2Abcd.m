@@ -11,7 +11,7 @@ function [apA,apB,apC,apD,apA0,apAl] = schurOneMAPlatticeDoublyPipelined2Abcd(k)
 %  apA0,apAl - corresponding basis matrixes for the all-pass filter:
 %              apA=apA0 + sum_over_l k(l)*apAl{l}
 
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

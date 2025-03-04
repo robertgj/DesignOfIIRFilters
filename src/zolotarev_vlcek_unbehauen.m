@@ -12,7 +12,7 @@ function [a,b]=zolotarev_vlcek_unbehauen(p,q,k)
 %     M. Vlcek and R. Unbehauen, IEEE Transactions on Signal Processing,
 %     Vol. 48, No.7, July, 2000 p. 2171
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

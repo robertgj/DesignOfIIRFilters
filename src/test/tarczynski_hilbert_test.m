@@ -1,5 +1,5 @@
 % tarczynski_hilbert_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Design a full-band Hilbert transform filter, H(w)=-jsign(w), using
 % the method of Tarczynski et al.  See "A WISE Method for Designing 

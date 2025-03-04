@@ -14,7 +14,7 @@ function [T,gradT]=complementaryFIRlatticeT(w,k,khat)
 %   T - the group delay response at w
 %   gradT - the gradients of T with respect to k and khat
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

@@ -1,5 +1,5 @@
 % yalmip_test.m
-% Copyright (C) 2020-2024 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 
 % YALMIP assumes MATLAB linprog. OctaveForge optim linprog is not compatible.
 

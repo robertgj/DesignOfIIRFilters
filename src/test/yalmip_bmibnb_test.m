@@ -1,5 +1,5 @@
 % yalmip_bmibnb_test.m
-% Copyright (C) 2021-2023 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 % See the examples at: https://yalmip.github.io/tutorial/globaloptimization/
 
 test_common;

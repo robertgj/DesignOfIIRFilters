@@ -23,7 +23,7 @@ function [hM,a,haM]=herrmannFIRsymmetric_flat_lowpass(M,K,atype)
 %  [2] "On the Approximation Digital Filter Design", O. Herrmann, IEEE
 %      Transactions on Circuit Theory, May 1971, pp. 411-413
   
-% Copyright (C) 2020 Robert G. Jenssen
+% Copyright (C) 2020-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

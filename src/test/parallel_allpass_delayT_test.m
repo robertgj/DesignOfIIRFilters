@@ -1,5 +1,5 @@
 % parallel_allpass_delayT_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 % Check the group delay response and gradient for the parallel
 % combination of an allpass filter and a pure delay
 

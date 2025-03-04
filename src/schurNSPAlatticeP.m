@@ -17,7 +17,7 @@ function [P,gradP,diagHessP]=schurNSPAlatticeP ...
 %   P - the phase response at w
 %   gradP,diagHessP - the gradients of P with respect to A1sxx,A2sxx
 
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

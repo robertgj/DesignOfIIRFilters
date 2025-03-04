@@ -44,7 +44,7 @@ function [x1,socp_iter,feasible]=lowpass2ndOrderCascade_socp ...
 % IEEE Transactions on Circuits and Systems-I:Fundamental Theory and 
 % Applications, Vol. 50, No. 11, pp. 1401-1412, Nov. 2003
 
-% Copyright (C) 2017,2018 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

@@ -1,5 +1,5 @@
 % sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.m
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 
 % SDP relaxation optimisation of a direct-form FIR Hilbert filter
 % with 12-bit signed-digit coefficients

@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_socp_lowpass_test.m
-% Copyright (C) 2021-2023 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 % SDP design of a direct-form non-symmetric FIR lowpass filter with SOCP
 
 test_common;

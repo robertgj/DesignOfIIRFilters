@@ -5,7 +5,7 @@ function [y,xx]=allpass_MH3dtp(b1,b2,u,rounding)
 % section is derived from MH3dt by recognising that in that section, x1=-b1*x3
 % and removing state x1.
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

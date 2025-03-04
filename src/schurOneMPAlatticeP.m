@@ -22,7 +22,7 @@ function [P,gradP,diagHessP,hessP]=...
 %   diagHessP - diagonal of the Hessian of P with respect to k
 %   hessP - Hessian of P with respect to k
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

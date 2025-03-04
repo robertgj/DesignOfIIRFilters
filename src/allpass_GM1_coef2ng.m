@@ -5,7 +5,7 @@ function ng=allpass_GM1_coef2ng(k1,e1)
 % return the noise gain due to truncation at the state input.
 
 
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

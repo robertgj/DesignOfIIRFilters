@@ -1,5 +1,5 @@
 % yalmip_kyp_epsilon_test.m
-% Copyright (C) 2023 Robert G. Jenssen
+% Copyright (C) 2022-2025 Robert G. Jenssen
 %
 % If I use the direct form cheby2 state space system then in each case I get the
 % message:

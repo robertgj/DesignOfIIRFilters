@@ -5,7 +5,7 @@ function [f,w,p]=lagrange_interp(xk,fk,wk,x,tol,allow_extrap)
 % returned in w. See: "Barycentric Lagrange Interpolation", J.-P. Berrut
 % and L. N. Trefethen, SIAM Review, Vol. 46, No. 3, 2004, pp.501-517
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

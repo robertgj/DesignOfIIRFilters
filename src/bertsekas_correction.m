@@ -4,7 +4,7 @@ function [C,L]=bertsekas_correction(hessE)
 % definite. See Appendix D.2 of "Nonlinear Programming 2nd Edition",
 % D. P. Bertsekas, Athena Scientific, 1999, ISBN 1-886529-00-0.
 
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

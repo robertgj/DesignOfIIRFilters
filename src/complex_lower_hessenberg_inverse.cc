@@ -27,7 +27,7 @@ LD_PRELOAD=/usr/lib64/libasan.so.5 octave \
 #endif
 
 
-// Copyright (C) 2017 Robert G. Jenssen
+// Copyright (C) 2017-2025 Robert G. Jenssen
 //
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 

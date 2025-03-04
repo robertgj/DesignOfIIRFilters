@@ -22,7 +22,7 @@
 // See schurNSlattice2Abcd_test.m and compare with schurOneMlattice2Abcd_test.m.
 // Rewrite this function with extra precision using the Eigen or MPFR libraries!
 
-// Copyright (C) 2017-2024 Robert G. Jenssen
+// Copyright (C) 2017-2025 Robert G. Jenssen
 //
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 

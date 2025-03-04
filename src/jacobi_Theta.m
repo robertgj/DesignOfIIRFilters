@@ -1,7 +1,7 @@
 function x=jacobi_Theta(z,k,tol)
 % x=jacobi_Theta(z,k,tol)
 
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

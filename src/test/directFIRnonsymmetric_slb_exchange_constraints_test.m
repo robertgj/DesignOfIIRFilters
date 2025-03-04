@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_slb_exchange_constraints_test.m
-% Copyright (C) 2021 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 
 test_common;
 

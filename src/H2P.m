@@ -16,7 +16,7 @@ function [P,gradP,diagHessP,hessP]=H2P(H,dHdx,diagd2Hdx2,d2Hdydx)
 %   diagHessP - diagonal of the Hessian of P with respect to x
 %   hessP - Hessian of P
 
-% Copyright (C) 2024 Robert G. Jenssen
+% Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

@@ -7,7 +7,7 @@
 %  [2] Corrections to "Zolotarev Polynomials and Optimal FIR Filters",
 %      M. Vlcek and R. Unbehauen, IEEE Transactions on Signal Processing,
 %      Vol. 48, No.7, July, 2000 p. 2171
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 
 test_common;
 

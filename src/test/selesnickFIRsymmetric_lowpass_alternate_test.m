@@ -1,5 +1,5 @@
 % selesnickFIRsymmetric_lowpass_alternate_test.m
-% Copyright (C) 2021-2022 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 % Use the Selesnick-Burrus modification to Hofsteter's algorithm to design
 % a linear-phase FIR filter with the stop band specifications of Tuan et al.
 % Figure 4 in "Efficient Large-Scale Filter/Filterbank Design via LMI

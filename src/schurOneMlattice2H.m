@@ -27,7 +27,7 @@ function [H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2,diagd3Hdwdkc2,d2Hdydx,d3Hdwdydx]=...
 %  d2Hdydx - complex matrix of the second derivatives of H wrt [k,c]
 %  d3Hdwdydx - complex matrix of the second derivatives of H wrt [k,c] and wrt w
 
-% Copyright (C) 2017-2024 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation

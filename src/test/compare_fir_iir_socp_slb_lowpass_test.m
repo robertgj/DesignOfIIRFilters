@@ -1,5 +1,5 @@
 % compare_fir_iir_socp_slb_lowpass_test.m
-% Copyright (C) 2018 Robert G. Jenssen
+% Copyright (C) 2018-2025 Robert G. Jenssen
 
 test_common;
 

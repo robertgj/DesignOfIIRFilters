@@ -1,5 +1,5 @@
 % yalmip_kyp_lowpass_test.m
-% Copyright (C) 2021-2023 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 %
 % Somewhat better numerical performance with (kron(P,Phi)+kron(Q,Psi)) !?!?
 %

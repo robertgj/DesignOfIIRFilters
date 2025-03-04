@@ -1,5 +1,5 @@
 % decimator_R2_interpolated_test.m
-% Copyright (C) 2021-2024 Robert G. Jenssen
+% Copyright (C) 2021-2025 Robert G. Jenssen
 %
 % Example of an interpolated low-pass IIR decimator filter design using
 % quasi-Newton optimisation with constraints on the coefficients.

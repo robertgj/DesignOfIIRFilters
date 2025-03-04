@@ -1,7 +1,7 @@
 % chebyshevP_test.m
 % Check identities linking Chebyshev Type 1 and Type 2 polynomials
 % See : https://en.wikipedia.org/wiki/Chebyshev_polynomials#Relations_between_Chebyshev_polynomials_of_the_first_and_second_kinds
-% Copyright (C) 2019 Robert G. Jenssen
+% Copyright (C) 2019-2025 Robert G. Jenssen
 
 test_common;
 

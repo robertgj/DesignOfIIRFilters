@@ -1,5 +1,5 @@
 % parallel_allpass_delayEsq_test.m
-% Copyright (C) 2017-2023 Robert G. Jenssen
+% Copyright (C) 2017-2025 Robert G. Jenssen
 % Check the squared-error response and gradient for the parallel
 % combination of an allpass filter and a pure delay
 
