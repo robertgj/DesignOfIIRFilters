@@ -57,7 +57,7 @@ OPTFLAGS="-m64 -march=nehalem -O2"
 #
 # Get Octave archive
 #
-OCTAVE_VER=${OCTAVE_VER:-9.3.0}
+OCTAVE_VER=${OCTAVE_VER:-9.4.0}
 OCTAVE_ARCHIVE=octave-$OCTAVE_VER".tar.lz"
 OCTAVE_URL=https://ftp.gnu.org/gnu/octave/$OCTAVE_ARCHIVE
 if ! test -f $OCTAVE_ARCHIVE; then
@@ -102,7 +102,7 @@ if ! test -f $ARPACK_ARCHIVE; then
   wget -c $ARPACK_URL -O $ARPACK_ARCHIVE
 fi
 
-SUITESPARSE_VER=${SUITESPARSE_VER:-7.8.3}
+SUITESPARSE_VER=${SUITESPARSE_VER:-7.10.0}
 SUITESPARSE_ARCHIVE=SuiteSparse-$SUITESPARSE_VER".tar.gz"
 SUITESPARSE_URL=https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v$SUITESPARSE_VER".tar.gz"
 if ! test -f $SUITESPARSE_ARCHIVE; then
@@ -170,7 +170,7 @@ fi
 
 OCTAVE_FORGE_URL=https://downloads.sourceforge.net/project/octave/Octave%20Forge%20Packages/Individual%20Package%20Releases
 
-CONTROL_VER=${CONTROL_VER:-4.1.0}
+CONTROL_VER=${CONTROL_VER:-4.1.1}
 CONTROL_ARCHIVE=control-$CONTROL_VER".tar.gz"
 CONTROL_URL="https://github.com/gnu-octave/pkg-control/releases/download/control-"$CONTROL_VER/$CONTROL_ARCHIVE
 if ! test -f $CONTROL_ARCHIVE; then
@@ -212,7 +212,7 @@ if ! test -f $SIGNAL_ARCHIVE; then
   wget -c $SIGNAL_URL 
 fi
 
-STATISTICS_VER=${STATISTICS_VER:-1.7.0}
+STATISTICS_VER=${STATISTICS_VER:-1.7.3}
 STATISTICS_ARCHIVE=statistics-$STATISTICS_VER".tar.gz"
 STATISTICS_URL="https://github.com/gnu-octave/statistics/archive/refs/tags/release-"$STATISTICS_VER".tar.gz"
 if ! test -f $STATISTICS_ARCHIVE; then
@@ -543,21 +543,21 @@ rm -Rf octave-$OCTAVE_VER
 tar -xf $OCTAVE_ARCHIVE
 # Patch
 cat > octave-$OCTAVE_VER.patch.uue << 'EOF'
-begin-base64 644 octave-9.3.0.patch
-LS0tIG9jdGF2ZS05LjMuMC9saWJpbnRlcnAvY29yZWZjbi9sb2FkLXNhdmUu
-Y2MJMjAyNC0xMi0xMiAyMjozMDowMC4wMDAwMDAwMDAgKzExMDAKKysrIG9j
-dGF2ZS05LjMuMC5uZXcvbGliaW50ZXJwL2NvcmVmY24vbG9hZC1zYXZlLmNj
-CTIwMjUtMDEtMTQgMTg6NDc6NDguMDg2MzExMDM2ICsxMTAwCkBAIC0xMjks
+begin-base64 644 octave-9.4.0.patch
+LS0tIG9jdGF2ZS05LjQuMC9saWJpbnRlcnAvY29yZWZjbi9sb2FkLXNhdmUu
+Y2MJMjAyNS0wMi0wNiAwNDowMTowNS4wMDAwMDAwMDAgKzExMDAKKysrIG9j
+dGF2ZS05LjQuMC5uZXcvbGliaW50ZXJwL2NvcmVmY24vbG9hZC1zYXZlLmNj
+CTIwMjUtMDMtMDQgMTY6Mjk6MTMuODc4NTM2MzIwICsxMTAwCkBAIC0xMjks
 OCArMTI5LDggQEAKIHsKICAgY29uc3QgaW50IG1hZ2ljX2xlbiA9IDEwOwog
 ICBjaGFyIG1hZ2ljW21hZ2ljX2xlbisxXTsKLSAgaXMucmVhZCAobWFnaWMs
 IG1hZ2ljX2xlbik7CiAgIG1hZ2ljW21hZ2ljX2xlbl0gPSAnXDAnOworICBp
 cy5yZWFkIChtYWdpYywgbWFnaWNfbGVuKTsKIAogICBpZiAoc3RybmNtcCAo
 bWFnaWMsICJPY3RhdmUtMS1MIiwgbWFnaWNfbGVuKSA9PSAwKQogICAgIHN3
 YXAgPSBtYWNoX2luZm86OndvcmRzX2JpZ19lbmRpYW4gKCk7Ci0tLSBvY3Rh
-dmUtOS4zLjAvc2NyaXB0cy9zZXQvdW5pcXVlLm0JMjAyNC0xMi0xMiAyMjoz
-MDowMC4wMDAwMDAwMDAgKzExMDAKKysrIG9jdGF2ZS05LjMuMC5uZXcvc2Ny
-aXB0cy9zZXQvdW5pcXVlLm0JMjAyNS0wMS0xNCAxODo0Nzo0OC4wODczMTEw
-MzMgKzExMDAKQEAgLTg0LDkgKzg0LDYgQEAKICMjIG91dHB1dHMgQHZhcntp
+dmUtOS40LjAvc2NyaXB0cy9zZXQvdW5pcXVlLm0JMjAyNS0wMi0wNiAwNDow
+MTowNS4wMDAwMDAwMDAgKzExMDAKKysrIG9jdGF2ZS05LjQuMC5uZXcvc2Ny
+aXB0cy9zZXQvdW5pcXVlLm0JMjAyNS0wMy0wNCAxNjoyOToxMy44Nzk1NDYx
+OTYgKzExMDAKQEAgLTg0LDkgKzg0LDYgQEAKICMjIG91dHB1dHMgQHZhcntp
 fSwgQHZhcntqfSB3aWxsIGZvbGxvdyB0aGUgc2hhcGUgb2YgdGhlIGlucHV0
 IEB2YXJ7eH0gcmF0aGVyCiAjIyB0aGFuIGFsd2F5cyBiZWluZyBjb2x1bW4g
 dmVjdG9ycy4KICMjCi0jIyBUaGUgdGhpcmQgb3V0cHV0LCBAdmFye2p9LCBo
