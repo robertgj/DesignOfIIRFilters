@@ -127,8 +127,8 @@ strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tpr=%g,Wtp=%g",
 fa=wa*0.5/pi;
 subplot(211);
 plot(fa(1:nap),10*log10([Asq2(1:nap),Asqdu(1:nap),Asqdl(1:nap)]), ...
-     fa(vR2.al),10*log10(Asq2(vR2.al)),'*', ...
-     fa(vR2.au),10*log10(Asq2(vR2.au)),'+');
+     fa(vR2.al),10*log10(Asq2(vR2.al)),"*", ...
+     fa(vR2.au),10*log10(Asq2(vR2.au)),"+");
 axis([0,fap,-0.25,0.25]);
 grid("on");
 strM2=sprintf(strM,"2");
@@ -136,8 +136,8 @@ title(strM2);
 ylabel("Amplitude(dB)");
 subplot(212);
 plot(fa(nas:end),10*log10([Asq2(nas:end),Asqdu(nas:end)]), ...
-     fa(vR2.al),10*log10(Asq2(vR2.al)),'*', ...
-     fa(vR2.au),10*log10(Asq2(vR2.au)),'+');
+     fa(vR2.al),10*log10(Asq2(vR2.al)),"*", ...
+     fa(vR2.au),10*log10(Asq2(vR2.au)),"+");
 axis([fas,0.5,-60,-30]);
 grid("on");
 ylabel("Amplitude(dB)");
@@ -147,7 +147,7 @@ close
 
 % Plot group delay
 ft=wt*0.5/pi;
-plot(ft,[T2,Tdu,Tdl], ft(vR2.tl),T2(vR2.tl),'*', ft(vR2.tu),T2(vR2.tu),'+');
+plot(ft,[T2,Tdu,Tdl], ft(vR2.tl),T2(vR2.tl),"*", ft(vR2.tu),T2(vR2.tu),"+");
 grid("on");
 title(strM2);
 ylabel("Delay(samples)");
@@ -157,7 +157,7 @@ close
 
 % Plot phase error
 fp=wp*0.5/pi;
-plot(fp,uP2, fp(vR2.pl),uP2(vR2.pl,1),'*', fp(vR2.pu),uP2(vR2.pu,1),'+');
+plot(fp,uP2, fp(vR2.pl),uP2(vR2.pl,1),"*", fp(vR2.pu),uP2(vR2.pu,1),"+");
 grid("on");
 title(strM2);
 ylabel("Phase error(Rad./pi)");
@@ -167,7 +167,7 @@ close
 
 % Plot dAsqdw
 fd=wd*0.5/pi;
-plot(fd,[D2,Ddu,Ddl], fd(vR2.dl),D2(vR2.dl),'*', fd(vR2.du),D2(vR2.du),'+');
+plot(fd,[D2,Ddu,Ddl], fd(vR2.dl),D2(vR2.dl),"*", fd(vR2.du),D2(vR2.du),"+");
 grid("on");
 title(strM2);
 ylabel("dAsqdw");
@@ -188,10 +188,10 @@ schurOneMlatticePipelined_slb_show_constraints(vS7,w,Asq7,w,T7,w,P7,w,D7);
 subplot(211);
 plot(fa(1:nap),10*log10([Asq2(1:nap),Asq7(1:nap), ...
                          Asqdu(1:nap),Asqdl(1:nap)]), ...
-     fa(vR2.al),10*log10(Asq2(vR2.al)),'*', ...
-     fa(vR2.au),10*log10(Asq2(vR2.au)),'+', ...
-     fa(vS7.al),10*log10(Asq7(vS7.al)),'*', ...
-     fa(vS7.au),10*log10(Asq7(vS7.au)),'+');
+     fa(vR2.al),10*log10(Asq2(vR2.al)),"*", ...
+     fa(vR2.au),10*log10(Asq2(vR2.au)),"+", ...
+     fa(vS7.al),10*log10(Asq7(vS7.al)),"*", ...
+     fa(vS7.au),10*log10(Asq7(vS7.au)),"+");
 axis([0,fap,-0.25,0.25]);
 legend("Asq2","Asq7","Asqdu","Asqdu+tol")
 legend("boxoff")
@@ -204,10 +204,10 @@ subplot(212);
 plot(fa(nas:end), ...
      10*log10([Asq2(nas:end),Asq7(nas:end),Asqdu(nas:end), ...
                Asqdu(nas:end)+tol*ones(n-nas+1,1)]), ...
-     fa(vR2.al),10*log10(Asq2(vR2.al)),'*', ...
-     fa(vR2.au),10*log10(Asq2(vR2.au)),'+', ...
-     fa(vS7.al),10*log10(Asq7(vS7.al)),'*', ...
-     fa(vS7.au),10*log10(Asq7(vS7.au)),'+');
+     fa(vR2.al),10*log10(Asq2(vR2.al)),"*", ...
+     fa(vR2.au),10*log10(Asq2(vR2.au)),"+", ...
+     fa(vS7.al),10*log10(Asq7(vS7.al)),"*", ...
+     fa(vS7.au),10*log10(Asq7(vS7.au)),"+");
 axis([fas 0.5 -60 -30]);
 grid("on");
 ylabel("Amplitude(dB)");
@@ -217,8 +217,8 @@ close
 
 % Plot group delay
 plot(ft,[T2,T7,Tdu,Tdl], ...
-     ft(vR2.tl),T2(vR2.tl),'*',ft(vR2.tu),T2(vR2.tu),'+', ...
-     ft(vS7.tl),T7(vS7.tl),'*',ft(vS7.tu),T7(vS7.tu),'+');
+     ft(vR2.tl),T2(vR2.tl),"*",ft(vR2.tu),T2(vR2.tu),"+", ...
+     ft(vS7.tl),T7(vS7.tl),"*",ft(vS7.tu),T7(vS7.tu),"+");
 %axis([0 ftp tp-(tpr*2) tp+(tpr*4)]);
 grid("on");
 title(strM7);
@@ -232,8 +232,8 @@ close
 
 % Plot phase
 plot(fp,uP7, ...
-     fp(vR2.pl),uP7(vR2.pl,1),'*', fp(vR2.pu),uP7(vR2.pu,1),'+', ...
-     fp(vS7.pl),uP7(vS7.pl,2),'*', fp(vS7.pu),uP7(vS7.pu,2),'+');
+     fp(vR2.pl),uP7(vR2.pl,1),"*", fp(vR2.pu),uP7(vR2.pu,1),"+", ...
+     fp(vS7.pl),uP7(vS7.pl,2),"*", fp(vS7.pu),uP7(vS7.pu,2),"+");
 %axis([0 fpp (ppr*2) (ppr*4)]);
 grid("on");
 title(strM7);
@@ -247,8 +247,8 @@ close
 
 % Plot dAsqdw
 plot(fd,[D2,D7,Ddu,Ddl], ...
-     fd(vR2.dl),D2(vR2.dl),'*',fd(vR2.du),D2(vR2.du),'+', ...
-     fd(vS7.dl),D7(vS7.dl),'*',fd(vS7.du),D7(vS7.du),'+');
+     fd(vR2.dl),D2(vR2.dl),"*",fd(vR2.du),D2(vR2.du),"+", ...
+     fd(vS7.dl),D7(vS7.dl),"*",fd(vS7.du),D7(vS7.du),"+");
 %axis([0 fdp -dpr dpr]);
 grid("on");
 title(strM7);

@@ -21,7 +21,7 @@ w2=0.25*w2./std(w2);
 
 % A1,B1,B1,C1,C2,D11,D12,D21,D22 filter
 [A1a, B1a, C1a, D11] = butter (3,fc(1)*2);
-[A1b, B2b, C2b, D22] = butter (2,fc(1)*2,'high');
+[A1b, B2b, C2b, D22] = butter (2,fc(1)*2,"high");
 A1=[A1a,zeros(rows(A1a),columns(A1b));zeros(rows(A1b),columns(A1a)),A1b];
 B1=[B1a;zeros(rows(B2b),1)];
 B2=[zeros(rows(B1a),1);B2b];
@@ -32,7 +32,7 @@ D21=0.1;
 
 % A2,b1,b1,c1,c2,d12,d21,d22 filter
 [A2a, b1a, c1a, d12] = butter (4,fc(2)*2);
-[A2b, b2b, c2b, d22] = butter (6,fc(2)*2,'high');
+[A2b, b2b, c2b, d22] = butter (6,fc(2)*2,"high");
 A2=[A2a,zeros(rows(A2a),columns(A2b));zeros(rows(A2b),columns(A2a)),A2b];
 b1=[b1a;zeros(rows(b2b),1)];
 b2=[zeros(rows(b1a),1);b2b];

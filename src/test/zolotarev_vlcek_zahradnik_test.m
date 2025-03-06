@@ -122,7 +122,7 @@ SZwx=Zwx./sqrt(1-(wx.^2));
 Swx=polyval(Spq,wx);
 ZSwx=Swx.*sqrt(1-(wx.^2));
 subplot(211);
-plot(wx,ZSwx,'-',wx,Zwx,'--');
+plot(wx,ZSwx,"-",wx,Zwx,"-.");
 axis([-1.1 1.1 -2 8]);
 ylabel("Amplitude");
 grid("on");
@@ -138,7 +138,7 @@ strt=sprintf("$(1-w^{2})^{1/2}S_{%d,%d}(u,%4.2f)$ and $Z_{%d,%d}(u,%4.2f)$",
              p,q,k,p,q,k);
 title(strt);
 subplot(212);
-plot(wx,Swx,'-',wx,SZwx,'--');
+plot(wx,Swx,"-",wx,SZwx,"-.");
 axis([-1.1 1.1 -10 10]);
 xlabel("$w$");
 ylabel("Amplitude");

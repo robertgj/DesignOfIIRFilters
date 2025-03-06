@@ -300,7 +300,7 @@ fapl2_line=fapl2*ones(size(f));
 fapu2_line=fapu2*ones(size(f));
 fasl3_line=fasl3*ones(size(f));
 line_linewidth=0.5;
-line_colour='red';
+line_colour="red";
 subplot(221)
 plot(20*log10(abs(AN)),f, ...
      Amp_line,Fap_line,"linewidth",line_linewidth,"color",line_colour, ...

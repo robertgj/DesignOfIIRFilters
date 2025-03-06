@@ -385,8 +385,8 @@ str_active2=sprintf("%d",kc_active_max_n_hist(11));
 for l=12:length(kc_active_max_n_hist)
   str_active2=strcat(str_active2,sprintf(", %d",kc_active_max_n_hist(l)));
 endfor
-text(0.5,-2.4,str_active1,'fontsize',8);
-text(0.5,-2.7,str_active2,'fontsize',8);
+text(0.5,-2.4,str_active1,"fontsize",8);
+text(0.5,-2.7,str_active2,"fontsize",8);
 print(strcat(strf,"_coef_hist"),"-dpdflatex"); 
 close
 

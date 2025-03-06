@@ -65,7 +65,7 @@ printf("Adl(nchka)=[ ");printf("%6.4g ",Adl(nchka)');printf("];\n");
 printf("Wa(nchka)=[ ");printf("%6.4g ",Wa(nchka)');printf("];\n");
 
 % Make an initial band pass filter
-h0=remez(2*M,[0 fasl fapl fapu fasu 0.5]*2,[0 0 1 1 0 0],[10 1 10],'bandpass');
+h0=remez(2*M,[0 fasl fapl fapu fasu 0.5]*2,[0 0 1 1 0 0],[10 1 10],"bandpass");
 hM0=h0(1:(M+1));
 hM0_active=1:length(hM0);
 [hM1,slb_iter,socp_iter,func_iter,feasible]= ...

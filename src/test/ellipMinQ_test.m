@@ -244,7 +244,7 @@ for p=1:length(b_sd)
   b_sd{p}=zeros(size(b));
   mbin=dec2bin(p-1,length(b));
   for m=1:length(mbin),
-    if mbin(m)=='0'
+    if mbin(m)=="0"
       b_sd{p}(m)=b_sdl(m);
     else
       b_sd{p}(m)=b_sdu(m);

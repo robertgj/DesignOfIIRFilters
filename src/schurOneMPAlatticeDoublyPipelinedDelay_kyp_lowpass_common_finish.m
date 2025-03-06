@@ -31,8 +31,8 @@ T=(Tap+TDD)/2;
 subplot(211)
 [ax,h1,h2]=plotyy(fplot,logH_s,fplot,logH_s);
 ylabel("Amplitude(dB)");
-set(h1,'linestyle','-');
-set(h2,'linestyle','--');
+set(h1,"linestyle","-");
+set(h2,"linestyle","-.");
 legend("$A^{2}_{min}(dB)$","$A^{2}_{max}(dB)$");
 legend("box","off");
 legend("location","northeast");
@@ -65,8 +65,8 @@ close
 
 % Plot convergence
 [ax,h1,h2]=plotyy(1:length(list_norm_dk),list_norm_dk,1:length(list_Esq),list_Esq);
-set(h1,'linestyle','-');
-set(h2,'linestyle','--');
+set(h1,"linestyle","-");
+set(h2,"linestyle","-.");
 legend("$\\mathnorm{\\Delta_{\\boldsymbol{k}}}$","$\\mathcal{E}^2$");
 legend("box","off");
 legend("location","northeast");
@@ -84,8 +84,8 @@ close
 % Plot amplitude min,max
 [ax,h1,h2]=plotyy(1:length(list_Asq_min),10*log10(list_Asq_min), ...
                   1:length(list_Asq_max),10*log10(list_Asq_max));
-set(h1,'linestyle','-');
-set(h2,'linestyle','--');
+set(h1,"linestyle","-");
+set(h2,"linestyle","-.");
 legend("$A_{min}$(dB)","$A_{max}$(dB)");
 legend("box","off");
 legend("location","northwest");

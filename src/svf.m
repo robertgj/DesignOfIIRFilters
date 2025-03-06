@@ -54,7 +54,7 @@ if columns(u)~=columns(d)
   error("columns(u)~=columns(d)");
 endif
 if nargin==5
-  rounding='none';
+  rounding="none";
 endif
 
 % Decode rounding

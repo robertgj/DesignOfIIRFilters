@@ -23,22 +23,6 @@ tol=10*eps;
   save -ascii -double JacobiTheta.txt th
 
   % The following patch was required:
-
---- JacobiTheta.m.old	2019-07-04 00:04:24.327976192 +1000
-+++ JacobiTheta.m	2019-07-04 00:13:56.065856277 +1000
-@@ -1,6 +1,6 @@
- function result = JacobiTheta( X, K )
--%JACOBIETA Jacobi's Theta function.
--%   JACOBITHETA(X,K) is the Jacobi's Eta function of the elements of X and
-+%JACOBITHETA Jacobi's Theta function.
-+%   JACOBITHETA(X,K) is the Jacobi's Theta function of the elements of X and
- %   modulus K. X and K must all be real and the same size or any of them
- %   can be scalar.
- %
-@@ -15,7 +15,13 @@
-         error('Not enough input arguments.');
-     end
-     
 -    result = ufun2(@jtheta, X, K);
 +    if isnan(X) || isnan(K) || abs(K) > 1
 +        result = NaN;
@@ -47,9 +31,6 @@ tol=10*eps;
 +    v = pi*X/2/elK(K);
 +    q = elnome(K);
 +    result = ufun2(@jtheta4, v, q);
-     
- end
- 
 %}
 
 load JacobiTheta.txt

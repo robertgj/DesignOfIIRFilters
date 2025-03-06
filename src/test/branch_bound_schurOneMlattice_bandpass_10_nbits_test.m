@@ -35,7 +35,7 @@ schurOneMlattice_bandpass_10_nbits_common;
 c0_rd=round(c0*nscale)/nscale;
 c0_rd_range=ceil(-log2(min(abs(c0_rd(find(c0_rd~=0))))/max(abs(c0_rd))));
 printf("c0 rounded to %d bits has range %d bits\n",nbits,c0_rd_range);
-if exist('cscale','var')~=1
+if exist("cscale","var")~=1
   if (nbits-c0_rd_range-1)<=0
     cscale=1
   else

@@ -48,7 +48,7 @@ Wa=[Wasl*ones(nasl,1); ...
 
 % Make an initial band pass filter
 h0=remez(2*M,[0 fasl fapl fapu fasu 0.5]*2,[0 0 1 1 0 0], ...
-         [Wasl Wap Wasu],'bandpass');
+         [Wasl Wap Wasu],"bandpass");
 hM0=h0(1:(M+1));
 hM_active=1:length(hM0);
 

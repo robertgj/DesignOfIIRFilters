@@ -7,16 +7,16 @@ function res=resolvent(w,A,method_str)
 %   w : array of angular frequencies
 %   A : square matrix
 %   method_str : The methods implemented are:
-%    'matrix_inverse' : call "inv" to calculate the inverse (the default)
-%    'hessenberg_inverse' : assume A is a complex lower hessenberg matrix and
+%    "matrix_inverse" : call "inv" to calculate the inverse (the default)
+%    "hessenberg_inverse" : assume A is a complex lower hessenberg matrix and
 %       call "complex_lower_hessenberg_inverse" to calculate the inverse 
-%    'zhong_inverse' : assume A is a hessenberg matrix and call
+%    "zhong_inverse" : assume A is a hessenberg matrix and call
 %       "zhong_inverse" to calculate the inverse with the recursive
 %       algorithm of Xu Zhong. See Theorem 1 of "On Inverses and Generalized
 %       Inverses of Hessenberg Matrices", Xu Zhong, "Linear Algebra and its
 %       Applications", Vol. 101, 1988, pp. 167-180. This implementation is
 %       an m-file.
-%    'complex_zhong_inverse' : assume A is a hessenberg matrix and call
+%    "complex_zhong_inverse" : assume A is a hessenberg matrix and call
 %       "complex_zhong_inverse" to calculate the inverse with the recursive
 %       algorithm of Xu Zhong. See above the reference above. This
 %       implementation is an oct-file that calls the LAPACK ZTRTRI function.

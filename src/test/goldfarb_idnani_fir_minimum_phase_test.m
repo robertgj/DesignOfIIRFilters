@@ -52,7 +52,7 @@ Wa=[Wasl*ones(nasl,1);
     Wasu*ones(n-nasu+1,1)];
 
 % Initial filter
-brz=remez(N-1,2*[0 fasl fapl fapu fasu 0.5],[0 0 1 1 0 0],[1 1 1],'bandpass');
+brz=remez(N-1,2*[0 fasl fapl fapu fasu 0.5],[0 0 1 1 0 0],[1 1 1],"bandpass");
 
 % Plot initial filter
 zplane(qroots(brz));

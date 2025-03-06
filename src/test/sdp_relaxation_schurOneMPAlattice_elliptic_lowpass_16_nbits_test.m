@@ -415,7 +415,7 @@ str_active=sprintf("The coefficients [A1k,A2k] were fixed in the order : %d",
 for l=2:length(k_active_max_n_hist)
   str_active=strcat(str_active, sprintf(", %d",k_active_max_n_hist(l)));
 endfor
-text(0.5,-140,str_active,'fontsize',8);
+text(0.5,-140,str_active,"fontsize",8);
 print(strcat(strf,"_coef_hist"),"-dpdflatex"); 
 close
       

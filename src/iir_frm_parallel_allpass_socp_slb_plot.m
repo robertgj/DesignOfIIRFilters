@@ -126,8 +126,8 @@ function iir_frm_parallel_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel,dmask, ...
 
   % Plot masking filter response
   subplot(211);
-  plot(wplot*0.5/pi,20*log10(abs(Hw_aa)),'linestyle','-', ...
-       wplot*0.5/pi,20*log10(abs(Hw_ac)),'linestyle','--');
+  plot(wplot*0.5/pi,20*log10(abs(Hw_aa)),"linestyle","-", ...
+       wplot*0.5/pi,20*log10(abs(Hw_ac)),"linestyle","-.");
   legend("Mask","Comp","location","northeast");
   legend("boxoff");
   axis([0 0.5 -40 5]);
@@ -136,8 +136,8 @@ function iir_frm_parallel_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel,dmask, ...
   s=sprintf("FRM masking filters : na=%d,nc=%d",na,nc);
   title(s);
   subplot(212);
-  plot(wplot*0.5/pi,Tw_aa,'linestyle','-', ...
-       wplot*0.5/pi,Tw_ac,'linestyle','--');
+  plot(wplot*0.5/pi,Tw_aa,"linestyle","-", ...
+       wplot*0.5/pi,Tw_ac,"linestyle","-.");
   axis([0 0.5 0 30]);
   ylabel("Delay(samples)");
   xlabel("Frequency");

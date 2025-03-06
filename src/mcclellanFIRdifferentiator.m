@@ -2,7 +2,7 @@ function [hM,rho,fext,fiter,feasible]= ...
          mcclellanFIRdifferentiator(M,F,D,W,maxiter,tol)
 % [hM,rho,fext,fiter,feasible]= ...
 %   mcclellanFIRdifferentiator(M,F,D,W,maxiter,tol)
-% Implement Park and McClellans' algorithm for the design of an even-order,
+% Implement Park and McClellan's algorithm for the design of an even-order,
 % odd-length, linear-phase FIR differentiator filter.
 %
 % Inputs:

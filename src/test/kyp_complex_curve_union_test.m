@@ -74,8 +74,8 @@ for m=1:2,
   endif
 
   Phi=Tt'*PhiR*Tt;
-  if ~issymmetric(Phi,'skew')
-    error("~issymmetric(Phi,'skew')");
+  if ~issymmetric(Phi,"skew")
+    error("~issymmetric(Phi,\"skew\")");
   endif
 
   syms r11 r12 r13 r14 r22 r23 r24 r33 r34 r44

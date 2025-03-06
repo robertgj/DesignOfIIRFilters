@@ -103,14 +103,14 @@ z=y(1:(end-1));
 t=y(end);
 Z=toeplitz([z(1);z(2:rows(P))+j*z((rows(P)+1):end)]);
 print_polynomial(z,"z","%6.4f");
-printf("norm(Z-P,'fro')=%6.4f\n",norm(Z-P,'fro'));
+printf("norm(Z-P,\"fro\")=%6.4f\n",norm(Z-P,"fro"));
 
 % Sanity checks
 if abs(norm(Z-P,"fro")+(x'*c))>2e-10
-  error("abs(norm(Z-P,'fro')+(x'*c))>2e-10");
+  error("abs(norm(Z-P,\"fro\")+(x'*c))>2e-10");
 endif
 if abs(norm(Z-P,"fro")-t)>4e-10
-  error("abs(norm(Z-P,'fro')-t)>4e-10");
+  error("abs(norm(Z-P,\"fro\")-t)>4e-10");
 endif
 if ~isdefinite(Z)
   error("Z is not positive definite");

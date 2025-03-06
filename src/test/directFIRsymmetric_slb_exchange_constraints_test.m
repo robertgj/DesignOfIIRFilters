@@ -21,7 +21,7 @@ fasl=0.05;fasu=0.25;Wasl=10;Wasu=20;dBas=45;
 
 % Make a band pass filter
 f=[0 fasl fapl fapu fasu 0.5];
-h0=remez(2*M,f*2,[0 0 1 1 0 0],[Wasl Wap Wasu],'bandpass');
+h0=remez(2*M,f*2,[0 0 1 1 0 0],[Wasl Wap Wasu],"bandpass");
 hM0=h0(1:(M+1));
 hM_active=1:length(hM0);
 
@@ -79,8 +79,8 @@ directFIRsymmetric_slb_show_constraints(vS,wa,A1);
 fa=wa*0.5/pi;
 subplot(211);
 plot(fa,[A0,A1,Adu,Adl], ...
-     fa(vR.al),A0(vR.al),'*', ...
-     fa(vR.au),A0(vR.au),'+');
+     fa(vR.al),A0(vR.al),"*", ...
+     fa(vR.au),A0(vR.au),"+");
 axis([0,0.5,0.7,1.2]);
 strM0=sprintf(strM,"before exchange");
 title(strM0);
@@ -90,7 +90,7 @@ legend("A0","A1","Adu","Adl","location","northeast");
 legend("boxoff");
 legend("left");
 subplot(212);
-plot(fa,[A0,A1,Adl,Adu],fa(vR.al),A0(vR.al),'*',fa(vR.au),A0(vR.au),'+');
+plot(fa,[A0,A1,Adl,Adu],fa(vR.al),A0(vR.al),"*",fa(vR.au),A0(vR.au),"+");
 axis([0 0.5,-0.02,0.05]);
 ylabel("Amplitude");
 xlabel("Frequency")
@@ -108,10 +108,10 @@ directFIRsymmetric_slb_show_constraints(vS,wa,A1);
 % Plot amplitude
 subplot(211);
 plot(fa,[A0,A1,Adu,Adl], ...
-     fa(vR.al),A1(vR.al),'*', ...
-     fa(vR.au),A1(vR.au),'+', ...
-     fa(vS.al),A1(vS.al),'*', ...
-     fa(vS.au),A1(vS.au),'+');
+     fa(vR.al),A1(vR.al),"*", ...
+     fa(vR.au),A1(vR.au),"+", ...
+     fa(vS.al),A1(vS.al),"*", ...
+     fa(vS.au),A1(vS.au),"+");
 axis([0,0.5,0.7,1.2]);
 strM1=sprintf(strM,"after exchange");
 title(strM1);
@@ -121,10 +121,10 @@ legend("boxoff");
 legend("left");
 subplot(212);
 plot(fa,[A0,A1,Adu,Adl], ...
-     fa(vR.al),A1(vR.al),'*', ...
-     fa(vR.au),A1(vR.au),'+', ...
-     fa(vS.al),A1(vS.al),'*', ...
-     fa(vS.au),A1(vS.au),'+');
+     fa(vR.al),A1(vR.al),"*", ...
+     fa(vR.au),A1(vR.au),"+", ...
+     fa(vS.al),A1(vS.al),"*", ...
+     fa(vS.au),A1(vS.au),"+");
 axis([0, 0.5, -0.02, 0.05]);
 ylabel("Amplitude");
 xlabel("Frequency")

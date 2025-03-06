@@ -57,17 +57,17 @@ function [h,rs,del_p,del_s] = faffine(M,wp,ws,Kp,Ks,eta_p,eta_s);
     del_s = x(M+3);
     del   = x(M+4);
     if (del_p<0) && (del_s<0)
-      error('both del_p and del_s are negative!')
+      error("both del_p and del_s are negative!")
     elseif del_s < 0
       % set del_s equal to 0
-      disp('del_s < 0')
+      disp("del_s < 0")
       x = [cos(rs*[0:M]), -sp] \ D;
       a = x(1:M+1);
       del_p = x(M+2);
       del_s = 0;
     elseif del_p < 0
       % set del_p equal to 0
-      disp('del_p < 0')
+      disp("del_p < 0")
       x = [cos(rs*[0:M]), -ss] \ D;
       a = x(1:M+1);
       del_p = 0;
@@ -80,7 +80,7 @@ function [h,rs,del_p,del_s] = faffine(M,wp,ws,Kp,Ks,eta_p,eta_s);
       figure(1),
       plot(w/pi,A), 
       hold on, 
-      plot(rs/pi,D+sp*del_p+ss*del_s,'o'), 
+      plot(rs/pi,D+sp*del_p+ss*del_s,"o"), 
       hold off, 
       % axis([0 1 -.2 1.2])
       grid
@@ -127,14 +127,14 @@ function [h,rs,del_p,del_s] = faffine(M,wp,ws,Kp,Ks,eta_p,eta_s);
 
     % -------- calculate stopping criterion ------------
     Err = max(abs((Ar - D) - ((Kp*del+eta_p)*sp + (Ks*del+eta_s)*ss)));
-    disp(sprintf('    Err = %20.15f',Err));
+    disp(sprintf("    Err = %20.15f",Err));
   endwhile
 
   if PF
     figure(1), 
-    plot(w/pi,A), hold on, plot(rs/pi,Ar,'o'), hold off
+    plot(w/pi,A), hold on, plot(rs/pi,Ar,"o"), hold off
     % axis([0 1 -.2 1.2]);
-    xlabel('w/pi'), ylabel('A'), title('Frequency Response Amplitude');
+    xlabel("w/pi"), ylabel("A"), title("Frequency Response Amplitude");
   endif
   
   % -------- filter coefficients ------------

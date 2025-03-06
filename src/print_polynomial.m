@@ -7,10 +7,10 @@ function print_polynomial(x,name_str,arg3,arg4)
 % print_polynomial(x,name_str,file_name_str,scale)
 %
 % Formatted printing of an array representing a polynomial with (possibly) :
-%   - a printf format string (assumed if it contains '%')
+%   - a printf format string (assumed if it contains "%")
 %   - integer scaling
 %   - an output file
-%   - an output file and printf format string (it contains '%') 
+%   - an output file and printf format string (it contains "%") 
 %   - an output file and integer scaling
 
 % Copyright (C) 2017-2025 Robert G. Jenssen

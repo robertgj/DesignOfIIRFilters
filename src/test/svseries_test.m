@@ -18,7 +18,7 @@ u=0.25*u./std(u);
 
 % Filter 1
 [A1a, B1a, C1a, D11] = butter (3,fc(1)*2);
-[A1b, B2b, C2b, D22] = butter (2,fc(1)*2,'high');
+[A1b, B2b, C2b, D22] = butter (2,fc(1)*2,"high");
 A1=[A1a,zeros(rows(A1a),columns(A1b));zeros(rows(A1b),columns(A1a)),A1b];
 B1=[[B1a;zeros(rows(B2b),1)],[zeros(rows(B1a),1);B2b]];
 C1=[[C1a,zeros(1,columns(C2b))];[zeros(1,columns(C1a)),C2b]];
@@ -28,7 +28,7 @@ D1=[D11,D12;D21,D22];
 
 % Filter 2
 [a2a, b1a, c1a, d11] = butter (4,fc(2)*2);
-[a2b, b2b, c2b, d22] = butter (6,fc(2)*2,'high');
+[a2b, b2b, c2b, d22] = butter (6,fc(2)*2,"high");
 a2=[a2a,zeros(rows(a2a),columns(a2b));zeros(rows(a2b),columns(a2a)),a2b];
 b2=[[b1a;zeros(rows(b2b),1)],[zeros(rows(b1a),1);b2b]];
 c2=[[c1a,zeros(1,columns(c2b))];[zeros(1,columns(c1a)),c2b]];

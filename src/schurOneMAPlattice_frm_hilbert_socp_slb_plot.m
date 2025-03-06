@@ -100,8 +100,8 @@ function schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
   av(2:2:dmask)=v(:);
   av((dmask+2):2:end)=flipud(v);
   Hv=freqz(av,1,wplot);
-  plot(wplot*0.5/pi,20*log10(abs(Hu)),'-',...
-       wplot*0.5/pi,20*log10(abs(Hv)),'--');
+  plot(wplot*0.5/pi,20*log10(abs(Hu)),"-",...
+       wplot*0.5/pi,20*log10(abs(Hv)),"-.");
   legend("Mask(u)","Comp(v)","location","northeast");
   legend("boxoff");
   axis([0, 0.5, -60, 10]);

@@ -57,7 +57,7 @@ fprintf(fid,"norm(Ya-Yb)=%9.4g\n",norm(Ya-Yb));
 % Control theory example
 %
 n = 50;
-randn('seed',0xDEADC0DE)
+randn("seed",0xDEADC0DE)
 A = randn(n);A = A - max(real(eig(A)))*eye(n)*1.5; % Stable dynamics
 B = randn(n,1);
 C = randn(1,n);

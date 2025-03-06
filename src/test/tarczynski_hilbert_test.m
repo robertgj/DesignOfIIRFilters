@@ -141,7 +141,7 @@ print("tarczynski_hilbert_test_response","-dpdflatex");
 close
 
 % Compare with remez
-b0=remez(nN,[0.1 0.9],[1 1],'hilbert');
+b0=remez(nN,[0.1 0.9],[1 1],"hilbert");
 H=freqz(b0,1,wd);
 subplot(211);
 plot(wd*0.5/pi,abs(H))

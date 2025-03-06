@@ -29,7 +29,7 @@ tol=1e-6;
 
 % Primal
 fprintf(fid,"\nPrimal problem:\n");
-X=sdpvar(2,2,'symmetric');
+X=sdpvar(2,2,"symmetric");
 Constraints=[X>=0,abs(X(1,1)-1)<=tol,abs(X(2,2)-2)<=tol];
 Objective=trace(X*[0,1;1,0]);
 sol=optimize(Constraints,Objective)
@@ -58,7 +58,7 @@ fprintf(fid,"X=");fdisp(fid,value(X));fprintf(fid,"\n");
 % Dual
 fprintf(fid,"\nDual problem:\n");
 y=sdpvar(1,2);
-S=sdpvar(2,2,'symmetric');
+S=sdpvar(2,2,"symmetric");
 Constraints=[S>=0,norm(S-[-y(1),1;1,-y(2)])<=tol];
 Objective=-(y(1)+(2*y(2)));
 sol=optimize(Constraints,Objective)

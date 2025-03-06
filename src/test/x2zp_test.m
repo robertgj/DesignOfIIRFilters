@@ -6,7 +6,7 @@ test_common;
 show_zplane=false;
 if show_zplane
   set(0,"defaultlinelinewidth",1.5);
-  set(0,'DefaultFigureVisible','on');
+  set(0,"DefaultFigureVisible","on");
 endif
 
 delete("x2zp_test.diary");
@@ -147,7 +147,7 @@ N=3;
 fc=0.4;
 epstol=10;
 R=2;
-[z1,p1,K1]=butter(N,2*fc,'high');
+[z1,p1,K1]=butter(N,2*fc,"high");
 z1=sort(z1(:));
 p1=sort(p1(:));
 [x1,U,V,M,Q]=zp2x(z1,p1,K1);
@@ -180,7 +180,7 @@ N=3;
 fc=0.4;
 epstol=10;
 R=3;
-[z1,p1,K1]=butter(N,2*fc,'high');
+[z1,p1,K1]=butter(N,2*fc,"high");
 z1=sort(z1(:));
 p1=sort(p1(:));
 [x1,U,V,M,Q]=zp2x(z1,p1,K1);

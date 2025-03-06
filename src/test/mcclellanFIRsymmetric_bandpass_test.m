@@ -2,7 +2,7 @@
 % Copyright (C) 2019-2025 Robert G. Jenssen
 %
 % Compare with:
-% b=remez(2*M,[0 fasl fapl fapu fasu 0.5]*2,[0 0 1 1 0 0],[1,1/K,1],'bandpass')
+% b=remez(2*M,[0 fasl fapl fapu fasu 0.5]*2,[0 0 1 1 0 0],[1,1/K,1],"bandpass")
 %
 % See: "Chebyshev Approximation for Nonrecursive Digital Filters with
 % Linear Phase", T. W. Parks and J. H. McClellan, IEEE Transactions

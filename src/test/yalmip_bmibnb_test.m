@@ -22,7 +22,7 @@ fprintf(fhandle,str);
 str="\n\nYALMIP globaloptimization example 1\n\n";
 printf(str);
 fprintf(fhandle,str);
-yalmip('clear')
+yalmip("clear")
 x = sdpvar(1,1);
 y = sdpvar(1,1);
 t = sdpvar(1,1);
@@ -32,26 +32,26 @@ A2 = [-1.8 -0.1 -0.4;-0.1 1.2 -1;-0.4 -1 0];
 K12 = [0 0 2;0 -5.5 3;2 3 0];
 F = [x>=-0.5, x<=2, y>=-3, y<=7];
 F = [F, A0+x*A1+y*A2+x*y*K12-t*eye(3)<=0];
-options = sdpsettings('solver','bmibnb', ...
-                      'bmibnb.uppersolver','fmincon', ...
-                      'bmibnb.lowersolver','sedumi', ...
-                      'bmibnb.lpsolver','linprog');
+options = sdpsettings("solver","bmibnb", ...
+                      "bmibnb.uppersolver","fmincon", ...
+                      "bmibnb.lowersolver","sedumi", ...
+                      "bmibnb.lpsolver","linprog");
 optimize(F,t,options);
 fprintf(fhandle,"value(t)=%7.4f\n",value(t));
 
 str="\n\nYALMIP globaloptimization example 2\n\n";
 printf(str);
 fprintf(fhandle,str);
-yalmip('clear')
+yalmip("clear")
 A = [-1 2;-3 -4];B = [1;1];
 P = sdpvar(2,2);
 K = sdpvar(1,2);
 F = [P>=0, (A+B*K)'*P+P*(A+B*K) <= -eye(2)-K'*K];
 F = [F, -0.1 <= K <= 0.1];
-options = sdpsettings('solver','bmibnb', ...
-                      'bmibnb.uppersolver','fmincon', ...
-                      'bmibnb.lowersolver','sedumi', ...
-                      'bmibnb.lpsolver','linprog');
+options = sdpsettings("solver","bmibnb", ...
+                      "bmibnb.uppersolver","fmincon", ...
+                      "bmibnb.lowersolver","sedumi", ...
+                      "bmibnb.lpsolver","linprog");
 optimize(F,trace(P),options);
 fprintf(fhandle,"value(trace(P))=%7.4f\n",value(trace(P)));
 
@@ -59,23 +59,23 @@ str="\n\nYALMIP globaloptimization example 3\n\n";
 printf(str);
 fprintf(fhandle,str);
 % Alternatively 
-yalmip('clear')
+yalmip("clear")
 A = [-1 2;-3 -4];B = [1;1];
 P = sdpvar(2,2);
 K = sdpvar(1,2);
 F = [P>=0, [(-eye(2) - ((A+B*K)'*P+P*(A+B*K))), K';K, 1] >= 0];
 F = [F, K >= -0.1 , K <= 0.1];
-options = sdpsettings('solver','bmibnb', ...
-                      'bmibnb.uppersolver','fmincon', ...
-                      'bmibnb.lowersolver','sedumi', ...
-                      'bmibnb.lpsolver','linprog');
+options = sdpsettings("solver","bmibnb", ...
+                      "bmibnb.uppersolver","fmincon", ...
+                      "bmibnb.lowersolver","sedumi", ...
+                      "bmibnb.lpsolver","linprog");
 optimize(F,trace(P),options);
 fprintf(fhandle,"value(trace(P))=%7.4f\n",value(trace(P)));
 
 str="\n\nYALMIP globaloptimization example 4a\n\n";
 printf(str);
 fprintf(fhandle,str);
-yalmip('clear');
+yalmip("clear");
 A = [-1 2;-3 -4];
 t = sdpvar(1,1);
 P = sdpvar(2,2);
@@ -86,10 +86,10 @@ F = [F, t >= 0];
 %}
 F = [P>=0, trace(P)==1, A'*P+P*A <= -2*t*P];
 F = [F,  t >= 0];
-options = sdpsettings('solver','bmibnb', ...
-                      'bmibnb.uppersolver','fmincon', ...
-                      'bmibnb.lowersolver','sedumi', ...
-                      'bmibnb.lpsolver','glpk');
+options = sdpsettings("solver","bmibnb", ...
+                      "bmibnb.uppersolver","fmincon", ...
+                      "bmibnb.lowersolver","sedumi", ...
+                      "bmibnb.lpsolver","glpk");
 optimize(F,-t,options);
 fprintf(fhandle,"value(-t)=%7.4f\n",value(-t));
 
@@ -100,10 +100,10 @@ fprintf(fhandle,str);
 F = [P>=0, trace(P)==1, A'*P+P*A <= -2*t*P];
 F = [F,  t >= 0];
 F = [F, trace(A'*P+P*A)<=-2*t]
-options = sdpsettings('solver','bmibnb', ...
-                      'bmibnb.uppersolver','fmincon', ...
-                      'bmibnb.lowersolver','sedumi', ...
-                      'bmibnb.lpsolver','glpk');
+options = sdpsettings("solver","bmibnb", ...
+                      "bmibnb.uppersolver","fmincon", ...
+                      "bmibnb.lowersolver","sedumi", ...
+                      "bmibnb.lpsolver","glpk");
 optimize(F,-t,options);
 fprintf(fhandle,"value(-t)=%7.4f\n",value(-t));
 
@@ -115,10 +115,10 @@ F = [P>=0,A'*P+P*A <= -2*t*P, t >= 0];
 F = [F, trace(P)==1];
 F = [F, trace(A'*P+P*A)<=-2*t];
 F = [F, [-A'*P-P*A P*t;P*t P*t/2] >= 0];
-options = sdpsettings('solver','bmibnb', ...
-                      'bmibnb.uppersolver','fmincon', ...
-                      'bmibnb.lowersolver','sedumi', ...
-                      'bmibnb.lpsolver','glpk');
+options = sdpsettings("solver","bmibnb", ...
+                      "bmibnb.uppersolver","fmincon", ...
+                      "bmibnb.lowersolver","sedumi", ...
+                      "bmibnb.lpsolver","glpk");
 optimize(F,-t,options);
 fprintf(fhandle,"value(-t)=%7.4f\n",value(-t));
 
@@ -130,10 +130,10 @@ F = [P>=0,A'*P+P*A <= -2*t*P,100 >= t >= 0];
 F = [F, trace(P)==1];
 F = [F, trace(A'*P+P*A)<=-2*t];
 F = [F, cut([-A'*P-P*A P*t;P*t P*t/2]>=0)];
-options = sdpsettings('solver','bmibnb', ...
-                      'bmibnb.uppersolver','none', ...
-                      'bmibnb.lowersolver','sedumi', ...
-                      'bmibnb.lpsolver','glpk');
+options = sdpsettings("solver","bmibnb", ...
+                      "bmibnb.uppersolver","none", ...
+                      "bmibnb.lowersolver","sedumi", ...
+                      "bmibnb.lpsolver","glpk");
 optimize(F,-t,options);
 fprintf(fhandle,"value(-t)=%7.4f\n",value(-t));
 
@@ -143,16 +143,16 @@ fprintf(fhandle,"value(-t)=%7.4f\n",value(-t));
 str="\n\nYALMIP non-convex quadratic programming example\n\n";
 printf(str);
 fprintf(fhandle,str);
-yalmip('clear');
+yalmip("clear");
 N=5;
 Q=magic(N);
 x=sdpvar(N,1);
 Constraints=[-1<=x<=1];
 Objective=x'*Q*x;
-Options=sdpsettings('solver','bmibnb',
-                    'bmibnb.uppersolver','fmincon',
-                    'bmibnb.lowersolver','glpk',
-                    'bmibnb.lpsolver','glpk');
+Options=sdpsettings("solver","bmibnb",
+                    "bmibnb.uppersolver","fmincon",
+                    "bmibnb.lowersolver","glpk",
+                    "bmibnb.lpsolver","glpk");
 try
   sol=optimize(Constraints,Objective,Options);
 catch

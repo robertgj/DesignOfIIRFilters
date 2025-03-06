@@ -101,8 +101,8 @@ johanssonOneMlattice_slb_show_constraints(vS,wa,Azp_1);
 fa=wa*0.5/pi;
 subplot(211);
 plot(fa,[Azp_0,Azp_1,Adu,Adl], ...
-     fa(vR.al),Azp_0(vR.al),'*',fa(vR.au),Azp_0(vR.au),'+', ...
-     fa(vS.al),Azp_1(vS.al),'o',fa(vS.au),Azp_1(vS.au),'s');
+     fa(vR.al),Azp_0(vR.al),"*",fa(vR.au),Azp_0(vR.au),"+", ...
+     fa(vS.al),Azp_1(vS.al),"o",fa(vS.au),Azp_1(vS.au),"s");
 axis([0,0.5,0.9,1.1]);
 strt_1=strcat(strt," (before)");
 title(strt_1);
@@ -113,8 +113,8 @@ legend("left");
 legend("boxoff");
 subplot(212);
 plot(fa,[Azp_0,Azp_1,Adu,Adl], ...
-     fa(vR.al),Azp_0(vR.al),'*',fa(vR.au),Azp_0(vR.au),'+', ...
-     fa(vS.al),Azp_1(vS.al),'o',fa(vS.au),Azp_1(vS.au),'s');
+     fa(vR.al),Azp_0(vR.al),"*",fa(vR.au),Azp_0(vR.au),"+", ...
+     fa(vS.al),Azp_1(vS.al),"o",fa(vS.au),Azp_1(vS.au),"s");
 axis([0,0.5,-0.1,0.2]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency")
@@ -136,8 +136,8 @@ johanssonOneMlattice_slb_show_constraints(vS_2,wa,Azp_1);
 % Plot amplitude
 subplot(211);
 plot(fa,[Azp_0,Azp_1,Adu,Adl], ...
-     fa(vR_2.al),Azp_0(vR_2.al),'*',fa(vR_2.au),Azp_0(vR_2.au),'+', ...
-     fa(vS_2.al),Azp_1(vS_2.al),'o',fa(vS_2.au),Azp_1(vS_2.au),'s');
+     fa(vR_2.al),Azp_0(vR_2.al),"*",fa(vR_2.au),Azp_0(vR_2.au),"+", ...
+     fa(vS_2.al),Azp_1(vS_2.al),"o",fa(vS_2.au),Azp_1(vS_2.au),"s");
 axis([0,0.5,0.9,1.1]);
 strt_2=strcat(strt," (after)");
 title(strt_2);
@@ -148,8 +148,8 @@ legend("left");
 legend("boxoff");
 subplot(212);
 plot(fa,[Azp_0,Azp_1,Adu,Adl], ...
-     fa(vR_2.al),Azp_0(vR_2.al),'*',fa(vR_2.au),Azp_0(vR_2.au),'+', ...
-     fa(vS_2.al),Azp_1(vS_2.al),'o',fa(vS_2.au),Azp_1(vS_2.au),'s');
+     fa(vR_2.al),Azp_0(vR_2.al),"*",fa(vR_2.au),Azp_0(vR_2.au),"+", ...
+     fa(vS_2.al),Azp_1(vS_2.al),"o",fa(vS_2.au),Azp_1(vS_2.au),"s");
 axis([0 0.5 -0.1 0.2]);
 ylabel("Amplitude");
 xlabel("Frequency")

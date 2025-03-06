@@ -75,7 +75,7 @@ F_su=[[((AB')*(kron(Phi,P_su)+kron(Psi_su,Q_su))*AB) + ...
 
 % Solve with YALMIP
 Constraints=[F_max<=0,Q_max>=0,F_z<=0,Q_z>=0,F_sl<=0,Q_sl>=0,F_su<=0,Q_su>=0];
-Options=sdpsettings('solver','sedumi');
+Options=sdpsettings("solver","sedumi");
 sol=optimize(Constraints,[],Options);
 if sol.problem
   error("YALMIP failed : %s",sol.info);

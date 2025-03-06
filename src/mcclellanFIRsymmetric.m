@@ -2,7 +2,7 @@ function [hM,rho,fext,fiter,feasible]= ...
          mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol,verbose)
 % [hM,rho,fext,fiter,feasible]= ...
 %   mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol,verbose)
-% Implement Park and McClellans' algorithm for the design of an even-order,
+% Implement Park and McClellan's algorithm for the design of an even-order,
 % odd-length, symmetric, linear-phase FIR filter.
 %
 % Inputs:
@@ -10,7 +10,7 @@ function [hM,rho,fext,fiter,feasible]= ...
 %   F - Grid frequencies in [0,0.5]
 %   D - desired amplitude responses at each frequency in F
 %   W - weight at each frequency in F
-%   type - 'left' means use the left division algorithm to find rho
+%   type - "left" means use the left division algorithm to find rho
 %   maxiter - maximum number of iterations
 %   tol - tolerance on convergence
 %   verbose -

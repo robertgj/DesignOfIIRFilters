@@ -220,7 +220,7 @@ if use_c_scaling
   c0_rd=round(c0*nscale)/nscale;
   c0_rd_range=ceil(-log2(min(abs(c0_rd(find(c0_rd~=0))))/max(abs(c0_rd))));
   printf("c0 rounded to %d bits has range %d bits\n",nbits,c0_rd_range);
-  if exist('cscale','var')~=1
+  if exist("cscale","var")~=1
     if (nbits-c0_rd_range-1)<=0
       cscale=1
     else
@@ -237,7 +237,7 @@ if use_k_scaling
   k0_rd=round(k0*nscale)/nscale;
   k0_rd_range=ceil(-log2(min(abs(k0_rd(find(k0_rd~=0))))/max(abs(k0_rd))));
   printf("k0 rounded to %d bits has range %d bits\n",nbits,k0_rd_range);
-  if exist('kscale','var')~=1
+  if exist("kscale","var")~=1
     if (nbits-k0_rd_range-1)<=0
       kscale=1
     else

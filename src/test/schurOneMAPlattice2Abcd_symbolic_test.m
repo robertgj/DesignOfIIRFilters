@@ -11,7 +11,7 @@ octave:1> pkg load symbolic
 octave:2> sym k2
 octave:3> M2=eye(N+1);
 octave:4> M2(2:3,2:3)=[[-k2, (1+k2)]; [(1-k2), k2]]
-error: operator =: no conversion for assignment of 'class' to indexed 'matrix'
+error: operator =: no conversion for assignment of "class" to indexed "matrix"
 %}
 
 test_common;

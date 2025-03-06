@@ -182,9 +182,9 @@ P1_plot=[P1 Pdl Pdu]+(w*td)+(pp*pi);
 [ax,h1,h2]=plotyy(w(1:(non2-npt))*0.5/pi,   P1_plot(1:(non2-npt),:)/pi, ...
                   w((non2+npt):end)*0.5/pi, P1_plot((non2+npt):end,:)/pi);
 % Hack to match colours. Is there an easier way with colormap?
-h311c=get(h311,'color');
+h311c=get(h311,"color");
 for k=1:3
-  set(h2(k),'color',h311c{k});
+  set(h2(k),"color",h311c{k});
 endfor
 % End of hack
 axis(ax(1),[-0.5 0.5  0.5+(4*ppr*[-1,1])]);
@@ -251,9 +251,9 @@ Pplot=[P2 Pdl Pdu]+(w*td)+(pp*pi);
 [ax,h1,h2]=plotyy(w(1:(non2-npt))*0.5/pi,   Pplot(1:(non2-npt),:)/pi, ...
                   w((non2+npt):end)*0.5/pi, Pplot((non2+npt):end,:)/pi);
 % Hack to match colours. Is there an easier way with colormap?
-h311c=get(h311,'color');
+h311c=get(h311,"color");
 for k=1:3
-  set(h2(k),'color',h311c{k});
+  set(h2(k),"color",h311c{k});
 endfor
 % End of hack
 axis(ax(1),[-0.5 0.5  0.5+(0.02*[-1,1])]);

@@ -230,7 +230,7 @@ function [k,c,pop_iter,func_iter,feasible]= ...
   
   % SparsePOP parameters
   param.relaxOrder=1;
-  param.SDPsolver='sedumi';
+  param.SDPsolver="sedumi";
   param.eqTolerance=1e-6;
   param.SDPsolverEpsilon=1e-6;
   param.mex=0;

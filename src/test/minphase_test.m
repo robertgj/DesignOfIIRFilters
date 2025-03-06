@@ -16,7 +16,7 @@ fapl=0.1;fapu=0.2;Wap=1;
 fasl=0.05;fasu=0.25;Wasl=2;Wasu=2;
 M=15;N=(2*M)+1;
 brz=remez(2*M,2*[0 fasl fapl fapu fasu 0.5],[0 0 1 1 0 0],...
-          [Wasl Wap Wasu],'bandpass');
+          [Wasl Wap Wasu],"bandpass");
 brz=brz(:);
 
 % Brute force scaling of brz so that max(abs(Hbrz))==1

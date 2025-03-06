@@ -8,22 +8,22 @@ delete("yalmip_bmitest_test.diary");
 delete("yalmip_bmitest_test.diary.tmp");
 diary yalmip_bmitest_test.diary.tmp
 
-yalmip('clear')
+yalmip("clear")
 
 A = [-1 2;-3 -4];
 P = sdpvar(2,2);
 alpha = sdpvar(1,1);
 opt_alpha=-1.39443511;
 F = (P>=eye(2))+(A'*P+P*A<=2*alpha*P)+(alpha<=0);
-options = sdpsettings('solver','bmibnb','bmibnb.maxiter','1000');
+options = sdpsettings("solver","bmibnb","bmibnb.maxiter","1000");
 sol = optimize([F P(:)<=100],alpha,options);
 pass = ismember(sol.problem,[0 3 4 5]); 
 if pass
   if (norm(value(alpha)-opt_alpha)<=1e-7) && (value(alpha)<=0) && ...
      value((P>=eye(2))) && value((A'*P+P*A<=2*alpha*P))
-    result = 'Correct';
+    result = "Correct";
   else
-    result = 'Incorrect';
+    result = "Incorrect";
   end
 else
   result = 'N/A';

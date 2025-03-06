@@ -17,7 +17,7 @@ fasl=0.05;fasu=0.25;Wasl=10;Wasu=20;dBas=50;
 
 % Make a band pass filter
 f=[0 fasl fapl fapu fasu 0.5];
-h=remez(2*M,f*2,[0 0 1 1 0 0],[Wasl Wap Wasu],'bandpass');
+h=remez(2*M,f*2,[0 0 1 1 0 0],[Wasl Wap Wasu],"bandpass");
 hM=h(1:(M+1));
 
 % Desired magnitude response

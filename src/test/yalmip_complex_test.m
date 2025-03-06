@@ -16,18 +16,18 @@ diary yalmip_complex_test.diary.tmp
 P = [4 1+2*i 3-i;1-2*i 3.5 0.8+2.3*i;3+i 0.8-2.3*i 4];
 
 % We define a complex-valued Toeplitz matrix of the corresponding dimension:
-Z = sdpvar(3,3,'toeplitz','complex')
+Z = sdpvar(3,3,"toeplitz","complex")
 
 % A complex Toeplitz matrix is not Hermitian, but we can make it Hermitian
 % if we remove the imaginary part on the diagonal.
 Z = Z-diag(imag(diag(Z)))*i;%sqrt(-1);
 
-solvernames = {'sedumi', 'sdpt3'};
+solvernames = {"sedumi", "sdpt3"};
 for k = 1:length(solvernames)
 
   printf("\n\nUsing %s\n\n",solvernames{k});
   
-  options = sdpsettings('verbose', 0, 'solver', solvernames{k});
+  options = sdpsettings("verbose", 0, "solver", solvernames{k});
 
   % Minimizing the Frobenious norm of P-Z can be cast as minimizing the
   % Euclidean norm of the vectorized difference P(:)-Z(:). By using a Schur
@@ -70,7 +70,7 @@ for k = 1:length(solvernames)
   diagnostics = optimize(F,e'*e,options);
   % Fails with YALMIP R20200930 and octave-6.1.0 :
   %  error: octave_base_value::function_value(): wrong type argument
-  %                                              '<unknown type>'
+  %                                              "<unknown type>"
   %  error: called from
   %      mtimes at line 524 column 13
   %
@@ -90,11 +90,11 @@ for k = 1:length(solvernames)
   % ... or by simply using the nonlinear operator framework which supports
   % matrix norms:
   F = [Z>=0];
-  diagnostics = optimize(F,norm(P-Z,'fro'),options);
+  diagnostics = optimize(F,norm(P-Z,"fro"),options);
   diagnostics.info
   diagnostics.problem
   Z5 = value(Z)
-  t5 = value(norm(P-Z,'fro'))
+  t5 = value(norm(P-Z,"fro"))
 endfor
 
 % Done

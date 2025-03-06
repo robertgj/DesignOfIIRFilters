@@ -12,9 +12,9 @@ delete(strcat(strf,".diary"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 % Run YALMIP yalmiptest.m script
-solvers={'scs-direct','scs-indirect','sedumi','sdpt3'};
+solvers={"scs-direct","scs-indirect","sedumi","sdpt3"};
 for k=1:length(solvers)
-  yalmiptest(sdpsettings('solver',solvers{k}),true);
+  yalmiptest(sdpsettings("solver",solvers{k}),true);
 endfor
 
 % Required by SparsePOP
@@ -34,14 +34,14 @@ Objective = x'*x+norm(x,1);
 
 % Run some examples
 fhandle=fopen("test.results","wt");
-solvers={'scs-direct','scs-indirect','sdpt3','sedumi','sparsepop'};
+solvers={"scs-direct","scs-indirect","sdpt3","sedumi","sparsepop"};
 for k=1:length(solvers)
-  if strcmp(solvers{k},'sparsepop')
-    pkg('load','symbolic');
+  if strcmp(solvers{k},"sparsepop")
+    pkg("load","symbolic");
   endif
   
   % Set some options for YALMIP and solver
-  options = sdpsettings('verbose',1,'solver',solvers{k});
+  options = sdpsettings("verbose",1,"solver",solvers{k});
 
   % Solve the problem
   try
@@ -64,7 +64,7 @@ for k=1:length(solvers)
     fprintf(fhandle,"%9.6f ",solution(:)');
     fprintf(fhandle,"]\n");
   else
-    display('Something went wrong!');
+    display("Something went wrong!");
     sol.info
     yalmiperror(sol.problem)
   endif

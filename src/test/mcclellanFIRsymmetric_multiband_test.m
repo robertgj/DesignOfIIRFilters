@@ -4,7 +4,7 @@
 % Compare with:
 %{
    b=remez(2*M,[0 fasu1 fapl1 fapu1 fasl2 fasu2 fapl2 fapu2 fasl3 0.5]*2, ...
-           [0 0 1 1 0 0 1 1 0 0],[1/K1,1,1/K2,1,1/K3],'bandpass');
+           [0 0 1 1 0 0 1 1 0 0],[1/K1,1,1/K2,1,1/K3],"bandpass");
 %}
 % See: "Chebyshev Approximation for Nonrecursive Digital Filters with
 % Linear Phase", T. W. Parks and J. H. McClellan, IEEE Transactions

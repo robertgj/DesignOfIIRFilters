@@ -22,8 +22,8 @@ At{2,2} = sparse([ 1 0 1; 0 0 0; 1 0 1]);
 At{2,3} = sparse([ 0 2 0; 2 0 -1; 0 -1 0]); 
 At{2,4} = sparse([ 0 0 0; 0 5 0; 0 0 5]); 
 b = [1; 1; 1; 1];
-blk{1,1} = 's'; blk{1,2} = [2]; 
-blk{2,1} = 's'; blk{2,2} = [3]; 
+blk{1,1} = "s"; blk{1,2} = [2]; 
+blk{2,1} = "s"; blk{2,2} = [3]; 
 [obj,X,y,Z,info,runhist] = sdpt3(blk,At,C,b);
 fprintf(fhandle,"For %s : termcode=%d, b'*y=%9.5f, gap=%8.3g\n",
         "block diagonal",info.termcode,b'*y,info.gap);

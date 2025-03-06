@@ -5,8 +5,8 @@
 % An exception is caught for k_exclude=[36,45,46,54,70,71,88,92]
 % In each case it looks like:
 %   Caught exception at k=36!
-%   ## '2' is not defined in the line of 'Variables'.
-%   ## Should check the line of the objective function in 'Babel.gms'.
+%   ## "2" is not defined in the line of "Variables".
+%   ## Should check the line of the objective function in "Babel.gms".
 %   warning: Called readGMS>getObjPoly at line 1306
 %   warning: Called readGMS at line 341
 %   warning: Called sparsePOP at line 324
@@ -23,7 +23,7 @@ pkg load symbolic;
 
 param.mex=0;
 param.symbolicMath=1;
-param.SDPsolver='sedumi';
+param.SDPsolver="sedumi";
 k_exclude=[36,45,46,54,70,71,88,92]
 
 for k=1:95

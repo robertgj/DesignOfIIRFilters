@@ -88,9 +88,9 @@ K.q = [size(At1,2) size(At2,2) size(At3,2)];
 x = ys;
 r_s = x(2:3);
 s_s = x(4:5);
-disp('solution points in regions R and S are:')
+disp("solution points in regions R and S are:")
 [r_s s_s]
-disp('minimum distance:')
+disp("minimum distance:")
 norm(r_s - s_s)
 info
 

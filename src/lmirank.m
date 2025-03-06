@@ -72,7 +72,7 @@ function [y,info] = lmirank(At,c,K,pars,y0)
 t=cputime;
 
 %%%% If no LP ineq. constraints are present, set K.l=0
-if ~isfield(K,'l')
+if ~isfield(K,"l")
     K.l=0;
 end
 
@@ -92,10 +92,10 @@ end
 if nargin==5
     y=y0;
 end
-if ~isfield(pars,'maxiter') pars.maxiter=1000; end
-if ~isfield(pars,'eps') pars.eps=1e-9; end
-if ~isfield(pars,'fid') pars.fid=1; end
-if ~isfield(pars,'itermod') pars.itermod=1; end 
+if ~isfield(pars,"maxiter") pars.maxiter=1000; end
+if ~isfield(pars,"eps") pars.eps=1e-9; end
+if ~isfield(pars,"fid") pars.fid=1; end
+if ~isfield(pars,"itermod") pars.itermod=1; end 
 
 %%%% Initialize X1
 X1=c-At*y;
@@ -104,11 +104,11 @@ X1=c-At*y;
 m=size(At,2);
 
 %%%% Print output header
-fprintf(pars.fid,'\nLMIRank by Robert Orsi, 2005.\n');
-fprintf(pars.fid,'maxiter = %5d  |   rank bounds\n',pars.maxiter);
-fprintf(pars.fid,'eps = %0.2e  | ',pars.eps);
-fprintf(pars.fid,'%5d',K.rank);
-fprintf(pars.fid,'\n iter :     gap      ranks\n');
+fprintf(pars.fid,"\nLMIRank by Robert Orsi, 2005.\n");
+fprintf(pars.fid,"maxiter = %5d  |   rank bounds\n",pars.maxiter);
+fprintf(pars.fid,"eps = %0.2e  | ",pars.eps);
+fprintf(pars.fid,"%5d",K.rank);
+fprintf(pars.fid,"\n iter :     gap      ranks\n");
 
 %%%% MAIN LOOP
 for iters=1:pars.maxiter,
@@ -198,9 +198,9 @@ for iters=1:pars.maxiter,
         index=index+K.s(j); 
     end  
     if (pars.fid)&(mod(iters,pars.itermod)==0) %% Output iters, gap & ranks 
-        fprintf(pars.fid,'%5d : %0.2e ',iters,gap);
-        fprintf(pars.fid,'%5d',rankX1);
-        fprintf(pars.fid,'\n');
+        fprintf(pars.fid,"%5d : %0.2e ",iters,gap);
+        fprintf(pars.fid,"%5d",rankX1);
+        fprintf(pars.fid,"\n");
     end
     if breakflag
         break
@@ -249,8 +249,8 @@ info.iters=iters;
 info.gap=gap;           
 info.rank=rankX1;
 
-fprintf(pars.fid,'iters solved   seconds\n');
-fprintf(pars.fid,'%5d %4d %11.1e\n',info.iters,info.solved,info.cpusec);
+fprintf(pars.fid,"iters solved   seconds\n");
+fprintf(pars.fid,"%5d %4d %11.1e\n",info.iters,info.solved,info.cpusec);
 
 endfunction
 
@@ -278,12 +278,12 @@ function y = trheuristic(At,c,K)
 % Outputs:
 %       y       : solution   
 %
-% NOTE: It is possible to have multiple 'F' LMIs and multiple 'G' LMIs.
+% NOTE: It is possible to have multiple "F" LMIs and multiple "G" LMIs.
 %       For simplicity, the description above assumes there is only 
-%       one 'F' LMI and one 'G' LMI. If there are multiple 'G' LMIs, 
+%       one "F" LMI and one "G" LMI. If there are multiple "G" LMIs, 
 %       i.e., if K.s(j)~=K.rank(j) for more than one j, then only the 
-%       last 'G' LMI is treated as such; the others are treated as 
-%       'F' LMIs. LP inequality constraints can also be included.
+%       last "G" LMI is treated as such; the others are treated as 
+%       "F" LMIs. LP inequality constraints can also be included.
 %
 % See also LMIRANK.
 
@@ -298,7 +298,7 @@ function y = trheuristic(At,c,K)
 %%%% Create b
 m=size(At,2);
 b=zeros(m,1);
-if isfield(K,'l')
+if isfield(K,"l")
     index=K.l;
 else    
     index=0;

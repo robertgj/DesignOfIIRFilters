@@ -35,7 +35,7 @@ if (columns(Q) ~= 1) || (rows(Q) ~= rows(P))
   error("Expect columns(Q)=1 and rows(Q)=rows(P)!");
 endif
 
-% Leverrier algorithm for the characteristic equation of P
+% Le Verrier's algorithm for the characteristic equation of P
 N=rows(P);
 B=eye(N);
 a=[1 zeros(1,N)];

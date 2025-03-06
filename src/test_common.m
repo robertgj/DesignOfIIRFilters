@@ -28,10 +28,10 @@ set(0,"defaultaxestitlefontweight","normal");
 if getenv("OCTAVE_ENABLE_PLOT_TO_SCREEN")
   pos=get(0,"defaultfigureposition");
   set(0,"defaultfigureposition",[200,200,pos(3),pos(4)]);
-  set(0,'DefaultFigureVisible','on');
+  set(0,"DefaultFigureVisible","on");
 else
   % Disable plotting to the screen. It captures the screen focus.
-  set(0,'DefaultFigureVisible','off');
+  set(0,"DefaultFigureVisible","off");
 endif
 
 if getenv("OCTAVE_ENABLE_MONOCHROME")

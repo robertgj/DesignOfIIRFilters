@@ -206,7 +206,7 @@ printf("AC=[ ");printf("%f ",20*log10(abs(AC')));printf(" ] (dB)\n");
 %
 % (frequencies are normalised to sample rate)
 brz=remez(N-1,2*[0 fasl fapl fapu fasu 0.5],[0 0 1 1 0 0], ...
-          [Wasl Wap Wasu],'bandpass');
+          [Wasl Wap Wasu],"bandpass");
 % brz amplitude at constraints
 faR=[0 fasl fapl fapu fasu 0.5];
 AR=freqz(brz,1,faR,1);
@@ -220,9 +220,9 @@ printf("AR=[ ");printf("%f ",20*log10(abs(AR')));printf(" ] (dB)\n");
 [hpcls,w]=freqz(N1,D1,1024);
 hcl=freqz(bcl,1,w);
 hrz=freqz(brz,1,w);
-plot(w*0.5/pi,20*log10(abs(hpcls)),'linestyle','-',
-     w*0.5/pi,20*log10(abs(hcl)),'linestyle','-.', ...
-     w*0.5/pi,20*log10(abs(hrz)),'linestyle','--')
+plot(w*0.5/pi,20*log10(abs(hpcls)),"linestyle","-",
+     w*0.5/pi,20*log10(abs(hcl)),"linestyle","-.", ...
+     w*0.5/pi,20*log10(abs(hrz)),"linestyle","-.")
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 5]);

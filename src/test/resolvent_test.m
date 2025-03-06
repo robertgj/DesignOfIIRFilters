@@ -104,7 +104,7 @@ if err_zhong_m > 9.27e-7
 endif
 
 %
-% Calculation of (zI-A)^(-1) with Leverrier's method
+% Calculation of (zI-A)^(-1) with Le Verrier's method
 %
 [n_lev,d_lev,B_lev]=Abcd2tf(A,bb,cc,dd);
 % Reshape B_lev to an NxN array of length N+1 polynomials
@@ -163,7 +163,7 @@ endfunction
 lev_response([],bb,cc,dd);
 h_lev=cellfun(@lev_response,res_lev,"UniformOutput",false);
 h_lev=cell2mat(h_lev);
-% Check the error in the response with the Leverrier recursion
+% Check the error in the response with the Le Verrier's recursion
 err_lev=max(abs(h_lev-h));
 if err_lev > 1.12e-6 
   error("err_lev > 1.12e-6");
@@ -181,7 +181,7 @@ if show_profile
   profshow(info_zhong,5); 
   printf("\nProfile for Hessenberg inverse using Zhong's algorithm(mfile):\n");
   profshow(info_zhong_m,5); 
-  printf("\nProfile for Leverrier's recursion:\n"); 
+  printf("\nProfile for Le Verrier's recursion:\n"); 
   profshow(info_lev,10);
 endif
 

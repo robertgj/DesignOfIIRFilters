@@ -27,7 +27,7 @@ for m=5:6,
   for n=1:(m-1),
 
     % Pole locations
-    [b0,a0]=butter(n,2*fp,'high');
+    [b0,a0]=butter(n,2*fp,"high");
     [z0,p0,K0]=tf2zp(b0,a0);
     non2=floor(n/2);
     pr=1:2:((2*non2)-1);

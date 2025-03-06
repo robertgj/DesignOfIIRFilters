@@ -84,16 +84,16 @@ strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tdr=%g,Wtp=%g",
 fa=wa*0.5/pi;
 subplot(211);
 plot(fa(1:nap),10*log10([Asq0(1:nap),Asqdu(1:nap),Asqdl(1:nap)]), ...
-     fa(vR0.al),10*log10(Asq0(vR0.al)),'*', ...
-     fa(vR0.au),10*log10(Asq0(vR0.au)),'+');
+     fa(vR0.al),10*log10(Asq0(vR0.al)),"*", ...
+     fa(vR0.au),10*log10(Asq0(vR0.au)),"+");
 axis([0,fap,-0.1,0.1]);
 strM0=sprintf(strM,"0");
 title(strM0);
 ylabel("Amplitude(dB)");
 subplot(212);
 plot(fa(nas:end),10*log10([Asq0(nas:end),Asqdu(nas:end)]), ...
-     fa(vR0.al),10*log10(Asq0(vR0.al)),'*', ...
-     fa(vR0.au),10*log10(Asq0(vR0.au)),'+');
+     fa(vR0.al),10*log10(Asq0(vR0.al)),"*", ...
+     fa(vR0.au),10*log10(Asq0(vR0.au)),"+");
 axis([fas,0.5,-80,-30]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency")
@@ -103,8 +103,8 @@ close
 % Plot group delay
 ft=wt*0.5/pi;
 plot(ft,[T0,Tdu,Tdl], ...
-     ft(vR0.tl),T0(vR0.tl),'*', ...
-     ft(vR0.tu),T0(vR0.tu),'+');
+     ft(vR0.tl),T0(vR0.tl),"*", ...
+     ft(vR0.tu),T0(vR0.tu),"+");
 title(strM0);
 ylabel("Delay(samples)");
 xlabel("Frequency")
@@ -114,8 +114,8 @@ close
 % Plot phase
 fp=wp*0.5/pi;
 plot(fp,[P0-Pd,Pdu-Pd,Pdl-Pd], ...
-     fp(vR0.pl),P0(vR0.pl)-Pd(vR0.pl),'*', ...
-     fp(vR0.pu),P0(vR0.pu)-Pd(vR0.pu),'+');
+     fp(vR0.pl),P0(vR0.pl)-Pd(vR0.pl),"*", ...
+     fp(vR0.pu),P0(vR0.pu)-Pd(vR0.pu),"+");
 title(strM0);
 ylabel("Phase(rad.)");
 xlabel("Frequency")

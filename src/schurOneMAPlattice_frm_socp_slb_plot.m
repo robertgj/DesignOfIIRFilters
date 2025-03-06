@@ -101,8 +101,8 @@ function schurOneMAPlattice_frm_socp_slb_plot ...
   
   % Plot masking filter responses
   subplot(111);
-  plot(w*0.5/pi,20*log10(abs(Haa)),'-',...
-       w*0.5/pi,20*log10(abs(Hac)),'--');
+  plot(w*0.5/pi,20*log10(abs(Haa)),"-",...
+       w*0.5/pi,20*log10(abs(Hac)),"-.");
   legend("Mask","Comp.");
   legend("location","northeast");
   legend("left");

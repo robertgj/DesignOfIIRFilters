@@ -15,13 +15,13 @@ pkg load symbolic;
 param.mex=0;
 param.symbolicMath=1;
 
-solvernames={'sedumi','sdpt3'};
+solvernames={"sedumi","sdpt3"};
 
-prname={'example1', ...
+prname={"example1", ...
         'Rosenbrock(40,-1)', ...
         'randomwithEQ(20,2,4,4,3201)', ...
         'genMAXCUT(8,1)', ...
-        'Bex5_2_5.gms'};
+        "Bex5_2_5.gms"};
 
 fid=fopen("sparsePOP_test_xVect.out","w");
 
@@ -45,7 +45,7 @@ for l=1:length(solvernames)
       error(err.message);
     end_try_catch
    
-    if strcmp(param.SDPsolver,'sedumi')
+    if strcmp(param.SDPsolver,"sedumi")
       fprintf(fid,"SDPsolverInfo.numerr=%d\n",SDPsolverInfo.numerr);
     else
       fprintf(fid,"SDPsolverInfo.termcode=%d\n",SDPsolverInfo.termcode);

@@ -123,7 +123,7 @@ for k=-nscale:(nscale-1)
 endfor
 
 % Exhaustive test with one argument
-X=arrayfun(@bin2SPT,(-128:128),'UniformOutput',false)
+X=arrayfun(@bin2SPT,(-128:128),"UniformOutput",false)
 
 % Test array for finding the number of coefficient adders
 y=[   92,  -119,   -27,    75,   213; ...
@@ -132,7 +132,7 @@ y=[   92,  -119,   -27,    75,   213; ...
      231,    41,   158,   121,    62; ...
     -187,   197,   168,  -119,   114 ]
 % Find the SPT representation
-Y=arrayfun(@bin2SPT,y,'UniformOutput',false)
+Y=arrayfun(@bin2SPT,y,"UniformOutput",false)
 % Find the number of signed digits in each cell
 z=cellfun(@(x) sum(abs(x)),Y)
 % Find the cells for which the number of signed digits is more than 1

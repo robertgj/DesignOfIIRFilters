@@ -36,7 +36,7 @@ for k=1:2
     Waf=[Wasl 0 Wap 0 Wasu];
 
     % Make a band pass filter
-    h=remez(2*M,f*2,[0 0 1 1 0 0],[Wasl Wap Wasu],'bandpass');
+    h=remez(2*M,f*2,[0 0 1 1 0 0],[Wasl Wap Wasu],"bandpass");
 
     % Desired magnitude response
     nplot=10^6;

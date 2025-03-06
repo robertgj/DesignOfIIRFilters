@@ -155,12 +155,12 @@ for N=3:2:7,
   Psi=[[0,a];[1/a,c]];
   % Force P and Q to be symmetric
   for l=1:Ns,
-    eval(sprintf("P(%02d,%02d)=sym('P%02d%02d','real');",l,l,l,l));
-    eval(sprintf("Q(%02d,%02d)=sym('Q%02d%02d','real');",l,l,l,l));
+    eval(sprintf("P(%02d,%02d)=sym(\"P%02d%02d\",\"real\");",l,l,l,l));
+    eval(sprintf("Q(%02d,%02d)=sym(\"Q%02d%02d\",\"real\");",l,l,l,l));
     for m=(l+1):Ns,
-      eval(sprintf("P(%02d,%02d)=sym('P%02d%02d','real');",l,m,l,m));
+      eval(sprintf("P(%02d,%02d)=sym(\"P%02d%02d\",\"real\");",l,m,l,m));
       eval(sprintf("P(%02d,%02d)=P(%02d,%02d);",m,l,l,m));
-      eval(sprintf("Q(%02d,%02d)=sym('Q%02d%02d','real');",l,m,l,m));
+      eval(sprintf("Q(%02d,%02d)=sym(\"Q%02d%02d\",\"real\");",l,m,l,m));
       eval(sprintf("Q(%02d,%02d)=Q(%02d,%02d);",m,l,l,m));
     endfor
   endfor

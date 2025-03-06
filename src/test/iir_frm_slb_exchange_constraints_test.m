@@ -146,16 +146,16 @@ strd=sprintf("iir_frm_slb_exchange_constraints_test_%%s");
 f=w*0.5/pi;
 subplot(211);
 plot(f,[Asqx0k,Asqdu,Asqdl], ...
-     f(vRx0k.al),Asqx0k(vRx0k.al),'*', ...
-     f(vRx0k.au),Asqx0k(vRx0k.au),'+');
+     f(vRx0k.al),Asqx0k(vRx0k.al),"*", ...
+     f(vRx0k.au),Asqx0k(vRx0k.au),"+");
 axis([0,0.5,0.8,1.1]);
 strM0=sprintf(strM,"x0k");
 title(strM0);
 ylabel("Amplitude");
 subplot(212);
 plot(f,[Asqx0k,Asqdu,Asqdl], ...
-     f(vRx0k.al),Asqx0k(vRx0k.al),'*', ...
-     f(vRx0k.au),Asqx0k(vRx0k.au),'+');
+     f(vRx0k.al),Asqx0k(vRx0k.al),"*", ...
+     f(vRx0k.au),Asqx0k(vRx0k.au),"+");
 axis([0,0.5,0,25e-5]);
 ylabel("Amplitude");
 xlabel("Frequency")
@@ -164,8 +164,8 @@ close
 
 % Plot group delay
 plot(f(1:nap),[Tx0k(1:nap),Tdu,Tdl], ...
-     f(vRx0k.tl),Tx0k(vRx0k.tl),'*', ...
-     f(vRx0k.tu),Tx0k(vRx0k.tu),'+');
+     f(vRx0k.tl),Tx0k(vRx0k.tl),"*", ...
+     f(vRx0k.tu),Tx0k(vRx0k.tu),"+");
 title(strM0);
 ylabel("Delay(samples)");
 xlabel("Frequency")
@@ -185,16 +185,16 @@ iir_frm_slb_show_constraints(vSx1k,w,Asqx1k,Tx1k);
 % Plot amplitude
 subplot(211);
 plot(f,[Asqx0k,Asqx1k,Asqdu,Asqdl], ...
-     f(vRx0k.al),Asqx0k(vRx0k.al),'*', f(vRx0k.au),Asqx0k(vRx0k.au),'+', ...
-     f(vSx1k.al),Asqx0k(vSx1k.al),'*', f(vSx1k.au),Asqx0k(vSx1k.au),'+');
+     f(vRx0k.al),Asqx0k(vRx0k.al),"*", f(vRx0k.au),Asqx0k(vRx0k.au),"+", ...
+     f(vSx1k.al),Asqx0k(vSx1k.al),"*", f(vSx1k.au),Asqx0k(vSx1k.au),"+");
 axis([0,fas,0.8,1.1]);
 strM1=sprintf(strM,"x1k");
 title(strM1);
 ylabel("Amplitude");
 subplot(212);
 plot(f,[Asqx0k,Asqx1k,Asqdu,Asqdl], ...
-     f(vRx0k.al),Asqx0k(vRx0k.al),'*', f(vRx0k.au),Asqx0k(vRx0k.au),'+', ...
-     f(vSx1k.al),Asqx1k(vSx1k.al),'*', f(vSx1k.au),Asqx1k(vSx1k.au),'+');
+     f(vRx0k.al),Asqx0k(vRx0k.al),"*", f(vRx0k.au),Asqx0k(vRx0k.au),"+", ...
+     f(vSx1k.al),Asqx1k(vSx1k.al),"*", f(vSx1k.au),Asqx1k(vSx1k.au),"+");
 axis([fap,0.5,0,5e-4]);
 ylabel("Amplitude");
 xlabel("Frequency")
@@ -203,8 +203,8 @@ close
 
 % Plot group delay
 plot(f(1:nap),[Tx0k(1:nap),Tx1k(1:nap),Tdu,Tdl], ...
-     f(vRx0k.tl),Tx0k(vRx0k.tl),'*', f(vRx0k.tu),Tx0k(vRx0k.tu),'+', ...
-     f(vSx1k.tl),Tx1k(vSx1k.tl),'*', f(vSx1k.tu),Tx1k(vSx1k.tu),'+');
+     f(vRx0k.tl),Tx0k(vRx0k.tl),"*", f(vRx0k.tu),Tx0k(vRx0k.tu),"+", ...
+     f(vSx1k.tl),Tx1k(vSx1k.tl),"*", f(vSx1k.tu),Tx1k(vSx1k.tu),"+");
 title(strM1);
 ylabel("Delay(samples)");
 xlabel("Frequency")

@@ -13,34 +13,34 @@ p0=p2;
 c0=c2;
 
 % Bandpass filter specification
-if exist('ftol','var')~=1
+if exist("ftol","var")~=1
   ftol=1e-4
 endif
-if exist('ctol','var')~=1
+if exist("ctol","var")~=1
   ctol=ftol/10
 endif
 fapl=0.1,fapu=0.2,Wap=1
-if exist('dBap','var')~=1
+if exist("dBap","var")~=1
   dBap=2
 endif
 fasll=0.04,fasl=0.05,fasu=0.25,fasuu=0.26
-if exist('dBas','var')~=1
+if exist("dBas","var")~=1
   dBas=33
 endif
-if exist('dBass','var')~=1
+if exist("dBass","var")~=1
   dBass=40
 endif
-if exist('Wasl','var')~=1
+if exist("Wasl","var")~=1
   Wasl=5e5
 endif
-if exist('Wasu','var')~=1
+if exist("Wasu","var")~=1
   Wasu=1e6
 endif
 ftpl=0.09,ftpu=0.21,tp=16
-if exist('tpr','var')~=1
+if exist("tpr","var")~=1
   tpr=0.2
 endif
-if exist('Wtp','var')~=1
+if exist("Wtp","var")~=1
   Wtp=5
 endif
 
@@ -103,11 +103,11 @@ Ddl=[];
 Wd=[];
 
 % Set coefficient size
-if exist('nbits','var')~=1
+if exist("nbits","var")~=1
   nbits=10;
 endif
 nscale=2^(nbits-1);
-if exist('ndigits','var')~=1
+if exist("ndigits","var")~=1
   ndigits=3;
 endif
 
@@ -124,13 +124,13 @@ kc0_u=[rho*ones(size(k0));10*ones(size(c0))];
 kc0_l=-kc0_u;
 
 % Allocate digits
-if (exist('use_schurOneMlattice_allocsd_Lim','var')==1) && ...
+if (exist("use_schurOneMlattice_allocsd_Lim","var")==1) && ...
    (use_schurOneMlattice_allocsd_Lim == true)
   printf("Using schurOneMlattice_allocsd_Lim()\n");
   ndigits_alloc=schurOneMlattice_allocsd_Lim(nbits,ndigits,k0,epsilon0,p0,c0, ...
                                              wa,Asqd,ones(size(wa)), ...
                                              wt,Td,ones(size(wt)));
-elseif (exist('use_schurOneMlattice_allocsd_Ito','var')==1) && ...
+elseif (exist("use_schurOneMlattice_allocsd_Ito","var")==1) && ...
        (use_schurOneMlattice_allocsd_Ito == true)
   printf("Using schurOneMlattice_allocsd_Ito()\n");
   ndigits_alloc=schurOneMlattice_allocsd_Ito(nbits,ndigits,k0,epsilon0,p0,c0, ...

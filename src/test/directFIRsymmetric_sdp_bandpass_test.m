@@ -236,7 +236,7 @@ for M=[15,30,80],
   % Call YALMIP
   %
   try
-    Options=sdpsettings('solver','sedumi');
+    Options=sdpsettings("solver","sedumi");
     sol=optimize(Constraints,Objective,Options)
   catch
     error("Caught YALMIP error : M=%d",M);

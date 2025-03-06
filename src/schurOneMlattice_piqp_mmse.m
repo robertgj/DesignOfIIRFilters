@@ -202,9 +202,9 @@ A0=[];
 b0=[];
 xkc_lb=kc_l(kc_active);
 xkc_ub=kc_u(kc_active);
-solver=piqp('dense');
-solver.update_settings('max_iter', maxiter);
-solver.update_settings('verbose', false, 'compute_timings', verbose);
+solver=piqp("dense");
+solver.update_settings("max_iter", maxiter);
+solver.update_settings("verbose", false, "compute_timings", verbose);
 solver.setup(P0, c0, A0, b0, G0, h0, xkc_lb, xkc_ub);
 
 %
@@ -290,7 +290,7 @@ while 1
   delta_ub=min(kc_u(kc_active)-xkc, dmax);
 
   % Update solver
-  solver.update('P',Pk,'c',ck,'G',Gk,'h',hk,'x_lb',delta_lb,'x_ub',delta_ub);
+  solver.update("P",Pk,"c",ck,"G",Gk,"h",hk,"x_lb",delta_lb,"x_ub",delta_ub);
 
   %
   % Call PIQP

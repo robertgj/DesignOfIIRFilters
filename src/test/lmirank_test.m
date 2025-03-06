@@ -55,14 +55,14 @@ m=size(Bperp,1);
 p=size(Ctperp,1);
 
 %%%% Create A,c,K using YALMIP
-yalmip('clear');
+yalmip("clear");
 X=sdpvar(n,n);
 Y=sdpvar(n,n);
 M1=-Bperp*(A*X+X*A')*Bperp';
 M2=-Ctperp*(Y*A+A'*Y)*Ctperp';
 M3=[X eye(n); eye(n) Y];
 F=[ (M1 >= epsilon*eye(m)), (M2 >= epsilon*eye(p)), (M3 >= 0) ];
-[model,recoverymodel] = export(F,[],sdpsettings('solver','sedumi'));
+[model,recoverymodel] = export(F,[],sdpsettings("solver","sedumi"));
 At=model.A; 
 c=model.C; 
 K.s=model.K.s;

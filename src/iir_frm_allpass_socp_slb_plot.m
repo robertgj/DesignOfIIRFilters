@@ -110,8 +110,8 @@ function iir_frm_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel, ...
 
   % Plot masking filter response
   subplot(111);
-  plot(wplot*0.5/pi,20*log10(abs(Hw_aa)),'-',...
-       wplot*0.5/pi,20*log10(abs(Hw_ac)),'--');
+  plot(wplot*0.5/pi,20*log10(abs(Hw_aa)),"-",...
+       wplot*0.5/pi,20*log10(abs(Hw_ac)),"-.");
   legend("Mask","Comp","location","northeast");
   legend("boxoff");
   axis([0, 0.5, -60, 10]);

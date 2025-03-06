@@ -295,7 +295,7 @@ Fas_line=Fasmin_subfilter(kM)*ones(size(fa));
 fap_line=fap*ones(1,length(fa));
 fas_line=fas*ones(1,length(fa));
 line_linewidth=0.5;
-line_colour='red';
+line_colour="red";
 subplot(221)
 plot(20*log10(abs(ANmin(:,kM))),fa, ...
      Amp_line,Fap_line,"linewidth",line_linewidth,"color",line_colour, ...

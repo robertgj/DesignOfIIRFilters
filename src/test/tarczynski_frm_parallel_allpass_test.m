@@ -201,7 +201,7 @@ nplot=1000;
 [Hw_frm,wplot]=freqz(nfrm,dfrm,nplot);
 Tw_frm=delayz(nfrm,dfrm,nplot);
 subplot(211);
-plot(wplot*0.5/pi,20*log10(abs(Hw_frm)),'linestyle','-');
+plot(wplot*0.5/pi,20*log10(abs(Hw_frm)),"linestyle","-");
 axis([0 0.5 -60 5]);
 ylabel("Amplitude(dB)");
 grid("on");
@@ -214,7 +214,7 @@ dmask=%3.1f,Was=%d,tol=%4.3g",mr,ms,na,nc,Mmodel,Dmodel,dmask,Was,tol);
 endif
 title(strt);
 subplot(212);
-plot(wplot*0.5/pi,Tw_frm,'linestyle','-');
+plot(wplot*0.5/pi,Tw_frm,"linestyle","-");
 axis([0 0.5 0 120]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
@@ -224,13 +224,13 @@ close
 
 % Plot passband response
 subplot(211);
-plot(wplot*0.5/pi,20*log10(abs(Hw_frm)),'linestyle','-');
+plot(wplot*0.5/pi,20*log10(abs(Hw_frm)),"linestyle","-");
 axis([0 fpass -2 2]);
 ylabel("Amplitude(dB)");
 grid("on");
 title(strt);
 subplot(212);
-plot(wplot*0.5/pi,Tw_frm,'linestyle','-');
+plot(wplot*0.5/pi,Tw_frm,"linestyle","-");
 axis([0 fpass 90 100]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
@@ -244,8 +244,8 @@ Tw_aa=delayz(aa1,1,nplot);
 Hw_ac=freqz(ac1,1,nplot);
 Tw_ac=delayz(ac1,1,nplot);
 subplot(211);
-plot(wplot*0.5/pi,20*log10(abs(Hw_aa)),'linestyle','-', ...
-     wplot*0.5/pi,20*log10(abs(Hw_ac)),'linestyle','--');
+plot(wplot*0.5/pi,20*log10(abs(Hw_aa)),"linestyle","-", ...
+     wplot*0.5/pi,20*log10(abs(Hw_ac)),"linestyle","-.");
 legend("Mask","Comp","location","northeast");
 legend("boxoff");
 axis([0 0.5 -40 5]);
@@ -254,8 +254,8 @@ grid("on");
 s=sprintf("FRM masking filters : na=%d,nc=%d",na,nc);
 title(s);
 subplot(212);
-plot(wplot*0.5/pi,Tw_aa,'linestyle','-', ...
-     wplot*0.5/pi,Tw_ac,'linestyle','--');
+plot(wplot*0.5/pi,Tw_aa,"linestyle","-", ...
+     wplot*0.5/pi,Tw_ac,"linestyle","-.");
 axis([0 0.5 0 30]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
@@ -269,7 +269,7 @@ Hw_ad=freqz((conv(r1M,flipud(s1M))+conv(s1M,flipud(r1M)))/2, ...
 Tw_ad=delayz((conv(r1M,flipud(s1M))+conv(s1M,flipud(r1M)))/2, ...
                conv(r1M,s1M),nplot);
 subplot(211);
-plot(wplot*0.5/pi,20*log10(abs(Hw_ad)),'linestyle','-');
+plot(wplot*0.5/pi,20*log10(abs(Hw_ad)),"linestyle","-");
 axis([0 0.5 -30 10]);
 ylabel("Amplitude(dB)");
 grid("on");
@@ -281,7 +281,7 @@ Dmodel=%3.1f,dmask=%3.1f",mr,ms,Mmodel,Dmodel,dmask);
 endif
 title(s);
 subplot(212);
-plot(wplot*0.5/pi,Tw_ad,'linestyle','-');
+plot(wplot*0.5/pi,Tw_ad,"linestyle","-");
 axis([0 0.5 60 100]);
 ylabel("Delay(samples)");
 xlabel("Frequency");

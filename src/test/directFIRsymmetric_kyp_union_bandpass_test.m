@@ -162,7 +162,7 @@ F_slu=[[((F2AB')*(kron(Phi_slu,P_slu)+kron(Psi_slu,Q_slu))*F2AB) + ...
 
 % Solve with YALMIP
 Constraints=[F_max<=0,Q_max>=0,F_z<=0,Q_z>=0,F_slu<=0,Q_slu>=0];
-Options=sdpsettings('solver','sedumi');
+Options=sdpsettings("solver","sedumi");
 sol=optimize(Constraints,[],Options);
 if sol.problem
   error("YALMIP failed : %s",sol.info);

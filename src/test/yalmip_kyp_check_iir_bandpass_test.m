@@ -260,7 +260,7 @@ F_slu=((F2AB')*(kron(Phi_slu,P_slu)+kron(Psi_slu,Q_slu))*F2AB) + ...
 
 % Check pass band lower amplitude with YALMIP
 Constraints=[F_p<=0,Q_p>=0];
-Options=sdpsettings('solver','sedumi');
+Options=sdpsettings("solver","sedumi");
 sol=optimize(Constraints,[],Options);
 if (sol.problem==0)
 elseif (sol.problem==4)
@@ -273,7 +273,7 @@ check(Constraints)
 
 % Check pass band error from delay with YALMIP
 Constraints=[F_z<=0,Q_z>=0];
-Options=sdpsettings('solver','sedumi');
+Options=sdpsettings("solver","sedumi");
 sol=optimize(Constraints,[],Options);
 if (sol.problem==0)
 elseif (sol.problem==4)
@@ -286,7 +286,7 @@ check(Constraints)
 
 % Check stop band upper amplitude from delay with YALMIP
 Constraints=[F_slu<=-sedumi_eps,Q_slu>=0];
-Options=sdpsettings('solver','sedumi','sedumi.eps',sedumi_eps);
+Options=sdpsettings("solver","sedumi","sedumi.eps",sedumi_eps);
 sol=optimize(Constraints,[],Options);
 if (sol.problem==0)
 elseif (sol.problem==4)

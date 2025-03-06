@@ -33,7 +33,7 @@ function [x_digits,x_adders]=SDadders(x,nbits)
   endif
 
   % Express elements of x as signed-digits in powers-of-two
-  x_spt=arrayfun(@bin2SPT,x.*(2.^(nbits-1)),'UniformOutput',false);
+  x_spt=arrayfun(@bin2SPT,x.*(2.^(nbits-1)),"UniformOutput",false);
 
   % Find the number of digits in each element of x
   x_sum=cellfun(@(x) sum(abs(x)),x_spt);

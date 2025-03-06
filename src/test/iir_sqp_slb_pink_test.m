@@ -73,8 +73,8 @@ dmax=0.05;
 if 0
   subplot(211);
   A0=iirA(wa,x0,U,V,M,Q,R);
-  semilogx(wa*0.5/pi,20*log10(A0),'linestyle','-', ...
-           wa*0.5/pi,20*log10(Ad),'linestyle','-.');
+  semilogx(wa*0.5/pi,20*log10(A0),"linestyle","-", ...
+           wa*0.5/pi,20*log10(Ad),"linestyle","-.");
   strt=sprintf("Pink noise filter initial response : fat=%g,ftt=%g,tp=%g", ...
                fat,ftt,tp);
   title(strt);
@@ -86,8 +86,8 @@ if 0
   grid("on");
   subplot(212);
   T0=iirT(wt,x0,U,V,M,Q,R);
-  plot(wt*0.5/pi,T0,'linestyle','-', ...
-       wt*0.5/pi,Td,'linestyle','-.');
+  plot(wt*0.5/pi,T0,"linestyle","-", ...
+       wt*0.5/pi,Td,"linestyle","-.");
   ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
@@ -97,8 +97,8 @@ else
   subplot(111);
   ni=floor(0.002*n/0.5);
   A0=iirA(wd(ni:end),x0,U,V,M,Q,R);
-  semilogx(wd(ni:end)*0.5/pi,20*log10(A0),'linestyle','-', ...
-           wa*0.5/pi,20*log10(Ad),'linestyle','-.');
+  semilogx(wd(ni:end)*0.5/pi,20*log10(A0),"linestyle","-", ...
+           wa*0.5/pi,20*log10(Ad),"linestyle","-.");
   axis([0.001 0.6 -20 5]);
   strt=sprintf("Pink noise filter initial amplitude response : \
 fat=%g,ftt=%g,tp=%g",fat,ftt,tp);

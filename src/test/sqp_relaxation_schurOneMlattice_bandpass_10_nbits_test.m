@@ -310,10 +310,10 @@ close
 if print_for_web_page
   Arange=1:700;
   plot(wplot(Arange)*0.5/pi,10*log10(abs(Asq_kc0(Arange))),'linewidth',20);
-  axis('off');
+  axis("off");
   print(strcat(strf,"_icon"),"-dsvg");
   system(sprintf('convert %s.svg -define icon:auto-resize=64,32,16 %s', ...
-                 strcat(strf,"_icon"),'favicon.ico'));
+                 strcat(strf,"_icon"),"favicon.ico"));
   close
 endif
 

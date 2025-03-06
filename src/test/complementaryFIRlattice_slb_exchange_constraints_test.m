@@ -109,8 +109,8 @@ strM=sprintf("%%s:fsl,fpl=%g,fpu=%g,fsu,dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g",
 % Plot amplitude
 fa=wa*0.5/pi;
 plot(fa,10*log10([Asq0,Asqdu,Asqdl]), ...
-     fa(vR0.al),10*log10(Asq0(vR0.al)),'*', ...
-     fa(vR0.au),10*log10(Asq0(vR0.au)),'+');
+     fa(vR0.al),10*log10(Asq0(vR0.al)),"*", ...
+     fa(vR0.au),10*log10(Asq0(vR0.au)),"+");
 axis([0,0.5,-35,0.25]);
 strM0=sprintf(strM,"0");
 title(strM0);
@@ -122,8 +122,8 @@ close
 % Plot group delay
 ft=wt*0.5/pi;
 plot(ft,[T0,Tdu,Tdl], ...
-     ft(vR0.tl),T0(vR0.tl),'*', ...
-     ft(vR0.tu),T0(vR0.tu),'+');
+     ft(vR0.tl),T0(vR0.tl),"*", ...
+     ft(vR0.tu),T0(vR0.tu),"+");
 title(strM0);
 ylabel("Delay(samples)");
 xlabel("Frequency")
@@ -133,8 +133,8 @@ close
 % Plot phase
 fp=wp*0.5/pi;
 plot(fp,[P0,Pdu,Pdl], ...
-     fp(vR0.pl),P0(vR0.pl),'*', ...
-     fp(vR0.pu),P0(vR0.pu),'+');
+     fp(vR0.pl),P0(vR0.pl),"*", ...
+     fp(vR0.pu),P0(vR0.pu),"+");
 title(strM0);
 ylabel("Phase");
 xlabel("Frequency")
@@ -151,8 +151,8 @@ complementaryFIRlattice_slb_show_constraints(vS1,w,Asq1,w,T1,w,P1);
 
 % Plot amplitude
 plot(fa,10*log10([Asq1,Asqdu,Asqdl]), ...
-     fa(vS1.al),10*log10(Asq1(vS1.al)),'*', ...
-     fa(vS1.au),10*log10(Asq1(vS1.au)),'+');
+     fa(vS1.al),10*log10(Asq1(vS1.al)),"*", ...
+     fa(vS1.au),10*log10(Asq1(vS1.au)),"+");
 axis([0,0.5,-35,0.25]);
 strM1=sprintf(strM,"1");
 title(strM1);
@@ -163,8 +163,8 @@ close
 
 % Plot group delay
 plot(ft,[T1,Tdu,Tdl], ...
-     ft(vS1.tl),T1(vS1.tl),'*', ...
-     ft(vS1.tu),T1(vS1.tu),'+');
+     ft(vS1.tl),T1(vS1.tl),"*", ...
+     ft(vS1.tu),T1(vS1.tu),"+");
 title(strM1);
 ylabel("Delay(samples)");
 xlabel("Frequency")
@@ -173,8 +173,8 @@ close
 
 % Plot phase
 plot(fp,[P1,Pdu,Pdl], ...
-     fp(vS1.pl),P1(vS1.pl),'*', ...
-     fp(vS1.pu),P1(vS1.pu),'+');
+     fp(vS1.pl),P1(vS1.pl),"*", ...
+     fp(vS1.pu),P1(vS1.pu),"+");
 title(strM1);
 ylabel("Phase");
 xlabel("Frequency")

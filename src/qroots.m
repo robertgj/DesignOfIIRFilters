@@ -25,7 +25,7 @@ function r = qroots(p)
   if (~any(iscomplex(p))) && (exist("qzsolve")==3)
     r=qzsolve(p);
     if ~isempty(r)
-      [~,k]=sort(abs(r),'descend');
+      [~,k]=sort(abs(r),"descend");
       r=r(k);
     endif
   else

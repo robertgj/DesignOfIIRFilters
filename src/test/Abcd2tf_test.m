@@ -132,7 +132,7 @@ if max(abs(d-dp))>20*tol
   error("max(abs(d-dp))(%g*tol)>20*tol\n",max(abs(d-dp))/tol);
 endif
 
-% Use Leverrier's method to find the characteristic polynomial
+% Use Le Verrier's method to find the characteristic polynomial
 [nn,dd]=pAbcd2tf(A,B,C,D);
 % Check the transfer function
 if max(abs(n-nn))>tol

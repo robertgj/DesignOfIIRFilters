@@ -43,7 +43,7 @@ info.pinf=0
 info.numerr=0
 z = [ 4.2827, 0.8079, 2.5574, 1.7342, ... 
       -0.7938 ]';
-norm(Z-P,'fro')=1.4508
+norm(Z-P,"fro")=1.4508
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

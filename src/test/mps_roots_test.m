@@ -15,20 +15,20 @@ endif
 
 % Binomial coefficients
 N=6;
-r=mps_roots(bincoeff(N,0:N),'u');
+r=mps_roots(bincoeff(N,0:N),"u");
 if 2*max(abs(r+1)) > eps
   error("r=mps_roots(bincoeff(6,0:6)) : max(abs(r+1)) > eps");
 endif
 
 N=20;
-r=mps_roots(bincoeff(N,0:N),'u');
+r=mps_roots(bincoeff(N,0:N),"u");
 if 2*max(abs(r+1)) > eps
   error("r=mps_roots(bincoeff(20,0:20)) : max(abs(r+1)) > eps");
 endif
 
 % Roots of -1
 N=6;
-r=mps_roots([1,zeros(1,N-1),1],'u');
+r=mps_roots([1,zeros(1,N-1),1],"u");
 if 2*max(abs(abs(r)-1)) > eps
   error("r=mps_roots([1,zeros(1,5),1]) : max(abs(abs(r)-1)) > eps");
 endif
@@ -37,7 +37,7 @@ if 8*max(abs((sort((arg(r')/pi)))-(-(N-1):2:(N-1))/N)) > eps
 endif
 
 N=20;
-r=mps_roots([1,zeros(1,N-1),1],'u');
+r=mps_roots([1,zeros(1,N-1),1],"u");
 if 2*max(abs(abs(r)-1)) > eps
   error("r=mps_roots([1,zeros(1,19),1]) : max(abs(abs(r)-1)) > eps");
 endif

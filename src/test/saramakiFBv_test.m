@@ -27,7 +27,7 @@ for m=5:6,
   for n=1:(m-1),
 
     % B
-    [b0,a0]=butter(n,2*fp,'high');
+    [b0,a0]=butter(n,2*fp,"high");
     [sos0,g0]=tf2sos(b0,a0);
     non2=floor(n/2);
     B=sos0(1:non2,5:6)'(:)';

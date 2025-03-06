@@ -108,16 +108,16 @@ strd=sprintf("iir_slb_exchange_constraints_test_%%s");
 strM2=sprintf(strM,"x2");
 subplot(211);
 plot(f,[AAx2,AAdu,AAdl], ...
-     fa(vRx2.al),Ax2(vRx2.al),'*', ...
-     fa(vRx2.au),Ax2(vRx2.au),'+');
+     fa(vRx2.al),Ax2(vRx2.al),"*", ...
+     fa(vRx2.au),Ax2(vRx2.au),"+");
 axis([0,0.5,0.9,1.1]);
 title(strM2);
 ylabel("Amplitude");
 subplot(212);
 fs=ws*0.5/pi;
 plot(f,[AAx2,AAdu,AAdl], ...
-     fs(vRx2.sl),Sx2(vRx2.sl),'*', ...
-     fs(vRx2.su),Sx2(vRx2.su),'+');
+     fs(vRx2.sl),Sx2(vRx2.sl),"*", ...
+     fs(vRx2.su),Sx2(vRx2.su),"+");
 axis([0,0.5,0,0.02]);
 ylabel("Amplitude");
 xlabel("Frequency")
@@ -127,8 +127,8 @@ close
 % Plot group delay
 ft=wt*0.5/pi;
 plot(ft,[Tx2,Tdu,Tdl], ...
-     ft(vRx2.tu),Tx2(vRx2.tu),'+', ...
-     ft(vRx2.tl),Tx2(vRx2.tl),'*');
+     ft(vRx2.tu),Tx2(vRx2.tu),"+", ...
+     ft(vRx2.tl),Tx2(vRx2.tl),"*");
 title(strM2);
 ylabel("Delay(samples)");
 xlabel("Frequency")
@@ -138,8 +138,8 @@ close
 % Plot phase
 fp=wp*0.5/pi;
 plot(fp,[Px2-Pd,Pdu-Pd,Pdl-Pd], ...
-     fp(vRx2.pu),Px2(vRx2.pu)-Pd(vRx2.pu),'+', ...
-     fp(vRx2.pl),Px2(vRx2.pl)-Pd(vRx2.pl),'*');
+     fp(vRx2.pu),Px2(vRx2.pu)-Pd(vRx2.pu),"+", ...
+     fp(vRx2.pl),Px2(vRx2.pl)-Pd(vRx2.pl),"*");
 title(strM2);
 ylabel("Phase(rad.)\n(Corrected for delay)");
 xlabel("Frequency")
@@ -162,15 +162,15 @@ AAx7=iirA(w,x7,U,V,M,Q,R);
 strM7=sprintf(strM,"x7");
 subplot(211);
 plot(f,[AAx2,AAx7,AAdu,AAdl], ...
-     fa(vRx2.al),Ax2(vRx2.al),'*',fa(vRx2.au),Ax2(vRx2.au),'+', ...
-     fa(vSx7.al),Ax7(vSx7.al),'*',fa(vSx7.au),Ax7(vSx7.au),'+');
+     fa(vRx2.al),Ax2(vRx2.al),"*",fa(vRx2.au),Ax2(vRx2.au),"+", ...
+     fa(vSx7.al),Ax7(vSx7.al),"*",fa(vSx7.au),Ax7(vSx7.au),"+");
 axis([0,0.5,10^(-10*dBap/20),10^(2*dBap/20)]);
 title(strM7);
 ylabel("Amplitude");
 subplot(212);
 plot(f,[AAx2,AAx7,AAdu,AAdl], ...
-     fs(vRx2.sl),Sx2(vRx2.sl),'*',fs(vRx2.su),Sx2(vRx2.su),'+', ...
-     fs(vSx7.sl),Sx7(vSx7.sl),'*',fs(vSx7.su),Sx7(vSx7.su),'+');
+     fs(vRx2.sl),Sx2(vRx2.sl),"*",fs(vRx2.su),Sx2(vRx2.su),"+", ...
+     fs(vSx7.sl),Sx7(vSx7.sl),"*",fs(vSx7.su),Sx7(vSx7.su),"+");
 axis([0 0.5 0 2e-2]);
 ylabel("Amplitude");
 xlabel("Frequency")
@@ -180,8 +180,8 @@ close
 % Plot group delay
 ft=wt*0.5/pi;
 plot(ft,[Tx2,Tx7,Tdu,Tdl], ...
-     ft(vRx2.tl),Tx2(vRx2.tl),'*',ft(vRx2.tu),Tx2(vRx2.tu),'+',
-     ft(vSx7.tl),Tx7(vSx7.tl),'*',ft(vSx7.tu),Tx7(vSx7.tu),'+');
+     ft(vRx2.tl),Tx2(vRx2.tl),"*",ft(vRx2.tu),Tx2(vRx2.tu),"+",
+     ft(vSx7.tl),Tx7(vSx7.tl),"*",ft(vSx7.tu),Tx7(vSx7.tu),"+");
 axis([0 ftp tp-(2*tpr) tp+(2*tpr)]);
 title(strM7);
 ylabel("Delay(samples)");
@@ -191,10 +191,10 @@ close
 
 % Plot phase
 plot(fp,[Px2-Pd,Px7-Pd,Pdu-Pd,Pdl-Pd], ...
-     fp(vRx2.pl),Px2(vRx2.pl)-Pd(vRx2.pl),'*', ...
-     fp(vRx2.pu),Px2(vRx2.pu)-Pd(vRx2.pu),'+', ...
-     fp(vSx7.pl),Px7(vSx7.pl)-Pd(vSx7.pl),'*', ...
-     fp(vSx7.pu),Px7(vSx7.pu)-Pd(vSx7.pu),'+');
+     fp(vRx2.pl),Px2(vRx2.pl)-Pd(vRx2.pl),"*", ...
+     fp(vRx2.pu),Px2(vRx2.pu)-Pd(vRx2.pu),"+", ...
+     fp(vSx7.pl),Px7(vSx7.pl)-Pd(vSx7.pl),"*", ...
+     fp(vSx7.pu),Px7(vSx7.pu)-Pd(vSx7.pu),"+");
 axis([0 fpp -ppr ppr]);
 title(strM2);
 ylabel("Phase(rad.)\n(Corrected for delay)");

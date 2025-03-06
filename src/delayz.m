@@ -156,12 +156,12 @@ endfunction
 %! % angle pi should have a group delay of about -9 at 1 and 1/2
 %! % at zero and 2*pi.
 %! %--------------------------------------------------------------
-%! delayz([1 0.9],[],512,'whole',1);
+%! delayz([1 0.9],[],512,"whole",1);
 %! hold on;
-%! xlabel('Normalized Frequency (cycles/sample)');
-%! stem([0, 0.5, 1],[0.5, -9, 0.5],'*b;target;');
+%! xlabel("Normalized Frequency (cycles/sample)");
+%! stem([0, 0.5, 1],[0.5, -9, 0.5],"*b;target;");
 %! hold off;
-%! title ('Zero at z = -0.9');
+%! title ("Zero at z = -0.9");
 %!
 %!demo % 2
 %! %--------------------------------------------------------------
@@ -171,12 +171,12 @@ endfunction
 %! %--------------------------------------------------------------
 %! b = poly([1/0.9*exp(1i*pi*0.2), 0.9*exp(1i*pi*0.6)]);
 %! a = poly([0.9*exp(-1i*pi*0.6), 1/0.9*exp(-1i*pi*0.2)]);
-%! delayz(b,a,512,'whole',1);
+%! delayz(b,a,512,"whole",1);
 %! hold on;
-%! xlabel('Normalized Frequency (cycles/sample)');
-%! stem([0.1, 0.3, 0.7, 0.9], [9, -9, 9, -9],'*b;target;');
+%! xlabel("Normalized Frequency (cycles/sample)");
+%! stem([0.1, 0.3, 0.7, 0.9], [9, -9, 9, -9],"*b;target;");
 %! hold off;
-%! title ('Two Zeros and Two Poles');
+%! title ("Two Zeros and Two Poles");
 
 %!demo % 3
 %! %--------------------------------------------------------------
@@ -191,15 +191,15 @@ endfunction
 %! [H,f] = freqz(b,1,[],1);
 %! [gd,f] = delayz(b,1,[],1);
 %! plot(f,20*log10(abs(H)));
-%! title(sprintf('b = fir1(%d,2*%d/%d);',nb,Fc,Fs));
-%! xlabel('Normalized Frequency (cycles/sample)');
-%! ylabel('Amplitude Response (dB)');
-%! grid('on');
+%! title(sprintf("b = fir1(%d,2*%d/%d);",nb,Fc,Fs));
+%! xlabel("Normalized Frequency (cycles/sample)");
+%! ylabel("Amplitude Response (dB)");
+%! grid("on");
 %! subplot(212);
 %! del = nb/2; % should equal this
 %! plot(f,gd);
-%! title(sprintf('Group Delay in Pass-Band (Expect %d samples)',del));
-%! ylabel('Group Delay (samples)');
+%! title(sprintf("Group Delay in Pass-Band (Expect %d samples)",del));
+%! ylabel("Group Delay (samples)");
 %! axis([0, 0.2, del-1, del+1]);
 
 %!demo % 4
@@ -207,19 +207,23 @@ endfunction
 %! % IIR bandstop filter has delays at [1000, 3000]
 %! %--------------------------------------------------------------
 %! Fs = 8000;
-%! [b, a] = cheby1(3, 3, 2*[1000, 3000]/Fs, 'stop');
+%! % [b, a] = cheby1(3, 3, 2*[1000, 3000]/Fs, "stop");
+%! a = [   1.0000000000,  -0.0000000000,  -0.6905558924,   0.0000000000, ... 
+%!         0.8018904583,   0.0000000000,  -0.3892082750 ];
+%! b = [   0.0902657863,  -0.0000000000,   0.2707973590,  -0.0000000000, ... 
+%!         0.2707973590,  -0.0000000000,   0.0902657863 ];
 %! [H,f] = freqz(b,a,[],Fs);
 %! [gd,f] = delayz(b,a,[],Fs);
 %! subplot(211);
 %! plot(f,abs(H));
-%! title('[b,a] = cheby1(3, 3, 2*[1000, 3000]/Fs, "stop");');
-%! xlabel('Frequency (Hz)');
-%! ylabel('Amplitude Response');
-%! grid('on');
+%! title("[b,a] = cheby1(3, 3, 2*[1000, 3000]/Fs, "stop");");
+%! xlabel("Frequency (Hz)");
+%! ylabel("Amplitude Response");
+%! grid("on");
 %! subplot(212);
 %! plot(f,gd);
-%! title('[gd,f] = delayz(b,a,[],Fs);');
-%! ylabel('Group Delay (samples)');
+%! title("[gd,f] = delayz(b,a,[],Fs);");
+%! ylabel("Group Delay (samples)");
 
 
 % ------------------------ TESTS -----------------------
@@ -235,7 +239,7 @@ endfunction
 %! assert(w,pi/4*[0:3]',10*eps);
 
 %!test % 0B
-%! [gd,w] = delayz([0,1],1,4,'whole');
+%! [gd,w] = delayz([0,1],1,4,"whole");
 %! assert(gd,[1;1;1;1]);
 %! assert(w,pi/2*[0:3]',10*eps);
 
@@ -245,12 +249,12 @@ endfunction
 %! assert(f,1/16*[0:3]',10*eps);
 
 %!test % 0D
-%! [gd,w] = delayz([0,1],1,4,'whole',1);
+%! [gd,w] = delayz([0,1],1,4,"whole",1);
 %! assert(gd,[1;1;1;1]);
 %! assert(w,1/4*[0:3]',10*eps);
 
 %!test % 0E
-%! [gd,f] = delayz([1 -0.9j],[],4,'whole',1);
+%! [gd,f] = delayz([1 -0.9j],[],4,"whole",1);
 %! gd0 = 0.447513812154696; gdm1 =0.473684210526316;
 %! assert(gd,[gd0;-9;gd0;gdm1],20*eps);
 %! assert(f,1/4*[0:3]',10*eps);
@@ -276,9 +280,13 @@ endfunction
 %!test % 4
 %! warning ("off", "signal:delayz-singularity", "local");
 %! Fs = 8000;
-%! [b, a] = cheby1(3, 3, 2*[1000, 3000]/Fs, 'stop');
-%! [h, w] = delayz(b, a, 256, 'half', Fs);
-%! [h2, w2] = delayz(b, a, 512, 'whole', Fs);
+%! % [b, a] = cheby1(3, 3, 2*[1000, 3000]/Fs, "stop");
+%! a = [   1.0000000000,  -0.0000000000,  -0.6905558924,   0.0000000000, ... 
+%!         0.8018904583,   0.0000000000,  -0.3892082750 ];
+%! b = [   0.0902657863,  -0.0000000000,   0.2707973590,  -0.0000000000, ... 
+%!         0.2707973590,  -0.0000000000,   0.0902657863 ];
+%! [h, w] = delayz(b, a, 256, "half", Fs);
+%! [h2, w2] = delayz(b, a, 512, "whole", Fs);
 %! assert (size(h), size(w));
 %! assert (length(h), 256);
 %! assert (size(h2), size(w2));
@@ -289,9 +297,9 @@ endfunction
 %!test % 5
 %! a = [1 0 0.9];
 %! b = [0.9 0 1];
-%! [dh, wf] = delayz(b, a, 512, 'whole');
-%! [da, wa] = delayz(1, a, 512, 'whole');
-%! [db, wb] = delayz(b, 1, 512, 'whole');
+%! [dh, wf] = delayz(b, a, 512, "whole");
+%! [da, wa] = delayz(1, a, 512, "whole");
+%! [db, wb] = delayz(b, 1, 512, "whole");
 %! assert(dh,db+da,1e-5);
 
 ## test for bug #39133 (do not fail for row or column vector)

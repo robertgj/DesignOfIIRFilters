@@ -18,13 +18,13 @@ fhandle=fopen("test.results","wt");
 % YALMIP nonconvex quadratic programming moment example
 %
 fprintf(fhandle,"\nYALMIP nonconvex quadratic programming moment example\n");
-yalmip('clear');
+yalmip("clear");
 N=5;
 Q=magic(N);
 x=sdpvar(N,1);
 Constraints=[-1<=x<=1];
 Objective=x'*Q*x;
-Options=sdpsettings('solver','moment','moment.order',3);
+Options=sdpsettings("solver","moment","moment.order",3);
 try
   sol=optimize(Constraints,Objective,Options);
 catch
@@ -58,7 +58,7 @@ fprintf(fhandle,"value(sol.xoptimal{2})'*Q*value(sol.xoptimal{2}) = %5.2f\n",
 % YALMIP moment relaxation solvemoment example
 %
 fprintf(fhandle,"\nYALMIP moment relaxation solvemoment example\n");
-yalmip('clear');
+yalmip("clear");
 sdpvar x1 x2 x3
 obj = -2*x1+x2-x3;
 F = [x1*(4*x1-4*x2+4*x3-20)+x2*(2*x2-2*x3+9)+x3*(2*x3-13)+24>=0; ...

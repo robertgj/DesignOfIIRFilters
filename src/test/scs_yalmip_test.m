@@ -162,7 +162,7 @@ printf("\n\n\n--------------------------------------\n")
 printf("  Test Semi-Definite Programming  (SCS)\n");
 printf("--------------------------------------\n\n")
 t = sdpvar(1,1);
-Y = sdpvar(2,2,'symmetric');
+Y = sdpvar(2,2,"symmetric");
 Objective = t;
 Constraints = [Y<=t*eye(2), Y>=[1 0.2;0.2 1]];
 Model = export(Constraints,Objective,Options_scs);
@@ -258,7 +258,7 @@ printf("\n\n\n--------------------------------------\n")
 printf("  Test Semi-Definite Programming  (SeDuMi)\n");
 printf("--------------------------------------\n\n")
 t = sdpvar(1,1);
-Y = sdpvar(2,2,'symmetric');
+Y = sdpvar(2,2,"symmetric");
 Objective = t;
 Constraints = [Y<=t*eye(2), Y>=[1 0.2;0.2 1]];
 sol = optimize(Constraints,Objective,Options_sedumi);
