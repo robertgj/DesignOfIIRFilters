@@ -160,7 +160,7 @@ catch
   feasible=false;
   warning("Caught parallel_allpass_socp_mmse");
 end_try_catch
-if !feasible
+if ~feasible
   error("abm infeasible");
 endif
 
@@ -178,7 +178,7 @@ catch
   feasible=false;
   warning("Caught parallel_allpass_slb");
 end_try_catch
-if !feasible
+if ~feasible
   error("ab1 infeasible");
 endif
 

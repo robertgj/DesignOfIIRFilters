@@ -57,7 +57,7 @@ catch
 end_try_catch
 try
   [w,x]=pAbcd2tf(A,B,C);
-  error("Did not catch nargin != 4");
+  error("Did not catch nargin ~= 4");
 catch
   printf("%s\n", lasterr());
 end_try_catch

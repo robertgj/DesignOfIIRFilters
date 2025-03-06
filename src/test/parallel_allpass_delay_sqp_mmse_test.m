@@ -70,7 +70,7 @@ vS=[];
   parallel_allpass_delay_sqp_mmse(vS,a0,au,al,dmax,V,Q,R,DD, ...
                                   wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                                   maxiter,ftol,ctol,verbose);
-if !feasible
+if ~feasible
   error("a1 infeasible");
 endif
 

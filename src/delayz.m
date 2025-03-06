@@ -49,12 +49,12 @@ function [gd, w] = delayz (b, a = 1, nfft = 512, whole = "", Fs = 1)
   if nfft_is_length
     if (nargin == 5)
       HzFlag = true;
-    elseif (nargin == 4) && (! ischar (whole))
+    elseif (nargin == 4) && (~ischar(whole))
       HzFlag = true;
       Fs = whole;
       whole = "";
     endif
-    if ! strcmp(whole,"whole")
+    if ~strcmp(whole,"whole")
       nfft = 2*nfft;
     endif
     w = 2*pi*(0:(nfft-1))/nfft;
@@ -104,7 +104,7 @@ function [gd, w] = delayz (b, a = 1, nfft = 512, whole = "", Fs = 1)
   # Check for singularities in the group delay
   minmag  = 10*eps;
   polebins = find (abs (den) < minmag);
-  if ! isempty(polebins)
+  if ~isempty(polebins)
     warning ("signal:delayz-singularity",
              "delayz: setting group delay to 0 at singularities");
     oa = oa*ones(size(num));
@@ -115,7 +115,7 @@ function [gd, w] = delayz (b, a = 1, nfft = 512, whole = "", Fs = 1)
   gd = real (num ./ den) - oa;
 
   # Trim gd
-  if nfft_is_length && (! strcmp (whole, "whole"))
+  if nfft_is_length && (~strcmp (whole, "whole"))
     ns = nfft/2; # Matlab convention ... should be nfft/2 + 1
     gd = gd(1:ns);
     w  = w(1:ns);

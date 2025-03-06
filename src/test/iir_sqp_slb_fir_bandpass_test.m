@@ -92,7 +92,7 @@ wp=[];Pd=[];Pdu=[];Pdl=[];Wp=[];
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
                maxiter,ftol,ctol,verbose)
-if !feasible 
+if ~feasible 
   error("x1 infeasible");
 endif
 
@@ -102,7 +102,7 @@ endif
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
           maxiter,ftol,ctol,verbose)
-if !feasible 
+if ~feasible 
   error("d1 infeasible");
 endif
 % Ensure d1 amplitude response is <=1
@@ -148,7 +148,7 @@ iir_sqp_mmse([],c0,xuc,xlc,dmax,Uc,Vc,Mc,Qc,R, ...
              wa,Cd,[],[],Wa,[],[],[],[],[], ...
              [],[],[],[],[],[],[],[],[],[], ...
              maxiter,ftol,ctol,verbose)
-if !feasible 
+if ~feasible 
   error("c1 infeasible");
 endif
 % Plot complement response
@@ -198,7 +198,7 @@ iir_sqp_mmse([],c1,xucl,xlcl,dmax,Ucl,Vcl,Mcl,Qcl,R, ...
              wa,Aclcd,[],[],Wa,[],[],[],[],[], ...
              [],[],[],[],[],[],[],[],[],[], ...
              maxiter,ftol,ctol,verbose)
-if !feasible 
+if ~feasible 
   error("clc0 (mmse) infeasible");
 endif
 % Second mmse pass
@@ -210,7 +210,7 @@ iir_sqp_mmse([],clc0,xucl,xlcl,dmax,Ucl,Vcl,Mcl,Qcl,R, ...
              wa,Aclcd,[],[],Wa,[],[],[],[],[], ...
              [],[],[],[],[],[],[],[],[],[], ...
              maxiter,ftol,ctol,verbose)
-if !feasible 
+if ~feasible 
   error("clc1 (mmse) infeasible");
 endif
 

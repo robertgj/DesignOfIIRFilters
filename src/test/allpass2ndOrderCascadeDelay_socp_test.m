@@ -82,7 +82,7 @@ close
 % SOCP, optimise delay response
 [a1,socp_iter,func_iter,feasible]=allpass2ndOrderCascadeDelay_socp ...
    (a0,D,tau,wa,Ad,Wa,"complex",maxiter,tol,verbose);
-if !feasible
+if ~feasible
   error("a1 infeasible");
 endif
 
@@ -138,7 +138,7 @@ close
 % SOCP, optimise squared-magnitude response
 [a1sqm,socp_iter,func_iter,feasible]=allpass2ndOrderCascadeDelay_socp ...
    (a0,D,tau,wa,Ad,Wa_sqm,"sqmag",maxiter,tol,verbose);
-if !feasible
+if ~feasible
   error("a1 infeasible");
 endif
 

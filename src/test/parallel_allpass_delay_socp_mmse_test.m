@@ -69,7 +69,7 @@ vS=[];
   parallel_allpass_delay_socp_mmse(vS,a0,au,al,inf,V,Q,R,D, ...
                                    wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                                    maxiter,ftol,ctol,verbose);
-if !feasible
+if ~feasible
   error("a1 infeasible");
 endif
 

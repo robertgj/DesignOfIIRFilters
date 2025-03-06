@@ -90,7 +90,7 @@ vS=[];
                              wa,A2d*Ksq,A2du*Ksq,A2dl*Ksq,Wa/Ksq, ...
                              wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
                              maxiter,ftol,ctol,verbose);
-if !feasible
+if ~feasible
   error("ab1 infeasible");
 endif
 

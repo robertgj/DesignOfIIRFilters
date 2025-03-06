@@ -42,7 +42,7 @@ endif
 if nargin == 5
   algo_str=algo_str(1:5);
   if algo_str == "dlyap"
-    if !(exist("dlyap","builtin") || exist("dlyap","file"))
+    if ~(exist("dlyap","builtin") || exist("dlyap","file"))
       error("dlyap not found!");
     endif
     algo_type=1;

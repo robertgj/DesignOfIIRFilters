@@ -103,7 +103,7 @@ close
                              a0,au,al,inf,V,Q,R,DD, ...
                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                              maxiter,tol,ctol,verbose);
-if !feasible
+if ~feasible
   error("a1 infeasible");
 endif
 

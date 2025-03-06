@@ -97,7 +97,7 @@ vS=[];
                              polyphase,difference, ...
                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                              wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
-if !feasible
+if ~feasible
   error("ab1 infeasible");
 endif
 

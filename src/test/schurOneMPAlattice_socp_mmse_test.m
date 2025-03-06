@@ -105,7 +105,7 @@ try
 catch
   feasible=false;
 end_try_catch
-if !feasible
+if ~feasible
   error("A1k,A2k infeasible");
 endif
 

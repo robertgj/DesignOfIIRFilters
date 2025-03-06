@@ -8,7 +8,7 @@ delete("KW_test.diary.tmp");
 diary KW_test.diary.tmp
 
 
-if !(exist("dlyap","builtin")||exist("dlyap","file"))
+if ~(exist("dlyap","builtin")||exist("dlyap","file"))
   error("dlyap() not found!");
 endif
 

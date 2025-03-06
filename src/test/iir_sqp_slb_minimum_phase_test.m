@@ -103,7 +103,7 @@ endif
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
           maxiter,ftol,ctol,verbose)
-if !feasible 
+if ~feasible 
   error("d1 infeasible");
 endif
 strt=sprintf(strP,"d1(pcls)");

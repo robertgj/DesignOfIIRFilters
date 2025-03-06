@@ -137,7 +137,7 @@ try
 catch
   warning("Caught parallel_allpass_slb");
 end_try_catch
-if !feasible
+if ~feasible
   error("ab1(PCLS) infeasible");
 endif
 

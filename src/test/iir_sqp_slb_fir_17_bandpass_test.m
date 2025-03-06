@@ -90,7 +90,7 @@ wp=[];Pd=[];Pdu=[];Pdl=[];Wp=[];
                wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...
                wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
                maxiter,ftol,ctol,verbose)
-if !feasible 
+if ~feasible 
   error("x1 infeasible");
 endif
 % Plot x1 response
@@ -112,7 +112,7 @@ close
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
           wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
           maxiter,ftol,ctol,verbose)
-if !feasible 
+if ~feasible 
   error("d1 infeasible");
 endif
 

@@ -178,14 +178,14 @@ for l=1:length(f)
   %
   [A,B,C,D,~,~,~,~,ABCD0,ABCDk,ABCDc] = schurOneMR2lattice2Abcd(k,epsilon,c);
   ABCD=[A,B;C,D];
-  if size(ABCD) != size(ABCD0)
-    error("size(ABCD) != size(ABCD0)");
+  if size(ABCD) ~= size(ABCD0)
+    error("size(ABCD) ~= size(ABCD0)");
   endif
-  if length(ABCDk) != N
-    error("length(ABCDk) != N");
+  if length(ABCDk) ~= N
+    error("length(ABCDk) ~= N");
   endif
-  if length(ABCDc) != (N+1)
-    error("length(ABCDc) != (N+1)");
+  if length(ABCDc) ~= (N+1)
+    error("length(ABCDc) ~= (N+1)");
   endif
   % Make mABCD from the matrix coefficients of k and c
   mABCD=ABCD0;
@@ -205,11 +205,11 @@ for l=1:length(f)
   [~,~,~,~,Aap,Bap,Cap,Dap,~,~,~,ABCDap0,ABCDapk] = ...
     schurOneMR2lattice2Abcd(k,epsilon,c);
   ABCDap=[Aap,Bap;Cap,Dap];
-  if size(ABCDap) != size(ABCDap0)
-    error("size(ABCDap) != size(ABCDap0)");
+  if size(ABCDap) ~= size(ABCDap0)
+    error("size(ABCDap) ~= size(ABCDap0)");
   endif
-  if length(ABCDapk) != N
-    error("length(ABCDapk) != N");
+  if length(ABCDapk) ~= N
+    error("length(ABCDapk) ~= N");
   endif
   % Make mABCD from the matrix coefficients of k
   mABCDap=ABCDap0;

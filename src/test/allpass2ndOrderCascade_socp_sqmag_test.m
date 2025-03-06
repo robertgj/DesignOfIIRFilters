@@ -82,9 +82,9 @@ try
   [a1,b1,socp_iter,func_iter,feasible] = ...
      allpass2ndOrderCascade_socp(a0,b0,tau,w,Ad,W,resp,maxiter,tol,verbose)
 catch
-  feasible = 0;
+  feasible = false;
 end_try_catch
-if !feasible
+if ~feasible
   error("a1,b1 infeasible");
 endif
 

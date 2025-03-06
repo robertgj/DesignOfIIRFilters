@@ -115,7 +115,7 @@ f0=[f0sl,f0p,f0su];
 a0=[a0sl,a0p,a0su];
 % Filter design
 [hM,fext,fiter,feasible]=hofstetterFIRsymmetric(f0,a0,n,maxiter,ftol);
-if feasible==false
+if ~feasible
   error("hM not feasible");
 endif
 h0=[hM(1:end);hM((end-1):-1:1)]';
@@ -136,7 +136,7 @@ catch
             err.stack(e).name,err.stack(e).line);
   endfor
 end_try_catch
-if !feasible
+if ~feasible
   error("h1 infeasible");
 endif
 
@@ -154,7 +154,7 @@ catch
             err.stack(e).name,err.stack(e).line);
   endfor
 end_try_catch
-if !feasible
+if ~feasible
   error("h infeasible");
 endif
 

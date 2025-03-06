@@ -108,7 +108,7 @@ catch
             err.stack(e).name,err.stack(e).line);
   endfor
 end_try_catch
-if !feasible
+if ~feasible
   error("h infeasible");
 endif
 

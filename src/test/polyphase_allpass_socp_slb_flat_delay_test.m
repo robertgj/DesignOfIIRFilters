@@ -111,7 +111,7 @@ feasible = false;
                        1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
                        wa,A2d,A2du,A2dl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                        wp,Pd,Pdu,Pdl,Wp,maxiter,tol,ctol,verbose);
-if !feasible
+if ~feasible
   error("ab1 infeasible");
 endif
 

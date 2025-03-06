@@ -54,7 +54,7 @@ rho=31/32;
 [a1,socp_iter,func_iter,feasible]= ...
   allpass_phase_socp_mmse([],a0,au,al,Va,Qa,Ra, ...
                           wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
-if !feasible
+if ~feasible
   error("a1 infeasible");
 endif
 
