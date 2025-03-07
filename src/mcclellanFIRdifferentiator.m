@@ -129,7 +129,7 @@ function [hM,rho,fext,fiter,feasible]= ...
       hM=a(end:-1:1)/2;
       fext=F(Ek);
       feasible=true;
-      printf("Converged : rho=%g, delarho=%g after %d iterations\n",
+      printf("Converged : rho=%g, delarho=%g after %d iterations\n", ...
              rho,delarho,fiter);
       break;
     endif

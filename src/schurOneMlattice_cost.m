@@ -101,7 +101,7 @@ function [cost,k,c,svecnz_out] = schurOneMlattice_cost(svecnz, ...
     if ~isscalar(ndigits)
       ndigits=ndigits(:)';
       if size(ndigits) ~= size(svec)
-        error("Expect (length(ndigits)(%d) ~= length(svec)(%d))",
+        error("Expect (length(ndigits)(%d) ~= length(svec)(%d))", ...
               length(ndigits),length(svec));
       endif
     endif

@@ -423,7 +423,7 @@ function [k_min,c_min,socp_iter,func_iter,feasible]= ...
   try
     [xs,ys,info]=sedumi(Att,btt,ctt,K,pars);
     if verbose
-      printf("SeDuMi info.iter=%d, info.feasratio=%6.4g\n",
+      printf("SeDuMi info.iter=%d, info.feasratio=%6.4g\n", ...
              info.iter,info.feasratio);
     endif
     if info.pinf

@@ -105,7 +105,7 @@ function [gd, w] = delayz (b, a = 1, nfft = 512, whole = "", Fs = 1)
   minmag  = 10*eps;
   polebins = find (abs (den) < minmag);
   if ~isempty(polebins)
-    warning ("signal:delayz-singularity",
+    warning ("signal:delayz-singularity", ...
              "delayz: setting group delay to 0 at singularities");
     oa = oa*ones(size(num));
     oa(polebins) = 0;

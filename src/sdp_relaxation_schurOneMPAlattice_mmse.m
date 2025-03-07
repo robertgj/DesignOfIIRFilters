@@ -166,7 +166,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
     vS=schurOneMPAlattice_slb_set_empty_constraints();
   elseif (numfields(vS) ~= 8) || ...
          (all(isfield(vS,{"al","au","tl","tu","pl","pu","dl","du"})) == false)
-    error("numfields(vS)=%d, expected 8 (al,au,tl,tu,pl,pu,dl and du)",
+    error("numfields(vS)=%d, expected 8 (al,au,tl,tu,pl,pu,dl and du)", ...
           numfields(vS));
   endif
   if isstruct(ftol)
@@ -411,7 +411,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   try
     [xs,ys,info]=sedumi(Att,btt,ctt,K,pars);
     if verbose
-      printf("SeDuMi info.iter=%d, info.feasratio=%6.4g\n",
+      printf("SeDuMi info.iter=%d, info.feasratio=%6.4g\n", ...
              info.iter,info.feasratio);
     endif
     if info.pinf

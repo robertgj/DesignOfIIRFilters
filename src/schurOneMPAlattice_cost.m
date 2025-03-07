@@ -103,7 +103,7 @@ function [cost,A1k,A2k,svecnz_out] = ...
     if ~isscalar(ndigits)
       ndigits=ndigits(:)';
       if size(ndigits) ~= size(svec)
-        error("Expect (length(ndigits)(%d) ~= length(svec)(%d))",
+        error("Expect (length(ndigits)(%d) ~= length(svec)(%d))", ...
               length(ndigits),length(svec));
       endif
     endif

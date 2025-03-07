@@ -170,7 +170,7 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
     vS=iir_slb_set_empty_constraints();
   endif
   if numfields(vS) ~= 8
-    error("numfields(vS)=%d, expected 8 (al,au,sl,su,tl,tu,pl and pu)",
+    error("numfields(vS)=%d, expected 8 (al,au,sl,su,tl,tu,pl and pu)", ...
           numfields(vS));
   endif
 
@@ -349,7 +349,7 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
         error("SeDuMi info.numerr=%d",info.numerr);
       endif
       if verbose
-        printf("SeDuMi info.iter=%d, info.feasratio=%6.4g\n",
+        printf("SeDuMi info.iter=%d, info.feasratio=%6.4g\n", ...
                info.iter,info.feasratio);
       endif
       socp_iter=socp_iter+info.iter;

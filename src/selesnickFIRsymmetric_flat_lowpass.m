@@ -155,7 +155,7 @@ function [hA,hM,fext,fiter,feasible]= ...
       eindex(end)=[];
     endif
     if length(eindex)~=(M+1)
-      error("fiter=%d,length(eindex)(%d)~=(M+1)(%d)",
+      error("fiter=%d,length(eindex)(%d)~=(M+1)(%d)", ...
             fiter,length(eindex),M+1);
     endif
     xM=xi(eindex);

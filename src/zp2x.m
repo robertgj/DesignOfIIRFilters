@@ -105,7 +105,7 @@ if length(argp) ~= (Q/2)
   error("length(argp)=%d not consistent with Q=%d",length(argp),Q);
 endif;
 if length(x) ~= 1+U+V+M+Q
-  error("length(x)=%d not consistent with U=%d, V=%d, M=%d and Q=%d",
+  error("length(x)=%d not consistent with U=%d, V=%d, M=%d and Q=%d", ...
         length(x),U,V,M,Q);
 endif;
 

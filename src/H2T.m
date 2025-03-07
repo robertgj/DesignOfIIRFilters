@@ -203,7 +203,7 @@ function [T,gradT,diagHessT,hessT]= ...
   
   for l=1:Nw,
     if ~issymmetric(squeeze(hessT(l,:,:)),1e-10)
-      error("hessT is not symmetric(%g) at l=%d",
+      error("hessT is not symmetric(%g) at l=%d", ...
             max(max(abs(squeeze(hessT(l,:,:))-squeeze(hessT(l,:,:))')/2)),l);
     endif 
     hessT(l,:,:)=(squeeze(hessT(l,:,:))+(squeeze(hessT(l,:,:)).'))/2;

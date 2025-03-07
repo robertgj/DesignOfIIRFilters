@@ -175,7 +175,7 @@ mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol,verbose)");
       fext=acos(xk)/(2*pi);
       feasible=true;
       if verbose
-        printf("Converged : rho=%g, delrhoxk=%g after %d iterations\n",
+        printf("Converged : rho=%g, delrhoxk=%g after %d iterations\n", ...
                rho,delrhoxk,fiter);
       endif
       break;

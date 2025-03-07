@@ -502,7 +502,7 @@ if any(any(any(isinf(hessP))))
   error("hessP has inf!");
 endif
 if max(max(max(abs(imag(hessP)))))>tol
-  error("R=%d,max(abs(imag(hessP)))(%g)>tol!",
+  error("R=%d,max(abs(imag(hessP)))(%g)>tol!", ...
         R,max(max(max(abs(imag(hessP))))));
 endif
 

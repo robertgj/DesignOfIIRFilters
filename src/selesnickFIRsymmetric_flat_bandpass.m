@@ -191,7 +191,7 @@ selesnickFIRsymmetric_flat_bandpass(N,L,deltasl,deltasu,fp,ft,nf,max_iter,tol)")
       endif
     endif
     if length(eindex)~=(M+2)
-      error("fiter=%d,length(eindex)(%d)~=(M+2)(%d)",
+      error("fiter=%d,length(eindex)(%d)~=(M+2)(%d)", ...
             fiter,length(eindex),M+2);
     endif
     

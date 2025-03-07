@@ -210,7 +210,7 @@ function [hM,deltap,deltas,fext,fiter,feasible]= ...
       hM=[a(end:-1:2)/2;a(1)];
       fext=wk/(2*pi);
       feasible=true;
-      printf("Converged : fiter=%d, deltap=%g, deltas=%g, deldeltawk=%g\n",
+      printf("Converged : fiter=%d, deltap=%g, deltas=%g, deldeltawk=%g\n", ...
              fiter,deltap,deltas,deldeltawk);
       break;
     endif

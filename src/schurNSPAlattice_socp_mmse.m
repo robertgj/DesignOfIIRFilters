@@ -359,7 +359,7 @@ function [A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
     try
       [xs,ys,info]=sedumi(At,bt,ct,sedumiK,pars);
       if verbose
-        printf("SeDuMi info.iter=%d, info.feasratio=%6.4g\n",
+        printf("SeDuMi info.iter=%d, info.feasratio=%6.4g\n", ...
                info.iter,info.feasratio);
       endif
       if info.pinf

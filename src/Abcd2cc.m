@@ -86,8 +86,8 @@ fprintf(fid,"\nvoid filter_%s(const WORD *, WORD *);",name);
 %
 % Octfile function
 %
-fprintf(fid,
-        sprintf("\n\nDEFUN_DLD(%s, args, nargout,\"y=%s(u)\")",
+fprintf(fid, ...
+        sprintf("\n\nDEFUN_DLD(%s, args, nargout,\"y=%s(u)\")", ...
                 name,name));
 fprintf(fid,"\n{");
 % Sanity check

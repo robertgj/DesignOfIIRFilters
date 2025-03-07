@@ -114,7 +114,7 @@ elseif (numfields(vS) ~= 6) ||  ...
 endif
 
 if length(ab0) ~= Nab
-  error("Expected length(ab0)(%d) == Va(%d)+Qa(%d)+Vb(%d)+Qb(%d)",
+  error("Expected length(ab0)(%d) == Va(%d)+Qa(%d)+Vb(%d)+Qb(%d)", ...
         length(ab0),Va,Qa,Vb,Qb);
 endif
 if length(abu) ~= Nab
@@ -326,7 +326,7 @@ while 1
     printf("beta=%g\n",beta);
     printf("delta=[ ");printf("%g ",delta');printf(" ]';\n"); 
     printf("norm(delta)=%g\n",norm(delta)); 
-    printf("loop_iter=%d,func_iter=%d, socp_iter=%d\n",
+    printf("loop_iter=%d,func_iter=%d, socp_iter=%d\n", ...
            loop_iter,func_iter,socp_iter);
     info
   endif

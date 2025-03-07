@@ -177,7 +177,7 @@ while 1
     if isinf(t2)
       % Drop constraint k from Ax
       if verbose
-        printf("Step 2c)ii): step in dual space. Dropping constraint %d\n",
+        printf("Step 2c)ii): step in dual space. Dropping constraint %d\n", ...
                Ax(kAx));
       endif
       lmp=lmp+t*[-r;1];

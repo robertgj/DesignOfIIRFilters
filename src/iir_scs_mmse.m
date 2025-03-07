@@ -171,7 +171,7 @@ if isempty(vS)
   vS=iir_slb_set_empty_constraints();
 endif
 if numfields(vS) ~= 8
-  error("numfields(vS)=%d, expected 8 (al,au,sl,su,tl,tu,pl and pu)",
+  error("numfields(vS)=%d, expected 8 (al,au,sl,su,tl,tu,pl and pu)", ...
         numfields(vS));
 endif
 

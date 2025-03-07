@@ -41184,6 +41184,23 @@ state\footnote{Also see \url{https://kristerw.github.io/2021/10/19/fast-math/}.}
       good measure.
 \end{quote}
 
+\subsubsection*{MATLAB compatibility}
+I do not own a copy of MATLAB so I cannot directly check that the Octave code
+in this project is compatible with MATLAB. However, I endeavour to fix warnings
+that occur for the code in this project when Octave is run with the
+\texttt{--traditional} run-time option and the script calls:
+\begin{small}
+\begin{verbatim}
+warning("on","Octave:language-extension");
+\end{verbatim}
+\end{small}
+See the file \emph{src/test\_common.m}. The Octave code from the Octave
+project produces many warnings. I ignore \emph{automatic-broadcast} warnings
+from the Octave code in this project because I believe that, in fact, MATLAB
+does support automatic broadcasting when the vector or matrix dimensions are
+compatible. See the Octave manual entry~\cite[Section 19.2.1]{Eaton_Octave} 
+\emph{Broadcasting and Legacy Code}.
+
 \subsubsection*{Problems with Octave}
 The \emph{octave-9.4.0.patch} \texttt{here} document within
 \emph{build-octave.sh} patches files to:
@@ -41260,7 +41277,7 @@ because of the differences in an approximately zero value. Finally, the
 the accuracy obtained with \emph{lzsolve} is similar to that obtained with
 \emph{qzsolve}. 
 
-\subsubsection*{Octave packages and solvers}
+\subsubsection*{Octave packages}
 The \emph{build-octave.sh} script installs the following Octave Forge packages:
 \begin{small}
 \verbatiminput{octave_info_test.diary}
@@ -41558,9 +41575,9 @@ power of $2$.}
 \label{fig:benchmark-iirA-freqz-test-65536}
 \end{figure}
 
-\pdfbookmark[0]{Profiling Octave}{profiling-octave}
-\section*{Profiling Octave}
-\subsection*{Profiling Octave scripts with the internal profiler}
+\pdfbookmark[1]{Profiling Octave}{profiling-octave}
+\subsection*{Profiling Octave}
+\subsubsection*{Profiling Octave scripts with the internal profiler}
 Here is an example of the use of the internal Octave profiler in the Octave
 script \emph{yalmip\_kyp\_moment\_lowpass\_test.m}:
 \begin{small}
@@ -41607,7 +41624,7 @@ with Octave profiler output:
 \end{verbatim}
 \end{small}
 
-\subsection*{Profiling the Octave binary}
+\subsubsection*{Profiling the Octave binary}
 I have not succeeded in profiling the \emph{octave} binary with
 \emph{gprof}\footnote{I configured \emph{octave} with \texttt{--disable-docs}
   and compiled with \texttt{-ggdb3 -O0 -pg}. Unfortunately, running

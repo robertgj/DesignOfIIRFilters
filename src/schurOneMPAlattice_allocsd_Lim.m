@@ -82,8 +82,8 @@ function ndigits_alloc = schurOneMPAlattice_allocsd_Lim ...
   R=ndigits*sum(double(abs(k)>=(2^(-nbits))));
   while R>0
     [mc,imc]=max(cost);
-    cost(imc)-=1;
-    ndigits_alloc(imc)+=1;
+    cost(imc)=cost(imc)-1;
+    ndigits_alloc(imc)=ndigits_alloc(imc)+1;
     R=R-1;
   endwhile
   

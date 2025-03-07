@@ -170,7 +170,7 @@ if isempty(vS)
   vS=iir_slb_set_empty_constraints();
 endif
 if numfields(vS) ~= 8
-  error("numfields(vS)=%d, expected 8 (al,au,sl,su,tl,tu,pl and pu)",
+  error("numfields(vS)=%d, expected 8 (al,au,sl,su,tl,tu,pl and pu)", ...
         numfields(vS));
 endif
 
@@ -340,7 +340,7 @@ while 1
   [Ek,gradEk,hessEk] = ...
     iirE(xk,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,verbose);
   if verbose
-    printf("PIQP status=%s, run_time=%g, primal_obj=%g\n",
+    printf("PIQP status=%s, run_time=%g, primal_obj=%g\n", ...
            result.info.status, result.info.run_time, result.info.primal_obj);
     printf("delta=[ ");printf("%g ",delta');printf(" ]';\n"); 
     printf("norm(delta)=%g\n",norm(delta));

@@ -244,7 +244,7 @@ function [xk,socp_iter,func_iter,feasible]= ...
     bt=-[1;1;zeros(Nxk,1)];
     try
       [xs,ys,info]=sedumi(At,bt,ct,sedumiK,pars);
-      printf("SeDuMi info.iter=%d, info.feasratio=%10.4g, r0=%10.4g\n",
+      printf("SeDuMi info.iter=%d, info.feasratio=%10.4g, r0=%10.4g\n", ...
              info.iter,info.feasratio,info.r0);
       if info.pinf 
         error("SeDuMi primary problem infeasible");

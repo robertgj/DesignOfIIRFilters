@@ -66,11 +66,11 @@ function [hm,g,k,khat] = complementaryFIRlattice(h,tol,Nw)
   % Sanity checks
   %
   if abs(((hm')*hm)+((g')*g)-1) > tol
-    error("abs(((hm')*hm)+((g')*g)-1)(%g*eps) > (%g*eps)",
+    error("abs(((hm')*hm)+((g')*g)-1)(%g*eps) > (%g*eps)", ...
           abs(((hm')*hm)+((g')*g)-1)/eps, tol/eps);
   endif
   if max(abs((k.^2)+(khat.^2)-ones(size(k)))) > tol
-    error("max(abs((k.^2)+(khat.^2)-ones(size(k))))(%g*eps)>(%g*eps)",
+    error("max(abs((k.^2)+(khat.^2)-ones(size(k))))(%g*eps)>(%g*eps)", ...
           max(abs((k.^2)+(khat.^2)-ones(size(k))))/eps,tol/eps);
   endif
 

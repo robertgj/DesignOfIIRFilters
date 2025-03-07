@@ -73,3 +73,8 @@ if strcmp("9.4.0-robj",OCTAVE_VERSION)
   warning("off","Octave:load-path:dir-info:update-failed");
 endif
 
+% Check for Octave extensions
+cmd_opt = cmdline_options();
+if cmd_opt.traditional
+  warning("on","Octave:language-extension");
+endif

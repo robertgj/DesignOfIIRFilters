@@ -177,7 +177,7 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
     vS=iir_slb_set_empty_constraints();
   endif
   if numfields(vS) ~= 8
-    error("numfields(vS)=%d, expected 8 (al,au,sl,su,tl,tu,pl and pu)",
+    error("numfields(vS)=%d, expected 8 (al,au,sl,su,tl,tu,pl and pu)", ...
           numfields(vS));
   endif
 
@@ -311,7 +311,7 @@ function [xk,Ek,socp_iter,func_iter,feasible]= ...
     %
     try
       [xs,ys,info]=sedumi(At,bt,ct,sedumiK,pars);
-      printf("SeDuMi info.iter=%d, info.feasratio=%10.4g, r0=%10.4g\n",
+      printf("SeDuMi info.iter=%d, info.feasratio=%10.4g, r0=%10.4g\n", ...
              info.iter,info.feasratio,info.r0);
       if info.pinf 
         error("SeDuMi primary problem infeasible");

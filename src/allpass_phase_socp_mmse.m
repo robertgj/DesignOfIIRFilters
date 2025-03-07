@@ -196,7 +196,7 @@ while 1
     printf("beta=%g\n",beta);
     printf("delta=[ ");printf("%g ",delta');printf(" ]';\n"); 
     printf("norm(delta)=%g\n",norm(delta)); 
-    printf("loop_iter=%d,func_iter=%d, socp_iter=%d\n",
+    printf("loop_iter=%d,func_iter=%d, socp_iter=%d\n", ...
            loop_iter,func_iter,socp_iter);
   endif
   if info.numerr == 1
