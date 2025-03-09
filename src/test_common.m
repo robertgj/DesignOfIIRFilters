@@ -58,20 +58,12 @@ warning("error","Octave:singular-matrix");
 warning("error","Octave:nearly-singular-matrix");
 warning("error","Octave:undefined-return-values");
 
-% Disable some noisy warnings (note patches to octave source files)
+% Disable some noisy warnings
 warning("off","Octave:data-file-in-path");
 warning("off","Octave:LaTeX:internal-error");
 warning("off","signal:delayz-singularity");
 warning("off","signal:grpdelay-singularity");
-if strcmp("9.4.0-robj",OCTAVE_VERSION)
-  % See scripts/plot/util/private/__gnuplot_draw_axes__.m
-  warning("off","Octave:latex-markup-not-supported-for-tick-marks");
-  % See scripts/miscellaneous/delete.m
-  warning("off","Octave:delete:no-such-file");
-  % See libinterp/corefcn/load-path.cc
-  warning("off","Octave:load-path:update-failed");
-  warning("off","Octave:load-path:dir-info:update-failed");
-endif
+warning("off","Octave:delete:no-such-file");
 
 % Check for Octave extensions
 cmd_opt = cmdline_options();

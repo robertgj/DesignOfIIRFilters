@@ -183,7 +183,8 @@ cat > test.blas.ok << 'EOF'
  0.14709002182062406
 EOF
 
-export LD_LIBRARY_PATH=/usr/local/octave-9.4.0/lib
+OCTAVE_VER=`octave -q --eval "disp(OCTAVE_VERSION)" | cut -d '-' -f 1`
+export LD_LIBRARY_PATH="/usr/local/octave-"$OCTAVE_VER"/lib"
 
 gfortran -o dgesvd_test_blas dgesvd_test.f -L$LD_LIBRARY_PATH -lblas -llapack
 if [ $? -ne 0 ]; then \

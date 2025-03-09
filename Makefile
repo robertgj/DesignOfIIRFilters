@@ -36,10 +36,11 @@ CLEAN_TEX_SUFFIXES= .aux .bbl .blg .brf .dvi .out .toc .lof .lot .loa \
 CLEAN_AEGIS_SUFFIXES= \,D \,B
 
 # Command definitions
-OCTAVE_VER=9.4.0
-OCTAVE=/usr/local/octave-$(OCTAVE_VER)/bin/octave
-MKOCTFILE=/usr/local/octave-$(OCTAVE_VER)/bin/mkoctfile
+OCTAVE=octave
+MKOCTFILE=mkoctfile
 OCTAVE_FLAGS=--no-gui -q -p src
+OCTAVE_VER=$(shell $(OCTAVE) $(OCTAVE_FLAGS) \
+                             --eval "disp(OCTAVE_VERSION)" | cut -d '-' -f 1)
 MKOCTFILE_FLAGS=-v -o $@ -Wall -lgmp -lmpfr -I/usr/include/eigen3
 PDF_MONO_FLAGS='\newcommand\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
 PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1
@@ -152,10 +153,11 @@ $(TARGET).pdf: $(TARGET_DEPENDENCIES)
 #
 
 .PHONY: testvars
-testvars :
+testvars :	
 	@echo "OCTAVE_SCRIPTS=" $(OCTAVE_SCRIPTS)
-	@echo "deczky3_socp_test_FILES=" ${deczky3_socp_test_FILES}
 	@echo $(OCT_FILES:%=src/%.oct)
+	@echo "deczky3_socp_test_FILES=" ${deczky3_socp_test_FILES}
+	@echo $(OCTAVE_VER)
 
 .PHONY: chktex
 chktex:
