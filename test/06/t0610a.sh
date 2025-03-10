@@ -2,10 +2,10 @@
 
 prog=schurOneMPAlatticeDoublyPipelined2Abcd_kyp_symbolic_test.m
 depends="test/schurOneMPAlatticeDoublyPipelined2Abcd_kyp_symbolic_test.m \
-test_common.m tf2pa.m qroots.m Abcd2tf.m \
+test_common.m tf2pa.m qroots.oct Abcd2tf.m \
 schurOneMPAlatticeDelay_wise_lowpass.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
-qzsolve.oct spectralfactor.oct schurdecomp.oct"
+spectralfactor.oct schurdecomp.oct"
 
 tmp=/tmp/$$
 here=`pwd`

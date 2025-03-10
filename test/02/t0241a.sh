@@ -25,12 +25,12 @@ schurOneMlattice_allocsd_Ito.m \
 schurOneMlattice_allocsd_Lim.m \
 schurOneMlatticeFilter.m \
 tf2schurOneMlattice.m \
-local_max.m print_polynomial.m x2nextra.m sqp_bfgs.m armijo_kim.m qroots.m \
+local_max.m print_polynomial.m x2nextra.m sqp_bfgs.m armijo_kim.m qroots.oct \
 updateWbfgs.m invSVD.m H2Asq.m H2T.m H2P.m H2dAsqdw.m flt2SD.m bin2SDul.m \
 SDadders.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SD.oct bin2SPT.oct \
-Abcd2tf.oct qzsolve.oct"
+Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

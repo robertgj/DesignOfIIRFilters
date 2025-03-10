@@ -22,9 +22,9 @@ schurOneMscale.m \
 tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
 local_max.m tf2pa.m x2tf.m print_polynomial.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-qroots.m delayz.m \
+qroots.oct delayz.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2Abcd.oct schurOneMlattice2H.oct qzsolve.oct Abcd2tf.oct"
+schurOneMlattice2Abcd.oct schurOneMlattice2H.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

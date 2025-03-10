@@ -5,8 +5,8 @@ prog=schurOneMlatticeFilter_test.m
 depends="test/schurOneMlatticeFilter_test.m test_common.m \
 schurOneMlatticeFilter.m tf2schurOneMlattice.m schurOneMscale.m \
 schurOneMlatticeNoiseGain.m schurOneMlatticeRetimedNoiseGain.m \
-KW.m p2n60.m qroots.m svf.m crossWelch.m \
-schurexpand.oct schurdecomp.oct reprand.oct qzsolve.oct \
+KW.m p2n60.m qroots.oct svf.m crossWelch.m \
+schurexpand.oct schurdecomp.oct reprand.oct \
 schurOneMlattice2Abcd.oct complex_zhong_inverse.oct"
 
 tmp=/tmp/$$

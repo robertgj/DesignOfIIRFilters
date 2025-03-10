@@ -5,7 +5,7 @@ prog=svcasc2noise_example_test.m
 depends="test/svcasc2noise_example_test.m test_common.m \
 svcasc2noise.m butter2pq.m pq2svcasc.m pq2blockKWopt.m \
 svcasc2Abcd.m KW.m optKW2.m optKW.m svcascf.m svf.m crossWelch.m \
-p2n60.m qroots.m qzsolve.oct"
+p2n60.m qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

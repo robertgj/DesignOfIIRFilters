@@ -33,9 +33,9 @@ schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice_slb_update_constraints.m \
 schurOneMPAlattice2tf.m schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m \
 tf2schurOneMlattice.m schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
-H2Asq.m H2T.m H2P.m qroots.m \
+H2Asq.m H2T.m H2P.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct qzsolve.oct Abcd2tf.oct
+schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct qroots.oct Abcd2tf.oct
 
 schurOneMPAlattice_socp_slb_bandpass_hilbert_test.diary : \
 tarczynski_parallel_allpass_bandpass_hilbert_test.diary

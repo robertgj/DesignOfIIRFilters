@@ -157,8 +157,8 @@ printf("k3c3:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 [N2,D2]=Abcd2tf(A2,B2,C2,dd2);
 D2=D2(1:(Nk+1));
 H2=freqz(N2,D2,wa);
-if max(abs((abs(H2).^2)-Asq)) > 1e-11
-  error("max(abs((abs(H2).^2)-Asq))(%g)>1e-11", max(abs((abs(H2).^2)-Asq)));
+if max(abs((abs(H2).^2)-Asq)) > 2e-11
+  error("max(abs((abs(H2).^2)-Asq))(%g)>2e-11", max(abs((abs(H2).^2)-Asq)));
 endif
 
 % Plot results

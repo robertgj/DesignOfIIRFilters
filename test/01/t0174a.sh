@@ -4,7 +4,7 @@ prog=bitflip_svcasc_lowpass_test.m
 
 depends="test/bitflip_svcasc_lowpass_test.m test_common.m truncation_test_common.m \
 sos2pq.m pq2svcasc.m svcasc2tf.m svcasc_cost.m bin2SD.oct flt2SD.m \
-x2nextra.m bitflip.oct print_polynomial.m qroots.m qzsolve.oct"
+x2nextra.m bitflip.oct print_polynomial.m qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

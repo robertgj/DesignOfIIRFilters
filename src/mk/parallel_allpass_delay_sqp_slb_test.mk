@@ -24,7 +24,7 @@ parallel_allpass_delay_slb_constraints_are_empty.m \
 parallel_allpass_delayEsq.m parallel_allpass_delayAsq.m \
 parallel_allpass_delayT.m allpassP.m allpassT.m aConstraints.m \
 a2tf.m tf2a.m local_max.m sqp_bfgs.m invSVD.m armijo_kim.m updateWbfgs.m \
-print_polynomial.m print_allpass_pole.m qroots.m qzsolve.oct 
+print_polynomial.m print_allpass_pole.m qroots.oct 
 
 parallel_allpass_delay_sqp_slb_test.diary : \
 tarczynski_parallel_allpass_delay_test.diary

@@ -13,7 +13,7 @@ schurOneMAPlatticeT.m tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m \
 Abcd2tf.m tf2pa.m schurOneMscale.m H2Asq.m H2P.m H2T.m \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct spectralfactor.oct \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct local_max.m \
-qroots.m qzsolve.oct"
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -13,5 +13,5 @@ directFIRnonsymmetric_sdp_minimum_phase_test_g_coef.m
 
 directFIRnonsymmetric_sdp_minimum_phase_test_FILES = \
 test_common.m directFIRnonsymmetric_sdp_minimum_phase_test.m \
-direct_form_scale.m print_polynomial.m qroots.m \
-qzsolve.oct
+direct_form_scale.m print_polynomial.m \
+qroots.oct

@@ -8,7 +8,7 @@ parallel_allpass_delay_slb_set_empty_constraints.m \
 allpassP.m allpassT.m parallel_allpassAsq.m \
 parallel_allpassT.m parallel_allpassP.m a2tf.m tf2a.m \
 print_polynomial.m print_allpass_pole.m aConstraints.m \
-qroots.m qzsolve.oct"
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

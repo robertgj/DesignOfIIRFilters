@@ -7,9 +7,9 @@ schurOneMPAlatticeDoublyPipelinedAsq.m \
 schurOneMAPlatticeDoublyPipelined2H.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
 schurOneMlatticeDoublyPipelined2Abcd.m \
-tf2schurOneMlattice.m Abcd2tf.m qroots.m schurOneMscale.m tf2pa.m H2Asq.m \
+tf2schurOneMlattice.m Abcd2tf.m qroots.oct schurOneMscale.m tf2pa.m H2Asq.m \
 crossWelch.m svf.m \
-schurdecomp.oct schurexpand.oct qzsolve.oct spectralfactor.oct Abcd2H.oct \
+schurdecomp.oct schurexpand.oct spectralfactor.oct Abcd2H.oct \
 reprand.oct" 
 
 tmp=/tmp/$$

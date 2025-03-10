@@ -2,8 +2,8 @@
 
 prog=vaidyanathan_allpass_example_test.m
 
-depends="test/vaidyanathan_allpass_example_test.m test_common.m qroots.m \
-qzsolve.oct spectralfactor.oct"
+depends="test/vaidyanathan_allpass_example_test.m test_common.m qroots.oct \
+spectralfactor.oct"
 
 tmp=/tmp/$$
 here=`pwd`

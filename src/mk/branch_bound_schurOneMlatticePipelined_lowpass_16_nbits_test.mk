@@ -18,5 +18,5 @@ schurOneMlatticePipelinedAsq.m schurOneMlatticePipelinedT.m \
 schurOneMlatticePipelinedP.m schurOneMlatticePipelinedEsq.m \
 schurOneMscale.m tf2schurOneMlattice.m \
 local_max.m x2tf.m tf2pa.m print_polynomial.m Abcd2tf.m \
-H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m x2nextra.m SDadders.m qroots.m \
-schurdecomp.oct schurexpand.oct Abcd2H.oct bin2SPT.oct qzsolve.oct 
+H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m x2nextra.m SDadders.m \
+schurdecomp.oct schurexpand.oct Abcd2H.oct bin2SPT.oct qroots.oct 

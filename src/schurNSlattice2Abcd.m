@@ -46,7 +46,7 @@ function [A,B,C,D,Cap,Dap,dAds,dBds,dCds,dDds,dCapds,dDapds]=...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  warning("Using Octave m-file version of function schurNSlattice2Abcd()!");
+  warning("Using m-file version of function schurNSlattice2Abcd!");
 
   % Sanity checks
   if ((nargin~=4) && (nargin~=6)) || nargout<4

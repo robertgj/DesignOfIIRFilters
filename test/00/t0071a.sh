@@ -8,7 +8,7 @@ iir_slb_exchange_constraints.m iir_slb_set_empty_constraints.m \
 iir_slb_show_constraints.m iir_slb_update_constraints.m \
 iirA.m iirP.m iirT.m iirE.m x2tf.m tf2x.m zp2x.m fixResultNaN.m \
 xConstraints.m print_pole_zero.m showZPplot.m local_max.m \
-qroots.m qzsolve.oct"
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -334,9 +334,9 @@ benchmark_iirA_freqz_test_n_10000.tex
 benchmark_iirA_freqz_test_n_65536-inc.pdf
 benchmark_iirA_freqz_test_n_65536.pdf
 benchmark_iirA_freqz_test_n_65536.tex
-bincoeff_test_qzsolve-inc.pdf
-bincoeff_test_qzsolve.pdf
-bincoeff_test_qzsolve.tex
+bincoeff_test_qroots-inc.pdf
+bincoeff_test_qroots.pdf
+bincoeff_test_qroots.tex
 bincoeff_test_roots-inc.pdf
 bincoeff_test_roots.pdf
 bincoeff_test_roots.tex
@@ -3364,6 +3364,7 @@ qp_lowpass_test_h_response.pdf
 qp_lowpass_test_h_response.tex
 qp_lowpass_test.mat
 qp_lowpass_test_spec.m
+qroots_test_coef.m
 reorder.pdf
 retimedfactoredsvfg.pdf
 samin_schurNSlattice_lowpass_test.mat

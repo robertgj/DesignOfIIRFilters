@@ -23,7 +23,7 @@ iir_slb_show_constraints.m iir_slb_update_constraints.m \
 armijo_kim.m cl2bp.m fixResultNaN.m iirA.m iirE.m \
 iirT.m iirP.m invSVD.m local_max.m showZPplot.m \
 sqp_bfgs.m zp2x.m tf2x.m updateWchol.m updateWbfgs.m x2tf.m xConstraints.m \
-qroots.m qzsolve.oct
+qroots.oct
 
 iir_sqp_slb_lowpass_differentiator_test.diary : \
 tarczynski_lowpass_differentiator_test.diary

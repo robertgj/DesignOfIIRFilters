@@ -13,6 +13,6 @@ minphase_test_spec.m
 
 # Add minphase.oct to minphase_test_FILES to build octfile (assumes eigen3)
 minphase_test_FILES = minphase_test.m test_common.m minphase.m \
-direct_form_scale.m qroots.m complementaryFIRlatticeFilter.m crossWelch.m \
-complementaryFIRdecomp.oct qzsolve.oct \
+direct_form_scale.m complementaryFIRlatticeFilter.m crossWelch.m \
+complementaryFIRdecomp.oct qroots.oct \
 # minphase.oct

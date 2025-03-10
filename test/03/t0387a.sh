@@ -4,7 +4,7 @@ prog=x2pa_test.m
 depends="test/x2pa_test.m test_common.m \
 x2tf.m x2pa.m zp2x.m x2zp.m p2a.m a2p.m tf2pa.m tf2x.m a2tf.m \
 print_pole_zero.m print_allpass_pole.m \
-spectralfactor.oct qroots.m qzsolve.oct"
+spectralfactor.oct qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

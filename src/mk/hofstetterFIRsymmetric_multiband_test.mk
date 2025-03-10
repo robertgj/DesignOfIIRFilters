@@ -11,5 +11,5 @@ hofstetterFIRsymmetric_multiband_test_hM_coef.m
 hofstetterFIRsymmetric_multiband_test_FILES = \
 hofstetterFIRsymmetric_multiband_test.m test_common.m print_polynomial.m \
 hofstetterFIRsymmetric.m local_max.m lagrange_interp.m directFIRsymmetricA.m \
-xfr2tf.m qroots.m \
-qzsolve.oct
+xfr2tf.m \
+qroots.oct

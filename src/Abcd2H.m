@@ -73,7 +73,7 @@ function [H,dHdw,dHdx,d2Hdwdx,diagd2Hdx2,diagd3Hdwdx2,d2Hdydx,d3Hdwdydx] = ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-% warning("Using Octave m-file version of function Abcd2H()!");
+warning("Using m-file version of function Abcd2H()!");
   
 % Sanity checks
 if (nargin>14) ...

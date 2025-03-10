@@ -12,5 +12,5 @@ affineFIRsymmetric_lowpass_test_deltas.tab
 
 affineFIRsymmetric_lowpass_test_FILES = \
 affineFIRsymmetric_lowpass_test.m affineFIRsymmetric_lowpass.m test_common.m \
-print_polynomial.m frefine.m local_max.m directFIRsymmetricA.m qroots.m \
-qzsolve.oct
+print_polynomial.m frefine.m local_max.m directFIRsymmetricA.m \
+qroots.oct

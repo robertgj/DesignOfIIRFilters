@@ -4,9 +4,9 @@ prog=schurNSlatticeEsq_test.m
 depends="test/schurNSlatticeEsq_test.m test_common.m \
 schur_lattice_test_common.m schurNSlatticeEsq.m \
 schurNSlatticeAsq.m schurNSlatticeT.m tf2schurNSlattice.m \
-qroots.m H2Asq.m H2T.m tf2pa.m delayz.m \
-spectralfactor.oct schurNSlattice2Abcd.oct schurNSscale.oct Abcd2H.oct \
-schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct"
+H2Asq.m H2T.m tf2pa.m delayz.m \
+qroots.oct spectralfactor.oct schurNSlattice2Abcd.oct schurNSscale.oct \
+Abcd2H.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct"
 
 tmp=/tmp/$$
 here=`pwd`

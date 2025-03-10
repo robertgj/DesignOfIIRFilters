@@ -3,8 +3,8 @@
 prog=tarczynski_pink_test.m
 
 depends="test/tarczynski_pink_test.m test_common.m delayz.m WISEJ.m tf2Abcd.m \
-print_polynomial.m qroots.m \
-qzsolve.oct"
+print_polynomial.m qroots.oct \
+"
 
 tmp=/tmp/$$
 here=`pwd`

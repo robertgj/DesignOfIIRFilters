@@ -20,7 +20,7 @@ tf2schurNSlattice.m local_max.m x2tf.m tf2pa.m print_polynomial.m \
 sqp_bfgs.m armijo_kim.m updateWbfgs.m invSVD.m H2Asq.m H2T.m KW.m \
 schurNSlattice2Abcd.oct schurNSscale.oct Abcd2H.oct \
 spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-qroots.m qzsolve.oct Abcd2tf.oct"
+qroots.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

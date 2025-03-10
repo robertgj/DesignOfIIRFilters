@@ -2,8 +2,8 @@
 
 prog=tarczynski_allpass2ndOrderCascade_test.m
 depends="test/tarczynski_allpass2ndOrderCascade_test.m allpass2ndOrderCascade.m \
-casc2tf.m test_common.m delayz.m print_polynomial.m qroots.m \
-qzsolve.oct"
+casc2tf.m test_common.m delayz.m print_polynomial.m qroots.oct \
+"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -4,7 +4,7 @@ prog=polyphase_allpassAsq_test.m
 
 depends="test/polyphase_allpassAsq_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
-allpassP.m parallel_allpassAsq.m a2tf.m tf2a.m qroots.m qzsolve.oct"
+allpassP.m parallel_allpassAsq.m a2tf.m tf2a.m qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -35,12 +35,12 @@ bitflip_schurOneMPAlattice_bandpass_test_FILES = \
 bitflip_schurOneMPAlattice_bandpass_test.m test_common.m delayz.m print_polynomial.m \
 bitflip_bandpass_test_common.m schurOneMPAlattice2tf.m tf2pa.m \
 schurOneMPAlattice_cost.m tf2schurOneMlattice.m Abcd2tf.m \
-schurOneMscale.m flt2SD.m x2nextra.m qroots.m SDadders.m \
+schurOneMscale.m flt2SD.m x2nextra.m SDadders.m \
 schurOneMPAlattice_allocsd_Lim.m schurOneMPAlattice_allocsd_Ito.m \
 schurOneMAPlattice2Abcd.m H2Asq.m H2T.m bin2SDul.m \
 schurOneMPAlatticeEsq.m schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m \
 schurdecomp.oct schurexpand.oct bitflip.oct bin2SD.oct spectralfactor.oct \
-schurOneMlattice2Abcd.oct qzsolve.oct complex_zhong_inverse.oct bin2SPT.oct \
+schurOneMlattice2Abcd.oct qroots.oct complex_zhong_inverse.oct bin2SPT.oct \
 schurOneMAPlattice2H.oct
 
 bitflip_schurOneMPAlattice_bandpass_test.diary : \

@@ -15,8 +15,8 @@ directFIRnonsymmetric_slb_set_empty_constraints.m \
 directFIRnonsymmetric_slb_show_constraints.m \
 directFIRnonsymmetric_slb_update_constraints.m \
 directFIRnonsymmetric_socp_mmse.m \
-print_polynomial.m local_max.m lagrange_interp.m xfr2tf.m qroots.m \
-qzsolve.oct"
+print_polynomial.m local_max.m lagrange_interp.m xfr2tf.m qroots.oct \
+"
 
 tmp=/tmp/$$
 here=`pwd`

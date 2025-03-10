@@ -25,7 +25,7 @@ function y=bin2SD(x,nbits,ndigits)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  warning("Using Octave m-file version of function bin2SD()!");
+  warning("Using m-file version of function bin2SD()!");
 
   % Sanity checks
   if nargin~=3
@@ -46,7 +46,7 @@ function y=bin2SD(x,nbits,ndigits)
     error("x is not a scalar");
   endif
   if (round(x)<-2^(nbits-1)) || (2^(nbits-1)<=round(x))
-    error("x=%g,round(x)=%g is out of range for a %d bits 2s complement number!",
+    error(",round(%g)=%g is out of range for a %d bits 2s complement number!",...
           x,round(x),nbits);
   endif
   

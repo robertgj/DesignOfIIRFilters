@@ -4,9 +4,9 @@ prog=butt3NS_test.m
 
 depends="test/butt3NS_test.m test_common.m delayz.m \
 tf2schurNSlattice.m schurNSlatticeNoiseGain.m schurNSlatticeFilter.m \
-svf.m KW.m optKW.m tf2Abcd.m crossWelch.m p2n60.m qroots.m \
+svf.m KW.m optKW.m tf2Abcd.m crossWelch.m p2n60.m qroots.oct \
 schurexpand.oct schurdecomp.oct schurNSscale.oct \
-schurNSlattice2Abcd.oct qzsolve.oct"
+schurNSlattice2Abcd.oct"
 
 tmp=/tmp/$$
 here=`pwd`

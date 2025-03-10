@@ -28,9 +28,9 @@ schurOneMscale.m \
 tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
 local_max.m tf2Abcd.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-print_polynomial.m flt2SD.m bin2SDul.m SDadders.m qroots.m x2nextra.m \
+print_polynomial.m flt2SD.m bin2SDul.m SDadders.m qroots.oct x2nextra.m \
 schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2H.oct qzsolve.oct Abcd2tf.oct \
+complex_zhong_inverse.oct schurOneMlattice2H.oct Abcd2tf.oct \
 bin2SD.oct bin2SPT.oct"
 
 tmp=/tmp/$$

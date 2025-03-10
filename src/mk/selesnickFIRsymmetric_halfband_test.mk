@@ -13,5 +13,5 @@ selesnickFIRsymmetric_halfband_test_hM_coef.m
 selesnickFIRsymmetric_halfband_test_FILES = \
 selesnickFIRsymmetric_halfband_test.m test_common.m \
 selesnickFIRsymmetric_lowpass.m lagrange_interp.m print_polynomial.m \
-local_max.m xfr2tf.m directFIRsymmetricA.m qroots.m \
-qzsolve.oct
+local_max.m xfr2tf.m directFIRsymmetricA.m \
+qroots.oct

@@ -7,4 +7,4 @@ saramakiFAvLogNewton_test_d_coef.m \
 saramakiFAvLogNewton_test_n_coef.m 
 
 saramakiFAvLogNewton_test_FILES = saramakiFAvLogNewton_test.m test_common.m \
-saramakiFAvLogNewton.m local_max.m print_polynomial.m qroots.m qzsolve.oct
+saramakiFAvLogNewton.m local_max.m print_polynomial.m qroots.oct

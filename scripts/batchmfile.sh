@@ -18,7 +18,7 @@ main ()
         done
         # Run an mfile in a sub-shell and save the exit status
         {
-            octave-cli -p src $mfile &
+            octave --no-gui -q -p src -p src/test $mfile &
             wait $!
             status=$?
             if [ "$status" -ne 0 ]; then

@@ -29,4 +29,4 @@ SDadders.m Abcd2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
 tf2schurOneMlattice.m schurOneMscale.m \
 bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct spectralfactor.oct \
 complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
-qroots.m qzsolve.oct 
+qroots.oct 

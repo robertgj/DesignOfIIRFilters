@@ -28,9 +28,9 @@ schurNSPAlattice_slb_show_constraints.m \
 schurNSPAlattice_slb_update_constraints.m \
 schurNSPAlattice2tf.m schurNSAPlattice2tf.m schurNSAPlattice2Abcd.m \
 tf2schurNSlattice.m local_max.m tf2pa.m print_polynomial.m \
-H2Asq.m H2T.m H2P.m qroots.m \
+H2Asq.m H2T.m H2P.m \
 schurNSscale.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurNSlattice2Abcd.oct Abcd2H.oct qzsolve.oct Abcd2tf.oct
+schurNSlattice2Abcd.oct Abcd2H.oct qroots.oct Abcd2tf.oct
 
 schurNSPAlattice_socp_slb_lowpass_test.diary : \
 tarczynski_parallel_allpass_test.diary 

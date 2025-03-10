@@ -8,7 +8,7 @@ function [y,ssp,iter] = minphase(h);
 
 if 0
   % By default, use this minphase.m script rather than minphase.oct
-  warning("Using Octave m-file version of function minphase()!");
+  warning("Using m-file version of function minphase()!");
 endif
 
 h=h(:)';

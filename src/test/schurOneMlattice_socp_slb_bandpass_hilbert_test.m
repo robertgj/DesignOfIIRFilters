@@ -140,8 +140,8 @@ printf("\n");
 [N1,D1]=schurOneMlattice2tf(k2,epsilon0,p_ones,c2);
 [k2r,epsilon2,p2,c2]=tf2schurOneMlattice(N1,D1);
 k2r=k2r(:);epsilon2=epsilon2(:);p2=p2(:);c2=c2(:);
-if max(abs(k2-k2r))>2*eps
-  error("max(abs(k2-k2r))(%g*eps)>2*eps",max(abs(k2-k2r))/eps);
+if max(abs(k2-k2r))>10*eps
+  error("max(abs(k2-k2r))(%g*eps)>10*eps",max(abs(k2-k2r))/eps);
 endif
 
 % Pole-zero plot

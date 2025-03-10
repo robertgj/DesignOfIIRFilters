@@ -14,4 +14,4 @@ schurOneMR2lattice2Abcd_test_FILES = \
 schurOneMR2lattice2Abcd_test.m test_common.m schurOneMR2lattice2Abcd.m \
 tf2schurOneMlattice.m Abcd2tf.m schurOneMscale.m schurdecomp.oct \
 schurexpand.oct svf.m KW.m crossWelch.m reprand.oct \
-p2n60.m qroots.m qzsolve.oct
+p2n60.m qroots.oct

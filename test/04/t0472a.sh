@@ -4,8 +4,8 @@ prog=affineFIRsymmetric_lowpass_test.m
 
 depends="test/affineFIRsymmetric_lowpass_test.m affineFIRsymmetric_lowpass.m \
 test_common.m print_polynomial.m frefine.m local_max.m directFIRsymmetricA.m \
-qroots.m \
-qzsolve.oct"
+qroots.oct \
+"
 
 tmp=/tmp/$$
 here=`pwd`

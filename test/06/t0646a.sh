@@ -6,7 +6,7 @@ depends="test/schurOneMlatticedAsqdw_test.m test_common.m \
 schur_lattice_test_common.m schurOneMlatticedAsqdw.m H2dAsqdw.m H2T.m \
 tf2schurOneMlattice.m tf2pa.m schurOneMscale.m \
 schurOneMlattice2Abcd.oct schurOneMlattice2H.oct spectralfactor.oct \
-schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct qroots.m qzsolve.oct"
+schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

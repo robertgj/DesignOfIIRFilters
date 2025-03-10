@@ -22,9 +22,9 @@ schurOneMAPlatticeDoublyPipelined2Abcd.m \
 schurOneMAPlattice2Abcd.m \
 schurOneMAPlatticeDoublyPipelined2H.m \
 H2Asq.m H2T.m H2P.m H2dAsqdw.m phi2p.m tfp2g.m \
-tf2schurOneMlattice.m schurOneMscale.m tf2pa.m qroots.m \
+tf2schurOneMlattice.m schurOneMscale.m tf2pa.m qroots.oct \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct complex_zhong_inverse.oct \
-qzsolve.oct Abcd2H.oct schurdecomp.oct schurexpand.oct spectralfactor.oct"
+Abcd2H.oct schurdecomp.oct schurexpand.oct spectralfactor.oct"
 
 tmp=/tmp/$$
 here=`pwd`

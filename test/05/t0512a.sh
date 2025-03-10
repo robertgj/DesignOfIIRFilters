@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=p2n60_test.m
-depends="test/p2n60_test.m test_common.m p2n60.m local_max.m qroots.m qzsolve.oct"
+depends="test/p2n60_test.m test_common.m p2n60.m local_max.m qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

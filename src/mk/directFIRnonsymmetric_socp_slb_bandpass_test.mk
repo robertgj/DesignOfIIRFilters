@@ -20,5 +20,5 @@ directFIRnonsymmetric_slb_set_empty_constraints.m \
 directFIRnonsymmetric_slb_show_constraints.m \
 directFIRnonsymmetric_slb_update_constraints.m \
 hofstetterFIRsymmetric.m lagrange_interp.m xfr2tf.m \
-local_max.m print_polynomial.m qroots.m \
-qzsolve.oct
+local_max.m print_polynomial.m \
+qroots.oct

@@ -40,6 +40,6 @@ schurOneMAPlattice2Abcd.m \
 tf2schurOneMlattice.m \
 schurOneMPAlatticeDelay_wise_lowpass.m \
 schurOneMscale.m local_max.m tf2pa.m print_polynomial.m \
-Abcd2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m WISEJ_DA.m delayz.m qroots.m \
-Abcd2H.oct schurdecomp.oct complex_zhong_inverse.oct qzsolve.oct \
+Abcd2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m WISEJ_DA.m delayz.m \
+Abcd2H.oct schurdecomp.oct complex_zhong_inverse.oct qroots.oct \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct

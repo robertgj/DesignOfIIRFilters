@@ -399,8 +399,8 @@ early computers. He comments that \emph{``explicit polynomial equations with
 shows the results of calling the Octave \emph{roots} function to find the
 roots of the binomial polynomial of order $20$ with the expression
 \texttt{roots (bincoeff (20,0:20))}. In fact the roots are all $-1$.
-Figure~\ref{fig:bincoeff-test-qzsolve} repeats the example with the oct-file
-\emph{qzsolve}, an implementation using 128-bit floating-point numbers based
+Figure~\ref{fig:bincoeff-test-qroots} repeats the example with the oct-file
+\emph{qroots}, an implementation using 128-bit floating-point numbers based
 on \emph{gsl\_poly\_complex\_solve} from the GNU GSL
 library\cite{GNU_GSL}\footnote{The \emph{MPSolve} multi-precision polynomial
   solver~\cite{BiniFiorentinoRobol_mpsolve} finds the expected roots. The package
@@ -422,10 +422,10 @@ library\cite{GNU_GSL}\footnote{The \emph{MPSolve} multi-precision polynomial
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{bincoeff_test_qzsolve}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{bincoeff_test_qroots}}
 \caption{Plot of the roots of the binomial polynomial of order $20$ calculated
-  by the \emph{qzsolve} oct-file function using 128-bit floating point numbers.}
-\label{fig:bincoeff-test-qzsolve}
+  by the \emph{qroots} oct-file function using 128-bit floating point numbers.}
+\label{fig:bincoeff-test-qroots}
 \end{figure}
 
 \cleardoublepage
@@ -41186,20 +41186,38 @@ state\footnote{Also see \url{https://kristerw.github.io/2021/10/19/fast-math/}.}
 
 \subsubsection*{MATLAB compatibility}
 I do not own a copy of MATLAB so I cannot directly check that the Octave code
-in this project is compatible with MATLAB. However, I endeavour to fix warnings
-that occur for the code in this project when Octave is run with the
-\texttt{--traditional} run-time option and the script calls:
+in this project is compatible with MATLAB. You will most likely need to
+experiment, debug and convert \emph{octfile}s to \emph{mexfile}s.
+
+Do at least the following to \emph{make} this project with MATLAB:
+\begin{itemize}
+\item in \emph{Makefile} set the \texttt{OCTAVE} and \texttt{OCTAVE\_FLAGS}
+  variables appropriately and remove \texttt{octfile}s from the \texttt{all}
+  target 
+\item in the \emph{src/mk/*.mk} files change all occurrences of \texttt{.oct}
+  to \texttt{.m} 
+\end{itemize}
+
+I endeavour to ensure that this project provides m-file alternatives to the
+\emph{octfile}s\footnote{Unlike the built-in \emph{roots} function,
+  \emph{qroots.cc} and \emph{qroots.m} expect that the polynomial coefficients
+  are real.}. Of course, the \emph{octfile}s often use multi-precision
+arithmetic so these m-file alternatives will likely produce different numerical
+results and the top-level Octave scripts may fail.
+
+I endeavour to fix warnings that occur for the code in this project when
+Octave is run with the \texttt{--traditional} run-time option and the
+\emph{src/test\_common.m} script calls:
 \begin{small}
 \begin{verbatim}
 warning("on","Octave:language-extension");
 \end{verbatim}
 \end{small}
-See the file \emph{src/test\_common.m}. The Octave code from the Octave
-project produces many warnings. I ignore \emph{automatic-broadcast} warnings
-from the Octave code in this project because I believe that, in fact, MATLAB
-does support automatic broadcasting when the vector or matrix dimensions are
-compatible. See the Octave manual entry~\cite[Section 19.2.1]{Eaton_Octave} 
-\emph{Broadcasting and Legacy Code}.
+The Octave code from the Octave project produces many warnings. I ignore
+\emph{automatic-broadcast} warnings from the Octave code in this project because
+I believe that, in fact, MATLAB does support automatic broadcasting when the
+vector or matrix dimensions are compatible. See the Octave manual
+entry \emph{Broadcasting and Legacy Code}~\cite[Section 19.2.1]{Eaton_Octave}.
 
 \subsubsection*{Problems with Octave}
 The \emph{octave-9.4.0.patch} \texttt{here} document within
@@ -41261,7 +41279,7 @@ For example, the \emph{schurdecomp} Oct-file uses
 the MPFR~\cite{Fousse:2007:MMB:1236463.1236468} multi-precision library to
 obtain improved accuracy in the Schur decomposition of a polynomial. As
 mentioned in the \hyperlink{sec:Introduction}{Introduction}, polynomial
-root-finding is notoriously difficult. The \emph{qzsolve} Oct-file adapts
+root-finding is notoriously difficult. The \emph{qroots} Oct-file adapts
 the GNU Scientific Library~\cite{GNU_GSL} \emph{gsl\_poly\_complex\_solve()}
 function, in the GSL file \emph{poly/zsolve.c}, from \texttt{double} to IEEE
 \texttt{\_\_float128} variables. Similarly, the \emph{mzsolve} Oct-file
@@ -41275,7 +41293,7 @@ because of the differences in an approximately zero value. Finally, the
   \emph{src/mk/lzsolve\_test.mk} Makefile fragment adds the \emph{libqblas.a} and
   \emph{libqlapack.a} static libraries to \emph{lzsolve.oct}.}. Unsurprisingly,
 the accuracy obtained with \emph{lzsolve} is similar to that obtained with
-\emph{qzsolve}. 
+\emph{qroots}. 
 
 \subsubsection*{Octave packages}
 The \emph{build-octave.sh} script installs the following Octave Forge packages:

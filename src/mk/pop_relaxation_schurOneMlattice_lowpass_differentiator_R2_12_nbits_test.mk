@@ -46,8 +46,8 @@ schurOneMlattice_allocsd_Lim.m \
 schurOneMscale.m schurOneMlattice2tf.m \
 schurOneMlatticeFilter.m tf2schurOneMlattice.m local_max.m print_polynomial.m \
 x2nextra.m H2Asq.m H2T.m H2P.m H2dAsqdw.m flt2SD.m bin2SDul.m SDadders.m \
-qroots.m \
-qzsolve.oct schurdecomp.oct schurexpand.oct schurOneMlattice2H.oct Abcd2tf.oct \
+\
+qroots.oct schurdecomp.oct schurexpand.oct schurOneMlattice2H.oct Abcd2tf.oct \
 schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct complex_zhong_inverse.oct
 
 pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test.diary : \

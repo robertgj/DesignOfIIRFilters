@@ -7,7 +7,7 @@ optKW.m KW.m Abcd2tf.m tf2Abcd.m \
 factorFdoubleprime.m FprimeToFdoubleprime.m orthogonaliseTF.m \
 tf2schurOneMlattice.m schurdecomp.oct schurOneMscale.m schurexpand.oct \
 schurOneMlattice2Abcd.oct C1D1FToG0primeFprime.m svf.m crossWelch.m \
-p2n60.m qroots.m qzsolve.oct"
+p2n60.m qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -6,8 +6,8 @@ depends="test/butt3OneMPA_test.m test_common.m tf2pa.m tf2schurOneMlattice.m \
 schurOneMscale.m schurOneMAPlattice2Abcd.m schurOneMPAlatticeAsq.m \
 allpass_GM1_pole2coef.m allpass_GM1_coef2Abcd.m \
 allpass_GM2_pole2coef.m allpass_GM2_coef2Abcd.m \
-qroots.m H2Asq.m \
-schurexpand.oct schurdecomp.oct qzsolve.oct spectralfactor.oct Abcd2H.oct \
+qroots.oct H2Asq.m \
+schurexpand.oct schurdecomp.oct spectralfactor.oct Abcd2H.oct \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct complex_zhong_inverse.oct"
 
 tmp=/tmp/$$

@@ -38,7 +38,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-warning: Using Octave m-file version of function schurFIRdecomp()!
+warning: Using m-file version of function schurFIRdecomp()!
 warning: called from
     schurFIRdecomp at line 29 column 3
     schurFIRdecomp_mfile_test at line 12 column 2

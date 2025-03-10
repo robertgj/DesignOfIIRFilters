@@ -3,8 +3,8 @@
 prog=tarczynski_parallel_allpass_bandpass_differentiator_test.m
 depends="test/tarczynski_parallel_allpass_bandpass_differentiator_test.m \
 test_common.m WISEJ_PAB.m delayz.m print_polynomial.m print_pole_zero.m \
-qroots.m \
-qzsolve.oct"
+qroots.oct \
+"
 
 tmp=/tmp/$$
 here=`pwd`

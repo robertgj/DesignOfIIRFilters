@@ -6,7 +6,7 @@ depends="test/parallel_allpass_slb_update_constraints_test.m test_common.m \
 parallel_allpass_slb_update_constraints.m \
 parallel_allpass_slb_show_constraints.m \
 parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \
-allpassP.m allpassT.m local_max.m tf2a.m a2tf.m qroots.m qzsolve.oct"
+allpassP.m allpassT.m local_max.m tf2a.m a2tf.m qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

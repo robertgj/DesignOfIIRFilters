@@ -11,7 +11,7 @@ parallel_allpass_delayAsq.m \
 parallel_allpass_delayT.m \
 allpassP.m allpassT.m aConstraints.m a2tf.m tf2a.m \
 sqp_bfgs.m armijo_kim.m updateWbfgs.m print_polynomial.m \
-print_allpass_pole.m qroots.m qzsolve.oct"
+print_allpass_pole.m qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

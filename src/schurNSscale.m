@@ -34,7 +34,7 @@ function [s10,s11,s20,s00,s02,s22] = schurNSscale(k,c)
     error("(length(k)+1) ~= length(c)");
   endif
 
-  warning("Using Octave m-file version of function schurNSscale()!");
+  warning("Using m-file version of function schurNSscale()!");
 
   % The number of modules is length(c)-1 
   N=length(c)-1;  

@@ -7,7 +7,7 @@ iir_frm_allpass_slb_update_constraints.m \
 iir_frm_allpass_slb_show_constraints.m \
 iir_frm_allpass_struct_to_vec.m iir_frm_allpass_vec_to_struct.m \
 iir_frm_allpass.m allpassP.m allpassT.m local_max.m tf2a.m a2tf.m \
-qroots.m qzsolve.oct"
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

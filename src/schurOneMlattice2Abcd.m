@@ -41,7 +41,7 @@ function [A,B,C,D,Cap,Dap,dAdkc,dBdkc,dCdkc,dDdkc,dCapdkc,dDapdkc, ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  warning("Using Octave m-file version of function schurOneMlattice2Abcd");
+  warning("Using m-file version of function schurOneMlattice2Abcd");
 
   % Sanity checks
   if (nargin<1) || (nargin>4) || (nargout<4) || (nargout>18)

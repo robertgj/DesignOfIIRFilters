@@ -26,7 +26,7 @@ function a=roots2T(r)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   
-  warning("Using Octave m-file version of function roots2T()!");
+  warning("Using m-file version of function roots2T()!");
 
   if (nargin~=1) || (nargout>1)
    print_usage("a=roots2T(r)");

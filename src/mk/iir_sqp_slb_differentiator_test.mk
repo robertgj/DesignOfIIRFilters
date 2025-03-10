@@ -22,6 +22,6 @@ iir_slb_exchange_constraints.m iir_slb_show_constraints.m \
 iir_slb_constraints_are_empty.m iir_slb_set_empty_constraints.m \
 iir_slb_update_constraints.m showResponseBands.m showResponse.m \
 showResponsePassBands.m showZPplot.m sqp_bfgs.m updateWchol.m updateWbfgs.m \
-xConstraints.m tf2x.m zp2x.m x2tf.m qroots.m qzsolve.oct
+xConstraints.m tf2x.m zp2x.m x2tf.m qroots.oct
 
 iir_sqp_slb_differentiator_test.diary : tarczynski_differentiator_test.diary

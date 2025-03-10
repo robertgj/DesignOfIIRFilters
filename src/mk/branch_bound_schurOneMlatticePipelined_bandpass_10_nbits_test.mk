@@ -20,8 +20,8 @@ schurOneMlatticePipelinedAsq.m schurOneMlatticePipelinedT.m \
 schurOneMlatticePipelinedP.m schurOneMlatticePipelinedEsq.m \
 schurOneMscale.m tf2schurOneMlattice.m local_max.m x2tf.m tf2pa.m \
 print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m \
-x2nextra.m SDadders.m Abcd2ng.m KW.m qroots.m \
-Abcd2H.oct schurdecomp.oct schurexpand.oct bin2SPT.oct bin2SD.oct qzsolve.oct 
+x2nextra.m SDadders.m Abcd2ng.m KW.m \
+Abcd2H.oct schurdecomp.oct schurexpand.oct bin2SPT.oct bin2SD.oct qroots.oct 
 
 branch_bound_schurOneMlatticePipelined_bandpass_10_nbits_test.diary : \
 schurOneMlattice_sqp_slb_bandpass_test.diary

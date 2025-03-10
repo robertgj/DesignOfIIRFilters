@@ -3,8 +3,8 @@
 prog=mcclellanFIRdifferentiator_test.m
 
 depends="test/mcclellanFIRdifferentiator_test.m test_common.m \
-print_polynomial.m mcclellanFIRdifferentiator.m local_max.m qroots.m \
-qzsolve.oct"
+print_polynomial.m mcclellanFIRdifferentiator.m local_max.m qroots.oct \
+"
 
 tmp=/tmp/$$
 here=`pwd`

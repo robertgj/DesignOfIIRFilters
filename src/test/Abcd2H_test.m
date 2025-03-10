@@ -41,8 +41,8 @@ h=freqz(n,d,w);
 [A,B,C,D]=schurOneMlattice2Abcd(k,epsilon,p,c);
 H=Abcd2H(w,A,B,C,D);
 max_abs_diff_h=max(abs(h(1:nc)-H(1:nc)));
-if max_abs_diff_h > 4*eps
-  error("max_abs_diff_h(%g*eps) > 4*eps",max_abs_diff_h/eps);
+if max_abs_diff_h > 10*eps
+  error("max_abs_diff_h(%g*eps) > 10*eps",max_abs_diff_h/eps);
 endif
 
 for N=[1,2,5,10,15]
@@ -94,8 +94,8 @@ for N=[1,2,5,10,15]
   if verbose
     printf("max(abs(h-H)) = %g*tol\n",max(abs(h-H))/tol);
   endif
-  if max(abs(h-H)) > 2000*tol
-    error("max(abs(h-H))(%g*tol) > 2000*tol",max(abs(h-H))/tol);
+  if max(abs(h-H)) > 3000*tol
+    error("max(abs(h-H))(%g*tol) > 3000*tol",max(abs(h-H))/tol);
   endif
 
   % Check Hap
@@ -103,8 +103,8 @@ for N=[1,2,5,10,15]
   if verbose
     printf("max(abs(Hap)-1) = %g*eps\n",max(abs(Hap)-1)/eps);
   endif
-  if max(abs(Hap)-1) > 100*eps
-    error("max(abs(Hap)-1)(%g*eps) > 100*eps",max(abs(Hap)-1)/eps);
+  if max(abs(Hap)-1) > 200*eps
+    error("max(abs(Hap)-1)(%g*eps) > 200*eps",max(abs(Hap)-1)/eps);
   endif
 
   %

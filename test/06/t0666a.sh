@@ -6,8 +6,8 @@ depends="test/schurOneMAPlatticePipelinedT_test.m test_common.m \
 schurOneMAPlatticePipelinedT.m schurOneMlatticePipelinedT.m \
 schurOneMAPlatticePipelined2Abcd.m schurOneMlatticePipelined2Abcd.m \
 schur_lattice_test_common.m tf2schurOneMlattice.m tf2pa.m schurOneMscale.m \
-qroots.m H2T.m delayz.m \
-qzsolve.oct Abcd2H.oct spectralfactor.oct schurdecomp.oct schurexpand.oct"
+qroots.oct H2T.m delayz.m \
+Abcd2H.oct spectralfactor.oct schurdecomp.oct schurexpand.oct"
 
 tmp=/tmp/$$
 here=`pwd`

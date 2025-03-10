@@ -2,8 +2,8 @@
 
 prog=tarczynski_parallel_allpass_test.m
 depends="test/tarczynski_parallel_allpass_test.m \
-test_common.m delayz.m print_polynomial.m print_pole_zero.m WISEJ_PA.m qroots.m \
-qzsolve.oct"
+test_common.m delayz.m print_polynomial.m print_pole_zero.m WISEJ_PA.m qroots.oct \
+"
 
 tmp=/tmp/$$
 here=`pwd`

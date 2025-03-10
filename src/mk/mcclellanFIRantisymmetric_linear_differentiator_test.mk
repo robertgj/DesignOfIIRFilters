@@ -16,5 +16,5 @@ mcclellanFIRantisymmetric_linear_differentiator_test_hA57_coef.m
 mcclellanFIRantisymmetric_linear_differentiator_test_FILES = \
 mcclellanFIRantisymmetric_linear_differentiator_test.m test_common.m \
 mcclellanFIRantisymmetric_linear_differentiator.m print_polynomial.m \
-local_max.m qroots.m \
-qzsolve.oct
+local_max.m \
+qroots.oct

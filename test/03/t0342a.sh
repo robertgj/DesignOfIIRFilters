@@ -5,8 +5,8 @@ depends="test/tarczynski_parallel_allpass_bandpass_hilbert_test.m \
 ../tarczynski_parallel_allpass_bandpass_test_Da0_coef.m \
 ../tarczynski_parallel_allpass_bandpass_test_Db0_coef.m \
 test_common.m WISEJ_PAB.m delayz.m print_polynomial.m print_pole_zero.m \
-qroots.m \
-qzsolve.oct"
+qroots.oct \
+"
 
 tmp=/tmp/$$
 here=`pwd`

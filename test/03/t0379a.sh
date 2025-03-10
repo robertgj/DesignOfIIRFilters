@@ -2,7 +2,7 @@
 
 prog=saramakiFBvNewton_test.m
 depends="test/saramakiFBvNewton_test.m test_common.m saramakiFBv.m \
-saramakiFBvNewton.m local_max.m print_polynomial.m qroots.m qzsolve.oct"
+saramakiFBvNewton.m local_max.m print_polynomial.m qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

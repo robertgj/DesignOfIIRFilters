@@ -7,7 +7,7 @@ print_polynomial.m \
 tf2schurOneMlattice.m truncation_test_common.m schurOneMPAlattice2tf.m \
 schurOneMPAlattice_cost.m schurOneMscale.m flt2SD.m x2nextra.m tf2pa.m \
 Abcd2tf.m schurOneMlattice2Abcd.oct spectralfactor.oct schurdecomp.oct \
-schurexpand.oct bin2SD.oct qroots.m qzsolve.oct"
+schurexpand.oct bin2SD.oct qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

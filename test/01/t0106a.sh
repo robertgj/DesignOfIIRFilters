@@ -39,26 +39,26 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 Using schurdecomp mfile
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 14 column 9
 
 Caught schurdecomp([])!
 d is empty
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 21 column 9
 
 Caught schurdecomp(0)!
 First element of d is 0
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 29 column 3
 
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 32 column 6
@@ -66,14 +66,14 @@ warning: called from
 k = [](0x0)
 S = 1
 kk=schurdecomp(d0):
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 39 column 3
 
 kk = -0.1584
 [k,S]=schurdecomp(d0):
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 41 column 6
@@ -84,7 +84,7 @@ S =
   -0.1584   1.0000
 
 [km,Sm]=schurdecomp(-d0):
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 43 column 8
@@ -98,7 +98,7 @@ ans = 0
 ans = 0
 ans = 0
 kk=schurdecomp(d0):
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 53 column 3
@@ -107,7 +107,7 @@ kk =
   -0.8167   0.9982  -0.8844   0.9651  -0.9299   0.8869  -0.5636
 
 [k,S]=schurdecomp(d0):
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 55 column 6
@@ -126,7 +126,7 @@ S =
    -0.5636    3.7557  -11.2004   19.3491  -20.9129   14.1672   -5.5903    1.0000
 
 [km,Sm]=schurdecomp(-d0):
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 57 column 8
@@ -148,7 +148,7 @@ ans = 0
 ans = 0
 ans = 0
 schurdecomp(d0):
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 65 column 6
@@ -167,7 +167,7 @@ S =
    -0.0283    0.7292   -3.2519    7.4291  -10.1284    8.5910   -4.2582    1.0000
 
 schurdecomp(-d0):
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 67 column 8
@@ -188,7 +188,7 @@ Sm =
 ans = 0
 ans = 0
 schurdecomp(d0):
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 76 column 6
@@ -205,7 +205,7 @@ S =
   -0.3121   1.1866  -2.2564   2.8190  -1.9919   1.0000
 
 schurdecomp(-d0):
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 78 column 8
@@ -224,7 +224,7 @@ Sm =
 ans = 0
 ans = 0
 schurdecomp(d0):
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 85 column 6
@@ -241,7 +241,7 @@ S =
    0.1559   0.3803   0.0514   1.3145  -0.3782   1.0000
 
 schurdecomp(-d0):
-warning: Using Octave m-file version of function schurdecomp()!
+warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
     schurdecomp_test at line 87 column 8

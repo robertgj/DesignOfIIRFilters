@@ -13,10 +13,10 @@ schurOneMlatticeDoublyPipelined2Abcd.m \
 schurOneMPAlatticedAsqdw.m \
 schurOneMPAlatticeAsq.m \
 schurOneMAPlattice2Abcd.m \
-tf2schurOneMlattice.m Abcd2tf.m qroots.m schurOneMscale.m tf2pa.m H2dAsqdw.m \
+tf2schurOneMlattice.m Abcd2tf.m qroots.oct schurOneMscale.m tf2pa.m H2dAsqdw.m \
 H2Asq.m phi2p.m tfp2g.m \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct complex_zhong_inverse.oct \
-schurdecomp.oct schurexpand.oct qzsolve.oct spectralfactor.oct Abcd2H.oct" 
+schurdecomp.oct schurexpand.oct spectralfactor.oct Abcd2H.oct" 
 
 tmp=/tmp/$$
 here=`pwd`

@@ -10,8 +10,8 @@ iir_slb.m iir_socp_mmse.m iir_slb_exchange_constraints.m \
 iir_slb_set_empty_constraints.m iir_slb_constraints_are_empty.m \
 iir_slb_show_constraints.m iir_slb_update_constraints.m \
 fixResultNaN.m iirA.m iirE.m iirT.m iirP.m local_max.m showZPplot.m \
-zp2x.m tf2x.m x2tf.m xConstraints.m qroots.m \
-qzsolve.oct"
+zp2x.m tf2x.m x2tf.m xConstraints.m qroots.oct \
+"
 
 tmp=/tmp/$$
 here=`pwd`

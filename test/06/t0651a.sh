@@ -8,7 +8,7 @@ iir_socp_mmse.m iir_slb_update_constraints.m iir_slb_show_constraints.m \
 cl2bp.m fixResultNaN.m iirA.m iirE.m iirT.m iirP.m local_max.m zp2x.m x2tf.m \
 showResponseBands.m showResponse.m showResponsePassBands.m showZPplot.m tf2x.m \
 xConstraints.m iir_slb_set_empty_constraints.m iir_slb_constraints_are_empty.m \
-qroots.m qzsolve.oct"
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

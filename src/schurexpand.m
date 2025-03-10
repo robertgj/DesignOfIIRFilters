@@ -29,7 +29,7 @@ function c = schurexpand(n,S)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-warning("Using Octave m-file version of function schurexpand()!");
+warning("Using m-file version of function schurexpand()!");
 
 % Sanity check
 if (nargin ~= 2)

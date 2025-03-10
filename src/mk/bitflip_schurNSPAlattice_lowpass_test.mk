@@ -10,4 +10,4 @@ bitflip_schurNSPAlattice_lowpass_test.m test_common.m delayz.m truncation_test_c
 schurNSPAlattice2tf.m schurNSPAlattice_cost.m bitflip.oct spectralfactor.oct \
 schurNSscale.oct schurdecomp.oct schurexpand.oct bin2SD.oct \
 tf2schurNSlattice.m schurNSlattice2Abcd.oct Abcd2tf.m flt2SD.m x2nextra.m \
-tf2pa.m print_polynomial.m qroots.m qzsolve.oct 
+tf2pa.m print_polynomial.m qroots.oct 

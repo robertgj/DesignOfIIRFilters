@@ -70,7 +70,7 @@ poly(A)=[  1.0000000000000000
 -0.5967165560107505
 ]
 norm(d-poly(A))=2.99522e-12
-warning: Using Octave m-file version of function labudde()!
+warning: Using m-file version of function labudde()!
 warning: called from
     labudde at line 14 column 3
     labudde_test at line 29 column 3
@@ -111,7 +111,7 @@ poly(A)=[  1.0000000000000000
  0.0197382406999999
 ]
 norm(d0-poly(A))=2.92264e-14
-warning: Using Octave m-file version of function labudde()!
+warning: Using m-file version of function labudde()!
 warning: called from
     labudde at line 14 column 3
     labudde_test at line 50 column 3

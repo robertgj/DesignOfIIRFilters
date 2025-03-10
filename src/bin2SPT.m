@@ -61,7 +61,7 @@ function spt=bin2SPT(x,nbits)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  warning("Using Octave m-file version of function bin2SPT()!");
+  warning("Using m-file version of function bin2SPT()!");
 
   % Sanity checks
   if (nargin>2) || (nargout>1)
@@ -100,8 +100,8 @@ function spt=bin2SPT(x,nbits)
   % Check that round(x) is in range
   log2xx=log2(abs(xx));
   if log2xx>(nbits-1)
-    error("round(x)=%d is out of range for a %d bits signed-digit number",
-          xx,nbits);
+    error("round(%g)=%d is out of range for a %d bits signed-digit number", ...
+          x,xx,nbits);
   endif
   
   % Handle abs(round(x)) is a power of 2

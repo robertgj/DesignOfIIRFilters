@@ -1,8 +1,10 @@
 #!/bin/sh
 
-prog=qzsolve_test.m
-depends="test/qzsolve_test.m test_common.m qroots.m check_octave_file.m \
- print_pole_zero.m tf2x.m zp2x.m qzsolve.oct"
+prog=qroots_test.m
+descr="qroots_test.m (octfile)"
+depends="test/qroots_test.m test_common.m check_octave_file.m \
+print_pole_zero.m tf2x.m zp2x.m \
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -38,8 +40,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-Using qzsolve octfile
-qzsolve did catch complex coefficients
+Using qroots octfile
+qroots did catch complex coefficients
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 
@@ -55,7 +57,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.coef"; fail; fi
 #
 # run and see if the results match. 
 #
-echo "Running $prog"
+echo "Running $descr"
 
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
@@ -63,7 +65,7 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 diff -Bb test.ok test.out
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok"; fail; fi
 
-diff -Bb test.coef qzsolve_test_coef.m
+diff -Bb test.coef qroots_test_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.coef"; fail; fi
 
 #

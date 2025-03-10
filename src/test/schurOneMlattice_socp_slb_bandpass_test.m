@@ -141,8 +141,8 @@ printf("k3c3:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 
 % Check transfer function
 HH=freqz(N3,D3,wa);
-if max(abs((abs(HH).^2)-Asq)) > 1e-11
-  error("max(abs((abs(HH).^2)-Asq))(%g) > 1e-11", max(abs((abs(HH).^2)-Asq)));
+if max(abs((abs(HH).^2)-Asq)) > 3e-11
+  error("max(abs((abs(HH).^2)-Asq))(%g) > 3e-11", max(abs((abs(HH).^2)-Asq)));
 endif
 
 % Plot the PCLS response

@@ -239,7 +239,7 @@ function [min_z,min_p,K,iter] = ...
   endfor
   % Find beta
   den_v=den_v*m1n*(((2-Deltap)/Deltap)+sqrt((((2-Deltap)/Deltap)^2)-1));
-  beta=qroots(den_v+num_v);
+  beta=roots(den_v+num_v);
   
   % Convert v-plane beta to z-plane pole locations
   z1z=((beta+(1./beta))-D)/C;

@@ -3,7 +3,7 @@
 prog=tarczynski_bandpass_test.m
 
 depends="test/tarczynski_bandpass_test.m test_common.m delayz.m print_polynomial.m \
-print_pole_zero.m WISEJ.m x2tf.m tf2Abcd.m tf2x.m zp2x.m qroots.m qzsolve.oct"
+print_pole_zero.m WISEJ.m x2tf.m tf2Abcd.m tf2x.m zp2x.m qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -2,7 +2,7 @@
 
 prog=tuqanFIRnonsymmetric_dare_minimum_phase_test.m
 depends="test/tuqanFIRnonsymmetric_dare_minimum_phase_test.m test_common.m \
-print_polynomial.m direct_form_scale.m qroots.m qzsolve.oct"
+print_polynomial.m direct_form_scale.m qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

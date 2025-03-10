@@ -54,36 +54,36 @@ function res=resolvent(w,A,method_str)
   
   % Decide method type
   if strcmp(method_str,"matrix_inverse")
-    method_ptr=@inv;
+    method_hdl=@inv;
   elseif strcmp(method_str,"hessenberg_inverse") 
-    if ~exist("complex_lower_hessenberg_inverse","file") 
+    if exist("complex_lower_hessenberg_inverse","file") ~= 3
       error("complex_lower_hessenberg_inverse not found");
     endif
-    method_ptr=@complex_lower_hessenberg_inverse;
+    method_hdl=@complex_lower_hessenberg_inverse;
   elseif strcmp(method_str,"complex_zhong_inverse")
-    if ~exist("complex_zhong_inverse","file") 
+    if exist("complex_zhong_inverse","file") ~= 3
       error("complex_zhong_inverse not found");
     endif
-    method_ptr=@complex_zhong_inverse;
+    method_hdl=@complex_zhong_inverse;
   elseif strcmp(method_str,"zhong_inverse")
-    if ~exist("zhong_inverse","file") 
+    if exist("zhong_inverse","file") ~= 2
       error("zhong_inverse not found");
     endif
-    method_ptr=@zhong_inverse;
+    method_hdl=@zhong_inverse;
   else
     error("Unknown method type (%s)!", method_str);
   endif
 
   % Run
-  resolvent_loop([],A,method_ptr);
+  resolvent_loop([],A,method_hdl);
   res=arrayfun(@resolvent_loop,w,"UniformOutput",false);
 endfunction
 
-function res=resolvent_loop(w,_A,_method_ptr)
-  persistent A method_ptr init_done=false
+function res=resolvent_loop(w,_A,_method_hdl)
+  persistent A method_hdl init_done=false
   if nargin==3
     A=_A;
-    method_ptr=_method_ptr;
+    method_hdl=_method_hdl;
     init_done=true;
     return;
   elseif init_done==false
@@ -92,5 +92,5 @@ function res=resolvent_loop(w,_A,_method_ptr)
   if ~isscalar(w)
     error("w not a scalar");
   endif
-  res=feval(method_ptr,((exp(j*w)*eye(rows(A)))-A));
+  res=feval(method_hdl,((exp(j*w)*eye(rows(A)))-A));
 endfunction

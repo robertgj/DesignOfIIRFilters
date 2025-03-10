@@ -26,7 +26,7 @@ function k = schurFIRdecomp(d)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  warning("Using Octave m-file version of function schurFIRdecomp()!");
+  warning("Using m-file version of function schurFIRdecomp()!");
 
   % Sanity check
   if (nargin ~= 1) || (nargout ~=1)

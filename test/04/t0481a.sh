@@ -3,10 +3,10 @@
 prog=ellip20OneMPAMB_test.m
 
 depends="test/ellip20OneMPAMB_test.m test_common.m print_polynomial.m \
-phi2p.m tfp2g.m tf2x.m zp2x.m x2tf.m qroots.m tf2schurOneMlattice.m flt2SD.m \
+phi2p.m tfp2g.m tf2x.m zp2x.m x2tf.m qroots.oct tf2schurOneMlattice.m flt2SD.m \
 schurOneMscale.m x2nextra.m schurOneMlatticeRetimedNoiseGain.m p2n60.m \
 schurOneMlatticeFilter.m crossWelch.m KW.m schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct spectralfactor.oct qzsolve.oct Abcd2H.oct bin2SD.oct \
+complex_zhong_inverse.oct spectralfactor.oct Abcd2H.oct bin2SD.oct \
 schurOneMlattice2Abcd.oct schurOneMlattice2H.oct"
 
 tmp=/tmp/$$

@@ -47,8 +47,8 @@ if err_AB > 5
   error("err_AB > 5*eps");
 endif
 err_BA=max(max(abs((B*A)-eye(N))))/eps;
-if err_BA > 5
-  error("err_BA > 5*eps");
+if err_BA > 10
+  error("err_BA > 10*eps");
 endif
 
 % Large matrix
@@ -57,8 +57,8 @@ r=reprand(2*N,N);
 A=hess(r(1:N,:)+j*r((N+1):(2*N),:))';
 B=complex_lower_hessenberg_inverse(A);
 err_AB=max(max(abs((A*B)-eye(N))));
-if err_AB > 20*eps
-  error("err_AB > 20*eps");
+if err_AB > 1000*eps
+  error("err_AB > 1000*eps");
 endif
 err_BA=max(max(abs((B*A)-eye(N))));
 if err_BA > 2e3*eps

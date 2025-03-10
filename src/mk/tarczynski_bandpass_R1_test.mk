@@ -11,4 +11,4 @@ tarczynski_bandpass_R1_test.mat
 
 tarczynski_bandpass_R1_test_FILES = tarczynski_bandpass_R1_test.m \
 test_common.m delayz.m print_polynomial.m print_pole_zero.m WISEJ.m x2tf.m \
-tf2Abcd.m tf2x.m zp2x.m qroots.m qzsolve.oct
+tf2Abcd.m tf2x.m zp2x.m qroots.oct

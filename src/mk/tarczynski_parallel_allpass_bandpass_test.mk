@@ -14,5 +14,5 @@ tarczynski_parallel_allpass_bandpass_test.mat
 tarczynski_parallel_allpass_bandpass_test_FLES = \
 tarczynski_parallel_allpass_bandpass_test.m \
 WISEJ_PAB.m test_common.m delayz.m print_polynomial.m print_pole_zero.m \
-qroots.m \
-qzsolve.oct
+\
+qroots.oct

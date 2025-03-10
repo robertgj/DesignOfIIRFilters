@@ -32,6 +32,9 @@ static double uni_qdblflt(void);
 
 DEFUN_DLD(reprand, args, nargout, "r=reprand(N,M)")
 {
+  // Compile time sanity check
+  static_assert (sizeof(double)==sizeof(unsigned long long));
+  
   if ((args.length() > 2) || (args.length() == 0) || (nargout > 1))
     {
       print_usage();
@@ -102,9 +105,7 @@ static double uni_qdblflt(void)
   unsigned long long a;
   a = ((unsigned long long)JKISS()<<32) + JKISS();
   a = (a >> 12) | 0x3FF0000000000000ULL; // Take upper 52 bits
-  // Compile time sanity check
-  static_assert (sizeof(double)==sizeof(unsigned long long));
-  std::memcpy(&x,&a,sizeof(double));     // Make a double from bits
+  memcpy(&x,&a,sizeof(double));     // Make a double from bits
   return x-1.0;
 }
 

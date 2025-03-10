@@ -1,6 +1,6 @@
 function r = qroots(p)
 % r = qroots(p);
-% qroots is a wrapper function that calls qzsolve.oct if it exists
+% p is assumed real
 
 % Copyright (C) 2017-2025 Robert G. Jenssen
 %
@@ -22,14 +22,23 @@ function r = qroots(p)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (~any(iscomplex(p))) && (exist("qzsolve")==3)
-    r=qzsolve(p);
-    if ~isempty(r)
-      [~,k]=sort(abs(r),"descend");
-      r=r(k);
-    endif
+  warning("Using builtin function roots()!");
+
+  if (nargin ~= 1) || (nargout > 1)
+    print_usage("r=qroots(p)");
+  endif
+  
+  if any(any(iscomplex(p)))
+    error("Expected real argument!");
+  endif
+          
+  if length(p) <= 1
+    r=[];
   else
     r=roots(p);
+    [~,k]=sort(abs(r),"descend");
+    r=r(k);
+    r=r(:);
   endif
 
 endfunction;

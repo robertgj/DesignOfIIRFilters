@@ -47,7 +47,7 @@ function [H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2,diagd3Hdwdkc2,d2Hdydx,d3Hdwdydx]=...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  warning("Using Octave m-file version of function schurOneMlattice2H");
+  warning("Using m-file version of function schurOneMlattice2H");
   
   % Sanity checks
   if (nargin>10) || (nargout>8) ...
@@ -178,11 +178,18 @@ function [H,dHdw,dHdkc,d2Hdwdkc,diagd2Hdkc2,diagd3Hdwdkc2,d2Hdydx,d3Hdwdydx]=...
     d3Hdwdydx=zeros(Nw,Nkc,Nkc);
   endif
 
+  if exist("complex_zhong_inverse","file") == 3
+    zhong_hndl=@complex_zhong_inverse;
+  else
+    warning("Using builtin function inv()!");
+    zhong_hndl=@inv;
+  endif
+    
   % Loop over w calculating the complex response then
   for l=1:Nw,
     % Find the resolvent
-    R=complex_zhong_inverse((exp(j*w(l))*eye(Nk))-A);
-    
+    R=zhong_hndl((exp(j*w(l))*eye(Nk))-A);
+          
     % Find H
     CR=C*R;
     CRB=CR*B;

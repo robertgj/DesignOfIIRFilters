@@ -37,7 +37,7 @@ local_max.m tf2pa.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
 schurOneMlatticeFilter.m flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
 bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
 complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct \
-qroots.m qzsolve.oct
+qroots.oct
 
 socp_relaxation_schurOneMlattice_hilbert_10_nbits_test.diary : \
 schurOneMlattice_socp_slb_hilbert_test.diary

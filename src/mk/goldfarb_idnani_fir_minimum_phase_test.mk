@@ -14,4 +14,4 @@ goldfarb_idnani_fir_minimum_phase_test_FILES = \
 goldfarb_idnani_fir_minimum_phase_test.m \
 test_common.m goldfarb_idnani.m iirE.m iirA.m iirP.m iirT.m \
 xConstraints.m tf2x.m zp2x.m fixResultNaN.m updateWchol.m \
-armijo_kim.m invSVD.m sqp_bfgs.m updateWbfgs.m qroots.m qzsolve.oct
+armijo_kim.m invSVD.m sqp_bfgs.m updateWbfgs.m qroots.oct

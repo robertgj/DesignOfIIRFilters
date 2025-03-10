@@ -5,7 +5,7 @@ prog=frm2ndOrderCascade_test.m
 depends="test/frm2ndOrderCascade_test.m test_common.m \
 print_polynomial.m frm2ndOrderCascade.m tf2casc.m casc2tf.m \
 frm2ndOrderCascade_struct_to_vec.m frm2ndOrderCascade_vec_to_struct.m \
-qroots.m qzsolve.oct"
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

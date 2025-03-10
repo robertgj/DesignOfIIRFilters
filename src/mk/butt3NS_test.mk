@@ -8,6 +8,6 @@ butt3NS_test_sv_sine_schur_lattice
 
 butt3NS_test_FILES = butt3NS_test.m test_common.m delayz.m \
 tf2schurNSlattice.m schurNSlatticeNoiseGain.m schurNSlatticeFilter.m \
-svf.m KW.m optKW.m tf2Abcd.m crossWelch.m p2n60.m qroots.m \
+svf.m KW.m optKW.m tf2Abcd.m crossWelch.m p2n60.m \
 schurexpand.oct schurdecomp.oct schurNSscale.oct \
-schurNSlattice2Abcd.oct qzsolve.oct
+schurNSlattice2Abcd.oct qroots.oct

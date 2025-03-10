@@ -15,11 +15,11 @@ grid on;
 title(sprintf("roots(bincoeff(%d,0:%d))",n,n));
 print(strcat(strf,"_roots"),"-dpdflatex");
 close
-zplane(qzsolve(bincoeff(n,0:n)));
+zplane(qroots(bincoeff(n,0:n)));
 grid on;
 axis([-1.1 -0.9 -0.1 0.1])
-title(sprintf("qzsolve(bincoeff(%d,0:%d))",n,n));
-print(strcat(strf,"_qzsolve"),"-dpdflatex");
+title(sprintf("qroots(bincoeff(%d,0:%d))",n,n));
+print(strcat(strf,"_qroots"),"-dpdflatex");
 close
 
 % Done

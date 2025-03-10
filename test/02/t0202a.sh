@@ -2,8 +2,8 @@
 
 prog=schurNSlatticeT_test.m
 depends="test/schurNSlatticeT_test.m test_common.m schur_lattice_test_common.m \
-delayz.m schurNSlatticeT.m tf2schurNSlattice.m H2Asq.m H2T.m tf2pa.m qroots.m \
-schurNSlattice2Abcd.oct schurNSscale.oct spectralfactor.oct qzsolve.oct \
+delayz.m schurNSlatticeT.m tf2schurNSlattice.m H2Asq.m H2T.m tf2pa.m qroots.oct \
+schurNSlattice2Abcd.oct schurNSscale.oct spectralfactor.oct \
 schurdecomp.oct schurexpand.oct Abcd2H.oct complex_zhong_inverse.oct"
 
 tmp=/tmp/$$

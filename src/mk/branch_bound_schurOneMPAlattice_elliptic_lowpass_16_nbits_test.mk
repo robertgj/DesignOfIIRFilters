@@ -36,4 +36,4 @@ tf2pa.m tf2schurOneMlattice.m \
 schurOneMscale.m spectralfactor.m \
 bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
 complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
-qroots.m qzsolve.oct 
+qroots.oct 

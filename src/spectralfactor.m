@@ -30,7 +30,7 @@ function q=spectralfactor(n,d)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  warning("Using Octave version of function spectralfactor()!");
+  warning("Using m-file version of function spectralfactor()!");
   if (nargin ~= 2)
     print_usage("q=spectralfactor(n,d)");
   endif

@@ -14,4 +14,4 @@ iir_slb_update_constraints.m armijo_kim.m cl2bp.m \
 fixResultNaN.m iirA.m iirE.m iirT.m iirP.m invSVD.m \
 local_max.m showResponseBands.m showResponse.m \
 showResponsePassBands.m showZPplot.m sqp_bfgs.m tf2x.m zp2x.m updateWchol.m \
-updateWbfgs.m x2tf.m xConstraints.m qroots.m qzsolve.oct 
+updateWbfgs.m x2tf.m xConstraints.m qroots.oct 

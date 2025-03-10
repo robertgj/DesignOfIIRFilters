@@ -13,4 +13,4 @@ tuqanFIRnonsymmetric_dare_minimum_phase_test_g_coef.m \
 
 tuqanFIRnonsymmetric_dare_minimum_phase_test_FILES = \
 tuqanFIRnonsymmetric_dare_minimum_phase_test.m test_common.m \
-print_polynomial.m direct_form_scale.m qroots.m qzsolve.oct 
+print_polynomial.m direct_form_scale.m qroots.oct 

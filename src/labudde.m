@@ -11,7 +11,7 @@ function[char]=labudde(A)
 % Polynomial of a Complex Matrix", downloaded from
 % http://www.lib.ncsu.edu/resolver/1840.16/6262
   
-  warning("Using Octave m-file version of function labudde()!");
+  warning("Using m-file version of function labudde()!");
 
   % Step 1: Use Matlab's hess function to reduce A to
   % hessenberg form.

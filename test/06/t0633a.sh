@@ -7,8 +7,8 @@ schurOneMPAlatticeDoublyPipelinedAsq.m \
 schurOneMAPlatticeDoublyPipelined2H.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
 schurOneMlatticeDoublyPipelined2Abcd.m \
-tf2schurOneMlattice.m Abcd2tf.m qroots.m schurOneMscale.m tf2pa.m H2Asq.m \
-schurdecomp.oct schurexpand.oct qzsolve.oct spectralfactor.oct Abcd2H.oct" 
+tf2schurOneMlattice.m Abcd2tf.m qroots.oct schurOneMscale.m tf2pa.m H2Asq.m \
+schurdecomp.oct schurexpand.oct spectralfactor.oct Abcd2H.oct" 
 
 tmp=/tmp/$$
 here=`pwd`

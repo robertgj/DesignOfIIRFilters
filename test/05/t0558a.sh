@@ -3,8 +3,8 @@
 prog=samin_svcasc_lowpass_test.m
 depends="test/samin_svcasc_lowpass_test.m \
 test_common.m truncation_test_common.m sos2pq.m pq2svcasc.m svcasc2tf.m \
-svcasc_cost.m flt2SD.m x2nextra.m print_polynomial.m qroots.m SDadders.m \
-qzsolve.oct bin2SD.oct bin2SPT.oct"
+svcasc_cost.m flt2SD.m x2nextra.m print_polynomial.m qroots.oct SDadders.m \
+bin2SD.oct bin2SPT.oct"
 
 tmp=/tmp/$$
 here=`pwd`

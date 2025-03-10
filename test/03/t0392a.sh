@@ -7,9 +7,9 @@ depends="test/branch_bound_johanssonOneMlattice_bandstop_16_nbits_test.m \
 ../johansson_cascade_allpass_bandstop_test_f1_coef.m \
 test_common.m johanssonOneMlatticeAzp.m johanssonOneMlatticeEsq.m \
 tf2schurOneMlattice.m phi2p.m tfp2g.m tf2pa.m local_max.m print_polynomial.m \
-flt2SD.m x2nextra.m bin2SDul.m SDadders.m qroots.m schurOneMAPlatticeP.m \
+flt2SD.m x2nextra.m bin2SDul.m SDadders.m qroots.oct schurOneMAPlatticeP.m \
 schurOneMscale.m schurOneMAPlattice2Abcd.m H2P.m \
-bin2SD.oct bin2SPT.oct qzsolve.oct schurOneMlattice2Abcd.oct \
+bin2SD.oct bin2SPT.oct schurOneMlattice2Abcd.oct \
 complex_zhong_inverse.oct schurOneMAPlattice2H.oct schurdecomp.oct \
 schurexpand.oct spectralfactor.oct"
 

@@ -34,8 +34,8 @@ schurOneMlatticePipelined_slb_update_constraints.m \
 schurOneMscale.m \
 tf2schurOneMlattice.m \
 local_max.m tf2pa.m x2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-print_polynomial.m print_pole_zero.m qroots.m \
-schurdecomp.oct schurexpand.oct qzsolve.oct Abcd2H.oct Abcd2tf.oct
+print_polynomial.m print_pole_zero.m \
+schurdecomp.oct schurexpand.oct qroots.oct Abcd2H.oct Abcd2tf.oct
 
 schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test.diary : \
 tarczynski_lowpass_differentiator_test.diary

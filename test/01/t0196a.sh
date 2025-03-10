@@ -7,7 +7,7 @@ schurNSlattice2Abcd.oct schurOneMlattice2Abcd.oct KW.m optKW.m phi2p.m \
 schurNSlatticeNoiseGain.m schurOneMlatticeNoiseGain.m \
 schurNSlatticeFilter.m schurOneMlatticeFilter.m crossWelch.m \
 schurdecomp.oct schurexpand.oct schurNSscale.oct schurOneMscale.m \
-p2n60.m qroots.m qzsolve.oct Abcd2tf.oct"
+p2n60.m qroots.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

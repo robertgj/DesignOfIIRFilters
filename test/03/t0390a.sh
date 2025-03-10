@@ -7,7 +7,7 @@ johanssonOneMlatticeAzp.m johansson_cascade_allpassAzp.m \
 tf2schurOneMlattice.m schurOneMscale.m schurOneMAPlatticeP.m \
 schurOneMAPlattice2Abcd.m H2P.m \
 schurOneMlattice2Abcd.oct schurdecomp.oct schurOneMAPlattice2H.oct \
-schurexpand.oct qzsolve.oct complex_zhong_inverse.oct"
+schurexpand.oct complex_zhong_inverse.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -32,7 +32,7 @@ tf2schurOneMlattice.m \
 schurOneMR2lattice2Abcd.m \
 schurOneMlattice2tf.m \
 local_max.m tf2pa.m x2tf.m print_polynomial.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-qroots.m schurOneMlattice2Abcd.oct qzsolve.oct schurdecomp.oct schurexpand.oct \
+schurOneMlattice2Abcd.oct qroots.oct schurdecomp.oct schurexpand.oct \
 schurOneMlattice2H.oct complex_zhong_inverse.oct Abcd2tf.oct
 
 schurOneMR2lattice_socp_slb_bandpass_test.diary : \

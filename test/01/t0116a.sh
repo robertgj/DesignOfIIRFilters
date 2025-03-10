@@ -4,7 +4,7 @@ prog=sv2block_test.m
 
 depends="test/sv2block_test.m test_common.m \
 sv2block.m KW.m tf2Abcd.m optKW.m svf.m crossWelch.m \
-p2n60.m qroots.m qzsolve.oct"
+p2n60.m qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

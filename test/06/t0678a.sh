@@ -22,10 +22,10 @@ schurOneMlatticePipelinedP.m
 schurOneMlatticePipelinedT.m \
 schurOneMlatticePipelineddAsqdw.m \
 schurOneMlatticePipelined2Abcd.m \
-schurOneMscale.m KW.m SDadders.m qroots.m \
+schurOneMscale.m KW.m SDadders.m qroots.oct \
 print_polynomial.m H2T.m H2P.m H2Asq.m flt2SD.m x2nextra.m bin2SDul.m \
 schurdecomp.oct schurexpand.oct bin2SD.oct bin2SPT.oct Abcd2tf.oct \
-Abcd2H.oct qzsolve.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct \
+Abcd2H.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct \
 complex_zhong_inverse.oct"
 
 tmp=/tmp/$$

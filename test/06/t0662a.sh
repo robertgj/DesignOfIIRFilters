@@ -5,8 +5,8 @@ prog=schurOneMlatticePipelinedP_test.m
 depends="test/schurOneMlatticePipelinedP_test.m test_common.m \
 schurOneMlatticePipelinedP.m schurOneMlatticePipelined2Abcd.m \
 schur_lattice_test_common.m tf2schurOneMlattice.m tf2pa.m schurOneMscale.m \
-qroots.m H2P.m \
-Abcd2H.oct spectralfactor.oct schurdecomp.oct schurexpand.oct"
+H2P.m \
+qroots.oct Abcd2H.oct spectralfactor.oct schurdecomp.oct schurexpand.oct"
 
 tmp=/tmp/$$
 here=`pwd`

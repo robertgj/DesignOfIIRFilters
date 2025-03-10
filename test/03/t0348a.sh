@@ -2,7 +2,8 @@
 
 prog=mps_roots_test.m
 
-depends="test/mps_roots_test.m test_common.m tf2x.m zp2x.m qroots.m print_pole_zero.m"
+depends="test/mps_roots_test.m test_common.m tf2x.m zp2x.m print_pole_zero.m \
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

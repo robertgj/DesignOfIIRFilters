@@ -5,8 +5,8 @@ prog=schurOneMlatticeEsq_test.m
 depends="test/schurOneMlatticeEsq_test.m test_common.m schurOneMlatticeEsq.m \
 schur_lattice_test_common.m schurOneMlatticeAsq.m schurOneMlatticeT.m \
 schurOneMlatticeP.m schurOneMlatticedAsqdw.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-tf2schurOneMlattice.m schurOneMscale.m tf2pa.m qroots.m \
-qzsolve.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct schurdecomp.oct \
+tf2schurOneMlattice.m schurOneMscale.m tf2pa.m qroots.oct \
+schurOneMlattice2Abcd.oct schurOneMlattice2H.oct schurdecomp.oct \
 schurexpand.oct spectralfactor.oct complex_zhong_inverse.oct"
 
 tmp=/tmp/$$

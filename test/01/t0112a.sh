@@ -44,7 +44,7 @@ Caught schurNSscale([],1)!
 c is empty
 Caught schurNSscale([1 1],[1 1])!
 (length(k)+1) ~= length(c)
-warning: Using Octave m-file version of function schurNSscale()!
+warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
     schurNSscale_test at line 29 column 27
@@ -63,7 +63,7 @@ S =
 c =
    0.4937   0.4208
 
-warning: Using Octave m-file version of function schurNSscale()!
+warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
     schurNSscale_test at line 37 column 27
@@ -93,7 +93,7 @@ c =
  Column 8:
    0.013687
 
-warning: Using Octave m-file version of function schurNSscale()!
+warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
     schurNSscale_test at line 47 column 27
@@ -135,7 +135,7 @@ cm =
  Column 8:
   -0.013687
 
-warning: Using Octave m-file version of function schurNSscale()!
+warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
     schurNSscale_test at line 50 column 33
@@ -202,7 +202,7 @@ c =
  Columns 7 and 8:
   -2.7118e-01   6.1456e-02
 
-warning: Using Octave m-file version of function schurNSscale()!
+warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
     schurNSscale_test at line 78 column 27
@@ -244,7 +244,7 @@ cm =
  Columns 7 and 8:
    2.7118e-01  -6.1456e-02
 
-warning: Using Octave m-file version of function schurNSscale()!
+warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
     schurNSscale_test at line 81 column 33
@@ -295,7 +295,7 @@ c =
  Columns 7 and 8:
    9.9566e-03   2.6796e-03
 
-warning: Using Octave m-file version of function schurNSscale()!
+warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
     schurNSscale_test at line 97 column 27
@@ -340,7 +340,7 @@ cm =
  Columns 7 and 8:
   -9.9566e-03  -2.6796e-03
 
-warning: Using Octave m-file version of function schurNSscale()!
+warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
     schurNSscale_test at line 100 column 33
@@ -394,7 +394,7 @@ S =
 c =
    0.1208   0.1418  -0.1885  -0.1795   0.2730   0.3220  -0.6457   0.2510
 
-warning: Using Octave m-file version of function schurNSscale()!
+warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
     schurNSscale_test at line 115 column 27
@@ -442,7 +442,7 @@ Sm =
 cm =
   -0.1208  -0.1418   0.1885   0.1795  -0.2730  -0.3220   0.6457  -0.2510
 
-warning: Using Octave m-file version of function schurNSscale()!
+warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
     schurNSscale_test at line 118 column 33

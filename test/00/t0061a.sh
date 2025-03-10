@@ -3,7 +3,7 @@
 prog=tf2x_x2tf_test.m
 
 depends="test/tf2x_x2tf_test.m test_common.m tf2x.m zp2x.m x2tf.m \
-qroots.m qzsolve.oct"
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

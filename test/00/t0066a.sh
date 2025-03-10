@@ -6,7 +6,7 @@ depends="test/iir_frm_allpass_test.m test_common.m delayz.m \
 iir_frm_allpass.m iir_frm_allpass_struct_to_vec.m \
 iir_frm_allpass_vec_to_struct.m \
 allpassT.m allpassP.m tf2a.m a2tf.m \
-qroots.m qzsolve.oct"
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

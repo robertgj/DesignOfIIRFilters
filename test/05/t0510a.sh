@@ -2,8 +2,8 @@
 
 prog=dumitrescu_MA_estimation_test.m
 depends="test/dumitrescu_MA_estimation_test.m test_common.m \
-directFIRsymmetricA.m print_polynomial.m minphase.m x2tf.m qroots.m \
-qzsolve.oct"
+directFIRsymmetricA.m print_polynomial.m minphase.m x2tf.m qroots.oct \
+"
 
 tmp=/tmp/$$
 here=`pwd`

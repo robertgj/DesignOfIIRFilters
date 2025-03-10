@@ -2,7 +2,7 @@
 
 prog=sedumi_minphase_test.m
 depends="test/sedumi_minphase_test.m sedumi_minphase_test_data.mat \
-test_common.m print_polynomial.m qroots.m qzsolve.oct"
+test_common.m print_polynomial.m qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

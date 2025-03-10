@@ -6,7 +6,7 @@ depends="test/bitflip_schurNSPAlattice_lowpass_test.m test_common.m print_polyno
 truncation_test_common.m schurNSPAlattice2tf.m schurNSPAlattice_cost.m \
 tf2schurNSlattice.m Abcd2tf.m flt2SD.m x2nextra.m  tf2pa.m \
 bitflip.oct spectralfactor.oct schurNSscale.oct schurdecomp.oct \
-schurexpand.oct bin2SD.oct schurNSlattice2Abcd.oct qroots.m qzsolve.oct"
+schurexpand.oct bin2SD.oct schurNSlattice2Abcd.oct qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

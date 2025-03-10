@@ -37,7 +37,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-warning: Using Octave version of function spectralfactor()!
+warning: Using m-file version of function spectralfactor()!
 warning: called from
     spectralfactor at line 33 column 3
     spectralfactor_mfile_test at line 14 column 2

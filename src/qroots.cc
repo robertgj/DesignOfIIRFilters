@@ -1,4 +1,4 @@
-// qzsolve.cc - find the roots of a polynomial with quad float arithmetic
+// qroots.cc - find the roots of a polynomial with quad float arithmetic
 
 // This file uses modified versions of the following files from gsl-2.4: 
 // poly/zsolve.c poly/companion.c poly/balance.c poly/qr.c. Here is the
@@ -505,9 +505,9 @@ qgsl_poly_complex_workspace_free (qgsl_poly_complex_workspace * w)
   free(w);
 }
 
-#if defined(TEST_QZSOLVE)
+#if defined(TEST_QROOTS)
 
-/* Compile with : g++ -o qzsolve qzsolve.cc -lquadmath -DTEST_QZSOLVE */
+/* Compile with : g++ -o qroots qroots.cc -lquadmath -DTEST_QROOTS */
 
 static __float128 qgsl_hypot (const __float128 x, const __float128 y)
 {
@@ -580,13 +580,13 @@ main (void)
 #else
 // Compile with:
 /*
-    mkoctfile -o qzsolve.oct -march=native -O2 -Wall -lquadmath \
-     -lgmp -lmpfr -fext-numeric-literals qzsolve.cc
+    mkoctfile -o qroots.oct -march=native -O2 -Wall -lquadmath \
+     -lgmp -lmpfr -fext-numeric-literals qroots.cc
 */
 
 #include <octave/oct.h>
 
-DEFUN_DLD(qzsolve, args, nargout, "r=qzsolve(p)")
+DEFUN_DLD(qroots, args, nargout, "r=qroots(p) \n p is assumed real")
 {
 
   // Sanity checks
@@ -648,7 +648,7 @@ DEFUN_DLD(qzsolve, args, nargout, "r=qzsolve(p)")
       return retval;
     }
   
-  // Done
+  // Copy to an Octave vector
   ComplexColumnVector r(N-1);
   for(auto row=0;row<(N-1);row++)
     {
@@ -659,8 +659,20 @@ DEFUN_DLD(qzsolve, args, nargout, "r=qzsolve(p)")
       tmp.imag(tmpi);
       r(row)=tmp;
     }
+
+  // Sort r by abs(r) in descending order
+  ColumnVector rabs(N-1);
+  rabs=r.abs();
+  Array<octave_idx_type> idx = rabs.sort_rows_idx (DESCENDING);
+  ComplexColumnVector rsorted(N-1);
+  for(auto row=0;row<(N-1);row++)
+    {
+      rsorted(row)=r(idx(row));
+    }
+
+  // Done
   octave_value_list retval(1);
-  retval(0)=r;
+  retval(0)=rsorted;
 
   return retval;
 }

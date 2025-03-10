@@ -32,7 +32,7 @@ function [k,khat] = complementaryFIRdecomp(h,g,tol)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  warning("Using Octave m-file version of function complementaryFIRdecomp()!");
+  warning("Using m-file version of function complementaryFIRdecomp()!");
 
   % Sanity checks
   if ((nargin ~= 2) && (nargin ~= 3)) || (nargout ~=2)

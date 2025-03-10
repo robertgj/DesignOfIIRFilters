@@ -30,7 +30,7 @@ schurOneMlattice2tf.m \
 local_max.m tf2pa.m x2tf.m H2Asq.m H2T.m H2P.m \
 print_polynomial.m print_pole_zero.m \
 schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2H.oct qroots.m qzsolve.oct \
+complex_zhong_inverse.oct schurOneMlattice2H.oct qroots.oct \
 Abcd2tf.oct
 
 schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test.diary : \

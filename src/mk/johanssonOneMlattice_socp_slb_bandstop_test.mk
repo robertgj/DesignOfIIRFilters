@@ -24,8 +24,8 @@ johanssonOneMlattice_slb_show_constraints.m \
 johanssonOneMlattice_slb_set_empty_constraints.m \
 johanssonOneMlattice_slb_constraints_are_empty.m \
 tf2schurOneMlattice.m phi2p.m tfp2g.m tf2pa.m local_max.m print_polynomial.m \
-qroots.m schurOneMAPlatticeP.m schurOneMscale.m schurOneMAPlattice2Abcd.m \
-H2P.m qzsolve.oct schurOneMlattice2Abcd.oct complex_zhong_inverse.oct \
+schurOneMAPlatticeP.m schurOneMscale.m schurOneMAPlattice2Abcd.m \
+H2P.m qroots.oct schurOneMlattice2Abcd.oct complex_zhong_inverse.oct \
 schurOneMAPlattice2H.oct schurdecomp.oct schurexpand.oct spectralfactor.oct \
 
 johanssonOneMlattice_socp_slb_bandstop_test.diary : \

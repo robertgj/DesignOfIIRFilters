@@ -4,7 +4,7 @@ prog=lowpass2ndOrderCascade_socp_test.m
 
 depends="test/lowpass2ndOrderCascade_socp_test.m \
 test_common.m delayz.m stability2ndOrderCascade.m print_polynomial.m print_pole_zero.m \
-lowpass2ndOrderCascade_socp.m x2tf.m casc2tf.m tf2casc.m qroots.m qzsolve.oct"
+lowpass2ndOrderCascade_socp.m x2tf.m casc2tf.m tf2casc.m qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

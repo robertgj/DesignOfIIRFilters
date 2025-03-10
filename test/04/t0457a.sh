@@ -4,8 +4,8 @@ prog=hofstetterFIRsymmetric_bandpass_test.m
 
 depends="test/hofstetterFIRsymmetric_bandpass_test.m test_common.m \
 print_polynomial.m hofstetterFIRsymmetric.m local_max.m lagrange_interp.m \
-xfr2tf.m directFIRsymmetricA.m qroots.m \
-qzsolve.oct"
+xfr2tf.m directFIRsymmetricA.m qroots.oct \
+"
 
 tmp=/tmp/$$
 here=`pwd`

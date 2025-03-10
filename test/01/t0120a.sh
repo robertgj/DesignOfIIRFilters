@@ -5,7 +5,7 @@ prog=butt5NSSD_test.m
 depends="test/butt5NSSD_test.m test_common.m \
 spectralfactor.oct schurexpand.oct schurdecomp.oct schurNSscale.oct \
 tf2schurNSlattice.m flt2SD.m x2nextra.m bin2SD.oct schurNSlatticeFilter.m \
-crossWelch.m tf2pa.m p2n60.m qroots.m qzsolve.oct"
+crossWelch.m tf2pa.m p2n60.m qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

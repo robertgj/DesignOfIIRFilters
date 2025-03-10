@@ -8,7 +8,7 @@ parallel_allpass_slb_show_constraints.m \
 parallel_allpass_slb_update_constraints.m \
 parallel_allpassAsq.m parallel_allpassT.m parallel_allpassP.m \
 test_common.m allpassP.m allpassT.m tf2a.m a2tf.m local_max.m \
-qroots.m qzsolve.oct"
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

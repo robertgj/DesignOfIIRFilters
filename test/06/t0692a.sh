@@ -23,9 +23,9 @@ tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
 schurOneMlatticeFilter.m \
 local_max.m tf2pa.m x2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-print_polynomial.m print_pole_zero.m qroots.m p2n60.m crossWelch.m \
+print_polynomial.m print_pole_zero.m qroots.oct p2n60.m crossWelch.m \
 schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2H.oct qzsolve.oct Abcd2tf.oct"
+complex_zhong_inverse.oct schurOneMlattice2H.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

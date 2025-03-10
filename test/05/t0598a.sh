@@ -19,8 +19,8 @@ schurOneMPAlatticedAsqdw.m \
 schurOneMAPlattice2Abcd.m \
 tf2schurOneMlattice.m \
 H2Asq.m H2P.m H2T.m H2dAsqdw.m print_polynomial.m local_max.m flt2SD.m \
-SDadders.m x2nextra.m bin2SDul.m tf2pa.m schurOneMscale.m qroots.m \
-qzsolve.oct spectralfactor.oct bin2SD.oct bin2SPT.oct schurdecomp.oct \
+SDadders.m x2nextra.m bin2SDul.m tf2pa.m schurOneMscale.m qroots.oct \
+spectralfactor.oct bin2SD.oct bin2SPT.oct schurdecomp.oct \
 schurexpand.oct schurOneMAPlattice2H.oct schurOneMlattice2Abcd.oct \
 complex_zhong_inverse.oct"
 

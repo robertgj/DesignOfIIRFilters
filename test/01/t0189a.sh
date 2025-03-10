@@ -5,8 +5,8 @@ depends="test/bitflip_directIIR_bandpass_test.m \
 ../iir_sqp_slb_bandpass_test_D1_coef.m \
 ../iir_sqp_slb_bandpass_test_N1_coef.m \
 test_common.m delayz.m print_polynomial.m \
-bitflip_bandpass_test_common.m flt2SD.m SDadders.m x2nextra.m qroots.m \
-qzsolve.oct bin2SD.oct bitflip.oct bin2SPT.oct"
+bitflip_bandpass_test_common.m flt2SD.m SDadders.m x2nextra.m qroots.oct \
+bin2SD.oct bitflip.oct bin2SPT.oct"
 
 tmp=/tmp/$$
 here=`pwd`

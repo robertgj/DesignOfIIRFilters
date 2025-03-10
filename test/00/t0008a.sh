@@ -10,7 +10,7 @@ iirA.m iirE.m iirT.m iirP.m invSVD.m local_max.m showResponseBands.m \
 showResponse.m showResponsePassBands.m showZPplot.m sqp_bfgs.m \
 tf2x.m zp2x.m updateWchol.m updateWbfgs.m x2tf.m xConstraints.m xInitHd.m \
 iir_slb_set_empty_constraints.m iir_slb_constraints_are_empty.m \
-qroots.m qzsolve.oct"
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

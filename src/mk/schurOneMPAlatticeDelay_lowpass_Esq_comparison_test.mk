@@ -6,9 +6,9 @@ schurOneMPAlatticeDelay_lowpass_Esq_comparison_test.m test_common.m delayz.m \
 schurOneMPAlatticeEsq.m schur_lattice_test_common.m schurOneMPAlatticedAsqdw.m \
 schurOneMPAlatticeAsq.m schurOneMPAlatticeT.m schurOneMPAlatticeP.m \
 tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m schurOneMlattice2Abcd.oct \
-H2Asq.m H2T.m H2P.m H2dAsqdw.m tf2pa.m schurOneMscale.m qroots.m \
+H2Asq.m H2T.m H2P.m H2dAsqdw.m tf2pa.m schurOneMscale.m \
 schurOneMAPlattice2H.oct spectralfactor.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct qzsolve.oct
+complex_zhong_inverse.oct qroots.oct
 
 schurOneMPAlatticeDelay_lowpass_Esq_comparison_test.diary: \
 schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test.diary \

@@ -4,8 +4,8 @@ prog=mcclellanFIRantisymmetric_linear_differentiator_test.m
 
 depends="test/mcclellanFIRantisymmetric_linear_differentiator_test.m \
 mcclellanFIRantisymmetric_linear_differentiator.m test_common.m \
-local_max.m print_polynomial.m qroots.m \
-qzsolve.oct"
+local_max.m print_polynomial.m qroots.oct \
+"
 
 tmp=/tmp/$$
 here=`pwd`

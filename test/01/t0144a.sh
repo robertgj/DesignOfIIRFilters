@@ -3,8 +3,8 @@
 prog=minphase_test.m
 descr="minphase_test.m (mfile)"
 depends="test/minphase_test.m test_common.m print_polynomial.m direct_form_scale.m \
-complementaryFIRlatticeFilter.m crossWelch.m minphase.m qroots.m \
-qzsolve.oct complementaryFIRdecomp.oct"
+complementaryFIRlatticeFilter.m crossWelch.m minphase.m qroots.oct \
+complementaryFIRdecomp.oct"
 
 tmp=/tmp/$$
 here=`pwd`

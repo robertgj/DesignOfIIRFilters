@@ -10,5 +10,5 @@ tarczynski_lowpass_differentiator_alternate_test.mat
 
 tarczynski_lowpass_differentiator_alternate_test_FILES = \
 tarczynski_lowpass_differentiator_alternate_test.m test_common.m delayz.m \
-WISEJ.m tf2Abcd.m print_polynomial.m print_pole_zero.m qroots.m \
-qzsolve.oct
+WISEJ.m tf2Abcd.m print_polynomial.m print_pole_zero.m \
+qroots.oct

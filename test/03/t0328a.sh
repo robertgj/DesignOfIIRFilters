@@ -24,7 +24,7 @@ local_max.m tf2pa.m print_polynomial.m flt2SD.m bin2SDul.m x2nextra.m \
 SDadders.m H2Asq.m H2T.m H2P.m tf2schurOneMlattice.m schurOneMscale.m \
 bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
 complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
-qroots.m qzsolve.oct Abcd2tf.oct"
+qroots.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

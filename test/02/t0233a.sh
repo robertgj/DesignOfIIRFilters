@@ -13,7 +13,7 @@ schurOneMlattice2tf.m local_max.m x2tf.m tf2pa.m print_polynomial.m \
 H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m x2nextra.m SDadders.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct \
-qroots.m qzsolve.oct Abcd2tf.oct"
+qroots.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

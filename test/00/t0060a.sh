@@ -3,7 +3,7 @@
 prog=casc2tf_tf2casc_test.m
 
 depends="test/casc2tf_tf2casc_test.m test_common.m tf2casc.m casc2tf.m \
-qroots.m qzsolve.oct"
+qroots.oct"
 
 
 tmp=/tmp/$$

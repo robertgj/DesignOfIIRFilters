@@ -19,8 +19,8 @@ print_polynomial.m \
 zp2x.m \
 Abcd2tf.m \
 H2Asq.m \
-qroots.m \
-qzsolve.oct \
+\
+qroots.oct \
 complex_zhong_inverse.oct \
 schurOneMlattice2Abcd.oct \
 schurOneMAPlattice2H.oct \

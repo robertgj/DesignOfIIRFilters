@@ -14,4 +14,4 @@ iir_sqp_mmse_tarczynski_ex2_test.m test_common.m print_polynomial.m \
 print_pole_zero.m iir_sqp_mmse.m armijo_kim.m fixResultNaN.m \
 iirA.m iirE.m iirT.m invSVD.m showZPplot.m sqp_bfgs.m tf2x.m zp2x.m \
 updateWchol.m updateWbfgs.m iir_slb_set_empty_constraints.m \
-iir_slb_constraints_are_empty.m x2tf.m xConstraints.m qroots.m qzsolve.oct 
+iir_slb_constraints_are_empty.m x2tf.m xConstraints.m qroots.oct 

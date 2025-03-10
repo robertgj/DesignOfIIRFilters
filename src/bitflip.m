@@ -44,7 +44,7 @@ function [cof,cost,fiter] = ...
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  warning("Using Octave m-file version of function bitflip()!");
+  warning("Using m-file version of function bitflip()!");
   
   % Sanity checks
   if (nargin < 5) || (nargin > 7)

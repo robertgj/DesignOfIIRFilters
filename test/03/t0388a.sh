@@ -3,7 +3,7 @@
 prog=print_allpass_pole_test.m
 depends="test/print_allpass_pole_test.m test_common.m x2tf.m print_allpass_pole.m \
 print_pole_zero.m tf2x.m x2pa.m zp2x.m x2zp.m p2a.m a2p.m \
-spectralfactor.oct qroots.m qzsolve.oct"
+spectralfactor.oct qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -2,8 +2,8 @@
 
 prog=tarczynski_allpass_phase_shift_test.m
 depends="test/tarczynski_allpass_phase_shift_test.m test_common.m delayz.m \
-print_polynomial.m qroots.m \
-qzsolve.oct"
+print_polynomial.m qroots.oct \
+"
 
 tmp=/tmp/$$
 here=`pwd`

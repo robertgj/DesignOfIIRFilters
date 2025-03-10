@@ -3,8 +3,8 @@
 prog=contfrac_test.m
 
 depends="test/contfrac_test.m test_common.m contfrac.m \
-Abcd2tf.m tf2Abcd.m KW.m optKW.m svf.m crossWelch.m p2n60.m qroots.m \
-qzsolve.oct"
+Abcd2tf.m tf2Abcd.m KW.m optKW.m svf.m crossWelch.m p2n60.m qroots.oct \
+"
 
 tmp=/tmp/$$
 here=`pwd`

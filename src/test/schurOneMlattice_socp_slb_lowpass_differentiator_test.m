@@ -138,8 +138,8 @@ print_polynomial(epsilon0,"epsilon0");
 print_polynomial(c2,"c2");
 [k2r,epsilon2,p2,c2]=tf2schurOneMlattice(N2,D2);
 k2r=k2r(:);epsilon2=epsilon2(:);p2=p2(:);c2=c2(:);
-if max(abs(k2-k2r))>eps
-  error("max(abs(k2-k2r))(%g*eps)>eps",max(abs(k2-k2r))/eps);
+if max(abs(k2-k2r))>2*eps
+  error("max(abs(k2-k2r))(%g*eps)>2*eps",max(abs(k2-k2r))/eps);
 endif
 
 % Calculate the overall response

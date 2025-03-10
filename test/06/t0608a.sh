@@ -1,10 +1,10 @@
 #!/bin/sh
 
 prog=yalmip_kyp_check_iir_bandpass_test.m
-depends="test/yalmip_kyp_check_iir_bandpass_test.m test_common.m qroots.m \
+depends="test/yalmip_kyp_check_iir_bandpass_test.m test_common.m qroots.oct \
 tf2Abcd.m Abcd2tf.m tf2pa.m tf2schurOneMlattice.m schurOneMscale.m \
 schurOneMAPlattice2Abcd.m \
-qzsolve.oct schurdecomp.oct schurexpand.oct schurOneMlattice2Abcd.oct \
+schurdecomp.oct schurexpand.oct schurOneMlattice2Abcd.oct \
 spectralfactor.oct"
 
 tmp=/tmp/$$

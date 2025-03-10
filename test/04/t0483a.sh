@@ -3,8 +3,8 @@
 prog=tarczynski_parallel_allpass_multiband_test.m
 
 depends="test/tarczynski_parallel_allpass_multiband_test.m \
-test_common.m delayz.m print_polynomial.m WISEJ_PAB.m qroots.m \
-qzsolve.oct"
+test_common.m delayz.m print_polynomial.m WISEJ_PAB.m qroots.oct \
+"
 
 tmp=/tmp/$$
 here=`pwd`
