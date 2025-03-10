@@ -216,8 +216,8 @@ axis([-1 1 0 1])
 xlabel("$w$");
 ylabel("Amplitude");
 grid("on");
-strt=sprintf("Un-normalised zero-phase transfer function S :\
-p=%d, q=%d, k=%4.2f",p,q,k);
+strt=sprintf(["Un-normalised zero-phase transfer function S :", ...
+ "p=%d, q=%d, k=%4.2f"],p,q,k);
 title(strt);
 print(sprintf("%s_p_%d_q_%d_S",strf,p,q),"-dpdflatex");
 close
@@ -356,8 +356,8 @@ ax=plotyy(w(1:np)*0.5/pi,20*log10(abs(H(1:np))), ...
           w(ns:end)*0.5/pi,20*log10(abs(H(ns:end))));
 axis(ax(1),[0 0.5 -0.00001 0.000002]);
 axis(ax(2),[0 0.5 -130 -118]);
-strt=sprintf("Transfer function (Vlcek and Zahradnik) : \
-asdB=%3d, fp=%5.3f, fs=%5.3f", asdB,fp,fs);
+strt=sprintf(["Transfer function (Vlcek and Zahradnik) : ", ...
+ "asdB=%3d, fp=%5.3f, fs=%5.3f"], asdB,fp,fs);
 title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");

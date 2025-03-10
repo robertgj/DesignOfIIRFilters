@@ -27,8 +27,8 @@ function [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_GM1_coef2Abcd(k1,e1)
 
   % Sanity checks
   if (nargin~=1 && nargin~=2) || (nargout~=4 && nargout~=8)
-    print_usage("[A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_GM1_coef2Abcd(k1)\n\
-[A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_GM1_coef2Abcd(k1,e1)");
+    print_usage(["[A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_GM1_coef2Abcd(k1)\n", ...
+ "[A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_GM1_coef2Abcd(k1,e1)"]);
   endif
   if (nargin==1)
     e1=1;

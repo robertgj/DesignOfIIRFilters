@@ -52,8 +52,8 @@ print_polynomial(Aext,"Aext","%13.10f");
 %
 % Plot response
 %
-strt=sprintf("McClellan differentiator FIR: \
-M=%d,fap=%g,fas=%g,Kp=%g,Kt=%g,nplot=%d,rho=%g",M,fap,fas,Kp,Kt,nplot,rho);
+strt=sprintf(["McClellan differentiator FIR: ", ...
+ "M=%d,fap=%g,fas=%g,Kp=%g,Kt=%g,nplot=%d,rho=%g"],M,fap,fas,Kp,Kt,nplot,rho);
 wa=(0:nplot)'*pi/nplot;
 b=[-hM;0;flipud(hM)];
 H=freqz(b,1,wa);

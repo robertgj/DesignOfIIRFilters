@@ -31,9 +31,9 @@ function [next_vR,next_vS,exchanged] = ...
 
  
 if (nargin ~= 16) || (nargout ~= 3)
-  print_usage("[next_vR,next_vS,exchanged]=...\n\
-         deczky1_slb_exchange_constraints(vS,vR, ...\n\
-           x,U,V,M,Q,R,wa,Adu,Adl,wt,Tdu,Tdl,wx,ctol)");
+  print_usage(["[next_vR,next_vS,exchanged]=...\n", ...
+ "         deczky1_slb_exchange_constraints(vS,vR, ...\n", ...
+ "           x,U,V,M,Q,R,wa,Adu,Adl,wt,Tdu,Tdl,wx,ctol)"]);
 endif
 
 next_vR = vR;

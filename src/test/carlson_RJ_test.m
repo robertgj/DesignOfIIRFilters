@@ -57,15 +57,15 @@ endif
 tol=10*eps;
 x=3;y=0.3;p=0.2;
 if abs(((3/(p-y))*(carlson_RC(x,y)-carlson_RC(x,p)))-carlson_RJ(x,y,y,p))>tol
-  error("abs(((3/(p-y))*(carlson_RC(x,y)-carlson_RC(x,p)))-\
-carlson_RJ(x,y,y,p))>tol");
+  error(["abs(((3/(p-y))*(carlson_RC(x,y)-carlson_RC(x,p)))-", ...
+ "carlson_RJ(x,y,y,p))>tol"]);
 endif
 
 tol=eps;
 y=0.3;z=5;
 if abs(((3/(2*sqrt(y*z)))*carlson_RF(0,y,z))-carlson_RJ(0,y,z,sqrt(y*z)))>tol
-  error("abs(((3/(2*sqrt(y*z)))*carlson_RF(0,y,z))-\
-carlson_RJ(0,y,z,sqrt(y*z)))>tol");
+  error(["abs(((3/(2*sqrt(y*z)))*carlson_RF(0,y,z))-", ...
+ "carlson_RJ(0,y,z,sqrt(y*z)))>tol"]);
 endif
 
 % Done

@@ -41,8 +41,8 @@ function [T,gradT,diagHessT,hessT]=schurOneMAPlatticePipelinedT(w,k,epsilon,kk)
   % Sanity checks
   %
   if (nargin ~= 4) || (nargout > 4)
-    print_usage("[T,gradT,diagHessT,hessT]= ...\n\
-      schurOneMAPlatticePipelinedT(w,k,epsilon,kk)");
+    print_usage(["[T,gradT,diagHessT,hessT]= ...\n", ...
+ "      schurOneMAPlatticePipelinedT(w,k,epsilon,kk)"]);
   endif
   if length(k) ~= length(epsilon)
     error("length(k) ~= length(epsilon)");

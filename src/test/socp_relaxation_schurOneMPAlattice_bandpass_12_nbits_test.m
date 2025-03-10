@@ -354,8 +354,8 @@ legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-  strt=sprintf("Parallel one-multplier allpass lattice bandpass filter \
-(nbits=%d) : fapl=%g,fapu=%g,dBas=%g,td=%g",nbits,fapl,fapu,dBas,td);
+  strt=sprintf(["Parallel one-multplier allpass lattice bandpass filter ", ...
+ "(nbits=%d) : fapl=%g,fapu=%g,dBas=%g,td=%g"],nbits,fapl,fapu,dBas,td);
 title(strt);
 axis([0  0.5 -70 -20]);
 grid("on");
@@ -394,11 +394,11 @@ close
 
 % Filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_\
-allocsd_Lim=%d\n", ...
+fprintf(fid,["socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_", ...
+ "allocsd_Lim=%d\n"], ...
         socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim);
-fprintf(fid,"socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_\
-allocsd_Ito=%d\n", ...
+fprintf(fid,["socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_", ...
+ "allocsd_Ito=%d\n"], ...
         socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito);
 fprintf(fid,"nbits=%d %% Coefficient word length\n",nbits);
 fprintf(fid,"ndigits=%d %% Average number of signed digits per coef.\n",ndigits);
@@ -428,16 +428,16 @@ fprintf(fid,"Wtp=%d %% Pass band group-delay response weight\n",Wtp);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ...\n\
-     socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim ...\n\
-     socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito ...\n\
-     n m1 m2 difference tol ctol rho  ...\n\
-     fapl fapu dBap Wap Watl Watu ...\n\
-     fasl fasu dBas Wasl Wasu ...\n\
-     ftpl ftpu td tdr Wtp ...\n\
-     A1k A1epsilon A1p A2k A2epsilon A2p ...\n\
-     nbits ndigits ndigits_alloc ...\n\
-     A1k_min A1epsilon_min A2k_min A2epsilon_min",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ "     socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim ...\n", ...
+ "     socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito ...\n", ...
+ "     n m1 m2 difference tol ctol rho  ...\n", ...
+ "     fapl fapu dBap Wap Watl Watu ...\n", ...
+ "     fasl fasu dBas Wasl Wasu ...\n", ...
+ "     ftpl ftpu td tdr Wtp ...\n", ...
+ "     A1k A1epsilon A1p A2k A2epsilon A2p ...\n", ...
+ "     nbits ndigits ndigits_alloc ...\n", ...
+ "     A1k_min A1epsilon_min A2k_min A2epsilon_min"],strf));
 
 % Done
 toc;

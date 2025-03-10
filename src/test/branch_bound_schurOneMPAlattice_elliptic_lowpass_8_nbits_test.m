@@ -359,8 +359,8 @@ legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strt=sprintf("Parallel one-multplier allpass lattice lowpass filter \
-(nbits=%d) : fap=%g,fas=%g,dBap=%g,dBas=%g",nbits,fap,fas,dBap,dBas);
+strt=sprintf(["Parallel one-multplier allpass lattice lowpass filter ", ...
+ "(nbits=%d) : fap=%g,fas=%g,dBap=%g,dBas=%g"],nbits,fap,fas,dBap,dBas);
 title(strt);
 axis([0, 0.5, -2*dBas, 5]);
 grid("on");
@@ -403,10 +403,10 @@ fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ...\n\
-     n fap dBap Wap Wat fas dBas Was rho tol ctol ...\n\
-     improved_solution_found A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ...\n\
-     difference nbits ndigits ndigits_alloc A1k_min A2k_min",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ "     n fap dBap Wap Wat fas dBas Was rho tol ctol ...\n", ...
+ "     improved_solution_found A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ...\n", ...
+ "     difference nbits ndigits ndigits_alloc A1k_min A2k_min"],strf));
      
 % Done
 toc;

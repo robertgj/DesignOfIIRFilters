@@ -87,8 +87,8 @@ Wt=Wtp*ones(nap,1);
 %
 % Common strings
 %
-strt=sprintf("FRM IIR/delay %%s %%s:Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,\
-U=%d,V=%d,M=%d,Q=%d,na=%d,nc=%d",Mmodel,Dmodel,fap,fas,U,V,M,Q,na,nc);
+strt=sprintf(["FRM IIR/delay %%s %%s:Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,", ...
+ "U=%d,V=%d,M=%d,Q=%d,na=%d,nc=%d"],Mmodel,Dmodel,fap,fas,U,V,M,Q,na,nc);
 strf="iir_frm_socp_slb_test";
 
 % Plot initial response

@@ -113,8 +113,8 @@ kuv_active=(1:(length(k0)+length(u0)+length(v0)))';
 dmax=inf;
 
 % Common strings
-strt=sprintf("FRM %%s %%s : \
-Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d,ppr=%g",Mmodel,Dmodel,fap,fas,tp,ppr);
+strt=sprintf(["FRM %%s %%s : ", ...
+ "Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d,ppr=%g"],Mmodel,Dmodel,fap,fas,tp,ppr);
 
 %
 % FRM SOCP MMSE
@@ -158,8 +158,8 @@ print_polynomial(u1,"u1",strcat(strf,"_u1_coef.m"));
 print_polynomial(v1,"v1");
 print_polynomial(v1,"v1",strcat(strf,"_v1_coef.m"));
 
-eval(sprintf("save %s.mat r0 u0 v0 k0 epsilon0 p0 k1 u1 v1 Mmodel Dmodel dmax \
-rho ftol fap fas Wap ftp tp Wtp fpp ppr Wpp",strf));
+eval(sprintf(["save %s.mat r0 u0 v0 k0 epsilon0 p0 k1 u1 v1 Mmodel Dmodel dmax ", ...
+ "rho ftol fap fas Wap ftp tp Wtp fpp ppr Wpp"],strf));
 
 % Done
 toc;

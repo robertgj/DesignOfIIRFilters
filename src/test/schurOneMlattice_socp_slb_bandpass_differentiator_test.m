@@ -176,8 +176,8 @@ subplot(311);
 plot(wa*0.5/pi,[A1,Adl,Adu]);
 axis([0 0.5 0 1]);
 grid("on");
-strP=sprintf("Bandpass differentiator response : \
-fasl=%g,fapl=%g,fapu=%g,fasu=%g,Arp=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g", ...
+strP=sprintf(["Bandpass differentiator response : ", ...
+ "fasl=%g,fapl=%g,fapu=%g,fasu=%g,Arp=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"], ...
              fasl,fapl,fapu,fasu,Arp,Ars,tp,tpr,ppr);
 title(strP);
 ylabel("Amplitude");

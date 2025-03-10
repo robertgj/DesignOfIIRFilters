@@ -187,10 +187,10 @@ fprintf(fid,"\\bottomrule\n");
 fprintf(fid,"\\end{tabular}\n");
 fprintf(fid,"\\end{threeparttable}\n");
 fprintf(fid,"\\caption[Schur NS lattice frequency transformation example]");
-fprintf(fid,"{Schur NS lattice frequency transformation round-off noise \
-example : number of non-zero coefficients, noise gain and estimated output \
-roundoff noise variances for a prototype 5th order elliptic low-pass filter \
-transformed to a multiple band-stop filter.}\n");
+fprintf(fid,["{Schur NS lattice frequency transformation round-off noise ", ...
+ "example : number of non-zero coefficients, noise gain and estimated output ", ...
+ "roundoff noise variances for a prototype 5th order elliptic low-pass filter ", ...
+ "transformed to a multiple band-stop filter.}\n"]);
 fprintf(fid,"\\label{tab:Schur-NS-lattice-frequency-transformation-example}\n");
 fprintf(fid,"\\end{table}\n");
 fclose(fid);

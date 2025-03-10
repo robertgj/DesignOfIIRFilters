@@ -209,8 +209,8 @@ if no_phase
   strt=sprintf("FRM filter:mr=%d,ms=%d,na=%d,nc=%d,Mmodel=%d,Was=%d,tol=%4.3g",
                mr,ms,na,nc,Mmodel,Was,tol);
 else
-  strt=sprintf("FRM filter:mr=%d,ms=%d,na=%d,nc=%d,Mmodel=%d,Dmodel=%3.1f,\
-dmask=%3.1f,Was=%d,tol=%4.3g",mr,ms,na,nc,Mmodel,Dmodel,dmask,Was,tol);
+  strt=sprintf(["FRM filter:mr=%d,ms=%d,na=%d,nc=%d,Mmodel=%d,Dmodel=%3.1f,", ...
+ "dmask=%3.1f,Was=%d,tol=%4.3g"],mr,ms,na,nc,Mmodel,Dmodel,dmask,Was,tol);
 endif
 title(strt);
 subplot(212);
@@ -276,8 +276,8 @@ grid("on");
 if no_phase
   s=sprintf("FRM IIR model filter:mr=%d,ms=%d,Mmodel=%d",mr,ms,Mmodel);
 else
-  s=sprintf("FRM IIR model filter:mr=%d,ms=%d,Mmodel=%d,\
-Dmodel=%3.1f,dmask=%3.1f",mr,ms,Mmodel,Dmodel,dmask);
+  s=sprintf(["FRM IIR model filter:mr=%d,ms=%d,Mmodel=%d,", ...
+ "Dmodel=%3.1f,dmask=%3.1f"],mr,ms,Mmodel,Dmodel,dmask);
 endif
 title(s);
 subplot(212);

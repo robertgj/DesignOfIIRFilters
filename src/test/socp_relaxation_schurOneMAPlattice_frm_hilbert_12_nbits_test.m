@@ -360,8 +360,8 @@ legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strt=sprintf("FRM Hilbert filter (nbits=12) : \
-fap=%g,fas=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g,Wpp=%g",fap,fas,dBap,Wap,tp,Wtp,Wpp);
+strt=sprintf(["FRM Hilbert filter (nbits=12) : ", ...
+ "fap=%g,fas=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g,Wpp=%g"],fap,fas,dBap,Wap,tp,Wtp,Wpp);
 title(strt);
 axis([0  0.5 -0.3 0.2]);
 grid("on");

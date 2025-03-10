@@ -29,8 +29,8 @@ H16=freqz(h16,1,w);
 plot(w*0.5/pi,abs([H2,H4,H8,H16]))
 xlabel("Frequency");
 ylabel("Amplitude");
-tstr=sprintf("Kumar et al. maximally-linear FIR differentiator amplitude \
-response : N=%d, p=2,4,8,16",N);
+tstr=sprintf(["Kumar et al. maximally-linear FIR differentiator amplitude ", ...
+ "response : N=%d, p=2,4,8,16"],N);
 title(tstr);
 axis([0 0.5 0 3]);
 grid("on");
@@ -44,8 +44,8 @@ close
 plot(w*0.5/pi,20*log10(abs(abs([H2,H4,H8,H16])-w)))
 xlabel("Frequency");
 ylabel("Amplitude error (dB)");
-tstr=sprintf("Kumar et al. maximally-linear FIR differentiator amplitude \
-error $(|H_{p}(\\omega)|-\\omega)$ : N=%d, p=2,4,8,16",N);
+tstr=sprintf(["Kumar et al. maximally-linear FIR differentiator amplitude ", ...
+ "error $(|H_{p}(\\omega)|-\\omega)$ : N=%d, p=2,4,8,16"],N);
 title(tstr);
 axis([0 0.5 -300 30]);
 grid("on");

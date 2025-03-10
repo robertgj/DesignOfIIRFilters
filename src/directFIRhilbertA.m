@@ -35,8 +35,8 @@ function [A,gradA]=directFIRhilbertA(wa,hM,order)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargout > 2) || ((nargin~=2) && (nargin~=3))
-    print_usage("A=directFIRhilbertA(wa,hM)\n\
-[A,gradA]=directFIRhilbertA(wa,hM,order)");
+    print_usage(["A=directFIRhilbertA(wa,hM)\n", ...
+ "[A,gradA]=directFIRhilbertA(wa,hM,order)"]);
   endif
   if nargin==2
     order="even";

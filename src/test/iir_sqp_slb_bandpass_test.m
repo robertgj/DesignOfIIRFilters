@@ -26,8 +26,8 @@ strI=sprintf("x0:fapl=%g,fapu=%g,tp=%g,fasl=%g,fasu=%g,Wasl=%g,Wasu=%g", ...
              fapl,fapu,tp,fasl,fasu,Wasl,Wasu);
 strM=sprintf("x1:fapl=%g,fapu=%g,tp=%g,fasl=%g,fasu=%g,Wasl=%g,Wasu=%g", ...
              fapl,fapu,tp,fasl,fasu,Wasl,Wasu);
-strP=sprintf("d1:fapl=%g,fapu=%g,dBap=%g,tp=%g,tpr=%g,fasl=%g,fasu=%g,\
-dBas=%g,Wasl=%g,Wasu=%g",fapl,fapu,dBap,tp,tpr,fasl,fasu,dBas,Wasl,Wasu);
+strP=sprintf(["d1:fapl=%g,fapu=%g,dBap=%g,tp=%g,tpr=%g,fasl=%g,fasu=%g,", ...
+ "dBas=%g,Wasl=%g,Wasu=%g"],fapl,fapu,dBap,tp,tpr,fasl,fasu,dBas,Wasl,Wasu);
 
 % Frequency points
 n=500;
@@ -226,8 +226,8 @@ plot(w*0.5/pi,20*log10(abs(hpcls)),"linestyle","-",
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 5]);
-title("Comparison of IIR PCLS and FIR cl2bp() and remez() bandpass \
-filter amplitude responses");
+title(["Comparison of IIR PCLS and FIR cl2bp() and remez() bandpass ", ...
+ "filter amplitude responses"]);
 legend("IIR PCLS","FIR cl2bp","FIR remez");
 legend("location","northeast");
 legend("boxoff");
@@ -270,8 +270,8 @@ print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
-eval(sprintf("save %s.mat U V M Q R ftol ctol fapl fapu dBap Wap \
-fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp x0 x1 d1",strf));
+eval(sprintf(["save %s.mat U V M Q R ftol ctol fapl fapu dBap Wap ", ...
+ "fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp x0 x1 d1"],strf));
 
 % Done 
 toc;

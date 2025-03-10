@@ -26,8 +26,8 @@ function ng=allpass_GM2_coef2ng(arg1,arg2,arg3,arg4)
 
   % Sanity check
   if (nargin~=2 && nargin~=4) || (nargout~=1)
-    print_usage("ng=allpass_GM2_coef2ng(k1,k2)\n\
-ng=allpass_GM2_coef2ng(k1,e1,k2,e2)");
+    print_usage(["ng=allpass_GM2_coef2ng(k1,k2)\n", ...
+ "ng=allpass_GM2_coef2ng(k1,e1,k2,e2)"]);
   endif
 
   % Find the GM2 multipliers

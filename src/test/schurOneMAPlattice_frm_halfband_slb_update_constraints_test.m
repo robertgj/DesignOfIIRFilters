@@ -65,8 +65,8 @@ Wt=Wtp*ones(ntp,1);
 
 % Common strings
 strd=sprintf("schurOneMAPlattice_frm_halfband_slb_update_constraints_test_%%s");
-strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,ftp=%g,tpr=%g,Wtp=%g,\
-,fas=%g,dBas=%g,Was=%g",fap,dBap,Wap,ftp,tpr,Wtp,fas,dBas,Was);
+strM=sprintf(["%%s:fap=%g,dBap=%g,Wap=%g,ftp=%g,tpr=%g,Wtp=%g,", ...
+ ",fas=%g,dBas=%g,Was=%g"],fap,dBap,Wap,ftp,tpr,Wtp,fas,dBas,Was);
 
 % Calculate frequency response
 Asq1=schurOneMAPlattice_frm_halfbandAsq(wa,k1,epsilon0,p0,u1,v1,Mmodel,Dmodel);

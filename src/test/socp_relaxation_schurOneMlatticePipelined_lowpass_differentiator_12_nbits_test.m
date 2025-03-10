@@ -313,15 +313,15 @@ print_polynomial(ck_min,"ck_min",strcat(strf,"_ck_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used by kc_sd
 [kc_digits,kc_adders]=SDadders(kc_min([1:(Nk+Nc+Nkk),(Nk+Nc+Nkk+1):2:Nx]),nbits);
 printf("%d signed-digits used\n",kc_digits);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kc_adders,nbits);
 
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_kc_min_cost.tab"),"wt");
 fprintf(fid,"Exact & %9.7f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit(Ito)& %9.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Ito)& %9.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,kc0_digits,kc0_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %9.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %9.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kc_digits,kc_adders);
 fclose(fid);
 
@@ -373,8 +373,9 @@ for c=1:3
   set(hs(c),"linestyle",hls{c}); 
 endfor
 ylabel("Amplitude error");
-strt=sprintf("Pipelined low-pass differentiator : \
-fap=%g,fas=%g,Arp=%g,Ars=%g,tp=%g,ppr=%g",fap,fas,Arp,Ars,tp,ppr);
+strt=sprintf(["Pipelined low-pass differentiator : ", ...
+              "fap=%g,fas=%g,Arp=%g,Ars=%g,tp=%g,ppr=%g"], ...
+             fap,fas,Arp,Ars,tp,ppr);
 title(strt);
 axis(ax(1),[0 0.5 Arp*[-1,1]]);
 axis(ax(2),[0 0.5 Ars*[-1,1]]);

@@ -55,8 +55,8 @@ Wa=[Wasl*ones(nasl,1); ...
 % Sanity checks
 nchka=[nasll,nasll+1,nasl-1,nasl,nasl+1,napl-1,napl,napu,napu+1, ...
        nasu-1,nasu,nasu+1,nasuu-1,nasuu];
-printf("nchka=[nasll,nasll+1,nasl-1,nasl,nasl+1,napl-1,napl,napu,napu+1, ...\n\
-       nasu-1,nasu,nasu+1,nasuu-1,nasuu];\n");
+printf(["nchka=[nasll,nasll+1,nasl-1,nasl,nasl+1,napl-1,napl,napu,napu+1, ...\n", ...
+ "       nasu-1,nasu,nasu+1,nasuu-1,nasuu];\n"]);
 printf("nchka=[ ");printf("%d ",nchka);printf("];\n");
 printf("wa(nchka)*0.5/pi=[");printf("%6.4g ",0.5*wa(nchka)'/pi);printf("];\n");
 printf("Ad(nchka)=[ ");printf("%6.4g ",Ad(nchka)');printf("];\n");
@@ -239,8 +239,8 @@ plot(wplot*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 axis([0 0.5 -2 0.5]);
-strt=sprintf("Direct-form symmetric bandpass filter pass-band \
-(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,ndigits,fapl,fapu,dBap);
+strt=sprintf(["Direct-form symmetric bandpass filter pass-band ", ...
+ "(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g"],nbits,ndigits,fapl,fapu,dBap);
 title(strt);
 legend("exact","s-d","s-d(Ito)","s-d(Ito and SOCP-relax)");
 legend("location","northeast");
@@ -259,8 +259,8 @@ plot(wplot*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 -30]);
-strt=sprintf("Direct-form symmetric bandpass filter stop-band \
-(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,ndigits,fasl,fasu,dBas);
+strt=sprintf(["Direct-form symmetric bandpass filter stop-band ", ...
+ "(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g"],nbits,ndigits,fasl,fasu,dBas);
 title(strt);
 legend("exact","s-d","s-d(Ito)","s-d(Ito and SOCP-relax)");
 legend("location","northeast");
@@ -293,8 +293,8 @@ fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat tol ctol nbits nscale ndigits ndigits_alloc npoints \
-hM1 fapl fapu dBap Wap fasl fasll fasu fasuu dBas dBass Wasl Wasu hM_min",strf));
+eval(sprintf(["save %s.mat tol ctol nbits nscale ndigits ndigits_alloc npoints ", ...
+ "hM1 fapl fapu dBap Wap fasl fasll fasu fasuu dBas dBass Wasl Wasu hM_min"],strf));
        
 % Done
 toc;

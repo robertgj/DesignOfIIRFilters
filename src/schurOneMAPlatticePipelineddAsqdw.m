@@ -43,8 +43,8 @@ function [dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw] = ...
   % Sanity checks
   %
   if (nargin ~= 4) || (nargout > 4)
-    print_usage("[dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw]= ...\n\
-      schurOneMAPlatticePipelineddAsqdw(w,k,epsilon,kk)");
+    print_usage(["[dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw]= ...\n", ...
+ "      schurOneMAPlatticePipelineddAsqdw(w,k,epsilon,kk)"]);
   endif
   if length(k) ~= length(epsilon)
     error("length(k) ~= length(epsilon)");

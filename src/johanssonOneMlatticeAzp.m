@@ -41,8 +41,8 @@ function [Azp,gradAzp,diagHessAzp]=...
   % Sanity checks
   %
   if (nargin ~= 6) || (nargout > 3) 
-    print_usage("[Azp,gradAzp,diagHessAzp] = ...\n\
-       johanssonOneMlatticeAzp(wa,k0,epsilon0,k1,epsilon1)");
+    print_usage(["[Azp,gradAzp,diagHessAzp] = ...\n", ...
+ "       johanssonOneMlatticeAzp(wa,k0,epsilon0,k1,epsilon1)"]);
   endif
   if length(k0) ~= length(epsilon0)
     error("length(k0) ~= length(epsilon0)");

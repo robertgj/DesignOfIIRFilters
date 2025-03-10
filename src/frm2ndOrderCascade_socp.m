@@ -63,8 +63,8 @@ function [x1,E,socp_iter,feasible]= ...
 
   % Sanity checks
   if nargin ~= 10
-    print_usage("[x1,E,socp_iter,feasible]= ...\n\
-    frm2ndOrderCascade_socp(x0,M,td,tau,w,Hd,Wd,maxiter,tol,verbose)");
+    print_usage(["[x1,E,socp_iter,feasible]= ...\n", ...
+ "    frm2ndOrderCascade_socp(x0,M,td,tau,w,Hd,Wd,maxiter,tol,verbose)"]);
   endif
   if all(isfield(x0,{"a","d","aa","ac"}))==false
     error("field missing from x0");

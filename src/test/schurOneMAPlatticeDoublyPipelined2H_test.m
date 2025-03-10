@@ -269,8 +269,8 @@ if max(max(abs(diff_A1dHdk-squeeze(A1d2Hdk2(npass,:,:))))) > del/10
 endif
 if max(abs(A1diagd2Hdk2(npass,:) - ...
            transpose(diag(squeeze(A1d2Hdk2(npass,:,:)))))) > eps
-  error("max(abs(A1diagd2Hdk2(npass,:) - ...\n\
-           transpose(diag(squeeze(A1d2Hdk2(npass,,)))))) > eps");
+  error(["max(abs(A1diagd2Hdk2(npass,:) - ...\n", ...
+ "           transpose(diag(squeeze(A1d2Hdk2(npass,,)))))) > eps"]);
 endif
 
 % Check the Hessian of A2H wrt A2k
@@ -301,8 +301,8 @@ if max(max(abs(diff_A2dHdk-squeeze(A2d2Hdk2(npass,:,:))))) > del
 endif
 if max(abs(A2diagd2Hdk2(npass,:) - ...
            transpose(diag(squeeze(A2d2Hdk2(npass,:,:)))))) > eps
-  error("max(abs(A2diagd2Hdk2(npass,:) - ...\n\
-           transpose(diag(squeeze(A2d2Hdk2(npass,,)))))) > eps");
+  error(["max(abs(A2diagd2Hdk2(npass,:) - ...\n", ...
+ "           transpose(diag(squeeze(A2d2Hdk2(npass,,)))))) > eps"]);
 endif
                                                                   
 % Done

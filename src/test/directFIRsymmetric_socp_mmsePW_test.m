@@ -88,8 +88,8 @@ plot(wa*0.5/pi,20*log10(A));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -3 1]);
 grid("on");
-strt=sprintf("Direct-form symmetric FIR pass-band : \
-fapl=%g,fapu=%g,dBap=%g,Wap=%g",fapl,fapu,dBap,Wap);
+strt=sprintf(["Direct-form symmetric FIR pass-band : ", ...
+ "fapl=%g,fapu=%g,dBap=%g,Wap=%g"],fapl,fapu,dBap,Wap);
 title(strt);
 % Plot stop-band response
 subplot(212)
@@ -98,8 +98,8 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 -40]);
 grid("on");
-strt=sprintf("Direct-form symmetric FIR stop-band : \
-fasl=%g,fasu=%g,dBas=%g,Wasl=%g,Wasu=%g",fasl,fasu,dBas,Wasl,Wasu);
+strt=sprintf(["Direct-form symmetric FIR stop-band : ", ...
+ "fasl=%g,fasu=%g,dBas=%g,Wasl=%g,Wasu=%g"],fasl,fasu,dBas,Wasl,Wasu);
 title(strt);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
@@ -124,8 +124,8 @@ fclose(fid);
 print_polynomial(hM1,"hM1");
 print_polynomial(hM1,"hM1",strcat(strf,"_hM1_coef.m"),"%12.8f");
 
-eval(sprintf("save %s.mat \
-ftol ctol npoints fapl fapu dBap Wap fasl fasu dBas Wasl Wasu hM0 hM1",strf));
+eval(sprintf(["save %s.mat ", ...
+ "ftol ctol npoints fapl fapu dBap Wap fasl fasu dBas Wasl Wasu hM0 hM1"],strf));
 
 % Done 
 toc

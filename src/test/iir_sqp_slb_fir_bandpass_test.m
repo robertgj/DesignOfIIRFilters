@@ -245,8 +245,8 @@ print_polynomial(Nd1,"Nd1",strcat(strf,"_Nd1_coef.m"));
 print_polynomial(Nc1,"Nc1",strcat(strf,"_Nc1_coef.m"));
 
 % Done 
-eval(sprintf("save %s.mat U V M Q R ftol ctol \
-fapl fapu dBap Wap dBas Wasu Wasl x1 d1 Uc Vc Mc Qc c1",strf));
+eval(sprintf(["save %s.mat U V M Q R ftol ctol ", ...
+ "fapl fapu dBap Wap dBas Wasu Wasl x1 d1 Uc Vc Mc Qc c1"],strf));
 
 diary off
 movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

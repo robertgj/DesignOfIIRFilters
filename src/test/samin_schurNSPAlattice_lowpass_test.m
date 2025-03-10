@@ -22,8 +22,8 @@ truncation_test_common;
 
 use_best_siman_found=true
 if use_best_siman_found
-  warning("Using the best filter found so far. \n\
-Set \"use_best_siman_found\"=false to re-run samin.");
+  warning(["Using the best filter found so far. \n", ...
+ "Set \"use_best_siman_found\"=false to re-run samin."]);
 endif
 
 strf="samin_schurNSPAlattice_lowpass_test";

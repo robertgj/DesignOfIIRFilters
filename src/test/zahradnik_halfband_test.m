@@ -223,8 +223,8 @@ axis([-1.02 1.02 -10 50])
 grid("on");
 xlabel("v")
 ylabel("G(v)")
-strt=sprintf("Zahradnik and Vlcek half-band filter, G(v): \
-n=%d, kp=%10.8f, A=%10.8f, B=%10.8f", n,kp,A,B);
+strt=sprintf(["Zahradnik and Vlcek half-band filter, G(v): ", ...
+ "n=%d, kp=%10.8f, A=%10.8f, B=%10.8f"], n,kp,A,B);
 title(strt);
 print(strcat(strf,"_fig1"),"-dpdflatex");
 close
@@ -238,8 +238,8 @@ axis([-1.02 1.02 -0.02 1.02]);
 grid("on");
 xlabel("v")
 ylabel("Q(v)")
-strt=sprintf("Zahradnik and Vlcek half-band filter, Q(v) : \
-n=%d, kp=%10.8f, A=%10.8f, B=%10.8f", n,kp,A,B);
+strt=sprintf(["Zahradnik and Vlcek half-band filter, Q(v) : ", ...
+ "n=%d, kp=%10.8f, A=%10.8f, B=%10.8f"], n,kp,A,B);
 title(strt);
 print(strcat(strf,"_fig2"),"-dpdflatex");
 close
@@ -251,8 +251,8 @@ axis([0 0.5 -25 5]);
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
 grid("on");
-strt=sprintf("Zahradnik and Vlcek half-band filter frequency response : \
-n=%d, kp=%10.8f, A=%10.8f, B=%10.8f", n,kp,A,B);
+strt=sprintf(["Zahradnik and Vlcek half-band filter frequency response : ", ...
+ "n=%d, kp=%10.8f, A=%10.8f, B=%10.8f"], n,kp,A,B);
 title(strt);
 print(strcat(strf,"_fig2_response"),"-dpdflatex");
 close
@@ -318,8 +318,8 @@ ax=plotyy(w(1:np)*0.5/pi,20*log10(abs(H(1:np))), ...
           w(ns:end)*0.5/pi,20*log10(abs(H(ns:end))));
 axis(ax(1),[0 0.5 -0.01 0.002]);
 axis(ax(2),[0 0.5 -68 -56]);
-strt=sprintf("Zahradnik and Vlcek half-band filter (hn and hnm1): \
-fp=%5.3f, as=%ddB, n=%d" ,fp,as,n);
+strt=sprintf(["Zahradnik and Vlcek half-band filter (hn and hnm1): ", ...
+ "fp=%5.3f, as=%ddB, n=%d"] ,fp,as,n);
 title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");

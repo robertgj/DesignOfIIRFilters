@@ -220,8 +220,8 @@ printf("Wt(nchkt)=[ ");printf("%6.4g ",Wt(nchkt)');printf("];\n");
 printf("Upper delay pass-band:\n");
 nchkt=[ntp1u-ntp1l+2,ntp1u-ntp1l+3, ...
        ntp1u-ntp1l+1+ntp2u-ntp2l,ntp1u-ntp1l+1+ntp2u-ntp2l+1];
-printf("nchkt=[ntp1u-ntp1l+2,ntp1u-ntp1l+3, ...\n\
-       ntp1u-ntp1l+1+ntp2u-ntp2l,ntp1u-ntp1l+1+ntp2u-ntp2l+1];");
+printf(["nchkt=[ntp1u-ntp1l+2,ntp1u-ntp1l+3, ...\n", ...
+ "       ntp1u-ntp1l+1+ntp2u-ntp2l,ntp1u-ntp1l+1+ntp2u-ntp2l+1];"]);
 printf("wt(nchkt)*0.5/pi=[");printf("%6.4g ",wt(nchkt)*0.5/pi');printf("];\n");
 printf("Td(nchkt)=[ ");printf("%6.4g ",Td(nchkt)');printf("];\n");
 printf("Tdu(nchkt)=[ ");printf("%6.4g ",Tdu(nchkt)');printf("];\n");
@@ -419,12 +419,12 @@ print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
 print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"),"%16.10f");
 
-eval(sprintf("save %s.mat \
-ftol ctol maxiter verbose nplot npoints n fc dBap dBas dmax rho \
-fas1u fap1l fap1u fas2l fas2u fap2l fap2u fas3l \
-dBas1 dBap1 dBas2 dBap2 dBas3 Was1 Wap1 Was2 Wap2 Was3 \
-ftp1l ftp1u ftp2l ftp2u tp1 tpr1 tp2 tpr2 Wtp1 Wtp2 \
-A1k A1epsilon A1p A2k A2epsilon A2p A1d A2d N2 D2",strf));
+eval(sprintf(["save %s.mat ", ...
+ "ftol ctol maxiter verbose nplot npoints n fc dBap dBas dmax rho ", ...
+ "fas1u fap1l fap1u fas2l fas2u fap2l fap2u fas3l ", ...
+ "dBas1 dBap1 dBas2 dBap2 dBas3 Was1 Wap1 Was2 Wap2 Was3 ", ...
+ "ftp1l ftp1u ftp2l ftp2u tp1 tpr1 tp2 tpr2 Wtp1 Wtp2 ", ...
+ "A1k A1epsilon A1p A2k A2epsilon A2p A1d A2d N2 D2"],strf));
 
 % Done
 toc;

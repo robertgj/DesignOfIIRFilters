@@ -421,8 +421,8 @@ plot(wa*0.5/pi,sqrt(Asq_kc0).*Azm1,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude");
 axis([fas 0.5 0 0.008]);
-strt=sprintf("Tapped lattice low-pass differentiator filter stop-band \
-amplitude : nbits=%d,ndigits=%d,fas=%g",nbits,ndigits,fas);
+strt=sprintf(["Tapped lattice low-pass differentiator filter stop-band ", ...
+ "amplitude : nbits=%d,ndigits=%d,fas=%g"],nbits,ndigits,fas);
 title(strt);
 legend("Exact","s-d","s-d(Ito)","s-d(POP-relax)");
 legend("location","northwest");
@@ -440,8 +440,8 @@ plot(wa*0.5/pi,Ad-(Azm1.*sqrt(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude error");
 axis([0 max([fap fpp ftp]) 0.001*[-1,1]]);
-strt=sprintf("Tapped lattice low-pass differentiator filter pass-band \
-amplitude error : nbits=%d,ndigits=%d,fap=%g",nbits,ndigits,fap);
+strt=sprintf(["Tapped lattice low-pass differentiator filter pass-band ", ...
+ "amplitude error : nbits=%d,ndigits=%d,fap=%g"],nbits,ndigits,fap);
 title(strt);
 legend("Exact","s-d","s-d(Ito)","s-d(POP-relax)");
 legend("location","northwest");
@@ -459,8 +459,8 @@ plot(wp*0.5/pi,((P_kc0+Pzm1+(wp*tp))/pi),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Phase(rad./$\\pi$)");
 axis([0 max([fap fpp ftp]) pp+(0.001)*[-1,1]]);
-strt=sprintf("Tapped lattice low-pass differentiator filter pass-band phase :\
- nbits=%d,ndigits=%d,fpp=%g",nbits,ndigits,fpp);
+strt=sprintf(["Tapped lattice low-pass differentiator filter pass-band phase :", ...
+ " nbits=%d,ndigits=%d,fpp=%g"],nbits,ndigits,fpp);
 title(strt);
 legend("Exact","s-d","s-d(Ito)","s-d(POP-relax)");
 legend("location","southwest");
@@ -478,8 +478,8 @@ plot(wt*0.5/pi,T_kc0+Tzm1,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([0 max([fap fpp ftp]),(tp+(0.02*[-1,1]))]);
-strt=sprintf("Tapped lattice low-pass differentiator filter pass-band delay :\
- nbits=%d,ndigits=%d,ftp=%g",nbits,ndigits,ftp);
+strt=sprintf(["Tapped lattice low-pass differentiator filter pass-band delay :", ...
+ " nbits=%d,ndigits=%d,ftp=%g"],nbits,ndigits,ftp);
 title(strt);
 legend("Exact","s-d","s-d(Ito)","s-d(POP-relax)"); 
 legend("location","southwest");
@@ -499,8 +499,8 @@ plot(wa*0.5/pi,sqrt(Asq_kc0),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude error");
 axis([fas 0.5 0 0.004]);
-strt=sprintf("Tapped lattice low-pass differentiator correction filter \
-stop-band amplitude error : nbits=%d,ndigits=%d,fas=%g",nbits,ndigits,fas);
+strt=sprintf(["Tapped lattice low-pass differentiator correction filter ", ...
+ "stop-band amplitude error : nbits=%d,ndigits=%d,fas=%g"],nbits,ndigits,fas);
 title(strt);
 legend("Exact","s-d","s-d(Ito)","s-d(POP-relax)");
 legend("location","northeast");
@@ -520,8 +520,8 @@ plot(wa*0.5/pi,sqrt(Asq_kc0)-(Ad./Azm1),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude error");
 axis([0 fap 0.01*[-1,1]]);
-strt=sprintf("Tapped lattice low-pass differentiator correction filter \
-pass-band amplitude error : nbits=%d,ndigits=%d,fap=%g",nbits,ndigits,fap);
+strt=sprintf(["Tapped lattice low-pass differentiator correction filter ", ...
+ "pass-band amplitude error : nbits=%d,ndigits=%d,fap=%g"],nbits,ndigits,fap);
 title(strt);
 legend("Exact","s-d","s-d(Ito)","s-d(POP-relax)");
 legend("location","northeast");
@@ -547,8 +547,8 @@ axis(ax(1),[0 0.5 0.004*[-1,1]]);
 axis(ax(2),[0 0.5 0.004*[-1,1]]);
 xlabel("Frequency");
 ylabel("Amplitude error");
-strt=sprintf("Tapped lattice low-pass differentiator correction filter \
-amplitude error : nbits=%d,ndigits=%d,fas=%g",nbits,ndigits,fas);
+strt=sprintf(["Tapped lattice low-pass differentiator correction filter ", ...
+ "amplitude error : nbits=%d,ndigits=%d,fas=%g"],nbits,ndigits,fas);
 title(strt);
 legend("Exact","s-d","s-d(Ito)","s-d(POP-relax)");
 legend("location","southeast");
@@ -566,8 +566,8 @@ plot(wd*0.5/pi,dAsqdw_kc0-Cd,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("dAsqdw");
 axis([0 fdp 0.02*[-1,1]]);
-strt=sprintf("Tapped lattice low-pass differentiator correction filter \
-pass-band dAsqdw error : nbits=%d,ndigits=%d,fdp=%g",nbits,ndigits,fdp);
+strt=sprintf(["Tapped lattice low-pass differentiator correction filter ", ...
+ "pass-band dAsqdw error : nbits=%d,ndigits=%d,fdp=%g"],nbits,ndigits,fdp);
 title(strt);
 legend("Exact","s-d","s-d(Ito)","s-d(POP-relax)");
 legend("location","northwest");
@@ -630,15 +630,15 @@ fprintf(fid,"Wdp=%g %% Pass band dAsqdw weight\n",Wdp);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc n \
-use_kc0_coefficient_bounds \
-use_schurOneMlattice_allocsd_Lim \
-use_schurOneMlattice_allocsd_Ito \
-use_fix_coefficient_difference_greater_than_alpha \
-alpha_num alpha_min rho \
-fap fas Arp Ars tp tpr pp ppr dpr Wap Wat Was Wtp Wpp Wdp \
-k0 epsilon0 p0 c0 k0_sd c0_sd k0_sd_Ito c0_sd_Ito k_sd_min c_sd_min \
-N_sd_min D_sd_min",strf));
+eval(sprintf(["save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc n ", ...
+ "use_kc0_coefficient_bounds ", ...
+ "use_schurOneMlattice_allocsd_Lim ", ...
+ "use_schurOneMlattice_allocsd_Ito ", ...
+ "use_fix_coefficient_difference_greater_than_alpha ", ...
+ "alpha_num alpha_min rho ", ...
+ "fap fas Arp Ars tp tpr pp ppr dpr Wap Wat Was Wtp Wpp Wdp ", ...
+ "k0 epsilon0 p0 c0 k0_sd c0_sd k0_sd_Ito c0_sd_Ito k_sd_min c_sd_min ", ...
+ "N_sd_min D_sd_min"],strf));
        
 % Done
 toc;

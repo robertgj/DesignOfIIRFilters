@@ -306,8 +306,8 @@ fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
-eval(sprintf("save %s.mat U Ud1z V M Q R d1 d1z N1 D1 ftol ctol n \
-fap fas Arp Art Ars td tdr pp ppr Wap Wat Was Wtp Wpp",strf));
+eval(sprintf(["save %s.mat U Ud1z V M Q R d1 d1z N1 D1 ftol ctol n ", ...
+ "fap fas Arp Art Ars td tdr pp ppr Wap Wat Was Wtp Wpp"],strf));
 
 % Done
 toc;

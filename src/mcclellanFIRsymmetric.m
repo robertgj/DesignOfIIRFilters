@@ -43,8 +43,8 @@ function [hM,rho,fext,fiter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin < 4) || (nargin > 8) || (nargout>5)
-    print_usage("[hM,rho,fext,fiter,feasible]= ...\n\
-mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol,verbose)");
+    print_usage(["[hM,rho,fext,fiter,feasible]= ...\n", ...
+ "mcclellanFIRsymmetric(M,F,D,W,type,maxiter,tol,verbose)"]);
   endif
 
   % Sanity checks

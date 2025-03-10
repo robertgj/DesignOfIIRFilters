@@ -33,21 +33,27 @@ function print_polynomial(x,name_str,arg3,arg4)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+  % Sanity checks
+  usage_str = ["\n", ...
+               " print_polynomial(x,name_str) \n", ...
+               " print_polynomial(x,name_str,format_str) \n", ...
+               " print_polynomial(x,name_str,scale) \n", ...
+               " print_polynomial(x,name_str,file_name_str) \n", ...
+               " print_polynomial(x,name_str,file_name_str,format_str) \n", ...
+               " print_polynomial(x,name_str,file_name_str,scale)\n"];
+  
+  if nargin < 2
+    print_usage(usage_str);    
+  endif
+
   % Initialise
-  usage_str="\n      print_polynomial(x,name_str) ...\n\
-      print_polynomial(x,name_str,format_str) ...\n\
-      print_polynomial(x,name_str,scale) ...\n\
-      print_polynomial(x,name_str,file_name_str) ...\n\
-      print_polynomial(x,name_str,file_name_str,format_str) ...\n\
-      print_polynomial(x,name_str,file_name_str,scale)\n";
   file_name_str="";
   format_str="%14.10f";
   scale_str="";
   fid=stdout;
   xs=x;
   tol=10*eps;
-  
-  % Sanity checks
+
   if nargin == 2
     if (~isempty(x) && ~isvector(x)) || ~all(isstrprop(name_str,"print"))
       print_usage(usage_str);
@@ -102,7 +108,7 @@ function print_polynomial(x,name_str,arg3,arg4)
   else
     print_usage(usage_str);
   endif
-
+  
   % Initialise the output string
   first_str = sprintf("%s = [ ",name_str);
   space_str = ones(1,length(first_str))*" ";

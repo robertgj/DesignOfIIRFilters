@@ -68,8 +68,8 @@ Wp=[];
 
 % Common strings for output plots
 strM=sprintf("%%s:fap=%g,Wap=%%g,fas=%g,Was=%%g,tp=%g,Wtp=%%g",fap,fas,tp);
-strP=sprintf("%%s:fap=%g,dBap=%g,Wap=%%g,fas=%g,dBas=%g,Was=%%g,tp=%g,\
-tpr=%%g",fap,dBap,fas,dBas,tp);
+strP=sprintf(["%%s:fap=%g,dBap=%g,Wap=%%g,fas=%g,dBas=%g,Was=%%g,tp=%g,", ...
+ "tpr=%%g"],fap,dBap,fas,dBas,tp);
 
 % SOCP MMSE
 [x1,E,socp_iter,func_iter,feasible] = ...
@@ -163,8 +163,8 @@ if verbose
   print_polynomial(D2,"D2");
 endif
 
-eval(sprintf("save %s.mat U V M Q R \
-n ftol ctol fap dBap Wap fas dBas Was ftp tp tpr Wtp x1 d2 N2 D2",strf));
+eval(sprintf(["save %s.mat U V M Q R ", ...
+ "n ftol ctol fap dBap Wap fas dBas Was ftp tp tpr Wtp x1 d2 N2 D2"],strf));
 
 % Done
 toc;

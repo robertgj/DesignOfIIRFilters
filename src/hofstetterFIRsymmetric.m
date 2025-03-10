@@ -38,9 +38,9 @@ function [hM,fext,fiter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin < 2) || (nargin > 5) || (nargout>4)
-    print_usage("hM=hofstetterFIRsymmetric(f0,A0)\n\
-hM=hofstetterFIRsymmetric(f0,A0,nf)\n\
-[hM,fext,fiter,feasible]=hofstetterFIRsymmetric(f0,A0,nf,max_iter,tol)");
+    print_usage(["hM=hofstetterFIRsymmetric(f0,A0)\n", ...
+ "hM=hofstetterFIRsymmetric(f0,A0,nf)\n", ...
+ "[hM,fext,fiter,feasible]=hofstetterFIRsymmetric(f0,A0,nf,max_iter,tol)"]);
   endif
 
   % Sanity checks

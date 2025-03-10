@@ -93,8 +93,8 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 axis([0 0.5 -0.1 0.04]);
 grid("on");
-strt=sprintf("Direct-form Hilbert FIR filter: \
-fapl=%g,fapu=%g,dBap=%g,Wap=%g,Was=%g",fapl,fapu,dBap,Wap,Was);
+strt=sprintf(["Direct-form Hilbert FIR filter: ", ...
+ "fapl=%g,fapu=%g,dBap=%g,Wap=%g,Was=%g"],fapl,fapu,dBap,Wap,Was);
 title(strt);
 legend("initial","PCLS","Adl","Adu");
 legend("location","south");

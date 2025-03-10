@@ -185,10 +185,10 @@ fclose(fid);
 print_polynomial(h,"h");
 print_polynomial(h,"h",strcat(strf,"_h_coef.m"));
 
-eval(sprintf("save %s.mat ftol ctol n N \
-fapl fapu dBap Wap fasl fasu dBas Wasl Wasu \
-ftpl ftpu td tdr Wtp \
-fppl fppu ppr Wpp h0 h",strf));
+eval(sprintf(["save %s.mat ftol ctol n N ", ...
+ "fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ", ...
+ "ftpl ftpu td tdr Wtp ", ...
+ "fppl fppu ppr Wpp h0 h"],strf));
 
 % Done 
 diary off

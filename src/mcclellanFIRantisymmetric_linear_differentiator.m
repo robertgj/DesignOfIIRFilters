@@ -53,9 +53,9 @@ function [hA,hAM,dk,err,fext,fiter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin < 3) || (nargin > 6) || (nargout>7)
-    print_usage("hA=mcclellanFIRsymmetric_linear_differentiator(N,L,deltas)\n\
-[hA,hAM,dk,err,fext,fiter,feasible]= ...\n\
-  mcclellanFIRsymmetric_linear_differentiator(N,L,deltas,nf,maxiter,tol)");
+    print_usage(["hA=mcclellanFIRsymmetric_linear_differentiator(N,L,deltas)\n", ...
+ "[hA,hAM,dk,err,fext,fiter,feasible]= ...\n", ...
+ "  mcclellanFIRsymmetric_linear_differentiator(N,L,deltas,nf,maxiter,tol)"]);
   endif
 
   % Sanity checks

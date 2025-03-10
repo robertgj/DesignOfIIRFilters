@@ -30,10 +30,10 @@ function [y,xx]=svf(a,b,c,d,u,rounding,efb)
 
 % Sanity checks
 if nargin<5 || nargin>7 || nargout>2
-  print_usage("y=svf(a,b,c,d,u) \n\
-[y,xx]=svf(a,b,c,d,u) \n\
-[y,xx]=svf(a,b,c,d,u,rounding) \n\
-[y,xx]=svf(a,b,c,d,u,rounding,efb)");
+  print_usage(["y=svf(a,b,c,d,u) \n", ...
+ "[y,xx]=svf(a,b,c,d,u) \n", ...
+ "[y,xx]=svf(a,b,c,d,u,rounding) \n", ...
+ "[y,xx]=svf(a,b,c,d,u,rounding,efb)"]);
 endif
 if rows(a)~=columns(a)
   error("rows(a)~=columns(a)");

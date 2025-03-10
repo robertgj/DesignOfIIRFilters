@@ -26,8 +26,8 @@ function [b1,b2]=allpass_MH3dtp_pole2coef(arg1,arg2,real_comp_str)
 
   % Sanity checks
   if (nargin~=3) || (nargout~=2)
-    print_usage("[b1,b2]=allpass_MH3dtp_pole2coef(r1,r2,\"real_poles\")\n\
-[b1,b2]=allpass_MH3dtp_pole2coef(r,theta,\"complex_poles\")");
+    print_usage(["[b1,b2]=allpass_MH3dtp_pole2coef(r1,r2,\"real_poles\")\n", ...
+ "[b1,b2]=allpass_MH3dtp_pole2coef(r,theta,\"complex_poles\")"]);
   endif
   if length(real_comp_str)<4
     error("length(real_comp_str)<4");

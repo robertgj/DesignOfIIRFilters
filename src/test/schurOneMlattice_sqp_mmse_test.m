@@ -76,8 +76,8 @@ kc_l=[kl(:);cl(:)];
 kc_active=[find((k0(:)')~=0),(length(k0)+1):(length(k0)+length(c0))]';
 
 % Common strings
-strt=sprintf("Schur one-multiplier lattice lowpass filter SQP %%s response : \
-fap=%g,fas=%g",fap,fas);
+strt=sprintf(["Schur one-multiplier lattice lowpass filter SQP %%s response : ", ...
+ "fap=%g,fas=%g"],fap,fas);
 
 %
 % SQP MMSE
@@ -121,8 +121,8 @@ print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"));
 print_polynomial(c1,"c1");
 print_polynomial(c1,"c1",strcat(strf,"_c1_coef.m"));
 
-eval(sprintf("save %s.mat n0 d0 k0 epsilon0 p0 c0 \
-fap Wap ftp tp Wtp_mmse fas Was_mmse dmax rho ftol ctol k1 c1",strf));
+eval(sprintf(["save %s.mat n0 d0 k0 epsilon0 p0 c0 ", ...
+ "fap Wap ftp tp Wtp_mmse fas Was_mmse dmax rho ftol ctol k1 c1"],strf));
 
 % Done
 toc;

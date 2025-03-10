@@ -374,8 +374,8 @@ ylabel(ax(1),"Amplitude(dB)");
 axis(ax(1),[0 0.5 -0.08 0.04]);
 axis(ax(2),[0 0.5 -48 -36]);
 ylabel("Amplitude(dB)");
-strt=sprintf("FRM filter (nbits=%d,ndigits=%d) : fap=%g,fas=%g,dBap=%g,dBas=%g,\
-tp=%g,tpr=%g,ppr=%g*$\\pi$",nbits,ndigits,fap,fas,dBap,dBas,tp,tpr,ppr);
+strt=sprintf(["FRM filter (nbits=%d,ndigits=%d) : fap=%g,fas=%g,dBap=%g,dBas=%g,", ...
+ "tp=%g,tpr=%g,ppr=%g*$\\pi$"],nbits,ndigits,fap,fas,dBap,dBas,tp,tpr,ppr);
 title(strt);
 xlabel("Frequency");
 legend("exact","s-d(Ito)","s-d(SOCP-relax)");

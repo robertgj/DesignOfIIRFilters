@@ -238,8 +238,8 @@ plot(wplot*0.5/pi,20*log10(abs(A_hM0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -0.2 0.2]);
-strt=sprintf("Direct-form FIR Hilbert filter (nbits=%d,ndigits=%d) : \
-fapl=%g,fapu=%g,Wap=%g,Was=%g",nbits,ndigits,fapl,fapu,Wap,Was);
+strt=sprintf(["Direct-form FIR Hilbert filter (nbits=%d,ndigits=%d) : ", ...
+ "fapl=%g,fapu=%g,Wap=%g,Was=%g"],nbits,ndigits,fapl,fapu,Wap,Was);
 title(strt);
 legend("exact","s-d","s-d(Ito)","s-d(BandB)");
 legend("location","southeast");

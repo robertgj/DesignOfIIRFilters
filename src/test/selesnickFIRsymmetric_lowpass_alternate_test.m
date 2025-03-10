@@ -56,8 +56,8 @@ As=directFIRsymmetricA(2*pi*fas,hM)
 %
 % Plot response
 %
-strt=sprintf("Selesnick-Burrus lowpass FIR : \
-M=%d,fap=%g,dBap=%g,fas=%g,dBas=%g,ngrid=%d", M,fap,dBap,fas,dBas,ngrid);
+strt=sprintf(["Selesnick-Burrus lowpass FIR : ", ...
+ "M=%d,fap=%g,dBap=%g,fas=%g,dBas=%g,ngrid=%d"], M,fap,dBap,fas,dBas,ngrid);
 nplot=10000;
 fa=(0:nplot)'*0.5/nplot;
 wa=2*pi*fa;

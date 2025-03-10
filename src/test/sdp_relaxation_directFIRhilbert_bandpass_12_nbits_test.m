@@ -158,8 +158,8 @@ plot(wa*0.5/pi,20*log10(abs(A_hM2)),"linestyle","-", ...
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 axis([0 0.25 -40 10]);
-strt=sprintf("Direct-form Hilbert filter (nbits=%d,ndigits=%d) : \
-fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
+strt=sprintf(["Direct-form Hilbert filter (nbits=%d,ndigits=%d) : ", ...
+ "fapl=%g,fapu=%g"],nbits,ndigits,fapl,fapu);
 title(strt);
 legend("exact","s-d","s-d(Ito)","s-d(SDP)");
 legend("location","southeast");
@@ -177,8 +177,8 @@ plot(wa*0.5/pi,20*log10(abs(A_hM2)),"linestyle","-", ...
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 axis([0.15 0.25 -0.2 0.2]);
-strt=sprintf("Direct-form Hilbert filter (nbits=%d,ndigits=%d) : \
-fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
+strt=sprintf(["Direct-form Hilbert filter (nbits=%d,ndigits=%d) : ", ...
+ "fapl=%g,fapu=%g"],nbits,ndigits,fapl,fapu);
 title(strt);
 legend("exact","s-d","s-d(Ito)","s-d(SDP)");
 legend("location","southeast");
@@ -208,10 +208,10 @@ fprintf(fid,"dBas=%g %% Amplitude stop band peak ripple\n",dBas);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat \
-sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test_use_unity_passband \
-ftol ctol nbits nscale ndigits ndigits_alloc \
-npoints fasl fapl fapu fasu dBap Wap Wat dBas Was hM2 hM2_sd_sdp",strf));
+eval(sprintf(["save %s.mat ", ...
+ "sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test_use_unity_passband ", ...
+ "ftol ctol nbits nscale ndigits ndigits_alloc ", ...
+ "npoints fasl fapl fapu fasu dBap Wap Wat dBas Was hM2 hM2_sd_sdp"],strf));
       
 % Done
 toc;

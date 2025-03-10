@@ -134,8 +134,8 @@ for difference=[false,true]
   for l=1:rows(diagHessPcheck)
     if max(abs(diagHessPcheck(l,:) - ...
                transpose(diag(squeeze(hessPcheck(l,:,:))))))>1000*eps
-      error("max(abs(diagHessPcheck(l,) - ... \n\
-             transpose(diag(squeeze(hessPcheck(l,,))))))>1000*eps");
+      error(["max(abs(diagHessPcheck(l,) - ... \n", ...
+ "             transpose(diag(squeeze(hessPcheck(l,,))))))>1000*eps"]);
     endif
   endfor
 
@@ -157,8 +157,8 @@ for difference=[false,true]
   for l=1:length(wcheck)
     if max(max(abs(squeeze(hessPcheck(l,A1rng,A1rng)) - ...
                     squeeze(diff_gradPk(l,:,:))))) > del/10
-      error("if max(max(abs((squeeze(hessPcheck(l,A1rng,A1rng)) - ... \n\
-                  squeeze(diff_gradPk(l,,)))))) > del/10");
+      error(["if max(max(abs((squeeze(hessPcheck(l,A1rng,A1rng)) - ... \n", ...
+ "                  squeeze(diff_gradPk(l,,)))))) > del/10"]);
     endif
   endfor
 
@@ -180,8 +180,8 @@ for difference=[false,true]
   for l=1:length(wcheck)
     if max(max(abs(squeeze(hessPcheck(l,A2rng,A2rng)) - ...
                    squeeze(diff_gradPk(l,:,:))))) > del/10
-      error("if max(max(abs((squeeze(hessPcheck(l,A2rng,A2rng)) - ... \n\
-                  squeeze(diff_gradPk(l,,)))))) > del/10");
+      error(["if max(max(abs((squeeze(hessPcheck(l,A2rng,A2rng)) - ... \n", ...
+ "                  squeeze(diff_gradPk(l,,)))))) > del/10"]);
     endif
   endfor
 

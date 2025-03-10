@@ -46,10 +46,10 @@ function [dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw] = ...
   % Sanity checks
   %
   if ((nargin ~= 7) && (nargin ~= 8)) || (nargout > 4) 
-    print_usage("[dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw]= ...\n\
-      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)\n\
-[dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw]= ...\n\
-      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)");
+    print_usage(["[dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw]= ...\n", ...
+ "      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)\n", ...
+ "[dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw]= ...\n", ...
+ "      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)"]);
   endif
   if nargin == 7
     difference=false;

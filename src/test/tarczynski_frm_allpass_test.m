@@ -222,8 +222,8 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_frm)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-strt=sprintf("FRM allpass/delay filter : \
-fpass=%g,mr=%d,na=%d,nc=%d,R=%d,Mmodel=%d,Dmodel=%d,Was=%d", ...
+strt=sprintf(["FRM allpass/delay filter : ", ...
+ "fpass=%g,mr=%d,na=%d,nc=%d,R=%d,Mmodel=%d,Dmodel=%d,Was=%d"], ...
           fpass,mr,na,nc,R,Mmodel,Dmodel,Was);
 title(strt);
 subplot(212);
@@ -268,8 +268,8 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_model)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-strt=sprintf("FRM allpass model filter plus delay : \
-mr=%d,R=%d,Mmodel=%d,Dmodel=%d",mr,R,Mmodel,Dmodel);
+strt=sprintf(["FRM allpass model filter plus delay : ", ...
+ "mr=%d,R=%d,Mmodel=%d,Dmodel=%d"],mr,R,Mmodel,Dmodel);
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tw_model);

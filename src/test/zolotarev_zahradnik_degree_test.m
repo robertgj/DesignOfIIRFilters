@@ -35,8 +35,8 @@ function err=zolotarev_zahradnik_degree_test_ksearch ...
     init_done=true;
   elseif nargin~=1
     init_done=false;
-    print_usage("err=zolotarev_zahradnik_degree_test_ksearch ...\n\
-      (arg[k0 or del],fm,apdB,asdB,Deltafp,Deltafs,scale)");
+    print_usage(["err=zolotarev_zahradnik_degree_test_ksearch ...\n", ...
+ "      (arg[k0 or del],fm,apdB,asdB,Deltafp,Deltafs,scale)"]);
   elseif init_done==false
     error("init_done==false");
   endif
@@ -113,8 +113,8 @@ if max(abs(imag(Zpq)))>2e400*eps
 endif
 plot(real(w),(1+real(Zpq))/(1+fmax));
 axis([-1.05 1.05 -0.05 1.05]);
-strt=sprintf("Normalised Zolotarev polynomial $Z_{%d,%d}(w,%3.1f)$ : \
-$ws_{1}$=%7.4f, $wm$=%7.4f, $ws_{2}$=%7.4f, fmax=%7.4f",p,q,k,wp,wm,ws,fmax);
+strt=sprintf(["Normalised Zolotarev polynomial $Z_{%d,%d}(w,%3.1f)$ : ", ...
+ "$ws_{1}$=%7.4f, $wm$=%7.4f, $ws_{2}$=%7.4f, fmax=%7.4f"],p,q,k,wp,wm,ws,fmax);
 title(strt);
 ylabel("Amplitude");
 xlabel("$w$");
@@ -296,8 +296,8 @@ axis([0 0.5 -120 5]);
 grid("on");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strt=sprintf("$Z_{%d,%d}(w,%10.8f)$ : $f_{p1}=%6.4f,$f_{m}$=%5.3f,\
-$f_{p2}$=%6.4f,$a_{pdB}$=%d,$a_{sdB}$=%d,$f_{max}$=%6.4f", ...
+strt=sprintf(["$Z_{%d,%d}(w,%10.8f)$ : $f_{p1}=%6.4f,$f_{m}$=%5.3f,", ...
+ "$f_{p2}$=%6.4f,$a_{pdB}$=%d,$a_{sdB}$=%d,$f_{max}$=%6.4f"], ...
              p,q,k,fp1,fm,fp2,apdB,asdB,fmax);
 title(strt);
 strfn=sprintf("%s_fmax_135_Deltafp_015",strf);
@@ -361,8 +361,8 @@ axis([0 0.5 -120 5]);
 grid("on");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strt=sprintf("$Z_{%d,%d}(w,%10.8f)$ : \
-$f_{p1}=%6.4f,$f_{m}$=%5.3f,$f_{p2}$=%6.4f,$a_{sdB}$=%d,$f_{max}$=%6.4f", ...
+strt=sprintf(["$Z_{%d,%d}(w,%10.8f)$ : ", ...
+ "$f_{p1}=%6.4f,$f_{m}$=%5.3f,$f_{p2}$=%6.4f,$a_{sdB}$=%d,$f_{max}$=%6.4f"], ...
              p,q,k,fp1,fm,fp2,asdB,fmax);
 title(strt);
 strfn=sprintf("%s_fmax_135_Deltafs_050",strf);
@@ -430,8 +430,8 @@ axis([0 0.5 -160 5]);
 grid("on");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strt=sprintf("$Z_{%d,%d}(w,%10.8f)$ : \
-$f_{p1}$=%8.6f,$f_{m}$=%5.3f,$f_{p2}$=%8.6f,$a_{sdB}$=%d,$f_{max}$=%8.6f", ...
+strt=sprintf(["$Z_{%d,%d}(w,%10.8f)$ : ", ...
+ "$f_{p1}$=%8.6f,$f_{m}$=%5.3f,$f_{p2}$=%8.6f,$a_{sdB}$=%d,$f_{max}$=%8.6f"], ...
              p,q,k,fp1,fm,fp2,asdB,fmax);
 title(strt);
 strfn=sprintf("%s_fmax_275_asdB_140",strf);

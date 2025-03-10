@@ -84,10 +84,10 @@ function [x,E,sqp_iter,func_iter,feasible] = ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 if (nargin ~= 34) || (nargout ~= 5)
-  print_usage("[x,E,sqp_iter,func_iter,feasible] = ...\n\
-         iir_sqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...\n\
-         wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt, ...\n\
-         wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)"); 
+  print_usage(["[x,E,sqp_iter,func_iter,feasible] = ...\n", ...
+ "         iir_sqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...\n", ...
+ "         wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt, ...\n", ...
+ "         wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)"]); 
 endif
 
 % Sanity checks

@@ -35,8 +35,8 @@ function [A,B,C,D,Aap,Bap,Cap,Dap] = ...
 
   % Sanity checks
   if nargin>3 || nargout<4 || nargout>8
-    print_usage("[A,B,C,D,Aap,Bap,Cap,Dap]= ...\n\
-      schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c)");
+    print_usage(["[A,B,C,D,Aap,Bap,Cap,Dap]= ...\n", ...
+ "      schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c)"]);
   endif
   if isempty(k)
     error("k is empty!");

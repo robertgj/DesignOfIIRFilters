@@ -21,8 +21,8 @@ function vS=deczky1_slb_update_constraints(x,U,V,M,Q,R, ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 if (nargin ~= 16) || (nargout ~= 1)
-  print_usage("vS=deczky1_slb_update_constraints(x,U,V,M,Q,R,...\n\
-         wa,Adu,Adl,Wa,wt,Tdu,Tdl,Wt,wx,ctol)");
+  print_usage(["vS=deczky1_slb_update_constraints(x,U,V,M,Q,R,...\n", ...
+ "         wa,Adu,Adl,Wa,wt,Tdu,Tdl,Wt,wx,ctol)"]);
 endif
 
 % Amplitude response

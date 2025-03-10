@@ -41,8 +41,8 @@ function [h,c]=selesnickFIRantisymmetric_linear_differentiator(N,K)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin<2) || (nargout>2)
-    print_usage("h=selesnickFIRantisymmetric_linear_differentiator(N,K);\n\
-[h,c]=selesnickFIRantisymmetric_linear_differentiator(N,K);");
+    print_usage(["h=selesnickFIRantisymmetric_linear_differentiator(N,K);\n", ...
+ "[h,c]=selesnickFIRantisymmetric_linear_differentiator(N,K);"]);
   endif
 
   % Sanity checks

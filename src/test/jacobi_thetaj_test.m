@@ -21,8 +21,8 @@ if abs(K-((pi/2)*(jacobi_theta3(0,q)^2)))>tol
 endif
 
 if abs(carlson_RF(0,jacobi_theta3(0,q)^4,jacobi_theta4(0,q)^4)-(pi/2))>tol
-  error("abs(carlson_RF(0,jacobi_theta3(0,q)^4,\
-jacobi_theta4(0,q)^4)-(pi/2))>tol");
+  error(["abs(carlson_RF(0,jacobi_theta3(0,q)^4,", ...
+ "jacobi_theta4(0,q)^4)-(pi/2))>tol"]);
 endif
 
 if abs(exp(-pi*carlson_RF(0,k^2,1)/carlson_RF(0,1-(k^2),1))-q)>tol

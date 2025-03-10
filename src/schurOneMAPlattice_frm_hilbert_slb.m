@@ -99,11 +99,11 @@ function [k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...
 % Sanity checks
 %
 if (nargin ~= 31) || (nargout ~=7)
-  print_usage("[k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...\n\
-     schurOneMAPlattice_frm_hilbert_slb(pfx,k0,epsilon0,p0,u0,v0, ...\n\
-       Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...\n\
-       wa,Asqd,Asqdu,Asqdl,Wap,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...\n\
-       maxiter,ftol,ctol,verbose)");
+  print_usage(["[k,u,v,slb_iter,opt_iter,func_iter,feasible] = ...\n", ...
+ "     schurOneMAPlattice_frm_hilbert_slb(pfx,k0,epsilon0,p0,u0,v0, ...\n", ...
+ "       Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...\n", ...
+ "       wa,Asqd,Asqdu,Asqdl,Wap,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...\n", ...
+ "       maxiter,ftol,ctol,verbose)"]);
 endif
 if ~is_function_handle(pfx)
   error("Expected pfx to be a function handle!");

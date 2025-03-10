@@ -50,8 +50,8 @@ endfor
 
 % Plot
 plot(w*0.5/pi,abs(Heven));
-strt=sprintf("Selesnick maximally-linear FIR differentiator : \
-N=%d,K=0,4,8,12,16,20 and 24",N);
+strt=sprintf(["Selesnick maximally-linear FIR differentiator : ", ...
+ "N=%d,K=0,4,8,12,16,20 and 24"],N);
 title(strt);
 axis([0 0.5 -0.1 3]);
 xlabel("Frequency");
@@ -83,8 +83,8 @@ endfor
 
 % Plot
 plot(w*0.5/pi,abs(Hodd));
-strt=sprintf("Selesnick maximally-linear FIR differentiator : \
-N=%d,K=1,5,9,13,17,21 and 25",N);
+strt=sprintf(["Selesnick maximally-linear FIR differentiator : ", ...
+ "N=%d,K=1,5,9,13,17,21 and 25"],N);
 title(strt);
 axis([0 0.5 -0.1 3]);
 xlabel("Frequency");

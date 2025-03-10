@@ -40,8 +40,8 @@ function [Asq,T,gradAsq,gradT] = ...
 
   % Sanity checks
   if nargin ~= 9
-    print_usage("[Asq,T,gradAsq,gradT]=\
-iir_frm_parallel_allpass(w,xk,Vr,Qr,Vs,Qs,na,nc,Mmodel)");
+    print_usage(["[Asq,T,gradAsq,gradT]=", ...
+ "iir_frm_parallel_allpass(w,xk,Vr,Qr,Vs,Qs,na,nc,Mmodel)"]);
   endif
   if length(xk) ~= (Vr+Qr+Vs+Qs+na+nc)
     error("Expected length(xk) == (Vr+Qr+Vs+Qs+na+nc)");

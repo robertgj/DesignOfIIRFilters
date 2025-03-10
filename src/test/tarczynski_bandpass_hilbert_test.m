@@ -118,8 +118,8 @@ print_pole_zero(x0,U,V,M,Q,R,"x0");
 print_pole_zero(x0,U,V,M,Q,R,"x0",strcat(strf,"_x0_coef.m"));
 
 % Save the result
-eval(sprintf("save %s.mat U V M Q R x0 fapl fapu fasl fasu \
-Wap Watl Watu Wasl Wasu tp pp dBas n nN nD R ND0 N0 D0 D0R",strf));
+eval(sprintf(["save %s.mat U V M Q R x0 fapl fapu fasl fasu ", ...
+ "Wap Watl Watu Wasl Wasu tp pp dBas n nN nD R ND0 N0 D0 D0R"],strf));
 
 % Done
 toc

@@ -209,8 +209,8 @@ legend("left");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
-strt=sprintf("Bandpass OneM PA lattice, nbits=%d,bitstart=%d,\
-msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
+strt=sprintf(["Bandpass OneM PA lattice, nbits=%d,bitstart=%d,", ...
+ "msize=%d,ndigits=%d"],nbits,bitstart,msize,ndigits);
 title(strt);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
@@ -246,8 +246,8 @@ plot(wplot*0.5/pi,20*log10(abs(    h0)),"linestyle","-", ...
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-strt=sprintf("Bandpass OneM PA lattice, nbits=%d,bitstart=%d,\
-msize=%d,ndigits=%d, Lim and Ito SD allocation",nbits,bitstart,msize,ndigits);
+strt=sprintf(["Bandpass OneM PA lattice, nbits=%d,bitstart=%d,", ...
+ "msize=%d,ndigits=%d, Lim and Ito SD allocation"],nbits,bitstart,msize,ndigits);
 title(strt);
 legend("exact","signed-digit (Lim)","bitflip(s-d Lim)","signed-digit (Ito)", ...
        "bitflip(s-d Ito)");
@@ -332,9 +332,9 @@ print_polynomial(A1k_bfsdi,"A1k_bfsdi",strcat(strf,"_A1k_bfsdi_coef.m"),nscale);
 print_polynomial(A2k_bfsdi,"A2k_bfsdi",strcat(strf,"_A2k_bfsdi_coef.m"),nscale);
 
 % Save the results
-eval(sprintf("save %s.mat \
-A1k_ex A2k_ex A1k_rd A2k_rd A1k_bf A2k_bf A1k_sd A2k_sd A1k_bfsd A2k_bfsd \
-A1k_sdl A2k_sdl A1k_bfsdl A2k_bfsdl A1k_sdi A2k_sdi A1k_bfsdi A2k_bfsdi",strf)); 
+eval(sprintf(["save %s.mat ", ...
+ "A1k_ex A2k_ex A1k_rd A2k_rd A1k_bf A2k_bf A1k_sd A2k_sd A1k_bfsd A2k_bfsd ", ...
+ "A1k_sdl A2k_sdl A1k_bfsdl A2k_bfsdl A1k_sdi A2k_sdi A1k_bfsdi A2k_bfsdi"],strf)); 
 
 % Done
 diary off

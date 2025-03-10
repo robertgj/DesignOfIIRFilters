@@ -50,9 +50,9 @@ eval(sprintf("syms %s real",str_syms));
 % Calculate each section
 eval(sprintf("M0=[[zeros(2,N),[1;1]]; [eye(N),zeros(N,1)]];"));
 for l=1:N,
-  eval(sprintf("M%d=[[eye(l-1),zeros(l-1,N+3-l)]; ...\n\
-    [zeros(3,l-1),[[0,1,0];[1,0,k%d];[k%d,0,1]],zeros(3,N-l)]; ...\n\
-    [zeros(N-l,2+l),eye(N-l)]];",l,l,l));
+  eval(sprintf(["M%d=[[eye(l-1),zeros(l-1,N+3-l)]; ...\n", ...
+ "    [zeros(3,l-1),[[0,1,0];[1,0,k%d];[k%d,0,1]],zeros(3,N-l)]; ...\n", ...
+ "    [zeros(N-l,2+l),eye(N-l)]];"],l,l,l));
 endfor
 
 % Calculate overall A,B,C,D

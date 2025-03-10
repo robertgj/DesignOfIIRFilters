@@ -36,9 +36,9 @@ function [z,p,K,iter] = ...
 
   % Sanity checks
   if nargout<3 || nargout>4 || nargin<5 || nargin>10
-    print_usage("[z,p,K]=saramakiFAvLogNewton(n,m,fp,fs,dBap) \n\
-[z,p,K]=saramakiFAvLogNewton(n,m,fp,fs,dBap,dBas) \n\
-[z,p,K,iter]=saramakiFAvLogNewton(n,m,fp,fs,dBap,dBas,mu,maxiter,tol,verbose)");
+    print_usage(["[z,p,K]=saramakiFAvLogNewton(n,m,fp,fs,dBap) \n", ...
+ "[z,p,K]=saramakiFAvLogNewton(n,m,fp,fs,dBap,dBas) \n", ...
+ "[z,p,K,iter]=saramakiFAvLogNewton(n,m,fp,fs,dBap,dBas,mu,maxiter,tol,verbose)"]);
   endif
 
   % Sanity checks

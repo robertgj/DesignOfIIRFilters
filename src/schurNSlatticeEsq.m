@@ -37,8 +37,8 @@ function [Esq,gradEsq,diagHessEsq]=...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if nargout>3 || nargin~=12
-    print_usage("[Esq,gradEsq,diagHessEsq] = ...\n\
-      schurNSlatticeEsq(s10,s11,s20,s00,s02,s22,wa,Asqd,Wa,wt,Td,Wt)");
+    print_usage(["[Esq,gradEsq,diagHessEsq] = ...\n", ...
+ "      schurNSlatticeEsq(s10,s11,s20,s00,s02,s22,wa,Asqd,Wa,wt,Td,Wt)"]);
   endif
   if length(s10) ~= length(s11)
     error("length(s10) ~= length(s11)");
@@ -114,8 +114,8 @@ function [ErrorAsq,gradErrorAsq,diagHessErrorAsq]=...
            schurNSlatticeErrorAsq(s10,s11,s20,s00,s02,s22,wa,Asqd,Wa)
 
   if nargin~=9 || nargout>3 
-    print_usage("[ErrorAsq,gradErrorAsq,diagHessErrorAsq]=...\n\
-      schurNSlatticeErrorAsq(s10,s11,s20,s00,s02,s22,wa,Asqd,Wa)");
+    print_usage(["[ErrorAsq,gradErrorAsq,diagHessErrorAsq]=...\n", ...
+ "      schurNSlatticeErrorAsq(s10,s11,s20,s00,s02,s22,wa,Asqd,Wa)"]);
   endif
 
   % Make row vectors with a single column, 
@@ -182,8 +182,8 @@ function [ErrorT,gradErrorT,diagHessErrorT]=...
            schurNSlatticeErrorT(s10,s11,s20,s00,s02,s22,wt,Td,Wt)
 
   if nargin~=9 || nargout>3 
-    print_usage("[ErrorT,gradErrorT,diagHessErrorT]=...\n\
-      schurNSlatticeErrorT(s10,s11,s20,s00,s02,s22,wt,Td,Wt)");
+    print_usage(["[ErrorT,gradErrorT,diagHessErrorT]=...\n", ...
+ "      schurNSlatticeErrorT(s10,s11,s20,s00,s02,s22,wt,Td,Wt)"]);
   endif
 
   % Make row vectors with a single column, 

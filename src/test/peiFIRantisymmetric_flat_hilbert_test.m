@@ -21,8 +21,8 @@ plot(w*0.5/pi,20*log10(AM(:,5:5:M)));
 axis([0 0.5 -0.01 0.001])
 xlabel("Frequency");
 ylabel("Amplitude (dB)");
-tstr=sprintf("Amplitude responses of Pei and Wang maximally flat at \
-$\\omega=\\frac{\\pi}{2}$ Hilbert filters for M=5,10,...,%d",M);
+tstr=sprintf(["Amplitude responses of Pei and Wang maximally flat at ", ...
+ "$\\omega=\\frac{\\pi}{2}$ Hilbert filters for M=5,10,...,%d"],M);
 title(tstr);
 text(0.18,-0.002,"M=5")
 text(0.02,-0.002,"M=25")

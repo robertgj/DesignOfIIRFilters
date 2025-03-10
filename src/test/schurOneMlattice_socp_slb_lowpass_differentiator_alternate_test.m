@@ -160,8 +160,8 @@ else
   axis(ax(1),[0 0.5 0.004*[-1,1]]);
   axis(ax(2),[0 0.5 0.004*[-1,1]]);
 endif
-strP=sprintf("Differentiator PCLS error : \
-fap=%g,Arp=%g,fas=%g,Ars=%g,td=%g,tdr=%g,ppr=%g",fap,Arp,fas,Ars,td,tdr,ppr);
+strP=sprintf(["Differentiator PCLS error : ", ...
+ "fap=%g,Arp=%g,fas=%g,Ars=%g,td=%g,tdr=%g,ppr=%g"],fap,Arp,fas,Ars,td,tdr,ppr);
 title(strP);
 ylabel("Amplitude");
 grid("on");
@@ -225,8 +225,8 @@ fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
-eval(sprintf("save %s.mat ftol ctol n fap fas Arp Ars td tdr pp ppr \
-Wap Wat Was Wtp Wpp N0 D0 k0 epsilon0 p0 c0 k2 c2 N2 D2",strf));
+eval(sprintf(["save %s.mat ftol ctol n fap fas Arp Ars td tdr pp ppr ", ...
+ "Wap Wat Was Wtp Wpp N0 D0 k0 epsilon0 p0 c0 k2 c2 N2 D2"],strf));
 
 % Done
 toc;

@@ -155,8 +155,8 @@ for flat_delay=[false,true],
   % Plot phase response of polyphase parallel filters
     plot(wplot*0.5/pi,unwrap(arg(Ha0))+(wplot*R*ma), ...
          wplot*0.5/pi,unwrap(arg(Hb0))+(wplot*((R*mb)-1)));
-    strt=sprintf("Allpass phase response adjusted for linear phase : \
-ma=%d,mb=%d,td=%g", ma,mb,td);
+    strt=sprintf(["Allpass phase response adjusted for linear phase : ", ...
+ "ma=%d,mb=%d,td=%g"], ma,mb,td);
     title(strt);
     ylabel("Phase error(rad.)");
     xlabel("Frequency");

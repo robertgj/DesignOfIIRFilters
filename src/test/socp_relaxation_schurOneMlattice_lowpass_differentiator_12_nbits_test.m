@@ -275,9 +275,9 @@ printf("%d %d-bit adders used for coefficient multiplications\n",
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_kc_min_cost.tab"),"wt");
 fprintf(fid,"Exact & %9.7f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit(%s)& %9.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(%s)& %9.6f & %d & %d \\\\\n", ...
         nbits,ndigits,strItoLim,Esq0_sd,kc0_digits,kc0_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %9.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %9.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kc_digits,kc_adders);
 fclose(fid);
 
@@ -326,8 +326,9 @@ endfor
 axis(ax(1),[0 0.5 0.004*[-1,1]]);
 axis(ax(2),[0 0.5 0.02*[-1,1]]);
 ylabel("Amplitude error");
-strt=sprintf("Low-pass differentiator filter : \
-fap=%g,fas=%g,Arp=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g",fap,fas,Arp,Ars,tp,tpr,ppr);
+strt=sprintf(["Low-pass differentiator filter : ", ...
+              "fap=%g,fas=%g,Arp=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"], ...
+             fap,fas,Arp,Ars,tp,tpr,ppr);
 title(strt);
 grid("on");
 subplot(312);
@@ -387,12 +388,12 @@ fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi))\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
-eval(sprintf("save %s.mat \
-socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Lim \
-socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Ito \
-nbits ndigits ndigits_alloc k_allocsd_digits c_allocsd_digits \
-ftol ctol n fap Arp Wap Art Wat Ars Was tp tpr Wtp pp ppr Wpp \
-k0 epsilon0 c0 k0_sd c0_sd k_min c_min",strf));
+eval(sprintf(["save %s.mat ", ...
+ "socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Lim ", ...
+ "socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Ito ", ...
+ "nbits ndigits ndigits_alloc k_allocsd_digits c_allocsd_digits ", ...
+ "ftol ctol n fap Arp Wap Art Wat Ars Was tp tpr Wtp pp ppr Wpp ", ...
+ "k0 epsilon0 c0 k0_sd c0_sd k_min c_min"],strf));
 
 % Done 
 toc;

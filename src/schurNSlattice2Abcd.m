@@ -50,8 +50,8 @@ function [A,B,C,D,Cap,Dap,dAds,dBds,dCds,dDds,dCapds,dDapds]=...
 
   % Sanity checks
   if ((nargin~=4) && (nargin~=6)) || nargout<4
-    str1="[A,B,C,D,Cap,Dap,dAds,dBds,dCds,dDds,dCapds,dDapds]=...\n\
-  schurNSlattice2Abcd(s10,s11,s20,s00,s02,s22)"
+    str1=["[A,B,C,D,Cap,Dap,dAds,dBds,dCds,dDds,dCapds,dDapds]=...\n", ...
+ "  schurNSlattice2Abcd(s10,s11,s20,s00,s02,s22)"]
     str2="[A,B,C,D]=schurNSlattice2Abcd(s10,s11,s20,s00)";
     print_usage(sprintf("%s\n%s",str1,str2));
   endif

@@ -52,10 +52,10 @@ function [hM,socp_iter,func_iter,feasible]=...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin ~= 13) || (nargout ~= 4)
-    print_usage("[hM,socp_iter,func_iter,feasible]= ...\n\
-  sdp_relaxation_directFIRhilbert_mmsePW(vS,hM0,hM_delta,na, ...\n\
-                                         wa,Ad,Adu,Adl,Wa, ...\n\
-                                         maxiter,ftol,ctol,verbose)");
+    print_usage(["[hM,socp_iter,func_iter,feasible]= ...\n", ...
+ "  sdp_relaxation_directFIRhilbert_mmsePW(vS,hM0,hM_delta,na, ...\n", ...
+ "                                         wa,Ad,Adu,Adl,Wa, ...\n", ...
+ "                                         maxiter,ftol,ctol,verbose)"]);
   endif
 
   %

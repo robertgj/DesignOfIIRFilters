@@ -98,8 +98,8 @@ plot(wd*0.5/pi,abs(H)-abs(Hd.*Hzm1));
 axis([0 0.5 -0.04 0.04]);
 ylabel("Amplitude");
 grid("on");
-s=sprintf("Tarczynski et al. lowpass_differentiator error : \
-nN=%d,nD=%d,R=%d,tp=%g",
+s=sprintf(["Tarczynski et al. lowpass_differentiator error : ", ...
+ "nN=%d,nD=%d,R=%d,tp=%g"],
           nN,nD,R,tp);
 title(s);
 subplot(212);

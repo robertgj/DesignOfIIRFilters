@@ -51,8 +51,8 @@ function [Asq,gradAsq,diagHessAsq,hessAsq] = ...
   % Sanity checks
   %
   if (nargin ~= 6) || (nargout > 4) 
-    print_usage("[Asq,gradAsq,diagHessAsq,hessAsq] = ...\n\
-      schurOneMlatticePipelinedAsq(w,k,epsilon,c,kk,ck)");
+    print_usage(["[Asq,gradAsq,diagHessAsq,hessAsq] = ...\n", ...
+ "      schurOneMlatticePipelinedAsq(w,k,epsilon,c,kk,ck)"]);
   endif
   if length(k) ~= length(epsilon)
     error("length(k) ~= length(epsilon)");

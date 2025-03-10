@@ -17,8 +17,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 % Options
 use_best_branch_and_bound_found=true
 if use_best_branch_and_bound_found
-  warning("Reporting the best branch-and-bound filter found so far. \n\
-           Set \"use_best_branch_and_bound_found\"=false to re-run.");
+  warning(["Reporting the best branch-and-bound filter found so far. \n", ...
+ "           Set \"use_best_branch_and_bound_found\"=false to re-run."]);
 endif
 enforce_pcls_constraints_on_final_filter=true
 branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim=false
@@ -458,8 +458,8 @@ legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strt=sprintf("Parallel one-multplier allpass lattice bandpass filter stop-band\
-(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,ndigits,fasl,fasu,dBas);
+strt=sprintf(["Parallel one-multplier allpass lattice bandpass filter stop-band", ...
+ "(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g"],nbits,ndigits,fasl,fasu,dBas);
 title(strt);
 axis([0, 0.5, -70, -20]);
 grid("on");
@@ -472,8 +472,8 @@ plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strt=sprintf("Parallel one-multplier allpass lattice bandpass filter pass-band\
-(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,ndigits,fapl,fapu,dBap);
+strt=sprintf(["Parallel one-multplier allpass lattice bandpass filter pass-band", ...
+ "(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g"],nbits,ndigits,fapl,fapu,dBap);
 title(strt);
 axis([fapl fapu -3, 1]);
 legend("exact","s-d(Ito)","s-d(b-and-b)");
@@ -490,8 +490,8 @@ plot(wt*0.5/pi,T_k0,"linestyle","-", ...
      wt*0.5/pi,T_kmin,"linestyle","-.");
 ylabel("Delay(samples)");
 xlabel("Frequency");
-strt=sprintf("Parallel one-multplier allpass lattice bandpass filter pass-band\
-(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g,tdr=%g",nbits,ndigits,ftpl,ftpu,tdr);
+strt=sprintf(["Parallel one-multplier allpass lattice bandpass filter pass-band", ...
+ "(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g,tdr=%g"],nbits,ndigits,ftpl,ftpu,tdr);
 title(strt);
 axis([ftpl ftpu, td-tdr, td+tdr]);
 legend("exact","s-d(Ito)","s-d(b-and-b)");
@@ -508,10 +508,10 @@ fprintf(fid,"use_best_branch_and_bound_found=%d\n", ...
         use_best_branch_and_bound_found);
 fprintf(fid,"enforce_pcls_constraints_on_final_filter=%d\n", ...
         enforce_pcls_constraints_on_final_filter);
-fprintf(fid,"branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim\
-=%d\n",branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim);
-fprintf(fid,"branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito\
-=%d\n",branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito);
+fprintf(fid,["branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim", ...
+ "=%d\n"],branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim);
+fprintf(fid,["branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito", ...
+ "=%d\n"],branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito);
 fprintf(fid,"nbits=%d %% Coefficient word length\n",nbits);
 fprintf(fid,"ndigits=%d %% Average number of signed digits per coef.\n",ndigits);
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
@@ -540,17 +540,17 @@ fprintf(fid,"Wtp=%d %% Pass band group-delay response weight\n",Wtp);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat use_best_branch_and_bound_found \
-enforce_pcls_constraints_on_final_filter \
-branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim \
-branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito \
-A1k_allocsd_digits A2k_allocsd_digits \
-n m1 m2 difference tol ctol rho \
-fapl fapu dBap Wap Watl Watu \
-fasl fasu dBas Wasl Wasu \
-ftpl ftpu td tdr Wtp \
-A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 \
-A1k_min A1epsilon_min A2k_min A2epsilon_min",strf));
+eval(sprintf(["save %s.mat use_best_branch_and_bound_found ", ...
+ "enforce_pcls_constraints_on_final_filter ", ...
+ "branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim ", ...
+ "branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito ", ...
+ "A1k_allocsd_digits A2k_allocsd_digits ", ...
+ "n m1 m2 difference tol ctol rho ", ...
+ "fapl fapu dBap Wap Watl Watu ", ...
+ "fasl fasu dBas Wasl Wasu ", ...
+ "ftpl ftpu td tdr Wtp ", ...
+ "A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ", ...
+ "A1k_min A1epsilon_min A2k_min A2epsilon_min"],strf));
 
 % Done
 toc;

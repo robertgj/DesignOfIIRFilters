@@ -44,8 +44,8 @@ function [cost,hM,svec_out]= ...
     svec=hM0.*nscale;
     init_done=true;
   elseif nargin ~= 1
-    print_usage("[cost,hM,svec_out] = ...\n\
-      directFIRsymmetric_cost(svec[,waf,Adf,Waf,hM0,nbits,ndigits])");
+    print_usage(["[cost,hM,svec_out] = ...\n", ...
+ "      directFIRsymmetric_cost(svec[,waf,Adf,Waf,hM0,nbits,ndigits])"]);
   elseif init_done==false
     error("init_done==false");
   endif
@@ -211,8 +211,8 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 axis([0 0.5 -60 10]);
 grid("on");
-strt=sprintf("Bandpass direct-form symmetric FIR, nbits=%d,bitstart=%d,\
-msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
+strt=sprintf(["Bandpass direct-form symmetric FIR, nbits=%d,bitstart=%d,", ...
+ "msize=%d,ndigits=%d"],nbits,bitstart,msize,ndigits);
 title(strt);
 legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
 legend("location","northeast");
@@ -231,8 +231,8 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-strt=sprintf("Bandpass direct-form symmetric FIR, nbits=%d,bitstart=%d,\
-msize=%d,ndigits=%d, Lim and Ito SD allocation",nbits,bitstart,msize,ndigits);
+strt=sprintf(["Bandpass direct-form symmetric FIR, nbits=%d,bitstart=%d,", ...
+ "msize=%d,ndigits=%d, Lim and Ito SD allocation"],nbits,bitstart,msize,ndigits);
 title(strt);
 legend("exact","signed-digit (Lim)","bitflip(s-d Lim)","signed-digit (Ito)", ...
        "bitflip(s-d Ito)");
@@ -271,8 +271,8 @@ print_polynomial(hM_bfsdi,"hM_bfsdi",enscale);
 print_polynomial(hM_bfsdi,"hM_bfsdi",strcat(strf,"_hM_bfsdi_coef.m"),enscale);
 
 % Save the results
-eval(sprintf("save %s.mat \
-hM_ex hM_rd hM_bf hM_sd hM_bfsd hM_sdl hM_bfsdl hM_sdi hM_bfsdi", strf));
+eval(sprintf(["save %s.mat ", ...
+ "hM_ex hM_rd hM_bf hM_sd hM_bfsd hM_sdl hM_bfsdl hM_sdi hM_bfsdi"], strf));
 
 % Done
 diary off

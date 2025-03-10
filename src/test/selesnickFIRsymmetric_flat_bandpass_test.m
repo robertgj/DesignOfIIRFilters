@@ -18,8 +18,8 @@ tol=1e-9;
 
 % Specification
 N=55;L=16;deltasl=1e-2;deltasu=2e-2;fp=0.2;ft=0.04;
-strt=sprintf("Selesnick-Burrus Hofstetter flat band-pass FIR: \
-N=%d,L=%d,$\\delta_{sl}$=%g,$\\delta_{su}$=%g,fp=%g,ft=%g", ...
+strt=sprintf(["Selesnick-Burrus Hofstetter flat band-pass FIR: ", ...
+ "N=%d,L=%d,$\\delta_{sl}$=%g,$\\delta_{su}$=%g,fp=%g,ft=%g"], ...
              N,L,deltasl,deltasu,fp,ft);
 
 %
@@ -53,8 +53,8 @@ axis([0 0.5 -50 1]);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
-strt=sprintf("Selesnick-Burrus flat band-pass FIR : \
-N=%d,L=%d,$\\delta_{sl}$=%g,$\\delta_{su}$=%g",N,L,deltasl,deltasu);
+strt=sprintf(["Selesnick-Burrus flat band-pass FIR : ", ...
+ "N=%d,L=%d,$\\delta_{sl}$=%g,$\\delta_{su}$=%g"],N,L,deltasl,deltasu);
 title(strt);
 print(strcat(strf,"_response"),"-dpdflatex");
 close

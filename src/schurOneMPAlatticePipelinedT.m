@@ -48,11 +48,11 @@ function [T,gradT,diagHessT,hessT]=schurOneMPAlatticePipelinedT ...
   % Sanity checks
   %
   if ((nargin ~= 7) && (nargin ~= 8)) || (nargout > 4) 
-    print_usage("[T,gradT,diagHessT,hessT]= ...\n\
-  schurOneMPAlatticePipelinedT(w,A1k,A1epsilon,A1kk,A2k,A2epsilon,A2kk) \n\
-[T,gradT,diagHessT,hessT] = ...\n\
-  schurOneMPAlatticePipelinedT(w,A1k,A1epsilon,A1p, ...\n\
-                               A2kk,A2epsilon,A2kk,difference)");
+    print_usage(["[T,gradT,diagHessT,hessT]= ...\n", ...
+ "  schurOneMPAlatticePipelinedT(w,A1k,A1epsilon,A1kk,A2k,A2epsilon,A2kk) \n", ...
+ "[T,gradT,diagHessT,hessT] = ...\n", ...
+ "  schurOneMPAlatticePipelinedT(w,A1k,A1epsilon,A1p, ...\n", ...
+ "                               A2kk,A2epsilon,A2kk,difference)"]);
   endif
   if nargin == 7
     difference = false;

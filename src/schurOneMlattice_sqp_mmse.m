@@ -71,12 +71,12 @@ function [k,c,sqp_iter,func_iter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin ~= 33) || (nargout ~= 5)
-    print_usage("[k,c,sqp_iter,func_iter,feasible]= ...\n\
-      schurOneMlattice_sqp_mmse(vS,k0,epsilon0,p0,c0, ...\n\
-                                kc_u,kc_l,kc_active,dmax, ...\n\
-                                wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                                wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...\n\
-                                maxiter,ftol,ctol,verbose)");
+    print_usage(["[k,c,sqp_iter,func_iter,feasible]= ...\n", ...
+ "      schurOneMlattice_sqp_mmse(vS,k0,epsilon0,p0,c0, ...\n", ...
+ "                                kc_u,kc_l,kc_active,dmax, ...\n", ...
+ "                                wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n", ...
+ "                                wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...\n", ...
+ "                                maxiter,ftol,ctol,verbose)"]);
   endif
 
   %
@@ -283,10 +283,10 @@ function [E,gradE,hessE,func_iter] = schurOneMlattice_sqp_mmse_fx ...
       error("init_done==false");
     endif
   else
-    print_usage("[E,gradE,hessE] = schurOneMlattice_sqp_mmse_fx(xkc);\n\
-schurOneMlattice_sqp_mmse_fx(xkc0,k0,epsilon0,p0,c0,kc_active, ...\n\
-                             wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);\n\
-[~,~,~,func_iter] = schurOneMlattice_sqp_mmse_fx(xkc);");
+    print_usage(["[E,gradE,hessE] = schurOneMlattice_sqp_mmse_fx(xkc);\n", ...
+ "schurOneMlattice_sqp_mmse_fx(xkc0,k0,epsilon0,p0,c0,kc_active, ...\n", ...
+ "                             wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);\n", ...
+ "[~,~,~,func_iter] = schurOneMlattice_sqp_mmse_fx(xkc);"]);
   endif
 
   % Initialise k and c
@@ -353,10 +353,10 @@ function [gx,B]=...
       error("init_done==false");
     endif
   else
-    print_usage("[gx,B] = schurOneMlattice_sqp_mmse_gx(kc); \n\
-schurOneMlattice_sqp_mmse_gx(xkc,vS,k0,epsilon0,p0,c0,kc_active, ...\n\
-                             wa,Asqdu,Asqdl,wt,Tdu,Tdl, ...\n\
-                             wp,Pdu,Pdl,wd,Ddu,Ddl,ctol,verbose)");
+    print_usage(["[gx,B] = schurOneMlattice_sqp_mmse_gx(kc); \n", ...
+ "schurOneMlattice_sqp_mmse_gx(xkc,vS,k0,epsilon0,p0,c0,kc_active, ...\n", ...
+ "                             wa,Asqdu,Asqdl,wt,Tdu,Tdl, ...\n", ...
+ "                             wp,Pdu,Pdl,wd,Ddu,Ddl,ctol,verbose)"]);
   endif
 
   % Do nothing

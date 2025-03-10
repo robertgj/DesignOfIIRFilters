@@ -25,8 +25,8 @@ M=200;fap=0.1;fas=0.11;Kp=1;Ks=0;etap=0;etas=0.0001;
 %
 % Plot response
 %
-strt=sprintf("Selesnick-Burrus Parks-McClellan lowpass FIR: \
-M=%d,fap=%g,fas=%g,$K\_p$=%g,$K\_s$=%g,$\\eta\_p$=%g,$\\eta\_s$=%g", ...
+strt=sprintf(["Selesnick-Burrus Parks-McClellan lowpass FIR: ", ...
+ "M=%d,fap=%g,fas=%g,$K\_p$=%g,$K\_s$=%g,$\\eta\_p$=%g,$\\eta\_s$=%g"], ...
              M,fap,fas,Kp,Ks,etap,etas);
 nplot=4000;
 wa=(0:(nplot-1))'*pi/nplot;

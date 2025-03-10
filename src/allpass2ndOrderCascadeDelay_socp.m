@@ -59,8 +59,8 @@ function [ak,socp_iter,func_iter,feasible]= ...
 % Sanity checks
 %
 if nargin ~= 10
-  print_usage("[ak,socp_iter,func_iter,feasible]= ...\n\
-  allpass2ndOrderCascadeDelay_socp(a0,D,tau,wa,Ad,Wa,resp,maxiter,tol,verbose)");
+  print_usage(["[ak,socp_iter,func_iter,feasible]= ...\n", ...
+ "  allpass2ndOrderCascadeDelay_socp(a0,D,tau,wa,Ad,Wa,resp,maxiter,tol,verbose)"]);
 endif
 if isempty(wa)
   error("wa is emtpy");

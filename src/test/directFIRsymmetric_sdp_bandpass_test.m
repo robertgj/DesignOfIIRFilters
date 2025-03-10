@@ -307,12 +307,12 @@ for M=[15,30,80],
     ylabel("Amplitude");
   endif
   if show_dB
-    strt=sprintf("Tuan band-pass FIR : \
-M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g,Wap=%g", ...
+    strt=sprintf(["Tuan band-pass FIR : ", ...
+ "M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g,Wap=%g"], ...
                  M,fasl,fapl,fapu,fasu,dBap,dBas,Wap);
   else
-    strt=sprintf("Tuan band-pass FIR : \
-M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g,Wap=%g", ...
+    strt=sprintf(["Tuan band-pass FIR : ", ...
+ "M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g,Wap=%g"], ...
                  M,fasl,fapl,fapu,fasu,deltap,deltas,Wap);
   endif
   title(strt);
@@ -416,8 +416,8 @@ M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g,Wap=%g", ...
   print_polynomial(hM,sprintf("hM%2d",M));
   print_polynomial(hM,sprintf("hM%2d",M),sprintf("%s_hM%2d_coef.m",strf,M));
 
-  eval(sprintf("save %s_hM%2d.mat M nplot fasl fapl fapu fasu dBap dBas \
-Wasl Watl Wap Watu Wasu hM",strf,M));
+  eval(sprintf(["save %s_hM%2d.mat M nplot fasl fapl fapu fasu dBap dBas ", ...
+ "Wasl Watl Wap Watu Wasu hM"],strf,M));
 endfor
 
 % Done

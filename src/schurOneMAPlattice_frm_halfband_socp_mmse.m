@@ -66,11 +66,11 @@ function [k,u,v,socp_iter,func_iter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin ~= 26) || (nargout ~= 6)
-    print_usage("[k,u,v,socp_iter,func_iter,feasible]= ...\n\
-      schurOneMAPlattice_frm_halfband_socp_mmse(vS,k0,epsilon0,p0,u0,v0, ...\n\
-             Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...\n\
-             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-             maxiter,ftol,ctol,verbose)");
+    print_usage(["[k,u,v,socp_iter,func_iter,feasible]= ...\n", ...
+ "      schurOneMAPlattice_frm_halfband_socp_mmse(vS,k0,epsilon0,p0,u0,v0, ...\n", ...
+ "             Mmodel,Dmodel,kuv_u,kuv_l,kuv_active,dmax, ...\n", ...
+ "             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n", ...
+ "             maxiter,ftol,ctol,verbose)"]);
   endif
 
   %

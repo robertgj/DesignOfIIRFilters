@@ -90,8 +90,8 @@ if feasible == 0
 endif
 
 % Plot MMSE
-strt=sprintf("MMSE x1: \
-fap=%g,dBap=%f,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g", ...
+strt=sprintf(["MMSE x1: ", ...
+ "fap=%g,dBap=%f,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g"], ...
              fap,dBap,Wap,fas,dBas,Was,ftp,tp,Wtp);
 showZPplot(x1,U,V,M,Q,R,strt);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
@@ -117,8 +117,8 @@ if feasible == 0
 endif
 
 % Plot PCLS
-strt=sprintf("PCLS d1 : \
-fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,tpr=%g,Wtp=%g", ...
+strt=sprintf(["PCLS d1 : ", ...
+ "fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,tpr=%g,Wtp=%g"], ...
              fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
 showZPplot(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
@@ -177,8 +177,8 @@ print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
-eval(sprintf("save %s.mat U V M Q R ftol ctol \
-fap dBap Wap fas dBas Was ftp tp tpr Wtp d1",strf));
+eval(sprintf(["save %s.mat U V M Q R ftol ctol ", ...
+ "fap dBap Wap fas dBas Was ftp tp tpr Wtp d1"],strf));
 
 % Done
 toc

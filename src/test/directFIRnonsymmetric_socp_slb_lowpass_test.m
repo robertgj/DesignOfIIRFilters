@@ -102,8 +102,8 @@ plot(wa*0.5/pi,10*log10(Asq_mmse));
 axis([0 0.5 -50 5]);
 grid("on");
 ylabel("Amplitude(dB)");
-strt=sprintf("Nonsymmetric FIR MMSE low pass : \
-N=%d,fap=%4.2f,ftp=%5.3f,td=%d,fas=%4.2f",N,fap,ftp,td,fas);
+strt=sprintf(["Nonsymmetric FIR MMSE low pass : ", ...
+ "N=%d,fap=%4.2f,ftp=%5.3f,td=%d,fas=%4.2f"],N,fap,ftp,td,fas);
 title(strt);
 subplot(212)
 plot(wa*0.5/pi,T_mmse);
@@ -133,8 +133,8 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 axis([0 0.5 -50 5]);
 grid("on");
-strt=sprintf("Nonsymmetric FIR low pass : \
-N=%d,fap=%4.2f,dBap=%d,ftp=%5.3f,td=%d,fas=%4.2f,dBas=%d", ...
+strt=sprintf(["Nonsymmetric FIR low pass : ", ...
+ "N=%d,fap=%4.2f,dBap=%d,ftp=%5.3f,td=%d,fas=%4.2f,dBas=%d"], ...
              N,fap,dBap,ftp,td,fas,dBas);
 title(strt);
 print(strcat(strf,"_response"),"-dpdflatex");
@@ -146,8 +146,8 @@ plot(wa*0.5/pi,10*log10(Asq));
 axis([0 fap -dBap 0.2]);
 grid("on");
 ylabel("Amplitude(dB)");
-strt=sprintf("Nonsymmetric FIR low pass pass band : \
-N=%d,fap=%4.2f,dBap=%d,ftp=%5.3f,td=%d,tdr=%d",N,fap,dBap,ftp,td,tdr);
+strt=sprintf(["Nonsymmetric FIR low pass pass band : ", ...
+ "N=%d,fap=%4.2f,dBap=%d,ftp=%5.3f,td=%d,tdr=%d"],N,fap,dBap,ftp,td,tdr);
 title(strt);
 subplot(212)
 plot(wt*0.5/pi,T);
@@ -196,8 +196,8 @@ fclose(fid);
 printf("h=[ ");printf("%g ",h');printf("]';\n");
 print_polynomial(h,"h",strcat(strf,"_h_coef.m"),"%12.8f");
 
-eval(sprintf("save %s.mat ftol ctol n \
-fap dBap Wap Wat fas dBas Was ftp td tdr Wtp h0 h",strf));
+eval(sprintf(["save %s.mat ftol ctol n ", ...
+ "fap dBap Wap Wat fas dBas Was ftp td tdr Wtp h0 h"],strf));
        
 % Done
 toc;

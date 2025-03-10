@@ -49,8 +49,8 @@ function [Asq,P,T,gradAsq,gradP,gradT] = ...
   % Sanity checks
   %
   if (nargin ~= 8) || (nargout > 6)
-    print_usage("[Asq,P,T,gradAsq,gradP,gradT]= ...\n\
-      schurOneMAPlattice_frm(w,k,epsilon,p,u,v,Mmodel,Dmodel);")
+    print_usage(["[Asq,P,T,gradAsq,gradP,gradT]= ...\n", ...
+ "      schurOneMAPlattice_frm(w,k,epsilon,p,u,v,Mmodel,Dmodel);"])
   endif
   if length(u) ~= length(v)
     error("length(u) ~= length(v)");

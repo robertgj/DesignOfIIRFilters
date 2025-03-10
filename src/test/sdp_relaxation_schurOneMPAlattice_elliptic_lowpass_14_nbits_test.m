@@ -304,8 +304,8 @@ plot(wa*0.5/pi,10*log10(abs(Asq_k0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([fap, 0.5, -100, -40]);
-strt=sprintf("Parallel allpass lattice elliptic lowpass filter stop-band \
-(nbits=%d,ndigits=%d) : fas=%g",nbits,ndigits,fas);
+strt=sprintf(["Parallel allpass lattice elliptic lowpass filter stop-band ", ...
+ "(nbits=%d,ndigits=%d) : fas=%g"],nbits,ndigits,fas);
 title(strt);
 legend("Initial","s-d","s-d(SDP)","s-d(min)");
 legend("location","northeast");
@@ -323,8 +323,8 @@ plot(wa*0.5/pi,10*log10(abs(Asq_k0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0, fas, -0.10, 0.02]);
-strt=sprintf("Parallel allpass lattice elliptic lowpass filter pass-band \
-amplitude nbits=%d,ndigits=%d) : fap=%g",nbits,ndigits,fap);
+strt=sprintf(["Parallel allpass lattice elliptic lowpass filter pass-band ", ...
+ "amplitude nbits=%d,ndigits=%d) : fap=%g"],nbits,ndigits,fap);
 title(strt);
 legend("Initial","s-d","s-d(SDP)","s-d(min)");
 legend("location","southwest");
@@ -377,8 +377,8 @@ legend("Initial","s-d","s-d(SDP)","s-d(min)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
-strt=sprintf("Parallel allpass lattice elliptic lowpass filter \
-amplitude nbits=%d,ndigits=%d) : fap=%g, fas=%g",nbits,ndigits,fap,fas);
+strt=sprintf(["Parallel allpass lattice elliptic lowpass filter ", ...
+ "amplitude nbits=%d,ndigits=%d) : fap=%g, fas=%g"],nbits,ndigits,fap,fas);
 title(strt);
 grid("on");
 print(strcat(strf,"_dual"),"-dpdflatex"); 
@@ -387,8 +387,8 @@ close
 % Plot coefficient histories
 plot(0:length(k0),([k0,k_hist]-k0)'*nscale);
 axis([0 length(k0)]);
-title(sprintf("Parallel allpass lattice elliptic lowpass filter : \
-%d bit %d signed-digit coefficient difference from exact", nbits,ndigits));
+title(sprintf(["Parallel allpass lattice elliptic lowpass filter : ", ...
+ "%d bit %d signed-digit coefficient difference from exact"], nbits,ndigits));
 xlabel("Relaxation step");
 ylabel("Bits difference from exact");
 str_active=sprintf("The coefficients [A1k,A2k] were fixed in the order : %d",
@@ -420,9 +420,9 @@ fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc n \
-fap dBap Wap fas dBas Was A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 \
-A1k0_sd A2k0_sd A1k0_sd_sdp A2k0_sd_sdp A1k0_sd_min A2k0_sd_min",strf));
+eval(sprintf(["save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc n ", ...
+ "fap dBap Wap fas dBas Was A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ", ...
+ "A1k0_sd A2k0_sd A1k0_sd_sdp A2k0_sd_sdp A1k0_sd_min A2k0_sd_min"],strf));
 
 % Done
 toc;

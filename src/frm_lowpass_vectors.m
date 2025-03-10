@@ -60,9 +60,9 @@ function [wpass,Hpass,Wpass,wstop,Hstop,Wstop,fadp,fads,faap,faas,facp,facs]=...
 
   % Sanity checks
   if (nargin ~= 13) || (nargout ~= 12)
-    print_usage("[wpass,Apass,Wpass,wstop,Astop,Wstop, ...\n\
-    fadp,fads,faap,faas,facp,facs]=frm_lowpass_vectors(n,M,D,d,...\n\
-    fpass,fstop,dBas,Wap,Wapextra,Wasextra,Was,edge_factor,edge_ramp")
+    print_usage(["[wpass,Apass,Wpass,wstop,Astop,Wstop, ...\n", ...
+ "    fadp,fads,faap,faas,facp,facs]=frm_lowpass_vectors(n,M,D,d,...\n", ...
+ "    fpass,fstop,dBas,Wap,Wapextra,Wasextra,Was,edge_factor,edge_ramp"])
   endif
 
   % Model and masking filter edge frequencies

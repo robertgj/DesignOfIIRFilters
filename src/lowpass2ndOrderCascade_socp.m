@@ -66,9 +66,9 @@ function [x1,socp_iter,feasible]=lowpass2ndOrderCascade_socp ...
 
 % Sanity checks
 if nargin ~= 12
-  print_usage("[x1,E,socp_iter,feasible]= ...\n\
-  lowpass2ndOrderCascade_socp(x0,tau,w,Hd,W,npass,nstop,resp,limit_cycle, ...\n\
-                              maxiter,tol,verbose)");
+  print_usage(["[x1,E,socp_iter,feasible]= ...\n", ...
+ "  lowpass2ndOrderCascade_socp(x0,tau,w,Hd,W,npass,nstop,resp,limit_cycle, ...\n", ...
+ "                              maxiter,tol,verbose)"]);
 endif
 if all(isfield(x0,{"a","d"}))==false
   error("field missing from x0");

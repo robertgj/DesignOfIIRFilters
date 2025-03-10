@@ -33,9 +33,9 @@ function [Z,P,K,dBas,iter] = ...
 
   % Sanity checks
   if nargout<3 || nargout>5 || nargin<5 || nargin>8
-    print_usage("[Z,P,K,dBas,iter]=saramakiFBvNewton(n,m,fp,fs,dBap, ...\n\
-                                        maxiter,tol,verbose)\n\
-[Z,P,K,dBas,iter]=saramakiFBvNewton(n,m,fp,fs,dBap)");
+    print_usage(["[Z,P,K,dBas,iter]=saramakiFBvNewton(n,m,fp,fs,dBap, ...\n", ...
+ "                                        maxiter,tol,verbose)\n", ...
+ "[Z,P,K,dBas,iter]=saramakiFBvNewton(n,m,fp,fs,dBap)"]);
   endif
 
   % Sanity checks

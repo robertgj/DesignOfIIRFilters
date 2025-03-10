@@ -43,9 +43,9 @@ function [Asq,gradAsq,diagHessAsq,hessAsq] = ...
 % Sanity checks
 %
 if (nargin ~= 6) || (nargout > 4) 
-  print_usage("[Asq,gradAsq,diagHessAsq,hessAsq]= ...\n\
-    schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq ...\n\
-      (w,A1k,A2k,difference,B1k,B2k)\n");
+  print_usage(["[Asq,gradAsq,diagHessAsq,hessAsq]= ...\n", ...
+ "    schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq ...\n", ...
+ "      (w,A1k,A2k,difference,B1k,B2k)\n"]);
 endif
 if length(w) == 0
   Asq=[]; gradAsq=[]; diagHessAsq=[]; hessAsq=[];

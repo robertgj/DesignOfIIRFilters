@@ -45,10 +45,10 @@ function [P,gradP,diagHessP,hessP] = ...
 % Sanity checks
 %
 if ((nargin ~= 3) && (nargin ~= 4)) || (nargout > 4) 
-  print_usage("[P,gradP,diagHessP,hessP]= ...\n\
-    schurOneMPAlatticeDoublyPipelinedP(w,A1k,A2k)\n\
-[P,gradP,diagHessP,hessP]= ...\n\
-      schurOneMPAlatticeDoublyPipelinedP(w,A1k,A2k,difference)");
+  print_usage(["[P,gradP,diagHessP,hessP]= ...\n", ...
+ "    schurOneMPAlatticeDoublyPipelinedP(w,A1k,A2k)\n", ...
+ "[P,gradP,diagHessP,hessP]= ...\n", ...
+ "      schurOneMPAlatticeDoublyPipelinedP(w,A1k,A2k,difference)"]);
 endif
 if nargin == 3
   difference=false;

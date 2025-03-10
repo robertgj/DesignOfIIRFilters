@@ -47,8 +47,8 @@ function [cost,k,svec_out] = ...
     svec=k0.*nscale;
     init_done=true;
   elseif nargin ~= 1
-    print_usage("[cost,k,svec_out] = ...\n\
-      schurFIRlattice_cost(svec[,Ad,Wa,k0,gain,nbits,ndigits])");
+    print_usage(["[cost,k,svec_out] = ...\n", ...
+ "      schurFIRlattice_cost(svec[,Ad,Wa,k0,gain,nbits,ndigits])"]);
   elseif init_done==false
     error("init_done==false");
   endif
@@ -122,8 +122,8 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-strt=sprintf("Bandpass Schur FIR lattice,nbits=%d,bitstart=%d,\
-msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
+strt=sprintf(["Bandpass Schur FIR lattice,nbits=%d,bitstart=%d,", ...
+ "msize=%d,ndigits=%d"],nbits,bitstart,msize,ndigits);
 title(strt);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close

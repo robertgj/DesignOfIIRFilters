@@ -31,10 +31,10 @@ function [A,gradA]=directFIRsymmetricA(wa,hM,order)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargout > 2) || ((nargin ~= 2) && (nargin~=3))
-    print_usage("A=directFIRsymmetricA(wa,hM)\n\
-[A,gradA]=directFIRsymmetricA(wa,hM)\n\
-A=directFIRsymmetricA(wa,hM,order)\n\
-[A,gradA]=directFIRsymmetricA(wa,hM,order)");
+    print_usage(["A=directFIRsymmetricA(wa,hM)\n", ...
+ "[A,gradA]=directFIRsymmetricA(wa,hM)\n", ...
+ "A=directFIRsymmetricA(wa,hM,order)\n", ...
+ "[A,gradA]=directFIRsymmetricA(wa,hM,order)"]);
   endif
   if nargin==2
     order="even";

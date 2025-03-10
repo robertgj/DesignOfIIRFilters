@@ -29,9 +29,9 @@ function [next_vR,next_vS,exchanged] = ...
 
   % Sanity checks
   if (nargin ~= 12) || (nargout ~= 3)
-    print_usage("[next_vR,next_vS,exchanged]= ...\n\
-  directFIRnonsymmetric_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl, ...\n\
-                                                 T,Tdu,Tdl,P,Pdu,Pdl,ctol)");
+    print_usage(["[next_vR,next_vS,exchanged]= ...\n", ...
+ "  directFIRnonsymmetric_slb_exchange_constraints(vS,vR,Asq,Asqdu,Asqdl, ...\n", ...
+ "                                                 T,Tdu,Tdl,P,Pdu,Pdl,ctol)"]);
   endif
   if all(isfield(vS,{"al","au","tl","tu","pl","pu"})) == false
     error("Expect fields vS.al, vS.au, vS.tl, vS.tu, vS.pl and vS.pu");

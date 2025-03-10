@@ -109,9 +109,9 @@ function [cost,a11,a12,a21,a22,b1,b2,c1,c2,dd,svecnz_out] = ...
     svecnz=svecnz(:);
     init_done=true;
   elseif (nargin~=1) && (nargin~=2)
-    print_usage("[cost,a11,a12,a21,a22,b1,b2,c1,c2,dd,svecnz_out] = ... \n\
-  svcasc_cost(svecnz,Ad,Wa,Td,Wt,a11,a12,a21,a22,b1,b2,c1,c2,dd, ...\n\
-              nbits,ndigits,max_cost)");
+    print_usage(["[cost,a11,a12,a21,a22,b1,b2,c1,c2,dd,svecnz_out] = ... \n", ...
+ "  svcasc_cost(svecnz,Ad,Wa,Td,Wt,a11,a12,a21,a22,b1,b2,c1,c2,dd, ...\n", ...
+ "              nbits,ndigits,max_cost)"]);
   elseif init_done==false
     error("init_done==false");
   endif

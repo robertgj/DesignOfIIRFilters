@@ -42,8 +42,8 @@ function [P, gradP]=parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb, ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin ~= 8) && (nargin ~= 9) && (nargin ~= 10)
-    print_usage("[P,gradP]= ...\n\
-      parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference)");
+    print_usage(["[P,gradP]= ...\n", ...
+ "      parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference)"]);
   endif
   if nargin == 8
     polyphase = false;

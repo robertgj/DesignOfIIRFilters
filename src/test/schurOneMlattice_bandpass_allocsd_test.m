@@ -275,8 +275,8 @@ for ndigits=2:3
        nbits_range,nbits_sidelobe_sd,"linestyle","-.", ... 
        nbits_range,nbits_sidelobe_Lim,"linestyle","--", ...
        nbits_range,nbits_sidelobe_Ito,"linestyle","-")
-  strt=sprintf("Bandpass one-multiplier lattice maximum response \
-in [%4.2f,0.5) (dB), ndigits=%d",fasuu,ndigits);
+  strt=sprintf(["Bandpass one-multiplier lattice maximum response ", ...
+ "in [%4.2f,0.5) (dB), ndigits=%d"],fasuu,ndigits);
   title(strt);
   xlabel("bits");
   ylabel("Maximum response(dB)");
@@ -294,8 +294,8 @@ in [%4.2f,0.5) (dB), ndigits=%d",fasuu,ndigits);
        nbits_range,nbits_kc_sd_digits,"linestyle","-.", ... 
        nbits_range,nbits_kc_digits_Lim,"linestyle","--",...
        nbits_range,nbits_kc_digits_Ito,"linestyle","-")
-  strt=sprintf("Bandpass one-multiplier lattice total signed-digits \
-used by coefficients, ndigits=%d",ndigits);
+  strt=sprintf(["Bandpass one-multiplier lattice total signed-digits ", ...
+ "used by coefficients, ndigits=%d"],ndigits);
   title(strt);
   xlabel("bits");
   ylabel("Total signed-digits used by coefficients");

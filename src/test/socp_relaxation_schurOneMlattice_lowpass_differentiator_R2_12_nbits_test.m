@@ -478,8 +478,8 @@ endfor
 axis(ax(1),[0  0.5 0.004*[-1,1]]);
 axis(ax(2),[0  0.5 0.01*[-1,1]]);
 ylabel("Amplitude error");
-strt=sprintf("Low-pass differentiator filter : \
-fap=%g,fas=%g,Arp=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g",fap,fas,Arp,Ars,tp,tpr,ppr);
+strt=sprintf(["Low-pass differentiator filter : ", ...
+ "fap=%g,fas=%g,Arp=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,fas,Arp,Ars,tp,tpr,ppr);
 title(strt);
 grid("on");
 subplot(312);
@@ -514,8 +514,8 @@ plot(wd*0.5/pi,dCsqdw_kc0-Cd,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("dCsqdw error");
 axis([0 fdp cpr*[-1,1]]);
-strt=sprintf("Schur one-multiplier lattice lowpass differentiator correction \
-filter : nbits=%d,fap=%g,fas=%g,Arp=%g,Ars=%g",nbits,fap,fas,Arp,Ars);
+strt=sprintf(["Schur one-multiplier lattice lowpass differentiator correction ", ...
+ "filter : nbits=%d,fap=%g,fas=%g,Arp=%g,Ars=%g"],nbits,fap,fas,Arp,Ars);
 title(strt);
 legend("exact","s-d","s-d(Lim)","s-d(BandB)");
 legend("location","northeast");
@@ -566,12 +566,12 @@ fprintf(fid, ...
 fprintf(fid,"Wdp=%g %% Correction filter dAsqdw pass band weight\n",Wdp);
 fclose(fid);
 
-eval(sprintf("save %s.mat \
-socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Lim \
-socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Ito \
-nbits ndigits ndigits_alloc k_allocsd_digits c_allocsd_digits \
-ftol ctol n fap Arp Wap Art Wat fas Ars Was ftp tp tpr Wtp fpp pp ppr Wpp \
-fdp cpr Wdp k0 epsilon0 c0 k0_sd c0_sd k_min c_min N_min D_min",strf));
+eval(sprintf(["save %s.mat ", ...
+ "socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Lim ", ...
+ "socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Ito ", ...
+ "nbits ndigits ndigits_alloc k_allocsd_digits c_allocsd_digits ", ...
+ "ftol ctol n fap Arp Wap Art Wat fas Ars Was ftp tp tpr Wtp fpp pp ppr Wpp ", ...
+ "fdp cpr Wdp k0 epsilon0 c0 k0_sd c0_sd k_min c_min N_min D_min"],strf));
 
 % Done 
 toc;

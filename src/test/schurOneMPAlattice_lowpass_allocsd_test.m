@@ -308,8 +308,8 @@ for ndigits=2:3
        nbits_range,nbits_sidelobe_sd,"linestyle","-.", ... 
        nbits_range,nbits_sidelobe_Lim,"linestyle","--", ...
        nbits_range,nbits_sidelobe_Ito,"linestyle","-")
-  strt=sprintf("Parallel one-multiplier lattice low-pass maximum response \
-in [%4.2f,0.5) (dB), ndigits=%d",fas,ndigits);
+  strt=sprintf(["Parallel one-multiplier lattice low-pass maximum response ", ...
+ "in [%4.2f,0.5) (dB), ndigits=%d"],fas,ndigits);
   title(strt);
   xlabel("bits");
   ylabel("Maximum response(dB)");
@@ -327,8 +327,8 @@ in [%4.2f,0.5) (dB), ndigits=%d",fas,ndigits);
        nbits_range,nbits_k_sd_digits,"linestyle","-.", ... 
        nbits_range,nbits_k_digits_Lim,"linestyle","--",...
        nbits_range,nbits_k_digits_Ito,"linestyle","-")
-  strt=sprintf("Parallel one-multiplier lattice low-pass total signed-digits \
-used by coefficients, ndigits=%d",ndigits);
+  strt=sprintf(["Parallel one-multiplier lattice low-pass total signed-digits ", ...
+ "used by coefficients, ndigits=%d"],ndigits);
   title(strt);
   xlabel("bits");
   ylabel("Total signed-digits used by coefficients");

@@ -47,9 +47,9 @@ function [hM,socp_iter,func_iter,feasible]=directFIRsymmetric_socp_mmse ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 if (nargin ~= 13) || (nargout ~= 4)
-  print_usage("[hM,socp_iter,func_iter,feasible]= ...\n\
-directFIRsymmetric_socp_mmse(vS,hM0,hM_active,na, ...\n\
-                             wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose)");
+  print_usage(["[hM,socp_iter,func_iter,feasible]= ...\n", ...
+ "directFIRsymmetric_socp_mmse(vS,hM0,hM_active,na, ...\n", ...
+ "                             wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose)"]);
 endif
 
 %

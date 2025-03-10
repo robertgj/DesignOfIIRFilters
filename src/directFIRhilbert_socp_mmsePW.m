@@ -48,9 +48,9 @@ function [hM,socp_iter,func_iter,feasible]=directFIRhilbert_socp_mmsePW ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin ~= 13) || (nargout ~= 4)
-    print_usage("[hM,socp_iter,func_iter,feasible]= ...\n\
-  directFIRhilbert_socp_mmsePW(vS,hM0,hM_active,na, ...\n\
-                            wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose)");
+    print_usage(["[hM,socp_iter,func_iter,feasible]= ...\n", ...
+ "  directFIRhilbert_socp_mmsePW(vS,hM0,hM_active,na, ...\n", ...
+ "                            wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose)"]);
   endif
 
   %

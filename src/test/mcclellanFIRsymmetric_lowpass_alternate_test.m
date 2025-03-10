@@ -54,8 +54,8 @@ print_polynomial(Aext,"Aext","%13.10f");
 %
 % Plot response
 %
-strt=sprintf("McClellan lowpass FIR: \
-M=%d,fap=%g,fas=%g,Wap=%g,Was=%g,K=%g,ngrid=%d,rho=%g",...
+strt=sprintf(["McClellan lowpass FIR: ", ...
+ "M=%d,fap=%g,fas=%g,Wap=%g,Was=%g,K=%g,ngrid=%d,rho=%g"],...
              M,fap,fas,Wap,Was,K,ngrid,rho);
 nplot=20000;
 wa=(0:nplot)'*pi/nplot;

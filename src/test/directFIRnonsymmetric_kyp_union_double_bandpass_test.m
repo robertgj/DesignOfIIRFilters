@@ -314,8 +314,8 @@ h1c=get(h1,"color");
 h2c=get(h2,"color");
 grid("on");
 ylabel("Amplitude(dB)");
-strt=sprintf("KYP non-symmetric double pass-band FIR filter : \
-N=%d,d=%d,fapl1=%g,fapu1=%g,fapl2=%g,fapu2=%g",N,d,fapl1,fapu1,fapl2,fapu2);
+strt=sprintf(["KYP non-symmetric double pass-band FIR filter : ", ...
+ "N=%d,d=%d,fapl1=%g,fapu1=%g,fapl2=%g,fapu2=%g"],N,d,fapl1,fapu1,fapl2,fapu2);
 title(strt);
 subplot(312)
 [ax,h1,h2]=plotyy(w(napl1:napu1)*0.5/pi,(P(napl1:napu1)/pi)+2, ...

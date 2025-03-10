@@ -44,8 +44,8 @@ function [Esq,gradEsq]=schurOneMAPlattice_frm_hilbertEsq ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargout > 2) || (nargin ~= 16)
-    print_usage("[Esq,gradEsq] = schurOneMAPlattice_frm_hilbertEsq ...\n\
-      (k,epsilon,p,u,v,Mmodel,Dmodel,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)");
+    print_usage(["[Esq,gradEsq] = schurOneMAPlattice_frm_hilbertEsq ...\n", ...
+ "      (k,epsilon,p,u,v,Mmodel,Dmodel,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)"]);
   endif
 
   Nk=length(k);
@@ -114,8 +114,8 @@ function [ErrorX,gradErrorX]=schurOneMAPlattice_frm_hilbertXError ...
                                (pfX,k,epsilon,p,u,v,Mmodel,Dmodel,wx,Xd,Wx)
 
   if nargin~=11 || nargout>2 
-    print_usage("[ErrorX,gradErrorX]=schurOneMAPlattice_frm_hilbertXError...\n\
-    (pfX,k,epsilon,p,u,v,Mmodel,Dmodel,wx,Xd,Wx)");
+    print_usage(["[ErrorX,gradErrorX]=schurOneMAPlattice_frm_hilbertXError...\n", ...
+ "    (pfX,k,epsilon,p,u,v,Mmodel,Dmodel,wx,Xd,Wx)"]);
   endif
 
   % Make row vectors with a single column, 

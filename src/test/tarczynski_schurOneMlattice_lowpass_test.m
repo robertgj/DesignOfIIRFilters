@@ -30,8 +30,8 @@ function E=WISEJ_ONEM(kc,_k0,_c0,_k_max,_k_active,_c_active, ...
     init_done=true;
     return;
   elseif nargin ~= 1
-    print_usage("E=WISEJ_ONEM(kc) \n\
-WISEJ_ONEM(kc,k0,c0,k_active,c_active,wa,Asqd,Wa,wt,Td,Wt)");
+    print_usage(["E=WISEJ_ONEM(kc) \n", ...
+ "WISEJ_ONEM(kc,k0,c0,k_active,c_active,wa,Asqd,Wa,wt,Td,Wt)"]);
   endif
   if init_done==false
     error("init_done == false!");

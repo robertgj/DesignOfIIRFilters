@@ -20,8 +20,8 @@ tol=1e-10;
 %
 N=55;L=8;fp=0.2;ft=0.05;K=2;
 M=(N-1-L)/2;
-strt=sprintf("Selesnick-Burrus flat band-pass FIR : \
-N=%d,L=%d,$f_{p}$=%g,$f_{t}$=%g,K=%g",N,L,fp,ft,K);
+strt=sprintf(["Selesnick-Burrus flat band-pass FIR : ", ...
+ "N=%d,L=%d,$f_{p}$=%g,$f_{t}$=%g,K=%g"],N,L,fp,ft,K);
 
 % Weighting function for the high-pass filter
 F=0.5*(0:nplot)'/nplot;

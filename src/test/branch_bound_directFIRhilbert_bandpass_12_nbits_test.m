@@ -257,8 +257,8 @@ plot(wplot*0.5/pi,20*log10(abs(A_hM2)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(A_hM_min)),"linestyle","-.");
 ylabel("Amplitude(dB)");
 axis([0.15 0.25 -0.2 0.2]);
-strt=sprintf("Direct-form FIR Hilbert bandpass filter (nbits=%d,ndigits=%d) : \
-fasl=%g,fapl=%g,Wap=%g,Was=%g",nbits,ndigits,fasl,fapl,Wap,Was);
+strt=sprintf(["Direct-form FIR Hilbert bandpass filter (nbits=%d,ndigits=%d) : ", ...
+ "fasl=%g,fapl=%g,Wap=%g,Was=%g"],nbits,ndigits,fasl,fapl,Wap,Was);
 title(strt);
 grid("on");
 subplot(212);
@@ -300,11 +300,11 @@ print_polynomial(hM_min/escale,"hM_min",enscale);
 print_polynomial(hM_min/escale,"hM_min",strcat(strf,"_hM_min_coef.m"),enscale);
 
 % Save results
-eval(sprintf("save %s.mat \
-hM2 hM2_sd hM_sd tol nbits ndigits escale fapl fapu Wap Was \
-improved_solution_found hM_min \
-branch_bound_directFIRhilbert_bandpass_12_nbits_test_use_unity_passband \
-branch_bound_directFIRhilbert_bandpass_12_nbits_test_use_coef_escale",strf));
+eval(sprintf(["save %s.mat ", ...
+ "hM2 hM2_sd hM_sd tol nbits ndigits escale fapl fapu Wap Was ", ...
+ "improved_solution_found hM_min ", ...
+ "branch_bound_directFIRhilbert_bandpass_12_nbits_test_use_unity_passband ", ...
+ "branch_bound_directFIRhilbert_bandpass_12_nbits_test_use_coef_escale"],strf));
 
 % Done
 toc;

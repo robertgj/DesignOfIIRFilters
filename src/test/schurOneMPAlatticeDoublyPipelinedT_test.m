@@ -149,8 +149,8 @@ for difference=[false,true]
   for l=1:rows(diagHessTcheck)
     if max(abs(diagHessTcheck(l,:) - ...
                transpose(diag(squeeze(hessTcheck(l,:,:))))))>100000*eps
-      error("max(abs(diagHessTcheck(l,) - ... \n\
-             transpose(diag(squeeze(hessTcheck(l,,))))))>100000*eps");
+      error(["max(abs(diagHessTcheck(l,) - ... \n", ...
+ "             transpose(diag(squeeze(hessTcheck(l,,))))))>100000*eps"]);
     endif
   endfor
 
@@ -170,15 +170,15 @@ for difference=[false,true]
     delk=circshift(delk,1);
   endfor
   if verbose
-    printf("max(max(max(abs(squeeze(hessTcheck(l,A1rng,A1rng)) - ...\n\
-squeeze(diff_gradTk(l,,))))))=%g\n",
+    printf(["max(max(max(abs(squeeze(hessTcheck(l,A1rng,A1rng)) - ...\n", ...
+ "squeeze(diff_gradTk(l,,))))))=%g\n"],
            max(max(max(abs(squeeze(hessTcheck(l,A1rng,A1rng)) - ...
                            squeeze(diff_gradTk(l,:,:)))))));
   endif
   if max(max(max(abs(squeeze(hessTcheck(l,A1rng,A1rng)) - ...
                      squeeze(diff_gradTk(l,:,:)))))) > del
-    error("if max(max(max(abs((squeeze(hessTcheck(l,A1rng,A1rng)) - ... \n\
-                  squeeze(diff_gradTk(l,,))))))) > del");
+    error(["if max(max(max(abs((squeeze(hessTcheck(l,A1rng,A1rng)) - ... \n", ...
+ "                  squeeze(diff_gradTk(l,,))))))) > del"]);
   endif
 
   % Check the Hessian of the squared amplitude response wrt A2k
@@ -197,15 +197,15 @@ squeeze(diff_gradTk(l,,))))))=%g\n",
     delk=circshift(delk,1);
   endfor
   if verbose
-    printf("max(max(max(abs(squeeze(hessTcheck(l,A2rng,A2rng)) - ...\n\
-squeeze(diff_gradTk(l,,))))))=%g\n",
+    printf(["max(max(max(abs(squeeze(hessTcheck(l,A2rng,A2rng)) - ...\n", ...
+ "squeeze(diff_gradTk(l,,))))))=%g\n"],
            max(max(max(abs(squeeze(hessTcheck(l,A2rng,A2rng)) - ...
                            squeeze(diff_gradTk(l,:,:)))))));
   endif
   if max(max(max(abs(squeeze(hessTcheck(l,A2rng,A2rng)) - ...
                      squeeze(diff_gradTk(l,:,:)))))) > 5*del
-    error("if max(max(max(abs((squeeze(hessTcheck(l,A2rng,A2rng)) - ... \n\
-                  squeeze(diff_gradTk(l,,))))))) > 5*del");
+    error(["if max(max(max(abs((squeeze(hessTcheck(l,A2rng,A2rng)) - ... \n", ...
+ "                  squeeze(diff_gradTk(l,,))))))) > 5*del"]);
   endif
 
 endfor

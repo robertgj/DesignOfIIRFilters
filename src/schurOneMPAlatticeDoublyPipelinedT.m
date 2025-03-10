@@ -45,10 +45,10 @@ function [T,gradT,diagHessT,hessT] = ...
 % Sanity checks
 %
 if ((nargin ~= 3) && (nargin ~= 4)) || (nargout > 4) 
-  print_usage("[T,gradT,diagHessT,hessT]= ...\n\
-    schurOneMPAlatticeDoublyPipelinedT(w,A1k,A2k)\n\
-[T,gradT,diagHessT,hessT]= ...\n\
-      schurOneMPAlatticeDoublyPipelinedT(w,A1k,A2k,difference)");
+  print_usage(["[T,gradT,diagHessT,hessT]= ...\n", ...
+ "    schurOneMPAlatticeDoublyPipelinedT(w,A1k,A2k)\n", ...
+ "[T,gradT,diagHessT,hessT]= ...\n", ...
+ "      schurOneMPAlatticeDoublyPipelinedT(w,A1k,A2k,difference)"]);
 endif
 if nargin == 3
   difference=false;

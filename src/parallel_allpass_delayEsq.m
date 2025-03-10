@@ -47,8 +47,8 @@ function [Esq,gradEsq,diagHessEsq]=...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if nargout>3 || ((nargin~=8)&&(nargin~=11))
-    print_usage("[Esq,gradEsq,diagHessEsq] = ...\n\
-      parallel_allpass_delayEsq(a,V,Q,R,DD,wa,Asqd,Wa,wt,Td,Wt)");
+    print_usage(["[Esq,gradEsq,diagHessEsq] = ...\n", ...
+ "      parallel_allpass_delayEsq(a,V,Q,R,DD,wa,Asqd,Wa,wt,Td,Wt)"]);
   endif
 
   Na=length(a);
@@ -122,8 +122,8 @@ function [ErrorX,gradErrorX,diagHessErrorX] = ...
            parallel_allpass_delayXError(pfX,a,V,Q,R,DD,wx,Xd,Wx)
 
   if nargin~=9 || nargout>3 
-    print_usage("[ErrorX,gradErrorX,diagHessErrorX] = ...\n\
-      parallel_allpass_delayXError(pfX,a,V,Q,R,DD,wx,Xd,Wx)");
+    print_usage(["[ErrorX,gradErrorX,diagHessErrorX] = ...\n", ...
+ "      parallel_allpass_delayXError(pfX,a,V,Q,R,DD,wx,Xd,Wx)"]);
   endif
 
   % Make row vectors with a single column, 

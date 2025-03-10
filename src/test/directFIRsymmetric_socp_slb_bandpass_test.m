@@ -99,8 +99,8 @@ subplot(311)
 plot(wa(1:nasl)*0.5/pi,A_hM1(1:nasl));
 ylabel("Amplitude");
 axis([0 fasl -0.01 0.01]);
-strt=sprintf("FIR symmetric bandpass filter : \
-M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g", ...
+strt=sprintf(["FIR symmetric bandpass filter : ", ...
+ "M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g"], ...
              M,fasl,fapl,fapu,fasu,deltap,deltas);
 title(strt);
 grid("on");
@@ -151,8 +151,8 @@ printf("hM1=[ ");printf("%g ",hM1');printf("]';\n");
 print_polynomial(hM1,"hM1",strcat(strf,"_hM1_coef.m"),"%12.8f");
 
 % Save results
-eval(sprintf("save %s.mat tol ctol npoints hM0 fapl fapu deltap Wap \
-fasl fasu deltas Wasl Wasu hM1",strf));
+eval(sprintf(["save %s.mat tol ctol npoints hM0 fapl fapu deltap Wap ", ...
+ "fasl fasu deltas Wasl Wasu hM1"],strf));
        
 % Done
 toc;

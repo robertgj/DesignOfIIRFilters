@@ -118,8 +118,8 @@ axis(ax(2),[0 0.5 -0.01 0.01]);
 grid("on");
 ylabel("Amplitude");
 xlabel("Frequency");
-strt=sprintf("Initial non-symmetric FIR bandpass : \
-fasl=%g,fapl=%g,fapu=%g,fasu=%g,td=%g",fasl,fapl,fapu,fasu,td);
+strt=sprintf(["Initial non-symmetric FIR bandpass : ", ...
+ "fasl=%g,fapl=%g,fapu=%g,fasu=%g,td=%g"],fasl,fapl,fapu,fasu,td);
 title(strt);
 print(strcat(strf,"_initial"),"-dpdflatex");
 close
@@ -177,8 +177,8 @@ axis([0 0.5 20*log10(deltas)-10 5]);
 grid("on");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strt=sprintf("FIR non-sym. bandpass : \
-N=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g,tdr=%g", ...
+strt=sprintf(["FIR non-sym. bandpass : ", ...
+ "N=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g,tdr=%g"], ...
              N,fasl,fapl,fapu,fasu,deltap,deltas,tdr);
 title(strt);
 print(strcat(strf,"_response"),"-dpdflatex");
@@ -246,9 +246,9 @@ fclose(fid);
 print_polynomial(h,"h");
 print_polynomial(h,"h",strcat(strf,"_h_coef.m"));
 
-eval(sprintf("save %s.mat maxiter ftol ctol n \
-N fapl fapu deltap Wap Watl Watu fasl fasu deltas Wasl Wasu \
-ftpl ftpu td tdr Wtp h0 h1 h",strf));
+eval(sprintf(["save %s.mat maxiter ftol ctol n ", ...
+ "N fapl fapu deltap Wap Watl Watu fasl fasu deltas Wasl Wasu ", ...
+ "ftpl ftpu td tdr Wtp h0 h1 h"],strf));
 
 %
 % Done

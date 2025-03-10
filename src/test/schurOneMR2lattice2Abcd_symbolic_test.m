@@ -97,24 +97,24 @@ for u=1:length(f),
   Non2=N/2;
 
   % Initial module
-  eval("rM2=[[0,1,0,0,0]; ...\n\
-   [-k2,0,0,0,1+(E2*k2)]; ...\n\
-   [1-(E2*k2),0,0,0,k2]; ...\n\
-   [c0,c1,0,0,c2]];");
+  eval(["rM2=[[0,1,0,0,0]; ...\n", ...
+ "   [-k2,0,0,0,1+(E2*k2)]; ...\n", ...
+ "   [1-(E2*k2),0,0,0,k2]; ...\n", ...
+ "   [c0,c1,0,0,c2]];"]);
   eval("M2=[rM2,zeros(4,NS+1-5)];");
  
   for l=2:(Non2-1),
-    eval(sprintf("rM%d=[[-k%d, 0,0,0,0,1+(E%d*k%d)];...\n\
-       [1-(E%d*k%d),0,0,0,0,k%d];...\n\
-       [0,1,c%d,0,0,c%d]];",2*l,2*l,2*l,2*l,2*l,2*l,2*l,(2*l)-1,2*l));
+    eval(sprintf(["rM%d=[[-k%d, 0,0,0,0,1+(E%d*k%d)];...\n", ...
+ "       [1-(E%d*k%d),0,0,0,0,k%d];...\n", ...
+ "       [0,1,c%d,0,0,c%d]];"],2*l,2*l,2*l,2*l,2*l,2*l,2*l,(2*l)-1,2*l));
     eval(sprintf("M%d=[zeros(3,2+(3*%d)),rM%d,zeros(3,NS+1-6-2-(3*%d))];",
                  2*l,l-2,2*l,l-2));
   endfor
 
   % Final module
-  eval(sprintf("rM%d=[[-k%d,0,0,1+(E%d*k%d)];...\n\
-   [0,1,c%d,c%d];...\n\
-   [1-(E%d*k%d),0,0,k%d]];", N,N,N,N,N-1,N,N,N,N));
+  eval(sprintf(["rM%d=[[-k%d,0,0,1+(E%d*k%d)];...\n", ...
+ "   [0,1,c%d,c%d];...\n", ...
+ "   [1-(E%d*k%d),0,0,k%d]];"], N,N,N,N,N-1,N,N,N,N));
   eval(sprintf("M%d=[zeros(3,NS+1-4),rM%d];",N,N));
 
   strABCD="ABCD=[M2";

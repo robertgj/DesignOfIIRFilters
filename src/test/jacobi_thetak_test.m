@@ -17,8 +17,8 @@ if abs(K-((pi/2)*(jacobi_theta3k(0,k)^2)))>tol
   error("abs(K-((pi/2)*(jacobi_theta3k(0,k)^2)))>tol");
 endif
 if abs(carlson_RF(0,jacobi_theta3k(0,k)^4,jacobi_theta4k(0,k)^4)-(pi/2))>tol
-  error("abs(carlson_RF(0,jacobi_theta3k(0,k)^4,\
-jacobi_theta4k(0,k)^4)-(pi/2))>tol");
+  error(["abs(carlson_RF(0,jacobi_theta3k(0,k)^4,", ...
+ "jacobi_theta4k(0,k)^4)-(pi/2))>tol"]);
 endif
 
 tol=2*eps;
@@ -29,8 +29,8 @@ if abs(K-((pi/2)*(jacobi_theta3k(0,k)^2)))>tol
   error("abs(K-((pi/2)*(jacobi_theta3k(0,k)^2)))>tol");
 endif
 if abs(carlson_RF(0,jacobi_theta3k(0,k)^4,jacobi_theta4k(0,k)^4)-(pi/2))>tol
-  error("abs(carlson_RF(0,jacobi_theta3k(0,k)^4,\
-jacobi_theta4k(0,k)^4)-(pi/2))>tol");
+  error(["abs(carlson_RF(0,jacobi_theta3k(0,k)^4,", ...
+ "jacobi_theta4k(0,k)^4)-(pi/2))>tol"]);
 endif
 
 % Check values of sn, cn and dn from NIST Digital Library of Mathematical

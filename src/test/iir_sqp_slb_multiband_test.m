@@ -142,8 +142,8 @@ printf("Wt(nchkt)=[ ");printf("%6.4g ",Wt(nchkt)');printf("];\n");
 printf("Upper delay pass-band:\n");
 nchkt=[ntp1u-ntp1l+2,ntp1u-ntp1l+3, ...
        ntp1u-ntp1l+1+ntp2u-ntp2l,ntp1u-ntp1l+1+ntp2u-ntp2l+1];
-printf("nchkt=[ntp1u-ntp1l+2,ntp1u-ntp1l+3, ...\n\
-       ntp1u-ntp1l+1+ntp2u-ntp2l,ntp1u-ntp1l+1+ntp2u-ntp2l+1];");
+printf(["nchkt=[ntp1u-ntp1l+2,ntp1u-ntp1l+3, ...\n", ...
+ "       ntp1u-ntp1l+1+ntp2u-ntp2l,ntp1u-ntp1l+1+ntp2u-ntp2l+1];"]);
 printf("wt(nchkt)*0.5/pi=[");printf("%6.4g ",wt(nchkt)*0.5/pi');printf("];\n");
 printf("Td(nchkt)=[ ");printf("%6.4g ",Td(nchkt)');printf("];\n");
 printf("Tdu(nchkt)=[ ");printf("%6.4g ",Tdu(nchkt)');printf("];\n");
@@ -322,12 +322,12 @@ print_pole_zero(x1,U,V,M,Q,R,"x1",strcat(strf,"_x1_coef.m"));
 print_pole_zero(x2,U,V,M,Q,R,"x2");
 print_pole_zero(x2,U,V,M,Q,R,"x2",strcat(strf,"_x2_coef.m"));
 
-eval(sprintf("save %s.mat \
-mtol ptol ctol maxiter verbose nplot npoints dmax rho \
-fas1u fap1l fap1u fas2l fas2u fap2l fap2u fas3l \
-dBas1 dBap1 dBas2 dBap2 dBas3 Was1 Wap1 Was2 Wap2 Was3 \
-ftp1l ftp1u ftp2l ftp2u tp1 tpr1 tp2 tpr2 Wtp1 Wtp2 \
-x0 U V M Q R x1 x2",strf));
+eval(sprintf(["save %s.mat ", ...
+ "mtol ptol ctol maxiter verbose nplot npoints dmax rho ", ...
+ "fas1u fap1l fap1u fas2l fas2u fap2l fap2u fas3l ", ...
+ "dBas1 dBap1 dBas2 dBap2 dBas3 Was1 Wap1 Was2 Wap2 Was3 ", ...
+ "ftp1l ftp1u ftp2l ftp2u tp1 tpr1 tp2 tpr2 Wtp1 Wtp2 ", ...
+ "x0 U V M Q R x1 x2"],strf));
 
 % Done
 toc;

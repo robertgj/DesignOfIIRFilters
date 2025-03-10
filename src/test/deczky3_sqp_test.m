@@ -27,8 +27,8 @@ ftp=0.25,tp=10,tpr=0.008,Wtp_mmse1=0.125,Wtp_mmse2=0.5,Wtp_pcls=4.0
 % Strings
 strM=sprintf("%%s:fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp\\_mmse=%%g",
              fap,Wap,fas,Was,ftp,tp);
-strP=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,\
-tpr=%g,Wtp\\_pcls=%%g",fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr);
+strP=sprintf(["%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,", ...
+ "tpr=%g,Wtp\\_pcls=%%g"],fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr);
 
 % Initial coefficients
 z=[exp(j*2*pi*0.41),exp(j*2*pi*0.305),1.5*exp(j*2*pi*0.2), ...
@@ -208,8 +208,8 @@ print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
-eval(sprintf("save %s.mat U V M Q R ftol ctol fap dBap Wap fas dBas Was \
-ftp tp tpr Wtp_mmse1 Wtp_mmse2 Wtp_pcls x1 x2 d1",strf));
+eval(sprintf(["save %s.mat U V M Q R ftol ctol fap dBap Wap fas dBas Was ", ...
+ "ftp tp tpr Wtp_mmse1 Wtp_mmse2 Wtp_pcls x1 x2 d1"],strf));
 
 % Done
 toc

@@ -102,9 +102,9 @@ for u=1:length(f),
   eval(sprintf("syms %s",str_syms));
 
   for l=1:N,
-    eval(sprintf("M%1d=[[eye(l-1),zeros(l-1,N+2-l)]; ...\n\
-     [zeros(2,l-1),[[-k%d, (1+k%d)]; [(1-k%d), k%d]], zeros(2,N-l)]; ...\n\
-     [zeros(N-l,l+1), eye(N-l)]];\n",l, l,l,l,l));
+    eval(sprintf(["M%1d=[[eye(l-1),zeros(l-1,N+2-l)]; ...\n", ...
+ "     [zeros(2,l-1),[[-k%d, (1+k%d)]; [(1-k%d), k%d]], zeros(2,N-l)]; ...\n", ...
+ "     [zeros(N-l,l+1), eye(N-l)]];\n"],l, l,l,l,l));
   endfor
 
   Abcd=eye(N+1);

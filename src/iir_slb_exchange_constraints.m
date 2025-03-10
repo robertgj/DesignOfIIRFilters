@@ -31,9 +31,9 @@ function [next_vR,next_vS,exchanged] = ...
 
  
 if (nargin ~= 21) || (nargout ~= 3)
-  print_usage("[next_vR,next_vS,exchanged]=...\n\
-         iir_slb_exchange_constraints(vS,vR, ...\n\
-         x,U,V,M,Q,R,wa,Adu,Adl,ws,Sdu,Sdl,wt,Tdu,Tdl,wp,Pdu,Pdl,ctol)");
+  print_usage(["[next_vR,next_vS,exchanged]=...\n", ...
+ "         iir_slb_exchange_constraints(vS,vR, ...\n", ...
+ "         x,U,V,M,Q,R,wa,Adu,Adl,ws,Sdu,Sdl,wt,Tdu,Tdl,wp,Pdu,Pdl,ctol)"]);
 endif
 
 next_vR = vR;

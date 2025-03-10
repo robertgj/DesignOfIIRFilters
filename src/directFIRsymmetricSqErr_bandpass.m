@@ -22,8 +22,8 @@ function SqErr = directFIRsymmetricSqErr_bandpass ...
   persistent init_done=false;
 
   if nargin~=1 && nargin~=8
-    print_usage("      directFIRsymmetricSqErr_bandpass(w) \n\
-      directFIRsymmetricSqErr_bandpass(w,hM,fasl,fapl,fapu,fasu,Wasl,Wasu)");
+    print_usage(["      directFIRsymmetricSqErr_bandpass(w) \n", ...
+ "      directFIRsymmetricSqErr_bandpass(w,hM,fasl,fapl,fapu,fasu,Wasl,Wasu)"]);
   endif
 
   if nargin==8

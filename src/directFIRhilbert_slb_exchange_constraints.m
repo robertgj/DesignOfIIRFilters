@@ -27,8 +27,8 @@ function [next_vR,next_vS,exchanged] = ...
 
   % Sanity checks
   if (nargin ~= 6) || (nargout ~= 3)
-    print_usage("[next_vR,next_vS,exchanged]= ...\n\
-      directFIRhilbert_slb_exchange_constraints(vS,vR,A,Adu,Adl,ctol)");
+    print_usage(["[next_vR,next_vS,exchanged]= ...\n", ...
+ "      directFIRhilbert_slb_exchange_constraints(vS,vR,A,Adu,Adl,ctol)"]);
   endif
   if all(isfield(vS,{"al","au"})) == false
     error("Expect fields vS.al and vS.au");

@@ -55,11 +55,11 @@ function [fM,k0,k1,socp_iter,func_iter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin ~= 19) || (nargout ~= 6)
-    print_usage("[fM,k0,k1,socp_iter,func_iter,feasible]= ...\n\
-      johanssonOneMlattice_socp_mmse(vS,fM_0,k0_0,epsilon0,k1_0,epsilon1, ...\n\
-                                     fMk_u,fMk_l,fMk_active,dmax, ...\n\
-                                     wa,Ad,Adu,Adl,Wa, ...\n\
-                                     maxiter,ftol,ctol,verbose)");
+    print_usage(["[fM,k0,k1,socp_iter,func_iter,feasible]= ...\n", ...
+ "      johanssonOneMlattice_socp_mmse(vS,fM_0,k0_0,epsilon0,k1_0,epsilon1, ...\n", ...
+ "                                     fMk_u,fMk_l,fMk_active,dmax, ...\n", ...
+ "                                     wa,Ad,Adu,Adl,Wa, ...\n", ...
+ "                                     maxiter,ftol,ctol,verbose)"]);
   endif
 
   %

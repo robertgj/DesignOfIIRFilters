@@ -48,8 +48,8 @@ function [cof,cost,fiter] = ...
   
   % Sanity checks
   if (nargin < 5) || (nargin > 7)
-    print_usage("[cof,cost,fiter]=bitflip(pcostfun,cof0, ...\n\
-                 nbits,bitstart,msize\[,verbose,testcof])");
+    print_usage(["[cof,cost,fiter]=bitflip(pcostfun,cof0, ...\n", ...
+ "                 nbits,bitstart,msize\[,verbose,testcof])"]);
   endif
   if nargin == 5
     verbose=false;
@@ -109,8 +109,8 @@ function [cof,cost,fiter] = ...
           fiter=fiter+1;
           if newcost < cost 
             if verbose
-              printf("bitflip:cof(%d)=0x%x:cost %f>%f for 0x%x\
-(mask=0x%x,l=0x%x,bit=%d)\n",k,cof(k),cost,newcost,newcof(k),mask,l,bit);
+              printf(["bitflip:cof(%d)=0x%x:cost %f>%f for 0x%x", ...
+ "(mask=0x%x,l=0x%x,bit=%d)\n"],k,cof(k),cost,newcost,newcof(k),mask,l,bit);
             endif
             cost=newcost;
             cof(k)=newcof(k);

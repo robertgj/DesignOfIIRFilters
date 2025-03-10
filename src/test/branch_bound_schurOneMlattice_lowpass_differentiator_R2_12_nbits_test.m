@@ -16,8 +16,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 % Options
 use_best_branch_and_bound_found=true
 if use_best_branch_and_bound_found
-  warning("Reporting the best branch-and-bound filter found so far. \n\
-           Set \"use_best_branch_and_bound_found\"=false to re-run.");
+  warning(["Reporting the best branch-and-bound filter found so far. \n", ...
+ "           Set \"use_best_branch_and_bound_found\"=false to re-run."]);
 endif
 enforce_pcls_constraints_on_final_filter=false
 use_k_scaling=false
@@ -641,8 +641,8 @@ axis(ax(2),[0 0.5 0.01*[-1,1]]);
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude error");
-strt=sprintf("Schur one-multiplier lattice lowpass differentiator filter : \
-nbits=%d,fap=%g,fas=%g,Arp=%g,Ars=%g",nbits,fap,fas,Arp,Ars);
+strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter : ", ...
+ "nbits=%d,fap=%g,fas=%g,Arp=%g,Ars=%g"],nbits,fap,fas,Arp,Ars);
 title(strt);
 % Plot phase pass-band response
 subplot(312);
@@ -679,8 +679,8 @@ plot(wd*0.5/pi,dCsqdw_kc0-Cd,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("dCsqdw error");
 axis([0 fdp cpr*[-1,1]]);
-strt=sprintf("Schur one-multiplier lattice lowpass differentiator correction \
-filter : nbits=%d,fap=%g,fas=%g,Arp=%g,Ars=%g",nbits,fap,fas,Arp,Ars);
+strt=sprintf(["Schur one-multiplier lattice lowpass differentiator correction ", ...
+ "filter : nbits=%d,fap=%g,fas=%g,Arp=%g,Ars=%g"],nbits,fap,fas,Arp,Ars);
 title(strt);
 legend("exact","s-d","s-d(Lim)","s-d(BandB)");
 legend("location","northeast");
@@ -729,12 +729,12 @@ fprintf(fid,"Wdp=%d %% Correction filter dAsqdw pass band weight\n",Wdp);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat \
-use_best_branch_and_bound_found \
-k0 epsilon0 p0 c0 ftol ctol nbits ndigits ndigits_alloc n kscale cscale \
-fap Arp Wap fas Ars Was fpp pp ppr Wpp ftp tp tpr Wtp fdp dpr cpr Wdp \
-improved_solution_found kc_min_adders kc_min_digits k0_sd_no_alloc c0_sd_no_alloc \
-k0_sd c0_sd k_min c_min N_min D_min",strf));
+eval(sprintf(["save %s.mat ", ...
+ "use_best_branch_and_bound_found ", ...
+ "k0 epsilon0 p0 c0 ftol ctol nbits ndigits ndigits_alloc n kscale cscale ", ...
+ "fap Arp Wap fas Ars Was fpp pp ppr Wpp ftp tp tpr Wtp fdp dpr cpr Wdp ", ...
+ "improved_solution_found kc_min_adders kc_min_digits k0_sd_no_alloc c0_sd_no_alloc ", ...
+ "k0_sd c0_sd k_min c_min N_min D_min"],strf));
        
 % Done
 toc;

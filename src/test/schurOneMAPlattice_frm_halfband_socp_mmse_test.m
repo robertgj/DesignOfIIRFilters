@@ -89,8 +89,8 @@ Tdl=-Tdu;
 Wt=Wtp*ones(ntp,1);
 
 % Common strings
-strt=sprintf("FRM halfband %%s %%s : \
-Mmodel=%d,Dmodel=%d,fap=%g,fas=%g",Mmodel,Dmodel,fap,fas);
+strt=sprintf(["FRM halfband %%s %%s : ", ...
+ "Mmodel=%d,Dmodel=%d,fap=%g,fas=%g"],Mmodel,Dmodel,fap,fas);
 
 %
 % FRM halfband SOCP MMSE
@@ -140,8 +140,8 @@ print_polynomial(u1,"u1",strcat(strf,"_u1_coef.m"));
 print_polynomial(v1,"v1");
 print_polynomial(v1,"v1",strcat(strf,"_v1_coef.m"));
 
-eval(sprintf("save %s.mat r0 aa0 k0 epsilon0 p0 u0 v0 Mmodel Dmodel \
-fap Wap ftp Wtp fas Was dmax rho tol k1 u1 v1",strf));
+eval(sprintf(["save %s.mat r0 aa0 k0 epsilon0 p0 u0 v0 Mmodel Dmodel ", ...
+ "fap Wap ftp Wtp fas Was dmax rho tol k1 u1 v1"],strf));
 
 % Done
 toc;

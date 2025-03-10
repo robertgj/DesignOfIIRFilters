@@ -176,8 +176,8 @@ Ha=freqz(Na1,Da1,nplot);
 Hb=freqz(Nb1,Db1,nplot);
 plot(wplot*0.5/pi,(unwrap(arg(Ha))+(wplot*td))/pi, ...
      wplot*0.5/pi,(unwrap(arg(Hb))+(wplot*(td-1)))/pi);
-strt=sprintf("Allpass phase response adjusted for linear phase : \
-ma=%d,mb=%d,td=%g",ma,mb,td);
+strt=sprintf(["Allpass phase response adjusted for linear phase : ", ...
+ "ma=%d,mb=%d,td=%g"],ma,mb,td);
 title(strt);
 ylabel("Linear phase error(rad./pi)");
 xlabel("Frequency");

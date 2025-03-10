@@ -66,8 +66,8 @@ ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
 s=sprintf ...
-("Parallel all-pass 2nd order cascade initial response (squared-magnitude) : \
-ma=%d,mb=%d",ma,mb);
+(["Parallel all-pass 2nd order cascade initial response (squared-magnitude) : ", ...
+ "ma=%d,mb=%d"],ma,mb);
 title(s);
 subplot(212);
 plot(wplot*0.5/pi,Tab0);
@@ -194,8 +194,8 @@ ax=plotyy(wplot(1:npp)*0.5/pi,20*log10(abs(Hellip(1:npp))), ...
 axis(ax(1),[0 0.5 -0.025 0]);
 axis(ax(2),[0 0.5 -84.06 -83.96]);
 ylabel("Amplitude(dB)");
-strt=sprintf("Order %d elliptic amplitude response plot : \
-fap=%4.2f,dBap=%4.2f,fas=%4.2f,dBas=%2d",ma+mb,fap,dBap,fas,dBas);
+strt=sprintf(["Order %d elliptic amplitude response plot : ", ...
+ "fap=%4.2f,dBap=%4.2f,fas=%4.2f,dBas=%2d"],ma+mb,fap,dBap,fas,dBas);
 title(strt);
 grid("on");
 print(strcat(strf,"_ellipdual"),"-dpdflatex");
@@ -204,8 +204,8 @@ close
 % Pole zero plot
 subplot(111);
 zplane(qroots(Nellip),qroots(Dellip));
-strt=sprintf("Order %d elliptic filter pole-zero plot : \
-fap=%g,dBap=%g,fas=%g,dBas=%g",ma+mb,fap,dBap,fas,dBas);
+strt=sprintf(["Order %d elliptic filter pole-zero plot : ", ...
+ "fap=%g,dBap=%g,fas=%g,dBas=%g"],ma+mb,fap,dBap,fas,dBas);
 print(strcat(strf,"_ellippz"),"-dpdflatex");
 close
 
@@ -238,8 +238,8 @@ print_polynomial(Nellip,"Nellip",strcat(strf,"_Nellip_coef.m"));
 print_polynomial(Dellip,"Dellip");
 print_polynomial(Dellip,"Dellip",strcat(strf,"_Dellip_coef.m"));
 
-eval(sprintf("save %s.mat ...\n\
- fp Wp fs Ws dBap dBas ab0 a1 b1 Da1 Db1 Nab1 Dab1 Nellip Dellip",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ " fp Wp fs Ws dBap dBas ab0 a1 b1 Da1 Db1 Nab1 Dab1 Nellip Dellip"],strf));
 
 % Done
 toc;

@@ -69,8 +69,8 @@ plot(nppts/nfpts,20*log10(abs(Hcf)))
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
 axis([0 0.5 -50 5]);
-title(sprintf("Simulated response of a continued-fraction elliptic filter : \
-fc=%g,dBap=%g,dBas=%g",fc,dBap,dBas));
+title(sprintf(["Simulated response of a continued-fraction elliptic filter : ", ...
+ "fc=%g,dBap=%g,dBas=%g"],fc,dBap,dBas));
 grid("on");
 print("contfrac_test_response","-dpdflatex");
 close

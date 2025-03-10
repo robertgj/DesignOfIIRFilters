@@ -78,9 +78,9 @@ function [xk,socp_iter,func_iter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin ~= 25) || (nargout ~= 4)
-    print_usage("[xk,socp_iter,func_iter,feasible]= ...\n\
-    iir_frm_socp_mmse(vS,x0,xu,xl,U,V,M,Q,na,nc,Mmodel,Dmodel, ...\n\
-      w,Asqd,Asqdu,Asqdl,Wa,Td,Tdu,Tdl,Wt,maxiter,ftol,ctol,verbose)");
+    print_usage(["[xk,socp_iter,func_iter,feasible]= ...\n", ...
+ "    iir_frm_socp_mmse(vS,x0,xu,xl,U,V,M,Q,na,nc,Mmodel,Dmodel, ...\n", ...
+ "      w,Asqd,Asqdu,Asqdl,Wa,Td,Tdu,Tdl,Wt,maxiter,ftol,ctol,verbose)"]);
   endif
 
   %

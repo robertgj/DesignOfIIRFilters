@@ -45,8 +45,8 @@ function [Asq,gradAsq,diagHessAsq] = ...
   % Sanity checks
   %
   if (nargout>3) || (nargin<9) || (nargin>10)
-    print_usage("[Asq,gradAsq,diagHessAsq]=schurNSPAlatticeAsq ...\n\
-  (w,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22,difference)");
+    print_usage(["[Asq,gradAsq,diagHessAsq]=schurNSPAlatticeAsq ...\n", ...
+ "  (w,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22,difference)"]);
   endif
   if nargin==9
     difference=false;

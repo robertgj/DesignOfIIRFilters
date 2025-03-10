@@ -162,8 +162,8 @@ if max(abs((abs(H2).^2)-Asq)) > 2e-11
 endif
 
 % Plot results
-strt=sprintf("Pipelined Schur bandpass : \
-fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%6.4g,dBas=%g",
+strt=sprintf(["Pipelined Schur bandpass : ", ...
+ "fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%6.4g,dBas=%g"],
              fasl,fapl,fapu,fasu,dBap,dBas);
 
 % Pole-zero plot

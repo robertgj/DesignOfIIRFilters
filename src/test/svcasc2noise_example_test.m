@@ -176,11 +176,15 @@ for t=1:2
   fprintf(fid,"\\bottomrule\n");
   fprintf(fid,"\\end{tabular}\n");
   fprintf(fid,"\\end{threeparttable}\n");
-  fprintf(fid,"\\caption[Butterworth $%d$th order %spass section noise \
-gains]", N, pass);
-  fprintf(fid,"{Section noise gains for the $%d$th order Butterworth %spass \
-filter}\n", N, pass);
-  fprintf(fid,"\\label{tab:Section-noise-gain-%d-order-Butterworth-%s-pass}\n",
+  fprintf(fid,["\\caption[Butterworth $%d$th order %spass section noise ", ...
+               "gains]"], ...
+          N, pass);
+  fprintf(fid, ...
+          ["{Section noise gains for the $%d$th order Butterworth %spass ", ...
+           "filter}\n"], ...
+          N, pass);
+  fprintf(fid, ...
+          "\\label{tab:Section-noise-gain-%d-order-Butterworth-%s-pass}\n", ...
          N, pass);
   fprintf(fid,"\\end{table}\n");
   fclose(fid);
@@ -194,26 +198,27 @@ filter}\n", N, pass);
   fprintf(fid,"\\begin{tabular}{lrr} \\toprule\n");
   fprintf(fid,"Section  & Section pole & Section pole \\\\ \n");
   fprintf(fid,"design & angle increasing & angle decreasing \\\\ \\midrule\n");
-  fprintf(fid,"Direct & %8.4f & %8.4f \\\\ \n",
+  fprintf(fid,"Direct & %8.4f & %8.4f \\\\ \n", ...
           sum(ngcascdir), sum(ngcascdirR)); 
-  fprintf(fid,"Bomar III & %8.4f & %8.4f \\\\ \n",
+  fprintf(fid,"Bomar III & %8.4f & %8.4f \\\\ \n", ...
           sum(ngcascbom), sum(ngcascbomR)); 
-  fprintf(fid,"Min. Noise & %8.4f & %8.4f \\\\ \n",
+  fprintf(fid,"Min. Noise & %8.4f & %8.4f \\\\ \n", ...
           sum(ngcascmin), sum(ngcascminR)); 
-  fprintf(fid,"Block Opt. & %8.4f & %8.4f (%6.2f)\\\\ \n",
+  fprintf(fid,"Block Opt. & %8.4f & %8.4f (%6.2f)\\\\ \n", ...
           sum(ngcascbopt), sum(ngcascboptR), sum(ngcascboptRp)); 
   fprintf(fid,"\\midrule\n");
-  fprintf(fid,"Global Opt. & %8.4f & %8.4f \\\\ \n",
+  fprintf(fid,"Global Opt. & %8.4f & %8.4f \\\\ \n", ...
           ngABCDGopt, ngABCDGoptR); 
   fprintf(fid,"\\bottomrule\n");
   fprintf(fid,"\\end{tabular}\n");
   fprintf(fid,"\\end{threeparttable}\n");
-  fprintf(fid,"\\caption[Butterworth $%d$th order %spass overall noise gains]",
+  fprintf(fid, ...
+          "\\caption[Butterworth $%d$th order %spass overall noise gains]", ...
           N, pass);
-  fprintf(fid,"{Overall noise gains for the %dth order Butterworth \
-%spass filter}\n", N, pass);
-  fprintf(fid,"\\label{tab:Overall-noise-gain-%d-order-Butterworth-\
-%s-pass}\n", N, pass);
+  fprintf(fid,["{Overall noise gains for the %dth order Butterworth ", ...
+ "%spass filter}\n"], N, pass);
+  fprintf(fid,["\\label{tab:Overall-noise-gain-%d-order-Butterworth-", ...
+ "%s-pass}\n"], N, pass);
   fprintf(fid,"\\end{table}\n");
   fclose(fid);
 
@@ -421,11 +426,12 @@ filter}\n", N, pass);
   fprintf(fid,"\\end{threeparttable}\n");
   fprintf(fid,"\\caption[Butterworth %dth order %spass noise simulation]",
           N, pass);
-  fprintf(fid,
-          "{Estimated noise gain and estimated and simulated output \
-roundoff noise variances for the $%d$th order Butterworth \
-%spass filter with $%d$ bit rounded coefficients.}\n", N, pass, bits);
-  fprintf(fid,"\\label{tab:Simulated-noise-%d-order-Butterworth-%s-pass}\n",
+  fprintf(fid, ...
+          ["{Estimated noise gain and estimated and simulated output ", ...
+ "roundoff noise variances for the $%d$th order Butterworth ", ...
+ "%spass filter with $%d$ bit rounded coefficients.}\n"], N, pass, bits);
+  fprintf(fid, ...
+          "\\label{tab:Simulated-noise-%d-order-Butterworth-%s-pass}\n", ...
           N, pass);
   fprintf(fid,"\\end{table}\n");
   fclose(fid);

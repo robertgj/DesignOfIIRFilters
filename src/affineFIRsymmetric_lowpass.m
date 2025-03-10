@@ -55,9 +55,9 @@ function [hM,deltap,deltas,fext,fiter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin < 7) || (nargin > 10) || (nargout>6)
-    print_usage("hM=affineFIRsymmetric(M,fp,fs,kappap,etap,kappas,etas)\n\
-[hM,deltap,deltas,fext,fiter,feasible]= ...\n\
-  affineFIRsymmetric(M,fp,fs,kappap,etap,kappas,etas,nf,maxiter,tol)");
+    print_usage(["hM=affineFIRsymmetric(M,fp,fs,kappap,etap,kappas,etas)\n", ...
+ "[hM,deltap,deltas,fext,fiter,feasible]= ...\n", ...
+ "  affineFIRsymmetric(M,fp,fs,kappap,etap,kappas,etas,nf,maxiter,tol)"]);
   endif
 
   % Sanity checks

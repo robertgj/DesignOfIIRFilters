@@ -24,9 +24,9 @@ function schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
 
   % Sanity checks
   if (nargin ~= 11) && (nargin ~= 20)
-    print_usage("schurOneMAPlattice_frm_hilbert_socp_slb_plot\
-      (k,epsilon,p,u,v,...\n  Mmodel,Dmodel,nplot,strT,strF,strOpt ...\n\
-       [,wa,Asqdu,Asqdl,wt,Tdl,Tdu,wp,Pdu,Pdl])") 
+    print_usage(["schurOneMAPlattice_frm_hilbert_socp_slb_plot", ...
+ "      (k,epsilon,p,u,v,...\n  Mmodel,Dmodel,nplot,strT,strF,strOpt ...\n", ...
+ "       [,wa,Asqdu,Asqdl,wt,Tdl,Tdu,wp,Pdu,Pdl])"]) 
   endif
 
   dmask=2*length(v);

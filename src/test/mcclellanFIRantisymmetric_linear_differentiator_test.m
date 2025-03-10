@@ -19,8 +19,8 @@ maxiter=100;
 % Filter design with N even
 %
 N=56;L=34;deltas=0.001;tol=1e-7;
-strt=sprintf("Parks-McClellan maximally-linear differentiator FIR : \
-N=%d,L=%d,deltas=%g,maxiter=%d,tol=%g",N,L,deltas,maxiter,tol);
+strt=sprintf(["Parks-McClellan maximally-linear differentiator FIR : ", ...
+ "N=%d,L=%d,deltas=%g,maxiter=%d,tol=%g"],N,L,deltas,maxiter,tol);
 [hA56,hAM56,dk56,err56,fext56,fiter,feasible]= ...
 mcclellanFIRantisymmetric_linear_differentiator(N,L,deltas,nplot,maxiter,tol);
 if feasible==false
@@ -33,8 +33,8 @@ A56=2*sin(w.*((((N-1)/2):-1:0)))*hA56(1:(N/2));
 % Filter design with N odd
 %
 N=57;L=34;deltas=1e-4;tol=1e-8;
-strt=sprintf("Parks-McClellan maximally-linear differentiator FIR : \
-N=%d,L=%d,deltas=%g,maxiter=%d,tol=%g",N,L,deltas,maxiter,tol);
+strt=sprintf(["Parks-McClellan maximally-linear differentiator FIR : ", ...
+ "N=%d,L=%d,deltas=%g,maxiter=%d,tol=%g"],N,L,deltas,maxiter,tol);
 [hA57,hAM57,dk57,err57,fext57,fiter,feasible]= ...
 mcclellanFIRantisymmetric_linear_differentiator(N,L,deltas,nplot,maxiter,tol);
 if feasible==false
@@ -130,8 +130,8 @@ ylabel("L");
 xlabel("N");
 grid("on");
 tstr=sprintf ...
-("Feasible N and L for mcclellanFIRantisymmetric\\_linear\\_differentiator \
-: deltas=%g,maxiter=%d,tol=%g",deltas,maxiter,tol);
+(["Feasible N and L for mcclellanFIRantisymmetric\\_linear\\_differentiator ", ...
+ ": deltas=%g,maxiter=%d,tol=%g"],deltas,maxiter,tol);
 title(tstr);
 print(strcat(strf,"_feasible"),"-dpdflatex");
 close

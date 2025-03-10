@@ -55,12 +55,12 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if nargout>4 || ((nargin~=10)&&(nargin~=13)&&(nargin~=16)&&(nargin~=19))
-    print_usage("[Esq,gradEsq,diagHessEsq,hessEsq] = ...\n\
-  schurOneMPAlatticePipelinedEsq(A1k,A1epsilon,A1kk,A2k,A2epsilon,A2kk, ...\n\
-     difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd) \n\
-[Esq,gradEsq,diagHessEsq,hessEsq] = ...\n\
-  schurOneMPAlatticePipelinedEsq(A1k,A1epsilon,A1kk,A2k,A2epsilon,A2kk, ...\n\
-     difference,wa,Asqd,Wa)");
+    print_usage(["[Esq,gradEsq,diagHessEsq,hessEsq] = ...\n", ...
+ "  schurOneMPAlatticePipelinedEsq(A1k,A1epsilon,A1kk,A2k,A2epsilon,A2kk, ...\n", ...
+ "     difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd) \n", ...
+ "[Esq,gradEsq,diagHessEsq,hessEsq] = ...\n", ...
+ "  schurOneMPAlatticePipelinedEsq(A1k,A1epsilon,A1kk,A2k,A2epsilon,A2kk, ...\n", ...
+ "     difference,wa,Asqd,Wa)"]);
   endif
   
   if nargin==10
@@ -266,9 +266,9 @@ function [ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...
                                   difference,wx,Xd,Wx)
 
   if nargin~=11 || nargout>4
-    print_usage("[ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...\n\
-    schurOneMPAlatticePipelinedXError(pfX,A1k,A1epsilon,A1kk, ...\n\
-                                      A2k,A2epsilon,A2kk,difference,wx,Xd,Wx)");
+    print_usage(["[ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...\n", ...
+ "    schurOneMPAlatticePipelinedXError(pfX,A1k,A1epsilon,A1kk, ...\n", ...
+ "                                      A2k,A2epsilon,A2kk,difference,wx,Xd,Wx)"]);
   endif
 
   % Make row vectors with a single column, 

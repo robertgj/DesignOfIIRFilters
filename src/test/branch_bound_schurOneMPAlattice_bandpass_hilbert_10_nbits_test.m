@@ -14,8 +14,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 % Options
 use_best_branch_and_bound_found=true
 if use_best_branch_and_bound_found
-  warning("Reporting the best branch-and-bound filter found so far. \n\
-           Set \"use_best_branch_and_bound_found\"=false to re-run.");
+  warning(["Reporting the best branch-and-bound filter found so far. \n", ...
+ "           Set \"use_best_branch_and_bound_found\"=false to re-run."]);
 endif
 enforce_pcls_constraints_on_final_filter=true
 
@@ -488,8 +488,8 @@ legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
-stop-band(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g",nbits,ndigits,fasl,fasu);
+strt=sprintf(["Parallel one-multplier allpass lattice bandpass Hilbert filter ", ...
+ "stop-band(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g"],nbits,ndigits,fasl,fasu);
 title(strt);
 axis([0, 0.5, -50, -30]);
 grid("on");
@@ -502,8 +502,8 @@ plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
-pass-band(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
+strt=sprintf(["Parallel one-multplier allpass lattice bandpass Hilbert filter ", ...
+ "pass-band(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g"],nbits,ndigits,fapl,fapu);
 title(strt);
 fpmin=min([fapl,ftpl,fppl,fdpl]);
 fpmax=max([fapu,ftpu,fppu,fdpu]);
@@ -522,8 +522,8 @@ plot(wt*0.5/pi,T_k0,"linestyle","-", ...
      wt*0.5/pi,T_kmin,"linestyle","-.");
 ylabel("Delay(samples)");
 xlabel("Frequency");
-strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
-pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
+strt=sprintf(["Parallel one-multplier allpass lattice bandpass Hilbert filter ", ...
+ "pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g"],nbits,ndigits,ftpl,ftpu);
 title(strt);
 axis([fpmin, fpmax, tp-tpr, tp+tpr]);
 legend("exact","s-d","s-d(b-and-b)");
@@ -540,8 +540,8 @@ plot(wp*0.5/pi,mod((P_k0+(wp*tp))/pi,2),"linestyle","-", ...
      wp*0.5/pi,mod((P_kmin+(wp*tp))/pi,2),"linestyle","-.");
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
-strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
-pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
+strt=sprintf(["Parallel one-multplier allpass lattice bandpass Hilbert filter ", ...
+ "pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g"],nbits,ndigits,ftpl,ftpu);
 title(strt);
 axis([fpmin, fpmax, mod(pp-(ppr/4),2), mod(pp+(ppr/4),2)]);
 legend("exact","s-d","s-d(b-and-b)");
@@ -558,8 +558,8 @@ plot(wd*0.5/pi,D_k0,"linestyle","-", ...
      wd*0.5/pi,D_kmin,"linestyle","-.");
 ylabel("$\\frac{dAsq}{d\\omega}$");
 xlabel("Frequency");
-strt=sprintf("Parallel one-multplier allpass lattice bandpass Hilbert filter \
-pass-band(nbits=%d,ndigits=%d) : fdpl=%g,fdpu=%g",nbits,ndigits,fdpl,fdpu);
+strt=sprintf(["Parallel one-multplier allpass lattice bandpass Hilbert filter ", ...
+ "pass-band(nbits=%d,ndigits=%d) : fdpl=%g,fdpu=%g"],nbits,ndigits,fdpl,fdpu);
 title(strt);
 axis([fpmin,fpmax,(dp+([-dpr,dpr]/2))]);
 legend("exact","s-d","s-d(b-and-b)");
@@ -618,17 +618,17 @@ fprintf(fid,"Wdp=%d %% Pass band dAsqdw response weight\n",Wpp);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ...\n\
-     use_best_branch_and_bound_found ...\n\
-     enforce_pcls_constraints_on_final_filter ...\n\
-     n NA1k NA2k difference tol ctol rho  ...\n\
-     fapl fapu dBap Wap Watl Watu ...\n\
-     fasl fasu dBas Wasl Wasu ...\n\
-     ftpl ftpu tp tpr Wtp ...\n\
-     fppl fppu pp ppr Wpp ...\n\
-     fdpl fdpu dp dpr Wdp ...\n\
-     A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ...\n\
-     A1k_min A1epsilon_min A2k_min A2epsilon_min",strf))
+eval(sprintf(["save %s.mat ...\n", ...
+ "     use_best_branch_and_bound_found ...\n", ...
+ "     enforce_pcls_constraints_on_final_filter ...\n", ...
+ "     n NA1k NA2k difference tol ctol rho  ...\n", ...
+ "     fapl fapu dBap Wap Watl Watu ...\n", ...
+ "     fasl fasu dBas Wasl Wasu ...\n", ...
+ "     ftpl ftpu tp tpr Wtp ...\n", ...
+ "     fppl fppu pp ppr Wpp ...\n", ...
+ "     fdpl fdpu dp dpr Wdp ...\n", ...
+ "     A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ...\n", ...
+ "     A1k_min A1epsilon_min A2k_min A2epsilon_min"],strf))
 
 % Done
 toc;

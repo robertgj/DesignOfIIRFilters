@@ -60,8 +60,8 @@ function [H,dHdw,dHdk,d2Hdwdk,diagd2Hdk2,diagd3Hdwdk2,d2Hdydx,d3Hdwdydx] = ...
     nargin
     nargout
     print_usage ...
-("[H,dHdw,dHdk,d2Hdwdk,diagd2Hdk2,diagd3Hdwdk2,d2Hdydx,d3Hdwdydx]= ...\n\
- schurOneMAPlattice2H(w,A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk,d2Adydx,d2Capdydx)");
+(["[H,dHdw,dHdk,d2Hdwdk,diagd2Hdk2,diagd3Hdwdk2,d2Hdydx,d3Hdwdydx]= ...\n", ...
+ " schurOneMAPlattice2H(w,A,B,Cap,Dap,dAdk,dBdk,dCapdk,dDapdk,d2Adydx,d2Capdydx)"]);
   endif
 
   % Initialise

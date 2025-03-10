@@ -6,11 +6,11 @@
    #!/bin/sh
    sname=exhaustive_schurOneMlattice_bandpass_test
    for i in `seq 0 7`;do \
-     cp $sname.m $sname"_"$i.m; \
-     sed -i -e "s/$sname/$sname"_"$i/" $sname"_"$i.m; \
-     sed -i -e "s/m_start=0/m_start=$i/" $sname"_"$i.m; \
-     sed -i -e "s/m_step=1/m_step=8/" $sname"_"$i.m; \
-     octave-cli -q $sname"_"$i.m &
+     cp $sname.m $sname["_"$i.m; ", ...
+ "     sed -i -e "s/$sname/$sname"_"$i/" $sname"_"$i.m; ", ...
+ "     sed -i -e "s/m_start=0/m_start=$i/" $sname"_"$i.m; ", ...
+ "     sed -i -e "s/m_step=1/m_step=8/" $sname"_"$i.m; ", ...
+ "     octave-cli -q $sname"_"]$i.m &
    done
 %}
 

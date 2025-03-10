@@ -46,10 +46,10 @@ function [P,gradP,diagHessP,hessP]=...
   % Sanity checks
   %
   if ((nargin ~= 7) && (nargin ~= 8)) || (nargout > 4) 
-    print_usage("[P,gradP,diagHessP,hessP] = ...\n\
-      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p) \n\
-[P,gradP,diagHessP,hessP] = ...\n\
-      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)");
+    print_usage(["[P,gradP,diagHessP,hessP] = ...\n", ...
+ "      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p) \n", ...
+ "[P,gradP,diagHessP,hessP] = ...\n", ...
+ "      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)"]);
   endif
   if nargin == 7
     difference = false;

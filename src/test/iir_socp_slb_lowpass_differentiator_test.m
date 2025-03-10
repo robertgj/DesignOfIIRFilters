@@ -223,8 +223,8 @@ for c=1:3
 endfor
 axis(ax(1),[0 0.5 Arp*[-1,1]]);
 axis(ax(2),[0 0.5 Ars*[-1,1]]);
-strPerror=sprintf("Differentiator PCLS error : \
-fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g",fap,Arp,fas,Ars,tp,tpr,ppr);
+strPerror=sprintf(["Differentiator PCLS error : ", ...
+ "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,Arp,fas,Ars,tp,tpr,ppr);
 title(strPerror);
 ylabel("Amplitude");
 grid("on");
@@ -254,8 +254,8 @@ for c=1:3
 endfor
 axis(ax(1),[0 0.5 0 1.2]);
 axis(ax(2),[0 0.5 0 0.03]);
-strP=sprintf("Differentiator PCLS : \
-fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g",fap,Arp,fas,Ars,tp,tpr,ppr);
+strP=sprintf(["Differentiator PCLS : ", ...
+ "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,Arp,fas,Ars,tp,tpr,ppr);
 title(strP);
 ylabel("Amplitude");
 grid("on");
@@ -311,8 +311,8 @@ fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
-eval(sprintf("save %s.mat U Ud1z V M Q R d1 d1z N1 D1 ftol ctol n \
-fap fas Arp Art Ars tp tpr pp ppr Wap Wat Was Wtp Wpp",strf));
+eval(sprintf(["save %s.mat U Ud1z V M Q R d1 d1z N1 D1 ftol ctol n ", ...
+ "fap fas Arp Art Ars tp tpr pp ppr Wap Wat Was Wtp Wpp"],strf));
 
 % Done
 toc;

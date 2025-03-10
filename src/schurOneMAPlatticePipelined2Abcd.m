@@ -62,11 +62,11 @@ function [Aap,Bap,Cap,Dap,dummy1,dummy2,dummy3,dummy4] = ...
 
   % Sanity checks
   if nargin<1 || nargin>3 || (nargout~=4 && nargout~=7 && nargout~=8)
-    print_usage("[Aap,Bap,Cap,Dap] = schurOneMAPlatticePipelined2Abcd(k)\n\
-[Aap,Bap,Cap,Dap,ABCDap0,ABCDapk,ABCDapkk] = ...\n\
-  schurOneMAPlatticePipelined2Abcd(k,epsilon,kk)\n\
-[Aap,Bap,Cap,Dap,dAapdx,dBapdx,dCapdx,dDapdx] = ...\n\
-  schurOneMAPlatticePipelined2Abcd(k,epsilon,kk)\n");
+    print_usage(["[Aap,Bap,Cap,Dap] = schurOneMAPlatticePipelined2Abcd(k)\n", ...
+ "[Aap,Bap,Cap,Dap,ABCDap0,ABCDapk,ABCDapkk] = ...\n", ...
+ "  schurOneMAPlatticePipelined2Abcd(k,epsilon,kk)\n", ...
+ "[Aap,Bap,Cap,Dap,dAapdx,dBapdx,dCapdx,dDapdx] = ...\n", ...
+ "  schurOneMAPlatticePipelined2Abcd(k,epsilon,kk)\n"]);
   endif
 
   if isempty(k)

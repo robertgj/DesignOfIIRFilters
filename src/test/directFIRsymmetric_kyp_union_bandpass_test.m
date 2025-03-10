@@ -219,8 +219,8 @@ axis(ax(2),[0 0.5 0.01*[-1,1]]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
-strt=sprintf("KYP symmetric FIR band pass filter:\
- N=%d,d=%d,fasl=%4.2f,fapl=%4.2f,fapu=%4.2f,fasu=%4.2f",N,d,fasl,fapl,fapu,fasu);
+strt=sprintf(["KYP symmetric FIR band pass filter:", ...
+ " N=%d,d=%d,fasl=%4.2f,fapl=%4.2f,fapu=%4.2f,fasu=%4.2f"],N,d,fasl,fapl,fapu,fasu);
 title(strt);
 print(strcat(strf,"_response"),"-dpdflatex");
 close

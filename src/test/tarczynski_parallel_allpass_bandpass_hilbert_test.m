@@ -175,8 +175,8 @@ close
 % Plot phase response
 plot(w*0.5/pi,(unwrap(arg(Ha0))+(w*tp))/pi,"-", ...
      w*0.5/pi,(unwrap(arg(Hb0))+(w*tp))/pi,"--");
-strt=sprintf("Allpass phase response adjusted for linear phase : \
-ma=%d,mb=%d,tp=%g",ma,mb,tp);
+strt=sprintf(["Allpass phase response adjusted for linear phase : ", ...
+ "ma=%d,mb=%d,tp=%g"],ma,mb,tp);
 title(strt);
 ylabel("Linear phase error(rad./$\\pi$)");
 xlabel("Frequency");
@@ -193,9 +193,9 @@ print_polynomial(Db0,"Db0");
 print_polynomial(Db0,"Db0",strcat(strf,"_Db0_coef.m"));
 print_polynomial(N0,"N0");
 print_polynomial(D0,"D0");
-eval(sprintf("save %s.mat tol maxiter ma mb ...\n\
-     fasl fapl fapu fasu Wasl Watl Wap Watu Wasu ...\n\
-     ftpl ftpu tp Wtp fppl fppu pp Wpp abi ab0 Da0 Db0 N0 D0",strf));
+eval(sprintf(["save %s.mat tol maxiter ma mb ...\n", ...
+ "     fasl fapl fapu fasu Wasl Watl Wap Watu Wasu ...\n", ...
+ "     ftpl ftpu tp Wtp fppl fppu pp Wpp abi ab0 Da0 Db0 N0 D0"],strf));
 
 % Done
 toc;

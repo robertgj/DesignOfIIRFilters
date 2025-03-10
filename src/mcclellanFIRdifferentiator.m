@@ -41,9 +41,9 @@ function [hM,rho,fext,fiter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin < 4) || (nargin > 6) || (nargout>5)
-    print_usage("hM=mcclellanFIRdifferentiator(M,F,D,W)\n\
-[hM,rho,fext,fiter,feasible]= ...\n\
-  mcclellanFIRdifferentiator(M,F,D,W,maxiter,tol)");
+    print_usage(["hM=mcclellanFIRdifferentiator(M,F,D,W)\n", ...
+ "[hM,rho,fext,fiter,feasible]= ...\n", ...
+ "  mcclellanFIRdifferentiator(M,F,D,W,maxiter,tol)"]);
   endif
 
   % Sanity checks

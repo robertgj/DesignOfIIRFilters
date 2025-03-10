@@ -60,8 +60,8 @@ function [X0,FVEC]=xInitHd(XI,U,V,M,Q,R, ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 if nargin~=20
-  print_usage("[X0,FVEC]=xInitHd(XI,U,V,M,Q,R, ..\n\
-    wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,maxiter,tol)");
+  print_usage(["[X0,FVEC]=xInitHd(XI,U,V,M,Q,R, ..\n", ...
+ "    wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp,maxiter,tol)"]);
 endif
 % Sanity checks
 if ((length(wa) ~= length(Ad)) || (length(wa) ~= length(Wa)))

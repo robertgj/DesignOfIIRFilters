@@ -134,8 +134,8 @@ Px1=iirP(wp,x1,U,V,M,Q,R);
 subplot(311);
 plot(wa*0.5/pi,[Ax1 Adl Adu]-Ad)
 axis([0 0.5 -max(Ar1,Ar2)/2 max(Ar1,Ar2)/2]);
-strM=sprintf("Differentiator correction filter MMSE response : \
-R=%d,ft1=%g,ft2=%g,td=%g",R,ft1,ft2,(td-0.5));
+strM=sprintf(["Differentiator correction filter MMSE response : ", ...
+ "R=%d,ft1=%g,ft2=%g,td=%g"],R,ft1,ft2,(td-0.5));
 title(strM);
 ylabel("Amplitude error");
 grid("on");
@@ -192,8 +192,8 @@ subplot(311);
 plot(w*0.5/pi,[Ad1 Adl Adu]-Ad);
 axis([0 0.5 -(max(Ar1,Ar2)/2)-0.001 +(max(Ar1,Ar2)/2)+0.001]);
 grid("on");
-strP=sprintf("Differentiator PCLS response:\
-R=%d,ft1=%g,ft2=%g,Ar1=%g,Ar2=%g,td=%g,tdr=%g,pr=%g",
+strP=sprintf(["Differentiator PCLS response:", ...
+ "R=%d,ft1=%g,ft2=%g,Ar1=%g,Ar2=%g,td=%g,tdr=%g,pr=%g"],
              R,ft1,ft2,Ar1,Ar2,td,tdr,pr);
 title(strP);
 ylabel("Amplitude error");
@@ -247,8 +247,8 @@ fclose(fid);
 
 % Done
 toc;
-eval(sprintf("save %s.mat U V M Q R x0 x1 d1 N1 D1 \
-ftol ctol n ft1 ft2 Ar1 Ar2 Wap td tdr Wtp pr Wpp",strf));
+eval(sprintf(["save %s.mat U V M Q R x0 x1 d1 N1 D1 ", ...
+ "ftol ctol n ft1 ft2 Ar1 Ar2 Wap td tdr Wtp pr Wpp"],strf));
 
 diary off
 movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

@@ -41,8 +41,8 @@ xlabel("Frequency");
 axis(ax(1),[0 0.5 -1 0]);
 axis(ax(2),[0 0.5 -60 -35]);
 grid("on");
-tstr=sprintf("Initial response of parallel all-pass filter and delay : \
-N=%d, DD=%d",N, DD);
+tstr=sprintf(["Initial response of parallel all-pass filter and delay : ", ...
+ "N=%d, DD=%d"],N, DD);
 title(tstr);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close

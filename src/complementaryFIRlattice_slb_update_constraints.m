@@ -25,8 +25,8 @@ function vS=complementaryFIRlattice_slb_update_constraints ...
 
   % Sanity checks
   if (nargin ~= 13) || (nargout ~= 1)
-    print_usage("vS=complementaryFIRlattice_slb_update_constraints ...\n\
-      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,tol)");
+    print_usage(["vS=complementaryFIRlattice_slb_update_constraints ...\n", ...
+ "      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,tol)"]);
   endif
   if length(Asq) ~= length(Asqdu)
     error("length(Asq) ~= length(Asqdu)");

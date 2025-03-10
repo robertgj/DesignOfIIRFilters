@@ -104,8 +104,8 @@ kuv_active=(1:(length(k0)+length(u0)+length(v0)))';
 dmax=inf;
 
 % Common strings
-strt=sprintf("FRM Hilbert %%s %%s : \
-Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d",Mmodel,Dmodel,fap,fas,tp);
+strt=sprintf(["FRM Hilbert %%s %%s : ", ...
+ "Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d"],Mmodel,Dmodel,fap,fas,tp);
 
 % Plot the initial response
 schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
@@ -159,8 +159,8 @@ print_polynomial(u1,"u1",strcat(strf,"_u1_coef.m"));
 print_polynomial(v1,"v1");
 print_polynomial(v1,"v1",strcat(strf,"_v1_coef.m"));
 
-eval(sprintf("save %s.mat r0 u0 v0 k0 epsilon0 p0 k1 u1 v1 Mmodel Dmodel dmax \
-rho ftol ctol fap fas Wap ftp fts tp Wtp fpp fps pp Wpp",strf));
+eval(sprintf(["save %s.mat r0 u0 v0 k0 epsilon0 p0 k1 u1 v1 Mmodel Dmodel dmax ", ...
+ "rho ftol ctol fap fas Wap ftp fts tp Wtp fpp fps pp Wpp"],strf));
 
 % Done
 toc;

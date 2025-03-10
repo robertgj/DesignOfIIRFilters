@@ -177,8 +177,8 @@ printf("max(A_s)=%11.6g(%6.4f) at f=%6.4f\n",
 % Save
 print_polynomial(h,"h","%13.10f");
 print_polynomial(h,"h",sprintf("%s_h_coef.m",strf),"%13.10f");
-eval(sprintf("save %s.mat \
-h sedumi_eps fap fas M N d g G Asq_max Asq_pl Esq_s Wap Wat Was",strf));
+eval(sprintf(["save %s.mat ", ...
+ "h sedumi_eps fap fas M N d g G Asq_max Asq_pl Esq_s Wap Wat Was"],strf));
 
 % Done
 toc

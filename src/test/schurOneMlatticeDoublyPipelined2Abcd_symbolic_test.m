@@ -51,19 +51,19 @@ for N=[1,2,3,6,7],
     else
       c0str="1";
     endif
-    eval(sprintf("rM=...\n\
-      [[ 0,       -k%d,0,0,0,(1+E%d*k%d)];...\n\
-       [%s,          0,0,0,0,        c%d];...\n\
-       [ 0,(1-E%d*k%d),0,0,0,        k%d]];\n",l,l,l,c0str,l,l,l,l));
-    eval(sprintf("M%d=...\n\
-      [[eye((3*l)-2),zeros((3*l)-2,(3*(N-l))+7)];...\n\
-       [zeros(3,(3*l)-2),rM,zeros(3,(3*(N-l))+1)];...\n\
-       [zeros((3*(N-l))+4,(3*l)+1),eye((3*(N-l))+4)]];",l));
+    eval(sprintf(["rM=...\n", ...
+ "      [[ 0,       -k%d,0,0,0,(1+E%d*k%d)];...\n", ...
+ "       [%s,          0,0,0,0,        c%d];...\n", ...
+ "       [ 0,(1-E%d*k%d),0,0,0,        k%d]];\n"],l,l,l,c0str,l,l,l,l));
+    eval(sprintf(["M%d=...\n", ...
+ "      [[eye((3*l)-2),zeros((3*l)-2,(3*(N-l))+7)];...\n", ...
+ "       [zeros(3,(3*l)-2),rM,zeros(3,(3*(N-l))+1)];...\n", ...
+ "       [zeros((3*(N-l))+4,(3*l)+1),eye((3*(N-l))+4)]];"],l));
   endfor
   
   % Final module
-  eval(sprintf("M%d=[eye(Ns-1),zeros(Ns-1,4);...\n\
-                     zeros(3,Ns-1),[0,0,0,1;1,0,0,0;0,1,0,0]];\n",N+1));
+  eval(sprintf(["M%d=[eye(Ns-1),zeros(Ns-1,4);...\n", ...
+ "                     zeros(3,Ns-1),[0,0,0,1;1,0,0,0;0,1,0,0]];\n"],N+1));
   
   Abcd=M0;
   for l=1:N+1

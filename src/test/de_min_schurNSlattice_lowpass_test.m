@@ -22,8 +22,8 @@ truncation_test_common;
 
 use_best_de_min_found=true
 if use_best_de_min_found
-  warning("Using the best filter found so far. \n\
-           Set \"use_best_de_min_found\"=false to re-run de_min.");
+  warning(["Using the best filter found so far. \n", ...
+ "           Set \"use_best_de_min_found\"=false to re-run de_min."]);
 endif
 
 strf="de_min_schurNSlattice_lowpass_test";

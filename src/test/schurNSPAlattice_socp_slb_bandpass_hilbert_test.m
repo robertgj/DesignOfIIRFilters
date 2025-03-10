@@ -205,16 +205,16 @@ N2=(conv(A1d,flipud(A2d))-conv(A2d,flipud(A1d)))/2;
 D2=conv(A1d,A2d);
 HH=freqz(N2,D2,wa);
 if max(abs((abs(HH).^2)-Asq)) > 100*eps
-  warning("With freqz, N2 and D2, max(abs((abs(HH).^2)-Asq))(%g/eps)>100*eps\n\
-   !!!! Re-write schurNSlattice2Abcd.cc with extra precision arithmetic !!!!",
+  warning(["With freqz, N2 and D2, max(abs((abs(HH).^2)-Asq))(%g/eps)>100*eps\n", ...
+ "   !!!! Re-write schurNSlattice2Abcd.cc with extra precision arithmetic !!!!"],
           max(abs((abs(HH).^2)-Asq))/eps);
 endif
 H1=freqz(flipud(A1d),A1d,wa);
 H2=freqz(flipud(A2d),A2d,wa);
 HH=(H1-H2)/2;
 if max(abs((abs(HH).^2)-Asq)) > 100*eps
-  warning("With freqz, A1d and A2d, max(abs((abs(HH).^2)-Asq))(%g*eps)>100*eps\n\
-   !!!! Re-write schurNSlattice2Abcd.cc with extra precision arithmetic !!!!",
+  warning(["With freqz, A1d and A2d, max(abs((abs(HH).^2)-Asq))(%g*eps)>100*eps\n", ...
+ "   !!!! Re-write schurNSlattice2Abcd.cc with extra precision arithmetic !!!!"],
           max(abs((abs(HH).^2)-Asq))/eps);
 endif
 
@@ -372,13 +372,13 @@ print_polynomial(A1stdx,"A1stdx",strcat(strf,"_A1stdx.m"),"%6.4f");
 print_polynomial(A2stdx,"A2stdx");
 print_polynomial(A2stdx,"A2stdx",strcat(strf,"_A2stdx.m"),"%6.4f");
 
-eval(sprintf("save %s.mat ...\n\
-     rho tol ctol difference sxx_symmetric n ...\n\
-     fasl fapl fapu fasu dBap dBas Wasl Watl Wap Watu Wasu ...\n\
-     ftpl ftpu tp tpr Wtp ...\n\
-     fppl fppu pp ppr Wpp ...\n\
-     Da0 Db0 ...\n\
-     A1s20 A1s00 A1s02 A1s22 A2s20 A2s00 A2s02 A2s22 A1d A2d N2 D2",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ "     rho tol ctol difference sxx_symmetric n ...\n", ...
+ "     fasl fapl fapu fasu dBap dBas Wasl Watl Wap Watu Wasu ...\n", ...
+ "     ftpl ftpu tp tpr Wtp ...\n", ...
+ "     fppl fppu pp ppr Wpp ...\n", ...
+ "     Da0 Db0 ...\n", ...
+ "     A1s20 A1s00 A1s02 A1s22 A2s20 A2s00 A2s02 A2s22 A1d A2d N2 D2"],strf));
         
 % Done
 toc;

@@ -239,8 +239,8 @@ print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
-eval(sprintf("save %s.mat ftol nplot ma mb fap dBap Wap fas dBas Was ftp td tpr \
-Wtp fpp ppr Wpp fdp dpr Wdp rho D1_0 D2_0 A1k A2k D1 D2",strf));
+eval(sprintf(["save %s.mat ftol nplot ma mb fap dBap Wap fas dBas Was ftp td tpr ", ...
+ "Wtp fpp ppr Wpp fdp dpr Wdp rho D1_0 D2_0 A1k A2k D1 D2"],strf));
 
 % Done 
 diary off

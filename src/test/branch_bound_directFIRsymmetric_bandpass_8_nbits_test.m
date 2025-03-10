@@ -235,8 +235,8 @@ legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
-strt=sprintf("Direct-form symmetric bandpass filter response \
-(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,fasl=%g,fasu=%g", ...
+strt=sprintf(["Direct-form symmetric bandpass filter response ", ...
+ "(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,fasl=%g,fasu=%g"], ...
              nbits,ndigits,fapl,fapu,fasl,fasu);
 title(strt);
 print(strcat(strf,"_passband_response"),"-dpdflatex");

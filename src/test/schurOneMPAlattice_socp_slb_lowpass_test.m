@@ -182,10 +182,10 @@ print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
-eval(sprintf("save %s.mat ... \n\
-     rho tol ctol difference n m1 m2 ...\n\
-     fap dBap Wap Wat fas dBas Was ftp td tdr Wtp ...\n\
-     Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p Da1 Db1 N1 D1",strf));
+eval(sprintf(["save %s.mat ... \n", ...
+ "     rho tol ctol difference n m1 m2 ...\n", ...
+ "     fap dBap Wap Wat fas dBas Was ftp td tdr Wtp ...\n", ...
+ "     Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p Da1 Db1 N1 D1"],strf));
 
 % Done
 toc;

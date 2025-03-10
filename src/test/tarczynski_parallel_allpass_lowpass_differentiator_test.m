@@ -137,8 +137,8 @@ ylabel("Amplitude");
 axis([0 0.5 0 1]);
 grid("on");
 strt=sprintf ...
-       ("Parallel all-pass correction response : \
-ma=%d,mb=%d,fap=%g,fas=%g,tp=%g",
+       (["Parallel all-pass correction response : ", ...
+ "ma=%d,mb=%d,fap=%g,fas=%g,tp=%g"],
         ma,mb,fap,fas,tp);
 title(strt);
 subplot(312);
@@ -211,8 +211,8 @@ close
 % Plot phase response
 plot(w*0.5/pi,(unwrap(arg(Ha0))+(w*tp))/pi,"-", ...
      w*0.5/pi,(unwrap(arg(Hb0))+(w*tp))/pi,"--");
-strt=sprintf("Allpass phase response adjusted for linear phase : \
-ma=%d,mb=%d,tp=%g",ma,mb,tp);
+strt=sprintf(["Allpass phase response adjusted for linear phase : ", ...
+ "ma=%d,mb=%d,tp=%g"],ma,mb,tp);
 title(strt);
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
@@ -229,8 +229,8 @@ print_polynomial(Db0,"Db0");
 print_polynomial(Db0,"Db0",strcat(strf,"_Db0_coef.m"));
 print_polynomial(N0,"N0");
 print_polynomial(D0,"D0");
-eval(sprintf("save %s.mat ...\n\
-     tol maxiter n ma mb fap fas Wap Was Wtp Wpp abi ab0 Da0 Db0 N0 D0",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ "     tol maxiter n ma mb fap fas Wap Was Wtp Wpp abi ab0 Da0 Db0 N0 D0"],strf));
 
 % Done
 toc;

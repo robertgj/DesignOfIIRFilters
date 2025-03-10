@@ -45,10 +45,10 @@ function [dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw] = ...
 % Sanity checks
 %
 if ((nargin ~= 3) && (nargin ~= 4)) || (nargout > 4) 
-  print_usage("[dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw]= ...\n\
-    schurOneMPAlatticeDoublyPipelineddAsqdw(w,A1k,A2k)\n\
-[dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw]= ...\n\
-      schurOneMPAlatticeDoublyPipelineddAsqdw(w,A1k,A2k,difference)");
+  print_usage(["[dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw]= ...\n", ...
+ "    schurOneMPAlatticeDoublyPipelineddAsqdw(w,A1k,A2k)\n", ...
+ "[dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw]= ...\n", ...
+ "      schurOneMPAlatticeDoublyPipelineddAsqdw(w,A1k,A2k,difference)"]);
 endif
 if nargin == 3
   difference=false;

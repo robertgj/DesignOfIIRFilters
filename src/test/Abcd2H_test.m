@@ -808,8 +808,8 @@ diff_dHoptdx=zeros(1,nplot);
                                  dAoptdx,dBoptdx,dCoptdx,dDoptdx);
 diff_dHoptdx=abs(((dHoptdxP-dHoptdxM)/del)-d2Hoptdwdx);
 if max(max(diff_dHoptdx)) > 2000*tol
-  error("max(max(abs(((dHoptdxP-dHoptdxM)/del)-d2Hoptdwdx))\
-(%g*tol) > 2000*tol", max(max(diff_dHoptdx))/tol);
+  error(["max(max(abs(((dHoptdxP-dHoptdxM)/del)-d2Hoptdwdx))", ...
+ "(%g*tol) > 2000*tol"], max(max(diff_dHoptdx))/tol);
 endif
 
 % Check diagd2Hoptdx2
@@ -874,8 +874,8 @@ diff_dHoptdx(1+Nc+Nr+(Nc*Nr))=...
       diagd2Hoptdx2(1+Nc+Nr+(Nc*Nr)));
 % Check d2Hoptdx2
 if max(diff_dHoptdx) > 500*tol
-  error("max(abs(((dHoptdxP-dHoptdxM)/del)-diagd2Hoptdx2));)\
-(%g*tol) > 500*tol",max(diff_dHoptdx)/tol);
+  error(["max(abs(((dHoptdxP-dHoptdxM)/del)-diagd2Hoptdx2));)", ...
+ "(%g*tol) > 500*tol"],max(diff_dHoptdx)/tol);
 endif
 
 % Check diagd3Hoptdwdx2
@@ -890,8 +890,8 @@ diff_dHoptdx=zeros(1,nplot);
   Abcd2H(w(nc)-delw,Aopt,Bopt,Copt,Dopt,dAoptdx,dBoptdx,dCoptdx,dDoptdx);
 diff_diagd2Hoptdx2=abs(((diagd2Hoptdx2P-diagd2Hoptdx2M)/del)-diagd3Hoptdwdx2);
 if max(diff_diagd2Hoptdx2) > 25000*tol
-  error("max(abs(((diagd2Hoptdx2P-diagd2Hoptdx2M)/del)-\
-diagd3Hoptdwdx2(nc,_)))(%g*tol) > 25000*tol",
+  error(["max(abs(((diagd2Hoptdx2P-diagd2Hoptdx2M)/del)-", ...
+ "diagd3Hoptdwdx2(nc,_)))(%g*tol) > 25000*tol"],
         max(max(diff_diagd2Hoptdx2))/tol);
 endif
 

@@ -22,8 +22,8 @@ strf="branch_bound_schurOneMAPlattice_frm_12_nbits_test";
 %
 use_best_branch_and_bound_found=true
 if use_best_branch_and_bound_found
-  warning("Reporting the best branch-and-bound filter found so far. \n\
-           Set \"use_best_branch_and_bound_found\"=false to re-run.");
+  warning(["Reporting the best branch-and-bound filter found so far. \n", ...
+ "           Set \"use_best_branch_and_bound_found\"=false to re-run."]);
 endif
 enforce_pcls_constraints_on_final_filter=true
 branch_bound_schurOneMAPlattice_frm_12_nbits_test_allocsd_Lim=true
@@ -610,8 +610,8 @@ legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strt=sprintf("FRM filter (nbits=%d,ndigits=%d) : fap=%g,fas=%g,\
-dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g*$\\pi$",
+strt=sprintf(["FRM filter (nbits=%d,ndigits=%d) : fap=%g,fas=%g,", ...
+ "dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g*$\\pi$"],
              nbits,ndigits,fap,fas,dBap,dBas,tp,tpr,ppr);
 title(strt);
 grid("on");

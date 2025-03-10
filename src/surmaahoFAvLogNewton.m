@@ -39,10 +39,10 @@ function [min_z,min_p,K,iter] = ...
 
   % Sanity checks
   if nargout<3 || nargout>4 || nargin<6 || nargin>12
-    print_usage("[min_z,min_p,K,iter]=surmaahoFAvLogNewton\
-(nmin,fp,fs,allpass_p,tp,dBap)\n\
-[min_z,min_p,K,iter]=surmaahoFAvLogNewton(nmin,fp,fs,allpass_p,tp,dBap, ...\n\
-                                          dBas,mpa,mu,maxiter,tol,verbose)");
+    print_usage(["[min_z,min_p,K,iter]=surmaahoFAvLogNewton", ...
+ "(nmin,fp,fs,allpass_p,tp,dBap)\n", ...
+ "[min_z,min_p,K,iter]=surmaahoFAvLogNewton(nmin,fp,fs,allpass_p,tp,dBap, ...\n", ...
+ "                                          dBas,mpa,mu,maxiter,tol,verbose)"]);
   endif
 
   % Sanity checks

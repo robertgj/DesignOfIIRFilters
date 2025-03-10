@@ -88,8 +88,8 @@ for k=1:Va
   approx_delTdelRpak=(TabPd2-TabMd2)/del;
   diff_delTdelRpak=delTdelRpa(k)-approx_delTdelRpak;
   if abs(diff_delTdelRpak)>tol
-    error("Filter a: real pole/zero %d\n\
-delTdelRpa=%g, approx=%g, diff=%g\n",
+    error(["Filter a: real pole/zero %d\n", ...
+ "delTdelRpa=%g, approx=%g, diff=%g\n"],
           k, delTdelRpa(k), approx_delTdelRpak, diff_delTdelRpak);
   endif
   delk=circshift(delk,1);
@@ -101,8 +101,8 @@ for k=1:Qaon2
   approx_delTdelrpak=(TabPd2-TabMd2)/del;
   diff_delTdelrpak=delTdelrpa(k)-approx_delTdelrpak;
   if abs(diff_delTdelrpak)>tol
-    error("Filter a: conjugate pole/zero %d radius\n\
-delTdelrpa=%g, approx=%g, diff=%g\n",
+    error(["Filter a: conjugate pole/zero %d radius\n", ...
+ "delTdelrpa=%g, approx=%g, diff=%g\n"],
           k, delTdelrpa(k), approx_delTdelrpak, diff_delTdelrpak);
   endif
   delk=circshift(delk,1);
@@ -114,8 +114,8 @@ for k=1:Qaon2
   approx_delTdelthetapak=(TabPd2-TabMd2)/del;
   diff_delTdelthetapak=delTdelthetapa(k)-approx_delTdelthetapak;
   if abs(diff_delTdelthetapak)>tol
-    error("Filter a: conjugate pole/zero %d angle\n\
-delTdelthetapa=%g, approx=%g, diff=%g\n",
+    error(["Filter a: conjugate pole/zero %d angle\n", ...
+ "delTdelthetapa=%g, approx=%g, diff=%g\n"],
           k, delTdelthetapa(k), approx_delTdelthetapak, diff_delTdelthetapak);
   endif
   delk=circshift(delk,1);
@@ -129,8 +129,8 @@ for k=1:Vb
   approx_delTdelRpbk=(TabPd2-TabMd2)/del;
   diff_delTdelRpbk=delTdelRpb(k)-approx_delTdelRpbk;
   if abs(diff_delTdelRpbk)>tol
-    error("Filter b: real pole/zero %d\n\
-delTdelRpb=%g, approx=%g, diff=%g\n",
+    error(["Filter b: real pole/zero %d\n", ...
+ "delTdelRpb=%g, approx=%g, diff=%g\n"],
           k, delTdelRpb(k), approx_delTdelRpbk, diff_delTdelRpbk);
   endif
   delk=circshift(delk,1);
@@ -142,8 +142,8 @@ for k=1:Qbon2
   approx_delTdelrpbk=(TabPd2-TabMd2)/del;
   diff_delTdelrpbk=delTdelrpb(k)-approx_delTdelrpbk;
   if abs(diff_delTdelrpbk)>tol
-    error("Filter b: conjugate pole/zero %d radius\n\
-delTdelrpb=%g, approx=%g, diff=%g\n",
+    error(["Filter b: conjugate pole/zero %d radius\n", ...
+ "delTdelrpb=%g, approx=%g, diff=%g\n"],
           k, delTdelrpb(k), approx_delTdelrpbk, diff_delTdelrpbk);
   endif
   delk=circshift(delk,1);
@@ -155,8 +155,8 @@ for k=1:Qbon2
   approx_delTdelthetapbk=(TabPd2-TabMd2)/del;
   diff_delTdelthetapbk=delTdelthetapb(k)-approx_delTdelthetapbk;
   if abs(diff_delTdelthetapbk)>tol
-    error("Filter b: conjugate pole/zero %d angle\n\
-delTdelthetapb=%g, approx=%g, diff=%g\n",
+    error(["Filter b: conjugate pole/zero %d angle\n", ...
+ "delTdelthetapb=%g, approx=%g, diff=%g\n"],
           k, delTdelthetapb(k), approx_delTdelthetapbk, diff_delTdelthetapbk);
   endif
   delk=circshift(delk,1);

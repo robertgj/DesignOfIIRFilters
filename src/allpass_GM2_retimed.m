@@ -28,10 +28,10 @@ function [y,xx]=allpass_GM2_retimed(arg1,arg2,arg3,arg4,arg5,arg6)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if nargin<3 || nargin>6 || nargout>2
-    print_usage("[y,xx]=allpass_GM2_retimed(k1,k2,u)\n\
-[y,xx]=allpass_GM2_retimed(k1,k2,u,rounding)\n\
-[y,xx]=allpass_GM2_retimed(k1,e1,k2,e2,u)\n\
-[y,xx]=allpass_GM2_retimed(k1,e1,k2,e2,u,rounding)");
+    print_usage(["[y,xx]=allpass_GM2_retimed(k1,k2,u)\n", ...
+ "[y,xx]=allpass_GM2_retimed(k1,k2,u,rounding)\n", ...
+ "[y,xx]=allpass_GM2_retimed(k1,e1,k2,e2,u)\n", ...
+ "[y,xx]=allpass_GM2_retimed(k1,e1,k2,e2,u,rounding)"]);
   endif
   if nargin==3
     k1=arg1;

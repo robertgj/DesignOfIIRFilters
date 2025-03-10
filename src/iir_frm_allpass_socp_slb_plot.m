@@ -22,8 +22,8 @@ function iir_frm_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel, ...
 
   % Sanity checks
   if (nargin ~= 10)
-    print_usage("iir_frm_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel, ...\n\
-                nplot,fpass,strT,strF,strOpt)")
+    print_usage(["iir_frm_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel, ...\n", ...
+ "                nplot,fpass,strT,strF,strOpt)"])
   endif
   if all(isfield(x,{"R","r","aa","ac"})) == false
     error("Expected x to have fields R,r,aa and ac");

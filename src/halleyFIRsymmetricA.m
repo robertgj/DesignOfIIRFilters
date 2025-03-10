@@ -36,8 +36,8 @@ function wx=halleyFIRsymmetricA(wa,hM,Ax)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargout > 1) || ((nargin ~= 2) && (nargin~=3))
-    print_usage("wx=halleyFIRsymmetricA(wa,hM) (find peaks)\n\
-wx=halleyFIRsymmetricA(wa,hM,Ax) (find wx for values Ax)");
+    print_usage(["wx=halleyFIRsymmetricA(wa,hM) (find peaks)\n", ...
+ "wx=halleyFIRsymmetricA(wa,hM,Ax) (find wx for values Ax)"]);
   endif
   if isempty(wa)
     wx=[];

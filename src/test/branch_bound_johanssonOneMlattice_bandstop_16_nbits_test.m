@@ -275,8 +275,8 @@ plot(wplot*0.5/pi,20*log10(abs(Azp_fMk)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(Azp_fMk_min)),"linestyle","-.");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -0.0001 0.0004]);
-strt=sprintf("Johansson-and-Saram\\\"{a}ki cascade all-pass band-stop \
-response after branch-and-bound search (nbits=%d)",nbits);
+strt=sprintf(["Johansson-and-Saram\\\"{a}ki cascade all-pass band-stop ", ...
+ "response after branch-and-bound search (nbits=%d)"],nbits);
 title(strt);
 grid("on");
 subplot(212)

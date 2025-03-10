@@ -80,8 +80,8 @@ Tdl=-Tdu;
 Wt=Wtp*ones(ntp,1);
 
 % Common strings
-strt=sprintf("FRM halfband %%s %%s : \
-fap=%g,ftp=%g,fas=%g,mr=%d,Mmodel=%d,Dmodel=%d,dmask=%d", ...
+strt=sprintf(["FRM halfband %%s %%s : ", ...
+ "fap=%g,ftp=%g,fas=%g,mr=%d,Mmodel=%d,Dmodel=%d,dmask=%d"], ...
              fap,ftp,fas,mr,Mmodel,Dmodel,dmask);
 
 % Plot the initial response
@@ -142,8 +142,8 @@ print_polynomial(u2,"u2",strcat(strf,"_u2_coef.m"));
 print_polynomial(v2,"v2");
 print_polynomial(v2,"v2",strcat(strf,"_v2_coef.m"));
 
-eval(sprintf("save %s.mat Mmodel Dmodel fap fas dBap Wap tpr Wtp dBas Was \
-rho ftol ctol r0 aa0 k0 epsilon0 p0 k2 epsilon2 p2 u2 v2",strf));
+eval(sprintf(["save %s.mat Mmodel Dmodel fap fas dBap Wap tpr Wtp dBas Was ", ...
+ "rho ftol ctol r0 aa0 k0 epsilon0 p0 k2 epsilon2 p2 u2 v2"],strf));
 
 % Done
 toc;

@@ -43,9 +43,9 @@ function [P,gradP,diagHessP,hessP] = ...
 % Sanity checks
 %
 if (nargin ~= 6) || (nargout > 4) 
-  print_usage("[P,gradP,diagHessP,hessP]= ...\n\
-    schurOneMPAlatticeDoublyPipelinedAntiAliasedP ...\n\
-      (w,A1k,A2k,difference,B1k,B2k)\n");
+  print_usage(["[P,gradP,diagHessP,hessP]= ...\n", ...
+ "    schurOneMPAlatticeDoublyPipelinedAntiAliasedP ...\n", ...
+ "      (w,A1k,A2k,difference,B1k,B2k)\n"]);
 endif
 if length(w) == 0
   P=[]; gradP=[]; diagHessP=[]; hessP=[];

@@ -41,10 +41,10 @@ function [P,gradP,diagHessP]=schurNSPAlatticeP ...
   % Sanity checks
   %
   if ((nargin ~= 9) && (nargin ~= 10)) || (nargout > 3) 
-    print_usage("[P,gradP] = schurNSPAlatticeP ...\n\
-      (w,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22) \n\
-[P,gradP,diagHessP] = schurNSPAlatticeP ...\n\
-      (w,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22,difference)");
+    print_usage(["[P,gradP] = schurNSPAlatticeP ...\n", ...
+ "      (w,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22) \n", ...
+ "[P,gradP,diagHessP] = schurNSPAlatticeP ...\n", ...
+ "      (w,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22,difference)"]);
   endif
   if nargin == 9
     difference = false;

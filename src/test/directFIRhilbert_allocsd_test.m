@@ -194,8 +194,8 @@ for ndigits=2:3
        nbits_range,nbits_sidelobe_sd,"linestyle","-.", ... 
        nbits_range,nbits_sidelobe_Lim,"linestyle","--", ...
        nbits_range,nbits_sidelobe_Ito,"linestyle","-")
-  strt=sprintf("Hilbert FIR maximum response \
-in [%4.2f,0.25) (dB), ndigits=%d",fapl,ndigits);
+  strt=sprintf(["Hilbert FIR maximum response ", ...
+ "in [%4.2f,0.25) (dB), ndigits=%d"],fapl,ndigits);
   title(strt);
   xlabel("bits");
   ylabel("Maximum response(dB)");

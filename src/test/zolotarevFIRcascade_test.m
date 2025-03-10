@@ -433,8 +433,8 @@ subplot(111)
 plot(wr);
 axis([1 length(wr) -1.05 1.05]);
 ylabel("Double zero location");
-title(sprintf("Double zero locations of $Q_{%d,%d}(w,%10.8f)$ \
-(%d on right, %d on left)", p,q,k,length(y1),length(y3)));
+title(sprintf(["Double zero locations of $Q_{%d,%d}(w,%10.8f)$ ", ...
+ "(%d on right, %d on left)"], p,q,k,length(y1),length(y3)));
 grid("on");
 print(sprintf("%s_Q_%d_%d_zeros",strf,p,q),"-dpdflatex");
 close

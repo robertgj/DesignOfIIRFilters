@@ -46,8 +46,8 @@ function [H,dHdw,dHdk,d2Hdwdk,diagd2Hdk2,diagd3Hdwdk2,d2Hdydx,d3Hdwdydx] = ...
   % Sanity checks
   if (nargin~=6) || (nargout>8)
     print_usage ...
-    ("[H,dHdw,dHdk,d2Hdwdk,diagd2Hdk2,diagd3Hdwdk2,d2Hdydx, d3Hdwdydx] = ...\n\
-      schurOneMAPlatticeDoublyPipelined2H(w,A,B,Cap,Dap,dAdk)");
+    (["[H,dHdw,dHdk,d2Hdwdk,diagd2Hdk2,diagd3Hdwdk2,d2Hdydx, d3Hdwdydx] = ...\n", ...
+ "      schurOneMAPlatticeDoublyPipelined2H(w,A,B,Cap,Dap,dAdk)"]);
   endif
 
   % Sanity checks

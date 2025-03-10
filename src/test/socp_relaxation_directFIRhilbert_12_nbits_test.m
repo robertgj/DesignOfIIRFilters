@@ -216,8 +216,8 @@ plot(wplot*0.5/pi,20*log10(abs(A_hM0)),"linestyle","-", ...
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 axis([0 0.5 -0.2 0.2]);
-strt=sprintf("Direct-form Hilbert filter pass-band \
-(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g,Wap=%g,Was=%g", ...
+strt=sprintf(["Direct-form Hilbert filter pass-band ", ...
+ "(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g,Wap=%g,Was=%g"], ...
                       nbits,ndigits,fapl,fapu,dBap,Wap,Was);
 title(strt);
 legend("exact","s-d","s-d(Ito)","s-d(Ito and SOCP-relax)");
@@ -245,8 +245,8 @@ fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc npoints \
-fapl fapu dBap Wap Was hM0 hM0_sd hM0_Ito_sd hM_min",strf));
+eval(sprintf(["save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc npoints ", ...
+ "fapl fapu dBap Wap Was hM0 hM0_sd hM0_Ito_sd hM_min"],strf));
 
 % Done
 toc;

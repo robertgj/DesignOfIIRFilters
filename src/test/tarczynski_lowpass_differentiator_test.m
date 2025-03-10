@@ -127,8 +127,8 @@ plot(wplot*0.5/pi,abs(Hc));
 axis([0 0.5 0 1]);
 ylabel("Amplitude");
 grid("on");
-s=sprintf("Tarczynski et al. lowpass_differentiator correction : \
-nN=%d,nD=%d,R=%d,tp=%g",nN,nD,R,tp);
+s=sprintf(["Tarczynski et al. lowpass_differentiator correction : ", ...
+ "nN=%d,nD=%d,R=%d,tp=%g"],nN,nD,R,tp);
 title(s);
 subplot(312);
 plot(wplot*0.5/pi,(unwrap(angle(Hc))+(wplot*(tp-0.5)))/pi);

@@ -195,8 +195,8 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_frm)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -70 10]);
 grid("on");
-strt=sprintf("F2M halfband/delay filter : \
-fpass=%g,mr=%d,na=%d,Mmodel=%d,Dmodel=%d,Was=%d", ...
+strt=sprintf(["F2M halfband/delay filter : ", ...
+ "fpass=%g,mr=%d,na=%d,Mmodel=%d,Dmodel=%d,Was=%d"], ...
              fpass,mr,na,Mmodel,Dmodel,Was);
 title(strt);
 subplot(212);

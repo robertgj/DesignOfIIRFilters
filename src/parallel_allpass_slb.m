@@ -105,11 +105,11 @@ function [abk,slb_iter,opt_iter,func_iter,feasible] = ...
 % Sanity checks
 %
 if (nargin ~= 32) || (nargout > 5)
-  print_usage("[abk,slb_iter,opt_iter,func_iter,feasible] = ...\n\
-    parallel_allpass_slb(pfx,ab0,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb, ...\n\
-                         polyphase,difference, ...\n\
-                         wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                         wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
+  print_usage(["[abk,slb_iter,opt_iter,func_iter,feasible] = ...\n", ...
+ "    parallel_allpass_slb(pfx,ab0,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb, ...\n", ...
+ "                         polyphase,difference, ...\n", ...
+ "                         wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n", ...
+ "                         wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)"]);
 endif
 if ~is_function_handle(pfx)
   error("Expected pfx to be a function handle!");

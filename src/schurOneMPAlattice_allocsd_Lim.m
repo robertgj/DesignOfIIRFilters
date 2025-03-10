@@ -35,9 +35,9 @@ function ndigits_alloc = schurOneMPAlattice_allocsd_Lim ...
   % Sanity checks
   %
   if ((nargin~=12)&&(nargin~=15)&&(nargin~=18)&&(nargin~=21)) || nargout~=1
-    print_usage ("ndigits_alloc=schurOneMPAlattice_allocsd_Lim ...\n\
-      (nbits,ndigits,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference, ...\n\
-       wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)");
+    print_usage (["ndigits_alloc=schurOneMPAlattice_allocsd_Lim ...\n", ...
+ "      (nbits,ndigits,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference, ...\n", ...
+ "       wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)"]);
   endif
   if length(A1k)~=length(A1epsilon) || length(A1k)~=length(A1p)
     error("Input A1 coefficient vector lengths inconsistent!");

@@ -77,10 +77,10 @@ function [x,E,sqp_iter,func_iter,feasible] = ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 if (nargin ~= 25) || (nargout ~= 5)
-  print_usage("[x,E,sqp_iter,func_iter,feasible] = ...\n\
-         deczky1_sqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...\n\
-         wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx, ...\n\
-         maxiter,ftol,ctol,verbose)"); 
+  print_usage(["[x,E,sqp_iter,func_iter,feasible] = ...\n", ...
+ "         deczky1_sqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...\n", ...
+ "         wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx, ...\n", ...
+ "         maxiter,ftol,ctol,verbose)"]); 
 endif
 
 % Sanity checks

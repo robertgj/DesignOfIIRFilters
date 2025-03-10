@@ -48,8 +48,8 @@ function [Asq,gradAsq] = ...
   % Sanity checks
   %
   if (nargin ~= 8) || (nargout > 2)
-    print_usage("[Asq,gradAsq]= ...\n\
-  schurOneMAPlattice_frm_halfbandAsq(w,k,epsilon,p,u,v,Mmodel,Dmodel);");
+    print_usage(["[Asq,gradAsq]= ...\n", ...
+ "  schurOneMAPlattice_frm_halfbandAsq(w,k,epsilon,p,u,v,Mmodel,Dmodel);"]);
   endif
   if length(u) ~= (length(v)+1)
     error("length(u) ~= (length(v)+1)");

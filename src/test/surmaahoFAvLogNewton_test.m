@@ -88,8 +88,8 @@ for nmin=6:7
     max_dBas=0-max(As);
     max_P=max(Pp);
     min_P=min(Pp);
-    printf("1z:nmin=%d,nall=%d,max_dBap=%8.6f,min_dBap=%8.6f,max_dBas=%6.2f,\
-min_P=%6.2f,max_P=%6.2f\n",nmin,nall,max_dBap,min_dBap,max_dBas,min_P,max_P);
+    printf(["1z:nmin=%d,nall=%d,max_dBap=%8.6f,min_dBap=%8.6f,max_dBas=%6.2f,", ...
+ "min_P=%6.2f,max_P=%6.2f\n"],nmin,nall,max_dBap,min_dBap,max_dBas,min_P,max_P);
 
     % Plot response
     subplot(211);
@@ -142,8 +142,8 @@ min_P=%6.2f,max_P=%6.2f\n",nmin,nall,max_dBap,min_dBap,max_dBas,min_P,max_P);
     max_dBas=0-max(As);
     max_P=max(Pp);
     min_P=min(Pp);
-    printf("2z:nmin=%d,nall=%d,max_dBap=%8.6f,min_dBap=%8.6f,max_dBas=%6.2f,\
-min_P=%6.2f,max_P=%6.2f\n",nmin,nall,max_dBap,min_dBap,max_dBas,min_P,max_P);
+    printf(["2z:nmin=%d,nall=%d,max_dBap=%8.6f,min_dBap=%8.6f,max_dBas=%6.2f,", ...
+ "min_P=%6.2f,max_P=%6.2f\n"],nmin,nall,max_dBap,min_dBap,max_dBas,min_P,max_P);
 
     % Plot response
     subplot(211);

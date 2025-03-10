@@ -73,8 +73,8 @@ function Esq=directFIRhilbert_bandpassEsq(hM,_waf,_Adf,_Waf)
     waf=_waf;Adf=_Adf;Waf=_Waf;
     init_done=true;
   elseif nargin~=1
-    print_usage("directFIRhilbert_bandpassEsq(hM)\n\
-directFIRhilbert_bandpassEsq(hM,_waf,_Adf,_Waf)");
+    print_usage(["directFIRhilbert_bandpassEsq(hM)\n", ...
+ "directFIRhilbert_bandpassEsq(hM,_waf,_Adf,_Waf)"]);
   endif
   if init_done==false
     error("init_done==false");

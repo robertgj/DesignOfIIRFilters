@@ -112,8 +112,8 @@ legend("Initial","PCLS","Adut","Adlt","location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
-strt=sprintf("Lowpass FIR (coefficient %d rounded to %d bits) : \
-fap=%g,dBapt=%g,Wap=%g,fas=%g,dBast=%g,Was=%g", ...
+strt=sprintf(["Lowpass FIR (coefficient %d rounded to %d bits) : ", ...
+ "fap=%g,dBapt=%g,Wap=%g,fas=%g,dBast=%g,Was=%g"], ...
              hM_inactive,nbits,fap,dBapt,Wap,fas,dBast,Was);
 title(strt);
 subplot(212)
@@ -147,9 +147,9 @@ print_polynomial(hM1t,"hM1t");
 print_polynomial(hM2,"hM2");
 print_polynomial(hM2,"hM2",strcat(strf,"_hM2_coef.m"));
 
-eval(sprintf("save %s.mat ftol ctol maxiter M nplot \
-     fap Wap dBap fas Was dBas wa Ad Adu Adl Wa h0 hM1 \
-     nbits hM_inactive hM1t hM2 dBapt dBast Adut Adlt",strf));
+eval(sprintf(["save %s.mat ftol ctol maxiter M nplot ", ...
+ "     fap Wap dBap fas Was dBas wa Ad Adu Adl Wa h0 hM1 ", ...
+ "     nbits hM_inactive hM1t hM2 dBapt dBast Adut Adlt"],strf));
 
 % Done
 diary off

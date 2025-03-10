@@ -254,8 +254,8 @@ plot(wplot*0.5/pi,20*log10(abs(A_hM0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.25 -0.2 0.2]);
-strt=sprintf("Direct-form FIR Hilbert filter (nbits=%d,ndigits=%d) : \
-fapl=%g,fapu=%g,dBap=%g,Wap=%g,Was=%g",nbits,ndigits,fapl,fapu,dBap,Wap,Was);
+strt=sprintf(["Direct-form FIR Hilbert filter (nbits=%d,ndigits=%d) : ", ...
+ "fapl=%g,fapu=%g,dBap=%g,Wap=%g,Was=%g"],nbits,ndigits,fapl,fapu,dBap,Wap,Was);
 title(strt);
 legend("exact","mmse","pcls","s-d","s-d(BandB)");
 legend("location","southeast");
@@ -291,8 +291,8 @@ print_polynomial(hM_min,"hM_min",nscale);
 print_polynomial(hM_min,"hM_min",strcat(strf,"_hM_min_coef.m"),nscale);
 
 % Save results
-eval(sprintf("save %s.mat hM0 hM1 hM2 hM2_sd ftol ctol nbits ndigits \
-fapl fapu dBap Wap Was improved_solution_found hM_min",strf));
+eval(sprintf(["save %s.mat hM0 hM1 hM2 hM2_sd ftol ctol nbits ndigits ", ...
+ "fapl fapu dBap Wap Was improved_solution_found hM_min"],strf));
        
 % Done
 toc;

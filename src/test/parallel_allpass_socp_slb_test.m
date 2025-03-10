@@ -206,8 +206,8 @@ plot(wplot*0.5/pi,20*log10(abs(Hab1)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -100 5]);
 grid("on");
-strt=sprintf("Parallel allpass PCLS response : \
-ma=%d,mb=%d,fap=%4.2f,dBap=%4.2f,fas=%7.5f,dBas=%5.2f",ma,mb,fap,dBap,fas,dBas);
+strt=sprintf(["Parallel allpass PCLS response : ", ...
+ "ma=%d,mb=%d,fap=%4.2f,dBap=%4.2f,fas=%7.5f,dBas=%5.2f"],ma,mb,fap,dBap,fas,dBas);
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
@@ -316,8 +316,8 @@ print_polynomial(Nab1,"Nab1",strcat(strf,"_Nab1_coef.m"));
 print_polynomial(Dab1,"Dab1");
 print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
-eval(sprintf("save %s.mat n wa fap Wap fas Was_mmse Was_pcls ma mb \
-K Va Qa Ra Vb Qb Rb ab0 abm ab1 Da1 Db1",strf));
+eval(sprintf(["save %s.mat n wa fap Wap fas Was_mmse Was_pcls ma mb ", ...
+ "K Va Qa Ra Vb Qb Rb ab0 abm ab1 Da1 Db1"],strf));
 
 % Done 
 toc;

@@ -227,10 +227,10 @@ for M=1:2,
   print_polynomial(Da1,"Da1");
   print_polynomial(Da1,"Da1",sprintf("%s_m_%d_Da1_coef.m",strf,m));
 
-  eval(sprintf("save %s_m_%d.mat ...\n\
-   rho tol ctol difference n m DD ...\n\
-   fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp ...\n\
-   Da0 A1k A1epsilon A1p Na1 Da1",strf,m));
+  eval(sprintf(["save %s_m_%d.mat ...\n", ...
+ "   rho tol ctol difference n m DD ...\n", ...
+ "   fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp ...\n", ...
+ "   Da0 A1k A1epsilon A1p Na1 Da1"],strf,m));
 endfor
 
 % Done

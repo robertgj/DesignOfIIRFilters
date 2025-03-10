@@ -106,8 +106,8 @@ kc_active=[find((k0)~=0);(Nk+(1:Nc))'];
 % Initialise strings
 strM=sprintf("Hilbert filter %%s:Wap=%g,ftt=%g,td=%g,Wtp=%g,fpt=%g,Wpp=%g", ...
              Wap,ftt,td,Wtp,fpt,Wpp);
-strP=sprintf("Hilbert filter %%s:\
-dBar=%g,Wap=%g,td=%g,ftt=%g,tdr=%g,Wtp=%g,fpt=%g,ppr=%g,Wpp=%g", ...
+strP=sprintf(["Hilbert filter %%s:", ...
+ "dBar=%g,Wap=%g,td=%g,ftt=%g,tdr=%g,Wtp=%g,fpt=%g,ppr=%g,Wpp=%g"], ...
              dBar,Wap,td,ftt,tdr,Wtp,fpt,ppr,Wpp);
 
 % Calculate the initial response
@@ -312,8 +312,8 @@ print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
 print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
-eval(sprintf("save %s.mat n dmax ftol ctol dBar dBat Wap Wat \
-fpt pp ppr Wpp Wpt ftt td tdr Wtp Wtt k2 epsilon2 p2 c2 N2 D2", strf));
+eval(sprintf(["save %s.mat n dmax ftol ctol dBar dBat Wap Wat ", ...
+ "fpt pp ppr Wpp Wpt ftt td tdr Wtp Wtt k2 epsilon2 p2 c2 N2 D2"], strf));
 
 % Done
 toc

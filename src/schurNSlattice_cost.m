@@ -116,10 +116,10 @@ function [cost,s10,s11,s20,s00,s02,s22,svecnz_out] = ...
     svecnz=svecnz(:);
     init_done=true;
   elseif (nargin~=1) && (nargin~=2)
-    print_usage("[cost,s10,s11,s20,s00,s02,s22,svecnz_out] = ...\n\
-         schurNSlattice_cost(svecnz,Ad,Wa,Td,Wt, ...\n\
-                             s10_0,s11_0,s20_0,s00_0,s02_0,s22_0, ...\n\
-                             use_symmetric_s,nbits,ndigits,max_cost)");
+    print_usage(["[cost,s10,s11,s20,s00,s02,s22,svecnz_out] = ...\n", ...
+ "         schurNSlattice_cost(svecnz,Ad,Wa,Td,Wt, ...\n", ...
+ "                             s10_0,s11_0,s20_0,s00_0,s02_0,s22_0, ...\n", ...
+ "                             use_symmetric_s,nbits,ndigits,max_cost)"]);
   elseif init_done==false
     error("init_done==false");
   endif

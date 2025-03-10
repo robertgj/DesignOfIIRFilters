@@ -82,11 +82,11 @@ iir_piqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 if (nargin ~= 34) || (nargout ~= 5)
-  print_usage("[xk,Ek,piqp_iter,func_iter,feasible]= ...\n\
-    iir_piqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...\n\
-                  wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...\n\
-                  wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...\n\
-                  maxiter,ftol,ctol,verbose)");
+  print_usage(["[xk,Ek,piqp_iter,func_iter,feasible]= ...\n", ...
+ "    iir_piqp_mmse(vS,x0,xu,xl,dmax,U,V,M,Q,R, ...\n", ...
+ "                  wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws, ...\n", ...
+ "                  wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...\n", ...
+ "                  maxiter,ftol,ctol,verbose)"]);
 endif
 
 %

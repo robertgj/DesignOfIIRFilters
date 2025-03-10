@@ -153,8 +153,8 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-strt=sprintf("Bandpass OneM lattice, nbits=%d,bitstart=%d,\
-msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
+strt=sprintf(["Bandpass OneM lattice, nbits=%d,bitstart=%d,", ...
+ "msize=%d,ndigits=%d"],nbits,bitstart,msize,ndigits);
 title(strt);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
@@ -190,8 +190,8 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-strt=sprintf("Bandpass OneM lattice, nbits=%d,bitstart=%d,\
-msize=%d,ndigits=%d, Lim and Ito SD allocation",nbits,bitstart,msize,ndigits);
+strt=sprintf(["Bandpass OneM lattice, nbits=%d,bitstart=%d,", ...
+ "msize=%d,ndigits=%d, Lim and Ito SD allocation"],nbits,bitstart,msize,ndigits);
 title(strt);
 print(strcat(strf,"_amplitude_allocsd"),"-dpdflatex");
 close
@@ -270,9 +270,9 @@ print_polynomial(k_bfsdi,"k_bfsdi",strcat(strf,"_k_bfsdi_coef.m"),nscale);
 print_polynomial(c_bfsdi,"c_bfsdi",strcat(strf,"_c_bfsdi_coef.m"),nscale);
 
 % Save the results
-eval(sprintf("save %s.mat \
-k_ex c_ex k_rd c_rd k_bf c_bf k_sd c_sd k_bfsd c_bfsd \
-k_sdl c_sdl k_bfsdl c_bfsdl k_sdi c_sdi k_bfsdi c_bfsdi",strf));
+eval(sprintf(["save %s.mat ", ...
+ "k_ex c_ex k_rd c_rd k_bf c_bf k_sd c_sd k_bfsd c_bfsd ", ...
+ "k_sdl c_sdl k_bfsdl c_bfsdl k_sdi c_sdi k_bfsdi c_bfsdi"],strf));
 
 % Done
 diary off

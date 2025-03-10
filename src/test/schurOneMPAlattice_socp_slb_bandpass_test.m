@@ -250,12 +250,12 @@ print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
 print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
-eval(sprintf("save %s.mat ...\n\
-     n m1 m2 difference tol ctol rho  ...\n\
-     fapl fapu dBap Wap Watl Watu ...\n\
-     fasl fasu dBas Wasl Wasu ...\n\
-     ftpl ftpu td tdr Wtp ...\n\
-     Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p A1d A2d N2 D2",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ "     n m1 m2 difference tol ctol rho  ...\n", ...
+ "     fapl fapu dBap Wap Watl Watu ...\n", ...
+ "     fasl fasu dBas Wasl Wasu ...\n", ...
+ "     ftpl ftpu td tdr Wtp ...\n", ...
+ "     Da0 Db0 A1k A1epsilon A1p A2k A2epsilon A2p A1d A2d N2 D2"],strf));
 
 % Done
 toc;

@@ -146,8 +146,8 @@ if max(abs((abs(HH).^2)-Asq)) > 3e-11
 endif
 
 % Plot the PCLS response
-strt=sprintf("Schur 1-multiplier SOCP PCLS : fasl=%g,fapl=%g,fapu=%g,fasu=%g,\
-dBap=%6.4g,dBas=%g",fasl,fapl,fapu,fasu,dBap,dBas);
+strt=sprintf(["Schur 1-multiplier SOCP PCLS : fasl=%g,fapl=%g,fapu=%g,fasu=%g,", ...
+ "dBap=%6.4g,dBas=%g"],fasl,fapl,fapu,fasu,dBap,dBas);
 subplot(211);
 [ax,ha,hs]=plotyy(wa*0.5/pi,10*log10(Asq),wa*0.5/pi,10*log10(Asq));
 axis(ax(1),[0 0.5 -0.1 0.02]);

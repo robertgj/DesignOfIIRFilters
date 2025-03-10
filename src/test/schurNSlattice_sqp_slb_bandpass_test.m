@@ -260,11 +260,11 @@ print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
 print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
-eval(sprintf("save %s.mat fapl fapu fasl fasu \
-ftpl ftpu dBap Wap dBas Wasl Wasu tp tpr Wtp dmax rho ftol ctol \
-s10_0 s11_0 s20_0 s00_0 s02_0 s22_0 \
-s10_1 s11_1 s20_1 s00_1 s02_1 s22_1 \
-s10_2 s11_2 s20_2 s00_2 s02_2 s22_2 N2 D2",strf));
+eval(sprintf(["save %s.mat fapl fapu fasl fasu ", ...
+ "ftpl ftpu dBap Wap dBas Wasl Wasu tp tpr Wtp dmax rho ftol ctol ", ...
+ "s10_0 s11_0 s20_0 s00_0 s02_0 s22_0 ", ...
+ "s10_1 s11_1 s20_1 s00_1 s02_1 s22_1 ", ...
+ "s10_2 s11_2 s20_2 s00_2 s02_2 s22_2 N2 D2"],strf));
 
 % Done
 toc;

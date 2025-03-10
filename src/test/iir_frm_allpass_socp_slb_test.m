@@ -65,8 +65,8 @@ Tdl=-Tdu;
 Wt=Wtp*ones(nap,1);
 
 % Common strings for output plots
-strt=sprintf("FRM allpass/delay %%s %%s:Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,\
-Vr=%d,Qr=%d,Rr=%d,na=%d,nc=%d",Mmodel,Dmodel,fap,fas,Vr,Qr,Rr,na,nc);
+strt=sprintf(["FRM allpass/delay %%s %%s:Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,", ...
+ "Vr=%d,Qr=%d,Rr=%d,na=%d,nc=%d"],Mmodel,Dmodel,fap,fas,Vr,Qr,Rr,na,nc);
 strf="iir_frm_allpass_socp_slb_test";
 
 % Plot the initial response
@@ -125,8 +125,8 @@ print_polynomial(d2.aa,"aa",strcat(strf,"_aa_coef.m"));
 print_polynomial(d2.ac,"ac");
 print_polynomial(d2.ac,"ac",strcat(strf,"_ac_coef.m"));
 
-eval(sprintf("save %s.mat \
-x0 d2 Mmodel Dmodel fap fas dBap Wap tpr Wtp dBas Was rho ftol ctol",strf));
+eval(sprintf(["save %s.mat ", ...
+ "x0 d2 Mmodel Dmodel fap fas dBap Wap tpr Wtp dBas Was rho ftol ctol"],strf));
 
 % Done
 toc;

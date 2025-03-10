@@ -47,8 +47,8 @@ function [Asq,gradAsq,diagHessAsq,hessAsq] = ...
   % Sanity checks
   %
   if (nargin ~= 4) || (nargout > 4) 
-    print_usage("[Asq,gradAsq,diagHessAsq,hessAsq] = ...\n\
-      schurOneMAPlatticePipelinedAsq(w,k,epsilon,kk)");
+    print_usage(["[Asq,gradAsq,diagHessAsq,hessAsq] = ...\n", ...
+ "      schurOneMAPlatticePipelinedAsq(w,k,epsilon,kk)"]);
   endif
   if(length(k)) ~= length(epsilon)
     error("length(k)(%d) ~= length(epsilon)(%d)",length(k),length(epsilon));

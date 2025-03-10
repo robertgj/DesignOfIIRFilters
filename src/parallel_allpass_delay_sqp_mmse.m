@@ -72,11 +72,11 @@ function [ak,sqp_iter,func_iter,feasible]= ...
 % Sanity checks
 %
 if nargin ~= 23
-  print_usage("[ak,sqp_iter,func_iter,feasible]= ...\n\
-    parallel_allpass_delay_sqp_mmse(vS,a0,au,al,dmax,V,Q,R,DD, ...\n\
-                                    wa,Asqd,Asqdu,Asqdl,Wa, ...\n\
-                                    wt,Td,Tdu,Tdl,Wt, ...\n\
-                                    maxiter,ftol,ctol,verbose)");
+  print_usage(["[ak,sqp_iter,func_iter,feasible]= ...\n", ...
+ "    parallel_allpass_delay_sqp_mmse(vS,a0,au,al,dmax,V,Q,R,DD, ...\n", ...
+ "                                    wa,Asqd,Asqdu,Asqdl,Wa, ...\n", ...
+ "                                    wt,Td,Tdu,Tdl,Wt, ...\n", ...
+ "                                    maxiter,ftol,ctol,verbose)"]);
 endif
 wa=wa(:);
 Nwa=length(wa);
@@ -221,8 +221,8 @@ function [Esq,gradEsq,diagHessEsq,func_iter] = ...
     iter=0;
     init_complete=true;
   else
-    print_usage("[Esq,gradEsq,diagHessEsq,func_iter]=...\n\
-      parallel_allpass_delay_sqp_mmse(x,...);");
+    print_usage(["[Esq,gradEsq,diagHessEsq,func_iter]=...\n", ...
+ "      parallel_allpass_delay_sqp_mmse(x,...);"]);
   endif
   if nargout == 0
     return;

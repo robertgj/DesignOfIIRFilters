@@ -76,8 +76,8 @@ legend("Initial","PCLS","Adu","Adl","location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
-strt=sprintf("Bandpass FIR : fapl=%g,fapu=%g,dBap=%g,Wap=%g,\
-fasl=%g,fasu=%g,dBas=%g,Wasl=%g,Wasu=%g", ...
+strt=sprintf(["Bandpass FIR : fapl=%g,fapu=%g,dBap=%g,Wap=%g,", ...
+ "fasl=%g,fasu=%g,dBas=%g,Wasl=%g,Wasu=%g"], ...
              fapl,fapu,dBap,Wap,fasl,fasu,dBas,Wasl,Wasu);
 title(strt);
 subplot(212)
@@ -124,8 +124,8 @@ legend("Initial","PCLS","Adut","Adlt","location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
-strt=sprintf("Bandpass FIR (coefficients %d,%d,%d rounded to %d bits) : \
-fapl=%g,fapu=%g,dBapt=%g,fasl=%g,fasu=%g,dBast=%g", ...
+strt=sprintf(["Bandpass FIR (coefficients %d,%d,%d rounded to %d bits) : ", ...
+ "fapl=%g,fapu=%g,dBapt=%g,fasl=%g,fasu=%g,dBast=%g"], ...
              hM_inactive,nbits,fapl,fapu,dBapt,fasl,fasu,dBast);
 title(strt);
 subplot(212)

@@ -48,8 +48,8 @@ print_polynomial(Aext,"Aext","%13.10f");
 %
 % Plot response
 %
-strt=sprintf("Affine lowpass FIR : M=%d,fp=%g,fs=%g,kappap=%g,kappas=%g, \
-etap=%g,etas=%g,nplot=%d,deltap=%g,deltas=%g", ...
+strt=sprintf(["Affine lowpass FIR : M=%d,fp=%g,fs=%g,kappap=%g,kappas=%g, ", ...
+ "etap=%g,etas=%g,nplot=%d,deltap=%g,deltas=%g"], ...
              M,fp,fs,kappap,kappas,etap,etas,nplot,deltap,deltas);
 wa=(0:nplot)'*pi/nplot;
 A=directFIRsymmetricA(wa,hM);

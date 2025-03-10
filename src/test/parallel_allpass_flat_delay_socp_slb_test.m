@@ -117,8 +117,8 @@ Na1=0.5*(conv([zeros((DD),1);1],Da1(:))+[flipud(Da1(:));zeros((DD),1)]);
 nplot=n;
 [Ha1,wplot]=freqz(Na1,Da1,nplot);
 Ta1=delayz(Na1,Da1,nplot);
-strt=sprintf("Parallel allpass and delay : \
-m=%d,DD=%d,dBap=%4.2f,td=%4.1f,dBas=%4.1f", m,DD,dBap,td,dBas);
+strt=sprintf(["Parallel allpass and delay : ", ...
+ "m=%d,DD=%d,dBap=%4.2f,td=%4.1f,dBas=%4.1f"], m,DD,dBap,td,dBas);
 
 % Plot response
 subplot(211);
@@ -192,8 +192,8 @@ print_polynomial(Da1,"Da1");
 print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 
 % Done 
-eval(sprintf("save %s.mat ...\n\
-     rho tol ctol n fap Wap Wat ftp Wtp fas Was td tdr m DD R Da0 a1 Da1",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ "     rho tol ctol n fap Wap Wat ftp Wtp fas Was td tdr m DD R Da0 a1 Da1"],strf));
 
 toc;
 diary off

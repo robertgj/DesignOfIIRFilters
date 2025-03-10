@@ -311,8 +311,8 @@ for ndigits=2:3
        nbits_range,nbits_kuv_sd_digits,"linestyle","-.", ... 
        nbits_range,nbits_kuv_digits_Lim,"linestyle","--",...
        nbits_range,nbits_kuv_digits_Ito,"linestyle","-")
-  strt=sprintf("FRM low-pass total signed-digits used by coefficients \
-(ndigits=%d)",ndigits);
+  strt=sprintf(["FRM low-pass total signed-digits used by coefficients ", ...
+ "(ndigits=%d)"],ndigits);
   title(strt);
   xlabel("bits");
   ylabel("Total signed-digits used by coefficients");

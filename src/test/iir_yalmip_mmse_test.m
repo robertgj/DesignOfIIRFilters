@@ -198,8 +198,8 @@ for solver={"sedumi","scs-direct","scs-indirect","sdpt3"}
   close
 
   % Save results
-  eval(sprintf("save %s.mat ftol ctol U V M Q R N fapl fapu dBap Wap \
-       fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr pd pdr x1 N1 D1",solver_strf));
+  eval(sprintf(["save %s.mat ftol ctol U V M Q R N fapl fapu dBap Wap ", ...
+ "       fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr pd pdr x1 N1 D1"],solver_strf));
 endfor
 
 % Done 

@@ -127,8 +127,8 @@ axis(ax(2),[0 0.5 -60 -20]);
 ylabel(ax(1),"Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
-strt=sprintf("Symmetric FIR (Parks-McClellan) : \
-order N=%d,K=%3.1f,fap=%g,fas=%g",2*M,K,fap,fas);
+strt=sprintf(["Symmetric FIR (Parks-McClellan) : ", ...
+ "order N=%d,K=%3.1f,fap=%g,fas=%g"],2*M,K,fap,fas);
 title(strt);
 print(sprintf("%s_hPM_response",strf),"-dpdflatex");
 close

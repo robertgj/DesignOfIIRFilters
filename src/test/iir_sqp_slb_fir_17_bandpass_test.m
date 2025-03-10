@@ -144,8 +144,8 @@ print_polynomial(b0,"b0",strcat(strf,"_b0_coef.m"));
 b1=x2tf(d1,U,V,M,Q,R);
 print_polynomial(b1,"b1",strcat(strf,"_b1_coef.m"));
 
-eval(sprintf("save %s.mat \
-U V M Q R ftol ctol fapl fapu dBap Wap dBas Wasu Wasl x1 d1 b1", strf));
+eval(sprintf(["save %s.mat ", ...
+ "U V M Q R ftol ctol fapl fapu dBap Wap dBas Wasu Wasl x1 d1 b1"], strf));
 
 % Done 
 diary off

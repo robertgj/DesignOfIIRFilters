@@ -22,8 +22,8 @@ fapl=0.1,fapu=0.2,dBap=0.3,Wap=1,Watl=0.001,Watu=0.001
 fasl=0.05,fasu=0.25,dBas=30,Wasl=0.5,Wasu=1
 ftpl=0.09,ftpu=0.21,tp=16,tpr=0.032,Wtp=1
 
-strM=sprintf("%%s:fapl=%g,fapu=%g,dBap=%g,Wap=%%g,fasl=%g,fasu=%g,\
-dBas=%g,Wasl=%%g,Wasu=%%g,tp=%d,Wtp=%%g",fapl,fapu,dBap,fasl,fasu,dBas,tp);
+strM=sprintf(["%%s:fapl=%g,fapu=%g,dBap=%g,Wap=%%g,fasl=%g,fasu=%g,", ...
+ "dBas=%g,Wasl=%%g,Wasu=%%g,tp=%d,Wtp=%%g"],fapl,fapu,dBap,fasl,fasu,dBas,tp);
 strd=sprintf("%s_%%s_%%s",strf);
 
 % Frequency points
@@ -176,8 +176,8 @@ print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
-eval(sprintf("save %s.mat U V M Q R n ftol ctol fapl fapu dBap Wap \
-fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp x0 d1",strf));
+eval(sprintf(["save %s.mat U V M Q R n ftol ctol fapl fapu dBap Wap ", ...
+ "fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp x0 d1"],strf));
 
 % Done 
 toc;

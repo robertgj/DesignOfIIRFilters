@@ -84,8 +84,8 @@ if no_delay
   strt=sprintf("FRM parallel allpass %%s %%s:fap=%g,fas=%g,na=%d,nc=%d",
                fap,fas,na,nc);
 else
-  strt=sprintf("FRM parallel allpass %%s %%s:Mmodel=%d,Dmodel=%d,fap=%g,\
-fas=%g,na=%d,nc=%d", Mmodel,Dmodel,fap,fas,na,nc);
+  strt=sprintf(["FRM parallel allpass %%s %%s:Mmodel=%d,Dmodel=%d,fap=%g,", ...
+ "fas=%g,na=%d,nc=%d"], Mmodel,Dmodel,fap,fas,na,nc);
 endif
 
 % Plot the initial response

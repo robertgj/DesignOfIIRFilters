@@ -48,9 +48,9 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargout>4) || ((nargin~=8) && (nargin~=11) && (nargin~=14) && (nargin~=17))
-    print_usage("[Esq,gradEsq,diagHessEsq,hessEsq] = ...\n\
-      schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq ...\n\
-        (A1k,A2k,difference,B1k,B2k,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)");
+    print_usage(["[Esq,gradEsq,diagHessEsq,hessEsq] = ...\n", ...
+ "      schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq ...\n", ...
+ "        (A1k,A2k,difference,B1k,B2k,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)"]);
   endif
 
   if nargin<=6
@@ -242,9 +242,9 @@ function [ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...
     (pfX,A1k,A2k,difference,B1k,B2k,wx,Xd,Wx)
 
   if nargin~=9 || nargout>4
-    print_usage("[ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...\n\
-    schurOneMPAlatticeDoublyPipelinedAntiAliasedXError ...\n\
-      (pfX,A1k,A2k,difference,B1k,B2k,wx,Xd,Wx)");
+    print_usage(["[ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...\n", ...
+ "    schurOneMPAlatticeDoublyPipelinedAntiAliasedXError ...\n", ...
+ "      (pfX,A1k,A2k,difference,B1k,B2k,wx,Xd,Wx)"]);
   endif
 
   % Make row vectors with a single column, 

@@ -334,8 +334,8 @@ plot(wa*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -40 -30]);
-strt=sprintf("Schur lattice bandpass Hilbert filter stop-band : \
-nbits=%d,ndigits=%d,fasl=%g,fasu=%g",nbits,ndigits,fasl,fasu);
+strt=sprintf(["Schur lattice bandpass Hilbert filter stop-band : ", ...
+ "nbits=%d,ndigits=%d,fasl=%g,fasu=%g"],nbits,ndigits,fasl,fasu);
 title(strt);
 legend("initial","s-d","s-d(Ito)","s-d(min)");
 legend("location","southeast");
@@ -353,8 +353,8 @@ plot(wa*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), -0.3, 0.1]);
-strt=sprintf("Schur lattice bandpass Hilbert filter pass-band \
-amplitude : nbits=%d,ndigits=%d,fapl=%g,fapu=%g",nbits,ndigits,fapl,fapu);
+strt=sprintf(["Schur lattice bandpass Hilbert filter pass-band ", ...
+ "amplitude : nbits=%d,ndigits=%d,fapl=%g,fapu=%g"],nbits,ndigits,fapl,fapu);
 title(strt);
 legend("initial","s-d","s-d(Ito)","s-d(min)");
 legend("location","southwest");
@@ -372,8 +372,8 @@ plot(wp*0.5/pi,((P_kc0+(wp*tp))/pi)-pp,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Phase error(rad./$\\pi$)");
 axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), 0.004*[-1,1]]);
-strt=sprintf("Schur lattice bandpass Hilbert filter pass-band phase :\
- nbits=%d,ndigits=%d,fppl=%g,fppu=%g",nbits,ndigits,fppl,fppu);
+strt=sprintf(["Schur lattice bandpass Hilbert filter pass-band phase :", ...
+ " nbits=%d,ndigits=%d,fppl=%g,fppu=%g"],nbits,ndigits,fppl,fppu);
 title(strt);
 legend("initial","s-d","s-d(Ito)","s-d(min)");
 legend("location","southwest");
@@ -391,8 +391,8 @@ plot(wt*0.5/pi,T_kc0,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([min([fapl ftpl fppl]),max([fapu ftpu ftpu]),(tp+(0.2*[-1,1]))]);
-strt=sprintf("Schur lattice bandpass Hilbert filter pass-band delay :\
- nbits=%d,ndigits=%d,ftpl=%g,ftpu=%g",nbits,ndigits,ftpl,ftpu);
+strt=sprintf(["Schur lattice bandpass Hilbert filter pass-band delay :", ...
+ " nbits=%d,ndigits=%d,ftpl=%g,ftpu=%g"],nbits,ndigits,ftpl,ftpu);
 title(strt);
 legend("initial","s-d","s-d(Ito)","s-d(min)");
 legend("location","south");
@@ -436,10 +436,10 @@ fprintf(fid,"Wdp=%g %% Pass band dAsqdw response weight\n",Wdp);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc n \
-fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp \
-fppl fppu pp ppr Wpp fdpl fdpu dp dpr Wdp \
-k0 epsilon0 p0 c0 k0_sd c0_sd k0_sd_Ito c0_sd_Ito k_sd_min c_sd_min",strf));
+eval(sprintf(["save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc n ", ...
+ "fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp ", ...
+ "fppl fppu pp ppr Wpp fdpl fdpu dp dpr Wdp ", ...
+ "k0 epsilon0 p0 c0 k0_sd c0_sd k0_sd_Ito c0_sd_Ito k_sd_min c_sd_min"],strf));
        
 % Done
 toc;

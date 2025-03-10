@@ -94,8 +94,8 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-strt=sprintf("Bandpass NS lattice,nbits=%d,bitstart=%d,\
-msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
+strt=sprintf(["Bandpass NS lattice,nbits=%d,bitstart=%d,", ...
+ "msize=%d,ndigits=%d"],nbits,bitstart,msize,ndigits);
 title(strt);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
@@ -152,11 +152,11 @@ print_polynomial(s00_bfsd,"s00_bfsd",strcat(strf,"_s00_bfsd_coef.m"),nscale);
 print_polynomial(s02_bfsd,"s02_bfsd",strcat(strf,"_s02_bfsd_coef.m"),nscale);
 print_polynomial(s22_bfsd,"s22_bfsd",strcat(strf,"_s22_bfsd_coef.m"),nscale);
 
-eval(sprintf("save %s.mat \
-s10_rd   s11_rd   s20_rd   s00_rd   s02_rd   s22_rd \
-s10_bf   s11_bf   s20_bf   s00_bf   s02_bf   s22_bf \
-s10_sd   s11_sd   s20_sd   s00_sd   s02_sd   s22_sd \
-s10_bfsd s11_bfsd s20_bfsd s00_bfsd s02_bfsd s22_bfsd",strf));
+eval(sprintf(["save %s.mat ", ...
+ "s10_rd   s11_rd   s20_rd   s00_rd   s02_rd   s22_rd ", ...
+ "s10_bf   s11_bf   s20_bf   s00_bf   s02_bf   s22_bf ", ...
+ "s10_sd   s11_sd   s20_sd   s00_sd   s02_sd   s22_sd ", ...
+ "s10_bfsd s11_bfsd s20_bfsd s00_bfsd s02_bfsd s22_bfsd"],strf));
 
 % Done
 diary off

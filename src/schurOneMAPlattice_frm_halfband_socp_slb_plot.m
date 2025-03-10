@@ -23,8 +23,8 @@ function schurOneMAPlattice_frm_halfband_socp_slb_plot ...
 
   % Sanity checks
   if (nargin ~= 11)
-    print_usage("schurOneMAPlattice_frm_halfband_socp_slb_plot ...\n\
-      (k,epsilon,p,u,v,Mmodel,Dmodel,nplot,strT,strF,strOpt)")
+    print_usage(["schurOneMAPlattice_frm_halfband_socp_slb_plot ...\n", ...
+ "      (k,epsilon,p,u,v,Mmodel,Dmodel,nplot,strT,strF,strOpt)"])
   endif
 
   % Reconstruct the FRM filters

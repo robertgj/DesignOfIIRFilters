@@ -156,8 +156,8 @@ Ha=freqz(flipud(Da),Da,nplot);
 Hb=freqz(flipud(Db),Db,nplot);
 plot(wplot*0.5/pi,(unwrap(arg(Ha))+(wplot*(tp1+tp2)/2))/pi,"-", ...
      wplot*0.5/pi,(unwrap(arg(Hb))+(wplot*(tp1+tp2)/2))/pi,"-.");
-strt=sprintf("Allpass phase response error from -w*(tp1+tp2)/(2$\\pi$) : \
-ma=%d,mb=%d,tp1=%g,tp2=%g",ma,mb,tp1,tp2);
+strt=sprintf(["Allpass phase response error from -w*(tp1+tp2)/(2$\\pi$) : ", ...
+ "ma=%d,mb=%d,tp1=%g,tp2=%g"],ma,mb,tp1,tp2);
 title(strt);
 ylabel("Linear phase error(rad./$\\pi$)");
 xlabel("Frequency");

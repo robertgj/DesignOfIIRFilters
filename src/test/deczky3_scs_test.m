@@ -110,8 +110,8 @@ if feasible == 0
   error("d2 (pcls) infeasible");
 endif
 
-strt=sprintf("d2(pcls):fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,\
-tpr=%g,Wtp=%g",fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
+strt=sprintf(["d2(pcls):fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,", ...
+ "tpr=%g,Wtp=%g"],fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
 showZPplot(d2,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d2pz"),"-dpdflatex");
 close
@@ -178,8 +178,8 @@ print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
 print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
-eval(sprintf("save %s.mat U V M Q R ftol ctol fap dBap Wap fas dBas Was \
-ftp tp tpr Wtp x1 d2 N2 D2",strf));
+eval(sprintf(["save %s.mat U V M Q R ftol ctol fap dBap Wap fas dBas Was ", ...
+ "ftp tp tpr Wtp x1 d2 N2 D2"],strf));
 
 % Done
 toc(start);

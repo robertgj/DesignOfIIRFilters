@@ -410,11 +410,11 @@ fprintf(fid,"nplot=%d %% Frequency points\n",nplot);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ...\n\
- tol nplot M deltap deltas fasu1 fapl1 fapu1 fasl2 fasu2 fapl2 fapu2 fasl3 ...\n\
- kNEmin K E N hN aN Fap Fas FasN deltaphat deltashat A B hM hM_hat ...\n\
- Kmin Nmin deltaphatmin deltashatmin Fapmin Fasmin hMmin ...\n\
- hNmin FasNmin Amin Bmin Emin",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ " tol nplot M deltap deltas fasu1 fapl1 fapu1 fasl2 fasu2 fapl2 fapu2 fasl3 ...\n", ...
+ " kNEmin K E N hN aN Fap Fas FasN deltaphat deltashat A B hM hM_hat ...\n", ...
+ " Kmin Nmin deltaphatmin deltashatmin Fapmin Fasmin hMmin ...\n", ...
+ " hNmin FasNmin Amin Bmin Emin"],strf));
 
 % Done
 toc();

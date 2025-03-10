@@ -33,8 +33,8 @@ function [z,p,K,dBas,iter] = ...
 
   % Sanity checks
   if nargout<3 || nargout>5 || nargin<5 || nargin>7
-    print_usage("[z,p,K,dBas,iter]= ...\n\
-  saramakiFAvNewton(n,m,fp,fs,dBap,maxiter,tol)");
+    print_usage(["[z,p,K,dBas,iter]= ...\n", ...
+ "  saramakiFAvNewton(n,m,fp,fs,dBap,maxiter,tol)"]);
   endif
 
   % Sanity checks

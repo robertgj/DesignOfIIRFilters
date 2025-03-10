@@ -199,8 +199,8 @@ print_allpass_pole(a1,V,Q,R,"a1",strcat(strf,"_a1_coef.m"));
 print_polynomial(Da1,"Da1");
 print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 
-eval(sprintf("save %s.mat dmax rho ftol ctol n fap dBap Wap fas dBas Was \
-m DD R Da0 a1 Da1",strf));
+eval(sprintf(["save %s.mat dmax rho ftol ctol n fap dBap Wap fas dBas Was ", ...
+ "m DD R Da0 a1 Da1"],strf));
 
 % Done 
 toc;

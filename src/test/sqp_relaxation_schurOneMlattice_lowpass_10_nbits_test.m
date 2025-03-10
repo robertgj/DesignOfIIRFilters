@@ -287,8 +287,8 @@ legend("exact","s-d(Lim)","s-d(SQP-relax)");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
-strt=sprintf("Schur One-M lattice lowpass : \
-fap=%g,dBap=%g,ftp=%g,tp=%g,tpr=%g,fas=%g,dBas=%g",fap,dBap,ftp,tp,tpr,fas,dBas);
+strt=sprintf(["Schur One-M lattice lowpass : ", ...
+ "fap=%g,dBap=%g,ftp=%g,tp=%g,tpr=%g,fas=%g,dBas=%g"],fap,dBap,ftp,tp,tpr,fas,dBas);
 title(strt);
 print(strcat(strf,"_kc_min_amplitude"),"-dpdflatex");
 close
@@ -358,9 +358,9 @@ fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat \
-k0 epsilon0 p0 c0 ftol ctol nbits ndigits ndigits_alloc \
-fap dBap Wap ftp tp tpr Wtp fas dBas Was dmax rho k_min c_min",strf));
+eval(sprintf(["save %s.mat ", ...
+ "k0 epsilon0 p0 c0 ftol ctol nbits ndigits ndigits_alloc ", ...
+ "fap dBap Wap ftp tp tpr Wtp fas dBas Was dmax rho k_min c_min"],strf));
        
 % Done
 toc;

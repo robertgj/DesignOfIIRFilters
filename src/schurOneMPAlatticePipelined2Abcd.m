@@ -43,10 +43,10 @@ function [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=schurOneMPAlatticePipelined2Abcd ...
   % Sanity checks
   %
   if ((nargin ~= 6) && (nargin ~= 7)) || ((nargout ~= 4) && (nargout ~= 8)) 
-    print_usage("[A,B,C,D] = schurOneMPAlatticePipelined2Abcd ...\n\
-  (A1k,A1epsilon,A1kk,A2k,A2epsilon,A2kk)\n\
-[A,B,C,D,dAdx,dBdx,dCdx,dDdx] = schurOneMPAlatticePipelined2Abcd ...\n\
-  (A1k,A1epsilon,A1kk,A2k,A2epsilon,A2kk,difference)");
+    print_usage(["[A,B,C,D] = schurOneMPAlatticePipelined2Abcd ...\n", ...
+ "  (A1k,A1epsilon,A1kk,A2k,A2epsilon,A2kk)\n", ...
+ "[A,B,C,D,dAdx,dBdx,dCdx,dDdx] = schurOneMPAlatticePipelined2Abcd ...\n", ...
+ "  (A1k,A1epsilon,A1kk,A2k,A2epsilon,A2kk,difference)"]);
   endif
   if nargin == 6
     difference = false;

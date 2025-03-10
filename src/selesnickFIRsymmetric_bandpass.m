@@ -58,8 +58,8 @@ function [hM,fext,fiter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin < 7) || (nargin > 11) || (nargout>4)
-print_usage("[hM,fext,fiter,feasible]=selesnickFIRsymmetric_bandpass ...\n\
-(M,deltasl,deltap,deltasu,ftl,ftu,At,nf,max_iter,tol,verbose)");
+print_usage(["[hM,fext,fiter,feasible]=selesnickFIRsymmetric_bandpass ...\n", ...
+ "(M,deltasl,deltap,deltasu,ftl,ftu,At,nf,max_iter,tol,verbose)"]);
   endif
 
   % Sanity checks
@@ -366,8 +366,8 @@ endfunction
 function [x,A]=selesnickFIRsymmetric_bandpass_exchange ...
                  (x,A,xext,Aext,xtl,xtu,deltasl,deltasu,verbose)
   if nargin~=9 || nargout~=2
-    print_usage("[x,A]=selesnickFIRsymmetric_bandpass_exchange ...\n\
-  (x,A,xext,Aext,xtl,xtu,deltasl,deltasu,verbose)");
+    print_usage(["[x,A]=selesnickFIRsymmetric_bandpass_exchange ...\n", ...
+ "  (x,A,xext,Aext,xtl,xtu,deltasl,deltasu,verbose)"]);
   endif
   if x(1)==1 && all(xtl>xext(2:end))
     if verbose

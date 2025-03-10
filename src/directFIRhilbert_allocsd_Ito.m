@@ -43,8 +43,8 @@ function ndigits_alloc=directFIRhilbert_allocsd_Ito(nbits,ndigits,hM,waf,Adf,Waf
   % Sanity checks
   %
   if (nargin~=6) || (nargout~=1)
-    print_usage("ndigits_alloc=directFIRhilbert_allocsd_Ito ...\n\
-      (nbits,ndigits,hM,waf,Adf,Waf)");
+    print_usage(["ndigits_alloc=directFIRhilbert_allocsd_Ito ...\n", ...
+ "      (nbits,ndigits,hM,waf,Adf,Waf)"]);
   endif
   
   %

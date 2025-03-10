@@ -51,10 +51,10 @@ function [wr,w,Q,twoargHp,wdr,Qdr,twoargHpdr,Zpqmax,wmax,wp,ws]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   
   if (nargin~=4) || (nargout>11)
-    print_usage("[wr,w,Q,twoargHp,wdr,Qdr,twoargHpdr,Zpqmax,wmax,wp,ws]= ...\n\
-      zolotarevFIRcascade_Q(nf,p,q,k)\n\
-[wr,w,Q,twoargHp,wdr,Qdr,twoargHpdr,Zpqmax,wmax,wp,ws]= ...\n\
-      zolotarevFIRcascade_Q({y1,x2,y3},p,q,k)");
+    print_usage(["[wr,w,Q,twoargHp,wdr,Qdr,twoargHpdr,Zpqmax,wmax,wp,ws]= ...\n", ...
+ "      zolotarevFIRcascade_Q(nf,p,q,k)\n", ...
+ "[wr,w,Q,twoargHp,wdr,Qdr,twoargHpdr,Zpqmax,wmax,wp,ws]= ...\n", ...
+ "      zolotarevFIRcascade_Q({y1,x2,y3},p,q,k)"]);
   endif
 
   n=p+q;
@@ -154,8 +154,8 @@ function [w,Q,twoargHp,Zpqmax,wmax,wp,ws]=zolotarevFIRcascade_Qu(u,u0,Kp,p,q,k)
 % Helper function for zolotarevFIRcascade_Q
   
   if (nargin~=6) || nargout>7
-    print_usage("[w,Q,twoargHp,Zpqmax,wmax,wp,ws]= ...\n\
-      zolotarevFIRcascade_Qu(u,u0,Kp,p,q,k)");
+    print_usage(["[w,Q,twoargHp,Zpqmax,wmax,wp,ws]= ...\n", ...
+ "      zolotarevFIRcascade_Qu(u,u0,Kp,p,q,k)"]);
   endif
   
   n=p+q;

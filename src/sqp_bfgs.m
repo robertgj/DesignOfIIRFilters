@@ -78,9 +78,9 @@ global sqp_pfx sqp_pgx sqp_liter sqp_lm sqp_xub sqp_xlb
 
 % Check input argument list
 if (nargin ~= 13) && (nargout ~= 6)
-  print_usage(strcat("[x, fx, lm, iter, liter,feasible]= ...\n\
-sqp_bfgs(x0,pfx,pgx,linesearchName,xlb,xub,dmax,H0,hessianType, ...\n\
-maxiter,ftol,ctol,verbose)"));
+  print_usage(strcat(["[x, fx, lm, iter, liter,feasible]= ...\n", ...
+ "sqp_bfgs(x0,pfx,pgx,linesearchName,xlb,xub,dmax,H0,hessianType, ...\n", ...
+ "maxiter,ftol,ctol,verbose)"]));
 endif
 
 % Sanity checks

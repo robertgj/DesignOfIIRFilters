@@ -45,8 +45,8 @@ function [Asq, gradAsq]=parallel_allpassAsq(w,ab,K,Va,Qa,Ra,Vb,Qb,Rb, ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin ~= 9) && (nargin ~= 10) && (nargin ~= 11)
-    print_usage("[Asq,gradAsq] = ...\n\
-      parallel_allpassAsq(w,ab,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference)");
+    print_usage(["[Asq,gradAsq] = ...\n", ...
+ "      parallel_allpassAsq(w,ab,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference)"]);
   endif
   if nargin == 9
     polyphase = false;

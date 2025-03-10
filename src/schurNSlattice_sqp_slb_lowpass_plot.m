@@ -23,8 +23,8 @@ function schurNSlattice_sqp_slb_lowpass_plot ...
 
   % Sanity checks
   if (nargin ~= 15)
-    print_usage("shurNSlattice_sqp_slb_lowpass_plot\
-(s10,s11,s20,s00,s02,s22,...\n  fap,dBap,ftp,tp,tpr,fas,dBas,strF,strT)");
+    print_usage(["shurNSlattice_sqp_slb_lowpass_plot", ...
+ "(s10,s11,s20,s00,s02,s22,...\n  fap,dBap,ftp,tp,tpr,fas,dBas,strF,strT)"]);
   endif
 
   % Plot overall response

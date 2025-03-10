@@ -118,8 +118,8 @@ function [cost,k,c,svecnz_out] = schurOneMlattice_cost(svecnz, ...
     svecnz=svecnz(:);
     init_done=true;
   elseif (nargin ~= 1) && (nargin ~= 2)
-    print_usage("[cost,k,c,svecnz_out]=schurOneMlattice_cost(svecnz ...\n\
-                 [,Ad,Wa,Td,Wt,k0,epsilon0,p0,c0,nbits,ndigits,max_cost])");
+    print_usage(["[cost,k,c,svecnz_out]=schurOneMlattice_cost(svecnz ...\n", ...
+ "                 [,Ad,Wa,Td,Wt,k0,epsilon0,p0,c0,nbits,ndigits,max_cost])"]);
   elseif init_done==false
     error("init_done==false");
   endif

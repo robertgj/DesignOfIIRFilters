@@ -27,8 +27,8 @@ tarczynski_deczky1_test_x0_coef;
 % Strings
 strM=sprintf("%%s:fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g",
              fap,Wap,fas,Was,ftp,tp,Wtp);
-strP=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,\
-tpr=%g,Wtp=%g",fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
+strP=sprintf(["%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,", ...
+ "tpr=%g,Wtp=%g"],fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
 
 % Frequency points
 n=800;
@@ -169,8 +169,8 @@ print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
-eval(sprintf("save %s.mat Ux0 Vx0 Mx0 Qx0 Rx0 \
-ftol ctol fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp x0 x1 d1",strf));
+eval(sprintf(["save %s.mat Ux0 Vx0 Mx0 Qx0 Rx0 ", ...
+ "ftol ctol fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp x0 x1 d1"],strf));
 
 % Done
 toc

@@ -92,8 +92,8 @@ Wp=[Wpp*ones(non2-npt,1);Wpt*ones(2*npt,1);Wpp*ones(non2-npt,1)];
 % Initialise strings
 strM=sprintf("Hilbert filter %%s:Wap=%g,ftt=%g,td=%g,Wtp=%g,fpt=%g,Wpp=%g", ...
              Wap,ftt,td,Wtp,fpt,Wpp);
-strP=sprintf("Hilbert filter %%s:\
-Ar=%g,Wap=%g,td=%g,ftt=%g,tdr=%g,Wtp=%g,fpt=%g,ppr=%g,Wpp=%g", ...
+strP=sprintf(["Hilbert filter %%s:", ...
+ "Ar=%g,Wap=%g,td=%g,ftt=%g,tdr=%g,Wtp=%g,fpt=%g,ppr=%g,Wpp=%g"], ...
              Ar,Wap,td,ftt,tdr,Wtp,fpt,ppr,Wpp);
 
 % Show initial response and constraints
@@ -279,8 +279,8 @@ print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
-eval(sprintf("save %s.mat U V M Q R x0 x1 d1 ftol ctol \
-n w Ad Ar td ftt tdr Pd fpt pp ppr",strf));
+eval(sprintf(["save %s.mat U V M Q R x0 x1 d1 ftol ctol ", ...
+ "n w Ad Ar td ftt tdr Pd fpt pp ppr"],strf));
 
 % Done
 toc

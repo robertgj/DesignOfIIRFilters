@@ -86,8 +86,8 @@ if status
 endif
 %  If testing with address-sanitizer add these flags for mkoctfile:
 %{
-   "-O0 -g -fsanitize=address -fsanitize=undefined -fno-sanitize=vptr \
-    -fno-omit-frame-pointer"
+   ["-O0 -g -fsanitize=address -fsanitize=undefined -fno-sanitize=vptr ", ...
+ "    -fno-omit-frame-pointer"]
 %}
 %  and run octave with:
 %    LD_PRELOAD=/usr/lib64/libasan.so.5 octave-cli

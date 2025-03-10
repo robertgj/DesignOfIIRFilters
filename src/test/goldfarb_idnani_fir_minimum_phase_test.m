@@ -145,8 +145,8 @@ print_pole_zero(x,U,V,M,Q,R,"x",strcat(strf,"_x_coef.m"));
 print_polynomial(b,"b");
 print_polynomial(b,"b",strcat(strf,"_b_coef.m"));
 
-eval(sprintf("save %s.mat tol maxiter N U V M Q R \
-fasl fapl fapu fasu dBap Wap dBas Wasl Wasu x b ",strf));
+eval(sprintf(["save %s.mat tol maxiter N U V M Q R ", ...
+ "fasl fapl fapu fasu dBap Wap dBas Wasl Wasu x b "],strf));
 
 % Done 
 diary off

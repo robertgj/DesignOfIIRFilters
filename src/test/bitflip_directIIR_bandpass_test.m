@@ -50,8 +50,8 @@ function [cost,n,d,svec_out] = ...
     svec=svec0.*nscale;
     init_done=true;
   elseif nargin ~= 1
-    print_usage("[cost,n,d,svec_out] = ...\n\
-      directIIR_cost(svec[,Ad,Wa,Td,Wt,n0,d0,nbits,ndigits])");
+    print_usage(["[cost,n,d,svec_out] = ...\n", ...
+ "      directIIR_cost(svec[,Ad,Wa,Td,Wt,n0,d0,nbits,ndigits])"]);
   elseif init_done==false
     error("init_done==false");
   endif
@@ -139,8 +139,8 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-strt=sprintf("Bandpass directIIR form, nbits=%d,bitstart=%d,\
-msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
+strt=sprintf(["Bandpass directIIR form, nbits=%d,bitstart=%d,", ...
+ "msize=%d,ndigits=%d"],nbits,bitstart,msize,ndigits);
 title(strt);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
@@ -194,8 +194,8 @@ print_polynomial(d_bfsd,"d_bfsd",nscale);
 print_polynomial(d_bfsd,"d_bfsd",strcat(strf,"_d_bfsd_coef.m"),nscale);
 
 % Save the results
-eval(sprintf("save %s.mat \
-n0 d0 n_ex d_ex n_rd d_rd n_bf d_bf n_sd d_sd n_bfsd d_bfsd",strf));
+eval(sprintf(["save %s.mat ", ...
+ "n0 d0 n_ex d_ex n_rd d_rd n_bf d_bf n_sd d_sd n_bfsd d_bfsd"],strf));
 
 % Done
 diary off

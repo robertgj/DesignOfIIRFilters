@@ -207,8 +207,8 @@ close
 Pa=allpassP(wplot,a1,Va,Qa,Ra);
 Pb=allpassP(wplot,b1,Vb,Qb,Rb);
 plot(wplot*0.5/pi,(Pa+(wplot*tp))/pi,"-",wplot*0.5/pi,(Pb+(wplot*tp))/pi,"--");
-strt=sprintf("Allpass phase response adjusted for linear phase \
-ma=%d,mb=%d,tp=%g", ma,mb,tp);
+strt=sprintf(["Allpass phase response adjusted for linear phase ", ...
+ "ma=%d,mb=%d,tp=%g"], ma,mb,tp);
 title(strt);
 ylabel("All-pass filter phase (rad./$\\pi$)");
 xlabel("Frequency");
@@ -299,10 +299,10 @@ print_polynomial(Nab1,"Nab1",strcat(strf,"_Nab1_coef.m"));
 print_polynomial(Dab1,"Dab1");
 print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
-eval(sprintf("save %s.mat ...\n\
-  ma mb Ra Rb ab0 ab1 Da1 Db1 ... \n\
-  tol ctol polyphase difference rho n fapl fapu dBap Wap Watl Watu  ...\n\
-  fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ "  ma mb Ra Rb ab0 ab1 Da1 Db1 ... \n", ...
+ "  tol ctol polyphase difference rho n fapl fapu dBap Wap Watl Watu  ...\n", ...
+ "  fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp"],strf));
 
 % Done 
 toc;

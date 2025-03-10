@@ -71,9 +71,9 @@ function [xk,socp_iter,func_iter,feasible]=iir_frm_parallel_allpass_socp_mmse...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin ~= 24) || (nargout ~= 4)
-    print_usage("[xk,socp_iter,func_iter,feasible]= ...\n\
-  iir_frm_parallel_allpass_socp_mmse(vS,x0,xu,xl,Vr,Qr,Vs,Qs,na,nc,Mmodel, ...\n\
-    w,Asqd,Asqdu,Asqdl,Wa,Td,Tdu,Tdl,Wt,maxiter,ftol,ctol,verbose)");
+    print_usage(["[xk,socp_iter,func_iter,feasible]= ...\n", ...
+ "  iir_frm_parallel_allpass_socp_mmse(vS,x0,xu,xl,Vr,Qr,Vs,Qs,na,nc,Mmodel, ...\n", ...
+ "    w,Asqd,Asqdu,Asqdl,Wa,Td,Tdu,Tdl,Wt,maxiter,ftol,ctol,verbose)"]);
   endif
 
   %

@@ -155,8 +155,8 @@ plot(wa*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -2 0.5]);
-strt=sprintf("Direct-form symmetric bandpass filter pass-band \
-(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,ndigits,fapl,fapu,dBap);
+strt=sprintf(["Direct-form symmetric bandpass filter pass-band ", ...
+ "(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g"],nbits,ndigits,fapl,fapu,dBap);
 title(strt);
 legend("exact","s-d","s-d(Lim)","s-d(SDP)");
 legend("location","east");
@@ -174,8 +174,8 @@ plot(wa*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 -30]);
-strt=sprintf("Direct-form symmetric bandpass filter stop-band \
-(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,ndigits,fasl,fasu,dBas);
+strt=sprintf(["Direct-form symmetric bandpass filter stop-band ", ...
+ "(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g"],nbits,ndigits,fasl,fasu,dBas);
 title(strt);
 legend("exact","s-d","s-d(Lim)","s-d(SDP)");
 legend("location","northeast");
@@ -204,9 +204,9 @@ fprintf(fid,"Wasu=%g %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ...\n\
-ftol ctol nbits nscale ndigits ndigits_alloc npoints ...\n\
-fapl fapu dBap Wap fasl fasu dBas Wasl Wasu hM1_sd_sdp",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ "ftol ctol nbits nscale ndigits ndigits_alloc npoints ...\n", ...
+ "fapl fapu dBap Wap fasl fasu dBas Wasl Wasu hM1_sd_sdp"],strf));
        
 % Done
 toc;

@@ -22,8 +22,8 @@ strf="branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test";
 %
 use_best_branch_and_bound_found=true
 if use_best_branch_and_bound_found
-  warning("Reporting the best branch-and-bound filter found so far. \n\
-           Set \"use_best_branch_and_bound_found\"=false to re-run.");
+  warning(["Reporting the best branch-and-bound filter found so far. \n", ...
+ "           Set \"use_best_branch_and_bound_found\"=false to re-run."]);
 endif
 enforce_pcls_constraints_on_final_filter=false
 branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test_allocsd_Lim=false
@@ -527,8 +527,8 @@ legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strt=sprintf("FRM Hilbert filter (nbits=12) : \
-fap=%g,fas=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g,Wpp=%g",fap,fas,dBap,Wap,tp,Wtp,Wpp);
+strt=sprintf(["FRM Hilbert filter (nbits=12) : ", ...
+ "fap=%g,fas=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g,Wpp=%g"],fap,fas,dBap,Wap,tp,Wtp,Wpp);
 title(strt);
 axis([0  0.5 -0.2 0.2]);
 grid("on");

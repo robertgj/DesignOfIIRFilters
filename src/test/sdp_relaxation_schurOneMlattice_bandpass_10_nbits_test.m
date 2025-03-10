@@ -327,8 +327,8 @@ plot(wa*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -50 -30]);
-strt=sprintf("Schur one-multiplier lattice bandpass filter stop-band \
-(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,ndigits,fasl,fasu,dBas);
+strt=sprintf(["Schur one-multiplier lattice bandpass filter stop-band ", ...
+ "(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g"],nbits,ndigits,fasl,fasu,dBas);
 title(strt);
 legend("exact","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
 legend("location","northeast");
@@ -347,8 +347,8 @@ plot(wa*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([fapl fapu -2 0.5]);
-strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band amplitude \
-(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,ndigits,fapl,fapu,dBap);
+strt=sprintf(["Schur one-multiplier lattice bandpass filter pass-band amplitude ", ...
+ "(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g"],nbits,ndigits,fapl,fapu,dBap);
 title(strt);
 legend("exact","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
 legend("location","south");
@@ -367,8 +367,8 @@ plot(wt*0.5/pi,T_kc0,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([ftpl ftpu tp-tpr tp+tpr]);
-strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band delay \
-(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g,tpr=%g",nbits,ndigits,ftpl,ftpu,tpr);
+strt=sprintf(["Schur one-multiplier lattice bandpass filter pass-band delay ", ...
+ "(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g,tpr=%g"],nbits,ndigits,ftpl,ftpu,tpr);
 title(strt);
 legend("exact","s-d","s-d(Lim)","s-d(SDP)","s-d(min)");
 legend("location","south");
@@ -394,8 +394,8 @@ legend("boxoff");
 legend("left");
 grid("on");
 if ~print_for_web_page
-  strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
-(nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g",nbits,ftpl,ftpu,tp,tpr);
+  strt=sprintf(["Schur one-multiplier lattice bandpass filter pass-band ", ...
+ "(nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g"],nbits,ftpl,ftpu,tp,tpr);
   title(strt);
 endif
 subplot(312)
@@ -420,8 +420,8 @@ close
 kc0_active=kc0(kc0_sd_x_active);
 plot(0:length(kc0_active),([kc0_active,kc_hist]-kc0_active)'*nscale);
 axis([0 length(kc0_active)]);
-title(sprintf("Schur one-multiplier lattice bandpass filter : \
-%d bit %d signed-digit coefficients difference from exact", nbits,ndigits));
+title(sprintf(["Schur one-multiplier lattice bandpass filter : ", ...
+ "%d bit %d signed-digit coefficients difference from exact"], nbits,ndigits));
 xlabel("Relaxation step");
 ylabel("Bits difference from exact");
 % I have not worked out how to insert a line break in a text string with pdflatex
@@ -463,9 +463,9 @@ fprintf(fid,"Wtp=%g %% Delay pass band weight\n",Wtp);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc n \
-fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp \
-kc0_sd_sdp kc0_sd_min",strf));
+eval(sprintf(["save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc n ", ...
+ "fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp ", ...
+ "kc0_sd_sdp kc0_sd_min"],strf));
        
 % Done
 toc;

@@ -125,8 +125,8 @@ for difference=[false,true]
   % Check the diagonal of hessAsq
   if max(abs(diagHessAsq(npass,:) - ...
              transpose(diag(squeeze(hessAsq(npass,:,:))))))>1000*eps
-    error("max(abs(diagHessAsq(npass,) - ... \n\
-             transpose(diag(squeeze(hessAsq(npass,,))))))>1000*eps");
+    error(["max(abs(diagHessAsq(npass,) - ... \n", ...
+ "             transpose(diag(squeeze(hessAsq(npass,,))))))>1000*eps"]);
   endif
 
   % Check the Hessian of the squared amplitude response wrt A1k
@@ -147,8 +147,8 @@ for difference=[false,true]
   for l=1:length(wplot)
     if max(max(abs(squeeze(hessAsq(l,A1rng,A1rng)) - ...
                    squeeze(diff_gradAsqk(l,:,:))))) > del/10
-      error("max(max(abs(squeeze(hessAsq(l,A1rng,A1rng)) - ... \n\
-            squeeze(diff_gradAsqk(l,,))))) > del/10");
+      error(["max(max(abs(squeeze(hessAsq(l,A1rng,A1rng)) - ... \n", ...
+ "            squeeze(diff_gradAsqk(l,,))))) > del/10"]);
     endif
   endfor
 
@@ -170,8 +170,8 @@ for difference=[false,true]
   for l=1:length(wplot)
     if max(max(abs(squeeze(hessAsq(l,A2rng,A2rng)) - ...
                    squeeze(diff_gradAsqk(l,:,:))))) > del
-      error("max(max(abs(squeeze(hessAsq(l,A2rng,A2rng)) - ... \n\
-            squeeze(diff_gradAsqk(l,,))))) > del");
+      error(["max(max(abs(squeeze(hessAsq(l,A2rng,A2rng)) - ... \n", ...
+ "            squeeze(diff_gradAsqk(l,,))))) > del"]);
     endif
   endfor
 

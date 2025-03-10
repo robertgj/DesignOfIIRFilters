@@ -22,8 +22,8 @@ tol=1e-5;
 
 % Specification: band pass filter order is 2*M
 M=30;fasl=0.15;fapl=0.2;fapu=0.25;fasu=0.3;deltap=0.001;deltas=0.001;
-strt=sprintf("Hofstetter bandpass FIR: \
-fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g", ...
+strt=sprintf(["Hofstetter bandpass FIR: ", ...
+ "fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g"], ...
              fasl,fapl,fapu,fasu,deltap,deltas);
 
 % Place 1+deltap at fapl,fapu and -deltas at fasl,fasu

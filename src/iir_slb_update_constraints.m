@@ -23,8 +23,8 @@ function vS=iir_slb_update_constraints(x,U,V,M,Q,R,wa,Adu,Adl,Wa, ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 if (nargin ~= 23) || (nargout ~= 1)
-  print_usage("vS=iir_slb_update_constraints(x,U,V,M,Q,R,...\n\
-         wa,Adu,Adl,Wa,ws,Sdu,Sdl,Ws,wt,Tdu,Tdl,Wt,wp,Pdu,Pdl,Wp,ctol)");
+  print_usage(["vS=iir_slb_update_constraints(x,U,V,M,Q,R,...\n", ...
+ "         wa,Adu,Adl,Wa,ws,Sdu,Sdl,Ws,wt,Tdu,Tdl,Wt,wp,Pdu,Pdl,Wp,ctol)"]);
 endif
 
 % Amplitude response

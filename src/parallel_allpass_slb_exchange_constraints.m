@@ -29,10 +29,10 @@ function [next_vR,next_vS,exchanged] = ...
 
   % Sanity checks
   if (nargin ~= 12) || (nargout ~= 3)
-    print_usage("[next_vR,next_vS,exchanged]= ...\n\
-  parallel_allpass_slb_exchange_constraints(vS,vR, ...\n\
-                                            Asq,Asqdu,Asqdl,T,Tdu,Tdl, ...\n\
-                                            P,Pdu,Pdl,ctol)");
+    print_usage(["[next_vR,next_vS,exchanged]= ...\n", ...
+ "  parallel_allpass_slb_exchange_constraints(vS,vR, ...\n", ...
+ "                                            Asq,Asqdu,Asqdl,T,Tdu,Tdl, ...\n", ...
+ "                                            P,Pdu,Pdl,ctol)"]);
   endif
   if all(isfield(vS,{"al","au","tl","tu","pl","pu"})) == false
     error("Expect fields vS.al, vS.au, vS.tlv, S.tu, vS.pl and vS.pu");

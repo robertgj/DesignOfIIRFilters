@@ -126,8 +126,8 @@ legend("remez","selesnickFIRsymmetric\\_lowpass");
 legend("location","south");
 legend("boxoff");
 legend("left");
-strt=sprintf("Search for prototype filter minimum transition-width : \
-N=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g", ...
+strt=sprintf(["Search for prototype filter minimum transition-width : ", ...
+ "N=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g"], ...
              N,fap,fas,deltap,deltas);
 title(strt);
 print(strcat(strf,"_trans_width"),"-dpdflatex");
@@ -210,8 +210,8 @@ endfor
 %
 
 % Plot prototype filter minimum transition width and minimum sub-filter order
-strt=sprintf("Minimum transition-width and sub-filter order : \
-N=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g", ...
+strt=sprintf(["Minimum transition-width and sub-filter order : ", ...
+ "N=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g"], ...
              N,fap,fas,deltap,deltas);
 Fapmin_subfilter=Fapmin(find(found_subfilter==1));
 Fasmin_subfilter=Fasmin(find(found_subfilter==1));
@@ -256,8 +256,8 @@ else
 endif
 xlabel("Frequency");
 grid("on");
-strt=sprintf("Saramaki FIR cascade low-pass Approx. I sub-filter : \
-N=%d,M=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g", ...
+strt=sprintf(["Saramaki FIR cascade low-pass Approx. I sub-filter : ", ...
+ "N=%d,M=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g"], ...
              N,M,fap,fas,deltap,deltas);
 title(strt);
 print(strcat(strf,"_subfilter_response"),"-dpdflatex");
@@ -269,8 +269,8 @@ axis([0 0.5 -70 1])
 grid("on");
 xlabel("Amplitude");
 ylabel("Frequency");
-strt=sprintf("Saramaki FIR cascade low-pass Approx. I : \
-N=%d,M=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g", ...
+strt=sprintf(["Saramaki FIR cascade low-pass Approx. I : ", ...
+ "N=%d,M=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g"], ...
              N,M,fap,fas,deltap,deltas);
 title(strt);
 print(strcat(strf,"_response"),"-dpdflatex");
@@ -281,8 +281,8 @@ axis(ax(2),[0 0.5 -2*deltas 2*deltas])
 grid("on");
 ylabel("Amplitude");
 xlabel("Frequency");
-strt=sprintf("Saramaki FIR cascade low-pass Approx. I : \
-N=%d,M=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g", ...
+strt=sprintf(["Saramaki FIR cascade low-pass Approx. I : ", ...
+ "N=%d,M=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g"], ...
              N,M,fap,fas,deltap,deltas);
 title(strt);
 print(strcat(strf,"_response_detail"),"-dpdflatex");
@@ -356,8 +356,8 @@ plot(fa,PMmin);
 ylabel("$P_{M}$");
 xlabel("Frequency");
 grid("on");
-strt=sprintf("Saramaki FIR cascade low-pass Approx. I sub-filter : \
-N=%d,M=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g", ...
+strt=sprintf(["Saramaki FIR cascade low-pass Approx. I sub-filter : ", ...
+ "N=%d,M=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g"], ...
              N,M,fap,fas,deltap,deltas);
 title(strt);
 print(strcat(strf,"_subfilter_PM_response"),"-dpdflatex");
@@ -431,12 +431,12 @@ fprintf(fid,"nplot=%d %% Frequency points\n",nplot);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ...\n\
-     maxiter tol verbose deltap deltas nplot nap nas ...\n\
-     Fap_step Fap_range Fapmin Fasmin hNmin ...\n\
-     Fapmin_remez Fasmin_remez hNmin_remez ...\n\
-     found_subfilter A_subfilter B_subfilter deltaphat_subfilter ...\n\
-     deltashat_subfilter Mmin_subfilter hMmin_subfilter",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ "     maxiter tol verbose deltap deltas nplot nap nas ...\n", ...
+ "     Fap_step Fap_range Fapmin Fasmin hNmin ...\n", ...
+ "     Fapmin_remez Fasmin_remez hNmin_remez ...\n", ...
+ "     found_subfilter A_subfilter B_subfilter deltaphat_subfilter ...\n", ...
+ "     deltashat_subfilter Mmin_subfilter hMmin_subfilter"],strf));
 
 % Done
 toc

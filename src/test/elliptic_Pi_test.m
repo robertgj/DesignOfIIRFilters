@@ -31,16 +31,16 @@ if abs(elliptic_Pi(pi/4,1,0)-tan(pi/4))>tol
 endif
 if abs(elliptic_Pi(pi/4,1,1)- ...
        ((carlson_RC(2,1)+sqrt(2))/2))>tol
-  error("abs(elliptic_Pi(pi/4,0.4,1)- ...\n\
-       ((carlson_RC(2,1)-(0.4*carlson_RC(2,1.6)))/(0.6))))>tol");
+  error(["abs(elliptic_Pi(pi/4,0.4,1)- ...\n", ...
+ "       ((carlson_RC(2,1)-(0.4*carlson_RC(2,1.6)))/(0.6))))>tol"]);
 endif
 if abs(elliptic_Pi(pi/4,0.5,0)-carlson_RC(1,1.5))>tol
   error("abs(elliptic_Pi(pi/4,1,0)-carlson_RC(1,1.5))>tol");
 endif
 if abs(elliptic_Pi(pi/4,0.4,1)- ...
        ((carlson_RC(2,1)-(0.4*carlson_RC(2,1.6)))/(0.6)))>tol
-  error("abs(elliptic_Pi(elliptic_Pi(pi/4,0.4,1)- ...\n\
-       ((carlson_RC(2,1)-(0.4*carlson_RC(2,1.6)))/(0.6))))>tol");
+  error(["abs(elliptic_Pi(elliptic_Pi(pi/4,0.4,1)- ...\n", ...
+ "       ((carlson_RC(2,1)-(0.4*carlson_RC(2,1.6)))/(0.6))))>tol"]);
 endif
 
 % Check with integration

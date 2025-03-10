@@ -17,8 +17,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 % Options
 use_best_branch_and_bound_found=true
 if use_best_branch_and_bound_found
-  warning("Reporting the best branch-and-bound filter found so far. \n\
-           Set \"use_best_branch_and_bound_found\"=false to re-run.");
+  warning(["Reporting the best branch-and-bound filter found so far. \n", ...
+ "           Set \"use_best_branch_and_bound_found\"=false to re-run."]);
 endif
 enforce_pcls_constraints_on_final_filter=true
 branch_bound_schurOneMPAlattice_lowpass_12_nbits_test_allocsd_Lim=false
@@ -422,8 +422,8 @@ legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strt=sprintf("Parallel one-multplier allpass lattice lowpass filter \
-(nbits=12) : fap=%g,fas=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g",
+strt=sprintf(["Parallel one-multplier allpass lattice lowpass filter ", ...
+ "(nbits=12) : fap=%g,fas=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g"],
              fap,fas,dBap,Wap,tp,Wtp);
 title(strt);
 axis([fas, 0.5, -70, -20]);
@@ -492,8 +492,8 @@ axis(ax(1),[0, 0.5,  -0.15, 0.05]);
 axis(ax(2),[0, 0.5, -70,  -50]);
 grid("on");
 if ~print_for_web_page
-  strt=sprintf("Parallel all-pass lattice low-pass filter (nbits=%d) : \
-fap=%g,dBap=%g,fas=%g,dBas=%g,tp=%g,tpr=%g",nbits,fap,dBap,fas,dBas,tp,tpr);
+  strt=sprintf(["Parallel all-pass lattice low-pass filter (nbits=%d) : ", ...
+ "fap=%g,dBap=%g,fas=%g,dBas=%g,tp=%g,tpr=%g"],nbits,fap,dBap,fas,dBas,tp,tpr);
   title(strt);
 endif
 subplot(312)
@@ -537,10 +537,10 @@ fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat use_best_branch_and_bound_found \
-n NA1k NA2k fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp rho tol ctol \
-improved_solution_found A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 \
-difference nbits ndigits ndigits_alloc A1k_min A2k_min",strf));
+eval(sprintf(["save %s.mat use_best_branch_and_bound_found ", ...
+ "n NA1k NA2k fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp rho tol ctol ", ...
+ "improved_solution_found A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ", ...
+ "difference nbits ndigits ndigits_alloc A1k_min A2k_min"],strf));
      
 % Done
 toc;

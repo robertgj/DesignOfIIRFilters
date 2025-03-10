@@ -72,11 +72,11 @@ function [ak,socp_iter,func_iter,feasible]= ...
 % Sanity checks
 %
 if nargin ~= 23
-  print_usage("[ak,socp_iter,func_iter,feasible]= ...\n\
-    parallel_allpass_delay_socp_mmse(vS,a0,au,al,dmax,V,Q,R,DD, ...\n\
-                                     wa,Asqd,Asqdu,Asqdl,Wa, ...\n\
-                                     wt,Td,Tdu,Tdl,Wt, ...\n\
-                                     maxiter,ftol,ctol,verbose)");
+  print_usage(["[ak,socp_iter,func_iter,feasible]= ...\n", ...
+ "    parallel_allpass_delay_socp_mmse(vS,a0,au,al,dmax,V,Q,R,DD, ...\n", ...
+ "                                     wa,Asqd,Asqdu,Asqdl,Wa, ...\n", ...
+ "                                     wt,Td,Tdu,Tdl,Wt, ...\n", ...
+ "                                     maxiter,ftol,ctol,verbose)"]);
 endif
 wa=wa(:);
 Nwa=length(wa);

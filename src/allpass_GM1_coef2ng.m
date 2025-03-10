@@ -27,8 +27,8 @@ function ng=allpass_GM1_coef2ng(k1,e1)
 
   % Sanity check
   if (nargin~=1 && nargin~=2) || (nargout~=1)
-    print_usage("ng=allpass_GM1_coef2ng(k1)\n\
-ng=allpass_GM1_coef2ng(k1,e1)");
+    print_usage(["ng=allpass_GM1_coef2ng(k1)\n", ...
+ "ng=allpass_GM1_coef2ng(k1,e1)"]);
   endif
   if (nargin==1)
     e1=1;

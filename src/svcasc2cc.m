@@ -103,8 +103,8 @@ fprintf(fid,"\nWORD filter_%s(const WORD u,RowVector &x1,RowVector &x2);",name);
 %
 % Octfile function
 %
-fprintf(fid,
-        sprintf("\n\nDEFUN_DLD(%s, args, nargout,\"[y,xx1,xx2]=%s(u)\")",
+fprintf(fid, ...
+        sprintf("\n\nDEFUN_DLD(%s, args, nargout,\"[y,xx1,xx2]=%s(u)\")", ...
                 name,name));
 fprintf(fid,"\n{");
 % Sanity check

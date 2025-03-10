@@ -203,9 +203,9 @@ print(strcat(strf,"_cl2bp_xfirpz"),"-dpdflatex");
 close
 
 % Save results
-eval(sprintf("save %s.mat ftol ctol U V M Q R N fapl fapu dBap Wap \
-fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr pd pdr x1 N1 D1 \
-b Cfir wl wu up lo nfir xfir Ufir Vfir Mfir Qfir",strf));
+eval(sprintf(["save %s.mat ftol ctol U V M Q R N fapl fapu dBap Wap ", ...
+ "fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr pd pdr x1 N1 D1 ", ...
+ "b Cfir wl wu up lo nfir xfir Ufir Vfir Mfir Qfir"],strf));
 
 % Done 
 diary off

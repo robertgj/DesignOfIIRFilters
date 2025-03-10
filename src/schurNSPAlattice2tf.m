@@ -24,9 +24,9 @@ function [n,d]=schurNSPAlattice2tf(A1s20,A1s02,A1s00,A1s22, ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if ((nargin ~= 8) && (nargin ~= 9)) || (nargout ~= 2)
-    print_usage
-      ("[n,d]=schurNSPAlattice2tf(A1s20,A1s02,A1s00,A1s22, ...\n\
-              A2s20,A2s02,A2s00,A2s22,difference)");
+    print_usage ...
+      (["[n,d]=schurNSPAlattice2tf(A1s20,A1s02,A1s00,A1s22, ...\n", ...
+ "              A2s20,A2s02,A2s00,A2s22,difference)"]);
   endif
   if nargin==8
     difference=false;

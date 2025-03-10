@@ -36,8 +36,8 @@ function [Esq,gradEsq,diagHessEsq]=...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if nargout>3 || (nargin~=8)
-    print_usage("[Esq,gradEsq,diagHessEsq] = ...\n\
-      johanssonOneMlatticeEsq(fM,k0,epsilon0,k1,epsilon1,wa,Ad,Wa);");
+    print_usage(["[Esq,gradEsq,diagHessEsq] = ...\n", ...
+ "      johanssonOneMlatticeEsq(fM,k0,epsilon0,k1,epsilon1,wa,Ad,Wa);"]);
   endif
 
   if length(k0) ~= length(epsilon0)
@@ -79,8 +79,8 @@ function [ErrorX,gradErrorX,diagHessErrorX] = ...
            johanssonOneMlatticeXError(pfX,fM,k0,epsilon0,k1,epsilon1,wx,Xd,Wx)
 
   if nargin~=9 || nargout>3 
-    print_usage("[ErrorX,gradErrorX,diagHessErrorX] = ...\n\
-      johanssonOneMlatticeXError(pfX,fM,k0,epsilon0,k1,epsilon1,wx,Xd,Wx)");
+    print_usage(["[ErrorX,gradErrorX,diagHessErrorX] = ...\n", ...
+ "      johanssonOneMlatticeXError(pfX,fM,k0,epsilon0,k1,epsilon1,wx,Xd,Wx)"]);
   endif
 
   % Sanity checks

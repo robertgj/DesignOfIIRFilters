@@ -217,8 +217,8 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -50 -30]);
-strt=sprintf("Schur one-multiplier lattice bandpass filter stop-band \
-(nbits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,fasl,fasu,dBas);
+strt=sprintf(["Schur one-multiplier lattice bandpass filter stop-band ", ...
+ "(nbits=%d) : fasl=%g,fasu=%g,dBas=%g"],nbits,fasl,fasu,dBas);
 title(strt);
 legend("exact","s-d","s-d(Ito)","s-d(SQP-relax)");
 legend("location","southwest");
@@ -236,8 +236,8 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0.1 0.2 -2 0.5]);
-strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
-(nbits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,fapl,fapu,dBap);
+strt=sprintf(["Schur one-multiplier lattice bandpass filter pass-band ", ...
+ "(nbits=%d) : fapl=%g,fapu=%g,dBap=%g"],nbits,fapl,fapu,dBap);
 title(strt);
 legend("exact","s-d","s-d(Ito)","s-d(SQP-relax)");
 legend("location","south");
@@ -255,8 +255,8 @@ plot(wplot*0.5/pi,T_kc0,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([0.09 0.21 15.8 16.2]);
-strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
-(nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g",nbits,ftpl,ftpu,tp,tpr);
+strt=sprintf(["Schur one-multiplier lattice bandpass filter pass-band ", ...
+ "(nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g"],nbits,ftpl,ftpu,tp,tpr);
  title(strt);
 legend("exact","s-d","s-d(Ito)","s-d(SQP-relax)");
 legend("location","southeast");
@@ -282,8 +282,8 @@ legend("boxoff");
 legend("left");
 grid("on");
 if ~print_for_web_page
-  strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
-(nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g",nbits,ftpl,ftpu,tp,tpr);
+  strt=sprintf(["Schur one-multiplier lattice bandpass filter pass-band ", ...
+ "(nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g"],nbits,ftpl,ftpu,tp,tpr);
   title(strt);
 endif
 subplot(312)
@@ -349,12 +349,12 @@ fprintf(fid,"Wasu=%g %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ...\n\
-     k0 epsilon0 p0 c0 ...\n\
-     ftol ctol nbits nscale ndigits ndigits_alloc npoints ...\n\
-     fapl fapu dBap Wap ...\n\
-     fasl fasu dBas fasll fasuu dBass Wasl Wasu ...\n\
-     ftpl ftpu tp tpr Wtp k_min c_min",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ "     k0 epsilon0 p0 c0 ...\n", ...
+ "     ftol ctol nbits nscale ndigits ndigits_alloc npoints ...\n", ...
+ "     fapl fapu dBap Wap ...\n", ...
+ "     fasl fasu dBas fasll fasuu dBass Wasl Wasu ...\n", ...
+ "     ftpl ftpu tp tpr Wtp k_min c_min"],strf));
        
 % Done
 toc;

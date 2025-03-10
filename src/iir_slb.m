@@ -110,10 +110,10 @@ function [x,E,slb_iter,opt_iter,func_iter,feasible] = iir_slb(pfx, ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 if (nargin ~= 34) || (nargout ~= 6)
-  print_usage("[x,E,slb_iter,opt_iter,func_iter,feasible] = ...\n\
-         iir_slb(pfx,x0,xu,xl,dmax,U,V,M,Q,R,wa,Ad,Adu,Adl,Wa, ...\n\
-         ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...\n\
-         maxiter,ftol,ctol,verbose)");
+  print_usage(["[x,E,slb_iter,opt_iter,func_iter,feasible] = ...\n", ...
+ "         iir_slb(pfx,x0,xu,xl,dmax,U,V,M,Q,R,wa,Ad,Adu,Adl,Wa, ...\n", ...
+ "         ws,Sd,Sdu,Sdl,Ws,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...\n", ...
+ "         maxiter,ftol,ctol,verbose)"]);
 endif
 
 %

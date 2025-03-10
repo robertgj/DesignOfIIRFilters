@@ -160,8 +160,8 @@ subplot(411);
 plot(wa*0.5/pi,A2c);
 axis([0 0.5 0 1]);
 grid("on");
-strP=sprintf("Lowpass differentiator correction filter : \
-fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g",fap,Arp,fas,Ars,tp);
+strP=sprintf(["Lowpass differentiator correction filter : ", ...
+ "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g"],fap,Arp,fas,Ars,tp);
 title(strP);
 ylabel("Amplitude");
 subplot(412);
@@ -197,8 +197,8 @@ endfor
 axis(ax(1),[0 0.5 0 1]);
 axis(ax(2),[0 0.5 0.01*[0,1]]);
 grid("on");
-strP=sprintf("Lowpass differentiator response : \
-fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g",fap,Arp,fas,Ars,tp,tpr,ppr);
+strP=sprintf(["Lowpass differentiator response : ", ...
+ "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,Arp,fas,Ars,tp,tpr,ppr);
 title(strP);
 ylabel("Amplitude");
 subplot(312);
@@ -226,8 +226,8 @@ for c=1:3
 endfor
 axis(ax(1),[0 0.5 0.004*[-1,1]]);
 axis(ax(2),[0 0.5 0.02*[-1,1]]);
-strP=sprintf("Differentiator PCLS error : \
-fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g",fap,Arp,fas,Ars,tp,tpr,ppr);
+strP=sprintf(["Differentiator PCLS error : ", ...
+ "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,Arp,fas,Ars,tp,tpr,ppr);
 title(strP);
 ylabel("Amplitude");
 grid("on");
@@ -341,8 +341,8 @@ fprintf(fid,"dpr=%g %% dAsqdw pass band peak-to-peak ripple\n",dpr);
 fprintf(fid,"Wdp=%g %% dAsqdw pass band weight\n",Wdp);
 fclose(fid);
 
-eval(sprintf("save %s.mat ftol ctol n fap fas Arp Ars tp tpr pp ppr fdp dpr \
-Wap Wat Was Wtp Wpp Wdp N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2",strf));
+eval(sprintf(["save %s.mat ftol ctol n fap fas Arp Ars tp tpr pp ppr fdp dpr ", ...
+ "Wap Wat Was Wtp Wpp Wdp N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2"],strf));
 
 % Done
 toc;

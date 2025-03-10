@@ -79,9 +79,9 @@ function [hM,slb_iter,socp_iter,func_iter,feasible] = ...
 % Sanity checks
 %
 if (nargin ~= 13) || (nargout ~= 5)
-  print_usage("[hM,slb_iter,socp_iter,func_iter,feasible] = ...\n\
-    directFIRsymmetric_slb(pfx,hM0,hM_active,na,wa,Ad,Adu,Adl,Wa, ...\n\
-                           maxiter,ftol,ctol,verbose)");
+  print_usage(["[hM,slb_iter,socp_iter,func_iter,feasible] = ...\n", ...
+ "    directFIRsymmetric_slb(pfx,hM0,hM_active,na,wa,Ad,Adu,Adl,Wa, ...\n", ...
+ "                           maxiter,ftol,ctol,verbose)"]);
 endif
 if ~is_function_handle(pfx)
   feasible=false;

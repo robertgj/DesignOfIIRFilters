@@ -101,8 +101,8 @@ T1=iirT(wt,x1,U,V,M,Q,R);
 subplot(211);
 plot(wa*0.5/pi,20*log10(abs(A1)));
 ylabel("Amplitude(dB)");
-title(sprintf("Tarczynski et al. Example 2 response : \
-U=%d,V=%d,M=%d,Q=%d,R=%d",U,V,M,Q,R));
+title(sprintf(["Tarczynski et al. Example 2 response : ", ...
+ "U=%d,V=%d,M=%d,Q=%d,R=%d"],U,V,M,Q,R));
 axis([0 0.5 -8 2]);
 grid("on");
 subplot(212);

@@ -120,8 +120,8 @@ print_polynomial(hM1,"hM1",strcat(strf,"_hM1_coef.m"));
 print_polynomial(hM2,"hM2");
 print_polynomial(hM2,"hM2",strcat(strf,"_hM2_coef.m"));
 
-eval(sprintf("save %s.mat ftol ctol maxiter M npoints \
-fapl fapu Wap dBap Was wa Ad Adu Adl Wa hM0 hM1 hM2",strf));
+eval(sprintf(["save %s.mat ftol ctol maxiter M npoints ", ...
+ "fapl fapu Wap dBap Was wa Ad Adu Adl Wa hM0 hM1 hM2"],strf));
 
 % Done
 diary off

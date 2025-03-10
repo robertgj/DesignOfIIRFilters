@@ -31,9 +31,9 @@ function [A,B,Ch,Dh,Cg,Dg,dAdkkhat,dBdkkhat,dChdkkhat,dDhdkkhat, ...
 
   % Sanity checks
   if (nargin~=2) || (nargout>12) 
-    print_usage("[A,B,Ch,Dh,Cg,Dg]=complementaryFIRlattice2Abcd(k,khat)\n\
-[A,B,Ch,Dh,Cg,Dg,dAdkkhat,dBdkkhat,dChdkkhat,dDhdkkhat, ...\n\
-  dCgdkkhat,dDgdkkhat]=complementaryFIRlattice2Abcd(k,khat)");
+    print_usage(["[A,B,Ch,Dh,Cg,Dg]=complementaryFIRlattice2Abcd(k,khat)\n", ...
+ "[A,B,Ch,Dh,Cg,Dg,dAdkkhat,dBdkkhat,dChdkkhat,dDhdkkhat, ...\n", ...
+ "  dCgdkkhat,dDgdkkhat]=complementaryFIRlattice2Abcd(k,khat)"]);
   endif
   if length(k) ~= length(khat)
     error("length(k) ~= length(khat)");

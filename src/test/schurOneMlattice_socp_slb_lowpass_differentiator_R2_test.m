@@ -162,8 +162,8 @@ for c=1:3
 endfor
 axis(ax(1),[0 0.5 0 1]);
 axis(ax(2),[0 0.5 0 0.025]);
-strP=sprintf("Differentiator initial response : \
-fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g",
+strP=sprintf(["Differentiator initial response : ", ...
+ "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g"],
              fap,Arp,fas,Ars,tp);
 title(strP);
 ylabel("Amplitude(dB)");
@@ -254,8 +254,8 @@ for c=1:3
 endfor
 axis(ax(1),[0 0.5 0.001*[-1,1]]);
 axis(ax(2),[0 0.5 0.004*[-1,1]]);
-strP=sprintf("Differentiator PCLS error : \
-fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g",fap,Arp,fas,Ars,tp,tpr,ppr);
+strP=sprintf(["Differentiator PCLS error : ", ...
+ "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,Arp,fas,Ars,tp,tpr,ppr);
 title(strP);
 ylabel("Amplitude");
 grid("on");
@@ -277,14 +277,14 @@ close
 if plot_dAsqdw
   plot(wd*0.5/pi,[dAsqdw2,Ddl,Ddu]-Dd)
   axis([0 fdp 0.1*[-1,1]])
-  strP=sprintf("Differentiation filter dAsqdw error : \
-fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g",fap,Arp,fas,Ars,tp,tpr,ppr);
+  strP=sprintf(["Differentiation filter dAsqdw error : ", ...
+ "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,Arp,fas,Ars,tp,tpr,ppr);
   ylabel("dAsqdw");
 else
   plot(wd*0.5/pi,[dCsqdw2,Cdl,Cdu]-Cd)
   axis([0 fdp 0.01*[-1,1]])
-  strP=sprintf("Correction filter dCsqdw error : \
-fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g",fap,Arp,fas,Ars,tp,tpr,ppr);
+  strP=sprintf(["Correction filter dCsqdw error : ", ...
+ "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,Arp,fas,Ars,tp,tpr,ppr);
   ylabel("dCsqdw");
 endif
 title(strP);
@@ -335,8 +335,8 @@ fprintf(fid,"dpr=%g %% Pass band dAsqdw peak-to-peak ripple\n",dpr);
 fprintf(fid,"Wdp=%g %% Pass band dAsqdw weight\n",Wdp);
 fclose(fid);
 
-eval(sprintf("save %s.mat ftol ctol n fap fas Arp Ars tp tpr pp ppr dpr \
-Wap Wat Was Wtp Wpp Wdp N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2",strf));
+eval(sprintf(["save %s.mat ftol ctol n fap fas Arp Ars tp tpr pp ppr dpr ", ...
+ "Wap Wat Was Wtp Wpp Wdp N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2"],strf));
 
 % Done
 toc;

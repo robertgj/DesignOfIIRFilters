@@ -126,7 +126,7 @@ endif
 print_pole_zero(x1,U,V,M,Q,R,"x1");
 
 % PCLS pass 1
-printf("\nFinding PCLS d1, dBap=%f,Wap=%f,dBas=%f,Was=%f,tpr=%f,Wtp=%f\n", 
+printf("\nFinding PCLS d1, dBap=%f,Wap=%f,dBas=%f,Was=%f,tpr=%f,Wtp=%f\n", ...
        dBap, Wap, dBas, Was, tpr, Wtp);
 try
   [d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
@@ -158,9 +158,9 @@ axis(ax1(1),"tic","labely");
 axis(ax1(2),"tic","labely");
 grid("on");
 ylabel("Amplitude(dB)")
-title(sprintf
-        ("IIR filter : R=%d,fap=%g,dBap=%g,fas=%g,dBas=%d,ftp=%g,tp=%d,tpr=%g",
-         R,fap,dBap,fas,dBas,ftp,tp,tpr));
+title(sprintf(["IIR filter : ", ...
+               "R=%d,fap=%g,dBap=%g,fas=%g,dBas=%d,ftp=%g,tp=%d,tpr=%g"], ...
+              R,fap,dBap,fas,dBas,ftp,tp,tpr));
 subplot(212);
 T1=iirT(wt,d1,U,V,M,Q,R);
 plot(wt*0.5/pi,T1);
@@ -205,8 +205,8 @@ axis([0 0.5 -60 10])
 grid("on");
 ylabel("Amplitude(dB)")
 xlabel("Frequency");
-title(sprintf("R=%d IIR filter interpolated by P=%d and \
-FIR anti-aliasing filter",R,P));
+title(sprintf(["R=%d IIR filter interpolated by P=%d and ", ...
+ "FIR anti-aliasing filter"],R,P));
 legend("Interpolated IIR","Anti-aliasing FIR");
 legend("location","northeast");
 legend("boxoff");
@@ -251,8 +251,8 @@ axis(ax1(2),"tic","labely");
 grid("on");
 ylabel("Amplitude(dB)")
 %{
-title(sprintf("Interpolated and anti-aliased IIR filter : \
-%d multipliers and %g samples nominal delay",N1D1_mult,tpP));
+title(sprintf(["Interpolated and anti-aliased IIR filter : ", ...
+ "%d multipliers and %g samples nominal delay"],N1D1_mult,tpP));
 %}
 print(strcat(strf,"_remez_comparison_interpolated_IIR"),"-dpdflatex");
 close
@@ -275,8 +275,8 @@ axis(ax2(2),"tic","labely");
 grid("on");
 ylabel("Amplitude(dB)")
 %{
-title(sprintf("Interpolated and anti-aliased FIR filter : \
-%d distinct multipliers and %g samples delay",bbeq_mult,tdeq));
+title(sprintf(["Interpolated and anti-aliased FIR filter : ", ...
+ "%d distinct multipliers and %g samples delay"],bbeq_mult,tdeq));
 %}
 print(strcat(strf,"_remez_comparison_interpolated_FIR"),"-dpdflatex");
 close
@@ -375,9 +375,11 @@ fid=fopen(strcat(strf,"_fir_delay.tab"),"wt");
 fprintf(fid,"$%g$",(Nbbb/2));
 fclose(fid);
 
-eval(sprintf("save %s.mat n U V M Q R P fap fas ftp tp dBap dBas tpr Wap Was \
-Wtp ftol_wise ftol_mmse ftol_pcls ctol x0 x1 d1 N1 D1 N1P D1P \
-b b_scale baa beq bb bbb",strf));
+eval(sprintf(["save %s.mat n U V M Q R P ", ...
+              "fap fas ftp tp dBap dBas tpr Wap Was ", ...
+              "Wtp ftol_wise ftol_mmse ftol_pcls ctol ", ...
+              "x0 x1 d1 N1 D1 N1P D1P ", ...
+              "b b_scale baa beq bb bbb"],strf));
 
 % Done
 toc;

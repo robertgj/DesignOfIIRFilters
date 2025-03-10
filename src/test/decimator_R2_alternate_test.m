@@ -154,8 +154,8 @@ printf("d1:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 
 % Plot PCLS
-strP=sprintf("d1(PCLS) : fap=%g,dBap=%g,fas=%g,dBas=%g,Was=%g,\
-ftp=%g,tp=%g,tpr=%g,Wtp=%g",fap,dBap,fas,dBas,Was,ftp,tp,tpr,Wtp);
+strP=sprintf(["d1(PCLS) : fap=%g,dBap=%g,fas=%g,dBas=%g,Was=%g,", ...
+ "ftp=%g,tp=%g,tpr=%g,Wtp=%g"],fap,dBap,fas,dBas,Was,ftp,tp,tpr,Wtp);
 showResponse(d1,U,V,M,Q,R,strP);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
@@ -174,8 +174,8 @@ axis(ax(1),[0 0.5 -0.4 0.1]);
 axis(ax(2),[0 0.5 -65 -40]);
 ylabel("Amplitude(dB)");
 grid("on");
-tstr=sprintf("R=2 decimator alt. response : \
-fap=%g,dBap=%g,fas=%g,dBas=%d,tp=%d,tpr=%g",fap,dBap,fas,dBas,tp,tpr);
+tstr=sprintf(["R=2 decimator alt. response : ", ...
+ "fap=%g,dBap=%g,fas=%g,dBas=%d,tp=%d,tpr=%g"],fap,dBap,fas,dBas,tp,tpr);
 title(tstr);
 subplot(212);
 T=iirT(wt,d1,U,V,M,Q,R);
@@ -224,8 +224,8 @@ print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
-eval(sprintf("save %s.mat n U V M Q R fap fas ftp tp \
-dBap dBas tpr Wap Was Wtp x0 x1 d1 ftol_mmse ftol_pcls ctol dmax rho",strf));
+eval(sprintf(["save %s.mat n U V M Q R fap fas ftp tp ", ...
+ "dBap dBas tpr Wap Was Wtp x0 x1 d1 ftol_mmse ftol_pcls ctol dmax rho"],strf));
 
 % Done
 toc;

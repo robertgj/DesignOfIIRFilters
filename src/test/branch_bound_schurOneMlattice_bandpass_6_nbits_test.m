@@ -277,8 +277,8 @@ T_kc0_sd=schurOneMlatticeT(wplot,k0_sd,epsilon0,p0,c0_sd);
 T_kc_min=schurOneMlatticeT(wplot,k_min,epsilon0,p0,c_min);
 
 % Plot amplitude stop-band response
-strt=sprintf("Schur one-multiplier lattice bandpass filter %%s \
-(nbits=%d) :\nfasl=%g,fapl=%g,fapu=%g,fasu=%g,Wasl=%g,Wasu=%g", ...
+strt=sprintf(["Schur one-multiplier lattice bandpass filter %%s ", ...
+ "(nbits=%d) :\nfasl=%g,fapl=%g,fapu=%g,fasu=%g,Wasl=%g,Wasu=%g"], ...
 nbits,fasl,fapl,fapu,fasu,Wasl,Wasu);
 plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
      wplot*0.5/pi,10*log10(abs(Asq_kc0_sd)),"linestyle","--", ...
@@ -320,8 +320,8 @@ plot(wplot*0.5/pi,T_kc0,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([0.09 0.21 15 17]);
-strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
-(nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,Wtp=%g",nbits,ftpl,ftpu,tp,Wtp);
+strt=sprintf(["Schur one-multiplier lattice bandpass filter pass-band ", ...
+ "(nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,Wtp=%g"],nbits,ftpl,ftpu,tp,Wtp);
 title(strt);
 legend("exact","s-d","s-d(BandB)");
 legend("location","northeast");
@@ -356,10 +356,10 @@ fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ...\n\
-     k0 epsilon0 p0 c0 tol nbits ndigits npoints ...\n\
-     fapl fapu Wap fasl fasu Wasl Wasu ftpl ftpu tp Wtp ...\n\
-     improved_solution_found k_min c_min cscale",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ "     k0 epsilon0 p0 c0 tol nbits ndigits npoints ...\n", ...
+ "     fapl fapu Wap fasl fasu Wasl Wasu ftpl ftpu tp Wtp ...\n", ...
+ "     improved_solution_found k_min c_min cscale"],strf));
        
 % Done
 toc;

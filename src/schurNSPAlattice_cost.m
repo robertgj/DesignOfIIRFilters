@@ -127,11 +127,11 @@ function [cost,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22,svecnz_out] = ...
     init_done=true;
   elseif (nargin~=1) && (nargin~=2)
     print_usage ...
-    ("[cost,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22,svecnz_out] = ... \n\
-         schurNSPAlattice_cost(svecnz,Ad,Wa,Td,Wt, ... \n\
-                               A1s20_0,A1s00_0,A1s02_0,A1s22_0, ... \n\
-                               A2s20_0,A2s00_0,A2s02_0,A2s22_0, ... \n\
-                               use_symmetric_s,nbits,ndigits,max_cost)");
+    (["[cost,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22,svecnz_out] = ... \n", ...
+ "         schurNSPAlattice_cost(svecnz,Ad,Wa,Td,Wt, ... \n", ...
+ "                               A1s20_0,A1s00_0,A1s02_0,A1s22_0, ... \n", ...
+ "                               A2s20_0,A2s00_0,A2s02_0,A2s22_0, ... \n", ...
+ "                               use_symmetric_s,nbits,ndigits,max_cost)"]);
   elseif init_done==false
     error("init_done==false");
   endif
@@ -184,8 +184,8 @@ function [A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22] = ...
          svec2NSPA(svec,lA1,lA2,use_symmetric_s)
 
   if (nargin ~= 4) || (nargout ~= 8)
-    print_usage("[A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22] = ...\n\
-                 svec2NSPA(svec,lA1,lA2,use_symmetric_s)");
+    print_usage(["[A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22] = ...\n", ...
+ "                 svec2NSPA(svec,lA1,lA2,use_symmetric_s)"]);
   endif
   if length(svec) ~= (lA1+lA2)
      error("length(svec) ~= (lA1+lA2)");

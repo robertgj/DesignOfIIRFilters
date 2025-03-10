@@ -23,8 +23,8 @@ function vS=schurOneMAPlattice_frm_halfband_slb_update_constraints ...
 
   % Sanity checks
   if (nargin ~= 9) || (nargout ~= 1)
-    print_usage("vS=schurOneMAPlattice_frm_halfband_slb_update_constraints ...\n\
-      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,ctol)");
+    print_usage(["vS=schurOneMAPlattice_frm_halfband_slb_update_constraints ...\n", ...
+ "      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,ctol)"]);
   endif
   if length(Asq) ~= length(Asqdu)
     error("length(Asq) ~= length(Asqdu)");

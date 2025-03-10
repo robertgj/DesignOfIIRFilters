@@ -44,8 +44,8 @@ function [Esq,gradEsq]=...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if nargout>2 || ((nargin~=5)&&(nargin~=8)&&(nargin~=11))
-    print_usage("[Esq,gradEsq] = ...\n\
-      complementaryFIRlatticeEsq(k,khat,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)");
+    print_usage(["[Esq,gradEsq] = ...\n", ...
+ "      complementaryFIRlatticeEsq(k,khat,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp)"]);
   endif
 
   Nk=length(k);
@@ -111,8 +111,8 @@ function [ErrorX,gradErrorX] = ...
            complementaryFIRlatticeXError(pfX,k,khat,wx,Xd,Wx)
 
   if nargin~=6 || nargout>2 
-    print_usage("[ErrorX,gradErrorX] = ...\n\
-      complementaryFIRlatticeXError(pfX,k,khat,wx,Xd,Wx)");
+    print_usage(["[ErrorX,gradErrorX] = ...\n", ...
+ "      complementaryFIRlatticeXError(pfX,k,khat,wx,Xd,Wx)"]);
   endif
 
   % Make row vectors with a single column, 

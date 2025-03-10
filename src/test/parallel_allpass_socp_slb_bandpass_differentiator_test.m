@@ -163,8 +163,8 @@ plot(wa*0.5/pi,[A1 Adl Adu]);
 ylabel("Amplitude");
 axis([0 0.5 0 1]);
 grid("on");
-strt=sprintf("Parallel allpass : \
-ma=%d,mb=%d,Arsl=%4.2f,Arp=%4.2f,Arsu=%4.1f,tp=%g,tpr=%g",
+strt=sprintf(["Parallel allpass : ", ...
+ "ma=%d,mb=%d,Arsl=%4.2f,Arp=%4.2f,Arsu=%4.1f,tp=%g,tpr=%g"],
              ma,mb,Arsl,Arp,Arsu,tp,tpr);
 title(strt);
 subplot(312);
@@ -192,8 +192,8 @@ plot(wa(rasl)*0.5/pi,[A1(rasl),Adl(rasl),Adu(rasl)]-Ad(rasl), ...
 axis([0 0.5 max([Arsl,Arsu])*[-1,1]]);
 ylabel("Amplitude");
 grid("on");
-strt=sprintf("Parallel allpass error : \
-ma=%d,mb=%d,Arsl=%4.2f,Arp=%4.2f,Arsu=%4.1f,tp=%g,tpr=%g",
+strt=sprintf(["Parallel allpass error : ", ...
+ "ma=%d,mb=%d,Arsl=%4.2f,Arp=%4.2f,Arsu=%4.1f,tp=%g,tpr=%g"],
              ma,mb,Arsl,Arp,Arsu,tp,tpr);
 title(strt);
 subplot(312);
@@ -240,8 +240,8 @@ Ha=freqz(flipud(Da1),Da1,w);
 Hb=freqz(flipud(Db1),Db1,w);
 plot(w*0.5/pi,(unwrap(arg(Ha))+(w*(tp-Tzsqm1)))/pi, ...
      w*0.5/pi,(unwrap(arg(Hb))+(w*(tp-Tzsqm1)))/pi);
-strt=sprintf("Phase responses of correction filters adjusted for linear phase : \
-ma=%d,mb=%d,tp=%g",ma,mb,tp);
+strt=sprintf(["Phase responses of correction filters adjusted for linear phase : ", ...
+ "ma=%d,mb=%d,tp=%g"],ma,mb,tp);
 title(strt);
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
@@ -302,10 +302,10 @@ print_polynomial(Nab1,"Nab1",strcat(strf,"_Nab1_coef.m"));
 print_polynomial(Dab1,"Dab1");
 print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
-eval(sprintf("save %s.mat ftol ctol  polyphase difference rho n \
-ma mb Va Qa Ra Vb Qb Rb Da0 Db0 ab0 \
-fasl Arsl Wasl Watl fapl fapu Arp Wap Watu fasu Arsu Wasu \
-tp tpr Wtp pp ppr Wpp ab1 Da1 Db1 Nab1 Dab1",strf));
+eval(sprintf(["save %s.mat ftol ctol  polyphase difference rho n ", ...
+ "ma mb Va Qa Ra Vb Qb Rb Da0 Db0 ab0 ", ...
+ "fasl Arsl Wasl Watl fapl fapu Arp Wap Watu fasu Arsu Wasu ", ...
+ "tp tpr Wtp pp ppr Wpp ab1 Da1 Db1 Nab1 Dab1"],strf));
 
 % Done 
 toc;

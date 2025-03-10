@@ -27,10 +27,10 @@ function [y,xx]=allpass_GM1(arg1,arg2,arg3,arg4)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if nargin<2 || nargin>4 || nargout>2
-    print_usage("[y,xx]=allpass_GM1(k1,u)\n\
-[y,xx]=allpass_GM1(k1,e1,u)\n\
-[y,xx]=allpass_GM1(k1,u,rounding)\n\
-[y,xx]=allpass_GM1(k1,e1,u,rounding)");
+    print_usage(["[y,xx]=allpass_GM1(k1,u)\n", ...
+ "[y,xx]=allpass_GM1(k1,e1,u)\n", ...
+ "[y,xx]=allpass_GM1(k1,u,rounding)\n", ...
+ "[y,xx]=allpass_GM1(k1,e1,u,rounding)"]);
   endif
   if nargin==2
     k1=arg1;

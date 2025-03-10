@@ -100,8 +100,8 @@ kuv_active=(1:(length(k0)+length(u0)+length(v0)))';
 dmax=inf;
 
 % Common strings
-strt=sprintf("FRM Hilbert %%s %%s : \
-Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d,tpr=%g,ppr=%g",
+strt=sprintf(["FRM Hilbert %%s %%s : ", ...
+ "Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d,tpr=%g,ppr=%g"],
              Mmodel,Dmodel,fap,fas,tp,tpr,ppr);
 
 % Plot the initial response
@@ -175,9 +175,9 @@ print_polynomial(u2,"u2",strcat(strf,"_u2_coef.m"));
 print_polynomial(v2,"v2");
 print_polynomial(v2,"v2",strcat(strf,"_v2_coef.m"));
 
-eval(sprintf("save %s.mat r0 k0 epsilon0 p0 u0 v0 k2 epsilon2 p2 u2 v2 \
-Mmodel Dmodel dmax rho ftol ctol fap fas dBap Wap ftp fts tp tpr Wtp \
-fpp fps pp ppr Wpp",strf));
+eval(sprintf(["save %s.mat r0 k0 epsilon0 p0 u0 v0 k2 epsilon2 p2 u2 v2 ", ...
+ "Mmodel Dmodel dmax rho ftol ctol fap fas dBap Wap ftp fts tp tpr Wtp ", ...
+ "fpp fps pp ppr Wpp"],strf));
 
 % Done
 toc;

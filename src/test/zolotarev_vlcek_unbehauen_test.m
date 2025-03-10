@@ -72,8 +72,8 @@ axis([-1 1 -1 10]);
 text(wp,-1.5,"$w_{p}$","horizontalalignment","center");
 text(wm,-1.5,"$w_{m}$","horizontalalignment","center");
 text(ws,-1.5,"$w_{s}$","horizontalalignment","center");
-strt=sprintf("Zolotarev polynomial $Z_{%d,%d}(w,%4.2f)$ (Vlcek and Unbehauen) : \
-$w_{p}=%6.4f$,$w_{m}=%6.4f$,$w_{s}=%6.4f$\n",p,q,k,wp,wm,ws);
+strt=sprintf(["Zolotarev polynomial $Z_{%d,%d}(w,%4.2f)$ (Vlcek and Unbehauen) : ", ...
+ "$w_{p}=%6.4f$,$w_{m}=%6.4f$,$w_{s}=%6.4f$\n"],p,q,k,wp,wm,ws);
 title(strt);
 ylabel("Amplitude");
 xlabel("$w$");
@@ -84,8 +84,8 @@ close
 [~,b]=zolotarev_vlcek_unbehauen(p,q,k);
 plot(b);
 axis([1 (p+q+1)]);
-strt=sprintf("Zolotarev polynomial $Z_{%d,%d}(w,%4.2f)$ coefficients \
-(Vlcek and Unbehauen)",p,q,k);
+strt=sprintf(["Zolotarev polynomial $Z_{%d,%d}(w,%4.2f)$ coefficients ", ...
+ "(Vlcek and Unbehauen)"],p,q,k);
 title(strt);
 grid("on");
 print(sprintf("%s_b_%d_%d",strf,p,q),"-dpdflatex");
@@ -100,8 +100,8 @@ h=h/fm;
 print_polynomial(h,sprintf("h_%d_%d",p,q),sprintf("%s_h_%d_%d_coef.m",strf,p,q));
 plot(h);
 axis([1 ((2*(p+q))+1)]);
-strt=sprintf("Zolotarev polynomial $Z_{%d,%d}(w,%4.2f)$ impulse response \
-(Vlcek and Unbehauen)",p,q,k);
+strt=sprintf(["Zolotarev polynomial $Z_{%d,%d}(w,%4.2f)$ impulse response ", ...
+ "(Vlcek and Unbehauen)"],p,q,k);
 title(strt);
 grid("on");
 print(sprintf("%s_h_%d_%d",strf,p,q),"-dpdflatex");
@@ -333,8 +333,8 @@ h=hb;
 print_polynomial(h,sprintf("h_%d_%d",p,q),sprintf("%s_h_%d_%d_coef.m",strf,p,q));
 plot(h);
 axis([1 ((2*(p+q))+1)]);
-strt=sprintf("Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ impulse response \
-(Vlcek and Unbehauen)",p,q,k);
+strt=sprintf(["Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ impulse response ", ...
+ "(Vlcek and Unbehauen)"],p,q,k);
 title(strt);
 xlabel("$w$");
 grid("on");
@@ -344,8 +344,8 @@ close
 [H,w]=freqz(h,1,nf);
 plot(w*0.5/pi,20*log10(abs(H)));
 axis([0 0.5 -40 0]);
-strt=sprintf("Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ frequency response \
-(Vlcek and Unbehauen)",p,q,k);
+strt=sprintf(["Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ frequency response ", ...
+ "(Vlcek and Unbehauen)"],p,q,k);
 title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
@@ -418,8 +418,8 @@ printf("p=%d,q=%2d,k=%7.5f,fmax=%6.4f,fm=%6.4f(%6.4f dB),fp=%6.4f,fs=%6.4f\n",
 [H,w]=freqz(h,1,nf);
 plot(w*0.5/pi,20*log10(abs(H)));
 axis([0 0.5 -40 0]);
-strt=sprintf("Normalised Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ FIR filter \
-(Vlcek and Unbehauen) : fp=%6.4f,fmax=%6.4f,fs=%6.4f", p,q,k,fp,fmax,fs);
+strt=sprintf(["Normalised Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ FIR filter ", ...
+ "(Vlcek and Unbehauen) : fp=%6.4f,fmax=%6.4f,fs=%6.4f"], p,q,k,fp,fmax,fs);
 title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
@@ -432,8 +432,8 @@ Wzptf=(-1:0.001:1);
 Qzptf=polyval(Za,Wzptf);
 plot(Wzptf,(1+Qzptf)/(1+fm));
 axis([-1 1 -0.1 1]);
-strt=sprintf("Normalised Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ \
-(Vlcek and Unbehauen)",p,q,k);
+strt=sprintf(["Normalised Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ ", ...
+ "(Vlcek and Unbehauen)"],p,q,k);
 title(strt);
 ylabel("Amplitude");
 xlabel("$w$");

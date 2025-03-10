@@ -71,8 +71,8 @@ endif
 %
 % Plot response
 %
-strt=sprintf("McClellan bandpass FIR: \
-M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,K=%g,nplot=%d,rho=%g", ...
+strt=sprintf(["McClellan bandpass FIR: ", ...
+ "M=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,K=%g,nplot=%d,rho=%g"], ...
              M,fasl,fapl,fapu,fasu,K,nplot,rho);
 nplot=2000;
 wa=(0:nplot)'*pi/nplot;

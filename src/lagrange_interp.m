@@ -25,10 +25,10 @@ function [f,w,p]=lagrange_interp(xk,fk,wk,x,tol,allow_extrap)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-  if (nargin<4 && nargin>6) || nargout>3
-    print_usage("f=lagrange_interp(xk,fk,wk,x);\n\
-[f,w,p]=lagrange_interp(xk,fk,wk,x,tol);\n\
-[f,w,p]=lagrange_interp(xk,fk,wk,x,tol,allow_extrap);");
+  if (nargin<4) || (nargin>6) || (nargout>3)
+    print_usage(["f=lagrange_interp(xk,fk,wk,x);\n", ...
+ "[f,w,p]=lagrange_interp(xk,fk,wk,x,tol);\n", ...
+ "[f,w,p]=lagrange_interp(xk,fk,wk,x,tol,allow_extrap);"]);
   endif
   if nargin<6
     allow_extrap=false;

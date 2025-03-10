@@ -170,8 +170,8 @@ axis(ax(1),[0 0.5 -36 -34]);
 %axis(ax(2),[0 0.5 -dBap 0]);
 axis(ax(2),[0 0.5 -0.2 0]);
 grid("on");
-strP=sprintf("Bandpass hilbert response : \
-fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g", ...
+strP=sprintf(["Bandpass hilbert response : ", ...
+ "fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g"], ...
              fasl,fapl,fapu,fasu,dBap,dBas,tp,tpr,ppr);
 title(strP);
 ylabel("Amplitude(dB)");

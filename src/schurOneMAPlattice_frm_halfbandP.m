@@ -48,8 +48,8 @@ function [P,gradP] = ...
   % Sanity checks
   %
   if (nargin ~= 8) || (nargout > 2)
-    print_usage("[P,gradP]= ...\n\
-  schurOneMAPlattice_frm_halfbandP(w,k,epsilon,p,u,v,Mmodel,Dmodel);");
+    print_usage(["[P,gradP]= ...\n", ...
+ "  schurOneMAPlattice_frm_halfbandP(w,k,epsilon,p,u,v,Mmodel,Dmodel);"]);
   endif
   if length(u) ~= (length(v)+1)
     error("length(u) ~= (length(v)+1)");

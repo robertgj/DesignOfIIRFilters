@@ -45,9 +45,9 @@ for N=[1,2,3,6,7],
   M0=eye(N+1);
   for l=1:N,
     eval(sprintf("rM%d=[[-k%d, 1+(k%d*E%d)];[1-(k%d*E%d),k%d]];",l,l,l,l,l,l,l));
-    eval(sprintf("M%d=[[eye(%d-1),zeros(%d-1,2),zeros(%d-1,N-%d);]; ...\n\
-                       [zeros(2,%d-1),rM%d,zeros(2,N-%d)]; ...\n\
-                       [zeros(N-%d,%d-1),zeros(N-%d,2),eye(N-%d)]];",
+    eval(sprintf(["M%d=[[eye(%d-1),zeros(%d-1,2),zeros(%d-1,N-%d);]; ...\n", ...
+ "                       [zeros(2,%d-1),rM%d,zeros(2,N-%d)]; ...\n", ...
+ "                       [zeros(N-%d,%d-1),zeros(N-%d,2),eye(N-%d)]];"],
                  l,l,l,l,l, l,l,l, l,l,l,l));
   endfor
  

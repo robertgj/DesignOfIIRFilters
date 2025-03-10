@@ -161,8 +161,8 @@ plot(wplot*0.5/pi,10*log10(Asq_plot));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -30 1]);
 grid("on");
-strt=sprintf("fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g,\
-tp=%g,tpr=%g,pp=%g$\\pi$,ppr=%g$\\pi$",
+strt=sprintf(["fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g,", ...
+ "tp=%g,tpr=%g,pp=%g$\\pi$,ppr=%g$\\pi$"],
              fasl,fapl,fapu,fasu,dBap,dBas,tp,tpr,pp,ppr);
 title(strt);
 subplot(312);
@@ -248,8 +248,8 @@ print_polynomial(Nh2,"Nh2",strcat(strf,"_Nh2_coef.m"));
 print_polynomial(Ng2,"Ng2");
 print_polynomial(Ng2,"Ng2",strcat(strf,"_Ng2_coef.m"));
 
-eval(sprintf("save %s.mat ftol ctol fasl fapl fapu fasu dBap Wap dBas Wasl Wasu \
-tp tpr Wtp pp ppr Wpp k2 khat2 Nh2 Ng2",strf));
+eval(sprintf(["save %s.mat ftol ctol fasl fapl fapu fasu dBap Wap dBas Wasl Wasu ", ...
+ "tp tpr Wtp pp ppr Wpp k2 khat2 Nh2 Ng2"],strf));
 
 % Done
 toc;

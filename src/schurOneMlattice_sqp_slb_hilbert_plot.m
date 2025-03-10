@@ -24,8 +24,8 @@ function schurOneMlattice_sqp_slb_hilbert_plot ...
 
   % Sanity checks
   if (nargin ~= 19)
-    print_usage("shurOneMlattice_sqp_slb_hilbert_plot(k,epsilon,p,c, ...\n\
-       wa,wt,wp,dBap,tp,tpr,pr,Asqdu,Asqdl,Tdu,Tdl,Pdu,Pdl,strF,strT)");
+    print_usage(["shurOneMlattice_sqp_slb_hilbert_plot(k,epsilon,p,c, ...\n", ...
+ "       wa,wt,wp,dBap,tp,tpr,pr,Asqdu,Asqdl,Tdu,Tdl,Pdu,Pdl,strF,strT)"]);
   endif
 
   % Plot response

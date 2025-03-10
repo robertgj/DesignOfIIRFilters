@@ -45,8 +45,8 @@ function [T,gradT,diagHessT,hessT] = ...
   % Sanity checks
   %
   if (nargin ~= 6) || (nargout > 4) 
-    print_usage("T=schurOneMlatticePipelinedT(w,k,epsilon,c,kk,ck)\n\
-[T,gradT,diagHessT,hessT]=schurOneMlatticePipelinedT(w,k,epsilon,c,kk,ck)");
+    print_usage(["T=schurOneMlatticePipelinedT(w,k,epsilon,c,kk,ck)\n", ...
+ "[T,gradT,diagHessT,hessT]=schurOneMlatticePipelinedT(w,k,epsilon,c,kk,ck)"]);
   endif
   if length(k) ~= length(epsilon)
     error("length(k) ~= length(epsilon)");

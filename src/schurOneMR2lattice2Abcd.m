@@ -49,8 +49,8 @@ function [A,B,C,D,Aap,Bap,Cap,Dap,ABCD0,ABCDk,ABCDc,ABCDap0,ABCDapk] = ...
   % Sanity checks
   if (nargin ~= 3) || (nargout < 4) || (nargout > 13)
     print_usage ...
-    ("[A,B,C,D,Aap,Bap,Cap,Dap,ABCD0,ABCDk,ABCDc,ABCDap0,ABCDapk]= \
-       schurOneMR2lattice2Abcd(k,epsilon,c)");
+    (["[A,B,C,D,Aap,Bap,Cap,Dap,ABCD0,ABCDk,ABCDc,ABCDap0,ABCDapk]= ", ...
+ "       schurOneMR2lattice2Abcd(k,epsilon,c)"]);
   endif
   N=length(k);
   if N<2

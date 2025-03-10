@@ -24,14 +24,14 @@ function schurOneMPAlattice_socp_slb_lowpass_plot ...
 
   % Sanity checks
   if (nargin ~= 15)
-    print_usage...
-("shurOneMPAlattice_socp_slb_lowpass_plot(A1k,A1epsilon,A1p, ...\n\
-    A2k,A2epsilon,A2p,difference,fap,dBap,ftp,td,tdr,fas,dBas,strF)");
+    print_usage ...
+(["shurOneMPAlattice_socp_slb_lowpass_plot(A1k,A1epsilon,A1p, ...\n", ...
+ "    A2k,A2epsilon,A2p,difference,fap,dBap,ftp,td,tdr,fas,dBas,strF)"]);
   endif
 
   % Plot overall response
-  strT=sprintf("Parallel Schur one-multiplier lattice response : \
-fap=%g,dBap=%g,fas=%g,dBas=%g,ftp=%g,td=%g",fap,dBap,fas,dBas,ftp,td);
+  strT=sprintf(["Parallel Schur one-multiplier lattice response : ", ...
+ "fap=%g,dBap=%g,fas=%g,dBas=%g,ftp=%g,td=%g"],fap,dBap,fas,dBas,ftp,td);
   nplot=2048;
   wplot=(0:(nplot-1))'*pi/nplot;
   [Asq,gradAsq]=schurOneMPAlatticeAsq(wplot,A1k,A1epsilon,A1p, ...
@@ -54,8 +54,8 @@ fap=%g,dBap=%g,fas=%g,dBas=%g,ftp=%g,td=%g",fap,dBap,fas,dBas,ftp,td);
   close
   
   % Plot passband response
-  strT=sprintf("Parallel Schur one-multiplier lattice passband response : \
-fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g",fap,dBap,ftp,td,tdr);
+  strT=sprintf(["Parallel Schur one-multiplier lattice passband response : ", ...
+ "fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g"],fap,dBap,ftp,td,tdr);
   subplot(211);
   plot(wplot*0.5/pi,10*log10(Asq));
   ylabel("Amplitude(dB)");
@@ -75,8 +75,8 @@ fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g",fap,dBap,ftp,td,tdr);
   d1=schurOneMAPlattice2tf(A1k,A1epsilon,A1p);
   subplot(111);
   zplane(qroots(flipud(d1(:))),qroots(d1(:)));
-  strT=sprintf("Parallel Schur one-multiplier lattice pole zero plot : \
-fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g",fap,dBap,ftp,td,tdr);
+  strT=sprintf(["Parallel Schur one-multiplier lattice pole zero plot : ", ...
+ "fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g"],fap,dBap,ftp,td,tdr);
   title(strT);
   print(strcat(strF,"_A1pz"),"-dpdflatex");
   close

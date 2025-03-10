@@ -22,8 +22,8 @@ function iir_frm_parallel_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel,dmask, ...
 
   % Sanity checks
   if (nargin ~= 11)
-    print_usage("iir_frm_parallel_allpass_socp_slb_plot(x,na,nc, ...\n\
-                Mmodel,Dmodel,dmask,nplot,fpass,strT,strF,strOpt)")
+    print_usage(["iir_frm_parallel_allpass_socp_slb_plot(x,na,nc, ...\n", ...
+ "                Mmodel,Dmodel,dmask,nplot,fpass,strT,strF,strOpt)"])
   endif
 
   % Find the nominal group delay

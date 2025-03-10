@@ -46,9 +46,9 @@ function [dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw] = ...
   % Sanity checks
   %
   if (nargin ~= 6) || (nargout > 4) 
-    print_usage("dAsqdw=schurOneMlatticePipelineddAsqdw(w,k,epsilon,c,kk,ck)\n\
-[dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw]= ...\n\
- schurOneMlatticePipelineddAsqdw(w,k,epsilon,c,kk,ck)");
+    print_usage(["dAsqdw=schurOneMlatticePipelineddAsqdw(w,k,epsilon,c,kk,ck)\n", ...
+ "[dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw]= ...\n", ...
+ " schurOneMlatticePipelineddAsqdw(w,k,epsilon,c,kk,ck)"]);
   endif
   if length(k) ~= length(epsilon)
     error("length(k) ~= length(epsilon)");

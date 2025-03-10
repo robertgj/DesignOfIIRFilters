@@ -25,8 +25,8 @@ function [n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
 
   if (nargout ~= 2) || ((nargin ~= 6) && (nargin ~= 7))
     print_usage ...
-("[n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)\n\
-[n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)");
+(["[n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)\n", ...
+ "[n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)"]);
   endif
   if nargin == 6
     difference = false;

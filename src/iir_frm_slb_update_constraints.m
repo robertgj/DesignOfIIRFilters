@@ -22,8 +22,8 @@ function vS=iir_frm_slb_update_constraints(Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,ctol)
 
   % Sanity checks
   if (nargin ~= 9) || (nargout ~= 1)
-    print_usage("vS=iir_frm_slb_update_constraints ...\n\
-      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,ctol)");
+    print_usage(["vS=iir_frm_slb_update_constraints ...\n", ...
+ "      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,ctol)"]);
   endif
   if length(Asq) ~= length(Asqdu)
     error("length(Asq) ~= length(Asqdu)");

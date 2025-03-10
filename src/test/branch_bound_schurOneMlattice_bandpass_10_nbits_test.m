@@ -15,8 +15,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 % Options
 use_best_branch_and_bound_found=true
 if use_best_branch_and_bound_found
-  warning("Reporting the best branch-and-bound filter found so far. \n\
-           Set \"use_best_branch_and_bound_found\"=false to re-run.");
+  warning(["Reporting the best branch-and-bound filter found so far. \n", ...
+ "           Set \"use_best_branch_and_bound_found\"=false to re-run."]);
 endif
 enforce_pcls_constraints_on_final_filter=false
 
@@ -312,8 +312,8 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -50 -30]);
-strt=sprintf("Schur one-multiplier lattice bandpass filter stop-band \
-(nbits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,fasl,fasu,dBas);
+strt=sprintf(["Schur one-multiplier lattice bandpass filter stop-band ", ...
+ "(nbits=%d) : fasl=%g,fasu=%g,dBas=%g"],nbits,fasl,fasu,dBas);
 title(strt);
 legend("exact","s-d(Lim)","s-d(BandB)");
 legend("location","northeast");
@@ -330,8 +330,8 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0.1 0.2 -2 1]);
-strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
-(nbits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,fapl,fapu,dBap);
+strt=sprintf(["Schur one-multiplier lattice bandpass filter pass-band ", ...
+ "(nbits=%d) : fapl=%g,fapu=%g,dBap=%g"],nbits,fapl,fapu,dBap);
 title(strt);
 legend("exact","s-d(Lim)","s-d(BandB)");
 legend("location","northeast");
@@ -348,8 +348,8 @@ plot(wplot*0.5/pi,T_kc0,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([0.09 0.21 15.9 16.2]);
-strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
-(nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g",nbits,ftpl,ftpu,tp,tpr);
+strt=sprintf(["Schur one-multiplier lattice bandpass filter pass-band ", ...
+ "(nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g"],nbits,ftpl,ftpu,tp,tpr);
 title(strt);
 legend("exact","s-d(Lim)","s-d(BandB)");
 legend("location","northeast");
@@ -394,13 +394,13 @@ fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat \
-use_best_branch_and_bound_found \
-use_schurOneMlattice_allocsd_Ito \
-use_schurOneMlattice_allocsd_Lim \
-k0 epsilon0 p0 c0 ftol ctol nbits ndigits ndigits_alloc npoints cscale \
-fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp \
-improved_solution_found k_min c_min",strf));
+eval(sprintf(["save %s.mat ", ...
+ "use_best_branch_and_bound_found ", ...
+ "use_schurOneMlattice_allocsd_Ito ", ...
+ "use_schurOneMlattice_allocsd_Lim ", ...
+ "k0 epsilon0 p0 c0 ftol ctol nbits ndigits ndigits_alloc npoints cscale ", ...
+ "fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp ", ...
+ "improved_solution_found k_min c_min"],strf));
        
 % Done
 toc;

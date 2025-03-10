@@ -30,8 +30,8 @@ for k=["a","b","c"]
     nf=1800;M=255;deltasl=1e-5;deltap=1e-4;deltasu=1e-5;ftl=0.2;ftu=0.35;
     At=1-deltap; typeAt="1-deltap";
   endif
-  strt=sprintf("Selesnick-Burrus Hofstetter band-pass : \
-M=%d,deltasl=%g,deltap=%g,deltasu=%g,ftl=%g,ftu=%g,At=%s",
+  strt=sprintf(["Selesnick-Burrus Hofstetter band-pass : ", ...
+ "M=%d,deltasl=%g,deltap=%g,deltasu=%g,ftl=%g,ftu=%g,At=%s"],
                M,deltasl,deltap,deltasu,ftl,ftu,typeAt);
 
   % Filter design

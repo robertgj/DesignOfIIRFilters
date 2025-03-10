@@ -81,8 +81,8 @@ printf("Wa(nchka)=[ ");printf("%6.4g ",Wa(nchka)');printf("];\n");
 % Initialise strings
 strM=sprintf("%%s:fap=%g,fas=%g,Was=%%g,ftp=%g,tp=%g,Wtp=%%g",...
              fap,fas,ftp,tp);
-strP=sprintf("%%s:fap=%g,dBap=%%g,fas=%g,dBas=%%g,Was=%%g,\
-ftp=%g,tp=%g,tpr=%%g,Wtp=%%g",fap,fas,ftp,tp);
+strP=sprintf(["%%s:fap=%g,dBap=%%g,fas=%g,dBas=%%g,Was=%%g,", ...
+ "ftp=%g,tp=%g,tpr=%%g,Wtp=%%g"],fap,fas,ftp,tp);
 
 % Initial filter
 [x0,Ex0]=xInitHd(xi,U,V,M,Q,R, ...
@@ -196,8 +196,8 @@ print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
-eval(sprintf("save %s.mat n U V M Q R fap fas ftp tp dBap dBas tpr \
-Wap Was Wtp x0 x1 d1 ftol_wise ftol_mmse ftol_pcls ctol",strf));
+eval(sprintf(["save %s.mat n U V M Q R fap fas ftp tp dBap dBas tpr ", ...
+ "Wap Was Wtp x0 x1 d1 ftol_wise ftol_mmse ftol_pcls ctol"],strf));
 
 % Done
 toc;

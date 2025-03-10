@@ -69,8 +69,8 @@ for nh=3:4,
     ylabel("Amplitude(dB)");
     axis([0 0.5 -60 0]);
     grid("on");
-    s=sprintf("Elliptic filter with all-pass delay equaliser : \
-nh=%d,na=%d,ftp=%g,tp=%g",nh,na,ftp,tp);
+    s=sprintf(["Elliptic filter with all-pass delay equaliser : ", ...
+ "nh=%d,na=%d,ftp=%g,tp=%g"],nh,na,ftp,tp);
     title(s);
     subplot(212)
     plot(w*0.5/pi,T1(:)-tp);

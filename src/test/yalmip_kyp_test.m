@@ -58,8 +58,8 @@ plot(w*0.5/pi,20*log10(abs(H)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
-strt=sprintf("KYP quadratic non-symmetric FIR filter : \
-N=%d,d=%d,fap=%g,Wap=%g,Wat=%g,fas=%g,Was=%g",N,d,fap,Wap,Wat,fas,Was);
+strt=sprintf(["KYP quadratic non-symmetric FIR filter : ", ...
+ "N=%d,d=%d,fap=%g,Wap=%g,Wat=%g,fas=%g,Was=%g"],N,d,fap,Wap,Wat,fas,Was);
 title(strt);
 subplot(212);
 plot(w(1:nap)*0.5/pi,T(1:nap));

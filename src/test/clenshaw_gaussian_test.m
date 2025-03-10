@@ -221,8 +221,8 @@ print(strcat(strf,"_approx"),"-dpdflatex");
 close;
 
 subplot(211),plot(x,yapprox_fixed_point);
-title("Chebyshev polynomial approximation to a Gaussian function with \
-fixed point arithmetic");
+title(["Chebyshev polynomial approximation to a Gaussian function with ", ...
+ "fixed point arithmetic"]);
 ylabel("Amplitude");
 grid("on");
 subplot(212),plot(x,yexact-yapprox_fixed_point);

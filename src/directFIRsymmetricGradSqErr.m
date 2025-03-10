@@ -37,8 +37,8 @@ function gradSqErr=directFIRsymmetricGradSqErr(w,_hM,_Ad,_Wa)
   persistent init_done=false;
 
   if nargin~=1 && nargin~=4
-    print_usage("      directFIRsymmetricGradSqErr(w) \n\
-      directFIRsymmetricGradSqErr(w,hM,Ad,Wa)");
+    print_usage(["      directFIRsymmetricGradSqErr(w) \n", ...
+ "      directFIRsymmetricGradSqErr(w,hM,Ad,Wa)"]);
   endif
 
   if nargin==4

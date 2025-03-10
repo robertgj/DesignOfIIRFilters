@@ -185,8 +185,8 @@ Ha=freqz(Na1,Da1,nplot);
 Hb=freqz(Nb1,Db1,nplot);
 plot(wplot*0.5/pi,(unwrap(arg(Ha))+(wplot*td))/pi, ...
      wplot*0.5/pi,(unwrap(arg(Hb))+(wplot*td))/pi);
-strt=sprintf("Allpass phase responses adjusted for linear phase : \
-ma=%d,mb=%d,td=%g",ma,mb,td);
+strt=sprintf(["Allpass phase responses adjusted for linear phase : ", ...
+ "ma=%d,mb=%d,td=%g"],ma,mb,td);
 title(strt);
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
@@ -240,8 +240,8 @@ print_polynomial(Nab1,"Nab1",strcat(strf,"_Nab1_coef.m"));
 print_polynomial(Dab1,"Dab1");
 print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
-eval(sprintf("save %s.mat ...\n\
-     n fap Wap ftp Wtp fas Was td tdr ma mb Ra Rb ab0 ab1 Da1 Db1",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ "     n fap Wap ftp Wtp fas Was td tdr ma mb Ra Rb ab0 ab1 Da1 Db1"],strf));
 
 % Done 
 toc;

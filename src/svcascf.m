@@ -30,8 +30,8 @@ function [y,xx1,xx2]=svcascf(a11,a12,a21,a22,b1,b2,c1,c2,d,u,rounding,xbits)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin<11) || (nargin>12)
-    print_usage("[y,xx1,xx2]=svcascf(a11,a12,a21,a22,b1,b2,c1,c2,d, ...\n\
-    u,rounding,extra_bits)");
+    print_usage(["[y,xx1,xx2]=svcascf(a11,a12,a21,a22,b1,b2,c1,c2,d, ...\n", ...
+ "    u,rounding,extra_bits)"]);
   endif
   if (nargin==11)
     xbits=zeros(size(d));

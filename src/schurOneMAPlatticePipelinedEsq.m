@@ -50,9 +50,9 @@ function [Esq,gradEsq,diagHessEsq,hessEsq] = schurOneMAPlatticePipelinedEsq ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if nargout>4 || ((nargin~=6) && (nargin~=9) && (nargin~=12) && (nargin~=15))
-    print_usage("[Esq,gradEsq,diagHessEsq,hessEsq] = ...\n\
-      schurOneMAPlatticePipelinedEsq ...\n\
-        (k,epsilon,kk,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)");
+    print_usage(["[Esq,gradEsq,diagHessEsq,hessEsq] = ...\n", ...
+ "      schurOneMAPlatticePipelinedEsq ...\n", ...
+ "        (k,epsilon,kk,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)"]);
   endif
 
   Nk=length(k);
@@ -241,8 +241,8 @@ function [ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...
   schurOneMAPlatticePipelinedXError(pfX,k,epsilon,kk,wx,Xd,Wx)
 
   if nargin~=7 || nargout>4
-    print_usage("[ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...\n\
-      schurOneMAPlatticePipelinedXError(pfX,k,epsilon,kk,wx,Xd,Wx)");
+    print_usage(["[ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...\n", ...
+ "      schurOneMAPlatticePipelinedXError(pfX,k,epsilon,kk,wx,Xd,Wx)"]);
   endif
 
   % Make row vectors with a single column, 

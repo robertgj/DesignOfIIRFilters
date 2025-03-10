@@ -23,8 +23,8 @@ function vS=schurOneMPAlattice_slb_update_constraints ...
 
   % Sanity checks
   if (nargin ~= 17) || (nargout ~= 1)
-    print_usage("vS=schurOneMPAlattice_slb_update_constraints ...\n\
-      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,D,Ddu,Ddl,Wd,ctol)");
+    print_usage(["vS=schurOneMPAlattice_slb_update_constraints ...\n", ...
+ "      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,D,Ddu,Ddl,Wd,ctol)"]);
   endif
   if length(Asq) ~= length(Asqdu)
     error("length(Asq) ~= length(Asqdu)");

@@ -53,15 +53,15 @@ for d=[M,floor(M/2)],
     hd=h;
     print_polynomial(hd,"hd","%13.10f");
     print_polynomial(hd,"hd",sprintf("%s_hd_coef.m",strf),"%13.10f");
-    strt=sprintf("Non-symmetric FIR : order N=%d,d=%d,fasl=%4.2f,fapl=%4.2f,\
-fapu=%4.2f,fasu=%4.2f",N,d,fasl,fapl,fapu,fasu);
+    strt=sprintf(["Non-symmetric FIR : order N=%d,d=%d,fasl=%4.2f,fapl=%4.2f,", ...
+ "fapu=%4.2f,fasu=%4.2f"],N,d,fasl,fapl,fapu,fasu);
     subplot(211);
   else
     h=[h;h(M:-1:1)];
     print_polynomial(h,"h","%13.10f");
     print_polynomial(h,"h",sprintf("%s_h_coef.m",strf),"%13.10f");
-    strt=sprintf("Symmetric FIR : order N=%d,fasl=%4.2f,fapl=%4.2f,\
-fapu=%4.2f,fasu=%4.2f",N,fasl,fapl,fapu,fasu);
+    strt=sprintf(["Symmetric FIR : order N=%d,fasl=%4.2f,fapl=%4.2f,", ...
+ "fapu=%4.2f,fasu=%4.2f"],N,fasl,fapl,fapu,fasu);
   endif
   f=(0:(nplot-1))'*0.5/nplot;
   nasl=ceil(fasl*nplot/0.5)+1;
@@ -137,8 +137,8 @@ axis(ax(2),[0 0.5 0.01*[-1 1]]);
 ylabel(ax(1),"Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
-strt=sprintf("Symmetric FIR (Parks-McClellan) : \
-order N=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,K=%g,nplot=%d", ...
+strt=sprintf(["Symmetric FIR (Parks-McClellan) : ", ...
+ "order N=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,K=%g,nplot=%d"], ...
              N,fasl,fapl,fapu,fasu,K,nplot);
 title(strt);
 print(sprintf("%s_hPM_response",strf),"-dpdflatex");
@@ -167,8 +167,8 @@ fprintf(fid,"Watuu=%g %% Amplitude upper trans. band upper weight\n",Watuu);
 fprintf(fid,"Wasu=%g %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
-eval(sprintf("save %s.mat M fasl fatlu fapl faplu fapul fapu fatul fasu \
-Wasl Watll Watlu Wapl Wap Wapu Watul Watuu Wasu nplot h hd K hPM rho\n",strf));
+eval(sprintf(["save %s.mat M fasl fatlu fapl faplu fapul fapu fatul fasu ", ...
+ "Wasl Watll Watlu Wapl Wap Wapu Watul Watuu Wasu nplot h hd K hPM rho\n"],strf));
 
 % Done
 toc

@@ -283,8 +283,8 @@ ax=plotyy(Wz(1:nfp)*0.5/pi,20*log10(abs(hz_sd(1:nfp))), ...
           Wz(nfa:end)*0.5/pi,20*log10(abs(hz_sd(nfa:end))));
 axis(ax(1),[0 0.5 -0.0008 0]);
 axis(ax(2),[0 0.5 -46 -38]);
-strt=sprintf("Minimal-Q elliptic filter z-plane response (%d-bit, \
-%d-signed-digit lattice coefficients)",nbits,ndigits);
+strt=sprintf(["Minimal-Q elliptic filter z-plane response (%d-bit, ", ...
+ "%d-signed-digit lattice coefficients)"],nbits,ndigits);
 title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");

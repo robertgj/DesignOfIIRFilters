@@ -223,9 +223,9 @@ print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
 print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
-eval(sprintf("save %s.mat rho ftol ctol difference sxx_symmetric n \
-fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp \
-Da0 Db0 A1s20 A1s00 A1s02 A1s22 A2s20 A2s00 A2s02 A2s22 A1d A2d N2 D2",strf));
+eval(sprintf(["save %s.mat rho ftol ctol difference sxx_symmetric n ", ...
+ "fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp ", ...
+ "Da0 Db0 A1s20 A1s00 A1s02 A1s22 A2s20 A2s00 A2s02 A2s22 A1d A2d N2 D2"],strf));
         
 % Done
 toc;

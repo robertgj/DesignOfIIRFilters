@@ -40,8 +40,8 @@ text(0.45,0.9,sprintf("K=%d",K(1)));
 text(-0.02,0.9,sprintf("K=%d",K(end)));
 xlabel("Frequency");
 ylabel("Amplitude");
-title(sprintf("Vlcek maximally-flat low-pass filter responses for \
-M=%d,K=%d,%d,...,%d",M,K(1),K(2),K(end)));
+title(sprintf(["Vlcek maximally-flat low-pass filter responses for ", ...
+ "M=%d,K=%d,%d,...,%d"],M,K(1),K(2),K(end)));
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 

@@ -55,7 +55,7 @@ function E=WISEJ_AB(ab,_flat_delay,_ma,_mb, ...
       return;
     endif
   elseif nargin~=1
-    print_usage
+    print_usage ...
     ("E=WISEJ_AB(ab[,flat_delay,ma,mb,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,verbose])");
   endif
   if init_done == false
@@ -230,8 +230,8 @@ for flat_delay=[false,true],
   axis([0 0.5 -80 5]);
   grid("on");
   if flat_delay
-    s=sprintf("Parallel all-pass 2nd order cascade (flat delay): \
-ma=%d,mb=%d,fap=%g,fas=%g",ma,mb,fap,fas);
+    s=sprintf(["Parallel all-pass 2nd order cascade (flat delay): ", ...
+ "ma=%d,mb=%d,fap=%g,fas=%g"],ma,mb,fap,fas);
   else
     s=sprintf("Parallel all-pass 2nd order cascade : ma=%d,mb=%d",ma,mb);
   endif

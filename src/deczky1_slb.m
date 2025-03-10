@@ -103,9 +103,9 @@ function [x,E,slb_iter,opt_iter,func_iter,feasible] = ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 if (nargin ~= 25) || (nargout ~= 6)
-  print_usage("[x,E,slb_iter,opt_iter,func_iter,feasible] = ...\n\
-  deczky1_slb(pfx,x0,xu,xl,dmax,U,V,M,Q,R, ...\n\
-    wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx,maxiter,ftol,ctol,verbose)");
+  print_usage(["[x,E,slb_iter,opt_iter,func_iter,feasible] = ...\n", ...
+ "  deczky1_slb(pfx,x0,xu,xl,dmax,U,V,M,Q,R, ...\n", ...
+ "    wa,Ad,Adu,Adl,Wa,wt,Td,Tdu,Tdl,Wt,wx,maxiter,ftol,ctol,verbose)"]);
 endif
 
 %

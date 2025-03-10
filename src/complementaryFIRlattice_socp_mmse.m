@@ -62,11 +62,11 @@ function [k,khat,socp_iter,func_iter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin ~= 26) || (nargout ~= 5)
-    print_usage("[k,khat,socp_iter,func_iter,feasible]= ...\n\
-      complementaryFIRlattice_socp_mmse(vS,k0,khat0, ...\n\
-                                 kkhat_u,kkhat_l,kkhat_active,dmax, ...\n\
-                                 wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                                 wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
+    print_usage(["[k,khat,socp_iter,func_iter,feasible]= ...\n", ...
+ "      complementaryFIRlattice_socp_mmse(vS,k0,khat0, ...\n", ...
+ "                                 kkhat_u,kkhat_l,kkhat_active,dmax, ...\n", ...
+ "                                 wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n", ...
+ "                                 wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)"]);
   endif
 
   %

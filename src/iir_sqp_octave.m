@@ -58,8 +58,8 @@ function [x,E,sqp_iter,func_iter,feasible] = ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 if (nargin~=15) || (nargout ~= 5)
-  print_usage("[x,E,sqp_iter,func_iter,feasible] = ...\n\
-        iir_sqp_octave(x0,U,V,M,Q,R,wa,Ad,Wa,wt,Td,Wt,maxiter,tol,verbose)");
+  print_usage(["[x,E,sqp_iter,func_iter,feasible] = ...\n", ...
+ "        iir_sqp_octave(x0,U,V,M,Q,R,wa,Ad,Wa,wt,Td,Wt,maxiter,tol,verbose)"]);
 endif
 
 % Initialise iir_E, etc persistent values (rather than use globals)

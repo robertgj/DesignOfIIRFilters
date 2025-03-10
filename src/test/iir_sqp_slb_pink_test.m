@@ -100,8 +100,8 @@ else
   semilogx(wd(ni:end)*0.5/pi,20*log10(A0),"linestyle","-", ...
            wa*0.5/pi,20*log10(Ad),"linestyle","-.");
   axis([0.001 0.6 -20 5]);
-  strt=sprintf("Pink noise filter initial amplitude response : \
-fat=%g,ftt=%g,tp=%g",fat,ftt,tp);
+  strt=sprintf(["Pink noise filter initial amplitude response : ", ...
+ "fat=%g,ftt=%g,tp=%g"],fat,ftt,tp);
   title(strt);
   xlabel("Frequency");
   ylabel("Amplitude(dB)");
@@ -167,8 +167,8 @@ subplot(211);
 ni=floor(0.002*n/0.5);
 semilogx(w(ni:end)*0.5/pi,20*log10(abs(H(ni:end))));
 axis([0.001 0.6 -20 10]);
-strt=sprintf("Pink noise filter response : \
-fat=%g,AdBr=%g,ftt=%g,tp=%g,tpr=%g",fat,AdBr,ftt,tp,tpr);
+strt=sprintf(["Pink noise filter response : ", ...
+ "fat=%g,AdBr=%g,ftt=%g,tp=%g,tpr=%g"],fat,AdBr,ftt,tp,tpr);
 title(strt);
 ylabel("Amplitude(dB)");
 grid("on");
@@ -234,8 +234,8 @@ fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
 fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fclose(fid);
 
-eval(sprintf("save %s.mat U V M Q R x0 d1 ftol ctol n wd \
-fat Ad AdBr ftt tp Td tpr",strf));
+eval(sprintf(["save %s.mat U V M Q R x0 d1 ftol ctol n wd ", ...
+ "fat Ad AdBr ftt tp Td tpr"],strf));
 
 % Done
 toc;

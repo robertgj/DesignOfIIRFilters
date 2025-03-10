@@ -162,8 +162,8 @@ print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
 print_polynomial(Db1,"Db1");
 print_polynomial(Db1,"Db1",strcat(strf,"_Db1_coef.m"));
 
-eval(sprintf("save %s.mat ...\n\
-     fp td Wp fs Ws ab0 a1 b1 Da1 Db1 Nab1 Dab1",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ "     fp td Wp fs Ws ab0 a1 b1 Da1 Db1 Nab1 Dab1"],strf));
 
 % Done
 toc;

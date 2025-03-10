@@ -398,8 +398,8 @@ fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat k0 epsilon0 p0 c0 ftol ctol nbits ndigits \
-ndigits_alloc ntt ftt dBar Wat Wap Pd pp ppr Wpp dmax rho k_min c_min",strf));
+eval(sprintf(["save %s.mat k0 epsilon0 p0 c0 ftol ctol nbits ndigits ", ...
+ "ndigits_alloc ntt ftt dBar Wat Wap Pd pp ppr Wpp dmax rho k_min c_min"],strf));
        
 % Done
 toc;

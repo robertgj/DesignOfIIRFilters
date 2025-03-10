@@ -105,10 +105,10 @@ printf("vS1 before exchange constraints:\n");
 schurOneMAPlattice_frm_halfband_slb_show_constraints(vS1,wa,Asq1,wt,T1);
 
 % Plot amplitude
-strd=sprintf("schurOneMAPlattice_frm_halfband_\
-slb_exchange_constraints_test_%%s");
-strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,ftp=%g,tpr=%g,Wtp=%g,\
-,fas=%g,dBas=%g,Was=%g",fap,dBap,Wap,ftp,tpr,Wtp,fas,dBas,Was);
+strd=sprintf(["schurOneMAPlattice_frm_halfband_", ...
+ "slb_exchange_constraints_test_%%s"]);
+strM=sprintf(["%%s:fap=%g,dBap=%g,Wap=%g,ftp=%g,tpr=%g,Wtp=%g,", ...
+ ",fas=%g,dBas=%g,Was=%g"],fap,dBap,Wap,ftp,tpr,Wtp,fas,dBas,Was);
 fa=wa*0.5/pi;
 subplot(211);
 plot(fa(1:nap),10*log10([Asq0(1:nap),Asqdu(1:nap),Asqdl(1:nap)]), ...

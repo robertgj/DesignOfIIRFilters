@@ -210,8 +210,8 @@ print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 % Done 
 save polyphase_allpass_socp_mmse_test.mat ...
      n fap Wap ftp Wtp fas Was td ma mb Ra Rb ab0 ab1 Da1 Db1
-eval(sprintf("save %s.mat fM_0 k0_0 epsilon0 k1_0 epsilon1 \
-fapl fasl fasu fapu Wap Was dmax rho ftol fM k0 k1",strf));
+eval(sprintf(["save %s.mat fM_0 k0_0 epsilon0 k1_0 epsilon1 ", ...
+ "fapl fasl fasu fapu Wap Was dmax rho ftol fM k0 k1"],strf));
 
 diary off
 movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

@@ -61,8 +61,8 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
-strt=sprintf("5th order elliptic OneM lattice: \
-nbits=%d,bitstart=%d,msize=%d,ndigits=%d",nbits,bitstart,msize,ndigits);
+strt=sprintf(["5th order elliptic OneM lattice: ", ...
+ "nbits=%d,bitstart=%d,msize=%d,ndigits=%d"],nbits,bitstart,msize,ndigits);
 title(strt);
 legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
 legend("location","northeast");

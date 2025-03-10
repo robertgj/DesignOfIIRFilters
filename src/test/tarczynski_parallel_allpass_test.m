@@ -155,8 +155,8 @@ for flat_delay=[false,true],
     Hb=freqz(flipud(Db0),Db0,nplot);
     plot(wplot*0.5/pi,unwrap(arg(Ha))+(wplot*td), ...
          wplot*0.5/pi,unwrap(arg(Hb))+(wplot*td));
-    strt=sprintf("Allpass phase response adjusted for linear phase : \
-ma=%d,mb=%d,td=%g",ma,mb,td);
+    strt=sprintf(["Allpass phase response adjusted for linear phase : ", ...
+ "ma=%d,mb=%d,td=%g"],ma,mb,td);
     title(strt);
     ylabel("Linear phase error(rad.)");
     xlabel("Frequency");

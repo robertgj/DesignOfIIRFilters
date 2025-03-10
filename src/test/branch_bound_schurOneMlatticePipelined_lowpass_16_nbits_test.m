@@ -259,8 +259,8 @@ Asq_kc_min=schurOneMlatticePipelinedAsq ...
              (wplot,k_min,epsilon0,c_min,kk_min,ck_min);
 
 % Plot amplitude stop-band response
-strt=sprintf("Schur one-multiplier pipelined lattice bandpass filter %%s \
- : nbits=%d,fap=%g,fas=%g", nbits,fap,fas);
+strt=sprintf(["Schur one-multiplier pipelined lattice bandpass filter %%s ", ...
+ " : nbits=%d,fap=%g,fas=%g"], nbits,fap,fas);
 plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
      wplot*0.5/pi,10*log10(abs(Asq_kc0_sd)),"linestyle","--", ...
      wplot*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","-.");
@@ -310,9 +310,9 @@ fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ...\n\
-     k0 epsilon0 p0 c0 nbits ndigits npoints fap Wap Wat fas Was ...\n\
-     improved_solution_found k_min p_min c_min kk_min ck_min",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ "     k0 epsilon0 p0 c0 nbits ndigits npoints fap Wap Wat fas Was ...\n", ...
+ "     improved_solution_found k_min p_min c_min kk_min ck_min"],strf));
        
 % Done
 toc;

@@ -92,11 +92,11 @@ function [abk,socp_iter,func_iter,feasible]= ...
 % Sanity checks
 %
 if (nargout > 4) || (nargin ~= 32)
-  print_usage("[abk,socp_iter,func_iter,feasible]= ...\n\
-  parallel_allpass_socp_mmse(vS,ab0,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb, ...\n\
-                             polyphase,difference, ...\n\
-                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                             wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)");
+  print_usage(["[abk,socp_iter,func_iter,feasible]= ...\n", ...
+ "  parallel_allpass_socp_mmse(vS,ab0,abu,abl,K,Va,Qa,Ra,Vb,Qb,Rb, ...\n", ...
+ "                             polyphase,difference, ...\n", ...
+ "                             wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n", ...
+ "                             wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose)"]);
 endif
 wa=wa(:);
 Nwa=length(wa);

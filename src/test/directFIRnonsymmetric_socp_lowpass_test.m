@@ -86,8 +86,8 @@ plot(f,20*log10(abs(H)), ...
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 10]);
 grid("on");
-strt=sprintf("SOCP designed non-symmetric FIR filter : \
-N=%d,d=%d,fap=%g,dBap=%g,tdr=%g,Wap=%g,fas=%g,dBas=%g,Was=%g",
+strt=sprintf(["SOCP designed non-symmetric FIR filter : ", ...
+ "N=%d,d=%d,fap=%g,dBap=%g,tdr=%g,Wap=%g,fas=%g,dBas=%g,Was=%g"],
              N,d,fap,dBap,tdr,Wap,fas,dBas,Was);
 title(strt);
 subplot(212)

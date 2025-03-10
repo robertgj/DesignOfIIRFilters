@@ -95,8 +95,8 @@ xlabel("Iteration");
 axis(ax(1),[0 maxiter_kyp -0.5 0]);
 axis(ax(2),[0 maxiter_kyp -45 -40]);
 grid("on");
-tstr=sprintf("Pass-band $A_{min}$(dB) and stop-band $A_{max}$(dB) of \
-parallel all-pass filter and delay : N=%d, DD=%d",N, DD);
+tstr=sprintf(["Pass-band $A_{min}$(dB) and stop-band $A_{max}$(dB) of ", ...
+ "parallel all-pass filter and delay : N=%d, DD=%d"],N, DD);
 title(tstr);
 print(strcat(strf,"_Asq_min_max"),"-dpdflatex");
 close
@@ -105,8 +105,8 @@ close
 Da=schurOneMAPlattice2tf(k,k1,k1);
 Na=0.5*(conv([zeros(1,(DD)),1],Da)+[fliplr(Da),zeros(1,(DD))]);
 zplane(Na,[zeros(1,length(Na)-length(Da)),Da])
-tstr=sprintf("Pole-zero plot of parallel all-pass filter and delay : \
-N=%d, DD=%d", N, DD);
+tstr=sprintf(["Pole-zero plot of parallel all-pass filter and delay : ", ...
+ "N=%d, DD=%d"], N, DD);
 title(tstr);
 grid("on");
 print(strcat(strf,"_pz"),"-dpdflatex");

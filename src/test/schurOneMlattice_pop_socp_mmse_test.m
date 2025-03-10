@@ -172,8 +172,8 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -50 -30]);
-strt=sprintf("Schur one-multiplier lattice bandpass filter stop-band \
-(nbits=%d) : fasl=%g,fasu=%g,dBas=%g",nbits,fasl,fasu,dBas);
+strt=sprintf(["Schur one-multiplier lattice bandpass filter stop-band ", ...
+ "(nbits=%d) : fasl=%g,fasu=%g,dBas=%g"],nbits,fasl,fasu,dBas);
 title(strt);
 legend("exact","s-d(Ito)","s-d(POP-relax)");
 legend("location","northeast");
@@ -190,8 +190,8 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0.1 0.2 -2 1]);
-strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
-(nbits=%d) : fapl=%g,fapu=%g,dBap=%g",nbits,fapl,fapu,dBap);
+strt=sprintf(["Schur one-multiplier lattice bandpass filter pass-band ", ...
+ "(nbits=%d) : fapl=%g,fapu=%g,dBap=%g"],nbits,fapl,fapu,dBap);
 title(strt);
 legend("exact","s-d(Ito)","s-d(POP-relax)");
 legend("location","northeast");
@@ -208,8 +208,8 @@ plot(wplot*0.5/pi,T_kc0,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([0.09 0.21 15.9 16.2]);
-strt=sprintf("Schur one-multiplier lattice bandpass filter pass-band \
-nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g",nbits,ftpl,ftpu,tp,tpr);
+strt=sprintf(["Schur one-multiplier lattice bandpass filter pass-band ", ...
+ "nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g"],nbits,ftpl,ftpu,tp,tpr);
  title(strt);
 legend("exact","s-d(Ito)","s-d(POP-relax)");
 legend("location","northeast");
@@ -254,9 +254,9 @@ fclose(fid);
 print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"),nscale);
 print_polynomial(c1,"c1",strcat(strf,"_c1_coef.m"),nscale);
 
-eval(sprintf("save %s.mat k0 epsilon0 p0 c0 ctol ftol nbits ndigits npoints \
-fapl fapu dBap Wap fasll fasl fasu fasuu dBas dBass Wasl Wasu \
-ftpl ftpu tp tpr Wtp ndigits_alloc k1 c1",strf));
+eval(sprintf(["save %s.mat k0 epsilon0 p0 c0 ctol ftol nbits ndigits npoints ", ...
+ "fapl fapu dBap Wap fasll fasl fasu fasuu dBas dBass Wasl Wasu ", ...
+ "ftpl ftpu tp tpr Wtp ndigits_alloc k1 c1"],strf));
 
 % Done
 toc;

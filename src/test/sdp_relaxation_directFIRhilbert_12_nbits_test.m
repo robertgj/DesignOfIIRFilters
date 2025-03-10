@@ -190,8 +190,8 @@ plot(wa*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 axis([0 0.25 -0.2 0.2]);
-strt=sprintf("Direct-form Hilbert filter (nbits=%d,ndigits=%d) : \
-fapl=%g,fapu=%g,dBap=%g",nbits,ndigits,fapl,fapu,dBap);
+strt=sprintf(["Direct-form Hilbert filter (nbits=%d,ndigits=%d) : ", ...
+ "fapl=%g,fapu=%g,dBap=%g"],nbits,ndigits,fapl,fapu,dBap);
 title(strt);
 legend("exact","s-d","s-d(Ito)","s-d(SDP)");
 legend("location","northeast");
@@ -217,8 +217,8 @@ fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results
-eval(sprintf("save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc npoints \
-fapl fapu dBap Wap Was hM1_sd_sdp", strf));
+eval(sprintf(["save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc npoints ", ...
+ "fapl fapu dBap Wap Was hM1_sd_sdp"], strf));
        
 % Done
 toc;

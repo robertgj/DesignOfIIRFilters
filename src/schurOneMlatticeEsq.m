@@ -52,8 +52,8 @@ function [Esq,gradEsq,diagHessEsq,hessEsq]=...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if nargout>4 || ((nargin~=7)&&(nargin~=10)&&(nargin~=13)&&(nargin~=16))
-    print_usage("[Esq,gradEsq,diagHessEsq,hessEsq] = ...\n\
-      schurOneMlatticeEsq(k,epsilon,p,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)");
+    print_usage(["[Esq,gradEsq,diagHessEsq,hessEsq] = ...\n", ...
+ "      schurOneMlatticeEsq(k,epsilon,p,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd)"]);
   endif
 
   Nk=length(k);
@@ -219,8 +219,8 @@ function [ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...
            schurOneMlatticeXError(pfX,k,epsilon,p,c,wx,Xd,Wx)
 
   if nargin~=8 || nargout>4
-    print_usage("[ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...\n\
-      schurOneMlatticeXError(pfX,k,epsilon,p,c,wx,Xd,Wx)");
+    print_usage(["[ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...\n", ...
+ "      schurOneMlatticeXError(pfX,k,epsilon,p,c,wx,Xd,Wx)"]);
   endif
 
   % Make row vectors with a single column, 

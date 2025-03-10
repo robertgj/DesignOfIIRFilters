@@ -25,8 +25,8 @@ function schurOneMAPlattice_frm_socp_slb_plot ...
 
   % Sanity checks
   if nargin ~= 12
-    print_usage("schurOneMAPlattice_frm_socp_slb_plot\
-(k,epsilon,p,u,v,Mmodel,Dmodel,fap,fas,strT,strF,strOpt)");
+    print_usage(["schurOneMAPlattice_frm_socp_slb_plot", ...
+ "(k,epsilon,p,u,v,Mmodel,Dmodel,fap,fas,strT,strF,strOpt)"]);
   endif
   if length(u)~=length(v)
     error("length(u)~=length(v)");

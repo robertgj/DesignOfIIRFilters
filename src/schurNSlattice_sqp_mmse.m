@@ -59,11 +59,11 @@ function [s10,s11,s20,s00,s02,s22,sqp_iter,func_iter,feasible]= ...
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if (nargin ~= 26) || (nargout ~= 9)
-    print_usage("[s10,s11,s20,s00,s02,s22,sqp_iter,func_iter,feasible]= ...\n\
-      schurNSlattice_sqp_mmse(vS,s10_0,s11_0,s20_0,s00_0,s02_0,s22_0, ...\n\
-                              sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...\n\
-                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n\
-                              maxiter,ftol,ctol,verbose)");
+    print_usage(["[s10,s11,s20,s00,s02,s22,sqp_iter,func_iter,feasible]= ...\n", ...
+ "      schurNSlattice_sqp_mmse(vS,s10_0,s11_0,s20_0,s00_0,s02_0,s22_0, ...\n", ...
+ "                              sxx_u,sxx_l,sxx_active,sxx_symmetric,dmax, ...\n", ...
+ "                              wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...\n", ...
+ "                              maxiter,ftol,ctol,verbose)"]);
   endif
 
   %
@@ -255,10 +255,10 @@ function [E,gradE,hessE,func_iter]=schurNSlattice_sqp_mmse_fx(xsxx, ...
       error("init_done==false");
     endif
   else
-    print_usage("[E,gradE,hessE] = schurNSlattice_sqp_mmse_fx(xsxx);\n\
-schurNSlattice_sqp_mmse_fx(xsxx,...\n\
-  sxx_0,sxx_active,sxx_symmetric,wa,Asqd,Wa,wt,Td,Wt);\n\
-[dummy1,dummy2,dummy3,func_iter] = schurNSlattice_sqp_mmse_fx(sxx);");
+    print_usage(["[E,gradE,hessE] = schurNSlattice_sqp_mmse_fx(xsxx);\n", ...
+ "schurNSlattice_sqp_mmse_fx(xsxx,...\n", ...
+ "  sxx_0,sxx_active,sxx_symmetric,wa,Asqd,Wa,wt,Td,Wt);\n", ...
+ "[dummy1,dummy2,dummy3,func_iter] = schurNSlattice_sqp_mmse_fx(sxx);"]);
   endif
 
   % Initialise s10,etc
@@ -328,9 +328,9 @@ function [gx,B]=schurNSlattice_sqp_mmse_gx (xsxx, ...
       error("init_done==false");
     endif
   else
-    print_usage("[gx,B] = schurNSlattice_sqp_mmse_gx(xsxx); \n\
-      schurNSlattice_sqp_mmse_gx(xsxx,vS,sxx_0,sxx_active,sxx_symmetric, ...\n\
-                                 wa,Asqdu,Asqdl,wt,Tdu,Tdl,ctol,verbose)");
+    print_usage(["[gx,B] = schurNSlattice_sqp_mmse_gx(xsxx); \n", ...
+ "      schurNSlattice_sqp_mmse_gx(xsxx,vS,sxx_0,sxx_active,sxx_symmetric, ...\n", ...
+ "                                 wa,Asqdu,Asqdl,wt,Tdu,Tdl,ctol,verbose)"]);
   endif
 
   % Do nothing

@@ -16,8 +16,8 @@ function SqErr = directFIRsymmetricSqErr(w,_hM,_Ad,_Wa)
   persistent init_done=false;
 
   if nargin~=1 && nargin~=4
-    print_usage("      directFIRsymmetricSqErr(w) \n\
-      directFIRsymmetricSqErr(w,hM,Ad,Wa)");
+    print_usage(["      directFIRsymmetricSqErr(w) \n", ...
+ "      directFIRsymmetricSqErr(w,hM,Ad,Wa)"]);
   endif
 
   if nargin==4

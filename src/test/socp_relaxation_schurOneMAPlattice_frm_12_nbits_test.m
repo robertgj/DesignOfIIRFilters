@@ -333,9 +333,9 @@ printf("] (rad./pi) adjusted for delay\n");
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_kuv_min_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit& %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit& %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,kuv0_digits,kuv0_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kuv_digits,kuv_adders);
 fclose(fid);
 
@@ -379,8 +379,8 @@ legend("boxoff");
 legend("left");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-strt=sprintf("FRM filter (nbits=%d,ndigits=%d) : fap=%g,fas=%g,dBap=%g,dBas=%g,\
-tp=%g,tpr=%g,ppr=%g*$\\pi$",nbits,ndigits,fap,fas,dBap,dBas,tp,tpr,ppr);
+strt=sprintf(["FRM filter (nbits=%d,ndigits=%d) : fap=%g,fas=%g,dBap=%g,dBas=%g,", ...
+ "tp=%g,tpr=%g,ppr=%g*$\\pi$"],nbits,ndigits,fap,fas,dBap,dBas,tp,tpr,ppr);
 title(strt);
 grid("on");
 print(strcat(strf,"_amplitude"),"-dpdflatex");
@@ -430,12 +430,14 @@ close
 
 % Filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt"); 
-fprintf(fid,
-        "socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Lim=%d\n",
-        socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Lim);
-fprintf(fid,
-        "socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Ito=%d\n",
-        socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Ito);
+fprintf ...
+  (fid, ...
+   "socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Lim=%d\n", ...
+   socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Lim);
+fprintf ...
+  (fid, ...
+   "socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Ito=%d\n", ...
+   socp_relaxation_schurOneMAPlattice_frm_12_nbits_test_allocsd_Ito);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"nbits=%d %% Bits-per-coefficient\n",nbits);
 fprintf(fid,"ndigits=%d %% Average signed-digits-per-coefficient\n",ndigits);

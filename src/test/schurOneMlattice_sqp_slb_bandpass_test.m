@@ -239,10 +239,10 @@ print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
 print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
-eval(sprintf("save %s.mat fapl fapu fasl fasu ftpl ftpu dBap Wap dBas \
-Wasl_mmse Wasu_mmse Wasl_pcls Wasu_pcls \
-tp tpr Wtp_mmse Wtp_pcls dmax rho ftol_mmse ftol_pcls ctol \
-x0 n0 d0 k0 epsilon0 p0 c0 k1 epsilon1 p1 c1 k2 epsilon2 p2 c2 N2 D2",strf));
+eval(sprintf(["save %s.mat fapl fapu fasl fasu ftpl ftpu dBap Wap dBas ", ...
+ "Wasl_mmse Wasu_mmse Wasl_pcls Wasu_pcls ", ...
+ "tp tpr Wtp_mmse Wtp_pcls dmax rho ftol_mmse ftol_pcls ctol ", ...
+ "x0 n0 d0 k0 epsilon0 p0 c0 k1 epsilon1 p1 c1 k2 epsilon2 p2 c2 N2 D2"],strf));
 
 % Done
 toc(script_id);

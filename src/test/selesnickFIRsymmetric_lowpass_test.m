@@ -23,8 +23,8 @@ verbose=true;
 
 % Failing specification: no extremal points in (0,ft] (M=11 is successful)
 nf=200;M=10;deltap=1e-3;deltas=1e-4;ft=0.15;At=deltas;
-strt=sprintf("Failing Selesnick-Burrus Hofstetter lowpass FIR: \
-nf=%d,M=%d,$\delta\\_{p}$=%g,$\delta\\_{s}$=%g,$f\\_{t}$=%g,$A\\_{t}$=%g",
+strt=sprintf(["Failing Selesnick-Burrus Hofstetter lowpass FIR: ", ...
+ "nf=%d,M=%d,$\delta\\_{p}$=%g,$\delta\\_{s}$=%g,$f\\_{t}$=%g,$A\\_{t}$=%g"],
              nf,M,deltap,deltas,ft,At);
 [hM,fext,fiter,feasible]= ...
   selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,At, ...
@@ -53,8 +53,8 @@ for k=["a","b","c","d"]
     typef="half-band"; typeAt=sprintf("%f",At);
   endif
   
-  strt=sprintf("Selesnick-Burrus Hofstetter %s : \
-nf=%d,M=%d,deltap=%g,deltas=%g,ft=%g,At=%s",typef,nf,M,deltap,deltas,ft,typeAt);
+  strt=sprintf(["Selesnick-Burrus Hofstetter %s : ", ...
+ "nf=%d,M=%d,deltap=%g,deltas=%g,ft=%g,At=%s"],typef,nf,M,deltap,deltas,ft,typeAt);
 
   % Filter design
   [hM,fext,fiter,feasible]= ...

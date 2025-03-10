@@ -248,11 +248,11 @@ for M=[31,200],
     ylabel("Amplitude");
   endif
   if show_dB
-    strt=sprintf("Tuan low-pass FIR : \
-M=%d,fap=%g,fas=%g,dBap=%g,dBas=%g",M,fap,fas,dBap,dBas);
+    strt=sprintf(["Tuan low-pass FIR : ", ...
+ "M=%d,fap=%g,fas=%g,dBap=%g,dBas=%g"],M,fap,fas,dBap,dBas);
   else
-    strt=sprintf("Tuan low-pass FIR : \
-M=%d,fap=%g,fas=%g,deltap=%g,deltas=%g",M,fap,fas,deltap,deltas);
+    strt=sprintf(["Tuan low-pass FIR : ", ...
+ "M=%d,fap=%g,fas=%g,deltap=%g,deltas=%g"],M,fap,fas,deltap,deltas);
   endif
   title(strt);
   xlabel("Frequency");
@@ -325,8 +325,8 @@ M=%d,fap=%g,fas=%g,deltap=%g,deltas=%g",M,fap,fas,deltap,deltas);
   print_polynomial(hM,sprintf("hM%03d",M));
   print_polynomial(hM,sprintf("hM%03d",M),sprintf("%s_hM%03d_coef.m",strf,M));
 
-  eval(sprintf("save %s_hM%03d.mat M nplot fap fas dBap dBas deltap deltas \
-Wap Wat Was hM",strf,M));
+  eval(sprintf(["save %s_hM%03d.mat M nplot fap fas dBap dBas deltap deltas ", ...
+ "Wap Wat Was hM"],strf,M));
 endfor
 
 % Done

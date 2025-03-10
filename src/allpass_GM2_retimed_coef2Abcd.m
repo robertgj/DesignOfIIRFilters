@@ -28,8 +28,8 @@ function [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=...
 
   if (nargin~=2 && nargin~=4) || (nargout~=4 && nargout~=8)
     print_usage ...
-      ("[A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_GM2_retimed_coef2Abcd(k1,k2)\n\
-[A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_GM2_retimed_coef2Abcd(k1,e1,k2,e2)");
+      (["[A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_GM2_retimed_coef2Abcd(k1,k2)\n", ...
+ "[A,B,C,D,dAdx,dBdx,dCdx,dDdx]=allpass_GM2_retimed_coef2Abcd(k1,e1,k2,e2)"]);
   endif
 
   % Find the GM2 multipliers

@@ -169,8 +169,8 @@ axis(ax(1),[0 0.5 -50 -30]);
 axis(ax(2),[0 0.5 0.04*[-1 0]]);
 grid("on");
 ylabel("Amplitude(dB)");
-strt=sprintf("N=%d,d=%d,fasu=%5.3f,fapl=%5.3f,fapu=%5.3f,fasu=%5.3f,\
-Esq\\_z=%10.8f,Esq\\_s=%6.4f",N,d,fasl,fapl,fapu,fasu,Esq_z,Esq_s);
+strt=sprintf(["N=%d,d=%d,fasu=%5.3f,fapl=%5.3f,fapu=%5.3f,fasu=%5.3f,", ...
+ "Esq\\_z=%10.8f,Esq\\_s=%6.4f"],N,d,fasl,fapl,fapu,fasu,Esq_z,Esq_s);
 title(strt);
 subplot(312)
 plot(w(napl:napu)*0.5/pi, (P(napl:napu)/pi)-2);

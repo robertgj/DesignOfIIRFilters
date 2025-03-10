@@ -110,8 +110,8 @@ fclose(fid);
 print_polynomial(hM,"hM");
 print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"));
 
-eval(sprintf("save %s.mat ...\n\
-  maxiter M nplot maxiter tol fap nMp deltap fas nMs deltas hM fext Aext",strf));
+eval(sprintf(["save %s.mat ...\n", ...
+ "  maxiter M nplot maxiter tol fap nMp deltap fas nMs deltas hM fext Aext"],strf));
 
 %
 % Done

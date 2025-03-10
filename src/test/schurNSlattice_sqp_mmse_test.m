@@ -70,8 +70,8 @@ sxx_active=intersect(find(gradEsq),find((sxx_0~=0)&(sxx_0~=1)));
 sxx_symmetric=true;
 
 % Common strings
-strt=sprintf("Schur normalised-scaled lattice lowpass filter SQP %%s \
-response : fap=%g,fas=%g",fap,fas);
+strt=sprintf(["Schur normalised-scaled lattice lowpass filter SQP %%s ", ...
+ "response : fap=%g,fas=%g"],fap,fas);
 
 %
 % SQP MMSE
@@ -161,9 +161,9 @@ print_polynomial(s02_1,"s02_1",strcat(strf,"_s02_1_coef.m"));
 print_polynomial(s22_1,"s22_1");
 print_polynomial(s22_1,"s22_1",strcat(strf,"_s22_1_coef.m"));
 
-eval(sprintf("save %s.mat n0 d0 \
-fap Wap ftp tp Wtp_mmse fas Was_mmse dmax rho ftol \
-s10_0 s11_0 s20_0 s00_0 s02_0 s22_0 s10_1 s11_1 s20_1 s00_1 s02_1 s22_1",strf));
+eval(sprintf(["save %s.mat n0 d0 ", ...
+ "fap Wap ftp tp Wtp_mmse fas Was_mmse dmax rho ftol ", ...
+ "s10_0 s11_0 s20_0 s00_0 s02_0 s22_0 s10_1 s11_1 s20_1 s00_1 s02_1 s22_1"],strf));
 
 % Done
 toc;

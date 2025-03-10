@@ -35,8 +35,8 @@ function [E gradE]=...
     wt=_wt;Td=_Td;Wt=_Wt;
     init_done=true;
   elseif nargin ~= 1
-    print_usage("[E gradE]= parallel_allpass_mmse_error...\n\
-    (abk,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,wa,Asqd,Wa,wt,Td,Wt)");
+    print_usage(["[E gradE]= parallel_allpass_mmse_error...\n", ...
+ "    (abk,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,wa,Asqd,Wa,wt,Td,Wt)"]);
   endif
   if init_done==false
     error("init_done==false");

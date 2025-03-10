@@ -86,8 +86,8 @@ print_polynomial(Aext,"Aext","%13.10f");
 %
 % Plot response
 %
-strt=sprintf("Hofstetter multi-band FIR: \
-M=%d,fasu1=%g,fapl1=%g,fapu1=%g,fasl2=%g,fasu2=%g,fapl2=%g,fapu2=%g,fasl3=%g",
+strt=sprintf(["Hofstetter multi-band FIR: ", ...
+ "M=%d,fasu1=%g,fapl1=%g,fapu1=%g,fasl2=%g,fasu2=%g,fapl2=%g,fapu2=%g,fasl3=%g"],
 M,fasu1,fapl1,fapu1,fasl2,fasu2,fapl2,fapu2,fasl3);
 nplot=2000;
 wa=(0:nplot)'*pi/nplot;

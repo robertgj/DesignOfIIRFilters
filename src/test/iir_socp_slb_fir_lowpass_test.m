@@ -261,8 +261,8 @@ print_pole_zero(d1,U,V,M,Q,R,"d1",strcat(strf,"_d1_coef.m"),"%11.8f");
 print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"),"%11.8f");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"),"%11.8f");
 
-eval(sprintf("save %s.mat N U V M Q R ftol ctol \
-fap dBap Wap ftp td tdr Wtp fas dBas Was bi b0 x0 d1",strf));
+eval(sprintf(["save %s.mat N U V M Q R ftol ctol ", ...
+ "fap dBap Wap ftp td tdr Wtp fas dBas Was bi b0 x0 d1"],strf));
 
 % Done
 toc;

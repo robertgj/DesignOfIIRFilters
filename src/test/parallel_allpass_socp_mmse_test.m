@@ -223,8 +223,8 @@ print_polynomial(Dab1,"Dab1");
 print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
 % Done 
-eval(sprintf("save %s.mat ma mb K Ra Rb ab0 ab1 ... \n\
-     n fap Wap ftp Wtp fas Was td fpp pd pdr Wpp Na1 Da1 Nb1 Db1",strf));
+eval(sprintf(["save %s.mat ma mb K Ra Rb ab0 ab1 ... \n", ...
+ "     n fap Wap ftp Wtp fas Was td fpp pd pdr Wpp Na1 Da1 Nb1 Db1"],strf));
 
 diary off
 movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

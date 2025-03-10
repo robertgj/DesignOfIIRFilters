@@ -23,8 +23,8 @@ function vS=parallel_allpass_slb_update_constraints ...
 
   % Sanity checks
   if (nargin ~= 13) || (nargout ~= 1)
-    print_usage("vS=parallel_allpass_slb_update_constraints ...\n\
-      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,ctol)");
+    print_usage(["vS=parallel_allpass_slb_update_constraints ...\n", ...
+ "      (Asq,Asqdu,Asqdl,Wa,T,Tdu,Tdl,Wt,P,Pdu,Pdl,Wp,ctol)"]);
   endif
   if length(Asq) ~= length(Asqdu)
     error("length(Asq) ~= length(Asqdu)");

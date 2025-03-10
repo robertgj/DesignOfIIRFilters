@@ -81,8 +81,8 @@ start_time=time();
 if feasible == 0 
   error("x1(MMSE-BFGS) infeasible");
 endif
-strM=sprintf("Deczky Ex.3(MMSE-SOCP-BFGS):\
-fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g",fap,Wap,fas,Was,ftp,tp,Wtp);
+strM=sprintf(["Deczky Ex.3(MMSE-SOCP-BFGS):", ...
+ "fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g"],fap,Wap,fas,Was,ftp,tp,Wtp);
 showResponse(x1,U,V,M,Q,R,strM);
 print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
@@ -107,8 +107,8 @@ if feasible == 0
 endif
 printf("Deczky Ex.3 lowpass d2 (PCLS-SOCP-BFGS) feasible after %d seconds!\n",
        time()-start_time);
-strP=sprintf("Deczky Ex.3(PCLS-BFGS):fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,\
-Was=%g,ftp=%g,tp=%g,tpr=%g,Wtp=%g",fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
+strP=sprintf(["Deczky Ex.3(PCLS-BFGS):fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,", ...
+ "Was=%g,ftp=%g,tp=%g,tpr=%g,Wtp=%g"],fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
 showResponse(d2,U,V,M,Q,R,strP);
 print(strcat(strf,"_pcls_d2"),"-dpdflatex");
 close
@@ -170,8 +170,8 @@ print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
 print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
-eval(sprintf("save %s.mat U V M Q R x0 \
-n ftol ctol maxiter fap dBap Wap fas dBas Was ftp tp tpr Wtp x1 d2 N2 D2",strf));
+eval(sprintf(["save %s.mat U V M Q R x0 ", ...
+ "n ftol ctol maxiter fap dBap Wap fas dBas Was ftp tp tpr Wtp x1 d2 N2 D2"],strf));
 
 %
 % Done

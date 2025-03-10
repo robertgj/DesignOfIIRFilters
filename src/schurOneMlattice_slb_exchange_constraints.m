@@ -29,9 +29,9 @@ function [next_vR,next_vS,exchanged] = ...
 
   % Sanity checks
   if (nargin ~= 15) || (nargout ~= 3)
-    print_usage("[next_vR,next_vS,exchanged]= ...\n\
-schurOneMlattice_slb_exchange_constraints ...\n\
-  (vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,P,Pdu,Pdl,dAsqdw,Ddu,Ddl,ctol)");
+    print_usage(["[next_vR,next_vS,exchanged]= ...\n", ...
+ "schurOneMlattice_slb_exchange_constraints ...\n", ...
+ "  (vS,vR,Asq,Asqdu,Asqdl,T,Tdu,Tdl,P,Pdu,Pdl,dAsqdw,Ddu,Ddl,ctol)"]);
   endif
   if all(isfield(vS,{"al","au","tl","tu","pl","pu","dl","du"})) == false
     error("Expect vS fields al, au, tl, tu, pl, pu, dl and du");

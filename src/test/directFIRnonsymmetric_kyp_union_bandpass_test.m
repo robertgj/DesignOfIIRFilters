@@ -221,8 +221,8 @@ h1c=get(h1,"color");
 h2c=get(h2,"color");
 grid("on");
 ylabel("Amplitude(dB)");
-strt=sprintf("KYP non-symmetric band-pass FIR filter : \
-N=%d,d=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g",N,d,fasl,fapl,fapu,fasu);
+strt=sprintf(["KYP non-symmetric band-pass FIR filter : ", ...
+ "N=%d,d=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g"],N,d,fasl,fapl,fapu,fasu);
 title(strt);
 subplot(312)
 hax=plot(w(napl:napu)*0.5/pi,(P(napl:napu)/pi)-4);
