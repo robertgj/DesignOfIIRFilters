@@ -26,8 +26,7 @@ schurOneMlatticePipelined_allocsd_Ito.m \
 schurOneMlatticePipelined2Abcd.m \
 schurOneMscale.m tf2schurOneMlattice.m local_max.m x2tf.m print_polynomial.m \
 H2Asq.m H2T.m H2P.m H2dAsqdw.m flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
-qroots.oct \
-bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
+qroots.oct bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
 Abcd2H.oct Abcd2tf.oct"
 
 tmp=/tmp/$$

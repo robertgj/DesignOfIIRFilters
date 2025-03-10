@@ -354,7 +354,7 @@ if ~schurOneMlatticePipelined_slb_constraints_are_empty(vS)
     (vS,wa,Asq_kc_min,wt,T_kc_min,wp,P_kc_min,wd,dAsqdw_kc_min);
 endif
 
-% Plot response error
+% Plot response
 subplot(311);
 rap=1:nap;
 ras=nas:(n-1);
@@ -372,18 +372,18 @@ for c=1:3
   set(ha(c),"linestyle",hls{c});
   set(hs(c),"linestyle",hls{c}); 
 endfor
-ylabel("Amplitude");
-strt=sprintf("Pipelined low-pass differentiator error : \
+ylabel("Amplitude error");
+strt=sprintf("Pipelined low-pass differentiator : \
 fap=%g,fas=%g,Arp=%g,Ars=%g,tp=%g,ppr=%g",fap,fas,Arp,Ars,tp,ppr);
 title(strt);
 axis(ax(1),[0 0.5 Arp*[-1,1]]);
 axis(ax(2),[0 0.5 Ars*[-1,1]]);
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,(P_kc0+Pzm1-Pd)/pi,"linestyle","-", ...
-     wp*0.5/pi,(P_kc0_sd+Pzm1-Pd)/pi,"linestyle","--", ...
-     wp*0.5/pi,(P_kc_min+Pzm1-Pd)/pi,"linestyle","-.");
-axis([0 0.5 (ppr/2)*[-1,1]]);
+plot(wp*0.5/pi,(P_kc0+Pzm1+(wp*tp))/pi,"linestyle","-", ...
+     wp*0.5/pi,(P_kc0_sd+Pzm1+(wp*tp))/pi,"linestyle","--", ...
+     wp*0.5/pi,(P_kc_min+Pzm1+(wp*tp))/pi,"linestyle","-.");
+axis([0 0.5 pp+((ppr/2)*[-1,1])]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
 legend("exact","s-d(Ito)","s-d(SOCP-relax)");
@@ -391,10 +391,10 @@ legend("location","east");
 legend("boxoff");
 legend("left");
 subplot(313);
-plot(wt*0.5/pi,T_kc0+Tzm1-Td,"linestyle","-", ...
-     wt*0.5/pi,T_kc0_sd+Tzm1-Td,"linestyle","--", ...
-     wt*0.5/pi,T_kc_min+Tzm1-Td,"linestyle","-.");
-axis([0 0.5 (tpr/2)*[-1,1]]);
+plot(wt*0.5/pi,T_kc0+Tzm1,"linestyle","-", ...
+     wt*0.5/pi,T_kc0_sd+Tzm1,"linestyle","--", ...
+     wt*0.5/pi,T_kc_min+Tzm1,"linestyle","-.");
+axis([0 0.5 tp+((tpr/2)*[-1,1])]);
 grid("on");
 ylabel("Group delay(samples)");
 xlabel("Frequency");
