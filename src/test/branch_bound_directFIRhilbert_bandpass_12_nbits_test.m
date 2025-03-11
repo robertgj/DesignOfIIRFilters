@@ -70,7 +70,7 @@ Esq2_sd=directFIRhilbertEsqPW(hM2_sd/escale,waf,Adf,Waf);
 hM2_active=find(hM2~=0);
 [hM2_sd_digits,hM2_sd_adders]=SDadders(hM2_sd(hM2_active),nbits);
 printf("hM2_sd uses %d signed-digits\n",hM2_sd_digits);
-printf("hM2_sd uses %d %d-bit adders for coefficient multiplications\n",
+printf("hM2_sd uses %d %d-bit adders for coefficient multiplications\n", ...
        hM2_sd_adders,nbits);
 
 % Allocate signed digits with the heuristic of Ito et al.
@@ -89,7 +89,7 @@ Esq_sd=directFIRhilbertEsqPW(hM_sd/escale,waf,Adf,Waf);
 % Find the number of signed-digits used by hM_sd
 [hM_sd_digits,hM_sd_adders]=SDadders(hM_sd,nbits);
 printf("hM_sd uses %d signed-digits\n",hM_sd_digits);
-printf("hM_sd uses %d %d-bit adders for coefficient multiplications\n",
+printf("hM_sd uses %d %d-bit adders for coefficient multiplications\n", ...
        hM_sd_adders,nbits);
 
 % Initialise hM_active
@@ -226,7 +226,7 @@ fprintf(fid,"%d-bit %d-signed-digit & %10.2e & %d & %d \\\\\n", ...
         nbits,ndigits,Esq2_sd,hM2_sd_digits,hM2_sd_adders);  
 fprintf(fid,"%d-bit %d-signed-digit(Ito) & %10.2e & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_sd,hM_sd_digits,hM_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.2e & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.2e & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,hM_min_digits,hM_min_adders);
 fclose(fid);
 

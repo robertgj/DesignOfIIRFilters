@@ -52,7 +52,7 @@ for x=1:2
   tap=delayz(flipud(d(:)),d(:),wplot*R);
   max_abs_diff_T=max(abs((R*tap)-T));
   if verbose
-    printf("max_abs_diff_T = %g*eps\n",
+    printf("max_abs_diff_T = %g*eps\n", ...
            max_abs_diff_T/eps);
   endif
   if max_abs_diff_T > 1e6*eps
@@ -103,7 +103,7 @@ for x=1:2
   max_abs_diff_diagd2Tdk2 = ...
     max(abs(est_diagd2Tdk2-diagHessT(ntpl,:)));
   if verbose
-    printf("max_abs_diff_diagd2Tdk2 = del/%g\n",
+    printf("max_abs_diff_diagd2Tdk2 = del/%g\n", ...
            del/max_abs_diff_diagd2Tdk2);
   endif
   if max_abs_diff_diagd2Tdk2 > del/10

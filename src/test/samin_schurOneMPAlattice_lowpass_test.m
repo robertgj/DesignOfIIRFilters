@@ -116,7 +116,7 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
-strt=sprintf("5th order elliptic OneM PA lattice: nbits=%d,ndigits=%d",
+strt=sprintf("5th order elliptic OneM PA lattice: nbits=%d,ndigits=%d", ...
              nbits,ndigits);
 title(strt);
 legend("exact","round","siman(round)","signed-digit","siman(s-d)");

@@ -92,7 +92,7 @@ Pdl=[];
 Wp=[];
 
 % Common strings for output plots
-strP=sprintf("%%s:fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g,fas=%g,dBas=%g,Was=%g",
+strP=sprintf("%%s:fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g,fas=%g,dBas=%g,Was=%g", ...
              fap,dBap,ftp,td,tdr,fas,dBas,Was);
 strf="iir_socp_slb_fir_lowpass_test";
 

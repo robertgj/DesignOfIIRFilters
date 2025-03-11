@@ -58,7 +58,7 @@ t=delayz(x1.a, x1.d, nplot);
 
 % Common strings for output plots
 strf="lowpass2ndOrderCascade_socp_test";
-strt=sprintf("Deczky ex.3,SOCP,td=%d,fpass=%g,fstop=%g,Wstop=%d,dBstop=%d",
+strt=sprintf("Deczky ex.3,SOCP,td=%d,fpass=%g,fstop=%g,Wstop=%d,dBstop=%d", ...
              td,fpass,fstop,Wstop,dBstop);
 
 % Plot overall response
@@ -110,7 +110,7 @@ h_sqm=freqz(x1_sqm.a, x1_sqm.d, nplot);
 t_sqm=delayz(x1_sqm.a, x1_sqm.d, nplot);
 % Plot response
 sqm_strt= ...
-sprintf("Deczky ex.3,SOCP Sq.Mag.,td=%d,fpass=%g,fstop=%g,Wstop=%d,dBstop=%d",
+sprintf("Deczky ex.3,SOCP Sq.Mag.,td=%d,fpass=%g,fstop=%g,Wstop=%d,dBstop=%d", ...
         td,fpass,fstop,Wstop,dBstop);
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(h_sqm)))

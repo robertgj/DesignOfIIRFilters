@@ -31,7 +31,7 @@ for k=1:length(searchTypes)
   printf("\nTesting %s:\n", searchTypes{k});
   for l=1:length(x)
     [tau iter]=goldensection(@f,x(l),d(l),f(x(l)),gradxf(x(l)),W,tol,maxiter);
-    printf("tau=%g,f(%g+tau)=%g,iter=%d,fiter=%d\n",
+    printf("tau=%g,f(%g+tau)=%g,iter=%d,fiter=%d\n", ...
            tau,x(l),f(x(l)+tau),iter,fiter);
   endfor
 endfor

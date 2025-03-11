@@ -119,7 +119,7 @@ fclose(fid);
 print_polynomial(hM1,"hM1");
 print_polynomial(hM1,"hM1",strcat(strf,"_hM1_coef.m"),"%12.8f");
 
-eval(sprintf("save %s.mat ftol ctol npoints fapl fapu dBap Wap Was hM0 hM1",
+eval(sprintf("save %s.mat ftol ctol npoints fapl fapu dBap Wap Was hM0 hM1", ...
              strf));
 
 % Done 

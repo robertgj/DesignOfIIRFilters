@@ -174,7 +174,7 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_init)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -0.6 0.6]);
 grid("on");
-strt=sprintf("Initial FRM Hilbert filter:mr=%d,na=%d,Mmodel=%d,Dmodel=%d,td=%d",
+strt=sprintf("Initial FRM Hilbert filter:mr=%d,na=%d,Mmodel=%d,Dmodel=%d,td=%d", ...
              mr,na,Mmodel,Dmodel,td);
 title(strt);
 subplot(312);
@@ -240,7 +240,7 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_hilbert)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -0.6 0.6]);
 grid("on");
-strt=sprintf("FRM Hilbert filter:mr=%d,na=%d,Mmodel=%d,Dmodel=%d,td=%d",
+strt=sprintf("FRM Hilbert filter:mr=%d,na=%d,Mmodel=%d,Dmodel=%d,td=%d", ...
              mr,na,Mmodel,Dmodel,td);
 title(strt);
 subplot(312);

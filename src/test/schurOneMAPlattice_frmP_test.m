@@ -114,7 +114,7 @@ if max(max(abs(diff_gradP(1:nap,:)))) > del/20;
 endif
 % Whole band
 if verbose
-  printf("max(max(abs(diff_gradP)))=%g*del\n",
+  printf("max(max(abs(diff_gradP)))=%g*del\n", ...
          max(max(abs(diff_gradP)))/del);
 endif
 if max(max(abs(diff_gradP))) > del*100;
@@ -151,7 +151,7 @@ if max(max(abs(diff_gradP(1:nap,:)))) > del/5000;
 endif
 % Whole band
 if verbose
-  printf("max(max(abs(diff_gradP)))=%g*del\n",
+  printf("max(max(abs(diff_gradP)))=%g*del\n", ...
          max(max(abs(diff_gradP)))/del);
 endif
 if max(max(abs(diff_gradP))) > 2e4*del;
@@ -188,7 +188,7 @@ if max(max(abs(diff_gradP(1:nap,:)))) > del/5000;
 endif
 % Whole band
 if verbose
-  printf("max(max(abs(diff_gradP)))=%g*del\n",
+  printf("max(max(abs(diff_gradP)))=%g*del\n", ...
          max(max(abs(diff_gradP)))/del);
 endif
 if max(max(abs(diff_gradP))) > 10*del;

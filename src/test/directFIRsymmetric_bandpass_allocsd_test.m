@@ -152,7 +152,7 @@ for ndigits=2:3
     legend("boxoff");
     legend("left");
     grid("on");
-    strt=sprintf("Bandpass symmetric FIR,nbits=%d,ndigits=%d",
+    strt=sprintf("Bandpass symmetric FIR,nbits=%d,ndigits=%d", ...
                  nbits,ndigits);
     title(strt);
     print(strcat(strf_nbits,"_amplitude"),"-dpdflatex");
@@ -177,24 +177,24 @@ for ndigits=2:3
 
     % Print the maximum side-lobe for Lim
     printf("\n");
-    printf("Lim,ndigits=%d,nbits=%d,maximum stop-band (0.00 to %4.2f) = %gdB\n",
+    printf("Lim,ndigits=%d,nbits=%d,maximum stop-band (0.00 to %4.2f) = %gdB\n", ...
            ndigits,nbits,fasll,max(20*log10(abs(A_Lim(1:nasll)))));
-    printf("Lim,ndigits=%d,nbits=%d,maximum stop-band (0.00 to %4.2f) = %gdB\n",
+    printf("Lim,ndigits=%d,nbits=%d,maximum stop-band (0.00 to %4.2f) = %gdB\n", ...
            ndigits,nbits,fasl,max(20*log10(abs(A_Lim(1:nasl)))));
-    printf("Lim,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n",
+    printf("Lim,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n", ...
            ndigits,nbits,fasu,max(20*log10(abs(A_Lim(nasu:end)))));
-    printf("Lim,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n",
+    printf("Lim,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n", ...
            ndigits,nbits,fasuu,max(20*log10(abs(A_Lim(nasuu:end)))));
     
     % Print the maximum side-lobe for Ito
     printf("\n");
-    printf("Ito,ndigits=%d,nbits=%d,maximum stop-band (0.00 to %4.2f) = %gdB\n",
+    printf("Ito,ndigits=%d,nbits=%d,maximum stop-band (0.00 to %4.2f) = %gdB\n", ...
            ndigits,nbits,fasll,max(20*log10(abs(A_Ito(1:nasll))))); 
-    printf("Ito,ndigits=%d,nbits=%d,maximum stop-band (0.00 to %4.2f) = %gdB\n",
+    printf("Ito,ndigits=%d,nbits=%d,maximum stop-band (0.00 to %4.2f) = %gdB\n", ...
            ndigits,nbits,fasl,max(20*log10(abs(A_Ito(1:nasl)))));
-    printf("Ito,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n",
+    printf("Ito,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n", ...
            ndigits,nbits,fasu,max(20*log10(abs(A_Ito(nasu:end)))));
-    printf("Ito,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n",
+    printf("Ito,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n", ...
            ndigits,nbits,fasuu,max(20*log10(abs(A_Ito(nasuu:end)))));
 
     % Save the maximum sidelobes in upper stop band (fasuu to 0.50)

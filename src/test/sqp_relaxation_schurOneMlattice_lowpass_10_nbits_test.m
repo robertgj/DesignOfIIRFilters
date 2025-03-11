@@ -233,7 +233,7 @@ print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),nscale);
 % Find the number of signed-digits used
 [kc_digits,kc_adders]=SDadders(kc_min(kc0_active),nbits);
 printf("%d signed-digits used\n",kc_digits);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kc_adders,nbits);
 
 % Filter a quantised noise signal and check the state variables
@@ -267,9 +267,9 @@ printf("k,c_min:TS=[ ");printf("%f ",TS(:)');printf(" ]'\n");
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,kc0_digits,kc0_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SQP-relax) & %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(SQP-relax) & %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kc_digits,kc_adders);
 fclose(fid);
 

@@ -122,7 +122,7 @@ schurOneMlatticePipelined_slb_show_constraints(vS7,w,Asq7,w,T7,w,P7,w,D7);
 
 % Plot amplitude
 strd=sprintf("%s_%%s",strf);
-strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tpr=%g,Wtp=%g",
+strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tpr=%g,Wtp=%g", ...
              fap,dBap,Wap,fas,dBas,Was,tpr,Wtp);
 fa=wa*0.5/pi;
 subplot(211);

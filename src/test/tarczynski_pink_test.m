@@ -65,7 +65,7 @@ hold on
 plot(wd*0.5/pi,20*log10(abs(Hd)));
 ylabel("Amplitude error");
 grid("on");
-s=sprintf("Tarczynski et al. pink : nN=%d,nD=%d,R=%d,td=%g",
+s=sprintf("Tarczynski et al. pink : nN=%d,nD=%d,R=%d,td=%g", ...
           nN,nD,R,td);
 title(s);
 subplot(212);

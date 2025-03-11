@@ -62,7 +62,7 @@ plot(wplot*0.5/pi,abs(H)-wplot/pi);
 axis([0 0.5 -0.01 0.01]);
 ylabel("Amplitude error");
 grid("on");
-s=sprintf("Tarczynski et al. differentiator : nN=%d,nD=%d,R=%d,td=%g",
+s=sprintf("Tarczynski et al. differentiator : nN=%d,nD=%d,R=%d,td=%g", ...
           nN,nD,R,td);
 title(s);
 subplot(212);

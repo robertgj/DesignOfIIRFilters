@@ -169,11 +169,11 @@ fprintf(fid,"M=%d %% Number of complex zeros\n",M);
 fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
 fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"ftol_wise=%g %% Tolerance on WISE relative coef. update\n",
+fprintf(fid,"ftol_wise=%g %% Tolerance on WISE relative coef. update\n", ...
         ftol_wise);
-fprintf(fid,"ftol_mmse=%g %% Tolerance on MMSE relative coef. update\n",
+fprintf(fid,"ftol_mmse=%g %% Tolerance on MMSE relative coef. update\n", ...
         ftol_mmse);
-fprintf(fid,"ftol_pcls=%g %% Tolerance on PCLS relative coef. update\n",
+fprintf(fid,"ftol_pcls=%g %% Tolerance on PCLS relative coef. update\n", ...
         ftol_pcls);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);

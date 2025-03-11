@@ -64,7 +64,7 @@ w=(x.*(cnu0^2))-(snu0.^2);
 ws=(cnu0^2)-(snu0.^2);
 wp=(a.*(cnu0^2))-(snu0.^2);
 wm=(xm.*(cnu0^2))-(snu0.^2);
-printf("p=%2d,q=%1d,k=%4.2f,wm=%13.10f,fm=%13.10f\nwp=%13.10f,ws=%13.10f\n",
+printf("p=%2d,q=%1d,k=%4.2f,wm=%13.10f,fm=%13.10f\nwp=%13.10f,ws=%13.10f\n", ...
        p,q,k,wm,fm,wp,ws);
 % Plot w and f and maximum
 plot(w,f,"-",[ws,ws],[-1,1],"-",[wm,wm],[-1,fm],"-",[wp,wp],[-1,1],"-");
@@ -300,7 +300,7 @@ Hc=cosw_n*b(:);
 Hc=Hc;
 plot(f,Hc);
 axis([0 0.5 -1 14]);
-strt=sprintf("Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ (Vlcek and Unbehauen)",
+strt=sprintf("Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ (Vlcek and Unbehauen)", ...
              p,q,k);
 title(strt);
 ylabel(sprintf("$Z_{%d,%d}(w,%7.5f)$",p,q,k));
@@ -412,7 +412,7 @@ endif
 % Plot using the Chebyshev polynomial of the first kind expansion coefficients
 h=ha;
 print_polynomial(h,sprintf("h_%d_%d",p,q),sprintf("%s_fir_coef.m",strf));
-printf("p=%d,q=%2d,k=%7.5f,fmax=%6.4f,fm=%6.4f(%6.4f dB),fp=%6.4f,fs=%6.4f\n",
+printf("p=%d,q=%2d,k=%7.5f,fmax=%6.4f,fm=%6.4f(%6.4f dB),fp=%6.4f,fs=%6.4f\n", ...
        p,q,k,fmax,fm,20*log10(fm),fp,fs);
 % Show response
 [H,w]=freqz(h,1,nf);

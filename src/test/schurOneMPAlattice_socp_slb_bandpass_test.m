@@ -131,7 +131,7 @@ plot(wa*0.5/pi,10*log10(abs(Asq)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
-strt=sprintf("Parallel allpass bandpass : m1=%d,m2=%d,dBap=%g,dBas=%g",
+strt=sprintf("Parallel allpass bandpass : m1=%d,m2=%d,dBap=%g,dBas=%g", ...
              m1,m2,dBap,dBas);
 title(strt);
 subplot(212);

@@ -134,12 +134,12 @@ for eta=[2,3],
     vx=real(value(x));
     vfx=real(value(fx));
     vcx=real(value(cx));
-    printf("\neta=%8.5f,k=%d,x=[%8.5f;%8.5f;%8.5f],fx=%8.5f\n",
+    printf("\neta=%8.5f,k=%d,x=[%8.5f;%8.5f;%8.5f],fx=%8.5f\n", ...
            eta,k,vx(1),vx(2),vx(3),vfx);
     if norm(vx-xi)>epsilon
       xi=vx;
     else
-      fprintf(fhandle,"\neta=%8.5f,k=%d,x=[%8.5f;%8.5f;%8.5f],fx=%8.5f\n",
+      fprintf(fhandle,"\neta=%8.5f,k=%d,x=[%8.5f;%8.5f;%8.5f],fx=%8.5f\n", ...
               eta,k,vx(1),vx(2),vx(3),vfx);
       printf("Stopping criterion met!\n");
       break;
@@ -150,7 +150,7 @@ for eta=[2,3],
   if vcx<-epsilon
     warning("BMI constraint failed at eta=%8.5f,fx=%8.5f,cx=%8.5f\n",
             eta,vfx,vcx);
-    fprintf(fhandle,"BMI constraint failed at eta=%8.5f,fx=%8.5f,cx=%8.5f\n",
+    fprintf(fhandle,"BMI constraint failed at eta=%8.5f,fx=%8.5f,cx=%8.5f\n", ...
             eta,vfx,vcx);
   endif
 

@@ -85,7 +85,7 @@ Pdl=[];
 Wp=[];
 
 % Common string for output plots
-strP=sprintf("%%s:N=%d,fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g,fas=%g,dBas=%g,Was=%g",
+strP=sprintf("%%s:N=%d,fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g,fas=%g,dBas=%g,Was=%g", ...
              N,fap,dBap,ftp,td,tdr,fas,dBas,Was);
 
 %

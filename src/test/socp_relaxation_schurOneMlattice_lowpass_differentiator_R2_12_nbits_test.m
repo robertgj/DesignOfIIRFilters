@@ -319,7 +319,7 @@ print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used by kc_sd
 [kc_min_digits,kc_min_adders]=SDadders(kc_min(kc0_active),nbits);
 printf("%d signed-digits used\n",kc_min_digits);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kc_min_adders,nbits);
 
 %
@@ -330,9 +330,9 @@ fprintf(fid,"Exact & %10.4e & & \\\\\n",Esq0);
 fprintf(fid,"%d-bit %d-signed-digit & %10.4e & %d & %d \\\\\n", ...
         nbits,ndigits, ...
         Esq0_sd_no_alloc,kc0_sd_no_alloc_digits,kc0_sd_no_alloc_adders);
-fprintf(fid,"%d-bit %d-signed-digit(%s)& %10.4e & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(%s)& %10.4e & %d & %d \\\\\n", ...
         nbits,ndigits,strItoLim,Esq0_sd,kc0_sd_digits,kc0_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %10.4e & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %10.4e & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kc_min_digits,kc_min_adders);
 fclose(fid);
 
@@ -534,9 +534,9 @@ close
 
 % Filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Lim=%d\n",
+fprintf(fid,"socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Lim=%d\n", ...
         socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Lim);
-fprintf(fid,"socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Ito=%d\n",
+fprintf(fid,"socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Ito=%d\n", ...
         socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Ito);
 fprintf(fid,"nbits=%d %% Bits-per-coefficient \n",nbits);
 fprintf(fid,"ndigits=%d %% Average signed-digits-per-coefficient \n",ndigits);

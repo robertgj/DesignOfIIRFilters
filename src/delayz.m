@@ -11,24 +11,24 @@ function [gd, w] = delayz (b, a = 1, nfft = 512, whole = "", Fs = 1)
 %     In the latter case, f is assumed to not be a positive integer scalar.
 %  3. This method may be inaccurate for long IIR filters and small n!
   
-## Copyright (C) 2000 Paul Kienzle <pkienzle@users.sf.net>
-## Copyright (C) 2004 Julius O. Smith III <jos@ccrma.stanford.edu>
-##
-## This program is free software: you can redistribute it and/or modify
-## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or
-## (at your option) any later version.
-##
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-## GNU General Public License for more details.
-##
-## You should have received a copy of the GNU General Public License
-## along with this program; see the file COPYING. If not, see
-## <https://www.gnu.org/licenses/>.
+% Copyright (C) 2000 Paul Kienzle <pkienzle@users.sf.net>
+% Copyright (C) 2004 Julius O. Smith III <jos@ccrma.stanford.edu>
+%
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program; see the file COPYING. If not, see
+% <https://www.gnu.org/licenses/>.
 
-  # Sanity checks
+  % Sanity checks
   if (nargin < 1 || nargin > 5)
     print_usage ();
   endif
@@ -44,7 +44,7 @@ function [gd, w] = delayz (b, a = 1, nfft = 512, whole = "", Fs = 1)
     nfft_is_length = false;
   endif
 
-  # Decode the API
+  % Decode the API
   HzFlag=false;
   if nfft_is_length
     if (nargin == 5)
@@ -62,36 +62,36 @@ function [gd, w] = delayz (b, a = 1, nfft = 512, whole = "", Fs = 1)
     if (nargin > 4)
       print_usage ();
     elseif (nargin == 4)
-      # delayz (B, A, F, Fs)
+      % delayz (B, A, F, Fs)
       HzFlag = true;
       Fs = whole;
       w = 2*pi*nfft(:)'/Fs;
     else
-      # delayz (B, A, W)
+      % delayz (B, A, W)
       w = nfft(:)';
     endif
     whole = "";
   endif
  
-  # Make sure both are row vectors
+  % Make sure both are row vectors
   a = a(:).';
   b = b(:).';
 
-  oa = length (a) -1;     # order of a(z)
-  if (oa < 0)             # a can be []
+  oa = length (a) -1;     % order of a(z)
+  if (oa < 0)             % a can be []
     a  = 1;
     oa = 0;
   endif
-  ob = length (b) -1;     # order of b(z)
-  if (ob < 0)             # b can be [] as well
+  ob = length (b) -1;     % order of b(z)
+  if (ob < 0)             % b can be [] as well
     b  = 1;
     ob = 0;
   endif
-  oc = oa + ob;           # order of c(z)
+  oc = oa + ob;           % order of c(z)
 
-  # Calculate the group delay as shown in the reference
-  c   = conv (b, fliplr (conj (a)));  # c(z) = b(z)*conj(a)(1/z)*z^(-oa)
-  cr  = c.*(0:oc);                    # cr(z) = derivative of c wrt 1/z
+  % Calculate the group delay as shown in the reference
+  c   = conv (b, fliplr (conj (a)));  % c(z) = b(z)*conj(a)(1/z)*z^(-oa)
+  cr  = c.*(0:oc);                    % cr(z) = derivative of c wrt 1/z
   if nfft_is_length
     num = fft (cr, nfft);
     den = fft (c, nfft);
@@ -101,7 +101,7 @@ function [gd, w] = delayz (b, a = 1, nfft = 512, whole = "", Fs = 1)
     den = c*expjkw;
   endif
 
-  # Check for singularities in the group delay
+  % Check for singularities in the group delay
   minmag  = 10*eps;
   polebins = find (abs (den) < minmag);
   if ~isempty(polebins)
@@ -114,16 +114,16 @@ function [gd, w] = delayz (b, a = 1, nfft = 512, whole = "", Fs = 1)
   endif
   gd = real (num ./ den) - oa;
 
-  # Trim gd
+  % Trim gd
   if nfft_is_length && (~strcmp (whole, "whole"))
-    ns = nfft/2; # Matlab convention ... should be nfft/2 + 1
+    ns = nfft/2; % Matlab convention ... should be nfft/2 + 1
     gd = gd(1:ns);
     w  = w(1:ns);
   else
-    ns = length(w); # used in plot below
+    ns = length(w); % used in plot below
   endif
 
-  # Compatibility
+  % Compatibility
   gd = gd(:);
   w = w(:);
   if HzFlag
@@ -132,7 +132,7 @@ function [gd, w] = delayz (b, a = 1, nfft = 512, whole = "", Fs = 1)
   
   if (nargout == 0)
     unwind_protect
-      grid ("on"); # grid() should return its previous state
+      grid ("on"); % grid() should return its previous state
       if (HzFlag)
         funits = "Hz";
       else
@@ -148,7 +148,7 @@ function [gd, w] = delayz (b, a = 1, nfft = 512, whole = "", Fs = 1)
 
 endfunction
 
-## ------------------------ DEMOS -----------------------
+% ------------------------ DEMOS -----------------------
 
 %!demo % 1
 %! %--------------------------------------------------------------
@@ -302,7 +302,7 @@ endfunction
 %! [db, wb] = delayz(b, 1, 512, "whole");
 %! assert(dh,db+da,1e-5);
 
-## test for bug #39133 (do not fail for row or column vector)
+% test for bug #39133 (do not fail for row or column vector)
 %!test
 %! DR= [1.00000 -0.00000 -3.37219 0.00000 ...
 %!      5.45710 -0.00000 -5.24394 0.00000 ...
@@ -313,7 +313,7 @@ endfunction
 %! assert (nthargout (1:2, @delayz, N,  DR,  1024),
 %!         nthargout (1:2, @delayz, N', DR', 1024));
 
-## tests for bug #45834 (use vector of w or F values)
+% tests for bug #45834 (use vector of w or F values)
 %!test
 %! [gd,w] = delayz([1 1 0], [], 0);
 %! assert (gd,0.5);
@@ -323,7 +323,7 @@ endfunction
 %! a = [1 0 0.9];
 %! b = [0.9 0 1];
 %! [gd, w] = delayz(b, a, 0);
-## The following fails for n=2 !!
+% The following fails for n=2 !!
 %! [gd2, w2] = delayz(b, a, 2);
 %! [gd4, w4] = delayz(b, a, 4);
 %! assert(w,w4(1),1000*eps);
@@ -333,7 +333,7 @@ endfunction
 %! a = [1 0 0.9];
 %! b = [0.9 0 1];
 %! [gd, w] = delayz(b, a, 0, 1000);
-## The following fails for n=2 !!
+% The following fails for n=2 !!
 %! [gd2, w2] = delayz(b, a, 2, 1000);
 %! [gd4, w4] = delayz(b, a, 4, 1000);
 %! assert(w,w4(1),1000*eps);
@@ -388,7 +388,7 @@ endfunction
 %!       0.0115098 0.0095051 0.0043874];
 %! w = pi/4;
 %! gd = delayz(N, DR, w);
-## The following fails for n<12 !!
+%% The following fails for n<12 !!
 %! [gd8,w8] = delayz(N, DR, 8);
 %! [gd12,w12] = delayz(N, DR, 12);
 %! assert (w,w12(4),1000*eps);

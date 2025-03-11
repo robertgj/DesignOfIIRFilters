@@ -174,7 +174,7 @@ printf("%d signed-digits used\n",hM_min_digits);
 fid=fopen(strcat(strf,"_hM_min_signed_digits.tab"),"wt");
 fprintf(fid,"%d",hM_min_digits);
 fclose(fid);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        hM_min_adders,nbits);
 fid=fopen(strcat(strf,"_hM_min_adders.tab"),"wt");
 fprintf(fid,"%d",hM_min_adders);
@@ -192,11 +192,11 @@ printf("hM_min:AS=[ ");printf("%f ",20*log10(AS'));printf(" ] (dB)\n");
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.4g & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit&%8.4g & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit&%8.4g & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,hM0_sd_digits,hM0_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(Ito)&%8.4g & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Ito)&%8.4g & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_Ito_sd,hM0_Ito_sd_digits,hM0_Ito_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.4g & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.4g & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,hM_min_digits,hM_min_adders);
 fclose(fid);
 

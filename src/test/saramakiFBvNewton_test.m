@@ -59,7 +59,7 @@ for n=6:7
     max_dBap=max(20*log10(abs(h(1:nfp))));
     min_dBap=min(20*log10(abs(h(1:nfp))));
     max_dBas=max(20*log10(abs(h(nfs:end))));
-    printf("n=%2d,m=%d,max_dBap=%8.6f,min_dBap=%8.6f,max_dBas=%6.2f\n",
+    printf("n=%2d,m=%d,max_dBap=%8.6f,min_dBap=%8.6f,max_dBas=%6.2f\n", ...
            n,m,max_dBap,min_dBap,max_dBas);
   endfor
 endfor

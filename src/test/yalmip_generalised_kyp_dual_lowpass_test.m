@@ -243,27 +243,27 @@ check(Constraints)
 fwrite(fhandle,
        sprintf("Dual constraints (%s,tl,tu) sol.problem=%d\n",sstr,sol.problem));
 
-ostr=sprintf("norm(value(W_pl))=%10.3g,trace(value(W_pl)*Theta_pl)=%10.3g\n",
+ostr=sprintf("norm(value(W_pl))=%10.3g,trace(value(W_pl)*Theta_pl)=%10.3g\n", ...
         norm(value(W_pl)),trace(value(W_pl)*Theta_pl));
 printf(ostr);
 fprintf(fhandle,ostr);
 
-ostr=sprintf("norm(value(W_pu))=%10.3g,trace(value(W_pu)*Theta_pu)=%10.3g\n",
+ostr=sprintf("norm(value(W_pu))=%10.3g,trace(value(W_pu)*Theta_pu)=%10.3g\n", ...
         norm(value(W_pu)),trace(value(W_pu)*Theta_pu));
 printf(ostr);
 fprintf(fhandle,ostr);
 
-ostr=sprintf("norm(value(W_s))= %10.3g,trace(value(W_s)*Theta_s)=  %10.3g\n",
+ostr=sprintf("norm(value(W_s))= %10.3g,trace(value(W_s)*Theta_s)=  %10.3g\n", ...
         norm(value(W_s)), trace(value(W_s)*Theta_s));
 printf(ostr);
 fprintf(fhandle,ostr);
 
-ostr=sprintf("norm(value(W_tu))=%10.3g,trace(value(W_tu)*Theta_tu)=%10.3g\n",
+ostr=sprintf("norm(value(W_tu))=%10.3g,trace(value(W_tu)*Theta_tu)=%10.3g\n", ...
         norm(value(W_tu)),trace(value(W_tu)*Theta_tu));
 printf(ostr);
 fprintf(fhandle,ostr);
 
-ostr=sprintf("norm(value(W_tl))=%10.3g,trace(value(W_tl)*Theta_tl)=%10.3g\n",
+ostr=sprintf("norm(value(W_tl))=%10.3g,trace(value(W_tl)*Theta_tl)=%10.3g\n", ...
         norm(value(W_tl)),trace(value(W_tl)*Theta_tl));
 printf(ostr);
 fprintf(fhandle,ostr);

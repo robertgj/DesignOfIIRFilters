@@ -191,13 +191,13 @@ fprintf(fid,"%d-bit rounded with bitflipping & %6.4f \\\\ \n",nbits,cost_bf);
 fprintf(fid,"%d-bit %d-signed-digit & %6.4f \\\\ \n",nbits,ndigits,cost_sd);
 fprintf(fid,"%d-bit %d-signed-digit with bitflipping & %6.4f \\\\ \n", ...
         nbits,ndigits,cost_bfsd);
-fprintf(fid,"%d-bit %d-signed-digit(Lim alloc.) & %6.4f\\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Lim alloc.) & %6.4f\\\\\n", ...
         nbits,ndigits,cost_sdl);
-fprintf(fid,"%d-bit %d-signed-digit(Lim alloc.) with bit-flipping & %6.4f\\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Lim alloc.) with bit-flipping & %6.4f\\\\\n", ...
         nbits,ndigits,cost_bfsdl);
-fprintf(fid,"%d-bit %d-signed-digit(Ito alloc.) & %6.4f\\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Ito alloc.) & %6.4f\\\\\n", ...
         nbits,ndigits,cost_sdi);
-fprintf(fid,"%d-bit %d-signed-digit(Ito alloc.) with bit-flipping & %6.4f\\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Ito alloc.) with bit-flipping & %6.4f\\\\\n", ...
         nbits,ndigits,cost_bfsdi);
 fclose(fid);
 

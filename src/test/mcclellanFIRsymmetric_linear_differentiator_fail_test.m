@@ -31,7 +31,7 @@ tol=1e-10;
 N=59;L=34;fs=0.2;
 M=(N-L-1)/2;
 L2m1=(L/2)-1;
-strt=sprintf("McClellan symmetric FIR differentiator : N=%d,L=%d,$f_{s}$=%g",
+strt=sprintf("McClellan symmetric FIR differentiator : N=%d,L=%d,$f_{s}$=%g", ...
              N,L,fs);
 F=((1:nplot)'/nplot)/2;
 nas=floor(fs*nplot/0.5);

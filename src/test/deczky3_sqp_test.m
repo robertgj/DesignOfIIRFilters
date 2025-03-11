@@ -25,7 +25,7 @@ fas=0.3,dBas=33,Was=0.5
 ftp=0.25,tp=10,tpr=0.008,Wtp_mmse1=0.125,Wtp_mmse2=0.5,Wtp_pcls=4.0 
 
 % Strings
-strM=sprintf("%%s:fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp\\_mmse=%%g",
+strM=sprintf("%%s:fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp\\_mmse=%%g", ...
              fap,Wap,fas,Was,ftp,tp);
 strP=sprintf(["%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,", ...
  "tpr=%g,Wtp\\_pcls=%%g"],fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr);
@@ -183,11 +183,11 @@ fprintf(fid,"Wap=%d %% Pass band weight\n",Wap);
 fprintf(fid,"ftp=%g %% Pass band group delay response edge\n",ftp);
 fprintf(fid,"tp=%d %% Nominal filter group delay\n",tp);
 fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtp_mmse1=%g %% Pass band group delay weight(MMSE pass 1)\n",
+fprintf(fid,"Wtp_mmse1=%g %% Pass band group delay weight(MMSE pass 1)\n", ...
         Wtp_mmse1);
-fprintf(fid,"Wtp_mmse2=%g %% Pass band group delay weight(MMSE pass 2)\n",
+fprintf(fid,"Wtp_mmse2=%g %% Pass band group delay weight(MMSE pass 2)\n", ...
         Wtp_mmse2);
-fprintf(fid,"Wtp_pcls=%g %% Pass band group delay weight(PCLS pass)\n",
+fprintf(fid,"Wtp_pcls=%g %% Pass band group delay weight(PCLS pass)\n", ...
         Wtp_pcls);
 fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
 fprintf(fid,"dBas=%d %% Stop band minimum attenuation\n",dBas);

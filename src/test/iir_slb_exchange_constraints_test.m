@@ -180,7 +180,7 @@ close
 % Plot group delay
 ft=wt*0.5/pi;
 plot(ft,[Tx2,Tx7,Tdu,Tdl], ...
-     ft(vRx2.tl),Tx2(vRx2.tl),"*",ft(vRx2.tu),Tx2(vRx2.tu),"+",
+     ft(vRx2.tl),Tx2(vRx2.tl),"*",ft(vRx2.tu),Tx2(vRx2.tu),"+", ...
      ft(vSx7.tl),Tx7(vSx7.tl),"*",ft(vSx7.tu),Tx7(vSx7.tu),"+");
 axis([0 ftp tp-(2*tpr) tp+(2*tpr)]);
 title(strM7);

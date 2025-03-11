@@ -357,7 +357,7 @@ ax=plotyy(w(1:np)*0.5/pi,20*log10(abs(H(1:np))), ...
           w(ns:end)*0.5/pi,20*log10(abs(H(ns:end))));
 axis(ax(1),[0 0.5 -1e-5 2e-6]);
 axis(ax(2),[0 0.5 -130 -118]);
-strt=sprintf("Zahradnik and Vlcek half-band filter: fp=%5.3f, as=%ddB, n=%d",
+strt=sprintf("Zahradnik and Vlcek half-band filter: fp=%5.3f, as=%ddB, n=%d", ...
              fp,as,n);
 title(strt);
 ylabel("Amplitude(dB)");
@@ -428,7 +428,7 @@ ax=plotyy(w(1:np)*0.5/pi,20*log10(abs(H(1:np))), ...
           w(ns:end)*0.5/pi,20*log10(abs(H(ns:end))));
 axis(ax(1),[0 0.5 -8e-7 2e-7]);
 axis(ax(2),[0 0.5 -145 -140]);
-strt=sprintf("Zahradnik and Vlcek half-band filter: fp=%5.3f, as=%ddB, n=%d",
+strt=sprintf("Zahradnik and Vlcek half-band filter: fp=%5.3f, as=%ddB, n=%d", ...
              fp,as,n);
 title(strt);
 ylabel("Amplitude(dB)");

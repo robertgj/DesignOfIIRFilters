@@ -71,7 +71,7 @@ endif
 % Compare noise performance of svfcascf and svcascf with extra bits
 printf("est_varydf=%8.3f, ",sum((delta*delta*ngcascf)+Hl2f)/12);
 printf("varydf=%8.3f\n",var(y(:,end)-yf(:,end)));
-printf("est_varydfx=%8.3f, ",
+printf("est_varydfx=%8.3f, ", ...
        sum(((2.^(-2*xbits).*ngcascf)*delta*delta)+Hl2f)/12);
 printf("varydfx=%8.3f\n",var(y(:,end)-yfx(:,end)));
 

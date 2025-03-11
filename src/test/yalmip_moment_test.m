@@ -46,12 +46,12 @@ endif
 fprintf(fhandle,"value(sol.xoptimal{1}) = [ ");
 fprintf(fhandle,"%5.2f ",value(sol.xoptimal{1})');
 fprintf(fhandle,"]\n");
-fprintf(fhandle,"value(sol.xoptimal{1})'*Q*value(sol.xoptimal{1}) = %5.2f\n",
+fprintf(fhandle,"value(sol.xoptimal{1})'*Q*value(sol.xoptimal{1}) = %5.2f\n", ...
         value(sol.xoptimal{1}'*Q*sol.xoptimal{1}));
 fprintf(fhandle,"value(sol.xoptimal{2}) = [ ");
 fprintf(fhandle,"%5.2f ",value(sol.xoptimal{2})');
 fprintf(fhandle,"]\n");
-fprintf(fhandle,"value(sol.xoptimal{2})'*Q*value(sol.xoptimal{2}) = %5.2f\n",
+fprintf(fhandle,"value(sol.xoptimal{2})'*Q*value(sol.xoptimal{2}) = %5.2f\n", ...
         value(sol.xoptimal{2}'*Q*sol.xoptimal{2}));
 
 %

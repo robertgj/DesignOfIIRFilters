@@ -92,7 +92,7 @@ for x=1:2
   max_abs_diff_diagd2Asqdkc2 = ...
     max(abs(est_diagd2Asqdkc2-diagHessAsq(nac,:)));
   if verbose
-    printf("max_abs_diff_diagd2Asqdkc2 = del/%g\n",
+    printf("max_abs_diff_diagd2Asqdkc2 = del/%g\n", ...
            del/max_abs_diff_diagd2Asqdkc2);
   endif
   if max_abs_diff_diagd2Asqdkc2 > del/50

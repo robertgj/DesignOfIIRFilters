@@ -98,7 +98,7 @@ for N=1:7,
   [H,dHdw,dHdkc]=schurOneMlattice2H(wplot,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc);
   [HAbcd,dHdwAbcd,dHdkcAbcd]=Abcd2H(wplot,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc);
   if verbose
-    printf("max(max(abs(dHdkcAbcd-dHdkc))) = %g*eps\n",
+    printf("max(max(abs(dHdkcAbcd-dHdkc))) = %g*eps\n", ...
            max(max(abs(dHdkcAbcd-dHdkc)))/eps)
   endif
   if max(max(abs(dHdkcAbcd-dHdkc))) > 10000*eps
@@ -161,7 +161,7 @@ for N=1:7,
   [HAbcd,dHdwAbcd,dHdkcAbcd,d2HdwdkcAbcd]= ...
     Abcd2H(wplot,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc);
   if verbose
-    printf("max(max(abs(d2HdwdkcAbcd-d2Hdwdkc)))=%g*eps\n",
+    printf("max(max(abs(d2HdwdkcAbcd-d2Hdwdkc)))=%g*eps\n", ...
            max(max(abs(d2HdwdkcAbcd-d2Hdwdkc)))/eps);
   endif
   if max(max(abs(d2HdwdkcAbcd-d2Hdwdkc))) > 2e5*eps
@@ -185,7 +185,7 @@ for N=1:7,
     max(abs((est_d2Hdwdkc(1:(Nkc-1))-d2Hdwdkc(nc,1:(Nkc-1))) ...
             ./d2Hdwdkc(nc,(1:Nkc-1))));
   if verbose
-    printf("max_abs_rel_diff_d2Hdwdkc)) = delw/%g\n",
+    printf("max_abs_rel_diff_d2Hdwdkc)) = delw/%g\n", ...
           del/max_abs_rel_diff_d2Hdwdkc);
   endif
   if max_abs_rel_diff_d2Hdwdkc > delw/500
@@ -201,7 +201,7 @@ for N=1:7,
   [HAbcd,dHdwAbcd,dHdkcAbcd,d2HdwdkcAbcd,diagd2Hdkc2Abcd]= ...
     Abcd2H(wplot,A,B,C,D,dAdkc,dBdkc,dCdkc,dDdkc);
   if verbose
-    printf("max(max(abs(diagd2Hdkc2Abcd-diagd2Hdkc2))) = %g*eps\n",
+    printf("max(max(abs(diagd2Hdkc2Abcd-diagd2Hdkc2))) = %g*eps\n", ...
            max(max(abs(diagd2Hdkc2Abcd-diagd2Hdkc2)))/eps);
   endif
   if max(max(abs(diagd2Hdkc2Abcd-diagd2Hdkc2))) > 1e6*eps
@@ -228,7 +228,7 @@ for N=1:7,
   max_abs_rel_diff_d2Hdk2= ...
     max(abs((est_d2Hdk2-diagd2Hdkc2(nc,1:Nk))./diagd2Hdkc2(nc,1:Nk)));
   if verbose
-    printf("max_abs_rel_diff_d2Hdk2 = del/%g\n",
+    printf("max_abs_rel_diff_d2Hdk2 = del/%g\n", ...
            del/max_abs_rel_diff_d2Hdk2);
   endif
   if max_abs_rel_diff_d2Hdk2 > del/50
@@ -259,7 +259,7 @@ for N=1:7,
     error("max(abs(est_d2Hdc2)) > eps");
   endif
   if verbose
-    printf("max(abs(diagd2Hdkc2(nc,(Nk+1):end))) = %g*eps\n",
+    printf("max(abs(diagd2Hdkc2(nc,(Nk+1):end))) = %g*eps\n", ...
            max(abs(diagd2Hdkc2(nc,(Nk+1):end)))/eps);
   endif
   if max(abs(diagd2Hdkc2(nc,(Nk+1):end))) > eps
@@ -276,7 +276,7 @@ for N=1:7,
   max_abs_rel_diff_diagd3Hdwdkc2Abcd = ...
     max(max(abs((diagd3Hdwdkc2Abcd-diagd3Hdwdkc2)./diagd3Hdwdkc2)));
   if verbose
-    printf("max_abs_rel_diff_diagd3Hdwdkc2Abcd = %g*eps\n",
+    printf("max_abs_rel_diff_diagd3Hdwdkc2Abcd = %g*eps\n", ...
            max_abs_rel_diff_diagd3Hdwdkc2Abcd/eps);
   endif
   if max_abs_rel_diff_diagd3Hdwdkc2Abcd > 1000*eps
@@ -305,7 +305,7 @@ for N=1:7,
     max(max(abs((est_diagd3Hdwdk2-diagd3Hdwdkc2(nc,1:Nk)) ...
                 ./diagd3Hdwdkc2(nc,1:Nk))));
   if verbose
-    printf("max_abs_rel_diff_diagd3Hdwdk2 = del/%g\n",
+    printf("max_abs_rel_diff_diagd3Hdwdk2 = del/%g\n", ...
            del/max_abs_rel_diff_diagd3Hdwdk2);
   endif
   if max_abs_rel_diff_diagd3Hdwdk2 > del/200
@@ -331,7 +331,7 @@ for N=1:7,
   max_abs_diff_diagd3Hdwdc2= ...
     max(max(abs(est_diagd3Hdwdc2-diagd3Hdwdkc2(nc,(Nk+1):Nkc))));
   if verbose
-    printf("max_abs_diff_diagd3Hdwdc2 = %g*eps\n",
+    printf("max_abs_diff_diagd3Hdwdc2 = %g*eps\n", ...
            max_abs_diff_diagd3Hdwdc2/eps);
   endif
   if max_abs_diff_diagd3Hdwdc2 > eps
@@ -354,7 +354,7 @@ for N=1:7,
   max_abs_rel_diff_d3Hdwdkc2= ...
     max(abs((est_d3Hdwdkc2-diagd3Hdwdkc2(nc,:))./diagd3Hdwdkc2(nc,:)));
   if verbose
-    printf("max_abs_rel_diff_d3Hdwdkc2 = del/%g\n",
+    printf("max_abs_rel_diff_d3Hdwdkc2 = del/%g\n", ...
            del/max_abs_rel_diff_d3Hdwdkc2);
   endif
   if max_abs_rel_diff_d3Hdwdkc2 > del/400
@@ -374,7 +374,7 @@ for N=1:7,
            d2Adydx,d2Bdydx,d2Cdydx,d2Ddydx);
   max_abs_diff_d2HdydxAbcd = max(max(max(abs(d2HdydxAbcd-d2Hdydx))));
   if verbose
-    printf("max_abs_diff_d2HdydxAbcd = %g*eps\n",
+    printf("max_abs_diff_d2HdydxAbcd = %g*eps\n", ...
            max_abs_diff_d2HdydxAbcd/eps);
   endif
   if max_abs_diff_d2HdydxAbcd > 1e6*eps
@@ -500,7 +500,7 @@ for N=1:7,
   max_abs_rel_diff_d3HdwdydxAbcd= ...
     max(abs((d3HdwdydxAbcd(v)-d3Hdwdydx(v))./d3Hdwdydx(v)));
   if verbose
-    printf("max_abs_rel_diff_d3HdwdydxAbcd (>%f) = %g*eps\n",
+    printf("max_abs_rel_diff_d3HdwdydxAbcd (>%f) = %g*eps\n", ...
            v_threshold,max_abs_rel_diff_d3HdwdydxAbcd/eps);
   endif
   if max_abs_rel_diff_d3HdwdydxAbcd > 3000*eps
@@ -531,7 +531,7 @@ for N=1:7,
     max_abs_rel_diff_d3Hdwdydx = ...
       max(max(abs(abs(est_d3Hdwdydx)-wt_d3Hdwdydx)./nz_wt_d3Hdwdydx));
     if verbose
-      printf("max_abs_rel_diff_d3Hdwdydx = del/%g\n",
+      printf("max_abs_rel_diff_d3Hdwdydx = del/%g\n", ...
              del/max_abs_rel_diff_d3Hdwdydx);
     endif
     if max_abs_rel_diff_d3Hdwdydx > 10*del
@@ -566,7 +566,7 @@ for N=1:7,
     max(max(abs((est_d3Hdwdkdk-wc_d3Hdwdydx(1:Nk,1:Nk)) ...
                 ./wc_d3Hdwdydx(1:Nk,1:Nk))));
   if verbose
-    printf("max_abs_rel_diff_d3Hdwdkdk = del/%g\n",
+    printf("max_abs_rel_diff_d3Hdwdkdk = del/%g\n", ...
            del/max_abs_rel_diff_d3Hdwdkdk);
   endif
   if max_abs_rel_diff_d3Hdwdkdk > del/200
@@ -626,7 +626,7 @@ for N=1:7,
   max_abs_rel_diff_d3Hdwdkdc= ...
     max(max(abs((est_d3Hdwdkdc(:,1:(Nc-1))-nz_wc_d3Hdwdkdc)./nz_wc_d3Hdwdkdc)));
   if verbose
-    printf("max_abs_rel_diff_d3Hdwdkdc = del/%g\n",
+    printf("max_abs_rel_diff_d3Hdwdkdc = del/%g\n", ...
            del/max_abs_rel_diff_d3Hdwdkdc);
   endif
   if max_abs_rel_diff_d3Hdwdkdc > del/1000

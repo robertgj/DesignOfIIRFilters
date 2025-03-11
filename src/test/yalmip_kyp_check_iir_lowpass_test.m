@@ -108,9 +108,9 @@ for impl=1:length(filter_type),
     error("Unknown filter implementation");
   endif
      
-  printf("\nChecking filter type %s:tol=%g,tolH=%g,tolPD=%g\n\n",
+  printf("\nChecking filter type %s:tol=%g,tolH=%g,tolPD=%g\n\n", ...
          char(filter_type(impl)),tol,tolH,tolPD); 
-  fprintf(fhandle,"\nChecking filter type %s:tol=%g,tolH=%g,tolPD=%g\n\n",
+  fprintf(fhandle,"\nChecking filter type %s:tol=%g,tolH=%g,tolPD=%g\n\n", ...
          char(filter_type(impl)),tol,tolH,tolPD); 
 
   % Sanity checks

@@ -25,7 +25,7 @@ Wap=1,Wat=0.01,Was=0.5,Wtp=0.01
 tarczynski_deczky1_test_x0_coef;
 
 % Strings
-strM=sprintf("%%s:fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g",
+strM=sprintf("%%s:fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g", ...
              fap,Wap,fas,Was,ftp,tp,Wtp);
 strP=sprintf(["%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,", ...
  "tpr=%g,Wtp=%g"],fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
@@ -58,7 +58,7 @@ Tdl=(tp-(tpr/2))*ones(ntp,1);
 Wt=Wtp*ones(ntp,1);
 
 % Initial response
-strt=sprintf("Initial Deczky Ex. 1 : Ux0=%d,V=%d,M=%d,Q=%d,R=%d",
+strt=sprintf("Initial Deczky Ex. 1 : Ux0=%d,V=%d,M=%d,Q=%d,R=%d", ...
              Ux0,Vx0,Mx0,Qx0,Rx0);
 showResponse(x0,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
 print(strcat(strf,"_initial_x0"),"-dpdflatex");

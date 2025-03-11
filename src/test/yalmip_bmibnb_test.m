@@ -149,9 +149,9 @@ Q=magic(N);
 x=sdpvar(N,1);
 Constraints=[-1<=x<=1];
 Objective=x'*Q*x;
-Options=sdpsettings("solver","bmibnb",
-                    "bmibnb.uppersolver","fmincon",
-                    "bmibnb.lowersolver","glpk",
+Options=sdpsettings("solver","bmibnb", ...
+                    "bmibnb.uppersolver","fmincon", ...
+                    "bmibnb.lowersolver","glpk", ...
                     "bmibnb.lpsolver","glpk");
 try
   sol=optimize(Constraints,Objective,Options);
@@ -177,7 +177,7 @@ fprintf(fhandle,"value(x) = [ ");
 fprintf(fhandle,"%7.4f ",value(x)');
 fprintf(fhandle,"]\n");
 if abs(imag(value(x'*Q*x))) > 100*eps
-  fprintf(fhandle,"abs(imag(value(x'*Q*x))) (%g) > 100*eps\n",
+  fprintf(fhandle,"abs(imag(value(x'*Q*x))) (%g) > 100*eps\n", ...
           abs(imag(value(x'*Q*x))));
 endif
 fprintf(fhandle,"real(value(x'*Q*x)) = %7.4f\n",real(value(x'*Q*x)));

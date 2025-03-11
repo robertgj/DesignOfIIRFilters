@@ -148,7 +148,7 @@ print_polynomial(N0,"N0");
 print_polynomial(N0,"N0",strcat(strf,"_N0_coef.m"));
 print_polynomial(D0,"D0");
 print_polynomial(D0,"D0",strcat(strf,"_D0_coef.m"));
-eval(sprintf(strcat("save %s.mat N R td fasl fapl fapu fasu ",
+eval(sprintf(strcat("save %s.mat N R td fasl fapl fapu fasu ", ...
                     " Wasl Watl Wap Watu Wasu M Ni Di N0 D0"),strf));
 
 % Done

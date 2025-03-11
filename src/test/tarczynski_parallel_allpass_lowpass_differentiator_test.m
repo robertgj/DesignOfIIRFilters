@@ -161,7 +161,7 @@ plot(wa*0.5/pi,A0);
 ylabel("Amplitude");
 axis([0 0.5 0 1]);
 grid("on");
-strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,fap=%g,fas=%g,tp=%g",
+strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,fap=%g,fas=%g,tp=%g", ...
              ma,mb,fap,fas,tp);
 title(strt);
 subplot(312);
@@ -184,7 +184,7 @@ plot(wa*0.5/pi,A0-Ad);
 ylabel("Amplitude");
 axis([0 0.5 -0.1 0.1]);
 grid("on");
-strt=sprintf("Parallel all-pass filters error : ma=%d,mb=%d,fap=%g,fas=%g,tp=%g",
+strt=sprintf("Parallel all-pass filters error : ma=%d,mb=%d,fap=%g,fas=%g,tp=%g", ...
              ma,mb,fap,fas,tp);
 title(strt);
 subplot(312);

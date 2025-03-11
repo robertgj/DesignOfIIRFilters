@@ -114,7 +114,7 @@ for solver_type=1:4
   ylabel("Amplitude(dB)");
   axis([0 0.5 -80 5]);
   grid("on");
-  strt=sprintf("KYP %s non-symmetric FIR filter : N=%d,d=%d,fap=%g,fas=%g",
+  strt=sprintf("KYP %s non-symmetric FIR filter : N=%d,d=%d,fap=%g,fas=%g", ...
                solver_str,N,d,fap,fas);
   title(strt);
   subplot(212);

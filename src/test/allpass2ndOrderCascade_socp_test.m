@@ -143,7 +143,7 @@ fprintf(fid,"ma=%d %% Order of filter A\n",ma);
 fprintf(fid,"mb=%d %% Order of filter B\n",mb);
 fprintf(fid,"tau=%3.1g %% Second order section stability parameter\n",tau);
 fprintf(fid,"n=%d %% Number of frequency points\n",n);
-fprintf(fid,"resp=\"%s\" %% Flat passband group delay or squared-magnitude\n",
+fprintf(fid,"resp=\"%s\" %% Flat passband group delay or squared-magnitude\n", ...
         resp);
 fprintf(fid,"fp=%5.3g %% Pass band edge\n",fp);
 fprintf(fid,"td=%g %% Pass band nominal group delay\n",td);

@@ -103,7 +103,7 @@ complementaryFIRlattice_slb_show_constraints(vS1,w,Asq1,w,T1,w,P1);
 
 % Strings
 strd=sprintf("complementaryFIRlattice_slb_update_constraints_test_%%s");
-strM=sprintf("Update:fsl,fpl=%g,fpu=%g,fsu,dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g",
+strM=sprintf("Update:fsl,fpl=%g,fpu=%g,fsu,dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g", ...
              fsl,fpl,fpu,fsu,dBap,dBas,tp,tpr,ppr);
 
 % Plot amplitude

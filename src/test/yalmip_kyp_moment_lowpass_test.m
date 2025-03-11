@@ -140,7 +140,7 @@ if d~=M,
 else
   strs=sprintf("KYP symmetric FIR");
 endif
-strt=sprintf("%s : N=%d,d=%d,fap=%4.2f,fas=%4.2f,Asq\\_pl=%4.2f,Esq\\_s=%6.4f",
+strt=sprintf("%s : N=%d,d=%d,fap=%4.2f,fas=%4.2f,Asq\\_pl=%4.2f,Esq\\_s=%6.4f", ...
              strs,N,d,fap,fas,Asq_pl,Esq_s);
 
 ax=plotyy(f(1:nap),20*log10(abs(H(1:nap))), ...
@@ -163,15 +163,15 @@ close
 
  % Check amplitude response
 [A_max,n_max]=max(abs(H));
-printf("max(A)=%11.6g(%6.4f) at f=%6.4f\n",
+printf("max(A)=%11.6g(%6.4f) at f=%6.4f\n", ...
        A_max,sqrt(Asq_max),f(n_max));
 
 [A_p_min,n_p_min]=min(abs(H(1:nap)));
-printf("min(A_p)=%11.6g(%6.4f) at f=%6.4f\n",
+printf("min(A_p)=%11.6g(%6.4f) at f=%6.4f\n", ...
        A_p_min,sqrt(Asq_pl),f(n_p_min));
 
 [A_s_max,n_s_max]=max(abs(H(nas:end)));
-printf("max(A_s)=%11.6g(%6.4f) at f=%6.4f\n",
+printf("max(A_s)=%11.6g(%6.4f) at f=%6.4f\n", ...
        A_s_max,sqrt(Esq_s),f(nas-1+n_s_max));
 
 % Save

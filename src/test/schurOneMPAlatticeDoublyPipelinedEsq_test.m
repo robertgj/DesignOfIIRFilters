@@ -117,7 +117,7 @@ for difference=[false,true]
     diff_Esqk(l)=(EsqkPdel2-EsqkMdel2)/del;
   endfor
   if verbose
-    printf("max(max(abs(diff_Esqk-gradEsq(A1rng))))=%g*del\n",
+    printf("max(max(abs(diff_Esqk-gradEsq(A1rng))))=%g*del\n", ...
            max(max(abs(diff_Esqk-gradEsq(A1rng))))/del);
   endif
   if max(max(abs(diff_Esqk-gradEsq(A1rng)))) > 10*del
@@ -141,7 +141,7 @@ for difference=[false,true]
     diff_Esqk(l)=(EsqkPdel2-EsqkMdel2)/del;
   endfor
   if verbose
-    printf("max(max(abs(diff_Esqk-gradEsq(A2rng))))=%g*del\n",
+    printf("max(max(abs(diff_Esqk-gradEsq(A2rng))))=%g*del\n", ...
            max(max(abs(diff_Esqk-gradEsq(A2rng))))/del);
   endif
   if max(max(abs(diff_Esqk-gradEsq(A2rng)))) > 10*del
@@ -169,7 +169,7 @@ for difference=[false,true]
     diff_gradEsqk(l)=(gradEsqkPdel2(l)-gradEsqkMdel2(l))/del;
   endfor
   if verbose
-    printf("max(max(abs(diff_gradEsqk-diagHessEsq(A1rng))))=%g*del\n",
+    printf("max(max(abs(diff_gradEsqk-diagHessEsq(A1rng))))=%g*del\n", ...
            max(max(abs(diff_gradEsqk-diagHessEsq(A1rng))))/del);
   endif
   if max(max(abs(diff_gradEsqk-diagHessEsq(A1rng)))) > 10*del
@@ -192,7 +192,7 @@ for difference=[false,true]
     diff_gradEsqk(l)=(gradEsqkPdel2(NA1k+l)-gradEsqkMdel2(NA1k+l))/del;
   endfor
   if verbose
-    printf("max(max(abs(diff_gradEsqk-diagHessEsq(A2rng))))=%g*del\n",
+    printf("max(max(abs(diff_gradEsqk-diagHessEsq(A2rng))))=%g*del\n", ...
            max(max(abs(diff_gradEsqk-diagHessEsq(A2rng))))/del);
   endif
   if max(max(abs(diff_gradEsqk-diagHessEsq(A2rng)))) > 100*del
@@ -224,7 +224,7 @@ for difference=[false,true]
     delk=circshift(delk,1);
   endfor
   if verbose
-       printf("max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng))))=%g*del\n",
+       printf("max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng))))=%g*del\n", ...
               max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng))))/del);
   endif
   if max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng)))) > 10*del
@@ -247,7 +247,7 @@ for difference=[false,true]
     delk=circshift(delk,1);
   endfor
   if verbose
-       printf("max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng))))=%g*del\n",
+       printf("max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng))))=%g*del\n", ...
               max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng))))/del);
   endif
   if max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng)))) > 100*del
@@ -276,7 +276,7 @@ for difference=[false,true]
     delk=circshift(delk,1);
   endfor
   if verbose
-       printf("max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng))))=%g*del\n",
+       printf("max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng))))=%g*del\n", ...
               max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng))))/del);
   endif
   if max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng)))) > 10*del
@@ -297,7 +297,7 @@ for difference=[false,true]
     delk=circshift(delk,1);
   endfor
   if verbose
-       printf("max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng))))=%g*del\n",
+       printf("max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng))))=%g*del\n", ...
               max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng))))/del);
   endif
   if max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng)))) > 100*del
@@ -326,7 +326,7 @@ for difference=[false,true]
     delk=circshift(delk,1);
   endfor
   if verbose
-       printf("max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng))))=%g*del\n",
+       printf("max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng))))=%g*del\n", ...
               max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng))))/del);
   endif
   if max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng)))) > 10*del
@@ -347,7 +347,7 @@ for difference=[false,true]
     delk=circshift(delk,1);
   endfor
   if verbose
-       printf("max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng))))=%g*del\n",
+       printf("max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng))))=%g*del\n", ...
               max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng))))/del);
   endif
   if max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng)))) > 100*del
@@ -376,7 +376,7 @@ for difference=[false,true]
     delk=circshift(delk,1);
   endfor
   if verbose
-       printf("max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng))))=%g*del\n",
+       printf("max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng))))=%g*del\n", ...
               max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng))))/del);
   endif
   if max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng)))) > 10*del
@@ -397,7 +397,7 @@ for difference=[false,true]
     delk=circshift(delk,1);
   endfor
   if verbose
-       printf("max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng))))=%g*del\n",
+       printf("max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng))))=%g*del\n", ...
               max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng))))/del);
   endif
   if max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng)))) > 100*del
@@ -429,7 +429,7 @@ for difference=[false,true]
     delk=circshift(delk,1);
   endfor
   if verbose
-       printf("max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng))))=%g*del\n",
+       printf("max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng))))=%g*del\n", ...
               max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng))))/del);
   endif
   if max(max(abs(diff_gradEsqk-hessEsq(A1rng,A1rng)))) > 10*del
@@ -452,7 +452,7 @@ for difference=[false,true]
     delk=circshift(delk,1);
   endfor
   if verbose
-       printf("max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng))))=%g*del\n",
+       printf("max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng))))=%g*del\n", ...
               max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng))))/del);
   endif
   if max(max(abs(diff_gradEsqk-hessEsq(A2rng,A2rng)))) > 100*del

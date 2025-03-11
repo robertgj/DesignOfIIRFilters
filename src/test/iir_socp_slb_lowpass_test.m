@@ -147,7 +147,7 @@ end_try_catch;
 if ~feasible
  error("d1 infeasible");
 endif
-strt=sprintf("d1(PCLS):fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g,fas=%g,dBas=%g,Was=%g",
+strt=sprintf("d1(PCLS):fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g,fas=%g,dBas=%g,Was=%g", ...
              fap,dBap,ftp,td,tdr,fas,dBas,Was);
 showResponse(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");

@@ -186,7 +186,7 @@ printf("%d signed-digits used\n",hM_min_digits);
 fid=fopen(strcat(strf,"_hM_min_signed_digits.tab"),"wt");
 fprintf(fid,"%d",hM_min_digits);
 fclose(fid);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        hM_min_adders,nbits);
 fid=fopen(strcat(strf,"_hM_min_adders.tab"),"wt");
 fprintf(fid,"%d",hM_min_adders);
@@ -206,7 +206,7 @@ hM1_3sd=flt2SD(hM1,nbits,3);
 hM1_3sd_active=find(hM1_3sd ~= 0);
 [hM1_3sd_digits,hM1_3sd_adders]=SDadders(hM1_3sd(hM1_3sd_active),nbits);
 printf("%d signed-digits used for 3-sd allocation\n",hM1_3sd_digits);
-printf("%d %d-bit adders used for 3-sd coefficient multiplications\n",
+printf("%d %d-bit adders used for 3-sd coefficient multiplications\n", ...
        hM1_3sd_adders,nbits);
 Esq0_3sd=directFIRsymmetricEsqPW(hM1_3sd,waf,Adf,Waf);
 print_polynomial(hM1_3sd,"hM1_3sd",nscale);
@@ -215,11 +215,11 @@ print_polynomial(hM1_3sd,"hM1_3sd",strcat(strf,"_hM1_3sd_coef.m"),nscale);
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit&%8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit&%8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_3sd,hM1_3sd_digits,hM1_3sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(Ito)&%8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Ito)&%8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,hM1_digits,hM1_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,hM_min_digits,hM_min_adders);
 fclose(fid);
 

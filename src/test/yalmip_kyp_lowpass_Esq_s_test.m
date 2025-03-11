@@ -128,7 +128,7 @@ for d=[10,12,M],
     subplot(211);
     strs="KYP non-symmetric FIR";
   endif
-  strt=sprintf("%s : N=%d,d=%d,fap=%4.2f,fas=%4.2f,Esq\\_z=%6.1g,Esq\\_s=%6.1g",
+  strt=sprintf("%s : N=%d,d=%d,fap=%4.2f,fas=%4.2f,Esq\\_z=%6.1g,Esq\\_s=%6.1g", ...
                strs,N,d,fap,fas,value(Esq_z),value(Esq_s));
   [H,w]=freqz(h,1,nplot);
   [T,w]=delayz(h,1,nplot);
@@ -153,31 +153,31 @@ for d=[10,12,M],
 
   % Check amplitude response
   [A_max,n_max]=max(abs(H));
-  printf("max(A)=%11.6g(%6.4f) at f=%6.4f\n",
+  printf("max(A)=%11.6g(%6.4f) at f=%6.4f\n", ...
          A_max,sqrt(Asq_max),f(n_max));
 
   [A_p_max,n_p_max]=max(abs(H(1:nap)));
-  printf("max(A_p)=%11.6g(%6.4f) at f=%6.4f\n",
+  printf("max(A_p)=%11.6g(%6.4f) at f=%6.4f\n", ...
          A_p_max,sqrt(Asq_pu),f(n_p_max));
 
   [A_p_min,n_p_min]=min(abs(H(1:nap)));
-  printf("min(A_p)=%11.6g at f=%6.4f\n",
+  printf("min(A_p)=%11.6g at f=%6.4f\n", ...
          A_p_min,f(n_p_min));
 
   [A_z,n_z_max]=max(abs(H(1:nap)-e.^(-j*w(1:nap)*d)));
-  printf("max(A_z)=%11.6g(%6.4f) at f=%6.4f\n",
+  printf("max(A_z)=%11.6g(%6.4f) at f=%6.4f\n", ...
          A_z,sqrt(value(Esq_z)),f(n_z_max));
 
   [A_t_max,n_t_max]=max(abs(H((nap+1):(nas-1))));
-  printf("max(A_t)=%11.6g(%6.4f) at f=%6.4f\n",
+  printf("max(A_t)=%11.6g(%6.4f) at f=%6.4f\n", ...
          A_t_max,sqrt(Asq_t),f(nap+n_t_max));
 
   [A_t_min,n_t_min]=min(abs(H((nap+1):(nas-1))));
-  printf("min(A_t)=%11.6g at f=%6.4f\n",
+  printf("min(A_t)=%11.6g at f=%6.4f\n", ...
          A_t_min,f(nap+n_t_min));
 
   [A_s_max,n_s_max]=max(abs(H(nas:end)));
-  printf("max(A_s)=%11.6g(%6.4f) at f=%6.4f\n",
+  printf("max(A_s)=%11.6g(%6.4f) at f=%6.4f\n", ...
          A_s_max,sqrt(value(Esq_s)),f(nas-1+n_s_max));
 
   % Save

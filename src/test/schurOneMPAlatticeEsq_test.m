@@ -262,7 +262,7 @@ for x=1:2,
   endfor
   max_abs_diff_d2Esqdydx = max(max(abs(est_d2Esqdydx-hessEsq)));
   if verbose
-    printf("max_abs_diff_d2Esqdydx = %g*tol\n",
+    printf("max_abs_diff_d2Esqdydx = %g*tol\n", ...
            max_abs_diff_d2Esqdydx/tol);
   endif
   if max_abs_diff_d2Esqdydx > 30*tol

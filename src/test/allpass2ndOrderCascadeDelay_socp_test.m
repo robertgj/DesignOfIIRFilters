@@ -102,7 +102,7 @@ plot(wplot*0.5/pi,20*log10(abs(Hab1)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
-s=sprintf("Parallel delay and 2nd order all-pass : ma=%d,D=%d,td=%g",
+s=sprintf("Parallel delay and 2nd order all-pass : ma=%d,D=%d,td=%g", ...
           ma,D,td);
 title(s);
 subplot(212);
@@ -158,7 +158,7 @@ plot(wplot*0.5/pi,20*log10(abs(Hab1sqm)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
-s=sprintf("Parallel delay and 2nd order all-pass squared-magnitude: ma=%d,D=%d",
+s=sprintf("Parallel delay and 2nd order all-pass squared-magnitude: ma=%d,D=%d", ...
           ma,D);
 title(s);
 subplot(212);

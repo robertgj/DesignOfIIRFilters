@@ -130,7 +130,7 @@ schurOneMPAlattice_slb_show_constraints(vS1,wa,Asq1,wt,T1,wp,P1,wd,D1);
 
 % Plot amplitude
 strd=sprintf("schurOneMPAlattice_slb_exchange_constraints_test_%%s");
-strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tdr=%g,Wtp=%g",
+strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tdr=%g,Wtp=%g", ...
              fap,dBap,Wap,fas,dBas,Was,tdr,Wtp);
 fa=wa*0.5/pi;
 subplot(211);

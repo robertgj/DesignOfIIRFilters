@@ -251,7 +251,7 @@ ylabel("Amplitude error (dB)");
 title(sprintf(["Parallel all-pass bandpass : ", ...
  "Amplitude error compared to a %d sample delay"],tp));
 grid("on");
-text(0.2,-40,sprintf("Max. phase pass band amplitude error=%7.3f dB",
+text(0.2,-40,sprintf("Max. phase pass band amplitude error=%7.3f dB", ...
                      max_dB_error_tp_sample_delay));
 print(strcat(strf,"_error"),"-dpdflatex");
 close

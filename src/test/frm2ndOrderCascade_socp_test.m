@@ -196,9 +196,9 @@ fprintf(fid,"Wapextra=%d %% Extra weight for extra pass band points\n",Wapextra)
 fprintf(fid,"Wasextra=%d %% Extra weight for extra stop band points\n",Wasextra);
 fprintf(fid,"Was=%d %% Stop band weight\n",Was);
 fprintf(fid,"tau=%3.1g %% Stability parameter\n",tau);
-fprintf(fid,"edge_factor=%3.1g %% Add extra frequencies near band edges\n",
+fprintf(fid,"edge_factor=%3.1g %% Add extra frequencies near band edges\n", ...
         edge_factor);
-fprintf(fid,"edge_ramp=%d %% Linear change in extra weights over edge region\n",
+fprintf(fid,"edge_ramp=%d %% Linear change in extra weights over edge region\n", ...
         edge_ramp);
 fclose(fid);
 

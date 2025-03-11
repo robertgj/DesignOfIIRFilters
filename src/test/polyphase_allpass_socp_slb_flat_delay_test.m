@@ -132,7 +132,7 @@ plot(wplot*0.5/pi,20*log10(abs(Hab1)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
-strt=sprintf("Polyphase allpass : ma=%d,mb=%d,td=%g,tdr=%g,dBas=%g",
+strt=sprintf("Polyphase allpass : ma=%d,mb=%d,td=%g,tdr=%g,dBas=%g", ...
              ma,mb,td,tdr,dBas);
 title(strt);
 subplot(212);

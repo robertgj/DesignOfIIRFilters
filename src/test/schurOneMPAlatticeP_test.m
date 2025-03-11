@@ -199,7 +199,7 @@ for x=1:2
   endif
   max_abs_diff_d2Pdydx = max(max(max(abs(est_d2Pdydx-hessP))));
   if verbose
-    printf("max_abs_diff_d2Pdydx = %g*tol\n",
+    printf("max_abs_diff_d2Pdydx = %g*tol\n", ...
            max_abs_diff_d2Pdydx/tol);
   endif
   if max_abs_diff_d2Pdydx > tol

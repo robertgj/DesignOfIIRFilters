@@ -37,7 +37,7 @@ endif
 
 % Extract and display value
 fhandle=fopen("test.results","wt");
-fprintf(fhandle,"sol.problem=%d,result=%s,value(alpha) = %9.6f\n",
+fprintf(fhandle,"sol.problem=%d,result=%s,value(alpha) = %9.6f\n", ...
         sol.problem,result,value(alpha)');
 fprintf(fhandle,"P(:)'=[");
 fprintf(fhandle,"%7.4f ",value(P(:)'));

@@ -288,7 +288,7 @@ endwhile
 kc_sd_min=kc;
 [kc_sd_min_digits,kc_sd_min_adders]=SDadders(kc_sd_min,nbits);
 printf("%d signed-digits used\n",kc_sd_min_digits);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kc_sd_min_adders,nbits);
 fid=fopen(strcat(strf,"_kc_sd_min_digits.tab"),"wt");
 fprintf(fid,"$%d$",kc_sd_min_digits);
@@ -402,12 +402,12 @@ max_sb_Asq_kc_sd_min=max(abs(Asq_kc_sd_min(rsb).*Azm1sq(rsb)))
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.2e & %4.1f & & \\\\\n",Esq0,10*log10(max_sb_Asq_kc0));
-fprintf(fid,"%d-bit %d-signed-digit & %8.2e & %4.1f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit & %8.2e & %4.1f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,10*log10(max_sb_Asq_kc0_sd),kc0_digits_sd,kc0_adders_sd);
-fprintf(fid,"%d-bit %d-signed-digit(Ito) & %8.2e & %4.1f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Ito) & %8.2e & %4.1f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd_Ito,10*log10(max_sb_Asq_kc0_sd_Ito), ...
         kc0_digits_sd_Ito,kc0_adders_sd_Ito);
-fprintf(fid,"%d-bit %d-signed-digit(POP-relax) & %8.2e & %4.1f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(POP-relax) & %8.2e & %4.1f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_sd_min,10*log10(max_sb_Asq_kc_sd_min), ...
         kc_sd_min_digits,kc_sd_min_adders);
 fclose(fid);

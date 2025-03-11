@@ -55,7 +55,7 @@ endif
 % Find the number of signed-digits used by hM1_sd
 [hM1_sd_digits,hM1_sd_adders]=SDadders(hM1_sd(hM1_active),nbits);
 printf("hM1_sd uses %d signed-digits\n",hM1_sd_digits);
-printf("hM1_sd uses %d %d-bit adders for coefficient multiplications\n",
+printf("hM1_sd uses %d %d-bit adders for coefficient multiplications\n", ...
        hM1_sd_adders,nbits);
 
 % Bandpass filter specification for directFIRsymmetric_slb_bandpass_test.m
@@ -201,7 +201,7 @@ fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %7.5f \\\\\n",Esq1);
 fprintf(fid,"%d-bit %d-signed-digit & %7.5f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq1_sd,hM1_sd_digits,hM1_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)& %7.5f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)& %7.5f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,hM_min_digits,hM_min_adders);
 fclose(fid);
 

@@ -278,7 +278,7 @@ plot(w*0.5/pi,20*log10(abs(H_amp)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
-strt=sprintf("KYP non-symmetric FIR filter : N=%d,d=%d,fap=%g,fas=%g",
+strt=sprintf("KYP non-symmetric FIR filter : N=%d,d=%d,fap=%g,fas=%g", ...
              N,d,fap,fas);
 title(strt);
 subplot(212);
@@ -347,7 +347,7 @@ plot(w*0.5/pi,20*log10(abs(H_kyp)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
-strt=sprintf("KYP non-symmetric FIR filter : N=%d,d=%d,fap=%g,fas=%g",
+strt=sprintf("KYP non-symmetric FIR filter : N=%d,d=%d,fap=%g,fas=%g", ...
              N,d,fap,fas);
 title(strt);
 subplot(212);

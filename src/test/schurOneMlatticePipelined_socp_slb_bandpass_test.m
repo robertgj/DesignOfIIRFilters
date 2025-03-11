@@ -230,10 +230,10 @@ print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
 print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
-eval(sprintf(strcat("save %s.mat ftol ctol dmax rho",
-                    " fapl fapu fasl fasu dBap Wap dBas Wasl Wasu",
-                    " ftpl ftpu tp tpr Wtp",
-                    " N0 D0 k0 c0 kk0 ck0",
+eval(sprintf(strcat("save %s.mat ftol ctol dmax rho", ...
+                    " fapl fapu fasl fasu dBap Wap dBas Wasl Wasu", ...
+                    " ftpl ftpu tp tpr Wtp", ...
+                    " N0 D0 k0 c0 kk0 ck0", ...
                     " k2 c2 kk2 ck2 N2 D2"),strf));
 
 % Done

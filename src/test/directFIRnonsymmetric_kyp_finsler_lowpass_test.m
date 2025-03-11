@@ -91,7 +91,7 @@ axis(ax(1),[0 0.5 -1 1]);
 axis(ax(2),[0 0.5 -60 -20]);
 ylabel("Amplitude(dB)");
 grid("on");
-strt=sprintf("N=%d,d=%d,fap=%4.2f,fas=%4.2f,Esq\\_z=%6.4f,Esq\\_s=%6.4f",
+strt=sprintf("N=%d,d=%d,fap=%4.2f,fas=%4.2f,Esq\\_z=%6.4f,Esq\\_s=%6.4f", ...
              N,d,fap,fas,Esq_z,Esq_s);
 title(strt);
 subplot(212);

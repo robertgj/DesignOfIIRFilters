@@ -80,7 +80,7 @@ plot(wd*0.5/pi,abs(H));
 axis([0 0.5 0 0.8]);
 ylabel("Amplitude");
 grid("on");
-s=sprintf("Tarczynski et al. lowpass differentiator : nN=%d,nD=%d,R=%d,tp=%g",
+s=sprintf("Tarczynski et al. lowpass differentiator : nN=%d,nD=%d,R=%d,tp=%g", ...
           nN,nD,R,tp);
 title(s);
 subplot(212);

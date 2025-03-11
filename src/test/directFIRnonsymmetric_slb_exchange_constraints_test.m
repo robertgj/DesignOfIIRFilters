@@ -98,7 +98,7 @@ directFIRnonsymmetric_slb_show_constraints(vS1,wa,Asq1,wt,T1,wp,P1);
 
 % Plot amplitude
 strd=sprintf("directFIRnonsymmetric_slb_exchange_constraints_test_%%s");
-strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tdr=%g,Wtp=%g",
+strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tdr=%g,Wtp=%g", ...
              fap,dBap,Wap,fas,dBas,Was,tdr,Wtp);
 fa=wa*0.5/pi;
 subplot(211);
@@ -198,9 +198,9 @@ close
 % Plot phase
 subplot(111);
 plot(fp,[P0-Pd,P1-Pd,Pdu-Pd,Pdl-Pd], ...
-     fp(vR0.pl),P0(vR0.pl)-Pd(vR0.pl),"*",
+     fp(vR0.pl),P0(vR0.pl)-Pd(vR0.pl),"*", ...
      fp(vR0.pu),P0(vR0.pu)-Pd(vR0.pu),"+", ...
-     fp(vS1.pl),P1(vS1.pl)-Pd(vS1.pl),"*",
+     fp(vS1.pl),P1(vS1.pl)-Pd(vS1.pl),"*", ...
      fp(vS1.pu),P1(vS1.pu)-Pd(vS1.pu),"+");
 axis([0 fpp -(ppr*6) +(ppr*6)]);
 title(strM1);

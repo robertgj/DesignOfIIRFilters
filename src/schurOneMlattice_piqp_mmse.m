@@ -347,7 +347,7 @@ while 1
     schurOneMlatticeEsq(k,epsilon0,p0,c,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
   func_iter=func_iter+1;
   if verbose
-    printf("PIQP status=%s, run_time=%g, primal_obj=%g\n",
+    printf("PIQP status=%s, run_time=%g, primal_obj=%g\n", ...
            result.info.status, result.info.run_time, result.info.primal_obj);
     printf("delta=[ ");printf("%g ",delta');printf(" ]';\n"); 
     printf("norm(delta)=%g\n",norm(delta));

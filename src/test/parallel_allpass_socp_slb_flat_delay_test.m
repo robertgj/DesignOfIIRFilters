@@ -135,7 +135,7 @@ plot(wplot*0.5/pi,20*log10(abs(Hab1)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 5]);
 grid("on");
-strt=sprintf("Parallel allpass : ma=%d,mb=%d,dBap=%4.2f,dBas=%4.1f,td=%g,tdr=%g",
+strt=sprintf("Parallel allpass : ma=%d,mb=%d,dBap=%4.2f,dBas=%4.1f,td=%g,tdr=%g", ...
              ma,mb,dBap,dBas,td,tdr);
 title(strt);
 subplot(212);

@@ -296,7 +296,7 @@ print_polynomial(v_min,"v_min",strcat(strf,"_v_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used
 [kuv_digits,kuv_adders]=SDadders(kuv_min(kuv0_active),nbits);
 printf("%d signed-digits used\n",kuv_digits);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kuv_adders,nbits);
 
 % Amplitude,delay and phase at local peaks

@@ -41,7 +41,7 @@ for d=[M,floor(M/2)],
     hd=h;
     print_polynomial(hd,"hd","%13.10f");
     print_polynomial(hd,"hd",sprintf("%s_hd_coef.m",strf),"%13.10f");
-    strt=sprintf("Non-symmetric FIR : order N=%d,d=%d,fap=%g,fas=%g",
+    strt=sprintf("Non-symmetric FIR : order N=%d,d=%d,fap=%g,fas=%g", ...
                  N,d,fap,fas);
     subplot(211);
   else

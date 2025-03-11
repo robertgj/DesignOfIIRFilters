@@ -264,7 +264,7 @@ for p=1:length(b_sd)
   hBz_sd=freqz(fliplr(Bz_sd{p}),Bz_sd{p},Wz);
   hz_sd=(hAz_sd+hBz_sd)/2;
   [Amax,iAmax]=max(20*log10(abs(hz_sd(nfa:end))));
-  printf("p=%d,mbin=%s, max. stop band response=%f dB at %f\n",
+  printf("p=%d,mbin=%s, max. stop band response=%f dB at %f\n", ...
          p,mbin,Amax,Wz(iAmax+nfa-1)*0.5/pi);
   if Amax<Aminimax
     Aminimax=Amax;

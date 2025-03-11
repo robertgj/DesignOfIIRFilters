@@ -342,7 +342,7 @@ for N=[1,2,5,10,15]
   max_abs_rel_diff_diagd2Hdk2= ...
     max(abs(est_diagd2Hdk2-diagd2Hdkc2(nc,1:Nk))./abs(diagd2Hdkc2(nc,1:Nk)));
   if verbose
-    printf("max_abs_rel_diff_diagd2Hdk2 = %g*tol\n",
+    printf("max_abs_rel_diff_diagd2Hdk2 = %g*tol\n", ...
            max_abs_rel_diff_diagd2Hdk2/tol);
   endif
   if max_abs_rel_diff_diagd2Hdk2 > 100*tol
@@ -419,7 +419,7 @@ for N=[1,2,5,10,15]
     max(abs(est_diagd3Hdwdk2-diagd3Hdwdkc2(nc,1:Nk)) ...
         ./abs(diagd3Hdwdkc2(nc,1:Nk)));
   if verbose
-    printf("max_abs_rel_diff_diagd3Hdwdk2 = %g*tol\n",
+    printf("max_abs_rel_diff_diagd3Hdwdk2 = %g*tol\n", ...
            max_abs_rel_diff_diagd3Hdwdk2/tol);
   endif
   if max_abs_rel_diff_diagd3Hdwdk2 > 10*tol
@@ -475,7 +475,7 @@ for N=[1,2,5,10,15]
     max(abs(est_diagd3Hdwdk2 - diagd3Hdwdkc2(nc,1:Nk)) ...
         ./abs(diagd3Hdwdkc2(nc,1:Nk)));
   if verbose
-    printf("max_abs_rel_diff_diagd3Hdwdk2 = %g*tol\n",
+    printf("max_abs_rel_diff_diagd3Hdwdk2 = %g*tol\n", ...
            max_abs_rel_diff_diagd3Hdwdk2/tol);
   endif
   if max_abs_rel_diff_diagd3Hdwdk2 > 10*tol
@@ -511,7 +511,7 @@ for N=[1,2,5,10,15]
     max(abs(est_diagd3Hapdwdk2(5:Nk) - ...
             diagd3Hapdwdk2(nc,5:Nk))./abs(diagd3Hapdwdk2(nc,5:Nk)));
   if verbose
-    printf("max_abs_rel_diff_diagd3Hapdwdk2 = %g*tol\n",
+    printf("max_abs_rel_diff_diagd3Hapdwdk2 = %g*tol\n", ...
            max_abs_rel_diff_diagd3Hapdwdk2/tol);
   endif
   if max_abs_rel_diff_diagd3Hapdwdk2 > 5*tol
@@ -545,7 +545,7 @@ for N=[1,2,5,10,15]
     max(abs(est_diagd3Hapdwdk2(5:Nk)-diagd3Hapdwdk2(nc,5:Nk)) ...
         ./abs(diagd3Hapdwdk2(nc,5:Nk)));
   if verbose
-    printf("max_abs_rel_diff_diagd3Hapdwdk2 = %g*tol\n",
+    printf("max_abs_rel_diff_diagd3Hapdwdk2 = %g*tol\n", ...
            max_abs_rel_diff_diagd3Hapdwdk2/tol);
   endif
   if max_abs_rel_diff_diagd3Hapdwdk2 > 20*tol
@@ -588,7 +588,7 @@ for N=[1,2,5,10,15]
     max(max(abs((est_d2Hapdkdk-squeeze(d2Hapdkdk(nc,1:Nk,1:Nk))) ...
                 ./squeeze(d2Hapdkdk(nc,1:Nk,1:Nk)))));
   if verbose
-    printf("max_abs_rel_diff_d2Hapdkdk = %g*del\n",
+    printf("max_abs_rel_diff_d2Hapdkdk = %g*del\n", ...
            max_abs_rel_diff_d2Hapdkdk/del);
   endif
   if max_abs_rel_diff_d2Hapdkdk > 200*del
@@ -630,7 +630,7 @@ for N=[1,2,5,10,15]
       max(max(abs((est_d3Hapdwdkdk-squeeze(d3Hapdwdkdk(l,1:Nk,1:Nk))) ...
                   ./squeeze(d3Hapdwdkdk(l,1:Nk,1:Nk)))));
     if verbose
-      printf("max_abs_rel_diff_d3Hapdwdkdk = del/%g\n",
+      printf("max_abs_rel_diff_d3Hapdwdkdk = del/%g\n", ...
              max_abs_rel_diff_d3Hapdwdkdk/del);
     endif
     if max_abs_rel_diff_d3Hapdwdkdk > del/2
@@ -666,7 +666,7 @@ for N=[1,2,5,10,15]
     max(max(abs((est_d3Hapdwdkdk - squeeze(d3Hapdwdkdk(1,1:Nk,1:Nk))) ...
                 ./squeeze(d3Hapdwdkdk(1,1:Nk,1:Nk)))));
   if verbose
-    printf("max_abs_rel_diff_d3Hapdwdkdk = del/%g\n",
+    printf("max_abs_rel_diff_d3Hapdwdkdk = del/%g\n", ...
            del/max_abs_rel_diff_d3Hapdwdkdk);
   endif
   if max_abs_rel_diff_d3Hapdwdkdk > del/20

@@ -206,7 +206,7 @@ axis([0 0.5 -60 5]);
 ylabel("Amplitude(dB)");
 grid("on");
 if no_phase
-  strt=sprintf("FRM filter:mr=%d,ms=%d,na=%d,nc=%d,Mmodel=%d,Was=%d,tol=%4.3g",
+  strt=sprintf("FRM filter:mr=%d,ms=%d,na=%d,nc=%d,Mmodel=%d,Was=%d,tol=%4.3g", ...
                mr,ms,na,nc,Mmodel,Was,tol);
 else
   strt=sprintf(["FRM filter:mr=%d,ms=%d,na=%d,nc=%d,Mmodel=%d,Dmodel=%3.1f,", ...
@@ -307,9 +307,9 @@ fprintf(fid,"Wap=%d %% Pass band weight\n",Wap);
 fprintf(fid,"Wapextra=%d %% Extra weight for extra pass band points\n",Wapextra);
 fprintf(fid,"Wasextra=%d %% Extra weight for extra stop band points\n",Wasextra);
 fprintf(fid,"Was=%d %% Stop band weight\n",Was);
-fprintf(fid,"edge_factor=%3.1g %% Add extra frequencies near band edges\n",
+fprintf(fid,"edge_factor=%3.1g %% Add extra frequencies near band edges\n", ...
         edge_factor);
-fprintf(fid,"edge_ramp=%d %% Linear change in extra weights over edge region\n",
+fprintf(fid,"edge_ramp=%d %% Linear change in extra weights over edge region\n", ...
         edge_ramp);
 fclose(fid);
 print_polynomial(r1,"x0.r");

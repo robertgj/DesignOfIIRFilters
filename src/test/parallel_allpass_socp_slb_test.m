@@ -293,9 +293,9 @@ fprintf(fid,"dBap=%g %% Pass band amplitude response ripple\n",dBap);
 fprintf(fid,"Wap=%g %% Pass band amplitude response weight\n",Wap);
 fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
 fprintf(fid,"dBas=%g %% Stop band amplitude response ripple\n",dBas);
-fprintf(fid,"Was_mmse=%d %% Stop band amplitude response weight(MMSE)\n",
+fprintf(fid,"Was_mmse=%d %% Stop band amplitude response weight(MMSE)\n", ...
         Was_mmse);
-fprintf(fid,"Was_pcls=%d %% Stop band amplitude response weight(PCLS)\n",
+fprintf(fid,"Was_pcls=%d %% Stop band amplitude response weight(PCLS)\n", ...
         Was_pcls);
 fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fclose(fid);

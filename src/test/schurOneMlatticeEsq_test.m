@@ -109,7 +109,7 @@ for x=1:2,
   % Check the gradient of the squared-error response
   max_abs_rel_diff_dEsqdkc = max(abs((est_dEsqdkc-gradEsq)./gradEsq));
   if verbose
-    printf("max_abs_rel_diff_dEsqdkc = del/%g\n",
+    printf("max_abs_rel_diff_dEsqdkc = del/%g\n", ...
            del/max_abs_rel_diff_dEsqdkc);
   endif
   if max_abs_rel_diff_dEsqdkc > del/50
@@ -154,7 +154,7 @@ for x=1:2,
   max_abs_rel_diff_diagd2Esqdkc2 = ...
     max(max(abs((est_diagd2Esqdkc2-diagHessEsq)./diagHessEsq)));
   if verbose
-    printf("max_abs_rel_diff_diagd2Esqdkc2 = del/%g\n",
+    printf("max_abs_rel_diff_diagd2Esqdkc2 = del/%g\n", ...
            del/max_abs_rel_diff_diagd2Esqdkc2);
   endif
   if max_abs_rel_diff_diagd2Esqdkc2 > del/1000
@@ -230,7 +230,7 @@ for x=1:2,
   % Check the Hessian of the squared-error
   max_abs_rel_diff_d2Esqdydx = max(max(abs((est_d2Esqdydx-hessEsq)./hessEsq)));
   if verbose
-    printf("max_abs_rel_diff_d2Esqdydx = del/%g\n",
+    printf("max_abs_rel_diff_d2Esqdydx = del/%g\n", ...
            del/max_abs_rel_diff_d2Esqdydx);
   endif
   if max_abs_rel_diff_d2Esqdydx > del/4

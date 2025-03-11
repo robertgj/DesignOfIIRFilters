@@ -335,7 +335,7 @@ print_polynomial(A2s00_min,"A2s00_min",strcat(strf,"_A2s00_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used
 [sxx_min_digits,sxx_min_adders]=SDadders(sxx_min,nbits);
 printf("%d signed-digits used\n",sxx_min_digits);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        sxx_min_adders,nbits);
 fid=fopen(strcat(strf,"_sxx_min_digits.tab"),"wt");
 fprintf(fid,"$%d$",sxx_min_digits);
@@ -379,9 +379,9 @@ printf("sxx_min:TS=[ ");printf("%f ",TS');printf("] (Samples)\n")
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_sxx_min_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit& %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit& %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_sd,sxx_sd_digits,sxx_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SOCP b-and-b) & %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(SOCP b-and-b) & %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,sxx_min_digits,sxx_min_adders);
 fclose(fid);
 

@@ -56,7 +56,7 @@ axis([0 0.5 -40 1]);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
-strt=sprintf("Selesnick-Burrus flat low-pass FIR : N=%d,L=%d,$\\delta_{s}$=%g",
+strt=sprintf("Selesnick-Burrus flat low-pass FIR : N=%d,L=%d,$\\delta_{s}$=%g", ...
              N,L,deltas);
 title(strt);
 print(strcat(strf,"_response"),"-dpdflatex");

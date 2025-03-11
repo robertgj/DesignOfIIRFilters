@@ -269,7 +269,7 @@ print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used by kc_sd
 [kc_digits,kc_adders]=SDadders(kc_min(kc0_active),nbits);
 printf("%d signed-digits used\n",kc_digits);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kc_adders,nbits);
 
 % Make a LaTeX table for cost
@@ -363,9 +363,9 @@ close
 
 % Save specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
-fprintf(fid,"socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Lim=%d\n",
+fprintf(fid,"socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Lim=%d\n", ...
         socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Lim);
-fprintf(fid,"socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Ito=%d\n",
+fprintf(fid,"socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Ito=%d\n", ...
         socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Ito);
 fprintf(fid,"nbits=%d %% Bits-per-coefficient \n",nbits);
 fprintf(fid,"ndigits=%d %% Average signed-digits-per-coefficient \n",ndigits);

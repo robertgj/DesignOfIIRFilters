@@ -118,7 +118,7 @@ iir_frm_parallel_allpass_slb_show_constraints(vSx1,w,Asqx1,Tx1);
 
 % Plot amplitude
 strd=sprintf("iir_frm_parallel_allpass_slb_exchange_constraints_test_%%s");
-strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tpr=%g,Wtp=%g",
+strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tpr=%g,Wtp=%g", ...
              fap,dBap,Wap,fas,dBas,Was,tpr,Wtp);
 f=w*0.5/pi;
 subplot(211);

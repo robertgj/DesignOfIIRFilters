@@ -488,7 +488,7 @@ print_polynomial(c_allocsd_digits,"c_allocsd_digits", ...
 
 % Find the number of signed-digits used
 [kc_min_digits,kc_min_adders]=SDadders(kc_min(kc0_active),nbits);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kc_min_adders,nbits);
 fid=fopen(strcat(strf,"_kc_min_adders.tab"),"wt");
 fprintf(fid,"%d",kc_min_adders);
@@ -548,11 +548,11 @@ printf("k,c_min:dS=[ ");printf("%f ",DS');printf("]\n");
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %10.4e & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit&%10.4e & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit&%10.4e & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd_no_alloc,kc0_sd_no_alloc_digits,kc0_sd_no_alloc_adders);
-fprintf(fid,"%d-bit %d-signed-digit(Lim)&%10.4e & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Lim)&%10.4e & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,kc0_sd_digits,kc0_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.4e & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.4e & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kc_min_digits,kc_min_adders);
 fclose(fid);
 

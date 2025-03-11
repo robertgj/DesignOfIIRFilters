@@ -209,7 +209,7 @@ for ndigits=2:3
     ylabel("Amplitude(dB)");
     axis([0 0.5 -dBas-10 10]);
     grid("on");
-    strt=sprintf("Parallel one-multiplier lattice low-pass,nbits=%d,ndigits=%d",
+    strt=sprintf("Parallel one-multiplier lattice low-pass,nbits=%d,ndigits=%d", ...
                  nbits,ndigits);
     title(strt);
     legend("exact","round","signed-digit","Lim","Ito");
@@ -249,12 +249,12 @@ for ndigits=2:3
 
     % Print the maximum side-lobe for Lim
     printf("\n");
-    printf("Lim,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n",
+    printf("Lim,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n", ...
            ndigits,nbits,fas,max(10*log10(Asq_Lim(nas:end))));
     
     % Print the maximum side-lobe for Ito
     printf("\n");
-    printf("Ito,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n",
+    printf("Ito,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n", ...
            ndigits,nbits,fas,max(10*log10(Asq_Ito(nas:end))));
 
     % Save the maximum sidelobes in upper stop band (fas to 0.50)

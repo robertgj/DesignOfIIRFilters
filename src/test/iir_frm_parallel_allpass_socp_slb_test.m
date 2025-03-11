@@ -81,7 +81,7 @@ Wt=Wtp*ones(ntp,1);
 % Common strings for output plots
 strf="iir_frm_parallel_allpass_socp_slb_test";
 if no_delay
-  strt=sprintf("FRM parallel allpass %%s %%s:fap=%g,fas=%g,na=%d,nc=%d",
+  strt=sprintf("FRM parallel allpass %%s %%s:fap=%g,fas=%g,na=%d,nc=%d", ...
                fap,fas,na,nc);
 else
   strt=sprintf(["FRM parallel allpass %%s %%s:Mmodel=%d,Dmodel=%d,fap=%g,", ...

@@ -71,7 +71,7 @@ function err=zolotarev_zahradnik_degree_test_ksearch ...
   Tpwp2=jacobi_Theta(real(uasnwp2)+u0,k);
   Tmwp2=jacobi_Theta(real(uasnwp2)-u0,k);
   err=abs((Tpwp1/Tmwp1)-(Tpwp2/Tmwp2));
-  printf("search: k0=%f,del=%f,k=%f,n=%d,p=%d,q=%d,T1=%f,T2=%f,err=%f\n",
+  printf("search: k0=%f,del=%f,k=%f,n=%d,p=%d,q=%d,T1=%f,T2=%f,err=%f\n", ...
          k0,del,k,n,p,q,(Tpwp1/Tmwp1),(Tpwp2/Tmwp2),err);
 endfunction
 
@@ -279,7 +279,7 @@ umax=smax+(j*Kp);
 [snumax,cnumax]=ellipj(umax,k^2);
 wmax=real((((snumax*cnu0).^2)+((cnumax*snu0).^2))./((snumax.^2)-(snu0^2)));
 fmax=acos(wmax)*0.5/pi;
-printf("fm=%5.3f,Deltafp=%5.3f,k0=%10.8f,k=%10.8f,fmax=%10.8f,ymax=%10.4f\n",
+printf("fm=%5.3f,Deltafp=%5.3f,k0=%10.8f,k=%10.8f,fmax=%10.8f,ymax=%10.4f\n", ...
        fm,Deltafp,k0,k,fmax,ymax);
 % Find normalised impulse response
 a=zolotarev_vlcek_unbehauen(p,q,k);

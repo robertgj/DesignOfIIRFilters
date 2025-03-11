@@ -198,7 +198,7 @@ Esq0_sd=schurOneMAPlattice_frm_hilbertEsq ...
 % Find the number of signed-digits adders used
 [kuv0_digits,kuv0_adders]=SDadders(kuv0_sd(kuv0_active),nbits);
 printf("%d signed-digits used\n",kuv0_digits);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kuv0_adders,nbits);
   
 % Initialise the vector of filter coefficients to be optimised
@@ -418,7 +418,7 @@ print_polynomial(v_allocsd_digits,"v_allocsd_digits", ...
 % Find the number of signed-digits adders used
 [kuv_digits,kuv_adders]=SDadders(kuv_min(kuv0_active),nbits);
 printf("%d signed-digits used\n",kuv_digits);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kuv_adders,nbits);
 
 % Amplitude,delay and phase at local peaks
@@ -486,7 +486,7 @@ close
 % Find the number of signed-digits used
 [b_digits,b_adders]=SDadders(b_sd(1:(tp+1)),nbits);
 printf("%d signed-digits used by remez\n",b_digits);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        b_adders,nbits);
 
 % Calculate the FIR cost
@@ -499,11 +499,11 @@ Esq_fir_sd=sum(diff(wa).*(Err_fir_sd(1:(Na-1))+Err_fir_sd(2:Na)))/2;
 %
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit&%8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit&%8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,kuv0_digits,kuv0_adders);
-fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kuv_digits,kuv_adders);
-fprintf(fid,"%d-bit %d-signed-digit(remez)&%8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(remez)&%8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_fir_sd,b_digits,b_adders);
 fclose(fid);
 

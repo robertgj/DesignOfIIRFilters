@@ -38,7 +38,7 @@ bitstart=nbits-1;
 for msize=1:bitstart
   [svec_bf,cost_bf,fiter] = ...
     bitflip(@schurNSlattice_cost,svec_rd,nbits,bitstart,msize,false);
-  printf("bitflip_test:nbits=%d,bitstart=%d,msize=%d,cost_bf=%8.5f,fiter=%d\n",
+  printf("bitflip_test:nbits=%d,bitstart=%d,msize=%d,cost_bf=%8.5f,fiter=%d\n", ...
          nbits,bitstart,msize,cost_bf,fiter);
 endfor
 
@@ -47,7 +47,7 @@ bitstart=nbits-1;
 msize=5;
 [svec_bf,cost_bf,fiter] = ...
   bitflip(@schurNSlattice_cost,svec_rd,nbits,bitstart,msize,true);
-printf("bitflip_test:nbits=%d,bitstart=%d,msize=%d,cost_bf=%8.5f,fiter=%d\n",
+printf("bitflip_test:nbits=%d,bitstart=%d,msize=%d,cost_bf=%8.5f,fiter=%d\n", ...
        nbits,bitstart,msize,cost_bf,fiter);
 [cost_bf,s10_bf,s11_bf,s20_bf,s00_bf,s02_bf,s22_bf]=schurNSlattice_cost(svec_bf);
 
@@ -73,7 +73,7 @@ plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
-strt=sprintf("bitflip\\_test: NS lattice,nbits=%d,bitstart=%d,msize=%d",
+strt=sprintf("bitflip\\_test: NS lattice,nbits=%d,bitstart=%d,msize=%d", ...
              nbits,bitstart,msize);
 title(strt);
 legend("exact","round","bitflip");
@@ -108,7 +108,7 @@ for k=1:length(svec_rd)
   % Check bitflip cost
   [svec_bf,cost_bf,fiter]=...
     bitflip(@schurNSlattice_cost,svec_del,nbits,bitstart,msize,false,k);
-  printf("bitflip_test:k=%d,cost_del=%g,cost_bf=%8.5f,fiter=%d\n",
+  printf("bitflip_test:k=%d,cost_del=%g,cost_bf=%8.5f,fiter=%d\n", ...
          k,cost_del,cost_bf,fiter);
 endfor
 

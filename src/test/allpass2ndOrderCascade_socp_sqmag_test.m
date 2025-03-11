@@ -175,7 +175,7 @@ plot(wplot*0.5/pi,20*log10(abs(Hellip)));
 ylabel("Pass-band amplitude(dB)");
 axis([0 fap -dBap 0]);
 grid("on");
-st=sprintf("Order %d elliptic filter response : fap=%g,dBap=%g,fas=%g,dBas=%g",
+st=sprintf("Order %d elliptic filter response : fap=%g,dBap=%g,fas=%g,dBas=%g", ...
            ma+mb,fap,dBap,fas,dBas);
 title(st);
 subplot(212);
@@ -216,7 +216,7 @@ fprintf(fid,"ma=%d %% Order of filter A\n",ma);
 fprintf(fid,"mb=%d %% Order of filter B\n",mb);
 fprintf(fid,"tau=%3.1g %% Second order section stability parameter\n",tau);
 fprintf(fid,"n=%d %% Number of frequency points\n",n);
-fprintf(fid,"resp=\"%s\" %% Flat passband group delay or squared-magnitude\n",
+fprintf(fid,"resp=\"%s\" %% Flat passband group delay or squared-magnitude\n", ...
             resp);
 fprintf(fid,"fp=%5.3g %% Pass band edge\n",fp);
 fprintf(fid,"Wp=%d %% Pass band weight\n",Wp);

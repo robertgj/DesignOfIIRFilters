@@ -88,7 +88,7 @@ if feasible == 0
   error("x1(mmse) infeasible");
 endif
 
-strt=sprintf("x1(mmse):fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g",
+strt=sprintf("x1(mmse):fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g", ...
              fap,Wap,fas,Was,ftp,tp,Wtp);
 showZPplot(x1,U,V,M,Q,R,strt);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");

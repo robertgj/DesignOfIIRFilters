@@ -284,7 +284,7 @@ printf("A2epsilon_min=[ ");printf("%d ",A2epsilon_min');printf("]';\n");
 % Find the number of signed-digits and adders used
 [kopt_digits,kopt_adders]=SDadders(kmin(k_active),nbits);
 printf("%d signed-digits used\n",kopt_digits);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kopt_adders,nbits);
 fid=fopen(strcat(strf,"_kmin_digits.tab"),"wt");
 fprintf(fid,"$%d$",kopt_digits);
@@ -320,9 +320,9 @@ printf("kmin:TS=[ ");printf("%f ",TS');printf("] (Samples)\n")
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_kmin_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,k_digits,k_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kopt_digits,kopt_adders);
 fclose(fid);
 

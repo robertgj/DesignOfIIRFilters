@@ -105,7 +105,7 @@ printf("\nPCLS pass:\n");
 if feasible == 0 
   error("d2 (PCLS-BFGS) infeasible");
 endif
-printf("Deczky Ex.3 lowpass d2 (PCLS-SOCP-BFGS) feasible after %d seconds!\n",
+printf("Deczky Ex.3 lowpass d2 (PCLS-SOCP-BFGS) feasible after %d seconds!\n", ...
        time()-start_time);
 strP=sprintf(["Deczky Ex.3(PCLS-BFGS):fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,", ...
  "Was=%g,ftp=%g,tp=%g,tpr=%g,Wtp=%g"],fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);

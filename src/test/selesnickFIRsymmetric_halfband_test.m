@@ -23,7 +23,7 @@ verbose=true;
 
 % Specification
 nf=2000;M=199;delta=1e-6;ft=0.25;At=0.5;
-strt=sprintf("Selesnick-Burrus Hofstetter half-band : nf=%d,M=%d,delta=%g",
+strt=sprintf("Selesnick-Burrus Hofstetter half-band : nf=%d,M=%d,delta=%g", ...
              nf,M,delta);
 
 % Filter design

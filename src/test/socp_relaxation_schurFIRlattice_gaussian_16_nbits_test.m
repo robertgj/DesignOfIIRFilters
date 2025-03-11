@@ -276,7 +276,7 @@ print_polynomial(khat_min,"khat_min",strcat(strf,"_khat_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used
 [kkhat_digits,kkhat_adders]=SDadders(kkhat_min(kkhat0_active),nbits);
 printf("%d signed-digits used\n",kkhat_digits);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kkhat_adders,nbits);
 
 % Filter a quantised noise signal and check the state variables
@@ -308,11 +308,11 @@ printf("k,khat_min:TS=[ ");printf("%f ",TS);printf("] (samples)\n");
 
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_kkhat_min_cost.tab"),"wt");
-fprintf(fid,"%d-bit %d-signed-digit(direct-folded)& %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(direct-folded)& %d & %d \\\\\n", ...
         nbits,ndigits,g0_digits,g0_adders);
-fprintf(fid,"%d-bit %d-signed-digit(lattice)& %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(lattice)& %d & %d \\\\\n", ...
         nbits,ndigits,kkhat0_digits,kkhat0_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %d & %d \\\\\n", ...
         nbits,ndigits,kkhat_digits,kkhat_adders);
 fclose(fid);
 

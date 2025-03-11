@@ -56,7 +56,7 @@ for k=1:norder
     HAmdel2=(C*cell2mat(resolvent(wpass,A-(dAda*del/2)))*B)+D;
     diff_dHda(k,l)=(HApdel2-HAmdel2)/del;
     if verbose
-      printf("dHda(%d,%d)=%g+%gJ,abs(diff_dHda-dHda)=%g\n",
+      printf("dHda(%d,%d)=%g+%gJ,abs(diff_dHda-dHda)=%g\n", ...
              k,l,real(dHda(k,l)),imag(dHda(k,l)),abs(diff_dHda(k,l)-dHda(k,l)));
     endif
   endfor
@@ -75,7 +75,7 @@ for k=1:norder
   HBmdel2=(C*R*(B-(dBdb*del/2)))+D;
   diff_dHdb(k)=(HBpdel2-HBmdel2)/del;
   if verbose
-     printf("dHdb(%d)=%g+%gJ,abs(diff_dHdb-dHdb)=%g\n",
+     printf("dHdb(%d)=%g+%gJ,abs(diff_dHdb-dHdb)=%g\n", ...
             k,real(dHdb(k)),imag(dHdb(k)),abs(diff_dHdb(k)-dHdb(k)));
   endif
 endfor
@@ -93,7 +93,7 @@ for k=1:norder
   HCmdel2=((C-(dCdc*del/2))*R*B)+D;
   diff_dHdc(k)=(HCpdel2-HCmdel2)/del;
   if verbose
-     printf("dHdc(%d)=%g+%gJ,abs(diff_dHdc-dHdc)=%g\n",
+     printf("dHdc(%d)=%g+%gJ,abs(diff_dHdc-dHdc)=%g\n", ...
             k,real(dHdc(k)),imag(dHdc(k)),abs(diff_dHdc(k)-dHdc(k)));
   endif
 endfor
@@ -107,7 +107,7 @@ HDpdel2=(C*R*B)+(D+(del/2));
 HDmdel2=(C*R*B)+(D-(del/2));
 diff_dHdd=(HDpdel2-HDmdel2)/del;
 if verbose
-  printf("dHdd=%g+%gJ,abs(diff_dHdd-dHdd)=%g\n",
+  printf("dHdd=%g+%gJ,abs(diff_dHdd-dHdd)=%g\n", ...
          real(dHdd),imag(dHdd),abs(diff_dHdd-dHdd));
 endif
 if abs(diff_dHdd-dHdd) > del/34775
@@ -130,7 +130,7 @@ for k=1:norder
     AsqAmdel2=abs((C*cell2mat(resolvent(wpass,A-(dAda*del/2)))*B)+D)^2;
     diff_dAsqda(k,l)=(AsqApdel2-AsqAmdel2)/del;
     if verbose
-      printf("dAsqda(%d,%d)=%g+%gJ,abs(diff_dAsqda-dAsqda)=%g\n",
+      printf("dAsqda(%d,%d)=%g+%gJ,abs(diff_dAsqda-dAsqda)=%g\n", ...
              k,l,real(dAsqda(k,l)),imag(dAsqda(k,l)),
              abs(diff_dAsqda(k,l)-dAsqda(k,l)));
     endif
@@ -151,7 +151,7 @@ for k=1:norder
   AsqBmdel2=abs((C*R*(B-(dBdb*del/2)))+D)^2;
   diff_dAsqdb(k)=(AsqBpdel2-AsqBmdel2)/del;
   if verbose
-     printf("dAsqdb(%d)=%g+%gJ,abs(diff_dAsqdb-dAsqdb)=%g\n",
+     printf("dAsqdb(%d)=%g+%gJ,abs(diff_dAsqdb-dAsqdb)=%g\n", ...
             k,real(dAsqdb(k)),imag(dAsqdb(k)),abs(diff_dAsqdb(k)-dAsqdb(k)));
   endif
 endfor
@@ -170,7 +170,7 @@ for k=1:norder
   AsqCmdel2=abs(((C-(dCdc*del/2))*R*B)+D)^2;
   diff_dAsqdc(k)=(AsqCpdel2-AsqCmdel2)/del;
   if verbose
-     printf("dAsqdc(%d)=%g+%gJ,abs(diff_dAsqdc-dAsqdc)=%g\n",
+     printf("dAsqdc(%d)=%g+%gJ,abs(diff_dAsqdc-dAsqdc)=%g\n", ...
             k,real(dAsqdc(k)),imag(dAsqdc(k)),abs(diff_dAsqdc(k)-dAsqdc(k)));
   endif
 endfor
@@ -190,7 +190,7 @@ HRpdel2=(C*Rwpdel2*B)+D;
 HRmdel2=(C*Rwmdel2*B)+D;
 diff_dHdw=(HRpdel2-HRmdel2)/del;
 if verbose
-  printf("dHdw=%g+%gJ,abs(diff_dHdw-dHdw)=%g\n",
+  printf("dHdw=%g+%gJ,abs(diff_dHdw-dHdw)=%g\n", ...
          real(dHdw),imag(dHdw),abs(diff_dHdw-dHdw));
 endif
 if abs(diff_dHdd-dHdd) > del/95
@@ -209,7 +209,7 @@ for k=1:norder
     dHdawmdel2=C*Rwmdel2*dAda*Rwmdel2*B;
     diff_dHdaw(k,l)=(dHdawpdel2-dHdawmdel2)/del;
     if verbose
-      printf("d2Hdadw(%d,%d)=%g+%gJ,abs(diff_dHdaw-d2Hdadw)=%g\n",
+      printf("d2Hdadw(%d,%d)=%g+%gJ,abs(diff_dHdaw-d2Hdadw)=%g\n", ...
              k,l,real(d2Hdadw(k,l)),imag(d2Hdadw(k,l)),
              abs(diff_dHdaw(k,l)-d2Hdadw(k,l)));
     endif
@@ -224,7 +224,7 @@ d2Hdbdw=-j*exp(j*wpass)*C*R*R;
 diff_dHdbw=((C*Rwpdel2)-(C*Rwmdel2))/del;
 for k=1:norder
   if verbose
-    printf("d2Hdbdw(%d)=%g+%gJ,abs(diff_dAsqdbw-d2Hdbdw)=%g\n",
+    printf("d2Hdbdw(%d)=%g+%gJ,abs(diff_dAsqdbw-d2Hdbdw)=%g\n", ...
            k,real(d2Hdbdw(k)),imag(d2Hdbdw(k)),abs(diff_dHdbw(k)-d2Hdbdw(k)));
   endif
 endfor
@@ -237,7 +237,7 @@ d2Hdcdw=-j*exp(j*wpass)*R*R*B;
 diff_dHdcw=((Rwpdel2*B)-(Rwmdel2*B))/del;
 for k=1:norder
   if verbose
-    printf("d2Hdcdw(%d)=%g+%gJ,abs(diff_dHdcw-d2Hdcdw)=%g\n",
+    printf("d2Hdcdw(%d)=%g+%gJ,abs(diff_dHdcw-d2Hdcdw)=%g\n", ...
            k,real(d2Hdcdw(k)),imag(d2Hdcdw(k)),abs(diff_dHdcw(k)-d2Hdcdw(k)));
   endif
 endfor

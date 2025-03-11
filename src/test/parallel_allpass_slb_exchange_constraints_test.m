@@ -117,7 +117,7 @@ parallel_allpass_slb_show_constraints(vSab1,wa,Asqab0/Ksq,wt,Tab0,wp,Pab0);
 
 % Common strings
 strd=sprintf("parallel_allpass_slb_exchange_constraints_test_%%s");
-strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tdr=%g,Wtp=%g",
+strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tdr=%g,Wtp=%g", ...
              fap,dBap,Wap,fas,dBas,Was,tdr,Wtp);
 
 % Plot pass-band amplitude

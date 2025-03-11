@@ -111,7 +111,7 @@ endif
 % Find the number of signed-digits used by fMk_sd
 [fMk_sd_digits,fMk_sd_adders]=SDadders(fMk_sd(fMk0k1_active),nbits);
 printf("fMk_sd uses %d signed-digits\n",fMk_sd_digits);
-printf("fMk_sd uses %d %d-bit adders for coefficient multiplications\n",
+printf("fMk_sd uses %d %d-bit adders for coefficient multiplications\n", ...
        fMk_sd_adders,nbits);
 
 % Define stack of current filter coefficients and tree depth
@@ -252,9 +252,9 @@ printf(" ] (dB)\n");
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %10.4g & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit&%10.4g & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit&%10.4g & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,fMk_sd_digits,fMk_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.4g & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.4g & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,fMk_min_digits,fMk_min_adders);
 fclose(fid);
 

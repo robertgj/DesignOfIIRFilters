@@ -87,7 +87,7 @@ endif
 % Find the number of signed-digits used by kc0_sd
 [kc0_digits,kc0_adders]=SDadders(kc0_sd(kc0_active),nbits);
 printf("kc0_sd uses %d signed-digits\n",kc0_digits);
-printf("kc0_sd uses %d %d-bit adders for coefficient multiplications\n",
+printf("kc0_sd uses %d %d-bit adders for coefficient multiplications\n", ...
        kc0_adders,nbits);
 
 % Define stack of current filter coefficients and tree depth
@@ -242,9 +242,9 @@ printf("k,c_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %10.8f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit&%10.8f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit&%10.8f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,kc0_digits,kc0_adders);
-fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.8f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.8f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kc_digits,kc_adders);
 fclose(fid);
 

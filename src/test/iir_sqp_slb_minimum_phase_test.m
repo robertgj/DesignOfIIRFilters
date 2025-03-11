@@ -59,7 +59,7 @@ Pdl=[];
 Wp=[];
 
 % Common strings for output plots
-strP=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g",
+strP=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g", ...
              fap,dBap,Wap,fas,dBas,Was);
 
 % Initial coefficients
@@ -169,7 +169,7 @@ print_pole_zero(d1,U,V,M,Q,R,"d1",strcat(strf,"_d1_coef.m"));
 print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
-eval(sprintf("save %s.mat U V M Q R ftol ctol fap dBap Wap fas dBas Was x0 d1",
+eval(sprintf("save %s.mat U V M Q R ftol ctol fap dBap Wap fas dBas Was x0 d1", ...
              strf));
 
 % Done 

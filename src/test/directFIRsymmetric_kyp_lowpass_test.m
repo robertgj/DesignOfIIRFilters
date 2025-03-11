@@ -100,7 +100,7 @@ axis(ax(2),[0 0.5 -60 -40]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
-strt=sprintf("N=%d,d=%d,fap=%4.2f,Esq\\_z=%g,fas=%4.2f,Esq\\_s=%g",
+strt=sprintf("N=%d,d=%d,fap=%4.2f,Esq\\_z=%g,fas=%4.2f,Esq\\_s=%g", ...
              N,d,fap,Esq_z,fas,Esq_s);
 title(strt);
 print(strcat(strf,"_response"),"-dpdflatex");
@@ -117,13 +117,13 @@ printf("max_Esq_s=%g\n",max_Esq_s);
 fid=fopen(strcat(strf,"_max_stopband_squared_error.tab"),"wt");
 fprintf(fid,"%10.5g",max_Esq_s);
 fclose(fid);
-printf("max_A_p=%10.8f, %5.3fdB\n",
+printf("max_A_p=%10.8f, %5.3fdB\n", ...
        max(abs(H(1:nap))),20*log10(max(abs(H(1:nap)))));
-printf("min_A_p=%10.8f, %5.3fdB\n",
+printf("min_A_p=%10.8f, %5.3fdB\n", ...
        min(abs(H(1:nap))),20*log10(max(abs(H(1:nap)))));
-printf("max_A_t=%10.8f, %5.3fdB\n",
+printf("max_A_t=%10.8f, %5.3fdB\n", ...
        max(abs(H(nap:nas))),20*log10(max(abs(H(nap:nas)))));
-printf("max_A_s=%10.8f, %5.3fdB\n",
+printf("max_A_s=%10.8f, %5.3fdB\n", ...
        max(abs(H(nas:end))),20*log10(max(abs(H(nas:end)))));
 % Overall squared-error
 Esq=directFIRsymmetricEsqPW(h(1:(M+1)),[0,fap,fas,0.5]*2*pi,[1,0,0],[1,1,1]);

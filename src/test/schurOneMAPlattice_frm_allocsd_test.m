@@ -236,7 +236,7 @@ for ndigits=2:3
     legend("location","northeast");
     legend("boxoff");
     legend("left");
-    strt=sprintf("FRM low-pass : nbits=%d,ndigits=%d",
+    strt=sprintf("FRM low-pass : nbits=%d,ndigits=%d", ...
                  nbits,ndigits);
     title(strt);
     subplot(312)

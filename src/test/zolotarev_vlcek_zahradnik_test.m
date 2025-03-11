@@ -73,7 +73,7 @@ for p=1:4,
             p,q,max(abs(intSpq_br-intSpq)),tol);
     endif
     % Calculate the wp, wm and ws frequencies in the w-plane
-    printf("p=%2d,q=%1d,k=%4.2f,fp=%8f,fm=%d,fs=%8f\n",
+    printf("p=%2d,q=%1d,k=%4.2f,fp=%8f,fm=%d,fs=%8f\n", ...
            p,q,k,acos(wp)*0.5/pi,acos(wm)*0.5/pi,acos(ws)*0.5/pi);
     % Check Equation 5
     eqn17alt_err=zolotarev_vlcek_zahradnik_equation_17alt(Spq,n,wp,wm,ws);
@@ -134,7 +134,7 @@ set(hlegend, "FontSize", 10);
 legend("location","north");
 legend("boxoff");
 legend("left");
-strt=sprintf("$(1-w^{2})^{1/2}S_{%d,%d}(u,%4.2f)$ and $Z_{%d,%d}(u,%4.2f)$",
+strt=sprintf("$(1-w^{2})^{1/2}S_{%d,%d}(u,%4.2f)$ and $Z_{%d,%d}(u,%4.2f)$", ...
              p,q,k,p,q,k);
 title(strt);
 subplot(212);
@@ -149,7 +149,7 @@ legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
-strt=sprintf("$S_{%d,%d}(u,%4.2f)$ and $Z_{%d,%d}(u,%4.2f)/(1-w^{2})^{1/2}$",
+strt=sprintf("$S_{%d,%d}(u,%4.2f)$ and $Z_{%d,%d}(u,%4.2f)/(1-w^{2})^{1/2}$", ...
              p,q,k,p,q,k);
 title(strt);
 print(sprintf("%s_p_%d_q_%d_chen_parks",strf,p,q),"-dpdflatex");
@@ -193,7 +193,7 @@ strt=sprintf("Generating function $S_{%d,%d}(u,%4.2f)$",p,q,k);
 title(strt);
 print(sprintf("%s_p_%d_q_%d_generator",strf,p,q),"-dpdflatex");
 close
-print_polynomial(Spq,sprintf("Spq_%d_%d",p,q),
+print_polynomial(Spq,sprintf("Spq_%d_%d",p,q), ...
                  sprintf("%s_p_%d_q_%d_generator_coef.m",strf,p,q),"%17.10f");
 
 % Zero phase transfer function (Figure 3)
@@ -241,7 +241,7 @@ strt=sprintf("Zero-phase transfer function $Q_{%d,%d}(u,%4.2f)$",p,q,k);
 title(strt);
 print(sprintf("%s_p_%d_q_%d_zero_phase",strf,p,q),"-dpdflatex");
 close
-print_polynomial(a,sprintf("a_%d_%d",p,q),
+print_polynomial(a,sprintf("a_%d_%d",p,q), ...
                  sprintf("%s_p_%d_q_%d_a_coef.m",strf,p,q));
 
 % Frequency response (Figure 4)
@@ -253,12 +253,12 @@ grid("on");
 ylabel("Amplitude");
 xlabel("Frequency");
 grid("on");
-strt=sprintf("Transfer function (Vlcek and Zahradnik) : p=%d,q=%d,k=%4.2f",
+strt=sprintf("Transfer function (Vlcek and Zahradnik) : p=%d,q=%d,k=%4.2f", ...
              p,q,k);
 title(strt);
 print(sprintf("%s_p_%d_q_%d_response",strf,p,q),"-dpdflatex");
 close
-print_polynomial(h,sprintf("h_%d_%d",p,q),
+print_polynomial(h,sprintf("h_%d_%d",p,q), ...
                  sprintf("%s_p_%d_q_%d_h_coef.m",strf,p,q));
 
 % Frequency response (Figure 5)
@@ -274,7 +274,7 @@ ax=plotyy(w(1:np)*0.5/pi,20*log10(abs(H(1:np))), ...
           w(ns:end)*0.5/pi,20*log10(abs(H(ns:end))));
 axis(ax(1),[0 0.5 -0.08 0.02]);
 axis(ax(2),[0 0.5 -46 -36]);
-strt=sprintf("Transfer function (Vlcek and Zahradnik) : p=%3d, q=%3d, k=%4.2f",
+strt=sprintf("Transfer function (Vlcek and Zahradnik) : p=%3d, q=%3d, k=%4.2f", ...
              p,q,k);
 title(strt);
 ylabel("Amplitude(dB)");
@@ -282,7 +282,7 @@ xlabel("Frequency");
 grid("on");
 print(sprintf("%s_p_%d_q_%d_response",strf,p,q),"-dpdflatex");
 close
-print_polynomial(h,sprintf("h_%d_%d",p,q),
+print_polynomial(h,sprintf("h_%d_%d",p,q), ...
                  sprintf("%s_p_%d_q_%d_h_coef.m",strf,p,q));
 
 %
@@ -342,7 +342,7 @@ wp=(2*((cnu0/dnu0)^2))-1;
 ws=(2*(cnu0^2))-1;
 Zu0=jacobi_Zeta(u0,k);
 wm=ws+(2*(snu0*cnu0)*Zu0/dnu0);
-printf("p=%2d,q=%1d,k=%12.10f,actual_fp=%10.8f,actual_fs=%10.8f\n",
+printf("p=%2d,q=%1d,k=%12.10f,actual_fp=%10.8f,actual_fs=%10.8f\n", ...
        p,q,k,acos(wp)*0.5/pi,acos(ws)*0.5/pi);
 % Step 5
 h=zolotarev_vlcek_zahradnik(p,q,k,2e-10);

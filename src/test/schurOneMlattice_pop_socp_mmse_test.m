@@ -136,7 +136,7 @@ c1=kc((Nk+1):end);
 % Find the number of signed-digits and adders used by kc
 [kc_digits,kc_adders]=SDadders(kc(kc0_active),nbits);
 printf("%d signed-digits used\n",kc_digits);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kc_adders,nbits);
 
 % Amplitude and delay at local peaks

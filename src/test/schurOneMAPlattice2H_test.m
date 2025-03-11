@@ -75,7 +75,7 @@ for norder=3:2:7,
   [A1H,A1dHdw]=schurOneMAPlattice2H(wplot,A1A,A1B,A1Cap,A1Dap);
   [H1Abcd,dH1dwAbcd]=Abcd2H(wplot,A1A,A1B,A1Cap,A1Dap);
   if verbose
-    printf("max(abs(dH1dwAbcd-A1dHdw)) = %g*eps\n",
+    printf("max(abs(dH1dwAbcd-A1dHdw)) = %g*eps\n", ...
            max(abs(dH1dwAbcd-A1dHdw))/eps);
   endif
   if max(abs(dH1dwAbcd-A1dHdw)) > 200*eps
@@ -87,7 +87,7 @@ for norder=3:2:7,
   A1HwMdelw2=schurOneMAPlattice2H(wpass-delw/2,A1A,A1B,A1Cap,A1Dap);
   est_A1dHdw=(A1HwPdelw2-A1HwMdelw2)/delw;
   if verbose
-    printf("abs(est_A1dHdw-A1dHdw(npass)) = delw/%g\n",
+    printf("abs(est_A1dHdw-A1dHdw(npass)) = delw/%g\n", ...
            delw/abs(est_A1dHdw-A1dHdw(npass)));
   endif
   if abs(est_A1dHdw-A1dHdw(npass)) > delw/400
@@ -98,7 +98,7 @@ for norder=3:2:7,
   [A2H,A2dHdw]=schurOneMAPlattice2H(wplot,A2A,A2B,A2Cap,A2Dap);
   [H2Abcd,dH2dwAbcd]=Abcd2H(wplot,A2A,A2B,A2Cap,A2Dap);
   if verbose
-    printf("max(abs(dH2dwAbcd-A2dHdw)) = %g*eps\n",
+    printf("max(abs(dH2dwAbcd-A2dHdw)) = %g*eps\n", ...
            max(abs(dH2dwAbcd-A2dHdw))/eps);
   endif
   if max(abs(dH2dwAbcd-A2dHdw)) > 100*eps
@@ -113,7 +113,7 @@ for norder=3:2:7,
     error("abs(est_A2dHdw-A2dHdw(npass)) > delw/500");
   endif
   if verbose
-    printf("abs(est_A2dHdw-A2dHdw(npass)) = delw/%g\n",
+    printf("abs(est_A2dHdw-A2dHdw(npass)) = delw/%g\n", ...
            delw/abs(est_A2dHdw-A2dHdw(npass)));
   endif
 
@@ -125,7 +125,7 @@ for norder=3:2:7,
   [H1Abcd,dH1dwAbcd,dH1dkAbcd]=Abcd2H(wplot,A1A,A1B,A1Cap,A1Dap, ...
                                       A1dAdk,A1dBdk,A1dCapdk,A1dDapdk);
   if verbose
-    printf("max(max(abs(dH1dkAbcd-A1dHdk))) = %g*eps\n",
+    printf("max(max(abs(dH1dkAbcd-A1dHdk))) = %g*eps\n", ...
            max(max(abs(dH1dkAbcd-A1dHdk)))/eps);
   endif
   if max(max(abs(dH1dkAbcd-A1dHdk))) > 200*eps
@@ -145,7 +145,7 @@ for norder=3:2:7,
     delA1k=circshift(delA1k,1);
   endfor
   if verbose
-    printf("max(abs(est_A1dHdk-A1dHdk(npass,:))) = del/%g\n",
+    printf("max(abs(est_A1dHdk-A1dHdk(npass,:))) = del/%g\n", ...
            del/max(abs(est_A1dHdk-A1dHdk(npass,:))));
   endif
   if max(abs(est_A1dHdk-A1dHdk(npass,:))) > del/400
@@ -160,7 +160,7 @@ for norder=3:2:7,
   [H2Abcd,dH2dwAbcd,dH2dkAbcd]=Abcd2H(wplot,A2A,A2B,A2Cap,A2Dap, ...
                                       A2dAdk,A2dBdk,A2dCapdk,A2dDapdk);
   if verbose
-    printf("max(max(abs(dH2dkAbcd-A2dHdk))) > %g*eps\n",
+    printf("max(max(abs(dH2dkAbcd-A2dHdk))) > %g*eps\n", ...
            max(max(abs(dH2dkAbcd-A2dHdk)))/eps);
   endif
   if max(max(abs(dH2dkAbcd-A2dHdk))) > 100*eps
@@ -180,7 +180,7 @@ for norder=3:2:7,
     delA2k=circshift(delA2k,1);
   endfor
   if verbose
-    printf("max(abs(est_A2dHdk-A2dHdk(npass,:))) = del/%g\n",
+    printf("max(abs(est_A2dHdk-A2dHdk(npass,:))) = del/%g\n", ...
            del/max(abs(est_A2dHdk-A2dHdk(npass,:))));
   endif
   if max(abs(est_A2dHdk-A2dHdk(npass,:))) > del/200
@@ -194,7 +194,7 @@ for norder=3:2:7,
   [H1Abcd,dH1dwAbcd,dH1dkAbcd,d2H1dwdkAbcd]= ...
     Abcd2H(wplot,A1A,A1B,A1Cap,A1Dap,A1dAdk,A1dBdk,A1dCapdk,A1dDapdk);
   if verbose
-    printf("max(max(abs(d2H1dwdkAbcd-A1d2Hdwdk))) = %g*eps\n",
+    printf("max(max(abs(d2H1dwdkAbcd-A1d2Hdwdk))) = %g*eps\n", ...
            max(max(abs(d2H1dwdkAbcd-A1d2Hdwdk)))/eps);
   endif
   if max(max(abs(d2H1dwdkAbcd-A1d2Hdwdk))) > 5000*eps
@@ -211,7 +211,7 @@ for norder=3:2:7,
                          A1dAdk,A1dBdk,A1dCapdk,A1dDapdk);
   est_A1d2Hdwdk=(A1dHwPdk-A1dHwMdk)/del;
   if verbose
-    printf("max(abs(est_A1d2Hdwdk-A1d2Hdwdk(npass,:))) = del/%g\n",
+    printf("max(abs(est_A1d2Hdwdk-A1d2Hdwdk(npass,:))) = del/%g\n", ...
            del/max(abs(est_A1d2Hdwdk-A1d2Hdwdk(npass,:))));
   endif
   if max(abs(est_A1d2Hdwdk-A1d2Hdwdk(npass,:))) > del/20
@@ -228,7 +228,7 @@ for norder=3:2:7,
     error("max(max(abs(d2H2dwdkAbcd-A2d2Hdwdk))) > 2000*eps");
   endif
   if verbose
-    printf("max(max(abs(d2H2dwdkAbcd-A2d2Hdwdk))) = %g*eps\n",
+    printf("max(max(abs(d2H2dwdkAbcd-A2d2Hdwdk))) = %g*eps\n", ...
            max(max(abs(d2H2dwdkAbcd-A2d2Hdwdk)))/eps);
   endif
   delw=1e-6;
@@ -241,7 +241,7 @@ for norder=3:2:7,
                          A2dAdk,A2dBdk,A2dCapdk,A2dDapdk);
   est_A2d2Hdwdk=(A2dHwPdk-A2dHwMdk)/del;
   if verbose
-    printf("max(abs(est_A2d2Hdwdk-A2d2Hdwdk(npass,:))) > del/%g\n",
+    printf("max(abs(est_A2d2Hdwdk-A2d2Hdwdk(npass,:))) > del/%g\n", ...
            del/max(abs(est_A2d2Hdwdk-A2d2Hdwdk(npass,:))));
   endif
   if max(abs(est_A2d2Hdwdk-A2d2Hdwdk(npass,:))) > del/20
@@ -259,7 +259,7 @@ for norder=3:2:7,
     Abcd2H(wplot,A1A,A1B,A1Cap,A1Dap,A1dAdk,A1dBdk,A1dCapdk,A1dDapdk, ...
            A1d2Adydx,A1d2Bdydx,A1d2Capdydx,A1d2Dapdydx);
   if verbose
-    printf("max(max(abs(diagd2H1dk2Abcd-A1diagd2Hdk2))) = %g*eps\n",
+    printf("max(max(abs(diagd2H1dk2Abcd-A1diagd2Hdk2))) = %g*eps\n", ...
            max(max(abs(diagd2H1dk2Abcd-A1diagd2Hdk2)))/eps);
   endif
   if max(max(abs(diagd2H1dk2Abcd-A1diagd2Hdk2))) > 10000*eps
@@ -285,7 +285,7 @@ for norder=3:2:7,
     delA1k=circshift(delA1k,1);
   endfor
   if verbose
-    printf("max(abs(est_A1diagd2Hdk2-A1diagd2Hdk2(npass,:))) > del/%g\n",
+    printf("max(abs(est_A1diagd2Hdk2-A1diagd2Hdk2(npass,:))) > del/%g\n", ...
            del/max(abs(est_A1diagd2Hdk2-A1diagd2Hdk2(npass,:))));
   endif
   if max(abs(est_A1diagd2Hdk2-A1diagd2Hdk2(npass,:))) > del/10
@@ -303,7 +303,7 @@ for norder=3:2:7,
     Abcd2H(wplot,A2A,A2B,A2Cap,A2Dap,A2dAdk,A2dBdk,A2dCapdk,A2dDapdk, ...
            A2d2Adydx,A2d2Bdydx,A2d2Capdydx,A2d2Dapdydx);
   if verbose
-    printf("max(max(abs(diagd2H2dk2Abcd-A2diagd2Hdk2))) = %g*eps\n",
+    printf("max(max(abs(diagd2H2dk2Abcd-A2diagd2Hdk2))) = %g*eps\n", ...
            max(max(abs(diagd2H2dk2Abcd-A2diagd2Hdk2)))/eps);
   endif
   if max(max(abs(diagd2H2dk2Abcd-A2diagd2Hdk2))) > 2000*eps
@@ -329,7 +329,7 @@ for norder=3:2:7,
     delA2k=circshift(delA2k,1);
   endfor
   if verbose
-    printf("max(abs(est_A2diagd2Hdk2-A2diagd2Hdk2(npass,:))) = del/%g\n",
+    printf("max(abs(est_A2diagd2Hdk2-A2diagd2Hdk2(npass,:))) = del/%g\n", ...
            del/max(abs(est_A2diagd2Hdk2-A2diagd2Hdk2(npass,:))));
   endif
   if max(abs(est_A2diagd2Hdk2-A2diagd2Hdk2(npass,:))) > del/20
@@ -346,7 +346,7 @@ for norder=3:2:7,
   [H1Abcd,dH1dwAbcd,dH1dkAbcd,d2H1dwdkAbcd,diagd2H1dk2Abcd,diagd3H1dwdk2Abcd]=...
     Abcd2H(wplot,A1A,A1B,A1Cap,A1Dap,A1dAdk,A1dBdk,A1dCapdk,A1dDapdk);
   if verbose
-    printf("max(max(abs(diagd3H1dwdk2Abcd-A1diagd3Hdwdk2))) = %g*eps\n",
+    printf("max(max(abs(diagd3H1dwdk2Abcd-A1diagd3Hdwdk2))) = %g*eps\n", ...
            max(max(abs(diagd3H1dwdk2Abcd-A1diagd3Hdwdk2)))/eps);
   endif
   if max(max(abs(diagd3H1dwdk2Abcd-A1diagd3Hdwdk2))) > 2e5*eps
@@ -363,7 +363,7 @@ for norder=3:2:7,
                          A1dAdk,A1dBdk,A1dCapdk,A1dDapdk,A1d2Adydx);
   est_A1diagd3Hdwdk2=(A1diagd2Hdk2P-A1diagd2Hdk2M)/delw;
   if verbose
-    printf("max(abs(est_A1diagd3Hdwdk2-A1diagd3Hdwdk2(npass,:))) = %g*delw\n",
+    printf("max(abs(est_A1diagd3Hdwdk2-A1diagd3Hdwdk2(npass,:))) = %g*delw\n", ...
            max(abs(est_A1diagd3Hdwdk2-A1diagd3Hdwdk2(npass,:)))/delw);
   endif
   if max(abs(est_A1diagd3Hdwdk2-A1diagd3Hdwdk2(npass,:))) > 2*delw
@@ -381,7 +381,7 @@ for norder=3:2:7,
     Abcd2H(wplot,A2A,A2B,A2Cap,A2Dap,A2dAdk,A2dBdk,A2dCapdk,A2dDapdk, ...
            A2d2Adydx,A2d2Bdydx,A2d2Capdydx,A2d2Dapdydx);
   if verbose
-    printf("max(max(abs(diagd3H2dwdk2Abcd-A2diagd3Hdwdk2))) = %g*eps\n",
+    printf("max(max(abs(diagd3H2dwdk2Abcd-A2diagd3Hdwdk2))) = %g*eps\n", ...
             max(max(abs(diagd3H2dwdk2Abcd-A2diagd3Hdwdk2)))/eps);
   endif
   if max(max(abs(diagd3H2dwdk2Abcd-A2diagd3Hdwdk2))) > 50000*eps
@@ -398,7 +398,7 @@ for norder=3:2:7,
                          A2dAdk,A2dBdk,A2dCapdk,A2dDapdk,A2d2Adydx);
   est_A2diagd3Hdwdk2=(A2diagd2Hdk2P-A2diagd2Hdk2M)/delw;
   if verbose
-    printf("max(abs(est_A2diagd3Hdwdk2-A2diagd3Hdwdk2(npass,:))) = delw/%g\n",
+    printf("max(abs(est_A2diagd3Hdwdk2-A2diagd3Hdwdk2(npass,:))) = delw/%g\n", ...
            delw/max(abs(est_A2diagd3Hdwdk2-A2diagd3Hdwdk2(npass,:))));
   endif
   if max(abs(est_A2diagd3Hdwdk2-A2diagd3Hdwdk2(npass,:))) > delw
@@ -416,7 +416,7 @@ for norder=3:2:7,
     Abcd2H(wplot,A1A,A1B,A1Cap,A1Dap,A1dAdk,A1dBdk,A1dCapdk,A1dDapdk, ...
            A1d2Adydx,A1d2Bdydx,A1d2Capdydx,A1d2Dapdydx);
   if verbose
-    printf("max(max(max(abs(d2H1dydxAbcd-A1d2Hdydx)))) = %g*eps\n",
+    printf("max(max(max(abs(d2H1dydxAbcd-A1d2Hdydx)))) = %g*eps\n", ...
            max(max(max(abs(d2H1dydxAbcd-A1d2Hdydx))))/eps);
   endif
   if max(max(max(abs(d2H1dydxAbcd-A1d2Hdydx)))) > 10000*eps
@@ -446,7 +446,7 @@ for norder=3:2:7,
     endfor
   endfor
   if verbose
-    printf("max(max(abs(est_A1d2Hdydx-squeeze(A1d2Hdydx(npass,:,:)))))=del/%g\n",
+    printf("max(max(abs(est_A1d2Hdydx-squeeze(A1d2Hdydx(npass,:,:)))))=del/%g\n", ...
            del/max(max(abs(est_A1d2Hdydx-squeeze(A1d2Hdydx(npass,:,:))))));
   endif
   if max(max(abs(est_A1d2Hdydx-squeeze(A1d2Hdydx(npass,:,:))))) > del/10
@@ -464,7 +464,7 @@ for norder=3:2:7,
     Abcd2H(wplot,A2A,A2B,A2Cap,A2Dap,A2dAdk,A2dBdk,A2dCapdk,A2dDapdk, ...
            A2d2Adydx,A2d2Bdydx,A2d2Capdydx,A2d2Dapdydx);
   if verbose
-    printf("max(max(max(abs(d2H2dydxAbcd-A2d2Hdydx)))) = %g*eps\n",
+    printf("max(max(max(abs(d2H2dydxAbcd-A2d2Hdydx)))) = %g*eps\n", ...
            max(max(max(abs(d2H2dydxAbcd-A2d2Hdydx))))/eps);
   endif
   if max(max(max(abs(d2H2dydxAbcd-A2d2Hdydx)))) > 10000*eps
@@ -494,7 +494,7 @@ for norder=3:2:7,
     endfor
   endfor
   if verbose
-    printf("max(max(abs(est_A2d2Hdydx-squeeze(A2d2Hdydx(npass,:,:)))))=del/%g\n",
+    printf("max(max(abs(est_A2d2Hdydx-squeeze(A2d2Hdydx(npass,:,:)))))=del/%g\n", ...
            del/max(max(abs(est_A2d2Hdydx-squeeze(A2d2Hdydx(npass,:,:))))));
   endif
   if max(max(abs(est_A2d2Hdydx-squeeze(A2d2Hdydx(npass,:,:))))) > del/10
@@ -515,7 +515,7 @@ for norder=3:2:7,
   max_abs_diff_d3H1dwdydxAbcd = ...
     max(max(max(abs(squeeze(d3H1dwdydxAbcd - A1d3Hdwdydx)))));
   if verbose
-    printf ("max_abs_diff_d3H1dwdydxAbcd=%g*eps\n",
+    printf ("max_abs_diff_d3H1dwdydxAbcd=%g*eps\n", ...
             max_abs_diff_d3H1dwdydxAbcd/eps);
   endif
   if max_abs_diff_d3H1dwdydxAbcd > 200000*eps
@@ -590,7 +590,7 @@ for norder=3:2:7,
   max_abs_diff_d3H2dwdydxAbcd = ...
     max(max(max(abs(squeeze(d3H2dwdydxAbcd - A2d3Hdwdydx)))));
   if verbose
-    printf("max_abs_diff_d3H2dwdydxAbcd=%g*eps\n",
+    printf("max_abs_diff_d3H2dwdydxAbcd=%g*eps\n", ...
            max_abs_diff_d3H2dwdydxAbcd/eps);
   endif
   if max_abs_diff_d3H2dwdydxAbcd > 40000*eps

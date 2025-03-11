@@ -94,7 +94,7 @@ iir_frm_allpass_slb_show_constraints(vS,w,Asq,T);
 
 % Common strings
 strd=sprintf("iir_frm_allpass_slb_update_constraints_test_%%s");
-strM=sprintf("%%s:fap=%g,dBap=%g,fas=%g,dBas=%g,tpr=%f",
+strM=sprintf("%%s:fap=%g,dBap=%g,fas=%g,dBas=%g,tpr=%f", ...
              fap,dBap,fas,dBas,tpr);
 
 % Plot amplitude

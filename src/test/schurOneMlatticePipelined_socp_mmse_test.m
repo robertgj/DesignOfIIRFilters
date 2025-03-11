@@ -220,8 +220,8 @@ print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 eval(sprintf(strcat("save %s.mat ftol ctol rho nplot N N0 D0 ", ...
-                    " fap dBap Wap fas dBas Was ",
-                    " ftp td tdr Wtp fpp ppr Wpp fdp dpr Wdp ",
+                    " fap dBap Wap fas dBas Was ", ...
+                    " ftp td tdr Wtp fpp ppr Wpp fdp dpr Wdp ", ...
                     " k1 c1 kk1 ck1 A1 B1 C1 dd1 N1 D1"), strf));
 
 % Done 

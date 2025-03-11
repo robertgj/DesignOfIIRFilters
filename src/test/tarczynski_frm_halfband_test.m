@@ -244,7 +244,7 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_model)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -70 10]);
 grid("on");
-strt=sprintf("F2M halfband model filter plus delay : mr=%d,Mmodel=%d,Dmodel=%d",
+strt=sprintf("F2M halfband model filter plus delay : mr=%d,Mmodel=%d,Dmodel=%d", ...
              mr,Mmodel,Dmodel);
 title(strt);
 subplot(212);
@@ -270,7 +270,7 @@ plot(wplot*0.5/pi,20*log10(abs(Hw_hilbert)))
 ylabel("Amplitude(dB)");
 axis([0 0.5 -0.1 0.1]);
 grid("on");
-strt=sprintf("F2M halfband Hilbert filter : mr=%d,Mmodel=%d,Dmodel=%d,na=%d",
+strt=sprintf("F2M halfband Hilbert filter : mr=%d,Mmodel=%d,Dmodel=%d,na=%d", ...
              mr,Mmodel,Dmodel,na);
 title(strt);
 subplot(312);

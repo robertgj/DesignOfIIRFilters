@@ -28,7 +28,7 @@ for x=1:2
   P=schurOneMlatticeP(wp,k,epsilon,p,c);
   max_abs_diff_P=max(abs(unwrap(arg(h))-P));
   if verbose
-    printf("max_abs_diff_P = %g*eps\n",
+    printf("max_abs_diff_P = %g*eps\n", ...
            max_abs_diff_P/eps);
   endif
   if max_abs_diff_P > 1e4*eps
@@ -95,7 +95,7 @@ for x=1:2
   max_abs_diff_diagd2Pdkc2 = ...
     max(abs(est_diagd2Pdkc2-diagHessP(npc,:)));
   if verbose
-    printf("max_abs_diff_diagd2Pdkc2 = del/%g\n",
+    printf("max_abs_diff_diagd2Pdkc2 = del/%g\n", ...
            del/max_abs_diff_diagd2Pdkc2);
   endif
   if max_abs_diff_diagd2Pdkc2 > del/100

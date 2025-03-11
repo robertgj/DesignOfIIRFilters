@@ -77,9 +77,9 @@ Amax_dB_kyp_LeeHu = 10*log10(max(Asq_kyp_LeeHu(nas:n)))
 % Make LaTeX table for overall noise gains
 fname=strcat(strf,".tab");
 fid=fopen(fname,"wt");
-fprintf(fid,"Initial & %8.3g & %5.2f & %6.3f \\\\ \n",
+fprintf(fid,"Initial & %8.3g & %5.2f & %6.3f \\\\ \n", ...
         Esq0, A0max_dB, A0min_dB);
-fprintf(fid,"SOCP(PCLS) & %8.3g & %5.2f & %6.3f \\\\ \n",
+fprintf(fid,"SOCP(PCLS) & %8.3g & %5.2f & %6.3f \\\\ \n", ...
         Esq_socp_slb, Amax_dB_socp_slb, Amin_dB_socp_slb);
 fprintf(fid,"KYP(Dinh) & %8.3g & %5.2f & %6.3f \\\\ \n", ...
         Esq_kyp_Dinh, Amax_dB_kyp_Dinh, Amin_dB_kyp_Dinh);

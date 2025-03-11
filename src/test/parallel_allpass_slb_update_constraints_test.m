@@ -152,7 +152,7 @@ close
 
 % Plot group delay
 plot(wt*0.5/pi,[Tab0,Tdu,Tdl], ...
-     wt(vS.tl)*0.5/pi,Tl,"x",
+     wt(vS.tl)*0.5/pi,Tl,"x", ...
      wt(vS.tu)*0.5/pi,Tu,"+");
 axis([ftpl ftpu td-(2*tdr) td+(2*tdr)]);
 ylabel("Delay(samples)");
@@ -166,7 +166,7 @@ close
 
 % Plot phase
 plot(wp*0.5/pi,mod(([Pab0,Pdu,Pdl]+(td*wp))/pi,2), ...
-     wp(vS.pl)*0.5/pi,mod((Pl+(td*wp(vS.pl)))/pi,2),"x",
+     wp(vS.pl)*0.5/pi,mod((Pl+(td*wp(vS.pl)))/pi,2),"x", ...
      wp(vS.pu)*0.5/pi,mod((Pu+(td*wp(vS.pu)))/pi,2),"+");
 axis([fppl fppu mod(pd-(5*pdr),2) mod(pd+(5*pdr),2)]);
 ylabel("Phase error(rad./$\\pi$)");

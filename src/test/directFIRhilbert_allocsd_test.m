@@ -122,7 +122,7 @@ for ndigits=2:3
     legend("left");
     axis([0 0.5 -2 2]);
     grid("on");
-    strt=sprintf("Hilbert FIR,nbits=%d,ndigits=%d",
+    strt=sprintf("Hilbert FIR,nbits=%d,ndigits=%d", ...
                  nbits,ndigits);
     title(strt);
     subplot(212)
@@ -140,16 +140,16 @@ for ndigits=2:3
 
     % Print the maximum side-lobe for Lim
     printf("\n");
-    printf("Lim,ndigits=%d,nbits=%d,maximum pass-band (%4.2f to 0.25) = %gdB\n",
+    printf("Lim,ndigits=%d,nbits=%d,maximum pass-band (%4.2f to 0.25) = %gdB\n", ...
            ndigits,nbits,fapl,max(20*log10(abs(A_Lim(napl:(npoints/2))))));
-    printf("Lim,ndigits=%d,nbits=%d,maximum pass-band (%4.2f to 0.25) = %gdB\n",
+    printf("Lim,ndigits=%d,nbits=%d,maximum pass-band (%4.2f to 0.25) = %gdB\n", ...
            ndigits,nbits,fapl,max(20*log10(abs(A_Lim(napl:(npoints/2))))));
     
     % Print the maximum side-lobe for Ito
     printf("\n");
-    printf("Ito,ndigits=%d,nbits=%d,maximum pass-band (%4.2f to 0.25) = %gdB\n",
+    printf("Ito,ndigits=%d,nbits=%d,maximum pass-band (%4.2f to 0.25) = %gdB\n", ...
            ndigits,nbits,fapl,max(20*log10(abs(A_Ito(napl:(npoints/2)))))); 
-    printf("Ito,ndigits=%d,nbits=%d,maximum pass-band (%4.2f to 0.25) = %gdB\n",
+    printf("Ito,ndigits=%d,nbits=%d,maximum pass-band (%4.2f to 0.25) = %gdB\n", ...
            ndigits,nbits,fapl,max(20*log10(abs(A_Ito(napl:(npoints/2))))));
 
     % Save the maximum sidelobes in lower pass-band (fapl to 0.25)
@@ -213,7 +213,7 @@ for ndigits=2:3
        nbits_range,nbits_hM_sd_digits,"linestyle","-.", ... 
        nbits_range,nbits_hM_digits_Lim,"linestyle","--",...
        nbits_range,nbits_hM_digits_Ito,"linestyle","-")
-  strt=sprintf("Hilbert FIR total signed-digits used by coefficients,ndigits=%d",
+  strt=sprintf("Hilbert FIR total signed-digits used by coefficients,ndigits=%d", ...
                ndigits);
   title(strt);
   xlabel("bits");

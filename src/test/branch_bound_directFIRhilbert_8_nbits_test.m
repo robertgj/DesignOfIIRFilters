@@ -102,7 +102,7 @@ endif
 % Find the number of signed-digits used by hM2_sd
 [hM2_sd_digits,hM2_sd_adders]=SDadders(hM2_sd(hM2_active),nbits);
 printf("hM2_sd uses %d signed-digits\n",hM2_sd_digits);
-printf("hM2_sd uses %d %d-bit adders for coefficient multiplications\n",
+printf("hM2_sd uses %d %d-bit adders for coefficient multiplications\n", ...
        hM2_sd_adders,nbits);
 
 % Define stack of current filter coefficients and tree depth
@@ -221,7 +221,7 @@ fprintf(fid,"Exact & %10.2e \\\\\n",Esq0);
 fprintf(fid,"MMSE & %10.2e \\\\\n",Esq1);
 fprintf(fid,"PCLS & %10.2e \\\\\n",Esq2);
 fprintf(fid,"%d-bit %d-signed-digit&%10.2e \\\\\n",nbits,ndigits,Esq2_sd);
-fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.2e \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.2e \\\\\n", ...
         nbits,ndigits,Esq_min);
 fclose(fid);
 

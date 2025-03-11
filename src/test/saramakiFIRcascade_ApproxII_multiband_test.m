@@ -260,7 +260,7 @@ plot(f,Omega/(2*pi));
 ylabel("$\\Omega/2\\pi$");
 xlabel("Frequency");
 grid("on");
-strt=sprintf("Saramaki FIR cascade multi-band Approx. II sub-filter : M=%d,N=%d",
+strt=sprintf("Saramaki FIR cascade multi-band Approx. II sub-filter : M=%d,N=%d", ...
              M,N);
 title(strt);
 print(strcat(strf,"_subfilter_response"),"-dpdflatex");

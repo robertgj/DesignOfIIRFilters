@@ -52,7 +52,7 @@ for x=1:2
   hap=freqz(flipud(d(:)),d(:),wplot*R);
   max_abs_diff_P=max(abs(unwrap(arg(hap))-P));
   if verbose
-    printf("max_abs_diff_P = %g*eps\n",
+    printf("max_abs_diff_P = %g*eps\n", ...
            max_abs_diff_P/eps);
   endif
   if max_abs_diff_P > 40*eps
@@ -103,7 +103,7 @@ for x=1:2
   max_abs_diff_diagd2Pdk2 = ...
     max(abs(est_diagd2Pdk2-diagHessP(ntpl,:)));
   if verbose
-    printf("max_abs_diff_diagd2Pdk2 = del/%g\n",
+    printf("max_abs_diff_diagd2Pdk2 = del/%g\n", ...
            del/max_abs_diff_diagd2Pdk2);
   endif
   if max_abs_diff_diagd2Pdk2 > del/100

@@ -89,7 +89,7 @@ for k=1:V
   approx_delTdelRpak=(TacPdelk2-TacMdelk2)/del;
   if verbose
     printf("Filter a: real pole/zero %d\n", k);
-    printf("abs(approx_delTdelRpak-delTdelRpa(%d))=%g\n",
+    printf("abs(approx_delTdelRpak-delTdelRpa(%d))=%g\n", ...
            k,approx_delTdelRpak-delTdelRpa(k));
   endif
   if abs(approx_delTdelRpak-delTdelRpa(k)) > tol
@@ -106,7 +106,7 @@ for k=1:Qon2
   approx_delTdelrpak=(TacPdelk2-TacMdelk2)/del;
   if verbose
     printf("Filter a: conjugate pole/zero %d radius\n", k);
-    printf("abs(approx_delTdelrpak-delTdelrpa(%d))=%g\n",
+    printf("abs(approx_delTdelrpak-delTdelrpa(%d))=%g\n", ...
            k,approx_delTdelrpak-delTdelrpa(k));
   endif
   if abs(approx_delTdelrpak-delTdelrpa(k)) > tol
@@ -122,7 +122,7 @@ for k=1:Qon2
   approx_delTdelthetapak=(TacPdelk2-TacMdelk2)/del;
   if verbose
     printf("Filter a: conjugate pole/zero %d angle\n", k);
-    printf("abs(approx_delTdelthetapak-delTdelthetapa(%d))=%g\n",
+    printf("abs(approx_delTdelthetapak-delTdelthetapa(%d))=%g\n", ...
            k,approx_delTdelthetapak-delTdelthetapa(k));
   endif
   if abs(approx_delTdelthetapak-delTdelthetapa(k)) > tol
@@ -142,7 +142,7 @@ for k=1:V
   approx_del2TdelRpak2=(gradTacPdelk2(k)-gradTacMdelk2(k))/del;
   if verbose
     printf("Filter a: real pole/zero %d\n", k); 
-    printf("abs(approx_del2TdelRpak2-del2TdelRpa2(%d)=%g\n",
+    printf("abs(approx_del2TdelRpak2-del2TdelRpa2(%d)=%g\n", ...
            k,approx_del2TdelRpak2-del2TdelRpa2(k));
   endif
   if abs(approx_del2TdelRpak2-del2TdelRpa2(k)) > tol
@@ -161,7 +161,7 @@ for k=1:Qon2
   approx_del2Tdelrpak2=(gradTacPdelk2(V+k)-gradTacMdelk2(V+k))/del;
   if verbose
     printf("Filter a: conjugate pole/zero %d radius\n", k);
-    printf("abs(approx_del2Tdelrpak2-del2Tdelrpa2(%d)=%g\n",
+    printf("abs(approx_del2Tdelrpak2-del2Tdelrpa2(%d)=%g\n", ...
            k,approx_del2Tdelrpak2-del2Tdelrpa2(k));
   endif
   if abs(approx_del2Tdelrpak2-del2Tdelrpa2(k)) > tol
@@ -181,7 +181,7 @@ for k=1:Qon2
     (gradTacPdelk2(V+Qon2+k)-gradTacMdelk2(V+Qon2+k))/del;
   if verbose
     printf("Filter a: conjugate pole/zero %d angle\n", k);
-    printf("approx_del2Tdelthetapak2-del2Tdelthetapa2(%d)=%g\n",
+    printf("approx_del2Tdelthetapak2-del2Tdelthetapa2(%d)=%g\n", ...
            k,approx_del2Tdelthetapak2-del2Tdelthetapa2(k));
   endif
   if abs(approx_del2Tdelthetapak2-del2Tdelthetapa2(k)) > tol

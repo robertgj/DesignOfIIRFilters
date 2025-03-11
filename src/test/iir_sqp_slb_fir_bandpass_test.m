@@ -24,8 +24,8 @@ fapl=0.1,fapu=0.2,dBap=1,Wap=1
 fasl=0.05,fasu=0.25,dBas=36,Wasl=10,Wasu=5
 
 % Initialise strings
-strM=sprintf(
-"%%s:fapl=%g,fapu=%g,dBap=%g,fasl=%g,fasu=%g,dBas=%g,Wasl=%%g,Wasu=%%g",
+strM=sprintf( ...
+"%%s:fapl=%g,fapu=%g,dBap=%g,fasl=%g,fasu=%g,dBas=%g,Wasl=%%g,Wasu=%%g", ...
 fapl,fapu,dBap,fasl,fasu,dBas);
 strd=sprintf("%s_%%s_%%s",strf);
 

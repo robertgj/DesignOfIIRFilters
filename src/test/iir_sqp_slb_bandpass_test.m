@@ -220,7 +220,7 @@ printf("AR=[ ");printf("%f ",20*log10(abs(AR')));printf(" ] (dB)\n");
 [hpcls,w]=freqz(N1,D1,1024);
 hcl=freqz(bcl,1,w);
 hrz=freqz(brz,1,w);
-plot(w*0.5/pi,20*log10(abs(hpcls)),"linestyle","-",
+plot(w*0.5/pi,20*log10(abs(hpcls)),"linestyle","-", ...
      w*0.5/pi,20*log10(abs(hcl)),"linestyle","-.", ...
      w*0.5/pi,20*log10(abs(hrz)),"linestyle","-.")
 xlabel("Frequency");

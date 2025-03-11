@@ -117,7 +117,7 @@ for m=1:2,
   if max(max(abs(imag(rl))))>tol
     error("max(max(abs(imag(rl))))>tol")
   endif
-  plot(w,real(rl(1,:)),"+k",w,real(rl(2,:)),"+k",
+  plot(w,real(rl(1,:)),"+k",w,real(rl(2,:)),"+k", ...
        w,real(rl(3,:)),"+k",w,real(rl(4,:)),"+k");
   axis([-1 1 -2 2])
   ylabel("Real part of roots")

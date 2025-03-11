@@ -377,7 +377,7 @@ printf("A2epsilon_min=[ ");printf("%d ",A2epsilon_min);printf("]';\n");
 % Find the number of signed-digits and adders used
 [kmin_digits,kmin_adders]=SDadders(k_min,nbits);
 printf("%d signed-digits used\n",kmin_digits);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kmin_adders,nbits);
 fid=fopen(strcat(strf,"_kmin_digits.tab"),"wt");
 fprintf(fid,"$%d$",kmin_digits);
@@ -391,9 +391,9 @@ fclose(fid);
 %
 fid=fopen(strcat(strf,"_kmin_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit& %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit& %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,k0_sd_digits,k0_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SOCP b-and-b) & %8.6f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(SOCP b-and-b) & %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kmin_digits,kmin_adders);
 fclose(fid);
 

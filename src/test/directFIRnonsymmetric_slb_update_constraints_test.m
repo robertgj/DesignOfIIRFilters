@@ -79,7 +79,7 @@ directFIRnonsymmetric_slb_show_constraints(vR0,wa,Asq0,wt,T0,wp,P0);
 
 % Plot amplitude
 strd=sprintf("directFIRnonsymmetric_slb_update_constraints_test_%%s");
-strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tdr=%g,Wtp=%g",
+strM=sprintf("%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,tdr=%g,Wtp=%g", ...
              fap,dBap,Wap,fas,dBas,Was,tdr,Wtp);
 fa=wa*0.5/pi;
 subplot(211);

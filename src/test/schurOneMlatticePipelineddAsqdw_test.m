@@ -98,7 +98,7 @@ for x=1:2
   max_abs_diff_diagd2dAsqdwdx2 = ...
     max(abs(est_diagd2dAsqdwdx2-diagHessdAsqdw(ndc,:)));
   if verbose
-    printf("max_abs_diff_diagd2dAsqdwdx2 = del/%g\n",
+    printf("max_abs_diff_diagd2dAsqdwdx2 = del/%g\n", ...
            del/max_abs_diff_diagd2dAsqdwdx2);
   endif
   if max_abs_diff_diagd2dAsqdwdx2 > del/5

@@ -131,7 +131,7 @@ plot(w*0.5/pi,[Ad,abs(H0)]);
 ylabel("Amplitude");
 axis([0 0.5 0 1]);
 grid("on");
-strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,tp=%g,pp=%g",
+strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,tp=%g,pp=%g", ...
              ma,mb,tp,pp);
 title(strt);
 subplot(312);
@@ -156,7 +156,7 @@ plot(w*0.5/pi,Ad-abs(H0));
 ylabel("Amplitude");
 axis([minf maxf 0.1*[-1,1]]);
 grid("on");
-strt=sprintf("Parallel all-pass filters error : ma=%d,mb=%d,tp=%g,pp=%g",
+strt=sprintf("Parallel all-pass filters error : ma=%d,mb=%d,tp=%g,pp=%g", ...
              ma,mb,tp,pp);
 title(strt);
 subplot(312);

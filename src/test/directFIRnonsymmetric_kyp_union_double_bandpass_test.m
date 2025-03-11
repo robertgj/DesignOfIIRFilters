@@ -342,37 +342,37 @@ print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Check squared-amplitude response
-printf("max(10*log10(Asq))           =%11.4g\n",
+printf("max(10*log10(Asq))           =%11.4g\n", ...
        max(10*log10(Asq)));
-printf("max(10*log10(Asq)),su1       =%11.4g\n",
+printf("max(10*log10(Asq)),su1       =%11.4g\n", ...
        max(10*log10(Asq)(    1:nasu1)));
-printf("min(10*log10(Asq)),su1 to pl1=%11.4g\n",
+printf("min(10*log10(Asq)),su1 to pl1=%11.4g\n", ...
        min(10*log10(Asq)(nasu1:napl1)));
-printf("max(10*log10(Asq)),su1 to pl1=%11.4g\n",
+printf("max(10*log10(Asq)),su1 to pl1=%11.4g\n", ...
        max(10*log10(Asq)(nasu1:napl1)));
-printf("min(10*log10(Asq)),pl1 to pu1=%11.4g\n",
+printf("min(10*log10(Asq)),pl1 to pu1=%11.4g\n", ...
        min(10*log10(Asq)(napl1:napu1)));
-printf("max(10*log10(Asq)),pl1 to pu1=%11.4g\n",
+printf("max(10*log10(Asq)),pl1 to pu1=%11.4g\n", ...
        max(10*log10(Asq)(napl1:napu1)));
-printf("max(10*log10(Asq)),pu1 to sl2=%11.4g\n",
+printf("max(10*log10(Asq)),pu1 to sl2=%11.4g\n", ...
        max(10*log10(Asq)(napu1:nasl2)));
-printf("min(10*log10(Asq)),pu1 to sl2=%11.4g\n",
+printf("min(10*log10(Asq)),pu1 to sl2=%11.4g\n", ...
        min(10*log10(Asq)(napu1:nasl2)));
-printf("max(10*log10(Asq)),sl2 to su2=%11.4g\n",
+printf("max(10*log10(Asq)),sl2 to su2=%11.4g\n", ...
        max(10*log10(Asq)(nasl2:nasu2)));
-printf("min(10*log10(Asq)),su2 to pl2=%11.4g\n",
+printf("min(10*log10(Asq)),su2 to pl2=%11.4g\n", ...
        min(10*log10(Asq)(nasu2:napl2)));
-printf("max(10*log10(Asq)),su2 to pl2=%11.4g\n",
+printf("max(10*log10(Asq)),su2 to pl2=%11.4g\n", ...
        max(10*log10(Asq)(nasu2:napl2)));
-printf("min(10*log10(Asq)),pl2 to pu2=%11.4g\n",
+printf("min(10*log10(Asq)),pl2 to pu2=%11.4g\n", ...
        min(10*log10(Asq)(napl2:napu2)));
-printf("max(10*log10(Asq)),pl2 to pu2=%11.4g\n",
+printf("max(10*log10(Asq)),pl2 to pu2=%11.4g\n", ...
        max(10*log10(Asq)(napl2:napu2)));
-printf("min(10*log10(Asq)),pu2 to sl3=%11.4g\n",
+printf("min(10*log10(Asq)),pu2 to sl3=%11.4g\n", ...
        min(10*log10(Asq)(napu2:nasl3)));
-printf("max(10*log10(Asq)),pu2 to sl3=%11.4g\n",
+printf("max(10*log10(Asq)),pu2 to sl3=%11.4g\n", ...
        max(10*log10(Asq)(napu2:nasl3)));
-printf("max(10*log10(Asq)),sl3 to end=%11.4g\n",
+printf("max(10*log10(Asq)),sl3 to end=%11.4g\n", ...
        max(10*log10(Asq)(nasl3:end  )));
 Esq_z_actual=max([abs(H(napl1:napu1)-e.^(-j*w(napl1:napu1)*d)); ...
                   abs(H(napl2:napu2)-e.^(-j*w(napl2:napu2)*d))])^2;
@@ -382,13 +382,13 @@ fprintf(fid,"%10.8f",Esq_z_actual);
 fclose(fid);
 
 % Check phase response
-printf("min phase error(rad./pi), pl1 to pu1=%11.4g\n",
+printf("min phase error(rad./pi), pl1 to pu1=%11.4g\n", ...
        min((P(napl1:napu1)/pi)+2));
-printf("max phase error(rad./pi), pl1 to pu1=%11.4g\n",
+printf("max phase error(rad./pi), pl1 to pu1=%11.4g\n", ...
        max((P(napl1:napu1)/pi)+2));
-printf("min phase error(rad./pi), pl2 to pu2=%11.4g\n",
+printf("min phase error(rad./pi), pl2 to pu2=%11.4g\n", ...
        min((P(napl2:napu2)/pi)+8));
-printf("max phase error(rad./pi), pl2 to pu2=%11.4g\n",
+printf("max phase error(rad./pi), pl2 to pu2=%11.4g\n", ...
        max((P(napl2:napu2)/pi)+8));
 
 % Check delay

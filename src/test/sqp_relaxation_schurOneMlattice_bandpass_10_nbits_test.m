@@ -141,7 +141,7 @@ printf("%d signed-digits used\n",kc_digits);
 fid=fopen(strcat(strf,"_signed_digits.tab"),"wt");
 fprintf(fid,"%d",kc_digits);
 fclose(fid);
-printf("%d %d-bit adders used for coefficient multiplications\n",
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kc_adders,nbits);
 fid=fopen(strcat(strf,"_adders.tab"),"wt");
 fprintf(fid,"%d",kc_adders);
@@ -180,7 +180,7 @@ kc0_3sd=flt2SD(kc0,nbits,3);
 kc0_3sd_active=find(kc0_3sd ~= 0);
 [kc0_3sd_digits,kc0_3sd_adders]=SDadders(kc0_3sd(kc0_3sd_active),nbits);
 printf("%d signed-digits used for 3-sd allocation\n",kc0_3sd_digits);
-printf("%d %d-bit adders used for 3-sd coefficient multiplications\n",
+printf("%d %d-bit adders used for 3-sd coefficient multiplications\n", ...
        kc0_3sd_adders,nbits);
 k0_3sd=kc0_3sd(1:Nk);
 c0_3sd=kc0_3sd((Nk+1):end);
@@ -189,11 +189,11 @@ Esq0_3sd=schurOneMlatticeEsq(k0_3sd,epsilon0,p_ones,c0_3sd,wa,Asqd,Wa,wt,Td,Wt);
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %6.4f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit&%6.4f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit&%6.4f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_3sd,kc0_3sd_digits,kc0_3sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(Ito)&%6.4f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(Ito)&%6.4f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,kc0_digits,kc0_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SQP-relax) & %6.4f & %d & %d \\\\\n",
+fprintf(fid,"%d-bit %d-signed-digit(SQP-relax) & %6.4f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kc_digits,kc_adders);
 fclose(fid);
 

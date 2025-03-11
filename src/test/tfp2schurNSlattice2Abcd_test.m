@@ -175,9 +175,9 @@ fprintf(fid,"\\begin{threeparttable}\n");
 fprintf(fid,"\\begin{tabular}{lrrr}  \\toprule\n");
 fprintf(fid,"&Non-zero coefficients&Noise gain&Noise variance(bits)\\\\ \n");
 fprintf(fid,"\\midrule\n");
-fprintf(fid,"ABCD transformed & %d & %5.2f & %5.2f \\\\ \n",
+fprintf(fid,"ABCD transformed & %d & %5.2f & %5.2f \\\\ \n", ...
         ABCD_nz_coefs,NG_ABCD,(1+NG_ABCD)/12);
-fprintf(fid,"Globally optimised & %d & %5.2f & %5.2f \\\\ \n",
+fprintf(fid,"Globally optimised & %d & %5.2f & %5.2f \\\\ \n", ...
         ABCDopt_nz_coefs,NG_ABCDopt,(1+NG_ABCDopt)/12);
 fprintf(fid,"Schur normalised-scaled lattice & %d & %5.2f & %5.2f \\\\ \n", ...
         6*length(S10),NG_schurNS,(1+NG_schurNS)/12);

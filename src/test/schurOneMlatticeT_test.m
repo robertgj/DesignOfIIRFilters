@@ -28,7 +28,7 @@ for x=1:2
   t=delayz(n,d,wt);
   max_abs_diff_T=max(abs(t-T));
   if verbose
-    printf("max_abs_diff_T = %g*eps\n",
+    printf("max_abs_diff_T = %g*eps\n", ...
            max_abs_diff_T/eps);
   endif
   if max_abs_diff_T > 1e7*eps
@@ -95,7 +95,7 @@ for x=1:2
   max_abs_diff_diagd2Tdkc2 = ...
     max(abs(est_diagd2Tdkc2-diagHessT(ntc,:)));
   if verbose
-    printf("max_abs_diff_diagd2Tdkc2 = del/%g\n",
+    printf("max_abs_diff_diagd2Tdkc2 = del/%g\n", ...
            del/max_abs_diff_diagd2Tdkc2);
   endif
   if max_abs_diff_diagd2Tdkc2 > del/5

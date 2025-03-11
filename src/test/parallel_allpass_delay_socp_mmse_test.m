@@ -162,7 +162,7 @@ print_polynomial(Da1,"Da1");
 print_polynomial(Da1,"Da1",sprintf("%s_Da1_coef.m",strf));
 
 % Done 
-eval(sprintf("save %s.mat ftol n fap Wap ftp Wtp fas Was td m R D a0 a1 Da1",
+eval(sprintf("save %s.mat ftol n fap Wap ftp Wtp fas Was td m R D a0 a1 Da1", ...
              strf));
 
 diary off

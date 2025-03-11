@@ -25,7 +25,7 @@ b = [1; 1; 1; 1];
 blk{1,1} = "s"; blk{1,2} = [2]; 
 blk{2,1} = "s"; blk{2,2} = [3]; 
 [obj,X,y,Z,info,runhist] = sdpt3(blk,At,C,b);
-fprintf(fhandle,"For %s : termcode=%d, b'*y=%9.5f, gap=%8.3g\n",
+fprintf(fhandle,"For %s : termcode=%d, b'*y=%9.5f, gap=%8.3g\n", ...
         "block diagonal",info.termcode,b'*y,info.gap);
 
 %{
@@ -39,7 +39,7 @@ error: called from
 exname="theta3.dat-s";
 [blk,At,C,b] = read_sdpa(exname); 
 [obj,X,y,Z,info,runhist] = sdpt3(blk,At,C,b);
-fprintf(fhandle,"For %s : termcode=%d, b'*y=%9.5f, gap=%8.3g\n",
+fprintf(fhandle,"For %s : termcode=%d, b'*y=%9.5f, gap=%8.3g\n", ...
         exname,info.termcode,b'*y,info.gap);
 %}
 
@@ -47,7 +47,7 @@ fprintf(fhandle,"For %s : termcode=%d, b'*y=%9.5f, gap=%8.3g\n",
 exname="hamming_7_5_6.mat";
 [blk,At,C,b] = read_sedumi(exname); 
 [obj,X,y,Z,info,runhist] = sdpt3(blk,At,C,b);
-fprintf(fhandle,"For %s : termcode=%d, b'*y=%9.5f, gap=%8.3g\n",
+fprintf(fhandle,"For %s : termcode=%d, b'*y=%9.5f, gap=%8.3g\n", ...
         exname,info.termcode,b'*y,info.gap);
 
 %

@@ -187,7 +187,7 @@ plot(wa*0.5/pi,[A1 Adl Adu]);
 ylabel("Amplitude");
 axis([0 0.5 0 1]);
 grid("on");
-strt=sprintf("Parallel allpass : ma=%d,mb=%d,Arp=%4.2f,Ars=%4.1f,tp=%g,tpr=%g",
+strt=sprintf("Parallel allpass : ma=%d,mb=%d,Arp=%4.2f,Ars=%4.1f,tp=%g,tpr=%g", ...
              ma,mb,Arp,Ars,tp,tpr);
 title(strt);
 subplot(312);
