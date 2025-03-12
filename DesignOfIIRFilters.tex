@@ -19037,6 +19037,94 @@ coefficients] {Comparison of the cost and number of 12-bit shift-and-add
 \label{tab:socp-relax-schurOneMPAlattice-lowpass-12-nbits-cost-summary}
 \end{table}
 \clearpage
+\section{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-elliptic-lowpass-parallel-allpass-lowpass}SOCP-relaxation search for the signed-digit coefficients of a parallel all-pass lattice elliptic low-pass IIR filter}
+The Octave script
+\emph{socp\_relaxation\_schurOneMPAlattice\_elliptic\_lowpass\_16\_nbits\_test.m}
+performs successive SOCP relaxations to optimise the response of a parallel
+Schur one-multiplier all-pass lattice elliptic low-pass filter.
+with $16$-bit $5$-signed-digit integer coefficients.
+The initial filter design is;
+\begin{small}
+\begin{verbatim}
+[N0,D0]=ellip(11,0.02,84,2*0.15);
+\end{verbatim}
+\end{small} 
+
+The initial transfer function polynomials are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_N0_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_D0_coef.m}
+\end{small}
+
+The filter specification for SOCP relaxation design is:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_spec.m}
+\end{small} 
+
+The filter coefficients are truncated to $16$ bits and $5$ signed-digits.
+At each coefficient relaxation step the script finds the upper and lower
+signed-digit approximations to the current set of active coefficients and
+selects the coefficient with the largest difference in those approximations. The
+corresponding bounds are set in the bounds for that coefficient passed to the
+Octave function \emph{schurOneMPAlattice\_socp\_mmse}. The results of this
+MMSE optimisation are then passed to \emph{schurOneMPAlattice\_slb} for PCLS
+optimisation. The resulting PCLS coefficient value selects the closer of the
+upper or lower signed-digit values as the final choice for that
+coefficient. The truncation of the last coefficient is, by necessity, not PCLS
+optimised so the final set of coefficients may not meet the PCLS
+specifications.
+
+The $16$-bit $5$-signed-digit lattice coefficients are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A1k0_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A2k0_sd_coef.m}
+\end{small}
+
+The signed-digit lattice coefficients found by the SOCP-relaxation search are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A1k_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_A2k_min_coef.m}
+\end{small}
+
+The corresponding transfer function polynomials are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_N_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_D_min_coef.m}
+\end{small}
+
+Figure~\ref{fig:socp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-amplitude}
+shows the pass-band and stop-band amplitude responses of the low-pass elliptic
+filter with $16$-bit $5$-signed-digit coefficients.
+Table~\ref{tab:socp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-cost-summary}
+compares the cost and the number of $16$ bit shift-and-add operations required
+to implement the coefficient multiplications found by SOCP-relaxation search.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_kmin}}
+\caption{Pass-band and stop-band amplitude responses for a parallel Schur
+  one-multiplier all-pass lattice elliptic low-pass filter with 16-bit
+  5-signed-digit coefficients found by SOCP-relaxation search.}
+\label{fig:socp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-amplitude}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lccc}  \\ \toprule
+& Cost&Signed-digits&Shift-and-adds\\ \midrule
+\input{socp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_kmin_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the parallel Schur one-multiplier
+all-pass elliptic lattice lowpass filter SOCP algorithm example with 16 bit
+coefficients] {Comparison of the cost and number of 16-bit shift-and-add
+  operations required to implement the coefficient multiplications for a
+  parallel Schur one-multiplier all-pass lattice elliptic low-pass filter with
+  16-bit 5-signed-digit coefficients found by SOCP-relaxation search.}
+\label{tab:socp-relax-schurOneMPAlattice-elliptic-lowpass-16-nbits-cost-summary}
+\end{table}
+\clearpage
 \section{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-parallel-allpass-bandpass}SOCP-relaxation search for the signed-digit coefficients of a parallel all-pass lattice band-pass IIR filter}
 The Octave script 
 \emph{socp\_relaxation\_schurOneMPAlattice\_bandpass\_12\_nbits\_test.m} performs
