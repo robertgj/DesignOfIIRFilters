@@ -12849,16 +12849,17 @@ polynomials of the correction filter are:
 \end{small}
 
 Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-SOCP-PCLS}
-shows the response of the low-pass differentiator filter after PCLS
-optimisation and
+shows the amplitude error, phase and group delay responses of the low-pass
+differentiator filter after PCLS optimisation and
 Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-SOCP-PCLS-pz}
 shows the pole-zero plot of the low-pass differentiator filter after PCLS
 optimisation. 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_test_error_response}}
-\caption{PCLS optimised error response of a low-pass differentiator filter
-  composed of a Schur one-multiplier lattice correction filter and $1-z^{-1}$.}
+\caption{PCLS optimised amplitude error, phase and group delay responses of a
+  low-pass differentiator filter composed of a Schur one-multiplier lattice
+  correction filter and $1-z^{-1}$.}
 \label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-SOCP-PCLS}
 \end{figure}
 \begin{figure}
@@ -12897,17 +12898,17 @@ polynomials of the correction filter are:
 \end{small}
 
 Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-diff-alt-SOCP-PCLS}
-shows the response of the alternative low-pass differentiator filter after PCLS
-optimisation and
+shows the amplitude error, phase and group delay responses of the alternative
+low-pass differentiator filter after PCLS optimisation and
 Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-SOCP-PCLS-pz}
 shows the pole-zero plot of the alternative low-pass differentiator filter after
 PCLS optimisation. 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test_pcls_error_response}}
-\caption{PCLS optimised error response of a low-pass differentiator filter
-  composed of an alternative Schur one-multiplier lattice correction filter in
-  series with $1-z^{-1}$.}
+\caption{PCLS optimised amplitude error, phase and group delay responses of a
+  low-pass differentiator filter composed of an alternative Schur one-multiplier
+  lattice correction filter in series with $1-z^{-1}$.}
 \label{fig:Schur-OneM-lattice-correction-lowpass-diff-alt-SOCP-PCLS}
 \end{figure}
 \begin{figure}
@@ -12950,17 +12951,17 @@ polynomials of the correction filter are:
 \end{small}
 
 Figure~\ref{fig:Schur-OneM-lattice-pipelined-correction-lowpass-differentiator-SOCP-PCLS}
-shows the response of the low-pass differentiator filter after PCLS
-optimisation and
+shows the amplitude error, phase and group delay responses of the low-pass
+differentiator filter after PCLS optimisation and
 Figure~\ref{fig:Schur-OneM-lattice-pipelined-correction-lowpass-differentiator-SOCP-PCLS-pz}
 shows the pole-zero plot of the low-pass differentiator filter after PCLS
 optimisation. 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test_pcls_error}}
-\caption{PCLS optimised error response of a low-pass differentiator filter
-  composed of a pipelined Schur one-multiplier lattice correction filter and
-  $1-z^{-1}$.}
+\caption{PCLS optimised  amplitude error, phase and group delay responses of a
+  low-pass differentiator filter composed of a pipelined Schur one-multiplier
+  lattice correction filter and $1-z^{-1}$.}
 \label{fig:Schur-OneM-lattice-pipelined-correction-lowpass-differentiator-SOCP-PCLS}
 \end{figure}
 
@@ -12999,14 +13000,16 @@ coefficients are:
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_D2_coef.m}
 \end{small}
 Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2}
-shows the response error of the $R=2$ low-pass differentiator filter
-after PCLS SOCP optimisation (with sample rate $f_{S}=1$).
+shows the  amplitude error, phase and group delay response errors of the $R=2$
+low-pass differentiator filter after PCLS SOCP optimisation (with sample rate
+$f_{S}=1$).
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_error}}
-\caption{PCLS optimised response error of a low-pass differentiator
-  filter composed of a Schur one-multiplier lattice correction filter with a
-  denominator polynomial having terms only in $z^{-2}$ in series with $1-z^{-1}$.}
+\caption{PCLS optimised amplitude error, phase and group delay responses of a
+  low-pass differentiator filter composed of a Schur one-multiplier lattice
+  correction filter with a denominator polynomial having terms only in $z^{-2}$
+  in series with $1-z^{-1}$.}
 \label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2}
 \end{figure}
 Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-corr}
@@ -13057,8 +13060,8 @@ the correction filter are:
 \end{small}
 
 Figure~\ref{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS}
-shows the response error of the band-pass differentiator filter after PCLS
-optimisation and
+shows the amplitude error, phase and group delay responses of the band-pass
+differentiator filter after PCLS optimisation and
 Figure~\ref{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS-dAsqdw}
 shows the pass-band \emph{dAsqdw} response of the band-pass differentiator
 filter after PCLS optimisation. 
@@ -13068,8 +13071,9 @@ optimisation.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_differentiator_test_error}}
-\caption{PCLS optimised response error of a band-pass differentiator filter
-  composed of a Schur one-multiplier lattice correction filter and $1-z^{-2}$.}
+\caption{PCLS optimised amplitude error, phase and group delay responses of a
+  band-pass differentiator filter composed of a Schur one-multiplier lattice
+  correction filter and $1-z^{-2}$.}
 \label{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS}
 \end{figure}
 \begin{figure}

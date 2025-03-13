@@ -182,8 +182,8 @@ strP=sprintf(["Bandpass differentiator response : ", ...
 title(strP);
 ylabel("Amplitude");
 subplot(312);
-plot(wp*0.5/pi,(unwrap([P1 Pdl Pdu])+(wp*tp))/pi);
-axis([0 0.5 pp+ppr*[-1,1]]);
+plot(wp*0.5/pi,mod((unwrap([P1 Pdl Pdu])+(wp*tp))/pi,2));
+axis([0 0.5 mod(pp,2)+ppr*[-1,1]]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
 subplot(313);
@@ -204,18 +204,18 @@ plot(wa(rasl)*0.5/pi,[A1(rasl),Adl(rasl),Adu(rasl)]-Ad(rasl), ...
      wa(raplu)*0.5/pi,[A1(raplu),Adl(raplu),Adu(raplu)]-Ad(raplu), ...
      wa(rasu)*0.5/pi,[A1(rasu),Adl(rasu),Adu(rasu)]-Ad(rasu));
 axis([0 0.5 Ars*[-1,1]]);
-strP=sprintf("Differentiator PCLS error");
+strP=sprintf("Differentiator PCLS");
 title(strP);
-ylabel("Amplitude");
+ylabel("Amplitude error");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,(unwrap([P1 Pdl Pdu])-Pd)/pi);
-axis([0 0.5 ppr*[-1,1]]);
+plot(wp*0.5/pi,mod((unwrap([P1 Pdl Pdu])+(wp*tp))/pi,2));
+axis([0 0.5 mod(pp,2)+(ppr*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
-plot(wt*0.5/pi,[T1 Tdl Tdu]-tp);
-axis([0 0.5 tpr*[-1,1]]);
+plot(wt*0.5/pi,[T1 Tdl Tdu]);
+axis([0 0.5 tp+(tpr*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");

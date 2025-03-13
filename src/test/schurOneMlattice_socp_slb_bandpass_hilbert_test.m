@@ -166,8 +166,9 @@ endif
 subplot(411);
 ax=plotyy(wa*0.5/pi,10*log10(Asq1), ...
           wa*0.5/pi,10*log10(Asq1));
+%set(ax(1),"ycolor","black");
+%set(ax(2),"ycolor","black");
 axis(ax(1),[0 0.5 -36 -34]);
-%axis(ax(2),[0 0.5 -dBap 0]);
 axis(ax(2),[0 0.5 -0.2 0]);
 grid("on");
 strP=sprintf(["Bandpass hilbert response : ", ...
@@ -176,8 +177,8 @@ strP=sprintf(["Bandpass hilbert response : ", ...
 title(strP);
 ylabel("Amplitude(dB)");
 subplot(412);
-plot(wp*0.5/pi,(unwrap([P1 Pdl Pdu])+(wp*tp))/pi);
-axis([0 0.5 pp+(ppr/2)*[-1,1]]);
+plot(wp*0.5/pi,mod((unwrap([P1 Pdl Pdu])+(wp*tp))/pi,2));
+axis([0 0.5 mod(pp,2)+(ppr/2)*[-1,1]]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
 subplot(413);

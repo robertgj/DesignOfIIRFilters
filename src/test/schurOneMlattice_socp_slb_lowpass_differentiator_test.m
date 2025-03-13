@@ -226,19 +226,19 @@ for c=1:3
 endfor
 axis(ax(1),[0 0.5 0.004*[-1,1]]);
 axis(ax(2),[0 0.5 0.02*[-1,1]]);
-strP=sprintf(["Differentiator PCLS error : ", ...
+strP=sprintf(["Differentiator PCLS : ", ...
  "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,Arp,fas,Ars,tp,tpr,ppr);
 title(strP);
-ylabel("Amplitude");
+ylabel("Amplitude error");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,([P2 Pdl Pdu]-Pd)/pi);
-axis([0 0.5 0.001*[-1,1]]);
+plot(wp*0.5/pi,([P2 Pdl Pdu]+(wp*tp))/pi);
+axis([0 0.5 pp+(0.001*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
-plot(wt*0.5/pi,[T2 Tdl Tdu]-tp);
-axis([0 0.5 0.04*[-1,1]]);
+plot(wt*0.5/pi,[T2 Tdl Tdu]);
+axis([0 0.5 tp+(0.04*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");

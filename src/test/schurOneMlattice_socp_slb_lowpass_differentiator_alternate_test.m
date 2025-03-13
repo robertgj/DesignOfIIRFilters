@@ -41,12 +41,12 @@ if 0
   %}
   fap=0.18;fas=0.3;
   Arp=0.004;Art=0.004;Ars=0.004;Wap=1;Wat=0.0001;Was=1;
-  ftp=fap;td=length(N0)-2;tdr=0.01;Wtp=1;
+  ftp=fap;tp=length(N0)-2;tpr=0.01;Wtp=1;
   fpp=fap;pp=1.5;ppr=0.0002;Wpp=1;
 else
   fap=0.18;fas=0.3;
   Arp=0.005;Art=Arp;Ars=Arp;Wap=1;Wat=0.0001;Was=1;
-  ftp=fap;td=length(N0)-2;tdr=0.01;Wtp=1;
+  ftp=fap;tp=length(N0)-2;tpr=0.01;Wtp=1;
   fpp=fap;pp=1.5;ppr=0.0002;Wpp=1;
 endif
 
@@ -71,15 +71,15 @@ Wa=[Wap*ones(nap,1); Wat*ones(nas-nap-1,1); Was*ones(n-nas,1)];
 % Group delay
 wt=w(1:ntp);
 Tzm1=0.5;
-Td=td*ones(size(wt));
-Tdu=Td+(tdr/2);
-Tdl=Td-(tdr/2);
+Td=tp*ones(size(wt));
+Tdu=Td+(tpr/2);
+Tdl=Td-(tpr/2);
 Wt=Wtp*ones(size(wt));
 
 % Phase response with z^{-1}-1 removed
 wp=w(1:npp);
 Pzm1=(pi/2)-(wp/2);
-Pd=(pp*pi)-(wp*td);
+Pd=(pp*pi)-(wp*tp);
 Pdu=Pd+(ppr*pi/2);
 Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
@@ -160,19 +160,19 @@ else
   axis(ax(1),[0 0.5 0.004*[-1,1]]);
   axis(ax(2),[0 0.5 0.004*[-1,1]]);
 endif
-strP=sprintf(["Differentiator PCLS error : ", ...
- "fap=%g,Arp=%g,fas=%g,Ars=%g,td=%g,tdr=%g,ppr=%g"],fap,Arp,fas,Ars,td,tdr,ppr);
+strP=sprintf(["Differentiator PCLS : ", ...
+ "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,Arp,fas,Ars,tp,tpr,ppr);
 title(strP);
-ylabel("Amplitude");
+ylabel("Amplitude error");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,([P2 Pdl Pdu]-Pd)/pi);
-axis([0 0.5 ppr*[-1,1]]);
+plot(wp*0.5/pi,([P2 Pdl Pdu]+(wp*tp))/pi);
+axis([0 0.5 pp+(ppr*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
-plot(wt*0.5/pi,[T2 Tdl Tdu]-td);
-axis([0 0.5 tdr*[-1,1]]);
+plot(wt*0.5/pi,[T2 Tdl Tdu]);
+axis([0 0.5 tp+(tpr*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
@@ -217,15 +217,15 @@ fprintf(fid,"Art=%g %% Amplitude transition band peak-to-peak ripple\n",Art);
 fprintf(fid,"Wat=%g %% Amplitude transition band weight\n",Wat);
 fprintf(fid,"Ars=%g %% Amplitude stop band peak-to-peak ripple\n",Ars);
 fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
-fprintf(fid,"td=%g %% Pass band group delay\n",td);
-fprintf(fid,"tdr=%g %% Pass band group delay peak-to-peak ripple\n",tdr);
+fprintf(fid,"tp=%g %% Pass band group delay\n",tp);
+fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
 fprintf(fid,"pp=%g %% Nominal pass band phase(rad./pi)\n",pp);
 fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
-eval(sprintf(["save %s.mat ftol ctol n fap fas Arp Ars td tdr pp ppr ", ...
+eval(sprintf(["save %s.mat ftol ctol n fap fas Arp Ars tp tpr pp ppr ", ...
  "Wap Wat Was Wtp Wpp N0 D0 k0 epsilon0 p0 c0 k2 c2 N2 D2"],strf));
 
 % Done
