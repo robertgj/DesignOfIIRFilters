@@ -12315,7 +12315,7 @@ specification is:
 In this case the script ignores the pass band amplitude, optimises the stop band
 amplitude and optimises for a flat filter group delay across the pass band.
 
-The initial parallel allpass filters were designed by the
+The initial parallel allpass filters are designed by the
 Octave script \emph{tarczynski\_polyphase\_allpass\_test.m} with the \emph{WISE}
 method described in
 Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. In this case
@@ -12637,6 +12637,54 @@ denominator polynomials are:
 \begin{small}
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_test_n2_coef.m}
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_test_d2_coef.m}
+\end{small}
+
+\subsubsection{Design of a one-multiplier IIR Schur lattice low-pass R=2 filter using SOCP}
+The Octave script \emph{schurOneMlattice\_socp\_slb\_lowpass\_R2\_test.m}
+implements the design of a lowpass IIR one-multiplier Schur lattice filter
+with denominator polynomial coefficients only in $z^{-2}$ using the 
+\emph{SeDuMi} SOCP solver with PCLS constraints. The filter specification
+is\footnote{For comparison,
+  Figure~\ref{fig:Parallel-2nd-order-allpass-elliptic-filter} shows the
+  magnitude response of an elliptic low-pass filter with a similar frequency
+  specification.}:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_R2_test_spec.m}
+\end{small}
+The initial filter is designed by the \emph{WISE} method described in
+Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}.
+Figure~\ref{fig:Schur-one-multiplier-lattice-lowpass-R2-filter-SOCP-PCLS} 
+shows the pass-band and stop-band responses after SOCP PCLS optimisation.
+Figure~\ref{fig:Schur-one-multiplier-lattice-lowpass-R2-filter-SOCP-PCLS-pz}
+shows the pole-zero plot of the filter after SOCP PCLS optimisation.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_R2_test_pcls_k2c2}}
+\caption{Pass-band and stop-band responses of the Schur one-multiplier lattice
+  lowpass R=2 filter after PCLS SOCP optimisation.}
+\label{fig:Schur-one-multiplier-lattice-lowpass-R2-filter-SOCP-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_R2_test_pcls_k2c2pz}}
+\caption{Pole-zero plot of the Schur one-multiplier lattice lowpass R=2 filter
+  after PCLS SOCP optimisation.}
+\label{fig:Schur-one-multiplier-lattice-lowpass-R2-filter-SOCP-PCLS-pz}
+\end{figure}
+
+The PCLS SOCP optimised Schur one-multiplier all-pass lattice and numerator tap 
+coefficients of the low-pass filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_R2_test_k2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_R2_test_epsilon2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_R2_test_p2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_R2_test_c2_coef.m}
+\end{small}
+The corresponding transfer function numerator and denominator polynomials are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_R2_test_N2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_R2_test_D2_coef.m}
 \end{small}
 
 \subsubsection{Design of a one-multiplier IIR Schur lattice band-pass filter using SOCP\label{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SOCP}}

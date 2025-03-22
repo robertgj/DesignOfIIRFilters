@@ -8,17 +8,17 @@ function E=WISEJ_ND(ND,_nN,_nD,_R,_Ad,_Wa,_Td,_Wt)
 %  N=ND(1:(nN+1));
 %  D=[1;ND((nN+2):end)];
 % First initialise the common parameters of the filter structure with:
-%  WISEJ([],nN,nD,R,wd,Hd,Wd)
+%  WISEJ_ND([],nN,nD,R,Ad,Wa,Td,Wt)
 % The common filter parameters are:
 %  nN - order of numerator polynomial
 %  nD - order of undecimated denominator polynomial
 %  R  - decimation factor for denominator polynomial. The resulting
 %       denominator polynomial order is  R*nD and it has non-zero
 %       coefficients only for powers of z^R
-%  Ad - desired filter amplitude response at wd
-%  Wa - filter amplitude response weighting factor at wd
-%  Td - desired filter group-delay response at wd
-%  Wt - filter group-delay response weighting factor at wd
+%  Ad - desired filter amplitude response 
+%  Wa - filter amplitude response weighting factor
+%  Td - desired filter group-delay response
+%  Wt - filter group-delay response weighting factor
 %
 % See "A WISE Method for Designing IIR Filters", A.Tarczynski et al.,
 % IEEE Transactions on Signal Processing, Vol. 49, No. 7, pp. 1421-1432
@@ -71,12 +71,19 @@ function E=WISEJ_ND(ND,_nN,_nD,_R,_Ad,_Wa,_Td,_Wt)
   % Find the amplitude response error
   [HNDRd, wa] = freqz(N,DR,length(Ad));
   EAd = Wa.*((abs(Ad)-abs(HNDRd)).^2);
-  % Find the group delay response error
-  [TNDRd, wt] = delayz(N,DR,length(Td));
-  ETd = Wt.*(abs(Td-TNDRd).^2);
-  % Trapezoidal integration of the error
+  % Trapezoidal integration of the amplitude response error
   intEAd = sum(diff(wa).*(EAd(1:(length(EAd)-1))+EAd(2:end))/2);
-  intETd = sum(diff(wt).*(ETd(1:(length(ETd)-1))+ETd(2:end))/2);
+  % Find the group delay response error
+  if length(Td) > 1
+    [TNDRd, wt] = delayz(N,DR,length(Td));
+    ETd = Wt.*(abs(Td-TNDRd).^2); 
+    % Trapezoidal integration of the group delay response error
+    intETd = sum(diff(wt).*(ETd(1:(length(ETd)-1))+ETd(2:end))/2);
+  else
+    TNDRd=[];
+    wt=[];
+    intETd=0;
+  endif
   % Heuristics for the barrier function
   lambda = 0.001;
   if (nD > 0)
