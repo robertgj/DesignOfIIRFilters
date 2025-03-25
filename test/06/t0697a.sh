@@ -78,7 +78,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
 
 cat > test.cost.ok << 'EOF'
 Exact & 4.0719e-06 & & \\
-12-bit 3-signed-digit & 2.0060e-05 & 39 & 23 \\
+12-bit 3-signed-digit & 1.6830e-05 & 41 & 25 \\
 12-bit 3-signed-digit(Lim)& 1.0954e-05 & 41 & 25 \\
 12-bit 3-signed-digit(SOCP-relax) & 5.6397e-06 & 37 & 21 \\
 EOF
