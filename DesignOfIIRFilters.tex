@@ -12639,7 +12639,7 @@ denominator polynomials are:
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_test_d2_coef.m}
 \end{small}
 
-\subsubsection{Design of a one-multiplier IIR Schur lattice low-pass R=2 filter using SOCP}
+\subsubsection{Design of a one-multiplier IIR Schur lattice low-pass R=2 filter using SOCP\label{sec:Design-IIR-one-multiplier-Schur-lattice-lowpass-R2-SOCP}}
 The Octave script \emph{schurOneMlattice\_socp\_slb\_lowpass\_R2\_test.m}
 implements the design of a lowpass IIR one-multiplier Schur lattice filter
 with denominator polynomial coefficients only in $z^{-2}$ using the 
@@ -18768,6 +18768,93 @@ low-pass filter SQP-relaxation algorithm example with 10-bit coefficients]
   an average of 3-signed-digits to each coefficient using the heuristic of 
   \emph{Lim et al.} and performing SQP-relaxation search.}
 \label{tab:sqp-relax-schurOneMlattice-lowpass-10-nbits-cost-summary}
+\end{table}
+\clearpage
+\section{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-lowpass-R2-lattice-IIR}SOCP-relaxation search for the signed-digit coefficients of a lattice low-pass R=2 IIR filter}
+The Octave script 
+\emph{socp\_relaxation\_schurOneMlattice\_lowpass\_R2\_15\_nbits\_test.m}
+performs successive SOCP relaxations to optimise the response of the SOCP
+optimised low-pass Schur one-multiplier lattice filter of
+Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-lowpass-R2-SOCP} with
+$15$-bit $4$-signed-digit coefficients and transfer function denominator
+polynomial coefficients only in $z^{-2}$. The filter coefficients are truncated
+to $15$ bits allocated with an average of $4$ signed-digits by the heuristic of
+\emph{Lim et al.} as shown in Section~\ref{sec:Lim-allocation-signed-digits}. 
+The filter specification is:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_spec.m}
+\end{small} 
+
+At each coefficient relaxation step the script finds the upper and lower
+signed-digit approximations to the current set of active coefficients and
+selects the coefficient with the largest difference in those approximations. The
+corresponding bounds are set in the bounds for that coefficient passed to the
+Octave function \emph{schurOneMlattice\_socp\_mmse}. The results of this MMSE
+optimisation are then passed to \emph{schurOneMlattice\_slb} for PCLS
+optimisation. The resulting PCLS coefficient value selects the closer of the
+upper or lower signed-digit values as the final choice for that coefficient. The
+truncation of the last coefficient is, by necessity, not PCLS optimised so the
+final set of coefficients may not meet the PCLS specifications.
+
+\begin{comment}
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Lim et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_k_allocsd_digits.m}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_c_allocsd_digits.m}
+\end{small}
+\end{comment}
+The lattice filter coefficients found by the SOCP-relaxation search are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_k_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_c_min_coef.m}
+\end{small}
+The corresponding filter transfer function polynomials are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_N_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_D_min_coef.m}
+\end{small}
+Figure~\ref{fig:socp-relax-schurOneMlattice-lowpass-R2-15-nbits-response}
+compares the pass-band and stop-band responses of the filter with transfer
+function denominator polynomial with coefficients in only $z^{-2}$ andwith
+floating-point coefficients, 15-bit 4-signed-digit integer coefficients, 15-bit
+signed-digit integer coefficients allocated with the algorithm of
+\emph{Lim et al.} and 15-bit signed-digit integer coefficients allocated with
+the algorithm of \emph{Lim et al.} and SOCP-relaxation search.
+Table~\ref{tab:socp-relax-schurOneMlattice-lowpass-R2-15-nbits-cost}
+compares the cost and the number of $15$ bit shift-and-add operations required to
+implement the coefficient multiplications found by the signed-digit 
+allocation heuristic of \emph{Lim et al.} with the SOCP-relaxation search.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_response}}
+\caption{Comparison of the pass-band and stop-band amplitude responses for a
+  Schur one-multiplier lattice lowpass filter with transfer function denominator
+  polynomial with coefficients in only $z^{-2}$ and with 15-bit 4-signed-digit
+  integer coefficients 15-bit integer signed-digit coefficients
+  found by allocating an average of 4-signed-digits to each coefficient using the
+  heuristic of \emph{Lim et al.} and performing SOCP-relaxation search.}
+\label{fig:socp-relax-schurOneMlattice-lowpass-R2-15-nbits-response}
+\end{figure}
+\begin{table}
+\centering
+\begin{threeparttable}
+\begin{tabular}{lccc}  \\ \toprule
+& Cost&Signed-digits&Shift-and-adds\\ \midrule
+\input{socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the Schur one-multiplier lattice 
+low-pass filter SOCP-relaxation algorithm example with 15-bit coefficients]
+{Comparison of the cost and number of 15-bit shift-and-add operations required 
+ to implement the coefficient multiplications for a Schur one-multiplier 
+ lattice low-pass filter with transfer function denominator polynomial with
+ coefficients in only $z^{-2}$ and with 15-bit integer 4-signed-digit
+ integer coefficients 15-bit integer signed-digit coefficients
+ found by allocating an average of 4-signed-digits to each coefficient using the
+ heuristic of \emph{Lim et al.} and performing SOCP-relaxation search.}
+\label{tab:socp-relax-schurOneMlattice-lowpass-R2-15-nbits-cost}
 \end{table}
 \clearpage
 \section{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-bandpass-lattice-IIR}SOCP-relaxation search for the signed-digit coefficients of a lattice bandpass IIR filter}

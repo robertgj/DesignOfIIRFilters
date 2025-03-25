@@ -1,0 +1,48 @@
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_FIGURES = \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_pz \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_response
+
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_COEFS = \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test.mat \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_spec.m \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_cost.tab \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_c0_sd_coef.m \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_c0_sd_no_alloc_coef.m \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_c_allocsd_digits.m \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_c_min_coef.m \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_k0_sd_coef.m \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_k0_sd_no_alloc_coef.m \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_k_allocsd_digits.m \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_k_min_coef.m \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_D_min_coef.m \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_N_min_coef.m
+
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test_FILES = \
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test.m \
+test_common.m \
+schurOneMlatticeAsq.m \
+schurOneMlatticeP.m \
+schurOneMlatticeT.m \
+schurOneMlatticedAsqdw.m \
+schurOneMlatticeEsq.m \
+schurOneMlattice_slb.m \
+schurOneMlattice_slb_constraints_are_empty.m \
+schurOneMlattice_socp_mmse.m \
+schurOneMlattice_slb_exchange_constraints.m \
+schurOneMlattice_slb_set_empty_constraints.m \
+schurOneMlattice_slb_show_constraints.m \
+schurOneMlattice_slb_update_constraints.m \
+schurOneMlattice_socp_slb_lowpass_plot.m \
+schurOneMscale.m \
+tf2schurOneMlattice.m \
+schurOneMlattice2tf.m \
+schurOneMlattice_allocsd_Lim.m \
+schurOneMlattice_allocsd_Ito.m \
+local_max.m H2Asq.m print_polynomial.m WISEJ_ND.m tf2Abcd.m delayz.m \
+x2nextra.m flt2SD.m SDadders.m bin2SDul.m schurOneMlatticeFilter.m \
+qroots.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
+schurOneMlattice2Abcd.oct schurOneMlattice2H.oct Abcd2tf.oct qroots.oct \
+bin2SD.oct bin2SPT.oct
+
+socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test.diary : \
+schurOneMlattice_socp_slb_lowpass_R2_test.diary
