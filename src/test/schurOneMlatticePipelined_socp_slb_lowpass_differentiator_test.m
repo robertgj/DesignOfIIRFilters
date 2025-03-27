@@ -24,13 +24,10 @@ tarczynski_lowpass_differentiator_test_N0_coef;
 nN=length(N0)-1;
 
 % Convert transfer function to one-multiplier Schur lattice
-[k0,epsilon0,p0,c0]=tf2schurOneMlattice(N0,D0);
-k0=k0(:);c0=c0(:);epsilon0=epsilon0(:);p0=p0(:);c0=c0(:);
+[k0,epsilon0,c0,kk0,ck0]=tf2schurOneMlatticePipelined(N0,D0);
 Nk=length(k0);
 Nc=length(c0);
-kk0=k0(1:(Nk-1)).*k0(2:Nk);
 Nkk=length(kk0);
-ck0=c0(2:Nk).*k0(2:Nk);
 Nck=length(ck0);
 Nx=Nk+Nc+Nkk+Nck;
 
@@ -93,7 +90,7 @@ dmax=0; % For compatibility with SQP
 rho=127/128;
 kc_u=[rho*ones(Nk,1);10*ones(Nc,1);rho*ones(Nkk,1);10*ones(Nck,1)];
 kc_l=-kc_u;
-kc_active=[1:(Nkk+Nc+Nkk),(Nk+Nc+Nkk+1):2:Nx]';
+kc_active=[1:(Nk+Nc+Nkk),(Nk+Nc+Nkk+1):2:Nx]';
 
 % Sanity check
 nachk=[1,nap-1,nap,nap+1,nas-1,nas,nas+1,n-1];
@@ -306,7 +303,7 @@ fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
 eval(sprintf(["save %s.mat ftol ctol n fap fas Arp Ars tp tpr pp ppr ", ...
-              "Wap Wat Was Wtp Wpp N0 D0 k0 epsilon0 p0 c0 kk0 ck0 ", ...
+              "Wap Wat Was Wtp Wpp N0 D0 k0 epsilon0 c0 kk0 ck0 ", ...
               "k2 c2 kk2 ck2 N2 D2"],strf));
 
 % Done

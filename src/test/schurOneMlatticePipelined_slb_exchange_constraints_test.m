@@ -99,9 +99,7 @@ n7 = [   0.0094386,  0.0065386, -0.0315270, -0.0503352, ...
 d7 = [   1.0000,    -0.13379,    0.60136,   -0.14925, ...
          0.12649,   -0.013017,   0.00037947, 0, ...
          0,           0,         0 ]';
-[k7,epsilon7,p7,c7]=tf2schurOneMlattice(n7,d7);
-kk7=k7(1:(length(k7)-1)).*k7(2:length(k7));
-ck7=c7(2:length(k7)).*k7(2:length(k7));
+[k7,epsilon7,c7,kk7,ck7]=tf2schurOneMlatticePipelined(n7,d7);
 Asq7=schurOneMlatticePipelinedAsq(wa,k7,epsilon7,c7,kk7,ck7);
 T7=schurOneMlatticePipelinedT(wt,k7,epsilon7,c7,kk7,ck7);
 P7=schurOneMlatticePipelinedP(wp,k7,epsilon7,c7,kk7,ck7);

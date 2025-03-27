@@ -10,8 +10,10 @@ schurOneMAPlatticePipelinedP.m \
 schurOneMlatticePipelinedP.m \
 schurOneMAPlatticePipelined2Abcd.m \
 schurOneMlatticePipelined2Abcd.m \
-tf2schurOneMlattice.m tf2pa.m schurOneMscale.m H2P.m qroots.oct \
-Abcd2H.oct spectralfactor.oct schurdecomp.oct schurexpand.oct"
+tf2schurOneMlatticePipelined.m \
+tf2schurOneMlattice.m \
+tf2pa.m schurOneMscale.m H2P.m \
+qroots.oct Abcd2H.oct spectralfactor.oct schurdecomp.oct schurexpand.oct"
 
 tmp=/tmp/$$
 here=`pwd`

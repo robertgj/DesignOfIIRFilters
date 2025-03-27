@@ -29,10 +29,12 @@ schurOneMlatticePipelined_slb_exchange_constraints.m \
 schurOneMlatticePipelined_slb_set_empty_constraints.m \
 schurOneMlatticePipelined_slb_show_constraints.m \
 schurOneMlatticePipelined_slb_update_constraints.m \
-schurOneMscale.m tf2schurOneMlattice.m \
-H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-print_polynomial.m local_max.m tf2pa.m x2tf.m \
-schurdecomp.oct schurexpand.oct qroots.oct Abcd2H.oct Abcd2tf.oct
+schurOneMscale.m \
+tf2schurOneMlattice.m \
+tf2schurOneMlatticePipelined.m \
+local_max.m tf2pa.m x2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+print_polynomial.m print_pole_zero.m \
+qroots.oct schurdecomp.oct schurexpand.oct Abcd2H.oct Abcd2tf.oct
 
 schurOneMlatticePipelined_socp_slb_bandpass_test.diary : \
 tarczynski_bandpass_R1_test.diary

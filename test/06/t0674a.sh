@@ -11,7 +11,7 @@ schurOneMlatticePipelinedAsq.m \
 schurOneMlatticePipelinedT.m \
 schurOneMlatticePipelinedP.m \
 schurOneMlatticePipelineddAsqdw.m \
-tf2schurOneMlattice.m schurOneMscale.m \
+tf2schurOneMlattice.m tf2schurOneMlatticePipelined.m schurOneMscale.m \
 H2Asq.m H2P.m H2T.m H2dAsqdw.m tf2Abcd.m print_polynomial.m \
 Abcd2H.oct Abcd2tf.oct schurOneMlattice2Abcd.oct schurdecomp.oct \
 schurexpand.oct"

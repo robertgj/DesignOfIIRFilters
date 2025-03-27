@@ -14,19 +14,19 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 % Initialise
 schurOneMlattice_bandpass_10_nbits_common;
-
+[N0,D0]=schurOneMlattice2tf(k0,epsilon0,p0,c0);
+[k0,epsilon0,c0,kk0,ck0]=tf2schurOneMlatticePipelined(N0,D0);
 Nk=length(k0);
 Nc=length(c0);
-kk0=k0(1:(Nk-1)).*k0(2:Nk);
-ck0=c0(2:Nk).*k0(2:Nk);
 Nkk=length(kk0);
 Nck=length(ck0);
+Nx=Nk+Nc+Nkk+Nck;
 Rk=1:Nk;
 Rc=(Nk+1):(Nk+Nc);
 Rkk=(Nk+Nc+1):(Nk+Nc+Nkk);
 Rck=(Nk+Nc+Nkk+1):(Nk+Nc+Nkk+Nck);
 kc0=[k0(:);c0(:);kk0(:);ck0(:)];
-if length(kc0) ~= (Nk+Nc+Nkk+Nck)
+if length(kc0) ~= (Nx)
   error("length(kc0) inconsistent!")
 endif
 

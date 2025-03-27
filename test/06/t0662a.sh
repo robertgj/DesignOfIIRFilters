@@ -4,8 +4,8 @@ prog=schurOneMlatticePipelinedP_test.m
 
 depends="test/schurOneMlatticePipelinedP_test.m test_common.m \
 schurOneMlatticePipelinedP.m schurOneMlatticePipelined2Abcd.m \
-schur_lattice_test_common.m tf2schurOneMlattice.m tf2pa.m schurOneMscale.m \
-H2P.m \
+schur_lattice_test_common.m tf2pa.m schurOneMscale.m H2P.m \
+tf2schurOneMlattice.m tf2schurOneMlatticePipelined.m \
 qroots.oct Abcd2H.oct spectralfactor.oct schurdecomp.oct schurexpand.oct"
 
 tmp=/tmp/$$

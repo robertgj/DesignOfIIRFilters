@@ -71,16 +71,14 @@ Wd=Wdp*ones(ndp,1);
 [N0,D0]=butter(10,2*fap);
 
 % Lattice decomposition
-[k0,epsilon0,p0,c0] = tf2schurOneMlattice(N0,D0);
+[k0,epsilon0,c0,kk0,ck0] = tf2schurOneMlatticePipelined(N0,D0);
 
 % Linear constraints
 dmax=inf;
 rho=127/128
 Nk=length(k0);
 Nc=length(c0);
-kk0=k0(1:(Nk-1)).*k0(2:Nk);
 Nkk=length(kk0);
-ck0=c0(2:Nk).*k0(2:Nk);
 Nck=length(ck0);
 kc0=[k0(:);c0(:);kk0(:);ck0(:)];
 Nkc=length(kc0);

@@ -21,7 +21,9 @@ schurOneMlatticePipelinedAsq.m \
 schurOneMlatticePipelinedP.m
 schurOneMlatticePipelinedT.m \
 schurOneMlatticePipelineddAsqdw.m \
+tf2schurOneMlatticePipelined.m \
 schurOneMlatticePipelined2Abcd.m \
+schurOneMlattice2tf.m \
 schurOneMscale.m KW.m SDadders.m qroots.oct \
 print_polynomial.m H2T.m H2P.m H2Asq.m flt2SD.m x2nextra.m bin2SDul.m \
 schurdecomp.oct schurexpand.oct bin2SD.oct bin2SPT.oct Abcd2tf.oct \

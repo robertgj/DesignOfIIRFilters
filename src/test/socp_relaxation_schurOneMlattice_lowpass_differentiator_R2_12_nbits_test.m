@@ -518,7 +518,7 @@ strt=sprintf(["Schur one-multiplier lattice lowpass differentiator ", ...
               "correction filter : nbits=%d,fap=%g,fas=%g,Arp=%g,Ars=%g"], ...
              nbits,fap,fas,Arp,Ars);
 title(strt);
-legend("exact","s-d","s-d(Lim)","s-d(SOCP-relax)");
+legend("exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");

@@ -24,7 +24,12 @@ ftpl=0.1,ftpu=0.2,tp=16,tpr=tp/400,Wtp=0.1
 % Initial filter (found by tarczynski_bandpass_R1_test.m)
 tarczynski_bandpass_R1_test_N0_coef;
 tarczynski_bandpass_R1_test_D0_coef;
-[k0,epsilon0,p0,c0]=tf2schurOneMlattice(N0,D0);
+[k0,epsilon0,c0,kk0,ck0]=tf2schurOneMlatticePipelined(N0,D0);
+Nk=length(k0);
+Nc=length(c0);
+Nkk=length(kk0);
+Nck=length(ck0);
+Nx=Nk+Nc+Nkk+Nck;
 
 % Amplitude constraints
 n=500;
@@ -82,15 +87,6 @@ Wd=[];
 % Constraints on the coefficients
 dmax=0;
 rho=127/128
-k0=k0(:);
-c0=c0(:);
-Nk=length(k0);
-Nc=length(c0);
-kk0=k0(1:(Nk-1)).*k0(2:Nk);
-Nkk=length(kk0);
-ck0=c0(2:Nk).*k0(2:Nk);
-Nck=length(ck0);
-Nx=Nk+Nc+Nkk+Nck;
 kc_u=[rho*ones(Nk,1);10*ones(Nc,1);rho*ones(Nkk,1);10*ones(Nck,1)];
 kc_l=-kc_u;
 kc_active=(1:Nx)';

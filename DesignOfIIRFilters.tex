@@ -12584,7 +12584,7 @@ coefficients are:
 \clearpage
 \subsection{Design of one-multiplier IIR Schur lattice filters with SOCP optimisation}
 
-\subsubsection{Design of a one-multiplier IIR Schur lattice low-pass filter using SOCP}
+\subsubsection{Design of a one-multiplier IIR Schur lattice low-pass filter using SOCP\label{sec:Design-IIR-one-multiplier-Schur-lattice-lowpass-SOCP}}
 The Octave script \emph{schurOneMlattice\_socp\_slb\_lowpass\_test.m} implements
 the design of a lowpass IIR one-multiplier Schur lattice filter using the 
 \emph{SeDuMi} SOCP solver with PCLS constraints. The filter specification is 
@@ -19290,14 +19290,16 @@ coefficient. The truncation of the last coefficient is, by necessity, not PCLS
 optimised so the final set of coefficients may not meet the PCLS
 specifications.
 
+\begin{comment}
 The numbers of signed-digits allocated to each coefficient by the heuristic of
 \emph{Lim et al.} are:
 \begin{small}
 \verbatiminput{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_A1k_allocsd_digits.m}
 \verbatiminput{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_A2k_allocsd_digits.m}
 \end{small}
-The signed-digit lattice coefficients found by the heuristic of
-\emph{Lim et al.} are:
+\end{comment}
+The signed-digit lattice coefficients with an average of $3$ signed-digits
+allocated by the heuristic of \emph{Lim et al.} are:
 \begin{small}
 \verbatiminput{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_A1k_sd_coef.m}
 \verbatiminput{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_A2k_sd_coef.m}
@@ -19374,6 +19376,99 @@ coefficients] {Comparison of the cost and number of 12-bit shift-and-add
   each coefficient using the heuristic of \emph{Lim et al.} and performing
   SOCP-relaxation search.}
 \label{tab:socp-relax-schurOneMPAlattice-bandpass-12-nbits-cost-summary}
+\end{table}
+\clearpage
+\section{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-pipelined-lowpass}SOCP-relaxation search for the signed-digit coefficients of a pipelined one-multiplier lattice low-pass IIR filter}
+The Octave script 
+\emph{socp\_relaxation\_schurOneMlatticePipelined\_lowpass\_15\_nbits\_test.m}
+performs successive \\
+SOCP relaxations to optimise the response of an implementation of the low-pass
+filter shown in
+Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-lowpass-SOCP} as a
+pipelined Schur one-multiplier lattice filter with $15$-bit signed-digit
+coefficients. The filter specification is:  
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_15_nbits_test_spec.m}
+\end{small} 
+The filter coefficients are truncated to $15$ bits allocated with an average
+of $4$ signed-digits by the heuristic of \emph{Lim et al.} as shown in
+Section~\ref{sec:Lim-allocation-signed-digits}. At each coefficient relaxation
+step the script finds the upper and lower signed-digit approximations to the
+current set of active coefficients and selects the coefficient with the largest
+difference in those approximations. The corresponding bounds are set in the
+bounds for that coefficient passed to the Octave function
+\emph{schurOneMlatticePipelined\_socp\_mmse}. The results of this MMSE
+optimisation are then passed to \emph{schurOneMlatticePipelined\_slb} for PCLS
+optimisation. The resulting PCLS coefficient value selects the closer of the
+upper or lower signed-digit values as the final choice for that coefficient. 
+
+\begin{comment}
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Lim et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_15_nbits_test_k_allocsd_digits.m}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_15_nbits_test_c_allocsd_digits.m}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_15_nbits_test_kk_allocsd_digits.m}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_15_nbits_test_ck_allocsd_digits.m}
+\end{small}
+\end{comment}
+The signed-digit filter coefficients of the pipelined Schur one-multiplier
+lattice filter with an average of $4$ signed-digits allocated by the algorithm
+of \emph{Lim et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_15_nbits_test_k0_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_15_nbits_test_c0_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_15_nbits_test_kk0_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_15_nbits_test_ck0_sd_coef.m}
+\end{small}
+The signed-digit filter coefficients of the pipelined Schur one-multiplier
+lattice filter found by the SOCP-relaxation search are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_15_nbits_test_k_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_15_nbits_test_c_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_15_nbits_test_kk_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMlatticePipelined_lowpass_15_nbits_test_ck_min_coef.m}
+\end{small}
+
+Figure~\ref{fig:socp-relax-pipelined-schurOneMlattice-lowpass-15-nbits-response}
+compares the amplitude and group delay responses of a low-pass pipelined
+one-multiplier Schur lattice filter with floating-point coefficients, 15-bit
+signed-digit coefficients allocated with the algorithm of \emph{Lim et al.} and
+15-bit signed-digit coefficients allocated with the algorithm of
+\emph{Lim et al.} and found by SOCP-relaxation search. 
+Table~\ref{tab:socp-relax-pipelined-schurOneMlattice-lowpass-15-nbits-cost-summary}
+compares the cost, the number of signed-digits and the number of $15$-bit
+shift-and-add operations required to implement the coefficient multiplications
+found by the signed-digit allocation heuristic of \emph{Lim et al.} and by
+SOCP-relaxation search.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMlatticePipelined_lowpass_15_nbits_test_response}}
+\caption{Comparison of the amplitude and group delay responses of a pipelined
+  one-multiplier Schur lattice lowpass filter with 15-bit integer coefficients
+  found by allocating an average of 4-signed-digits to each coefficient using
+  the heuristic of \emph{Lim et al.} and performing SOCP-relaxation search.} 
+\label{fig:socp-relax-pipelined-schurOneMlattice-lowpass-15-nbits-response}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\begin{tabular}{llcc}  \\ \toprule
+& Cost&Signed-digits&Shift-and-adds\\ \midrule
+\input{socp_relaxation_schurOneMlatticePipelined_lowpass_15_nbits_test_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the pipelined Schur one-multiplier lattice 
+lowpass filter SOCP-relaxation example with 15-bit coefficients]
+{Comparison of the cost and number of 15-bit shift-and-add operations required 
+  to implement the coefficient multiplications for a low-pass pipelined
+  one-multiplier Schur lattice filter with 15-bit integer coefficients found
+  by allocating an average of 4-signed-digits to each coefficient using the
+  heuristic of \emph{Lim et al.} and performing SOCP-relaxation search.}
+\label{tab:socp-relax-pipelined-schurOneMlattice-lowpass-15-nbits-cost-summary}
 \end{table}
 \clearpage
 \section{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-hilbert}SOCP-relaxation search for the signed-digit coefficients of a lattice Hilbert IIR filter}

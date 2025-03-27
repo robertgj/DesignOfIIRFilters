@@ -38,7 +38,7 @@ epsilon0=epsilon0(:);k0=k2(:);c0=c2(:);kk0=kk2(:);ck0=ck2(:);
 % Lowpass differentiator filter specification
 % (ppr=0.002,tpr=0.06 fails with QEMU/nehalem)
 fap=0.3;fas=0.4;
-Arp=0.01;Art=0.02;Ars=0.01;Wap=1;Wat=0.001;Was=1;
+Arp=0.01;Art=0.02;Ars=0.0111;Wap=1;Wat=0.001;Was=1;
 fpp=fap;pp=1.5;ppr=0.004;Wpp=1;
 ftp=fap;tp=length(k0)-1;tpr=0.08;Wtp=0.1;
 
@@ -318,10 +318,10 @@ printf("%d %d-bit adders used for coefficient multiplications\n", ...
 
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_kc_min_cost.tab"),"wt");
-fprintf(fid,"Exact & %9.7f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit(Ito)& %9.6f & %d & %d \\\\\n", ...
+fprintf(fid,"Exact & %10.4e & & \\\\\n",Esq0);
+fprintf(fid,"%d-bit %d-signed-digit(Ito)& %10.4e & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,kc0_digits,kc0_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %9.6f & %d & %d \\\\\n", ...
+fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %10.4e & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kc_digits,kc_adders);
 fclose(fid);
 
@@ -378,7 +378,8 @@ strt=sprintf(["Pipelined low-pass differentiator : ", ...
              fap,fas,Arp,Ars,tp,ppr);
 title(strt);
 axis(ax(1),[0 0.5 Arp*[-1,1]]);
-axis(ax(2),[0 0.5 Ars*[-1,1]]);
+axis(ax(2),[0 0.5 0.02*[-1,1]]);
+%axis(ax(2),[0 0.5 Ars*[-1,1]]);
 grid("on");
 subplot(312);
 plot(wp*0.5/pi,(P_kc0+Pzm1+(wp*tp))/pi,"linestyle","-", ...

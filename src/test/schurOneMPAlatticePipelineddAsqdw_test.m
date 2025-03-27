@@ -15,30 +15,25 @@ for x=1:2
 
   schur_lattice_test_common;
   
-  % Convert filter transfer function to Schur 1-multiplier lattice form
-  A1k=schurdecomp(Da1);
-  A1epsilon=schurOneMscale(A1k);
-  A2k=schurdecomp(Db1);
-  A2epsilon=schurOneMscale(A2k);
+  % Convert filter transfer function to lattice form
+  [A1k,A1epsilon,~,A1kk,~]=tf2schurOneMlatticePipelined(flipud(Da1),Da1);
+  [A2k,A2epsilon,~,A2kk,~]=tf2schurOneMlatticePipelined(flipud(Db1),Db1);
 
-  A1Nk=length(A1k);
-  A1kk=A1k(1:(A1Nk-1)).*A1k(2:A1Nk);
-  A1Nkk=length(A1kk);
-  A2Nk=length(A2k);
-  A2kk=A2k(1:(A2Nk-1)).*A2k(2:A2Nk);
-  A2Nkk=length(A2kk);
-  
   % Approximate A1kk and A2kk
   A1kkr=round(A1kk*1024)/1024;
   A2kkr=round(A2kk*1024)/1024;
   
   Ax=[A1k(:);A1kkr(:);A2k(:);A2kkr(:)];
+  A1Nk=length(A1k);
+  A1Nkk=length(A1kk);
+  A2Nk=length(A2k);
+  A2Nkk=length(A2kk);
   Nx=A1Nk+A1Nkk+A2Nk+A2Nkk;
   RA1k=1:A1Nk;
   RA1kk=(A1Nk+1):(A1Nk+A1Nkk);
   RA2k=(A1Nk+A1Nkk+1):(A1Nk+A1Nkk+A2Nk);
   RA2kk=(A1Nk+A1Nkk+A2Nk+1):(A1Nk+A1Nkk+A2Nk+A2Nkk);
-
+  
   %
   % Check the gradient of the squared-magnitude response
   %

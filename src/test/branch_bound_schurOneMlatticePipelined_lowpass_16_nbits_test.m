@@ -30,24 +30,22 @@ Asqd=[ones(nap,1);zeros(npoints-nap,1)];
 Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(npoints-nas+1,1)];
 
 % One-multiplier lattice decomposition 
-[k0,epsilon0,p0,c0] = tf2schurOneMlattice(B,A);
+[k0,epsilon0,c0,kk0,ck0] = tf2schurOneMlatticePipelined(B,A);
 k0=k0(:);
-Nk=length(k0);
-Rk=1:Nk;
 epsilon0=epsilon0(:);
-p0=p0(:);
 c0=c0(:);
+kk0=kk0(:);
+ck0=ck0(:);
+Nk=length(k0);
 Nc=length(c0);
-Rc=(Nk+1):(Nk+Nc);
-kk0=k0(1:(Nk-1)).*k0(2:Nk);
-% For branch-and-bound zero out the values of kk that are not used
 Nkk=length(kk0);
+Nck=length(ck0);
+Rk=1:Nk;
+Rc=(Nk+1):(Nk+Nc);
 Rkk=(Nk+Nc+1):(Nk+Nc+Nkk);
-ck0=c0(2:Nk).*k0(2:Nk);
+Rck=(Nk+Nc+Nkk+1):(Nk+Nc+Nkk+Nck);
 % For branch-and-bound zero out the values of ck that are not used
 ck0(2:2:end)=0;
-Nck=length(ck0);
-Rck=(Nk+Nc+Nkk+1):(Nk+Nc+Nkk+Nck);
 
 % Find the signed-digit approximations to k0 and c0.
 kc0=[k0;c0;kk0;ck0];
@@ -311,7 +309,7 @@ fclose(fid);
 
 % Save results
 eval(sprintf(["save %s.mat ...\n", ...
- "     k0 epsilon0 p0 c0 nbits ndigits npoints fap Wap Wat fas Was ...\n", ...
+ "     k0 epsilon0 c0 nbits ndigits npoints fap Wap Wat fas Was ...\n", ...
  "     improved_solution_found k_min p_min c_min kk_min ck_min"],strf));
        
 % Done

@@ -11,10 +11,8 @@ function [A,B,C,D,Cap,Dap,dummy1,dummy2,dummy3,dummy4,dummy5,dummy6] = ...
 %  k       - the lattice filter one-multiplier coefficients
 %  epsilon - the sign coefficients for each module
 %  c       - the numerator polynomial tap weights in the orthogonal basis
-%  kk      - If not supplied then:
-%              k(1:(Nk-1)).*k(2:Nk)
-%  ck      - If not supplied then:
-%              c(2:Nk).*k(2:Nk) (where c(1)=c_{0}, ... ,c(Nk+1)=c_{Nk})
+%  kk      - k(1:(Nk-1)).*k(2:Nk)
+%  ck      - c(2:Nk).*k(2:Nk) (where c(1)=c_{0}, ... ,c(Nk+1)=c_{Nk})
 % Outputs:
 %  [A,B;C,D] - state variable description of the pipelined Schur lattice filter
 %  Cap, Dap  - corresponding matrixes for the all-pass filter output
@@ -77,10 +75,9 @@ function [A,B,C,D,Cap,Dap,dummy1,dummy2,dummy3,dummy4,dummy5,dummy6] = ...
 
 
   % Sanity checks
-  if nargin<3 || nargin>5 || ...
-     (nargout~=4 && nargout~=6 && nargout~=11 && nargout~=12)
-    print_usage(["[A,B,C,D] = schurOneMlatticePipelined2Abcd(k,epsilon,c)\n", ...
- "[A,B,C,D,Cap,Dap] = schurOneMlatticePipelined2Abcd(k,epsilon,c,kk,ck)\n", ...
+  if (nargin~=5) || (nargout~=4 && nargout~=6 && nargout~=11 && nargout~=12)
+    print_usage( ...
+["[A,B,C,D,Cap,Dap] = schurOneMlatticePipelined2Abcd(k,epsilon,c,kk,ck)\n", ...
  "[A,B,C,D,Cap,Dap,ABCD0,ABCDk,ABCDc,ABCDkk,ABCDck] = ... \n", ...
  "  schurOneMlatticePipelined2Abcd(k,epsilon,c,kk,ck)\n", ...
  "[A,B,C,D,Cap,Dap,dAdx,dBdx,dCdx,dDdx,dCapdx,dDapdx] = ... \n", ...
@@ -91,36 +88,21 @@ function [A,B,C,D,Cap,Dap,dummy1,dummy2,dummy3,dummy4,dummy5,dummy6] = ...
     error("k is empty!");
   endif
   if length(k)~=length(epsilon) || ...
-     (length(k)+1)~=length(c)
+     (length(k)+1)~=length(c) || ...
+     (length(kk)+1)~=length(k) || ...
+     length(kk)~=length(ck)
     error("Input coefficient lengths inconsistent!");
   endif
   
   % Initialise
   k=k(:);
-  Nk=length(k);
   epsilon=epsilon(:);
-
   c=c(:);
-  Nc=length(c);
-
-  if nargin<4
-    kk=k(1:(Nk-1)).*k(2:Nk);
-  else
-    if length(kk) ~= (length(k)-1)
-      error("length(kk) ~= (length(k)-1)");
-    endif
-  endif
   kk=kk(:);
-  Nkk=length(kk);
-
-  if nargin<5
-    ck=c(2:Nk).*k(2:Nk);
-  else
-    if length(ck) ~= (length(k)-1)
-      error("length(ck) ~= (length(k)-1)");
-    endif
-  endif
   ck=ck(:);
+  Nk=length(k);
+  Nc=length(c);
+  Nkk=length(kk);
   Nck=length(ck);
    
   if rem(Nk,2)

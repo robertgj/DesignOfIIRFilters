@@ -24,7 +24,7 @@ schurOneMlatticePipelined_slb_update_constraints.m \
 schurOneMlatticePipelined_allocsd_Lim.m \
 schurOneMlatticePipelined_allocsd_Ito.m \
 schurOneMlatticePipelined2Abcd.m \
-schurOneMscale.m tf2schurOneMlattice.m local_max.m x2tf.m print_polynomial.m \
+tf2schurOneMlattice.m schurOneMscale.m local_max.m x2tf.m print_polynomial.m \
 H2Asq.m H2T.m H2P.m H2dAsqdw.m flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
 qroots.oct bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
 Abcd2H.oct Abcd2tf.oct"
@@ -63,37 +63,37 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k.ok << 'EOF'
-k_min = [      288,     1392,    -1304,      740, ... 
-              -880,      768,     -502,      344, ... 
-                16,     -123,       -9 ]'/2048;
+k_min = [      128,     1392,    -1344,      577, ... 
+              -880,      344,     -624,      148, ... 
+                56,      -80,     -138 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
 
 cat > test.c.ok << 'EOF'
-c_min = [      624,     -440,    -2208,     -114, ... 
-                44,     -124,        1,       32, ... 
-               -20,       76,       -4,       -2 ]'/2048;
+c_min = [      480,     -184,    -2432,      216, ... 
+               140,     -225,       88,     -156, ... 
+                -9,     -130,       -4,       -1 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
 
 cat > test.kk.ok << 'EOF'
-kk_min = [      896,     -624,     -356,     -128, ... 
-                 20,       88,      152,      -94, ... 
-                152,        0 ]'/2048;
+kk_min = [      944,     -576,     -164,      -32, ... 
+               -336,      148,     -108,     -178, ... 
+                136,      124 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.kk.ok"; fail; fi
 
 cat > test.ck.ok << 'EOF'
-ck_min = [     -264,        0,     -168,        0, ... 
-               -104,        0,       15,        0, ... 
-                 63,        0 ]'/2048;
+ck_min = [     -296,        0,      272,        0, ... 
+               -104,        0,     -136,        0, ... 
+               -138,        0 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ck.ok"; fail; fi
 
 cat > test.cost.ok << 'EOF'
-Exact & 0.0000698 & & \\
-12-bit 3-signed-digit(Ito)&  0.000131 & 95 & 58 \\
-12-bit 3-signed-digit(SOCP-relax) &  0.000087 & 94 & 57 \\
+Exact & 7.2704e-05 & & \\
+12-bit 3-signed-digit(Ito)& 2.1532e-04 & 100 & 62 \\
+12-bit 3-signed-digit(SOCP-relax) & 1.3898e-04 & 99 & 61 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 
@@ -112,6 +112,12 @@ if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
 
 diff -Bb test.c.ok $nstr"_c_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi
+
+diff -Bb test.kk.ok $nstr"_kk_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.kk.ok"; fail; fi
+
+diff -Bb test.ck.ok $nstr"_ck_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.ck.ok"; fail; fi
 
 diff -Bb test.cost.ok $nstr"_kc_min_cost.tab"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.cost.ok"; fail; fi

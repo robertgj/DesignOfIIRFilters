@@ -3,10 +3,10 @@
 prog=schurOneMlatticePipelinedFilter_test.m
 
 depends="test/schurOneMlatticePipelinedFilter_test.m test_common.m \
-schurOneMlatticePipelinedFilter.m tf2schurOneMlattice.m schurOneMscale.m \
-schurOneMlatticePipelined2Abcd.m KW.m p2n60.m qroots.oct svf.m crossWelch.m \
-Abcd2ng.m \
-schurexpand.oct schurdecomp.oct reprand.oct \
+schurOneMlatticePipelinedFilter.m schurOneMscale.m Abcd2ng.m \
+schurOneMlatticePipelined2Abcd.m KW.m p2n60.m svf.m crossWelch.m \
+tf2schurOneMlattice.m tf2schurOneMlatticePipelined.m \
+qroots.oct schurexpand.oct schurdecomp.oct reprand.oct \
 complex_zhong_inverse.oct"
 
 tmp=/tmp/$$

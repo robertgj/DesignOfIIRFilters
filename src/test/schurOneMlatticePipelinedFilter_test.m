@@ -20,10 +20,10 @@ for Nk=1:9
 
   % Filter
   [n,d]=butter(Nk,2*fc);
-  [k,epsilon,~,c]=tf2schurOneMlattice(n,d);
+  [k,epsilon,c,kk,ck]=tf2schurOneMlatticePipelined(n,d);
 
   % Calculate noise gain and state scaling
-  [A,B,C,D,Cap,Dap]=schurOneMlatticePipelined2Abcd(k,epsilon,c);
+  [A,B,C,D,Cap,Dap]=schurOneMlatticePipelined2Abcd(k,epsilon,c,kk,ck);
   [ng,At,Bt,Ct,D,T]=Abcd2ng(A,B,C,D,delta);
   ng
   ngap=Abcd2ng(A,B,Cap,Dap,delta)

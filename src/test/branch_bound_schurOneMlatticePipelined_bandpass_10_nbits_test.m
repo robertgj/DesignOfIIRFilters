@@ -15,27 +15,22 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 % Coefficients found by schurOneMlattice_sqp_slb_bandpass_test.m
-schurOneMlattice_sqp_slb_bandpass_test_k2_coef;
-schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef;
-schurOneMlattice_sqp_slb_bandpass_test_p2_coef;
-schurOneMlattice_sqp_slb_bandpass_test_c2_coef;
+schurOneMlattice_sqp_slb_bandpass_test_N2_coef;
+schurOneMlattice_sqp_slb_bandpass_test_D2_coef;
+[k0,epsilon0,c0,kk0,ck0]=tf2schurOneMlatticePipelined(N2,D2);
+clear N2 D2;
 
-k0=k2(:);
 Nk=length(k0);
-Rk=1:Nk;
-epsilon0=epsilon2(:);
-p0=p2(:);
-c0=c2(:);
 Nc=length(c0);
-Rc=(Nk+1):(Nk+Nc);
-kk0=k0(1:(Nk-1)).*k0(2:Nk);
 Nkk=length(kk0);
+Nck=length(ck0);
+Rk=1:Nk;
+Rc=(Nk+1):(Nk+Nc);
 Rkk=(Nk+Nc+1):(Nk+Nc+Nkk);
-ck0=c0(2:Nk).*k0(2:Nk);
+Rck=(Nk+Nc+Nkk+1):(Nk+Nc+Nkk+Nck);
+
 % For branch-and-bound zero out the values of ck that are not used
 ck0(2:2:end)=0;
-Nck=length(ck0);
-Rck=(Nk+Nc+Nkk+1):(Nk+Nc+Nkk+Nck);
 
 % Scale the rounded c0 to use all the bits 
 nbits=10

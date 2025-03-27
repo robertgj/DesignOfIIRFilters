@@ -5,7 +5,9 @@ depends="test/schurOneMPAlatticePipelined2Abcd_test.m test_common.m \
 schurOneMPAlatticePipelined2Abcd.m \
 schurOneMAPlatticePipelined2Abcd.m \
 schurOneMlatticePipelined2Abcd.m \
-Abcd2tf.oct"
+tf2schurOneMlatticePipelined.m \
+schurOneMscale.m \
+schurdecomp.oct schurexpand.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

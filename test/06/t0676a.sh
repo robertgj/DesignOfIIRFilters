@@ -12,7 +12,8 @@ schurOneMlatticePipelined2Abcd.m \
 schurOneMlatticePipelined_slb_set_empty_constraints.m \
 schurOneMlatticePipelined_slb_show_constraints.m \
 schurOneMlatticePipelined_slb_constraints_are_empty.m \
-schurOneMscale.m tf2schurOneMlattice.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+tf2schurOneMlattice.m tf2schurOneMlatticePipelined.m \
+schurOneMscale.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
 local_max.m x2tf.m print_polynomial.m \
 Abcd2tf.oct schurdecomp.oct schurexpand.oct Abcd2H.oct Abcd2tf.oct"
 

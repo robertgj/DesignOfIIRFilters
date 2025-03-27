@@ -21,9 +21,10 @@ schurOneMlatticePipelined_slb_show_constraints.m \
 schurOneMlatticePipelined_slb_update_constraints.m \
 schurOneMscale.m \
 tf2schurOneMlattice.m \
+tf2schurOneMlatticePipelined.m \
 local_max.m tf2pa.m x2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-print_polynomial.m print_pole_zero.m qroots.oct \
-schurdecomp.oct schurexpand.oct Abcd2H.oct Abcd2tf.oct"
+print_polynomial.m print_pole_zero.m \
+qroots.oct schurdecomp.oct schurexpand.oct Abcd2H.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -59,30 +60,30 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k2.ok << 'EOF'
-k2 = [   0.1385948184,   0.6795761475,  -0.6359944263,   0.3618123487, ... 
-        -0.4298844888,   0.3749527899,  -0.2449152497,   0.1688571285, ... 
-         0.0071032809,  -0.0599428815,  -0.0047477477 ]';
+k2 = [   0.0645540172,   0.6779888587,  -0.6567692695,   0.2822925878, ... 
+        -0.4266068344,   0.1685132211,  -0.3039501030,   0.0726664662, ... 
+         0.0274658661,  -0.0403350386,  -0.0683543949 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
 
 cat > test.c2.ok << 'EOF'
-c2 = [   0.3019666482,  -0.2141011747,  -1.0838295839,  -0.0560156900, ... 
-         0.0210159268,  -0.0608578283,   0.0005249163,   0.0163843504, ... 
-        -0.0101892297,   0.0376584705,  -0.0024909359,  -0.0007898500 ]';
+c2 = [   0.2308469983,  -0.0897605828,  -1.1808355411,   0.1048428593, ... 
+         0.0686456776,  -0.1107301323,   0.0439670659,  -0.0759503659, ... 
+        -0.0043901516,  -0.0637332522,  -0.0021566210,  -0.0006256571 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
 
 cat > test.kk2.ok << 'EOF'
-kk2 = [   0.4354724601,  -0.3011483541,  -0.1733046535,  -0.0624407119, ... 
-          0.0096814328,   0.0436395816,   0.0744579813,  -0.0454903272, ... 
-          0.0740914610,   0.0000081185 ]';
+kk2 = [   0.4597190906,  -0.2775034206,  -0.0802513064,  -0.0154907166, ... 
+         -0.1622184281,   0.0724907510,  -0.0511090398,  -0.0871374027, ... 
+          0.0658917985,   0.0596580780 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.kk2.ok"; fail; fi
 
 cat > test.ck2.ok << 'EOF'
-ck2 = [  -0.1304078475,   0.5469968481,  -0.0826163634,  -0.0361452251, ... 
-         -0.0518070235,   0.0023647359,   0.0078465890,   0.0008462962, ... 
-          0.0311789379,   0.0000090492 ]';
+ck2 = [  -0.1447627740,   0.5469968481,   0.1313096811,  -0.0361452251, ... 
+         -0.0514481166,   0.0023647359,  -0.0657709694,   0.0008462962, ... 
+         -0.0696928844,   0.0000090492 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ck2.ok"; fail; fi
 

@@ -16,12 +16,10 @@ for x=1:2
   schur_lattice_test_common;
   
   % Convert filter transfer function to Schur 1-multiplier lattice form
-  [k,epsilon,p,c]=tf2schurOneMlattice(n,d);
+  [k,epsilon,c,kk,ck]=tf2schurOneMlatticePipelined(n,d);
   Nk=length(k);
   Nc=length(c);
-  kk=k(1:(Nk-1)).*k(2:Nk);
   Nkk=length(kk);
-  ck=c(2:Nk).*k(2:Nk);
   Nck=length(ck); 
 
   % Approximate kk and ck

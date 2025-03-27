@@ -23,7 +23,7 @@ tol_eps=20;dBas=40;fc=0.1;
 for N=[1,2,3,6,7],
   
   [n,d]=cheby2(N,dBas,2*fc);
-  [k,epsilon,~,c]=tf2schurOneMlattice(n,d);
+  [k,epsilon,c,kk,ck]=tf2schurOneMlatticePipelined(n,d);
 
   %
   % Define symbols
@@ -201,7 +201,7 @@ for N=[1,2,3,6,7],
   
   % Conversion of original transfer functions. 
   [rA,rB,rC,rD,rCap,rDap] = ...
-    schurOneMlatticePipelined2Abcd(k,epsilon,c);
+    schurOneMlatticePipelined2Abcd(k,epsilon,c,kk,ck);
   rABCDCapDap=[rA,rB;rC,rD;rCap,rDap];
   [rn,rd]=Abcd2tf(rA,rB,rC,rD);
   if max(abs(rn(1:length(n))-n))>tol_eps*eps,

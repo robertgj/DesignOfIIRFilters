@@ -11,9 +11,9 @@ delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 % k empty
-k=epsilon=c=[];
+k=epsilon=c=kk=ck=[];
 try
-  [A,B,C,dd,Cap,ddap]=schurOneMlatticePipelined2Abcd(k,epsilon,c);
+  [A,B,C,dd,Cap,ddap]=schurOneMlatticePipelined2Abcd(k,epsilon,c,kk,ck);
 catch
   printf("%s\n", lasterr());
 end_try_catch
@@ -24,9 +24,9 @@ for Nk=1:11
   tol=Nk*4*eps;
   dBap=0.02;dBas=84;fap=0.15;
   [n,d]=ellip(Nk,dBap,dBas,2*fap);
-  [k,epsilon,~,c]=tf2schurOneMlattice(n,d);
+  [k,epsilon,c,kk,ck]=tf2schurOneMlatticePipelined(n,d);
   try
-    [A,B,C,dd,Cap,ddap] = schurOneMlatticePipelined2Abcd(k,epsilon,c);
+    [A,B,C,dd,Cap,ddap] = schurOneMlatticePipelined2Abcd(k,epsilon,c,kk,ck);
   catch
     err=lasterror();
     for e=1:length(err.stack)
@@ -77,10 +77,8 @@ for Nk=1:11
   % Check matrix coefficient cell arrays
   %
   try
-    kk=k(1:(Nk-1)).*k(2:Nk);
-    ck=c(2:Nk).*k(2:Nk);
     [A,B,C,dd,Cap,ddap,ABCD0,ABCDk,ABCDc,ABCDkk,ABCDck] = ...
-       schurOneMlatticePipelined2Abcd(k,epsilon,c);
+       schurOneMlatticePipelined2Abcd(k,epsilon,c,kk,ck);
   catch
     err=lasterror();
     for e=1:length(err.stack)
