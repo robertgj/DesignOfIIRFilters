@@ -34,14 +34,16 @@ nN=length(N0)-1;
 % Low-pass differentiator filter specification
 fap=0.3;fas=0.4;
 Arp=0.02;Art=0.02;Ars=0.02;Wap=1;Wat=0.001;Was=1;
-pp=0.5;ppr=0.0002;Wpp=0.5;
-tp=nN-1;tpr=0.04;Wtp=2;
+fpp=fap;pp=0.5;ppr=0.0002;Wpp=0.5;
+ftp=fap;tp=nN-1;tpr=0.04;Wtp=2;
 
 % Frequency points
 n=1000;
 w=pi*(1:(n-1))'/n;
 nap=ceil(fap*n/0.5);
 nas=floor(fas*n/0.5);
+npp=ceil(fpp*n/0.5);
+ntp=ceil(ftp*n/0.5);
 
 % Pass and transition band amplitudes
 wa=w(1:(nas-1));
@@ -68,7 +70,7 @@ Sdl=zeros(n-nas,1);
 Ws=Was*ones(n-nas,1);
 
 % Phase response
-wp=w(1:nap);
+wp=w(1:npp);
 Pzm1=(pi/2)-(wp/2);
 Pconst=2*pi;
 Pd=(pp*pi)+Pconst-(wp*tp);
@@ -77,7 +79,7 @@ Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
 
 % Group delay
-wt=w(1:nap);
+wt=w(1:ntp);
 Tzm1=0.5*ones(size(wt));
 Td=tp*ones(size(wt));
 Tdu=Td+(tpr/2);
@@ -296,18 +298,21 @@ fprintf(fid,"Arp=%g %% Amplitude pass band peak-to-peak ripple\n",Arp);
 fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"Art=%g %% Amplitude transition band peak-to-peak ripple\n",Art);
 fprintf(fid,"Wat=%g %% Amplitude transition band weight\n",Wat);
+fprintf(fid,"fas=%g %% Amplitude stop band lower edge\n",fas);
 fprintf(fid,"Ars=%g %% Amplitude stop band peak-to-peak ripple\n",Ars);
 fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
-fprintf(fid,"tp=%g %% Pass band group delay\n",tp);
-fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
-fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
+fprintf(fid,"fpp=%g %% Phase pass band upper edge\n",fpp);
 fprintf(fid,"pp=%g %% Phase pass band nominal phase(rad./pi)\n",pp);
 fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
+fprintf(fid,"ftp=%g %% Group-delay pass band upper edge\n",ftp);
+fprintf(fid,"tp=%g %% Pass band group delay\n",tp);
+fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
+fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
 fclose(fid);
 
 eval(sprintf(["save %s.mat U Ud1z V M Q R d1 d1z N1 D1 ftol ctol n ", ...
- "fap fas Arp Art Ars tp tpr pp ppr Wap Wat Was Wtp Wpp"],strf));
+ "fap Arp Wap Art Wat fas Ars Was fpp pp ppr Wpp ftp tp tpr Wtp"],strf));
 
 % Done
 toc;

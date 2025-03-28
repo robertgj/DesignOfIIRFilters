@@ -39,14 +39,16 @@ dmax=0.05;
 % Low-pass differentiator filter specification
 fap=0.18;fas=0.3;
 Arp=0.004;Art=0.005;Ars=0.005;Wap=1;Wat=0.001;Was=1;
-pp=0.5;ppr=0.0001;Wpp=0.2;
-td=nN-1;tdr=0.02;Wtp=1;
+fpp=fap;pp=0.5;ppr=0.0001;Wpp=0.2;
+ftp=fap;td=nN-1;tdr=0.02;Wtp=1;
 
 % Frequency points
 n=1000;
 w=pi*(1:(n-1))'/n;
 nap=ceil(fap*n/0.5);
 nas=floor(fas*n/0.5);
+npp=ceil(fpp*n/0.5);
+ntp=ceil(ftp*n/0.5);
 
 % Pass and transition band amplitudes
 wa=w(1:(nas-1));
@@ -73,7 +75,7 @@ Sdl=zeros(n-nas,1);
 Ws=Was*ones(n-nas,1);
 
 % Phase response
-wp=w(1:nap);
+wp=w(1:npp);
 Pzm1=(pi/2)-(wp/2);
 Pconst=2*pi;
 Pd=Pconst+(pp*pi)-(wp*td);
@@ -82,7 +84,7 @@ Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
 
 % Group delay
-wt=w(1:nap);
+wt=w(1:ntp);
 Tzm1=0.5*ones(size(wt));
 Td=td*ones(size(wt));
 Tdu=Td+(tdr/2);
@@ -297,17 +299,21 @@ fprintf(fid,"Arp=%g %% Amplitude pass band peak-to-peak ripple\n",Arp);
 fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"Art=%g %% Amplitude transition band peak-to-peak ripple\n",Art);
 fprintf(fid,"Wat=%g %% Amplitude transition band weight\n",Wat);
+fprintf(fid,"fas=%g %% Amplitude stop band lower edge\n",fas);
 fprintf(fid,"Ars=%g %% Amplitude stop band peak-to-peak ripple\n",Ars);
 fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
+fprintf(fid,"fpp=%g %% Phase pass band upper edge\n",fpp);
+fprintf(fid,"pp=%g %% Nominal pass band phase(rad./pi)\n",pp);
+fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi)\n",ppr);
+fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
+fprintf(fid,"ftp=%g %% Group-delay pass band upper edge\n",ftp);
 fprintf(fid,"td=%g %% Pass band group delay\n",td);
 fprintf(fid,"tdr=%g %% Pass band group delay peak-to-peak ripple\n",tdr);
 fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
-fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi)\n",ppr);
-fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
 eval(sprintf(["save %s.mat U Ud1z V M Q R d1 d1z N1 D1 ftol ctol n ", ...
- "fap fas Arp Art Ars td tdr pp ppr Wap Wat Was Wtp Wpp"],strf));
+ "fap fas Arp Art Ars Wap Wat Was ftp td tdr Wtp fpp pp ppr Wpp"],strf));
 
 % Done
 toc;

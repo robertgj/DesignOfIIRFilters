@@ -117,7 +117,7 @@ dmax=inf;
 rho=1-ftol;
 kc_u=[rho*ones(Nk,1);10*ones(Nc,1);rho*ones(Nkk,1);10*ones(Nck,1)];
 kc_l=-kc_u;
-kc_active=[1:(Nk+Nc+Nkk),(Nk+Nc+Nkk+1):2:Nx]';
+kc_active=find(kc0);
 
 % Signed-digit coefficients with no allocation
 kc0_sd_no_alloc=flt2SD(kc0,nbits,ndigits);

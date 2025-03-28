@@ -33,13 +33,14 @@ schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test_c2_coef;
 schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test_kk2_coef;
 schurOneMlatticePipelined_socp_slb_lowpass_differentiator_test_ck2_coef;
 epsilon0=epsilon0(:);k0=k2(:);c0=c2(:);kk0=kk2(:);ck0=ck2(:);
+kc0=[k0;c0;kk0;ck0];
 
 %
 % Lowpass differentiator filter specification
 % (ppr=0.002,tpr=0.06 fails with QEMU/nehalem)
 fap=0.3;fas=0.4;
-Arp=0.01;Art=0.02;Ars=0.0111;Wap=1;Wat=0.001;Was=1;
-fpp=fap;pp=1.5;ppr=0.004;Wpp=1;
+Arp=0.01;Art=0.02;Ars=0.012;Wap=1;Wat=0.001;Was=1;
+fpp=fap;pp=1.5;ppr=0.008;Wpp=1;
 ftp=fap;tp=length(k0)-1;tpr=0.08;Wtp=0.1;
 
 % Options
@@ -50,7 +51,7 @@ socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_allocsd_Ito=tru
 % Frequency vectors for the Schur one-mulitplier lattice correction filter
 %
 
-n=1000;
+n=400;
 w=(1:(n-1))'*pi/n;
 nap=ceil(fap*n/0.5);
 nas=floor(fas*n/0.5);
@@ -99,20 +100,19 @@ dAsqdwzm1=[];
 dmax=inf;
 rho=1-ftol;
 Nk=length(k0);
-Rk=1:Nk;
 Nc=length(c0);
-Rc=(Nk+1):(Nk+Nc);
 Nkk=length(kk0);
-Rkk=(Nk+Nc+1):(Nk+Nc+Nkk);
 Nck=length(ck0);
-Rck=(Nk+Nc+Nkk+1):(Nk+Nc+Nkk+Nck);
-kc0=[k0;c0;kk0;ck0];
 Nx=Nk+Nc+Nkk+Nck;
+Rk=1:Nk;
+Rc=(Nk+1):(Nk+Nc);
+Rkk=(Nk+Nc+1):(Nk+Nc+Nkk);
+Rck=(Nk+Nc+Nkk+1):(Nk+Nc+Nkk+Nck);
 kc0_u=[rho*ones(size(k0));10*ones(size(c0)); ...
        rho*ones(size(kk0));10*ones(size(ck0))];
 kc0_l=-kc0_u;
 Nx=Nk+Nc+Nkk+Nck;
-kc0_active=(1:Nx)';
+kc0_active=find(kc0);
 
 % Initial response
 Asq0=schurOneMlatticePipelinedAsq(wa,k0,epsilon0,c0,kk0,ck0);

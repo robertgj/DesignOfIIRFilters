@@ -39,7 +39,7 @@ ftp=fap;tp=nN-1;tpr=0.04;Wtp=0.1;
 fdp=fap;dpr=0.04;Wdp=0.1;
 
 % Frequency points
-n=1000;
+n=400;
 w=pi*(1:(n-1))'/n;
 nap=ceil(fap*n/0.5);
 nas=floor(fas*n/0.5);
@@ -90,7 +90,7 @@ dmax=0; % For compatibility with SQP
 rho=127/128;
 kc_u=[rho*ones(Nk,1);10*ones(Nc,1);rho*ones(Nkk,1);10*ones(Nck,1)];
 kc_l=-kc_u;
-kc_active=[1:(Nk+Nc+Nkk),(Nk+Nc+Nkk+1):2:Nx]';
+kc_active=find([k0(:);c0(:);kk0(:);ck0(:)]);
 
 % Sanity check
 nachk=[1,nap-1,nap,nap+1,nas-1,nas,nas+1,n-1];

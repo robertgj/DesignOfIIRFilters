@@ -89,7 +89,7 @@ dmax=0;
 rho=127/128
 kc_u=[rho*ones(Nk,1);10*ones(Nc,1);rho*ones(Nkk,1);10*ones(Nck,1)];
 kc_l=-kc_u;
-kc_active=(1:Nx)';
+kc_active=find([k0(:);c0(:);kk0(:);ck0(:)]);
 
 %
 % SOCP MMSE pass

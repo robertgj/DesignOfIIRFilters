@@ -87,8 +87,7 @@ kc_u=[rho*ones(size(k0(:))); ...
       rho*ones(size(kk0(:))); ...
       10*ones(size(ck0(:)))];
 kc_l=-kc_u;
-ck_active=kron(ones(ceil(Nck/2),1),[1;0])(1:Nck);
-kc_active=[1:(Nk+Nc+Nkk),(Nk+Nc+Nkk+1):2:Nkc]';
+kc_active=find([k0(:);c0(:);kk0(:);ck0(:)]);
 vS=[];
 
 % SOCP

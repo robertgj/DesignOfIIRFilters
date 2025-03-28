@@ -87,6 +87,7 @@ c = schurexpand(n,S1M);
 Nk=length(k);
 kk=k(1:(Nk-1)).*k(2:Nk);
 ck=c(2:Nk).*k(2:Nk);
+ck(2:2:end)=0;
 
 k=k(:);c=c(:);kk=kk(:);ck=ck(:);
 
