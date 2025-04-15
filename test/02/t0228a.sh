@@ -1,12 +1,12 @@
 #!/bin/sh
 
-prog=schurOneMlattice_bandpass_allocsd_test.m
-depends="test/schurOneMlattice_bandpass_allocsd_test.m test_common.m \
-../schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_c2_coef.m \
-schurOneMlattice_bandpass_10_nbits_common.m \
+prog=schurOneMlattice_bandpass_R2_allocsd_test.m
+depends="test/schurOneMlattice_bandpass_R2_allocsd_test.m test_common.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_k2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_epsilon2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_p2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_c2_coef.m \
+schurOneMlattice_bandpass_R2_10_nbits_common.m \
 schurOneMlattice_allocsd_Ito.m schurOneMlattice_allocsd_Lim.m bin2SDul.m \
 schurOneMlatticeEsq.m H2Asq.m schurOneMlatticeAsq.m schurOneMlatticeT.m \
 schurOneMlatticeP.m schurOneMlatticedAsqdw.m schurOneMlattice_cost.m \
@@ -133,7 +133,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-nstr="schurOneMlattice_bandpass_allocsd_test"
+nstr="schurOneMlattice_bandpass_R2_allocsd_test"
 
 diff -Bb test_2_12_k_Lim.ok $nstr"_2_ndigits_12_nbits_k_Lim_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_2_12_k_Lim.ok"; fail; fi

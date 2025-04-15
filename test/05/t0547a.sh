@@ -1,7 +1,7 @@
 #!/bin/sh
 
-prog=schurNSlattice_sqp_slb_bandpass_test.m
-depends="test/schurNSlattice_sqp_slb_bandpass_test.m \
+prog=schurNSlattice_sqp_slb_bandpass_R2_test.m
+depends="test/schurNSlattice_sqp_slb_bandpass_R2_test.m \
 test_common.m \
 schurNSlatticeAsq.m \
 schurNSlatticeT.m \
@@ -118,22 +118,24 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.s10.ok schurNSlattice_sqp_slb_bandpass_test_s10_2_coef.m
+nstr="schurNSlattice_sqp_slb_bandpass_R2_test"
+
+diff -Bb test.s10.ok $nstr"_s10_2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s10.ok"; fail; fi
 
-diff -Bb test.s11.ok schurNSlattice_sqp_slb_bandpass_test_s11_2_coef.m
+diff -Bb test.s11.ok $nstr"_s11_2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s11.ok"; fail; fi
 
-diff -Bb test.s20.ok schurNSlattice_sqp_slb_bandpass_test_s20_2_coef.m
+diff -Bb test.s20.ok $nstr"_s20_2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s20.ok"; fail; fi
 
-diff -Bb test.s00.ok schurNSlattice_sqp_slb_bandpass_test_s00_2_coef.m
+diff -Bb test.s00.ok $nstr"_s00_2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s00.ok"; fail; fi
 
-diff -Bb test.s02.ok schurNSlattice_sqp_slb_bandpass_test_s02_2_coef.m
+diff -Bb test.s02.ok $nstr"_s02_2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s02.ok"; fail; fi
 
-diff -Bb test.s22.ok schurNSlattice_sqp_slb_bandpass_test_s22_2_coef.m
+diff -Bb test.s22.ok $nstr"_s22_2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.s22.ok"; fail; fi
 
 #

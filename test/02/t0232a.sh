@@ -1,13 +1,11 @@
 #!/bin/sh
 
-prog=branch_bound_schurOneMlattice_bandpass_10_nbits_test.m
+prog=branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test.m
 
-depends="test/branch_bound_schurOneMlattice_bandpass_10_nbits_test.m \
-../schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_c2_coef.m \
-schurOneMlattice_bandpass_10_nbits_common.m test_common.m \
+depends="test/branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_N2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_D2_coef.m \
+schurOneMlattice_bandpass_R2_10_nbits_common.m test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
 schurOneMlatticeP.m \
@@ -28,7 +26,8 @@ schurOneMlatticeFilter.m \
 tf2schurOneMlattice.m \
 local_max.m x2tf.m tf2pa.m print_polynomial.m x2nextra.m sqp_bfgs.m \
 armijo_kim.m updateWbfgs.m invSVD.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m \
-SDadders.m schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
+SDadders.m Abcd2ng.m KW.m delayz.m \
+schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct \
 qroots.oct Abcd2tf.oct"
 
@@ -66,28 +65,28 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k.ok << 'EOF'
-k_min = [        0,      337,        0,      251, ... 
-                 0,      176,        0,      208, ... 
-                 0,      148,        0,      121, ... 
-                 0,       72,        0,       47, ... 
-                 0,       16,        0,        6 ]'/512;
+k_min = [        0,      336,        0,      255, ... 
+                 0,      176,        0,      216, ... 
+                 0,      152,        0,      129, ... 
+                 0,       78,        0,       54, ... 
+                 0,       19,        0,        7 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
 
 cat > test.c.ok << 'EOF'
-c_min = [       68,      -20,     -310,     -472, ... 
-              -152,      129,      392,      290, ... 
-                14,      -84,      -80,      -14, ... 
-                -9,      -33,      -24,        4, ... 
-                24,       16,        4,        1, ... 
-                 4 ]'/1024;
+c_min = [       73,      -14,     -312,     -492, ... 
+              -164,      126,      416,      312, ... 
+                18,      -88,      -81,      -13, ... 
+               -11,      -37,      -27,        5, ... 
+                26,       17,        3,        1, ... 
+                 5 ]'/1024;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
 
 cat > test_cost.tab.ok << 'EOF'
-Exact & 0.0164 & & \\
-10-bit 3-signed-digit(Lim)&0.0485 & 77 & 46 \\
-10-bit 3-signed-digit(branch-and-bound)&0.0158 & 71 & 40 \\
+Exact & 7.9778e-03 & & \\
+10-bit 3-signed-digit&1.3944e-02 & 79 & 48 \\
+10-bit 3-signed-digit(branch-and-bound)&9.8387e-03 & 81 & 50 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.tab.ok"; fail; fi
 
@@ -99,7 +98,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-nstr="branch_bound_schurOneMlattice_bandpass_10_nbits_test"
+nstr="branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test"
 
 diff -Bb test.k.ok $nstr"_k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi

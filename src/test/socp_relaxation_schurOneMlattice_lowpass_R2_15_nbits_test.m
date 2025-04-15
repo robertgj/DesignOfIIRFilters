@@ -344,7 +344,7 @@ for c=1:4
 endfor
 axis(ax(1),[0  0.5 -0.15 0.05]);
 axis(ax(2),[0  0.5 -75 -55]);
-strt=sprintf("Low-pass filter : nbits=%d,fap=%g,dBap=%g,fas=%g,dBas=%g", ...
+strt=sprintf("Low-pass R=2 filter : nbits=%d,fap=%g,dBap=%g,fas=%g,dBas=%g", ...
              nbits,fap,dBap,fas,dBas);
 title(strt);
 grid("on");

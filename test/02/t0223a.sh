@@ -2,11 +2,9 @@
 
 prog=bitflip_schurFIRlattice_bandpass_test.m
 depends="test/bitflip_schurFIRlattice_bandpass_test.m \
-../iir_sqp_slb_bandpass_test_D1_coef.m \
-../iir_sqp_slb_bandpass_test_N1_coef.m \
 ../iir_sqp_slb_fir_17_bandpass_test_b1_coef.m \
-test_common.m delayz.m bitflip_bandpass_test_common.m flt2SD.m schurFIRlattice2Abcd.m \
-Abcd2tf.m print_polynomial.m x2nextra.m SDadders.m \
+test_common.m delayz.m bitflip_bandpass_test_common.m flt2SD.m \
+schurFIRlattice2Abcd.m Abcd2tf.m print_polynomial.m x2nextra.m SDadders.m \
 bin2SPT.oct bin2SD.oct schurFIRdecomp.oct bitflip.oct"
 
 tmp=/tmp/$$
@@ -88,17 +86,24 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.k_bfsd.ok"; fail; fi
 echo "Running $prog"
 
 octave --no-gui -q $prog >test.out 2>&1
+
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.k_ex.ok bitflip_schurFIRlattice_bandpass_test_k_ex_coef.m
+nstr="bitflip_schurFIRlattice_bandpass_test"
+
+diff -Bb test.k_ex.ok $nstr"_k_ex_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.k_ex.ok"; fail; fi
-diff -Bb test.k_rd.ok bitflip_schurFIRlattice_bandpass_test_k_rd_coef.m
+
+diff -Bb test.k_rd.ok $nstr"_k_rd_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.k_rd.ok"; fail; fi
-diff -Bb test.k_bf.ok bitflip_schurFIRlattice_bandpass_test_k_bf_coef.m
+
+diff -Bb test.k_bf.ok $nstr"_k_bf_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.k_bf.ok"; fail; fi
-diff -Bb test.k_sd.ok bitflip_schurFIRlattice_bandpass_test_k_sd_coef.m
+
+diff -Bb test.k_sd.ok $nstr"_k_sd_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.k_sd.ok"; fail; fi
-diff -Bb test.k_bfsd.ok bitflip_schurFIRlattice_bandpass_test_k_bfsd_coef.m
+
+diff -Bb test.k_bfsd.ok $nstr"_k_bfsd_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.k_bfsd.ok"; fail; fi
 
 #

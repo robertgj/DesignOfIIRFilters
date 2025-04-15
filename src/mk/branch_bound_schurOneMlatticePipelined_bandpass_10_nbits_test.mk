@@ -24,4 +24,4 @@ x2nextra.m SDadders.m Abcd2ng.m KW.m \
 Abcd2H.oct schurdecomp.oct schurexpand.oct bin2SPT.oct bin2SD.oct qroots.oct 
 
 branch_bound_schurOneMlatticePipelined_bandpass_10_nbits_test.diary : \
-schurOneMlattice_sqp_slb_bandpass_test.diary
+schurOneMlattice_socp_slb_bandpass_test.diary

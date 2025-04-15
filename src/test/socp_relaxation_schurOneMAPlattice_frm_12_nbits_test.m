@@ -404,6 +404,7 @@ legend("location","east");
 legend("boxoff");
 legend("left");
 grid("on");
+title(strt);
 print(strcat(strf,"_pass_phase"),"-dpdflatex");
 close
 
@@ -425,6 +426,7 @@ legend("left");
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+title(strt);
 print(strcat(strf,"_pass_delay"),"-dpdflatex");
 close
 

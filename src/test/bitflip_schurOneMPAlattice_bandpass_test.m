@@ -22,13 +22,15 @@ schurOneMPAlattice_socp_slb_bandpass_test_A2k_coef;
 schurOneMPAlattice_socp_slb_bandpass_test_A2epsilon_coef;
 schurOneMPAlattice_socp_slb_bandpass_test_A2p_coef;
 
-A1k0=A1k;
-A1p0=A1p;
-A1epsilon0=A1epsilon;
-A2k0=A2k;
-A2epsilon0=A2epsilon;
-A2p0=A2p;
+A1k0=A1k(:);
+A1epsilon0=A1epsilon(:);
+A1p0=A1p(:);
+A2k0=A2k(:);
+A2epsilon0=A2epsilon(:);
+A2p0=A2p(:);
 difference=true;
+
+clear A1k A1p A1epsilon A2k A2p A2epsilon;
 
 % Find vector of exact lattice coefficients
 [cost_ex,A1k_ex,A2k_ex,svecnz_ex] = ...
@@ -246,7 +248,7 @@ plot(wplot*0.5/pi,20*log10(abs(    h0)),"linestyle","-", ...
 ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
-strt=sprintf(["Bandpass OneM PA lattice, nbits=%d,bitstart=%d,", ...
+strt=sprintf(["Bandpass OneMPA lattice, nbits=%d,bitstart=%d,", ...
  "msize=%d,ndigits=%d, Lim and Ito SD allocation"],nbits,bitstart,msize,ndigits);
 title(strt);
 legend("exact","signed-digit (Lim)","bitflip(s-d Lim)","signed-digit (Ito)", ...

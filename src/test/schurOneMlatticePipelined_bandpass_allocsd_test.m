@@ -14,8 +14,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 % Initialise
 schurOneMlattice_bandpass_10_nbits_common;
-[N0,D0]=schurOneMlattice2tf(k0,epsilon0,p0,c0);
 [k0,epsilon0,c0,kk0,ck0]=tf2schurOneMlatticePipelined(N0,D0);
+k0=k0(:);epsilon0=epsilon0(:);c0=c0(:);kk0=kk0(:);ck0=ck0(:);
 Nk=length(k0);
 Nc=length(c0);
 Nkk=length(kk0);
@@ -32,8 +32,8 @@ endif
 
 % Find response of exact filter
 nplot=250;
-Asq_ex=schurOneMlatticeAsq(wa,k0,epsilon0,p0,c0);
-T_ex=schurOneMlatticeT(wt,k0,epsilon0,p0,c0);
+Asq_ex=schurOneMlatticePipelinedAsq(wa,k0,epsilon0,c0,kk0,ck0);
+T_ex=schurOneMlatticePipelinedT(wt,k0,epsilon0,c0,kk0,ck0);
 
 % Find noise gain of exact filter ignoring state scaling
 [A_ex,B_ex,C_ex,D_ex]=schurOneMlatticePipelined2Abcd(k0,epsilon0,c0,kk0,ck0);
@@ -251,31 +251,23 @@ for ndigits=2:3
     % Print the maximum side-lobe for Lim
     printf("\n");
     printf("Lim,ndigits=%d,nbits=%d,maximum stop-band (0.00 to %4.2f) = %gdB\n", ...
-           ndigits,nbits,fasll,max(10*log10(Asq_Lim(1:nasll))));
-    printf("Lim,ndigits=%d,nbits=%d,maximum stop-band (0.00 to %4.2f) = %gdB\n", ...
            ndigits,nbits,fasl,max(10*log10(Asq_Lim(1:nasl))));
     printf("Lim,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n", ...
            ndigits,nbits,fasu,max(10*log10(Asq_Lim(nasu:end))));
-    printf("Lim,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n", ...
-           ndigits,nbits,fasuu,max(10*log10(Asq_Lim(nasuu:end))));
     
     % Print the maximum side-lobe for Ito
     printf("\n");
     printf("Ito,ndigits=%d,nbits=%d,maximum stop-band (0.00 to %4.2f) = %gdB\n", ...
-           ndigits,nbits,fasll,max(10*log10(Asq_Ito(1:nasll)))); 
-    printf("Ito,ndigits=%d,nbits=%d,maximum stop-band (0.00 to %4.2f) = %gdB\n", ...
            ndigits,nbits,fasl,max(10*log10(Asq_Ito(1:nasl))));
     printf("Ito,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n", ...
            ndigits,nbits,fasu,max(10*log10(Asq_Ito(nasu:end))));
-    printf("Ito,ndigits=%d,nbits=%d,maximum stop-band (%4.2f to 0.50) = %gdB\n", ...
-           ndigits,nbits,fasuu,max(10*log10(Asq_Ito(nasuu:end))));
 
-    % Save the maximum sidelobes in upper stop band (fasuu to 0.50)
-    nbits_sidelobe_ex(l)=max(10*log10(Asq_ex(nasuu:end)));
-    nbits_sidelobe_rd(l)=max(10*log10(Asq_rd(nasuu:end)));
-    nbits_sidelobe_sd(l)=max(10*log10(Asq_sd(nasuu:end)));
-    nbits_sidelobe_Lim(l)=max(10*log10(Asq_Lim(nasuu:end)));
-    nbits_sidelobe_Ito(l)=max(10*log10(Asq_Ito(nasuu:end)));
+    % Save the maximum sidelobes in upper stop band (fasu to 0.50)
+    nbits_sidelobe_ex(l)=max(10*log10(Asq_ex(nasu:end)));
+    nbits_sidelobe_rd(l)=max(10*log10(Asq_rd(nasu:end)));
+    nbits_sidelobe_sd(l)=max(10*log10(Asq_sd(nasu:end)));
+    nbits_sidelobe_Lim(l)=max(10*log10(Asq_Lim(nasu:end)));
+    nbits_sidelobe_Ito(l)=max(10*log10(Asq_Ito(nasu:end)));
     
     % Print the results
     print_polynomial(k_rd,sprintf("k_rd_%d_bits",nbits),...
@@ -337,7 +329,7 @@ for ndigits=2:3
        nbits_range,nbits_sidelobe_Lim,"linestyle","--", ...
        nbits_range,nbits_sidelobe_Ito,"linestyle","-")
   strt=sprintf(["Bandpass one-multiplier lattice maximum response ", ...
- "in [%4.2f,0.5) (dB), ndigits=%d"],fasuu,ndigits);
+ "in [%4.2f,0.5) (dB), ndigits=%d"],fasu,ndigits);
   title(strt);
   xlabel("bits");
   ylabel("Maximum response(dB)");

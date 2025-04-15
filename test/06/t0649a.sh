@@ -1,10 +1,11 @@
+
 #!/bin/sh
 
-prog=schurOneMlattice_piqp_slb_hilbert_test.m
+prog=schurOneMlattice_piqp_slb_hilbert_R2_test.m
 
-depends="test/schurOneMlattice_piqp_slb_hilbert_test.m test_common.m \
-../tarczynski_hilbert_test_D0_coef.m \
-../tarczynski_hilbert_test_N0_coef.m \
+depends="test/schurOneMlattice_piqp_slb_hilbert_R2_test.m test_common.m \
+../tarczynski_hilbert_R2_test_D0_coef.m \
+../tarczynski_hilbert_R2_test_N0_coef.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
 schurOneMlatticeP.m \
@@ -94,16 +95,18 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_k2.ok schurOneMlattice_piqp_slb_hilbert_test_k2_coef.m
+nstr="schurOneMlattice_piqp_slb_hilbert_R2_test"
+
+diff -Bb test_k2.ok $nstr"_k2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_k2.ok"; fail; fi
 
-diff -Bb test_epsilon2.ok schurOneMlattice_piqp_slb_hilbert_test_epsilon2_coef.m
+diff -Bb test_epsilon2.ok $nstr"_epsilon2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_epsilon2.ok"; fail; fi
 
-diff -Bb test_p2.ok schurOneMlattice_piqp_slb_hilbert_test_p2_coef.m
+diff -Bb test_p2.ok $nstr"_p2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_p2.ok"; fail; fi
 
-diff -Bb test_c2.ok schurOneMlattice_piqp_slb_hilbert_test_c2_coef.m
+diff -Bb test_c2.ok $nstr"_c2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_c2.ok"; fail; fi
 
 #

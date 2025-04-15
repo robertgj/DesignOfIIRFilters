@@ -16,7 +16,7 @@ ctol=ftol
 maxiter=0
 verbose=true;
 
-dBas=36,dBass=37,tpr=0.15
+dBap=1,dBas=30,tpr=0.4
 use_schurOneMlattice_allocsd_Ito=true
 schurOneMlattice_bandpass_10_nbits_common;
 
@@ -189,12 +189,12 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
      wplot*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([0.1 0.2 -2 1]);
+axis([0.1 0.2 -0.2 0.2]);
 strt=sprintf(["Schur one-multiplier lattice bandpass filter pass-band ", ...
  "(nbits=%d) : fapl=%g,fapu=%g,dBap=%g"],nbits,fapl,fapu,dBap);
 title(strt);
 legend("exact","s-d(Ito)","s-d(POP-relax)");
-legend("location","northeast");
+legend("location","northwest");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -207,12 +207,12 @@ plot(wplot*0.5/pi,T_kc0,"linestyle","-", ...
      wplot*0.5/pi,T_kc_min,"linestyle","-.");
 xlabel("Frequency");
 ylabel("Delay(samples)");
-axis([0.09 0.21 15.9 16.2]);
+axis([0.09 0.21 15.8 16.2]);
 strt=sprintf(["Schur one-multiplier lattice bandpass filter pass-band ", ...
  "nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g"],nbits,ftpl,ftpu,tp,tpr);
  title(strt);
 legend("exact","s-d(Ito)","s-d(POP-relax)");
-legend("location","northeast");
+legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -236,12 +236,9 @@ fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
 fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
 fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
-fprintf(fid,"fasll=%g %% Amplitude stop band outer lower edge\n",fasll);
 fprintf(fid,"fasl=%g %% Amplitude stop band inner lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Amplitude stop band inner upper edge\n",fasu);
-fprintf(fid,"fasuu=%g %% Amplitude stop band outer upper edge\n",fasuu);
 fprintf(fid,"dBas=%g %% Inner stop band amplitude (dB)\n",dBas);
-fprintf(fid,"dBass=%g %% Outer stop band amplitude (dB)\n",dBass);
 fprintf(fid,"Wasl=%g %% Lower stop band amplitude weight\n",Wasl);
 fprintf(fid,"Wasu=%g %% Upper stop band amplitude weight\n",Wasu);
 fprintf(fid,"ftpl=%g %% Delay pass band lower edge\n",ftpl);
@@ -254,9 +251,10 @@ fclose(fid);
 print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"),nscale);
 print_polynomial(c1,"c1",strcat(strf,"_c1_coef.m"),nscale);
 
-eval(sprintf(["save %s.mat k0 epsilon0 p0 c0 ctol ftol nbits ndigits npoints ", ...
- "fapl fapu dBap Wap fasll fasl fasu fasuu dBas dBass Wasl Wasu ", ...
- "ftpl ftpu tp tpr Wtp ndigits_alloc k1 c1"],strf));
+eval(sprintf(["save %s.mat " ...
+              " k0 epsilon0 p0 c0 ctol ftol nbits ndigits npoints ", ...
+              " fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ", ...
+              " ftpl ftpu tp tpr Wtp ndigits_alloc k1 c1"],strf));
 
 % Done
 toc;

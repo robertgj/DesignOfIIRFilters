@@ -2,8 +2,6 @@
 
 prog=bitflip_directFIRsymmetric_bandpass_test.m
 depends="test/bitflip_directFIRsymmetric_bandpass_test.m \
-../iir_sqp_slb_bandpass_test_D1_coef.m \
-../iir_sqp_slb_bandpass_test_N1_coef.m \
 test_common.m \
 bitflip_bandpass_test_common.m \
 directFIRsymmetricA.m \
@@ -110,27 +108,27 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.hM_ex.ok bitflip_directFIRsymmetric_bandpass_test_hM_ex_coef.m
+nstr="bitflip_directFIRsymmetric_bandpass_test"
+
+diff -Bb test.hM_ex.ok $nstr"_hM_ex_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.hM_ex.ok"; fail; fi
 
-diff -Bb test.hM_rd.ok bitflip_directFIRsymmetric_bandpass_test_hM_rd_coef.m
+diff -Bb test.hM_rd.ok $nstr"_hM_rd_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.hM_rd.ok"; fail; fi
 
-diff -Bb test.hM_bf.ok bitflip_directFIRsymmetric_bandpass_test_hM_bf_coef.m
+diff -Bb test.hM_bf.ok $nstr"_hM_bf_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.hM_bf.ok"; fail; fi
 
-diff -Bb test.hM_sd.ok bitflip_directFIRsymmetric_bandpass_test_hM_sd_coef.m
+diff -Bb test.hM_sd.ok $nstr"_hM_sd_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.hM_sd.ok"; fail; fi
 
-diff -Bb test.hM_bfsd.ok bitflip_directFIRsymmetric_bandpass_test_hM_bfsd_coef.m
+diff -Bb test.hM_bfsd.ok $nstr"_hM_bfsd_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.hM_bfsd.ok"; fail; fi
 
-diff -Bb test.hM_bfsdi.ok \
-     bitflip_directFIRsymmetric_bandpass_test_hM_bfsdi_coef.m
+diff -Bb test.hM_bfsdi.ok $nstr"_hM_bfsdi_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.hM_bfsdi.ok"; fail; fi
 
-diff -Bb test.hM_bfsdl.ok \
-     bitflip_directFIRsymmetric_bandpass_test_hM_bfsdl_coef.m
+diff -Bb test.hM_bfsdl.ok $nstr"_hM_bfsdl_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.hM_bfsdl.ok"; fail; fi
 
 #

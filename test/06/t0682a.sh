@@ -3,8 +3,8 @@
 prog=schurOneMR2lattice_socp_slb_bandpass_test.m
 
 depends="test/schurOneMR2lattice_socp_slb_bandpass_test.m \
-../tarczynski_bandpass_test_N_coef.m \
-../tarczynski_bandpass_test_D_coef.m \
+../tarczynski_bandpass_R2_test_N_coef.m \
+../tarczynski_bandpass_R2_test_D_coef.m \
 test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \

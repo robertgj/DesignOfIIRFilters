@@ -1,8 +1,8 @@
 #!/bin/sh
 
-prog=iir_sqp_slb_bandpass_test.m
+prog=iir_sqp_slb_bandpass_R2_test.m
 
-depends="test/iir_sqp_slb_bandpass_test.m \
+depends="test/iir_sqp_slb_bandpass_R2_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 iir_slb.m iir_sqp_mmse.m \
 iir_slb_show_constraints.m iir_slb_update_constraints.m \
@@ -71,7 +71,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.ok iir_sqp_slb_bandpass_test_d1_coef.m
+diff -Bb test.ok iir_sqp_slb_bandpass_R2_test_d1_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb"; fail; fi
 
 #

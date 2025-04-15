@@ -1,8 +1,8 @@
 #!/bin/sh
 
-prog=tarczynski_bandpass_test.m
+prog=tarczynski_bandpass_R2_test.m
 
-depends="test/tarczynski_bandpass_test.m test_common.m delayz.m print_polynomial.m \
+depends="test/tarczynski_bandpass_R2_test.m test_common.m delayz.m print_polynomial.m \
 print_pole_zero.m WISEJ.m x2tf.m tf2Abcd.m tf2x.m zp2x.m qroots.oct"
 
 tmp=/tmp/$$
@@ -63,7 +63,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_x.ok tarczynski_bandpass_test_x_coef.m
+diff -Bb test_x.ok tarczynski_bandpass_R2_test_x_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_x.ok"; fail; fi
 
 

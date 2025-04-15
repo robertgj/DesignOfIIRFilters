@@ -1,0 +1,28 @@
+branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test_FIGURES = \
+branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test_delay \
+branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test_pass \
+branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test_stop
+
+branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test_COEFS = \
+branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test.mat \
+branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test_spec.m \
+branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test_k_min_coef.m \
+branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test_p_min_coef.m \
+branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test_c_min_coef.m \
+branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test_N_min_coef.m \
+branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test_D_min_coef.m \
+branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test_cost.tab
+
+branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test_FILES = \
+test/branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test.m \
+test_common.m schurOneMlatticeAsq.m schurOneMlatticeT.m \
+schurOneMlatticeP.m schurOneMlatticeEsq.m schurOneMscale.m \
+tf2schurOneMlattice.m print_polynomial.m local_max.m x2tf.m \
+tf2pa.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m delayz.m \
+x2nextra.m SDadders.m Abcd2ng.m KW.m schurOneMlattice2tf.m \
+qroots.oct Abcd2H.oct schurdecomp.oct schurexpand.oct bin2SPT.oct \
+bin2SD.oct Abcd2tf.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct \
+complex_zhong_inverse.oct
+
+branch_bound_schurOneMlattice_bandpass_R2_10_nbits_test.diary : \
+schurOneMlattice_sqp_slb_bandpass_R2_test.diary

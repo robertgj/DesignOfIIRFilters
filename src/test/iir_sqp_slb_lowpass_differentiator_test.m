@@ -34,8 +34,8 @@ nN=length(N0)-1;
 % Low-pass differentiator filter specification
 fap=0.3;fas=0.4;
 Arp=0.02;Art=0.02;Ars=0.02;Wap=1;Wat=0.001;Was=1;
-fpp=fap;pp=0.5;ppr=0.0002;Wpp=0.5;
-ftp=fap;tp=nN-1;tpr=0.04;Wtp=2;
+fpp=fap;pp=0.5;ppr=0.0001;Wpp=0.5;
+ftp=fap;tp=nN-1;tpr=0.02;Wtp=2;
 
 % Frequency points
 n=1000;
@@ -166,12 +166,12 @@ title(strM);
 ylabel("Amplitude");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,([Px1 Pdl Pdu]-Pd)/pi);
+plot(wp*0.5/pi,([Px1,Pdl-Pconst,Pdu-Pconst]+(wp*tp)-(pp*pi))/pi);
 axis([0 0.5 ppr*[-1,1]]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
-plot(wt*0.5/pi,[Tx1 Tdl Tdu]-Td)
+plot(wt*0.5/pi,[Tx1,Tdl,Tdu]-tp)
 axis([0 0.5 tpr*[-1,1]]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
@@ -221,19 +221,20 @@ endfor
 axis(ax(1),[0 0.5 Arp*[-1,1]]);
 axis(ax(2),[0 0.5 Ars*[-1,1]]);
 strPerror=sprintf(["Differentiator PCLS error : ", ...
- "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,Arp,fas,Ars,tp,tpr,ppr);
+                   "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,pp=%g,ppr=%g"], ...
+                  fap,Arp,fas,Ars,tp,tpr,pp,ppr);
 title(strPerror);
-ylabel("Amplitude");
+ylabel("Amplitude error");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,([(Pd1z+Pconst) Pdl Pdu]-Pd)/pi);
+plot(wp*0.5/pi,([Pd1z,Pdl-Pconst,Pdu-Pconst]+(wp*tp)-(pp*pi))/pi);
 axis([0 0.5 ppr*[-1,1]]);
-ylabel("Phase(rad./$\\pi$)");
+ylabel("Phase error(rad./$\\pi$)");
 grid("on");
 subplot(313);
-plot(wt*0.5/pi,[Td1z Tdl Tdu]-Td);
+plot(wt*0.5/pi,[Td1z,Tdl,Tdu]-tp);
 axis([0 0.5 tpr*[-1,1]]);
-ylabel("Delay(samples)");
+ylabel("Delay error(samples)");
 xlabel("Frequency");
 grid("on");
 print(strcat(strf,"_pcls_error"),"-dpdflatex");
@@ -257,13 +258,13 @@ title(strP);
 ylabel("Amplitude");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,([Pd1z Pdl-Pconst Pdu-Pconst]+(wp*tp))/pi);
-axis([0 0.5 pp+(ppr*[-1,1])]);
+plot(wp*0.5/pi,([Pd1z,Pdl-Pconst,Pdu-Pconst]+(wp*tp))/pi);
+axis([0 0.5 pp+(2*ppr*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
-plot(wt*0.5/pi,[Td1z Tdl Tdu])
-axis([0 0.5 tp+(tpr*[-1,1])]);
+plot(wt*0.5/pi,[Td1z,Tdl,Tdu])
+axis([0 0.5 tp+(2*tpr*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");

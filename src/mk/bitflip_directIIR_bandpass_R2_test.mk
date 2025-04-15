@@ -1,0 +1,25 @@
+bitflip_directIIR_bandpass_R2_test_FIGURES= \
+bitflip_directIIR_bandpass_R2_test_amplitude \
+bitflip_directIIR_bandpass_R2_test_delay
+
+bitflip_directIIR_bandpass_R2_test_COEFS= \
+bitflip_directIIR_bandpass_R2_test.mat \
+bitflip_directIIR_bandpass_R2_test_n_ex_coef.m \
+bitflip_directIIR_bandpass_R2_test_d_ex_coef.m \
+bitflip_directIIR_bandpass_R2_test_n_rd_coef.m \
+bitflip_directIIR_bandpass_R2_test_d_rd_coef.m \
+bitflip_directIIR_bandpass_R2_test_n_bf_coef.m \
+bitflip_directIIR_bandpass_R2_test_d_bf_coef.m \
+bitflip_directIIR_bandpass_R2_test_n_sd_coef.m \
+bitflip_directIIR_bandpass_R2_test_d_sd_coef.m \
+bitflip_directIIR_bandpass_R2_test_n_bfsd_coef.m \
+bitflip_directIIR_bandpass_R2_test_d_bfsd_coef.m \
+bitflip_directIIR_bandpass_R2_test_cost.tab \
+bitflip_directIIR_bandpass_R2_test_adders.tab
+
+bitflip_directIIR_bandpass_R2_test_FILES = \
+bitflip_directIIR_bandpass_R2_test.m test_common.m delayz.m print_polynomial.m \
+bitflip_bandpass_R2_test_common.m flt2SD.m SDadders.m x2nextra.m \
+qroots.oct bin2SD.oct bitflip.oct bin2SPT.oct
+
+bitflip_directIIR_bandpass_R2_test.diary : iir_sqp_slb_bandpass_R2_test.diary

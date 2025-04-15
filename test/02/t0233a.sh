@@ -1,12 +1,10 @@
 #!/bin/sh
 
-prog=branch_bound_schurOneMlattice_bandpass_6_nbits_test.m
+prog=branch_bound_schurOneMlattice_bandpass_R2_6_nbits_test.m
 
-depends="test/branch_bound_schurOneMlattice_bandpass_6_nbits_test.m test_common.m \
-../schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_c2_coef.m \
+depends="test/branch_bound_schurOneMlattice_bandpass_R2_6_nbits_test.m test_common.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_N2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_D2_coef.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
 schurOneMlatticeEsq.m schurOneMscale.m tf2schurOneMlattice.m \
 schurOneMlattice2tf.m local_max.m x2tf.m tf2pa.m print_polynomial.m \
@@ -82,7 +80,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-nstr="branch_bound_schurOneMlattice_bandpass_6_nbits_test"
+nstr="branch_bound_schurOneMlattice_bandpass_R2_6_nbits_test"
 
 diff -Bb test.k.ok $nstr"_k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi

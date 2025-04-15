@@ -1,0 +1,45 @@
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test_FIGURES = \
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test_intro \
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test_delay \
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test_pass \
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test_stop
+
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test_COEFS = \
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test.mat \
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test_spec.m \
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test_k_allocsd_digits.m \
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test_c_allocsd_digits.m \
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test_k_min_coef.m \
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test_c_min_coef.m \
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test_cost.tab \
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test_signed_digits.tab \
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test_adders.tab
+
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test_FILES = \
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test.m \
+schurOneMlattice_bandpass_R2_10_nbits_common.m test_common.m \
+schurOneMlatticeAsq.m \
+schurOneMlatticeT.m \
+schurOneMlatticeP.m \
+schurOneMlatticedAsqdw.m \
+schurOneMlatticeEsq.m \
+schurOneMlattice_slb.m \
+schurOneMlattice_slb_constraints_are_empty.m \
+schurOneMlattice_sqp_mmse.m \
+schurOneMlattice_slb_exchange_constraints.m \
+schurOneMlattice_slb_set_empty_constraints.m \
+schurOneMlattice_slb_show_constraints.m \
+schurOneMlattice_slb_update_constraints.m \
+schurOneMscale.m \
+schurOneMlattice2tf.m \
+schurOneMlattice_allocsd_Ito.m \
+schurOneMlattice_allocsd_Lim.m \
+schurOneMlatticeFilter.m \
+tf2schurOneMlattice.m \
+local_max.m print_polynomial.m Abcd2tf.m x2nextra.m sqp_bfgs.m armijo_kim.m \
+updateWbfgs.m invSVD.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m SDadders.m \
+schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
+schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct
+
+sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test.diary : \
+schurOneMlattice_sqp_slb_bandpass_R2_test.diary

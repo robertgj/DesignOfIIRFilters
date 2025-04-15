@@ -82,7 +82,7 @@ function [y,yu,yl]=flt2SD(x,nbits,ndigits,verbose)
   % Find bounds
   if nargout==3
     [yu_tmp,yl_tmp]=arrayfun(@bin2SDul,xxx,nbits,ndigits, ...
-                     "ErrorHandler",@bin2SD_error_handler);
+                             "ErrorHandler",@bin2SD_error_handler);
     yu_tmp=yu_tmp./nscale;
     yl_tmp=yl_tmp./nscale;
     % Restore sign
@@ -109,7 +109,7 @@ function [y,yu,yl]=flt2SD(x,nbits,ndigits,verbose)
   
 endfunction
 
-function y=bin2SD_error_handler(S,x,nbits,ndigits)
+function [yu,yl]=bin2SD_error_handler(S,x,nbits,ndigits)
   fprintf(stderr,"\n\nbin2SD_error_handler():\n");
   fprintf(stderr,"S.identifier=%s\n",S.identifier);
   fprintf(stderr,"S.message=%s\n",S.message);
@@ -123,4 +123,5 @@ function y=bin2SD_error_handler(S,x,nbits,ndigits)
   fprintf(stderr,"ndigits=[");
   fprintf(stderr,"%d ",ndigits);
   fprintf(stderr,"]\n");
+  error("bin2SD failed!");
 endfunction

@@ -1,10 +1,10 @@
 #!/bin/sh
 
-prog=iir_sqp_slb_differentiator_test.m
+prog=iir_sqp_slb_differentiator_R2_test.m
 
-depends="test/iir_sqp_slb_differentiator_test.m \
-../tarczynski_differentiator_test_N0_coef.m \
-../tarczynski_differentiator_test_D0_coef.m \
+depends="test/iir_sqp_slb_differentiator_R2_test.m \
+../tarczynski_differentiator_R2_test_N0_coef.m \
+../tarczynski_differentiator_R2_test_D0_coef.m \
 test_common.m delayz.m print_polynomial.m print_pole_zero.m \
 armijo_kim.m \
 fixResultNaN.m iirA.m iirE.m iirP.m \
@@ -68,7 +68,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.ok iir_sqp_slb_differentiator_test_d1_coef.m
+diff -Bb test.ok iir_sqp_slb_differentiator_R2_test_d1_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb"; fail; fi
 
 

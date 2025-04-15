@@ -46,12 +46,12 @@ fas=0.25 % Stop band amplitude response edge
 dBas=50 % Stop band amplitude response ripple
 Was=100 % Stop band amplitude response weight
 ftp=0.175 % Pass band group delay response edge
-td=(m1+m2)/2 % Pass band nominal group delay
-tdr=0.08 % Pass band group delay response ripple
+tp=(m1+m2)/2 % Pass band nominal group delay
+tpr=0.08 % Pass band group delay response ripple
 Wtp=2 % Pass band group delay response weight
 
 % This works with Wa, Wt and Wp passed to schurOneMPAlattice_allocsd_Lim:
-% dBas=51;tdr=0.08;Wtp=1;
+% dBas=51;tpr=0.08;Wtp=1;
 
 % Amplitude constraints
 wa=(0:(n-1))'*pi/n;
@@ -65,9 +65,9 @@ Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
 % Group delay constraints
 ntp=ceil(n*ftp/0.5)+1;
 wt=(0:(ntp-1))'*pi/n;
-Td=td*ones(ntp,1);
-Tdu=(td+(tdr/2))*ones(ntp,1);
-Tdl=(td-(tdr/2))*ones(ntp,1);
+Td=tp*ones(ntp,1);
+Tdu=(tp+(tpr/2))*ones(ntp,1);
+Tdl=(tp-(tpr/2))*ones(ntp,1);
 Wt=Wtp*ones(ntp,1);
 
 % Phase constraints
@@ -320,8 +320,8 @@ plot(wa*0.5/pi,10*log10(Asq_k),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-strt=sprintf(["Parallel one-multplier allpass lattice lowpass filter (nbits=12) :", ...
- " fap=%g,fas=%g,dBap=%g,Wap=%g,td=%g,Wtp=%g"],fap,fas,dBap,Wap,td,Wtp);
+strt=sprintf(["Parallel OneM all-pass lattice low-pass filter (nbits=12) :", ...
+              " fap=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g"], fap,dBap,Wap,tp,Wtp);
 title(strt);
 axis([0 max(fap,ftp) -0.2 0.05]);
 legend("exact","s-d(Lim)","s-d(SOCP-relax)");
@@ -342,6 +342,8 @@ legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
+strt=sprintf(["Parallel OneM all-pass lattice low-pass filter (nbits=12) :", ...
+              " fas=%g,dBas=%g,Was=%g"],fas,dBas,Was);
 title(strt);
 axis([fas  0.5 -70 -30]);
 grid("on");
@@ -354,13 +356,15 @@ plot(wt*0.5/pi,T_k,"linestyle","-", ...
      wt*0.5/pi,T_kmin,"linestyle","-.");
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 max(fap,ftp) td+[-0.1 0.15]]);
+axis([0 max(fap,ftp) tp+[-0.1 0.15]]);
 grid("on");
 legend("exact","s-d(Lim)","s-d(SOCP-relax)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+strt=sprintf(["Parallel OneM all-pass lattice low-pass filter (nbits=12) :", ...
+              " ftp=%g,tp=%g,Wtp=%g"],ftp,tp,Wtp);
 title(strt);
 print(strcat(strf,"_kmin_pass_delay"),"-dpdflatex");
 close
@@ -394,7 +398,7 @@ axis(ax(2),[0 0.5 -70 -50]);
 grid("on");
 if ~print_for_web_page
   strt=sprintf(["Parallel all-pass lattice low-pass filter (nbits=%d) : ", ...
- "fap=%g,dBap=%g,fas=%g,dBas=%g,td=%g,tdr=%g"],nbits,fap,dBap,fas,dBas,td,tdr);
+ "fap=%g,dBap=%g,fas=%g,dBas=%g,tp=%g,tpr=%g"],nbits,fap,dBap,fas,dBas,tp,tpr);
   title(strt);
 endif
 subplot(212)
@@ -432,14 +436,14 @@ fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
 fprintf(fid,"dBas=%d %% amplitude stop band peak-to-peak ripple\n",dBas);
 fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
 fprintf(fid,"ftp=%g %% Delay pass band edge\n",ftp);
-fprintf(fid,"td=%g %% Nominal pass band filter group delay\n",td);
-fprintf(fid,"tdr=%g %% Delay pass band peak-to-peak ripple\n",tdr);
+fprintf(fid,"tp=%g %% Nominal pass band filter group delay\n",tp);
+fprintf(fid,"tpr=%g %% Delay pass band peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%d %% Delay pass band weight\n",Wtp);
 fclose(fid);
 
 % Save results
 eval(sprintf(["save %s.mat ", ...
- "n m1 m2 fap dBap Wap Wat fas dBas Was ftp td tdr Wtp rho tol ctol ", ...
+ "n m1 m2 fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp rho tol ctol ", ...
  "nbits ndigits ndigits_alloc ", ...
  "A1k A1epsilon A1p A2k A2epsilon A2p ", ...
  "A1k_min A1epsilon_min A2k_min A2epsilon_min"],strf));

@@ -21,9 +21,9 @@ fapl=0.095,fapu=0.205,dBap=0.1,Wap=1,Wat=0.0001
 fasl=0.05,fasu=0.25,dBas=35,Wasl=1000,Wasu=1000
 ftpl=0.1,ftpu=0.2,tp=16,tpr=tp/100,Wtp=0.1
 
-% Initial filter (found by tarczynski_bandpass_test.m)
-tarczynski_bandpass_test_N_coef;
-tarczynski_bandpass_test_D_coef;
+% Initial filter (found by tarczynski_bandpass_R2_test.m)
+tarczynski_bandpass_R2_test_N_coef;
+tarczynski_bandpass_R2_test_D_coef;
 N0=N(:);
 D0R=kron(D(:),[1;0])(1:length(N));
 [k0,epsilon0,p0,c0]=tf2schurOneMlattice(N0,D0R);

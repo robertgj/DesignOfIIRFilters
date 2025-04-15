@@ -1,67 +1,65 @@
-% schurOneMlattice_bandpass_10_nbits_common.m
+% schurOneMlattice_bandpass_R2_10_nbits_common.m
 % Copyright (C) 2017-2025 Robert G. Jenssen
 
-% Coefficients found by schurOneMlattice_sqp_slb_bandpass_test.m
-schurOneMlattice_sqp_slb_bandpass_test_k2_coef;
-schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef;
-schurOneMlattice_sqp_slb_bandpass_test_p2_coef;
-schurOneMlattice_sqp_slb_bandpass_test_c2_coef;
+% Coefficients found by schurOneMlattice_socp_slb_bandpass_test.m
+schurOneMlattice_socp_slb_bandpass_test_N3_coef;
+schurOneMlattice_socp_slb_bandpass_test_D3_coef;
+N0=N3;D0=D3;clear N3 D3;
 
-k0=k2;
-epsilon0=epsilon2;
-p0=p2;
-c0=c2;
+[k0,epsilon0,p0,c0]=tf2schurOneMlattice(N0,D0);
+k0=k0(:);epsilon0=epsilon0(:);p0=p0(:);c0=c0(:);
+kc0=[k0;c0];
+Nk=length(k0);
+Nc=length(c0);
+Nkc=length(kc0);
+Rk=1:Nk;
+Rc=(Nk+1):(Nk+Nc);
 
 % Bandpass filter specification
+R=1;
+
 if exist("ftol","var")~=1
   ftol=1e-4
 endif
 if exist("ctol","var")~=1
-  ctol=ftol/10
+  ctol=ftol/1000
 endif
 fapl=0.1,fapu=0.2,Wap=1
 if exist("dBap","var")~=1
-  dBap=2
+  dBap=0.08
 endif
-fasll=0.04,fasl=0.05,fasu=0.25,fasuu=0.26
+fasl=0.05,fasu=0.25
 if exist("dBas","var")~=1
-  dBas=33
-endif
-if exist("dBass","var")~=1
-  dBass=40
+  dBas=40
 endif
 if exist("Wasl","var")~=1
-  Wasl=5e5
+  Wasl=1e3
 endif
 if exist("Wasu","var")~=1
-  Wasu=1e6
+  Wasu=1e3
 endif
-ftpl=0.09,ftpu=0.21,tp=16
+ftpl=0.1,ftpu=0.2,tp=16
 if exist("tpr","var")~=1
-  tpr=0.2
+  tpr=tp/400
 endif
 if exist("Wtp","var")~=1
-  Wtp=5
+  Wtp=0.1
 endif
 
 % Amplitude constraints
 npoints=250;
 wa=(0:(npoints-1))'*pi/npoints;
-nasll=floor(npoints*fasll/0.5)+1;
 nasl=ceil(npoints*fasl/0.5)+1;
 napl=floor(npoints*fapl/0.5)+1;
 napu=ceil(npoints*fapu/0.5)+1;
 nasu=floor(npoints*fasu/0.5)+1;
-nasuu=ceil(npoints*fasuu/0.5)+1;
 
 Asqd=[zeros(napl-1,1); ...
       ones(napu-napl+1,1); ...
       zeros(npoints-napu,1)];
-Asqdu=[(10^(-dBass/10))*ones(nasll,1); ...
-       (10^(-dBas/10))*ones(nasl-nasll,1); ...
+Asqdu=[(10^(-dBas/10))*ones(nasl,1); ...
        ones(nasu-nasl-1,1); ...
-       (10^(-dBas/10))*ones(nasuu-nasu,1); ...
-       (10^(-dBass/10))*ones(npoints-nasuu+1,1)];
+       (10^(-dBas/10))*ones(npoints-nasu+1,1)];
 Asqdl=[zeros(napl-1,1); ...
        (10^(-dBap/10))*ones(napu-napl+1,1); ...
        zeros(npoints-napu,1)];
@@ -114,13 +112,7 @@ endif
 % Constraints on the coefficients
 dmax=0.25
 rho=(nscale-1)/nscale
-k0=k0(:);
-c0=c0(:);
-Nk=length(k0);
-Nc=length(c0);
-kc0=[k0;c0];
-Nkc=length(kc0);
-kc0_u=[rho*ones(size(k0));10*ones(size(c0))];
+kc0_u=rho*ones(size(kc0));
 kc0_l=-kc0_u;
 
 % Allocate digits

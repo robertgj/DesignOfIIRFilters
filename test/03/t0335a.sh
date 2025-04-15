@@ -1,11 +1,11 @@
 #!/bin/sh
 
-prog=sdp_relaxation_schurOneMlattice_bandpass_12_nbits_test.m
-depends="test/sdp_relaxation_schurOneMlattice_bandpass_12_nbits_test.m \
-../schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_c2_coef.m \
+prog=sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test.m
+depends="test/sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_k2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_epsilon2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_p2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_c2_coef.m \
 test_common.m \
 sdp_relaxation_schurOneMlattice_mmse.m \
 schurOneMlattice_socp_mmse.m \
@@ -134,7 +134,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-nstr="sdp_relaxation_schurOneMlattice_bandpass_12_nbits_test"
+nstr="sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test"
 
 diff -Bb test_k0_sd_Lim.ok $nstr"_k0_sd_Lim_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_k0_sd_Lim.ok"; fail; fi

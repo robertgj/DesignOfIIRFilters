@@ -1,0 +1,41 @@
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test_FIGURES = \
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test_delay \
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test_pass \
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test_stop \
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test_coef_hist
+
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test_COEFS = \
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test.mat \
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test_spec.m \
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test_k0_sd_Lim_coef.m \
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test_c0_sd_Lim_coef.m \
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test_k0_sd_sdp_coef.m \
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test_c0_sd_sdp_coef.m \
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test_k0_sd_min_coef.m \
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test_c0_sd_min_coef.m \
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test_cost.tab
+
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test_FILES = \
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test.m \
+test_common.m \
+sdp_relaxation_schurOneMlattice_mmse.m \
+schurOneMlattice_socp_mmse.m \
+schurOneMlattice_allocsd_Lim.m \
+schurOneMlattice_allocsd_Ito.m \
+schurOneMlattice_slb.m \
+schurOneMlattice_slb_constraints_are_empty.m \
+schurOneMlattice_slb_exchange_constraints.m \
+schurOneMlattice_slb_set_empty_constraints.m \
+schurOneMlattice_slb_show_constraints.m \
+schurOneMlattice_slb_update_constraints.m \
+schurOneMlatticeEsq.m \
+schurOneMlatticeAsq.m \
+schurOneMlatticeP.m \
+schurOneMlatticeT.m \
+H2Asq.m H2P.m H2T.m \
+print_polynomial.m local_max.m flt2SD.m SDadders.m x2nextra.m bin2SDul.m \
+schurOneMlattice2H.oct schurOneMlattice2Abcd.oct complex_zhong_inverse.oct \
+bin2SD.oct bin2SPT.oct
+
+sdp_relaxation_schurOneMlattice_bandpass_R2_12_nbits_test.diary : \
+schurOneMlattice_sqp_slb_bandpass_R2_test.diary

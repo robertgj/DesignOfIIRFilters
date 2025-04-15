@@ -36,4 +36,4 @@ schurOneMlattice2Abcd.oct qroots.oct schurdecomp.oct schurexpand.oct \
 schurOneMlattice2H.oct complex_zhong_inverse.oct Abcd2tf.oct
 
 schurOneMR2lattice_socp_slb_bandpass_test.diary : \
-tarczynski_bandpass_test.diary
+tarczynski_bandpass_R2_test.diary

@@ -1,8 +1,8 @@
 #!/bin/sh
 
-prog=tarczynski_hilbert_test.m
+prog=tarczynski_hilbert_R2_test.m
 
-depends="test/tarczynski_hilbert_test.m test_common.m \
+depends="test/tarczynski_hilbert_R2_test.m test_common.m \
 print_polynomial.m qroots.oct \
 "
 
@@ -60,10 +60,10 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.ok.N0 tarczynski_hilbert_test_N0_coef.m
+diff -Bb test.ok.N0 tarczynski_hilbert_R2_test_N0_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok.N0"; fail; fi
 
-diff -Bb test.ok.D0 tarczynski_hilbert_test_D0_coef.m
+diff -Bb test.ok.D0 tarczynski_hilbert_R2_test_D0_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok.D0"; fail; fi
 
 

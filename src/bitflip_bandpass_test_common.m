@@ -1,12 +1,6 @@
 % bitflip_bandpass_test_common.m
 % Copyright (C) 2017-2025 Robert G. Jenssen
 
-% PCLS IIR band pass filter from iir_sqp_slb_bandpass_test.m
-iir_sqp_slb_bandpass_test_D1_coef;
-iir_sqp_slb_bandpass_test_N1_coef;
-d0 = D1;
-n0 = N1;
-
 % Specify desired response
 npoints=250;
 fapl=0.1;fapu=0.2;fasl=0.05;fasu=0.25;

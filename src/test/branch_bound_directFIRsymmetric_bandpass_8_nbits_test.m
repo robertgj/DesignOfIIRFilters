@@ -253,6 +253,7 @@ legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
+title(strt);
 print(strcat(strf,"_stopband_response"),"-dpdflatex");
 close
 

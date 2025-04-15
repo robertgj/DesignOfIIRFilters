@@ -3,10 +3,8 @@
 prog=schurOneMlattice_pop_socp_mmse_test.m
 
 depends="test/schurOneMlattice_pop_socp_mmse_test.m \
-../schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_c2_coef.m \
+../schurOneMlattice_socp_slb_bandpass_test_N3_coef.m \
+../schurOneMlattice_socp_slb_bandpass_test_D3_coef.m \
 schurOneMlattice_pop_socp_mmse.m \
 schurOneMlattice_bandpass_10_nbits_common.m test_common.m \
 schurOneMlatticeAsq.m \
@@ -64,20 +62,20 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k.ok << 'EOF'
-k1 = [        0,      340,        0,      256, ... 
-              0,      176,        0,      214, ... 
-              0,      152,        0,      128, ... 
-              0,       78,        0,       52, ... 
-              0,       19,        0,        7 ]'/512;
+k1 = [     -472,      488,     -160,      420, ... 
+           -368,      404,     -309,      384, ... 
+           -288,      286,      -44,      -69, ... 
+            117,       31,      -88,       76, ... 
+              2,      -32,       26,       -8 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
 cat > test.c.ok << 'EOF'
-c1 = [       36,       -8,     -156,     -248, ... 
-            -82,       64,      200,      152, ... 
-              8,      -42,      -40,       -8, ... 
-             -4,      -18,      -13,        2, ... 
-             14,        8,        1,        0, ... 
-              3 ]'/512;
+c1 = [      -64,      -72,     -192,     -512, ... 
+             32,      778,      112,     -220, ... 
+           -480,      -16,        4,      -24, ... 
+            -16,        8,       16,        4, ... 
+              0,        4,        7,       -1, ... 
+             -1 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
 
@@ -89,10 +87,12 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.k.ok schurOneMlattice_pop_socp_mmse_test_k1_coef.m
+nstr="schurOneMlattice_pop_socp_mmse_test"
+
+diff -Bb test.k.ok $nstr"_k1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
 
-diff -Bb test.c.ok schurOneMlattice_pop_socp_mmse_test_c1_coef.m
+diff -Bb test.c.ok $nstr"_c1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi
 
 #

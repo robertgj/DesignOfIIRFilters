@@ -1,8 +1,8 @@
 #!/bin/sh
 
-prog=schurOneMlattice_sqp_slb_bandpass_test.m
+prog=schurOneMlattice_sqp_slb_bandpass_R2_test.m
 
-depends="test/schurOneMlattice_sqp_slb_bandpass_test.m test_common.m \
+depends="test/schurOneMlattice_sqp_slb_bandpass_R2_test.m test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
 schurOneMlatticeP.m \
@@ -100,16 +100,18 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.k2.ok schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m
+nstr=schurOneMlattice_sqp_slb_bandpass_R2_test
+
+diff -Bb test.k2.ok $nstr"_k2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of k2.coef"; fail; fi
 
-diff -Bb test.epsilon2.ok schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m
+diff -Bb test.epsilon2.ok $nstr"_epsilon2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of epsilon2.coef"; fail; fi
 
-diff -Bb test.p2.ok schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m
+diff -Bb test.p2.ok $nstr"_p2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of p2.coef"; fail; fi
 
-diff -Bb test.c2.ok schurOneMlattice_sqp_slb_bandpass_test_c2_coef.m
+diff -Bb test.c2.ok $nstr"_c2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of c2.coef"; fail; fi
 
 #

@@ -1,10 +1,10 @@
 #!/bin/sh
 
-prog=tarczynski_differentiator_test.m
+prog=tarczynski_differentiator_R2_test.m
 
-depends="test/tarczynski_differentiator_test.m test_common.m delayz.m WISEJ.m \
-tf2Abcd.m print_polynomial.m print_pole_zero.m qroots.oct \
-"
+depends="test/tarczynski_differentiator_R2_test.m test_common.m delayz.m \
+WISEJ.m tf2Abcd.m print_polynomial.m print_pole_zero.m \
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -60,10 +60,10 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.N0.ok tarczynski_differentiator_test_N0_coef.m
+diff -Bb test.N0.ok tarczynski_differentiator_R2_test_N0_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff test.N0.ok -Bb"; fail; fi
 
-diff -Bb test.D0.ok tarczynski_differentiator_test_D0_coef.m
+diff -Bb test.D0.ok tarczynski_differentiator_R2_test_D0_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff test.D0.ok -Bb"; fail; fi
 
 #

@@ -40,4 +40,4 @@ schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct \
 qroots.oct 
 
 branch_bound_schurOneMlattice_bandpass_10_nbits_test.diary : \
-schurOneMlattice_sqp_slb_bandpass_test.diary
+schurOneMlattice_socp_slb_bandpass_test.diary

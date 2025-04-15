@@ -4,8 +4,6 @@ prog=bitflip_schurOneMPAlattice_bandpass_test.m
 
 depends="test/bitflip_schurOneMPAlattice_bandpass_test.m test_common.m delayz.m \
 bitflip_bandpass_test_common.m \
-../iir_sqp_slb_bandpass_test_D1_coef.m \
-../iir_sqp_slb_bandpass_test_N1_coef.m \
 ../schurOneMPAlattice_socp_slb_bandpass_test_A1k_coef.m \
 ../schurOneMPAlattice_socp_slb_bandpass_test_A1p_coef.m \
 ../schurOneMPAlattice_socp_slb_bandpass_test_A1epsilon_coef.m \
@@ -69,6 +67,34 @@ A2k_bf = [      -96,       96,       62,      -73, ...
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_bf.ok"; fail; fi
 
+cat > test_A1k_bfsd.ok << 'EOF'
+A1k_bfsd = [      -48,       80,       63,      -68, ... 
+                   72,      -28,      -24,       56, ... 
+                  -36,       24 ]/128;
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_bfsd.ok"; fail; fi
+
+cat > test_A2k_bfsd.ok << 'EOF'
+A2k_bfsd = [      -96,       96,       63,      -72, ... 
+                   80,      -18,      -16,       56, ... 
+                  -40,       20 ]/128;
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_bfsd.ok"; fail; fi
+
+cat > test_A1k_bfsdi.ok << 'EOF'
+A1k_bfsdi = [      -50,       88,       64,      -68, ... 
+                    78,      -32,      -24,       56, ... 
+                   -36,       20 ]/128;
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_bfsdi.ok"; fail; fi
+
+cat > test_A2k_bfsdi.ok << 'EOF'
+A2k_bfsdi = [      -96,       96,       64,      -72, ... 
+                    80,      -16,      -16,       56, ... 
+                   -40,       20 ]/128;
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_bfsdi.ok"; fail; fi
+
 cat > test_cost.ok << 'EOF'
 Exact & 1.0852\\
 8-bit rounded & 1.9823\\
@@ -96,6 +122,18 @@ if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k_bf.ok"; fail; fi
 
 diff -Bb test_A2k_bf.ok $nstr"_A2k_bf_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k_bf.ok"; fail; fi
+
+diff -Bb test_A1k_bfsd.ok $nstr"_A1k_bfsd_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k_bfsd.ok"; fail; fi
+
+diff -Bb test_A2k_bfsd.ok $nstr"_A2k_bfsd_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k_bfsd.ok"; fail; fi
+
+diff -Bb test_A1k_bfsdi.ok $nstr"_A1k_bfsdi_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k_bfsdi.ok"; fail; fi
+
+diff -Bb test_A2k_bfsdi.ok $nstr"_A2k_bfsdi_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k_bfsdi.ok"; fail; fi
 
 diff -Bb test_cost.ok $nstr"_cost.tab"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_cost.ok"; fail; fi

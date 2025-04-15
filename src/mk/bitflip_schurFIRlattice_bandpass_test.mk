@@ -19,7 +19,5 @@ bitflip_bandpass_test_common.m flt2SD.m schurFIRlattice2Abcd.m \
 Abcd2tf.m print_polynomial.m x2nextra.m SDadders.m \
 bin2SPT.oct bin2SD.oct schurFIRdecomp.oct bitflip.oct
 
-bitflip_schurFIRlattice_bandpass_test.diary : iir_sqp_slb_bandpass_test.diary
-
 bitflip_schurFIRlattice_bandpass_test.diary : \
 iir_sqp_slb_fir_17_bandpass_test.diary

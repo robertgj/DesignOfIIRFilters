@@ -1,13 +1,13 @@
 #!/bin/sh
 
-prog=sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test.m
+prog=sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test.m
 
-depends="test/sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test.m \
-../schurOneMlattice_sqp_slb_bandpass_test_k2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_epsilon2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_p2_coef.m \
-../schurOneMlattice_sqp_slb_bandpass_test_c2_coef.m \
-schurOneMlattice_bandpass_10_nbits_common.m test_common.m \
+depends="test/sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_k2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_epsilon2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_p2_coef.m \
+../schurOneMlattice_sqp_slb_bandpass_R2_test_c2_coef.m \
+schurOneMlattice_bandpass_R2_10_nbits_common.m test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
 schurOneMlatticeP.m \
@@ -98,7 +98,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-nstr="sqp_relaxation_schurOneMlattice_bandpass_10_nbits_test"
+nstr="sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test"
 
 diff -Bb test.k.ok $nstr"_k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi

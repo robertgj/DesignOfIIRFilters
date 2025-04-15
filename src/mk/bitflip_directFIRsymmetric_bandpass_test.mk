@@ -29,4 +29,5 @@ bitflip_bandpass_test_common.m directFIRsymmetricA.m \
 print_polynomial.m flt2SD.m SDadders.m x2nextra.m \
 bin2SD.oct bitflip.oct bin2SPT.oct
 
-bitflip_directFIRsymmetric_bandpass_test.diary : iir_sqp_slb_bandpass_test.diary
+bitflip_directFIRsymmetric_bandpass_test.diary : \
+schurOneMPAlattice_socp_slb_bandpass_test.diary

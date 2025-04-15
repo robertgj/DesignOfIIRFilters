@@ -14,11 +14,16 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-% Coefficients found by schurOneMlattice_sqp_slb_bandpass_test.m
-schurOneMlattice_sqp_slb_bandpass_test_N2_coef;
-schurOneMlattice_sqp_slb_bandpass_test_D2_coef;
-[k0,epsilon0,c0,kk0,ck0]=tf2schurOneMlatticePipelined(N2,D2);
-clear N2 D2;
+% Bandpass filter specification for schurOneMlattice_sqp_slb_bandpass_R2_test.m
+fapl=0.1,fapu=0.2,Wap=100
+fasl=0.05,fasu=0.25,Wasl=1e6,Wasu=1e5
+ftpl=0.09,ftpu=0.21,tp=16,Wtp=1
+
+% Coefficients found by schurOneMlattice_socp_slb_bandpass_test.m
+schurOneMlattice_socp_slb_bandpass_test_N3_coef;
+schurOneMlattice_socp_slb_bandpass_test_D3_coef;
+[k0,epsilon0,c0,kk0,ck0]=tf2schurOneMlatticePipelined(N3,D3);
+clear N3 D3;
 
 Nk=length(k0);
 Nc=length(c0);
@@ -86,11 +91,6 @@ endif
 printf("kc0_sd uses %d signed-digits\n",kc0_digits);
 printf("kc0_sd uses %d %d-bit adders for coefficient multiplications\n", ...
        kc0_adders,nbits);
-
-% Bandpass R=2 filter specification for schurOneMlattice_sqp_slb_bandpass_test.m
-fapl=0.1,fapu=0.2,Wap=1
-fasl=0.05,fasu=0.25,Wasl=1e5,Wasu=1e6
-ftpl=0.09,ftpu=0.21,tp=16,Wtp=1
 
 % Amplitude constraints
 npoints=250;
@@ -310,7 +310,7 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
      wplot*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([0 0.5 -50 -20]);
+axis([0 0.5 -50 -30]);
 strt=sprintf(strt,"stop-band");
 title(strt);
 legend("exact","s-d","s-d(BandB)");
@@ -327,7 +327,7 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
      wplot*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([0.1 0.2 -2 1]);
+axis([0.1 0.2 -0.4 0.2]);
 strt=sprintf(strt,"pass-band");
 title(strt);
 legend("exact","s-d","s-d(BandB)");
@@ -349,7 +349,7 @@ strt=sprintf(["Schur one-multiplier pipelined lattice bandpass filter pass-band 
  ": nbits=%d,ftpl=%g,ftpu=%g,tp=%g"],nbits,ftpl,ftpu,tp);
 title(strt);
 legend("exact","s-d","s-d(BandB)");
-legend("location","northeast");
+legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -377,11 +377,10 @@ fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-eval(sprintf(strcat("save %s.mat ", ...
+eval(sprintf(strcat("save %s.mat improved_solution_found ", ...
                     " k0 epsilon0 c0 cscale nbits ndigits npoints ", ...
                     " fapl fapu Wap fasl fasu Wasl Wasu ftpl ftpu tp Wtp ", ...
-                    " improved_solution_found k_min p_min c_min kk_min ", ...
-                    " ck_min"),strf));
+                    " k_min p_min c_min kk_min ck_min"),strf));
        
 % Done
 toc;

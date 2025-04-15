@@ -1,9 +1,9 @@
 #!/bin/sh
 
-prog=iir_socp_slb_hilbert_test.m
-depends="test/iir_socp_slb_hilbert_test.m \
-../tarczynski_hilbert_test_D0_coef.m \
-../tarczynski_hilbert_test_N0_coef.m \
+prog=iir_socp_slb_hilbert_R2_test.m
+depends="test/iir_socp_slb_hilbert_R2_test.m \
+../tarczynski_hilbert_R2_test_D0_coef.m \
+../tarczynski_hilbert_R2_test_N0_coef.m \
 test_common.m print_polynomial.m print_pole_zero.m \
 fixResultNaN.m iirA.m iirE.m iirP.m iirT.m \
 local_max.m iir_socp_mmse.m iir_slb.m \
@@ -67,7 +67,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.d1.ok iir_socp_slb_hilbert_test_d1_coef.m
+diff -Bb test.d1.ok iir_socp_slb_hilbert_R2_test_d1_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb"; fail; fi
 
 

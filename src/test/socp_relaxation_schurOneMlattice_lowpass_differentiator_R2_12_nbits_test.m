@@ -478,7 +478,7 @@ endfor
 axis(ax(1),[0  0.5 0.004*[-1,1]]);
 axis(ax(2),[0  0.5 0.01*[-1,1]]);
 ylabel("Amplitude error");
-strt=sprintf(["Low-pass differentiator filter : ", ...
+strt=sprintf(["Low-pass differentiator R=2 filter : ", ...
  "fap=%g,fas=%g,Arp=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,fas,Arp,Ars,tp,tpr,ppr);
 title(strt);
 grid("on");
@@ -506,6 +506,13 @@ xlabel("Frequency");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
+% Pole-zero plot
+[N_min,D_min]=schurOneMlattice2tf(k_min,epsilon0,p_ones,c_min);
+zplane(qroots(conv([1;-1],N_min(:))),qroots(D_min(:)));
+title(strt);
+print(strcat(strf,"_pz"),"-dpdflatex");
+close
+
 % Plot dCsqdw pass-band response error
 plot(wd*0.5/pi,dCsqdw_kc0-Cd,"linestyle","-", ...
      wd*0.5/pi,dCsqdw_kc0_sd_no_alloc-Cd,"linestyle",":", ...
@@ -514,8 +521,8 @@ plot(wd*0.5/pi,dCsqdw_kc0-Cd,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("dCsqdw error");
 axis([0 fdp cpr*[-1,1]]);
-strt=sprintf(["Schur one-multiplier lattice lowpass differentiator ", ...
-              "correction filter : nbits=%d,fap=%g,fas=%g,Arp=%g,Ars=%g"], ...
+strt=sprintf(["Lowpass R=2 differentiator correction filter : ", ...
+              "nbits=%d,fap=%g,fas=%g,Arp=%g,Ars=%g"], ...
              nbits,fap,fas,Arp,Ars);
 title(strt);
 legend("exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
@@ -524,13 +531,6 @@ legend("boxoff");
 legend("left");
 grid("on");
 print(strcat(strf,"_correction"),"-dpdflatex");
-close
-
-% Pole-zero plot
-[N_min,D_min]=schurOneMlattice2tf(k_min,epsilon0,p_ones,c_min);
-zplane(qroots(conv([1;-1],N_min(:))),qroots(D_min(:)));
-title(strt);
-print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
 % Filter specification
