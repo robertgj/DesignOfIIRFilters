@@ -11,12 +11,12 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-ftol=1e-4;
-ctol=1e-4;
-maxiter=500;
+ftol=1e-3;
+ctol=1e-3;
+maxiter=1000;
 verbose=false;
-nplot=500;
-npoints=nplot;
+nplot=1000;
+npoints=700;
 
 % Desired frequency response specification
 fas1u=0.05;
@@ -26,10 +26,10 @@ fas2l=0.125;fas2u=0.150;
 fap2l=0.175;fap2u=0.225;
 ftp2l=0.185;ftp2u=0.215;
 fas3l=0.25;
-dBas1=20;dBap1=0.5;dBas2=20;dBap2=0.5;dBas3=20;
+dBas1=20;dBap1=1;dBas2=dBas1;dBap2=dBap1;dBas3=dBas1;
 Was1=1;Wap1=1;Was2=1;Wap2=1;Was3=1;
-tp1=21;tpr1=2;tp2=12;tpr2=4;
-Wtp1=0.0001;Wtp2=0.0001;
+tp1=20;tpr1=2;tp2=15;tpr2=2;
+Wtp1=0.001;Wtp2=0.001;
 
 % Initial elliptic filter with lowpass to double bandpass transformation
 n=5;fc=0.25;dBap=0.5;dBas=20;
@@ -169,15 +169,16 @@ rho=0.9999;
 [xl,xu]=xConstraints(U,V,M,Q,rho);
 
 % Plot initial filter
-A0=iirA(wa,x0,U,V,M,Q,R);
-T0=iirT(wa(10:end),x0,U,V,M,Q,R);
+w=pi*(0:(nplot-1))'/nplot;
+A0=iirA(w,x0,U,V,M,Q,R);
+T0=iirT(w(10:end),x0,U,V,M,Q,R);
 subplot(211)
-plot(wa*0.5/pi,20*log10(A0))
+plot(w*0.5/pi,20*log10(A0))
 axis([0 0.5 -40 10])
 ylabel("Amplitude (dB)");
 grid("on");
 subplot(212)
-plot(wa(10:end)*0.5/pi,T0);
+plot(w(10:end)*0.5/pi,T0);
 axis([0 0.5 0 40]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
@@ -201,15 +202,15 @@ endif
 %
 % Plot MMSE result
 %
-A1=iirA(wa,x1,U,V,M,Q,R);
-T1=iirT(wa(10:end),x1,U,V,M,Q,R);
+A1=iirA(w,x1,U,V,M,Q,R);
+T1=iirT(w(10:end),x1,U,V,M,Q,R);
 subplot(211)
-plot(wa*0.5/pi,20*log10(A1))
+plot(w*0.5/pi,20*log10(A1))
 axis([0 0.5 -40 1])
 ylabel("Amplitude (dB)");
 grid("on");
 subplot(212)
-plot(wa(10:end)*0.5/pi,T1);
+plot(w(10:end)*0.5/pi,T1);
 axis([0 0.5 0 40]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
@@ -231,15 +232,15 @@ endif
 %
 % Plot PCLS result
 %
-A2=iirA(wa,x2,U,V,M,Q,R);
-T2=iirT(wa(10:end),x2,U,V,M,Q,R);
+A2=iirA(w,x2,U,V,M,Q,R);
+T2=iirT(w(10:end),x2,U,V,M,Q,R);
 subplot(211)
-plot(wa*0.5/pi,20*log10(A2))
+plot(w*0.5/pi,20*log10(A2))
 axis([0 0.5 -40 10])
 ylabel("Amplitude (dB)");
 grid("on");
 subplot(212)
-plot(wa(10:end)*0.5/pi,T2);
+plot(w(10:end)*0.5/pi,T2);
 axis([0 0.5 0 40]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
@@ -248,15 +249,31 @@ print(strcat(strf,"_pcls"),"-dpdflatex");
 close
 % Passband
 subplot(211)
-plot(wa*0.5/pi,20*log10(A2))
-axis([0 0.5 -0.6 0.1])
+nap1l=floor(nplot*fap1l/0.5);
+nap1u=ceil(nplot*fap1u/0.5);
+nap2l=floor(nplot*fap2l/0.5);
+nap2u=ceil(nplot*fap2u/0.5);
+wa1=(nap1l:nap1u)'*pi/nplot;
+wa2=(nap2l:nap2u)'*pi/nplot;
+A2_1=iirA(wa1,x2,U,V,M,Q,R);
+A2_2=iirA(wa2,x2,U,V,M,Q,R);
+ax=plotyy(wa1*0.5/pi,20*log10(A2_1),wa2*0.5/pi,20*log10(A2_2));
+axis(ax(1),[0 0.5 -1 0.2])
+axis(ax(2),[0 0.5 -1 0.2])
 ylabel("Amplitude (dB)");
 grid("on");
 subplot(212)
-T2=iirT(wt,x2,U,V,M,Q,R);
-ax=plotyy(wt1*0.5/pi,T2(1:length(wt1)),wt2*0.5/pi,T2((length(wt1)+1):end));
-axis(ax(1),[0 0.5 19 23]);
-axis(ax(2),[0 0.5 10 14]);
+ntp1l=floor(nplot*ftp1l/0.5);
+ntp1u=ceil(nplot*ftp1u/0.5);
+ntp2l=floor(nplot*ftp2l/0.5);
+ntp2u=ceil(nplot*ftp2u/0.5);
+wt1=(ntp1l:ntp1u)'*pi/nplot;
+wt2=(ntp2l:ntp2u)'*pi/nplot;
+T2_1=iirT(wt1,x2,U,V,M,Q,R);
+T2_2=iirT(wt2,x2,U,V,M,Q,R);
+ax=plotyy(wt1*0.5/pi,T2_1,wt2*0.5/pi,T2_2);
+axis(ax(1),[0 0.5 18 22]);
+axis(ax(2),[0 0.5 13 17]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");

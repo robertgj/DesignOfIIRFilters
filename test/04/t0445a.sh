@@ -44,248 +44,248 @@ Using roots2T mfile
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 14 column 4
+    roots2T_test at line 14 column 3
 
 No arguments exception caught!
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 19 column 2
+    roots2T_test at line 19 column 1
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 24 column 2
+    roots2T_test at line 24 column 1
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 29 column 2
+    roots2T_test at line 29 column 1
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 34 column 2
+    roots2T_test at line 34 column 1
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 43 column 5
+    roots2T_test at line 43 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 warning: Using m-file version of function roots2T()!
 warning: called from
     roots2T at line 29 column 3
-    roots2T_test at line 55 column 5
+    roots2T_test at line 55 column 3
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi

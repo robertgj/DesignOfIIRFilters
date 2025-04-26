@@ -39,7 +39,7 @@ elseif 0
 endif
 
 % Filter design
-ngrid=7250;maxiter=200;tol=1e-12;
+ngrid=10*M;maxiter=200;tol=1e-12;
 [hM,fext,fiter,feasible]= ...
   selesnickFIRsymmetric_lowpass(M,deltap,deltas,ft,At,ngrid,maxiter,tol);
 if feasible==false

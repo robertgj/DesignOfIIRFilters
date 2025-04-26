@@ -8763,75 +8763,6 @@ and
 \begin{small}
 \verbatiminput{deczky3a_sqp_test_D1_coef.m}
 \end{small}
-
-\subsection{\label{sec:PIQP-Deczky3}Deczky's Example 3 designed with the PIQP solver}
-The Octave script \emph{deczky3\_piqp\_test.m} calls the
-\emph{iir\_piqp\_mmse} and \emph{iir\_slb} functions to design a low-pass
-IIR filter similar to that of \emph{deczky3\_sqp\_test.m} with the PIQP solver
-of \emph{Schwan et al.}~\cite{Schwan_PIQP2023,OctaveForge_PIQPPackage}. PIQP
-solves quadratic programs like:
-\begin{align*}
-\begin{split}
-  \textbf{minimise}\quad &\frac{1}{2}x^{\top}Px+c^{\top}x \\
-  \textbf{subject to}\quad &Ax=b \\
-                         & Gx\le h \\
-                         & x_{lb}\le x \le x_{ub}
-\end{split}
-\end{align*}
-where $x\in\mathbb{R}^{n}$, $P\in\mathbb{S}^{n}_{+}$ (i.e.: $P\succ 0$),
-$A\in\mathbb{R}^{p\times n}$, $G\in\mathbb{R}^{m\times n}$, $c\in\mathbb{R}^{n}$,
-$b\in\mathbb{R}^{p}$, $h\in\mathbb{R}^{m}$, $x_{lb}\in\mathbb{R}^{n}$ and
-$x_{ub}\in\mathbb{R}^{n}$. In this case, $P$ corresponds to the Hessian,
-$\nabla^{2}_{x}\mathcal{E}\left(x\right)$, shown in
-Equation~\ref{eqn:Quasi-Newton-second-order-Taylor-expansion}. When
-designing an IIR, as opposed to FIR, filter, the squared-error,
-$\mathcal{E}\left(x\right)$, represents a complicated surface that may not be
-convex when $x$ is not particularly close to a local minimum. In other words, it
-is possible that $\nabla^{2}_{x}\mathcal{E}\left(x\right)$ is not
-positive-definite. PIQP appears to tolerate a $P$ matrix that is symmetric
-but not positive-definite.
-
-The filter specification is:
-\begin{small}
-\verbatiminput{deczky3_piqp_test_spec.m}
-\end{small}
-
-The resulting amplitude  and delay responses are shown in
-Figure~\ref{fig:Deczky-Example-3-PCLS-PIQP-d1} with pass-band detail shown in
-Figure~\ref{fig:Deczky-Example-3-PCLS-PIQP-d1-passband}. The corresponding
-pole-zero plot is shown in Figure~\ref{fig:Deczky-Example-3-PCLS-PIQP-d1-pz}. 
-\begin{figure}[!ht]
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_piqp_test_pcls_d1}}
-\caption{Deczky Example 3 PCLS PIQP optimised response.}
-\label{fig:Deczky-Example-3-PCLS-PIQP-d1}
-\end{figure}
-\begin{figure}[!ht]
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_piqp_test_pcls_d1pass}}
-\caption{Deczky Example 3 PCLS PIQP optimised passband response.}
-\label{fig:Deczky-Example-3-PCLS-PIQP-d1-passband}
-\end{figure}
-
-\clearpage
-\begin{figure}[!ht]
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{deczky3_piqp_test_pcls_d1pz}}
-\caption{Deczky Example 3 PCLS PIQP optimised pole-zero plot.}
-\label{fig:Deczky-Example-3-PCLS-PIQP-d1-pz}
-\end{figure}
-
-The PCLS optimised filter vector is, in gain-zero-pole form:
-\begin{small}
-\verbatiminput{deczky3_piqp_test_d1_coef.m}
-\end{small}
-and the corresponding transfer function numerator and denominator polynomials
-are:
-\begin{small}
-\verbatiminput{deczky3_piqp_test_N1_coef.m}
-\verbatiminput{deczky3_piqp_test_D1_coef.m}
-\end{small}
-\clearpage
 \subsection{\label{sub:Deczkys-Example-1}Deczky's Example 1}
 The following example IIR filter design specification is similar to
 \emph{Deczky}'s Example 1~\cite{Deczky_MinPSynthesisIIRDigitalFilters}. The
@@ -9408,6 +9339,66 @@ and in transfer function form the numerator and denominator polynomials are:
 \caption{Pole-zero plot of the R=2 Hilbert filter after PCLS optimisation.}
 \label{fig:iir-sqp-slb-hilbert-R2-pcls-pz}
 \end{figure}
+\clearpage
+\subsubsection{PCLS optimisation of the Hilbert transform R=2 decimator with PIQP}
+The Octave script \emph{iir\_piqp\_slb\_hilbert\_R2\_test.m} calls the
+\emph{iir\_piqp\_mmse} and \emph{iir\_slb} functions to design an R=2 Hilbert
+IIR filter similar to that of \emph{iir\_sqp\_slb\_hilbert\_R2\_test.m} with the
+PIQP solver of
+\emph{Schwan et al.}~\cite{Schwan_PIQP2023,OctaveForge_PIQPPackage}. 
+PIQP solves quadratic programs like:
+\begin{align*}
+\begin{split}
+  \textbf{minimise}\quad &\frac{1}{2}x^{\top}Px+c^{\top}x \\
+  \textbf{subject to}\quad &Ax=b \\
+                         & Gx\le h \\
+                         & x_{lb}\le x \le x_{ub}
+\end{split}
+\end{align*}
+where $x\in\mathbb{R}^{n}$, $P\in\mathbb{S}^{n}_{+}$ (i.e.: $P\succ 0$),
+$A\in\mathbb{R}^{p\times n}$, $G\in\mathbb{R}^{m\times n}$, $c\in\mathbb{R}^{n}$,
+$b\in\mathbb{R}^{p}$, $h\in\mathbb{R}^{m}$, $x_{lb}\in\mathbb{R}^{n}$ and
+$x_{ub}\in\mathbb{R}^{n}$. In this case, $P$ corresponds to the Hessian,
+$\nabla^{2}_{x}\mathcal{E}\left(x\right)$, shown in
+Equation~\ref{eqn:Quasi-Newton-second-order-Taylor-expansion}. When
+designing an IIR, as opposed to FIR, filter, the squared-error,
+$\mathcal{E}\left(x\right)$, represents a complicated surface that may not be
+convex when $x$ is not particularly close to a local minimum. In other words, it
+is possible that $\nabla^{2}_{x}\mathcal{E}\left(x\right)$ is not
+positive-definite. PIQP appears to have difficulty accommodating a $P$ matrix
+that is symmetric but not positive-definite. The filter specification is:
+\begin{small}
+\verbatiminput{iir_piqp_slb_hilbert_R2_test_spec.m}
+\end{small}
+The initial filter is designed by the method of \emph{Tarczynski et al.} with
+the Octave script \emph{tarczynski\_hilbert\_R2\_test.m}, as shown in 
+Section~\ref{sec:Hilbert-transform-R2-decimation-filter}.
+The resulting amplitude  and delay responses are shown in
+Figure~\ref{fig:IIR-R2-Hilbert-PCLS-PIQP-response}. The corresponding
+pole-zero plot is shown in Figure~\ref{fig:IIR-R2-Hilbert-PCLS-PIQP-pz}. 
+\begin{figure}[!ht]
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_piqp_slb_hilbert_R2_test_pcls_response}}
+\caption{IIR R=2 Hilbert filter PCLS PIQP optimised response.}
+\label{fig:IIR-R2-Hilbert-PCLS-PIQP-response}
+\end{figure}
+\begin{figure}[!ht]
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_piqp_slb_hilbert_R2_test_pcls_pz}}
+\caption{IIR R=2 Hilbert filter PCLS PIQP optimised pole-zero plot.}
+\label{fig:IIR-R2-Hilbert-PCLS-PIQP-pz}
+\end{figure}
+
+The PCLS optimised filter vector is, in gain-zero-pole form:
+\begin{small}
+\verbatiminput{iir_piqp_slb_hilbert_R2_test_d1_coef.m}
+\end{small}
+and the corresponding transfer function numerator and denominator polynomials
+are:
+\begin{small}
+\verbatiminput{iir_piqp_slb_hilbert_R2_test_N1_coef.m}
+\verbatiminput{iir_piqp_slb_hilbert_R2_test_D1_coef.m}
+\end{small}
 \clearpage
 \subsection{\label{sec:iir-R-2-differentiator-filter}R=2 differentiator filter}
 A differentiator filter has transfer function
@@ -10697,7 +10688,7 @@ of the filter after PCLS SOCP optimisation.}
 \label{fig:iir-socp-slb-bandpass-R2-test-pcls-d1-pz}
 \end{figure}
 \clearpage
-\section{\label{sec:Multi-bandpass-IIR-filter-gain-zero-pole-with-SeDuMi}SOCP MMSE design of a multi-band-pass filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
+\section{\label{sec:Multi-bandpass-IIR-filter-gain-zero-pole-with-SeDuMi}SOCP PCLS design of a multi-band-pass filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
 The Octave script
 \emph{iir\_socp\_slb\_multiband\_test.m}
 implements the design of a multi-band-pass IIR filter expressed in
@@ -12582,6 +12573,56 @@ coefficients are:
 \begin{small}
 \verbatiminput{schurOneMlattice_sqp_slb_hilbert_R2_test_N2_coef.m}
 \verbatiminput{schurOneMlattice_sqp_slb_hilbert_R2_test_D2_coef.m}
+\end{small}
+\clearpage
+\subsubsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-hilbert-R2-PIQP}Design of a one-multiplier IIR Schur lattice Hilbert R=2 filter using PIQP} 
+The Octave script \emph{schurOneMlattice\_piqp\_slb\_hilbert\_R2\_test.m}
+implements the design of an $R=2$ IIR one-multiplier Schur lattice Hilbert
+filter with PCLS optimisation using the PIQP solver of
+\emph{Schwan et al.}~\cite{Schwan_PIQP2023,OctaveForge_PIQPPackage}.
+The denominator polynomial of the filter has coefficients in $z^{-2}$ only.
+The specification of the filter is:
+\begin{small}
+\verbatiminput{schurOneMlattice_sqp_slb_hilbert_R2_test_spec.m}
+\end{small}
+The initial filter is designed by the method of \emph{Tarczynski et al.} with
+the Octave script \emph{tarczynski\_hilbert\_R2\_test.m}, as shown in 
+Section~\ref{sec:Hilbert-transform-R2-decimation-filter}.
+Figure~\ref{fig:Schur-one-multiplier-lattice-hilbert-R2-filter-PIQP-PCLS} 
+shows the response of the $R=2$ Hilbert filter after PIQP PCLS optimisation. The
+phase response shown has been adjusted by the nominal pass-band group delay,
+$\omega{}\tau_{p}$.
+Figure~\ref{fig:Schur-one-multiplier-lattice-hilbert-R2-filter-PIQP-PCLS-pz}
+shows the pole-zero plot of the $R=2$ Hilbert filter after PIQP PCLS optimisation.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_piqp_slb_hilbert_R2_test_pcls_response}}
+\caption{R=2 Schur one-multiplier lattice Hilbert filter, response after PIQP
+  PCLS optimisation.}
+\label{fig:Schur-one-multiplier-lattice-hilbert-R2-filter-PIQP-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_piqp_slb_hilbert_R2_test_pcls_pz}}
+\caption{R=2 Schur one-multiplier lattice Hilbert filter, pole-zero plot after
+  PIQP PCLS optimisation.}
+\label{fig:Schur-one-multiplier-lattice-hilbert-R2-filter-PIQP-PCLS-pz}
+\end{figure}
+
+The PIQP PCLS optimised $R=2$ Schur one-multiplier all-pass lattice and numerator
+tap coefficients of the Hilbert filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_piqp_slb_hilbert_R2_test_k2_coef.m}
+\verbatiminput{schurOneMlattice_piqp_slb_hilbert_R2_test_epsilon2_coef.m}
+\verbatiminput{schurOneMlattice_piqp_slb_hilbert_R2_test_p2_coef.m}
+\verbatiminput{schurOneMlattice_piqp_slb_hilbert_R2_test_c2_coef.m}
+\end{small}
+
+The corresponding denominator and numerator transfer function polynomial
+coefficients are:
+\begin{small}
+\verbatiminput{schurOneMlattice_piqp_slb_hilbert_R2_test_N2_coef.m}
+\verbatiminput{schurOneMlattice_piqp_slb_hilbert_R2_test_D2_coef.m}
 \end{small}
 \clearpage
 \subsection{Design of one-multiplier IIR Schur lattice filters with SOCP optimisation}
@@ -20583,17 +20624,17 @@ bandpass filter POP-relaxation example with 10-bit 3 signed digit coefficients]
 \clearpage
 \section{\label{sec:POP-relaxation-search-signed-digit-coefficients-bandpass-hilbert-R2}POP relaxation search for the signed-digit coefficients of a one-multiplier lattice bandpass Hilbert R=2 filter}
 The Octave script
-\emph{pop\_relaxation\_schurOneMlattice\_bandpass\_hilbert\_R2\_13\_nbits\_test.m}
+\emph{pop\_relaxation\_schurOneMlattice\_bandpass\_hilbert\_R2\_14\_nbits\_test.m}
 performs SparsePOP optimisation of the truncated coefficients of the SOCP
 optimised band-pass Hilbert $R=2$ Schur one-multiplier lattice filter described
 in
 Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-hilbert-R2-SOCP}.
 The filter specification is:
 \begin{small}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_spec.m}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_14_nbits_test_spec.m}
 \end{small} 
 
-The filter coefficients are truncated to $13$ bits and an average of $4$
+The filter coefficients are truncated to $14$ bits and an average of $4$
 signed-digits allocated by the heuristic of \emph{Ito et al.}. At each
 coefficient relaxation
 step the script finds the upper and lower signed-digit approximations to the
@@ -20608,35 +20649,35 @@ within the corresponding initial upper and lower bounds.
 
 The signed-digits allocated by the heuristic of \emph{Ito et al.} are:
 \begin{small}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_k_allocsd_digits.m}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_c_allocsd_digits.m}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_14_nbits_test_k_allocsd_digits.m}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_14_nbits_test_c_allocsd_digits.m}
 \end{small}
 
 The Schur lattice filter coefficients found by the SparsePOP relaxation search
 are:
 \begin{small}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_k_sd_min_coef.m}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_c_sd_min_coef.m}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_14_nbits_test_k_sd_min_coef.m}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_14_nbits_test_c_sd_min_coef.m}
 \end{small}
 
 The corresponding transfer function polynomial coefficients are:
 \begin{small}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_N_sd_min_coef.m}
-\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_D_sd_min_coef.m}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_14_nbits_test_N_sd_min_coef.m}
+\verbatiminput{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_14_nbits_test_D_sd_min_coef.m}
 \end{small}
 
-Table~\ref{tab:pop-relax-bandpass-hilbert-R2-OneM-lattice-13-nbits-cost}
+Table~\ref{tab:pop-relax-bandpass-hilbert-R2-OneM-lattice-14-nbits-cost}
 compares the cost, the number of signed-digits and the number of $13$ bit
 shift-and-add operations required to implement the coefficient multiplications.
-Figure~\ref{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-13-nbits-pass}
+Figure~\ref{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-14-nbits-pass}
 compares the pass-band responses of the filter with floating-point coefficients
 and with $13$ bit $4$ signed-digit coefficients optimised with POP-relaxation
 search. Similarly,
-Figure~\ref{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-13-nbits-stop}
+Figure~\ref{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-14-nbits-stop}
 shows the filter stop-band amplitude response,
-Figure~\ref{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-13-nbits-phase}
+Figure~\ref{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-14-nbits-phase}
 shows the filter pass-band phase response and
-Figure~\ref{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-13-nbits-delay}
+Figure~\ref{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-14-nbits-delay}
 shows the filter pass-band group delay response.
 
 \begin{table}[htbp]
@@ -20644,51 +20685,51 @@ shows the filter pass-band group delay response.
 \begin{threeparttable}
 \begin{tabular}{lcccc}  \\ \toprule
 & Cost&Stop-band response(dB) & Signed-digits & Shift-and-adds\\ \midrule
-\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_cost.tab}
+\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_14_nbits_test_cost.tab}
 \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the R=2 Schur one-multiplier lattice
-bandpass Hilbert filter POP-relaxation example with 13-bit 4 signed digit
+bandpass Hilbert filter POP-relaxation example with 14-bit 4 signed digit
 coefficients]
-{Comparison of the cost and number of 13 bit shift-and-add operations required
+{Comparison of the cost and number of 14 bit shift-and-add operations required
   to implement the coefficient multiplications for an R=2 Schur one-multiplier
-  lattice bandpass Hilbert filter with 13 bit 4 signed-digit integer
+  lattice bandpass Hilbert filter with 14 bit 4 signed-digit integer
   coefficients.}
-\label{tab:pop-relax-bandpass-hilbert-R2-OneM-lattice-13-nbits-cost}
+\label{tab:pop-relax-bandpass-hilbert-R2-OneM-lattice-14-nbits-cost}
 \end{table}
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_pass}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_14_nbits_test_pass}}
 \caption{Comparison of the pass-band amplitude responses for an R=2 Schur
-  one-multiplier lattice bandpass filter with 13 bit 4 signed-digit coefficients
+  one-multiplier lattice bandpass filter with 14 bit 4 signed-digit coefficients
   optimised with POP-relaxation search.}
-\label{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-13-nbits-pass}
+\label{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-14-nbits-pass}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_stop}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_14_nbits_test_stop}}
 \caption{Comparison of the stop-band amplitude responses for an R=2 Schur
-  one-multiplier lattice bandpass Hilbert filter with 13 bit 4 signed-digit
+  one-multiplier lattice bandpass Hilbert filter with 14 bit 4 signed-digit
   coefficients optimised with POP-relaxation search.}
-\label{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-13-nbits-stop}
+\label{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-14-nbits-stop}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_phase}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_14_nbits_test_phase}}
 \caption{Comparison of the pass-band phase responses for an R=2 Schur
-  one-multiplier lattice bandpass Hilbert filter with 13 bit 4 signed-digit
+  one-multiplier lattice bandpass Hilbert filter with 14 bit 4 signed-digit
   coefficients optimised with POP-relaxation search.}
-\label{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-13-nbits-phase}
+\label{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-14-nbits-phase}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_delay}}
-\caption{Comparison of the pass-band group delay responses for a Schur
-  one-multiplier lattice bandpass Hilbert filter with 13 bit 4 signed-digit
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_14_nbits_test_delay}}
+\caption{Comparison of the pass-band group delay responses for an R=2 Schur
+  one-multiplier lattice bandpass Hilbert filter with 14 bit 4 signed-digit
   coefficients optimised with POP-relaxation search.}
-\label{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-13-nbits-delay}
+\label{fig:pop-relax-bandpass-hilbert-R2-OneM-lattice-14-nbits-delay}
 \end{figure}
 \clearpage
 \section{\label{sec:POP-relaxation-search-signed-digit-coefficients-R2-lowpass-differentiator}POP-relaxation search for the signed-digit
@@ -41400,22 +41441,22 @@ KYP design procedure.
 \pdfbookmark[0]{Requirements}{requirements}
 \setcounter{footnote}{0}
 \section*{Software requirements}
-I currently use the Fedora 41 distribution of Linux~\cite{Fedora_website} with:
+I currently use the Fedora 42 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{6.13.5-200.fc41.x86\_64}
-\item \emph{gcc} version \emph{14.2.1 20250110 (Red Hat 14.2.1-7)}
-\item a local build of \emph{octave-9.4.0} with the \emph{struct}, \emph{io},
+\item \texttt{uname -r} is \emph{6.14.3-300.fc42.x86\_64}
+\item \emph{gcc} version \emph{15.0.1 20250329 (Red Hat 15.0.1-0)}
+\item a local build of \emph{octave-10.1.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic}\footnote{The \emph{symbolic} Octave-Forge package assumes that
   the \emph{python3-sympy} Fedora package is installed.} and \emph{parallel}
   Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit with
-  \emph{qt6-qtbase-6.8.20-3} and a local build of \emph{GraphicsMagick}
-\item \emph{texlive-2023-73} and various packages are installed
-\item \emph{dia-0.97.3-28} is used for line drawings
+  \emph{qt6-qtbase-6.9.1-1} and a local build of \emph{GraphicsMagick}
+\item \emph{texlive-2023-76} and various packages are installed
+\item \emph{dia-0.97.3-29} is used for line drawings
 \end{itemize}
 
-The local build of \emph{octave-9.4.0} and Octave-Forge packages assumes that
+The local build of \emph{octave-10.1.0} and Octave-Forge packages assumes that
 the following packages are installed in addition to the base Fedora distribution:
 \begin{small}
 \begin{verbatim}
@@ -41429,7 +41470,8 @@ libcurl libcurl-devel gl2ps gl2ps-devel fontconfig-devel mesa-libGLU \
 mesa-libGLU-devel qt qt6-qtbase qt6-qtbase-common qt6-qtbase-devel \
 qt6-qtbase-gui qt6-qt5compat qt6-qt5compat-devel qt6-qttools \
 qt6-qttools-common qt6-qttools-devel rapidjson-devel python3-sympywget \
-rapidjson-devel python3-sympy java-17-openjdk-devel xerces-j2
+rapidjson-devel python3-sympy java-21-openjdk-devel xerces-j2 \
+util-linux util-linux-script
 \end{verbatim}
 \end{small}
 
@@ -41479,12 +41521,12 @@ Section~\ref{sec:Round-off-normalised-scaled-lattice}, has the corresponding
 \pdfbookmark[0]{Octave}{octave}
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
-version of \emph{octave-9.4.0} avoiding the vagaries of the Fedora
+version of \emph{octave-10.1.0} avoiding the vagaries of the Fedora
 packagers.
 
 The \emph{build-octave.sh} script builds Octave and the associated numerical
 libraries with the \emph{g++} option \texttt{-march=nehalem}. The patch file,
-\emph{octave-9.4.0.patch}, is a shell \emph{here} document
+\emph{octave-10.1.0.patch}, is a shell \emph{here} document
 within \emph{build-octave.sh}. 
 
 The \emph{build-octave.sh} script assumes the default sizes of FORTRAN
@@ -41501,8 +41543,8 @@ libraries:
   DOUBLE LAPACK static libraries, \emph{libqblas.a} and \emph{libqlapack.a},
   are compiled with the \texttt{-freal-8-real-16} flag.},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
-\emph{SuiteSparse-7.10.0}~\cite{SUITESPARSE_website},
-\emph{sundials-7.2.1}~\cite{SUNDIALS_website} and
+\emph{SuiteSparse-7.10.2}~\cite{SUITESPARSE_website},
+\emph{sundials-7.3.0}~\cite{SUNDIALS_website} and
 \emph{GraphicsMagick-1.3.45}~\cite{GraphicsMagick_website}.
 The local build of the \emph{LAPACK} library includes the deprecated routines.
 
@@ -41596,12 +41638,10 @@ vector or matrix dimensions are compatible. See the Octave manual
 entry \emph{Broadcasting and Legacy Code}~\cite[Section 19.2.1]{Eaton_Octave}.
 
 \subsubsection*{Problems with Octave}
-The \emph{octave-9.4.0.patch} \texttt{here} document within
+The \emph{octave-10.1.0.patch} \texttt{here} document within
 \emph{build-octave.sh} patches files to:
 \begin{itemize}
 \item prevent a \emph{valgrind} warning from \emph{load-save.cc}
-\item copies the \emph{unique.m} script from the development version of Octave
-      to add stable sorting
 \end{itemize}
 
 I have found that the best way to include plots in this document is to
@@ -41834,11 +41874,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas              & 204.6 \\
-Generic, shared reference lapack and blas            &  51.3 \\
-Generic, shared reference lapack and blas, LTO       &  51.2 \\
-Generic, shared reference lapack and blas, PGO       &  52.1 \\
-Generic, shared reference lapack and blas, LTO, PGO  &  50.0 \\
+Debug, shared reference lapack and blas              & 244.7 \\
+Generic, shared reference lapack and blas            &  49.1 \\
+Generic, shared reference lapack and blas, LTO       &  49.0 \\
+Generic, shared reference lapack and blas, PGO       &  48.1 \\
+Generic, shared reference lapack and blas, LTO, PGO  &  48.1 \\
 \bottomrule
 \end{tabular}
 \egroup
@@ -41874,13 +41914,13 @@ run.}:
 
 \begin{small}
 \begin{verbatim}
-atlas.x86_64            3.10.3-24.fc39
-blas.x86_64             3.12.0-7.fc41
-lapack.x86_64           3.12.0-7.fc41
-gsl.x86_64              2.7.1-11.fc41
-gsl-devel.x86_64        2.7.1-11.fc41
-openblas.x86_64         0.3.26-5.fc41
-openblas-threads.x86_64 0.3.26-5.fc41
+atlas.x86_64            3.10.3-28.fc42
+blas.x86_64             3.12.0-8.fc42
+lapack.x86_64           3.12.0-8.fc42
+gsl.x86_64              2.8-1.fc42
+gsl-devel.x86_64        2.8-1.fc42
+openblas.x86_64         0.3.29-1.fc42
+openblas-threads.x86_64 0.3.29-1.fc42
 \end{verbatim}
 \end{small}
 
@@ -41918,19 +41958,19 @@ The largest is shown.
 \cmidrule{2-5}             & MFLOPS & Normalised  & Execution time & Execution time \\
                            &        & residual    & (seconds)      & (seconds) \\
 \midrule                                                              
-Generic libblas/liblapack  &  3924  & 21.3        &  49.9          &  62.4 \\
-Intel libblas/liblapack    &  3900  & 21.3        &  49.9          &  62.9 \\
-Haswell libblas/liblapack  &  4822  & 18.5        &  49.6          &  56.9 \\
-Nehalem libblas/liblapack  &  3926  & 21.3        &  49.9          &  62.5 \\
-Skylake libblas/liblapack  &  4807  & 18.5        &  49.5          &  56.9 \\
-Fedora 41 libblas/liblapack&  3914  & 21.3        &  49.9          &  62.4 \\
-libgslcblas                &  3917  & 21.3        &  49.9          &  62.5 \\
-libsatlas                  & 13233  & 13.1        &  49.6          &  66.8 \\
-libtatlas                  & 19900  & 14.3        &  49.8          &  66.8 \\
-libopenblas                & 32599  &  9.9        &  48.3          &  56.9 \\
-libopenblasp (1 thread)    & 32650  &  9.9        &  48.3          &  57.5 \\
-libopenblasp (2 threads)   & 45858  & 12.1        &  48.6          &  57.5 \\
-libopenblasp (4 threads)   & 57407  & 10.8        &  48.6          &  57.6 \\
+Generic libblas/liblapack  &  6501  & 21.3        &  48.1          &  55.7 \\
+Intel libblas/liblapack    &  6497  & 21.3        &  48.1          &  56.0 \\
+Haswell libblas/liblapack  &  9723  & 18.5        &  47.8          &  49.9 \\
+Nehalem libblas/liblapack  &  6594  & 21.3        &  48.1          &  55.6 \\
+Skylake libblas/liblapack  &  8738  & 18.5        &  47.9          &  49.9 \\
+Fedora 41 libblas/liblapack&  6575  & 21.3        &  48.1          &  55.5 \\
+libgslcblas                &  6507  & 21.3        &  48.1          &  55.6 \\
+libsatlas                  & 13366  & 12.1        &  49.2          &  60.5 \\
+libtatlas                  & 20089  & 12.8        &  48.8          &  60.5 \\
+libopenblas                & 32892  &  9.9        &  47.3          &  49.8 \\
+libopenblasp (1 thread)    & 32836  &  9.9        &  47.3          &  50.3 \\
+libopenblasp (2 threads)   & 46285  & 12.1        &  47.5          &  50.3 \\
+libopenblasp (4 threads)   & 58177  & 10.8        &  47.5          &  50.3 \\
 \bottomrule
 \end{tabular}
 \egroup{}

@@ -41,8 +41,8 @@ p0_ones=ones(size(k0));
 % (ppr=0.003,tpr=0.06 fails in QEMU/nehalem)
 %
 fap=0.3;fas=0.4;
-Arp=0.005;Art=0.02;Ars=0.02;Wap=2;Wat=0.0001;Was=1;
-tp=length(k0)-1;tpr=0.08;Wtp=1.75;
+Arp=0.006;Art=0.02;Ars=0.02;Wap=2;Wat=0.0001;Was=1;
+tp=length(k0)-1;tpr=0.08;Wtp=2;
 pp=1.5;ppr=0.003;Wpp=0.5;
 
 %

@@ -16,7 +16,7 @@ delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 % Filter specification
-fap=0.3;fas=0.4;Wap=1;Wat=0.01;Was=1;
+fap=0.3;fas=0.4;Wap=1;Wat=0.01;Was=2;
 R=1;nN=11;nD=floor(nN/R);tp=nN-1;
 tol=1e-8;maxiter=20000;
 

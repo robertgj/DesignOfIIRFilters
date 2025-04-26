@@ -41,7 +41,10 @@ MKOCTFILE=mkoctfile
 OCTAVE_FLAGS=--no-gui -q -p src
 OCTAVE_VER=$(shell $(OCTAVE) $(OCTAVE_FLAGS) \
                              --eval "disp(OCTAVE_VERSION)" | cut -d '-' -f 1)
-MKOCTFILE_FLAGS=-v -o $@ -Wall -lgmp -lmpfr -I/usr/include/eigen3
+MKOCTFILE_FLAGS=-v -o $@ -Wall -lgmp -lmpfr -I/usr/include/eigen3 \
+-Wno-deprecated-declarations
+# Suppress warning for deprecated std::wbuffer_convert<convfacet_u8, char>
+
 PDF_MONO_FLAGS='\newcommand\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
 PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1
 BIBTEX=bibtex

@@ -21,7 +21,6 @@ tarczynski_lowpass_differentiator_test_N0_coef;
 tarczynski_lowpass_differentiator_test_D0_coef;
 [x0,U,V,M,Q]=tf2x(N0,D0,ftol);
 R=1;
-
 % Avoid problems with negative A from iirA since 
 % tarczynski_lowpass_differentiator_test
 % returns the differential of e^(-jwt) as -jw*e^(-jwt)
@@ -34,8 +33,8 @@ nN=length(N0)-1;
 % Low-pass differentiator filter specification
 fap=0.3;fas=0.4;
 Arp=0.02;Art=0.02;Ars=0.02;Wap=1;Wat=0.001;Was=1;
-fpp=fap;pp=0.5;ppr=0.0001;Wpp=0.5;
-ftp=fap;tp=nN-1;tpr=0.02;Wtp=2;
+fpp=fap;pp=0.5;ppr=0.0002;Wpp=0.5;
+ftp=fap;tp=nN-1;tpr=0.04;Wtp=2;
 
 % Frequency points
 n=1000;
@@ -166,7 +165,7 @@ title(strM);
 ylabel("Amplitude");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,([Px1,Pdl-Pconst,Pdu-Pconst]+(wp*tp)-(pp*pi))/pi);
+plot(wp*0.5/pi,([Px1,Pdl,Pdu]-Pconst+(wp*tp)-(pp*pi))/pi);
 axis([0 0.5 ppr*[-1,1]]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");

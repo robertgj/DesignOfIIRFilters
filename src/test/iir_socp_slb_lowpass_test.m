@@ -28,8 +28,8 @@ dBap=1
 Wap=1
 Wat=0.001
 ftp=0.15
-td=10
-tdr=0.2
+tp=10
+tpr=0.2
 Wtp=0.05
 Wtt=0.001
 fas=0.2
@@ -62,16 +62,16 @@ if 1
   % Limit transition band peaks
   ntp=ceil(n*ftp/0.5)+1;
   wt=w(1:(nas-1));
-  Td=td*ones(size(wt));
-  Tdu=[(td+(tdr/2))*ones(ntp,1);(td*2)*ones(nas-1-ntp,1)];
-  Tdl=[(td-(tdr/2))*ones(ntp,1);zeros(nas-1-ntp,1)];
+  Td=tp*ones(size(wt));
+  Tdu=[(tp+(tpr/2))*ones(ntp,1);(tp*2)*ones(nas-1-ntp,1)];
+  Tdl=[(tp-(tpr/2))*ones(ntp,1);zeros(nas-1-ntp,1)];
   Wt=[Wtp*ones(ntp,1);Wtt*ones(nas-1-ntp,1)];
 else
   ntp=ceil(n*ftp/0.5)+1;
   wt=w(1:ntp);
-  Td=td*ones(size(wt));
-  Tdu=(td+(tdr/2))*ones(size(wt));
-  Tdl=(td-(tdr/2))*ones(size(wt));
+  Td=tp*ones(size(wt));
+  Tdu=(tp+(tpr/2))*ones(size(wt));
+  Tdl=(tp-(tpr/2))*ones(size(wt));
   Wt=Wtp*ones(size(wt));
 endif
 
@@ -90,7 +90,7 @@ Wp=[];
 % Desired frequency response
 Hda=[ones(nap,1);zeros(n-nap,1)];
 Wda=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
-Hdt=td*ones(n,1);
+Hdt=tp*ones(n,1);
 Wdt=[Wtp*ones(ntp,1);zeros(n-ntp,1)];
 ndi=[ni,di(2:end)]';
 WISEJ_ND([],N,N,R,Hda,Wda,Hdt,Wdt);
@@ -117,13 +117,26 @@ printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 n0=nd0(1:(N+1));
 d0=[1;nd0((N+2):end)];
 [x0,U,V,M,Q]=tf2x(n0,d0);
-strt=sprintf("x0:fap=%g,ftp=%g,td=%g,fas=%g",fap,ftp,td,fas);
+
+% Sanity check
+[H0,w0]=freqz(n0,d0,1024);
+A0=iirA(w0,x0,U,V,M,Q,R);
+if max(abs(abs(H0)-A0)) > 1e-10
+  error("max(abs(abs(H0)-A0)) > 1e-10");
+endif
+
+% Plot initial response
+strt=sprintf("x0:fap=%g,ftp=%g,tp=%g,fas=%g",fap,ftp,tp,fas);
 showResponse(x0,U,V,M,Q,R,strt);
 print(strcat(strf,"_initial_x0"),"-dpdflatex");
 close
 showResponsePassBands(0,fap,-3,3,x0,U,V,M,Q,R,strt);
 print(strcat(strf,"_initial_x0pass"),"-dpdflatex");
 close
+
+% Initial cost
+E0=iirE(x0,U,V,M,Q,R,wa,Ad,Wa,ws,Sd,Ws,wt,Td,Wt,wp,Pd,Wp);
+printf("E0=%g\n",E0);
 
 %
 % Coefficient constraints
@@ -147,8 +160,8 @@ end_try_catch;
 if ~feasible
  error("d1 infeasible");
 endif
-strt=sprintf("d1(PCLS):fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g,fas=%g,dBas=%g,Was=%g", ...
-             fap,dBap,ftp,td,tdr,fas,dBas,Was);
+strt=sprintf(["d1(PCLS):fap=%g,dBap=%g,ftp=%g,tp=%g,tpr=%g,fas=%g", ...
+              "dBas=%g,Was=%g"],fap,dBap,ftp,tp,tpr,fas,dBas,Was);
 showResponse(d1,U,V,M,Q,R,strt);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
@@ -202,8 +215,8 @@ fprintf(fid,"dBap=%d %% Pass band amplitude peak-to-peak ripple\n",dBap);
 fprintf(fid,"Wap=%d %% Pass band amplitude weight\n",Wap);
 fprintf(fid,"Wat=%d %% Transition band amplitude weight\n",Wat);
 fprintf(fid,"ftp=%g %% Pass band group-delay response edge\n",ftp);
-fprintf(fid,"td=%d %% Pass band group-delay\n",td);
-fprintf(fid,"tdr=%d %% Pass band amplitude peak-to-peak ripple\n",tdr);
+fprintf(fid,"tp=%d %% Pass band group-delay\n",tp);
+fprintf(fid,"tpr=%d %% Pass band amplitude peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%d %% Pass band group-delay weight\n",Wtp);
 fprintf(fid,"Wtt=%d %% Transition band group-delay weight\n",Wtt);
 fprintf(fid,"fas=%g %% Stop band amplitude response edge\n",fas);
@@ -217,9 +230,8 @@ print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 % Done
 toc;
-save iir_socp_slb_lowpass_test.mat N U V M Q R tol ctol rho dmax ...
-     fap dBap Wap ftp td tdr Wtp fas dBas Was ni di x0 d1 N1 D1
+eval([sprintf("save %s.mat ",strf),"N U V M Q R tol ctol rho dmax ", ...
+      "fap dBap Wap ftp tp tpr Wtp fas dBas Was ni di x0 d1 N1 D1"]);
 
 diary off
-movefile iir_socp_slb_lowpass_test.diary.tmp ...
-         iir_socp_slb_lowpass_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

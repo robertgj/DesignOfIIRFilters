@@ -44,3052 +44,3052 @@ Using schurNSlattice2Abcd mfile
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 42 column 20
+    schurNSlattice2Abcd_test at line 42 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 93 column 48
+    schurNSlattice2Abcd_test at line 93 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 106 column 55
+    schurNSlattice2Abcd_test at line 106 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 42 column 20
+    schurNSlattice2Abcd_test at line 42 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 93 column 48
+    schurNSlattice2Abcd_test at line 93 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 106 column 55
+    schurNSlattice2Abcd_test at line 106 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 42 column 20
+    schurNSlattice2Abcd_test at line 42 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 93 column 48
+    schurNSlattice2Abcd_test at line 93 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 106 column 55
+    schurNSlattice2Abcd_test at line 106 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 42 column 20
+    schurNSlattice2Abcd_test at line 42 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 93 column 48
+    schurNSlattice2Abcd_test at line 93 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 106 column 55
+    schurNSlattice2Abcd_test at line 106 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 250 column 40
+    schurNSlattice2Abcd_test at line 250 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 252 column 40
+    schurNSlattice2Abcd_test at line 252 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 279 column 40
+    schurNSlattice2Abcd_test at line 279 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 281 column 40
+    schurNSlattice2Abcd_test at line 281 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 308 column 40
+    schurNSlattice2Abcd_test at line 308 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 310 column 40
+    schurNSlattice2Abcd_test at line 310 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 337 column 40
+    schurNSlattice2Abcd_test at line 337 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 339 column 40
+    schurNSlattice2Abcd_test at line 339 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 366 column 40
+    schurNSlattice2Abcd_test at line 366 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 368 column 40
+    schurNSlattice2Abcd_test at line 368 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 395 column 40
+    schurNSlattice2Abcd_test at line 395 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 397 column 40
+    schurNSlattice2Abcd_test at line 397 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 447 column 20
+    schurNSlattice2Abcd_test at line 447 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 471 column 55
+    schurNSlattice2Abcd_test at line 471 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 447 column 20
+    schurNSlattice2Abcd_test at line 447 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 471 column 55
+    schurNSlattice2Abcd_test at line 471 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 447 column 20
+    schurNSlattice2Abcd_test at line 447 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 471 column 55
+    schurNSlattice2Abcd_test at line 471 column 4
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 576 column 40
+    schurNSlattice2Abcd_test at line 576 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 578 column 40
+    schurNSlattice2Abcd_test at line 578 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 605 column 40
+    schurNSlattice2Abcd_test at line 605 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 607 column 40
+    schurNSlattice2Abcd_test at line 607 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 634 column 40
+    schurNSlattice2Abcd_test at line 634 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 636 column 40
+    schurNSlattice2Abcd_test at line 636 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 663 column 40
+    schurNSlattice2Abcd_test at line 663 column 6
 
 warning: Using m-file version of function schurNSlattice2Abcd!
 warning: called from
     schurNSlattice2Abcd at line 49 column 3
-    schurNSlattice2Abcd_test at line 665 column 40
+    schurNSlattice2Abcd_test at line 665 column 6
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi

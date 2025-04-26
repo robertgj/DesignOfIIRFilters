@@ -222,8 +222,11 @@ while 1
   %
   
   % Minimise (x-xk)'*hessEk*(x-xk)/2 + gradEk*(x-xk)
-  Pk=hessEsq(kc_active,kc_active);
   ck=gradEsq(kc_active);
+  Pk=hessEsq(kc_active,kc_active);
+  if ~isdefinite(Pk)
+    warning("~isdefinite(Pk)");
+  endif
   
   % Subject to:
   Gk=[]; hk=[];

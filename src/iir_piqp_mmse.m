@@ -223,47 +223,50 @@ while 1
   %
   
   % Minimise (x-xk)'*hessEk*(x-xk)/2 + gradEk*(x-xk)
-  Pk=hessEk;
   ck=gradEk;
+  Pk=hessEk;
+  if ~isdefinite(Pk)
+    warning("~isdefinite(Pk)");
+  endif
   
   % Subject to:
   Gk=[]; hk=[];
-  % Pass-band amplitude upper bound, gradA*(x-xk) <= Adu-A
+  % Pass-band amplitude upper bound, gradA*(x-xk) <= ctol+Adu-A
   if ~isempty(vS.au)
     [Ak_au,gradAk_au]=iirA(wa(vS.au),xk,U,V,M,Q,R);
     func_iter = func_iter+1;
     Gk=[Gk; gradAk_au];
     hk=[hk; ctol+Adu(vS.au)-Ak_au];
   endif
-  % Pass-band amplitude lower bound, A-Adl >= -gradA*(x-xk)
+  % Pass-band amplitude lower bound, ctol+A-Adl >= -gradA*(x-xk)
   if ~isempty(vS.al)
     [Ak_al,gradAk_al]=iirA(wa(vS.al),xk,U,V,M,Q,R);
     func_iter = func_iter+1;
     Gk=[Gk; -gradAk_al];
     hk=[hk; ctol+Ak_al-Adl(vS.al)];
   endif
-  % Stop-band amplitude upper bound, gradS*(x-xk) <= Sdu-S
+  % Stop-band amplitude upper bound, gradS*(x-xk) <= ctol+Sdu-S
   if ~isempty(vS.su)
     [Sk_su,gradSk_su]=iirA(ws(vS.su),xk,U,V,M,Q,R);
     func_iter = func_iter+1;
     Gk=[Gk; gradSk_su];
     hk=[hk; ctol+Sdu(vS.su)-Sk_su];
   endif
-  % Stop-band amplitude lower bound, S-Sdl >= -gradS*(x-xk)
+  % Stop-band amplitude lower bound, ctol+S-Sdl >= -gradS*(x-xk)
   if ~isempty(vS.sl)
     [Sk_sl,gradSk_sl]=iirA(ws(vS.sl),xk,U,V,M,Q,R);
     func_iter = func_iter+1;
     Gk=[Gk; -gradSk_sl];
     hk=[hk; ctol+Sk_sl-Sdl(vS.sl)];
   endif
-  % Group delay upper bound, gradT*(x-xk) <= Tdu-T
+  % Group delay upper bound, gradT*(x-xk) <= ctol+Tdu-T
   if ~isempty(vS.tu)
     [Tk_tu,gradTk_tu]=iirT(wt(vS.tu),xk,U,V,M,Q,R);
     func_iter = func_iter+1;
     Gk=[Gk; gradTk_tu];
     hk=[hk; ctol+Tdu(vS.tu)-Tk_tu];
   endif
-  % Group delay lower bound, T-Tdl >= -gradT*(x-xk)
+  % Group delay lower bound, ctol+T-Tdl >= -gradT*(x-xk)
   if ~isempty(vS.tl)
     [Tk_tl,gradTk_tl]=iirT(wt(vS.tl),xk,U,V,M,Q,R);
     func_iter = func_iter+1;
@@ -275,12 +278,12 @@ while 1
     [P,gradP]=iirP(wp,xk,U,V,M,Q,R);
     func_iter = func_iter+1;
   endif
-  % Phase upper bound, gradP*(x-xk) <= Pdu-P
+  % Phase upper bound, gradP*(x-xk) <= ctol+Pdu-P
   if ~isempty(vS.pu)
     Gk=[Gk; gradP(vS.pu,:)];
     hk=[hk; ctol+Pdu(vS.pu)-P(vS.pu)];
   endif
-  % Phase lower bound, P-Pdl >= -gradP*(x-xk)
+  % Phase lower bound, ctol+P-Pdl >= -gradP*(x-xk)
   if ~isempty(vS.pl)
     Gk=[Gk; -gradP(vS.pl,:)];
     hk=[hk; ctol+P(vS.pl)-Pdl(vS.pl)];
@@ -288,7 +291,7 @@ while 1
 
   % Decision variable global constraints
   delta_lb=max(xl-xk,-dmax);
-  delta_ub=min(xu-xk,dmax);
+  delta_ub=min(xu-xk, dmax);
 
   % Update solver
   solver.update("P",Pk,"c",ck,"G",Gk,"h",hk,"x_lb",delta_lb,"x_ub",delta_ub);
@@ -308,8 +311,7 @@ while 1
       fprintf(stderr,"Called %s at line %d\n", ...
               err.stack(e).name,err.stack(e).line);
     endfor
-    error("%s\n", err.message);
-    return;
+    fprintf(stderr,"%s\n", err.message);
   end_try_catch
   switch (result.info.status_val)
     case 1
@@ -317,7 +319,7 @@ while 1
         printf("Solver solved problem up to given tolerance.\n");
       endif
     case -1
-      error("Iteration limit was reached!");
+      warning("Iteration limit was reached!");
     case -2
       error("The problem is primal infeasible!");
     case -3
@@ -347,12 +349,13 @@ while 1
     printf("xk=[ ");printf("%g ",xk');printf(" ]';\n"); 
     printf("Ek=%g\n",Ek);
     printf("gradEk=[ ");printf("%g ",gradEk');printf(" ]';\n");
-    printf("norm(delta)/norm(xk)=%g\n",norm(delta)/norm(xk));
-    printf("func_iter=%d, piqp_iter=%d\n",func_iter,piqp_iter);
+    printf("norm(delta)/norm(xk)=%g(ftol=%g)\n",norm(delta)/norm(xk),ftol);
+    printf("loop_iter=%d, func_iter=%d, piqp_iter=%d\n", ...
+           loop_iter,func_iter,piqp_iter);
   endif
   if norm(delta)/norm(xk) < ftol
-    printf("norm(delta)/norm(xk) < ftol\n");
-    feasible=true;
+    printf("norm(delta)/norm(xk) < ftol(%g)\n",ftol);
+    feasible=true
     break;
   endif
   

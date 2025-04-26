@@ -1,5 +1,5 @@
 --- aegis-4.24/Makefile.in	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/Makefile.in	2024-05-03 11:50:58.561841866 +1000
++++ aegis-4.24.new/Makefile.in	2025-04-20 22:24:25.408680601 +1000
 @@ -4007,12 +4007,16 @@
  aefind/cmdline.gen.cc aefind/cmdline.gen.h: aefind/cmdline.y
  	@echo Expect 5 shift/reduce, 23 reduce/reduce conflicts.
@@ -177,7 +177,7 @@
  	@sleep 1
  
 --- aegis-4.24/aefind/cmdline.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/aefind/cmdline.y	2024-05-03 11:50:58.533842203 +1000
++++ aegis-4.24.new/aefind/cmdline.y	2025-04-20 22:24:25.415471092 +1000
 @@ -71,6 +71,17 @@
  
  %}
@@ -249,7 +249,7 @@
  %type <lv_string_list> strings strings_or_dot
  %type <lv_tree>     tree1 tree2 tree3 tree4 tree5 tree6 tree7
 --- aegis-4.24/aeget/get/project/integr_histo.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/aeget/get/project/integr_histo.cc	2024-05-03 11:50:58.555841938 +1000
++++ aegis-4.24.new/aeget/get/project/integr_histo.cc	2025-04-20 22:24:25.415997414 +1000
 @@ -189,14 +189,14 @@
      if (recursive)
      {
@@ -268,7 +268,7 @@
      printf("recursive</a> listing available.</p>\n");
  
 --- aegis-4.24/aeimport/format/rcs/gram.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/aeimport/format/rcs/gram.y	2024-05-03 11:50:58.533842203 +1000
++++ aegis-4.24.new/aeimport/format/rcs/gram.y	2025-04-20 22:24:25.416303138 +1000
 @@ -32,6 +32,12 @@
  
  %}
@@ -315,7 +315,7 @@
  
  %{
 --- aegis-4.24/aeimport/format/sccs/gram.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/aeimport/format/sccs/gram.y	2024-05-03 11:50:58.534842190 +1000
++++ aegis-4.24.new/aeimport/format/sccs/gram.y	2025-04-20 22:24:25.416631638 +1000
 @@ -39,7 +39,12 @@
  
  %}
@@ -355,7 +355,7 @@
  %{
  
 --- aegis-4.24/common/ac/string/memmem.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/common/ac/string/memmem.cc	2024-05-03 11:50:58.556841926 +1000
++++ aegis-4.24.new/common/ac/string/memmem.cc	2025-04-20 22:24:25.416975326 +1000
 @@ -182,7 +182,7 @@
  
      // Use optimizations in memchr when possible.
@@ -366,7 +366,7 @@
      // Minimizing the worst-case complexity:
      // Let n = haystack_len, m = needle_len.
 --- aegis-4.24/common/ac/unistd.h	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/common/ac/unistd.h	2024-05-03 11:50:58.556841926 +1000
++++ aegis-4.24.new/common/ac/unistd.h	2025-04-20 22:24:25.417276573 +1000
 @@ -27,8 +27,8 @@
  // and readlink functions.
  //
@@ -379,7 +379,7 @@
  #ifndef __USE_BSD
  #define __USE_BSD
 --- aegis-4.24/common/ac/uuid.h	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/common/ac/uuid.h	2024-05-04 13:58:27.549540099 +1000
++++ aegis-4.24.new/common/ac/uuid.h	2025-04-20 22:24:25.417494783 +1000
 @@ -28,12 +28,12 @@
  #define UUID_FLAVOR_SET 1
  #define UUID_IS_DCE 1
@@ -397,7 +397,7 @@
  extern "C" {
  #include <sys/uuid.h>
 --- aegis-4.24/common/config.messy.h	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/common/config.messy.h	2024-05-03 11:50:58.555841938 +1000
++++ aegis-4.24.new/common/config.messy.h	2025-04-20 22:24:25.417721502 +1000
 @@ -97,11 +97,10 @@
  #ifndef _GNU_SOURCE
  #define _GNU_SOURCE
@@ -413,7 +413,7 @@
  // The SINGLE_USER define may be exploited to create a single-user version
  // of Aegis.  It is mostly used for testing, but also for Windows NT,
 --- aegis-4.24/common/mem.h	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/common/mem.h	2024-05-03 11:50:58.555841938 +1000
++++ aegis-4.24.new/common/mem.h	2025-04-20 22:24:25.417965898 +1000
 @@ -124,11 +124,7 @@
     dmem_copy_string(__FILE__, __LINE__, (p), ## __VA_ARGS__)
  #endif
@@ -427,7 +427,7 @@
  #ifndef DMALLOC
  void *operator new(size_t nbytes) THROW_BAD_ALLOC;
 --- aegis-4.24/common/nstring/accumulator.h	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/common/nstring/accumulator.h	2024-05-03 11:50:58.556841926 +1000
++++ aegis-4.24.new/common/nstring/accumulator.h	2025-04-20 22:24:25.418417311 +1000
 @@ -161,7 +161,7 @@
        * \note
        *     Please use this methdo as little as possible.
@@ -438,7 +438,7 @@
      /**
        * The array index operator is used to obtain thr nth character in
 --- aegis-4.24/common/stack.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/common/stack.cc	2024-05-03 11:50:58.555841938 +1000
++++ aegis-4.24.new/common/stack.cc	2025-04-20 22:24:25.418844559 +1000
 @@ -24,7 +24,7 @@
  find_stack_direction ()
  {
@@ -458,7 +458,7 @@
      return (stack_direction < 0 ?  (&dummy < cp) : (&dummy > cp));
  }
 --- aegis-4.24/fmtgen/parse.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/fmtgen/parse.y	2024-05-03 11:50:58.556841926 +1000
++++ aegis-4.24.new/fmtgen/parse.y	2025-04-20 22:24:25.419144169 +1000
 @@ -54,30 +54,29 @@
  
  %}
@@ -502,7 +502,7 @@
  
  %{
 --- aegis-4.24/libaegis/aer/report.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/aer/report.y	2024-05-03 11:50:58.554841951 +1000
++++ aegis-4.24.new/libaegis/aer/report.y	2025-04-20 22:24:25.419706132 +1000
 @@ -120,6 +120,15 @@
  
  %}
@@ -558,7 +558,7 @@
  %type <lv_stmt> declaration decl_name_list decl_name
  
 --- aegis-4.24/libaegis/change/file/name_check.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/change/file/name_check.cc	2024-05-03 11:50:58.554841951 +1000
++++ aegis-4.24.new/libaegis/change/file/name_check.cc	2025-04-20 22:24:25.420196104 +1000
 @@ -279,17 +279,12 @@
  	    }
  	}
@@ -582,7 +582,7 @@
  }
  
 --- aegis-4.24/libaegis/gram.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/gram.y	2024-05-03 11:50:58.554841951 +1000
++++ aegis-4.24.new/libaegis/gram.y	2025-04-20 22:24:25.420774084 +1000
 @@ -34,11 +34,6 @@
  
  %}
@@ -614,7 +614,7 @@
  %%
  
 --- aegis-4.24/libaegis/http.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/http.cc	2024-05-03 11:50:58.534842190 +1000
++++ aegis-4.24.new/libaegis/http.cc	2025-04-20 22:24:25.421058137 +1000
 @@ -404,7 +404,7 @@
  emit_change_href(change::pointer cp, const char *modifier)
  {
@@ -625,7 +625,7 @@
          emit_change_href_n(cp->pp, magic_zero_decode(cp->number), modifier);
  }
 --- aegis-4.24/libaegis/interrupt.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/interrupt.cc	2024-05-03 11:50:58.534842190 +1000
++++ aegis-4.24.new/libaegis/interrupt.cc	2025-04-20 22:24:25.421722644 +1000
 @@ -26,11 +26,9 @@
  
  static int depth;
@@ -687,7 +687,7 @@
 +#endif // HAVE_SIGPROCMASK
  }
 --- aegis-4.24/libaegis/project/file/roll_forward.cc	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/project/file/roll_forward.cc	2024-05-03 11:50:58.553841962 +1000
++++ aegis-4.24.new/libaegis/project/file/roll_forward.cc	2025-04-20 22:24:25.422075218 +1000
 @@ -1045,7 +1045,8 @@
                  //
                  file_event_list::pointer felp2 =
@@ -707,7 +707,7 @@
  #ifdef DEBUG
  	for (size_t j = 0; j < result->size(); ++j)
 --- aegis-4.24/libaegis/sub/expr_gram.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/sub/expr_gram.y	2024-05-03 11:50:58.534842190 +1000
++++ aegis-4.24.new/libaegis/sub/expr_gram.y	2025-04-20 22:24:25.422633763 +1000
 @@ -38,6 +38,13 @@
  
  %}
@@ -742,7 +742,7 @@
  %left LT LE GT GE
  %left PLUS MINUS
 --- aegis-4.24/libaegis/sub/plural_gram.y	2008-03-14 17:19:27.000000000 +1100
-+++ aegis-4.24.new/libaegis/sub/plural_gram.y	2024-05-03 11:50:58.534842190 +1000
++++ aegis-4.24.new/libaegis/sub/plural_gram.y	2025-04-20 22:24:25.423004682 +1000
 @@ -38,6 +38,11 @@
  
  %}
@@ -778,3 +778,14 @@
  
  %right EQU
  %right QUEST COLON
+--- aegis-4.24/script/tkaer.in	2008-03-14 17:19:27.000000000 +1100
++++ aegis-4.24.new/script/tkaer.in	2025-04-20 22:25:55.407976851 +1000
+@@ -376,7 +376,7 @@
+     global bindir
+     global pref
+ 
+-    set config_filename "~/.tkaer"
++    set config_filename "$::env(HOME)/.tkaer"
+     # if the config file already exists then just source (i.e. execute) it.
+     # otherwise create one for them.
+     if {![file exists $config_filename]} {

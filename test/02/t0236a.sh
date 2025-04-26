@@ -119,19 +119,6 @@ POP.xVect=
    0.024379 
   -0.065242 
 
-Solving genMAXCUT(8,1):
-SDPsolverInfo.numerr=0
-SDPobjValue=-9184.000000
-POP.xVect=
-  -1.000000 
-  -1.000000 
-  -1.000000 
-  -1.000000 
-  -1.000000 
-  -1.000000 
-  -1.000000 
-  -1.000000 
-
 Solving Bex5_2_5.gms:
 SDPsolverInfo.numerr=0
 SDPobjValue=-9700.000003
@@ -248,19 +235,6 @@ POP.xVect=
   -0.005209 
    0.024380 
   -0.065243 
-
-Solving genMAXCUT(8,1):
-SDPsolverInfo.termcode=0
-SDPobjValue=-9184.000006
-POP.xVect=
-  -1.000000 
-  -1.000000 
-  -1.000000 
-  -1.000000 
-  -1.000000 
-  -1.000000 
-  -1.000000 
-  -1.000000 
 
 Solving Bex5_2_5.gms:
 SDPsolverInfo.termcode=0

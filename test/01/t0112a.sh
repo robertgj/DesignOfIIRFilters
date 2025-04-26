@@ -47,7 +47,7 @@ Caught schurNSscale([1 1],[1 1])!
 warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
-    schurNSscale_test at line 29 column 27
+    schurNSscale_test at line 29 column 2
 
 s10 = 1
 s11 = 0
@@ -66,7 +66,7 @@ c =
 warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
-    schurNSscale_test at line 37 column 27
+    schurNSscale_test at line 37 column 2
 
 s10 = 0.4208
 s11 = 0.4937
@@ -96,7 +96,7 @@ c =
 warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
-    schurNSscale_test at line 47 column 27
+    schurNSscale_test at line 47 column 2
 
 s10 =
   -0.730770   0.149147   0.819950   0.609821   0.313018   0.107484   0.013687
@@ -138,7 +138,7 @@ cm =
 warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
-    schurNSscale_test at line 50 column 33
+    schurNSscale_test at line 50 column 2
 
 s10m =
    0.730770  -0.149147  -0.819950  -0.609821  -0.313018  -0.107484  -0.013687
@@ -205,7 +205,7 @@ c =
 warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
-    schurNSscale_test at line 78 column 27
+    schurNSscale_test at line 78 column 2
 
 s10 =
   -0.038113   0.757008  -0.324091  -0.668287   0.704226  -0.359613   0.061456
@@ -247,7 +247,7 @@ cm =
 warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
-    schurNSscale_test at line 81 column 33
+    schurNSscale_test at line 81 column 2
 
 s10m =
    0.038113  -0.757008   0.324091   0.668287  -0.704226   0.359613  -0.061456
@@ -298,7 +298,7 @@ c =
 warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
-    schurNSscale_test at line 97 column 27
+    schurNSscale_test at line 97 column 2
 
 s10 =
  Columns 1 through 6:
@@ -343,7 +343,7 @@ cm =
 warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
-    schurNSscale_test at line 100 column 33
+    schurNSscale_test at line 100 column 2
 
 s10m =
  Columns 1 through 6:
@@ -397,7 +397,7 @@ c =
 warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
-    schurNSscale_test at line 115 column 27
+    schurNSscale_test at line 115 column 2
 
 s10 =
    0.7610  -0.7113  -0.5609   0.6489   0.6078  -0.7731   0.2510
@@ -445,7 +445,7 @@ cm =
 warning: Using m-file version of function schurNSscale()!
 warning: called from
     schurNSscale at line 37 column 3
-    schurNSscale_test at line 118 column 33
+    schurNSscale_test at line 118 column 2
 
 s10m =
   -0.7610   0.7113   0.5609  -0.6489  -0.6078   0.7731  -0.2510

@@ -42,7 +42,7 @@ p_ones=ones(size(k0));
 % Lowpass R=2 filter specification
 %
 % Low-pass filter specification (denominator polynomial in z^-2 only)
-R=2;fap=0.15;dBap=0.1;Wap=1;fas=0.178;dBas=1000;Was=1e6;
+R=2;fap=0.15;dBap=0.087;Wap=1;fas=0.18;dBas=60;Was=1e6;
 
 %
 % Frequency vectors for the Schur one-mulitplier lattice filter
@@ -342,8 +342,8 @@ for c=1:4
   set(ha(c),"linestyle",hls{c});
   set(hs(c),"linestyle",hls{c});
 endfor
-axis(ax(1),[0  0.5 -0.15 0.05]);
-axis(ax(2),[0  0.5 -75 -55]);
+axis(ax(1),[0  0.5 -0.15 0.1]);
+axis(ax(2),[0  0.5 -70 -45]);
 strt=sprintf("Low-pass R=2 filter : nbits=%d,fap=%g,dBap=%g,fas=%g,dBas=%g", ...
              nbits,fap,dBap,fas,dBas);
 title(strt);
@@ -351,7 +351,7 @@ grid("on");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 legend("initial","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
-legend("location","southwest");
+legend("location","north");
 legend("boxoff");
 legend("left");
 print(strcat(strf,"_response"),"-dpdflatex");

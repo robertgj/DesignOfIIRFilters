@@ -15,7 +15,7 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic
 
-maxiter=1000
+maxiter=10000
 ftol=1e-2
 ctol=1e-4
 verbose=false
@@ -48,10 +48,10 @@ non2=floor(n/2);
 % Hilbert filter specification
 %
 dBar=0.1;dBat=dBar;Wap=1;Wat=0.1;
-td=(length(N0)-1)/2;;
+tp=(length(N0)-1)/2;
 ftt=0.08; % Delay transition band at zero
 ntt=floor(ftt*n);
-tdr=0.2;Wtp=0.005;Wtt=0;
+tpr=0.2;Wtp=0.005;Wtt=0;
 fpt=0.06; % Phase transition band at zero
 npt=floor(fpt*n); 
 pp=5;ppr=0.016;Wpp=1;Wpt=0;
@@ -71,20 +71,20 @@ Wa=[Wap*ones(non2-npt,1);Wat*ones((2*npt),1);Wap*ones(non2-npt,1)];
 
 % Group delay constraints
 wt=w;
-Td=td*ones(n,1);
-Tdu=[(td+(tdr/2))*ones(non2-ntt,1); ...
-     10*td*ones(2*ntt,1); ...
-     (td+(tdr/2))*ones(non2-ntt,1)];
-Tdl=[(td-(tdr/2))*ones(non2-ntt,1);...
+Td=tp*ones(n,1);
+Tdu=[(tp+(tpr/2))*ones(non2-ntt,1); ...
+     10*tp*ones(2*ntt,1); ...
+     (tp+(tpr/2))*ones(non2-ntt,1)];
+Tdl=[(tp-(tpr/2))*ones(non2-ntt,1);...
      zeros(2*ntt,1); ...
-     (td-(tdr/2))*ones(non2-ntt,1)];
+     (tp-(tpr/2))*ones(non2-ntt,1)];
 Wt=[Wtp*ones(non2-ntt,1);Wtt*ones(2*ntt,1);Wtp*ones(non2-ntt,1)];
 
 % Phase constraints
 wp=w;
-Pd=-wp*td-(pp*pi)+([ones(non2-1,1);0;-ones(non2,1)]*pi/2);
-Pdu=-wp*td-(pp*pi)+([ones(non2+npt,1);-ones(non2-npt,1)]*pi/2)+(ppr*pi/2);
-Pdl=-wp*td-(pp*pi)+([ones(non2-npt,1);-ones(non2+npt,1)]*pi/2)-(ppr*pi/2);
+Pd=-wp*tp-(pp*pi)+([ones(non2-1,1);0;-ones(non2,1)]*pi/2);
+Pdu=-wp*tp-(pp*pi)+([ones(non2+npt,1);-ones(non2-npt,1)]*pi/2)+(ppr*pi/2);
+Pdl=-wp*tp-(pp*pi)+([ones(non2-npt,1);-ones(non2+npt,1)]*pi/2)-(ppr*pi/2);
 Wp=[Wpp*ones(non2-npt,1);Wpt*ones(2*npt,1);Wpp*ones(non2-npt,1)];
 
 % dAsqdw constraints
@@ -106,11 +106,11 @@ kc_l=-kc_u;
 kc_active=[find((k0)~=0);(Nk+(1:Nc))'];
 
 % Initialise strings
-strM=sprintf("Hilbert filter %%s:Wap=%g,ftt=%g,td=%g,Wtp=%g,fpt=%g,Wpp=%g", ...
-             Wap,ftt,td,Wtp,fpt,Wpp);
+strM=sprintf("Hilbert filter %%s:Wap=%g,ftt=%g,tp=%g,Wtp=%g,fpt=%g,Wpp=%g", ...
+             Wap,ftt,tp,Wtp,fpt,Wpp);
 strP=sprintf(["Hilbert filter %%s:", ...
- "dBar=%g,Wap=%g,td=%g,ftt=%g,tdr=%g,Wtp=%g,fpt=%g,ppr=%g,Wpp=%g"], ...
-             dBar,Wap,td,ftt,tdr,Wtp,fpt,ppr,Wpp);
+ "dBar=%g,Wap=%g,tp=%g,ftt=%g,tpr=%g,Wtp=%g,fpt=%g,ppr=%g,Wpp=%g"], ...
+             dBar,Wap,tp,ftt,tpr,Wtp,fpt,ppr,Wpp);
 
 % Calculate the initial response
 Asq0=schurOneMlatticeAsq(w,k0,epsilon0,p0,c0);
@@ -119,22 +119,22 @@ T0=schurOneMlatticeT(w,k0,epsilon0,p0,c0);
 
 % Plot the initial response and constraints
 subplot(311);
-plot(w*0.5/pi,[Asq0 Asqd Asqdl Asqdu]);
-strt=sprintf("Hilbert filter initial response : td=%g,fpt=%g",td,fpt);
+plot(w*0.5/pi,sqrt([Asq0 Asqdl Asqdu]));
+strt=sprintf("Hilbert filter initial response : tp=%g,fpt=%g",tp,fpt);
 title(strt);
 ylabel("Amplitude");
 axis([-0.5 0.5 0.6 1.2 ]);
 grid("on");
 subplot(312);
-plot(w*0.5/pi,([P0 Pd Pdl Pdu]+(w*td)+(pp*pi))/pi);
+plot(w*0.5/pi,([P0 Pdl Pdu]+(w*tp)+(pp*pi))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([-0.5 0.5 -1 1]);
 grid("on");
 subplot(313);
-plot(w*0.5/pi,[T0 Td Tdl Tdu]);
+plot(w*0.5/pi,[T0 Tdl Tdu]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([-0.5 0.5 0 10*td]);
+axis([-0.5 0.5 0 10*tp]);
 grid("on");
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
@@ -173,14 +173,14 @@ close
 
 % Plot the MMSE response
 subplot(311);
-h311=plot(w*0.5/pi,[Asq1 Asqdl Asqdu]);
+h311=plot(w*0.5/pi,sqrt([Asq1 Asqdl Asqdu]));
 strt=sprintf(strM,"k1(MMSE)");
 title(strt);
 ylabel("Amplitude");
-axis([-0.5 0.5 0.9 1.1]);
+axis([-0.5 0.5 0.99 1.01]);
 grid("on");
 subplot(312);
-P1_plot=[P1 Pdl Pdu]+(w*td)+(pp*pi);
+P1_plot=[P1 Pdl Pdu]+(w*tp)+(pp*pi);
 [ax,h1,h2]=plotyy(w(1:(non2-npt))*0.5/pi,   P1_plot(1:(non2-npt),:)/pi, ...
                   w((non2+npt):end)*0.5/pi, P1_plot((non2+npt):end,:)/pi);
 % Hack to match colours. Is there an easier way with colormap?
@@ -189,15 +189,15 @@ for k=1:3
   set(h2(k),"color",h311c{k});
 endfor
 % End of hack
-axis(ax(1),[-0.5 0.5  0.5+(4*ppr*[-1,1])]);
-axis(ax(2),[-0.5 0.5 -0.5+(4*ppr*[-1,1])]);
+axis(ax(1),[-0.5 0.5  0.5+(ppr*[-1,1])]);
+axis(ax(2),[-0.5 0.5 -0.5+(ppr*[-1,1])]);
 ylabel("Phase error(rad./$\\pi$)");
 grid("on");
 subplot(313);
 plot(w*0.5/pi,[T1 Tdl Tdu]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([-0.5 0.5 td+(4*tdr*[-1,1])]);
+axis([-0.5 0.5 tp+(tpr*[-1,1])]);
 grid("on");
 print(strcat(strf,"_mmse_response"),"-dpdflatex");
 close
@@ -242,14 +242,14 @@ endif
 
 % Plot the PCLS response
 subplot(311);
-h311=plot(w*0.5/pi,[Asq2 Asqdl Asqdu]);
+h311=plot(w*0.5/pi,sqrt([Asq2 Asqdl Asqdu]));
 strt=sprintf(strP,"k2(PCLS)");
 title(strt);
 ylabel("Amplitude");
 grid("on");
-axis([-0.5 0.5 0.98 1.02]);
+axis([-0.5 0.5 0.99 1.01]);
 subplot(312);
-Pplot=[P2 Pdl Pdu]+(w*td)+(pp*pi);
+Pplot=[P2 Pdl Pdu]+(w*tp)+(pp*pi);
 [ax,h1,h2]=plotyy(w(1:(non2-npt))*0.5/pi,   Pplot(1:(non2-npt),:)/pi, ...
                   w((non2+npt):end)*0.5/pi, Pplot((non2+npt):end,:)/pi);
 % Hack to match colours. Is there an easier way with colormap?
@@ -264,7 +264,7 @@ ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
 plot(w*0.5/pi,[T2 Tdl Tdu]);
-axis([-0.5 0.5 td+(tdr*[-1,1])]);
+axis([-0.5 0.5 tp+(tpr*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
@@ -287,8 +287,8 @@ fprintf(fid,"ppr=%g %% Phase response peak-to-peak ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase response weight\n",Wpp);
 fprintf(fid,"Wpt=%g %% Phase response transition weight\n",Wpt);
 fprintf(fid,"ftt=%g %% Group delay response transition edge\n",ftt);
-fprintf(fid,"td=%g %% Nominal filter group delay(samples)\n",td);
-fprintf(fid,"tdr=%g %% Group delay peak-to-peak ripple(samples)\n",tdr);
+fprintf(fid,"tp=%g %% Nominal filter group delay(samples)\n",tp);
+fprintf(fid,"tpr=%g %% Group delay peak-to-peak ripple(samples)\n",tpr);
 fprintf(fid,"Wtp=%g %% Group delay weight\n",Wtp);
 fprintf(fid,"Wtt=%g %% Group delay transition weight\n",Wtt);
 fclose(fid);
@@ -309,7 +309,7 @@ print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
 eval(sprintf(["save %s.mat R n dmax ftol ctol dBar dBat Wap Wat ", ...
- "fpt pp ppr Wpp Wpt ftt td tdr Wtp Wtt k2 epsilon2 p2 c2 N2 D2"], strf));
+ "fpt pp ppr Wpp Wpt ftt tp tpr Wtp Wtt k2 epsilon2 p2 c2 N2 D2"], strf));
 
 % Done
 toc

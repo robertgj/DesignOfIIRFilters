@@ -1,0 +1,20 @@
+--- tkdiff-5-7/tkdiff	2024-05-09 05:52:01.000000000 +1000
++++ tkdiff-5-7.new/tkdiff	2025-04-20 22:29:29.293337459 +1000
+@@ -29,7 +29,7 @@
+ ###############################################################################
+ 
+ # Chgd from 8.0 to 8.5 as of V4.3 to ensure support of "Text displaylines"
+-package require Tk 8.5
++package require Tk 9.0.0
+ 
+ # set a couple o' globals that we might need sooner than later
+ # N.B> version must be roughly formatted as Maj.Minor[.patch][anythingelse]
+@@ -15356,7 +15356,7 @@
+ #
+ # ... and many others over the years.
+ 
+-package require Tk 8.0
++package require Tk 9.0.0
+ package provide combobox 2.3
+ 
+ namespace eval ::combobox {

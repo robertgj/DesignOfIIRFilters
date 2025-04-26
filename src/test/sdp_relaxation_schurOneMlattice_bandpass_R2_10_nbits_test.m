@@ -20,9 +20,9 @@ ctol=ftol;
 maxiter=2000
 
 % Bandpass R=2 filter specification
-fapl=0.1,fapu=0.2,dBap=1.4,Wap=1
+fapl=0.1,fapu=0.2,dBap=1.5,Wap=1
 fasl=0.05,fasu=0.25,dBas=35,Wasl=5e5,Wasu=1e6
-ftpl=0.1,ftpu=0.2,tp=16,tpr=0.28,Wtp=2
+ftpl=0.1,ftpu=0.2,tp=16,tpr=0.32,Wtp=1
 
 % Initial filter (found by schurOneMlattice_sqp_slb_bandpass_R2_test.m)
 schurOneMlattice_sqp_slb_bandpass_R2_test_k2_coef;

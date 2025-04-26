@@ -43,75 +43,75 @@ Using qroots mfile
 warning: Using builtin function roots()!
 warning: called from
     qroots at line 25 column 3
-    qroots_test at line 22 column 2
+    qroots_test at line 22 column 1
 
 warning: Using builtin function roots()!
 warning: called from
     qroots at line 25 column 3
-    qroots_test at line 26 column 2
+    qroots_test at line 26 column 1
 
 warning: Using builtin function roots()!
 warning: called from
     qroots at line 25 column 3
-    qroots_test at line 30 column 2
+    qroots_test at line 30 column 1
 
 warning: Using builtin function roots()!
 warning: called from
     qroots at line 25 column 3
-    qroots_test at line 35 column 4
+    qroots_test at line 35 column 3
 
 qroots did catch complex coefficients
 warning: Using builtin function roots()!
 warning: called from
     qroots at line 25 column 3
-    qroots_test at line 42 column 2
+    qroots_test at line 42 column 1
 
 warning: Using builtin function roots()!
 warning: called from
     qroots at line 25 column 3
-    qroots_test at line 47 column 2
+    qroots_test at line 47 column 1
 
 warning: Using builtin function roots()!
 warning: called from
     qroots at line 25 column 3
-    qroots_test at line 52 column 2
+    qroots_test at line 52 column 1
 
 warning: Using builtin function roots()!
 warning: called from
     qroots at line 25 column 3
-    qroots_test at line 60 column 3
+    qroots_test at line 60 column 1
 
 warning: Using builtin function roots()!
 warning: called from
     qroots at line 25 column 3
-    qroots_test at line 66 column 3
+    qroots_test at line 66 column 1
 
 warning: Using builtin function roots()!
 warning: called from
     qroots at line 25 column 3
-    qroots_test at line 78 column 2
+    qroots_test at line 78 column 1
 
 warning: Using builtin function roots()!
 warning: called from
     qroots at line 25 column 3
-    qroots_test at line 101 column 2
+    qroots_test at line 101 column 1
 
 warning: Using builtin function roots()!
 warning: called from
     qroots at line 25 column 3
-    qroots_test at line 119 column 2
+    qroots_test at line 119 column 1
 
 warning: Using builtin function roots()!
 warning: called from
     qroots at line 25 column 3
-    tf2x at line 53 column 2
-    qroots_test at line 132 column 12
+    tf2x at line 53 column 1
+    qroots_test at line 132 column 2
 
 warning: Using builtin function roots()!
 warning: called from
     qroots at line 25 column 3
-    tf2x at line 56 column 2
-    qroots_test at line 132 column 12
+    tf2x at line 56 column 1
+    qroots_test at line 132 column 2
 
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi

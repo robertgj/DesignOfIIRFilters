@@ -41,7 +41,7 @@ cat > test.ok << 'EOF'
 warning: Using m-file version of function schurFIRdecomp()!
 warning: called from
     schurFIRdecomp at line 29 column 3
-    schurFIRdecomp_mfile_test at line 12 column 2
+    schurFIRdecomp_mfile_test at line 12 column 1
 
 k =
   -0.9386   0.9670  -0.9251   0.7709  -0.2948

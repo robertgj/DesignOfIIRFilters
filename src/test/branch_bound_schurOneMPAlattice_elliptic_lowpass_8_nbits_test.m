@@ -24,7 +24,7 @@ maxiter=500
 verbose=false
 % Pass separate tolerances for the coefficient step and SeDuMi eps.
 tol=1e-4
-ctol=1e-8
+ctol=1e-4
 del.dtol=tol;
 del.stol=ctol;
 warning("Using coef. delta tolerance=%g, SeDuMi eps=%g\n",del.dtol,del.stol);

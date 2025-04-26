@@ -40,7 +40,7 @@ cat > test.ok << 'EOF'
 warning: Using m-file version of function spectralfactor()!
 warning: called from
     spectralfactor at line 33 column 3
-    spectralfactor_mfile_test at line 14 column 2
+    spectralfactor_mfile_test at line 14 column 1
 
 q =
    0.8343  -4.0569   8.0024  -8.0024   4.0569  -0.8343

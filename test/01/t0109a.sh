@@ -45,7 +45,7 @@ Using schurexpand mfile
 warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
-    schurexpand_test at line 16 column 6
+    schurexpand_test at line 16 column 2
 
 k =
   -0.8167   0.9982  -0.8844   0.9651  -0.9299   0.8869  -0.5636
@@ -63,7 +63,7 @@ S =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 17 column 2
+    schurexpand_test at line 17 column 1
 
 c =
  Columns 1 through 7:
@@ -74,7 +74,7 @@ c =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 18 column 3
+    schurexpand_test at line 18 column 1
 
 dc =
  Columns 1 through 6:
@@ -85,7 +85,7 @@ dc =
 warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
-    schurexpand_test at line 19 column 9
+    schurexpand_test at line 19 column 2
 
 km =
   -0.8167   0.9982  -0.8844   0.9651  -0.9299   0.8869  -0.5636
@@ -103,7 +103,7 @@ Sm =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 20 column 3
+    schurexpand_test at line 20 column 1
 
 cm =
  Columns 1 through 7:
@@ -114,7 +114,7 @@ cm =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 21 column 4
+    schurexpand_test at line 21 column 1
 
 dcm =
  Columns 1 through 6:
@@ -125,7 +125,7 @@ dcm =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 22 column 5
+    schurexpand_test at line 22 column 1
 
 dcmm =
  Columns 1 through 6:
@@ -140,7 +140,7 @@ ans = 0
 warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
-    schurexpand_test at line 30 column 6
+    schurexpand_test at line 30 column 2
 
 k =
   -0.805776   0.999210  -0.785551   0.976849  -0.679467   0.609371  -0.028265
@@ -158,7 +158,7 @@ S =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 31 column 2
+    schurexpand_test at line 31 column 1
 
 c =
  Columns 1 through 7:
@@ -169,7 +169,7 @@ c =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 32 column 3
+    schurexpand_test at line 32 column 1
 
 dc =
  Columns 1 through 6:
@@ -180,7 +180,7 @@ dc =
 warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
-    schurexpand_test at line 33 column 8
+    schurexpand_test at line 33 column 2
 
 km =
   -0.805776   0.999210  -0.785551   0.976849  -0.679467   0.609371  -0.028265
@@ -198,7 +198,7 @@ Sm =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 34 column 3
+    schurexpand_test at line 34 column 1
 
 cm =
  Columns 1 through 7:
@@ -209,7 +209,7 @@ cm =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 35 column 4
+    schurexpand_test at line 35 column 1
 
 dcm =
  Columns 1 through 6:
@@ -220,7 +220,7 @@ dcm =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 36 column 5
+    schurexpand_test at line 36 column 1
 
 dcmm =
  Columns 1 through 6:
@@ -235,7 +235,7 @@ ans = 0
 warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
-    schurexpand_test at line 46 column 6
+    schurexpand_test at line 46 column 2
 
 k =
   -0.3970   0.9350  -0.6589   0.6258  -0.3121
@@ -251,7 +251,7 @@ S =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 47 column 2
+    schurexpand_test at line 47 column 1
 
 c =
   -0.225839   0.158736   0.362673   0.353330   0.171004   0.049343
@@ -259,7 +259,7 @@ c =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 48 column 3
+    schurexpand_test at line 48 column 1
 
 dc =
    0.181460  -0.078488   0.521186  -0.488228   0.594547  -0.312129
@@ -267,7 +267,7 @@ dc =
 warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
-    schurexpand_test at line 49 column 8
+    schurexpand_test at line 49 column 2
 
 km =
   -0.3970   0.9350  -0.6589   0.6258  -0.3121
@@ -283,7 +283,7 @@ Sm =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 50 column 3
+    schurexpand_test at line 50 column 1
 
 cm =
   -0.225839   0.158736   0.362673   0.353330   0.171004   0.049343
@@ -291,7 +291,7 @@ cm =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 51 column 4
+    schurexpand_test at line 51 column 1
 
 dcm =
   -0.181460   0.078488  -0.521186   0.488228  -0.594547   0.312129
@@ -299,7 +299,7 @@ dcm =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 52 column 5
+    schurexpand_test at line 52 column 1
 
 dcmm =
    0.181460  -0.078488   0.521186  -0.488228   0.594547  -0.312129
@@ -311,7 +311,7 @@ ans = 0
 warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
-    schurexpand_test at line 60 column 6
+    schurexpand_test at line 60 column 2
 
 k =
   -0.269728   0.952677   0.055805   0.450264   0.155925
@@ -327,7 +327,7 @@ S =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 61 column 2
+    schurexpand_test at line 61 column 1
 
 c =
    0.108554  -0.272622  -0.050916   0.499813  -0.430072   0.139910
@@ -335,7 +335,7 @@ c =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 62 column 3
+    schurexpand_test at line 62 column 1
 
 dc =
    0.257767  -0.072203   0.838927   0.049219   0.444757   0.155925
@@ -343,7 +343,7 @@ dc =
 warning: Using m-file version of function schurdecomp()!
 warning: called from
     schurdecomp at line 33 column 1
-    schurexpand_test at line 63 column 8
+    schurexpand_test at line 63 column 2
 
 km =
   -0.269728   0.952677   0.055805   0.450264   0.155925
@@ -359,7 +359,7 @@ Sm =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 64 column 3
+    schurexpand_test at line 64 column 1
 
 cm =
    0.108554  -0.272622  -0.050916   0.499813  -0.430072   0.139910
@@ -367,7 +367,7 @@ cm =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 65 column 4
+    schurexpand_test at line 65 column 1
 
 dcm =
   -0.257767   0.072203  -0.838927  -0.049219  -0.444757  -0.155925
@@ -375,7 +375,7 @@ dcm =
 warning: Using m-file version of function schurexpand()!
 warning: called from
     schurexpand at line 32 column 1
-    schurexpand_test at line 66 column 5
+    schurexpand_test at line 66 column 1
 
 dcmm =
    0.257767  -0.072203   0.838927   0.049219   0.444757   0.155925
