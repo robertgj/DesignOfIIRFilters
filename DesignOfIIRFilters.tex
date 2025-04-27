@@ -14895,18 +14895,18 @@ where
 \begin{align*}
 \frac{\partial\boldsymbol{c}_{R}}{\partial\omega}&=
 -\left[\boldsymbol{v}-\frac{\partial\phi_{R}\left(M\omega\right)}{\partial\omega}
-\right]\circ\boldsymbol{s}_{R}\\
+\right]\odot\boldsymbol{s}_{R}\\
 \frac{\partial\boldsymbol{c}_{S}}{\partial\omega}&=
 -\left[\boldsymbol{v}-\frac{\partial\phi_{S}\left(M\omega\right)}{\partial\omega}
-\right]\circ\boldsymbol{s}_{S}\\
+\right]\odot\boldsymbol{s}_{S}\\
 \frac{\partial\boldsymbol{s}_{R}}{\partial\omega}&=
 \phantom{-}\left[\boldsymbol{v}-\frac{\partial\phi_{R}\left(M\omega\right)}
-{\partial\omega}\right]\circ\boldsymbol{c}_{R}\\
+{\partial\omega}\right]\odot\boldsymbol{c}_{R}\\
 \frac{\partial\boldsymbol{s}_{S}}{\partial\omega}&=
 \phantom{-}\left[\boldsymbol{v}-\frac{\partial\phi_{S}\left(M\omega\right)}
-{\partial\omega}\right]\circ\boldsymbol{c}_{S}
+{\partial\omega}\right]\odot\boldsymbol{c}_{S}
 \end{align*}
-The $\circ$ symbol represents the \emph{Hadamard} or element-wise product.
+The $\odot$ symbol represents the \emph{Hadamard} or element-wise product.
 
 The gradients of the squared amplitude response are
 \begin{align*}
@@ -20923,8 +20923,8 @@ components of $\boldsymbol{x}$, define
 Then $u_{i}=\hat{x}_{i}+y_{i}\delta_{i}$ if $y_{i}=1$ and
 $l_{i}=\hat{x}_{i}+y_{i}\delta_{i}$ if $y_{i}=-1$. Define the filter
 coefficient vector as
-$\boldsymbol{x}=\hat{\boldsymbol{x}}+\boldsymbol{y}\circ\boldsymbol{\delta}$,
-where $\circ$ represents the element-by-element product, and approximate the
+$\boldsymbol{x}=\hat{\boldsymbol{x}}+\boldsymbol{y}\odot\boldsymbol{\delta}$,
+where $\odot$ represents the element-by-element product, and approximate the
 filter amplitude response by
 $A\left(\omega\right)\approx\hat{A}\left(\omega\right)+A_{\delta}\left(\omega\right)$\footnote{This is an equality for an FIR filter transfer function.}.
 The weighted mean-squared-error of the filter amplitude response is
@@ -20937,17 +20937,17 @@ approximately:
 
 The weighted mean-squared-error of the amplitude response,
 $\mathcal{E}$, of an IIR filter with signed-digit coefficients,
-$\hat{\boldsymbol{x}}+\left(\boldsymbol{y}\circ\boldsymbol{\delta}\right)$, is
+$\hat{\boldsymbol{x}}+\left(\boldsymbol{y}\odot\boldsymbol{\delta}\right)$, is
 approximately:
 \begin{align}
 \label{eqn:integer-programming-coefficient-truncation}
 \mathcal{E} &\approx
     \mathcal{E}\left(\hat{\boldsymbol{x}}\right)+
     \nabla_{x}\mathcal{E}\left(\hat{\boldsymbol{x}}\right)^{\top}
-    \left(\boldsymbol{y}\circ\boldsymbol{\delta}\right) + 
-    \frac{1}{2}\left(\boldsymbol{y}\circ\boldsymbol{\delta}\right)^{\top}
+    \left(\boldsymbol{y}\odot\boldsymbol{\delta}\right) + 
+    \frac{1}{2}\left(\boldsymbol{y}\odot\boldsymbol{\delta}\right)^{\top}
     \nabla_{x}^{2}\mathcal{E}\left(\hat{\boldsymbol{x}}\right)
-    \left(\boldsymbol{y}\circ\boldsymbol{\delta}\right)
+    \left(\boldsymbol{y}\odot\boldsymbol{\delta}\right)
 \end{align}
 
 If $\boldsymbol{Y}=\boldsymbol{y}\boldsymbol{y}^{\top}$ and
@@ -20957,9 +20957,9 @@ a matrix is defined in Appendix~\ref{app:Linear-algebra-trace-of-matrix}.}:
 \begin{align*}
   \mathcal{E}&\approx
                \frac{1}{2}\mathtrace\left(
-               \left(\boldsymbol{Q}\circ\boldsymbol{\Delta}\right)
+               \left(\boldsymbol{Q}\odot\boldsymbol{\Delta}\right)
                \boldsymbol{Y}\right)+
-          \left(\boldsymbol{q}\circ\boldsymbol{\delta}\right)^{\top}\boldsymbol{y}
+          \left(\boldsymbol{q}\odot\boldsymbol{\delta}\right)^{\top}\boldsymbol{y}
                +\text{const}
 \end{align*}
 
