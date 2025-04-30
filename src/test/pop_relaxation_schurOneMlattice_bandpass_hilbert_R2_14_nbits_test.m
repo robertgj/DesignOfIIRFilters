@@ -18,7 +18,7 @@ tic;
 
 maxiter=2000
 ftol=1e-3
-ctol=5e-4
+ctol=2e-4
 verbose=false;
 
 nbits=14
@@ -30,7 +30,7 @@ use_schurOneMlattice_allocsd_Lim=false
 use_schurOneMlattice_allocsd_Ito=true
 use_fix_coefficient_difference_greater_than_alpha=true
 use_maximum_number_of_fixed_coefficients_is_alpha_num=true
-alpha_num=1
+alpha_num=3
 alpha_min=0.5
 rho=0.999 
 
@@ -459,7 +459,7 @@ strt=sprintf(["Bandpass Hilbert R=2 filter : ", ...
               "nbits=%d,ndigits=%d,fasl=%g,fasu=%g"],nbits,ndigits,fasl,fasu);
 title(strt);
 legend("Exact","s-d","s-d(Ito)","s-d(POP-relax)");
-legend("location","southeast");
+legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -473,7 +473,7 @@ plot(wa*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
      wa*0.5/pi,10*log10(abs(Asq_kc_sd_min)),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([min([fapl fppl ftpl]), max([fapu fppu ftpu]), -0.6, 0.1]);
+axis([min([fapl fppl ftpl]), max([fapu fppu ftpu]), -0.2, 0.05]);
 strt=sprintf(["Bandpass Hilbert R=2 filter :", ...
               " nbits=%d,ndigits=%d,fapl=%g,fapu=%g"],nbits,ndigits,fapl,fapu);
 title(strt);
