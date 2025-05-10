@@ -12,7 +12,6 @@ tarczynski_parallel_allpass_bandpass_hilbert_test.mat
 tarczynski_parallel_allpass_bandpass_hilbert_test_FILES = \
 tarczynski_parallel_allpass_bandpass_hilbert_test.m \
 test_common.m WISEJ_PAB.m delayz.m print_polynomial.m print_pole_zero.m \
-\
 qroots.oct
 
 tarczynski_parallel_allpass_bandpass_hilbert_test.diary: \
