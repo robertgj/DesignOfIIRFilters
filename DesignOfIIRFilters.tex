@@ -21013,9 +21013,8 @@ components of $\boldsymbol{x}$, define
 \hat{\boldsymbol{x}}=\frac{\left(\boldsymbol{u}+\boldsymbol{l}\right)}{2} \\
 \boldsymbol{\delta}=\frac{\left(\boldsymbol{u}-\boldsymbol{l}\right)}{2}
 \end{align*}
-Then $u_{i}=\hat{x}_{i}+y_{i}\delta_{i}$ if $y_{i}=1$ and
-$l_{i}=\hat{x}_{i}+y_{i}\delta_{i}$ if $y_{i}=-1$. Define the filter
-coefficient vector as
+If $y_{i}=1$, $\hat{x}_{i}+y_{i}\delta_{i}=u_{i}$, and if $y_{i}=-1$,
+$\hat{x}_{i}+y_{i}\delta_{i}=l_{i}$. Define the filter coefficient vector as
 $\boldsymbol{x}=\hat{\boldsymbol{x}}+\boldsymbol{y}\odot\boldsymbol{\delta}$,
 where $\odot$ represents the element-by-element product, and approximate the
 filter amplitude response by
@@ -21078,7 +21077,7 @@ The integer programming constraints are equivalent to:
           \boldsymbol{y}^{\top} & 1\\
         \end{array}\right]\succeq \boldsymbol{0}
 \end{align*}
-where $\succeq 0$ means that the array is positive semi-definite.
+where $\succeq 0$ means that the matrix is positive semi-definite.
 \emph{Lu}~\cite[Section 2.3]{Lu_FIRDiscreteCoefficientsSemidefiniteRelaxation}
 suggests a relaxation of the integer programming problem by discarding the rank
 constraint. The resulting constraints are simplified by defining a symmetric
@@ -21122,7 +21121,7 @@ add \emph{triangle inequality} constraints:
   \end{split}
   \label{eqn:triangle-inequality-yyY}
 \end{align}
-for $i<j$.
+for $i<j$ and assuming $-1\le{}y\le{}1$.
 
 Also~\cite[Equation 20]
 {Ito_FIRSP2CoefficientsLinearProgrammingTriangleInequalities}:
@@ -21135,7 +21134,8 @@ Also~\cite[Equation 20]
   \end{split}
   \label{eqn:triangle-inequality-YYY}
 \end{align}
-for $i<j<k$. In practice, I have found that
+for $i<j<k$. In practice, Equation~\ref{eqn:triangle-inequality-YYY}
+introduces a large number of constraints and I have found that
 Equation~\ref{eqn:triangle-inequality-yyY} is sufficient.
 
 \emph{Lu}~\cite[Section V]{Lu_SedumiRemarks} shows how to solve this
@@ -21189,12 +21189,10 @@ following relaxation of the SDP problem to a linear programming (LP) problem:
 
 For successive coefficient optimisation, the components of the coefficient
 vector may be either \emph{inactive} (possibly already optimised) or
-\emph{active}. The \emph{active} coefficients may further divided into
-those that are to be \emph{fixed} to a signed-digit value, corresponding to
-the $\boldsymbol{y}$ above, and those that are \emph{not fixed} and are
-optimised to a floating point value. In the latter case an additional term
-is added to the objective function, as shown in
-Chapter~\ref{sec:IIR-Design-Using-SOCP}.
+\emph{active}. In the following, the optimisation of the \emph{active}
+signed-digit coefficients is in two steps: first SOCP optimising all the active
+coefficients as floating point and then SDP optimising only those coefficients
+that are to be fixed.
 
 \begin{comment}
 \section{The \emph{maximum-cut} problem of graph theory}
@@ -21829,8 +21827,8 @@ Figure~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-phase}
 and
 Figure~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-delay}
 compare the pass band responses of the filter with floating-point coefficients,
-13-bit signed-digit coefficients allocated with the algorithm of
-\emph{Ito et al.} and 13-bit signed-digit coefficients allocated with the
+$13$ bit signed-digit coefficients allocated with the algorithm of
+\emph{Ito et al.} and $13$ bit signed-digit coefficients allocated with the
 algorithm of \emph{Ito et al.} and SDP-relaxation search. The pass band phase
 response shown is adjusted for the nominal delay. Likewise,
 Figure~\ref{fig:sdp-relax-schurOneMPAlattice-bandpass-hilbert-13-nbits-stop}
@@ -23263,7 +23261,7 @@ $\boldsymbol{S}$, of equal size, are:
 \begin{align*}
   [RS]_{kl} &= \sum_{m}R_{km}S_{ml}
 \end{align*}
-The \emph{trace} of a matrix is the sum of the diagonal elements:
+The \emph{trace} of a matrix is the sum of the elements on the diagonal:
 \begin{align*}
   \mathtrace\left(\boldsymbol{T}\right) &= \sum_{n}T_{nn}
 \end{align*}
@@ -26619,7 +26617,7 @@ x^{k+1} &= x^{k}+\tau^{k}d^{k}
 \end{align*}
 where $\tau^{k}$ is a step size. The scalars $\mu_{1}$ and $\mu_{2}$
 are selected as follows: at each iteration we find the maximum absolute
-value of the Hessian diagonal elements
+value of the elements on the diagonal of the Hessian 
 \begin{align*}
 w^{k}&=\max\;\mathdiag\;\nabla_{x}^{2}\mathcal{L}\left(x^{k}\right)
 \end{align*}

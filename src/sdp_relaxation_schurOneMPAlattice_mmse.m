@@ -255,11 +255,10 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   %         3. k0+(k0_delta.*sign(y)) is the new filter design
   %
   Nk_active=length(k_active);
-  MM=Nk_active*(Nk_active-1)/2;
-  NN=MM+Nk_active;
+  NN=Nk_active*(Nk_active-1)/2;
   if verbose
     printf("k_active=[ "),printf("%d ",k_active);printf("]\n");
-    printf("Nk_active=%d,MM=%d,NN=%d\n",Nk_active,MM,NN);
+    printf("Nk_active=%d,NN=%d,NN+Nk_active=%d\n",Nk_active,NN,NN+Nk_active);
   endif
  
   % Linear constraints on reflection coefficients
@@ -267,8 +266,8 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   % implementing:
   %   ku-(k+deltak) >= 0
   %   (k+deltak)-kl >= 0
-  D=[ [zeros(MM,Nk_active); -diag(k_delta(k_active))], ...
-      [zeros(MM,Nk_active);  diag(k_delta(k_active))] ];
+  D=[ [zeros(NN,Nk_active); -diag(k_delta(k_active))], ...
+      [zeros(NN,Nk_active);  diag(k_delta(k_active))] ];
   f=[ k_u(k_active)-k0(k_active); ...
       k0(k_active)-k_l(k_active) ];
   
@@ -280,7 +279,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
                                               A2k0,A2epsilon0,A2p0,difference);
     func_iter = func_iter+1;
     gradAsq_au_delta=gradAsq_au.*kron(ones(length(vS.au),1),k_delta');
-    D=[D,[zeros(MM,length(vS.au));-gradAsq_au_delta(:,k_active)']];
+    D=[D,[zeros(NN,length(vS.au));-gradAsq_au_delta(:,k_active)']];
     f=[f;Asqdu(vS.au)-Asq_au];
   endif
   if ~isempty(vS.al) 
@@ -288,7 +287,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
                                               A2k0,A2epsilon0,A2p0,difference);
     func_iter = func_iter+1;
     gradAsq_al_delta=gradAsq_al.*kron(ones(length(vS.al),1),k_delta');
-    D=[D,[zeros(MM,length(vS.al));gradAsq_al_delta(:,k_active)']];
+    D=[D,[zeros(NN,length(vS.al));gradAsq_al_delta(:,k_active)']];
     f=[f;Asq_al-Asqdl(vS.al)];
   endif
   
@@ -298,7 +297,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
                                         A2k0,A2epsilon0,A2p0,difference);
     func_iter = func_iter+1;
     gradT_tu_delta=gradT_tu.*kron(ones(length(vS.tu),1),k_delta');
-    D=[D,[zeros(MM,length(vS.tu));-gradT_tu_delta(:,k_active)']];
+    D=[D,[zeros(NN,length(vS.tu));-gradT_tu_delta(:,k_active)']];
     f=[f;Tdu(vS.tu)-T_tu];
   endif
   if ~isempty(vS.tl) 
@@ -306,7 +305,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
                                         A2k0,A2epsilon0,A2p0,difference);
     func_iter = func_iter+1;
     gradT_tl_delta=gradT_tl.*kron(ones(length(vS.tl),1),k_delta');
-    D=[D,[zeros(MM,length(vS.tl));gradT_tl_delta(:,k_active)']];
+    D=[D,[zeros(NN,length(vS.tl));gradT_tl_delta(:,k_active)']];
     f=[f;T_tl-Tdl(vS.tl)];
   endif
 
@@ -318,12 +317,12 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   endif      
   if ~isempty(vS.pu) 
     gradP_pu_delta=gradP(vS.pu).*kron(ones(length(vS.pu),1),k_delta');
-    D=[D,[zeros(MM,length(vS.pu));-gradP_pu_delta(:,k_active)']];
+    D=[D,[zeros(NN,length(vS.pu));-gradP_pu_delta(:,k_active)']];
     f=[f;                          Pdu(vS.pu)-P(vS.pu)];
   endif
   if ~isempty(vS.pl) 
     gradP_pl_delta=gradP(vS.pl).*kron(ones(length(vS.pl),1),k_delta');
-    D=[D,[zeros(MM,length(vS.pl)); gradP_pl_delta(:,k_active)']];
+    D=[D,[zeros(NN,length(vS.pl)); gradP_pl_delta(:,k_active)']];
     f=[f;                          P(vS.pl)-Pdl(vS.pl)];
   endif
 
@@ -334,7 +333,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
                                 A2k0,A2epsilon0,A2p0,difference);
     func_iter = func_iter+1;
     graddAsqdw_du_delta=graddAsqdw_du.*kron(ones(length(vS.du),1),k_delta');
-    D=[D,[zeros(MM,length(vS.du));-graddAsqdw_du_delta(:,k_active)']];
+    D=[D,[zeros(NN,length(vS.du));-graddAsqdw_du_delta(:,k_active)']];
     f=[f;Ddu(vS.du)-dAsqdw_du];
   endif
   if ~isempty(vS.dl)
@@ -343,37 +342,45 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
                                 A2k0,A2epsilon0,A2p0,difference);
     func_iter = func_iter+1;
     graddAsqdw_dl_delta=graddAsqdw_dl.*kron(ones(length(vS.dl),1),k_delta');
-    D=[D,[zeros(MM,length(vS.dl));-graddAsqdw_dl_delta(:,k_active)']];
+    D=[D,[zeros(NN,length(vS.dl));-graddAsqdw_dl_delta(:,k_active)']];
     f=[f;dAsqdw_dl-Ddl(vS.dl)];
   endif
   
   % Triangle inequalities (in the SeDuMi form: Dy+f>=0)
-  Fn=zeros(Nk_active+1);
-  Fn(find(triu(ones(Nk_active+1),1)))=1:NN;
-  byyY=ones(4*MM,1);
-  AyyY=zeros(NN,4*MM);
-  nn=-3;
-  for m=1:(Nk_active-1),
-    for n=(m+1):Nk_active,
-      nn=nn+4;
-      % y(m)+y(n)+Y(m,n) + 1 >= 0
-      AyyY(Fn(m,Nk_active+1), nn)=1; 
-      AyyY(Fn(n,Nk_active+1), nn)=1;
-      AyyY(Fn(m,n)          , nn)=1;
-      % y(m)-y(n)-Y(m,n) + 1 >= 0
-      AyyY(Fn(m,Nk_active+1), nn+1)=1; 
-      AyyY(Fn(n,Nk_active+1), nn+1)=-1;
-      AyyY(Fn(m,n)          , nn+1)=-1; 
-      % -y(m)-y(n)+Y(m,n) + 1 >= 0
-      AyyY(Fn(m,Nk_active+1), nn+2)=-1; 
-      AyyY(Fn(n,Nk_active+1), nn+2)=-1;
-      AyyY(Fn(m,n),           nn+2)=1;
-      % -y(m)+y(n)-Y(m,n) + 1 >= 0
-      AyyY(Fn(m,Nk_active+1), nn+3)=-1; 
-      AyyY(Fn(n,Nk_active+1), nn+3)=1;
-      AyyY(Fn(m,n)          , nn+3)=-1;
+  AyyY=[];
+  byyY=[];
+  if Nk_active >= 2
+    if verbose
+      fprintf(stderr,"Calculating AyyY, Nk_active=%d",Nk_active);
+    endif
+    Fn=zeros(Nk_active);
+    Fn(find(triu(ones(Nk_active),1)))=1:NN;
+    NN2=nchoosek(Nk_active,2);
+    byyY=ones(4*NN2,1);
+    AyyY=zeros(NN+Nk_active,4*NN2);
+    nn=-3;
+    for m=1:(Nk_active-1),
+      for n=(m+1):Nk_active,
+        nn=nn+4;
+        % y(m)+y(n)+Y(m,n) + 1 >= 0
+        AyyY(NN+m,    nn  )= 1; 
+        AyyY(NN+n,    nn  )= 1;
+        AyyY(Fn(m,n), nn  )= 1;
+        % y(m)-y(n)-Y(m,n) + 1 >= 0
+        AyyY(NN+m,    nn+1)= 1; 
+        AyyY(NN+n,    nn+1)=-1;
+        AyyY(Fn(m,n), nn+1)=-1; 
+        % -y(m)-y(n)+Y(m,n) + 1 >= 0
+        AyyY(NN+m,    nn+2)=-1; 
+        AyyY(NN+n,    nn+2)=-1;
+        AyyY(Fn(m,n), nn+2)= 1;
+        % -y(m)+y(n)-Y(m,n) + 1 >= 0
+        AyyY(NN+m,    nn+3)=-1; 
+        AyyY(NN+n,    nn+3)= 1;
+        AyyY(Fn(m,n), nn+3)=-1;
+      endfor
     endfor
-  endfor
+  endif
 
   % Minimise the filter response MMSE error
   xk0=k0(k_active);
@@ -382,21 +389,21 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   Q=hessEsq0(k_active,k_active);
   Fhat=find(triu(ones(Nk_active),1));
   Qhat=Q.*(xk_delta*(xk_delta'));
-  cc=zeros(NN,1); 
-  cc(1:MM)=Qhat(Fhat);
-  cc((MM+1):NN)=(((xk0')*Q)+q).*(xk_delta');
+  cc=zeros(NN+Nk_active,1); 
+  cc(1:NN)=Qhat(Fhat);
+  cc((NN+1):(NN+Nk_active))=(((xk0')*Q)+q).*(xk_delta');
 
   % Positive definite constraint
   F0=eye(Nk_active+1);
-  F=cell(NN,1);
+  F=cell(NN+Nk_active,1);
   [Fr,Fc]=find(triu(ones(Nk_active+1),1));
-  for m=1:NN,
+  for m=1:(NN+Nk_active),
     F{m}=zeros(size(F0));
     F{m}(Fr(m),Fc(m))=1;
     F{m}(Fc(m),Fr(m))=1;
   endfor
-  As=zeros(NN,size(vec(F0),1));
-  for m=1:NN,
+  As=zeros(NN+Nk_active,size(vec(F0),1));
+  for m=1:(NN+Nk_active),
     As(m,:)=-vec(F{m});
   endfor
 
@@ -440,7 +447,7 @@ function [A1k_min,A2k_min,socp_iter,func_iter,feasible]= ...
   end_try_catch
   
   % Extract results
-  y=ys((MM+1):NN);
+  y=ys((NN+1):(NN+Nk_active));
   k_min=k0;
   k_min(k_active)=xk0+(sign(y.*(abs(y)>0.5)).*xk_delta);
   A1k_min=k_min(RA1k);

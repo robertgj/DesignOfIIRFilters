@@ -2,7 +2,7 @@
 % Copyright (C) 2017-2025 Robert G. Jenssen
 
 % SDP relaxation optimisation of a Schur parallel one-multiplier allpass
-% lattice bandpass filter with 12-bit signed-digit coefficients having
+% lattice bandpass filter with 13-bit signed-digit coefficients having
 % an average of 3 signed-digits
 
 test_common;
@@ -20,6 +20,10 @@ ftol=1e-4
 ctol=1e-5
 verbose=false;
 
+nbits=13;
+nscale=2^(nbits-1);
+ndigits=3;
+
 %
 % Band-pass filter specification for parallel all-pass filters
 %
@@ -28,9 +32,9 @@ fasl=0.05
 fapl=0.1
 fapu=0.2
 fasu=0.25
-dBap=0.2
+dBap=0.15
 Wap=20
-dBas=35
+dBas=36
 Watl=1e-3
 Watu=1e-3
 Wasl=50000
@@ -38,12 +42,12 @@ Wasu=5000
 ftpl=0.11
 ftpu=0.19
 tp=16
-tpr=0.32
+tpr=0.205 % Modified for QEMU
 Wtp=2
 fppl=0.11
 fppu=0.19
-pp=3.5 % Initial phase offset (rad./pi)
-ppr=0.012 % Peak-to-peak phase ripple (rad./pi)
+pp=3.5    % Initial phase offset (rad./pi)
+ppr=0.006 % Peak-to-peak phase ripple (rad./pi)
 Wpp=10
 fdpl=fapl % Pass band dAsqdw response lower edge
 fdpu=fapu % Pass band dAsqdw response upper edge
@@ -167,9 +171,6 @@ Esq0=schurOneMPAlatticeEsq(A1k0,A1epsilon0,A1p_ones, ...
                            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 
 % Allocate digits
-nbits=13;
-nscale=2^(nbits-1);
-ndigits=3;
 ndigits_alloc=schurOneMPAlattice_allocsd_Ito ...
                 (nbits,ndigits,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
                  difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
@@ -380,12 +381,15 @@ dAsqdw_k0=schurOneMPAlatticedAsqdw(wd,A1k0,A1epsilon0,A1p0, ...
                                    A2k0,A2epsilon0,A2p0,difference);
 dAsqdw_k0_sd=schurOneMPAlatticedAsqdw(wd,k0_sd(RA1k),A1epsilon0,A1p0, ...
                                       k0_sd(RA2k),A2epsilon0,A2p0,difference);
-dAsqdw_k0_sd_Ito=schurOneMPAlatticedAsqdw(wd,k0_sd_Ito(RA1k),A1epsilon0,A1p0, ...
-                                          k0_sd_Ito(RA2k),A2epsilon0,A2p0,difference);
-dAsqdw_k0_sd_sdp=schurOneMPAlatticedAsqdw(wd,k0_sd_sdp(RA1k),A1epsilon0,A1p0, ...
-                                          k0_sd_sdp(RA2k),A2epsilon0,A2p0,difference);
-dAsqdw_k0_sd_min=schurOneMPAlatticedAsqdw(wd,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
-                                          k0_sd_min(RA2k),A2epsilon0,A2p0,difference);
+dAsqdw_k0_sd_Ito=schurOneMPAlatticedAsqdw ...
+                   (wd,k0_sd_Ito(RA1k),A1epsilon0,A1p0, ...
+                    k0_sd_Ito(RA2k),A2epsilon0,A2p0,difference);
+dAsqdw_k0_sd_sdp=schurOneMPAlatticedAsqdw ...
+                   (wd,k0_sd_sdp(RA1k),A1epsilon0,A1p0, ...
+                    k0_sd_sdp(RA2k),A2epsilon0,A2p0,difference);
+dAsqdw_k0_sd_min=schurOneMPAlatticedAsqdw ...
+                   (wd,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
+                    k0_sd_min(RA2k),A2epsilon0,A2p0,difference);
 
 % Amplitude and delay at local peaks
 vAl=local_max(Asqdl-Asq_k0_sd_min);
@@ -494,8 +498,9 @@ plot(wt*0.5/pi,T_k0,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([min([fapl ftpl fppl]),max([fapu ftpu ftpu]),(tp+(tpr*[-1,1]))]);
-strt=sprintf(["Parallel allpass lattice bandpass Hilbert filter pass-band delay ", ...
- "(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g"],nbits,ndigits,ftpl,ftpu);
+strt=sprintf(["Parallel allpass lattice bandpass Hilbert filter pass-band ", ...
+              "delay (nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g"], ...
+             nbits,ndigits,ftpl,ftpu);
 title(strt);
 legend("initial","s-d","s-d(Ito)","s-d(SDP)","s-d(min)");
 legend("location","southeast");
@@ -514,8 +519,9 @@ plot(wp*0.5/pi,((P_k0+(wp*tp))/pi)-pp,"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Phase error(rad./$\\pi$)");
 axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), (ppr/2)*[-1,1]]);
-strt=sprintf(["Parallel allpass lattice bandpass Hilbert filter pass-band phase ", ...
- "(nbits=%d,ndigits=%d) : fppl=%g,fppu=%g"],nbits,ndigits,fppl,fppu);
+strt=sprintf(["Parallel allpass lattice bandpass Hilbert filter pass-band ", ...
+              "phase (nbits=%d,ndigits=%d) : fppl=%g,fppu=%g"], ...
+             nbits,ndigits,fppl,fppu);
 title(strt);
 legend("initial","s-d","s-d(Ito)","s-d(SDP)","s-d(min)");
 legend("location","southwest");

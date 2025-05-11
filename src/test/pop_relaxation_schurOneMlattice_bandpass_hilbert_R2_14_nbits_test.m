@@ -39,7 +39,7 @@ rho=0.999
 %
 
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25
-dBap=0.3,dBas=32,Wasl=1,Watl=0.001,Wap=2,Watu=0.001,Wasu=1
+dBap=0.2,dBas=33,Wasl=1,Watl=0.001,Wap=2,Watu=0.001,Wasu=1
 fppl=0.1,fppu=0.2,pp=3.5,ppr=0.003,Wpp=2
 ftpl=0.1,ftpu=0.2,tp=16,tpr=0.3,Wtp=0.2
 fdpl=0.1,fdpu=0.2,dp=0,dpr=1,Wdp=0.001
@@ -459,9 +459,9 @@ strt=sprintf(["Bandpass Hilbert R=2 filter : ", ...
               "nbits=%d,ndigits=%d,fasl=%g,fasu=%g"],nbits,ndigits,fasl,fasu);
 title(strt);
 legend("Exact","s-d","s-d(Ito)","s-d(POP-relax)");
-legend("location","south");
+legend("location","southwest");
 legend("boxoff");
-legend("left");
+legend("right");
 grid("on");
 print(strcat(strf,"_stop"),"-dpdflatex");
 close
