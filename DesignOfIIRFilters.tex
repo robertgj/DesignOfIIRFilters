@@ -19393,10 +19393,14 @@ The signed-digit lattice coefficients found by the SOCP-relaxation search are:
 \end{small}
 The signed-digit lattice coefficients found by the SOCP-relaxation search are
 implemented with 
-\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_kmin_digits.tab}
+\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_k_min_digits.tab}
 signed-digits and 
-\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_kmin_adders.tab}
-shift-and-add operations.
+\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_k_min_adders.tab}
+shift-and-add operations. The corresponding transfer function coefficient are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_N_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_D_min_coef.m}
+\end{small}
 
 Figures~\ref{fig:socp-relax-schurOneMPAlattice-bandpass-12-nbits-pass-amplitude}
 and~\ref{fig:socp-relax-schurOneMPAlattice-bandpass-12-nbits-pass-delay}
@@ -19405,13 +19409,15 @@ $12$-bit $3$-signed-digit coefficients allocated with the algorithm of
 \emph{Lim et al.} and SOCP-relaxation search.
 Figure~\ref{fig:socp-relax-schurOneMPAlattice-bandpass-12-nbits-stop-amplitude}
 shows the corresponding filter stop-band amplitude response.
+Figure~\ref{fig:socp-relax-schurOneMPAlattice-bandpass-12-nbits-pz}
+shows the filter pole-zero plot.
 Table~\ref{tab:socp-relax-schurOneMPAlattice-bandpass-12-nbits-cost-summary}
 compares the cost and the number of $12$ bit shift-and-add operations required
 to implement the coefficient multiplications found by the signed-digit
 allocation heuristic of \emph{Lim et al.} with the SOCP-relaxation search.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_kmin_pass_amplitude}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_k_min_pass_amplitude}}
 \caption{Pass-band mplitude responses for a parallel Schur
   one-multiplier all-pass lattice band-pass filter with 12 bit integer
   coefficients found by allocating an average of 3-signed-digits to each
@@ -19421,7 +19427,7 @@ allocation heuristic of \emph{Lim et al.} with the SOCP-relaxation search.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_kmin_pass_delay}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_k_min_pass_delay}}
 \caption{Pass-band group-delay responses for a parallel Schur
   one-multiplier all-pass lattice band-pass filter with 12 bit integer
   coefficients found by allocating an average of 3-signed-digits to each
@@ -19431,19 +19437,28 @@ allocation heuristic of \emph{Lim et al.} with the SOCP-relaxation search.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_kmin_stop_amplitude}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_k_min_stop_amplitude}}
 \caption{Stop band amplitude responses for a parallel Schur one-multiplier
   all-pass lattice band-pass filter with 12 bit integer coefficients found by
   allocating an average of 3-signed-digits to each coefficient using the
   heuristic of \emph{Lim et al.} and performing SOCP-relaxation search.}
 \label{fig:socp-relax-schurOneMPAlattice-bandpass-12-nbits-stop-amplitude}
 \end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_k_min_pz}}
+\caption{Pole-zero plot of a parallel Schur one-multiplier all-pass lattice
+  band-pass filter with 12 bit integer coefficients found by allocating an
+  average of 3-signed-digits to each coefficient using the heuristic of
+  \emph{Lim et al.} and performing SOCP-relaxation search.}
+\label{fig:socp-relax-schurOneMPAlattice-bandpass-12-nbits-pz}
+\end{figure}
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
 \begin{tabular}{lccc}  \\ \toprule
 & Cost&Signed-digits&Shift-and-adds\\ \midrule
-\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_kmin_cost.tab}
+\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_k_min_cost.tab}
 \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
@@ -19499,7 +19514,11 @@ implemented with
 \input{socp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_k_min_digits.tab}
 signed-digits and 
 \input{socp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_k_min_adders.tab}
-shift-and-add operations.
+shift-and-add operations. The corresponding transfer function coefficient are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_N_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_D_min_coef.m}
+\end{small}
 
 Figure~\ref{fig:socp-relax-schurOneMPAlattice-bandpass-Hilbert-12-nbits-amplitude} shows
 the pass-band and stop-band amplitude responses and
@@ -19508,13 +19527,15 @@ and~\ref{fig:socp-relax-schurOneMPAlattice-bandpass-Hilbert-12-nbits-pass-delay}
 show the pass-band phase and group-delay responses of the band-pass
 Hilbert filter with $12$-bit $3$-signed-digit coefficients allocated with the
 algorithm of \emph{Ito et al.} and SOCP-relaxation search.
+Figure~\ref{fig:socp-relax-schurOneMPAlattice-bandpass-Hilbert-12-nbits-pz}
+shows the filter pole-zero plot. 
 Table~\ref{tab:socp-relax-schurOneMPAlattice-bandpass-Hilbert-12-nbits-cost-summary}
 compares the cost and the number of $12$ bit shift-and-add operations required
 to implement the coefficient multiplications found by the signed-digit
 allocation heuristic of \emph{Ito et al.} with the SOCP-relaxation search.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_amplitude}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_k_min_amplitude}}
 \caption{Pass-band and stop-band amplitude responses for a parallel Schur
   one-multiplier all-pass lattice band-pass Hilbert filter with 12 bit integer
   coefficients found by allocating an average of 3-signed-digits to each
@@ -19524,7 +19545,7 @@ allocation heuristic of \emph{Ito et al.} with the SOCP-relaxation search.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_pass_phase}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_k_min_pass_phase}}
 \caption{Pass-band phase responses for a parallel Schur
   one-multiplier all-pass lattice band-pass Hilbert filter with 12 bit integer
   coefficients found by allocating an average of 3-signed-digits to each
@@ -19534,7 +19555,7 @@ allocation heuristic of \emph{Ito et al.} with the SOCP-relaxation search.
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_pass_delay}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_k_min_pass_delay}}
 \caption{Pass-band group-delay responses for a parallel Schur
   one-multiplier all-pass lattice band-pass Hilbert filter with 12 bit integer
   coefficients found by allocating an average of 3-signed-digits to each
@@ -19542,12 +19563,22 @@ allocation heuristic of \emph{Ito et al.} with the SOCP-relaxation search.
   SOCP-relaxation search.}
 \label{fig:socp-relax-schurOneMPAlattice-bandpass-Hilbert-12-nbits-pass-delay}
 \end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_k_min_pz}}
+\caption{Pole-zero plot of a parallel Schur
+  one-multiplier all-pass lattice band-pass Hilbert filter with 12 bit integer
+  coefficients found by allocating an average of 3-signed-digits to each
+  coefficient using the heuristic of \emph{Ito et al.} and performing
+  SOCP-relaxation search.}
+\label{fig:socp-relax-schurOneMPAlattice-bandpass-Hilbert-12-nbits-pz}
+\end{figure}
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
 \begin{tabular}{lcccc}  \\ \toprule
  & Cost & Stop-band response(dB) & Signed-digits & Shift-and-adds\\ \midrule
-\input{socp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_cost.tab}
+\input{socp_relaxation_schurOneMPAlattice_bandpass_hilbert_12_nbits_test_k_min_cost.tab}
 \\ \bottomrule
 \end{tabular}
 \end{threeparttable}

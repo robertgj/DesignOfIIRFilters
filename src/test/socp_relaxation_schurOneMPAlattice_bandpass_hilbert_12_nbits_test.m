@@ -381,7 +381,7 @@ max_sb_Asq_k0_sd_Ito=10*log10(max(abs(Asq_k0_sd_Ito(rsb))))
 max_sb_Asq_k_min=10*log10(max(abs(Asq_k_min(rsb))))
 
 % Make a LaTeX table for cost
-fid=fopen(strcat(strf,"_cost.tab"),"wt");
+fid=fopen(strcat(strf,"_k_min_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & %4.1f & & \\\\\n",Esq0,max_sb_Asq_k0);
 fprintf(fid,"%d-bit %d-signed-digit & %8.6f & %4.1f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,max_sb_Asq_k0_sd,k0_sd_digits,k0_sd_adders);
@@ -396,6 +396,10 @@ fclose(fid);
 % Sanity check
 [N_min,D_min] = schurOneMPAlattice2tf(A1k_min,A1epsilon0,A1p0, ...
                                       A2k_min,A2epsilon0,A2p0,difference);
+% Hack to avoid problems in testing
+N_min(find(abs(N_min)<20*eps))=0;
+D_min(find(abs(D_min)<20*eps))=0;
+% End of hack
 print_polynomial(N_min,"N_min");
 print_polynomial(N_min,"N_min",strcat(strf,"_N_min_coef.m"));
 print_polynomial(D_min,"D_min");
@@ -437,7 +441,7 @@ legend(ax(1),"initial","s-d","s-d(Ito)","s-d(min)");
 legend(ax(1),"location","northeast");
 legend(ax(1),"boxoff");
 legend(ax(1),"left");
-print(strcat(strf,"_amplitude"),"-dpdflatex");
+print(strcat(strf,"_k_min_amplitude"),"-dpdflatex");
 close
 
 % Plot pass band amplitude response
@@ -457,7 +461,7 @@ legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");
-print(strcat(strf,"_pass_amplitude"),"-dpdflatex");
+print(strcat(strf,"_k_min_pass_amplitude"),"-dpdflatex");
 close
 
 % Plot stop band amplitude response
@@ -477,17 +481,17 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
-print(strcat(strf,"_stop_amplitude"),"-dpdflatex");
+print(strcat(strf,"_k_min_stop_amplitude"),"-dpdflatex");
 close
 
 % Plot phase response
-plot(wp*0.5/pi,((P_k0+(wp*tp))/pi)-pp,"linestyle","-", ...
-     wp*0.5/pi,((P_k0_sd+(wp*tp))/pi)-pp,"linestyle",":", ...
-     wp*0.5/pi,((P_k0_sd_Ito+(wp*tp))/pi)-pp,"linestyle","--", ...
-     wp*0.5/pi,((P_k_min+(wp*tp))/pi)-pp,"linestyle","-.");
+plot(wp*0.5/pi,rem(unwrap(P_k0+(wp*tp))/pi,2),"linestyle","-", ...
+     wp*0.5/pi,rem(unwrap(P_k0_sd+(wp*tp))/pi,2),"linestyle",":", ...
+     wp*0.5/pi,rem(unwrap(P_k0_sd_Ito+(wp*tp))/pi,2),"linestyle","--", ...
+     wp*0.5/pi,rem(unwrap(P_k_min+(wp*tp))/pi,2),"linestyle","-.");
 xlabel("Frequency");
-ylabel("Phase error(rad./$\\pi$)");
-axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), (ppr/2)*[-1,1]]);
+ylabel("Phase (rad./$\\pi$)");
+axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), 1.5+(0.004*[-1,1])]);
 strt=sprintf(["Parallel allpass lattice bandpass Hilbert filter pass-band ", ...
               "phase (nbits=%d,ndigits=%d) : fppl=%g,fppu=%g"],
              nbits,ndigits,fppl,fppu);
@@ -497,7 +501,7 @@ legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
-print(strcat(strf,"_pass_phase"),"-dpdflatex");
+print(strcat(strf,"_k_min_pass_phase"),"-dpdflatex");
 close
 
 % Plot delay response
@@ -507,7 +511,7 @@ plot(wt*0.5/pi,T_k0,"linestyle","-", ...
      wt*0.5/pi,T_k_min,"linestyle","-.");
 xlabel("Frequency");
 ylabel("Delay(samples)");
-axis([min([fapl ftpl fppl]),max([fapu ftpu ftpu]),(tp+(tpr*[-1,1]))]);
+axis([min([fapl ftpl fppl]),max([fapu ftpu ftpu]),(tp+(0.15*[-1,1]))]);
 strt=sprintf(["Parallel allpass lattice bandpass Hilbert filter pass-band ", ...
               "delay (nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g"], ...
              nbits,ndigits,ftpl,ftpu);
@@ -517,7 +521,7 @@ legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");
-print(strcat(strf,"_pass_delay"),"-dpdflatex");
+print(strcat(strf,"_k_min_pass_delay"),"-dpdflatex");
 close
 
 % Plot dAsqdw response
@@ -537,7 +541,13 @@ legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
-print(strcat(strf,"_pass_dAsqdw"),"-dpdflatex");
+print(strcat(strf,"_k_min_pass_dAsqdw"),"-dpdflatex");
+close
+
+% Pole-zero plot
+zplane(qroots(N_min),qroots(D_min));
+title("Parallel one-multplier allpass lattice bandpass filter");
+print(strcat(strf,"_k_min_pz"),"-dpdflatex");
 close
 
 % Filter specification
@@ -580,8 +590,8 @@ eval(sprintf(["save %s.mat ", ...
  "ftol ctol nbits nscale ndigits ndigits_alloc n ", ...
  "fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ", ...
  "ftpl ftpu tp tpr Wtp fppl fppu pp ppr Wpp fdpl fdpu dp dpr Wdp ", ...
- "A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ", ...
- "A1k0_sd_Ito A2k0_sd_Ito A1k_min A2k_min"],strf));
+ "A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 difference ", ...
+ "A1k0_sd_Ito A2k0_sd_Ito A1k_min A2k_min N_min D_min"],strf));
        
 % Done
 toc;
