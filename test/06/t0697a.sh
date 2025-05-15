@@ -5,6 +5,7 @@ depends="\
 test/socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test.m \
 ../schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_k2_coef.m \
 ../schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_epsilon2_coef.m \
+../schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_p2_coef.m \
 ../schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_c2_coef.m \
 test_common.m \
 schurOneMlatticeAsq.m \

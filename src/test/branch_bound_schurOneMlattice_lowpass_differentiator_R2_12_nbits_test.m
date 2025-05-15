@@ -17,31 +17,30 @@ eval(sprintf("diary %s.diary.tmp",strf));
 use_best_branch_and_bound_found=true
 if use_best_branch_and_bound_found
   warning(["Reporting the best branch-and-bound filter found so far. \n", ...
- "           Set \"use_best_branch_and_bound_found\"=false to re-run."]);
+           "Set \"use_best_branch_and_bound_found\"=false to re-run."]);
 endif
 enforce_pcls_constraints_on_final_filter=false
 use_k_scaling=false
 use_c_scaling=false
-plot_dAsqdw=false
 
 tic;
 
 maxiter=1000
 verbose=false
-ftol=1e-3
+ftol=1e-4
 ctol=ftol/10
 
 nbits=12;
 nscale=2^(nbits-1);
 ndigits=3;
 
-% Low-pass differentiator filter specification
+% Low-pass differentiator filter specification (NOTE: Ars^2 < ctol !)
 nN=10; % Order of correction filter for (z-1)
 R=2;   % Denominator polynomial in z^-2 only
 fap=0.2;fas=0.4;
-Arp=0.002;Art=0.02;Ars=0.01;Wap=1;Wat=0.0001;Was=0.1;
-fpp=fap;pp=1.5;ppr=0.0008;Wpp=1;
-ftp=fap;tp=nN-1;tpr=0.008;Wtp=0.1;
+Arp=0.002;Art=0.02;Ars=0.004;Wap=1;Wat=0.0001;Was=0.1;
+fpp=fap;pp=1.5;ppr=0.0006;Wpp=1;
+ftp=fap;tp=nN-1;tpr=0.006;Wtp=0.1;
 fdp=fap;dpr=1;cpr=0.04;Wdp=0.005;
 
 % Frequency points
@@ -49,11 +48,13 @@ n=1000;
 w=pi*(1:(n-1))'/n;
 nap=ceil(fap*n/0.5);
 nas=floor(fas*n/0.5);
+Rap=1:nap;
+Ras=nas:length(w);
 npp=ceil(fpp*n/0.5);
 ntp=ceil(ftp*n/0.5);
 ndp=ceil(fdp*n/0.5);
 
-% Pass and transition band amplitudes
+% Amplitude
 wa=w;
 Azm1=2*sin(wa/2);
 Azm1sq=Azm1.^2;
@@ -81,8 +82,8 @@ Wp=Wpp*ones(size(wp));
 wt=w(1:ntp);
 Tzm1=0.5;
 Td=tp*ones(size(wt));
-Tdu=Td+(tpr*ones(ntp,1)/2);
-Tdl=Td-(tpr*ones(ntp,1)/2);
+Tdu=Td+(tpr/2);
+Tdl=Td-(tpr/2);
 Wt=Wtp*ones(size(wt));
 
 % dAsqdw response
@@ -90,17 +91,10 @@ wd=wa(1:ndp);
 Dd=dAsqddw(1:ndp);
 Wd=Wdp*ones(size(wd));
 Cd=(Dd-(Asqd(1:ndp).*cot(wd/2)))./Azm1sq(1:ndp);
-if plot_dAsqdw
-  Ddu=Dd+(dpr/2);
-  Ddl=Dd-(dpr/2);
-  Cdu=Cd+((dpr/2)./Azm1sq(1:ndp));
-  Cdl=Cd-((dpr/2)./Azm1sq(1:ndp));
-else
-  Cdu=Cd+(cpr/2);
-  Cdl=Cd-(cpr/2);
-  Ddu=Dd+((cpr/2)./Azm1sq(1:ndp));
-  Ddl=Dd-((cpr/2)./Azm1sq(1:ndp));
-endif
+Cdu=Cd+(cpr/2);
+Cdl=Cd-(cpr/2);
+Ddu=Dd+((cpr/2)./Azm1sq(1:ndp));
+Ddl=Dd-((cpr/2)./Azm1sq(1:ndp));
 
 % Sanity check
 nachk=[1,nap-1,nap,nap+1,nas-1,nas,nas+1,n-1];
@@ -177,12 +171,22 @@ Esq0_sd_no_alloc= ...
 %
 % Allocate signed-digits to the coefficients
 %
-ndigits_alloc=schurOneMlattice_allocsd_Lim ...
-                (nbits,ndigits,k0,epsilon0,p_ones,c0, ...
-                 wa,Asqd./Azm1sq,ones(size(wa)), ...
-                 wt,Td-Tzm1,ones(size(wt)), ...
-                 wp,Pd-Pzm1,ones(size(wp)), ...
-                 wd,Cd,ones(size(wd)));
+if 0
+  ndigits_alloc=schurOneMlattice_allocsd_Lim ...
+                  (nbits,ndigits,k0,epsilon0,p_ones,c0, ...
+                   wa,Asqd./Azm1sq,ones(size(wa)), ...
+                   wt,Td-Tzm1,ones(size(wt)), ...
+                   wp,Pd-Pzm1,ones(size(wp)), ...
+                   wd,Cd,ones(size(wd)));
+else
+  ndigits_alloc=schurOneMlattice_allocsd_Lim ...
+                  (nbits,ndigits,k0,epsilon0,p_ones,c0, ...
+                   wa,Asqd./Azm1sq,Wa, ...
+                   wt,Td-Tzm1,Wt, ...
+                   wp,Pd-Pzm1,Wp, ...
+                   wd,Cd,Wd);
+endif
+strItoLim="Lim";
 k_allocsd_digits=int16(ndigits_alloc(1:Nk));
 c_allocsd_digits=int16(ndigits_alloc((Nk+1):end));
 % Find the signed-digit approximations to k0 and c0
@@ -298,13 +302,13 @@ c_allocsd_digits=int16(ndigits_alloc((Nk+1):end));
 printf("c_allocsd_digits=[ ");printf("%2d ",c_allocsd_digits);printf("]';\n");
 
 if use_best_branch_and_bound_found
-  branches_min=377;
-  k_min = [        0,      424,        0,      -57, ... 
-                   0,       20,        0,       -7, ... 
-                   0,        2 ]'/2048;
-  c_min = [      -44,     -447,     -587,      -63, ... 
-                 150,      -35,      -46,       34, ... 
-                   3,      -12,        4 ]'/2048;
+  branches_min=261; % 6756 seconds
+  k_min = [    0,  416,     0,  -56, ... 
+               0,   20,     0,   -7, ... 
+               0,    2 ]'/2048;
+  c_min = [  -42, -449, -590,  -63, ... 
+             152,  -36,  -48,   36, ... 
+               4,  -14,    5 ]'/2048;
   kc_min=[k_min(:)*kscale;c_min(:)*cscale];
   Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p_ones,c_min, ...
                               wa,Asqd./Azm1sq,Wa, ...
@@ -498,6 +502,17 @@ fid=fopen(strcat(strf,"_kc_min_signed_digits.tab"),"wt");
 fprintf(fid,"%d",kc_min_digits);
 fclose(fid);
 
+% Make a LaTeX table for cost
+fid=fopen(strcat(strf,"_cost.tab"),"wt");
+fprintf(fid,"Exact & %10.4e & & \\\\\n",Esq0);
+fprintf(fid,"%d-bit %d-signed-digit&%10.4e & %d & %d \\\\\n",nbits,ndigits, ...
+        Esq0_sd_no_alloc,kc0_sd_no_alloc_digits,kc0_sd_no_alloc_adders);
+fprintf(fid,"%d-bit %d-signed-digit(%s)&%10.4e & %d & %d \\\\\n", ...
+        nbits,ndigits,strItoLim,Esq0_sd,kc0_sd_digits,kc0_sd_adders);
+fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.4e & %d& %d\\\\\n", ...
+        nbits,ndigits,Esq_min,kc_min_digits,kc_min_adders);
+fclose(fid);
+
 % Filter a quantised noise signal and check the state variables
 nsamples=2^12;
 rand("seed",0xdeadbeef);
@@ -545,17 +560,6 @@ DS=schurOneMlatticedAsqdw(wDS,k_min,epsilon0,p_ones,c_min);
 printf("k,c_min:fdS=[ ");printf("%f ",wDS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:dS=[ ");printf("%f ",DS');printf("]\n");
 
-% Make a LaTeX table for cost
-fid=fopen(strcat(strf,"_cost.tab"),"wt");
-fprintf(fid,"Exact & %10.4e & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit&%10.4e & %d & %d \\\\\n", ...
-        nbits,ndigits,Esq0_sd_no_alloc,kc0_sd_no_alloc_digits,kc0_sd_no_alloc_adders);
-fprintf(fid,"%d-bit %d-signed-digit(Lim)&%10.4e & %d & %d \\\\\n", ...
-        nbits,ndigits,Esq0_sd,kc0_sd_digits,kc0_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.4e & %d & %d \\\\\n", ...
-        nbits,ndigits,Esq_min,kc_min_digits,kc_min_adders);
-fclose(fid);
-
 %
 % Plot the response
 %
@@ -596,13 +600,24 @@ dAsqdw_kc0=(Csq_kc0(1:ndp).*dAzm1sqdw(1:ndp))+(dCsqdw_kc0.*Azm1sq(1:ndp));
 dCsqdw_kc0_sd_no_alloc=schurOneMlatticedAsqdw ...
                          (wd,k0_sd_no_alloc,epsilon0,p_ones,c0_sd_no_alloc);
 dAsqdw_kc0_sd_no_alloc=(Csq_kc0_sd_no_alloc(1:ndp).*dAzm1sqdw(1:ndp))+ ...
-                      (dCsqdw_kc0_sd_no_alloc.*Azm1sq(1:ndp));
+                       (dCsqdw_kc0_sd_no_alloc.*Azm1sq(1:ndp));
 dCsqdw_kc0_sd=schurOneMlatticedAsqdw(wd,k0_sd,epsilon0,p_ones,c0_sd);
 dAsqdw_kc0_sd=(Csq_kc0_sd(1:ndp).*dAzm1sqdw(1:ndp)) + ...
               (dCsqdw_kc0_sd.*Azm1sq(1:ndp));
 dCsqdw_kc_min=schurOneMlatticedAsqdw(wd,k_min,epsilon0,p_ones,c_min);
 dAsqdw_kc_min=(Csq_kc_min(1:ndp).*dAzm1sqdw(1:ndp)) + ...
               (dCsqdw_kc_min.*Azm1sq(1:ndp));
+
+% Check constraints after the last truncation
+printf("These constraints on the correction filter response are not met:\n");
+vS=schurOneMlattice_slb_update_constraints ...
+     (Asq_kc_min,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
+      T_kc_min,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
+      P_kc_min,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
+      Cd,Cdu,Cdl,Wd, ...
+      ctol);
+schurOneMlattice_slb_show_constraints ...
+  (vS,wa,Asq_kc_min,wt,T_kc_min,wp,P_kc_min,wd,Dd);
 
 % Check response
 [N_min,D_min]=schurOneMlattice2tf(k_min,epsilon0,p_ones,c_min);
@@ -616,7 +631,10 @@ if max(abs(abs(Hchk)-sqrt(Csq_kc_min))) > 10*eps
         max(abs(abs(Hchk)-sqrt(Csq_kc_min)))/eps);
 endif
 
+%
 % Plot response
+%
+
 % Plot amplitude response error
 subplot(311);
 rap=1:nap;
@@ -636,13 +654,13 @@ for c=1:4
   set(ha(c),"linestyle",hls{c});
   set(hs(c),"linestyle",hls{c});
 endfor
-axis(ax(1),[0 0.5 0.004*[-1,1]]);
+axis(ax(1),[0 0.5 0.002*[-1,1]]);
 axis(ax(2),[0 0.5 0.01*[-1,1]]);
 grid("on");
 xlabel("Frequency");
-ylabel("Amplitude error");
-strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter : ", ...
- "nbits=%d,fap=%g,fas=%g,Arp=%g,Ars=%g"],nbits,fap,fas,Arp,Ars);
+ylabel("Amplitude");
+strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
+              " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"],nbits,ndigits,fap,fas);
 title(strt);
 % Plot phase pass-band response
 subplot(312);
@@ -654,7 +672,7 @@ grid("on");
 xlabel("Frequency");
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 pp+0.001*[-1,1]]);
-legend("exact","s-d","s-d(Lim)","s-d(BandB)");
+legend("exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(B-and-B)");
 legend("location","east");
 legend("boxoff");
 legend("right");
@@ -678,16 +696,212 @@ plot(wd*0.5/pi,dCsqdw_kc0-Cd,"linestyle","-", ...
      wd*0.5/pi,dCsqdw_kc_min-Cd,"linestyle","-.");
 xlabel("Frequency");
 ylabel("dCsqdw error");
-axis([0 fdp cpr*[-1,1]]);
-strt=sprintf(["Schur one-multiplier lattice lowpass differentiator correction ", ...
- "filter : nbits=%d,fap=%g,fas=%g,Arp=%g,Ars=%g"],nbits,fap,fas,Arp,Ars);
+axis([0 fdp (cpr/2)*[-1,1]]);
 title(strt);
-legend("exact","s-d","s-d(Lim)","s-d(BandB)");
+legend("exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(B-and-B)");
+legend("location","southwest");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_dCsqdw_error"),"-dpdflatex");
+close
+
+% Plot amplitude response
+rap=1:nas;
+ras=nas:length(wa);
+[ax,ha,hs] = plotyy...
+    (wa(rap)*0.5/pi, ...
+     sqrt([Asq_kc0(rap),Asq_kc0_sd_no_alloc(rap), ...
+           Asq_kc0_sd(rap),Asq_kc_min(rap)]), ...
+     wa(ras)*0.5/pi, ...
+     sqrt([Asq_kc0(ras),Asq_kc0_sd_no_alloc(ras), ...
+           Asq_kc0_sd(ras),Asq_kc_min(ras)]));
+% Copy line colour
+hac=get(ha,"color");
+hls={"-",":","--","-."};
+for c=1:4
+  set(hs(c),"color",hac{c});
+  set(ha(c),"linestyle",hls{c});
+  set(hs(c),"linestyle",hls{c});
+endfor
+axis(ax(1),[0 0.5 0 0.8]);
+axis(ax(2),[0 0.5 0 0.008]);
+grid("on");
+xlabel("Frequency");
+ylabel("Amplitude");
+legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(B-and-B)");
+legend("location","northwest");
+legend("boxoff");
+legend("left");
+strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
+              " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"],nbits,ndigits,fap,fas);
+title(strt);
+print(strcat(strf,"_amplitude"),"-dpdflatex");
+close
+
+% Plot stop band amplitude response
+plot(wa*0.5/pi,sqrt(Asq_kc0),"linestyle","-", ...
+     wa*0.5/pi,sqrt(Asq_kc0_sd_no_alloc),"linestyle",":", ...
+     wa*0.5/pi,sqrt(Asq_kc0_sd),"linestyle","--", ...
+     wa*0.5/pi,sqrt(Asq_kc_min),"linestyle","-.", ...
+     wa*0.5/pi,Adu,"linestyle","-");
+xlabel("Frequency");
+ylabel("Amplitude");
+axis([fas 0.5 0 0.008]);
+strt=sprintf(["Low-pass differentiator R=2 filter : ", ...
+              "nbits=%d,ndigits=%d,fas=%g"],nbits,ndigits,fas);
+title(strt);
+legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(B-and-B)");
+legend("location","northwest");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_stop_amplitude"),"-dpdflatex");
+close
+
+% Plot pass band amplitude response error
+plot(wa*0.5/pi,sqrt(Asq_kc0)-Ad,"linestyle","-", ...
+     wa*0.5/pi,sqrt(Asq_kc0_sd_no_alloc)-Ad,"linestyle",":", ...
+     wa*0.5/pi,sqrt(Asq_kc0_sd)-Ad,"linestyle","--", ...
+     wa*0.5/pi,sqrt(Asq_kc_min)-Ad,"linestyle","-.");
+xlabel("Frequency");
+ylabel("Amplitude error");
+axis([0 max([fap fpp ftp]) 0.001*[-1,1]]);
+strt=sprintf(["Low-pass differentiator R=2 filter : ", ...
+              "nbits=%d,ndigits=%d,fap=%g"],nbits,ndigits,fap);
+title(strt);
+legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(B-and-B)");
+legend("location","southwest");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_pass_amplitude_error"),"-dpdflatex");
+close
+
+% Plot phase response
+plot(wp*0.5/pi,((P_kc0+(wp*tp))/pi),"linestyle","-", ...
+     wp*0.5/pi,((P_kc0_sd_no_alloc+(wp*tp))/pi),"linestyle",":", ...
+     wp*0.5/pi,((P_kc0_sd+(wp*tp))/pi),"linestyle","--", ...
+     wp*0.5/pi,((P_kc_min+(wp*tp))/pi),"linestyle","-.");
+xlabel("Frequency");
+ylabel("Phase(rad./$\\pi$)");
+axis([0 max([fap fpp ftp]) pp+(0.001)*[-1,1]]);
+strt=sprintf(["Low-pass differentiator R=2 filter : ", ...
+              "nbits=%d,ndigits=%d,fpp=%g"],nbits,ndigits,fpp);
+title(strt);
+legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(B-and-B)");
+legend("location","northwest");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_pass_phase"),"-dpdflatex");
+close
+
+% Plot delay response
+plot(wt*0.5/pi,T_kc0,"linestyle","-", ...
+     wt*0.5/pi,T_kc0_sd_no_alloc,"linestyle",":", ...
+     wt*0.5/pi,T_kc0_sd,"linestyle","--", ...
+     wt*0.5/pi,T_kc_min,"linestyle","-.");
+xlabel("Frequency");
+ylabel("Delay(samples)");
+axis([0 max([fap fpp ftp]),(tp+(0.02*[-1,1]))]);
+strt=sprintf(["Low-pass differentiator R=2 filter : ", ...
+              "nbits=%d,ndigits=%d,ftp=%g"],nbits,ndigits,ftp);
+title(strt);
+legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(B-and-B)"); 
+legend("location","southwest");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_pass_delay"),"-dpdflatex");
+close
+
+% Plot stop band correction filter amplitude response
+plot(wa*0.5/pi,sqrt(Csq_kc0)-(Ad./Azm1),"linestyle","-", ...
+     wa*0.5/pi,sqrt(Csq_kc0_sd_no_alloc)-(Ad./Azm1),"linestyle",":", ...
+     wa*0.5/pi,sqrt(Csq_kc0_sd)-(Ad./Azm1),"linestyle","--", ...
+     wa*0.5/pi,sqrt(Csq_kc_min)-(Ad./Azm1),"linestyle","-.", ...
+     wa*0.5/pi,(Adu-Ad)./Azm1,"linestyle","-", ...
+     wa*0.5/pi,(Adl-Ad)./Azm1,"linestyle","-");
+xlabel("Frequency");
+ylabel("Amplitude error");
+axis([fas 0.5 0 0.006]);
+strt=sprintf(["Low-pass differentiator R=2 correction filter : ", ...
+              " nbits=%d,ndigits=%d,fas=%g"],nbits,ndigits,fas);
+title(strt);
+legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(B-and-B)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
-print(strcat(strf,"_correction"),"-dpdflatex");
+print(strcat(strf,"_stop_correction_error"),"-dpdflatex");
+close
+
+% Plot pass band correction filter amplitude response error
+plot(wa*0.5/pi,sqrt(Csq_kc0)-(Ad./Azm1),"linestyle","-", ...
+     wa*0.5/pi,sqrt(Csq_kc0_sd_no_alloc)-(Ad./Azm1),"linestyle",":", ...
+     wa*0.5/pi,sqrt(Csq_kc0_sd)-(Ad./Azm1),"linestyle","--", ...
+     wa*0.5/pi,sqrt(Csq_kc_min)-(Ad./Azm1),"linestyle","-.", ...
+     wa*0.5/pi,(Adu-Ad)./Azm1,"linestyle","-", ...
+     wa*0.5/pi,(Adl-Ad)./Azm1,"linestyle","-");
+xlabel("Frequency");
+ylabel("Amplitude error");
+axis([0 fap 0.01*[-1,1]]);
+strt=sprintf(["Low-pass differentiator R=2 correction filter : ", ...
+              " nbits=%d,ndigits=%d,fap=%g"],nbits,ndigits,fap);
+title(strt);
+legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(B-and-B)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_pass_correction_error"),"-dpdflatex");
+close
+
+% Plot correction filter amplitude response
+C_kc = sqrt([Csq_kc0,Csq_kc0_sd_no_alloc,Csq_kc0_sd,Csq_kc_min, ...
+             Asqdu./Azm1sq,Asqdl./Azm1sq]);
+[ax,ha,hs]=plotyy(wa(Rap)*0.5/pi, C_kc(Rap,:)-(Ad(Rap)./Azm1(Rap)), ...
+                  wa(Ras)*0.5/pi, C_kc(Ras,:));
+hac=get(ha,"color");
+hls={"-",":","--","-.","-","-"};
+for c=1:length(hls)
+  set(hs(c),"color",hac{c}); 
+  set(ha(c),"linestyle",hls{c});
+  set(hs(c),"linestyle",hls{c}); 
+endfor
+axis(ax(1),[0 0.5 0.004*[-1,1]]);
+axis(ax(2),[0 0.5 0.004*[-1,1]]);
+xlabel("Frequency");
+ylabel("Amplitude");
+strt=sprintf(["Low-pass differentiator R=2 correction filter : ", ...
+              " nbits=%d,ndigits=%d,fas=%g"],nbits,ndigits,fas);
+title(strt);
+legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(B-and-B)");
+legend("location","southeast");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_correction_amplitude"),"-dpdflatex");
+close
+
+% Plot correction filter dCsqdw error response
+plot(wd*0.5/pi,dCsqdw_kc0-Cd,"linestyle","-", ...
+     wd*0.5/pi,dCsqdw_kc0_sd_no_alloc-Cd,"linestyle",":", ...
+     wd*0.5/pi,dCsqdw_kc0_sd-Cd,"linestyle","--", ...
+     wd*0.5/pi,dCsqdw_kc_min-Cd,"linestyle","-.");
+xlabel("Frequency");
+ylabel("dCsqdw error");
+axis([0 fdp 0.02*[-1,1]]);
+strt=sprintf(["Low-pass differentiator R=2 correction filter : ", ...
+              " nbits=%d,ndigits=%d,fdp=%g"],nbits,ndigits,fdp);
+title(strt);
+legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(B-and-B)");
+legend("location","northwest");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_correction_dCsqdw_error"),"-dpdflatex");
 close
 
 % Pole-zero plot
@@ -711,6 +925,7 @@ fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
 fprintf(fid,"Arp=%d %% Amplitude pass band peak-to-peak ripple\n",Arp);
 fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"Art=%d %% Amplitude transition band peak-to-peak ripple\n",Art);
 fprintf(fid,"Wat=%d %% Amplitude transition band weight\n",Wat);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
 fprintf(fid,"Ars=%d %% Amplitude stop band peak-to-peak ripple\n",Ars);

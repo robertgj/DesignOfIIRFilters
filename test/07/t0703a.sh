@@ -64,16 +64,16 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k.ok << 'EOF'
-k_sd_min = [        0,      416,        0,      -56, ... 
-                    0,       16,        0,       -8, ... 
-                    0,        2 ]'/2048;
+k_min = [        0,      416,        0,      -56, ... 
+                 0,       16,        0,       -8, ... 
+                 0,        2 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
 
 cat > test.c.ok << 'EOF'
-c_sd_min = [      -44,     -448,     -588,      -64, ... 
-                  148,      -36,      -48,       35, ... 
-                    1,      -12,        4 ]'/2048;
+c_min = [      -44,     -448,     -588,      -64, ... 
+               148,      -36,      -48,       35, ... 
+                 1,      -12,        4 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
 
@@ -87,10 +87,10 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test"
 
-diff -Bb test.k.ok $nstr"_k_sd_min_coef.m"
+diff -Bb test.k.ok $nstr"_k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
 
-diff -Bb test.c.ok $nstr"_c_sd_min_coef.m"
+diff -Bb test.c.ok $nstr"_c_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi
 
 #
