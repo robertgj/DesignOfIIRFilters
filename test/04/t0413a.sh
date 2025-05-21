@@ -4,7 +4,7 @@ prog=sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.m
 depends="test/sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test.m \
 ../directFIRhilbert_bandpass_slb_test_hM2_coef.m \
 test_common.m \
-sdp_relaxation_directFIRhilbert_mmsePW.m \
+directFIRhilbert_sdp_mmsePW.m \
 directFIRhilbert_socp_mmsePW.m \
 directFIRhilbert_allocsd_Ito.m \
 directFIRhilbert_slb.m \
@@ -52,23 +52,31 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test_sd_Ito.ok << 'EOF'
-hM2_sd_Ito = [      -20,        8,       64,      -32, ... 
-                   -128,      112,      327,     -868 ]'/2048;
+cat > test_hM1_Ito.ok << 'EOF'
+hM1_Ito = [      -20,        8,       64,      -30, ... 
+                -128,      128,      327,     -868 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_sd_Ito.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_hM1_Ito.ok"; fail; fi
 
-cat > test_sd_sdp.ok << 'EOF'
-hM2_sd_sdp = [      -24,        8,       64,      -32, ... 
-                   -128,      120,      326,     -872 ]'/2048;
+cat > test_hM1_sdp.ok << 'EOF'
+hM1_sdp = [      -20,        4,       64,      -30, ... 
+                -128,       64,      326,     -868 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_sd_sdp.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_hM1_sdp.ok"; fail; fi
+
+cat > test_hM1_min.ok << 'EOF'
+hM1_min = [      -24,        8,       64,      -34, ... 
+                -128,      128,      332,     -876 ]'/2048;
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_hM1_min.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
-Exact &  0.0001338 &     -34.97 & & \\
-12-bit 2-signed-digit &  0.0006283 &     -28.15 & 16 & 8 \\
-12-bit 2-signed-digit(Ito) &  0.0001635 &     -33.11 & 16 & 8 \\
-12-bit 2-signed-digit(SDP) &  0.0001392 &     -34.89 & 16 & 8 \\
+Initial &  4.006e-04 &    0.03324 & & \\
+12-bit 2-signed-digit &  2.159e-03 &    0.02341 & 16 & 8 \\
+12-bit 2-signed-digit &  2.159e-03 &    0.02341 & 16 & 8 \\
+12-bit 2-signed-digit(Ito) &  5.067e-04 &    0.01855 & 16 & 8 \\
+12-bit 2-signed-digit(SDP) &  7.150e-03 &    0.07213 & 16 & 8 \\
+12-bit 2-signed-digit(min) &  3.618e-04 &    0.01413 & 16 & 8 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 
@@ -82,11 +90,14 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="sdp_relaxation_directFIRhilbert_bandpass_12_nbits_test"
 
-diff -Bb test_sd_Ito.ok $nstr"_hM2_sd_Ito_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_sd_Ito.ok"; fail; fi
+diff -Bb test_hM1_Ito.ok $nstr"_hM1_Ito_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hM1_Ito.ok"; fail; fi
 
-diff -Bb test_sd_sdp.ok $nstr"_hM2_sd_sdp_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_sd_sdp.ok"; fail; fi
+diff -Bb test_hM1_sdp.ok $nstr"_hM1_sdp_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hM1_sdp.ok"; fail; fi
+
+diff -Bb test_hM1_min.ok $nstr"_hM1_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hM1_min.ok"; fail; fi
 
 diff -Bb test_cost.ok $nstr"_cost.tab"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_cost.ok"; fail; fi

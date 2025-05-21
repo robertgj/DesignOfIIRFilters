@@ -1,10 +1,13 @@
 sdp_relaxation_directFIRhilbert_12_nbits_test_FIGURES = \
-sdp_relaxation_directFIRhilbert_12_nbits_test_response
+sdp_relaxation_directFIRhilbert_12_nbits_test_amplitude
 
 sdp_relaxation_directFIRhilbert_12_nbits_test_COEFS = \
-sdp_relaxation_directFIRhilbert_12_nbits_test_hM_allocsd_digits.m \
-sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_sd_Ito_coef.m \
-sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_sd_sdp_coef.m \
+sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_allocsd_digits.m \
+sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_coef.m \
+sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_sd_coef.m \
+sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_Ito_coef.m \
+sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_sdp_coef.m \
+sdp_relaxation_directFIRhilbert_12_nbits_test_hM1_min_coef.m \
 sdp_relaxation_directFIRhilbert_12_nbits_test_cost.tab \
 sdp_relaxation_directFIRhilbert_12_nbits_test_spec.m \
 sdp_relaxation_directFIRhilbert_12_nbits_test.mat
@@ -12,7 +15,7 @@ sdp_relaxation_directFIRhilbert_12_nbits_test.mat
 sdp_relaxation_directFIRhilbert_12_nbits_test_FILES = \
 sdp_relaxation_directFIRhilbert_12_nbits_test.m \
 test_common.m \
-sdp_relaxation_directFIRhilbert_mmsePW.m \
+directFIRhilbert_sdp_mmsePW.m \
 directFIRhilbert_socp_mmsePW.m \
 directFIRhilbert_allocsd_Ito.m \
 directFIRhilbert_slb.m \

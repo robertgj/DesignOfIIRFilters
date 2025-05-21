@@ -1,9 +1,10 @@
 #!/bin/sh
 
 prog=sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test.m
-depends="test/sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test.m \
+depends=\
+"test/sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_14_nbits_test.m \
 test_common.m \
-sdp_relaxation_schurOneMPAlattice_mmse.m \
+schurOneMPAlattice_sdp_mmse.m \
 schurOneMPAlattice_socp_mmse.m \
 schurOneMPAlattice_slb.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
@@ -69,35 +70,35 @@ A2k0_sd = [    -5648,     7685,    -6688,     5984, ...
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd.ok"; fail; fi
 
-cat > test_A1k0_sd_sdp.ok << 'EOF'
-A1k0_sd_sdp = [    -4928,     8094,    -6432,     7072, ... 
-                   -5880,     2952 ]'/8192;
+cat > test_A1k0_sdp.ok << 'EOF'
+A1k0_sdp = [    -4928,     8095,    -6464,     7072, ... 
+                -5880,     2952 ]'/8192;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sd_sdp.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sdp.ok"; fail; fi
 
-cat > test_A2k0_sd_sdp.ok << 'EOF'
-A2k0_sd_sdp = [    -5648,     7685,    -6720,     5984, ... 
-                   -2940 ]'/8192;
+cat > test_A2k0_sdp.ok << 'EOF'
+A2k0_sdp = [    -5648,     7685,    -6720,     5952, ... 
+                -2940 ]'/8192;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd_sdp.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sdp.ok"; fail; fi
 
-cat > test_A1k0_sd_min.ok << 'EOF'
-A1k0_sd_min = [    -4928,     8080,    -6432,     7072, ... 
-                   -5896,     2960 ]'/8192;
+cat > test_A1k_min.ok << 'EOF'
+A1k_min = [    -4928,     8092,    -6432,     7088, ... 
+               -5884,     2960 ]'/8192;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sd_min.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_min.ok"; fail; fi
 
-cat > test_A2k0_sd_min.ok << 'EOF'
-A2k0_sd_min = [    -5648,     7664,    -6688,     5984, ... 
-                   -2944 ]'/8192;
+cat > test_A2k_min.ok << 'EOF'
+A2k_min = [    -5648,     7682,    -6688,     5984, ... 
+               -2940 ]'/8192;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd_min.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_min.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
 Initial & 7.52e-06 & -84.0 & & \\
 14-bit 4-signed-digit & 3.89e-03 & -40.4 & 44 & 33 \\
-14-bit 4-signed-digit(SDP) & 9.20e-02 & -33.3 & 44 & 33 \\
-14-bit 4-signed-digit(min) & 1.87e-05 & -68.6 & 41 & 30 \\
+14-bit 4-signed-digit(SDP) & 2.14e-05 & -51.3 & 44 & 33 \\
+14-bit 4-signed-digit(min) & 9.55e-06 & -71.3 & 43 & 32 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 
@@ -117,17 +118,17 @@ if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k0_sd.ok"; fail; fi
 diff -Bb test_A2k0_sd.ok $nstr"_A2k0_sd_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k0_sd.ok"; fail; fi
 
-diff -Bb test_A1k0_sd_sdp.ok $nstr"_A1k0_sd_sdp_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k0_sd_sdp.ok"; fail; fi
+diff -Bb test_A1k0_sdp.ok $nstr"_A1k0_sdp_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k0_sdp.ok"; fail; fi
 
-diff -Bb test_A2k0_sd_sdp.ok $nstr"_A2k0_sd_sdp_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k0_sd_sdp.ok"; fail; fi
+diff -Bb test_A2k0_sdp.ok $nstr"_A2k0_sdp_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k0_sdp.ok"; fail; fi
 
-diff -Bb test_A1k0_sd_min.ok $nstr"_A1k0_sd_min_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k0_sd_min.ok"; fail; fi
+diff -Bb test_A1k_min.ok $nstr"_A1k_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k_min.ok"; fail; fi
 
-diff -Bb test_A2k0_sd_min.ok $nstr"_A2k0_sd_min_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k0_sd_min.ok"; fail; fi
+diff -Bb test_A2k_min.ok $nstr"_A2k_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k_min.ok"; fail; fi
 
 diff -Bb test_cost.ok $nstr"_cost.tab"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_cost.ok"; fail; fi
@@ -136,4 +137,3 @@ if [ $? -ne 0 ]; then echo "Failed diff -Bb test_cost.ok"; fail; fi
 # this much worked
 #
 pass
-

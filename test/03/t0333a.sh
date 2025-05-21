@@ -3,9 +3,8 @@
 prog=sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.m
 depends="test/sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.m \
 test_common.m \
-sdp_relaxation_directFIRsymmetric_mmsePW.m \
+directFIRsymmetric_sdp_mmsePW.m \
 directFIRsymmetric_socp_mmsePW.m \
-directFIRsymmetric_allocsd_Ito.m \
 directFIRsymmetric_slb.m \
 directFIRsymmetric_slb_constraints_are_empty.m \
 directFIRsymmetric_slb_exchange_constraints.m \
@@ -51,27 +50,35 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test_sd_Ito.ok << 'EOF'
-hM1_sd_Ito = [       -2,      -24,      -40,      -16, ... 
-                     48,       72,       32,      -16, ... 
-                     24,       84,        2,     -228, ... 
-                   -352,     -136,      288,      508 ]'/2048;
+cat > test_hM1_sd.ok << 'EOF'
+hM1_sd = [        1,      -20,      -48,      -20, ... 
+                 48,       96,       48,      -12, ... 
+                 12,       80,        1,     -248, ... 
+               -384,     -160,      320,      576 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_sd_Ito.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_hM1_sd.ok"; fail; fi
 
-cat > test_sd_sdp.ok << 'EOF'
-hM1_sd_sdp = [       -2,      -24,      -40,      -16, ... 
-                     48,       72,       32,       -8, ... 
-                     28,       84,        1,     -228, ... 
-                   -352,     -136,      288,      508 ]'/2048;
+cat > test_hM1_sdp.ok << 'EOF'
+hM1_sdp = [        0,      -24,      -48,      -20, ... 
+                  48,       96,       48,      -14, ... 
+                  14,       80,        1,     -248, ... 
+                -384,     -160,      320,      576 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_sd_sdp.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_hM1_sdp.ok"; fail; fi
+
+cat > test_hM1_min.ok << 'EOF'
+hM1_min = [       -1,      -24,      -48,      -24, ... 
+                  48,       96,       48,      -15, ... 
+                   9,       80,        7,     -240, ... 
+                -384,     -160,      320,      576 ]'/2048;
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_hM1_min.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
-Exact & 0.001997 & -47.0 & & \\
-12-bit 2-signed-digit & 0.016256 & -28.2 & 30 & 14 \\
-12-bit 2-signed-digit(Ito) & 0.002318 & -38.3 & 30 & 14 \\
-12-bit 2-signed-digit(SDP) & 0.002119 & -41.6 & 30 & 14 \\
+Initial &  1.389e-03 &    0.07924 & & \\
+12-bit 2-signed-digit &  3.261e-03 &    0.08112 & 30 & 14 \\
+12-bit 2-signed-digit(SDP) &  3.008e-03 &    0.08585 & 29 & 14 \\
+12-bit 2-signed-digit(min) &  2.050e-03 &    0.09326 & 31 & 15 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 
@@ -85,11 +92,14 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="sdp_relaxation_directFIRsymmetric_bandpass_12_nbits_test"
 
-diff -Bb test_sd_Ito.ok $nstr"_hM1_sd_Ito_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_sd_Ito.ok"; fail; fi
+diff -Bb test_hM1_sd.ok $nstr"_hM1_sd_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hM1_sd.ok"; fail; fi
 
-diff -Bb test_sd_sdp.ok $nstr"_hM1_sd_sdp_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_sd_sdp.ok"; fail; fi
+diff -Bb test_hM1_sdp.ok $nstr"_hM1_sdp_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hM1_sdp.ok"; fail; fi
+
+diff -Bb test_hM1_min.ok $nstr"_hM1_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hM1_min.ok"; fail; fi
 
 diff -Bb test_cost.ok $nstr"_cost.tab"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_cost.ok"; fail; fi

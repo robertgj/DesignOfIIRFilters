@@ -15,34 +15,36 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 maxiter=2000
-ftol=1e-5;
-ctol=ftol;
-verbose=true;
+ftol=1e-5
+ctol=ftol
+verbose=false
+
+nbits=12
+nscale=2^(nbits-1)
+ndigits=2
 
 % Hilbert filter frequency specification
-% dBap=0.1 gives poorer results ?!?
-M=40;fapl=0.01;fapu=0.5-fapl;dBap=0.135;Wap=1;Was=0;
-npoints=500;
-wa=(0:((npoints)-1))'*pi/(npoints);
-napl=floor(npoints*fapl/0.5)+1;
-napu=ceil(npoints*fapu/0.5)+1;
-Ad=-ones(npoints,1);
-if 1
-  Adl=-(10^(dBap/40))*ones(npoints,1);
-  Adu=-[zeros(napl-1,1); ...
-        (10^(-dBap/40))*ones(napu-napl+1,1); ...
-        zeros(npoints-napu,1)];
-else
-  dBap=0.07
-  Adl=Ad;
-  Adu=-[zeros(napl-1,1); ...
-        (10^(-dBap/20))*ones(napu-napl+1,1); ...
-        zeros(npoints-napu,1)];
-endif
-Wa=[Was*ones(napl-1,1); ...
-    Wap*ones(napu-napl+1,1); ...
-    Was*ones(npoints-napu,1)];
+M=40
+fapl=0.01
+fapu=0.5-fapl
+dBap_exact=0.04
+dBap=0.2
+Ad_passband=-1
+Wap=1
+Was=0
 
+% Frequency vectors
+n=500;
+wa=(0:(n-1))'*pi/n;
+napl=floor(n*fapl/0.5)+1;
+napu=ceil(n*fapu/0.5)+1;
+Ad=Ad_passband*ones(n,1);
+Adl=Ad_passband*(10^(dBap/40))*ones(n,1);;
+Adu=[zeros(napl-1,1); ...
+     Ad_passband*(10^(-dBap/40))*ones(napu-napl+1,1); ...
+     zeros(n-napu,1)];
+Wa=[Was*ones(napl-1,1);Wap*ones(napu-napl+1,1);Was*ones(n-napu,1)];
+       
 % Sanity checks
 nchka=[napl-1,napl,napl+1,napu-1,napu,napu+1];
 printf("nchka=[napl-1,napl,napl+1,napu-1,napu,napu+1];\n");
@@ -53,152 +55,236 @@ printf("Adu(nchka)=[ ");printf("%6.4g ",Adu(nchka)');printf("];\n");
 printf("Adl(nchka)=[ ");printf("%6.4g ",Adl(nchka)');printf("];\n");
 printf("Wa(nchka)=[ ");printf("%6.4g ",Wa(nchka)');printf("];\n");
 
+%
 % Make a Hilbert filter
+%
 n4M1=((-2*M)+1):2:((2*M)-1)';
 h0=zeros((4*M)-1,1);
 h0(n4M1+(2*M))=2*(sin(pi*n4M1/2).^2)./(pi*n4M1);
 h0=h0.*hamming((4*M)-1);
 hM0=h0(1:2:((2*M)-1));
-printf("hM0=[ ");printf("%g ",hM0');printf("]';\n");
-print_polynomial(hM0,"hM0",strcat(strf,"_hM0_coef.m"),"%12.8g");
 
-% Find the exact coefficient error
-na=[napl (npoints/2)];
-waf=wa(na);
-Adf=-1;
-Waf=Wap;
-Esq0=directFIRhilbertEsqPW(hM0,waf,Adf,Waf);
-printf("Esq0=%g\n",Esq0);
-
+%
+% Find the optimised exact coefficients
+%
 % Find the SOCP PCLS solution for the exact filter
-war=1:(npoints/2);
 hM_active=1:length(hM0);
+na=[napl (n/2)];
+Adu_exact=[zeros(napl-1,1); ...
+           -(10^(-dBap_exact/40))*ones(napu-napl+1,1); ...
+           zeros(n-napu,1)];
+Adl_exact=-(10^(dBap_exact/40))*ones(n,1);
 [hM1,slb_iter,socp_iter,func_iter,feasible]= ...
   directFIRhilbert_slb(@directFIRhilbert_socp_mmsePW, ...
                        hM0,hM_active,na, ...
-                       wa(war),Ad(war),Adu(war),Adl(war),Wa(war), ...
+                       wa,Ad,Adu_exact,Adl_exact,Wa, ...
                        maxiter,ftol,ctol,verbose);
 if ~feasible
   error("SOCP PCLS problem for exact filter is infeasible!");
 endif
 
+%
 % Allocate digits
-nbits=12;
-nscale=2^(nbits-1);
-ndigits=2;
+%
+waf=wa(na);Adf=Ad_passband;Waf=Wap;
 ndigits_alloc=directFIRhilbert_allocsd_Ito(nbits,ndigits,hM1,waf,Adf,Waf);
-hM_allocsd_digits=int16(ndigits_alloc);
-printf("hM_allocsd_digits=[ ");
-printf("%2d ",hM_allocsd_digits);printf("]';\n");
-print_polynomial(hM_allocsd_digits,"hM_allocsd_digits", ...
-                 strcat(strf,"_hM_allocsd_digits.m"),"%2d");
+printf("ndigits_alloc=[ ");printf("%2d ",int16(ndigits_alloc));printf("]';\n");
+print_polynomial(int16(ndigits_alloc),"hM1_allocsd_digits", ...
+                 strcat(strf,"_hM1_allocsd_digits.m"),"%2d");
 
 % Find the signed-digit approximations to hM1
 [hM1_sd,hM1_sdu,hM1_sdl]=flt2SD(hM1,nbits,ndigits);
-[hM1_digits_sd,hM1_adders_sd]=SDadders(hM1_sd,nbits);
+
+% Find the signed-digit approximations to hM1 with Ito allocation
+[hM1_Ito,hM1_Ito_sdu,hM1_Ito_sdl]=flt2SD(hM1,nbits,ndigits_alloc);
+
+%
+% Solve the overall SDP problem with SeDuMi
+%
+hM1_sdp_x=(hM1_Ito_sdu+hM1_Ito_sdl)/2;
+hM1_sdp_delta=(hM1_Ito_sdu-hM1_Ito_sdl)/2;
+[hM1_sdp,socp_iter,func_iter,feasible] = ...
+  directFIRhilbert_sdp_mmsePW([],hM1_sdp_x,hM1_sdp_delta, ...
+                              na,wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose);
+if feasible==false
+  error("directFIRhilbert_sdp_mmsePW failed!");
+endif
+
+%
+% Find coefficients with successive relaxation
+%
+hM1_socp=hM1;
+hM1_socp(find(ndigits_alloc == 0))=0;
+while 1
+  
+  % Find the signed-digit filter coefficients 
+  [~,hM1_socp_sdu,hM1_socp_sdl]=flt2SD(hM1_socp,nbits,ndigits_alloc);
+  hM1_socp_x=(hM1_socp_sdu+hM1_socp_sdl)/2;
+  hM1_socp_delta=(hM1_socp_sdu-hM1_socp_sdl)/2;
+
+  % Find the SDP signed-digit solution for all the active coefficients
+  [nexthM1_socp_x,socp_iter,func_iter,feasible]= ...
+    directFIRhilbert_sdp_mmsePW([], ...
+                                hM1_socp_x,hM1_socp_delta, na, ...
+                                wa,Ad,Adu,Adl,Wa, ...
+                                maxiter,ftol,ctol,verbose);
+  if feasible==false
+    error("directFIRhilbert_sdp_mmsePW failed!");
+  endif
+
+  % Ito et al. suggest ordering the search by max hM1_socp_delta (try min here)
+  if 1
+    [~,coef_n]=max(hM1_socp_delta);
+  else
+    hM1_socp_delta_nz=find(hM1_socp_delta ~= 0);
+    [~,hM1_socp_min_nz_n]=min(hM1_socp_delta(hM1_socp_delta_nz));
+    hM1_socp_min_n=hM1_socp_delta_nz(hM1_socp_min_nz_n);
+    coef_n=hM1_socp_min_n;
+  endif
+
+  % Fix the coefficient with the largest hM1_socp_delta to the SDP value
+  hM1_socp(coef_n)=nexthM1_socp_x(coef_n);
+  hM1_socp_delta(coef_n)=0;
+  printf("\nFixed hM1_socp(%d)=%g/%d\n",coef_n,hM1_socp(coef_n)*nscale,nscale);
+  printf("hM1_socp=[ ");printf("%g ",hM1_socp'*nscale);printf("]/%d;\n",nscale);
+  printf("hM1_socp_delta=[ ");printf("%d ",hM1_socp_delta');printf("];\n\n");
+  
+  % Check if done
+  if all(hM1_socp_delta == 0)
+    hM1_min=hM1_socp;
+    break;
+ endif
+  
+  % Try to solve the current SOCP problem for the active coefficients
+  hM1_socp_active=find(hM1_socp_delta ~= 0);
+  printf("hM1_socp_active=[ ");printf("%d ",hM1_socp_active');printf("];\n\n");
+  try
+    % Find the SOCP solution for the active coefficients
+    [nexthM1_socp,slb_iter,socp_iter,func_iter,feasible] = ...
+       directFIRhilbert_slb(@directFIRhilbert_socp_mmsePW, ...
+                            hM1_socp,hM1_socp_active, ...
+                            na,wa,Ad,Adu,Adl,Wa, ...
+                            maxiter,ftol,ctol,verbose);
+    if feasible==false
+      error("directFIRhilbert_socp_mmsePW failed!");
+    endif
+    hM1_socp=nexthM1_socp;
+  catch
+    feasible=false;
+    err=lasterror();
+    fprintf(stderr,"%s\n", err.message);
+    for e=1:length(err.stack)
+      fprintf(stderr,"Called %s at line %d\n", ...
+              err.stack(e).name,err.stack(e).line);
+    endfor
+  end_try_catch
+
+  % If this problem was not solved then give up
+  if ~feasible
+    error("SOCP problem infeasible!");
+  endif
+
+endwhile
+
+print_polynomial(hM0,"hM0");
+print_polynomial(hM0,"hM0",strcat(strf,"_hM0_coef.m"),"%12.8g");
+print_polynomial(hM1,"hM1");
+print_polynomial(hM1,"hM1",strcat(strf,"_hM1_coef.m"),"%12.8g");
 print_polynomial(hM1_sd,"hM1_sd",nscale);
 print_polynomial(hM1_sd,"hM1_sd",strcat(strf,"_hM1_sd_coef.m"),nscale);
-% Find the signed-digit approximations to hM1 with Ito allocation
-[hM1_sd_Ito,hM1_sdu_Ito,hM1_sdl_Ito]=flt2SD(hM1,nbits,ndigits_alloc);
-[hM1_digits_sd_Ito,hM1_adders_sd_Ito]=SDadders(hM1_sd_Ito,nbits);
-print_polynomial(hM1_sd_Ito,"hM1_sd_Ito",nscale);
-print_polynomial(hM1_sd_Ito,"hM1_sd_Ito", ...
-                 strcat(strf,"_hM1_sd_Ito_coef.m"),nscale);
+print_polynomial(hM1_Ito,"hM1_Ito",nscale);
+print_polynomial(hM1_Ito,"hM1_Ito",strcat(strf,"_hM1_Ito_coef.m"),nscale);
+print_polynomial(hM1_sdp,"hM1_sdp",nscale);
+print_polynomial(hM1_sdp,"hM1_sdp",strcat(strf,"_hM1_sdp_coef.m"),nscale);
+print_polynomial(hM1_min,"hM1_min",nscale);
+print_polynomial(hM1_min,"hM1_min",strcat(strf,"_hM1_min_coef.m"),nscale);
 
-% Find initial mean-squared errrors
-Esq1=directFIRhilbertEsqPW(hM1,waf,Adf,Waf);
-Esq1_sd=directFIRhilbertEsqPW(hM1_sd,waf,Adf,Waf);
-Esq1_sd_Ito=directFIRhilbertEsqPW(hM1_sd_Ito,waf,Adf,Waf);
+% Find mean-squared errrors
+Esq0=directFIRhilbertEsqPW(hM0,waf,Adf,Waf)
+Esq1=directFIRhilbertEsqPW(hM1,waf,Adf,Waf)
+Esq1_sd=directFIRhilbertEsqPW(hM1_sd,waf,Adf,Waf)
+Esq1_Ito=directFIRhilbertEsqPW(hM1_Ito,waf,Adf,Waf)
+Esq1_sdp=directFIRhilbertEsqPW(hM1_sdp,waf,Adf,Waf)
+Esq1_min=directFIRhilbertEsqPW(hM1_min,waf,Adf,Waf)
 
-% Define filter coefficients
-hM1_sd_delta=(hM1_sdu_Ito-hM1_sdl_Ito)/2;
-hM1_sd_x=(hM1_sdu_Ito+hM1_sdl_Ito)/2;
-[Esq1_sd_x,gradEsq1_sd_x,Q,q]=directFIRhilbertEsqPW(hM1_sd_x,waf,Adf,Waf);
-
-% Run the SeDuMi problem
-if 1
-  [hM1_sd_sdp,socp_iter,func_iter,feasible] = ...
-  sdp_relaxation_directFIRhilbert_mmsePW([],hM1_sd_x,hM1_sd_delta, ...
-                              na,wa,Ad,Adu,Adl,Wa,maxiter,ftol,ctol,verbose);
-  if feasible==false
-    error("sdp_relaxation_directFIRhilbert_mmsePW failed!");
-  endif
-else
-  dBap_slb=0.2;
-  Adu_slb=(10^(dBap_slb/40))*ones(npoints,1);
-  Adl_slb=[zeros(napl-1,1); ...
-       (10^(-dBap_slb/40))*ones(napu-napl+1,1); ...
-       zeros(npoints-napu,1)];
-  [hM1,slb_iter,socp_iter,func_iter,feasible]= ...
-  directFIRhilbert_slb(@sdp_relaxation_directFIRhilbert_mmsePW, ...
-                       hM1_sd_x,hM1_sd_delta,na, ...
-                       wa(war),Ad(war),Adu_slb(war),Adl_slb(war),Wa(war), ...
-                       maxiter,ftol,ctol,verbose);
-  if ~feasible
-    error("SDP PCLS problem for exact filter is infeasible!");
-  endif
-endif
-print_polynomial(hM1_sd_sdp,"hM1_sd_sdp",nscale);
-print_polynomial(hM1_sd_sdp,"hM1_sd_sdp", ...
-                 strcat(strf,"_hM1_sd_sdp_coef.m"),nscale);
-[hM1_digits_sd_sdp,hM1_adders_sd_sdp]=SDadders(hM1_sd_sdp,nbits);
-Esq1_sd_sdp=directFIRhilbertEsqPW(hM1_sd_sdp,waf,Adf,Waf);
+% Find digits
+[hM1_sd_digits,hM1_sd_adders]=SDadders(hM1_sd,nbits)
+[hM1_Ito_digits,hM1_Ito_adders]=SDadders(hM1_Ito,nbits)
+[hM1_sdp_digits,hM1_sdp_adders]=SDadders(hM1_sdp,nbits)
+[hM1_min_digits,hM1_min_adders]=SDadders(hM1_min,nbits)
 
 % Calculate response
+A_hM0=directFIRhilbertA(wa,hM0);
 A_hM1=directFIRhilbertA(wa,hM1);
 A_hM1_sd=directFIRhilbertA(wa,hM1_sd);
-A_hM1_sd_Ito=directFIRhilbertA(wa,hM1_sd_Ito);
-A_hM1_sd_sdp=directFIRhilbertA(wa,hM1_sd_sdp);
+A_hM1_Ito=directFIRhilbertA(wa,hM1_Ito);
+A_hM1_sdp=directFIRhilbertA(wa,hM1_sdp);
+A_hM1_min=directFIRhilbertA(wa,hM1_min);
 
-% Compare with freqz
-h_sdp=[kron(hM1_sd_sdp,[1;0]);-flipud(kron(hM1_sd_sdp,[0;1]))](1:end-1);
-H_sdp=freqz(h_sdp,1,wa);
-if max(abs(abs(H_sdp)+A_hM1_sd_sdp)) > 50*eps
-  error("max(abs(abs(H_sdp)+A_hM1_sd_sdp))(%g*eps) > 50*eps", ...
-        max(abs(abs(H_sdp)+A_hM1_sd_sdp))/eps)
-endif
-P_sdp=[(unwrap(arg(H_sdp))+(((2*M)-1)*wa))/pi](2:end);
-if max(abs(P_sdp-(-0.5))) > 500*eps
-  error("max(abs(P_sdp-(-0.5)))(%g*eps) > 500*eps", max(abs(P_sdp-(-0.5)))/eps);
+% Sanity check on response
+h_min=kron([hM1_min(:);-flipud(hM1_min(:))],[1;0])(1:(end-1));
+H_min=freqz(h_min,1,wa);
+if max(abs(abs(H_min)-abs(A_hM1_min))) > 100*eps
+  error("max(abs(abs(H_min)-A_hM1_min))(%g*eps) > 100*eps", ...
+        max(abs(abs(H_min)-A_hM1_min))/eps);
 endif
 
-% Find maximum pass-band response
-rsb=[napl:napu];
-max_sb_A_hM1=       max(abs(20*log10(abs(A_hM1(rsb)))))
-max_sb_A_hM1_sd=    max(abs(20*log10(abs(A_hM1_sd(rsb)))))
-max_sb_A_hM1_sd_Ito=max(abs(20*log10(abs(A_hM1_sd_Ito(rsb)))))
-max_sb_A_hM1_sd_sdp=max(abs(20*log10(abs(A_hM1_sd_sdp(rsb)))))
+% Find maximum pass-band response error
+Rpb=[napl:napu];
+[max_pb_A_hM0    ,max_pb_A_hM0_n]    =max(abs(A_hM0(Rpb)    -Ad_passband));
+[max_pb_A_hM1    ,max_pb_A_hM1_n]    =max(abs(A_hM1(Rpb)    -Ad_passband));
+[max_pb_A_hM1_sd ,max_pb_A_hM1_sd_n] =max(abs(A_hM1_sd(Rpb) -Ad_passband));
+[max_pb_A_hM1_Ito,max_pb_A_hM1_Ito_n]=max(abs(A_hM1_Ito(Rpb)-Ad_passband));
+[max_pb_A_hM1_sdp,max_pb_A_hM1_sdp_n]=max(abs(A_hM1_sdp(Rpb)-Ad_passband));
+[max_pb_A_hM1_min,max_pb_A_hM1_min_n]=max(abs(A_hM1_min(Rpb)-Ad_passband));
+
+printf("At f=%g, max_pb_A_hM0=%g\n", ...
+       wa(napl+max_pb_A_hM0_n)*0.5/pi,max_pb_A_hM0);
+printf("At f=%g, max_pb_A_hM1=%g\n", ...
+       wa(napl+max_pb_A_hM1_n)*0.5/pi,max_pb_A_hM1);
+printf("At f=%g, max_pb_A_hM1_sd=%g\n", ...
+       wa(napl+max_pb_A_hM1_sd_n)*0.5/pi,max_pb_A_hM1_sd);
+printf("At f=%g, max_pb_A_hM1_Ito=%g\n", ...
+       wa(napl+max_pb_A_hM1_Ito_n)*0.5/pi,max_pb_A_hM1_Ito);
+printf("At f=%g, max_pb_A_hM1_sdp=%g\n", ...
+       wa(napl+max_pb_A_hM1_sdp_n)*0.5/pi,max_pb_A_hM1_sdp);
+printf("At f=%g, max_pb_A_hM1_min=%g\n", ...
+       wa(napl+max_pb_A_hM1_min_n)*0.5/pi,max_pb_A_hM1_min);
 
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
-fprintf(fid,"Exact & %10.4g & %10.4g & & \\\\\n",Esq1,max_sb_A_hM1);
-fprintf(fid,"%d-bit %d-signed-digit & %10.4g & %10.4g & %d & %d \\\\\n", ...
-        nbits,ndigits,Esq1_sd,max_sb_A_hM1_sd,hM1_digits_sd,hM1_adders_sd);
-fprintf(fid,"%d-bit %d-signed-digit(Ito) & %10.4g & %10.4g & %d & %d \\\\\n", ...
-        nbits,ndigits,Esq1_sd_Ito,max_sb_A_hM1_sd_Ito, ...
-        hM1_digits_sd_Ito,hM1_adders_sd_Ito);
-fprintf(fid,"%d-bit %d-signed-digit(SDP) & %10.4g & %10.4g & %d & %d \\\\\n", ...
-        nbits,ndigits,Esq1_sd_sdp,max_sb_A_hM1_sd_sdp, ...
-        hM1_digits_sd_sdp,hM1_adders_sd_sdp);
+fprintf(fid,"Initial & %10.3e & %10.5f & & \\\\\n",Esq1,max_pb_A_hM0);
+fprintf(fid,"Exact(SOCP) & %10.3e & %10.5f & & \\\\\n",Esq1,max_pb_A_hM1);
+fprintf(fid,"%d-bit %d-signed-digit & %10.3e & %10.5f & %d & %d \\\\\n", ...
+        nbits,ndigits,Esq1_sd,max_pb_A_hM1_sd,hM1_sd_digits,hM1_sd_adders);
+fprintf(fid,"%d-bit %d-signed-digit(Ito) & %10.3e & %10.5f & %d & %d \\\\\n", ...
+        nbits,ndigits,Esq1_Ito,max_pb_A_hM1_Ito, ...
+        hM1_Ito_digits,hM1_Ito_adders);
+fprintf(fid,"%d-bit %d-signed-digit(SDP) & %10.3e & %10.5f & %d & %d \\\\\n", ...
+        nbits,ndigits,Esq1_sdp,max_pb_A_hM1_sdp, ...
+        hM1_sdp_digits,hM1_sdp_adders);
+fprintf(fid,"%d-bit %d-signed-digit(min) & %10.3e & %10.5f & %d & %d \\\\\n", ...
+        nbits,ndigits,Esq1_min,max_pb_A_hM1_min, ...
+        hM1_min_digits,hM1_min_adders);
 fclose(fid);
 
 % Plot amplitude response
 plot(wa*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
-     wa*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle",":", ...
-     wa*0.5/pi,20*log10(abs(A_hM1_sd_Ito)),"linestyle","--", ...
-     wa*0.5/pi,20*log10(abs(A_hM1_sd_sdp)),"linestyle","-.");
+     wa*0.5/pi,20*log10(abs(A_hM1_Ito)),"linestyle","--", ...
+     wa*0.5/pi,20*log10(abs(A_hM1_sdp)),"linestyle",":", ...
+     wa*0.5/pi,20*log10(abs(A_hM1_min)),"linestyle","-.");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 axis([0 0.25 -0.2 0.2]);
 strt=sprintf(["Direct-form Hilbert filter (nbits=%d,ndigits=%d) : ", ...
  "fapl=%g,fapu=%g,dBap=%g"],nbits,ndigits,fapl,fapu,dBap);
 title(strt);
-legend("exact","s-d","s-d(Ito)","s-d(SDP)");
-legend("location","northeast");
+legend("Exact","s-d(Ito)","s-d(SDP)","s-d(min)");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
-print(strcat(strf,"_response"),"-dpdflatex");
+print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
 
 % Filter specification
@@ -208,7 +294,7 @@ fprintf(fid,"nbits=%d %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%d %% Nominal average coefficient signed-digits\n",ndigits);
 fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
-fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);
+fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
 fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
@@ -217,8 +303,9 @@ fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results
-eval(sprintf(["save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc npoints ", ...
- "fapl fapu dBap Wap Was hM1_sd_sdp"], strf));
+eval(sprintf(["save %s.mat ftol ctol nbits nscale ndigits n ", ...
+              "fapl fapu dBap Wap Was hM1 hM1_sd hM1_Ito hM1_sdp hM1_min"], ...
+             strf));
        
 % Done
 toc;

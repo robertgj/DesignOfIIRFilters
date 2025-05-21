@@ -1,9 +1,10 @@
 #!/bin/sh
 
 prog=sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m
-depends="test/sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m \
+depends=\
+"test/sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_16_nbits_test.m \
 test_common.m \
-sdp_relaxation_schurOneMPAlattice_mmse.m \
+schurOneMPAlattice_sdp_mmse.m \
 schurOneMPAlattice_socp_mmse.m \
 schurOneMPAlattice_allocsd_Ito.m \
 schurOneMPAlattice_allocsd_Lim.m \
@@ -59,46 +60,46 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k0_sd.ok << 'EOF'
-A1k0_sd = [   -19680,    32377,   -25784,    28312, ... 
+A1k0_sd = [   -19680,    32377,   -25792,    28320, ... 
               -23524,    11812 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sd.ok"; fail; fi
 
 cat > test_A2k0_sd.ok << 'EOF'
-A2k0_sd = [   -22592,    30736,   -26768,    23880, ... 
-              -11744 ]'/32768;
+A2k0_sd = [   -22590,    30739,   -26768,    23872, ... 
+              -11752 ]'/32768;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd.ok"; fail; fi
 
-cat > test_A1k0_sd_sdp.ok << 'EOF'
-A1k0_sd_sdp = [   -19680,    32376,   -25776,    28312, ... 
-                  -23524,    11812 ]'/32768;
+cat > test_A1k0_sdp.ok << 'EOF'
+A1k0_sdp = [   -19680,    32377,   -25792,    28304, ... 
+               -23524,    11812 ]'/32768;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sd_sdp.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sdp.ok"; fail; fi
 
-cat > test_A2k0_sd_sdp.ok << 'EOF'
-A2k0_sd_sdp = [   -22560,    30752,   -26784,    23888, ... 
-                  -11760 ]'/32768;
+cat > test_A2k0_sdp.ok << 'EOF'
+A2k0_sdp = [   -22590,    30739,   -26784,    23872, ... 
+               -11752 ]'/32768;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd_sdp.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sdp.ok"; fail; fi
 
-cat > test_A1k0_sd_min.ok << 'EOF'
-A1k0_sd_min = [   -19648,    32381,   -25760,    28304, ... 
-                  -23522,    11809 ]'/32768;
+cat > test_A1k_min.ok << 'EOF'
+A1k_min = [   -19680,    32376,   -25792,    28304, ... 
+              -23520,    11810 ]'/32768;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sd_min.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_min.ok"; fail; fi
 
-cat > test_A2k0_sd_min.ok << 'EOF'
-A2k0_sd_min = [   -22588,    30734,   -26760,    23872, ... 
-                  -11756 ]'/32768;
+cat > test_A2k_min.ok << 'EOF'
+A2k_min = [   -22591,    30741,   -26768,    23872, ... 
+              -11752 ]'/32768;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd_min.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_min.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
 Initial & 7.52e-06 & -84.0 & & \\
-16-bit 5-signed-digit(Ito) & 7.68e-06 & -63.2 & 54 & 43 \\
-16-bit 5-signed-digit(SDP) & 6.29e-05 & -49.7 & 53 & 42 \\
-16-bit 5-signed-digit(min) & 7.94e-06 & -75.4 & 54 & 43 \\
+16-bit 5-signed-digit & 2.43e-05 & -51.7 & 55 & 44 \\
+16-bit 5-signed-digit(SDP) & 7.91e-06 & -59.4 & 55 & 44 \\
+16-bit 5-signed-digit(min) & 7.53e-06 & -78.0 & 53 & 42 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 
@@ -118,17 +119,17 @@ if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k0_sd.ok"; fail; fi
 diff -Bb test_A2k0_sd.ok $nstr"_A2k0_sd_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k0_sd.ok"; fail; fi
 
-diff -Bb test_A1k0_sd_sdp.ok $nstr"_A1k0_sd_sdp_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k0_sd_sdp.ok"; fail; fi
+diff -Bb test_A1k0_sdp.ok $nstr"_A1k0_sdp_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k0_sdp.ok"; fail; fi
 
-diff -Bb test_A2k0_sd_sdp.ok $nstr"_A2k0_sd_sdp_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k0_sd_sdp.ok"; fail; fi
+diff -Bb test_A2k0_sdp.ok $nstr"_A2k0_sdp_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k0_sdp.ok"; fail; fi
 
-diff -Bb test_A1k0_sd_min.ok $nstr"_A1k0_sd_min_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k0_sd_min.ok"; fail; fi
+diff -Bb test_A1k_min.ok $nstr"_A1k_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k_min.ok"; fail; fi
 
-diff -Bb test_A2k0_sd_min.ok $nstr"_A2k0_sd_min_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k0_sd_min.ok"; fail; fi
+diff -Bb test_A2k_min.ok $nstr"_A2k_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k_min.ok"; fail; fi
 
 diff -Bb test_cost.ok $nstr"_cost.tab"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_cost.ok"; fail; fi

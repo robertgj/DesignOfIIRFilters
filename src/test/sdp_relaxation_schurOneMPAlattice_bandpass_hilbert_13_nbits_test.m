@@ -3,7 +3,7 @@
 
 % SDP relaxation optimisation of a Schur parallel one-multiplier allpass
 % lattice bandpass filter with 13-bit signed-digit coefficients having
-% an average of 3 signed-digits
+% an average of 3 signed-digits allocated by the algorithm of Ito et al.
 
 test_common;
 
@@ -20,6 +20,9 @@ ftol=1e-4
 ctol=1e-5
 verbose=false;
 
+rho=0.999 
+dmax=0.05;
+
 nbits=13;
 nscale=2^(nbits-1);
 ndigits=3;
@@ -34,7 +37,7 @@ fapu=0.2
 fasu=0.25
 dBap=0.15
 Wap=20
-dBas=36
+dBas=38
 Watl=1e-3
 Watu=1e-3
 Wasl=50000
@@ -42,12 +45,12 @@ Wasu=5000
 ftpl=0.11
 ftpu=0.19
 tp=16
-tpr=0.205 % Modified for QEMU
+tpr=0.16
 Wtp=2
 fppl=0.11
 fppu=0.19
 pp=3.5    % Initial phase offset (rad./pi)
-ppr=0.006 % Peak-to-peak phase ripple (rad./pi)
+ppr=0.004 % Peak-to-peak phase ripple (rad./pi)
 Wpp=10
 fdpl=fapl % Pass band dAsqdw response lower edge
 fdpu=fapu % Pass band dAsqdw response upper edge
@@ -147,22 +150,18 @@ printf("Asqd(nchka)=[ ");printf("%6.4g ",Asqd(nchka)');printf("];\n");
 printf("Asqdu(nchka)=[ ");printf("%6.4g ",Asqdu(nchka)');printf("];\n");
 printf("Asqdl(nchka)=[ ");printf("%6.4g ",Asqdl(nchka)');printf("];\n");
 printf("Wa(nchka)=[ ");printf("%6.4g ",Wa(nchka)');printf("];\n");
-
 nchkt=[ntpl-1,ntpl,ntpl+1,ntpu-1,ntpu,ntpu+1];
 printf("0.5*wa(nchkt)'/pi=[ ");printf("%6.4g ",0.5*wa(nchkt)'/pi);printf("];\n");
-
 nchkp=[nppl-1,nppl,nppl+1,nppu-1,nppu,nppu+1];
 printf("0.5*wa(nchkp)'/pi=[ ");printf("%6.4g ",0.5*wa(nchkp)'/pi);printf("];\n");
 
 % Constraints on the coefficients
-rho=0.999 
-dmax=0.05;
 A1k0=A1k0(:);
 A2k0=A2k0(:);
 k0=[A1k0;A2k0];
 Nk=length(k0);
-k_u=rho*ones(Nk,1);
-k_l=-k_u;
+k0_u=rho*ones(Nk,1);
+k0_l=-k0_u;
 k0_active=find((k0)~=0);
 
 % Exact error
@@ -187,97 +186,101 @@ print_polynomial(A2k_allocsd_digits,"A2k_allocsd_digits", ...
 
 % Find the signed-digit approximations to k0
 [k0_sd,k0_sdu,k0_sdl]=flt2SD(k0,nbits,ndigits);
-[k0_digits_sd,k0_adders_sd]=SDadders(k0_sd,nbits);
-[k0_sd_Ito,k0_sdu_Ito,k0_sdl_Ito]=flt2SD(k0,nbits,ndigits_alloc);
-[k0_digits_sd_Ito,k0_adders_sd_Ito]=SDadders(k0_sd_Ito,nbits);
-A1k0_sd_Ito=k0_sd_Ito(RA1k);
-A2k0_sd_Ito=k0_sd_Ito(RA2k);
-print_polynomial(A1k0_sd_Ito,"A1k0_sd_Ito",nscale);
-print_polynomial(A1k0_sd_Ito,"A1k0_sd_Ito", ...
-                 strcat(strf,"_A1k0_sd_Ito_coef.m"),nscale);
-print_polynomial(A2k0_sd_Ito,"A2k0_sd_Ito",nscale);
-print_polynomial(A2k0_sd_Ito,"A2k0_sd_Ito", ...
-                 strcat(strf,"_A2k0_sd_Ito_coef.m"),nscale);
+[k0_sd_digits,k0_sd_adders]=SDadders(k0_sd,nbits);
+A1k0_sd=k0_sd(RA1k);
+A2k0_sd=k0_sd(RA2k);
+print_polynomial(A1k0_sd,"A1k0_sd",nscale);
+print_polynomial(A1k0_sd,"A1k0_sd",strcat(strf,"_A1k0_sd_coef.m"),nscale);
+print_polynomial(A2k0_sd,"A2k0_sd",nscale);
+print_polynomial(A2k0_sd,"A2k0_sd",strcat(strf,"_A2k0_Ito_coef.m"),nscale);
+[k0_Ito,k0_Ito_sdu,k0_Ito_sdl]=flt2SD(k0,nbits,ndigits_alloc);
+[k0_Ito_digits,k0_Ito_adders]=SDadders(k0_Ito,nbits);
+A1k0_Ito=k0_Ito(RA1k);
+A2k0_Ito=k0_Ito(RA2k);
+print_polynomial(A1k0_Ito,"A1k0_Ito",nscale);
+print_polynomial(A1k0_Ito,"A1k0_Ito",strcat(strf,"_A1k0_Ito_coef.m"),nscale);
+print_polynomial(A2k0_Ito,"A2k0_Ito",nscale);
+print_polynomial(A2k0_Ito,"A2k0_Ito",strcat(strf,"_A2k0_Ito_coef.m"),nscale);
 
 % Find initial mean-squared errrors
 Esq0=schurOneMPAlatticeEsq ...
        (A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
         difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 Esq0_sd=schurOneMPAlatticeEsq ...
-          (k0_sd(RA1k),A1epsilon0,A1p0,k0_sd(RA2k),A2epsilon0,A2p0, ... 
+          (A1k0_sd,A1epsilon0,A1p0,A2k0_sd,A2epsilon0,A2p0, ... 
            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
-Esq0_sd_Ito=schurOneMPAlatticeEsq ...
-          (k0_sd_Ito(RA1k),A1epsilon0,A1p0,k0_sd_Ito(RA2k),A2epsilon0,A2p0, ...
+Esq0_Ito=schurOneMPAlatticeEsq ...
+          (A1k0_Ito,A1epsilon0,A1p0,A2k0_Ito,A2epsilon0,A2p0, ...
            difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 
-% Define filter coefficients
-k0_sd_delta=(k0_sdu_Ito-k0_sdl_Ito)/2;
-k0_sd_x=(k0_sdu_Ito+k0_sdl_Ito)/2;
-k0_sd_x_active=find((k0_sd_x)~=0);
-[Esq0_sd_x,gradEsq0_sd_x]= ...
-  schurOneMPAlatticeEsq(k0_sd_x(RA1k),A1epsilon0,A1p0, ...
-                        k0_sd_x(RA2k),A2epsilon0,A2p0, ...
-                        difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
-
-% Solve the SDP problem with SeDuMi
-[A1k0_sd_sdp,A2k0_sd_sdp,socp_iter,func_iter,feasible] = ...
-  sdp_relaxation_schurOneMPAlattice_mmse ...
+% Solve the SDP problem with SeDuMi for all coefficients simultaneously
+k0_Ito_delta=(k0_Ito_sdu-k0_Ito_sdl)/2;
+k0_Ito_x=(k0_Ito_sdu+k0_Ito_sdl)/2;
+k0_Ito_active=find((k0_Ito_x)~=0);
+[A1k0_sdp,A2k0_sdp,sdp_iter,func_iter,feasible] = ...
+  schurOneMPAlattice_sdp_mmse ...
     ([], ...
-     k0_sd_x(RA1k),A1epsilon0,A1p0,k0_sd_x(RA2k),A2epsilon0,A2p0,difference, ...
-     k0_sdu_Ito,k0_sdl_Ito,k0_sd_x_active,k0_sd_delta, ...
-     wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-     wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
-     maxiter,ftol,ctol,verbose);
-if feasible==false
-  error("sdp_relaxation_schurOneMPAlattice_mmse failed!");
+     k0_Ito_x(RA1k),A1epsilon0,A1p0,k0_Ito_x(RA2k),A2epsilon0,A2p0, ...
+     difference, ...
+     k0_Ito_sdu,k0_Ito_sdl,k0_Ito_active,k0_Ito_delta,...
+     wa,Asqd,Asqdu,Asqdl,Wa, ...
+     wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd,...
+     maxiter,ftol,ctol,verbose);if feasible==false
+  error("schurOneMPAlattice_sdp_mmse failed!");
 endif
-print_polynomial(A1k0_sd_sdp,"A1k0_sd_sdp",nscale);
-print_polynomial(A1k0_sd_sdp,"A1k0_sd_sdp", ...
-                 strcat(strf,"_A1k0_sd_sdp_coef.m"),nscale);
-print_polynomial(A2k0_sd_sdp,"A2k0_sd_sdp",nscale);
-print_polynomial(A2k0_sd_sdp,"A2k0_sd_sdp", ...
-                 strcat(strf,"_A2k0_sd_sdp_coef.m"),nscale);
-k0_sd_sdp=[A1k0_sd_sdp(:);A2k0_sd_sdp];
-[k0_digits_sd_sdp,k0_adders_sd_sdp]=SDadders(k0_sd_sdp,nbits);
-Esq0_sd_sdp=schurOneMPAlatticeEsq ...
-              (A1k0_sd_sdp,A1epsilon0,A1p0,A2k0_sd_sdp,A2epsilon0,A2p0, ...
+k0_sdp=[A1k0_sdp(:);A2k0_sdp];
+[k0_sdp_digits,k0_sdp_adders]=SDadders(k0_sdp,nbits);
+print_polynomial(A1k0_sdp,"A1k0_sdp",nscale);
+print_polynomial(A1k0_sdp,"A1k0_sdp",strcat(strf,"_A1k0_sdp_coef.m"),nscale);
+print_polynomial(A2k0_sdp,"A2k0_sdp",nscale);
+print_polynomial(A2k0_sdp,"A2k0_sdp",strcat(strf,"_A2k0_sdp_coef.m"),nscale);
+
+% SDP signed-digit MMSE error
+Esq0_sdp=schurOneMPAlatticeEsq ...
+              (A1k0_sdp,A1epsilon0,A1p0,A2k0_sdp,A2epsilon0,A2p0, ...
                difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 
 % Find coefficients with successive relaxation
 k=zeros(size(k0));
-k(k0_sd_x_active)=k0(k0_sd_x_active);
-k_active=k0_sd_x_active;
+k(k0_Ito_active)=k0(k0_Ito_active);
+k_active=k0_Ito_active;
+k_hist=zeros(length(k_active));
+k_active_max_n_hist=[];
 
 % Fix one coefficient at each iteration 
 while 1
   
   % Find the signed-digit filter coefficients 
-  [k_sd_Ito,k_sdu_Ito,k_sdl_Ito]=flt2SD(k,nbits,ndigits_alloc);
-  k_sdul_Ito=k_sdu_Ito-k_sdl_Ito;
+  [k_sd,k_sdu,k_sdl]=flt2SD(k,nbits,ndigits_alloc);
   
-  % Run the SeDuMi problem to find the SDP solution for the current coefficients
-  k_sd_delta=k_sdul_Ito/2;
-  k_sd_x=(k_sdu_Ito+k_sdl_Ito)/2;
+  % Find the SDP solution for the current coefficients
+  k_sdul=k_sdu-k_sdl;
+  k_sd_delta=k_sdul/2;
   k_active=find((k_sd_delta)~=0);
-  [A1k_sd_sdp,A2k_sd_sdp,socp_iter,func_iter,feasible] = ...
-    sdp_relaxation_schurOneMPAlattice_mmse ...
+  k_sd_x=k;
+  k_sd_x(k_active)=(k_sdu(k_active)+k_sdl(k_active))/2;
+  [A1k_sdp,A2k_sdp,socp_iter,func_iter,feasible] = ...
+    schurOneMPAlattice_sdp_mmse ...
       ([], ...
-       k_sd_x(RA1k),A1epsilon0,A1p0,k_sd_x(RA2k),A2epsilon0,A2p0,difference, ...
-       k_sdu_Ito,k_sdl_Ito,k_active,k_sd_delta, ...
-       wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
-       wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+       k_sd_x(RA1k),A1epsilon0,A1p0,k_sd_x(RA2k),A2epsilon0,A2p0, ...
+       difference, ...
+       k_sdu,k_sdl,k_active,k_sd_delta, ...
+       wa,Asqd,Asqdu,Asqdl,Wa, ...
+       wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
        maxiter,ftol,ctol,verbose);
   if feasible==false
-    error("sdp_relaxation_schurOneMPAlattice_mmse failed!");
+    error("schurOneMPAlattice_sdp_mmse failed!");
   endif
 
   % Ito et al. suggest ordering the search by max(k_sdu-k_sdl)
-  [k_max,k_max_n]=max(k_sdul_Ito(k_active));
+  [k_max,k_max_n]=max(k_sdul(k_active));
   coef_n=k_active(k_max_n);
 
   % Fix the coefficient with the largest k_sdul to the SDP value
-  k_sd_sdp=[A1k_sd_sdp(:);A2k_sd_sdp(:)];
-  k(coef_n)=k_sd_sdp(coef_n);
+  k_sdp=[A1k_sdp(:);A2k_sdp(:)];
+  k(coef_n)=k_sdp(coef_n);
+  k_active_max_n_hist=[k_active_max_n_hist,k_active(k_max_n)]
+  k_hist(:,length(k_active_max_n_hist))=k;
   k_active(k_max_n)=[];
   printf("\nFixed k(%d)=%g/%d\n",coef_n,k(coef_n)*nscale,nscale);
   printf("k=[ ");printf("%g ",k'*nscale);printf("]/%d;\n",nscale);
@@ -285,45 +288,23 @@ while 1
   
   % Check if done
   if length(k_active)==0
-    k0_sd_min=k;
-    % Adders
-    [k0_digits_sd_min,k0_adders_sd_min]=SDadders(k0_sd_min,nbits);
-    printf("%d signed-digits used\n",k0_digits_sd_min);
-    printf("%d %d-bit adders used for coefficient multiplications\n", ...
-           k0_adders_sd_min,nbits);
-    fid=fopen(strcat(strf,"_kmin_digits.tab"),"wt");
-    fprintf(fid,"$%d$",k0_digits_sd_min);
-    fclose(fid);
-    fid=fopen(strcat(strf,"_kmin_adders.tab"),"wt");
-    fprintf(fid,"$%d$",k0_adders_sd_min);
-    fclose(fid);
-    % Coefficients
-    A1k0_sd_min=k0_sd_min(RA1k);
-    A2k0_sd_min=k0_sd_min(RA2k);
-    Esq0_sd_min=schurOneMPAlatticeEsq ...
-                  (A1k0_sd_min,A1epsilon0,A1p0,A2k0_sd_min,A2epsilon0,A2p0, ...
-                   difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
-    printf("Esq0_sd_min=%g\n",Esq0_sd_min);
-    print_polynomial(A1k0_sd_min,"A1k0_sd_min",nscale);
-    print_polynomial(A1k0_sd_min,"A1k0_sd_min", ...
-                     strcat(strf,"_A1k0_sd_min_coef.m"),nscale);
-    print_polynomial(A2k0_sd_min,"A2k0_sd_min",nscale);
-    print_polynomial(A2k0_sd_min,"A2k0_sd_min", ...
-                     strcat(strf,"_A2k0_sd_min_coef.m"),nscale);
+    k_min=k;
     break;
   endif
   
-  % Try to solve the current SOCP problem for the active coefficients
+  % Relaxation: try to solve the SOCP problem for the active coefficients
   try
     [nextA1k,nextA2k,slb_iter,opt_iter,func_iter,feasible] = ...
-      schurOneMPAlattice_slb(@schurOneMPAlattice_socp_mmse, ...
-                             k(RA1k),A1epsilon0,A1p0,k(RA2k),A2epsilon0,A2p0, ...
-                             difference,k_u,k_l,k_active,dmax, ...
-                             wa,Asqd,Asqdu,Asqdl,Wa, ...
-                             wt,Td,Tdu,Tdl,Wt, ...
-                             wp,Pd,Pdu,Pdl,Wp, ...
-                             wd,Dd,Ddu,Ddl,Wd, ...
-                             maxiter,ftol,ctol,verbose);
+       schurOneMPAlattice_slb(@schurOneMPAlattice_socp_mmse, ...
+                              k(RA1k),A1epsilon0,A1p0, ...
+                              k(RA2k),A2epsilon0,A2p0, ...
+                              difference, ...
+                              k0_u,k0_l,k_active,dmax, ...
+                              wa,Asqd,Asqdu,Asqdl,Wa, ...
+                              wt,Td,Tdu,Tdl,Wt, ...
+                              wp,Pd,Pdu,Pdl,Wp, ...
+                              wd,Dd,Ddu,Ddl,Wd, ...
+                              maxiter,ftol,ctol,verbose);
     k=[nextA1k(:);nextA2k(:)];
   catch
     feasible=false;
@@ -342,86 +323,112 @@ while 1
 
 endwhile
 
+% Adders
+[k_min_digits,k_min_adders]=SDadders(k_min,nbits);
+printf("%d signed-digits used\n",k_min_digits);
+fid=fopen(strcat(strf,"_k_min_digits.tab"),"wt");
+fprintf(fid,"$%d$",k_min_digits);
+fclose(fid);
+printf("%d %d-bit adders used for coefficient multiplications\n", ...
+       k_min_adders,nbits);
+fid=fopen(strcat(strf,"_k_min_adders.tab"),"wt");
+fprintf(fid,"$%d$",k_min_adders);
+fclose(fid);
+% Coefficients
+A1k_min=k_min(RA1k);
+A2k_min=k_min(RA2k);
+print_polynomial(A1k_min,"A1k_min",nscale);
+print_polynomial(A1k_min,"A1k_min", ...
+                 strcat(strf,"_A1k_min_coef.m"),nscale);
+print_polynomial(A2k_min,"A2k_min",nscale);
+print_polynomial(A2k_min,"A2k_min", ...
+                 strcat(strf,"_A2k_min_coef.m"),nscale);
+
+% k_min signed-digit MMSE error
+Esq_min=schurOneMPAlatticeEsq ...
+          (A1k_min,A1epsilon0,A1p0,A2k_min,A2epsilon0,A2p0, ...
+           difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
+printf("Esq_min=%g\n",Esq_min);
 
 % Calculate response
 Asq_k0=schurOneMPAlatticeAsq(wa,A1k0,A1epsilon0,A1p0, ...
                              A2k0,A2epsilon0,A2p0,difference);
 Asq_k0_sd=schurOneMPAlatticeAsq(wa,k0_sd(RA1k),A1epsilon0,A1p0, ...
                                 k0_sd(RA2k),A2epsilon0,A2p0,difference);
-Asq_k0_sd_Ito=schurOneMPAlatticeAsq(wa,k0_sd_Ito(RA1k),A1epsilon0,A1p0, ...
-                                    k0_sd_Ito(RA2k),A2epsilon0,A2p0,difference);
-Asq_k0_sd_sdp=schurOneMPAlatticeAsq(wa,k0_sd_sdp(RA1k),A1epsilon0,A1p0, ...
-                                    k0_sd_sdp(RA2k),A2epsilon0,A2p0,difference);
-Asq_k0_sd_min=schurOneMPAlatticeAsq(wa,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
-                                    k0_sd_min(RA2k),A2epsilon0,A2p0,difference);
+Asq_k0_Ito=schurOneMPAlatticeAsq(wa,k0_Ito(RA1k),A1epsilon0,A1p0, ...
+                                    k0_Ito(RA2k),A2epsilon0,A2p0,difference);
+Asq_k0_sdp=schurOneMPAlatticeAsq(wa,k0_sdp(RA1k),A1epsilon0,A1p0, ...
+                                    k0_sdp(RA2k),A2epsilon0,A2p0,difference);
+Asq_k_min=schurOneMPAlatticeAsq(wa,k_min(RA1k),A1epsilon0,A1p0, ...
+                                    k_min(RA2k),A2epsilon0,A2p0,difference);
 
 T_k0=schurOneMPAlatticeT(wt,A1k0,A1epsilon0,A1p0, ...
                          A2k0,A2epsilon0,A2p0,difference);
 T_k0_sd=schurOneMPAlatticeT(wt,k0_sd(RA1k),A1epsilon0,A1p0, ...
                             k0_sd(RA2k),A2epsilon0,A2p0,difference);
-T_k0_sd_Ito=schurOneMPAlatticeT(wt,k0_sd_Ito(RA1k),A1epsilon0,A1p0, ...
-                                k0_sd_Ito(RA2k),A2epsilon0,A2p0,difference);
-T_k0_sd_sdp=schurOneMPAlatticeT(wt,k0_sd_sdp(RA1k),A1epsilon0,A1p0, ...
-                                k0_sd_sdp(RA2k),A2epsilon0,A2p0,difference);
-T_k0_sd_min=schurOneMPAlatticeT(wt,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
-                                k0_sd_min(RA2k),A2epsilon0,A2p0,difference);
+T_k0_Ito=schurOneMPAlatticeT(wt,k0_Ito(RA1k),A1epsilon0,A1p0, ...
+                                k0_Ito(RA2k),A2epsilon0,A2p0,difference);
+T_k0_sdp=schurOneMPAlatticeT(wt,k0_sdp(RA1k),A1epsilon0,A1p0, ...
+                                k0_sdp(RA2k),A2epsilon0,A2p0,difference);
+T_k_min=schurOneMPAlatticeT(wt,k_min(RA1k),A1epsilon0,A1p0, ...
+                                k_min(RA2k),A2epsilon0,A2p0,difference);
 
 P_k0=schurOneMPAlatticeP(wp,A1k0,A1epsilon0,A1p0, ...
                          A2k0,A2epsilon0,A2p0,difference);
 P_k0_sd=schurOneMPAlatticeP(wp,k0_sd(RA1k),A1epsilon0,A1p0, ...
                             k0_sd(RA2k),A2epsilon0,A2p0,difference);
-P_k0_sd_Ito=schurOneMPAlatticeP(wp,k0_sd_Ito(RA1k),A1epsilon0,A1p0, ...
-                                k0_sd_Ito(RA2k),A2epsilon0,A2p0,difference);
-P_k0_sd_sdp=schurOneMPAlatticeP(wp,k0_sd_sdp(RA1k),A1epsilon0,A1p0, ...
-                                k0_sd_sdp(RA2k),A2epsilon0,A2p0,difference);
-P_k0_sd_min=schurOneMPAlatticeP(wp,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
-                                k0_sd_min(RA2k),A2epsilon0,A2p0,difference);
+P_k0_Ito=schurOneMPAlatticeP(wp,k0_Ito(RA1k),A1epsilon0,A1p0, ...
+                                k0_Ito(RA2k),A2epsilon0,A2p0,difference);
+P_k0_sdp=schurOneMPAlatticeP(wp,k0_sdp(RA1k),A1epsilon0,A1p0, ...
+                                k0_sdp(RA2k),A2epsilon0,A2p0,difference);
+P_k_min=schurOneMPAlatticeP(wp,k_min(RA1k),A1epsilon0,A1p0, ...
+                                k_min(RA2k),A2epsilon0,A2p0,difference);
 
 dAsqdw_k0=schurOneMPAlatticedAsqdw(wd,A1k0,A1epsilon0,A1p0, ...
                                    A2k0,A2epsilon0,A2p0,difference);
 dAsqdw_k0_sd=schurOneMPAlatticedAsqdw(wd,k0_sd(RA1k),A1epsilon0,A1p0, ...
                                       k0_sd(RA2k),A2epsilon0,A2p0,difference);
-dAsqdw_k0_sd_Ito=schurOneMPAlatticedAsqdw ...
-                   (wd,k0_sd_Ito(RA1k),A1epsilon0,A1p0, ...
-                    k0_sd_Ito(RA2k),A2epsilon0,A2p0,difference);
-dAsqdw_k0_sd_sdp=schurOneMPAlatticedAsqdw ...
-                   (wd,k0_sd_sdp(RA1k),A1epsilon0,A1p0, ...
-                    k0_sd_sdp(RA2k),A2epsilon0,A2p0,difference);
-dAsqdw_k0_sd_min=schurOneMPAlatticedAsqdw ...
-                   (wd,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
-                    k0_sd_min(RA2k),A2epsilon0,A2p0,difference);
+dAsqdw_k0_Ito=schurOneMPAlatticedAsqdw ...
+                   (wd,k0_Ito(RA1k),A1epsilon0,A1p0, ...
+                    k0_Ito(RA2k),A2epsilon0,A2p0,difference);
+dAsqdw_k0_sdp=schurOneMPAlatticedAsqdw ...
+                   (wd,k0_sdp(RA1k),A1epsilon0,A1p0, ...
+                    k0_sdp(RA2k),A2epsilon0,A2p0,difference);
+dAsqdw_k_min=schurOneMPAlatticedAsqdw ...
+                   (wd,k_min(RA1k),A1epsilon0,A1p0, ...
+                    k_min(RA2k),A2epsilon0,A2p0,difference);
 
 % Amplitude and delay at local peaks
-vAl=local_max(Asqdl-Asq_k0_sd_min);
-vAu=local_max(Asq_k0_sd_min-Asqdu);
+vAl=local_max(Asqdl-Asq_k_min);
+vAu=local_max(Asq_k_min-Asqdu);
 wAsqS=unique([wa(vAl);wa(vAu);wa([1,end])]);
-AsqS=schurOneMPAlatticeAsq(wAsqS,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
-                           k0_sd_min(RA2k),A2epsilon0,A2p0,difference);
-printf("k0_sd_min:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("k0_sd_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
+AsqS=schurOneMPAlatticeAsq(wAsqS,k_min(RA1k),A1epsilon0,A1p0, ...
+                           k_min(RA2k),A2epsilon0,A2p0,difference);
+printf("k_min:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("k_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
 
-vTl=local_max(Tdl-T_k0_sd_min);
-vTu=local_max(T_k0_sd_min-Tdu);
+vTl=local_max(Tdl-T_k_min);
+vTu=local_max(T_k_min-Tdu);
 wTS=sort(unique([wt(vTl);wt(vTu);wt([1,end])]));
-TS=schurOneMPAlatticeT(wTS,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
-                       k0_sd_min(RA2k),A2epsilon0,A2p0,difference);
-printf("k0_sd_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("k0_sd_min:TS=[ ");printf("%f ",TS');printf("] (Samples)\n");
+TS=schurOneMPAlatticeT(wTS,k_min(RA1k),A1epsilon0,A1p0, ...
+                       k_min(RA2k),A2epsilon0,A2p0,difference);
+printf("k_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("k_min:TS=[ ");printf("%f ",TS');printf("] (Samples)\n");
 
-vPl=local_max(Pdl-P_k0_sd_min);
-vPu=local_max(P_k0_sd_min-Pdu);
+vPl=local_max(Pdl-P_k_min);
+vPu=local_max(P_k_min-Pdu);
 wPS=sort(unique([wp(vPl);wp(vPu);wp([1,end])]));
-PS=schurOneMPAlatticeP(wPS,k0_sd_min(RA1k),A1epsilon0,A1p0, ...
-                       k0_sd_min(RA2k),A2epsilon0,A2p0,difference);
-printf("k0_sd_min:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("k0_sd_min:PS=[ ");printf("%f ",mod((PS+(wPS*tp))'/pi,2));
+PS=schurOneMPAlatticeP(wPS,k_min(RA1k),A1epsilon0,A1p0, ...
+                       k_min(RA2k),A2epsilon0,A2p0,difference);
+printf("k_min:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("k_min:PS=[ ");printf("%f ",mod((PS+(wPS*tp))'/pi,2));
 printf("] (rad./pi)\n");
 
-vDl=local_max(Ddl-dAsqdw_k0_sd_min);
-vDu=local_max(dAsqdw_k0_sd_min-Ddu);
+vDl=local_max(Ddl-dAsqdw_k_min);
+vDu=local_max(dAsqdw_k_min-Ddu);
 wDS=sort(unique([wd(vDl);wd(vDu);wd([1,end])]));
-DS=schurOneMPAlatticedAsqdw(wDS,k0_sd_min(RA1k),A1epsilon0,A1p_ones, ...
-                            k0_sd_min(RA2k),A2epsilon0,A2p_ones,difference);
+DS=schurOneMPAlatticedAsqdw(wDS,k_min(RA1k),A1epsilon0,A1p_ones, ...
+                            k_min(RA2k),A2epsilon0,A2p_ones,difference);
 printf("k0_sd_kmin:fDS=[ ");printf("%f ",wDS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k0_sd_kmin:DS=[ ");printf("%f ",DS');printf("]\n")
 
@@ -429,32 +436,29 @@ printf("k0_sd_kmin:DS=[ ");printf("%f ",DS');printf("]\n")
 rsb=[1:nasl,nasu:n];
 max_sb_Asq_k0=10*log10(max(abs(Asq_k0(rsb))))
 max_sb_Asq_k0_sd=10*log10(max(abs(Asq_k0_sd(rsb))))
-max_sb_Asq_k0_sd_Ito=10*log10(max(abs(Asq_k0_sd_Ito(rsb))))
-max_sb_Asq_k0_sd_sdp=10*log10(max(abs(Asq_k0_sd_sdp(rsb))))
-max_sb_Asq_k0_sd_min=10*log10(max(abs(Asq_k0_sd_min(rsb))))
+max_sb_Asq_k0_Ito=10*log10(max(abs(Asq_k0_Ito(rsb))))
+max_sb_Asq_k0_sdp=10*log10(max(abs(Asq_k0_sdp(rsb))))
+max_sb_Asq_k_min=10*log10(max(abs(Asq_k_min(rsb))))
 
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & %4.1f & & \\\\\n",Esq0,max_sb_Asq_k0);
 fprintf(fid,"%d-bit %d-signed-digit & %8.6f & %4.1f & %d & %d \\\\\n", ...
-        nbits,ndigits,Esq0_sd,max_sb_Asq_k0_sd,k0_digits_sd,k0_adders_sd);
+        nbits,ndigits,Esq0_sd,max_sb_Asq_k0_sd,k0_sd_digits,k0_sd_adders);
 fprintf(fid,"%d-bit %d-signed-digit(Ito) & %8.6f & %4.1f & %d & %d \\\\\n", ...
-        nbits,ndigits,Esq0_sd_Ito,max_sb_Asq_k0_sd_Ito, ...
-        k0_digits_sd_Ito,k0_adders_sd_Ito);
+        nbits,ndigits,Esq0_Ito,max_sb_Asq_k0_Ito,k0_Ito_digits,k0_Ito_adders);
 fprintf(fid,"%d-bit %d-signed-digit(SDP) & %8.6f & %4.1f & %d & %d \\\\\n", ...
-        nbits,ndigits,Esq0_sd_sdp,max_sb_Asq_k0_sd_sdp, ...
-        k0_digits_sd_sdp,k0_adders_sd_sdp);
+        nbits,ndigits,Esq0_sdp,max_sb_Asq_k0_sdp,k0_sdp_digits,k0_sdp_adders);
 fprintf(fid,"%d-bit %d-signed-digit(min) & %8.6f & %4.1f & %d & %d \\\\\n", ...
-        nbits,ndigits,Esq0_sd_min,max_sb_Asq_k0_sd_min, ...
-        k0_digits_sd_min,k0_adders_sd_min);
+        nbits,ndigits,Esq_min,max_sb_Asq_k_min,k_min_digits,k_min_adders);
 fclose(fid);
 
 % Plot stop band amplitude response
 plot(wa*0.5/pi,10*log10(abs(Asq_k0)),"linestyle","-", ...
      wa*0.5/pi,10*log10(abs(Asq_k0_sd)),"linestyle",":", ...
-     wa*0.5/pi,10*log10(abs(Asq_k0_sd_Ito)),"linestyle","--", ...
-     wa*0.5/pi,10*log10(abs(Asq_k0_sd_sdp)),"linestyle","-", ...
-     wa*0.5/pi,10*log10(abs(Asq_k0_sd_min)),"linestyle","-.");
+     wa*0.5/pi,10*log10(abs(Asq_k0_Ito)),"linestyle","--", ...
+     wa*0.5/pi,10*log10(abs(Asq_k0_sdp)),"linestyle","-", ...
+     wa*0.5/pi,10*log10(abs(Asq_k_min)),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -50 -20]);
@@ -472,9 +476,9 @@ close
 % Plot pass band amplitude response
 plot(wa*0.5/pi,10*log10(abs(Asq_k0)),"linestyle","-", ...
      wa*0.5/pi,10*log10(abs(Asq_k0_sd)),"linestyle",":", ...
-     wa*0.5/pi,10*log10(abs(Asq_k0_sd_Ito)),"linestyle","--", ...
-     wa*0.5/pi,10*log10(abs(Asq_k0_sd_sdp)),"linestyle","-", ...
-     wa*0.5/pi,10*log10(abs(Asq_k0_sd_min)),"linestyle","-.");
+     wa*0.5/pi,10*log10(abs(Asq_k0_Ito)),"linestyle","--", ...
+     wa*0.5/pi,10*log10(abs(Asq_k0_sdp)),"linestyle","-", ...
+     wa*0.5/pi,10*log10(abs(Asq_k_min)),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), -dBap, 0.02]);
@@ -492,9 +496,9 @@ close
 % Plot delay response
 plot(wt*0.5/pi,T_k0,"linestyle","-", ...
      wt*0.5/pi,T_k0_sd,"linestyle",":", ...
-     wt*0.5/pi,T_k0_sd_Ito,"linestyle","--", ...
-     wt*0.5/pi,T_k0_sd_sdp,"linestyle","-", ...
-     wt*0.5/pi,T_k0_sd_min,"linestyle","-.");
+     wt*0.5/pi,T_k0_Ito,"linestyle","--", ...
+     wt*0.5/pi,T_k0_sdp,"linestyle","-", ...
+     wt*0.5/pi,T_k_min,"linestyle","-.");
 xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([min([fapl ftpl fppl]),max([fapu ftpu ftpu]),(tp+(tpr*[-1,1]))]);
@@ -513,9 +517,9 @@ close
 % Plot phase response
 plot(wp*0.5/pi,((P_k0+(wp*tp))/pi)-pp,"linestyle","-", ...
      wp*0.5/pi,((P_k0_sd+(wp*tp))/pi)-pp,"linestyle",":", ...
-     wp*0.5/pi,((P_k0_sd_Ito+(wp*tp))/pi)-pp,"linestyle","--", ...
-     wp*0.5/pi,((P_k0_sd_sdp+(wp*tp))/pi)-pp,"linestyle","-", ...
-     wp*0.5/pi,((P_k0_sd_min+(wp*tp))/pi)-pp,"linestyle","-.");
+     wp*0.5/pi,((P_k0_Ito+(wp*tp))/pi)-pp,"linestyle","--", ...
+     wp*0.5/pi,((P_k0_sdp+(wp*tp))/pi)-pp,"linestyle","-", ...
+     wp*0.5/pi,((P_k_min+(wp*tp))/pi)-pp,"linestyle","-.");
 xlabel("Frequency");
 ylabel("Phase error(rad./$\\pi$)");
 axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), (ppr/2)*[-1,1]]);
@@ -572,7 +576,7 @@ eval(sprintf(["save %s.mat ", ...
  "fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ", ...
  "ftpl ftpu tp tpr Wtp fppl fppu pp ppr Wpp fdpl fdpu dp dpr Wdp ", ...
  "A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ", ...
- "A1k0_sd_Ito A2k0_sd_Ito A1k0_sd_sdp A2k0_sd_sdp A1k0_sd_min A2k0_sd_min"],strf));
+ "A1k0_Ito A2k0_Ito A1k0_sdp A2k0_sdp A1k_min A2k_min"],strf));
        
 % Done
 toc;
