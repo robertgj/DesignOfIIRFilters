@@ -28,7 +28,7 @@ schurOneMlatticeT.m \
 schurOneMlatticeP.m \
 schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
-schurOneMlattice_pop_socp_mmse.m \
+schurOneMlattice_pop_mmse.m \
 schurOneMlattice_slb.m \
 schurOneMlattice_slb_constraints_are_empty.m \
 schurOneMlattice_slb_exchange_constraints.m \

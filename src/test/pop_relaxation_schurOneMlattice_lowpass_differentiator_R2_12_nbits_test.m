@@ -328,7 +328,7 @@ while ~isempty(kc_active)
   try
     feasible=false;
     [nextk,nextc,slb_iter,opt_iter,func_iter,feasible] = ...
-      schurOneMlattice_slb(@schurOneMlattice_pop_socp_mmse, ...
+      schurOneMlattice_slb(@schurOneMlattice_pop_mmse, ...
                            kc(Rk),epsilon0,p_ones,kc(Rc), ...
                            kc_u,kc_l,kc_active,kc_fixed, ...
                            wa,Asqd./Azm1sq,Asqdu./Azm1sq,Asqdl./Azm1sq,Wa, ...
@@ -391,20 +391,6 @@ fprintf(fid,"$%d$",kc_min_adders);
 fclose(fid);
 
 %
-% Make a LaTeX table for cost
-%
-fid=fopen(strcat(strf,"_cost.tab"),"wt");
-fprintf(fid,"Exact & %10.4e & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit & %10.4e & %d & %d \\\\\n", ...
-        nbits,ndigits, ...
-        Esq0_sd_no_alloc,kc0_sd_no_alloc_digits,kc0_sd_no_alloc_adders);
-fprintf(fid,"%d-bit %d-signed-digit(%s)& %10.4e & %d & %d \\\\\n", ...
-        nbits,ndigits,strItoLim,Esq0_sd,kc0_sd_digits,kc0_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(POP-relax) & %10.4e & %d & %d \\\\\n", ...
-        nbits,ndigits,Esq_min,kc_min_digits,kc_min_adders);
-fclose(fid);
-
-%
 % Filter a quantised noise signal and check the state variables
 %
 nsamples=2^12;
@@ -430,6 +416,7 @@ AsqS=schurOneMlatticeAsq(wAS,k_min,epsilon0,p_ones,c_min);
 AS=sqrt(AsqS);
 printf("k,c_min:fAS=[ ");printf("%f ",wAS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:AS=[ ");printf("%f ",AS');printf(" ]\n");
+
 Tc=schurOneMlatticeT(wt,k_min,epsilon0,p_ones,c_min);
 T=Tc+Tzm1;
 vTl=local_max(Tdl-T);
@@ -438,6 +425,7 @@ wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
 TS=schurOneMlatticeT(wTS,k_min,epsilon0,p_ones,c_min);
 printf("k,c_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:TS=[ ");printf("%f ",TS');printf("] (samples)\n");
+
 Pc=schurOneMlatticeP(wp,k_min,epsilon0,p_ones,c_min);
 P=Pc+Pzm1;
 vPl=local_max(Pdl-P);
@@ -446,6 +434,7 @@ wPS=unique([wp(vPl);wp(vPu);wp([1,end])]);
 PS=schurOneMlatticeP(wPS,k_min,epsilon0,p_ones,c_min);
 printf("k,c_min:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:PS=[ ");printf("%f ",(PS+(wPS*tp))'/pi);printf("] (rad./pi)\n");
+
 dCsqdw=schurOneMlatticedAsqdw(wd,k_min,epsilon0,p_ones,c_min);
 dAsqdw=(Csq(1:ndp).*dAzm1sqdw(1:ndp))+(dCsqdw0.*(Azm1sq(1:ndp)));
 vDl=local_max(Ddl-dAsqdw);
@@ -523,6 +512,29 @@ if max(abs(abs(Hchk)-sqrt(Csq_kc_min))) > 10*eps
   error("max(abs(abs(Hchk)-sqrt(Csq_kc_min)))(%g*eps) > 10*eps", ...
         max(abs(abs(Hchk)-sqrt(Csq_kc_min)))/eps);
 endif
+
+%
+% Make a LaTeX table for cost
+%
+A_kc0_sb_max=10*log10(max(Asq_kc0(Ras)));
+A_kc0_sd_no_alloc_sb_max=10*log10(max(Asq_kc0_sd_no_alloc(Ras)));
+A_kc0_sd_sb_max=10*log10(max(Asq_kc0_sd(Ras)));
+A_kc_min_sb_max=10*log10(max(Asq_kc_min(Ras)));
+
+fid=fopen(strcat(strf,"_cost.tab"),"wt");
+fprintf(fid,"Exact & %10.4e & %6.2f & & \\\\\n",Esq0,A_kc0_sb_max);
+fprintf(fid,"%d-bit %d-signed-digit & %10.4e & %6.2f & %d & %d \\\\\n", ...
+        nbits,ndigits, ...
+        Esq0_sd_no_alloc,A_kc0_sd_no_alloc_sb_max, ...
+        kc0_sd_no_alloc_digits,kc0_sd_no_alloc_adders);
+fprintf(fid,"%d-bit %d-signed-digit(%s)& %10.4e & %6.2f & %d & %d \\\\\n", ...
+        nbits,ndigits,strItoLim,Esq0_sd,A_kc0_sd_sb_max, ...
+        kc0_sd_digits,kc0_sd_adders);
+fprintf(fid,["%d-bit %d-signed-digit(POP-relax) & ", ...
+             "%10.4e & %6.2f & %d & %d \\\\\n"], ...
+        nbits,ndigits,Esq_min,A_kc_min_sb_max, ...
+        kc_min_digits,kc_min_adders);
+fclose(fid);
 
 % Plot amplitude response error
 subplot(311);

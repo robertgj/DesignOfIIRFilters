@@ -1,11 +1,11 @@
 #!/bin/sh
 
-prog=schurOneMlattice_pop_socp_mmse_test.m
+prog=schurOneMlattice_pop_mmse_test.m
 
-depends="test/schurOneMlattice_pop_socp_mmse_test.m \
+depends="test/schurOneMlattice_pop_mmse_test.m \
 ../schurOneMlattice_socp_slb_bandpass_test_N3_coef.m \
 ../schurOneMlattice_socp_slb_bandpass_test_D3_coef.m \
-schurOneMlattice_pop_socp_mmse.m \
+schurOneMlattice_pop_mmse.m \
 schurOneMlattice_bandpass_10_nbits_common.m test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
@@ -87,7 +87,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-nstr="schurOneMlattice_pop_socp_mmse_test"
+nstr="schurOneMlattice_pop_mmse_test"
 
 diff -Bb test.k.ok $nstr"_k1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi

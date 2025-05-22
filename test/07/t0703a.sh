@@ -13,7 +13,7 @@ schurOneMlatticeT.m \
 schurOneMlatticeP.m \
 schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
-schurOneMlattice_pop_socp_mmse.m \
+schurOneMlattice_pop_mmse.m \
 schurOneMlattice_slb.m \
 schurOneMlattice_slb_constraints_are_empty.m \
 schurOneMlattice_slb_exchange_constraints.m \
@@ -63,19 +63,27 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test.k.ok << 'EOF'
+cat > test.k_min.ok << 'EOF'
 k_min = [        0,      416,        0,      -56, ... 
                  0,       16,        0,       -8, ... 
                  0,        2 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.k_min.ok"; fail; fi
 
-cat > test.c.ok << 'EOF'
+cat > test.c_min.ok << 'EOF'
 c_min = [      -44,     -448,     -588,      -64, ... 
                148,      -36,      -48,       35, ... 
                  1,      -12,        4 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.c_min.ok"; fail; fi
+
+cat > test.cost.ok << 'EOF'
+Exact & 4.0719e-06 & -49.11 & & \\
+12-bit 3-signed-digit & 1.8268e-05 & -41.52 & 41 & 25 \\
+12-bit 3-signed-digit(Ito)& 1.6003e-05 & -45.10 & 35 & 19 \\
+12-bit 3-signed-digit(POP-relax) & 1.8018e-05 & -45.65 & 32 & 16 \\
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 
 #
 # run and see if the results match
@@ -87,11 +95,14 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="pop_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test"
 
-diff -Bb test.k.ok $nstr"_k_min_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
+diff -Bb test.k_min.ok $nstr"_k_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k_min.ok"; fail; fi
 
-diff -Bb test.c.ok $nstr"_c_min_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi
+diff -Bb test.c_min.ok $nstr"_c_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c_min.ok"; fail; fi
+
+diff -Bb test.cost.ok $nstr"_cost.tab"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.cost.ok"; fail; fi
 
 #
 # this much worked

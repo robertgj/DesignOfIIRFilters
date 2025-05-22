@@ -1,10 +1,10 @@
-% schurOneMlattice_pop_socp_mmse_test.m
+% schurOneMlattice_pop_mmse_test.m
 
 % Copyright (C) 2017-2025 Robert G. Jenssen
 
 test_common;
 
-strf="schurOneMlattice_pop_socp_mmse_test";
+strf="schurOneMlattice_pop_mmse_test";
 
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
@@ -86,7 +86,7 @@ while ~isempty(kc_active)
   % Solve POP MMSE
   try
     [k1,c1,opt_iter,func_iter,feasible]=...
-      schurOneMlattice_pop_socp_mmse ...
+      schurOneMlattice_pop_mmse ...
         (vS,kc(1:Nk),epsilon0,ones(size(p0)),kc((Nk+1):end), ...
          kc_u,kc_l,kc_active,kc_fixed, ...
          wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
