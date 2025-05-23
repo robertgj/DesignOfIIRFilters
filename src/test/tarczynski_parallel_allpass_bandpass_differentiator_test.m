@@ -135,7 +135,7 @@ strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,tp=%g,pp=%g", ...
              ma,mb,tp,pp);
 title(strt);
 subplot(312);
-plot(w*0.5/pi,(P0+(w*tp))/pi);
+plot(w*0.5/pi,unwrap(P0+(w*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 0 1]);
 grid("on");
@@ -148,27 +148,27 @@ grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
-% Plot passband response error
+% Plot passband amplitude response error
 minf=min([fapl,ftpl,fppl]);
 maxf=max([fapu,ftpu,fppu]);
 subplot(311);
 plot(w*0.5/pi,Ad-abs(H0));
-ylabel("Amplitude");
+ylabel("Amplitude error");
 axis([minf maxf 0.1*[-1,1]]);
 grid("on");
-strt=sprintf("Parallel all-pass filters error : ma=%d,mb=%d,tp=%g,pp=%g", ...
+strt=sprintf("Parallel all-pass filter : ma=%d,mb=%d,tp=%g,pp=%g", ...
              ma,mb,tp,pp);
 title(strt);
 subplot(312);
-plot(w*0.5/pi,(P0-Pd)/pi);
+plot(w*0.5/pi,unwrap(P0+(w*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
-axis([minf maxf 0.02*[-1 1]]);
+axis([minf maxf pp+(0.01*[-1 1])]);
 grid("on");
 subplot(313);
-plot(w*0.5/pi,T0-tp);
+plot(w*0.5/pi,T0);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([minf maxf 0.2*[-1 1]]);
+axis([minf maxf tp+(0.2*[-1 1])]);
 grid("on");
 print(strcat(strf,"_passband_error"),"-dpdflatex");
 close
@@ -184,9 +184,9 @@ close
 plot(w*0.5/pi,(unwrap(arg(Ha0))+(w*(tp-Tzsqm1)))/pi,"-", ...
      w*0.5/pi,(unwrap(arg(Hb0))+(w*(tp-Tzsqm1)))/pi,"--");
 strt=sprintf(["Allpass phase response adjusted for linear phase : ", ...
- "ma=%d,mb=%d,tp=%g"],ma,mb,tp);
+              "ma=%d,mb=%d,tp=%g"],ma,mb,tp);
 title(strt);
-ylabel("Linear phase error(rad./$\\pi$)");
+ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 legend("Filter A","Filter B","location","northwest");
 legend("boxoff");
@@ -205,8 +205,9 @@ print_polynomial(D0,"D0");
 print_polynomial(D0,"D0",strcat(strf,"_D0_coef.m"));
 
 eval(sprintf(["save %s.mat tol maxiter ma mb ...\n", ...
- "     fasl fapl fapu fasu Wasl Watl Wap Watu Wasu ...\n", ...
- "     ftpl ftpu tp Wtp fppl fppu pp Wpp abi ab0 Da0 Db0 N0 D0"],strf));
+              " fasl fapl fapu fasu Wasl Watl Wap Watu Wasu ...\n", ...
+              " ftpl ftpu tp Wtp fppl fppu pp Wpp abi ab0 Da0 Db0 N0 D0"], ...
+             strf));
 
 % Done
 toc;

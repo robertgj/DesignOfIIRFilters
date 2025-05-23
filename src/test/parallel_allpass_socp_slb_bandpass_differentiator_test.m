@@ -116,7 +116,7 @@ title(strt);
 subplot(312);
 plot(wp*0.5/pi,([P0 Pd Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
-axis([0 0.5 pp+2*ppr*[-1 1]]);
+axis([0 0.5 pp+(0.01*[-1 1])]);
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,[T0 Td Tdl Tdu]);
@@ -168,20 +168,20 @@ strt=sprintf(["Parallel allpass : ", ...
              ma,mb,Arsl,Arp,Arsu,tp,tpr);
 title(strt);
 subplot(312);
-plot(wp*0.5/pi,([P1 Pdl Pdu]+(wp*tp))/pi);
+plot(wp*0.5/pi,unwrap([P1 Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
-axis([0 0.5 pp+ppr*[-1,1]]);
+axis([0 0.5 pp+(ppr*[-1,1])]);
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,[T1 Tdl Tdu]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 tp+tpr*[-1,1]]);
+axis([0 0.5 tp+(tpr*[-1,1])]);
 grid("on");
 print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 
-% Plot response error
+% Plot amplitude response error
 subplot(311);
 rasl=1:nasl;
 raplu=napl:napu;
@@ -190,22 +190,22 @@ plot(wa(rasl)*0.5/pi,[A1(rasl),Adl(rasl),Adu(rasl)]-Ad(rasl), ...
      wa(raplu)*0.5/pi,[A1(raplu),Adl(raplu),Adu(raplu)]-Ad(raplu), ...
      wa(rasu)*0.5/pi,[A1(rasu),Adl(rasu),Adu(rasu)]-Ad(rasu));
 axis([0 0.5 max([Arsl,Arsu])*[-1,1]]);
-ylabel("Amplitude");
+ylabel("Amplitude error");
 grid("on");
-strt=sprintf(["Parallel allpass error : ", ...
- "ma=%d,mb=%d,Arsl=%4.2f,Arp=%4.2f,Arsu=%4.1f,tp=%g,tpr=%g"],
+strt=sprintf(["Parallel allpass : ", ...
+              "ma=%d,mb=%d,Arsl=%4.2f,Arp=%4.2f,Arsu=%4.1f,tp=%g,tpr=%g"],
              ma,mb,Arsl,Arp,Arsu,tp,tpr);
 title(strt);
 subplot(312);
-plot(wp*0.5/pi,([P1 Pdl Pdu]-Pd)/pi);
+plot(wp*0.5/pi,unwrap([P1 Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
-axis([0 0.5 ppr*[-1,1]]);
+axis([0 0.5 pp+(ppr*[-1,1])]);
 grid("on");
 subplot(313);
-plot(wt*0.5/pi,[T1 Tdl Tdu]-Td);
+plot(wt*0.5/pi,[T1 Tdl Tdu]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 tpr*[-1,1]]);
+axis([0 0.5 tp+(tpr*[-1,1])]);
 grid("on");
 print(strcat(strf,"_ab1error"),"-dpdflatex");
 close
@@ -303,9 +303,10 @@ print_polynomial(Dab1,"Dab1");
 print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
 eval(sprintf(["save %s.mat ftol ctol  polyphase difference rho n ", ...
- "ma mb Va Qa Ra Vb Qb Rb Da0 Db0 ab0 ", ...
- "fasl Arsl Wasl Watl fapl fapu Arp Wap Watu fasu Arsu Wasu ", ...
- "tp tpr Wtp pp ppr Wpp ab1 Da1 Db1 Nab1 Dab1"],strf));
+              "ma mb Va Qa Ra Vb Qb Rb Da0 Db0 ab0 ", ...
+              "fasl Arsl Wasl Watl fapl fapu Arp Wap Watu fasu Arsu Wasu ", ...
+              "tp tpr Wtp pp ppr Wpp ab1 Da1 Db1 Nab1 Dab1"], ...
+             strf));
 
 % Done 
 toc;
