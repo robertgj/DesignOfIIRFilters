@@ -13819,7 +13819,6 @@ The initial parallel all-pass filters were designed by the Octave script
 Figure~\ref{fig:Parallel-Schur-norm-scaled-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS} 
 shows the overall and passband responses of the filter after SOCP PCLS
 optimisation. The phase response shown is adjusted for the nominal delay.
-
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurNSPAlattice_socp_slb_bandpass_hilbert_test_response}}
@@ -13828,7 +13827,6 @@ optimisation. The phase response shown is adjusted for the nominal delay.
   response shown is adjusted for the nominal delay.} 
 \label{fig:Parallel-Schur-norm-scaled-lattice-all-pass-bandpass-hilbert-filter-SOCP-PCLS}
 \end{figure}
-
 The band-pass Hilbert filter SOCP PCLS optimised approximately normalised
 scaled Schur all-pass lattice filter coefficients are: 
 \begin{small}
@@ -13837,22 +13835,12 @@ scaled Schur all-pass lattice filter coefficients are:
 \verbatiminput{schurNSPAlattice_socp_slb_bandpass_hilbert_test_A2s20_coef.m}
 \verbatiminput{schurNSPAlattice_socp_slb_bandpass_hilbert_test_A2s00_coef.m}
 \end{small}
-
 The script simulates this filter with a uniform random noise input to the
-\emph{schurNSlatticeFilter} function. The standard deviations of the all-pass
-filter state variables are:
-
-\begin{small}
-\verbatiminput{schurNSPAlattice_socp_slb_bandpass_hilbert_test_A1stdx.m}
-\verbatiminput{schurNSPAlattice_socp_slb_bandpass_hilbert_test_A2stdx.m}
-\end{small}
-
+\emph{schurNSlatticeFilter} function. 
 Figure~\ref{fig:Parallel-Schur-norm-scaled-lattice-all-pass-bandpass-hilbert-filter-sim} 
 shows the amplitude, phase and group delay responses of the simulated filter.
 The phase response shown is adjusted for the nominal delay. The responses are
-smoothed by a moving window filter. This may explain the shift in the phase
-response shown.
-
+smoothed by a moving window filter. 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurNSPAlattice_socp_slb_bandpass_hilbert_test_sim}}

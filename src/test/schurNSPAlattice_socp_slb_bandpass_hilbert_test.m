@@ -180,9 +180,9 @@ grid("on");
 strt=sprintf("Parallel all-pass bandpass Hilbert : dBap=%g,dBas=%g",dBap,dBas);
 title(strt);
 subplot(312);
-plot(wp*0.5/pi,((P+(tp*wp))/pi)-pp);
-ylabel("Phase error(rad./$\\pi$)");
-axis([0 0.5 ((ppr/20)*[-1 1])]);
+plot(wp*0.5/pi,mod(((P+(tp*wp))/pi),2));
+ylabel("Phase(rad./$\\pi$)");
+axis([0 0.5 (mod(pp,2)+(ppr/10)*[-1 1])]);
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,T);
@@ -205,17 +205,19 @@ N2=(conv(A1d,flipud(A2d))-conv(A2d,flipud(A1d)))/2;
 D2=conv(A1d,A2d);
 HH=freqz(N2,D2,wa);
 if max(abs((abs(HH).^2)-Asq)) > 100*eps
-  warning(["With freqz, N2 and D2, max(abs((abs(HH).^2)-Asq))(%g/eps)>100*eps\n", ...
- "   !!!! Re-write schurNSlattice2Abcd.cc with extra precision arithmetic !!!!"],
-          max(abs((abs(HH).^2)-Asq))/eps);
+  warning ...
+    (["With freqz, N2 and D2, max(abs((abs(HH).^2)-Asq))(%g/eps)>100*eps\n", ...
+      "Re-write schurNSlattice2Abcd.cc with extra precision arithmetic!"], ...
+     max(abs((abs(HH).^2)-Asq))/eps);
 endif
 H1=freqz(flipud(A1d),A1d,wa);
 H2=freqz(flipud(A2d),A2d,wa);
 HH=(H1-H2)/2;
 if max(abs((abs(HH).^2)-Asq)) > 100*eps
-  warning(["With freqz, A1d and A2d, max(abs((abs(HH).^2)-Asq))(%g*eps)>100*eps\n", ...
- "   !!!! Re-write schurNSlattice2Abcd.cc with extra precision arithmetic !!!!"],
-          max(abs((abs(HH).^2)-Asq))/eps);
+  warning ...
+    (["With freqz, A1d and A2d, max(abs((abs(HH).^2)-Asq))(%g*eps)>100*eps\n",...
+      "Re-write schurNSlattice2Abcd.cc with extra precision arithmetic!"], ...
+     max(abs((abs(HH).^2)-Asq))/eps);
 endif
 
 % Plot poles and zeros
@@ -236,6 +238,7 @@ D2=conv(A1d,A2d);
 zplane(qroots(N2),qroots(D2));
 title("Parallel allpass filter ");
 print(strcat(strf,"_A12pz"),"-dpdflatex");
+close
 
 % Amplitude, delay and phase at local peaks
 vAl=local_max(Asqdl-Asq);
@@ -279,10 +282,10 @@ u=u/std(u);
 A1stdx=std(A1xx);
 A2stdx=std(A2xx);
 % Check simulated response
-nfpts=2^11;
-nppts=(0:((nfpts/2)-1));
 mov_window=20;
-fpts=nppts/nfpts;
+nfpts=2000;
+fpts=(0:((nfpts/2)-1))/nfpts;
+wpts=2*pi*fpts;
 Hsim=crossWelch(u,(A1yap-A2yap)/2,nfpts);
 Asim=abs(Hsim);
 Asim=movmean(Asim,mov_window);
@@ -292,22 +295,26 @@ axis(ax(1),[0 0.5 -0.1 0.1]);
 axis(ax(2),[0 0.5 -60 -20]);
 ylabel("Amplitude(dB)");
 grid("on");
-strt=sprintf...
-("Simulated parallel all-pass bandpass Hilbert (moving mean of 10 samples)");
+strt=sprintf(["Simulated parallel all-pass bandpass Hilbert ", ...
+              "(moving mean of %d samples)"],mov_window);
 title(strt);
 subplot(312);
 Psim=unwrap(arg(Hsim));
-Psim=movmean(Psim,mov_window);
-plot(fpts,mod(((Psim+(tp*2*pi*nppts/nfpts))/pi),1));
-axis([0 0.5 0.5+((0.01)*[0 1])])
+Psim_corrected=Psim+(tp*wpts);
+Rfpts_p=(floor(nfpts*fppl)+1):(ceil(nfpts*fppu)+1);
+fpts_p=fpts(Rfpts_p);
+Psim_mean=movmean(Psim_corrected(Rfpts_p),mov_window,"Endpoints","periodic");
+plot(fpts_p,mod(Psim_mean/pi,2));
+axis([0 0.5 mod(pp,2)+((ppr/5)*[-1 1])])
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
-xlabel("Frequency")
 subplot(313);
 Tsim=-diff(Psim)/((fpts(2)-fpts(1))*2*pi);
-Tsim=movmean(Tsim,mov_window);
-plot(fpts(2:end),Tsim);
-axis([0 0.5 (tp+(0.1*[-1 1]))]);
+Rfpts_t=(floor(nfpts*ftpl)+1):(ceil(nfpts*ftpu)+1);
+fpts_t=fpts(Rfpts_t);
+Tsim_mean=movmean(Tsim(Rfpts_t),mov_window,"Endpoints","periodic");
+plot(fpts_t,Tsim_mean);
+axis([0 0.5 (tp+(0.4*[-1 1]))]);
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency")
