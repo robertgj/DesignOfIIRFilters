@@ -35,6 +35,7 @@ fas3l=0.25;
 Was1=1;Wap1=1;Was2=2;Wap2=1;Was3=1;
 tp1=tp2=20;
 Wtp1=0.02;Wtp2=0.02;
+R=1;polyphase=false;difference=true;
 
 % Desired amplitude response
 nas1u=ceil(npoints*fas1u/0.5)+1;
@@ -75,9 +76,9 @@ Wt=[zeros(ntp1l-1,1); ...
 
 % Unconstrained minimisation
 ab0=[1;zeros(ma-1,1);1;zeros(mb-1,1)];
-WISEJ_PAB([],ma,mb,Ad,Wa,Td,Wt);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[ab1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PAB,ab0,opt);
+WISEJ_PA([],ma,mb,R,polyphase,difference,Ad,Wa,Td,Wt);
+[ab1,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PA,ab0,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)

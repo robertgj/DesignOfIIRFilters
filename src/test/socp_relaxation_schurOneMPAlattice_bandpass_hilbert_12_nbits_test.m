@@ -280,10 +280,10 @@ endwhile
 k_min=k;
 A1k_min=k_min(RA1k);
 A2k_min=k_min(RA2k);
-print_polynomial(A1k_min,"A1k_min",nscale/4);
-print_polynomial(A1k_min,"A1k_min",strcat(strf,"_A1k_min_coef.m"),nscale/4);
-print_polynomial(A2k_min,"A2k_min",nscale/4);
-print_polynomial(A2k_min,"A2k_min",strcat(strf,"_A2k_min_coef.m"),nscale/4);
+print_polynomial(A1k_min,"A1k_min",nscale);
+print_polynomial(A1k_min,"A1k_min",strcat(strf,"_A1k_min_coef.m"),nscale);
+print_polynomial(A2k_min,"A2k_min",nscale);
+print_polynomial(A2k_min,"A2k_min",strcat(strf,"_A2k_min_coef.m"),nscale);
 % Esq
 Esq_min= ...
   schurOneMPAlatticeEsq(A1k_min,A1epsilon0,A1p0,A2k_min,A2epsilon0,A2p0, ...

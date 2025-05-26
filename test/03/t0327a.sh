@@ -59,13 +59,6 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test_12_nbits_cost.ok << 'EOF'
-Exact & 0.000195 & & \\
-12-bit 3-signed-digit(Ito)& 0.000479 & 63 & 40 \\
-12-bit 3-signed-digit(SOCP b-and-b) & 0.000151 & 62 & 39 \\
-EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_cost.ok"; fail; fi
-
 cat > test_12_nbits_A1k_min.ok << 'EOF'
 A1k_min = [     1584,     -176,     -540,     -128, ... 
                 -128,      484,     -296,        2, ... 
@@ -80,6 +73,13 @@ A2k_min = [      784,     -580,      384,      336, ...
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_A2k_min.ok"; fail; fi
 
+cat > test_12_nbits_cost.ok << 'EOF'
+Exact & 0.000194 & & \\
+12-bit 3-signed-digit(Ito)& 0.000456 & 63 & 40 \\
+12-bit 3-signed-digit(SOCP b-and-b) & 0.000151 & 62 & 39 \\
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_cost.ok"; fail; fi
+
 #
 # run and see if the results match
 #
@@ -88,16 +88,16 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-
 nstr="branch_bound_schurOneMPAlattice_lowpass_12_nbits_test"
-diff -Bb test_12_nbits_cost.ok $nstr"_kmin_cost.tab"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_cost.ok"; fail; fi
 
 diff -Bb test_12_nbits_A1k_min.ok $nstr"_A1k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_A1k_min.ok"; fail; fi
 
 diff -Bb test_12_nbits_A2k_min.ok $nstr"_A2k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_A2k_min.ok"; fail; fi
+
+diff -Bb test_12_nbits_cost.ok $nstr"_kmin_cost.tab"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_cost.ok"; fail; fi
 
 #
 # this much worked

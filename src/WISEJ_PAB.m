@@ -1,14 +1,20 @@
 function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt,_Pd,_Wp)
+% E=WISEJ_PAB(ab,ma,mb,Ad,Wa)
 % E=WISEJ_PAB(ab,ma,mb,Ad,Wa,Td,Wt)
 % E=WISEJ_PAB(ab,ma,mb,Ad,Wa,Td,Wt,Pd,Wp)
-% Objective function for minimising the response error of parallel
-% allpass filters using the method of Tarczynski et al. The argument ab
-% is the concatenation of the two allpass filter denominator polynomials
-% to be optimised.
+%
+% Objective function for minimising the response error of a parallel
+% all-pass band-pass filter using the method of Tarczynski et al. As the
+% filter is band-pass the response uses the difference of the all-pass
+% filter responses.
+
+% The argument ab is the concatenation of the two allpass filter denominator
+% transfer function polynomials.
 %
 % First initialise the common parameters of the filter structure with:
-%  WISEJ([],ma,mb,Ad,Wa,Td,Wt)
-% The common filter parameters are:
+%  WISEJ_PAB([],ma,mb,Ad,Wa,Td,Wt,Pd,Wp)
+%
+% The initialised filter parameters are:
 %  ma - order of first allpass filter
 %  mb - order of second allpass filter
 %  Ad - desired filter amplitude response
@@ -44,37 +50,39 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt,_Pd,_Wp)
   persistent ma mb Ad Wa Td Wt Pd Wp
   persistent init_done=false
 
-  if (nargin ~= 1) && (nargin ~= 7) && (nargin ~= 9)
+  if (nargin ~= 1) && (nargin ~= 5) && (nargin ~= 7) && (nargin ~= 9)
     print_usage("E=WISEJ_PAB(ab[,ma,mb,Ad,Wa,Td,Wt,Pd,Wp])");
   endif
-  if nargin>=7
-    ma=_ma; mb=_mb; Ad=_Ad; Wa=_Wa; Td=_Td; Wt=_Wt; Pd=[]; Wp=[];
+  if nargin>=5
+    ma=_ma; mb=_mb; Ad=_Ad; Wa=_Wa; Td=[]; Wt=[]; Pd=[]; Wp=[];
     if (length(Ad) ~= length(Wa))
       error("Expected length(Ad) == length(Wa)!");
     endif
-    if (length(Ad) ~= length(Td))
-      error("Expected length(Ad) == length(Td)!");
-    endif 
-    if (length(Td) ~= length(Wt))
-      error("Expected length(Td) == length(Wt)!");
+    if nargin>=7
+      Td=_Td; Wt=_Wt; 
+      if (length(Ad) ~= length(Td))
+        error("Expected length(Ad) == length(Td)!");
+      endif 
+      if (length(Td) ~= length(Wt))
+        error("Expected length(Td) == length(Wt)!");
+      endif
     endif
-    if nargin == 7
-      init_done=true;
-    endif
-  endif
-  if nargin==9
-    Pd=_Pd; Wp=_Wp;
-    if (length(Ad) ~= length(Pd))
-      error("Expected length(Ad) == length(Pd)!");
-    endif 
-    if (length(Pd) ~= length(Wp))
-      error("Expected length(Pd) == length(Wp)!");
+    if nargin==9
+      Pd=_Pd; Wp=_Wp;
+      if (length(Ad) ~= length(Pd))
+        error("Expected length(Ad) == length(Pd)!");
+      endif 
+      if (length(Pd) ~= length(Wp))
+        error("Expected length(Pd) == length(Wp)!");
+      endif
     endif
     init_done=true;
   endif
+    
   if init_done==false
     error("init_done == false!");
   endif
+
   if isempty(ab)
     return;
   endif
@@ -91,25 +99,28 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt,_Pd,_Wp)
   D=conv(Da,Db);
   N=(conv(flipud(Da),Db)-conv(flipud(Db),Da))/2;
   
-  % Find the amplitude response error
+  % Trapezoidal integration of the weighted amplitude error
   [H,wa]=freqz(N,D,length(Ad));
   EAd = Wa.*(abs(abs(H)-Ad).^2);
+  intEAd = sum(diff(wa).*(EAd(1:(length(EAd)-1))+EAd(2:end)))/2;
 
-  % Find the group delay response error
-  [T,wt]=delayz(N,D,length(Td));
-  ETd = Wt.*(abs(T-Td).^2);
-
-  % Find the phase response error
-  if ~isempty(Pd)
-    wp = wa;
-    EPd = Wp.*(abs(unwrap(arg(H))-Pd).^2);
+  % Add trapezoidal integration of the weighted group delay response error
+  if isempty(Td)
+    intETd = 0;
+  else
+    % This fails !?! : wt=wa; T=delayz(N,D,wt);
+    [T,wt]=delayz(N,D,length(Td));
+    ETd = Wt.*(abs(T-Td).^2);
+    intETd = sum(diff(wt).*(ETd(1:(length(ETd)-1))+ETd(2:end)))/2;
   endif
 
-  % Trapezoidal integration of the weighted error
-  intEd = (sum(diff(wa).*(EAd(1:(length(EAd)-1))+EAd(2:end))) + ...
-           sum(diff(wt).*(ETd(1:(length(ETd)-1))+ETd(2:end))))/2;
-  if ~isempty(Pd)
-    intEd = intEd + (sum(diff(wp).*(EPd(1:(length(EPd)-1))+EPd(2:end)))/2);
+  % Add trapezoidal integration of the weighted phase response error
+  if isempty(Pd)
+    intEPd = 0;
+  else
+    wp = wa;
+    EPd = Wp.*(abs(unwrap(arg(H(1:length(Pd))))-Pd).^2);
+    intEPd = sum(diff(wp).*(EPd(1:(length(EPd)-1))+EPd(2:end)))/2;
   endif
 
   % Heuristics for the barrier function
@@ -119,8 +130,8 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt,_Pd,_Wp)
     t = 300;
     rho = 31/32;
     % Convert to state variable form
-    Drho=D./(rho.^(0:(length(D)-1)))';
-    Drho=Drho(:)'/Drho(1);
+    Drho=D./(rho.^(0:(length(D)-1))).';
+    Drho=Drho(:).'/Drho(1);
     nDrho=length(Drho);
     AD=[zeros(nDrho-2,1) eye(nDrho-2); -Drho(nDrho:-1:2)];
     bD=[zeros(nDrho-2,1);1];
@@ -139,5 +150,5 @@ function E=WISEJ_PAB(ab,_ma,_mb,_Ad,_Wa,_Td,_Wt,_Pd,_Wp)
     EJ = 0;
   endif
   % Done
-  E = ((1-lambda)*intEd) + (lambda*EJ);
+  E = ((1-lambda)*(intEAd+intETd+intEPd)) + (lambda*EJ);
 endfunction

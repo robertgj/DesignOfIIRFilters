@@ -35,7 +35,7 @@ if difference, mm=-1; else, mm=1; endif
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25
 Arsl=0.04;Arp=0.04,Arsu=0.04
 Wasl=10,Watl=0.01,Wap=10,Watu=0.05,Wasu=20
-fppl=0.1,fppu=0.2,pp=0.5,ppr=0.0008,Wpp=1
+fppl=0.1,fppu=0.2,pp=0.5,ppr=0.002,Wpp=1
 ftpl=0.1,ftpu=0.2,tp=10,tpr=0.2,Wtp=0.5
   
 %

@@ -16,8 +16,8 @@ tic;
 
 maxiter=2000
 verbose=false;
-ftol=1e-5;
-ctol=ftol;
+ftol=1e-3;
+ctol=ftol/10;
 
 nbits=12;
 nscale=2^(nbits-1);
@@ -28,8 +28,8 @@ rho=127/128
 
 % Bandpass R=2 filter specification
 fapl=0.1,fapu=0.2,dBap=2,Wap=1
-fasl=0.05,fasu=0.25,dBas=36,Wasl=5e5,Wasu=1e6
-ftpl=0.09,ftpu=0.21,tp=16,tpr=tp/80,Wtp=2
+fasl=0.05,fasu=0.25,dBas=35,Wasl=100,Wasu=100
+ftpl=0.1,ftpu=0.2,tp=16,tpr=0.4,Wtp=1
 
 % Initial filter (found by schurOneMlattice_sqp_slb_bandpass_R2_test.m)
 schurOneMlattice_sqp_slb_bandpass_R2_test_k2_coef;
@@ -254,8 +254,12 @@ while 1
 endwhile
 
 [kc_min_digits,kc_min_adders]=SDadders(kc_min,nbits);
+printf("kc_min_digits=%d,kc_min_adders=%d\n",kc_min_digits,kc_min_adders);
+
 Esq_min=schurOneMlatticeEsq(kc_min(Rk),epsilon0,p0,kc_min(Rc),...
                             wa,Asqd,Wa,wt,Td,Wt);
+printf("Esq_min=%g\n",Esq_min);
+
 print_polynomial(kc_min(Rk),"k_min",nscale);
 print_polynomial(kc_min(Rk),"k_min",strcat(strf,"_k_min_coef.m"),nscale);
 print_polynomial(kc_min(Rc),"c_min",nscale);
@@ -316,7 +320,7 @@ plot(wa*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
      wa*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-axis([0 0.5 -50 -35]);
+axis([0 0.5 -40 -30]);
 strt=sprintf(["Schur one-multiplier lattice bandpass filter stop-band ", ...
  "(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g"],nbits,ndigits,fasl,fasu,dBas);
 title(strt);
@@ -354,7 +358,7 @@ plot(wt*0.5/pi,T_kc0,"linestyle","-", ...
      wt*0.5/pi,T_kc_min,"linestyle","-.");
 xlabel("Frequency");
 ylabel("Delay(samples)");
-axis([ftpl ftpu tp-(3*tpr/4) tp+(tpr/2)]);
+axis([ftpl ftpu (tp+(tpr/2)*[-1 1])]);
 strt=sprintf(["Schur one-multiplier lattice bandpass filter pass-band delay ", ...
  "(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g,tpr=%g"],nbits,ndigits,ftpl,ftpu,tpr);
 title(strt);

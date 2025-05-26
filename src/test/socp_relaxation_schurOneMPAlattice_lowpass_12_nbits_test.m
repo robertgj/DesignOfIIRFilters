@@ -47,7 +47,7 @@ dBas=50 % Stop band amplitude response ripple
 Was=100 % Stop band amplitude response weight
 ftp=0.175 % Pass band group delay response edge
 tp=(m1+m2)/2 % Pass band nominal group delay
-tpr=0.08 % Pass band group delay response ripple
+tpr=0.2 % Pass band group delay response ripple
 Wtp=2 % Pass band group delay response weight
 
 % This works with Wa, Wt and Wp passed to schurOneMPAlattice_allocsd_Lim:

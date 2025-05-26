@@ -17,8 +17,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 % Options
 use_best_branch_and_bound_found=true
 if use_best_branch_and_bound_found
-  warning(["Reporting the best branch-and-bound filter found so far. \n", ...
- "           Set \"use_best_branch_and_bound_found\"=false to re-run."]);
+  warning(["Reporting the best branch-and-bound filter found so far.\n", ...
+           "Set \"use_best_branch_and_bound_found\"=false to re-run."]);
 endif
 enforce_pcls_constraints_on_final_filter=true
 branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim=false
@@ -69,9 +69,9 @@ dBap=2
 Wap=0.25
 Watl=0.1
 Watu=0.1
-dBas=40
-Wasl=1e4
-Wasu=1e4
+dBas=46
+Wasl=2e4
+Wasu=2e4
 ftpl=0.09
 ftpu=0.21
 td=16
@@ -195,31 +195,15 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 
 % Fix one coefficient at each iteration 
 if use_best_branch_and_bound_found
-  if branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito 
-    branches_min=185;
-    A1k_min = [     -773,     1424,      992,     -968, ... 
-                    1278,     -452,     -232,      800, ... 
-                    -520,      304 ]'/2048;
-    A2k_min = [    -1504,     1518,      952,    -1080, ... 
-                    1280,     -320,     -128,      792, ... 
-                    -548,      304 ]'/2048;
-  elseif branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim
-    branches_min=209;
-    A1k_min = [     -856,     1408,      864,    -1062, ... 
-                    1277,     -592,     -192,      784, ... 
-                    -544,      288 ]'/2048;
-    A2k_min = [    -1551,     1568,      832,    -1144, ... 
-                    1320,     -448,     -128,      764, ... 
-                    -568,      272 ]'/2048;
-  else
-    branches_min=369;
-    A1k_min = [     -832,     1344,      984,    -1080, ... 
-                    1264,     -446,     -336,      880, ... 
-                    -575,      312 ]'/2048;
-    A2k_min = [    -1540,     1504,      976,    -1168, ... 
-                    1296,     -296,     -270,      864, ... 
-                    -608,      312 ]'/2048;
-  endif
+  branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim=false
+  branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito=true
+  branches_min=257;
+  A1k_min = [     -800,     1360,     1040,    -1092, ... 
+                  1312,     -688,      -32,      688, ... 
+                  -480,      292 ]'/2048;
+  A2k_min = [    -1531,     1503,     1032,    -1186, ... 
+                  1344,     -528,       48,      672, ... 
+                  -529,      272 ]'/2048;
   A1epsilon_min=schurOneMscale(A1k_min);
   A2epsilon_min=schurOneMscale(A2k_min);
   k_min=[A1k_min(:);A2k_min(:)];
@@ -461,7 +445,7 @@ xlabel("Frequency");
 strt=sprintf(["Parallel one-multplier allpass lattice bandpass filter stop-band", ...
  "(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g,dBas=%g"],nbits,ndigits,fasl,fasu,dBas);
 title(strt);
-axis([0, 0.5, -70, -20]);
+axis([0, 0.5, -60, -40]);
 grid("on");
 print(strcat(strf,"_kmin_stop"),"-dpdflatex"); 
 close

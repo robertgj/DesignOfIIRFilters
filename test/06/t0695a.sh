@@ -13,8 +13,8 @@ parallel_allpass_slb_set_empty_constraints.m \
 parallel_allpass_slb_show_constraints.m \
 parallel_allpass_slb_update_constraints.m \
 parallel_allpass_socp_mmse.m allpassP.m allpassT.m tf2a.m a2tf.m \
-aConstraints.m print_polynomial.m print_allpass_pole.m delayz.m \
-local_max.m qroots.oct"
+aConstraints.m print_polynomial.m print_allpass_pole.m delayz.m local_max.m \
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -52,18 +52,18 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test_a1_coef.m.ok << 'EOF'
 % All-pass single-vector representation
 Va1=3,Qa1=8,Ra1=1
-a1 = [  -0.7396280111,   0.5165259121,   0.8000275971, ...
-         0.5591734668,   0.5757286890,   0.9209448818,   0.9603088297, ...
-         1.3539251869,   0.8547070528,   2.7885428053,   1.5357324887 ]';
+a1 = [  -0.8359316503,   0.5213439047,   0.7888698177, ...
+         0.5432611510,   0.5650038707,   0.8743213143,   0.9588915416, ...
+         1.3403060653,   0.8640874554,   2.5827578217,   1.5346792923 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m.ok"; fail; fi
 
 cat > test_b1_coef.m.ok << 'EOF'
 % All-pass single-vector representation
 Vb1=3,Qb1=8,Rb1=1
-b1 = [  -0.6974260770,   0.2492866539,   0.6969257318, ...
-         0.5012086506,   0.6036641351,   0.9200670635,   0.9438585798, ...
-         0.2669045515,   1.1166371623,   2.7955435839,   1.5331678902 ]';
+b1 = [  -0.8168072763,   0.1978571885,   0.5693571633, ...
+         0.5565773006,   0.6062874129,   0.8662989777,   0.9419149459, ...
+         0.0046253593,   1.1022328645,   2.5824169106,   1.5322103152 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_b1_coef.m.ok"; fail; fi
 

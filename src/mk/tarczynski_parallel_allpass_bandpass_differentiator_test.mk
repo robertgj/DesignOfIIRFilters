@@ -13,5 +13,5 @@ tarczynski_parallel_allpass_bandpass_differentiator_test_D0_coef.m
 
 tarczynski_parallel_allpass_bandpass_differentiator_test_FILES = \
 tarczynski_parallel_allpass_bandpass_differentiator_test.m test_common.m \
-WISEJ_PAB.m delayz.m print_polynomial.m print_pole_zero.m \
+WISEJ_PA.m delayz.m print_polynomial.m print_pole_zero.m \
 qroots.oct

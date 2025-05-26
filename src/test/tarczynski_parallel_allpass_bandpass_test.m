@@ -23,9 +23,10 @@ maxiter=20000
 tol=1e-8
 % Initial filter for parallel_allpass_bandpass_test.m
 ma=mb=10
-td=16
+tp=16
 fasl=0.05,ftpl=0.09,fapl=0.10,fapu=0.20,ftpu=0.21,fasu=0.25
-Wasl=20,Watl=0.01,Wap=1,Wtp=0.5,Watu=0.01,Wasu=10
+Wasl=20,Watl=0.01,Wap=1,Wtp=0.5,Watu=0.01,Wasu=20
+R=1;polyphase=false;difference=true;
 
 % Frequency points
 n=1000;
@@ -44,16 +45,16 @@ Wa=[Wasl*ones(nasl,1); ...
 % Desired delay response
 ntpl=floor(n*ftpl/0.5)+1;
 ntpu=ceil(n*ftpu/0.5)+1;
-Td=td*ones(n,1);
+Td=tp*ones(n,1);
 Wt=[zeros(ntpl-1,1);
     Wtp*ones(ntpu-ntpl+1,1); ...
     zeros(n-ntpu,1)];
 
 % Unconstrained minimisation
 abi=[1;zeros(ma-1,1);1;zeros(mb-1,1)];
-WISEJ_PAB([],ma,mb,Ad,Wa,Td,Wt);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[ab0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PAB,abi,opt);
+WISEJ_PA([],ma,mb,R,polyphase,difference,Ad,Wa,Td,Wt);
+[ab0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PA,abi,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -92,13 +93,13 @@ plot(wplot*0.5/pi,20*log10(abs(H0)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
-strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,td=%g",ma,mb,td);
+strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,tp=%g",ma,mb,tp);
 title(strt);
 subplot(212);
 plot(wplot*0.5/pi,T0);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 0 2*td]);
+axis([0 0.5 0 2*tp]);
 grid("on");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
@@ -114,7 +115,7 @@ subplot(212);
 plot(wplot*0.5/pi,T0);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([min(fapl,ftpl) max(fapu,ftpu) (td-0.1) (td+0.1)]);
+axis([min(fapl,ftpl) max(fapu,ftpu) (tp+(0.1*[-1,1]))]);
 grid("on");
 print(strcat(strf,"_response_passband"),"-dpdflatex");
 close
@@ -129,10 +130,10 @@ close
 % Plot phase response
 Ha=freqz(flipud(Da0),Da0,nplot);
 Hb=freqz(flipud(Db0),Db0,nplot);
-plot(wplot*0.5/pi,unwrap(arg(Ha))+(wplot*td),"-", ...
-     wplot*0.5/pi,unwrap(arg(Hb))+(wplot*td),"--");
+plot(wplot*0.5/pi,unwrap(arg(Ha))+(wplot*tp),"-", ...
+     wplot*0.5/pi,unwrap(arg(Hb))+(wplot*tp),"--");
 strt=sprintf(["Allpass phase response adjusted for linear phase : ", ...
- "ma=%d,mb=%d,td=%g"],ma,mb,td);
+ "ma=%d,mb=%d,tp=%g"],ma,mb,tp);
 title(strt);
 ylabel("Linear phase error(rad.)");
 xlabel("Frequency");
@@ -151,7 +152,7 @@ print_polynomial(N0,"N0");
 print_polynomial(N0,"N0",strcat(strf,"_N0_coef.m"));
 print_polynomial(D0,"D0");
 print_polynomial(D0,"D0",strcat(strf,"_D0_coef.m"));
-eval(sprintf("save %s.mat ma mb abi ab0 Da0 Db0 N0 D0",strf));
+eval(sprintf("save %s.mat ma mb tp abi ab0 Da0 Db0 N0 D0",strf));
 
 % Done
 toc;

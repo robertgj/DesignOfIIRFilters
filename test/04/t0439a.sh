@@ -54,57 +54,57 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k_bf.ok << 'EOF'
-A1k_bf = [      -50,       87,       63,      -67, ... 
-                 78,      -29,      -22,       56, ... 
-                -36,       20 ]/128;
+A1k_bf = [      -50,       84,       67,      -69, ... 
+                 82,      -43,       -4,       45, ... 
+                -32,       20 ]/128;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_bf.ok"; fail; fi
 
 cat > test_A2k_bf.ok << 'EOF'
-A2k_bf = [      -96,       96,       62,      -73, ... 
-                 80,      -18,      -16,       55, ... 
-                -40,       19 ]/128;
+A2k_bf = [      -96,       93,       67,      -75, ... 
+                 84,      -33,        2,       44, ... 
+                -35,       18 ]/128;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_bf.ok"; fail; fi
 
 cat > test_A1k_bfsd.ok << 'EOF'
-A1k_bfsd = [      -48,       80,       63,      -68, ... 
-                   72,      -28,      -24,       56, ... 
-                  -36,       24 ]/128;
+A1k_bfsd = [      -48,       80,       72,      -68, ... 
+                   80,      -40,       -4,       48, ... 
+                  -32,       24 ]/128;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_bfsd.ok"; fail; fi
 
 cat > test_A2k_bfsd.ok << 'EOF'
-A2k_bfsd = [      -96,       96,       63,      -72, ... 
-                   80,      -18,      -16,       56, ... 
-                  -40,       20 ]/128;
+A2k_bfsd = [      -96,       96,       65,      -72, ... 
+                   80,      -33,        2,       48, ... 
+                  -36,       17 ]/128;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_bfsd.ok"; fail; fi
 
 cat > test_A1k_bfsdi.ok << 'EOF'
-A1k_bfsdi = [      -50,       88,       64,      -68, ... 
-                    78,      -32,      -24,       56, ... 
-                   -36,       20 ]/128;
+A1k_bfsdi = [      -48,       82,       64,      -68, ... 
+                    82,      -40,       -4,       48, ... 
+                   -32,       18 ]/128;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_bfsdi.ok"; fail; fi
 
 cat > test_A2k_bfsdi.ok << 'EOF'
-A2k_bfsdi = [      -96,       96,       64,      -72, ... 
-                    80,      -16,      -16,       56, ... 
-                   -40,       20 ]/128;
+A2k_bfsdi = [      -96,       96,       64,      -76, ... 
+                    88,      -32,        0,       44, ... 
+                   -32,       16 ]/128;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_bfsdi.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
-Exact & 1.0852\\
-8-bit rounded & 1.9823\\
-8-bit rounded with bit-flipping & 1.6756\\
-8-bit 2-signed-digit & 8.2926 \\ 
-8-bit 2-signed-digit with bit-flipping & 6.3880\\
-8-bit 2-signed-digit(Lim alloc.) & 17.5044\\
-8-bit 2-signed-digit(Lim alloc.) with bit-flipping & 7.8376\\
-8-bit 2-signed-digit(Ito alloc.) & 4.4997\\
-8-bit 2-signed-digit(Ito alloc.) with bit-flipping & 4.4997\\
+Exact & 1.0878\\
+8-bit rounded & 1.9779\\
+8-bit rounded with bit-flipping & 1.3743\\
+8-bit 2-signed-digit & 8.2848 \\ 
+8-bit 2-signed-digit with bit-flipping & 7.3066\\
+8-bit 2-signed-digit(Lim alloc.) & 15.3864\\
+8-bit 2-signed-digit(Lim alloc.) with bit-flipping & 5.7757\\
+8-bit 2-signed-digit(Ito alloc.) & 7.9759\\
+8-bit 2-signed-digit(Ito alloc.) with bit-flipping & 4.6859\\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 

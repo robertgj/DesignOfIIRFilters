@@ -75,18 +75,18 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_hd_coef.m"; fail; fi
 #
 echo "Running $prog"
 
-name=qp_lowpass_test
-
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_h_coef.m $name"_h_coef.m"
+nstr=qp_lowpass_test
+
+diff -Bb test_h_coef.m $nstr"_h_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_h_coef.m"; fail; fi
 
-diff -Bb test_hPM_coef.m $name"_hPM_coef.m"
+diff -Bb test_hPM_coef.m $nstr"_hPM_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hPM_coef.m"; fail; fi
 
-diff -Bb test_hd_coef.m $name"_hd_coef.m"
+diff -Bb test_hd_coef.m $nstr"_hd_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hd_coef.m"; fail; fi
 
 #

@@ -53,20 +53,20 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test_a1_coef.m.ok << 'EOF'
 % All-pass single-vector representation
 Va1=0,Qa1=10,Ra1=1
-a1 = [   0.1346311181,   0.7781980689,   0.7858582525,   0.8017668940, ... 
-         0.8133175559, ...
-         3.1415665646,   0.3795750586,   1.0279472755,   1.2262964810, ... 
-         1.4601711342 ]';
+a1 = [   0.2479212468,   0.7773227731,   0.7779252069,   0.7972423834, ... 
+         0.8072207225, ...
+         3.1406782112,   1.0180842898,   0.3913533664,   1.2136031296, ... 
+         1.4362801532 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m.ok"; fail; fi
 
 cat > test_b1_coef.m.ok << 'EOF'
 % All-pass single-vector representation
 Vb1=0,Qb1=10,Rb1=1
-b1 = [   0.2128488043,   0.7561914061,   0.7622725166,   0.7898385786, ... 
-         0.8157167637, ...
-         2.3857960009,   0.6907691908,   0.8374118873,   0.5001650181, ... 
-         1.5175332432 ]';
+b1 = [   0.2853489907,   0.7532203051,   0.7687556458,   0.7958592798, ... 
+         0.8033557529, ...
+         2.7372312735,   0.8533040553,   0.7000804127,   0.5009761411, ... 
+         1.5031567390 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_b1_coef.m.ok"; fail; fi
 
@@ -77,10 +77,12 @@ echo "Running $prog"
 
 octave --no-gui -q $prog >test.out 2>&1
 
-diff -Bb test_a1_coef.m.ok parallel_allpass_socp_slb_bandpass_test_a1_coef.m
+nstr=parallel_allpass_socp_slb_bandpass_test
+
+diff -Bb test_a1_coef.m.ok $nstr"_a1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb on test_a1_coef.m"; fail; fi
 
-diff -Bb test_b1_coef.m.ok parallel_allpass_socp_slb_bandpass_test_b1_coef.m
+diff -Bb test_b1_coef.m.ok $nstr"_b1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb on test_b1_coef.m"; fail; fi
 
 #

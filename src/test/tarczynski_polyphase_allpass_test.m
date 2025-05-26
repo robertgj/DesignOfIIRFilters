@@ -57,15 +57,13 @@ for flat_delay=[false,true],
   % Frequency vectors
   Ad=[ones(nap,1);zeros(n-nap,1)];
   Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
-  Td=td*ones(n,1);
-  Wt=[Wtp*ones(ntp,1);zeros(n-ntp,1)];
-  Pd=[];
-  Wp=[];
+  Td=td*ones(size(w));
+  Wt=[Wtp*ones(ntp,1);zeros(length(Td)-ntp,1)];
 
   % Unconstrained minimisation
   abi=[1;zeros(ma-1,1);1;zeros(mb-1,1)];
-  WISEJ_PA([],ma,mb,R,polyphase,difference,Ad,Wa,Td,Wt,Pd,Wp);
   opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+  WISEJ_PA([],ma,mb,R,polyphase,difference,Ad,Wa,Td,Wt);
   [ab0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PA,abi,opt);
   if (INFO == 1)
     printf("Converged to a solution point.\n");

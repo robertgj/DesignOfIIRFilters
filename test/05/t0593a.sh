@@ -17,10 +17,10 @@ schurNSPAlattice_slb_exchange_constraints.m \
 schurNSPAlattice_slb_show_constraints.m \
 schurNSPAlattice2tf.m schurNSAPlattice2tf.m schurNSAPlattice2Abcd.m \
 local_max.m tf2pa.m print_polynomial.m flt2SD.m bin2SDul.m x2nextra.m \
-qroots.oct SDadders.m H2Asq.m H2T.m H2P.m tf2schurNSlattice.m \
+SDadders.m H2Asq.m H2T.m H2P.m tf2schurNSlattice.m \
 schurNSscale.oct bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
-Abcd2H.oct complex_zhong_inverse.oct schurNSlattice2Abcd.oct \
-Abcd2tf.oct"
+Abcd2H.oct complex_zhong_inverse.oct schurNSlattice2Abcd.oct Abcd2tf.oct \
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -88,21 +88,21 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_A2s00_min_coef.m"; fail; fi
 #
 echo "Running $prog"
 
-name=branch_bound_schurNSPAlattice_lowpass_12_nbits_test
-
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_A1s20_min_coef.m $name"_A1s20_min_coef.m"
+nstr=branch_bound_schurNSPAlattice_lowpass_12_nbits_test
+
+diff -Bb test_A1s20_min_coef.m $nstr"_A1s20_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1s20_min_coef.m"; fail; fi
 
-diff -Bb test_A1s00_min_coef.m $name"_A1s00_min_coef.m"
+diff -Bb test_A1s00_min_coef.m $nstr"_A1s00_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1s00_min_coef.m"; fail; fi
 
-diff -Bb test_A2s20_min_coef.m $name"_A2s20_min_coef.m"
+diff -Bb test_A2s20_min_coef.m $nstr"_A2s20_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2s20_min_coef.m"; fail; fi
 
-diff -Bb test_A2s00_min_coef.m $name"_A2s00_min_coef.m"
+diff -Bb test_A2s00_min_coef.m $nstr"_A2s00_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2s00_min_coef.m"; fail; fi
 
 #

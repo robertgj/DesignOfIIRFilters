@@ -61,16 +61,16 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k_coef.m << 'EOF'
-A1k_min = [     1576,     -176,     -548,     -134, ... 
-                -116,      508,     -292,       -5, ... 
-                 336,     -322,      112 ]'/2048;
+A1k_min = [     1576,     -176,     -547,     -133, ... 
+                -114,      508,     -292,       -2, ... 
+                 336,     -328,      128 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_D1_coef.m"; fail; fi
 
 cat > test_A2k_coef.m << 'EOF'
-A2k_min = [      792,     -556,      380,      335, ... 
-                 -96,       80,     -416,      368, ... 
-                   8,     -368,      304,     -112 ]'/2048;
+A2k_min = [      792,     -558,      376,      332, ... 
+                 -95,       80,     -416,      368, ... 
+                   4,     -368,      312,     -129 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_D2_coef.m"; fail; fi
 
@@ -82,12 +82,12 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_A1k_coef.m \
-     socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_A1k_min_coef.m
+nstr=socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test
+
+diff -Bb test_A1k_coef.m $nstr"_A1k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k_coef.m"; fail; fi
 
-diff -Bb test_A2k_coef.m \
-     socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_A2k_min_coef.m
+diff -Bb test_A2k_coef.m $nstr"_A2k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k_coef.m"; fail; fi
 
 

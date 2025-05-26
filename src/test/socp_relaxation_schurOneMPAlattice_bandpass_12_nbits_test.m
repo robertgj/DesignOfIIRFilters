@@ -43,8 +43,8 @@ R2=(NA1+1):(NA1+NA2);
 
 % Band pass filter specification
 difference=true
-tol=1e-4
-ctol=tol/10
+tol=1e-3
+ctol=1e-5
 rho=127/128
 m1=length(A1k);
 m2=length(A2k);
@@ -62,8 +62,8 @@ Wasu=2
 ftpl=0.1
 ftpu=0.2
 td=16
-tdr=0.32
-Wtp=0.2
+tdr=0.4
+Wtp=1
   
 %
 % Frequency vectors

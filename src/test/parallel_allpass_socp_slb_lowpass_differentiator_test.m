@@ -39,7 +39,7 @@ printf("Initial ab0=[");printf("%g ",ab0');printf("]'\n");
 polyphase=false;
 difference=false;
 fap=0.3;fas=0.4;
-Arp=0.1;Art=0.1;Ars=0.1;Wap=1;Wat=0.01;Was=2;
+Arp=0.1;Art=0.1;Ars=0.1;Wap=1;Wat=0.02;Was=2;
 tp=((Ra*ma)+(Rb*mb)+1)/2;tpr=0.2;Wtp=0.5;
 pp=0.5;ppr=0.002;Wpp=0.05;
 rho=0.99;
@@ -111,7 +111,7 @@ title(strt);
 subplot(312);
 plot(wp*0.5/pi,([P0 Pd Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
-axis([0 0.5 pp+2*ppr*[-1 1]]);
+axis([0 0.5 pp+(0.02*[-1 1])]);
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,[T0 Td Tdl Tdu]);
@@ -164,7 +164,7 @@ ylabel("Amplitude");
 axis([0 0.5 0 1]);
 grid("on");
 strt=sprintf(["Parallel allpass correction : ", ...
- " ma=%d,mb=%d,Arp=%4.2f,Ars=%4.1f,tp=%g,tpr=%g"],
+              " ma=%d,mb=%d,Arp=%4.2f,Ars=%4.1f,tp=%g,tpr=%g"],
              ma,mb,Arp,Ars,tp,tpr);
 title(strt);
 subplot(312);
@@ -187,7 +187,8 @@ plot(wa*0.5/pi,[A1 Adl Adu]);
 ylabel("Amplitude");
 axis([0 0.5 0 1]);
 grid("on");
-strt=sprintf("Parallel allpass : ma=%d,mb=%d,Arp=%4.2f,Ars=%4.1f,tp=%g,tpr=%g", ...
+strt=sprintf(["Parallel allpass : ", ...
+              "ma=%d,mb=%d,Arp=%4.2f,Ars=%4.1f,tp=%g,tpr=%g"], ...
              ma,mb,Arp,Ars,tp,tpr);
 title(strt);
 subplot(312);
@@ -204,7 +205,7 @@ grid("on");
 print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 
-% Plot error response
+% Plot amplitude error response
 subplot(311);
 [ax,ha,hs]=plotyy(wa(1:nap)*0.5/pi, ...
                   ([A1(1:nap) Adl(1:nap) Adu(1:nap)]-Ad(1:nap)), ...
@@ -217,22 +218,22 @@ for c=1:3
 endfor
 axis(ax(1),[0 0.5 -0.1 0.1]);
 axis(ax(2),[0 0.5 -0.1 0.1]);
-ylabel("Amplitude");
+ylabel("Amplitude error");
 grid("on");
-strt=sprintf(["Parallel allpass error : ", ...
- "ma=%d,mb=%d,Arp=%4.2f,Ars=%4.1f,tp=%g,tpr=%g"],
+strt=sprintf(["Parallel allpass : ", ...
+              "ma=%d,mb=%d,Arp=%4.2f,Ars=%4.1f,tp=%g,tpr=%g"],
              ma,mb,Arp,Ars,tp,tpr);
 title(strt);
 subplot(312);
-plot(wp*0.5/pi,([P1 Pdl Pdu]-Pd)/pi);
+plot(wp*0.5/pi,([P1 Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
-axis([0 0.5 ppr*[-1,1]]);
+axis([0 0.5 pp+(ppr*[-1,1])]);
 grid("on");
 subplot(313);
-plot(wt*0.5/pi,[T1 Tdl Tdu]-Td);
+plot(wt*0.5/pi,[T1 Tdl Tdu]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 -tpr tpr]);
+axis([0 0.5 tp+(tpr*[-1,1])]);
 grid("on");
 print(strcat(strf,"_ab1error"),"-dpdflatex");
 close
@@ -259,8 +260,8 @@ Ha=freqz(conv(Na1,[1;-1]),Da1,w);
 Hb=freqz(conv(Nb1,[1;-1]),Db1,w);
 plot(w*0.5/pi,(unwrap(arg(Ha))+(w*tp))/pi, ...
      w*0.5/pi,(unwrap(arg(Hb))+(w*tp))/pi);
-strt=sprintf(["Phase responses of correction filters adjusted for linear phase : ", ...
- "ma=%d,mb=%d,tp=%g"],ma,mb,tp);
+strt=sprintf(["Phase responses of correction filters adjusted ", ...
+              "for linear phase : ma=%d,mb=%d,tp=%g"],ma,mb,tp);
 title(strt);
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
@@ -319,9 +320,10 @@ print_polynomial(Nab1,"Nab1",strcat(strf,"_Nab1_coef.m"));
 print_polynomial(Dab1,"Dab1");
 print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
-eval(sprintf(["save %s.mat ...\n", ...
- "     n fap Arp Wap tp tpr Wtp pp ppr Wpp Art Wat fas Ars Was ...\n", ...
- "     ma mb Va Qa Ra Vb Qb Rb Da0 Db0 ab0 ab1 Da1 Db1 Nab1 Dab1"],strf));
+eval(sprintf(["save %s.mat ", ...
+              "n fap Arp Wap tp tpr Wtp pp ppr Wpp Art Wat fas Ars Was ", ...
+              "ma mb Va Qa Ra Vb Qb Rb Da0 Db0 ab0 ab1 Da1 Db1 Nab1 Dab1"], ...
+             strf));
 
 % Done 
 toc;

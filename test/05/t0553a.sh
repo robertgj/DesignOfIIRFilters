@@ -61,26 +61,26 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test_10_nbits_cost.ok << 'EOF'
-Exact & 0.001616 & & \\
-10-bit 3-signed-digit& 0.217507 & 60 & 40 \\
-10-bit 3-signed-digit(SOCP b-and-b) & 0.003438 & 58 & 38 \\
-EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_10_nbits_cost.ok"; fail; fi
-
 cat > test_10_nbits_A1k_min.ok << 'EOF'
-A1k_min = [     -216,      432,     -168,       52, ... 
-                 352,     -216,       88,      242, ... 
-                -196,      123 ]'/512;
+A1k_min = [     -232,      432,     -134,       33, ... 
+                 352,     -168,       38,      271, ... 
+                -191,      134 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_10_nbits_A1k_min.ok"; fail; fi
 
 cat > test_10_nbits_A2k_min.ok << 'EOF'
-A2k_min = [     -400,      446,     -176,       25, ... 
-                 352,     -200,       98,      240, ... 
-                -193,      130 ]'/512;
+A2k_min = [     -416,      446,     -158,        8, ... 
+                 352,     -152,       52,      268, ... 
+                -184,      142 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_10_nbits_A2k_min.ok"; fail; fi
+
+cat > test_10_nbits_cost.ok << 'EOF'
+Exact & 0.001521 & & \\
+10-bit 3-signed-digit& 0.130427 & 59 & 39 \\
+10-bit 3-signed-digit(SOCP b-and-b) & 0.003424 & 57 & 37 \\
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_10_nbits_cost.ok"; fail; fi
 
 #
 # run and see if the results match
@@ -90,16 +90,16 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-
 nstr="branch_bound_schurOneMPAlattice_bandpass_hilbert_10_nbits_test"
-diff -Bb test_10_nbits_cost.ok $nstr"_kmin_cost.tab"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_10_nbits_cost.ok"; fail; fi
 
 diff -Bb test_10_nbits_A1k_min.ok $nstr"_A1k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_10_nbits_A1k_min.ok"; fail; fi
 
 diff -Bb test_10_nbits_A2k_min.ok $nstr"_A2k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_10_nbits_A2k_min.ok"; fail; fi
+
+diff -Bb test_10_nbits_cost.ok $nstr"_kmin_cost.tab"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_10_nbits_cost.ok"; fail; fi
 
 #
 # this much worked

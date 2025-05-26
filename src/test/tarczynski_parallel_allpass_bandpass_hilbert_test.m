@@ -30,6 +30,7 @@ mb=length(Dbi)-1
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,Wasl=20,Watl=0.01,Wap=2,Watu=0.01,Wasu=10
 ftpl=0.1,ftpu=0.2,tp=16,Wtp=0.5
 fppl=0.1,fppu=0.2,pp=1.5,Wpp=0.5
+R=1;polyphase=false;difference=true;
 
 % Frequency points
 n=1000;
@@ -80,9 +81,9 @@ printf("Wp(nchkp)=[ ");printf("%6.4g ",Wp(nchkp)');printf("];\n");
 
 % Unconstrained minimisation
 abi = [Dai(2:end);Dbi(2:end)];
-WISEJ_PAB([],ma,mb,Ad,Wa,Td,Wt,Pd,Wp);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[ab0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PAB,abi,opt);
+WISEJ_PA([],ma,mb,R,polyphase,difference,Ad,Wa,Td,Wt,Pd,Wp);
+[ab0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PA,abi,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)

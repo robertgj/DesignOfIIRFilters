@@ -17,9 +17,9 @@ schurNSPAlattice_slb_show_constraints.m \
 schurNSPAlattice_slb_update_constraints.m \
 schurNSPAlattice2tf.m schurNSAPlattice2tf.m schurNSAPlattice2Abcd.m \
 tf2schurNSlattice.m local_max.m tf2pa.m print_polynomial.m \
-H2Asq.m H2T.m H2P.m qroots.oct \
+H2Asq.m H2T.m H2P.m \
 schurNSscale.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurNSlattice2Abcd.oct Abcd2H.oct Abcd2tf.oct"
+schurNSlattice2Abcd.oct Abcd2H.oct Abcd2tf.oct qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -55,30 +55,30 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1s20_coef.m << 'EOF'
-A1s20 = [   0.7826068084,  -0.0715318417,  -0.2753485196,  -0.1033053980, ... 
-           -0.1063206142,   0.2250584958,  -0.1250438973,   0.0241666042, ... 
-            0.1771383054,  -0.1634787221,   0.0455727965 ]';
+A1s20 = [   0.7826737409,  -0.0714157913,  -0.2755651077,  -0.1030535490, ... 
+           -0.1064124795,   0.2250673343,  -0.1249822938,   0.0241082769, ... 
+            0.1772275346,  -0.1635584607,   0.0456102900 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1s20_coef.m"; fail; fi
 
 cat > test_A1s00_coef.m << 'EOF'
-A1s00 = [   0.6217587012,   0.9968938006,   0.9612357765,   0.9949745620, ... 
-            0.9952436941,   0.9744124228,   0.9927586547,   0.9989803736, ... 
-            0.9841653331,   0.9870112649,   0.9989618410 ]';
+A1s00 = [   0.6216764269,   0.9969039294,   0.9611721088,   0.9949938562, ... 
+            0.9952219812,   0.9744090381,   0.9927597047,   0.9989781124, ... 
+            0.9841483964,   0.9869941035,   0.9989616988 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1s00_coef.m"; fail; fi
 
 cat > test_A2s20_coef.m << 'EOF'
-A2s20 = [   0.3669967705,  -0.2966516032,   0.2228106613,   0.2137610541, ... 
-           -0.0177252131,   0.0462558612,  -0.1985691961,   0.1845563398, ... 
-            0.0089803087,  -0.1825231075,   0.1437135688,  -0.0577663211 ]';
+A2s20 = [   0.3671728947,  -0.2966842868,   0.2226927352,   0.2139762162, ... 
+           -0.0179779931,   0.0463578909,  -0.1985750068,   0.1844890161, ... 
+            0.0090345416,  -0.1826197059,   0.1437902801,  -0.0578143019 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2s20_coef.m"; fail; fi
 
 cat > test_A2s00_coef.m << 'EOF'
-A2s00 = [   0.9296536101,   0.9539737686,   0.9749870428,   0.9773523825, ... 
-            0.9989586311,   0.9987940556,   0.9817076268,   0.9832851987, ... 
-            0.9989579343,   0.9835433149,   0.9897787021,   0.9987447934 ]';
+A2s00 = [   0.9295828394,   0.9539685973,   0.9750115069,   0.9773007370, ... 
+            0.9989562089,   0.9987933449,   0.9816924285,   0.9832933047, ... 
+            0.9989553810,   0.9835198952,   0.9897642702,   0.9987365353 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2s00_coef.m"; fail; fi
 
@@ -87,21 +87,21 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_A2s00_coef.m"; fail; fi
 #
 echo "Running $prog"
 
-name=schurNSPAlattice_socp_slb_lowpass_test
-
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_A1s20_coef.m $name"_A1s20_coef.m"
+nstr=schurNSPAlattice_socp_slb_lowpass_test
+
+diff -Bb test_A1s20_coef.m $nstr"_A1s20_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1s20_coef.m"; fail; fi
 
-diff -Bb test_A1s00_coef.m $name"_A1s00_coef.m"
+diff -Bb test_A1s00_coef.m $nstr"_A1s00_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1s00_coef.m"; fail; fi
 
-diff -Bb test_A2s20_coef.m $name"_A2s20_coef.m"
+diff -Bb test_A2s20_coef.m $nstr"_A2s20_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2s20_coef.m"; fail; fi
 
-diff -Bb test_A2s00_coef.m $name"_A2s00_coef.m"
+diff -Bb test_A2s00_coef.m $nstr"_A2s00_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2s00_coef.m"; fail; fi
 
 #

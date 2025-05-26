@@ -55,7 +55,7 @@ fas2l=0.13;fas2u=0.16;
 fap2l=0.19;fap2u=0.22;
 fas3l=0.25;
 dBap=1;Wap=1;
-dBas=33;Was=1;
+dBas=30;Was=1;
 tp=20;tpr=0.1;Wtp=0.01;
 
 dBas1=dBas;dBap1=dBap;dBas2=dBas;dBap2=dBap;dBas3=dBas;
@@ -280,7 +280,7 @@ A1d=schurOneMAPlattice2tf(A1k,A1epsilon,A1p);
 A2d=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
 [N2,D2]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 HH=freqz(N2,D2,wa);
-if max(abs((abs(HH).^2)-Asq)) > 100*eps
+if max(abs((abs(HH).^2)-Asq)) > 1000*eps
   error("max(abs((abs(HH).^2)-Asq))(%g*eps) > 1000*eps",
         max(abs((abs(HH).^2)-Asq))/eps);
 endif

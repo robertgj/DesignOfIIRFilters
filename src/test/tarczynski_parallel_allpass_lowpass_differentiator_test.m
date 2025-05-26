@@ -28,37 +28,31 @@ if difference
 else
   pa_sign=1;
 endif
-fap=0.3;fas=0.4;Wap=1;Wat=0.01;Was=2;
+fap=0.3;fas=0.4;Wap=1;Wat=0.02;Was=1;
 ma=11;mb=12;
-tp=R*(ma+mb+1)/2;Wtp=0.5;Wpp=0.05;
+tp=R*(ma+mb+1)/2;Wtp=0.1;Wpp=0.1;
 
 % Frequency points
 n=1000;
 nap=ceil(fap*n/0.5);
 nas=floor(fas*n/0.5);
 w=pi*(1:n-1)'/n;
+Rap=1:nap;
 
 % Amplitude response
-wa=w;
-Azm1=(2*sin(wa/2));
-if 1
-  Ad=[wa(1:nap)/2;zeros(n-nap-1,1)];
-else
-  Ad=[w(1:nap)/2; (w(nap)/2)*((nas-nap-1):-1:1)'/(nas-nap-1);zeros(n-nas,1)];
-endif
+Azm1=(2*sin(w/2));
+Ad=[w(Rap)/2;zeros(length(w)-nap,1)];
 Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas,1)];
 
 % Group delay response
-wt=w(1:nap);
-Tzm1=0.5*ones(size(wt));
-Td=tp*ones(size(wt));
-Wt=Wtp*ones(size(wt));
+Tzm1=0.5*ones(size(w));
+Td=tp*ones(size(w));
+Wt=[Wtp*ones(nap,1);zeros(length(w)-nap,1)];
 
 % Phase response
-wp=w(1:nap);
-Pzm1=(pi/2)-(wp/2);
-Pd=(pi/2)-(wp*tp);
-Wp=Wpp*ones(size(wp));
+Pzm1=(pi/2)-(w/2);
+Pd=(pi/2)-(w*tp);
+Wp=[Wpp*ones(nap,1);zeros(length(w)-nap,1)];
 
 % Sanity checks
 nchka=[1,nap-1,nap,nap+1,nas-1,nas,nas+1,n-1]';
@@ -70,8 +64,8 @@ printf("Wa(nchka)=[ ");printf("%6.4g ",Wa(nchka)');printf("];\n");
 
 % Unconstrained minimisation with (1-z^(-1)) removed
 abi = zeros(ma+mb,1);
-WISEJ_PA([],ma,mb,R,polyphase,difference,Ad./Azm1,Wa,Td-Tzm1,Wt,Pd-Pzm1,Wp);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
+WISEJ_PA([],ma,mb,R,polyphase,difference,Ad./Azm1,Wa,Td-Tzm1,Wt,Pd-Pzm1,Wp);
 [ab0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PA,abi,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
@@ -108,17 +102,17 @@ H0c=0.5*(Ha0+(pa_sign*Hb0));
 H0=H0c.*Hzm1;
 A0c=abs(H0c);
 A0=abs(H0);
-P0c=unwrap(arg(H0c(1:nap)));
-P0=unwrap(arg(H0(1:nap)));
-Ta0=delayz(flipud(Da0),Da0,w(1:nap));
-Tb0=delayz(flipud(Db0),Db0,w(1:nap));
+P0c=unwrap(arg(H0c(Rap)));
+P0=unwrap(arg(H0(Rap)));
+Ta0=delayz(flipud(Da0),Da0,w(Rap));
+Tb0=delayz(flipud(Db0),Db0,w(Rap));
 T0c=((Ta0+Tb0)/2);
-T0=T0c+Tzm1;
+T0=T0c+Tzm1(Rap);
 % Alternate calculation
 H0a=freqz(N0,D0,w);
 A0a=abs(H0a).*Azm1;
-P0a=unwrap(arg(H0a(1:nap)))+Pzm1;
-T0a=delayz(N0,D0,wt)+Tzm1;
+P0a=unwrap(arg(H0a(Rap)))+Pzm1(Rap);
+T0a=delayz(N0,D0,w(Rap))+Tzm1(Rap);
 % Check
 if max(abs(A0a-A0)) > 100*eps
   warning("max(abs(A0a-A0))(%g*eps) > 100*eps",max(abs(A0a-A0))/eps);
@@ -132,7 +126,7 @@ endif
 
 % Plot correction filter response
 subplot(311);
-plot(wa*0.5/pi,A0c);
+plot(w*0.5/pi,A0c);
 ylabel("Amplitude");
 axis([0 0.5 0 1]);
 grid("on");
@@ -142,12 +136,12 @@ strt=sprintf ...
         ma,mb,fap,fas,tp);
 title(strt);
 subplot(312);
-plot(wp*0.5/pi,(P0c+(wp*(tp-0.5)))/pi);
+plot(w(1:nap)*0.5/pi,(P0c(1:nap)+(w(1:nap)*(tp-0.5)))/pi);
 ylabel("Phase (rad./$\\pi$)");
 axis([0 0.5]);
 grid("on");
 subplot(313);
-plot(wt*0.5/pi,T0c);
+plot(w(Rap)*0.5/pi,T0c);
 axis([0 0.5]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
@@ -157,7 +151,7 @@ close
 
 % Plot response
 subplot(311);
-plot(wa*0.5/pi,A0);
+plot(w*0.5/pi,A0);
 ylabel("Amplitude");
 axis([0 0.5 0 1]);
 grid("on");
@@ -165,12 +159,12 @@ strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,fap=%g,fas=%g,tp=%g", ...
              ma,mb,fap,fas,tp);
 title(strt);
 subplot(312);
-plot(wp*0.5/pi,(P0+(wp*tp))/pi);
+plot(w(Rap)*0.5/pi,(P0+(w(Rap)*tp))/pi);
 ylabel("Phase (rad./$\\pi$)");
 axis([0 0.5]);
 grid("on");
 subplot(313);
-plot(wt*0.5/pi,T0);
+plot(w(Rap)*0.5/pi,T0);
 axis([0 0.5]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
@@ -180,20 +174,20 @@ close
 
 % Plot response error
 subplot(311);
-plot(wa*0.5/pi,A0-Ad);
-ylabel("Amplitude");
+plot(w*0.5/pi,A0-Ad);
+ylabel("Amplitude error");
 axis([0 0.5 -0.1 0.1]);
 grid("on");
 strt=sprintf("Parallel all-pass filters error : ma=%d,mb=%d,fap=%g,fas=%g,tp=%g", ...
              ma,mb,fap,fas,tp);
 title(strt);
 subplot(312);
-plot(wp*0.5/pi,(P0-Pd)/pi);
+plot(w(Rap)*0.5/pi,(P0+(w(Rap)*tp))/pi);
 axis([0 0.5]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
-plot(wt*0.5/pi,T0-Td);
+plot(w(Rap)*0.5/pi,T0);
 axis([0 0.5]);
 ylabel("Delay(samples)");
 xlabel("Frequency");

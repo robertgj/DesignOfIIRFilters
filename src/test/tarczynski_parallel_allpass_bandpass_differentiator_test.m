@@ -25,6 +25,7 @@ fasl=0.05,fapl=0.1,fapu=0.22,fasu=0.25
 Wasl=10,Watl=0.01,Wap=10,Watu=0.05,Wasu=20
 fppl=0.1,fppu=0.22,pp=0.5,Wpp=1
 ftpl=0.1,ftpu=0.22,tp=10,Wtp=0.5
+R=1;polyphase=false;difference=true;
 
 % Frequency points
 n=1000;
@@ -34,7 +35,6 @@ w=2*pi*f;
 % Initial filter
 ma=11;
 mb=11;
-abi=[1;zeros(ma+mb-1,1)];
 Azsqm1=2*sin(w);
 Tzsqm1=1;
 Pzsqm1=(pi/2)-w;
@@ -84,9 +84,11 @@ printf("0.5*w(nchkp)'/pi=[ ");printf("%6.4g ",0.5*w(nchkp)'/pi);printf("];\n");
 printf("Wp(nchkp)=[ ");printf("%6.4g ",Wp(nchkp)');printf("];\n");
 
 % Unconstrained minimisation
-WISEJ_PAB([],ma,mb,Ad./Azsqm1,Wa,Td-Tzsqm1,Wt,Pd-Pzsqm1,Wp);
+abi=[1;zeros(ma+mb-1,1)];
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[ab0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PAB,abi,opt);
+WISEJ_PA([],ma,mb,R,polyphase,difference, ...
+         Ad./Azsqm1,Wa,Td-Tzsqm1,Wt,Pd-Pzsqm1,Wp);
+[ab0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PA,abi,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
