@@ -41,7 +41,7 @@ fap=0.2;fas=0.4;
 Arp=0.002;Art=0.02;Ars=0.004;Wap=1;Wat=0.0001;Was=0.1;
 fpp=fap;pp=1.5;ppr=0.0006;Wpp=1;
 ftp=fap;tp=nN-1;tpr=0.006;Wtp=0.1;
-fdp=fap;dpr=1;cpr=0.04;Wdp=0.005;
+fdp=fap;cpr=0.04;Wdp=0.005;
 
 % Frequency points
 n=1000;
@@ -93,8 +93,8 @@ Wd=Wdp*ones(size(wd));
 Cd=(Dd-(Asqd(1:ndp).*cot(wd/2)))./Azm1sq(1:ndp);
 Cdu=Cd+(cpr/2);
 Cdl=Cd-(cpr/2);
-Ddu=Dd+((cpr/2)./Azm1sq(1:ndp));
-Ddl=Dd-((cpr/2)./Azm1sq(1:ndp));
+Ddu=Dd+((cpr/2)*Azm1sq(1:ndp));
+Ddl=Dd-((cpr/2)*Azm1sq(1:ndp));
 
 % Sanity check
 nachk=[1,nap-1,nap,nap+1,nas-1,nas,nas+1,n-1];
@@ -938,17 +938,20 @@ fprintf(fid,"ftp=%g %% Group delay pass band edge\n",ftp);
 fprintf(fid,"tp=%g %% Nominal passband filter group delay(samples)\n",tp);
 fprintf(fid,"tpr=%g %% Group delay pass band peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%d %% Group delay pass band weight\n",Wtp);
-fprintf(fid,"fdp=%g %% Correction filter dAsqdw pass band edge\n",fdp);
-fprintf(fid,"cpr=%g %% Correction filter dAsqdw pass band peak-to-peak ripple\n",cpr);
-fprintf(fid,"Wdp=%d %% Correction filter dAsqdw pass band weight\n",Wdp);
+fprintf(fid,"fdp=%g %% Correction filter dCsqdw pass band edge\n",fdp);
+fprintf(fid, ...
+        "cpr=%g %% Correction filter dCsqdw pass band peak-to-peak ripple\n", ...
+        cpr);
+fprintf(fid,"Wdp=%d %% Correction filter dCsqdw pass band weight\n",Wdp);
 fclose(fid);
 
 % Save results
 eval(sprintf(["save %s.mat ", ...
  "use_best_branch_and_bound_found ", ...
  "k0 epsilon0 p0 c0 ftol ctol nbits ndigits ndigits_alloc n kscale cscale ", ...
- "fap Arp Wap fas Ars Was fpp pp ppr Wpp ftp tp tpr Wtp fdp dpr cpr Wdp ", ...
- "improved_solution_found kc_min_adders kc_min_digits k0_sd_no_alloc c0_sd_no_alloc ", ...
+ "fap Arp Wap fas Ars Was fpp pp ppr Wpp ftp tp tpr Wtp fdp cpr Wdp ", ...
+ "improved_solution_found kc_min_adders kc_min_digits ", ...
+ "k0_sd_no_alloc c0_sd_no_alloc ", ...
  "k0_sd c0_sd k_min c_min N_min D_min"],strf));
        
 % Done

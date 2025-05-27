@@ -28,27 +28,11 @@ nN=length(N0)-1;
 k0=k0(:);c0=c0(:);p0=p0(:);c0=c0(:);
 
 % Low-pass differentiator filter specification
-if 0
-  % This works but takes 5min and gives inconsistent results:
-  %{
-  k2a = [  -0.5391690632,   0.6858968187,  -0.4340954598,  -0.1493468959, ... 
-            0.5250688588,  -0.4839162209,   0.1561802681,   0.1856245357, ... 
-           -0.2406294636,   0.1243024675,  -0.0272620462 ]';
-
-  k2b = [  -0.5392644470,   0.6855561590,  -0.4338242976,  -0.1493646069, ... 
-            0.5250765726,  -0.4839270671,   0.1562907778,   0.1856631152, ... 
-           -0.2407842496,   0.1244404972,  -0.0273035626 ]';
-  %}
-  fap=0.18;fas=0.3;
-  Arp=0.004;Art=0.004;Ars=0.004;Wap=1;Wat=0.0001;Was=1;
-  ftp=fap;tp=length(N0)-2;tpr=0.01;Wtp=1;
-  fpp=fap;pp=1.5;ppr=0.0002;Wpp=1;
-else
-  fap=0.18;fas=0.3;
-  Arp=0.005;Art=Arp;Ars=Arp;Wap=1;Wat=0.0001;Was=1;
-  ftp=fap;tp=length(N0)-2;tpr=0.01;Wtp=1;
-  fpp=fap;pp=1.5;ppr=0.0002;Wpp=1;
-endif
+fap=0.18;fas=0.3;
+Arp=0.005;Art=Arp;Ars=Arp;Wap=1;Wat=0.0001;Was=1;
+ftp=fap;tp=length(N0)-2;tpr=0.01;Wtp=1;
+fpp=fap;pp=1.5;ppr=0.0002;Wpp=1;
+fdp=fap;cpr=0.1;Wdp=0.1
 
 % Frequency points
 n=1000;
@@ -57,6 +41,7 @@ nap=ceil(fap*n/0.5);
 nas=floor(fas*n/0.5);
 ntp=ceil(ftp*n/0.5);
 npp=ceil(fpp*n/0.5);
+ndp=ceil(fdp*n/0.5);
 
 % Pass and transition band amplitudes
 wa=w;
@@ -85,12 +70,20 @@ Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
 
 % dAsqdw response
-wd=[];
-Dzm1=[];
-Dd=[];
-Ddu=[];
-Ddl=[];
-Wd=[];
+Asqd=Ad.^2;
+dAsqddw=Ad;
+Azm1=2*sin(wa/2);
+Azm1sq=Azm1.^2;
+dAzm1sqdw=2*sin(wa);
+wd=wa(1:ndp);
+Dd=dAsqddw(1:ndp);
+Wd=Wdp*ones(size(wd));
+Cd=(Dd-(Asqd(1:ndp).*cot(wd/2)))./Azm1sq(1:ndp);
+Cdu=Cd+(cpr/2);
+Cdl=Cd-(cpr/2);
+dpr=cpr*Azm1sq(1:ndp);
+Ddu=Dd+(dpr/2);
+Ddl=Dd-(dpr/2);
 
 % Coefficient constraints
 dmax=0.1; % For compatibility with SQP
@@ -127,19 +120,34 @@ feasible=false;
    wa,(Ad./Azm1).^2,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
    wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
    wp,Pd-Pzm1,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
-   wd,(Dd./Dzm1),(Ddu./Dzm1),(Ddl./Dzm1),Wd, ...
+   wd,Cd,Cdu,Cdl,Wd, ...
    maxiter,ftol,ctol,verbose);
 if feasible == 0
   error("k2 (PCLS) infeasible");
 endif
 
+% Recalculate epsilon, p and c
+printf("\nBefore recalculating epsilon and c:\n");
+print_polynomial(epsilon0,"epsilon0");
+print_polynomial(c2,"c2");
+printf("\n");
+[N2,D2]=schurOneMlattice2tf(k2,epsilon0,p0,c2);
+[k2r,epsilon2,p2,c2]=tf2schurOneMlattice(N2,D2);
+k2r=k2r(:);epsilon2=epsilon2(:);p2=p2(:);c2=c2(:);
+if max(abs(k2-k2r))>10*eps
+  error("max(abs(k2-k2r))(%g*eps)>10*eps",max(abs(k2-k2r))/eps);
+endif
+
 % Calculate the overall response
-Asq2=schurOneMlatticeAsq(wa,k2,epsilon0,p0,c2);
-A2=sqrt(Asq2).*Azm1;
+Csq2=schurOneMlatticeAsq(wa,k2,epsilon2,p2,c2);
+Asq2=Csq2.*Azm1sq;
+A2=sqrt(Asq2);
 wp=w(1:npp);
 Pzm1=(pi/2)-(wp/2);
-P2=schurOneMlatticeP(wp,k2,epsilon0,p0,c2) + Pzm1;
-T2=schurOneMlatticeT(wt,k2,epsilon0,p0,c2) + Tzm1;
+P2=schurOneMlatticeP(wp,k2,epsilon2,p2,c2) + Pzm1;
+T2=schurOneMlatticeT(wt,k2,epsilon2,p2,c2) + Tzm1;
+dCsqdw2=schurOneMlatticedAsqdw(wd,k2,epsilon2,p2,c2);
+dAsqdw2=(Csq2(1:ndp).*dAzm1sqdw(1:ndp))+(dCsqdw2.*Azm1sq(1:ndp));
 
 % Plot response error
 subplot(311);
@@ -179,24 +187,52 @@ grid("on");
 print(strcat(strf,"_pcls_error_response"),"-dpdflatex");
 close
 
+% Plot filter dAsqdw error
+plot(wd*0.5/pi,[dAsqdw2,Ddl,Ddu]-Dd)
+axis([0 fdp 0.1*[-1,1]])
+strP=sprintf(["Differentiation filter dAsqdw error : ", ...
+              "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"], ...
+             fap,Arp,fas,Ars,tp,tpr,ppr);
+ylabel("dAsqdw error");
+title(strP);
+xlabel("Frequency");
+grid("on");
+print(strcat(strf,"_pcls_dAsqdw"),"-dpdflatex");
+close
+
+%% Plot correction filter dCsqdw error
+plot(wd*0.5/pi,[dCsqdw2,Cdl,Cdu]-Cd)
+axis([0 fdp 0.1*[-1,1]])
+strP=sprintf(["Correction filter dCsqdw error : ", ...
+              "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"], ...
+             fap,Arp,fas,Ars,tp,tpr,ppr);
+ylabel("dCsqdw error");
+title(strP);
+xlabel("Frequency");
+grid("on");
+print(strcat(strf,"_pcls_correction"),"-dpdflatex");
+close
+
 % Pole-zero plot
-[N2,D2]=schurOneMlattice2tf(k2,epsilon0,p0,c2);
 zplane(qroots(conv(N2,[1,-1])),qroots(D2));
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
 
 % Check transfer function
 HH=freqz(N2,D2,wa);
-if max(abs((abs(HH).^2)-Asq2)) > 100*eps
-  error("max(abs((abs(HH).^2)-Asq2)) > 100*eps");
+if max(abs((abs(HH).^2)-Csq2)) > 10*eps
+  error("max(abs((abs(HH).^2)-Csq2))(%g*eps) > 10*eps", max(abs((abs(HH).^2)-Csq2))/eps);
 endif
 
 % Save results
 print_polynomial(k2,"k2");
 print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
+print_polynomial(epsilon2,"epsilon2");
+print_polynomial(epsilon2,"epsilon2",strcat(strf,"_epsilon2_coef.m"));
+print_polynomial(p2,"p2");
+print_polynomial(p2,"p2",strcat(strf,"_p2_coef.m"));
 print_polynomial(c2,"c2");
 print_polynomial(c2,"c2",strcat(strf,"_c2_coef.m"));
-
 print_polynomial(N2,"N2");
 print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
 print_polynomial(D2,"D2");
@@ -223,10 +259,18 @@ fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
 fprintf(fid,"pp=%g %% Nominal pass band phase(rad./pi)\n",pp);
 fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
+fprintf(fid,"fdp=%g %% dAsqdw pass band upper edge\n",fdp);
+fprintf(fid, ...
+        "cpr=%g %% Correction filter dCsqdw pass band peak-to-peak ripple\n", ...
+        cpr);
+fprintf(fid,"Wdp=%g %% Correction filter dCsqdw pass band weight\n",Wdp);
 fclose(fid);
 
-eval(sprintf(["save %s.mat ftol ctol n fap fas Arp Ars tp tpr pp ppr ", ...
- "Wap Wat Was Wtp Wpp N0 D0 k0 epsilon0 p0 c0 k2 c2 N2 D2"],strf));
+eval(sprintf(["save %s.mat ftol ctol n ", ...
+              "fap fas Arp Ars Wap Wat Was ", ...
+              "tp tpr Wtp pp ppr Wpp fdp cpr Wd ", ...
+              "N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2"], ...
+             strf));
 
 % Done
 toc;

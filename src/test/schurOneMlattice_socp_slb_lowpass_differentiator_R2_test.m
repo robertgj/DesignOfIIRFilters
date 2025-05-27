@@ -15,7 +15,6 @@ ftol=1e-6
 ctol=ftol/100
 maxiter=20000
 verbose=false
-plot_dAsqdw=false
 
 % Low-pass differentiator filter specification
 nN=10; % Order of correction filter for (z-1)
@@ -25,15 +24,6 @@ Arp=0.0009;Art=0.004;Ars=0.007;Wap=1;Wat=0.0001;Was=0.1;
 fpp=fap;pp=1.5;ppr=0.0002;Wpp=1;
 ftp=fap;tp=nN-1;tpr=0.006;Wtp=0.1;
 fdp=fap;dpr=0.1;cpr=0.013;Wdp=0.1;
-
-%{
-% An alternative filter:
-fap=0.25;fas=0.45;
-Arp=0.01;Art=0.02;Ars=0.02;Wap=1;Wat=0.0001;Was=1;
-fpp=fap;pp=1.5;ppr=0.002;Wpp=1;
-ftp=fap;tp=nN-1;tpr=0.2;Wtp=0.1;
-fdp=fap;dpr=0.6;cpr=0.6;Wdp=0.1;
-%}
 
 % Frequency points
 n=1000;
@@ -79,17 +69,11 @@ wd=wa(1:ndp);
 Dd=dAsqddw(1:ndp);
 Wd=Wdp*ones(size(wd));
 Cd=(Dd-(Asqd(1:ndp).*cot(w(1:ndp)/2)))./Azm1sq(1:ndp);
-if plot_dAsqdw
-  Ddu=Dd+(dpr/2);
-  Ddl=Dd-(dpr/2);
-  Cdu=Cd+((dpr/2)./Azm1sq(1:ndp));
-  Cdl=Cd-((dpr/2)./Azm1sq(1:ndp));
-else
-  Cdu=Cd+(cpr/2);
-  Cdl=Cd-(cpr/2);
-  Ddu=Dd+((cpr/2)./Azm1sq(1:ndp));
-  Ddl=Dd-((cpr/2)./Azm1sq(1:ndp));
-endif
+Cdu=Cd+(cpr/2);
+Cdl=Cd-(cpr/2);
+dpr=cpr.*Azm1sq(1:ndp);
+Ddu=Dd+(dpr/2);
+Ddl=Dd-(dpr/2);
 
 % Sanity check
 nachk=[1,nap-1,nap,nap+1,nas-1,nas,nas+1,n-1];
@@ -273,24 +257,24 @@ grid("on");
 print(strcat(strf,"_pcls_error"),"-dpdflatex");
 close
 
-% Plot correction filter dAsqdw error
-if plot_dAsqdw
-  plot(wd*0.5/pi,[dAsqdw2,Ddl,Ddu]-Dd)
-  axis([0 fdp 0.1*[-1,1]])
-  strP=sprintf(["Differentiation filter dAsqdw error : ", ...
- "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,Arp,fas,Ars,tp,tpr,ppr);
-  ylabel("dAsqdw");
-else
-  plot(wd*0.5/pi,[dCsqdw2,Cdl,Cdu]-Cd)
-  axis([0 fdp 0.01*[-1,1]])
-  strP=sprintf(["Correction filter dCsqdw error : ", ...
- "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,Arp,fas,Ars,tp,tpr,ppr);
-  ylabel("dCsqdw");
-endif
-title(strP);
-xlabel("Frequency");
+% Plot filter dAsqdw error
+plot(wd*0.5/pi,[dAsqdw2,Ddl,Ddu]-Dd)
+axis([0 fdp 0.02*[-1,1]])
 grid("on");
-print(strcat(strf,"_pcls_correction"),"-dpdflatex");
+title("Differentiator filter dAsqdw error");
+ylabel("dAsqdw error");
+xlabel("Frequency");
+print(strcat(strf,"_pcls_dAsqdw_error"),"-dpdflatex");
+close
+
+% Plot correction filter dCsqdw error
+plot(wd*0.5/pi,[dCsqdw2,Cdl,Cdu]-Cd)
+axis([0 fdp 0.02*[-1,1]])
+grid("on");
+title("Differentiator correction filter dCsqdw error");
+ylabel("dCsqdw error");
+xlabel("Frequency");
+print(strcat(strf,"_pcls_dCsqdw_error"),"-dpdflatex");
 close
 
 % Save results
@@ -331,12 +315,16 @@ fprintf(fid,"tp=%g %% Pass band group delay\n",tp);
 fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
 fprintf(fid,"fdp=%g %% dAsqdw pass band upper edge\n",fdp);
-fprintf(fid,"dpr=%g %% Pass band dAsqdw peak-to-peak ripple\n",dpr);
-fprintf(fid,"Wdp=%g %% Pass band dAsqdw weight\n",Wdp);
+fprintf(fid, ...
+        "cpr=%g %% Correction filter pass band dCsqdw peak-to-peak ripple\n", ...
+        cpr);
+fprintf(fid,"Wdp=%g %% Correction filter pass band dCsqdw weight\n",Wdp);
 fclose(fid);
 
-eval(sprintf(["save %s.mat ftol ctol n fap fas Arp Ars tp tpr pp ppr dpr ", ...
- "Wap Wat Was Wtp Wpp Wdp N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2"],strf));
+eval(sprintf(["save %s.mat ftol ctol n fap fas Arp Ars Wap Wat Was ", ...
+              "tp tpr Wtp pp ppr Wpp cpr Wdp ", ...
+              "N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2"], ...
+             strf));
 
 % Done
 toc;

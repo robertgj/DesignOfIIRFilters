@@ -23,8 +23,8 @@ tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
 schurOneMlatticeFilter.m \
 local_max.m tf2pa.m x2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-print_polynomial.m print_pole_zero.m qroots.oct p2n60.m crossWelch.m \
-schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
+print_polynomial.m print_pole_zero.m p2n60.m crossWelch.m \
+qroots.oct schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
 complex_zhong_inverse.oct schurOneMlattice2H.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
@@ -61,9 +61,9 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k2.ok << 'EOF'
-k2 = [   0.3413219479,   0.5835469628,  -0.3960617156,   0.3447005911, ... 
-        -0.2949503362,   0.2273438638,  -0.1626104402,   0.0959653455, ... 
-        -0.0525220408,   0.0187403193,  -0.0076057282 ]';
+k2 = [   0.3245174840,   0.5781526596,  -0.3974727312,   0.3520518111, ... 
+        -0.2991718343,   0.2343584869,  -0.1633806872,   0.0985543464, ... 
+        -0.0489077827,   0.0186202839,  -0.0061187713 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
 
@@ -75,9 +75,9 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon2.ok"; fail; fi
 
 cat > test.c2.ok << 'EOF'
-c2 = [   0.1616560136,  -0.2348078367,  -0.6574035889,   0.0331155265, ... 
-         0.0643473087,  -0.0480060484,   0.0153215355,   0.0006154835, ... 
-        -0.0102329126,   0.0058995221,  -0.0036997293,  -0.0010442543 ]';
+c2 = [   0.1613046180,  -0.2321622076,  -0.6602583304,   0.0329292928, ... 
+         0.0689297307,  -0.0476499369,   0.0160058942,   0.0023352353, ... 
+        -0.0095424050,   0.0070946652,  -0.0026431334,  -0.0007082368 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
 

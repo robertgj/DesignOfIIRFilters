@@ -32,7 +32,7 @@ fap=0.3;fas=0.4;
 Arp=0.004;Art=0.02;Ars=0.02;Wap=1;Wat=0.0001;Was=0.1;
 ftp=fap;tp=nN-1;tpr=0.04;Wtp=0.1;
 fpp=fap;pp=1.5;ppr=0.0008;Wpp=1;
-fdp=fap;dpr=0.04;Wdp=0.1;
+fdp=fap;cpr=0.04;Wdp=0.1;
 
 % Frequency points
 n=1000;
@@ -75,13 +75,13 @@ Wp=Wpp*ones(size(wp));
 
 % dAsqdw response
 wd=w(1:ndp);
-Dd=dAsqddw(1:ndp);
-Ddu=Dd+(dpr/2);
-Ddl=Dd-(dpr/2);
 Wd=Wdp*ones(size(wd));
+Dd=dAsqddw(1:ndp);
 Cd=(Dd-(Asqd(1:ndp).*cot(Ad(1:ndp))))./Azm1sq(1:ndp);
-Cdu=Cd+((dpr/2)./Azm1sq(1:ndp));
-Cdl=Cd-((dpr/2)./Azm1sq(1:ndp));
+Cdu=Cd+(cpr/2);
+Cdl=Cd-(cpr/2);
+Ddu=Dd+((cpr/2)*Azm1sq(1:ndp));
+Ddl=Dd-((cpr/2)*Azm1sq(1:ndp));
 
 % Coefficient constraints
 dmax=0.1; % For compatibility with SQP
@@ -126,21 +126,17 @@ if feasible == 0
   error("k2 (PCLS) infeasible");
 endif
 
-% Pole-zero plot
-[N2,D2]=schurOneMlattice2tf(k2,epsilon0,p0,c2);
-zplane(qroots(conv(N2,[1,-1])),qroots(D2));
-print(strcat(strf,"_pz"),"-dpdflatex");
-close
-
 % Recalculate epsilon, p and c
 printf("\nBefore recalculating epsilon and c:\n");
 print_polynomial(epsilon0,"epsilon0");
 print_polynomial(c2,"c2");
-[k2r,epsilon2,p2,c2]=tf2schurOneMlattice(N2,D2);
+[N2_ep0,D2_ep0]=schurOneMlattice2tf(k2,epsilon0,p0,c2);
+[k2r,epsilon2,p2,c2]=tf2schurOneMlattice(N2_ep0,D2_ep0);
 k2r=k2r(:);epsilon2=epsilon2(:);p2=p2(:);c2=c2(:);
 if max(abs(k2-k2r))>2*eps
   error("max(abs(k2-k2r))(%g*eps)>2*eps",max(abs(k2-k2r))/eps);
 endif
+[N2,D2]=schurOneMlattice2tf(k2,epsilon2,p2,c2);
 
 % Calculate the overall response
 Csq2=schurOneMlatticeAsq(wa,k2,epsilon2,p2,c2);
@@ -154,6 +150,12 @@ T2c=schurOneMlatticeT(wt,k2,epsilon2,p2,c2);
 T2=T2c + Tzm1;
 dCsqdw2=schurOneMlatticedAsqdw(wd,k2,epsilon2,p2,c2);
 dAsqdw2=(Csq2(1:ndp).*dAzm1sqdw(1:ndp))+(dCsqdw2.*(Azm1sq(1:ndp)));
+
+% Check transfer function
+HH=freqz(N2,D2,wa);
+if max(abs((abs(HH).^2)-Csq2)) > 100*eps
+  error("max(abs((abs(HH).^2)-Csq2)) > 100*eps");
+endif
 
 % Plot correction filter response
 subplot(411);
@@ -181,6 +183,32 @@ grid("on");
 ylabel("dAsqdw");
 xlabel("Frequency");
 print(strcat(strf,"_correction_response"),"-dpdflatex");
+close
+
+% Plot filter dAsqdw error
+plot(wd*0.5/pi,[dAsqdw2,Ddl,Ddu]-Dd)
+axis([0 fdp 0.1*[-1,1]])
+strP=sprintf(["Differentiation filter dAsqdw error : ", ...
+              "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"], ...
+             fap,Arp,fas,Ars,tp,tpr,ppr);
+title(strP);
+ylabel("dAsqdw error");
+xlabel("Frequency");
+grid("on");
+print(strcat(strf,"_dAsqdw_error"),"-dpdflatex");
+close
+
+%% Plot correction filter dCsqdw error
+plot(wd*0.5/pi,[dCsqdw2,Cdl,Cdu]-Cd)
+axis([0 fdp 0.04*[-1,1]])
+strP=sprintf(["Correction filter dCsqdw error : ", ...
+              "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"], ...
+             fap,Arp,fas,Ars,tp,tpr,ppr);
+title(strP);
+ylabel("dCsqdw error");
+xlabel("Frequency");
+grid("on");
+print(strcat(strf,"_dCsqdw_error"),"-dpdflatex");
 close
 
 % Plot response
@@ -245,11 +273,10 @@ grid("on");
 print(strcat(strf,"_error_response"),"-dpdflatex");
 close
 
-% Check transfer function
-HH=freqz(N2,D2,wa);
-if max(abs((abs(HH).^2)-Csq2)) > 100*eps
-  error("max(abs((abs(HH).^2)-Csq2)) > 100*eps");
-endif
+% Pole-zero plot
+zplane(qroots(conv(N2,[1,-1])),qroots(D2));
+print(strcat(strf,"_pz"),"-dpdflatex");
+close
 
 %
 % Simulation sanity check
@@ -337,12 +364,17 @@ fprintf(fid,"pp=%g %% Nominal pass band phase(rad./pi)\n",pp);
 fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fprintf(fid,"fdp=%g %% dAsqdw pass band upper edge\n",fdp);
-fprintf(fid,"dpr=%g %% dAsqdw pass band peak-to-peak ripple\n",dpr);
-fprintf(fid,"Wdp=%g %% dAsqdw pass band weight\n",Wdp);
+fprintf(fid, ...
+        "cpr=%g %% Correction filter dCsqdw pass band peak-to-peak ripple\n", ...
+        cpr);
+fprintf(fid,"Wdp=%g %% Correction filter dCsqdw pass band weight\n",Wdp);
 fclose(fid);
 
-eval(sprintf(["save %s.mat ftol ctol n fap fas Arp Ars tp tpr pp ppr fdp dpr ", ...
- "Wap Wat Was Wtp Wpp Wdp N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2"],strf));
+eval(sprintf(["save %s.mat ftol ctol n ", ...
+              "fap fas Arp Ars Wap Wat Was ", ...
+              "tp tpr Wtp pp ppr Wpp fdp cpr Wdp ", ...
+              "N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2"], ...
+             strf));
 
 % Done
 toc;

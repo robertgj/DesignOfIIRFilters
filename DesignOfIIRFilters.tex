@@ -12977,6 +12977,36 @@ Section~\ref{sec:iir-sqp-slb-lowpass-differentiator}:
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_test_spec.m}
 \end{small}
 
+The \emph{schurOneMlattice\_socp\_mmse} function accepts a constraint on the
+gradient of the filter squared-amplitude response, $\frac{dA^{2}}{d\omega}$.
+For the correction filter, the required squared-amplitude response is
+$C^{2} = \frac{A^{2}}{A_{z}^{2}}$, where
+\begin{align*}
+  A &= \frac{\omega}{2} \\
+  A^{2}&= \frac{\omega^{2}}{4} \\  
+  \frac{dA^{2}}{d\omega} &= \frac{\omega}{2} = A
+\end{align*}
+and the response of the zero at $z=1$ is:
+\begin{align*}
+  H_{z} &= 1-e^{\imath\omega} \\
+        &=2\imath{} e^{\frac{\imath\omega}{2}}\sin\frac{\omega}{2} \\
+  A_{z} &= 2\sin\frac{\omega}{2} \\
+  \frac{dA_{z}^{2}}{d\omega} &= 2A_{z}\frac{dA_{z}}{d\omega} \\
+        &= 2\sin\omega
+\end{align*}
+By the chain rule for differentiation, the gradient of $A^{2}$ is:
+\begin{align*}
+  \frac{dA^{2}}{d\omega} &= A_{z}\frac{dC^{2}}{d\omega} +
+                           \frac{A^{2}}{A_{z}^{2}}\frac{dA_{z}^{2}}{d\omega}
+\end{align*}
+Substituting and rearranging to obtain the desired gradient of $C^{2}$ in
+terms of the desired overall squared amplitude response, $A^{2}$ and the
+squared amplitude response of the zero at $z=1$, $A_{z}^{2}$:
+\begin{align*}
+  \frac{dC^{2}}{d\omega}
+  &= A \left[\frac{ 1 - A \cot\frac{ \omega }{ 2 }}{ A_{z}^{2} } \right]
+\end{align*}
+
 The PCLS SOCP optimised Schur one-multiplier lattice filter coefficients of the
 correction filter are:
 \begin{small}
@@ -13146,6 +13176,16 @@ Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2}
 shows the  amplitude error, phase and group delay response errors of the $R=2$
 low-pass differentiator filter after PCLS SOCP optimisation (with sample rate
 $f_{S}=1$).
+Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-dCsqdw}
+shows the error in the gradient of the squared-amplitude response of the $R=2$
+correction filter of the low-pass differentiator filter after PCLS SOCP
+optimisation.
+Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-dAsqdw}
+shows the error in the gradient of the squared-amplitude response of the $R=2$
+low-pass differentiator filter after PCLS SOCP optimisation.
+Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-pz} shows
+the pole-zero plot of the $R=2$ low-pass differentiator filter.
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_error}}
@@ -13155,20 +13195,20 @@ $f_{S}=1$).
   in series with $1-z^{-1}$.}
 \label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2}
 \end{figure}
-Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-corr}
-shows the response of the $R=2$ correction filter for the low-pass
-differentiator filter after PCLS SOCP optimisation (with sample rate $f_{S}=1$).
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_correction}}
-\caption{PCLS optimised gradient with frequency of the amplitude response error
-  of the correction filter of a low-pass differentiator filter composed of a
-  Schur one-multiplier lattice filter with a denominator polynomial having terms
-  only in $z^{-2}$ in series with $1-z^{-1}$.}
-\label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-corr}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_dCsqdw_error}}
+\caption{PCLS optimised error of the gradient the squared amplitude response 
+  of the correction filter.}
+\label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-dCsqdw}
 \end{figure}
-Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-pz} shows
-the pole-zero plot of the $R=2$ low-pass differentiator filter.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_dAsqdw_error}}
+\caption{PCLS optimised error of the gradient the squared amplitude response 
+  of the low-pass differentiator filter.}
+\label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-dAsqdw}
+\end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_pz}}

@@ -118,7 +118,7 @@ Wd=Wdp*ones(size(wd));
 Cd=(Dd-(Asqd(1:ndp).*cot(w(1:ndp)/2)))./Azm1sq(1:ndp);
 Cdu=Cd+(cpr/2);
 Cdl=Cd-(cpr/2);
-dpr=(cpr./Azm1sq(1:ndp));
+dpr=(cpr*Azm1sq(1:ndp));
 Ddu=Dd+(dpr/2);
 Ddl=Dd-(dpr/2);
 
@@ -848,9 +848,11 @@ fprintf(fid,"ftp=%g %% Delay pass band upper edge\n",ftp);
 fprintf(fid,"tp=%g %% Pass band group delay\n",tp);
 fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
-fprintf(fid,"fdp=%g %% dAsqdw pass band upper edge\n",fdp);
-fprintf(fid,"cpr=%g %% Corr. filter pass band dAsqdw peak-to-peak ripple\n",cpr);
-fprintf(fid,"Wdp=%g %% Pass band dAsqdw weight\n",Wdp);
+fprintf(fid,"fdp=%g %% Correction filter pass band dCsqdw upper edge\n",fdp);
+fprintf(fid, ...
+        "cpr=%g %% Correction filter pass band dCsqdw peak-to-peak ripple\n", ...
+        cpr);
+fprintf(fid,"Wdp=%g %% Correction filter pass band dCsqdw weight\n",Wdp);
 fclose(fid);
 
 % Save results
@@ -860,7 +862,7 @@ eval(sprintf(["save %s.mat ftol ctol nbits nscale ndigits ndigits_alloc n ", ...
  "use_schurOneMlattice_allocsd_Ito ", ...
  "use_fix_coefficient_difference_greater_than_alpha ", ...
  "alpha_num alpha_min rho ", ...
- "fap fas Arp Ars tp tpr pp ppr dpr Wap Wat Was Wtp Wpp Wdp ", ...
+ "fap fas Arp Ars Wap Wat Was ftp tp tpr Wtp fpp pp ppr Wpp fdp cpr Wdp ", ...
  "k0 epsilon0 p0 c0 k0_sd c0_sd k0_sd c0_sd k_min c_min ", ...
  "N_min D_min"],strf));
        

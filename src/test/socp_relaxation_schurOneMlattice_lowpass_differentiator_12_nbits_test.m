@@ -31,9 +31,12 @@ socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Ito=false
 %
 % Initial correction filter
 %
-schurOneMlattice_socp_slb_lowpass_differentiator_test_k2_coef;k0=k2(:);clear k2;
-schurOneMlattice_socp_slb_lowpass_differentiator_test_epsilon2_coef;epsilon0=epsilon2(:);clear epsilon2;
-schurOneMlattice_socp_slb_lowpass_differentiator_test_c2_coef;c0=c2(:);clear c2;
+schurOneMlattice_socp_slb_lowpass_differentiator_test_k2_coef;
+k0=k2(:);clear k2;
+schurOneMlattice_socp_slb_lowpass_differentiator_test_epsilon2_coef;
+epsilon0=epsilon2(:);clear epsilon2;
+schurOneMlattice_socp_slb_lowpass_differentiator_test_c2_coef;
+c0=c2(:);clear c2;
 p0_ones=ones(size(k0));
 
 %
@@ -41,9 +44,9 @@ p0_ones=ones(size(k0));
 % (ppr=0.003,tpr=0.06 fails in QEMU/nehalem)
 %
 fap=0.3;fas=0.4;
-Arp=0.006;Art=0.02;Ars=0.02;Wap=2;Wat=0.0001;Was=1;
-tp=length(k0)-1;tpr=0.08;Wtp=2;
-pp=1.5;ppr=0.003;Wpp=0.5;
+Arp=0.006;Art=0.02;Ars=0.02;Wap=1;Wat=0.0001;Was=1;
+tp=length(k0)-1;tpr=0.08;Wtp=1;
+pp=1.5;ppr=0.004;Wpp=1;
 
 %
 % Frequency vectors for the Schur one-mulitplier lattice correction filter
@@ -296,15 +299,17 @@ T_kc0_sd=schurOneMlatticeT(wt,k0_sd,epsilon0,p0_ones,c0_sd);
 T_kc_min=schurOneMlatticeT(wt,k_min,epsilon0,p0_ones,c_min);
 
 % Check constraints after the last truncation
-printf("These constraints on the correction filter response are not met:\n");
 vS=schurOneMlattice_slb_update_constraints ...
      (Asq_kc_min,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
       T_kc_min,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
       P_kc_min,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
       Dd,Ddu,Ddl,Wd, ...
       ctol);
-schurOneMlattice_slb_show_constraints ...
-  (vS,wa,Asq_kc_min,wt,T_kc_min,wp,P_kc_min,wd,Dd);
+if ~schurOneMlattice_slb_constraints_are_empty(vS)
+  printf("These constraints on the correction filter response are not met:\n");
+  schurOneMlattice_slb_show_constraints ...
+    (vS,wa,Asq_kc_min,wt,T_kc_min,wp,P_kc_min,wd,Dd);
+endif
 
 % Plot response
 subplot(311);

@@ -115,7 +115,7 @@ Wd=Wdp*ones(size(wd));
 Cd=(Dd-(Asqd(1:ndp).*cot(wd/2)))./Azm1sq(1:ndp);
 Cdu=Cd+(cpr/2);
 Cdl=Cd-(cpr/2);
-dpr=(cpr./Azm1sq(1:ndp));
+dpr=cpr*Azm1sq(1:ndp);
 Ddu=Dd+(dpr/2);
 Ddl=Dd-(dpr/2);
 
@@ -173,12 +173,21 @@ Esq0_sd_no_alloc= ...
 % Allocate signed-digits to the coefficients
 %
 if socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Lim
-  ndigits_alloc = ...
-     schurOneMlattice_allocsd_Lim(nbits,ndigits,k0,epsilon0,p_ones,c0, ...
-                                 wa,Asqd./Azm1sq,Wa, ...
-                                 wt,Td-Tzm1,Wt, ...
-                                 wp,Pd-Pzm1,Wp, ...
-                                 wd,Cd,Wd);
+  if 1
+    ndigits_alloc = ...
+      schurOneMlattice_allocsd_Lim(nbits,ndigits,k0,epsilon0,p_ones,c0, ...
+                                   wa,Asqd./Azm1sq,Wa, ...
+                                   wt,Td-Tzm1,Wt, ...
+                                   wp,Pd-Pzm1,Wp, ...
+                                   wd,Cd,Wd);
+  else
+    ndigits_alloc = ...
+      schurOneMlattice_allocsd_Lim(nbits,ndigits,k0,epsilon0,p_ones,c0, ...
+                                   wa,Asqd./Azm1sq,ones(size(Wa)), ...
+                                   wt,Td-Tzm1,ones(size(Wt)), ...
+                                   wp,Pd-Pzm1,ones(size(Wp)), ...
+                                   wd,Cd,ones(size(Wd)));
+  endif
   strItoLim="Lim";
 elseif socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Ito
   ndigits_alloc = ...
@@ -393,13 +402,20 @@ PS=schurOneMlatticeP(wPS,k_min,epsilon0,p_ones,c_min);
 printf("k,c_min:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:PS=[ ");printf("%f ",(PS+(wPS*tp))'/pi);printf("] (rad./pi)\n");
 dCsqdw=schurOneMlatticedAsqdw(wd,k_min,epsilon0,p_ones,c_min);
+vCl=local_max(Cdl-dCsqdw);
+vCu=local_max(dCsqdw-Cdu);
+wCS=unique([wd(vCl);wd(vCu);wd([1,end])]);
+CS=schurOneMlatticedAsqdw(wCS,k_min,epsilon0,p_ones,c_min);
+printf("k,c_min:fCS=[ ");printf("%f ",wCS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("k,c_min:CS=[ ");printf("%f ",CS');printf("]\n");
 dAsqdw=(Csq(1:ndp).*dAzm1sqdw(1:ndp))+(dCsqdw0.*(Azm1sq(1:ndp)));
 vDl=local_max(Ddl-dAsqdw);
 vDu=local_max(dAsqdw-Ddu);
-wDS=unique([wd(vDl);wd(vDu);wd([1,end])]);
-DS=schurOneMlatticedAsqdw(wDS,k_min,epsilon0,p_ones,c_min);
-printf("k,c_min:fdS=[ ");printf("%f ",wDS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("k,c_min:dS=[ ");printf("%f ",DS');printf("]\n");
+nDS=unique([vDl;vDu;1;length(dAsqdw)]);
+wDS=wd(nDS);
+DS=schurOneMlatticedAsqdw(wDS,k_min,epsilon0,p_ones,c_min).*Azm1sq(nDS);
+printf("k,c_min:fDS=[ ");printf("%f ",wDS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("k,c_min:DS=[ ");printf("%f ",DS');printf("]\n");
 
 %
 % Calculate response
@@ -539,6 +555,23 @@ legend("boxoff");
 legend("left");
 grid("on");
 print(strcat(strf,"_dCsqdw_error"),"-dpdflatex");
+close
+
+% Plot dAsqdw pass-band response error
+plot(wd*0.5/pi,dAsqdw_kc0-dAsqddw(1:ndp),"linestyle","-", ...
+     wd*0.5/pi,dAsqdw_kc0_sd_no_alloc-dAsqddw(1:ndp),"linestyle",":", ...
+     wd*0.5/pi,dAsqdw_kc0_sd-dAsqddw(1:ndp),"linestyle","--", ...
+     wd*0.5/pi,dAsqdw_kc_min-dAsqddw(1:ndp),"linestyle","-.");
+xlabel("Frequency");
+ylabel("dAsqdw error");
+axis([0 fdp 0.02*[-1,1]]);
+title(strt);
+legend("exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
+legend("location","southwest");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_dAsqdw_error"),"-dpdflatex");
 close
 
 % Plot amplitude response
