@@ -10,5 +10,5 @@ tarczynski_deczky1_test_x0_coef.m
 
 tarczynski_deczky1_test_FILES = \
 tarczynski_deczky1_test.m \
-test_common.m delayz.m print_polynomial.m WISEJ_ND.m tf2Abcd.m \
+test_common.m delayz.m print_polynomial.m WISEJ.m tf2Abcd.m \
 print_pole_zero.m tf2x.m zp2x.m qroots.oct

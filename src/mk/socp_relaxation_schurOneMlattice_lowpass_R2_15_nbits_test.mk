@@ -38,7 +38,7 @@ tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
 schurOneMlattice_allocsd_Lim.m \
 schurOneMlattice_allocsd_Ito.m \
-local_max.m H2Asq.m print_polynomial.m WISEJ_ND.m tf2Abcd.m delayz.m \
+local_max.m H2Asq.m print_polynomial.m tf2Abcd.m delayz.m \
 x2nextra.m flt2SD.m SDadders.m bin2SDul.m schurOneMlatticeFilter.m \
 qroots.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2Abcd.oct schurOneMlattice2H.oct Abcd2tf.oct qroots.oct \

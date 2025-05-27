@@ -87,16 +87,16 @@ intEHd = sum(diff(wd).*(EHd(1:(end-1))+EHd(2:end)))/2;
 lambda = 0.001;
 if (nD > 0)
   M = nD*R;
-  T = 300;
+  t = 300;
   rho = 31/32;
   % Calculate barrier function
   DRrho=DR./(rho.^(0:(length(DR)-1))');
   [ADR,bDR,cDR,dDR] = tf2Abcd(1,DRrho);
   f = zeros(M,1);
-  cADR_Tk = cDR*(ADR^(T-1));
+  cADR_t = cDR*(ADR^(t-1));
   for k=1:M
-    f(k) = cADR_Tk*bDR;
-    cADR_Tk = cADR_Tk*ADR;
+    f(k) = cADR_t*bDR;
+    cADR_t = cADR_t*ADR;
   endfor
   f = real(f);
   EJ = sum(f.*f);

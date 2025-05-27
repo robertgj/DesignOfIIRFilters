@@ -25,26 +25,30 @@ Di=Di(1:7);
 nD=length(Di)-1;
 
 % Frequency points
-td=9,fap=0.25,fas=0.3,ftp=0.25
-dBas=40,Wap=1,Wat=0.1,Was=10,Wtp=0.1
+tp=8,fap=0.25,fas=0.3,ftp=0.25
+dBas=40,Wap=1,Wat=0,Was=10,Wtp=0.1
 n=200;
 wd=(0:(n-1))'*pi/n;
 nap=ceil(n*fap/0.5)+1;
 nas=floor(n*fas/0.5)+1;
 ntp=ceil(n*ftp/0.5)+1;
 Ad=[ones(nap,1); (10^(-dBas/20))*ones(n-nap,1)];
-Td=td*ones(n,1);
+Td=tp*ones(n,1);
 Wa=[Wap*ones(nap,1); Wat*ones(nas-nap-1,1); Was*ones(n-nas+1,1)];
-Td=td*ones(n,1);
+Td=tp*ones(n,1);
 Wt=[Wtp*ones(ntp,1); zeros(n-ntp,1)];
 
 % Unconstrained minimisation
-WISEJ_ND([],nN,nD,R,Ad,Wa,Td,Wt);
 tol=1e-6;
 maxiter=10000;
-NDi=[Ni;Di(2:end)];
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_ND,NDi,opt);
+NDi=[Ni;Di(2:end)];
+% Desired frequency response
+Hd=[exp(-j*tp*wd(1:nap));zeros(n-nap,1)];
+Wd=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
+% WISE optimisation
+WISEJ([],nN,nD,R,wd,Hd,Wd);
+[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,NDi);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)
@@ -104,7 +108,7 @@ print_pole_zero(x0,U,V,M,Q,R,"x0");
 print_pole_zero(x0,U,V,M,Q,R,"x0","tarczynski_deczky1_test_x0_coef.m")
                                                       
 % Save the result
-save tarczynski_deczky1_test.mat fap fas Wap Was td n nN nD Ni Di N0 D0 
+save tarczynski_deczky1_test.mat fap fas Wap Was tp n nN nD Ni Di N0 D0 
 
 % Done
 toc

@@ -35,7 +35,7 @@ Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
 Ad=[ones(nap,1); zeros(n-nap,1)];
 Wai=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Wasi*ones(n-nas+1,1)];
 NDi=[0.1;zeros(norder+(norder/2),1)];
-WISEJ_ND([],norder,norder/2,R,Ad,Wai,[],[]);
+WISEJ_ND([],norder,norder/2,R,Ad,Wai);
 tol=1e-9;
 maxiter=10000;
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);

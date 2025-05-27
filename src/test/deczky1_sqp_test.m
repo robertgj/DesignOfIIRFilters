@@ -18,7 +18,7 @@ verbose=false
 
 % Filter specifications
 fap=0.25,ftp=0.25,fas=0.3
-dBap=0.5,dBas=35,tp=8,tpr=2
+dBap=0.5,dBas=35,tp=8,tpr=1.6
 Wap=1,Wat=0.01,Was=0.5,Wtp=0.01
 
 % Initial filter from tarczynski_deczky1_test.m
